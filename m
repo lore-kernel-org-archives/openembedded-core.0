@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 877017D717;
-	Tue,  5 Nov 2019 06:02:29 +0000 (UTC)
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id EDD887F962
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Nov 2019 06:20:41 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.68,270,1569254400"; 
+   d="scan'208";a="4676"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 05 Nov 2019 14:20:40 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id C03234CE1646
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Nov 2019 14:12:37 +0800 (CST)
+Received: from localhost.local (10.167.225.81) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Tue, 5 Nov 2019 14:20:40 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Nov 2019 14:20:59 +0800
+Message-ID: <20191105062059.16911-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Tue, 05 Nov 2019 06:02:31 -0000
-Message-ID: <20191105060231.2332.22462@do>
-References: <20191105031056.179041-1-hongxu.jia@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20191105031056.179041-1-hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYWRkIHB5dGhvbjMtbm9zZSB0byBSREVQRU5EUw==?=
+X-Originating-IP: [10.167.225.81]
+X-yoursite-MailScanner-ID: C03234CE1646.A9165
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] python-setuptools: upgrade 41.4.0 -> 41.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +38,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 06:02:29 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Nov 2019 06:20:43 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
-
-Series: add python3-nose to RDEPENDS
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/20911/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            add python3-nose to RDEPENDS
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
+ ...ython-setuptools_41.4.0.bb => python-setuptools_41.6.0.bb} | 0
+ ...hon3-setuptools_41.4.0.bb => python3-setuptools_41.6.0.bb} | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_41.4.0.bb => python-setuptools_41.6.0.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-setuptools_41.4.0.bb => python3-setuptools_41.6.0.bb} (100%)
+
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 027e259be8..f0f100f2ae 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -10,8 +10,8 @@ inherit pypi
+ 
+ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+ 
+-SRC_URI[md5sum] = "89a592d733b31e180a4b6ad760c0685a"
+-SRC_URI[sha256sum] = "7eae782ccf36b790c21bde7d86a4f303a441cd77036b25c559a602cf5186ce4d"
++SRC_URI[md5sum] = "5585a55bfc28474ef13cc0b1819c5a46"
++SRC_URI[sha256sum] = "6afa61b391dcd16cb8890ec9f66cc4015a8a31a6e1c2b4e0c464514be1a3d722"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
+diff --git a/meta/recipes-devtools/python/python-setuptools_41.4.0.bb b/meta/recipes-devtools/python/python-setuptools_41.6.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python-setuptools_41.4.0.bb
+rename to meta/recipes-devtools/python/python-setuptools_41.6.0.bb
+diff --git a/meta/recipes-devtools/python/python3-setuptools_41.4.0.bb b/meta/recipes-devtools/python/python3-setuptools_41.6.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-setuptools_41.4.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_41.6.0.bb
+-- 
+2.20.1
+
+
 
 
