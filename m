@@ -1,18 +1,26 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ADAE7F7D2;
-	Tue,  5 Nov 2019 07:02:21 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Tue, 05 Nov 2019 07:02:22 -0000
-Message-ID: <20191105070222.2329.67176@do>
-References: <20191105063817.243431-1-hongxu.jia@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 60D947F985
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Nov 2019 07:12:18 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xA57CJr6016020
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 4 Nov 2019 23:12:19 -0800 (PST)
+Received: from 41ce8e763d5a.wrs.com (128.224.153.74) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 4 Nov 2019 23:12:12 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 5 Nov 2019 07:10:49 +0000
+Message-ID: <20191105071049.104644-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191105063817.243431-1-hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ286IGZpeCBDVkUtMjAxOS0xNzU5Ng==?=
+References: <20191105063817.243431-1-hongxu.jia@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH V2] go: fix CVE-2019-17596
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +33,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 07:02:21 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Nov 2019 07:12:18 -0000
+Content-Type: text/plain
 
-== Series Details ==
+https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73
 
-Series: go: fix CVE-2019-17596
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/20914/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at ab661f96e2)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/go/go-1.12.inc          |  1 +
+ .../go/go-1.12/0010-fix-CVE-2019-17596.patch  | 42 +++++++++++++++++++
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+
+diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
+index ed14b175e6..6aecaad75d 100644
+--- a/meta/recipes-devtools/go/go-1.12.inc
++++ b/meta/recipes-devtools/go/go-1.12.inc
+@@ -17,6 +17,7 @@ SRC_URI += "\
+     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
+     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
+     file://0001-release-branch.go1.12-security-net-textproto-don-t-n.patch \
++    file://0010-fix-CVE-2019-17596.patch \
+ "
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+ 
+diff --git a/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+new file mode 100644
+index 0000000000..134cfab737
+--- /dev/null
++++ b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+@@ -0,0 +1,42 @@
++From f1783e1ce44a86c000a7c380a57a805c89c3efbe Mon Sep 17 00:00:00 2001
++From: Katie Hockman <katie@golang.org>
++Date: Mon, 14 Oct 2019 16:42:21 -0400
++Subject: [PATCH] crypto/dsa: prevent bad public keys from causing panic
++
++dsa.Verify might currently use a nil s inverse in a
++multiplication if the public key contains a non-prime Q,
++causing a panic. Change this to check that the mod
++inverse exists before using it.
++
++Fixes CVE-2019-17596
++
++Change-Id: I94d5f3cc38f1b5d52d38dcb1d253c71b7fd1cae7
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/572809
++Reviewed-by: Filippo Valsorda <valsorda@google.com>
++(cherry picked from commit 9119dfb0511326d4485b248b83d4fde19c95d0f7)
++Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/575232
++
++CVE: CVE-2019-17596
++Upstream-Status: Backport [https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ src/crypto/dsa/dsa.go | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/src/crypto/dsa/dsa.go b/src/crypto/dsa/dsa.go
++index 575314b..2fc4f1f 100644
++--- a/src/crypto/dsa/dsa.go
+++++ b/src/crypto/dsa/dsa.go
++@@ -279,6 +279,9 @@ func Verify(pub *PublicKey, hash []byte, r, s *big.Int) bool {
++ 	}
++ 
++ 	w := new(big.Int).ModInverse(s, pub.Q)
+++	if w == nil {
+++		return false
+++	}
++ 
++ 	n := pub.Q.BitLen()
++ 	if n&7 != 0 {
++-- 
++2.23.0
++
+-- 
+2.17.1
 
 
