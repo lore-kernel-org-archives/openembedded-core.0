@@ -1,26 +1,31 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 60D947F985
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BEE37E093
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 07:12:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xA57CJr6016020
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  5 Nov 2019 07:32:02 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.68,270,1569254400"; 
+   d="scan'208";a="7696"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 05 Nov 2019 15:32:01 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 4AFDB4CE1A0A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 4 Nov 2019 23:12:19 -0800 (PST)
-Received: from 41ce8e763d5a.wrs.com (128.224.153.74) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 4 Nov 2019 23:12:12 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	Tue,  5 Nov 2019 15:23:58 +0800 (CST)
+Received: from localhost.local (10.167.225.81) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Tue, 5 Nov 2019 15:32:00 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2019 07:10:49 +0000
-Message-ID: <20191105071049.104644-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191105063817.243431-1-hongxu.jia@windriver.com>
-References: <20191105063817.243431-1-hongxu.jia@windriver.com>
+Date: Tue, 5 Nov 2019 15:32:20 +0800
+Message-ID: <20191105073220.10577-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH V2] go: fix CVE-2019-17596
+X-Originating-IP: [10.167.225.81]
+X-yoursite-MailScanner-ID: 4AFDB4CE1A0A.ABCD0
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] python3-pycairo:upgrade 1.18.1 -> 1.18.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,79 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 07:12:18 -0000
+X-List-Received-Date: Tue, 05 Nov 2019 07:32:03 -0000
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-devtools/go/go-1.12.inc          |  1 +
- .../go/go-1.12/0010-fix-CVE-2019-17596.patch  | 42 +++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+ .../{python3-pycairo_1.18.1.bb => python3-pycairo_1.18.2.bb}  | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pycairo_1.18.1.bb => python3-pycairo_1.18.2.bb} (84%)
 
-diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
-index ed14b175e6..6aecaad75d 100644
---- a/meta/recipes-devtools/go/go-1.12.inc
-+++ b/meta/recipes-devtools/go/go-1.12.inc
-@@ -17,6 +17,7 @@ SRC_URI += "\
-     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
-     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-     file://0001-release-branch.go1.12-security-net-textproto-don-t-n.patch \
-+    file://0010-fix-CVE-2019-17596.patch \
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.18.1.bb b/meta/recipes-devtools/python/python3-pycairo_1.18.2.bb
+similarity index 84%
+rename from meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
+rename to meta/recipes-devtools/python/python3-pycairo_1.18.2.bb
+index 5aaa01a00a..3aedf3d142 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.18.2.bb
+@@ -13,8 +13,8 @@ DEPENDS = "cairo python3"
+ SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
+ UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
  
-diff --git a/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
-new file mode 100644
-index 0000000000..134cfab737
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
-@@ -0,0 +1,42 @@
-+From f1783e1ce44a86c000a7c380a57a805c89c3efbe Mon Sep 17 00:00:00 2001
-+From: Katie Hockman <katie@golang.org>
-+Date: Mon, 14 Oct 2019 16:42:21 -0400
-+Subject: [PATCH] crypto/dsa: prevent bad public keys from causing panic
-+
-+dsa.Verify might currently use a nil s inverse in a
-+multiplication if the public key contains a non-prime Q,
-+causing a panic. Change this to check that the mod
-+inverse exists before using it.
-+
-+Fixes CVE-2019-17596
-+
-+Change-Id: I94d5f3cc38f1b5d52d38dcb1d253c71b7fd1cae7
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/572809
-+Reviewed-by: Filippo Valsorda <valsorda@google.com>
-+(cherry picked from commit 9119dfb0511326d4485b248b83d4fde19c95d0f7)
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/575232
-+
-+CVE: CVE-2019-17596
-+Upstream-Status: Backport [https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ src/crypto/dsa/dsa.go | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/crypto/dsa/dsa.go b/src/crypto/dsa/dsa.go
-+index 575314b..2fc4f1f 100644
-+--- a/src/crypto/dsa/dsa.go
-++++ b/src/crypto/dsa/dsa.go
-+@@ -279,6 +279,9 @@ func Verify(pub *PublicKey, hash []byte, r, s *big.Int) bool {
-+ 	}
-+ 
-+ 	w := new(big.Int).ModInverse(s, pub.Q)
-++	if w == nil {
-++		return false
-++	}
-+ 
-+ 	n := pub.Q.BitLen()
-+ 	if n&7 != 0 {
-+-- 
-+2.23.0
-+
+-SRC_URI[md5sum] = "7610da8a40a7bed548991aa3416431d1"
+-SRC_URI[sha256sum] = "70172e58b6bad7572a3518c26729b074acdde15e6fee6cbab6d3528ad552b786"
++SRC_URI[md5sum] = "be2ba51f234270dec340f28f1695a95e"
++SRC_URI[sha256sum] = "dcb853fd020729516e8828ad364084e752327d4cff8505d20b13504b32b16531"
+ 
+ S = "${WORKDIR}/pycairo-${PV}"
+ 
 -- 
-2.17.1
+2.20.1
+
+
 
 
