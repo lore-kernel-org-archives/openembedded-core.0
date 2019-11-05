@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 5ACF67F895
+	by mail.openembedded.org (Postfix) with ESMTP id 59A146D147
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 21:38:14 +0000 (UTC)
+	Tue,  5 Nov 2019 21:38:15 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47731f5wBdzHg
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47731g5gjgzJD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 22:38:14 +0100 (CET)
+	Tue,  5 Nov 2019 22:38:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1572989895;
-	bh=l+KLi24m/ifZ9xdUypSiZYT//10ar/wDi87WfYSI2Ng=;
+	s=default; t=1572989896;
+	bh=2c5pMEE4TUcU7ksRSxRwFojM25kLVQVU84xFz5IGBNI=;
 	h=From:To:Subject:Date:From;
-	b=QDH3q+uAqLoLCVfpCmjZfgNd4NDB0EgsHybvj75NocZbZ10hyAWWCewT89efpvlqp
-	8sEArNkhoU41noaabTOT1gonu4kJdG3R0pUfUCIXwJt50h3Bwh4M+abWPWku8lKWtl
-	v/N7txBnKY5DuD3H53wS0TaYE/A9q1K1hR1r/0JYQ27XE2EbN8nydR2DPyRngJia9G
-	cT4GheivZ+w9fERD33xvKfrdhwte7t4Yr7LoLcBlq1+d+GtCn6Bh7okcve8WzN2Lrz
-	+3ZsCSEwH9BJRSmJTR9r4KQ81pAc9D66qh0NrUKlUOp0cmLLfgUX1aH8BPQsxti/Kg
-	25WHg0JE81DEDUBHOJC41BvYCbD67nE3vLdz7bh4VlXP7VqqVobdA2rNfv7wZxRd0n
-	LDvfuozqK4TqAnLBDnYrqzDLkm0Zr7EsBq9oePWsW1vaUrGGi37pjGMuGNEys6Kvah
-	PkAGi4/VKm8qdFknlVLBRbYXU0ZmOwBFsQLDsAznKnAVKBze6Pe/idB9pxyRECJI+c
-	C8WMAaWb72f9kWxAwOdhBpTHYvCB7WxGRZIT3O7rFWlsG40a7C/DmZonX6L3G0lJUk
-	Z1pcTuT64GNjDo7gj5lER5zsxzhcvhjy5VsYu4M7ZYFmiUEqaR2lw1pLPawXkaj2fd
-	lHfmHYriQh1MgUg7jHv0Bs/I=
+	b=H/2B0RT72iYZ9Nl1+0vhWVWlMNA2kMtkH4FTxfzppJd4694B2v6UfgtHHMwwlTUe2
+	T4AFBWDXMh4Rq6MTy5y2euooiWhncmrfYI9DfjR3+9MGPWCV/la+ZMSVtTZ0NB+6oQ
+	lw+gon+r92QaaU3DQdYJzqk/8lP+1fGDEHcGKJqDMBY0aqYbJw6gtOXXiKTfqidF+q
+	uKwf5terwrpyNoYop8gJ2mK2akzAtS+KDytrJASIzWs7WzFGsJlSSLEAhb0PlpHumX
+	b+zqs34ByeNlwUEFftW5xlLdn2RG2N4Z5C4t7yO1kjInFv0Iu6H4qMQQH8RyjDJaKk
+	Rkj1kX/wJgkf6HkAbSI8pBsFHFEU7gyxrXL5lNOs6BnjmfJ4SRD5LC20FAWfWq1q8j
+	gVPzEkpRONNdERrbUXNupkxQlLAZ4L49hF7TRkskAaQHR8EwgNFbwYjuyUAtxqBVP6
+	v4kTkuvp0TP9XsN1i4ddhGf1n9/i4XlJWAj4HVjr2zBweazENWCa7regZ7Kh7QRrEN
+	XznKic+yRx1lmWtmpYSAmDDxCbqmsrJftiPNf8ECeRaguh6UY1KSLMgEg7gUtIupw1
+	byF44ltwbES5jz5pEjCKbwKurzbvwzNsyb7T9Uz42/fCgTr0h7DVQ7W0NDRwnz7sBO
+	iJZ0QbpUjtDjGNJ5kXRbnPYU=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 23:38:10 +0200
-Message-Id: <20191105213813.27546-2-bunk@stusta.de>
+Date: Tue,  5 Nov 2019 23:38:12 +0200
+Message-Id: <20191105213813.27546-4-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [zeus][PATCH] libsndfile1: whitelist CVE-2018-13419
+Subject: [zeus][PATCH] libpng: whitelist CVE-2019-17371
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +44,27 @@ X-List-Received-Date: Tue, 05 Nov 2019 21:38:15 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-This is a memory leak that nobody else can replicate and has been rejected by
-upstream.
+This is actually a memory leak in gif2png 2.x, so whitelist it in the libpng
+recipe.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-multimedia/libpng/libpng_1.6.37.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-index ffb45855a4..7855008f3d 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
-@@ -33,3 +33,7 @@ PACKAGECONFIG[alsa] = "--enable-alsa,--disable-alsa,alsa-lib"
- PACKAGECONFIG[regtest] = "--enable-sqlite,--disable-sqlite,sqlite3"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
+index 66af2f3d60..2ed87a8437 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
+@@ -29,3 +29,6 @@ PACKAGES =+ "${PN}-tools"
+ FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}/pngcp"
  
- inherit autotools lib_package pkgconfig
+ BBCLASSEXTEND = "native nativesdk"
 +
-+# This can't be replicated and is just a memory leak.
-+# https://github.com/erikd/libsndfile/issues/398
-+CVE_CHECK_WHITELIST += "CVE-2018-13419"
++# CVE-2019-17371 is actually a memory leak in gif2png 2.x
++CVE_CHECK_WHITELIST += "CVE-2019-17371"
 -- 
 2.17.1
 
