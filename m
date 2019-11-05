@@ -1,18 +1,47 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EB617F98A;
-	Tue,  5 Nov 2019 22:31:59 +0000 (UTC)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B35DD7F847
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  5 Nov 2019 22:42:51 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id x21so31447607qto.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 05 Nov 2019 14:42:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YM7AnZjrPvMSAg3/5FZM6I2d1HdLqZOJJGVoprL4a9k=;
+	b=AQOKz1lDkBlaxKEPpJ1ryofbgh+vDKZ/a/HsvVDPg1rUtURt58Dq8cCn5KkE9lR2fZ
+	ks86tPZYbx9gKtktBW9dr3mtWVC/ekj/mj7g8AdWPUm9DsNQ8z56hxh7RASRJEp/mPuR
+	dlIX774vZ7gJuc+rbBhK/gxfNM+gh5uYYvbSkC4pwcBz/mXVvOrNERylVnW/f5zZNf74
+	+xUl+3SRm5UZscz0gxKh1RfvayjS9BkpmHGUEQUi3pzCyLnTEKTzURG+xoHixEsNcymL
+	8VJKOTJcut0esP8TwfPSspZjbIvKwwAYdfLV0EKoDVaUgURnjtROVNvJXRJxw1KXcT8h
+	gogA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YM7AnZjrPvMSAg3/5FZM6I2d1HdLqZOJJGVoprL4a9k=;
+	b=Z7YXfF9tDJ4B3e7SZBqm/3nH6cY8crtytnN444q1ADYHsWreO3NIZv+Y2wm5p/VGhI
+	3KDoQoT/BbTVbcVbK04fsA0f3Tbl6pwKxIiE0jmpazMNGorB59mYZJgt4fuRn5IRfnvj
+	ELL1M6eM32VSKIYwv2nWb6FnY+T/zm6xXx686FX5uE6Fa654ieDl6ED9cFTQKQqBe5/Q
+	UgtzhvddUAJtvHA4HJ7ZXCYTuU383I51Fb/Qe4cH4dYKB6WKUZC+Pn+QFPJ36VF/sDU/
+	V0+uhgV9f34Wjkr2FUrgMwYRZattTDno5Pz/Sq07yeYDn/b0x1sYI9623yrsjs7vXvK+
+	mtSw==
+X-Gm-Message-State: APjAAAU+h6Rz09v76N/QlHER1Gb8E7i66JsJYGifzlVCzMliE9TSGlxF
+	2bxMq9NDpdyxIhetb1J9zC77Z/Zn7PCbrntqfQU=
+X-Google-Smtp-Source: APXvYqzJmzsY6ymbgeu0pXPzT9j7T08bRrEt88WqAG5h+2v00MyWsRW8mk1Vg2HJB8lQ9pOSNu3/9KmkEHz8uHABtyM=
+X-Received: by 2002:aed:2724:: with SMTP id n33mr19819968qtd.194.1572993772158;
+	Tue, 05 Nov 2019 14:42:52 -0800 (PST)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Date: Tue, 05 Nov 2019 22:32:00 -0000
-Message-ID: <20191105223200.2330.96603@do>
-References: <cover.1572991610.git.pkj@axis.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <cover.1572991610.git.pkj@axis.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQmFja3BvcnQgcmVsZXZhbnQgY2hhbmdlcyBmcm9tIFpldXMgKHJldjIp?=
+References: <20191105215210.17008-1-alistair.francis@wdc.com>
+In-Reply-To: <20191105215210.17008-1-alistair.francis@wdc.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 5 Nov 2019 14:42:25 -0800
+Message-ID: <CAMKF1sp89rDgU+FEb68TU8gaHyAVPCJ_i0OmSDRxtOncJMPkiw@mail.gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] machine/arch-riscv: Fix newlib and baremetal builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 22:31:59 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 05 Nov 2019 22:42:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+On Tue, Nov 5, 2019 at 1:57 PM Alistair Francis
+<alistair.francis@wdc.com> wrote:
+>
+> Fix the following errors for newlib and baremetal libcs:
+>   ld: unrecognized option '--hash-style=sysv'
+>   ld: unrecognized option '--hash-style=gnu'
+>
+> Setting LINKER_HASH_STYLE to empty for just newlib and baremetal doesn't
+> work as GCC still ends up being built with --hash-style=gnu which causes
+> failures when using a built newlib SDK.
+>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  meta/conf/machine/include/riscv/arch-riscv.inc | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
+> index 19f8f3e211..f3edcc39f7 100644
+> --- a/meta/conf/machine/include/riscv/arch-riscv.inc
+> +++ b/meta/conf/machine/include/riscv/arch-riscv.inc
+> @@ -8,3 +8,6 @@ TUNE_CCARGS .= ""
+>
+>  # QEMU usermode fails with invalid instruction error (For riscv32)
+>  MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32', ' qemu-usermode', '', d)}"
+> +
+> +# --hash-style is unsupported
+> +LINKER_HASH_STYLE = ""
 
-Series: Backport relevant changes from Zeus (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/20503/
-State : failure
+I think we still need to use newlib and baremetal overrides
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Errors in your Python code were encountered [test_pylint] 
-  Suggested fix    Correct the lines introduced by your patch
-  Output           Please, fix the listed issues:
-                   scripts/lib/devtool/standard.py does not exist
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+> --
+> 2.23.0
+>
 
