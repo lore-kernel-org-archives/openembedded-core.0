@@ -1,27 +1,27 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 21EFD7F973
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 809357F96B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 22:08:49 +0000 (UTC)
-IronPort-SDR: iN5y/gbF/ymhvS5csHYTHy3TQtIKLH0p4V3LTeVzxJLdH+TikS/71U01bco9CdKO6mtN7CRl07
-	1+kjjkmX7cKQmQ7nxTTeaZ9xNXxa40stFrXcFOzEGHCH8NE4tLQW6MdJ1b42X3IQDH2A3nLIhY
-	MOZdBApvht/2kj5Vyd5kpdoeej7wCAlPNWuOKdTFitTBUjWJ0f4zkolvo1cjzjnPzBlqF4Qije
-	U4VJkAAfoK6IN6/gXqNFsbc5yQJHEkZbMtkFZTAkAPO8+SqsXPY3I0TBq8oCaP3oaZB6JF1ZkQ
-	4bo=
+	Tue,  5 Nov 2019 22:08:50 +0000 (UTC)
+IronPort-SDR: qyVGVygw57REt83FRH+HjQO6rfeOsKYhW6ygWuIWD7C8m+FfLEXoYdz+WfpK2XG98Ih5uzt/ob
+	6aKzB/i2JOQ+HbvKjEqdbW+CPVP+EYcxOpSoaUOTQg4N+XDnE76ltU9lqZO65BIrAL7CcbKqcd
+	836COnloR4DydfvWkq5sWtjKrUtrSsX7voRXAEwyRzUIw4xVcJpaZVqLilnkMYLYTOWm6x/4Fj
+	i+3aVx0B26R7+QK+Wm1l6OaH6RYW3tc+aN9edMwwoxqYTBup37fSepEk9F373pWMqcuDghbEY2
+	zF4=
 X-IronPort-AV: E=Sophos;i="5.68,271,1569276000"; 
-   d="scan'208";a="2115963"
+   d="scan'208";a="2200443"
 X-Axis-User: NO
 X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 23:08:35 +0100
-Message-Id: <718ca23f1ae8dd519f5ae19d26c436d9435b6055.1572991610.git.pkj@axis.com>
+Date: Tue,  5 Nov 2019 23:08:38 +0100
+Message-Id: <ae9df05d9b04152097122c254852c0c7e9613214.1572991610.git.pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1572991610.git.pkj@axis.com>
 References: <cover.1572991610.git.pkj@axis.com>
 MIME-Version: 1.0
-Subject: [warrior][PATCHv2 5/9] package_rpm.bbclass: Remove a misleading bb.note()
+Subject: [warrior][PATCHv2 8/9] devtool: finish: Add suppport for the --no-clean option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,53 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 22:08:50 -0000
+X-List-Received-Date: Tue, 05 Nov 2019 22:08:51 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-It should have been removed in 3db9d865 (classes/package_rpm.bbclass:
-Enhance diagnostic messages) when it was split in two new notes.
-
-Also change the casing of two other notes to align them with the other
-notes.
+This works just like the already existing --no-clean option to the
+`devtool reset` command.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/package_rpm.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ scripts/lib/devtool/standard.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 1a64cb271a..b1b13e2a5a 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -409,7 +409,6 @@ python write_specfile () {
-             if not file_list and localdata.getVar('ALLOW_EMPTY', False) != "1":
-                 bb.note("Not creating empty RPM package for %s" % splitname)
-             else:
--                bb.note("Creating RPM package for %s" % splitname)
-                 spec_files_top.append('%files')
-                 if extra_pkgdata:
-                     package_rpm_extra_pkgdata(splitname, spec_files_top, localdata)
-@@ -418,7 +417,7 @@ python write_specfile () {
-                     bb.note("Creating RPM package for %s" % splitname)
-                     spec_files_top.extend(file_list)
-                 else:
--                    bb.note("Creating EMPTY RPM Package for %s" % splitname)
-+                    bb.note("Creating empty RPM package for %s" % splitname)
-                 spec_files_top.append('')
-             continue
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index b944ec3966..aeb9452a8a 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -1895,7 +1895,7 @@ def finish(args, config, basepath, workspace):
+         else:
+             raise DevtoolError('Source tree is not clean:\n\n%s\nEnsure you have committed your changes or use -f/--force if you are sure there\'s nothing that needs to be committed' % dirty)
  
-@@ -510,7 +509,7 @@ python write_specfile () {
-                 bb.note("Creating RPM package for %s" % splitname)
-                 spec_files_bottom.extend(file_list)
-             else:
--                bb.note("Creating EMPTY RPM Package for %s" % splitname)
-+                bb.note("Creating empty RPM package for %s" % splitname)
-             spec_files_bottom.append('')
- 
-         del localdata
+-    no_clean = False
++    no_clean = args.no_clean
+     tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
+     try:
+         rd = parse_recipe(config, tinfoil, args.recipename, True)
+@@ -2169,6 +2169,7 @@ def register_commands(subparsers, context):
+     parser_finish.add_argument('--mode', '-m', choices=['patch', 'srcrev', 'auto'], default='auto', help='Update mode (where %(metavar)s is %(choices)s; default is %(default)s)', metavar='MODE')
+     parser_finish.add_argument('--initial-rev', help='Override starting revision for patches')
+     parser_finish.add_argument('--force', '-f', action="store_true", help='Force continuing even if there are uncommitted changes in the source tree repository')
++    parser_finish.add_argument('--no-clean', '-n', action="store_true", help='Don\'t clean the sysroot to remove recipe output')
+     parser_finish.add_argument('--no-overrides', '-O', action="store_true", help='Do not handle other override branches (if they exist)')
+     parser_finish.add_argument('--dry-run', '-N', action="store_true", help='Dry-run (just report changes instead of writing them)')
+     parser_finish.add_argument('--force-patch-refresh', action="store_true", help='Update patches in the layer even if they have not been modified (useful for refreshing patch context)')
 -- 
 2.21.0
 
