@@ -1,27 +1,27 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 809357F96B
+	by mail.openembedded.org (Postfix) with ESMTP id 875647F987
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  5 Nov 2019 22:08:50 +0000 (UTC)
-IronPort-SDR: qyVGVygw57REt83FRH+HjQO6rfeOsKYhW6ygWuIWD7C8m+FfLEXoYdz+WfpK2XG98Ih5uzt/ob
-	6aKzB/i2JOQ+HbvKjEqdbW+CPVP+EYcxOpSoaUOTQg4N+XDnE76ltU9lqZO65BIrAL7CcbKqcd
-	836COnloR4DydfvWkq5sWtjKrUtrSsX7voRXAEwyRzUIw4xVcJpaZVqLilnkMYLYTOWm6x/4Fj
-	i+3aVx0B26R7+QK+Wm1l6OaH6RYW3tc+aN9edMwwoxqYTBup37fSepEk9F373pWMqcuDghbEY2
-	zF4=
+IronPort-SDR: 0w07BWDJi8mIjdLJ4MantDY366RjTzYGuzZch1W4mFiV93zsdfvxmgFVt6DZmZy0NfUlgDAxVQ
+	JCyITfidJPCYhmAKvaNWn6ONNlqwCWbfAwMON7mE4+Bjy7qUn+wUvig1W+C+Uwq/0iQ1ysxJTB
+	JxUMvu8W2bVIasBBki0vGYjSGdOrtk1ssME5IprNmziYgtCQFryHgAxNBPqQF1EIlqrnJwZ7E+
+	K1kmkhwqx5Mm6bcCQ+ntcIKKVqDaqzprN2b8SsbWUsKcGgQV5JqKqTaSftlL3f2cQkKPOsxY0K
+	9rM=
 X-IronPort-AV: E=Sophos;i="5.68,271,1569276000"; 
-   d="scan'208";a="2200443"
+   d="scan'208";a="2200444"
 X-Axis-User: NO
 X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 23:08:38 +0100
-Message-Id: <ae9df05d9b04152097122c254852c0c7e9613214.1572991610.git.pkj@axis.com>
+Date: Tue,  5 Nov 2019 23:08:32 +0100
+Message-Id: <3a254e65f99dfb710301a0b3b3ea05e5bb9569e5.1572991610.git.pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1572991610.git.pkj@axis.com>
 References: <cover.1572991610.git.pkj@axis.com>
 MIME-Version: 1.0
-Subject: [warrior][PATCHv2 8/9] devtool: finish: Add suppport for the --no-clean option
+Subject: [warrior][PATCHv2 2/9] meson.bbclass: Remove the MESON_*_ARGS variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,36 +39,64 @@ Content-Transfer-Encoding: 8bit
 
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-This works just like the already existing --no-clean option to the
-`devtool reset` command.
+The options in ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} are already passed
+via ${CC}/${CXX} and there is no reason to pass them a second time. Thus
+we can remove MESON_TOOLCHAIN_ARGS. And when it is removed, the other
+MESON_*_ARGS variables revert to the standard CFLAGS, CXXFLAGS and
+LDFLAGS, so just use them directly instead.
+
+Apart from the obvious improvement with not passing a lot of options
+twice, this also solves a problem where -pie would be passed on the
+command line in a way that it would prevent building any dynamic
+libraries using meson if using a toolchain that is not built with
+--enable-default-pie and if security_flags.inc is used.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/lib/devtool/standard.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/meson.bbclass | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index b944ec3966..aeb9452a8a 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1895,7 +1895,7 @@ def finish(args, config, basepath, workspace):
-         else:
-             raise DevtoolError('Source tree is not clean:\n\n%s\nEnsure you have committed your changes or use -f/--force if you are sure there\'s nothing that needs to be committed' % dirty)
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 115d1aedcb..5c0139f02a 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -30,11 +30,6 @@ MESONOPTS = " --prefix ${prefix} \
+               -Dcpp_args='${BUILD_CPPFLAGS} ${BUILD_CXXFLAGS}' \
+               -Dcpp_link_args='${BUILD_LDFLAGS}'"
  
--    no_clean = False
-+    no_clean = args.no_clean
-     tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
-     try:
-         rd = parse_recipe(config, tinfoil, args.recipename, True)
-@@ -2169,6 +2169,7 @@ def register_commands(subparsers, context):
-     parser_finish.add_argument('--mode', '-m', choices=['patch', 'srcrev', 'auto'], default='auto', help='Update mode (where %(metavar)s is %(choices)s; default is %(default)s)', metavar='MODE')
-     parser_finish.add_argument('--initial-rev', help='Override starting revision for patches')
-     parser_finish.add_argument('--force', '-f', action="store_true", help='Force continuing even if there are uncommitted changes in the source tree repository')
-+    parser_finish.add_argument('--no-clean', '-n', action="store_true", help='Don\'t clean the sysroot to remove recipe output')
-     parser_finish.add_argument('--no-overrides', '-O', action="store_true", help='Do not handle other override branches (if they exist)')
-     parser_finish.add_argument('--dry-run', '-N', action="store_true", help='Dry-run (just report changes instead of writing them)')
-     parser_finish.add_argument('--force-patch-refresh', action="store_true", help='Update patches in the layer even if they have not been modified (useful for refreshing patch context)')
+-MESON_TOOLCHAIN_ARGS = "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
+-MESON_C_ARGS = "${MESON_TOOLCHAIN_ARGS} ${CFLAGS}"
+-MESON_CPP_ARGS = "${MESON_TOOLCHAIN_ARGS} ${CXXFLAGS}"
+-MESON_LINK_ARGS = "${MESON_TOOLCHAIN_ARGS} ${LDFLAGS}"
+-
+ EXTRA_OEMESON_append = " ${PACKAGECONFIG_CONFARGS}"
+ 
+ MESON_CROSS_FILE = ""
+@@ -76,7 +71,7 @@ def meson_endian(prefix, d):
+         bb.fatal("Cannot determine endianism for %s-%s" % (arch, os))
+ 
+ addtask write_config before do_configure
+-do_write_config[vardeps] += "MESON_C_ARGS MESON_CPP_ARGS MESON_LINK_ARGS CC CXX LD AR NM STRIP READELF"
++do_write_config[vardeps] += "CC CXX LD AR NM STRIP READELF CFLAGS CXXFLAGS LDFLAGS"
+ do_write_config() {
+     # This needs to be Py to split the args into single-element lists
+     cat >${WORKDIR}/meson.cross <<EOF
+@@ -93,10 +88,10 @@ llvm-config = 'llvm-config8.0.0'
+ 
+ [properties]
+ needs_exe_wrapper = true
+-c_args = ${@meson_array('MESON_C_ARGS', d)}
+-c_link_args = ${@meson_array('MESON_LINK_ARGS', d)}
+-cpp_args = ${@meson_array('MESON_CPP_ARGS', d)}
+-cpp_link_args = ${@meson_array('MESON_LINK_ARGS', d)}
++c_args = ${@meson_array('CFLAGS', d)}
++c_link_args = ${@meson_array('LDFLAGS', d)}
++cpp_args = ${@meson_array('CXXFLAGS', d)}
++cpp_link_args = ${@meson_array('LDFLAGS', d)}
+ gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
+ 
+ [host_machine]
 -- 
 2.21.0
 
