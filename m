@@ -1,53 +1,38 @@
-Return-Path: <prvs=2052f4dd8=alistair.francis@wdc.com>
-Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EAD17F7E4
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 584E07F7E4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 21:57:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1572991048; x=1604527048;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=7ySNq6GQyVIDRHppafj7oB0OzsGbozfqmBv3hAhDrrE=;
-	b=K0SS/wlUBIq8AWeOZ7Fr+2txA/cEsrQZPcGoKZbmj45CHjB8xftCUTJ1
-	m3qwjXzOzN9OCYPNcVACx02eRTqvko162XbFivz6CejnUaXwJMoik2Ay5
-	TcarzdhU/pUngQin0IZedEH1b9FXkTa/w8yMVom19SNAxcYqLnKUAiNxR
-	omCznCjLTCQpo6+K4Iiq3AazBeLCQ5l+MjhDc6yfX5wQRwZKSjeIKJTd0
-	HcSoMNuwO3moNQQ6ppXGCRjVrxQ6fMyKoAsA9dB6Q4EeOviCzfZWQAZ3N
-	LtQFXF7EeEULfUCos2/YG0pBdbmhEN703e32y5VXuv3lNIkWAAajA6A9Q Q==;
-IronPort-SDR: AGGIK/iy4XTePLCqk8MZNOyoAJlTmaEl6rTFBRerDd3vMTTeuivi46dO8O81Tp9MOxcHXKqihI
-	3dVBFEIUmlQ8Jx9J4BwkzWx2K4JpdyA979kB2pQt/ba2iYSgUMFNng5dDazTq+Lmd/cjB6dI8I
-	uBF86ugx/TBQW5z6wE8O2YCda6673OicS5XvGZal4+dfxNoDreZTifh24SKmsqgTUoDLRQ0Q3+
-	BtbRt6fl3zgdHcjWt1OeJsEbzeYbSjqf4DwozsSFaGXyLqch4c343y5SfpR6gutriI881iN+L8
-	uSY=
-X-IronPort-AV: E=Sophos;i="5.68,271,1569254400"; d="scan'208";a="126645060"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
-	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 06 Nov 2019 05:57:27 +0800
-IronPort-SDR: ffjyEO0z7HByjd4sLn5hUEp4lczXLYktxu+Hh1Ddh8WbDmziu1H4fwYhQStp1D5JUWyUb6D3X1
-	f86/+NvM/wdtdQWkraGWKOgeRlZq1KFaD7Ox6jBYGRNT7ultMQQA4NqK32NakKLhTm75ld3LEK
-	++0HBU47Tb8JaWP1hrSSVQNgK9YW2nWnjD+TvxpdZmz35LuPMd8s9e6Xdm660vouBKK4NqgyV9
-	JRvOPqTKk+x6jGfKOrwD8/haM+g5W6RcX0FUWuh15Vo9Wg42wx4CP5vhTgAtXr1sq0roRHam/0
-	D++lLz7y7EidM4CXVZVpyPtz
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	05 Nov 2019 13:52:39 -0800
-IronPort-SDR: IPuBEjCBLjYx2OTeJpJwz9rg1O0ahFNnJSLKG1NV1k7WY7db553Ay7Ta43By/pDY9XKHcz+tcp
-	DAVnP1ulytaiEgqABGELwh2GGcckgGqG+Arl2G0FJOfUp5b3c0zp0zeGmXjo6RRDFFKh7AD/to
-	cyfFoxDxGA9bOO50pgXzXVs+KDfOJ2nEpeS4a5dmQ/0fKCwtBA1NVUVJ0v2S+hyvaaouxKD3sy
-	J623/+LseWCLUL6ZGAsFSrBFNB8UbunCmbYHKho63FHBCfugrt9bRDn5b9lbK2vxQarAUkyS8X
-	ok0=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
-	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
-	by uls-op-cesaip01.wdc.com with ESMTP; 05 Nov 2019 13:57:26 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 13:52:10 -0800
-Message-Id: <20191105215210.17008-1-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.23.0
+	Tue,  5 Nov 2019 21:59:50 +0000 (UTC)
+IronPort-SDR: ofUCNdZ+rO6/0c3b4eyIawGL0WA8tzE4mDYY/7PifW/mow8ylGHj78DhAThEJYghBHRTKA3nzW
+	bk+hFVGDlu+TsiUl5hJv90lniyWhp9KuZmnnKKS6UEtK+YxIkfFQQtxeUSGQ8Gfg8D+A/RB7ng
+	TMPO6Ll7ca7w8nWBlaKU+ePUl3X2OajmLgw7r1IlZJGE9sFqIXcA4C2v1GeO3HJ/HZ6JLnxV53
+	x+oGiuSQrHzLCDABOMSk04r0junRc6gcBZd6TvcPJPNCUOaSQDtsOy1XVFIMQah56WgdSnGKNI
+	3tc=
+X-IronPort-AV: E=Sophos;i="5.68,271,1569276000"; 
+   d="scan'208";a="2115714"
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: akuster808 <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [warrior][PATCH 0/8] Backport relevant changes from
+	Zeus
+Thread-Index: AQHVhD8zsfq8DgVlsUSBraPn3NxDL6duJVYAgAuFNXCAA5HUQA==
+Date: Tue, 5 Nov 2019 21:59:48 +0000
+Message-ID: <3b65fe82aace42dc8b17033fee7b5aa3@XBOX03.axis.com>
+References: <cover.1571243326.git.pkj@axis.com>
+	<c6db1799-ee15-0843-8325-9996e13dd8c6@gmail.com>
+	<cd4d358ec6eb43a397764aebee84105c@XBOX03.axis.com>
+In-Reply-To: <cd4d358ec6eb43a397764aebee84105c@XBOX03.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH v2] machine/arch-riscv: Fix newlib and baremetal builds
+Subject: Re: [warrior][PATCH 0/8] Backport relevant changes from Zeus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,34 +45,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 21:57:25 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 05 Nov 2019 21:59:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Fix the following errors for newlib and baremetal libcs:
-  ld: unrecognized option '--hash-style=sysv'
-  ld: unrecognized option '--hash-style=gnu'
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 3 november 2019 16:18
+> To: akuster808 <akuster808@gmail.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [warrior][PATCH 0/8] Backport relevant changes fro=
+m
+> Zeus
+>=20
+> > -----Original Message-----
+> > From: akuster808 <akuster808@gmail.com>
+> > Sent: den 27 oktober 2019 09:20
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] [warrior][PATCH 0/8] Backport relevant changes
+> > from Zeus
+> >
+> > Peter,
+> >
+> >
+> > On 10/16/19 9:30 AM, Peter Kjellerstedt wrote:
+> > > This patch set contains backports of our changes from Zeus that are
+> > > relevant for Warrior.
+> > >
+> > > //Peter
+> > >
+> > > The following changes since commit
+> > 79a850a10a4b88a6d20d607b322542f947874323:
+> > >
+> > >   conf/poky: add Fedora 30 and Opensuse Leap 15.1 to supported
+> > distributions (2019-10-14 09:49:27 +0100)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >   git://push.yoctoproject.org/poky-contrib pkj/warrior_sync
+> >
+> > The series is causing build failures.
+> >
+> > https://errors.yoctoproject.org/Errors/Details/274748/
+> >
+> > https://errors.yoctoproject.org/Errors/Details/274757/
+> >
+> > I have not had the time to figure out which ones giving I have been
+> > working on a different build failure. So if you could double check
+> > them,
+> > that would be great.
+> >
+> > regards,
+> > Armin
+>=20
+> The problems are caused by the "meson.bbclass: Remove the MESON_*_ARGS
+> variables" change. I have not had time to look into why it breaks yet,
+> but I can reproduce it so it should hopefully not be too hard to figure
+> it out once I have a little time.
+>=20
+> //Peter
 
-Setting LINKER_HASH_STYLE to empty for just newlib and baremetal doesn't
-work as GCC still ends up being built with --hash-style=gnu which causes
-failures when using a built newlib SDK.
+Ok, I have figured it out now. It turns out that the change to=20
+meson.bbclass uncovered a misuse of the meson.cross file. Over a year=20
+ago, Ross changed meson_array() to return a string instead of an array=20
+if only one argument is specified. This was for the benefit of cross=20
+tools specified in the meson.cross file, however it also affected=20
+properties. Up until now there has always been more than one argument=20
+for all properties so this did not change anything. However, my change=20
+to meson.bbclass to remove some unnecessary arguments caused the=20
+c_link_args for nativesdk to be left with only one argument.=20
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
- meta/conf/machine/include/riscv/arch-riscv.inc | 3 +++
- 1 file changed, 3 insertions(+)
+Support for specifying a property as a string instead of a list was=20
+added to meson in version 0.50, which is why there never was a problem=20
+with Zeus due to the change to meson.bbclass. I have now backported=20
+the relevant part from meson 0.50 and included it in my patch series.
 
-diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
-index 19f8f3e211..f3edcc39f7 100644
---- a/meta/conf/machine/include/riscv/arch-riscv.inc
-+++ b/meta/conf/machine/include/riscv/arch-riscv.inc
-@@ -8,3 +8,6 @@ TUNE_CCARGS .= ""
- 
- # QEMU usermode fails with invalid instruction error (For riscv32)
- MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32', ' qemu-usermode', '', d)}"
-+
-+# --hash-style is unsupported
-+LINKER_HASH_STYLE = ""
--- 
-2.23.0
+//Peter
+
+> > > Niclas Svensson (1):
+> > >   devtool: finish: Keep patches ordered when updating bbappend
+> > >
+> > > Peter Kjellerstedt (7):
+> > >   meson.bbclass: Remove the MESON_*_ARGS variables
+> > >   nativesdk-meson: Remove some unused variables
+> > >   devtool: Avoid failure for recipes with S =3D=3D WORKDIR and no loc=
+al
+> > >     files
+> > >   package_rpm.bbclass: Remove a misleading bb.note()
+> > >   tzdata: Correct the packaging of /etc/localtime and /etc/timezone
+> > >   devtool: finish: Add suppport for the --no-clean option
+> > >   lib/oe/lsb: Make sure the distro ID is always lowercased
+> > >
+> > >  meta/classes/meson.bbclass                      | 15 +++++----------
+> > >  meta/classes/package_rpm.bbclass                |  5 ++---
+> > >  meta/lib/oe/lsb.py                              |  8 ++++----
+> > >  .../meson/nativesdk-meson_0.49.2.bb             |  5 -----
+> > >  meta/recipes-extended/timezone/tzdata.bb        |  5 +++--
+> > >  scripts/lib/devtool/standard.py                 | 17 +++++++++------
+> > --
+> > >  6 files changed, 23 insertions(+), 32 deletions(-)
 
 
