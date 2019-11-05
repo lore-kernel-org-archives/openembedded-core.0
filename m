@@ -1,49 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
-	[209.85.128.45])
-	by mail.openembedded.org (Postfix) with ESMTP id EA18D7F8AF
+Return-Path: <ross.burton@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id A02977F8F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 11:56:31 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id c17so13209844wmk.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Nov 2019 03:56:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6YasS92qLN5c+UOicaMxyW7uYdTnz0KjEr24E3yrnJQ=;
-	b=D4u/ZmhckXJLhx4wvB6R7ll6REv4gHr9NRVhyiyrNkvW8qX+N+2gn8wajPYaU9N0oX
-	ovc7S8U3iEoyhWIxa2lgU7/UhgyPPBXOMEWWNdYwhKGOYLkgFp9EEtU61ABO04WzmNq7
-	aXDWrTDc6PaWEdA8nhjbHNzZLhQ9V0ttkIN1U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6YasS92qLN5c+UOicaMxyW7uYdTnz0KjEr24E3yrnJQ=;
-	b=FC2j6/G7Mz/r4UORrt7tqnvJAAXi754ULPSpla9rWKg/dGpj8th8OdlVZMfZMhko6Q
-	Ppt+Owzmp9w5UC8lCLUE7PwF7+jwp73EeERzbR80hgC1FPCCTI/1mUXba3A7bY8qQj0i
-	gwimL2B9Q4up4FDWgr0pB8UKsvldi1qol139/3Hp7ZXHLO6F52qKRgW9uGye7Qxo4aev
-	cMv2sSb4BCbFn/z9eDPcQg6VeFFfJnf5IvBPU2vGR+vXz/wH8q17Z23030pqlRQg0uTk
-	wfI3ivloxHMfp0CSSud3A9eVT3sLcbNrNdWIwFKjXVm4X3rj9iKBG4CZflkrALO7yB5E
-	vKqQ==
-X-Gm-Message-State: APjAAAVK476bXiX2hA7FU8CcUsm36cNWSk5Y4AIegVBO33KafmWCg/PQ
-	tXQS+mE6Z+LOBVOwjjs6dKkCKk2Yr5Q=
-X-Google-Smtp-Source: APXvYqxBHLArJOJHOP4g3nZq4qzESe0X4l6QPJbFlEXnMjfkk3ms5HQftBq+HY/E3I2poRkTLjnafg==
-X-Received: by 2002:a7b:cd04:: with SMTP id f4mr3773204wmj.91.1572954992328;
-	Tue, 05 Nov 2019 03:56:32 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c15sm17947463wmb.45.2019.11.05.03.56.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 05 Nov 2019 03:56:31 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 11:56:30 +0000
-Message-Id: <20191105115630.12918-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	Tue,  5 Nov 2019 11:59:05 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Nov 2019 03:59:06 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,271,1569308400"; d="scan'208";a="285283085"
+Received: from felsner-mobl1.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.57.88])
+	by orsmga001.jf.intel.com with ESMTP; 05 Nov 2019 03:59:05 -0800
+To: Adrian Bunk <bunk@stusta.de>
+References: <20191104205504.24428-1-bunk@stusta.de>
+	<aa3aa480-65d5-789c-71c0-3997d742424e@intel.com>
+	<20191105110116.GA20425@localhost>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <a4953f27-c2d3-54f8-e17b-d2d227b09f60@intel.com>
+Date: Tue, 5 Nov 2019 11:59:04 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Subject: [PATCH] sstate: Add ability to hide summary output for sstate
+In-Reply-To: <20191105110116.GA20425@localhost>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] iputils: Whitelist CVE-2000-1213 CVE-2000-1214
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,60 +40,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 11:56:32 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 05 Nov 2019 11:59:06 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Its confusing to keep seeing sstate summary messages when hash equivalency is
-active. This adds an option to control it. A default value is given which
-maintains compatibility with different bitbake versions.
+On 05/11/2019 11:01, Adrian Bunk wrote:
+> On Tue, Nov 05, 2019 at 10:38:32AM +0000, Ross Burton wrote:
+>> On 04/11/2019 20:55, Adrian Bunk wrote:
+>>> +# Fixed in 2000-10-10, but the versioning of iputils
+>>> +# breaks the version order.
+>>> +CVE_CHECK_WHITELIST += "CVE-2000-1213 CVE-2000-1214"
+>>
+>> So the problem is that our PV matches the upstream git tags, which don't
+>> match the naming convention in the CPE entries.
+>>
+>> The tags are of the form s20190709, but the CPE uses 2010-10-10.
+>>
+>> If we assume that the CPE version scheme will remain the same
+>> ...
+> 
+> CVE-2010-2529 had an explicit list of affected versions of the
+> scheme 20100214.
+> 
+> These 19 year old ones from a time when CVE was new are outliers.
+> I would expect versions in new CVE to match the OE versioning,
+> except that the 's' might (or might not) be missing.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/sstate.bbclass | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+<shakes fist>
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index b47b9c23bf2..64808f8e105 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -818,7 +818,7 @@ sstate_unpack_package () {
- 
- BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
- 
--def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, **kwargs):
-+def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
-     found = set()
-     missed = set()
-     extension = ".tgz"
-@@ -951,16 +951,17 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, **kwargs):
-             evdata['found'].append((bb.runqueue.fn_from_tid(tid), bb.runqueue.taskname_from_tid(tid), gethash(tid), sstatefile ) )
-         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
- 
--    # Print some summary statistics about the current task completion and how much sstate
--    # reuse there was. Avoid divide by zero errors.
--    total = len(sq_data['hash'])
--    complete = 0
--    if currentcount:
--        complete = (len(found) + currentcount) / (total + currentcount) * 100
--    match = 0
--    if total:
--        match = len(found) / total * 100
--    bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(found), len(missed), currentcount, match, complete))
-+    if summary:
-+        # Print some summary statistics about the current task completion and how much sstate
-+        # reuse there was. Avoid divide by zero errors.
-+        total = len(sq_data['hash'])
-+        complete = 0
-+        if currentcount:
-+            complete = (len(found) + currentcount) / (total + currentcount) * 100
-+        match = 0
-+        if total:
-+            match = len(found) / total * 100
-+        bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(found), len(missed), currentcount, match, complete))
- 
-     if hasattr(bb.parse.siggen, "checkhashes"):
-         bb.parse.siggen.checkhashes(sq_data, missed, found, d)
--- 
-2.20.1
+Of course -2529 uses a different CPE product/vendor name to -1213 so 
+didn't appear in my search.
+
+Okay, lets use the whitelist approach.
+
+Ross
 
 
