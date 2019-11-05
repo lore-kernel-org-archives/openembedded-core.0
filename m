@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 59A146D147
+	by mail.openembedded.org (Postfix) with ESMTP id 5CA8A7F89C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 21:38:15 +0000 (UTC)
+	Tue,  5 Nov 2019 21:38:14 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47731g5gjgzJD
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47731g2424zHq
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  5 Nov 2019 22:38:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1572989896;
-	bh=2c5pMEE4TUcU7ksRSxRwFojM25kLVQVU84xFz5IGBNI=;
+	s=default; t=1572989895;
+	bh=IICYYiZKK3KYF1TU1E2lYtvx+emG3/pdXYJOPJqOA6M=;
 	h=From:To:Subject:Date:From;
-	b=H/2B0RT72iYZ9Nl1+0vhWVWlMNA2kMtkH4FTxfzppJd4694B2v6UfgtHHMwwlTUe2
-	T4AFBWDXMh4Rq6MTy5y2euooiWhncmrfYI9DfjR3+9MGPWCV/la+ZMSVtTZ0NB+6oQ
-	lw+gon+r92QaaU3DQdYJzqk/8lP+1fGDEHcGKJqDMBY0aqYbJw6gtOXXiKTfqidF+q
-	uKwf5terwrpyNoYop8gJ2mK2akzAtS+KDytrJASIzWs7WzFGsJlSSLEAhb0PlpHumX
-	b+zqs34ByeNlwUEFftW5xlLdn2RG2N4Z5C4t7yO1kjInFv0Iu6H4qMQQH8RyjDJaKk
-	Rkj1kX/wJgkf6HkAbSI8pBsFHFEU7gyxrXL5lNOs6BnjmfJ4SRD5LC20FAWfWq1q8j
-	gVPzEkpRONNdERrbUXNupkxQlLAZ4L49hF7TRkskAaQHR8EwgNFbwYjuyUAtxqBVP6
-	v4kTkuvp0TP9XsN1i4ddhGf1n9/i4XlJWAj4HVjr2zBweazENWCa7regZ7Kh7QRrEN
-	XznKic+yRx1lmWtmpYSAmDDxCbqmsrJftiPNf8ECeRaguh6UY1KSLMgEg7gUtIupw1
-	byF44ltwbES5jz5pEjCKbwKurzbvwzNsyb7T9Uz42/fCgTr0h7DVQ7W0NDRwnz7sBO
-	iJZ0QbpUjtDjGNJ5kXRbnPYU=
+	b=mJneFVLV7Ro1sPt2r5ilVwXukYbEvimxxzo58p0hHuT0VB82yH6FuvWvTQvzA/2l4
+	TJ91d9dWNZW0/8HrtpE1qsCwI6rB3XiZJ14piU5RevnVR8JW6ZyvVHUici4jtnDX3S
+	tLLBexP+IY4tNq/2fikDsfut9IMxI8uEmiVrNvqW6KBp/ONtPLB7qajEBqWC7k0WhH
+	9pSaF2x3VEAV1QX6np0IYCjKbFhhECCf7Lfw3VRy4cjCfhKTZbkSTA67B+RMO3o38C
+	yRG4lt7qsFPff9+HK8gMKu1nDY+Je3dOkwDGIt7ebbCGkd+BTk1nTDAusrGfXIEjFC
+	+vbJ+M5FlDn4UmAEggV+f2rhYF4iK3ZS08QSQRyOh1OZvu5443ceHWRYqKVih0CyUy
+	3Twd6jJbvlvQ0eblVGxJqehk28XR1TPFQ7meqikmTsvrJpUBnirvH1RqHxXC9eAGDV
+	uPIWwcAjjBwmMOb5In1Ese+HmnpxHKoub8vHMb9bd7/tgrrPS1DoV/mRbgp5r9NG3H
+	u+p1HsKFUrk0A5vOEAKV1ntMITuLEnUECqZN0z+wn9piilB39Y53CFmcjUgVNOhK+/
+	DaULmiDv1jY/FKmsgfNMXDwZrv9wMFhVx1FUvlxJjbTBPnfeJ+cO7ohtLxbA+FbbEB
+	sxqAxlC5/yt/UFqvrdi7OqMQ=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  5 Nov 2019 23:38:12 +0200
-Message-Id: <20191105213813.27546-4-bunk@stusta.de>
+Date: Tue,  5 Nov 2019 23:38:11 +0200
+Message-Id: <20191105213813.27546-3-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [zeus][PATCH] libpng: whitelist CVE-2019-17371
+Subject: [zeus][PATCH] procps: whitelist CVE-2018-1121
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +44,41 @@ X-List-Received-Date: Tue, 05 Nov 2019 21:38:15 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-This is actually a memory leak in gif2png 2.x, so whitelist it in the libpng
-recipe.
+This CVE is about race conditions in 'ps' which make it unsuitable for security
+audits.  As these race conditions are unavoidable ps shouldn't be used for
+security auditing, so this isn't a valid CVE.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-multimedia/libpng/libpng_1.6.37.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-extended/procps/procps_3.3.15.bb | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-index 66af2f3d60..2ed87a8437 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-@@ -29,3 +29,6 @@ PACKAGES =+ "${PN}-tools"
- FILES_${PN}-tools = "${bindir}/png-fix-itxt ${bindir}/pngfix ${bindir}/pngcp"
+diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipes-extended/procps/procps_3.3.15.bb
+index 9756db0e7b..f240e54fd8 100644
+--- a/meta/recipes-extended/procps/procps_3.3.15.bb
++++ b/meta/recipes-extended/procps/procps_3.3.15.bb
+@@ -4,9 +4,9 @@ the /proc filesystem. The package includes the programs ps, top, vmstat, w, kill
+ HOMEPAGE = "https://gitlab.com/procps-ng/procps"
+ SECTION = "base"
+ LICENSE = "GPLv2+ & LGPLv2+"
+-LIC_FILES_CHKSUM="file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                  file://COPYING.LIB;md5=4cf66a4984120007c9881cc871cf49db \
+-                 "
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://COPYING.LIB;md5=4cf66a4984120007c9881cc871cf49db \
++                    "
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+# CVE-2019-17371 is actually a memory leak in gif2png 2.x
-+CVE_CHECK_WHITELIST += "CVE-2019-17371"
+ DEPENDS = "ncurses"
+ 
+@@ -64,3 +64,6 @@ python __anonymous() {
+         d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_sbindir'), prog))
+ }
+ 
++# 'ps' isn't suitable for use as a security tool so whitelist this CVE.
++# https://bugzilla.redhat.com/show_bug.cgi?id=1575473#c3
++CVE_CHECK_WHITELIST += "CVE-2018-1121"
 -- 
 2.17.1
 
