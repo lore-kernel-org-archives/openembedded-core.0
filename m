@@ -1,49 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 40EFD7F950
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 150337F950
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 23:06:53 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id o3so31562680qtj.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Nov 2019 15:06:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oKPJZQVa0gZR70D5VPsex2dVNvjJ4JyFWwRdKzDoNyo=;
-	b=ClCGGJaW5OYOZINZBYqv3CYXW5uLC853OCAFnbP1e0PDpvf6gUMkkpgX9lwzOiQgU8
-	IgIH8wfLc/q06e34oyiSAEGsfxckr+gzS6BLlRxHPESJQueRFTEbkhpaAR0axctcgrYx
-	4n8GvfpcmGwuB11EbYFj+CL0/nVK0uKLx7JMEQFpaw3kVshma3KjfiqnWqC+hxcXa6i6
-	gEtr3rtRQjn2EGVQq2gJCLMzt5JuKpLr6FGJUu7SgixJ7wcON7G5YD3bhix7P8p/YRcU
-	JbhKBnOwUfHZMe4lNVByHoKz43xdJLUqFoVUWqocrvMsD9a4vEn8xNyQtzE4FBLRceSN
-	X+PA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=oKPJZQVa0gZR70D5VPsex2dVNvjJ4JyFWwRdKzDoNyo=;
-	b=hwBkgc1McoLgrACHd7++/z3EWL0bl8ctYmrL0aMQXq0MH92p9MV2YkelSpPcgLN180
-	6WeRVil1HwsaXjp5HVbuzRlff5Y/WhR+d/ynzkB8nXE7wX7qlc2Te4dGDGwBiMxkKAdN
-	ucd5IHdMhKY564ZCC3cfuNT1wk87C6n6WpX5fv3Cw1qKbjtlfhX4u76vS68z8XJHEgk6
-	KFyfZf4qtu2NaJoBONTKhwbvIGMyntrHdtXA29MHOdoKf8V6yDCgoBxUjWZHFhJosa7U
-	9OHZanmSrTuA9HvzLQj07AcrIYrz4mPUY4AYp4roG/VcYiePMPOAqVmfRQGgfHD+Ehh5
-	Qewg==
-X-Gm-Message-State: APjAAAVHp2hehF/iJNFjw4CkIt27YyuVvoeiCoyWU4O73xOcCYJdjRYJ
-	+adqKKlakQgsiUivo/n7aSPRLmQTqoAhHF54ddU=
-X-Google-Smtp-Source: APXvYqxS38gD8kkLPWPKzar4JQKk9ai7CCciqFNpWsUPO21piMD++xo1Ogg5igxJTw6iQxzKo0LENs8hPnAh/SW0pPI=
-X-Received: by 2002:ac8:1415:: with SMTP id k21mr9576454qtj.80.1572995213849; 
-	Tue, 05 Nov 2019 15:06:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20191105215210.17008-1-alistair.francis@wdc.com>
-	<CAMKF1sp89rDgU+FEb68TU8gaHyAVPCJ_i0OmSDRxtOncJMPkiw@mail.gmail.com>
-	<CAKmqyKO5GgkcYSkhHGtCJT+BaMhXSeDJV5-9FzuHech69Ow71g@mail.gmail.com>
-In-Reply-To: <CAKmqyKO5GgkcYSkhHGtCJT+BaMhXSeDJV5-9FzuHech69Ow71g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 5 Nov 2019 15:06:27 -0800
-Message-ID: <CAMKF1spno4ynjRbmMQOJA93PsDf3SE9o0NH+QiD16mqH5Xa9NA@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] machine/arch-riscv: Fix newlib and baremetal builds
+	Tue,  5 Nov 2019 23:12:55 +0000 (UTC)
+Received: from paloverde.toradex.int (unknown [31.10.206.124])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 776CF5C2B12;
+	Wed,  6 Nov 2019 00:12:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1572995576;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	in-reply-to:references; bh=i0ofE5N6RZMv7d8o3F3mnrf71BEB/cI2A8rRMfFSTbk=;
+	b=Kx2P4mFtdx4ShNoYLUOUShGE/7w3AGEFTNsIV5JpLsEEZZnNct1Gcp1KFcZTPZf2KSDWlx
+	qTjuyn7SKHNYInv33VNal94Tra9Su+4FDuiDD+DdYuGlNeWD3vKYp0eI/12Stn7vc9OzNK
+	7Au7vptlJ7dp7CSnZlX0xgipv2jYi0g=
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Nov 2019 23:12:53 +0000
+Message-Id: <20191105231253.15448-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.17.1
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH] image_types: add Zstandard conversion support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,59 +33,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 23:06:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 05 Nov 2019 23:12:56 -0000
 
-On Tue, Nov 5, 2019 at 2:48 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, Nov 5, 2019 at 2:42 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On Tue, Nov 5, 2019 at 1:57 PM Alistair Francis
-> > <alistair.francis@wdc.com> wrote:
-> > >
-> > > Fix the following errors for newlib and baremetal libcs:
-> > >   ld: unrecognized option '--hash-style=sysv'
-> > >   ld: unrecognized option '--hash-style=gnu'
-> > >
-> > > Setting LINKER_HASH_STYLE to empty for just newlib and baremetal doesn't
-> > > work as GCC still ends up being built with --hash-style=gnu which causes
-> > > failures when using a built newlib SDK.
-> > >
-> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > >  meta/conf/machine/include/riscv/arch-riscv.inc | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > >
-> > > diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
-> > > index 19f8f3e211..f3edcc39f7 100644
-> > > --- a/meta/conf/machine/include/riscv/arch-riscv.inc
-> > > +++ b/meta/conf/machine/include/riscv/arch-riscv.inc
-> > > @@ -8,3 +8,6 @@ TUNE_CCARGS .= ""
-> > >
-> > >  # QEMU usermode fails with invalid instruction error (For riscv32)
-> > >  MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32', ' qemu-usermode', '', d)}"
-> > > +
-> > > +# --hash-style is unsupported
-> > > +LINKER_HASH_STYLE = ""
-> >
-> > I think we still need to use newlib and baremetal overrides
->
-> That produces a SDK that doesn't work though.
->
+From: Stefan Agner <stefan.agner@toradex.com>
 
-Generally, I am in favor of this change, what it does do is that now
-it will depend on toolchain defaults
-the selection which is gnu for riscv for Linux targets so it does not
-change defaults for internal toolchain
-however external toolchains might have different default behavior so
-we won't be able to control that
-anymore. I think sysv may not even be an option for riscv so that will
-eliminate this completely.
+Add Zstandard (or just Zstd) compression support. This allows to
+create Zstd compressed tarballs by using tar.zst as IMAGE_FSTYPES.
 
-> Alistair
->
-> >
-> > > --
-> > > 2.23.0
-> > >
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ meta/classes/image_types.bbclass | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+index 2eeffbb366..eeae652e02 100644
+--- a/meta/classes/image_types.bbclass
++++ b/meta/classes/image_types.bbclass
+@@ -269,7 +269,7 @@ IMAGE_TYPES = " \
+     hddimg \
+     squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
+     ubi ubifs multiubi \
+-    tar tar.gz tar.bz2 tar.xz tar.lz4 \
++    tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
+     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+     wic wic.gz wic.bz2 wic.lzma \
+     container \
+@@ -282,7 +282,7 @@ IMAGE_TYPES = " \
+ # CONVERSION_CMD/DEPENDS.
+ COMPRESSIONTYPES ?= ""
+ 
+-CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
++CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
+ CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+ CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+@@ -290,6 +290,7 @@ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=
+ CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+ CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+ CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
++CONVERSION_CMD_zst = "zstd -f -k -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
+ CONVERSION_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
+ CONVERSION_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
+ CONVERSION_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
+@@ -310,6 +311,7 @@ CONVERSION_DEPENDS_xz = "xz-native"
+ CONVERSION_DEPENDS_lz4 = "lz4-native"
+ CONVERSION_DEPENDS_lzo = "lzop-native"
+ CONVERSION_DEPENDS_zip = "zip-native"
++CONVERSION_DEPENDS_zst = "zstd-native"
+ CONVERSION_DEPENDS_sum = "mtd-utils-native"
+ CONVERSION_DEPENDS_bmap = "bmap-tools-native"
+ CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
+-- 
+2.17.1
+
 
