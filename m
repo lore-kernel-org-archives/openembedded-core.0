@@ -1,24 +1,42 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 513FC7FA10
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
+	[209.85.166.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 540F57F9AF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 13:05:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xA5D5qsg018706
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  5 Nov 2019 13:27:31 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id c6so22537344ioo.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 5 Nov 2019 05:05:53 -0800 (PST)
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 5 Nov 2019 05:05:52 -0800
-From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 5 Nov 2019 08:05:52 -0500
-Message-ID: <20191105130552.1049-1-Trevor.Gamblin@windriver.com>
-X-Mailer: git-send-email 2.21.0
+	Tue, 05 Nov 2019 05:27:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=plTcZC6flzfvW0L9SIE5E4N8Ch4U9TOpEZ7Ij/SRToo=;
+	b=Cp4q3ATCRIBb2XOzjNcBxuBTBLEFKFDmAc/NS4Uc2SsO7XNPePnm7LxLCWWj6Hoppo
+	CzHMnyzJKSCFp/xcPC+Oo8CkaYiKUrL5kVnJyEHv6GOXFXzToVbRrRFtIp5VZujfZTYm
+	D3fMnmuMMOdQ0qy954lXT3Onhppb5Z0mWNNrJdfDZwiqM8Y/KJ/UwuVavD9SV2uDbsKB
+	74p95CcpmI14v5R0w2DMisY8+J6m+/cwdx6ajtBKQZlIMZri2FvHnfwbBmJhJjRbznig
+	POiZ6nujfRchHGMP3X6G9Up8MWG8IBHiMHIRB2Qmk3JNeANwg/im7PhVo5LPzygopqyg
+	kOyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=plTcZC6flzfvW0L9SIE5E4N8Ch4U9TOpEZ7Ij/SRToo=;
+	b=aJeCYd+vSn/NLPdmzQwKERjGGjtPfv5xWBGaBFiuPbWjr0iGpCdrKADYdevjM8KZ1y
+	ZC/QvJ+gMc8LlxRk2PJAt3eC9238ebeGOQ3aTLYhSyTzJXFkC+gFGQKvYh06ce/8yhKU
+	MZvuGS5x4g88Sh2A9lYhm3FCYQFVafcdXbvFD1nzXxWCNzDM7rCAHn/LJ765vnwUp7fa
+	I7ipfNW7X2Fdq3JinoFLO+mvWDMQLa9Zm2kKSPy5om6fGPKcBeawMZVGSQzJzjij4coc
+	D/97lCWzMpJo7d9qk41z9UKV4nqCkaTmt1sQcaUJVzI8fyu26zbHUHFNqIGyP4F/b5m+
+	UadQ==
+X-Gm-Message-State: APjAAAWYw8ghMi8Qu0oCB2zWcH7m1QT1ZKj677lqHdIWUJIzQmEFkWZN
+	WW6um0r73idFu867CWDfGZaleA4VeHiTRkWbJrQ=
+X-Google-Smtp-Source: APXvYqyO6oy4Hf+57NyAMer3sComHApaaQ1ttITTMT6sF/bYHwJwNUz9RXiKJeH7HDgzyKEZadoctDRju0CZMneZU0o=
+X-Received: by 2002:a02:3f1e:: with SMTP id d30mr5226121jaa.102.1572960451999; 
+	Tue, 05 Nov 2019 05:27:31 -0800 (PST)
 MIME-Version: 1.0
-Subject: [zeus][PATCH] libgcrypt: fix CVE-2019-13627
+From: Stephen K Jolley <sjolley.yp.pm@gmail.com>
+Date: Tue, 5 Nov 2019 05:28:09 -0800
+Message-ID: <CAK5yBb8D+YBZZ6JWnbPz+zYX86SnY069J+K+MvMejv5guUANSw@mail.gmail.com>
+To: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am to 8:30am on Tuesday (PDT)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,248 +49,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 13:05:52 -0000
-Content-Type: text/plain; charset="y"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 05 Nov 2019 13:27:31 -0000
+Content-Type: multipart/alternative; boundary="000000000000fcbca705969964b8"
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+--000000000000fcbca705969964b8
+Content-Type: text/plain; charset="UTF-8"
 
-Backport two fixes for CVE-2019-13627 from upstream
-to zeus.
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- ...cdsa-Fix-use-of-nonce-use-larger-one.patch | 128 ++++++++++++++++++
- ...Add-mitigation-against-timing-attack.patch |  70 ++++++++++
- .../libgcrypt/libgcrypt_1.8.4.bb              |   2 +
- 3 files changed, 200 insertions(+)
- create mode 100644 meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch
-
-diff --git a/meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch b/meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch
-new file mode 100644
-index 0000000000..211e041303
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch
-@@ -0,0 +1,128 @@
-+From db4e9976cc31b314aafad6626b2894e86ee44d60 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Thu, 8 Aug 2019 17:42:02 +0900
-+Subject: [PATCH] dsa,ecdsa: Fix use of nonce, use larger one.
-+
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=db4e9976cc3]
-+CVE: CVE-2019-13627
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+
-+* cipher/dsa-common.c (_gcry_dsa_modify_k): New.
-+* cipher/pubkey-internal.h (_gcry_dsa_modify_k): New.
-+* cipher/dsa.c (sign): Use _gcry_dsa_modify_k.
-+* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Likewise.
-+* cipher/ecc-gost.c (_gcry_ecc_gost_sign): Likewise.
-+
-+--
-+
-+Cherry-picked master commit of:
-+	7c2943309d14407b51c8166c4dcecb56a3628567
-+
-+CVE-id: CVE-2019-13627
-+GnuPG-bug-id: 4626
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+---
-+ cipher/dsa-common.c      | 24 ++++++++++++++++++++++++
-+ cipher/dsa.c             |  2 ++
-+ cipher/ecc-ecdsa.c       | 10 +---------
-+ cipher/ecc-gost.c        |  2 ++
-+ cipher/pubkey-internal.h |  1 +
-+ 5 files changed, 30 insertions(+), 9 deletions(-)
-+
-+diff --git a/cipher/dsa-common.c b/cipher/dsa-common.c
-+index 8c0a6843..fe49248d 100644
-+--- a/cipher/dsa-common.c
-++++ b/cipher/dsa-common.c
-+@@ -29,6 +29,30 @@
-+ #include "pubkey-internal.h"
-+ 
-+ 
-++/*
-++ * Modify K, so that computation time difference can be small,
-++ * by making K large enough.
-++ *
-++ * Originally, (EC)DSA computation requires k where 0 < k < q.  Here,
-++ * we add q (the order), to keep k in a range: q < k < 2*q (or,
-++ * addming more q, to keep k in a range: 2*q < k < 3*q), so that
-++ * timing difference of the EC multiply (or exponentiation) operation
-++ * can be small.  The result of (EC)DSA computation is same.
-++ */
-++void
-++_gcry_dsa_modify_k (gcry_mpi_t k, gcry_mpi_t q, int qbits)
-++{
-++  gcry_mpi_t k1 = mpi_new (qbits+2);
-++
-++  mpi_resize (k, (qbits+2+BITS_PER_MPI_LIMB-1) / BITS_PER_MPI_LIMB);
-++  k->nlimbs = k->alloced;
-++  mpi_add (k, k, q);
-++  mpi_add (k1, k, q);
-++  mpi_set_cond (k, k1, !mpi_test_bit (k, qbits));
-++
-++  mpi_free (k1);
-++}
-++
-+ /*
-+  * Generate a random secret exponent K less than Q.
-+  * Note that ECDSA uses this code also to generate D.
-+diff --git a/cipher/dsa.c b/cipher/dsa.c
-+index 22d8d782..24a53528 100644
-+--- a/cipher/dsa.c
-++++ b/cipher/dsa.c
-+@@ -635,6 +635,8 @@ sign (gcry_mpi_t r, gcry_mpi_t s, gcry_mpi_t input, DSA_secret_key *skey,
-+       k = _gcry_dsa_gen_k (skey->q, GCRY_STRONG_RANDOM);
-+     }
-+ 
-++  _gcry_dsa_modify_k (k, skey->q, qbits);
-++
-+   /* r = (a^k mod p) mod q */
-+   mpi_powm( r, skey->g, k, skey->p );
-+   mpi_fdiv_r( r, r, skey->q );
-+diff --git a/cipher/ecc-ecdsa.c b/cipher/ecc-ecdsa.c
-+index 84a1cf84..97966c3a 100644
-+--- a/cipher/ecc-ecdsa.c
-++++ b/cipher/ecc-ecdsa.c
-+@@ -114,15 +114,7 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+           else
-+             k = _gcry_dsa_gen_k (skey->E.n, GCRY_STRONG_RANDOM);
-+ 
-+-          /* Originally, ECDSA computation requires k where 0 < k < n.
-+-           * Here, we add n (the order of curve), to keep k in a
-+-           * range: n < k < 2*n, or, addming more n, keep k in a range:
-+-           * 2*n < k < 3*n, so that timing difference of the EC
-+-           * multiply operation can be small.  The result is same.
-+-           */
-+-          mpi_add (k, k, skey->E.n);
-+-          if (!mpi_test_bit (k, qbits))
-+-            mpi_add (k, k, skey->E.n);
-++          _gcry_dsa_modify_k (k, skey->E.n, qbits);
-+ 
-+           _gcry_mpi_ec_mul_point (&I, k, &skey->E.G, ctx);
-+           if (_gcry_mpi_ec_get_affine (x, NULL, &I, ctx))
-+diff --git a/cipher/ecc-gost.c b/cipher/ecc-gost.c
-+index a34fa084..0362a6c7 100644
-+--- a/cipher/ecc-gost.c
-++++ b/cipher/ecc-gost.c
-+@@ -94,6 +94,8 @@ _gcry_ecc_gost_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+           mpi_free (k);
-+           k = _gcry_dsa_gen_k (skey->E.n, GCRY_STRONG_RANDOM);
-+ 
-++          _gcry_dsa_modify_k (k, skey->E.n, qbits);
-++
-+           _gcry_mpi_ec_mul_point (&I, k, &skey->E.G, ctx);
-+           if (_gcry_mpi_ec_get_affine (x, NULL, &I, ctx))
-+             {
-+diff --git a/cipher/pubkey-internal.h b/cipher/pubkey-internal.h
-+index b8167c77..d31e26f3 100644
-+--- a/cipher/pubkey-internal.h
-++++ b/cipher/pubkey-internal.h
-+@@ -84,6 +84,7 @@ _gcry_rsa_pss_verify (gcry_mpi_t value, gcry_mpi_t encoded,
-+ 
-+ 
-+ /*-- dsa-common.c --*/
-++void _gcry_dsa_modify_k (gcry_mpi_t k, gcry_mpi_t q, int qbits);
-+ gcry_mpi_t _gcry_dsa_gen_k (gcry_mpi_t q, int security_level);
-+ gpg_err_code_t _gcry_dsa_gen_rfc6979_k (gcry_mpi_t *r_k,
-+                                         gcry_mpi_t dsa_q, gcry_mpi_t dsa_x,
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch b/meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch
-new file mode 100644
-index 0000000000..db5a55ed26
---- /dev/null
-+++ b/meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch
-@@ -0,0 +1,70 @@
-+From d5407b78cca9f9d318a4f4d2f6ba2b8388584cd9 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Wed, 17 Jul 2019 12:44:50 +0900
-+Subject: [PATCH] ecc: Add mitigation against timing attack.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libgcrypt.git;a=commit;h=d5407b78c]
-+CVE: CVE-2019-13627
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
-+
-+* cipher/ecc-ecdsa.c (_gcry_ecc_ecdsa_sign): Add the order N to K.
-+* mpi/ec.c (_gcry_mpi_ec_mul_point): Compute with NBITS of P or larger.
-+
-+--
-+
-+Cherry-picked master commit of:
-+	 b9577f7c89b4327edc09f2231bc8b31521102c79
-+
-+CVE-id: CVE-2019-13627
-+GnuPG-bug-id: 4626
-+Co-authored-by: Ján Jančár <johny@neuromancer.sk>
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+---
-+ cipher/ecc-ecdsa.c | 10 ++++++++++
-+ mpi/ec.c           |  6 +++++-
-+ 2 files changed, 15 insertions(+), 1 deletion(-)
-+
-+diff --git a/cipher/ecc-ecdsa.c b/cipher/ecc-ecdsa.c
-+index 140e8c09..84a1cf84 100644
-+--- a/cipher/ecc-ecdsa.c
-++++ b/cipher/ecc-ecdsa.c
-+@@ -114,6 +114,16 @@ _gcry_ecc_ecdsa_sign (gcry_mpi_t input, ECC_secret_key *skey,
-+           else
-+             k = _gcry_dsa_gen_k (skey->E.n, GCRY_STRONG_RANDOM);
-+ 
-++          /* Originally, ECDSA computation requires k where 0 < k < n.
-++           * Here, we add n (the order of curve), to keep k in a
-++           * range: n < k < 2*n, or, addming more n, keep k in a range:
-++           * 2*n < k < 3*n, so that timing difference of the EC
-++           * multiply operation can be small.  The result is same.
-++           */
-++          mpi_add (k, k, skey->E.n);
-++          if (!mpi_test_bit (k, qbits))
-++            mpi_add (k, k, skey->E.n);
-++
-+           _gcry_mpi_ec_mul_point (&I, k, &skey->E.G, ctx);
-+           if (_gcry_mpi_ec_get_affine (x, NULL, &I, ctx))
-+             {
-+diff --git a/mpi/ec.c b/mpi/ec.c
-+index 89077cd9..adb02600 100644
-+--- a/mpi/ec.c
-++++ b/mpi/ec.c
-+@@ -1309,7 +1309,11 @@ _gcry_mpi_ec_mul_point (mpi_point_t result,
-+       unsigned int nbits;
-+       int j;
-+ 
-+-      nbits = mpi_get_nbits (scalar);
-++      if (mpi_cmp (scalar, ctx->p) >= 0)
-++        nbits = mpi_get_nbits (scalar);
-++      else
-++        nbits = mpi_get_nbits (ctx->p);
-++
-+       if (ctx->model == MPI_EC_WEIERSTRASS)
-+         {
-+           mpi_set_ui (result->x, 1);
-+-- 
-+2.23.0
-+
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb
-index 11d078d44a..1bd355133e 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb
-@@ -24,6 +24,8 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://0001-Prefetch-GCM-look-up-tables.patch \
-            file://0002-AES-move-look-up-tables-to-.data-section-and-unshare.patch \
-            file://0003-GCM-move-look-up-table-to-.data-section-and-unshare-.patch \
-+           file://0001-ecc-Add-mitigation-against-timing-attack.patch \
-+           file://0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch \
- "
- SRC_URI[md5sum] = "fbfdaebbbc6d7e5fbbf6ffdb3e139573"
- SRC_URI[sha256sum] = "f638143a0672628fde0cad745e9b14deb85dffb175709cacc1f4fe24b93f2227"
--- 
-2.21.0
+All,
 
 
+
+Just a reminder we will hold the monthly Yocto Project Technical Meeting at
+8am PST. (11/5)
+
+
+
+Yocto Project Technical Team Meeting: We encourage people attending the
+meeting to logon and announce themselves on the Yocto Project IRC chancel
+during the meeting (optional):
+
+Yocto IRC: http://webchat.freenode.net/?channels=#yocto
+
+
+
+Wiki: https://www.yoctoproject.org/public-virtual-meetings/
+
+
+
+When            Monthly from 8am to 8:30am on Tuesday Pacific Time
+
+Where           Zoom Meeting: https://zoom.us/j/990892712
+
+
+
+I will be tracking the minutes at:
+https://docs.google.com/document/d/1Y5IIuE-z0Ykdl-DwuzUJh52flOZuhN_TSAfw2tdU9pg/edit?ts=5c06b22d
+Please request access if you want to assist in editing them.  The world
+should have view access.
+
+--
+
+Thanks,
+
+
+
+*Stephen K. Jolley*
+
+*Yocto Project Program Manager*
+
+*7867 SW Bayberry Dr., Beaverton, OR 97007*
+
+(    *Cell*:                (208) 244-4460
+
+* *Email*:                 *s
+<stephen.k.jolley@intel.com>jolley.yp.pm@gmail.com <jolley.yp.pm@gmail.com>*
+
+--000000000000fcbca705969964b8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div style=3D"font-family:sans-serif;font-size:12.8px" di=
+r=3D"auto"><div style=3D"width:328px;margin:16px 0px"><div><div dir=3D"ltr"=
+><p style=3D"margin:0in 0in 0.0001pt;font-size:11pt;font-family:&#39;calibr=
+i&#39;,sans-serif"><span style=3D"color:rgb(31,73,125)">All,</span><span st=
+yle=3D"font-size:12pt;font-family:&#39;times new roman&#39;,serif"></span><=
+/p><p style=3D"margin:0in 0in 0.0001pt;font-size:11pt;font-family:&#39;cali=
+bri&#39;,sans-serif"><span style=3D"color:rgb(31,73,125)">=C2=A0</span><spa=
+n style=3D"font-size:12pt;font-family:&#39;times new roman&#39;,serif"></sp=
+an></p><p style=3D"margin:0in 0in 0.0001pt;font-size:11pt;font-family:&#39;=
+calibri&#39;,sans-serif"><span style=3D"color:rgb(31,73,125)">Just a remind=
+er we will hold the monthly Yocto Project Technical Meeting at 8am PST. (11=
+/5)=C2=A0</span></p><p style=3D"margin:0in 0in 0.0001pt;font-size:11pt;font=
+-family:&#39;calibri&#39;,sans-serif"><span style=3D"color:rgb(31,73,125)">=
+=C2=A0</span></p><p style=3D"margin:0in 0in 0.0001pt;font-size:11pt;font-fa=
+mily:&#39;calibri&#39;,sans-serif"><span style=3D"color:rgb(31,73,125)">Yoc=
+to Project Technical Team Meeting: We encourage people attending the meetin=
+g to logon and announce themselves on the Yocto Project IRC chancel during =
+the meeting (optional):</span><span style=3D"font-size:12pt;font-family:&#3=
+9;times new roman&#39;,serif"></span></p><p style=3D"margin:0in 0in 0.0001p=
+t;font-size:11pt;font-family:&#39;calibri&#39;,sans-serif"><span style=3D"c=
+olor:rgb(31,73,125)">Yocto IRC:=C2=A0</span><a href=3D"http://webchat.freen=
+ode.net/?channels=3D#yocto" style=3D"text-decoration-line:none;color:rgb(5,=
+99,193)" target=3D"_blank" rel=3D"noreferrer">http://webchat.freenode.net/?=
+channels=3D#yocto</a><span style=3D"font-size:12pt;font-family:&#39;times n=
+ew roman&#39;,serif"></span></p><p style=3D"margin:0in 0in 0.0001pt;font-si=
+ze:11pt;font-family:&#39;calibri&#39;,sans-serif"><span style=3D"color:rgb(=
+31,73,125)">=C2=A0</span><span style=3D"font-size:12pt;font-family:&#39;tim=
+es new roman&#39;,serif"></span></p><p style=3D"margin:0in 0in 0.0001pt;fon=
+t-size:11pt;font-family:&#39;calibri&#39;,sans-serif"><span style=3D"color:=
+rgb(31,73,125)">Wiki:=C2=A0</span><a href=3D"https://www.yoctoproject.org/p=
+ublic-virtual-meetings/" style=3D"text-decoration-line:none;color:rgb(5,99,=
+193)" target=3D"_blank" rel=3D"noreferrer">https://www.yoctoproject.org/pub=
+lic-virtual-meetings/</a><span style=3D"font-size:12pt;font-family:&#39;tim=
+es new roman&#39;,serif"></span></p><p style=3D"margin:0in 0in 0.0001pt;fon=
+t-size:11pt;font-family:&#39;calibri&#39;,sans-serif"><span style=3D"color:=
+rgb(31,73,125)">=C2=A0</span><span style=3D"font-size:12pt;font-family:&#39=
+;times new roman&#39;,serif"></span></p><p style=3D"margin:0in 0in 0.0001pt=
+;font-size:11pt;font-family:&#39;calibri&#39;,sans-serif"><span style=3D"co=
+lor:rgb(31,73,125)">When=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 Monthly from 8am to 8:30am on Tuesday Pacific Time</span><s=
+pan style=3D"font-size:12pt;font-family:&#39;times new roman&#39;,serif"></=
+span></p><p style=3D"margin:0in 0in 0.0001pt;font-size:11pt;font-family:&#3=
+9;calibri&#39;,sans-serif"><span style=3D"color:rgb(31,73,125)">Where=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Zoom Meeting:=C2=A0<=
+/span><a href=3D"https://zoom.us/j/990892712" style=3D"text-decoration-line=
+:none;color:rgb(5,99,193)" target=3D"_blank" rel=3D"noreferrer">https://zoo=
+m.us/j/990892712</a><span style=3D"color:rgb(31,73,125)"></span><span style=
+=3D"font-size:12pt;font-family:&#39;times new roman&#39;,serif"></span></p>=
+<p style=3D"margin:0in 0in 0.0001pt;font-size:11pt;font-family:&#39;calibri=
+&#39;,sans-serif"><span style=3D"color:rgb(31,73,125)">=C2=A0</span><span s=
+tyle=3D"font-size:12pt;font-family:&#39;times new roman&#39;,serif"></span>=
+</p><p style=3D"margin:0in 0in 0.0001pt;font-size:11pt;font-family:&#39;cal=
+ibri&#39;,sans-serif"><span style=3D"color:rgb(31,73,125)">I will be tracki=
+ng the minutes at:=C2=A0</span><a href=3D"https://docs.google.com/document/=
+d/1Y5IIuE-z0Ykdl-DwuzUJh52flOZuhN_TSAfw2tdU9pg/edit?ts=3D5c06b22d" style=3D=
+"text-decoration-line:none;color:rgb(5,99,193)" target=3D"_blank" rel=3D"no=
+referrer">https://docs.google.com/document/d/1Y5IIuE-z0Ykdl-DwuzUJh52flOZuh=
+N_TSAfw2tdU9pg/edit?ts=3D5c06b22d</a><span style=3D"color:rgb(31,73,125)">=
+=C2=A0 Please request access if you want to assist in editing them.=C2=A0 T=
+he world should have view access.=C2=A0</span><span style=3D"font-size:12pt=
+;font-family:&#39;times new roman&#39;,serif"></span></p><div><br></div>--<=
+br><div dir=3D"ltr" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><di=
+v><div dir=3D"ltr"><p><span style=3D"font-size:12pt;font-family:&#39;arial&=
+#39;,sans-serif">Thanks,</span></p><p><span style=3D"font-size:12pt;font-fa=
+mily:&#39;arial&#39;,sans-serif">=C2=A0</span></p><p><b><i><span style=3D"f=
+ont-size:16pt;color:purple">Stephen K. Jolley</span></i></b><span style=3D"=
+font-size:12pt;font-family:&#39;arial&#39;,sans-serif"></span></p><p><b><sp=
+an style=3D"font-size:8pt;font-family:&#39;courier new&#39;;color:blue">Yoc=
+to Project Program Manager</span></b></p><p><b><span style=3D"font-family:&=
+#39;courier new&#39;;color:fuchsia">7867 SW Bayberry Dr., Beaverton, OR 970=
+07</span></b><span style=3D"font-size:12pt;font-family:&#39;arial&#39;,sans=
+-serif"></span></p><p><span style=3D"font-size:9pt;font-family:wingdings">(=
+</span><span style=3D"font-size:9pt;font-family:&#39;ms sans serif&#39;,ser=
+if;color:teal">=C2=A0=C2=A0=C2=A0=C2=A0</span><b><span style=3D"font-size:8=
+pt;font-family:&#39;comic sans ms&#39;;color:teal">Cell</span></b><span sty=
+le=3D"font-size:9pt;font-family:&#39;ms sans serif&#39;,serif;color:teal">:=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0</span><span style=3D"font-size:9pt;font-family:&#39;m=
+s sans serif&#39;,serif">(208) 244-4460</span><span style=3D"font-size:12pt=
+;font-family:&#39;arial&#39;,sans-serif"></span></p><p><span style=3D"font-=
+size:9pt;font-family:&#39;wingdings&#39;">*=C2=A0</span><b><span style=3D"f=
+ont-size:8pt;font-family:&#39;comic sans ms&#39;;color:teal">Email</span></=
+b><span style=3D"font-size:9pt;font-family:&#39;ms sans serif&#39;,serif;co=
+lor:teal">:</span><span style=3D"font-size:9pt;font-family:&#39;ms sans ser=
+if&#39;,serif">=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0</span><u><span style=3D"font-siz=
+e:9pt;font-family:&#39;ms sans serif&#39;,serif;color:blue"><span style=3D"=
+color:rgb(17,85,204)"><a href=3D"mailto:stephen.k.jolley@intel.com" style=
+=3D"text-decoration-line:none;color:rgb(66,133,244)" target=3D"_blank" rel=
+=3D"noreferrer">s</a><a href=3D"mailto:jolley.yp.pm@gmail.com" style=3D"tex=
+t-decoration-line:none;color:rgb(66,133,244)" target=3D"_blank" rel=3D"nore=
+ferrer">jolley.yp.pm@gmail.com</a></span></span></u></p></div></div></div><=
+/div></div></div></div><div style=3D"height:0px"></div></div><br></div>
+
+--000000000000fcbca705969964b8--
