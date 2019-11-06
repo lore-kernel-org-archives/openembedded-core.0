@@ -1,6 +1,6 @@
 Return-Path: <mcfrisk@kapsi.fi>
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E5C97F83A
+	by mail.openembedded.org (Postfix) with ESMTP id 615807F883
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  6 Nov 2019 15:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
@@ -9,24 +9,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=SBkRw0aMPYoTr7E/G8tLm591NVOIG2YuefunU9ARJLs=;
-	b=xMRdvN19lP+ET+nYPxBr0F1HX6
-	sgYBM8lCxAIHOoIUYPOQFIoKWyQfDAGH+vr4rIjCoPRsudGAfpsU/1y6oAnlYM9oIdD7vbutbN+x+
-	ado5LS/z5jqSK/1ENVXnF+Y4NVHKb7AOhmLjHR9i3VjTV8LkbCa/qGIMVw0EzAlmMlt0vDGbWtRU2
-	zyr2Y7ZPoWpjDplEmLPt+oqYdalgL4HNLDTqPfru55ASTLhDAxABAISQzwaG5nMVLJ2puQYzemBgZ
-	4cU+ypjkf9SdGW5R1Sc4Y/PAoQ6sqmA9o8GLqTuaXH7GdIMQmxA5NNuhwe41jOoWLVB3aCFM3sgK7
-	mqDlK4mg==;
+	bh=wWvJJnRcPfDId6arpxt2sa+mbYpFKk/AvtoQSGBnSDo=;
+	b=uhbO2UAvLMF/ORj+qLW5fbipzz
+	FZn1pybhmT+H4jsJ5ONEKVgai4DMQEPqZgJLjExsZDwPRyMDR0JlW2nksWNf653Hy5FeM0S9XHyvG
+	+g9MaXMknWhj2jhFLu1ANBK4MGRTq/ISNufBDUgdLwjuaEs/5l4B+aSqa0muDpr3Aanst8HXp88jk
+	hKxG/5XnbIuGFmdmj+Sxi8W+4Z38IKj7spwe3UHF1lh2Wpt6bz90OYyyK1DNxW5yFu6+TqMxcKbZX
+	ZAGszzc/SCO4XkMRgATT+et577QCy150r8VHqqbjf5JfpT9B9Q0L5g2kF2w+uEnIm5dmsE9N7PUlh
+	HvJ7woTg==;
 Received: from [2001:67c:1be8::12] (helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1iSNOZ-00009e-85; Wed, 06 Nov 2019 17:38:56 +0200
+	id 1iSNOZ-00009i-6x; Wed, 06 Nov 2019 17:38:56 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1iSNO6-0007Z7-Nb; Wed, 06 Nov 2019 17:38:26 +0200
+	id 1iSNO6-0007ZF-Ph; Wed, 06 Nov 2019 17:38:26 +0200
 From: Mikko Rapeli <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2019 17:37:50 +0200
-Message-Id: <d2e252b5b704f98cf986e9ee1f4d71d654b0cdaa.1573047194.git.mikko.rapeli@bmw.de>
+Date: Wed,  6 Nov 2019 17:37:51 +0200
+Message-Id: <48a380cedf11c604fe9f44b489ef4238945ca62c.1573047195.git.mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1573047194.git.mikko.rapeli@bmw.de>
 References: <cover.1573047194.git.mikko.rapeli@bmw.de>
@@ -46,7 +46,7 @@ X-Rspam-Report: Action: add header Symbol: ARC_NA(0.00)
 	Symbol: HFILTER_HOSTNAME_UNKNOWN(2.50)
 	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf allow
 	Message-ID:
-	d2e252b5b704f98cf986e9ee1f4d71d654b0cdaa.1573047194.git.mikko.rapeli@bmw.de
+	48a380cedf11c604fe9f44b489ef4238945ca62c.1573047195.git.mikko.rapeli@bmw.de
 X-Rspam-Status: Yes
 X-Rspam-Bar: ++++++++
 X-SA-Exim-Connect-IP: 2001:67c:1be8::12
@@ -58,7 +58,7 @@ X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.2
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
-Subject: [PATCH RFC CFH][sumo 35/47] squashfs-tools: set CVE_PRODUCT
+Subject: [PATCH RFC CFH][sumo 36/47] libxfont2: set CVE_PRODUCT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,24 +75,24 @@ X-List-Received-Date: Wed, 06 Nov 2019 15:38:55 -0000
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-(From OE-Core rev: 8f03a33f61a94e9b8d8232283204588ce18b45a0)
+(From OE-Core rev: 066fa83eeaaa34e5b901dc4b82ad607d0fa78f0b)
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb | 2 ++
+ meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index 1eb0154..2fda5a9 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -40,3 +40,5 @@ do_install () {
- ARM_INSTRUCTION_SET = "arm"
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
+index 5f27a55..665abba 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
+@@ -20,3 +20,5 @@ SRC_URI[sha256sum] = "0e8ab7fd737ccdfe87e1f02b55f221f0bd4503a1c5f28be4ed6a54586b
  
- BBCLASSEXTEND = "native nativesdk"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
 +
-+CVE_PRODUCT = "squashfs"
++CVE_PRODUCT = "libxfont libxfont2"
 -- 
 1.9.1
 
