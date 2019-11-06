@@ -1,6 +1,6 @@
 Return-Path: <mcfrisk@kapsi.fi>
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 99FEE7F83A
+	by mail.openembedded.org (Postfix) with ESMTP id 9FBA07F8CB
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  6 Nov 2019 15:38:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
@@ -9,24 +9,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=nASYbV8T1+ubYdTHltDrMjXdxFoPU2aQ5Y/f2xkjiDM=;
-	b=gPIu8SbEb7D2YaMUk7tPe5rYxd
-	sAw4ewN5HSFm6jD9NLDFyiLKmDmGQDZh6yFszN1+eChV1FF+lA4Hx0cMnKh+lsRgSuR4DuTZ3rESA
-	qg48pnSq3w8P3x4hRx03eoA5nS7cF7mG9+tquztASgnL39RCscMw+n5V7/Dho2AdFE31GQWnMZrfu
-	co3/6NrOpADgHtoFEd4K/GLulameb9rpqss3yTkQxFfFLiXa7DnhhsTJ141fWkCwwy39MG5EpxXDs
-	7SE3vmafAp/li6gyBNGc8ZPZpRkCINkom8IepN3GYW+rhQdRXjxK8e4THZma6hXHCaVFgICClRjDI
-	/eJZEwhA==;
+	bh=v9x0CyhNPAf4cFbL6P9co6bkJ9lxOci863vZSczb+BE=;
+	b=xP+4s3X4KMWNG7Tn4wInOZsd+r
+	2hMlplzFed2xajwNgHag8jmmOlgUuBL8v8EVVDH4QQWhUDW8WKoOd7dma9jlnIvjtWkMP8dzgj9dv
+	n1GgC2urGR5K/qJ2v2oF5bYeEDhtgCLtZUH069SB3HBJokDSupXNqx4XWP4EKCWceQ2NWx1PjjDBc
+	PGtSKxeC+rhPGaZte4YxXxycPT1Rr+Z7jQjmM1RuGr3ngi+SfhY03CCPYnnLD1DJRxZOFC79DwRKb
+	+yfDYl9RC9vRZ4pH0Ko4AP6DDBxBZKyXOt+k3yyNvttk4i06Rwd0bQU+Zq4PZFXxhI+UC/SgoszIv
+	csOTAC2Q==;
 Received: from [2001:67c:1be8::12] (helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1iSNOS-0008VU-Ei; Wed, 06 Nov 2019 17:38:48 +0200
+	id 1iSNOO-00009j-GP; Wed, 06 Nov 2019 17:38:48 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1iSNO6-0007ZY-UJ; Wed, 06 Nov 2019 17:38:26 +0200
+	id 1iSNO4-0007UG-BH; Wed, 06 Nov 2019 17:38:24 +0200
 From: Mikko Rapeli <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2019 17:37:53 +0200
-Message-Id: <24ec33ad7c16b3ab809387a8742c5a416bcf6e2a.1573047195.git.mikko.rapeli@bmw.de>
+Date: Wed,  6 Nov 2019 17:37:20 +0200
+Message-Id: <b4b6db82dd8ce735a5d9f5be4a7c327d8b736c17.1573047194.git.mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1573047194.git.mikko.rapeli@bmw.de>
 References: <cover.1573047194.git.mikko.rapeli@bmw.de>
@@ -46,7 +46,7 @@ X-Rspam-Report: Action: add header Symbol: ARC_NA(0.00)
 	Symbol: HFILTER_HOSTNAME_UNKNOWN(2.50)
 	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf allow
 	Message-ID:
-	24ec33ad7c16b3ab809387a8742c5a416bcf6e2a.1573047195.git.mikko.rapeli@bmw.de
+	b4b6db82dd8ce735a5d9f5be4a7c327d8b736c17.1573047194.git.mikko.rapeli@bmw.de
 X-Rspam-Status: Yes
 X-Rspam-Bar: ++++++++
 X-SA-Exim-Connect-IP: 2001:67c:1be8::12
@@ -58,7 +58,7 @@ X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.2
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
-Subject: [PATCH RFC CFH][sumo 38/47] webkitgtk: set CVE_PRODUCT
+Subject: [PATCH RFC CFH][sumo 05/47] flac: also add flac to CVE_PRODUCT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,30 +75,29 @@ X-List-Received-Date: Wed, 06 Nov 2019 15:38:50 -0000
 
 From: Chen Qi <Qi.Chen@windriver.com>
 
-(From OE-Core rev: 43aaa117386490c822b824974fb095bd0d3ce1a3)
+flac uses both 'flac' and 'libflac' as cve product.
+
+(From OE-Core rev: 3a043a078f6cc89bcc097823fa37cd1311805ae7)
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Conflicts:
-	meta/recipes-sato/webkit/webkitgtk_2.24.0.bb
 ---
- meta/recipes-sato/webkit/webkitgtk_2.18.6.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-multimedia/flac/flac_1.3.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.18.6.bb b/meta/recipes-sato/webkit/webkitgtk_2.18.6.bb
-index c29fa7f..b88966b 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.18.6.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.18.6.bb
-@@ -32,6 +32,8 @@ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check u
- # depends on libxt
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-multimedia/flac/flac_1.3.2.bb b/meta/recipes-multimedia/flac/flac_1.3.2.bb
+index 028a429..3e67fa2 100644
+--- a/meta/recipes-multimedia/flac/flac_1.3.2.bb
++++ b/meta/recipes-multimedia/flac/flac_1.3.2.bb
+@@ -20,7 +20,7 @@ SRC_URI = "http://downloads.xiph.org/releases/flac/${BP}.tar.xz \
+ SRC_URI[md5sum] = "454f1bfa3f93cc708098d7890d0499bd"
+ SRC_URI[sha256sum] = "91cfc3ed61dc40f47f050a109b08610667d73477af6ef36dcad31c31a4a8d53f"
  
-+CVE_PRODUCT = "webkitgtk webkitgtk\+"
-+
- DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
-            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
- 	   pango icu bison-native gawk intltool-native libwebp \
+-CVE_PRODUCT = "libflac"
++CVE_PRODUCT = "libflac flac"
+ 
+ inherit autotools gettext
+ 
 -- 
 1.9.1
 
