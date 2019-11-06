@@ -1,32 +1,32 @@
 Return-Path: <mcfrisk@kapsi.fi>
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 123137F847
+	by mail.openembedded.org (Postfix) with ESMTP id AF54F7F83B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2019 15:38:36 +0000 (UTC)
+	Wed,  6 Nov 2019 15:38:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
 	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=YR4wuTPjr96sudpONYDwruUSEsmz8rQwgqRC2ivsEiU=;
-	b=IJ34oX0rlr9S3LuFJ1RVlKlP0i
-	DrPPYltM2phfGsHxZMoLtjkFH401p1WITz3o1trhzmtG87TKXYpNy5CVLjlyg4y6F6pab8zfjcyM8
-	2TyNZitRr815yySknHCV6+huiPYmwNakDhOWfY4JhH7Q21Vjh9OCGSuw3uRf4+xbEejK12SKGijUD
-	QCKEBC20VkzESKkzna5vk4VX3O8yI5dUUElxkZ2M4xo6Ob+pDgb1aUdDUOLNLaFXjv5CUVipjD0tM
-	vbNpcBH4GmEmdVsIiGzExrEW1IPiV1P+RAbhGjuIuA5zO3z9fg1583Upt62mfNqotLtZ052o1SLsc
-	t7Eiy1pA==;
+	bh=YMXQlrxBix/XUWsoCll3C1rni0As8Ec0hS/V/XLKFOw=;
+	b=ZCRSEgsfZw2X97hkpiCiLUIXVC
+	39nrfldycwzNX2cu0pxPc0oSupLLsYn+y0yB6M4Kk+e2TWk3R5/yfA7Vyht8ByGugJry+XG5Li+4p
+	B/8S2AcCUeo+o9MkSCO+wGZVp7eSCSjO/jJYO29w4y5bCpdv9ykQqeRvPExnyD90XR6WUWguH3+eK
+	EtyvznungZoyYZ26+rlP50uzY6/90AdFMoWob/qMxp2wqY10qMdGJueTWdpFY9Up8kPaNZuh4Jr3N
+	3AoVHl0VBXybsZSQnPI28Y53ekhbouFzoEeAN+iEJ5QBngUU7qONaTLsh2WG62PGKUDzxVHoZ8y+l
+	ufkFvdLw==;
 Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1iSNOF-0000AB-CZ; Wed, 06 Nov 2019 17:38:35 +0200
+	id 1iSNOE-0000A1-VY; Wed, 06 Nov 2019 17:38:35 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1iSNO5-0007Vj-6M; Wed, 06 Nov 2019 17:38:25 +0200
+	id 1iSNO4-0007Uy-QH; Wed, 06 Nov 2019 17:38:24 +0200
 From: Mikko Rapeli <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2019 17:37:31 +0200
-Message-Id: <9ba01b91766ad56c7744a9ba97636a1616d71a8c.1573047194.git.mikko.rapeli@bmw.de>
+Date: Wed,  6 Nov 2019 17:37:26 +0200
+Message-Id: <da44064b3ba33798636de84080dacf24913f856f.1573047194.git.mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1573047194.git.mikko.rapeli@bmw.de>
 References: <cover.1573047194.git.mikko.rapeli@bmw.de>
@@ -38,20 +38,20 @@ X-Rspam-Report: Action: add header Symbol: ARC_NA(0.00)
 	Symbol: FROM_HAS_DN(0.00) Symbol: TO_DN_SOME(0.00)
 	Symbol: MULTIPLE_UNIQUE_HEADERS(4.89) Symbol: MIME_GOOD(-0.10)
 	Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
-	Symbol: RCPT_COUNT_THREE(0.00) Symbol: RCVD_TLS_LAST(0.00)
-	Symbol: MID_CONTAINS_FROM(1.00) Symbol: NEURAL_HAM(-0.00)
+	Symbol: RCPT_COUNT_THREE(0.00) Symbol: NEURAL_SPAM(0.00)
+	Symbol: RCVD_TLS_LAST(0.00) Symbol: MID_CONTAINS_FROM(1.00)
 	Symbol: IP_SCORE(-0.15) Symbol: FORGED_SENDER(0.30)
 	Symbol: R_DKIM_NA(0.00) Symbol: MIME_TRACE(0.00)
 	Symbol: ASN(0.00) Symbol: FROM_NEQ_ENVFROM(0.00)
 	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf neutral
 	Message-ID:
-	9ba01b91766ad56c7744a9ba97636a1616d71a8c.1573047194.git.mikko.rapeli@bmw.de
+	da44064b3ba33798636de84080dacf24913f856f.1573047194.git.mikko.rapeli@bmw.de
 X-Rspam-Status: Yes
 X-Rspam-Bar: ++++++
 X-SA-Exim-Connect-IP: 91.232.154.11
 X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Subject: [PATCH RFC CFH][sumo 16/47] cve-check.bbclass: initialize to_append
+Subject: [PATCH RFC CFH][sumo 11/47] cve-check: Depends on cve-update-db-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,30 +66,351 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 06 Nov 2019 15:38:36 -0000
 
-Fixes build failure with core-image-minimal:
+From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 
-Exception: UnboundLocalError: local variable 'to_append' referenced before assignment
+do_populate_cve_db is a native task.
 
-(From OE-Core rev: 270ac00cb43d0614dfe1c95f960c76e9e5fa20d4)
+(From OE-Core rev: 4078da92b49946848cddebe1735f301af161e162)
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Conflicts:
+	meta/conf/distro/include/maintainers.inc
 ---
- meta/classes/cve-check.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/cve-check.bbclass                 |   2 +-
+ meta/conf/distro/include/maintainers.inc       |   2 +
+ meta/recipes-core/meta/cve-update-db-native.bb | 143 +++++++++++++++++++++++++
+ meta/recipes-core/meta/cve-update-db.bb        | 143 -------------------------
+ 4 files changed, 146 insertions(+), 144 deletions(-)
+ create mode 100644 meta/recipes-core/meta/cve-update-db-native.bb
+ delete mode 100644 meta/recipes-core/meta/cve-update-db.bb
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 19ac48c..2a13816 100644
+index 81071e3..6ffa0c4 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -207,6 +207,7 @@ def check_cves(d, patched_cves):
-             elif cve in patched_cves:
-                 bb.note("%s has been patched" % (cve))
-             else:
-+                to_append = False
-                 if (operator_start == '=' and pv == version_start):
-                     cves_unpatched.append(cve)
-                 else:
+@@ -63,7 +63,7 @@ python do_cve_check () {
+ }
+ 
+ addtask cve_check after do_unpack before do_build
+-do_cve_check[depends] = "cve-update-db:do_populate_cve_db"
++do_cve_check[depends] = "cve-update-db-native:do_populate_cve_db"
+ do_cve_check[nostamp] = "1"
+ 
+ python cve_check_cleanup () {
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index a299177..ee46a98 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -122,7 +122,9 @@ RECIPE_MAINTAINER_pn-cryptodev-module = "Robert Yang <liezhi.yang@windriver.com>
+ RECIPE_MAINTAINER_pn-cryptodev-tests = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER_pn-cups = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-curl = "Armin Kuster <akuster@mvista.com>"
++RECIPE_MAINTAINER_pn-cve-check-tool = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-cve-update-db = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-cve-update-db-native = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-cwautomacros = "Maxin B. John <maxin.john@intel.com>"
+ RECIPE_MAINTAINER_pn-damageproto = "Armin Kuster <akuster@mvista.com>"
+ RECIPE_MAINTAINER_pn-db = "Mark Hatle <mark.hatle@windriver.com>"
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+new file mode 100644
+index 0000000..ae8f1a9
+--- /dev/null
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -0,0 +1,143 @@
++SUMMARY = "Updates the NVD CVE database"
++LICENSE = "MIT"
++
++INHIBIT_DEFAULT_DEPS = "1"
++PACKAGES = ""
++
++inherit nopackages
++
++deltask do_unpack
++deltask do_patch
++deltask do_configure
++deltask do_compile
++deltask do_install
++deltask do_populate_sysroot
++
++python do_populate_cve_db() {
++    """
++    Update NVD database with json data feed
++    """
++
++    import sqlite3, urllib, shutil, gzip, re
++    from datetime import date
++
++    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
++    YEAR_START = 2002
++
++    db_dir = d.getVar("DL_DIR") + '/CVE_CHECK'
++    db_file = db_dir + '/nvd-json.db'
++    json_tmpfile = db_dir + '/nvd.json.gz'
++    proxy = d.getVar("https_proxy")
++    cve_f = open(d.getVar("TMPDIR") + '/cve_check', 'a')
++
++    if not os.path.isdir(db_dir):
++        os.mkdir(db_dir)
++
++    # Connect to database
++    conn = sqlite3.connect(db_file)
++    c = conn.cursor()
++
++    initialize_db(c)
++
++    for year in range(YEAR_START, date.today().year + 1):
++        year_url = BASE_URL + str(year)
++        meta_url = year_url + ".meta"
++        json_url = year_url + ".json.gz"
++
++        # Retrieve meta last modified date
++        req = urllib.request.Request(meta_url)
++        if proxy:
++            req.set_proxy(proxy, 'https')
++        try:
++            with urllib.request.urlopen(req, timeout=1) as r:
++                date_line = str(r.read().splitlines()[0])
++                last_modified = re.search('lastModifiedDate:(.*)', date_line).group(1)
++        except:
++            cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
++            break
++
++        # Compare with current db last modified date
++        c.execute("select DATE from META where YEAR = '%d'" % year)
++        meta = c.fetchone()
++        if not meta or meta[0] != last_modified:
++            # Update db with current year json file
++            req = urllib.request.Request(json_url)
++            if proxy:
++                req.set_proxy(proxy, 'https')
++            try:
++                with urllib.request.urlopen(req, timeout=1) as r, \
++                     open(json_tmpfile, 'wb') as tmpfile:
++                    shutil.copyfileobj(r, tmpfile)
++            except:
++                cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
++                break
++
++            with gzip.open(json_tmpfile, 'rt') as jsonfile:
++                update_db(c, jsonfile)
++            c.execute("insert or replace into META values (?, ?)",
++                    [year, last_modified])
++
++        # Update success, set the date to cve_check file.
++        if year == date.today().year:
++            cve_f.write('CVE database update : %s\n\n' % date.today())
++
++    cve_f.close()
++    conn.commit()
++    conn.close()
++}
++
++# DJB2 hash algorithm
++def hash_djb2(s):
++    hash = 5381
++    for x in s:
++        hash = (( hash << 5) + hash) + ord(x)
++
++    return hash & 0xFFFFFFFF
++
++def initialize_db(c):
++    c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
++    c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
++        SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
++    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (HASH INTEGER UNIQUE, ID TEXT, \
++        VENDOR TEXT, PRODUCT TEXT, VERSION TEXT, OPERATOR TEXT)")
++    c.execute("CREATE INDEX IF NOT EXISTS PRODUCT_IDX ON PRODUCTS \
++        (PRODUCT, VERSION)")
++
++def update_db(c, json_filename):
++    import json
++    root = json.load(json_filename)
++
++    for elt in root['CVE_Items']:
++        if not elt['impact']:
++            continue
++
++        cveId = elt['cve']['CVE_data_meta']['ID']
++        cveDesc = elt['cve']['description']['description_data'][0]['value']
++        date = elt['lastModifiedDate']
++        accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
++        cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
++
++        try:
++            cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
++        except:
++            cvssv3 = 0.0
++
++        c.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
++                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector])
++
++        for vendor in elt['cve']['affects']['vendor']['vendor_data']:
++            for product in vendor['product']['product_data']:
++                for version in product['version']['version_data']:
++                    product_str = cveId+vendor['vendor_name']+product['product_name']+version['version_value']
++                    hashstr = hash_djb2(product_str)
++                    c.execute("insert or replace into PRODUCTS values (?, ?, ?, ?, ?, ?)",
++                            [ hashstr, cveId, vendor['vendor_name'],
++                                product['product_name'], version['version_value'],
++                                version['version_affected']])
++
++
++
++addtask do_populate_cve_db before do_fetch
++do_populate_cve_db[nostamp] = "1"
++
++EXCLUDE_FROM_WORLD = "1"
+diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-core/meta/cve-update-db.bb
+deleted file mode 100644
+index ae8f1a9..0000000
+--- a/meta/recipes-core/meta/cve-update-db.bb
++++ /dev/null
+@@ -1,143 +0,0 @@
+-SUMMARY = "Updates the NVD CVE database"
+-LICENSE = "MIT"
+-
+-INHIBIT_DEFAULT_DEPS = "1"
+-PACKAGES = ""
+-
+-inherit nopackages
+-
+-deltask do_unpack
+-deltask do_patch
+-deltask do_configure
+-deltask do_compile
+-deltask do_install
+-deltask do_populate_sysroot
+-
+-python do_populate_cve_db() {
+-    """
+-    Update NVD database with json data feed
+-    """
+-
+-    import sqlite3, urllib, shutil, gzip, re
+-    from datetime import date
+-
+-    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
+-    YEAR_START = 2002
+-
+-    db_dir = d.getVar("DL_DIR") + '/CVE_CHECK'
+-    db_file = db_dir + '/nvd-json.db'
+-    json_tmpfile = db_dir + '/nvd.json.gz'
+-    proxy = d.getVar("https_proxy")
+-    cve_f = open(d.getVar("TMPDIR") + '/cve_check', 'a')
+-
+-    if not os.path.isdir(db_dir):
+-        os.mkdir(db_dir)
+-
+-    # Connect to database
+-    conn = sqlite3.connect(db_file)
+-    c = conn.cursor()
+-
+-    initialize_db(c)
+-
+-    for year in range(YEAR_START, date.today().year + 1):
+-        year_url = BASE_URL + str(year)
+-        meta_url = year_url + ".meta"
+-        json_url = year_url + ".json.gz"
+-
+-        # Retrieve meta last modified date
+-        req = urllib.request.Request(meta_url)
+-        if proxy:
+-            req.set_proxy(proxy, 'https')
+-        try:
+-            with urllib.request.urlopen(req, timeout=1) as r:
+-                date_line = str(r.read().splitlines()[0])
+-                last_modified = re.search('lastModifiedDate:(.*)', date_line).group(1)
+-        except:
+-            cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+-            break
+-
+-        # Compare with current db last modified date
+-        c.execute("select DATE from META where YEAR = '%d'" % year)
+-        meta = c.fetchone()
+-        if not meta or meta[0] != last_modified:
+-            # Update db with current year json file
+-            req = urllib.request.Request(json_url)
+-            if proxy:
+-                req.set_proxy(proxy, 'https')
+-            try:
+-                with urllib.request.urlopen(req, timeout=1) as r, \
+-                     open(json_tmpfile, 'wb') as tmpfile:
+-                    shutil.copyfileobj(r, tmpfile)
+-            except:
+-                cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+-                break
+-
+-            with gzip.open(json_tmpfile, 'rt') as jsonfile:
+-                update_db(c, jsonfile)
+-            c.execute("insert or replace into META values (?, ?)",
+-                    [year, last_modified])
+-
+-        # Update success, set the date to cve_check file.
+-        if year == date.today().year:
+-            cve_f.write('CVE database update : %s\n\n' % date.today())
+-
+-    cve_f.close()
+-    conn.commit()
+-    conn.close()
+-}
+-
+-# DJB2 hash algorithm
+-def hash_djb2(s):
+-    hash = 5381
+-    for x in s:
+-        hash = (( hash << 5) + hash) + ord(x)
+-
+-    return hash & 0xFFFFFFFF
+-
+-def initialize_db(c):
+-    c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
+-    c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
+-        SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
+-    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (HASH INTEGER UNIQUE, ID TEXT, \
+-        VENDOR TEXT, PRODUCT TEXT, VERSION TEXT, OPERATOR TEXT)")
+-    c.execute("CREATE INDEX IF NOT EXISTS PRODUCT_IDX ON PRODUCTS \
+-        (PRODUCT, VERSION)")
+-
+-def update_db(c, json_filename):
+-    import json
+-    root = json.load(json_filename)
+-
+-    for elt in root['CVE_Items']:
+-        if not elt['impact']:
+-            continue
+-
+-        cveId = elt['cve']['CVE_data_meta']['ID']
+-        cveDesc = elt['cve']['description']['description_data'][0]['value']
+-        date = elt['lastModifiedDate']
+-        accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
+-        cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
+-
+-        try:
+-            cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
+-        except:
+-            cvssv3 = 0.0
+-
+-        c.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
+-                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector])
+-
+-        for vendor in elt['cve']['affects']['vendor']['vendor_data']:
+-            for product in vendor['product']['product_data']:
+-                for version in product['version']['version_data']:
+-                    product_str = cveId+vendor['vendor_name']+product['product_name']+version['version_value']
+-                    hashstr = hash_djb2(product_str)
+-                    c.execute("insert or replace into PRODUCTS values (?, ?, ?, ?, ?, ?)",
+-                            [ hashstr, cveId, vendor['vendor_name'],
+-                                product['product_name'], version['version_value'],
+-                                version['version_affected']])
+-
+-
+-
+-addtask do_populate_cve_db before do_fetch
+-do_populate_cve_db[nostamp] = "1"
+-
+-EXCLUDE_FROM_WORLD = "1"
 -- 
 1.9.1
 
