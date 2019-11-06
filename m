@@ -1,53 +1,55 @@
 Return-Path: <prvs=2065966fb=alistair.francis@wdc.com>
 Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-	by mail.openembedded.org (Postfix) with ESMTP id BFBF471B1D
+	by mail.openembedded.org (Postfix) with ESMTP id 6952171B1D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2019 18:23:44 +0000 (UTC)
+	Wed,  6 Nov 2019 18:23:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1573064628; x=1604600628;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=L93dwyXKYJMt4laOvVEA/f/OIytaDiNczayfA2T1pis=;
-	b=adn07r1wlfgam2MWwdMI8/JsEdOQ5hXnGZa5y2V+XxBW4Lqpioqby+mA
-	gF2V0bTUKscRX4oA7Ra+FQBeu7AiVkIdC9I85SGYZrLgFOrzelfrwGEKw
-	YLr3fFTkc1GS4AuP1D0CSnWQGrkwQc63zcq40WbL6hHzf/K2FdghNOq5F
-	D5JfYThhEJrAchB26IBBRPZwGOxNVEn/oylsk63y7wTTTxlCRRy9Jdvj4
-	9aUfZ+DGcl1ykYPvXpwD5AjnUslz1rtnmuihzBgGPMlvuWP2opaYusepn
-	HQG8+xrMR2jDxb1sS4lDcHgWONLAuUVSAAAQRD2z4ijqxwcGEjbJnLANQ Q==;
-IronPort-SDR: Prap2sn2YRMAH4k3AD34NX/ENssxePF80HVvYCgqtdNe/W49Pbclj7GLdiwbHEJRTN3V/HACUi
-	atiNVwSjuD+Nfm1A/ilBFXveyxmbYCAjL4tgwGaDBS1L440mu/LfLCvtgMF+xqLOe7wxw3ElaW
-	RRk8CYVExZ6p2To87WS20mST/ynoN6wIiDJ/tptmJyyFOXxM3QKzMbLU9k3utNyRG3YFQy+jW9
-	HT8UgLCdT7WAI4irf0aWZl9cWfpbQwBGwwzXyXK2DMsI2uwaTFVSSbRgoncMGLLyFyVCv2BT6R
-	Dmc=
-X-IronPort-AV: E=Sophos;i="5.68,275,1569254400"; d="scan'208";a="123048685"
+	t=1573064630; x=1604600630;
+	h=from:to:cc:subject:date:message-id:in-reply-to:
+	references:mime-version:content-transfer-encoding;
+	bh=o1xCOaX9+7bCyFrstScaO4nzmFCL592Wl8JLXbFUvvs=;
+	b=f1It29EbTnVxtAhMaC1c0aFEq9NuO0PhqWhR6lMoXB/zG7BrLZXmQaOr
+	43ll2ssIHQoxs8AhJ1f8+/+4JcxSPg3BzAM+bsJRaZVy001WBQJfGviKU
+	4wPOf/DlIwzFNSD4orcqEAbD5zuuV4i5azIpOgBoBlD+HfVH7oRuEujIw
+	3fzpYx9GYZVjMVCwH9FKt/FTsmH1X2P9WAlIfiyEl6tDVquq8GQrngj9p
+	GUQ3Re7wudDZlGMfQilOlRaPGb1ae9hhOPfcCkiT3RlKpsj79FbXSenIG
+	CWz7pwVLoeD5g8um5FMuEfEqLJ1iymQkiPPx4RFV7qvDhsW8Ow1OVt3gJ A==;
+IronPort-SDR: l7kz4UZ5wVvg5J3XrISjuzb4WepRRG+XbaXjNg04UotLCCWXorIXkAdB40PvwWSp1Y+97ZsrwK
+	Vym5oae45rFWZs9VK7oppjyEkTOHlnZvLGmkLITXQqZdVVCRVwHD4B37QEuTLQ7Q2lxeZMnKU6
+	OVvzV0HL3sHj6+NiZOvC+PJjJOKu9BMfDNai0LCXSAXAoLyoB8jQlynyYwKnC1oi4J4vE9ViOX
+	Seu0Ypg7e5KWyMedbnKi7oXrXy+Y/TRUrs7bVyMNS70liATZVfSdqYSg39H5QxIiBICSnQsd3a
+	Z0A=
+X-IronPort-AV: E=Sophos;i="5.68,275,1569254400"; d="scan'208";a="123048687"
 Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
 	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 07 Nov 2019 02:23:34 +0800
-IronPort-SDR: SDjRNPODoxivU1zD7gpDtRRJz2fSTTzBCD9sPmXKM/z/lauKOdkY7tha/aKdNIeAc41lmR5oBJ
-	Kh7rbGO4eO63tzGVEM4OwFAwPrNCakAPgCwzrcLSClEaQydkHmovaXP/xZjEoZMQ4duep1ngIi
-	GqBnbMXY9UkNWIWx+2RtZdvG52k+qMmNT1wO6LOQSN/Z2+AtdgAOX1pTrUbptJrVK6l+kDbLZG
-	0nPTujvUQrD2AtkVRwHSD6tr+Dfer11jlmqV88jrQO/7GvMTx5k90KXqLl+TuasFxqBitTf+WL
-	r7uC4qlupbjUktK8ouuU+qvg
+	by ob1.hgst.iphmx.com with ESMTP; 07 Nov 2019 02:23:35 +0800
+IronPort-SDR: clcQ8XcN8TJneVd88Mh1CJrxQd1W+LvdNitr1iQjeiSk6WfMh7CFBAdM+q1g19R0M9deJakQAP
+	x9JN/K4VSirIMzeJMp0J6hg4IOOcrl2qmfFIClbJrTMM+w9Ggre5MjdF861cy/maiHDIb9riPX
+	r7LIWNJ5Ok2nQUBQq0NakvspizTdyy+7V9QFUq1FfMBgSFxtDXYsrWqRpMtetW5RDaC31vv19m
+	6GmSbyXWlU4xNVjl2UMEhxFzZtf4FRwVs/Q3c1wsmDmdCJCN6od7yh0aB292T67ta5OpDpANyT
+	G5+VPnAsOd/06tjhl6a3xTu1
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
 	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
 	06 Nov 2019 10:18:46 -0800
-IronPort-SDR: Gi2eL+jNN+iCe/EEAa1vK96tfZNq6L9m710/SE5+Cj5qTDTh9Rz6Zbs6ftIYuKTkr/aHf/p9rX
-	dUBR9Ioe42c4/ogokHuVpZoqalgC8WEIyP+PDThz7CMBzuBipIv1iTs3VQuuMPjyLdTG546QSb
-	qgc5UF4gORhFBbOCxoGtKHgOfMcza9mg3NYzqwdyzvg3P1AOVzydSS7TQoeBbOWZS5gJsDfAbh
-	whFrlNOB2d2vSs0YeBMT1zi5U2FNLCR52dV0WBTK86zKbkpML+K41aLg/51lVTzTAcOyYd0EP0
-	r3c=
+IronPort-SDR: pMLiegJo4TBQSBqa9yA+DAoTB5Xc3ZxAxrXyHTDKuUW1deiA6VO2ikytgsqHaxCgAo4d0pn2Db
+	mzdnSnB//0OOhnFYCg3F4xk9mOlFnfUW+BC+yFzP7PAWAAOKK0pRqw3SgmeyvmgJCPGYPXMCmb
+	5y3IJBAf469xTwvJ9MVCNov0jS593BgrlVH5CNLuNpM7zsH8zJFF6WPzPeX/bpmD+yY3MrERSN
+	I34PxFo5A5YlwgkX/YEwqRACHB6q5DOX08hJeUuFNXTlYV4WIWFfHFtdOzp+g9kse9c7q+lS9d
+	8zo=
 WDCIronportException: Internal
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
 	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
-	by uls-op-cesaip01.wdc.com with ESMTP; 06 Nov 2019 10:23:35 -0800
+	by uls-op-cesaip01.wdc.com with ESMTP; 06 Nov 2019 10:23:36 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2019 10:18:18 -0800
-Message-Id: <20191106181819.12517-1-alistair.francis@wdc.com>
+Date: Wed,  6 Nov 2019 10:18:19 -0800
+Message-Id: <20191106181819.12517-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191106181819.12517-1-alistair.francis@wdc.com>
+References: <20191106181819.12517-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] tune-riscv: Add support for hard and soft float
+Subject: [PATCH 2/2] arch-riscv: Default to hard float for riscv64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,66 +62,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2019 18:23:45 -0000
+X-List-Received-Date: Wed, 06 Nov 2019 18:23:48 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- meta/conf/machine/include/riscv/arch-riscv.inc |  3 ++-
- meta/conf/machine/include/riscv/tune-riscv.inc | 17 +++++++++++++++--
- 2 files changed, 17 insertions(+), 3 deletions(-)
+ meta/conf/machine/include/riscv/arch-riscv.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
-index f3edcc39f7..6737545e00 100644
+index 6737545e00..8d72e6d79e 100644
 --- a/meta/conf/machine/include/riscv/arch-riscv.inc
 +++ b/meta/conf/machine/include/riscv/arch-riscv.inc
-@@ -4,7 +4,8 @@ DEFAULTTUNE ?= "riscv64"
+@@ -1,6 +1,6 @@
+ # RISCV Architecture definition
+ 
+-DEFAULTTUNE ?= "riscv64"
++DEFAULTTUNE ?= "riscv64-f"
  
  TUNE_ARCH = "${TUNE_ARCH_tune-${DEFAULTTUNE}}"
  TUNE_PKGARCH = "${TUNE_PKGARCH_tune-${DEFAULTTUNE}}"
--TUNE_CCARGS .= ""
-+TUNE_CCARGS_riscv64 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv64-f', ' -mabi=lp64d', ' -mabi=lp64', d)}"
-+TUNE_CCARGS_riscv32 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv32-f', ' -mabi=ilp32f', ' -mabi=ilp32', d)}"
- 
- # QEMU usermode fails with invalid instruction error (For riscv32)
- MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32', ' qemu-usermode', '', d)}"
-diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
-index 25d0463492..631653f2a2 100644
---- a/meta/conf/machine/include/riscv/tune-riscv.inc
-+++ b/meta/conf/machine/include/riscv/tune-riscv.inc
-@@ -1,12 +1,26 @@
- require conf/machine/include/riscv/arch-riscv.inc
- 
- TUNEVALID[riscv64] = "Enable 64-bit RISC-V optimizations"
-+TUNEVALID[riscv64-f] = "Enable 64-bit RISC-V optimizations with hard float"
- TUNEVALID[riscv32] = "Enable 32-bit RISC-V optimizations"
-+TUNEVALID[riscv32-f] = "Enable 32-bit RISC-V optimizations with hard float"
- 
- TUNEVALID[bigendian] = "Big endian mode"
- 
--AVAILTUNES += "riscv64 riscv32"
-+AVAILTUNES += "riscv64 riscv64-f riscv32 riscv32-f"
- 
-+# Hard float
-+TUNE_FEATURES_tune-riscv64-f = "${TUNE_FEATURES_tune-riscv64} riscv64-f"
-+TUNE_ARCH_tune-riscv64-f = "riscv64"
-+TUNE_PKGARCH_tune-riscv64-f = "riscv64"
-+PACKAGE_EXTRA_ARCHS_tune-riscv64-f = "riscv64"
-+
-+TUNE_FEATURES_tune-riscv32-f = "${TUNE_FEATURES_tune-riscv32} riscv32-f"
-+TUNE_ARCH_tune-riscv32-f = "riscv32"
-+TUNE_PKGARCH_tune-riscv32-f = "riscv32"
-+PACKAGE_EXTRA_ARCHS_tune-riscv32-f = "riscv32"
-+
-+# Soft float
- TUNE_FEATURES_tune-riscv64 = "riscv64"
- TUNE_ARCH_tune-riscv64 = "riscv64"
- TUNE_PKGARCH_tune-riscv64 = "riscv64"
-@@ -16,4 +30,3 @@ TUNE_FEATURES_tune-riscv32 = "riscv32"
- TUNE_ARCH_tune-riscv32 = "riscv32"
- TUNE_PKGARCH_tune-riscv32 = "riscv32"
- PACKAGE_EXTRA_ARCHS_tune-riscv32 = "riscv32"
--
 -- 
 2.23.0
 
