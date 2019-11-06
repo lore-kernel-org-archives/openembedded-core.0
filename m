@@ -1,6 +1,6 @@
 Return-Path: <mcfrisk@kapsi.fi>
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 965257F890
+	by mail.openembedded.org (Postfix) with ESMTP id 9C5FC7F899
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  6 Nov 2019 15:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
@@ -9,24 +9,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=tdFatvKJdv+sHLX90Rez1O7FqZAZk2df9kIf94gIdcY=;
-	b=mzU4FcjluIDRq7DaKA+yi9rCdb
-	F7yoPc0ZwcEIJ/wva6/8165lY4CNMiuiS6rpbyRTEYRIDPjyDi+CI/w8k1HxJgqW68xZcpKENFXs1
-	GIacxrt0qX9M0vsRNb0lXlDmSw5snkBuTSrmPjsv21gBtsxmnOwxXTLBJeXf0sGaJl22jsDtLNy/W
-	/kOcLhcJVNd0abX7x/JcnkY47lkZxjPXmuLnkYyAQ0BNQ+OKgG7l0wPFWdLwahM9ML4O5W7moDA5t
-	uHndJ2BeNMF/ZATPyT2URX2jhVkFATYK6U1Ft9k83afffRawpXHl3g5GkuyuxDuqBIjJPTGD3fOBs
-	fZOOD41w==;
+	bh=uGziAfjOSxnkNrexjZ/jkqOxvYb38GQuJYlUjrRSyek=;
+	b=jGU/z9yR0QulafT0bJwt4k82UO
+	c+50TUSHDhxc+deOgxsMVyVLNPN2gXVqv5rekTakhzEUKaQL4ZFATrdark77hWzIkMua1fmoi3tmR
+	YWsQo6x58n6vtBJPoa2oEfrmhCSno8LZsI9N+/5pH7P7WA4G75x5G2Z2AyRQ2FL0aC4Y/pIghzenl
+	jHICUY06yTFkeSnFURdoAurT2RLIDE/L2x9ZqY0DL264L8+PB//L6UGoH+oeA6ZHtkLSlnZz9CaX7
+	d4QGZrkD77Um2vatzKeyW/4a3KtP5KmlbtsNWYvlfdaNSGA5xP4TT4DY/UpSwyrcZvaNVLwkF/r/+
+	OQES51Bg==;
 Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1iSNOa-00009z-1p; Wed, 06 Nov 2019 17:38:56 +0200
+	id 1iSNOa-0000AC-1n; Wed, 06 Nov 2019 17:38:56 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1iSNO6-0007Xe-3L; Wed, 06 Nov 2019 17:38:26 +0200
+	id 1iSNO5-0007XP-TV; Wed, 06 Nov 2019 17:38:25 +0200
 From: Mikko Rapeli <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2019 17:37:43 +0200
-Message-Id: <d77be18c4f89e9b6ee1b22593a987da5c890df5d.1573047194.git.mikko.rapeli@bmw.de>
+Date: Wed,  6 Nov 2019 17:37:41 +0200
+Message-Id: <311cfe9aa30c7d4a9476dec12769d2c4290f5a91.1573047194.git.mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1573047194.git.mikko.rapeli@bmw.de>
 References: <cover.1573047194.git.mikko.rapeli@bmw.de>
@@ -45,13 +45,13 @@ X-Rspam-Report: Action: add header Symbol: ARC_NA(0.00)
 	Symbol: ASN(0.00) Symbol: FROM_NEQ_ENVFROM(0.00)
 	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf neutral
 	Message-ID:
-	d77be18c4f89e9b6ee1b22593a987da5c890df5d.1573047194.git.mikko.rapeli@bmw.de
+	311cfe9aa30c7d4a9476dec12769d2c4290f5a91.1573047194.git.mikko.rapeli@bmw.de
 X-Rspam-Status: Yes
 X-Rspam-Bar: ++++++
 X-SA-Exim-Connect-IP: 91.232.154.11
 X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Subject: [PATCH RFC CFH][sumo 28/47] cve-check: ensure all known CVEs are in the report
+Subject: [PATCH RFC CFH][sumo 26/47] cve-update-db-native: clean up JSON fetching
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,51 +68,72 @@ X-List-Received-Date: Wed, 06 Nov 2019 15:38:56 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-CVEs that are whitelisted or were not vulnerable when there are version
-comparisons were not included in the report, so alter the logic to ensure that
-all relevant CVEs are in the report for completeness.
+Currently the code fetches the compressed JSON, writes it to a temporary file,
+uncompresses that with gzip and passes the fake file object to update_db().
 
-(From OE-Core rev: 98256ff05fcfe9d5ccad360582c36eafb577c264)
+Instead, uncompress the gzip'd data in memory and pass the JSON directly to
+update_db().
+
+(From OE-Core rev: 9422745979256c442f533770203f62ec071c18fb)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/cve-check.bbclass | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 29 +++++++++++---------------
+ 1 file changed, 12 insertions(+), 17 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index c00d291..f87bcc9 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -208,12 +208,14 @@ def check_cves(d, patched_cves):
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 6907197..a06b74a 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -62,25 +62,20 @@ python do_populate_cve_db() {
+         meta = c.fetchone()
+         if not meta or meta[0] != last_modified:
+             # Clear products table entries corresponding to current year
+-            cve_year = 'CVE-' + str(year) + '%'
+-            c.execute("delete from PRODUCTS where ID like ?", (cve_year,))
++            c.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,))
  
-             if cve in cve_whitelist:
-                 bb.note("%s-%s has been whitelisted for %s" % (product, pv, cve))
-+                # TODO: this should be in the report as 'whitelisted'
-+                patched_cves.add(cve)
-             elif cve in patched_cves:
-                 bb.note("%s has been patched" % (cve))
-             else:
-                 to_append = False
-                 if (operator_start == '=' and pv == version_start):
--                    cves_unpatched.append(cve)
-+                    to_append = True
-                 else:
-                     if operator_start:
-                         try:
-@@ -243,8 +245,11 @@ def check_cves(d, patched_cves):
-                         to_append = to_append_start or to_append_end
+             # Update db with current year json file
+-            req = urllib.request.Request(json_url)
+-            if proxy:
+-                req.set_proxy(proxy, 'https')
+             try:
+-                with urllib.request.urlopen(req, timeout=1) as r, \
+-                     open(json_tmpfile, 'wb') as tmpfile:
+-                    shutil.copyfileobj(r, tmpfile)
+-            except:
++                req = urllib.request.Request(json_url)
++                if proxy:
++                    req.set_proxy(proxy, 'https')
++                with urllib.request.urlopen(req) as r:
++                    update_db(c, gzip.decompress(r.read()))
++                c.execute("insert or replace into META values (?, ?)", [year, last_modified])
++            except urllib.error.URLError as e:
+                 cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+-                break
+-
+-            with gzip.open(json_tmpfile, 'rt') as jsonfile:
+-                update_db(c, jsonfile)
+-            c.execute("insert or replace into META values (?, ?)",
+-                    [year, last_modified])
++                bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
++                return
  
-                 if to_append:
-+                    bb.note("%s-%s is vulnerable to %s" % (product, pv, cve))
-                     cves_unpatched.append(cve)
--                bb.debug(2, "%s-%s is not patched for %s" % (product, pv, cve))
-+                else:
-+                    bb.note("%s-%s is not vulnerable to %s" % (product, pv, cve))
-+                    patched_cves.add(cve)
-     conn.close()
+         # Update success, set the date to cve_check file.
+         if year == date.today().year:
+@@ -143,9 +138,9 @@ def parse_node_and_insert(c, node, cveId):
  
-     return (list(patched_cves), cves_unpatched)
+     c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator())
+ 
+-def update_db(c, json_filename):
++def update_db(c, jsondata):
+     import json
+-    root = json.load(json_filename)
++    root = json.loads(jsondata)
+ 
+     for elt in root['CVE_Items']:
+         if not elt['impact']:
 -- 
 1.9.1
 
