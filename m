@@ -1,6 +1,6 @@
 Return-Path: <mcfrisk@kapsi.fi>
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E00B7F83A
+	by mail.openembedded.org (Postfix) with ESMTP id 498A67F859
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  6 Nov 2019 15:38:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
@@ -9,24 +9,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=5CRVaa0+PVEENcSm7DOVwYBoEeysvgySmdRbyl/ZSuk=;
-	b=VTlXoakjK32oU9rzvJqLqRXAj5
-	WvQnJ6RUP2BtsnV0QIgFrvlD8xOZadbSjBgicl9RZotVsKUfXvlHJ1ECK0PUDnmioRUssrCL3phSz
-	HC8SK4hMcm/N77rqjzBn8OyQj0tYGStK+06aRJhtcAhDnPde8FZbIYwlnXVRPfqvzyy4cW4px9iBL
-	zBzgJHXM2PZTL6EV0puvXFneqe13O7aQgzLtKOVaEC7jb134nSzdJ718N16kji7alSvYDLR+eiL43
-	B2AbWNcWp9R/8N+H8zv1tKLkGAViF6GL11JS8u4xJb8nkB7SGb13Ad6MWFqljmJAmBZD3tYHUsAx+
-	4UfdFViw==;
+	bh=LM+28FxPIdBmff9XPVBGJjy7ZwOTtlvs2KJaflUKqgY=;
+	b=cvn/vLXvXQQCiGxQDWOt2RqB8k
+	AeUgLhlfS18jN7+AKCa5HIwmLw4DR1b6SB28HrpCx3No0Avl39F7sot5dXHlrRVEO2WibMcTYKp+x
+	HmblbjjyCooZI4FP/owytV6aieiO/hFdj58dqwZtxkf+REX0YZXO97hpWNI2Dp0G4pFd1v+V51jmM
+	4ZR6f83N/kUZjMl83T+gG3rQ4/dBKR6Uf/nYfutTQEDLI64B0bVewLQ1FIlbeb6l72m8+nfmUogBf
+	Tjv2b4pEMCV7qk6p3B8EV8iYj2t9g3qJF/DNbTtdyXhtr+UyMvJVYUf1l1vPgNvh/zSdW5KbylqoA
+	lP0Y3WHA==;
 Received: from [2001:67c:1be8::12] (helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1iSNOO-00009i-E6; Wed, 06 Nov 2019 17:38:45 +0200
+	id 1iSNOO-00009e-BD; Wed, 06 Nov 2019 17:38:45 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1iSNO4-0007Ty-8p; Wed, 06 Nov 2019 17:38:24 +0200
+	id 1iSNO4-0007TV-5n; Wed, 06 Nov 2019 17:38:24 +0200
 From: Mikko Rapeli <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2019 17:37:19 +0200
-Message-Id: <5d58a4474528e5258d8e85f1d54915ad2ee06b4b.1573047194.git.mikko.rapeli@bmw.de>
+Date: Wed,  6 Nov 2019 17:37:18 +0200
+Message-Id: <efbf245129af00e8c4def71bf956246e3fc71e7d.1573047194.git.mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1573047194.git.mikko.rapeli@bmw.de>
 References: <cover.1573047194.git.mikko.rapeli@bmw.de>
@@ -46,7 +46,7 @@ X-Rspam-Report: Action: add header Symbol: ARC_NA(0.00)
 	Symbol: HFILTER_HOSTNAME_UNKNOWN(2.50)
 	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf allow
 	Message-ID:
-	5d58a4474528e5258d8e85f1d54915ad2ee06b4b.1573047194.git.mikko.rapeli@bmw.de
+	efbf245129af00e8c4def71bf956246e3fc71e7d.1573047194.git.mikko.rapeli@bmw.de
 X-Rspam-Status: Yes
 X-Rspam-Bar: ++++++++
 X-SA-Exim-Connect-IP: 2001:67c:1be8::12
@@ -58,7 +58,7 @@ X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.2
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
-Subject: [PATCH RFC CFH][sumo 04/47] cve-check: Consider CVE that affects versions with less than operator
+Subject: [PATCH RFC CFH][sumo 03/47] cve-check: Manage CVE_PRODUCT with more than one name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -75,61 +75,62 @@ X-List-Received-Date: Wed, 06 Nov 2019 15:38:44 -0000
 
 From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 
-In the NVD json CVE feed, affected versions can be strictly matched to a
-version, but they can also be matched with the operator '<='.
+In some rare cases (eg. curl recipe) the CVE_PRODUCT contains more than
+one name.
 
-Add a new condition in the sqlite query to match affected versions that
-are defined with the operator '<='. Then use LooseVersion to discard all
-versions that are not relevant.
-
-(From OE-Core rev: 3bf63bc60848d91e90c23f6d854d22b78832aa2d)
+(From OE-Core rev: 7f62a20b32a3d42f04ec58786a7d0db68ef1bb05)
 
 Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/cve-check.bbclass | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ meta/classes/cve-check.bbclass | 25 ++++++++++++++-----------
+ 1 file changed, 14 insertions(+), 11 deletions(-)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index e7540b8..379f712 100644
+index 28619c7..e7540b8 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -166,6 +166,7 @@ def check_cves(d, patched_cves):
-     Connect to the NVD database and find unpatched cves.
-     """
+@@ -168,9 +168,10 @@ def check_cves(d, patched_cves):
      import ast, csv, tempfile, subprocess, io
-+    from distutils.version import LooseVersion
  
      cves_unpatched = []
-     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
-@@ -186,14 +187,25 @@ def check_cves(d, patched_cves):
+-    bpn = d.getVar("CVE_PRODUCT")
++    # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
++    bpn = d.getVar("CVE_PRODUCT").split()
+     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
+-    if not bpn:
++    if len(bpn) == 0:
+         return ([], [])
+     pv = d.getVar("CVE_VERSION").split("+git")[0]
+     cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST"))
+@@ -184,16 +185,18 @@ def check_cves(d, patched_cves):
+     db_file = d.getVar("CVE_CHECK_DB_FILE")
      conn = sqlite3.connect(db_file)
      c = conn.cursor()
++
+     query = "SELECT * FROM PRODUCTS WHERE PRODUCT IS '%s' AND VERSION IS '%s';"
+-    for row in c.execute(query % (bpn,pv)):
+-        cve = row[1]
+-        if pv in cve_whitelist.get(cve,[]):
+-            bb.note("%s-%s has been whitelisted for %s" % (bpn, pv, cve))
+-        elif cve in patched_cves:
+-            bb.note("%s has been patched" % (cve))
+-        else:
+-            cves_unpatched.append(cve)
+-            bb.debug(2, "%s-%s is not patched for %s" % (bpn, pv, cve))
++    for idx in range(len(bpn)):
++        for row in c.execute(query % (bpn[idx],pv)):
++            cve = row[1]
++            if pv in cve_whitelist.get(cve,[]):
++                bb.note("%s-%s has been whitelisted for %s" % (bpn[idx], pv, cve))
++            elif cve in patched_cves:
++                bb.note("%s has been patched" % (cve))
++            else:
++                cves_unpatched.append(cve)
++                bb.debug(2, "%s-%s is not patched for %s" % (bpn[idx], pv, cve))
+     conn.close()
  
--    query = "SELECT * FROM PRODUCTS WHERE PRODUCT IS '%s' AND VERSION IS '%s';"
-+    query = """SELECT * FROM PRODUCTS WHERE
-+               (PRODUCT IS '{0}' AND VERSION = '{1}' AND OPERATOR IS '=') OR
-+               (PRODUCT IS '{0}' AND OPERATOR IS '<=');"""
-     for idx in range(len(bpn)):
--        for row in c.execute(query % (bpn[idx],pv)):
-+        for row in c.execute(query.format(bpn[idx],pv)):
-             cve = row[1]
-+            version = row[4]
-+
-+            try:
-+                discardVersion = LooseVersion(version) < LooseVersion(pv)
-+            except:
-+                discardVersion = True
-+
-             if pv in cve_whitelist.get(cve,[]):
-                 bb.note("%s-%s has been whitelisted for %s" % (bpn[idx], pv, cve))
-             elif cve in patched_cves:
-                 bb.note("%s has been patched" % (cve))
-+            elif discardVersion:
-+                bb.debug(2, "Do not consider version %s " % (version))
-             else:
-                 cves_unpatched.append(cve)
-                 bb.debug(2, "%s-%s is not patched for %s" % (bpn[idx], pv, cve))
+     return (list(patched_cves), cves_unpatched)
 -- 
 1.9.1
 
