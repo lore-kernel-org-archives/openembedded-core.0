@@ -1,47 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BCA67D278
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 82CEE7F857
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2019 20:55:04 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id z23so580728qkj.10
+	Wed,  6 Nov 2019 21:43:18 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id a11so345990wra.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Nov 2019 12:55:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MUL50DGeyACLZ54NDnqxrKiQTNnT1UIdeXiiroVUNcE=;
-	b=UgDpygynyW0/CubyzI6i0LJhmMfxOINogQxjcV+kliswLSUgU10RVvR0uSKDXBaqId
-	8S7NsqGLX32yrAyI5lf7qXq25AaVg81Mr0vp+avFDiKN0nFuFgzYVxKLqF3KXUnUoxKQ
-	zhi2RoDGMu1UUZQKtprHVX63MUPrqRXotJzBzjqnJvZOwDN2vDUajpzkNaJ9ICe0GtOD
-	wyJAm217VrAcyvzZgAECRaz8f41OZ06UMDPPvEHqatRRAxP83CtZRlBsX7hL5FRVM8z7
-	UiSuRchHoEQkzUcOJlxEihJ/M5ejIUUGMm36iXCAV+AcHwPubtFO/1eNpujrd4RP5x5w
-	PHiw==
+	Wed, 06 Nov 2019 13:43:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=04iFG62SEfBflRK7s1r1QM3+WAeK/RkL9KZ3kdYYcKQ=;
+	b=TaqBjRuTBE17/tLKf21M8aBXz3LPc8gtFKqW+KRAMOAtzI2Tc82BSIJmT5ruXf86AN
+	ZoIjDCTFwHv/2A0CUfsRZEQzvwPCkhU7De6ynz2nX/FWTG/ZVLCScFlmgWnQh1i0S9Mo
+	YOMUAiuIed3Q7CvKQmiMrpCXGkrLqK6EON5IU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=MUL50DGeyACLZ54NDnqxrKiQTNnT1UIdeXiiroVUNcE=;
-	b=dzn+CiUu8UUeJm27VszWXfGI64ZCrlsPoUrSCmtCiYuHyjC1shnfHryyHwDEBYZoUV
-	wWu/t+gWOygGUd3B/qqU4EeJ+msF/hv/xmWBrdQS18gEc9VSL00v+WWcMVJw41hw7lOM
-	BzhpA2TSaddtrBOHwUVLUT7WXp3XWkqEwgoBWUw5EEgDd1xES69kZaIlNM64mp3Y9p5y
-	5RL7JYdKZrA8IMy2cVpppj/XdOByqI5Sqi3pet0a0UVxEm+nu5bBGiHNzzm9uQULjArl
-	jzplcIop7GQ5NuFnp9tKglpzWyMOliSbXJOQNGI9bUn7qKPw8s1/2kjLWqGIxWOgPE1i
-	WUqQ==
-X-Gm-Message-State: APjAAAWjMma6GednpsvxA9JUfFW1DYGw+Dj56F0if2N30ksD56MgRFZG
-	u520v5MLuA7Ovj+/CPsYhAlqjhyyJEl7JXYcoms=
-X-Google-Smtp-Source: APXvYqwFeBmt+gTr+or6FYk1miKZ3knIDIGJMEnI6cl/AHXDopx5Vzv7FTaiJdbLNkRD+6qOrAse5woC669jjhqVdsw=
-X-Received: by 2002:a37:84b:: with SMTP id 72mr4103742qki.337.1573073705078;
-	Wed, 06 Nov 2019 12:55:05 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=04iFG62SEfBflRK7s1r1QM3+WAeK/RkL9KZ3kdYYcKQ=;
+	b=lr1NZ0sAA8D0u4Ia/o1/kLA3PSEBOzX4Tm61xRQmLSeI25F+kVuK2234cwhd2jyaeX
+	eBkYweg++qWcpFZYyWH5NJ7NvfK2SoONRfVkGZX+APIoRAGYlWa+KrtB5G9+I9JjvgRh
+	MIn9FWWvRpqwGqoNsNTtIiAnwuhl++nKQGrDszY7IShQLWe6hHSnahhYBSm2xxLFNtrl
+	P0nJymqd2VmjFVeS7+gEezWYJ/DZhd+4NKti8XCxcGIzRbl4IimeiQnZa9jutKM/F1Af
+	6kHnP7WJSA1Huq45QSiLFRNb19QSbLQhAC7m3Z6DC3yjn55JU/fPycvpABw/OP4GFwDc
+	Kk3w==
+X-Gm-Message-State: APjAAAXwXIlYP+Z6gp8pDiN/YCQYOmQH3nNJ/+HOrMkBfzIW6slIAjnw
+	OomWy27eKMcFP4y9TTk0gwR0cOeUREM=
+X-Google-Smtp-Source: APXvYqxbm+0/Uo0WzNi93V5IU3tfFALqDoUOcdTwWFie08WPF9X+z5zhyvxtBncDvBVcN0bj10Bq/g==
+X-Received: by 2002:a5d:574d:: with SMTP id q13mr5031795wrw.263.1573076598882; 
+	Wed, 06 Nov 2019 13:43:18 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	x26sm3770788wmc.14.2019.11.06.13.43.18
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 06 Nov 2019 13:43:18 -0800 (PST)
+Message-ID: <00c1eec5eca9c2b85aa83c21d272073cf6331f12.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Zhixiong Chi <zhixiong.chi@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 06 Nov 2019 21:43:16 +0000
+In-Reply-To: <20191106103252.60923-1-zhixiong.chi@windriver.com>
+References: <20191106103252.60923-1-zhixiong.chi@windriver.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20191106181819.12517-1-alistair.francis@wdc.com>
-In-Reply-To: <20191106181819.12517-1-alistair.francis@wdc.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 6 Nov 2019 12:54:38 -0800
-Message-ID: <CAMKF1soM-bediaxsN9n5Ra_LK1ydR=_gpy5dyzxaH9yGu5Ar2Q@mail.gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] tune-riscv: Add support for hard and soft float
+Subject: Re: [PATCH v2] libtirpc: create the symbol link for rpc header files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,80 +58,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2019 20:55:04 -0000
+X-List-Received-Date: Wed, 06 Nov 2019 21:43:18 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 6, 2019 at 12:37 PM Alistair Francis
-<alistair.francis@wdc.com> wrote:
->
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+On Wed, 2019-11-06 at 02:32 -0800, Zhixiong Chi wrote:
+> Since the Sun RPC is deprecated in glibc, the rpc header files
+> are not provided any more, but it allows alternative RPC
+> implementations, such as TIRPC or rpcsvc-proto, to be used.
+> 
+> So we create the symbol link for rpc header files for tirpc to
+> be more compatible with the glibc version and the application usage.
+> 
+> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 > ---
->  meta/conf/machine/include/riscv/arch-riscv.inc |  3 ++-
->  meta/conf/machine/include/riscv/tune-riscv.inc | 17 +++++++++++++++--
->  2 files changed, 17 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
-> index f3edcc39f7..6737545e00 100644
-> --- a/meta/conf/machine/include/riscv/arch-riscv.inc
-> +++ b/meta/conf/machine/include/riscv/arch-riscv.inc
-> @@ -4,7 +4,8 @@ DEFAULTTUNE ?= "riscv64"
->
->  TUNE_ARCH = "${TUNE_ARCH_tune-${DEFAULTTUNE}}"
->  TUNE_PKGARCH = "${TUNE_PKGARCH_tune-${DEFAULTTUNE}}"
-> -TUNE_CCARGS .= ""
-> +TUNE_CCARGS_riscv64 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv64-f', ' -mabi=lp64d', ' -mabi=lp64', d)}"
-> +TUNE_CCARGS_riscv32 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv32-f', ' -mabi=ilp32f', ' -mabi=ilp32', d)}"
->
->  # QEMU usermode fails with invalid instruction error (For riscv32)
->  MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32', ' qemu-usermode', '', d)}"
-> diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
-> index 25d0463492..631653f2a2 100644
-> --- a/meta/conf/machine/include/riscv/tune-riscv.inc
-> +++ b/meta/conf/machine/include/riscv/tune-riscv.inc
-> @@ -1,12 +1,26 @@
->  require conf/machine/include/riscv/arch-riscv.inc
->
->  TUNEVALID[riscv64] = "Enable 64-bit RISC-V optimizations"
-> +TUNEVALID[riscv64-f] = "Enable 64-bit RISC-V optimizations with hard float"
->  TUNEVALID[riscv32] = "Enable 32-bit RISC-V optimizations"
-> +TUNEVALID[riscv32-f] = "Enable 32-bit RISC-V optimizations with hard float"
->
->  TUNEVALID[bigendian] = "Big endian mode"
->
-> -AVAILTUNES += "riscv64 riscv32"
-> +AVAILTUNES += "riscv64 riscv64-f riscv32 riscv32-f"
->
-> +# Hard float
-> +TUNE_FEATURES_tune-riscv64-f = "${TUNE_FEATURES_tune-riscv64} riscv64-f"
-> +TUNE_ARCH_tune-riscv64-f = "riscv64"
-> +TUNE_PKGARCH_tune-riscv64-f = "riscv64"
-> +PACKAGE_EXTRA_ARCHS_tune-riscv64-f = "riscv64"
+>  meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
+> index e73ffe7b17..a284521c1e 100644
+> --- a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
+> +++ b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
+> @@ -23,6 +23,20 @@ EXTRA_OECONF = "--disable-gssapi"
+>  
+>  do_install_append() {
+>          chown root:root ${D}${sysconfdir}/netconfig
+> +        install -d ${D}${includedir}/rpc
+> +        install -d ${D}${includedir}/rpcsvc
+> +        for link_header in ${D}${includedir}/tirpc/rpc/*; do
+> +            if [ -f $link_header -a ! -e ${D}/${includedir}/rpc/$(basename $link_header) ]; then
+> +                ln -sf ${includedir}/tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpc/$(basename $link_header)
+> +            fi
+> +        done
+> +        for link_header in ${D}${includedir}/tirpc/rpcsvc/*; do
+> +            if [ -f $link_header -a ! -e ${D}/${includedir}/rpcsvc/$(basename $link_header) ]; then
+> +                ln -sf ${includedir}/tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpcsvc/$(basename $link_header)
+> +            fi
+> +        done
+> +        ln -sf  ${includedir}/tirpc/netconfig.h ${D}/${includedir}/netconfig.h
 > +
-> +TUNE_FEATURES_tune-riscv32-f = "${TUNE_FEATURES_tune-riscv32} riscv32-f"
-> +TUNE_ARCH_tune-riscv32-f = "riscv32"
-> +TUNE_PKGARCH_tune-riscv32-f = "riscv32"
-> +PACKAGE_EXTRA_ARCHS_tune-riscv32-f = "riscv32"
-> +
-> +# Soft float
->  TUNE_FEATURES_tune-riscv64 = "riscv64"
->  TUNE_ARCH_tune-riscv64 = "riscv64"
->  TUNE_PKGARCH_tune-riscv64 = "riscv64"
-> @@ -16,4 +30,3 @@ TUNE_FEATURES_tune-riscv32 = "riscv32"
->  TUNE_ARCH_tune-riscv32 = "riscv32"
->  TUNE_PKGARCH_tune-riscv32 = "riscv32"
->  PACKAGE_EXTRA_ARCHS_tune-riscv32 = "riscv32"
-> -
+>  }
 
- its better to add riscv64sf and keep existing tunes as it is. since
-sf is going to be rare
-compared to rv64gc
+bitbake libtirpc-native shows lots (31) of:
 
-> --
-> 2.23.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ERROR: libtirpc-native-1.1.4-r0 do_populate_sysroot: sstate found an absolute path symlink /media/build1/poky/build/tmp/work/x86_64-linux/libtirpc-native/1.1.4-r0/sysroot-destdir/media/build1/poky/build/tmp/work/x86_64-linux/libtirpc-native/1.1.4-r0/recipe-sysroot-native/usr/include/netconfig.h pointing at /media/build1/poky/build/tmp/work/x86_64-linux/libtirpc-native/1.1.4-r0/recipe-sysroot-native/usr/include/tirpc/netconfig.h. Please replace this with a relative link.
+
+Cheers,
+
+Richard
+
 
