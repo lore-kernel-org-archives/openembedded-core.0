@@ -1,48 +1,50 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
-	[209.85.217.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 104C27F822
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D9AA76C3B2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2019 01:26:08 +0000 (UTC)
-Received: by mail-vs1-f67.google.com with SMTP id y23so8345804vso.1
+	Wed,  6 Nov 2019 02:48:03 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id w8so10706347plq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Nov 2019 17:26:10 -0800 (PST)
+	Tue, 05 Nov 2019 18:48:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TWmASQ37+KQ0KsQVZRXutGDmGyC+domtuyc/9LacDmI=;
-	b=YQ4uuGOLEgvOzIKSqQMd8FFuMwsorkhAOLhBReTkOBrfdNfHcWehwZSA0QHN86+nJa
-	7buP6GC52v2fs3ILKXgI+/s7yoqAdbn7OOy7xdIGjHUoJxwb5rIEHBrXDfzKyFgPOXhI
-	jO9OoNcPpba90il9CNd7LgCNxpO6phyddBX7bGcDN5WUrsLVyqgtcoaSp6IcKf7yHP/H
-	UxRzOjrPn5t+ntHMbZf9ciM+oV9znZV2Y7s+KDSqGG9SbBqpc9TinsB1SQrpwNdqZBO/
-	hl8ReC22d1RXGOc/e1jzL9mO90fno9FtqUN6gn0JNN/K7TI9XKfwBIDg/ZSsw20bcZk+
-	zA3g==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=HUVaLh14KY0druBQX8TDY5p7lS4qxqWDq3R11oQN7/w=;
+	b=lz4lq2jkQHWgXUU1Ymi9Ptvoe9X8Xu98PT1b7YskA0VPM09K3CS2EtZ4OOnV7c7z+r
+	IRXO39B04xKKit6tCWTZ65K/mdvrf2SXTYM518TxBjqJJJ1fcmF/xcBOdaAkQlfxlT4/
+	0T69Ll6JN6i1a+jRdzg21PexRtB/XiK//nxT8/UZT7fg+GkCIklGAP5SCzeaBCtIoreM
+	bqI6B190qoEERNPQsX4HyVl9TExfrdp9sASIJoRfjW0RT/I//04IXlNDv/jXTlBXwEV4
+	+2LwYhmlM/OsU+9f1ZgWBsnkrkSO1OaGpsaf6L4hL6YpbRu7YURZiaW8eEIdS4tkX3g8
+	EbDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=TWmASQ37+KQ0KsQVZRXutGDmGyC+domtuyc/9LacDmI=;
-	b=J1j+NPnKrL97icO229Q2PjESVrXNGaAR/WgB//sRvJsfXfeMlEHz0nxuYIaa+3UHRQ
-	L882kxf30IzxZK3UyAHCU5CYJLyDWzAz7kzIA9nsfFJNEqM8jEyp/SQFwJm3YUBls6hR
-	h2d/SFKXNSxDWEcYLsRDfrPLyVlC45+BUbKlcJnMc/5EGu6JpcLGQeC5SVDxbbaapepN
-	7gpPJfgyAsp89xrAiRZlnV6nXshuCr5nOyHQIlmhJXas2b16mDcKVNjzzlu3/unnbnIj
-	TAGvML7QCIzfKNUIGpc5wwlUaCgFtfpTkqrUql9MpUoCS9J89no8q5CtxI8c5ex0tngg
-	gZgA==
-X-Gm-Message-State: APjAAAXA4xaIOZQYDcJ2Az5FgITr4RK1nNnZNmlNjhJHJ1EjFJG0KrN/
-	6Pa4MM+NtKL6W8vJ12lFLLc8GeGXdRGaYcMCYdI=
-X-Google-Smtp-Source: APXvYqy6Q0aqQH83SwGURsjIXWqYUhDYHW0G/3gRLb+f/GX50xofsguc+Y2AN0Gq9NDZdM/QPT4VaOIzZ2FKF7Ls7AU=
-X-Received: by 2002:a05:6102:677:: with SMTP id
-	z23mr46600vsf.130.1573003569585; 
-	Tue, 05 Nov 2019 17:26:09 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=HUVaLh14KY0druBQX8TDY5p7lS4qxqWDq3R11oQN7/w=;
+	b=gC7AQU5Me6ELGGqG1/17nnabb0hm6zoK2veUFelLL2BvfnkKWrdVR1NcecfbHJugHi
+	5fMg0pSEgYwy1BjmFCiqs9rCeOiTEHXtLZETxyo7oT+xdxwbVXgXxBlYWXd40Wly7dvh
+	PPEmwWfQR5onM1aO9j3iP+EcG73XiCnEscIkuQ0x3zIcUFM4dfWK3cS62Yzqszi0Vufh
+	WwXqDtRtzzZMs5oqLeHmS2ofsrs04vYK6oHdqnu/L1PWqZaHXvThVI2RpwauU0kaQ/r2
+	78+ql0/MFP/OVgEglv8kGV9sgMs24FJygdGo+JnGPyOhT11Gtjb5/G8GnR2kehDg6aCP
+	WLbw==
+X-Gm-Message-State: APjAAAU8yIfCITBZmRG3AdeRIVA9uVrYka9WAwrQhrXT7rq7Rwz1oOcz
+	ljFfFworGXXZQeDL7c24+QtruYD52+Y=
+X-Google-Smtp-Source: APXvYqzGSYdDVpJCz0+KEIGKPZExX4PpoUqdnTd04NYji16ZLbIR/111Rk78Le/VSAcI9QMgfA6G6A==
+X-Received: by 2002:a17:902:9a8b:: with SMTP id w11mr94716plp.9.1573008483990; 
+	Tue, 05 Nov 2019 18:48:03 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::5caf])
+	by smtp.gmail.com with ESMTPSA id
+	m13sm18973202pga.70.2019.11.05.18.48.03
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 05 Nov 2019 18:48:03 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  5 Nov 2019 18:47:48 -0800
+Message-Id: <20191106024748.1398912-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20191105231253.15448-1-stefan@agner.ch>
-In-Reply-To: <20191105231253.15448-1-stefan@agner.ch>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Tue, 5 Nov 2019 17:25:58 -0800
-Message-ID: <CAJ86T=U5v4cgVpR9x+x=+kwXKg4X6Z4zxeS0ACddxg3xXgk8jg@mail.gmail.com>
-To: Stefan Agner <stefan@agner.ch>
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: add Zstandard conversion support
+Subject: [PATCH] libtirpc: Do not include bits/endian.h directly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,68 +57,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2019 01:26:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 06 Nov 2019 02:48:04 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 5, 2019 at 3:13 PM Stefan Agner <stefan@agner.ch> wrote:
->
-> From: Stefan Agner <stefan.agner@toradex.com>
->
-> Add Zstandard (or just Zstd) compression support. This allows to
-> create Zstd compressed tarballs by using tar.zst as IMAGE_FSTYPES.
->
-> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-> ---
->  meta/classes/image_types.bbclass | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 2eeffbb366..eeae652e02 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -269,7 +269,7 @@ IMAGE_TYPES = " \
->      hddimg \
->      squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
->      ubi ubifs multiubi \
-> -    tar tar.gz tar.bz2 tar.xz tar.lz4 \
-> +    tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
->      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
->      wic wic.gz wic.bz2 wic.lzma \
->      container \
-> @@ -282,7 +282,7 @@ IMAGE_TYPES = " \
->  # CONVERSION_CMD/DEPENDS.
->  COMPRESSIONTYPES ?= ""
->
-> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
-> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
->  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
->  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> @@ -290,6 +290,7 @@ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=
->  CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
->  CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> +CONVERSION_CMD_zst = "zstd -f -k -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
+this file is supposed be included via endian.h indirectly, moreover
+Future musl versions does not have this file
 
-Where is ZSTD_COMPRESSION_LEVEL defined?
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../libtirpc/libtirpc/musl.patch               | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
->  CONVERSION_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
->  CONVERSION_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
->  CONVERSION_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
-> @@ -310,6 +311,7 @@ CONVERSION_DEPENDS_xz = "xz-native"
->  CONVERSION_DEPENDS_lz4 = "lz4-native"
->  CONVERSION_DEPENDS_lzo = "lzop-native"
->  CONVERSION_DEPENDS_zip = "zip-native"
-> +CONVERSION_DEPENDS_zst = "zstd-native"
->  CONVERSION_DEPENDS_sum = "mtd-utils-native"
->  CONVERSION_DEPENDS_bmap = "bmap-tools-native"
->  CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-extended/libtirpc/libtirpc/musl.patch b/meta/recipes-extended/libtirpc/libtirpc/musl.patch
+index 0c3ce603ea..21cd9f9588 100644
+--- a/meta/recipes-extended/libtirpc/libtirpc/musl.patch
++++ b/meta/recipes-extended/libtirpc/libtirpc/musl.patch
+@@ -1,13 +1,14 @@
+ Consider musl provided built-in defines
+ 
+ Helps compile libtirpc with musl
++bits/endian.h is not supposed to be included directly
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ 
+---- ./tirpc/rpc/types.h.orig	2018-03-17 10:23:10.022055255 +0100
+-+++ ./tirpc/rpc/types.h	2018-03-17 10:23:30.877751656 +0100
+-@@ -66,7 +66,7 @@
++--- a/tirpc/rpc/types.h
+++++ b/tirpc/rpc/types.h
++@@ -66,7 +66,7 @@ typedef   int32_t rpc_inline_t;
+  #define mem_free(ptr, bsize)	free(ptr)
+  
+  
+@@ -16,3 +17,14 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  # define __u_char_defined
+  # define __daddr_t_defined
+  #endif
++--- a/src/xdr_float.c
+++++ b/src/xdr_float.c
++@@ -83,7 +83,7 @@ static struct sgl_limits {
++ };
++ #else
++ 
++-#include <bits/endian.h>
+++#include <endian.h>
++ #define IEEEFP
++ 
++ #endif /* vax */
+-- 
+2.24.0
+
 
