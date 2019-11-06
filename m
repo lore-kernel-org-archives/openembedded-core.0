@@ -1,48 +1,31 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 099F07FA34
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B80967F822
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  5 Nov 2019 23:20:06 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id y10so24819191qto.3
+	Wed,  6 Nov 2019 01:20:33 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.68,271,1569254400"; 
+   d="scan'208";a="43027"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Nov 2019 09:20:33 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 289A34B6EC73
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 05 Nov 2019 15:20:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZAgQNRMzJztSIaDaeHuXCZl4N/WUaitz0Jv6MmxDZck=;
-	b=mtu6pHR0CdtVIKfSjh0Bkrn1ZEl6qbOqjy74cxQIl5pYTT7oE+2xz3nnfsw8x7It1W
-	ND8GXp5kj05b5tYVHYfXJsQEGalL762Dv71vyvYAFCuDT8/YwrZ8eD69lSncQs1ECGDr
-	D0ubgnh7BkP3zV7LyGKXNrt+Uifl7aICcwzZpzJknD7KK3PPCYeAqNZyxwAkl7CU6zzD
-	mEgMqwLa4gquIzUVf3gPFVsVW2sPbEGMQh2fuxfhMXuUzB6hIt29wMdGIP4kZVvAyB3k
-	CVPYnf2DG0s0PbMyEFYIy94N5MGmeQQPD1xng+nVHl1j8rPXL6ND6uKz0xN6QBAVcH9N
-	saTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZAgQNRMzJztSIaDaeHuXCZl4N/WUaitz0Jv6MmxDZck=;
-	b=OSBt6boyozuR/aIHjWXK95VV0kGE+yAaK1mmLxY8SteIRR46VmodQPdxKT9U4eXT60
-	zGSO5b1UmoF3FcEnfJn5QGiCcX9Myi1oNKx+dOSsFIVF0UEVBY5evByBMqyNmJhiZW+N
-	9CWUQPnB5cnhnB9piIch+Hg5dojqsYKyxz5izwWIld28upB7gS3bJlsELWnDxtI/9kWR
-	7AGX6zZrFsuZ15XgMS4KTudvZi5E2WeD427J72aYC+CTyYqbtL8wB1WQ8UDi8Rr9sZVq
-	CbbGMdDIKXYd8y91s2VbvFCIDARPtWS7mUBgMaeVAPowrMRnslBzNeTlRGpXHHfi73Jp
-	ojAA==
-X-Gm-Message-State: APjAAAWKXOxtB14zo1kZrIm7sxeqFvCCaO9UJOmkEPugVgBvYlHzhRYW
-	BRE/pIUeQUqrEt5rXFdrSVAtcT28U6q8kcGZZf4Ue1zD
-X-Google-Smtp-Source: APXvYqz3bE0pe9jyje3dEmQxc5vevwpXJPqTNXnXyTSDN8L5FTNHwH8ZdCYTNsoKb/eYlS4tszwefKYTktLmW6Rc9pE=
-X-Received: by 2002:ac8:2476:: with SMTP id d51mr20673962qtd.378.1572996007635;
-	Tue, 05 Nov 2019 15:20:07 -0800 (PST)
+	Wed,  6 Nov 2019 09:12:25 +0800 (CST)
+Received: from localhost.local (10.167.225.81) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 6 Nov 2019 09:20:32 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Nov 2019 09:20:47 +0800
+Message-ID: <20191106012047.12490-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20191105231253.15448-1-stefan@agner.ch>
-In-Reply-To: <20191105231253.15448-1-stefan@agner.ch>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 5 Nov 2019 15:19:41 -0800
-Message-ID: <CAMKF1srQF8eMLYyayLuBXHsOBbDePZ+1YK1cTsCCefvepJFN-A@mail.gmail.com>
-To: Stefan Agner <stefan@agner.ch>
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] image_types: add Zstandard conversion support
+X-Originating-IP: [10.167.225.81]
+X-yoursite-MailScanner-ID: 289A34B6EC73.A726A
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] ruby:upgrade 2.6.4 -> 2.6.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,68 +38,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 05 Nov 2019 23:20:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 06 Nov 2019 01:20:34 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Nov 5, 2019 at 3:13 PM Stefan Agner <stefan@agner.ch> wrote:
->
-> From: Stefan Agner <stefan.agner@toradex.com>
->
-> Add Zstandard (or just Zstd) compression support. This allows to
-> create Zstd compressed tarballs by using tar.zst as IMAGE_FSTYPES.
->
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ meta/recipes-devtools/ruby/{ruby_2.6.4.bb => ruby_2.6.5.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_2.6.4.bb => ruby_2.6.5.bb} (94%)
 
-this would need documentation changes too I guess
+diff --git a/meta/recipes-devtools/ruby/ruby_2.6.4.bb b/meta/recipes-devtools/ruby/ruby_2.6.5.bb
+similarity index 94%
+rename from meta/recipes-devtools/ruby/ruby_2.6.4.bb
+rename to meta/recipes-devtools/ruby/ruby_2.6.5.bb
+index fb202b8f1f..1828f65d51 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.6.4.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.6.5.bb
+@@ -5,8 +5,8 @@ SRC_URI += " \
+            file://run-ptest \
+            "
+ 
+-SRC_URI[md5sum] = "49b628cdb21db967d8a3f6ca6e222583"
+-SRC_URI[sha256sum] = "4fc1d8ba75505b3797020a6ffc85a8bcff6adc4dabae343b6572bf281ee17937"
++SRC_URI[md5sum] = "8754bfb36d52c2bf1fb3d3ddc7101606"
++SRC_URI[sha256sum] = "66976b716ecc1fd34f9b7c3c2b07bbd37631815377a2e3e85a5b194cfdcbed7d"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+-- 
+2.20.1
 
-> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-> ---
->  meta/classes/image_types.bbclass | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 2eeffbb366..eeae652e02 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -269,7 +269,7 @@ IMAGE_TYPES = " \
->      hddimg \
->      squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
->      ubi ubifs multiubi \
-> -    tar tar.gz tar.bz2 tar.xz tar.lz4 \
-> +    tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
->      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
->      wic wic.gz wic.bz2 wic.lzma \
->      container \
-> @@ -282,7 +282,7 @@ IMAGE_TYPES = " \
->  # CONVERSION_CMD/DEPENDS.
->  COMPRESSIONTYPES ?= ""
->
-> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
-> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
->  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
->  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> @@ -290,6 +290,7 @@ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=
->  CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
->  CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->  CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-> +CONVERSION_CMD_zst = "zstd -f -k -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
->  CONVERSION_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
->  CONVERSION_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
->  CONVERSION_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
-> @@ -310,6 +311,7 @@ CONVERSION_DEPENDS_xz = "xz-native"
->  CONVERSION_DEPENDS_lz4 = "lz4-native"
->  CONVERSION_DEPENDS_lzo = "lzop-native"
->  CONVERSION_DEPENDS_zip = "zip-native"
-> +CONVERSION_DEPENDS_zst = "zstd-native"
->  CONVERSION_DEPENDS_sum = "mtd-utils-native"
->  CONVERSION_DEPENDS_bmap = "bmap-tools-native"
->  CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
