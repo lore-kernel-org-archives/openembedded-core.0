@@ -1,53 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B03F37F87E
+Return-Path: <prvs=2065966fb=alistair.francis@wdc.com>
+Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
+	by mail.openembedded.org (Postfix) with ESMTP id BFBF471B1D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2019 17:53:30 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id t1so21087675wrv.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 06 Nov 2019 09:53:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=rO/XWzBH9RrNPWSub3p+DrUaB214bAzpMNlxwKd+jfM=;
-	b=AtfLqlb+cT+gkXZqhAuiWmT/PpLMDsMHU7QItLTgga4nBiI3hxtGAda/yjFhRxTocI
-	DAunEI+aqDCWNDL7imbg57ULbRBB+ohUlPNTFzi/cTxSzdK8kHIgQ/oFbdMabIoSxYnb
-	8U3fi715wo6QSJiuIXS3rIjiTeF9W1nb2N7zQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=rO/XWzBH9RrNPWSub3p+DrUaB214bAzpMNlxwKd+jfM=;
-	b=WXOqTBIzLY128lqJh9xdVt5iFljgidFJVeGghRfLAykBpNvPUPoCuN7VDEvUoFZJUs
-	n0BwL0j8Po4AR3nqMBRXNxqyOIV5Wvgocq3ofhYi9J/hkJWW9nxxSXPEoJS5kI04Ahpj
-	mHsKkWhuHKoCUdyecBXslHMYHIAg8uTXucxbh4N0bL09MnbPqIUeS51wn2aVS9w7w8LW
-	tFoaECo0VJPjZNTWPd6F7KlOH8fWxhnT6MZXzgmG3OD1ED6XNUpx2QDaP++aa1LouQMo
-	AlW59M7dWv9LiI51VYMAOvVWrRWUZfhZ9JQ7099DNTuqVZjhnTFDvcLM/WMCHFpznqph
-	BIMg==
-X-Gm-Message-State: APjAAAXxl0kYqwCGo96twUnVhbVtpmbxMM2q2BoFlmn1CUDy0vUx8iPg
-	E7ChBeHenabxK6gMNXQPFo5JmQ==
-X-Google-Smtp-Source: APXvYqxCK57G1ueGSSNzKu1FkzUaxHg4hUOhWnZoiTFCbjc4uEsSV5a2IrdyUQf4LsQMAJGvvyNJNg==
-X-Received: by 2002:adf:ed11:: with SMTP id a17mr4049330wro.392.1573062811206; 
-	Wed, 06 Nov 2019 09:53:31 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u203sm3545725wme.34.2019.11.06.09.53.29
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 06 Nov 2019 09:53:30 -0800 (PST)
-Message-ID: <e3de40a47b9b208f08c3123ad59c8caf25d581d6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mikko.Rapeli@bmw.de, ryan.harkin@linaro.org
-Date: Wed, 06 Nov 2019 17:53:27 +0000
-In-Reply-To: <20191106160618.GC2398@hiutale>
-References: <20190925122349.14872-1-ross.burton@intel.com>
-	<CAD0U-hJLV7F3K4VdX0GUKO9LRazWLz1rvp1xmWh6fzgzP3gcFQ@mail.gmail.com>
-	<20191106160618.GC2398@hiutale>
-User-Agent: Evolution 3.34.1-2 
+	Wed,  6 Nov 2019 18:23:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1573064628; x=1604600628;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=L93dwyXKYJMt4laOvVEA/f/OIytaDiNczayfA2T1pis=;
+	b=adn07r1wlfgam2MWwdMI8/JsEdOQ5hXnGZa5y2V+XxBW4Lqpioqby+mA
+	gF2V0bTUKscRX4oA7Ra+FQBeu7AiVkIdC9I85SGYZrLgFOrzelfrwGEKw
+	YLr3fFTkc1GS4AuP1D0CSnWQGrkwQc63zcq40WbL6hHzf/K2FdghNOq5F
+	D5JfYThhEJrAchB26IBBRPZwGOxNVEn/oylsk63y7wTTTxlCRRy9Jdvj4
+	9aUfZ+DGcl1ykYPvXpwD5AjnUslz1rtnmuihzBgGPMlvuWP2opaYusepn
+	HQG8+xrMR2jDxb1sS4lDcHgWONLAuUVSAAAQRD2z4ijqxwcGEjbJnLANQ Q==;
+IronPort-SDR: Prap2sn2YRMAH4k3AD34NX/ENssxePF80HVvYCgqtdNe/W49Pbclj7GLdiwbHEJRTN3V/HACUi
+	atiNVwSjuD+Nfm1A/ilBFXveyxmbYCAjL4tgwGaDBS1L440mu/LfLCvtgMF+xqLOe7wxw3ElaW
+	RRk8CYVExZ6p2To87WS20mST/ynoN6wIiDJ/tptmJyyFOXxM3QKzMbLU9k3utNyRG3YFQy+jW9
+	HT8UgLCdT7WAI4irf0aWZl9cWfpbQwBGwwzXyXK2DMsI2uwaTFVSSbRgoncMGLLyFyVCv2BT6R
+	Dmc=
+X-IronPort-AV: E=Sophos;i="5.68,275,1569254400"; d="scan'208";a="123048685"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+	([199.255.45.15])
+	by ob1.hgst.iphmx.com with ESMTP; 07 Nov 2019 02:23:34 +0800
+IronPort-SDR: SDjRNPODoxivU1zD7gpDtRRJz2fSTTzBCD9sPmXKM/z/lauKOdkY7tha/aKdNIeAc41lmR5oBJ
+	Kh7rbGO4eO63tzGVEM4OwFAwPrNCakAPgCwzrcLSClEaQydkHmovaXP/xZjEoZMQ4duep1ngIi
+	GqBnbMXY9UkNWIWx+2RtZdvG52k+qMmNT1wO6LOQSN/Z2+AtdgAOX1pTrUbptJrVK6l+kDbLZG
+	0nPTujvUQrD2AtkVRwHSD6tr+Dfer11jlmqV88jrQO/7GvMTx5k90KXqLl+TuasFxqBitTf+WL
+	r7uC4qlupbjUktK8ouuU+qvg
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	06 Nov 2019 10:18:46 -0800
+IronPort-SDR: Gi2eL+jNN+iCe/EEAa1vK96tfZNq6L9m710/SE5+Cj5qTDTh9Rz6Zbs6ftIYuKTkr/aHf/p9rX
+	dUBR9Ioe42c4/ogokHuVpZoqalgC8WEIyP+PDThz7CMBzuBipIv1iTs3VQuuMPjyLdTG546QSb
+	qgc5UF4gORhFBbOCxoGtKHgOfMcza9mg3NYzqwdyzvg3P1AOVzydSS7TQoeBbOWZS5gJsDfAbh
+	whFrlNOB2d2vSs0YeBMT1zi5U2FNLCR52dV0WBTK86zKbkpML+K41aLg/51lVTzTAcOyYd0EP0
+	r3c=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+	by uls-op-cesaip01.wdc.com with ESMTP; 06 Nov 2019 10:23:35 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  6 Nov 2019 10:18:18 -0800
+Message-Id: <20191106181819.12517-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH][thud] cve-check: backport rewrite from master
+Subject: [PATCH 1/2] tune-riscv: Add support for hard and soft float
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,69 +60,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2019 17:53:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 06 Nov 2019 18:23:45 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2019-11-06 at 16:06 +0000, Mikko.Rapeli@bmw.de wrote:
-> Hi,
-> 
-> On Wed, Nov 06, 2019 at 02:59:16PM +0000, Ryan Harkin wrote:
-> > Hi Ross/Richard,
-> > 
-> > I'd like this applied to Sumo also. Should I create a new patch and
-> > send it
-> > to the list, or is there a process for requesting this is cherry-
-> > picked
-> > across?
-> 
-> I just posted the port of this and all other CVE scan related changes
-> to sumo
-> http://lists.openembedded.org/pipermail/openembedded-core/2019-November/288817.html
-> 
-> But the question is valid :)
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ meta/conf/machine/include/riscv/arch-riscv.inc |  3 ++-
+ meta/conf/machine/include/riscv/tune-riscv.inc | 17 +++++++++++++++--
+ 2 files changed, 17 insertions(+), 3 deletions(-)
 
-Support for sumo officially ended. I can see a case that the broken CVE
-tools there are a good reason we could consider merging the patch
-series but we do need to be able to test it to merge it to the main
-branch. If we can't test, we're merging blind and the quality the
-project tries to deliver could be compromised.
-
-I have made some tweaks to the autobuilder which bring us closer to
-being able to test sumo using the workers still around from that
-release.
-
-The things that make me nervous are questions like:
-
-Which releases do we "open" for such patches? How far back do we go?
-Which kinds of patches are acceptable?
-
-Note that sumo (and earlier) doesn't have much of the QA automation
-which we've now built our processes around so we don't get test
-reports.
-
-You mention wanting to change gcc. That means we really do need a full
-retest of it to merge that (which is why it never happened originally
-from what I remember).
-
-Also, the LTS proposal stated we needed someone to handle this work. We
-have no such person, even if we do somehow find them, they can't be
-expected to cover all the old releases and effectively turn all of them
-into LTS releases. How can we get the funding to try and get some help
-with handling this workload?
-
-I am probably going to try and make a case for sorting the CVE tooling
-on sumo as I agree its bad and we should do something. Where do we draw
-the line though.
-
-Basically, this looks like it could create a lot of extra work without
-helping the core project under-resourcing we currently struggle with.
-You can therefore see why I might be nervous :/.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
+index f3edcc39f7..6737545e00 100644
+--- a/meta/conf/machine/include/riscv/arch-riscv.inc
++++ b/meta/conf/machine/include/riscv/arch-riscv.inc
+@@ -4,7 +4,8 @@ DEFAULTTUNE ?= "riscv64"
+ 
+ TUNE_ARCH = "${TUNE_ARCH_tune-${DEFAULTTUNE}}"
+ TUNE_PKGARCH = "${TUNE_PKGARCH_tune-${DEFAULTTUNE}}"
+-TUNE_CCARGS .= ""
++TUNE_CCARGS_riscv64 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv64-f', ' -mabi=lp64d', ' -mabi=lp64', d)}"
++TUNE_CCARGS_riscv32 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv32-f', ' -mabi=ilp32f', ' -mabi=ilp32', d)}"
+ 
+ # QEMU usermode fails with invalid instruction error (For riscv32)
+ MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32', ' qemu-usermode', '', d)}"
+diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
+index 25d0463492..631653f2a2 100644
+--- a/meta/conf/machine/include/riscv/tune-riscv.inc
++++ b/meta/conf/machine/include/riscv/tune-riscv.inc
+@@ -1,12 +1,26 @@
+ require conf/machine/include/riscv/arch-riscv.inc
+ 
+ TUNEVALID[riscv64] = "Enable 64-bit RISC-V optimizations"
++TUNEVALID[riscv64-f] = "Enable 64-bit RISC-V optimizations with hard float"
+ TUNEVALID[riscv32] = "Enable 32-bit RISC-V optimizations"
++TUNEVALID[riscv32-f] = "Enable 32-bit RISC-V optimizations with hard float"
+ 
+ TUNEVALID[bigendian] = "Big endian mode"
+ 
+-AVAILTUNES += "riscv64 riscv32"
++AVAILTUNES += "riscv64 riscv64-f riscv32 riscv32-f"
+ 
++# Hard float
++TUNE_FEATURES_tune-riscv64-f = "${TUNE_FEATURES_tune-riscv64} riscv64-f"
++TUNE_ARCH_tune-riscv64-f = "riscv64"
++TUNE_PKGARCH_tune-riscv64-f = "riscv64"
++PACKAGE_EXTRA_ARCHS_tune-riscv64-f = "riscv64"
++
++TUNE_FEATURES_tune-riscv32-f = "${TUNE_FEATURES_tune-riscv32} riscv32-f"
++TUNE_ARCH_tune-riscv32-f = "riscv32"
++TUNE_PKGARCH_tune-riscv32-f = "riscv32"
++PACKAGE_EXTRA_ARCHS_tune-riscv32-f = "riscv32"
++
++# Soft float
+ TUNE_FEATURES_tune-riscv64 = "riscv64"
+ TUNE_ARCH_tune-riscv64 = "riscv64"
+ TUNE_PKGARCH_tune-riscv64 = "riscv64"
+@@ -16,4 +30,3 @@ TUNE_FEATURES_tune-riscv32 = "riscv32"
+ TUNE_ARCH_tune-riscv32 = "riscv32"
+ TUNE_PKGARCH_tune-riscv32 = "riscv32"
+ PACKAGE_EXTRA_ARCHS_tune-riscv32 = "riscv32"
+-
+-- 
+2.23.0
 
 
