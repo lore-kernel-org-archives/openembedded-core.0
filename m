@@ -1,55 +1,24 @@
-Return-Path: <prvs=2065966fb=alistair.francis@wdc.com>
-Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 6952171B1D
+Return-Path: <joe.slater@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 01E617F823
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2019 18:23:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1573064630; x=1604600630;
-	h=from:to:cc:subject:date:message-id:in-reply-to:
-	references:mime-version:content-transfer-encoding;
-	bh=o1xCOaX9+7bCyFrstScaO4nzmFCL592Wl8JLXbFUvvs=;
-	b=f1It29EbTnVxtAhMaC1c0aFEq9NuO0PhqWhR6lMoXB/zG7BrLZXmQaOr
-	43ll2ssIHQoxs8AhJ1f8+/+4JcxSPg3BzAM+bsJRaZVy001WBQJfGviKU
-	4wPOf/DlIwzFNSD4orcqEAbD5zuuV4i5azIpOgBoBlD+HfVH7oRuEujIw
-	3fzpYx9GYZVjMVCwH9FKt/FTsmH1X2P9WAlIfiyEl6tDVquq8GQrngj9p
-	GUQ3Re7wudDZlGMfQilOlRaPGb1ae9hhOPfcCkiT3RlKpsj79FbXSenIG
-	CWz7pwVLoeD5g8um5FMuEfEqLJ1iymQkiPPx4RFV7qvDhsW8Ow1OVt3gJ A==;
-IronPort-SDR: l7kz4UZ5wVvg5J3XrISjuzb4WepRRG+XbaXjNg04UotLCCWXorIXkAdB40PvwWSp1Y+97ZsrwK
-	Vym5oae45rFWZs9VK7oppjyEkTOHlnZvLGmkLITXQqZdVVCRVwHD4B37QEuTLQ7Q2lxeZMnKU6
-	OVvzV0HL3sHj6+NiZOvC+PJjJOKu9BMfDNai0LCXSAXAoLyoB8jQlynyYwKnC1oi4J4vE9ViOX
-	Seu0Ypg7e5KWyMedbnKi7oXrXy+Y/TRUrs7bVyMNS70liATZVfSdqYSg39H5QxIiBICSnQsd3a
-	Z0A=
-X-IronPort-AV: E=Sophos;i="5.68,275,1569254400"; d="scan'208";a="123048687"
-Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
-	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 07 Nov 2019 02:23:35 +0800
-IronPort-SDR: clcQ8XcN8TJneVd88Mh1CJrxQd1W+LvdNitr1iQjeiSk6WfMh7CFBAdM+q1g19R0M9deJakQAP
-	x9JN/K4VSirIMzeJMp0J6hg4IOOcrl2qmfFIClbJrTMM+w9Ggre5MjdF861cy/maiHDIb9riPX
-	r7LIWNJ5Ok2nQUBQq0NakvspizTdyy+7V9QFUq1FfMBgSFxtDXYsrWqRpMtetW5RDaC31vv19m
-	6GmSbyXWlU4xNVjl2UMEhxFzZtf4FRwVs/Q3c1wsmDmdCJCN6od7yh0aB292T67ta5OpDpANyT
-	G5+VPnAsOd/06tjhl6a3xTu1
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-	by uls-op-cesaep02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
-	06 Nov 2019 10:18:46 -0800
-IronPort-SDR: pMLiegJo4TBQSBqa9yA+DAoTB5Xc3ZxAxrXyHTDKuUW1deiA6VO2ikytgsqHaxCgAo4d0pn2Db
-	mzdnSnB//0OOhnFYCg3F4xk9mOlFnfUW+BC+yFzP7PAWAAOKK0pRqw3SgmeyvmgJCPGYPXMCmb
-	5y3IJBAf469xTwvJ9MVCNov0jS593BgrlVH5CNLuNpM7zsH8zJFF6WPzPeX/bpmD+yY3MrERSN
-	I34PxFo5A5YlwgkX/YEwqRACHB6q5DOX08hJeUuFNXTlYV4WIWFfHFtdOzp+g9kse9c7q+lS9d
-	8zo=
-WDCIronportException: Internal
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
-	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
-	by uls-op-cesaip01.wdc.com with ESMTP; 06 Nov 2019 10:23:36 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2019 10:18:19 -0800
-Message-Id: <20191106181819.12517-2-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191106181819.12517-1-alistair.francis@wdc.com>
-References: <20191106181819.12517-1-alistair.francis@wdc.com>
+	Wed,  6 Nov 2019 18:45:53 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xA6IjtQW018426
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 6 Nov 2019 10:45:55 -0800 (PST)
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 6 Nov 2019 10:45:54 -0800
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 6 Nov 2019 10:45:53 -0800
+Message-ID: <20191106184554.22940-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-Subject: [PATCH 2/2] arch-riscv: Default to hard float for riscv64
+Subject: [zeus][PATCH 1/1] libtiff: fix CVE-2019-17546
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,27 +31,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 06 Nov 2019 18:23:48 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 06 Nov 2019 18:45:54 -0000
+Content-Type: text/plain
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Apply unmodified patch from upstream.
+
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/conf/machine/include/riscv/arch-riscv.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../libtiff/tiff/CVE-2019-17546.patch              | 103 +++++++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.0.10.bb     |   1 +
+ 2 files changed, 104 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch
 
-diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
-index 6737545e00..8d72e6d79e 100644
---- a/meta/conf/machine/include/riscv/arch-riscv.inc
-+++ b/meta/conf/machine/include/riscv/arch-riscv.inc
-@@ -1,6 +1,6 @@
- # RISCV Architecture definition
- 
--DEFAULTTUNE ?= "riscv64"
-+DEFAULTTUNE ?= "riscv64-f"
- 
- TUNE_ARCH = "${TUNE_ARCH_tune-${DEFAULTTUNE}}"
- TUNE_PKGARCH = "${TUNE_PKGARCH_tune-${DEFAULTTUNE}}"
+diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch
+new file mode 100644
+index 0000000..04c5410
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch
+@@ -0,0 +1,103 @@
++libtiff: fix CVE-2019-17546
++
++Added after 4.0.10 release.
++
++CVE: CVE-2019-17546
++Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff]
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++commit 4bb584a35f87af42d6cf09d15e9ce8909a839145
++Author: Even Rouault <even.rouault@spatialys.com>
++Date:   Thu Aug 15 15:05:28 2019 +0200
++
++    RGBA interface: fix integer overflow potentially causing write heap buffer overflow, especially on 32 bit builds. Fixes https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16443. Credit to OSS Fuzz
++
++diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
++index c88b5fa..4da785d 100644
++--- a/libtiff/tif_getimage.c
+++++ b/libtiff/tif_getimage.c
++@@ -949,16 +949,23 @@ gtStripContig(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
++ 	fromskew = (w < imagewidth ? imagewidth - w : 0);
++ 	for (row = 0; row < h; row += nrow)
++ 	{
+++		uint32 temp;
++ 		rowstoread = rowsperstrip - (row + img->row_offset) % rowsperstrip;
++ 		nrow = (row + rowstoread > h ? h - row : rowstoread);
++ 		nrowsub = nrow;
++ 		if ((nrowsub%subsamplingver)!=0)
++ 			nrowsub+=subsamplingver-nrowsub%subsamplingver;
+++		temp = (row + img->row_offset)%rowsperstrip + nrowsub;
+++		if( scanline > 0 && temp > (size_t)(TIFF_TMSIZE_T_MAX / scanline) )
+++		{
+++			TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Integer overflow in gtStripContig");
+++			return 0;
+++		}
++ 		if (_TIFFReadEncodedStripAndAllocBuffer(tif,
++ 		    TIFFComputeStrip(tif,row+img->row_offset, 0),
++ 		    (void**)(&buf),
++                     maxstripsize,
++-		    ((row + img->row_offset)%rowsperstrip + nrowsub) * scanline)==(tmsize_t)(-1)
+++		    temp * scanline)==(tmsize_t)(-1)
++ 		    && (buf == NULL || img->stoponerr))
++ 		{
++ 			ret = 0;
++@@ -1051,15 +1058,22 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
++ 	fromskew = (w < imagewidth ? imagewidth - w : 0);
++ 	for (row = 0; row < h; row += nrow)
++ 	{
+++                uint32 temp;
++ 		rowstoread = rowsperstrip - (row + img->row_offset) % rowsperstrip;
++ 		nrow = (row + rowstoread > h ? h - row : rowstoread);
++ 		offset_row = row + img->row_offset;
+++                temp = (row + img->row_offset)%rowsperstrip + nrow;
+++                if( scanline > 0 && temp > (size_t)(TIFF_TMSIZE_T_MAX / scanline) )
+++                {
+++                        TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Integer overflow in gtStripSeparate");
+++                        return 0;
+++                }
++                 if( buf == NULL )
++                 {
++                     if (_TIFFReadEncodedStripAndAllocBuffer(
++                             tif, TIFFComputeStrip(tif, offset_row, 0),
++                             (void**) &buf, bufsize,
++-                            ((row + img->row_offset)%rowsperstrip + nrow) * scanline)==(tmsize_t)(-1)
+++                            temp * scanline)==(tmsize_t)(-1)
++                         && (buf == NULL || img->stoponerr))
++                     {
++                             ret = 0;
++@@ -1079,7 +1093,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
++                     }
++                 }
++ 		else if (TIFFReadEncodedStrip(tif, TIFFComputeStrip(tif, offset_row, 0),
++-		    p0, ((row + img->row_offset)%rowsperstrip + nrow) * scanline)==(tmsize_t)(-1)
+++		    p0, temp * scanline)==(tmsize_t)(-1)
++ 		    && img->stoponerr)
++ 		{
++ 			ret = 0;
++@@ -1087,7 +1101,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
++ 		}
++ 		if (colorchannels > 1 
++                     && TIFFReadEncodedStrip(tif, TIFFComputeStrip(tif, offset_row, 1),
++-                                            p1, ((row + img->row_offset)%rowsperstrip + nrow) * scanline) == (tmsize_t)(-1)
+++                                            p1, temp * scanline) == (tmsize_t)(-1)
++ 		    && img->stoponerr)
++ 		{
++ 			ret = 0;
++@@ -1095,7 +1109,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
++ 		}
++ 		if (colorchannels > 1 
++                     && TIFFReadEncodedStrip(tif, TIFFComputeStrip(tif, offset_row, 2),
++-                                            p2, ((row + img->row_offset)%rowsperstrip + nrow) * scanline) == (tmsize_t)(-1)
+++                                            p2, temp * scanline) == (tmsize_t)(-1)
++ 		    && img->stoponerr)
++ 		{
++ 			ret = 0;
++@@ -1104,7 +1118,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
++ 		if (alpha)
++ 		{
++ 			if (TIFFReadEncodedStrip(tif, TIFFComputeStrip(tif, offset_row, colorchannels),
++-			    pa, ((row + img->row_offset)%rowsperstrip + nrow) * scanline)==(tmsize_t)(-1)
+++			    pa, temp * scanline)==(tmsize_t)(-1)
++ 			    && img->stoponerr)
++ 			{
++ 				ret = 0;
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
+index 0432763..5c008c5 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
+@@ -8,6 +8,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
+            file://CVE-2019-6128.patch \
+            file://CVE-2019-7663.patch \
+            file://CVE-2019-14973.patch \
++           file://CVE-2019-17546.patch \
+ "
+ SRC_URI[md5sum] = "114192d7ebe537912a2b97408832e7fd"
+ SRC_URI[sha256sum] = "2c52d11ccaf767457db0c46795d9c7d1a8d8f76f68b0b800a3dfe45786b996e4"
 -- 
-2.23.0
+2.7.4
 
 
