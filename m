@@ -1,6 +1,6 @@
 Return-Path: <mcfrisk@kapsi.fi>
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C5FC7F899
+	by mail.openembedded.org (Postfix) with ESMTP id 9BD5D7F895
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  6 Nov 2019 15:38:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
@@ -9,24 +9,24 @@ DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=uGziAfjOSxnkNrexjZ/jkqOxvYb38GQuJYlUjrRSyek=;
-	b=jGU/z9yR0QulafT0bJwt4k82UO
-	c+50TUSHDhxc+deOgxsMVyVLNPN2gXVqv5rekTakhzEUKaQL4ZFATrdark77hWzIkMua1fmoi3tmR
-	YWsQo6x58n6vtBJPoa2oEfrmhCSno8LZsI9N+/5pH7P7WA4G75x5G2Z2AyRQ2FL0aC4Y/pIghzenl
-	jHICUY06yTFkeSnFURdoAurT2RLIDE/L2x9ZqY0DL264L8+PB//L6UGoH+oeA6ZHtkLSlnZz9CaX7
-	d4QGZrkD77Um2vatzKeyW/4a3KtP5KmlbtsNWYvlfdaNSGA5xP4TT4DY/UpSwyrcZvaNVLwkF/r/+
-	OQES51Bg==;
+	bh=YI8XShzA0FjpelZ+DPcqRe7psfe++srLUXtyfUNaodY=;
+	b=y2f/L0qO7djiz/P9Gga5LRsJ23
+	cX/r6kH3bqWBn5W6Avr4kqkXEanTpfukgrQf+gN+lJzaB/QL10hI/gPlvWdyPT7W51lTiUzWhpopT
+	A6GWCHScVofh7SH60aSkctrXRepiA8Qda89qk8aeEJiJyOXPSdC3qIYZxwEmfeQWfHweSJ2p86SCE
+	b3YjqFtiFOx8EDB/QXtimkXnnOGofzOoeWlOoo+2F9ASsKJjgOc9klPuHXtNbxG9uLllWUN4+YqnM
+	Tcopz+Pj0ZhQfR1m4myIYEXJJNMucPurte0HmZIuAQo1tLnA3WrRc3O8szoDI1tlW5ZOS/nQh23Ye
+	bVjcJAJA==;
 Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1iSNOa-0000AC-1n; Wed, 06 Nov 2019 17:38:56 +0200
+	id 1iSNOa-0000A1-1q; Wed, 06 Nov 2019 17:38:56 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1iSNO5-0007XP-TV; Wed, 06 Nov 2019 17:38:25 +0200
+	id 1iSNO5-0007XI-RH; Wed, 06 Nov 2019 17:38:25 +0200
 From: Mikko Rapeli <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2019 17:37:41 +0200
-Message-Id: <311cfe9aa30c7d4a9476dec12769d2c4290f5a91.1573047194.git.mikko.rapeli@bmw.de>
+Date: Wed,  6 Nov 2019 17:37:40 +0200
+Message-Id: <487417678e7175395516806742a481b47fd0a151.1573047194.git.mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1573047194.git.mikko.rapeli@bmw.de>
 References: <cover.1573047194.git.mikko.rapeli@bmw.de>
@@ -38,20 +38,20 @@ X-Rspam-Report: Action: add header Symbol: ARC_NA(0.00)
 	Symbol: FROM_HAS_DN(0.00) Symbol: TO_DN_SOME(0.00)
 	Symbol: MULTIPLE_UNIQUE_HEADERS(4.89) Symbol: MIME_GOOD(-0.10)
 	Symbol: TO_MATCH_ENVRCPT_ALL(0.00)
-	Symbol: RCPT_COUNT_THREE(0.00) Symbol: RCVD_TLS_LAST(0.00)
-	Symbol: MID_CONTAINS_FROM(1.00) Symbol: NEURAL_HAM(-0.00)
+	Symbol: RCPT_COUNT_THREE(0.00) Symbol: NEURAL_SPAM(0.00)
+	Symbol: RCVD_TLS_LAST(0.00) Symbol: MID_CONTAINS_FROM(1.00)
 	Symbol: IP_SCORE(-0.15) Symbol: FORGED_SENDER(0.30)
 	Symbol: R_DKIM_NA(0.00) Symbol: MIME_TRACE(0.00)
 	Symbol: ASN(0.00) Symbol: FROM_NEQ_ENVFROM(0.00)
 	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf neutral
 	Message-ID:
-	311cfe9aa30c7d4a9476dec12769d2c4290f5a91.1573047194.git.mikko.rapeli@bmw.de
+	487417678e7175395516806742a481b47fd0a151.1573047194.git.mikko.rapeli@bmw.de
 X-Rspam-Status: Yes
 X-Rspam-Bar: ++++++
 X-SA-Exim-Connect-IP: 91.232.154.11
 X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
 X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Subject: [PATCH RFC CFH][sumo 26/47] cve-update-db-native: clean up JSON fetching
+Subject: [PATCH RFC CFH][sumo 25/47] cve-update-db-native: improve metadata parsing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,72 +68,59 @@ X-List-Received-Date: Wed, 06 Nov 2019 15:38:56 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-Currently the code fetches the compressed JSON, writes it to a temporary file,
-uncompresses that with gzip and passes the fake file object to update_db().
+The metadata parser is fragile: first it coerces a bytes() to a str() (so the
+string is b'LastModifiedDate:2019...'), assumes the first line is the date, and
+then uses a regex to parse (which then includes the trailing quote as part of
+the date).
 
-Instead, uncompress the gzip'd data in memory and pass the JSON directly to
-update_db().
+Clean this up by parsing the bytes as UTF-8 (ASCII is probably fine, but this is
+safer), iterate through the lines and split on colons to find the right
+key/value pair.
 
-(From OE-Core rev: 9422745979256c442f533770203f62ec071c18fb)
+(From OE-Core rev: bb4e53af33d6ca1e9346464adbdc1b39c47530f3)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 29 +++++++++++---------------
- 1 file changed, 12 insertions(+), 17 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
 
 diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 6907197..a06b74a 100644
+index a5d8e32..6907197 100644
 --- a/meta/recipes-core/meta/cve-update-db-native.bb
 +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -62,25 +62,20 @@ python do_populate_cve_db() {
-         meta = c.fetchone()
-         if not meta or meta[0] != last_modified:
-             # Clear products table entries corresponding to current year
--            cve_year = 'CVE-' + str(year) + '%'
--            c.execute("delete from PRODUCTS where ID like ?", (cve_year,))
-+            c.execute("delete from PRODUCTS where ID like ?", ('CVE-%d%%' % year,))
+@@ -17,7 +17,7 @@ python do_populate_cve_db() {
+     Update NVD database with json data feed
+     """
  
-             # Update db with current year json file
--            req = urllib.request.Request(json_url)
--            if proxy:
--                req.set_proxy(proxy, 'https')
-             try:
--                with urllib.request.urlopen(req, timeout=1) as r, \
--                     open(json_tmpfile, 'wb') as tmpfile:
--                    shutil.copyfileobj(r, tmpfile)
--            except:
-+                req = urllib.request.Request(json_url)
-+                if proxy:
-+                    req.set_proxy(proxy, 'https')
-+                with urllib.request.urlopen(req) as r:
-+                    update_db(c, gzip.decompress(r.read()))
-+                c.execute("insert or replace into META values (?, ?)", [year, last_modified])
-+            except urllib.error.URLError as e:
-                 cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
--                break
--
--            with gzip.open(json_tmpfile, 'rt') as jsonfile:
--                update_db(c, jsonfile)
--            c.execute("insert or replace into META values (?, ?)",
--                    [year, last_modified])
-+                bb.warn("Cannot parse CVE data (%s), update failed" % e.reason)
+-    import sqlite3, urllib, shutil, gzip, re
++    import sqlite3, urllib, shutil, gzip
+     from datetime import date
+ 
+     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
+@@ -47,13 +47,15 @@ python do_populate_cve_db() {
+         req = urllib.request.Request(meta_url)
+         if proxy:
+             req.set_proxy(proxy, 'https')
+-        try:
+-            with urllib.request.urlopen(req, timeout=1) as r:
+-                date_line = str(r.read().splitlines()[0])
+-                last_modified = re.search('lastModifiedDate:(.*)', date_line).group(1)
+-        except:
+-            cve_f.write('Warning: CVE db update error, CVE data is outdated.\n\n')
+-            break
++        with urllib.request.urlopen(req) as r:
++            for l in r.read().decode("utf-8").splitlines():
++                key, value = l.split(":", 1)
++                if key == "lastModifiedDate":
++                    last_modified = value
++                    break
++            else:
++                bb.warn("Cannot parse CVE metadata, update failed")
 +                return
  
-         # Update success, set the date to cve_check file.
-         if year == date.today().year:
-@@ -143,9 +138,9 @@ def parse_node_and_insert(c, node, cveId):
- 
-     c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator())
- 
--def update_db(c, json_filename):
-+def update_db(c, jsondata):
-     import json
--    root = json.load(json_filename)
-+    root = json.loads(jsondata)
- 
-     for elt in root['CVE_Items']:
-         if not elt['impact']:
+         # Compare with current db last modified date
+         c.execute("select DATE from META where YEAR = ?", (year,))
 -- 
 1.9.1
 
