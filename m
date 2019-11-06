@@ -1,32 +1,32 @@
 Return-Path: <mcfrisk@kapsi.fi>
 Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id EDE207F939
+	by mail.openembedded.org (Postfix) with ESMTP id 38AC07F889
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2019 15:38:55 +0000 (UTC)
+	Wed,  6 Nov 2019 15:38:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
 	s=20161220; h=Subject:References:In-Reply-To:Message-Id:Date:Cc:To:From:
 	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
 	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
 	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=wclRJi7/ImmTvmZ1PXrHJs6+j0x/M8c+LEiPBiVXe7g=;
-	b=K+JIZjbhI827LMle6r9ci0T8hI
-	ZTVz9zUav41O6ML7i4xSn0xd8yg5gaIyBs0W/7nxQQ7oej8X+16BwUWQqU/8YD5K5KH4+02g1CVLc
-	HdRdn+nxwfIm/v2IU3xzh+1gj185ESxIEsj216tr6fWBhTs54o5f0uQmGhJ02wH0Y1bqF82hjSlc+
-	FUI9zgLry7V29pyk0ZIP1nYWD/jlCA2wkS3aCbuW8LOg0oaIqjEgt/Ct1K1vyE4/ubu7V4Ou3gE1L
-	3XUKb34GxHiy6/YaPFOV+E2ea/Hxk5fTilCDdEso80ors+zRIXJg4dZGzusHX7E/oeHhBLz1zz/Ct
-	Vj1Lql2g==;
+	bh=k4MQMpMc0QHdn9nlctlEHw4Xrn9vqeDVwI0xIcK/uqk=;
+	b=hcUYAWi9lF2qVK03kQ6FgqVZgJ
+	JOWv6CGKiLN44f0VGzUCwDs+3TWzXg6hCeh1nQVNezOVcipNZnCMSTwiprx2/kHoRTU2RRMDmDNIs
+	eU67qXbPsEMA3zSVAYmHQHeRyAFez9yUHRVey+LcpZPnz/Wb4j0qNBvVwYM+4/u2xo9SmCiE0JDwG
+	uJM22bqeKMxiy1wB/AU4kOgi/ZQOfvc2QBgxV7LoEbwIffGhtjMgRBcGjCNDzQaUah6wlC92qFdl9
+	Xq0ox1SNejPb6ZjT+77MHjANjzHyqBatKtXpPmmZ1D50IKjr2GXBOin2W5+YO6ElwnLzfqwxXGLwg
+	oRBRvhJg==;
 Received: from [2001:67c:1be8::12] (helo=lakka.kapsi.fi)
 	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
 	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1iSNOZ-00009n-SW; Wed, 06 Nov 2019 17:38:56 +0200
+	id 1iSNOa-00009s-7b; Wed, 06 Nov 2019 17:38:56 +0200
 Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
 	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1iSNO6-0007Yh-Ef; Wed, 06 Nov 2019 17:38:26 +0200
+	id 1iSNO5-0007XB-OL; Wed, 06 Nov 2019 17:38:25 +0200
 From: Mikko Rapeli <mikko.rapeli@bmw.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  6 Nov 2019 17:37:47 +0200
-Message-Id: <49c1d167e40a093549cc017e3d8c7630f8ba8af3.1573047194.git.mikko.rapeli@bmw.de>
+Date: Wed,  6 Nov 2019 17:37:39 +0200
+Message-Id: <45dd5c1feb860bc1153bc0e22b1707b122868eb2.1573047194.git.mikko.rapeli@bmw.de>
 X-Mailer: git-send-email 2.1.4
 In-Reply-To: <cover.1573047194.git.mikko.rapeli@bmw.de>
 References: <cover.1573047194.git.mikko.rapeli@bmw.de>
@@ -37,16 +37,16 @@ X-Rspam-Report: Action: add header Symbol: ARC_NA(0.00)
 	Symbol: DMARC_POLICY_SOFTFAIL(0.10) Symbol: FROM_HAS_DN(0.00)
 	Symbol: RCPT_COUNT_THREE(0.00) Symbol: R_SPF_ALLOW(-0.20)
 	Symbol: MULTIPLE_UNIQUE_HEADERS(4.89) Symbol: MIME_GOOD(-0.10)
-	Symbol: TO_MATCH_ENVRCPT_ALL(0.00) Symbol: TO_DN_SOME(0.00)
-	Symbol: RCVD_TLS_LAST(0.00) Symbol: MID_CONTAINS_FROM(1.00)
-	Symbol: NEURAL_HAM(-0.00) Symbol: IP_SCORE(-0.19)
+	Symbol: TO_MATCH_ENVRCPT_ALL(0.00) Symbol: NEURAL_SPAM(0.00)
+	Symbol: TO_DN_SOME(0.00) Symbol: RCVD_TLS_LAST(0.00)
+	Symbol: MID_CONTAINS_FROM(1.00) Symbol: IP_SCORE(-0.19)
 	Symbol: FORGED_SENDER(0.30) Symbol: R_DKIM_NA(0.00)
 	Symbol: MIME_TRACE(0.00) Symbol: ASN(0.00)
 	Symbol: FROM_NEQ_ENVFROM(0.00)
 	Symbol: HFILTER_HOSTNAME_UNKNOWN(2.50)
 	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf allow
 	Message-ID:
-	49c1d167e40a093549cc017e3d8c7630f8ba8af3.1573047194.git.mikko.rapeli@bmw.de
+	45dd5c1feb860bc1153bc0e22b1707b122868eb2.1573047194.git.mikko.rapeli@bmw.de
 X-Rspam-Status: Yes
 X-Rspam-Bar: ++++++++
 X-SA-Exim-Connect-IP: 2001:67c:1be8::12
@@ -58,7 +58,7 @@ X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,
 	URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.2
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
-Subject: [PATCH RFC CFH][sumo 32/47] dropbear: set CVE_PRODUCT
+Subject: [PATCH RFC CFH][sumo 24/47] cve-update-db-native: use executemany() to optimise CPE insertion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,29 +73,126 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 06 Nov 2019 15:38:57 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
 
-(From OE-Core rev: 3c247a4a166cabf7ddfea403cf272b3fb4e00872)
+Instead of calling execute() repeatedly, rewrite the function to be a generator
+and use executemany() for performance.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+(From OE-Core rev: b309840b6aa3423b909a43499356e929c8761318)
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/dropbear/dropbear.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/meta/cve-update-db-native.bb | 85 ++++++++++----------------
+ 1 file changed, 32 insertions(+), 53 deletions(-)
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index b6b436c..faf2f0e 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -37,6 +37,8 @@ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index 9470cbe..a5d8e32 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -97,70 +97,49 @@ def initialize_db(c):
+         VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
+         VERSION_END TEXT, OPERATOR_END TEXT)")
  
- inherit autotools update-rc.d systemd
- 
-+CVE_PRODUCT = "dropbear_ssh"
+-def insert_elt(c, db_values):
+-    query = "insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)"
+-    c.execute(query, db_values)
+-
+ def parse_node_and_insert(c, node, cveId):
+     # Parse children node if needed
+-    try:
+-        for child in node['children']:
+-            parse_node_and_insert(c, child, cveId)
+-    except:
+-        pass
+-
+-    # Exit if the cpe_match node does not exists
+-    try:
+-        cpe_match = node['cpe_match']
+-    except:
+-        return
+-
+-    for cpe in cpe_match:
+-        if not cpe['vulnerable']:
+-            return
+-        cpe23 = cpe['cpe23Uri'].split(':')
+-        vendor = cpe23[3]
+-        product = cpe23[4]
+-        version = cpe23[5]
+-
+-        if version != '*':
+-            # Version is defined, this is a '=' match
+-            db_values = [cveId, vendor, product, version, '=', '', '']
+-            insert_elt(c, db_values)
+-        else:
+-            # Parse start version, end version and operators
+-            op_start = ''
+-            op_end = ''
+-            v_start = ''
+-            v_end = ''
+-
+-            try:
+-                if cpe['versionStartIncluding']:
++    for child in node.get('children', ()):
++        parse_node_and_insert(c, child, cveId)
 +
- INITSCRIPT_NAME = "dropbear"
- INITSCRIPT_PARAMS = "defaults 10"
++    def cpe_generator():
++        for cpe in node.get('cpe_match', ()):
++            if not cpe['vulnerable']:
++                return
++            cpe23 = cpe['cpe23Uri'].split(':')
++            vendor = cpe23[3]
++            product = cpe23[4]
++            version = cpe23[5]
++
++            if version != '*':
++                # Version is defined, this is a '=' match
++                yield [cveId, vendor, product, version, '=', '', '']
++            else:
++                # Parse start version, end version and operators
++                op_start = ''
++                op_end = ''
++                v_start = ''
++                v_end = ''
++
++                if 'versionStartIncluding' in cpe:
+                     op_start = '>='
+                     v_start = cpe['versionStartIncluding']
+-            except:
+-                pass
+-            try:
+-                if cpe['versionStartExcluding']:
++
++                if 'versionStartExcluding' in cpe:
+                     op_start = '>'
+                     v_start = cpe['versionStartExcluding']
+-            except:
+-                pass
+-            try:
+-                if cpe['versionEndIncluding']:
++
++                if 'versionEndIncluding' in cpe:
+                     op_end = '<='
+                     v_end = cpe['versionEndIncluding']
+-            except:
+-                pass
+-            try:
+-                if cpe['versionEndExcluding']:
++
++                if 'versionEndExcluding' in cpe:
+                     op_end = '<'
+                     v_end = cpe['versionEndExcluding']
+-            except:
+-                pass
  
+-            db_values = [cveId, vendor, product, v_start, op_start, v_end, op_end]
+-            insert_elt(c, db_values)
++                yield [cveId, vendor, product, v_start, op_start, v_end, op_end]
++
++    c.executemany("insert into PRODUCTS values (?, ?, ?, ?, ?, ?, ?)", cpe_generator())
+ 
+ def update_db(c, json_filename):
+     import json
 -- 
 1.9.1
 
