@@ -1,24 +1,26 @@
 Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 01E617F823
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A72EA7F89E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  6 Nov 2019 18:45:53 +0000 (UTC)
+	Wed,  6 Nov 2019 18:45:54 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
 	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xA6IjtQW018426
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xA6Ijt1i015410
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 6 Nov 2019 10:45:55 -0800 (PST)
 Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Wed, 6 Nov 2019 10:45:54 -0800
+	Wed, 6 Nov 2019 10:45:55 -0800
 From: Joe Slater <joe.slater@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 6 Nov 2019 10:45:53 -0800
-Message-ID: <20191106184554.22940-1-joe.slater@windriver.com>
+Date: Wed, 6 Nov 2019 10:45:54 -0800
+Message-ID: <20191106184554.22940-2-joe.slater@windriver.com>
 X-Mailer: git-send-email 2.13.0
+In-Reply-To: <20191106184554.22940-1-joe.slater@windriver.com>
+References: <20191106184554.22940-1-joe.slater@windriver.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 1/1] libtiff: fix CVE-2019-17546
+Subject: [zeus][PATCH 1/1] libxslt: fix CVE-2019-18197
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,137 +36,67 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 06 Nov 2019 18:45:54 -0000
 Content-Type: text/plain
 
-Apply unmodified patch from upstream.
+Use patch from upstream after 1.1.33 release.
 
 Signed-off-by: Joe Slater <joe.slater@windriver.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libtiff/tiff/CVE-2019-17546.patch              | 103 +++++++++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.10.bb     |   1 +
- 2 files changed, 104 insertions(+)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch
+ .../libxslt/files/CVE-2019-18197.patch             | 33 ++++++++++++++++++++++
+ meta/recipes-support/libxslt/libxslt_1.1.33.bb     |  1 +
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-18197.patch
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch
+diff --git a/meta/recipes-support/libxslt/files/CVE-2019-18197.patch b/meta/recipes-support/libxslt/files/CVE-2019-18197.patch
 new file mode 100644
-index 0000000..04c5410
+index 0000000..5f2b620
 --- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch
-@@ -0,0 +1,103 @@
-+libtiff: fix CVE-2019-17546
++++ b/meta/recipes-support/libxslt/files/CVE-2019-18197.patch
+@@ -0,0 +1,33 @@
++libxslt: fix CVE-2019-18197
 +
-+Added after 4.0.10 release.
++Added after 1.1.33 release.
 +
-+CVE: CVE-2019-17546
-+Upstream-Status: Backport [https://gitlab.com/libtiff/libtiff]
++CVE: CVE-2019-18197
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt.git]
 +Signed-off-by: Joe Slater <joe.slater@windriver.com>
 +
-+commit 4bb584a35f87af42d6cf09d15e9ce8909a839145
-+Author: Even Rouault <even.rouault@spatialys.com>
-+Date:   Thu Aug 15 15:05:28 2019 +0200
++commit 2232473733b7313d67de8836ea3b29eec6e8e285
++Author: Nick Wellnhofer <wellnhofer@aevum.de>
++Date:   Sat Aug 17 16:51:53 2019 +0200
 +
-+    RGBA interface: fix integer overflow potentially causing write heap buffer overflow, especially on 32 bit builds. Fixes https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=16443. Credit to OSS Fuzz
++    Fix dangling pointer in xsltCopyText
++    
++    xsltCopyText didn't reset ctxt->lasttext in some cases which could
++    lead to various memory errors in relation with CDATA sections in input
++    documents.
++    
++    Found by OSS-Fuzz.
 +
-+diff --git a/libtiff/tif_getimage.c b/libtiff/tif_getimage.c
-+index c88b5fa..4da785d 100644
-+--- a/libtiff/tif_getimage.c
-++++ b/libtiff/tif_getimage.c
-+@@ -949,16 +949,23 @@ gtStripContig(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
-+ 	fromskew = (w < imagewidth ? imagewidth - w : 0);
-+ 	for (row = 0; row < h; row += nrow)
-+ 	{
-++		uint32 temp;
-+ 		rowstoread = rowsperstrip - (row + img->row_offset) % rowsperstrip;
-+ 		nrow = (row + rowstoread > h ? h - row : rowstoread);
-+ 		nrowsub = nrow;
-+ 		if ((nrowsub%subsamplingver)!=0)
-+ 			nrowsub+=subsamplingver-nrowsub%subsamplingver;
-++		temp = (row + img->row_offset)%rowsperstrip + nrowsub;
-++		if( scanline > 0 && temp > (size_t)(TIFF_TMSIZE_T_MAX / scanline) )
-++		{
-++			TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Integer overflow in gtStripContig");
-++			return 0;
-++		}
-+ 		if (_TIFFReadEncodedStripAndAllocBuffer(tif,
-+ 		    TIFFComputeStrip(tif,row+img->row_offset, 0),
-+ 		    (void**)(&buf),
-+                     maxstripsize,
-+-		    ((row + img->row_offset)%rowsperstrip + nrowsub) * scanline)==(tmsize_t)(-1)
-++		    temp * scanline)==(tmsize_t)(-1)
-+ 		    && (buf == NULL || img->stoponerr))
-+ 		{
-+ 			ret = 0;
-+@@ -1051,15 +1058,22 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
-+ 	fromskew = (w < imagewidth ? imagewidth - w : 0);
-+ 	for (row = 0; row < h; row += nrow)
-+ 	{
-++                uint32 temp;
-+ 		rowstoread = rowsperstrip - (row + img->row_offset) % rowsperstrip;
-+ 		nrow = (row + rowstoread > h ? h - row : rowstoread);
-+ 		offset_row = row + img->row_offset;
-++                temp = (row + img->row_offset)%rowsperstrip + nrow;
-++                if( scanline > 0 && temp > (size_t)(TIFF_TMSIZE_T_MAX / scanline) )
-++                {
-++                        TIFFErrorExt(tif->tif_clientdata, TIFFFileName(tif), "Integer overflow in gtStripSeparate");
-++                        return 0;
-++                }
-+                 if( buf == NULL )
-+                 {
-+                     if (_TIFFReadEncodedStripAndAllocBuffer(
-+                             tif, TIFFComputeStrip(tif, offset_row, 0),
-+                             (void**) &buf, bufsize,
-+-                            ((row + img->row_offset)%rowsperstrip + nrow) * scanline)==(tmsize_t)(-1)
-++                            temp * scanline)==(tmsize_t)(-1)
-+                         && (buf == NULL || img->stoponerr))
-+                     {
-+                             ret = 0;
-+@@ -1079,7 +1093,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
-+                     }
-+                 }
-+ 		else if (TIFFReadEncodedStrip(tif, TIFFComputeStrip(tif, offset_row, 0),
-+-		    p0, ((row + img->row_offset)%rowsperstrip + nrow) * scanline)==(tmsize_t)(-1)
-++		    p0, temp * scanline)==(tmsize_t)(-1)
-+ 		    && img->stoponerr)
-+ 		{
-+ 			ret = 0;
-+@@ -1087,7 +1101,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
-+ 		}
-+ 		if (colorchannels > 1 
-+                     && TIFFReadEncodedStrip(tif, TIFFComputeStrip(tif, offset_row, 1),
-+-                                            p1, ((row + img->row_offset)%rowsperstrip + nrow) * scanline) == (tmsize_t)(-1)
-++                                            p1, temp * scanline) == (tmsize_t)(-1)
-+ 		    && img->stoponerr)
-+ 		{
-+ 			ret = 0;
-+@@ -1095,7 +1109,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
-+ 		}
-+ 		if (colorchannels > 1 
-+                     && TIFFReadEncodedStrip(tif, TIFFComputeStrip(tif, offset_row, 2),
-+-                                            p2, ((row + img->row_offset)%rowsperstrip + nrow) * scanline) == (tmsize_t)(-1)
-++                                            p2, temp * scanline) == (tmsize_t)(-1)
-+ 		    && img->stoponerr)
-+ 		{
-+ 			ret = 0;
-+@@ -1104,7 +1118,7 @@ gtStripSeparate(TIFFRGBAImage* img, uint32* raster, uint32 w, uint32 h)
-+ 		if (alpha)
-+ 		{
-+ 			if (TIFFReadEncodedStrip(tif, TIFFComputeStrip(tif, offset_row, colorchannels),
-+-			    pa, ((row + img->row_offset)%rowsperstrip + nrow) * scanline)==(tmsize_t)(-1)
-++			    pa, temp * scanline)==(tmsize_t)(-1)
-+ 			    && img->stoponerr)
-+ 			{
-+ 				ret = 0;
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
-index 0432763..5c008c5 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.0.10.bb
-@@ -8,6 +8,7 @@ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-            file://CVE-2019-6128.patch \
-            file://CVE-2019-7663.patch \
-            file://CVE-2019-14973.patch \
-+           file://CVE-2019-17546.patch \
++diff --git a/libxslt/transform.c b/libxslt/transform.c
++index 95ebd07..d7ab0b6 100644
++--- a/libxslt/transform.c
+++++ b/libxslt/transform.c
++@@ -1094,6 +1094,8 @@ xsltCopyText(xsltTransformContextPtr ctxt, xmlNodePtr target,
++ 	    if ((copy->content = xmlStrdup(cur->content)) == NULL)
++ 		return NULL;
++ 	}
+++
+++	ctxt->lasttext = NULL;
++     } else {
++         /*
++ 	 * normal processing. keep counters to extend the text node
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.33.bb b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+index abc00a0..9f268e7 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.33.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
+            file://0001-Fix-security-framework-bypass.patch \
+            file://CVE-2019-13117.patch \
+            file://CVE-2019-13118.patch \
++           file://CVE-2019-18197.patch \
  "
- SRC_URI[md5sum] = "114192d7ebe537912a2b97408832e7fd"
- SRC_URI[sha256sum] = "2c52d11ccaf767457db0c46795d9c7d1a8d8f76f68b0b800a3dfe45786b996e4"
+ 
+ SRC_URI[md5sum] = "b3bd254a03e46d58f8ad1e4559cd2c2f"
 -- 
 2.7.4
 
