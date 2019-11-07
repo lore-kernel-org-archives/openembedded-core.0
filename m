@@ -1,57 +1,43 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 0549A605C3
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FD3F605BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2019 13:39:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Subject:Message-Id:Date:Cc:To:From:Sender:Reply-To:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=bYa5LO/auELpIndvIcHmBj9H6vN+/ZX7p8gJCHOHOmw=;
-	b=HkLBTkY81/N7ZPd1+gBy7mHF5J
-	A4coUo87P+8bXSFLYfQJ4gZJOZirElV+vAclT2tlLSP0GcDiiSuOoF0aAKtZGTHkj3CkzUB7+pwUO
-	CBZbRNVJh6/AZUABeF5sMuLgKjoiqv+tB7qZeVb0szt4gUbJEI+DwmmeaazZr+aXKmHvKcG+u6Lob
-	u5YGlYUH79vOSnS0+wbdXp68hVQXlo1XECz/nNNhyvsATzsIJjkRh+U/lX0k4TY5pB5El8LXWak8F
-	zUcqBbizP195Mlv+LZguQ5XTKdecKPOXSNxizp3lngT8/hsHKaaW0gpryGPhyfkNVQYky2LVcKW0W
-	/SbSdr7A==;
-Received: from [2001:67c:1be8::12] (helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1iSi0b-0007wl-7f; Thu, 07 Nov 2019 15:39:34 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1iSi0H-0008Hh-33; Thu, 07 Nov 2019 15:39:13 +0200
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Nov 2019 15:39:11 +0200
-Message-Id: <1573133951-31724-1-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.1.4
-X-Rspam-Score: 3.4 (+++)
-X-Rspam-Report: Action: no action Symbol: ARC_NA(0.00)
-	Symbol: DMARC_POLICY_SOFTFAIL(0.10) Symbol: FROM_HAS_DN(0.00)
-	Symbol: TO_DN_SOME(0.00) Symbol: R_SPF_ALLOW(-0.20)
-	Symbol: TO_MATCH_ENVRCPT_ALL(0.00) Symbol: MIME_GOOD(-0.10)
-	Symbol: RCVD_TLS_LAST(0.00) Symbol: NEURAL_SPAM(0.00)
-	Symbol: IP_SCORE(-0.20) Symbol: RCPT_COUNT_TWO(0.00)
-	Symbol: MID_CONTAINS_FROM(1.00) Symbol: FORGED_SENDER(0.30)
-	Symbol: R_DKIM_NA(0.00) Symbol: MIME_TRACE(0.00)
-	Symbol: ASN(0.00) Symbol: FROM_NEQ_ENVFROM(0.00)
-	Symbol: HFILTER_HOSTNAME_UNKNOWN(2.50)
-	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf allow
-	Message-ID: 1573133951-31724-1-git-send-email-mikko.rapeli@bmw.de
-X-Rspam-Bar: +++
-X-SA-Exim-Connect-IP: 2001:67c:1be8::12
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail
-X-Spam-Level: 
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,
-	HEADER_FROM_DIFFERENT_DOMAINS,RDNS_NONE,SPF_HELO_NONE,SPF_NEUTRAL
-	autolearn=no autolearn_force=no version=3.4.2
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.kapsi.fi)
-Subject: [PATCH v2][zeus][master] harfbuzz: split libharfbuzz-subset.so to its own binary package
+	Thu,  7 Nov 2019 14:01:25 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id t1so3167473wrv.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Nov 2019 06:01:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=54UOR3eER0l73wg3R2OFZ29R1hTft8YQE1UWzHdebow=;
+	b=nu8BV0iyxqua8NVP3OvJBcCU1fYeGn68jbrDr9o7qNHmOdWL+TEn8UaM37Pq9RjnmI
+	dRlkqOb0u0rpLvk1HO2TnZTju6vxLK5DWeX9tawjm8Bu5Aj7fDRfBln1/LrW3eLpk8hY
+	XHE1qqP7GJW4RMfb/6Y+3iHzNLxO2LyqNOUQXF9vFhtkLhe7uSXyuhQC/pZqqQ26qA8J
+	jcXQmJecIOU0FkNs53WzNk2VUnDmT6Xve5IJ2dF1fKHllTkLJww021YjAx9ktkOskJe9
+	nIKeeBXizPM4hRo7DI0F7lV8p6JcDUPlsNqTua2GYQRog8XKUN8OVmeJ2c9dIIQ2Urs1
+	5yyw==
+X-Gm-Message-State: APjAAAWBSwcD47rOTeMyYSEXQ0KD/dk+e6cfqDnTbUoNLaZmyPNrRTbE
+	6WncmC+01EpalJbfal4hQZU=
+X-Google-Smtp-Source: APXvYqyfrLG+qygtLvOB7aMVanhawfu+NweE8pst15gzYaHOANoXFH+lHitUVWHRCcCYOCaX7sf5CQ==
+X-Received: by 2002:adf:da42:: with SMTP id r2mr2916625wrl.383.1573135285971; 
+	Thu, 07 Nov 2019 06:01:25 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id 65sm4007801wrs.9.2019.11.07.06.01.24
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 07 Nov 2019 06:01:25 -0800 (PST)
+Message-ID: <8002dca6398624337867ed88608e7156e6f943e4.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 07 Nov 2019 14:01:24 +0000
+In-Reply-To: <CANNYZj_Ph4M_cVFQXaWpgPExhnkjntYUOm_8Zio7APmtkP_Tgw@mail.gmail.com>
+References: <20191107094033.33950-1-git@andred.net>
+	<CANNYZj_Ph4M_cVFQXaWpgPExhnkjntYUOm_8Zio7APmtkP_Tgw@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libevent: enable OpenSSL unconditionally and update packaging
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,49 +50,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 13:39:35 -0000
+X-List-Received-Date: Thu, 07 Nov 2019 14:01:25 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-harfbuzz binary package size increased from 624608 bytes in yocto 2.5 to
-1365431 bytes in yocto 3.0. Most of the size increase is in the new
-libharfbuzz-subset.so* library
-https://harfbuzz.github.io/utilities.html#utilities-command-line-hbsubset
+On Thu, 2019-11-07 at 13:26 +0100, Alexander Kanavin wrote:
+> I would rather keep the option to disable openssl, but simply switch it on by default
 
-Split it to its own binary package which will be installed if anyone needs it.
-Effect to harfbuzz binary package size is:
+Why complicate things, what's the use-case? If libevent_openssl.so is not
+used by anything, that library will not be pulled in, as it is a
+separate package now.
 
--PKGSIZE = 1476271
-+PKGSIZE = 1007424
+Cheers,
+A.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
----
- meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-v2: update commit message with subset link
-
-v1: http://lists.openembedded.org/pipermail/openembedded-core/2019-November/288883.html
-
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-index 99cd4cd..80ab545 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-@@ -21,7 +21,7 @@ PACKAGECONFIG[glib] = "--with-glib,--without-glib,glib-2.0"
- PACKAGECONFIG[graphite] = "--with-graphite2,--without-graphite2,graphite2"
- PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
- 
--PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
-+PACKAGES =+ "${PN}-icu ${PN}-icu-dev ${PN}-subset"
- 
- LEAD_SONAME = "libharfbuzz.so"
- 
-@@ -36,5 +36,6 @@ FILES_${PN}-icu-dev = "${libdir}/libharfbuzz-icu.la \
-                        ${libdir}/libharfbuzz-icu.so \
-                        ${libdir}/pkgconfig/harfbuzz-icu.pc \
- "
-+FILES_${PN}-subset = "${libdir}/libharfbuzz-subset.so.*"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.9.1
+> .
+> 
+> Alex
+> 
+> On Thu, 7 Nov 2019 at 13:11, André Draszik <git@andred.net> wrote:
+> > The original commit describes the reason for disabling openssl
+> > so as to get 'more deterministic build[s]' and size-reduction:
+> > commit 6c36fde6ce2e ("libevent: disable openssl by default"),
+> > commit ad130b97a51a in poky.
+> > 
+> > Since the introduction of per-recipe sysroots, we always have
+> > deterministic builds.
+> > 
+> > Size reduction can be achieved by splitting the package into
+> > multiple sub-packages, which each only provide one of the
+> > shared libraries.
+> > 
+> > Hence there appears no reason anymore to disable OpenSSL
+> > support.
+> > 
+> > Because this recipe only provides shared libraries which are
+> > handled automatically by bitbake, there is no need to add
+> > the subpackages to the RDEPENDS of PN for backwards
+> > compatibility. The packageing process of dependees will
+> > simply pull in the sub-packages as runtime dependency as
+> > needed.
+> > 
+> > This also how Debian splits this up.
+> > 
+> > While updating the packaging, we can also drop event_rpcgen.py
+> > which appears to be a tool for generating rpc bindings, i.e.
+> > something that should normally be in -dev. Given Debian
+> > doesn't package this at all, and given it actually requires
+> > python to run but no runtime dependency is stated at the
+> > moment, it would appear that no users of this exist.
+> > 
+> > These changes also allow us to build all of nghttp2
+> > out-of-the-box, without affecting existing users.
+> > 
+> > Signed-off-by: André Draszik <git@andred.net>
+> > ---
+> >  meta/recipes-support/libevent/libevent_2.1.11.bb | 13 +++++++++----
+> >  1 file changed, 9 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/meta/recipes-support/libevent/libevent_2.1.11.bb b/meta/recipes-support/libevent/libevent_2.1.11.bb
+> > index f005ab8bda..c746f22118 100644
+> > --- a/meta/recipes-support/libevent/libevent_2.1.11.bb
+> > +++ b/meta/recipes-support/libevent/libevent_2.1.11.bb
+> > @@ -19,9 +19,6 @@ UPSTREAM_CHECK_URI = "http://libevent.org/"
+> > 
+> >  S = "${WORKDIR}/${BPN}-${PV}-stable"
+> > 
+> > -PACKAGECONFIG ??= ""
+> > -PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+> > -
+> >  inherit autotools
+> > 
+> >  # Needed for Debian packaging
+> > @@ -29,11 +26,19 @@ LEAD_SONAME = "libevent-2.1.so"
+> > 
+> >  inherit ptest multilib_header
+> > 
+> > -DEPENDS = "zlib"
+> > +DEPENDS = "openssl zlib"
+> > +
+> > +PACKAGES =+ "${PN}-core ${PN}-extra ${PN}-openssl ${PN}-pthreads"
+> > +FILES_${PN}-core = "${libdir}/libevent_core*${SOLIBS}"
+> > +FILES_${PN}-extra = "${libdir}/libevent_extra*${SOLIBS}"
+> > +FILES_${PN}-openssl = "${libdir}/libevent_openssl*${SOLIBS}"
+> > +FILES_${PN}-pthreads = "${libdir}/libevent_pthreads-*${SOLIBS}"
+> > 
+> >  BBCLASSEXTEND = "native nativesdk"
+> > 
+> >  do_install_append() {
+> > +       rm ${D}${bindir}/event_rpcgen.py
+> > +       rmdir ${D}${bindir}
+> >          oe_multilib_header event2/event-config.h
+> >  }
+> > 
+> > -- 
+> > 2.23.0.rc1
+> > 
 
 
