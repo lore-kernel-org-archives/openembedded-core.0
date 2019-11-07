@@ -1,37 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E236004D
+Return-Path: <workjagadeesh@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E8546004D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2019 14:47:56 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4785qG5MxVzF2;
-	Thu,  7 Nov 2019 15:47:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1573138075;
-	bh=A+3gGGzSw7GcY8R8xsQZyEANu3/5YBilL5moupIh1OQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qXrSRI5+edJA9+5EiMcTbEpFHimUGhs6zurNwmmxbnVs8G0I7kSlVV14Qa+T/77MN
-	7koqkEfynLMVhjFFSgttUZoaOtLgPmIHHXxXMsqrLo8dLkv0/xWlNGf5+OGJ1U6WtW
-	4glRXyW1l4unXHATdnEaiMX8vQLoVV9lpe+EsUjPE6AraDiD8g+elMPUMT8+DqkfND
-	2zCSMYXkSC7UJm9lrt3kj9en42S64lodWYUA1EHHhpW/PXZD89sadUj5WwZlj4lSc1
-	9b/JE36t6IppB9WiiF6JnCvv6AqEAjgP9UXnLg/VfhkBpud7S0I5k0AofA76bFPYpZ
-	l4mZDyZPhnrprHKhOBBSQUYbSDgcLHLeLeiKQ7kXZoipPEd4lmnMa5GW+R2XkL92t3
-	o1AK91EoHfQlMMwDmgDwR1mVrLlZiCvbx1f26lQSuzPTbkBtNgTKWhEGmTXG7HibP9
-	Jlg+vO0cSOEv4sAQzHs5bWzWzd4IP3Xw/MG0fKCVRLSbvSx+FHuFyQfP3uRZz3zLMu
-	8F5/R3w9vA9QZY/8fkRH4F4sdgTbKk6BkvNMAh5APVcXrD/ofgnhOKlaWbFt+xDb7h
-	qdHU5Kfzo4hJQWj7XELsRP0tqHFjug+89DBIj+3vqotrvwqrQZfBn/nb/rGJc+7+81
-	VtUq7u/ftZyihJbhC1psymtY=
-Date: Thu, 7 Nov 2019 16:47:52 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Mikko.Rapeli@bmw.de
-Message-ID: <20191107144752.GB23775@localhost>
-References: <cover.1573047194.git.mikko.rapeli@bmw.de>
-	<20191107111332.GA23775@localhost> <20191107121351.GK2398@hiutale>
-MIME-Version: 1.0
-In-Reply-To: <20191107121351.GK2398@hiutale>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH RFC CFH][sumo 00/47] CVE check backport
+	Thu,  7 Nov 2019 14:59:50 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id p24so2831393pfn.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Nov 2019 06:59:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=21yvZ8PrnDs3owE7o6bFsun376idQn/ysQCyMYXGomw=;
+	b=hV4w7enZCK6E0K9ISXYRnI8i82wNVUsH3ZZNknPQgkPc0N22Xb/7DOM6RhpEsS6yps
+	gdLKjGyzafZAm9a0zVkLdsgOAjjKjD1OcQWxO23xayGcsFb+4/JSAFYytB+Ub/e9j6Eu
+	pG6x1gYjYE5hD61bic9Wy+WIAYwiqx7PZEUmV9FwokSxmiIe1iD0Ukq850KR6kOuXJw+
+	SJpf0LGr1EuanXPpHpHY3QcU1KyiV+QovfBQ7RNrMG/czL8xs1H+tt9EVoud60FcgRLI
+	z9NKmSZWNuB0+K5P8qW3DuM1X1iNiuAWU7Dm1NEJ/gQxSFZw2we0gLH+SQevEtVcR1pD
+	DqMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=21yvZ8PrnDs3owE7o6bFsun376idQn/ysQCyMYXGomw=;
+	b=aORYT75ZgB/WyGGI8FOE515nUhFb99+K9/ndvIU3r9ux4s/XS155yJmk2XCPJ9AQOY
+	YFkn0DvK8oRN/BcbvqZ9mp1YKbCd9t5olle6Vit3fX+D7yO5zavrHkahrAdJgYjrrEba
+	f+7TDjeTXipZ6DOJZxoh1kbFG6tW1PFOmErP1lmh4mIggN1I5IWN8wvdK6tjQekLPjTy
+	FOCjFqCU5pabsv9p6pNUsSjHKSZxH2fNOhbPwxlCLpO1TVQj+pJM98ov0/DKzGXUwCoc
+	m62Cy6Slqe0sXp5MdkTEkYhp3QpAyaVMyAm9jyQGJ8I6rpZMFgNeolGsxR9naYIjcTbY
+	G3zQ==
+X-Gm-Message-State: APjAAAXRpe3/5keMjomeO/Fe9LVR1p7msZVlN+fbQMdOOSI0ppREZW4X
+	5tujvQ1uf31vAvWwnGvpFwWsBsEP
+X-Google-Smtp-Source: APXvYqztL4HqS15vm8hfNDrdnVt5A0rVkTpnFjaWvye2nRDlVqaKqNNT5ALlmORR7USxVN5EBfgmXQ==
+X-Received: by 2002:a63:8c07:: with SMTP id m7mr5051300pgd.317.1573138791186; 
+	Thu, 07 Nov 2019 06:59:51 -0800 (PST)
+Received: from localhost.localdomain ([14.142.183.94])
+	by smtp.gmail.com with ESMTPSA id
+	r28sm3118432pfl.37.2019.11.07.06.59.49
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 07 Nov 2019 06:59:50 -0800 (PST)
+From: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Nov 2019 20:27:50 +0530
+Message-Id: <20191107145750.21934-1-workjagadeesh@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2] tune-cortexa32: Fix libgcc-initial build issue for cortex-a32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,78 +54,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 14:47:57 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 07 Nov 2019 14:59:50 -0000
 
-On Thu, Nov 07, 2019 at 12:13:51PM +0000, Mikko.Rapeli@bmw.de wrote:
-> Hi,
+When we try to build images for machine which is tuned for
+cortex-a32, then libgcc-initial recipe fails to build with
+below error message.
 
-Hi Mikko,
+-- snip --
+configure:3529: aarch64-poky-linux-gcc  -mcpu=cortex-a32+crc -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0/recipe-sysroot -o conftest  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0=/usr/src/debug/libgcc-initial/9.2.0-r0                      -fdebug-prefix-map=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0=/usr/src/debug/libgcc-initial/9.2.0-r0                      -fdebug-prefix-map=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0/recipe-sysroot=                      -fdebug-prefix-map=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0/recipe-sysroot-native=   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now conftest.c  >&5
+aarch64-poky-linux-gcc: fatal error: unknown value 'cortex-a32+crc' for '-mcpu'
+-- snip --
 
-> On Thu, Nov 07, 2019 at 01:13:32PM +0200, Adrian Bunk wrote:
-> > On Wed, Nov 06, 2019 at 05:37:15PM +0200, Mikko Rapeli wrote:
-> > > Hi,
-> > 
-> > Hi Mikko,
-> > 
-> > >...
-> > > I use sumo and due to various reasons like BSP layers, binary
-> > > compatibility, contracts etc can't update to newer release
-> > > or to master branch. I suspect I'm not alone.
-> > 
-> > I might end up with similar reasons, but for warrior.
-> > And might end up doing similar longer term updates for warrior.
-> > (not yet 100% certain)
-> 
-> I'm skipping warrior but going to zeus in addition to sumo. After
-> insipiration from Yocto Project Summit I hope to run master branch
-> in some projects with regular updates, and eventually aligning to
-> some stable release again. Hopefully an LTS one :)
+- Replacing TUNE_FEATURES from aarch64 to armv8a will solve the above
+build issue.
+- Changed BASE_LIB to 'lib', as cortex-a32 is a 32bit ARMv8a architecture.
 
-everyone is currently running projects on different releases.
+The sample machine config file (qemuarma32.conf) used to reproduce
+the error looks like:
 
-Let's hope LTS will happen, and that with a properly communicated LTS 
-schedule most distributions and users will switch to the LTS releases
-just like what happened with Ubuntu.
+-- snip --
 
-> > >...
-> > > The tooling will expose that sumo is severely lacking in security
-> > > patches, but the tooling is a start for anyone interested, like me,
-> > > to fill the gaps and publish patches for bitbake recipes we care
-> > > about.
-> > >...
-> > 
-> > Thud is officially still community maintained, as long as this is true
-> > the point could be made that everything that gets fixed in sumo should
-> > also get fixed in thud.
-> 
-> So to keep sumo alive, we should the also keep zeus, warrior and thud, and
-> of course master branch first. For some issues this actually works when
-> the exact same CVE patch applies, but the open question then is testing.
->...
+require conf/machine/include/tune-cortexa32.inc
+require conf/machine/include/qemu.inc
 
-When a branch is EOL it is documented to be dead.
+KERNEL_IMAGETYPE = "Image"
 
-But upgrading to a more recent non-EOL branch, e.g. sumo to thud,
-should not result in losing (security) fixes.
+SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
 
-The root problem is that "community support" for a stable branch in 
-practice often means "no support".
+KMACHINE_qemuarma32 = "qemuarm64"
+-- snip --
 
-If sumo is supported but thud is not, this should at least be made 
-visible to users.
+Signed-off-by: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
+---
+ meta/conf/machine/include/tune-cortexa32.inc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-> -Mikko
-
-cu
-Adrian
-
+diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/tune-cortexa32.inc
+index 9c948f1766..3ab1addd91 100644
+--- a/meta/conf/machine/include/tune-cortexa32.inc
++++ b/meta/conf/machine/include/tune-cortexa32.inc
+@@ -10,9 +10,9 @@ require conf/machine/include/arm/arch-armv8a.inc
+ AVAILTUNES += "cortexa32 cortexa32-crypto"
+ ARMPKGARCH_tune-cortexa32             = "cortexa32"
+ ARMPKGARCH_tune-cortexa32-crypto      = "cortexa32"
+-TUNE_FEATURES_tune-cortexa32          = "aarch64 cortexa32 crc"
+-TUNE_FEATURES_tune-cortexa32-crypto   = "aarch64 cortexa32 crc crypto"
++TUNE_FEATURES_tune-cortexa32          = "armv8a cortexa32 crc"
++TUNE_FEATURES_tune-cortexa32-crypto   = "armv8a cortexa32 crc crypto"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa32             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa32"
+ PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa32 cortexa32-crypto"
+-BASE_LIB_tune-cortexa32               = "lib64"
+-BASE_LIB_tune-cortexa32-crypto        = "lib64"
++BASE_LIB_tune-cortexa32               = "lib"
++BASE_LIB_tune-cortexa32-crypto        = "lib"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
