@@ -1,55 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 17C077F998
+Return-Path: <prvs=221486d377=haris.okanovic@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 9536F7FA1C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2019 22:00:07 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id l17so3363133wmh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2019 14:00:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=Qb4WE/iqI6CGAOJKI08/Q/VBAbgi8S5FaIFoe2KG8AQ=;
-	b=WjeO4JyS/aALdW5kMr8+ZGjp+FmInTrnBoT4Wwg3kVmPvvWxgoypraOX5sVYBOeHyt
-	tiDzMla7yGO0RUrsmLtRACY5Wd15cz4QXZQ0ay+hvw7JCzlVjDlj34FlQGI20eUHIZB3
-	wvTjBwC4TuemVSxzCgzGzohwVNu+7apU3Rquk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Qb4WE/iqI6CGAOJKI08/Q/VBAbgi8S5FaIFoe2KG8AQ=;
-	b=ZmA6JAIETCzLxSyQRuCAwebTVDZpJSCzGg8EqIiFM93FYNBi9+YaRBgJGpaOAIf74Q
-	A0i4TrMD5RSCg3o2bTSdKcrAAEWtdSbGCXv7b1U+eBP2WN9fbnVUK7NWEWL9ucYL90oJ
-	jaoawkp0e2SNUqw6AaFhmwgzhcv+zl0ZY3CNOztDajWAwSbN7RuSR5HrAT7Pc8QPC1s5
-	ps8X8SqEo4UW791q9QTNYKKA6IGt2dRB2unt6XUzwhuP/3Nd8+epLSWnr7UZE0qi1oTJ
-	wmmax4tys+T892btr60WsplJBTcIQOFoesg+dSZtuJyynft46IWHnroMXVYUouTgfAfT
-	ZZIQ==
-X-Gm-Message-State: APjAAAVVVtY7HqFYoBGUgw4rs38OOfIequyNDNl2awnemY1ds04Z8lPJ
-	L4tMddW0M2SOz/D8EXTCkFKQCw==
-X-Google-Smtp-Source: APXvYqyXNEBXrjb6L0x5We3oHVEraQcY5EC3dWR3kL495qnTmLFV/cu9WFv0dck+KcMLWnl/phH3Zw==
-X-Received: by 2002:a1c:30b:: with SMTP id 11mr4745477wmd.171.1573164008731;
-	Thu, 07 Nov 2019 14:00:08 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 65sm6102201wrs.9.2019.11.07.14.00.07
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 07 Nov 2019 14:00:08 -0800 (PST)
-Message-ID: <2ef86d8b6ef53be5b1c21241db0cf41a083a5f09.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>, Alexander Kanavin
-	<alex.kanavin@gmail.com>
-Date: Thu, 07 Nov 2019 22:00:06 +0000
-In-Reply-To: <9a596cbde910fd63d5fdb4344403bd2b63243fe0.camel@andred.net>
-References: <20191107094033.33950-1-git@andred.net>
-	<CANNYZj_Ph4M_cVFQXaWpgPExhnkjntYUOm_8Zio7APmtkP_Tgw@mail.gmail.com>
-	<8002dca6398624337867ed88608e7156e6f943e4.camel@andred.net>
-	<d3db0ce8182373d0f4e76427de741e93d839a3d1.camel@linuxfoundation.org>
-	<9a596cbde910fd63d5fdb4344403bd2b63243fe0.camel@andred.net>
-User-Agent: Evolution 3.34.1-2 
+	Thu,  7 Nov 2019 22:04:35 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+	xA7M3WKB019579; Thu, 7 Nov 2019 16:04:35 -0600
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2w41w84qyn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 07 Nov 2019 16:04:35 -0600
+Received: from us-aus-exch2.ni.corp.natinst.com
+	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
+	by us-aus-skprod2.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
+	xA7M4Yct017785
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Thu, 7 Nov 2019 16:04:34 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Thu, 7 Nov 2019 16:04:34 -0600
+Received: from harisdt.amer.corp.natinst.com (172.18.68.32) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Thu, 7 Nov 2019 16:04:34 -0600
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 7 Nov 2019 16:04:19 -0600
+Message-ID: <20191107220420.2172544-1-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libevent: enable OpenSSL unconditionally and update packaging
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+	definitions=2019-11-07_07:2019-11-07,2019-11-07 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Cc: haris.okanovic@ni.com, ken.sharp@ni.com
+Subject: [PATCH 1/2] gnupg: Split gpg and gpg-agent into a minimal gnupg-gpg package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,53 +47,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 22:00:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 07 Nov 2019 22:04:35 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Thu, 2019-11-07 at 15:41 +0000, André Draszik wrote:
-> On Thu, 2019-11-07 at 14:08 +0000, Richard Purdie wrote:
-> > On Thu, 2019-11-07 at 14:01 +0000, André Draszik wrote:
-> > > On Thu, 2019-11-07 at 13:26 +0100, Alexander Kanavin wrote:
-> > > > I would rather keep the option to disable openssl, but simply
-> > > > switch it on by default
-> > > 
-> > > Why complicate things, what's the use-case? If
-> > > libevent_openssl.so is
-> > > not
-> > > used by anything, that library will not be pulled in, as it is a
-> > > separate package now.
-> > 
-> > Build time dependencies and hence build speed?
-> > 
-> > It sounds trivial but all these inter-dependencies do mount up so
-> > if we
-> > don't need it, keeping things minimal has advantages.
-> > 
-> > If there is a security issue in openssl, its one more thing that
-> > would
-> > have to be regenerated if a CVE fix were added too...
-> 
-> What about helping make network connections more secure by enabling
-> ssl by default? Is yocto really advocating the use of unencrypted
-> connections?
+Add minimal "gnupg-gpg" package containing just enough binaries to run
+gpg and gpg-agent. Add dependency in normal "gnupg" package to preserve
+old behavior.
 
-No. Information like that about impact would help sway this discussion
-and should probably be in the commit message. Its a question of why as
-well as what and how.
+Some applications like opkg don't need all functionality provided by
+normal gnupg installations. This minimal package provides just enough
+functionality to verify and manage keys in opkg, in order to minimize
+disk overhead.
 
-> If build time is the argument, why is stack protection enabled by
-> default in the compiler?
-> Why do other packages have OpenSSL support enabled by default?
-> 
-> I could go on, but I don't care enough, v2 sent :-)
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+---
+ meta/recipes-support/gnupg/gnupg_2.2.17.bb | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-It is important, I suspect the commit message needs more info to help
-ensure we make informed decisions...
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.17.bb b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
+index 689cf8a75e..ab19a1ad11 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.17.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
+@@ -29,6 +29,21 @@ EXTRA_OECONF = "--disable-ldap \
+ 		--with-readline=${STAGING_LIBDIR}/.. \
+ 		--enable-gpg-is-gpg2 \
+                "
++
++# A minimal package containing just enough to run gpg+gpgagent (E.g. use gpgme in opkg)
++PACKAGES =+ "${PN}-gpg"
++FILES_${PN}-gpg = " \
++	${bindir}/gpg \
++	${bindir}/gpg2 \
++	${bindir}/gpg-agent \
++"
++
++# Normal package (gnupg) should depend on minimal package (gnupg-gpg)
++# to ensure all tools are included. This is done only in non-native
++# builds. Native builds don't have sub-packages, so appending RDEPENDS
++# in this case breaks recipe parsing.
++RDEPENDS_${PN} += "${@ "" if ("native" in d.getVar("PN")) else (d.getVar("PN") + "-gpg")}"
++
+ RRECOMMENDS_${PN} = "pinentry"
+ 
+ do_configure_prepend () {
+-- 
+2.24.0
 
 
