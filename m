@@ -1,24 +1,20 @@
-Return-Path: <Yongxin.Liu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 45E317F986
+Return-Path: <mark.hatle@kernel.crashing.org>
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D5157FA16
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2019 23:23:35 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xA7NNZwT022632
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu,  7 Nov 2019 23:26:28 +0000 (UTC)
+Received: from lons-builder.int.hatle.net ([192.40.192.88])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id xA7NQQp7003903
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 7 Nov 2019 15:23:36 -0800 (PST)
-Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 7 Nov 2019 15:23:35 -0800
-From: Yongxin Liu <yongxin.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 8 Nov 2019 07:16:27 +0800
-Message-ID: <20191107231627.18940-1-yongxin.liu@windriver.com>
-X-Mailer: git-send-email 2.14.4
-MIME-Version: 1.0
-Subject: [PATCH] systemd: Fix invalid argument of pstore log entry
+	Thu, 7 Nov 2019 17:26:27 -0600
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Nov 2019 17:26:26 -0600
+Message-Id: <20191107232626.21787-2-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191107232626.21787-1-mark.hatle@kernel.crashing.org>
+References: <20191107232626.21787-1-mark.hatle@kernel.crashing.org>
+Subject: [PATCH 1/1] populate_sdk_ext.bbclass: Make integrated buildtools optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +27,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 23:23:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 07 Nov 2019 23:26:29 -0000
 
-Fix "systemd-pstore: Failed to log pstore entry: Invalid argument"
-by backporting 1b3156edd291e0882d80a695d035dd30521345d1 from upstream.
+If the host system is expected to have enough capabilities that the
+buildtools-tarball is not required, we don't need to bundle it.
 
-Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+This can save some significant space, especially when using with a minimal
+eSDK.
+
+minimal eSDK - core-image-minimal-qemux86-64
+
+with buildtools-tarball     - 34 MB installer - 281 MB installed
+without buildtoools-tarball - 11 MB installer -  48 MB installed
+
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
- .../systemd/0001-pstore-fix-use-after-free.patch   | 39 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_243.bb           |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-pstore-fix-use-after-free.patch
+ meta/classes/populate_sdk_ext.bbclass | 41 ++++++++++++++++++---------
+ 1 file changed, 27 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-pstore-fix-use-after-free.patch b/meta/recipes-core/systemd/systemd/0001-pstore-fix-use-after-free.patch
-new file mode 100644
-index 0000000000..fd147a18be
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-pstore-fix-use-after-free.patch
-@@ -0,0 +1,39 @@
-+From 1b3156edd291e0882d80a695d035dd30521345d1 Mon Sep 17 00:00:00 2001
-+From: Michael Olbrich <m.olbrich@pengutronix.de>
-+Date: Fri, 6 Sep 2019 15:04:01 +0200
-+Subject: [PATCH] pstore: fix use after free
-+
-+The memory is still needed in the sd_journal_sendv() after the 'if' block.
-+
-+(cherry picked from commit 1e19f5ac0d680a63eccae7ef1fc6ce225dca0bbf)
-+
-+Upstream-Status: Backport
-+
-+Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
-+---
-+ src/pstore/pstore.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/pstore/pstore.c b/src/pstore/pstore.c
-+index c760b3e899..8ffe523830 100644
-+--- a/src/pstore/pstore.c
-++++ b/src/pstore/pstore.c
-+@@ -117,6 +117,7 @@ static int compare_pstore_entries(const void *_a, const void *_b) {
-+ 
-+ static int move_file(PStoreEntry *pe, const char *subdir) {
-+         _cleanup_free_ char *ifd_path = NULL, *ofd_path = NULL;
-++        _cleanup_free_ void *field = NULL;
-+         const char *suffix, *message;
-+         struct iovec iovec[2];
-+         int n_iovec = 0, r;
-+@@ -138,7 +139,6 @@ static int move_file(PStoreEntry *pe, const char *subdir) {
-+         iovec[n_iovec++] = IOVEC_MAKE_STRING(message);
-+ 
-+         if (pe->content_size > 0) {
-+-                _cleanup_free_ void *field = NULL;
-+                 size_t field_size;
-+ 
-+                 field_size = strlen("FILE=") + pe->content_size;
-+-- 
-+2.14.4
-+
-diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
-index 6e7f95693b..88069546a2 100644
---- a/meta/recipes-core/systemd/systemd_243.bb
-+++ b/meta/recipes-core/systemd/systemd_243.bb
-@@ -24,6 +24,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
-            file://0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch \
-            file://99-default.preset \
-+           file://0001-pstore-fix-use-after-free.patch \
-            "
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index 9fda1c9e78..05cfc1cc15 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -21,6 +21,7 @@ SDK_EXT_TYPE ?= "full"
+ SDK_INCLUDE_PKGDATA ?= "0"
+ SDK_INCLUDE_TOOLCHAIN ?= "${@'1' if d.getVar('SDK_EXT_TYPE') == 'full' else '0'}"
+ SDK_INCLUDE_NATIVESDK ?= "0"
++SDK_INCLUDE_BUILDTOOLS ?= '1'
  
- # patches needed by musl
+ SDK_RECRDEP_TASKS ?= ""
+ 
+@@ -94,6 +95,7 @@ python write_target_sdk_ext_manifest () {
+     real_target_multimach = d.getVar('REAL_MULTIMACH_TARGET_SYS')
+ 
+     pkgs = {}
++    os.makedirs(os.path.dirname(d.getVar('SDK_EXT_TARGET_MANIFEST')), exist_ok=True)
+     with open(d.getVar('SDK_EXT_TARGET_MANIFEST'), 'w') as f:
+         for fn in extra_info['filesizes']:
+             info = fn.split(':')
+@@ -535,8 +537,12 @@ def get_sdk_required_utilities(buildtools_fn, d):
+     sanity_required_utilities = (d.getVar('SANITY_REQUIRED_UTILITIES') or '').split()
+     sanity_required_utilities.append(d.expand('${BUILD_PREFIX}gcc'))
+     sanity_required_utilities.append(d.expand('${BUILD_PREFIX}g++'))
+-    buildtools_installer = os.path.join(d.getVar('SDK_DEPLOY'), buildtools_fn)
+-    filelist, _ = bb.process.run('%s -l' % buildtools_installer)
++    if buildtools_fn:
++        buildtools_installer = os.path.join(d.getVar('SDK_DEPLOY'), buildtools_fn)
++        filelist, _ = bb.process.run('%s -l' % buildtools_installer)
++    else:
++        buildtools_installer = None
++        filelist = ""
+     localdata = bb.data.createCopy(d)
+     localdata.setVar('SDKPATH', '.')
+     sdkpathnative = localdata.getVar('SDKPATHNATIVE')
+@@ -579,7 +585,9 @@ install_tools() {
+ 	touch ${SDK_OUTPUT}/${SDKPATH}/.devtoolbase
+ 
+ 	# find latest buildtools-tarball and install it
+-	install ${SDK_DEPLOY}/${SDK_BUILDTOOLS_INSTALLER} ${SDK_OUTPUT}/${SDKPATH}
++	if [ -n "${SDK_BUILDTOOLS_INSTALLER}" ]; then
++		install ${SDK_DEPLOY}/${SDK_BUILDTOOLS_INSTALLER} ${SDK_OUTPUT}/${SDKPATH}
++	fi
+ 
+ 	install -m 0644 ${COREBASE}/meta/files/ext-sdk-prepare.py ${SDK_OUTPUT}/${SDKPATH}
+ }
+@@ -629,16 +637,18 @@ sdk_ext_postinst() {
+ 	printf "\nExtracting buildtools...\n"
+ 	cd $target_sdk_dir
+ 	env_setup_script="$target_sdk_dir/environment-setup-${REAL_MULTIMACH_TARGET_SYS}"
+-	printf "buildtools\ny" | ./${SDK_BUILDTOOLS_INSTALLER} > buildtools.log || { printf 'ERROR: buildtools installation failed:\n' ; cat buildtools.log ; echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
++        if [ -n "${SDK_BUILDTOOLS_INSTALLER}" ]; then
++		printf "buildtools\ny" | ./${SDK_BUILDTOOLS_INSTALLER} > buildtools.log || { printf 'ERROR: buildtools installation failed:\n' ; cat buildtools.log ; echo "printf 'ERROR: this SDK was not fully installed and needs reinstalling\n'" >> $env_setup_script ; exit 1 ; }
+ 
+-	# Delete the buildtools tar file since it won't be used again
+-	rm -f ./${SDK_BUILDTOOLS_INSTALLER}
+-	# We don't need the log either since it succeeded
+-	rm -f buildtools.log
++		# Delete the buildtools tar file since it won't be used again
++		rm -f ./${SDK_BUILDTOOLS_INSTALLER}
++		# We don't need the log either since it succeeded
++		rm -f buildtools.log
+ 
+-	# Make sure when the user sets up the environment, they also get
+-	# the buildtools-tarball tools in their path.
+-	echo ". $target_sdk_dir/buildtools/environment-setup*" >> $env_setup_script
++		# Make sure when the user sets up the environment, they also get
++		# the buildtools-tarball tools in their path.
++		echo ". $target_sdk_dir/buildtools/environment-setup*" >> $env_setup_script
++	fi
+ 
+ 	# Allow bitbake environment setup to be ran as part of this sdk.
+ 	echo "export OE_SKIP_SDK_CHECK=1" >> $env_setup_script
+@@ -654,7 +664,7 @@ sdk_ext_postinst() {
+ 	# Warn if trying to use external bitbake and the ext SDK together
+ 	echo "(which bitbake > /dev/null 2>&1 && echo 'WARNING: attempting to use the extensible SDK in an environment set up to run bitbake - this may lead to unexpected results. Please source this script in a new shell session instead.') || true" >> $env_setup_script
+ 
+-	if [ "$prepare_buildsystem" != "no" ]; then
++	if [ "$prepare_buildsystem" != "no" -a -n "${SDK_BUILDTOOLS_INSTALLER}" ]; then
+ 		printf "Preparing build system...\n"
+ 		# dash which is /bin/sh on Ubuntu will not preserve the
+ 		# current working directory when first ran, nor will it set $1 when
+@@ -680,7 +690,10 @@ fakeroot python do_populate_sdk_ext() {
+         bb.fatal('The extensible SDK can currently only be built for the same architecture as the machine being built on - SDK_ARCH is set to %s (likely via setting SDKMACHINE) which is different from the architecture of the build machine (%s). Unable to continue.' % (d.getVar('SDK_ARCH'), d.getVar('BUILD_ARCH')))
+ 
+     d.setVar('SDK_INSTALL_TARGETS', get_sdk_install_targets(d))
+-    buildtools_fn = get_current_buildtools(d)
++    if d.getVar('SDK_INCLUDE_BUILDTOOLS') == '1':
++        buildtools_fn = get_current_buildtools(d)
++    else:
++        buildtools_fn = None
+     d.setVar('SDK_REQUIRED_UTILITIES', get_sdk_required_utilities(buildtools_fn, d))
+     d.setVar('SDK_BUILDTOOLS_INSTALLER', buildtools_fn)
+     d.setVar('SDKDEPLOYDIR', '${SDKEXTDEPLOYDIR}')
+@@ -731,7 +744,7 @@ def get_sdk_ext_rdepends(d):
+ do_populate_sdk_ext[dirs] = "${@d.getVarFlag('do_populate_sdk', 'dirs', False)}"
+ 
+ do_populate_sdk_ext[depends] = "${@d.getVarFlag('do_populate_sdk', 'depends', False)} \
+-                                buildtools-tarball:do_populate_sdk \
++                                ${@'buildtools-tarball:do_populate_sdk' if d.getVar('SDK_INCLUDE_BUILDTOOLS') == '1' else ''} \
+                                 ${@'meta-world-pkgdata:do_collect_packagedata' if d.getVar('SDK_INCLUDE_PKGDATA') == '1' else ''} \
+                                 ${@'meta-extsdk-toolchain:do_locked_sigs' if d.getVar('SDK_INCLUDE_TOOLCHAIN') == '1' else ''}"
+ 
 -- 
-2.14.4
+2.17.1
 
 
