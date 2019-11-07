@@ -1,47 +1,52 @@
-Return-Path: <workjagadeesh@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E8546004D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D0317F8AD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2019 14:59:50 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id p24so2831393pfn.4
+	Thu,  7 Nov 2019 15:03:16 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id h3so3335841wrx.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2019 06:59:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=21yvZ8PrnDs3owE7o6bFsun376idQn/ysQCyMYXGomw=;
-	b=hV4w7enZCK6E0K9ISXYRnI8i82wNVUsH3ZZNknPQgkPc0N22Xb/7DOM6RhpEsS6yps
-	gdLKjGyzafZAm9a0zVkLdsgOAjjKjD1OcQWxO23xayGcsFb+4/JSAFYytB+Ub/e9j6Eu
-	pG6x1gYjYE5hD61bic9Wy+WIAYwiqx7PZEUmV9FwokSxmiIe1iD0Ukq850KR6kOuXJw+
-	SJpf0LGr1EuanXPpHpHY3QcU1KyiV+QovfBQ7RNrMG/czL8xs1H+tt9EVoud60FcgRLI
-	z9NKmSZWNuB0+K5P8qW3DuM1X1iNiuAWU7Dm1NEJ/gQxSFZw2we0gLH+SQevEtVcR1pD
-	DqMg==
+	Thu, 07 Nov 2019 07:03:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=yHFRiIq+zMWuaK5D8QlZrwgEY4+ps0aNHSJeS9ZyBwo=;
+	b=O/fDR0A3WDRl6Eq9ODH09pQ+8q4Q5UE+Pys+0Y5oIStN1NIZhegUvJSuUwfNk3U502
+	t3ZNUI13FkscC3GL73S17FCXS9bzPlKabnYtuwjL1l6+4rCy8EVRjjNXIvKsR1YP3QS0
+	lY0idH1PEgi7cEwcg2snbYo1ZW3QoMUXtOmtM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=21yvZ8PrnDs3owE7o6bFsun376idQn/ysQCyMYXGomw=;
-	b=aORYT75ZgB/WyGGI8FOE515nUhFb99+K9/ndvIU3r9ux4s/XS155yJmk2XCPJ9AQOY
-	YFkn0DvK8oRN/BcbvqZ9mp1YKbCd9t5olle6Vit3fX+D7yO5zavrHkahrAdJgYjrrEba
-	f+7TDjeTXipZ6DOJZxoh1kbFG6tW1PFOmErP1lmh4mIggN1I5IWN8wvdK6tjQekLPjTy
-	FOCjFqCU5pabsv9p6pNUsSjHKSZxH2fNOhbPwxlCLpO1TVQj+pJM98ov0/DKzGXUwCoc
-	m62Cy6Slqe0sXp5MdkTEkYhp3QpAyaVMyAm9jyQGJ8I6rpZMFgNeolGsxR9naYIjcTbY
-	G3zQ==
-X-Gm-Message-State: APjAAAXRpe3/5keMjomeO/Fe9LVR1p7msZVlN+fbQMdOOSI0ppREZW4X
-	5tujvQ1uf31vAvWwnGvpFwWsBsEP
-X-Google-Smtp-Source: APXvYqztL4HqS15vm8hfNDrdnVt5A0rVkTpnFjaWvye2nRDlVqaKqNNT5ALlmORR7USxVN5EBfgmXQ==
-X-Received: by 2002:a63:8c07:: with SMTP id m7mr5051300pgd.317.1573138791186; 
-	Thu, 07 Nov 2019 06:59:51 -0800 (PST)
-Received: from localhost.localdomain ([14.142.183.94])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=yHFRiIq+zMWuaK5D8QlZrwgEY4+ps0aNHSJeS9ZyBwo=;
+	b=siGwM+y4S3lotE9T3EmR4R7pKlJKCre2JggZmd6vvhm1rGYSlAAWjHh55GMAp+KYWl
+	GRubhb/HgUaAqu0yBPfN3+urDlyiK+8mZEBFYB5jvZMQrszFoae4NXsHfW8cYUvFajTN
+	rmqD+ZXH35wg0RmCMqliy2IUsy/1OcQYQTjXiwQODaskYhIviS8vVen0lPEt3VmfO48I
+	7UhbTkzr8ylPNNmWjciZuT46kY+/lgSCDG3DpeWrfee8vd+oK2c1DPjuVDwHsyvLrBa2
+	9jyAELVQ1eRCuimrLTgy8H4QgyRfzJRvAR9u3ZwuV1wQRDCdTpR5INWtOGIFozz5FqKH
+	6KGA==
+X-Gm-Message-State: APjAAAVHia6qw4TbayhtqX9DvB0AIB6uyysZrCDvUvsAc+4suPVZyZNs
+	YRwRDSB+2jWRdxsxUegCsdjW2A==
+X-Google-Smtp-Source: APXvYqz/lI8yM2HAy0+Ldj7kVHuiD7BptUkEyvr+hhJLPFgaMHDFDpL/Ut1uTLcHCGyQZzryOiHLSA==
+X-Received: by 2002:a5d:634b:: with SMTP id b11mr3459651wrw.13.1573138996708; 
+	Thu, 07 Nov 2019 07:03:16 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	r28sm3118432pfl.37.2019.11.07.06.59.49
+	f19sm4518259wrf.23.2019.11.07.07.03.15
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 07 Nov 2019 06:59:50 -0800 (PST)
-From: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Nov 2019 20:27:50 +0530
-Message-Id: <20191107145750.21934-1-workjagadeesh@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v2] tune-cortexa32: Fix libgcc-initial build issue for cortex-a32
+	Thu, 07 Nov 2019 07:03:15 -0800 (PST)
+Message-ID: <717e1439a3c155fc1f506d7a2933b968ee38f9a8.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: akuster808 <akuster808@gmail.com>, Mikko Rapeli <mikko.rapeli@bmw.de>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 07 Nov 2019 15:03:14 +0000
+In-Reply-To: <ec8a8c61-25a0-7e87-efee-b76e6c954d07@gmail.com>
+References: <cover.1573047194.git.mikko.rapeli@bmw.de>
+	<ec8a8c61-25a0-7e87-efee-b76e6c954d07@gmail.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH RFC CFH][sumo 00/47] CVE check backport
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,60 +59,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 14:59:50 -0000
+X-List-Received-Date: Thu, 07 Nov 2019 15:03:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When we try to build images for machine which is tuned for
-cortex-a32, then libgcc-initial recipe fails to build with
-below error message.
+On Wed, 2019-11-06 at 13:46 -0800, akuster808 wrote:
+> On 11/6/19 7:37 AM, Mikko Rapeli wrote:
+> QA resources have been a donation from Intel and Windriver above
+> their membership fees.  I don't fee right asking them to run QA.
 
--- snip --
-configure:3529: aarch64-poky-linux-gcc  -mcpu=cortex-a32+crc -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0/recipe-sysroot -o conftest  -O2 -pipe -g -feliminate-unused-debug-types -fmacro-prefix-map=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0=/usr/src/debug/libgcc-initial/9.2.0-r0                      -fdebug-prefix-map=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0=/usr/src/debug/libgcc-initial/9.2.0-r0                      -fdebug-prefix-map=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0/recipe-sysroot=                      -fdebug-prefix-map=.../tmp/work/aarch64-poky-linux/libgcc-initial/9.2.0-r0/recipe-sysroot-native=   -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fstack-protector-strong -Wl,-z,relro,-z,now conftest.c  >&5
-aarch64-poky-linux-gcc: fatal error: unknown value 'cortex-a32+crc' for '-mcpu'
--- snip --
+> > patches aiming at yocto 2.5 sumo. If not, would be really nice if
+> > someone could collect patches into sumo-next or sumo-contrib branch
+> > where us
+> > users could be in charge of all Quality Assurance.
+>
+> I have collected other patches for sumo and built them locally but I
+> have no way to inform Richard they pass an AB  builds or automated
+> testing for them to get  into mainline sumo.
 
-- Replacing TUNE_FEATURES from aarch64 to armv8a will solve the above
-build issue.
-- Changed BASE_LIB to 'lib', as cortex-a32 is a 32bit ARMv8a architecture.
+Given the discussions around LTS and the fact we'd need to do
+*something* with the autobuilder to help support it, I've been
+experimenting.
 
-The sample machine config file (qemuarma32.conf) used to reproduce
-the error looks like:
+I created a sumo-next branch with a uninative update and Mikko's
+patches and then managed to get it to build (and pass) on the
+autobuilder.
 
--- snip --
+I did directly merge a bitbake fix to the 1.38 branch to avoid test
+failures too.
 
-require conf/machine/include/tune-cortexa32.inc
-require conf/machine/include/qemu.inc
+The autobuilder successfully builds a-full for sumo-next. Compared to a
+normal build the differences are:
 
-KERNEL_IMAGETYPE = "Image"
+* unsupported workers are removed from the pool for sumo so it only 
+  builds on a subset of the infrastructure
+* no buildperf tests
+* there are no supported fedora workers left so no oe-selftest-fedora
+* no ptest image execution (we never did this with sumo)
+* no test result output (wasn't present in sumo and never backported)
 
-SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+I'm prepared to merge sumo-next on the basis of these results and use
+it as a model for how we could continue to get critical patches into
+older releases. More work would be needed to see if any older releases
+could work.
 
-KMACHINE_qemuarma32 = "qemuarm64"
--- snip --
+At this point the TSC needs to discuss LTS and what our branch policy
+may be going forward but this does add useful data to that discussion
+and may help influence those discussions.
 
-Signed-off-by: Jagadeesh Krishnanjanappa <workjagadeesh@gmail.com>
----
- meta/conf/machine/include/tune-cortexa32.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+[For reference I did have to seek advice from upstream buildbot on how
+to avoid a bug and its taken quite some experimenting to find the magic
+to make this work. I did have to update the autobuilder-helper sumo
+branch to be in sync too].
 
-diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/tune-cortexa32.inc
-index 9c948f1766..3ab1addd91 100644
---- a/meta/conf/machine/include/tune-cortexa32.inc
-+++ b/meta/conf/machine/include/tune-cortexa32.inc
-@@ -10,9 +10,9 @@ require conf/machine/include/arm/arch-armv8a.inc
- AVAILTUNES += "cortexa32 cortexa32-crypto"
- ARMPKGARCH_tune-cortexa32             = "cortexa32"
- ARMPKGARCH_tune-cortexa32-crypto      = "cortexa32"
--TUNE_FEATURES_tune-cortexa32          = "aarch64 cortexa32 crc"
--TUNE_FEATURES_tune-cortexa32-crypto   = "aarch64 cortexa32 crc crypto"
-+TUNE_FEATURES_tune-cortexa32          = "armv8a cortexa32 crc"
-+TUNE_FEATURES_tune-cortexa32-crypto   = "armv8a cortexa32 crc crypto"
- PACKAGE_EXTRA_ARCHS_tune-cortexa32             = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc} cortexa32"
- PACKAGE_EXTRA_ARCHS_tune-cortexa32-crypto      = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa32 cortexa32-crypto"
--BASE_LIB_tune-cortexa32               = "lib64"
--BASE_LIB_tune-cortexa32-crypto        = "lib64"
-+BASE_LIB_tune-cortexa32               = "lib"
-+BASE_LIB_tune-cortexa32-crypto        = "lib"
--- 
-2.17.1
+Cheers,
+
+Richard
 
 
