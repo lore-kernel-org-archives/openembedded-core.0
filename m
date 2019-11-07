@@ -1,34 +1,51 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id D465D7F844
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id EC1947F30E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2019 08:32:00 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id C43F15C0B0C;
-	Thu,  7 Nov 2019 09:32:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1573115520;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=N23D3pYEn7WFN3twifO3psmEI7BcLQnxWM2Xan91YXE=;
-	b=LamLVGuz46WMgcSJnZPRRQuD3ovpvSXw/RVkmTXh+haSHZByVEfrN4c1CzLSGy748qJWUQ
-	LueX1/PMbxK7q9Q3Id0Zfcq3RwyF7azDUSHlVNov2s6xiPK2NSsHe7sf6YJQhg+Roat5uZ
-	kvP8N+ATsy6yFhGkDvaM1MRwWgSjFeM=
+	Thu,  7 Nov 2019 09:09:12 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id h27so1712727pgn.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 07 Nov 2019 01:09:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/kymuUpq9O3v1SgAX8bHyi2F/Lmm9bmDAuZstKrOh2E=;
+	b=OLy2Nm//Z7c2WngtnW50f4lCR/QOTT6+gfXtCkhur04Q3OkTP/RVViyjx5LOTH0GMQ
+	436NP2xmO9uAlGpdM8/ZllmLX+ebwbYmvDfxPV7DVkRdMPwrlFAnjqSLPBiY/+/JpiDH
+	wT0Mvqp/nmGdBUI8pvnYFSGLJ8Qu9MxnVbN53WUiMxG8qolZ2CYarFeChXScWz/3niCd
+	erhzVCc/D2KUiyxDQBSYB59accWxw37UQdj0jRNNZPGDX9d4Alwst5D2yVHvWkOpz/xl
+	yFsduIaVn3cuqX+tXggQByZrnv/uGLG+e94nodnBD9Ul5wdoitLCYTOZ4jy/G9lrvj68
+	cLzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/kymuUpq9O3v1SgAX8bHyi2F/Lmm9bmDAuZstKrOh2E=;
+	b=EkGLu7SxwsZsaCoe9pXHU+u8ttdKMhErXbrgrXGkij6AZtG7Gnjm0GYIjZrsbzul83
+	vgTM1Q2m+/0GRuMF9RsDXsJKu8QWDzvDURybFkqZTKeOZ2s1h/M8tCJ7ABZytSzH8l9a
+	eHgE2K8I+dGFjuv8VWkKQEcYGH2xg7j9AnF6LM0XDoKJ1uhOXoOkvJxda9jK1PDq0gsj
+	SE5NoF4zoWzSGZ9p+Lz3Xk0I3JP6WtCjawUAcy0uGqFHcszRKtQyY1fmGOwpgXk6ZJSc
+	WMAY1nIOyMyLyS5ci5gRF9/fI2UF56uwQ6BkXszGIbe4knHqEwpq/EckzEHvxqtMNveo
+	rYBw==
+X-Gm-Message-State: APjAAAXxfQHU/wfnE5HYbzWLr3+2vRIaccs4zLvlCHUNekJQftV4tzEK
+	Db4FPLzd1qst5uW7ndMD1rg8U7Ct
+X-Google-Smtp-Source: APXvYqzehZEp4KZt4Gyk36CI7WntLMI3QtxngPZ21tqj9PrRn3Ihh4wC6K4HDAqblQ3BbgStgkm+hQ==
+X-Received: by 2002:aa7:8d88:: with SMTP id i8mr2629458pfr.88.1573117753720;
+	Thu, 07 Nov 2019 01:09:13 -0800 (PST)
+Received: from cmtcleu60844809.rd.corpintra.net
+	(ip5f5bf1cc.dynamic.kabel-deutschland.de. [95.91.241.204])
+	by smtp.gmail.com with ESMTPSA id
+	s11sm1525112pgo.85.2019.11.07.01.09.10
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 07 Nov 2019 01:09:13 -0800 (PST)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Nov 2019 10:09:07 +0100
+Message-Id: <20191107090907.26286-1-changhyeok.bae@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Date: Thu, 07 Nov 2019 09:32:00 +0100
-From: Stefan Agner <stefan@agner.ch>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-Reply-To: <ae023dca562212e71e4d9c6279a439936514be4f.camel@linuxfoundation.org>
-References: <20191106134305.12109-1-stefan@agner.ch>
-	<ae023dca562212e71e4d9c6279a439936514be4f.camel@linuxfoundation.org>
-Message-ID: <0dc7de5c5f200f1f146db2405846ee23@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.9
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] image_types: add Zstandard conversion support
+Subject: [PATCH] iproute2: update 5.2.0 -> 5.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,86 +58,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 08:32:01 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 07 Nov 2019 09:09:13 -0000
+Content-Transfer-Encoding: 8bit
 
-On 2019-11-07 09:01, Richard Purdie wrote:
-> On Wed, 2019-11-06 at 13:43 +0000, Stefan Agner wrote:
->> From: Stefan Agner <stefan.agner@toradex.com>
->>
->> Add Zstandard (or just Zstd) compression support. This allows to
->> create Zstd compressed tarballs by using tar.zst as IMAGE_FSTYPES.
->>
->> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
->> ---
->>  meta/classes/image_types.bbclass | 8 ++++++--
->>  1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
->> index 2eeffbb366..d29b9c5787 100644
->> --- a/meta/classes/image_types.bbclass
->> +++ b/meta/classes/image_types.bbclass
->> @@ -59,6 +59,8 @@ XZ_INTEGRITY_CHECK ?= "crc32"
->>
->>  ZIP_COMPRESSION_LEVEL ?= "-9"
->>
->> +ZSTD_COMPRESSION_LEVEL ?= "-3"
->> +
->>  JFFS2_SUM_EXTRA_ARGS ?= ""
->>  IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.jffs2 ${EXTRA_IMAGECMD}"
->>
->> @@ -269,7 +271,7 @@ IMAGE_TYPES = " \
->>      hddimg \
->>      squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
->>      ubi ubifs multiubi \
->> -    tar tar.gz tar.bz2 tar.xz tar.lz4 \
->> +    tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
->>      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
->>      wic wic.gz wic.bz2 wic.lzma \
->>      container \
->> @@ -282,7 +284,7 @@ IMAGE_TYPES = " \
->>  # CONVERSION_CMD/DEPENDS.
->>  COMPRESSIONTYPES ?= ""
->>
->> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
->> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
->>  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->>  CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
->>  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->> @@ -290,6 +292,7 @@ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=
->>  CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
->>  CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->>  CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->> +CONVERSION_CMD_zst = "zstd -f -k -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
->>  CONVERSION_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
->>  CONVERSION_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
->>  CONVERSION_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
->> @@ -310,6 +313,7 @@ CONVERSION_DEPENDS_xz = "xz-native"
->>  CONVERSION_DEPENDS_lz4 = "lz4-native"
->>  CONVERSION_DEPENDS_lzo = "lzop-native"
->>  CONVERSION_DEPENDS_zip = "zip-native"
->> +CONVERSION_DEPENDS_zst = "zstd-native"
->>  CONVERSION_DEPENDS_sum = "mtd-utils-native"
->>  CONVERSION_DEPENDS_bmap = "bmap-tools-native"
->>  CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
-> 
-> I was ok with this despite not having zstd-native in OE-Core however
-> our automated testing is cleverer than I remembered:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/467
-> 
-> so we may need to skip this option in the test...
-> 
-> (oe-selftest -r imagefeatures.ImageFeatures.test_image_fstypes should
-> reproduce)
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+---
+ .../iproute2/{iproute2_5.2.0.bb => iproute2_5.3.0.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/iproute2/{iproute2_5.2.0.bb => iproute2_5.3.0.bb} (65%)
 
-Hm, I see, so we could fix that test.
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.2.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.3.0.bb
+similarity index 65%
+rename from meta/recipes-connectivity/iproute2/iproute2_5.2.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_5.3.0.bb
+index 1728cd69a1..8a86cbf78c 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_5.2.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_5.3.0.bb
+@@ -4,8 +4,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-libc-compat.h-add-musl-workaround.patch \
+           "
+ 
+-SRC_URI[md5sum] = "0cb2736e7bc2f56254a363d3d23703b7"
+-SRC_URI[sha256sum] = "a5b95dec26353fc71dba9bb403e9343fad2a06bd69fb154a22a2aa2914f74da8"
++SRC_URI[md5sum] = "227404413c8d6db649d6188ead1e5a6e"
++SRC_URI[sha256sum] = "cb1c1e45993a3bd2438543fd4332d70f1726a6e6ff97dc613a8258c993117b3f"
+ 
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
+-- 
+2.23.0
 
-However, how about moving zstd into core? There are already several
-recipe in core making use of Zstd (optionally): mtd-utils, btrfs-tools
-and squashfs-tools...
-
---
-Stefan
 
