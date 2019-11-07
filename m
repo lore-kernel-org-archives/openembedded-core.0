@@ -1,52 +1,44 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FBD77F968
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C94D7F968
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2019 15:35:31 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id f5so1955318lfp.1
+	Thu,  7 Nov 2019 15:36:40 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id i10so3525351wrs.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2019 07:35:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=aUywt1TVNRUDzE8uZdVM9JMgsAhshMPOLgRgga7JoUY=;
-	b=HJ1zL8u4D8MX9IeyRLBeRzE5YffH5ZJnqBtBUFw/2/GEONy1xxX5yit92SIvC+yDIu
-	gXmNRCxoZdsE1ySzFTuMGlLHqXdn4Zu/x2id3drRtUrQs5+LYho2Q65l6ykhxn6BMfPH
-	IeqUBoqoCoV3SfmhuG4shaFlpxS80GGJJ6VZ0gS/sHnLzzouibMtsLpoGLhLC7y8T4E8
-	Fsg58yq65+FVEV/ccIamqf3bojLZiy25dAO7AxuO8lh9ADM41o8exK81si2VRq1JhT4g
-	GjkTRHBlTLo1Ce+XG+jjFOeV+wdxZ2EWk7qdBmG6v8kZnP42zGrqgNVzn4GSDLod0xuj
-	4Xfw==
+	Thu, 07 Nov 2019 07:36:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=aUywt1TVNRUDzE8uZdVM9JMgsAhshMPOLgRgga7JoUY=;
-	b=hrcNMdV1ph3mOGOK2f0Du/reLwAwYzcP3pVMwPw/mavHlUTLU3Xg2fNKZyIP6GuKfQ
-	OBq/873Ggz/7igC1iUNqOWM99ueV3zkEBz0LaI/E3Y8D9KpaUT8vIaOBedW2n2NeLHNq
-	iiboYWpTl3ugMMT6JdZOs3Vz6RCid1WmClkD6fAQgIccSuD9fX8F7Rj3Xz8qdKuK2NUa
-	b2zGNjoLNxaoPxRVKQITR66CSjQKuecGfzT0EHjhLHMj5O6iDf1A3/RY0jguQdnlzcm2
-	zVU8AMTg+NFQMw2eLPcpoHQ9GRq2pkdSDU9eQUOyHIMnHk1SOb4D3Dtwpy+S5r7IRZ9w
-	gsMA==
-X-Gm-Message-State: APjAAAWg9ISBYO3Tqx+vr9F1g4TZZ3Qeq/v1Ip0pQRFeKrGyf+tRq/Ee
-	V6QY2xbqb/5kpHBnRKOBcsYO5d0d
-X-Google-Smtp-Source: APXvYqywmbSwJuB8+i3TAlzyZgr42EwqyS3BkfubWDFxUgb0CUz6bvWtTOTu/7M082B7QjejU5IPFQ==
-X-Received: by 2002:a05:6512:75:: with SMTP id
-	i21mr2797811lfo.180.1573140931443; 
-	Thu, 07 Nov 2019 07:35:31 -0800 (PST)
-Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
-	[37.247.29.68])
-	by smtp.gmail.com with ESMTPSA id 30sm961398lju.52.2019.11.07.07.35.29
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=c6pjFHGlBSSt5fCHzzw88fwGG4NCh0PeDELwiwIKTMk=;
+	b=Q4J8P/baK1+jYkbgwYZFNuFszk6VOGP0OzdKCIYGy58gtEeMnXcWRuPEXGErXxVMQg
+	z1OwtEXDaTUh1Zpv2nQV5i6+9NRePFXOPhy5NTiVLIKprNx+T78je0WgRq8bCoA4KAn0
+	zuoTVLCqeEF/GiXoqbJ0vYewAgs7zc8prFdTYllUbNnzrNUCNbs9i20mTWxj49d9jLIV
+	3PlHKFi3lWQr8ge8iIwARTCj6zunSR8TGrNKmD6Pw2QsMVtWJNfWfsQ0dVYv15vgdiJu
+	W61S3XJm/dU2f67xKXT0foIyqF8f8RLhJ6I3Y2i+2Fj911vSBXllt6QEI2wlXpQ0e3W5
+	1TmA==
+X-Gm-Message-State: APjAAAUdIXm/xzGGykLU3ERF04ghChdFofHlJq5540oq8gMOIZYEx56c
+	PWwDJAZZnKVpkZ6oxKP0MacjHvtn
+X-Google-Smtp-Source: APXvYqxyBEWI6jA0VNV7dytNvZwFNoymbVJPK4Pcs/M3JOr+04cQPxdFDuWigFH7E2cq4WCnLA/J2Q==
+X-Received: by 2002:a05:6000:110a:: with SMTP id
+	z10mr3334983wrw.291.1573141000702; 
+	Thu, 07 Nov 2019 07:36:40 -0800 (PST)
+Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	a15sm2460124wrw.10.2019.11.07.07.36.40
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 07 Nov 2019 07:35:30 -0800 (PST)
-From: Jacob Kroon <jacob.kroon@gmail.com>
+	Thu, 07 Nov 2019 07:36:40 -0800 (PST)
+From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Nov 2019 16:35:15 +0100
-Message-Id: <20191107153515.12454-1-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.21.0
+Date: Thu,  7 Nov 2019 15:36:39 +0000
+Message-Id: <20191107153639.22209-1-git@andred.net>
+X-Mailer: git-send-email 2.23.0.rc1
+In-Reply-To: <20191107094033.33950-1-git@andred.net>
+References: <20191107094033.33950-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH] rm_work: Simplify logic for setscene promotion
+Subject: [PATCH v2] libevent: update packaging (one package per shared library)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,110 +51,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 15:35:32 -0000
+X-List-Received-Date: Thu, 07 Nov 2019 15:36:40 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-* Instead of overwriting the stamp name with 'dummy', handle
-  setscene promotion in the default case block
-* Merge '*do_image_complete_setscene*' and '*do_image_qa_setscene*'
-  case handling
+libevent produces several libraries that might or might not
+be used in the end. We can prevent those potentially unused
+libraries from being pulled into a file-system by splitting
+the individual shared libraries into individual packages.
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+Because this recipe only provides shared libraries which are
+handled automatically by bitbake (shlibs), there is no need
+to add the subpackages to the RDEPENDS of PN for backwards
+compatibility. The packaging process of dependees will
+simply pull in the sub-packages as runtime dependency as
+needed.
+
+This also how Debian splits this up.
+
+While updating the packaging, we can also drop event_rpcgen.py
+which appears to be a tool for generating rpc bindings, i.e.
+something that should normally be in -dev. Given Debian
+doesn't package this at all, and given it actually requires
+python to run but no runtime dependency is stated at the
+moment, it would appear that no users of this exist.
+
+Signed-off-by: André Draszik <git@andred.net>
+
 ---
- meta/classes/rm_work.bbclass | 49 +++++++++++-------------------------
- 1 file changed, 15 insertions(+), 34 deletions(-)
+v2: keep SSL support turned-off by default
+---
+ meta/recipes-support/libevent/libevent_2.1.11.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 0bbc450100..01c2ab1c78 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -47,39 +47,26 @@ do_rm_work () {
-     cd `dirname ${STAMP}`
-     for i in `basename ${STAMP}`*
-     do
--        # By default we'll delete the stamp, unless $i is changed by the inner loop
--        # (i=dummy does this)
--
-         case $i in
-         *sigdata*|*sigbasedata*)
-             # Save/skip anything that looks like a signature data file.
--            i=dummy
-             ;;
--        *do_image_complete_setscene*)
--            # Ensure we don't 'stack' setscene extensions to this stamp with the section below
--            i=dummy
-+        *do_image_complete_setscene*|*do_image_qa_setscene*)
-+            # Ensure we don't 'stack' setscene extensions to these stamps with the sections below
-             ;;
-         *do_image_complete*)
-             # Promote do_image_complete stamps to setscene versions (ahead of *do_image* below)
-             mv $i `echo $i | sed -e "s#do_image_complete#do_image_complete_setscene#"`
--            i=dummy
--            ;;
--        *do_image_qa_setscene*)
--            # Ensure we don't 'stack' setscene extensions to this stamp with the section below
--            i=dummy
-             ;;
-         *do_image_qa*)
-             # Promote do_image_qa stamps to setscene versions (ahead of *do_image* below)
-             mv $i `echo $i | sed -e "s#do_image_qa#do_image_qa_setscene#"`
--            i=dummy
-             ;;
-         *do_package_write*|*do_rootfs*|*do_image*|*do_bootimg*|*do_write_qemuboot_conf*|*do_build*)
--            i=dummy
-             ;;
-         *do_addto_recipe_sysroot*)
-             # Preserve recipe-sysroot-native if do_addto_recipe_sysroot has been used
-             excludes="$excludes recipe-sysroot-native"
--            i=dummy
-             ;;
-         *do_package|*do_package.*|*do_package_setscene.*)
-             # We remove do_package entirely, including any
-@@ -87,30 +74,24 @@ do_rm_work () {
-             # such as 'packages' and 'packages-split' and these can be large. No end
-             # of chain tasks depend directly on do_package anymore.
-             rm -f $i;
--            i=dummy
-             ;;
-         *_setscene*)
-             # Skip stamps which are already setscene versions
--            i=dummy
-             ;;
-+        *)
-+            # For everything else: if suitable, promote the stamp to a setscene
-+            # version, otherwise remove it
-+            for j in ${SSTATETASKS} do_shared_workdir
-+            do
-+                case $i in
-+                *$j|*$j.*)
-+                    mv $i `echo $i | sed -e "s#${j}#${j}_setscene#"`
-+                    break
-+                    ;;
-+                esac
-+            done
-+            rm -f $i
-         esac
--
--        for j in ${SSTATETASKS} do_shared_workdir
--        do
--            case $i in
--            dummy)
--                break
--                ;;
--            *$j|*$j.*)
--                # Promote the stamp to a setscene version
--                mv $i `echo $i | sed -e "s#${j}#${j}_setscene#"`
--                i=dummy
--                break
--                ;;
--            esac
--        done
--
--        rm -f $i
-     done
+diff --git a/meta/recipes-support/libevent/libevent_2.1.11.bb b/meta/recipes-support/libevent/libevent_2.1.11.bb
+index f005ab8bda..8c7c49e7dd 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.11.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.11.bb
+@@ -31,9 +31,17 @@ inherit ptest multilib_header
  
-     cd ${WORKDIR}
+ DEPENDS = "zlib"
+ 
++PACKAGES_DYNAMIC = "^${PN}-.*$"
++python split_libevent_libs () {
++    do_split_packages(d, '${libdir}', r'^libevent_([a-z]*)-.*\.so\..*', '${PN}-%s', '${SUMMARY} (%s)', prepend=True, allow_links=True)
++}
++PACKAGESPLITFUNCS_prepend = "split_libevent_libs "
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ do_install_append() {
++	rm ${D}${bindir}/event_rpcgen.py
++	rmdir ${D}${bindir}
+         oe_multilib_header event2/event-config.h
+ }
+ 
 -- 
-2.21.0
+2.23.0.rc1
 
 
