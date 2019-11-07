@@ -1,50 +1,34 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id AA4087D6CE
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id D465D7F844
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2019 08:13:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=u2JX07dslcFW52VNFAHdR7AIJTR89iqngx7fUqfu7H0=;
-	b=m4jLPGYp+y4sQxVA14YzSpEADS
-	WCbhDsTcFEeQSC8TwAxlVj4KlFpH7H+swCcUz+LrPG8JsuanboA4qCBxAf9A8WR9OhsIKWZGUM7Dh
-	GQl4JKBtnFw9hixcY6P+cueLxvj+gDTX/9rAu5l0c2HAmqwvCiKFBByyWKQk6JMNJ2Rha3+wLzQwK
-	a3KXbLQsBKIgfmx2RGPQs8Ls/76EofVbAZsG8cgtXSwqeihFyglJQIcFO6l2t+amGiR6OV8Hx3RRx
-	Vo5rLXibjxJlRtfGLhGj5zNF/DItdcFfVhZPhhErhqlmO2ECdh0IrgXmcOjLatp/SQN8f6SMc3DUB
-	C3fj1l5Q==;
-Received: from kapsi.fi ([91.232.154.11] helo=lakka.kapsi.fi)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1iScvU-0006Ec-Fu; Thu, 07 Nov 2019 10:13:56 +0200
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1iScvK-0007rx-B1; Thu, 07 Nov 2019 10:13:46 +0200
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Nov 2019 10:13:33 +0200
-Message-Id: <1573114413-26532-1-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.1.4
-X-Rspam-Score: 1.1 (+)
-X-Rspam-Report: Action: no action Symbol: ARC_NA(0.00)
-	Symbol: DMARC_POLICY_SOFTFAIL(0.10) Symbol: R_SPF_NEUTRAL(0.00)
-	Symbol: FROM_HAS_DN(0.00) Symbol: TO_DN_SOME(0.00)
-	Symbol: TO_MATCH_ENVRCPT_ALL(0.00) Symbol: MIME_GOOD(-0.10)
-	Symbol: RCVD_TLS_LAST(0.00) Symbol: NEURAL_SPAM(0.00)
-	Symbol: IP_SCORE(-0.15) Symbol: RCPT_COUNT_TWO(0.00)
-	Symbol: MID_CONTAINS_FROM(1.00) Symbol: FORGED_SENDER(0.30)
-	Symbol: R_DKIM_NA(0.00) Symbol: MIME_TRACE(0.00)
-	Symbol: ASN(0.00) Symbol: FROM_NEQ_ENVFROM(0.00)
-	Symbol: RCVD_COUNT_TWO(0.00) Message: (SPF): spf neutral
-	Message-ID: 1573114413-26532-1-git-send-email-mikko.rapeli@bmw.de
-X-Rspam-Bar: +
-X-SA-Exim-Connect-IP: 91.232.154.11
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Subject: [PATCH][zeus][master] harfbuzz: split libharfbuzz-subset.so to its own binary package
+	Thu,  7 Nov 2019 08:32:00 +0000 (UTC)
+Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id C43F15C0B0C;
+	Thu,  7 Nov 2019 09:32:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1573115520;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=N23D3pYEn7WFN3twifO3psmEI7BcLQnxWM2Xan91YXE=;
+	b=LamLVGuz46WMgcSJnZPRRQuD3ovpvSXw/RVkmTXh+haSHZByVEfrN4c1CzLSGy748qJWUQ
+	LueX1/PMbxK7q9Q3Id0Zfcq3RwyF7azDUSHlVNov2s6xiPK2NSsHe7sf6YJQhg+Roat5uZ
+	kvP8N+ATsy6yFhGkDvaM1MRwWgSjFeM=
+MIME-Version: 1.0
+Date: Thu, 07 Nov 2019 09:32:00 +0100
+From: Stefan Agner <stefan@agner.ch>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+In-Reply-To: <ae023dca562212e71e4d9c6279a439936514be4f.camel@linuxfoundation.org>
+References: <20191106134305.12109-1-stefan@agner.ch>
+	<ae023dca562212e71e4d9c6279a439936514be4f.camel@linuxfoundation.org>
+Message-ID: <0dc7de5c5f200f1f146db2405846ee23@agner.ch>
+X-Sender: stefan@agner.ch
+User-Agent: Roundcube Webmail/1.3.9
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] image_types: add Zstandard conversion support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,45 +41,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 08:13:59 -0000
+X-List-Received-Date: Thu, 07 Nov 2019 08:32:01 -0000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-harfbuzz binary package size increased from 624608 bytes in yocto 2.5 to
-1365431 bytes in yocto 3.0. Most of the size increase is in the new
-libharfbuzz-subset.so* library, which based on the name seems to
-duplicate parts of the libharfbuzz main library, though it
-RDEPENDS on harfbuzz which is odd. Split it to its own binary
-package which will be installed if anyone needs it. Effect to harfbuzz
-binary package size is:
+On 2019-11-07 09:01, Richard Purdie wrote:
+> On Wed, 2019-11-06 at 13:43 +0000, Stefan Agner wrote:
+>> From: Stefan Agner <stefan.agner@toradex.com>
+>>
+>> Add Zstandard (or just Zstd) compression support. This allows to
+>> create Zstd compressed tarballs by using tar.zst as IMAGE_FSTYPES.
+>>
+>> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+>> ---
+>>  meta/classes/image_types.bbclass | 8 ++++++--
+>>  1 file changed, 6 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+>> index 2eeffbb366..d29b9c5787 100644
+>> --- a/meta/classes/image_types.bbclass
+>> +++ b/meta/classes/image_types.bbclass
+>> @@ -59,6 +59,8 @@ XZ_INTEGRITY_CHECK ?= "crc32"
+>>
+>>  ZIP_COMPRESSION_LEVEL ?= "-9"
+>>
+>> +ZSTD_COMPRESSION_LEVEL ?= "-3"
+>> +
+>>  JFFS2_SUM_EXTRA_ARGS ?= ""
+>>  IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.jffs2 ${EXTRA_IMAGECMD}"
+>>
+>> @@ -269,7 +271,7 @@ IMAGE_TYPES = " \
+>>      hddimg \
+>>      squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
+>>      ubi ubifs multiubi \
+>> -    tar tar.gz tar.bz2 tar.xz tar.lz4 \
+>> +    tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
+>>      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+>>      wic wic.gz wic.bz2 wic.lzma \
+>>      container \
+>> @@ -282,7 +284,7 @@ IMAGE_TYPES = " \
+>>  # CONVERSION_CMD/DEPENDS.
+>>  COMPRESSIONTYPES ?= ""
+>>
+>> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
+>> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
+>>  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>>  CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+>>  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>> @@ -290,6 +292,7 @@ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=
+>>  CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+>>  CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>>  CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>> +CONVERSION_CMD_zst = "zstd -f -k -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
+>>  CONVERSION_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
+>>  CONVERSION_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
+>>  CONVERSION_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
+>> @@ -310,6 +313,7 @@ CONVERSION_DEPENDS_xz = "xz-native"
+>>  CONVERSION_DEPENDS_lz4 = "lz4-native"
+>>  CONVERSION_DEPENDS_lzo = "lzop-native"
+>>  CONVERSION_DEPENDS_zip = "zip-native"
+>> +CONVERSION_DEPENDS_zst = "zstd-native"
+>>  CONVERSION_DEPENDS_sum = "mtd-utils-native"
+>>  CONVERSION_DEPENDS_bmap = "bmap-tools-native"
+>>  CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
+> 
+> I was ok with this despite not having zstd-native in OE-Core however
+> our automated testing is cleverer than I remembered:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/467
+> 
+> so we may need to skip this option in the test...
+> 
+> (oe-selftest -r imagefeatures.ImageFeatures.test_image_fstypes should
+> reproduce)
 
--PKGSIZE = 1476271
-+PKGSIZE = 1007424
+Hm, I see, so we could fix that test.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
----
- meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+However, how about moving zstd into core? There are already several
+recipe in core making use of Zstd (optionally): mtd-utils, btrfs-tools
+and squashfs-tools...
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-index 99cd4cd..80ab545 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.6.1.bb
-@@ -21,7 +21,7 @@ PACKAGECONFIG[glib] = "--with-glib,--without-glib,glib-2.0"
- PACKAGECONFIG[graphite] = "--with-graphite2,--without-graphite2,graphite2"
- PACKAGECONFIG[icu] = "--with-icu,--without-icu,icu"
- 
--PACKAGES =+ "${PN}-icu ${PN}-icu-dev"
-+PACKAGES =+ "${PN}-icu ${PN}-icu-dev ${PN}-subset"
- 
- LEAD_SONAME = "libharfbuzz.so"
- 
-@@ -36,5 +36,6 @@ FILES_${PN}-icu-dev = "${libdir}/libharfbuzz-icu.la \
-                        ${libdir}/libharfbuzz-icu.so \
-                        ${libdir}/pkgconfig/harfbuzz-icu.pc \
- "
-+FILES_${PN}-subset = "${libdir}/libharfbuzz-subset.so.*"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-1.9.1
-
+--
+Stefan
 
