@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 21CAA7F642;
-	Thu,  7 Nov 2019 20:32:02 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
+Return-Path: <seebs@seebs.net>
+X-Greylist: delayed 443 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 07 Nov 2019 20:41:56 UTC
+Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C37B7F642
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  7 Nov 2019 20:41:56 +0000 (UTC)
+Received: from seebsdell (unknown [24.196.59.174])
+	by mail.seebs.net (Postfix) with ESMTPSA id 310352E8938;
+	Thu,  7 Nov 2019 14:34:33 -0600 (CST)
+Date: Thu, 7 Nov 2019 14:34:30 -0600
+From: Seebs <seebs@seebs.net>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Thu, 07 Nov 2019 20:32:03 -0000
-Message-ID: <20191107203203.2329.55036@do>
-References: <a41dc3c3d628586ee015766c2003d1e494e7e4fb.camel@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <a41dc3c3d628586ee015766c2003d1e494e7e4fb.camel@linuxfoundation.org>
+Message-ID: <20191107143430.39e16813@seebsdell>
+In-Reply-To: <20191107200444.22913-1-richard.purdie@linuxfoundation.org>
+References: <20191107200444.22913-1-richard.purdie@linuxfoundation.org>
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWRkIHN0YXR4IGdsaWJjL3N5c2NhbGwgc3VwcG9ydA==?=
+Subject: Re: [PATCH] pseudo: Add statx support to fix fedora30 issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +30,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 20:32:02 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 07 Nov 2019 20:41:56 -0000
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On Thu,  7 Nov 2019 20:04:44 +0000
+Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
 
-Series: Add statx glibc/syscall support
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/21022/
-State : failure
+> Modern distros (e.g. fedora30) are starting to use the new statx()
+> syscall through the newly exposed glibc wrapper function in software
+> like coreutils (e.g. the ls command). Add support to intercept this
+> to pseudo.
 
-== Summary ==
+I think this should be okay. If there's no real statx() wrapper, the
+real_statx() call probably fails, but also things probably won't have
+thought it existed/worked.
 
+Worth double-checking that things still run with this in place on a
+system that doesn't have a statx wrapper, when configuring and building
+things like coreutils that will check for it.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at ae6e7dd19b)
-
-* Patch            [pseudo] Add statx glibc/syscall support
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+-s
 
