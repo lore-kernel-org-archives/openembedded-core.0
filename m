@@ -1,46 +1,42 @@
-Return-Path: <jdmason@kudzu.us>
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
-	[209.85.166.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E8BE07F88B
+Return-Path: <prvs=221486d377=haris.okanovic@ni.com>
+X-Greylist: delayed 2006 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 07 Nov 2019 19:24:58 UTC
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D5CD7F8E2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  7 Nov 2019 17:01:58 +0000 (UTC)
-Received: by mail-il1-f176.google.com with SMTP id s75so2470474ilc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2019 09:02:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=3FY1KB7dOKJqzlyT2wPDI5iln+xlRhIiMoBhSOmVyQ0=;
-	b=LgV+hgNdFf1UaF3pvd0BtId8A3/LNMvbTBUkbohWbAy1hhdmR5DgQLZ6NTjZlDOTmu
-	aC8nm71szSvMvhlv+snU+EHSRDAtU0VrRrn9hTswXq/XKWqygkzAiJ83PFDVQJ1wTLYO
-	jNMwiQuED9joQgKpUNuApaCziaPsH3llSFWVO+1NQG5hRrJDoqDWaXC0YQIc623SKXLC
-	dQ49+1uPCvAxN4/dCivU9eQ9EQH6/MjbcDBjLmyQS292TOPNBhAY1aBy6Ma0F5icqig8
-	0KPQTpkC2yDWe3JhJB+0u9lquKbk5EqCZUsBKUoiGMOiuuwZzlgWqYV3LpiFD+y4rmlO
-	0/AQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=3FY1KB7dOKJqzlyT2wPDI5iln+xlRhIiMoBhSOmVyQ0=;
-	b=mLQnBDyYMbM52vnvu+szIecdeRB0gvREJv6c0qCqFW8gGweR1gte3w/11bKEO2ds7N
-	yo/i309vgo2iZsFXpW8YWCJ+PfWRrjeNFJdCR10l+nhrT5sSw0IWSQH9dPCiDBE0MW6w
-	jn5lZevhvIGEHtEFVK6yfLCEfPSjSPPNBKhWp1GAwi7BaI4dAeaK+R0cu4PxMjGw9vLU
-	b4usJoon+7W/tDFkLyYOAq+L6iidO25pCZLfmdU/EE+am9txReGRxiMJRvUvZ1d1EAGf
-	JA7o5WIiTvbDr/gxxVjF/IQWeoiM1lln/n3sjXVaUiUIEL9FGB9ZuS+hVJGNY6M0KnE5
-	Shpg==
-X-Gm-Message-State: APjAAAXMXLFJSVWzTyq4nkRVO39jlmPoX3h9+h9opMlevRB63OEJ/Ywm
-	e+kIC8W7LePYN0oBQmSKLzqkZBl9VxGgh2AqdZ1YzA==
-X-Google-Smtp-Source: APXvYqyon0NRlMSooHH8iwi0XIjWY9gkahvvDDBkS9+FiSg9fbUJ+pGNkp2pdYVvcIE4kQtwPwH/mvGJ3RYXh3OkSBQ=
-X-Received: by 2002:a92:8388:: with SMTP id p8mr5826502ilk.49.1573146119708;
-	Thu, 07 Nov 2019 09:01:59 -0800 (PST)
+	Thu,  7 Nov 2019 19:24:58 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+	xA7JJKqd028130; Thu, 7 Nov 2019 13:24:58 -0600
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2w41w84abn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Thu, 07 Nov 2019 13:24:58 -0600
+Received: from us-aus-exch2.ni.corp.natinst.com
+	(us-aus-exch2.ni.corp.natinst.com [130.164.68.12])
+	by us-aus-skprod3.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
+	xA7JOvIA006063
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Thu, 7 Nov 2019 13:24:57 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch2.ni.corp.natinst.com (130.164.68.12) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Thu, 7 Nov 2019 13:24:57 -0600
+Received: from harisdt.amer.corp.natinst.com (172.18.68.32) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Thu, 7 Nov 2019 13:24:57 -0600
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 7 Nov 2019 13:24:54 -0600
+Message-ID: <20191107192454.1745354-1-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-From: Jon Mason <jdmason@kudzu.us>
-Date: Thu, 7 Nov 2019 12:01:48 -0500
-Message-ID: <CAPoiz9x+8E-NHEkO=1GXMFHRn-FTST6iizTAZcmceE5qCK+PEA@mail.gmail.com>
-To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Yocto discussion list <yocto@yoctoproject.org>
-Subject: OpenEmbedded event at FOSDEM20
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+	definitions=2019-11-07_05:2019-11-07,2019-11-07 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Cc: haris.okanovic@ni.com, bill.pittman@ni.com, ken.sharp@ni.com
+Subject: [PATCH] initscripts/sysfs.sh: Mount /sys/firmware/efi/efivars when possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,15 +49,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 07 Nov 2019 17:01:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 07 Nov 2019 19:24:58 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-OpenEmbedded is considering creating a mini-conference attached to
-FOSDEM 2020 (https://fosdem.org/2020/), and we would like your help.
-Please fill out this short, 10 question, survey to determine the
-viability of such an effort.
-https://www.surveymonkey.com/r/9QP76CL
+Without this change, efibootmgr is unable to recover BootOrder if lost
+during a previous write operation, e.g. exceeded storage capacity. This
+is problematic using EFI to manage boot flow from Linux (E.g. via RAUC).
 
-Thank you,
-The OpenEmbedded Board
+https://www.kernel.org/doc/Documentation/filesystems/efivarfs.txt
+
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
+---
+ meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+index f5b5b9904b..4871ee94e5 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+@@ -26,6 +26,10 @@ if [ -e /sys/kernel/config ] && grep -q configfs /proc/filesystems; then
+   mount -t configfs configfs /sys/kernel/config
+ fi
+ 
++if [ -e /sys/firmware/efi/efivars ] && grep -q efivarfs /proc/filesystems; then
++  mount -t efivarfs efivarfs /sys/firmware/efi/efivars
++fi
++
+ if ! [ -e /dev/zero ] && [ -e /dev ] && grep -q devtmpfs /proc/filesystems; then
+   mount -n -t devtmpfs devtmpfs /dev
+ fi
+-- 
+2.24.0
+
 
