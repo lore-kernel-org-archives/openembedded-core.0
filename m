@@ -1,50 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DCBE7FA3F
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BFA5F7FC10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2019 02:01:22 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id 193so3613051pfc.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2019 18:01:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=QfVdiLnHvJzwrGXuL3f7e2tFUx2dOGVNSRgAvvQKePY=;
-	b=YyRqSuLTHHpDOklE93wDew9sJ0PhXIt06dUOCE76lrbDGKdCWbYkd14vb9ag5hsHXz
-	zERI7GetlA0/XVQm8/tGbsZWXwfTJS0uXyQyxVLZlsecQww0I0h55vwMHxizbxBPrt6q
-	8fAtUygEAEx+N4D1LWoY4ki31E7ydEcQ+SQClMuoiejm8QeXNWa0Tdk0qpD/u3WCs3lu
-	8MMvc5BUMHsLyRtX0FPxj2YNOEUEcxBjCBuFjkQS2ZgC4LQzvOByFG/6qaX1eXBISx2U
-	co6bkEM4hzRIZBT9rUBLSyXyzBnCC4hUIhg9eW8dLP2VGAnicTlwZemgrRHbQOclNKCh
-	MFdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=QfVdiLnHvJzwrGXuL3f7e2tFUx2dOGVNSRgAvvQKePY=;
-	b=kpDu3/oFVXSDVgum+TE9IhTAza9DiZ/5vBsAcCyjLsbzGuR2w4flon/+uUFZSUYlvv
-	l4JBIKzqdJSjWXe/ndhMcEHamwS8PZ+WLd19+gNUIPzSee8K/3Zbp7T6D6ea4OcnrHIi
-	mH2LyvjiwYvgweI1xFp6DKqpAYr58/1BcYU5DNxVB9yJhYVSOueHKA8sDOHyQfzjFj6T
-	1sZAdVD6m+DfyiQgwrcaDV3o92Q7jBkqc5sHoFkYcdGquorr13jQhfoNareBtyJhtFIt
-	Xyo/4ZewI4Ys2zoAIjYND+lDxcrWo8QZTvczRY8Ztjnn/aIZlVbJ5dBIfUaoSvshlAjQ
-	79zQ==
-X-Gm-Message-State: APjAAAVU4ir4rcgrt11wub8LK3386Wyf6s7vndAsyxjjALD9YRdOpMKw
-	6OcLh4I7D8y0XqD6rXJaucav2Nk2Y/Y=
-X-Google-Smtp-Source: APXvYqwrsw0j5WYLJJsutykUgGxPsfMPv3Qvtn6Y6eLV6eDz8t7Q2fKBeZpWSxEXgswmjHYwoVKU7g==
-X-Received: by 2002:a63:29c2:: with SMTP id p185mr8459749pgp.39.1573178483471; 
-	Thu, 07 Nov 2019 18:01:23 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::5caf])
-	by smtp.gmail.com with ESMTPSA id
-	x2sm4113994pfn.167.2019.11.07.18.01.22
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 07 Nov 2019 18:01:22 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri,  8 Nov 2019 03:41:36 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	07 Nov 2019 19:41:37 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,280,1569308400"; d="scan'208";a="233498602"
+Received: from cheeyang-desk1.png.intel.com ([172.30.199.38])
+	by fmsmga002.fm.intel.com with ESMTP; 07 Nov 2019 19:41:36 -0800
+From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  7 Nov 2019 18:01:02 -0800
-Message-Id: <20191108020102.757861-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
+Date: Fri,  8 Nov 2019 11:41:19 +0800
+Message-Id: <20191108034119.12676-1-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Subject: [PATCH] libnsl2: Update to latest master
+Subject: [PATCH] wic: beautify 'wic help'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +31,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2019 02:01:23 -0000
+X-List-Received-Date: Fri, 08 Nov 2019 03:41:36 -0000
 Content-Transfer-Encoding: 8bit
 
-Get following patches
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Detect recursive lock between yp_all() and do_ypcall()
-Detect recursive NIS calls
+The Wic help returned to the user is unreadable.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Use a custom ArgumentParser to override argparse help message.
+
+change help message as suggest in
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=12205
+[YOCTO #12205]
+
+changes applies to 'wic help', 'wic -h', 'wic --h' and 'wic --help'
+
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 ---
- meta/recipes-extended/libnsl/libnsl2_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/wic/help.py | 56 +++++++++++++++++++++++++++++++++++++++++
+ scripts/wic             |  8 +++---
+ 2 files changed, 61 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/libnsl/libnsl2_git.bb b/meta/recipes-extended/libnsl/libnsl2_git.bb
-index c3a24face1..28c84af7ad 100644
---- a/meta/recipes-extended/libnsl/libnsl2_git.bb
-+++ b/meta/recipes-extended/libnsl/libnsl2_git.bb
-@@ -12,7 +12,7 @@ DEPENDS = "libtirpc"
+diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
+index af7d0576e2..968cc0ed6f 100644
+--- a/scripts/lib/wic/help.py
++++ b/scripts/lib/wic/help.py
+@@ -1046,3 +1046,59 @@ NAME
+ DESCRIPTION
+     Specify a help topic to display it. Topics are shown above.
+ """
++
++
++wic_help = """
++Creates a customized OpenEmbedded image.
++
++Usage:  wic [--version]
++        wic help [COMMAND or TOPIC]
++        wic COMMAND [ARGS]
++
++    usage 1: Returns the current version of Wic
++    usage 2: Returns detailed help for a COMMAND or TOPIC
++    usage 3: Executes COMMAND
++
++
++COMMAND:
++
++    list   -   List available canned images and source plugins
++    ls     -   List contents of partitioned image or partition
++    rm     -   Remove files or directories from the vfat or ext* partitions
++    help   -   Show help for a wic COMMAND or TOPIC
++    write  -   Write an image to a device
++    cp     -   Copy files and directories to the vfat or ext* partitions
++    create -   Create a new OpenEmbedded image
++
++
++TOPIC:
++    overview  - Presents an overall overview of Wic
++    plugins   - Presents an overview and API for Wic plugins
++    kickstart - Presents a Wic kicstart file reference
++
++
++Examples:
++
++    $ wic --version
++
++    Returns the current version of Wic
++
++
++    $ wic help cp
++
++    Returns the SYNOPSIS and DESCRIPTION for the Wic "cp" command.
++
++
++    $ wic list images
++
++    Returns the list of canned images (i.e. *.wks files located in
++    the /scripts/lib/wic/canned-wks directory.
++
++
++    $ wic create mkefidisk -e core-image-minimal
++
++    Creates an EFI disk image from artifacts used in a previous
++    core-image-minimal build in standard BitBake locations
++    (e.g. Cooked Mode).
++
++"""
+diff --git a/scripts/wic b/scripts/wic
+index 1d89fb2eda..1a717300f5 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -495,14 +495,18 @@ def init_parser(parser):
+         subparser = subparsers.add_parser(subcmd, help=subcommands[subcmd][2])
+         subcommands[subcmd][3](subparser)
  
- PV = "1.2.0+git${SRCPV}"
++class WicArgumentParser(argparse.ArgumentParser):
++     def format_help(self):
++         return hlp.wic_help
  
--SRCREV = "37c5ffe3038d42e9fa9ed232ad2cbca4d8f14681"
-+SRCREV = "4a062cf4180d99371198951e4ea5b4550efd58a3"
+ def main(argv):
+-    parser = argparse.ArgumentParser(
++    parser = WicArgumentParser(
+         description="wic version %s" % __version__)
  
- SRC_URI = "git://github.com/thkukuk/libnsl \
-           "
+     init_parser(parser)
+ 
+     args = parser.parse_args(argv)
++
+     if args.debug:
+         logger.setLevel(logging.DEBUG)
+ 
+@@ -510,8 +514,6 @@ def main(argv):
+         if args.command == "help":
+             if args.help_topic is None:
+                 parser.print_help()
+-                print()
+-                print("Please specify a help topic")
+             elif args.help_topic in helptopics:
+                 hlpt = helptopics[args.help_topic]
+                 hlpt[0](hlpt[1], hlpt[2])
 -- 
-2.24.0
+2.22.0
 
 
