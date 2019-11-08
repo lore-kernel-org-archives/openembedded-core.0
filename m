@@ -1,18 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 951D57F9AF;
-	Fri,  8 Nov 2019 18:02:15 +0000 (UTC)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 92A4F7F7B3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  8 Nov 2019 18:13:33 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id 205so6113757qkk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 08 Nov 2019 10:13:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=lJLsbj53xtESOsiVAmgrTyJCH+lAQmGqnx4rDTE+MAA=;
+	b=FxWjosZhTEfmJ9W8W5He3DCd0ouq4u72YBNa9kZfhSZSDRAOEXyGRz1To1DSTPMd8J
+	exoSMrbPQqFkXc6a5IVSY6p+3wSjtZNuoScImq0W6CAaZIZ+CM9pspkTwoW8Ll8u12s6
+	KBfjdMTWxyet84nX2thxHg6a63/738EjNwQF2H/GvsfkeapwEmK3BrRYJXLyBANkFjqL
+	5bilwCJc0dMwwn8n5jrDBIojnOBB9CDLE/wKiywJ/za/+8dPQoRJ6BFCwZhszUc+AByh
+	vUhHIs/SRPlhr0cSK7C+fUNbR+jIqaBplm2F0fkVRyo9whdmNcLjmohzFVEPOSWx1UlO
+	9mTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=lJLsbj53xtESOsiVAmgrTyJCH+lAQmGqnx4rDTE+MAA=;
+	b=WFLREkGjEJp0tyD6N3jjEtXNJ4TnaE0ytimhAIkGtevFOxw36XH6s3BFqGQB7mS29U
+	3PdYx1GY2k38AEqzNuaeSHwViDiVbI9tI2CFkZck8r/pZvrtk8grsCvsi4XkcGCwg/IJ
+	2Pr39OVSOO/S04jJzYLu834xSGJ7crSCsIl5idS4VF7pbpgVI7F6szlk7LioXWLaOY4N
+	faDC2vJI8tvQwHlBl5vls/uZThPygvJTHJhzXcQ9NdrFMzEtovdITSz1QHHj+P3q7xBo
+	ZBrSoPY6SGClIBKCd8NdKjW2dzslhd69Me4CFYxWL9MMR7g1Yqn/P+VB/iUXL8YUIGtE
+	t8DQ==
+X-Gm-Message-State: APjAAAVK5SO8l7T4QP8XGa8XKxOnbQAS1dV12hwZ+fQ9p9vdMFcKOuVf
+	MXoKy8rD2Y8R6fmBgV+T6a7hiXs9QIhdcpJtLIM=
+X-Google-Smtp-Source: APXvYqy8OMDLn+8g8UvDy9gZyvhmp9eBPqkrUrbP+zv7HIRAGlD+KD2fPSeM3i+vmn/+cN9FZBNjJefT4qnDk/SMGM4=
+X-Received: by 2002:a37:6554:: with SMTP id z81mr10580711qkb.9.1573236814092; 
+	Fri, 08 Nov 2019 10:13:34 -0800 (PST)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 08 Nov 2019 18:02:17 -0000
-Message-ID: <20191108180217.2331.17812@do>
-References: <20191108174053.2129743-1-JPEWhacker@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20191108174053.2129743-1-JPEWhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb2VxYTogcmVwcm9kdWNpYmxlOiBGaXggZXh0cmEgZGF0YSByZXBvcnRpbmc=?=
+References: <20191104224805.3149-1-alistair.francis@wdc.com>
+	<fd81b5bc-cb84-8857-ea5e-bce2c931750b@intel.com>
+In-Reply-To: <fd81b5bc-cb84-8857-ea5e-bce2c931750b@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 8 Nov 2019 10:13:07 -0800
+Message-ID: <CAMKF1srMzPL4pBAQYscX6fxPPL2SExcYFw+Ti2B656nK3hyH0g@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v6] mesa: Upgrade to 19.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2019 18:02:15 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 08 Nov 2019 18:13:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+On Fri, Nov 8, 2019 at 2:32 AM Ross Burton <ross.burton@intel.com> wrote:
+>
+> On 04/11/2019 22:48, Alistair Francis wrote:
+> > From: Alistair Francis <alistair@alistair23.me>
+> >
+> > Upgrade mesa and mesa-gl to 19.2.1.
+> >
+> > The license hash change was a trivial new line removal.
+> >
+> > The glx-tls option was removed as it isn't included in the meson.build
+> > file. It has been replaced with 'use-elf-tls' instead.
+>
+> I think this has regressed something, this is a new warning on musl builds:
+>
+> do_package_qa: QA Issue: ELF binary
+> '[...]libgles2-mesa/usr/lib/libGLESv2.so.2.0.0' has relocations in .text
+> [textrel]
+>
+> (ditto for libGLESv1_CM.so.1.1.0 libGL.so.1.2.0 libglapi.so.0.0.0)
+>
 
-Series: oeqa: reproducible: Fix extra data reporting
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/21061/
-State : failure
+right this means glx-tls is not working anymore, and it will fail on
+musl at runtime
+see
+https://gitlab.freedesktop.org/mesa/mesa/issues/966
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 11694eb59b)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+> Ross
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
