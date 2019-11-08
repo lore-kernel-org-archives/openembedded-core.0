@@ -1,50 +1,39 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
-	[209.85.166.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D5697FC9A
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 73FE47FC9C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2019 19:21:55 +0000 (UTC)
-Received: by mail-io1-f48.google.com with SMTP id x21so7568125iol.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2019 11:21:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=XHBkRFPM6Zf9PN+G25NYN+UpwMc0rJZaeVd9iQ3tEaE=;
-	b=dW+X1sGH5mIF6mW6T8t4L6lkzBBTf0SE0ZaaHehYvoY/XBU/NpzFrUP53sXuz2nGNJ
-	VZdKRxb8G6ykuHqx1qC23SIP3fNx0XetQ8qfE/pGkvktvCk0eDECb+yT3uwoP3DslBVo
-	2ry6ElD6uOpY6hhY5QEKJvAQyIsZP18fXtk0RZ3gSrizICIx+HrorAdx9ILPbEannjvl
-	/b0ZclKQMCDHkek1VM/PajKV4QWHs6B/OlF3FafHQcgvU154EG6NbbaNLrmqMzeLeRCp
-	525tkcu8FiMFzVQh0pL/x+efITsMttiRleF/uY8aMJGf1d6sXw8v1pOZC1fd374tE+t2
-	vK3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=XHBkRFPM6Zf9PN+G25NYN+UpwMc0rJZaeVd9iQ3tEaE=;
-	b=YoIU5vwa/3VsGoelwzB+wrO7k+u1zWtekhvyf+X+haBwJJRClfYKI4urId6SJ8bdDV
-	PTyEIQVaxfeMKOKtrL1RtNyQWDz5C5B4IGWHED/Hjk8wQ75njP0yAKNekqoFQtjtkyDj
-	NBq4rMAlAIrOffVQnjSFWGryDqc5+fu+AFjKwnEVuQQSd7/TPRT2+vEHBJrdLkoOvMIV
-	xHYQ+/TGkl+T+8U1LaqxE1XqmgijCOafOCTP6W9BthG4YWAAg9XwZumEjvwB7JvzfXQV
-	nK6g7/FrtdV/oQPiGegdgjG5jFMCB/2mO780eYxN8bol8NUBur3fgk6BBJe0u4WwK7Ha
-	Xj/g==
-X-Gm-Message-State: APjAAAVQeQLwP4HXq03BMaAS8TbksAZR9pOWYTUGq1LM/JRqZGlnetDY
-	FRSNHJEm9VnbJdGrxYoSMY+rX5zzFN8=
-X-Google-Smtp-Source: APXvYqwqcD+cQqmk8ZN0bdvL4VTw2bZKlR4iqfpKzIkR2YW8FtmLlFvIt5GXfQcZ9ADbWERemNEE/g==
-X-Received: by 2002:a5d:8789:: with SMTP id f9mr12277180ion.237.1573240916423; 
-	Fri, 08 Nov 2019 11:21:56 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id 16sm578957ilz.44.2019.11.08.11.21.55
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 08 Nov 2019 11:21:55 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Nov 2019 13:21:53 -0600
-Message-Id: <20191108192153.2133662-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.23.0
+	Fri,  8 Nov 2019 20:24:44 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 478sFQ0Qdfz6L;
+	Fri,  8 Nov 2019 21:24:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1573244683;
+	bh=hsJsndk+gEeRe0E+7W+LwXZL9KJbhX+548/9BGKPfHU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pwKGxNgwZNDEIRNHf9+wibmGn4JYsV41j1n2Yj8vQIqhYSJDCBb6q6xqUXObdZar0
+	fnEZrwxwUCapbVr3ndrDwbxEXPacMox7aAE8U0bM8gvE7mvYurMuC/NcZS4D3VCmqT
+	X3uhLlXeMVkyWxYvy2Km2HYHLA4vb6hCxCBkyIgVq9Tm6EmchVW/rgHkw2ggzKmA0N
+	WojD9wd3CaE0NDAFKCz4+XHbjWrraBehO2v6bLrsc/rVlfR1hLen1IGJV5/XZxTN5k
+	6wsmrP2XdFXyhKy6mGlu5STD48SJ4ihy279p91Ox5FahTvVKsvG0s1ZwNbETmaVo4R
+	BWc3E92JGCuj3Lpd3SG0nqkFynyblODQcw5oE8IoZSGXv+vtRSVtEMr3wyRHhcQmaT
+	7L/SwXVPaCPR5s9DTa1pKtvjDXA/YQISHPl6JrTWhCEcBdWDOfe6LpbJ8mpJFl4p5a
+	qh20N9YgBIl5KvjdmlM1P0Yx+EAPdGxTocdDZUq6V6agA1/7w3l2m6mvP9+B2H/cyX
+	CUWYu+2+r0uBTTu+2hLGAB2muelC56Mqoqrai9SAYMqkDvXXrNx0ymYFY67/+Jc8w2
+	FLHg27ChtYFCjPp0D4pTlK/4zpYGVAsyF/YfgrCRjf/cZ6o5IleoWm6/idActjGl3Z
+	DPCOfg+KOgk2JNxpimSj69RA=
+Date: Fri, 8 Nov 2019 22:24:38 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Alistair Francis <alistair23@gmail.com>
+Message-ID: <20191108202438.GA21138@localhost>
+References: <20191106181819.12517-1-alistair.francis@wdc.com>
+	<20191106221250.GD14721@localhost>
+	<CA+aJhH3s7NhB-4YspmXrvrcG4py1=i2fJXg=seWPkJzosqVFGQ@mail.gmail.com>
+	<CAKmqyKNVrqT9hHQxp38=72bBkz405P=6UJFPODxr5OLt_GSqDA@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] oeqa: Fix subTest result reporting
+In-Reply-To: <CAKmqyKNVrqT9hHQxp38=72bBkz405P=6UJFPODxr5OLt_GSqDA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] tune-riscv: Add support for hard and soft float
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,114 +46,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2019 19:21:56 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 08 Nov 2019 20:24:45 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Fixes the way that subTest results are reported so that each subTest is
-reported independently, with it's own status. The base test case is also
-reported, but only if it actually had a status.
+On Thu, Nov 07, 2019 at 04:39:22PM -0800, Alistair Francis wrote:
+> On Wed, Nov 6, 2019 at 11:33 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
+> >
+> > On Thu, 7 Nov 2019 at 09:34, Adrian Bunk <bunk@stusta.de> wrote:
+> > >
+> > > On Wed, Nov 06, 2019 at 10:18:18AM -0800, Alistair Francis wrote:
+> > > >...
+> > > > +TUNE_CCARGS_riscv64 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv64-f', ' -mabi=lp64d', ' -mabi=lp64', d)}"
+> > > > +TUNE_CCARGS_riscv32 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv32-f', ' -mabi=ilp32f', ' -mabi=ilp32', d)}"
+> > > >...
+> > >
+> > > That looks wrong, what would you put in TUNE_FEATURES
+> > > for -mabi=lp64f when -mabi=lp64d is called riscv64-f?
+> > >
+> > > Also note that this is only the floating point calling convention,
+> > > whether the compiler emits floating point instructions is defined
+> > > by -march.
+> > >
+> > > It would be good if this would start with a plan how to handle
+> > > all possible combination of RISC-V ISA extensions, ideally better
+> > > than the arm mess.
+> >
+> > I am keen to see this as well, since I am currently directly
+> > hardcoding -march/-mabi in the machine conf.
+> >
+> > It would be nice to see the ISA tunes available in oe-core, even if
+> > that is just the tune features and not predefined tunes (e.g. like
+> > microblaze).
+> 
+> I think this idea as well. Some generic way of generating tunes from
+> ISA stings would be great!
+> 
+> Does anyone have any ideas on the best way to do this?
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oeqa/core/runner.py                | 44 +++++++++++++++++----
- meta/lib/oeqa/core/utils/concurrencytest.py |  3 ++
- 2 files changed, 39 insertions(+), 8 deletions(-)
+Especially when looking at the arm64 situation I am wondering whether 
+the best option might be to throw away the tunes mess and let the user 
+write the compiler options directly.
 
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index f656e1a9c5f..ee9db6f7951 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -40,6 +40,7 @@ class OETestResult(_TestResult):
-         super(OETestResult, self).__init__(*args, **kwargs)
- 
-         self.successes = []
-+        self.subtests = {}
-         self.starttime = {}
-         self.endtime = {}
-         self.progressinfo = {}
-@@ -145,6 +146,13 @@ class OETestResult(_TestResult):
-                 else:
-                     self.extraresults[k] = v
- 
-+    def addSubTest(self, test, subtest, err, details=None):
-+        self.extractExtraResults(test, details=details)
-+        self.subtests.setdefault(test, list()).append(subtest)
-+        if err is None:
-+            self.successes.append((subtest, None))
-+        return super(OETestResult, self).addSubTest(test, subtest, err)
-+
-     def addError(self, test, *args, details = None):
-         self.extractExtraResults(test, details = details)
-         return super(OETestResult, self).addError(test, *args)
-@@ -169,18 +177,18 @@ class OETestResult(_TestResult):
- 
-     def logDetails(self, json_file_dir=None, configuration=None, result_id=None,
-             dump_streams=False):
--        self.tc.logger.info("RESULTS:")
--
--        result = self.extraresults
--        logs = {}
--        if hasattr(self.tc, "extraresults"):
--            result.update(self.tc.extraresults)
- 
--        for case_name in self.tc._registry['cases']:
--            case = self.tc._registry['cases'][case_name]
-+        def logCaseDetails(case, required):
-+            nonlocal self
-+            nonlocal result
-+            nonlocal dump_streams
-+            nonlocal logs
- 
-             (status, log) = self._getTestResultDetails(case)
- 
-+            if status == "UNKNOWN" and not required:
-+                return
-+
-             t = ""
-             if case.id() in self.starttime and case.id() in self.endtime:
-                 t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
-@@ -197,6 +205,26 @@ class OETestResult(_TestResult):
-                 report['stderr'] = stderr
-             result[case.id()] = report
- 
-+        self.tc.logger.info("RESULTS:")
-+
-+        result = self.extraresults
-+        logs = {}
-+        if hasattr(self.tc, "extraresults"):
-+            result.update(self.tc.extraresults)
-+
-+        for case_name in self.tc._registry['cases']:
-+            case = self.tc._registry['cases'][case_name]
-+
-+            if case in self.subtests:
-+                for subtest in self.subtests[case]:
-+                    logCaseDetails(subtest, True)
-+
-+                # The base case may not have any reported details. If it comes
-+                # up as unknown, don't report anything.
-+                logCaseDetails(case, False)
-+            else:
-+                logCaseDetails(case, True)
-+
-         for i in ['PASSED', 'SKIPPED', 'EXPECTEDFAIL', 'ERROR', 'FAILED', 'UNKNOWN']:
-             if i not in logs:
-                 continue
-diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
-index 0f7b3dcc113..ae68fd50902 100644
---- a/meta/lib/oeqa/core/utils/concurrencytest.py
-+++ b/meta/lib/oeqa/core/utils/concurrencytest.py
-@@ -81,6 +81,9 @@ class ProxyTestResult:
-     def _addResult(self, method, test, *args, exception = False, **kwargs):
-         return method(test, *args, **kwargs)
- 
-+    def addSubTest(self, test, subtest, outcome, **kwargs):
-+        self._addResult(self.result.addSubTest, test, subtest, outcome, exception = (outcome is not None), **kwargs)
-+
-     def addError(self, test, err = None, **kwargs):
-         self._addResult(self.result.addError, test, err, exception = True, **kwargs)
- 
+If OE needs information about a specific feature, it would be easier to 
+ask the compiler[1] than duplicating all the target knowledge.
+
+> Alistair
+
+cu
+Adrian
+
+[1] $CC -dM -E - < /dev/null
+
 -- 
-2.23.0
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
