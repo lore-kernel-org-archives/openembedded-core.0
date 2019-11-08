@@ -1,31 +1,42 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D9457FC9D
+Return-Path: <prvs=22156a65c3=haris.okanovic@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id C2DCF7FC98
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2019 20:59:32 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 9AD0940BFF;
-	Fri,  8 Nov 2019 20:59:33 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id KztD6LGn3C9m; Fri,  8 Nov 2019 20:59:33 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
-	[100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 85E8D40BEA;
-	Fri,  8 Nov 2019 20:59:32 +0000 (UTC)
-Received: from gimli.denix (unknown [192.168.30.6])
-	by mail.denix.org (Postfix) with ESMTP id 31DAE170443;
-	Fri,  8 Nov 2019 15:59:32 -0500 (EST)
-From: Denys Dmytriyenko <denis@denix.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  8 Nov 2019 15:59:29 -0500
-Message-Id: <1573246769-12052-1-git-send-email-denis@denix.org>
-X-Mailer: git-send-email 2.7.4
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: [PATCH v2] buildhistory: fix "version went backwards" QA error message
+	Fri,  8 Nov 2019 21:46:38 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+	xA8LkdgT030242; Fri, 8 Nov 2019 15:46:39 -0600
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2w41wsrcww-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Fri, 08 Nov 2019 15:46:38 -0600
+Received: from us-aus-exch1.ni.corp.natinst.com
+	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod2.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
+	xA8LkXjI018938
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Fri, 8 Nov 2019 15:46:33 -0600
+Received: from us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) by
+	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Fri, 8 Nov 2019 15:46:33 -0600
+Received: from harisdt.amer.corp.natinst.com (172.18.68.32) by
+	us-aus-exhub1.ni.corp.natinst.com (130.164.68.41) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Fri, 8 Nov 2019 15:46:33 -0600
+From: Haris Okanovic <haris.okanovic@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 8 Nov 2019 15:46:31 -0600
+Message-ID: <20191108214631.2462743-1-haris.okanovic@ni.com>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191107222756.2224119-1-haris.okanovic@ni.com>
+References: <20191107222756.2224119-1-haris.okanovic@ni.com>
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+	definitions=2019-11-08_08:2019-11-08,2019-11-08 signatures=0
+X-Proofpoint-Spam-Reason: safe
+Cc: haris.okanovic@ni.com, ken.sharp@ni.com
+Subject: [PATCH v2] dhcp: Workaround busybox limitation in Linux dhclient-script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,51 +49,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2019 20:59:33 -0000
+X-List-Received-Date: Fri, 08 Nov 2019 21:46:39 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Denys Dmytriyenko <denys@ti.com>
+Busybox's implementation of chown and chmod doesn't provide a
+"--reference" option used in the latest version of dhclient-script.
+This change works around that limitation by using stat to read
+ownership and permissions flags and simple chown/chmod calls
+supported in both coreutils and busybox.
 
-Fix parentheses placement in the message from:
-Package version for package X went backwards which would break package feeds from (Y to Z)
-to this one:
-Package version for package X went backwards which would break package feeds (from Y to Z)
+Patch submitted upstream to ISC, tracked as bug 48771.
 
-Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
 ---
-v2 - escape parentheses in the regular expression of the selftest case, as
-those are part of the text and not regex itself, otherwise it won't match.
+ ...-limitation-in-linux-dhclient-script.patch | 65 +++++++++++++++++++
+ meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb  |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-workaround-busybox-limitation-in-linux-dhclient-script.patch
 
- meta/classes/buildhistory.bbclass            | 2 +-
- meta/lib/oeqa/selftest/cases/buildoptions.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index f986f7c..affdf27 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -280,7 +280,7 @@ python buildhistory_emit_pkghistory() {
-             last_pkgr = lastversion.pkgr
-             r = bb.utils.vercmp((pkge, pkgv, pkgr), (last_pkge, last_pkgv, last_pkgr))
-             if r < 0:
--                msg = "Package version for package %s went backwards which would break package feeds from (%s:%s-%s to %s:%s-%s)" % (pkg, last_pkge, last_pkgv, last_pkgr, pkge, pkgv, pkgr)
-+                msg = "Package version for package %s went backwards which would break package feeds (from %s:%s-%s to %s:%s-%s)" % (pkg, last_pkge, last_pkgv, last_pkgr, pkge, pkgv, pkgr)
-                 package_qa_handle_error("version-going-backwards", msg, d)
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0001-workaround-busybox-limitation-in-linux-dhclient-script.patch b/meta/recipes-connectivity/dhcp/dhcp/0001-workaround-busybox-limitation-in-linux-dhclient-script.patch
+new file mode 100644
+index 0000000000..2359381b93
+--- /dev/null
++++ b/meta/recipes-connectivity/dhcp/dhcp/0001-workaround-busybox-limitation-in-linux-dhclient-script.patch
+@@ -0,0 +1,65 @@
++From eec0503cfc36f63d777f5cb3f2719cecedcb8468 Mon Sep 17 00:00:00 2001
++From: Haris Okanovic <haris.okanovic@ni.com>
++Date: Mon, 7 Jan 2019 13:22:09 -0600
++Subject: [PATCH] Workaround busybox limitation in Linux dhclient-script
++
++Busybox is a lightweight implementation of coreutils commonly used on
++space-constrained embedded Linux distributions. It's implementation of
++chown and chmod doesn't provide a "--reference" option added to
++client/scripts/linux as of commit 9261cb14. This change works around
++that limitation by using stat to read ownership and permissions flags
++and simple chown/chmod calls supported in both coreutils and busybox.
++
++    modified:   client/scripts/linux
++
++Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
++Upstream-Status: Pending [ISC-Bugs #48771]
++---
++ client/scripts/linux | 17 +++++++++++++----
++ 1 file changed, 13 insertions(+), 4 deletions(-)
++
++diff --git a/client/scripts/linux b/client/scripts/linux
++index 0c429697..2435a44b 100755
++--- a/client/scripts/linux
+++++ b/client/scripts/linux
++@@ -32,6 +32,17 @@
++ # if your system holds ip tool in a non-standard location.
++ ip=/sbin/ip
++ 
+++chown_chmod_by_reference() {
+++    local reference_file="$1"
+++    local target_file="$2"
+++
+++    local owner=$(stat -c "%u:%g" "$reference_file")
+++    local perm=$(stat -c "%a" "$reference_file")
+++
+++    chown "$owner" "$target_file"
+++    chmod "$perm" "$target_file"
+++}
+++
++ # update /etc/resolv.conf based on received values
++ # This updated version mostly follows Debian script by Andrew Pollock et al.
++ make_resolv_conf() {
++@@ -74,8 +85,7 @@ make_resolv_conf() {
++         fi
++ 
++ 	if [ -f /etc/resolv.conf ]; then
++-	    chown --reference=/etc/resolv.conf $new_resolv_conf
++-	    chmod --reference=/etc/resolv.conf $new_resolv_conf
+++	    chown_chmod_by_reference /etc/resolv.conf $new_resolv_conf
++ 	fi
++         mv -f $new_resolv_conf /etc/resolv.conf
++     # DHCPv6
++@@ -101,8 +111,7 @@ make_resolv_conf() {
++         fi
++ 
++ 	if [ -f /etc/resolv.conf ]; then
++-            chown --reference=/etc/resolv.conf $new_resolv_conf
++-            chmod --reference=/etc/resolv.conf $new_resolv_conf
+++	    chown_chmod_by_reference /etc/resolv.conf $new_resolv_conf
++ 	fi
++         mv -f $new_resolv_conf /etc/resolv.conf
++     fi
++-- 
++2.20.0
++
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+index 275961a603..020777b8f2 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+@@ -11,6 +11,7 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0013-fixup_use_libbind.patch \
+             file://0001-master-Added-includes-of-new-BIND9-compatibility-hea.patch \
+             file://0001-Fix-a-NSUPDATE-compiling-issue.patch \
++            file://0001-workaround-busybox-limitation-in-linux-dhclient-script.patch \
+ "
  
-         pkginfo = PackageInfo(pkg)
-diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
-index 6a5378d..e91f0bd 100644
---- a/meta/lib/oeqa/selftest/cases/buildoptions.py
-+++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
-@@ -143,7 +143,7 @@ class BuildhistoryTests(BuildhistoryBase):
- 
-     def test_buildhistory_buildtime_pr_backwards(self):
-         target = 'xcursor-transparent-theme'
--        error = "ERROR:.*QA Issue: Package version for package %s went backwards which would break package feeds from (.*-r1.* to .*-r0.*)" % target
-+        error = "ERROR:.*QA Issue: Package version for package %s went backwards which would break package feeds \(from .*-r1.* to .*-r0.*\)" % target
-         self.run_buildhistory_operation(target, target_config="PR = \"r1\"", change_bh_location=True)
-         self.run_buildhistory_operation(target, target_config="PR = \"r0\"", change_bh_location=False, expect_error=True, error_regex=error)
- 
+ SRC_URI[md5sum] = "18c7f4dcbb0a63df25098216d47b1ede"
 -- 
-2.7.4
+2.24.0
 
 
