@@ -1,49 +1,47 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 828267FA49
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
+	[209.85.221.193])
+	by mail.openembedded.org (Postfix) with ESMTP id C8AEB7FA11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2019 00:45:03 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id z24so117889lfh.6
+	Fri,  8 Nov 2019 00:59:07 +0000 (UTC)
+Received: by mail-vk1-f193.google.com with SMTP id o82so1093706vka.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2019 16:45:04 -0800 (PST)
+	Thu, 07 Nov 2019 16:59:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=yTc21xcWhip+8W48F3CYwEdKpO7+m93QISpzOfnUSrs=;
-	b=JQhSFtNw4x3fD1Oao0aapHuCn7GnlOt+3X1utIdiPFMjnSpYDsB9PGuyFeQXOsVOM2
-	j8P2MURbm6gokj8RoWLxiars7MUOPnHWoi/NyrV2TOh2Q4PVSaCStYQ7d2arAZ05i9qU
-	tK1Ox8z8V2+gPsnoNLoMFZl2ya8A2Jq7msbGOilHeCkpQF+hnfrf8EhpUeTHnnJF2xt5
-	+Gizl3kOACXg3WEC+22W4iIG7cVCUNKLAE9VSmsLWTHUDh3YrdDYZYTA3bItGghbaiOm
-	gzEwElt9Ap6kaYv5wOZZPfq5xPUKx9GV6nMM2ElYSH7H7gMi5CoUWzVFtq11+zPbs2Lr
-	CFFA==
+	:cc; bh=ZEjnzfOsllAztgLtzy7rod8OFZ3rhX4CTfEbuviO12o=;
+	b=ub8ktjUL1l/y3fqqwdStINMVZ8PrUi7h2gE40+gsRmaE7aunNNN+LFRRkFbRLusoKm
+	zWT9afBbXNjdiAJ8Cd64sgeM8VM05i5g1L/Xxh/5ziMyo9rDoJ8pz7tpQvW3cblRmb+V
+	2BdZmb5J3VKkWUpo5ObNwOtoy3zMKl4B7H8r08/Cs9MKNXmZrXEul8xFi8ziAqqOzkIz
+	uH6c0mZG+QvFtH/DcUteF9OHpkqC0ITV7fpzqTN0orZcF5x/u3kzJubP0JwK3AiJstTB
+	8Pw/TXaRF0+HS3f+Y/A0Sl6HQzaC7GBnXs4H16IX27NKj/2Juhe9MNOOS/jd218x9F6V
+	NZog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=yTc21xcWhip+8W48F3CYwEdKpO7+m93QISpzOfnUSrs=;
-	b=iyArjuRdKlOw2CZsyq9jbgID/t5Pv6gx/Py+1iHkwW1PpyoNsYXCJto34JOkX/oSuS
-	GVqXP2QfxY8pcRa1xO6nUBY39VIozLU0zco8APc6pSAxO9gcy8u0FOxiYKHhtWn7xue9
-	kaPSRzf0/2zv7IrygzG6OLBUXgV6NkbwtFdqHkaVSj+Ok1OejdYOGM0Nf4stM7C47fAg
-	C4D6ByikVpTQLhKollG9Tr401tsipFT9ZiYt/xBRNfEupQaNJLhCJLjdHolyw4234CL6
-	xv6/RDk1bMYj8AAvE3k6u+dD/YTsPsHmRw4q7tMwasI35/rR74hSaG5a0u12idZGxsHq
-	iNJQ==
-X-Gm-Message-State: APjAAAX26Oy0woXStgQyKyip35Id9RWQX7BONhuUxzV3tyXb0iPIWcVN
-	/hlxaWzC9tSGfbmdMNeOW3nrEkCmjpGkRqXmoq8=
-X-Google-Smtp-Source: APXvYqxSPbfZnfw9lhhFLxnEU0Ej9M3rJYNeSi0si8DtuSUXoeG4rPdQpT/gNufdD+Ys3YCcXDGTEs6qdXT/6JdxtEA=
-X-Received: by 2002:a19:f610:: with SMTP id x16mr4453815lfe.141.1573173903972; 
-	Thu, 07 Nov 2019 16:45:03 -0800 (PST)
+	bh=ZEjnzfOsllAztgLtzy7rod8OFZ3rhX4CTfEbuviO12o=;
+	b=dtbycdjhnIGAUTPremvjf/mhIbnUk8j39f6e0du2yh69nPyaQW5pSGGs1xQ6kxmmak
+	cxIHi32dpsrSzR17PN/UQQHMxzlyfacl8iibNp1uvcS+JQKYyKyFYEyxW2ZUMMbRvgR+
+	z4hzabwZmFk2Xf/TTrHyqHrLO/J2YI1A+e7Anp5PdFRdGgMUdlXsGEU+1mKkpqxFSzbc
+	icWp0sGuUUrliXTumFjTefyD5p/Km1pFJ53QUFAKzeIT3wSODrMIECD69ukBL7Kiu0aF
+	UyJXG7TIczEMQyLikrUh9DR+OwMdrUR6rhI/7jp0hK5nbLMKanUHoMhmtpxTzgLDp7/o
+	309w==
+X-Gm-Message-State: APjAAAWH01s46dmeSWNuZ4zlYoMv6wL7y4yHaw+xtoa88VNdr8bTPvwj
+	ZIcDybF+1AKwhAyiCvVupzD8L3HZRlk9RgjUnOo=
+X-Google-Smtp-Source: APXvYqw+bkMrNU+XXFHJlGESWKZGj+d8mhlpffoSVDzOrggFwIuTk84upRlwlQFdYi/Y1LHLqKLIgbYqDYBzSCa0iOY=
+X-Received: by 2002:ac5:c7b2:: with SMTP id d18mr3855449vkn.75.1573174748422; 
+	Thu, 07 Nov 2019 16:59:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20191106181819.12517-1-alistair.francis@wdc.com>
-	<20191106221250.GD14721@localhost>
-	<CA+aJhH3s7NhB-4YspmXrvrcG4py1=i2fJXg=seWPkJzosqVFGQ@mail.gmail.com>
-In-Reply-To: <CA+aJhH3s7NhB-4YspmXrvrcG4py1=i2fJXg=seWPkJzosqVFGQ@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 7 Nov 2019 16:39:22 -0800
-Message-ID: <CAKmqyKNVrqT9hHQxp38=72bBkz405P=6UJFPODxr5OLt_GSqDA@mail.gmail.com>
-To: Nathan Rossi <nathan@nathanrossi.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH 1/2] tune-riscv: Add support for hard and soft float
+References: <20191107204943.17467-1-obi@opendreambox.org>
+	<20191107204943.17467-3-obi@opendreambox.org>
+In-Reply-To: <20191107204943.17467-3-obi@opendreambox.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 7 Nov 2019 16:58:57 -0800
+Message-ID: <CAJ86T=UNsGMLiLfkLcT_2nh=z9e4NzaJGfXbfj5+wSN1wuQ8tQ@mail.gmail.com>
+To: Andreas Oberritter <obi@opendreambox.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] systemd: Add runtime dependency on new ldconfig package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,64 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2019 00:45:04 -0000
+X-List-Received-Date: Fri, 08 Nov 2019 00:59:08 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 6, 2019 at 11:33 PM Nathan Rossi <nathan@nathanrossi.com> wrote:
+On Thu, Nov 7, 2019 at 12:55 PM Andreas Oberritter <obi@opendreambox.org> wrote:
 >
-> On Thu, 7 Nov 2019 at 09:34, Adrian Bunk <bunk@stusta.de> wrote:
-> >
-> > On Wed, Nov 06, 2019 at 10:18:18AM -0800, Alistair Francis wrote:
-> > >...
-> > > +TUNE_CCARGS_riscv64 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv64-f', ' -mabi=lp64d', ' -mabi=lp64', d)}"
-> > > +TUNE_CCARGS_riscv32 .= "${@bb.utils.contains('TUNE_FEATURES', 'riscv32-f', ' -mabi=ilp32f', ' -mabi=ilp32', d)}"
-> > >...
-> >
-> > That looks wrong, what would you put in TUNE_FEATURES
-> > for -mabi=lp64f when -mabi=lp64d is called riscv64-f?
-> >
-> > Also note that this is only the floating point calling convention,
-> > whether the compiler emits floating point instructions is defined
-> > by -march.
-> >
-> > It would be good if this would start with a plan how to handle
-> > all possible combination of RISC-V ISA extensions, ideally better
-> > than the arm mess.
+> Signed-off-by: Andreas Oberritter <obi@opendreambox.org>
+> ---
+>  meta/recipes-core/systemd/systemd_243.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> I am keen to see this as well, since I am currently directly
-> hardcoding -march/-mabi in the machine conf.
->
-> It would be nice to see the ISA tunes available in oe-core, even if
-> that is just the tune features and not predefined tunes (e.g. like
-> microblaze).
+> diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
+> index 6e7f95693b..54fcc6a5d1 100644
+> --- a/meta/recipes-core/systemd/systemd_243.bb
+> +++ b/meta/recipes-core/systemd/systemd_243.bb
+> @@ -139,7 +139,7 @@ PACKAGECONFIG[importd] = "-Dimportd=true,-Dimportd=false"
+>  PACKAGECONFIG[iptc] = "-Dlibiptc=true,-Dlibiptc=false,iptables"
+>  PACKAGECONFIG[journal-upload] = "-Dlibcurl=true,-Dlibcurl=false,curl"
+>  PACKAGECONFIG[kmod] = "-Dkmod=true,-Dkmod=false,kmod"
+> -PACKAGECONFIG[ldconfig] = "-Dldconfig=true,-Dldconfig=false"
+> +PACKAGECONFIG[ldconfig] = "-Dldconfig=true,-Dldconfig=false,,ldconfig"
 
-I think this idea as well. Some generic way of generating tunes from
-ISA stings would be great!
+Is this necessary? The implication of adding it is that you want to
+support situations where ldconfig is disabled in DISTRO_FEATURES (ie
+the new ldconfig package is not pulled in via a runtime dependency
+from glibc) but then manually added to systemd PACKAGECONFIG (ie
+ignoring DISTRO_FEATURES). That just seems like a misconfiguration and
+not something we should try to support.
 
-Does anyone have any ideas on the best way to do this?
-
-Alistair
-
+>  PACKAGECONFIG[libidn] = "-Dlibidn=true,-Dlibidn=false,libidn"
+>  PACKAGECONFIG[localed] = "-Dlocaled=true,-Dlocaled=false"
+>  PACKAGECONFIG[logind] = "-Dlogind=true,-Dlogind=false"
+> --
+> 2.17.1
 >
-> Regards,
-> Nathan
->
-> >
-> > cu
-> > Adrian
-> >
-> > --
-> >
-> >        "Is there not promise of rain?" Ling Tan asked suddenly out
-> >         of the darkness. There had been need of rain for many days.
-> >        "Only a promise," Lao Er said.
-> >                                        Pearl S. Buck - Dragon Seed
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 > --
 > _______________________________________________
 > Openembedded-core mailing list
