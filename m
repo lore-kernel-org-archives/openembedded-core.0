@@ -1,54 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C8F4F7F7B3
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
+	[209.85.166.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D5697FC9A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2019 18:16:10 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id l5so4389258vsh.12
+	Fri,  8 Nov 2019 19:21:55 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id x21so7568125iol.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2019 10:16:12 -0800 (PST)
+	Fri, 08 Nov 2019 11:21:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=6LMuQtnHcvJSr1If1scoQHdc9edOhfxJ0aeuIA802Lg=;
-	b=LCl6tbY8gBp/79mEqTPfxQQypslMG809fGyqzcdvo8mjydad4L2+6V4RC5OIjC9dhm
-	nVT2RWrH+51lwq3lgaGBxvxj2VXJkaqXY2RpwwOjQfxwGhDluyBlPh6Iqg8ZlZuMB52J
-	/62XMLCsaS31s/tzroe1JjJhrb7dJwTGjxYmZpvyZJ73yMA3b6yoQHsOLqgqck/9+a0T
-	2so0VCSnLqEetKFbnyNAF+3zobl9y0jXy/AahNeEH4iA6BxV4bfsItP5CA5yEU7jf1pK
-	DNIJL202R/wYPM3gFYgKdG8ny2N27OKET6gcq3tmSqFziC2Dg0+Wr5aO5FP1e8+4l6CT
-	Qd0A==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XHBkRFPM6Zf9PN+G25NYN+UpwMc0rJZaeVd9iQ3tEaE=;
+	b=dW+X1sGH5mIF6mW6T8t4L6lkzBBTf0SE0ZaaHehYvoY/XBU/NpzFrUP53sXuz2nGNJ
+	VZdKRxb8G6ykuHqx1qC23SIP3fNx0XetQ8qfE/pGkvktvCk0eDECb+yT3uwoP3DslBVo
+	2ry6ElD6uOpY6hhY5QEKJvAQyIsZP18fXtk0RZ3gSrizICIx+HrorAdx9ILPbEannjvl
+	/b0ZclKQMCDHkek1VM/PajKV4QWHs6B/OlF3FafHQcgvU154EG6NbbaNLrmqMzeLeRCp
+	525tkcu8FiMFzVQh0pL/x+efITsMttiRleF/uY8aMJGf1d6sXw8v1pOZC1fd374tE+t2
+	vK3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=6LMuQtnHcvJSr1If1scoQHdc9edOhfxJ0aeuIA802Lg=;
-	b=o1LmfF78bSTdD6dhUDwFhEEZP2XcM/W2SoxDe8S8Vl7XhI15R0Tb8I3s2nbUzjfpiQ
-	pdRRraRxP4E6nJe260dHXq/93eJuLOz/+hplJZLTogp/xrMw42PeTN6+euIxrpjbJL+y
-	C+j436e1fZQMqVvgeGS1E2D7NWIO8c9G9s6X9wZdhM9ErrARRWhfp6chw4vatkFR9VF1
-	d01Cb7NGjMJ7yECFEUYmG5oytqhyEIofWiccELTbcm7yE4aSq96d0pQicZuFluM9jbVx
-	eJJNpnNv4P3THn5CxfOwNWvgnBPx5FlT81o6KBZwTU8OFeoCnavtuLdzu3YVbsuG2zSh
-	XQ+w==
-X-Gm-Message-State: APjAAAX/8TwGzMQazh3OsvBWG4d5pAZ6MkQ13vFjB2j02+/QJt7BCnzi
-	RpFAL+Mshnc1W38UjairuvqTjIpuzKEZtxXGYLg=
-X-Google-Smtp-Source: APXvYqz1BOQ6D94wntfLo096Ix1ujUyg4uXa6ZWY27WsQdEvQ48lcryqo8+h4Q2j17fSmFN8OX27QAjYEgc5QguabgA=
-X-Received: by 2002:a67:ea5a:: with SMTP id r26mr8741956vso.94.1573236971562; 
-	Fri, 08 Nov 2019 10:16:11 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XHBkRFPM6Zf9PN+G25NYN+UpwMc0rJZaeVd9iQ3tEaE=;
+	b=YoIU5vwa/3VsGoelwzB+wrO7k+u1zWtekhvyf+X+haBwJJRClfYKI4urId6SJ8bdDV
+	PTyEIQVaxfeMKOKtrL1RtNyQWDz5C5B4IGWHED/Hjk8wQ75njP0yAKNekqoFQtjtkyDj
+	NBq4rMAlAIrOffVQnjSFWGryDqc5+fu+AFjKwnEVuQQSd7/TPRT2+vEHBJrdLkoOvMIV
+	xHYQ+/TGkl+T+8U1LaqxE1XqmgijCOafOCTP6W9BthG4YWAAg9XwZumEjvwB7JvzfXQV
+	nK6g7/FrtdV/oQPiGegdgjG5jFMCB/2mO780eYxN8bol8NUBur3fgk6BBJe0u4WwK7Ha
+	Xj/g==
+X-Gm-Message-State: APjAAAVQeQLwP4HXq03BMaAS8TbksAZR9pOWYTUGq1LM/JRqZGlnetDY
+	FRSNHJEm9VnbJdGrxYoSMY+rX5zzFN8=
+X-Google-Smtp-Source: APXvYqwqcD+cQqmk8ZN0bdvL4VTw2bZKlR4iqfpKzIkR2YW8FtmLlFvIt5GXfQcZ9ADbWERemNEE/g==
+X-Received: by 2002:a5d:8789:: with SMTP id f9mr12277180ion.237.1573240916423; 
+	Fri, 08 Nov 2019 11:21:56 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id 16sm578957ilz.44.2019.11.08.11.21.55
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 08 Nov 2019 11:21:55 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  8 Nov 2019 13:21:53 -0600
+Message-Id: <20191108192153.2133662-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-References: <20191031093655.14852-1-alex.kanavin@gmail.com>
-	<20191031093655.14852-3-alex.kanavin@gmail.com>
-	<dc6caf95-a1e0-0eb7-f721-8dd3d1e2aa93@intel.com>
-	<CANNYZj9i0mvP_X3WFapfda49YdVvuY9Tr1KY7mFcsnqRr5J-HA@mail.gmail.com>
-	<CANNYZj9dmYgWxYOG6o3hJC9rEk6ghUxYRAak5wZjELMbtOJKag@mail.gmail.com>
-	<CANNYZj-Cmx_iNn+tJAW4XE=VSi4MT+LeiaPQk-8REhG+Xd_JsA@mail.gmail.com>
-	<CADfgfoYap0Z83h-mRXOLvX2kkC8xitN1Mx5wQM4uHugRhG15Nw@mail.gmail.com>
-	<CANNYZj8fQV9vaubTyYF2gzicP3U8w0bZP4Fne91bkRRzPP5hew@mail.gmail.com>
-	<CADfgfoac9HKAzqsnGcPqDnCHTvqFQJH854uR3esmJnTkdRLYmg@mail.gmail.com>
-In-Reply-To: <CADfgfoac9HKAzqsnGcPqDnCHTvqFQJH854uR3esmJnTkdRLYmg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 8 Nov 2019 19:16:00 +0100
-Message-ID: <CANNYZj_3Lukw0Hw5GNgKMSpJy36y3oPsdByA3R+XPnQaG692qQ@mail.gmail.com>
-To: Michael Halstead <mhalstead@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/6] oe-selftest: extend virgl gtk test to also check the SDL option
+Subject: [PATCH] oeqa: Fix subTest result reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,60 +57,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2019 18:16:10 -0000
-Content-Type: multipart/alternative; boundary="000000000000d66a730596d9c645"
+X-List-Received-Date: Fri, 08 Nov 2019 19:21:56 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000d66a730596d9c645
-Content-Type: text/plain; charset="UTF-8"
+Fixes the way that subTest results are reported so that each subTest is
+reported independently, with it's own status. The base test case is also
+reported, but only if it actually had a status.
 
-On Fri, 8 Nov 2019 at 19:01, Michael Halstead <mhalstead@linuxfoundation.org>
-wrote:
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oeqa/core/runner.py                | 44 +++++++++++++++++----
+ meta/lib/oeqa/core/utils/concurrencytest.py |  3 ++
+ 2 files changed, 39 insertions(+), 8 deletions(-)
 
->
->> Thanks a lot! There are two things to check:
->> 1. Old instances of vnc may still be running and should be shut down (via
->> 'vncserver -kill :1')
->> 2. vncserver executable should point to tigervnc (if both tigervnc and
->> tightvnc are installed - I don't know if you removed the tightvnc packages).
->>
->
-> I removed tightvnc and all workers have been rebooted so we are good to go.
->
-> Any comment on using packages from outside of the distro's official
-> packaging?
->
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index f656e1a9c5f..ee9db6f7951 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -40,6 +40,7 @@ class OETestResult(_TestResult):
+         super(OETestResult, self).__init__(*args, **kwargs)
+ 
+         self.successes = []
++        self.subtests = {}
+         self.starttime = {}
+         self.endtime = {}
+         self.progressinfo = {}
+@@ -145,6 +146,13 @@ class OETestResult(_TestResult):
+                 else:
+                     self.extraresults[k] = v
+ 
++    def addSubTest(self, test, subtest, err, details=None):
++        self.extractExtraResults(test, details=details)
++        self.subtests.setdefault(test, list()).append(subtest)
++        if err is None:
++            self.successes.append((subtest, None))
++        return super(OETestResult, self).addSubTest(test, subtest, err)
++
+     def addError(self, test, *args, details = None):
+         self.extractExtraResults(test, details = details)
+         return super(OETestResult, self).addError(test, *args)
+@@ -169,18 +177,18 @@ class OETestResult(_TestResult):
+ 
+     def logDetails(self, json_file_dir=None, configuration=None, result_id=None,
+             dump_streams=False):
+-        self.tc.logger.info("RESULTS:")
+-
+-        result = self.extraresults
+-        logs = {}
+-        if hasattr(self.tc, "extraresults"):
+-            result.update(self.tc.extraresults)
+ 
+-        for case_name in self.tc._registry['cases']:
+-            case = self.tc._registry['cases'][case_name]
++        def logCaseDetails(case, required):
++            nonlocal self
++            nonlocal result
++            nonlocal dump_streams
++            nonlocal logs
+ 
+             (status, log) = self._getTestResultDetails(case)
+ 
++            if status == "UNKNOWN" and not required:
++                return
++
+             t = ""
+             if case.id() in self.starttime and case.id() in self.endtime:
+                 t = " (" + "{0:.2f}".format(self.endtime[case.id()] - self.starttime[case.id()]) + "s)"
+@@ -197,6 +205,26 @@ class OETestResult(_TestResult):
+                 report['stderr'] = stderr
+             result[case.id()] = report
+ 
++        self.tc.logger.info("RESULTS:")
++
++        result = self.extraresults
++        logs = {}
++        if hasattr(self.tc, "extraresults"):
++            result.update(self.tc.extraresults)
++
++        for case_name in self.tc._registry['cases']:
++            case = self.tc._registry['cases'][case_name]
++
++            if case in self.subtests:
++                for subtest in self.subtests[case]:
++                    logCaseDetails(subtest, True)
++
++                # The base case may not have any reported details. If it comes
++                # up as unknown, don't report anything.
++                logCaseDetails(case, False)
++            else:
++                logCaseDetails(case, True)
++
+         for i in ['PASSED', 'SKIPPED', 'EXPECTEDFAIL', 'ERROR', 'FAILED', 'UNKNOWN']:
+             if i not in logs:
+                 continue
+diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
+index 0f7b3dcc113..ae68fd50902 100644
+--- a/meta/lib/oeqa/core/utils/concurrencytest.py
++++ b/meta/lib/oeqa/core/utils/concurrencytest.py
+@@ -81,6 +81,9 @@ class ProxyTestResult:
+     def _addResult(self, method, test, *args, exception = False, **kwargs):
+         return method(test, *args, **kwargs)
+ 
++    def addSubTest(self, test, subtest, outcome, **kwargs):
++        self._addResult(self.result.addSubTest, test, subtest, outcome, exception = (outcome is not None), **kwargs)
++
+     def addError(self, test, err = None, **kwargs):
+         self._addResult(self.result.addError, test, err, exception = True, **kwargs)
+ 
+-- 
+2.23.0
 
-A vnc server is entirely optional when working with yocto, it's used on the
-autobuilder (machines without a physical screen) for the purpose of running
-qemu with graphical frontends, but is not mentioned in the manuals as
-something that users have to install or use. I'd say it's fine.
 
-Alex
-
---000000000000d66a730596d9c645
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 8 Nov 2019 at 19:01, Michael Hals=
-tead &lt;<a href=3D"mailto:mhalstead@linuxfoundation.org">mhalstead@linuxfo=
-undation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail=
-_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">=
-<div class=3D"gmail_quote"><br><div>Thanks a lot! There are two things to c=
-heck:</div><div>1. Old instances of vnc may still be running and should be =
-shut down (via &#39;vncserver -kill :1&#39;)</div><div>2. vncserver executa=
-ble should point to tigervnc (if both tigervnc and tightvnc are installed -=
- I don&#39;t know if you removed the tightvnc packages).</div></div></div><=
-/blockquote><div><br></div><div>I removed tightvnc and all workers have bee=
-n rebooted so we are good to go.</div><div><br></div><div>Any comment on us=
-ing packages from outside of the distro&#39;s official packaging?</div></di=
-v></div></blockquote><div><br></div><div>A vnc server is entirely optional =
-when working with yocto, it&#39;s used on the autobuilder (machines without=
- a physical screen) for the purpose of running qemu with graphical frontend=
-s, but is not mentioned in the manuals as something that users have to inst=
-all or use. I&#39;d say it&#39;s fine.<br></div><div><br></div><div>Alex<br=
-></div></div></div>
-
---000000000000d66a730596d9c645--
