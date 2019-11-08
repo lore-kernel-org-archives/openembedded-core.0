@@ -1,47 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BB29E7FA34
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DCBE7FA3F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2019 01:34:21 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id u22so4594385qtq.13
+	Fri,  8 Nov 2019 02:01:22 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id 193so3613051pfc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 07 Nov 2019 17:34:23 -0800 (PST)
+	Thu, 07 Nov 2019 18:01:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3IQKVMs9U5BhFsuZ3GS/KCn4pAqTkeJJE4SegSHRNqY=;
-	b=Ofbx4yXyohIzaqL6CIwMXR84Ln0CCaSqH623jbzu2yi/7kfnDUyrnrwzDSGZj91cga
-	As+nGzJadsht2nDwhxhOdTKhbaxP538rAjf5zUGaI//FCtkXVV0kJIlABX4D5XWzNXGj
-	mM4SOSCowRnWgnsaUdQ9QDgPVDdh3QpN0lET8izJGUvkRFCeIGIfBJr8Qs25Ghg6dptX
-	sS27hXSjzsPG2bM51rGKm4A22dyiIF4eeyDCaaVQkWvhrtNTjfch6hvmvXaGjUP4OygJ
-	vrXnyIFNtEq0UDkhjlXHa0TYOMDkOwlFScDZ4z7CH7xMFMYn/66zfbRCumGkKfLtoxl9
-	1eow==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=QfVdiLnHvJzwrGXuL3f7e2tFUx2dOGVNSRgAvvQKePY=;
+	b=YyRqSuLTHHpDOklE93wDew9sJ0PhXIt06dUOCE76lrbDGKdCWbYkd14vb9ag5hsHXz
+	zERI7GetlA0/XVQm8/tGbsZWXwfTJS0uXyQyxVLZlsecQww0I0h55vwMHxizbxBPrt6q
+	8fAtUygEAEx+N4D1LWoY4ki31E7ydEcQ+SQClMuoiejm8QeXNWa0Tdk0qpD/u3WCs3lu
+	8MMvc5BUMHsLyRtX0FPxj2YNOEUEcxBjCBuFjkQS2ZgC4LQzvOByFG/6qaX1eXBISx2U
+	co6bkEM4hzRIZBT9rUBLSyXyzBnCC4hUIhg9eW8dLP2VGAnicTlwZemgrRHbQOclNKCh
+	MFdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3IQKVMs9U5BhFsuZ3GS/KCn4pAqTkeJJE4SegSHRNqY=;
-	b=RtKS+rm8VLsfggfH0U/KvLF8mYSkqiyeXPmEOK3rj4GyU47azavhCtr8bezeuU/Tr4
-	Rk3xs3ZKBZ4G3+WwUa6jYkWyhNP9bF7hqTXn15NIapF7jSicqzNQ87yQQ2hmAJR3oJdv
-	DZkQVQ4Zf81hZXfzvxootmXgjc9We3B1TXzTfJ3zpAZ1OBoAOkw2pYFii3UYs0iFTbd1
-	26B5P6yv8JQfWg7PNYTiEttCcRYiH4tnaxWdljVtgPSHiwkkHGN91QneZ/sGADpeSwR/
-	KCQ6JmqcZ7AJwHrUuvd+QG7IOvPbDUEzUKdGIlpQJIccWpO/GxjFGV7hBEmdGAlAYXbA
-	+XSw==
-X-Gm-Message-State: APjAAAUiPDppks0fuNO/YR1B06/Yv6IGdbDnwYqqIwqwOnBZMqs019fs
-	5b1z1URZ/q8xnN9tCXJC7JohhVOdqCik0Zpb6RS+ewxz/wA=
-X-Google-Smtp-Source: APXvYqzN/plHCgiC/cSYwGKcX2s1wsfKI+oSNr2bvZGEhJk5tUScmUYd110GdwwwobMGDqNrqrMu2ugZV90Kt7V9Zr0=
-X-Received: by 2002:ac8:1415:: with SMTP id k21mr7462434qtj.80.1573176862117; 
-	Thu, 07 Nov 2019 17:34:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20191107033029.95107-1-zhixiong.chi@windriver.com>
-In-Reply-To: <20191107033029.95107-1-zhixiong.chi@windriver.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=QfVdiLnHvJzwrGXuL3f7e2tFUx2dOGVNSRgAvvQKePY=;
+	b=kpDu3/oFVXSDVgum+TE9IhTAza9DiZ/5vBsAcCyjLsbzGuR2w4flon/+uUFZSUYlvv
+	l4JBIKzqdJSjWXe/ndhMcEHamwS8PZ+WLd19+gNUIPzSee8K/3Zbp7T6D6ea4OcnrHIi
+	mH2LyvjiwYvgweI1xFp6DKqpAYr58/1BcYU5DNxVB9yJhYVSOueHKA8sDOHyQfzjFj6T
+	1sZAdVD6m+DfyiQgwrcaDV3o92Q7jBkqc5sHoFkYcdGquorr13jQhfoNareBtyJhtFIt
+	Xyo/4ZewI4Ys2zoAIjYND+lDxcrWo8QZTvczRY8Ztjnn/aIZlVbJ5dBIfUaoSvshlAjQ
+	79zQ==
+X-Gm-Message-State: APjAAAVU4ir4rcgrt11wub8LK3386Wyf6s7vndAsyxjjALD9YRdOpMKw
+	6OcLh4I7D8y0XqD6rXJaucav2Nk2Y/Y=
+X-Google-Smtp-Source: APXvYqwrsw0j5WYLJJsutykUgGxPsfMPv3Qvtn6Y6eLV6eDz8t7Q2fKBeZpWSxEXgswmjHYwoVKU7g==
+X-Received: by 2002:a63:29c2:: with SMTP id p185mr8459749pgp.39.1573178483471; 
+	Thu, 07 Nov 2019 18:01:23 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::5caf])
+	by smtp.gmail.com with ESMTPSA id
+	x2sm4113994pfn.167.2019.11.07.18.01.22
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 07 Nov 2019 18:01:22 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 7 Nov 2019 17:33:55 -0800
-Message-ID: <CAMKF1sqch6TtcwfA_FRZY=VPBTw_ueA6EVapDK9wegEjmNVteA@mail.gmail.com>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] libtirpc: create the symbol link for rpc header files
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  7 Nov 2019 18:01:02 -0800
+Message-Id: <20191108020102.757861-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Subject: [PATCH] libnsl2: Update to latest master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,59 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2019 01:34:21 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 08 Nov 2019 02:01:23 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 6, 2019 at 9:54 PM Zhixiong Chi <zhixiong.chi@windriver.com> wrote:
->
-> Since the Sun RPC is deprecated in glibc, the rpc header files
-> are not provided any more, but it allows alternative RPC
-> implementations, such as TIRPC or rpcsvc-proto, to be used.
->
-> So we create the symbol link for rpc header files for tirpc to
-> be more compatible with the glibc version and the application usage.
->
+Get following patches
 
-https://errors.yoctoproject.org/Errors/Details/275527/
+Detect recursive lock between yp_all() and do_ypcall()
+Detect recursive NIS calls
 
-seems to be related to this update
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-extended/libnsl/libnsl2_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> ---
->  meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
->
-> diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-> index e73ffe7b17..a284521c1e 100644
-> --- a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-> +++ b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-> @@ -23,6 +23,20 @@ EXTRA_OECONF = "--disable-gssapi"
->
->  do_install_append() {
->          chown root:root ${D}${sysconfdir}/netconfig
-> +        install -d ${D}${includedir}/rpc
-> +        install -d ${D}${includedir}/rpcsvc
-> +        for link_header in ${D}${includedir}/tirpc/rpc/*; do
-> +            if [ -f $link_header -a ! -e ${D}/${includedir}/rpc/$(basename $link_header) ]; then
-> +                ln -sf ../tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpc/$(basename $link_header)
-> +            fi
-> +        done
-> +        for link_header in ${D}${includedir}/tirpc/rpcsvc/*; do
-> +            if [ -f $link_header -a ! -e ${D}/${includedir}/rpcsvc/$(basename $link_header) ]; then
-> +                ln -sf ../tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpcsvc/$(basename $link_header)
-> +            fi
-> +        done
-> +        ln -sf  tirpc/netconfig.h ${D}/${includedir}/netconfig.h
-> +
->  }
->
->  BBCLASSEXTEND = "native nativesdk"
-> --
-> 2.23.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-extended/libnsl/libnsl2_git.bb b/meta/recipes-extended/libnsl/libnsl2_git.bb
+index c3a24face1..28c84af7ad 100644
+--- a/meta/recipes-extended/libnsl/libnsl2_git.bb
++++ b/meta/recipes-extended/libnsl/libnsl2_git.bb
+@@ -12,7 +12,7 @@ DEPENDS = "libtirpc"
+ 
+ PV = "1.2.0+git${SRCPV}"
+ 
+-SRCREV = "37c5ffe3038d42e9fa9ed232ad2cbca4d8f14681"
++SRCREV = "4a062cf4180d99371198951e4ea5b4550efd58a3"
+ 
+ SRC_URI = "git://github.com/thkukuk/libnsl \
+           "
+-- 
+2.24.0
+
 
