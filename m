@@ -1,50 +1,56 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 585D37F847
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EF657FC9C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2019 23:02:11 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id m9so7844270ljh.8
+	Fri,  8 Nov 2019 23:07:06 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id u18so103590wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2019 15:02:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hGgXoyg4enY6kU5wQOS4zSg1lhHyLA6C2nwigwUWsCw=;
-	b=C1+FYK7ilbi9iN6yhU38ijRh3kR/2Hqh0oNNK9b8ENs450uKF5LNmZTnlmrkDCJB7u
-	oDl/5iHT6ILd5PVd+dhKFh1ZmPY2spVj7NZD34/bYcKYg7DoZ8k3hYb+wc0lCqz6GmOR
-	9+WNmMG1748Kyg204pcJKVoN3mgesS6IBSWm9SNuMVGptTxPBVfjF5VsaWCpkM2E57V0
-	2NN2kCNhtRCZRK3DVXRY2mGSLF/idTjNPXpOCleBMAEx/UfEJOw7LuswwbW/IHhSQFVR
-	yTb8blow9Mz9TgqbOUx/UFUC9WknNoRywCHCBBDjITO7yTjW4uSDmWl7+csOXX8qdfeF
-	jLpw==
+	Fri, 08 Nov 2019 15:07:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=tOJrNMsdW2p3w2ifq+Dg5rmvakVQxLPfAf7SBjUoAtY=;
+	b=gYhjToz1PXLb2CYODgpY+kL4LVXqlC0OPv5FWoiZlaCfWZaIZRnGDJr0Hj0khjKLTS
+	/ctG1rtbVsL5o/tqO6tXHqJUWwQyfniFZhdn3H0BwHxWROJZS1RWlngRXN4qW4FCUJpk
+	Cl80aAPnBIcifUeAFrVN2noXF1u1/besZLvz0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=hGgXoyg4enY6kU5wQOS4zSg1lhHyLA6C2nwigwUWsCw=;
-	b=NmH3hvJT+HMMhrE+64iAhpazP7v2FfYbyGaNRvOiRMdjd6TOcrG4kIB+yIlI8M8Anx
-	9ZibqzGJ+41ljwFIAgGegTTdTwVfjdcEbG/eRXfwiC0dGB7L40Tw91g0THeO98sRC/1d
-	Tk2ZlK2Mh5TRtkW/lbdzn5xiIa8e0cEDJs9cXvQak3hesoFpaXxM+ytH9MW1X81gsltE
-	MQMC5WcJLAOaRigi73TiFzfY6zWbRg6mrJLBc7z4z4kA6h25b5b1tutgb7iBE1Fqp/p2
-	NspWKRmLjifmseXJun1IKaNuRgNT+G8ohW0mv7SythO5D9deEeJEQwYSN4qbIbKnHEB0
-	NjZQ==
-X-Gm-Message-State: APjAAAUyJHvaOD7VF6t8Um+7CzqPFWTil9S94902k8W1QSjkHMYIqPIy
-	fm+ndxAu41wy+31Ed429f6ska5vMsc9LCwVaI6c=
-X-Google-Smtp-Source: APXvYqwoFzO+UAMk+6AYHERSp7yrOPcpTr34cP2MRzC73K4s2iqrNxcW5y2ty7szSwfQkV5YEhw5M9kS7QoHMyVhGxs=
-X-Received: by 2002:a2e:7301:: with SMTP id o1mr216676ljc.16.1573254131751;
-	Fri, 08 Nov 2019 15:02:11 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=tOJrNMsdW2p3w2ifq+Dg5rmvakVQxLPfAf7SBjUoAtY=;
+	b=cskVvA13duiDamyeLIZgYVVVLxWYZZtC9erDpGjY6wXi8eRIqGHoz8kAUuogbomDtz
+	uc/kVsZnVELk2xf+3Zu/q3RE0sU1/I7gvI9snouhj9/9m64LRidn9X4TJkQ3EwC9uqRu
+	8YvWNFwAJeY7u+Zovetc8Ff/6/2l94RT5Gubcgu+adP3+Is8KYiv36z+DSQTbcmgBcUP
+	QtN4n6Vv23W61+/pBdU+cVuqKEHKH3OVCuZR3/erY3VgVN5MWasaB42htdzzzBbNQByF
+	xowd3t0AF2jn1p4wH2+wRNyw1hmL7vxvMtwqIfCiNXERYHsF2rS8UE4+8WOsEnLTs5wc
+	NMKg==
+X-Gm-Message-State: APjAAAX3XJUeMdHcihuUo6dQ2BHsYShlCukfIZpaDgGXBnFIniI7Lywz
+	FR6YH3025lBW/oG991F3VpGX3g==
+X-Google-Smtp-Source: APXvYqznCR9nR3ciwdo6/aT/nbPMzJAMcThOPxem4YSg0PSZq8b7o9OCzIwwR9WvHif6qbURAeXv1A==
+X-Received: by 2002:a05:600c:12:: with SMTP id
+	g18mr10937757wmc.44.1573254426950; 
+	Fri, 08 Nov 2019 15:07:06 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	k125sm8780941wmf.2.2019.11.08.15.07.05
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 08 Nov 2019 15:07:06 -0800 (PST)
+Message-ID: <023265d217840d956c5e54d12591d7cfdd0442b5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, Alistair Francis <alistair23@gmail.com>
+Date: Fri, 08 Nov 2019 23:07:04 +0000
+In-Reply-To: <20191108202438.GA21138@localhost>
+References: <20191106181819.12517-1-alistair.francis@wdc.com>
+	<20191106221250.GD14721@localhost>
+	<CA+aJhH3s7NhB-4YspmXrvrcG4py1=i2fJXg=seWPkJzosqVFGQ@mail.gmail.com>
+	<CAKmqyKNVrqT9hHQxp38=72bBkz405P=6UJFPODxr5OLt_GSqDA@mail.gmail.com>
+	<20191108202438.GA21138@localhost>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20191104224805.3149-1-alistair.francis@wdc.com>
-	<fd81b5bc-cb84-8857-ea5e-bce2c931750b@intel.com>
-	<CAMKF1srMzPL4pBAQYscX6fxPPL2SExcYFw+Ti2B656nK3hyH0g@mail.gmail.com>
-In-Reply-To: <CAMKF1srMzPL4pBAQYscX6fxPPL2SExcYFw+Ti2B656nK3hyH0g@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 8 Nov 2019 15:01:45 -0800
-Message-ID: <CAKmqyKNtUpuqodwxjsseOwdQn3AhG+yU0kJx1K0DCXH3sc4VBw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6] mesa: Upgrade to 19.2.1
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] tune-riscv: Add support for hard and soft float
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,55 +63,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2019 23:02:11 -0000
+X-List-Received-Date: Fri, 08 Nov 2019 23:07:06 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 8, 2019 at 10:13 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Fri, Nov 8, 2019 at 2:32 AM Ross Burton <ross.burton@intel.com> wrote:
-> >
-> > On 04/11/2019 22:48, Alistair Francis wrote:
-> > > From: Alistair Francis <alistair@alistair23.me>
-> > >
-> > > Upgrade mesa and mesa-gl to 19.2.1.
-> > >
-> > > The license hash change was a trivial new line removal.
-> > >
-> > > The glx-tls option was removed as it isn't included in the meson.build
-> > > file. It has been replaced with 'use-elf-tls' instead.
-> >
-> > I think this has regressed something, this is a new warning on musl builds:
-> >
-> > do_package_qa: QA Issue: ELF binary
-> > '[...]libgles2-mesa/usr/lib/libGLESv2.so.2.0.0' has relocations in .text
-> > [textrel]
-> >
-> > (ditto for libGLESv1_CM.so.1.1.0 libGL.so.1.2.0 libglapi.so.0.0.0)
-> >
->
-> right this means glx-tls is not working anymore, and it will fail on
-> musl at runtime
-> see
-> https://gitlab.freedesktop.org/mesa/mesa/issues/966
+On Fri, 2019-11-08 at 22:24 +0200, Adrian Bunk wrote:
+> Especially when looking at the arm64 situation I am wondering
+> whether the best option might be to throw away the tunes mess and let
+> the user write the compiler options directly.
 
-So what do we do here?
+OE once did that. I think anyone who lived through it would say that
+the current situation *is* an improvement over a free-for-all.
 
-There are some patches in that issue, but they don't cleanly apply and
-seem hacky anyway. Can we have two versions of mesa? One for musl and
-one for others until this is fixed upstream?
+This is mainly as at least we're now consistent whereas before the same
+thing had different names in each BSP.
 
-Alistair
+I don't know what the answer is but I don't want to go back to that!
 
->
-> > Ross
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Cheers,
+
+Richard
+
+
+
 
