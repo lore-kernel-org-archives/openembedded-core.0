@@ -1,49 +1,54 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 92A4F7F7B3
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+	[209.85.217.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C8F4F7F7B3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  8 Nov 2019 18:13:33 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id 205so6113757qkk.1
+	Fri,  8 Nov 2019 18:16:10 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id l5so4389258vsh.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 08 Nov 2019 10:13:34 -0800 (PST)
+	Fri, 08 Nov 2019 10:16:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lJLsbj53xtESOsiVAmgrTyJCH+lAQmGqnx4rDTE+MAA=;
-	b=FxWjosZhTEfmJ9W8W5He3DCd0ouq4u72YBNa9kZfhSZSDRAOEXyGRz1To1DSTPMd8J
-	exoSMrbPQqFkXc6a5IVSY6p+3wSjtZNuoScImq0W6CAaZIZ+CM9pspkTwoW8Ll8u12s6
-	KBfjdMTWxyet84nX2thxHg6a63/738EjNwQF2H/GvsfkeapwEmK3BrRYJXLyBANkFjqL
-	5bilwCJc0dMwwn8n5jrDBIojnOBB9CDLE/wKiywJ/za/+8dPQoRJ6BFCwZhszUc+AByh
-	vUhHIs/SRPlhr0cSK7C+fUNbR+jIqaBplm2F0fkVRyo9whdmNcLjmohzFVEPOSWx1UlO
-	9mTA==
+	:cc; bh=6LMuQtnHcvJSr1If1scoQHdc9edOhfxJ0aeuIA802Lg=;
+	b=LCl6tbY8gBp/79mEqTPfxQQypslMG809fGyqzcdvo8mjydad4L2+6V4RC5OIjC9dhm
+	nVT2RWrH+51lwq3lgaGBxvxj2VXJkaqXY2RpwwOjQfxwGhDluyBlPh6Iqg8ZlZuMB52J
+	/62XMLCsaS31s/tzroe1JjJhrb7dJwTGjxYmZpvyZJ73yMA3b6yoQHsOLqgqck/9+a0T
+	2so0VCSnLqEetKFbnyNAF+3zobl9y0jXy/AahNeEH4iA6BxV4bfsItP5CA5yEU7jf1pK
+	DNIJL202R/wYPM3gFYgKdG8ny2N27OKET6gcq3tmSqFziC2Dg0+Wr5aO5FP1e8+4l6CT
+	Qd0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=lJLsbj53xtESOsiVAmgrTyJCH+lAQmGqnx4rDTE+MAA=;
-	b=WFLREkGjEJp0tyD6N3jjEtXNJ4TnaE0ytimhAIkGtevFOxw36XH6s3BFqGQB7mS29U
-	3PdYx1GY2k38AEqzNuaeSHwViDiVbI9tI2CFkZck8r/pZvrtk8grsCvsi4XkcGCwg/IJ
-	2Pr39OVSOO/S04jJzYLu834xSGJ7crSCsIl5idS4VF7pbpgVI7F6szlk7LioXWLaOY4N
-	faDC2vJI8tvQwHlBl5vls/uZThPygvJTHJhzXcQ9NdrFMzEtovdITSz1QHHj+P3q7xBo
-	ZBrSoPY6SGClIBKCd8NdKjW2dzslhd69Me4CFYxWL9MMR7g1Yqn/P+VB/iUXL8YUIGtE
-	t8DQ==
-X-Gm-Message-State: APjAAAVK5SO8l7T4QP8XGa8XKxOnbQAS1dV12hwZ+fQ9p9vdMFcKOuVf
-	MXoKy8rD2Y8R6fmBgV+T6a7hiXs9QIhdcpJtLIM=
-X-Google-Smtp-Source: APXvYqy8OMDLn+8g8UvDy9gZyvhmp9eBPqkrUrbP+zv7HIRAGlD+KD2fPSeM3i+vmn/+cN9FZBNjJefT4qnDk/SMGM4=
-X-Received: by 2002:a37:6554:: with SMTP id z81mr10580711qkb.9.1573236814092; 
-	Fri, 08 Nov 2019 10:13:34 -0800 (PST)
+	bh=6LMuQtnHcvJSr1If1scoQHdc9edOhfxJ0aeuIA802Lg=;
+	b=o1LmfF78bSTdD6dhUDwFhEEZP2XcM/W2SoxDe8S8Vl7XhI15R0Tb8I3s2nbUzjfpiQ
+	pdRRraRxP4E6nJe260dHXq/93eJuLOz/+hplJZLTogp/xrMw42PeTN6+euIxrpjbJL+y
+	C+j436e1fZQMqVvgeGS1E2D7NWIO8c9G9s6X9wZdhM9ErrARRWhfp6chw4vatkFR9VF1
+	d01Cb7NGjMJ7yECFEUYmG5oytqhyEIofWiccELTbcm7yE4aSq96d0pQicZuFluM9jbVx
+	eJJNpnNv4P3THn5CxfOwNWvgnBPx5FlT81o6KBZwTU8OFeoCnavtuLdzu3YVbsuG2zSh
+	XQ+w==
+X-Gm-Message-State: APjAAAX/8TwGzMQazh3OsvBWG4d5pAZ6MkQ13vFjB2j02+/QJt7BCnzi
+	RpFAL+Mshnc1W38UjairuvqTjIpuzKEZtxXGYLg=
+X-Google-Smtp-Source: APXvYqz1BOQ6D94wntfLo096Ix1ujUyg4uXa6ZWY27WsQdEvQ48lcryqo8+h4Q2j17fSmFN8OX27QAjYEgc5QguabgA=
+X-Received: by 2002:a67:ea5a:: with SMTP id r26mr8741956vso.94.1573236971562; 
+	Fri, 08 Nov 2019 10:16:11 -0800 (PST)
 MIME-Version: 1.0
-References: <20191104224805.3149-1-alistair.francis@wdc.com>
-	<fd81b5bc-cb84-8857-ea5e-bce2c931750b@intel.com>
-In-Reply-To: <fd81b5bc-cb84-8857-ea5e-bce2c931750b@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 8 Nov 2019 10:13:07 -0800
-Message-ID: <CAMKF1srMzPL4pBAQYscX6fxPPL2SExcYFw+Ti2B656nK3hyH0g@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6] mesa: Upgrade to 19.2.1
+References: <20191031093655.14852-1-alex.kanavin@gmail.com>
+	<20191031093655.14852-3-alex.kanavin@gmail.com>
+	<dc6caf95-a1e0-0eb7-f721-8dd3d1e2aa93@intel.com>
+	<CANNYZj9i0mvP_X3WFapfda49YdVvuY9Tr1KY7mFcsnqRr5J-HA@mail.gmail.com>
+	<CANNYZj9dmYgWxYOG6o3hJC9rEk6ghUxYRAak5wZjELMbtOJKag@mail.gmail.com>
+	<CANNYZj-Cmx_iNn+tJAW4XE=VSi4MT+LeiaPQk-8REhG+Xd_JsA@mail.gmail.com>
+	<CADfgfoYap0Z83h-mRXOLvX2kkC8xitN1Mx5wQM4uHugRhG15Nw@mail.gmail.com>
+	<CANNYZj8fQV9vaubTyYF2gzicP3U8w0bZP4Fne91bkRRzPP5hew@mail.gmail.com>
+	<CADfgfoac9HKAzqsnGcPqDnCHTvqFQJH854uR3esmJnTkdRLYmg@mail.gmail.com>
+In-Reply-To: <CADfgfoac9HKAzqsnGcPqDnCHTvqFQJH854uR3esmJnTkdRLYmg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 8 Nov 2019 19:16:00 +0100
+Message-ID: <CANNYZj_3Lukw0Hw5GNgKMSpJy36y3oPsdByA3R+XPnQaG692qQ@mail.gmail.com>
+To: Michael Halstead <mhalstead@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/6] oe-selftest: extend virgl gtk test to also check the SDL option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +61,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 08 Nov 2019 18:13:33 -0000
+X-List-Received-Date: Fri, 08 Nov 2019 18:16:10 -0000
+Content-Type: multipart/alternative; boundary="000000000000d66a730596d9c645"
+
+--000000000000d66a730596d9c645
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Nov 8, 2019 at 2:32 AM Ross Burton <ross.burton@intel.com> wrote:
+On Fri, 8 Nov 2019 at 19:01, Michael Halstead <mhalstead@linuxfoundation.org>
+wrote:
+
 >
-> On 04/11/2019 22:48, Alistair Francis wrote:
-> > From: Alistair Francis <alistair@alistair23.me>
-> >
-> > Upgrade mesa and mesa-gl to 19.2.1.
-> >
-> > The license hash change was a trivial new line removal.
-> >
-> > The glx-tls option was removed as it isn't included in the meson.build
-> > file. It has been replaced with 'use-elf-tls' instead.
+>> Thanks a lot! There are two things to check:
+>> 1. Old instances of vnc may still be running and should be shut down (via
+>> 'vncserver -kill :1')
+>> 2. vncserver executable should point to tigervnc (if both tigervnc and
+>> tightvnc are installed - I don't know if you removed the tightvnc packages).
+>>
 >
-> I think this has regressed something, this is a new warning on musl builds:
+> I removed tightvnc and all workers have been rebooted so we are good to go.
 >
-> do_package_qa: QA Issue: ELF binary
-> '[...]libgles2-mesa/usr/lib/libGLESv2.so.2.0.0' has relocations in .text
-> [textrel]
->
-> (ditto for libGLESv1_CM.so.1.1.0 libGL.so.1.2.0 libglapi.so.0.0.0)
+> Any comment on using packages from outside of the distro's official
+> packaging?
 >
 
-right this means glx-tls is not working anymore, and it will fail on
-musl at runtime
-see
-https://gitlab.freedesktop.org/mesa/mesa/issues/966
+A vnc server is entirely optional when working with yocto, it's used on the
+autobuilder (machines without a physical screen) for the purpose of running
+qemu with graphical frontends, but is not mentioned in the manuals as
+something that users have to install or use. I'd say it's fine.
 
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Alex
 
+--000000000000d66a730596d9c645
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 8 Nov 2019 at 19:01, Michael Hals=
+tead &lt;<a href=3D"mailto:mhalstead@linuxfoundation.org">mhalstead@linuxfo=
+undation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail=
+_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">=
+<div class=3D"gmail_quote"><br><div>Thanks a lot! There are two things to c=
+heck:</div><div>1. Old instances of vnc may still be running and should be =
+shut down (via &#39;vncserver -kill :1&#39;)</div><div>2. vncserver executa=
+ble should point to tigervnc (if both tigervnc and tightvnc are installed -=
+ I don&#39;t know if you removed the tightvnc packages).</div></div></div><=
+/blockquote><div><br></div><div>I removed tightvnc and all workers have bee=
+n rebooted so we are good to go.</div><div><br></div><div>Any comment on us=
+ing packages from outside of the distro&#39;s official packaging?</div></di=
+v></div></blockquote><div><br></div><div>A vnc server is entirely optional =
+when working with yocto, it&#39;s used on the autobuilder (machines without=
+ a physical screen) for the purpose of running qemu with graphical frontend=
+s, but is not mentioned in the manuals as something that users have to inst=
+all or use. I&#39;d say it&#39;s fine.<br></div><div><br></div><div>Alex<br=
+></div></div></div>
+
+--000000000000d66a730596d9c645--
