@@ -1,48 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 065E77FA15
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com
+	[209.85.217.49])
+	by mail.openembedded.org (Postfix) with ESMTP id A63337FBC6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  9 Nov 2019 15:36:00 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id u18so1408456wmc.3
+	Sat,  9 Nov 2019 15:36:22 +0000 (UTC)
+Received: by mail-vs1-f49.google.com with SMTP id b184so5895695vsc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 09 Nov 2019 07:36:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=fUPVNJkr4HKMZhweuFh2S9cHFSgE99rKWRB3eyA4RcE=;
-	b=QD0wKnGmus7LJzzh6xejwt+7HysENt4nTCvZdrnMrLISYISgOHN3F91BD3VQxD2vQ8
-	w/TnTVTQGWIimCJPFYKyZ/FUYqKO1MaYHIeW8GZIBB1Vv4N73qVIL+lgXaEVF3MF2QFD
-	sdD+LTmRKNNr4QRof4HbdJAuKgvu821lUu77A=
+	Sat, 09 Nov 2019 07:36:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=U180chd209NEJrZCWT/fdB1KFi/5kE0KukAS2Ft9c7c=;
+	b=OjVl/TV8pV/OmMNS6AGita3yxhNeJETD1cFIJ2u7QXtx9mVYZI4H+itRvxIqz0eUtF
+	zFZeIpz1TWm8rLc/Zdmgcq9jqAycWmz6ZorWofcBXTsXHGgBZ9qG5KWUA0bpiF8Cb7fE
+	j2XW6irlM98Gy81aj80C5wEk0vlO2f6bo6RKTWmnhdfLdZ6h7F8iDeJSGJWXuQG0xWWj
+	4iU4L4pBfJsR2fQc6IJkKqBbZGVGlaoAB2KYGgXwI+WIXNm57h++YOMuKnUyeykWIRb8
+	SoMkQ2ExaBi7iLDbK7SJCS1mN90Mn9v7zZ39rPTCpGcD4qoqpeQvXlZVkJrMw4hsRzr+
+	8JbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=fUPVNJkr4HKMZhweuFh2S9cHFSgE99rKWRB3eyA4RcE=;
-	b=k+1ezmwXS5PG2uq6rv+xUQJyfMiItubGUCqTjoJFlDs7Q5OlwZ80qF6N9osebm7RXQ
-	z7hIFfLXHsnN/r0DH1pIqqhVhCen+jHTzZv+iXoksFnqLqCv/SgQ89H4u33JalaVYtmU
-	hjoI3O6Ir0pfGqw1oeC4l0mLLw08u5WqSxdvSjx6beNNi+K6CNm+CoWnx6X9SbILZw6s
-	/OO0Cor21AVBt8kYrcehKuyLTso/zuCuNOfL7K27H7D5TsHAxRPy75vC34XskWQw1dMY
-	Ag6ihmUKLWDExwaeTUZdYaUNJpwEsEFKahjrXVD08AfMmevItn0B+n6ObIgnrTFlVHed
-	BJBg==
-X-Gm-Message-State: APjAAAU863ewfYHKgDIpzNLYPC7Qc3eFBSSzLeHHHfcWp7jmxAW27khu
-	AQxvVCfiqhCaGr8gxw9vJTTD05aiIWQ=
-X-Google-Smtp-Source: APXvYqzI9mSHw+oLT9Osw8ogrTIDt2ohhSTmQBvQ7xJGyqgc4voKhvFb57NNmNhlpqgU+3cW9Uv2Jg==
-X-Received: by 2002:a1c:6885:: with SMTP id d127mr12614887wmc.64.1573313761068;
-	Sat, 09 Nov 2019 07:36:01 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a5sm9605647wrv.56.2019.11.09.07.35.59
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 09 Nov 2019 07:36:00 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  9 Nov 2019 15:35:59 +0000
-Message-Id: <20191109153559.15847-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=U180chd209NEJrZCWT/fdB1KFi/5kE0KukAS2Ft9c7c=;
+	b=p8uWk7L3bulIQibKW52fxvVM611tpqnxjKL5l1kgn/mIKtTCJKACTB2hGKBSYAmAnY
+	vrTuhZWPwIs7P/RqBNgivMqU0QgH6Vyky6HWtfc9W2swwydqdROdPTddSjyfNF/fRbpZ
+	Vblic7h/sEZunSQH1+C2tMGUPTTAU0o2hI3yBkB/d9o0DO/w5VOHE2eR1y5BG6Bq4v0x
+	3ypKUgoOFpJaY2E6qd0bJz7tsdkHs9vrjJoybHO79TzfG/yvXb2JctkiQlOH53Bk+6kv
+	TRAjyGytH+DP7qumyzsTaogJyypH3NZKSfTElVuVPkgFAw8xOikvhdVTQH+VoQyrg3iH
+	v0Zw==
+X-Gm-Message-State: APjAAAWhGeU2oGRAjrhgyJTBxhv/G/UWuRUugPt1SytA6mD6JMtkAaR1
+	EvKG5nTer4RwwYUki7DTgel99NZi5IT2XGH0/9o=
+X-Google-Smtp-Source: APXvYqxlawOY3ovMKQkorJzyF0RFClVjTJtDCvMzWgkXyrql+eiU9NxGU366cpj+POclKn4l8LJhyM2QiUUokgBSuUk=
+X-Received: by 2002:a67:ea5a:: with SMTP id r26mr12419162vso.94.1573313783592; 
+	Sat, 09 Nov 2019 07:36:23 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] pseudo: Drop static linking to sqlite3
+References: <20191104224805.3149-1-alistair.francis@wdc.com>
+	<fd81b5bc-cb84-8857-ea5e-bce2c931750b@intel.com>
+	<CAMKF1srMzPL4pBAQYscX6fxPPL2SExcYFw+Ti2B656nK3hyH0g@mail.gmail.com>
+	<CAKmqyKNtUpuqodwxjsseOwdQn3AhG+yU0kJx1K0DCXH3sc4VBw@mail.gmail.com>
+In-Reply-To: <CAKmqyKNtUpuqodwxjsseOwdQn3AhG+yU0kJx1K0DCXH3sc4VBw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 9 Nov 2019 16:36:11 +0100
+Message-ID: <CANNYZj8=PbGVmE+9C4mnJv3BW0Y-G8f5zG=AmGD0vDpoPNU2XQ@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v6] mesa: Upgrade to 19.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,80 +58,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 09 Nov 2019 15:36:01 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 09 Nov 2019 15:36:22 -0000
+Content-Type: multipart/alternative; boundary="00000000000030fc230596eba94f"
 
-Back in 2010[1] we made pseudo statically link against sqlite3. Since then
-the world has changed, pseudo now has separate processes for the database
-in the server and the client and they have separate linking commands.
+--00000000000030fc230596eba94f
+Content-Type: text/plain; charset="UTF-8"
 
-[1] http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ad0ac0ecd38fc77daf42485489fccc10a5e1e3e7
+On Sat, 9 Nov 2019 at 00:02, Alistair Francis <alistair23@gmail.com> wrote:
 
-The static sqlite3-native is causing us problems, in particular:
+> > right this means glx-tls is not working anymore, and it will fail on
+> > musl at runtime
+> > see
+> > https://gitlab.freedesktop.org/mesa/mesa/issues/966
+>
+> So what do we do here?
+>
+> There are some patches in that issue, but they don't cleanly apply and
+> seem hacky anyway. Can we have two versions of mesa? One for musl and
+> one for others until this is fixed upstream?
+>
 
-tmp/work/x86_64-linux/pseudo-native/1.9.0+gitAUTOINC+060058bb29-r0/recipe-sysroot-native/usr/lib/libsqlite3.a(sqlite3.o):(.data.rel+0xb0): undefined reference to `fcntl64'
+Maybe we can silence the warning for musl only, via
+INSANE_SKIP_..._libc-musl = "textrel"?
+ffmpeg does the same already.
 
-which occurs if sqlite3-native was built on a machine with glibc 2.28 or later
-and pseudo-native is being built on glibc before that. With dyanmical linking,
-libc is backwards compatible and works but with static linking it does not.
+Alex
 
-There appears to be no easy way to avoid this other than adding a copy of
-sqlite3 into the pseudo recipe. Given the static linking doesn't seem to
-be required any longer due to the separate processes, drop that to fix
-those issues.
+--00000000000030fc230596eba94f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/distro/include/no-static-libs.inc |  4 ----
- meta/recipes-devtools/pseudo/pseudo.inc     | 17 ++---------------
- 2 files changed, 2 insertions(+), 19 deletions(-)
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 9 Nov 2019 at 00:02, Alistair Fra=
+ncis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.com</a>&g=
+t; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">&gt; right this means glx-tls is not working anymore, =
+and it will fail on<br>
+&gt; musl at runtime<br>
+&gt; see<br>
+&gt; <a href=3D"https://gitlab.freedesktop.org/mesa/mesa/issues/966" rel=3D=
+"noreferrer" target=3D"_blank">https://gitlab.freedesktop.org/mesa/mesa/iss=
+ues/966</a><br>
+<br>
+So what do we do here?<br>
+<br>
+There are some patches in that issue, but they don&#39;t cleanly apply and<=
+br>
+seem hacky anyway. Can we have two versions of mesa? One for musl and<br>
+one for others until this is fixed upstream?<br></blockquote><div><br></div=
+><div>Maybe we can silence the warning for musl only, via INSANE_SKIP_..._l=
+ibc-musl =3D &quot;textrel&quot;?</div><div>ffmpeg does the same already.<b=
+r></div><div><br></div><div>Alex<br></div></div></div>
 
-diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
-index 4141ecb7654..a3a865cac45 100644
---- a/meta/conf/distro/include/no-static-libs.inc
-+++ b/meta/conf/distro/include/no-static-libs.inc
-@@ -15,10 +15,6 @@ DISABLE_STATIC_pn-nativesdk-libcap = ""
- DISABLE_STATIC_pn-libpcap = ""
- # needed by gdb
- DISABLE_STATIC_pn-readline = ""
--# needed by pseudo
--DISABLE_STATIC_pn-sqlite3 = ""
--DISABLE_STATIC_pn-sqlite3-native = ""
--DISABLE_STATIC_pn-nativesdk-sqlite3 = ""
- # openjade/sgml-common have build issues without static libs
- DISABLE_STATIC_pn-sgml-common-native = ""
- DISABLE_STATIC_pn-openjade-native = ""
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index 8b349097263..7ff8e449e9a 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -30,23 +30,10 @@ PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback --enable-ep
- 
- # Compile for the local machine arch...
- do_compile () {
--        SQLITE_LDADD='$(SQLITE)/$(SQLITE_LIB)/libsqlite3.a'
--	for sqlite_link_opt in $(pkg-config sqlite3 --libs --static)
--	do
--	    case "$sqlite_link_opt" in
--	    -lsqlite3)
--		;;
--	    -l*)
--		SQLITE_LDADD="${SQLITE_LDADD} ${sqlite_link_opt}"
--		;;
--	    *)
--		;;
--	    esac
--	done
- 	if [ "${SITEINFO_BITS}" = "64" ]; then
--	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --with-static-sqlite="$SQLITE_LDADD" --without-rpath
-+	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
- 	else
--	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --with-static-sqlite="$SQLITE_LDADD" --without-rpath
-+	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
- 	fi
- 	oe_runmake ${MAKEOPTS}
- }
--- 
-2.20.1
-
-
+--00000000000030fc230596eba94f--
