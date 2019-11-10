@@ -1,49 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 05B517F8C1
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EC6D17ED5C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Nov 2019 23:49:52 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id z4so9343434pfn.12
+	Sun, 10 Nov 2019 23:58:57 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id h27so8265498pgn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Nov 2019 15:49:54 -0800 (PST)
+	Sun, 10 Nov 2019 15:58:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=QpDwJMOdVFDZasgJamL4RkdaWmDhBrujrDwjumYHjBs=;
-	b=tZC7lMcD7b6BOEGiZVdW9vIoMOW/EstKJX8mBuAxGDWuHnnfeZIBSzLeTSObqEgIGE
-	2Egcs9hAx9wnUOxSytORS47O9vXQgjv3p3y9pgLmiGkSQFZPEQPPwpzei3XE5qjt8sae
-	xEm3cKdO2qnZV0dQX77TEbProZ5QAk9OvsFNkyOmr6o0n67Se7Ji9uwADwk7eLgJEFUV
-	DJ0ACCGWcxjj3e/BvRBrS5EkyMFps1051pIuSJ1JIIjRkG683706uxNd4Yhnn2UWHJZW
-	U7WwGF9WIka3D/YXKpoRhQbdXeKYq1zqRTPtHeiI4++g1JOSlxw8+YkrZvGYr5FtvsSz
-	KDTQ==
+	bh=tKBf8p4CgFBhHIBxmO+9C7mR4LeD/Qv1wAKcNelPZ7o=;
+	b=cSxRjgr3cdbj6uWU0+P9yH4uA13gQU64XETW9DNvkgaFgBmpNwdtiMODiv8HDJUXVJ
+	ZsPRHEQyDqHN2XvdVxKvc/DmJJwq1W3kj4TpU3bM5pSBZLTlVsLUxuKOqQc2/IMUopX8
+	nj9ZOu4QzXU6hbuaj7i407ao8F5+W/DET8vLA1lB2gdUfJJZsVo55SoqK9zJS8VKTCSj
+	PZAviITWCbcHAox6bRkC1XM96vEP1tgDDieVO9Hn5ApzI0qjWaDPDUZ+aXyNyXnkdqmL
+	vGA7MHhA88uBOhcydZLYzi17vChV4zihfRPYEMoY5k4MERoctGst8DYStH3onrdbuydZ
+	faaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=QpDwJMOdVFDZasgJamL4RkdaWmDhBrujrDwjumYHjBs=;
-	b=WUH7fG+SBVlyaC2ZvQenwLRiT4qEy670Hxg9atCiFcmxsAv/Fe98061W4IG+q8VbkD
-	eCLfa2OF9RbVnUmp5i0OrBWAQh3Y8MjC7/6hRUBa0fJartBXNqf8seHgOBRzA0niwERE
-	dFQM12oYHlWw1u0v6/wSo+Dxp0PtqVpTo9BzUr/wwQdZm2s0EKh4RJ9eOmp6xOj3anJd
-	wcYFHHbtnZ4tJzKPVaY7lFocww3Q3on3lixKwZCmYJTfLIePBDr8wPu37n1g9HXz1KzT
-	aoqTlLl4LvOxi+fL1/4THu1uYL1edLv3vcYIwiZruo16t58gCGlwuG2RHjTXvyrfM7HL
-	KuNA==
-X-Gm-Message-State: APjAAAUWCeA1+lYsFsNJ5YVEDsvinPU42ethi1Eex1mYxy4jKrPnuORj
-	paccg7cPs12dROOVbGtr6trUZVzG
-X-Google-Smtp-Source: APXvYqwXmMJ3MDSDEazSTdQpWJDSJAj5TpUkZhxWsHiwl/jbvNLhkNQ0esWgqv8NY5tlv/za7Shecw==
-X-Received: by 2002:a63:3603:: with SMTP id d3mr17341711pga.259.1573429793616; 
-	Sun, 10 Nov 2019 15:49:53 -0800 (PST)
+	bh=tKBf8p4CgFBhHIBxmO+9C7mR4LeD/Qv1wAKcNelPZ7o=;
+	b=tjCwxDL1vFUJRJdUrJd6kCmONL+EBZPfqbpyPhG4oo3F+b4KkEyyCrFe+WcWwmXSu3
+	J631YkzWiJojVzukncAxt7wFqe3NwNkOCRgBDy4mNygmfIkWyQlOGjIUpNGqhL9Co14C
+	vO+I1HbYYttJTeqtR91IhdEsJKtoWPQbLv5H61LWt4EwueLOdGBgvVB6hcpHEOac0W8c
+	Yc5OwTel68avIROgy6MevhTW6fEy4Gp5HsQ6Xlqnr373niKcc3pVX1okZC4f3347qUk9
+	03ovrOPR2CAOtufrKqUR3ly0uJs150IZd6LRQSZ7W4/PXoAt043ks9kjmP92ZkRx0p7i
+	JJ7w==
+X-Gm-Message-State: APjAAAWuSYC+dMU4T8inN2Fg2l/ZqnheuxZly/BoP7MwC+eCP+IzS5Ms
+	SV9eCaVNLICoB0s8bbmORO2M5Fft
+X-Google-Smtp-Source: APXvYqzU/WCKGItyp2G1MlPqXKVMdnV1H7sCyHkZ9wmkKUB3/gVHc4nEe3bvjQKEBIjkVfhcvenV3Q==
+X-Received: by 2002:a17:90a:b393:: with SMTP id
+	e19mr1268800pjr.115.1573430338734; 
+	Sun, 10 Nov 2019 15:58:58 -0800 (PST)
 Received: from ?IPv6:2601:202:4180:a5c0:7974:a9f:c495:4c6d?
 	([2601:202:4180:a5c0:7974:a9f:c495:4c6d])
 	by smtp.gmail.com with ESMTPSA id
-	j14sm11847403pje.17.2019.11.10.15.49.52
+	q18sm13064758pgv.84.2019.11.10.15.58.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 10 Nov 2019 15:49:53 -0800 (PST)
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1572991610.git.pkj@axis.com>
+	Sun, 10 Nov 2019 15:58:58 -0800 (PST)
+To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
+References: <20191105214448.2511-10-bunk@stusta.de>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -89,13 +89,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <fbdd3146-b0c1-f0ce-8268-58c2661a2a7f@gmail.com>
-Date: Sun, 10 Nov 2019 15:49:51 -0800
+Message-ID: <78c2bf06-7a51-5e3a-7794-443afe1a7caf@gmail.com>
+Date: Sun, 10 Nov 2019 15:58:56 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <cover.1572991610.git.pkj@axis.com>
-Subject: Re: [warrior][PATCHv2 0/9] Backport relevant changes from Zeus
+In-Reply-To: <20191105214448.2511-10-bunk@stusta.de>
+Subject: Re: [warrior][PATCH] python3: Upgrade 3.7.4 -> 3.7.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,65 +108,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Nov 2019 23:49:53 -0000
+X-List-Received-Date: Sun, 10 Nov 2019 23:58:58 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 11/5/19 2:08 PM, Peter Kjellerstedt wrote:
-> This patch set contains backports of our changes from Zeus that are
-> relevant for Warrior.
->
-> PATCHv2: Add a backported patch from meson 0.50 to allow
-> <language>_args and <language>_link_args properties, e.g.,
-> c_link_args, in meson.cross to be specified as either a sting or a
-> list. We could potentially have stumbled on this problem any time
-> since meson_array() was changed in commit 7fd8bc46 to return a string
-> if only one argument is specified. However, it was hidden until the
-> change to meson.bbclass in this patch series removed some unnecessary
-> arguments, leaving only one link argument when building for nativesdk.
->
-> //Peter
-thanks.
+On 11/5/19 1:44 PM, Adrian Bunk wrote:
+> 3.7.5 also includes the fixes for CVE-2019-16056 and CVE-2019-16935.
 
-pulled these in for next series. will let you know how it goes.
+I see a patch is being updated. Reason not noted in commit message.
 
-- armin
+Also, do you have any issue if I backport the other py3 bugfixes in zeus?
+
+- Armin
 >
-> The following changes since commit d0f73121551dc98f6924cd77952bf9ebf5ef3dd7:
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+
+
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  ...Do-not-hardcode-lib-as-location-for-site-packages-an.patch | 2 +-
+>  ...python3-use-cc_basename-to-replace-CC-for-checking-c.patch | 2 +-
+>  .../python/{python3_3.7.4.bb => python3_3.7.5.bb}             | 4 ++--
+>  3 files changed, 4 insertions(+), 4 deletions(-)
+>  rename meta/recipes-devtools/python/{python3_3.7.4.bb => python3_3.7.5.bb} (98%)
 >
->   poky.conf: Bump version for 2.7.2 warrior release (2019-10-30 13:55:49 +0000)
->
-> are available in the Git repository at:
->
->   git://push.yoctoproject.org/poky-contrib pkj/warrior_sync
->
-> Niclas Svensson (1):
->   devtool: finish: Keep patches ordered when updating bbappend
->
-> Peter Kjellerstedt (8):
->   meson: Backport patch to handle strings in cross file args
->   meson.bbclass: Remove the MESON_*_ARGS variables
->   nativesdk-meson: Remove some unused variables
->   devtool: Avoid failure for recipes with S == WORKDIR and no local
->     files
->   package_rpm.bbclass: Remove a misleading bb.note()
->   tzdata: Correct the packaging of /etc/localtime and /etc/timezone
->   devtool: finish: Add suppport for the --no-clean option
->   lib/oe/lsb: Make sure the distro ID is always lowercased
->
->  meta/classes/meson.bbclass                    | 15 ++--
->  meta/classes/package_rpm.bbclass              |  5 +-
->  meta/lib/oe/lsb.py                            |  8 +-
->  meta/recipes-devtools/meson/meson.inc         |  1 +
->  ...ings-in-cross-file-args.-Closes-4671.patch | 87 +++++++++++++++++++
->  .../meson/nativesdk-meson_0.49.2.bb           |  5 --
->  meta/recipes-extended/timezone/tzdata.bb      |  5 +-
->  scripts/lib/devtool/standard.py               | 17 ++--
->  8 files changed, 111 insertions(+), 32 deletions(-)
->  create mode 100644 meta/recipes-devtools/meson/meson/0001-Handle-strings-in-cross-file-args.-Closes-4671.patch
->
+> diff --git a/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch b/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
+> index 661f52d01f..ea75262c4f 100644
+> --- a/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
+> +++ b/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
+> @@ -70,7 +70,7 @@ index 6e81b2f..671a20e 100644
+>   
+>   Programs/python.o: $(srcdir)/Programs/python.c
+>  @@ -856,7 +857,7 @@ regen-opcode:
+> - Python/compile.o Python/symtable.o Python/ast_unparse.o Python/ast.o: $(srcdir)/Include/graminit.h $(srcdir)/Include/Python-ast.h
+> + Python/compile.o Python/symtable.o Python/ast_unparse.o Python/ast.o Python/future.o Parser/parsetok.o: $(srcdir)/Include/graminit.h $(srcdir)/Include/Python-ast.h
+>   
+>   Python/getplatform.o: $(srcdir)/Python/getplatform.c
+>  -		$(CC) -c $(PY_CORE_CFLAGS) -DPLATFORM='"$(MACHDEP)"' -o $@ $(srcdir)/Python/getplatform.c
+> diff --git a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
+> index 5735954628..a0ea897f4e 100644
+> --- a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
+> +++ b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
+> @@ -63,7 +63,7 @@ index a7de901..4a3681f 100644
+>  +  case $cc_basename in
+>       *clang*)
+>         AC_SUBST(LLVM_AR)
+> -       AC_PATH_TARGET_TOOL(LLVM_AR, llvm-ar, '', ${llvm_path})
+> +       AC_PATH_TOOL(LLVM_AR, llvm-ar, '', ${llvm_path})
+>  @@ -1426,7 +1427,7 @@ then
+>     fi
+>   fi
+> diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.5.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/python/python3_3.7.4.bb
+> rename to meta/recipes-devtools/python/python3_3.7.5.bb
+> index af3c3259c2..30d4bedef2 100644
+> --- a/meta/recipes-devtools/python/python3_3.7.4.bb
+> +++ b/meta/recipes-devtools/python/python3_3.7.5.bb
+> @@ -32,8 +32,8 @@ SRC_URI_append_class-nativesdk = " \
+>             file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
+>             "
+>  
+> -SRC_URI[md5sum] = "d33e4aae66097051c2eca45ee3604803"
+> -SRC_URI[sha256sum] = "fb799134b868199930b75f26678f18932214042639cd52b16da7fd134cd9b13f"
+> +SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
+> +SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
+>  
+>  # exclude pre-releases for both python 2.x and 3.x
+>  UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 
 
