@@ -1,25 +1,27 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F4A27F941
+	by mail.openembedded.org (Postfix) with ESMTP id 1123F7F959
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 10 Nov 2019 14:54:34 +0000 (UTC)
+	Sun, 10 Nov 2019 14:54:36 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Nov 2019 06:54:35 -0800
-X-IronPort-AV: E=Sophos;i="5.68,289,1569308400"; d="scan'208";a="197423049"
+	10 Nov 2019 06:54:37 -0800
+X-IronPort-AV: E=Sophos;i="5.68,289,1569308400"; d="scan'208";a="197423062"
 Received: from wkwak-mobl1.gar.corp.intel.com (HELO
 	anmitta2-mobl1.gar.corp.intel.com) ([10.252.8.93])
 	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Nov 2019 06:54:33 -0800
+	10 Nov 2019 06:54:35 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 10 Nov 2019 22:54:09 +0800
-Message-Id: <20191110145416.5171-1-anuj.mittal@intel.com>
+Date: Sun, 10 Nov 2019 22:54:10 +0800
+Message-Id: <20191110145416.5171-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191110145416.5171-1-anuj.mittal@intel.com>
+References: <20191110145416.5171-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/7] Consolidated zeus pull request
+Subject: [PATCH 1/7] libxslt: fix CVE-2019-18197
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,46 +34,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 10 Nov 2019 14:54:34 -0000
+X-List-Received-Date: Sun, 10 Nov 2019 14:54:36 -0000
 Content-Transfer-Encoding: 8bit
 
-a-full passing on autobuilder for the series.
+From: Joe Slater <joe.slater@windriver.com>
 
-Adrian Bunk (1):
-  python3: Upgrade 3.7.4 -> 3.7.5
+Use patch from upstream after 1.1.33 release.
 
-Joe Slater (1):
-  libxslt: fix CVE-2019-18197
-
-Ross Burton (4):
-  libpng: whitelist CVE-2019-17371
-  procps: whitelist CVE-2018-1121
-  libsndfile1: whitelist CVE-2018-13419
-  libpam: set CVE_PRODUCT
-
-Trevor Gamblin (1):
-  libgcrypt: fix CVE-2019-13627
-
- ...lib-as-location-for-site-packages-an.patch |   2 +-
- ...nt-parse-domains-containing-GH-13079.patch | 132 ------------------
- ...asename-to-replace-CC-for-checking-c.patch |   2 +-
- .../{python3_3.7.4.bb => python3_3.7.5.bb}    |   5 +-
- meta/recipes-extended/pam/libpam_1.3.1.bb     |   2 +
- meta/recipes-extended/procps/procps_3.3.15.bb |   9 +-
- .../libpng/libpng_1.6.37.bb                   |   3 +
- .../libsndfile/libsndfile1_1.0.28.bb          |   4 +
- ...cdsa-Fix-use-of-nonce-use-larger-one.patch | 128 +++++++++++++++++
- ...Add-mitigation-against-timing-attack.patch |  70 ++++++++++
- .../libgcrypt/libgcrypt_1.8.4.bb              |   2 +
- .../libxslt/files/CVE-2019-18197.patch        |  33 +++++
- .../recipes-support/libxslt/libxslt_1.1.33.bb |   1 +
- 13 files changed, 253 insertions(+), 140 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
- rename meta/recipes-devtools/python/{python3_3.7.4.bb => python3_3.7.5.bb} (98%)
- create mode 100644 meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ .../libxslt/files/CVE-2019-18197.patch        | 33 +++++++++++++++++++
+ .../recipes-support/libxslt/libxslt_1.1.33.bb |  1 +
+ 2 files changed, 34 insertions(+)
  create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-18197.patch
 
+diff --git a/meta/recipes-support/libxslt/files/CVE-2019-18197.patch b/meta/recipes-support/libxslt/files/CVE-2019-18197.patch
+new file mode 100644
+index 0000000000..5f2b620396
+--- /dev/null
++++ b/meta/recipes-support/libxslt/files/CVE-2019-18197.patch
+@@ -0,0 +1,33 @@
++libxslt: fix CVE-2019-18197
++
++Added after 1.1.33 release.
++
++CVE: CVE-2019-18197
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt.git]
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++commit 2232473733b7313d67de8836ea3b29eec6e8e285
++Author: Nick Wellnhofer <wellnhofer@aevum.de>
++Date:   Sat Aug 17 16:51:53 2019 +0200
++
++    Fix dangling pointer in xsltCopyText
++    
++    xsltCopyText didn't reset ctxt->lasttext in some cases which could
++    lead to various memory errors in relation with CDATA sections in input
++    documents.
++    
++    Found by OSS-Fuzz.
++
++diff --git a/libxslt/transform.c b/libxslt/transform.c
++index 95ebd07..d7ab0b6 100644
++--- a/libxslt/transform.c
+++++ b/libxslt/transform.c
++@@ -1094,6 +1094,8 @@ xsltCopyText(xsltTransformContextPtr ctxt, xmlNodePtr target,
++ 	    if ((copy->content = xmlStrdup(cur->content)) == NULL)
++ 		return NULL;
++ 	}
+++
+++	ctxt->lasttext = NULL;
++     } else {
++         /*
++ 	 * normal processing. keep counters to extend the text node
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.33.bb b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+index abc00a09ea..9f268e7bb0 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.33.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+@@ -12,6 +12,7 @@ SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
+            file://0001-Fix-security-framework-bypass.patch \
+            file://CVE-2019-13117.patch \
+            file://CVE-2019-13118.patch \
++           file://CVE-2019-18197.patch \
+ "
+ 
+ SRC_URI[md5sum] = "b3bd254a03e46d58f8ad1e4559cd2c2f"
 -- 
 2.21.0
 
