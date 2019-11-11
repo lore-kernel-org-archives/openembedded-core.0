@@ -1,58 +1,37 @@
-Return-Path: <prvs=211bdf3dd=Mikko.Rapeli@bmw.de>
-Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com
-	[68.232.139.62])
-	by mail.openembedded.org (Postfix) with ESMTP id 991947F938
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 559667F7D8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 08:08:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1573459700; x=1604995700;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=AMEpb0k94X/uZk8VEz8mWW/m8ZmmhFJH0pKLDd4r1qU=;
-	b=pWcl+MJQo/4XgqKZ15nfT8adCXsnIm3+dqNYb2kLTzDm5wFEOLgD7fj4
-	po19DtIVexJQlpw5RSpxRf87n9jNsddjkYyWr/sC4cNxOXzbbK2NdfaEf
-	g6pBdB0HQIHNr0gartwHSvPCLpx29jPOFPBcwlQfmqFwNumyiSauS0EtR 4=;
-IronPort-SDR: rpO69jhEqYhxGaEPu9TMIBW/P3Ly5u0qJVe9Y/HBgFT8+c97uBbdX9+PCr3xCv5TGyNY6d6O3j
-	nTTXe9eU1O56WvrUDvzvWbajiiqxV8lB5lgPAi19Rfs2Etk9cbCtDBf8nCUowKXpGfaKo1gVEf
-	7gCYlta5iMjAcFmSLvETHWBX1ovDgoEW/C6/+C2/9fMUs9+u+znF7dFgCY2Y71Lxsw08w2byw/
-	Fhe6RA/erYtmLWy6jc5mN5T2H/uLJgj9Wh7xsD7P3k8rTfmqMmnGs3ZMzbrjRfCx5Lb6q45Z8Z
-	Yig=
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
-	esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 11 Nov 2019 09:08:18 +0100
-Received: from esabb1.muc ([160.50.100.31])  by esagw3.muc with ESMTP/TLS;
-	11 Nov 2019 09:08:17 +0100
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb1.muc with ESMTP/TLS; 11 Nov 2019 09:08:17 +0100
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Mon, 11 Nov 2019 09:08:17 +0100
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Mon, 11 Nov 2019 09:08:17 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <ryan.harkin@linaro.org>
-Thread-Topic: maintaining sumo (was Re: [OE-core] [PATCH][thud] cve-check:
-	backport rewrite from master)
-Thread-Index: AQHVlUFJlw35RjLUSUubI3ndnQ+70qd/dJwAgAYedQA=
-Date: Mon, 11 Nov 2019 08:08:16 +0000
-Message-ID: <20191111080816.GY2398@hiutale>
-References: <20190925122349.14872-1-ross.burton@intel.com>
-	<CAD0U-hJLV7F3K4VdX0GUKO9LRazWLz1rvp1xmWh6fzgzP3gcFQ@mail.gmail.com>
-	<20191106160618.GC2398@hiutale>
-	<e3de40a47b9b208f08c3123ad59c8caf25d581d6.camel@linuxfoundation.org>
-	<20191107075931.GD2398@hiutale>
-	<CAD0U-hK2UWoMU9kih_EtRTVRFKFscXFYpQhbHV_aRgZ9m2+c4A@mail.gmail.com>
-In-Reply-To: <CAD0U-hK2UWoMU9kih_EtRTVRFKFscXFYpQhbHV_aRgZ9m2+c4A@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+	Mon, 11 Nov 2019 09:50:25 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47BR284Lgwz3r;
+	Mon, 11 Nov 2019 10:50:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1573465824;
+	bh=faXVI4VV5frTvHZ3jd84uYxjJ1PBV1g5mH82bJ+Buf0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=scYmJLgMoDKTbnOkB96LNEkrSEZ1yEIdCnZ2pBlmSEFtCA1MjNGN8WbsQGjdRf/Dr
+	K618Jr/SYrxmj+ohm5x/8y/SEFl7w3kW9uwgxGlslBliAQkLfn5ZruP4/YP663GP3F
+	T9ASwRSVmfCrtC3zed6xkLjRxa2b8ixpn0zMQ08DPqrH0pj/eNKHn1gvNNdI1xjuK4
+	0U4RA0Uf35c/joQ5O3u/VTSbVxLqo6vaj9AOGyhgHWwjsOt2LwqI53RVC8YsMArC9D
+	Whp2t8FKRBF/b8Q7c8R7Z+81M5lRYzdZM4vs2UQYXrAtEpP73Ij5aop4KZ0UBu5VMO
+	8MaaitNzUMD5wClvCz9JuEzMCZAUNY1gLhBgXTv5/Y5ZT/eCW/QHJc9f8m8DQGPZ9z
+	9W4DbZjxG7gn9B+oDklficbWQSKI0oBhDRE42P1NKzcR/o6p4npJ/RmhhYPJox782m
+	dRUKdofmJFNR6UwULH5wCN7FTbW0OnVwUlX9E1BcfP4xn3WzgxtfaZDJSqw4Dvjurr
+	FpthyPyW4Sg8Yni1qvsFZOxcNFwFoKicJ7CXG7JdV4gVv+OC8Fn+P9FXH+SZhWm07d
+	8NOgaQeJPI86sp5GvH9fHUB0KMqpIEb6vqBidwR99hWHThBzo111O5sjL1WAFHVruR
+	+BfrWN+rBmS6aFDut1GTMmw0=
+Date: Mon, 11 Nov 2019 11:50:21 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: akuster808 <akuster808@gmail.com>
+Message-ID: <20191111095021.GA28797@localhost>
+References: <20191105214448.2511-10-bunk@stusta.de>
+	<78c2bf06-7a51-5e3a-7794-443afe1a7caf@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <78c2bf06-7a51-5e3a-7794-443afe1a7caf@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: maintaining sumo (was Re: [PATCH][thud] cve-check: backport rewrite from master)
+Subject: Re: [warrior][PATCH] python3: Upgrade 3.7.4 -> 3.7.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,42 +44,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 08:08:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E5DC1839D71DAE4EAB1EB5C9920F58DC@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 11 Nov 2019 09:50:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Hi,
+On Sun, Nov 10, 2019 at 03:58:56PM -0800, akuster808 wrote:
+> 
+> 
+> On 11/5/19 1:44 PM, Adrian Bunk wrote:
+> > 3.7.5 also includes the fixes for CVE-2019-16056 and CVE-2019-16935.
+> 
+> I see a patch is being updated. Reason not noted in commit message.
 
-On Thu, Nov 07, 2019 at 10:41:42AM +0000, Ryan Harkin wrote:
-<snip>
-> Not sure if it helps, but I have a Jenkins job that tests sumo on a trigg=
-er
-> (there is one for Warrior also):
->=20
-> https://ci.linaro.org/job/warp7-openembedded-sumo/
->=20
-> eg. it was triggered when Armin's patch was merged yesterday.
->=20
-> This builds Sumo, based on Linaro's OE-RPB distro for NXP WaRP7
-> (imx7s-warp). It then runs the build in our LAVA lab (although the boards
-> have gone down recently, they're normally up). Once the boards are up
-> again, I'll add ptest to the job, to give it a more thorough workout. I'l=
-l
-> also add the sumo-next branch to the list of build configurations.
+That's just trivial context change.
 
-Could it make sense to also test sumo-next using this job? Also, I would no=
-t mind
-seeing test trigger and result emails on this list as long as access to log=
-s and details
-is open to everyone.
+> Also, do you have any issue if I backport the other py3 bugfixes in zeus?
 
-I checked the jenkins build job config and looks quite straight forward. Di=
-d not see
-the actual target testing logs though.
+I was aiming at a minimal change, but nothing of the other changes 
+strikes me as wrong or very risky.
 
-Cheers,
+> - Armin
 
--Mikko=
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
