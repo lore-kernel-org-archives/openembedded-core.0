@@ -1,49 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EFA267D40E
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id D7E6B7F1BA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 13:21:53 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id l1so1926898wme.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 05:21:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=07nKTQJ5HRxJA5Pkado5jd4v6qKN9TtECZ61NRfwjug=;
-	b=G8LuVDmZ6tsvrH4paMY+yROqjW3NgvWyls9y5ClYvJMWcgsc1qNqzPBsDTlkMxClDS
-	9tBGYRwlfO/mzV4ikzwZ6RbpaurcZJ8ugwIkl/mGQsa6E/f2yr0dTncruIIJM3o3Yfr5
-	a5yuo/vEvk1t5cdWEGjz0M2RxIiSpGAJLYj8w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=07nKTQJ5HRxJA5Pkado5jd4v6qKN9TtECZ61NRfwjug=;
-	b=EM8xrwVOcFvjtnRKrrtGCroRse+WPzVaJ6mInTJ4ea8gLDxgTDHPhMTPeViJ0M2Aj3
-	6ZLdNUJatHuz3f2NQoQvBwAweR93SpOkxcv/fcnXDjUinAgw+jGBlDhoBj2d/VZtpKDY
-	bpaDYYv1ba6c4WLEuL9aa3sBEn+VAODqdgsxqjO4I2E6ogyDEdM8CkQayyDOEwAVL275
-	Pk4fHJwfpCIFL7pKLN13C/RCLNyz8qLHA3SmgA8yH3oJKCJDhED8QC2F5rvzzToDyUGZ
-	uoyxvbqZa7WCteW0qXY+0S+yG+MPqF1XeuODepwD0yMMA6mdLIY0cjLporaAA3Jv61mu
-	f1AA==
-X-Gm-Message-State: APjAAAVHqAgSqpGp57jZB+mqPYKDgcBWAYZ5tS4NJNS8D87tmUoLnZ+5
-	mDD7z11+qNKt3UMGgd2dGet+S3t5s7A=
-X-Google-Smtp-Source: APXvYqwREWKJ8/gScjRRTObCnflrc4zvKHeWJzbBEDxG0jF1YtUWGdqYMSbC1gWriCfKlcjjCP0mlg==
-X-Received: by 2002:a1c:ab0a:: with SMTP id u10mr21726906wme.0.1573478514276; 
-	Mon, 11 Nov 2019 05:21:54 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	m3sm15236301wrw.20.2019.11.11.05.21.53
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 11 Nov 2019 05:21:53 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Mon, 11 Nov 2019 13:36:51 +0000 (UTC)
+Received: from paloverde.toradex.int (31-10-206-124.static.upc.ch
+	[31.10.206.124])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id EFB185C0785;
+	Mon, 11 Nov 2019 14:36:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1573479412;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	in-reply-to:references; bh=Z4BqlKNiYaLWSjSc7R0Y7wNHuSvG1oKJKYvokSPilk4=;
+	b=L2t3s8zkO/RAibUBOEl6H5cRLK1ZxTLcVUFAZDPDExU8Wxw1YzWUXvDWptfwtaM+wyEJ2U
+	0r9n3lNOBU57Gr+vMKKJuNGwEipYEhm61+t5mhZdXuQ6Qd5Jw4yMKdEXd1jMFd4OJkYl8Y
+	ILpeYEH+iz4USRNNX1/ODvwbimbgmLo=
+From: Stefan Agner <stefan@agner.ch>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 13:21:52 +0000
-Message-Id: <20191111132152.15249-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] sqlite3: Drop pic as we no longer need the sqlite3 static lib
+Date: Mon, 11 Nov 2019 13:36:26 +0000
+Message-Id: <20191111133626.9887-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.17.1
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH] dbus: drop unused group netdev
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 13:21:54 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 11 Nov 2019 13:36:52 -0000
 
-This was added in:
-https://git.openembedded.org/openembedded-core/commit/?id=6a58e12d19c539deac9e90679a68438497a42fa4
-but is no longer needed now pseudo doesn't use sqlite's static lib.
+From: Stefan Agner <stefan.agner@toradex.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+The whole D-Bus source has no reference to the netdev group. It
+seems that the netdev group is nowhere used. Early avahi package
+versions used this group for the D-Bus specific rules. However,
+today avahi uses --with-avahi-priv-access-group=adm and hence
+uses the adm group for its D-Bus policy rules.
+
+If a package is using the netdev group in its D-Bus policy rules,
+that package should add the group instead.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
 ---
- meta/recipes-support/sqlite/sqlite3.inc | 2 --
- 1 file changed, 2 deletions(-)
+ meta/recipes-core/dbus/dbus_1.12.16.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-index 4af1e09e80d..07614bdb3e3 100644
---- a/meta/recipes-support/sqlite/sqlite3.inc
-+++ b/meta/recipes-support/sqlite/sqlite3.inc
-@@ -44,8 +44,6 @@ EXTRA_OECONF = " \
-     --disable-static-shell \
- "
+diff --git a/meta/recipes-core/dbus/dbus_1.12.16.bb b/meta/recipes-core/dbus/dbus_1.12.16.bb
+index f4fec2365c..96b5036870 100644
+--- a/meta/recipes-core/dbus/dbus_1.12.16.bb
++++ b/meta/recipes-core/dbus/dbus_1.12.16.bb
+@@ -32,7 +32,6 @@ python __anonymous() {
+ }
  
--CFLAGS_append = " -fPIC"
--
- # pread() is in POSIX.1-2001 so any reasonable system must surely support it
- CFLAGS_append = " -DUSE_PREAD"
- 
+ USERADD_PACKAGES = "${PN}"
+-GROUPADD_PARAM_${PN} = "-r netdev"
+ USERADD_PARAM_${PN} = "--system --home ${localstatedir}/lib/dbus \
+                        --no-create-home --shell /bin/false \
+                        --user-group messagebus"
 -- 
-2.20.1
+2.17.1
 
 
