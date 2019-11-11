@@ -1,52 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A78ED7FA88
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FE277FAAA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 22:13:40 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id b11so951849wmb.5
+	Mon, 11 Nov 2019 22:13:42 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id t1so16369919wrv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 14:13:41 -0800 (PST)
+	Mon, 11 Nov 2019 14:13:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=rWeYatW3qrAK2McH4FAaYl6YFFDJukQ8lNRElosSY2s=;
-	b=YMTFPrutYrRq7OGhmP4i6iuA8hXSVtPaVMhjQLshi9MlHf+tSjOx6nIrjRcfG6oV+Z
-	JYwo3FkqzcF2Bea6fLg/ME3HHDBExICg2xS/qFN1uyZbKrgxldjzrNsgvB/xVqOK4r9+
-	9wqbC0dr4Z0hfWplaUXjoSQxaDZQa8ORPxi8dwY+6GT70xnJH1QCXlTof/MILwkCF7cn
-	995CSltR1xKkqr5MJ/XhDEs6J+QoIKmqqONAYxrCqAx/tGzRjM4nSUlVBBSipIXB4buh
-	xvRnkvylrb5M8I6tsdEL+diQ/e7o69aNezhSO4skQTqENxmzKyO+aPlPQV7cw2YrCatl
-	ehMg==
+	bh=BvLw+Q5ig6tUnaYjdSmgh3xKOEyw45Rn18F3gm7mWBk=;
+	b=P1QmOfbqqCwiu9CuYXVohJXXuydBw3FCN0F3GutpRENAHyUC7gr8OPIM6PsZ6HM/xz
+	aAK7TYKXM1naoOMs+ch5eD7hVHZjVC5Jg+yP4vGPxEsaDD4j7tUkQzM1zMDvz/lNCd3j
+	rEtzvmkgjFAYrLHQBUGtIYzqwZwDksLfbVoa2C7sUwsxoNl5EB+Fy4ufJy8lUR/noZJo
+	ujZuMb+I5fQT+DuNvS2wGK35bHalACMPVcE2gIHRYeHkmD8U3d5JkLCo8v0e3EyRG3gj
+	wsrqPj6BHTR8VMkK49iVkJxiN392q0yBjPCpkRaJPPRHo1Lw1pKroB+j5qoGZm62sIt8
+	dGuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=rWeYatW3qrAK2McH4FAaYl6YFFDJukQ8lNRElosSY2s=;
-	b=nkxHd6oFjSroPsWx7EOJRhsXK7/uqNUUzR3v7Z5YbsgjsA6iqV6mjDVviLZAUMfa/u
-	+UfHHNWBHxfcNjE6yq/Hk9wFRXjAwB7a6VNO4eBydSYBIsJd1lRtxJs4DNlNk7Fclfir
-	wAZDlUQmzBqwmkrezX6aFkaU5iSqFjpFJ+T68IBTxF3npdBvargErmoO+0SPnZ18BotX
-	GptaM1WMAEQrpJyqGjgEznl2+e9kikh2/b8xdS22Q+YniZlr9SGvYciaIN574PonGcrS
-	NLJjA3AJKsdCKABwOGiTgsNRKmBNzNcw61bVCCPAOdPBfDKrtJl26IMvylvgDgN647bj
-	tCig==
-X-Gm-Message-State: APjAAAVWkUOLBGzxJN6bQwBjFe654pUdkI9lc9Da2mEZpLNxCT2m/fD3
-	5jtzSPBHoUL/uqN2vRV2ErDMJB6Snio=
-X-Google-Smtp-Source: APXvYqxJks7QbA6h16jHKbvY70Q4Ic2irBAftnBG41lGmrQ6wWlAx0aCgzhU2hvDEXaZo6VLTlph+A==
-X-Received: by 2002:a1c:152:: with SMTP id 79mr988658wmb.70.1573510421037;
-	Mon, 11 Nov 2019 14:13:41 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=BvLw+Q5ig6tUnaYjdSmgh3xKOEyw45Rn18F3gm7mWBk=;
+	b=RixVwaTC3xzdfLE9/F17CCKRdWfyLeET7P6a1Fh7XrQ1ButCx7e3RycS4phwNn4Jyf
+	s3RVX8xLpvUbEijkEDOcwJfNIQFWWtwHe55qoJ5Szu0AaiiZFZa1dY+vR/1vnYkIn6bS
+	3HtWhoFq0iiFA7mZARyXKEkn1ALEXWPkHjMkwLu6Y4CxKgAt9eaQiwjSH9F6seER3ZGY
+	mRCVZoueoPxFO2O2rxPWcJYQpFhiptOGQN7VGZeVnh7npP7uPE3Dz0RucY7MJgesi9TM
+	TRPLSu1VUf40Qg9qN31B6C5DRGHt24zqpAYGmJ2AERmxzJS5AGOZuBMbbn+/LyrMRdFj
+	vpsQ==
+X-Gm-Message-State: APjAAAWydX0O/HstrN2c0j2gOHTmeeiJMF4uQXlInaWe2Ax6wG66VrV2
+	SvLWOSXh/CTcuXEDKAaF1SrXayVuew0=
+X-Google-Smtp-Source: APXvYqxO7lLsxJBlo1E/GQy0nKyG3609TK0GjwhNpHp7h8SglJ+i53wQlzDkTMfu7d6WMXTQinGbRg==
+X-Received: by 2002:adf:e78c:: with SMTP id n12mr20979334wrm.94.1573510422808; 
+	Mon, 11 Nov 2019 14:13:42 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	d11sm24900083wrf.80.2019.11.11.14.13.39
+	d11sm24900083wrf.80.2019.11.11.14.13.41
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 11 Nov 2019 14:13:39 -0800 (PST)
+	Mon, 11 Nov 2019 14:13:42 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 22:13:34 +0000
-Message-Id: <20191111221337.20332-1-ross.burton@intel.com>
+Date: Mon, 11 Nov 2019 22:13:36 +0000
+Message-Id: <20191111221337.20332-3-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191111221337.20332-1-ross.burton@intel.com>
+References: <20191111221337.20332-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] cve-update-db-native: don't hardcode the database name
+Subject: [PATCH 3/4] cve-check: neaten get_cve_info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +61,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 22:13:41 -0000
+X-List-Received-Date: Mon, 11 Nov 2019 22:13:42 -0000
 Content-Transfer-Encoding: 8bit
 
-Don't hardcode the database filename, there's a variable for this in
-cve-check.bbclass.
+Remove obsolete Python 2 code, and use convenience methods for neatness.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/cve-check.bbclass | 18 +++++-------------
+ 1 file changed, 5 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 19875a49b1c..c15534de08b 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -28,8 +28,8 @@ python do_populate_cve_db() {
-     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
-     YEAR_START = 2002
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 3326944d791..419b2c9148f 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -256,23 +256,15 @@ def check_cves(d, patched_cves):
+ def get_cve_info(d, cves):
+     """
+     Get CVE information from the database.
+-
+-    Unfortunately the only way to get CVE info is set the output to
+-    html (hard to parse) or query directly the database.
+     """
  
--    db_dir = os.path.join(d.getVar("DL_DIR"), 'CVE_CHECK')
--    db_file = os.path.join(db_dir, 'nvdcve_1.0.db')
-+    db_file = d.getVar("CVE_CHECK_DB_FILE")
-+    db_dir = os.path.dirname(db_file)
-     json_tmpfile = os.path.join(db_dir, 'nvd.json.gz')
+-    try:
+-        import sqlite3
+-    except ImportError:
+-        from pysqlite2 import dbapi2 as sqlite3
++    import sqlite3
  
-     # Don't refresh the database more than once an hour
+     cve_data = {}
+-    db_file = d.getVar("CVE_CHECK_DB_FILE")
+-    placeholder = ",".join("?" * len(cves))
+-    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholder
+-    conn = sqlite3.connect(db_file)
+-    cur = conn.cursor()
+-    for row in cur.execute(query, tuple(cves)):
++    conn = sqlite3.connect(d.getVar("CVE_CHECK_DB_FILE"))
++    placeholders = ",".join("?" * len(cves))
++    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholders
++    for row in conn.execute(query, tuple(cves)):
+         cve_data[row[0]] = {}
+         cve_data[row[0]]["summary"] = row[1]
+         cve_data[row[0]]["scorev2"] = row[2]
 -- 
 2.20.1
 
