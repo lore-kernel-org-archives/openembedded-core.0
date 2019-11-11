@@ -1,63 +1,60 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B8B897E730
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id DF1A27CDAC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 15:54:39 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id v19so10975503pfm.3
+	Mon, 11 Nov 2019 15:59:48 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id l4so7936802plt.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 07:54:41 -0800 (PST)
+	Mon, 11 Nov 2019 07:59:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:organization:user-agent:mime-version:content-transfer-encoding;
-	bh=82D3OswSBEdgqbVHNSf1kd23j+2/BjgZcIork1IMgWs=;
-	b=hwmakTcDfyZfXAqANrFHi0zhSm3C7vxXswRMx+vmmwxsvooqrUY8IpL3ph6KBFKF0r
-	SKN3RYhVCWH+ajjYAHtHByFiwPgNFqHpVrOpndvJ74+di5U4wSskUdZCjb64pNdAl243
-	4eoaFPSlCwW0lyykcxXwO3d4AO2CjjCk0Hklh6WxU+zN7H1OUB5uuZaHy9C1AbcpDvEy
-	k3k/+/ZHy/8myTh49tkUfr7flgVrJzvaveHd11UYZFWi/cx6hBq6xzJOgl1SYjWQ8Hei
-	RwECKbPoPTempIyoyVlwBDvPam3pYYCEv+Hy+fZWHFRJNG84AEzeUPa8U3cuM6J37Are
-	IiCw==
+	bh=Huh0FeiFe3Ukw1KRSIU20Ikvb4qldcCCJeaRYoglwtE=;
+	b=mKI/VJesaediB8dEMbJzavmPGKq2jFbvJcSlfYeEYWmeqK7n5IzuKyAtICTm6z1tGQ
+	X6cKp+Amtfyk9hy6K2Sr8LXgLAoaVwLtxsKoahWnJI2Ut/XiZ15t2PFM2IwMGCDpRklB
+	dIJOWv9llTjI+xHxsmbz1llfzWQ1elpbObqAOhGKOEwGQdOcQq/+WC/2/8fGFl1IYw+5
+	8LJiQixUeHYz5CSu4Ytan8o1zFnjznXs8t8vDKQxnbPVL4b2sNpez1wgTOyxiccyKtKB
+	kzPGCCoZ+MpvapxDoWu6iQolCPkaqa2PEmY7Pb7z7cW9gMuqWu3ozzCghLbAsXXrSHL2
+	gbXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:organization:user-agent:mime-version
 	:content-transfer-encoding;
-	bh=82D3OswSBEdgqbVHNSf1kd23j+2/BjgZcIork1IMgWs=;
-	b=Gp/HQ7YCczZrLtAgZkkuazxMNfxx0pCW0QfwJNnZTqP6OUvwktDvHvds20s7He7WcS
-	mnoKaFz1947wEllreiwXh3IU74PQhN1ueJLiSY/RcPqaiZGm/qQX/R1q8qV3EcQF+ynU
-	QAHDlm0Rme8cH1PHnIU7CVvIcfDhbxTnAnTPsJnp4fowrlgaPMdU1PXTlB3wet4tgTqx
-	hLiwUHqtk8QaTP+2GWQV2ZYsgCIolpjeZ0Xwuj0BMpP/KnO+1NWA3DKmDkn2rX9n5sDR
-	gsNxaOZ8QsM1YknIBe6FPZcUaE+1kFEa2m3+Yf1vhntiZrgonzUc7jotdgInDH1gzBRw
-	3jog==
-X-Gm-Message-State: APjAAAVoKrU9799FWz+lFmMD/N/Rq8MzubsszDJ2EnOeLwm21sT/5r6s
-	ovg78fWOKN+lw+3j3xXMe6k=
-X-Google-Smtp-Source: APXvYqwtDacDW7oku4Kpx4LrAkz9nlM9AkUkmeZG5RHI1RcoEUUOHUne4EMeUzdeYX/h2ItFfoNzeg==
-X-Received: by 2002:a62:7b0e:: with SMTP id w14mr25601463pfc.177.1573487680300;
-	Mon, 11 Nov 2019 07:54:40 -0800 (PST)
+	bh=Huh0FeiFe3Ukw1KRSIU20Ikvb4qldcCCJeaRYoglwtE=;
+	b=jCQFdLce1XQ5gqTGYv6YGo4rAhpnMpXaX+RhV4DulgdaP01+QFJ9ej2h9awlSUDstt
+	QkbWhx+C/FPf4Snvi3gCnam5Uk9NQWUkKtXooNtmAiIrPVVBtin4I9l5d9T65+k8etim
+	cZU9rF4F0w465WmcuVkte9akPCdE/I8bb0Kwcw+Z5l8zGZQVF9TQd0C3lMyE9U1dk34I
+	Nnmj90a4Rl+vV9jQXECk6Tb6w/0h/aQ6wRzYnY8iQTn6UeAGnYYoPEq1MvanFsZiTct7
+	voXJ0/2VPWYp/KxqB6xtYEq4lpsbDfXq+uc2rkaH0NE/NRP0SPNSw9XyfWohQPtvzgCh
+	LB6g==
+X-Gm-Message-State: APjAAAULcaUR0Te/Z859qOu4EQOiw1Ec8AdpvRRo3kXoaeVm4yl7lWTQ
+	aUANHm0a2LC2YBtbRTnWJfQ=
+X-Google-Smtp-Source: APXvYqwTq12gofKxmDA7ayi/MntKxo6qVRHPccYoRC+jobEXNkp+S3BblIjS/WvhkHHu6pZHm08oow==
+X-Received: by 2002:a17:902:7c0e:: with SMTP id
+	x14mr26685544pll.277.1573487989608; 
+	Mon, 11 Nov 2019 07:59:49 -0800 (PST)
 Received: from apollo ([2601:646:8500:1c20::a99e])
 	by smtp.gmail.com with ESMTPSA id
-	b1sm13238390pjw.19.2019.11.11.07.54.39
+	z18sm15221179pgv.90.2019.11.11.07.59.48
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 11 Nov 2019 07:54:39 -0800 (PST)
-Message-ID: <455f1e8afcbfac40259ee8942d1a67ca5ce23264.camel@gmail.com>
+	Mon, 11 Nov 2019 07:59:48 -0800 (PST)
+Message-ID: <dc84f473235ec05f06914abf4d8793c23ed08640.camel@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: Adrian Bunk <bunk@stusta.de>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-Date: Mon, 11 Nov 2019 07:54:34 -0800
-In-Reply-To: <20191111141416.GF28797@localhost>
-References: <cover.1573047194.git.mikko.rapeli@bmw.de>
-	<ec8a8c61-25a0-7e87-efee-b76e6c954d07@gmail.com>
-	<717e1439a3c155fc1f506d7a2933b968ee38f9a8.camel@linuxfoundation.org>
-	<be45a323-4379-8a13-71c6-21f98e3a0af4@gmail.com>
-	<afa8eed45a5acefa38a89e82e5a833f387963a8f.camel@linuxfoundation.org>
-	<20191111104209.GB28797@localhost>
-	<63e30a3a07cd78e89c54637ad9893e8a1aec9f84.camel@linuxfoundation.org>
-	<20191111141416.GF28797@localhost>
+To: Andre McCurdy <armccurdy@gmail.com>, Seebs <seebs@seebs.net>
+Date: Mon, 11 Nov 2019 07:59:43 -0800
+In-Reply-To: <CAJ86T=U6Rp5_nkJqHa-9e9sBpiQxn+iiD2khiZ1ZyMqq16c8GQ@mail.gmail.com>
+References: <20191109153559.15847-1-richard.purdie@linuxfoundation.org>
+	<20191109100710.66530547@seebsdell>
+	<5100e289ac8a5c4d0196e8ec77813859bb7a703d.camel@linuxfoundation.org>
+	<20191109104619.209d9fcd@seebsdell>
+	<CAJ86T=U6Rp5_nkJqHa-9e9sBpiQxn+iiD2khiZ1ZyMqq16c8GQ@mail.gmail.com>
 Organization: HIMVIS LLC
 User-Agent: Evolution 3.34.1 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH RFC CFH][sumo 00/47] CVE check backport
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: Drop static linking to sqlite3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,88 +67,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 15:54:39 -0000
+X-List-Received-Date: Mon, 11 Nov 2019 15:59:49 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-11-11 at 16:14 +0200, Adrian Bunk wrote:
-> On Mon, Nov 11, 2019 at 01:12:47PM +0000, Richard Purdie wrote:
-> > On Mon, 2019-11-11 at 12:42 +0200, Adrian Bunk wrote:
-> > > On Thu, Nov 07, 2019 at 04:32:35PM +0000, Richard Purdie wrote:
-> > > > On Thu, 2019-11-07 at 07:55 -0800, akuster808 wrote:
-> > > > ...
-> > > > > Are you taking the other patches also submitted for sumo ?
-> > > > 
-> > > > I am worried about what the bigger picture for this looks like
-> > > > but
-> > > > we
-> > > > could try testing them. I think the TSC needs to discuss this.
-> > > 
-> > > How were community supported branches supposed to work?
-> > > 
-> > > All branches from 2.1 (sic) are documented as supported in the
-> > > wiki.
+On Mon, 2019-11-11 at 05:04 -0800, Andre McCurdy wrote:
+> On Sat, Nov 9, 2019 at 8:46 AM Seebs <seebs@seebs.net> wrote:
+> > On Sat, 09 Nov 2019 16:30:41 +0000
+> > Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
 > > 
-> > That was changed recently
-> 
-> What was changed recently was that the pre-2.1 branches were marked
-> EOL:
-> https://wiki.yoctoproject.org/wiki/index.php?title=Releases&diff=62334&oldid=62324
-> 
-> Non-stable branches are documented as community-supported since 2014:
-> https://wiki.yoctoproject.org/wiki/index.php?title=Releases&diff=12747&oldid=12743
-> 
-> > and I kind of wish we'd waited until we'd
-> > followed through with a consistent plan which covers the spectrum
-> > of
-> > EOL/community/stable/LTS.
+> > > I did talk briefly to Mark (also cc'd) as he wrote the original
+> > > patch
+> > > and he thought it was possibly because the client was also
+> > > linking
+> > > against sqlite3 and due to the other things the client does, that
+> > > was
+> > > problematic.
 > > 
-> > As I've said in a few places, the TSC really needs to figure this
-> > out
-> > and its complicated by the LTS discussions. Those discussions are
-> > happening but aren't simple.
-> 
-> Past releases and future releases might be separate topics.
-> 
-> Please keep in mind that many people already have to support products
-> on existing stable branches, working under the assumption that
-> patches 
-> submitted by the community will be accepted.
-> 
-> Closing future non-LTS branches early might be OK if this is part of
-> a 
-> clearly communicated EOL schedule for future LTS and non-LTS
-> releases, 
-> like it is clear when Ubuntu releases will be released and for how
-> long 
-> they are supported.
-> 
-> But this visibility on upstream support is needed before deciding on
-> a Yocto release for a product. Future LTS releases are irrelevant
-> for 
-> existing products that cannot move to a different stable branch.
-> 
-
-current and prior two releases are actively maintained. So that should
-have been the consideration when selecting a release for production in
-past. see
-
-https://wiki.yoctoproject.org/wiki/Stable_branch_maintenance
-
-
-> > Cheers,
+> > It *shouldn't* link against sqlite3. But! The commit in question
+> > refers
+> > to RHEL5 and LD_LIBRARY_PATH, and I think that shook loose a
+> > memory:
 > > 
-> > Richard
+> > I think at one point, we had a Crucial Bug Fix in sqlite3, in our
+> > build
+> > system, and if we didn't statically link, there was a risk of
+> > getting
+> > the broken version at runtime.
+> > 
+> > > The client lib doesn't and the server side should behave just
+> > > like any
+> > > other linux binary afaik so we should be ok with a dynamicly
+> > > linked
+> > > sqlite3?
+> > 
+> > Yes.
+> > 
+> > The issue here was, I believe, not "dynamically-linked sqlite3 per
+> > se",
+> > but "dynamic linking, plus LD_LIBRARY_PATH, picking an sqlite3
+> > which
+> > caused us specific problems".
+> > 
+> > In the Yocto environment, I think we're reasonably sure that we
+> > always
+> > get a clean Yocto-built sqlite3, and that *should* be fine.
+> > 
+> > So I'd say go for it, but if you see weird sqlite3 stuff that
+> > happens
+> > only very occasionally, look at this first. :P
 > 
-> cu
-> Adrian
+> With this merged, we can also drop the hack to force the sqlite
+> static
+> lib to be PIC:
 > 
-> -- 
-> 
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
-> 
+>   
+> https://git.openembedded.org/openembedded-core/commit/?id=6a58e12d19c539deac9e90679a68438497a42fa4
+
+That would be good but a caution is that if pseudo is just one usecase
+here which brought this issue forward, since we use PIE by default this
+would come up elsewhere too
 
 
