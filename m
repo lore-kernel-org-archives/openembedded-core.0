@@ -1,56 +1,59 @@
 Return-Path: <paul@betafive.co.uk>
 Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
 	[64.147.123.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 07A657FA16
+	by mail.openembedded.org (Postfix) with ESMTP id 077027FA11
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 11 Nov 2019 14:16:26 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 7A6465BB;
+	by mailout.west.internal (Postfix) with ESMTP id CEEA4430;
 	Mon, 11 Nov 2019 09:16:26 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-	by compute1.internal (MEProxy); Mon, 11 Nov 2019 09:16:26 -0500
+	by compute1.internal (MEProxy); Mon, 11 Nov 2019 09:16:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding; s=fm3; bh=+wl99adPnz9qSBqe4rgvrWA+Gq
-	4s0Ip9c0LvrV7KfGk=; b=DxZah5FVlBu40rqzVDszrzylaq7vQGBm1EWxG77Mm5
-	9uTOCW3W/FgRkYRmCioLoXgIrPX7kpsnLL0P6n/xSK4vCkk+JsBUSd7W6Zr1pl1I
-	c2nk/NMJtlNrTlnQpqkl5EkzM5JHojGwFpy2ACB3wfkD2/ZK3LbyNqEcVzwcag6J
-	LE30haiL3aNIQDPtZ8qyRh+dVMee9FU6rD++dabk+WM1w1n0WqjyTksutK1qchbC
-	aJtOFFc03tEdQqRHVAPbgMc7cK3rDclYqSEZD3nWMWeTRpMeM364Eg/n0OWIve86
-	5pD33GeiJsJV0ndVnripEaG1lQmVM3/A0KNZ6PtYsm5A==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding; s=fm3; bh=8BcXLWmNE0HGG
+	yNiN9jwme8c9FDDuJ3IXe5i/wYHlNY=; b=gHZs/2aZwKLHqOUENQ59bkR9f8oeZ
+	EtU+vS1PoCb8qeyd7XJtI2wUwzmUqfAl4ZqqkXDbl1e8JTMZBTYXLlpC6MXbdGZ2
+	qU4qvIQWaxVgncgMXmQfz6mhihNF7J9qcklfp1CYXdAsRvkAVwHQIGZWGFrla9Ge
+	FjD0F9m7TPgb2Tw4RyllZ5CHGMPakz3WuH5FQAvkcUMP0pIeJC1R2XSD+xJEIWN6
+	Tf3krm4b36ZPS6aDqWDTR9TPdaw9t8yybS73oOiwQEEDQ4ayaRGrT08QF458A4m3
+	oU553YTuwO/m6CRy/BPnVGNo55utfbVol4ezVMGVPjK9aLW2oaRV/BAcw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+wl99adPnz9qSBqe4
-	rgvrWA+Gq4s0Ip9c0LvrV7KfGk=; b=ouXgeQQq9yiGVAKkyvhg6YtjnxtUCQX08
-	+I4wdxDj+llXqA+Klu6znVxZESNKtIAC40OXUpXC0C7kYz0ojNh02OSOvjKa6uuh
-	Idu71O0XhS55s/KoOVU6w5YWTxrKKugAL50L/BjVz4wrTCOaISKmBMFyGUjB9Kcz
-	gsF/IFAWJC3rq7HeUXvPaNtoF9VYZ1KMqDFQTkha3dvDhBQuVyDfBjfJ1Utgf3zt
-	+cY6pUs0QzRMX1Fk9nZbP3vjflbijXbWLKbputezcu6BU9MtQiHxC84ktQQi5nhd
-	4ewjmszMSe5ga8vzGPkERI8blA7ik5PcHUghy7vfNgfLEOXkMrm+g==
-X-ME-Sender: <xms:OW3JXQIC3wY0wIhtevNaTt2fcY-vX9MHBZXfg1VkyZmfW4q_393QWA>
+	:in-reply-to:message-id:mime-version:references:subject:to
+	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm1; bh=8BcXLWmNE0HGGyNiN9jwme8c9FDDuJ3IXe5i/wYHlNY=; b=ZxncdbF/
+	nDRnBuyciTiX29+YK5ly45hSJz1Rac/AZ8qEu9EwbxEyku2yQaS1s5VYx/3qR3jt
+	voVcnMS8w29v7RdlUFKjquWocqQMv0w4BOLVV44UqGoqChw7bXPjP82KYs0XzBQm
+	DUeDczcM2PxM+JovvVLP7hKyHHikTPUbg/gOIcdKFOGJWPYZAiupXhJTIJGNSWWx
+	mjigwpJQsOQUhrQDME5fqDUBiofQME6vxxyLcM42TVSxAwKKO7yzG24tYQDVpCBP
+	sb0AdgUStnxcd0U7Wd26uwxY8UUpMe0xxTZY6+DvGGXxrcgc2RtWlU+gePDEkJDu
+	qK6eaap3Ywx81Q==
+X-ME-Sender: <xms:Om3JXX5JA18VK44Gu-YamFqolD6YMJHftW7LmLhS4B1hyNhYTLp62g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedruddvjedgieefucetufdoteggodetrfdotf
 	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgggfestdekredtre
-	dttdenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhessggvthgrfhhivhgv
-	rdgtohdruhhkqeenucfkphepkedvrdegrddvtdejrdeivdenucfrrghrrghmpehmrghilh
-	hfrhhomhepphgruhhlsegsvghtrghfihhvvgdrtghordhukhenucevlhhushhtvghrufhi
-	iigvpedt
-X-ME-Proxy: <xmx:OW3JXb8Ry5uLylxETfoXXA9sc3uqYDyjts83AQdr6mnh3aDiGhSCsQ>
-	<xmx:OW3JXcFhzY2pOnaPD3cf1lnIXkM3zalSWBCo_x-wo3rEziA1OHd9-A>
-	<xmx:OW3JXW5C4JTsyyQ3kNg15EjRZPTiXgE5qSDcJqKsPn1OMiark_nE8A>
-	<xmx:Om3JXcyPdrGeSBA5le_SIXS_F-H9sQydTudA1QoqvZsLQ5J5eDVKbw>
+	uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
+	dtredttdenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhessggvthgrfhhi
+	vhgvrdgtohdruhhkqeenucfkphepkedvrdegrddvtdejrdeivdenucfrrghrrghmpehmrg
+	hilhhfrhhomhepphgruhhlsegsvghtrghfihhvvgdrtghordhukhenucevlhhushhtvghr
+	ufhiiigvpedt
+X-ME-Proxy: <xmx:Om3JXfdPAwzN-5yOJ09aLqzAFEDls_1BVCnxaSGWpp67Au-BjGkMfQ>
+	<xmx:Om3JXfb02vCKNFABKwqLZ6fp5AvyV5UtiSHHHJUYRnsgDjhV2PAQsA>
+	<xmx:Om3JXdJu-fSWvsgx-lWNaksUXm9a1LMHVxjUaP3JiVXGqInFqY_8ew>
+	<xmx:Om3JXYLVI6T_qr9_MDjTsVyAt-HJieGox188jliFno3Gap5vVmg2Ig>
 Received: from arch-laptop.roaming.b5net.uk
 	(cpc86219-nott20-2-0-cust829.12-2.cable.virginm.net [82.4.207.62])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 5FF9C3060060;
+	by mail.messagingengine.com (Postfix) with ESMTPA id E7908306005C;
 	Mon, 11 Nov 2019 09:16:25 -0500 (EST)
 From: Paul Barker <paul@betafive.co.uk>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 14:16:20 +0000
-Message-Id: <20191111141621.319368-1-paul@betafive.co.uk>
+Date: Mon, 11 Nov 2019 14:16:21 +0000
+Message-Id: <20191111141621.319368-2-paul@betafive.co.uk>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191111141621.319368-1-paul@betafive.co.uk>
+References: <20191111141621.319368-1-paul@betafive.co.uk>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] Extend oeqa tests for archiver.bbclass
+Subject: [PATCH 1/1] oeqa: archiver: Add basic tests for all archiver modes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,21 +69,91 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 11 Nov 2019 14:16:27 -0000
 Content-Transfer-Encoding: 8bit
 
-In preparation for adding the new mirror archiver mode I've added a
-bunch of additional oeqa tests for the archiver bblass. I'm submitting
-these separately first as this is the first time I've done anything
-with oeqa and things may need a little rework.
+6 new test cases are added to cover the various archiver modes
+documented at the top of archiver.bbclass. Each test sets the
+appropriate configuration options, runs the `do_deploy_archives` task
+for the selftest-ed recipe and checks for the presence of the expected
+archive file.
 
-The tests use the selftest-ed recipe from the meta-selftest recipe so I
-assume they can rely on the version number and source file name not
-changing.
-
-Paul Barker (1):
-  oeqa: archiver: Add basic tests for all archiver modes
-
+Signed-off-by: Paul Barker <paul@betafive.co.uk>
+---
  meta/lib/oeqa/selftest/cases/archiver.py | 66 ++++++++++++++++++++++++
  1 file changed, 66 insertions(+)
 
+diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
+index f8672f8abb..6bd0e06ec4 100644
+--- a/meta/lib/oeqa/selftest/cases/archiver.py
++++ b/meta/lib/oeqa/selftest/cases/archiver.py
+@@ -129,3 +129,69 @@ class Archiver(OESelftestTestCase):
+         self.write_config(features)
+ 
+         bitbake('-n core-image-sato')
++
++    def _test_archiver_mode(self, mode, target_file_name, extra_config=None):
++        target = "selftest-ed"
++
++        features = 'INHERIT += "archiver"\n'
++        features +=  'ARCHIVER_MODE[src] = "%s"\n' % (mode)
++        if extra_config:
++            features += extra_config
++        self.write_config(features)
++
++        bitbake('-c clean %s' % (target))
++        bitbake('-c deploy_archives %s' % (target))
++
++        bb_vars = get_bb_vars(['DEPLOY_DIR_SRC', 'TARGET_SYS'])
++        glob_str = os.path.join(bb_vars['DEPLOY_DIR_SRC'], bb_vars['TARGET_SYS'], '%s-*' % (target))
++        glob_result = glob.glob(glob_str)
++        self.assertTrue(glob_result, 'Missing archiver directory for %s' % (target))
++
++        archive_path = os.path.join(glob_result[0], target_file_name)
++        self.assertTrue(os.path.exists(archive_path), 'Missing archive file %s' % (target_file_name))
++
++    def test_archiver_mode_original(self):
++        """
++        Test that the archiver works in with `ARCHIVER_MODE[src] = "original"`.
++        """
++
++        self._test_archiver_mode('original', 'ed-1.14.1.tar.lz')
++
++    def test_archiver_mode_patched(self):
++        """
++        Test that the archiver works in with `ARCHIVER_MODE[src] = "patched"`.
++        """
++
++        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-patched.tar.gz')
++
++    def test_archiver_mode_configured(self):
++        """
++        Test that the archiver works in with `ARCHIVER_MODE[src] = "configured"`.
++        """
++
++        self._test_archiver_mode('configured', 'selftest-ed-1.14.1-r0-configured.tar.gz')
++
++    def test_archiver_mode_recipe(self):
++        """
++        Test that the archiver works in with `ARCHIVER_MODE[recipe] = "1"`.
++        """
++
++        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-recipe.tar.gz',
++                                 'ARCHIVER_MODE[recipe] = "1"\n')
++
++    def test_archiver_mode_diff(self):
++        """
++        Test that the archiver works in with `ARCHIVER_MODE[diff] = "1"`.
++        Exclusions controlled by `ARCHIVER_MODE[diff-exclude]` are not yet tested.
++        """
++
++        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-diff.gz',
++                                 'ARCHIVER_MODE[diff] = "1"\n')
++
++    def test_archiver_mode_dumpdata(self):
++        """
++        Test that the archiver works in with `ARCHIVER_MODE[dumpdata] = "1"`.
++        """
++
++        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-showdata.dump',
++                                 'ARCHIVER_MODE[dumpdata] = "1"\n')
 -- 
 2.24.0
 
