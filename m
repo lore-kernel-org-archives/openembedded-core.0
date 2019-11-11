@@ -1,54 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 61FB67FAAA
+Return-Path: <gavinli@thegavinli.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FB6D7FAAA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 22:13:43 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id l7so4774828wrp.6
+	Mon, 11 Nov 2019 22:15:19 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id v19so11702847pfm.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 14:13:44 -0800 (PST)
+	Mon, 11 Nov 2019 14:15:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	d=thegavinli.com; s=google;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=3GW7ecThMk1nx7wVwGkBEYGD9LfM1p2nWPbbrKeaqx0=;
-	b=a+1ZiBvsCk5qO3aUQ/g1SXafP07uU/9V/RbWlCMTB12xcznkBPZoR29lzXXJzYtB7z
-	9xdAhNEJv9BQ+dGtyAcdBX5hDeDZl/AgSqlZBlR3n3SWKgwWt4RUcWSckAUKSYBXVamH
-	KIqC22SWQtvuOlbG0DsYoqVt4ukmWSDUbDqa/Z6cXtLVU2q8CLrLeR6zhdDi3eNQNbiT
-	UxGrlKfmgZBhx/Oej9ViJ7SVF0fFBmqdUaG3EKYSy74g4QY90D+VKx6Tiq03XJpQe2AI
-	fFoI+NJRhyQ6yVScCXpT2P5DDgCjEGhCNqWqzTJXfbSFEjfMY+lEMd7GRrEyx36DYbI2
-	XfIQ==
+	bh=KcRSQBfDWVESUb6T3zVZsMVOyHuOlSijvNN95yuoaKg=;
+	b=atvHQcFMaiQLfEE4wm9I2DpCeFAvCASDqVkZybtiet4sMiONmN2KPavUm06uZeUli8
+	bOCnPHSb1b52hlNxU17XL7IEJJJVr5+V2AdAr36bS1NhVwYuwg/jie3n+1ftAB4HOvPd
+	S2Y0PIzyfLngsvFqpQ0NrNcBW36MRrgveikJg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=3GW7ecThMk1nx7wVwGkBEYGD9LfM1p2nWPbbrKeaqx0=;
-	b=F/kqY/4I8H4Y3C+OLKvHlWIKPH7yOsF38rs0sThph42CbzAYfchIAF0awniCKVdcG2
-	S89ZgACNAalp43qkYekPT0v7AIEdrbEe7Mi8gbpD46juGlBc/rEuOml8AcDpqAy94k13
-	FaIAr3UxwxdH1C/8J5XvSqpEAbd8DJKrcVob8foMJVfkURHKu8VYTUS/waOEOdrIAPId
-	tH+7wKQqEOWtHKZEmQjvOP6Whh7jqa0RqtvpgmdSCfkUAajLg/J7WH6+J9SOS2n+tLOh
-	+wThZ74UjecFper9gj0yXo6zD7kNgghyVU3Fi1UryIbkrOaz97kwTW1hmjr0sri1XreI
-	z//A==
-X-Gm-Message-State: APjAAAUoKFA3N2FxELJ3tQCOKq5atZAat+50NrCLnoazgr/L0eOrP8Xv
-	LKCH/Ic2Of/bSJvLETO94Vp8bVEMQEs=
-X-Google-Smtp-Source: APXvYqyzDBe/Pgy3YZ1kkhoVPqbVzk5xUsflasQmF00Tnszfni8ecSCQ1sWJkrS4VnBrNqPkSCZjhQ==
-X-Received: by 2002:a5d:5224:: with SMTP id i4mr3142288wra.303.1573510423684; 
-	Mon, 11 Nov 2019 14:13:43 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	d11sm24900083wrf.80.2019.11.11.14.13.42
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=KcRSQBfDWVESUb6T3zVZsMVOyHuOlSijvNN95yuoaKg=;
+	b=qQi1e+CtEPRHWHvcnMFR68Fgnz9MjMI9AASxHF5UW8zSsPy5sb3T0/+sqjpjGGQthn
+	TQzkdV8XHhUkuTjyBBNjqtpulAtLvMYo9RmCppIXFGGTzzGqT0KIFgMhe/WhiymJdxvd
+	02xkseKy/5sHxFJQtOmM0s5sN1jmtTA7HwTJIGdTz1HKiBuHPmPQfEFiyxMOiGGhAN0Q
+	B5R7PvBefaVChRbNi4rPp48WghmXqsPKvf16LtCxVlLr/K6BGcPevuSYvAEikq0TKznC
+	hp9MgpHrQ/BSG3+yqUyx/5lkBU/g57qCKzv7KTJbehAxHfpXYnncEazsTGmRooL8BbSo
+	tKxg==
+X-Gm-Message-State: APjAAAXW2inST57pecU51Ebky7vF4uswHZnvGAGc5SFO7Uz+1gJiVZuW
+	RXLjhQxqMt6bqhiR5qG2S529h4DxJf0=
+X-Google-Smtp-Source: APXvYqx9Dk6BUUkEMxquRPNdMMHWkCO3mn07kOvPgxMQzcaKddUK4vWxHpTcfex8+MrxG0fji7C/nQ==
+X-Received: by 2002:aa7:814e:: with SMTP id d14mr32756247pfn.39.1573510520152; 
+	Mon, 11 Nov 2019 14:15:20 -0800 (PST)
+Received: from mtgav.corp.matician.com ([2601:647:5a01:84c0::b5a])
+	by smtp.gmail.com with ESMTPSA id
+	v3sm20991526pfi.26.2019.11.11.14.15.19
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 11 Nov 2019 14:13:43 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Mon, 11 Nov 2019 14:15:19 -0800 (PST)
+Sender: Gavin Li <gav@thegavinli.com>
+From: gavinli@thegavinli.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 22:13:37 +0000
-Message-Id: <20191111221337.20332-4-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191111221337.20332-1-ross.burton@intel.com>
-References: <20191111221337.20332-1-ross.burton@intel.com>
+Date: Mon, 11 Nov 2019 14:15:14 -0800
+Message-Id: <20191111221514.1663272-1-gavinli@thegavinli.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH 4/4] cve-check: rewrite look to fix false negatives
+Cc: Gavin Li <gavin@matician.com>
+Subject: [PATCH] bitbake: prserv: fix ResourceWarning due to unclosed socket
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,138 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 22:13:43 -0000
+X-List-Received-Date: Mon, 11 Nov 2019 22:15:19 -0000
 Content-Transfer-Encoding: 8bit
 
-A previous optimisation was premature and resulted in false-negatives in the report.
+From: Gavin Li <gavin@matician.com>
 
-Rewrite the checking algorithm to first get the list of potential CVEs by
-vendor:product, then iterate through every matching CPE for that CVE to
-determine if the bounds match or not.  By doing this in two stages we can know
-if we've checked every CPE, instead of accidentally breaking out of the scan too
-early.
+With PRSERV_HOST = "localhost:0", this message would occasionally pop up
+during the initial cache read:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+WARNING: /home/matic/ambayocto/poky/bitbake/lib/bb/cache.py:446: ResourceWarning: unclosed <socket.socket fd=10, family=AddressFamily.AF_INET, type=SocketKind.SOCK_STREAM, proto=0, laddr=('127.0.0.1', 45655)>
+  value = pickled.load()
+
+The file location stated is irrelevant; it just happens to be wherever
+CPython decides to run the garbage collector. The issue is that after we
+fork off a PRServer, self.socket is also duplicated. The parent side of
+it also needs to be closed.
+
+Signed-off-by: Gavin Li <gavin@matician.com>
 ---
- meta/classes/cve-check.bbclass | 63 ++++++++++++++++++----------------
- 1 file changed, 34 insertions(+), 29 deletions(-)
+ bitbake/lib/prserv/serv.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 419b2c9148f..e95716d9ded 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -165,7 +165,6 @@ def check_cves(d, patched_cves):
-     """
-     Connect to the NVD database and find unpatched cves.
-     """
--    import ast, csv, tempfile, subprocess, io
-     from distutils.version import LooseVersion
- 
-     cves_unpatched = []
-@@ -187,68 +186,74 @@ def check_cves(d, patched_cves):
-     cve_whitelist = d.getVar("CVE_CHECK_WHITELIST").split()
- 
-     import sqlite3
--    db_file = d.getVar("CVE_CHECK_DB_FILE")
--    conn = sqlite3.connect(db_file)
-+    db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
-+    conn = sqlite3.connect(db_file, uri=True)
- 
-+    # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
-     for product in products:
--        c = conn.cursor()
-         if ":" in product:
-             vendor, product = product.split(":", 1)
--            c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ? AND VENDOR IS ?", (product, vendor))
-         else:
--            c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ?", (product,))
-+            vendor = "%"
- 
--        for row in c:
--            cve = row[0]
--            version_start = row[3]
--            operator_start = row[4]
--            version_end = row[5]
--            operator_end = row[6]
-+        # Find all relevant CVE IDs.
-+        for cverow in conn.execute("SELECT DISTINCT ID FROM PRODUCTS WHERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor)):
-+            cve = cverow[0]
- 
-             if cve in cve_whitelist:
-                 bb.note("%s-%s has been whitelisted for %s" % (product, pv, cve))
-                 # TODO: this should be in the report as 'whitelisted'
-                 patched_cves.add(cve)
-+                continue
-             elif cve in patched_cves:
-                 bb.note("%s has been patched" % (cve))
--            else:
--                to_append = False
-+                continue
-+
-+            vulnerable = False
-+            for row in conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor)):
-+                (_, _, _, version_start, operator_start, version_end, operator_end) = row
-+                #bb.debug(2, "Evaluating row " + str(row))
-+
-                 if (operator_start == '=' and pv == version_start):
--                    to_append = True
-+                    vulnerable = True
-                 else:
-                     if operator_start:
-                         try:
--                            to_append_start =  (operator_start == '>=' and LooseVersion(pv) >= LooseVersion(version_start))
--                            to_append_start |= (operator_start == '>' and LooseVersion(pv) > LooseVersion(version_start))
-+                            vulnerable_start =  (operator_start == '>=' and LooseVersion(pv) >= LooseVersion(version_start))
-+                            vulnerable_start |= (operator_start == '>' and LooseVersion(pv) > LooseVersion(version_start))
-                         except:
-                             bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_start, version_start, cve))
--                            to_append_start = False
-+                            vulnerable_start = False
-                     else:
--                        to_append_start = False
-+                        vulnerable_start = False
- 
-                     if operator_end:
-                         try:
--                            to_append_end  = (operator_end == '<=' and LooseVersion(pv) <= LooseVersion(version_end))
--                            to_append_end |= (operator_end == '<' and LooseVersion(pv) < LooseVersion(version_end))
-+                            vulnerable_end  = (operator_end == '<=' and LooseVersion(pv) <= LooseVersion(version_end))
-+                            vulnerable_end |= (operator_end == '<' and LooseVersion(pv) < LooseVersion(version_end))
-                         except:
-                             bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_end, version_end, cve))
--                            to_append_end = False
-+                            vulnerable_end = False
-                     else:
--                        to_append_end = False
-+                        vulnerable_end = False
- 
-                     if operator_start and operator_end:
--                        to_append = to_append_start and to_append_end
-+                        vulnerable = vulnerable_start and vulnerable_end
-                     else:
--                        to_append = to_append_start or to_append_end
-+                        vulnerable = vulnerable_start or vulnerable_end
- 
--                if to_append:
-+                if vulnerable:
-                     bb.note("%s-%s is vulnerable to %s" % (product, pv, cve))
-                     cves_unpatched.append(cve)
--                else:
--                    bb.note("%s-%s is not vulnerable to %s" % (product, pv, cve))
--                    patched_cves.add(cve)
-+                    break
-+
-+            if not vulnerable:
-+                bb.note("%s-%s is not vulnerable to %s" % (product, pv, cve))
-+                # TODO: not patched but not vulnerable
-+                patched_cves.add(cve)
-+
-     conn.close()
- 
-     return (list(patched_cves), cves_unpatched)
+diff --git a/bitbake/lib/prserv/serv.py b/bitbake/lib/prserv/serv.py
+index be3acec36a..1d9148b817 100644
+--- a/bitbake/lib/prserv/serv.py
++++ b/bitbake/lib/prserv/serv.py
+@@ -243,6 +243,7 @@ class PRServer(SimpleXMLRPCServer):
+         try:
+             pid = os.fork()
+             if pid > 0:
++                self.socket.close() # avoid ResourceWarning in parent
+                 return pid
+         except OSError as e:
+             raise Exception("%s [%d]" % (e.strerror, e.errno))
 -- 
-2.20.1
+2.23.0
 
 
