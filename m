@@ -1,26 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 77EAE7E995
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F2827E995
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 07:39:58 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xAB7dw4J011356
+	Mon, 11 Nov 2019 07:43:06 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xAB7h6FG003104
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 10 Nov 2019 23:39:58 -0800
+	Sun, 10 Nov 2019 23:43:06 -0800 (PST)
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Sun, 10 Nov 2019 23:39:57 -0800
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Sun, 10 Nov 2019 23:43:05 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Mon, 11 Nov 2019 15:39:56 +0800
-Message-ID: <1573457996-19353-1-git-send-email-hongxu.jia@windriver.com>
+Date: Mon, 11 Nov 2019 15:43:04 +0800
+Message-ID: <1573458184-19483-1-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <bf76654a-c36a-ab9f-c5ac-bc36b2498eb9@windriver.com>
-References: <bf76654a-c36a-ab9f-c5ac-bc36b2498eb9@windriver.com>
+In-Reply-To: <1573457996-19353-1-git-send-email-hongxu.jia@windriver.com>
+References: <1573457996-19353-1-git-send-email-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V3] gnupg-native: fix GPG homedir path length limit
+Subject: [PATCH V4] gnupg-native: fix GPG homedir path length limit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 07:39:58 -0000
+X-List-Received-Date: Mon, 11 Nov 2019 07:43:06 -0000
 Content-Type: text/plain
 
 The gpg uses unix socket to communicate with its agent, before doing that,
@@ -173,7 +173,7 @@ index 0000000..14ddedd
 ++++ b/common/homedir.c
 +@@ -614,13 +614,6 @@ _gnupg_socketdir_internal (int skip_checks, unsigned *r_info)
 +       goto leave;
-nappropriate+     }
++     }
 + 
 +-  if (sb.st_uid != getuid ())
 +-    {
