@@ -1,101 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 538C26B076
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+	[209.85.214.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 289D76B076
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 18:22:02 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id v19so11226937pfm.3
+	Mon, 11 Nov 2019 18:30:07 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id az9so7289763plb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 10:22:03 -0800 (PST)
+	Mon, 11 Nov 2019 10:30:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=Y3YgsU+QUEZpiUyfE2r+IRGlj5OZw3ydJIxIkfWHDhY=;
-	b=CK2UjojnSIrT6CeEoQjWcPN4ws5ijFfhoiZoCTqHAqbEatf7YQXfp+Tz8Y0Ca8h64T
-	SrKPROLECpWcafQGnAlZMk9EjPGgCHbSHRvVGKa1OnP/Xv/YLjJbsbvuABRWerp4uq4F
-	oLsgnd1qtww7JblSbzOHmjmf+aH/STwlVF8XmEFxiMXnKnBAdCrmJhcwohDbPGW3miRF
-	16J6b45NQ+pHbZiaRNJl/6uaVEH9iO/13VfprixbCGMpFuEUC0ynaL/qgDkVpq4UqaI1
-	BjGT+VsZ6oiCnHHmwo8FgmXpJR8lxy9zTRJuu5JfZ938kKvpqYL2hWCn+PA0pt8ZRvSc
-	n4HA==
+	h=from:to:subject:date:message-id;
+	bh=U6hHJn/u1tNenVv1J2gApbpzWkXye4TuNYd7jDzwKJ0=;
+	b=apbhuXzJJZau2Qzz4tePF5LuvjcBLjQvYq5haDdUqx/2/enGEVAOV5mZObwqzja6jc
+	eBKFEj8gvg/5AFoc4lk7U89BnPpUXu3F59lNzLxrII2g8/rBPAI09Pq2/jcvaD3JBmy3
+	rB0QnGd+45aRgMZ2PbC0SdHo6EbCArxv7iyXHW5p+2URO9Dn5Fv8IgBkkOUN+3QPHPA6
+	xFKwrfsMEDBwVzJiK+G9r5rDnkXT/bBNFVZFFENmYPTBGjhn3SJ2AHBmYA60Q2PSmjxG
+	QhW+Dy29vGBf96zp+Rh/kYMxC3TwkyyKRZ9JvT3WaYhwiCRSetQL34PmwoIqN6Ry3u7t
+	lpVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=Y3YgsU+QUEZpiUyfE2r+IRGlj5OZw3ydJIxIkfWHDhY=;
-	b=XMj1KletYUOprAIKkEjyoSzE1CnHeqXtgRQqY2okX0btV7xsC0E3ZaMmh6njjydtHC
-	seZn3b8fCKE04fVsbB7W26VkJNROH9m9hhMh43BTSFhfz8h+hSovt4F6YGMdqqxIrdjh
-	0LUu996xlf2icUkqpQ49uy0zkaH+QtlBVBrfP0aG7bvVy/QtKwq9d8ZKrXRoVwezIazl
-	tsUQm3c2rIyPpc7oKk76XDDfTLqOevOrRPLOZig6ynME2QoYnekVDGrJZIkRYcyhAyUq
-	4lTTNZN3aKETOwJsou3ox/djus6BkAa/rWyFxw0wzugkKMwwhCSiaKyrl8vYGbFNpnJ8
-	ysnw==
-X-Gm-Message-State: APjAAAXRDpNpUCSLcs/EPjedeBVoOHEGdYbUBTpkEX4uc+nW6XnmSy/w
-	wgevU/6q96BijkNwO1QECenV8d3k
-X-Google-Smtp-Source: APXvYqzSmpmTXpiQxxqyv33yD/4gn4yDzRgZnOVLAm7T9n2FgaDnXF342bCAcC5ooFN6CHWCgwNNLA==
-X-Received: by 2002:aa7:8a83:: with SMTP id a3mr14705219pfc.54.1573496523116; 
-	Mon, 11 Nov 2019 10:22:03 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:604a:b703:29ca:5c7d?
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=U6hHJn/u1tNenVv1J2gApbpzWkXye4TuNYd7jDzwKJ0=;
+	b=lrW33/jYsbb5HppxbWCjyIVtTjaCODB9KpEKVKkKf+iCi+iuD3xP4vfgTeQ25uzs4Q
+	0Jl2VCS5jIWELn2omBNzbfgC/7DURipXpxJd4khL2ET/LzS6KWl37sdewZEdE1kUjomi
+	1P1GzEEyUDi5w6xBBk4Y42ie08x6bneKGOtCFxqMOEOFUu2mOwW5nQnj4cv/8Fs+DnvM
+	I9JPE0j5DrCZyLmwTD/vzpLGYAP4mV77ZueVOTqa2sqNzVogHEtFyveuv3UHno+GxBn7
+	gxphTVi4jsJsAlbNpfz+Slt+vTz2hD1OJyQqdbVAeptWh1tbM6CsHVrMJJuk4HpAAUSp
+	fffA==
+X-Gm-Message-State: APjAAAWvbtnZRrENMq/yvyEE192COstx+buKTdDaUsVWkKlWAZdA3lo6
+	PsKlfIS1wuIxeG40VuGDLLCjfeLf
+X-Google-Smtp-Source: APXvYqwQn5HFiYQTmOxKPwgykIqmxaJZ0r1QdBDzK1cMtyqEf7n3xSOUF/Lu5Rb9InMJYolN78NyZQ==
+X-Received: by 2002:a17:902:144:: with SMTP id
+	62mr13736619plb.197.1573497008875; 
+	Mon, 11 Nov 2019 10:30:08 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:604a:b703:29ca:5c7d])
 	by smtp.gmail.com with ESMTPSA id
-	t12sm15910055pgv.45.2019.11.11.10.22.02
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 11 Nov 2019 10:22:02 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20191111132152.15249-1-richard.purdie@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <8ffb4413-9c83-4159-8d8e-632e1814ff66@gmail.com>
-Date: Mon, 11 Nov 2019 10:22:01 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <20191111132152.15249-1-richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH] sqlite3: Drop pic as we no longer need the sqlite3 static lib
+	l62sm17731698pgl.24.2019.11.11.10.30.07
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 11 Nov 2019 10:30:07 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Nov 2019 10:29:42 -0800
+Message-Id: <cover.1573496794.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [zeus 00/21] Zeus patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,39 +57,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 18:22:02 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 11 Nov 2019 18:30:08 -0000
 
+Other then "pseudo: Drop static linking to sqlite3" outstanding question,
+here are the next series to be reviewed for Zeus.
 
+Note: pass a-full
 
-On 11/11/19 5:21 AM, Richard Purdie wrote:
-> This was added in:
-> https://git.openembedded.org/openembedded-core/commit/?id=6a58e12d19c539deac9e90679a68438497a42fa4
-> but is no longer needed now pseudo doesn't use sqlite's static lib.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-support/sqlite/sqlite3.inc | 2 --
->  1 file changed, 2 deletions(-)
->
-> diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support/sqlite/sqlite3.inc
-> index 4af1e09e80d..07614bdb3e3 100644
-> --- a/meta/recipes-support/sqlite/sqlite3.inc
-> +++ b/meta/recipes-support/sqlite/sqlite3.inc
-> @@ -44,8 +44,6 @@ EXTRA_OECONF = " \
->      --disable-static-shell \
->  "
->  
-> -CFLAGS_append = " -fPIC"
-> -
->  # pread() is in POSIX.1-2001 so any reasonable system must surely support it
->  CFLAGS_append = " -DUSE_PREAD"
->  
+Comments back by Wednesday
 
-Do these sqlite3 changes need to be backported? Zeus , etc?
+The following changes since commit 4e3e8d8270f318e6384c3d9bb5f6c7503f41d736:
 
-- armin
+  libsdl2: fix race when building in parallel (2019-11-10 13:54:34 -0800)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/zeus-nmut
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/zeus-nmut
+
+Alexander Kanavin (1):
+  selftest: skip virgl test on centos 7 entirely
+
+Bruce Ashfield (2):
+  linux-yocto/4.19: update to v4.19.78
+  linux-yocto/5.2: update to v5.2.20
+
+Changqing Li (1):
+  mdadm: fix do_package failed when changed local.conf but not cleaned
+
+Ferry Toth (1):
+  sudo: Fix fetching sources
+
+Haris Okanovic (1):
+  initscripts/sysfs.sh: Mount /sys/firmware/efi/efivars when possible
+
+He Zhe (1):
+  ltp: Fix overcommit_memory failure
+
+Jacob Kroon (1):
+  rm_work: Promote do_image_qa stamps to setscene versions
+
+Richard Purdie (2):
+  pseudo: Drop static linking to sqlite3
+  pseudo: Add statx support to fix fedora30 issues
+
+Ross Burton (9):
+  file: fix CVE-2019-18218
+  file: run test suite when building natively
+  cve-check: ensure all known CVEs are in the report
+  qemu-helper-native: add missing option to getopt() call
+  qemu-helper-native: showing help shouldn't be an error
+  qemu-helper-native: pass compiler flags
+  cve-check: failure to parse versions should be more visible
+  recipeutils-test: use a small dependency in the dummy recipe
+  patch: the CVE-2019-13638 fix also handles CVE-2018-20969
+
+Samuli Piippo (1):
+  linux-firmware: update packaging for brcm files
+
+Zhixiong Chi (1):
+  libtirpc: create the symbol link for rpc header files
+
+ meta-selftest/lib/oeqa/runtime/cases/virgl.py      |   5 -
+ .../recipeutils/recipeutils-test_1.2.bb            |   2 +-
+ meta/classes/cve-check.bbclass                     |  13 ++-
+ meta/classes/rm_work.bbclass                       |   9 ++
+ meta/conf/distro/include/no-static-libs.inc        |   4 -
+ meta/lib/oeqa/selftest/cases/runtime_test.py       |   2 +
+ .../initscripts/initscripts-1.0/sysfs.sh           |   4 +
+ .../file/file/CVE-2019-18218.patch                 |  55 +++++++++++
+ meta/recipes-devtools/file/file_5.37.bb            |   7 +-
+ ...ke-ed-directly-instead-of-using-the-shell.patch |   4 +-
+ .../pseudo/files/0001-Add-statx.patch              | 106 +++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo.inc            |  17 +---
+ meta/recipes-devtools/pseudo/pseudo_git.bb         |   1 +
+ .../qemu/qemu-helper-native_1.0.bb                 |   2 +-
+ meta/recipes-devtools/qemu/qemu-helper/tunctl.c    |  16 ++--
+ meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb   |  14 +++
+ ...memory-update-for-mm-fix-false-positive-O.patch |  57 +++++++++++
+ meta/recipes-extended/ltp/ltp_20190517.bb          |   1 +
+ meta/recipes-extended/mdadm/mdadm_4.1.bb           |   5 +-
+ meta/recipes-extended/sudo/sudo_1.8.27.bb          |   2 +-
+ .../linux-firmware/linux-firmware_20190815.bb      |  18 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb    |   6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |   8 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb  |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb      |  20 ++--
+ meta/recipes-kernel/linux/linux-yocto_5.2.bb       |  22 ++---
+ 27 files changed, 328 insertions(+), 86 deletions(-)
+ create mode 100644 meta/recipes-devtools/file/file/CVE-2019-18218.patch
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch
+
+-- 
+2.7.4
 
 
