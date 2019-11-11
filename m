@@ -1,50 +1,56 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DB7147D72F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BA8E87D40E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 13:04:30 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id y23so8648294vso.1
+	Mon, 11 Nov 2019 13:12:49 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id s5so3495180wrw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 05:04:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HnLdkbmDOX7OYOCyaiSE3BjaWrI1/dqGMN/+jZaGE0A=;
-	b=FCcDIT+MbPSCV/Z2d/60f5KUL/94+xIeA1Yb1pbrQhgXUVOBRdtgeC8//xp6V3Bz5t
-	h7HwGtR3xgWKMaU76C/hBw8GX7YVdj13ZfZ5CCUCrOpmx1lkNYLelm8Gd/5Za5583fJ/
-	OabzCcIdA0/oUoD6ihUVXqLvcma2LQF7BOIxhvrTrzCIH4RQBeFygd6iHJcxWpkJFKOR
-	9vbWSYlrcmuIKWt/JoYrs9QcFeICmwt4BeeZ6eo0LxGJO8I/OlkE1wbxudlfbgvWcc1q
-	yEZBf/dgvDOLxap2J0ENT9GnedHZ6FDc3rXaeo0EM3WEw1hatzpSuFLW/Xg3U/PHekR0
-	RR7Q==
+	Mon, 11 Nov 2019 05:12:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=GdRdESASlVoQksxkqjZNs3TdgzYPm+BX2sQR3grbbAQ=;
+	b=ZQOzuoTg03glrUtZydvF1NwLOIInT7BAdCwstl05jWhN2Bf5LHMxB/9CQBcGngFwvu
+	NseAof8MzguEbepF+/UGvQJ8IrbUdBN5mO/gAvyPfRz1tK/DLeKGPnB63Mhk1hYA/oRH
+	jUWNaeJ3Tu7J+rRDJqMMJ6jT1PhdEBjHph4ys=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=HnLdkbmDOX7OYOCyaiSE3BjaWrI1/dqGMN/+jZaGE0A=;
-	b=WgEHivVnl+ousfgPxV9STHODLE9UEk2YnjYZlpL32lBZyYzAFsV8vuviCAYsphrKHW
-	bP7Lq2MuEJutRb7L7g07/98iadM2IZVaj54GSKQFFKGKIcYhGb16OxDdK5Y63ZB8DAc9
-	8qI6DvYG1pvQWDrKMHeqzYq3l3MvX0g+PGLOGxiSdzt1KJnGRx1iO0KOVZPHVE2v4SEO
-	RhdjxGp8zQ26u19jSkd41RLkqwCI2z81DVa1r6Id+4N9NdJmvnZFRcFoFLByYpH6wJPN
-	NuGChmZw8VBWQEzA5nsM6mNrEjYcoa2vnil05dy0JAhysQy2/86BGEkiD+tvqSxS4U2b
-	keUg==
-X-Gm-Message-State: APjAAAWfkaZM4pb/Ed4Lpe1Ca3oKQwUfpuwUgPq6j0nXmdc8zuz/Dzks
-	cMFQNRw45pDfKiOK83aWHZC/gS6fPYSQW1k8xfE=
-X-Google-Smtp-Source: APXvYqySVn5GukehVTcUN8pwR5nRkTNAEpWvHN2ujrM1zczsAir8XPXl+0RWRsHVUU31WLO6JVUP7hYR4mESQWWjAbc=
-X-Received: by 2002:a05:6102:519:: with SMTP id
-	l25mr19503216vsa.222.1573477471570; 
-	Mon, 11 Nov 2019 05:04:31 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=GdRdESASlVoQksxkqjZNs3TdgzYPm+BX2sQR3grbbAQ=;
+	b=n6olE95Ta5WQ1K4lvbSv+qYbxeNlcnQUaVrNxNF9XYrx3eixtm/9iiCY1nbSdTbG22
+	ASvLyWM9KMRwyXOYonbFO+0odWpMeOcuHU1iWSMkGnAFCQvVQYlwkRhngUkdkm+MVJtI
+	C/2B0IQKxvMd2Zk6aUwA8wDKujtghRgJ+nGE5Z+W18td77t0JtsJB5Vm9XnOqbMjnxW7
+	nEFQSlFgDCs/CQYmDlziS6P+2xgsuQhNXQuP+v4Ot31q3MjOxTnNT2il6g7piMowTN5d
+	UyqldLJke5kLXeyrxMigoKd1pfofoT8GrhGLbND7G+3BJbgXilFGZJeKdJzJeP+ieaKn
+	IOwA==
+X-Gm-Message-State: APjAAAXEeJxyxzApnrBPsDMcmHpHlHGSVzluASERlhgb74/ydI+UDbj1
+	x79YfITpyQRF7j55cSR8heLxxg==
+X-Google-Smtp-Source: APXvYqxDps2VMnw9VT4eyfOmFbvhlaIUTuLvUFkP5h2wISMX4qiBYOQg6RcofwhNTsKN5WUYpkvorg==
+X-Received: by 2002:adf:cf0c:: with SMTP id o12mr7903005wrj.102.1573477970482; 
+	Mon, 11 Nov 2019 05:12:50 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	t13sm14373035wrr.88.2019.11.11.05.12.49
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 11 Nov 2019 05:12:49 -0800 (PST)
+Message-ID: <63e30a3a07cd78e89c54637ad9893e8a1aec9f84.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Mon, 11 Nov 2019 13:12:47 +0000
+In-Reply-To: <20191111104209.GB28797@localhost>
+References: <cover.1573047194.git.mikko.rapeli@bmw.de>
+	<ec8a8c61-25a0-7e87-efee-b76e6c954d07@gmail.com>
+	<717e1439a3c155fc1f506d7a2933b968ee38f9a8.camel@linuxfoundation.org>
+	<be45a323-4379-8a13-71c6-21f98e3a0af4@gmail.com>
+	<afa8eed45a5acefa38a89e82e5a833f387963a8f.camel@linuxfoundation.org>
+	<20191111104209.GB28797@localhost>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20191109153559.15847-1-richard.purdie@linuxfoundation.org>
-	<20191109100710.66530547@seebsdell>
-	<5100e289ac8a5c4d0196e8ec77813859bb7a703d.camel@linuxfoundation.org>
-	<20191109104619.209d9fcd@seebsdell>
-In-Reply-To: <20191109104619.209d9fcd@seebsdell>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 11 Nov 2019 05:04:23 -0800
-Message-ID: <CAJ86T=U6Rp5_nkJqHa-9e9sBpiQxn+iiD2khiZ1ZyMqq16c8GQ@mail.gmail.com>
-To: Seebs <seebs@seebs.net>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pseudo: Drop static linking to sqlite3
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH RFC CFH][sumo 00/47] CVE check backport
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,44 +63,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 13:04:31 -0000
+X-List-Received-Date: Mon, 11 Nov 2019 13:12:50 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 9, 2019 at 8:46 AM Seebs <seebs@seebs.net> wrote:
->
-> On Sat, 09 Nov 2019 16:30:41 +0000
-> Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
->
-> > I did talk briefly to Mark (also cc'd) as he wrote the original patch
-> > and he thought it was possibly because the client was also linking
-> > against sqlite3 and due to the other things the client does, that was
-> > problematic.
->
-> It *shouldn't* link against sqlite3. But! The commit in question refers
-> to RHEL5 and LD_LIBRARY_PATH, and I think that shook loose a memory:
->
-> I think at one point, we had a Crucial Bug Fix in sqlite3, in our build
-> system, and if we didn't statically link, there was a risk of getting
-> the broken version at runtime.
->
-> > The client lib doesn't and the server side should behave just like any
-> > other linux binary afaik so we should be ok with a dynamicly linked
-> > sqlite3?
->
-> Yes.
->
-> The issue here was, I believe, not "dynamically-linked sqlite3 per se",
-> but "dynamic linking, plus LD_LIBRARY_PATH, picking an sqlite3 which
-> caused us specific problems".
->
-> In the Yocto environment, I think we're reasonably sure that we always
-> get a clean Yocto-built sqlite3, and that *should* be fine.
->
-> So I'd say go for it, but if you see weird sqlite3 stuff that happens
-> only very occasionally, look at this first. :P
+On Mon, 2019-11-11 at 12:42 +0200, Adrian Bunk wrote:
+> On Thu, Nov 07, 2019 at 04:32:35PM +0000, Richard Purdie wrote:
+> > On Thu, 2019-11-07 at 07:55 -0800, akuster808 wrote:
+> > ...
+> > > Are you taking the other patches also submitted for sumo ?
+> > 
+> > I am worried about what the bigger picture for this looks like but
+> > we
+> > could try testing them. I think the TSC needs to discuss this.
+> 
+> How were community supported branches supposed to work?
+> 
+> All branches from 2.1 (sic) are documented as supported in the wiki.
 
-With this merged, we can also drop the hack to force the sqlite static
-lib to be PIC:
+That was changed recently and I kind of wish we'd waited until we'd
+followed through with a consistent plan which covers the spectrum of
+EOL/community/stable/LTS.
 
-  https://git.openembedded.org/openembedded-core/commit/?id=6a58e12d19c539deac9e90679a68438497a42fa4
+As I've said in a few places, the TSC really needs to figure this out
+and its complicated by the LTS discussions. Those discussions are
+happening but aren't simple.
+
+Cheers,
+
+Richard
+
 
