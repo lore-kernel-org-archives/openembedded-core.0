@@ -1,50 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
-	[209.85.214.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 289D76B076
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 64AF26B076
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 18:30:07 +0000 (UTC)
-Received: by mail-pl1-f169.google.com with SMTP id az9so7289763plb.11
+	Mon, 11 Nov 2019 18:30:09 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id 15so9955962pgh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 10:30:09 -0800 (PST)
+	Mon, 11 Nov 2019 10:30:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=U6hHJn/u1tNenVv1J2gApbpzWkXye4TuNYd7jDzwKJ0=;
-	b=apbhuXzJJZau2Qzz4tePF5LuvjcBLjQvYq5haDdUqx/2/enGEVAOV5mZObwqzja6jc
-	eBKFEj8gvg/5AFoc4lk7U89BnPpUXu3F59lNzLxrII2g8/rBPAI09Pq2/jcvaD3JBmy3
-	rB0QnGd+45aRgMZ2PbC0SdHo6EbCArxv7iyXHW5p+2URO9Dn5Fv8IgBkkOUN+3QPHPA6
-	xFKwrfsMEDBwVzJiK+G9r5rDnkXT/bBNFVZFFENmYPTBGjhn3SJ2AHBmYA60Q2PSmjxG
-	QhW+Dy29vGBf96zp+Rh/kYMxC3TwkyyKRZ9JvT3WaYhwiCRSetQL34PmwoIqN6Ry3u7t
-	lpVw==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=9f3OA5SKlEkJ1qM1OTghRZWcKpAMEMOD/ZtYk/DpPrI=;
+	b=skzU+aPuzdziLkgONcrV+c+FZYT2orTyvS1QXCc0bnvbRygKTWxtlldAX2jT5dpOom
+	07q+T6/Gr3/k2VknAsaiBG4TRD5gxQgsS2zzSiEP6qb5KA/p0p5BaL+v0aEhUI9OME38
+	+57AOloUitbmRZH0KFExCeFB7Y6cDFyddbk4KQYSY4pvA4AMMheArP58eo4C68DZCOIo
+	aC5dLZw0zJel5FXHBSiOEaUE8Nm/TjXV5oOmECDooY7vXBGtcOniR9RYtN7KYofV2knP
+	72HyLnm/x2kSBrsx2dyGQEHTek+PXiKFZvtKwcnvuSuBvVZfx3iK1dBydcRLQPS7A9VH
+	7Swg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=U6hHJn/u1tNenVv1J2gApbpzWkXye4TuNYd7jDzwKJ0=;
-	b=lrW33/jYsbb5HppxbWCjyIVtTjaCODB9KpEKVKkKf+iCi+iuD3xP4vfgTeQ25uzs4Q
-	0Jl2VCS5jIWELn2omBNzbfgC/7DURipXpxJd4khL2ET/LzS6KWl37sdewZEdE1kUjomi
-	1P1GzEEyUDi5w6xBBk4Y42ie08x6bneKGOtCFxqMOEOFUu2mOwW5nQnj4cv/8Fs+DnvM
-	I9JPE0j5DrCZyLmwTD/vzpLGYAP4mV77ZueVOTqa2sqNzVogHEtFyveuv3UHno+GxBn7
-	gxphTVi4jsJsAlbNpfz+Slt+vTz2hD1OJyQqdbVAeptWh1tbM6CsHVrMJJuk4HpAAUSp
-	fffA==
-X-Gm-Message-State: APjAAAWvbtnZRrENMq/yvyEE192COstx+buKTdDaUsVWkKlWAZdA3lo6
-	PsKlfIS1wuIxeG40VuGDLLCjfeLf
-X-Google-Smtp-Source: APXvYqwQn5HFiYQTmOxKPwgykIqmxaJZ0r1QdBDzK1cMtyqEf7n3xSOUF/Lu5Rb9InMJYolN78NyZQ==
-X-Received: by 2002:a17:902:144:: with SMTP id
-	62mr13736619plb.197.1573497008875; 
-	Mon, 11 Nov 2019 10:30:08 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=9f3OA5SKlEkJ1qM1OTghRZWcKpAMEMOD/ZtYk/DpPrI=;
+	b=goePL2TsYcH+J9hdPadet98bwp1RRgedHb6pqbU2RerGuBTgEHVV+gV2XETaTUAfiO
+	bBeUy80gh8iOvfok7/o5RROEmK3qo3/3wMrugesOcW+Bl/N9VyxIsHTJmsEBKSwQlUyH
+	3l40oubxb/ZIAuwRcx/PcryIadsjTyknw2PUUAw1zQ1DaKC5+S06HgUIHIUx+s22j3ad
+	ZR6Oh0Dej6n8ITrz1G0mv2qmmRNQrcEfwiM6dtyKKkt/HRDiYvS2hFt6RHVylPD60kbS
+	pwikGhMj6t4boOISM7P6qqqOS7j4bg5KE79jfcVtBuh0Vgw90ykXLBnkIYcq5wuVU5ke
+	QmAw==
+X-Gm-Message-State: APjAAAWQgqDM2geIXefizdMo33Uodf3xUEe+jU0mULEsAIA+6ZLGIorU
+	tFWdpcGsZEZBb1rRPwkqrlQw9XXn
+X-Google-Smtp-Source: APXvYqxAKTVEY10pJdZVG94VfmjqpUqDkjQlPAWX0W9SAJJaNmn3DTvpKaaS6w5csuOPcMPq6l5xdQ==
+X-Received: by 2002:aa7:930c:: with SMTP id 12mr31754962pfj.33.1573497009851; 
+	Mon, 11 Nov 2019 10:30:09 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:604a:b703:29ca:5c7d])
 	by smtp.gmail.com with ESMTPSA id
-	l62sm17731698pgl.24.2019.11.11.10.30.07
+	l62sm17731698pgl.24.2019.11.11.10.30.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Nov 2019 10:30:07 -0800 (PST)
+	Mon, 11 Nov 2019 10:30:09 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 10:29:42 -0800
-Message-Id: <cover.1573496794.git.akuster808@gmail.com>
+Date: Mon, 11 Nov 2019 10:29:43 -0800
+Message-Id: <664c8f9837db7b20ff540d5f6373e4ae0f2b4b02.1573496794.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [zeus 00/21] Zeus patch review
+In-Reply-To: <cover.1573496794.git.akuster808@gmail.com>
+References: <cover.1573496794.git.akuster808@gmail.com>
+Subject: [zeus 01/21] pseudo: Drop static linking to sqlite3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,99 +59,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 18:30:08 -0000
+X-List-Received-Date: Mon, 11 Nov 2019 18:30:09 -0000
 
-Other then "pseudo: Drop static linking to sqlite3" outstanding question,
-here are the next series to be reviewed for Zeus.
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Note: pass a-full
+Back in 2010[1] we made pseudo statically link against sqlite3. Since then
+the world has changed, pseudo now has separate processes for the database
+in the server and the client and they have separate linking commands.
 
-Comments back by Wednesday
+Also, whilst there were concerns about needing specific versions of sqlite3,
+in the OE environment, this is always the case.
 
-The following changes since commit 4e3e8d8270f318e6384c3d9bb5f6c7503f41d736:
+[1] http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ad0ac0ecd38fc77daf42485489fccc10a5e1e3e7
 
-  libsdl2: fix race when building in parallel (2019-11-10 13:54:34 -0800)
+The static sqlite3-native is causing us problems, in particular:
 
-are available in the git repository at:
+tmp/work/x86_64-linux/pseudo-native/1.9.0+gitAUTOINC+060058bb29-r0/recipe-sysroot-native/usr/lib/libsqlite3.a(sqlite3.o):(.data.rel+0xb0): undefined reference to `fcntl64'
 
-  git://git.openembedded.org/openembedded-core-contrib stable/zeus-nmut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/zeus-nmut
+which occurs if sqlite3-native was built on a machine with glibc 2.28 or later
+and pseudo-native is being built on glibc before that. With dyanmical linking,
+libc is backwards compatible and works but with static linking it does not.
 
-Alexander Kanavin (1):
-  selftest: skip virgl test on centos 7 entirely
+There appears to be no easy way to avoid this other than adding a copy of
+sqlite3 into the pseudo recipe. Given the static linking doesn't seem to
+be required any longer due to the separate processes, drop that to fix
+those issues.
 
-Bruce Ashfield (2):
-  linux-yocto/4.19: update to v4.19.78
-  linux-yocto/5.2: update to v5.2.20
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/conf/distro/include/no-static-libs.inc |  4 ----
+ meta/recipes-devtools/pseudo/pseudo.inc     | 17 ++---------------
+ 2 files changed, 2 insertions(+), 19 deletions(-)
 
-Changqing Li (1):
-  mdadm: fix do_package failed when changed local.conf but not cleaned
-
-Ferry Toth (1):
-  sudo: Fix fetching sources
-
-Haris Okanovic (1):
-  initscripts/sysfs.sh: Mount /sys/firmware/efi/efivars when possible
-
-He Zhe (1):
-  ltp: Fix overcommit_memory failure
-
-Jacob Kroon (1):
-  rm_work: Promote do_image_qa stamps to setscene versions
-
-Richard Purdie (2):
-  pseudo: Drop static linking to sqlite3
-  pseudo: Add statx support to fix fedora30 issues
-
-Ross Burton (9):
-  file: fix CVE-2019-18218
-  file: run test suite when building natively
-  cve-check: ensure all known CVEs are in the report
-  qemu-helper-native: add missing option to getopt() call
-  qemu-helper-native: showing help shouldn't be an error
-  qemu-helper-native: pass compiler flags
-  cve-check: failure to parse versions should be more visible
-  recipeutils-test: use a small dependency in the dummy recipe
-  patch: the CVE-2019-13638 fix also handles CVE-2018-20969
-
-Samuli Piippo (1):
-  linux-firmware: update packaging for brcm files
-
-Zhixiong Chi (1):
-  libtirpc: create the symbol link for rpc header files
-
- meta-selftest/lib/oeqa/runtime/cases/virgl.py      |   5 -
- .../recipeutils/recipeutils-test_1.2.bb            |   2 +-
- meta/classes/cve-check.bbclass                     |  13 ++-
- meta/classes/rm_work.bbclass                       |   9 ++
- meta/conf/distro/include/no-static-libs.inc        |   4 -
- meta/lib/oeqa/selftest/cases/runtime_test.py       |   2 +
- .../initscripts/initscripts-1.0/sysfs.sh           |   4 +
- .../file/file/CVE-2019-18218.patch                 |  55 +++++++++++
- meta/recipes-devtools/file/file_5.37.bb            |   7 +-
- ...ke-ed-directly-instead-of-using-the-shell.patch |   4 +-
- .../pseudo/files/0001-Add-statx.patch              | 106 +++++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo.inc            |  17 +---
- meta/recipes-devtools/pseudo/pseudo_git.bb         |   1 +
- .../qemu/qemu-helper-native_1.0.bb                 |   2 +-
- meta/recipes-devtools/qemu/qemu-helper/tunctl.c    |  16 ++--
- meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb   |  14 +++
- ...memory-update-for-mm-fix-false-positive-O.patch |  57 +++++++++++
- meta/recipes-extended/ltp/ltp_20190517.bb          |   1 +
- meta/recipes-extended/mdadm/mdadm_4.1.bb           |   5 +-
- meta/recipes-extended/sudo/sudo_1.8.27.bb          |   2 +-
- .../linux-firmware/linux-firmware_20190815.bb      |  18 ++--
- meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |   6 +-
- meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb    |   6 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |   8 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb  |   8 +-
- meta/recipes-kernel/linux/linux-yocto_4.19.bb      |  20 ++--
- meta/recipes-kernel/linux/linux-yocto_5.2.bb       |  22 ++---
- 27 files changed, 328 insertions(+), 86 deletions(-)
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-18218.patch
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch
-
+diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
+index 4141ecb..a3a865c 100644
+--- a/meta/conf/distro/include/no-static-libs.inc
++++ b/meta/conf/distro/include/no-static-libs.inc
+@@ -15,10 +15,6 @@ DISABLE_STATIC_pn-nativesdk-libcap = ""
+ DISABLE_STATIC_pn-libpcap = ""
+ # needed by gdb
+ DISABLE_STATIC_pn-readline = ""
+-# needed by pseudo
+-DISABLE_STATIC_pn-sqlite3 = ""
+-DISABLE_STATIC_pn-sqlite3-native = ""
+-DISABLE_STATIC_pn-nativesdk-sqlite3 = ""
+ # openjade/sgml-common have build issues without static libs
+ DISABLE_STATIC_pn-sgml-common-native = ""
+ DISABLE_STATIC_pn-openjade-native = ""
+diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+index 8b34909..7ff8e44 100644
+--- a/meta/recipes-devtools/pseudo/pseudo.inc
++++ b/meta/recipes-devtools/pseudo/pseudo.inc
+@@ -30,23 +30,10 @@ PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback --enable-ep
+ 
+ # Compile for the local machine arch...
+ do_compile () {
+-        SQLITE_LDADD='$(SQLITE)/$(SQLITE_LIB)/libsqlite3.a'
+-	for sqlite_link_opt in $(pkg-config sqlite3 --libs --static)
+-	do
+-	    case "$sqlite_link_opt" in
+-	    -lsqlite3)
+-		;;
+-	    -l*)
+-		SQLITE_LDADD="${SQLITE_LDADD} ${sqlite_link_opt}"
+-		;;
+-	    *)
+-		;;
+-	    esac
+-	done
+ 	if [ "${SITEINFO_BITS}" = "64" ]; then
+-	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --with-static-sqlite="$SQLITE_LDADD" --without-rpath
++	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
+ 	else
+-	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --with-static-sqlite="$SQLITE_LDADD" --without-rpath
++	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
+ 	fi
+ 	oe_runmake ${MAKEOPTS}
+ }
 -- 
 2.7.4
 
