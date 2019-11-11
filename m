@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FBB27F8CB;
-	Mon, 11 Nov 2019 08:02:43 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 50E787F8CB;
+	Mon, 11 Nov 2019 08:02:44 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Hongxu Jia <hongxu.jia@windriver.com>
-Date: Mon, 11 Nov 2019 08:02:44 -0000
-Message-ID: <20191111080244.2332.52980@do>
+Date: Mon, 11 Nov 2019 08:02:45 -0000
+Message-ID: <20191111080245.2330.46229@do>
 References: <20191111073218.2332.62082@do>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20191111073218.2332.62082@do>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ251cGctbmF0aXZlOiBmaXggR1BHIGhvbWVkaXIgcGF0aCBsZW5ndGggbGltaXQgKHJldjIp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ251cGctbmF0aXZlOiBmaXggR1BHIGhvbWVkaXIgcGF0aCBsZW5ndGggbGltaXQgKHJldjMp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 08:02:43 -0000
+X-List-Received-Date: Mon, 11 Nov 2019 08:02:44 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: gnupg-native: fix GPG homedir path length limit (rev2)
-Revision: 2
+Series: gnupg-native: fix GPG homedir path length limit (rev3)
+Revision: 3
 URL   : https://patchwork.openembedded.org/series/21074/
 State : failure
 
@@ -45,10 +45,14 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
-  Suggested fix    Include a brief reason why 0002-do-not-check-socketdir-to-be-owned-by-the-user.patch is inappropriate
-  Current          Upstream-Status: inappropriate [OE specific]
-  Standard format  Upstream-Status: Inappropriate [reason]
+* Issue             Series cannot be parsed correctly due to malformed diff lines [test_mbox_format] 
+  Suggested fix    Create the series again using git-format-patch and ensure it can be applied using git am
+  Diff line        nappropriate+     }
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a0c238d40a)
 
 
 
