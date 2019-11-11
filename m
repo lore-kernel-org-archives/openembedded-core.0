@@ -1,59 +1,26 @@
-Return-Path: <paul@betafive.co.uk>
-Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
-	[64.147.123.21])
-	by mail.openembedded.org (Postfix) with ESMTP id 077027FA11
+Return-Path: <mark.hatle@kernel.crashing.org>
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 59C797FA16
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 14:16:26 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id CEEA4430;
-	Mon, 11 Nov 2019 09:16:26 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-	by compute1.internal (MEProxy); Mon, 11 Nov 2019 09:16:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding; s=fm3; bh=8BcXLWmNE0HGG
-	yNiN9jwme8c9FDDuJ3IXe5i/wYHlNY=; b=gHZs/2aZwKLHqOUENQ59bkR9f8oeZ
-	EtU+vS1PoCb8qeyd7XJtI2wUwzmUqfAl4ZqqkXDbl1e8JTMZBTYXLlpC6MXbdGZ2
-	qU4qvIQWaxVgncgMXmQfz6mhihNF7J9qcklfp1CYXdAsRvkAVwHQIGZWGFrla9Ge
-	FjD0F9m7TPgb2Tw4RyllZ5CHGMPakz3WuH5FQAvkcUMP0pIeJC1R2XSD+xJEIWN6
-	Tf3krm4b36ZPS6aDqWDTR9TPdaw9t8yybS73oOiwQEEDQ4ayaRGrT08QF458A4m3
-	oU553YTuwO/m6CRy/BPnVGNo55utfbVol4ezVMGVPjK9aLW2oaRV/BAcw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; bh=8BcXLWmNE0HGGyNiN9jwme8c9FDDuJ3IXe5i/wYHlNY=; b=ZxncdbF/
-	nDRnBuyciTiX29+YK5ly45hSJz1Rac/AZ8qEu9EwbxEyku2yQaS1s5VYx/3qR3jt
-	voVcnMS8w29v7RdlUFKjquWocqQMv0w4BOLVV44UqGoqChw7bXPjP82KYs0XzBQm
-	DUeDczcM2PxM+JovvVLP7hKyHHikTPUbg/gOIcdKFOGJWPYZAiupXhJTIJGNSWWx
-	mjigwpJQsOQUhrQDME5fqDUBiofQME6vxxyLcM42TVSxAwKKO7yzG24tYQDVpCBP
-	sb0AdgUStnxcd0U7Wd26uwxY8UUpMe0xxTZY6+DvGGXxrcgc2RtWlU+gePDEkJDu
-	qK6eaap3Ywx81Q==
-X-ME-Sender: <xms:Om3JXX5JA18VK44Gu-YamFqolD6YMJHftW7LmLhS4B1hyNhYTLp62g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedruddvjedgieefucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
-	dtredttdenucfhrhhomheprfgruhhluceurghrkhgvrhcuoehprghulhessggvthgrfhhi
-	vhgvrdgtohdruhhkqeenucfkphepkedvrdegrddvtdejrdeivdenucfrrghrrghmpehmrg
-	hilhhfrhhomhepphgruhhlsegsvghtrghfihhvvgdrtghordhukhenucevlhhushhtvghr
-	ufhiiigvpedt
-X-ME-Proxy: <xmx:Om3JXfdPAwzN-5yOJ09aLqzAFEDls_1BVCnxaSGWpp67Au-BjGkMfQ>
-	<xmx:Om3JXfb02vCKNFABKwqLZ6fp5AvyV5UtiSHHHJUYRnsgDjhV2PAQsA>
-	<xmx:Om3JXdJu-fSWvsgx-lWNaksUXm9a1LMHVxjUaP3JiVXGqInFqY_8ew>
-	<xmx:Om3JXYLVI6T_qr9_MDjTsVyAt-HJieGox188jliFno3Gap5vVmg2Ig>
-Received: from arch-laptop.roaming.b5net.uk
-	(cpc86219-nott20-2-0-cust829.12-2.cable.virginm.net [82.4.207.62])
-	by mail.messagingengine.com (Postfix) with ESMTPA id E7908306005C;
-	Mon, 11 Nov 2019 09:16:25 -0500 (EST)
-From: Paul Barker <paul@betafive.co.uk>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 14:16:21 +0000
-Message-Id: <20191111141621.319368-2-paul@betafive.co.uk>
-X-Mailer: git-send-email 2.24.0
-In-Reply-To: <20191111141621.319368-1-paul@betafive.co.uk>
-References: <20191111141621.319368-1-paul@betafive.co.uk>
+	Mon, 11 Nov 2019 14:18:16 +0000 (UTC)
+Received: from Marks-MacBook-Pro.local ([76.164.61.198]) (authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id xABEHUb1026659
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NO); Mon, 11 Nov 2019 08:18:14 -0600
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Seebs <seebs@seebs.net>
+References: <20191109153559.15847-1-richard.purdie@linuxfoundation.org>
+	<20191109100710.66530547@seebsdell>
+	<5100e289ac8a5c4d0196e8ec77813859bb7a703d.camel@linuxfoundation.org>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+Message-ID: <d9dedf00-f8f4-8bf6-5b94-81868de5dc31@kernel.crashing.org>
+Date: Mon, 11 Nov 2019 08:17:30 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.2.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] oeqa: archiver: Add basic tests for all archiver modes
+In-Reply-To: <5100e289ac8a5c4d0196e8ec77813859bb7a703d.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] pseudo: Drop static linking to sqlite3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,95 +33,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 14:16:27 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 11 Nov 2019 14:18:16 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-6 new test cases are added to cover the various archiver modes
-documented at the top of archiver.bbclass. Each test sets the
-appropriate configuration options, runs the `do_deploy_archives` task
-for the selftest-ed recipe and checks for the presence of the expected
-archive file.
 
-Signed-off-by: Paul Barker <paul@betafive.co.uk>
----
- meta/lib/oeqa/selftest/cases/archiver.py | 66 ++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/archiver.py b/meta/lib/oeqa/selftest/cases/archiver.py
-index f8672f8abb..6bd0e06ec4 100644
---- a/meta/lib/oeqa/selftest/cases/archiver.py
-+++ b/meta/lib/oeqa/selftest/cases/archiver.py
-@@ -129,3 +129,69 @@ class Archiver(OESelftestTestCase):
-         self.write_config(features)
- 
-         bitbake('-n core-image-sato')
-+
-+    def _test_archiver_mode(self, mode, target_file_name, extra_config=None):
-+        target = "selftest-ed"
-+
-+        features = 'INHERIT += "archiver"\n'
-+        features +=  'ARCHIVER_MODE[src] = "%s"\n' % (mode)
-+        if extra_config:
-+            features += extra_config
-+        self.write_config(features)
-+
-+        bitbake('-c clean %s' % (target))
-+        bitbake('-c deploy_archives %s' % (target))
-+
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_SRC', 'TARGET_SYS'])
-+        glob_str = os.path.join(bb_vars['DEPLOY_DIR_SRC'], bb_vars['TARGET_SYS'], '%s-*' % (target))
-+        glob_result = glob.glob(glob_str)
-+        self.assertTrue(glob_result, 'Missing archiver directory for %s' % (target))
-+
-+        archive_path = os.path.join(glob_result[0], target_file_name)
-+        self.assertTrue(os.path.exists(archive_path), 'Missing archive file %s' % (target_file_name))
-+
-+    def test_archiver_mode_original(self):
-+        """
-+        Test that the archiver works in with `ARCHIVER_MODE[src] = "original"`.
-+        """
-+
-+        self._test_archiver_mode('original', 'ed-1.14.1.tar.lz')
-+
-+    def test_archiver_mode_patched(self):
-+        """
-+        Test that the archiver works in with `ARCHIVER_MODE[src] = "patched"`.
-+        """
-+
-+        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-patched.tar.gz')
-+
-+    def test_archiver_mode_configured(self):
-+        """
-+        Test that the archiver works in with `ARCHIVER_MODE[src] = "configured"`.
-+        """
-+
-+        self._test_archiver_mode('configured', 'selftest-ed-1.14.1-r0-configured.tar.gz')
-+
-+    def test_archiver_mode_recipe(self):
-+        """
-+        Test that the archiver works in with `ARCHIVER_MODE[recipe] = "1"`.
-+        """
-+
-+        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-recipe.tar.gz',
-+                                 'ARCHIVER_MODE[recipe] = "1"\n')
-+
-+    def test_archiver_mode_diff(self):
-+        """
-+        Test that the archiver works in with `ARCHIVER_MODE[diff] = "1"`.
-+        Exclusions controlled by `ARCHIVER_MODE[diff-exclude]` are not yet tested.
-+        """
-+
-+        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-diff.gz',
-+                                 'ARCHIVER_MODE[diff] = "1"\n')
-+
-+    def test_archiver_mode_dumpdata(self):
-+        """
-+        Test that the archiver works in with `ARCHIVER_MODE[dumpdata] = "1"`.
-+        """
-+
-+        self._test_archiver_mode('patched', 'selftest-ed-1.14.1-r0-showdata.dump',
-+                                 'ARCHIVER_MODE[dumpdata] = "1"\n')
--- 
-2.24.0
+On 11/9/19 10:30 AM, Richard Purdie wrote:
+> On Sat, 2019-11-09 at 10:07 -0600, Seebs wrote:
+>> On Sat,  9 Nov 2019 15:35:59 +0000
+>> Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+>>
+>>> Back in 2010[1] we made pseudo statically link against sqlite3.
+>>> Since then the world has changed, pseudo now has separate processes
+>>> for the database in the server and the client and they have
+>>> separate linking commands.
+>>
+>> I'm not sure what that has to do with the reasons for it being
+>> static? Not that I remember exactly anymore, but I think we were
+>> hitting problems caused if pseudo was dynamically linked to sqlite,
+>> but I don't remember what they were.
+> 
+> I did talk briefly to Mark (also cc'd) as he wrote the original patch
+> and he thought it was possibly because the client was also linking
+> against sqlite3 and due to the other things the client does, that was
+> problematic.
 
+First (early) version of pseudo would fork for the server, there wasn't a
+seperate executed server and we had all sorts of problems with dynamic libraries
+being loaded and loaded from the correct paths (due to the LD_PRELOAD).
+
+Moving to two process spaces, LD_PRELOAD and the pseudo executable happened
+pretty early in development, but I suspect some of this is left over from that.
+
+>> I'm not entirely sure I know what you mean by "separate processes for
+>> the database in the server and the client". I don't think
+>> libpseudo.so should ever do any database things at all, and it
+>> shouldn't need to link to sqlite.
+> 
+> I was under the impression the client may once have linked against it.
+> I admit I didn't dive into history, just checked that it clearly
+> doesn't now.
+
+The client had both from above, but also for some early logging that happened
+before the pseudo server was executed.  Both vestiges are long fone.
+
+>>> which occurs if sqlite3-native was built on a machine with glibc
+>>> 2.28 or later and pseudo-native is being built on glibc before
+>>> that.
+>>
+>> I don't think pseudo's ever been *expected* to work when built linked
+>> against things built against different libc. It is *way* too full of
+>> unholy magics that depend on knowing which libc it's using. That
+>> said, the pseudo server also shouldn't really need to be statically-
+>> linked, the only times it ever runs under pseudo, it just immediately
+>> tries to escape and not run that way.
+> 
+> The client lib doesn't and the server side should behave just like any
+> other linux binary afaik so we should be ok with a dynamicly linked
+> sqlite3?
+> 
+>>> There appears to be no easy way to avoid this other than adding a
+>>> copy of sqlite3 into the pseudo recipe. Given the static linking
+>>> doesn't seem to be required any longer due to the separate
+>>> processes,
+>>> drop that to fix those issues.
+>>
+>> I don't understand the "separate processes" thing. So far as I know,
+>> pseudo has never talked to sqlite from the client. I think Jason
+>> Wessel had experimental patches at one point to do client-local
+>> sqlite work to avoid the IPC overhead, but I don't think it ever got
+>> merged because it turns out the IPC overhead is insignificant
+>> compared to everything else.
+> 
+> If I'm working off incorrect assumptions, is there another reason we
+> need a static sqlite? I have tested this patch before I posted it and
+> it seems fine in our test builds...
+> 
+> Cheers,
+> 
+> Richard
+> 
 
