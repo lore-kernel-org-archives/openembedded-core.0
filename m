@@ -1,29 +1,40 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 44BC97F969
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id DDD3F7D2AE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 10:34:56 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Nov 2019 02:34:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,292,1569308400"; d="scan'208";a="354737890"
-Received: from unknown (HELO blackadder.local) ([10.252.44.81])
-	by orsmga004.jf.intel.com with ESMTP; 11 Nov 2019 02:34:56 -0800
-To: openembedded-core@lists.openembedded.org
-References: <BN6PR0101MB291467F2D2FCD0A1803982F58F7B0@BN6PR0101MB2914.prod.exchangelabs.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <0d757964-4dc6-e322-bb9f-7704a85211eb@intel.com>
-Date: Mon, 11 Nov 2019 10:34:55 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
+	Mon, 11 Nov 2019 10:42:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47BS9v4Gtxz3L;
+	Mon, 11 Nov 2019 11:42:11 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1573468932;
+	bh=spv5u5ifFB5HjwhI9pJWZO+XQ4tQx40aCwsUZGDfNdk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rXxt7y+QQqCQrK2JsmoYD7GEXw4BrFwhKjVMgrRxFwpLWG+5WVRMZ6qTngaetA+x4
+	ApUefTifK4RA9ZQvxQB6HXiLl9Qlx/mzJROGwSauhhynYmDtPdcRMbflpkUjY+ot4/
+	i1gzaiFcQIDl/RJC0jE1+WEkxG2VmERyUd2bO1rLtOUQt++JGkuOi6iSuQLlU28wDe
+	KPi9bMCYxXO1aIsaysqAAYHb8Df6cyCB77TpuIiZER0syipnIFNUGFLr90L0IKTXf0
+	ZUsiLXjXL6XoJUIBEimhFGJ7ogt5GzLYCs5jaN8zNljRntU/0ExrSfJseCA8rBsK5z
+	fFHjkPgBU+xak39eZuLhEQMA0XAIddblz1zWsJ5yImCjf/EqHIEDNPDUvrGYn6aA+7
+	Gwum9Ynt+MuI1zH7AbEj3vOHXU9NGAsYb0/JG5JQbhuMmrnutlurCCv061X5C2ut45
+	zJt09rvme51XruxlCiA/62RfzQ2t0dICUwJZwdrr222gPSvRKA8flf9SiduiFl0LOO
+	XWtSlCuoh7Va+UNm8VZvmh4Mkvj/okgI0Yc1j7/NgoUOHx6IOoxr58Q2m7A9I18P6H
+	Cm8oiuFQsgJufGNwJcXy+8DFnO1Djj5twW+ic6IiasqZcQ0mC1vsJdAqDAXLQlep+q
+	OwaNKMiBMVymUW0BCHzqdNJ8=
+Date: Mon, 11 Nov 2019 12:42:09 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20191111104209.GB28797@localhost>
+References: <cover.1573047194.git.mikko.rapeli@bmw.de>
+	<ec8a8c61-25a0-7e87-efee-b76e6c954d07@gmail.com>
+	<717e1439a3c155fc1f506d7a2933b968ee38f9a8.camel@linuxfoundation.org>
+	<be45a323-4379-8a13-71c6-21f98e3a0af4@gmail.com>
+	<afa8eed45a5acefa38a89e82e5a833f387963a8f.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <BN6PR0101MB291467F2D2FCD0A1803982F58F7B0@BN6PR0101MB2914.prod.exchangelabs.com>
-Subject: Re: How to enable x11 with intel-corei7-64 machine in meta-intel layer
+In-Reply-To: <afa8eed45a5acefa38a89e82e5a833f387963a8f.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH RFC CFH][sumo 00/47] CVE check backport
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,57 +47,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 11 Nov 2019 10:34:56 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 11 Nov 2019 10:42:14 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 08/11/2019 20:46, Muhlenkamp, Lewis wrote:
-> This is a bare bone setup.  I am using the thud branch.  My 
-> bblayers.conf file is as follows:
+On Thu, Nov 07, 2019 at 04:32:35PM +0000, Richard Purdie wrote:
+> On Thu, 2019-11-07 at 07:55 -0800, akuster808 wrote:
+>...
+> > Are you taking the other patches also submitted for sumo ?
+> 
+> I am worried about what the bigger picture for this looks like but we
+> could try testing them. I think the TSC needs to discuss this.
 
-I quote you here: "bare bones setup".
+How were community supported branches supposed to work?
 
-> BBLAYERS ?= " \
-> 
->    ${HOME}/oe-core/meta \
-> 
->    ${HOME}/meta-openembedded/meta-python \
-> 
->    ${HOME}/meta-openembedded/meta-gnome \
-> 
->    ${HOME}/meta-openembedded/meta-filesystems \
-> 
->    ${HOME}/meta-openembedded/meta-oe \
-> 
->    ${HOME}/meta-openembedded/meta-networking \
-> 
->    ${HOME}/meta-openembedded/meta-initramfs \
-> 
->    ${HOME}/meta-openembedded/meta-webserver \
-> 
->    ${HOME}/meta-intel \
-> 
->    ${HOME}/meta-virtualization \
-> 
->    ${HOME}/meta-cloud-services \
-> 
->    ${HOME}/meta-cloud-services/meta-openstack \
-> 
->    ${HOME}/meta-iot-cloud \
-> 
->    ${HOME}/meta-secure-core/meta-tpm \
-> 
->   “
+All branches from 2.1 (sic) are documented as supported in the wiki.
 
-That is not a bare bones setup.  To demonstrate that the problem is not 
-your own doing, create a new build directory with just meta and 
-meta-intel in bblayers, DISTRO set to nodistro, MACHINE set to 
-intel-corei7-64, and then build xf86-video-intel.
+> Cheers,
+> 
+> Richard
 
-If that fails then please report back with the full logs.  If that works 
-then you know that the problem is in your configuration somewhere so 
-start adding pieces back to determine what broke.
+cu
+Adrian
 
-Ross
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
