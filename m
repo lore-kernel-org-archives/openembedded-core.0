@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
 	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id EF4E87FBBD
+	by mail.openembedded.org (Postfix) with ESMTP id BE8227FBBD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 04:33:48 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id j12so8802302plt.9
+	Tue, 12 Nov 2019 04:33:49 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id d7so6940518pls.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 20:33:50 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=5u7f4br7enc4+26cw+aztyNME67IMvki6ewJeMq4B9I=;
-	b=L+wUJQG8Eiv0/KwaSSsk5iKQiiTpkCbLtuIR3OVLiFflVDmNJGD8xyrjXmT3HtTagQ
-	atrnb5qKJfYxaRchFyXzNhCiGtihQ/QNFI2tXSde5kYAozGYzLgyn8MB+4W+d6+PT4wd
-	I906FicG1V8PalS6mk/mi14QvQslVFsfYOqFC2QvzTemuo1o6Vdsp5xPhBI+0ksYrbAe
-	poM0mthbOudBlNVMbRiOKbzSp1+3MJIuEJLxZZor4yByKNbZ6jgzJvlyhCOEzVFdD3b7
-	if2dGnHdn5hIN3d4Lj6caIHtQlfDEyJU/p99UcX9QlLIxqGp5RNRfdK3KedIOa3qHk9y
-	MdqQ==
+	bh=le3rjCzoU3lITaeSJ5+9duxJy2ECTSHabT5Dt7hwaTc=;
+	b=YCh174BZ9NnjB/I1m0JMSqyFN+2SeDfvw6a3tI3tfI1l86jp+3fKTxWLFOx5uPZ56t
+	URlT8LHh4L/6osyjNjmrQKf4vwndl4lF0/r3bAOPJWwTTxKHXE4ktsLm5YniTKiWS0yi
+	Qa/I1GSEHLk6gmDBVNu7klm7zvQCXcdLMKuYquLs3ewyglW+C55s1Etv2ejKxblMtEip
+	VbRqyOig8FHZEBIhOcm2cH3fbMAa4oqGWJPTkfHU5VwVmRRRA8aR6vWtVvv9eI1Jfhwt
+	xEhLIYnBtYeUEYh/00T9p/VWL6Kz+OlH9Q7zNQy4FMSHRUmr1puxGUTtAIOHGoxtXwUF
+	6Mcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=5u7f4br7enc4+26cw+aztyNME67IMvki6ewJeMq4B9I=;
-	b=LrpL/jEhayKD/pJk8kAKCKPAnkpW5ijNIUnTxR14g6IF6kSGLe3mJ9Plnda7peXSB6
-	6GfInEbo1PzBEYqLOWruiDAiEjCmQopJtD92G4iUTO37qFr1fIbxykUZcJjhf5J+5xOr
-	YlYQmAxMAoL3MvCVExA82I7SycUT244g2V9iM8sbOTgGprowRdLVrXTPHtCvqYV42erf
-	zvsaweotWJ+C4MTvcnCZ/AlXWJBmSyxntTEb9O/OaizzjLX5OdRbFY5GCwmYCHM8lGxF
-	E6WWxpigOYsxeFwn7B7Cu3TzEJvyxvW1ku59xlo96IkdjcgjCGr5l+r+Rfc5XufgX2C1
-	s3Gg==
-X-Gm-Message-State: APjAAAUnZWrAWppcTnUY12WyEalYRiOJ+AkTae/bx7W21Q7zEPqLbcJ2
-	kgNp1hzp5W0+aaRBZdR182KT8XcT
-X-Google-Smtp-Source: APXvYqw/M4Qkh9l3Bk5MvDSCWrrdUoYqDBZb/FJM3qVcf686/ZdJkFYYUKoQzgZ0+ve71Ccps+eZ1A==
-X-Received: by 2002:a17:902:9a8e:: with SMTP id
-	w14mr30734247plp.215.1573533229806; 
-	Mon, 11 Nov 2019 20:33:49 -0800 (PST)
+	bh=le3rjCzoU3lITaeSJ5+9duxJy2ECTSHabT5Dt7hwaTc=;
+	b=TjBhFmwVwjqPkvJ34PM5hYwGJ4JHfdI90RDZH7w5uXkxSt5vLAPPqDxBt+TNCkuby+
+	2xSz637BJWV6FDmVmSPcJlAXgHtfsj+xLqYihHed6YBjKsI+gcOa1kkjL0f7SHI0au09
+	S96QTId2kTTO4C6zJCGQHmkVWeY+GUL0ibnPtQeYXyyBMirv+t4h1pzg2fZGZ0rh62nj
+	+sHVOa6mLVwx1NWLcze32aieF6ifGos56URDUsyymfusAFbmG4OBniTStBFGev6++68Y
+	3CJz6N+pz8lN66L++RuWB5OsVEKhbuNX0+9J2ydwdnNMNm3U+SxaDF/gYOL/J1LZPaEf
+	wT6Q==
+X-Gm-Message-State: APjAAAUDBVh6PlIgu6jGv9vzVFz3/yO4MhvuegkWUdhF/iWYazW4tWJo
+	4Gy9IQxbbF0B0lmS97NCSrci1AIc
+X-Google-Smtp-Source: APXvYqy4jZfYyLa+e2CoQmFgj+YfbRaBqYNS03vYCVkQwrKJrTcFo4OePNqSCXzeAyF/l5cyYwhZKA==
+X-Received: by 2002:a17:902:b20b:: with SMTP id
+	t11mr30146058plr.211.1573533230708; 
+	Mon, 11 Nov 2019 20:33:50 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
 	q12sm5212109pgl.23.2019.11.11.20.33.49
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Nov 2019 20:33:49 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:50 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 20:33:27 -0800
-Message-Id: <0dcbf22c71ac3fcd5fa0031392561d393f91987a.1573532188.git.akuster808@gmail.com>
+Date: Mon, 11 Nov 2019 20:33:28 -0800
+Message-Id: <f8746c4c6debd2ca20ccb768888a1499d74f7787.1573532188.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573532188.git.akuster808@gmail.com>
 References: <cover.1573532188.git.akuster808@gmail.com>
-Subject: [PATCH 08/20] manual qa/bsp-qemu: remove rpm tests already done in runtime
+Subject: [PATCH 09/20] manual qa/bsp-qemu: remove KVM enabled which is already done in selftest runqemu
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,18 +64,18 @@ X-List-Received-Date: Tue, 12 Nov 2019 04:33:49 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/manual/bsp-qemu.json | 60 --------------------------------------
- 1 file changed, 60 deletions(-)
+ meta/lib/oeqa/manual/bsp-qemu.json | 30 ------------------------------
+ 1 file changed, 30 deletions(-)
 
 diff --git a/meta/lib/oeqa/manual/bsp-qemu.json b/meta/lib/oeqa/manual/bsp-qemu.json
-index cf51b6a..f680f64 100644
+index f680f64..b49abf4 100644
 --- a/meta/lib/oeqa/manual/bsp-qemu.json
 +++ b/meta/lib/oeqa/manual/bsp-qemu.json
-@@ -91,66 +91,6 @@
-   },
+@@ -1,36 +1,6 @@
+ [
    {
      "test": {
--      "@alias": "bsps-qemu.bsps-tools.rpm_-__install_dependency_package",
+-      "@alias": "bsps-qemu.bsps-tools.qemu_can_be_started_with_KVM_enabled",
 -      "author": [
 -        {
 -          "email": "alexandru.c.georgescu@intel.com",
@@ -84,58 +84,28 @@ index cf51b6a..f680f64 100644
 -      ],
 -      "execution": {
 -        "1": {
--          "action": "Get a not previously installed RPM package or build one on local machine, which should have run-time dependency.For example, \"mc\" (Midnight Commander, which is a visual file manager) should depend on \"ncurses-terminfo\".   \n\n$ bitbake mc  \n\n\n",
+-          "action": "Build a kernel with KVM enabled  \n\nIn Local.conf add  \n\nQEMU_USE_KVM = \"${@ '1' if os.access('/dev/kvm', os.R_OK|os.W_OK) else '0' }\"  \n\n ",
 -          "expected_results": ""
 -        },
 -        "2": {
--          "action": "Copy the package into a system folder (for example /home/root/rpm_packages).  \n\n\n",
+-          "action": "Start qemu with option \"kvm\" with runqemu \n    a. If you start qemu with kvm failed, maybe it is because host not install kvm and vhost_net module. Follow below link to install them. \n    b. vhost_test refer:  https://wiki.yoctoproject.org/wiki/Running_an_x86_Yocto_Linux_image_under_QEMU_KVM \n    c. kvm refer: https://wiki.yoctoproject.org/wiki/How_to_enable_KVM_for_Poky_qemu",
 -          "expected_results": ""
 -        },
 -        "3": {
--          "action": "Run \"rpm -ivh package_name\" and check the output, for example \"rpm -ivh mc.rpm*\" should report the dependency on \"ncurses-terminfo\".\n\n\n\n",
--          "expected_results": "3 . rpm command should report message when some RPM installation depends on other packages."
--        }
--      },
--      "summary": "rpm_-__install_dependency_package"
--    }
--  },
--  {
--    "test": {
--      "@alias": "bsps-qemu.bsps-tools.Check_rpm_install/removal_log_file_size(auto)",
--      "author": [
--        {
--          "email": "alexandru.c.georgescu@intel.com",
--          "name": "alexandru.c.georgescu@intel.com"
--        }
--      ],
--      "execution": {
--        "1": {
--          "action": "Get some rpm or other kind of installation packages.  \n\n",
--          "expected_results": "Steps 1- 4 (more than 2.3) \nEach file will occupy around 10MB, and there should be some method to keep rpm log in a small size. (the size of the db of RPMs must not be taking so much space)  \nStep 5 (less than or equal to 2.3)\nThe size on /var/lib/rpm/ must keep around 30MB"
--        },
--        "2": {
--          "action": "After system is up, check the size of log file named as \"log.xxxxxx\" on  /var/lib/rpm/log  \n\n",
--          "expected_results": ""
--        },
--        "3": {
--          "action": "After several install/removal of packages, with either of the install/removal commands   (rpm/smart/zypper/dnf install/removal), check again the size of log file.  \n\n",
+-          "action": "Check if qemu starts up and if kvm_intel module is used",
 -          "expected_results": ""
 -        },
 -        "4": {
--          "action": "For packages installation, there will be some database files under /var/lib/rpm/, named as \"__db.xxx\" and there will be some log files   \nunder /var/lib/rpm/log, named as \"\"log.xxxxxx\"\".   \n\nNote: You will only see the log.xxxx on /var/lib/rpm/log mentioned above if the poky version is minor than 2.3.For poky 2.3 or major versions this has been modified and the package RPM4 does not show the logs.xxxx. if major, follow the next step.  \n\n",
--          "expected_results": ""
--        },
--        "5": {
--          "action": "Repeat steps (1 and 3)  and check the size of /var/lib/rpm/  \n\nMore info: https://bugzilla.yoctoproject.org/show_bug.cgi?id=9259",
--          "expected_results": ""
+-          "action": "If kvm_intel module is not used when starting qemu, it will show 0 in \"Used by\" column when you run \"lsmod | grep kvm_intel\" ",
+-          "expected_results": "KVM enabled with qemu \nExecute \"lsmod | grep kvm_intel\" from your host twice, before and after you \nstart the qemu with kvm option. Before start, the number should be 0, \nafter start, the number should bigger than 0."
 -        }
 -      },
--      "summary": "Check_rpm_install/removal_log_file_size"
+-      "summary": "qemu_can_be_started_with_KVM_enabled"
 -    }
 -  },
 -  {
 -    "test": {
-       "@alias": "bsps-qemu.bsps-runtime.only_one_connmand_in_background(auto)",
+       "@alias": "bsps-qemu.bsps-tools.Post-installation_logging",
        "author": [
          {
 -- 
