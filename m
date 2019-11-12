@@ -1,58 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C71B60125
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id CF9367F33D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 21:01:14 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id n13so14247320pff.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 13:01:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:user-agent:mime-version:content-transfer-encoding;
-	bh=HGyakTGnMimEC1s7EinSkax5tWQCD6C7g1rtrW1rPlE=;
-	b=nuOe4lnb3c8dJGYKBoLBKs+NkjcLIVfoitfBMtlwDColp5YgdBX9Qu6w4yGxoBL376
-	pIWBmP/AtEp8hwE/ZIBXa1ZGg0Ne0HyNW8zHSsxGK5c+13cSjCwspLHQYUFQoRgWXPCR
-	73Ff4RWcnYH+Sychkjd3wTxJC3H1Xe5+fgm5jz+UH89wVlNfGMUzwJbcZUoXFWr6CRAb
-	PodrXHP2Jr1W17u+vXy+9HLxP6zlHCvO4tsCnXxJgc+g7YFCAYvYwFXoBqouwNvAnwE0
-	5MPiDiXVKBY0joN31gCxUBjHlIBjx170cx4Dg22F3LIyDvp0gl9YQYeVTCoiEBawTrfD
-	NFQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=HGyakTGnMimEC1s7EinSkax5tWQCD6C7g1rtrW1rPlE=;
-	b=RWQJ2gsxA2LZmUWkCsmQXJkWE7U+QBial73l6f28Z/74gXjVpOVQD0+EwlGPvRPmAN
-	yjK+Kn++81fuDi9Vi26v/1oXRcnAxBMzTos4AyTtlXsZbYpK1aBuY2zha8Sqha/wFVhJ
-	u6gkhKGDh2Iz63GrdbHzu0+RnfuMzY6U2Q8AvFRr+S5huwazwMJHCvEazoPexo6hJHWv
-	TtBEsI9x3ILatK4BcBL+3cOT334/1B8gSvcntrKdDZgmuV2FxslLntkVlsFVY4eHOree
-	GtIwpKfVaivrPpGBxsODlp+SQ5jSaBOv+AYkf0jqsh4Vsrn5HqHUvqXVA9mAiu7Lw1cr
-	NXgw==
-X-Gm-Message-State: APjAAAUpE3fcAgouPpW6r4pfK8VOo4Lqzmn+lWmNuNIG+7rR6to5zmzj
-	EvKgeaDrRBUqztJ8izzgxE8=
-X-Google-Smtp-Source: APXvYqxtdnjFHIv844zEe9oMbMCPUMQ8y3kbHTWvBWn7mj1sTPmcicTIvEnQMG7EiBD9ytAIu0I9pQ==
-X-Received: by 2002:a63:e145:: with SMTP id h5mr37849732pgk.447.1573592475652; 
-	Tue, 12 Nov 2019 13:01:15 -0800 (PST)
-Received: from apollo ([2601:646:8500:1c20::30e8])
-	by smtp.gmail.com with ESMTPSA id
-	s13sm18774931pfc.110.2019.11.12.13.01.14
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 12 Nov 2019 13:01:15 -0800 (PST)
-Message-ID: <b7c3ec8ee350e606ff8bc99c20efacb87654c858.camel@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Michael Scott <mike@foundries.io>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 12 Nov 2019 13:01:10 -0800
-In-Reply-To: <20191112195656.7359-1-mike@foundries.io>
-References: <20191112195656.7359-1-mike@foundries.io>
-Organization: HIMVIS LLC
-User-Agent: Evolution 3.34.1 
+	Tue, 12 Nov 2019 21:46:06 +0000 (UTC)
+IronPort-SDR: SKg/n8+AKjM91Wsyrtk0wc/A4OucEFKP9kJ3FZW8tcoDn7j94lxK4pXCv9+0cphE7bROr/L024
+	A+HPh0bsyUnAIKpVDRb2VegCEAEvKurWI23pfrwhqtx1LPdf+WaxMH+Juq4bXeuEWc6i4LRKUY
+	nFsT616jOhjI27LBXTHegky6cVTK21FktiLlMDIPtkcz9JjFrCOdEDbqDskiUe5eoLYVITujlh
+	QliimlcKNaTHBM0BDkz6tPNWmUpMF25p3ePISfbC+EAfH9nAgJwBNakrRU6swy4ZyzKaKUN8I0
+	Uxs=
+X-IronPort-AV: E=Sophos;i="5.68,297,1569276000"; 
+   d="scan'208";a="2359929"
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Seebs
+	<seebs@seebs.net>
+Thread-Topic: [OE-core] [PATCH] pseudo: Add statx support to fix fedora30
+	issues
+Thread-Index: AQHVlabN78xPLmXDO0WnEn+3OvoRoaeAGXEAgAAFFYCAB/mVsA==
+Date: Tue, 12 Nov 2019 21:46:05 +0000
+Message-ID: <0161f8e59caa4609aa6d1e6904042359@XBOX03.axis.com>
+References: <20191107200444.22913-1-richard.purdie@linuxfoundation.org>
+	<20191107143430.39e16813@seebsdell>
+	<17ac19c3d8e4b4b110312fe6005e83684b671034.camel@linuxfoundation.org>
+In-Reply-To: <17ac19c3d8e4b4b110312fe6005e83684b671034.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	Stefan Agner <stefan.agner@toradex.com>, Adrian Bunk <bunk@stusta.de>,
-	Bryan Gillespie <bryan.gillespie@hughes.com>
-Subject: Re: [meta-oe] modemmanager: Upgrade 1.10.6 -> 1.10.8
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: Add statx support to fix fedora30 issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,58 +46,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2019 21:01:15 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 12 Nov 2019 21:46:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2019-11-12 at 11:56 -0800, Michael Scott wrote:
-> Includes: Fix for an issue presenting after 1.10.6 update where modem
-> would enter status denied state.
-> 
-> See:
-> https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?h=1.10.8&id=47fd8a1e55cac0b0b45812e1dda826f38c264d1b
-> 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Richard Purdie
+> Sent: den 7 november 2019 21:53
+> To: Seebs <seebs@seebs.net>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] pseudo: Add statx support to fix fedora30
+> issues
+>=20
+> On Thu, 2019-11-07 at 14:34 -0600, Seebs wrote:
+> > On Thu,  7 Nov 2019 20:04:44 +0000
+> > Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > > Modern distros (e.g. fedora30) are starting to use the new statx()
+> > > syscall through the newly exposed glibc wrapper function in
+> > > software
+> > > like coreutils (e.g. the ls command). Add support to intercept this
+> > > to pseudo.
+> >
+> > I think this should be okay. If there's no real statx() wrapper, the
+> > real_statx() call probably fails, but also things probably won't have
+> > thought it existed/worked.
+>=20
+> That was my thinking...
+>=20
+> > Worth double-checking that things still run with this in place on a
+> > system that doesn't have a statx wrapper, when configuring and
+> > building things like coreutils that will check for it.
+>=20
+> coreutils looks to be using a standard configure check for the statx
+> function.
+>=20
+> Even in OE, we'd not want to configure/compile with pseudo loaded and
+> active so I think we should be ok...
+>=20
+> Cheers,
+>=20
+> Richard
 
-Patch is ok, but please send it to openembedded-devel mailing list, so
-it can be caught by patchwork into right project.
+As a Fedora 30 user, I expect this needs to be backported to Zeus,=20
+Warrior, etc as well or I guess I will start seeing problems when=20
+building them?
 
-> Signed-off-by: Michael Scott <mike@foundries.io>
-> ---
->  .../{modemmanager_1.10.6.bb => modemmanager_1.10.8.bb}        | 4
-> ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta-oe/recipes-
-> connectivity/modemmanager/{modemmanager_1.10.6.bb =>
-> modemmanager_1.10.8.bb} (92%)
-> 
-> diff --git a/meta-oe/recipes-
-> connectivity/modemmanager/modemmanager_1.10.6.bb b/meta-oe/recipes-
-> connectivity/modemmanager/modemmanager_1.10.8.bb
-> similarity index 92%
-> rename from meta-oe/recipes-
-> connectivity/modemmanager/modemmanager_1.10.6.bb
-> rename to meta-oe/recipes-
-> connectivity/modemmanager/modemmanager_1.10.8.bb
-> index 92d4fe0f4..3cd21cc0d 100644
-> --- a/meta-oe/recipes-
-> connectivity/modemmanager/modemmanager_1.10.6.bb
-> +++ b/meta-oe/recipes-
-> connectivity/modemmanager/modemmanager_1.10.8.bb
-> @@ -14,8 +14,8 @@ DEPENDS = "glib-2.0 libgudev intltool-native
-> libxslt-native"
->  SRC_URI = "
-> http://www.freedesktop.org/software/ModemManager/ModemManager-${PV}.tar.xz
-> \
->             "
->  
-> -SRC_URI[md5sum] = "7452a94f0d1ca361ae51ff1d287c53f5"
-> -SRC_URI[sha256sum] =
-> "3c2ca73782215664141042422759899ca9846440fc26d6223c7cf7ea4dd3c996"
-> +SRC_URI[md5sum] = "c05ac4246c81cc15d617c4a129232988"
-> +SRC_URI[sha256sum] =
-> "cbe174078dbdf3f746a55f0004353d3c27da2a31da553036d90fc7dc34a0169a"
->  
->  S = "${WORKDIR}/ModemManager-${PV}"
->  
+//Peter
 
 
