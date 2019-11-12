@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 50CBB7FBBD
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 330B57F93B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 04:33:54 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id z188so5057716pgb.1
+	Tue, 12 Nov 2019 04:33:55 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id h27so11009277pgn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 20:33:55 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=icqULzWw+zsVTCbvXRemRUhocxIzfsIaYO2W9RG5tI4=;
-	b=nZJ0xgq1keur43tAnYZ6+wEXaxNvQyjTaeHj7A9ZOVkz4N39wlPxNjGJ24Khn3a3wL
-	qG4HC0NMvisdUn/KMe1qrdIu85XXXb8OXh4UDhi9/sj+EU43t1nJul13q1CUWpc52MUG
-	ktXgoBNPxBHn5wFVWbAm005BO/o96W54GhmOP1/UrDuATvL037QeLdeIjHi0t7MGDLup
-	yFlBlH3zpC6aMmfcbaLa214jB0znzkAwtzoi23L7IIUyxAzqUegPIphfTWHyYrhFh1ZD
-	fDursYCPtwBK8shgDWA+KLvfVfNrUTunrAXe8j0GpDRVU0aTPJ9ipDYxBQaAX/d8sYaU
-	PoVA==
+	bh=aPgqfFQ0hseRBlnhYYvREF9jSYv1jOuxPW16scYMLWQ=;
+	b=iU4nmOCZpvI0zLULCd27c6l/Hc6/EDPoGbAUEKy70pjH8wI+6gTjsQYZeVJjIeEIQE
+	2xImWp5sIKHB971dSNebaadBzxmuv2Muxa/EgzP53C7Qg8fSJ/2UrTrcaqaU81ewc7l8
+	I+22R1iybiRidn8oVclZLS0JB07Vj5wV7k8TLm7ymBkWeVJ8wUX8UiUbn8brld9Zjot1
+	cxcDunlhvP6c3WRu3/jimyL8/y5c6qdZPD9O4+m0PtGpxez18nMcEF7OC94WGS9Zdedv
+	dV5QJ0ssey2yBonO9cLaHQzEQf01hqddVz9ujc3JNjWnyFdPU5tDA+sCFqpWCqK7dqJv
+	oPhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=icqULzWw+zsVTCbvXRemRUhocxIzfsIaYO2W9RG5tI4=;
-	b=GZqMQeY1SD/eM7tI0I1oU7jDu1jcvvmqlO0q+D3JNHiI/DEz83vGvZnSNemTxyTIXr
-	+gUFoydgEzCKppkMotLgJECmDHXLT8yoDdU2w2CkGu1AewpqvWoG05acLZ8Y64gW1znU
-	Ck/voGEYlK8CKTD8TMaPvEhnxSCSh/1j0+iPWfQgRtrFHpNZpIHLIz8eat/uIkKwmldS
-	+7/Nw0YD4xHT+5yJCXA6qKx6xC3siVFBuXV54Mv0opG+7wFScbxSb9tDhsy21pNyehFV
-	1N+CWAK00+5Xln8GQpcgCdGS4TGdZjmUDkzY7QOaWWlxnOAVA8H57KK3utPnp25VD5l5
-	aBjg==
-X-Gm-Message-State: APjAAAUcWwtSr/om6wqN/GoaT5whMa9pYfsjmFbutoGWVtp+8P4bXPih
-	WG+QnrRD6B5f/KYFdajY3i1ceVZY
-X-Google-Smtp-Source: APXvYqxXXHU76LH1qCtVm+B/jbRNZg+m2IrWiGaVwmHaEfIhJnZi3AWEPJjedRHuXEu60RPmCcfBRA==
-X-Received: by 2002:a62:6404:: with SMTP id y4mr32836705pfb.170.1573533235290; 
-	Mon, 11 Nov 2019 20:33:55 -0800 (PST)
+	bh=aPgqfFQ0hseRBlnhYYvREF9jSYv1jOuxPW16scYMLWQ=;
+	b=a4gCb2Jjz6Y17C1df3ZXUhyRACKkKat1Th2zfetACsr616N5XAHCMzwlEzSGxo8j6t
+	2EsZXDVBD3PcXJcAEwcpU/q9seFQ0NM/5DiutvmfjXcJhWZKXgiee1hZqbp9TK6APAm1
+	6EhWAW4KKOql5A5wH8/J115NJNUFwocFvSlNH8Ara/SqHG+QVeRLd0iUUvypoglLNv/+
+	yr3wkZQMJJKpFkxtSKNSqbOqnIx3CDkVybk7ApUi8Q+gWepcw1XDYf0bbpYpvVhIjvRm
+	m4k6wbl4krm4Kiatc5pj4OWvnIT5I7A7bpvBLVTkP4VIbMEB3JZtt1GV0ltZq3B4Slib
+	/n7g==
+X-Gm-Message-State: APjAAAUnZpQ07tNQeKwhWuzz9HgGx7DqZKxxNyWzl/ZC7GbqIrA86Kk7
+	X3RmZy9RhR6l8uIxmEFLGUYQ6qxL
+X-Google-Smtp-Source: APXvYqyA1r5Nj040xurOJEQ/X8CAQmNHLux8j6/4r21St7Na7cUsrTb7PK+ScHoBhyQJqwJXJfEwJw==
+X-Received: by 2002:a62:7a85:: with SMTP id v127mr619471pfc.141.1573533236046; 
+	Mon, 11 Nov 2019 20:33:56 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
-	q12sm5212109pgl.23.2019.11.11.20.33.54
+	q12sm5212109pgl.23.2019.11.11.20.33.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Nov 2019 20:33:54 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:55 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 20:33:34 -0800
-Message-Id: <4a97d5b11fafaaae565c2502c651e3744d1ac622.1573532188.git.akuster808@gmail.com>
+Date: Mon, 11 Nov 2019 20:33:35 -0800
+Message-Id: <7eab462b4d6efcb57dc8ce088299b9372df0458c.1573532188.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573532188.git.akuster808@gmail.com>
 References: <cover.1573532188.git.akuster808@gmail.com>
-Subject: [PATCH 15/20] OEQA: remove manual bash test
+Subject: [PATCH 16/20] OEQA: remove manual useradd test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +59,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2019 04:33:54 -0000
+X-List-Received-Date: Tue, 12 Nov 2019 04:33:55 -0000
+
+useradd tested is done via:
+test_non_root_user_can_connect_via_ssh_without_password and
+test_non_root_user_can_connect_via_ssh_without_password
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/manual/bsp-qemu.json | 18 ------------------
- 1 file changed, 18 deletions(-)
+ meta/lib/oeqa/manual/bsp-qemu.json | 28 ----------------------------
+ 1 file changed, 28 deletions(-)
+ delete mode 100644 meta/lib/oeqa/manual/bsp-qemu.json
 
 diff --git a/meta/lib/oeqa/manual/bsp-qemu.json b/meta/lib/oeqa/manual/bsp-qemu.json
-index 021ba57..b19bf4b 100644
+deleted file mode 100644
+index b19bf4b..0000000
 --- a/meta/lib/oeqa/manual/bsp-qemu.json
-+++ b/meta/lib/oeqa/manual/bsp-qemu.json
-@@ -25,22 +25,4 @@
-       "summary": "Add_user_with_cleartext_type_password_during_filesystem_construction"
-     }
-   },
++++ /dev/null
+@@ -1,28 +0,0 @@
+-[
 -  {
 -    "test": {
--      "@alias": "bsps-qemu.bsps-runtime.check_bash_in_image",
+-      "@alias": "bsps-qemu.bsps-tools.Add_user_with_cleartext_type_password_during_filesystem_construction",
 -      "author": [
 -        {
--          "email": "alexandru.c.georgescu@intel.com",
--          "name": "alexandru.c.georgescu@intel.com"
+-          "email": "ke.zou@windriver.com",
+-          "name": "ke.zou@windriver.com"
 -        }
 -      ],
 -      "execution": {
 -        "1": {
--          "action": "After system is up, check if bash command exists with command \"which bash\"",
--          "expected_results": "bash command should exist in image giving something as below  \"/bin/bash\""
+-          "action": "Download the poky source and set the environment  \n\n",
+-          "expected_results": "No error during image building procedure. \n"
+-        },
+-        "2": {
+-          "action": "Add the following lines in conf/local.conf  \n\nINHERIT += \"extrausers\"  \n\nEXTRA_USERS_PARAMS = \"\\ \nuseradd -s /bin/sh -P 'tester3' tester3;\\ \n\"  \n\nThe above settings do the following things: \na. Add a user tester3 with cleartext password 'tester3' ",
+-          "expected_results": "Image can boot up \n"
+-        },
+-        "3": {
+-          "action": "Build the image\n ",
+-          "expected_results": "Login with user name \"tester3\" and password \"tester3\" "
 -        }
 -      },
--      "summary": "check_bash_in_image"
+-      "summary": "Add_user_with_cleartext_type_password_during_filesystem_construction"
 -    }
--  }
- ]
+-  },
+-]
 -- 
 2.7.4
 
