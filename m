@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A2847E5FB
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A60947F93B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 04:33:42 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id h4so10969370pgv.8
+	Tue, 12 Nov 2019 04:33:43 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id c13so12415759pfp.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 20:33:44 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=jmTGYLU+OlMhfeA0evx+l8b+Ydeg81qQCvrqHlEzuu0=;
-	b=g8huaDhahpPWa+dNlHsdj1Bmvs5iOg2/kW2OwbxyqFD4UcXa4uD2MDofWYmC8fKR2M
-	h/X2jQlu6pzpFNU4nkbGwHdr/TmMqc4BgSWTSAZGVQLiTXI1wtM31P5RUfrbuX/KppVQ
-	6RVGf6x9w7zkKTYxg7BPFOfmlTeymp4fs8f+ZykeiyBamQ37UGkLmJUya0rCoX+E8Hew
-	RJ4Vy0Fh9yyKqeeld4cZUiYYGPb4dnFOTXRTNC6YYiBVGDOT2RkCShdlIja7s0HwUxhL
-	+EXLVciAi0qxrrsAuplGQokjC+m3T5srU6NyBpgkOR7tPubLeRu0k7CVLzWdo6f8jC+t
-	ByVQ==
+	bh=HDd/ubaY1ufqHeYuaDOKWW0bDl3AojC4aJ/E62+RU5s=;
+	b=X+eN+fxu+uAzUpdRXiWS82IhUiC54SWcXQiscsQ7+bKU1LApRoKy+FMV6HZC8Z6cLB
+	vPWVo7l2zBYYnMrQUckgcZLljkmLr503k/9YUdi5d5T/uEI7tcKro6tXhOM56VltsWvg
+	UGSem0eZ8CNGZK6phDqwlm6OiKlBm0LUvc2R2bCsZ+ARyaWkqw4Z/b7+3HXNQJIonZfR
+	Z7gdT6kXjyT98rNPsvq8caRMRWt41jFu5E3A3igdj91CP57PFBfA+RyQBsb6/ff2Uawx
+	ZwR6Q+Xf2WjFcViJJ1xTcXsPel616cwH9LgVfFwePG4aoI6BaVOyz6JFU7CuKQsRzgkk
+	HWPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=jmTGYLU+OlMhfeA0evx+l8b+Ydeg81qQCvrqHlEzuu0=;
-	b=kZWPSUflXwdqje1rWOffqFIAI7JJ5ZWpb96stiVv673b74/x1qH38+OKngshXKjmya
-	+xprV1mdEQnvcZp1ePa+CxDvfLEA8jT3O3FbRSq3rEdGrp7aRfztOlojT7MmcO2e6+ly
-	vXKQuBbgq+gHubBIYhNG92kYLyt4njO/bvWUe6OZ9kBIy/vMFWcR5GiQl+bZwcVaFfgt
-	JxbYREz/nSKasI/xO/a85yn0+uJzrx77xqhS1snnUeEcC/nUP3meWIqx365OgTSvmLoD
-	zhhWVJBUuoxSlG0iZFcV59+lguRGr6uC1IPn2igDOOHAs44gQCaLSqdUa0TBjqk9CvUb
-	/QTg==
-X-Gm-Message-State: APjAAAVkjdSgxWnU3A+Nt3lWeBvmZX9hWLXoXYfQJbprw+A1sy0qe4LJ
-	0ZJlGFBOEAv0SMRhod94/L3mDcal
-X-Google-Smtp-Source: APXvYqxKzl4cS10Ova7pg2zM6NNyVs7kW8KHhL+gvbjhVxXoExxEOcBp6qZCmt/L1Q71gkMHqYppcg==
-X-Received: by 2002:a17:90b:3108:: with SMTP id
-	gc8mr3622566pjb.54.1573533223523; 
-	Mon, 11 Nov 2019 20:33:43 -0800 (PST)
+	bh=HDd/ubaY1ufqHeYuaDOKWW0bDl3AojC4aJ/E62+RU5s=;
+	b=CbcWyD5bWP4+EHV4EczxyGKnx2UvGNEmoKVsW+S4XcTJk1C0t++OEpgw3djHKLaWrx
+	/jTWUY0mkxW+AF8yz0ZQq8656Lpwx3ndfZro1iXFOCc5EMMJZ1iaylmzhGi1+rwQmbX6
+	BcWBKzAf2nqaVzxeEi8AhV/8YW7q/5n7M4Deeshw+v8F8n3OKaKZc/uUl7FG96p+nedm
+	vqrfuTVVtIz2qftm4eQeoFcl3SYiys6B6QQkYx0DpcACuSqzHB6t4GkxJ2I2w5iSbluN
+	qYyMajbJZFMgCxjWFJV/lYYptmiHGr44SIR+nd06R8J4hnZs1qzfD/3GdwD9AR9eYiZ2
+	IIjg==
+X-Gm-Message-State: APjAAAXZrZtLLl1iFdpt57spZ4PgIZzdx6pwP1l2yvWd2K+OJV1l3gXI
+	KBtfpGc2DelSaTjGw8Iz2ssv0GDW
+X-Google-Smtp-Source: APXvYqwJPCh6TAIyaChTIDH2TA+O8z97A4QqAMwyues//YkkyZkkTqJlN+bWC2gGAHhFAxsxAz04kQ==
+X-Received: by 2002:a63:67c3:: with SMTP id
+	b186mr32802263pgc.152.1573533224420; 
+	Mon, 11 Nov 2019 20:33:44 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
-	q12sm5212109pgl.23.2019.11.11.20.33.42
+	q12sm5212109pgl.23.2019.11.11.20.33.43
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Nov 2019 20:33:42 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:43 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 20:33:20 -0800
-Message-Id: <308c52f1938d42fffa4563a440c34edff109a416.1573532188.git.akuster808@gmail.com>
+Date: Mon, 11 Nov 2019 20:33:21 -0800
+Message-Id: <39490dac388235c7723051537bc294b0b2d7829b.1573532188.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573532188.git.akuster808@gmail.com>
 References: <cover.1573532188.git.akuster808@gmail.com>
-Subject: [PATCH 01/20] OEQA: Add a check for MACHINE
+Subject: [PATCH 02/20] OEQA: Add qemu checks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,43 +62,46 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 12 Nov 2019 04:33:43 -0000
 
+Some test should not be run in QEMU systems so
+add some checks to make that easier
+
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/core/decorator/data.py | 44 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ meta/lib/oeqa/core/decorator/data.py | 45 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
 
 diff --git a/meta/lib/oeqa/core/decorator/data.py b/meta/lib/oeqa/core/decorator/data.py
-index 12d462f..ff92fba 100644
+index ff92fba..bc4939e 100644
 --- a/meta/lib/oeqa/core/decorator/data.py
 +++ b/meta/lib/oeqa/core/decorator/data.py
-@@ -18,6 +18,16 @@ def has_feature(td, feature):
+@@ -27,6 +27,16 @@ def has_machine(td, machine):
          return True
      return False
  
-+def has_machine(td, machine):
++def is_qemu(td, qemu):
 +    """
-+        Checks for MACHINE.
++        Checks if MACHINE is qemu.
 +    """
 +
-+    if (machine in td.get('MACHINE', '')):
++    machine = td.get('MACHINE', '')
++    if (qemu in td.get('MACHINE', '') or
++    machine.startswith('qemu')):
 +        return True
 +    return False
-+
-+
+ 
  @registerDecorator
  class skipIfDataVar(OETestDecorator):
-     """
-@@ -131,3 +141,37 @@ class skipIfFeature(OETestDecorator):
+@@ -175,3 +185,38 @@ class skipIfMachine(OETestDecorator):
          self.logger.debug(msg)
-         if has_feature(self.case.td, self.value):
+         if has_machine(self.case.td, self.value):
              self.case.skipTest(self.msg)
 +
 +@registerDecorator
-+class skipIfNotMachine(OETestDecorator):
++class skipIfNotQemu(OETestDecorator):
 +    """
 +        Skip test based on MACHINE.
 +
-+        value must be match MACHINE or it will skip the test
++        value must be a qemu MACHINE or it will skip the test
 +        with msg as the reason.
 +    """
 +
@@ -107,25 +110,26 @@ index 12d462f..ff92fba 100644
 +    def setUpDecorator(self):
 +        msg = ('Checking if %s is not this MACHINE' % self.value)
 +        self.logger.debug(msg)
-+        if not has_machine(self.case.td, self.value):
++        if not is_qemu(self.case.td, self.value):
 +            self.case.skipTest(self.msg)
 +
 +@registerDecorator
-+class skipIfMachine(OETestDecorator):
++class skipIfQemu(OETestDecorator):
 +    """
-+        Skip test based on Machine.
++        Skip test based on Qemu Machine.
 +
-+        value must not be this machine or it will skip the test
++        value must not be a qemu machine or it will skip the test
 +        with msg as the reason.
-+    """
++   """
 +
 +    attrs = ('value', 'msg')
 +
 +    def setUpDecorator(self):
 +        msg = ('Checking if %s is this MACHINE' % self.value)
 +        self.logger.debug(msg)
-+        if has_machine(self.case.td, self.value):
-+            self.case.skipTest(self.msg)
++        if is_qemu(self.case.td, self.value):
++             self.case.skipTest(self.msg)
++
 -- 
 2.7.4
 
