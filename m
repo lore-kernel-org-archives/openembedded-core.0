@@ -1,39 +1,55 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id CF9367F33D
+Return-Path: <paul@betafive.co.uk>
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+	[64.147.123.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 121D77F685
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 21:46:06 +0000 (UTC)
-IronPort-SDR: SKg/n8+AKjM91Wsyrtk0wc/A4OucEFKP9kJ3FZW8tcoDn7j94lxK4pXCv9+0cphE7bROr/L024
-	A+HPh0bsyUnAIKpVDRb2VegCEAEvKurWI23pfrwhqtx1LPdf+WaxMH+Juq4bXeuEWc6i4LRKUY
-	nFsT616jOhjI27LBXTHegky6cVTK21FktiLlMDIPtkcz9JjFrCOdEDbqDskiUe5eoLYVITujlh
-	QliimlcKNaTHBM0BDkz6tPNWmUpMF25p3ePISfbC+EAfH9nAgJwBNakrRU6swy4ZyzKaKUN8I0
-	Uxs=
-X-IronPort-AV: E=Sophos;i="5.68,297,1569276000"; 
-   d="scan'208";a="2359929"
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Seebs
-	<seebs@seebs.net>
-Thread-Topic: [OE-core] [PATCH] pseudo: Add statx support to fix fedora30
-	issues
-Thread-Index: AQHVlabN78xPLmXDO0WnEn+3OvoRoaeAGXEAgAAFFYCAB/mVsA==
-Date: Tue, 12 Nov 2019 21:46:05 +0000
-Message-ID: <0161f8e59caa4609aa6d1e6904042359@XBOX03.axis.com>
-References: <20191107200444.22913-1-richard.purdie@linuxfoundation.org>
-	<20191107143430.39e16813@seebsdell>
-	<17ac19c3d8e4b4b110312fe6005e83684b671034.camel@linuxfoundation.org>
-In-Reply-To: <17ac19c3d8e4b4b110312fe6005e83684b671034.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue, 12 Nov 2019 22:10:07 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 6BB5080C;
+	Tue, 12 Nov 2019 17:10:07 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+	by compute1.internal (MEProxy); Tue, 12 Nov 2019 17:10:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm3; bh=aK0JKYXkiLJUuuy3Mkz5s+mGhk
+	35LmPCMOBwt0ggjrU=; b=ixsJQum4YDRAtX2sHg0W1tw5oHcM1d2MFORlQBFfPA
+	4KBAt9xxxXCSaTufVa1/6qv7FpD8JdZQx54tK8NN4gsMMinEHq3eHLkHv8mUCGVI
+	InYeY7x8ke3b0FOgmCJC6lNlYVbuc3sNW0wTmo0yxYvxs23W26tmCw8RSrxf7fyB
+	rX614ZGkNB1Cm9yZH+uQK5VeOWA3Y6egy5bgdpmW1hG1aA0n25CY9DzUsoyqx4MR
+	3+fxcgp2oeXAzBeo02g6t6w43b9ANmAzKc/WBKmnabwShWDRZyA9ho9M2rykn8gi
+	oZhNVUIR5snmvifw2f5f31TnR7UDj7XgFFKwoEVRB6ow==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=aK0JKYXkiLJUuuy3M
+	kz5s+mGhk35LmPCMOBwt0ggjrU=; b=AsGVosLKUwpgnqXQqKi2LJ2OKGgUwtF4C
+	uQCcYBpVI8/QNQ7a6CLATvoSd9yL6XVVGAYA7w+mUQDQWKOsJOtDrqMbnh0r71xg
+	23Ry8fcjSKhZ2Sfztxlv4iGXrohmjrhwobBwQDNM3ykPSFJQ99g9yTWHMAG/sTeF
+	u0YkP04C0Ab+fhUfjJ62b0mr5LdoEGgm6hM2YZiIn+DRY/fDbGRdUwp9UMgVaMlF
+	rXGoFMcojTp9t0rI5KeN/xydCykd2jPJwD+0lyTVMreKdopEXF/J9x32DBlp5+Js
+	5CWVqAUZ7QswMQ4OyFpn1TvAdijTa/aeyO9dqsfQMqQp9F5jZ7qnw==
+X-ME-Sender: <xms:vi3LXeo3QZ0K4A6Igv5Du53PuDRNTGr63iWuC1lblNiIwuIhKd8OeA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedruddvledgudeiudcutefuodetggdotefrod
+	ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+	necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+	ertddtnecuhfhrohhmpefrrghulhcuuegrrhhkvghruceophgruhhlsegsvghtrghfihhv
+	vgdrtghordhukheqnecukfhppedvudefrdegkedruddurddugeelnecurfgrrhgrmhepmh
+	grihhlfhhrohhmpehprghulhessggvthgrfhhivhgvrdgtohdruhhknecuvehluhhsthgv
+	rhfuihiivgeptd
+X-ME-Proxy: <xmx:vi3LXYeqf7HjeY3InKOJlefMiar2aUNx81xAIvz38cIRpQC6u0oghA>
+	<xmx:vi3LXZoJbKgFNjTwI2cisZPgrxcMtSh_Oqs3BRuMNZBOyEiuB-h4ag>
+	<xmx:vi3LXal3w8DmpAXsWh-1l_CzoAk3FA7jo8L2w4eWmlMeVATw_yKeCA>
+	<xmx:vy3LXfZ06k3v4dGHCfeyV2uAm8DsbDvkD_oezHbUjvpqZcA_YykRPA>
+Received: from arch0.home.b5net.uk (unknown [213.48.11.149])
+	by mail.messagingengine.com (Postfix) with ESMTPA id D02A9306005C;
+	Tue, 12 Nov 2019 17:10:05 -0500 (EST)
+From: Paul Barker <paul@betafive.co.uk>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 12 Nov 2019 22:10:03 +0000
+Message-Id: <20191112221003.1355-1-paul@betafive.co.uk>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pseudo: Add statx support to fix fedora30 issues
+Subject: [PATCH] scripts/native-intercept: Add chgrp intercept
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,55 +62,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2019 21:46:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 12 Nov 2019 22:10:08 -0000
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Richard Purdie
-> Sent: den 7 november 2019 21:53
-> To: Seebs <seebs@seebs.net>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] pseudo: Add statx support to fix fedora30
-> issues
->=20
-> On Thu, 2019-11-07 at 14:34 -0600, Seebs wrote:
-> > On Thu,  7 Nov 2019 20:04:44 +0000
-> > Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > > Modern distros (e.g. fedora30) are starting to use the new statx()
-> > > syscall through the newly exposed glibc wrapper function in
-> > > software
-> > > like coreutils (e.g. the ls command). Add support to intercept this
-> > > to pseudo.
-> >
-> > I think this should be okay. If there's no real statx() wrapper, the
-> > real_statx() call probably fails, but also things probably won't have
-> > thought it existed/worked.
->=20
-> That was my thinking...
->=20
-> > Worth double-checking that things still run with this in place on a
-> > system that doesn't have a statx wrapper, when configuring and
-> > building things like coreutils that will check for it.
->=20
-> coreutils looks to be using a standard configure check for the statx
-> function.
->=20
-> Even in OE, we'd not want to configure/compile with pseudo loaded and
-> active so I think we should be ok...
->=20
-> Cheers,
->=20
-> Richard
+Some installation rules have been seen to run chgrp for native recipes
+which leads to 'Operation not permitted' errors. To prevent this we
+need a chgrp intercept script to go with the existing chown intercept.
 
-As a Fedora 30 user, I expect this needs to be backported to Zeus,=20
-Warrior, etc as well or I guess I will start seeing problems when=20
-building them?
+Signed-off-by: Paul Barker <paul@betafive.co.uk>
+---
+ scripts/native-intercept/chgrp | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100755 scripts/native-intercept/chgrp
 
-//Peter
+diff --git a/scripts/native-intercept/chgrp b/scripts/native-intercept/chgrp
+new file mode 100755
+index 0000000000..399c979f9a
+--- /dev/null
++++ b/scripts/native-intercept/chgrp
+@@ -0,0 +1,5 @@
++#! /bin/sh
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++echo "Intercept $0: $@ -- do nothing"
+-- 
+2.24.0
 
 
