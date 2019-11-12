@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C84D57FBDD
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 901FA7FBDD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 04:33:56 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id q26so12391168pfn.11
+	Tue, 12 Nov 2019 04:33:58 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id e3so8821003plt.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 20:33:58 -0800 (PST)
+	Mon, 11 Nov 2019 20:34:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=RPn1uTk2zIp08z6VfPh7HaAIPpXvo5Av2Nok6MuKXKs=;
-	b=GrqH9OF0I35mhnJqzrl7LIpi8F6CwNVgFrAmyaHOBCok1+sZD+Bkq76YBQ9XW/TyCW
-	hQ/DAqYVnLcCKZpMIJV7mOkq9PSIyayuvYZKC+A48hVQUsxONcGq/eUvBAwb2pwgiJic
-	OwdbCCpb5UjBuJDwvufdNM+Eoan6R8dMSBnNZgNFXym/c5qknzh3L1z9TLurDBwT7U0x
-	IQM1pawIF6ZPfjpQMRBL7ft9qnDLI/4Qu4aBwh66cv72gAd2kFDYT4gx3T+Pc8ZKr9iX
-	Pe43NiwTIGaD2NxgCeiiORookUcwyz/FYTVndrRTJ2r77KPB+j3AFbhqpKckIO9PQ8H4
-	uisg==
+	bh=9fzWaOkpA4TcpU1MxVoXoPayEbWJOifJnOOTgYCGzFU=;
+	b=e+01XGsK39PJ1cXPml8Hew5NBRrM8JHNGOwC8SulF9nnSLsj7qsFgUhOSXv/mKCMwM
+	lvwZ70XvoIX2XD3Ckzewv01MhEs4rVECy3X0nR5UzpyMpyAXH2fgeTkdvWUA7QF8BjOu
+	dF6EVLVmCjQuz/nnY90tx6LN3e6lmsL8R0+qZGns9VUD7ATNfrHriIDOfwN3sW/O+vqH
+	qGisnxtHL69LcyYBE4+fdvHOu1LxknJfzxYrW29FoWeY8xprAO0SRlDL+kxwjOP1Uwyx
+	vnlW+GDXEw6R1J8NkOWZc4DHnTFY3GYZ8ouI3H9c3pFFdPmaOyJy8kvb2Q/jgvjy4pd4
+	TzwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=RPn1uTk2zIp08z6VfPh7HaAIPpXvo5Av2Nok6MuKXKs=;
-	b=VdEuyu8UnAMCvQjA8rS689ihfZ8DuAkL4oKcBOEgsLrX3/KQ9VlcSKYDQHZ03M5aZz
-	mZ/N0py2DJoT5JprwvUqTrGyqSCut8ENegKT7fyAeRcSZ0DmgygZribNsAPN4eCHKZiU
-	IGA+HwfFNaLqqJgcO2BhPB2Gt38zxamDTn5AOKupX7cmJsTM1GE6gIDWCKEtoNL/y2rl
-	O74Zzxjf38CC9sG+YuqFJ9fVgs6Ctfcfw5aKJB+qH4NnFee8x8elnVSxviSOrqlflKtu
-	f8mMbK97/78KTFfh6brHRwkFRkbBVcUb6KHxPn1wIvIigR3VYCcwVWz55RHzInXlx/sA
-	SB+g==
-X-Gm-Message-State: APjAAAUBojRPiEPDCWw1ZmruIqXxJS6iynmLKnzpQNrNAsOBoxroN7TN
-	yQx6sBDOac+9zXxTbbqQfhrMGgWn
-X-Google-Smtp-Source: APXvYqwIda/kk5eRATQt9TqvgwcPDvBJGKB8nQ1OTDG2pMm/Iwej1hhwh0hMlCzNWc6PSyJdERYD6g==
-X-Received: by 2002:a62:ae09:: with SMTP id q9mr34058541pff.157.1573533237944; 
-	Mon, 11 Nov 2019 20:33:57 -0800 (PST)
+	bh=9fzWaOkpA4TcpU1MxVoXoPayEbWJOifJnOOTgYCGzFU=;
+	b=g7l8uzY7oGiArQqG5KPcAtDJr/G+SN+No3YWhKKL7euvLk1a10xNGfDUx7cqT7pco6
+	9ereJjjH/jS4JHP+nDSP+HmvnUm70+HTRaV5osT0qWdTw/bbXiz0ryt3tgoSZAztkwkb
+	tms28/6pwi7FiTPUymupqf8pK3LlexTelNjc9KhuoilO6IW7N0lZ1yOK0zCrAnPBMpVZ
+	6uwOR4Sh3TTlx7IXr1N5FA28wsYHbL1H5yoeO+t25+di5vCR65gudFZqX1lesGnJ8uPJ
+	2GPSpPPxkll3wjvhVj2/LePG9/Q+8YrAPrfJkvCGHH7VGXr+7r2f2cNsuqB8+Kraq9yw
+	O5Yg==
+X-Gm-Message-State: APjAAAXmV+A3RV7+gToFx+kNp79VqmOjMW++A9U00Ghy4/OL+34QP0PI
+	8ll3lDUoM05W3/bcvkGvKGWPrsyk
+X-Google-Smtp-Source: APXvYqxswHjjW26VbrA5FVF74nvo6T8xxv8bjEI1zZrsMl+gQKar8qyMtntEcKvUGVucIpTtlXij9A==
+X-Received: by 2002:a17:902:9a47:: with SMTP id
+	x7mr20645506plv.84.1573533239470; 
+	Mon, 11 Nov 2019 20:33:59 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
-	q12sm5212109pgl.23.2019.11.11.20.33.57
+	q12sm5212109pgl.23.2019.11.11.20.33.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Nov 2019 20:33:57 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:59 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 20:33:37 -0800
-Message-Id: <57e95177f001044bee32bfebe8fa42c865215a4a.1573532188.git.akuster808@gmail.com>
+Date: Mon, 11 Nov 2019 20:33:39 -0800
+Message-Id: <0e476c92f0bb3e347e38ed2afe1ebbe6f5d1758a.1573532188.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573532188.git.akuster808@gmail.com>
 References: <cover.1573532188.git.akuster808@gmail.com>
-Subject: [PATCH 18/20] OEQA: remove manual PACKAGECONFIG_FLAGS tests
+Subject: [PATCH 20/20] OEQA: remove crosstab test from manual
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,51 +60,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2019 04:33:58 -0000
+X-List-Received-Date: Tue, 12 Nov 2019 04:33:59 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/manual/oe-core.json | 36 +-----------------------------------
- 1 file changed, 1 insertion(+), 35 deletions(-)
+ meta/lib/oeqa/manual/oe-core.json | 42 ---------------------------------------
+ 1 file changed, 42 deletions(-)
 
 diff --git a/meta/lib/oeqa/manual/oe-core.json b/meta/lib/oeqa/manual/oe-core.json
-index 3ee0aa9..6191d4f 100644
+index 6191d4f..fb47c5e 100644
 --- a/meta/lib/oeqa/manual/oe-core.json
 +++ b/meta/lib/oeqa/manual/oe-core.json
-@@ -43,40 +43,6 @@
-   },
+@@ -1,48 +1,6 @@
+ [
    {
      "test": {
--      "@alias": "oe-core.scripts.List_all_the_PACKAGECONFIG's_flags",
+-      "@alias": "oe-core.scripts.Crosstap_script_check",
 -      "author": [
 -        {
--          "email": "yi.zhao@windriver.com",
--          "name": "yi.zhao@windriver.com"
+-          "email": "alexandru.c.georgescu@intel.com",
+-          "name": "alexandru.c.georgescu@intel.com"
 -        }
 -      ],
 -      "execution": {
 -        "1": {
--          "action": " Download the poky source and setup the environment. ",
+-          "action": "Create the trace_open.stp script as follows in the host machine:  \n\n\nprobe syscall.open     \n\n{  \n\n\n        printf (\"%s(%d) open (%s)\\n\", execname(), pid(), argstr)  \n\n}  \n\n\n\nif the above failed, then create the below instead.  \n\nprobe syscall.open \n{ \n  printf (\"%s(%d) open\\n\", execname(), pid()) \n\n}  \n \n",
 -          "expected_results": ""
 -        },
 -        "2": {
--          "action": "Run \"../scripts/contrib/list-packageconfig-flags.py\" ",
--          "expected_results": "In step 2, will list available pkgs which have PACKAGECONFIG flags:  \nPACKAGE NAME (or RECIPE NAME)           PACKAGECONFIG FLAGS  \n==============================================================  \nalsa-tools-1.0.26.1                                         defaultval gtk+  \navahi-ui-0.6.31                                                defaultval python  \nbluez4-4.101                                                alsa defaultval pie  \n"
+-          "action": "Add 'tools-profile' and 'ssh-server-openssh' to EXTRA_IMAGE_FEATURES in local.conf \n\n\n",
+-          "expected_results": ""
 -        },
 -        "3": {
--          "action": "Run \"../scripts/contrib/list-packageconfig-flags.py -f\" ",
--          "expected_results": "In step 3, will list available PACKAGECONFIG flags and all affected pkgs  \nPACKAGECONFIG FLAG       PACKAGE NAMES (or RECIPE NAMES)  \n====================================  \n3g                             connman-1.16  \n        \navahi                        cups-1.6.3  pulseaudio-4.0  \nbeecrypt                   rpm-5.4.9  rpm-native-5.4.9  \n"
+-          "action": "Build a core-image-minimal image, build systemtap-native. Start the image under qemu. \n\n",
+-          "expected_results": ""
 -        },
 -        "4": {
--          "action": "Run \"../scripts/contrib/list-packageconfig-flags.py -a\" ",
--          "expected_results": "In step 4, will list all pkgs and PACKAGECONFIG information:  \n==================================================  \ngtk+-2.24.18  \n/home/jiahongxu/yocto/poky/meta/recipes-gnome/gtk+/gtk+_2.24.18.bb  \nPACKAGECONFIG x11  \nPACKAGECONFIG[x11] --with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}  \nxf86-video-intel-2.21.9  \n/home/jiahongxu/yocto/poky/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb  \nPACKAGECONFIG None  \nPACKAGECONFIG[xvmc] --enable-xvmc,--disable-xvmc,libxvmc  \nPACKAGECONFIG[sna] --enable-sna,--disable-sna  \n"
+-          "action": "Make sure that the ssh service is started on the Qemu machine. \n\n",
+-          "expected_results": ""
 -        },
 -        "5": {
--          "action": "Run \"../scripts/contrib/list-packageconfig-flags.py -p\"   ",
--          "expected_results": "In step 5, will list pkgs with preferred version:  \nPACKAGE NAME (or RECIPE NAME)              PACKAGECONFIG FLAGS  \n===================================================  \nalsa-tools-1.0.26.1                                           defaultval gtk+  \navahi-ui-0.6.31                                                   defaultval python  \nbluez4-4.101                                                       alsa defaultval pie  \nbluez5-5.7                                                            alsa defaultval obex-profiles  \n\n\n\n "
+-          "action": "From the host machine poky build_dir, run \"crosstap root@192.168.7.2 trace_open.stp\".",
+-          "expected_results": ""
+-        },
+-        "6": {
+-          "action": "In QEMU, try to open some applications, such as open a terminal, input some command,  \n\n",
+-          "expected_results": ""
+-        },
+-        "7": {
+-          "action": "Check the host machine, \"crosstap\" has related output. \n\n\n\nNOTE:  Do not build the kernel from shared state(sstate-cache) for this to work.",
+-          "expected_results": "The script should successfully connect to the qemu machine and there \nshould be presented a list of services(pid, process name) which run on \nthe qemu machine. "
 -        }
 -      },
--      "summary": "List_all_the_PACKAGECONFIG's_flags"
+-      "summary": "Crosstap_script_check"
 -    }
 -  },
 -  {
@@ -111,13 +120,6 @@ index 3ee0aa9..6191d4f 100644
        "@alias": "oe-core.bitbake.Test_bitbake_menuconfig",
        "author": [
          {
-@@ -231,4 +197,4 @@
-       "summary": "test_bitbake_sane_error_for_invalid_layer"
-     }
-   }
--]
-\ No newline at end of file
-+]
 -- 
 2.7.4
 
