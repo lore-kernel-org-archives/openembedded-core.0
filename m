@@ -1,38 +1,49 @@
-Return-Path: <anuj.mittal@intel.com>
-X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 12 Nov 2019 04:19:01 UTC
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 37ABB7D3CE
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id C6B457E5FB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 04:19:01 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	11 Nov 2019 20:11:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,295,1569308400"; d="scan'208";a="405452551"
-Received: from pgsmsx113.gar.corp.intel.com ([10.108.55.202])
-	by fmsmga006.fm.intel.com with ESMTP; 11 Nov 2019 20:11:54 -0800
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.88]) by
-	pgsmsx113.gar.corp.intel.com ([10.108.55.202]) with mapi id
-	14.03.0439.000; Tue, 12 Nov 2019 12:11:29 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "jpewhacker@gmail.com"
-	<jpewhacker@gmail.com>
-Thread-Topic: [OE-core] [PATCH] oeqa: Fix subTest result reporting
-Thread-Index: AQHVlmngeqKC7gGa40iX3l7UOSChtKeGa5SA
-Date: Tue, 12 Nov 2019 04:11:29 +0000
-Message-ID: <00a261e971ccf1fec69b0c517a1b17d25536911b.camel@intel.com>
-References: <20191108192153.2133662-1-JPEWhacker@gmail.com>
-In-Reply-To: <20191108192153.2133662-1-JPEWhacker@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.16.52]
-MIME-Version: 1.0
-Subject: Re: [PATCH] oeqa: Fix subTest result reporting
+	Tue, 12 Nov 2019 04:33:41 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id r18so10944457pgu.13
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 11 Nov 2019 20:33:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=q4wFH1hw7H6hIKoT8pOVqU2cjkF/wsg9yGSHpxQO0EI=;
+	b=N+NZkCtRnmdUj+Pxs6x5QbrlHxqs7+JOknUGhJG7aMQ2OD6hwvq69NstPaR/88n2cI
+	sjTzFAoS+TeBcOGpMVo3biaR3EQ3UPZEMo7pi18oXVfQTSG2QBRPKwulYxiMJUfTksXo
+	43iIoDjQaGmHhugshVIeIvYd/yTEjQto8Gdiv+O8lvuUCSQUTJ9iMenSgBsNBPNpvmgj
+	kWnBdNcqCHbXMk6ucTkQqS4m6rMhA4FTqomqAXMw8mhj0jSOHTe/OVTWNFep/gM72v1S
+	vKOAU8XzdD+JMr8fs5vbnHldc48Wy9kHHQDjOPmgB9sdsbODH8CLC0RxedmSUtItPJAC
+	azPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=q4wFH1hw7H6hIKoT8pOVqU2cjkF/wsg9yGSHpxQO0EI=;
+	b=kmcrLe/ZkIy1uT+9TQcs6zdyDAwHSaMrjSyR6LoYpeZJxlFbb1O/4ywSTkjyKxMaVe
+	BPVqsLMhsjuoPpLt7d0j/faDMNrg55a3Jtk3NgGkRRsytrIj/jXIIhc5sE4cvxAmioT9
+	ieofA7KlFCMd0weTO5gHK5mjbSlD/IJZiGf3GmNmYCzGmjh3OCeS7iaJkDCe6uRTJq85
+	ak25QOaX8p95FXMKKb7AQhSFG/7a1Mz9h1/SaZzZiAM1SEqJ6FNv1dszpepKiUmOS5AK
+	GLwPME0dtZat34pTclB7ZUrmZR4IPsWh2K3drpPpItNOW1P4GW0YSpGAGxUVTRmc9EuB
+	dIvg==
+X-Gm-Message-State: APjAAAX27BvpN6nUnl2TgOWz4nA9paJ7T1XWCYb2RegnRziKw2HZe9BU
+	/61AcvrYwiJ3MOm69iLB8SlonHK8
+X-Google-Smtp-Source: APXvYqwp2RHW0ro7cFgP+KwxLGKvlQMszyFnCQ4/g3vI5Q4SMmVAAUbrIgpiqoi2N346hDxaisQ3MQ==
+X-Received: by 2002:a65:6145:: with SMTP id o5mr31888704pgv.38.1573533222566; 
+	Mon, 11 Nov 2019 20:33:42 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
+	by smtp.gmail.com with ESMTPSA id
+	q12sm5212109pgl.23.2019.11.11.20.33.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 11 Nov 2019 20:33:42 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 11 Nov 2019 20:33:19 -0800
+Message-Id: <cover.1573532188.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 00/20] QA updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,43 +56,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2019 04:19:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <BBED4A77B2148441B83B37406B5065E8@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 12 Nov 2019 04:33:42 -0000
 
-SGkgSm9zaHVhDQoNCk9uIEZyaSwgMjAxOS0xMS0wOCBhdCAxMzoyMSAtMDYwMCwgSm9zaHVhIFdh
-dHQgd3JvdGU6DQo+IEZpeGVzIHRoZSB3YXkgdGhhdCBzdWJUZXN0IHJlc3VsdHMgYXJlIHJlcG9y
-dGVkIHNvIHRoYXQgZWFjaCBzdWJUZXN0DQo+IGlzDQo+IHJlcG9ydGVkIGluZGVwZW5kZW50bHks
-IHdpdGggaXQncyBvd24gc3RhdHVzLiBUaGUgYmFzZSB0ZXN0IGNhc2UgaXMNCj4gYWxzbw0KPiBy
-ZXBvcnRlZCwgYnV0IG9ubHkgaWYgaXQgYWN0dWFsbHkgaGFkIGEgc3RhdHVzLg0KPiANCj4gU2ln
-bmVkLW9mZi1ieTogSm9zaHVhIFdhdHQgPEpQRVdoYWNrZXJAZ21haWwuY29tPg0KPiAtLS0NCj4g
-IG1ldGEvbGliL29lcWEvY29yZS9ydW5uZXIucHkgICAgICAgICAgICAgICAgfCA0NCArKysrKysr
-KysrKysrKysrKw0KPiAtLS0tDQo+ICBtZXRhL2xpYi9vZXFhL2NvcmUvdXRpbHMvY29uY3VycmVu
-Y3l0ZXN0LnB5IHwgIDMgKysNCj4gIDIgZmlsZXMgY2hhbmdlZCwgMzkgaW5zZXJ0aW9ucygrKSwg
-OCBkZWxldGlvbnMoLSkNCj4gDQoNClRoaXMgaXMgY2F1c2luZyBlcnJvcnM6DQoNCmh0dHBzOi8v
-YXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy90eXBob29uLyMvYnVpbGRlcnMvNzkvYnVpbGRz
-LzQ3Ng0KaHR0cHM6Ly9lcnJvcnMueW9jdG9wcm9qZWN0Lm9yZy9FcnJvcnMvRGV0YWlscy8yNzU2
-NjgvDQoNClRyYWNlYmFjayAobW9zdCByZWNlbnQgY2FsbCBsYXN0KToNCiAgRmlsZSAiL2hvbWUv
-cG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC0NCmNlbnRvcy9idWlsZC9tZXRhL2xp
-Yi9vZXFhL2NvcmUvdXRpbHMvY29uY3VycmVuY3l0ZXN0LnB5IiwgbGluZSAyOTksIGluDQpmb3Jr
-X2Zvcl90ZXN0cw0KICAgIHByb2Nlc3Nfc3VpdGUucnVuKEV4dHJhUmVzdWx0c0VuY29kZXJUZXN0
-UmVzdWx0KHN1YnVuaXRfcmVzdWx0KSkNCiAgRmlsZSAiL3Vzci9saWI2NC9weXRob24zLjYvdW5p
-dHRlc3Qvc3VpdGUucHkiLCBsaW5lIDEyMiwgaW4gcnVuDQogICAgdGVzdChyZXN1bHQpDQogIEZp
-bGUgIi91c3IvbGliNjQvcHl0aG9uMy42L3VuaXR0ZXN0L2Nhc2UucHkiLCBsaW5lIDY3MCwgaW4g
-X19jYWxsX18NCiAgICByZXR1cm4gc2VsZi5ydW4oKmFyZ3MsICoqa3dkcykNCiAgRmlsZSAiL3Vz
-ci9saWI2NC9weXRob24zLjYvdW5pdHRlc3QvY2FzZS5weSIsIGxpbmUgNjMwLCBpbiBydW4NCiAg
-ICBzZWxmLl9mZWVkRXJyb3JzVG9SZXN1bHQocmVzdWx0LCBvdXRjb21lLmVycm9ycykNCiAgRmls
-ZSAiL3Vzci9saWI2NC9weXRob24zLjYvdW5pdHRlc3QvY2FzZS5weSIsIGxpbmUgNTU1LCBpbg0K
-X2ZlZWRFcnJvcnNUb1Jlc3VsdA0KICAgIHJlc3VsdC5hZGRTdWJUZXN0KHRlc3QudGVzdF9jYXNl
-LCB0ZXN0LCBleGNfaW5mbykNCiAgRmlsZSAiL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9v
-ZS1zZWxmdGVzdC0NCmNlbnRvcy9idWlsZC9tZXRhL2xpYi9vZXFhL2NvcmUvdXRpbHMvY29uY3Vy
-cmVuY3l0ZXN0LnB5IiwgbGluZSA4NSwgaW4NCmFkZFN1YlRlc3QNCiAgICBzZWxmLl9hZGRSZXN1
-bHQoc2VsZi5yZXN1bHQuYWRkU3ViVGVzdCwgdGVzdCwgc3VidGVzdCwgb3V0Y29tZSwNCmV4Y2Vw
-dGlvbiA9IChvdXRjb21lIGlzIG5vdCBOb25lKSwgKiprd2FyZ3MpDQpBdHRyaWJ1dGVFcnJvcjog
-J0F1dG9UaW1pbmdUZXN0UmVzdWx0RGVjb3JhdG9yJyBvYmplY3QgaGFzIG5vIGF0dHJpYnV0ZQ0K
-J2FkZFN1YlRlc3QnDQoyMDE5LTExLTExIDE5OjE0OjQzLDkyOCAtIG9lLXNlbGZ0ZXN0IC0gSU5G
-TyAtDQpydW50aW1lX3Rlc3QuUG9zdGluc3QudGVzdF9mYWlsaW5nX3Bvc3RpbnN0IChzdWJ1bml0
-LlJlbW90ZWRUZXN0Q2FzDQoNClRoYW5rcywNCg0KQW51ag0K
+This series moves several manual tests to selftest, deletes others and some cleanup.
+Deletes manual tests covered by runtime or selftests.
+Deletes eclipse manual test resulting in three manual json files removed.
+
+
+The following changes since commit 4dc804b2deda249f72c6941639e781dfe6ca865e:
+
+  systemd: Add runtime dependency on new ldconfig package (2019-11-11 14:07:01 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib akuster/qa
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=akuster/qa
+
+Armin Kuster (20):
+  OEQA: Add a check for MACHINE
+  OEQA: Add qemu checks
+  OEQA: Centrilize the base LTP routines
+  OEQA: update ltp runtimes to use new structure
+  OEQA/runtime: Add ltp stress test
+  OEQA/manual: remove crash stress test
+  manual qa: drop ltpstress test
+  manual qa/bsp-qemu: remove rpm tests already done in runtime
+  manual qa/bsp-qemu: remove KVM enabled which is already done in
+    selftest runqemu
+  manual/bsp-qemu: drop xserver test done at runtime
+  manual/bsp-qemu: remove only_one_connmand_in_background test done at
+    runtime
+  OEQA: remove postinit test done w/selftest runtime
+  OEQA: eclipse support was dropped in warrior
+  OEQA: move manual bash test to runtime
+  OEQA: remove manual bash test
+  OEQA: remove manual useradd test
+  OEQA: move list-packageconfig-flags tests from manual to self
+  OEQA: remove manual PACKAGECONFIG_FLAGS tests
+  OEQA: add crosstab selftest
+  OEQA: remove crosstab test from manual
+
+ meta/lib/oeqa/core/decorator/data.py          |  89 +++++++
+ meta/lib/oeqa/manual/bsp-qemu.json            | 222 ------------------
+ meta/lib/oeqa/manual/compliance-test.json     |  76 ------
+ meta/lib/oeqa/manual/eclipse-plugin.json      | 322 --------------------------
+ meta/lib/oeqa/manual/oe-core.json             |  78 +------
+ meta/lib/oeqa/runtime/cases/ltp.py            |  85 +------
+ meta/lib/oeqa/runtime/cases/ltp_compliance.py |  73 +-----
+ meta/lib/oeqa/runtime/cases/ltp_stress.py     |  29 +++
+ meta/lib/oeqa/selftest/cases/oescripts.py     |  59 +++++
+ meta/lib/oeqa/selftest/cases/runtime_test.py  |  95 ++++++++
+ meta/lib/oeqa/utils/ltp.py                    | 133 +++++++++++
+ 11 files changed, 413 insertions(+), 848 deletions(-)
+ delete mode 100644 meta/lib/oeqa/manual/bsp-qemu.json
+ delete mode 100644 meta/lib/oeqa/manual/compliance-test.json
+ delete mode 100644 meta/lib/oeqa/manual/eclipse-plugin.json
+ create mode 100644 meta/lib/oeqa/runtime/cases/ltp_stress.py
+ create mode 100644 meta/lib/oeqa/utils/ltp.py
+
+-- 
+2.7.4
+
 
