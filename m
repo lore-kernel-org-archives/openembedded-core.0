@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DF977FC09
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 4572B7FC09
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 04:33:50 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id b19so128469pfd.3
+	Tue, 12 Nov 2019 04:33:51 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id w8so8840577plq.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 20:33:51 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=1ZS5bTvqUmIPCcR8gWRoaIPFdxRau7Mt0lJmV8WHbJo=;
-	b=CPlTWdnXdv5nz+bykuunxAiey5/u9pbfyaCo35mOVBqeaaaS502TXmb92/DS6q7UF3
-	wJoYHKHMOHBUrjuo8KAbLseRlGATB7JvoE6K1K/yDAVuvJXTaPgT89LQ7SYwJTsuTyXM
-	8dpXNe7d5yUcW2SBGDmPk+LV2hyIhzgX9t35iSR+Uj4M3heUhIIovJInWSqSbjbQuGKM
-	PhtdvYfqXhec84ykIt374BUL7WKCUJ4vkbn96oSLlxnXKuu9gosx3g4sSZAH+OSRCT9Y
-	GpuCBgfdejRkFdh5w6wZDuThzsre4sV6mt7ZI+0J3CDlNHsOm6SvIKbqqU3R3VM/fE1B
-	0LTA==
+	bh=A4FbUU2uyTbMefCDP7wNhpKHAW9/GA9BJVaZDS8shL8=;
+	b=HMPuWoYBqYnJS/B3MubUrdw4a6GL1Lrokw7JJu9dydFn6hLEquJ/ySLn9oYtxefYji
+	G3juApDfw25QV4LYBYvmL5Djl1t7gk2loujiEMuAYPqQzgpin01SS+oWLQ4mGIOosJJ8
+	nojs9Gvdgu8T/4QtHf9usXBhcvfZ9HrzYJzuezJedTeqIXdKrH3n3jZqaJpn0MEiSMYL
+	NUq+EF47xRxeZfReiBgpe1BTFMZNA7Insfmq/juXv+AjAGkjU5dpkeWY9Rqe2wzc2O2t
+	O9eY5p0LoF+0FWIgzN0HIxdjMrLHFi65WRATkOU9ihj234FYvMej07ag4L+MYLg5IPq+
+	feGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=1ZS5bTvqUmIPCcR8gWRoaIPFdxRau7Mt0lJmV8WHbJo=;
-	b=ndypFMTn31pjQtzcfPjDiKLKRF0YGZmHwP4QslXIe6uSL1ilNtFk71SHw6a36dsUEV
-	cBwxT0gkNfnCrHgHzbunEUqKuQJr1qMRRAUZ8s8xcW3MeFncmyujHEdQ+xyMPOiQLgRm
-	Nfp70vm6uNC0eWisyKkTbQUx/zk/c6IQ6Gz/CimMzYU5Dn2aCkoYKwqrZWZhJUCjIsb7
-	4iq1vrvJAcffYmrrxyh0DbyIQe5G+EvsJgQHDdHnYE6Vncsv8Vb2yn/Xfw3xwTsGrZuQ
-	pBnIj3QnC7qGurkjCgynWjNpPwL4xAXhu+OPe71cA6FrVNHUSV7kh+PN2TCuDStlLPfM
-	iW6A==
-X-Gm-Message-State: APjAAAUwYt9HPCMceJI9Y6rkSKnm3mHwuWjxggp+SXoIX2PvZLs6Apl1
-	JmxbD3hDlMDbgoAwIR+TWXBKkXE3
-X-Google-Smtp-Source: APXvYqy62n0ONIPqL65OkeeAa1qyWZ6KN/f4Nbjy+CtSQESDz2pU2pLQhfZ/cttjWvxrFWC8JHlWiw==
-X-Received: by 2002:aa7:9787:: with SMTP id o7mr34487389pfp.120.1573533231490; 
-	Mon, 11 Nov 2019 20:33:51 -0800 (PST)
+	bh=A4FbUU2uyTbMefCDP7wNhpKHAW9/GA9BJVaZDS8shL8=;
+	b=l3zWVry/q4SJDA0WAp0Vdev6m2NgaE5+tvxL1lm61lxjY+4qF/bOR5WH1Z7HKMZDCw
+	YJ004lMSsPSlJHNbjgNDfZHn8LfNwhwp4t8DjoAl9vgfaGkHqRy4ffJIajldWDbwaPnb
+	x1EkOenqi3n7e9mWVyadQaVOupy7ooL/9UtYT3sFMW1xkkvAS/9Vta51yFVpMpY7el9t
+	845REOA7NRYyYT08tuwa/OYnfD55CaBvvscw5k7yB697FJ8guTqFWyzeQWzh5HhpL4aS
+	OVXYsLk1B+afxZxmKiA/7Tp9rhUP9Qg9e87kZidpqWk3y3/LVsOqU2WsOiYg6cXF+cdF
+	cBUA==
+X-Gm-Message-State: APjAAAWelTx2qFxp5Mm2i6iVu7/7/DyRXuUbMDD6AnD5qnAfGPHvLMVs
+	Om0JZMCINXepC7IAlmrZ6LmsO++w
+X-Google-Smtp-Source: APXvYqwCO+MAzBhEFwG7sEPHpysByUeaplDJ3Z89TgL8UB7tBzL8E0QkP/VQWIqcBPWer72ykIdVLg==
+X-Received: by 2002:a17:902:6b0c:: with SMTP id
+	o12mr2346571plk.173.1573533232244; 
+	Mon, 11 Nov 2019 20:33:52 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
-	q12sm5212109pgl.23.2019.11.11.20.33.50
+	q12sm5212109pgl.23.2019.11.11.20.33.51
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Mon, 11 Nov 2019 20:33:51 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 20:33:29 -0800
-Message-Id: <85d04759c7971714b10ef632425779bae02b83ae.1573532188.git.akuster808@gmail.com>
+Date: Mon, 11 Nov 2019 20:33:30 -0800
+Message-Id: <6ee2fe30c4ecf396ec79768d608bbbd22b99dbd2.1573532188.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573532188.git.akuster808@gmail.com>
 References: <cover.1573532188.git.akuster808@gmail.com>
-Subject: [PATCH 10/20] manual/bsp-qemu: drop xserver test done at runtime
+Subject: [PATCH 11/20] manual/bsp-qemu: remove only_one_connmand_in_background test done at runtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +60,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2019 04:33:50 -0000
-
-xserver testing is done at runtime and selftest via sato image
+X-List-Received-Date: Tue, 12 Nov 2019 04:33:51 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/manual/bsp-qemu.json | 22 ----------------------
- 1 file changed, 22 deletions(-)
+ meta/lib/oeqa/manual/bsp-qemu.json | 30 ------------------------------
+ 1 file changed, 30 deletions(-)
 
 diff --git a/meta/lib/oeqa/manual/bsp-qemu.json b/meta/lib/oeqa/manual/bsp-qemu.json
-index b49abf4..7a3d994 100644
+index 7a3d994..5ec275c 100644
 --- a/meta/lib/oeqa/manual/bsp-qemu.json
 +++ b/meta/lib/oeqa/manual/bsp-qemu.json
-@@ -91,28 +91,6 @@
+@@ -61,36 +61,6 @@
    },
    {
      "test": {
--      "@alias": "bsps-qemu.bsps-runtime.X_server_can_start_up_with_runlevel_5_boot",
+-      "@alias": "bsps-qemu.bsps-runtime.only_one_connmand_in_background(auto)",
 -      "author": [
 -        {
 -          "email": "alexandru.c.georgescu@intel.com",
@@ -85,15 +84,23 @@ index b49abf4..7a3d994 100644
 -      ],
 -      "execution": {
 -        "1": {
--          "action": "boot up system with default runlevel  \n\n",
--          "expected_results": "X server can start up well and desktop display has no problem .  \n\n"
+-          "action": "Boot system",
+-          "expected_results": ""
 -        },
 -        "2": {
--          "action": "type runlevel at command prompt",
--          "expected_results": "Output:N 5"
+-          "action": "Run \"ps aux |grep connmand\" or \"ps -ef | grep connmand\" or \"ps | grep connmand\"",
+-          "expected_results": "Connmand (connection manager, used to manage internet connections)  should be shown as an active process \n\n"
+-        },
+-        "3": {
+-          "action": "Run command \"connmand\" to try to launch to a second connmand process",
+-          "expected_results": ""
+-        },
+-        "4": {
+-          "action": "Check, with \"ps\" connmand  if a second connmand can be generated ",
+-          "expected_results": "There should be only one connmand process instance in background ."
 -        }
 -      },
--      "summary": "X_server_can_start_up_with_runlevel_5_boot"
+-      "summary": "only_one_connmand_in_background"
 -    }
 -  },
 -  {
