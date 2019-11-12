@@ -1,38 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A3C67CECE
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FF9C6BC44
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 18:16:16 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id z16so15320195qkg.7
+	Tue, 12 Nov 2019 18:28:44 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id r13so741464uan.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 10:16:17 -0800 (PST)
+	Tue, 12 Nov 2019 10:28:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=D/QgEMPWMdQujE7riIeKFPWbDgNBdquzPRDdyYwBDmc=;
-	b=ShmHmcrc7b/l5Y3bF/s4qQ9ZW7bf1/BK42LceXCHYGprmnVHqyUIVb6F+hqz5BmZbq
-	hkKQlerGTrcYftMnWb9C1m+I1ZIs2aVWMsJZSKKwID/9PFmKwkT6a9e5H5MbBe+ns6jj
-	PEMYtyl8n2kscex3fjynq/fnQ+6Ss9wyYggmHEu3HyuDuTU9fGpBoufjnJ96ihCVTddH
-	wyIGtOn0UmkD4RLJ2n4LBZsNQpfjIdVR1KCmV5xO2PA3zBaTDBZXTo/0PF94jJ6d1Rkp
-	lqn1z7B+hyH1A3d9h84HS8LiMBXKtjeUoDhW9Ri6XGb5ZqQHqwiBJrKrEzSG/75FKYuP
-	o7IQ==
+	:cc; bh=DzQ/N14wx1H9fYovD0E21gihpJ4fIV6bD8f8MoYICgQ=;
+	b=LU77r85dkcvP2chMJIEuqvfG1CDke/lhkcuR5Sl/69+ORC3eDbSlEfmYARq1u5MZjC
+	GBdUPrCGjFbl7PqAdr439wS42ic7QoN6uy48PUdsocxZVxMomDpiMlqfyobi1XlqFNiz
+	suDclv6cDK17u6bQbJnynziFWEBjWnRazOUFPpBC4JJO5clDeqxr5nLXQg4EKgzV2uhx
+	xtcIegsNPBZ/Jgn5PiW71EFHGJ0vpUzAYVZK++z1ZBfaQHR/A4RAc5s8ujrvJBnhTihS
+	T2CiOjWfriv/iX5TTVQE2c/Nj8L1jJw58oe/VJM9AnViqGfe0I2+fSpyeXqD7Y/j0hoj
+	qRxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=D/QgEMPWMdQujE7riIeKFPWbDgNBdquzPRDdyYwBDmc=;
-	b=rzvegJeMOKMgRD8CJvmW3XD5AMC6ZeQr2UB+fv4jK9TfdcwzIe6LnORhLvoBwdPKWf
-	Ilye1qkDGpjX5ZsSihAEsi8BhuiS3d+24YBPpoU37Rt5Sn613g6rmgzvW4YwVAYrdyXw
-	LxRyeGW13gqJYBfOQylcmgloYFt9An1BCPtaNUOvNrt7BLIZ0vkgXqYEtA94QKTlNICZ
-	ooOcFo2fpSentd7PP0lNb6HW+MrCGN2C/QgZE7cNflHmvlp+O4ffEdBRuWbSETc/HAEC
-	5keOwUCME8sLBS1tNQzo4v9m9HPer/hFNZzVr7F9b/f1eYX9hsl9kjm3L1Aox+bwMAzf
-	lJFA==
-X-Gm-Message-State: APjAAAWkHtu/vHLCKOy9G4v9+S4vxBXJelThnKtivxDkkgVL+5omHRva
-	nCYXLncHPQqfrAMU3H5IqZ3tV+GzW5YbKoHjkG8=
-X-Google-Smtp-Source: APXvYqxVy82UQqDptxxT6lNz7aJkvc+gVv5Pai6+sfOjAMLshMCAsNaeqm4CatQrL63/8dauYLZkfunaeNA1o8Ulm+c=
-X-Received: by 2002:a05:620a:a9a:: with SMTP id
-	v26mr16123524qkg.71.1573582576645; 
-	Tue, 12 Nov 2019 10:16:16 -0800 (PST)
+	bh=DzQ/N14wx1H9fYovD0E21gihpJ4fIV6bD8f8MoYICgQ=;
+	b=KydwLlIeOhr37y1ZIf1BxKZufqmHvC/cwhXMrfhz4gdRj9KNQPXc7Pn/yVrdA15owa
+	Gri+g3C0CtBKniqjTZDzTChmyA7emmIP64rIW21Hr8SaeNJBTDJKl8b16/FUf6Zfx2Ga
+	FK8VQG2oyOBePh2mU5BE5wrxffc0K5CXlE8t12R3g+kVLu9LVeNFxLJWRywh9HeYF0a4
+	EEy3zzcI+gCeDOejsQKnDF+M/JWVuM9xmbHkpXBY8uWPblarqLshTNXweUp4RuzIIjlb
+	gxeW03Zk03T9B9pB67LUCSp+toRtUffmZwEgLy7c4v1+AKgJ6xUsjLK3Feecn6c2XbZO
+	wEaw==
+X-Gm-Message-State: APjAAAUOR/oVlomUPLUz6K+18v/pDoMt7byQa7elzJVk7x/vTxFs+g7L
+	CQ6dfwKAmig8/4gwPlQCMMPU+mHCLs1xGYvVlQc=
+X-Google-Smtp-Source: APXvYqzIctyJEyt+ZcMdwjxRm/ft/Zcevf369TP/B4gBwAeWK+pYsCe+hYKy6WeIbPs9hHo5jiUM+l1VGY+jc6Osjlw=
+X-Received: by 2002:ab0:3399:: with SMTP id y25mr4266231uap.100.1573583324983; 
+	Tue, 12 Nov 2019 10:28:44 -0800 (PST)
 MIME-Version: 1.0
 References: <20191104224805.3149-1-alistair.francis@wdc.com>
 	<fd81b5bc-cb84-8857-ea5e-bce2c931750b@intel.com>
@@ -41,11 +40,12 @@ References: <20191104224805.3149-1-alistair.francis@wdc.com>
 	<CANNYZj8=PbGVmE+9C4mnJv3BW0Y-G8f5zG=AmGD0vDpoPNU2XQ@mail.gmail.com>
 	<CAMKF1srk1NG6Eu6_CKiw=18fwnZef0GeZUPwj0_vFmv8atq9sQ@mail.gmail.com>
 	<CAKmqyKOxaSvL5cq_SkucYZOmfoCX6o6piSr0iW-r+sFbCJL9Lw@mail.gmail.com>
-In-Reply-To: <CAKmqyKOxaSvL5cq_SkucYZOmfoCX6o6piSr0iW-r+sFbCJL9Lw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 12 Nov 2019 10:15:46 -0800
-Message-ID: <CAMKF1sqyrY3mA+5rjx1VBBE=SFst=QnBZzVR5yOAWH+zambVqA@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
+	<CAMKF1sqyrY3mA+5rjx1VBBE=SFst=QnBZzVR5yOAWH+zambVqA@mail.gmail.com>
+In-Reply-To: <CAMKF1sqyrY3mA+5rjx1VBBE=SFst=QnBZzVR5yOAWH+zambVqA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 12 Nov 2019 19:28:33 +0100
+Message-ID: <CANNYZj9ezut=i0jmn5aXVBeitzCN14mzNFL4y8=iBQezxtFEcw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: Otavio Salvador <otavio@ossystems.com.br>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -62,56 +62,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2019 18:16:16 -0000
+X-List-Received-Date: Tue, 12 Nov 2019 18:28:44 -0000
+Content-Type: multipart/alternative; boundary="0000000000001c36db05972a6b7f"
+
+--0000000000001c36db05972a6b7f
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 12, 2019 at 10:07 AM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Tue, Nov 12, 2019 at 8:19 AM Khem Raj <raj.khem@gmail.com> wrote:
+On Tue, 12 Nov 2019 at 19:16, Khem Raj <raj.khem@gmail.com> wrote:
+
+> > > in this case, texrel will endup causing sigsegv, this is a mesa issue,
+> > > primarily we have been working it around so far.
 > >
-> > On Sat, Nov 9, 2019 at 7:36 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
-> > >
-> > > On Sat, 9 Nov 2019 at 00:02, Alistair Francis <alistair23@gmail.com> wrote:
-> > >>
-> > >> > right this means glx-tls is not working anymore, and it will fail on
-> > >> > musl at runtime
-> > >> > see
-> > >> > https://gitlab.freedesktop.org/mesa/mesa/issues/966
-> > >>
-> > >> So what do we do here?
-> > >>
-> > >> There are some patches in that issue, but they don't cleanly apply and
-> > >> seem hacky anyway. Can we have two versions of mesa? One for musl and
-> > >> one for others until this is fixed upstream?
-> > >
-> > >
-> > > Maybe we can silence the warning for musl only, via INSANE_SKIP_..._libc-musl = "textrel"?
-> > > ffmpeg does the same already.
+> > I sent a new patch, it probably doesn't fix this issue though.
 > >
-> > in this case, texrel will endup causing sigsegv, this is a mesa issue,
-> > primarily we have been working it around so far.
 >
-> I sent a new patch, it probably doesn't fix this issue though.
->
-
-sure, and I think we should be able to address it with a patch or some
-feature disable/enable a mechanism
-I wonder what changed in new build system that it cant be knobbed out
-as it used to be with autotools
-
-> We can't just not update mesa because of this.
-
-We can certainly take time to fix it, we are early in release cycle.
-
-What about having two
-> versions, or for musl and one for glibc?
+> sure, and I think we should be able to address it with a patch or some
+> feature disable/enable a mechanism
+> I wonder what changed in new build system that it cant be knobbed out
+> as it used to be with autotools
 >
 
-Probably a bad idea
+It is probably upstream's removal of the 'asm' configuration switch which
+was previously set to false and now is always on.
+Seems like switching that on enables poorly written assembly code that
+causes the qa issue?
 
-> Alistair
->
-> >
-> > >
-> > > Alex
+Also there should be a runtime test for all of this. There is a test for
+kmscube over virgl but only for glibc.
 
+Alex
+
+--0000000000001c36db05972a6b7f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 12 Nov 2019 at 19:16, Khem Raj &l=
+t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
+m</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">&gt; &gt; in this case, texrel will endup causi=
+ng sigsegv, this is a mesa issue,<br>
+&gt; &gt; primarily we have been working it around so far.<br>
+&gt;<br>
+&gt; I sent a new patch, it probably doesn&#39;t fix this issue though.<br>
+&gt;<br>
+<br>
+sure, and I think we should be able to address it with a patch or some<br>
+feature disable/enable a mechanism<br>
+I wonder what changed in new build system that it cant be knobbed out<br>
+as it used to be with autotools<br></blockquote><div><br></div><div>It is p=
+robably upstream&#39;s removal of the &#39;asm&#39; configuration switch wh=
+ich was previously set to false and now is always on. <br></div><div></div>=
+<div></div><div>Seems like switching that on enables poorly written assembl=
+y code that causes the qa issue?<br></div></div><div class=3D"gmail_quote">=
+<br></div><div class=3D"gmail_quote">Also there should be a runtime test fo=
+r all of this. There is a test for kmscube over virgl but only for glibc.<b=
+r></div><div class=3D"gmail_quote"><br><div>Alex<br></div></div></div>
+
+--0000000000001c36db05972a6b7f--
