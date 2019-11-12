@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 56FCE7FC09
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AB847FBBD
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 12 Nov 2019 04:33:53 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id f19so10953432pgk.11
+Received: by mail-pl1-f177.google.com with SMTP id d7so6940568pls.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 11 Nov 2019 20:33:54 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Bww/iYCld7Qx0lUWh2AbnQI4ImmrFtnWgpYxoUTyeB0=;
-	b=edx04SeU31rHiEb/P7tBRolddjptmxrLP7WaQrxoLX3W4qfH6IXmZkHnX5HdlWpl/W
-	Xo+l0hWUiZEhRgeIYMF+7l2kq02+yJ9gXThmZmlXoxtgjylqpwZXxD/Kx8vCDGVprqOi
-	RrLqQuvT9PnfYHIwyIL4kgn40o21lw9LUcPfkheY8qeAgZZWR/6Pfs/FPQ+7JUOw6qzN
-	ATWpd5ivt07ilF9X+QYeL0b63lq+/NcdH2WQESrQulKbeDqjEyJLxrkRFOra2MG0Nq9x
-	exN5y8y3Q2tJOoBZmdarDAykx6NamONRUctERfGFRYWyEPpU8h6o81Sfz/mh3g4yLY3c
-	VmQg==
+	bh=gHKFfCYnLv/xiNZ4o9kRqBiAnjQ0sz0wSQh9mpC5JvQ=;
+	b=bqCviGtBZ3+eRuKnAreofYeqI8WiUwIjrQtyVuzYuk5p2imTjtIP4CmdTHL9aAFyDL
+	xhH81oJ+AxvuDhp7pA0izPRcWaTPFM9f8htRSPLI27HCszIQojL4TjIk92UiyLvXfnlJ
+	4cRlVRIXC5DCfn0crDZBrYvhiNuTBPS/REkN3spJ76isuog9LktSfgcQk3oOaLLh4bP8
+	3m4XfK+hUtnC9tXHcq24s+2wax5gxHlViYqDJlR45JYf5V9TX7r9oJcaxT2Q2TVxaSyd
+	CxYOxAz/NJUcX3LRULUTNug8p1sAZ1bzdg0QHRuACwmLof2zqGnrINta81L711RDUBcz
+	f1sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Bww/iYCld7Qx0lUWh2AbnQI4ImmrFtnWgpYxoUTyeB0=;
-	b=VJia8X9yJRN6+EyID9ohaGUASCXVbomu3yvGUZYocYIH919BkMl4zXYx++ladec6aQ
-	F0/zuVGrJmVA13AOBgdL9sXlrlQrEfPxVb9mIV+RRE3C4f7MLFZAAQammfOnQPrPCxpf
-	updWiUJFsNvwkcEA2rvSAixPF6xWeLCG2oY36eNmITsUZwQcOD8l2Bbxv8SKIaZJryFA
-	fxeZv+tbx+JvJvM3YHyQj3GsYhrYTchbKW5Jni34wGSCvPV8dLKxTeKTabRc2TWa5S4N
-	2n5fiUztDE8ceNPcIpigmDrcjuUtenapKlvhnEI08V0PVfkD4ztI8HvDLFFYcVvBE7E/
-	wshA==
-X-Gm-Message-State: APjAAAX2ZoiUHFlHbAaKxImoYqB/eCLKSsGeXcDcBkttR+rs7jTsAf4k
-	UDi499rWoDV/mwcpuRZKWuKdAZ46
-X-Google-Smtp-Source: APXvYqySs00Ai8CDEJ3vCqQVoHXTTXlQEUCkpyUX0c2oa4LinU9+4a0ncT5J43Jvu3Cw3nBcmxR+ig==
-X-Received: by 2002:a62:1595:: with SMTP id 143mr29627044pfv.67.1573533233752; 
-	Mon, 11 Nov 2019 20:33:53 -0800 (PST)
+	bh=gHKFfCYnLv/xiNZ4o9kRqBiAnjQ0sz0wSQh9mpC5JvQ=;
+	b=JW6Xw8I/Tw2NddWkkxdguJ9CnE2Ef5/H8WOANPqB8NUc7jlPMBub8FezDcp6fMSI4P
+	y4fNg2bU9w+JCsT5lLIm6gXezDjRRTiO2ChnNeT7+OPtFI8bpOZD4BSkfoqqvMJvGd47
+	DFzW7xVUH1Cw8t4d0Q+JPyXZIy/osOBF/r7UquWASE3eRxRwKBZ6PTY2n7hw6519hDtt
+	Ka0tY0CU7AJXTkfNJCuR3eI4HTp1KwXyXMUc7FeFaQipmbRvqja8E3H+hFtVEP0qvU0N
+	T5rUBUDIDtUWFPjItdmen2xlbzfdg4dHk+M3V6wkK/hQF5Bshlr3LuVRpVodm5sSFQsz
+	qQ4g==
+X-Gm-Message-State: APjAAAW1MzKppekV4K2AfF/YpNrg7PEpJPgHekoxYe+HFZE0c00rGOhD
+	JchhZnUn+XflUnznsrGsHq4WW6Bl
+X-Google-Smtp-Source: APXvYqx1QmNdbpWTPhhzXzN1ky7UaNrsmGHw4XoK537dpwjB5OqX012creNJ84yOGUGwwWIIHRs0lg==
+X-Received: by 2002:a17:902:d881:: with SMTP id
+	b1mr18709551plz.170.1573533234507; 
+	Mon, 11 Nov 2019 20:33:54 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
 	q12sm5212109pgl.23.2019.11.11.20.33.53
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 11 Nov 2019 20:33:53 -0800 (PST)
+	Mon, 11 Nov 2019 20:33:54 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2019 20:33:32 -0800
-Message-Id: <dd10643070b0b467e486ff28f516590f672f1bdb.1573532188.git.akuster808@gmail.com>
+Date: Mon, 11 Nov 2019 20:33:33 -0800
+Message-Id: <dbe5d8d0429ddca87fa80f613a8fbab287910696.1573532188.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573532188.git.akuster808@gmail.com>
 References: <cover.1573532188.git.akuster808@gmail.com>
-Subject: [PATCH 13/20] OEQA: eclipse support was dropped in warrior
+Subject: [PATCH 14/20] OEQA: move manual bash test to runtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,343 +62,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 12 Nov 2019 04:33:53 -0000
 
-remove test
-
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/manual/eclipse-plugin.json | 322 -------------------------------
- 1 file changed, 322 deletions(-)
- delete mode 100644 meta/lib/oeqa/manual/eclipse-plugin.json
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/meta/lib/oeqa/manual/eclipse-plugin.json b/meta/lib/oeqa/manual/eclipse-plugin.json
-deleted file mode 100644
-index 9869150..0000000
---- a/meta/lib/oeqa/manual/eclipse-plugin.json
-+++ /dev/null
-@@ -1,322 +0,0 @@
--[
--    {
--        "test": {
--            "@alias": "eclipse-plugin.eclipse-plugin.support_SSH_connection_to_Target",
--            "author": [
--                {
--                    "email": "ee.peng.yeoh@intel.com",
--                    "name": "ee.peng.yeoh@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "In Eclipse, swich to Remote System Explorer to create a connention baseed on SSH, input the remote target IP address as the Host name, make sure disable the proxy in Window->Preferences->General->Network Connection, set Direct as Active Provider field.  ",
--                    "expected_results": "the connection based on SSH could be set up."
--                },
--                "2": {
--                    "action": "Configure connection from Eclipse: Run->Run Configurations->C/C++ Remote Application\\ ->New Connection->General->SSH Only  ",
--                    "expected_results": ""
--                },
--                "3": {
--                    "action": "Then right click to connect, input the user ID and password.  ",
--                    "expected_results": ""
--                },
--                "4": {
--                    "action": "expand the connection, it will show the Sftp Files etc.   \nNOTE. Might need to change dropbear to openssh and add the packagegroup-core-eclipse-debug recipe",
--                    "expected_results": ""
--                }
--            },
--            "summary": "support_SSH_connection_to_Target"
--        }
--    },
--    {
--        "test": {
--            "@alias": "eclipse-plugin.eclipse-plugin.Launch_QEMU_from_Eclipse",
--            "author": [
--                {
--                    "email": "ee.peng.yeoh@intel.com",
--                    "name": "ee.peng.yeoh@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "Set the Yocto ADT's toolchain root location, sysroot location and kernel, in the menu Window -> Preferences -> Yocto ADT.   \n \n",
--                    "expected_results": ""
--                },
--                "2": {
--                    "action": "wget  autobuilder.yoctoproject.org/pub/releases//machines/qemu/qemux86/qemu (ex:core-image-sato-sdk-qemux86-date-rootfs-tar-bz2) \nsource /opt/poky/version/environment-setup-i585-poky-linux  \n\nExtract qemu with runqemu-extract-sdk /home/user/file(ex.core-image-sato-sdk-qemux86.bz2) \n/home/user/qemux86-sato-sdk  \n\n",
--                    "expected_results": " Qemu can be lauched normally."
--                },
--                "3": {
--                    "action": "(a)Point to the Toolchain:  \n \nIf you are using a stand-alone pre-built toolchain, you should be pointing to the /opt/poky/{test-version} directory as Toolchain Root Location. This is the default location for toolchains installed by the ADT Installer or by hand. If ADT is installed in other location, use that location as Toolchain location.\nIf you are using a system-derived toolchain, the path you provide for the Toolchain Root Location field is the Yocto Project's build directory.  \n \n           E.g:/home/user/yocto/poky/build \n",
--                    "expected_results": ""
--                },
--                "4": {
--                    "action": "(b)Specify the Sysroot Location: \nSysroot Location is the location where the root filesystem for the target hardware is created on the development system by the ADT Installer (SYSROOT in step 2 of the case ADT installer Installation).  \n   \n         Local :     e.g: /home/user/qemux86-sato-sdk \nUsing ADT : e.g :/home/user/test-yocto/qemux86  \n\n",
--                    "expected_results": ""
--                },
--                "5": {
--                    "action": "(c)Select the Target Architecture:  \n \nThe target architecture is the type of hardware you are going to use or emulate. Use the pull-down Target Architecture menu to make your selection.  \n \n\n",
--                    "expected_results": ""
--                },
--                "6": {
--                    "action": "(d) QEMU: \nSelect this option if you will be using the QEMU emulator. Specify the Kernel matching the QEMU architecture you are using. \n      wget  autobuilder.yoctoproject.org/pub/releases//machines/qemu/qemux86/bzImage-qemux86.bin \n      e.g: /home/$USER/yocto/adt-installer/download_image/bzImage-qemux86.bin  \n\n",
--                    "expected_results": ""
--                },	
--                "7": {
--                    "action": "(e) select OK to save the settings.  \n\n\n1: In the Eclipse toolbar, expose the Run -> External Tools menu. Your image should appear as a selectable menu item.  \n2: Select your image in the navigation pane to launch the emulator in a new window. \n3: If needed, enter your host root password in the shell window at the prompt. This sets up a Tap 0 connection needed for running in user-space NFS mode. \n",
--                    "expected_results": ""
--                }				
--            },
--            "summary": "Launch_QEMU_from_Eclipse"
--        }
--    },
--    {
--        "test": {
--            "@alias": "eclipse-plugin.eclipse-plugin.Relocatable_SDK_-_C_-_Build_Hello_World_ANSI_C_Autotools_Project",
--            "author": [
--                {
--                    "email": "ee.peng.yeoh@intel.com",
--                    "name": "ee.peng.yeoh@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "Launch a QEMU of target enviroment.(Reference to case \"ADT - Launch qemu by eclipse\") ",
--                    "expected_results": ""
--                },
--                "2": {
--                    "action": "Select File -> New -> Project.",
--                    "expected_results": ""
--                },
--                "3": {
--                    "action": "Double click C/C++.",
--                    "expected_results": ""
--                },
--                "4": {
--                    "action": "Click C or C++ Project to create the project.",
--                    "expected_results": ""
--                },
--                "5": {
--                    "action": "Expand Yocto ADT Project.",
--                    "expected_results": ""
--                },
--                "6": {
--                    "action": "Select Hello World ANSI C Autotools Project.",
--                    "expected_results": ""
--                },
--                "7": {
--                    "action": "Put a name in the Project name. Do not use hyphens as part of the name. \n \n",
--                    "expected_results": ""
--                },
--                "8": {
--                    "action": "Click Next.",
--                    "expected_results": ""
--                },
--                "9": {
--                    "action": "Add information in the Author and Copyright notice fields. \n1",
--                    "expected_results": ""
--                },
--                "10": {
--                    "action": "Click Finish. \n1",
--                    "expected_results": ""
--                },
--                "11": {
--                    "action": "If the \"open perspective\" prompt appears, click \"Yes\" so that you open the C/C++ perspective. \n1",
--                    "expected_results": ""
--                },
--                "12": {
--                    "action": "In the Project Explorer window, right click the project -> Reconfigure project. \n1",
--                    "expected_results": ""
--                },
--                "13": {
--                    "action": "In the Project Explorer window, right click the project -> Build project. \n1",
--                    "expected_results": "Under the Project files, a new folder appears called Binaries. This indicates that the compilation have been successful and the project binary have been created. \n"
--                },
--                "14": {
--                    "action": "Right click it again and Run as -> Run Configurations.  \n\t\t\tUnder Run Configurations expand \"C/C++ Remote Application\". A configuration for the current project should appear. Clicking it will display the configuration settings. \n\t\t\tin \"C/C++ Application\" field input Remote Absolute File path for C/C++ Application. e.g.: /home/root/myapplication \n\t\t\tIn \"Connection\" drop-down list make sure a TCF connection is set up for your target. If not, create a new one by clicking the New button. \n1",
--                    "expected_results": "step 14 to step 16 -> Build succeed and the console outputs Hello world, you can also check the output on target."
--                },
--                "15": {
--                    "action": "After all settings are done, select the Run button on the bottom right corner \n\n1",
--                    "expected_results": ""
--                },
--                "16": {
--                    "action": "Repeat the steps 14-15, but instead of using Run Configurations use Debug Configurations: \nRight click it again and Debug as -> Debug Configurations \nUnder Debug Configurations expand \"C/C++ Remote Application\". A configuration for the current project should appear. Clicking it will display the configuration settings. \nin \"C/C++ Application\" field input Remote Absolute File path for C/C++ Application.\ne.g.: /home/root/myapplication \nIn \"Connection\" drop-down list make sure a TCF connection is set up for your target. If not, create a new one by clicking the New button \n1",
--                    "expected_results": ""
--                },
--                "17": {
--                    "action": "After all settings are done, select the Debug button on the bottom right corner",
--                    "expected_results": ""
--                }
--            },
--            "summary": "Relocatable_SDK_-_C_-_Build_Hello_World_ANSI_C_Autotools_Project"
--        }
--    },
--    {
--        "test": {
--            "@alias": "eclipse-plugin.eclipse-plugin.Relocatable_SDK_-_C++_-_Build_Hello_World_C++_Autotools_project",
--            "author": [
--                {
--                    "email": "ee.peng.yeoh@intel.com",
--                    "name": "ee.peng.yeoh@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "Launch a QEMU of target enviroment.(Reference to case \"ADT - Launch qemu by eclipse\") ",
--                    "expected_results": ""
--                },
--                "2": {
--                    "action": "Select File -> New -> Project. ",
--                    "expected_results": ""
--                },
--                "3": {
--                    "action": "Double click C/C++. ",
--                    "expected_results": ""
--                },
--                "4": {
--                    "action": "Click C or C++ Project to create the project. ",
--                    "expected_results": ""
--                },
--                "5": {
--                    "action": "Expand Yocto ADT Project. ",
--                    "expected_results": ""
--                },
--                "6": {
--                    "action": "Select Hello World ANSI C++ Autotools Project. ",
--                    "expected_results": ""
--                },
--                "7": {
--                    "action": "Put a name in the Project name. Do not use hyphens as part of the name.  \n \n",
--                    "expected_results": ""
--                },
--                "8": {
--                    "action": "Click Next.",
--                    "expected_results": ""
--                },
--                "9": {
--                    "action": "Add information in the Author and Copyright notice fields.",
--                    "expected_results": ""
--                },
--                "10": {
--                    "action": "Click Finish. \n1",
--                    "expected_results": ""
--                },
--                "11": {
--                    "action": "If the \"open perspective\" prompt appears, click \"Yes\" so that you open the C/C++ perspective. \n1",
--                    "expected_results": ""
--                },
--                "12": {
--                    "action": "In the Project Explorer window, right click the project -> Reconfigure project. \n1",
--                    "expected_results": ""
--                },
--                "13": {
--                    "action": "In the Project Explorer window, right click the project -> Build project. \n\n1",
--                    "expected_results": "under the Project files, a new folder appears called Binaries. This indicates that the compilation have been successful and the project binary have been created.  \n"
--                },
--                "14": {
--                    "action": "Right click it again and Run as -> Run Configurations. \n\t\t\tUnder Run Configurations expand \"C/C++ Remote Application\". A configuration for the current project should appear. Clicking it will display the configuration settings. \n\t\t\tin \"C/C++ Application\" field input Remote Absolute File path for C/C++ Application. e.g.: /home/root/myapplication \n\t\t\tIn \"Connection\" drop-down list make sure a TCF connection is set up for your target. If not, create a new one by clicking the New button. \n1",
--                    "expected_results": "step 14 to step 16 -> Build succeed and the console outputs Hello world, you can also check the output on target."
--                },
--                "15": {
--                    "action": "After all settings are done, select the Run button on the bottom right corner \n\n1",
--                    "expected_results": ""
--                },
--                "16": {
--                    "action": "Repeat the steps 14-15, but instead of using Run Configurations use Debug Configurations: \n\t\tRight click it again and Debug as -> Debug Configurations \n\t\tUnder Debug Configurations expand \"C/C++ Remote Application\". A configuration for the current project should appear. Clicking it will display the configuration settings. \n\t\tin \"C/C++ Application\" field input Remote Absolute File path for C/C++ Application. \n\t\te.g.: /home/root/myapplication \n\t\tIn \"Connection\" drop-down list make sure a TCF connection is set up for your target. If not, create a new one by clicking the New button \n1",
--                    "expected_results": ""
--                },
--                "17": {
--                    "action": "After all settings are done, select the Debug button on the bottom right corner",
--                    "expected_results": ""
--                }
--            },
--            "summary": "Relocatable_SDK_-_C++_-_Build_Hello_World_C++_Autotools_project"
--        }
--    },
--    {
--        "test": {
--            "@alias": "eclipse-plugin.eclipse-plugin.Build_Eclipse_Plugin_from_source",
--            "author": [
--                {
--                    "email": "laurentiu.serban@intel.com",
--                    "name": "laurentiu.serban@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "Clone eclipse-poky source.   \n    \n    - git clone git://git.yoctoproject.org/eclipse-poky  \n\n",
--                    "expected_results": "Eclipse plugin is successfully installed  \n\nDocumentation is there. For example if you have release yocto-2.0.1 you will found on   http://autobuilder.yoctoproject.org/pub/releases/yocto-2.0.1/eclipse-plugin/mars/  archive with documentation like org.yocto.doc-development-$date.zip  \n  \n"
--                },
--                "2": {
--                    "action": "Checkout correct tag.  \n\n    - git checkout <eclipse-version>/<yocto-version> \n\n",
--                    "expected_results": "After plugin is build you must have  4 archive in foder scripts from eclipse-poky:  \n     - org.yocto.bc - mars-master-$date.zip  \n     - org.yocto.doc - mars-master-$date.zip    --> documentation  \n     - org.yocto.sdk - mars-master-$date.zip       \n     - org.yocto.sdk - mars-master-$date.-archive.zip  --> plugin  "
--                },
--                "3": {
--                    "action": "Move to scripts/ folder.  \n\n",
--                    "expected_results": ""
--                },
--                "4": {
--                    "action": "Run ./setup.sh  \n\n",
--                    "expected_results": ""
--                },
--                "5": {
--                    "action": "When the script finishes, it prompts a command to issue to build the plugin. It should look similar to the following:  \n\n$ ECLIPSE_HOME=/eclipse-poky/scripts/eclipse ./build.sh /&1 | tee -a build.log  \n\nHere, the three arguments to the build script are tag name, branch for documentation and release name.  \n\n",
--                    "expected_results": ""
--                },
--                "6": {
--                    "action": "On an eclipse without the Yocto Plugin, select \"Install New Software\" from Help pull-down menu  \n\n",
--                    "expected_results": ""
--                },
--                "7": {
--                    "action": "Select Add and from the dialog choose Archive...  Look for the *archive.zip file that was built previously with the build.sh script. Click OK.  \n\n",
--                    "expected_results": ""
--                },
--                "8": {
--                    "action": "Select all components and proceed with Installation of plugin. Restarting eclipse might be required.\n",
--                    "expected_results": ""
--                }
--            },
--            "summary": "Build_Eclipse_Plugin_from_source"
--        }
--    },
--    {
--        "test": {
--            "@alias": "eclipse-plugin.eclipse-plugin.Eclipse_Poky_installation_and_setup",
--            "author": [
--                {
--                    "email": "ee.peng.yeoh@intel.com",
--                    "name": "ee.peng.yeoh@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "Install SDK  \n\ta)Download https://autobuilder.yocto.io/pub/releases//toolchain/x86_64/poky-glibc-x86_64-core-\timage-sato-i586-toolchain-.sh  \n\tb)Run the SDK installer and accept the default installation directory ",
--                    "expected_results": ""
--                },
--                "2": {
--                    "action": "Install \"Eclipse IDE for C/C++ Developers\" Oxygen release (4.7.0)  \n\ta) Go to https://www.eclipse.org/downloads/packages/all, click \"Oxygen R\"  \n\tb) Click to download the build for your OS  \n\tc) Click \"Download\" button to download from a mirror  \n\td) Run \"tar xf\" to extract the downloaded archive  ",
--                    "expected_result": ""
--                },
--                "3": {
--                    "action": "Install \"Eclipse IDE for C/C++ Developers\" Oxygen release (4.7.0) (Continue)  \n\te) Run \"eclipse/eclipse\" to start Eclipse  \n\tf) Optional step for host machine within Intel network: In Eclipse workbench window, go to \"Window\" menu -> \"Preferences...\".  \n\tg) In \"Preferences\" dialog, go to \"General\" -> \"Network Connections\", set \"Active Provider\" to \"Manual\". In \"Proxy \tentries\" table, select HTTP and click \"Edit\" and enter host \"proxy-chain.intel.com\" port 911, click OK. Repeat for HTTPS with port 912 \nClick OK to close \"Preferences\" dialog.  \n\th) Go to \"File\" menu -> \"Restart\" to restart Eclipse for proxy settings to take effect. ",
--                    "expected_result": ""
--                },
--                "4": {
--                    "action": "Install Eclipse Poky plugins  \n\ta) Download https://autobuilder.yocto.io/pub/releases/<yocto-version>/eclipse-plugin/<eclipse-version>/org.yocto.sdk-development-<date>-archive.zip   \n\tb) In Eclipse workbench window, go to \"Help\" menu -> \"Install New Software...\"  \n\tc) In \"Install\" dialog, click \"Add...\" button  \n\td) In \"Add Repository\" dialog, enter \"Eclipse Poky\" for (repository) Name, click \"Archive...\"  ",
--                    "expected_results": ""
--                },
--                "5": {
--                    "action": "Install Eclipse Poky plugins (continue)  \n\te) In \"Repository archive\" browse dialog, select the downloaded Eclipse Poky repository archive  \n\tf) Back in \"Add Repository\" dialog, click \"OK\"  \n\tg) Back in \"Install\" dialog, make sure \"Work with:\" is set to \"Eclipse Poky\" repository, tick \"Yocto Project \tDocumentation Plug-in\" and \"Yocto Project SDK Plug-in\", click \"Next >\" and verify plugins/features name/version, \tclick \"Next >\" and accept license agreement, click \"Finish\"  \n\th) If \"Security Warning\" dialog appears, click \"OK\" to install unsigned content.  \n\ti) In \"Software Updates\" dialog, click \"Yes\" to restart Eclipse to complete Eclipse Poky plugins installation. ",
--                    "expected_results": ""
--                },
--                "6": {
--                    "action": "Setup Eclipse Poky to use SDK  \n\ta) In Eclipse workbench window, go to \"Window\" menu -> \"Preferences\".  \n\tb) In \"Preferences\" window, go to \"Yocto Project SDK\", in \"Cross Compiler Options\" frame, select \"Standalone pre-\tbuilt toolchain\".  ",
--                    "expected_results": "Eclipse Poky plugins installed and running successfully, e.g. observe that \"Yocto Project Tools\" menu is available on Eclipse workbench window."
--                }
--            },
--            "summary": "Eclipse_Poky_installation_and_setup"
--        }
--    }
--]
-\ No newline at end of file
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 7d3922c..28804ea 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -322,3 +322,20 @@ class Postinst(OESelftestTestCase):
+                 self.assertFalse(os.path.isfile(os.path.join(hosttestdir, "rootfs-after-failure")),
+                                     "rootfs-after-failure file was created")
+ 
++
++
++class Bsp(OESelftestTestCase):
++    def test_bash_installed(self):
++        """
++        Summary:        The purpose of this test case is to verify that bash 
++                        in exists in the image. Test came from manual.
++        Expected:       Bash is found.
++        """
++
++        features = 'IMAGE_INSTALL_append = " bash"\n'
++        self.write_config(features)
++        bitbake('core-image-minimal')
++
++        with runqemu('core-image-minimal') as qemu:
++            result = runCmd("which bash" , shell=True)
++            self.assertEqual(0, result.status, "Couldn't find bash")
 -- 
 2.7.4
 
