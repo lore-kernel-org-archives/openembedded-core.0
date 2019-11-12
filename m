@@ -1,50 +1,58 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2866960125
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+	[209.85.210.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C71B60125
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 20:55:47 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id 29so12642386pgm.6
+	Tue, 12 Nov 2019 21:01:14 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id n13so14247320pff.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 12:55:49 -0800 (PST)
+	Tue, 12 Nov 2019 13:01:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ROlS49dKBumMLzy3NpGb4Aha5bkssLCpjjssG55XpWk=;
-	b=avNFcO3beI13ENOtvq7Z1mQIH7PvkabT4lRRbyXn+oNGHWDo2EPXjMO7y9oa927Ga9
-	maJ4v4dmu+HOimkAl0x2skLisAeTjdwMbRVgcC5pXim0pxJhgAn1JeO/PhxYUIBXlVP/
-	zlxgm49yR7kebZDZJShtAppbnnDS3uTQfCciWLxXY3giW2xNogVhBIwxzB2iy9V3gJjj
-	hUtzNwPRFp2P/XCcqntIr1nj/YAJVOEF5jQW+sZFwGRSFPB/BwoYDVJ282PzVheVMtpJ
-	/ZoicbZgS4w23X+63KcZvx6rau7aQMys5HX8ukAG+Pit52rXIRsIRNlnmaKCWajapa52
-	kqgw==
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:user-agent:mime-version:content-transfer-encoding;
+	bh=HGyakTGnMimEC1s7EinSkax5tWQCD6C7g1rtrW1rPlE=;
+	b=nuOe4lnb3c8dJGYKBoLBKs+NkjcLIVfoitfBMtlwDColp5YgdBX9Qu6w4yGxoBL376
+	pIWBmP/AtEp8hwE/ZIBXa1ZGg0Ne0HyNW8zHSsxGK5c+13cSjCwspLHQYUFQoRgWXPCR
+	73Ff4RWcnYH+Sychkjd3wTxJC3H1Xe5+fgm5jz+UH89wVlNfGMUzwJbcZUoXFWr6CRAb
+	PodrXHP2Jr1W17u+vXy+9HLxP6zlHCvO4tsCnXxJgc+g7YFCAYvYwFXoBqouwNvAnwE0
+	5MPiDiXVKBY0joN31gCxUBjHlIBjx170cx4Dg22F3LIyDvp0gl9YQYeVTCoiEBawTrfD
+	NFQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:user-agent:mime-version
 	:content-transfer-encoding;
-	bh=ROlS49dKBumMLzy3NpGb4Aha5bkssLCpjjssG55XpWk=;
-	b=MqdFmF7+SFagDI3qpdaY6spN+kkuSt6IyDLywCUvHmwCjXGlsdSAAK12vXLVmAbi/S
-	kMiU0Y3qcCY5mhydKyZpSUzyh/5HhzMCYK5m+gVNDq3+pLEEPEjD30WT31W5ezllbAQm
-	LXHfzk2OjsysoMogAkIGRGIxMM47DO4QqDUKIzTJkxIywBcCg94HnBq4Nq1Vv01Ga6qK
-	KJsxyvngfe2M+0DGLtyip/IDml5MpNkl+SCGeMX1fmB5EY+T2apamAV85jDbvVmzW64B
-	j7RVPm/eEH9F+1ry4ZVAZusajHZiSABLItm71Y7WPlumGhqNlJPlGYW9mRbxLnLCIiCh
-	90xg==
-X-Gm-Message-State: APjAAAULUdJIyYJsxnhglnfjm9cuVXQNpOr1lAqqS3KMqsPSuQJSWvCp
-	2tOSd3m4c+xDx9Djx80mMiK7Zo/mHVg=
-X-Google-Smtp-Source: APXvYqxhlw6diXn2Vw7pPAFVHqHhu3Wa+EaPB9rmNyjlurEciwiZj7c/GhVVjiQwyaaxDAQiU5Dzvw==
-X-Received: by 2002:a17:90b:28f:: with SMTP id
-	az15mr9421447pjb.27.1573592148575; 
-	Tue, 12 Nov 2019 12:55:48 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::30e8])
-	by smtp.gmail.com with ESMTPSA id 12sm24698pjm.11.2019.11.12.12.55.47
+	bh=HGyakTGnMimEC1s7EinSkax5tWQCD6C7g1rtrW1rPlE=;
+	b=RWQJ2gsxA2LZmUWkCsmQXJkWE7U+QBial73l6f28Z/74gXjVpOVQD0+EwlGPvRPmAN
+	yjK+Kn++81fuDi9Vi26v/1oXRcnAxBMzTos4AyTtlXsZbYpK1aBuY2zha8Sqha/wFVhJ
+	u6gkhKGDh2Iz63GrdbHzu0+RnfuMzY6U2Q8AvFRr+S5huwazwMJHCvEazoPexo6hJHWv
+	TtBEsI9x3ILatK4BcBL+3cOT334/1B8gSvcntrKdDZgmuV2FxslLntkVlsFVY4eHOree
+	GtIwpKfVaivrPpGBxsODlp+SQ5jSaBOv+AYkf0jqsh4Vsrn5HqHUvqXVA9mAiu7Lw1cr
+	NXgw==
+X-Gm-Message-State: APjAAAUpE3fcAgouPpW6r4pfK8VOo4Lqzmn+lWmNuNIG+7rR6to5zmzj
+	EvKgeaDrRBUqztJ8izzgxE8=
+X-Google-Smtp-Source: APXvYqxtdnjFHIv844zEe9oMbMCPUMQ8y3kbHTWvBWn7mj1sTPmcicTIvEnQMG7EiBD9ytAIu0I9pQ==
+X-Received: by 2002:a63:e145:: with SMTP id h5mr37849732pgk.447.1573592475652; 
+	Tue, 12 Nov 2019 13:01:15 -0800 (PST)
+Received: from apollo ([2601:646:8500:1c20::30e8])
+	by smtp.gmail.com with ESMTPSA id
+	s13sm18774931pfc.110.2019.11.12.13.01.14
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 12 Nov 2019 12:55:48 -0800 (PST)
+	Tue, 12 Nov 2019 13:01:15 -0800 (PST)
+Message-ID: <b7c3ec8ee350e606ff8bc99c20efacb87654c858.camel@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 12 Nov 2019 12:55:37 -0800
-Message-Id: <20191112205537.698939-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
+To: Michael Scott <mike@foundries.io>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 12 Nov 2019 13:01:10 -0800
+In-Reply-To: <20191112195656.7359-1-mike@foundries.io>
+References: <20191112195656.7359-1-mike@foundries.io>
+Organization: HIMVIS LLC
+User-Agent: Evolution 3.34.1 
 MIME-Version: 1.0
-Subject: [PATCH] strace: Fix build found with 64bit time_t/musl
+Cc: Otavio Salvador <otavio@ossystems.com.br>,
+	Stefan Agner <stefan.agner@toradex.com>, Adrian Bunk <bunk@stusta.de>,
+	Bryan Gillespie <bryan.gillespie@hughes.com>
+Subject: Re: [meta-oe] modemmanager: Upgrade 1.10.6 -> 1.10.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,63 +65,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 12 Nov 2019 20:55:48 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 12 Nov 2019 21:01:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This ensures that its using linux headers for matching the syscall
-structures
+On Tue, 2019-11-12 at 11:56 -0800, Michael Scott wrote:
+> Includes: Fix for an issue presenting after 1.10.6 update where modem
+> would enter status denied state.
+> 
+> See:
+> https://cgit.freedesktop.org/ModemManager/ModemManager/commit/?h=1.10.8&id=47fd8a1e55cac0b0b45812e1dda826f38c264d1b
+> 
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../strace/strace/sys_headers.patch           | 25 +++++++++++++++++++
- meta/recipes-devtools/strace/strace_5.3.bb    |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/sys_headers.patch
+Patch is ok, but please send it to openembedded-devel mailing list, so
+it can be caught by patchwork into right project.
 
-diff --git a/meta/recipes-devtools/strace/strace/sys_headers.patch b/meta/recipes-devtools/strace/strace/sys_headers.patch
-new file mode 100644
-index 0000000000..e46f2c350d
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/sys_headers.patch
-@@ -0,0 +1,25 @@
-+Remove configure checks for few sys/ headers
-+
-+sys/ipc.h, sys/sem.h, sys/shm.h, and sys/msg.h are actually wrappers
-+for kernel headers in libc if available, here strace is trying to match
-+traced process's APIs to syscalls kernel structures
-+
-+Removing the checks makes it default to right kernel UAPI headers under linux/
-+
-+Upstream-Status: Submitted [https://lists.strace.io/pipermail/strace-devel/2019-November/009222.html]
-+Suggested-by: Rich Felker <dalias@aerifal.cx>
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -439,11 +439,7 @@ AC_CHECK_HEADERS(m4_normalize([
-+ 	sys/conf.h
-+ 	sys/eventfd.h
-+ 	sys/fanotify.h
-+-	sys/ipc.h
-+-	sys/msg.h
-+ 	sys/quota.h
-+-	sys/sem.h
-+-	sys/shm.h
-+ 	sys/signalfd.h
-+ 	sys/xattr.h
-+ 	ustat.h
-diff --git a/meta/recipes-devtools/strace/strace_5.3.bb b/meta/recipes-devtools/strace/strace_5.3.bb
-index db6004583b..b000afb30b 100644
---- a/meta/recipes-devtools/strace/strace_5.3.bb
-+++ b/meta/recipes-devtools/strace/strace_5.3.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
-            file://ptest-spacesave.patch \
-            file://uintptr_t.patch \
-+           file://sys_headers.patch \
-            "
- SRC_URI[md5sum] = "84f5e72de813c9b1bb6057ee8ab428d8"
- SRC_URI[sha256sum] = "6c131198749656401fe3efd6b4b16a07ea867e8f530867ceae8930bbc937a047"
--- 
-2.24.0
+> Signed-off-by: Michael Scott <mike@foundries.io>
+> ---
+>  .../{modemmanager_1.10.6.bb => modemmanager_1.10.8.bb}        | 4
+> ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta-oe/recipes-
+> connectivity/modemmanager/{modemmanager_1.10.6.bb =>
+> modemmanager_1.10.8.bb} (92%)
+> 
+> diff --git a/meta-oe/recipes-
+> connectivity/modemmanager/modemmanager_1.10.6.bb b/meta-oe/recipes-
+> connectivity/modemmanager/modemmanager_1.10.8.bb
+> similarity index 92%
+> rename from meta-oe/recipes-
+> connectivity/modemmanager/modemmanager_1.10.6.bb
+> rename to meta-oe/recipes-
+> connectivity/modemmanager/modemmanager_1.10.8.bb
+> index 92d4fe0f4..3cd21cc0d 100644
+> --- a/meta-oe/recipes-
+> connectivity/modemmanager/modemmanager_1.10.6.bb
+> +++ b/meta-oe/recipes-
+> connectivity/modemmanager/modemmanager_1.10.8.bb
+> @@ -14,8 +14,8 @@ DEPENDS = "glib-2.0 libgudev intltool-native
+> libxslt-native"
+>  SRC_URI = "
+> http://www.freedesktop.org/software/ModemManager/ModemManager-${PV}.tar.xz
+> \
+>             "
+>  
+> -SRC_URI[md5sum] = "7452a94f0d1ca361ae51ff1d287c53f5"
+> -SRC_URI[sha256sum] =
+> "3c2ca73782215664141042422759899ca9846440fc26d6223c7cf7ea4dd3c996"
+> +SRC_URI[md5sum] = "c05ac4246c81cc15d617c4a129232988"
+> +SRC_URI[sha256sum] =
+> "cbe174078dbdf3f746a55f0004353d3c27da2a31da553036d90fc7dc34a0169a"
+>  
+>  S = "${WORKDIR}/ModemManager-${PV}"
+>  
 
 
