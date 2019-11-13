@@ -1,49 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 512F86C0E5
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A4D297F7B0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:32:24 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id q13so1899484pff.2
+	Wed, 13 Nov 2019 15:32:25 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id r4so1893637pfl.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:32:25 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=AZGSII2oS7qVFCPerinpkMbZO24ieBkICG2myV4KZaM=;
-	b=WH7AwpshNqB1oZnrYi4ufbOM4238KoLrbW9F1QB66d9neJB0ZyC5sUUoXymo7DsYRJ
-	S8b+MoMguc/cFU78JZ0foTSeQC7yfakOSHYe9Irjq0pBTrnrYtE/xzMAhRQBeG+akanU
-	f004vWWPa8Oy9ebLFz3gUjMMDL4d6cyuI7HXkmF57VuIKrHe4d4R9tLrwH7mJoP/V/Y8
-	VtIEs5YuXK9cPBsCeJVNM2zAAqLcx2jgj4GJdKGTNwVQxwfQ8f938Dj2vWc5ERpAmDd7
-	Ya/OWN/raADaKh+GVp13jbe+9XPB8u1HvM7QDkSjp2AXEj4jbTsmuMtvk2iV0xR/N6g8
-	caGQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=5VNTrcjy3K6kZvfv6FsTv/N/gn7vve/wWQhPyiOzdIs=;
+	b=KvQfok8cPGnO4Cf2ytaOq7zA3DIfPHA3lQiSNlEPRHS9AH75KB8YqADoOmfMeC99Bm
+	+dZd6tO+lj4xjmDwfqlqAkQ61L4lKtaurQU0w/gVftT8hYyo8ei0yqUq/ZlOKpItE99r
+	s3aBeyLjEiSQdWnyh8ZM31593g+/e+mw5AHqi95RS+nHu91TKVEf9//c+HEMpUoSOvXc
+	hnAxxDxCJdJtDpC0nEzv4/rSVYbxyIghHM57tVR0ktDFz+0xLqB75Sxj2bQDwpLBDlPe
+	nxLsyViJRvDLOiDUg/F5wWHZ/omGQ9peFWQ6sXIHRH7IinEcoRpiKf6Nlkgu3QM2gEag
+	FW8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=AZGSII2oS7qVFCPerinpkMbZO24ieBkICG2myV4KZaM=;
-	b=PCVthFJxYtnLJY343EcTBevUtWc0mc0F6cTmXt7RVqGSx3qC2ETOaQ0cCVi0sX0zso
-	+OWi+Ckk4bvFAGUURW/1vOx/G4IVFBEKZGhK3v47RUm7w31JQjfrj+1zT7BHDcp5S+Rm
-	/j5ztqFw6pgItGJo5Zk4F1ccgITeFQgwz3MgFLSTyGqb0bs/JYGnHOmjNBs7JWrfOYrH
-	xGyaMNI2EU0mlrXgLs11/VrC6ZMbJD/VtIEXk8SZffswF6gjABg7HKIuusFE78BmOKR0
-	SlqnnKtpGgW0QQryDjdWh3fRbTgzV2A/yIaQPiLkYBihpPZ0VNhwpj59CtLEqsZqsE4e
-	CTSA==
-X-Gm-Message-State: APjAAAVilvWpQWmOIu5OetA9U9MTjB/XThXS0OM2WXThJZOUPXU7soM2
-	hJS47Z3wHQINixu26Z7el524FnUQ
-X-Google-Smtp-Source: APXvYqzHYtY3KRv75FmTv9vaEVMWqau8kET4ZjljtaOF/qw/laMrevWnlygRZ2PM2UY5oR/i+jafeg==
-X-Received: by 2002:a62:bd0a:: with SMTP id a10mr5124215pff.118.1573659145126; 
-	Wed, 13 Nov 2019 07:32:25 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=5VNTrcjy3K6kZvfv6FsTv/N/gn7vve/wWQhPyiOzdIs=;
+	b=d15nJR0fMWJPO1XdJaQlxzoOPUwuJL9Wwa/9WgCXoVIF8bnmalNpMeQgmK+tq8cM6W
+	gVC+M/O2dYd3nXkn9ZgW9VhltR4amR4hvvfhe1/U5dJZjL4eM4OP1Lunw69Y0chRDBxi
+	rRt34jwf5Lt/lisKx7B8kqsHJVdW49sUmuuMDwuovE7WkFdNFf5ceSN4MZvw4mMbAIbi
+	2QugN+JpaPgdLIY8ZSYeJ9Xl5lPbK0KD8GwGe9rkpapEWHXdZiFTuUITB3dy5DF7gQXu
+	mkXso1t/mxAITSkGVChVDBahLPm22CL4xsUePi+wg4gYUnknUb9V4so9auf20y28hLh5
+	yA0Q==
+X-Gm-Message-State: APjAAAWJHlbQFMwIExfUdNUbPzFDzIJ9GYeg0pTMGYgUsetpTSlW8rqN
+	jnd4/gTVa5OqIcayBJwegLmnECsV
+X-Google-Smtp-Source: APXvYqzgZo43ohYuYHd+WCh+55HhcQ3G8ynt9bOLkk1K96c3N/qyL7kvr7XWOgH0H8JbuCPQbxPsMA==
+X-Received: by 2002:a17:90a:b292:: with SMTP id
+	c18mr5785390pjr.107.1573659146414; 
+	Wed, 13 Nov 2019 07:32:26 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
-	s18sm3713613pfm.27.2019.11.13.07.32.24
+	s18sm3713613pfm.27.2019.11.13.07.32.25
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:32:24 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:25 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:31:42 -0800
-Message-Id: <cover.1573658915.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:31:43 -0800
+Message-Id: <56f38b042d68528009283491b9d40c75f13b8f16.1573658916.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [zeus 00/31] zeus pull request
+In-Reply-To: <cover.1573658915.git.akuster808@gmail.com>
+References: <cover.1573658915.git.akuster808@gmail.com>
+Subject: [zeus 01/31] e2fsprogs: fix CVE-2019-5094
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,139 +60,253 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 15:32:24 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 15:32:25 -0000
 
-Please merge this series to zeus mainline.
+From: Changqing Li <changqing.li@windriver.com>
 
-The following changes since commit 5607d38af39294bf97a878b414a0212278b66b2c:
-
-  connman: mark connman-wait-online as SYSTEMD_PACKAGE (2019-10-29 08:20:37 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/zeus-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/zeus-next
-
-Adrian Bunk (1):
-  python3: Upgrade 3.7.4 -> 3.7.5
-
-Alexander Kanavin (1):
-  selftest: skip virgl test on centos 7 entirely
-
-Anuj Mittal (1):
-  libsdl2: fix race when building in parallel
-
-Bruce Ashfield (2):
-  linux-yocto/4.19: update to v4.19.78
-  linux-yocto/5.2: update to v5.2.20
-
-Changqing Li (2):
-  e2fsprogs: fix CVE-2019-5094
-  mdadm: fix do_package failed when changed local.conf but not cleaned
-
-Ferry Toth (1):
-  sudo: Fix fetching sources
-
-Haris Okanovic (1):
-  initscripts/sysfs.sh: Mount /sys/firmware/efi/efivars when possible
-
-He Zhe (1):
-  ltp: Fix overcommit_memory failure
-
-Jacob Kroon (1):
-  rm_work: Promote do_image_qa stamps to setscene versions
-
-Joe Slater (2):
-  libtiff: fix CVE-2019-17546
-  libxslt: fix CVE-2019-18197
-
-Richard Purdie (2):
-  pseudo: Drop static linking to sqlite3
-  pseudo: Add statx support to fix fedora30 issues
-
-Ross Burton (13):
-  libpng: whitelist CVE-2019-17371
-  procps: whitelist CVE-2018-1121
-  libsndfile1: whitelist CVE-2018-13419
-  libpam: set CVE_PRODUCT
-  file: fix CVE-2019-18218
-  file: run test suite when building natively
-  cve-check: ensure all known CVEs are in the report
-  qemu-helper-native: add missing option to getopt() call
-  qemu-helper-native: showing help shouldn't be an error
-  qemu-helper-native: pass compiler flags
-  cve-check: failure to parse versions should be more visible
-  recipeutils-test: use a small dependency in the dummy recipe
-  patch: the CVE-2019-13638 fix also handles CVE-2018-20969
-
-Samuli Piippo (1):
-  linux-firmware: update packaging for brcm files
-
-Trevor Gamblin (1):
-  libgcrypt: fix CVE-2019-13627
-
-Zhixiong Chi (1):
-  libtirpc: create the symbol link for rpc header files
-
- meta-selftest/lib/oeqa/runtime/cases/virgl.py      |   5 -
- .../recipeutils/recipeutils-test_1.2.bb            |   2 +-
- meta/classes/cve-check.bbclass                     |  13 +-
- meta/classes/rm_work.bbclass                       |   9 +
- meta/conf/distro/include/no-static-libs.inc        |   4 -
- meta/lib/oeqa/selftest/cases/runtime_test.py       |   2 +
- .../initscripts/initscripts-1.0/sysfs.sh           |   4 +
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
  .../e2fsprogs/e2fsprogs/CVE-2019-5094.patch        | 217 +++++++++++++++++++++
  .../recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb |   1 +
- .../file/file/CVE-2019-18218.patch                 |  55 ++++++
- meta/recipes-devtools/file/file_5.37.bb            |   7 +-
- ...ke-ed-directly-instead-of-using-the-shell.patch |   4 +-
- .../pseudo/files/0001-Add-statx.patch              | 106 ++++++++++
- meta/recipes-devtools/pseudo/pseudo.inc            |  17 +-
- meta/recipes-devtools/pseudo/pseudo_git.bb         |   1 +
- ...code-lib-as-location-for-site-packages-an.patch |   2 +-
- ...55-Dont-parse-domains-containing-GH-13079.patch | 132 -------------
- ...-cc_basename-to-replace-CC-for-checking-c.patch |   2 +-
- .../python/{python3_3.7.4.bb => python3_3.7.5.bb}  |   5 +-
- .../qemu/qemu-helper-native_1.0.bb                 |   2 +-
- meta/recipes-devtools/qemu/qemu-helper/tunctl.c    |  16 +-
- meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb   |  14 ++
- ...memory-update-for-mm-fix-false-positive-O.patch |  57 ++++++
- meta/recipes-extended/ltp/ltp_20190517.bb          |   1 +
- meta/recipes-extended/mdadm/mdadm_4.1.bb           |   5 +-
- meta/recipes-extended/pam/libpam_1.3.1.bb          |   2 +
- meta/recipes-extended/procps/procps_3.3.15.bb      |   9 +-
- meta/recipes-extended/sudo/sudo_1.8.27.bb          |   2 +-
- ...heck-for-build-dir-when-building-version-.patch |  45 +++++
- meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb    |   1 +
- .../linux-firmware/linux-firmware_20190815.bb      |  18 +-
- meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |   6 +-
- meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb    |   6 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |   8 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb  |   8 +-
- meta/recipes-kernel/linux/linux-yocto_4.19.bb      |  20 +-
- meta/recipes-kernel/linux/linux-yocto_5.2.bb       |  22 +--
- meta/recipes-multimedia/libpng/libpng_1.6.37.bb    |   3 +
- .../libsndfile/libsndfile1_1.0.28.bb               |   4 +
- .../libtiff/tiff/CVE-2019-17546.patch              | 103 ++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.0.10.bb     |   1 +
- ...dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch | 128 ++++++++++++
- ...-ecc-Add-mitigation-against-timing-attack.patch |  70 +++++++
- meta/recipes-support/libgcrypt/libgcrypt_1.8.4.bb  |   2 +
- .../libxslt/files/CVE-2019-18197.patch             |  33 ++++
- meta/recipes-support/libxslt/libxslt_1.1.33.bb     |   1 +
- 46 files changed, 949 insertions(+), 226 deletions(-)
+ 2 files changed, 218 insertions(+)
  create mode 100644 meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5094.patch
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-18218.patch
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
- delete mode 100644 meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
- rename meta/recipes-devtools/python/{python3_3.7.4.bb => python3_3.7.5.bb} (98%)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch
- create mode 100644 meta/recipes-graphics/libsdl2/libsdl2/0001-configure-check-for-build-dir-when-building-version-.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/0001-dsa-ecdsa-Fix-use-of-nonce-use-larger-one.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/0001-ecc-Add-mitigation-against-timing-attack.patch
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-18197.patch
 
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5094.patch b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5094.patch
+new file mode 100644
+index 0000000..56925cb
+--- /dev/null
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/CVE-2019-5094.patch
+@@ -0,0 +1,217 @@
++From 8dbe7b475ec5e91ed767239f0e85880f416fc384 Mon Sep 17 00:00:00 2001
++From: Theodore Ts'o <tytso@mit.edu>
++Date: Sun, 1 Sep 2019 00:59:16 -0400
++Subject: libsupport: add checks to prevent buffer overrun bugs in quota code
++
++A maliciously corrupted file systems can trigger buffer overruns in
++the quota code used by e2fsck.  To fix this, add sanity checks to the
++quota header fields as well as to block number references in the quota
++tree.
++
++Addresses: CVE-2019-5094
++Addresses: TALOS-2019-0887
++Signed-off-by: Theodore Ts'o <tytso@mit.edu>
++
++
++Upstream-Status: Backport [https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/commit/?h=maint&id=8dbe7b475ec5e91ed767239f0e85880f416fc384]
++CVE: CVE-2019-5094
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ lib/support/mkquota.c      |  1 +
++ lib/support/quotaio_tree.c | 71 ++++++++++++++++++++++++++++++----------------
++ lib/support/quotaio_v2.c   | 28 ++++++++++++++++++
++ 3 files changed, 76 insertions(+), 24 deletions(-)
++
++diff --git a/lib/support/mkquota.c b/lib/support/mkquota.c
++index 0b9e7665..ddb53124 100644
++--- a/lib/support/mkquota.c
+++++ b/lib/support/mkquota.c
++@@ -671,6 +671,7 @@ errcode_t quota_compare_and_update(quota_ctx_t qctx, enum quota_type qtype,
++ 	err = qh.qh_ops->scan_dquots(&qh, scan_dquots_callback, &scan_data);
++ 	if (err) {
++ 		log_debug("Error scanning dquots");
+++		*usage_inconsistent = 1;
++ 		goto out_close_qh;
++ 	}
++ 
++diff --git a/lib/support/quotaio_tree.c b/lib/support/quotaio_tree.c
++index a7c2028c..6cc4fb5b 100644
++--- a/lib/support/quotaio_tree.c
+++++ b/lib/support/quotaio_tree.c
++@@ -540,6 +540,17 @@ struct dquot *qtree_read_dquot(struct quota_handle *h, qid_t id)
++ 	return dquot;
++ }
++ 
+++static int check_reference(struct quota_handle *h, unsigned int blk)
+++{
+++	if (blk >= h->qh_info.u.v2_mdqi.dqi_qtree.dqi_blocks) {
+++		log_err("Illegal reference (%u >= %u) in %s quota file",
+++			blk, h->qh_info.u.v2_mdqi.dqi_qtree.dqi_blocks,
+++			quota_type2name(h->qh_type));
+++		return -1;
+++	}
+++	return 0;
+++}
+++
++ /*
++  * Scan all dquots in file and call callback on each
++  */
++@@ -558,7 +569,7 @@ static int report_block(struct dquot *dquot, unsigned int blk, char *bitmap,
++ 	int entries, i;
++ 
++ 	if (!buf)
++-		return 0;
+++		return -1;
++ 
++ 	set_bit(bitmap, blk);
++ 	read_blk(dquot->dq_h, blk, buf);
++@@ -580,23 +591,12 @@ static int report_block(struct dquot *dquot, unsigned int blk, char *bitmap,
++ 	return entries;
++ }
++ 
++-static void check_reference(struct quota_handle *h, unsigned int blk)
++-{
++-	if (blk >= h->qh_info.u.v2_mdqi.dqi_qtree.dqi_blocks)
++-		log_err("Illegal reference (%u >= %u) in %s quota file. "
++-			"Quota file is probably corrupted.\n"
++-			"Please run e2fsck (8) to fix it.",
++-			blk,
++-			h->qh_info.u.v2_mdqi.dqi_qtree.dqi_blocks,
++-			quota_type2name(h->qh_type));
++-}
++-
++ static int report_tree(struct dquot *dquot, unsigned int blk, int depth,
++ 		       char *bitmap,
++ 		       int (*process_dquot) (struct dquot *, void *),
++ 		       void *data)
++ {
++-	int entries = 0, i;
+++	int entries = 0, ret, i;
++ 	dqbuf_t buf = getdqbuf();
++ 	__le32 *ref = (__le32 *) buf;
++ 
++@@ -607,22 +607,40 @@ static int report_tree(struct dquot *dquot, unsigned int blk, int depth,
++ 	if (depth == QT_TREEDEPTH - 1) {
++ 		for (i = 0; i < QT_BLKSIZE >> 2; i++) {
++ 			blk = ext2fs_le32_to_cpu(ref[i]);
++-			check_reference(dquot->dq_h, blk);
++-			if (blk && !get_bit(bitmap, blk))
++-				entries += report_block(dquot, blk, bitmap,
++-							process_dquot, data);
+++			if (check_reference(dquot->dq_h, blk)) {
+++				entries = -1;
+++				goto errout;
+++			}
+++			if (blk && !get_bit(bitmap, blk)) {
+++				ret = report_block(dquot, blk, bitmap,
+++						   process_dquot, data);
+++				if (ret < 0) {
+++					entries = ret;
+++					goto errout;
+++				}
+++				entries += ret;
+++			}
++ 		}
++ 	} else {
++ 		for (i = 0; i < QT_BLKSIZE >> 2; i++) {
++ 			blk = ext2fs_le32_to_cpu(ref[i]);
++ 			if (blk) {
++-				check_reference(dquot->dq_h, blk);
++-				entries += report_tree(dquot, blk, depth + 1,
++-						       bitmap, process_dquot,
++-						       data);
+++				if (check_reference(dquot->dq_h, blk)) {
+++					entries = -1;
+++					goto errout;
+++				}
+++				ret = report_tree(dquot, blk, depth + 1,
+++						  bitmap, process_dquot,
+++						  data);
+++				if (ret < 0) {
+++					entries = ret;
+++					goto errout;
+++				}
+++				entries += ret;
++ 			}
++ 		}
++ 	}
+++errout:
++ 	freedqbuf(buf);
++ 	return entries;
++ }
++@@ -642,6 +660,7 @@ int qtree_scan_dquots(struct quota_handle *h,
++ 		      int (*process_dquot) (struct dquot *, void *),
++ 		      void *data)
++ {
+++	int ret;
++ 	char *bitmap;
++ 	struct v2_mem_dqinfo *v2info = &h->qh_info.u.v2_mdqi;
++ 	struct qtree_mem_dqinfo *info = &v2info->dqi_qtree;
++@@ -655,10 +674,14 @@ int qtree_scan_dquots(struct quota_handle *h,
++ 		ext2fs_free_mem(&dquot);
++ 		return -1;
++ 	}
++-	v2info->dqi_used_entries = report_tree(dquot, QT_TREEOFF, 0, bitmap,
++-					       process_dquot, data);
+++	ret = report_tree(dquot, QT_TREEOFF, 0, bitmap, process_dquot, data);
+++	if (ret < 0)
+++		goto errout;
+++	v2info->dqi_used_entries = ret;
++ 	v2info->dqi_data_blocks = find_set_bits(bitmap, info->dqi_blocks);
+++	ret = 0;
+++errout:
++ 	ext2fs_free_mem(&bitmap);
++ 	ext2fs_free_mem(&dquot);
++-	return 0;
+++	return ret;
++ }
++diff --git a/lib/support/quotaio_v2.c b/lib/support/quotaio_v2.c
++index 38be2a34..73906676 100644
++--- a/lib/support/quotaio_v2.c
+++++ b/lib/support/quotaio_v2.c
++@@ -175,6 +175,8 @@ static int v2_check_file(struct quota_handle *h, int type, int fmt)
++ static int v2_init_io(struct quota_handle *h)
++ {
++ 	struct v2_disk_dqinfo ddqinfo;
+++	struct v2_mem_dqinfo *info;
+++	__u64 filesize;
++ 
++ 	h->qh_info.u.v2_mdqi.dqi_qtree.dqi_entry_size =
++ 		sizeof(struct v2r1_disk_dqblk);
++@@ -185,6 +187,32 @@ static int v2_init_io(struct quota_handle *h)
++ 			 sizeof(ddqinfo)) != sizeof(ddqinfo))
++ 		return -1;
++ 	v2_disk2memdqinfo(&h->qh_info, &ddqinfo);
+++
+++	/* Check to make sure quota file info is sane */
+++	info = &h->qh_info.u.v2_mdqi;
+++	if (ext2fs_file_get_lsize(h->qh_qf.e2_file, &filesize))
+++		return -1;
+++	if ((filesize > (1U << 31)) ||
+++	    (info->dqi_qtree.dqi_blocks >
+++	     (filesize + QT_BLKSIZE - 1) >> QT_BLKSIZE_BITS)) {
+++		log_err("Quota inode %u corrupted: file size %llu; "
+++			"dqi_blocks %u", h->qh_qf.ino,
+++			filesize, info->dqi_qtree.dqi_blocks);
+++		return -1;
+++	}
+++	if (info->dqi_qtree.dqi_free_blk >= info->dqi_qtree.dqi_blocks) {
+++		log_err("Quota inode %u corrupted: free_blk %u; dqi_blocks %u",
+++			h->qh_qf.ino, info->dqi_qtree.dqi_free_blk,
+++			info->dqi_qtree.dqi_blocks);
+++		return -1;
+++	}
+++	if (info->dqi_qtree.dqi_free_entry >= info->dqi_qtree.dqi_blocks) {
+++		log_err("Quota inode %u corrupted: free_entry %u; "
+++			"dqi_blocks %u", h->qh_qf.ino,
+++			info->dqi_qtree.dqi_free_entry,
+++			info->dqi_qtree.dqi_blocks);
+++		return -1;
+++	}
++ 	return 0;
++ }
++ 
++-- 
++cgit 1.2-0.3.lf.el7
++
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
+index fdc9454..14c05a4 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.45.3.bb
+@@ -5,6 +5,7 @@ SRC_URI += "file://remove.ldconfig.call.patch \
+             file://ptest.patch \
+             file://mkdir_p.patch \
+             file://0001-misc-create_inode.c-set-dir-s-mode-correctly.patch \
++            file://CVE-2019-5094.patch \
+             "
+ 
+ SRC_URI_append_class-native = " file://e2fsprogs-fix-missing-check-for-permission-denied.patch \
 -- 
 2.7.4
 
