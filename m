@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B563C7F7BA
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B566B7F7B4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:32:48 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id h4so1588156pgv.8
+	Wed, 13 Nov 2019 15:32:49 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id k13so1605715pgh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:32:50 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=mEMOUCieXF34iNg11IKj0pKEUN2nPHFG3x0gR9L4Geg=;
-	b=IPXzk6otRkR6rQvqXxoHi+JJXvPASQBpf3tiGquW1vlPdJ0PVcxSf+wBLBVKa8Q+cc
-	oZ6zeif/j1NkW9v0tH6MBKXqi8//Yj41Ro0EKm2w14eMBIXPVlnMwYkGeEYnJqfIYA7l
-	j5acLOxi70IibVRXzLqnUp9JaWQ0FKe25IWG0PadjdLAMm2gmC+dZcIPB2jdgOpe8Vr1
-	D770X5qAIupv+IfZyfjic8DagkkymfW5S3OtGuN78KS/HX/MzvgtBnMp/SzjikU4Qmmh
-	fydjsdVKSpsU0N2gGs/xnwVlZ8OyJM3FhD8sjvexT33afgqfp3mUE6kV0HXBmSyTK+zE
-	2/VA==
+	bh=LoEUb3vUWCMmigr1IqaKYvMkxWUlPNNCuwa8gUUKmwA=;
+	b=KuXSzqB/OfRcpzMqCsuEenW2aciurXzRdcDAbtdE3geTuXd4wrqDUqGLNVrakKKXn/
+	dvWDRLOU5D0jRhx6aG+OiIwaWiG76JUUphTtkcNrVWdDXECF4Bdf/HhtUBNoh/9p3BQ3
+	0ZL7F2IeQzdzgnlozIeMcTu2alxZEcHpdgtp1J3f+BHtBPfy8gnhpMoqsEHYfgSU3b8e
+	NLNojEnc8fBjQobSCWCIbgNGkUiZSGBMCGsgpKAgWBgMyRB1FdHdsA6zPdHo3Z7vrr7I
+	mU/86a7UG/+RTJCAO31eAn4itMyraEJXGNpciurfRibU+iOOJWWc99KHZT2srzA6O7Ac
+	t0HA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=mEMOUCieXF34iNg11IKj0pKEUN2nPHFG3x0gR9L4Geg=;
-	b=GMLsRHP1QEW3/wZ/jibmrXjHufmkkJvvRcz/gJrMGS416mozqvDA7t/dyQffis33Lx
-	nNhiIfo3efj7PnxmKQdqPCzUqeJGonwY7MTOx5eiY2k/nnV288HfXdANxw7cMFmo5WXB
-	uuXrSorztzw9rcBK1UI77sf7DwYVr8yRHyhVjBUgY84tUU1S4cVDtQlS6SvgA75raJ5X
-	WWA2ecCcvB7QMZ2+3tVEIefk0RyFKRQFLPfaOeQMLuHKvA6LDiqNOhDLn20zXD6ucFKD
-	rJ9oF+GTVO7DwaeGaSqEaTEuy/ugrz9qUHu5eGzYueFvIvLsmh34eQbIw70q7lX5ghuW
-	aw5w==
-X-Gm-Message-State: APjAAAVICH8vxwvxj4libVBt79CrNj5k8hmBnlynDXmjoUocj9KmSUBb
-	Amoy+KMVa0hYcTJvMVsyGmYICmlO
-X-Google-Smtp-Source: APXvYqxL7CZd6Q1O4t+NtAVdwMqg7+mQx5fS/jcOE56HrSdOCG3T4p+tvvHle3nuhVkOEKmhTixJyw==
-X-Received: by 2002:a17:90a:c082:: with SMTP id
-	o2mr5771839pjs.94.1573659169812; 
-	Wed, 13 Nov 2019 07:32:49 -0800 (PST)
+	bh=LoEUb3vUWCMmigr1IqaKYvMkxWUlPNNCuwa8gUUKmwA=;
+	b=jrTUFNTogwYt4mvUOWJ8MM44woSNyy0EApTO2kdya+1JYDNWQbQ37YMXmkc4I2NqjL
+	fTL7nzLgVghf8bxvgiPqg1zOY2Xdq14eV+3Uw+sFuFpqaXgEfQFTgCuZHS9gJYZXANwH
+	2OuFbsLf85O+s+87GaUBhTR9Y8mKYW96sK448BfzRX84rCo7FIiRY98KwBFW9VOd5MQW
+	0WY81wQXXJE8wVqXwyiMWkegQPJsEQom4um/QxTfDirvS2ZsU2qGLPJoMZVVRlQrfXc7
+	wd6TAOh9zy0tOBj93BjF2XrYZS71wDPg8ZBS7hMZHyDcE4r/rjyJsZTlkR4CGUr1gBIh
+	CKiA==
+X-Gm-Message-State: APjAAAV6z9Xq34Ye7HZysleM+9ly3GqD6MpMmsYzCzKFn3uChqexrjIm
+	Gemfq/F/mVmbiX1vji5zfZrTYJ+p
+X-Google-Smtp-Source: APXvYqzqNviUEPUOVViKaLXWD9lVZAN6lzKQYjyecK1zz9LBMW4rmiQXAiELlPK2LmXm2HY33nhE8g==
+X-Received: by 2002:a62:ea19:: with SMTP id t25mr1710615pfh.74.1573659170803; 
+	Wed, 13 Nov 2019 07:32:50 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
-	s18sm3713613pfm.27.2019.11.13.07.32.48
+	s18sm3713613pfm.27.2019.11.13.07.32.49
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:32:48 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:50 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:32:06 -0800
-Message-Id: <1344a6a1300007b4fadaf815f6652d30e7834430.1573658916.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:32:07 -0800
+Message-Id: <90b4b7dd19526e8aba79cf469dcc2c05401f36cc.1573658916.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658915.git.akuster808@gmail.com>
 References: <cover.1573658915.git.akuster808@gmail.com>
-Subject: [zeus 24/31] selftest: skip virgl test on centos 7 entirely
+Subject: [zeus 25/31] recipeutils-test: use a small dependency in the dummy recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,48 +61,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 13 Nov 2019 15:32:49 -0000
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Ross Burton <ross.burton@intel.com>
 
-With the sdl frontend, qemu isn't able to even boot fully,
-so let's skip the test early.
+recipeutils-test has virtual/libx11 as a DEPENDS, but this will cause errors if
+the recipe is built in an environment without x11 in DISTRO_FEATURES.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+This dependency isn't actually used for anything so we could remove it, but to
+save updating the test cases too just swap virtual/libx11 for zlib.
+
+[ YOCTO #13611 ]
+
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta-selftest/lib/oeqa/runtime/cases/virgl.py | 5 -----
- meta/lib/oeqa/selftest/cases/runtime_test.py  | 2 ++
- 2 files changed, 2 insertions(+), 5 deletions(-)
+ meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-index d301a19..c0abfd1 100644
---- a/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-+++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
-@@ -13,11 +13,6 @@ class VirglTest(OERuntimeTestCase):
+diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+index 7c20d9a..0cd0494 100644
+--- a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
++++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
+@@ -4,7 +4,7 @@ require recipeutils-test.inc
  
-     @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
-     def test_kmscube(self):
--
--        distro = oe.lsb.distro_identifier()
--        if distro and distro == 'centos-7':
--            self.skipTest('kmscube is not working when centos 7 is the host OS')
--
-         status, output = self.target.run('kmscube', timeout=30)
-         self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
-         self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index 3f212bd..7d3922c 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -179,6 +179,8 @@ class TestImage(OESelftestTestCase):
-         distro = oe.lsb.distro_identifier()
-         if distro and distro == 'debian-8':
-             self.skipTest('virgl isn\'t working with Debian 8')
-+        if distro and distro == 'centos-7':
-+            self.skipTest('virgl isn\'t working with Centos 7')
+ LICENSE = "Proprietary"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
+-DEPENDS += "virtual/libx11"
++DEPENDS += "zlib"
  
-         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
-         features = 'INHERIT += "testimage"\n'
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
 2.7.4
 
