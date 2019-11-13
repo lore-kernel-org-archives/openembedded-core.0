@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 274847F43D
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D17B7F68E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:20:05 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id e3so1198899plt.7
+	Wed, 13 Nov 2019 15:20:06 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id x28so1870726pfo.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:20:06 -0800 (PST)
+	Wed, 13 Nov 2019 07:20:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=yRI2uB2sMXUdVgVvpk50ewLKcqwNN47NNUx/hOD9c5s=;
-	b=WZWpPP7quwJAeWzTeRUK/pVKYNRGtw3Yu7XsozLspRg7I/vbyVRLGJx6Rdch742WWH
-	RH5I2K+HPT00NtUCkHU3XXVEXp1LsG7YgHK1YdKe0TmU45f81wSeZzKjMyETB9wwuJIk
-	+gyjG9+gUPSnRqiZNNIawr6mdtbuFtGdSzLcCehetB/lteQ9g4RlGuW/VtGWk1Z4SqNC
-	zKiymwZLPku0sV5KvROFhpoynr157QCOCotuk/QE+kDjP2HaynIgKCxWuMH9ZXDk1aOv
-	WM52cJt+p9KpqLzpXeZg1SHb4PzLD/YzpfPisUgNG7U8N6DcLxg/RzYsJmUfxe4W1mYR
-	GF3w==
+	bh=EapGspgQNC571N61hXx4m1BuRKAG238rLm9pFBEr1Y4=;
+	b=bo8pJE7f18HdmnWtcSBMgEtjdZhIO1UK/b7u+fysLtuI2HWC6A1ml8oMfFv8ISTOxD
+	w6XA3tyvN605QvpGhkH5ywATdllOBdBpoQseLnua4iND2D9VaHGe+EiA5C4h1jxAuM74
+	ZvjOmjQSJhxYPSt2kTKdsc2WbFbN00ROse9TwcLTTiIyiZYLD3kNuAcrzoBBYUhJq/ej
+	x9LG7W3RbTbsQzlGziqCFxqHAebgO8SbUD8satoNI4mWL8LzzqQm+quA+qeZ2kJszjNN
+	3HRYqrvfPNsCHrrahafffkhFwWFz4i8fDEh3rjyqRuoAwcNuuuLU5HV1rHBxjkV9l4EL
+	Q/Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=yRI2uB2sMXUdVgVvpk50ewLKcqwNN47NNUx/hOD9c5s=;
-	b=Z0TRFckEVQPIXp1uEGO88B6b5KdqybGgy0q8O96UK6iFzryngjH7itw1xdDDIV89k6
-	X6Zy8GhYeLmperXv13lvMtpB+3I+e5BwRfRgP3XKmzVqJYc1H9InlUBNNvE5Qhx51vZw
-	ZUvNUpS3OMfHJnAHFpTVCHrH17lmWEGhKYpFmTT5C2avIiWZ0FO5UUM5NUj4kjWz5wtY
-	aU3lEwqFy91XzS4g6IuGl667NyBXmlmBTnpj38BkYBVldkquOBdaSBP6L4EqPYDHgfVw
-	EfEmkx533cf8fEoOkMtRT3QxwurhBCHunhpAhmNsS/tRRPOOsRMvoKHRWzzQsT4SkDGf
-	RuSQ==
-X-Gm-Message-State: APjAAAWL8qSlc2WYVR+tkCyI32JJ12KdjLkhpJNiBrVRoBaVeCEb2ITA
-	XFGwkaR4Icuru96yfEMRz/ysF/IZ
-X-Google-Smtp-Source: APXvYqzcCftGSn1XtmuNhfrtW99+FP1mkn4x95pGyq85qCCHknUpj9WXyRcUVo5OhXxjI6o4XOVmpQ==
-X-Received: by 2002:a17:902:9f83:: with SMTP id
-	g3mr4236674plq.161.1573658406058; 
-	Wed, 13 Nov 2019 07:20:06 -0800 (PST)
+	bh=EapGspgQNC571N61hXx4m1BuRKAG238rLm9pFBEr1Y4=;
+	b=YNDp9WwSHoQ8PF7WRozDlHf1jJ0qYbn86o0Y8jZknMC9jVsj1BonN65/GUD8lUxVRR
+	us8ZBz+Yxp0hj29pztn6YG7WoUStWiYLjztM+BvKDN97+bttzJvMj9ivj86PJ0C/8voL
+	8mGTHMO0Q4SQMkY214bHH5wdqijHkDOwJ1xwC1PlEbMgojhsIYJSjY1tLllScIJPpnXw
+	zIS0Jc1yNwVIPfGAojd8jvx4FHwDvD3ogzBw35VmruWt4WktePdaRZVxTb1/EPu7Ft/a
+	o+xtkjlLLuSBNIHO3srI/LU7bDY1oLvTqQO2qd2FS41uYhlNivuqdxXAG2Ac3GHFJVll
+	tFEQ==
+X-Gm-Message-State: APjAAAWmDQ+9AwTMY4p2Qh6zHnDYb8z4BigsztLEAkNZwyp+PBow2QKj
+	uCSKSX4MlIM9USTx8k9RxzwBV4CU
+X-Google-Smtp-Source: APXvYqwXMHcaCLgJOH4fd1K7J41gqRab2PDl/J3XA7UUL6fD6PawKs6gOviX0gaCzZ6EBqjWbHjUqg==
+X-Received: by 2002:a17:90a:3808:: with SMTP id
+	w8mr5712725pjb.143.1573658407050; 
+	Wed, 13 Nov 2019 07:20:07 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
-	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.05
+	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:20:05 -0800 (PST)
+	Wed, 13 Nov 2019 07:20:06 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:19:23 -0800
-Message-Id: <deabbb60b98418bd4fcf97adc3293b65d3ff306e.1573658232.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:19:24 -0800
+Message-Id: <d1788e865d9bcd70b36d0f239647aeffb0ea8b85.1573658232.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658232.git.akuster808@gmail.com>
 References: <cover.1573658232.git.akuster808@gmail.com>
-Subject: [warrior 20/25] python3: Upgrade 3.7.4 -> 3.7.5
+Subject: [warrior 21/25] pseudo: Fix openat() with a symlink pointing to a directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,217 +59,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 15:20:05 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 15:20:06 -0000
 
-From: Adrian Bunk <bunk@stusta.de>
+From: Jason Wessel <jason.wessel@windriver.com>
 
-Backported patch removed.
+While working with ostree disk generation in conjunction with wic, I
+found a problem with pseudo where it tried to resolve a symlink when
+it shouldn't, based on openat() flags. A C program has been
+constructed to test pseudo to show that it is working properly with
+the correct behavior around openat().
 
-3.7.5 also includes the fix for CVE-2019-16935.
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <sys/types.h>
+ #include <sys/stat.h>
+ #include <dirent.h>
+ #include <unistd.h>
+ #include <fcntl.h>
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+int main()
+{
+    /*
+     * Tested with: gcc -Wall -o app app.c ; echo "no pseudo" ;
+     * ./app ; echo "pseudo"; pseudo ./app
+     */
+    system("rm -rf tdir tlink");
+    system("mkdir tdir");
+    system("ln -s tdir tlink");
+    DIR *dir = opendir(".");
+    int dfd = dirfd(dir);
+
+    int target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK |
+                             O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+    if (target_dfd == -1) {
+        printf("Test 1 good\n");
+    } else {
+        printf("Test 1 failed\n");
+        close(target_dfd);
+    }
+    target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK |
+                         O_DIRECTORY | O_CLOEXEC);
+    if (target_dfd == -1) {
+        printf("Test 2 failed\n");
+    } else {
+        printf("Test 2 good\n");
+        close(target_dfd);
+    }
+    /* Test 3 make sure the owner of the link is root  */
+    struct stat sbuf;
+    if (!lstat("tlink", &sbuf) && sbuf.st_uid == 0) {
+        printf("Test 3 good\n");
+    } else {
+        printf("Test 3 failed\n");
+    }
+    /* Test 4 tests open with the "rb" flag, owner should not change */
+    int ofd = openat(dfd,"./tlink", O_RDONLY|O_CLOEXEC);
+    if (ofd >= 0) {
+        if (fstat(ofd, &sbuf) != 0)
+            printf("ERROR in fstat test 4\n");
+        else if (sbuf.st_uid == 0)
+            printf("Test 4 good\n");
+        close(ofd);
+    } else {
+        printf("Test 4 failed with openat()\n");
+    }
+    /* Test pseudo db to see the fstat() above did not delete the DB entry */
+    if (!lstat("tlink", &sbuf) && sbuf.st_uid == 0)
+        printf("Test 5 good\n");
+    else
+        printf("Test 5 failed... tlink is owned by %i and not 0\n", sbuf.st_uid);
+    return 0;
+}
+
+int main()
+{
+    /* Tested with: gcc -Wall -o app app.c ; echo "no pseudo" ; ./app ; echo "pseudo"; pseudo ./app */
+    system("rm -rf tdir tlink");
+    system("mkdir tdir");
+    system("ln -s tdir tlink");
+    DIR *dir = opendir(".");
+    int dfd = dirfd(dir);
+
+    int target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
+    if (target_dfd == -1) {
+        printf("This is right\n");
+    } else {
+        printf("This is broken\n");
+    }
+    return 0;
+}
+
+Many thanks to Peter Seebach for fixing the problem in the pseudo code
+to use the same logic which was already there for the
+AT_SYMLINK_NOFOLLOW.
+
+Also updated is the license MD5 checksum since the master branch of
+pseudo has had the SPDX data updated.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...code-lib-as-location-for-site-packages-an.patch |   2 +-
- ...55-Dont-parse-domains-containing-GH-13079.patch | 132 ---------------------
- ...-cc_basename-to-replace-CC-for-checking-c.patch |   2 +-
- .../python/{python3_3.7.4.bb => python3_3.7.5.bb}  |   5 +-
- 4 files changed, 4 insertions(+), 137 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
- rename meta/recipes-devtools/python/{python3_3.7.4.bb => python3_3.7.5.bb} (98%)
+ meta/recipes-devtools/pseudo/pseudo.inc    | 2 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch b/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
-index 661f52d..ea75262 100644
---- a/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
-+++ b/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
-@@ -70,7 +70,7 @@ index 6e81b2f..671a20e 100644
-  
-  Programs/python.o: $(srcdir)/Programs/python.c
- @@ -856,7 +857,7 @@ regen-opcode:
-- Python/compile.o Python/symtable.o Python/ast_unparse.o Python/ast.o: $(srcdir)/Include/graminit.h $(srcdir)/Include/Python-ast.h
-+ Python/compile.o Python/symtable.o Python/ast_unparse.o Python/ast.o Python/future.o Parser/parsetok.o: $(srcdir)/Include/graminit.h $(srcdir)/Include/Python-ast.h
-  
-  Python/getplatform.o: $(srcdir)/Python/getplatform.c
- -		$(CC) -c $(PY_CORE_CFLAGS) -DPLATFORM='"$(MACHDEP)"' -o $@ $(srcdir)/Python/getplatform.c
-diff --git a/meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch b/meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
-deleted file mode 100644
-index 319e7ed..0000000
---- a/meta/recipes-devtools/python/python3/0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
-+++ /dev/null
-@@ -1,132 +0,0 @@
--From 90d56127ae15b1e452755e62c77dc475dedf7161 Mon Sep 17 00:00:00 2001
--From: jpic <jpic@users.noreply.github.com>
--Date: Wed, 17 Jul 2019 23:54:25 +0200
--Subject: [PATCH] bpo-34155: Dont parse domains containing @ (GH-13079)
--
--Before:
--
--        >>> email.message_from_string('From: a@malicious.org@important.com', policy=email.policy.default)['from'].addresses
--        (Address(display_name='', username='a', domain='malicious.org'),)
--
--        >>> parseaddr('a@malicious.org@important.com')
--        ('', 'a@malicious.org')
--
--    After:
--
--        >>> email.message_from_string('From: a@malicious.org@important.com', policy=email.policy.default)['from'].addresses
--        (Address(display_name='', username='', domain=''),)
--
--        >>> parseaddr('a@malicious.org@important.com')
--        ('', 'a@')
--
--https://bugs.python.org/issue34155
--
--Upstream-Status: Backport [https://github.com/python/cpython/commit/8cb65d1381b027f0b09ee36bfed7f35bb4dec9a9]
--
--CVE: CVE-2019-16056
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- Lib/email/_header_value_parser.py                  |  2 ++
-- Lib/email/_parseaddr.py                            | 11 ++++++++++-
-- Lib/test/test_email/test__header_value_parser.py   | 10 ++++++++++
-- Lib/test/test_email/test_email.py                  | 14 ++++++++++++++
-- .../2019-05-04-13-33-37.bpo-34155.MJll68.rst       |  1 +
-- 5 files changed, 37 insertions(+), 1 deletion(-)
-- create mode 100644 Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
--
--diff --git a/Lib/email/_header_value_parser.py b/Lib/email/_header_value_parser.py
--index fc00b4a098..bbc026ec71 100644
----- a/Lib/email/_header_value_parser.py
--+++ b/Lib/email/_header_value_parser.py
--@@ -1582,6 +1582,8 @@ def get_domain(value):
--         token, value = get_dot_atom(value)
--     except errors.HeaderParseError:
--         token, value = get_atom(value)
--+    if value and value[0] == '@':
--+        raise errors.HeaderParseError('Invalid Domain')
--     if leader is not None:
--         token[:0] = [leader]
--     domain.append(token)
--diff --git a/Lib/email/_parseaddr.py b/Lib/email/_parseaddr.py
--index cdfa3729ad..41ff6f8c00 100644
----- a/Lib/email/_parseaddr.py
--+++ b/Lib/email/_parseaddr.py
--@@ -379,7 +379,12 @@ class AddrlistClass:
--         aslist.append('@')
--         self.pos += 1
--         self.gotonext()
---        return EMPTYSTRING.join(aslist) + self.getdomain()
--+        domain = self.getdomain()
--+        if not domain:
--+            # Invalid domain, return an empty address instead of returning a
--+            # local part to denote failed parsing.
--+            return EMPTYSTRING
--+        return EMPTYSTRING.join(aslist) + domain
-- 
--     def getdomain(self):
--         """Get the complete domain name from an address."""
--@@ -394,6 +399,10 @@ class AddrlistClass:
--             elif self.field[self.pos] == '.':
--                 self.pos += 1
--                 sdlist.append('.')
--+            elif self.field[self.pos] == '@':
--+                # bpo-34155: Don't parse domains with two `@` like
--+                # `a@malicious.org@important.com`.
--+                return EMPTYSTRING
--             elif self.field[self.pos] in self.atomends:
--                 break
--             else:
--diff --git a/Lib/test/test_email/test__header_value_parser.py b/Lib/test/test_email/test__header_value_parser.py
--index 693487bc96..7dc4de1b7b 100644
----- a/Lib/test/test_email/test__header_value_parser.py
--+++ b/Lib/test/test_email/test__header_value_parser.py
--@@ -1438,6 +1438,16 @@ class TestParser(TestParserMixin, TestEmailBase):
--         self.assertEqual(addr_spec.domain, 'example.com')
--         self.assertEqual(addr_spec.addr_spec, 'star.a.star@example.com')
-- 
--+    def test_get_addr_spec_multiple_domains(self):
--+        with self.assertRaises(errors.HeaderParseError):
--+            parser.get_addr_spec('star@a.star@example.com')
--+
--+        with self.assertRaises(errors.HeaderParseError):
--+            parser.get_addr_spec('star@a@example.com')
--+
--+        with self.assertRaises(errors.HeaderParseError):
--+            parser.get_addr_spec('star@172.17.0.1@example.com')
--+
--     # get_obs_route
-- 
--     def test_get_obs_route_simple(self):
--diff --git a/Lib/test/test_email/test_email.py b/Lib/test/test_email/test_email.py
--index c29cc56203..aa775881c5 100644
----- a/Lib/test/test_email/test_email.py
--+++ b/Lib/test/test_email/test_email.py
--@@ -3041,6 +3041,20 @@ class TestMiscellaneous(TestEmailBase):
--         self.assertEqual(utils.parseaddr('<>'), ('', ''))
--         self.assertEqual(utils.formataddr(utils.parseaddr('<>')), '')
-- 
--+    def test_parseaddr_multiple_domains(self):
--+        self.assertEqual(
--+            utils.parseaddr('a@b@c'),
--+            ('', '')
--+        )
--+        self.assertEqual(
--+            utils.parseaddr('a@b.c@c'),
--+            ('', '')
--+        )
--+        self.assertEqual(
--+            utils.parseaddr('a@172.17.0.1@c'),
--+            ('', '')
--+        )
--+
--     def test_noquote_dump(self):
--         self.assertEqual(
--             utils.formataddr(('A Silly Person', 'person@dom.ain')),
--diff --git a/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
--new file mode 100644
--index 0000000000..50292e29ed
----- /dev/null
--+++ b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
--@@ -0,0 +1 @@
--+Fix parsing of invalid email addresses with more than one ``@`` (e.g. a@b@c.com.) to not return the part before 2nd ``@`` as valid email address. Patch by maxking & jpic.
-diff --git a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-index 5735954..a0ea897 100644
---- a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-+++ b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-@@ -63,7 +63,7 @@ index a7de901..4a3681f 100644
- +  case $cc_basename in
-      *clang*)
-        AC_SUBST(LLVM_AR)
--       AC_PATH_TARGET_TOOL(LLVM_AR, llvm-ar, '', ${llvm_path})
-+       AC_PATH_TOOL(LLVM_AR, llvm-ar, '', ${llvm_path})
- @@ -1426,7 +1427,7 @@ then
-    fi
-  fi
-diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.5.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.7.4.bb
-rename to meta/recipes-devtools/python/python3_3.7.5.bb
-index ce1a462..c560c4a 100644
---- a/meta/recipes-devtools/python/python3_3.7.4.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.5.bb
-@@ -28,7 +28,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://reformat_sysconfig.py \
-            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
-            file://0001-test_locale.py-correct-the-test-output-format.patch \
--           file://0001-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
+diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+index 8b05735..8b34909 100644
+--- a/meta/recipes-devtools/pseudo/pseudo.inc
++++ b/meta/recipes-devtools/pseudo/pseudo.inc
+@@ -4,7 +4,7 @@
+ 
+ SUMMARY = "Pseudo gives fake root capabilities to a normal user"
+ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/pseudo"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=243b725d71bb5df4a1e5920b344b86ad"
++LIC_FILES_CHKSUM = "file://COPYING;md5=a1d8023a6f953ac6ea4af765ff62d574"
+ SECTION = "base"
+ LICENSE = "LGPL2.1"
+ DEPENDS = "sqlite3 attr"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 51db84c..6cf711e 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
+            file://toomanyfiles.patch \
             "
  
- SRC_URI_append_class-native = " \
-@@ -39,8 +38,8 @@ SRC_URI_append_class-nativesdk = " \
-            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
-            "
+-SRCREV = "3fa7c853e0bcd6fe23f7524c2a3c9e3af90901c3"
++SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git${SRCPV}"
  
--SRC_URI[md5sum] = "d33e4aae66097051c2eca45ee3604803"
--SRC_URI[sha256sum] = "fb799134b868199930b75f26678f18932214042639cd52b16da7fd134cd9b13f"
-+SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
-+SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.7.4
 
