@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 959497F848
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id B563C7F7BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:32:47 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id k1so278277pgg.12
+	Wed, 13 Nov 2019 15:32:48 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id h4so1588156pgv.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:32:49 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=duxQDG8OK/jynCSpyBfTGHs7wKcqkXYCfCD9PLM05Gk=;
-	b=eP/vcaOHAWTVfhLw5xikAKFZvsO6tbMzQpucFaCzjxEoj1J0uaJ2/9SMPlMLXZcoyy
-	4HRbOvetVJI5Ty4/Wnr6YlGPl5Kc5tlbMre7KjQMt0oXa8c+qp9oCF/Lg6CRhmDjI0Qe
-	+2X+qvwdpOOUwZSLfLlpzXEu51qoZh7y59yirfffCsTNPP8pq9XjxZz8HChyJe+Uj0qx
-	Z55fIQkctxx8/F1gydg5wxPTqfw6oyZGlYZi9EkVd6MQyZSuUpcX82Ni9qI8Pkq+U40Q
-	mwBOnfUKfK+w/OhuSBVr0W7o1uCc32cNVPOIYnMTeMGogA8j7VHrWKtDvClumygvvUoa
-	noow==
+	bh=mEMOUCieXF34iNg11IKj0pKEUN2nPHFG3x0gR9L4Geg=;
+	b=IPXzk6otRkR6rQvqXxoHi+JJXvPASQBpf3tiGquW1vlPdJ0PVcxSf+wBLBVKa8Q+cc
+	oZ6zeif/j1NkW9v0tH6MBKXqi8//Yj41Ro0EKm2w14eMBIXPVlnMwYkGeEYnJqfIYA7l
+	j5acLOxi70IibVRXzLqnUp9JaWQ0FKe25IWG0PadjdLAMm2gmC+dZcIPB2jdgOpe8Vr1
+	D770X5qAIupv+IfZyfjic8DagkkymfW5S3OtGuN78KS/HX/MzvgtBnMp/SzjikU4Qmmh
+	fydjsdVKSpsU0N2gGs/xnwVlZ8OyJM3FhD8sjvexT33afgqfp3mUE6kV0HXBmSyTK+zE
+	2/VA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=duxQDG8OK/jynCSpyBfTGHs7wKcqkXYCfCD9PLM05Gk=;
-	b=IkinO9itlHUbA/1OoeDgxBWx3CFvn9jEKuJDdVN0GbV0dNEohr3ZN0TRmIgr4B9Ypn
-	+XYwW8CsuQT4wxbMTPwqkqgAlT5M5eZH9eM5mwGLfk6SYPPOJ5WvaCXgBLo8AoyYFVDf
-	Pi2b04cZcLXSSmlRgox2rUQNjxjATvFfp92Pg82mEO77X6vw0RMomiyuD7fOipU2LDo8
-	ja0oPuOfMwVMeDt1S//lKn8sVBkpBD1Dbv8Ido5mXijsZE8mukOJ4Qcw50Dc7IxnQUuO
-	vqQKmQjQ6IMiHfSWE6NepQeWBKzpG5RkkBdrA0xQN5qm+UICsNyNklSlFgiFblqHAaW2
-	soMQ==
-X-Gm-Message-State: APjAAAVlj9eMvM+TGYwRmg4t+lniDja5vMX32pil1X1XnOhkUeelM59x
-	7HYNF/wPLB3f4v1VjDUeiRbQ2NEr
-X-Google-Smtp-Source: APXvYqxoCclPChUZd9AEPvss6ZZoATnhPny8pgozt9pr2iSFiQVVAk9pL8jsIvN8RLwUN6761Q1b3g==
-X-Received: by 2002:a62:1c8:: with SMTP id 191mr5189345pfb.152.1573659168586; 
-	Wed, 13 Nov 2019 07:32:48 -0800 (PST)
+	bh=mEMOUCieXF34iNg11IKj0pKEUN2nPHFG3x0gR9L4Geg=;
+	b=GMLsRHP1QEW3/wZ/jibmrXjHufmkkJvvRcz/gJrMGS416mozqvDA7t/dyQffis33Lx
+	nNhiIfo3efj7PnxmKQdqPCzUqeJGonwY7MTOx5eiY2k/nnV288HfXdANxw7cMFmo5WXB
+	uuXrSorztzw9rcBK1UI77sf7DwYVr8yRHyhVjBUgY84tUU1S4cVDtQlS6SvgA75raJ5X
+	WWA2ecCcvB7QMZ2+3tVEIefk0RyFKRQFLPfaOeQMLuHKvA6LDiqNOhDLn20zXD6ucFKD
+	rJ9oF+GTVO7DwaeGaSqEaTEuy/ugrz9qUHu5eGzYueFvIvLsmh34eQbIw70q7lX5ghuW
+	aw5w==
+X-Gm-Message-State: APjAAAVICH8vxwvxj4libVBt79CrNj5k8hmBnlynDXmjoUocj9KmSUBb
+	Amoy+KMVa0hYcTJvMVsyGmYICmlO
+X-Google-Smtp-Source: APXvYqxL7CZd6Q1O4t+NtAVdwMqg7+mQx5fS/jcOE56HrSdOCG3T4p+tvvHle3nuhVkOEKmhTixJyw==
+X-Received: by 2002:a17:90a:c082:: with SMTP id
+	o2mr5771839pjs.94.1573659169812; 
+	Wed, 13 Nov 2019 07:32:49 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
-	s18sm3713613pfm.27.2019.11.13.07.32.47
+	s18sm3713613pfm.27.2019.11.13.07.32.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:32:47 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:48 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:32:05 -0800
-Message-Id: <6b5cadd1a5822641285946f7e2ad56e294658621.1573658916.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:32:06 -0800
+Message-Id: <1344a6a1300007b4fadaf815f6652d30e7834430.1573658916.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658915.git.akuster808@gmail.com>
 References: <cover.1573658915.git.akuster808@gmail.com>
-Subject: [zeus 23/31] cve-check: failure to parse versions should be more visible
+Subject: [zeus 24/31] selftest: skip virgl test on centos 7 entirely
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +60,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 15:32:48 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 15:32:49 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
+With the sdl frontend, qemu isn't able to even boot fully,
+so let's skip the test early.
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/cve-check.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta-selftest/lib/oeqa/runtime/cases/virgl.py | 5 -----
+ meta/lib/oeqa/selftest/cases/runtime_test.py  | 2 ++
+ 2 files changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index f87bcc9..1c8b222 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -222,7 +222,7 @@ def check_cves(d, patched_cves):
-                             to_append_start =  (operator_start == '>=' and LooseVersion(pv) >= LooseVersion(version_start))
-                             to_append_start |= (operator_start == '>' and LooseVersion(pv) > LooseVersion(version_start))
-                         except:
--                            bb.note("%s: Failed to compare %s %s %s for %s" %
-+                            bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_start, version_start, cve))
-                             to_append_start = False
-                     else:
-@@ -233,7 +233,7 @@ def check_cves(d, patched_cves):
-                             to_append_end  = (operator_end == '<=' and LooseVersion(pv) <= LooseVersion(version_end))
-                             to_append_end |= (operator_end == '<' and LooseVersion(pv) < LooseVersion(version_end))
-                         except:
--                            bb.note("%s: Failed to compare %s %s %s for %s" %
-+                            bb.warn("%s: Failed to compare %s %s %s for %s" %
-                                     (product, pv, operator_end, version_end, cve))
-                             to_append_end = False
-                     else:
+diff --git a/meta-selftest/lib/oeqa/runtime/cases/virgl.py b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+index d301a19..c0abfd1 100644
+--- a/meta-selftest/lib/oeqa/runtime/cases/virgl.py
++++ b/meta-selftest/lib/oeqa/runtime/cases/virgl.py
+@@ -13,11 +13,6 @@ class VirglTest(OERuntimeTestCase):
+ 
+     @OETestDepends(['virgl.VirglTest.test_kernel_driver'])
+     def test_kmscube(self):
+-
+-        distro = oe.lsb.distro_identifier()
+-        if distro and distro == 'centos-7':
+-            self.skipTest('kmscube is not working when centos 7 is the host OS')
+-
+         status, output = self.target.run('kmscube', timeout=30)
+         self.assertEqual(status, 0, "kmscube exited with non-zero status %d and output:\n%s" %(status, output))
+         self.assertIn('renderer: "virgl"', output, "kmscube does not seem to use virgl:\n%s" %(output))
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 3f212bd..7d3922c 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -179,6 +179,8 @@ class TestImage(OESelftestTestCase):
+         distro = oe.lsb.distro_identifier()
+         if distro and distro == 'debian-8':
+             self.skipTest('virgl isn\'t working with Debian 8')
++        if distro and distro == 'centos-7':
++            self.skipTest('virgl isn\'t working with Centos 7')
+ 
+         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
+         features = 'INHERIT += "testimage"\n'
 -- 
 2.7.4
 
