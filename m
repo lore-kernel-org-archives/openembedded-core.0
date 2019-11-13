@@ -1,50 +1,31 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D3A336069C
+Return-Path: <ross.burton@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 233C57F7C0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 21:24:05 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id s75so3200693ilc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 13:24:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=dw2qz0AxHiwQjWdTx5M1vc7V5Lx9t8az1kpeMKs5n64=;
-	b=g6+sQ9GoQ32fQx6jnGSxmdgHNLweNUIGF3N0GOUArgIkSacvD/5DHiB66NyNTvn3WF
-	cz2nLlHGS/1tsHaE1HzM6QAQRe7Kimsdpfgzf3I14hokSRIBNzk5D217UAdj7Yt/npU7
-	qqarvDE4eoMGmMVyChJSlSiCRXZcEPDMSHcXsXAwSgyw55CGJmGmzt8+ks2FK0j7rswY
-	OOWEc4+MdcLumwPMQeCyzj06Szj4S68o4GRko25RO1fyZOa3uddrwkCi9sOOGUpr1VYF
-	BqBOccKkaicFNOr7D28fLJJouPC1jUlOtFnP2xwqqsbskEaTcKvVq1VLV3P+HwMofTtB
-	NHGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=dw2qz0AxHiwQjWdTx5M1vc7V5Lx9t8az1kpeMKs5n64=;
-	b=aFmpqPVY/JISeI589pvxnk9kOYt5WEnq3e/1AEjDIIJPsf8Gk31g5uGWuYnKeKzimd
-	ke5DlE7E3paxNZuJnjIpd6w11YuF2g48od6T6+Gfi090BxZjfBttUSEcN2p7LDyGRnOG
-	zU0u70/8BHW+bzxefhrVj3LVfMleWjQMs64I4eHlXpZ77elkmN0EWtO/V+VTDH0Is5Is
-	oFgI4Fd4sS6g3OX0HK/DWeFNt3mtjBEarJpiVMsdLBUcDqmvBrQep46aiGwjIeRKI6Yk
-	SW45nv5bDFBl/QuaB6DunwCli0W/puktGtSuuY3RxoMr7t3YQf+0aHSwXIJsnPEDw5pC
-	sCGg==
-X-Gm-Message-State: APjAAAXynQW5c46oQ9gEqEa3sibf1Ss6l7Dmb6p4SsjVhwoUn9Y5YcPG
-	spBLKVWWb1BtAGUAOrei80ZJYzA1Ky0=
-X-Google-Smtp-Source: APXvYqyYJut1W+jYccW4lJK5SwhVmNXpQU+V3SXLgpxAlfIS4pFPAGUI4Mre2ygV3nyBWHSomwnIGw==
-X-Received: by 2002:a92:6609:: with SMTP id a9mr6570627ilc.131.1573680245020; 
-	Wed, 13 Nov 2019 13:24:05 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id w9sm444401ilo.68.2019.11.13.13.24.04
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 13 Nov 2019 13:24:04 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	Wed, 13 Nov 2019 21:28:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Nov 2019 13:28:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,301,1569308400"; d="scan'208";a="229890095"
+Received: from bhatavin-mobl1.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.42.178])
+	by fmsmga004.fm.intel.com with ESMTP; 13 Nov 2019 13:28:02 -0800
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 15:24:00 -0600
-Message-Id: <20191113212400.898834-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.23.0
+References: <20191112223119.47941-1-paul@betafive.co.uk>
+	<20191112223119.47941-2-paul@betafive.co.uk>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <b7cf9efa-6caf-c2f2-40ff-e84205f6e4ea@intel.com>
+Date: Wed, 13 Nov 2019 21:28:01 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Subject: [PATCH] icecc-create-env: Use OE patchelf in SDK
+In-Reply-To: <20191112223119.47941-2-paul@betafive.co.uk>
+Subject: Re: [PATCH 1/1] cdrtools-native: Don't set uid/gid during install
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +38,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 21:24:06 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 13 Nov 2019 21:28:02 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-The Icecream environment creation script runs when the SDK is installed
-and uses patchelf to fix up executables. Rather than rely on the host
-system to provided patchelf (which often can be older versions that
-produce buggy executables), mark the OE version of patchelf as a
-dependency of icecc-create-env when included in the SDK.
+On 12/11/2019 22:31, Paul Barker wrote:
+> +++ b/meta/recipes-devtools/cdrtools/cdrtools-native/0001-Don-t-set-uid-gid-during-install.patch
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
-index 053945ebbc..231c1c20ec 100644
---- a/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
-+++ b/meta/recipes-devtools/icecc-create-env/icecc-create-env_0.1.bb
-@@ -34,3 +34,5 @@ do_install() {
- }
+ERROR: cdrtools-native-3.01a31+really3.01-r0 do_fetch: Fetcher failure: 
+Unable to find file file://0001-Don-t-set-uid-gid-during-install.patch 
+anywhere. The paths that were searched were:
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+RDEPENDS_${PN}_class-nativesdk = "patchelf"
--- 
-2.23.0
+/home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/cdrtools-3.01a31+really3.01/poky
+     /home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/cdrtools/poky
+     /home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/files/poky
+ 
+/home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/cdrtools-3.01a31+really3.01/
+     /home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/cdrtools/
+     /home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/files/
+ 
+/home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/cdrtools-3.01a31+really3.01/x86-64
+     /home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/cdrtools/x86-64
+     /home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/files/x86-64
+ 
+/home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/cdrtools-3.01a31+really3.01/
+     /home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/cdrtools/
+     /home/ross/Yocto/poky/meta/recipes-devtools/cdrtools/files/
+     /home/ross/Yocto/downloads/
 
+Put it in /cdrtools/ not cdrtool-native.
+
+> +Upstream-status: Inappropriate [native]
+
+As the pedantic patchtest says, Upstream-Status.
+
+Ross
 
