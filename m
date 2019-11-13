@@ -1,24 +1,33 @@
-Return-Path: <Yongxin.Liu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F63D7F2C0
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 4367C7E447
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 06:56:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xAD6uKCq009510
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 13 Nov 2019 08:19:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47Ccw507ZNz8G
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 12 Nov 2019 22:56:20 -0800 (PST)
-Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 12 Nov 2019 22:56:19 -0800
-From: Yongxin Liu <yongxin.liu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Nov 2019 14:48:55 +0800
-Message-ID: <20191113064855.39964-1-yongxin.liu@windriver.com>
-X-Mailer: git-send-email 2.14.4
-MIME-Version: 1.0
-Subject: [PATCH] ltp: Add "udevadm trigger" before swap verification in mkswap01.sh
+	Wed, 13 Nov 2019 09:19:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1573633157;
+	bh=LDUOrTPSf18HelEQeyvxYAKOpa7JeTcAsBaK9ayF73k=;
+	h=From:To:Subject:Date:From;
+	b=gSwuhe/6NbVfjjH5MLAPZagqNgV7awyfA0AE+mVt01MSumM+guKDstaPk7iOLdwah
+	bsuskWkRWs4Id3o/wOKSAuSUcmZicDbqKM/QQ4qVeMEK9W36EedY7izWOghViH5oW9
+	dawUl0jm2XLY+B+YZ8p2LDKCDaaxlbCRPFW081eruS9VkfYhOPZG+GX5Km9z4Wef2M
+	nrZ9+AAA1sDPAFXqchB2BYiYZI/3AdRwPuyN5RNblZQP9EqX4q4gKBrxQtT+wBrcRD
+	6GL/OwkifJk96nDlqwdRWefcmogFdXDkKW0StBKneCz4HdIjOWWNj6wh8s+NoXrdj3
+	cXEXy2SZW7uqi1n5kQivbOcm0FUFDjdVm0uqiuig2aTuOwrZO6DySjsGUfyd4tteLQ
+	+jZqG8kcf4gmraBImDMW0V3Dvq2xD+Ml1rOKUjz9pMFCLGzmldvn2cI+a5SyIfADH6
+	/WHlrARaAI82lC3aFvD0cDRtTH7hDGeRRqrm7j7fOaVawIN5WBVKoZ7yikujM3NITS
+	v8z0nyT/0zov4inQVpmuxtejFmUJ59ffEg3YMBAoOG4lRB6NljW7n1g6TFai+8FoK/
+	OxH4T1y+qsry8tnSN4YlK7wt8PhXFsIblqhZcv7+P4B7cyjfnpg11C/wYJSoL7qtZ3
+	nt/Ea5AztwJ5er73t/mcqsUc=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 13 Nov 2019 10:19:14 +0200
+Message-Id: <20191113081914.28778-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] bind: Whitelist CVE-2019-6470
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,74 +40,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 06:56:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 13 Nov 2019 08:19:21 -0000
 
-Swap verification sometimes fails due to race condition with udev.
-This is a known issue: https://github.com/linux-test-project/ltp/issues/458.
-"udevadm trigger" forces udev to sync up device events with kernel.
-
-Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...-Add-udevadm-trigger-before-swap-verifica.patch | 35 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190517.bb          |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch
+ meta/recipes-connectivity/bind/bind_9.11.5-P4.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch b/meta/recipes-extended/ltp/ltp/0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch
-new file mode 100644
-index 0000000000..1b433d3ad3
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch
-@@ -0,0 +1,35 @@
-+From fae8852a63d9fa6e56fb8b24eaf10560bd13757f Mon Sep 17 00:00:00 2001
-+From: Yongxin Liu <yongxin.liu@windriver.com>
-+Date: Tue, 12 Nov 2019 11:33:50 +0800
-+Subject: [PATCH] mkswap01.sh: Add "udevadm trigger" before swap verification
-+
-+Fix: https://github.com/linux-test-project/ltp/issues/458
-+
-+Sometimes the swap device cannot show up in /dev/disk/by-uuid/
-+or /dev/disk/by-lable/ due to the issue #458. When this issue
-+happens, "blkid -c /dev/null" and "ls /dev/disk/by-uuid/" show
-+different UUID of the device.
-+
-+Upstream-Status: Submitted [https://patchwork.ozlabs.org/patch/1193414]
-+
-+Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
-+---
-+ testcases/commands/mkswap/mkswap01.sh | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/testcases/commands/mkswap/mkswap01.sh b/testcases/commands/mkswap/mkswap01.sh
-+index 3a348c6e6..9437c4a4e 100755
-+--- a/testcases/commands/mkswap/mkswap01.sh
-++++ b/testcases/commands/mkswap/mkswap01.sh
-+@@ -129,6 +129,8 @@ mkswap_test()
-+ 		return
-+ 	fi
-+ 
-++	udevadm trigger --name-match=$TST_DEVICE
-++
-+ 	if [ -n "$device" ]; then
-+ 		mkswap_verify "$mkswap_op" "$op_arg" "$device" "$size" "$dev_file"
-+ 		if [ $? -ne 0 ]; then
-+-- 
-+2.14.4
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
-index 5915b1c72a..47aa9675d8 100644
---- a/meta/recipes-extended/ltp/ltp_20190517.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190517.bb
-@@ -50,6 +50,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch \
-            file://0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch \
-            file://0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch \
-+           file://0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch \
-            "
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+index 3e2412dfa4..0a52a66144 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+@@ -37,6 +37,9 @@ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9.(11|16|20|24|28)(\.\d+)+(-P\d+)*)/"
  
- S = "${WORKDIR}/git"
++# Affects: Builds of dhcpd versions prior to version 4.4.1 when using BIND versions 9.11.2 or later
++CVE_CHECK_WHITELIST += "CVE-2019-6470"
++
+ inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
+ 
+ MULTILIB_SCRIPTS = "${PN}:${bindir}/bind9-config ${PN}:${bindir}/isc-config.sh"
 -- 
-2.14.4
+2.17.1
 
 
