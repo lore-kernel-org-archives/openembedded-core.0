@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id B566B7F7B4
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id CCF107F845
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:32:49 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id k13so1605715pgh.3
+	Wed, 13 Nov 2019 15:32:50 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id b19so1903318pfd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:32:51 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=LoEUb3vUWCMmigr1IqaKYvMkxWUlPNNCuwa8gUUKmwA=;
-	b=KuXSzqB/OfRcpzMqCsuEenW2aciurXzRdcDAbtdE3geTuXd4wrqDUqGLNVrakKKXn/
-	dvWDRLOU5D0jRhx6aG+OiIwaWiG76JUUphTtkcNrVWdDXECF4Bdf/HhtUBNoh/9p3BQ3
-	0ZL7F2IeQzdzgnlozIeMcTu2alxZEcHpdgtp1J3f+BHtBPfy8gnhpMoqsEHYfgSU3b8e
-	NLNojEnc8fBjQobSCWCIbgNGkUiZSGBMCGsgpKAgWBgMyRB1FdHdsA6zPdHo3Z7vrr7I
-	mU/86a7UG/+RTJCAO31eAn4itMyraEJXGNpciurfRibU+iOOJWWc99KHZT2srzA6O7Ac
-	t0HA==
+	bh=UnB+qFtf7XRTf1acXkY+pelryarBLz4L3x6kJa6PSfw=;
+	b=GBd4hTLDqRDLmErNKt3wzw3TeChDDOJmQua+azvxeKytMiff3idMxuGhQmjOf1ks0u
+	vqS89YlT9IQRHXgDuAY+VJb5VlWKHzSmznkFPUCrSk55rhtZDhsX6Jrn6lxF1KOjkLjA
+	PbGuQ4lkVmGcHjTwoy050sMt8kvUCqc55ZlMe1PkkgddNC85Wc7aKXc4z1AzRDox0B9i
+	lyAqK/tqE58M59Gp7V23Kpt8PjteVcM9WBRz/kXvvTUDOFkATG1jPUQddFIN+/nCvGu1
+	G4dggZG97G+D9ak7FuIBeO9/nkLKYcT0/SjKcaUNkduW6rWk15KEJCiubIwlRudNfB3c
+	JQjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=LoEUb3vUWCMmigr1IqaKYvMkxWUlPNNCuwa8gUUKmwA=;
-	b=jrTUFNTogwYt4mvUOWJ8MM44woSNyy0EApTO2kdya+1JYDNWQbQ37YMXmkc4I2NqjL
-	fTL7nzLgVghf8bxvgiPqg1zOY2Xdq14eV+3Uw+sFuFpqaXgEfQFTgCuZHS9gJYZXANwH
-	2OuFbsLf85O+s+87GaUBhTR9Y8mKYW96sK448BfzRX84rCo7FIiRY98KwBFW9VOd5MQW
-	0WY81wQXXJE8wVqXwyiMWkegQPJsEQom4um/QxTfDirvS2ZsU2qGLPJoMZVVRlQrfXc7
-	wd6TAOh9zy0tOBj93BjF2XrYZS71wDPg8ZBS7hMZHyDcE4r/rjyJsZTlkR4CGUr1gBIh
-	CKiA==
-X-Gm-Message-State: APjAAAV6z9Xq34Ye7HZysleM+9ly3GqD6MpMmsYzCzKFn3uChqexrjIm
-	Gemfq/F/mVmbiX1vji5zfZrTYJ+p
-X-Google-Smtp-Source: APXvYqzqNviUEPUOVViKaLXWD9lVZAN6lzKQYjyecK1zz9LBMW4rmiQXAiELlPK2LmXm2HY33nhE8g==
-X-Received: by 2002:a62:ea19:: with SMTP id t25mr1710615pfh.74.1573659170803; 
-	Wed, 13 Nov 2019 07:32:50 -0800 (PST)
+	bh=UnB+qFtf7XRTf1acXkY+pelryarBLz4L3x6kJa6PSfw=;
+	b=TsGb0XDCOhVMLg3s+aQxY4uB6loWGDGxDkmmrAB664hT1GpcTbkEsjvkJhOugzg4Sp
+	XtvqX5pxFEv7vWEkxDltjle40TO/gmDeo4L0nQKzWc03XE+tzTcivA0ePUZ7vZpg4BOP
+	58EBQ5AnTsIsFqsVpjdEvP5L1vFJmqhNoLRtX4gWwxucPHhJyNi4B9sBXznfUN1wtzPb
+	RrD4cNSU5UgNAWF2UZUGbwh5L+Csaqt6vjYnzyGyqbj0poR/aFyn5ubzHXjDoc7IqjCf
+	wl3EW0CEnbHjxJry5qEUflvbyZPD5JnLdKFY7OaaR+apA+wZJnEA8tiJrVKPqI6StO/T
+	rfKA==
+X-Gm-Message-State: APjAAAXGhqiVS5tf4nDdOAqgOCF4So6lsvh4sIHkg59F5Imb9H8LNN5Y
+	/gm3EhXLnvcJmV+u4ozgKU/1eCaM
+X-Google-Smtp-Source: APXvYqxNLsvAUSja8y1MWQTtssbAMXMmaYARCzwzcvqTJnUtL4if5YzcyH4Mtxdp/GgZ28KaMFZz7w==
+X-Received: by 2002:a65:6704:: with SMTP id u4mr4450006pgf.419.1573659171613; 
+	Wed, 13 Nov 2019 07:32:51 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
-	s18sm3713613pfm.27.2019.11.13.07.32.49
+	s18sm3713613pfm.27.2019.11.13.07.32.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:32:50 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:51 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:32:07 -0800
-Message-Id: <90b4b7dd19526e8aba79cf469dcc2c05401f36cc.1573658916.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:32:08 -0800
+Message-Id: <41b1d53cea0302f1c3954c6ab048366c908cf754.1573658916.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658915.git.akuster808@gmail.com>
 References: <cover.1573658915.git.akuster808@gmail.com>
-Subject: [zeus 25/31] recipeutils-test: use a small dependency in the dummy recipe
+Subject: [zeus 26/31] patch: the CVE-2019-13638 fix also handles CVE-2018-20969
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 15:32:49 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 15:32:51 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-recipeutils-test has virtual/libx11 as a DEPENDS, but this will cause errors if
-the recipe is built in an environment without x11 in DISTRO_FEATURES.
-
-This dependency isn't actually used for anything so we could remove it, but to
-save updating the test cases too just swap virtual/libx11 for zlib.
-
-[ YOCTO #13611 ]
-
 Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-index 7c20d9a..0cd0494 100644
---- a/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-+++ b/meta-selftest/recipes-test/recipeutils/recipeutils-test_1.2.bb
-@@ -4,7 +4,7 @@ require recipeutils-test.inc
+diff --git a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+index f60dfe8..d13d419 100644
+--- a/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
++++ b/meta/recipes-devtools/patch/patch/0001-Invoke-ed-directly-instead-of-using-the-shell.patch
+@@ -6,8 +6,8 @@ Subject: [PATCH] Invoke ed directly instead of using the shell
+ * src/pch.c (do_ed_script): Invoke ed directly instead of using a shell
+ command to avoid quoting vulnerabilities.
  
- LICENSE = "Proprietary"
- LIC_FILES_CHKSUM = "file://${WORKDIR}/somefile;md5=d41d8cd98f00b204e9800998ecf8427e"
--DEPENDS += "virtual/libx11"
-+DEPENDS += "zlib"
+-CVE: CVE-2019-13638
+-Upstream-Status: Backport[https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
++CVE: CVE-2019-13638 CVE-2018-20969
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/patch.git/patch/?id=3fcd042d26d70856e826a42b5f93dc4854d80bf0]
+ Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
  
- BBCLASSEXTEND = "native nativesdk"
- 
+ ---
 -- 
 2.7.4
 
