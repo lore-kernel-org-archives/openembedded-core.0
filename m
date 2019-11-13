@@ -1,54 +1,51 @@
-Return-Path: <prvs=21355fe1c=Mikko.Rapeli@bmw.de>
-Received: from esa8.bmw.c3s2.iphmx.com (esa8.bmw.c3s2.iphmx.com
-	[68.232.139.97])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C06B7F7DF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 95668731C8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 16:02:47 +0000 (UTC)
+	Wed, 13 Nov 2019 16:21:05 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id i12so3073477wro.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2019 08:21:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1573660970; x=1605196970;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=GlGdSjY9lZpSFpb0mvW2vS9nZmqVd58HI3/C3H/U7JI=;
-	b=TeBsZasANEVSDYDGdK5HzxPXb+alURT4mtsX4nY4qFwCtVvxu2IEEnTQ
-	i2BPEWjMCK4K3veFhyzGqario2fNJjsqDUD5CeBC6fRXIC4ShsbLx/1aH
-	sk79wCFaalojXC7PLFhuO/ID8IdFv3MD7xeQ9RXolZn4y994wRL5Fn5S4 c=;
-IronPort-SDR: sNt2azMkM26UMAdS6VtI0FFzQIgTwkvBPbCViNHWjGft+tx3Tyw9krc9WGH5oE63g13WFkzeiI
-	41c3VmZBAwOX11qosHmBG5SikDc/vmwPTVx12vvsgKujDR339HZGj3BP6DfJDfbNfOK/B64LQw
-	JxbW2VUJujFeKN5Pkq3D+kDWak3944LnurCw2NCQYSaBRojlJJI1ilAopBitWuEz4B0No5X2ac
-	hsJRpDbB7TRZXEAUVtwBOpVQfi213JfbkY6ljPOIzAj1v3wlPuhePn3mtiZdKir/SwZZREaiDA
-	V6M=
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
-	esa8.bmw.c3s2.iphmx.com with ESMTP/TLS; 13 Nov 2019 17:02:45 +0100
-Received: from esabb6.muc ([160.50.100.50])  by esagw6.muc with ESMTP/TLS;
-	13 Nov 2019 17:02:44 +0100
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb6.muc with ESMTP/TLS; 13 Nov 2019 17:02:43 +0100
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Wed, 13 Nov 2019 17:02:43 +0100
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Wed, 13 Nov 2019 17:02:43 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <akuster808@gmail.com>
-Thread-Topic: [oe] OEDeM minutes clarification regarding stable branch update
-	frequency
-Thread-Index: AQHVmjvIUDHaMOKVWUeVW80F5Ad5Rw==
-Date: Wed, 13 Nov 2019 16:02:43 +0000
-Message-ID: <20191113160243.GR2398@hiutale>
-References: <ce731d12-a8fc-d90e-a3e2-c7999f8dbf0a@gmail.com>
-In-Reply-To: <ce731d12-a8fc-d90e-a3e2-c7999f8dbf0a@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=1YB4eDSwb481Xxwdve8XVVWLVIlWa43UlZmGgOU5rMs=;
+	b=ii5KT1ykuQ2agFmU1zDuKqq20YDC8aPLqJMNt9fjrO70W/sUAoPJTvzl/RlptFdOyG
+	29sQPaSaerBa8BM9WGf9jZp5F9Wu99kOIpuGN0eDnz42qWyROl8/P+GGZPzLXKWTu0md
+	WyNfV33AhUvshdBN+LIDq/LAqymlGKR2wXY6g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=1YB4eDSwb481Xxwdve8XVVWLVIlWa43UlZmGgOU5rMs=;
+	b=CF6m4aq90yesDMtiljzEpdgC7/ZdzzAJF4WTfHe1J1Bku80iPZpUDZCD7KfNGVM+Bh
+	ftYmuSb5fVxEzxMt51EPWiqiGIsoi2TU6Q6nKT1Eh7vjUtrV5oQ6bVxfngHtr30CPMJN
+	bxqZAU9fCFmJ2hz3xVBM61rUVPPZyhlyJjcQv7+H/ipWZrq5QjXqg7s2I6zw+ttfgXC2
+	F50t/VtMJgNhTn028tbdN8AhLZqwMi+mkubCCKed8xLarboUmMHPQzIxZd0xhJhlom3Z
+	LyjHDX2hUGW6OoIHIZ8XkprUg11cFDkfJrNmt5vR4TSWHWRH3jTDXTvUvH6V+KORXU4q
+	TIsg==
+X-Gm-Message-State: APjAAAXtsM20HesXQsi7ldEvTxf3Ucv4nEtBxwuUt30R7Ey0LZm8BFzM
+	QSMX/2zQmvMtcvRkc4vP1CzCVg==
+X-Google-Smtp-Source: APXvYqzyaXYZeBPrbl088gSBcXRMTYqJjBLyXzeDO/zPAVctFWJKTYfJVkAA/EsiwOrVk6PoHlNboQ==
+X-Received: by 2002:adf:f20d:: with SMTP id p13mr3432305wro.325.1573662066105; 
+	Wed, 13 Nov 2019 08:21:06 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y15sm3263739wrh.94.2019.11.13.08.21.05
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 13 Nov 2019 08:21:05 -0800 (PST)
+Message-ID: <f53835dc2b5b9b2188d5e946ac1198c969821322.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andre McCurdy <armccurdy@gmail.com>, OE Core mailing list
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 13 Nov 2019 16:21:04 +0000
+In-Reply-To: <CAJ86T=W=wDNw7PPH5w5Vo0WEtdfZj41J036o3bAb=D4hiV9cVA@mail.gmail.com>
+References: <CAJ86T=W=wDNw7PPH5w5Vo0WEtdfZj41J036o3bAb=D4hiV9cVA@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] OEDeM minutes clarification regarding stable branch update frequency
+Subject: Re: fetcher uses wrong SRCREV for class-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,23 +58,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 16:02:48 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <C6EAE1EEFE719641859DBAD2C29FD28B@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 13 Nov 2019 16:21:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 13, 2019 at 07:48:34AM -0800, akuster808 wrote:
-> Hello,
->=20
-> Reading through the 2019 OEDeM minutes, I saw a statement regarding a
-> more regular update frequency on the stable branches. Based on Richard's
-> response I could not tell if it is regarding merge frequency=A0 to
-> mainline or more dot releases? Since I was not present at the meeting,
-> can someone clarify which one that question was pertaining to or may both=
-?
+On Wed, 2019-11-13 at 06:00 -0800, Andre McCurdy wrote:
+> With the following test recipe, foo.bb:
+> 
+>   LICENSE = "CLOSED"
+>   PV .= "+git${SRCPV}"
+>   SRCREV = "015b0cdce1a0abb68ab99510e7fc8d2f77e8ec77"
+>   SRCREV_class-native = "fc3e8f717779cabcbe583cac304308eaad5f1648"
+>   SRC_URI = "git://github.com/file/file.git;protocol=https"
+>   S = "${WORKDIR}/git"
+>   BBCLASSEXTEND = "native"
+> 
+> when building foo-native, although SRCREV is set to "fc3..." via the
+> class-native over-ride, the version of code actually fetched is
+> "015..":
+> 
+>   $ bitbake foo-native -e | grep -e ^SRCREV= -e ^PV=
+>   PV="1.0+gitAUTOINC+015b0cdce1"
+>   SRCREV="fc3e8f717779cabcbe583cac304308eaad5f1648"
+> 
+> A similar problem happens in reverse if SRCREV is set using a machine
+> specific over-ride, e.g.
+> 
+>   SRCREV = "015b0cdce1a0abb68ab99510e7fc8d2f77e8ec77"
+>   SRCREV_mymachine = "fc3e8f717779cabcbe583cac304308eaad5f1648"
+> 
+> Now foo-native fetches the target specific version "fc3..." even
+> though the machine specific over-ride shouldn't effect -native
+> variants:
+> 
+>   $ bitbake foo-native -e | grep -e ^SRCREV= -e ^PV=
+>   PV="1.0+gitAUTOINC+fc3e8f7177"
+>   SRCREV="015b0cdce1a0abb68ab99510e7fc8d2f77e8ec77"
+> 
+> Commenting out the line which appends "+git${SRCPV}" to PV seems to
+> be
+> a workaround which results in the expected version of code being
+> fetched.
 
-AFAIK, the comment meant more frequent dot releases.
+I tried this with master and didn't see it reproduce. Do you have:
 
--Mikko=
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d427f58977a46f2bda4b7f30cf83793373e401d3
+
+applied when your build sees this?
+
+Cheers,
+
+Richard
+
+
 
