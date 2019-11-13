@@ -1,49 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E15F6B513
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+	[209.85.210.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A42E6B513
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:19:45 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id w7so1184271plz.12
+	Wed, 13 Nov 2019 15:19:46 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id 193so1845235pfc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:19:46 -0800 (PST)
+	Wed, 13 Nov 2019 07:19:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=h/lzs4kMSHgsPKDJQUBJbKL1gg/TqWj58hyhAra4xKc=;
-	b=GbXPn4RtS332bv15V0hvleNaBkqPFCUiqeSg1E2bUvqgubWwVR07YBvy71LJZA3yQn
-	TnrV17Ps73oWau4Ripovef0QcVgeSf7HYBxA7fpzGnFJx7nTwdLX+OUDySuuEkfpdbR6
-	7KGo/G/E9Z8sPlh6hmj9Xs3UWGGGvDhBiJfMs+NzA3B71KPWGzKpotus4v3ms12+x8mQ
-	rsV/PN2mIosRBaXIcHe7seXzYwRWPDEg+16GD3c+0b4DGqziBUH1P7CsM1H9xra/Ghp4
-	Xc+zestPfRdv9A6XfDf4hLwCiSMErSTofYfyVyNPhmMQwXxgWQHS5eIkN03OwddoUkB7
-	WtGQ==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=mnA0z46QvUXAcVt6oX6zMmzVrKCmSf7kX7DL+TJlo1M=;
+	b=hO4F2eMdP+8zQgxeyZPBXFKVDdlJh7uoSgPgCTZyegd7Sh4XR7hRbnudpCWlv5YXlv
+	cTB1sHno6UzixyMmhAiTXMeuXYeQQLeT0AmcoFfdJuhlsJd1OBHIEj8wB9ICcg+N0YUl
+	S7m5a7/yHtUVtA3Jgf2J7eVSaWWTbCPMaPr/+NDwh9BmGGxRKIq/JxoUPEDBu9r0CLVK
+	VoxarnyJ5YKKyHCaZeJgcew1VPPwjScqeDjIYr43K7NqNxbq4Nco57O5fjRt9BnSZ4Ox
+	eEYiBAqJy9wnLmbH7wMGkeBSiNwDnbJUKpkNfFZZty6IKMGjmYom+Uir5YyMUuXyJKtV
+	7D2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=h/lzs4kMSHgsPKDJQUBJbKL1gg/TqWj58hyhAra4xKc=;
-	b=cbY+yVJz5L/rVMBH+7RN1EM3ip0O1aQQWcIHPIt5dCZcGNyji9Rv/i0MCvVEgnijAd
-	sIeqDFuurzif6fnPniwOfMjz8aVdL7ivyTUkdCmXTOeH6X8f2hlsjTpTK9VvBFq0sLj3
-	8Pvz9ZG1tn6w/B6B64IYs/m6GcuTGZHiGQS6JWdLfAsUL5X7tNz9caHn0gt4/zp0OOos
-	iaqjIpMqDubL93/gENP35PIXTC5ioOHDVCj1njWyAfZfMwNgBLfs7tNKEex2JgTtlsiH
-	07x8asXoD1cclLfr46AVWWfixfyF/z9SoVO4ot60PLWo2wePbQCpwCxe5tiuv7ObF4jS
-	+9/Q==
-X-Gm-Message-State: APjAAAU63vKajozxdOQph2mYhqRFiVrdorOXDW5v3S7HrhuDOsP4RE0i
-	p4nuYwcLmDCWvculArOJzT/HTjN3
-X-Google-Smtp-Source: APXvYqyoRJaHcwsK9uagQsDDUIDZoVeKTCRO59nqN6u6tY5nK79gqr5GLFpzz0ARYUcu9zrbrvykEg==
-X-Received: by 2002:a17:902:74c6:: with SMTP id
-	f6mr4392101plt.167.1573658385914; 
-	Wed, 13 Nov 2019 07:19:45 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=mnA0z46QvUXAcVt6oX6zMmzVrKCmSf7kX7DL+TJlo1M=;
+	b=GttGF/n+22du80zH1qPG1S+Og1o4i2rjwpHaytMfLg3OeJ/X/lERMlN5lRd8MG49Rj
+	9qa1XSz6jYOs5KkwD2pGkn0+apcol1ZYQsR59jxqG2RKy2CSQ2+WJLHgp1QQSQJYHy/k
+	AVFjhDRjLV0FAzCPc8h4g0O/PEyCbDLG1MmDSasKiNdbrkyQMw0KxQ1w2R8HZryu/ic0
+	DrLw5WDYCuazlotMMmtQaXRgqkUgkjlTU+/GBsZs9XVrGNIG9v+3YE4NJqN+ksiMoQHx
+	irRu0mp0PdwZbIwx+e+Kvv9XZ2AUCuTbiT+xAJBMPQ9uuLjDcaMSa8rKktiXFC9RAuLL
+	dykQ==
+X-Gm-Message-State: APjAAAU4iEahCQlm2WpgagrJ5j6Lxw9OI/Ed2TJASQME30UNpAujWoe+
+	BvzI3brwj/v33ClYowD7z2TAKit3
+X-Google-Smtp-Source: APXvYqxZaNNjhZc9fMjwJPwGklftL9EoKgwOc4l02IVDADaigoNKvpD1iWz/EK7QMBGnOTOycqe+9w==
+X-Received: by 2002:a62:7dd2:: with SMTP id y201mr5192270pfc.90.1573658387003; 
+	Wed, 13 Nov 2019 07:19:47 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
-	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.19.44
+	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.19.46
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:19:45 -0800 (PST)
+	Wed, 13 Nov 2019 07:19:46 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:19:03 -0800
-Message-Id: <cover.1573658232.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:19:04 -0800
+Message-Id: <1913e688ad95d465e9b9d16ad57f2bdef2b50d93.1573658232.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [warrior 00/25] Patch review
+In-Reply-To: <cover.1573658232.git.akuster808@gmail.com>
+References: <cover.1573658232.git.akuster808@gmail.com>
+Subject: [warrior 01/25] meson: Backport patch to handle strings in cross file args
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,117 +58,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 15:19:45 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 15:19:46 -0000
 
-Please provide comments by Friday
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-The following changes since commit 03b303dbc92521606ff4051bd253f8acc01fd9e5:
+This allows <language>_args and <language>_link_args properties, e.g.,
+c_link_args, in meson.cross to be specified as either a string or a
+list.
 
-  go-1.12: update to 1.12.9 minor release (2019-11-07 21:56:23 +0000)
-
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/warrior-nmut
-  http://cgit.openembedded.org//log/?h=stable/warrior-nmut
-
-Adrian Bunk (1):
-  python3: Upgrade 3.7.4 -> 3.7.5
-
-Changqing Li (1):
-  python3: fix do_install fail for parallel buiild
-
-Chen Qi (1):
-  python3: CVE-2019-16056
-
-Jason Wessel (1):
-  pseudo: Fix openat() with a symlink pointing to a directory
-
-Joe Slater (2):
-  libtiff: fix CVE-2019-17546
-  libxslt: fix CVE-2019-18197
-
-Joshua Watt (2):
-  python3: Reformat sysconfig
-  python3: Fix .pyc file reproduciblility
-
-Matthias Schoepfer via Openembedded-core (1):
-  python3: fix build on softfloat mips
-
-Mingli Yu (1):
-  python3: fix the test_locale output format
-
-Niclas Svensson (1):
-  devtool: finish: Keep patches ordered when updating bbappend
-
-Peter Kjellerstedt (8):
-  meson: Backport patch to handle strings in cross file args
-  meson.bbclass: Remove the MESON_*_ARGS variables
-  nativesdk-meson: Remove some unused variables
-  devtool: Avoid failure for recipes with S == WORKDIR and no local
-    files
-  package_rpm.bbclass: Remove a misleading bb.note()
-  tzdata: Correct the packaging of /etc/localtime and /etc/timezone
-  devtool: finish: Add suppport for the --no-clean option
-  lib/oe/lsb: Make sure the distro ID is always lowercased
-
-Ricardo Ribalda Delgado (1):
-  python3: python3: Fix build error x86->x86
-
-Richard Purdie (2):
-  pseudo: Drop static linking to sqlite3
-  pseudo: Add statx support to fix fedora30 issues
-
-Ross Burton (2):
-  patch: the CVE-2019-13638 fix also handles CVE-2018-20969
-  file: fix CVE-2019-18218
-
-Trevor Gamblin (1):
-  tiff: fix CVE-2019-14973
-
- meta/classes/meson.bbclass                         |  15 +-
- meta/classes/package_rpm.bbclass                   |   5 +-
- meta/conf/distro/include/no-static-libs.inc        |   4 -
- meta/lib/oe/lsb.py                                 |   8 +-
- .../file/file/CVE-2019-18218.patch                 |  55 +++
- meta/recipes-devtools/file/file_5.36.bb            |   3 +-
- meta/recipes-devtools/meson/meson.inc              |   1 +
- ...e-strings-in-cross-file-args.-Closes-4671.patch |  87 +++++
- .../meson/nativesdk-meson_0.49.2.bb                |   5 -
- ...ke-ed-directly-instead-of-using-the-shell.patch |   4 +-
- .../pseudo/files/0001-Add-statx.patch              | 106 ++++++
- meta/recipes-devtools/pseudo/pseudo.inc            |  19 +-
- meta/recipes-devtools/pseudo/pseudo_git.bb         |   3 +-
- ...code-lib-as-location-for-site-packages-an.patch |   2 +-
- ...ix-Issue36464-parallel-build-race-problem.patch |  34 ++
- ...-Use-FLAG_REF-always-for-interned-strings.patch |  35 ++
- ...roper-detection-of-mips-architecture-for-.patch | 201 ++++++++++
- ...-cc_basename-to-replace-CC-for-checking-c.patch |   2 +-
- ..._locale.py-correct-the-test-output-format.patch |  46 +++
- .../python/python3/crosspythonpath.patch           |  25 ++
- .../python/python3/reformat_sysconfig.py           |  21 ++
- .../python/{python3_3.7.4.bb => python3_3.7.5.bb}  |  17 +-
- meta/recipes-extended/timezone/tzdata.bb           |   5 +-
- .../libtiff/tiff/CVE-2019-14973.patch              | 415 +++++++++++++++++++++
- .../libtiff/tiff/CVE-2019-17546.patch              | 103 +++++
- meta/recipes-multimedia/libtiff/tiff_4.0.10.bb     |   4 +-
- .../libxslt/files/CVE-2019-18197.patch             |  33 ++
- meta/recipes-support/libxslt/libxslt_1.1.33.bb     |   1 +
- scripts/lib/devtool/standard.py                    |  17 +-
- 29 files changed, 1215 insertions(+), 61 deletions(-)
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-18218.patch
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-devtools/meson/meson.inc              |  1 +
+ ...e-strings-in-cross-file-args.-Closes-4671.patch | 87 ++++++++++++++++++++++
+ 2 files changed, 88 insertions(+)
  create mode 100644 meta/recipes-devtools/meson/meson/0001-Handle-strings-in-cross-file-args.-Closes-4671.patch
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
- create mode 100644 meta/recipes-devtools/python/python3/crosspythonpath.patch
- create mode 100644 meta/recipes-devtools/python/python3/reformat_sysconfig.py
- rename meta/recipes-devtools/python/{python3_3.7.4.bb => python3_3.7.5.bb} (93%)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-14973.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-18197.patch
 
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index bfe9851..ef26848 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -17,6 +17,7 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://many-cross.patch \
+            file://cross-libdir.patch \
+            file://0001-Fix-missing-return-statements-that-are-seen-with-Wer.patch \
++           file://0001-Handle-strings-in-cross-file-args.-Closes-4671.patch \
+            "
+ SRC_URI[sha256sum] = "ef9f14326ec1e30d3ba1a26df0f92826ede5a79255ad723af78a2691c37109fd"
+ SRC_URI[md5sum] = "0267b0871266056184c484792572c682"
+diff --git a/meta/recipes-devtools/meson/meson/0001-Handle-strings-in-cross-file-args.-Closes-4671.patch b/meta/recipes-devtools/meson/meson/0001-Handle-strings-in-cross-file-args.-Closes-4671.patch
+new file mode 100644
+index 0000000..1b1668e
+--- /dev/null
++++ b/meta/recipes-devtools/meson/meson/0001-Handle-strings-in-cross-file-args.-Closes-4671.patch
+@@ -0,0 +1,87 @@
++From 4818b27894c828a50befc94f1bc9062e89a544ea Mon Sep 17 00:00:00 2001
++From: Jussi Pakkanen <jpakkane@gmail.com>
++Date: Sat, 29 Dec 2018 18:23:36 +0200
++Subject: [PATCH] Handle strings in cross file args. Closes #4671.
++
++Upstream-Status: Backport [6c76ac80173bdc40d35e2d6b802f7950646781dc]
++Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
++
++---
++
++Note that the change to ninjabackend.py does not come from commit
++6c76ac80, as it was not corrected until commit 2b22576f. However,
++since that commit is huge and changes a lot of unrelated stuff, it was
++easier to include the relevant part here.
++
++ cross/ubuntu-armhf.txt                       |  2 +-
++ mesonbuild/backend/ninjabackend.py           |  2 +-
++ mesonbuild/compilers/compilers.py            |  4 ++--
++ test cases/common/137 get define/meson.build | 12 +++---------
++ 4 files changed, 7 insertions(+), 13 deletions(-)
++
++diff --git a/cross/ubuntu-armhf.txt b/cross/ubuntu-armhf.txt
++index fec8ce7..a6e1f15 100644
++--- a/cross/ubuntu-armhf.txt
+++++ b/cross/ubuntu-armhf.txt
++@@ -12,7 +12,7 @@ pkgconfig = '/usr/bin/arm-linux-gnueabihf-pkg-config'
++ root = '/usr/arm-linux-gnueabihf'
++ # Used in unit test '140 get define'
++ c_args = ['-DMESON_TEST_ISSUE_1665=1']
++-cpp_args = ['-DMESON_TEST_ISSUE_1665=1']
+++cpp_args = '-DMESON_TEST_ISSUE_1665=1'
++ 
++ has_function_printf = true
++ has_function_hfkerhisadf = false
++diff --git a/mesonbuild/backend/ninjabackend.py b/mesonbuild/backend/ninjabackend.py
++index 3739c0a..2cebeef 100644
++--- a/mesonbuild/backend/ninjabackend.py
+++++ b/mesonbuild/backend/ninjabackend.py
++@@ -1400,7 +1400,7 @@ int dummy;
++                 if is_cross:
++                     crstr = '_CROSS'
++                     try:
++-                        cross_args = self.environment.cross_info.config['properties'][langname + '_link_args']
+++                        cross_args = mesonlib.stringlistify(self.environment.cross_info.config['properties'][langname + '_link_args'])
++                     except KeyError:
++                         pass
++                 rule = 'rule %s%s_LINKER\n' % (langname, crstr)
++diff --git a/mesonbuild/compilers/compilers.py b/mesonbuild/compilers/compilers.py
++index e27ae2b..a5b9e91 100644
++--- a/mesonbuild/compilers/compilers.py
+++++ b/mesonbuild/compilers/compilers.py
++@@ -1048,10 +1048,10 @@ class Compiler:
++             if 'properties' in environment.cross_info.config:
++                 props = environment.cross_info.config['properties']
++                 lang_args_key = self.language + '_args'
++-                extra_flags += props.get(lang_args_key, [])
+++                extra_flags += mesonlib.stringlistify(props.get(lang_args_key, []))
++                 lang_link_args_key = self.language + '_link_args'
++                 if link:
++-                    extra_flags += props.get(lang_link_args_key, [])
+++                    extra_flags += mesonlib.stringlistify(props.get(lang_link_args_key, []))
++         return extra_flags
++ 
++     def _get_compile_output(self, dirname, mode):
++diff --git a/test cases/common/137 get define/meson.build b/test cases/common/137 get define/meson.build
++index 109f628..1647e22 100644
++--- a/test cases/common/137 get define/meson.build	
+++++ b/test cases/common/137 get define/meson.build	
++@@ -67,15 +67,9 @@ foreach lang : ['c', 'cpp']
++ 
++   run_1665_test = false
++   if meson.is_cross_build()
++-    # Can't use an empty array as a fallback here because of
++-    # https://github.com/mesonbuild/meson/issues/1481
++-    lang_args = meson.get_cross_property(lang + '_args', [])
++-    if lang_args.length() != 0
++-      foreach lang_arg : lang_args
++-        if lang_arg.contains('MESON_TEST_ISSUE_1665')
++-          run_1665_test = true
++-        endif
++-      endforeach
+++    lang_arg = meson.get_cross_property(lang + '_args', '')
+++    if lang_arg == '-DMESON_TEST_ISSUE_1665=1'
+++      run_1665_test = true
++     endif
++   endif
++ 
 -- 
 2.7.4
 
