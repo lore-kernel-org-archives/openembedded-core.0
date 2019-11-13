@@ -1,39 +1,40 @@
 Return-Path: <anuj.mittal@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id CADCA7F33D
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id C53AA7F555
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 00:48:00 +0000 (UTC)
+	Wed, 13 Nov 2019 01:33:18 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Nov 2019 16:48:01 -0800
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Nov 2019 17:33:19 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,298,1569308400"; d="scan'208";a="229587553"
+X-IronPort-AV: E=Sophos;i="5.68,298,1569308400"; d="scan'208";a="214207167"
 Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
-	by fmsmga004.fm.intel.com with ESMTP; 12 Nov 2019 16:48:00 -0800
+	by fmsmga001.fm.intel.com with ESMTP; 12 Nov 2019 17:33:15 -0800
+Received: from pgsmsx106.gar.corp.intel.com (10.221.44.98) by
+	KMSMSX151.gar.corp.intel.com (172.21.73.86) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Wed, 13 Nov 2019 09:33:14 +0800
 Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.88]) by
-	KMSMSX151.gar.corp.intel.com ([169.254.10.97]) with mapi id
-	14.03.0439.000; Wed, 13 Nov 2019 08:47:59 +0800
+	PGSMSX106.gar.corp.intel.com ([10.221.44.98]) with mapi id
+	14.03.0439.000; Wed, 13 Nov 2019 09:33:14 +0800
 From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "paul@betafive.co.uk" <paul@betafive.co.uk>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: =?utf-8?B?W09FLWNvcmVdIOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGNkcnRvb2xz?=
-	=?utf-8?Q?-native:_Don't_set_uid/gid_during_install?=
-Thread-Index: AQHVma1XbzrgIgbg90uTE99Fgs/KKKeHqT6AgAAVRwA=
-Date: Wed, 13 Nov 2019 00:47:59 +0000
-Message-ID: <72c148ae6199d0f352599791407870116b74833a.camel@intel.com>
-References: <20191112223119.47941-1-paul@betafive.co.uk>
-	<20191112230230.2330.23616@do>
-	<ebb0fa72-ca88-42e6-a2e9-37acf03f6b30@www.fastmail.com>
-In-Reply-To: <ebb0fa72-ca88-42e6-a2e9-37acf03f6b30@www.fastmail.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "akuster808@gmail.com"
+	<akuster808@gmail.com>
+Thread-Topic: [OE-core] [PATCH 14/20] OEQA: move manual bash test to runtime
+Thread-Index: AQHVmRKlxsWtpW52c0mUqHN+xQK706eHzF+A
+Date: Wed, 13 Nov 2019 01:33:14 +0000
+Message-ID: <9d163a7dff4c555896f8426e90f3e14d69ac87ea.camel@intel.com>
+References: <cover.1573532188.git.akuster808@gmail.com>
+	<dbe5d8d0429ddca87fa80f613a8fbab287910696.1573532188.git.akuster808@gmail.com>
+In-Reply-To: <dbe5d8d0429ddca87fa80f613a8fbab287910696.1573532188.git.akuster808@gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [10.221.16.42]
 MIME-Version: 1.0
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGNkcnRvb2xzLW5hdGl2ZTogRG9uJ3Qgc2V0IHVpZC9naWQgZHVyaW5nIGluc3RhbGw=?=
+Subject: Re: [PATCH 14/20] OEQA: move manual bash test to runtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,19 +47,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 00:48:01 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 01:33:19 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="utf-8"
-Content-ID: <7596ECDEE1CEE045ACE110B56DF477DF@intel.com>
+Content-ID: <D3833B9096C94945A02F24FA88EC6440@intel.com>
 Content-Transfer-Encoding: base64
 
-T24gVHVlLCAyMDE5LTExLTEyIGF0IDIzOjMxICswMDAwLCBQYXVsIEJhcmtlciB3cm90ZToNCj4g
-SSdtIG5vdCBzdXJlIHdoYXQncyB3cm9uZyBoZXJlLiBJJ3ZlIGdpdmVuIHRoZSByZWFzb24gaW4g
-dGhlIGZvcm1hdA0KPiBzaG93biBpbiANCj4gaHR0cHM6Ly93d3cub3BlbmVtYmVkZGVkLm9yZy93
-aWtpL0NvbW1pdF9QYXRjaF9NZXNzYWdlX0d1aWRlbGluZXMjUGF0Y2hfSGVhZGVyX1JlY29tbWVu
-ZGF0aW9uczpfVXBzdHJlYW0tU3RhdHVzDQo+IC4NCj4gDQo+IE1heWJlIGl0J3MgZ2V0dGluZyB0
-cmlwcGVkIHVwIGJ5IHRoZSBjYXBpdGFsaXNhdGlvbiBvZiBVcHN0cmVhbS0NCj4gc3RhdHVzIGFu
-ZCBnaXZpbmcgYSBwb29yIGVycm9yIG1lc3NhZ2UuDQoNCkxvb2tzIGxpa2UgaXQ6DQoNCmh0dHBz
-Oi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNnaS9wYXRjaHRlc3Qtb2UvdHJlZS90
-ZXN0cy90ZXN0X3BhdGNoX3Vwc3RyZWFtX3N0YXR1cy5weQ0KDQpUaGFua3MsDQoNCkFudWoNCg==
+T24gTW9uLCAyMDE5LTExLTExIGF0IDIwOjMzIC0wODAwLCBBcm1pbiBLdXN0ZXIgd3JvdGU6DQo+
+ICsNCj4gK2NsYXNzIEJzcChPRVNlbGZ0ZXN0VGVzdENhc2UpOg0KPiArICAgIGRlZiB0ZXN0X2Jh
+c2hfaW5zdGFsbGVkKHNlbGYpOg0KPiArICAgICAgICAiIiINCj4gKyAgICAgICAgU3VtbWFyeTog
+ICAgICAgIFRoZSBwdXJwb3NlIG9mIHRoaXMgdGVzdCBjYXNlIGlzIHRvIHZlcmlmeQ0KPiB0aGF0
+IGJhc2ggDQo+ICsgICAgICAgICAgICAgICAgICAgICAgICBpbiBleGlzdHMgaW4gdGhlIGltYWdl
+LiBUZXN0IGNhbWUgZnJvbQ0KPiBtYW51YWwuDQo+ICsgICAgICAgIEV4cGVjdGVkOiAgICAgICBC
+YXNoIGlzIGZvdW5kLg0KPiArICAgICAgICAiIiINCj4gKw0KPiArICAgICAgICBmZWF0dXJlcyA9
+ICdJTUFHRV9JTlNUQUxMX2FwcGVuZCA9ICIgYmFzaCJcbicNCj4gKyAgICAgICAgc2VsZi53cml0
+ZV9jb25maWcoZmVhdHVyZXMpDQo+ICsgICAgICAgIGJpdGJha2UoJ2NvcmUtaW1hZ2UtbWluaW1h
+bCcpDQo+ICsNCj4gKyAgICAgICAgd2l0aCBydW5xZW11KCdjb3JlLWltYWdlLW1pbmltYWwnKSBh
+cyBxZW11Og0KPiArICAgICAgICAgICAgcmVzdWx0ID0gcnVuQ21kKCJ3aGljaCBiYXNoIiAsIHNo
+ZWxsPVRydWUpDQo+ICsgICAgICAgICAgICBzZWxmLmFzc2VydEVxdWFsKDAsIHJlc3VsdC5zdGF0
+dXMsICJDb3VsZG4ndCBmaW5kIGJhc2giKQ0KPiAtLSANCg0KV2UgaGF2ZSBJbmNvbXBhdGlibGVM
+aWNlbnNlUGVySW1hZ2VUZXN0cyB0aGF0IHRlc3RzIGZvciBwcmVzZW5jZSBvZg0KYmFzaCB3aGVu
+IGRpZmZlcmVudCBMSUNFTlNFIHZhbHVlcyBhcmUgc2V0Lg0KDQpQZXJoYXBzIHdlIGRvbid0IG5l
+ZWQgdGhpcyBhbmQgY2FuIGNvbnNpZGVyIHRoaXMgY2FzZSBjb3ZlcmVkIGJ5IHRoYXQNCnRlc3Q/
+DQoNClRoYW5rcywNCg0KQW51ag0K
 
