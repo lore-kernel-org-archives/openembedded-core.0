@@ -1,18 +1,42 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AB4D60234;
-	Wed, 13 Nov 2019 17:32:23 +0000 (UTC)
+Return-Path: <ankur.tyagi85@gmail.com>
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+	[209.85.208.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 72A4A7F7AC
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2019 20:54:50 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id d5so4164155ljl.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 13 Nov 2019 12:54:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=nyh7O6GF+OVaSTDTw+F5d1kvV+sQUZN0s26GnSFsQkk=;
+	b=usg0LR8ioAWfNqhLwZIjUcgPz4CjlobAxsibYALhZB0S928OyPEKKZ0ZSm2KcoXz4c
+	yvzL2z/D57B0R9pnLACoeV+mnNDKfRvlvDsHsD3qrcy/vx0zpToVHdfN/rAmahhpAju2
+	NVg7FVr9L1GeYwWs09IVPhHvhQiDFI5eA4e0IxX7KDDbcq9Hi9tPTQjfK2Zlbh4Gl528
+	+6xuRgN08J+pGFAUpPnILs3qh2hFTyvlIXVoyCPNxk/sPCcQ0a50Xtsu4o7nSO2TWHUM
+	2fOJuX8ivjEwdLrMyE8ClZ0mN3NVTETD6tR5z8CI8NVrSE0/593SwRrS+vR5apVpYevi
+	TjqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=nyh7O6GF+OVaSTDTw+F5d1kvV+sQUZN0s26GnSFsQkk=;
+	b=qEJ/ZF/mrezHtETGlpgFnAFAemGCm05ACFZ/XHJW6YQBuKwfEzp4porcxWVSKsdKgp
+	n+gQ2wLDrmuAdsalrayqItOQD7Hi66x/bhDuzXpa2SMU9Uu2nU7FJ7G1tfVOpeg9zpzm
+	FXlXzsdhAz4s671Hjf/7hHcM00Sr4fJmThA93g1+MOtK5BnvsqOFiIChCQuGu7C8ZxUh
+	FcSL71d/5Rdf93FLFd1qG3D0a7UDvSaN1/+uwMwAnppRBZNgrJOFsX1k8AWj+FH1G+XR
+	uglFmwIr60mcd2sEfiSsck1ziorE87kJvzR0Y2xBi1nr9fzxz/3Bp/VT3hb2cyePRuFM
+	FegA==
+X-Gm-Message-State: APjAAAW0UhKjVf6DYT59/lBRIcc8D0PM8OM4pkbSoFb+ffea74OHh9WN
+	2LKT1h6p2Xj+ac529LIP2k44P/hvG8+xi0zpVp2kIMIb
+X-Google-Smtp-Source: APXvYqxTrdL14uSu2q9PdTOuqWIcSY35YbmuL6B3nrttLExfr0BbsxSBCK7oguaUfB5ApReGUk+/z7K62goJE8OvNRw=
+X-Received: by 2002:a2e:9449:: with SMTP id o9mr4182761ljh.75.1573678490379;
+	Wed, 13 Nov 2019 12:54:50 -0800 (PST)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Wed, 13 Nov 2019 17:32:25 -0000
-Message-ID: <20191113173225.2331.91101@do>
-References: <20191113170235.9907-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20191113170235.9907-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3ZlLWNoZWNrOiBmZXRjaCBDVkUgZGF0YSBvbmNlIGF0IGEgdGltZSBpbnN0ZWFkIG9mIGluIGEgc2luZ2xlIGNhbGwgKHJldjMp?=
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Thu, 14 Nov 2019 09:54:39 +1300
+Message-ID: <CADySD0F1Rbu3H4X78HaZx8TtppA=raGcwJkQX13UXviL9FCB1g@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: How to set up custom layer correctly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +49,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 17:32:23 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 13 Nov 2019 20:54:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+Hi,
 
-Series: cve-check: fetch CVE data once at a time instead of in a single call (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/21124/
-State : failure
+I have a custom layer for custom board based upon am335x-evm and custom images.
 
-== Summary ==
+I have a master layer called "my-custom-layer" which has three sub-layers
+- my-custom-distro : custom distro based upon TI's 'arago' distro, Qt
+and other s/w recipe appends
+- my-custom-image : custom images, packagegroups, toolchain recipes
+- my-custom-machine : custom machine conf, bsp and kernel recipes
+
+When I am building my image, it throws numerous warnings like below
+for almost all packages in the image:
+
+eudev-3.2.7-r0.3.arago5 do_package_qa: QA Issue: libudev rdepends on
+u-boot-custom-src, but it isn't a build dependency, missing
+u-boot-custom in DEPENDS or PACKAGECONFIG? [build-deps]
+WARNING: eudev-3.2.7-r0.3.arago5 do_package_qa: QA Issue: eudev
+rdepends on u-boot-custom-src, but it isn't a build dependency,
+missing u-boot-custom in DEPENDS or PACKAGECONFIG? [build-deps]
+WARNING: libinput-1.11.3-r0 do_package_qa: QA Issue: libinput rdepends
+on u-boot-custom-src, but it isn't a build dependency, missing
+u-boot-custom in DEPENDS or PACKAGECONFIG? [build-deps]
+WARNING: libinput-1.11.3-r0 do_package_qa: QA Issue: libinput-bin
+rdepends on u-boot-custom-src, but it isn't a build dependency,
+missing u-boot-custom in DEPENDS or PACKAGECONFIG? [build-deps]
 
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+And once sstate-cache is built and if I try to reuse it after bumping
+u-boot-custom to new SRCREV then I get errors like:
 
+Collected errors:
+ * Solver encountered 2 problem(s):
+ * Problem 1/2:
+ *   - nothing provides u-boot-custom-src >= 2019.01+git0+b31ea1d606
+needed by linux-custom-src-4.19.73+git0+d02acfec3d-gamos.wsl
+ *
+ * Solution 1:
+ *   - do not ask to install a package providing packagegroup-ggl-base
 
+ * Problem 2/2:
+ *   - nothing provides u-boot-custom-src >= 2019.01+git0+b31ea1d606
+needed by linux-custom-src-4.19.73+git0+d02acfec3d-gamos.wsl
+ *
+ * Solution 1:
+ *   - do not ask to install a package providing packagegroup-ggl-qt
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 4dc804b2de)
+Something is definitely not right the way I am have setup my layers
+but I would like to understand what is wrong, why it is wrong and what
+is the recommended way to do it
+Because in future I would like to add different machines, distros and
+images for different custom products. That is why instead of putting
+everything inside one layer I thought of keeping a separate layer for
+each.
 
+Looking forward to learning from your responses.
 
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Thanks
+Ankur
 
