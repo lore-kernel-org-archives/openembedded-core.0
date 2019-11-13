@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
 	[209.85.210.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A8DF7F4FE
+	by mail.openembedded.org (Postfix) with ESMTP id 2F4FA7F696
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:19:50 +0000 (UTC)
-Received: by mail-pf1-f174.google.com with SMTP id 3so1855502pfb.10
+	Wed, 13 Nov 2019 15:19:52 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id c184so1887375pfb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:19:52 -0800 (PST)
+	Wed, 13 Nov 2019 07:19:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=oxeNINvdXdoXPk9HZ2lF7hGf8vlVmA28NJJLVhCCnD4=;
-	b=vBaQfSqETu5jOnh546rwYqtcOnE8dbBsDmGK+iiWTfEZ2cxmNgzPaVb5lk8x4G7Kmw
-	wOi/d57bD41OHjAxb+6OpKI3qtxfIgmnZqvEsJltdZvpRvFCwJ7QaOIIpfmmXM1Y/ATs
-	LOE7Tllscq/i9/F07OHyy3nOcd80aGppGYhxJOGIqa0TCHS6S4/lrIdkTu69WnxKfZI/
-	18yTmOLX97HTfUnYaEvzukHSNCC5KmTfy47B92uamYhWnIvOhW0y0rZP0aqdQRoHdNqZ
-	lZ36cDw26FhhU5XS5A4285pQy5dVrI/zW38tCLC0TGoDK7C8uh1I+Tf19H4cFJofupII
-	j1xQ==
+	bh=7MnOYxcNinRORXQJPvCRTk7t8Oouos/PX+2a+PltYdY=;
+	b=GXBi0peVNwaD4360+98XZ8jClZpMI+u5YGqNjadHn019AKzWkjHoNcxWU+4sdxdze5
+	qCK72HXewDoN9e4mJb60LWX8UrHGHhTyaiSzFm3i/Cr6Me6ClcqG3NUFGTDA8t5F5Hnp
+	DFLhicZt3gCmlUQTR+fNlRp/eo5tGS2/cGsMC5jJYVclRI+Zo1MmXl6fL/fczYS8su3+
+	X5N7RU3tHdMqZtGio1qaFLp1niD+m6jom2qWv2pnRgeI71cdiQFVEN+FIOXdjWG6qrZX
+	kOy+VArbWoFOpNnTViyOi85HGhzmb0AQ1v6Mg7XB5Si2WreXf97SPjmXlUSZSePCEItm
+	tF0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=oxeNINvdXdoXPk9HZ2lF7hGf8vlVmA28NJJLVhCCnD4=;
-	b=TEdL3LZvR2PIkNs3ziwKISMv3IPj67roYWjNzILuGksMir73qMgCeP3AhqwEymuE4X
-	m4aA2dbGXzfJVPmk0ruaVkmHT/htAan/B1kVgW+OL7dQ8/Tq6JEkgnO4+nJ4+5F650hR
-	LjyxifAf+wR/NA1TxDrWpC9Vcgh6/QIU2gtL0Pd8VcHr7D/nlDKGPf3wuoQTPqpE4JMa
-	Ub6XXgVVTT8+CZMovgPpWrdsv/bmx2XXKYOAtJDkWX0newwUsItaXxyi2g+M8515kd8W
-	dSfjHFDNr+8aZXnquIbFw6ywE/irffTtH+S0rMqLwg/V0g6E/jKGKjYDrbVBSbq0BoSS
-	dQTQ==
-X-Gm-Message-State: APjAAAVZGCRfgUwbIQmKzUks+ix3vn47K6dYuocQWHYX6KbRNYmRoLoP
-	IPoA5JrBx3mX9sEhTTQMvySQ4fFa
-X-Google-Smtp-Source: APXvYqz3dkOqucXaMKGYGkb9m/DHPAj5kWvgQbfw5Du/3EyzcrNEz4/qDms5YTW78pBNOwpBhJHMbg==
-X-Received: by 2002:a62:7a85:: with SMTP id v127mr5147908pfc.141.1573658391890;
-	Wed, 13 Nov 2019 07:19:51 -0800 (PST)
+	bh=7MnOYxcNinRORXQJPvCRTk7t8Oouos/PX+2a+PltYdY=;
+	b=ZiJlPRRoQaS/NCDDRVoRpE50hpHkeSWd7F23cD2sTW5tzeCl1bZ7RrljXVCZASFdNl
+	+B5diQKfU+Pxv687FEma/twXrZROUqN7yXCSPgNRZfkyVDol36FqShS55vpOXqs53syD
+	7HXP2hfXdsXX2pxUlIU1sIFiMR9HRQ09gVmAblTMUWotezdpcpfNQkfUh3k9McA7U4ZK
+	l/XHiS6wtoa0Ni4aNQ2m/kSnk2fTm7Ow74pVSQ11BdeGtEnhRrNp2eKO8UrHB5PQQrCw
+	q52dL6JmVkKgXYJgTk3xHAtlJhKMETvsJPqfX+8yRsoyAVCVn+wgrdtVxsEXJXHujihx
+	Tvvg==
+X-Gm-Message-State: APjAAAVkotIO2YKdJ/zsvujbphOE/sD3hZm3qShuxgdnk76DK+2IYjsL
+	cFdd1xWP4wtYhqzgfaU5W3QJb1tV
+X-Google-Smtp-Source: APXvYqy29HZdQDrGbdQXX/2fU1h4LvXsw3FiiS48eCf5rhqDoCKxWusOrKxpeo4F4VpY0Fz1VIuOkg==
+X-Received: by 2002:a62:1605:: with SMTP id 5mr5058136pfw.206.1573658393213;
+	Wed, 13 Nov 2019 07:19:53 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
-	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.19.51
+	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.19.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:19:51 -0800 (PST)
+	Wed, 13 Nov 2019 07:19:52 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:19:09 -0800
-Message-Id: <50e64732585e0d3abe0a8e589d2122a7dc06c826.1573658232.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:19:10 -0800
+Message-Id: <62f79dbbc656dc72423a7788ed7439e7d730fd81.1573658232.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658232.git.akuster808@gmail.com>
 References: <cover.1573658232.git.akuster808@gmail.com>
-Subject: [warrior 06/25] tzdata: Correct the packaging of /etc/localtime and /etc/timezone
+Subject: [warrior 07/25] devtool: finish: Keep patches ordered when updating bbappend
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,50 +58,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 15:19:51 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 15:19:52 -0000
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Niclas Svensson <niclass@axis.com>
 
-During restructuring of the packaging in 2af4d6eb (tzdata: Install
-everything by default), these two files remained in the tzdata
-package, which is supposed to be empty. Move them to tzdata-core where
-they belong.
+The _get_patchset_revs() function returns the patches in an
+OrderedDict to keep them ordered. However, this information was lost
+when the patches were added to the bbappend file.
 
-Also simplify the definition of CONFFILES_tzdata-core. As its value
-only takes effect for files that actually exist, there is no need to
-complicate its definition by checking if a file is created before
-adding it to the list of configuration files.
-
+Signed-off-by: Niclas Svensson <niclas.svensson@axis.com>
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/timezone/tzdata.bb | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ scripts/lib/devtool/standard.py | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
-index 82fe369..1e2d9bd 100644
---- a/meta/recipes-extended/timezone/tzdata.bb
-+++ b/meta/recipes-extended/timezone/tzdata.bb
-@@ -147,6 +147,8 @@ FILES_tzdata-misc += "${datadir}/zoneinfo/Cuba           \
- RPROVIDES_tzdata-misc = "tzdata-misc"
- 
- FILES_tzdata-core += " \
-+                ${sysconfdir}/localtime                  \
-+                ${sysconfdir}/timezone                   \
-                 ${datadir}/zoneinfo/Pacific/Honolulu     \
-                 ${datadir}/zoneinfo/America/Anchorage    \
-                 ${datadir}/zoneinfo/America/Los_Angeles  \
-@@ -202,8 +204,7 @@ FILES_tzdata-core += " \
-                 ${datadir}/zoneinfo/iso3166.tab          \
-                 ${datadir}/zoneinfo/Etc/*"
- 
--CONFFILES_tzdata-core += "${@ "${sysconfdir}/timezone" if bb.utils.to_boolean(d.getVar('INSTALL_TIMEZONE_FILE')) else "" }"
--CONFFILES_tzdata-core += "${sysconfdir}/localtime"
-+CONFFILES_tzdata-core = "${sysconfdir}/localtime ${sysconfdir}/timezone"
- 
- ALLOW_EMPTY_${PN} = "1"
- RDEPENDS_${PN} = "${TZ_PACKAGES}"
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index dcb6bf9..b944ec3 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -1520,17 +1520,17 @@ def _update_recipe_patch(recipename, workspace, srctree, rd, appendlayerdir, wil
+                                           patches_dir, changed_revs)
+         logger.debug('Pre-filtering: update: %s, new: %s' % (dict(upd_p), dict(new_p)))
+         if filter_patches:
+-            new_p = {}
+-            upd_p = {k:v for k,v in upd_p.items() if k in filter_patches}
++            new_p = OrderedDict()
++            upd_p = OrderedDict((k,v) for k,v in upd_p.items() if k in filter_patches)
+             remove_files = [f for f in remove_files if f in filter_patches]
+         updatefiles = False
+         updaterecipe = False
+         destpath = None
+         srcuri = (rd.getVar('SRC_URI', False) or '').split()
+         if appendlayerdir:
+-            files = dict((os.path.join(local_files_dir, key), val) for
++            files = OrderedDict((os.path.join(local_files_dir, key), val) for
+                          key, val in list(upd_f.items()) + list(new_f.items()))
+-            files.update(dict((os.path.join(patches_dir, key), val) for
++            files.update(OrderedDict((os.path.join(patches_dir, key), val) for
+                               key, val in list(upd_p.items()) + list(new_p.items())))
+             if files or remove_files:
+                 removevalues = None
 -- 
 2.7.4
 
