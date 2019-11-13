@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D37797F68E
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+	[209.85.210.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 431527F43D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:20:07 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id 193so1845931pfc.13
+	Wed, 13 Nov 2019 15:20:08 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id p26so1866913pfq.8
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 13 Nov 2019 07:20:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=XO4XBSYf5Eta+0Mi9Bt4K2thNmOOqWCYvmdMR6KGTYc=;
-	b=Okr1u/KD1/bwutHANutNrl3VctpIO/VJQzaBex9bQwrmpvTcNuVTOagrDq7NOlg5cL
-	x5L4YLTsGyrVIGgj7jA/dlwIjvPvkn7AvoRhQljBH42ruGOgGqSfR+cd32v051W3AfEy
-	hKLSqcK3zEu7fl4YQ8hiUv+O+PqzMLtp/iOIvW37f2t9dV5boiH2lpN06t+nxGIPASRj
-	njWK6zfL3EX0gUSMs+x4xF6c7bdrN7SN6re4wTa3MvtjWJtmYew8xQtqACtLCrkJan9u
-	MaKzpGWFWqVxFeJl8e0XhWKGaGH9US+ft2CW5Yu4nRKhCZB87DdDvwcgRDLoaEbsd4/n
-	tjTQ==
+	bh=fJbYuqd4bNUjDoumyybIf4rd0vi2vpQPAkgcdvpSVlc=;
+	b=bhsbxBEfjz0KzuFxy7X7LAMZ1WzxaJaUCP6NTDZUD6dWWebcAm2yU2046Al2lD9yra
+	4Jx00IUaBfTp7yJAQuwRggQBdQ74vF0UEz3UXNywzfilo/l5JCysgjZQrVg9iQh8JTZE
+	OfHDsMDwNumrvuV1Quo9LV16CuQU57pITwUfAdMTpurit9C/DI7+awMnAZQBpxP9LNvK
+	CSTO+/gfJ5aAtEs/kN+2AAJ3A+YUd4PA43nBwEAfNLXV3WAf1C1tsEV7FA1G+oK2zpc9
+	I3gtQEWCgAD9V9ueQlPTS2RPG2Yzd5NvAEArMV0WxUxgV/WwcJvMQKiz6uWps+LTAt9c
+	Li4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=XO4XBSYf5Eta+0Mi9Bt4K2thNmOOqWCYvmdMR6KGTYc=;
-	b=SrZdgM62hQ2XWtEGTF6B3Vc1sbad+dY/TbXtjha4uOfzGWo0Sgc0P0ZXjAS4KPRdie
-	D2Xw6nAB8nkrms9Bgp2rdJ5j58yzXxTE74YZB9jL2WJZuxzeqxX+iE6S+tmmUlW9yUQK
-	2HgvNZW74mKwnS95pcGzIbLhrXlinSea1nJ/ED+gMCxNoHn2LQ+wAAKqNVDf0TbDGYSU
-	RUIEk5sGRZcAi4BfKasLQ8LNk35D/LjXAFEtWhNy70e7uAyDLm8MxAaAR6uCtzp43PSx
-	6OLFZzB8/woPZRQ6JKxRSIiPDpzjmBuWOhE7fcYUkJeaIOCeMjCiQibHHk53zwezy+/0
-	9R/Q==
-X-Gm-Message-State: APjAAAWXIS/KDwZfzS0VyoSJkhDYEnkE0K8LLb5uga0o0OLymeIZA5LS
-	SyFbpjfIOHOLJiAequ+vlYSmg0BJ
-X-Google-Smtp-Source: APXvYqwvuQGcp146qjuVLW9duJhIQdLP1y7ZTYtBxt+1IpEA2tFhyc/8u+0f/d9NxUA6v4m1SNkRVg==
-X-Received: by 2002:a17:90a:cb8f:: with SMTP id
-	a15mr5556141pju.111.1573658408201; 
-	Wed, 13 Nov 2019 07:20:08 -0800 (PST)
+	bh=fJbYuqd4bNUjDoumyybIf4rd0vi2vpQPAkgcdvpSVlc=;
+	b=CxShkl06onMLUVKJhJZN7r5GyHzZbCSWSnORTzYT71/jGT0/taAG3sQ38wSRV6pc+E
+	yC3Q1Jf1Qr2i/7sxLmZ+rMqoa2rVTIM2QQGxD8CtHi2IsmG7OOq8VKyQaDhCXQrI7YG1
+	X3RlAWRnPp1qNcTamydKjoMIXI3lDr1zd+IeW5jctg/Nh8cJsJ2TU3rd3ayIbWO7S2FZ
+	6HGkeuMF6pEgG3GIrX6hd+59ckADH8WNjqUiGBc3s451a6m+XlAjjQN0u4SoSNyWc99S
+	IToWVVsC4tatuq19y18Ot+bAg8E8yi8KCOUu/ii+WO+2x2YYf9pmWnm7YeH2mVUoFzSc
+	H/QA==
+X-Gm-Message-State: APjAAAVRWbiEYoOC/ipvyZEutV+ZyqrzDQJAT9W01XmGSLGytCppZJph
+	sSNZuPPz7nRBp0RamL23keUTv9jx
+X-Google-Smtp-Source: APXvYqx8/lR0dMyO4bJBlJ1pLCDTMJqyF9le9KyL+tqTyxzlpXpvD49HlG9zbJBpdDU94FIp4mcG7w==
+X-Received: by 2002:a17:90a:fa96:: with SMTP id
+	cu22mr5634406pjb.121.1573658409081; 
+	Wed, 13 Nov 2019 07:20:09 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
-	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.07
+	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.08
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:20:07 -0800 (PST)
+	Wed, 13 Nov 2019 07:20:08 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:19:25 -0800
-Message-Id: <c8c13ceafa3b12d2676b86182cb422681d465004.1573658232.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:19:26 -0800
+Message-Id: <1c09e45f966d553f1fea3795ef9122dd9957be67.1573658232.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658232.git.akuster808@gmail.com>
 References: <cover.1573658232.git.akuster808@gmail.com>
-Subject: [warrior 22/25] pseudo: Drop static linking to sqlite3
+Subject: [warrior 23/25] pseudo: Add statx support to fix fedora30 issues
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,80 +63,143 @@ X-List-Received-Date: Wed, 13 Nov 2019 15:20:08 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Back in 2010[1] we made pseudo statically link against sqlite3. Since then
-the world has changed, pseudo now has separate processes for the database
-in the server and the client and they have separate linking commands.
-
-Also, whilst there were concerns about needing specific versions of sqlite3,
-in the OE environment, this is always the case.
-
-[1] http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ad0ac0ecd38fc77daf42485489fccc10a5e1e3e7
-
-The static sqlite3-native is causing us problems, in particular:
-
-tmp/work/x86_64-linux/pseudo-native/1.9.0+gitAUTOINC+060058bb29-r0/recipe-sysroot-native/usr/lib/libsqlite3.a(sqlite3.o):(.data.rel+0xb0): undefined reference to `fcntl64'
-
-which occurs if sqlite3-native was built on a machine with glibc 2.28 or later
-and pseudo-native is being built on glibc before that. With dyanmical linking,
-libc is backwards compatible and works but with static linking it does not.
-
-There appears to be no easy way to avoid this other than adding a copy of
-sqlite3 into the pseudo recipe. Given the static linking doesn't seem to
-be required any longer due to the separate processes, drop that to fix
-those issues.
+Modern distros (e.g. fedora30) are starting to use the new statx() syscall through
+the newly exposed glibc wrapper function in software like coreutils (e.g. the ls
+command). Add support to intercept this to pseudo.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[Fixup for warrior context]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/conf/distro/include/no-static-libs.inc |  4 ----
- meta/recipes-devtools/pseudo/pseudo.inc     | 17 ++---------------
- 2 files changed, 2 insertions(+), 19 deletions(-)
+ .../pseudo/files/0001-Add-statx.patch              | 106 +++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb         |   1 +
+ 2 files changed, 107 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
 
-diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
-index 712d858..cabca7e 100644
---- a/meta/conf/distro/include/no-static-libs.inc
-+++ b/meta/conf/distro/include/no-static-libs.inc
-@@ -15,10 +15,6 @@ DISABLE_STATIC_pn-nativesdk-libcap = ""
- DISABLE_STATIC_pn-libpcap = ""
- # needed by gdb
- DISABLE_STATIC_pn-readline = ""
--# needed by pseudo
--DISABLE_STATIC_pn-sqlite3 = ""
--DISABLE_STATIC_pn-sqlite3-native = ""
--DISABLE_STATIC_pn-nativesdk-sqlite3 = ""
- # openjade/sgml-common have build issues without static libs
- DISABLE_STATIC_pn-sgml-common-native = ""
- DISABLE_STATIC_pn-openjade-native = ""
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index 8b34909..7ff8e44 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -30,23 +30,10 @@ PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback --enable-ep
+diff --git a/meta/recipes-devtools/pseudo/files/0001-Add-statx.patch b/meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
+new file mode 100644
+index 0000000..f01e699
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
+@@ -0,0 +1,106 @@
++From 4e41a05de1f34ba00a68ca4f20fb49c4d1cbd2d0 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Wed, 6 Nov 2019 12:17:46 +0000
++Subject: [PATCH] Add statx glibc/syscall support
++
++Modern distros (e.g. fedora30) are starting to use the new statx() syscall through
++the newly exposed glibc wrapper function in software like coreutils (e.g. the ls
++command). Add support to intercept this to pseudo.
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Submitted [Emailed to seebs]
++---
++ ports/linux/guts/statx.c | 48 ++++++++++++++++++++++++++++++++++++++++
++ ports/linux/portdefs.h   |  1 +
++ ports/linux/wrapfuncs.in |  1 +
++ 3 files changed, 50 insertions(+)
++ create mode 100644 ports/linux/guts/statx.c
++
++diff --git a/ports/linux/statx/guts/statx.c b/ports/linux/statx/guts/statx.c
++new file mode 100644
++index 0000000..a3259c4
++--- /dev/null
+++++ b/ports/linux/statx/guts/statx.c
++@@ -0,0 +1,42 @@
+++/*
+++ * Copyright (c) 2019 Linux Foundation
+++ * Author: Richard Purdie
+++ *
+++ * SPDX-License-Identifier: LGPL-2.1-only
+++ *
+++ * int
+++ * statx(int dirfd, const char *pathname, int flags, unsigned int mask, struct statx *statxbuf) {
+++ *	int rc = -1;
+++ */
+++	pseudo_msg_t *msg;
+++	PSEUDO_STATBUF buf;
+++	int save_errno;
+++
+++	rc = real_statx(dirfd, pathname, flags, mask, statxbuf);
+++	save_errno = errno;
+++	if (rc == -1) {
+++		return rc;
+++	}
+++
+++	buf.st_uid = statxbuf->stx_uid;
+++	buf.st_gid = statxbuf->stx_gid;
+++	buf.st_dev = makedev(statxbuf->stx_dev_major, statxbuf->stx_dev_minor);
+++	buf.st_ino = statxbuf->stx_ino;
+++	buf.st_mode = statxbuf->stx_mode;
+++	buf.st_rdev = makedev(statxbuf->stx_rdev_major, statxbuf->stx_rdev_minor);
+++	buf.st_nlink = statxbuf->stx_nlink;
+++	msg = pseudo_client_op(OP_STAT, 0, -1, dirfd, pathname, &buf);
+++	if (msg && msg->result == RESULT_SUCCEED) {
+++		pseudo_debug(PDBGF_FILE, "statx(path %s), flags %o, stat rc %d, stat uid %o\n", pathname, flags, rc, statxbuf->stx_uid);
+++		statxbuf->stx_uid = msg->uid;
+++		statxbuf->stx_gid = msg->gid;
+++		statxbuf->stx_mode = msg->mode;
+++		statxbuf->stx_rdev_major = major(msg->rdev);
+++		statxbuf->stx_rdev_minor = minor(msg->rdev);
+++	} else {
+++		pseudo_debug(PDBGF_FILE, "statx(path %s) failed, flags %o, stat rc %d, stat uid %o\n", pathname, flags, rc, statxbuf->stx_uid);
+++	}
+++	errno = save_errno;
+++/*	return rc;
+++ * }
+++ */
++diff --git a/ports/linux/statx/portdefs.h b/ports/linux/statx/portdefs.h
++new file mode 100644
++index 0000000..bf934dc
++--- /dev/null
+++++ b/ports/linux/statx/portdefs.h
++@@ -0,0 +1,6 @@
+++/*
+++ * SPDX-License-Identifier: LGPL-2.1-only
+++ *
+++ */
+++#include <sys/stat.h>
+++#include <sys/sysmacros.h>
++diff --git a/ports/linux/statx/wrapfuncs.in b/ports/linux/statx/wrapfuncs.in
++new file mode 100644
++index 0000000..c9cd4c3
++--- /dev/null
+++++ b/ports/linux/statx/wrapfuncs.in
++@@ -0,0 +1 @@
+++int statx(int dirfd, const char *pathname, int flags, unsigned int mask, struct statx *statxbuf);
++diff --git a/ports/linux/subports b/ports/linux/subports
++index a29044a..49081bf 100755
++--- a/ports/linux/subports
+++++ b/ports/linux/subports
++@@ -54,3 +54,13 @@ else
++ fi
++ rm -f dummy.c dummy.o
++ 
+++cat > dummy.c <<EOF
+++#define _GNU_SOURCE
+++#include <sys/stat.h>
+++struct statx x;
+++EOF
+++if ${CC} -c -o dummy.o dummy.c >/dev/null 2>&1; then
+++	echo "linux/statx"
+++fi
+++rm -f dummy.c dummy.o
+++
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 6cf711e..7db5baf 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -6,6 +6,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
+            file://fallback-group \
+            file://moreretries.patch \
+            file://toomanyfiles.patch \
++           file://0001-Add-statx.patch \
+            "
  
- # Compile for the local machine arch...
- do_compile () {
--        SQLITE_LDADD='$(SQLITE)/$(SQLITE_LIB)/libsqlite3.a'
--	for sqlite_link_opt in $(pkg-config sqlite3 --libs --static)
--	do
--	    case "$sqlite_link_opt" in
--	    -lsqlite3)
--		;;
--	    -l*)
--		SQLITE_LDADD="${SQLITE_LDADD} ${sqlite_link_opt}"
--		;;
--	    *)
--		;;
--	    esac
--	done
- 	if [ "${SITEINFO_BITS}" = "64" ]; then
--	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --with-static-sqlite="$SQLITE_LDADD" --without-rpath
-+	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
- 	else
--	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --with-static-sqlite="$SQLITE_LDADD" --without-rpath
-+	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
- 	fi
- 	oe_runmake ${MAKEOPTS}
- }
+ SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
 -- 
 2.7.4
 
