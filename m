@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B4527F82A
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 41FAC7F8AA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:32:53 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id bb5so1226289plb.4
+	Wed, 13 Nov 2019 15:32:55 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id 15so1598071pgh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:32:55 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=EhTtpeSQR9dndN/cJBZLsQv7EfcgQiZUVWGJD/lk7Oc=;
-	b=PupSuUXYj/tjLtO7i2/9GI28JSKdn6/dN6HpmvsWThdSnNzyFbdeY1L1NNTHBLw9oO
-	j9Tq0EPKuBIp9NP05c93hEiF0C+rgIjd8H9hc53BPi5blxPMJVBhQnhd5KJZ/R8kDjLm
-	V4IBeg2O8cn/zCs9H+8Lge4amLiVWF+EuXweYtzPfPY6lzXb9WGB2KwFnaASyXb0KLVx
-	DnBhBdF1k5Cm0oksC4DcE7FyKy4HGko34RpbEFPdMprzNY2vUzOXpYqfq1I82qN+2hO5
-	uiWGhdkLrG4OpOBXsHwEc9OSJYrtgCnyQempkB0oX0d88ZUEXFjCCa3uFq2+W7deMoe0
-	wa7Q==
+	bh=QaFVveUaioki+mNjrq5iWu55ySD8Fofp88iCF/w3oC4=;
+	b=XY5qiyWfmCRZCyzhzJPnfybzIybxbC+waXMUraI2lHme+IoP3KBo+VAjUNOC+xG1AP
+	17duApWkWUBMyeYd/edi8L/eZOqoPgkOAG+2z+IvkVZK6b+fds9jF7k0xsK9AfE74Lvg
+	pDDVdJFSTaIqCDlT4sH99VNMMWb8Cy0RsS9nahZhxmOgrquhEnQJSwDTDQk5zr6CK/7o
+	0nUwVC6PHyqQj76x7fNO/u3/sfEH/dCFDbMgec+injUrn3IiYgijhdDo5G/hR6pxRXTU
+	sZOi62l1esnMycUps/soR9T/cIahcM6psVGdiNz+3Tj+EXFjDvLJQtF8PZ2ATe9Vu8iR
+	zEtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=EhTtpeSQR9dndN/cJBZLsQv7EfcgQiZUVWGJD/lk7Oc=;
-	b=rWmrduTW85mUXk2e949aRko/NnMdO/jvhO99JfMydMSl82wYZQXhEcw0ap/pjLOP4N
-	H9ubciYHwjfRis2JTkfs1YlH0I907fUoyZY1lmXK08I3yWEStfw43VLE8tcJbzgGlydP
-	4Po2VnaWC2ca2BMOsaYrcmwjNYNVSSGuT+KzpqozDf2Z9tQtTe0WrEJL8+yFxyes2/ZK
-	vRdabmV0L8FZDal2VggcRtSV/MwyzvQS1V3USZwwLjFh+XGgM3PEf+0Gg8EErraQYq3c
-	JX91iF+3sXJT6ig8Qknc/B6eiuusAjhrlX1cx8SrSHF+Ghcyf8uQ/s5/JtWq/eQL9EBC
-	rjTw==
-X-Gm-Message-State: APjAAAXy6XZ/JH7TwFWtDSbt3nBcXbAd2/utFaa6xoVpCtqXi/PC34kG
-	MLRYGh4H3AwBrAApWWpSGYJXD4wo
-X-Google-Smtp-Source: APXvYqwEaQKHz9qWj2ap5+dDdV8UjpeRo0od+8eyoaTChRYQ2C98mKsPjCZ2bR6QWMt2vqZLiZ7KMA==
-X-Received: by 2002:a17:902:7d8c:: with SMTP id
-	a12mr4366808plm.221.1573659174928; 
-	Wed, 13 Nov 2019 07:32:54 -0800 (PST)
+	bh=QaFVveUaioki+mNjrq5iWu55ySD8Fofp88iCF/w3oC4=;
+	b=a4tl2+eMLf9Yrb9UhLVG8yxCNLL3+/LkFIoErgPqHskkgcx4cCBGYu3RN+gZcknl3W
+	p2SguHH/ncfikJlseaZtFEc7SnxXIYLAIafxEY9b/FYxbEyzHBvmDbtx4NKZ6RlEtXAQ
+	cXzMhYiVzjjlgK6eQI6561+VHmDmzS1Err7iy5jRSc4mYJ33B+mr1cWeyI4h9JQiYr1L
+	378R2qj1U8MhwKayxnk14pP8EaYqTkwbEcCEuWClPyo68bBdbnUsQzKmkUiikOnfvwSC
+	6uF3BeOfK7UcwuI5tBO1KuGIl/bFJn4upYqYY+wCgPH6gGDnPN89tOQK+E9TYsVzxOxC
+	Y2Ww==
+X-Gm-Message-State: APjAAAXcHDK7zz4/MsWAj2qE9UPrLH8YCRm3+CP9LJlRfiWC8vYVidze
+	HlDOZ99DWeAuV5GPaZckvt+NxxNC
+X-Google-Smtp-Source: APXvYqxe3Fti4RzUS5UK0DSzj3ozMVsZQuOYty9mVGIkCzFDTWeeG+4ZGyi5ABqmRqh6bscXbFJp0g==
+X-Received: by 2002:a17:90a:c981:: with SMTP id
+	w1mr5718858pjt.126.1573659175887; 
+	Wed, 13 Nov 2019 07:32:55 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
 	by smtp.gmail.com with ESMTPSA id
-	s18sm3713613pfm.27.2019.11.13.07.32.53
+	s18sm3713613pfm.27.2019.11.13.07.32.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:32:54 -0800 (PST)
+	Wed, 13 Nov 2019 07:32:55 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:32:11 -0800
-Message-Id: <0b9748c655b6f733b504e70288f4b91dca2e4d58.1573658916.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:32:12 -0800
+Message-Id: <adc0a31169f59d0183c327347b9ab3bcebb1aef2.1573658916.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658915.git.akuster808@gmail.com>
 References: <cover.1573658915.git.akuster808@gmail.com>
-Subject: [zeus 29/31] libtirpc: create the symbol link for rpc header files
+Subject: [zeus 30/31] initscripts/sysfs.sh: Mount /sys/firmware/efi/efivars when possible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,49 +60,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 15:32:54 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 15:32:55 -0000
 
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
+From: Haris Okanovic <haris.okanovic@ni.com>
 
-Since the Sun RPC is deprecated in glibc, the rpc header files
-are not provided any more, but it allows alternative RPC
-implementations, such as TIRPC or rpcsvc-proto, to be used.
+Without this change, efibootmgr is unable to recover BootOrder if lost
+during a previous write operation, e.g. exceeded storage capacity. This
+is problematic using EFI to manage boot flow from Linux (E.g. via RAUC).
 
-So we create the symbol link for rpc header files for tirpc to
-be more compatible with the glibc version and the application usage.
+https://www.kernel.org/doc/Documentation/filesystems/efivarfs.txt
 
-Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+Signed-off-by: Haris Okanovic <haris.okanovic@ni.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-index 9c480b8..8977a37 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-@@ -23,6 +23,20 @@ EXTRA_OECONF = "--disable-gssapi"
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+index f5b5b99..4871ee9 100644
+--- a/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/sysfs.sh
+@@ -26,6 +26,10 @@ if [ -e /sys/kernel/config ] && grep -q configfs /proc/filesystems; then
+   mount -t configfs configfs /sys/kernel/config
+ fi
  
- do_install_append() {
-         chown root:root ${D}${sysconfdir}/netconfig
-+        install -d ${D}${includedir}/rpc
-+        install -d ${D}${includedir}/rpcsvc
-+        for link_header in ${D}${includedir}/tirpc/rpc/*; do
-+            if [ -f $link_header -a ! -e ${D}/${includedir}/rpc/$(basename $link_header) ]; then
-+                ln -sf ../tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpc/$(basename $link_header)
-+            fi
-+        done
-+        for link_header in ${D}${includedir}/tirpc/rpcsvc/*; do
-+            if [ -f $link_header -a ! -e ${D}/${includedir}/rpcsvc/$(basename $link_header) ]; then
-+                ln -sf ../tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpcsvc/$(basename $link_header)
-+            fi
-+        done
-+        ln -sf  tirpc/netconfig.h ${D}/${includedir}/netconfig.h
++if [ -e /sys/firmware/efi/efivars ] && grep -q efivarfs /proc/filesystems; then
++  mount -t efivarfs efivarfs /sys/firmware/efi/efivars
++fi
 +
- }
- 
- BBCLASSEXTEND = "native nativesdk"
+ if ! [ -e /dev/zero ] && [ -e /dev ] && grep -q devtmpfs /proc/filesystems; then
+   mount -n -t devtmpfs devtmpfs /dev
+ fi
 -- 
 2.7.4
 
