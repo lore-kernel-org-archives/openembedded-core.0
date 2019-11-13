@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
-	[209.85.210.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 180A17F7A1
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 280F37F7A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:20:02 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id q26so1850631pfn.11
+	Wed, 13 Nov 2019 15:20:03 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id ay6so1214957plb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:20:03 -0800 (PST)
+	Wed, 13 Nov 2019 07:20:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=O3Tc2HaSC4J+5GQ6YmhGULcPN4Upqm0aEKS2H+u8eXA=;
-	b=b+x1eb9LOnjM/2dUBLZPnRSJE3o8GHupxsnvDW7TK97qX4YCb19nDj/n0Xf1qASBUr
-	xWawabVoP32AuQHsA3UYWcg/Qxi5RvjKj5yqvF5BSDqMAeIYktxmDHoX562IxINeUtsm
-	miQ5gCp5LvcT+sZnEhAhHj7X9lTw9hdVij5zR8Xkq9jXkSHAA9HxU1mMIarRSG/giHhA
-	eitD0P59kecp4VNPMeKpEe3LXp1eyjJGQAJvicX/slB4d42fBF3iMM+bspPAvzu9QFUs
-	hp+9NTEsQoIo1fKoiTzMJurJ2IMXfxbnj0VLZ/PwybeB7M+SOMvk1K5hRaflRKuJ9FvV
-	Oq6A==
+	bh=PohExFcCdTBeqtY1XOUz4RY9bw3hljSRSH0QP5u3fVQ=;
+	b=HkAyQTXY/iZoUHqKuqICOpdD5I3G3vOZx8sk27hPOo3UKPjcccfgsJWORxZEChPf37
+	38iPwyu9S6/+84QRwZNB5qD93QQMyD0zqEbCBB2cKVg5dv/6Ty1+ZgMzUMAMX8Pl7YJL
+	2yfbzFPaymJsD7fSczfpHI/damsqCfCAjfcccYvqb/thpPPjQznqSOvPOluKXBexRH1r
+	Ymkxl2bPkA/k3WNXRDBumpmbS/Xx0MBY4bUBO2bLzoMwGWwi7K5EcF+mGEd1mQI4QHRr
+	CF9rFfz3nupVeRC1kMfhG8GfLMFJj4I1yfMgFu47etN/sH+4LuidvJg8zhLzI6b6mKSJ
+	fGXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=O3Tc2HaSC4J+5GQ6YmhGULcPN4Upqm0aEKS2H+u8eXA=;
-	b=ipJY6rON/NQmFpjQOe9W5Q/i5OHpOoefnvYdrNwZsq+xiZx99aYZPmq9X3HXv0ssY7
-	9Tifpo9fjzyb6bklwYD7rDejEeXJwgkDgZtEgCMNEDgsvv1yob4Cl3mNKf46+Cebkjii
-	Dp49yzWm62esWvPfZYjzOvwbCagi+O3D9mCc5hbn42qGqGe6aEsEwCiuD0UyznufIUqF
-	udAYJXFxAGYE0XYKM6W5Lw30Rm/DqTpjOFlWBOu/KJoQFURSuLf8o4XdViKYrY6X+AT9
-	pAjXdvFo4WgfxGGFnqSDIIrDV120rsPjVFyJGBuCfEaEpYINtggY4hhm6Dz7Elc1p644
-	3sxQ==
-X-Gm-Message-State: APjAAAVK/9a2sOIEIiP83L9aI8GtyeL7VFLny24Dgo4Bfux4RjA1r8mQ
-	X+vNBBcnEZKWRGS1eoad2v5JK2u+
-X-Google-Smtp-Source: APXvYqxrlPUN7TWpV21Ulr0EfOetqCgFRkmjKxGFRCSi1zeUKL9R8lKgSl7hfR26mabXF/MQp8LBfA==
-X-Received: by 2002:a17:90a:1b69:: with SMTP id
-	q96mr5649093pjq.89.1573658403210; 
-	Wed, 13 Nov 2019 07:20:03 -0800 (PST)
+	bh=PohExFcCdTBeqtY1XOUz4RY9bw3hljSRSH0QP5u3fVQ=;
+	b=EdG3MLcGw6eATRxhkADWnVMn7yRG+lQe8gRaRClpDtoMEv/qmOeJCnWy9QzOhCU74n
+	mgFR1M0bDasjuprRPZ2Wg5VxJYR/v4c7C9LUUY6ySgk7Twhuci8d/XBkfNuwUxIcMl8B
+	tPT38YiX7m5CttHPjZT0zNoBdmkWLQpQKY0qxV62bd1z6YU0CP5d9uj+KAguP7Iz5D30
+	407+IDvBjohN2ao3Fos5cejkk7dy37tqxODCIj7YfRT6Sj90VjlA1YTRwcM0HLweY5l3
+	LJ61mvL3BYz3LwiX/SGn0wlhxxfT+pF6wqQyvvd6xDIhKmP4q6i6a9U4hLNCEEZEx1er
+	Hj1A==
+X-Gm-Message-State: APjAAAUyIBTqxwitKgESNxozqzHHlwEaVUBWXY+2t/19517CV9f3Zuig
+	RnTG1imWjgpouRJN7nApEJKAPlDu
+X-Google-Smtp-Source: APXvYqxKPhW4c2fS0EUqk/WXm117VfLDUNh4Hl85ELszArqPgK4lsdmj5M4SJ4BTr8CiewT5/tOXTQ==
+X-Received: by 2002:a17:902:8e82:: with SMTP id
+	bg2mr4342521plb.240.1573658404086; 
+	Wed, 13 Nov 2019 07:20:04 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
-	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.02
+	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.03
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:20:02 -0800 (PST)
+	Wed, 13 Nov 2019 07:20:03 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:19:20 -0800
-Message-Id: <c2c6f30554f96e551b71b3d66fb599a5d28a10bb.1573658232.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:19:21 -0800
+Message-Id: <5b8022db53d9ef50ea35b034a6e27477038a508b.1573658232.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658232.git.akuster808@gmail.com>
 References: <cover.1573658232.git.akuster808@gmail.com>
-Subject: [warrior 17/25] python3: Fix .pyc file reproduciblility
+Subject: [warrior 18/25] python3: fix the test_locale output format
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,70 +61,98 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 13 Nov 2019 15:20:03 -0000
 
-From: Joshua Watt <jpewhacker@gmail.com>
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Applies a patch to python that makes the pre-compiled .pyc files
-generated during the build reproducible.
+Before this patch:
+ # python3 -m test -v test_locale
+ [snip]
+ test_getsetlocale_issue1813 (test.test_locale.TestMiscellaneous) ... testing with ('tr_TR', 'ISO8859-9') ok
+ [snip]
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ After this patch:
+ # python3 -m test -v test_locale
+ [snip]
+ test_getsetlocale_issue1813 (test.test_locale.TestMiscellaneous) ... testing with ('tr_TR', 'ISO8859-9')... ok
+ [snip]
+
+Make the test ended with "... ok" is common in python
+unittest world, we should make it keep consistent
+with other test cases in case it may be ignored to
+record in the report if we use the common filter
+"... ok".
+
+[YOCTO #13298]
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...-Use-FLAG_REF-always-for-interned-strings.patch | 35 ++++++++++++++++++++++
+ ..._locale.py-correct-the-test-output-format.patch | 46 ++++++++++++++++++++++
  meta/recipes-devtools/python/python3_3.7.4.bb      |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch
+ 2 files changed, 47 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch b/meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch
+diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
 new file mode 100644
-index 0000000..8fcb344
+index 0000000..35b7e0c
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch
-@@ -0,0 +1,35 @@
-+From 6c8ea7c1dacd42f3ba00440231ec0e6b1a38300d Mon Sep 17 00:00:00 2001
-+From: Inada Naoki <songofacandy@gmail.com>
-+Date: Sat, 14 Jul 2018 00:46:11 +0900
-+Subject: [PATCH] Use FLAG_REF always for interned strings
++++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
+@@ -0,0 +1,46 @@
++From b94995e0c694ec9561efec0d1a59b323340e6105 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Mon, 5 Aug 2019 15:57:39 +0800
++Subject: [PATCH] test_locale.py: correct the test output format
 +
-+Upstream-status: Submitted [https://github.com/python/cpython/pull/8226]
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
++Before this patch:
++ # python3 -m test -v test_locale
++ [snip]
++ test_getsetlocale_issue1813 (test.test_locale.TestMiscellaneous) ... testing with ('tr_TR', 'ISO8859-9') ok
++ [snip]
++
++ After this patch:
++ # python3 -m test -v test_locale
++ [snip]
++ test_getsetlocale_issue1813 (test.test_locale.TestMiscellaneous) ... testing with ('tr_TR', 'ISO8859-9')... ok
++ [snip]
++
++ Make the test ended with "... ok" is common in python
++ unittest world, we should make it keep consistent
++ with other test cases in case it may be ignored to
++ record in the report if we use the common filter
++ "... ok".
++
++Upstream-Status: Submitted [https://github.com/python/cpython/pull/15132]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 +---
-+ Python/marshal.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
++ Lib/test/test_locale.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Python/marshal.c b/Python/marshal.c
-+index 6d06266c6a..51db2e3b2e 100644
-+--- a/Python/marshal.c
-++++ b/Python/marshal.c
-+@@ -275,9 +275,14 @@ w_ref(PyObject *v, char *flag, WFILE *p)
-+     if (p->version < 3 || p->hashtable == NULL)
-+         return 0; /* not writing object references */
++diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
++index e2c2178..558d63c 100644
++--- a/Lib/test/test_locale.py
+++++ b/Lib/test/test_locale.py
++@@ -527,7 +527,7 @@ class TestMiscellaneous(unittest.TestCase):
++             self.skipTest('test needs Turkish locale')
++         loc = locale.getlocale(locale.LC_CTYPE)
++         if verbose:
++-            print('testing with %a' % (loc,), end=' ', flush=True)
+++            print('testing with %a...' % (loc,), end=' ', flush=True)
++         locale.setlocale(locale.LC_CTYPE, loc)
++         self.assertEqual(loc, locale.getlocale(locale.LC_CTYPE))
 + 
-+-    /* if it has only one reference, it definitely isn't shared */
-+-    if (Py_REFCNT(v) == 1)
-++    /* If it has only one reference, it definitely isn't shared.
-++     * But we use TYPE_REF always for interned string, to PYC file stable
-++     * as possible.
-++     */
-++    if (Py_REFCNT(v) == 1 &&
-++            !(PyUnicode_CheckExact(v) && PyUnicode_CHECK_INTERNED(v))) {
-+         return 0;
-++    }
-+ 
-+     entry = _Py_HASHTABLE_GET_ENTRY(p->hashtable, v);
-+     if (entry != NULL) {
 +-- 
-+2.21.0
++2.7.4
 +
 diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
-index e9ec604..bd86d51 100644
+index bd86d51..a3933b5 100644
 --- a/meta/recipes-devtools/python/python3_3.7.4.bb
 +++ b/meta/recipes-devtools/python/python3_3.7.4.bb
-@@ -26,6 +26,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
- 	   file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
+@@ -27,6 +27,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
  	   file://crosspythonpath.patch \
             file://reformat_sysconfig.py \
-+           file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
+            file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
++           file://0001-test_locale.py-correct-the-test-output-format.patch \
             "
  
  SRC_URI_append_class-native = " \
