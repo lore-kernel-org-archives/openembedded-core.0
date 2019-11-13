@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
 	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D17B7F68E
+	by mail.openembedded.org (Postfix) with ESMTP id D37797F68E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:20:06 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id x28so1870726pfo.6
+	Wed, 13 Nov 2019 15:20:07 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id 193so1845931pfc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:20:07 -0800 (PST)
+	Wed, 13 Nov 2019 07:20:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=EapGspgQNC571N61hXx4m1BuRKAG238rLm9pFBEr1Y4=;
-	b=bo8pJE7f18HdmnWtcSBMgEtjdZhIO1UK/b7u+fysLtuI2HWC6A1ml8oMfFv8ISTOxD
-	w6XA3tyvN605QvpGhkH5ywATdllOBdBpoQseLnua4iND2D9VaHGe+EiA5C4h1jxAuM74
-	ZvjOmjQSJhxYPSt2kTKdsc2WbFbN00ROse9TwcLTTiIyiZYLD3kNuAcrzoBBYUhJq/ej
-	x9LG7W3RbTbsQzlGziqCFxqHAebgO8SbUD8satoNI4mWL8LzzqQm+quA+qeZ2kJszjNN
-	3HRYqrvfPNsCHrrahafffkhFwWFz4i8fDEh3rjyqRuoAwcNuuuLU5HV1rHBxjkV9l4EL
-	Q/Rg==
+	bh=XO4XBSYf5Eta+0Mi9Bt4K2thNmOOqWCYvmdMR6KGTYc=;
+	b=Okr1u/KD1/bwutHANutNrl3VctpIO/VJQzaBex9bQwrmpvTcNuVTOagrDq7NOlg5cL
+	x5L4YLTsGyrVIGgj7jA/dlwIjvPvkn7AvoRhQljBH42ruGOgGqSfR+cd32v051W3AfEy
+	hKLSqcK3zEu7fl4YQ8hiUv+O+PqzMLtp/iOIvW37f2t9dV5boiH2lpN06t+nxGIPASRj
+	njWK6zfL3EX0gUSMs+x4xF6c7bdrN7SN6re4wTa3MvtjWJtmYew8xQtqACtLCrkJan9u
+	MaKzpGWFWqVxFeJl8e0XhWKGaGH9US+ft2CW5Yu4nRKhCZB87DdDvwcgRDLoaEbsd4/n
+	tjTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=EapGspgQNC571N61hXx4m1BuRKAG238rLm9pFBEr1Y4=;
-	b=YNDp9WwSHoQ8PF7WRozDlHf1jJ0qYbn86o0Y8jZknMC9jVsj1BonN65/GUD8lUxVRR
-	us8ZBz+Yxp0hj29pztn6YG7WoUStWiYLjztM+BvKDN97+bttzJvMj9ivj86PJ0C/8voL
-	8mGTHMO0Q4SQMkY214bHH5wdqijHkDOwJ1xwC1PlEbMgojhsIYJSjY1tLllScIJPpnXw
-	zIS0Jc1yNwVIPfGAojd8jvx4FHwDvD3ogzBw35VmruWt4WktePdaRZVxTb1/EPu7Ft/a
-	o+xtkjlLLuSBNIHO3srI/LU7bDY1oLvTqQO2qd2FS41uYhlNivuqdxXAG2Ac3GHFJVll
-	tFEQ==
-X-Gm-Message-State: APjAAAWmDQ+9AwTMY4p2Qh6zHnDYb8z4BigsztLEAkNZwyp+PBow2QKj
-	uCSKSX4MlIM9USTx8k9RxzwBV4CU
-X-Google-Smtp-Source: APXvYqwXMHcaCLgJOH4fd1K7J41gqRab2PDl/J3XA7UUL6fD6PawKs6gOviX0gaCzZ6EBqjWbHjUqg==
-X-Received: by 2002:a17:90a:3808:: with SMTP id
-	w8mr5712725pjb.143.1573658407050; 
-	Wed, 13 Nov 2019 07:20:07 -0800 (PST)
+	bh=XO4XBSYf5Eta+0Mi9Bt4K2thNmOOqWCYvmdMR6KGTYc=;
+	b=SrZdgM62hQ2XWtEGTF6B3Vc1sbad+dY/TbXtjha4uOfzGWo0Sgc0P0ZXjAS4KPRdie
+	D2Xw6nAB8nkrms9Bgp2rdJ5j58yzXxTE74YZB9jL2WJZuxzeqxX+iE6S+tmmUlW9yUQK
+	2HgvNZW74mKwnS95pcGzIbLhrXlinSea1nJ/ED+gMCxNoHn2LQ+wAAKqNVDf0TbDGYSU
+	RUIEk5sGRZcAi4BfKasLQ8LNk35D/LjXAFEtWhNy70e7uAyDLm8MxAaAR6uCtzp43PSx
+	6OLFZzB8/woPZRQ6JKxRSIiPDpzjmBuWOhE7fcYUkJeaIOCeMjCiQibHHk53zwezy+/0
+	9R/Q==
+X-Gm-Message-State: APjAAAWXIS/KDwZfzS0VyoSJkhDYEnkE0K8LLb5uga0o0OLymeIZA5LS
+	SyFbpjfIOHOLJiAequ+vlYSmg0BJ
+X-Google-Smtp-Source: APXvYqwvuQGcp146qjuVLW9duJhIQdLP1y7ZTYtBxt+1IpEA2tFhyc/8u+0f/d9NxUA6v4m1SNkRVg==
+X-Received: by 2002:a17:90a:cb8f:: with SMTP id
+	a15mr5556141pju.111.1573658408201; 
+	Wed, 13 Nov 2019 07:20:08 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
-	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.06
+	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:20:06 -0800 (PST)
+	Wed, 13 Nov 2019 07:20:07 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:19:24 -0800
-Message-Id: <d1788e865d9bcd70b36d0f239647aeffb0ea8b85.1573658232.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:19:25 -0800
+Message-Id: <c8c13ceafa3b12d2676b86182cb422681d465004.1573658232.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658232.git.akuster808@gmail.com>
 References: <cover.1573658232.git.akuster808@gmail.com>
-Subject: [warrior 21/25] pseudo: Fix openat() with a symlink pointing to a directory
+Subject: [warrior 22/25] pseudo: Drop static linking to sqlite3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,137 +59,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 15:20:06 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 15:20:08 -0000
 
-From: Jason Wessel <jason.wessel@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-While working with ostree disk generation in conjunction with wic, I
-found a problem with pseudo where it tried to resolve a symlink when
-it shouldn't, based on openat() flags. A C program has been
-constructed to test pseudo to show that it is working properly with
-the correct behavior around openat().
+Back in 2010[1] we made pseudo statically link against sqlite3. Since then
+the world has changed, pseudo now has separate processes for the database
+in the server and the client and they have separate linking commands.
 
- #include <stdio.h>
- #include <stdlib.h>
- #include <sys/types.h>
- #include <sys/stat.h>
- #include <dirent.h>
- #include <unistd.h>
- #include <fcntl.h>
+Also, whilst there were concerns about needing specific versions of sqlite3,
+in the OE environment, this is always the case.
 
-int main()
-{
-    /*
-     * Tested with: gcc -Wall -o app app.c ; echo "no pseudo" ;
-     * ./app ; echo "pseudo"; pseudo ./app
-     */
-    system("rm -rf tdir tlink");
-    system("mkdir tdir");
-    system("ln -s tdir tlink");
-    DIR *dir = opendir(".");
-    int dfd = dirfd(dir);
+[1] http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=ad0ac0ecd38fc77daf42485489fccc10a5e1e3e7
 
-    int target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK |
-                             O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
-    if (target_dfd == -1) {
-        printf("Test 1 good\n");
-    } else {
-        printf("Test 1 failed\n");
-        close(target_dfd);
-    }
-    target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK |
-                         O_DIRECTORY | O_CLOEXEC);
-    if (target_dfd == -1) {
-        printf("Test 2 failed\n");
-    } else {
-        printf("Test 2 good\n");
-        close(target_dfd);
-    }
-    /* Test 3 make sure the owner of the link is root  */
-    struct stat sbuf;
-    if (!lstat("tlink", &sbuf) && sbuf.st_uid == 0) {
-        printf("Test 3 good\n");
-    } else {
-        printf("Test 3 failed\n");
-    }
-    /* Test 4 tests open with the "rb" flag, owner should not change */
-    int ofd = openat(dfd,"./tlink", O_RDONLY|O_CLOEXEC);
-    if (ofd >= 0) {
-        if (fstat(ofd, &sbuf) != 0)
-            printf("ERROR in fstat test 4\n");
-        else if (sbuf.st_uid == 0)
-            printf("Test 4 good\n");
-        close(ofd);
-    } else {
-        printf("Test 4 failed with openat()\n");
-    }
-    /* Test pseudo db to see the fstat() above did not delete the DB entry */
-    if (!lstat("tlink", &sbuf) && sbuf.st_uid == 0)
-        printf("Test 5 good\n");
-    else
-        printf("Test 5 failed... tlink is owned by %i and not 0\n", sbuf.st_uid);
-    return 0;
-}
+The static sqlite3-native is causing us problems, in particular:
 
-int main()
-{
-    /* Tested with: gcc -Wall -o app app.c ; echo "no pseudo" ; ./app ; echo "pseudo"; pseudo ./app */
-    system("rm -rf tdir tlink");
-    system("mkdir tdir");
-    system("ln -s tdir tlink");
-    DIR *dir = opendir(".");
-    int dfd = dirfd(dir);
+tmp/work/x86_64-linux/pseudo-native/1.9.0+gitAUTOINC+060058bb29-r0/recipe-sysroot-native/usr/lib/libsqlite3.a(sqlite3.o):(.data.rel+0xb0): undefined reference to `fcntl64'
 
-    int target_dfd = openat (dfd, "tlink", O_RDONLY | O_NONBLOCK | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW);
-    if (target_dfd == -1) {
-        printf("This is right\n");
-    } else {
-        printf("This is broken\n");
-    }
-    return 0;
-}
+which occurs if sqlite3-native was built on a machine with glibc 2.28 or later
+and pseudo-native is being built on glibc before that. With dyanmical linking,
+libc is backwards compatible and works but with static linking it does not.
 
-Many thanks to Peter Seebach for fixing the problem in the pseudo code
-to use the same logic which was already there for the
-AT_SYMLINK_NOFOLLOW.
+There appears to be no easy way to avoid this other than adding a copy of
+sqlite3 into the pseudo recipe. Given the static linking doesn't seem to
+be required any longer due to the separate processes, drop that to fix
+those issues.
 
-Also updated is the license MD5 checksum since the master branch of
-pseudo has had the SPDX data updated.
-
-Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/pseudo/pseudo.inc    | 2 +-
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/no-static-libs.inc |  4 ----
+ meta/recipes-devtools/pseudo/pseudo.inc     | 17 ++---------------
+ 2 files changed, 2 insertions(+), 19 deletions(-)
 
+diff --git a/meta/conf/distro/include/no-static-libs.inc b/meta/conf/distro/include/no-static-libs.inc
+index 712d858..cabca7e 100644
+--- a/meta/conf/distro/include/no-static-libs.inc
++++ b/meta/conf/distro/include/no-static-libs.inc
+@@ -15,10 +15,6 @@ DISABLE_STATIC_pn-nativesdk-libcap = ""
+ DISABLE_STATIC_pn-libpcap = ""
+ # needed by gdb
+ DISABLE_STATIC_pn-readline = ""
+-# needed by pseudo
+-DISABLE_STATIC_pn-sqlite3 = ""
+-DISABLE_STATIC_pn-sqlite3-native = ""
+-DISABLE_STATIC_pn-nativesdk-sqlite3 = ""
+ # openjade/sgml-common have build issues without static libs
+ DISABLE_STATIC_pn-sgml-common-native = ""
+ DISABLE_STATIC_pn-openjade-native = ""
 diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index 8b05735..8b34909 100644
+index 8b34909..7ff8e44 100644
 --- a/meta/recipes-devtools/pseudo/pseudo.inc
 +++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -4,7 +4,7 @@
+@@ -30,23 +30,10 @@ PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback --enable-ep
  
- SUMMARY = "Pseudo gives fake root capabilities to a normal user"
- HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/pseudo"
--LIC_FILES_CHKSUM = "file://COPYING;md5=243b725d71bb5df4a1e5920b344b86ad"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a1d8023a6f953ac6ea4af765ff62d574"
- SECTION = "base"
- LICENSE = "LGPL2.1"
- DEPENDS = "sqlite3 attr"
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 51db84c..6cf711e 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
-            file://toomanyfiles.patch \
-            "
- 
--SRCREV = "3fa7c853e0bcd6fe23f7524c2a3c9e3af90901c3"
-+SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
+ # Compile for the local machine arch...
+ do_compile () {
+-        SQLITE_LDADD='$(SQLITE)/$(SQLITE_LIB)/libsqlite3.a'
+-	for sqlite_link_opt in $(pkg-config sqlite3 --libs --static)
+-	do
+-	    case "$sqlite_link_opt" in
+-	    -lsqlite3)
+-		;;
+-	    -l*)
+-		SQLITE_LDADD="${SQLITE_LDADD} ${sqlite_link_opt}"
+-		;;
+-	    *)
+-		;;
+-	    esac
+-	done
+ 	if [ "${SITEINFO_BITS}" = "64" ]; then
+-	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --with-static-sqlite="$SQLITE_LDADD" --without-rpath
++	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
+ 	else
+-	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --with-static-sqlite="$SQLITE_LDADD" --without-rpath
++	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
+ 	fi
+ 	oe_runmake ${MAKEOPTS}
+ }
 -- 
 2.7.4
 
