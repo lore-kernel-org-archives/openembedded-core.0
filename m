@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
-	[209.85.210.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 51A327F69C
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+	[209.85.210.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 180A17F7A1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 15:20:01 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id x28so1870538pfo.6
+	Wed, 13 Nov 2019 15:20:02 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id q26so1850631pfn.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 07:20:02 -0800 (PST)
+	Wed, 13 Nov 2019 07:20:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=nqL1CDl7Bo8RJM1golPqbCKAhv5wP55+JOua9dX2aKs=;
-	b=rVder3LuOo5DpDniGDEreJgHhaheKYpkRrJq+MF+LYEr3nGutwRT3/jMmbBJBxDnaY
-	kamFevEzArQhyv3J0Uwdqz7iwodKo2edBLtHdjZ7goM3Wpv0UNUx31NyIjWSDXd7keod
-	q7qfw0Yzjp0umFBwVSu/O4Zx06HtbpomdwsxzoeK66VeOErqMMXYlbW77S89SyAczgF9
-	GKD5f1BvDfKX751ahOFbhkC1fpSjZctdZb5YD+c+vwLWQB0qcL+MaOK8FTqqH9+bF70M
-	3Orby2m67kJqIRBjFhKl+UuF75q1hcc6M/5c3c1hjVrG2sGUfLZWuh50yiypZRE0kaIM
-	BCQw==
+	bh=O3Tc2HaSC4J+5GQ6YmhGULcPN4Upqm0aEKS2H+u8eXA=;
+	b=b+x1eb9LOnjM/2dUBLZPnRSJE3o8GHupxsnvDW7TK97qX4YCb19nDj/n0Xf1qASBUr
+	xWawabVoP32AuQHsA3UYWcg/Qxi5RvjKj5yqvF5BSDqMAeIYktxmDHoX562IxINeUtsm
+	miQ5gCp5LvcT+sZnEhAhHj7X9lTw9hdVij5zR8Xkq9jXkSHAA9HxU1mMIarRSG/giHhA
+	eitD0P59kecp4VNPMeKpEe3LXp1eyjJGQAJvicX/slB4d42fBF3iMM+bspPAvzu9QFUs
+	hp+9NTEsQoIo1fKoiTzMJurJ2IMXfxbnj0VLZ/PwybeB7M+SOMvk1K5hRaflRKuJ9FvV
+	Oq6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=nqL1CDl7Bo8RJM1golPqbCKAhv5wP55+JOua9dX2aKs=;
-	b=HSnCTa4xK6ZsioiyXYktLby4RNS5jCw54SG0X/luUjCVZIh6OKn0Rh/NUd2EgzVkRd
-	KlIMqfVRrnZp9H69F97ZYAlIDUsgWra4QF/VClr9cyWV9urlDR7nXARH4RYMJefBl4Sv
-	8kD1BoYAhXt5R0UjIX/0/rduPzwhhfp9k5Xlu5e7k1biUQ78O3LuKKJtsKsseAhr+RtL
-	73dpOo8vmFtOntn5mJTHPAT+58oloTpSHKU2UijkM0QJkYT5bImLB6OuFg2QG9Emmyfg
-	dj7DcyfujF7z2enFjU6yvTMyrZtmqbyLuAK48TfHEIGAyPLu1eHBfbOtnTQAe6f9IP9E
-	GT6Q==
-X-Gm-Message-State: APjAAAUFnAmh1/k/jdYKAbFNxHcICr9bm9yxP1ncdh3rexN+gKtM+jBv
-	18pW2KqzMRzyUPiOSGobpnM2pScn
-X-Google-Smtp-Source: APXvYqwMmgCJx4J3VabphmphPa2q9lHjmomFIhnG81w6Y4iQL8Dwot/+4JvmgDSlcuHhatmUc5EifQ==
-X-Received: by 2002:a17:90a:c68f:: with SMTP id
-	n15mr5754295pjt.20.1573658402205; 
-	Wed, 13 Nov 2019 07:20:02 -0800 (PST)
+	bh=O3Tc2HaSC4J+5GQ6YmhGULcPN4Upqm0aEKS2H+u8eXA=;
+	b=ipJY6rON/NQmFpjQOe9W5Q/i5OHpOoefnvYdrNwZsq+xiZx99aYZPmq9X3HXv0ssY7
+	9Tifpo9fjzyb6bklwYD7rDejEeXJwgkDgZtEgCMNEDgsvv1yob4Cl3mNKf46+Cebkjii
+	Dp49yzWm62esWvPfZYjzOvwbCagi+O3D9mCc5hbn42qGqGe6aEsEwCiuD0UyznufIUqF
+	udAYJXFxAGYE0XYKM6W5Lw30Rm/DqTpjOFlWBOu/KJoQFURSuLf8o4XdViKYrY6X+AT9
+	pAjXdvFo4WgfxGGFnqSDIIrDV120rsPjVFyJGBuCfEaEpYINtggY4hhm6Dz7Elc1p644
+	3sxQ==
+X-Gm-Message-State: APjAAAVK/9a2sOIEIiP83L9aI8GtyeL7VFLny24Dgo4Bfux4RjA1r8mQ
+	X+vNBBcnEZKWRGS1eoad2v5JK2u+
+X-Google-Smtp-Source: APXvYqxrlPUN7TWpV21Ulr0EfOetqCgFRkmjKxGFRCSi1zeUKL9R8lKgSl7hfR26mabXF/MQp8LBfA==
+X-Received: by 2002:a17:90a:1b69:: with SMTP id
+	q96mr5649093pjq.89.1573658403210; 
+	Wed, 13 Nov 2019 07:20:03 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:2cf9:53ea:e6ab:d378])
-	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.01
+	by smtp.gmail.com with ESMTPSA id t8sm2622242pjr.25.2019.11.13.07.20.02
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 13 Nov 2019 07:20:01 -0800 (PST)
+	Wed, 13 Nov 2019 07:20:02 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 13 Nov 2019 07:19:19 -0800
-Message-Id: <01e4409e81c3d037fcba82fbcb3273dd1118490b.1573658232.git.akuster808@gmail.com>
+Date: Wed, 13 Nov 2019 07:19:20 -0800
+Message-Id: <c2c6f30554f96e551b71b3d66fb599a5d28a10bb.1573658232.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1573658232.git.akuster808@gmail.com>
 References: <cover.1573658232.git.akuster808@gmail.com>
-Subject: [warrior 16/25] python3: Reformat sysconfig
+Subject: [warrior 17/25] python3: Fix .pyc file reproduciblility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,87 +59,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 13 Nov 2019 15:20:01 -0000
+X-List-Received-Date: Wed, 13 Nov 2019 15:20:03 -0000
 
 From: Joshua Watt <jpewhacker@gmail.com>
 
-Reformats the sysconfig file when packaging. This file is output by
-using the python pprint function. This function will wrap long lines at
-80 characters by default, and will even split strings at whitespace
-boundaries to do so, e.g.:
-
- 'A': 'B is really'
-    ' long'
-
-This causes a problem for reproducibility however because there might be
-lines of differing lengths depending on the build path. These
-non-reproducible paths are removed, but their effect on string wrapping
-from pprint remains.
-
-To correct this, reformat the entire sysconfig file by re-printing using
-pprint with an (effectively) unlimited line length.
+Applies a patch to python that makes the pre-compiled .pyc files
+generated during the build reproducible.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../python/python3/reformat_sysconfig.py            | 21 +++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.4.bb       |  7 +++++++
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/reformat_sysconfig.py
+ ...-Use-FLAG_REF-always-for-interned-strings.patch | 35 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.7.4.bb      |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch
 
-diff --git a/meta/recipes-devtools/python/python3/reformat_sysconfig.py b/meta/recipes-devtools/python/python3/reformat_sysconfig.py
+diff --git a/meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch b/meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch
 new file mode 100644
-index 0000000..c416431
+index 0000000..8fcb344
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/reformat_sysconfig.py
-@@ -0,0 +1,21 @@
-+#! /usr/bin/env python3
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+# Copyright 2019 by Garmin Ltd. or its subsidiaries
-+#
-+# A script to reformat python sysconfig
++++ b/meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch
+@@ -0,0 +1,35 @@
++From 6c8ea7c1dacd42f3ba00440231ec0e6b1a38300d Mon Sep 17 00:00:00 2001
++From: Inada Naoki <songofacandy@gmail.com>
++Date: Sat, 14 Jul 2018 00:46:11 +0900
++Subject: [PATCH] Use FLAG_REF always for interned strings
 +
-+import sys
-+import pprint
-+l = {}
-+g = {}
-+with open(sys.argv[1], 'r') as f:
-+    exec(f.read(), g, l)
++Upstream-status: Submitted [https://github.com/python/cpython/pull/8226]
++Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
++---
++ Python/marshal.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
 +
-+with open(sys.argv[1], 'w') as f:
-+    for k in sorted(l.keys()):
-+        f.write('%s = ' % k)
-+        pprint.pprint(l[k], stream=f, width=sys.maxsize)
-+        f.write('\n')
++diff --git a/Python/marshal.c b/Python/marshal.c
++index 6d06266c6a..51db2e3b2e 100644
++--- a/Python/marshal.c
+++++ b/Python/marshal.c
++@@ -275,9 +275,14 @@ w_ref(PyObject *v, char *flag, WFILE *p)
++     if (p->version < 3 || p->hashtable == NULL)
++         return 0; /* not writing object references */
++ 
++-    /* if it has only one reference, it definitely isn't shared */
++-    if (Py_REFCNT(v) == 1)
+++    /* If it has only one reference, it definitely isn't shared.
+++     * But we use TYPE_REF always for interned string, to PYC file stable
+++     * as possible.
+++     */
+++    if (Py_REFCNT(v) == 1 &&
+++            !(PyUnicode_CheckExact(v) && PyUnicode_CHECK_INTERNED(v))) {
++         return 0;
+++    }
++ 
++     entry = _Py_HASHTABLE_GET_ENTRY(p->hashtable, v);
++     if (entry != NULL) {
++-- 
++2.21.0
 +
 diff --git a/meta/recipes-devtools/python/python3_3.7.4.bb b/meta/recipes-devtools/python/python3_3.7.4.bb
-index c5a5db1..e9ec604 100644
+index e9ec604..bd86d51 100644
 --- a/meta/recipes-devtools/python/python3_3.7.4.bb
 +++ b/meta/recipes-devtools/python/python3_3.7.4.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
+@@ -26,6 +26,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
  	   file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
  	   file://crosspythonpath.patch \
-+           file://reformat_sysconfig.py \
+            file://reformat_sysconfig.py \
++           file://0001-Use-FLAG_REF-always-for-interned-strings.patch \
             "
  
  SRC_URI_append_class-native = " \
-@@ -157,6 +158,12 @@ py_package_preprocess () {
-                 ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py \
-                 ${PKGD}/${bindir}/python${PYTHON_BINABI}-config
- 
-+        # Reformat _sysconfigdata after modifying it so that it remains
-+        # reproducible
-+        for c in ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py; do
-+            python3 ${WORKDIR}/reformat_sysconfig.py $c
-+        done
-+
-         # Recompile _sysconfigdata after modifying it
-         cd ${PKGD}
-         sysconfigfile=`find . -name _sysconfigdata_*.py`
 -- 
 2.7.4
 
