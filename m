@@ -1,104 +1,58 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CAF5E7F9A2
+Return-Path: <alistair@alistair23.me>
+Received: from new4-smtp.messagingengine.com (new4-smtp.messagingengine.com
+	[66.111.4.230])
+	by mail.openembedded.org (Postfix) with ESMTP id 58A427FA39
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2019 15:18:29 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id az9so2753464plb.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2019 07:18:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=2/8TwxQjrcOgH9I2cI3no52s4NaCuNJVvzgcfjXU1v8=;
-	b=udzH9RHYpGxxaeSTK1jGJapyvPvq7Dar7R7+1oncFktCNqR18EFEs6Z9D04YsU7pvW
-	OGbDfpIN4k0sUsyf2G2sjpNQjs1rrS7tqFjTLhIsJ1b5o9j0LmP6w1Ek1+rQnCG6GHSI
-	tO249gdC8Z2bADOWDoBSyOBBqAfe9KhDkyhYHFvWJuIHQZKtKLP4pOda6euxUj7btljZ
-	SXA5m0N86Ptzhxqi/gnPfabqxP1P7reiQrRR4gdc5/qumEeD89bd9WZoS/iYHAjO3U45
-	JfUmb1eaIZYsnOTNbSizXSsi6xxwtdhXDnm4rvFyASFm/8CDR9oib+ZBAFFQ5cd1qevU
-	/6AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=2/8TwxQjrcOgH9I2cI3no52s4NaCuNJVvzgcfjXU1v8=;
-	b=jitBfZP+1+xEwyLHfyetLkp5xYBujd3AoJoJVC473ixDMpnTPdB8xuqHAzbO9ZhL1H
-	ZyAIrEXTvBYJmMp6JeP974x5brVgyOxDJqAcF8s8xd6PZiRi8xEwZkqZsvOkTKZhK+FK
-	zzIgwkewfom9hVVqXUwczJu8yCZH4GtUXzZBnKzRviqn8O08sm7YoTB8O9vTIKPu+b2q
-	wcoUjyiWH/wuNn/u8tlF5IhkQcxfweLq+bRF07Yv2VfhzTwFQOBFirRvScVJxQkoOip0
-	s5GIB0P9YHiiJgZfFjQFe5a6J9Zup1FfdZry4whCoNou1FO1dPzxoiSC7GH+CC71fzqb
-	tPvg==
-X-Gm-Message-State: APjAAAXK54QUpTiUevuVkYXp5lddsq4CgJFItwZ8GiupWa12jO3AytMf
-	fpReD/JK/32O7MFRwr6AsCW4zOfu
-X-Google-Smtp-Source: APXvYqwCjYAOIVKugNDGwSk/guWhh2xdVtQTSlEA7euT+3SJ8Djgy9Rl4tpTU84qchmx6bB8gpbfcg==
-X-Received: by 2002:a17:902:760b:: with SMTP id
-	k11mr9872236pll.126.1573744710430; 
-	Thu, 14 Nov 2019 07:18:30 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:90e5:8f1e:65b9:f435?
-	([2601:202:4180:a5c0:90e5:8f1e:65b9:f435])
-	by smtp.gmail.com with ESMTPSA id
-	e17sm9635159pgt.89.2019.11.14.07.18.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 14 Nov 2019 07:18:29 -0800 (PST)
-To: Adrian Bunk <bunk@stusta.de>, Ross Burton <ross.burton@intel.com>
-References: <20191113081914.28778-1-bunk@stusta.de>
-	<02d2657c-0beb-eeb1-ca00-3add30515f9c@intel.com>
-	<20191114125101.GB13971@localhost>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <cc75af7e-6229-44d0-5d30-d74a8ba11576@gmail.com>
-Date: Thu, 14 Nov 2019 07:18:28 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	Thu, 14 Nov 2019 20:22:22 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 1768A4DFB;
+	Thu, 14 Nov 2019 15:22:24 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+	by compute7.internal (MEProxy); Thu, 14 Nov 2019 15:22:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=xpg428u8WgEG6v7E5c4onhJ2qd
+	Kl9gYiEuekWKpsPHM=; b=SA9NYkm63qkOwhMmFD0OUU6CuPiSQieOBOd0Xg1G9J
+	a4+8e54KHAp/oIMhuwFChBQLuwJ/0O4vg5wcKbFIrn39EZPq3UN/NB0EFywgOh07
+	EZ1ZoudNzhvGHBuDQfM5vslMxP7yrK6TJS9yMC89cf7nU3lNQB51M0jG7t7dNdZ8
+	zz0KRDf7ZihUce5Q4f5bAxy+7ls2Yl1y+VkFFXYa02QgvEEsXgyfLELBvaFg4Bac
+	70jVqV+ErrrMSeBM66iyQ6Td/BCCm/412q2xpQvA8jup/2XUoTvlkxmZISThIjGY
+	CTR14F+6bccDZGYqU2IqlahfUP8SvdBl1eWrrcS4qLQQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=xpg428u8WgEG6v7E5
+	c4onhJ2qdKl9gYiEuekWKpsPHM=; b=yTIfWQeoeiRvfiQUi/UeGa6VJsXRjaR8u
+	UhezOBp7b+s2AJ2L98JPKtToDCv+w5e53+WmnxpYgHW+5XsXZNcIW0piAB7wqRSf
+	UpMxN3rnDnNJNfUmDWwVAwuvAXYd6ODo7ZMx/L6XkH8Kih9uBVGmRL8P9m/gY1er
+	ythDB1CgUTe1KcEFK9Lr0Vt794gvw2V2W9O2qxAv2yLQIms0KB2gEnsxuwEHPQCX
+	rmcqPb8k6VkgTCyKXM9g3RmZ4BtG1G1hMuuFvvMRKXj9y8popgX8EiMQV9TrWZdf
+	yfaKrTKpDj4uH9aEPm/6nJFUU2d9PJu5yekXhUM2ZW6tQhm8ARqCw==
+X-ME-Sender: <xms:f7fNXarA6KRrjzGsyG74BfKFSZtJZVDCSeVxZLC5389ZwwN_6VjOuw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudeffedgudefhecutefuodetggdotefrod
+	ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+	necuuegrihhlohhuthemuceftddtnecuogevohgrshhtrghlqdfhgeduvddqtddvucdlud
+	ehtddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpeetlhhi
+	shhtrghirhcuhfhrrghntghishcuoegrlhhishhtrghirhesrghlihhsthgrihhrvdefrd
+	hmvgeqnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdhmvghsrgefugdr
+	ohhrghenucfkphepjeefrdelfedrkeegrddvtdeknecurfgrrhgrmhepmhgrihhlfhhroh
+	hmpegrlhhishhtrghirhesrghlihhsthgrihhrvdefrdhmvgenucevlhhushhtvghrufhi
+	iigvpedt
+X-ME-Proxy: <xmx:f7fNXYxFfGecN-FGoo_MfyiwqpbkFm452UTm5kWE_ktkEjL55768Dw>
+	<xmx:f7fNXXJuSKnbO9Hpqs53VOg5kaDvmPr1IA0e85ng2joZv-Q_AthbAg>
+	<xmx:f7fNXSIzWDcr4VYTZO7eL_dzuGE8Imn0FnfaxAgzWMdWrrfS0hyWbQ>
+	<xmx:gLfNXfIHakGYzn2oL-vpjuFKralqd957hcn0NW68_oMraMZ_Q09SQg>
+Received: from alistair-xps-14z.alistair23.me
+	(c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 0C6133060060;
+	Thu, 14 Nov 2019 15:22:22 -0500 (EST)
+From: Alistair Francis <alistair@alistair23.me>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 14 Nov 2019 12:22:20 -0800
+Message-Id: <20191114202220.3380-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20191114125101.GB13971@localhost>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bind: Whitelist CVE-2019-6470
+Subject: [PATCH v8] mesa: Upgrade to 19.2.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -111,34 +65,481 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2019 15:18:29 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 14 Nov 2019 20:22:23 -0000
+Content-Transfer-Encoding: 8bit
 
+Upgrade mesa and mesa-gl to 19.2.4.
 
+The license hash change was a trivial new line removal.
 
-On 11/14/19 4:51 AM, Adrian Bunk wrote:
-> On Thu, Nov 14, 2019 at 12:04:40PM +0000, Ross Burton wrote:
->> On 13/11/2019 08:19, Adrian Bunk wrote:
->>> +# Affects: Builds of dhcpd versions prior to version 4.4.1 when using BIND versions 9.11.2 or later
->>> +CVE_CHECK_WHITELIST += "CVE-2019-6470"
->> Can you be a bit more explicit about why this is whitelisted?
-> Something like
->   BIND >= 9.11.2 need dhcpd >= 4.4.1, don't report it here since
->   dhcpd is already recent enough.
-Actual. checking isc dhcp sources, it appears the fix is sitting in
-master and has not been merged to any of the stable branches. I have not
-had the time to unpack and check in an OE env ti validate that.
+The glx-tls option was removed as it isn't included in the meson.build
+file. It has been replaced with 'use-elf-tls' instead.
 
-Have you done that?
+I have backported the asm removal as an attempt to fix the musl build
+issue.
 
-- Armin
-> ?
->
->> Ross
-> cu
-> Adrian
->
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+v8:
+ - Add asm revert patch
+ - Bump to 19.2.4
+ - Remove INSANE_SKIP
+ - Refresh patches
+v7:
+ - Update to mesa 19.2.3
+ - Add INSANE_SKIP
+v6:
+ - Rebase on master
+v4:
+ - Add a patch (first patch in the series) to fix libsdl2 build
+v3:
+ - Fix missing Upstream-Status
+v2:
+ - Add back "make TLS ELF optional" patch
+
+ ...k-for-all-linux-host_os-combinations.patch |  21 +--
+ ...02-meson.build-make-TLS-ELF-optional.patch |  46 ++++++
+ ...on.build-make-TLS-GLX-optional-again.patch |  52 -------
+ ...Allow-enable-DRI-without-DRI-drivers.patch |  10 +-
+ ...le-asm-unconditionally-now-that-gen_.patch | 147 ++++++++++++++++++
+ .../{mesa-gl_19.1.6.bb => mesa-gl_19.2.4.bb}  |   0
+ meta/recipes-graphics/mesa/mesa.inc           |  12 +-
+ .../mesa/{mesa_19.1.6.bb => mesa_19.2.4.bb}   |   7 +-
+ 8 files changed, 219 insertions(+), 76 deletions(-)
+ create mode 100644 meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+ delete mode 100644 meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+ create mode 100644 meta/recipes-graphics/mesa/files/0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch
+ rename meta/recipes-graphics/mesa/{mesa-gl_19.1.6.bb => mesa-gl_19.2.4.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_19.2.4.bb} (72%)
+
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+index 9fba5da4b2..1869e11059 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-combinations.patch
+@@ -1,8 +1,7 @@
+-From ea966884e39aae9571c038fab55f3c1663d17850 Mon Sep 17 00:00:00 2001
+-From: Fabio Berton <fabio.berton@ossystems.com.br>
+-Date: Wed, 12 Jun 2019 13:40:20 -0300
++From b6d9bc97cb0e8c540a45dba5440b036fb940ff95 Mon Sep 17 00:00:00 2001
++From: Alistair Francis <alistair.francis@wdc.com>
++Date: Mon, 11 Nov 2019 09:38:15 -0800
+ Subject: [PATCH] meson.build: check for all linux host_os combinations
+-Organization: O.S. Systems Software LTDA.
+ 
+ Make sure that we are also looking for our host_os combinations like
+ linux-musl etc. when assuming support for DRM/KMS.
+@@ -14,29 +13,31 @@ Upstream-Status: Pending
+ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
++
+ ---
+  meson.build | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 567a81afd6f..b33b430aed4 100644
++index d584152..a1f098c 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -107,7 +107,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
++@@ -117,7 +117,7 @@ with_any_opengl = with_opengl or with_gles1 or with_gles2
+  # Only build shared_glapi if at least one OpenGL API is enabled
+  with_shared_glapi = get_option('shared-glapi') and with_any_opengl
+  
+--system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd', 'dragonfly', 'linux'].contains(host_machine.system())
++-system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'gnu/kfreebsd', 'dragonfly', 'linux', 'sunos'].contains(host_machine.system())
+ +system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd', 'dragonfly'].contains(host_machine.system()) or host_machine.system().startswith('linux')
+  
+  dri_drivers = get_option('dri-drivers')
+  if dri_drivers.contains('auto')
+-@@ -845,7 +845,7 @@ if cc.compiles('int foo(void) __attribute__((__noreturn__));',
++@@ -856,7 +856,7 @@ if cc.compiles('__uint128_t foo(void) { return 0; }',
+  endif
+  
+  # TODO: this is very incomplete
+ -if ['linux', 'cygwin', 'gnu', 'gnu/kfreebsd'].contains(host_machine.system())
+ +if ['cygwin', 'gnu', 'gnu/kfreebsd'].contains(host_machine.system()) or host_machine.system().startswith('linux')
+    pre_args += '-D_GNU_SOURCE'
+- endif
+- 
++ elif host_machine.system() == 'sunos'
++   pre_args += '-D__EXTENSIONS__'
+diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+new file mode 100644
+index 0000000000..199ed572d5
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-optional.patch
+@@ -0,0 +1,46 @@
++From af6923544de02ded648a736e07b9bd8b7c52dba9 Mon Sep 17 00:00:00 2001
++From: Alistair Francis <alistair.francis@wdc.com>
++Date: Wed, 23 Oct 2019 09:46:28 -0700
++Subject: [PATCH] meson.build: make TLS ELF optional
++
++USE_ELF_TLS has replaced GLX_USE_TLS so this patch is the original "make
++TLS GLX optional again" patch updated to the latest mesa.
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
++
++---
++ meson.build       | 2 +-
++ meson_options.txt | 6 ++++++
++ 2 files changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index a1f098c..1e31eb4 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -378,7 +378,7 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
++ endif
++ 
++ # Android uses emutls for versions <= P/28. For USE_ELF_TLS we need ELF TLS.
++-if not with_platform_android or get_option('platform-sdk-version') >= 29
+++if (not with_platform_android or get_option('platform-sdk-version') >= 29) and get_option('elf-tls')
++   pre_args += '-DUSE_ELF_TLS'
++ endif
++ 
++diff --git a/meson_options.txt b/meson_options.txt
++index b768c15..76cef24 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -333,6 +333,12 @@ option(
++   value : true,
++   description : 'Enable direct rendering in GLX and EGL for DRI',
++ )
+++option(
+++  'elf-tls',
+++  type : 'boolean',
+++  value : true,
+++  description : 'Enable TLS support in ELF',
+++)
++ option(
++   'I-love-half-baked-turnips',
++   type : 'boolean',
+diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
+deleted file mode 100644
+index 641bacf1d9..0000000000
+--- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-optional-again.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From cee8e48c5344124e5d84307cb0c48ee0c9b3e684 Mon Sep 17 00:00:00 2001
+-From: Fabio Berton <fabio.berton@ossystems.com.br>
+-Date: Wed, 12 Jun 2019 14:15:57 -0300
+-Subject: [PATCH] meson.build: make TLS GLX optional again
+-Organization: O.S. Systems Software LTDA.
+-
+-This was optional with autotools, and needs to be disabled
+-when using musl C library, for instance.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+----
+- meson.build       | 4 +++-
+- meson_options.txt | 7 +++++++
+- 2 files changed, 10 insertions(+), 1 deletion(-)
+-
+-diff --git a/meson.build b/meson.build
+-index b33b430aed4..0e50bb26c0a 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -369,7 +369,9 @@ if with_egl and not (with_platform_drm or with_platform_surfaceless or with_plat
+-   endif
+- endif
+- 
+--pre_args += '-DGLX_USE_TLS'
+-+if get_option('glx-tls')
+-+  pre_args += '-DGLX_USE_TLS'
+-+endif
+- if with_glx != 'disabled'
+-   if not (with_platform_x11 and with_any_opengl)
+-     error('Cannot build GLX support without X11 platform support and at least one OpenGL API')
+-diff --git a/meson_options.txt b/meson_options.txt
+-index 1f72faabee8..fcd49efea27 100644
+---- a/meson_options.txt
+-+++ b/meson_options.txt
+-@@ -339,6 +339,13 @@ option(
+-   value : true,
+-   description : 'Enable direct rendering in GLX and EGL for DRI',
+- )
+-+option(
+-+  'glx-tls',
+-+  type : 'boolean',
+-+  value : true,
+-+  description : 'Enable TLS support in GLX',
+-+)
+-+
+- option(
+-   'I-love-half-baked-turnips',
+-   type : 'boolean',
+diff --git a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+index 346b217585..c20a1f7c52 100644
+--- a/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
++++ b/meta/recipes-graphics/mesa/files/0003-Allow-enable-DRI-without-DRI-drivers.patch
+@@ -1,24 +1,24 @@
+-From f1482e88c2295b9c7288f5b273335a8e18039de8 Mon Sep 17 00:00:00 2001
++From 5ad6515238bc042cccf9959abad44fdee9aeb07f Mon Sep 17 00:00:00 2001
+ From: Fabio Berton <fabio.berton@ossystems.com.br>
+ Date: Wed, 12 Jun 2019 14:18:31 -0300
+ Subject: [PATCH] Allow enable DRI without DRI drivers
+-Organization: O.S. Systems Software LTDA.
+ 
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+ Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
++
+ ---
+  meson.build       | 2 +-
+  meson_options.txt | 6 ++++++
+  2 files changed, 7 insertions(+), 1 deletion(-)
+ 
+ diff --git a/meson.build b/meson.build
+-index 0e50bb26c0a..de065c290d6 100644
++index 1e31eb4..512eec6 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -137,7 +137,7 @@ with_dri_r200 = dri_drivers.contains('r200')
++@@ -147,7 +147,7 @@ with_dri_r200 = dri_drivers.contains('r200')
+  with_dri_nouveau = dri_drivers.contains('nouveau')
+  with_dri_swrast = dri_drivers.contains('swrast')
+  
+@@ -28,7 +28,7 @@ index 0e50bb26c0a..de065c290d6 100644
+  gallium_drivers = get_option('gallium-drivers')
+  if gallium_drivers.contains('auto')
+ diff --git a/meson_options.txt b/meson_options.txt
+-index fcd49efea27..0529200b3bb 100644
++index 76cef24..a8abd04 100644
+ --- a/meson_options.txt
+ +++ b/meson_options.txt
+ @@ -34,6 +34,12 @@ option(
+diff --git a/meta/recipes-graphics/mesa/files/0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch b/meta/recipes-graphics/mesa/files/0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch
+new file mode 100644
+index 0000000000..b5658d0c9d
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch
+@@ -0,0 +1,147 @@
++From 1b1cb6e5ea25eaa98573328b9565728a08245997 Mon Sep 17 00:00:00 2001
++From: Alistair Francis <alistair@alistair23.me>
++Date: Thu, 14 Nov 2019 09:06:02 -0800
++Subject: [PATCH] Revert "mesa: Enable asm unconditionally, now that
++ gen_matypes is gone."
++
++This reverts commit 20294dceebc23236e33b22578245f7e6f41b6997.
++
++Upstream-Status: Inappropriate [configuration]
++Signed-off-by: Alistair Francis <alistair@alistair23.me>
++
++---
++ meson.build       | 94 ++++++++++++++++++++++++++++++-----------------
++ meson_options.txt |  6 +++
++ 2 files changed, 67 insertions(+), 33 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index 512eec6..a2bcc3a 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -49,6 +49,7 @@ with_vulkan_icd_dir = get_option('vulkan-icd-dir')
++ with_tests = get_option('build-tests')
++ with_valgrind = get_option('valgrind')
++ with_libunwind = get_option('libunwind')
+++with_asm = get_option('asm')
++ with_glx_read_only_text = get_option('glx-read-only-text')
++ with_glx_direct = get_option('glx-direct')
++ with_osmesa = get_option('osmesa')
++@@ -985,41 +986,68 @@ endif
++ 
++ # TODO: shared/static? Is this even worth doing?
++ 
+++# When cross compiling we generally need to turn off the use of assembly,
+++# because mesa's assembly relies on building an executable for the host system,
+++# and running it to get information about struct sizes. There is at least one
+++# case of cross compiling where we can use asm, and that's x86_64 -> x86 when
+++# host OS == build OS, since in that case the build machine can run the host's
+++# binaries.
+++if with_asm and meson.is_cross_build()
+++  if build_machine.system() != host_machine.system()
+++    # TODO: It may be possible to do this with an exe_wrapper (like wine).
+++    message('Cross compiling from one OS to another, disabling assembly.')
+++    with_asm = false
+++  elif not (build_machine.cpu_family().startswith('x86') and host_machine.cpu_family() == 'x86')
+++    # FIXME: Gentoo always sets -m32 for x86_64 -> x86 builds, resulting in an
+++    # x86 -> x86 cross compile. We use startswith rather than == to handle this
+++    # case.
+++    # TODO: There may be other cases where the 64 bit version of the
+++    # architecture can run 32 bit binaries (aarch64 and armv7 for example)
+++    message('''
+++      Cross compiling to different architectures, and the host cannot run
+++      the build machine's binaries. Disabling assembly.
+++    ''')
+++    with_asm = false
+++  endif
+++endif
+++
++ with_asm_arch = ''
++-if host_machine.cpu_family() == 'x86'
++-  if system_has_kms_drm or host_machine.system() == 'gnu'
++-    with_asm_arch = 'x86'
++-    pre_args += ['-DUSE_X86_ASM', '-DUSE_MMX_ASM', '-DUSE_3DNOW_ASM',
++-                 '-DUSE_SSE_ASM']
++-
++-    if with_glx_read_only_text
++-      pre_args += ['-DGLX_X86_READONLY_TEXT']
+++if with_asm
+++  if host_machine.cpu_family() == 'x86'
+++    if system_has_kms_drm or host_machine.system() == 'gnu'
+++      with_asm_arch = 'x86'
+++      pre_args += ['-DUSE_X86_ASM', '-DUSE_MMX_ASM', '-DUSE_3DNOW_ASM',
+++                   '-DUSE_SSE_ASM']
+++
+++      if with_glx_read_only_text
+++         pre_args += ['-DGLX_X86_READONLY_TEXT']
+++      endif
+++    endif
+++  elif host_machine.cpu_family() == 'x86_64'
+++    if system_has_kms_drm
+++      with_asm_arch = 'x86_64'
+++      pre_args += ['-DUSE_X86_64_ASM']
+++    endif
+++  elif host_machine.cpu_family() == 'arm'
+++    if system_has_kms_drm
+++      with_asm_arch = 'arm'
+++      pre_args += ['-DUSE_ARM_ASM']
+++    endif
+++  elif host_machine.cpu_family() == 'aarch64'
+++    if system_has_kms_drm
+++      with_asm_arch = 'aarch64'
+++      pre_args += ['-DUSE_AARCH64_ASM']
+++    endif
+++  elif host_machine.cpu_family() == 'sparc64'
+++    if system_has_kms_drm
+++      with_asm_arch = 'sparc'
+++      pre_args += ['-DUSE_SPARC_ASM']
+++    endif
+++  elif host_machine.cpu_family().startswith('ppc64') and host_machine.endian() == 'little'
+++    if system_has_kms_drm
+++      with_asm_arch = 'ppc64le'
+++      pre_args += ['-DUSE_PPC64LE_ASM']
++     endif
++-  endif
++-elif host_machine.cpu_family() == 'x86_64'
++-  if system_has_kms_drm
++-    with_asm_arch = 'x86_64'
++-    pre_args += ['-DUSE_X86_64_ASM']
++-  endif
++-elif host_machine.cpu_family() == 'arm'
++-  if system_has_kms_drm
++-    with_asm_arch = 'arm'
++-    pre_args += ['-DUSE_ARM_ASM']
++-  endif
++-elif host_machine.cpu_family() == 'aarch64'
++-  if system_has_kms_drm
++-    with_asm_arch = 'aarch64'
++-    pre_args += ['-DUSE_AARCH64_ASM']
++-  endif
++-elif host_machine.cpu_family() == 'sparc64'
++-  if system_has_kms_drm
++-    with_asm_arch = 'sparc'
++-    pre_args += ['-DUSE_SPARC_ASM']
++-  endif
++-elif host_machine.cpu_family().startswith('ppc64') and host_machine.endian() == 'little'
++-  if system_has_kms_drm
++-    with_asm_arch = 'ppc64le'
++-    pre_args += ['-DUSE_PPC64LE_ASM']
++   endif
++ endif
++ 
++diff --git a/meson_options.txt b/meson_options.txt
++index a8abd04..0f4bd80 100644
++--- a/meson_options.txt
+++++ b/meson_options.txt
++@@ -233,6 +233,12 @@ option(
++   value : false,
++   description : 'Enable GLVND support.'
++ )
+++option(
+++  'asm',
+++  type : 'boolean',
+++  value : true,
+++  description : 'Build assembly code if possible'
+++)
++ option(
++    'glx-read-only-text',
++    type : 'boolean',
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb b/meta/recipes-graphics/mesa/mesa-gl_19.2.4.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_19.2.4.bb
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 9e5808ee27..1771735915 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -10,7 +10,7 @@ HOMEPAGE = "http://mesa3d.org"
+ BUGTRACKER = "https://bugs.freedesktop.org"
+ SECTION = "x11"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
++LIC_FILES_CHKSUM = "file://docs/license.html;md5=3a4999caf82cc503ac8b9e37c235782e"
+ 
+ PE = "2"
+ 
+@@ -57,12 +57,12 @@ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
+-                   glx-tls \
++                   elf-tls \
+ 		   "
+-PACKAGECONFIG_class-native ?= "gbm dri egl opengl glx-tls"
+-PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl glx-tls"
++PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls"
++PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls"
+ 
+-PACKAGECONFIG_remove_libc-musl = "glx-tls"
++PACKAGECONFIG_remove_libc-musl = "elf-tls"
+ 
+ # "gbm" requires "dri", "opengl"
+ PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
+@@ -70,7 +70,7 @@ PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
+ X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage libxfixes xrandr"
+ # "x11" requires "opengl"
+ PACKAGECONFIG[x11] = ",-Dglx=disabled,${X11_DEPS}"
+-PACKAGECONFIG[glx-tls] = "-Dglx-tls=true, -Dglx-tls=false"
++PACKAGECONFIG[elf-tls] = "-Delf-tls=true, -Delf-tls=false"
+ PACKAGECONFIG[xvmc] = "-Dgallium-xvmc=true,-Dgallium-xvmc=false,libxvmc"
+ PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-protocols"
+ 
+diff --git a/meta/recipes-graphics/mesa/mesa_19.1.6.bb b/meta/recipes-graphics/mesa/mesa_19.2.4.bb
+similarity index 72%
+rename from meta/recipes-graphics/mesa/mesa_19.1.6.bb
+rename to meta/recipes-graphics/mesa/mesa_19.2.4.bb
+index 19221e9e25..f4b33df227 100644
+--- a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.2.4.bb
+@@ -2,12 +2,13 @@ require ${BPN}.inc
+ 
+ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson.build-check-for-all-linux-host_os-combinations.patch \
+-           file://0002-meson.build-make-TLS-GLX-optional-again.patch \
++           file://0002-meson.build-make-TLS-ELF-optional.patch \
+            file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
++           file://0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch \
+            "
+ 
+-SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
+-SRC_URI[sha256sum] = "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
++SRC_URI[md5sum] = "5c047732b81651ddb341597528b4b096"
++SRC_URI[sha256sum] = "09000a0f7dbbd82e193b81a8f1bf0c118eab7ca975c0329181968596e548e30f"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+-- 
+2.23.0
 
 
