@@ -1,46 +1,54 @@
-Return-Path: <andrey.z@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
 	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A63C60273
+	by mail.openembedded.org (Postfix) with ESMTP id D7AAD6B43D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2019 07:54:49 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id u18so4594251wmc.3
+	Thu, 14 Nov 2019 09:21:31 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 8so5034484wmo.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 23:54:50 -0800 (PST)
+	Thu, 14 Nov 2019 01:21:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=u2zvgeg/Aaurxgo6u+1FJEMbjLUP87TOl/j8BznMPlY=;
-	b=SVBfo3xR6et1iK3dLDZXQwUG//2Mv2FHiuBy0RpYHI3SwjsCMWvf6iUFTJu+u5NMhK
-	RTHifxv3Gh5tSbmIBtgmTAF7N6+7euxlbNQtF8HQqsZtYR+bt+bTHwbmi6TiELmCeBGR
-	j6+f4/EU2qJ+f3PWiTUnJyIKl0reNmiItuQ2mg8K/18KkCdNz3vxLgHjvs8Vm6lgG+R6
-	sREqGLBAeXsctQX9a8TpeNeAeVrR7Vjyvl8+Jw3SlqNnNfpu0HrDSPsAeyXIP3voKIK3
-	dycMmMQUsHJ0K2zu36MuMOkqzeqtzf4oAFlgRlLE0Iv3ZYOGvCMtFMq++kNFxeLGJPmx
-	XxwQ==
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=I/obdUmr1yj7fd0tHSCYE58wcdGy8aBiVIGuBd2VzVQ=;
+	b=qi/3V5rqCksmrPkV9W1+wOmeZQVW3mvcPK7btzpPgytQj6tUjLY4DQ/VAP8bIhqd3l
+	xFRZvKv2XCjITHMVxbt0mq9p+egzEaW/5JmerLM3amb3ToJ4EH1NeZq60LBrXVvA+yXm
+	tKx5++vXFvuICDFOtyDNFxkVT0qViPyEd5poXI9i/Q6ENrryYWL1hHO1c5hKeAAgdFDQ
+	lpr27uf2sxc2l0xS/cLW29KTLjs/bzlNVzThTwUk+W5cR1coIucGzQ7C4Z1yNbtgvY9O
+	+WgQaxbFzy0+nRdwWW44ZDqd4AcFjSNB7SjTVQne1GCRQ5q3D36mvRnje5zzy1ToQgbe
+	9P1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=u2zvgeg/Aaurxgo6u+1FJEMbjLUP87TOl/j8BznMPlY=;
-	b=AYXg2qJnY6YYbUDGUiBUcifNv6upK1WShwDVvRyl1HXj5wuik3CDiXUr/n7Fe3PPjV
-	Imm5n6cRMGBBQpKpQUntmMCFF7cf2PRBopdTelRZSEyw/UUbu4Fb416E2Mxup8NCtbXK
-	nKBlNSTYwxB843eB4dUplmN7etWwbw5hFzWMN8K6zRLaAxiPtwGqTuCAY/ycVV4fs+YE
-	OsfUghhl3SVz18vZR+elrcRzCH940lnDs7Y3XVqa1iqxqMxWZA2F3kDB60zBR7LFww/t
-	y/MyiCglY8JKmOwSBaKz3QVWUGUWPLGIpU0gTnESCtOaN5HpGELjCd1cmNSq/oKshjIF
-	mwjg==
-X-Gm-Message-State: APjAAAXPq0zWSDsEQmoQcCp6rYH8EZKWS+4fNk0aIq8w+JAtbRLASTI5
-	f4L2LgxNVqeqMrfdJrXb8LbEJymOFqoHHM1FAwPVaOpe
-X-Google-Smtp-Source: APXvYqxWp+e2F19a3is9nNaGQ5k9Bxyr+vimwvRlgZK9O+2zbrylF7JvizQgDGGaXjTDO3wNVMN0BKQ/u5xj/kN6iMo=
-X-Received: by 2002:a7b:ce11:: with SMTP id m17mr5884067wmc.123.1573718089734; 
-	Wed, 13 Nov 2019 23:54:49 -0800 (PST)
-MIME-Version: 1.0
-References: <CADySD0F1Rbu3H4X78HaZx8TtppA=raGcwJkQX13UXviL9FCB1g@mail.gmail.com>
-In-Reply-To: <CADySD0F1Rbu3H4X78HaZx8TtppA=raGcwJkQX13UXviL9FCB1g@mail.gmail.com>
-From: Andrey Zhizhikin <andrey.z@gmail.com>
-Date: Thu, 14 Nov 2019 08:54:38 +0100
-Message-ID: <CAHtQpK4_wj8QZkcUuf9RLYBiB=3RSMyaTXN1Q2gnGKQ29nSHhg@mail.gmail.com>
-To: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: How to set up custom layer correctly
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=I/obdUmr1yj7fd0tHSCYE58wcdGy8aBiVIGuBd2VzVQ=;
+	b=TACzBcsiFQZaelo6rCL2R29zYabocgjYEN+EK4P+EHCtHgejGLIr4f5FilCsLREvgS
+	5UV0pUIvF6kRFPAoAZkHDBzbJcNcWIbcjKcfPF2rC7xdn6D62eJEnMq/u0BibuiWhm1u
+	dVhHSaVNlvwJ/mxm93yFgE635I4qexGG8yrJNK3qRDV8aKuEm/BtPNq6fjPAdx2A1uHg
+	ZwB9C01Exr+/KYNVd9CClrRgfNT28hcEyB7PYgUr9D+J7yjMbu+7G4GkJ3UlYlviAGsC
+	7OuJIrhlPPnJCg4ATh82KBMcfHRM20Jn22wGZOCD3xCSRTeOHpkh5A7+zET1iGggfS0E
+	Oruw==
+X-Gm-Message-State: APjAAAXEglMqzA1mSd9MSQQ4JT4rirpBzgKJG94P4F2to4oZjEKjCxmD
+	YdTKIqS4b4pja3NGHEUhWKg=
+X-Google-Smtp-Source: APXvYqxmaDKInqk/4cB2nGESMezZqoLebdV2NHSNR7K7RETSrDaxnwTEM2RO5gv/tYTiTWH6ykzshQ==
+X-Received: by 2002:a05:600c:214c:: with SMTP id
+	v12mr6751610wml.124.1573723292395; 
+	Thu, 14 Nov 2019 01:21:32 -0800 (PST)
+Received: from [192.168.101.82] (p50991d97.dip0.t-ipconnect.de.
+	[80.153.29.151])
+	by smtp.gmail.com with ESMTPSA id 19sm7995355wrc.47.2019.11.14.01.21.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 14 Nov 2019 01:21:31 -0800 (PST)
+Mime-Version: 1.0 (1.0)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: iPhone Mail (16G102)
+In-Reply-To: <20191114055140.35965-1-naveen.kumar.saini@intel.com>
+Date: Thu, 14 Nov 2019 10:21:30 +0100
+Message-Id: <A609A7D8-71A4-44A0-9AFD-6F3A7BAFDC51@gmail.com>
+References: <20191114055140.35965-1-naveen.kumar.saini@intel.com>
+To: Naveen Saini <naveen.kumar.saini@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] libva: upgrade 2.5.0 -> 2.6.0.pre1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,117 +61,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2019 07:54:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 14 Nov 2019 09:21:32 -0000
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hey Ankur,
+These are prereleases, let=E2=80=99s wait for the actual release.
 
-On Wed, Nov 13, 2019 at 9:55 PM Ankur Tyagi <ankur.tyagi85@gmail.com> wrote:
->
-> Hi,
->
-> I have a custom layer for custom board based upon am335x-evm and custom images.
->
-> I have a master layer called "my-custom-layer" which has three sub-layers
-> - my-custom-distro : custom distro based upon TI's 'arago' distro, Qt
-> and other s/w recipe appends
-> - my-custom-image : custom images, packagegroups, toolchain recipes
-> - my-custom-machine : custom machine conf, bsp and kernel recipes
+Alex
 
-Those config files are OK to create, but can you please tell how did
-you create your own machine?
-
->
-> When I am building my image, it throws numerous warnings like below
-> for almost all packages in the image:
->
-> eudev-3.2.7-r0.3.arago5 do_package_qa: QA Issue: libudev rdepends on
-> u-boot-custom-src, but it isn't a build dependency, missing
-> u-boot-custom in DEPENDS or PACKAGECONFIG? [build-deps]
-> WARNING: eudev-3.2.7-r0.3.arago5 do_package_qa: QA Issue: eudev
-> rdepends on u-boot-custom-src, but it isn't a build dependency,
-> missing u-boot-custom in DEPENDS or PACKAGECONFIG? [build-deps]
-> WARNING: libinput-1.11.3-r0 do_package_qa: QA Issue: libinput rdepends
-> on u-boot-custom-src, but it isn't a build dependency, missing
-> u-boot-custom in DEPENDS or PACKAGECONFIG? [build-deps]
-> WARNING: libinput-1.11.3-r0 do_package_qa: QA Issue: libinput-bin
-> rdepends on u-boot-custom-src, but it isn't a build dependency,
-> missing u-boot-custom in DEPENDS or PACKAGECONFIG? [build-deps]
->
-
-I would be interesting to see your u-boot-custom recipe here. Looks
-like this one is not formed well enough. Did you base it from u-boot
-recipe of am335x layer?
-
-Another thing is if you're building your own version of U-Boot - you
-would need to set a PREFERRED_PROVIDER to point to it. This
-
->
-> And once sstate-cache is built and if I try to reuse it after bumping
-> u-boot-custom to new SRCREV then I get errors like:
->
-> Collected errors:
->  * Solver encountered 2 problem(s):
->  * Problem 1/2:
->  *   - nothing provides u-boot-custom-src >= 2019.01+git0+b31ea1d606
-> needed by linux-custom-src-4.19.73+git0+d02acfec3d-gamos.wsl
->  *
->  * Solution 1:
->  *   - do not ask to install a package providing packagegroup-ggl-base
->
->  * Problem 2/2:
->  *   - nothing provides u-boot-custom-src >= 2019.01+git0+b31ea1d606
-> needed by linux-custom-src-4.19.73+git0+d02acfec3d-gamos.wsl
->  *
->  * Solution 1:
->  *   - do not ask to install a package providing packagegroup-ggl-qt
->
-Those might come from the point I stated above - your u-boot recipe
-does not provide necessary packages, or the PREFERRED_PROVIDER might
-not be set correctly.
-
-> Something is definitely not right the way I am have setup my layers
-> but I would like to understand what is wrong, why it is wrong and what
-> is the recommended way to do it
-
-I can tell you how I personally do it. This is a mere experience that
-I have and it does not serve as an official How-To - there is a very
-good documentation about the process of using Yocto on the website. :)
-I base my new configuration on the oe-core/vendor BSP, utilizing as
-much as possible from it at the first step. Then once the evaluation
-image is built (for example core-image-minimal) I examine the
-distro/machine to identify whether I can use it as-is, or create my
-distro/machine based on those provided. In later case I try to keep it
-as close to original source as possible, this would allow ease of
-upgrade in the future.
-
-As a suggested reading here:
-https://www.yoctoproject.org/docs/latest/brief-yoctoprojectqs/brief-yoctoprojectqs.html
-
-> Because in future I would like to add different machines, distros and
-> images for different custom products. That is why instead of putting
-> everything inside one layer I thought of keeping a separate layer for
-> each.
-
-This is a correct approach to follow. The only thing you would always
-have to keep in mind is a concept of "non-destructive layer", meaning
-that if you remove your layer from the build system - it should not
-affect all other layers you have included, and you should always have
-a possibility to build other distro/machine/image triplets. In other
-words - don't pollute your build system with unnecessary dependencies.
-
->
-> Looking forward to learning from your responses.
->
-> Thanks
-> Ankur
-> --
+> On 14 Nov 2019, at 6.51, Naveen Saini <naveen.kumar.saini@intel.com> wrote=
+:
+>=20
+> Details can be found here:
+> https://github.com/intel/libva/releases/tag/2.6.0.pre1
+>=20
+> Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+> ---
+> .../libva/{libva_2.5.0.bb =3D> libva_2.6.0.pre1.bb}          | 7 +++----
+> 1 file changed, 3 insertions(+), 4 deletions(-)
+> rename meta/recipes-graphics/libva/{libva_2.5.0.bb =3D> libva_2.6.0.pre1.b=
+b} (88%)
+>=20
+> diff --git a/meta/recipes-graphics/libva/libva_2.5.0.bb b/meta/recipes-gra=
+phics/libva/libva_2.6.0.pre1.bb
+> similarity index 88%
+> rename from meta/recipes-graphics/libva/libva_2.5.0.bb
+> rename to meta/recipes-graphics/libva/libva_2.6.0.pre1.bb
+> index e75648b2be..73ea280053 100644
+> --- a/meta/recipes-graphics/libva/libva_2.5.0.bb
+> +++ b/meta/recipes-graphics/libva/libva_2.6.0.pre1.bb
+> @@ -17,10 +17,9 @@ SECTION =3D "x11"
+> LICENSE =3D "MIT"
+> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D2e48940f94acb0af582e5ef03537800=
+f"
+>=20
+> -SRC_URI =3D "https://github.com/intel/${BPN}/releases/download/${PV}/${BP=
+}.tar.bz2"
+> -
+> -SRC_URI[md5sum] =3D "3688212fb7a87947070f3729e91ff7cf"
+> -SRC_URI[sha256sum] =3D "3aa89cd369a506ac4dbe5de7c0ef5da4f3d220bf986403f02=
+fa1f6f702af6878"
+> +SRC_URI =3D "git://github.com/intel/libva.git;protocol=3Dhttps"
+> +SRCREV =3D "d49b99d5d88f66e2e1ca451cf19251c7950c870d"
+> +S =3D "${WORKDIR}/git"
+>=20
+> UPSTREAM_CHECK_URI =3D "https://github.com/intel/libva/releases"
+>=20
+> --=20
+> 2.17.1
+>=20
+> --=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
--- 
-Regards,
-Andrey.
 
