@@ -1,55 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 60DA571BB9
+Return-Path: <brgl@bgdev.pl>
+Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
+	[209.85.166.181])
+	by mail.openembedded.org (Postfix) with ESMTP id BA381606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2019 10:57:20 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id i10so5920383wrs.7
+	Thu, 14 Nov 2019 11:01:03 +0000 (UTC)
+Received: by mail-il1-f181.google.com with SMTP id q15so4934567ils.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2019 02:57:21 -0800 (PST)
+	Thu, 14 Nov 2019 03:01:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=ow2IghwbvfvXNas8YAysXWMJaSD9eSWsobAIlM1q1mc=;
-	b=KBab0xgW8Iw9tL3gt4puydOe5QYBgPl/JzWS1CJeMJfOI3F+tI7xdMIdg7V44nnp6G
-	TwfpD2rJf53bfm/jnXyq68eIyfuOckAgambv4u+koiszasDuIZvNnMsDEmzPjToYS04l
-	eAtmZSo+BKLzH9OwyD0rxacl1y2KYwqekPOr8=
+	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=PL5QltUfmFrceCB1xNyMwglX9YM44LkIKTHUysTVtxE=;
+	b=sYPpRzDSs58k4g9PBlozf3nPd5ykebeukvRzBfPXnlocDE76tL5uuWeJ4Mff0Z1CsB
+	iV5nihMAF68HYAP/Xw/44fkhCP4JyvsKpZhb29ZKN4DQc28CJDc3T6dgpPahQgUXTF1c
+	OA9FJVwaCibAaEbfyAJyNLyZEJeEMXT1+87GA4nGebSXK44i/PmMVnFBx4cHigs3Wn1Q
+	B3ko5CwR4abaVTweDduanAjU6KwzS9KFVBn2dgd9QLkNUEqQwRZPzzVmeyLqgFpXNa82
+	wHX+TQV092mw3bN6bcR1e5GgPLxo117GHe2IA1G0lyCMRfGqKv0cxdbbYfNVTFwLBJTn
+	ibqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ow2IghwbvfvXNas8YAysXWMJaSD9eSWsobAIlM1q1mc=;
-	b=Ha+Z+3vE5mE5cNjLEaeMtbiKy/GRmuS+Cj6PkmbX7DsYRYMYKGTHYWlu7KdJ3GFOg1
-	O2oQ5Ah+8JFuHMBjr4gtBSGq3CaP4s+OfzKf4NhNGM/JvHLv5ywjKszQaiqmGc1LQkqf
-	52ZTFUMn2VKjkB/9fLvmdOiYIhrwCuhguXuUEqPJmOr8zD0Wy0GohcmBsV74fn3wUr4F
-	vU5uBWWFP+C9KPFf6uH8q0ndAR3xu3RK76FvGLGJDrAGBuyY9SKkQuwXeT2fGNqnWePe
-	dU+RlGYoD8Tw1XkbSIjEp5tl2caTegQbmjl22TC+O/uP0VU/K9SHqw7FDePds98RGld/
-	Sj2A==
-X-Gm-Message-State: APjAAAVXDbHr5yGVKTFV6epOlGN8mUTYINRgNT5/gpUxDGIpHpfBUGHe
-	GSug4ocoypPQWFuDrmIFcHbOkA==
-X-Google-Smtp-Source: APXvYqyL5hPY1lgNTbEvwvHNRqYYaWxbshpBOeHVpB0imCZrZR9+RGJQ9N3HninwpXyRX+brJXtlhw==
-X-Received: by 2002:a05:6000:14a:: with SMTP id
-	r10mr7321323wrx.310.1573729040949; 
-	Thu, 14 Nov 2019 02:57:20 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	p15sm5144168wmb.10.2019.11.14.02.57.19
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 14 Nov 2019 02:57:20 -0800 (PST)
-Message-ID: <03f3a6da02f47ec98111b7899612858737a33760.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 14 Nov 2019 10:57:18 +0000
-In-Reply-To: <CAJ86T=VvV9C_WFhKzQ0JedNyKUggpUjhg0LQngGsW0dV3=rZkQ@mail.gmail.com>
-References: <CAJ86T=W=wDNw7PPH5w5Vo0WEtdfZj41J036o3bAb=D4hiV9cVA@mail.gmail.com>
-	<f53835dc2b5b9b2188d5e946ac1198c969821322.camel@linuxfoundation.org>
-	<202eb2c6008a6eef16ed1a644e304607eb576999.camel@linuxfoundation.org>
-	<CAJ86T=VvV9C_WFhKzQ0JedNyKUggpUjhg0LQngGsW0dV3=rZkQ@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=PL5QltUfmFrceCB1xNyMwglX9YM44LkIKTHUysTVtxE=;
+	b=OKP3c4XhYH6SXNYA41d/J35Eie5+Dn37gSj9kgRc47TH9MtcaMmckBN80ID+SreqWr
+	aheJrmFhF2Y/+CDM4WvIsUQuleBTBoHNuoT+wvgW5yvZYDmXd5FQrWz1c7wXwq/g9WTp
+	BWb8G3Wc5Q3GSO5IiRsrlbsHH2VQHLSB3qKt6hYF0LHthCyRIuF4Lvyih5tNQkNqtuwW
+	iVX2imycbHYQlWOPTYZuQBJibeDtaI37mLqu0iOHZSgCZfqgJukg+mQFv6vHgytYNl1t
+	kDJ7rNhJ4S4GGldy5lXigAIwJyue1fWBOCSWupJgD6TMKVD1+yRS2KLnjxz1qhRkSvoy
+	v1JQ==
+X-Gm-Message-State: APjAAAXXBQdMJoyUvNhvsiBsi/yLc1deOuuZSjT1CopugJFsHv2oInBF
+	faXxEfu+eLKAqLr4wYUClvvJ2yOtfcaLcoaMwk/tOg==
+X-Google-Smtp-Source: APXvYqxMz1YD7++Rtz/OPgeVqHqEV8REOy2XOu6SLf1JdWKHnq/uRXDXPelbKBFJnlJXbsgYi5JlDfvi3F/4JX2bqK0=
+X-Received: by 2002:a92:48cf:: with SMTP id j76mr9052109ilg.189.1573729264732; 
+	Thu, 14 Nov 2019 03:01:04 -0800 (PST)
 MIME-Version: 1.0
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: fetcher uses wrong SRCREV for class-native
+References: <CAMRc=MfGPct57NYp9Nzozdjr6Va861-mXkyP335acPoThx+YCw@mail.gmail.com>
+	<CAMKF1sqsWbbj7fJ198E0rt1OqyOG+oc4_dTd7n3B09SqSR89Sw@mail.gmail.com>
+In-Reply-To: <CAMKF1sqsWbbj7fJ198E0rt1OqyOG+oc4_dTd7n3B09SqSR89Sw@mail.gmail.com>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Thu, 14 Nov 2019 12:00:53 +0100
+Message-ID: <CAMRc=Me3zsuykVA-_34PpjMJdQdvQYYEy90LAeoR_WnGN-cd6Q@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: pthreads should rdepend on libgcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,38 +57,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2019 10:57:20 -0000
+X-List-Received-Date: Thu, 14 Nov 2019 11:01:03 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2019-11-13 at 08:40 -0800, Andre McCurdy wrote:
-> On Wed, Nov 13, 2019 at 8:23 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Wed, 2019-11-13 at 16:21 +0000, Richard Purdie wrote:
-> > > I tried this with master and didn't see it reproduce. Do you
-> > > have:
-> > > 
-> > > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d427f58977a46f2bda4b7f30cf83793373e401d3
-> > > 
-> > > applied when your build sees this?
-> > 
-> > I just reverted that and retested. I started seeing a lot of
-> > basehash
-> > errors which tends to confirm my suspicion that the above patch is
-> > the
-> > same issue and fixes this. It does raise the idea we may be able to
-> > make a testcase out of this though...
-> 
-> I tested with 2.7 and 3.0 but not latest master, so didn't have this
-> fix.
-> 
-> Cherry-picking that one change does seem to fix the issue (tested
-> with 2.7).
+=C5=9Br., 13 lis 2019 o 23:39 Khem Raj <raj.khem@gmail.com> napisa=C5=82(a)=
+:
+>
+> On Wed, Nov 13, 2019 at 12:34 AM Bartosz Golaszewski <brgl@bgdev.pl> wrot=
+e:
+> >
+> > This isn't a patch as I'm not sure how to fix the right way it but it
+> > seems to my that every program that calls pthread_exit() indirectly
+> > rdepends on libgcc_s.so.1 being installed in the system (at least when
+> > using glibc).
+> >
+> > This is because the implementation of __pthread_exit() in glibc calls
+> > pthread_cancel() which leads to pthread_cancel_init() being called in
+> > which said shared object is being loaded with dlopen(). When this
+> > fails, the program aborts with the following error message:
+> >
+> >     libgcc_s.so.1 must be installed for pthread_cancel to work
+> >     Aborted
+> >
+> > A quick way of reproducing it is building a core-image-minimal (which
+> > by default doesn't contain libgcc) with the core python3 package and
+> > running the simple python HTTP server:
+> >
+> >     python3 -m http.server 8000
+> >
+> > Fetching any file will result in the above crash of the python process
+> > when the thread serving the file exits.
+> >
+> > I'm not sure if the same issue is present in musl - the implementation
+> > of __pthread_exit() there is different.
+> >
+>
+> musl will not have this issue since it does not depend on libgcc
+> unwinder implicitly.
+>
+> > Please advise on how to best approach this.
+> >
+>
+> use musl ;)
 
-I've backported this to older bitbake branches.
+I'd love to, but I'm stuck with systemd. :)
 
-Cheers,
+Bart
 
-Richard
-
+>
+> > Thanks in advance,
+> > Bartosz Golaszewski
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
