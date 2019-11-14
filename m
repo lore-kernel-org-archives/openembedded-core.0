@@ -1,49 +1,37 @@
-Return-Path: <brgl@bgdev.pl>
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
-	[209.85.166.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 13E4E7F89C
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EDEF7F876
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2019 11:01:42 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id i6so4918398ilr.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2019 03:01:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=rZ/Tjr6dESi4GlOGDX4F7Iny9GIF/Ni7g3fJ73qdOMc=;
-	b=euxob54ZlXI95Iys4RH0Wi+ZnLyX5kbiMiStfiTSOs7l322UA+ywjPrxsfh5ie2bgO
-	rwVJaqxrVDN2Sg/rnBexr6kKh+Q1ctQpaW/3t9eB+Po0lbZ5SqWbhrcMpr4CDOQ/mMus
-	dIjU/+/y0irwpaQgOzr3IerdY7wwTMhUXOmsPe6hbXrhzoKuRzMdB0ptoZyDhxD0TCNL
-	81Iu9eVhv6V/GDIWa9RKJdAONIqtDnpYdebl0HB3J9rzNsPeX+9XxCXilarLtlEHLIt2
-	ITKh1iX7D/9bMeOQ1GuzQNJhdouz1Qq724LtTW7/I2wZKlC1H0D/BseHUjaalFkXCpxX
-	XVPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=rZ/Tjr6dESi4GlOGDX4F7Iny9GIF/Ni7g3fJ73qdOMc=;
-	b=E+F7PxMebRug2+/erFmXZ4mCfc2wWQABbxwI2evwQN09xy1zab+C/uqKwqKTOkrfTf
-	5GdQpnl1swde9NnQTcyHOSVFZcgL6cl6ma7VbkXSh3ci0P3gjKIHguUirAYZvpvgI+w9
-	khT8vmSzAqqHmD3TvNI8DUqoA17GAf6GpI8kHyXIJrQ0zw98Vy3BKa5JtdIc2spEk+Rz
-	xz53LOFvLV/Yq3B2HUsnHHbql+oPMNFvW3CiPw/d0kmtn31IgDgSxqFRqAC3o6VH/wkY
-	+mIQSrdXN/NbRqWGLoEoH5JDDRkrqnaSV7P5kz5WwzNFzaUTpPymy5BghfAjYtFz5Kny
-	jSSw==
-X-Gm-Message-State: APjAAAWIs0ahiqr2aqklmpC9/aYVzgig6nRhWj6faID1AiqZIyl71dax
-	Yj3jGtRfPoS7peAhlGX89BC9EGuGkWMwSVT0NyClwbbr
-X-Google-Smtp-Source: APXvYqwkSATyDuckd/UolxLjZEl2g9duZ/Y/a0P0lovfpUrCBA6B6YBjmw+KUev0I/kp8vSEh44vNLPiP0uHOWQQqDs=
-X-Received: by 2002:a92:104a:: with SMTP id y71mr9385847ill.220.1573729304086; 
-	Thu, 14 Nov 2019 03:01:44 -0800 (PST)
-MIME-Version: 1.0
+	Thu, 14 Nov 2019 11:22:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47DJwq6GFHzQk;
+	Thu, 14 Nov 2019 12:22:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1573730540;
+	bh=1XVIzX4epoBaHa7Cg7y0BvOTkJI8gE1/YznpT+OjCoI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iYAoS2FAaDMZZ1E+W0VZB9Blz61vCMFZrxtmxRMC3t52Pmf1jlA+IvJlI3mVivb37
+	27SPZB8yiZKA0KUVQJVEiezrxbzO4467Z4a/8sQSG4mFF9qw7XvAKQ7q9CwTCVFBn1
+	OTcC+DcXKWo/DfkeLwMiY+DNXfGMy6t/LfKhQ0acIof2N0s+jyx1gSUd+gQ3m/3c5D
+	cFZjLzL33s9n4XLJhBJORY2SskW7icffu5ug7XzePz0/M5jqbGCg8vfPqutNqwGiJr
+	ZxboaYhFX6sXWVu+Rr8HCXvOF+YvRB0y1MsivNmlyDcy2PdiIfbpiY+gJZhDRuSwwD
+	c+0Xck2qRzK+CvSLvPRp12GWZrbVTXHBOjNHvaKKJSXN9tEzqpGgAzOro51WGVtShC
+	AHqq7OlJMiwfUvw1DVcRbDb6AK6JsStmtlXC5qh7gKd7S6M5XEvg8xdyo9L7IOZf2C
+	SASdqIDQpGyrpbdfL/GZ3rDCCDyF2tLEe5RbSI4jjiwPDI8m7/rzMVa7hKCrg84Jta
+	S+DHineGFT+RrnaQ/vuZryr88FkbMifZ/RdWV7t8e8JxJbYmFohXoqbJSuipcKELqb
+	oVgZ4yS7Wm1gsvnSfqJZGxDUSOos/QLQiOUcfQp2f7hPMy2s+Ov/rWFrafzCOBH5lu
+	qgmZp8rDxU5aMwpWwjr951pg=
+Date: Thu, 14 Nov 2019 13:22:17 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20191114112217.GA13971@localhost>
 References: <CAMRc=MfGPct57NYp9Nzozdjr6Va861-mXkyP335acPoThx+YCw@mail.gmail.com>
 	<7378e406-2727-2449-5583-9c3f90e39c67@kernel.crashing.org>
 	<17c4c8b5-09da-f8f7-effb-b67c33624840@intel.com>
 	<CAMKF1srtAu02xK-7QWcnrPsgJ8qCWRLnGc2FKnDZCXAYtui9Ww@mail.gmail.com>
+MIME-Version: 1.0
 In-Reply-To: <CAMKF1srtAu02xK-7QWcnrPsgJ8qCWRLnGc2FKnDZCXAYtui9Ww@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 14 Nov 2019 12:01:33 +0100
-Message-ID: <CAMRc=MfMmfDMWOAH6VnP8WRBKJL7sgQKxGxTmhcr4gfLO3v-HQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: pthreads should rdepend on libgcc
@@ -59,81 +47,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2019 11:01:43 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 14 Nov 2019 11:22:22 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-=C5=9Br., 13 lis 2019 o 23:37 Khem Raj <raj.khem@gmail.com> napisa=C5=82(a)=
-:
->
-> On Wed, Nov 13, 2019 at 7:50 AM Ross Burton <ross.burton@intel.com> wrote=
-:
-> >
-> > On 13/11/2019 15:04, Mark Hatle wrote:
-> > >> This is because the implementation of __pthread_exit() in glibc call=
-s
-> > >> pthread_cancel() which leads to pthread_cancel_init() being called i=
-n
-> > >> which said shared object is being loaded with dlopen(). When this
-> > >> fails, the program aborts with the following error message:
-> > >>
-> > >>      libgcc_s.so.1 must be installed for pthread_cancel to work
-> > >>      Aborted
-> > >
-> > > Fix for this would be to declare a runtime-dependency on libgcc_s.so.=
-1 in the
-> > > glibc libpthread package.
-> >
-> > On my todo list for a long time has been:
-> >
-> > 1) a QA test to find binaries that link to pthread_cancel but don't
-> > depend on libgcc_s
-> > 2) Automatically finding use of pthread_cancel and adding the RDEPENDS
-> > automatically.
-> >
-> > (2) is definitely the best long term solution, but as Mark says: the no=
-w
-> > fix is to add libgcc to RDEPENDS.  There's plenty of prior art in oe-co=
-re:
-> >
-> > $ git grep -h RDEPENDS.*libgcc
-> > RDEPENDS_${PN}-ptest +=3D "make ${@bb.utils.contains('PACKAGECONFIG',
-> > 'python', 'libgcc python3-core python3-logging python3-shell
-> > python3-stringold python3-threading python3-unittest ${PN}-python', '',=
- d)}"
-> > RDEPENDS_${PN} =3D "libgcc"
-> > RDEPENDS_${PN}-ptest =3D "${PN}-modules ${PN}-tests unzip bzip2 libgcc
-> > tzdata-europe coreutils sed"
-> > RDEPENDS_${PN}-ptest +=3D "libgcc"
-> > RDEPENDS_${PN} =3D "libgcc"
-> > RDEPENDS_${PN}-ptest +=3D "libgcc"
-> > RDEPENDS_${PN}-ptest +=3D "libgcc"
-> >
->
-> There are two issues here, one is where dependency is missing which
-> this solution will address
+On Wed, Nov 13, 2019 at 02:36:56PM -0800, Khem Raj wrote:
+>...
 > however, there could be another problem, where libgcc_s is lazily
 > loaded during pthread_exit and
 > application is not using root user which many daemons do where they
 > use less privileged user to run
 > and it would fail in the exact same manner. I also see few other uses
 > of libgcc_s.so being dlopened in
-> nptl unwind code and libbacktrace in glibc. so even if you were to do
-> one of above you won't solve the
-> problem. in fact the part this will solve can simply be solved by
-> adding libgcc_s as rdep for libc6
-> and then if we still get failures of such kind then we know its the
-> second problem since we would have
-> taken care of the first issue with rdep. Its fine if we want to be
-> surgical, but it might be over-optimization
+> nptl unwind code and libbacktrace in glibc.
+>...
 
-So can I submit such a patch then?
+Why would this be a problem?
 
-Bart
+dlopen() does not require root privileges.
 
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
