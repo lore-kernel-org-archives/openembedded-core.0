@@ -1,50 +1,56 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A17307F894
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CF90C7F887
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2019 07:01:20 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id d5so5429261ljl.4
+	Thu, 14 Nov 2019 07:08:37 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id a18so2197348plm.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 13 Nov 2019 23:01:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Hgt5WD3xIIbEgSrs+Y1WTQsvwiYUdXh/v1ihLOQHzVQ=;
-	b=gr1Apc5iSUutpnyZYbaCyWqJx3uN3f2kQo5qWCqDxLGrDhR5FDRg4wnN6cEz6wgp+a
-	IJIbAMLq9a8RpdHzBNKZJxZml0+V8LEHBpFdVRHcqEYSM2DU9bIJ9wzZkvg3u0ZtmyJj
-	pIqL8kkxeGEvQovxF32LzCZCjCYL53cCKVjO7NySSTQnwKsZD2Cj+cmkngVJApu0PFdx
-	ketNqspQ038vanevFXPL6gmFVP0eqfmCkNqcYxqnQK6qT575tfL1c2/l/neK7BOfFRIU
-	UDqUXRMzglFwOzbega3P3ElcLZdDhkyr+DZqq/wdLUnNDzcdrQGeWibY0Ephs1lfTsXp
-	XLOg==
+	Wed, 13 Nov 2019 23:08:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:organization:user-agent:mime-version:content-transfer-encoding;
+	bh=+4hoO85koIP0hdpGCAUk+ctuiE+piUfbNlV3uLYikkk=;
+	b=HjhTBtMY+RbQh+278DWxsdQH6LNdxwy4SlbuPyTbHgXlYSwhilKezy1foLKQyj5HHS
+	StPcxHgC8vwGVhVc6+JU9CstTtSeiIDJixhGCCW4+gTlalEVb+2AingzyR+rMEovyKel
+	WBO2nf/41rTd7q67T6oP4ojZgdvBHakCx/GTYFAEXfWGMyjDBD3//h/aP0dlIK4wEaRx
+	g5vFQviped1nSVaSolh0bqJaDA6Fsch4QUgYksbTGIfumRiy0vTRtMeaU9bWQcnc3jso
+	6ZNU9nBYJxQuVM9Ri2KaPsydwmNhAcSsb36Mn0nkFfBYxbf6xvIA3Eu1x86LR6ayXHQN
+	StTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Hgt5WD3xIIbEgSrs+Y1WTQsvwiYUdXh/v1ihLOQHzVQ=;
-	b=nnwb62mSJHJJu6ICnDX4FiQ+UqkAt7IK2CIyjPy54gEzmYMwEFqJsiYYIgm45oyPZN
-	lA+w1x32kvLMBInjBiwUV930rAhKQTkziRKIB+cN04Q1VDbmjrPQxwwnGO5QeUnpQ6FY
-	vG0jQYILZGu0GCbPK6eBqRApr7GiJe6jVoUd/WsoN2ocLl4lKVsgXti4GJZLXlw6YrPY
-	kLwPXhuQB7q4pan+4loLVtR2HPlWQyxaywotm8+rtrMGciKFXRmHZ4pnvWWa9nzMiTi4
-	kv37r69Uis5x1zh7rEEq76ELfcGtpvufdSAvzwaTYYcC/Da/Uq45mExIqmCXY4o2oFnt
-	AU2w==
-X-Gm-Message-State: APjAAAXGXPA84d76mYq8cj3iNofIa1nJ3ODd6xDKcxt6YrvylRFKxXYn
-	YZ1W/HD3I4SO9d9+ZzBc3D3Bbb3g8TLVoqEbNoZ35Q==
-X-Google-Smtp-Source: APXvYqzKb+b76APizZTDG5n7aFxuIqZUO/e57VCzYSj93EPEm2w6YyM5GiXIynVhjppo/bI0Lj2aqDQSp+xQ/nSUzyA=
-X-Received: by 2002:a2e:9885:: with SMTP id b5mr5327753ljj.110.1573714879188; 
-	Wed, 13 Nov 2019 23:01:19 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:organization:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=+4hoO85koIP0hdpGCAUk+ctuiE+piUfbNlV3uLYikkk=;
+	b=ADbhClcixSWUjvG07esi8nJDP9pXceCLZmCgDzOyPR0We+clRreq+hm4BiMipcMn3t
+	SRojzYzNd6GL0RSCC6ei/U7xjfkXuE3p3vu2wNaIc6pHfCOonmJm/KiPUz4h2ix75q37
+	gGWgHrQIT346Qui10WG4sV7i0Gvq08uM2/hD70mEp4j1e4w++kxKSgF2+hYrMu3tEfsz
+	LdcqNjhg6mT8QQH2e2hX5m7G5DxUCRzLNfTpaGJra8n6tz+VZjKmKrZlE3RPvbNGunN+
+	vVC9P5AhUt5TSfQYMCsHPxWynL20GQ209o2e2E4FdMDR7zLzPD6r+HHPiJzGhqYDBHsp
+	vqaA==
+X-Gm-Message-State: APjAAAWYR83o8IVmg+QY9UMaPkBR+Is1b6eHx7OC0+I8+M7rcPgkQNsV
+	/lyR5mT1w8+RRjooUm3X644=
+X-Google-Smtp-Source: APXvYqxb+tLi3rX/5t0GB1NGRZRM9wwzWdXRzgauZKa48frQU8sjMsLiiLpCtUGzaqAtlnqiPVhHHg==
+X-Received: by 2002:a17:902:a408:: with SMTP id
+	p8mr5495045plq.266.1573715318180; 
+	Wed, 13 Nov 2019 23:08:38 -0800 (PST)
+Received: from tyche ([2601:646:8500:1c20::367e])
+	by smtp.gmail.com with ESMTPSA id n72sm4924613pjc.4.2019.11.13.23.08.37
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 13 Nov 2019 23:08:37 -0800 (PST)
+Message-ID: <e49f7e0779ef6550261f37fb43f53a3d49cf23a7.camel@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 13 Nov 2019 23:08:36 -0800
+In-Reply-To: <20191112003109.30108-1-alistair.francis@wdc.com>
+References: <20191112003109.30108-1-alistair.francis@wdc.com>
+Organization: HIMVIS LLC
+User-Agent: Evolution 3.34.1 
 MIME-Version: 1.0
-References: <1573695020-30645-1-git-send-email-denis@denix.org>
-	<CAMKF1srfwiPmxhh1wmYg6qYBs8nhhhJb0QA9q_QS-RiRj2tviw@mail.gmail.com>
-	<20191114025643.GC4735@denix.org>
-	<CAMKF1srz5WmkzXj8sFDcVgRLTsTbgFHV-DB3xUXwkopOUe8gcw@mail.gmail.com>
-In-Reply-To: <CAMKF1srz5WmkzXj8sFDcVgRLTsTbgFHV-DB3xUXwkopOUe8gcw@mail.gmail.com>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 14 Nov 2019 08:01:06 +0100
-Message-ID: <CAP71WjzUsg3FvHq7f5Di7kKsxT9hR8Em7R_fuMRMo8x_SYuiAg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] distro_features_check: expand with MACHINE_FEATURES and COMBINED_FEATURES, rename
+Cc: Otavio Salvador <otavio@ossystems.com.br>
+Subject: Re: [PATCH v7] mesa: Upgrade to 19.2.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,1397 +63,389 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 14 Nov 2019 07:01:21 -0000
+X-List-Received-Date: Thu, 14 Nov 2019 07:08:38 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 14, 2019 at 4:01 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Wed, Nov 13, 2019 at 6:56 PM Denys Dmytriyenko <denis@denix.org> wrote:
-> >
-> > On Wed, Nov 13, 2019 at 06:52:28PM -0800, Khem Raj wrote:
-> > > On Wed, Nov 13, 2019 at 5:30 PM Denys Dmytriyenko <denis@denix.org> wrote:
-> > > >
-> > > > From: Denys Dmytriyenko <denys@ti.com>
-> > > >
-> > > > Besides checking DISTRO_FEATURES for required or conflicting features,
-> > > > being able to check MACHINE_FEATURES and/or COMBINED_FEATURES may also
-> > > > be useful at times.
-> > >
-> > > changing the class name will be disruptive can we either keep an alias
-> > > for old name?
-> >
-> > I was planning to send follow up patches to few major layers with the rename.
-> >
->
-> maybe rename can be a followup eventually, in next releases where we
-> can first deprecate
-> the current name for a release or so.
+On Mon, 2019-11-11 at 16:31 -0800, Alistair Francis wrote:
+> From: Alistair Francis <alistair@alistair23.me>
+> 
+> Upgrade mesa and mesa-gl to 19.2.3.
+> 
+> The license hash change was a trivial new line removal.
+> 
+> The glx-tls option was removed as it isn't included in the
+> meson.build
+> file. It has been replaced with 'use-elf-tls' instead. We also added
+> an
+> INSANE_SKIP to fix this error
+>     do_package_qa: QA Issue: ELF binary
+>     '[...]libgles2-mesa/usr/lib/libGLESv2.so.2.0.0' has relocations
+> in .text
+>     [textrel]
+> 
+> The -Dasm=false was removed as it also is no longer included.
+> 
 
-+1 , there are so many layers out there that will break right away, we
-should definitely have a backward compatible / user friendly plan for
-such a transition.
+ARNING: mesa-2_19.2.3-r0 do_package_qa: QA Issue: libgl-mesa: ELF
+binary /usr/lib/libGL.so.1.2.0 has relocations in .text [textrel]
+WARNING: mesa-2_19.2.3-r0 do_package_qa: QA Issue: libgles1-mesa: ELF
+binary /usr/lib/libGLESv1_CM.so.1.1.0 has relocations in .text
+[textrel]
+WARNING: mesa-2_19.2.3-r0 do_package_qa: QA Issue: libgles2-mesa: ELF
+binary /usr/lib/libGLESv2.so.2.0.0 has relocations in .text [textrel]
+WARNING: mesa-2_19.2.3-r0 do_package_qa: QA Issue: libglapi: ELF binary
+/usr/lib/libglapi.so.0.0.0 has relocations in .text [textrel]
 
->
-> >
-> > > otherwise, it will be preferable to keep using the old name even
-> > > though I understand
-> > > a new name might be more appropriate.
-> >
-> > But I'm fine keeping the old name.
->
-> OK
->
-> >
-> >
-> > > > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> > > > ---
-> > > >  ...atures_check.bbclass => features_check.bbclass} | 65 ++++++++++++++++++++--
-> > > >  meta/conf/documentation.conf                       |  4 +-
-> > > >  meta/recipes-bsp/usbutils/usbutils_012.bb          |  2 +-
-> > > >  meta/recipes-connectivity/avahi/avahi-ui_0.7.bb    |  2 +-
-> > > >  meta/recipes-connectivity/bluez5/bluez5.inc        |  2 +-
-> > > >  .../connman/connman-gnome_0.7.bb                   |  2 +-
-> > > >  meta/recipes-core/glib-2.0/glib.inc                |  2 +-
-> > > >  meta/recipes-core/glibc/glibc.inc                  |  2 +-
-> > > >  meta/recipes-core/libxml/libxml2_2.9.9.bb          |  2 +-
-> > > >  .../packagegroups/packagegroup-self-hosted.bb      |  2 +-
-> > > >  meta/recipes-core/systemd/systemd-compat-units.bb  |  2 +-
-> > > >  meta/recipes-core/systemd/systemd-serialgetty.bb   |  2 +-
-> > > >  meta/recipes-core/systemd/systemd_243.bb           |  2 +-
-> > > >  meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb     |  2 +-
-> > > >  meta/recipes-core/udev/eudev_3.2.8.bb              |  2 +-
-> > > >  meta/recipes-core/volatile-binds/volatile-binds.bb |  2 +-
-> > > >  meta/recipes-devtools/mtools/mtools_4.0.23.bb      |  2 +-
-> > > >  .../systemd-bootchart/systemd-bootchart_233.bb     |  2 +-
-> > > >  meta/recipes-extended/pam/libpam_1.3.1.bb          |  2 +-
-> > > >  meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb |  2 +-
-> > > >  meta/recipes-gnome/epiphany/epiphany_3.34.1.bb     |  2 +-
-> > > >  meta/recipes-gnome/gcr/gcr_3.34.0.bb               |  2 +-
-> > > >  meta/recipes-gnome/gtk+/gtk+3.inc                  |  2 +-
-> > > >  meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb   |  2 +-
-> > > >  meta/recipes-gnome/libnotify/libnotify_0.7.8.bb    |  2 +-
-> > > >  meta/recipes-graphics/clutter/clutter-1.0.inc      |  2 +-
-> > > >  meta/recipes-graphics/clutter/clutter-gst-3.0.inc  |  2 +-
-> > > >  meta/recipes-graphics/clutter/clutter-gtk-1.0.inc  |  2 +-
-> > > >  meta/recipes-graphics/cogl/cogl-1.0.inc            |  2 +-
-> > > >  meta/recipes-graphics/glew/glew_2.1.0.bb           |  2 +-
-> > > >  meta/recipes-graphics/images/core-image-weston.bb  |  2 +-
-> > > >  meta/recipes-graphics/images/core-image-x11.bb     |  2 +-
-> > > >  meta/recipes-graphics/kmscube/kmscube_git.bb       |  2 +-
-> > > >  meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb   |  2 +-
-> > > >  meta/recipes-graphics/libfakekey/libfakekey_git.bb |  2 +-
-> > > >  .../libmatchbox/libmatchbox_1.12.bb                |  2 +-
-> > > >  meta/recipes-graphics/libva/libva-utils_2.5.0.bb   |  2 +-
-> > > >  meta/recipes-graphics/libva/libva_2.5.0.bb         |  2 +-
-> > > >  .../matchbox-wm/matchbox-wm_1.2.2.bb               |  2 +-
-> > > >  meta/recipes-graphics/mesa/libglu_9.0.1.bb         |  2 +-
-> > > >  meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb     |  2 +-
-> > > >  meta/recipes-graphics/mesa/mesa.inc                |  2 +-
-> > > >  meta/recipes-graphics/mx/mx.inc                    |  2 +-
-> > > >  .../packagegroups/packagegroup-core-clutter.bb     |  2 +-
-> > > >  .../packagegroups/packagegroup-core-x11-base.bb    |  2 +-
-> > > >  .../packagegroups/packagegroup-core-x11-xserver.bb |  2 +-
-> > > >  .../packagegroups/packagegroup-core-x11.bb         |  2 +-
-> > > >  meta/recipes-graphics/piglit/piglit_git.bb         |  2 +-
-> > > >  meta/recipes-graphics/pong-clock/pong-clock_1.0.bb |  2 +-
-> > > >  .../startup-notification_0.12.bb                   |  2 +-
-> > > >  .../virglrenderer/virglrenderer_0.8.0.bb           |  2 +-
-> > > >  meta/recipes-graphics/vulkan/vulkan-demos_git.bb   |  2 +-
-> > > >  .../vulkan/vulkan-loader_1.1.108.bb                |  2 +-
-> > > >  .../vulkan/vulkan-tools_1.1.108.bb                 |  2 +-
-> > > >  meta/recipes-graphics/waffle/waffle_1.6.0.bb       |  2 +-
-> > > >  meta/recipes-graphics/wayland/weston-init.bb       |  2 +-
-> > > >  meta/recipes-graphics/wayland/weston_7.0.0.bb      |  2 +-
-> > > >  .../x11-common/xserver-nodm-init_3.0.bb            |  2 +-
-> > > >  .../xinput-calibrator/xinput-calibrator_git.bb     |  2 +-
-> > > >  meta/recipes-graphics/xorg-app/xorg-app-common.inc |  2 +-
-> > > >  .../xorg-driver/xorg-driver-common.inc             |  2 +-
-> > > >  .../xorg-font/xorg-font-common.inc                 |  2 +-
-> > > >  .../xorg-font/xorg-minimal-fonts.bb                |  2 +-
-> > > >  meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb    |  2 +-
-> > > >  meta/recipes-graphics/xorg-lib/xcb-util.inc        |  2 +-
-> > > >  meta/recipes-graphics/xorg-lib/xorg-lib-common.inc |  2 +-
-> > > >  .../recipes-graphics/xorg-xserver/xserver-xorg.inc |  2 +-
-> > > >  meta/recipes-graphics/xrestop/xrestop_0.4.bb       |  2 +-
-> > > >  .../gstreamer/gst-examples_1.16.0.bb               |  2 +-
-> > > >  .../gstreamer/gstreamer1.0-python_1.16.1.bb        |  2 +-
-> > > >  .../gstreamer/gstreamer1.0-vaapi_1.16.1.bb         |  2 +-
-> > > >  meta/recipes-sato/l3afpad/l3afpad_git.bb           |  2 +-
-> > > >  .../matchbox-config-gtk/matchbox-config-gtk_0.2.bb |  2 +-
-> > > >  .../matchbox-desktop/matchbox-desktop_2.2.bb       |  2 +-
-> > > >  .../matchbox-keyboard/matchbox-keyboard_0.1.1.bb   |  2 +-
-> > > >  .../matchbox-panel-2/matchbox-panel-2_2.11.bb      |  2 +-
-> > > >  .../matchbox-sato/matchbox-session-sato_0.1.bb     |  2 +-
-> > > >  .../matchbox-terminal/matchbox-terminal_0.2.bb     |  2 +-
-> > > >  .../matchbox-theme-sato/matchbox-theme-sato.inc    |  2 +-
-> > > >  .../packagegroups/packagegroup-core-x11-sato.bb    |  2 +-
-> > > >  meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb         |  2 +-
-> > > >  meta/recipes-sato/puzzles/puzzles_git.bb           |  2 +-
-> > > >  .../sato-screenshot/sato-screenshot_0.3.bb         |  2 +-
-> > > >  .../settings-daemon/settings-daemon_0.0.2.bb       |  2 +-
-> > > >  meta/recipes-sato/webkit/webkitgtk_2.26.2.bb       |  2 +-
-> > > >  meta/recipes-support/atk/at-spi2-atk_2.32.0.bb     |  2 +-
-> > > >  .../recipes-support/consolekit/consolekit_0.4.6.bb |  2 +-
-> > > >  meta/recipes-support/libfm/libfm_1.3.1.bb          |  2 +-
-> > > >  .../nss-myhostname/nss-myhostname_0.3.bb           |  2 +-
-> > > >  meta/recipes-support/vte/vte_0.58.2.bb             |  2 +-
-> > > >  90 files changed, 149 insertions(+), 96 deletions(-)
-> > > >  rename meta/classes/{distro_features_check.bbclass => features_check.bbclass} (26%)
-> > > >
-> > > > diff --git a/meta/classes/distro_features_check.bbclass b/meta/classes/features_check.bbclass
-> > > > similarity index 26%
-> > > > rename from meta/classes/distro_features_check.bbclass
-> > > > rename to meta/classes/features_check.bbclass
-> > > > index eeaa3b4..391fbe1 100644
-> > > > --- a/meta/classes/distro_features_check.bbclass
-> > > > +++ b/meta/classes/features_check.bbclass
-> > > > @@ -1,12 +1,25 @@
-> > > >  # Allow checking of required and conflicting DISTRO_FEATURES
-> > > >  #
-> > > > -# ANY_OF_DISTRO_FEATURES:   ensure at least one item on this list is included
-> > > > -#                           in DISTRO_FEATURES.
-> > > > -# REQUIRED_DISTRO_FEATURES: ensure every item on this list is included
-> > > > -#                           in DISTRO_FEATURES.
-> > > > -# CONFLICT_DISTRO_FEATURES: ensure no item in this list is included in
-> > > > -#                           DISTRO_FEATURES.
-> > > > +# ANY_OF_DISTRO_FEATURES:     ensure at least one item on this list is included
-> > > > +#                             in DISTRO_FEATURES.
-> > > > +# REQUIRED_DISTRO_FEATURES:   ensure every item on this list is included
-> > > > +#                             in DISTRO_FEATURES.
-> > > > +# CONFLICT_DISTRO_FEATURES:   ensure no item in this list is included in
-> > > > +#                             DISTRO_FEATURES.
-> > > > +# ANY_OF_MACHINE_FEATURES:    ensure at least one item on this list is included
-> > > > +#                             in MACHINE_FEATURES.
-> > > > +# REQUIRED_MACHINE_FEATURES:  ensure every item on this list is included
-> > > > +#                             in MACHINE_FEATURES.
-> > > > +# CONFLICT_MACHINE_FEATURES:  ensure no item in this list is included in
-> > > > +#                             MACHINE_FEATURES.
-> > > > +# ANY_OF_COMBINED_FEATURES:   ensure at least one item on this list is included
-> > > > +#                             in COMBINED_FEATURES.
-> > > > +# REQUIRED_COMBINED_FEATURES: ensure every item on this list is included
-> > > > +#                             in COMBINED_FEATURES.
-> > > > +# CONFLICT_COMBINED_FEATURES: ensure no item in this list is included in
-> > > > +#                             COMBINED_FEATURES.
-> > > >  #
-> > > > +# Copyright 2019 (C) Texas Instruments Inc.
-> > > >  # Copyright 2013 (C) O.S. Systems Software LTDA.
-> > > >
-> > > >  python () {
-> > > > @@ -29,4 +42,44 @@ python () {
-> > > >          conflicts = set.intersection(conflict_distro_features, distro_features)
-> > > >          if conflicts:
-> > > >              raise bb.parse.SkipRecipe("conflicting distro feature%s '%s' (in DISTRO_FEATURES)" % ('s' if len(conflicts) > 1 else '', ' '.join(conflicts)))
-> > > > +
-> > > > +    # Assume at least one var is set.
-> > > > +    machine_features = set((d.getVar('MACHINE_FEATURES') or '').split())
-> > > > +
-> > > > +    any_of_machine_features = set((d.getVar('ANY_OF_MACHINE_FEATURES') or '').split())
-> > > > +    if any_of_machine_features:
-> > > > +        if set.isdisjoint(any_of_machine_features, machine_features):
-> > > > +            raise bb.parse.SkipRecipe("one of '%s' needs to be in MACHINE_FEATURES" % ' '.join(any_of_machine_features))
-> > > > +
-> > > > +    required_machine_features = set((d.getVar('REQUIRED_MACHINE_FEATURES') or '').split())
-> > > > +    if required_machine_features:
-> > > > +        missing = set.difference(required_machine_features, machine_features)
-> > > > +        if missing:
-> > > > +            raise bb.parse.SkipRecipe("missing required machine feature%s '%s' (not in MACHINE_FEATURES)" % ('s' if len(missing) > 1 else '', ' '.join(missing)))
-> > > > +
-> > > > +    conflict_machine_features = set((d.getVar('CONFLICT_MACHINE_FEATURES') or '').split())
-> > > > +    if conflict_machine_features:
-> > > > +        conflicts = set.intersection(conflict_machine_features, machine_features)
-> > > > +        if conflicts:
-> > > > +            raise bb.parse.SkipRecipe("conflicting machine feature%s '%s' (in MACHINE_FEATURES)" % ('s' if len(conflicts) > 1 else '', ' '.join(conflicts)))
-> > > > +
-> > > > +    # Assume at least one var is set.
-> > > > +    combined_features = set((d.getVar('COMBINED_FEATURES') or '').split())
-> > > > +
-> > > > +    any_of_combined_features = set((d.getVar('ANY_OF_COMBINED_FEATURES') or '').split())
-> > > > +    if any_of_combined_features:
-> > > > +        if set.isdisjoint(any_of_combined_features, combined_features):
-> > > > +            raise bb.parse.SkipRecipe("one of '%s' needs to be in COMBINED_FEATURES" % ' '.join(any_of_combined_features))
-> > > > +
-> > > > +    required_combined_features = set((d.getVar('REQUIRED_COMBINED_FEATURES') or '').split())
-> > > > +    if required_combined_features:
-> > > > +        missing = set.difference(required_combined_features, combined_features)
-> > > > +        if missing:
-> > > > +            raise bb.parse.SkipRecipe("missing required machine feature%s '%s' (not in COMBINED_FEATURES)" % ('s' if len(missing) > 1 else '', ' '.join(missing)))
-> > > > +
-> > > > +    conflict_combined_features = set((d.getVar('CONFLICT_COMBINED_FEATURES') or '').split())
-> > > > +    if conflict_combined_features:
-> > > > +        conflicts = set.intersection(conflict_combined_features, combined_features)
-> > > > +        if conflicts:
-> > > > +            raise bb.parse.SkipRecipe("conflicting machine feature%s '%s' (in COMBINED_FEATURES)" % ('s' if len(conflicts) > 1 else '', ' '.join(conflicts)))
-> > > >  }
-> > > > diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-> > > > index 550df20..fca36f3 100644
-> > > > --- a/meta/conf/documentation.conf
-> > > > +++ b/meta/conf/documentation.conf
-> > > > @@ -113,7 +113,7 @@ COMPATIBLE_MACHINE[doc] = "A regular expression that resolves to one or more tar
-> > > >  COMPLEMENTARY_GLOB[doc] = "Defines wildcards to match when installing a list of complementary packages for all the packages installed in an image."
-> > > >  CONFFILES[doc] = "Identifies editable or configurable files that are part of a package."
-> > > >  CONFIG_SITE[doc] = "A list of files that contains autoconf test results relevant to the current build. This variable is used by the Autotools utilities when running configure."
-> > > > -CONFLICT_DISTRO_FEATURES[doc] = "When a recipe inherits the distro_features_check class, this variable identifies distribution features that would be in conflict should the recipe be built."
-> > > > +CONFLICT_DISTRO_FEATURES[doc] = "When a recipe inherits the features_check class, this variable identifies distribution features that would be in conflict should the recipe be built."
-> > > >  CORE_IMAGE_EXTRA_INSTALL[doc] = "Specifies the list of packages to be added to the image. You should only set this variable in the conf/local.conf file in the Build Directory."
-> > > >  COREBASE[doc] = "Specifies the parent directory of the OpenEmbedded Core Metadata layer (i.e. meta)."
-> > > >  CONF_VERSION[doc] = "Tracks the version of local.conf.  Increased each time build/conf/ changes incompatibly."
-> > > > @@ -346,7 +346,7 @@ QMAKE_PROFILES[doc] = "Specifies your own subset of .pro files to be built for u
-> > > >
-> > > >  RCONFLICTS[doc] = "The list of packages that conflict with another package. Note that the package will not be installed if the conflicting packages are not first removed."
-> > > >  RDEPENDS[doc] = "Lists a package's runtime dependencies (i.e. other packages) that must be installed for the package to be built. They must be the names of other packages as listed in the PACKAGES variable, not recipe names (PN)."
-> > > > -REQUIRED_DISTRO_FEATURES[doc] = "When a recipe inherits the distro_features_check class, this variable identifies distribution features that must exist in the current configuration in order for the OpenEmbedded build system to build the recipe."
-> > > > +REQUIRED_DISTRO_FEATURES[doc] = "When a recipe inherits the features_check class, this variable identifies distribution features that must exist in the current configuration in order for the OpenEmbedded build system to build the recipe."
-> > > >  RM_WORK_EXCLUDE[doc] = "With rm_work enabled, this variable specifies a list of packages whose work directories should not be removed."
-> > > >  ROOTFS[doc] = "Indicates a filesystem image to include as the root filesystem."
-> > > >  ROOTFS_POSTPROCESS_COMMAND[doc] = "Added by classes to run post processing commands once the OpenEmbedded build system has created the root filesystem."
-> > > > diff --git a/meta/recipes-bsp/usbutils/usbutils_012.bb b/meta/recipes-bsp/usbutils/usbutils_012.bb
-> > > > index 0213e7a..b670fa4 100644
-> > > > --- a/meta/recipes-bsp/usbutils/usbutils_012.bb
-> > > > +++ b/meta/recipes-bsp/usbutils/usbutils_012.bb
-> > > > @@ -15,7 +15,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
-> > > >  SRC_URI[md5sum] = "7484445cbcf04b3eacac892fe58f8d9f"
-> > > >  SRC_URI[sha256sum] = "ae2e10aad530d95839b6f4d46cd41715eae6f0f1789310d793e9be21b3e7ae20"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check update-alternatives
-> > > > +inherit autotools pkgconfig features_check update-alternatives
-> > > >
-> > > >  ALTERNATIVE_${PN} = "lsusb"
-> > > >  ALTERNATIVE_PRIORITY = "100"
-> > > > diff --git a/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb b/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
-> > > > index 1c6e46a..1510a0e 100644
-> > > > --- a/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
-> > > > +++ b/meta/recipes-connectivity/avahi/avahi-ui_0.7.bb
-> > > > @@ -1,6 +1,6 @@
-> > > >  require avahi.inc
-> > > >
-> > > > -inherit distro_features_check
-> > > > +inherit features_check
-> > > >  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> > > >
-> > > >  DEPENDS += "avahi"
-> > > > diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-> > > > index 1702323..4845093 100644
-> > > > --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> > > > +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> > > > @@ -64,7 +64,7 @@ S = "${WORKDIR}/bluez-${PV}"
-> > > >
-> > > >  CVE_PRODUCT = "bluez"
-> > > >
-> > > > -inherit autotools pkgconfig systemd update-rc.d distro_features_check ptest gobject-introspection-data
-> > > > +inherit autotools pkgconfig systemd update-rc.d features_check ptest gobject-introspection-data
-> > > >
-> > > >  EXTRA_OECONF = "\
-> > > >    --enable-test \
-> > > > diff --git a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-> > > > index a56bd37..778bf50 100644
-> > > > --- a/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-> > > > +++ b/meta/recipes-connectivity/connman/connman-gnome_0.7.bb
-> > > > @@ -20,7 +20,7 @@ SRC_URI = "git://github.com/connectivity/connman-gnome.git \
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools-brokensep gtk-icon-cache pkgconfig distro_features_check
-> > > > +inherit autotools-brokensep gtk-icon-cache pkgconfig features_check
-> > > >  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> > > >
-> > > >  RDEPENDS_${PN} = "connman"
-> > > > diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-> > > > index 8b95f21..e811b42 100644
-> > > > --- a/meta/recipes-core/glib-2.0/glib.inc
-> > > > +++ b/meta/recipes-core/glib-2.0/glib.inc
-> > > > @@ -28,7 +28,7 @@ PACKAGES += "${PN}-codegen ${PN}-utils"
-> > > >
-> > > >  LEAD_SONAME = "libglib-2.0.*"
-> > > >
-> > > > -inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages distro_features_check
-> > > > +inherit meson gettext gtk-doc pkgconfig ptest-gnome upstream-version-is-even bash-completion gio-module-cache manpages features_check
-> > > >
-> > > >  GTKDOC_MESON_OPTION = "gtk_doc"
-> > > >
-> > > > diff --git a/meta/recipes-core/glibc/glibc.inc b/meta/recipes-core/glibc/glibc.inc
-> > > > index 252fd56..ea9a04a 100644
-> > > > --- a/meta/recipes-core/glibc/glibc.inc
-> > > > +++ b/meta/recipes-core/glibc/glibc.inc
-> > > > @@ -6,7 +6,7 @@ DEPENDS = "virtual/${TARGET_PREFIX}gcc libgcc-initial linux-libc-headers"
-> > > >
-> > > >  PROVIDES = "virtual/libc"
-> > > >  PROVIDES += "virtual/libintl virtual/libiconv"
-> > > > -inherit autotools texinfo distro_features_check systemd
-> > > > +inherit autotools texinfo features_check systemd
-> > > >
-> > > >  LEAD_SONAME = "libc.so"
-> > > >
-> > > > diff --git a/meta/recipes-core/libxml/libxml2_2.9.9.bb b/meta/recipes-core/libxml/libxml2_2.9.9.bb
-> > > > index c38f883..5a7e098 100644
-> > > > --- a/meta/recipes-core/libxml/libxml2_2.9.9.bb
-> > > > +++ b/meta/recipes-core/libxml/libxml2_2.9.9.bb
-> > > > @@ -35,7 +35,7 @@ PACKAGECONFIG ??= "python \
-> > > >  PACKAGECONFIG[python] = "--with-python=${PYTHON},--without-python,python3"
-> > > >  PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-> > > >
-> > > > -inherit autotools pkgconfig binconfig-disabled ptest distro_features_check
-> > > > +inherit autotools pkgconfig binconfig-disabled ptest features_check
-> > > >
-> > > >  inherit ${@bb.utils.contains('PACKAGECONFIG', 'python', 'python3native', '', d)}
-> > > >
-> > > > diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> > > > index ee9d063..0aab23e 100644
-> > > > --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> > > > +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> > > > @@ -8,7 +8,7 @@ PR = "r13"
-> > > >
-> > > >  PACKAGE_ARCH = "${TUNE_PKGARCH}"
-> > > >
-> > > > -inherit packagegroup  distro_features_check
-> > > > +inherit packagegroup  features_check
-> > > >  # rdepends on libx11-dev
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-core/systemd/systemd-compat-units.bb b/meta/recipes-core/systemd/systemd-compat-units.bb
-> > > > index d228a51..faa428b 100644
-> > > > --- a/meta/recipes-core/systemd/systemd-compat-units.bb
-> > > > +++ b/meta/recipes-core/systemd/systemd-compat-units.bb
-> > > > @@ -8,7 +8,7 @@ PACKAGE_WRITE_DEPS += "systemd-systemctl-native"
-> > > >
-> > > >  S = "${WORKDIR}"
-> > > >
-> > > > -inherit distro_features_check
-> > > > +inherit features_check
-> > > >
-> > > >  ALLOW_EMPTY_${PN} = "1"
-> > > >
-> > > > diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > > > index 65a931f..044c6c5 100644
-> > > > --- a/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > > > +++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
-> > > > @@ -12,7 +12,7 @@ SRC_URI = "file://serial-getty@.service"
-> > > >  S = "${WORKDIR}"
-> > > >
-> > > >  # As this package is tied to systemd, only build it when we're also building systemd.
-> > > > -inherit distro_features_check
-> > > > +inherit features_check
-> > > >  REQUIRED_DISTRO_FEATURES = "systemd"
-> > > >
-> > > >  do_install() {
-> > > > diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
-> > > > index 54fcc6a..7da96f4 100644
-> > > > --- a/meta/recipes-core/systemd/systemd_243.bb
-> > > > +++ b/meta/recipes-core/systemd/systemd_243.bb
-> > > > @@ -8,7 +8,7 @@ DEPENDS = "intltool-native gperf-native libcap util-linux"
-> > > >
-> > > >  SECTION = "base/shell"
-> > > >
-> > > > -inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives qemu systemd gettext bash-completion manpages distro_features_check
-> > > > +inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives qemu systemd gettext bash-completion manpages features_check
-> > > >
-> > > >  # As this recipe builds udev, respect systemd being in DISTRO_FEATURES so
-> > > >  # that we don't build both udev and systemd in world builds.
-> > > > diff --git a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> > > > index bfc1283..8fd6df9 100644
-> > > > --- a/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> > > > +++ b/meta/recipes-core/sysvinit/sysvinit_2.88dsf.bb
-> > > > @@ -29,7 +29,7 @@ SRC_URI[sha256sum] = "60bbc8c1e1792056e23761d22960b30bb13eccc2cabff8c7310a01f4d5
-> > > >  S = "${WORKDIR}/sysvinit-${PV}"
-> > > >  B = "${S}/src"
-> > > >
-> > > > -inherit update-alternatives distro_features_check
-> > > > +inherit update-alternatives features_check
-> > > >  DEPENDS_append = " update-rc.d-native base-passwd virtual/crypt"
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "sysvinit"
-> > > > diff --git a/meta/recipes-core/udev/eudev_3.2.8.bb b/meta/recipes-core/udev/eudev_3.2.8.bb
-> > > > index eecf64e..08729e1 100644
-> > > > --- a/meta/recipes-core/udev/eudev_3.2.8.bb
-> > > > +++ b/meta/recipes-core/udev/eudev_3.2.8.bb
-> > > > @@ -23,7 +23,7 @@ SRC_URI = "http://dev.gentoo.org/~blueness/${BPN}/${BP}.tar.gz \
-> > > >  SRC_URI[md5sum] = "ce166b3fdd910c2a4a840378f48fedaf"
-> > > >  SRC_URI[sha256sum] = "61e4948e9e51271c3cce2bb5311a30b206dd03ef011062e6c627fb007e43f6b8"
-> > > >
-> > > > -inherit autotools update-rc.d qemu pkgconfig distro_features_check
-> > > > +inherit autotools update-rc.d qemu pkgconfig features_check
-> > > >
-> > > >  CONFLICT_DISTRO_FEATURES = "systemd"
-> > > >
-> > > > diff --git a/meta/recipes-core/volatile-binds/volatile-binds.bb b/meta/recipes-core/volatile-binds/volatile-binds.bb
-> > > > index d861a71..b273293 100644
-> > > > --- a/meta/recipes-core/volatile-binds/volatile-binds.bb
-> > > > +++ b/meta/recipes-core/volatile-binds/volatile-binds.bb
-> > > > @@ -11,7 +11,7 @@ SRC_URI = "\
-> > > >
-> > > >  S = "${WORKDIR}"
-> > > >
-> > > > -inherit allarch systemd distro_features_check
-> > > > +inherit allarch systemd features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "systemd"
-> > > >
-> > > > diff --git a/meta/recipes-devtools/mtools/mtools_4.0.23.bb b/meta/recipes-devtools/mtools/mtools_4.0.23.bb
-> > > > index 2ae6979..2093d80 100644
-> > > > --- a/meta/recipes-devtools/mtools/mtools_4.0.23.bb
-> > > > +++ b/meta/recipes-devtools/mtools/mtools_4.0.23.bb
-> > > > @@ -35,7 +35,7 @@ SRC_URI = "${GNU_MIRROR}/mtools/mtools-${PV}.tar.bz2 \
-> > > >
-> > > >  SRC_URI_append_class-native = " file://disable-hardcoded-configs.patch"
-> > > >
-> > > > -inherit autotools texinfo distro_features_check
-> > > > +inherit autotools texinfo features_check
-> > > >
-> > > >  EXTRA_OECONF = "--without-x"
-> > > >
-> > > > diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb
-> > > > index b0433e0..aef8839 100644
-> > > > --- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb
-> > > > +++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb
-> > > > @@ -20,7 +20,7 @@ S = "${WORKDIR}/git"
-> > > >
-> > > >  DEPENDS = "systemd libxslt-native xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native intltool"
-> > > >
-> > > > -inherit pkgconfig autotools systemd distro_features_check
-> > > > +inherit pkgconfig autotools systemd features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "systemd"
-> > > >
-> > > > diff --git a/meta/recipes-extended/pam/libpam_1.3.1.bb b/meta/recipes-extended/pam/libpam_1.3.1.bb
-> > > > index a2aa1ec..1194933 100644
-> > > > --- a/meta/recipes-extended/pam/libpam_1.3.1.bb
-> > > > +++ b/meta/recipes-extended/pam/libpam_1.3.1.bb
-> > > > @@ -150,7 +150,7 @@ do_install() {
-> > > >         fi
-> > > >  }
-> > > >
-> > > > -inherit distro_features_check
-> > > > +inherit features_check
-> > > >  REQUIRED_DISTRO_FEATURES = "pam"
-> > > >
-> > > >  BBCLASSEXTEND = "nativesdk native"
-> > > > diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-> > > > index 8e46638..7788b5f 100644
-> > > > --- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-> > > > +++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-> > > > @@ -28,7 +28,7 @@ SRC_URI[sha256sum] = "d798b08af8a8e2063ddde6c9fa3398ca81484f27dec642c5627ffcaa0d
-> > > >  UPSTREAM_CHECK_REGEX = "xdg-utils-(?P<pver>((\d+[\.\-_]*)+)((rc|alpha|beta)\d+)?)\.(tar\.gz|tgz)"
-> > > >
-> > > >  # Needs brokensep as this doesn't use automake
-> > > > -inherit autotools-brokensep distro_features_check
-> > > > +inherit autotools-brokensep features_check
-> > > >
-> > > >  # The xprop requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-gnome/epiphany/epiphany_3.34.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.34.1.bb
-> > > > index d1cb515..cebd55d 100644
-> > > > --- a/meta/recipes-gnome/epiphany/epiphany_3.34.1.bb
-> > > > +++ b/meta/recipes-gnome/epiphany/epiphany_3.34.1.bb
-> > > > @@ -8,7 +8,7 @@ DEPENDS = "libsoup-2.4 webkitgtk gtk+3 iso-codes avahi libnotify gcr \
-> > > >            glib-2.0 glib-2.0-native json-glib libdazzle"
-> > > >
-> > > >  GNOMEBASEBUILDCLASS = "meson"
-> > > > -inherit gnomebase gsettings distro_features_check upstream-version-is-even gettext
-> > > > +inherit gnomebase gsettings features_check upstream-version-is-even gettext
-> > > >  REQUIRED_DISTRO_FEATURES = "x11 opengl"
-> > > >
-> > > >  SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-> > > > diff --git a/meta/recipes-gnome/gcr/gcr_3.34.0.bb b/meta/recipes-gnome/gcr/gcr_3.34.0.bb
-> > > > index 616b0e5..e3e8999 100644
-> > > > --- a/meta/recipes-gnome/gcr/gcr_3.34.0.bb
-> > > > +++ b/meta/recipes-gnome/gcr/gcr_3.34.0.bb
-> > > > @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=55ca817ccb7d5b5b66355690e9abc605"
-> > > >  DEPENDS = "gtk+3 p11-kit glib-2.0 libgcrypt \
-> > > >             ${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'libxslt-native', '', d)}"
-> > > >
-> > > > -inherit gnomebase gtk-icon-cache gtk-doc distro_features_check upstream-version-is-even vala gobject-introspection gettext
-> > > > +inherit gnomebase gtk-icon-cache gtk-doc features_check upstream-version-is-even vala gobject-introspection gettext
-> > > >  # depends on gtk+3, but also x11 through gtk+-x11
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
-> > > > index dc6768c..e1f1e0d 100644
-> > > > --- a/meta/recipes-gnome/gtk+/gtk+3.inc
-> > > > +++ b/meta/recipes-gnome/gtk+/gtk+3.inc
-> > > > @@ -10,7 +10,7 @@ DEPENDS = "glib-2.0 cairo pango atk jpeg libpng gdk-pixbuf \
-> > > >
-> > > >  LICENSE = "LGPLv2 & LGPLv2+ & LGPLv2.1+"
-> > > >
-> > > > -inherit autotools gettext pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings distro_features_check gobject-introspection
-> > > > +inherit autotools gettext pkgconfig gtk-doc update-alternatives gtk-immodules-cache gsettings features_check gobject-introspection
-> > > >
-> > > >  BBCLASSEXTEND = "native nativesdk"
-> > > >
-> > > > diff --git a/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb b/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
-> > > > index e297390..1c8b2c8 100644
-> > > > --- a/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
-> > > > +++ b/meta/recipes-gnome/libdazzle/libdazzle_3.34.1.bb
-> > > > @@ -8,7 +8,7 @@ BUGTRACKER = "https://gitlab.gnome.org/GNOME/libdazzle/issues"
-> > > >  LIC_FILES_CHKSUM = "file://COPYING;md5=8f0e2cd40e05189ec81232da84bd6e1a"
-> > > >
-> > > >  GNOMEBASEBUILDCLASS = "meson"
-> > > > -inherit gnomebase upstream-version-is-even vala distro_features_check gobject-introspection
-> > > > +inherit gnomebase upstream-version-is-even vala features_check gobject-introspection
-> > > >
-> > > >  DEPENDS = "glib-2.0-native glib-2.0 gtk+3"
-> > > >
-> > > > diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-> > > > index f4cda7b..0306b04 100644
-> > > > --- a/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-> > > > +++ b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-> > > > @@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
-> > > >
-> > > >  DEPENDS = "dbus gtk+3 glib-2.0"
-> > > >
-> > > > -inherit gnomebase gtk-doc distro_features_check gobject-introspection
-> > > > +inherit gnomebase gtk-doc features_check gobject-introspection
-> > > >  # depends on gtk+3
-> > > >  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/clutter/clutter-1.0.inc b/meta/recipes-graphics/clutter/clutter-1.0.inc
-> > > > index 9ecdfd0..5dc45eb 100644
-> > > > --- a/meta/recipes-graphics/clutter/clutter-1.0.inc
-> > > > +++ b/meta/recipes-graphics/clutter/clutter-1.0.inc
-> > > > @@ -5,7 +5,7 @@ box UIs, presentations, kiosk style applications and so on."
-> > > >  HOMEPAGE = "http://www.clutter-project.org/"
-> > > >  LICENSE = "LGPLv2.1+"
-> > > >
-> > > > -inherit clutter ptest-gnome distro_features_check upstream-version-is-even gobject-introspection
-> > > > +inherit clutter ptest-gnome features_check upstream-version-is-even gobject-introspection
-> > > >  # depends on cogl-1.0 which needs opengl
-> > > >  REQUIRED_DISTRO_FEATURES ?= "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/clutter/clutter-gst-3.0.inc b/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
-> > > > index 4c87798..fc3eade 100644
-> > > > --- a/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
-> > > > +++ b/meta/recipes-graphics/clutter/clutter-gst-3.0.inc
-> > > > @@ -2,7 +2,7 @@ SUMMARY = "GStreamer integration library for Clutter"
-> > > >  HOMEPAGE = "http://www.clutter-project.org/"
-> > > >  LICENSE = "LGPLv2+"
-> > > >
-> > > > -inherit clutter distro_features_check upstream-version-is-even gobject-introspection
-> > > > +inherit clutter features_check upstream-version-is-even gobject-introspection
-> > > >  # depends on clutter-1.0 which depends on cogl-1.0
-> > > >  REQUIRED_DISTRO_FEATURES ?= "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-> > > > index 11826a6..7bf2278 100644
-> > > > --- a/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-> > > > +++ b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-> > > > @@ -3,7 +3,7 @@ HOMEPAGE = "http://www.clutter-project.org/"
-> > > >  LICENSE = "LGPLv2+"
-> > > >
-> > > >  CLUTTERBASEBUILDCLASS = "meson"
-> > > > -inherit clutter distro_features_check upstream-version-is-even gobject-introspection gtk-doc
-> > > > +inherit clutter features_check upstream-version-is-even gobject-introspection gtk-doc
-> > > >
-> > > >  # depends on clutter-1.0 which depends on cogl-1.0
-> > > >  REQUIRED_DISTRO_FEATURES ?= "opengl"
-> > > > diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-> > > > index 23661d9..d8d0665 100644
-> > > > --- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-> > > > +++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-> > > > @@ -6,7 +6,7 @@ can render without stepping on each others toes."
-> > > >  HOMEPAGE = "http://wiki.clutter-project.org/wiki/Cogl"
-> > > >  LICENSE = "MIT"
-> > > >
-> > > > -inherit clutter distro_features_check upstream-version-is-even gobject-introspection
-> > > > +inherit clutter features_check upstream-version-is-even gobject-introspection
-> > > >  # cogl-1.0 needs opengl to build
-> > > >  REQUIRED_DISTRO_FEATURES ?= "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/glew/glew_2.1.0.bb b/meta/recipes-graphics/glew/glew_2.1.0.bb
-> > > > index 18e6909..f6f4340 100644
-> > > > --- a/meta/recipes-graphics/glew/glew_2.1.0.bb
-> > > > +++ b/meta/recipes-graphics/glew/glew_2.1.0.bb
-> > > > @@ -15,7 +15,7 @@ SRC_URI[sha256sum] = "04de91e7e6763039bc11940095cd9c7f880baba82196a7765f727ac05a
-> > > >  UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/glew/files/glew"
-> > > >  UPSTREAM_CHECK_REGEX = "/glew/(?P<pver>(\d+[\.\-_]*)+)/"
-> > > >
-> > > > -inherit lib_package pkgconfig distro_features_check
-> > > > +inherit lib_package pkgconfig features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/images/core-image-weston.bb b/meta/recipes-graphics/images/core-image-weston.bb
-> > > > index e36655f..f5102e1 100644
-> > > > --- a/meta/recipes-graphics/images/core-image-weston.bb
-> > > > +++ b/meta/recipes-graphics/images/core-image-weston.bb
-> > > > @@ -4,7 +4,7 @@ IMAGE_FEATURES += "splash package-management ssh-server-dropbear hwcodecs"
-> > > >
-> > > >  LICENSE = "MIT"
-> > > >
-> > > > -inherit core-image distro_features_check
-> > > > +inherit core-image features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "wayland"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/images/core-image-x11.bb b/meta/recipes-graphics/images/core-image-x11.bb
-> > > > index cd53749..5240775 100644
-> > > > --- a/meta/recipes-graphics/images/core-image-x11.bb
-> > > > +++ b/meta/recipes-graphics/images/core-image-x11.bb
-> > > > @@ -4,7 +4,7 @@ IMAGE_FEATURES += "splash package-management x11-base"
-> > > >
-> > > >  LICENSE = "MIT"
-> > > >
-> > > > -inherit core-image distro_features_check
-> > > > +inherit core-image features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
-> > > > index 2b6837f..8272004 100644
-> > > > --- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-> > > > +++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-> > > > @@ -13,7 +13,7 @@ UPSTREAM_CHECK_COMMITS = "1"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit meson pkgconfig distro_features_check
-> > > > +inherit meson pkgconfig features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
-> > > > index 834d815..71a2c91 100644
-> > > > --- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
-> > > > +++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
-> > > > @@ -15,7 +15,7 @@ SRC_URI[md5sum] = "e2845de8d2782b2d31c01ae8d7cd4cbb"
-> > > >  SRC_URI[sha256sum] = "002958c5528321edd53440235d3c44e71b5b1e09b9177e8daf677450b6c4433d"
-> > > >  UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
-> > > >
-> > > > -inherit meson pkgconfig distro_features_check
-> > > > +inherit meson pkgconfig features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl"
-> > > >  REQUIRED_DISTRO_FEATURES_class-native = ""
-> > > > diff --git a/meta/recipes-graphics/libfakekey/libfakekey_git.bb b/meta/recipes-graphics/libfakekey/libfakekey_git.bb
-> > > > index 4b803db..ab6f5ac 100644
-> > > > --- a/meta/recipes-graphics/libfakekey/libfakekey_git.bb
-> > > > +++ b/meta/recipes-graphics/libfakekey/libfakekey_git.bb
-> > > > @@ -17,7 +17,7 @@ SRC_URI = "git://git.yoctoproject.org/${BPN}"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig gettext distro_features_check
-> > > > +inherit autotools pkgconfig gettext features_check
-> > > >
-> > > >  # The libxtst requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
-> > > > index cca2d48..1a31677 100644
-> > > > --- a/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
-> > > > +++ b/meta/recipes-graphics/libmatchbox/libmatchbox_1.12.bb
-> > > > @@ -21,7 +21,7 @@ SRC_URI = "git://git.yoctoproject.org/${BPN}"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >  # depends on virtual/libx11
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/libva/libva-utils_2.5.0.bb b/meta/recipes-graphics/libva/libva-utils_2.5.0.bb
-> > > > index fc013d7..f68d0cf 100644
-> > > > --- a/meta/recipes-graphics/libva/libva-utils_2.5.0.bb
-> > > > +++ b/meta/recipes-graphics/libva/libva-utils_2.5.0.bb
-> > > > @@ -25,7 +25,7 @@ UPSTREAM_CHECK_URI = "https://github.com/intel/libva-utils/releases"
-> > > >
-> > > >  DEPENDS = "libva"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  # depends on libva which requires opengl
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl"
-> > > > diff --git a/meta/recipes-graphics/libva/libva_2.5.0.bb b/meta/recipes-graphics/libva/libva_2.5.0.bb
-> > > > index e75648b..73e2e01 100644
-> > > > --- a/meta/recipes-graphics/libva/libva_2.5.0.bb
-> > > > +++ b/meta/recipes-graphics/libva/libva_2.5.0.bb
-> > > > @@ -26,7 +26,7 @@ UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
-> > > >
-> > > >  DEPENDS = "libdrm virtual/mesa"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.2.bb b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.2.bb
-> > > > index 815a75f..b9961c3 100644
-> > > > --- a/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.2.bb
-> > > > +++ b/meta/recipes-graphics/matchbox-wm/matchbox-wm_1.2.2.bb
-> > > > @@ -17,7 +17,7 @@ SRC_URI = "git://git.yoctoproject.org/matchbox-window-manager \
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >  # depends on virtual/libx11
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/mesa/libglu_9.0.1.bb b/meta/recipes-graphics/mesa/libglu_9.0.1.bb
-> > > > index 068fb19..703f131 100644
-> > > > --- a/meta/recipes-graphics/mesa/libglu_9.0.1.bb
-> > > > +++ b/meta/recipes-graphics/mesa/libglu_9.0.1.bb
-> > > > @@ -21,7 +21,7 @@ S = "${WORKDIR}/glu-${PV}"
-> > > >
-> > > >  DEPENDS = "virtual/libgl"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  # Requires libGL.so which is provided by mesa when x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11 opengl"
-> > > > diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb
-> > > > index 129a47d..38bdbde 100644
-> > > > --- a/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb
-> > > > +++ b/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb
-> > > > @@ -22,7 +22,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/demos/${BPN}-${PV}.tar.bz2 \
-> > > >  SRC_URI[md5sum] = "6b65a02622765522176d00f553086fa3"
-> > > >  SRC_URI[sha256sum] = "01e99c94a0184e63e796728af89bfac559795fb2a0d6f506fa900455ca5fff7d"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >  # depends on virtual/egl, virtual/libgl ...
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> > > > index 9e5808e..bf1492b 100644
-> > > > --- a/meta/recipes-graphics/mesa/mesa.inc
-> > > > +++ b/meta/recipes-graphics/mesa/mesa.inc
-> > > > @@ -24,7 +24,7 @@ PROVIDES = " \
-> > > >      virtual/mesa \
-> > > >      "
-> > > >
-> > > > -inherit meson pkgconfig python3native gettext distro_features_check
-> > > > +inherit meson pkgconfig python3native gettext features_check
-> > > >
-> > > >  # Unset these to stop python trying to report the target Python setup
-> > > >  _PYTHON_SYSCONFIGDATA_NAME[unexport] = "1"
-> > > > diff --git a/meta/recipes-graphics/mx/mx.inc b/meta/recipes-graphics/mx/mx.inc
-> > > > index d304837..714a06f 100644
-> > > > --- a/meta/recipes-graphics/mx/mx.inc
-> > > > +++ b/meta/recipes-graphics/mx/mx.inc
-> > > > @@ -1,7 +1,7 @@
-> > > >  SUMMARY = "Clutter based UI widget library"
-> > > >  LICENSE = "LGPLv2.1"
-> > > >
-> > > > -inherit clutter autotools distro_features_check gobject-introspection gtk-doc
-> > > > +inherit clutter autotools features_check gobject-introspection gtk-doc
-> > > >  # depends on clutter-1.0 which depends on cogl-1.0
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-clutter.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-clutter.bb
-> > > > index 87c700e..2e7b47d 100644
-> > > > --- a/meta/recipes-graphics/packagegroups/packagegroup-core-clutter.bb
-> > > > +++ b/meta/recipes-graphics/packagegroups/packagegroup-core-clutter.bb
-> > > > @@ -6,7 +6,7 @@ SUMMARY = "Clutter package groups"
-> > > >
-> > > >  PR = "r6"
-> > > >
-> > > > -inherit packagegroup distro_features_check
-> > > > +inherit packagegroup features_check
-> > > >  # rdepends on clutter-*
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
-> > > > index 7ea72d5..9ca2705 100644
-> > > > --- a/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
-> > > > +++ b/meta/recipes-graphics/packagegroups/packagegroup-core-x11-base.bb
-> > > > @@ -2,7 +2,7 @@ SUMMARY = "Basic X11 session"
-> > > >  DESCRIPTION = "Packages required to set up a basic working X11 session"
-> > > >  PR = "r1"
-> > > >
-> > > > -inherit packagegroup distro_features_check
-> > > > +inherit packagegroup features_check
-> > > >  # rdepends on matchbox-wm
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
-> > > > index 97dcac5..a0b944a 100644
-> > > > --- a/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
-> > > > +++ b/meta/recipes-graphics/packagegroups/packagegroup-core-x11-xserver.bb
-> > > > @@ -7,7 +7,7 @@ PR = "r40"
-> > > >
-> > > >  PACKAGE_ARCH = "${MACHINE_ARCH}"
-> > > >
-> > > > -inherit packagegroup distro_features_check
-> > > > +inherit packagegroup features_check
-> > > >  # rdepends on XSERVER
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/packagegroups/packagegroup-core-x11.bb b/meta/recipes-graphics/packagegroups/packagegroup-core-x11.bb
-> > > > index 001db9e..cddf193 100644
-> > > > --- a/meta/recipes-graphics/packagegroups/packagegroup-core-x11.bb
-> > > > +++ b/meta/recipes-graphics/packagegroups/packagegroup-core-x11.bb
-> > > > @@ -4,7 +4,7 @@
-> > > >
-> > > >  PR = "r40"
-> > > >
-> > > > -inherit packagegroup distro_features_check
-> > > > +inherit packagegroup features_check
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > >  PACKAGES = "${PN} ${PN}-utils"
-> > > > diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-> > > > index 28a52cf..696d438 100644
-> > > > --- a/meta/recipes-graphics/piglit/piglit_git.bb
-> > > > +++ b/meta/recipes-graphics/piglit/piglit_git.bb
-> > > > @@ -21,7 +21,7 @@ X11_RDEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)
-> > > >
-> > > >  DEPENDS = "libpng waffle libxkbcommon virtual/libgl python3-mako-native python3-numpy-native python3-six-native virtual/egl"
-> > > >
-> > > > -inherit cmake pkgconfig python3native distro_features_check bash-completion
-> > > > +inherit cmake pkgconfig python3native features_check bash-completion
-> > > >
-> > > >  # depends on virtual/libgl
-> > > >  REQUIRED_DISTRO_FEATURES += "opengl"
-> > > > diff --git a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-> > > > index cdfe38a..c3c237e 100644
-> > > > --- a/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-> > > > +++ b/meta/recipes-graphics/pong-clock/pong-clock_1.0.bb
-> > > > @@ -2,7 +2,7 @@ SUMMARY = "A clock combined with a game of pong"
-> > > >  LICENSE = "GPLv2+"
-> > > >  DEPENDS = "virtual/libx11 xdmcp xau"
-> > > >
-> > > > -inherit distro_features_check pkgconfig
-> > > > +inherit features_check pkgconfig
-> > > >  # depends on virtual/libx11
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb b/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
-> > > > index 6c1b93c..a26ab44 100644
-> > > > --- a/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
-> > > > +++ b/meta/recipes-graphics/startup-notification/startup-notification_0.12.bb
-> > > > @@ -17,7 +17,7 @@ SECTION = "libs"
-> > > >
-> > > >  DEPENDS = "virtual/libx11 libsm xcb-util"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >  # depends on virtual/libx11
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
-> > > > index 4ac4412..4420d84 100644
-> > > > --- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
-> > > > +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.0.bb
-> > > > @@ -16,7 +16,7 @@ SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  BBCLASSEXTEND = "native nativesdk"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/vulkan/vulkan-demos_git.bb b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
-> > > > index d2041d7..74dc2ad 100644
-> > > > --- a/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
-> > > > +++ b/meta/recipes-graphics/vulkan/vulkan-demos_git.bb
-> > > > @@ -20,7 +20,7 @@ S = "${WORKDIR}/git"
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = 'vulkan'
-> > > >
-> > > > -inherit cmake distro_features_check
-> > > > +inherit cmake features_check
-> > > >  DEPENDS = "vulkan-loader assimp"
-> > > >
-> > > >  do_install_append () {
-> > > > diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.1.108.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.1.108.bb
-> > > > index 2fd6c44..a539c5a 100644
-> > > > --- a/meta/recipes-graphics/vulkan/vulkan-loader_1.1.108.bb
-> > > > +++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.1.108.bb
-> > > > @@ -16,7 +16,7 @@ S = "${WORKDIR}/git"
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "vulkan"
-> > > >
-> > > > -inherit cmake distro_features_check
-> > > > +inherit cmake features_check
-> > > >  ANY_OF_DISTRO_FEATURES = "x11 wayland"
-> > > >
-> > > >  DEPENDS += "vulkan-headers"
-> > > > diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.1.108.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.1.108.bb
-> > > > index 26cdee3..4ac1baf 100644
-> > > > --- a/meta/recipes-graphics/vulkan/vulkan-tools_1.1.108.bb
-> > > > +++ b/meta/recipes-graphics/vulkan/vulkan-tools_1.1.108.bb
-> > > > @@ -10,7 +10,7 @@ SRCREV = "3ccd7f6ebae3e1919adf837718c04feb6c2acc61"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit cmake distro_features_check
-> > > > +inherit cmake features_check
-> > > >  ANY_OF_DISTRO_FEATURES = "x11 wayland"
-> > > >  REQUIRED_DISTRO_FEATURES = "vulkan"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/waffle/waffle_1.6.0.bb b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
-> > > > index 8a1d574..52cb1df 100644
-> > > > --- a/meta/recipes-graphics/waffle/waffle_1.6.0.bb
-> > > > +++ b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
-> > > > @@ -9,7 +9,7 @@ SRC_URI[sha256sum] = "d9c899f710c50cfdd00f5f4cdfeaef0687d8497362239bdde93bed6c90
-> > > >
-> > > >  UPSTREAM_CHECK_URI = "http://www.waffle-gl.org/releases.html"
-> > > >
-> > > > -inherit meson distro_features_check lib_package bash-completion
-> > > > +inherit meson features_check lib_package bash-completion
-> > > >
-> > > >  # This should be overridden per-machine to reflect the capabilities of the GL
-> > > >  # stack.
-> > > > diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
-> > > > index 8b66897..e3e739e 100644
-> > > > --- a/meta/recipes-graphics/wayland/weston-init.bb
-> > > > +++ b/meta/recipes-graphics/wayland/weston-init.bb
-> > > > @@ -30,7 +30,7 @@ do_install() {
-> > > >         sed -i 's,@LOCALSTATEDIR@,${localstatedir},g' ${D}${bindir}/weston-start
-> > > >  }
-> > > >
-> > > > -inherit update-rc.d distro_features_check systemd
-> > > > +inherit update-rc.d features_check systemd
-> > > >
-> > > >  # rdepends on weston which depends on virtual/egl
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl"
-> > > > diff --git a/meta/recipes-graphics/wayland/weston_7.0.0.bb b/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> > > > index d212754..e6548d3 100644
-> > > > --- a/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> > > > +++ b/meta/recipes-graphics/wayland/weston_7.0.0.bb
-> > > > @@ -16,7 +16,7 @@ SRC_URI[sha256sum] = "a00a6d207b6a45f95f4401c604772a307c3767e5e2beecf3d879110c43
-> > > >
-> > > >  UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
-> > > >
-> > > > -inherit meson pkgconfig useradd distro_features_check
-> > > > +inherit meson pkgconfig useradd features_check
-> > > >  # depends on virtual/egl
-> > > >  REQUIRED_DISTRO_FEATURES = "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-> > > > index a77c564..385fea5 100644
-> > > > --- a/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-> > > > +++ b/meta/recipes-graphics/x11-common/xserver-nodm-init_3.0.bb
-> > > > @@ -17,7 +17,7 @@ S = "${WORKDIR}"
-> > > >  # Since we refer to ROOTLESS_X which is normally enabled per-machine
-> > > >  PACKAGE_ARCH = "${MACHINE_ARCH}"
-> > > >
-> > > > -inherit update-rc.d systemd distro_features_check
-> > > > +inherit update-rc.d systemd features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-> > > > index 9873d3f..4f83193 100644
-> > > > --- a/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-> > > > +++ b/meta/recipes-graphics/xinput-calibrator/xinput-calibrator_git.bb
-> > > > @@ -7,7 +7,7 @@ DEPENDS = "virtual/libx11 libxi libxrandr"
-> > > >  PV = "0.7.5+git${SRCPV}"
-> > > >  PR = "r6"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >  # depends on virtual/libx11
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/xorg-app/xorg-app-common.inc b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-> > > > index 3529cb2..101b3df 100644
-> > > > --- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-> > > > +++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-> > > > @@ -12,6 +12,6 @@ INC_PR = "r8"
-> > > >
-> > > >  SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.bz2"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  FILES_${PN} += " ${libdir}/X11/${BPN} ${datadir}/X11/app-defaults/"
-> > > > diff --git a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-> > > > index e657c65..54f04b1 100644
-> > > > --- a/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-> > > > +++ b/meta/recipes-graphics/xorg-driver/xorg-driver-common.inc
-> > > > @@ -13,7 +13,7 @@ SRC_URI = "${XORG_MIRROR}/individual/driver/${BPN}-${PV}.tar.bz2"
-> > > >
-> > > >  FILES_${PN} += " ${libdir}/xorg/modules/drivers/*.so"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >  # depends on virtual/xserver
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/xorg-font/xorg-font-common.inc b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-> > > > index cdbebcf..f18c8ae 100644
-> > > > --- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-> > > > +++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-> > > > @@ -14,7 +14,7 @@ INC_PR = "r2"
-> > > >  SRC_URI = "${XORG_MIRROR}/individual/font/${XORG_PN}-${PV}.tar.bz2"
-> > > >  S = "${WORKDIR}/${XORG_PN}-${PV}"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  # The mkfontscale-native requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-> > > > index 9bcd1b2..1ea08a6 100644
-> > > > --- a/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-> > > > +++ b/meta/recipes-graphics/xorg-font/xorg-minimal-fonts.bb
-> > > > @@ -13,7 +13,7 @@ SRC_URI = "file://misc"
-> > > >  PE = "1"
-> > > >  PR = "r2"
-> > > >
-> > > > -inherit allarch distro_features_check
-> > > > +inherit allarch features_check
-> > > >
-> > > >  # The font-alias requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb b/meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb
-> > > > index b0afc01..9befc51 100644
-> > > > --- a/meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb
-> > > > +++ b/meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb
-> > > > @@ -25,7 +25,7 @@ PACKAGES_DYNAMIC = "^libxcb-.*"
-> > > >
-> > > >  FILES_${PN} = "${libdir}/libxcb.so.*"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  # The libxau and others requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-graphics/xorg-lib/xcb-util.inc b/meta/recipes-graphics/xorg-lib/xcb-util.inc
-> > > > index 99d04f9..0e5ab70 100644
-> > > > --- a/meta/recipes-graphics/xorg-lib/xcb-util.inc
-> > > > +++ b/meta/recipes-graphics/xorg-lib/xcb-util.inc
-> > > > @@ -18,6 +18,6 @@ DEPENDS += "gperf-native"
-> > > >
-> > > >  SRC_URI = "http://xcb.freedesktop.org/dist/${BPN}-${PV}.tar.bz2"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> > > > index 09df010..a566eaa 100644
-> > > > --- a/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> > > > +++ b/meta/recipes-graphics/xorg-lib/xorg-lib-common.inc
-> > > > @@ -11,7 +11,7 @@ SRC_URI = "${XORG_MIRROR}/individual/lib/${XORG_PN}-${PV}.tar.bz2"
-> > > >
-> > > >  S = "${WORKDIR}/${XORG_PN}-${PV}"
-> > > >
-> > > > -inherit autotools distro_features_check pkgconfig
-> > > > +inherit autotools features_check pkgconfig
-> > > >
-> > > >  EXTRA_OECONF = "--disable-specs --without-groff --without-ps2pdf --without-fop"
-> > > >
-> > > > diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> > > > index 44315f5..a0ae65c 100644
-> > > > --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> > > > +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-> > > > @@ -24,7 +24,7 @@ S = "${WORKDIR}/${XORG_PN}-${PV}"
-> > > >
-> > > >  inherit autotools pkgconfig
-> > > >
-> > > > -inherit distro_features_check
-> > > > +inherit features_check
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > >  LIB_DEPS = "pixman libxfont2 xtrans libxau libxext libxdmcp libdrm libxkbfile libpciaccess"
-> > > > diff --git a/meta/recipes-graphics/xrestop/xrestop_0.4.bb b/meta/recipes-graphics/xrestop/xrestop_0.4.bb
-> > > > index ce5df03..c7b8716 100644
-> > > > --- a/meta/recipes-graphics/xrestop/xrestop_0.4.bb
-> > > > +++ b/meta/recipes-graphics/xrestop/xrestop_0.4.bb
-> > > > @@ -19,6 +19,6 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/xrestop/xrestop-${PV}.tar.
-> > > >  SRC_URI[md5sum] = "d8a54596cbaf037e62b80c4585a3ca9b"
-> > > >  SRC_URI[sha256sum] = "67c2fc94a7ecedbaae0d1837e82e93d1d98f4a6d759828860e552119af3ce257"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >  # depends on virtual/libx11
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
-> > > > index e83ea8c..cc7a7e7 100644
-> > > > --- a/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
-> > > > +++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.16.0.bb
-> > > > @@ -13,7 +13,7 @@ SRCREV = "d953c127c1146b50d5676618299933950685dcd7"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit meson pkgconfig distro_features_check
-> > > > +inherit meson pkgconfig features_check
-> > > >
-> > > >
-> > > >  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> > > > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
-> > > > index 5a950f1..c722f02 100644
-> > > > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
-> > > > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
-> > > > @@ -20,7 +20,7 @@ S = "${WORKDIR}/${PNREAL}-${PV}"
-> > > >  REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
-> > > >  UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
-> > > >
-> > > > -inherit autotools pkgconfig distutils3-base upstream-version-is-even gobject-introspection distro_features_check
-> > > > +inherit autotools pkgconfig distutils3-base upstream-version-is-even gobject-introspection features_check
-> > > >
-> > > >  EXTRA_OECONF += "--with-libpython-dir=${libdir}"
-> > > >
-> > > > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb
-> > > > index 61cf705..b8c2126 100644
-> > > > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb
-> > > > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb
-> > > > @@ -19,7 +19,7 @@ SRC_URI[sha256sum] = "cb570f6f1e78cb364fbe3c4fb8751824ee9db0c942ba61b62380b9b5ab
-> > > >  S = "${WORKDIR}/${REALPN}-${PV}"
-> > > >  DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-> > > >
-> > > > -inherit autotools pkgconfig gtk-doc distro_features_check upstream-version-is-even
-> > > > +inherit autotools pkgconfig gtk-doc features_check upstream-version-is-even
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES ?= "opengl"
-> > > >
-> > > > diff --git a/meta/recipes-sato/l3afpad/l3afpad_git.bb b/meta/recipes-sato/l3afpad/l3afpad_git.bb
-> > > > index ccfda26..8906c74 100644
-> > > > --- a/meta/recipes-sato/l3afpad/l3afpad_git.bb
-> > > > +++ b/meta/recipes-sato/l3afpad/l3afpad_git.bb
-> > > > @@ -17,7 +17,7 @@ SRCREV ="3cdccdc9505643e50f8208171d9eee5de11a42ff"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> > > >
-> > > > diff --git a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-> > > > index b993a94..547e851 100644
-> > > > --- a/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-> > > > +++ b/meta/recipes-sato/matchbox-config-gtk/matchbox-config-gtk_0.2.bb
-> > > > @@ -17,7 +17,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  # The settings-daemon requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-> > > > index b0cdfa2..5c23e85 100644
-> > > > --- a/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-> > > > +++ b/meta/recipes-sato/matchbox-desktop/matchbox-desktop_2.2.bb
-> > > > @@ -20,7 +20,7 @@ EXTRA_OECONF = "--enable-startup-notification --with-dbus"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  # The startup-notification requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_0.1.1.bb b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_0.1.1.bb
-> > > > index 465f134..dfc7fba 100644
-> > > > --- a/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_0.1.1.bb
-> > > > +++ b/meta/recipes-sato/matchbox-keyboard/matchbox-keyboard_0.1.1.bb
-> > > > @@ -18,7 +18,7 @@ SRC_URI = "git://git.yoctoproject.org/${BPN};branch=matchbox-keyboard-0-1 \
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig gettext gtk-immodules-cache distro_features_check
-> > > > +inherit autotools pkgconfig gettext gtk-immodules-cache features_check
-> > > >
-> > > >  # The libxft, libfakekey and matchbox-panel-2 requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.11.bb b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.11.bb
-> > > > index 421740f..2e6f5b7 100644
-> > > > --- a/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.11.bb
-> > > > +++ b/meta/recipes-sato/matchbox-panel-2/matchbox-panel-2_2.11.bb
-> > > > @@ -37,4 +37,4 @@ FILES_${PN} += "${libdir}/matchbox-panel/*.so \
-> > > >                  ${datadir}/icons/"
-> > > >  FILES_${PN}-dev += "${libdir}/matchbox-panel/*.la"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check gettext
-> > > > +inherit autotools pkgconfig features_check gettext
-> > > > diff --git a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-> > > > index 8230e95..966c5b5 100644
-> > > > --- a/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-> > > > +++ b/meta/recipes-sato/matchbox-sato/matchbox-session-sato_0.1.bb
-> > > > @@ -13,7 +13,7 @@ PR = "r30"
-> > > >  # based on the machine architecture.
-> > > >  PACKAGE_ARCH = "${MACHINE_ARCH}"
-> > > >
-> > > > -inherit distro_features_check
-> > > > +inherit features_check
-> > > >
-> > > >  # The matchbox-theme-sato requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-> > > > index 7f5eda3..9f00281 100644
-> > > > --- a/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-> > > > +++ b/meta/recipes-sato/matchbox-terminal/matchbox-terminal_0.2.bb
-> > > > @@ -16,6 +16,6 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> > > > diff --git a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato.inc b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato.inc
-> > > > index d947e1a..ce683e9 100644
-> > > > --- a/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato.inc
-> > > > +++ b/meta/recipes-sato/matchbox-theme-sato/matchbox-theme-sato.inc
-> > > > @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=aae86bb34b0a83716ca09f4e783d6ba4"
-> > > >  DEPENDS = "matchbox-wm"
-> > > >  SECTION = "x11/wm"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  FILES_${PN} += "${datadir}/themes"
-> > > >
-> > > > diff --git a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-> > > > index 7e14ece..ed3f1a6 100644
-> > > > --- a/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-> > > > +++ b/meta/recipes-sato/packagegroups/packagegroup-core-x11-sato.bb
-> > > > @@ -7,7 +7,7 @@ PR = "r33"
-> > > >
-> > > >  PACKAGE_ARCH = "${MACHINE_ARCH}"
-> > > >
-> > > > -inherit packagegroup distro_features_check
-> > > > +inherit packagegroup features_check
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > >  PACKAGES = "${PN} ${PN}-base ${PN}-apps ${PN}-games"
-> > > > diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb
-> > > > index a5e3a1a..c88e1ed 100644
-> > > > --- a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb
-> > > > +++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb
-> > > > @@ -21,7 +21,7 @@ SRC_URI[sha256sum] = "6804043b3ee3a703edde41c724946174b505fe958703eadbd7e0876ece
-> > > >
-> > > >  UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/pcmanfm/files/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/PCManFM/"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  # The startup-notification requires x11 in DISTRO_FEATURES
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > > diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-> > > > index 59b9525..5ee9164 100644
-> > > > --- a/meta/recipes-sato/puzzles/puzzles_git.bb
-> > > > +++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-> > > > @@ -24,7 +24,7 @@ PV = "0.0+git${SRCPV}"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools distro_features_check pkgconfig
-> > > > +inherit autotools features_check pkgconfig
-> > > >
-> > > >  PACKAGECONFIG ??= "gtk3"
-> > > >  PACKAGECONFIG[gtk2] = "--with-gtk=2,,gtk+,"
-> > > > diff --git a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
-> > > > index f3305ae..f6dac2c 100644
-> > > > --- a/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
-> > > > +++ b/meta/recipes-sato/sato-screenshot/sato-screenshot_0.3.bb
-> > > > @@ -16,7 +16,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >
-> > > >  FILES_${PN} += "${libdir}/matchbox-panel/*.so"
-> > > >
-> > > > diff --git a/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb b/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
-> > > > index bb6b69b..227fd54 100644
-> > > > --- a/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
-> > > > +++ b/meta/recipes-sato/settings-daemon/settings-daemon_0.0.2.bb
-> > > > @@ -17,7 +17,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
-> > > >
-> > > >  S = "${WORKDIR}/git"
-> > > >
-> > > > -inherit autotools pkgconfig gconf distro_features_check
-> > > > +inherit autotools pkgconfig gconf features_check
-> > > >
-> > > >  FILES_${PN} =  "${bindir}/* ${sysconfdir}"
-> > > >
-> > > > diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb
-> > > > index c3560e8..299d14a 100644
-> > > > --- a/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb
-> > > > +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb
-> > > > @@ -24,7 +24,7 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-> > > >  SRC_URI[md5sum] = "65e06fe73ee166447894aaea95038e3b"
-> > > >  SRC_URI[sha256sum] = "6b80f0637a80818559ac8fd50db3b394f41cb61904fb9b3ed65fa51635806512"
-> > > >
-> > > > -inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
-> > > > +inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
-> > > >
-> > > >  REQUIRED_DISTRO_FEATURES = "x11 opengl"
-> > > >
-> > > > diff --git a/meta/recipes-support/atk/at-spi2-atk_2.32.0.bb b/meta/recipes-support/atk/at-spi2-atk_2.32.0.bb
-> > > > index bcf1c9c..d3a9de1 100644
-> > > > --- a/meta/recipes-support/atk/at-spi2-atk_2.32.0.bb
-> > > > +++ b/meta/recipes-support/atk/at-spi2-atk_2.32.0.bb
-> > > > @@ -9,7 +9,7 @@ SRC_URI[archive.sha256sum] = "0b51e6d339fa2bcca3a3e3159ccea574c67b107f1ac8b00047
-> > > >  DEPENDS = "dbus glib-2.0 glib-2.0-native atk at-spi2-core libxml2"
-> > > >
-> > > >  GNOMEBASEBUILDCLASS = "meson"
-> > > > -inherit gnomebase distro_features_check upstream-version-is-even
-> > > > +inherit gnomebase features_check upstream-version-is-even
-> > > >
-> > > >  PACKAGES =+ "${PN}-gnome ${PN}-gtk2"
-> > > >
-> > > > diff --git a/meta/recipes-support/consolekit/consolekit_0.4.6.bb b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-> > > > index a17f739..89f2d77 100644
-> > > > --- a/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-> > > > +++ b/meta/recipes-support/consolekit/consolekit_0.4.6.bb
-> > > > @@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552 \
-> > > >  DEPENDS = "glib-2.0 glib-2.0-native dbus dbus-glib virtual/libx11"
-> > > >  RDEPENDS_${PN} += "base-files"
-> > > >
-> > > > -inherit autotools pkgconfig distro_features_check
-> > > > +inherit autotools pkgconfig features_check
-> > > >  # depends on virtual/libx11
-> > > >  REQUIRED_DISTRO_FEATURES = "x11"
-> > > >
-> > > > diff --git a/meta/recipes-support/libfm/libfm_1.3.1.bb b/meta/recipes-support/libfm/libfm_1.3.1.bb
-> > > > index 65a6f8e..918fe3e 100644
-> > > > --- a/meta/recipes-support/libfm/libfm_1.3.1.bb
-> > > > +++ b/meta/recipes-support/libfm/libfm_1.3.1.bb
-> > > > @@ -19,7 +19,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/pcmanfm/libfm-${PV}.tar.xz \
-> > > >  SRC_URI[md5sum] = "c15ecd2c9317e2c385cd3f046d0b61ba"
-> > > >  SRC_URI[sha256sum] = "96b1244bde41ca0eef0332cfb5c67bb16725dfd102128f3e6f74fadc13a1cfe4"
-> > > >
-> > > > -inherit autotools pkgconfig gtk-doc gettext distro_features_check
-> > > > +inherit autotools pkgconfig gtk-doc gettext features_check
-> > > >  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> > > >
-> > > >  EXTRA_OECONF = "--with-gtk=3"
-> > > > diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-> > > > index 244d9e2..074f713 100644
-> > > > --- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-> > > > +++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-> > > > @@ -12,7 +12,7 @@ SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${P
-> > > >  SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
-> > > >  SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67e7caf2"
-> > > >
-> > > > -inherit autotools distro_features_check
-> > > > +inherit autotools features_check
-> > > >
-> > > >  COMPATIBLE_HOST_libc-musl = 'null'
-> > > >
-> > > > diff --git a/meta/recipes-support/vte/vte_0.58.2.bb b/meta/recipes-support/vte/vte_0.58.2.bb
-> > > > index 9e27f69..0ed382a 100644
-> > > > --- a/meta/recipes-support/vte/vte_0.58.2.bb
-> > > > +++ b/meta/recipes-support/vte/vte_0.58.2.bb
-> > > > @@ -14,7 +14,7 @@ DEPENDS = "glib-2.0 gtk+3 libpcre2 libxml2-native gperf-native"
-> > > >  GNOMEBASEBUILDCLASS = "meson"
-> > > >  GIR_MESON_OPTION = 'gir'
-> > > >
-> > > > -inherit gnomebase gtk-doc distro_features_check upstream-version-is-even gobject-introspection
-> > > > +inherit gnomebase gtk-doc features_check upstream-version-is-even gobject-introspection
-> > > >
-> > > >  # vapigen.m4 is required when vala is not present (but the one from vala should be used normally)
-> > > >  SRC_URI += "file://0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch \
-> > > > --
-> > > > 2.7.4
-> > > >
-> > > > --
-> > > > _______________________________________________
-> > > > Openembedded-core mailing list
-> > > > Openembedded-core@lists.openembedded.org
-> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+with musl is still seen. I think we need to disable asm at least for
+musl case.
+
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> Acked-by: Otavio Salvador <otavio@ossystems.com.br>
+> ---
+> v7:
+>  - Update to mesa 19.2.3
+>  - Add INSANE_SKIP
+> v6:
+>  - Rebase on master
+> v4:
+>  - Add a patch (first patch in the series) to fix libsdl2 build
+> v3:
+>  - Fix missing Upstream-Status
+> v2:
+>  - Add back "make TLS ELF optional" patch
+> 
+>  ...k-for-all-linux-host_os-combinations.patch | 23 ++++----
+>  ...02-meson.build-make-TLS-ELF-optional.patch | 48 +++++++++++++++++
+>  ...on.build-make-TLS-GLX-optional-again.patch | 52 ---------------
+> ----
+>  .../{mesa-gl_19.1.6.bb => mesa-gl_19.2.3.bb}  |  0
+>  meta/recipes-graphics/mesa/mesa.inc           | 18 +++----
+>  .../mesa/{mesa_19.1.6.bb => mesa_19.2.3.bb}   |  6 +--
+>  6 files changed, 73 insertions(+), 74 deletions(-)
+>  create mode 100644 meta/recipes-graphics/mesa/files/0002-
+> meson.build-make-TLS-ELF-optional.patch
+>  delete mode 100644 meta/recipes-graphics/mesa/files/0002-
+> meson.build-make-TLS-GLX-optional-again.patch
+>  rename meta/recipes-graphics/mesa/{mesa-gl_19.1.6.bb => mesa-
+> gl_19.2.3.bb} (100%)
+>  rename meta/recipes-graphics/mesa/{mesa_19.1.6.bb => mesa_19.2.3.bb}
+> (77%)
+> 
+> diff --git a/meta/recipes-graphics/mesa/files/0001-meson.build-check-
+> for-all-linux-host_os-combinations.patch b/meta/recipes-
+> graphics/mesa/files/0001-meson.build-check-for-all-linux-host_os-
+> combinations.patch
+> index 9fba5da4b2..1aff727455 100644
+> --- a/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-
+> all-linux-host_os-combinations.patch
+> +++ b/meta/recipes-graphics/mesa/files/0001-meson.build-check-for-
+> all-linux-host_os-combinations.patch
+> @@ -1,8 +1,7 @@
+> -From ea966884e39aae9571c038fab55f3c1663d17850 Mon Sep 17 00:00:00
+> 2001
+> -From: Fabio Berton <fabio.berton@ossystems.com.br>
+> -Date: Wed, 12 Jun 2019 13:40:20 -0300
+> +From 7547bd7340dc318392aee8b3a3ad1f9d902121db Mon Sep 17 00:00:00
+> 2001
+> +From: Alistair Francis <alistair.francis@wdc.com>
+> +Date: Mon, 11 Nov 2019 09:38:15 -0800
+>  Subject: [PATCH] meson.build: check for all linux host_os
+> combinations
+> -Organization: O.S. Systems Software LTDA.
+>  
+>  Make sure that we are also looking for our host_os combinations like
+>  linux-musl etc. when assuming support for DRM/KMS.
+> @@ -14,29 +13,33 @@ Upstream-Status: Pending
+>  Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+>  Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+>  Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>  ---
+>   meson.build | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>  
+>  diff --git a/meson.build b/meson.build
+> -index 567a81afd6f..b33b430aed4 100644
+> +index d58415270d0..a1f098c3b19 100644
+>  --- a/meson.build
+>  +++ b/meson.build
+> -@@ -107,7 +107,7 @@ with_any_opengl = with_opengl or with_gles1 or
+> with_gles2
+> +@@ -117,7 +117,7 @@ with_any_opengl = with_opengl or with_gles1 or
+> with_gles2
+>   # Only build shared_glapi if at least one OpenGL API is enabled
+>   with_shared_glapi = get_option('shared-glapi') and with_any_opengl
+>   
+> --system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd',
+> 'gnu/kfreebsd', 'dragonfly', 'linux'].contains(host_machine.system())
+> +-system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd',
+> 'gnu/kfreebsd', 'dragonfly', 'linux',
+> 'sunos'].contains(host_machine.system())
+>  +system_has_kms_drm = ['openbsd', 'netbsd', 'freebsd',
+> 'dragonfly'].contains(host_machine.system()) or
+> host_machine.system().startswith('linux')
+>   
+>   dri_drivers = get_option('dri-drivers')
+>   if dri_drivers.contains('auto')
+> -@@ -845,7 +845,7 @@ if cc.compiles('int foo(void)
+> __attribute__((__noreturn__));',
+> +@@ -856,7 +856,7 @@ if cc.compiles('__uint128_t foo(void) { return
+> 0; }',
+>   endif
+>   
+>   # TODO: this is very incomplete
+>  -if ['linux', 'cygwin', 'gnu',
+> 'gnu/kfreebsd'].contains(host_machine.system())
+>  +if ['cygwin', 'gnu',
+> 'gnu/kfreebsd'].contains(host_machine.system()) or
+> host_machine.system().startswith('linux')
+>     pre_args += '-D_GNU_SOURCE'
+> - endif
+> - 
+> + elif host_machine.system() == 'sunos'
+> +   pre_args += '-D__EXTENSIONS__'
+> +-- 
+> +2.23.0
+> +
+> diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-
+> TLS-ELF-optional.patch b/meta/recipes-graphics/mesa/files/0002-
+> meson.build-make-TLS-ELF-optional.patch
+> new file mode 100644
+> index 0000000000..c3b5e14cd6
+> --- /dev/null
+> +++ b/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-ELF-
+> optional.patch
+> @@ -0,0 +1,48 @@
+> +From edd03b8ea66ccf81b0c1d27868756d06e2d177ab Mon Sep 17 00:00:00
+> 2001
+> +From: Alistair Francis <alistair.francis@wdc.com>
+> +Date: Wed, 23 Oct 2019 09:46:28 -0700
+> +Subject: [PATCH] meson.build: make TLS ELF optional
+> +
+> +USE_ELF_TLS has replaced GLX_USE_TLS so this patch is the original
+> "make
+> +TLS GLX optional again" patch updated to the latest mesa.
+> +
+> +Upstream-Status: Inappropriate [configuration]
+> +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> +---
+> + meson.build       | 2 +-
+> + meson_options.txt | 6 ++++++
+> + 2 files changed, 7 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/meson.build b/meson.build
+> +index 7992734..06653fe 100644
+> +--- a/meson.build
+> ++++ b/meson.build
+> +@@ -378,7 +378,7 @@ if with_egl and not (with_platform_drm or
+> with_platform_surfaceless or with_plat
+> + endif
+> + 
+> + # Android uses emutls for versions <= P/28. For USE_ELF_TLS we need
+> ELF TLS.
+> +-if not with_platform_android or get_option('platform-sdk-version')
+> >= 29
+> ++if (not with_platform_android or get_option('platform-sdk-version') 
+> >= 29) and get_option('elf-tls')
+> +   pre_args += '-DUSE_ELF_TLS'
+> + endif
+> + 
+> +diff --git a/meson_options.txt b/meson_options.txt
+> +index 188e132..ddd47b7 100644
+> +--- a/meson_options.txt
+> ++++ b/meson_options.txt
+> +@@ -339,6 +339,12 @@ option(
+> +   value : true,
+> +   description : 'Enable direct rendering in GLX and EGL for DRI',
+> + )
+> ++option(
+> ++  'elf-tls',
+> ++  type : 'boolean',
+> ++  value : true,
+> ++  description : 'Enable TLS support in ELF',
+> ++)
+> + option(
+> +   'I-love-half-baked-turnips',
+> +   type : 'boolean',
+> +-- 
+> +2.23.0
+> +
+> diff --git a/meta/recipes-graphics/mesa/files/0002-meson.build-make-
+> TLS-GLX-optional-again.patch b/meta/recipes-graphics/mesa/files/0002-
+> meson.build-make-TLS-GLX-optional-again.patch
+> deleted file mode 100644
+> index 641bacf1d9..0000000000
+> --- a/meta/recipes-graphics/mesa/files/0002-meson.build-make-TLS-GLX-
+> optional-again.patch
+> +++ /dev/null
+> @@ -1,52 +0,0 @@
+> -From cee8e48c5344124e5d84307cb0c48ee0c9b3e684 Mon Sep 17 00:00:00
+> 2001
+> -From: Fabio Berton <fabio.berton@ossystems.com.br>
+> -Date: Wed, 12 Jun 2019 14:15:57 -0300
+> -Subject: [PATCH] meson.build: make TLS GLX optional again
+> -Organization: O.S. Systems Software LTDA.
+> -
+> -This was optional with autotools, and needs to be disabled
+> -when using musl C library, for instance.
+> -
+> -Upstream-Status: Pending
+> -
+> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> -Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+> -Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+> ----
+> - meson.build       | 4 +++-
+> - meson_options.txt | 7 +++++++
+> - 2 files changed, 10 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/meson.build b/meson.build
+> -index b33b430aed4..0e50bb26c0a 100644
+> ---- a/meson.build
+> -+++ b/meson.build
+> -@@ -369,7 +369,9 @@ if with_egl and not (with_platform_drm or
+> with_platform_surfaceless or with_plat
+> -   endif
+> - endif
+> - 
+> --pre_args += '-DGLX_USE_TLS'
+> -+if get_option('glx-tls')
+> -+  pre_args += '-DGLX_USE_TLS'
+> -+endif
+> - if with_glx != 'disabled'
+> -   if not (with_platform_x11 and with_any_opengl)
+> -     error('Cannot build GLX support without X11 platform support
+> and at least one OpenGL API')
+> -diff --git a/meson_options.txt b/meson_options.txt
+> -index 1f72faabee8..fcd49efea27 100644
+> ---- a/meson_options.txt
+> -+++ b/meson_options.txt
+> -@@ -339,6 +339,13 @@ option(
+> -   value : true,
+> -   description : 'Enable direct rendering in GLX and EGL for DRI',
+> - )
+> -+option(
+> -+  'glx-tls',
+> -+  type : 'boolean',
+> -+  value : true,
+> -+  description : 'Enable TLS support in GLX',
+> -+)
+> -+
+> - option(
+> -   'I-love-half-baked-turnips',
+> -   type : 'boolean',
+> diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
+> b/meta/recipes-graphics/mesa/mesa-gl_19.2.3.bb
+> similarity index 100%
+> rename from meta/recipes-graphics/mesa/mesa-gl_19.1.6.bb
+> rename to meta/recipes-graphics/mesa/mesa-gl_19.2.3.bb
+> diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-
+> graphics/mesa/mesa.inc
+> index 9e5808ee27..2f866a505c 100644
+> --- a/meta/recipes-graphics/mesa/mesa.inc
+> +++ b/meta/recipes-graphics/mesa/mesa.inc
+> @@ -10,7 +10,7 @@ HOMEPAGE = "http://mesa3d.org"
+>  BUGTRACKER = "https://bugs.freedesktop.org"
+>  SECTION = "x11"
+>  LICENSE = "MIT"
+> -LIC_FILES_CHKSUM =
+> "file://docs/license.html;md5=725f991a1cc322aa7a0cd3a2016621c4"
+> +LIC_FILES_CHKSUM =
+> "file://docs/license.html;md5=3a4999caf82cc503ac8b9e37c235782e"
+>  
+>  PE = "2"
+>  
+> @@ -57,12 +57,12 @@ PACKAGECONFIG_class-target ??= "
+> ${@bb.utils.filter('DISTRO_FEATURES', 'wayland v
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
+> 'opengl egl gles gbm dri gallium', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11
+> opengl', 'x11 dri3', '', d)} \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11
+> vulkan', 'dri3', '', d)} \
+> -                   glx-tls \
+> +                   elf-tls \
+>  		   "
+> -PACKAGECONFIG_class-native ?= "gbm dri egl opengl glx-tls"
+> -PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl glx-tls"
+> +PACKAGECONFIG_class-native ?= "gbm dri egl opengl elf-tls"
+> +PACKAGECONFIG_class-nativesdk ?= "gbm dri egl opengl elf-tls"
+>  
+> -PACKAGECONFIG_remove_libc-musl = "glx-tls"
+> +PACKAGECONFIG_remove_libc-musl = "elf-tls"
+>  
+>  # "gbm" requires "dri", "opengl"
+>  PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
+> @@ -70,7 +70,7 @@ PACKAGECONFIG[gbm] = "-Dgbm=true,-Dgbm=false"
+>  X11_DEPS = "xorgproto virtual/libx11 libxext libxxf86vm libxdamage
+> libxfixes xrandr"
+>  # "x11" requires "opengl"
+>  PACKAGECONFIG[x11] = ",-Dglx=disabled,${X11_DEPS}"
+> -PACKAGECONFIG[glx-tls] = "-Dglx-tls=true, -Dglx-tls=false"
+> +PACKAGECONFIG[elf-tls] = "-Delf-tls=true, -Delf-tls=false"
+>  PACKAGECONFIG[xvmc] = "-Dgallium-xvmc=true,-Dgallium-
+> xvmc=false,libxvmc"
+>  PACKAGECONFIG[wayland] = ",,wayland-native wayland libdrm wayland-
+> protocols"
+>  
+> @@ -140,9 +140,6 @@ PACKAGECONFIG[osmesa] = "-Dosmesa=${OSMESA},-
+> Dosmesa=none"
+>  
+>  PACKAGECONFIG[unwind] = "-Dlibunwind=true,-
+> Dlibunwind=false,libunwind"
+>  
+> -# mesa tries to run cross-built gen_matypes on build machine to get
+> struct size information
+> -EXTRA_OEMESON_append = " -Dasm=false"
+> -
+>  # llvmpipe is slow if compiled with -fomit-frame-pointer (e.g. -O2)
+>  FULL_OPTIMIZATION_append = " -fno-omit-frame-pointer"
+>  
+> @@ -263,6 +260,9 @@ FILES_libxatracker-dev =
+> "${libdir}/libxatracker.so ${libdir}/libxatracker.la \
+>                            ${includedir}/xa_tracker.h
+> ${includedir}/xa_composite.h ${includedir}/xa_context.h \
+>                            ${libdir}/pkgconfig/xatracker.pc"
+>  
+> +# This is a work around for 
+> https://gitlab.freedesktop.org/mesa/mesa/issues/966
+> +INSANE_SKIP_${PN}_libc-musl += "textrel"
+> +
+>  # Fix upgrade path from mesa to mesa-megadriver
+>  RREPLACES_mesa-megadriver = "mesa"
+>  RCONFLICTS_mesa-megadriver = "mesa"
+> diff --git a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
+> b/meta/recipes-graphics/mesa/mesa_19.2.3.bb
+> similarity index 77%
+> rename from meta/recipes-graphics/mesa/mesa_19.1.6.bb
+> rename to meta/recipes-graphics/mesa/mesa_19.2.3.bb
+> index 19221e9e25..42181db6f8 100644
+> --- a/meta/recipes-graphics/mesa/mesa_19.1.6.bb
+> +++ b/meta/recipes-graphics/mesa/mesa_19.2.3.bb
+> @@ -2,12 +2,12 @@ require ${BPN}.inc
+>  
+>  SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+>             file://0001-meson.build-check-for-all-linux-host_os-
+> combinations.patch \
+> -           file://0002-meson.build-make-TLS-GLX-optional-again.patch 
+> \
+> +           file://0002-meson.build-make-TLS-ELF-optional.patch \
+>             file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
+>             "
+>  
+> -SRC_URI[md5sum] = "7dbb40b8d10e89bee0a5bfc85350647b"
+> -SRC_URI[sha256sum] =
+> "2a369b7b48545c6486e7e44913ad022daca097c8bd937bf30dcf3f17a94d3496"
+> +SRC_URI[md5sum] = "7744fbc59d55bb9a54ac018250bf77dc"
+> +SRC_URI[sha256sum] =
+> "5ee6e42504fe41dcc9a6eba26982656a675b2550a640946f463927ed7f1c5047"
+>  
+>  UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+>  
+> -- 
+> 2.23.0
+> 
+
 
