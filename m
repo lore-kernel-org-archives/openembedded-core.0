@@ -1,25 +1,51 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from huawei.com (szxga05-in.huawei.com [45.249.212.191])
-	by mail.openembedded.org (Postfix) with ESMTP id 622D3731AF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+	[209.85.128.43])
+	by mail.openembedded.org (Postfix) with ESMTP id C863C7EC92
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2019 10:45:36 +0000 (UTC)
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
-	by Forcepoint Email with ESMTP id 06962AD91052D856792E
+	Fri, 15 Nov 2019 11:47:14 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id u18so9378877wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2019 18:45:37 +0800 (CST)
-Received: from HULK-Android.huawei.com (10.113.189.218) by
-	DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server
-	id 14.3.439.0; Fri, 15 Nov 2019 18:45:27 +0800
-From: Junling Zheng <zhengjunling@huawei.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Nov 2019 18:45:27 +0800
-Message-ID: <20191115104527.22527-1-zhengjunling@huawei.com>
-X-Mailer: git-send-email 2.17.1
+	Fri, 15 Nov 2019 03:47:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=5KsxIk7SrSJHaP8CJOXsTNPl45HyrEoV9gfa8XYFLik=;
+	b=EfdDPZy07Ns4Jz8r7ZS0b3ExNSa6ZFzU99/ZTqj0FmlQUiiZyVhZDRGHuHoQdeVm9j
+	K/y3ZldsQX6E0Vs9x9w8hLvj7/OaSfZIVc32kloHAPEeCZ8t9bQrVjO6sJpWYdw+ABt1
+	bh4R5g5Y9xRyQnPZPw9kBCkjbDVf/tDkGC7To=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=5KsxIk7SrSJHaP8CJOXsTNPl45HyrEoV9gfa8XYFLik=;
+	b=l0IJmXzKnsoio/WaQtxe6S4UzBZ85rZ5+U7o/nqg33ilSrWlcGOxYRYG6N8aTv8i0f
+	O1t6u9OiT31srvxuDWEZsifEhwoQ04cAu8kP6m/YmmWOLRIl5XJrY6bOVsfmJlvoXM4J
+	sOUl3eaIVQa6ARNx0qwyKnaJmwkkravMOf+0dhllaq7s6Yj2aXI/WIWnt1yaor19Iw3u
+	r/+Ho3mubThcxC+rgjZgOIZhodMwXhs14+vefokdMw5ddzjx68/n7buSFtRDbeKuJCvu
+	AFK1uVc+tOFoO9MIx3p0bwXdCSljwLZGjDt50gtVx7x5FXach0a6nejsZiTvPg2WAb0Y
+	70bw==
+X-Gm-Message-State: APjAAAXgYH0w0qWN0S8h1NH+39ZajnY/74nk6Yk56rZJkmZQMOhGA8CC
+	mGkpf+J53tIYmjQURJgvtwFqNQ==
+X-Google-Smtp-Source: APXvYqzK/Gr7OoL/IDZMDR7crkb3BmsmNxigjPrX3E1csHopwgEnCwm0TXpKWu9qPq5XlMtnsKOb/w==
+X-Received: by 2002:a1c:2bc2:: with SMTP id r185mr13618944wmr.91.1573818435276;
+	Fri, 15 Nov 2019 03:47:15 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	i13sm10693782wrp.12.2019.11.15.03.47.14
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 15 Nov 2019 03:47:14 -0800 (PST)
+Message-ID: <49217ee67206623b1c491c3deb13a5f7dd697f88.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: chee.yang.lee@intel.com, openembedded-core@lists.openembedded.org
+Date: Fri, 15 Nov 2019 11:47:13 +0000
+In-Reply-To: <1573783128-17519-2-git-send-email-chee.yang.lee@intel.com>
+References: <1573783128-17519-1-git-send-email-chee.yang.lee@intel.com>
+	<1573783128-17519-2-git-send-email-chee.yang.lee@intel.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-X-Originating-IP: [10.113.189.218]
-X-CFilter-Loop: Reflected
-Cc: wangnan0@huawei.com
-Subject: [PATCH RESEND] staging.bbclass: Fix wrong library path in sysroot_strip
+Subject: Re: [PATCH 2/2] wic: rm with -r flag support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,31 +58,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2019 10:45:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 15 Nov 2019 11:47:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Do not reset libdir and base_libdir in sysroot_strip, and just pass crude
-paths as they will be reset later in strip_execs.
+On Fri, 2019-11-15 at 09:58 +0800, chee.yang.lee@intel.com wrote:
+> From: Chee Yang Lee <chee.yang.lee@intel.com>
+> 
+> wic currently unable to remove non-empty directory in ext* partition.
+> enable wic rm to remove non-empty directory and all the sub-content
+> with -r flag.
+> update help documents for 'wic rm'.
+> [YOCTO #12404]
 
-Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
----
- meta/classes/staging.bbclass | 2 --
- 1 file changed, 2 deletions(-)
+This kind of new functionality means we need new tests. Could you
+resend this with new tests for the new functionality being added
+please?
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index cca0b7e0d6..58d57a4323 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -75,8 +75,6 @@ python sysroot_strip () {
- 
-     dstdir = d.getVar('SYSROOT_DESTDIR')
-     pn = d.getVar('PN')
--    libdir = os.path.abspath(dstdir + os.sep + d.getVar("libdir"))
--    base_libdir = os.path.abspath(dstdir + os.sep + d.getVar("base_libdir"))
-     qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split()
-     strip_cmd = d.getVar("STRIP")
- 
--- 
-2.17.1
+Cheers,
+
+Richard
 
 
