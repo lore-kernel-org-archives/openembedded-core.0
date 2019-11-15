@@ -1,54 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
-	[209.85.128.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 823247F817
+Return-Path: <daniel.diaz@linaro.org>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CA6AC7FAAA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2019 00:17:29 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id 8so8445252wmo.0
+	Fri, 15 Nov 2019 00:34:46 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id b20so6611057lfp.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 14 Nov 2019 16:17:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=PRwe3uWbVwP5KvzXxcacHXCbn+K7nwmXxsOspjYktP8=;
-	b=ODQvTAb88CF7gedJpcD3nXInOYb8+GUhCQdeFwwIPDiqrLmQfN3sGxIr5jElrx4BbJ
-	inEk6t7yUNtkKf00is2I8S26tn7zplmKndY9QzCIwiuEARZTBz9RCIRIWb4H5GiW1PG5
-	ZKp8i/KCxyvU/k5Vm5BtNyv0Poct1MPIp2Phs=
+	Thu, 14 Nov 2019 16:34:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=nTVYdvB0LWxemFP+6PtUUQ0PTOrXYLGCMTIssRwaHcs=;
+	b=QtZBdSwYpahVVecnpaLtvosvd+ZME2TfvWy+LLbKC4TsZiJT5H+gIPUda3rSptXme2
+	hyFPyqhIAmJjrAAIfPW8gIVMwNtdig2qLVUQH6Ls1XTPSdWKL7ve7QdqqVUavhnb+QWo
+	YBF6z0hK4V4mTrU0MCFZ+PLsT3kBzMKgHxREYRv2/Vix7JEBtD6dMSXnn06gtGkkOkLq
+	+m0HjDyUm/sZMt4C+9AJbAfwM2UA+QBJOMzMlme8RgRi70s1nUmH1xdAK9CFWBNXiY0p
+	zLWxImv9AJsKCAwj+UYctxckB9aPE6cX42cJtRbtuUR1F8PTnQqy6Tm5VgChkhka+ZRb
+	+yMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=PRwe3uWbVwP5KvzXxcacHXCbn+K7nwmXxsOspjYktP8=;
-	b=R85vY+XIaSkuR+iSSqlwPoKRnUlqfdVu0vjoEH8uRWJRRamuIw7Dm3xVgGsEVeVRIz
-	y3AIvElF6QzlfcUFV9gBwr5yiw6uaFIB4emsXj8H/mC9W9ReEy6jj8Rf3fxHLdJiDGJB
-	PFec4fIHBWpFgIRjSF1/f6MIctGZznaSwj/KcNlU2OP41wuj30KY59Ca+aFi7PcoDjVi
-	Hs3FdIvrE+wsvuOr43BzWhSMnPY7Lv4gykUUEGeXynKQvFWUJUzjnFU8ZZPSmK/MPQRp
-	Ub9eKWYycKp3hF4B3k98M181EtkAgwU9P80SZMR/mWiCFUuaZfmP5Zgh3yCr8Rb0yMiI
-	M7QA==
-X-Gm-Message-State: APjAAAXX031wgxHEAuZAGNdEilXZYek0ADPB/j4/q+U8Fs41Paak8vig
-	MXJ6Vf6kyhsx+7JwOXbc8DHwKw==
-X-Google-Smtp-Source: APXvYqxZhN9Xu8EoITyplwnKWZOz0sm+XZTKCplng3Ztih/VqwAXDX8NN639dqSNd+j8fF4Kx2vTqQ==
-X-Received: by 2002:a1c:7e82:: with SMTP id
-	z124mr10446834wmc.136.1573777049986; 
-	Thu, 14 Nov 2019 16:17:29 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u13sm7326830wmm.45.2019.11.14.16.17.28
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 14 Nov 2019 16:17:29 -0800 (PST)
-Message-ID: <9254454c9709af403fd9af8d964ce5227f961d69.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, sjolley.yp.pm@gmail.com, 
-	yocto@yoctoproject.org, openembedded-core@lists.openembedded.org, "Erway,
-	Tracey M" <tracey.m.erway@intel.com>, Ross Burton <ross.burton@intel.com>
-Date: Fri, 15 Nov 2019 00:17:27 +0000
-In-Reply-To: <44cd46c9-ddc1-a7fd-ce2f-3cbcf4331152@gmail.com>
-References: <014c01d59970$73f28c40$5bd7a4c0$@gmail.com>
-	<44cd46c9-ddc1-a7fd-ce2f-3cbcf4331152@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=nTVYdvB0LWxemFP+6PtUUQ0PTOrXYLGCMTIssRwaHcs=;
+	b=ftRRwclTn+qiMAFrOtrZ8eM2vChVm3Sts/CcdlD68zpZzScdAYoNAK8CZyD93yDjp2
+	jvn/xmdHJmE6O75UdgFzRfdMouKxE2ErrtEv86Xfd0wFdNeYFVVATFIcoR67sNbdNXQu
+	+GPZOJjnk7lQtLgo7pwVai4Cb40vNY4pPHeCS2eAB0g5r8lyoQP9261dGsHQsSe4iWof
+	uOGJlQlOXkier8jDjPuflpnNxIi41FvF53MOFgr2zEPzNTNTFE5SjTYakmAXc5nyCHya
+	7A5C2uyBKfmXbb7A0WwMyEW1AWKe3SiU0vbX8t4otW2lnKl2I1ZjyAyy608QzmGgvwPq
+	otWw==
+X-Gm-Message-State: APjAAAUiupcayPDdrU9H7RUu567kaPWBawxT7tmp6+zu9afY1eLNsA4H
+	agsNkaBCkJnND/TeZLZnujUDCE+/3IlIIC56h7Vj/A==
+X-Google-Smtp-Source: APXvYqw7hrxEOHP4X8uoQB+7RRxmYq1ljsCYPDCO5/b65dAr8nYKgPe1r6bs3svfoqI0Rn6IxQC7EaC9k/XKK+PU3mI=
+X-Received: by 2002:ac2:48b8:: with SMTP id u24mr7641697lfg.133.1573778087328; 
+	Thu, 14 Nov 2019 16:34:47 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [yocto] Yocto Project Status WW46'19
+References: <20191024183426.23676-1-daniel.diaz@linaro.org>
+	<CAEUSe780NPpCJw_DsqZC9es6bQ4ex5BQ=7VrPOELQUL4guyatg@mail.gmail.com>
+	<CADkTA4N9kt8rZvyT7M_H71VrkdSZ+Hg4sK0FRaJS4UdKohXU6w@mail.gmail.com>
+In-Reply-To: <CADkTA4N9kt8rZvyT7M_H71VrkdSZ+Hg4sK0FRaJS4UdKohXU6w@mail.gmail.com>
+From: =?UTF-8?B?RGFuaWVsIETDrWF6?= <daniel.diaz@linaro.org>
+Date: Thu, 14 Nov 2019 18:34:36 -0600
+Message-ID: <CAEUSe780KBp2uy4r7RQgo-ET07gWfk4d2hOKV5MTuG3VoF+tmQ@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] perf: Add /scripts to sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,39 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2019 00:17:29 -0000
+X-List-Received-Date: Fri, 15 Nov 2019 00:34:47 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2019-11-14 at 16:11 -0800, akuster808 wrote:
-> 
-> Hello Stephen,
-> 
-> On 11/12/19 7:47 AM, sjolley.yp.pm@gmail.com wrote:
-> > Current Dev Position: YP 3.1 M1 
-> > Next Deadline: YP 3.1 M1 build Dec. 2, 2019
-> >  
-> > SWAT Team Rotation:
-> > SWAT lead is currently: Anuj 
-> > SWAT team rotation: Anuj -> Chen on Nov. 15, 2019
-> > SWAT team rotation: Chen > Paul on Nov. 22, 2019
-> > https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
->  
-> I watch and triage stable branch builds I initiate week after week
-> and I no longer want to take on the responsibilities for the other
-> builds. I therefor am removing my name from the normal swat rotation
-> and have updated the wiki accordingly.  This should set the
-> appropriate expectations. This unfortunately puts the full burden
-> back on Intel and WindRiver.  If things should change in the future,
-> I will let you know.
+Hello!
 
-Thanks for your work on that team, its been hugely appreciated. 
+On Mon, 4 Nov 2019 at 17:42, Bruce Ashfield <bruce.ashfield@gmail.com> wrot=
+e:
+> On Mon, Nov 4, 2019 at 5:56 PM Daniel D=C3=ADaz <daniel.diaz@linaro.org> =
+wrote:
+> > On Thu, 24 Oct 2019 at 13:34, Daniel D=C3=ADaz <daniel.diaz@linaro.org>=
+ wrote:
+> > > As of linux-next-20191022, we need bpf_helpers_doc.py in order to
+> > > build libbpf, which lives in /scripts. Otherwise, do_compile fails
+> > > with:
+> > > | /bin/sh: 1: /oe/build/tmp/work/machine-triplet/perf/1.0-r9/perf-1.0=
+/scripts/bpf_helpers_doc.py: not found
+> > > | Makefile:184: recipe for target 'bpf_helper_defs.h' failed
+> > >
+> > > See commit e01a75c159691 ("libbpf: Move bpf_{helpers, helper_defs,
+> > > endian, tracing}.h into libbpf") from linux-next.
+> > >
+> > > Signed-off-by: Daniel D=C3=ADaz <daniel.diaz@linaro.org>
+> > > ---
+> > >  meta/recipes-kernel/perf/perf.bb | 1 +
+> > >  1 file changed, 1 insertion(+)
+> > >
+> > > diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/p=
+erf/perf.bb
+> > > index 8201c0cb60..a463eebc52 100644
+> > > --- a/meta/recipes-kernel/perf/perf.bb
+> > > +++ b/meta/recipes-kernel/perf/perf.bb
+> > > @@ -113,6 +113,7 @@ PERF_SRC ?=3D "Makefile \
+> > >               tools/Makefile \
+> > >               tools/perf \
+> > >               tools/scripts \
+> > > +             scripts \
+> > >  "
+> > >
+> > >  PERF_EXTRA_LDFLAGS =3D ""
+> > > --
+> > > 2.20.1
+> >
+> > Ping.
+>
+> I just went through trying to reduce the amount of source that we copy
+> for perf, since it has often ended up causing us maintenance pain.
+>
+> Can we just copy the one script we need, versus a complete copy of the
+> directory ?
+>
+> My patch from a few weeks ago, makes it safe to copy a single file, so
+> it should be doable.
 
-I think it may be time that we suspend the SWAT process and have the
-build owners handle it themselves.
+I am unable to test that as I'm still stuck on Sumo. I can confirm
+that "scripts/bpf_helpers_doc.py" doesn't work in such an old version,
+whereas "scripts" does.
 
-Cheers,
+Thanks and greetings!
 
-Richard
-
+Daniel D=C3=ADaz
+daniel.diaz@linaro.org
 
