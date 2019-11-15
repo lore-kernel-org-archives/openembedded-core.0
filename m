@@ -1,30 +1,23 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 15ACF7FAA7
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 492EF7F89A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2019 05:15:55 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.68,307,1569254400"; d="scan'208";a="78485765"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 15 Nov 2019 13:15:55 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 8B0A94CE14FE
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2019 13:07:43 +0800 (CST)
-Received: from localhost.local (10.167.225.81) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Fri, 15 Nov 2019 13:15:55 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 15 Nov 2019 13:16:28 +0800
-Message-ID: <20191115051628.925-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Fri, 15 Nov 2019 07:42:08 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xAF7g7t6002156
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 14 Nov 2019 23:42:07 -0800 (PST)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 14 Nov 2019 23:42:06 -0800
+From: <kai.kang@windriver.com>
+To: <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+Date: Fri, 15 Nov 2019 15:42:02 +0800
+Message-ID: <20191115074202.16526-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 8B0A94CE14FE.ABA3F
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] make-mod-scripts:remove make-mod-scripts from RDEPENDS
+Subject: [PATCH] systemd: remove ${PN}-xorg-xinitrc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,37 +30,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 15 Nov 2019 05:15:56 -0000
+X-List-Received-Date: Fri, 15 Nov 2019 07:42:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-When installing make-mod-scripts, the following error will occur.
+From: Kai Kang <kai.kang@windriver.com>
 
-  - nothing provides make-mod-scripts = 1.0-r0 needed by make-mod-scripts-dev-1.0-r0.qemux86_64
+In 50-systemd-user.sh which is packaged to sub-package
+${PN}-xorg-xinitrc, it exports environment variables DISPLAY and
+XAUTHORITY to systemd. It fails to start systemd services which require
+these environment variables such as thunar.service:
 
-The package it depends on is not generated. To solve the installation dependency problem, remove it from RDEPENDS.
+root@qemux86-64:~# systemctl --user status thunar
+● thunar.service - Thunar file manager
+Loaded: loaded (/usr/lib/systemd/user/thunar.service; disabled; vendor preset: enabled)
+Active: inactive (dead)
+Docs: man:Thunar(1)
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Nov 14 07:47:29 qemux86-64 systemd[352]: Starting Thunar file manager...
+Nov 14 07:47:29 qemux86-64 Thunar[873]: cannot open display:
+Nov 14 07:47:29 qemux86-64 systemd[352]: thunar.service: Main process exited, code=exited, status=1/FAILURE
+Nov 14 07:47:29 qemux86-64 systemd[352]: thunar.service: Failed with result 'exit-code'.
+Nov 14 07:47:29 qemux86-64 systemd[352]: Failed to start Thunar file manager.
+
+It is not convenient to make all such kind of packages require package
+${PN}-xorg-xinitrc, so remove the sub-package and merge the only file
+provided by it to main package.
+
+No recipe depends on ${PN}-xorg-xinitrc in oe-core and meta-openembedded
+now, so no need to set rprovides for it.
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/systemd/systemd_243.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-index 460e05a445..5ec49a5f61 100644
---- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-+++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
-@@ -14,6 +14,8 @@ do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
+diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
+index 54fcc6a5d1..b0fadb23ad 100644
+--- a/meta/recipes-core/systemd/systemd_243.bb
++++ b/meta/recipes-core/systemd/systemd_243.bb
+@@ -316,7 +316,6 @@ PACKAGES =+ "\
+     ${PN}-rpm-macros \
+     ${PN}-binfmt \
+     ${PN}-zsh-completion \
+-    ${PN}-xorg-xinitrc \
+     ${PN}-container \
+     ${PN}-journal-gatewayd \
+     ${PN}-journal-upload \
+@@ -378,8 +377,6 @@ FILES_${PN}-kernel-install = "${bindir}/kernel-install \
+ FILES_${PN}-rpm-macros = "${exec_prefix}/lib/rpm \
+                          "
  
- DEPENDS += "bc-native bison-native"
+-FILES_${PN}-xorg-xinitrc = "${sysconfdir}/X11/xinit/xinitrc.d/*"
+-
+ FILES_${PN}-zsh-completion = "${datadir}/zsh/site-functions"
  
-+RDEPENDS_make-mod-scripts-dev_remove = "make-mod-scripts (= 1.0-r0)"
-+
- EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
- 
- # Build some host tools under work-shared.  CC, LD, and AR are probably
+ FILES_${PN}-binfmt = "${sysconfdir}/binfmt.d/ \
+@@ -528,6 +525,7 @@ FILES_${PN} = " ${base_bindir}/* \
+                 ${sysconfdir}/xdg/ \
+                 ${sysconfdir}/init.d/README \
+                 ${sysconfdir}/resolv-conf.systemd \
++                ${sysconfdir}/X11/xinit/xinitrc.d/* \
+                 ${rootlibexecdir}/systemd/* \
+                 ${systemd_unitdir}/* \
+                 ${base_libdir}/security/*.so \
 -- 
-2.20.1
-
-
+2.17.1
 
 
