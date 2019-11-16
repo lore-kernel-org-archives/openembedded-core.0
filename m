@@ -1,44 +1,29 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id ED8BB7FBB3
+Return-Path: <zhengjunling@huawei.com>
+Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
+	by mail.openembedded.org (Postfix) with ESMTP id 006427FAB1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Nov 2019 03:19:50 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id e9so12701526ljp.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 15 Nov 2019 19:19:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=X5UbttyEYhiUdogbNrrDLOVIpqgGvJg1FfFLn9ir/sA=;
-	b=C3UZbvr9USSBL/Lgz/IvegDn66ORaK4Ix06h5bO2ZijEkVyiFhEs+YVtklbjzPHWar
-	kbhTNiTRfTrSAwv4ftjR2FG98fHbJcafSp6XHyMCzaVUnlXraNKjqpHVKNeUlLhrYGmB
-	RNo+h0ZVqAYJd8lUfheeKbs5e2vpkHPO2OV+bQwrWktnBEDb5BUiSrL67B/LYC1BpHyX
-	hwRMlgDGTzmJ70AcOuXpZc8QiADxg2nMvHFmwZzE3H/nX4N+vK6Qc6um44SZb7pwg6bZ
-	ueOBvDtRwu2kEEBJqCrjAvWJxbkjClr7AdQaZlWlojrcfYBLV7ccJzUOwXeJqAH7MwTa
-	ib2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=X5UbttyEYhiUdogbNrrDLOVIpqgGvJg1FfFLn9ir/sA=;
-	b=gqCoocOI+zrKe8SWFpStIwACBxhlvSglpCEOY5DvcNcqFbKI6BVsn7KrhTnig0VUQM
-	+GCwhg1Xh7qmpvVCnQeEhpnzHj0fZVy5RfCpd6FzqFMHzUF8uWM6Iv0bIYLEVV1KkcF+
-	Q2YySDewFyWe+3DSG4yfj3dKhpNBqzU4lKZhf2vonpvdb05heDSf6JxfUlmNGGZyo9vK
-	EENAiJMFu9mCZ58OkT8q3iy4hgeZrUJ7VoECxShyJVUYPbwgXgwC265qZ8ZhrrRsg4hh
-	KrNdAZYLVuorRrRdVYLZDWWHVvAsA6Y+EtA9r8YtV3AaCSvVxSrXSqCB6lCAZmSYuvR+
-	8/4A==
-X-Gm-Message-State: APjAAAUWYCkoP6Ohd5L5SahqgJ/A7VMV+MvacfXOqwKATmvDMNJZOi3N
-	ivYnKfxP0bWH7OXNBa0f4LQjFFNqn8VRPMVkm4DlZoo18tABThf8GKE=
-X-Google-Smtp-Source: APXvYqzrho7Bd0IFFoIbu9geUW4znYch8/+aUazMfsT79k7hUMcz+YibIhkZo5Ox1yPGHM+2gAXfeq7lmnmyG6E66CE=
-X-Received: by 2002:a2e:b54d:: with SMTP id a13mr7670934ljn.4.1573874391299;
-	Fri, 15 Nov 2019 19:19:51 -0800 (PST)
+	Sat, 16 Nov 2019 10:33:59 +0000 (UTC)
+Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
+	by Forcepoint Email with ESMTP id E1083693F79420761B37;
+	Sat, 16 Nov 2019 18:33:59 +0800 (CST)
+Received: from [127.0.0.1] (10.111.155.88) by DGGEMS413-HUB.china.huawei.com
+	(10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Sat, 16 Nov 2019
+	18:33:53 +0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <20191115104527.22527-1-zhengjunling@huawei.com>
+	<7c584d68f06bb9cd7ebea783e2277abc554c2f37.camel@linuxfoundation.org>
+From: Junling Zheng <zhengjunling@huawei.com>
+Message-ID: <1f666951-84df-d32d-d75d-e7a9a5527111@huawei.com>
+Date: Sat, 16 Nov 2019 18:33:40 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.2.1
 MIME-Version: 1.0
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 15 Nov 2019 22:19:22 -0500
-Message-ID: <CAKmqyKOFhocfnVfrW2htR65fKtHq65NqZDKhKaiYRKhJFhyzDg@mail.gmail.com>
-To: undisclosed-recipients:;
-Subject: Open ISA (RISC-V, OpenPOWER, etc) Miniconf at LCA 2020
+In-Reply-To: <7c584d68f06bb9cd7ebea783e2277abc554c2f37.camel@linuxfoundation.org>
+X-Originating-IP: [10.111.155.88]
+X-CFilter-Loop: Reflected
+Cc: wangnan0@huawei.com
+Subject: Re: [PATCH RESEND] staging.bbclass: Fix wrong library path in sysroot_strip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,51 +36,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 16 Nov 2019 03:19:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 16 Nov 2019 10:34:01 -0000
+Content-Type: text/plain; charset="windows-1252"
+Content-Transfer-Encoding: 7bit
 
-Hi All,
+On 2019/11/16 7:21, Richard Purdie wrote:
+> On Fri, 2019-11-15 at 18:45 +0800, Junling Zheng wrote:
+>> Do not reset libdir and base_libdir in sysroot_strip, and just pass
+>> crude
+>> paths as they will be reset later in strip_execs.
+>>
+>> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+>> ---
+>>  meta/classes/staging.bbclass | 2 --
+>>  1 file changed, 2 deletions(-)
+>>
+>> diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+>> index cca0b7e0d6..58d57a4323 100644
+>> --- a/meta/classes/staging.bbclass
+>> +++ b/meta/classes/staging.bbclass
+>> @@ -75,8 +75,6 @@ python sysroot_strip () {
+>>  
+>>      dstdir = d.getVar('SYSROOT_DESTDIR')
+>>      pn = d.getVar('PN')
+>> -    libdir = os.path.abspath(dstdir + os.sep + d.getVar("libdir"))
+>> -    base_libdir = os.path.abspath(dstdir + os.sep + d.getVar("base_libdir"))
+>>      qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split()
+>>      strip_cmd = d.getVar("STRIP")
+> 
+> To show this function in full:
+> 
+> python sysroot_strip () {
+>     inhibit_sysroot = d.getVar('INHIBIT_SYSROOT_STRIP')
+>     if inhibit_sysroot and oe.types.boolean(inhibit_sysroot):
+>         return
+> 
+>     dstdir = d.getVar('SYSROOT_DESTDIR')
+>     pn = d.getVar('PN')
+>     libdir = os.path.abspath(dstdir + os.sep + d.getVar("libdir"))
+>     base_libdir = os.path.abspath(dstdir + os.sep + d.getVar("base_libdir"))
+>     qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP_' + pn) or "").split()
+>     strip_cmd = d.getVar("STRIP")
+> 
+>     oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d,
+>                            qa_already_stripped=qa_already_stripped)
+> }
+> 
+> so if we apply this patch, we just have two undefined variables which
+> we pass into oe.package.strip_execs() which would cause a undefined
+> variable failure?
+> 
 
-We=E2=80=99re pleased to announce the first Open ISA miniconf at linux.conf=
-.au
+Yes, you're right. I'm sorry for my patch without testing :(
+Removing them in strip_execs() will work, and I'll send a v2 patch :)
 
-Open Instruction Set Architectures like RISC-V, OpenPOWER and others are
-the next step in the evolution of Open Hardware.  The mini-conference
-will commence with a brief overview of Open ISAs in general.
+Thanks,
 
-It will then introduce the two most common open ISAs, RISC-V and
-OpenPOWER. This will include an overview of the ISAs, how they are
-supported and why people should use them. Finally we will delve straight
-into a set of curated presentations from across the Open ISA ecosystem.
+Junling
 
-The miniconf organisers, Alistair Francis and Hugh Blemings along with
-the LCA 2020 team invite proposals for sessions in the Open ISA miniconf
-of either 15 or 30 minutes duration.  Suggested topics include Linux
-kernel support for open ISAs, RISC-V, Open POWER and any other Open ISA
-related topics.  As befits LCA, sessions should have a strong technical
-emphasis rather than marketing/sales focus.
+> I think I do see a potential problem as dstdir is added here and then
+> again strip_execs() itself which does:
+> 
+> def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, d, qa_already_stripped=False):
+> 
+>     libdir = os.path.abspath(dstdir + os.sep + libdir)
+>     base_libdir = os.path.abspath(dstdir + os.sep + base_libdir)
+> 
+> but the patch as submitted doesn't solve this.
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+> .
+> 
 
-Places are limited in the miniconf schedule and early submission of your
-proposal will assist our planning.  The Call for Sessions formally
-closes on December 8th.
 
-For attendees - the miniconf promises a great deal of technical depth
-and breadth across this relatively new aspect of the open technical
-commons, we look forward to seeing you!
-
-As an extra plus it's on the beautiful Gold Coast in the middle of Summer :=
-)
-
-Registration and details are available at:
-https://linux.conf.au/programme/miniconfs/open-isa/
-
-And don't forget there's a bunch of other awesome miniconfs scheduled
-for LCA 2020 - the complete list is available here -
-https://linux.conf.au/programme/miniconfs/
-
-We look forward to seeing you!
-
-Regards,
-Hugh Blemings & Alistair Francis
 
