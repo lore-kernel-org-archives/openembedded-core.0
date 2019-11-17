@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C0DB7F96B
+	by mail.openembedded.org (Postfix) with ESMTP id B11C37F948
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2019 23:24:15 +0000 (UTC)
+	Sun, 17 Nov 2019 23:24:16 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Nov 2019 15:24:16 -0800
-X-IronPort-AV: E=Sophos;i="5.68,318,1569308400"; d="scan'208";a="195955428"
+	17 Nov 2019 15:24:18 -0800
+X-IronPort-AV: E=Sophos;i="5.68,318,1569308400"; d="scan'208";a="195955429"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.20.29])
 	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Nov 2019 15:24:16 -0800
+	17 Nov 2019 15:24:17 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2019 07:23:33 +0800
-Message-Id: <20191117232337.5635-4-anuj.mittal@intel.com>
+Date: Mon, 18 Nov 2019 07:23:34 +0800
+Message-Id: <20191117232337.5635-5-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191117232337.5635-1-anuj.mittal@intel.com>
 References: <20191117232337.5635-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 3/7] wpa-supplicant: fix CVE-2019-16275
+Subject: [zeus][PATCH 4/7] python: fix CVE-2019-16935
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,122 +33,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Nov 2019 23:24:15 -0000
+X-List-Received-Date: Sun, 17 Nov 2019 23:24:16 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross.burton@intel.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-(From OE-Core rev: d7b5a2ebdb6e74a21059ac2496b5dbea4597eb87)
+(From OE-Core rev: 1a7593bcdaf8a8cf15259aee8a0e2686247f2987)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...re-management-frame-from-unexpected-.patch | 82 +++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.9.bb      |  1 +
- 2 files changed, 83 insertions(+)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch
+ ...cape-the-server-title-of-DocXMLRPCSe.patch | 101 ++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.16.bb |   1 +
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch
+diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
 new file mode 100644
-index 0000000000..7b0713cf6d
+index 0000000000..3025cf7bc8
 --- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch
-@@ -0,0 +1,82 @@
-+hostapd before 2.10 and wpa_supplicant before 2.10 allow an incorrect indication
-+of disconnection in certain situations because source address validation is
-+mishandled. This is a denial of service that should have been prevented by PMF
-+(aka management frame protection). The attacker must send a crafted 802.11 frame
-+from a location that is within the 802.11 communications range.
++++ b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
+@@ -0,0 +1,101 @@
++From b161c89c8bd66fe928192e21364678c8e9b8fcc0 Mon Sep 17 00:00:00 2001
++From: Dong-hee Na <donghee.na92@gmail.com>
++Date: Tue, 1 Oct 2019 19:58:01 +0900
++Subject: [PATCH] [2.7] bpo-38243: Escape the server title of DocXMLRPCServer
++ (GH-16447)
 +
-+CVE: CVE-2019-16275
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
++Escape the server title of DocXMLRPCServer.DocXMLRPCServer
++when rendering the document page as HTML.
 +
-+From 8c07fa9eda13e835f3f968b2e1c9a8be3a851ff9 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Thu, 29 Aug 2019 11:52:04 +0300
-+Subject: [PATCH] AP: Silently ignore management frame from unexpected source
-+ address
++CVE: CVE-2019-16935
 +
-+Do not process any received Management frames with unexpected/invalid SA
-+so that we do not add any state for unexpected STA addresses or end up
-+sending out frames to unexpected destination. This prevents unexpected
-+sequences where an unprotected frame might end up causing the AP to send
-+out a response to another device and that other device processing the
-+unexpected response.
++Upstream-Status: Backport [https://github.com/python/cpython/pull/16447/commits/b41cde823d026f2adc21ef14b1c2e92b1006de06]
 +
-+In particular, this prevents some potential denial of service cases
-+where the unexpected response frame from the AP might result in a
-+connected station dropping its association.
-+
-+Signed-off-by: Jouni Malinen <j@w1.fi>
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 +---
-+ src/ap/drv_callbacks.c | 13 +++++++++++++
-+ src/ap/ieee802_11.c    | 12 ++++++++++++
-+ 2 files changed, 25 insertions(+)
++ Lib/DocXMLRPCServer.py                        | 13 +++++++++++-
++ Lib/test/test_docxmlrpc.py                    | 20 +++++++++++++++++++
++ .../2019-09-25-13-21-09.bpo-38243.1pfz24.rst  |  3 +++
++ 3 files changed, 35 insertions(+), 1 deletion(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
 +
-+diff --git a/src/ap/drv_callbacks.c b/src/ap/drv_callbacks.c
-+index 31587685fe3b..34ca379edc3d 100644
-+--- a/src/ap/drv_callbacks.c
-++++ b/src/ap/drv_callbacks.c
-+@@ -131,6 +131,19 @@ int hostapd_notif_assoc(struct hostapd_data *hapd, const u8 *addr,
-+ 			   "hostapd_notif_assoc: Skip event with no address");
-+ 		return -1;
-+ 	}
-++
-++	if (is_multicast_ether_addr(addr) ||
-++	    is_zero_ether_addr(addr) ||
-++	    os_memcmp(addr, hapd->own_addr, ETH_ALEN) == 0) {
-++		/* Do not process any frames with unexpected/invalid SA so that
-++		 * we do not add any state for unexpected STA addresses or end
-++		 * up sending out frames to unexpected destination. */
-++		wpa_printf(MSG_DEBUG, "%s: Invalid SA=" MACSTR
-++			   " in received indication - ignore this indication silently",
-++			   __func__, MAC2STR(addr));
-++		return 0;
-++	}
-++
-+ 	random_add_randomness(addr, ETH_ALEN);
++diff --git a/Lib/DocXMLRPCServer.py b/Lib/DocXMLRPCServer.py
++index 4064ec2e48..90b037dd35 100644
++--- a/Lib/DocXMLRPCServer.py
+++++ b/Lib/DocXMLRPCServer.py
++@@ -20,6 +20,16 @@ from SimpleXMLRPCServer import (SimpleXMLRPCServer,
++             CGIXMLRPCRequestHandler,
++             resolve_dotted_attribute)
 + 
-+ 	hostapd_logger(hapd, addr, HOSTAPD_MODULE_IEEE80211,
-+diff --git a/src/ap/ieee802_11.c b/src/ap/ieee802_11.c
-+index c85a28db44b7..e7065372e158 100644
-+--- a/src/ap/ieee802_11.c
-++++ b/src/ap/ieee802_11.c
-+@@ -4626,6 +4626,18 @@ int ieee802_11_mgmt(struct hostapd_data *hapd, const u8 *buf, size_t len,
-+ 	fc = le_to_host16(mgmt->frame_control);
-+ 	stype = WLAN_FC_GET_STYPE(fc);
-+ 
-++	if (is_multicast_ether_addr(mgmt->sa) ||
-++	    is_zero_ether_addr(mgmt->sa) ||
-++	    os_memcmp(mgmt->sa, hapd->own_addr, ETH_ALEN) == 0) {
-++		/* Do not process any frames with unexpected/invalid SA so that
-++		 * we do not add any state for unexpected STA addresses or end
-++		 * up sending out frames to unexpected destination. */
-++		wpa_printf(MSG_DEBUG, "MGMT: Invalid SA=" MACSTR
-++			   " in received frame - ignore this frame silently",
-++			   MAC2STR(mgmt->sa));
-++		return 0;
-++	}
 ++
-+ 	if (stype == WLAN_FC_STYPE_BEACON) {
-+ 		handle_beacon(hapd, mgmt, len, fi);
-+ 		return 1;
+++def _html_escape_quote(s):
+++    s = s.replace("&", "&amp;") # Must be done first!
+++    s = s.replace("<", "&lt;")
+++    s = s.replace(">", "&gt;")
+++    s = s.replace('"', "&quot;")
+++    s = s.replace('\'', "&#x27;")
+++    return s
+++
+++
++ class ServerHTMLDoc(pydoc.HTMLDoc):
++     """Class used to generate pydoc HTML document for a server"""
++ 
++@@ -210,7 +220,8 @@ class XMLRPCDocGenerator:
++                                 methods
++                             )
++ 
++-        return documenter.page(self.server_title, documentation)
+++        title = _html_escape_quote(self.server_title)
+++        return documenter.page(title, documentation)
++ 
++ class DocXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
++     """XML-RPC and documentation request handler class.
++diff --git a/Lib/test/test_docxmlrpc.py b/Lib/test/test_docxmlrpc.py
++index 4dff4159e2..c45b892b8b 100644
++--- a/Lib/test/test_docxmlrpc.py
+++++ b/Lib/test/test_docxmlrpc.py
++@@ -1,5 +1,6 @@
++ from DocXMLRPCServer import DocXMLRPCServer
++ import httplib
+++import re
++ import sys
++ from test import test_support
++ threading = test_support.import_module('threading')
++@@ -176,6 +177,25 @@ class DocXMLRPCHTTPGETServer(unittest.TestCase):
++         self.assertIn("""Try&nbsp;self.<strong>add</strong>,&nbsp;too.""",
++                       response.read())
++ 
+++    def test_server_title_escape(self):
+++        """Test that the server title and documentation
+++        are escaped for HTML.
+++        """
+++        self.serv.set_server_title('test_title<script>')
+++        self.serv.set_server_documentation('test_documentation<script>')
+++        self.assertEqual('test_title<script>', self.serv.server_title)
+++        self.assertEqual('test_documentation<script>',
+++                self.serv.server_documentation)
+++
+++        generated = self.serv.generate_html_documentation()
+++        title = re.search(r'<title>(.+?)</title>', generated).group()
+++        documentation = re.search(r'<p><tt>(.+?)</tt></p>', generated).group()
+++        self.assertEqual('<title>Python: test_title&lt;script&gt;</title>',
+++                title)
+++        self.assertEqual('<p><tt>test_documentation&lt;script&gt;</tt></p>',
+++                documentation)
+++
+++
++ def test_main():
++     test_support.run_unittest(DocXMLRPCHTTPGETServer)
++ 
++diff --git a/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
++new file mode 100644
++index 0000000000..8f02baed9e
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
++@@ -0,0 +1,3 @@
+++Escape the server title of :class:`DocXMLRPCServer.DocXMLRPCServer`
+++when rendering the document page as HTML.
+++(Contributed by Dong-hee Na in :issue:`38243`.)
 +-- 
-+2.20.1
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-index c16978cfe8..2db09ad2c6 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-@@ -25,6 +25,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-            file://wpa_supplicant.conf-sane \
-            file://99_wpa_supplicant \
-            file://0001-replace-systemd-install-Alias-with-WantedBy.patch \
-+		   file://0001-AP-Silently-ignore-management-frame-from-unexpected-.patch \
-           "
- SRC_URI[md5sum] = "2d2958c782576dc9901092fbfecb4190"
- SRC_URI[sha256sum] = "fcbdee7b4a64bea8177973299c8c824419c413ec2e3a95db63dd6a5dc3541f17"
++2.17.1
++
+diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
+index ebb4824cc1..625c5312a6 100644
+--- a/meta/recipes-devtools/python/python_2.7.16.bb
++++ b/meta/recipes-devtools/python/python_2.7.16.bb
+@@ -32,6 +32,7 @@ SRC_URI += " \
+            file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch \
+            file://0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
+            file://bpo-36742-cve-2019-10160.patch \
++           file://0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.21.0
 
