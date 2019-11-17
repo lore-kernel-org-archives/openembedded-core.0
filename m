@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id B11C37F948
+	by mail.openembedded.org (Postfix) with ESMTP id BA0E07F971
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2019 23:24:16 +0000 (UTC)
+	Sun, 17 Nov 2019 23:24:17 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Nov 2019 15:24:18 -0800
-X-IronPort-AV: E=Sophos;i="5.68,318,1569308400"; d="scan'208";a="195955429"
+	17 Nov 2019 15:24:19 -0800
+X-IronPort-AV: E=Sophos;i="5.68,318,1569308400"; d="scan'208";a="195955434"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.20.29])
 	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Nov 2019 15:24:17 -0800
+	17 Nov 2019 15:24:18 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2019 07:23:34 +0800
-Message-Id: <20191117232337.5635-5-anuj.mittal@intel.com>
+Date: Mon, 18 Nov 2019 07:23:35 +0800
+Message-Id: <20191117232337.5635-6-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191117232337.5635-1-anuj.mittal@intel.com>
 References: <20191117232337.5635-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 4/7] python: fix CVE-2019-16935
+Subject: [zeus][PATCH 5/7] sysstat: Correct our systemd unit file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,141 +33,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Nov 2019 23:24:16 -0000
+X-List-Received-Date: Sun, 17 Nov 2019 23:24:17 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-(From OE-Core rev: 1a7593bcdaf8a8cf15259aee8a0e2686247f2987)
+In commit 8862f21e (sysstat: 12.1.3 -> 12.1.6), sa_lib_dir was changed
+from "${libdir}/sa" to "${libexecdir}/sa" to avoid problems with
+multilib. However, the systemd unit file was not changed accordingly,
+which lead to the following error when trying to start the service:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+  systemd[4698]: sysstat.service: Failed at step EXEC spawning
+  /usr/lib/sa/sa1: No such file or directory
+
+(From OE-Core rev: 0fd691b9801b5313ff2e2c2cd5ca13fd50063235)
+
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- ...cape-the-server-title-of-DocXMLRPCSe.patch | 101 ++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.16.bb |   1 +
- 2 files changed, 102 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
+ meta/recipes-extended/sysstat/sysstat.inc             | 4 ++--
+ meta/recipes-extended/sysstat/sysstat/sysstat.service | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
-new file mode 100644
-index 0000000000..3025cf7bc8
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
-@@ -0,0 +1,101 @@
-+From b161c89c8bd66fe928192e21364678c8e9b8fcc0 Mon Sep 17 00:00:00 2001
-+From: Dong-hee Na <donghee.na92@gmail.com>
-+Date: Tue, 1 Oct 2019 19:58:01 +0900
-+Subject: [PATCH] [2.7] bpo-38243: Escape the server title of DocXMLRPCServer
-+ (GH-16447)
-+
-+Escape the server title of DocXMLRPCServer.DocXMLRPCServer
-+when rendering the document page as HTML.
-+
-+CVE: CVE-2019-16935
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/pull/16447/commits/b41cde823d026f2adc21ef14b1c2e92b1006de06]
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+---
-+ Lib/DocXMLRPCServer.py                        | 13 +++++++++++-
-+ Lib/test/test_docxmlrpc.py                    | 20 +++++++++++++++++++
-+ .../2019-09-25-13-21-09.bpo-38243.1pfz24.rst  |  3 +++
-+ 3 files changed, 35 insertions(+), 1 deletion(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
-+
-+diff --git a/Lib/DocXMLRPCServer.py b/Lib/DocXMLRPCServer.py
-+index 4064ec2e48..90b037dd35 100644
-+--- a/Lib/DocXMLRPCServer.py
-++++ b/Lib/DocXMLRPCServer.py
-+@@ -20,6 +20,16 @@ from SimpleXMLRPCServer import (SimpleXMLRPCServer,
-+             CGIXMLRPCRequestHandler,
-+             resolve_dotted_attribute)
-+ 
-++
-++def _html_escape_quote(s):
-++    s = s.replace("&", "&amp;") # Must be done first!
-++    s = s.replace("<", "&lt;")
-++    s = s.replace(">", "&gt;")
-++    s = s.replace('"', "&quot;")
-++    s = s.replace('\'', "&#x27;")
-++    return s
-++
-++
-+ class ServerHTMLDoc(pydoc.HTMLDoc):
-+     """Class used to generate pydoc HTML document for a server"""
-+ 
-+@@ -210,7 +220,8 @@ class XMLRPCDocGenerator:
-+                                 methods
-+                             )
-+ 
-+-        return documenter.page(self.server_title, documentation)
-++        title = _html_escape_quote(self.server_title)
-++        return documenter.page(title, documentation)
-+ 
-+ class DocXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
-+     """XML-RPC and documentation request handler class.
-+diff --git a/Lib/test/test_docxmlrpc.py b/Lib/test/test_docxmlrpc.py
-+index 4dff4159e2..c45b892b8b 100644
-+--- a/Lib/test/test_docxmlrpc.py
-++++ b/Lib/test/test_docxmlrpc.py
-+@@ -1,5 +1,6 @@
-+ from DocXMLRPCServer import DocXMLRPCServer
-+ import httplib
-++import re
-+ import sys
-+ from test import test_support
-+ threading = test_support.import_module('threading')
-+@@ -176,6 +177,25 @@ class DocXMLRPCHTTPGETServer(unittest.TestCase):
-+         self.assertIn("""Try&nbsp;self.<strong>add</strong>,&nbsp;too.""",
-+                       response.read())
-+ 
-++    def test_server_title_escape(self):
-++        """Test that the server title and documentation
-++        are escaped for HTML.
-++        """
-++        self.serv.set_server_title('test_title<script>')
-++        self.serv.set_server_documentation('test_documentation<script>')
-++        self.assertEqual('test_title<script>', self.serv.server_title)
-++        self.assertEqual('test_documentation<script>',
-++                self.serv.server_documentation)
-++
-++        generated = self.serv.generate_html_documentation()
-++        title = re.search(r'<title>(.+?)</title>', generated).group()
-++        documentation = re.search(r'<p><tt>(.+?)</tt></p>', generated).group()
-++        self.assertEqual('<title>Python: test_title&lt;script&gt;</title>',
-++                title)
-++        self.assertEqual('<p><tt>test_documentation&lt;script&gt;</tt></p>',
-++                documentation)
-++
-++
-+ def test_main():
-+     test_support.run_unittest(DocXMLRPCHTTPGETServer)
-+ 
-+diff --git a/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
-+new file mode 100644
-+index 0000000000..8f02baed9e
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
-+@@ -0,0 +1,3 @@
-++Escape the server title of :class:`DocXMLRPCServer.DocXMLRPCServer`
-++when rendering the document page as HTML.
-++(Contributed by Dong-hee Na in :issue:`38243`.)
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
-index ebb4824cc1..625c5312a6 100644
---- a/meta/recipes-devtools/python/python_2.7.16.bb
-+++ b/meta/recipes-devtools/python/python_2.7.16.bb
-@@ -32,6 +32,7 @@ SRC_URI += " \
-            file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch \
-            file://0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
-            file://bpo-36742-cve-2019-10160.patch \
-+           file://0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch \
- "
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 5a7d2114ca..9394090136 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -49,7 +49,7 @@ do_install() {
+ 	        if ${@bb.utils.contains('PACKAGECONFIG', 'cron', 'false', 'true', d)}; then
+ 			install -d ${D}${systemd_unitdir}/system
+ 			install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_unitdir}/system
+-			sed -i -e 's#@LIBDIR@#${libdir}#g' ${D}${systemd_unitdir}/system/sysstat.service
++			sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}${systemd_unitdir}/system/sysstat.service
+ 	        fi
+ 	fi
+ }
+@@ -62,6 +62,6 @@ pkg_postinst_${PN} () {
+ 	fi
+ }
  
- S = "${WORKDIR}/Python-${PV}"
+-FILES_${PN} += "${libdir}/sa ${systemd_system_unitdir}"
++FILES_${PN} += "${systemd_system_unitdir}"
+ 
+ TARGET_CC_ARCH += "${LDFLAGS}"
+diff --git a/meta/recipes-extended/sysstat/sysstat/sysstat.service b/meta/recipes-extended/sysstat/sysstat/sysstat.service
+index aff07109f5..ca46befb99 100644
+--- a/meta/recipes-extended/sysstat/sysstat/sysstat.service
++++ b/meta/recipes-extended/sysstat/sysstat/sysstat.service
+@@ -5,7 +5,7 @@ Description=Resets System Activity Logs
+ Type=oneshot
+ RemainAfterExit=yes
+ User=root
+-ExecStart=@LIBDIR@/sa/sa1 --boot
++ExecStart=@LIBEXECDIR@/sa/sa1 --boot
+ 
+ [Install]
+ WantedBy=multi-user.target
 -- 
 2.21.0
 
