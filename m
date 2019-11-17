@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id CBA937F959
+	by mail.openembedded.org (Postfix) with ESMTP id E243A7F959
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2019 23:24:18 +0000 (UTC)
+	Sun, 17 Nov 2019 23:24:19 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Nov 2019 15:24:20 -0800
-X-IronPort-AV: E=Sophos;i="5.68,318,1569308400"; d="scan'208";a="195955436"
+	17 Nov 2019 15:24:21 -0800
+X-IronPort-AV: E=Sophos;i="5.68,318,1569308400"; d="scan'208";a="195955438"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.20.29])
 	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Nov 2019 15:24:19 -0800
+	17 Nov 2019 15:24:20 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2019 07:23:36 +0800
-Message-Id: <20191117232337.5635-7-anuj.mittal@intel.com>
+Date: Mon, 18 Nov 2019 07:23:37 +0800
+Message-Id: <20191117232337.5635-8-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191117232337.5635-1-anuj.mittal@intel.com>
 References: <20191117232337.5635-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 6/7] sysstat: Correct when to use the package provided systemd unit files
+Subject: [zeus][PATCH 7/7] iputils: Whitelist CVE-2000-1213 CVE-2000-1214
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Nov 2019 23:24:19 -0000
+X-List-Received-Date: Sun, 17 Nov 2019 23:24:20 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Adrian Bunk <bunk@stusta.de>
 
-There have been a number of changes back and forth as to when and how
-to use the systemd unit files provided by the package. The correct
-condition is actually that both cron and systemd need to be enabled
-for them to be installed.
+(From OE-Core rev: 9fea7c3fae30bb1eecb31ec3bf777db981dc1eed)
 
-(From OE-Core rev: d6c975160197f67937dfbe91b08100b0f597c589)
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-extended/sysstat/sysstat.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-extended/iputils/iputils_s20190709.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 9394090136..62de36b44b 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -17,7 +17,7 @@ DEPENDS += "base-passwd"
- # autotools-brokensep as this package doesn't use automake
- inherit autotools-brokensep gettext systemd upstream-version-is-even
+diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
+index d8f2470d0c..3f9e9917f0 100644
+--- a/meta/recipes-extended/iputils/iputils_s20190709.bb
++++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
+@@ -17,6 +17,10 @@ S = "${WORKDIR}/git"
  
--PACKAGECONFIG ??= ""
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
- PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
- PACKAGECONFIG[cron] = "--enable-install-cron --enable-copy-only,--disable-install-cron --disable-copy-only"
- PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}"
-@@ -46,7 +46,9 @@ do_install() {
- 	        echo "d ${localstatedir}/log/sa - - - -" \
- 		     > ${D}${sysconfdir}/tmpfiles.d/sysstat.conf
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
  
--	        if ${@bb.utils.contains('PACKAGECONFIG', 'cron', 'false', 'true', d)}; then
-+		# Unless both cron and systemd are enabled, install our own
-+		# systemd unit file. Otherwise the package will install one.
-+	        if ${@bb.utils.contains('PACKAGECONFIG', 'cron systemd', 'false', 'true', d)}; then
- 			install -d ${D}${systemd_unitdir}/system
- 			install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_unitdir}/system
- 			sed -i -e 's#@LIBEXECDIR@#${libexecdir}#g' ${D}${systemd_unitdir}/system/sysstat.service
++# Fixed in 2000-10-10, but the versioning of iputils
++# breaks the version order.
++CVE_CHECK_WHITELIST += "CVE-2000-1213 CVE-2000-1214"
++
+ PACKAGECONFIG ??= "libcap libgcrypt rarpd traceroute6"
+ PACKAGECONFIG[libcap] = "-DUSE_CAP=true, -DUSE_CAP=false, libcap"
+ PACKAGECONFIG[libgcrypt] = "-DUSE_CRYPTO=gcrypt, -DUSE_CRYPTO=none, libgcrypt"
 -- 
 2.21.0
 
