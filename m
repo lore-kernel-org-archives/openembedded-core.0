@@ -1,49 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D5607F7A9
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com
+	[209.85.222.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CAAF7F942
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2019 17:07:28 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id 29so8411895pgm.6
+	Sun, 17 Nov 2019 21:19:43 +0000 (UTC)
+Received: by mail-ua1-f41.google.com with SMTP id s25so4603535uap.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2019 09:07:29 -0800 (PST)
+	Sun, 17 Nov 2019 13:19:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=tfg8532q7NxxJeMQpSmq3v/FDa1jEPGEmUpqLcmkK5k=;
-	b=orS045/7FAfY/C7tk7A/6p4lDhTDz/Qbf/Pt2MuPR5Y19Ge0WkjLMlV+bAuf7isERc
-	KTFCgNCcsuDx+CSbh+Cn9BlFGcIrB+ZMzpcVIHNUmvzDb0Hq8/jL6f0RTh5BC5WeONmy
-	DJgE7RVG/cXTAh2fqwCKaoUoY9/SCgweZdriuUZro92p4d2Je0GRclv1GFvIsPM/4M8/
-	y9CNLuwKVaUI30zUKjU0t2d0jyoLbmttRLz9WNwLrScPfMIrUHikxqQ8hYZLXtNH6gxT
-	+xL2H+yFPyopffi8HQLhnxVoAkQ1/y/cIBUkl3OdFzBgGN5iM0669usicaCSTQd3qJ7I
-	Bfaw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ISwdR8NHfLq48RteGnr7mzKKGsFRYJ9C9DQb0yjD9fY=;
+	b=JkIubHH+0dLZ+4kScLmuRpknXltqEoyfVxyAENwY/cQ9r7TyrkWZ/sYwdbvleYWpaj
+	Lx7YWbKMK3yiW1UXj2GXI/mmXtSqmgjq5oe2Ms8rB+TIaffo3qJBxVoVbcUD8igtyM0k
+	J14tsNzSui62R+SFQPTI1/yFQ/VMoQCDw3GeZzE1uiHZpfAtjE+nFoZ2k6el0iOPvLmK
+	LPMWVYAAD5Cat/3lu1sjcISsoxGm3rQiVapNnQ6KugeT032b4IsEQ6dRL3r8xj488gzt
+	mGn34lXN1Ylx+4kAYplevRklI2snFje8B7gluUJCHDq6GAnHkqANBjf/XLdjyadWpqEw
+	ixYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=tfg8532q7NxxJeMQpSmq3v/FDa1jEPGEmUpqLcmkK5k=;
-	b=k91p0tKurcpIPnc20bKsa8bMw0nesggSyfN7Neu5f2k54Kj2p4XNeJIIwZV+KFHFgt
-	qZmrE6Q4fiHSv8C+uA3JyFcAUWRmzruHa9atuDH6ffDvIF+r6niOrytXWBpotEs7Rg/w
-	+lpfZxS84FIjY6p4xRpJRhd3diHAfeq2iXuIe9u4dC4TZ2CLhKf+aeJ9sBaIPtdyoEDI
-	cv7YsK/r+sJBIK51muoic3IqTSsb/y6EwVCt/GFs6U8SM90tppQAucH2FoylPJgSXxc9
-	Ed3N6ydUnJ5IgGS0bIopRoH4Hd9fGdsxwHF2LBKMM+2OZM5F+Lu6tiuttUwCDK7OM/Mu
-	+X/Q==
-X-Gm-Message-State: APjAAAUX4FRsJgK0rUaUjtXOPfNMlSVWSXcyNMHmV+0Gh0oCtqfnz4PI
-	5fQouuaP+sz90c+2rc0/cZb2Hxam
-X-Google-Smtp-Source: APXvYqz/3LfgquHHkae6jQOjc/ULXuLdc6/16c1LE+Hrp05AHxDKQAa/lBI8s20/Rvau4ov5FxfpdQ==
-X-Received: by 2002:a63:5511:: with SMTP id j17mr25672065pgb.70.1574010449141; 
-	Sun, 17 Nov 2019 09:07:29 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:a5c0:a049:e40e:fb9e:4d3d])
-	by smtp.gmail.com with ESMTPSA id
-	c1sm16843328pjc.23.2019.11.17.09.07.28
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 17 Nov 2019 09:07:28 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 17 Nov 2019 09:06:55 -0800
-Message-Id: <cover.1574009986.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [warrior 00/28] merge request
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ISwdR8NHfLq48RteGnr7mzKKGsFRYJ9C9DQb0yjD9fY=;
+	b=OiXXxqZ/Tu84qfyWr0miV0eUKKKJCL6rutlesDiq6csPrmTDK6CdVfQNCIpbc2/ecW
+	Ltn+w7U8FENHVTw5uuMsaIYDYD1bxPmkTTK0oWLdaG4a9h4z2J/Tx4Lpy2/1zSU/ME4d
+	X+3YCtrmLpa0rLrz5YPMmQ/cjaqJZGZ5V2a0LBq69TjGaDXKsdxAOMU+ENqwLP5fvP/s
+	DLZXY8dPvdORUvFsQW11eJr2btgIJilAqZUvaCzjgfRSFR/dfH/oxJZ2mIqifQa3mZgs
+	Z8PZVJfmQ07VoHTi5fA70l3cSjaG+NQ9Aqm3SFrx7/9jlzjeT68cKVKaEyqq5qBLkZAU
+	RIEQ==
+X-Gm-Message-State: APjAAAUS6TJdOUiTUhMo3czgCCQqoueWs2mkxm6a4osOh+UASHISTOyT
+	EDVaVhME9/OWhLVASNtWjrhf1vZUnj7iOJzeDxd2yA==
+X-Google-Smtp-Source: APXvYqwk2eAso/2NBoWw7dRsXwqNhZzmsFwPQpc2z1phtbhzj5C+yXEKCgRctHsa9aOlONPsc5IpfBQiuUuOELD9foY=
+X-Received: by 2002:ab0:1c06:: with SMTP id a6mr14965547uaj.93.1574025583885; 
+	Sun, 17 Nov 2019 13:19:43 -0800 (PST)
+MIME-Version: 1.0
+References: <adf92df5-06d4-ea38-ad9f-55dde92148b2@linux.ibm.com>
+	<bb5c3045-8131-095a-f7bc-0ff91f36af5a@linux.ibm.com>
+In-Reply-To: <bb5c3045-8131-095a-f7bc-0ff91f36af5a@linux.ibm.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 17 Nov 2019 22:19:32 +0100
+Message-ID: <CANNYZj8LNhF26TLHuLMPh6K40dXe8V5pgEvv8N3MAEFVy+vveg@mail.gmail.com>
+To: Joseph Reynolds <jrey@linux.ibm.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: How to add build date? (was: ... basehash value changed...)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,128 +54,277 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Nov 2019 17:07:29 -0000
+X-List-Received-Date: Sun, 17 Nov 2019 21:19:43 -0000
+Content-Type: multipart/alternative; boundary="000000000000cb82270597916337"
 
-cover letter only
+--000000000000cb82270597916337
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Please merge this series into warrior mainline
+I'd write the date into the file at image creation, via
+ROOTFS_POSTPROCESS_COMMAND.
 
-The following changes since commit 726c3b92298981f5aa2f2449ceeec7b4bf84ed29:
+Having it in a recipe means that you either force the recipe to not be a
+part of sstate cache, always rebuilding it and its dependencies (bad idea),
+or accept that the date comes from a previously built cache object, which
+means it will mismatch the actual image creation date.
 
-  build-appliance-image: Update to warrior head revision (2019-10-30 13:55:57 +0000)
+A bit of context would help: why would you want that info in os-release?
+Who would use that information and how?
 
-are available in the git repository at:
+Alex
 
-  git://git.openembedded.org/openembedded-core-contrib stable/warrior-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/warrior-next
+On Sat, 16 Nov 2019 at 23:14, Joseph Reynolds <jrey@linux.ibm.com> wrote:
 
-Adrian Bunk (2):
-  go: Upgrade 1.12.5 -> 1.12.6
-  python3: Upgrade 3.7.4 -> 3.7.5
+>
+> Is there a best practice for folks who want to put the build date into
+> their generated os-release file?  I've seen this question come up at
+> least 3 times in my brief involvement with OE.  I could perhaps add
+> comment to the OpenBMC os-release.bbappend file to provide the proper
+> guidance.  I would like to hear your ideas.
+>
+> - Joseph
+>
+>
+> -------- Forwarded Message --------
+> Subject:        Re: how to solve the error that basehash value changed
+> from
+> 'xxx' to 'aaaa' ?
+> Date:   Sat, 16 Nov 2019 15:50:38 -0600
+> From:   Joseph Reynolds <jrey@linux.ibm.com>
+> To:     www <ouyangxuan10@163.com>, openbmc@lists.ozlabs.org
+> <openbmc@lists.ozlabs.org>
+>
+>
+>
+> Byron,
+>
+> What modification did you put into the os-release recipe?  It would help
+> us help you if you put that in your email.
+>
+>
+> Are you adding the build date to the generated os-release file? If so,
+> be aware that might cause the issues with the shared state cache you are
+> experiencing.  Also be aware this practice wrecks reproducible builds.
+>
+> A better way to get the same effect might be to create a git tag with
+> the information you want to appear in the generated os-release file.
+> When you buld with this tag is then picked up by the OpenBMC
+> meta-phosphor os-release.bbappend (via `git describe`) and included in
+> the genersted os-release file as the BUILD_ID. See:
+>
+> https://github.com/ibm-openbmc/openbmc/blob/d1c59b7a36c10c18838c07af10b18=
+080174cd61d/meta-phosphor/recipes-core/os-release/os-release.bbappend
+> (But I have not tried that.)
+>
+> A way to work around the hash change is to add a line to your recipe
+> like: PR[vardepsxeclude]=3D"DATETIME"
+> As suggested by:
+> https://forums.openpli.org/topic/41447-how-to-get-rid-of-taskhash-mismatc=
+h/
+>
+>
+> My apologies for top posting -- my email reader was not quoting the
+> message properly, so I cut/pasted it below.
+>
+> - Joseph
+>
+>
+> On 11/13/19 1:38 AM, www wrote:
+>
+> When I modify the os-release file in my yocto project, it appear some
+> error, and how can I solve it ? Who can give me some help or advice?
+> Thank you=EF=BC=81
+> I execute the recommended command on the console and it didn't work.
+>
+> ERROR: os-release-1.0-r0 do_compile: Taskhash mismatch
+> ce133f0458608e03aa55224df28156e523e54903115efbbcd62946f84a867201 versus
+> 7269881f0eb1759ed420a2db4c04fb477cd8c1288bc5f82df5c8161bb926ea1f
+>
+> for  /home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-relea=
+se/os-release.bb.do_compile
+> ERROR: Taskhash mismatch
+> ce133f0458608e03aa55224df28156e523e54903115efbbcd62946f84a867201 versus
+> 7269881f0eb1759ed420a2db4c04fb477cd8c1288bc5f82df5c8161bb926ea1f
+>
+> for /home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-releas=
+e/os-release.bb.do_compile
+> ERROR: When reparsing
+> /home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-release/os=
+-release.bb.do_compile, the
+>
+> basehash value changed from
+> 99a42a1a3b1a151de604267b159558ecaf1031a3bec8917df132c81302e729a5 to
+> 4f3288a8763e2e1af78e4b3cdd9c0c0ccb3b0d5c78a3073c188b22200df2a9b0. The
+> metadata is not deterministic and this needs to be fixed.
+> ERROR: The following commands may help:
+> ERROR: $ bitbake os-release -cdo_compile -Snone
+> ERROR: Then:
+> ERROR: $ bitbake os-release -cdo_compile -Sprintdiff
+>
+> ERROR: When
+> reparsing /home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-=
+release/os-release.bb.do_compile, the
+>
+> basehash value changed from
+> 99a42a1a3b1a151de604267b159558ecaf1031a3bec8917df132c81302e729a5 to
+> 47c30012daa6aa77be09a93fe21e66995361ef26b4487111005617db8cb4de59. The
+> metadata is not deterministic and this needs to be fixed.
+> ERROR: The following commands may help:
+> ERROR: $ bitbake os-release -cdo_compile -Snone
+> ERROR: Then:
+> ERROR: $ bitbake os-release -cdo_compile -Sprintdiff
+>
+> thanks,
+> Byron
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Alexander Kanavin (1):
-  go: update 1.12.1->1.12.5
+--000000000000cb82270597916337
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Changqing Li (1):
-  python3: fix do_install fail for parallel buiild
+<div dir=3D"ltr"><div>I&#39;d write the date into the file at image creatio=
+n, via ROOTFS_POSTPROCESS_COMMAND.</div><div><br></div><div>Having it in a =
+recipe means that you either force the recipe to not be a part of sstate ca=
+che, always rebuilding it and its dependencies (bad idea), or accept that t=
+he date comes from a previously built cache object, which means it will mis=
+match the actual image creation date.</div><div><br></div><div>A bit of con=
+text would help: why would you want that info in os-release? Who would use =
+that information and how?<br></div><div><br></div><div>Alex<br></div></div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sat=
+, 16 Nov 2019 at 23:14, Joseph Reynolds &lt;<a href=3D"mailto:jrey@linux.ib=
+m.com">jrey@linux.ibm.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><br>
+Is there a best practice for folks who want to put the build date into <br>
+their generated os-release file?=C2=A0 I&#39;ve seen this question come up =
+at <br>
+least 3 times in my brief involvement with OE.=C2=A0 I could perhaps add <b=
+r>
+comment to the OpenBMC os-release.bbappend file to provide the proper <br>
+guidance.=C2=A0 I would like to hear your ideas.<br>
+<br>
+- Joseph<br>
+<br>
+<br>
+-------- Forwarded Message --------<br>
+Subject:=C2=A0 =C2=A0 =C2=A0 =C2=A0 Re: how to solve the error that basehas=
+h value changed from <br>
+&#39;xxx&#39; to &#39;aaaa&#39; ?<br>
+Date:=C2=A0 =C2=A0Sat, 16 Nov 2019 15:50:38 -0600<br>
+From:=C2=A0 =C2=A0Joseph Reynolds &lt;<a href=3D"mailto:jrey@linux.ibm.com"=
+ target=3D"_blank">jrey@linux.ibm.com</a>&gt;<br>
+To:=C2=A0 =C2=A0 =C2=A0www &lt;<a href=3D"mailto:ouyangxuan10@163.com" targ=
+et=3D"_blank">ouyangxuan10@163.com</a>&gt;, <a href=3D"mailto:openbmc@lists=
+.ozlabs.org" target=3D"_blank">openbmc@lists.ozlabs.org</a> <br>
+&lt;<a href=3D"mailto:openbmc@lists.ozlabs.org" target=3D"_blank">openbmc@l=
+ists.ozlabs.org</a>&gt;<br>
+<br>
+<br>
+<br>
+Byron,<br>
+<br>
+What modification did you put into the os-release recipe?=C2=A0 It would he=
+lp <br>
+us help you if you put that in your email.<br>
+<br>
+<br>
+Are you adding the build date to the generated os-release file? If so, <br>
+be aware that might cause the issues with the shared state cache you are <b=
+r>
+experiencing.=C2=A0 Also be aware this practice wrecks reproducible builds.=
+<br>
+<br>
+A better way to get the same effect might be to create a git tag with <br>
+the information you want to appear in the generated os-release file.=C2=A0 =
+<br>
+When you buld with this tag is then picked up by the OpenBMC <br>
+meta-phosphor os-release.bbappend (via `git describe`) and included in <br>
+the genersted os-release file as the BUILD_ID. See:<br>
+<a href=3D"https://github.com/ibm-openbmc/openbmc/blob/d1c59b7a36c10c18838c=
+07af10b18080174cd61d/meta-phosphor/recipes-core/os-release/os-release.bbapp=
+end" rel=3D"noreferrer" target=3D"_blank">https://github.com/ibm-openbmc/op=
+enbmc/blob/d1c59b7a36c10c18838c07af10b18080174cd61d/meta-phosphor/recipes-c=
+ore/os-release/os-release.bbappend</a><br>
+(But I have not tried that.)<br>
+<br>
+A way to work around the hash change is to add a line to your recipe <br>
+like: PR[vardepsxeclude]=3D&quot;DATETIME&quot;<br>
+As suggested by: <br>
+<a href=3D"https://forums.openpli.org/topic/41447-how-to-get-rid-of-taskhas=
+h-mismatch/" rel=3D"noreferrer" target=3D"_blank">https://forums.openpli.or=
+g/topic/41447-how-to-get-rid-of-taskhash-mismatch/</a><br>
+<br>
+<br>
+My apologies for top posting -- my email reader was not quoting the <br>
+message properly, so I cut/pasted it below.<br>
+<br>
+- Joseph<br>
+<br>
+<br>
+On 11/13/19 1:38 AM, www wrote:<br>
+<br>
+When I modify the os-release file in my yocto project, it appear some <br>
+error, and how can I solve it ?=C2=A0Who can give me some help or advice? <=
+br>
+Thank you=EF=BC=81<br>
+I execute the recommended command on the console and it didn&#39;t work.<br=
+>
+<br>
+ERROR: os-release-1.0-r0 do_compile: Taskhash mismatch <br>
+ce133f0458608e03aa55224df28156e523e54903115efbbcd62946f84a867201 versus <br=
+>
+7269881f0eb1759ed420a2db4c04fb477cd8c1288bc5f82df5c8161bb926ea1f <br>
+for=C2=A0=C2=A0/home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/=
+os-release/os-release.bb.do_compile<br>
+ERROR: Taskhash mismatch <br>
+ce133f0458608e03aa55224df28156e523e54903115efbbcd62946f84a867201 versus <br=
+>
+7269881f0eb1759ed420a2db4c04fb477cd8c1288bc5f82df5c8161bb926ea1f <br>
+for=C2=A0/home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-rel=
+ease/os-release.bb.do_compile<br>
+ERROR: When reparsing <br>
+/home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-release/os-r=
+elease.bb.do_compile,=C2=A0the <br>
+basehash value changed from <br>
+99a42a1a3b1a151de604267b159558ecaf1031a3bec8917df132c81302e729a5 to <br>
+4f3288a8763e2e1af78e4b3cdd9c0c0ccb3b0d5c78a3073c188b22200df2a9b0.=C2=A0The =
+<br>
+metadata is not deterministic and this needs to be fixed.<br>
+ERROR: The following commands may help:<br>
+ERROR: $ bitbake os-release -cdo_compile -Snone<br>
+ERROR: Then:<br>
+ERROR: $ bitbake os-release -cdo_compile -Sprintdiff<br>
+<br>
+ERROR: When <br>
+reparsing=C2=A0/home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/=
+os-release/os-release.bb.do_compile,=C2=A0the <br>
+basehash value changed from <br>
+99a42a1a3b1a151de604267b159558ecaf1031a3bec8917df132c81302e729a5 to <br>
+47c30012daa6aa77be09a93fe21e66995361ef26b4487111005617db8cb4de59. The <br>
+metadata is not deterministic and this needs to be fixed.<br>
+ERROR: The following commands may help:<br>
+ERROR: $ bitbake os-release -cdo_compile -Snone<br>
+ERROR: Then:<br>
+ERROR: $ bitbake os-release -cdo_compile -Sprintdiff<br>
+<br>
+thanks,<br>
+Byron<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-Chen Qi (1):
-  python3: CVE-2019-16056
-
-Jason Wessel (1):
-  pseudo: Fix openat() with a symlink pointing to a directory
-
-Joe Slater (2):
-  libtiff: fix CVE-2019-17546
-  libxslt: fix CVE-2019-18197
-
-Joshua Watt (2):
-  python3: Reformat sysconfig
-  python3: Fix .pyc file reproduciblility
-
-Khem Raj (1):
-  go-1.12: update to 1.12.9 minor release
-
-Matthias Schoepfer via Openembedded-core (1):
-  python3: fix build on softfloat mips
-
-Mingli Yu (1):
-  python3: fix the test_locale output format
-
-Niclas Svensson (1):
-  devtool: finish: Keep patches ordered when updating bbappend
-
-Peter Kjellerstedt (8):
-  meson: Backport patch to handle strings in cross file args
-  meson.bbclass: Remove the MESON_*_ARGS variables
-  nativesdk-meson: Remove some unused variables
-  devtool: Avoid failure for recipes with S == WORKDIR and no local
-    files
-  package_rpm.bbclass: Remove a misleading bb.note()
-  tzdata: Correct the packaging of /etc/localtime and /etc/timezone
-  devtool: finish: Add suppport for the --no-clean option
-  lib/oe/lsb: Make sure the distro ID is always lowercased
-
-Ricardo Ribalda Delgado (1):
-  python3: python3: Fix build error x86->x86
-
-Richard Purdie (2):
-  pseudo: Drop static linking to sqlite3
-  pseudo: Add statx support to fix fedora30 issues
-
-Ross Burton (2):
-  patch: the CVE-2019-13638 fix also handles CVE-2018-20969
-  file: fix CVE-2019-18218
-
-Trevor Gamblin (1):
-  tiff: fix CVE-2019-14973
-
- meta/classes/meson.bbclass                         |  15 +-
- meta/classes/package_rpm.bbclass                   |   5 +-
- meta/conf/distro/include/no-static-libs.inc        |   4 -
- meta/lib/oe/lsb.py                                 |   8 +-
- .../file/file/CVE-2019-18218.patch                 |  55 +++
- meta/recipes-devtools/file/file_5.36.bb            |   3 +-
- meta/recipes-devtools/go/go-1.12.inc               |   6 +-
- meta/recipes-devtools/meson/meson.inc              |   1 +
- ...e-strings-in-cross-file-args.-Closes-4671.patch |  87 +++++
- .../meson/nativesdk-meson_0.49.2.bb                |   5 -
- ...ke-ed-directly-instead-of-using-the-shell.patch |   4 +-
- .../pseudo/files/0001-Add-statx.patch              | 106 ++++++
- meta/recipes-devtools/pseudo/pseudo.inc            |  19 +-
- meta/recipes-devtools/pseudo/pseudo_git.bb         |   3 +-
- ...code-lib-as-location-for-site-packages-an.patch |   2 +-
- ...ix-Issue36464-parallel-build-race-problem.patch |  34 ++
- ...-Use-FLAG_REF-always-for-interned-strings.patch |  35 ++
- ...roper-detection-of-mips-architecture-for-.patch | 201 ++++++++++
- ...-cc_basename-to-replace-CC-for-checking-c.patch |   2 +-
- ..._locale.py-correct-the-test-output-format.patch |  46 +++
- .../python/python3/crosspythonpath.patch           |  25 ++
- .../python/python3/reformat_sysconfig.py           |  21 ++
- .../python/{python3_3.7.4.bb => python3_3.7.5.bb}  |  17 +-
- meta/recipes-extended/timezone/tzdata.bb           |   5 +-
- .../libtiff/tiff/CVE-2019-14973.patch              | 415 +++++++++++++++++++++
- .../libtiff/tiff/CVE-2019-17546.patch              | 103 +++++
- meta/recipes-multimedia/libtiff/tiff_4.0.10.bb     |   4 +-
- .../libxslt/files/CVE-2019-18197.patch             |  33 ++
- meta/recipes-support/libxslt/libxslt_1.1.33.bb     |   1 +
- scripts/lib/devtool/standard.py                    |  17 +-
- 30 files changed, 1218 insertions(+), 64 deletions(-)
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-18218.patch
- create mode 100644 meta/recipes-devtools/meson/meson/0001-Handle-strings-in-cross-file-args.-Closes-4671.patch
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-Add-statx.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-Use-FLAG_REF-always-for-interned-strings.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
- create mode 100644 meta/recipes-devtools/python/python3/crosspythonpath.patch
- create mode 100644 meta/recipes-devtools/python/python3/reformat_sysconfig.py
- rename meta/recipes-devtools/python/{python3_3.7.4.bb => python3_3.7.5.bb} (93%)
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-14973.patch
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/CVE-2019-17546.patch
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-18197.patch
-
--- 
-2.7.4
-
-
+--000000000000cb82270597916337--
