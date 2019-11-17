@@ -1,53 +1,18 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
-	[209.85.214.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DCC77F998
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 17 Nov 2019 03:35:25 +0000 (UTC)
-Received: by mail-pl1-f170.google.com with SMTP id d7so7535333pls.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 16 Nov 2019 19:35:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=poIYAa39P7/wXKlRoughyduFrSyP+9BAPrW8txRu/8o=;
-	b=cRR+6wX8ppIK7tn4+RVQkhEvWc5p+ms7YLHjHmyl5qn+SrsQEhU8MkQahFdMQqplEW
-	+S8SVVgXcRPgFl64DICrUvIfq3Kj5XnAJC3z+JuOAzEHgtZBrrTcujykWcgVYCGcUyiK
-	MIlTuyRf6lErvBzXTgzkb1iUqMS4hKXRib+PgX0ZVNjny+BNRdKwh6oRNhkWRw2RwEXK
-	HU1ToQbwMJRRpbaGus7ztJ6D49DzFQPK+9xEeBpRMDbBq9sPGmsseuRwgCSXVKQjgcej
-	ZugsQMTlh/jhT/1bece7nHK5DF5OYe/uQ6KPvzv3Jl2l8CUA20JM55nQ3DJYnOXbXG9F
-	PXTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=poIYAa39P7/wXKlRoughyduFrSyP+9BAPrW8txRu/8o=;
-	b=QLkIfJLlGlxwAZPvz0ZsQKQVYIOKx043ST+10B7PKiSM4I4aiCEw8EkNCZ633nGuC5
-	ar8hpu7mMi3miuHyGso4M4PnGpuBuBumWGOPxRK7jRh1nVqzUrqh0cpVeh/1/siu4LSt
-	PYpaXb6AJXAArN/JaOCscaqXPnBwvbmiR0fJfBwmj4gP0suKV18j9qKpDqqOA5yYMxUK
-	axsED1Ii6ehjeuSHg4bEdqWPoVw7u8wyoDW7h0tK6zrxvXwqxzdHlDuqnVSYCSELspfb
-	+EdHJxEapm3IpkPpQa4AXoKUeErDvC1SdvE13xOVS3so8Ihi+Xb5nH04GaXSwbnJoSXp
-	WjXQ==
-X-Gm-Message-State: APjAAAXqAflqzW4pLc8+vBzjKnMbvpJMk1aMBHpD8SSuWaZqEVuiBTw1
-	siuZHBlUhYh1e41A4PxmJK6XVmlb
-X-Google-Smtp-Source: APXvYqxy6Y4rHRrEG5ZNK8f6seYOWk4rYjot/T5iSlQt2mXE4FRjQfgVuHWZwxV4Y0lntjEmV6XEYQ==
-X-Received: by 2002:a17:90b:94f:: with SMTP id
-	dw15mr29842748pjb.13.1573961726898; 
-	Sat, 16 Nov 2019 19:35:26 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:a5c0:a049:e40e:fb9e:4d3d])
-	by smtp.gmail.com with ESMTPSA id
-	71sm16666402pfx.107.2019.11.16.19.35.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 16 Nov 2019 19:35:26 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 16 Nov 2019 19:35:20 -0800
-Message-Id: <1573961720-4099-7-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1573961720-4099-1-git-send-email-akuster808@gmail.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id B1C3E7F986;
+	Sun, 17 Nov 2019 04:02:38 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Armin Kuster <akuster808@gmail.com>
+Date: Sun, 17 Nov 2019 04:02:40 -0000
+Message-ID: <20191117040240.2329.3484@do>
 References: <1573961720-4099-1-git-send-email-akuster808@gmail.com>
-Subject: [PATCH 7/7] manual/bsd-hw: remove bash tests
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1573961720-4099-1-git-send-email-akuster808@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIi9vZXFhL21hbnVhbC9jb21wbGlhbmNlLXRlc3Q6IC4uLiIgYW5kIDYgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,45 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 17 Nov 2019 03:35:26 -0000
+X-List-Received-Date: Sun, 17 Nov 2019 04:02:38 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-done as part of IncompatibleLicensePerImageTests
+== Series Details ==
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Series: "/oeqa/manual/compliance-test: ..." and 6 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/21180/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at dfb3b56641)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/manual/bsp-hw.json | 18 ------------------
- 1 file changed, 18 deletions(-)
-
-diff --git a/meta/lib/oeqa/manual/bsp-hw.json b/meta/lib/oeqa/manual/bsp-hw.json
-index dd3504f..5c5b9b5 100644
---- a/meta/lib/oeqa/manual/bsp-hw.json
-+++ b/meta/lib/oeqa/manual/bsp-hw.json
-@@ -457,24 +457,6 @@
-     },
-     {
-         "test": {
--            "@alias": "bsps-hw.bsps-hw.check_bash_in_image",
--            "author": [
--                {
--                    "email": "alexandru.c.georgescu@intel.com",
--                    "name": "alexandru.c.georgescu@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "After system is up, check if bash command exists with command \"which bash\"",
--                    "expected_results": "bash command should exist in image giving something as below  \"/bin/bash\""
--                }
--            },
--            "summary": "check_bash_in_image"
--        }
--    },
--    {
--        "test": {
-             "@alias": "bsps-hw.bsps-hw.video_-_libva_check_(ogg_video_play)",
-             "author": [
-                 {
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
