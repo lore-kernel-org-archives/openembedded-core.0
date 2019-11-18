@@ -1,48 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D834A7F88D
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 65F547F8E5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 20:09:15 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id n4so21755038qte.2
+	Mon, 18 Nov 2019 20:11:17 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id i3so3658387qkk.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 12:09:17 -0800 (PST)
+	Mon, 18 Nov 2019 12:11:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dHj1+ZsvyOx7Vg0sV3OXtE3S74RyvZJF3kyz7LtiH2Y=;
-	b=NsDrTGUF6zHCnjYWz354TmDpsqPVRhBeSmQr+lKF7HEwwpymmoNHZ8mBzchnCTHsff
-	q8nKvnp5UjTKlHYT54mLOj1x71fD0MP88wAntrOeM18rc6hqTo3bPFX0a8A27jQVTGKI
-	JP1OXNHG+KQiiNAkLYd6Icslu4mGnz/oi0FVHnmv6Gm46cTnKNe/e9OIteK5z8IbxJuP
-	J0lShgfJsgytE/xn/LnY1nm9jkz3bzCngcZe2RBL5gp4kb3+FHjVLy6sD2ZLQgBw4Lg8
-	QZb1CMge6liugkGbL+DEfj0Hot7Vlu4XpKidcQVp01LN+m+bTDHNdF1e++vrhNkFnzVZ
-	uPjA==
+	:cc; bh=6n++6wMPi/Gv/z5VilKPKKl2DxynSQsyz2pb4UTgMY0=;
+	b=IcolTb81CYdtTGX9uVYWDUOFNVGLdgNZ5B8nRSCtWkcCY7IISvwJGS4mAm63oS0nxl
+	BwkMArH4cH45sJ9h/SiFrjAeJw1muYdP54qJuAOmHrlf36ybrkKCZyIft4IGevJDtxBG
+	ney1+2W5jXBheKaBeMC+LtVZbL1+jG9+YpPKWdsyebfVYEGgTXxnhQr137YcoWjzVI7R
+	IqV41zI5SorL6K2tETkZduWsOeBTiB+pXPBZcVmM5tHYJz4cjnC0i39AOuzc/j6Jrcx5
+	KqZtyiS7AkfETLWC8yqN4vELR+/YhP43r02L8uSTlhu23YBIa+JxFyK9GiyyfHg/PjNR
+	JzOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=dHj1+ZsvyOx7Vg0sV3OXtE3S74RyvZJF3kyz7LtiH2Y=;
-	b=T2ctiW5oxjOv90TYk0S7euq+eY4qHbPtwFgWiOb6JLykZ7a+LZ36+nqdclKQlYSrl+
-	R8FSVhjpyVAIFd1L2/mQcJ2B6XFaahrau7uys4Rd4uUbkrcOgK9ZdgVWZTKGbXy3dDbY
-	Zkv9nMEky1YX2TiW5JhvNz5A3Ha2QmZrYKJNyChI+9+txVn0ABn2pMdsBPsDi7b/s8fc
-	WgbVqNQs0LNyhuYf8PfAcOtYG6613DAaFRtJpY9FgHrfFrodFTHTedWGFknDxCnLIiPH
-	DCOa70hHc1ej7vqDnL1oPZRF4s39+xt0O45Ow/s32pbvyI1QFkdLcbgDkNOhL8EM5n0q
-	NtGg==
-X-Gm-Message-State: APjAAAWAlSUlfQeGiEctM4ot8CAaE8Q/6+rsynab+81ib1fyas1VxHY7
-	/BaRR9/j10yEhlaqHxvmGT0X3pRQC82HpNMnatc=
-X-Google-Smtp-Source: APXvYqyaCG+hYB5Ssm1QhgMvbtZitNxgLgMICq00GxaM0DDe2aK3Ss+WJy2suV2buVWV3FrnQEYZ+lE/rt656TgV15Y=
-X-Received: by 2002:aed:2724:: with SMTP id n33mr28988856qtd.194.1574107756280;
-	Mon, 18 Nov 2019 12:09:16 -0800 (PST)
+	bh=6n++6wMPi/Gv/z5VilKPKKl2DxynSQsyz2pb4UTgMY0=;
+	b=DhnCknAv4RGorKHccC6ADo8ekodXgp/kU5uTLNg4hWNzV2AEby04aDuMdMEda7tcl/
+	pu3Fv0iYsC/XXRIEVFkMzDK8DkVY3ZpyL8v6dISDUoiYbUP5DAGxbCEgdxbhDc7JWp8e
+	t4UbxN2afg7wWzQ5Gc8BKuevCFSfBrwT7zmw2SNsbhl5SOt4KLKmDq126IopdCdHU64D
+	vGt7Y1zv39BkzvXmdQgluHXsQ/PtYgjrwcQvWvja/RhH1aqePFmH9zFYWu6f++xbbhQd
+	UZui4rtXuphGIHwMs/oW/6TYh5G3tNlEn1iqNUb9c0qkmdtJQcT4zMFoewTtmBqaA2xS
+	ihoQ==
+X-Gm-Message-State: APjAAAWzmKybCjz0WkAZfb9c3KsecOCIyJaY1mQ3zVk2u85iK5pzna0I
+	7L8C7NP/SaPhvA7u9bKiVNmJRjdYQM/6iRnBkN4gnr/f
+X-Google-Smtp-Source: APXvYqwolhhVpamfW3B89eTlWiD98Nm2NQ3Z+jPJGsAwndKEYrB/imbuJZhwSpMaxcIkuwm+P1xMauK319pfmyD22ss=
+X-Received: by 2002:a05:620a:a9a:: with SMTP id
+	v26mr20316119qkg.71.1574107877867; 
+	Mon, 18 Nov 2019 12:11:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20191118142852.22981-1-alex.kanavin@gmail.com>
-	<20191118142852.22981-13-alex.kanavin@gmail.com>
-In-Reply-To: <20191118142852.22981-13-alex.kanavin@gmail.com>
+References: <20191118171730.153048-1-mark.hatle@kernel.crashing.org>
+	<878a811e-0649-e67e-159f-97de89fa5909@kernel.crashing.org>
+In-Reply-To: <878a811e-0649-e67e-159f-97de89fa5909@kernel.crashing.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 18 Nov 2019 12:08:49 -0800
-Message-ID: <CAMKF1srtYneT81UKC0Lcn4U_DgWiWb3Xm11mXL+2i3+yvCE5qg@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 18 Nov 2019 12:10:49 -0800
+Message-ID: <CAMKF1sqZcHvvdVu-VphF56QKH0Zx6Zr6A9G7uSd-o=+Uq9eqCQ@mail.gmail.com>
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/13] man-pages: correct the SRC_URI
+Subject: Re: [PATCH 0/1] Add PREFIX and EXEC_PREFIX to gccrelocprefix section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +56,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 20:09:16 -0000
+X-List-Received-Date: Mon, 18 Nov 2019 20:11:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 18, 2019 at 6:33 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> The homepage: https://www.kernel.org/doc/man-pages/download.html
-> specifies that the latest tarballs are published one level up
-> from where we currently take them.
->
+thanks the patch in general looks ok. I will give it a try this week as well.
 
-archive is a better location for what it's worth. Since long after a
-release, the tarball may disappear from
-level up but chances of it being in archive are higher. So Let's not
-change this URI, unless there is another
-reason that I missed.
-
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-extended/man-pages/man-pages_5.01.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Nov 18, 2019 at 9:34 AM Mark Hatle
+<mark.hatle@kernel.crashing.org> wrote:
 >
-> diff --git a/meta/recipes-extended/man-pages/man-pages_5.01.bb b/meta/recipes-extended/man-pages/man-pages_5.01.bb
-> index 28525f4ba7e..ea1249e4396 100644
-> --- a/meta/recipes-extended/man-pages/man-pages_5.01.bb
-> +++ b/meta/recipes-extended/man-pages/man-pages_5.01.bb
-> @@ -5,7 +5,7 @@ HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
->  LICENSE = "GPLv2+"
 >
->  LIC_FILES_CHKSUM = "file://README;md5=794f701617cc03fe50c53257660d8ec4"
-> -SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
-> +SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
 >
->  SRC_URI[md5sum] = "38abead776a506109e128ab96bcbbe58"
->  SRC_URI[sha256sum] = "070bef794c6826b3fb3965d1a2efdb46c25cb37c06c715987f88a50906cd5b6f"
-> --
-> 2.17.1
+> On 11/18/19 11:17 AM, Mark Hatle wrote:
+> > I have an unusual use-case that requires me to move the location of gcc.
+> > As part of this, I noticed that the built-in include paths were not being
+> > runtime relocated, while other paths were.  It turns out this was becaue
+> > PREFIX/EXEC_PREFIX were being used as defined at build time, but the other
+> > prefixes were being used as relocated at SDK install time.
+> >
+> > The patch set corrects this and adds PREFIX/EXEC_PREFIX to the list.  There
+> > is no test case for this, as I'm not sure how we could ever test this with
+> > the standard OE SDKs.
+> >
+> > The way I tested this code change was:
+> >
+> > bitbake meta-toolchain
+> >
+> > install the SDK
+> >
+> > wrap all of the executables in the HOST sysroot with:
+> >
+> > exec <LDSO> --library-path <LIBPATH>:<LIBBASEPATH> <executable> $@
+> >
+> > mv the 'installed' version else where and then build a simple hellow world
+> > application.
+> >
+> > Doing this before the change resulted in 'unable to find <stddef.h>', after
+> > the change it works as expected.  Use the '-v' to inspect what it was doing
+> > it was clear that runtime relocation was NOT relocating the system include
+> > paths before the change.
 >
+> Forgot to mention, I also tested this using the regular approach of sourcing the
+> environment file, and compiling using $CC.  :)
+>
+> --Mark
+>
+> > Mark Hatle (1):
+> >   gcc-9.2: Update the relocation patch to add PREFIX/EXEC_PREFIX
+> >
+> >  ...le-sysroot-support-for-nativesdk-gcc.patch | 185 +++++++++++++++---
+> >  1 file changed, 159 insertions(+), 26 deletions(-)
+> >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
