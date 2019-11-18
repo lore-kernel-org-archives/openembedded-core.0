@@ -1,33 +1,39 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 75E6D7F94C
+	by mail.openembedded.org (Postfix) with ESMTP id 2B1CF7F977
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 14:04:45 +0000 (UTC)
+	Mon, 18 Nov 2019 14:04:59 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47GrLP2VnXzD5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 15:04:44 +0100 (CET)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47GrLg6dBWzD5;
+	Mon, 18 Nov 2019 15:04:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1574085885;
-	bh=GaHXk+C5gX0r7kyYKRShqtxiNtY1vjVkMQALaX4p+bU=;
-	h=From:To:Subject:Date:From;
-	b=Y5jGdLUrGMCHW6jLk1T1FXK8ktgEFhHgKBPGQ6snFDceXslCHIeBJUhRlWZpsp6QU
-	3v8cwyvRWI4jgv8ieL5A7d82xwDM8NYRtlWqyBTiAragOTV1qDwbtqVRBh/FyqWY+7
-	gXOZSgJ2hXBy10iWMsRSnNdJBxLDVTpQCDfnqzBms1cfa3avd8FzUrDfV8LWtgacix
-	YXFVjU2VDpdFHvuPzaQXqULkLsspVJ54uQD3pllHv2d3j1gz6Mvk3R94WBmmwr1zp1
-	6Z2VF2Fu5e6MVbjNEjWLVCRSXBTiDvYsI6eHum0CI4sjRowWBBZRtUX/u+/NY3Extb
-	rcC1iEkXVVaCYXzabKXZOURPTOqIBjIupxcyIXllkkQ3ze7HY04+gVi8Oo7sD0woii
-	UsMC+F4yv9fEJ4lW+R/8Itq12hPUHt6CCXtWEFdjUyxFGdKyi0bpiGOxUDAM+O1ytn
-	+omzj19nI1BhyDqfuiRGXKOeOkyzSAF/dQG4+lYxeTI+EUKjeBj0gdZAYeiRvW+Rod
-	ou2UpSUnGyzI+vAVMBkKnbuk3T2zVffUZC+IBJMpzxCBLQFtLGdNX2WZ2SutS+ZEfl
-	JgzIg3zew7rVoYXzTbIt8C7MHVOgE9N5EgLzQaMes3/0LG3+jknCt3x9MpqqQfUwcN
-	7/3JFM/4lqYeIxdw0MLRdL6U=
+	s=default; t=1574085900;
+	bh=4/PpEfQb9eUtGcRaArtLszBnI82pwKahvBuHrl8P9/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=T5Ma7Cei5CcoRDKubPCmSQiC9jpYhocCCbal4KXWUCDRX5xop1qJx9cdyx4mInN20
+	oe9cso0+c5h5lmPkATeAvGvrG5rfiRYhqLzX0VN4MHUWnO6wkuHqhZPGL22E93+LGd
+	tdDthztwb6ZW/l3pn4VsZRYYy/61AtcS9R1P4Hr+VcPnfSb2b/cdQvIP3Nx2SDTpLk
+	NYDSOGZ5wGaRP5WhKOPpvjFPL1xMPafO8B5xr4Nnf1wVtHSXylGQhbrQvL4LXtUl9W
+	pdktR6ZB2H/5ZmiIfBXfUOwxwDe7tB5ufkwS1L89LlLMbujs7hqWcvxbzY+Ox98BbI
+	o5/2+uURLfsLWvyJ0AKBXNlRc+zwX/W88btgYp0BcCJlT4xeinIBCM/sA155WLYE/R
+	v0HNVzj9aUjAZIKFSNZzoeuaC3J1A6LOOAH2klkLZk5jkluuWEeQEtXD4tYvW/MhH3
+	5ebLFhLbjH7lTYBFJqorGqmkh8JWzfxBbyJbTDj0zxm/C5d/DsZ1pfMLu8uL/zEJq3
+	23Ty63/8Y+S9oWLn2Hx37pWCvvZsauQyyiv1/aKjewTjho8hnZ2fxiJN/bwRkALU7H
+	RAFIVtFCBlpY2BvHMVzaw1CpGrVPgUVHgJy7BICw5XnxxSujpG10yqIH8rI/S1iBpk
+	849D04G3SXYogajLS0P4LRgE=
+Date: Mon, 18 Nov 2019 16:04:56 +0200
 From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2019 16:04:43 +0200
-Message-Id: <20191118140443.5661-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v2] bind: Whitelist CVE-2019-6470
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20191118140456.GA11960@localhost>
+References: <20191113081914.28778-1-bunk@stusta.de>
+	<02d2657c-0beb-eeb1-ca00-3add30515f9c@intel.com>
+	<20191114125101.GB13971@localhost>
+	<67857156-6a64-13bf-d2cb-226d96a4031f@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <67857156-6a64-13bf-d2cb-226d96a4031f@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bind: Whitelist CVE-2019-6470
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,31 +46,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 14:04:46 -0000
+X-List-Received-Date: Mon, 18 Nov 2019 14:05:00 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
-v2: better comment text
----
- meta/recipes-connectivity/bind/bind_9.11.5-P4.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+On Thu, Nov 14, 2019 at 01:16:44PM +0000, Ross Burton wrote:
+> On 14/11/2019 12:51, Adrian Bunk wrote:
+> > On Thu, Nov 14, 2019 at 12:04:40PM +0000, Ross Burton wrote:
+> > > On 13/11/2019 08:19, Adrian Bunk wrote:
+> > > > +# Affects: Builds of dhcpd versions prior to version 4.4.1 when using BIND versions 9.11.2 or later
+> > > > +CVE_CHECK_WHITELIST += "CVE-2019-6470"
+> > > 
+> > > Can you be a bit more explicit about why this is whitelisted?
+> > 
+> > Something like
+> >    BIND >= 9.11.2 need dhcpd >= 4.4.1, don't report it here since
+> >    dhcpd is already recent enough.
+> 
+> Right.
 
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-index 3e2412dfa4..0897706346 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-@@ -37,6 +37,10 @@ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
- UPSTREAM_CHECK_REGEX = "(?P<pver>9.(11|16|20|24|28)(\.\d+)+(-P\d+)*)/"
- 
-+# BIND >= 9.11.2 need dhcpd >= 4.4.0,
-+# don't report it here since dhcpd is already recent enough.
-+CVE_CHECK_WHITELIST += "CVE-2019-6470"
-+
- inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
- 
- MULTILIB_SCRIPTS = "${PN}:${bindir}/bind9-config ${PN}:${bindir}/isc-config.sh"
--- 
-2.17.1
+v2 sent.
 
+> Ross
+
+cu
+Adrian
 
