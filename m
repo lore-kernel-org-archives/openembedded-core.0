@@ -1,19 +1,48 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A5557F8BB
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
+	[209.85.221.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 498C67F8BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 17:17:32 +0000 (UTC)
-Received: from lons-builder.int.hatle.net ([192.40.192.88])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id xAIHHUOZ014981;
-	Mon, 18 Nov 2019 11:17:31 -0600
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2019 11:17:30 -0600
-Message-Id: <20191118171730.153048-2-mark.hatle@kernel.crashing.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191118171730.153048-1-mark.hatle@kernel.crashing.org>
-References: <20191118171730.153048-1-mark.hatle@kernel.crashing.org>
-Subject: [PATCH 1/1] gcc-9.2: Update the relocation patch to add PREFIX/EXEC_PREFIX
+	Mon, 18 Nov 2019 17:18:12 +0000 (UTC)
+Received: by mail-vk1-f195.google.com with SMTP id d10so4300244vke.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Nov 2019 09:18:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ZbyA/IAytgX7JWQDkkAzgT3PNu4obVhg6PIJljG8YFg=;
+	b=FMKalzwO56u0PjOpejh2Fw490VDW0+WiiFgK5BJZWJdTjyD0aMZMPPmu9bOognInnr
+	Kj0Gp1JAR7JDKK56TCJMSQXe0oL+51PQT/jNh1Ix4qPd/uLprXuI326K+AEu4cosvK3X
+	HrF8UiH5Lom8KzpMJAjKmsdR8kykgsbv8feXutvrR7bBEcB8tyINJM5QbwavnN3GTylG
+	ymRLqtH2MT6rgTYaUugmwGe8uhyFwlFth4r4DqsVVZGRlqQ9QBv80lwIKNHyRQt1G2Rw
+	3EvalcjeM65c0qTiFp5abz7fYWgHQmXaB92sjiFX9Qiu11Ls3H9zeJo3kPpnynZq2KqZ
+	7yQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ZbyA/IAytgX7JWQDkkAzgT3PNu4obVhg6PIJljG8YFg=;
+	b=GYM+ojCXQcyW4wIojebtnfMiWXXwKHLPYE924bKeo57yayRbYk3ej/MI10EjxSFrN9
+	vjVntc0cDKNihxiWc5bZMkqEHX38X+Tcm6W5ts1ZHkdA8TMgBLPIpne+QUIuelDIP0X/
+	l+rB/Jqq0qvaJyZeJkZU4rSgZqKFc1ZjlxU5+fyYCGY80DpsWn9HUdLA6vVK0B53w8iX
+	tTO11dJqWr/eFS5IkPVMw3sa7+rm4Uy4CdbbH5D2VLtQsU8IyMoV2XQY3s1J45kTdKRc
+	ELXkGKiWDN6Aci9BJuTX5o1dEH6EwHP3tuAtBVaB1TwNUe86YJuLBq0Mvc5ul7ugsxJg
+	QHqg==
+X-Gm-Message-State: APjAAAUaCN4d/n4nS16E9RchyjK1FbtRhVAJ0KQ6h6WYuBn/xG0lGLtP
+	pDjMPkVZwO2odSeZMAqkcvfM7Qw2wQ8NnJFvBRa3Te4O
+X-Google-Smtp-Source: APXvYqxJ9hkLbu1fyr8VS/h8+VI1xLMH5ag4GPUh6WeQszsLfDdLVpeW53q5XY4VXjaoZrUOUyYWgk1s48PqR5UFcGs=
+X-Received: by 2002:a1f:22d5:: with SMTP id i204mr8298280vki.0.1574097492877; 
+	Mon, 18 Nov 2019 09:18:12 -0800 (PST)
+MIME-Version: 1.0
+References: <20191118142852.22981-1-alex.kanavin@gmail.com>
+	<20191118142852.22981-9-alex.kanavin@gmail.com>
+	<9cefac866172047d73121778c13de58fc215904d.camel@linuxfoundation.org>
+In-Reply-To: <9cefac866172047d73121778c13de58fc215904d.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 18 Nov 2019 18:18:01 +0100
+Message-ID: <CANNYZj9UbdVK9NkoUaNjmBappLvz3ed8zoHYrry2FR37VfKtWQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 09/13] Revert "devtool/standard.py: Not filtering devtool workspace for devtool finish"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,289 +55,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 17:17:32 -0000
+X-List-Received-Date: Mon, 18 Nov 2019 17:18:12 -0000
+Content-Type: multipart/alternative; boundary="000000000000e7a4f00597a221ca"
 
-Without relocating PREFIX/EXEC_PREFIX the system can not do runtime
-relocation for the path to the usr/lib/gcc directory, and other components.
+--000000000000e7a4f00597a221ca
+Content-Type: text/plain; charset="UTF-8"
 
-While this is not a normal or supported use-case it does work in the upstream
-gcc.  This is difficult to test with the regular OE SDKs, as it requires
-running the components with the correct LD_LIBRARY_PATH and ld.so.
+On Mon, 18 Nov 2019 at 17:44, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Without this update, gcc will typically not be able to find the gcc
-provided include file for stddef.h and similar.  This is due to certain
-relocations being based on the PREFIX and/or EXEC_PREFIX locations which
-are hardcoded at compilation time.
+>
+> Are we missing a test case for something here?
+>
+> If yes, would that be worth noting in bugzilla whilst we know about it?
+>
 
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
----
- ...le-sysroot-support-for-nativesdk-gcc.patch | 185 +++++++++++++++---
- 1 file changed, 159 insertions(+), 26 deletions(-)
+There are tests for 'devtool upgrade' (the sample recipes are in
+meta-selftest/recipes-test/devtool/) but apparently they weren't able to
+catch this. I only noticed because AUH produced a number of broken patches
+for some (but not all) recipes.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-9.2/0025-handle-sysroot-support-for-nativesdk-gcc.patch b/meta/recipes-devtools/gcc/gcc-9.2/0025-handle-sysroot-support-for-nativesdk-gcc.patch
-index ba62bc1fd3..2e7a444b58 100644
---- a/meta/recipes-devtools/gcc/gcc-9.2/0025-handle-sysroot-support-for-nativesdk-gcc.patch
-+++ b/meta/recipes-devtools/gcc/gcc-9.2/0025-handle-sysroot-support-for-nativesdk-gcc.patch
-@@ -24,22 +24,32 @@ Upstream-Status: Inappropriate
- RP 2015/7/28
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Added PREFIXVAR and EXEC_PREFIXVAR to support runtime relocation.  Without
-+these as part of the gccrelocprefix the system can't do runtime relocation
-+if the executable is moved.  (These paths were missed in the original
-+implementation.)
-+
-+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
- ---
-- gcc/cppdefault.c | 50 +++++++++++++++++++++++++++++++++++-------------
-- gcc/cppdefault.h |  3 ++-
-- gcc/gcc.c        | 20 +++++++++++++------
-- 3 files changed, 53 insertions(+), 20 deletions(-)
-+ c-family/c-opts.c |    4 +--
-+ cppdefault.c      |   63 +++++++++++++++++++++++++++++++++---------------------
-+ cppdefault.h      |   13 ++++-------
-+ gcc.c             |   20 ++++++++++++-----
-+ incpath.c         |   12 +++++-----
-+ prefix.c          |    4 +--
-+ 6 files changed, 68 insertions(+), 48 deletions(-)
- 
--diff --git a/gcc/cppdefault.c b/gcc/cppdefault.c
--index 980e2bd47a7..39b6059efdc 100644
----- a/gcc/cppdefault.c
--+++ b/gcc/cppdefault.c
-+Index: gcc-9.2.0/gcc/cppdefault.c
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/cppdefault.c
-++++ gcc-9.2.0/gcc/cppdefault.c
- @@ -35,6 +35,30 @@
-  # undef CROSS_INCLUDE_DIR
-  #endif
-  
- +static char GPLUSPLUS_INCLUDE_DIRVAR[4096] __attribute__ ((section (".gccrelocprefix"))) = GPLUSPLUS_INCLUDE_DIR;
--+static char GCC_INCLUDE_DIRVAR[4096] __attribute__ ((section (".gccrelocprefix"))) = GCC_INCLUDE_DIR;
-++char GCC_INCLUDE_DIRVAR[4096] __attribute__ ((section (".gccrelocprefix"))) = GCC_INCLUDE_DIR;
- +static char GPLUSPLUS_TOOL_INCLUDE_DIRVAR[4096] __attribute__ ((section (".gccrelocprefix"))) = GPLUSPLUS_TOOL_INCLUDE_DIR;
- +static char GPLUSPLUS_BACKWARD_INCLUDE_DIRVAR[4096] __attribute__ ((section (".gccrelocprefix"))) = GPLUSPLUS_BACKWARD_INCLUDE_DIR;
- +static char STANDARD_STARTFILE_PREFIX_2VAR[4096] __attribute__ ((section (".gccrelocprefix"))) = STANDARD_STARTFILE_PREFIX_2 GCC_INCLUDE_SUBDIR_TARGET;
-@@ -65,7 +75,7 @@ index 980e2bd47a7..39b6059efdc 100644
-  const struct default_include cpp_include_defaults[]
-  #ifdef INCLUDE_DEFAULTS
-  = INCLUDE_DEFAULTS;
--@@ -42,38 +66,38 @@ const struct default_include cpp_include_defaults[]
-+@@ -42,38 +66,38 @@ const struct default_include cpp_include
-  = {
-  #ifdef GPLUSPLUS_INCLUDE_DIR
-      /* Pick up GNU C++ generic include files.  */
-@@ -113,7 +123,7 @@ index 980e2bd47a7..39b6059efdc 100644
-        /* A multilib suffix needs adding if different multilibs use
-  	 different headers.  */
-  #ifdef SYSROOT_HEADERS_SUFFIX_SPEC
--@@ -85,16 +109,16 @@ const struct default_include cpp_include_defaults[]
-+@@ -85,33 +109,24 @@ const struct default_include cpp_include
-  #endif
-  #ifdef CROSS_INCLUDE_DIR
-      /* One place the target system's headers might be.  */
-@@ -134,10 +144,29 @@ index 980e2bd47a7..39b6059efdc 100644
-  #endif
-      { 0, 0, 0, 0, 0, 0 }
-    };
--diff --git a/gcc/cppdefault.h b/gcc/cppdefault.h
--index e2d96f1e760..29fa5f815c8 100644
----- a/gcc/cppdefault.h
--+++ b/gcc/cppdefault.h
-+ #endif /* no INCLUDE_DEFAULTS */
-+ 
-+-#ifdef GCC_INCLUDE_DIR
-+-const char cpp_GCC_INCLUDE_DIR[] = GCC_INCLUDE_DIR;
-+-const size_t cpp_GCC_INCLUDE_DIR_len = sizeof GCC_INCLUDE_DIR - 8;
-+-#else
-+-const char cpp_GCC_INCLUDE_DIR[] = "";
-+-const size_t cpp_GCC_INCLUDE_DIR_len = 0;
-+-#endif
-+-
-+ /* The configured prefix.  */
-+-const char cpp_PREFIX[] = PREFIX;
-+-const size_t cpp_PREFIX_len = sizeof PREFIX - 1;
-+-const char cpp_EXEC_PREFIX[] = STANDARD_EXEC_PREFIX;
-++char PREFIXVAR[4096] __attribute__ ((section (".gccrelocprefix"))) = PREFIX;
-++char EXEC_PREFIXVAR[4096] __attribute__ ((section (".gccrelocprefix"))) = STANDARD_EXEC_PREFIX;
-+ 
-+ /* This value is set by cpp_relocated at runtime */
-+ const char *gcc_exec_prefix;
-+Index: gcc-9.2.0/gcc/cppdefault.h
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/cppdefault.h
-++++ gcc-9.2.0/gcc/cppdefault.h
- @@ -33,7 +33,8 @@
-  
-  struct default_include
-@@ -148,10 +177,31 @@ index e2d96f1e760..29fa5f815c8 100644
-    const char *const component;	/* The component containing the directory
-  				   (see update_path in prefix.c) */
-    const char cplusplus;		/* Only look here if we're compiling C++.  */
--diff --git a/gcc/gcc.c b/gcc/gcc.c
--index 1a3704b2763..db0e2934038 100644
----- a/gcc/gcc.c
--+++ b/gcc/gcc.c
-+@@ -50,17 +51,13 @@ struct default_include
-+ };
-+ 
-+ extern const struct default_include cpp_include_defaults[];
-+-extern const char cpp_GCC_INCLUDE_DIR[];
-+-extern const size_t cpp_GCC_INCLUDE_DIR_len;
-++extern char GCC_INCLUDE_DIRVAR[] __attribute__ ((section (".gccrelocprefix")));
-+ 
-+ /* The configure-time prefix, i.e., the value supplied as the argument
-+    to --prefix=.  */
-+-extern const char cpp_PREFIX[];
-++extern char PREFIXVAR[] __attribute__ ((section (".gccrelocprefix")));
-+ /* The length of the configure-time prefix.  */
-+-extern const size_t cpp_PREFIX_len;
-+-/* The configure-time execution prefix.  This is typically the lib/gcc
-+-   subdirectory of cpp_PREFIX.  */
-+-extern const char cpp_EXEC_PREFIX[];
-++extern char EXEC_PREFIXVAR[] __attribute__ ((section (".gccrelocprefix")));
-+ /* The run-time execution prefix.  This is typically the lib/gcc
-+    subdirectory of the actual installation.  */
-+ extern const char *gcc_exec_prefix;
-+Index: gcc-9.2.0/gcc/gcc.c
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/gcc.c
-++++ gcc-9.2.0/gcc/gcc.c
- @@ -253,6 +253,8 @@ FILE *report_times_to_file = NULL;
-  #endif
-  static const char *target_system_root = DEFAULT_TARGET_SYSTEM_ROOT;
-@@ -161,7 +211,7 @@ index 1a3704b2763..db0e2934038 100644
-  /* Nonzero means pass the updated target_system_root to the compiler.  */
-  
-  static int target_system_root_changed;
--@@ -527,6 +529,7 @@ or with constant text in a single argument.
-+@@ -527,6 +529,7 @@ or with constant text in a single argume
-   %G     process LIBGCC_SPEC as a spec.
-   %R     Output the concatenation of target_system_root and
-          target_sysroot_suffix.
-@@ -169,7 +219,7 @@ index 1a3704b2763..db0e2934038 100644
-   %S     process STARTFILE_SPEC as a spec.  A capital S is actually used here.
-   %E     process ENDFILE_SPEC as a spec.  A capital E is actually used here.
-   %C     process CPP_SPEC as a spec.
--@@ -1493,10 +1496,10 @@ static const char *gcc_libexec_prefix;
-+@@ -1500,10 +1503,10 @@ static const char *gcc_libexec_prefix;
-     gcc_exec_prefix is set because, in that case, we know where the
-     compiler has been installed, and use paths relative to that
-     location instead.  */
-@@ -184,7 +234,7 @@ index 1a3704b2763..db0e2934038 100644
-  
-  /* For native compilers, these are well-known paths containing
-     components that may be provided by the system.  For cross
--@@ -1504,9 +1507,9 @@ static const char *const standard_startfile_prefix = STANDARD_STARTFILE_PREFIX;
-+@@ -1511,9 +1514,9 @@ static const char *const standard_startf
-  static const char *md_exec_prefix = MD_EXEC_PREFIX;
-  static const char *md_startfile_prefix = MD_STARTFILE_PREFIX;
-  static const char *md_startfile_prefix_1 = MD_STARTFILE_PREFIX_1;
-@@ -196,7 +246,7 @@ index 1a3704b2763..db0e2934038 100644
-    = STANDARD_STARTFILE_PREFIX_2;
-  
-  /* A relative path to be used in finding the location of tools
--@@ -5915,6 +5918,11 @@ do_spec_1 (const char *spec, int inswitch, const char *soft_matched_part)
-+@@ -5922,6 +5925,11 @@ do_spec_1 (const char *spec, int inswitc
-  	      }
-  	    break;
-  
-@@ -208,6 +258,89 @@ index 1a3704b2763..db0e2934038 100644
-  	  case 'S':
-  	    value = do_spec_1 (startfile_spec, 0, NULL);
-  	    if (value != 0)
---- 
--2.22.1
--
-+Index: gcc-9.2.0/gcc/c-family/c-opts.c
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/c-family/c-opts.c
-++++ gcc-9.2.0/gcc/c-family/c-opts.c
-+@@ -1382,8 +1382,8 @@ add_prefixed_path (const char *suffix, i
-+   size_t prefix_len, suffix_len;
-+ 
-+   suffix_len = strlen (suffix);
-+-  prefix     = iprefix ? iprefix : cpp_GCC_INCLUDE_DIR;
-+-  prefix_len = iprefix ? strlen (iprefix) : cpp_GCC_INCLUDE_DIR_len;
-++  prefix     = iprefix ? iprefix : GCC_INCLUDE_DIRVAR;
-++  prefix_len = iprefix ? strlen (iprefix) : strlen(GCC_INCLUDE_DIRVAR) - 7;
-+ 
-+   path = (char *) xmalloc (prefix_len + suffix_len + 1);
-+   memcpy (path, prefix, prefix_len);
-+Index: gcc-9.2.0/gcc/incpath.c
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/incpath.c
-++++ gcc-9.2.0/gcc/incpath.c
-+@@ -131,7 +131,7 @@ add_standard_paths (const char *sysroot,
-+   int relocated = cpp_relocated ();
-+   size_t len;
-+ 
-+-  if (iprefix && (len = cpp_GCC_INCLUDE_DIR_len) != 0)
-++  if (iprefix && (len = strlen(GCC_INCLUDE_DIRVAR) - 7) != 0)
-+     {
-+       /* Look for directories that start with the standard prefix.
-+ 	 "Translate" them, i.e. replace /usr/local/lib/gcc... with
-+@@ -145,7 +145,7 @@ add_standard_paths (const char *sysroot,
-+ 		 now.  */
-+ 	      if (sysroot && p->add_sysroot)
-+ 		continue;
-+-	      if (!filename_ncmp (p->fname, cpp_GCC_INCLUDE_DIR, len))
-++	      if (!filename_ncmp (p->fname, GCC_INCLUDE_DIRVAR, len))
-+ 		{
-+ 		  char *str = concat (iprefix, p->fname + len, NULL);
-+ 		  if (p->multilib == 1 && imultilib)
-+@@ -185,7 +185,7 @@ add_standard_paths (const char *sysroot,
-+ 	      free (sysroot_no_trailing_dir_separator);
-+ 	    }
-+ 	  else if (!p->add_sysroot && relocated
-+-		   && !filename_ncmp (p->fname, cpp_PREFIX, cpp_PREFIX_len))
-++		   && !filename_ncmp (p->fname, PREFIXVAR, strlen(PREFIXVAR)))
-+ 	    {
-+  	      static const char *relocated_prefix;
-+ 	      char *ostr;
-+@@ -202,12 +202,12 @@ add_standard_paths (const char *sysroot,
-+ 		  dummy = concat (gcc_exec_prefix, "dummy", NULL);
-+ 		  relocated_prefix
-+ 		    = make_relative_prefix (dummy,
-+-					    cpp_EXEC_PREFIX,
-+-					    cpp_PREFIX);
-++					    EXEC_PREFIXVAR,
-++					    PREFIXVAR);
-+ 		  free (dummy);
-+ 		}
-+ 	      ostr = concat (relocated_prefix,
-+-			     p->fname + cpp_PREFIX_len,
-++			     p->fname + strlen(PREFIXVAR),
-+ 			     NULL);
-+ 	      str = update_path (ostr, p->component);
-+ 	      free (ostr);
-+Index: gcc-9.2.0/gcc/prefix.c
-+===================================================================
-+--- gcc-9.2.0.orig/gcc/prefix.c
-++++ gcc-9.2.0/gcc/prefix.c
-+@@ -72,7 +72,9 @@ License along with GCC; see the file COP
-+ #include "prefix.h"
-+ #include "common/common-target.h"
-+ 
-+-static const char *std_prefix = PREFIX;
-++static const char PREFIXVAR[4096] __attribute__ ((section (".gccrelocprefix"))) = PREFIX;
-++
-++static const char *std_prefix = PREFIXVAR;
-+ 
-+ static const char *get_key_value (char *);
-+ static char *translate_name (char *);
-+@@ -212,7 +214,7 @@ translate_name (char *name)
-+ 	prefix = getenv (key);
-+ 
-+       if (prefix == 0)
-+-	prefix = PREFIX;
-++	prefix = PREFIXVAR;
-+ 
-+       /* We used to strip trailing DIR_SEPARATORs here, but that can
-+ 	 sometimes yield a result with no separator when one was coded
--- 
-2.17.1
+I'll try to expand the tests so that they would fail with the change I
+reverted. I'm not sure exactly which combination of recipe patches before
+and after the upgrade triggers the issue.
 
+Alex
 
+--000000000000e7a4f00597a221ca
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 18 Nov 2019 at 17:44, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><br>
+Are we missing a test case for something here?<br>
+<br>
+If yes, would that be worth noting in bugzilla whilst we know about it?<br>=
+</blockquote><div><br></div><div>There are tests for &#39;devtool upgrade&#=
+39; (the sample recipes are in meta-selftest/recipes-test/devtool/) but app=
+arently they weren&#39;t able to catch this. I only noticed because AUH pro=
+duced a number of broken patches for some (but not all) recipes.</div><div>=
+<br></div><div>I&#39;ll try to expand the tests so that they would fail wit=
+h the change I reverted. I&#39;m not sure exactly which combination of reci=
+pe patches before and after the upgrade triggers the issue.<br></div><div><=
+br></div><div>Alex<br></div></div></div>
+
+--000000000000e7a4f00597a221ca--
