@@ -1,53 +1,48 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
-	[209.85.216.52])
-	by mail.openembedded.org (Postfix) with ESMTP id B3BDC7F943
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+	[209.85.166.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 645F77F8BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 17:59:49 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id gc1so1707610pjb.8
+	Mon, 18 Nov 2019 18:13:31 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id j13so19901480ioe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 09:59:51 -0800 (PST)
+	Mon, 18 Nov 2019 10:13:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:thread-index
-	:content-language;
-	bh=eIr4e39DbmJsDA7rRrgS1B8GvHe69YFby4qc5PQgp6s=;
-	b=ofnXNo2FNBBgKbdXboEPu/fELyGC1ojI2G+Mbzf7Phs74zZcvQeo8z/2Obi3zRYC99
-	AYvwTo+9lvVRxQVuYUit7jug/Zsz9Fwr2OyzY4/vV56DEtw/fF6sIL6iJuy4F6W5ZWzg
-	ua5IaADKahRooK/9Sjr+dlkTOQ+xi4sWdcFf/r2Gc+rGdAI/fCE122ljwkLTGyhzvULD
-	4RqnSKFSyZrC5h/Xuy0s8TwlesJcikXZuLVj+0MS7z8EIu4Z3qYCItxEq5LYChMx8jK5
-	6iJt3c9v+Wm7+bFv1VpPNIH28RnpJD6djNyOs4Rok4zgr7vVDj4h0mOXnc8QzMWOXttf
-	O8qQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=0qAL3mxIrPrIQFqW+NaGlYXaJBYfR52A4bx/u7amGJo=;
+	b=M0zP6JDLm/swknlS81/5PjVqjo8ipgnDSLpKTuHdzoUkN8O8kAw7KXImUIu8ejBuOB
+	aoYCwIwqnk7tw0kX48zvyrtnE0aVDR9jmOaMaD8YkIo26sdCtQj8zUfGSk9mNerNnUEg
+	QMNirB4JqbcwmI/3xVNtGsF+0hkWiY4Tkz7PdfgCWYhV1yoJptuizPfJJ9BCHrFSW95u
+	++bx58jEBgIFwOhYXIgVfHLYeKQkk5H/l//PBE0H4dyuMJ1T+cnUDRaDlrv9amtYuA3o
+	ktlR+qrRbCE7lY9Xi2M1gyFrLyhwEQoIreftYJZxCuUAfYi61ksPcdBDYarjuXrIBWxL
+	KwGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:thread-index:content-language;
-	bh=eIr4e39DbmJsDA7rRrgS1B8GvHe69YFby4qc5PQgp6s=;
-	b=YwsKCpb6jGdkcbR3ZoSp2WWwPkWzEQcSnSm/nKd5sCwb9ZETJsEPGCV8NytfpBW28z
-	sTmtlsxBkm2XuNidPL3Zbh365VJb4KHBuNiN7CTyJa6qVAGRfus+wum8EfmjAg6L3+Gm
-	Uw/lDnehYhcXHx+191HUMXvKaVchw3mw2QXTwxohTTeDW9thqKNZCGUMa2HiqUoqMgJk
-	CBOiukTpb37OSPEjKephB8dQFGoep2vD2ey68f+CFjLrpzOvzzx1IOci7LRdS1s1zCdc
-	yeHuYXM/gzn9oz1uZU2JOPzkoYVs3dtIaOhQEisnzr1kHl1wEe/fQib4Xt0Tp0ahgUMl
-	p37g==
-X-Gm-Message-State: APjAAAVGB2dB+ko5tWmzwRsnKrgebpBlnTh1pDKRJcaVJK8IZJuqFkux
-	cOVyDJMl/5IM9COHs7olcwnYoqvi
-X-Google-Smtp-Source: APXvYqwLmMlEZTMtW7LZGJfnHwpUO5IUFhTHtp/kyZ3dXt5YnQ76i40wxpZLwKHPs4J0W245z1K7SQ==
-X-Received: by 2002:a17:90a:a40f:: with SMTP id
-	y15mr314621pjp.106.1574099990827; 
-	Mon, 18 Nov 2019 09:59:50 -0800 (PST)
-Received: from sjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-	by smtp.gmail.com with ESMTPSA id
-	k103sm90677pje.16.2019.11.18.09.59.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Nov 2019 09:59:50 -0800 (PST)
-From: "Stephen K Jolley" <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 18 Nov 2019 09:59:49 -0800
-Message-ID: <01de01d59e39$f91ba280$eb52e780$@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=0qAL3mxIrPrIQFqW+NaGlYXaJBYfR52A4bx/u7amGJo=;
+	b=VYohi8XLg285teJsLHQ8xaVnQA/oEgWgRcryDPTQlpu9XKuPD5Oe06fJ7FUIS3AxkL
+	OgxpBBctWq+G8tddDB9PkFPhkXWynNP3c8ALOSobipWmHqfcRdcqaZA0EICUaM5zgZL7
+	6Sax6RsWOjSBo/8QzyWkvbgb4/9aQXxjhLIXsIT18SYLg6VO34CGfEEa0TsIEBB5sKBB
+	uiCkQWq2drIMumjRwI8spzp8pj9krqnwENeSl1Ul22HpEu2REB0MlJgGJMQKZmDnRRRC
+	y/Jf2UII4CHhdv9IgnnuefElZGMzoZ5u3uQLwZa98Cw5lC8utpbHnhlEefcngPTOHafA
+	kRDg==
+X-Gm-Message-State: APjAAAU2TZdMXWYHmL19qoI7EQRNpcABrTiNGVDOnhljr+4m3xzu1Tm/
+	De/RzrjNYc7qejTVxTVzaGxtBqvLC6RSq4arBbY=
+X-Google-Smtp-Source: APXvYqxYpCjX/uh/k9IaIBlwjrtszGOrG7iBfdimRw4cwpooDUFCObls8m9RQE2Sp4z2PbAIsTWF5hKlBajKccdDk/E=
+X-Received: by 2002:a02:234b:: with SMTP id u72mr13848481jau.44.1574100811870; 
+	Mon, 18 Nov 2019 10:13:31 -0800 (PST)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQD+CBHCTkgwD1QMKMcdBeZWiogSMA==
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+References: <20191118130801.21860-1-alex.kanavin@gmail.com>
+In-Reply-To: <20191118130801.21860-1-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 18 Nov 2019 10:13:05 -0800
+Message-ID: <CAMKF1sp5SWYgoOj7Ujy5GMEEcuuATkuD45q7k7+LSc2SSkTVNg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/13] python: update to 2.7.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,240 +55,1312 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 17:59:50 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_01DF_01D59DF6.EAF8FEC0"
-Content-Language: en-us
-
-------=_NextPart_000_01DF_01D59DF6.EAF8FEC0
-Content-Type: text/plain;
-	charset="UTF-8"
+X-List-Received-Date: Mon, 18 Nov 2019 18:13:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-All,
+On Mon, Nov 18, 2019 at 5:08 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Drop backports, rebase a couple of patches.
+>
+> This is the second last release of py 2.x; upstream support ends on
+> 1 January 2020, there will be one final 2.x afterwards.
+>
+> Note that the only thing that still needs python 2.x in oe-core is
+> u-boot; when the next u-boot update arrives, we should find out
+> where the py3 migration is for that component before merging the
+> update.
+>
 
-=20
+I guess u-boot need it during build, in that case defer it to user to
+have python2 on build host
+could be possible.
 
-The triage team is starting to try and collect up and classify bugs =
-which a newcomer to the project would be able to work on in a way which =
-means people can find them. They're being listed on the triage page =
-under the appropriate heading:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  ...-fix-one-do_populate_sysroot-warning.patch |  25 +-
+>  ...tive_2.7.16.bb =3D> python-native_2.7.17.bb} |   2 +-
+>  meta/recipes-devtools/python/python.inc       |  10 +-
+>  ...nt-parse-domains-containing-GH-13079.patch |  90 --------
+>  ...cape-the-server-title-of-DocXMLRPCSe.patch | 101 --------
+>  ...Resolve-intermediate-staging-issues.patch} |  53 +++--
+>  .../python/python/CVE-2018-20852.patch        | 123 ----------
+>  .../python/python/CVE-2019-9740.patch         | 216 ------------------
+>  .../python/bpo-35907-cve-2019-9948-fix.patch  |  55 -----
+>  .../python/bpo-35907-cve-2019-9948.patch      |  55 -----
+>  .../python/bpo-36216-cve-2019-9636-fix.patch  |  28 ---
+>  .../python/bpo-36216-cve-2019-9636.patch      | 111 ---------
+>  .../python/bpo-36742-cve-2019-10160.patch     |  81 -------
+>  .../{python_2.7.16.bb =3D> python_2.7.17.bb}    |   3 -
+>  14 files changed, 49 insertions(+), 904 deletions(-)
+>  rename meta/recipes-devtools/python/{python-native_2.7.16.bb =3D> python=
+-native_2.7.17.bb} (97%)
+>  delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-3415=
+5-Dont-parse-domains-containing-GH-13079.patch
+>  delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-3824=
+3-Escape-the-server-title-of-DocXMLRPCSe.patch
+>  rename meta/recipes-devtools/python/python/{builddir.patch =3D> 0001-pyt=
+hon-Resolve-intermediate-staging-issues.patch} (58%)
+>  delete mode 100644 meta/recipes-devtools/python/python/CVE-2018-20852.pa=
+tch
+>  delete mode 100644 meta/recipes-devtools/python/python/CVE-2019-9740.pat=
+ch
+>  delete mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-201=
+9-9948-fix.patch
+>  delete mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-201=
+9-9948.patch
+>  delete mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-201=
+9-9636-fix.patch
+>  delete mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-201=
+9-9636.patch
+>  delete mode 100644 meta/recipes-devtools/python/python/bpo-36742-cve-201=
+9-10160.patch
+>  rename meta/recipes-devtools/python/{python_2.7.16.bb =3D> python_2.7.17=
+.bb} (97%)
+>
+> diff --git a/meta/recipes-devtools/python/python-native/0001-python-nativ=
+e-fix-one-do_populate_sysroot-warning.patch b/meta/recipes-devtools/python/=
+python-native/0001-python-native-fix-one-do_populate_sysroot-warning.patch
+> index 989818927d4..707ee596fa4 100644
+> --- a/meta/recipes-devtools/python/python-native/0001-python-native-fix-o=
+ne-do_populate_sysroot-warning.patch
+> +++ b/meta/recipes-devtools/python/python-native/0001-python-native-fix-o=
+ne-do_populate_sysroot-warning.patch
+> @@ -1,4 +1,4 @@
+> -From 12292444e1b3662b994bc223d92b8338fb0895ff Mon Sep 17 00:00:00 2001
+> +From 6cbb7529cf7ff0da3ca649fb3486facd9620d625 Mon Sep 17 00:00:00 2001
+>  From: Changqing Li <changqing.li@windriver.com>
+>  Date: Thu, 25 Oct 2018 07:32:14 +0000
+>  Subject: [PATCH] python-native: fix one do_populate_sysroot warning
+> @@ -17,23 +17,24 @@ when do_populate_sysroot. use append to fix it.
+>  Upstream-Status: Inappropriate [oe-specific]
+>
+>  Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> +
+>  ---
+>   setup.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>  diff --git a/setup.py b/setup.py
+> -index 7bf13ed..6c0f29b 100644
+> +index a2c8127..22f9e23 100644
+>  --- a/setup.py
+>  +++ b/setup.py
+> -@@ -40,7 +40,7 @@ def add_dir_to_list(dirlist, dir):
+> -     1) 'dir' is not already in 'dirlist'
+> -     2) 'dir' actually exists, and is a directory."""
+> -     if dir is not None and os.path.isdir(dir) and dir not in dirlist:
+> --        dirlist.insert(0, dir)
+> -+        dirlist.append(dir)
+> -
+> - def macosx_sdk_root():
+> -     """
+> +@@ -47,7 +47,7 @@ def add_dir_to_list(dirlist, dir):
+> +         else:
+> +             dir_exists =3D os.path.isdir(dir)
+> +         if dir_exists:
+> +-            dirlist.insert(0, dir)
+> ++            dirlist.append(dir)
+> +
+> + MACOS_SDK_ROOT =3D None
+> +
+>  --
+> -2.18.0
+> +2.17.1
+>
+> diff --git a/meta/recipes-devtools/python/python-native_2.7.16.bb b/meta/=
+recipes-devtools/python/python-native_2.7.17.bb
+> similarity index 97%
+> rename from meta/recipes-devtools/python/python-native_2.7.16.bb
+> rename to meta/recipes-devtools/python/python-native_2.7.17.bb
+> index 90103af8be5..936810d9806 100644
+> --- a/meta/recipes-devtools/python/python-native_2.7.16.bb
+> +++ b/meta/recipes-devtools/python/python-native_2.7.17.bb
+> @@ -11,7 +11,7 @@ SRC_URI +=3D "\
+>              file://nohostlibs.patch \
+>              file://multilib.patch \
+>              file://add-md5module-support.patch \
+> -            file://builddir.patch \
+> +            file://0001-python-Resolve-intermediate-staging-issues.patch=
+ \
+>              file://parallel-makeinst-create-bindir.patch \
+>              file://revert_use_of_sysconfigdata.patch \
+>              file://0001-python-native-fix-one-do_populate_sysroot-warnin=
+g.patch \
+> diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devto=
+ols/python/python.inc
+> index 1462b779e93..a630c26e898 100644
+> --- a/meta/recipes-devtools/python/python.inc
+> +++ b/meta/recipes-devtools/python/python.inc
+> @@ -8,16 +8,10 @@ INC_PR =3D "r1"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3De466242989bd33c1bd2b6a526a742=
+498"
+>
+>  SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz =
+\
+> -           file://bpo-35907-cve-2019-9948.patch \
+> -           file://bpo-35907-cve-2019-9948-fix.patch \
+> -           file://bpo-36216-cve-2019-9636.patch \
+> -           file://bpo-36216-cve-2019-9636-fix.patch \
+> -           file://CVE-2019-9740.patch \
+> -           file://CVE-2018-20852.patch \
+>             "
+>
+> -SRC_URI[md5sum] =3D "30157d85a2c0479c09ea2cbe61f2aaf5"
+> -SRC_URI[sha256sum] =3D "f222ef602647eecb6853681156d32de4450a2c39f4de93bd=
+5b20235f2e660ed7"
+> +SRC_URI[md5sum] =3D "b3b6d2c92f42a60667814358ab9f0cfd"
+> +SRC_URI[sha256sum] =3D "4d43f033cdbd0aa7b7023c81b0e986fd11e653b5248dac91=
+44d508f11812ba41"
+>
+>  # python recipe is actually python 2.x
+>  # also, exclude pre-releases for both python 2.x and 3.x
+> diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-=
+parse-domains-containing-GH-13079.patch b/meta/recipes-devtools/python/pyth=
+on/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
+> deleted file mode 100644
+> index 5415472a358..00000000000
+> --- a/meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-d=
+omains-containing-GH-13079.patch
+> +++ /dev/null
+> @@ -1,90 +0,0 @@
+> -From 532ed09c5454bb789a301bb6f1339a0818255610 Mon Sep 17 00:00:00 2001
+> -From: =3D?UTF-8?q?Roberto=3D20C=3D2E=3D20S=3DC3=3DA1nchez?=3D <roberto@c=
+onnexer.com>
+> -Date: Sat, 14 Sep 2019 13:26:38 -0400
+> -Subject: [PATCH] [2.7] bpo-34155: Dont parse domains containing @ (GH-13=
+079)
+> - (GH-16006)
+> -
+> -This change skips parsing of email addresses where domains include a "@"=
+ character, which can be maliciously used since the local part is returned =
+as a complete address.
+> -
+> -(cherry picked from commit 8cb65d1381b027f0b09ee36bfed7f35bb4dec9a9)
+> -
+> -Excludes changes to Lib/email/_header_value_parser.py, which did not
+> -exist in 2.7.
+> -
+> -Co-authored-by: jpic <jpic@users.noreply.github.com>
+> -
+> -https://bugs.python.org/issue34155
+> -
+> -Upstream-Status: Backport [https://github.com/python/cpython/commit/8cb6=
+5d1381b027f0b09ee36bfed7f35bb4dec9a9]
+> -
+> -CVE: CVE-2019-16056
+> -
+> -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ----
+> - Lib/email/_parseaddr.py                            | 11 ++++++++++-
+> - Lib/email/test/test_email.py                       | 14 ++++++++++++++
+> - .../2019-05-04-13-33-37.bpo-34155.MJll68.rst       |  1 +
+> - 3 files changed, 25 insertions(+), 1 deletion(-)
+> - create mode 100644 Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34=
+155.MJll68.rst
+> -
+> -diff --git a/Lib/email/_parseaddr.py b/Lib/email/_parseaddr.py
+> -index 690db2c22d..dc49d2e45a 100644
+> ---- a/Lib/email/_parseaddr.py
+> -+++ b/Lib/email/_parseaddr.py
+> -@@ -336,7 +336,12 @@ class AddrlistClass:
+> -         aslist.append('@')
+> -         self.pos +=3D 1
+> -         self.gotonext()
+> --        return EMPTYSTRING.join(aslist) + self.getdomain()
+> -+        domain =3D self.getdomain()
+> -+        if not domain:
+> -+            # Invalid domain, return an empty address instead of return=
+ing a
+> -+            # local part to denote failed parsing.
+> -+            return EMPTYSTRING
+> -+        return EMPTYSTRING.join(aslist) + domain
+> -
+> -     def getdomain(self):
+> -         """Get the complete domain name from an address."""
+> -@@ -351,6 +356,10 @@ class AddrlistClass:
+> -             elif self.field[self.pos] =3D=3D '.':
+> -                 self.pos +=3D 1
+> -                 sdlist.append('.')
+> -+            elif self.field[self.pos] =3D=3D '@':
+> -+                # bpo-34155: Don't parse domains with two `@` like
+> -+                # `a@malicious.org@important.com`.
+> -+                return EMPTYSTRING
+> -             elif self.field[self.pos] in self.atomends:
+> -                 break
+> -             else:
+> -diff --git a/Lib/email/test/test_email.py b/Lib/email/test/test_email.py
+> -index 4b4dee3d34..2efe44ac5a 100644
+> ---- a/Lib/email/test/test_email.py
+> -+++ b/Lib/email/test/test_email.py
+> -@@ -2306,6 +2306,20 @@ class TestMiscellaneous(TestEmailBase):
+> -         self.assertEqual(Utils.parseaddr('<>'), ('', ''))
+> -         self.assertEqual(Utils.formataddr(Utils.parseaddr('<>')), '')
+> -
+> -+    def test_parseaddr_multiple_domains(self):
+> -+        self.assertEqual(
+> -+            Utils.parseaddr('a@b@c'),
+> -+            ('', '')
+> -+        )
+> -+        self.assertEqual(
+> -+            Utils.parseaddr('a@b.c@c'),
+> -+            ('', '')
+> -+        )
+> -+        self.assertEqual(
+> -+            Utils.parseaddr('a@172.17.0.1@c'),
+> -+            ('', '')
+> -+        )
+> -+
+> -     def test_noquote_dump(self):
+> -         self.assertEqual(
+> -             Utils.formataddr(('A Silly Person', 'person@dom.ain')),
+> -diff --git a/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJl=
+l68.rst b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rs=
+t
+> -new file mode 100644
+> -index 0000000000..50292e29ed
+> ---- /dev/null
+> -+++ b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
+> -@@ -0,0 +1 @@
+> -+Fix parsing of invalid email addresses with more than one ``@`` (e.g. a=
+@b@c.com.) to not return the part before 2nd ``@`` as valid email address. =
+Patch by maxking & jpic.
+> diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escap=
+e-the-server-title-of-DocXMLRPCSe.patch b/meta/recipes-devtools/python/pyth=
+on/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
+> deleted file mode 100644
+> index 3025cf7bc8f..00000000000
+> --- a/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-s=
+erver-title-of-DocXMLRPCSe.patch
+> +++ /dev/null
+> @@ -1,101 +0,0 @@
+> -From b161c89c8bd66fe928192e21364678c8e9b8fcc0 Mon Sep 17 00:00:00 2001
+> -From: Dong-hee Na <donghee.na92@gmail.com>
+> -Date: Tue, 1 Oct 2019 19:58:01 +0900
+> -Subject: [PATCH] [2.7] bpo-38243: Escape the server title of DocXMLRPCSe=
+rver
+> - (GH-16447)
+> -
+> -Escape the server title of DocXMLRPCServer.DocXMLRPCServer
+> -when rendering the document page as HTML.
+> -
+> -CVE: CVE-2019-16935
+> -
+> -Upstream-Status: Backport [https://github.com/python/cpython/pull/16447/=
+commits/b41cde823d026f2adc21ef14b1c2e92b1006de06]
+> -
+> -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ----
+> - Lib/DocXMLRPCServer.py                        | 13 +++++++++++-
+> - Lib/test/test_docxmlrpc.py                    | 20 +++++++++++++++++++
+> - .../2019-09-25-13-21-09.bpo-38243.1pfz24.rst  |  3 +++
+> - 3 files changed, 35 insertions(+), 1 deletion(-)
+> - create mode 100644 Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38=
+243.1pfz24.rst
+> -
+> -diff --git a/Lib/DocXMLRPCServer.py b/Lib/DocXMLRPCServer.py
+> -index 4064ec2e48..90b037dd35 100644
+> ---- a/Lib/DocXMLRPCServer.py
+> -+++ b/Lib/DocXMLRPCServer.py
+> -@@ -20,6 +20,16 @@ from SimpleXMLRPCServer import (SimpleXMLRPCServer,
+> -             CGIXMLRPCRequestHandler,
+> -             resolve_dotted_attribute)
+> -
+> -+
+> -+def _html_escape_quote(s):
+> -+    s =3D s.replace("&", "&amp;") # Must be done first!
+> -+    s =3D s.replace("<", "&lt;")
+> -+    s =3D s.replace(">", "&gt;")
+> -+    s =3D s.replace('"', "&quot;")
+> -+    s =3D s.replace('\'', "&#x27;")
+> -+    return s
+> -+
+> -+
+> - class ServerHTMLDoc(pydoc.HTMLDoc):
+> -     """Class used to generate pydoc HTML document for a server"""
+> -
+> -@@ -210,7 +220,8 @@ class XMLRPCDocGenerator:
+> -                                 methods
+> -                             )
+> -
+> --        return documenter.page(self.server_title, documentation)
+> -+        title =3D _html_escape_quote(self.server_title)
+> -+        return documenter.page(title, documentation)
+> -
+> - class DocXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
+> -     """XML-RPC and documentation request handler class.
+> -diff --git a/Lib/test/test_docxmlrpc.py b/Lib/test/test_docxmlrpc.py
+> -index 4dff4159e2..c45b892b8b 100644
+> ---- a/Lib/test/test_docxmlrpc.py
+> -+++ b/Lib/test/test_docxmlrpc.py
+> -@@ -1,5 +1,6 @@
+> - from DocXMLRPCServer import DocXMLRPCServer
+> - import httplib
+> -+import re
+> - import sys
+> - from test import test_support
+> - threading =3D test_support.import_module('threading')
+> -@@ -176,6 +177,25 @@ class DocXMLRPCHTTPGETServer(unittest.TestCase):
+> -         self.assertIn("""Try&nbsp;self.<strong>add</strong>,&nbsp;too."=
+"",
+> -                       response.read())
+> -
+> -+    def test_server_title_escape(self):
+> -+        """Test that the server title and documentation
+> -+        are escaped for HTML.
+> -+        """
+> -+        self.serv.set_server_title('test_title<script>')
+> -+        self.serv.set_server_documentation('test_documentation<script>'=
+)
+> -+        self.assertEqual('test_title<script>', self.serv.server_title)
+> -+        self.assertEqual('test_documentation<script>',
+> -+                self.serv.server_documentation)
+> -+
+> -+        generated =3D self.serv.generate_html_documentation()
+> -+        title =3D re.search(r'<title>(.+?)</title>', generated).group()
+> -+        documentation =3D re.search(r'<p><tt>(.+?)</tt></p>', generated=
+).group()
+> -+        self.assertEqual('<title>Python: test_title&lt;script&gt;</titl=
+e>',
+> -+                title)
+> -+        self.assertEqual('<p><tt>test_documentation&lt;script&gt;</tt><=
+/p>',
+> -+                documentation)
+> -+
+> -+
+> - def test_main():
+> -     test_support.run_unittest(DocXMLRPCHTTPGETServer)
+> -
+> -diff --git a/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pf=
+z24.rst b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rs=
+t
+> -new file mode 100644
+> -index 0000000000..8f02baed9e
+> ---- /dev/null
+> -+++ b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
+> -@@ -0,0 +1,3 @@
+> -+Escape the server title of :class:`DocXMLRPCServer.DocXMLRPCServer`
+> -+when rendering the document page as HTML.
+> -+(Contributed by Dong-hee Na in :issue:`38243`.)
+> ---
+> -2.17.1
+> -
+> diff --git a/meta/recipes-devtools/python/python/builddir.patch b/meta/re=
+cipes-devtools/python/python/0001-python-Resolve-intermediate-staging-issue=
+s.patch
+> similarity index 58%
+> rename from meta/recipes-devtools/python/python/builddir.patch
+> rename to meta/recipes-devtools/python/python/0001-python-Resolve-interme=
+diate-staging-issues.patch
+> index ad629a022e9..2ff2ccc43dc 100644
+> --- a/meta/recipes-devtools/python/python/builddir.patch
+> +++ b/meta/recipes-devtools/python/python/0001-python-Resolve-intermediat=
+e-staging-issues.patch
+> @@ -1,5 +1,10 @@
+> -When cross compiling python, we used to need to install the Makefile, py=
+config.h
+> -and the python library to their final location before being able to comp=
+ile the
+> +From 77bcb3238b2853d511714544e0f84a37be6c79bf Mon Sep 17 00:00:00 2001
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Date: Wed, 14 Nov 2012 14:31:24 +0000
+> +Subject: [PATCH] python: Resolve intermediate staging issues
+> +
+> +When cross compiling python, we used to need to install the Makefile, py=
+config.h
+> +and the python library to their final location before being able to comp=
+ile the
+>  rest of python. This change allows us to point python at its own source =
+when
+>  building, avoiding a variety of sysroot staging issues and simplifying t=
+he main
+>  python recipe.
+> @@ -7,10 +12,29 @@ python recipe.
+>  Upstream-Status: Inappropriate
+>  RP 2012/11/13
+>
+> -Index: Python-2.7.9/Lib/sysconfig.py
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- Python-2.7.9.orig/Lib/sysconfig.py
+> -+++ Python-2.7.9/Lib/sysconfig.py
+> +---
+> + Lib/distutils/sysconfig.py | 3 +++
+> + Lib/sysconfig.py           | 5 ++++-
+> + 2 files changed, 7 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
+> +index 2f4b8ca..15bceb5 100644
+> +--- a/Lib/distutils/sysconfig.py
+> ++++ b/Lib/distutils/sysconfig.py
+> +@@ -31,6 +31,9 @@ else:
+> +     # sys.executable can be empty if argv[0] has been changed and Pytho=
+n is
+> +     # unable to retrieve the real program name
+> +     project_base =3D os.getcwd()
+> ++_PYTHONBUILDDIR =3D os.environ.get("PYTHONBUILDDIR", None)
+> ++if _PYTHONBUILDDIR:
+> ++    project_base =3D _PYTHONBUILDDIR
+> + if os.name =3D=3D "nt" and "pcbuild" in project_base[-8:].lower():
+> +     project_base =3D os.path.abspath(os.path.join(project_base, os.path=
+.pardir))
+> + # PC/VS7.1
+> +diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
+> +index 9c8350d..bddbe2e 100644
+> +--- a/Lib/sysconfig.py
+> ++++ b/Lib/sysconfig.py
+>  @@ -93,6 +93,7 @@ _PREFIX =3D os.path.normpath(sys.prefix)
+>   _EXEC_PREFIX =3D os.path.normpath(sys.exec_prefix)
+>   _CONFIG_VARS =3D None
+> @@ -30,17 +54,6 @@ Index: Python-2.7.9/Lib/sysconfig.py
+>       _PROJECT_BASE =3D os.path.dirname(_safe_realpath(sys.executable))
+>   else:
+>       # sys.executable can be empty if argv[0] has been changed and Pytho=
+n is
+> -Index: Python-2.7.9/Lib/distutils/sysconfig.py
+> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> ---- Python-2.7.9.orig/Lib/distutils/sysconfig.py
+> -+++ Python-2.7.9/Lib/distutils/sysconfig.py
+> -@@ -26,6 +26,9 @@ EXEC_PREFIX =3D os.path.normpath(sys.exec_
+> - # live in project/PCBuild9.  If we're dealing with an x64 Windows build=
+,
+> - # it'll live in project/PCbuild/amd64.
+> - project_base =3D os.path.dirname(os.path.abspath(sys.executable))
+> -+_PYTHONBUILDDIR =3D os.environ.get("PYTHONBUILDDIR", None)
+> -+if _PYTHONBUILDDIR:
+> -+    project_base =3D _PYTHONBUILDDIR
+> - if os.name =3D=3D "nt" and "pcbuild" in project_base[-8:].lower():
+> -     project_base =3D os.path.abspath(os.path.join(project_base, os.path=
+.pardir))
+> - # PC/VS7.1
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-devtools/python/python/CVE-2018-20852.patch b/m=
+eta/recipes-devtools/python/python/CVE-2018-20852.patch
+> deleted file mode 100644
+> index 23c784a2105..00000000000
+> --- a/meta/recipes-devtools/python/python/CVE-2018-20852.patch
+> +++ /dev/null
+> @@ -1,123 +0,0 @@
+> -From 979daae300916adb399ab5b51410b6ebd0888f13 Mon Sep 17 00:00:00 2001
+> -From: Xtreak <tir.karthi@gmail.com>
+> -Date: Sat, 15 Jun 2019 20:59:43 +0530
+> -Subject: [PATCH] [2.7] bpo-35121: prefix dot in domain for proper subdom=
+ain
+> - validation (GH-10258) (GH-13426)
+> -
+> -This is a manual backport of ca7fe5063593958e5efdf90f068582837f07bd14 si=
+nce 2.7 has `http.cookiejar` in `cookielib`
+> -
+> -
+> -https://bugs.python.org/issue35121
+> -CVE: CVE-2018-20852
+> -Upstream-Status: Backport [https://github.com/python/cpython/pull/13426]
+> -Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ----
+> - Lib/cookielib.py                              | 13 ++++++--
+> - Lib/test/test_cookielib.py                    | 30 +++++++++++++++++++
+> - .../2019-05-20-00-35-12.bpo-35121.RRi-HU.rst  |  4 +++
+> - 3 files changed, 45 insertions(+), 2 deletions(-)
+> - create mode 100644 Misc/NEWS.d/next/Security/2019-05-20-00-35-12.bpo-35=
+121.RRi-HU.rst
+> -
+> -diff --git a/Lib/cookielib.py b/Lib/cookielib.py
+> -index 2dd7c48728e0..0b471a42f296 100644
+> ---- a/Lib/cookielib.py
+> -+++ b/Lib/cookielib.py
+> -@@ -1139,6 +1139,11 @@ def return_ok_domain(self, cookie, request):
+> -         req_host, erhn =3D eff_request_host(request)
+> -         domain =3D cookie.domain
+> -
+> -+        if domain and not domain.startswith("."):
+> -+            dotdomain =3D "." + domain
+> -+        else:
+> -+            dotdomain =3D domain
+> -+
+> -         # strict check of non-domain cookies: Mozilla does this, MSIE5 =
+doesn't
+> -         if (cookie.version =3D=3D 0 and
+> -             (self.strict_ns_domain & self.DomainStrictNonDomain) and
+> -@@ -1151,7 +1156,7 @@ def return_ok_domain(self, cookie, request):
+> -             _debug("   effective request-host name %s does not domain-m=
+atch "
+> -                    "RFC 2965 cookie domain %s", erhn, domain)
+> -             return False
+> --        if cookie.version =3D=3D 0 and not ("."+erhn).endswith(domain):
+> -+        if cookie.version =3D=3D 0 and not ("."+erhn).endswith(dotdomai=
+n):
+> -             _debug("   request-host %s does not match Netscape cookie d=
+omain "
+> -                    "%s", req_host, domain)
+> -             return False
+> -@@ -1165,7 +1170,11 @@ def domain_return_ok(self, domain, request):
+> -             req_host =3D "."+req_host
+> -         if not erhn.startswith("."):
+> -             erhn =3D "."+erhn
+> --        if not (req_host.endswith(domain) or erhn.endswith(domain)):
+> -+        if domain and not domain.startswith("."):
+> -+            dotdomain =3D "." + domain
+> -+        else:
+> -+            dotdomain =3D domain
+> -+        if not (req_host.endswith(dotdomain) or erhn.endswith(dotdomain=
+)):
+> -             #_debug("   request domain %s does not match cookie domain =
+%s",
+> -             #       req_host, domain)
+> -             return False
+> -diff --git a/Lib/test/test_cookielib.py b/Lib/test/test_cookielib.py
+> -index f2dd9727d137..7f7ff614d61d 100644
+> ---- a/Lib/test/test_cookielib.py
+> -+++ b/Lib/test/test_cookielib.py
+> -@@ -368,6 +368,7 @@ def test_domain_return_ok(self):
+> -             ("http://foo.bar.com/", ".foo.bar.com", True),
+> -             ("http://foo.bar.com/", "foo.bar.com", True),
+> -             ("http://foo.bar.com/", ".bar.com", True),
+> -+            ("http://foo.bar.com/", "bar.com", True),
+> -             ("http://foo.bar.com/", "com", True),
+> -             ("http://foo.com/", "rhubarb.foo.com", False),
+> -             ("http://foo.com/", ".foo.com", True),
+> -@@ -378,6 +379,8 @@ def test_domain_return_ok(self):
+> -             ("http://foo/", "foo", True),
+> -             ("http://foo/", "foo.local", True),
+> -             ("http://foo/", ".local", True),
+> -+            ("http://barfoo.com", ".foo.com", False),
+> -+            ("http://barfoo.com", "foo.com", False),
+> -             ]:
+> -             request =3D urllib2.Request(url)
+> -             r =3D pol.domain_return_ok(domain, request)
+> -@@ -938,6 +941,33 @@ def test_domain_block(self):
+> -         c.add_cookie_header(req)
+> -         self.assertFalse(req.has_header("Cookie"))
+> -
+> -+        c.clear()
+> -+
+> -+        pol.set_blocked_domains([])
+> -+        req =3D Request("http://acme.com/")
+> -+        res =3D FakeResponse(headers, "http://acme.com/")
+> -+        cookies =3D c.make_cookies(res, req)
+> -+        c.extract_cookies(res, req)
+> -+        self.assertEqual(len(c), 1)
+> -+
+> -+        req =3D Request("http://acme.com/")
+> -+        c.add_cookie_header(req)
+> -+        self.assertTrue(req.has_header("Cookie"))
+> -+
+> -+        req =3D Request("http://badacme.com/")
+> -+        c.add_cookie_header(req)
+> -+        self.assertFalse(pol.return_ok(cookies[0], req))
+> -+        self.assertFalse(req.has_header("Cookie"))
+> -+
+> -+        p =3D pol.set_blocked_domains(["acme.com"])
+> -+        req =3D Request("http://acme.com/")
+> -+        c.add_cookie_header(req)
+> -+        self.assertFalse(req.has_header("Cookie"))
+> -+
+> -+        req =3D Request("http://badacme.com/")
+> -+        c.add_cookie_header(req)
+> -+        self.assertFalse(req.has_header("Cookie"))
+> -+
+> -     def test_secure(self):
+> -         from cookielib import CookieJar, DefaultCookiePolicy
+> -
+> -diff --git a/Misc/NEWS.d/next/Security/2019-05-20-00-35-12.bpo-35121.RRi=
+-HU.rst b/Misc/NEWS.d/next/Security/2019-05-20-00-35-12.bpo-35121.RRi-HU.rs=
+t
+> -new file mode 100644
+> -index 000000000000..77251806163b
+> ---- /dev/null
+> -+++ b/Misc/NEWS.d/next/Security/2019-05-20-00-35-12.bpo-35121.RRi-HU.rst
+> -@@ -0,0 +1,4 @@
+> -+Don't send cookies of domain A without Domain attribute to domain B whe=
+n
+> -+domain A is a suffix match of domain B while using a cookiejar with
+> -+:class:`cookielib.DefaultCookiePolicy` policy. Patch by Karthikeyan
+> -+Singaravelan.
+> diff --git a/meta/recipes-devtools/python/python/CVE-2019-9740.patch b/me=
+ta/recipes-devtools/python/python/CVE-2019-9740.patch
+> deleted file mode 100644
+> index 95f43e0387d..00000000000
+> --- a/meta/recipes-devtools/python/python/CVE-2019-9740.patch
+> +++ /dev/null
+> @@ -1,216 +0,0 @@
+> -From bb8071a4cae5ab3fe321481dd3d73662ffb26052 Mon Sep 17 00:00:00 2001
+> -From: Victor Stinner <victor.stinner@gmail.com>
+> -Date: Tue, 21 May 2019 15:12:33 +0200
+> -Subject: [PATCH] bpo-30458: Disallow control chars in http URLs (GH-1275=
+5)
+> - (GH-13154) (GH-13315)
+> -MIME-Version: 1.0
+> -Content-Type: text/plain; charset=3DUTF-8
+> -Content-Transfer-Encoding: 8bit
+> -
+> -Disallow control chars in http URLs in urllib2.urlopen.  This
+> -addresses a potential security problem for applications that do not
+> -sanity check their URLs where http request headers could be injected.
+> -
+> -Disable https related urllib tests on a build without ssl (GH-13032)
+> -These tests require an SSL enabled build. Skip these tests when
+> -python is built without SSL to fix test failures.
+> -
+> -Use httplib.InvalidURL instead of ValueError as the new error case's
+> -exception. (GH-13044)
+> -
+> -Backport Co-Authored-By: Miro Hron=C4=8Dok <miro@hroncok.cz>
+> -
+> -(cherry picked from commit 7e200e0763f5b71c199aaf98bd5588f291585619)
+> -
+> -Notes on backport to Python 2.7:
+> -
+> -* test_urllib tests urllib.urlopen() which quotes the URL and so is
+> -  not vulerable to HTTP Header Injection.
+> -* Add tests to test_urllib2 on urllib2.urlopen().
+> -* Reject non-ASCII characters: range 0x80-0xff.
+> -
+> -Upstream-Status: Backport
+> -CVE: CVE-2019-9740
+> -CVE: CVE-2019-9947
+> -Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> ----
+> - Lib/httplib.py                                | 16 ++++++
+> - Lib/test/test_urllib.py                       | 25 +++++++++
+> - Lib/test/test_urllib2.py                      | 51 ++++++++++++++++++-
+> - Lib/test/test_xmlrpc.py                       |  8 ++-
+> - .../2019-04-10-08-53-30.bpo-30458.51E-DA.rst  |  1 +
+> - 5 files changed, 99 insertions(+), 2 deletions(-)
+> - create mode 100644 Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30=
+458.51E-DA.rst
+> -
+> -diff --git a/Lib/httplib.py b/Lib/httplib.py
+> -index 60a8fb4e355f..1b41c346e090 100644
+> ---- a/Lib/httplib.py
+> -+++ b/Lib/httplib.py
+> -@@ -247,6 +247,16 @@
+> - _is_legal_header_name =3D re.compile(r'\A[^:\s][^:\r\n]*\Z').match
+> - _is_illegal_header_value =3D re.compile(r'\n(?![ \t])|\r(?![ \t\n])').s=
+earch
+> -
+> -+# These characters are not allowed within HTTP URL paths.
+> -+#  See https://tools.ietf.org/html/rfc3986#section-3.3 and the
+> -+#  https://tools.ietf.org/html/rfc3986#appendix-A pchar definition.
+> -+# Prevents CVE-2019-9740.  Includes control characters such as \r\n.
+> -+# Restrict non-ASCII characters above \x7f (0x80-0xff).
+> -+_contains_disallowed_url_pchar_re =3D re.compile('[\x00-\x20\x7f-\xff]'=
+)
+> -+# Arguably only these _should_ allowed:
+> -+#  _is_allowed_url_pchars_re =3D re.compile(r"^[/!$&'()*+,;=3D:@%a-zA-Z=
+0-9._~-]+$")
+> -+# We are more lenient for assumed real world compatibility purposes.
+> -+
+> - # We always set the Content-Length header for these methods because som=
+e
+> - # servers will otherwise respond with a 411
+> - _METHODS_EXPECTING_BODY =3D {'PATCH', 'POST', 'PUT'}
+> -@@ -927,6 +937,12 @@ def putrequest(self, method, url, skip_host=3D0, sk=
+ip_accept_encoding=3D0):
+> -         self._method =3D method
+> -         if not url:
+> -             url =3D '/'
+> -+        # Prevent CVE-2019-9740.
+> -+        match =3D _contains_disallowed_url_pchar_re.search(url)
+> -+        if match:
+> -+            raise InvalidURL("URL can't contain control characters. %r =
+"
+> -+                             "(found at least %r)"
+> -+                             % (url, match.group()))
+> -         hdr =3D '%s %s %s' % (method, url, self._http_vsn_str)
+> -
+> -         self._output(hdr)
+> -diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
+> -index 1ce9201c0693..d7778d4194f3 100644
+> ---- a/Lib/test/test_urllib.py
+> -+++ b/Lib/test/test_urllib.py
+> -@@ -257,6 +257,31 @@ def test_url_fragment(self):
+> -         finally:
+> -             self.unfakehttp()
+> -
+> -+    def test_url_with_control_char_rejected(self):
+> -+        for char_no in range(0, 0x21) + range(0x7f, 0x100):
+> -+            char =3D chr(char_no)
+> -+            schemeless_url =3D "//localhost:7777/test%s/" % char
+> -+            self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+> -+            try:
+> -+                # urllib quotes the URL so there is no injection.
+> -+                resp =3D urllib.urlopen("http:" + schemeless_url)
+> -+                self.assertNotIn(char, resp.geturl())
+> -+            finally:
+> -+                self.unfakehttp()
+> -+
+> -+    def test_url_with_newline_header_injection_rejected(self):
+> -+        self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+> -+        host =3D "localhost:7777?a=3D1 HTTP/1.1\r\nX-injected: header\r=
+\nTEST: 123"
+> -+        schemeless_url =3D "//" + host + ":8080/test/?test=3Da"
+> -+        try:
+> -+            # urllib quotes the URL so there is no injection.
+> -+            resp =3D urllib.urlopen("http:" + schemeless_url)
+> -+            self.assertNotIn(' ', resp.geturl())
+> -+            self.assertNotIn('\r', resp.geturl())
+> -+            self.assertNotIn('\n', resp.geturl())
+> -+        finally:
+> -+            self.unfakehttp()
+> -+
+> -     def test_read_bogus(self):
+> -         # urlopen() should raise IOError for many error codes.
+> -         self.fakehttp('''HTTP/1.1 401 Authentication Required
+> -diff --git a/Lib/test/test_urllib2.py b/Lib/test/test_urllib2.py
+> -index 6d24d5ddf83c..9531818e16b2 100644
+> ---- a/Lib/test/test_urllib2.py
+> -+++ b/Lib/test/test_urllib2.py
+> -@@ -15,6 +15,9 @@
+> - except ImportError:
+> -     ssl =3D None
+> -
+> -+from test.test_urllib import FakeHTTPMixin
+> -+
+> -+
+> - # XXX
+> - # Request
+> - # CacheFTPHandler (hard to write)
+> -@@ -1262,7 +1265,7 @@ def _test_basic_auth(self, opener, auth_handler, a=
+uth_header,
+> -         self.assertEqual(len(http_handler.requests), 1)
+> -         self.assertFalse(http_handler.requests[0].has_header(auth_heade=
+r))
+> -
+> --class MiscTests(unittest.TestCase):
+> -+class MiscTests(unittest.TestCase, FakeHTTPMixin):
+> -
+> -     def test_build_opener(self):
+> -         class MyHTTPHandler(urllib2.HTTPHandler): pass
+> -@@ -1317,6 +1320,52 @@ def test_unsupported_algorithm(self):
+> -             "Unsupported digest authentication algorithm 'invalid'"
+> -         )
+> -
+> -+    @unittest.skipUnless(ssl, "ssl module required")
+> -+    def test_url_with_control_char_rejected(self):
+> -+        for char_no in range(0, 0x21) + range(0x7f, 0x100):
+> -+            char =3D chr(char_no)
+> -+            schemeless_url =3D "//localhost:7777/test%s/" % char
+> -+            self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+> -+            try:
+> -+                # We explicitly test urllib.request.urlopen() instead o=
+f the top
+> -+                # level 'def urlopen()' function defined in this... (qu=
+ite ugly)
+> -+                # test suite.  They use different url opening codepaths=
+.  Plain
+> -+                # urlopen uses FancyURLOpener which goes via a codepath=
+ that
+> -+                # calls urllib.parse.quote() on the URL which makes all=
+ of the
+> -+                # above attempts at injection within the url _path_ saf=
+e.
+> -+                escaped_char_repr =3D repr(char).replace('\\', r'\\')
+> -+                InvalidURL =3D httplib.InvalidURL
+> -+                with self.assertRaisesRegexp(
+> -+                    InvalidURL, "contain control.*" + escaped_char_repr=
+):
+> -+                    urllib2.urlopen("http:" + schemeless_url)
+> -+                with self.assertRaisesRegexp(
+> -+                    InvalidURL, "contain control.*" + escaped_char_repr=
+):
+> -+                    urllib2.urlopen("https:" + schemeless_url)
+> -+            finally:
+> -+                self.unfakehttp()
+> -+
+> -+    @unittest.skipUnless(ssl, "ssl module required")
+> -+    def test_url_with_newline_header_injection_rejected(self):
+> -+        self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+> -+        host =3D "localhost:7777?a=3D1 HTTP/1.1\r\nX-injected: header\r=
+\nTEST: 123"
+> -+        schemeless_url =3D "//" + host + ":8080/test/?test=3Da"
+> -+        try:
+> -+            # We explicitly test urllib2.urlopen() instead of the top
+> -+            # level 'def urlopen()' function defined in this... (quite =
+ugly)
+> -+            # test suite.  They use different url opening codepaths.  P=
+lain
+> -+            # urlopen uses FancyURLOpener which goes via a codepath tha=
+t
+> -+            # calls urllib.parse.quote() on the URL which makes all of =
+the
+> -+            # above attempts at injection within the url _path_ safe.
+> -+            InvalidURL =3D httplib.InvalidURL
+> -+            with self.assertRaisesRegexp(
+> -+                InvalidURL, r"contain control.*\\r.*(found at least . .=
+)"):
+> -+                urllib2.urlopen("http:" + schemeless_url)
+> -+            with self.assertRaisesRegexp(InvalidURL, r"contain control.=
+*\\n"):
+> -+                urllib2.urlopen("https:" + schemeless_url)
+> -+        finally:
+> -+            self.unfakehttp()
+> -+
+> -+
+> -
+> - class RequestTests(unittest.TestCase):
+> -
+> -diff --git a/Lib/test/test_xmlrpc.py b/Lib/test/test_xmlrpc.py
+> -index 36b3be67fd6b..90ccb30716ff 100644
+> ---- a/Lib/test/test_xmlrpc.py
+> -+++ b/Lib/test/test_xmlrpc.py
+> -@@ -659,7 +659,13 @@ def test_dotted_attribute(self):
+> -     def test_partial_post(self):
+> -         # Check that a partial POST doesn't make the server loop: issue=
+ #14001.
+> -         conn =3D httplib.HTTPConnection(ADDR, PORT)
+> --        conn.request('POST', '/RPC2 HTTP/1.0\r\nContent-Length: 100\r\n=
+\r\nbye')
+> -+        conn.send('POST /RPC2 HTTP/1.0\r\n'
+> -+                  'Content-Length: 100\r\n\r\n'
+> -+                  'bye HTTP/1.1\r\n'
+> -+                  'Host: %s:%s\r\n'
+> -+                  'Accept-Encoding: identity\r\n'
+> -+                  'Content-Length: 0\r\n\r\n'
+> -+                  % (ADDR, PORT))
+> -         conn.close()
+> -
+> - class SimpleServerEncodingTestCase(BaseServerTestCase):
+> -diff --git a/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E=
+-DA.rst b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rs=
+t
+> -new file mode 100644
+> -index 000000000000..47cb899df1af
+> ---- /dev/null
+> -+++ b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
+> -@@ -0,0 +1 @@
+> -+Address CVE-2019-9740 by disallowing URL paths with embedded whitespace=
+ or control characters through into the underlying http client request.  Su=
+ch potentially malicious header injection URLs now cause an httplib.Invalid=
+URL exception to be raised.
+> diff --git a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-=
+fix.patch b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix=
+.patch
+> deleted file mode 100644
+> index b2672370186..00000000000
+> --- a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.pat=
+ch
+> +++ /dev/null
+> @@ -1,55 +0,0 @@
+> -From 179a5f75f1121dab271fe8f90eb35145f9dcbbda Mon Sep 17 00:00:00 2001
+> -From: Sihoon Lee <push0ebp@gmail.com>
+> -Date: Fri, 17 May 2019 02:41:06 +0900
+> -Subject: [PATCH] Update test_urllib.py and urllib.py\nchange assertEqual=
+ into
+> - assertRasies in DummyURLopener test, and simplify mitigation
+> -
+> -Upstream-Status: Submitted https://github.com/python/cpython/pull/11842
+> -
+> -CVE: CVE-2019-9948
+> -
+> -Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ----
+> - Lib/test/test_urllib.py | 11 +++--------
+> - Lib/urllib.py           |  4 ++--
+> - 2 files changed, 5 insertions(+), 10 deletions(-)
+> -
+> -diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
+> -index e5f210e62a18..1e23dfb0bb16 100644
+> ---- a/Lib/test/test_urllib.py
+> -+++ b/Lib/test/test_urllib.py
+> -@@ -1027,14 +1027,9 @@ def test_local_file_open(self):
+> -         class DummyURLopener(urllib.URLopener):
+> -             def open_local_file(self, url):
+> -                 return url
+> --        self.assertEqual(DummyURLopener().open(
+> --            'local-file://example'), '//example')
+> --        self.assertEqual(DummyURLopener().open(
+> --            'local_file://example'), '//example')
+> --        self.assertRaises(IOError, urllib.urlopen,
+> --            'local-file://example')
+> --        self.assertRaises(IOError, urllib.urlopen,
+> --            'local_file://example')
+> -+        for url in ('local_file://example', 'local-file://example'):
+> -+            self.assertRaises(IOError, DummyURLopener().open, url)
+> -+            self.assertRaises(IOError, urllib.urlopen, url)
+> -
+> - # Just commented them out.
+> - # Can't really tell why keep failing in windows and sparc.
+> -diff --git a/Lib/urllib.py b/Lib/urllib.py
+> -index a24e9a5c68fb..39b834054e9e 100644
+> ---- a/Lib/urllib.py
+> -+++ b/Lib/urllib.py
+> -@@ -203,10 +203,10 @@ def open(self, fullurl, data=3DNone):
+> -         name =3D 'open_' + urltype
+> -         self.type =3D urltype
+> -         name =3D name.replace('-', '_')
+> --
+> -+
+> -         # bpo-35907: # disallow the file reading with the type not allo=
+wed
+> -         if not hasattr(self, name) or \
+> --            (self =3D=3D _urlopener and name =3D=3D 'open_local_file'):
+> -+            getattr(self, name) =3D=3D self.open_local_file:
+> -             if proxy:
+> -                 return self.open_unknown_proxy(proxy, fullurl, data)
+> -             else:
+> diff --git a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.=
+patch b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
+> deleted file mode 100644
+> index f4c225d2fcf..00000000000
+> --- a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
+> +++ /dev/null
+> @@ -1,55 +0,0 @@
+> -From 8f99cc799e4393bf1112b9395b2342f81b3f45ef Mon Sep 17 00:00:00 2001
+> -From: push0ebp <push0ebp@shl-MacBook-Pro.local>
+> -Date: Thu, 14 Feb 2019 02:05:46 +0900
+> -Subject: [PATCH] bpo-35907: Avoid file reading as disallowing the unnece=
+ssary
+> - URL scheme in urllib
+> -
+> -Upstream-Status: Submitted https://github.com/python/cpython/pull/11842
+> -
+> -CVE: CVE-2019-9948
+> -
+> -Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ----
+> - Lib/test/test_urllib.py | 12 ++++++++++++
+> - Lib/urllib.py           |  5 ++++-
+> - 2 files changed, 16 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
+> -index 1ce9201c0693..e5f210e62a18 100644
+> ---- a/Lib/test/test_urllib.py
+> -+++ b/Lib/test/test_urllib.py
+> -@@ -1023,6 +1023,18 @@ def open_spam(self, url):
+> -             "spam://c:|windows%/:=3D&?~#+!$,;'@()*[]|/path/"),
+> -             "//c:|windows%/:=3D&?~#+!$,;'@()*[]|/path/")
+> -
+> -+    def test_local_file_open(self):
+> -+        class DummyURLopener(urllib.URLopener):
+> -+            def open_local_file(self, url):
+> -+                return url
+> -+        self.assertEqual(DummyURLopener().open(
+> -+            'local-file://example'), '//example')
+> -+        self.assertEqual(DummyURLopener().open(
+> -+            'local_file://example'), '//example')
+> -+        self.assertRaises(IOError, urllib.urlopen,
+> -+            'local-file://example')
+> -+        self.assertRaises(IOError, urllib.urlopen,
+> -+            'local_file://example')
+> -
+> - # Just commented them out.
+> - # Can't really tell why keep failing in windows and sparc.
+> -diff --git a/Lib/urllib.py b/Lib/urllib.py
+> -index d85504a5cb7e..a24e9a5c68fb 100644
+> ---- a/Lib/urllib.py
+> -+++ b/Lib/urllib.py
+> -@@ -203,7 +203,10 @@ def open(self, fullurl, data=3DNone):
+> -         name =3D 'open_' + urltype
+> -         self.type =3D urltype
+> -         name =3D name.replace('-', '_')
+> --        if not hasattr(self, name):
+> -+
+> -+        # bpo-35907: # disallow the file reading with the type not allo=
+wed
+> -+        if not hasattr(self, name) or \
+> -+            (self =3D=3D _urlopener and name =3D=3D 'open_local_file'):
+> -             if proxy:
+> -                 return self.open_unknown_proxy(proxy, fullurl, data)
+> -             else:
+> diff --git a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-=
+fix.patch b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix=
+.patch
+> deleted file mode 100644
+> index 2ce4d2cde7a..00000000000
+> --- a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.pat=
+ch
+> +++ /dev/null
+> @@ -1,28 +0,0 @@
+> -From 06b5ee585d6e76bdbb4002f642d864d860cbbd2b Mon Sep 17 00:00:00 2001
+> -From: Steve Dower <steve.dower@python.org>
+> -Date: Tue, 12 Mar 2019 08:23:33 -0700
+> -Subject: [PATCH] bpo-36216: Only print test messages when verbose
+> -
+> -CVE: CVE-2019-9636
+> -
+> -Upstream-Status: Backport https://github.com/python/cpython/pull/12291/c=
+ommits/06b5ee585d6e76bdbb4002f642d864d860cbbd2b
+> -
+> -Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ----
+> - Lib/test/test_urlparse.py | 3 ++-
+> - 1 file changed, 2 insertions(+), 1 deletion(-)
+> -
+> -diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
+> -index 73b0228ea8e3..1830d0b28688 100644
+> ---- a/Lib/test/test_urlparse.py
+> -+++ b/Lib/test/test_urlparse.py
+> -@@ -644,7 +644,8 @@ def test_urlsplit_normalization(self):
+> -         for scheme in [u"http", u"https", u"ftp"]:
+> -             for c in denorm_chars:
+> -                 url =3D u"{}://netloc{}false.netloc/path".format(scheme=
+, c)
+> --                print "Checking %r" % url
+> -+                if test_support.verbose:
+> -+                    print "Checking %r" % url
+> -                 with self.assertRaises(ValueError):
+> -                     urlparse.urlsplit(url)
+> -
+> diff --git a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.=
+patch b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
+> deleted file mode 100644
+> index 352b13ba9b5..00000000000
+> --- a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
+> +++ /dev/null
+> @@ -1,111 +0,0 @@
+> -From 3e3669c9c41a27e1466e2c28b3906e3dd0ce3e7e Mon Sep 17 00:00:00 2001
+> -From: Steve Dower <steve.dower@python.org>
+> -Date: Thu, 7 Mar 2019 08:25:22 -0800
+> -Subject: [PATCH] bpo-36216: Add check for characters in netloc that norm=
+alize
+> - to separators (GH-12201)
+> -
+> -CVE: CVE-2019-9636
+> -
+> -Upstream-Status: Backport https://github.com/python/cpython/pull/12216/c=
+ommits/3e3669c9c41a27e1466e2c28b3906e3dd0ce3e7e
+> -
+> -Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> ----
+> - Doc/library/urlparse.rst                      | 20 ++++++++++++++++
+> - Lib/test/test_urlparse.py                     | 24 +++++++++++++++++++
+> - Lib/urlparse.py                               | 17 +++++++++++++
+> - .../2019-03-06-09-38-40.bpo-36216.6q1m4a.rst  |  3 +++
+> - 4 files changed, 64 insertions(+)
+> - create mode 100644 Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36=
+216.6q1m4a.rst
+> -
+> -diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
+> -index 4e1ded73c266..73b0228ea8e3 100644
+> ---- a/Lib/test/test_urlparse.py
+> -+++ b/Lib/test/test_urlparse.py
+> -@@ -1,4 +1,6 @@
+> - from test import test_support
+> -+import sys
+> -+import unicodedata
+> - import unittest
+> - import urlparse
+> -
+> -@@ -624,6 +626,28 @@ def test_portseparator(self):
+> -         self.assertEqual(urlparse.urlparse("http://www.python.org:80"),
+> -                 ('http','www.python.org:80','','','',''))
+> -
+> -+    def test_urlsplit_normalization(self):
+> -+        # Certain characters should never occur in the netloc,
+> -+        # including under normalization.
+> -+        # Ensure that ALL of them are detected and cause an error
+> -+        illegal_chars =3D u'/:#?@'
+> -+        hex_chars =3D {'{:04X}'.format(ord(c)) for c in illegal_chars}
+> -+        denorm_chars =3D [
+> -+            c for c in map(unichr, range(128, sys.maxunicode))
+> -+            if (hex_chars & set(unicodedata.decomposition(c).split()))
+> -+            and c not in illegal_chars
+> -+        ]
+> -+        # Sanity check that we found at least one such character
+> -+        self.assertIn(u'\u2100', denorm_chars)
+> -+        self.assertIn(u'\uFF03', denorm_chars)
+> -+
+> -+        for scheme in [u"http", u"https", u"ftp"]:
+> -+            for c in denorm_chars:
+> -+                url =3D u"{}://netloc{}false.netloc/path".format(scheme=
+, c)
+> -+                print "Checking %r" % url
+> -+                with self.assertRaises(ValueError):
+> -+                    urlparse.urlsplit(url)
+> -+
+> - def test_main():
+> -     test_support.run_unittest(UrlParseTestCase)
+> -
+> -diff --git a/Lib/urlparse.py b/Lib/urlparse.py
+> -index f7c2b032b097..54eda08651ab 100644
+> ---- a/Lib/urlparse.py
+> -+++ b/Lib/urlparse.py
+> -@@ -165,6 +165,21 @@ def _splitnetloc(url, start=3D0):
+> -             delim =3D min(delim, wdelim)     # use earliest delim posit=
+ion
+> -     return url[start:delim], url[delim:]   # return (domain, rest)
+> -
+> -+def _checknetloc(netloc):
+> -+    if not netloc or not isinstance(netloc, unicode):
+> -+        return
+> -+    # looking for characters like \u2100 that expand to 'a/c'
+> -+    # IDNA uses NFKC equivalence, so normalize for this check
+> -+    import unicodedata
+> -+    netloc2 =3D unicodedata.normalize('NFKC', netloc)
+> -+    if netloc =3D=3D netloc2:
+> -+        return
+> -+    _, _, netloc =3D netloc.rpartition('@') # anything to the left of '=
+@' is okay
+> -+    for c in '/?#@:':
+> -+        if c in netloc2:
+> -+            raise ValueError("netloc '" + netloc2 + "' contains invalid=
+ " +
+> -+                             "characters under NFKC normalization")
+> -+
+> - def urlsplit(url, scheme=3D'', allow_fragments=3DTrue):
+> -     """Parse a URL into 5 components:
+> -     <scheme>://<netloc>/<path>?<query>#<fragment>
+> -@@ -193,6 +208,7 @@ def urlsplit(url, scheme=3D'', allow_fragments=3DTru=
+e):
+> -                 url, fragment =3D url.split('#', 1)
+> -             if '?' in url:
+> -                 url, query =3D url.split('?', 1)
+> -+            _checknetloc(netloc)
+> -             v =3D SplitResult(scheme, netloc, url, query, fragment)
+> -             _parse_cache[key] =3D v
+> -             return v
+> -@@ -216,6 +232,7 @@ def urlsplit(url, scheme=3D'', allow_fragments=3DTru=
+e):
+> -         url, fragment =3D url.split('#', 1)
+> -     if '?' in url:
+> -         url, query =3D url.split('?', 1)
+> -+    _checknetloc(netloc)
+> -     v =3D SplitResult(scheme, netloc, url, query, fragment)
+> -     _parse_cache[key] =3D v
+> -     return v
+> -diff --git a/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1=
+m4a.rst b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rs=
+t
+> -new file mode 100644
+> -index 000000000000..1e1ad92c6feb
+> ---- /dev/null
+> -+++ b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
+> -@@ -0,0 +1,3 @@
+> -+Changes urlsplit() to raise ValueError when the URL contains characters=
+ that
+> -+decompose under IDNA encoding (NFKC-normalization) into characters that
+> -+affect how the URL is parsed.
+> -\ No newline at end of file
+> diff --git a/meta/recipes-devtools/python/python/bpo-36742-cve-2019-10160=
+.patch b/meta/recipes-devtools/python/python/bpo-36742-cve-2019-10160.patch
+> deleted file mode 100644
+> index 1b6cb8cf3e6..00000000000
+> --- a/meta/recipes-devtools/python/python/bpo-36742-cve-2019-10160.patch
+> +++ /dev/null
+> @@ -1,81 +0,0 @@
+> -From 5a1033fe5be764a135adcfff2fdc14edc3e5f327 Mon Sep 17 00:00:00 2001
+> -From: Changqing Li <changqing.li@windriver.com>
+> -Date: Thu, 10 Oct 2019 16:32:19 +0800
+> -Subject: [PATCH] bpo-36742: Fixes handling of pre-normalization characte=
+rs in
+> - urlsplit() bpo-36742: Corrects fix to handle decomposition in usernames
+> -
+> -Upstream-Status: Backport
+> -
+> -https://github.com/python/cpython/commit/98a4dcefbbc3bce5ab07e7c0830a183=
+157250259
+> -https://github.com/python/cpython/commit/f61599b050c621386a3fc6bc480359e=
+2d3bb93de#diff-b577545d73dd0cdb2c337a4c5f89e1d7
+> -
+> -CVE: CVE-2019-10160
+> -
+> -Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ----
+> - Lib/test/test_urlparse.py | 19 +++++++++++++------
+> - Lib/urlparse.py           | 14 +++++++++-----
+> - 2 files changed, 22 insertions(+), 11 deletions(-)
+> -
+> -diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
+> -index 1830d0b..857ed96 100644
+> ---- a/Lib/test/test_urlparse.py
+> -+++ b/Lib/test/test_urlparse.py
+> -@@ -641,13 +641,20 @@ class UrlParseTestCase(unittest.TestCase):
+> -         self.assertIn(u'\u2100', denorm_chars)
+> -         self.assertIn(u'\uFF03', denorm_chars)
+> -
+> -+        # bpo-36742: Verify port separators are ignored when they
+> -+        # existed prior to decomposition
+> -+        urlparse.urlsplit(u'http://\u30d5\u309a:80')
+> -+        with self.assertRaises(ValueError):
+> -+            urlparse.urlsplit(u'http://\u30d5\u309a\ufe1380')
+> -+
+> -         for scheme in [u"http", u"https", u"ftp"]:
+> --            for c in denorm_chars:
+> --                url =3D u"{}://netloc{}false.netloc/path".format(scheme=
+, c)
+> --                if test_support.verbose:
+> --                    print "Checking %r" % url
+> --                with self.assertRaises(ValueError):
+> --                    urlparse.urlsplit(url)
+> -+            for netloc in [u"netloc{}false.netloc", u"n{}user@netloc"]:
+> -+                for c in denorm_chars:
+> -+                    url =3D u"{}://{}/path".format(scheme, netloc.forma=
+t(c))
+> -+                    if test_support.verbose:
+> -+                        print "Checking %r" % url
+> -+                    with self.assertRaises(ValueError):
+> -+                        urlparse.urlsplit(url)
+> -
+> - def test_main():
+> -     test_support.run_unittest(UrlParseTestCase)
+> -diff --git a/Lib/urlparse.py b/Lib/urlparse.py
+> -index 54eda08..e34b368 100644
+> ---- a/Lib/urlparse.py
+> -+++ b/Lib/urlparse.py
+> -@@ -171,14 +171,18 @@ def _checknetloc(netloc):
+> -     # looking for characters like \u2100 that expand to 'a/c'
+> -     # IDNA uses NFKC equivalence, so normalize for this check
+> -     import unicodedata
+> --    netloc2 =3D unicodedata.normalize('NFKC', netloc)
+> --    if netloc =3D=3D netloc2:
+> -+    n =3D netloc.replace(u'@', u'') # ignore characters already include=
+d
+> -+    n =3D n.replace(u':', u'')      # but not the surrounding text
+> -+    n =3D n.replace(u'#', u'')
+> -+    n =3D n.replace(u'?', u'')
+> -+
+> -+    netloc2 =3D unicodedata.normalize('NFKC', n)
+> -+    if n =3D=3D netloc2:
+> -         return
+> --    _, _, netloc =3D netloc.rpartition('@') # anything to the left of '=
+@' is okay
+> -     for c in '/?#@:':
+> -         if c in netloc2:
+> --            raise ValueError("netloc '" + netloc2 + "' contains invalid=
+ " +
+> --                             "characters under NFKC normalization")
+> -+            raise ValueError(u"netloc '" + netloc + u"' contains invali=
+d " +
+> -+                             u"characters under NFKC normalization")
+> -
+> - def urlsplit(url, scheme=3D'', allow_fragments=3DTrue):
+> -     """Parse a URL into 5 components:
+> ---
+> -2.7.4
+> -
+> diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes=
+-devtools/python/python_2.7.17.bb
+> similarity index 97%
+> rename from meta/recipes-devtools/python/python_2.7.16.bb
+> rename to meta/recipes-devtools/python/python_2.7.17.bb
+> index 625c5312a6e..5b856a50977 100644
+> --- a/meta/recipes-devtools/python/python_2.7.16.bb
+> +++ b/meta/recipes-devtools/python/python_2.7.17.bb
+> @@ -30,9 +30,6 @@ SRC_URI +=3D " \
+>             file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
+>             file://float-endian.patch \
+>             file://0001-python2-use-cc_basename-to-replace-CC-for-checkin=
+g-c.patch \
+> -           file://0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13=
+079.patch \
+> -           file://bpo-36742-cve-2019-10160.patch \
+> -           file://0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRP=
+CSe.patch \
+>  "
+>
+>  S =3D "${WORKDIR}/Python-${PV}"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-=20
-
- <https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs> =
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
-
-=20
-
-The idea is these bugs should be straight forward for a person to help =
-work on who doesn't have deep experience with the project.  If anyone =
-can help, please take ownership of the bug and send patches!  If anyone =
-needs help/advice there are people on irc who can likely do so, or some =
-of the more experienced contributors will likely be happy to help too.
-
-=20
-
-Also, the triage team meets weekly and does its best to handle the bugs =
-reported into the Bugzilla. The number of people attending that meeting =
-has fallen, as have the number of people available to help fix bugs. One =
-of the things we hear users report is they don't know how to help. We =
-(the triage team) are therefore going to start reporting out the =
-currently 298 unassigned or newcomer bugs.
-
-=20
-
-We're hoping people may be able to spare some time now and again to help =
-out with these.  Bugs are split into two types, "true bugs" where things =
-don't work as they should and "enhancements" which are features we'd =
-want to add to the system.  There are also roughly four different =
-"priority" classes right now, =E2=80=9C3.1=E2=80=9D, =E2=80=9C3.2, =
-"3.99" and "Future", the more pressing/urgent issues being in "3.1" and =
-then =E2=80=9C3.2=E2=80=9D.
-
-=20
-
-Please review this link and if a bug is something you would be able to =
-help with either take ownership of the bug, or send me ( =
-<mailto:sjolley.yp.pm@gmail.com> sjolley.yp.pm@gmail.com) an e-mail with =
-the bug number you would like and I will assign it to you (please make =
-sure you have a Bugzilla account).  The list is at:  =
-<https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bug=
-s> =
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs=
-
-
-=20
-
-Thanks,
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-7867 SW Bayberry Dr., Beaverton, OR 97007
-
-*    Cell:                (208) 244-4460
-
-* Email:                 s <mailto:stephen.k.jolley@intel.com> =
-jolley.yp.pm@gmail.com <mailto:jolley.yp.pm@gmail.com>=20
-
-
-------=_NextPart_000_01DF_01D59DF6.EAF8FEC0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_00E2_01D5992A.5C027A00";
-	charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8"><meta =
-name=3DGenerator content=3D"Microsoft Word 15 (filtered =
-medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:blue;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:purple;
-	text-decoration:underline;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US link=3Dblue =
-vlink=3Dpurple><div class=3DWordSection1><p =
-class=3DMsoNormal>All,<o:p></o:p></p><p =
-class=3DMsoNormal>&nbsp;<o:p></o:p></p><p class=3DMsoNormal>The triage =
-team is starting to try and collect up and classify bugs which a =
-newcomer to the project would be able to work on in a way which means =
-people can find them. They're being listed on the triage page under the =
-appropriate heading:<o:p></o:p></p><p =
-class=3DMsoNormal>&nbsp;<o:p></o:p></p><p class=3DMsoNormal><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs"><spa=
-n style=3D'font-family:"Times New =
-Roman",serif;color:#0563C1'>https://wiki.yoctoproject.org/wiki/Bug_Triage=
-#Newcomer_Bugs</span></a><o:p></o:p></p><p =
-class=3DMsoNormal>&nbsp;<o:p></o:p></p><p class=3DMsoNormal>The idea is =
-these bugs should be straight forward for a person to help work on who =
-doesn't have deep experience with the project.&nbsp; If anyone can help, =
-please take ownership of the bug and send patches!&nbsp; If anyone needs =
-help/advice there are people on irc who can likely do so, or some of the =
-more experienced contributors will likely be happy to help =
-too.<o:p></o:p></p><p class=3DMsoNormal>&nbsp;<o:p></o:p></p><p =
-class=3DMsoNormal>Also, the triage team meets weekly and does its best =
-to handle the bugs reported into the Bugzilla. The number of people =
-attending that meeting has fallen, as have the number of people =
-available to help fix bugs. One of the things we hear users report is =
-they don't know how to help. We (the triage team) are therefore going to =
-start reporting out the currently 298 unassigned or newcomer =
-bugs.<o:p></o:p></p><p class=3DMsoNormal>&nbsp;<o:p></o:p></p><p =
-class=3DMsoNormal>We're hoping people may be able to spare some time now =
-and again to help out with these.&nbsp; Bugs are split into two types, =
-&quot;true bugs&quot; where things don't work as they should and =
-&quot;enhancements&quot; which are features we'd want to add to the =
-system.&nbsp; There are also roughly four different &quot;priority&quot; =
-classes right now, =E2=80=9C3.1=E2=80=9D, =E2=80=9C3.2, &quot;3.99&quot; =
-and &quot;Future&quot;, the more pressing/urgent issues being in =
-&quot;3.1&quot; and then =E2=80=9C3.2=E2=80=9D.<o:p></o:p></p><p =
-class=3DMsoNormal>&nbsp;<o:p></o:p></p><p class=3DMsoNormal>Please =
-review this link and if a bug is something you would be able to help =
-with either take ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com"><span =
-style=3D'font-family:"Times New =
-Roman",serif;color:#0563C1'>sjolley.yp.pm@gmail.com</span></a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
-mer_Bugs"><span =
-style=3D'color:windowtext;text-decoration:none'>https://wiki.yoctoproject=
-.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs</span></a><o:p></o:p></p=
-><div><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div><div><div><div><div><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'mso-margin-top-alt:auto;mso-margin-bottom-alt:auto'><b><i><span =
-style=3D'font-size:16.0pt;color:purple'>Stephen K. =
-Jolley</span></i></b><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;background-im=
-age:initial;background-position:initial;background-repeat:initial'><b><sp=
-an style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager</span></b><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;background-im=
-age:initial;background-position:initial;background-repeat:initial'><b><sp=
-an style=3D'font-family:"Courier New";color:fuchsia'>7867 SW Bayberry =
-Dr., Beaverton, OR 97007</span></b><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;background-im=
-age:initial;background-position:initial;background-repeat:initial'><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp;&nbsp;</span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
-244-4460</span><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'mso-margin-top-alt:auto;mso-margin-bottom-alt:auto;background-im=
-age:initial;background-position:initial;background-repeat:initial'><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>*</span><span =
-style=3D'font-size:9.0pt'>&nbsp;</span><b><span lang=3DFR =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<u><span =
-style=3D'color:#1155CC'><a href=3D"mailto:stephen.k.jolley@intel.com" =
-target=3D"_blank">s</a><a href=3D"mailto:jolley.yp.pm@gmail.com" =
-target=3D"_blank">jolley.yp.pm@gmail.com</a></span></u></span><o:p></o:p>=
-</p></div></div></div></div></div></body></html>
-
-------=_NextPart_000_01DF_01D59DF6.EAF8FEC0--
