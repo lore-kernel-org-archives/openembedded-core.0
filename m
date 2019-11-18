@@ -1,32 +1,30 @@
 Return-Path: <stefan@agner.ch>
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 6644F7F8B1
+	by mail.openembedded.org (Postfix) with ESMTP id 4D4B07F8B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 18:37:21 +0000 (UTC)
+	Mon, 18 Nov 2019 18:39:58 +0000 (UTC)
 Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 86E735C3985;
-	Mon, 18 Nov 2019 19:37:21 +0100 (CET)
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id D005D5C3985;
+	Mon, 18 Nov 2019 19:39:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1574102241;
+	t=1574102398;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	content-transfer-encoding:content-transfer-encoding:
 	in-reply-to:in-reply-to:references:references;
-	bh=BI7WozWX66CPVEFewKtQGx4HkdKC3OdpxhdcoIcNj7U=;
-	b=Gj3h/WuCN1FCaJJYG2c8JrZFfACLm+QkjxY1djNbCF6ERuwIaBfA+6foBRX0FhGYKCnR26
-	2g9KZYJgJmnAKG4qOO3s5CoyHItneX1BRwrO8ZpVl/3qg7SHoLIKWjV60j4HEg0Jo/dlf3
-	VDRq9ltnaRyY4/ujyBUC4GbExRgkUnA=
+	bh=Xk9H1FvkuHO5XsSy0N3j/tAjBh/7rxfrdrFt5znmGAk=;
+	b=sqOb/cIkeEjHVckLE1BDDKBaE1DV1ybRssYC1rRcknsbFhUcXp9YrWYtM+DitEDplpGvwv
+	4iiYv30M/yA3OkOjMtgBEcYMDyw7cXhaJ/NYHOoNo5k3Hr3FiqZYkQBl1YVB8Bl5ywb7wf
+	U4h4+lMtiZKvKB7Vcjmb0Bb38mfiZGo=
 MIME-Version: 1.0
-Date: Mon, 18 Nov 2019 19:37:20 +0100
+Date: Mon, 18 Nov 2019 19:39:58 +0100
 From: Stefan Agner <stefan@agner.ch>
-To: Ross Burton <ross.burton@intel.com>
-In-Reply-To: <eb8e027d-2797-4bce-a59d-e7e2eb369aa6@intel.com>
+To: alex.kiernan@gmail.com
+In-Reply-To: <4b4629ef84240f6d5e7da1363d88ebe15f4ab049.camel@linuxfoundation.org>
 References: <20191108091419.25156-1-stefan@agner.ch>
 	<7e0b2e1cc9931c92c2bcdcf5ef1f6f75@agner.ch>
 	<4b4629ef84240f6d5e7da1363d88ebe15f4ab049.camel@linuxfoundation.org>
-	<e03eeb0f-f8cd-f6ea-ad02-44f41bdf1e84@gmail.com>
-	<eb8e027d-2797-4bce-a59d-e7e2eb369aa6@intel.com>
-Message-ID: <4beb1e7703a6733e81e62cfde8ca1531@agner.ch>
+Message-ID: <92892787582baf91d2de15279d6e60ac@agner.ch>
 X-Sender: stefan@agner.ch
 User-Agent: Roundcube Webmail/1.3.9
 Cc: Stefan Agner <stefan.agner@toradex.com>,
@@ -44,37 +42,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 18:37:21 -0000
+X-List-Received-Date: Mon, 18 Nov 2019 18:39:58 -0000
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 2019-11-18 17:53, Ross Burton wrote:
-> On 18/11/2019 16:47, akuster808 wrote:
->> Does a possible Poky LTS have any factor in deciding to add more
->> packages to core?
+[adding Alex, he maintained the recipe in meta-oe so far]
+
+On 2019-11-18 13:19, Richard Purdie wrote:
+> On Thu, 2019-11-14 at 15:47 +0100, Stefan Agner wrote:
+>> On 2019-11-08 10:14, Stefan Agner wrote:
+>> > From: Stefan Agner <stefan.agner@toradex.com>
+>> >
+>> > Zstd is a very fast compression algorithm and has gained quite some
+>> > popularity recently. An upcoming patch allows to compress rootfs
+>> > using Zstd. Moving Zstd to oe-core allows this new conversion
+>> > formats
+>> > to be automatically tested by the oe-selftest
+>> > imagefeatures.ImageFeatures.test_image_fstypes test.
+>> >
+>> > Furthermore there are three packages in oe-core which allow to
+>> > enable
+>> > Zstd support through packageconfig currently.
+>>
+>> Any update/thoughts on this?
 > 
-> Even without the LTS there's a (relatively) long-term commitment to
-> maintain recipes.
-> 
-> Personally, I'm happy with Zstd being in meta-oe for now, and possibly
-> re-evaluating in the next cycle.
+> I've not made a final decision on whether to merge it fails selftests
+> due to a lack of a maintainer:
 
-Not having it in oe-core would mean we would have to exclude it from
-build testing [1].
-
-From what I can tell, that would be a first: Every other compression
-conversion is part of oe-core.
-
-It had quite some adoption lately, e.g. Fedora 31 uses zstd by default
-to compress their rpm packages [2].
-
-IMHO, this are good arguments for adding it to oe-core now.
-
-[1]
-http://lists.openembedded.org/pipermail/openembedded-core/2019-November/288882.html
-[2]
-https://fedoraproject.org/wiki/Changes/Switch_RPMs_to_zstd_compression
+Alex, would you be OK with you listed as maintainer?
 
 --
 Stefan
+
+> 
+> 2019-11-16 20:13:49,922 - oe-selftest - INFO -
+> distrodata.Distrodata.test_maintainers (subunit.RemotedTestCase)
+> 2019-11-16 20:13:49,922 - oe-selftest - INFO -  ... FAIL
+> 2019-11-16 20:13:49,923 - oe-selftest - INFO - 2: 29/40 153/378
+> (109.44s) (distrodata.Distrodata.test_maintainers)
+> 2019-11-16 20:13:49,923 - oe-selftest - INFO -
+> testtools.testresult.real._StringException: Traceback (most recent
+> call last):
+>   File
+> "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/distrodata.py",
+> line 84, in test_maintainers
+>     """ + "\n".join(['%s (%s)' % i for i in no_maintainer_list]))
+>   File "/usr/lib/python3.6/unittest/case.py", line 670, in fail
+>     raise self.failureException(msg)
+> AssertionError: 
+> The following recipes do not have a maintainer assigned to them.
+> Please add an entry to meta/conf/distro/include/maintainers.inc file.
+> zstd
+> (/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-extended/zstd/zstd_1.4.4.bb)
+> 
+> To reproduce, run: "oe-selftest -r distrodata.Distrodata.test_maintainers"
+> 
+> Cheers,
+> 
+> Richard
 
