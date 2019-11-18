@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 96B067F9C6
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D4D37F9C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 14:32:07 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id b3so19740518wrs.13
+	Mon, 18 Nov 2019 14:32:09 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id f2so19749097wrs.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 06:32:09 -0800 (PST)
+	Mon, 18 Nov 2019 06:32:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=p3osZEpf/FHr6EdW6atElM5JNCAes4PfnQ3X04o+6ko=;
-	b=tq0r+RoR2y7z6bhlpW9Skr8Q/Xu4EGi2GbgaMB0sAUTruPPwSNVxvI8Bpnk2Ooe8/f
-	cX3985bfciDvk+nndfUr5UVSff4rEiKSoTtwOrksIFZ2kCtlf07DOe1Caaoqgl/gV5w2
-	ne+4wC4e43yXhkB/w8jLm9dyUNDAIGpNgQxgu6fajCQmBUWm+uEVA0eRf+vs1qWG+ZKu
-	vdGKS7dSxuPNEaiXT+Qmd/x7pat/+5Wird/WYgW4UgH8BA9UT+ZqwK8dHkOSleoVJ/aX
-	NqhwwddL9QmZJ2XADzIwMamkWko536vN3+NfMFv9wRKRsN0l7SovwaYyaX1LBoddqLLI
-	y7og==
+	bh=RcIz/GtZzIoD8qh7pI8Fjd/ilgzkIh2BnR2W9bVL/wg=;
+	b=XVZ3Hc9bcBL6eNRrtykCwGJHWxG6CwbPewJK96HgaQHhNI7T7dKEZvXqHBoPb7L0Mu
+	fp7wttFKBJ4ZNT+tAl0FKsE54AlUpx4ri2aXah0EVolLvajs02Yfu39HzGis2fPcKiTF
+	nT8chUv04jNQTaYgrQykK9XY1H7JqijS3SWRJEA6mJnctjs1/UYAUWNAqG6FGJMWR+Iv
+	EnzUpqSUvPGbBOD0+3zncDeaMSNamgdXRhST96mpzRAIWvTEQpoJblWq3TC7/0/qH3Bb
+	P8yBOkEyGs+GfdLjxulq1unGBODO1uM93kSUAlR7HdWYwsNtEbcSefKe9/iZzGq7fBU7
+	Ti+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=p3osZEpf/FHr6EdW6atElM5JNCAes4PfnQ3X04o+6ko=;
-	b=UOO7RXknB6acV0kafoEBGE+LxCGDJdK4q2f/jviYosMLnth3X1JBg7YtwWDoFT3cvk
-	TNzVz2RbdOR9dxAnJRC7Lo1lN2Z4djs9tena3jSEm6Vxm3iW3bvgFCcIiL2h7XWA8Mlr
-	gBWY5IIdTu7zlDpzatHUqlCFJbzWd8lY7igFo/Gnr3pWo6AlQxK5R8zzUvYHv7Zpqpr3
-	wYxlZ0pkk5EPC97GQj5qUff0mTbFNC9R13B6TLrsqVsivPLxc6uzDXcFBFeFqzGCzJHv
-	qu8+ymRzpybcwQ0OEcV2+6m97Y2qKxG1D92s42oRTaD25Q9BgcvlnD3oSLsXowNcUTes
-	C+ew==
-X-Gm-Message-State: APjAAAU5nI82s54/F660VGu5eMMHOLEiBG5d9hMdGuA9+PkNHBRHThZc
-	IXKkiV55QAiLbBUHzQAFYvvuExhH
-X-Google-Smtp-Source: APXvYqxjLpPPSKLRW8eYO2BnLfoEr3gTpg14oagn30n/oUDA90giDbCgqCDcxFJEmBYSkRPS6FxCdw==
-X-Received: by 2002:a05:6000:1602:: with SMTP id
-	u2mr16593349wrb.249.1574087528268; 
-	Mon, 18 Nov 2019 06:32:08 -0800 (PST)
+	bh=RcIz/GtZzIoD8qh7pI8Fjd/ilgzkIh2BnR2W9bVL/wg=;
+	b=ZS/cRUbJ19lsPmaXb2+hXda2q6GuyLcBl0mc1hdHixy8sjl6BV8qvhR71sP3ak/5a6
+	edUP3SzduElkA/GcH6/ot2/NJU4bP1soWzj9xUiHHNE5UYOf96lSD5aU+9+2OX6ofu1z
+	Z+2FIRZHF2irHerN+ww9k3yvZtBSGcIuTgBIBf5q6A4MZTOxoDO9totUl2I4ChdF/5AZ
+	lquip3gaoG49C9s8fgZUPbic89kwzyWbfBJfWcNtSG/eJQ+7qfM7ylUzN1OnNTbTBmHd
+	r5ztXzzxC0xQ+QeKRQ1FDk0P0oIIdoV0oFifvUTMJdOkJ4IdLA2k2+yHSeaz5Uzq/Ldm
+	Q34g==
+X-Gm-Message-State: APjAAAUDxY/Zk7TayBiwcfs4LouwRUdMy8eG13wZfk7SUSdfMKFybEeS
+	UL7koMziTh6NnwBP3BbpsLKfnICa
+X-Google-Smtp-Source: APXvYqylDS9gP0CIVGK9PE869aAXH7T65ZemcY9TjUT3HXXDZyLyLoCiZfy9hRgrL/IaVjM+9cOWKA==
+X-Received: by 2002:a5d:640b:: with SMTP id z11mr29520647wru.195.1574087529853;
+	Mon, 18 Nov 2019 06:32:09 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	f24sm20097324wmb.37.2019.11.18.06.32.06
+	f24sm20097324wmb.37.2019.11.18.06.32.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 18 Nov 2019 06:32:07 -0800 (PST)
+	Mon, 18 Nov 2019 06:32:09 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2019 15:28:49 +0100
-Message-Id: <20191118142852.22981-10-alex.kanavin@gmail.com>
+Date: Mon, 18 Nov 2019 15:28:50 +0100
+Message-Id: <20191118142852.22981-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191118142852.22981-1-alex.kanavin@gmail.com>
 References: <20191118142852.22981-1-alex.kanavin@gmail.com>
-Subject: [PATCH 10/13] mpg123: upgrade 1.25.12 -> 1.25.13
+Subject: [PATCH 11/13] vala: upgrade 0.46.3 -> 0.46.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,32 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 14:32:08 -0000
+X-List-Received-Date: Mon, 18 Nov 2019 14:32:09 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../mpg123/{mpg123_1.25.12.bb => mpg123_1.25.13.bb}           | 4 ++--
+ meta/recipes-devtools/vala/{vala_0.46.3.bb => vala_0.46.4.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/mpg123/{mpg123_1.25.12.bb => mpg123_1.25.13.bb} (94%)
+ rename meta/recipes-devtools/vala/{vala_0.46.3.bb => vala_0.46.4.bb} (57%)
 
-diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.25.12.bb b/meta/recipes-multimedia/mpg123/mpg123_1.25.13.bb
-similarity index 94%
-rename from meta/recipes-multimedia/mpg123/mpg123_1.25.12.bb
-rename to meta/recipes-multimedia/mpg123/mpg123_1.25.13.bb
-index a18b2f44174..125574fcfc9 100644
---- a/meta/recipes-multimedia/mpg123/mpg123_1.25.12.bb
-+++ b/meta/recipes-multimedia/mpg123/mpg123_1.25.13.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1e86753638d3cf2512528b99079bc4f3"
+diff --git a/meta/recipes-devtools/vala/vala_0.46.3.bb b/meta/recipes-devtools/vala/vala_0.46.4.bb
+similarity index 57%
+rename from meta/recipes-devtools/vala/vala_0.46.3.bb
+rename to meta/recipes-devtools/vala/vala_0.46.4.bb
+index eda5738c066..c4cd6dd4109 100644
+--- a/meta/recipes-devtools/vala/vala_0.46.3.bb
++++ b/meta/recipes-devtools/vala/vala_0.46.4.bb
+@@ -4,5 +4,5 @@ SRC_URI += "file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pat
+            file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
+            "
  
- SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2 \
-            file://sdl2.patch"
--SRC_URI[md5sum] = "ddb38254966eb38c77f220d456a1839d"
--SRC_URI[sha256sum] = "1ffec7c9683dfb86ea9040d6a53d6ea819ecdda215df347f79def08f1fe731d1"
-+SRC_URI[md5sum] = "294a6c30546504ec3d0deac2b2ea22be"
-+SRC_URI[sha256sum] = "90306848359c793fd43b9906e52201df18775742dc3c81c06ab67a806509890a"
- 
- inherit autotools pkgconfig
- 
+-SRC_URI[md5sum] = "809ddac69b039ef509b61993c848613f"
+-SRC_URI[sha256sum] = "e29c2b1f108dc22c91bb501975a77c938aef079ca7875e1fbf41191e22cc57e3"
++SRC_URI[md5sum] = "b79bbaf8929ec8ed35911b3571f5a248"
++SRC_URI[sha256sum] = "4bb9b60fc0230b0db2c8a0e2a80ec29f1c10b43dc78355abba78adedbc2e03a1"
 -- 
 2.17.1
 
