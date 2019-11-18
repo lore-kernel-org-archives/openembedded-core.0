@@ -1,104 +1,82 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A4417F893
+Return-Path: <MANJUKUM@xilinx.com>
+Received: from NAM03-DM3-obe.outbound.protection.outlook.com
+	(mail-eopbgr800042.outbound.protection.outlook.com [40.107.80.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 07CE07F88E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 16:47:26 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 3so10638155pfb.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 08:47:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=0+X+7JIXZOTvciAnV37eh3Q+nrKrTEQCiw9V3GvVyGk=;
-	b=exRVhg4ct3xAAnv3K68/7i5QKfZ4rJ8dxupIstAnxgE0PJZHllvZsNGrXg5OnTnv7B
-	D4BwcWdz/muJ5mriAAQD4FbguOLs4sDXkgV7E7Jb2FPTpL3vz7zpAt2g7vYV/m/23r57
-	9O/qjl1gvIzqvnXXb9yagTzUy4wshrx6RR6tWDmfWs2H0c8c2EtHmI8/R0SgO7rfrT5W
-	YO62CZVFOt7sUpQtuGy6PbRtMoufPnlR/xuDcuPMDwL++4hJWtRZLKOy6snt54eBJ8OX
-	Xypp2FjYT6iGAIoHxHy9UOfJyldeDebm9LETklQk2I6v2qgEQdlV7c6eBX1dCiCrdYIv
-	eVMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=0+X+7JIXZOTvciAnV37eh3Q+nrKrTEQCiw9V3GvVyGk=;
-	b=LP6sfVf4pzAlB7DCzxy8EDu065mQOv/v8RTmb2oAJ8db/uEXJ7/spmXLWg1ZRke0Nx
-	R2RQHi26VM1iBvYRINQT/URLZS2q5Eg52NfTQ2MjL7RkGJP8xW7JeLODOyzv6xHXCXCA
-	y5pqGBZ/ADKVp/iP0Rc4buUzT3gmttwCMdCd86xFjuI9mb3qTa0ruqzBWf3pXwBwOgRn
-	PX2PjuAZbf8Puc8S7Xe/+DXwbSTFnqKkNUH5b6URCnr1ERhObIsgZ6EbIty/4AEXetWB
-	vEirIGeKNPnAuc9B1k3Bx+t+LoHVRAO7tv40b6PuInaT9Tx/wusJMmZsvubyd33WrxVT
-	hsyQ==
-X-Gm-Message-State: APjAAAWEePqbrgb/pSk7/SecbCpju1HbRJDbhB9HYtXdHgM/qoGJg5z+
-	ZFd6PanJRO3VXQtstf6NnPU=
-X-Google-Smtp-Source: APXvYqx3p1czwQGeHojU848O3SPJRalE6AMjWE0i1QMLaEsbUllJ/1CFGoVasUGN7wHp3yC+A1Zfpg==
-X-Received: by 2002:aa7:9f08:: with SMTP id g8mr222920pfr.59.1574095648081;
-	Mon, 18 Nov 2019 08:47:28 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:e882:2a90:3db0:e053?
-	([2601:202:4180:a5c0:e882:2a90:3db0:e053])
-	by smtp.gmail.com with ESMTPSA id
-	13sm21574156pgq.72.2019.11.18.08.47.27
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 18 Nov 2019 08:47:27 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Stefan Agner <stefan@agner.ch>, openembedded-core@lists.openembedded.org
-References: <20191108091419.25156-1-stefan@agner.ch>
-	<7e0b2e1cc9931c92c2bcdcf5ef1f6f75@agner.ch>
-	<4b4629ef84240f6d5e7da1363d88ebe15f4ab049.camel@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <e03eeb0f-f8cd-f6ea-ad02-44f41bdf1e84@gmail.com>
-Date: Mon, 18 Nov 2019 08:47:26 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	Mon, 18 Nov 2019 16:52:01 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=ar/4MhWNHj1t8dEAfI3NaNJaP7KwqO/iuxwIEUgTrjmhGBuklcHeyjOgPvuukQBGbN3Rcu6bwK+9n/LfyEXoEEHr6lZrFkL6XUYtkNG7wVjXNh7JJHM9VCLGA1egerqw5xbHa5Ahp8QM7/YnvC42/fwJNlkvOe6DrhBEJFTehGLi7PbmBBWK9iTS54/hKUC0/sBKpnwMREyzlBc3S2nwpjL6AaGdNW6N3wDhFvoGrY/7rbIEHIiTKCndA7kMQvJHagL1/SvjNw30UCqpmB/76LlMTAEfzTpPE/bepZzliFVO928qRtoqio97QfQcG7F6KHWfYEHgUIawsbQQRmoPGA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=L1C7TIbah5uovXRNKH7aIRA0MJSg5gFrkrCnvhdFuM8=;
+	b=E4H1vO3th3Xz6Kr2OkWPlp4tutU9wqXLkagAMbpU4IeELRk+3cC/34yEtKITJmsTe1dm28b1d0vxGTiri2eDh/C+0K1/SJiOj6EsmBioiyxaXPStVcFxYM0ctwPhZp0LOvXnZMyM6KoM5WWHr2sIPOrkAgwOisxICpgNbPt6ZsBzfM0EBvvqOahpfY+TwVbaFtyKy6oXzdNHUSqQnH7ODXtLfvhslhp9z5/2poBoTBEAPGJTnju1Erjcpktl/TntCxy8IRSIcT+lSbHGU9WJOE00KD7Ue1uFwtXpURvSsHQ5GE4Cx8V3Gkb+Tw4Ra0N7i8+oJsRCxJooWQ9Uw8fYBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+	dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=L1C7TIbah5uovXRNKH7aIRA0MJSg5gFrkrCnvhdFuM8=;
+	b=drS7QfRXwqHBdhnmpzWvG8pzVRCXFq1zWkKwLO98BWy/lku3tgNFzSX2IPYd0I3+vF6P76N6AOA7/xwV/BlzcpZ0khqcz9eYbv5K5JGuxGgfDHs/k3AI4BtMo0VQw1a/PaTUsSH04w1WgGcwEdHvHyFkk4x+APrnf2SBMAk9w3k=
+Received: from BYAPR02MB6005.namprd02.prod.outlook.com (20.179.62.146) by
+	BYAPR02MB5541.namprd02.prod.outlook.com (20.178.1.18) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2451.29; Mon, 18 Nov 2019 16:52:02 +0000
+Received: from BYAPR02MB6005.namprd02.prod.outlook.com
+	([fe80::3543:cc29:b226:32c2]) by
+	BYAPR02MB6005.namprd02.prod.outlook.com
+	([fe80::3543:cc29:b226:32c2%3]) with mapi id 15.20.2451.029;
+	Mon, 18 Nov 2019 16:52:02 +0000
+From: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, Alexander Kanavin
+	<alex.kanavin@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 09/13] Revert "devtool/standard.py: Not
+	filtering devtool workspace for devtool finish"
+Thread-Index: AQHVni9unRNwkgMbhUyhPs4cQVmxraeRJDZA
+Date: Mon, 18 Nov 2019 16:52:01 +0000
+Message-ID: <BYAPR02MB6005F49140DEC79D6F993EB8B94D0@BYAPR02MB6005.namprd02.prod.outlook.com>
+References: <20191118142852.22981-1-alex.kanavin@gmail.com>
+	<20191118142852.22981-9-alex.kanavin@gmail.com>
+	<9cefac866172047d73121778c13de58fc215904d.camel@linuxfoundation.org>
+In-Reply-To: <9cefac866172047d73121778c13de58fc215904d.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=MANJUKUM@xilinx.com; 
+x-originating-ip: [73.231.161.32]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: cea88573-e4a7-4cc9-403d-08d76c47a274
+x-ms-traffictypediagnostic: BYAPR02MB5541:
+x-microsoft-antispam-prvs: <BYAPR02MB5541363865ABEA391EE0DDA6B94D0@BYAPR02MB5541.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-forefront-prvs: 0225B0D5BC
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(979002)(4636009)(366004)(396003)(136003)(376002)(346002)(39860400002)(199004)(189003)(13464003)(7736002)(486006)(9686003)(14444005)(476003)(14454004)(446003)(33656002)(76116006)(55016002)(76176011)(7696005)(6506007)(71190400001)(71200400001)(53546011)(6246003)(4001150100001)(11346002)(81166006)(256004)(2501003)(74316002)(186003)(81156014)(8936002)(102836004)(26005)(229853002)(66066001)(6436002)(5660300002)(6116002)(8676002)(305945005)(478600001)(25786009)(99286004)(86362001)(66946007)(2906002)(66476007)(66556008)(66446008)(64756008)(110136005)(316002)(3846002)(52536014)(969003)(989001)(999001)(1009001)(1019001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB5541;
+	H:BYAPR02MB6005.namprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: lZHNFXsmk5oN+mfWTxLugYccyOwycHPgs0SrwDhm8bkLldBNNBbiDYYT4VpXXrrbdxd+hisVYAKS/+OHMLuR+RIeRdvFm6SyYcw8ccYoOCagqa86+IbNjau7suvdX9xlXDGigC2p1noEwvhEhU13w81ZSq+65IV2/G0CGEZsPEXxxyr8DIhO67OuET9xUP4hxqXWyh+iOxbysepIDFlP5qL+h5BuisCEbhBz/fZZZMIalYArHd87QfaDH6DVlktndnOMjjiC93LWPUHee5NfJ2vaJm/8zcKUf6ry9pH4CoD82bTqzIxbLyY/MpRCERBMxpO2PRxIGxCfFr7USGe6brLzyEcD/JlqBztMcmYRCgeyOeRhj1Y4XDe9Z3TX9jqDdcsmhDutP6qc0eYBN1cIQwiNhkgIjyN1c57QpZP3jV1bmg5r/rDQ2dH38H+Guxcv
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-In-Reply-To: <4b4629ef84240f6d5e7da1363d88ebe15f4ab049.camel@linuxfoundation.org>
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: Re: [PATCH v3 1/2] zstd: move recipe to oe-core from meta-oe
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cea88573-e4a7-4cc9-403d-08d76c47a274
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Nov 2019 16:52:01.8460 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: CqP3VEmmgo3ACU56BcVq0hXbm4NPkjQAnFEcxLLwGKn7QF1zPj1kz3QfyRYZx3u8vx2BiGhuJ3bWG1WOKdYMzw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5541
+Subject: Re: [PATCH 09/13] Revert "devtool/standard.py: Not filtering devtool workspace for devtool finish"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -111,55 +89,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 16:47:27 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 18 Nov 2019 16:52:02 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
 
 
-On 11/18/19 4:19 AM, Richard Purdie wrote:
-> On Thu, 2019-11-14 at 15:47 +0100, Stefan Agner wrote:
->> On 2019-11-08 10:14, Stefan Agner wrote:
->>> From: Stefan Agner <stefan.agner@toradex.com>
->>>
->>> Zstd is a very fast compression algorithm and has gained quite some
->>> popularity recently. An upcoming patch allows to compress rootfs
->>> using Zstd. Moving Zstd to oe-core allows this new conversion
->>> formats
->>> to be automatically tested by the oe-selftest
->>> imagefeatures.ImageFeatures.test_image_fstypes test.
->>>
->>> Furthermore there are three packages in oe-core which allow to
->>> enable
->>> Zstd support through packageconfig currently.
->> Any update/thoughts on this?
-> I've not made a final decision on whether to merge it fails selftests
-> due to a lack of a maintainer:
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org
+> <openembedded-core-bounces@lists.openembedded.org> On Behalf Of Richard
+> Purdie
+> Sent: Monday, November 18, 2019 8:44 AM
+> To: Alexander Kanavin <alex.kanavin@gmail.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 09/13] Revert "devtool/standard.py: Not fil=
+tering
+> devtool workspace for devtool finish"
+>=20
+> On Mon, 2019-11-18 at 15:28 +0100, Alexander Kanavin wrote:
+> > This reverts commit 41d225f4a37d02e9f79bdbfb79caac8cd3d291ce.
+> >
+> > Unfortunately this change broke 'devtool upgrade' functionality,
+> > causing 'devtool finish' to write out an upgraded recipe that no
+> > longer includes the original upstream source in SRC_URI.
+> >
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  scripts/lib/devtool/standard.py | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/lib/devtool/standard.py
+> > b/scripts/lib/devtool/standard.py index 8d9c1a30225..1c0cd8ab51b
+> > 100644
+> > --- a/scripts/lib/devtool/standard.py
+> > +++ b/scripts/lib/devtool/standard.py
+> > @@ -2021,7 +2021,7 @@ def finish(args, config, basepath, workspace):
+> >      remove_work=3Dargs.remove_work
+> >      tinfoil =3D setup_tinfoil(basepath=3Dbasepath, tracking=3DTrue)
+> >      try:
+> > -        rd =3D parse_recipe(config, tinfoil, args.recipename, True,
+> > False)
+> > +        rd =3D parse_recipe(config, tinfoil, args.recipename, True)
+> >          if not rd:
+> >              return 1
+>=20
+> Are we missing a test case for something here?
+>=20
+> If yes, would that be worth noting in bugzilla whilst we know about it?
+>=20
 
-Does a possible Poky LTS have any factor in deciding to add more
-packages to core?
+We will work on adding some of the test cases as well. The functionality of=
+ devtool is broad, it has various features and patches sent are missing tes=
+ting every single functionality
 
-- armin
->
-> 2019-11-16 20:13:49,922 - oe-selftest - INFO - distrodata.Distrodata.test_maintainers (subunit.RemotedTestCase)
-> 2019-11-16 20:13:49,922 - oe-selftest - INFO -  ... FAIL
-> 2019-11-16 20:13:49,923 - oe-selftest - INFO - 2: 29/40 153/378 (109.44s) (distrodata.Distrodata.test_maintainers)
-> 2019-11-16 20:13:49,923 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
->   File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/distrodata.py", line 84, in test_maintainers
->     """ + "\n".join(['%s (%s)' % i for i in no_maintainer_list]))
->   File "/usr/lib/python3.6/unittest/case.py", line 670, in fail
->     raise self.failureException(msg)
-> AssertionError: 
-> The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
-> zstd (/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/recipes-extended/zstd/zstd_1.4.4.bb)
->
-> To reproduce, run: "oe-selftest -r distrodata.Distrodata.test_maintainers"
->
-> Cheers,
->
-> Richard
->
->
-
+Thanks,
+Manju
 
