@@ -1,61 +1,53 @@
-Return-Path: <jrey@linux.ibm.com>
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
-	[148.163.156.1])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F8AA7F8A6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 11F1C7F88E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 16:07:13 +0000 (UTC)
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
-	xAIFvTZM023826; Mon, 18 Nov 2019 11:07:14 -0500
-Received: from ppma05wdc.us.ibm.com (1b.90.2fa9.ip4.static.sl-reverse.com
-	[169.47.144.27])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2way8mdptx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 18 Nov 2019 11:07:14 -0500
-Received: from pps.filterd (ppma05wdc.us.ibm.com [127.0.0.1])
-	by ppma05wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id
-	xAIG6lCU008896; Mon, 18 Nov 2019 16:07:12 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
-	[9.57.198.23]) by ppma05wdc.us.ibm.com with ESMTP id 2wa8r63psr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 18 Nov 2019 16:07:12 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
-	[9.57.199.111])
-	by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
-	xAIG7Buj45285646
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Mon, 18 Nov 2019 16:07:11 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 94B66AC05E;
-	Mon, 18 Nov 2019 16:07:11 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6F667AC05B;
-	Mon, 18 Nov 2019 16:07:11 +0000 (GMT)
-Received: from demeter.rchland.ibm.com (unknown [9.10.254.219])
-	by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
-	Mon, 18 Nov 2019 16:07:11 +0000 (GMT)
-To: Ross Burton <ross.burton@intel.com>,
+	Mon, 18 Nov 2019 16:44:06 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id l17so18112041wmh.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Nov 2019 08:44:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=7fZzfk8Aidg4pZiHSgvFqKOs6xXyQx1tnGk00cdkY/s=;
+	b=CGvlWpgH3meHUxUfeYMjlw2cHsG4EQD7Q4LDeEe1yGgoZTtiG5q2SEEQuuj9aBVaNb
+	98Cz7V4EuYUTaEs+RrFzbiJMhZ/Lj+EiFiTTCQKMSdb/6/jAvUJqfUq25wyK1t69pc2G
+	OMiVl2opaCLlJGadhX4InVMUSGJBL7f+2f6pg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=7fZzfk8Aidg4pZiHSgvFqKOs6xXyQx1tnGk00cdkY/s=;
+	b=ho9fKoBKq9dctf1jWEDwuUQUuU5I012tZGVbMmR4gH2kEfCaYHlA1BBBpM61fNCH4P
+	FVOxffSYJ2l21RldRbxQL0ZgGcp6k5zBJHSQXdke0rXz2sW832CPMuTZc/uSxy1KpRzG
+	4xHsoBL56bnIyUg8zMVCtJLjGq/j5xrkZZ1pPVXKhWZhwWciltUSScKlv+mMgdwJmrRq
+	n9HpRTsJ6sXM4Q4bNlGl18aDbvIF4iKHuA1Jx8VO+vHKwEmL66r1WMzCvE/zOMybA1+H
+	yXpfRw8nnmJhoXrkTUrckB/cyi8lfsy7OuC6v6FCkLTE5lE/Y4YOLXPcXgHzluvIL77B
+	EMVQ==
+X-Gm-Message-State: APjAAAWRCM0op6r3T6v8ZAYc2zAncpJRA7x0VGh3jgGNvFpoYxD4ObLS
+	a1aOQwCZnD3XU4fJEvlyPbKJCw==
+X-Google-Smtp-Source: APXvYqzjIsJ1/uFdk7N7F8v7vlbN34WBKeCjuzn21JK38bFew1apzQxsf2GyE5shxgH9jfONpVlgFw==
+X-Received: by 2002:a1c:2e8f:: with SMTP id
+	u137mr30926182wmu.105.1574095446804; 
+	Mon, 18 Nov 2019 08:44:06 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r2sm18534101wma.44.2019.11.18.08.44.05
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 18 Nov 2019 08:44:06 -0800 (PST)
+Message-ID: <9cefac866172047d73121778c13de58fc215904d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-References: <adf92df5-06d4-ea38-ad9f-55dde92148b2@linux.ibm.com>
-	<bb5c3045-8131-095a-f7bc-0ff91f36af5a@linux.ibm.com>
-	<afda9a22-8075-93c2-64db-91061bee6a11@intel.com>
-From: Joseph Reynolds <jrey@linux.ibm.com>
-Message-ID: <9694aec4-8eb1-ab59-9831-474a58a88cfa@linux.ibm.com>
-Date: Mon, 18 Nov 2019 10:07:10 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.0
+Date: Mon, 18 Nov 2019 16:44:04 +0000
+In-Reply-To: <20191118142852.22981-9-alex.kanavin@gmail.com>
+References: <20191118142852.22981-1-alex.kanavin@gmail.com>
+	<20191118142852.22981-9-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <afda9a22-8075-93c2-64db-91061bee6a11@intel.com>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
-	definitions=2019-11-18_04:2019-11-15,2019-11-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 clxscore=1015 lowpriorityscore=0
-	adultscore=0 bulkscore=0 impostorscore=0 mlxlogscore=999 phishscore=0
-	mlxscore=0 spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
-	engine=8.12.0-1910280000 definitions=main-1911180146
-Subject: Re: How to add build date?
+Subject: Re: [PATCH 09/13] Revert "devtool/standard.py: Not filtering devtool workspace for devtool finish"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,34 +60,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 16:07:14 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 18 Nov 2019 16:44:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 11/18/19 3:53 AM, Ross Burton wrote:
-> On 16/11/2019 21:56, Joseph Reynolds wrote:
->>
->> Is there a best practice for folks who want to put the build date 
->> into their generated os-release file?  I've seen this question come 
->> up at least 3 times in my brief involvement with OE.  I could perhaps 
->> add comment to the OpenBMC os-release.bbappend file to provide the 
->> proper guidance.  I would like to hear your ideas.
->
-> There's an image-buildinfo class that can inject build-specific 
-> information of your chosing into the image.
+On Mon, 2019-11-18 at 15:28 +0100, Alexander Kanavin wrote:
+> This reverts commit 41d225f4a37d02e9f79bdbfb79caac8cd3d291ce.
+> 
+> Unfortunately this change broke 'devtool upgrade' functionality,
+> causing 'devtool finish' to write out an upgraded recipe that no
+> longer includes the original upstream source in SRC_URI.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  scripts/lib/devtool/standard.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/devtool/standard.py
+> b/scripts/lib/devtool/standard.py
+> index 8d9c1a30225..1c0cd8ab51b 100644
+> --- a/scripts/lib/devtool/standard.py
+> +++ b/scripts/lib/devtool/standard.py
+> @@ -2021,7 +2021,7 @@ def finish(args, config, basepath, workspace):
+>      remove_work=args.remove_work
+>      tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
+>      try:
+> -        rd = parse_recipe(config, tinfoil, args.recipename, True,
+> False)
+> +        rd = parse_recipe(config, tinfoil, args.recipename, True)
+>          if not rd:
+>              return 1
 
-Thank you, I was not aware of that.  That makes perfect sense.  I've 
-added that to my answer in the OpenBMC email list, and hope to have a 
-answer I can just refer to, for the next time someone asks this question.
+Are we missing a test case for something here?
 
-Link to OpenBMC email thread: 
-https://lists.ozlabs.org/pipermail/openbmc/2019-November/019479.html
+If yes, would that be worth noting in bugzilla whilst we know about it?
 
-- Joseph
+Cheers,
 
->
-> Ross
->
+Richard
 
 
