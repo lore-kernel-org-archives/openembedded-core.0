@@ -1,37 +1,33 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id EA0227F8AA
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 75E6D7F94C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 13:47:53 +0000 (UTC)
-IronPort-SDR: NPFntYuiBFeFX2pumf7bvQSpHkr1Kyaf+D14GHgdI7vQSSUNxhjzcX2iWe84N9biKU3z6pmyv/
-	O96Nx+rBzuF6bz4NiTi3N0e9njbazTnYZvN03ZI6S2kzYfTUkNgzQpFGw0MeCermppsxKx5gH/
-	BUezhuxr45T2d+sChztNn/NgmzT+5xGvNd7TVP6h6QwawUbuRlrwigbUE14bR0PJQ2VInQbMj2
-	ocAAEMEk1MZQOKF9q2xIwayNofwYvxNsO4t9Oso0nymLrNx3N+WRy+vJI2YLMOeFtKR4KGm5rK
-	8jk=
-X-IronPort-AV: E=Sophos;i="5.68,320,1569276000"; 
-   d="scan'208";a="2634980"
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 12/13] systat: upstream version check is
-	working	again
-Thread-Index: AQHVnhGGdRZfjJCW+kS2QZuX/d52YaeQ8Sag
-Date: Mon, 18 Nov 2019 13:47:52 +0000
-Message-ID: <d733009e235648a1adcc2dc72f46a85d@XBOX03.axis.com>
-References: <20191118130801.21860-1-alex.kanavin@gmail.com>
-	<20191118130801.21860-12-alex.kanavin@gmail.com>
-In-Reply-To: <20191118130801.21860-12-alex.kanavin@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-Subject: Re: [PATCH 12/13] systat: upstream version check is working	again
+	Mon, 18 Nov 2019 14:04:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47GrLP2VnXzD5
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 18 Nov 2019 15:04:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1574085885;
+	bh=GaHXk+C5gX0r7kyYKRShqtxiNtY1vjVkMQALaX4p+bU=;
+	h=From:To:Subject:Date:From;
+	b=Y5jGdLUrGMCHW6jLk1T1FXK8ktgEFhHgKBPGQ6snFDceXslCHIeBJUhRlWZpsp6QU
+	3v8cwyvRWI4jgv8ieL5A7d82xwDM8NYRtlWqyBTiAragOTV1qDwbtqVRBh/FyqWY+7
+	gXOZSgJ2hXBy10iWMsRSnNdJBxLDVTpQCDfnqzBms1cfa3avd8FzUrDfV8LWtgacix
+	YXFVjU2VDpdFHvuPzaQXqULkLsspVJ54uQD3pllHv2d3j1gz6Mvk3R94WBmmwr1zp1
+	6Z2VF2Fu5e6MVbjNEjWLVCRSXBTiDvYsI6eHum0CI4sjRowWBBZRtUX/u+/NY3Extb
+	rcC1iEkXVVaCYXzabKXZOURPTOqIBjIupxcyIXllkkQ3ze7HY04+gVi8Oo7sD0woii
+	UsMC+F4yv9fEJ4lW+R/8Itq12hPUHt6CCXtWEFdjUyxFGdKyi0bpiGOxUDAM+O1ytn
+	+omzj19nI1BhyDqfuiRGXKOeOkyzSAF/dQG4+lYxeTI+EUKjeBj0gdZAYeiRvW+Rod
+	ou2UpSUnGyzI+vAVMBkKnbuk3T2zVffUZC+IBJMpzxCBLQFtLGdNX2WZ2SutS+ZEfl
+	JgzIg3zew7rVoYXzTbIt8C7MHVOgE9N5EgLzQaMes3/0LG3+jknCt3x9MpqqQfUwcN
+	7/3JFM/4lqYeIxdw0MLRdL6U=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Nov 2019 16:04:43 +0200
+Message-Id: <20191118140443.5661-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2] bind: Whitelist CVE-2019-6470
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,54 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 13:47:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 18 Nov 2019 14:04:46 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Alexander Kanavin
-> Sent: den 18 november 2019 14:08
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 12/13] systat: upstream version check is workin=
-g again
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+v2: better comment text
+---
+ meta/recipes-connectivity/bind/bind_9.11.5-P4.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-systat -> sysstat
+diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+index 3e2412dfa4..0897706346 100644
+--- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
++++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
+@@ -37,6 +37,10 @@ UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
+ # stay at 9.11 until 9.16, from 9.16 follow the ESV versions divisible by 4
+ UPSTREAM_CHECK_REGEX = "(?P<pver>9.(11|16|20|24|28)(\.\d+)+(-P\d+)*)/"
+ 
++# BIND >= 9.11.2 need dhcpd >= 4.4.0,
++# don't report it here since dhcpd is already recent enough.
++CVE_CHECK_WHITELIST += "CVE-2019-6470"
++
+ inherit autotools update-rc.d systemd useradd pkgconfig multilib_script
+ 
+ MULTILIB_SCRIPTS = "${PN}:${bindir}/bind9-config ${PN}:${bindir}/isc-config.sh"
+-- 
+2.17.1
 
-//Peter
-
->=20
-> As upstream has released a new stable version,
-> the exception is no longer needed.
->=20
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-extended/sysstat/sysstat.inc | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-
-> extended/sysstat/sysstat.inc
-> index 62de36b44bf..77cc6f2cf2a 100644
-> --- a/meta/recipes-extended/sysstat/sysstat.inc
-> +++ b/meta/recipes-extended/sysstat/sysstat.inc
-> @@ -10,7 +10,6 @@ SRC_URI =3D "http://pagesperso-
-> orange.fr/sebastien.godard/${BP}.tar.xz \
->            "
->=20
->  UPSTREAM_CHECK_URI =3D "http://sebastien.godard.pagesperso-
-> orange.fr/download.html"
-> -UPSTREAM_VERSION_UNKNOWN =3D "1"
->=20
->  DEPENDS +=3D "base-passwd"
->=20
-> --
-> 2.17.1
->=20
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
