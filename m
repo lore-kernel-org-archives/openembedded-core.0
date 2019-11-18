@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D4D37F9C6
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B02707FAAD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 14:32:09 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id f2so19749097wrs.11
+	Mon, 18 Nov 2019 14:32:10 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id e6so19781732wrw.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 06:32:10 -0800 (PST)
+	Mon, 18 Nov 2019 06:32:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=RcIz/GtZzIoD8qh7pI8Fjd/ilgzkIh2BnR2W9bVL/wg=;
-	b=XVZ3Hc9bcBL6eNRrtykCwGJHWxG6CwbPewJK96HgaQHhNI7T7dKEZvXqHBoPb7L0Mu
-	fp7wttFKBJ4ZNT+tAl0FKsE54AlUpx4ri2aXah0EVolLvajs02Yfu39HzGis2fPcKiTF
-	nT8chUv04jNQTaYgrQykK9XY1H7JqijS3SWRJEA6mJnctjs1/UYAUWNAqG6FGJMWR+Iv
-	EnzUpqSUvPGbBOD0+3zncDeaMSNamgdXRhST96mpzRAIWvTEQpoJblWq3TC7/0/qH3Bb
-	P8yBOkEyGs+GfdLjxulq1unGBODO1uM93kSUAlR7HdWYwsNtEbcSefKe9/iZzGq7fBU7
-	Ti+A==
+	bh=zed2BWW3DupylO1otunMf02UeqIzHg0Mc43uRegaq6w=;
+	b=lxQch5mL2lLn4eQdqSoWW6D2zVZ/kwdLoWdwbCNjL0tk4AyagNGwCNJzvhJSPOUBlO
+	ePPVetTpxE3NJQSWsIhBNHZ5YGMHFQ6eTG6IUzckPjp1DbgEkrQPW/eOssnoDvie/wae
+	Ue3L4/9iSdfzAO8UnZEfb/eJmF/ie8tdfpXakE+itd1gE8do4+XKNAElWJcnpLgYyUSg
+	NXHz+qZSvVgGoDNd9Ze56/etOfaL8tvGO/X8D9oPdpiqaQg165PuOIVjzfpv25XpqWGa
+	GCH0lbGwWLT+L1U4xuqp5NXNbJ1LXesK6r2TX8hIw/9CdHtm//PLaaanL6cr769JARvb
+	I1Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=RcIz/GtZzIoD8qh7pI8Fjd/ilgzkIh2BnR2W9bVL/wg=;
-	b=ZS/cRUbJ19lsPmaXb2+hXda2q6GuyLcBl0mc1hdHixy8sjl6BV8qvhR71sP3ak/5a6
-	edUP3SzduElkA/GcH6/ot2/NJU4bP1soWzj9xUiHHNE5UYOf96lSD5aU+9+2OX6ofu1z
-	Z+2FIRZHF2irHerN+ww9k3yvZtBSGcIuTgBIBf5q6A4MZTOxoDO9totUl2I4ChdF/5AZ
-	lquip3gaoG49C9s8fgZUPbic89kwzyWbfBJfWcNtSG/eJQ+7qfM7ylUzN1OnNTbTBmHd
-	r5ztXzzxC0xQ+QeKRQ1FDk0P0oIIdoV0oFifvUTMJdOkJ4IdLA2k2+yHSeaz5Uzq/Ldm
-	Q34g==
-X-Gm-Message-State: APjAAAUDxY/Zk7TayBiwcfs4LouwRUdMy8eG13wZfk7SUSdfMKFybEeS
-	UL7koMziTh6NnwBP3BbpsLKfnICa
-X-Google-Smtp-Source: APXvYqylDS9gP0CIVGK9PE869aAXH7T65ZemcY9TjUT3HXXDZyLyLoCiZfy9hRgrL/IaVjM+9cOWKA==
-X-Received: by 2002:a5d:640b:: with SMTP id z11mr29520647wru.195.1574087529853;
-	Mon, 18 Nov 2019 06:32:09 -0800 (PST)
+	bh=zed2BWW3DupylO1otunMf02UeqIzHg0Mc43uRegaq6w=;
+	b=MXBVx8Yi2c1G0ya8E0VbchZR9dgPYxegmUY9yye3miSg2MHLxNHQvU3SjEB0cB1O2B
+	luzrC1pqTywdzz6BtAtNLaB641QRnBT+gd0992h26Y45nN9G1p+2XZyWkM07HsE+iKwY
+	cRqbw2Nb6RJ2UdXYlxSCw1up7RkUHE5pQIF4bRkzdbtktDDGHcxaxCjpMtXVgDfNUYty
+	LaAl3ei3nMNb2fcXVuly81o1rvW9o6lIKw39Klj2LrsPBOGqstwlK3Ljkk2I/q/smBhv
+	MGYyPv20UZN4KoFbbixSG2ZOvRTgT8S0QTr22x4C/0j/F0xFisXDZCDRJ2o44FhHak3N
+	UtXQ==
+X-Gm-Message-State: APjAAAWe/LoHBh2UC9yOOwBJMQoCJfeVlaMOk/Rshuez2hxdfa/5YQxl
+	4saaAw2ar0keEVYOU/1NeJo3EAZb
+X-Google-Smtp-Source: APXvYqw5h9R0lnnpx4x1TOAonlVyuuE1HgNo1sZ2KLgVRvbyDNHWrABZFREEHU1dA2q+ks1OseuWkw==
+X-Received: by 2002:adf:c402:: with SMTP id v2mr4777978wrf.323.1574087531201; 
+	Mon, 18 Nov 2019 06:32:11 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	f24sm20097324wmb.37.2019.11.18.06.32.08
+	f24sm20097324wmb.37.2019.11.18.06.32.10
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 18 Nov 2019 06:32:09 -0800 (PST)
+	Mon, 18 Nov 2019 06:32:10 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2019 15:28:50 +0100
-Message-Id: <20191118142852.22981-11-alex.kanavin@gmail.com>
+Date: Mon, 18 Nov 2019 15:28:51 +0100
+Message-Id: <20191118142852.22981-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191118142852.22981-1-alex.kanavin@gmail.com>
 References: <20191118142852.22981-1-alex.kanavin@gmail.com>
-Subject: [PATCH 11/13] vala: upgrade 0.46.3 -> 0.46.4
+Subject: [PATCH 12/13] sysstat: upstream version check is working again
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 14:32:09 -0000
+X-List-Received-Date: Mon, 18 Nov 2019 14:32:11 -0000
+
+As upstream has released a new stable version,
+the exception is no longer needed.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/vala/{vala_0.46.3.bb => vala_0.46.4.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/vala/{vala_0.46.3.bb => vala_0.46.4.bb} (57%)
+ meta/recipes-extended/sysstat/sysstat.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/vala/vala_0.46.3.bb b/meta/recipes-devtools/vala/vala_0.46.4.bb
-similarity index 57%
-rename from meta/recipes-devtools/vala/vala_0.46.3.bb
-rename to meta/recipes-devtools/vala/vala_0.46.4.bb
-index eda5738c066..c4cd6dd4109 100644
---- a/meta/recipes-devtools/vala/vala_0.46.3.bb
-+++ b/meta/recipes-devtools/vala/vala_0.46.4.bb
-@@ -4,5 +4,5 @@ SRC_URI += "file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pat
-            file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
-            "
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 62de36b44bf..77cc6f2cf2a 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -10,7 +10,6 @@ SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/${BP}.tar.xz \
+           "
  
--SRC_URI[md5sum] = "809ddac69b039ef509b61993c848613f"
--SRC_URI[sha256sum] = "e29c2b1f108dc22c91bb501975a77c938aef079ca7875e1fbf41191e22cc57e3"
-+SRC_URI[md5sum] = "b79bbaf8929ec8ed35911b3571f5a248"
-+SRC_URI[sha256sum] = "4bb9b60fc0230b0db2c8a0e2a80ec29f1c10b43dc78355abba78adedbc2e03a1"
+ UPSTREAM_CHECK_URI = "http://sebastien.godard.pagesperso-orange.fr/download.html"
+-UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+ DEPENDS += "base-passwd"
+ 
 -- 
 2.17.1
 
