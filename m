@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F0507F96B
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7188C7F939
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 13:08:23 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id l17so17291382wmh.0
+	Mon, 18 Nov 2019 13:08:26 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id b18so17954228wrj.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 05:08:25 -0800 (PST)
+	Mon, 18 Nov 2019 05:08:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=JobdxVctDF/BynbmmbR18/fOpan2G6o/N1VoegFhwNQ=;
-	b=qxs9Ar+4blH4pdsmQtRwiH2dMxyKSmekyff1NfFjn5Z7El+LLsjxlPbWVpeHM5Syk/
-	PSrWeeTHuHElFIo1j1/9CFI8MAVRfkgj6OgrSzg1jTQ7KaElDQdPmaI6fdJTut4qQFZ2
-	qhoCiD5sqtGSYcWtf98ldsL+H04cLj5M1r21lOPCaoiXnJzad4McAT4/xrTlYcYhBVxm
-	OKgbAFPB6CM8VO+5JnIP5guD6b2q2hKbQ9ibsS5mYLdyaLNjIWu4m5GNkG/NlV93/eRP
-	B+q+OfiUziJCLMDk3A7vJghWVd5cXMw+P3WhOiKrJDTGT8cwctP/7mbxSMu8Dfh1iO26
-	C62g==
+	bh=Zu24RQgKVLAUPtaz1C9qLLDwbQz+ROvVc3LbaOYROBM=;
+	b=tGjDmJzqyQ9iL3hbumzCYuow4/VaALF3ix8KmBc34Wsmw3p1Dn4recp4jqTQMZauJU
+	Eg5s7R/ngtvdqcSPP0I4wEIeyJa1l8WHi3S+IkMz1l8GlsvLE4eHQujkm4jMBLHf574/
+	h6rd3hfo5oYNm5sr1qr/yx2LcuyvFKDWGXU93Q7hM7NsrdPDe8waveh8mizGYdSFe63y
+	C7j9b666odgmYU4WT5Ytx6/x6z0YT3lYjjN6vPfAfHOyCVc5W6qHLuKjG98jKDsIMPNc
+	p+dk4Sh7+fpJ03XF8r7Ea6k4CabrBgIlMOGphnikar5rx9i8KvTOLT5bKi170TRcQB53
+	0Skg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=JobdxVctDF/BynbmmbR18/fOpan2G6o/N1VoegFhwNQ=;
-	b=fLNKQn3oZHyMbZdjezjMRpKVyPwVLeQGYPB3ERvpCVbPu5Vi9+oODCl4SF0kCXlJc/
-	a4KM4HNqo0JDIztoNdSWxARW4GSQWyO+IVi4BGUHl50q/kmXepVbUHXMvZipf8llmgfm
-	3TaXca4G+NcvaE2JMyiMseEOGuj/Q68vmPe74YHu/L/UKFD+RW9cDjSD2NIox+xixYyi
-	5ef5IAdVBRR4yXzu0ybHcgEe8/VH9yJXiPXO/+60E/PiAME1qYo2tioNc8tC+MKXAmPG
-	SpOSZEHbg0T5ehSaBZzKZG18d5IUCg4kV3nT7JZIpmNhzRmpbhdCUXe6YmJpUmUX26YO
-	tuOw==
-X-Gm-Message-State: APjAAAXoqfLUZTfJ0XDR96K2lK1cps3AJtkl/wf3fzvPrSR/x4idgDJ7
-	Q3v5/9kkEcwliOKz0e/3XWTBeUjD
-X-Google-Smtp-Source: APXvYqy9OPj7XPiKiRSwhmhjZGnORl2qNaY/52RxnOkIewGpxcWt/P2hqSz7Wx7K+/H/aCxdYLUB7A==
-X-Received: by 2002:a1c:3b05:: with SMTP id i5mr29859779wma.8.1574082504568;
-	Mon, 18 Nov 2019 05:08:24 -0800 (PST)
+	bh=Zu24RQgKVLAUPtaz1C9qLLDwbQz+ROvVc3LbaOYROBM=;
+	b=rUK+e3G+yVbmM0aFonlGNVSBi0k9SB+emuw2ju+0pWJEP+8dXrKR8NI4faCu0FhGKY
+	cyuaRhdRC5pokZ3nwXjVwwG8aIoOxWvy8wXzq/5nGJLYRK4+GmDNwhRY984kKGDwlSuC
+	J87f4r3Fbbj3GX9H3hBS2THIhN94xAHsQZr/Ld9Nc7qHzwr+0WIq3M4OKPYFEE0JCZiZ
+	3G1SvRAy5DMKzyhz9Yp5LKOMYBG7dG8W/m3VccX8eiS6ixPPEob8SXapkOFP9LA48Yk+
+	osjd6AdaUCzFV4Ahcho0BFAxf3TynKwJNDlYb1Aqlj75SHkRUL91aHfO/mpIrKQLMPCI
+	TM/w==
+X-Gm-Message-State: APjAAAWY+pxWGiz6wcWqVFVDhyd6ehIFKHE4idroNB707kvESylzCRPZ
+	HJRul07rrRNViGqcKveTD/vEE8cR
+X-Google-Smtp-Source: APXvYqyFHpFCECqjg/L03Ydtv202FXRGew3Zxh4lZnXns5/Wy2UjsLyCRj4A66h/KBA3MKotNLICSg==
+X-Received: by 2002:adf:c00a:: with SMTP id z10mr29638543wre.81.1574082506870; 
+	Mon, 18 Nov 2019 05:08:26 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	z4sm21413846wmf.36.2019.11.18.05.08.22
+	z4sm21413846wmf.36.2019.11.18.05.08.24
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 18 Nov 2019 05:08:24 -0800 (PST)
+	Mon, 18 Nov 2019 05:08:26 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2019 14:07:53 +0100
-Message-Id: <20191118130801.21860-5-alex.kanavin@gmail.com>
+Date: Mon, 18 Nov 2019 14:07:54 +0100
+Message-Id: <20191118130801.21860-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191118130801.21860-1-alex.kanavin@gmail.com>
 References: <20191118130801.21860-1-alex.kanavin@gmail.com>
-Subject: [PATCH 05/13] librepo: upgrade 1.10.6 -> 1.11.0
+Subject: [PATCH 06/13] btrfs-tools: upgrade 5.3 -> 5.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 13:08:24 -0000
+X-List-Received-Date: Mon, 18 Nov 2019 13:08:26 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../librepo/{librepo_1.10.6.bb => librepo_1.11.0.bb}            | 2 +-
+ .../btrfs-tools/{btrfs-tools_5.3.bb => btrfs-tools_5.3.1.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/librepo/{librepo_1.10.6.bb => librepo_1.11.0.bb} (93%)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.3.bb => btrfs-tools_5.3.1.bb} (97%)
 
-diff --git a/meta/recipes-devtools/librepo/librepo_1.10.6.bb b/meta/recipes-devtools/librepo/librepo_1.11.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/librepo/librepo_1.10.6.bb
-rename to meta/recipes-devtools/librepo/librepo_1.11.0.bb
-index cf4de22c474..30c8a5c55d5 100644
---- a/meta/recipes-devtools/librepo/librepo_1.10.6.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.11.0.bb
-@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git \
-            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.3.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.3.1.bb
+similarity index 97%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.3.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.3.1.bb
+index 12b5c4562dc..a44c0bc87af 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.3.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.3.1.bb
+@@ -14,7 +14,7 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl"
+ DEPENDS_append_class-target = " udev"
+ RDEPENDS_${PN} = "libgcc"
+ 
+-SRCREV = "de7856cee5907938441f765ebab7cc106b7faf70"
++SRCREV = "f82e569b33c3c1cfd4f8f405085ff8d439a0a915"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
             "
- 
--SRCREV = "2ec349f1c686c1704dc83da6c118035ff57c8dea"
-+SRCREV = "497f5eb2293662835bed6bdb0f43521788b2cebe"
- 
- S = "${WORKDIR}/git"
- 
 -- 
 2.17.1
 
