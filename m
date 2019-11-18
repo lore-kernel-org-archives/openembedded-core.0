@@ -1,55 +1,41 @@
-Return-Path: <prvs=218492722=Mikko.Rapeli@bmw.de>
-Received: from esa10.bmw.c3s2.iphmx.com (esa10.bmw.c3s2.iphmx.com
-	[68.232.139.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 0254C7F8E5
+Return-Path: <hs@denx.de>
+X-Greylist: delayed 476 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 18 Nov 2019 08:59:48 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F6B57F943
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 08:59:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1574067543; x=1605603543;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=Es1pJ5V9nuInibyccXj0poLW+ibUvXU6txxyCky2cEQ=;
-	b=hZiALQxbJ/wa+6Fg/C8SBCCO7vf3CTEU2Uv9GTctI7Ac6xoTTq6bKg0q
-	jQaiMzyfiKUFxxOBZAiwMIEiaAk1b7DWYynjjcX9vJbomExUBGp7d8CFC
-	oy42w7j6JWlORDKcRdYDkMPLtLmI9+O+fasuID1QUrkaGDa8AHR8fE1i4 8=;
-IronPort-SDR: 1boY78kZT2hQw7eLo9lz7G1zjWOXR7qo0F0A+X+9WXWYGMb446VZ0LhketVvvrpieMgz7eG1Gk
-	YrlwzZUgDg3nQ4FwZeDM4g2euAnFF17tH4IKERrXlJ1WYCPBPHZ2jZUFpiUfkzvQR7Iqzg0LLX
-	iKOkFfHhid8wDx1Y9lknMpJw6TsT+sY5M0J2dxEvGuMXPnQ+HhPtWKkuykpRF4sXNPpBFcMg96
-	cOrbNndmfSDXZWUsnhz0WiYKTyqknlBhntxvHwXs+kJdkyk1y98kegw6Hhf2eCkqLvpi05p6Vq
-	K5U=
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
-	esa10.bmw.c3s2.iphmx.com with ESMTP/TLS; 18 Nov 2019 09:59:01 +0100
-Received: from esabb3.muc ([160.50.100.30])  by esagw2.muc with ESMTP/TLS;
-	18 Nov 2019 09:58:39 +0100
-Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
-	([160.48.96.46])
-	by esabb3.muc with ESMTP/TLS; 18 Nov 2019 09:58:39 +0100
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10j.europe.bmw.corp
-	(160.48.96.46) with Microsoft SMTP Server (TLS;
-	Mon, 18 Nov 2019 09:58:38 +0100
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Mon, 18 Nov 2019 09:58:38 +0100
-From: <Mikko.Rapeli@bmw.de>
-To: <alex.kanavin@gmail.com>
-Thread-Topic: [OE-core] How to add build date? (was: ... basehash value
-	changed...)
-Thread-Index: AQHVne5epjHvwC965Uu00+IegzMs8A==
-Date: Mon, 18 Nov 2019 08:58:38 +0000
-Message-ID: <20191118085838.GD3527@hiutale>
-References: <adf92df5-06d4-ea38-ad9f-55dde92148b2@linux.ibm.com>
-	<bb5c3045-8131-095a-f7bc-0ff91f36af5a@linux.ibm.com>
-	<CANNYZj8LNhF26TLHuLMPh6K40dXe8V5pgEvv8N3MAEFVy+vveg@mail.gmail.com>
-In-Reply-To: <CANNYZj8LNhF26TLHuLMPh6K40dXe8V5pgEvv8N3MAEFVy+vveg@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+	Mon, 18 Nov 2019 08:59:48 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 47GjPM728rz1qql7;
+	Mon, 18 Nov 2019 09:51:51 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 47GjPM62vCz1qqty;
+	Mon, 18 Nov 2019 09:51:51 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id s7HWB0AriXKb; Mon, 18 Nov 2019 09:51:48 +0100 (CET)
+X-Auth-Info: B3do9fd74h0hDqyFMkthFagGhTa1+lGLK5YNxVi8MAw=
+Received: from [192.168.1.106] (82-131-135-97.pool.digikabel.hu
+	[82.131.135.97])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Mon, 18 Nov 2019 09:51:48 +0100 (CET)
+To: openembedded-core@lists.openembedded.org
+References: <20190920042112.14832-1-hs@denx.de>
+	<09ae8961-2b77-b38f-374b-a1f1c9ee8d5e@denx.de>
+Reply-To: hs@denx.de
+From: Heiko Schocher <hs@denx.de>
+Message-ID: <140626d6-0890-c2e1-0425-9e7e7a1a5fc3@denx.de>
+Date: Mon, 18 Nov 2019 09:51:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org, jrey@linux.ibm.com
-Subject: Re: How to add build date? (was: ... basehash value changed...)
+In-Reply-To: <09ae8961-2b77-b38f-374b-a1f1c9ee8d5e@denx.de>
+Cc: Julius Werner <jwerner@chromium.org>
+Subject: Re: [PATCH v2] kernel.fitimage.bbclass: remove ramdisk_ctype
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,29 +48,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 08:59:01 -0000
+X-List-Received-Date: Mon, 18 Nov 2019 08:59:48 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E0FE4E48F3D3A548B3235CC26B10F554@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 17, 2019 at 10:19:32PM +0100, Alexander Kanavin wrote:
-> I'd write the date into the file at image creation, via
-> ROOTFS_POSTPROCESS_COMMAND.
->=20
-> Having it in a recipe means that you either force the recipe to not be a
-> part of sstate cache, always rebuilding it and its dependencies (bad idea=
-),
-> or accept that the date comes from a previously built cache object, which
-> means it will mismatch the actual image creation date.
+Hello all,
 
-This is the approach I use. Also, the need of build time stamp is usually n=
-ot what
-users need. They likely need the latest time stamp in meta layer commits,
-or similar. I use git submodules for them so a "git describe --tags --alway=
-s --dirty" will
-generate a unique tag and hash combination for all builds. The commit time
-can be queried with 'git log HEAD~1.. --format=3D"%cD"'.
+Am 07.10.2019 um 15:42 schrieb Heiko Schocher:
+> Hello all,
+> 
+> Am 20.09.2019 um 06:21 schrieb Heiko Schocher:
+>> set in the ramdisk node the compression property
+>> always to "none", as U-Boot nowadays since commit:
+>>
+>> b1307f884a91 ("fit: Support compression for non-kernel components (e.g. FDT)")
+>>
+>> decompress non kernel components. Setting compression
+>> to the used comression algorithm now, will end in
+>> fail of your kernel boot with the ramdisk.
+>>
+>> This issue is fixed since commit:
+>>
+>> bddd98573465 ("fit: Do not automatically decompress ramdisk images")
+>>
+>> which now prints a warning in U-Boot, instead of decompressing
+>> the ramdisk, but we should setup compression property correct.
+>>
+>> Signed-off-by: Heiko Schocher <hs@denx.de>
+>> ---
+>>
+>> Changes in v2:
+>> - resend patch to  openembedded-core@lists.openembedded.org instead
+>>    to Yocto Project <yocto@yoctoproject.org> as Ross suggested. No
+>>    changes in code.
+> 
+> gentle ping. Any comments?
 
--Mikko=
+gentle ping ...
+
+bye,
+Heiko
+
+-- 
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: +49-8142-66989-52   Fax: +49-8142-66989-80   Email: hs@denx.de
 
