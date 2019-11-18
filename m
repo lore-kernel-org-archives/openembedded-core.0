@@ -1,33 +1,17 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 858C17F8BC
+Return-Path: <mark.hatle@kernel.crashing.org>
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 054767F8BB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 17:16:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Nov 2019 09:16:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,320,1569308400"; d="scan'208";a="236998326"
-Received: from unknown (HELO blackadder.local) ([10.252.49.82])
-	by fmsmga002.fm.intel.com with ESMTP; 18 Nov 2019 09:16:39 -0800
-To: =?UTF-8?Q?Ernst_Sj=c3=b6strand?= <ernst.sjostrand@verisure.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <ea9c1aec639f2c505e8beb3faa7366ee7db4174a.camel@verisure.com>
-	<6fedce54-e7dd-71bd-dd0d-96fc542664ce@intel.com>
-	<AM0PR10MB20990993BB2A1B1EF84C7C8B944D0@AM0PR10MB2099.EURPRD10.PROD.OUTLOOK.COM>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <ae0d48cd-535e-d0de-b388-66605947cc91@intel.com>
-Date: Mon, 18 Nov 2019 17:16:39 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
-MIME-Version: 1.0
-In-Reply-To: <AM0PR10MB20990993BB2A1B1EF84C7C8B944D0@AM0PR10MB2099.EURPRD10.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH] do_image_cpio: Improve reproducibility
+	Mon, 18 Nov 2019 17:17:31 +0000 (UTC)
+Received: from lons-builder.int.hatle.net ([192.40.192.88])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id xAIHHUOY014981;
+	Mon, 18 Nov 2019 11:17:31 -0600
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 18 Nov 2019 11:17:29 -0600
+Message-Id: <20191118171730.153048-1-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 0/1] Add PREFIX and EXEC_PREFIX to gccrelocprefix section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,17 +24,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 17:16:39 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 18 Nov 2019 17:17:32 -0000
 
-On 18/11/2019 15:19, Ernst Sjöstrand wrote:
-> I see, it was created against the yocto/poky git. However I made sure it 
-> applied to openembedded-core with "git am" also.
-> If you use that it should work. I can create a new version if you want.
+I have an unusual use-case that requires me to move the location of gcc.
+As part of this, I noticed that the built-in include paths were not being
+runtime relocated, while other paths were.  It turns out this was becaue
+PREFIX/EXEC_PREFIX were being used as defined at build time, but the other
+prefixes were being used as relocated at SDK install time.
 
-This was applying to poky... maybe your mailer mangled the whitespace.
+The patch set corrects this and adds PREFIX/EXEC_PREFIX to the list.  There
+is no test case for this, as I'm not sure how we could ever test this with
+the standard OE SDKs.
 
-Ross
+The way I tested this code change was:
+
+bitbake meta-toolchain
+
+install the SDK
+
+wrap all of the executables in the HOST sysroot with:
+
+exec <LDSO> --library-path <LIBPATH>:<LIBBASEPATH> <executable> $@
+
+mv the 'installed' version else where and then build a simple hellow world
+application.
+
+Doing this before the change resulted in 'unable to find <stddef.h>', after
+the change it works as expected.  Use the '-v' to inspect what it was doing
+it was clear that runtime relocation was NOT relocating the system include
+paths before the change.
+
+Mark Hatle (1):
+  gcc-9.2: Update the relocation patch to add PREFIX/EXEC_PREFIX
+
+ ...le-sysroot-support-for-nativesdk-gcc.patch | 185 +++++++++++++++---
+ 1 file changed, 159 insertions(+), 26 deletions(-)
+
+-- 
+2.17.1
+
 
