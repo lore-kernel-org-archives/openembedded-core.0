@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A1FF7F943
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 542097F9A7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 13:08:38 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id b11so17317789wmb.5
+	Mon, 18 Nov 2019 13:08:48 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id l1so17296476wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 05:08:40 -0800 (PST)
+	Mon, 18 Nov 2019 05:08:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ScUvzlnJwlzlljehjLn8sYern5LTK+k9Eg61lV7nneE=;
-	b=J0aqhObvv848MsbX3t5aAo4i/Af6GWojwl7jSIQsZKOyXLahjNGvLurF4Pw9UfE/Uu
-	0ovS/nfivs9slLUnn1yvNmuG+lKwLfAQMPFoCGOKmNwGe/XSLPCrNmeHaglRNgo9tsGA
-	5qimDyKA1zJvj5rkEYCyQjkrxkzHURHnVjSX4hCO0aDEVTYYD1CTw4KgQnzt8gdywJOZ
-	pMR68x15BJOfRNVvqegS+Te7eL4FYDiqxJJIspaDnwz/gV9dFBdbB5LTbKqBkgIVlT5U
-	bpdEaWiqBu1FOxO31hYHnHi7q05sjO27b2tB3n4yFDzG0JLhzADW3OvmrvF+UyYfF6K1
-	bO/A==
+	bh=3rVr9G/k5x4gEBbjPjVrRHpZVZBSKrFALuqhDj07MYM=;
+	b=BGWomHPNqo7qcSpLWcCMJv4VAUtb2uK7ZoQBljcE9ZUHMZ8mPvnGohypWRfWiWPbpB
+	VWcDwFEN3BWItHTqPJBZcJYsXmZrb0UMYeA/s+r2pS6UMosqHG4fT0iGG0NophSmqaec
+	HrgJXL1JxQ/hdtjivR8mg9kDaJvBL2uJHAKwebxfQIxs/ZCf7XDlCdXnX6GSXwhQk5PH
+	C3QRSQX9TZq/4P1mFwVwHeNQndFjwShFULewokejLXV13Lwr6jBLX7dgSeT5PzwV/buR
+	Hu2E1DDKLLoAcv1JqhI8X/PBgPB/Dn5fWCMyrSSLrShXWHamv57hdxDCoFrhfDIFC7mg
+	bBEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ScUvzlnJwlzlljehjLn8sYern5LTK+k9Eg61lV7nneE=;
-	b=UJpnXO/IdbwDYKcnbLxees9LW+wi4UD1Hf29EhznBBBBxqM1zH4tfjj4vsAScqtU5A
-	YaFXnSpGsmLofFTqsU85lysMfL9OylJwLLw9kqjb+1ZzfvCIndm32kM7HX7lXNAB5u9D
-	04a9Rw9vi/4ECM0IRGllQ6tUD66WoxL/THPp05cx7xNR00KpE/Q/5EOb3vfney1XIU9g
-	l73VIxHmGrTTjO9sSQRRAqBm6wE8hdODtvjJqAnBkTgnrEsly4d/uGeiXwH/jAHf9xO2
-	xcntbIEmKd513aQJQjXNhdf3VcpRyUpKEHK0uhpTbgpdh4zBCSir+WJO8V4D7QtQzuMb
-	bvbQ==
-X-Gm-Message-State: APjAAAVOWWf1rTeBCWwDlSWhtiGksKLFkgqORcrlfVxKYl01/u11ScVS
-	mmMuiiExioDfQMR8NajvoEbxl1Xg
-X-Google-Smtp-Source: APXvYqxaA0yT5HPGpU7oCCQIM39tFk1dEZkV6Pmdkcz+0N9SrXnbRvEtVpLawRhQTvc9QTUSPUKPzw==
-X-Received: by 2002:a7b:cb4a:: with SMTP id v10mr27492221wmj.106.1574082519203;
-	Mon, 18 Nov 2019 05:08:39 -0800 (PST)
+	bh=3rVr9G/k5x4gEBbjPjVrRHpZVZBSKrFALuqhDj07MYM=;
+	b=VtoCApC7z8/mHttmVflxpi3l6FwPtnjY3+BiuwctUb8S77i8G6cFJw4FcG8CLqsSb1
+	lmpJtQvRfFv9qqYqJ8a6NlrzXyH1NSOeh4tHeFKp7z8p96dmbT4D+IeWOh009CZIDS3h
+	bY5JLBBoPD0X5zyEXMK8lwLFZXUKRA0cUsNXzX0UMjv5YYxKcHKeJfK4fJgofvayZ68p
+	gdxygCS9xfea5vND6kqHJpx64NG7Odw7l2w70pJNR/5Fce7tfpz04hZ4+spNM/Gj0HRg
+	ogEgZFxU+ttltQNnwZk4LYiOAIz90Jzw2T7UyWYiQ8nfEt/7dPnAO15jJQgGTCyF79Df
+	me3w==
+X-Gm-Message-State: APjAAAVePMc71niSKURygvN6CfExzFbKa3TNKxcNm4bP1GQo3FIa/KyH
+	eYgm9fqLi3ZG3K+d0TF0hL0OPyWR
+X-Google-Smtp-Source: APXvYqzQgHqrO4XaId0AZuDRiHB2MK2YZvO7AKLNVfrok0r6cN9Umt8YlYbfpNX0RQA2dt1r9t74xA==
+X-Received: by 2002:a1c:8055:: with SMTP id b82mr30080756wmd.176.1574082528877;
+	Mon, 18 Nov 2019 05:08:48 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	z4sm21413846wmf.36.2019.11.18.05.08.33
+	z4sm21413846wmf.36.2019.11.18.05.08.42
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 18 Nov 2019 05:08:38 -0800 (PST)
+	Mon, 18 Nov 2019 05:08:48 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 18 Nov 2019 14:07:57 +0100
-Message-Id: <20191118130801.21860-9-alex.kanavin@gmail.com>
+Date: Mon, 18 Nov 2019 14:07:58 +0100
+Message-Id: <20191118130801.21860-10-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191118130801.21860-1-alex.kanavin@gmail.com>
 References: <20191118130801.21860-1-alex.kanavin@gmail.com>
-Subject: [PATCH 09/13] Revert "devtool/standard.py: Not filtering devtool workspace for devtool finish"
+Subject: [PATCH 10/13] mpg123: upgrade 1.25.12 -> 1.25.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 18 Nov 2019 13:08:39 -0000
+X-List-Received-Date: Mon, 18 Nov 2019 13:08:48 -0000
 
-This reverts commit 41d225f4a37d02e9f79bdbfb79caac8cd3d291ce.
-
-Unfortunately this change broke 'devtool upgrade' functionality,
-causing 'devtool finish' to write out an upgraded recipe that no
-longer includes the original upstream source in SRC_URI.
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- scripts/lib/devtool/standard.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../mpg123/{mpg123_1.25.12.bb => mpg123_1.25.13.bb}           | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/mpg123/{mpg123_1.25.12.bb => mpg123_1.25.13.bb} (94%)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index 8d9c1a30225..1c0cd8ab51b 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -2021,7 +2021,7 @@ def finish(args, config, basepath, workspace):
-     remove_work=args.remove_work
-     tinfoil = setup_tinfoil(basepath=basepath, tracking=True)
-     try:
--        rd = parse_recipe(config, tinfoil, args.recipename, True, False)
-+        rd = parse_recipe(config, tinfoil, args.recipename, True)
-         if not rd:
-             return 1
+diff --git a/meta/recipes-multimedia/mpg123/mpg123_1.25.12.bb b/meta/recipes-multimedia/mpg123/mpg123_1.25.13.bb
+similarity index 94%
+rename from meta/recipes-multimedia/mpg123/mpg123_1.25.12.bb
+rename to meta/recipes-multimedia/mpg123/mpg123_1.25.13.bb
+index a18b2f44174..125574fcfc9 100644
+--- a/meta/recipes-multimedia/mpg123/mpg123_1.25.12.bb
++++ b/meta/recipes-multimedia/mpg123/mpg123_1.25.13.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1e86753638d3cf2512528b99079bc4f3"
+ 
+ SRC_URI = "https://www.mpg123.de/download/${BP}.tar.bz2 \
+            file://sdl2.patch"
+-SRC_URI[md5sum] = "ddb38254966eb38c77f220d456a1839d"
+-SRC_URI[sha256sum] = "1ffec7c9683dfb86ea9040d6a53d6ea819ecdda215df347f79def08f1fe731d1"
++SRC_URI[md5sum] = "294a6c30546504ec3d0deac2b2ea22be"
++SRC_URI[sha256sum] = "90306848359c793fd43b9906e52201df18775742dc3c81c06ab67a806509890a"
+ 
+ inherit autotools pkgconfig
  
 -- 
 2.17.1
