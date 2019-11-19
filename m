@@ -1,24 +1,30 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 82B2D7F879
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id CB8BF7D32D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 03:15:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xAJ3FN20020472
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 18 Nov 2019 19:15:23 -0800 (PST)
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 18 Nov 2019 19:15:16 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 19 Nov 2019 11:15:14 +0800
-Message-ID: <20191119031514.10105-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Tue, 19 Nov 2019 05:15:43 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.68,322,1569254400"; d="scan'208";a="78708068"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 19 Nov 2019 13:15:40 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id F08884CE14FF
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue, 19 Nov 2019 13:07:21 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Tue, 19 Nov 2019 13:15:42 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <Openembedded-core@lists.openembedded.org>
+Date: Tue, 19 Nov 2019 04:33:29 -0800
+Message-ID: <1574166809-94711-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH] multilib.bbclass: fix qa warning of kernel-devicetree
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: F08884CE14FF.A7E5D
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] dwaita-icon-theme:upgrade 3.34.0 -> 3.34.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,50 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 03:15:22 -0000
+X-List-Received-Date: Tue, 19 Nov 2019 05:15:44 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
-
-When kernel-devicetree is in RRECOMMENDS such as via variable
-MACHINE_EXTRA_RRECOMMENDS for some bsp, it shows QA warning of multilib:
-
-| WARNING: lib32-packagegroup-base-1.0-r83 do_package: QA Issue:
-| lib32-packagegroup-base package lib32-packagegroup-machine-base
-| - suspicious values 'kernel-devicetree' in RRECOMMENDS [multilib]
-
-Add kernel-devicetree to exceptions to fix the QA issue. Because there
-are already 3 kernel related criteria, simplify them by judging package
-names whether start with 'kernel-'. And also refactor to remove
-duplicate 'not'.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- meta/classes/multilib.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ .../gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch   | 2 +-
+ .../{adwaita-icon-theme_3.34.0.bb => adwaita-icon-theme_3.34.3.bb}    | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-gnome/gnome/{adwaita-icon-theme_3.34.0.bb => adwaita-icon-theme_3.34.3.bb} (92%)
 
-diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
-index 1a9295d36f..ee677da1e2 100644
---- a/meta/classes/multilib.bbclass
-+++ b/meta/classes/multilib.bbclass
-@@ -184,11 +184,12 @@ python do_package_qa_multilib() {
-         for i in values:
-             if i.startswith('virtual/'):
-                 i = i[len('virtual/'):]
--            if (not i.startswith('kernel-module')) and (not i.startswith(mlprefix)) and \
--                (not 'cross-canadian' in i) and (not i.startswith("nativesdk-")) and \
--                (not i.startswith("rtld")) and (not i.startswith('kernel-vmlinux')) \
--                and (not i.startswith("kernel-image")) and (not i.startswith("/")):
-+
-+            if (not (i.startswith(mlprefix) or i.startswith("kernel-") \
-+                    or ('cross-canadian' in i) or i.startswith("nativesdk-") \
-+                    or i.startswith("rtld") or i.startswith("/"))):
-                 candidates.append(i)
-+
-         if len(candidates) > 0:
-             msg = "%s package %s - suspicious values '%s' in %s" \
-                    % (d.getVar('PN'), pkg, ' '.join(candidates), var)
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+index a062aa6..372f144 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme/0001-Don-t-use-AC_CANONICAL_HOST.patch
+@@ -19,7 +19,7 @@ index 4a84501..52dbb8e 100644
+ +++ b/configure.ac
+ @@ -3,7 +3,6 @@ AC_PREREQ(2.53)
+  
+- AC_INIT([adwaita-icon-theme], [3.34.0],
++ AC_INIT([adwaita-icon-theme], [3.34.3],
+          [http://bugzilla.gnome.org/enter_bug.cgi?product=adwaita-icon-theme])
+ -AC_CANONICAL_HOST
+  AC_CONFIG_MACRO_DIR([m4])
+diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
+similarity index 92%
+rename from meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.0.bb
+rename to meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
+index 3f6b60f..3a2727b 100644
+--- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.0.bb
++++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.34.3.bb
+@@ -14,8 +14,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Run-installation-commands-as-shell-jobs.patch \
+            "
+ 
+-SRC_URI[md5sum] = "41b860c17efe065849b0cbf46e88811a"
+-SRC_URI[sha256sum] = "40b7e91f8263552b64d0f9beff33150291b086618ce498c71bf10035e48c7c7f"
++SRC_URI[md5sum] = "9aea4ad9bc002aacad155ee0748b357f"
++SRC_URI[sha256sum] = "e7c2d8c259125d5f35ec09522b88c8fe7ecf625224ab0811213ef0a95d90b908"
+ 
+ DEPENDS += "librsvg-native"
+ 
 -- 
-2.17.1
+2.7.4
+
+
 
 
