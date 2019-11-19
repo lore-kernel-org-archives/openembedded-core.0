@@ -1,27 +1,18 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FFD96C1C4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 10:53:05 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Nov 2019 02:53:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; d="scan'208";a="237289176"
-Received: from ppatil-mobl1.amr.corp.intel.com (HELO shodan.fritz.box)
-	([10.255.162.6])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Nov 2019 02:52:59 -0800
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2019 23:52:52 +1300
-Message-Id: <9370d34b2b6c8377b82da04c2b0777db70c74998.1574160556.git.paul.eggleton@linux.intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <cover.1574160556.git.paul.eggleton@linux.intel.com>
-References: <cover.1574160556.git.paul.eggleton@linux.intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id DFE5F7F7E9;
+	Tue, 19 Nov 2019 11:02:09 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] devtool: fix devtool upgrade with reproducible_builds class
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Date: Tue, 19 Nov 2019 11:02:11 -0000
+Message-ID: <20191119110211.2331.13858@do>
+References: <cover.1574160556.git.paul.eggleton@linux.intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1574160556.git.paul.eggleton@linux.intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZGV2dG9vbDogZml4IGRldnRvb2wgdXBncmFkZSB3aXRoIHJlcHJvZHVjaWJsZV9idWlsZHMgY2xhc3M=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,82 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 10:53:05 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 19 Nov 2019 11:02:10 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-If the reproducible_build class is inherited then there may be a
-"source-date-epoch" subdirectory in a fetched source tree; devtool
-upgrade was not expecting that in the upgraded source. Take a small
-snippet of code from recipetool create which already handles this,
-and make it a shared function that can be used in both places.
+== Series Details ==
 
-Additionally, fix an assumption that the source is always in a
-subdirectory in the cleanup code that blocked debugging this.
+Series: devtool: fix devtool upgrade with reproducible_builds class
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/21212/
+State : failure
 
-Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at dfb3b56641)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- scripts/lib/devtool/upgrade.py   |  5 +++--
- scripts/lib/recipetool/create.py |  4 +---
- scripts/lib/scriptutils.py       | 10 ++++++++++
- 3 files changed, 14 insertions(+), 5 deletions(-)
-
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.py
-index 18c5b66a29..cb6dce378a 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -32,7 +32,7 @@ def _run(cmd, cwd=''):
- 
- def _get_srctree(tmpdir):
-     srctree = tmpdir
--    dirs = os.listdir(tmpdir)
-+    dirs = scriptutils.filter_src_subdirs(tmpdir)
-     if len(dirs) == 1:
-         srctree = os.path.join(tmpdir, dirs[0])
-     return srctree
-@@ -281,7 +281,8 @@ def _extract_new_source(newpv, srctree, no_patch, srcrev, srcbranch, branch, kee
-             logger.info('Preserving temporary directory %s' % tmpsrctree)
-         else:
-             shutil.rmtree(tmpsrctree)
--            shutil.rmtree(tmpdir)
-+            if tmpdir != tmpsrctree:
-+                shutil.rmtree(tmpdir)
- 
-     return (rev, md5, sha256, srcbranch, srcsubdir_rel)
- 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index b5c9f78843..4c4bbadb4c 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -495,9 +495,7 @@ def create_recipe(args):
-         if ftmpdir and args.keep_temp:
-             logger.info('Fetch temp directory is %s' % ftmpdir)
- 
--        dirlist = os.listdir(srctree)
--        filterout = ['git.indirectionsymlink', 'source-date-epoch']
--        dirlist = [x for x in dirlist if x not in filterout]
-+        dirlist = scriptutils.filter_src_subdirs(srctree)
-         logger.debug('Directory listing (excluding filtered out):\n  %s' % '\n  '.join(dirlist))
-         if len(dirlist) == 1:
-             singleitem = os.path.join(srctree, dirlist[0])
-diff --git a/scripts/lib/scriptutils.py b/scripts/lib/scriptutils.py
-index c573dc7f67..45bdaf5f4e 100644
---- a/scripts/lib/scriptutils.py
-+++ b/scripts/lib/scriptutils.py
-@@ -268,3 +268,13 @@ def is_src_url(param):
-     elif param.startswith('git@') or ('@' in param and param.endswith('.git')):
-         return True
-     return False
-+
-+def filter_src_subdirs(pth):
-+    """
-+    Filter out subdirectories of initial unpacked source trees that we do not care about.
-+    Used by devtool and recipetool.
-+    """
-+    dirlist = os.listdir(pth)
-+    filterout = ['git.indirectionsymlink', 'source-date-epoch']
-+    dirlist = [x for x in dirlist if x not in filterout]
-+    return dirlist
--- 
-2.20.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
