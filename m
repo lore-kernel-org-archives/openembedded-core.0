@@ -1,58 +1,57 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com
-	[209.85.219.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D4EE60685
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 731D27CE22
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 21:54:41 +0000 (UTC)
-Received: by mail-qv1-f68.google.com with SMTP id s18so8864860qvr.4
+	Tue, 19 Nov 2019 22:44:39 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id r2so20121616iot.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 13:54:42 -0800 (PST)
+	Tue, 19 Nov 2019 14:44:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=8mmaBmowegRCpro9/YL83X9AqDRDIJZsFTp9NxC3ioI=;
-	b=h9e0OdZRGlQua6twFugQxiDfVqipOLHX0vmmzMfczZZVFMkPxGn9IWUl38U/gzCkp2
-	Q9u++67JRLS8lFBChihalXpz0Dpfbmn65hOxbK0bXze1xKkSFREk8GhPaOf6CkLZrqIK
-	7Pxk6+XX4VtPFNj2uMNQ4sRz5fGd59hD/gJ3SKUULj95zbu7H6qtDfpwE0MUHiqn477v
-	z2fo4IhJlNhHIo405Y2G6DoeWIAnADOiSWD+XFEI2IMVD4uA92G3Eo2bjOQbaZt4Wkg4
-	VirKjfl79Bu4454+agrNgSfoCpJtPevran0K/g7vwOfmA18cBmomyOZtE/PTdbWLUGD6
-	2bjA==
+	bh=oPEP4bqYAUO/2UaB4UcuNA46wKTOa92CMUYbt6z9sIE=;
+	b=EYl5Qf8WZkMZ+SfPruQAkYbduFGFaK4u2hDqFCcA63T5Zf1BS/FeoQiyGSTId2Bd+h
+	1tDHZsWUmVwwXXndgn0aF1GMFwiBGdsABebb0ozV7AbzVePtI3YxJrHCtFJPmqoaHzSV
+	1qA3Dp5ylb1PXKXc9xeZHagfI0m06i6W1FmsxAC/lu411uDLafAhVR/kukznYX8dp/o0
+	vH+vl+ZnueDdJb3Q13tcu7lGXS6OVlxSbQ7syFuTwX67lDQXfaP6S4fvs0twG0QEK8cY
+	Fb7qEdbYYWv2EVCt43EiiNjF5usxJqdsQGQNurWQCDnVWBo1fJSugln7W2MGfXS+32CV
+	/rZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=8mmaBmowegRCpro9/YL83X9AqDRDIJZsFTp9NxC3ioI=;
-	b=JkY8FtUgjVGwopbSzRDkiX4ROiofUzaZuBEH/Mm3ij0zccpfT6khUgQo8UkSWjebmd
-	8JifDTQqFO3kH8h+Z7WtZvxWF+kHFUD93HIsvh2FMfdrq1En9bHfv1xUMBBSUxBJgnQi
-	Q4I49SLSEYi/eeyEHhvb5We0J9A4MFiw7krIZFuuEkXUMqDsf6Y2mD/vLgrKtb0IDIQz
-	CuZ8D15/qBMGvg7/U1xhdaLFboRN5Pyqqlq19FpYnGKxbelQH6R07SdNysUXp7sStZ7Z
-	Gu9UQ7i16MTPBiNk9bpy5VAy/08VaY3/1Qjy8/688RmJEL/tgS3Js2a8saz/oCq82l1n
-	yj1A==
-X-Gm-Message-State: APjAAAXvDkFGdFdVEqHYaomS7E1+Hfzsq2haAeMOcy0d4OBvhbQCT51a
-	q0zgve7b1aQrwkMuwk3CE69VK3ya9QDdCjnBf/c=
-X-Google-Smtp-Source: APXvYqzqlOWMJMyoH7tmn7IlVzULcGgXz7rRO+0xDJG/yFYtCiRxoNg4+u3Svoi9/NKCPE2++VFRfKAWb4K7KbU7nGE=
-X-Received: by 2002:a0c:fe69:: with SMTP id b9mr1738528qvv.206.1574200481881; 
-	Tue, 19 Nov 2019 13:54:41 -0800 (PST)
+	bh=oPEP4bqYAUO/2UaB4UcuNA46wKTOa92CMUYbt6z9sIE=;
+	b=f+FBABaoNhofRaF1M6bSSuG8Dh/43RZ9Vxo6rUqbfdEU+cJthwD3icEuuSRnXHlYw/
+	7OHrtJt8Hn4BIQdbkxPoGSM+ywyIk7vhlP+75vUNyTwlL/vbADqp11fwq6TBQbQCDJ/4
+	U+huDgKbr5gKxQBnEHfVejtWawmNHD1sefu9/XoPOsRnZ6jiM+z1OjfP7XYfeIMzCqX1
+	LE25CoD5OV28vuDvibKP+DSfHo8A887PffeN/hZ5lacGpuHGrJy8rvkbcJzTV68uRiFT
+	V/4HO8PyVqEjWPqqaiWOFhOYKZwYvGPf3bf5nRY8BAz+sko8avyeMxh3WVDTAIww7BQL
+	Lf3A==
+X-Gm-Message-State: APjAAAWX3Vzu0a9YH4BaTfidmv8wvR96I6UjPNxEqYbilyWaVZfv4nUK
+	nD4SDdY+QSrkLpASV6lG2PAJPPMwnh3HRrom5Mg=
+X-Google-Smtp-Source: APXvYqxt+io0g4DkUudAjDLWqaj71vuFCQbLBCGeOqmjiWVtlMUVopz4y4dUg0IzUg2Rc7mF5S0nwVW7zAA2hYLEK+4=
+X-Received: by 2002:a6b:400d:: with SMTP id k13mr20663722ioa.299.1574203480246;
+	Tue, 19 Nov 2019 14:44:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20191118142852.22981-1-alex.kanavin@gmail.com>
-	<20191118142852.22981-13-alex.kanavin@gmail.com>
-	<CAMKF1srtYneT81UKC0Lcn4U_DgWiWb3Xm11mXL+2i3+yvCE5qg@mail.gmail.com>
-	<CANNYZj9rV_qvPV0j7oPwAUw7MCEeVj1NOYXSVGfj_k9w_yEPdQ@mail.gmail.com>
-	<CAMKF1spKz9eE6DjDmqHUC_ak0joX4jwrzAVFwDdmKdUtyBVaWA@mail.gmail.com>
-	<CANNYZj8A3DhhjHWvL0yQf8JyhSBWmECgJetB1+QeqFPR-4=ZZw@mail.gmail.com>
-	<CAMKF1spOt5nU0_VmHpz5FqF3f50x-KrpvkL+wduM1H+CJhGzjQ@mail.gmail.com>
-	<CANNYZj-g4E=bRw7=m+RG0vZQywD5KdiaLCr=8JDjaBAgjJ5wrw@mail.gmail.com>
-	<709581ab-081f-432d-8631-caac81d40a60@Spark>
-	<CANNYZj-q73f8hbQbn1wxqjrNhJbvsoefqQyqJtGqLoxrA_2b9Q@mail.gmail.com>
-	<CAMKF1spdQG3aXgy3yGUYA0u3adnkAv3BcrEe6PJhCfY-xr59fA@mail.gmail.com>
-In-Reply-To: <CAMKF1spdQG3aXgy3yGUYA0u3adnkAv3BcrEe6PJhCfY-xr59fA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Nov 2019 13:54:15 -0800
-Message-ID: <CAMKF1soG-p126RUfy1NJ5FvL-W7O8iAyjwJgtnEKYEOVKJDRVQ@mail.gmail.com>
+References: <20191118130801.21860-1-alex.kanavin@gmail.com>
+	<CAMKF1sp5SWYgoOj7Ujy5GMEEcuuATkuD45q7k7+LSc2SSkTVNg@mail.gmail.com>
+	<20191118210500.GA4741@localhost>
+	<CAMKF1spsipv7AbxJfmwHMU5dPtPDm-8VBxeQGWhEGUxJFG4WUw@mail.gmail.com>
+	<20191118220613.GA7568@localhost>
+	<CAMKF1sq3hnUuM7rcCbEhfbTmUtGbpMVVZkq8mFo24FKGG=kFYA@mail.gmail.com>
+	<20191118225500.GB7568@localhost>
+	<CAMKF1squJq7mLJJBhf_+EQbBTHb1c8R1g449e6Uo2v=MtNk2XQ@mail.gmail.com>
+	<CANx9H-D0Bve0QUDd3pERWV7xOvTfjro5+=FuaAJUxYz+tp3X5w@mail.gmail.com>
+	<CANNYZj_2+0+6Suq0Gu74t+QDhx3mdb6FZsr2mwy8WhtNk493ug@mail.gmail.com>
+In-Reply-To: <CANNYZj_2+0+6Suq0Gu74t+QDhx3mdb6FZsr2mwy8WhtNk493ug@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Tue, 19 Nov 2019 23:44:28 +0100
+Message-ID: <CALbNGRQ=kTRE_g0n-2Xx9qMKSbh4rWX+pRY_mqaegApUf_+jNA@mail.gmail.com>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/13] man-pages: correct the SRC_URI
+	<openembedded-core@lists.openembedded.org>, Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH 01/13] python: update to 2.7.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,59 +64,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 21:54:41 -0000
+X-List-Received-Date: Tue, 19 Nov 2019 22:44:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-please update manpages to latest (5.04) that will justify moving to
-new location for SRC_URI
+On Tue, Nov 19, 2019 at 12:31 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> On Tue, 19 Nov 2019 at 08:58, Tim Orling <ticotimo@gmail.com> wrote:
+>>
+>>
+>> I have the beginnings of scripts to generate a meta-python2 layer. Someo=
+ne with a vested interest in keeping python2 supported will need to step up=
+ to maintain it. After bitbake and Oe-core moved to python3, my use of pyth=
+on2 has gone to near zero.
+>>
+>> I intend to move all python2 recipes from meta-python to the new layer. =
+meta-python will become python3 only in 3.1 release timeframe. The bb files=
+ and inc files will also be merged, simplifying AUH and devtool usage.
+>>
+>> Attempts to send python2 patches to meta-python after that shift will be=
+ nacked.
+>
+>
+> Thanks! There is however a missing part: how close is meta-oe to being py=
+2-free? Oe-core is very close (u-boot is the last holdout as noted), but I =
+am not sure that we can simply take out py2, and not have half of meta-oe f=
+ail. For instance (random example) mozjs, a fairly important component, sti=
+ll pulls it in, together with a few 3rd party libraries: https://git.openem=
+bedded.org/meta-openembedded/tree/meta-oe/recipes-extended/mozjs/mozjs_60.5=
+.2.bb
+Will take care on mozjs and interrupt my gnome crusade till its done.
+Tried that months ago and used firefox-esr sources because there the
+transition to python3-build is marked as working.
 
+Unfortunately I did not succeed. Started that they rely on VERY old
+version of parts of autotools - think it was automake. Need/like
+polkit although I will never understand why a privileged process uses
+javascipt for configuration files...
 
-On Tue, Nov 19, 2019 at 10:21 AM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Tue, Nov 19, 2019 at 10:14 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > I never said they are modifying files in place, I think you misundersto=
-od me somehow. 'Archive' in this discussion is a folder on a server with ta=
-rballs, not a tarball.
-> >
-> > Maybe it's easier if I provide clickable links:
-> > https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/
-> > https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/Archive/
-> >
->
-> I see that they are still carrying a release from 2013 in
-> https://mirrors.edge.kernel.org/pub/linux/docs/man-pages/, I am hoping
-> that they do keep the tarballs in this location for long enough. So
-> it might not be such a bad thing to move to using it, I was thinking
-> the cycle is smaller
->
-> > Alex
-> >
-> > On Tue, 19 Nov 2019 at 19:08, Christopher Larson <kergoth@gmail.com> wr=
-ote:
-> >>
-> >> The whole point of having PV in the filename is ensuring it won=E2=80=
-=99t change out from under us. If they=E2=80=99re modifying files in place =
-that=E2=80=99s going to cause us headaches whether we pull from archive or =
-not due to checksum changes.
-> >> On Nov 19, 2019, 9:46 AM -0700, Alexander Kanavin <alex.kanavin@gmail.=
-com>, wrote:
-> >>
-> >> On Tue, 19 Nov 2019 at 17:38, Khem Raj <raj.khem@gmail.com> wrote:
-> >>>
-> >>>
-> >>> If I was asking you to store the tarball some place in arctic then I =
-would understand your concern but in this case I am not able to. can you de=
-scribe why using archive location is not suitable here perhaps that will he=
-lp me
-> >>
-> >>
-> >> The archive location is missing several latest releases of man-pages, =
-which are only available from the main location. Which means that we always=
- ship an out of date version of manpages, and aren't aware (via version che=
-ck tooling) that later versions exist.
-> >>
-> >> Alex
+Cheers
+
+Andreas
 
