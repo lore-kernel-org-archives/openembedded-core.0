@@ -1,51 +1,51 @@
 Return-Path: <nick83ola@gmail.com>
 Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
 	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1708D7F7B4
+	by mail.openembedded.org (Postfix) with ESMTP id E325D7F7AA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 14:54:28 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id a15so24186655wrf.9
+	Tue, 19 Nov 2019 14:57:10 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id t1so24202835wrv.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 06:54:29 -0800 (PST)
+	Tue, 19 Nov 2019 06:57:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=5mi/BWD7E3MS3mqXkftWVl81V2sZr8CYQmrUbptsHb0=;
-	b=jKpJ3FP4LoSbloJga9gM1pXk6mxEw0+NKA24v1lNk6/x/+vP2WPfoUlPM9WBcwXqap
-	dRTKUKf+ErIGG1yMcW+oyz86N2LV1xvA54RTfkuahgGG1vjfn42UoXNgeUHrC1MJA/J/
-	cERyM2zS1cNkj0ZMxNWJAubFphvOX0qz9zxyBfHMJ6tSXeFXe8ge7sPap97BET97yT38
-	fUrUXpymgq1+B6UDAM5oRjxEoVxKgM7amKuRzE4y6eySyNFd16XM6daq9WiNp/s7kBIk
-	QM4pMeh/0fKTE6WFZWxrx+Y/LNh+hXiCP5dCsAlQy79GB94BAAnmR1xeHvJ4XbWPFj2p
-	yxtg==
+	bh=7vHYntOiO6XC61sMK8Dlq4wM6baiaenXKeqegVTrsIo=;
+	b=TqydfC9zFoox9yxmyadZ6oY16sMMrV40sh9YYjuUkjXnpdWdNadQ4QgDZhCYL8a2Kg
+	PFFoENfUF+8RnjkxWiWo6a6Ou1K+8Gx0d0wGALzq7qz3GJPnoJLov0JCrL/WMrcc3Wl5
+	Khf+sWxF2Yoq2TSrW3aH258SITYjgOKHGxVuEk8FaC9lNqy89es9xTVyH5afdt9pL6gG
+	S0JiPdvIvLwzrbbgMIuy+Zs+k0/bERMb4DXWllOcsQWFNIBc7yhQkHkCMbCgrvM2+V82
+	OWGQqaN/TA6rdr+HX7eVBCyQKL3OSsNC87jTk7532hKxMTSQAHbodFSPSm7NDKYAqRbT
+	p2Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=5mi/BWD7E3MS3mqXkftWVl81V2sZr8CYQmrUbptsHb0=;
-	b=ciaSxv4xVU6IjFk5q912/93D0PsEutyUGKF4Abf7f57mZjn2/PVl0PUh3TkyFocs+t
-	+BPTnIa8+/mujwdFViHpYH4Au2phWB5OQEJnD/8h8xGIRz7XkPyTul9RhlRhtvwwk7F9
-	2N67DNgD47cJMC5gb+RxsXnUTAI1UkQc0z7ItOCdfF8nh+NLezqul/7Z/adPGUPrQo6+
-	2isLctZfx+H46SpBeeFiFSu7Wh3CsLNdOUvs0RBNmSVB9FvC3o2ZQwvSc43eBDxFUFCP
-	bpk9ILrE3SSNWZlD+PSu3aAqwa+TXm3M8uURww2avHkKjIVt0IPSqIoCoXjoFR824/n8
-	IPaQ==
-X-Gm-Message-State: APjAAAVqqVqNxBQmZc31CRAchJqKvUlzQzR3Afxt5uiUQbR0Kj0hYwRl
-	Oe0qpT45fKO23dGaqUxmbhenl7B5f90=
-X-Google-Smtp-Source: APXvYqz5JzQfyPwU+llKD6LNIzriFH0/FeljpbR4nDYCxy3BLS/XnOrI6x4Fekn0kAOtsoSCM63CGA==
-X-Received: by 2002:adf:ab41:: with SMTP id r1mr40127318wrc.281.1574175268262; 
-	Tue, 19 Nov 2019 06:54:28 -0800 (PST)
+	bh=7vHYntOiO6XC61sMK8Dlq4wM6baiaenXKeqegVTrsIo=;
+	b=cwBUn63gJofgJ6tOwhlzm8l4nQGD89vhq9BT/tDJVY5elvPqmVUS60J7z0Xfs8ZLQm
+	eRnkTFXrUlZrjklZOkJ0VICUZy4PQUFde+IF0BqjEarQG0BD2Lao+rquJoCgN3P0hO4Z
+	Jc3UKUe5BZaPFXXY4uI8My8M/fvJ5W7g+dy+E9h7uTuijS6PA8y6l2g2GnAK/0/K8qXf
+	Cq3sldIJf5T5fjP71GyKOkx+uYLCwiUxBUNv/amYQx3YVUu4d+BFYhImTJyYwZNAtIM2
+	fxiMkGJ4VYfJYVx8LBvzpQfyvFTgIUS8iM1s2pbHXdFELxSVr7bdZswAzLsx/HO8sCh7
+	vILw==
+X-Gm-Message-State: APjAAAV4/RGJyH962GW1dq3lQ1rYgWx7WR8Ko7pqkOkJqoK4vzwsVzUY
+	r5Qo2KZ//7tTbVqDcgYbIwe910oysK0=
+X-Google-Smtp-Source: APXvYqzPbkdm6KTRTlIIoWxTMIzU7U6AJOIDtI4dPDXX+hmRzETzGuNFa0qxymyyOnz5UA+4hORbFQ==
+X-Received: by 2002:adf:c449:: with SMTP id a9mr26652490wrg.240.1574175431192; 
+	Tue, 19 Nov 2019 06:57:11 -0800 (PST)
 Received: from nick-bbestie.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	189sm3570687wme.28.2019.11.19.06.54.27
+	n65sm3473508wmf.28.2019.11.19.06.57.10
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 19 Nov 2019 06:54:27 -0800 (PST)
+	Tue, 19 Nov 2019 06:57:10 -0800 (PST)
 From: Nicola Lunghi <nick83ola@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2019 14:53:50 +0000
-Message-Id: <20191119145349.35919-1-nick83ola@gmail.com>
+Date: Tue, 19 Nov 2019 14:56:52 +0000
+Message-Id: <20191119145651.36394-1-nick83ola@gmail.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Cc: Nicola Lunghi <nicola.lunghi@jci.com>
-Subject: [PATCH] python3: add python3-misc-native to RPROVIDES
+Subject: [PATCH v2] python3: add python3-misc-native to RPROVIDES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,10 +58,8 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 14:54:28 -0000
+X-List-Received-Date: Tue, 19 Nov 2019 14:57:11 -0000
 Content-Transfer-Encoding: 8bit
-
-From: Nicola Lunghi <nicola.lunghi@jci.com>
 
 The package python3-misc is not in the manifest file
 so it needs to be added explicitely to RPROVIDES_class-native.
