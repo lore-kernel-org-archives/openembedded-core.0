@@ -1,50 +1,51 @@
-Return-Path: <nick83ola@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5988A7F83B
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 643E07F7F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 16:11:50 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id l7so24531625wrp.6
+	Tue, 19 Nov 2019 16:19:03 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id r9so20170382ilq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 08:11:51 -0800 (PST)
+	Tue, 19 Nov 2019 08:19:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9tUMMZQtw9NWI22gfLQi1giZg6Nxt84AUhY2fq/2Sc8=;
-	b=YNnREhae97QmdEbd/IGLpnCUVawXArdFJnzvm1S2KW27nMgNKSY+XEi1MwhSov2X50
-	RDpfTy8xAlUuNRJcR1JChUteVAqvdZ48dNN2sE8noSsND1kKafMV/ftU5z2h4qdFIPGB
-	IELV9WT3BqOyHl5uCSmQCjxUaRbMn/BJpW1GjeE/+6vP7yLz+eLCWz0lYR6tpB//KPHY
-	g2ZTbAAkJeW+TGgeNGpborqTkKDwjiMPRamPO0Jq+eBQa18lnjU75Ns8AOES60Y3LVjF
-	FBh2zPpP+bYbu2eD+iYyC5aSPlW0Eu0nSAKsmji+9ikgMXT3TMxwjMgYuO3u0W0hBov7
-	T5FA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=eue9yLGB5l0IYlSShH1poswE77N6xXgv/HnV2yBkElo=;
+	b=J6MmId1mCIv9H6xjWYsHS5KkG/0c9apIqis3tPeVC7TFK7C7T8AHNifjr00jk35VRF
+	kLUcdBEizWmyOmPe+t3ClrQQS5XgoIzGJHbWJmXkn4iOxyFxrsCW9BA/FyUQx8wgKvVU
+	g7y/0ErCSp3eTasOfpgBYw/FgBGTqvsF35vd/x2KJWCiz04Zmes+8B7Vg+YPtc1sAsKh
+	i57fkKRL7KZ+gpk8nB38txTQkE0lZdW76wsRgwOi4+hB1SNE7fiRVlbMghMioRZ8MNTp
+	6Xi5uLXny9sfa/0p+0J0kLEbypQerm325nNu7j2Yt0WwE4eDQvpyK7zInT9ZUyo1oZ7t
+	Z7sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9tUMMZQtw9NWI22gfLQi1giZg6Nxt84AUhY2fq/2Sc8=;
-	b=SrZssYcwWYiLe3UuXnpmFGQNUgcescNyii10MgO0dLYxq3/k/+0PX1dqRu98uH0HVr
-	rnNqvdbbwrCZmpVKe6+9Ht9CCKKMDnczXTKdfL1/J8ZcvNXs7Ze1S3go7LDIj166hSVK
-	DFt3xV9uNxE83vAVHy3xFcrxJry78msVht5C1WppXXBZq+0pcyGFdbOpIihut5EWwAa+
-	n0cvvywHja8IJMQGQ7kWf8IYDMmT5F3Cs09SiLlkwc08gkVHvOAVyla4zUR3PwetLKgd
-	HCFr11oBx4mzsflFNmyyLHCqMQLeDcM/JzOojwR2VIUe2Z1yTKVIPVjAaNAsZ71YKIPL
-	P0jQ==
-X-Gm-Message-State: APjAAAUhqUpqbshudKUpvTwPRmxsNfY3ozgJCf5uDQVzZwip/c+f8H+w
-	v7RHZBoyIiL4mHVDb51BN7aVyw8QJ2Q=
-X-Google-Smtp-Source: APXvYqy3gUW7Xei2mx8aeWDDPF4SHfN9nFly/kCp1tg74VvDmYMLEtwzSZwHhcFzx6eXki+RfBh7xQ==
-X-Received: by 2002:a5d:458d:: with SMTP id p13mr38004433wrq.181.1574179910676;
-	Tue, 19 Nov 2019 08:11:50 -0800 (PST)
-Received: from nick-bbestie.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	z14sm27127315wrl.60.2019.11.19.08.11.49
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 19 Nov 2019 08:11:50 -0800 (PST)
-From: Nicola Lunghi <nick83ola@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2019 16:11:12 +0000
-Message-Id: <20191119161111.6539-1-nick83ola@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=eue9yLGB5l0IYlSShH1poswE77N6xXgv/HnV2yBkElo=;
+	b=dp3Qqe0dEQA73ByE+QgLtH+qB9OyiKw4jpmFgMdDpvE6ySkzKKAHrDqplLKkXkk5qW
+	NeVqPXxCbrR1/+ByPrbsQKoBCvmfD6p7WYnEbGkhNnxKC7OwcbxAZ+JMBSFviiiuGEZY
+	DQVnesQOZsiVm8fYJsrHDiVoDy94yg0gnyasxL+g7/bIeJWv133veLr0r2NIH0a1rXdo
+	gMsZMH8vtpEXm+6JeARC7zmHv//fcERsXo6+ODmBlYnJ60w6ebNVr+oNjXnwqCxW/Ll/
+	1zlfzPuDmwGCvGNpGd5VZix+m/rVCxjlIrRYv/1OEIp3QUfxbgcz/zkD7QxGkz+A5cUe
+	V+Ww==
+X-Gm-Message-State: APjAAAVhX8q4wek/14M9vPj8lDshVLU+wjE5K3Y4YiW1E/i+qWzcJp83
+	8sA0OFpYCa+uScXAgrDrSw/ImzygXEJRzk/SJp8=
+X-Google-Smtp-Source: APXvYqw9aWHoh/0ppUMG/D2X3nvZ31S2xJpr/Ohq3TGpHzIf+hELEoDmeWfGTmY4CKC6gVjKRSSytnLjlbzvH+u1Jv0=
+X-Received: by 2002:a92:4944:: with SMTP id w65mr24632036ila.102.1574180344318;
+	Tue, 19 Nov 2019 08:19:04 -0800 (PST)
 MIME-Version: 1.0
-Subject: [meta-python][PATCH] python3-importlib-metadata: revert RDEPEND python3-misc only for target and nativesdk"
+References: <20191108091419.25156-1-stefan@agner.ch>
+	<7e0b2e1cc9931c92c2bcdcf5ef1f6f75@agner.ch>
+	<4b4629ef84240f6d5e7da1363d88ebe15f4ab049.camel@linuxfoundation.org>
+	<92892787582baf91d2de15279d6e60ac@agner.ch>
+In-Reply-To: <92892787582baf91d2de15279d6e60ac@agner.ch>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 19 Nov 2019 16:18:53 +0000
+Message-ID: <CAO5Uq5Qo9dn52iwc43NVrH2SPp65eKqddNhYu9Mm4RoGQRd+pg@mail.gmail.com>
+To: Stefan Agner <stefan@agner.ch>
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 1/2] zstd: move recipe to oe-core from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,46 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 16:11:50 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 19 Nov 2019 16:19:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This commit: fcda3fb1a3fbfac075325482074898dfb7138da7
-  python3-importlib-metadata: RDEPEND python3-misc only for target and nativesdk
+On Mon, Nov 18, 2019 at 6:39 PM Stefan Agner <stefan@agner.ch> wrote:
+>
+> [adding Alex, he maintained the recipe in meta-oe so far]
+>
+> On 2019-11-18 13:19, Richard Purdie wrote:
+> > On Thu, 2019-11-14 at 15:47 +0100, Stefan Agner wrote:
+> >> On 2019-11-08 10:14, Stefan Agner wrote:
+> >> > From: Stefan Agner <stefan.agner@toradex.com>
+> >> >
+> >> > Zstd is a very fast compression algorithm and has gained quite some
+> >> > popularity recently. An upcoming patch allows to compress rootfs
+> >> > using Zstd. Moving Zstd to oe-core allows this new conversion
+> >> > formats
+> >> > to be automatically tested by the oe-selftest
+> >> > imagefeatures.ImageFeatures.test_image_fstypes test.
+> >> >
+> >> > Furthermore there are three packages in oe-core which allow to
+> >> > enable
+> >> > Zstd support through packageconfig currently.
+> >>
+> >> Any update/thoughts on this?
+> >
+> > I've not made a final decision on whether to merge it fails selftests
+> > due to a lack of a maintainer:
+>
+> Alex, would you be OK with you listed as maintainer?
+>
 
-Was actually mascherading an error in the python3 recipe
-(missing RPROVIDES for python3-misc-native) that has been fixed in commit
+I'm fine with that - it's very low overhead.
 
-python3: add python3-misc-native to RPROVIDES
-
-in oe-core.
-
-Revert it to restore the previous state of the recipe.
-
-(also this commit was introducing an error:
-  += with class target was overriding the RDEPENDS for every target instead
-  of appending to it. the right patch would have been:
-
-  RDEPENDS_${PN}_append_class-target = " python3-misc"
-  RDEPENDS_${PN}_append_class-nativesdk = " python3-misc"
-)
-
-Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
----
- .../recipes-devtools/python/python3-importlib-metadata_0.23.bb | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/meta-python/recipes-devtools/python/python3-importlib-metadata_0.23.bb b/meta-python/recipes-devtools/python/python3-importlib-metadata_0.23.bb
-index 851d703c9..4c53d5fbb 100644
---- a/meta-python/recipes-devtools/python/python3-importlib-metadata_0.23.bb
-+++ b/meta-python/recipes-devtools/python/python3-importlib-metadata_0.23.bb
-@@ -1,5 +1,4 @@
- inherit pypi setuptools3
- require python-importlib-metadata.inc
- 
--RDEPENDS_${PN}_class-target += "python3-misc"
--RDEPENDS_${PN}_class-nativesdk += "python3-misc"
-+RDEPENDS_${PN} += "python3-misc"
 -- 
-2.20.1
-
+Alex Kiernan
 
