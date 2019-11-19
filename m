@@ -1,50 +1,54 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
-	[209.85.217.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EFCF37F638
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FCAB7F7CF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 11:24:21 +0000 (UTC)
-Received: by mail-vs1-f67.google.com with SMTP id y23so13943432vso.1
+	Tue, 19 Nov 2019 11:30:51 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id a143so13916519vsd.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 03:24:23 -0800 (PST)
+	Tue, 19 Nov 2019 03:30:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hnlTtVE2SnT0fMSXX103xuo2tIUnBlanmP+KsTENc1g=;
-	b=vIDh5Az6xyvZeeKy8bvVuNQAofYgPK9zBeXSJeHAVCKqGep4Bw+GGkxZ55mIp9oB8b
-	aJayp+AQYQmpbxnSLG+vCEjobSbOH3+7tFzuPDK2JD5bXb+NDfIV3W+6ub/QZyMQk2+j
-	nufg+CV3J2ey3P2JfLddvGibwGvjrYPzAyE7d8SvGEnQ8jfgphnQXDLwdmdKm1mAYTY1
-	AMlG4AD592CARbc/BOL+F8tzgM2fT6iHwbnPN1cXuhy4vF1oCN4i1bjMDrei4o2hqKMn
-	zOgxuh4RKi387pxIgequPk77Au4gebeFFMmGJoGDbC3el4QgB1TGgQtciqfVxuWnomMB
-	wqLw==
+	:cc; bh=RH596zDZV9XyUNaFITFFn3XUHBbiF1RpmIWCgcwv22Q=;
+	b=GFbwKxMD7BshdlYJ6gHdlqgfGk3+vjj4Yn9ucJSoNUrDmjvfwKm6hSUJCQwNnZj5FB
+	3sAmBRGqmoGmWcRF7k2SqTIIKi3+E8VGUdJv5tbNAscHF4V9ZNF/blFA0N4kc4RjwJWA
+	3s7/jI9CPQXOfSSE070vF9ZBHKahKAl+RE53iM7J9RbNmiV/0XathPknyc/0LWQ+nTOE
+	8ljCS07ifZjVJAHKMG4qTVvXieOcZGHM6ta7luJw1NZernEmPeVreQEoeSGV8rbuu0Fq
+	0tT+aACCRWM7jax+PU/kOtI1ZwHf1HKVgrefluqr2+g7MBsL6A7ydWToj4T3GAdJCBTM
+	q2Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=hnlTtVE2SnT0fMSXX103xuo2tIUnBlanmP+KsTENc1g=;
-	b=nKMC+VAdFduIJ704VWsqILo1VZrKsK8eXOMIM2CwuK8aA/sfC9lTbLy6wPU9F/L5B1
-	xYKEjSFq2mgCUH/gmKYW3IHHkocMmE/PsYv/KGqjUkRdlmHaD2zgH37LNIAcS4vNbqPx
-	+wRXe7drRZW08201UZZ+MG0dAahcjF/3DbWNIrb3XDkXog5xOfNwUypqnQ/cDFF1Yile
-	gKcDuncuR7PIpx1MvH4ovSWVPOFPU31Rpd7GyWra1TyE7EpBovMZuxCmv5MO1UWqrCC0
-	qn+aGqACDJ20HdcUHuVTknpC8R5L+hzSAoz0s0KGZTvBM63NMpH+tDCqHEb3nla1Jfof
-	dy3w==
-X-Gm-Message-State: APjAAAV8xzYFxBciCz20w7Eoc4HCjPzeC1KwVJ0sBxkzhejYdiob4efE
-	2OnMnzEXF7VoUM7XqHjEQZRCp3OzieXNBAawGlM=
-X-Google-Smtp-Source: APXvYqzEgldsqBDDGNlMMFJyxqVr5p90K0H0D81kDybrFnH6gmR6LZExfLZgkn5JkZW1lM9CGhw7G52tzBWfNiV2IsI=
-X-Received: by 2002:a05:6102:4ab:: with SMTP id
-	r11mr15521638vsa.25.1574162662732; 
-	Tue, 19 Nov 2019 03:24:22 -0800 (PST)
+	bh=RH596zDZV9XyUNaFITFFn3XUHBbiF1RpmIWCgcwv22Q=;
+	b=ryL6+JdnVtg6Qc7dCr9DmYCDXgQzC/YFutFc3EnK3qV0orWqb/nFxdgX4wnHJqJdkk
+	LJ+0OEgXLgpEY11G19BJykLbTLoa35upq8TUPDbC0wIE1/BRcudO5TtyfkwABzT/s1jJ
+	OGZZG3oKwTI21NsaiV7oqpPYPBnJ9Y9VmXIk2Hd+0RDt9qHIcTJdS5V9K0faCZbAkYeK
+	zhDFKkRNGLDXO3CcfjhrbjMpd37F5aKFh+Idtx92R8rpsOt61tJzn6WXc6ELdntAmXaB
+	/3OCRmk8dHYCh+AFDIlEoXxTI7LF6hKN8hDlnU0uTq05vRCnLwqhgoNSEksz510FtWCY
+	7xRg==
+X-Gm-Message-State: APjAAAUHfodOoSehH+mjcjF9dBkG9HsFz7mSunCYU2mHKeLMU5LDhA/0
+	5I6Od1ZMORpyj1AtC2+f/4jlT8vJKAot9HLZlMw=
+X-Google-Smtp-Source: APXvYqwIFQf4nBHHrOoBi4uHHXQFaRscv4EkfS7D7W0LUptFt7SKbRFRJvpha3nDK43Irk1JhWRriwwXwm85+Eg5EpI=
+X-Received: by 2002:a67:fc04:: with SMTP id o4mr20791217vsq.35.1574163052601; 
+	Tue, 19 Nov 2019 03:30:52 -0800 (PST)
 MIME-Version: 1.0
 References: <20191118130801.21860-1-alex.kanavin@gmail.com>
 	<CAMKF1sp5SWYgoOj7Ujy5GMEEcuuATkuD45q7k7+LSc2SSkTVNg@mail.gmail.com>
 	<20191118210500.GA4741@localhost>
 	<CAMKF1spsipv7AbxJfmwHMU5dPtPDm-8VBxeQGWhEGUxJFG4WUw@mail.gmail.com>
 	<20191118220613.GA7568@localhost>
-In-Reply-To: <20191118220613.GA7568@localhost>
+	<CAMKF1sq3hnUuM7rcCbEhfbTmUtGbpMVVZkq8mFo24FKGG=kFYA@mail.gmail.com>
+	<20191118225500.GB7568@localhost>
+	<CAMKF1squJq7mLJJBhf_+EQbBTHb1c8R1g449e6Uo2v=MtNk2XQ@mail.gmail.com>
+	<CANx9H-D0Bve0QUDd3pERWV7xOvTfjro5+=FuaAJUxYz+tp3X5w@mail.gmail.com>
+In-Reply-To: <CANx9H-D0Bve0QUDd3pERWV7xOvTfjro5+=FuaAJUxYz+tp3X5w@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 19 Nov 2019 12:24:11 +0100
-Message-ID: <CANNYZj_MBFp7Yg1od0e0q3pQGte1WdruTBrQRxJpBUUNm2Rz+g@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
+Date: Tue, 19 Nov 2019 12:30:41 +0100
+Message-ID: <CANNYZj_2+0+6Suq0Gu74t+QDhx3mdb6FZsr2mwy8WhtNk493ug@mail.gmail.com>
+To: Tim Orling <ticotimo@gmail.com>
+Cc: Adrian Bunk <bunk@stusta.de>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 01/13] python: update to 2.7.17
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -59,69 +63,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 11:24:22 -0000
-Content-Type: multipart/alternative; boundary="00000000000054bee90597b14eda"
+X-List-Received-Date: Tue, 19 Nov 2019 11:30:52 -0000
+Content-Type: multipart/alternative; boundary="00000000000091a4e20597b16572"
 
---00000000000054bee90597b14eda
+--00000000000091a4e20597b16572
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, 18 Nov 2019 at 23:06, Adrian Bunk <bunk@stusta.de> wrote:
+On Tue, 19 Nov 2019 at 08:58, Tim Orling <ticotimo@gmail.com> wrote:
 
 >
-> > > That's a non-option since it could mean
-> > > "Yocto 3.1 cannot be built on Ubuntu 20.04".
-> > >
-> > > Ubuntu 20.04 might end up still shipping Python2,[1]
-> > > but you cannot rely on future distributions shipping it.
-> >
-> > And why should OE ship something that=E2=80=99s dropped by its own upst=
-ream and
-> > other distributions
+> I have the beginnings of scripts to generate a meta-python2 layer. Someone
+> with a vested interest in keeping python2 supported will need to step up to
+> maintain it. After bitbake and Oe-core moved to python3, my use of python2
+> has gone to near zero.
 >
-> All I am saying is that relying on the host Python2 is a non-option.
+> I intend to move all python2 recipes from meta-python to the new layer.
+> meta-python will become python3 only in 3.1 release timeframe. The bb files
+> and inc files will also be merged, simplifying AUH and devtool usage.
 >
-> If any layer needs a native Python2, this has to be shipped either in
-> this layer or in a layer it depends on.
+> Attempts to send python2 patches to meta-python after that shift will be
+> nacked.
 >
 
-Sadly, not relying on host Python 2 is not possible. Building Python 2
-needs a working binary of Python 2. So there is a circular dependency chain
-that cannot be broken: host py2 -> native py2 -> target py2 -> self-hosted
-packagegroup.
+Thanks! There is however a missing part: how close is meta-oe to being
+py2-free? Oe-core is very close (u-boot is the last holdout as noted), but
+I am not sure that we can simply take out py2, and not have half of meta-oe
+fail. For instance (random example) mozjs, a fairly important component,
+still pulls it in, together with a few 3rd party libraries:
+https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-extended/mozjs/mozjs_60.5.2.bb
 
-You can remove all three versions of py2, but not any of them individually.
+It's tempting to force the transition by breaking things, but it also
+antagonizes users.
 
 Alex
 
---00000000000054bee90597b14eda
+--00000000000091a4e20597b16572
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 18 Nov 2019 at 23:06, Adrian Bunk=
- &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
-iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex"><br>
-&gt; &gt; That&#39;s a non-option since it could mean<br>
-&gt; &gt; &quot;Yocto 3.1 cannot be built on Ubuntu 20.04&quot;.<br>
-&gt; &gt;<br>
-&gt; &gt; Ubuntu 20.04 might end up still shipping Python2,[1]<br>
-&gt; &gt; but you cannot rely on future distributions shipping it.<br>
-&gt; <br>
-&gt; And why should OE ship something that=E2=80=99s dropped by its own ups=
-tream and<br>
-&gt; other distributions<br>
-<br>
-All I am saying is that relying on the host Python2 is a non-option.<br>
-<br>
-If any layer needs a native Python2, this has to be shipped either in <br>
-this layer or in a layer it depends on.<br></blockquote><div><br></div><div=
->Sadly, not relying on host Python 2 is not possible. Building Python 2 nee=
-ds a working binary of Python 2. So there is a circular dependency chain th=
-at cannot be broken: host py2 -&gt; native py2 -&gt; target py2 -&gt; self-=
-hosted packagegroup. <br></div><div><br></div><div>You can remove all three=
- versions of py2, but not any of them individually.</div><div><br></div><di=
-v>Alex<br></div></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 19 Nov 2019 at 08:58, Tim Orling =
+&lt;<a href=3D"mailto:ticotimo@gmail.com">ticotimo@gmail.com</a>&gt; wrote:=
+<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
+g-left:1ex"><div><div class=3D"gmail_quote"><br><div dir=3D"auto">I have th=
+e beginnings of scripts to generate a meta-python2 layer. Someone with a ve=
+sted interest in keeping python2 supported will need to step up to maintain=
+ it. After bitbake and Oe-core moved to python3, my use of python2 has gone=
+ to near zero.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I intend =
+to move all python2 recipes from meta-python to the new layer. meta-python =
+will become python3 only in 3.1 release timeframe. The bb files and inc fil=
+es will also be merged, simplifying AUH and devtool usage.</div><div dir=3D=
+"auto"><br></div><div dir=3D"auto">Attempts to send python2 patches to meta=
+-python after that shift will be nacked.</div></div></div></blockquote><div=
+><br></div><div>Thanks! There is however a missing part: how close is meta-=
+oe to being py2-free? Oe-core is very close (u-boot is the last holdout as =
+noted), but I am not sure that we can simply take out py2, and not have hal=
+f of meta-oe fail. For instance (random example) mozjs, a fairly important =
+component, still pulls it in, together with a few 3rd party libraries: <a h=
+ref=3D"https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-=
+extended/mozjs/mozjs_60.5.2.bb">https://git.openembedded.org/meta-openembed=
+ded/tree/meta-oe/recipes-extended/mozjs/mozjs_60.5.2.bb</a></div><div><br><=
+/div><div>It&#39;s tempting to force the transition by breaking things, but=
+ it also antagonizes users.<br></div><div><br></div><div>Alex<br></div><div=
+><br></div></div></div>
 
---00000000000054bee90597b14eda--
+--00000000000091a4e20597b16572--
