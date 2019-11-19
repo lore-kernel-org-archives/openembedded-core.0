@@ -1,50 +1,43 @@
 Return-Path: <nick83ola@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4941A7F7F4
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
+	[209.85.167.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E730F7F7C5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 15:11:42 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id l7so24267091wrp.6
+	Tue, 19 Nov 2019 15:21:33 +0000 (UTC)
+Received: by mail-lf1-f52.google.com with SMTP id n186so4942936lfd.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 07:11:43 -0800 (PST)
+	Tue, 19 Nov 2019 07:21:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qy7v/TGIQka0JEWDng9RfMMQS0o7ayE+HPFNopuFnoY=;
-	b=HbYcjWLYoU/nUjS7dMsh1RiPndd2zbbB9K/3+vBmbDf8/akddZHHho3ju9AdSaz6yI
-	IRJhDKPHjDPTvHFo09niymngjtU5siuz0A9boRSCVTIfdDz+KLim3BWI4XHiBPK5iYjY
-	3dK3W8bbwxOANIqcGSD+SzwpQgnbxHAOBKHeRtQ8sO6t7+WB0y+69Jvc33NxX73vtw3v
-	rDwlmPwwWnmH7HRzkb9tLgaQcsHLxrojO1X5sUfh91s1J7K1MpkjLEgc7Q3bNMZUXw4j
-	eBiqbmtB1JjFeIrHBdsC+r/k3h24YeLSBCL64difQYfVH8+IkacsqpSe7axh+gfWykuj
-	zUdw==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=huz3YzzBZJ0k/FvqV5z7wWu9JTc+1bDelgcUtTfwIpA=;
+	b=e+FoB5vxP5DaCfydZHLWlygDRTX0tuuW4RvO/AuJ27MuJ/RgDf7nM28sA8yDZqq6OS
+	m4pMpNVhgozxMK0K9eN4M40+OiyZXZ/k4SO8XPltWfg4zhVqZvsGF9USrx30s+zPnHB0
+	Bs0O2qai3BB43USrEVshKRUvs7lSCZOafFNuJ3UlkEyje0/1ve5se3HRTyDJWuxxe0lp
+	xvmcvgyQjIH0Fs3NFjQwT7Qjt+6mMJiAm8EvKk458dlhgXAdp2tGM+CkAeFpFFUzv8qO
+	DSfDQ+a3FmzNBoP6klxMszmvJASppnxuB1gh29loBVZM9jrHRT3bmQWleCXbiO5sbEk7
+	HCNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qy7v/TGIQka0JEWDng9RfMMQS0o7ayE+HPFNopuFnoY=;
-	b=j0U61OdvvFrMsaKx3FZWIemqPUcCp5XxjMp/CSLLiMIMeHVrDzKdw+vwqI54J4OM/b
-	+yeJlw7/7jsiZWsDQg9u0gpTpmsMHwcHHzPQp3hkS0KEriUW378+cMCGzvPmfU+HnNko
-	e2tXZ1rcd67jMQfijyJs1wLRn7DEeXGN69CE8jxmk0DOOTxcDaCxKH3/2NSTw77YjlEJ
-	KBFV5G1waX8z6pGFzsSaVCy3NpwLYiIXBhXsqmtyTh1KCRAjEaVHqRSCbWnIvYcc4+j5
-	9wJv+9TysPHB6zj4XHNc7rUqlEXAHITlupt1FNxdKP7hdm0sWZfP5bEA0+11TLuQxjAH
-	m8nQ==
-X-Gm-Message-State: APjAAAXZKS5SKcUpha2oYB6+yOedtBuwNhCoDklgoaINTWCQe5ibpkXJ
-	ls8VdLa62uAIYuEt+gY0ocj7GdPA7mg=
-X-Google-Smtp-Source: APXvYqwHCsNU3nD2m1/MWSK7ekM+DxIeBZBlzi/v+lxrRD3hun4/rDgAN14usUZUhF8iUYWEZ+Ibug==
-X-Received: by 2002:adf:edd2:: with SMTP id v18mr26077326wro.253.1574176302579;
-	Tue, 19 Nov 2019 07:11:42 -0800 (PST)
-Received: from nick-bbestie.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	m3sm29676660wrb.67.2019.11.19.07.11.41
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 19 Nov 2019 07:11:41 -0800 (PST)
-From: Nicola Lunghi <nick83ola@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2019 15:11:14 +0000
-Message-Id: <20191119151113.36769-1-nick83ola@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=huz3YzzBZJ0k/FvqV5z7wWu9JTc+1bDelgcUtTfwIpA=;
+	b=hVKS8D2z/JqrZYAvt4W0Ihmzy2v1U0rmTwiYnz+399thRDXMKurN26XtG7abOjF4pD
+	IIR1pcjkYykNIu8Pz3PvW5dGbh1OUQb4uZHyCkelUza+zj//vg4DgctX6jDlTWDl4DET
+	7z3EfqzXtnrfB3cE4j5Gjo+0jvzsSb2JYd0UHHk7cKWVIoOUCiW9HsO50JuOILGUSHwp
+	+npnHMcxGgFnKQxQmlhePCtEX4+hVRvsZ1rVGK05vxyfg+j7oow620O9foG5xsdLAa3O
+	xa7UdouiHFfCzAxG8PWPQdVfvHokqxjwhvz9+nGpmsgG6Gbh5pZccjN3oX9dBZc1MO8W
+	FnCg==
+X-Gm-Message-State: APjAAAWiv37s+h2HcU2B1eSu4WT3lbqou4hugh4d/dSeKC5mdrRLyu/q
+	eYrgT18V+LICqJZd6gjXOcrIdN6bVyYMh4Oc4SRXYsO0
+X-Google-Smtp-Source: APXvYqyGkuLvR0V8RGSvtJ68B4ST6JGCtmEdw7QZx0TRfdjYhHNBrFg/mRObjnzTIA59l8h09ZZXGPo/Hcjj7sAPLkI=
+X-Received: by 2002:ac2:4469:: with SMTP id y9mr4491595lfl.33.1574176894222;
+	Tue, 19 Nov 2019 07:21:34 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v3] python3: add python3-misc-native to RPROVIDES
+From: nick83ola <nick83ola@gmail.com>
+Date: Tue, 19 Nov 2019 15:21:22 +0000
+Message-ID: <CABPh3UNv+RcyrU8crvf4PAU--s-trBgBYj0-Er5eHan9_Gy6RQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Oe-core: python and BBCLASSEXTEND = "native nativesdk"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +50,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 15:11:42 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 19 Nov 2019 15:21:34 -0000
+Content-Type: multipart/alternative; boundary="00000000000098060a0597b49e44"
 
-The package python3-misc is not in the manifest file
-so it needs to be added explicitely to RPROVIDES_class-native.
+--00000000000098060a0597b49e44
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
----
- meta/recipes-devtools/python/python3_3.7.5.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Dear Openembedded developer,
 
-diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.5.bb
-index 90914f9053..57eaaea5e7 100644
---- a/meta/recipes-devtools/python/python3_3.7.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.5.bb
-@@ -226,6 +226,9 @@ python(){
-     pn = 'python3'
-     rprovides = d.getVar('RPROVIDES').split()
- 
-+    # ${PN}-misc-native is not in the manifest
-+    rprovides.append(pn + '-misc-native')
-+
-     for key in python_manifest:
-         pypackage = pn + '-' + key + '-native'
-         if pypackage not in rprovides:
--- 
-2.20.1
+a lot of python recipes need to add the
 
+BBCLASSEXTEND = "native nativesdk"
 
+To the recipe to build the native version of the package.
+Wouldn't be better to add it to the pythonnative.bbclass by default?
+
+Best Regards
+Nicola Lunghi
+
+--00000000000098060a0597b49e44
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Dear Openembedded developer,</div><div><br></div><div=
+></div><div>a lot of python recipes need to add the</div><div><br></div><di=
+v style=3D"margin-left:40px">BBCLASSEXTEND =3D &quot;native nativesdk&quot;=
+</div><div><br></div><div>To the recipe to build the native version of the =
+package.</div><div>Wouldn&#39;t be better to add it to the pythonnative.bbc=
+lass by default?</div><div><br></div><div>Best Regards</div><div>Nicola Lun=
+ghi</div><div><br></div></div>
+
+--00000000000098060a0597b49e44--
