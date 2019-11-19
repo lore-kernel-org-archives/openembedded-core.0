@@ -1,58 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id E8E0A7F82F
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
+	[209.85.219.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D4A807F81C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 15:49:45 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id i17so25126183qtq.1
+	Tue, 19 Nov 2019 15:51:35 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id d3so8296976qvs.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 07:49:47 -0800 (PST)
+	Tue, 19 Nov 2019 07:51:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=gw5fd8nh+GXebaGYbEKIvgcy/tCpiITrT9Gs4CGUq8I=;
-	b=SrzLyFynfXDUgte9WCVP7qFp5cFRYT6HcUBWNSpBgSjQ5fL6Pe6YNcT8ZSxnBx6BIz
-	X7RAgzcJHo1sLbBwEzmbJqgjhC9g5x22qHMdtL7bmt6d5hIuUQEyVy+qiVIH/ZnnlhCE
-	Km8aapDiWEHtsDeWIkqd3aISeQo+CMGwxgJWqYidfm9+FzhzRHIh8oTtdu2B3YVEInDh
-	ayv+TTAPEZphm8wlaHsArjWilremSRfTj+lNR+s7nCvbWDqbCldBYu13mRM/W1OwZa8B
-	Y4J4zg/cDYqJwQtLnT+Ld2B5Vt3o2Q0kZnORLkqv8rKzwVhy4qW690L8oGRYDKYztlnd
-	E22g==
+	:cc; bh=O7OiQtZyXOy7s8vaZyn/aVh6rOT5qjvTG3Vdm2/NYc0=;
+	b=BQoaeDKc+46aPS112xnLlDKXgGytOTT4iVB/blMHx09CnoYaxS4a9viZa4+fpFG6S3
+	NZPdGSR7CmxSynUUdgjIyIKtn47TbKswnDDlSHUH1dHPKF1Rv8Gpd1cQx4P6hPHSyqku
+	ww3rky36TYPVVyw/dIb0O5csRgD6Fn4zKePjbVZQ7OtzssU/Yq8ZegTziZBMKcaUAyTW
+	BbWmFRTyuWsR4K/XQa4p58poDxnWqpjqpkrR2L8oTNLwaCqjcFoDYkIa9hOtrCDAndiV
+	mBpwNwNLAtQDJdrp7siUI1Ig2HJGAFbjKxp9xHsaZdXrwibg6rERG9W9Uj8nj7Oc7M8F
+	gGbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=gw5fd8nh+GXebaGYbEKIvgcy/tCpiITrT9Gs4CGUq8I=;
-	b=WiIPHJwxl3KtVKFCaFEY0xFjTd9K+9zVVMkAwhW85NEImvWaXLUaVlJVIFPknGgQA2
-	Rwt/gDvk9DtvNzG4Ed4/X4dVkpXhUMBy99r4Uty6kcfXvZ3cdVI+2PaBTt5vRqGAMwV+
-	Ws1xIcPA4KW7/m5Wr0gTxQOs8XrkfKieszytf3pba0MtrRJOW0DPILNToy9/mUKZeywK
-	aX/gkpN6tXQ7SAy782gQiI1HlnUZg00Dut9KofJWcYUXMqV0id88FYSzwlwX/vRWtpW8
-	0m0ZXvkwkRxlthYlu+qjjpHms1Ca7U0Icg7ETYJ9z5CeHlClV7rKsaPBmeZW0gdQvr32
-	Cyzw==
-X-Gm-Message-State: APjAAAXufekAT2zefZWw0GhBFXVdm69nEp5vm5RqaWxIK+F66fYI7jv5
-	q5x4CJa/DQMQETjsVj3Yr941XIkdsIzx2RNnFN4=
-X-Google-Smtp-Source: APXvYqw7nvW6azj7Mp9BjnZS3Toekiz1+wqkmv5gdXZ23BN0Ph5ZJjPifoddLM6m5EYHgAwY5W3VtWLsiWVWv9tswUA=
-X-Received: by 2002:aed:2724:: with SMTP id n33mr33176367qtd.194.1574178586420;
-	Tue, 19 Nov 2019 07:49:46 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=O7OiQtZyXOy7s8vaZyn/aVh6rOT5qjvTG3Vdm2/NYc0=;
+	b=fzONhUeM4fhdr7CTl9lkeK+NmPGSp03C3ylRRUTxC/ekWnLV4V9zpSB1Pa2Za2Y3SN
+	JMl0EaLN4P1D15OII1dE3B437Q36dfXeKGt712b1SHoMSP63ay4Uh/sjnqDknRBKzzCg
+	4xsQ+Xl8B00Ytwcb5vMHe/ql5aS6s1rueiNzQtkhXYebvii8u5z1cG4oUDA0YzckUl9j
+	CfIujAiybw3p9Q+dFidsz7+I14fZb/nl6f+H+B5vBBtrOW/a74vIy1bSi3NFhAhDHVuL
+	KkapYxAqHesIlogqySyo1OCqWth2OTRNcWc24S4klbRfWULjRz20krD1Fk1ihqBC72lW
+	+xKA==
+X-Gm-Message-State: APjAAAUy4sdwj0DirRI2eJZSpez8L1wDJOjO914oKG4X49JWAAqcC3wj
+	xC6ntqxJ1l61H/rRcON5ZzLDHvEY2JoSaYCw8/4=
+X-Google-Smtp-Source: APXvYqwzZsYDhVKe4dg+o8/trwWn+/V27CmN/oGCCb0sT2TqUxUg2NjzkkTll9w+PtO/q1JTSRWr6e6OxUZp6aEA/gM=
+X-Received: by 2002:ad4:4789:: with SMTP id z9mr31663368qvy.109.1574178696473; 
+	Tue, 19 Nov 2019 07:51:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20191118130801.21860-1-alex.kanavin@gmail.com>
-	<CAMKF1sp5SWYgoOj7Ujy5GMEEcuuATkuD45q7k7+LSc2SSkTVNg@mail.gmail.com>
-	<20191118210500.GA4741@localhost>
-	<CAMKF1spsipv7AbxJfmwHMU5dPtPDm-8VBxeQGWhEGUxJFG4WUw@mail.gmail.com>
-	<20191118220613.GA7568@localhost>
-	<CAMKF1sq3hnUuM7rcCbEhfbTmUtGbpMVVZkq8mFo24FKGG=kFYA@mail.gmail.com>
-	<20191118225500.GB7568@localhost>
-	<CAMKF1squJq7mLJJBhf_+EQbBTHb1c8R1g449e6Uo2v=MtNk2XQ@mail.gmail.com>
-	<CANx9H-D0Bve0QUDd3pERWV7xOvTfjro5+=FuaAJUxYz+tp3X5w@mail.gmail.com>
-	<CANNYZj_2+0+6Suq0Gu74t+QDhx3mdb6FZsr2mwy8WhtNk493ug@mail.gmail.com>
-In-Reply-To: <CANNYZj_2+0+6Suq0Gu74t+QDhx3mdb6FZsr2mwy8WhtNk493ug@mail.gmail.com>
+References: <20191118142852.22981-1-alex.kanavin@gmail.com>
+	<20191118142852.22981-13-alex.kanavin@gmail.com>
+	<CAMKF1srtYneT81UKC0Lcn4U_DgWiWb3Xm11mXL+2i3+yvCE5qg@mail.gmail.com>
+	<CANNYZj9rV_qvPV0j7oPwAUw7MCEeVj1NOYXSVGfj_k9w_yEPdQ@mail.gmail.com>
+In-Reply-To: <CANNYZj9rV_qvPV0j7oPwAUw7MCEeVj1NOYXSVGfj_k9w_yEPdQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Nov 2019 07:49:15 -0800
-Message-ID: <CAMKF1spXYo2-Qor9YpPs13+EgCpxLq+f7Bc69YUXPmHwEJRdAw@mail.gmail.com>
+Date: Tue, 19 Nov 2019 07:51:05 -0800
+Message-ID: <CAMKF1spKz9eE6DjDmqHUC_ak0joX4jwrzAVFwDdmKdUtyBVaWA@mail.gmail.com>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Adrian Bunk <bunk@stusta.de>,
-	Patches and discussions about the oe-core layer
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/13] python: update to 2.7.17
+Subject: Re: [PATCH 13/13] man-pages: correct the SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,47 +57,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 15:49:46 -0000
+X-List-Received-Date: Tue, 19 Nov 2019 15:51:37 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 19, 2019 at 3:30 AM Alexander Kanavin
+On Tue, Nov 19, 2019 at 3:41 AM Alexander Kanavin
 <alex.kanavin@gmail.com> wrote:
 >
-> On Tue, 19 Nov 2019 at 08:58, Tim Orling <ticotimo@gmail.com> wrote:
+> On Mon, 18 Nov 2019 at 21:09, Khem Raj <raj.khem@gmail.com> wrote:
 >>
+>> On Mon, Nov 18, 2019 at 6:33 AM Alexander Kanavin
+>> <alex.kanavin@gmail.com> wrote:
+>> >
+>> > The homepage: https://www.kernel.org/doc/man-pages/download.html
+>> > specifies that the latest tarballs are published one level up
+>> > from where we currently take them.
+>> >
 >>
->> I have the beginnings of scripts to generate a meta-python2 layer. Someo=
-ne with a vested interest in keeping python2 supported will need to step up=
- to maintain it. After bitbake and Oe-core moved to python3, my use of pyth=
-on2 has gone to near zero.
->>
->> I intend to move all python2 recipes from meta-python to the new layer. =
-meta-python will become python3 only in 3.1 release timeframe. The bb files=
- and inc files will also be merged, simplifying AUH and devtool usage.
->>
->> Attempts to send python2 patches to meta-python after that shift will be=
- nacked.
+>> archive is a better location for what it's worth. Since long after a
+>> release, the tarball may disappear from
+>> level up but chances of it being in archive are higher. So Let's not
+>> change this URI, unless there is another
+>> reason that I missed.
 >
 >
-> Thanks! There is however a missing part: how close is meta-oe to being py=
-2-free? Oe-core is very close (u-boot is the last holdout as noted), but I =
-am not sure that we can simply take out py2, and not have half of meta-oe f=
-ail. For instance (random example) mozjs, a fairly important component, sti=
-ll pulls it in, together with a few 3rd party libraries: https://git.openem=
-bedded.org/meta-openembedded/tree/meta-oe/recipes-extended/mozjs/mozjs_60.5=
-.2.bb
+> I have to disagree actually! The reasons are:
+> 1. Taking man-pages from archive means we are always shipping an out of date version, particularly if a tarball is archived months or years later than it was released.
+> 2. Specifically here, the main folder has all man-page releases going back 1.5 years, which is longer than yocto release's support window. Meanwhile, the archive is missing several latest releases.
+> 3. Even if a yocto release ships a version of man-pages that is then archived and removed from main folder, it is trivial and safe to backport an update from master. man-pages tarballs contain pre-built documentation and don't threaten release stability.
 >
-> It's tempting to force the transition by breaking things, but it also ant=
-agonizes users.
->
+> If this becomes a real problem, we can also write to Michael Kerrisk and ask that he doesn't move tarballs around.
 
-Its for how python2 should be organised after it retires and
-suggestion is to move it to an independent layer rather than
-meta-openembedded repo,
-wether, layers under meta-openembedded will depend on it is a separate issu=
-e
+think about building a release after many years, if we do not have to
+update SRC_URI to point to archive then its one less things to do
+given that the same copies are in archive for current releases too
+its just better for long term.
 
+>
 > Alex
->
 
