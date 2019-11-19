@@ -1,50 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
-	[209.85.219.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D4A807F81C
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com
+	[209.85.208.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DDDA7F817
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 15:51:35 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id d3so8296976qvs.11
+	Tue, 19 Nov 2019 15:53:18 +0000 (UTC)
+Received: by mail-lj1-f180.google.com with SMTP id t5so23936662ljk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 07:51:37 -0800 (PST)
+	Tue, 19 Nov 2019 07:53:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=O7OiQtZyXOy7s8vaZyn/aVh6rOT5qjvTG3Vdm2/NYc0=;
-	b=BQoaeDKc+46aPS112xnLlDKXgGytOTT4iVB/blMHx09CnoYaxS4a9viZa4+fpFG6S3
-	NZPdGSR7CmxSynUUdgjIyIKtn47TbKswnDDlSHUH1dHPKF1Rv8Gpd1cQx4P6hPHSyqku
-	ww3rky36TYPVVyw/dIb0O5csRgD6Fn4zKePjbVZQ7OtzssU/Yq8ZegTziZBMKcaUAyTW
-	BbWmFRTyuWsR4K/XQa4p58poDxnWqpjqpkrR2L8oTNLwaCqjcFoDYkIa9hOtrCDAndiV
-	mBpwNwNLAtQDJdrp7siUI1Ig2HJGAFbjKxp9xHsaZdXrwibg6rERG9W9Uj8nj7Oc7M8F
-	gGbA==
+	:cc; bh=30VZoOHwMi0JJkZQy+y+bDaAZ1vOjag3nScJjI8MKNU=;
+	b=ZcwwA+5nQJLFikHHsthb7HcNnGy4QoJKn4lXz2mLNzsXSUtye0T8NV4alRU6cbWiYl
+	dLBXF/8E63mWM9DzRKNDIs15f3bH89KhY0YoMiqclf1WiJcelsj7TDuuD1i5tTAxixA8
+	PLsbSixH/LRteOzJAnT4j6pKEzDhw7gRgoBBmPRhUpW/Jvb5rIU9Spv01ucDWT6Rci97
+	Y36/hKe/BxfO53beBdnFespLuYQQd1OLnUbFq7bebngC4LUPCG+XCRVPOnEzxHra0iQs
+	qnkxjhwUpkQsS2PFfCs+yYl4mAdbSky9ZgsvbWzvFWfpMq33vWlq5Zm8ItVzdTQis0m/
+	/y3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=O7OiQtZyXOy7s8vaZyn/aVh6rOT5qjvTG3Vdm2/NYc0=;
-	b=fzONhUeM4fhdr7CTl9lkeK+NmPGSp03C3ylRRUTxC/ekWnLV4V9zpSB1Pa2Za2Y3SN
-	JMl0EaLN4P1D15OII1dE3B437Q36dfXeKGt712b1SHoMSP63ay4Uh/sjnqDknRBKzzCg
-	4xsQ+Xl8B00Ytwcb5vMHe/ql5aS6s1rueiNzQtkhXYebvii8u5z1cG4oUDA0YzckUl9j
-	CfIujAiybw3p9Q+dFidsz7+I14fZb/nl6f+H+B5vBBtrOW/a74vIy1bSi3NFhAhDHVuL
-	KkapYxAqHesIlogqySyo1OCqWth2OTRNcWc24S4klbRfWULjRz20krD1Fk1ihqBC72lW
-	+xKA==
-X-Gm-Message-State: APjAAAUy4sdwj0DirRI2eJZSpez8L1wDJOjO914oKG4X49JWAAqcC3wj
-	xC6ntqxJ1l61H/rRcON5ZzLDHvEY2JoSaYCw8/4=
-X-Google-Smtp-Source: APXvYqwzZsYDhVKe4dg+o8/trwWn+/V27CmN/oGCCb0sT2TqUxUg2NjzkkTll9w+PtO/q1JTSRWr6e6OxUZp6aEA/gM=
-X-Received: by 2002:ad4:4789:: with SMTP id z9mr31663368qvy.109.1574178696473; 
-	Tue, 19 Nov 2019 07:51:36 -0800 (PST)
+	bh=30VZoOHwMi0JJkZQy+y+bDaAZ1vOjag3nScJjI8MKNU=;
+	b=UvZyI59WPNZh9iqpkGowb++pFDKI/7MYRbviuQfNroV2dU3pAMCmPdeSMzEoSmg9bW
+	omR3u3HvKPqvyxKgU67haknM+t2lNhOwugZLh4+7puMjUE8GZIIdDUygReTnbcw5cxDn
+	EkUF3RzBP7ua3H0EMoUcCTrqGSjAQxBwqzg9CZkQC9sOjkJ55ESYvCSFF65+XotLD9ha
+	SVktFyoGI1zyEzasgnzqArsYk0lUeyjjcx27kG59Z7HSUkta75pKCGYYx6r+8C8BYBZR
+	CL44UZSrlxbHuj6LTE+6XAXlYC4MvPAQS8iFhqO1OWUHts65nrxn+2J8KObzq3HPZpNW
+	KSHA==
+X-Gm-Message-State: APjAAAW/Z3QTvjNA00idx8dbmbGOYhB8WbgG+pde2QTp/nEn78i3vZ0u
+	d8dKnVA/P/yKSYtTuMaej3pZRmpw6CzbcjJJVnc=
+X-Google-Smtp-Source: APXvYqxiAv2GKcFi/VSo9W6jMHThmPLgaCcdC+YKPqPxC9f2PV/TQQdrFJzLLynFhnm0r5rag4pbwyRAbR/7oVlEz20=
+X-Received: by 2002:a2e:575c:: with SMTP id r28mr4478708ljd.245.1574178799609; 
+	Tue, 19 Nov 2019 07:53:19 -0800 (PST)
 MIME-Version: 1.0
-References: <20191118142852.22981-1-alex.kanavin@gmail.com>
-	<20191118142852.22981-13-alex.kanavin@gmail.com>
-	<CAMKF1srtYneT81UKC0Lcn4U_DgWiWb3Xm11mXL+2i3+yvCE5qg@mail.gmail.com>
-	<CANNYZj9rV_qvPV0j7oPwAUw7MCEeVj1NOYXSVGfj_k9w_yEPdQ@mail.gmail.com>
-In-Reply-To: <CANNYZj9rV_qvPV0j7oPwAUw7MCEeVj1NOYXSVGfj_k9w_yEPdQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 19 Nov 2019 07:51:05 -0800
-Message-ID: <CAMKF1spKz9eE6DjDmqHUC_ak0joX4jwrzAVFwDdmKdUtyBVaWA@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <CABPh3UNv+RcyrU8crvf4PAU--s-trBgBYj0-Er5eHan9_Gy6RQ@mail.gmail.com>
+	<20191119153722.GG3527@hiutale>
+In-Reply-To: <20191119153722.GG3527@hiutale>
+From: nick83ola <nick83ola@gmail.com>
+Date: Tue, 19 Nov 2019 15:53:08 +0000
+Message-ID: <CABPh3UOqsrQd+TQvNbJe8xGrp+eqMV12213=3BHkj6jHMow_oA@mail.gmail.com>
+To: Mikko.Rapeli@bmw.de
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/13] man-pages: correct the SRC_URI
+Subject: Re: Oe-core: python and BBCLASSEXTEND = "native nativesdk"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 15:51:37 -0000
+X-List-Received-Date: Tue, 19 Nov 2019 15:53:19 -0000
+Content-Type: multipart/alternative; boundary="00000000000029f0ea0597b5107c"
+
+--00000000000029f0ea0597b5107c
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Nov 19, 2019 at 3:41 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Mon, 18 Nov 2019 at 21:09, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Mon, Nov 18, 2019 at 6:33 AM Alexander Kanavin
->> <alex.kanavin@gmail.com> wrote:
->> >
->> > The homepage: https://www.kernel.org/doc/man-pages/download.html
->> > specifies that the latest tarballs are published one level up
->> > from where we currently take them.
->> >
->>
->> archive is a better location for what it's worth. Since long after a
->> release, the tarball may disappear from
->> level up but chances of it being in archive are higher. So Let's not
->> change this URI, unless there is another
->> reason that I missed.
->
->
-> I have to disagree actually! The reasons are:
-> 1. Taking man-pages from archive means we are always shipping an out of date version, particularly if a tarball is archived months or years later than it was released.
-> 2. Specifically here, the main folder has all man-page releases going back 1.5 years, which is longer than yocto release's support window. Meanwhile, the archive is missing several latest releases.
-> 3. Even if a yocto release ships a version of man-pages that is then archived and removed from main folder, it is trivial and safe to backport an update from master. man-pages tarballs contain pre-built documentation and don't threaten release stability.
->
-> If this becomes a real problem, we can also write to Michael Kerrisk and ask that he doesn't move tarballs around.
+Something on the line of:
 
-think about building a release after many years, if we do not have to
-update SRC_URI to point to archive then its one less things to do
-given that the same copies are in archive for current releases too
-its just better for long term.
+diff --git a/meta/classes/python3native.bbclass
+b/meta/classes/python3native.bbclass
+index d98fb4c758..e5bde4a0f1 100644
+--- a/meta/classes/python3native.bbclass
++++ b/meta/classes/python3native.bbclass
+@@ -24,3 +24,5 @@ export PYTHONNOUSERSITE = "1"
 
->
-> Alex
+ # autoconf macros will use their internal default preference otherwise
+ export PYTHON
++
++BBCLASSEXTEND = "native nativesdk"
+\ No newline at end of file
+diff --git a/meta/classes/pythonnative.bbclass
+b/meta/classes/pythonnative.bbclass
+index 0e9019d1e2..1fe8d29a14 100644
+--- a/meta/classes/pythonnative.bbclass
++++ b/meta/classes/pythonnative.bbclass
+@@ -25,3 +25,5 @@ export PYTHONNOUSERSITE = "1"
 
+ # autoconf macros will use their internal default preference otherwise
+ export PYTHON
++
++BBCLASSEXTEND = "native nativesdk"
+\ No newline at end of file
+
+--00000000000029f0ea0597b5107c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Something on the line of:</div><div><br></div><div></=
+div><div>diff --git a/meta/classes/python3native.bbclass b/meta/classes/pyt=
+hon3native.bbclass<br>index d98fb4c758..e5bde4a0f1 100644<br>--- a/meta/cla=
+sses/python3native.bbclass<br>+++ b/meta/classes/python3native.bbclass<br>@=
+@ -24,3 +24,5 @@ export PYTHONNOUSERSITE =3D &quot;1&quot;<br>=C2=A0<br>=C2=
+=A0# autoconf macros will use their internal default preference otherwise<b=
+r>=C2=A0export PYTHON<br>+<br>+BBCLASSEXTEND =3D &quot;native nativesdk&quo=
+t;<br>\ No newline at end of file<br>diff --git a/meta/classes/pythonnative=
+.bbclass b/meta/classes/pythonnative.bbclass<br>index 0e9019d1e2..1fe8d29a1=
+4 100644<br>--- a/meta/classes/pythonnative.bbclass<br>+++ b/meta/classes/p=
+ythonnative.bbclass<br>@@ -25,3 +25,5 @@ export PYTHONNOUSERSITE =3D &quot;=
+1&quot;<br>=C2=A0<br>=C2=A0# autoconf macros will use their internal defaul=
+t preference otherwise<br>=C2=A0export PYTHON<br>+<br>+BBCLASSEXTEND =3D &q=
+uot;native nativesdk&quot;<br>\ No newline at end of file</div><div><br></d=
+iv></div>
+
+--00000000000029f0ea0597b5107c--
