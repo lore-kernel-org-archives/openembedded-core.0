@@ -1,51 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C04007F7F4
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5988A7F83B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 16:11:15 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id k15so14612431vsp.2
+	Tue, 19 Nov 2019 16:11:50 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id l7so24531625wrp.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 08:11:17 -0800 (PST)
+	Tue, 19 Nov 2019 08:11:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=jvEBzLtrdaOEuPQ0iIy4O6Z4d/0n/xsB313R329Wcvo=;
-	b=TBkAyeHFmEQuxFzetJeOsSLcFTL0lQs/IU/dqACDzWgUh4D2liBaVZ4rsFSORoqZ3/
-	oxkglBGtfTFyMKLPxeGn/wZcEo4laG1jlw7nGyjdibMFzFVIDdVeGRLrtp63QFSS7ohN
-	pu7XLEfO7DJOmfbQLWr+hCuBS+mrNe2Nj/zKKwSvzP1i+/hWgKhB94wChYkFR8of5DHY
-	OQg1NnFWiX9ZHLOOWNeOK7yjNpq0PAoh8l5TF/1YmZ1AM3W/s/Fg5Lbg2nsdAO4gzBEh
-	N8rYcQigxpSxcEtiK8JQTsAjM9SvJVaAjq20LFZmM8nlBDV/AePUoEwA0IMZkS3f+P1r
-	Wyzg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9tUMMZQtw9NWI22gfLQi1giZg6Nxt84AUhY2fq/2Sc8=;
+	b=YNnREhae97QmdEbd/IGLpnCUVawXArdFJnzvm1S2KW27nMgNKSY+XEi1MwhSov2X50
+	RDpfTy8xAlUuNRJcR1JChUteVAqvdZ48dNN2sE8noSsND1kKafMV/ftU5z2h4qdFIPGB
+	IELV9WT3BqOyHl5uCSmQCjxUaRbMn/BJpW1GjeE/+6vP7yLz+eLCWz0lYR6tpB//KPHY
+	g2ZTbAAkJeW+TGgeNGpborqTkKDwjiMPRamPO0Jq+eBQa18lnjU75Ns8AOES60Y3LVjF
+	FBh2zPpP+bYbu2eD+iYyC5aSPlW0Eu0nSAKsmji+9ikgMXT3TMxwjMgYuO3u0W0hBov7
+	T5FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=jvEBzLtrdaOEuPQ0iIy4O6Z4d/0n/xsB313R329Wcvo=;
-	b=UV5dMn+PERLgrsS9ietbS/iS5Py3EL3QSdpY4UFauNzhugGkc3eWn+9tJrak6zxn4L
-	teMH7g0TWXYfefTQor/jbLXYEQmqWa4oSV68lAiLIik4sMq9N36SW1e+kfZoL2ez616x
-	2P5ghX80NnRtlAufrH17+Py0uM4D5zIzUDOz6ZT9JdMQB3FvVTSd7PNnCX/PGTOxv4DJ
-	qPLUtFyDQQ9BRFQ6fkMaRbgcmLn0eGdV+LEYukdvs3pv6zjlQdVQbO8kIFctdS622oNa
-	fF2PJthBAR9kqWPq0FqBVnpJiC44jD2o878Doa8/ojXtkcKdZSYcMvi0WA8QPOCrpiK8
-	ecJg==
-X-Gm-Message-State: APjAAAV+0OYt2jiD3S6qkp1sKeb7L7LqunUJh9kJl9hd/O0vm3UD7W6w
-	usiyOpeS81AvZ/Ok3SiAR+zHW+JpXYhvflCTics=
-X-Google-Smtp-Source: APXvYqzPR08e4cnIdykGZbb2FaOgwQYDwifLqriqW7F1yPH7+M8G6eeZdt0IYFWYQ0io9aK2hMKWCFlmIICNLPXhQtU=
-X-Received: by 2002:a67:fc04:: with SMTP id o4mr21728805vsq.35.1574179876546; 
-	Tue, 19 Nov 2019 08:11:16 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9tUMMZQtw9NWI22gfLQi1giZg6Nxt84AUhY2fq/2Sc8=;
+	b=SrZssYcwWYiLe3UuXnpmFGQNUgcescNyii10MgO0dLYxq3/k/+0PX1dqRu98uH0HVr
+	rnNqvdbbwrCZmpVKe6+9Ht9CCKKMDnczXTKdfL1/J8ZcvNXs7Ze1S3go7LDIj166hSVK
+	DFt3xV9uNxE83vAVHy3xFcrxJry78msVht5C1WppXXBZq+0pcyGFdbOpIihut5EWwAa+
+	n0cvvywHja8IJMQGQ7kWf8IYDMmT5F3Cs09SiLlkwc08gkVHvOAVyla4zUR3PwetLKgd
+	HCFr11oBx4mzsflFNmyyLHCqMQLeDcM/JzOojwR2VIUe2Z1yTKVIPVjAaNAsZ71YKIPL
+	P0jQ==
+X-Gm-Message-State: APjAAAUhqUpqbshudKUpvTwPRmxsNfY3ozgJCf5uDQVzZwip/c+f8H+w
+	v7RHZBoyIiL4mHVDb51BN7aVyw8QJ2Q=
+X-Google-Smtp-Source: APXvYqy3gUW7Xei2mx8aeWDDPF4SHfN9nFly/kCp1tg74VvDmYMLEtwzSZwHhcFzx6eXki+RfBh7xQ==
+X-Received: by 2002:a5d:458d:: with SMTP id p13mr38004433wrq.181.1574179910676;
+	Tue, 19 Nov 2019 08:11:50 -0800 (PST)
+Received: from nick-bbestie.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	z14sm27127315wrl.60.2019.11.19.08.11.49
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 19 Nov 2019 08:11:50 -0800 (PST)
+From: Nicola Lunghi <nick83ola@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Nov 2019 16:11:12 +0000
+Message-Id: <20191119161111.6539-1-nick83ola@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20191118142852.22981-1-alex.kanavin@gmail.com>
-	<20191118142852.22981-13-alex.kanavin@gmail.com>
-	<CAMKF1srtYneT81UKC0Lcn4U_DgWiWb3Xm11mXL+2i3+yvCE5qg@mail.gmail.com>
-	<CANNYZj9rV_qvPV0j7oPwAUw7MCEeVj1NOYXSVGfj_k9w_yEPdQ@mail.gmail.com>
-	<CAMKF1spKz9eE6DjDmqHUC_ak0joX4jwrzAVFwDdmKdUtyBVaWA@mail.gmail.com>
-In-Reply-To: <CAMKF1spKz9eE6DjDmqHUC_ak0joX4jwrzAVFwDdmKdUtyBVaWA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 19 Nov 2019 17:11:05 +0100
-Message-ID: <CANNYZj8A3DhhjHWvL0yQf8JyhSBWmECgJetB1+QeqFPR-4=ZZw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/13] man-pages: correct the SRC_URI
+Subject: [meta-python][PATCH] python3-importlib-metadata: revert RDEPEND python3-misc only for target and nativesdk"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +57,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 16:11:16 -0000
-Content-Type: multipart/alternative; boundary="0000000000005aadfa0597b550b6"
+X-List-Received-Date: Tue, 19 Nov 2019 16:11:50 -0000
+Content-Transfer-Encoding: 8bit
 
---0000000000005aadfa0597b550b6
-Content-Type: text/plain; charset="UTF-8"
+This commit: fcda3fb1a3fbfac075325482074898dfb7138da7
+  python3-importlib-metadata: RDEPEND python3-misc only for target and nativesdk
 
-On Tue, 19 Nov 2019 at 16:51, Khem Raj <raj.khem@gmail.com> wrote:
+Was actually mascherading an error in the python3 recipe
+(missing RPROVIDES for python3-misc-native) that has been fixed in commit
 
->
-> think about building a release after many years, if we do not have to
-> update SRC_URI to point to archive then its one less things to do
-> given that the same copies are in archive for current releases too
-> its just better for long term.
->
+python3: add python3-misc-native to RPROVIDES
 
-Building a release after many years without having a preserved local copy
-of DL_DIR is asking for trouble, regardless of whether man-pages comes from
-archive or not. Other things will have changed their location or vanished
-off the internet in the meantime, even though they supposedly come from
-'stable' locations. But if you have a DL_DIR, then you don't need to fix
-the recipes at all.
+in oe-core.
 
-Alex
+Revert it to restore the previous state of the recipe.
 
---0000000000005aadfa0597b550b6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+(also this commit was introducing an error:
+  += with class target was overriding the RDEPENDS for every target instead
+  of appending to it. the right patch would have been:
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 19 Nov 2019 at 16:51, Khem Raj &l=
-t;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.co=
-m</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex"><br>
-think about building a release after many years, if we do not have to<br>
-update SRC_URI to point to archive then its one less things to do<br>
-given that the same copies are in archive for current releases too<br>
-its just better for long term.<br></blockquote><div><br></div><div>Building=
- a release after many years without having a preserved local copy of DL_DIR=
- is asking for trouble, regardless of whether man-pages comes from archive =
-or not. Other things will have changed their location or vanished off the i=
-nternet in the meantime, even though they supposedly come from &#39;stable&=
-#39; locations. But if you have a DL_DIR, then you don&#39;t need to fix th=
-e recipes at all.<br></div><div><br></div><div>Alex<br></div><br></div></di=
-v>
+  RDEPENDS_${PN}_append_class-target = " python3-misc"
+  RDEPENDS_${PN}_append_class-nativesdk = " python3-misc"
+)
 
---0000000000005aadfa0597b550b6--
+Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
+---
+ .../recipes-devtools/python/python3-importlib-metadata_0.23.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/meta-python/recipes-devtools/python/python3-importlib-metadata_0.23.bb b/meta-python/recipes-devtools/python/python3-importlib-metadata_0.23.bb
+index 851d703c9..4c53d5fbb 100644
+--- a/meta-python/recipes-devtools/python/python3-importlib-metadata_0.23.bb
++++ b/meta-python/recipes-devtools/python/python3-importlib-metadata_0.23.bb
+@@ -1,5 +1,4 @@
+ inherit pypi setuptools3
+ require python-importlib-metadata.inc
+ 
+-RDEPENDS_${PN}_class-target += "python3-misc"
+-RDEPENDS_${PN}_class-nativesdk += "python3-misc"
++RDEPENDS_${PN} += "python3-misc"
+-- 
+2.20.1
+
+
