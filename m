@@ -1,33 +1,30 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 515777F685
+Return-Path: <ross.burton@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id CCA257F8A9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 09:23:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47HL3H12tgz9v
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 10:23:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1574155403;
-	bh=sedMUyhhOsxuj18xLdFDhSOjumrvvt4WW7HViLn6AKw=;
-	h=From:To:Subject:Date:From;
-	b=YSG1CZfF9f7HP3et8PVRBzikI5LvmocgLScvh+oHTevqDaR7NkYMjG6Kcu4FMyBcS
-	cbinAIxXYq87enCwroKYYQA35W5EhRFkMOr8Z0RwHpWxgUCDTuyjUkgXx1CEB6+7Yy
-	Hwi5BL7+zLUJxXyoVc0wFhGGyGRTuI0D1Bt5R+22RwpiUUe42qmAkx00Psb/hME6Qw
-	Hem+y1181VmtC1+Uhff91wLMWTtxk9UvwDB1b5e5JXBKBt7kMLhd59JQrGOGuvTXxP
-	8VubApOXv2nm+lEnnD15UPtbmGIrciqT/ng7TVrn/CITy/nn6Nz+m6T+lIQjTvusTr
-	zt1BcfY/JDlYLsSM5eyOIg6Uz9IGMDLq7XrJg8wLjCpurkunlhGlwswwcHvql7QZE7
-	thqkLgD+1DK1uSDXX27FU7yhlmwXturRRH9M5ryHsb6sIMfG1T6IK1/t76TBg1uxa9
-	NKHo5qBZOjIfR76VLIk1O9Dz4/0DkzuWSRevl8jx+R4ZyL/quAEFzECkHksskQOIlW
-	wfQ2Tlzk6FziS4PqkfkZJec7f6Zjsi9Siff9yTPnwAQ4NIQfLLoP/1cHa85YaFvbuG
-	y33EDUpzbXEtIdXKHFauJaTv55BZbUBRwjUKrbl9UyF4ee4/dOWn7Pk3QB8nhbQthD
-	FcP1vn7KRhulCLaDLBKK03l0=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2019 11:23:20 +0200
-Message-Id: <20191119092321.12043-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [zeus][PATCH] libsoup: set CVE_PRODUCT
+	Tue, 19 Nov 2019 09:24:08 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Nov 2019 01:24:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.68,322,1569308400"; d="scan'208";a="209139462"
+Received: from unknown (HELO blackadder.local) ([10.252.49.82])
+	by orsmga003.jf.intel.com with ESMTP; 19 Nov 2019 01:24:08 -0800
+To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
+References: <20191118164647.29409-1-ross.burton@intel.com>
+	<2314f254-7821-bb4c-6637-faf4d26c8be4@gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <3288e96c-513a-7049-3be2-836abf1c4bf1@intel.com>
+Date: Tue, 19 Nov 2019 09:24:07 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
+MIME-Version: 1.0
+In-Reply-To: <2314f254-7821-bb4c-6637-faf4d26c8be4@gmail.com>
+Subject: Re: [PATCH 1/6] cve-update-db-native: don't hardcode the database name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,31 +37,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 09:23:25 -0000
+X-List-Received-Date: Tue, 19 Nov 2019 09:24:08 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-From: Ross Burton <ross.burton@intel.com>
+On 18/11/2019 19:11, akuster808 wrote:
+> 
+> 
+> On 11/18/19 8:46 AM, Ross Burton wrote:
+>> Don't hardcode the database filename, there's a variable for this in
+>> cve-check.bbclass.
+>>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> 
+> do you recommend these being backported ?
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Yes, that series has some important fixes in.
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-index 357f2fd3db..3a735cf27a 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-@@ -15,6 +15,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
- SRC_URI[md5sum] = "66c2ae89d6031b01337d78a2c57c75d5"
- SRC_URI[sha256sum] = "bd2ea602eba642509672812f3c99b77cbec2f3de02ba1cc8cb7206bf7de0ae2a"
- 
-+CVE_PRODUCT = "libsoup"
-+
- S = "${WORKDIR}/libsoup-${PV}"
- 
- inherit meson gettext pkgconfig upstream-version-is-even gobject-introspection gtk-doc
--- 
-2.17.1
-
+Ross
 
