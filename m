@@ -1,48 +1,18 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id DF1247F7E9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 13:35:19 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id f3so3618645wmc.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 19 Nov 2019 05:35:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=wy/URAHkm8uIhfHVeNHwJgqxfExpdDhI0KPuv0r0KtA=;
-	b=qCSf3dWyVXVpYyGU4p+VovPZS5+fxh9v1et7znFDaUdoIBjIA2OiMvGvMcVcP6/WcG
-	6BQHdL58tFUh2QUugHPCFwtiW5nob6cDKwt7A/pqHDie/f0h+UoOBCVaipm3/sPUfblk
-	eEylG+hdUmgayOUdTowppFFn6y3pxdV0gclBgQeU2IaJEH9Hq7oOofURIJlM2pjgJZW7
-	dbDVncIDGjGtTXkz8tnmedQO5rgwEGVUF45KfXiN7UEyqJVF7wtQrwDyAX2IRo4xyhoG
-	+D7uLcROK+0jogfg5xiGacPXW/xtbqrzQzF43rnlBSLfFZ49amXl1qRud3zYYw1C7rTf
-	oneg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wy/URAHkm8uIhfHVeNHwJgqxfExpdDhI0KPuv0r0KtA=;
-	b=Xwxd1YKkJ7wQAUmCoqgFLVpI+y4Vv91ItufjpZqPfi9prD8tJvsCKeYhSaPJWmLDOV
-	ERCEiD+ZIgcOJRHTiMrdEShPavMe4PdvbpqXzpCNRP5zLDFpex1+iKcMahMLj6RdQVaV
-	Dh0yVCrvWxHtgOXP3tEGfh/d9R7umYXNWUk24/bWt8FA3P6Kat8neMy/dnTyRv8d5HBo
-	8sH46kOlv80v/7k8NkO9dbnB5FVcWiqW3tnjZuuyF88FFGRTM61ckFaq3z1JAk8E6h+k
-	dX8IjxMwqFsLOSbmom+qQQRiAcxwHO/cdK95TkkUric5IsXb7RK7XGwTCptFDOBAbIdq
-	NM+g==
-X-Gm-Message-State: APjAAAVQf3+TdlEOXG/fTBB8xY1uKDJzBt5OxBa6VrnHcKxNiBSEC7KX
-	2Ybl/wwSyRxOauseiiWuFuiLrhjI
-X-Google-Smtp-Source: APXvYqxC9Jcel9xQKDGjdzDtEcuxR6Aa0HCu/pT0j/lu+0gvs0p25IEbvbbO33yd9B4Yz73wLZMWFQ==
-X-Received: by 2002:a05:600c:2054:: with SMTP id
-	p20mr5904596wmg.177.1574170520489; 
-	Tue, 19 Nov 2019 05:35:20 -0800 (PST)
-Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id
-	m9sm26842575wro.66.2019.11.19.05.35.19
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 19 Nov 2019 05:35:20 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2019 14:35:13 +0100
-Message-Id: <20191119133513.107766-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] rpm: fix spelling in one of the patches' Upstream-Status
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 7464B7F7C5;
+	Tue, 19 Nov 2019 14:02:32 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 19 Nov 2019 14:02:34 -0000
+Message-ID: <20191119140234.2330.67387@do>
+References: <20191119133513.107766-1-alex.kanavin@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20191119133513.107766-1-alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcnBtOiBmaXggc3BlbGxpbmcgaW4gb25lIG9mIHRoZSBwYXRjaGVzJyBVcHN0cmVhbS1TdGF0dXM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,27 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 19 Nov 2019 13:35:20 -0000
+X-List-Received-Date: Tue, 19 Nov 2019 14:02:32 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+== Series Details ==
+
+Series: rpm: fix spelling in one of the patches' Upstream-Status
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/21216/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at dfb3b56641)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- ...001-rpmfc.c-do-not-run-file-classification-in-parallel.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-index 9a5cd7c80dc..d8d338792d3 100644
---- a/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-+++ b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] rpmfc.c: do not run file classification in parallel
- This is causing freezes with libmagic when the file in question is compressed:
- https://github.com/rpm-software-management/rpm/issues/756
- 
--Upstream-Status: Inapppropriate [upstream wants a proper fix]
-+Upstream-Status: Inappropriate [upstream wants a proper fix]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  build/rpmfc.c | 8 --------
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
