@@ -1,47 +1,47 @@
 Return-Path: <alex.kiernan@gmail.com>
 Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
 	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DCBB7F815
+	by mail.openembedded.org (Postfix) with ESMTP id 71CE27F817
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 10:48:30 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id i13so27127962ioj.5
+	Wed, 20 Nov 2019 10:49:45 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id k1so27115013ioj.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 02:48:32 -0800 (PST)
+	Wed, 20 Nov 2019 02:49:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=saSTprlierzO3Qciw7XPcbf1nh+/hKF4hsEyGekG+zY=;
-	b=hXdHYbJMWGNkfdPFvRr44kpwFre5jiqszc7e06V6bDFiPoeAsG11RagKfkArwmksin
-	mnjci37dMLVEqKV19QICX1CxYajgY/MJgF3YLiVFGRCeo7XVvULdB2gMeTnyPUjkDJYZ
-	AhhZRIFRVEJ4yTSbFDW+3ltuFkiYhxZna3GI+EiyiJQZ9gyNNQMHNMOwWTTcJeliIUT7
-	LQcPyrqxMiiNDWN5qJvhRxZ5YLrN++odP+yTMGnXPrqWOdUIFE0Je1suUS9kzlsaTpdm
-	jJBiOnm/n2LVtkAtY3wtpD7mdwCg5GeeLdvZLjI1Ae+a2XbFPZtRFOQ2p4pQGVl9nmgH
-	4K9w==
+	:cc; bh=2Czf6F6Jwjx1XTcISVqFgZVA2lVbYfpdjvan0gfwQ8I=;
+	b=ezD/rRUXeiLMfXRILNrZuvo5HOWOSH73SB62jeKxwZWtC+jpSKsBc95dga0EsJqSiR
+	ww4FydoGvSd5eolx4RNPirBnH4Cpev65iOimJ95N4AMeywElPHqQGrcjSNQneCWpZ1BS
+	k6Rojz4QmRgm4gK9FFstAoGiQ33NF4+z57xfWmaS+UzBzkfnQWhdnXFVMfwmxzBBp1lI
+	ZxC8G346YGnB4ge+2keyLeqYEgFcTE45nFx5Wc2k8kGzyMCswWhmpFHBfn2+eExb9ukx
+	llMtgbpFEer5LoGy6u9sq+wgYc99PHBsIR54aJMMnAKypxqEJ6mwqEOAbU9unhzY+XF+
+	v2UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=saSTprlierzO3Qciw7XPcbf1nh+/hKF4hsEyGekG+zY=;
-	b=CSOhL4QJqMkGZiV3wWRgLw3WEWsgfhchWAESDq8ylHv6bTQfs0/4ed2e7X0bM8bF6e
-	c+gkdTGpLJWngtXZbuIovseqr2CcwGHX4YNX/b1LyIwL7FtSS5xtYVUse6VJ79LMNtIX
-	fJlEQkcATr+Tt9xxb/du/6nY7VagIkaHuaZi9e8sRTSiST3Opbq9u+pVxMPfzifrBW0J
-	IKEcuz8WX+BC0D2Q57CFqpk59Dbgl0GAkpFIpq+zYgFFS8afi5U23Ei6mC5qlSeS4t9R
-	HwJcQjIWRrJjW+feggdi6znJyeQ9v1D6ntjISdkG2EG+i63NX4vn8khvIvonOvKM/xL9
-	2CAg==
-X-Gm-Message-State: APjAAAUdjZzZozxF0w5DJsQHFBfUraQg06knH1xRt+ywEiVB1bVTPqq2
-	FwrOZPZ2TNBEUHQ2iGTimjS82KiT7Az82RKAwD0=
-X-Google-Smtp-Source: APXvYqxX1j6VQM8NMb1+83xcUUQETiwyXR/z+/nMzk+IEis+hREL6DtxlIoP2lNk83aIxXtKQLnr0vxfc5mX6QSrhyk=
-X-Received: by 2002:a02:94c6:: with SMTP id x64mr2425333jah.81.1574246911819; 
-	Wed, 20 Nov 2019 02:48:31 -0800 (PST)
+	bh=2Czf6F6Jwjx1XTcISVqFgZVA2lVbYfpdjvan0gfwQ8I=;
+	b=jNFfyKHJBwASMk3rS+C89QIP9fHmhGH5fdSp9jF9yXn79LZwQoBPkjFpPFE41cNqPg
+	6QI1p4GbS5hphjvf/+IGvpZuOGxZhFlPKxQVaj7yybYarORFQe7vG8OlaFPpzgTmIIp3
+	/ib4WoAS+ixyP0P38NPTS0qkjDIBCYc3WOM4Sh3EQHYsd4pwu+fF9p/sVNM0cX8GDGCT
+	yyicaGw+GMn2QvCSQ+UcXTlg6VNrlZRo9v+0KO0nXP9SYnFt+PcjBnyetK1oT0uGrzqz
+	xJXjwP01T68TUUIv6nrCkcJhIX7Si6hCz1uMgmFp3VVWsL7EZru3QDvTssfUCNk7mykM
+	js/w==
+X-Gm-Message-State: APjAAAXgXP/Hb9zvC0wsxfJ7DvSz+j0MA37VGGIeNba+d2MaS9RL5E3a
+	wIYplcRjet6r6yy9fwtX0j9XXn7vWgwTOa6QMgg=
+X-Google-Smtp-Source: APXvYqyqW9YPCcWzj40rKfFOSIVV67p3szc6qUf3mqGN3nSh7fQU/COQ2Y/SvHefv6+kuXjYNNb4lUidI0ifXpY7skI=
+X-Received: by 2002:a6b:3a88:: with SMTP id h130mr1466035ioa.217.1574246986641;
+	Wed, 20 Nov 2019 02:49:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20191120091258.30350-1-stefan@agner.ch>
 	<20191120091258.30350-2-stefan@agner.ch>
-	<20191120103145.GA23054@localhost>
-In-Reply-To: <20191120103145.GA23054@localhost>
+In-Reply-To: <20191120091258.30350-2-stefan@agner.ch>
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 20 Nov 2019 10:48:21 +0000
-Message-ID: <CAO5Uq5T_xA5XzyOmgRbPWBFoJZ3JEqzrnja8=xt8_eAV-nbjEA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
+Date: Wed, 20 Nov 2019 10:49:35 +0000
+Message-ID: <CAO5Uq5QxwF+GQgFNndMZEWor3i08So4v2rO3JjXq4erg=TDLLw@mail.gmail.com>
+To: Stefan Agner <stefan@agner.ch>
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v4 2/2] image_types: add Zstandard conversion support
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,34 +56,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 10:48:31 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 10:49:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 20, 2019 at 10:32 AM Adrian Bunk <bunk@stusta.de> wrote:
+On Wed, Nov 20, 2019 at 9:13 AM Stefan Agner <stefan@agner.ch> wrote:
 >
-> On Wed, Nov 20, 2019 at 09:12:58AM +0000, Stefan Agner wrote:
-> >...
-> > --- a/meta/classes/image_types.bbclass
-> > +++ b/meta/classes/image_types.bbclass
-> > @@ -59,6 +59,8 @@ XZ_INTEGRITY_CHECK ?= "crc32"
-> >
-> >  ZIP_COMPRESSION_LEVEL ?= "-9"
-> >
-> > +ZSTD_COMPRESSION_LEVEL ?= "-3"
-> > +
-> >...
+> From: Stefan Agner <stefan.agner@toradex.com>
 >
-> Why -3 and not -19 ?
+> Add Zstandard (or just Zstd) compression support. This allows to
+> create Zstd compressed tarballs by using tar.zst as IMAGE_FSTYPES.
 >
-> Compression speed is not a real issue, and AFAIR decompression
-> tends to be slightly faster with smaller compressed size.
-> Plus the benefit that smaller images are faster to load
-> from network/storage.
+> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+> ---
+>  meta/classes/image_types.bbclass | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
 >
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 2eeffbb366..d29b9c5787 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -59,6 +59,8 @@ XZ_INTEGRITY_CHECK ?= "crc32"
+>
+>  ZIP_COMPRESSION_LEVEL ?= "-9"
+>
+> +ZSTD_COMPRESSION_LEVEL ?= "-3"
+> +
+>  JFFS2_SUM_EXTRA_ARGS ?= ""
+>  IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.jffs2 ${EXTRA_IMAGECMD}"
+>
+> @@ -269,7 +271,7 @@ IMAGE_TYPES = " \
+>      hddimg \
+>      squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
+>      ubi ubifs multiubi \
+> -    tar tar.gz tar.bz2 tar.xz tar.lz4 \
+> +    tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
+>      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
+>      wic wic.gz wic.bz2 wic.lzma \
+>      container \
+> @@ -282,7 +284,7 @@ IMAGE_TYPES = " \
+>  # CONVERSION_CMD/DEPENDS.
+>  COMPRESSIONTYPES ?= ""
+>
+> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
+> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
+>  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>  CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
+>  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> @@ -290,6 +292,7 @@ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=
+>  CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
+>  CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+>  CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
+> +CONVERSION_CMD_zst = "zstd -f -k -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
 
-I've been carrying similar functionality locally and at some point
-pushed to `--ultra -22` and with a large image (~2GiB) the compression
-stage then took literally hours. Not sure I tested with `-19` though
+Add -T0 so we default to parallel?
 
 -- 
 Alex Kiernan
