@@ -1,38 +1,38 @@
 Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
 	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 554697F7E9
+	by mail.openembedded.org (Postfix) with ESMTP id 35C347F700
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 09:34:08 +0000 (UTC)
+	Wed, 20 Nov 2019 09:34:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 89E019C027E;
-	Wed, 20 Nov 2019 04:34:09 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 6CC669C0292;
+	Wed, 20 Nov 2019 04:34:11 -0500 (EST)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10032)
-	with ESMTP id xcYaqn3iVoSy; Wed, 20 Nov 2019 04:34:08 -0500 (EST)
+	with ESMTP id jlZaQmPt6GDR; Wed, 20 Nov 2019 04:34:09 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 310DD9C01A7;
-	Wed, 20 Nov 2019 04:34:08 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 9F3589C01A7;
+	Wed, 20 Nov 2019 04:34:09 -0500 (EST)
 X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10026)
-	with ESMTP id hKarviqzb6on; Wed, 20 Nov 2019 04:34:08 -0500 (EST)
+	with ESMTP id 7gN5Tv-RFj5l; Wed, 20 Nov 2019 04:34:09 -0500 (EST)
 Received: from sulaco.jml.bzh (91-167-182-132.subs.proxad.net [91.167.182.132])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id D345E9C02BE;
-	Wed, 20 Nov 2019 04:34:06 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 3E2429C01C2;
+	Wed, 20 Nov 2019 04:34:08 -0500 (EST)
 From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Nov 2019 10:33:43 +0100
-Message-Id: <20191120093358.11622-3-jean-marie.lemetayer@savoirfairelinux.com>
+Date: Wed, 20 Nov 2019 10:33:44 +0100
+Message-Id: <20191120093358.11622-4-jean-marie.lemetayer@savoirfairelinux.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
 References: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
 MIME-Version: 1.0
 Cc: jonaskgandersson@gmail.com, paul.eggleton@linux.intel.com,
 	rennes@savoirfairelinux.com, bunk@stusta.de
-Subject: [PATCH v3 02/17] npm.bbclass: refactor the npm class
+Subject: [PATCH v3 03/17] recipetool/create_npm.py: refactor the npm recipe creation handler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,289 +45,595 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 09:34:08 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 09:34:10 -0000
 Content-Transfer-Encoding: quoted-printable
 
-Many issues were related to npm dependencies badly handled: package
-names, installation directories, ... In fact npm is using an install
-algorithm [1] which is hard to reproduce / anticipate. Moreover some
-npm packages use scopes [2] which adds more complexity.
+This commit refactors the npm recipe creation handler to use the new npm
+behavior. The process is kept as simple as possible and only generates
+the shrinkwrap file.
 
-The simplest solution is to let npm do its job. Assuming the fetcher
-only get the sources of the package, the class will now run
-'npm install' to create a build directory. The build directory is then
-copied wisely to the destination.
-
-1: https://docs.npmjs.com/cli/install#algorithm
-2: https://docs.npmjs.com/about-scopes
+To avoid naming issues the recipe name is now extracted from the npm
+package name and not directly mapped.
 
 Signed-off-by: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinu=
 x.com>
 ---
- meta/classes/npm.bbclass | 199 ++++++++++++++++++++++++++-------------
- 1 file changed, 132 insertions(+), 67 deletions(-)
+ scripts/lib/recipetool/create_npm.py | 475 +++++++++++----------------
+ 1 file changed, 192 insertions(+), 283 deletions(-)
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 4b1f0a39f0..b3f73d9b67 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -1,19 +1,40 @@
+diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetoo=
+l/create_npm.py
+index 39429ebad3..ea3c3044fc 100644
+--- a/scripts/lib/recipetool/create_npm.py
++++ b/scripts/lib/recipetool/create_npm.py
+@@ -1,321 +1,230 @@
+-# Recipe creation tool - node.js NPM module support plugin
+-#
+ # Copyright (C) 2016 Intel Corporation
 +# Copyright (C) 2019 Savoir-Faire Linux
-+#
-+# This bbclass builds and installs an npm package to the target. The pac=
-kage
-+# sources files should be fetched in the calling recipe by using the SRC=
-_URI
-+# variable. The ${S} variable should be updated depending of your fetche=
-r.
-+#
-+# Usage:
-+#  SRC_URI =3D "..."
-+#  inherit npm
-+#
-+# Optional variables:
-+#  NPM_SHRINKWRAP:
-+#       Provide a shrinkwrap file [1]. If available a shrinkwrap file in=
- the
-+#       sources has priority over the one provided. A shrinkwrap file is
-+#       mandatory in order to ensure build reproducibility.
-+#       1: https://docs.npmjs.com/files/shrinkwrap.json
-+#
-+#  NPM_INSTALL_DEV:
-+#       Set to 1 to also install devDependencies.
-+#
-+#  NPM_REGISTRY:
-+#       Use the specified registry.
-+#
-+#  NPM_ARCH:
-+#       Override the auto generated npm architecture.
-+
- DEPENDS_prepend =3D "nodejs-native "
- RDEPENDS_${PN}_prepend =3D "nodejs "
--S =3D "${WORKDIR}/npmpkg"
+ #
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
++"""
++    Recipe creation tool - npm module support plugin
++"""
 =20
--def node_pkgname(d):
--    bpn =3D d.getVar('BPN')
--    if bpn.startswith("node-"):
--        return bpn[5:]
--    return bpn
-+NPM_SHRINKWRAP ?=3D "${THISDIR}/${BPN}/npm-shrinkwrap.json"
++import json
+ import os
++import re
++import shutil
+ import sys
+-import logging
+-import subprocess
+ import tempfile
+-import shutil
+-import json
+-from recipetool.create import RecipeHandler, split_pkg_licenses, handle_=
+license_vars
+-
+-logger =3D logging.getLogger('recipetool')
+-
++import bb
++from bb.fetch2 import runfetchcmd
++from recipetool.create import RecipeHandler
 =20
--NPMPN ?=3D "${@node_pkgname(d)}"
-+NPM_INSTALL_DEV ?=3D "0"
+ tinfoil =3D None
 =20
--NPM_INSTALLDIR =3D "${libdir}/node_modules/${NPMPN}"
-+NPM_REGISTRY ?=3D "http://registry.npmjs.org"
+ def tinfoil_init(instance):
++    """
++        Initialize tinfoil.
++    """
+     global tinfoil
+     tinfoil =3D instance
 =20
- # function maps arch names to npm arch names
--def npm_oe_arch_map(target_arch, d):
-+def npm_oe_arch_map(target_arch):
-     import re
-     if   re.match('p(pc|owerpc)(|64)', target_arch): return 'ppc'
-     elif re.match('i.86$', target_arch): return 'ia32'
-@@ -21,74 +42,118 @@ def npm_oe_arch_map(target_arch, d):
-     elif re.match('arm64$', target_arch): return 'arm'
-     return target_arch
+-
+ class NpmRecipeHandler(RecipeHandler):
+-    lockdownpath =3D None
++    """
++        Class to handle the npm recipe creation
++    """
++
++    @staticmethod
++    def _get_registry(extravalues, lines_before):
++        """
++            Get the registry value from the '--npm-registry' option
++            or the 'npm://registry' url.
++        """
++        registry_option =3D extravalues.get("NPM_REGISTRY")
++
++        registry_fetch =3D None
++
++        def handle_metadata(name, value, *unused):
++            if name =3D=3D "SRC_URI":
++                for uri in value.split():
++                    if uri.startswith("npm://"):
++                        nonlocal registry_fetch
++                        registry_fetch =3D re.sub(r"^npm://", "http://",=
+ uri.split(";")[0])
++            return value, None, 0, True
 =20
--NPM_ARCH ?=3D "${@npm_oe_arch_map(d.getVar('TARGET_ARCH'), d)}"
--NPM_INSTALL_DEV ?=3D "0"
-+NPM_ARCH ?=3D "${@npm_oe_arch_map(d.getVar('TARGET_ARCH'))}"
+-    def _ensure_npm(self, fixed_setup=3DFalse):
++        bb.utils.edit_metadata(lines_before, ["SRC_URI"], handle_metadat=
+a)
 +
-+NPM_CACHE_DIR ?=3D "${WORKDIR}/npm_cache"
++        if registry_fetch is not None:
++            registry =3D registry_fetch
 +
-+B =3D "${WORKDIR}/build"
++            if registry_option is not None:
++                bb.warn("The npm registry is specified multiple times")
++                bb.note("Using registry from the fetch url: '{}'".format=
+(registry))
++                extravalues.pop("NPM_REGISTRY", None)
 +
-+npm_install_shrinkwrap() {
-+    # This function ensures that there is a shrinkwrap file in the speci=
-fied
-+    # directory. A shrinkwrap file is mandatory to have reproducible bui=
-lds.
-+    # If the shrinkwrap file is not already included in the sources,
-+    # the recipe can provide one by using the NPM_SHRINKWRAP option.
-+    # This function returns the filename of the installed file (if any).
-+    if [ -f ${S}/npm-shrinkwrap.json ]
-+    then
-+        bbnote "Using the npm-shrinkwrap.json provided in the sources"
-+    elif [ -f ${NPM_SHRINKWRAP} ]
-+    then
-+        install -m 644 ${NPM_SHRINKWRAP} ${S}/npm-shrinkwrap.json
-+        echo ${S}/npm-shrinkwrap.json
-+    else
-+        bbfatal "No mandatory NPM_SHRINKWRAP file found"
-+    fi
-+}
++        elif registry_option is not None:
++            registry =3D registry_option
++
++        else:
++            registry =3D "http://registry.npmjs.org"
++
++        return registry
++
++    @staticmethod
++    def _ensure_npm(d):
++        """
++            Check if the 'npm' command is available in the recipes, then=
+ build
++            it and add it to the PATH.
++        """
+         if not tinfoil.recipes_parsed:
+             tinfoil.parse_recipes()
++
+         try:
+             rd =3D tinfoil.parse_recipe('nodejs-native')
+         except bb.providers.NoProvider:
+-            if fixed_setup:
+-                msg =3D 'nodejs-native is required for npm but is not av=
+ailable within this SDK'
+-            else:
+-                msg =3D 'nodejs-native is required for npm but is not av=
+ailable - you will likely need to add a layer that provides nodejs'
+-            logger.error(msg)
+-            return None
++            bb.error("Nothing provides 'nodejs-native' which is required=
+ for the build")
++            bb.note("You will likely need to add a layer that provides n=
+odejs")
++            sys.exit(14)
++
+         bindir =3D rd.getVar('STAGING_BINDIR_NATIVE')
+         npmpath =3D os.path.join(bindir, 'npm')
++
+         if not os.path.exists(npmpath):
+             tinfoil.build_targets('nodejs-native', 'addto_recipe_sysroot=
+')
++
+             if not os.path.exists(npmpath):
+-                logger.error('npm required to process specified source, =
+but nodejs-native did not seem to populate it')
+-                return None
+-        return bindir
+-
+-    def _handle_license(self, data):
+-        '''
+-        Handle the license value from an npm package.json file
+-        '''
+-        license =3D None
+-        if 'license' in data:
+-            license =3D data['license']
+-            if isinstance(license, dict):
+-                license =3D license.get('type', None)
+-            if license:
+-                if 'OR' in license:
+-                    license =3D license.replace('OR', '|')
+-                    license =3D license.replace('AND', '&')
+-                    license =3D license.replace(' ', '_')
+-                    if not license[0] =3D=3D '(':
+-                        license =3D '(' + license + ')'
+-                else:
+-                    license =3D license.replace('AND', '&')
+-                    if license[0] =3D=3D '(':
+-                        license =3D license[1:]
+-                    if license[-1] =3D=3D ')':
+-                        license =3D license[:-1]
+-                license =3D license.replace('MIT/X11', 'MIT')
+-                license =3D license.replace('Public Domain', 'PD')
+-                license =3D license.replace('SEE LICENSE IN EULA',
+-                                          'SEE-LICENSE-IN-EULA')
+-        return license
+-
+-    def _shrinkwrap(self, srctree, localfilesdir, extravalues, lines_bef=
+ore, d):
+-        try:
+-            runenv =3D dict(os.environ, PATH=3Dd.getVar('PATH'))
+-            bb.process.run('npm shrinkwrap', cwd=3Dsrctree, stderr=3Dsub=
+process.STDOUT, env=3Drunenv, shell=3DTrue)
+-        except bb.process.ExecutionError as e:
+-            logger.warning('npm shrinkwrap failed:\n%s' % e.stdout)
+-            return
+-
+-        tmpfile =3D os.path.join(localfilesdir, 'npm-shrinkwrap.json')
+-        shutil.move(os.path.join(srctree, 'npm-shrinkwrap.json'), tmpfil=
+e)
+-        extravalues.setdefault('extrafiles', {})
+-        extravalues['extrafiles']['npm-shrinkwrap.json'] =3D tmpfile
+-        lines_before.append('NPM_SHRINKWRAP :=3D "${THISDIR}/${PN}/npm-s=
+hrinkwrap.json"')
+-
+-    def _lockdown(self, srctree, localfilesdir, extravalues, lines_befor=
+e, d):
+-        runenv =3D dict(os.environ, PATH=3Dd.getVar('PATH'))
+-        if not NpmRecipeHandler.lockdownpath:
+-            NpmRecipeHandler.lockdownpath =3D tempfile.mkdtemp('recipeto=
+ol-npm-lockdown')
+-            bb.process.run('npm install lockdown --prefix %s' % NpmRecip=
+eHandler.lockdownpath,
+-                           cwd=3Dsrctree, stderr=3Dsubprocess.STDOUT, en=
+v=3Drunenv, shell=3DTrue)
+-        relockbin =3D os.path.join(NpmRecipeHandler.lockdownpath, 'node_=
+modules', 'lockdown', 'relock.js')
+-        if not os.path.exists(relockbin):
+-            logger.warning('Could not find relock.js within lockdown dir=
+ectory; skipping lockdown')
+-            return
+-        try:
+-            bb.process.run('node %s' % relockbin, cwd=3Dsrctree, stderr=3D=
+subprocess.STDOUT, env=3Drunenv, shell=3DTrue)
+-        except bb.process.ExecutionError as e:
+-            logger.warning('lockdown-relock failed:\n%s' % e.stdout)
+-            return
+-
+-        tmpfile =3D os.path.join(localfilesdir, 'lockdown.json')
+-        shutil.move(os.path.join(srctree, 'lockdown.json'), tmpfile)
+-        extravalues.setdefault('extrafiles', {})
+-        extravalues['extrafiles']['lockdown.json'] =3D tmpfile
+-        lines_before.append('NPM_LOCKDOWN :=3D "${THISDIR}/${PN}/lockdow=
+n.json"')
+-
+-    def _handle_dependencies(self, d, deps, optdeps, devdeps, lines_befo=
+re, srctree):
+-        import scriptutils
+-        # If this isn't a single module we need to get the dependencies
+-        # and add them to SRC_URI
+-        def varfunc(varname, origvalue, op, newlines):
+-            if varname =3D=3D 'SRC_URI':
+-                if not origvalue.startswith('npm://'):
+-                    src_uri =3D origvalue.split()
+-                    deplist =3D {}
+-                    for dep, depver in optdeps.items():
+-                        depdata =3D self.get_npm_data(dep, depver, d)
+-                        if self.check_npm_optional_dependency(depdata):
+-                            deplist[dep] =3D depdata
+-                    for dep, depver in devdeps.items():
+-                        depdata =3D self.get_npm_data(dep, depver, d)
+-                        if self.check_npm_optional_dependency(depdata):
+-                            deplist[dep] =3D depdata
+-                    for dep, depver in deps.items():
+-                        depdata =3D self.get_npm_data(dep, depver, d)
+-                        deplist[dep] =3D depdata
+-
+-                    extra_urls =3D []
+-                    for dep, depdata in deplist.items():
+-                        version =3D depdata.get('version', None)
+-                        if version:
+-                            url =3D 'npm://registry.npmjs.org;name=3D%s;=
+version=3D%s;subdir=3Dnode_modules/%s' % (dep, version, dep)
+-                            extra_urls.append(url)
+-                    if extra_urls:
+-                        scriptutils.fetch_url(tinfoil, ' '.join(extra_ur=
+ls), None, srctree, logger)
+-                        src_uri.extend(extra_urls)
+-                        return src_uri, None, -1, True
+-            return origvalue, None, 0, True
+-        updated, newlines =3D bb.utils.edit_metadata(lines_before, ['SRC=
+_URI'], varfunc)
+-        if updated:
+-            del lines_before[:]
+-            for line in newlines:
+-                # Hack to avoid newlines that edit_metadata inserts
+-                if line.endswith('\n'):
+-                    line =3D line[:-1]
+-                lines_before.append(line)
+-        return updated
++                bb.error("Failed to add 'npm' to sysroot")
++                sys.exit(14)
++
++        d.prependVar("PATH", "{}:".format(bindir))
++
++    @staticmethod
++    def _run_npm_install(d, development):
++        """
++            Run the 'npm install' command without building the addons (i=
+f any).
++            This is only needed to generate the initial shrinkwrap file.
++            The 'node_modules' directory is created and populated.
++        """
++        cmd =3D "npm install"
++        cmd +=3D " --ignore-scripts"
++        cmd +=3D " --no-shrinkwrap"
++        cmd +=3D d.expand(" --cache=3D${NPM_CACHE_DIR}")
++        cmd +=3D d.expand(" --registry=3D${NPM_REGISTRY}")
++
++        if development is None:
++            cmd +=3D " --production"
++
++        bb.utils.remove(os.path.join(d.getVar("S"), "node_modules"), rec=
+urse=3DTrue)
++        runfetchcmd(cmd, d, workdir=3Dd.getVar("S"))
++        bb.utils.remove(d.getVar("NPM_CACHE_DIR"), recurse=3DTrue)
++
++    @staticmethod
++    def _run_npm_shrinkwrap(d, development):
++        """
++            Run the 'npm shrinkwrap' command to generate the shrinkwrap =
+file.
++        """
++        cmd =3D "npm shrinkwrap"
++
++        if development is not None:
++            cmd +=3D " --development"
++
++        runfetchcmd(cmd, d, workdir=3Dd.getVar("S"))
++
++    def _generate_shrinkwrap(self, d, lines, extravalues, development):
++        """
++            Check and generate the npm-shrinkwrap.json file if needed.
++        """
++        self._ensure_npm(d)
++        self._run_npm_install(d, development)
++
++        # Check if a shinkwrap file is already in the source
++        src_shrinkwrap =3D os.path.join(d.getVar("S"), "npm-shrinkwrap.j=
+son")
++        if os.path.exists(src_shrinkwrap):
++            bb.note("Using the npm-shrinkwrap.json provided in the sourc=
+es")
++            return src_shrinkwrap
++
++        # Generate the 'npm-shrinkwrap.json' file
++        self._run_npm_shrinkwrap(d, development)
++
++        # Convert the shrinkwrap file and save it in a temporary locatio=
+n
++        tmpdir =3D tempfile.mkdtemp(prefix=3D"recipetool-npm")
++        tmp_shrinkwrap =3D os.path.join(tmpdir, "npm-shrinkwrap.json")
++        shutil.move(src_shrinkwrap, tmp_shrinkwrap)
++
++        # Add the shrinkwrap file as 'extrafiles'
++        extravalues.setdefault("extrafiles", {})
++        extravalues["extrafiles"]["npm-shrinkwrap.json"] =3D tmp_shrinkw=
+rap
++
++        # Add a line in the recipe to handle the shrinkwrap file
++        lines.append("NPM_SHRINKWRAP =3D \"${THISDIR}/${BPN}/npm-shrinkw=
+rap.json\"")
++
++        # Clean the source tree
++        bb.utils.remove(os.path.join(d.getVar("S"), "node_modules"), rec=
+urse=3DTrue)
++        bb.utils.remove(src_shrinkwrap)
++
++        return tmp_shrinkwrap
++
++    @staticmethod
++    def _name_from_npm(npm_name, number=3DFalse):
++        """
++            Generate a name based on the npm package name.
++        """
++        name =3D npm_name
++        name =3D re.sub("/", "-", name)
++        name =3D name.lower()
++        if not number:
++            name =3D re.sub(r"[^\-a-z]", "", name)
++        else:
++            name =3D re.sub(r"[^\-a-z0-9]", "", name)
++        name =3D name.strip("-")
++        return name
 =20
- npm_do_compile() {
--	# Copy in any additionally fetched modules
--	if [ -d ${WORKDIR}/node_modules ] ; then
--		cp -a ${WORKDIR}/node_modules ${S}/
--	fi
--	# changing the home directory to the working directory, the .npmrc will
--	# be created in this directory
--	export HOME=3D${WORKDIR}
--	if [  "${NPM_INSTALL_DEV}" =3D "1" ]; then
--		npm config set dev true
--	else
--		npm config set dev false
--	fi
--	npm set cache ${WORKDIR}/npm_cache
--	# clear cache before every build
--	npm cache clear --force
--	# Install pkg into ${S} without going to the registry
--	if [  "${NPM_INSTALL_DEV}" =3D "1" ]; then
--		npm --arch=3D${NPM_ARCH} --target_arch=3D${NPM_ARCH} --no-registry ins=
-tall
--	else
--		npm --arch=3D${NPM_ARCH} --target_arch=3D${NPM_ARCH} --production --no=
--registry install
--	fi
-+    # This function executes the 'npm install' command which builds and
-+    # installs every dependencies needed for the package. All the files =
-are
-+    # installed in a build directory ${B} without filtering anything. To=
- do so,
-+    # a combination of 'npm pack' and 'npm install' is used to ensure th=
-at the
-+    # files in ${B} are actual copies instead of symbolic links (which i=
-s the
-+    # default npm behavior).
-+
-+    # First ensure that there is a shrinkwrap file in the sources.
-+    local NPM_SHRINKWRAP_INSTALLED=3D$(npm_install_shrinkwrap)
-+
-+    # Then create a tarball from a npm package whose sources must be in =
-${S}.
-+    local NPM_PACK_FILE=3D$(cd ${WORKDIR} && npm pack ${S}/)
-+
-+    # Clean source tree.
-+    rm -f ${NPM_SHRINKWRAP_INSTALLED}
-+
-+    # Remove the build directory.
-+    rm -rf ${B}
-+
-+    # Finally install and build the tarball package in ${B}.
-+    local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --cache=3D${NPM_CACHE_=
-DIR}"
-+    local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --loglevel=3Dsilly"
-+    local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --prefix=3D${B}"
-+    local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --global"
-+
-+    if [ "${NPM_INSTALL_DEV}" !=3D 1 ]
-+    then
-+        local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --production"
-+    fi
-+
-+    local NPM_INSTALL_GYP_ARGS=3D"${NPM_INSTALL_GYP_ARGS} --arch=3D${NPM=
-_ARCH}"
-+    local NPM_INSTALL_GYP_ARGS=3D"${NPM_INSTALL_GYP_ARGS} --target_arch=3D=
-${NPM_ARCH}"
-+    local NPM_INSTALL_GYP_ARGS=3D"${NPM_INSTALL_GYP_ARGS} --release"
-+
-+    cd ${WORKDIR} && npm install ${NPM_PACK_FILE} \
-+        ${NPM_INSTALL_GYP_ARGS} \
-+        ${NPM_INSTALL_ARGS}
- }
+     def process(self, srctree, classes, lines_before, lines_after, handl=
+ed, extravalues):
+-        import bb.utils
+-        import oe.package
+-        from collections import OrderedDict
++        """
++            Handle the npm recipe creation
++        """
 =20
- npm_do_install() {
--	# changing the home directory to the working directory, the .npmrc will
--	# be created in this directory
--	export HOME=3D${WORKDIR}
--	mkdir -p ${D}${libdir}/node_modules
--	local NPM_PACKFILE=3D$(npm pack .)
--	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arc=
-h=3D${NPM_ARCH} --production --no-registry ${NPM_PACKFILE}
--	ln -fs node_modules ${D}${libdir}/node
--	find ${D}${NPM_INSTALLDIR} -type f \( -name "*.a" -o -name "*.d" -o -na=
-me "*.o" \) -delete
--	if [ -d ${D}${prefix}/etc ] ; then
--		# This will be empty
--		rmdir ${D}${prefix}/etc
--	fi
--}
-+    # This function creates the destination directory from the pre insta=
-lled
-+    # files in the ${B} directory.
-+
-+    # Copy the entire lib and bin directories from ${B} to ${D}.
-+    install -d ${D}/${nonarch_libdir}
-+    cp --no-preserve=3Downership --recursive ${B}/lib/. ${D}/${nonarch_l=
-ibdir}
-+
-+    if [ -d "${B}/bin" ]
-+    then
-+        install -d ${D}/${bindir}
-+        cp --no-preserve=3Downership --recursive ${B}/bin/. ${D}/${bindi=
-r}
-+    fi
-+
-+    # If the package (or its dependencies) uses node-gyp to build native=
- addons,
-+    # object files, static libraries or other temporary files can be hid=
-den in
-+    # the lib directory. To reduce the package size and to avoid QA issu=
-es
-+    # (staticdev with static library files) these files must be removed.
-+
-+    # Remove any node-gyp directory in ${D} to remove temporary build fi=
-les.
-+    for GYP_D_FILE in $(find ${D} -regex ".*/build/Release/[^/]*.node")
-+    do
-+        local GYP_D_DIR=3D${GYP_D_FILE%/Release/*}
-+
-+        rm --recursive --force ${GYP_D_DIR}
-+    done
-+
-+    # Copy only the node-gyp release files from ${B} to ${D}.
-+    for GYP_B_FILE in $(find ${B} -regex ".*/build/Release/[^/]*.node")
-+    do
-+        local GYP_D_FILE=3D${D}/${prefix}/${GYP_B_FILE#${B}}
-+
-+        install -d ${GYP_D_FILE%/*}
-+        install -m 755 ${GYP_B_FILE} ${GYP_D_FILE}
-+    done
-+
-+    # Remove the shrinkwrap file which does not need to be packed.
-+    rm -f ${D}/${nonarch_libdir}/node_modules/*/npm-shrinkwrap.json
-+    rm -f ${D}/${nonarch_libdir}/node_modules/@*/*/npm-shrinkwrap.json
+         if 'buildsystem' in handled:
+             return False
 =20
--python populate_packages_prepend () {
--    instdir =3D d.expand('${D}${NPM_INSTALLDIR}')
--    extrapackages =3D oe.package.npm_split_package_dirs(instdir)
--    pkgnames =3D extrapackages.keys()
--    d.prependVar('PACKAGES', '%s ' % ' '.join(pkgnames))
--    for pkgname in pkgnames:
--        pkgrelpath, pdata =3D extrapackages[pkgname]
--        pkgpath =3D '${NPM_INSTALLDIR}/' + pkgrelpath
--        # package names can't have underscores but npm packages sometime=
-s use them
--        oe_pkg_name =3D pkgname.replace('_', '-')
--        expanded_pkgname =3D d.expand(oe_pkg_name)
--        d.setVar('FILES_%s' % expanded_pkgname, pkgpath)
--        if pdata:
--            version =3D pdata.get('version', None)
--            if version:
--                d.setVar('PKGV_%s' % expanded_pkgname, version)
--            description =3D pdata.get('description', None)
--            if description:
--                d.setVar('SUMMARY_%s' % expanded_pkgname, description.re=
-place(u"\u2018", "'").replace(u"\u2019", "'"))
--    d.appendVar('RDEPENDS_%s' % d.getVar('PN'), ' %s' % ' '.join(pkgname=
-s).replace('_', '-'))
-+    # node(1) is using /usr/lib/node as default include directory and np=
-m(1) is
-+    # using /usr/lib/node_modules as install directory. Let's make both =
-happy.
-+    ln -fs node_modules ${D}/${nonarch_libdir}/node
- }
+-        def read_package_json(fn):
+-            with open(fn, 'r', errors=3D'surrogateescape') as f:
+-                return json.loads(f.read())
++        files =3D RecipeHandler.checkfiles(srctree, ["package.json"])
 =20
- FILES_${PN} +=3D " \
-     ${bindir} \
--    ${libdir}/node \
--    ${NPM_INSTALLDIR} \
-+    ${nonarch_libdir} \
- "
+-        files =3D RecipeHandler.checkfiles(srctree, ['package.json'])
+-        if files:
+-            d =3D bb.data.createCopy(tinfoil.config_data)
+-            npm_bindir =3D self._ensure_npm()
+-            if not npm_bindir:
+-                sys.exit(14)
+-            d.prependVar('PATH', '%s:' % npm_bindir)
+-
+-            data =3D read_package_json(files[0])
+-            if 'name' in data and 'version' in data:
+-                extravalues['PN'] =3D data['name']
+-                extravalues['PV'] =3D data['version']
+-                classes.append('npm')
+-                handled.append('buildsystem')
+-                if 'description' in data:
+-                    extravalues['SUMMARY'] =3D data['description']
+-                if 'homepage' in data:
+-                    extravalues['HOMEPAGE'] =3D data['homepage']
+-
+-                fetchdev =3D extravalues['fetchdev'] or None
+-                deps, optdeps, devdeps =3D self.get_npm_package_dependen=
+cies(data, fetchdev)
+-                self._handle_dependencies(d, deps, optdeps, devdeps, lin=
+es_before, srctree)
+-
+-                # Shrinkwrap
+-                localfilesdir =3D tempfile.mkdtemp(prefix=3D'recipetool-=
+npm')
+-                self._shrinkwrap(srctree, localfilesdir, extravalues, li=
+nes_before, d)
+-
+-                # Lockdown
+-                self._lockdown(srctree, localfilesdir, extravalues, line=
+s_before, d)
+-
+-                # Split each npm module out to is own package
+-                npmpackages =3D oe.package.npm_split_package_dirs(srctre=
+e)
+-                licvalues =3D None
+-                for item in handled:
+-                    if isinstance(item, tuple):
+-                        if item[0] =3D=3D 'license':
+-                            licvalues =3D item[1]
+-                            break
+-                if not licvalues:
+-                    licvalues =3D handle_license_vars(srctree, lines_bef=
+ore, handled, extravalues, d)
+-                if licvalues:
+-                    # Augment the license list with information we have =
+in the packages
+-                    licenses =3D {}
+-                    license =3D self._handle_license(data)
+-                    if license:
+-                        licenses['${PN}'] =3D license
+-                    for pkgname, pkgitem in npmpackages.items():
+-                        _, pdata =3D pkgitem
+-                        license =3D self._handle_license(pdata)
+-                        if license:
+-                            licenses[pkgname] =3D license
+-                    # Now write out the package-specific license values
+-                    # We need to strip out the json data dicts for this =
+since split_pkg_licenses
+-                    # isn't expecting it
+-                    packages =3D OrderedDict((x,y[0]) for x,y in npmpack=
+ages.items())
+-                    packages['${PN}'] =3D ''
+-                    pkglicenses =3D split_pkg_licenses(licvalues, packag=
+es, lines_after, licenses)
+-                    all_licenses =3D list(set([item.replace('_', ' ') fo=
+r pkglicense in pkglicenses.values() for item in pkglicense]))
+-                    if '&' in all_licenses:
+-                        all_licenses.remove('&')
+-                    extravalues['LICENSE'] =3D ' & '.join(all_licenses)
+-
+-                # Need to move S setting after inherit npm
+-                for i, line in enumerate(lines_before):
+-                    if line.startswith('S =3D'):
+-                        lines_before.pop(i)
+-                        lines_after.insert(0, '# Must be set after inher=
+it npm since that itself sets S')
+-                        lines_after.insert(1, line)
+-                        break
+-
+-                return True
+-
+-        return False
+-
+-    # FIXME this is duplicated from lib/bb/fetch2/npm.py
+-    def _parse_view(self, output):
+-        '''
+-        Parse the output of npm view --json; the last JSON result
+-        is assumed to be the one that we're interested in.
+-        '''
+-        pdata =3D None
+-        outdeps =3D {}
+-        datalines =3D []
+-        bracelevel =3D 0
+-        for line in output.splitlines():
+-            if bracelevel:
+-                datalines.append(line)
+-            elif '{' in line:
+-                datalines =3D []
+-                datalines.append(line)
+-            bracelevel =3D bracelevel + line.count('{') - line.count('}'=
+)
+-        if datalines:
+-            pdata =3D json.loads('\n'.join(datalines))
+-        return pdata
+-
+-    # FIXME this is effectively duplicated from lib/bb/fetch2/npm.py
+-    # (split out from _getdependencies())
+-    def get_npm_data(self, pkg, version, d):
+-        import bb.fetch2
+-        pkgfullname =3D pkg
+-        if version !=3D '*' and not '/' in version:
+-            pkgfullname +=3D "@'%s'" % version
+-        logger.debug(2, "Calling getdeps on %s" % pkg)
+-        runenv =3D dict(os.environ, PATH=3Dd.getVar('PATH'))
+-        fetchcmd =3D "npm view %s --json" % pkgfullname
+-        output, _ =3D bb.process.run(fetchcmd, stderr=3Dsubprocess.STDOU=
+T, env=3Drunenv, shell=3DTrue)
+-        data =3D self._parse_view(output)
+-        return data
+-
+-    # FIXME this is effectively duplicated from lib/bb/fetch2/npm.py
+-    # (split out from _getdependencies())
+-    def get_npm_package_dependencies(self, pdata, fetchdev):
+-        dependencies =3D pdata.get('dependencies', {})
+-        optionalDependencies =3D pdata.get('optionalDependencies', {})
+-        dependencies.update(optionalDependencies)
+-        if fetchdev:
+-            devDependencies =3D pdata.get('devDependencies', {})
+-            dependencies.update(devDependencies)
+-        else:
+-            devDependencies =3D {}
+-        depsfound =3D {}
+-        optdepsfound =3D {}
+-        devdepsfound =3D {}
+-        for dep in dependencies:
+-            if dep in optionalDependencies:
+-                optdepsfound[dep] =3D dependencies[dep]
+-            elif dep in devDependencies:
+-                devdepsfound[dep] =3D dependencies[dep]
+-            else:
+-                depsfound[dep] =3D dependencies[dep]
+-        return depsfound, optdepsfound, devdepsfound
+-
+-    # FIXME this is effectively duplicated from lib/bb/fetch2/npm.py
+-    # (split out from _getdependencies())
+-    def check_npm_optional_dependency(self, pdata):
+-        pkg_os =3D pdata.get('os', None)
+-        if pkg_os:
+-            if not isinstance(pkg_os, list):
+-                pkg_os =3D [pkg_os]
+-            blacklist =3D False
+-            for item in pkg_os:
+-                if item.startswith('!'):
+-                    blacklist =3D True
+-                    break
+-            if (not blacklist and 'linux' not in pkg_os) or '!linux' in =
+pkg_os:
+-                pkg =3D pdata.get('name', 'Unnamed package')
+-                logger.debug(2, "Skipping %s since it's incompatible wit=
+h Linux" % pkg)
+-                return False
+-        return True
++        if not files:
++            return False
++
++        with open(files[0], "r") as f:
++            data =3D json.load(f)
 =20
- EXPORT_FUNCTIONS do_compile do_install
++        if "name" not in data or "version" not in data:
++            return False
++
++        # Get the option values
++        development =3D extravalues.get("NPM_INSTALL_DEV")
++        registry =3D self._get_registry(extravalues, lines_before)
++
++        # Initialize the npm environment
++        d =3D bb.data.createCopy(tinfoil.config_data)
++        d.setVar("S", srctree)
++        d.setVar("NPM_REGISTRY", registry)
++        d.setVar("NPM_CACHE_DIR", "${S}/.npm_cache")
++
++        # Generate the shrinkwrap file
++        shrinkwrap =3D self._generate_shrinkwrap(d, lines_before,
++                                               extravalues, development)
++
++        extravalues["PN"] =3D self._name_from_npm(data["name"])
++        extravalues["PV"] =3D data["version"]
++
++        if "description" in data:
++            extravalues["SUMMARY"] =3D data["description"]
++
++        if "homepage" in data:
++            extravalues["HOMEPAGE"] =3D data["homepage"]
++
++        classes.append("npm")
++        handled.append("buildsystem")
++
++        return True
+=20
+ def register_recipe_handlers(handlers):
++    """
++        Register the npm handler
++    """
+     handlers.append((NpmRecipeHandler(), 60))
 --=20
 2.20.1
 
