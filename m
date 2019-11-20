@@ -1,25 +1,52 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 762577F82F
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E30D7F830
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 18:36:55 +0000 (UTC)
-Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
-	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id xAKIarKN028295
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NO); Wed, 20 Nov 2019 12:36:54 -0600
-To: Ryan Harkin <ryan.harkin@linaro.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-References: <CAD0U-hKudOEYkkPQQ1He3=Cg1hLqT7u5Uhsn_e2ZK0vGmo+z3w@mail.gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-Message-ID: <5c9cb09a-e0b3-f43b-36cd-bc9a7df2dd6c@kernel.crashing.org>
-Date: Wed, 20 Nov 2019 12:36:53 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.2.2
+	Wed, 20 Nov 2019 18:38:21 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id t26so777188wmi.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Nov 2019 10:38:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/QeeqS3aYa5EAYfiBDATu6h4XlLaEqTKBLeYLSHmVos=;
+	b=KZ1ejn9BdZRY98+R60F+rBIMp0DWUZt9eQQncc+MoxFnbKP3DLV7UiHjhxFhvKsg7H
+	cnaqKUAbPAvJflg2J0jSzuysJu6xZgmRbYS6Y/xRbzRR4vYigm5twfuFGvZEOO88Gkel
+	Xviwwa7hUotr8iOieLGSY+T9blqd3Ule7IXQKrmmUyujZmbanQ5U080N+imIix3uaNLa
+	AvtZNkyIBNYikUUd90hl6OBo1DNit/Nz7EffcfXRX8eFopeoKeI69jlSlfw+olDO6JLH
+	7glsLrIjiR00yNxqbt1uLIbLjlkJU6KTDqrB576/NAJr/dpqLVDX0jNcTuPvcLDCWL1e
+	gnJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/QeeqS3aYa5EAYfiBDATu6h4XlLaEqTKBLeYLSHmVos=;
+	b=i9B7mm/h4lfUxUn9lroioppcEq7YEXFdmtTQV+8RaWkuceDWX026UmzrkGm4xsbL8a
+	59rYmFK7ZTNKVQtAFKqBjjMfeMuR5FXI3DtMMuovk8Tv/bx1ATRzz3CXl2pkbUgd5VU4
+	N6FH9o/iYMePxEJzGDmA7Dfed0mVym2BRZFbAGahiHS1SX5SfG2DFZTrCS2RmbxeqFFL
+	OOkKBAF+xsAwfkrdLVTAD5bvAexWFSao+tODj7vw20YcqFz6gDfxhRrShrDccb1MQNYU
+	ZndD0ZKEJ/YWNbTb1O2Xg98Carw1HZCAI472nSbtXRJo4IoDSbx4fggSoF7hpQ/NKlYV
+	C1xQ==
+X-Gm-Message-State: APjAAAUP4hEJsq4mrzqtlyDXvkCL28HSM/y31gaCW1626zsNl+5USYsC
+	hEkZPvK+aSMXCnzqnQsk1OZO0yTC96s=
+X-Google-Smtp-Source: APXvYqxM8rx8m2wsR8KvnZdj/Ih9C7eOtkS/k+p9kBeDzFp34DhjB8HLtYOgndsh3kP9zGAJhgijpg==
+X-Received: by 2002:a1c:814b:: with SMTP id c72mr5286968wmd.167.1574275101936; 
+	Wed, 20 Nov 2019 10:38:21 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id p25sm143652wma.20.2019.11.20.10.38.20
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 20 Nov 2019 10:38:20 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Nov 2019 18:38:09 +0000
+Message-Id: <20191120183813.9390-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAD0U-hKudOEYkkPQQ1He3=Cg1hLqT7u5Uhsn_e2ZK0vGmo+z3w@mail.gmail.com>
-Subject: Re: How to backport openssl to Sumo
+Subject: [PATCH 1/5] packagegroup-core-sdk: remove intltool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,65 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 18:36:55 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-List-Received-Date: Wed, 20 Nov 2019 18:38:21 -0000
 Content-Transfer-Encoding: 8bit
 
+Intltool is deprecated these days, as gettext can handle almost everything
+intltool could.  Remove it from the SDK packagegroups, if it is needed then the
+user can add it explicitly.
 
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-On 11/20/19 12:18 PM, Ryan Harkin wrote:
-> Hi all,
-> 
-> I'm struggling with backporting OpenSSL to my Sumo build [1], so wondered if
-> anyone else had done something similar with success.
-> 
-> I copied "meta/recipes-connectivity/openssl" from Poky master branch [2] into my
-> own layer [3]. It didn't pick up, so I discovered I needed to add
-> a PREFERRED_VERSION, eg:
-> 
-> +PREFERRED_VERSION_openssl ?= "1.1.%"
-> +PREFERRED_VERSION_openssl-native ?= "1.1.%"
-> +PREFERRED_VERSION_nativesdk-openssl ?= "1.1.%"
-> 
-> Now it builds fine. However, I no longer have /usr/bin/openssl in my disk image.
-> 
-> It doesn't appear in FILES_${PN}, and adding it to the recipes doesn't seem to
-> make any difference.
-> 
-> What am I missing?
-> 
-> Thanks,
-> Ryan.
-> 
-> [1] I'm looking for CVE fixes, 1.0.2p has a lot of CVEs.
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+index 8854ec4801f..03fa5296c15 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+@@ -16,7 +16,6 @@ RDEPENDS_packagegroup-core-sdk = "\
+     coreutils \
+     ccache \
+     diffutils \
+-    intltool \
+     perl-module-re \
+     perl-module-text-wrap \
+     findutils \
+-- 
+2.20.1
 
-You know that 1.0.2 and 1.1 APIs are not compatible?  So you will need to update
-everything that needs OpenSSL to understand the new API.
-
-For CVE fixes, typically you would patch 1.0.2p, or update to the latest
-(1.0.2t) as you go.  (If you have an OSV, this should be part of the services
-that they offer you.)
-
-In my opinion, 1.0.2 will be around for at least another 4-5 years due to the
-number of people actively using it in the world.  Until 1.1/3.0 (won't be a 2.0
-from what I read) exists and has a FIPS-140-2 support available -- people will
-continue to use 1.0.2 and maintain it as necessary for security.
-
-As an FYI:  http://git.yoctoproject.org/cgit/cgit.cgi/meta-openssl102/
-
-This version is for thud, warrior, zeus and master.  It is intended to be
-maintained until either 1.0.2 is no longer maintainable -- or the FIPS-140-2
-needs have been met by OpenSSL.
-
---Mark
-
-> [2] http://git.yoctoproject.org/git/poky
-> I'm at SHA a616ffebdc, so I copied openssl_1.1.1d.bb <http://openssl_1.1.1d.bb>
-> and all the other files in the directory.
-> 
-> [3] I have a clone of Linaro's meta-backports. I'm trying to generate a patch to
-> submit for review there.
-> https://git.linaro.org/openembedded/meta-backports.git
-> 
 
