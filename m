@@ -1,30 +1,26 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 65BC56D6F5
+Return-Path: <timothy.t.orling@linux.intel.com>
+X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 20 Nov 2019 05:27:20 UTC
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B03E7F746
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 05:17:05 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.69,220,1571673600"; d="scan'208";a="78776941"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Nov 2019 13:17:04 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 995C54CE14FF
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 13:08:44 +0800 (CST)
-Received: from localhost.local (10.167.225.81) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 20 Nov 2019 13:17:06 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 20 Nov 2019 13:17:04 +0800
-Message-ID: <20191120051704.24066-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Wed, 20 Nov 2019 05:27:20 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Nov 2019 21:20:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,220,1571727600"; d="scan'208";a="204613831"
+Received: from wrath.jf.intel.com ([10.54.31.24])
+	by fmsmga008.fm.intel.com with ESMTP; 19 Nov 2019 21:20:10 -0800
+From: Tim Orling <timothy.t.orling@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 19 Nov 2019 21:20:02 -0800
+Message-Id: <20191120052002.39643-1-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 995C54CE14FF.A9592
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] alsa-lib:upgrade 1.1.9 -> 1.2.1.1
+Subject: [PATCH] liberror-perl: update 0.17027 -> 0.17028
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,88 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 05:17:05 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 05:27:20 -0000
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-The following error occurred during the steps of do-configure:
-| Fixing libtool for -rpath problems.
-| ../alsa-lib-1.2.1.1/configure: line 16567: libtool: No such file or directory
-| mv: cannot stat 'libtool-2': No such file or directory
-| chmod: cannot access 'libtool': No such file or directory
+HOMEPAGE change from bitbucket to github
 
-add alsa-lib/0001-Fix-problem-with-libtool-not-found.patch to fix it.
+Upstream release notes:
+  - Moved the VCS repo to https://github.com/shlomif/perl-error.pm
+  - No other significant changes.
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- ...1-Fix-problem-with-libtool-not-found.patch | 31 +++++++++++++++++++
- ...{alsa-lib_1.1.9.bb => alsa-lib_1.2.1.1.bb} |  8 +++--
- 2 files changed, 36 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-Fix-problem-with-libtool-not-found.patch
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.9.bb => alsa-lib_1.2.1.1.bb} (83%)
+ .../{liberror-perl_0.17027.bb => liberror-perl_0.17028.bb}  | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/perl/{liberror-perl_0.17027.bb => liberror-perl_0.17028.bb} (85%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-Fix-problem-with-libtool-not-found.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-Fix-problem-with-libtool-not-found.patch
-new file mode 100644
-index 0000000000..5fb84cd6f8
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/0001-Fix-problem-with-libtool-not-found.patch
-@@ -0,0 +1,31 @@
-+From f419276a716daf8d98846b3df50995e5ac030134 Mon Sep 17 00:00:00 2001
-+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-+Date: Wed, 20 Nov 2019 11:24:17 +0800
-+Subject: [PATCH] Fix problem with libtool not found
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-+---
-+ configure.ac | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 35eb315..548b9ea 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -769,9 +769,9 @@ dnl Taken from https://wiki.debian.org/RpathIssue
-+ case $host in
-+    *-*-linux-gnu)
-+    AC_MSG_RESULT([Fixing libtool for -rpath problems.])
-+-   sed < libtool > libtool-2 \
-++   sed < "$srcdir"/libtool > "$srcdir"/libtool-2 \
-+      's/^hardcode_libdir_flag_spec.*$'/'hardcode_libdir_flag_spec=" -D__LIBTOOL_IS_A_FOOL__ "/'
-+-   mv libtool-2 libtool
-+-   chmod 755 libtool
-++   mv "$srcdir"/libtool-2 "$srcdir"/libtool
-++   chmod 755 "$srcdir"/libtool
-+  ;;
-+ esac
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.9.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.1.bb
-similarity index 83%
-rename from meta/recipes-multimedia/alsa/alsa-lib_1.1.9.bb
-rename to meta/recipes-multimedia/alsa/alsa-lib_1.2.1.1.bb
-index 2c63ee7522..56544b0d45 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.9.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.1.bb
-@@ -7,9 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
-                     file://src/socket.c;md5=dd1bc7f44872690224d89c1a9806e495;beginline=1;endline=26 \
-                     "
+diff --git a/meta/recipes-devtools/perl/liberror-perl_0.17027.bb b/meta/recipes-devtools/perl/liberror-perl_0.17028.bb
+similarity index 85%
+rename from meta/recipes-devtools/perl/liberror-perl_0.17027.bb
+rename to meta/recipes-devtools/perl/liberror-perl_0.17028.bb
+index cf1f6d685f..8c6bbcba94 100644
+--- a/meta/recipes-devtools/perl/liberror-perl_0.17027.bb
++++ b/meta/recipes-devtools/perl/liberror-perl_0.17028.bb
+@@ -3,7 +3,7 @@ DESCRIPTION = "The Error package provides two interfaces. Firstly \
+ Error provides a procedural interface to exception handling. \
+ Secondly Error is a base class for errors/exceptions that can \
+ either be thrown, for subsequent catch, or can simply be recorded."
+-HOMEPAGE = "https://bitbucket.org/shlomif/perl-error.pm"
++HOMEPAGE = "https://github.com/shlomif/perl-error.pm"
+ SECTION = "libs"
+ LICENSE = "Artistic-1.0 | GPL-1.0+"
  
--SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
--SRC_URI[md5sum] = "e6d429dbdcfaa0f034d907fa6dc3735e"
--SRC_URI[sha256sum] = "488373aef5396682f3a411a6d064ae0ad196b9c96269d0bb912fbdeec94b994b"
-+SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
-+           file://0001-Fix-problem-with-libtool-not-found.patch \
-+          "
-+SRC_URI[md5sum] = "1d428f46d6160f5e4bbdd64a2ff34f45"
-+SRC_URI[sha256sum] = "c95ac63c0aad43a6ac457d960569096b0b2ef72dc4e3737e77e3e2de87022cec"
+@@ -32,8 +32,8 @@ RDEPENDS_${PN}-ptest += " \
  
- inherit autotools pkgconfig
+ SRC_URI = "http://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Error-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "4ef9b2890fb144d804527ba32573dd56"
+-SRC_URI[sha256sum] = "07b2ac8275dfa04144745a6c1900a596280f862b97d22bab0c5ce02682ebd3be"
++SRC_URI[md5sum] = "ec3522c60a43a368f19c0f89e2205cb1"
++SRC_URI[sha256sum] = "3ad85c5e58b31c8903006298424a51bba39f1840e324f5ae612eabc8b935e960"
+ 
+ S = "${WORKDIR}/Error-${PV}"
  
 -- 
-2.20.1
-
-
+2.24.0
 
 
