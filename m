@@ -1,45 +1,45 @@
 Return-Path: <ryan.harkin@linaro.org>
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
-	[209.85.160.172])
-	by mail.openembedded.org (Postfix) with ESMTP id ADF9B7F847
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 415447F836
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 18:59:46 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id n4so717787qte.2
+	Wed, 20 Nov 2019 19:06:16 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id r20so664535qtp.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 10:59:48 -0800 (PST)
+	Wed, 20 Nov 2019 11:06:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pkAy4rJjRu7tBmnQ6HPayzDLAlIYLK/BDQJv9L0vFYM=;
-	b=cpQhRlEtUN03I1xhpiMb5Li8OknL6FGOxzKUHkDYB/Ka8gvYxm6RNFgflQmhEzR601
-	bRIeB69eP1ml/CxX7EwNItgYQSx9XUiGMfA/nmBnS7gqHWhwNrXPVaWJw+22VYpiLvN/
-	8cYvKf3y97dE2nHVbSByf1bjlgsBcQh/EloSCO/vlVnpwkxNoQIx/+2tR8/fsBx7MWLv
-	vyP5oHI2TO52D+GBbO2Aoy+/gjqw61Ein2blBcDkoSl3raQ7TabltBTEdpND4h1pbX4l
-	eagHh9p7p7tqol8IlXgQHgLsFxZ4J0pbYE7fcJ6ITZPwbZVVMiuYBiTC2IMQmgr+yykJ
-	PaCA==
+	:cc; bh=ANsyXe30OIC9PHxWm6QxQe8R8I6E4Me9X4pp+9YObho=;
+	b=fSCuO5fUJ/H/m4faONXEBPpeuXgTdTeKHuK1eNMlQmOBb4ZV98aPpTTFY3pLDSK7Ks
+	6pcSGCfAe6gTlx+5mPiu9ZtrwZ23TYIyQDgFxudea2gHgX2tuoHRUs8S5oT7yYz+LXXs
+	NleuAz7IffVy/s274c2yWbF5ZEkwdf3EFhiXRwakZRPNo9xDOBWZ5Q5LV6k9d3TrdGdQ
+	O6sLfSr+yiBEhOM1hWvq3HhrgrPkYhHUqHEXEhvwr15D5xkNzsUvErgZw/ROZnsgRpds
+	ymwHbvd1+5Kx69hb3A9rGOiqG5xhUR8bDd3vk5+b9L99+PYVMnnl0r/QW15tIwGgGWen
+	qPWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=pkAy4rJjRu7tBmnQ6HPayzDLAlIYLK/BDQJv9L0vFYM=;
-	b=hsnkPj0HGJNyuy7hqP7bylUtqBTm3+O3JT/NRiYG1huJfEFUsCSo6Mh2iXwv/T1ovC
-	bdeSHYYO7mTb6RovreqX08pwrNbHGEVxV19DBDEsd51+Qxn0mg4LgVd9/UvWUQV0nClu
-	jqcH01ikIqIEooouqtgeUlrkV7rVc1hY+W5n7O9BPWsRmH/PAK/dTl6ZH/ZvUhx5g8gO
-	PzcSoFXxG5fjDCHvmn14htNTXJ6p0f6PK6l4aIchmkLc4vdrE1wH9eECt9E6ihZStZGP
-	WWnSMXRy9qgjjfL8kCNLyRkaVaVqXMOucAiYI5SHsNLJ+4XEcD56Hq8NGSixI/jwzSLm
-	PAtg==
-X-Gm-Message-State: APjAAAUOPq8p02QpmnQ12Hz1ulBLbEvxRlBq0+NgXmtVk19+SSCe8Fgl
-	BEyAkgIj013R+6eqOV2kczJJlueREBJiywYEnU/I6Q==
-X-Google-Smtp-Source: APXvYqw6wQwW0w0UByBf5ItkEUDZr4uaftFQzXJhDlMcAbCrTYQDkW0nP9fqypllKqGcQ0/Lu+t5ojm31N/unQN0YaU=
-X-Received: by 2002:ac8:f88:: with SMTP id b8mr4219411qtk.382.1574276387461;
-	Wed, 20 Nov 2019 10:59:47 -0800 (PST)
+	bh=ANsyXe30OIC9PHxWm6QxQe8R8I6E4Me9X4pp+9YObho=;
+	b=nHZfVodf/4lGyhCj0x4+jRC1RMA3I34M/ksw0bAOsHVwQvrAgwg73KMeJNFbS6Ow4D
+	UlhBYHzHdMXkWOQuRTwz3yJ6qnApZ8ia0YDOO6gdgDsEDWuweUrP58QTLbZWTSLgdWdQ
+	SPPI51gg0uYtFul1ekGDEvCKbG3eAYFu3H8is1dM9LssTcvIYg6ZnePc1Obu5NI78eE4
+	A4/gjkSzlbcpl4Sw/rK8oAXed5JYCxjwJN9Ng2HRR3mgbO+2HZQ2wDx9DI6Fdh8YT6ov
+	KUBezpibQWb9hU5502VM1O3NGn7W7q0DlAAjZ2IDAtC+UIdZfdmogTvN02T7xd6xdjWj
+	Rzuw==
+X-Gm-Message-State: APjAAAVEYWgNTgcPE2rC1S3Xgp7DF0zdeSOLTtrcQLM7iRQACnrtclEd
+	9Lym3Ib2GSDyLhI3PtQRVXC1EZH5a4Pt0IoC1qu79w==
+X-Google-Smtp-Source: APXvYqwt85tv39nXocX6AHLJRO4JKQuAz2PfK+KrLlfchvAUgd7Il0ZeMDs0zIzAmjf8ZRBdSMI1mpMk+O7bnozMgqM=
+X-Received: by 2002:ac8:177c:: with SMTP id u57mr4036213qtk.216.1574276777119; 
+	Wed, 20 Nov 2019 11:06:17 -0800 (PST)
 MIME-Version: 1.0
 References: <CAD0U-hKudOEYkkPQQ1He3=Cg1hLqT7u5Uhsn_e2ZK0vGmo+z3w@mail.gmail.com>
-	<001301d5-bfe4-8e8f-996e-b0779b0d6703@intel.com>
-In-Reply-To: <001301d5-bfe4-8e8f-996e-b0779b0d6703@intel.com>
+	<5c9cb09a-e0b3-f43b-36cd-bc9a7df2dd6c@kernel.crashing.org>
+In-Reply-To: <5c9cb09a-e0b3-f43b-36cd-bc9a7df2dd6c@kernel.crashing.org>
 From: Ryan Harkin <ryan.harkin@linaro.org>
-Date: Wed, 20 Nov 2019 18:59:35 +0000
-Message-ID: <CAD0U-hL=WmM0=N=inSgxcRUqTbY_f-KX4qYru+SsPSg8fgHoRw@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
+Date: Wed, 20 Nov 2019 19:06:04 +0000
+Message-ID: <CAD0U-hLzTxYw3F-tPbj5m1+iqW+2PZcU5n4bE1sxL9KxGmuVUw@mail.gmail.com>
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: How to backport openssl to Sumo
@@ -55,88 +55,202 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 18:59:46 -0000
-Content-Type: multipart/alternative; boundary="000000000000da7e040597cbc81c"
+X-List-Received-Date: Wed, 20 Nov 2019 19:06:16 -0000
+Content-Type: multipart/alternative; boundary="0000000000001459530597cbe051"
 
---000000000000da7e040597cbc81c
+--0000000000001459530597cbe051
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 20 Nov 2019 at 18:28, Ross Burton <ross.burton@intel.com> wrote:
+On Wed, 20 Nov 2019 at 18:36, Mark Hatle <mark.hatle@kernel.crashing.org>
+wrote:
 
-> On 20/11/2019 18:18, Ryan Harkin wrote:
+>
+>
+> On 11/20/19 12:18 PM, Ryan Harkin wrote:
+> > Hi all,
+> >
+> > I'm struggling with backporting OpenSSL to my Sumo build [1], so
+> wondered if
+> > anyone else had done something similar with success.
+> >
+> > I copied "meta/recipes-connectivity/openssl" from Poky master branch [2]
+> into my
+> > own layer [3]. It didn't pick up, so I discovered I needed to add
+> > a PREFERRED_VERSION, eg:
+> >
+> > +PREFERRED_VERSION_openssl ?= "1.1.%"
+> > +PREFERRED_VERSION_openssl-native ?= "1.1.%"
+> > +PREFERRED_VERSION_nativesdk-openssl ?= "1.1.%"
+> >
 > > Now it builds fine. However, I no longer have /usr/bin/openssl in my
-> > disk image.
+> disk image.
+> >
+> > It doesn't appear in FILES_${PN}, and adding it to the recipes doesn't
+> seem to
+> > make any difference.
+> >
+> > What am I missing?
+> >
+> > Thanks,
+> > Ryan.
+> >
+> > [1] I'm looking for CVE fixes, 1.0.2p has a lot of CVEs.
 >
-> $ oe-pkgdata-util find-path /usr/bin/openssl
-> openssl-bin: /usr/bin/openssl
->
-> Did you try adding openssl-bin to your image explicitly?
->
-
-No, I hadn't even thought about that, as it was already working before I
-updated.
-
-I added openssl-bin to my RDEPENDS for my packagegroup, right after the
-openssl entry. I tried to manually bitbake openssl-bin, and it complained:
-
-$ bitbake openssl-bin
-[snip]
-ERROR: Nothing PROVIDES 'openssl-bin'. Close matches:
-  openssl
-  openssl-native
-  openssl10
-  openssl RPROVIDES openssl-bin
-
-So I guess that isn't the problem?
-
-
->
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> You know that 1.0.2 and 1.1 APIs are not compatible?  So you will need to
+> update
+> everything that needs OpenSSL to understand the new API.
 >
 
---000000000000da7e040597cbc81c
+So far, we're only using it in a shell script to sign an image and later
+verify the image, so I've assumed, perhaps naively, that the API changes
+won't matter...
+
+>
+> For CVE fixes, typically you would patch 1.0.2p, or update to the latest
+> (1.0.2t) as you go.  (If you have an OSV, this should be part of the
+> services
+> that they offer you.)
+
+
+> In my opinion, 1.0.2 will be around for at least another 4-5 years due to
+> the
+> number of people actively using it in the world.  Until 1.1/3.0 (won't be
+> a 2.0
+> from what I read) exists and has a FIPS-140-2 support available -- people
+> will
+> continue to use 1.0.2 and maintain it as necessary for security.
+>
+> As an FYI:  http://git.yoctoproject.org/cgit/cgit.cgi/meta-openssl102/
+>
+> This version is for thud, warrior, zeus and master.  It is intended to be
+> maintained until either 1.0.2 is no longer maintainable -- or the
+> FIPS-140-2
+> needs have been met by OpenSSL.
+>
+
+Great, that looks like a better option anyway, assuming it has the latest
+fixes I need, and doesn't give me the same build problem.  Thanks for
+pointing it out. I'll give it a go.
+
+Thanks,
+Ryan.
+
+
+>
+> --Mark
+>
+> > [2] http://git.yoctoproject.org/git/poky
+> > I'm at SHA a616ffebdc, so I copied openssl_1.1.1d.bb <
+> http://openssl_1.1.1d.bb>
+> > and all the other files in the directory.
+> >
+> > [3] I have a clone of Linaro's meta-backports. I'm trying to generate a
+> patch to
+> > submit for review there.
+> > https://git.linaro.org/openembedded/meta-backports.git
+> >
+>
+
+--0000000000001459530597cbe051
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 20 Nov 2019 at 18:28, Ross Bu=
-rton &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On 2=
-0/11/2019 18:18, Ryan Harkin wrote:<br>
-&gt; Now it builds fine. However, I no longer have /usr/bin/openssl in my <=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 20 Nov 2019 at 18:36, Mark Ha=
+tle &lt;<a href=3D"mailto:mark.hatle@kernel.crashing.org">mark.hatle@kernel=
+.crashing.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex"><br>
+<br>
+On 11/20/19 12:18 PM, Ryan Harkin wrote:<br>
+&gt; Hi all,<br>
+&gt; <br>
+&gt; I&#39;m struggling with backporting OpenSSL to my Sumo build [1], so w=
+ondered if<br>
+&gt; anyone else had done something similar with success.<br>
+&gt; <br>
+&gt; I copied &quot;meta/recipes-connectivity/openssl&quot; from Poky maste=
+r branch [2] into my<br>
+&gt; own layer [3]. It didn&#39;t pick up, so I discovered I needed to add<=
 br>
-&gt; disk image.<br>
+&gt; a=C2=A0PREFERRED_VERSION, eg:<br>
+&gt; <br>
+&gt; +PREFERRED_VERSION_openssl ?=3D &quot;1.1.%&quot;<br>
+&gt; +PREFERRED_VERSION_openssl-native ?=3D &quot;1.1.%&quot;<br>
+&gt; +PREFERRED_VERSION_nativesdk-openssl ?=3D &quot;1.1.%&quot;<br>
+&gt; <br>
+&gt; Now it builds fine. However, I no longer have /usr/bin/openssl in my d=
+isk image.<br>
+&gt; <br>
+&gt; It doesn&#39;t appear in FILES_${PN}, and adding it to the recipes doe=
+sn&#39;t seem to<br>
+&gt; make any difference.<br>
+&gt; <br>
+&gt; What am I missing?<br>
+&gt; <br>
+&gt; Thanks,<br>
+&gt; Ryan.<br>
+&gt; <br>
+&gt; [1] I&#39;m looking for CVE fixes, 1.0.2p has a lot of CVEs.<br>
 <br>
-$ oe-pkgdata-util find-path /usr/bin/openssl<br>
-openssl-bin: /usr/bin/openssl<br>
+You know that 1.0.2 and 1.1 APIs are not compatible?=C2=A0 So you will need=
+ to update<br>
+everything that needs OpenSSL to understand the new API.<br></blockquote><d=
+iv><br></div><div>So far, we&#39;re only using it in a shell script to sign=
+ an image and later verify the image, so I&#39;ve assumed, perhaps naively,=
+ that the API changes won&#39;t matter...</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex">
 <br>
-Did you try adding openssl-bin to your image explicitly?<br></blockquote><d=
-iv><br></div><div>No, I hadn&#39;t even thought about that, as it was alrea=
-dy working before I updated.</div><div><br></div><div>I added openssl-bin t=
-o my RDEPENDS for my packagegroup, right after the openssl entry. I tried t=
-o manually bitbake openssl-bin, and it complained:</div><div><br></div><div=
->$ bitbake openssl-bin<br>[snip]<br>ERROR: Nothing PROVIDES &#39;openssl-bi=
-n&#39;. Close matches:<br>=C2=A0 openssl<br>=C2=A0 openssl-native<br>=C2=A0=
- openssl10<br>=C2=A0 openssl RPROVIDES openssl-bin<br></div><div><br></div>=
-<div>So I guess that isn&#39;t the problem?</div><div>=C2=A0</div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">
+For CVE fixes, typically you would patch 1.0.2p, or update to the latest<br=
+>
+(1.0.2t) as you go.=C2=A0 (If you have an OSV, this should be part of the s=
+ervices<br>
+that they offer you.)=C2=A0</blockquote><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
 <br>
-Ross<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
+In my opinion, 1.0.2 will be around for at least another 4-5 years due to t=
+he<br>
+number of people actively using it in the world.=C2=A0 Until 1.1/3.0 (won&#=
+39;t be a 2.0<br>
+from what I read) exists and has a FIPS-140-2 support available -- people w=
+ill<br>
+continue to use 1.0.2 and maintain it as necessary for security.<br>
+<br>
+As an FYI:=C2=A0 <a href=3D"http://git.yoctoproject.org/cgit/cgit.cgi/meta-=
+openssl102/" rel=3D"noreferrer" target=3D"_blank">http://git.yoctoproject.o=
+rg/cgit/cgit.cgi/meta-openssl102/</a><br>
+<br>
+This version is for thud, warrior, zeus and master.=C2=A0 It is intended to=
+ be<br>
+maintained until either 1.0.2 is no longer maintainable -- or the FIPS-140-=
+2<br>
+needs have been met by OpenSSL.<br></blockquote><div><br></div><div>Great, =
+that looks like a better option anyway, assuming it has the latest fixes I =
+need, and doesn&#39;t give me the same build problem.=C2=A0 Thanks for poin=
+ting it out. I&#39;ll give it a go.</div><div><br></div><div>Thanks,</div><=
+div>Ryan.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+<br>
+--Mark<br>
+<br>
+&gt; [2]=C2=A0<a href=3D"http://git.yoctoproject.org/git/poky" rel=3D"noref=
+errer" target=3D"_blank">http://git.yoctoproject.org/git/poky</a><br>
+&gt; I&#39;m at SHA a616ffebdc, so I copied=C2=A0<a href=3D"http://openssl_=
+1.1.1d.bb" rel=3D"noreferrer" target=3D"_blank">openssl_1.1.1d.bb</a> &lt;<=
+a href=3D"http://openssl_1.1.1d.bb" rel=3D"noreferrer" target=3D"_blank">ht=
+tp://openssl_1.1.1d.bb</a>&gt;<br>
+&gt; and all the other files in the directory.<br>
+&gt; <br>
+&gt; [3] I have a clone of Linaro&#39;s meta-backports. I&#39;m trying to g=
+enerate a patch to<br>
+&gt; submit for review there.<br>
+&gt; <a href=3D"https://git.linaro.org/openembedded/meta-backports.git" rel=
+=3D"noreferrer" target=3D"_blank">https://git.linaro.org/openembedded/meta-=
+backports.git</a><br>
+&gt; <br>
 </blockquote></div></div>
 
---000000000000da7e040597cbc81c--
+--0000000000001459530597cbe051--
