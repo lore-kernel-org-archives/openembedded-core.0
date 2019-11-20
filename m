@@ -1,53 +1,73 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F25A57F844
+Return-Path: <jrey@linux.ibm.com>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+	[148.163.156.1])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CC517F844
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 16:19:46 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id y5so212970wmi.5
+	Wed, 20 Nov 2019 16:28:32 +0000 (UTC)
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+	xAKGDIIG087522 for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Nov 2019 11:28:33 -0500
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2wd5gc949m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Nov 2019 11:28:33 -0500
+Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
+	by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id xAKGE1O7090910
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 08:19:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=7F/VC6oStNAj8ttZ9y3q9i0TjT1wCLHrP3qejbjOh3I=;
-	b=SRCOx+/FjYbsXgcno12eCQVI1x1oUbtyVHp91j/rCYFUirhK8euFeehLcNURxc0cd8
-	ymxk2ICP4TBQDb6LQQE93M+I1CLmdwyNeYw/1LzS82Ikx6kKwYtO0tfkQGt+Lh81n4GE
-	I6KQoh1ppOTq3CtJKUiNSM92sap5lQanz1ICKc4yzcUhzMrif8KiWuZLdlHZ70yKLEDK
-	SAGHqT6hFNUTC6wtLDqEGZBLs9wL66Uf0czMFZ0ys2gsTtAmrqIFY+T9Ieo0bWK2bqyC
-	pWGc+lAK1EzbtiunCg+gy27qSv2nNVDLugIKJycfArGM4GdMLNGsqWynQ9mIZVc4fe84
-	VF2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=7F/VC6oStNAj8ttZ9y3q9i0TjT1wCLHrP3qejbjOh3I=;
-	b=iot/q3Uc3K7fQl6fIhSGvj0RXgFlu5rVhDAg2Y3KDZ4qBkrkPv4Uy86c0VwOaOCBb1
-	DyEkgetUyd/QUbbezTKSqdS1UL7IlRattCBmlL6Yab6VMDL2fp2aT2On+ZbD+6FGq0/9
-	uF1Sqb06Z7t5lA8oXnwBARPXivtzkX2av2ToQ7BCeKioRfKfWkhLLnCDjc4VtpzpTXkO
-	7S0SJUC4JDEVC/inmZAhaWtfM61lPS/CTWGd12boY6UzDJFUHwksqUPGQ761lGC7gYJ3
-	EokPIp+XT6bHFi0IyEOC1+4p3VLywN02xAc5ZsX2MkQJ6Cea5Kb+rTrRn3FAp4rtRdDn
-	xAdw==
-X-Gm-Message-State: APjAAAWW7ZDtQaP5bYdI81tM79Z9p6QwTT/ohQq3T0SnCyFTM5GMe/oY
-	qfJ+xLFLd4ubrjFmaz7S0N5Z2uFskSQ=
-X-Google-Smtp-Source: APXvYqy29sEgG0i89l4HtFU/SI3u6uLi2PQN3ZUIzJLkQgH0Cwotw1Eb6EW1WzKrCk3NUx+XKkclVA==
-X-Received: by 2002:a05:600c:20e:: with SMTP id
-	14mr4076752wmi.107.1574266787284; 
-	Wed, 20 Nov 2019 08:19:47 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	c24sm36465909wrb.27.2019.11.20.08.19.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 20 Nov 2019 08:19:45 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Nov 2019 16:19:41 +0000
-Message-Id: <20191120161941.13360-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	Wed, 20 Nov 2019 11:28:32 -0500
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+	[169.55.85.253])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2wd5gc9491-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 20 Nov 2019 11:28:32 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+	by ppma01wdc.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id
+	xAKGGH30012845; Wed, 20 Nov 2019 16:28:36 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+	(b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+	by ppma01wdc.us.ibm.com with ESMTP id 2wa8r6ebmt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT); Wed, 20 Nov 2019 16:28:36 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+	(b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+	by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id xAKGSUTE61407562
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Wed, 20 Nov 2019 16:28:30 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 85F997805E;
+	Wed, 20 Nov 2019 16:28:30 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0B68378060;
+	Wed, 20 Nov 2019 16:28:29 +0000 (GMT)
+Received: from demeter.rchland.ibm.com (unknown [9.80.219.76])
+	by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTPS;
+	Wed, 20 Nov 2019 16:28:29 +0000 (GMT)
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <adf92df5-06d4-ea38-ad9f-55dde92148b2@linux.ibm.com>
+	<bb5c3045-8131-095a-f7bc-0ff91f36af5a@linux.ibm.com>
+	<CANNYZj8LNhF26TLHuLMPh6K40dXe8V5pgEvv8N3MAEFVy+vveg@mail.gmail.com>
+From: Joseph Reynolds <jrey@linux.ibm.com>
+Message-ID: <ff1f3800-1721-b181-73fd-65e96bd1b1f4@linux.ibm.com>
+Date: Wed, 20 Nov 2019 10:28:28 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.0
 MIME-Version: 1.0
-Subject: [PATCH] rpm: use libgcrypt instead of NSS for cryptography
+In-Reply-To: <CANNYZj8LNhF26TLHuLMPh6K40dXe8V5pgEvv8N3MAEFVy+vveg@mail.gmail.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.95,18.0.572
+	definitions=2019-11-20_04:2019-11-20,2019-11-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	phishscore=0
+	priorityscore=1501 mlxscore=0 clxscore=1015 impostorscore=0 spamscore=0
+	lowpriorityscore=0 bulkscore=0 malwarescore=0 adultscore=0
+	mlxlogscore=999
+	suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+	engine=8.12.0-1910280000 definitions=main-1911200142
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: How to add build date?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,111 +80,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 16:19:47 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 16:28:34 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-RPM 4.15 by default will use libgcrypt instead of NSS for cryptography
-functions, but as we didn't have libgcrypt in DEPENDS it kept using NSS.
+On 11/17/19 3:19 PM, Alexander Kanavin wrote:
+> I'd write the date into the file at image creation, via 
+> ROOTFS_POSTPROCESS_COMMAND.
+>
+> Having it in a recipe means that you either force the recipe to not be 
+> a part of sstate cache, always rebuilding it and its dependencies (bad 
+> idea), or accept that the date comes from a previously built cache 
+> object, which means it will mismatch the actual image creation date.
 
-As RPM is the sole user of NSS/NSPR in oe-core, moving to libgcrypt can make a
-noticable difference to build time.  For example, building rpm (and packaging it
-as RPMs) from scratch is five minutes faster with libgcrypt.
+Got it, thanks. I was unaware of ROOTFS_POSTPROCESS_COMMAND.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../rpm/files/gcrypt-use-pkgconfig.patch      | 51 +++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.15.1.bb       |  5 +-
- 2 files changed, 54 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/rpm/files/gcrypt-use-pkgconfig.patch
 
-diff --git a/meta/recipes-devtools/rpm/files/gcrypt-use-pkgconfig.patch b/meta/recipes-devtools/rpm/files/gcrypt-use-pkgconfig.patch
-new file mode 100644
-index 00000000000..8c72d2310b6
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/gcrypt-use-pkgconfig.patch
-@@ -0,0 +1,51 @@
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/942]
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 3f6cda568853bf7878df704adc75d4a78d75346c Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Wed, 20 Nov 2019 13:06:51 +0000
-+Subject: [PATCH] configure.ac: prefer pkg-config to find libgcrypt
-+
-+libgcrypt from 1.8.5 provides a pkg-config file as well as the traditional
-+libgcrypt-config script.  As pkg-config is more resiliant in the face of
-+complicated build environments (for example cross-compilation and sysroots)
-+prefer the pkg-config file, falling back to libgcrypt-config if that doesn't
-+exist.
-+---
-+ configure.ac | 23 +++++++++++++++--------
-+ 1 file changed, 15 insertions(+), 8 deletions(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 0a3a9bbf4..6a3ea3615 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -395,14 +395,21 @@ AC_SUBST(WITH_OPENSSL_LIB)
-+ WITH_LIBGCRYPT_INCLUDE=
-+ WITH_LIBGCRYPT_LIB=
-+ if test "$with_crypto" = libgcrypt ; then
-+-AC_PATH_TOOL(LIBGCRYPT_CONFIG, libgcrypt-config, notfound)
-+-if test notfound != "$LIBGCRYPT_CONFIG" ; then
-+-WITH_LIBGCRYPT_INCLUDE=`$LIBGCRYPT_CONFIG --cflags`
-+-WITH_LIBGCRYPT_LIB=`$LIBGCRYPT_CONFIG --libs`
-+-fi
-+-if test -z "$WITH_LIBGCRYPT_LIB" ; then
-+-AC_MSG_ERROR([libgcrypt not found])
-+-fi
-++  # libgcrypt 1.8.5 onwards ships a pkg-config file so prefer that
-++  PKG_CHECK_MODULES([LIBGCRYPT], [libgcrypt], [have_libgcrypt=yes], [have_libgcrypt=no])
-++  if test "$have_libgcrypt" = "yes"; then
-++    WITH_LIBGCRYPT_INCLUDE="$LIBGCRYPT_CFLAGS"
-++    WITH_LIBGCRYPT_LIB="$LIBGCRYPT_LIBS"
-++  else
-++    AC_PATH_TOOL(LIBGCRYPT_CONFIG, libgcrypt-config, notfound)
-++      if test notfound != "$LIBGCRYPT_CONFIG" ; then
-++        WITH_LIBGCRYPT_INCLUDE=`$LIBGCRYPT_CONFIG --cflags`
-++        WITH_LIBGCRYPT_LIB=`$LIBGCRYPT_CONFIG --libs`
-++     fi
-++     if test -z "$WITH_LIBGCRYPT_LIB" ; then
-++       AC_MSG_ERROR([libgcrypt not found])
-++    fi
-++  fi
-+ fi
-+ 
-+ AM_CONDITIONAL([WITH_LIBGCRYPT],[test "$with_crypto" = libgcrypt])
-diff --git a/meta/recipes-devtools/rpm/rpm_4.15.1.bb b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
-index 4fa2d764fb9..f033cf33144 100644
---- a/meta/recipes-devtools/rpm/rpm_4.15.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
-@@ -38,6 +38,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.15.x \
-            file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
-            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-            file://0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch \
-+           file://gcrypt-use-pkgconfig.patch \
-            "
- 
- PE = "1"
-@@ -45,7 +46,7 @@ SRCREV = "ab2179452c5be276a6b96c591afded485c7e58c3"
- 
- S = "${WORKDIR}/git"
- 
--DEPENDS = "nss libarchive db file popt xz bzip2 dbus elfutils python3"
-+DEPENDS = "libarchive libgcrypt db file popt xz bzip2 dbus elfutils python3"
- DEPENDS_append_class-native = " file-replacement-native bzip2-replacement-native"
- 
- inherit autotools gettext pkgconfig python3native
-@@ -54,7 +55,7 @@ export PYTHON_ABI
- # OE-core patches autoreconf to additionally run gnu-configize, which fails with this recipe
- EXTRA_AUTORECONF_append = " --exclude=gnu-configize"
- 
--EXTRA_OECONF_append = " --without-lua --enable-python"
-+EXTRA_OECONF_append = " --without-lua --enable-python --with-crypto=libgcrypt"
- EXTRA_OECONF_append_libc-musl = " --disable-nls"
- 
- # --sysconfdir prevents rpm from attempting to access machine-specific configuration in sysroot/etc; we need to have it in rootfs
--- 
-2.20.1
+>
+> A bit of context would help: why would you want that info in 
+> os-release? Who would use that information and how?
+
+I don't fully understand the use case for adding a build date to the image.  I don't have a use for it, but this question keeps coming up in the OpenBMC community, so I want to address it.  I am imagining a naive continuous delivery process where the build date is used as a substitute for a software version.  That is easier than keeping track of software versions, but (as I mentioned before) does not meet my needs.
+
+I've re-asked the question to the original poster in the OpenBMC email list:
+https://lists.ozlabs.org/pipermail/openbmc/2019-November/019493.html
+
+The response so far is: I just want to show the compile time of firmware to the user. If  only show the version, it can't correspond to the time. When both are displayed at the same time, the information will be clearer.
+
+I'll continue the conversation in that email thread.  Thanks for your help!
+
+  - Joseph
+
+
+>
+> Alex
+>
+> On Sat, 16 Nov 2019 at 23:14, Joseph Reynolds <jrey@linux.ibm.com 
+> <mailto:jrey@linux.ibm.com>> wrote:
+>
+>
+>     Is there a best practice for folks who want to put the build date
+>     into
+>     their generated os-release file?  I've seen this question come up at
+>     least 3 times in my brief involvement with OE.  I could perhaps add
+>     comment to the OpenBMC os-release.bbappend file to provide the proper
+>     guidance.  I would like to hear your ideas.
+>
+>     - Joseph
+>
+>
+>     -------- Forwarded Message --------
+>     Subject:        Re: how to solve the error that basehash value
+>     changed from
+>     'xxx' to 'aaaa' ?
+>     Date:   Sat, 16 Nov 2019 15:50:38 -0600
+>     From:   Joseph Reynolds <jrey@linux.ibm.com
+>     <mailto:jrey@linux.ibm.com>>
+>     To:     www <ouyangxuan10@163.com <mailto:ouyangxuan10@163.com>>,
+>     openbmc@lists.ozlabs.org <mailto:openbmc@lists.ozlabs.org>
+>     <openbmc@lists.ozlabs.org <mailto:openbmc@lists.ozlabs.org>>
+>
+>
+>
+>     Byron,
+>
+>     What modification did you put into the os-release recipe?  It
+>     would help
+>     us help you if you put that in your email.
+>
+>
+>     Are you adding the build date to the generated os-release file? If
+>     so,
+>     be aware that might cause the issues with the shared state cache
+>     you are
+>     experiencing.  Also be aware this practice wrecks reproducible builds.
+>
+>     A better way to get the same effect might be to create a git tag with
+>     the information you want to appear in the generated os-release file.
+>     When you buld with this tag is then picked up by the OpenBMC
+>     meta-phosphor os-release.bbappend (via `git describe`) and
+>     included in
+>     the genersted os-release file as the BUILD_ID. See:
+>     https://github.com/ibm-openbmc/openbmc/blob/d1c59b7a36c10c18838c07af10b18080174cd61d/meta-phosphor/recipes-core/os-release/os-release.bbappend
+>     (But I have not tried that.)
+>
+>     A way to work around the hash change is to add a line to your recipe
+>     like: PR[vardepsxeclude]="DATETIME"
+>     As suggested by:
+>     https://forums.openpli.org/topic/41447-how-to-get-rid-of-taskhash-mismatch/
+>
+>
+>     My apologies for top posting -- my email reader was not quoting the
+>     message properly, so I cut/pasted it below.
+>
+>     - Joseph
+>
+>
+>     On 11/13/19 1:38 AM, www wrote:
+>
+>     When I modify the os-release file in my yocto project, it appear some
+>     error, and how can I solve it ? Who can give me some help or advice?
+>     Thank you！
+>     I execute the recommended command on the console and it didn't work.
+>
+>     ERROR: os-release-1.0-r0 do_compile: Taskhash mismatch
+>     ce133f0458608e03aa55224df28156e523e54903115efbbcd62946f84a867201
+>     versus
+>     7269881f0eb1759ed420a2db4c04fb477cd8c1288bc5f82df5c8161bb926ea1f
+>     for  /home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-release/os-release.bb.do_compile
+>     ERROR: Taskhash mismatch
+>     ce133f0458608e03aa55224df28156e523e54903115efbbcd62946f84a867201
+>     versus
+>     7269881f0eb1759ed420a2db4c04fb477cd8c1288bc5f82df5c8161bb926ea1f
+>     for /home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-release/os-release.bb.do_compile
+>     ERROR: When reparsing
+>     /home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-release/os-release.bb.do_compile, the
+>
+>     basehash value changed from
+>     99a42a1a3b1a151de604267b159558ecaf1031a3bec8917df132c81302e729a5 to
+>     4f3288a8763e2e1af78e4b3cdd9c0c0ccb3b0d5c78a3073c188b22200df2a9b0. The
+>     metadata is not deterministic and this needs to be fixed.
+>     ERROR: The following commands may help:
+>     ERROR: $ bitbake os-release -cdo_compile -Snone
+>     ERROR: Then:
+>     ERROR: $ bitbake os-release -cdo_compile -Sprintdiff
+>
+>     ERROR: When
+>     reparsing /home/temp/xxx/wsp/obmc-source/entity_xxx/meta/recipes-core/os-release/os-release.bb.do_compile, the
+>
+>     basehash value changed from
+>     99a42a1a3b1a151de604267b159558ecaf1031a3bec8917df132c81302e729a5 to
+>     47c30012daa6aa77be09a93fe21e66995361ef26b4487111005617db8cb4de59. The
+>     metadata is not deterministic and this needs to be fixed.
+>     ERROR: The following commands may help:
+>     ERROR: $ bitbake os-release -cdo_compile -Snone
+>     ERROR: Then:
+>     ERROR: $ bitbake os-release -cdo_compile -Sprintdiff
+>
+>     thanks,
+>     Byron
+>
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
 
