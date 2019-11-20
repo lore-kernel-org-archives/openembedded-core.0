@@ -1,26 +1,18 @@
-Return-Path: <timothy.t.orling@linux.intel.com>
-X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 20 Nov 2019 05:27:20 UTC
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B03E7F746
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 05:27:20 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Nov 2019 21:20:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,220,1571727600"; d="scan'208";a="204613831"
-Received: from wrath.jf.intel.com ([10.54.31.24])
-	by fmsmga008.fm.intel.com with ESMTP; 19 Nov 2019 21:20:10 -0800
-From: Tim Orling <timothy.t.orling@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 19 Nov 2019 21:20:02 -0800
-Message-Id: <20191120052002.39643-1-timothy.t.orling@linux.intel.com>
-X-Mailer: git-send-email 2.24.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id DE4667CFE9;
+	Wed, 20 Nov 2019 05:32:16 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] liberror-perl: update 0.17027 -> 0.17028
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Date: Wed, 20 Nov 2019 05:32:18 -0000
+Message-ID: <20191120053218.2331.35181@do>
+References: <20191120051704.24066-1-zangrc.fnst@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20191120051704.24066-1-zangrc.fnst@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYWxzYS1saWI6dXBncmFkZSAxLjEuOSAtPiAxLjIuMS4x?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 05:27:20 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 20 Nov 2019 05:32:17 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-HOMEPAGE change from bitbucket to github
+== Series Details ==
 
-Upstream release notes:
-  - Moved the VCS repo to https://github.com/shlomif/perl-error.pm
-  - No other significant changes.
+Series: alsa-lib:upgrade 1.1.9 -> 1.2.1.1
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/21229/
+State : failure
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
+  Suggested fix    Include a brief reason why 0001-Fix-problem-with-libtool-not-found.patch is inappropriate
+  Current          Upstream-Status: Inappropriate
+  Standard format  Upstream-Status: Inappropriate [reason]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../{liberror-perl_0.17027.bb => liberror-perl_0.17028.bb}  | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/perl/{liberror-perl_0.17027.bb => liberror-perl_0.17028.bb} (85%)
-
-diff --git a/meta/recipes-devtools/perl/liberror-perl_0.17027.bb b/meta/recipes-devtools/perl/liberror-perl_0.17028.bb
-similarity index 85%
-rename from meta/recipes-devtools/perl/liberror-perl_0.17027.bb
-rename to meta/recipes-devtools/perl/liberror-perl_0.17028.bb
-index cf1f6d685f..8c6bbcba94 100644
---- a/meta/recipes-devtools/perl/liberror-perl_0.17027.bb
-+++ b/meta/recipes-devtools/perl/liberror-perl_0.17028.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "The Error package provides two interfaces. Firstly \
- Error provides a procedural interface to exception handling. \
- Secondly Error is a base class for errors/exceptions that can \
- either be thrown, for subsequent catch, or can simply be recorded."
--HOMEPAGE = "https://bitbucket.org/shlomif/perl-error.pm"
-+HOMEPAGE = "https://github.com/shlomif/perl-error.pm"
- SECTION = "libs"
- LICENSE = "Artistic-1.0 | GPL-1.0+"
- 
-@@ -32,8 +32,8 @@ RDEPENDS_${PN}-ptest += " \
- 
- SRC_URI = "http://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Error-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "4ef9b2890fb144d804527ba32573dd56"
--SRC_URI[sha256sum] = "07b2ac8275dfa04144745a6c1900a596280f862b97d22bab0c5ce02682ebd3be"
-+SRC_URI[md5sum] = "ec3522c60a43a368f19c0f89e2205cb1"
-+SRC_URI[sha256sum] = "3ad85c5e58b31c8903006298424a51bba39f1840e324f5ae612eabc8b935e960"
- 
- S = "${WORKDIR}/Error-${PV}"
- 
--- 
-2.24.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
