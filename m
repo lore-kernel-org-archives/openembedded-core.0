@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 223E17F7A2
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id D96C97F7A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 13:45:02 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id i12so2038037wrn.11
+	Wed, 20 Nov 2019 13:45:03 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id y5so1696334wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 05:45:03 -0800 (PST)
+	Wed, 20 Nov 2019 05:45:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=KMIzhUgLysSPUVGynLg2XezWdwwJr8MwDxE1VTIBOdg=;
-	b=sSMQP80bl/FV+vdqCsAUqh0hhAlg6tRdloO9ANV6x/FjzA362Ljym7CmIqBWp1z/ZG
-	zahPWjq8XUUaViSW2IOOGKSGneA/Hwv7YiwMSvtQKVwGLH2eMqyB40OOLAl0Pl9XVZT2
-	Q+479GtAdxU1LcbplkqVP5vekSuE0z/Tiv2N+gZ8f/QlrIjmFY06iEWk+6h1DMkQBdWd
-	we8GHqGrjjf5X38AgsCeL0a0OsSrPxBlqfhdVEOqS6wC2I0A+3toxB9+NRH49yQhEQSD
-	APQ0QtSHLRTWutEnhTdzHdRI1RtoFBtp5UJxCF8udyn7muber9oaVTQBSaAjG+0mFehE
-	dC0g==
+	bh=XjQf4/0mqaz75qX/2gUs1BmMHdG8S/nKzDMfUQ37r54=;
+	b=Whg+v0rUfXTrvFAz2XF9CmD9RYSnz5+UKOyeOu7GpwYSr3mdL2sMwaX/1RFzhQnx9z
+	GbXwRjO28b0Ujr6uq0lkPqO+9NIfCidBLfa0qyxJk6fcVEw/BlxqC9m59tUW6sVY8+zy
+	p1QBN/Y7KCsnXO3M+B/zwlw2wUmtA2gnMko44D9lOk0zthqSgG4yZwncBlv0NVCd6AJO
+	PQfIeXtoxT7Pxpdvn1VJV6gVA2lAEPVNv9VHKceXaB7yHL3UV2LudEoWNXwGetYImGgm
+	21kr06OYUY8NXAl3YSBsOYqxfGqsPXjSanb+84+2y9gwK8Jddh5Lis0TThGqqc3p+jfp
+	/XsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=KMIzhUgLysSPUVGynLg2XezWdwwJr8MwDxE1VTIBOdg=;
-	b=Kypu5XAQcV+e3b4i5KM7g66J3ptYijCmP02coygYQXv332o6CB+lDVBlFzV1jSj7mt
-	paKNoanJfkylIhW3NGWNvLSHqa+x0kRBvGiaWZkfUEf8hbbm2UdPqOPMO2E3T7KmyDaH
-	Kn0nwL9H0oRW8kXATtn//dtFyaBuKIeAUusqPRVTJd2Zks43iTs6/ASdvaY20DVOgKjN
-	aD5ljYAXfI0xUHsYr0xY6fI06l1vqSdrxRlvXJHsubirxN+MOiUAfKR2Uyl2LcMhYvw6
-	YnUDevtdI2UQDxbZscsW+HyxERq8e/3nVslsDTe/d6mHEdhD3SQ0+J478AaL35nau1xG
-	pScQ==
-X-Gm-Message-State: APjAAAXO59+LT60wB6L8Fm+kVopNU4J09sD477NMEbYDZX74VWT8UBrj
-	ipX++F/HEQDJzzOr4PezsVC6uZxf
-X-Google-Smtp-Source: APXvYqyF5LBdZzgvkINVuOjhw+XIlslfYMkNkbGjYBjDrLt7k1Ky6pFGMUD5W8jY7fc9WvFkzOV56g==
-X-Received: by 2002:a05:6000:1083:: with SMTP id
-	y3mr3335381wrw.290.1574257502692; 
-	Wed, 20 Nov 2019 05:45:02 -0800 (PST)
+	bh=XjQf4/0mqaz75qX/2gUs1BmMHdG8S/nKzDMfUQ37r54=;
+	b=VDcwGVtmY4A67J93rNDpSgOEFrojxf/x3Ovm6iLrgYF+slNT6EdmGv3VmC/ABJeSaa
+	28hvQI9UpkUQVZAcadCFxGkQtTPhusJjTbUkrdkjPEJaVtI7H8zLNK5V4qPXeqVogvcm
+	HOz//5Ne6GAWnyLpiwSdKrEHLZIKA0X8xd4RX2jErNmBRF8G68Y8dMHMsRgG394WIX3A
+	tNPT95fB5h8wN2FwFvZk9mAWvfA+Rq5+yVQzgkvqjGk6QpmBMs6pVBx1gaaZyUpSgASq
+	DXYjAlyrtTSqBas0+1nfulaC3yF/LVAjv3jT5J1mT6s9cl4Ri555WZAdqp/QgVS7T17k
+	vAwQ==
+X-Gm-Message-State: APjAAAVSM2svRnXJkOGHb1FbG53wH5KNeWZsvar5hshubeo5NPCHhob9
+	YnQNcg1iiqYGE+JOPU/4+Wu2hmnW
+X-Google-Smtp-Source: APXvYqwcqPvjUbQSvnBjIH4NXk7hctwU7UMAyOJLTx3SteJbjxYevlmb3w9J30pRVhlajTQkIwF69w==
+X-Received: by 2002:a05:600c:22d1:: with SMTP id
+	17mr3509594wmg.31.1574257504278; 
+	Wed, 20 Nov 2019 05:45:04 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	o189sm7031771wmo.23.2019.11.20.05.45.01
+	o189sm7031771wmo.23.2019.11.20.05.45.02
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 20 Nov 2019 05:45:02 -0800 (PST)
+	Wed, 20 Nov 2019 05:45:03 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Nov 2019 14:44:46 +0100
-Message-Id: <20191120134455.125118-2-alex.kanavin@gmail.com>
+Date: Wed, 20 Nov 2019 14:44:47 +0100
+Message-Id: <20191120134455.125118-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191120134455.125118-1-alex.kanavin@gmail.com>
 References: <20191120134455.125118-1-alex.kanavin@gmail.com>
-Subject: [PATCH 02/11] man-pages: update to 5.03
+Subject: [PATCH 03/11] dummy-sdk-package.inc: do not include files into RREPLACES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 13:45:02 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 13:45:04 -0000
+
+rpm 4.15 no longer allows it, which makes sense.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../man-pages/{man-pages_5.01.bb => man-pages_5.03.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/man-pages/{man-pages_5.01.bb => man-pages_5.03.bb} (87%)
+ meta/recipes-core/meta/dummy-sdk-package.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_5.01.bb b/meta/recipes-extended/man-pages/man-pages_5.03.bb
-similarity index 87%
-rename from meta/recipes-extended/man-pages/man-pages_5.01.bb
-rename to meta/recipes-extended/man-pages/man-pages_5.03.bb
-index ea1249e4396..2381ba4348b 100644
---- a/meta/recipes-extended/man-pages/man-pages_5.01.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_5.03.bb
-@@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://README;md5=794f701617cc03fe50c53257660d8ec4"
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz"
+diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/recipes-core/meta/dummy-sdk-package.inc
+index 4d653706b13..58b0482eca5 100644
+--- a/meta/recipes-core/meta/dummy-sdk-package.inc
++++ b/meta/recipes-core/meta/dummy-sdk-package.inc
+@@ -16,11 +16,12 @@ python() {
+ ALLOW_EMPTY_${PN} = "1"
  
--SRC_URI[md5sum] = "38abead776a506109e128ab96bcbbe58"
--SRC_URI[sha256sum] = "070bef794c6826b3fb3965d1a2efdb46c25cb37c06c715987f88a50906cd5b6f"
-+SRC_URI[md5sum] = "d1da6babb99cbd269233a35de9d8718e"
-+SRC_URI[sha256sum] = "e8bab0b10c6fb3a6d69615edb488f8a27020f3625c4cf43b8451ba206acbb1b8"
+ PR[vardeps] += "DUMMYPROVIDES"
++PR[vardeps] += "DUMMYPROVIDES_PACKAGES"
  
- inherit manpages
+ python populate_packages_prepend() {
+     p = d.getVar("PN")
+     d.appendVar("RPROVIDES_%s" % p, "${DUMMYPROVIDES}")
+     d.appendVar("RCONFLICTS_%s" % p, "${DUMMYPROVIDES}")
+-    d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES}")
++    d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES_PACKAGES}")
+ }
  
 -- 
 2.17.1
