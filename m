@@ -1,36 +1,27 @@
 Return-Path: <stefan@agner.ch>
 Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 81C5F7F79D
+	by mail.openembedded.org (Postfix) with ESMTP id ADA347F7DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 12:27:23 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 9AF945C1EF6;
-	Wed, 20 Nov 2019 13:27:23 +0100 (CET)
+	Wed, 20 Nov 2019 12:41:48 +0000 (UTC)
+Received: from localhost.localdomain (31-10-206-124.static.upc.ch
+	[31.10.206.124])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 329945C1EF6;
+	Wed, 20 Nov 2019 13:41:49 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1574252843;
+	t=1574253709;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=vYSCCKvYAyQb4Aw8hnNA4sJxmiR0NGi8imkcUshyjnw=;
-	b=EhNUjKrN5Bs8ZA6orfE6rCJvL63HQjZk+2bBLN/9H/wpgZpkbE8oK1sj7vTWRjyi1Sovl9
-	kZl4mIebrCOE2KKZAsUzhAx6i2OQ8+woORUfw4jb0Ry7QfImdQ1cSafqQIuWV2QkWWOchj
-	hb5XVlJEi93NUzLkEIuA6HkV/5UfZmo=
-MIME-Version: 1.0
-Date: Wed, 20 Nov 2019 13:27:23 +0100
+	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	in-reply-to:references; bh=GT6Jc+GUqBzZGXpfoMPuI5tEdBL96/PqFf353Xokw2c=;
+	b=VGOK2uxsraR0gCw8GwHYNkUfvULYJVkCX38atP4BRjio9oYvEJWKq3/ff2jeOVlmetaFsR
+	iWx9Yq6ajuSSOv9Pw5H6oZopOqJCTy0oJ5qNbfEfNzCbX2L+nanZsBA24aWtlKtb2umwRW
+	5/RIIJDAgjdqrkgllCisIvWldjflW+E=
 From: Stefan Agner <stefan@agner.ch>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-In-Reply-To: <CAO5Uq5QxwF+GQgFNndMZEWor3i08So4v2rO3JjXq4erg=TDLLw@mail.gmail.com>
-References: <20191120091258.30350-1-stefan@agner.ch>
-	<20191120091258.30350-2-stefan@agner.ch>
-	<CAO5Uq5QxwF+GQgFNndMZEWor3i08So4v2rO3JjXq4erg=TDLLw@mail.gmail.com>
-Message-ID: <3313d2525c034dd1f4b9f3b32d940a3f@agner.ch>
-X-Sender: stefan@agner.ch
-User-Agent: Roundcube Webmail/1.3.9
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4 2/2] image_types: add Zstandard conversion support
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 20 Nov 2019 12:41:45 +0000
+Message-Id: <20191120124146.21245-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.17.1
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH v5 1/2] zstd: move recipe to oe-core from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,64 +34,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 12:27:23 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 20 Nov 2019 12:41:48 -0000
 
-On 2019-11-20 11:49, Alex Kiernan wrote:
-> On Wed, Nov 20, 2019 at 9:13 AM Stefan Agner <stefan@agner.ch> wrote:
->>
->> From: Stefan Agner <stefan.agner@toradex.com>
->>
->> Add Zstandard (or just Zstd) compression support. This allows to
->> create Zstd compressed tarballs by using tar.zst as IMAGE_FSTYPES.
->>
->> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
->> ---
->>  meta/classes/image_types.bbclass | 8 ++++++--
->>  1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
->> index 2eeffbb366..d29b9c5787 100644
->> --- a/meta/classes/image_types.bbclass
->> +++ b/meta/classes/image_types.bbclass
->> @@ -59,6 +59,8 @@ XZ_INTEGRITY_CHECK ?= "crc32"
->>
->>  ZIP_COMPRESSION_LEVEL ?= "-9"
->>
->> +ZSTD_COMPRESSION_LEVEL ?= "-3"
->> +
->>  JFFS2_SUM_EXTRA_ARGS ?= ""
->>  IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.jffs2 ${EXTRA_IMAGECMD}"
->>
->> @@ -269,7 +271,7 @@ IMAGE_TYPES = " \
->>      hddimg \
->>      squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
->>      ubi ubifs multiubi \
->> -    tar tar.gz tar.bz2 tar.xz tar.lz4 \
->> +    tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
->>      cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
->>      wic wic.gz wic.bz2 wic.lzma \
->>      container \
->> @@ -282,7 +284,7 @@ IMAGE_TYPES = " \
->>  # CONVERSION_CMD/DEPENDS.
->>  COMPRESSIONTYPES ?= ""
->>
->> -CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
->> +CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
->>  CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->>  CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
->>  CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->> @@ -290,6 +292,7 @@ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=
->>  CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
->>  CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->>  CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
->> +CONVERSION_CMD_zst = "zstd -f -k -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
-> 
-> Add -T0 so we default to parallel?
+From: Stefan Agner <stefan.agner@toradex.com>
 
-Sensible, will send a v5.
+Zstd is a very fast compression algorithm and has gained quite some
+popularity recently. An upcoming patch allows to compress rootfs
+using Zstd. Moving Zstd to oe-core allows this new conversion formats
+to be automatically tested by the oe-selftest
+imagefeatures.ImageFeatures.test_image_fstypes test.
 
---
-Stefan
+Furthermore there are three packages in oe-core which allow to enable
+Zstd support through packageconfig currently.
+
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ meta/conf/distro/include/maintainers.inc |  1 +
+ meta/recipes-extended/zstd/zstd_1.4.4.bb | 35 ++++++++++++++++++++++++
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-extended/zstd/zstd_1.4.4.bb
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index d85e5b697f..dff7ce28f8 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -774,3 +774,4 @@ RECIPE_MAINTAINER_pn-xwininfo = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-xz = "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-zip = "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-zlib = "Denys Dmytriyenko <denys@ti.com>"
++RECIPE_MAINTAINER_pn-zstd = "Alex Kiernan <alex.kiernan@gmail.com>"
+diff --git a/meta/recipes-extended/zstd/zstd_1.4.4.bb b/meta/recipes-extended/zstd/zstd_1.4.4.bb
+new file mode 100644
+index 0000000000..eb201f4139
+--- /dev/null
++++ b/meta/recipes-extended/zstd/zstd_1.4.4.bb
+@@ -0,0 +1,35 @@
++SUMMARY = "Zstandard - Fast real-time compression algorithm"
++DESCRIPTION = "Zstandard is a fast lossless compression algorithm, targeting \
++real-time compression scenarios at zlib-level and better compression ratios. \
++It's backed by a very fast entropy stage, provided by Huff0 and FSE library."
++HOMEPAGE = "http://www.zstd.net/"
++SECTION = "console/utils"
++
++LICENSE = "BSD-3-Clause & GPLv2"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=c7f0b161edbe52f5f345a3d1311d0b32 \
++                    file://COPYING;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0"
++
++SRC_URI = "git://github.com/facebook/zstd.git;nobranch=1"
++
++SRCREV = "10f0e6993f9d2f682da6d04aa2385b7d53cbb4ee"
++UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
++
++S = "${WORKDIR}/git"
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[lz4] = "HAVE_LZ4=1,HAVE_LZ4=0,lz4"
++PACKAGECONFIG[lzma] = "HAVE_LZMA=1,HAVE_LZMA=0,xz"
++PACKAGECONFIG[zlib] = "HAVE_ZLIB=1,HAVE_ZLIB=0,zlib"
++
++# See programs/README.md for how to use this
++ZSTD_LEGACY_SUPPORT ??= "4"
++
++do_compile () {
++    oe_runmake ${PACKAGECONFIG_CONFARGS} ZSTD_LEGACY_SUPPORT=${ZSTD_LEGACY_SUPPORT}
++}
++
++do_install () {
++    oe_runmake install 'DESTDIR=${D}'
++}
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.17.1
+
 
