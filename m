@@ -1,47 +1,55 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A68B97EC95
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw1-f67.google.com (mail-yw1-f67.google.com
+	[209.85.161.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 39DEE7F730
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 15:06:54 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id n9so17035462vsa.12
+	Wed, 20 Nov 2019 15:08:27 +0000 (UTC)
+Received: by mail-yw1-f67.google.com with SMTP id z67so47924ywb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 07:06:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QqMbcQNhn6Jdvli072tgZ7nwCV7iojC24IwsBKILIzI=;
-	b=knys/tyQYIcoYghMTzwsZzjZylXTj6BRhlhC25whKTRVTRG3NHgUy9YrRhvovnwNgO
-	0L84/hqqNbfKJCjilizEfi0w2MTSNFw16i/BqhDgnouvhDij9W8BxdAlfszHfpblZM5v
-	rLWBfot726K8cwlSCJ6jTtqlMMmCj4RuzZyEUZu6o/lsmsSeBSP9a598iTQ/nbqWIb1+
-	E1OI+nT6m2N0sWuaHZ3hqW3i7WsVmQuuuzbeavIOUuG+pxgZcvtpK/8Mgp0VnffpxFPt
-	NnAtWWgHRzPzg8Q4C1qbb23d7DJHPBehmgPaS4dlt8QcBmw/YN/WlRtlsjDq1VR5ZrR/
-	ALcg==
+	Wed, 20 Nov 2019 07:08:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=JzMrI8szCRQH8h0sXrylXCxau8T+MGcwOoRybcqJ5wo=;
+	b=TXu2BHlNAUgfHiUQYIM6SKJz51BgfYg5y+wxWxBmE5Fg7wIZEa8ODyVivGs01ZT00U
+	Wvi2G7mnnKQTomKxBqgwD2kQL6Xws9r/RpGjGK7Au3KPzATayYylpwzUGs2r+L9qfRO1
+	1Al/jK2BU3vBMui25bcN2g8EQYj3oJgnrtVY8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QqMbcQNhn6Jdvli072tgZ7nwCV7iojC24IwsBKILIzI=;
-	b=md1YeMwJ+aSPu0+QQCjzuLA2DLfDFCtynnVSfK17C6qCgXiwwfuJXt8OjF/L985A0X
-	w5RXYAfSfrXR8zQ+JXCCKH0WVnMwGOiZNpoKi0o81GCzdqiY3X449erLoI8N4L+eDYev
-	NkSCgLxgu0+4RIf8Owicwym8e6i4/Li4j+2uWKflrBuL7IrthDKtbIx8bU8IrSPpvaZ7
-	5+uoRiV8q2F9LlouXV9j/Q+NMvJh7tpLngPpjCO7xHlUjZo69oye4nf77vnnTS+wRjpy
-	w/ZDv7Zr7FcPJYrCGWcVMH6h9MxovsnGbSYnrtRKKzVBg19r+M0zv3d1nmqMwnlBzgAb
-	puuQ==
-X-Gm-Message-State: APjAAAVAw5IXOiDBdECyadQ5k9C3teRhpU7I5YXEKQiUxE4Nr5kEcA+O
-	WoJGXlgOpiaQnbiO2FoJjP1qvpTCtwjpktbBUHc97YT6z9k=
-X-Google-Smtp-Source: APXvYqxcwAJ6JtB5FZml/1EVW+5wXbAs1EcOjRRGEF8NaQrtygY9umDyJIGj8AkVbONT1LB+pJwDS838SRbCe6H4lCg=
-X-Received: by 2002:a67:efd2:: with SMTP id s18mr1924494vsp.94.1574262415524; 
-	Wed, 20 Nov 2019 07:06:55 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=JzMrI8szCRQH8h0sXrylXCxau8T+MGcwOoRybcqJ5wo=;
+	b=qF3ptuPjTrGVTtAiZVbRyt+zzcL9kBbAp+BYJveN56FrYRn+VvMho2sbCuIrl6kl1X
+	1fC8SrBBRE+so6gwQPf1p99W6ZtmPoyKqJCetEYIQzCH2JxP3nutvx2rMZvgz75kg1CC
+	7pDGacwTwv7U9LWdGOcUMFhs525TDakiLW0VxA7GGnpOTR2zUnOBfFogyHMY4OQOZKch
+	Fj662R4O6r8NB0M/MnYF5WbZvZxvKvF+hawLIF9pFk+5pSJ+l9S+BHds2e4cz0PzAJXh
+	9QzqE07eqHmQNKLbGaPIZ6YiqY5fS7taENtJcj1wSlE/WstWpc+GEATXLIzN0tg+jXiM
+	N33A==
+X-Gm-Message-State: APjAAAXK6w8Im9d6+cPxAcoz8thbQ6ivVOVX9usViDHDSY04s1ETJulW
+	OaNTf3WWiW8LbRoLPIeEfpQPcny6fle6CA==
+X-Google-Smtp-Source: APXvYqzzgAyI7zTPHUxBeN6g1fqoww0cMah+rpPEUF7gHyiC9WLJm9v6chh0DfHGrmz2hfyMZQnCIg==
+X-Received: by 2002:a81:4e4b:: with SMTP id c72mr1989565ywb.471.1574262507919; 
+	Wed, 20 Nov 2019 07:08:27 -0800 (PST)
+Received: from bill-the-cat
+	(2606-a000-1401-86dd-4822-cbc9-ba3d-ee00.inf6.spectrum.com.
+	[2606:a000:1401:86dd:4822:cbc9:ba3d:ee00])
+	by smtp.gmail.com with ESMTPSA id
+	203sm13183152ywe.57.2019.11.20.07.08.26
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 20 Nov 2019 07:08:27 -0800 (PST)
+Date: Wed, 20 Nov 2019 10:08:25 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20191120150825.GD19317@bill-the-cat>
 References: <20191118130801.21860-1-alex.kanavin@gmail.com>
 	<20191120125602.GZ19317@bill-the-cat>
 	<CANNYZj-EUQb2gjw923rv-fMDOaGn+fe59AnA7B9oSkgk6de_xQ@mail.gmail.com>
 	<20191120135008.GA19317@bill-the-cat>
-In-Reply-To: <20191120135008.GA19317@bill-the-cat>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 20 Nov 2019 16:06:44 +0100
-Message-ID: <CANNYZj8nfXL1DOqvRSwdKxizfFiNRNuA0hFgHDa-LS47UTo+KQ@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
+	<CANNYZj8nfXL1DOqvRSwdKxizfFiNRNuA0hFgHDa-LS47UTo+KQ@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj8nfXL1DOqvRSwdKxizfFiNRNuA0hFgHDa-LS47UTo+KQ@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 01/13] python: update to 2.7.17
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,48 +64,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 15:06:54 -0000
-Content-Type: multipart/alternative; boundary="0000000000000f87eb0597c88822"
+X-List-Received-Date: Wed, 20 Nov 2019 15:08:27 -0000
+X-Groupsio-MsgNum: 131622
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="4Ls2hnPWQmJqLjNH"
+Content-Disposition: inline
 
---0000000000000f87eb0597c88822
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, 20 Nov 2019 at 14:50, Tom Rini <trini@konsulko.com> wrote:
-
-> Well, the release is scheduled for January 6th.  I'd really like to see
-> more testing in no-python2 environment.  I believe the Fedora folks have
-> confirmed things are good now but it would be good to see OE do it too,
-> especially on master and not too close to branching out another release.
->
-
-I made a few patches to do that, and can confirm that various flavours of
-u-boot recipe build without issues.
-
-If someone else wants to test a py2-less poky with their builds, here it is:
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/drop-python2
-
-Alex
-
---0000000000000f87eb0597c88822
-Content-Type: text/html; charset="UTF-8"
+--4Ls2hnPWQmJqLjNH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 20 Nov 2019 at 14:50, Tom Rini &l=
-t;<a href=3D"mailto:trini@konsulko.com">trini@konsulko.com</a>&gt; wrote:<b=
-r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Well, the release is scheduled for January 6th.=C2=A0 I&#39;d re=
-ally like to see<br>
-more testing in no-python2 environment.=C2=A0 I believe the Fedora folks ha=
-ve<br>
-confirmed things are good now but it would be good to see OE do it too,<br>
-especially on master and not too close to branching out another release.<br=
-></blockquote><div><br></div><div>I made a few patches to do that, and can =
-confirm that various flavours of u-boot recipe build without issues.</div><=
-div><br></div><div>If someone else wants to test a py2-less poky with their=
- builds, here it is:</div><div><a href=3D"http://git.yoctoproject.org/cgit.=
-cgi/poky-contrib/log/?h=3Dakanavin/drop-python2">http://git.yoctoproject.or=
-g/cgit.cgi/poky-contrib/log/?h=3Dakanavin/drop-python2</a></div><div><br></=
-div><div></div><div>Alex<br></div></div></div>
+On Wed, Nov 20, 2019 at 04:06:44PM +0100, Alexander Kanavin wrote:
+> On Wed, 20 Nov 2019 at 14:50, Tom Rini <trini@konsulko.com> wrote:
+>=20
+> > Well, the release is scheduled for January 6th.  I'd really like to see
+> > more testing in no-python2 environment.  I believe the Fedora folks have
+> > confirmed things are good now but it would be good to see OE do it too,
+> > especially on master and not too close to branching out another release.
+> >
+>=20
+> I made a few patches to do that, and can confirm that various flavours of
+> u-boot recipe build without issues.
+>=20
+> If someone else wants to test a py2-less poky with their builds, here it =
+is:
+> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=3Dakanavin/drop-=
+python2
 
---0000000000000f87eb0597c88822--
+Thanks!
+
+--=20
+Tom
+
+--4Ls2hnPWQmJqLjNH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6HLbQJwaaH776GM2h/n2NdMddlIFAl3VVuUACgkQh/n2NdMd
+dlLGGg//WkqWVDX9br5LHXkEIHdLE8wtz4yjqri2VNAq/w8tHuSO+LMwDXAeZqqu
+u7ed1eRfgE6O8QKFfrIy7LLZfp4knpEINAU7O5uo/af1eBNgL0OUxaQi4mYymuly
+jRME4t1m05+4KticXsRYGOID3OApMMuiRQs4S6jk1FvrmAqsYSMh+3ZKSmIFFd9d
+JRrNMpII48PxfiYCKmLPiKurabihne2Q2uK8rzBYHU17+TUtw8bKurcQMzEulGCj
+pfnQxeo+vlVbPW+YFDTXvVczJtZUEyDevGSBd0e88Gf+tMAGiiL8kNH2Tjd+XUG1
+r0PXEByWIKiuU6lpGu4/952ZWxBkqUiGTE6CnWsNTvEv2MkFfVt98HA9hsjzjVUJ
+WkXXIo0JHvZ3dIYk/Yq7ncPCrxSCMvdI4NKhBDYqfxV/lFHzFn9isYhHdEyvRoyx
+k09jIKTNKHp9wmBdjv3XpqMkVC9NmLEWiSQ5JQava3ijHthOraR8cJZc8WPWbd78
+780z+96Sq2AVaV/sssYiy9ALsv0xSf5grkgoK4LmwDc63OofsnMTMrg9begCxpag
+QV+Kta038DOW8NeQfxcM36LQF4JyVU3JjaeUzciVEQe0PpaVS+pf+FgK+deZqQht
+jWS0NpRRnR0tRMLjB+5MU4klsi/0A8WnjHm0766eL8pgDG1iKB0=
+=AlDX
+-----END PGP SIGNATURE-----
+
+--4Ls2hnPWQmJqLjNH--
