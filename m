@@ -1,30 +1,53 @@
-Return-Path: <stefan@agner.ch>
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id AEA857F81C
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw1-f66.google.com (mail-yw1-f66.google.com
+	[209.85.161.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FD817F7AD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 12:41:48 +0000 (UTC)
-Received: from localhost.localdomain (31-10-206-124.static.upc.ch
-	[31.10.206.124])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id 680915C3CFF;
-	Wed, 20 Nov 2019 13:41:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1574253709;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=mxo8aBiQFE9AsPs0ZopyqVc41/IZfneDvEpcTyx+Mpc=;
-	b=e8tRSnNsJv/nwBxOkuidts7kJ8bjFFpKXm2/7LwHh1krUVgEzwW6NqkEWW5WhA6+pSROPM
-	J+glXhGmGgvj9smu8vwVTFbGQTwizvP8VspJvdALdzaSeuKLfmMTqaLkBpAuRLYNF8sDRz
-	GKhPJEBulyvrSLLww5w+jDmlB9aUZLo=
-From: Stefan Agner <stefan@agner.ch>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Nov 2019 12:41:46 +0000
-Message-Id: <20191120124146.21245-2-stefan@agner.ch>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191120124146.21245-1-stefan@agner.ch>
-References: <20191120124146.21245-1-stefan@agner.ch>
-Cc: Stefan Agner <stefan.agner@toradex.com>
-Subject: [PATCH v5 2/2] image_types: add Zstandard conversion support
+	Wed, 20 Nov 2019 12:56:05 +0000 (UTC)
+Received: by mail-yw1-f66.google.com with SMTP id p128so8587632ywc.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Nov 2019 04:56:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=zyMw3ywnttZuQmDr2R9jVJaCVaUBJCnfXVt7yG3MnuI=;
+	b=ogZM54Z5P329K/5bWKnNH4fa+aBedISQWXZevK6MuePo54kgFCZSIVmQce2mIugNGx
+	Zeya8PZeamu7UstSQfDDAksos/z8celhtUKEn9wWNBPIFhzWH1GssgJyHvc+D6HzkBov
+	9IIgipnxqoOqqCsP7XLzDK6XgeZbfGhOSacLk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=zyMw3ywnttZuQmDr2R9jVJaCVaUBJCnfXVt7yG3MnuI=;
+	b=IyVxVEaRI+Z9yyDiRiASPXKvwWJS649yLfgaNNGSTfR5OilQQq6Zx16GzHb1aUWMbK
+	1RMPmk0p/1zZ1JMKFHeQUL6EC/zcY4PlD3fTfSplVwOXIIZPGZcW9XFzHHyqgo9toz4c
+	Fz5GSdvDQsYobE8d++BcOaEzqT6WfWn9V0ZCkiyBrLeF6zI2xyKldL+1ODe4FisadZHJ
+	zcsZCFF7IjKCQt3eoOA434ixjcPxP3PJMUE+bkXQY/7L0G9gQUM4ldbkUY4WLWrGBkGu
+	2flThlIlJNQRL/W6sIwhF9lN+6vIZ8+MGfdvXUFZ1lkpvzViXaCaFy7VbJvMDN+Yhm8m
+	nrvw==
+X-Gm-Message-State: APjAAAVfw2Fq6/4geyQQpO8p5vLrxecCC4yCehCKMwaCUF/BhcxSTnO2
+	ABlbB2xQUuArN/PGpRsIEj5VpA==
+X-Google-Smtp-Source: APXvYqzJt1Et1JvqfxpByW7Z63hLjnKYqBrAFAw2mD8NjZTTqarmT+nqLv6eFQYUzxmNOE1SyoV4Ig==
+X-Received: by 2002:a81:47c3:: with SMTP id u186mr1473756ywa.91.1574254565818; 
+	Wed, 20 Nov 2019 04:56:05 -0800 (PST)
+Received: from bill-the-cat
+	(2606-a000-1401-86dd-4822-cbc9-ba3d-ee00.inf6.spectrum.com.
+	[2606:a000:1401:86dd:4822:cbc9:ba3d:ee00])
+	by smtp.gmail.com with ESMTPSA id
+	v124sm11460782ywc.2.2019.11.20.04.56.04
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 20 Nov 2019 04:56:04 -0800 (PST)
+Date: Wed, 20 Nov 2019 07:56:02 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20191120125602.GZ19317@bill-the-cat>
+References: <20191118130801.21860-1-alex.kanavin@gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <20191118130801.21860-1-alex.kanavin@gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 01/13] python: update to 2.7.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,66 +60,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 12:41:49 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 12:56:05 -0000
+X-Groupsio-MsgNum: 131604
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fvyamX9r+zPbOLwf"
+Content-Disposition: inline
 
-From: Stefan Agner <stefan.agner@toradex.com>
+--fvyamX9r+zPbOLwf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Add Zstandard (or just Zstd) compression support. This allows to
-create Zstd compressed tarballs by using tar.zst as IMAGE_FSTYPES.
+On Mon, Nov 18, 2019 at 02:07:49PM +0100, Alexander Kanavin wrote:
 
-Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
----
- meta/classes/image_types.bbclass | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+> Drop backports, rebase a couple of patches.
+>=20
+> This is the second last release of py 2.x; upstream support ends on
+> 1 January 2020, there will be one final 2.x afterwards.
+>=20
+> Note that the only thing that still needs python 2.x in oe-core is
+> u-boot; when the next u-boot update arrives, we should find out
+> where the py3 migration is for that component before merging the
+> update.
+>=20
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 
-diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-index 2eeffbb366..de00492932 100644
---- a/meta/classes/image_types.bbclass
-+++ b/meta/classes/image_types.bbclass
-@@ -59,6 +59,8 @@ XZ_INTEGRITY_CHECK ?= "crc32"
- 
- ZIP_COMPRESSION_LEVEL ?= "-9"
- 
-+ZSTD_COMPRESSION_LEVEL ?= "-3"
-+
- JFFS2_SUM_EXTRA_ARGS ?= ""
- IMAGE_CMD_jffs2 = "mkfs.jffs2 --root=${IMAGE_ROOTFS} --faketime --output=${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.jffs2 ${EXTRA_IMAGECMD}"
- 
-@@ -269,7 +271,7 @@ IMAGE_TYPES = " \
-     hddimg \
-     squashfs squashfs-xz squashfs-lzo squashfs-lz4 \
-     ubi ubifs multiubi \
--    tar tar.gz tar.bz2 tar.xz tar.lz4 \
-+    tar tar.gz tar.bz2 tar.xz tar.lz4 tar.zst \
-     cpio cpio.gz cpio.xz cpio.lzma cpio.lz4 \
-     wic wic.gz wic.bz2 wic.lzma \
-     container \
-@@ -282,7 +284,7 @@ IMAGE_TYPES = " \
- # CONVERSION_CMD/DEPENDS.
- COMPRESSIONTYPES ?= ""
- 
--CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
-+CONVERSIONTYPES = "gz bz2 lzma xz lz4 lzo zip zst sum md5sum sha1sum sha224sum sha256sum sha384sum sha512sum bmap u-boot vmdk vdi qcow2 base64 ${COMPRESSIONTYPES}"
- CONVERSION_CMD_lzma = "lzma -k -f -7 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_gz = "gzip -f -9 -n -c --rsyncable ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.gz"
- CONVERSION_CMD_bz2 = "pbzip2 -f -k ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-@@ -290,6 +292,7 @@ CONVERSION_CMD_xz = "xz -f -k -c ${XZ_COMPRESSION_LEVEL} ${XZ_DEFAULTS} --check=
- CONVERSION_CMD_lz4 = "lz4 -9 -z -l ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.lz4"
- CONVERSION_CMD_lzo = "lzop -9 ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
- CONVERSION_CMD_zip = "zip ${ZIP_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zip ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}"
-+CONVERSION_CMD_zst = "zstd -f -k -T0 -c ${ZSTD_COMPRESSION_LEVEL} ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.zst"
- CONVERSION_CMD_sum = "sumtool -i ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} -o ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sum ${JFFS2_SUM_EXTRA_ARGS}"
- CONVERSION_CMD_md5sum = "md5sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.md5sum"
- CONVERSION_CMD_sha1sum = "sha1sum ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type} > ${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.${type}.sha1sum"
-@@ -310,6 +313,7 @@ CONVERSION_DEPENDS_xz = "xz-native"
- CONVERSION_DEPENDS_lz4 = "lz4-native"
- CONVERSION_DEPENDS_lzo = "lzop-native"
- CONVERSION_DEPENDS_zip = "zip-native"
-+CONVERSION_DEPENDS_zst = "zstd-native"
- CONVERSION_DEPENDS_sum = "mtd-utils-native"
- CONVERSION_DEPENDS_bmap = "bmap-tools-native"
- CONVERSION_DEPENDS_u-boot = "u-boot-tools-native"
--- 
-2.17.1
+I would _really_ like to see someone move master to using v2020.01-rc3
+or so for U-Boot as that should not have any Python 2 dependencies left.
 
+--=20
+Tom
 
+--fvyamX9r+zPbOLwf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6HLbQJwaaH776GM2h/n2NdMddlIFAl3VN9gACgkQh/n2NdMd
+dlKikg//YxqlfGCt6EJUvpjk8Sgc77nbcaCEGnODPCaV4pHWwFED2lOt22jFWTNv
+7MX5bhOZS0H0sZt/JDFYVTZrOmXC7NTlTskv25Bz6fFEbhRQlgG+dPnmsDtagNA4
+g27hBdm94i1a2tA+B40Ukr98AMArOsqcvF92g1U9fDlQiBRxHL8lpGkomgFa9wCG
++6N6AbG8Pf+zmrIBorC9AC42PTOQfA7wf6aHZ8JtAdD/ym6bWqg/aTqwDfrJB0tS
+zJpQsmtjnPMdacPZetU0PhWPWpZcragfoeKAoX2PvzrtrUvrQ0Emv1bSDfNLhHnl
++MnzweG5h0mPMqTOmGimKoLZS6496DLmaVAjze5kQ6qQBHQ39rd4FQzdc/2x/516
+mvHfyj/E1NQpY+FU0J9MO/7gbIjFbUIrDsvPBxZwbv51Rb3h0OcM5aXa3lzS8SPZ
+raTfnWr1KktiRL0Lz216pof4vnnfbCUJCsx74WrjMCd7uLcVzxzi015n8Hk6nK1z
+8M3f8AygHGyVa0yBSs7EBf2k3e7KoNbhhQhBONFdlwY7ZHzs4B4N5g8VrY/tWOX/
+DIRfNnKGGnDYRuS9reEmBQeaxuKweXKWvIIPNennjzUJFi9LUgpcmg482LF+yH78
+NxIoPuSUSzTYlYHBbooK/UF6LTvM1a2in9HbUXWu2/BiWaPWQ0E=
+=rixe
+-----END PGP SIGNATURE-----
+
+--fvyamX9r+zPbOLwf--
