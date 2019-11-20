@@ -1,37 +1,48 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 91F777F7E9
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
+	[209.85.222.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 19DA57F696
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 20:17:19 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47JDWM6GDwzv;
-	Wed, 20 Nov 2019 21:17:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1574281040;
-	bh=CNgWCFr8i98LA4mVsmO8jz8pJDUx7EZQZjUkI1ODKmU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ISiJPQ8PuXeNS+cVC9HcOViWsCbrdrZp6iRJ7ULzHAMrl+e3Mt8Wr3bKEDiWqCH6N
-	NmcvBa5IJkSAkx+nJjPuVdK3xWTAzINbGDRIZ9MAEXYC8KlsIBpwRuYexXI3nE3J7c
-	Wu8jtn9ngQIbpTAPIvuwIrAa3MVhOtMqntK0PoDVl8cCdZnCV0rBsDk/Cp1kTvqwc9
-	0x7zfnG/OoM8Y2un48jcdljjJdZlGQm1XsimCyIKBwwGMbQwhFGaE6Y9f6pTKacgDv
-	DEylUlDgs6Ep2//ZYppCKVHvEQkDl+s3fVN67du2EcikMiOmE8NcpTpLbnqTlgdh24
-	G+TGa/5Lfaxq6zWkW0VgSGEGzVbCws8W14oPDCiVdEvc5mHktDE4GrPCLy9xfLqf9e
-	vEYgNQXJZNoYee4P0XuDUm58HC8nKmpWjL0Eyo0vAgSAjnyBgwRCBiWXPSs8WXNOFQ
-	PClvXbEoNwDX/fB5z1okAQp8oPfi0S5GDXmXVVBFJ1QYxYCuGY/i5ujZ5K5CJA7quG
-	lEjeN43C618sgOQIbtHi0sCB26wmvSNOY1kQqEjA9L4IZNtj1lILDD6dXU9gfX6XYk
-	vLgwbxGDldA8pF8o9U4I9ed6vRO/fJqNTkaL/K3hjlIW1SqQwvjrRn8R3nb131O0Eu
-	hUFEenJOcvuBRO243FN2lD48=
-Date: Wed, 20 Nov 2019 22:17:17 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20191120201717.GA23850@localhost>
+	Wed, 20 Nov 2019 21:12:35 +0000 (UTC)
+Received: by mail-ua1-f67.google.com with SMTP id k11so257002ual.10
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 20 Nov 2019 13:12:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=jWHUwkOzfaiiBCX51CUeio/EU3zsoBh45S9BkJ7gRZU=;
+	b=pcbFhIyRvHPqD65Wm9NGOaMlzmXRa9vf+O6GOLL01dJsdJ0Wi34uMTokD2soSlK24w
+	erxm3iA8Pgs+QaQ0hp9Dd7EjvinQ2S52Lh+WoJzaAdxBl+neY9hBvU9u9BMgt5SGurnr
+	XY85xIYkBof9udhFl8D/r/la3udlCZH/LfthucAW8qDshiFi5+QUR5+b6Ll76gXBzZhY
+	glOduVaXVp3XPsSU+Ee4k6J7AYJiGU9/lFsbUpz1wXaym2ROMzgZG2UGHfTD2VWyp2DU
+	OzATVPgjl5qzwyV7lSmlTLDDstTUxe1g8++NGNEkfNTb8DdjslLUCSb2aM02cNejnGA8
+	5yAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=jWHUwkOzfaiiBCX51CUeio/EU3zsoBh45S9BkJ7gRZU=;
+	b=q9A4zihFKYmQLGuOFuuVlrDfbDJzTPI+icQNMh/JxebPLZoMeFUpenog/36db8iCKJ
+	IxylHTToY/mQ2t6ayp6AczG1qf0xdNW+oCuAIZF7rBNI6VXnyCdCamQoqhfR36Laj83T
+	1BXvnU4hB+ghRClrv8eUYsS7BJzz1RLCjCOOmFYrACp/YVSh7wGFYScPIEvULJndmHd/
+	YECJwG3XwToJTEKGc4fEaIn9aHl142liu/APg40xbpJ21Sr7VpLQRJLeyOGe9KbRfSZN
+	l4dqjcH/WB8BjxEMYtMTo+t7FxrUiFfQMg3BDMAIBUVxaBjFUb2taMfmVzfn3tW+iyBS
+	NpwQ==
+X-Gm-Message-State: APjAAAUP/oHd/Nf7BbpU8n7DZfm0LTB2APjSbFbra/2OtPm7shdU0HYS
+	PJjSnjqyL8AzdTlL3TVPW2pbNROtjA6HzWTQn/INkA==
+X-Google-Smtp-Source: APXvYqyOT80ahZDdZKsFYmEZzYUZQd5uUPhFb7rJvzmg6nb6Af1aontH0YzoAPiIzeG2fQn+XucPKlv+628mXGJN2VY=
+X-Received: by 2002:ab0:3399:: with SMTP id y25mr3375576uap.100.1574284356808; 
+	Wed, 20 Nov 2019 13:12:36 -0800 (PST)
+MIME-Version: 1.0
 References: <20191120134455.125118-1-alex.kanavin@gmail.com>
 	<20191120134455.125118-8-alex.kanavin@gmail.com>
 	<20191120194927.GA28030@localhost>
 	<CANNYZj_g1kDJ5CSbKg4DEaATCiyPPT=2GuYEsUyHr+7ZpH8EkQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj_g1kDJ5CSbKg4DEaATCiyPPT=2GuYEsUyHr+7ZpH8EkQ@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+	<20191120201717.GA23850@localhost>
+In-Reply-To: <20191120201717.GA23850@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 20 Nov 2019 22:12:25 +0100
+Message-ID: <CANNYZj99KZEZCHhOEQKBBguXC=mgXtb-rOAaMSX1K35ie03cSw@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 08/11] lrzsz: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -46,29 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 20:17:20 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Nov 2019 21:12:36 -0000
+Content-Type: multipart/alternative; boundary="000000000000dcf2c90597cda340"
 
-On Wed, Nov 20, 2019 at 09:00:28PM +0100, Alexander Kanavin wrote:
-> On Wed, 20 Nov 2019 at 20:49, Adrian Bunk <bunk@stusta.de> wrote:
-> 
-> > > Using serial lines for console work may have its uses,
-> > > but for transferring files please set up proper networking.
-> > >...
-> >
-> > I've had several recent embedded experiences where this was impossible,
-> > and lrzsz was extremely useful.
-> >
-> 
-> Do you want to maintain it?
->...
+--000000000000dcf2c90597cda340
+Content-Type: text/plain; charset="UTF-8"
 
-Did you already contact the maintainer whose name your patch removes 
-from maintainers.inc?
+On Wed, 20 Nov 2019 at 21:17, Adrian Bunk <bunk@stusta.de> wrote:
 
-> Alex
+> > Do you want to maintain it?
+>
+> Did you already contact the maintainer whose name your patch removes
+> from maintainers.inc?
+>
 
-cu
-Adrian
+Most entries in oe-core's maintainers.inc do not carry any real
+responsibility or commitment; they're there mostly so that monthly emails
+from auto upgrade helper end up with someone. Actual maintenance comes from
+those who use and need the components.
 
+I can certainly ask Anuj, but I bet he has no interest in lrzsz whatsoever.
+
+Alex
+
+--000000000000dcf2c90597cda340
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 20 Nov 2019 at 21:17, Adrian Bunk=
+ &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
+iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">&gt; Do you want to maintain it?<br><br>
+Did you already contact the maintainer whose name your patch removes <br>
+from maintainers.inc?<br></blockquote><div><br></div><div>Most entries in o=
+e-core&#39;s maintainers.inc do not carry any real responsibility or commit=
+ment; they&#39;re there mostly so that monthly emails from auto upgrade hel=
+per end up with someone. Actual maintenance comes from those who use and ne=
+ed the components.</div><div><br></div><div>I can certainly ask Anuj, but I=
+ bet he has no interest in lrzsz whatsoever.<br></div><div><br></div><div>A=
+lex<br></div></div></div>
+
+--000000000000dcf2c90597cda340--
