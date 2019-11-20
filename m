@@ -1,54 +1,43 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
-	[209.85.219.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 469F26D6C4
+Return-Path: <a.manache@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C7AEA6C132
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 13:50:11 +0000 (UTC)
-Received: by mail-yb1-f194.google.com with SMTP id d95so10343716ybi.8
+	Wed, 20 Nov 2019 14:19:52 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id b72so20387086edf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 05:50:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=2g0iBiA1JlRYYRCdtVj87GCXN9aTQH3wXNqfkC6/8Kg=;
-	b=PNgS8V/p6RM6WBBrCkpXViUD/u8IU3f7jTf0pDf8rM8bHgmJWy0YTcWBolPKM0UdJI
-	g42SMah+1C6R1XNBjIWh2FLZmfluc3HbCe8l1NKMBuRqJil/z6EaLi+gFiwhEppKq5Yz
-	P2VYegkLkIsCYW2XlDqk3JFtD+aAFINjaWp6E=
+	Wed, 20 Nov 2019 06:19:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=Jl1uKy+nnnO7bPCYE4LQFUqVTJ2XKFOG7SMSU6c2oqs=;
+	b=Fa/4xiLkQlRbhzPc0DJVA+FFP6PPzQvyO1NFtfhWJYSi4u2zKTwEynaUXnLub5PPRk
+	1RHbL2k5vnx9ZwttbjyZ9V3oONOOm+g1fpq4X25aNefIKlfLvxS8/tw+kBkUG+XY6ZmR
+	zhJAn4ckKKBUzi1TrhuyfGflC95S0j29+tSHY3iyKgmjXCuvVgVCv9TroOMcYKbc/yqu
+	TRPE1f2KT+M7lOTURGw6sCqHfrBBt04csoSUaXg79PnvkBRn7UZIgvlPQTU9tlcMD209
+	7mWtYJqO5tlGwvOwfQeUou1CoCGUsUapfBPmQ/DLE+94vxwq3JcdbmInrd3WLRil6UHy
+	qGrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=2g0iBiA1JlRYYRCdtVj87GCXN9aTQH3wXNqfkC6/8Kg=;
-	b=Tu7VzWxsUCO4cKqrJxFfuUF2yeCX3DHe/iIY4OZ2JkIMYKlgtTQEPG43U8GUpwKtRA
-	EA81lfzG+toLeRZCJBtgqSzWqOq2EYF1FCQR0guidpaGmKLU5GQJ+gBkrIDW0NSUhl5j
-	4PuVXU+hL3f8JiOp17ZHL1/8XsAj58yiS+qAlA8ryHllb3O1VPFe0HYryuDoexWxwOBF
-	espdbtXoeKkRFz2aa6ltCvZFPtLQy5TpoZZa44fw0gOTGcviKzDVz82B6/p19h4JICJa
-	CYrNXqZd6PCxzNbc6P3Lx8xc6/jK3Afy8wV0uTNaAgG3jQzZ5EzWnclyLCFZSkBnk/+X
-	YQRQ==
-X-Gm-Message-State: APjAAAUt6Z9laKpAPOxAlDfpi9Eff1eXGtwYJ/SSJfQZm8yK7tqCO21t
-	Gip1mrdHzNwOZgJW1GjvaaJ9Eg==
-X-Google-Smtp-Source: APXvYqwft5bxCW81TwBnOMaMEM3Bgo22QbJ0071dxGs/NJVrA9YZJSFZ4k3Vq03DuMWAnl2D6PNc+w==
-X-Received: by 2002:a25:da52:: with SMTP id n79mr1951470ybf.194.1574257811844; 
-	Wed, 20 Nov 2019 05:50:11 -0800 (PST)
-Received: from bill-the-cat
-	(2606-a000-1401-86dd-4822-cbc9-ba3d-ee00.inf6.spectrum.com.
-	[2606:a000:1401:86dd:4822:cbc9:ba3d:ee00])
-	by smtp.gmail.com with ESMTPSA id l1sm13098515ywh.9.2019.11.20.05.50.10
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 20 Nov 2019 05:50:10 -0800 (PST)
-Date: Wed, 20 Nov 2019 08:50:08 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20191120135008.GA19317@bill-the-cat>
-References: <20191118130801.21860-1-alex.kanavin@gmail.com>
-	<20191120125602.GZ19317@bill-the-cat>
-	<CANNYZj-EUQb2gjw923rv-fMDOaGn+fe59AnA7B9oSkgk6de_xQ@mail.gmail.com>
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=Jl1uKy+nnnO7bPCYE4LQFUqVTJ2XKFOG7SMSU6c2oqs=;
+	b=hMrBjaMXyC2GoDQR1Czc5oYltdEy0bQR99XXqPCfR6FB7eqx2cVV+wpmBtqDJWCOPq
+	8rEjecPhxqfsCY5tHyCxQUSlQFU6uSF7qSLfzGg7vf9E/sBtVIeuDWz8SLF8J55A2ZXv
+	OiEAVAQDMpP5tVwONkahTUB34rzpDBrBCxQ0tsjPDTAtHr5nFAMT2FksDxaBOsGLjrI3
+	UFV0EPpBELW8Tv8HgTPRxpZxyp4DaEUno0X9sqm8nGVajsOuDCgBGnT03OyDaEYqbD35
+	IYqwccjROBvEKs6bwOiQ5YUY7LTXWj+QcNze8uf54g/lAFv5oVQjezpnj5F8MiSOnGTf
+	zJBw==
+X-Gm-Message-State: APjAAAUjs/T0S+IOuHqUp/bEwW4dwn+QgJZ9P7WeEv/+LiMReXXwG7g/
+	Hjw4MEG7BDUPvUUdvLbcfQe/RZqRbrfo3z0cMvy7HQ==
+X-Google-Smtp-Source: APXvYqwBklhGbse153zu34IBIyuk8TqRM+Vw9Rot+cX30YC1AWXrbeFcSKZ9I7UK+oweuN86dVnH0uYPA9SG90dm2N4=
+X-Received: by 2002:a17:906:3602:: with SMTP id
+	q2mr5778016ejb.167.1574259593134; 
+	Wed, 20 Nov 2019 06:19:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj-EUQb2gjw923rv-fMDOaGn+fe59AnA7B9oSkgk6de_xQ@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/13] python: update to 2.7.17
+From: Antoine Manache <a.manache@gmail.com>
+Date: Wed, 20 Nov 2019 15:19:40 +0100
+Message-ID: <CAMu9SpJ9QwdnjDHtS59jXzEhDg8XWQwb3LuOof1QFYfTM-pVXg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [yocto] [PATCH] SDK environment script doesn't set security options in CC and LDFLAGS variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,51 +50,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 13:50:11 -0000
-X-Groupsio-MsgNum: 131618
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="TVJUn0GYqhF2Kn75"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 20 Nov 2019 14:19:53 -0000
+Content-Type: multipart/alternative; boundary="000000000000d548de0597c7df94"
 
---TVJUn0GYqhF2Kn75
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--000000000000d548de0597c7df94
+Content-Type: text/plain; charset="UTF-8"
+
+When building a SDK from a DISTRO with security flags enabled, options
+added to
+CC and LDFLAGS are not replicated in the SDK environment script.
+This could lead to some situations where an application compiled with
+the SDK and having some security weaknesses correctly runs on target but
+crashes once integrated to the core image built with the full Yocto
+stack.
+
+Signed-off-by: Antoine Manache <a.manache@gmail.com>
+---
+ meta/conf/distro/include/security_flags.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/conf/distro/include/security_flags.inc
+b/meta/conf/distro/include/security_flags.inc
+index 620978a8ed..329482bfa3 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -56,7 +56,9 @@ SECURITY_STRINGFORMAT_pn-busybox = ""
+ SECURITY_STRINGFORMAT_pn-gcc = ""
+
+ TARGET_CC_ARCH_append_class-target = " ${SECURITY_CFLAGS}"
++TARGET_CC_ARCH_append_class-cross-canadian = " ${SECURITY_CFLAGS}"
+ TARGET_LDFLAGS_append_class-target = " ${SECURITY_LDFLAGS}"
++TARGET_LDFLAGS_append_class-cross-canadian = " ${SECURITY_LDFLAGS}"
+
+ SECURITY_STACK_PROTECTOR_pn-gcc-runtime = ""
+ SECURITY_STACK_PROTECTOR_pn-glibc = ""
+
+--
+2.11.0
+
+--000000000000d548de0597c7df94
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 20, 2019 at 02:47:19PM +0100, Alexander Kanavin wrote:
-> On Wed, 20 Nov 2019 at 13:56, Tom Rini <trini@konsulko.com> wrote:
->=20
-> > I would _really_ like to see someone move master to using v2020.01-rc3
-> > or so for U-Boot as that should not have any Python 2 dependencies left.
->=20
-> rc3 means the final release is very soon, so we'll gladly update to that.
+<div dir=3D"auto"><p style=3D"margin-top:0px;margin-bottom:0px;font-family:=
+calibri,arial,helvetica,sans-serif;font-size:16px"><span style=3D"font-fami=
+ly:&#39;consolas&#39;,monospace;font-size:10pt">When building a SDK from a =
+DISTRO with security flags enabled, options added to</span><br style=3D"fon=
+t-family:&#39;consolas&#39;,monospace;font-size:10pt"><span style=3D"font-f=
+amily:&#39;consolas&#39;,monospace;font-size:10pt">CC and LDFLAGS are not r=
+eplicated in the SDK environment script.</span><br style=3D"font-family:&#3=
+9;consolas&#39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;c=
+onsolas&#39;,monospace;font-size:10pt">This could lead to some situations w=
+here an application compiled with</span><br style=3D"font-family:&#39;conso=
+las&#39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;consolas=
+&#39;,monospace;font-size:10pt">the SDK and having some security weaknesses=
+ correctly runs on target but</span><br style=3D"font-family:&#39;consolas&=
+#39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39=
+;,monospace;font-size:10pt">crashes once integrated to the core image built=
+ with the full Yocto</span><br style=3D"font-family:&#39;consolas&#39;,mono=
+space;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,monospa=
+ce;font-size:10pt">stack.</span><br style=3D"font-family:&#39;consolas&#39;=
+,monospace;font-size:10pt"><br style=3D"font-family:&#39;consolas&#39;,mono=
+space;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,monospa=
+ce;font-size:10pt">Signed-off-by: Antoine Manache &lt;<a href=3D"mailto:a.m=
+anache@gmail.com" style=3D"text-decoration-line:none;color:rgb(66,133,244)"=
+>a.manache@gmail.com</a>&gt;</span><br style=3D"font-family:&#39;consolas&#=
+39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;=
+,monospace;font-size:10pt">---</span><br style=3D"font-family:&#39;consolas=
+&#39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#3=
+9;,monospace;font-size:10pt">=C2=A0meta/conf/distro/include/security_flags.=
+inc | 2 ++</span><br style=3D"font-family:&#39;consolas&#39;,monospace;font=
+-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,monospace;font-si=
+ze:10pt">=C2=A01 file changed, 2 insertions(+)</span><br style=3D"font-fami=
+ly:&#39;consolas&#39;,monospace;font-size:10pt"><br style=3D"font-family:&#=
+39;consolas&#39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;=
+consolas&#39;,monospace;font-size:10pt">diff --git a/meta/conf/distro/inclu=
+de/security_flags.inc b/meta/conf/distro/include/security_flags.inc</span><=
+br style=3D"font-family:&#39;consolas&#39;,monospace;font-size:10pt"><span =
+style=3D"font-family:&#39;consolas&#39;,monospace;font-size:10pt">index 620=
+978a8ed..329482bfa3 100644</span><br style=3D"font-family:&#39;consolas&#39=
+;,monospace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,m=
+onospace;font-size:10pt">--- a/meta/conf/distro/include/security_flags.inc<=
+/span><br style=3D"font-family:&#39;consolas&#39;,monospace;font-size:10pt"=
+><span style=3D"font-family:&#39;consolas&#39;,monospace;font-size:10pt">++=
++ b/meta/conf/distro/include/security_flags.inc</span><br style=3D"font-fam=
+ily:&#39;consolas&#39;,monospace;font-size:10pt"><span style=3D"font-family=
+:&#39;consolas&#39;,monospace;font-size:10pt">@@ -56,7 +56,9 @@ SECURITY_ST=
+RINGFORMAT_pn-busybox =3D &quot;&quot;</span><br style=3D"font-family:&#39;=
+consolas&#39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;con=
+solas&#39;,monospace;font-size:10pt">=C2=A0SECURITY_STRINGFORMAT_pn-gcc =3D=
+ &quot;&quot;</span><br style=3D"font-family:&#39;consolas&#39;,monospace;f=
+ont-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,monospace;font=
+-size:10pt">=C2=A0</span><br style=3D"font-family:&#39;consolas&#39;,monosp=
+ace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,monospace=
+;font-size:10pt">=C2=A0TARGET_CC_ARCH_append_class-target =3D &quot; ${SECU=
+RITY_CFLAGS}&quot;</span><br style=3D"font-family:&#39;consolas&#39;,monosp=
+ace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,monospace=
+;font-size:10pt">+TARGET_CC_ARCH_append_class-cross-canadian =3D &quot; ${S=
+ECURITY_CFLAGS}&quot;</span><br style=3D"font-family:&#39;consolas&#39;,mon=
+ospace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,monosp=
+ace;font-size:10pt">=C2=A0TARGET_LDFLAGS_append_class-target =3D &quot; ${S=
+ECURITY_LDFLAGS}&quot;</span><br style=3D"font-family:&#39;consolas&#39;,mo=
+nospace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,monos=
+pace;font-size:10pt">+TARGET_LDFLAGS_append_class-cross-canadian =3D &quot;=
+ ${SECURITY_LDFLAGS}&quot;</span><br style=3D"font-family:&#39;consolas&#39=
+;,monospace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,m=
+onospace;font-size:10pt">=C2=A0</span><br style=3D"font-family:&#39;consola=
+s&#39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;consolas&#=
+39;,monospace;font-size:10pt">=C2=A0SECURITY_STACK_PROTECTOR_pn-gcc-runtime=
+ =3D &quot;&quot;</span><br style=3D"font-family:&#39;consolas&#39;,monospa=
+ce;font-size:10pt"><span style=3D"font-family:&#39;consolas&#39;,monospace;=
+font-size:10pt">=C2=A0SECURITY_STACK_PROTECTOR_pn-glibc =3D &quot;&quot;</s=
+pan></p><div style=3D"color:rgb(136,136,136);font-family:calibri,arial,helv=
+etica,sans-serif;font-size:16px" dir=3D"auto"><br style=3D"font-family:&#39=
+;consolas&#39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;co=
+nsolas&#39;,monospace;font-size:10pt">--</span><br style=3D"font-family:&#3=
+9;consolas&#39;,monospace;font-size:10pt"><span style=3D"font-family:&#39;c=
+onsolas&#39;,monospace;font-size:10pt">2.11.0</span><br style=3D"font-famil=
+y:&#39;consolas&#39;,monospace;font-size:10pt"></div></div>
 
-Well, the release is scheduled for January 6th.  I'd really like to see
-more testing in no-python2 environment.  I believe the Fedora folks have
-confirmed things are good now but it would be good to see OE do it too,
-especially on master and not too close to branching out another release.
-
---=20
-Tom
-
---TVJUn0GYqhF2Kn75
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6HLbQJwaaH776GM2h/n2NdMddlIFAl3VRIkACgkQh/n2NdMd
-dlKLZA//aPkq5QUzGZrSbJuJ41usqYuUxX5TtwtIlH/opaw6Aa79YYaLuyCNJrIC
-OedRE1LcoKN2ZUQGG5DwfcHueZWhS6lIvleWJ/1K0WgpUulz/Wr6cX3C+y0iVvRi
-5u5tbOVers+6Xgmeu5aiqh0GDMEbQi3IuBLpOgHGisAZt4nIXaycYS3ikAkYyAtP
-3taj4XygazqSK1rNMYA00TZ1LqqoGbuS7LKYppTI1v8ru2WNELmL8UsSE56wDnl1
-PlfnsIOwCJeyiPJZw5IxP7LEV5Uhb2WCfAeP9wB2VDoTeSqxbJYj9+ziEzhGFXlj
-9qyHKKtMB4ul/U3VvPP1qFY+c1ormz5dEVB0F+sdXrdvieOyXfZ1lDhWXLdqPLLf
-mYYThDvTn2jF8fqWLjJUQNeWQmeXAw+S5rfJHq+915z/Sg1JQv2MJUuuO76YD1Pf
-Jv2hVkbK7sQAXLubLIQyIhwuRp+0GpN5FhKE+2ECNBrckoLC5UYqS81LRseQdf8h
-1J2+/2oCO5DV9PM86XAnQ8LVzkJRJ+Au7i8aEP31x5xCh42dIcb8tM/P6cx7r3mi
-lMyt8YgLqrqpbKVqWMtyPrcdssVC4AH6h1SXEKYYncT0nibSz1LvC/VQHDirJ6Q5
-ICPuspphxoHaqLzaQMi0DwIIOxx5/9UJJhiSJnNFKZAp5o0zRLs=
-=SeiT
------END PGP SIGNATURE-----
-
---TVJUn0GYqhF2Kn75--
+--000000000000d548de0597c7df94--
