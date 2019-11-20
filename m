@@ -1,52 +1,48 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
-	[209.85.222.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A781B7F7DA
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D32357F6AA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 19:57:41 +0000 (UTC)
-Received: by mail-ua1-f67.google.com with SMTP id l38so198435uad.4
+	Wed, 20 Nov 2019 20:00:38 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id y23so573981vso.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 11:57:43 -0800 (PST)
+	Wed, 20 Nov 2019 12:00:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5TY8Zth1wq81FE3xGI4J39ahT6Cf2PLntCdrJy2hKnU=;
-	b=L6SsVlXlPcD5Z+J23XohG31FZJrKRK5T04wZR9wRsx9FW8gFf3Se73ltv/duNEF2eh
-	g/IfW/7R0keYEkX0rDxOSRsdESkFTTHvpglL6msJWk4N4VA5NUb7wURto3LyfGwl15GB
-	e7Qzhu3/DcK51zP+LM7MZex5AcGvoqPYIhdalDQ0zo/qPL7UMOrcyPgmFgwC/eXndiz1
-	e5dlabtUsMYK5tLC/OX+41Akfcvo8S0ilxpnK0QmHeIBQJA2FlpcuLi0k3vGJB+hEKn1
-	Y0C6d8Ph+9au5hU6TkniqKaYI83v6n7Rbd70HvprwI5/AxCfyOMjf1sUuPcnf4Z8sVdC
-	ZiYA==
+	:cc; bh=wgIwzVvMxR+6PZqs+XfrmkCphvhKodQKv6uD44q9Myk=;
+	b=tfNOYWfx+g3Grzoo9ujqn4sRM7lYGgOe88p/0RFE9mxXCa6AGkXMZAcOeA7gQxGn3D
+	zFdu4ebf7Kc5RNDBHnBla7qzvWVUVa9vvToYd0Yb7DbkJspJk6AsU0rLSyZbtI3XYsg6
+	8/v7101kqBWHRaqS51zquLkqyGlF3+DK3Jx0o8T3imXLrDudsUb2d4BM+XX2+iRd/Z9t
+	S8Xrr4AMXZW3LPL1XMPm43hZKw2I9HxyhoiVf6cU44E3MNI+3mY2tn8JsIftWLe+CTEH
+	b9l8KW0uprdbEl40kpO5ykJ6wwhIMTElfX1NZA5PmXS20YG94pvmONixv1D0GyXCUnPi
+	R3TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=5TY8Zth1wq81FE3xGI4J39ahT6Cf2PLntCdrJy2hKnU=;
-	b=cNGOX1jtAijijc6uukZKYLHUsuZWeHew5v6vxYfkM45RQzi0jNjzQkzg9f8lYdf61L
-	ny+UWicFcw27lh5Fhq0fVIZg2O1Hr9wUcUbbOISuUpAQe66ssXX9/DvKXLI8UrhXf+Hw
-	EpKwLUX3/36CkiQSe16rrl7aIPL/zrYJaVswKM5S4kKe9oU5eGW1NOKR4zM2e+0uQctn
-	FEBT5eF2vq/BGg+VlliDt2RI3wnOUCR1T8IStHi04slvpUMI7ox/wSq0cpDhpVRSiM76
-	XNKAvAhr6BdPa5nlBEwam7j6puuF7ryIbcftO/aDMDXci0vvYkzhJRSDYAI+NXRBfcVY
-	+vrw==
-X-Gm-Message-State: APjAAAUu4rRzbXOVDhblNnnoQOhWniszZXptxFP8z8Ap36gX88menBYJ
-	eFSb+Pus0mI7q+crrVAOE4X5NRVIkXDKrKX80JE=
-X-Google-Smtp-Source: APXvYqxveajTZ0svMdLM+m01K1VGH7V2YZ5aW2SmTeua7U0kwOe0EAwSeFQ/5GXzPpJBZDWMDj9w/Auvm6OPbc5IqH4=
-X-Received: by 2002:ab0:5557:: with SMTP id u23mr2826659uaa.81.1574279862182; 
-	Wed, 20 Nov 2019 11:57:42 -0800 (PST)
+	bh=wgIwzVvMxR+6PZqs+XfrmkCphvhKodQKv6uD44q9Myk=;
+	b=r93l0s5ZdecbjmBu9rBi2r8dwGvQW0sJXBkTsPVRPC7YURKaPsdgfwHyLQma10Fh/0
+	ezCBwYTnRfEBCqWLNYZo7KNKYDAuzBDINHn4Ha72koYm+7Okr2ks7UmtjY7uZq78DeKW
+	BbROPVeJp7L9S7H3wRoA4HXvhu/prMhzjv1cRbv9bEitgnPDqDte+tGScL4r/KQGHB5A
+	bKjPs2B44jnH4F9/UWcLXReIJThKCQDMGVmGG7eEehh++CS68WQoAeGxbZ1H9BIBRl67
+	/TlKznaK2pXmPMD9KaAMBafD8J0PRdfgr5LDaht9np2a+8cpWvfe0dUhLqt0ZXMMJcrk
+	yT/A==
+X-Gm-Message-State: APjAAAV7dEpIfLc6Xx0XpgFOh0J0bakrRVvHh08AYCTzAdUibYAKHf4p
+	DmkCn3mrs6Z8OFQWeM0HYqfymdunUkc3UBUmEhClygJy
+X-Google-Smtp-Source: APXvYqwylT/+6kG9hHaKArEA8j3hZCuAqlFwIA2Be3ULffQnGfsCkNczrMfpvAKS/MJuHzz2QgCtH9CS//+pEjkZKGU=
+X-Received: by 2002:a67:e343:: with SMTP id s3mr3031209vsm.83.1574280039927;
+	Wed, 20 Nov 2019 12:00:39 -0800 (PST)
 MIME-Version: 1.0
-References: <CAD0U-hKudOEYkkPQQ1He3=Cg1hLqT7u5Uhsn_e2ZK0vGmo+z3w@mail.gmail.com>
-	<5c9cb09a-e0b3-f43b-36cd-bc9a7df2dd6c@kernel.crashing.org>
-	<CAD0U-hLzTxYw3F-tPbj5m1+iqW+2PZcU5n4bE1sxL9KxGmuVUw@mail.gmail.com>
-	<31b224ae-8e1a-943c-0554-684557ef33bc@kernel.crashing.org>
-	<CAJ86T=XhxLih7d6cdXc8-1ZOKhHXTU6quzHnt+G4Oa3qhSFypw@mail.gmail.com>
-	<CAD0U-hL1m-2G67wfyKcr8BmG=ugf-s=534DnzhdQatJuG4DHaQ@mail.gmail.com>
-In-Reply-To: <CAD0U-hL1m-2G67wfyKcr8BmG=ugf-s=534DnzhdQatJuG4DHaQ@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 20 Nov 2019 11:57:30 -0800
-Message-ID: <CAJ86T=V3eKrYn4RWnP1nQB7e1YXpVWoWLJ9SUEX-guQYh55YUA@mail.gmail.com>
-To: Ryan Harkin <ryan.harkin@linaro.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: How to backport openssl to Sumo
+References: <20191120134455.125118-1-alex.kanavin@gmail.com>
+	<20191120134455.125118-8-alex.kanavin@gmail.com>
+	<20191120194927.GA28030@localhost>
+In-Reply-To: <20191120194927.GA28030@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 20 Nov 2019 21:00:28 +0100
+Message-ID: <CANNYZj_g1kDJ5CSbKg4DEaATCiyPPT=2GuYEsUyHr+7ZpH8EkQ@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/11] lrzsz: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,82 +55,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 19:57:41 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 20:00:40 -0000
+Content-Type: multipart/alternative; boundary="0000000000008e92a20597cca295"
+
+--0000000000008e92a20597cca295
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 20, 2019 at 11:44 AM Ryan Harkin <ryan.harkin@linaro.org> wrote:
->
-> Hi Andre,
->
-> On Wed, 20 Nov 2019 at 19:27, Andre McCurdy <armccurdy@gmail.com> wrote:
->>
->> On Wed, Nov 20, 2019 at 11:09 AM Mark Hatle
->> <mark.hatle@kernel.crashing.org> wrote:
->> > On 11/20/19 1:06 PM, Ryan Harkin wrote:
->> > > On Wed, 20 Nov 2019 at 18:36, Mark Hatle <mark.hatle@kernel.crashing.org
->> > > <mailto:mark.hatle@kernel.crashing.org>> wrote:
->> > >
->> > >     You know that 1.0.2 and 1.1 APIs are not compatible?  So you will need to update
->> > >     everything that needs OpenSSL to understand the new API.
->> > >
->> > >
->> > > So far, we're only using it in a shell script to sign an image and later verify
->> > > the image, so I've assumed, perhaps naively, that the API changes won't matter...
->> >
->> > Correct, but there may be other components of the system that could be using the
->> > API that you are unaware of.  On a system as old as Sumo, you will need to take
->> > precautions to ensure that ONLY the 1.1x version is being used.  (There may be
->> > an openssl10 for compatibility that will need to be blacklisted.)
->> >
->> > >     For CVE fixes, typically you would patch 1.0.2p, or update to the latest
->> > >     (1.0.2t) as you go.  (If you have an OSV, this should be part of the services
->> > >     that they offer you.)
->> > >
->> > >
->> > >     In my opinion, 1.0.2 will be around for at least another 4-5 years due to the
->> > >     number of people actively using it in the world.  Until 1.1/3.0 (won't be a 2.0
->> > >     from what I read) exists and has a FIPS-140-2 support available -- people will
->> > >     continue to use 1.0.2 and maintain it as necessary for security.
->> > >
->> > >     As an FYI:  http://git.yoctoproject.org/cgit/cgit.cgi/meta-openssl102/
->> > >
->> > >     This version is for thud, warrior, zeus and master.  It is intended to be
->> > >     maintained until either 1.0.2 is no longer maintainable -- or the FIPS-140-2
->> > >     needs have been met by OpenSSL.
->> > >
->> > >
->> > > Great, that looks like a better option anyway, assuming it has the latest fixes
->> > > I need, and doesn't give me the same build problem.  Thanks for pointing it out.
->> > > I'll give it a go.
->> >
->> > It's better to work with the Sumo version for your needs.  I just posted that as
->> > an example of openssl 1.0.2 being needed still by others, even as oe-core/Yocto
->> > Project have changed their defaults.
->>
->> If you want an up to date openssl 1.0.2 recipe which is compatible
->> with Sumo, you can find one here:
->>
->>   https://github.com/armcc/meta-plumewifi
->>
->> I'm only actively testing it with OE 1.6 (Daisy) and OE 2.7 (Warrior)
->> but it should work for all versions in between (and if it doesn't I'll
->> accept patches or try to fix it).
->
->
-> Thanks! It looks similar to the tree Mark Hatle pointed out to me. Two diffs jump out:
->
-> - Your repo adds the RPROVIDES for openssl-bin to "Be compatible with the openssl 1.1.x recipe".
+On Wed, 20 Nov 2019 at 20:49, Adrian Bunk <bunk@stusta.de> wrote:
 
-Yes. Makes the transition between 1.0.2 and 1.1.x a little easier.
+> > Using serial lines for console work may have its uses,
+> > but for transferring files please set up proper networking.
+> >...
+>
+> I've had several recent embedded experiences where this was impossible,
+> and lrzsz was extremely useful.
+>
 
-> - Mark's repo has two extra patches:
->            file://0001-Fix-BN_LLONG-breakage.patch \
->            file://0001-Fix-DES_LONG-breakage.patch \
+Do you want to maintain it? Protocols are not changing, but the software
+that lrzsz depends on is changing.
 
-Those patches are in my repo too - but only in the master-next branch.
-They are not required for Sumo. (Since some might regard those patches
-as a little "dubious" I don't pull them in unless they're necessary).
+Your first task would be making it build with the latest version of
+gettext, the branch containing that is here:
 
-> Regards,
-> Ryan.
+http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=akanavin/package-version-updates
 
+Alex
+
+--0000000000008e92a20597cca295
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 20 Nov 2019 at 20:49, Adrian Bunk=
+ &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
+iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">&gt; Using serial lines for console work may have its uses,<br>
+&gt; but for transferring files please set up proper networking.<br>
+&gt;...<br>
+<br>
+I&#39;ve had several recent embedded experiences where this was impossible,=
+ <br>
+and lrzsz was extremely useful.<br></blockquote><div><br></div><div>Do you =
+want to maintain it? Protocols are not changing, but the software that lrzs=
+z depends on is changing.<br></div><div><br></div><div>Your first task woul=
+d be making it build with the latest version of gettext, the branch contain=
+ing that is here:</div><div></div><div><br></div><div><a href=3D"http://git=
+.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=3Dakanavin/package-vers=
+ion-updates">http://git.yoctoproject.org/cgit/cgit.cgi/poky-contrib/log/?h=
+=3Dakanavin/package-version-updates</a></div><div><br></div><div>Alex<br> <=
+/div></div></div>
+
+--0000000000008e92a20597cca295--
