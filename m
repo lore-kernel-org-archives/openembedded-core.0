@@ -1,50 +1,48 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BA657CECE
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
+	[209.85.217.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A10A7BE3C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 13:45:26 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id l1so7016496wme.2
+	Wed, 20 Nov 2019 13:47:31 +0000 (UTC)
+Received: by mail-vs1-f51.google.com with SMTP id b16so16868046vso.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 05:45:27 -0800 (PST)
+	Wed, 20 Nov 2019 05:47:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mfGgkeqHqwY9oa4W2/bg8ERwjG2d0Cfw7fXm85fywYw=;
-	b=XBFys1VFu8+ruUMUtQPDLtTV4CDGP/IDYax4H2/bNNgRGUSyJjB7obta5nSVnhyzaR
-	JLiPO9vJZVaozssPFQgDqmbM62f7lAJPcoqO6MDldIrBlcULERwf9dMsATme01pnbV7c
-	x6x/TrcdQo9Doz0+5n0M/5whBSs4S0GGRsLNL7uW27q0X0n+jeeAYBbkFoQL0xNaXkhm
-	rKN7BheS8CDjyVmq+8WSk4lrGquQ0DF9y+tW4SCjlBaYkW98jTcx0vltiy6E07BuD9L8
-	uvKLLOVhUDSQZ5gg9NjcejJ64kJL29b/wsmjdZb5P9zqvAQawIPVi8mjWFWHq5Y0wEIq
-	L09Q==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=KNA07msUDkGUmgL3S6yvh27qM+x9VaaQZp+pz+RJdAs=;
+	b=JlyxyD/G/Hotc3ebb1QbYgv2jKSkxld1Rh6YFp687KnIq+Ut35hENjlOvjFl5p+4qS
+	CZAf9bJanCO+8ba4KvUsgezmBUYiz7nI/WcViBxw9jkoZycWR1+NfH11rCvjKWP9Hta4
+	NchoKtsHEhrBQ91kQ5aILpjWFB1LpBhDFDQfbhJRnjT/8LfHY8FBkmFH5wVfxrAZ2QSy
+	tt56U5+Ss1IkYG+4W5uzyXrmWhbwdQE3qB86HBp7sqQDiLfg4hG2XBRZ1pv4HYvNzfyG
+	Q0Nz4OEhHfykCKxMJLeMVqHOD4z3luAqmKhZoqY+CK6zmwbywowLi2N4mVaweV1sVvC4
+	xc0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=mfGgkeqHqwY9oa4W2/bg8ERwjG2d0Cfw7fXm85fywYw=;
-	b=cvL5JqG2eolJw2JVpZ+1XG8tFvp8bXhskmnfqkHs6X4MUV4X60UxupYjmkFi609zy+
-	B+l9SppxYdLdGkEIXycfi7fKRznXZyouuVj7E+d/6F54RpzfaWnNIKhby/82likTuPkA
-	9BGGn+kPNUYBtv6vXf/a/UZzX0yTC5iLVU2lnOUH10zbLJXjtcDo96NNdY9UhTwWpU1S
-	HcYf6VjzG7XswAgsBeWRdZlRDajVo2u80lxCt669ghG4Veu5dLErZJ9DYgKeC2Y9wqyo
-	2BVowIkefYh8kkjqXB9pVwlyL4si8BacNgsyV377Kp3cfmHClaDtjT6o32qUCw4VIngA
-	oe9w==
-X-Gm-Message-State: APjAAAUeTvgVugTBOSEtq8kwiOGgPTrkIuo43fcXw4mqwcqENFXRak46
-	aYicu4DpH8qtX2gulDUrOvBJUTx9
-X-Google-Smtp-Source: APXvYqyU/pFOTt/pA5ryp8TSMsMGb2M047PUd6ejBWroBr05CodHarwaSJmO11uwU4ofUdXIPIRayw==
-X-Received: by 2002:a1c:7f94:: with SMTP id a142mr3230327wmd.33.1574257526963; 
-	Wed, 20 Nov 2019 05:45:26 -0800 (PST)
-Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id
-	o189sm7031771wmo.23.2019.11.20.05.45.25
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 20 Nov 2019 05:45:26 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=KNA07msUDkGUmgL3S6yvh27qM+x9VaaQZp+pz+RJdAs=;
+	b=ZfnSqFbEENoGVOohVN0bPSn5hapdYvGUiJFBWLgE5F1XFjdePYdgDo2SZBqsHSZqes
+	fJRHt3W/ianFcTkt90Wuqm2dIN2fqUaHIoavoGR1U28x/tU6qN/BXwIGx8+kP+KmyFr9
+	3doNcklD9ZgrbBEZzgu9kdGNyCF0MPI6S8EHMDvrhKiKOr7Nf7EDJgkv3R0ig4a0w+bA
+	z1dV2sSLmvb0TgFv5VwfvvVexrC7a5Kh0abv/HMiT40x9BrLmNqFyC3LHtdcnSfzRWEZ
+	yWmzJ/fYC2wwFscaxp7VZR86FoOrXyD74Sl8mgw2UtR4tfc1ILBgQRiZ2Bo6tfSSZy53
+	3iXg==
+X-Gm-Message-State: APjAAAVPwf2P1wieFAk7M/+oA0nHlOM7PNusLwSTytshRAQuhqo8g0Xa
+	vFv4rv7GwQbhJTfKmeXnnCRiltVWkblJi63ygGbK9w==
+X-Google-Smtp-Source: APXvYqyoYhu1GVOE5+cymzIVFecT6n/SJDgZdZD7m97JeIXUo/61vxTlSbnujFHVtkkyexzr8Q6S8Cb0ZX8bNlNVCK4=
+X-Received: by 2002:a05:6102:4ab:: with SMTP id
+	r11mr1588555vsa.25.1574257652108; 
+	Wed, 20 Nov 2019 05:47:32 -0800 (PST)
+MIME-Version: 1.0
+References: <20191118130801.21860-1-alex.kanavin@gmail.com>
+	<20191120125602.GZ19317@bill-the-cat>
+In-Reply-To: <20191120125602.GZ19317@bill-the-cat>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Nov 2019 14:44:55 +0100
-Message-Id: <20191120134455.125118-11-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191120134455.125118-1-alex.kanavin@gmail.com>
-References: <20191120134455.125118-1-alex.kanavin@gmail.com>
-Subject: [PATCH 11/11] systemtap: update to 4.2
+Date: Wed, 20 Nov 2019 14:47:19 +0100
+Message-ID: <CANNYZj-EUQb2gjw923rv-fMDOaGn+fe59AnA7B9oSkgk6de_xQ@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/13] python: update to 2.7.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 13:45:27 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 13:47:31 -0000
+Content-Type: multipart/alternative; boundary="0000000000002392550597c76ce5"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+--0000000000002392550597c76ce5
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index abb2b3743b4..116e83fe0ff 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,7 +1,7 @@
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--SRCREV = "57c9aca9f1ff32a6add10e02ecd33b7314fad499"
--PV = "4.1+git${SRCPV}"
-+SRCREV = "044a0640985ef007c0b2fb6eaf660d9d51800cda"
-+PV = "4.2"
- 
- SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
--- 
-2.17.1
+On Wed, 20 Nov 2019 at 13:56, Tom Rini <trini@konsulko.com> wrote:
 
+> I would _really_ like to see someone move master to using v2020.01-rc3
+> or so for U-Boot as that should not have any Python 2 dependencies left.
+>
 
+rc3 means the final release is very soon, so we'll gladly update to that.
+
+Alex
+
+--0000000000002392550597c76ce5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 20 Nov 2019 at 13:56, Tom Rini &l=
+t;<a href=3D"mailto:trini@konsulko.com">trini@konsulko.com</a>&gt; wrote:<b=
+r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">I would _really_ like to see someone move master to using v2020.=
+01-rc3<br>
+or so for U-Boot as that should not have any Python 2 dependencies left.<br=
+></blockquote><div><br></div><div>rc3 means the final release is very soon,=
+ so we&#39;ll gladly update to that.</div><div><br></div><div>Alex<br></div=
+></div></div>
+
+--0000000000002392550597c76ce5--
