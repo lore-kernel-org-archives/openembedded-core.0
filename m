@@ -1,38 +1,38 @@
 Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
 	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 882BE7F7DC
+	by mail.openembedded.org (Postfix) with ESMTP id 554697F7E9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 09:34:06 +0000 (UTC)
+	Wed, 20 Nov 2019 09:34:08 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id AF6C19C0198;
-	Wed, 20 Nov 2019 04:34:07 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 89E019C027E;
+	Wed, 20 Nov 2019 04:34:09 -0500 (EST)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10032)
-	with ESMTP id cjaI87CahftS; Wed, 20 Nov 2019 04:34:06 -0500 (EST)
+	with ESMTP id xcYaqn3iVoSy; Wed, 20 Nov 2019 04:34:08 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id CF25F9C027E;
-	Wed, 20 Nov 2019 04:34:06 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 310DD9C01A7;
+	Wed, 20 Nov 2019 04:34:08 -0500 (EST)
 X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10026)
-	with ESMTP id NypNLpsedJx0; Wed, 20 Nov 2019 04:34:06 -0500 (EST)
+	with ESMTP id hKarviqzb6on; Wed, 20 Nov 2019 04:34:08 -0500 (EST)
 Received: from sulaco.jml.bzh (91-167-182-132.subs.proxad.net [91.167.182.132])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 7A4209C0286;
-	Wed, 20 Nov 2019 04:34:05 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id D345E9C02BE;
+	Wed, 20 Nov 2019 04:34:06 -0500 (EST)
 From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 20 Nov 2019 10:33:42 +0100
-Message-Id: <20191120093358.11622-2-jean-marie.lemetayer@savoirfairelinux.com>
+Date: Wed, 20 Nov 2019 10:33:43 +0100
+Message-Id: <20191120093358.11622-3-jean-marie.lemetayer@savoirfairelinux.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
 References: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
 MIME-Version: 1.0
 Cc: jonaskgandersson@gmail.com, paul.eggleton@linux.intel.com,
 	rennes@savoirfairelinux.com, bunk@stusta.de
-Subject: [PATCH v3 01/17] devtool: npm: update command line options
+Subject: [PATCH v3 02/17] npm.bbclass: refactor the npm class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,99 +45,289 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 09:34:06 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 09:34:08 -0000
 Content-Transfer-Encoding: quoted-printable
 
-This commit renames the '--fetch-dev' option into '--npm-dev' which is
-more easily understandable.
+Many issues were related to npm dependencies badly handled: package
+names, installation directories, ... In fact npm is using an install
+algorithm [1] which is hard to reproduce / anticipate. Moreover some
+npm packages use scopes [2] which adds more complexity.
 
-It also adds the '--npm-registry' option to allow creating a npm recipe
-with a non default npm registry (e.g. if the SRC_URI is using git://).
+The simplest solution is to let npm do its job. Assuming the fetcher
+only get the sources of the package, the class will now run
+'npm install' to create a build directory. The build directory is then
+copied wisely to the destination.
+
+1: https://docs.npmjs.com/cli/install#algorithm
+2: https://docs.npmjs.com/about-scopes
 
 Signed-off-by: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinu=
 x.com>
 ---
- scripts/lib/devtool/standard.py  |  9 ++++++---
- scripts/lib/recipetool/create.py | 12 +++++++-----
- 2 files changed, 13 insertions(+), 8 deletions(-)
+ meta/classes/npm.bbclass | 199 ++++++++++++++++++++++++++-------------
+ 1 file changed, 132 insertions(+), 67 deletions(-)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standa=
-rd.py
-index 8d9c1a3022..7068a02a01 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -145,8 +145,10 @@ def add(args, config, basepath, workspace):
-         extracmdopts +=3D ' --src-subdir "%s"' % args.src_subdir
-     if args.autorev:
-         extracmdopts +=3D ' -a'
--    if args.fetch_dev:
--        extracmdopts +=3D ' --fetch-dev'
-+    if args.npm_dev:
-+        extracmdopts +=3D ' --npm-dev'
-+    if args.npm_registry:
-+        extracmdopts +=3D ' --npm-registry "%s"' % args.npm_registry
-     if args.mirrors:
-         extracmdopts +=3D ' --mirrors'
-     if args.srcrev:
-@@ -2197,7 +2199,8 @@ def register_commands(subparsers, context):
-     group.add_argument('--same-dir', '-s', help=3D'Build in same directo=
-ry as source', action=3D"store_true")
-     group.add_argument('--no-same-dir', help=3D'Force build in a separat=
-e build directory', action=3D"store_true")
-     parser_add.add_argument('--fetch', '-f', help=3D'Fetch the specified=
- URI and extract it to create the source tree (deprecated - pass as posit=
-ional argument instead)', metavar=3D'URI')
--    parser_add.add_argument('--fetch-dev', help=3D'For npm, also fetch d=
-evDependencies', action=3D"store_true")
-+    parser_add.add_argument('--npm-dev', help=3D'For npm, also fetch dev=
-Dependencies', action=3D"store_true")
-+    parser_add.add_argument('--npm-registry', help=3D'For npm, use the s=
-pecified registry', type=3Dstr)
-     parser_add.add_argument('--version', '-V', help=3D'Version to use wi=
-thin recipe (PV)')
-     parser_add.add_argument('--no-git', '-g', help=3D'If fetching source=
-, do not set up source tree as a git repository', action=3D"store_true")
-     group =3D parser_add.add_mutually_exclusive_group()
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/cr=
-eate.py
-index 1fb6b55530..932dc3f374 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -716,10 +716,11 @@ def create_recipe(args):
-         lines_after.append('INSANE_SKIP_${PN} +=3D "already-stripped"')
-         lines_after.append('')
-=20
--    if args.fetch_dev:
--        extravalues['fetchdev'] =3D True
--    else:
--        extravalues['fetchdev'] =3D None
-+    if args.npm_dev:
-+        extravalues['NPM_INSTALL_DEV'] =3D 1
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index 4b1f0a39f0..b3f73d9b67 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -1,19 +1,40 @@
++# Copyright (C) 2019 Savoir-Faire Linux
++#
++# This bbclass builds and installs an npm package to the target. The pac=
+kage
++# sources files should be fetched in the calling recipe by using the SRC=
+_URI
++# variable. The ${S} variable should be updated depending of your fetche=
+r.
++#
++# Usage:
++#  SRC_URI =3D "..."
++#  inherit npm
++#
++# Optional variables:
++#  NPM_SHRINKWRAP:
++#       Provide a shrinkwrap file [1]. If available a shrinkwrap file in=
+ the
++#       sources has priority over the one provided. A shrinkwrap file is
++#       mandatory in order to ensure build reproducibility.
++#       1: https://docs.npmjs.com/files/shrinkwrap.json
++#
++#  NPM_INSTALL_DEV:
++#       Set to 1 to also install devDependencies.
++#
++#  NPM_REGISTRY:
++#       Use the specified registry.
++#
++#  NPM_ARCH:
++#       Override the auto generated npm architecture.
 +
-+    if args.npm_registry:
-+        extravalues['NPM_REGISTRY'] =3D args.npm_registry
+ DEPENDS_prepend =3D "nodejs-native "
+ RDEPENDS_${PN}_prepend =3D "nodejs "
+-S =3D "${WORKDIR}/npmpkg"
 =20
-     # Find all plugins that want to register handlers
-     logger.debug('Loading recipe handlers')
-@@ -1315,7 +1316,8 @@ def register_commands(subparsers):
-     group.add_argument('-S', '--srcrev', help=3D'Source revision to fetc=
-h if fetching from an SCM such as git (default latest)')
-     parser_create.add_argument('-B', '--srcbranch', help=3D'Branch in so=
-urce repository if fetching from an SCM such as git (default master)')
-     parser_create.add_argument('--keep-temp', action=3D"store_true", hel=
-p=3D'Keep temporary directory (for debugging)')
--    parser_create.add_argument('--fetch-dev', action=3D"store_true", hel=
-p=3D'For npm, also fetch devDependencies')
-+    parser_create.add_argument('--npm-dev', action=3D"store_true", help=3D=
-'For npm, also fetch devDependencies')
-+    parser_create.add_argument('--npm-registry', help=3D'For npm, use th=
-e specified registry', type=3Dstr)
-     parser_create.add_argument('--devtool', action=3D"store_true", help=3D=
-argparse.SUPPRESS)
-     parser_create.add_argument('--mirrors', action=3D"store_true", help=3D=
-'Enable PREMIRRORS and MIRRORS for source tree fetching (disabled by defa=
-ult).')
-     parser_create.set_defaults(func=3Dcreate_recipe)
+-def node_pkgname(d):
+-    bpn =3D d.getVar('BPN')
+-    if bpn.startswith("node-"):
+-        return bpn[5:]
+-    return bpn
++NPM_SHRINKWRAP ?=3D "${THISDIR}/${BPN}/npm-shrinkwrap.json"
+=20
+-NPMPN ?=3D "${@node_pkgname(d)}"
++NPM_INSTALL_DEV ?=3D "0"
+=20
+-NPM_INSTALLDIR =3D "${libdir}/node_modules/${NPMPN}"
++NPM_REGISTRY ?=3D "http://registry.npmjs.org"
+=20
+ # function maps arch names to npm arch names
+-def npm_oe_arch_map(target_arch, d):
++def npm_oe_arch_map(target_arch):
+     import re
+     if   re.match('p(pc|owerpc)(|64)', target_arch): return 'ppc'
+     elif re.match('i.86$', target_arch): return 'ia32'
+@@ -21,74 +42,118 @@ def npm_oe_arch_map(target_arch, d):
+     elif re.match('arm64$', target_arch): return 'arm'
+     return target_arch
+=20
+-NPM_ARCH ?=3D "${@npm_oe_arch_map(d.getVar('TARGET_ARCH'), d)}"
+-NPM_INSTALL_DEV ?=3D "0"
++NPM_ARCH ?=3D "${@npm_oe_arch_map(d.getVar('TARGET_ARCH'))}"
++
++NPM_CACHE_DIR ?=3D "${WORKDIR}/npm_cache"
++
++B =3D "${WORKDIR}/build"
++
++npm_install_shrinkwrap() {
++    # This function ensures that there is a shrinkwrap file in the speci=
+fied
++    # directory. A shrinkwrap file is mandatory to have reproducible bui=
+lds.
++    # If the shrinkwrap file is not already included in the sources,
++    # the recipe can provide one by using the NPM_SHRINKWRAP option.
++    # This function returns the filename of the installed file (if any).
++    if [ -f ${S}/npm-shrinkwrap.json ]
++    then
++        bbnote "Using the npm-shrinkwrap.json provided in the sources"
++    elif [ -f ${NPM_SHRINKWRAP} ]
++    then
++        install -m 644 ${NPM_SHRINKWRAP} ${S}/npm-shrinkwrap.json
++        echo ${S}/npm-shrinkwrap.json
++    else
++        bbfatal "No mandatory NPM_SHRINKWRAP file found"
++    fi
++}
+=20
+ npm_do_compile() {
+-	# Copy in any additionally fetched modules
+-	if [ -d ${WORKDIR}/node_modules ] ; then
+-		cp -a ${WORKDIR}/node_modules ${S}/
+-	fi
+-	# changing the home directory to the working directory, the .npmrc will
+-	# be created in this directory
+-	export HOME=3D${WORKDIR}
+-	if [  "${NPM_INSTALL_DEV}" =3D "1" ]; then
+-		npm config set dev true
+-	else
+-		npm config set dev false
+-	fi
+-	npm set cache ${WORKDIR}/npm_cache
+-	# clear cache before every build
+-	npm cache clear --force
+-	# Install pkg into ${S} without going to the registry
+-	if [  "${NPM_INSTALL_DEV}" =3D "1" ]; then
+-		npm --arch=3D${NPM_ARCH} --target_arch=3D${NPM_ARCH} --no-registry ins=
+tall
+-	else
+-		npm --arch=3D${NPM_ARCH} --target_arch=3D${NPM_ARCH} --production --no=
+-registry install
+-	fi
++    # This function executes the 'npm install' command which builds and
++    # installs every dependencies needed for the package. All the files =
+are
++    # installed in a build directory ${B} without filtering anything. To=
+ do so,
++    # a combination of 'npm pack' and 'npm install' is used to ensure th=
+at the
++    # files in ${B} are actual copies instead of symbolic links (which i=
+s the
++    # default npm behavior).
++
++    # First ensure that there is a shrinkwrap file in the sources.
++    local NPM_SHRINKWRAP_INSTALLED=3D$(npm_install_shrinkwrap)
++
++    # Then create a tarball from a npm package whose sources must be in =
+${S}.
++    local NPM_PACK_FILE=3D$(cd ${WORKDIR} && npm pack ${S}/)
++
++    # Clean source tree.
++    rm -f ${NPM_SHRINKWRAP_INSTALLED}
++
++    # Remove the build directory.
++    rm -rf ${B}
++
++    # Finally install and build the tarball package in ${B}.
++    local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --cache=3D${NPM_CACHE_=
+DIR}"
++    local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --loglevel=3Dsilly"
++    local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --prefix=3D${B}"
++    local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --global"
++
++    if [ "${NPM_INSTALL_DEV}" !=3D 1 ]
++    then
++        local NPM_INSTALL_ARGS=3D"${NPM_INSTALL_ARGS} --production"
++    fi
++
++    local NPM_INSTALL_GYP_ARGS=3D"${NPM_INSTALL_GYP_ARGS} --arch=3D${NPM=
+_ARCH}"
++    local NPM_INSTALL_GYP_ARGS=3D"${NPM_INSTALL_GYP_ARGS} --target_arch=3D=
+${NPM_ARCH}"
++    local NPM_INSTALL_GYP_ARGS=3D"${NPM_INSTALL_GYP_ARGS} --release"
++
++    cd ${WORKDIR} && npm install ${NPM_PACK_FILE} \
++        ${NPM_INSTALL_GYP_ARGS} \
++        ${NPM_INSTALL_ARGS}
+ }
+=20
+ npm_do_install() {
+-	# changing the home directory to the working directory, the .npmrc will
+-	# be created in this directory
+-	export HOME=3D${WORKDIR}
+-	mkdir -p ${D}${libdir}/node_modules
+-	local NPM_PACKFILE=3D$(npm pack .)
+-	npm install --prefix ${D}${prefix} -g --arch=3D${NPM_ARCH} --target_arc=
+h=3D${NPM_ARCH} --production --no-registry ${NPM_PACKFILE}
+-	ln -fs node_modules ${D}${libdir}/node
+-	find ${D}${NPM_INSTALLDIR} -type f \( -name "*.a" -o -name "*.d" -o -na=
+me "*.o" \) -delete
+-	if [ -d ${D}${prefix}/etc ] ; then
+-		# This will be empty
+-		rmdir ${D}${prefix}/etc
+-	fi
+-}
++    # This function creates the destination directory from the pre insta=
+lled
++    # files in the ${B} directory.
++
++    # Copy the entire lib and bin directories from ${B} to ${D}.
++    install -d ${D}/${nonarch_libdir}
++    cp --no-preserve=3Downership --recursive ${B}/lib/. ${D}/${nonarch_l=
+ibdir}
++
++    if [ -d "${B}/bin" ]
++    then
++        install -d ${D}/${bindir}
++        cp --no-preserve=3Downership --recursive ${B}/bin/. ${D}/${bindi=
+r}
++    fi
++
++    # If the package (or its dependencies) uses node-gyp to build native=
+ addons,
++    # object files, static libraries or other temporary files can be hid=
+den in
++    # the lib directory. To reduce the package size and to avoid QA issu=
+es
++    # (staticdev with static library files) these files must be removed.
++
++    # Remove any node-gyp directory in ${D} to remove temporary build fi=
+les.
++    for GYP_D_FILE in $(find ${D} -regex ".*/build/Release/[^/]*.node")
++    do
++        local GYP_D_DIR=3D${GYP_D_FILE%/Release/*}
++
++        rm --recursive --force ${GYP_D_DIR}
++    done
++
++    # Copy only the node-gyp release files from ${B} to ${D}.
++    for GYP_B_FILE in $(find ${B} -regex ".*/build/Release/[^/]*.node")
++    do
++        local GYP_D_FILE=3D${D}/${prefix}/${GYP_B_FILE#${B}}
++
++        install -d ${GYP_D_FILE%/*}
++        install -m 755 ${GYP_B_FILE} ${GYP_D_FILE}
++    done
++
++    # Remove the shrinkwrap file which does not need to be packed.
++    rm -f ${D}/${nonarch_libdir}/node_modules/*/npm-shrinkwrap.json
++    rm -f ${D}/${nonarch_libdir}/node_modules/@*/*/npm-shrinkwrap.json
+=20
+-python populate_packages_prepend () {
+-    instdir =3D d.expand('${D}${NPM_INSTALLDIR}')
+-    extrapackages =3D oe.package.npm_split_package_dirs(instdir)
+-    pkgnames =3D extrapackages.keys()
+-    d.prependVar('PACKAGES', '%s ' % ' '.join(pkgnames))
+-    for pkgname in pkgnames:
+-        pkgrelpath, pdata =3D extrapackages[pkgname]
+-        pkgpath =3D '${NPM_INSTALLDIR}/' + pkgrelpath
+-        # package names can't have underscores but npm packages sometime=
+s use them
+-        oe_pkg_name =3D pkgname.replace('_', '-')
+-        expanded_pkgname =3D d.expand(oe_pkg_name)
+-        d.setVar('FILES_%s' % expanded_pkgname, pkgpath)
+-        if pdata:
+-            version =3D pdata.get('version', None)
+-            if version:
+-                d.setVar('PKGV_%s' % expanded_pkgname, version)
+-            description =3D pdata.get('description', None)
+-            if description:
+-                d.setVar('SUMMARY_%s' % expanded_pkgname, description.re=
+place(u"\u2018", "'").replace(u"\u2019", "'"))
+-    d.appendVar('RDEPENDS_%s' % d.getVar('PN'), ' %s' % ' '.join(pkgname=
+s).replace('_', '-'))
++    # node(1) is using /usr/lib/node as default include directory and np=
+m(1) is
++    # using /usr/lib/node_modules as install directory. Let's make both =
+happy.
++    ln -fs node_modules ${D}/${nonarch_libdir}/node
+ }
+=20
+ FILES_${PN} +=3D " \
+     ${bindir} \
+-    ${libdir}/node \
+-    ${NPM_INSTALLDIR} \
++    ${nonarch_libdir} \
+ "
+=20
+ EXPORT_FUNCTIONS do_compile do_install
 --=20
 2.20.1
 
