@@ -1,16 +1,16 @@
 Return-Path: <shohei.maruyama@cybertrust.co.jp>
-Received: from JPN01-TY1-obe.outbound.protection.outlook.com
-	(mail-eopbgr1400133.outbound.protection.outlook.com [40.107.140.133])
-	by mail.openembedded.org (Postfix) with ESMTP id E4E257F820
+Received: from JPN01-OS2-obe.outbound.protection.outlook.com
+	(mail-eopbgr1410111.outbound.protection.outlook.com [40.107.141.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 701F67F3B9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 20 Nov 2019 11:39:32 +0000 (UTC)
+	Wed, 20 Nov 2019 11:50:55 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=fmk00zSJYO7kbV49Fb+/AKVNXaWkm+ArKuBuON/0gpXdkqmcqMTiC74qL/r50gYalE8tcb4NJOGvPgD4ZchiN+C8xVwTiVfLSfyHzdiwikmD07vYsRaqUrfJpWLJQKw0X+nT1l8x6BcT14uBZmeNGLkrkBXcyJllO3GUP5NhlRQrMl9VycjUdEL3lsbLcuzXa1R1nd7UvaCU6NmYUxsnF1mvDBk4Cl5xXKcsRpYBZKEg46M8aQhrRBi1XP8v0X+JP5H6VtAN8XNEul06C8lq3CL7628MsUx8feefJ78TsbwyG7KZFf4fUPcvU+456xub45LNbPtSN/wtC/1NIXP+UA==
+	b=T/X4n3JjFzbb7RHTra8fRoPfZQc7eNXE++N6D1Q9tSscVipbC4j9cDqPZjAs6wcAFQioGEb9fZS2iayHeY1W/7EphrQAmHwc9zXaO4dYy9EXID4aDS82usCcIePXNX770YXURKN/Yf2bP3WG4zo+cjgMoiDBOOirGJu+1qpIW2wK+mf+ZTXQFVVoJvLfAELwd3gzf0z8WEV6y5PFgaAHTCmXbpfVjgDA20dqWdTA8kpvVoUMtPVWJFo02NVqSmbAyIoRxi8StfHQp8g2528SKcaeIsdJw3XZEqbSaLb+gcBM8MQeWGPe8l8iI/Nwcvq5EeEALo5h3r7cW8q3rwI1nw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
 	s=arcselector9901;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=vos9YHkrFJ548DNvFSbg52iIo3+K555396lnZBboYJU=;
-	b=EheE+5AHecYS0J643d1kC03+Q3PGaNCNWr0PjI6dHG57xzuKC1MLN53idd9bLeHsErVBUmXWS7kMc7cF9dnPQBYQv19kvszNvzLtWsWFoTqBQxY9qqD66mwxGqdsQAfYhafEslYoc6jaXdHY18ob5KThYlKfaeW930SahbvdVfmCWwAsA2JM0m7T9YcKXEiD+z37K9eucNJywsRJM1Gh6ERrJqmt5+vqZSbZWnKD5GjSiJ+J9Z1MChgGBQdRq5Zd5Vm2RqSk+BfFGS/4PLxnU9ptQrjT1Id+tz6H+VwezfxICzkCC4CSMiOwmo9d8yUJbT9iTQacxo5T5HmvkTRmew==
+	bh=/mSfPe8SkFsgM+6egHmV9A6pRrAN3zvMlvQoiBDA3UE=;
+	b=DP1wTIL1btxa+fy/6NXFIPVr6G4fp0XXlGyqYj7uLNeXo8XJVZ84BZPjXiA5yQyR12T6Ht30j37f51rMM0jcI/96k18lLeSHeDjAzxH7yErfg3DQZO/MlDWT8wjS3UUhE3yDBMD9XCliyeawGlu5cC6gFDgmSymsMxXTderrxZxQU/O+vbn5lJXNsJWPjAEmAC34HQzd0ZdqWzJUcejUuISvF2QxD2imCuKvAdlA9SlJvv1SFVBWG8KuKOajqY8ipMstzhoSwNf/SvP7sOTyr6dod40x9zejklIMR1/EzFfqpuysaVHp51nrjRlwaKcKuOcY1Xm+wJJY7C0hTVtTiQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 	smtp.mailfrom=cybertrust.co.jp; dmarc=pass action=none
 	header.from=cybertrust.co.jp; dkim=pass header.d=cybertrust.co.jp;
@@ -18,32 +18,33 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intra01.onmicrosoft.com; s=selector1-intra01-onmicrosoft-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=vos9YHkrFJ548DNvFSbg52iIo3+K555396lnZBboYJU=;
-	b=iR/ItC0DlsmByp7f3k29Gi039PZ5VgutkUoL5Q4HthA4PQAu6o36DqY/3Ltnokl66nlfV0bkv1CNwlltl3c5bpFIVt7LIp/koI0e1/aZns4d14NuU9+0WcQxvNycb1YTOppvE7pVsH+5U0xOkTywJ7/hYLkvJt8z3rncGOuDCvo=
+	bh=/mSfPe8SkFsgM+6egHmV9A6pRrAN3zvMlvQoiBDA3UE=;
+	b=qEoq/J7DfY/vcCeQesyvNQasG1AkzJePfXHPeGgBLV/wkafq/JBHPxT9peEfV3BsrjoA1rp93kcYVsRVcnahIKOBPw8/FrA0mClHkJQPUMR21ygxc4ikpmF6Ms7hH5n7S7czS3mfV9xfm3jC3pfeGN5+iVMMaZdoCxhaZ3DmStg=
 Received: from TYAPR01MB3007.jpnprd01.prod.outlook.com (20.177.101.86) by
-	TYAPR01MB4285.jpnprd01.prod.outlook.com (20.179.187.148) with Microsoft
-	SMTP
+	TYASPR01MB0007.jpnprd01.prod.outlook.com (20.177.104.146) with
+	Microsoft SMTP
 	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2451.28; Wed, 20 Nov 2019 11:39:32 +0000
+	15.20.2474.16; Wed, 20 Nov 2019 11:50:45 +0000
 Received: from TYAPR01MB3007.jpnprd01.prod.outlook.com
 	([fe80::ac7e:4214:cf9b:e29e]) by
 	TYAPR01MB3007.jpnprd01.prod.outlook.com
 	([fe80::ac7e:4214:cf9b:e29e%7]) with mapi id 15.20.2451.029;
-	Wed, 20 Nov 2019 11:39:32 +0000
+	Wed, 20 Nov 2019 11:50:45 +0000
 From: <shohei.maruyama@cybertrust.co.jp>
 To: <alex.kanavin@gmail.com>
 Thread-Topic: [OE-core] [PATCH] pseudo: Update checksum of the license file
-Thread-Index: AQHVn2tbLXUnTBJliUWpp5/qn+xIcA==
-Date: Wed, 20 Nov 2019 11:39:32 +0000
-Message-ID: <f3e6ab8a8e2fad37929e16fb99ab861741319d24.camel@cybertrust.co.jp>
+Thread-Index: AQHVn2tbLXUnTBJliUWpp5/qn+xIcKeT80YA
+Date: Wed, 20 Nov 2019 11:50:45 +0000
+Message-ID: <4a71f87251e4f9bcad5bf7963b395db54548f45b.camel@cybertrust.co.jp>
 References: <20191120062728.105714-1-shohei.maruyama@cybertrust.co.jp>
 	<CANNYZj8X0YbDb2rDFjrqVMt-gm+Y8VxOgcQpZgr8abeVJ_rgmg@mail.gmail.com>
-In-Reply-To: <CANNYZj8X0YbDb2rDFjrqVMt-gm+Y8VxOgcQpZgr8abeVJ_rgmg@mail.gmail.com>
+	<f3e6ab8a8e2fad37929e16fb99ab861741319d24.camel@cybertrust.co.jp>
+In-Reply-To: <f3e6ab8a8e2fad37929e16fb99ab861741319d24.camel@cybertrust.co.jp>
 Accept-Language: ja-JP, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-clientproxiedby: TY2PR0101CA0030.apcprd01.prod.exchangelabs.com
-	(2603:1096:404:8000::16) To TYAPR01MB3007.jpnprd01.prod.outlook.com
+x-clientproxiedby: TYAPR01CA0202.jpnprd01.prod.outlook.com
+	(2603:1096:404:29::22) To TYAPR01MB3007.jpnprd01.prod.outlook.com
 	(2603:1096:404:7f::22)
 authentication-results: spf=none (sender IP is )
 	smtp.mailfrom=shohei.maruyama@cybertrust.co.jp; 
@@ -51,31 +52,31 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-originating-ip: [219.123.27.194]
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 0530e3b3-c3bc-4cd5-73e8-08d76dae4f73
-x-ms-traffictypediagnostic: TYAPR01MB4285:
-x-microsoft-antispam-prvs: <TYAPR01MB4285D5914384F09F02A3E789D64F0@TYAPR01MB4285.jpnprd01.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-ms-office365-filtering-correlation-id: 1bc1d3a2-bed2-40d9-5ca8-08d76dafe09f
+x-ms-traffictypediagnostic: TYASPR01MB0007:
+x-microsoft-antispam-prvs: <TYASPR01MB000729DE90B301A114A96ADFD64F0@TYASPR01MB0007.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5236;
 x-forefront-prvs: 02272225C5
 x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(4636009)(39850400004)(376002)(136003)(396003)(346002)(366004)(189003)(199004)(3846002)(2906002)(8936002)(14454004)(4744005)(71200400001)(236005)(6116002)(71190400001)(54896002)(6486002)(6512007)(36756003)(26005)(81166006)(81156014)(229853002)(6436002)(86362001)(186003)(4326008)(66946007)(8676002)(118296001)(76176011)(52116002)(66556008)(102836004)(66476007)(64756008)(66446008)(6506007)(386003)(25786009)(15650500001)(476003)(4001150100001)(66066001)(486006)(11346002)(446003)(2616005)(6246003)(6916009)(7736002)(5660300002)(99286004)(478600001)(256004)(316002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:TYAPR01MB4285;
+	SFS:(10019020)(4636009)(376002)(346002)(39860400002)(396003)(136003)(366004)(189003)(199004)(5640700003)(486006)(6436002)(6916009)(2501003)(6486002)(66066001)(316002)(6512007)(476003)(2906002)(2616005)(6246003)(118296001)(7736002)(5660300002)(66446008)(305945005)(71190400001)(71200400001)(256004)(64756008)(66556008)(478600001)(66946007)(66476007)(76176011)(25786009)(86362001)(26005)(52116002)(6506007)(102836004)(386003)(446003)(15650500001)(2351001)(11346002)(8676002)(99286004)(4001150100001)(3846002)(6116002)(81166006)(81156014)(8936002)(229853002)(1361003)(14454004)(4326008)(36756003)(186003)(4744005);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:TYASPR01MB0007;
 	H:TYAPR01MB3007.jpnprd01.prod.outlook.com; FPR:; SPF:None;
 	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
 received-spf: None (protection.outlook.com: cybertrust.co.jp does not
 	designate permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Hcc9niOF1H4uO0FSJPtoaZv98L3cMVzCgx+Ric/YqyYDlrEFy7RxoS+da2c0an4Yg8T6UD79jlxLrEByFJhOGlkGRGXsrh4gJzVAShh/J+/JxlAoO+tT4z6MCSKqkkMnRUW8yNa6CUB2bcvtOqs9FSCuKayzld6nn5hKw7ISss8CG64nkJxPCg/+RFuGVx7H3RTa/FRzlQlVKP5+o7ELB0G177PFCZpLzTiUl0fA3gI25TCABb6zzUmi7Va285BkhtyzxWhqAmQExyjWmRt2BUMVXMIi2vC7rSfeyeYrX6CKRLflB+IIvBQshTmQzsHChrbrqpLABkcr8D3PhjpLZAwemv1HbZrkCqy4HLphKSmsrUY88LyO5LEeWjBJcckVPHjqnpStjZk/98XQWbV8WncjBGqR/NYhqNo8OfrSSV9iyFvJOBT6KVMWZLgQwUnR
+x-microsoft-antispam-message-info: ozSepAnp6/gZ6IXIm4Ywuf7yLSK7artVxbcio3SS/SB5KffCbswqMWthC+TQrFQt4QssOrDdoHT2obOHPbJrT9nCiPfPxjEKLsmMImnK/E2LRsqdzAqZHoWt0D2dw1KdB0be+UxgberoKtVCoFk/kTl59Py65RgR0WwDEdAzm/pMCfKARnX/iIgA8BEP0Kic6t4K0vKIwiOh9PGWsPKyA50xoH4BM5p2s0Z/k+zO9pnpHxfU/4g81p/SaX5/DQYtC6quwVCl7HEUKupkMRw1ES5UNUP9rmc3ofwvqxkA9GEg+bRAQqw5e6cS4V/oKyDKIjD/e2816+lJdoETvWmqgXcixcx0UGdIDGlVy0Sh/MhbewEXwKa/U38gEnfs8Onj6A4xUbQtj3CSDmxQhr4UM1YcwwoTtBhrLlFj7qMTqOUEdO7+bjpgr+r0ElEYz7X+
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: cybertrust.co.jp
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0530e3b3-c3bc-4cd5-73e8-08d76dae4f73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2019 11:39:32.4286 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1bc1d3a2-bed2-40d9-5ca8-08d76dafe09f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Nov 2019 11:50:45.2528 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 72cc4624-32b4-4dab-b80a-8563e559bd82
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Oz87EkFaJ5lIm8qlEO3WUUoQ/OmUlsDLqgO354P3KXCNJWSAknX4antNu7I9dt6hw6SiTcl0jDn6WN6S4xZ0U2Kz1Fay0peYXSNOWg3tAaxhNWcksvfQO0l1xaZYBEEO
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYAPR01MB4285
+X-MS-Exchange-CrossTenant-userprincipalname: LiKQWXlUVKqFVcekw7ocDKGT+H+hEpwCgIeQsJLjbp554JPj1NGQDWRDGcKuWVqH8I7N+5FVkSAlUyTGgGrv1GUIXpUGM+QJaYC6+1+1j+2L+n6m3gFWroRUwJnGbZ/F
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYASPR01MB0007
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] pseudo: Update checksum of the license file
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -90,62 +91,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 20 Nov 2019 11:39:33 -0000
+X-List-Received-Date: Wed, 20 Nov 2019 11:50:55 -0000
 Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_f3e6ab8a8e2fad37929e16fb99ab861741319d24camelcybertrust_"
-
---_000_f3e6ab8a8e2fad37929e16fb99ab861741319d24camelcybertrust_
 Content-Type: text/plain; charset="utf-8"
+Content-ID: <4293A987C212FF49882635D66D23F844@jpnprd01.prod.outlook.com>
 Content-Transfer-Encoding: base64
 
-T24gV2VkLCAyMDE5LTExLTIwIGF0IDEyOjIzICswMTAwLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90
-ZToNCk9uIFdlZCwgMjAgTm92IDIwMTkgYXQgMDc6MjYsIDxzaG9oZWkubWFydXlhbWFAY3liZXJ0
-cnVzdC5jby5qcDxtYWlsdG86c2hvaGVpLm1hcnV5YW1hQGN5YmVydHJ1c3QuY28uanA+PiB3cm90
-ZToNClJlY2VudGx5IHBzZXVkby5pbmMgaGFzIGJlZW4gdXBkYXRlZCB0byBsYXRlc3QgbWFzdGVy
-IChkNTBiOWM1MTFlMTdjNmY1ODJlDQpmMzliNjFlYWFhOGQ0NTU1ZWFiYmEpLCBidXQgY2hlY2tz
-dW0gb2YgdGhlIGxpY2Vuc2UgZmlsZSBkaWQgbm90IGNoYW5nZS4NClRoaXMgY29tbWl0IHVwZGF0
-ZXMgdGhlIGNoZWNrc3VtIHRvIGxhdGVzdCBvbmUuDQoNCkkgYW0gbm90IHN1cmUgSSBjYW4gbWFr
-ZSBzZW5zZSBvZiB0aGlzLiBXaGVuIHRoZSBjaGVja3N1bSBvZiB0aGUgZmlsZSBjaGFuZ2VzIHVw
-c3RyZWFtLCBiaXRiYWtlIHdpbGwgY29tcGxhaW4gYW5kIHJlZnVzZSB0byBwcm9jZWVkLCB3aGlj
-aCBpcyBub3QgaGFwcGVuaW5nIHdpdGggdGhlIGN1cnJlbnQgbWFzdGVyIGJyYW5jaC4NCldoYXQg
-ZXJyb3IgbWVzc2FnZSBhcmUgeW91IHNlZWluZyBhbmQgd2hhdCBjb21taXQgYXJlIHlvdSBvbj8N
-Cg0KQWxleA0KDQpIaSBBbGV4LA0KDQpUaGFuayB5b3UgZm9yIHJlcGx5aW5nLg0KSSdtIHNvcnJ5
-IGZvciBJIGZvcmdvdCB0byBkZXNjcmliZSBteSBzaXR1YXRpb24uIEknbSBvbiBjOWExYTYwOGY1
-MTQ2ZTVkY2ZlYmM4ZTU2NmNiN2Y2Mzg4YTM5ODZmICh3YXJyaW9yKS4NCg0KUmVnYXJkcywNCg0K
-U2hvaGVpIE1hcnV5YW1hDQo=
+T24gV2VkLCAyMDE5LTExLTIwIGF0IDExOjM5ICswMDAwLCBzaG9oZWkubWFydXlhbWFAY3liZXJ0
+cnVzdC5jby5qcCB3cm90ZToNCj4gT24gV2VkLCAyMDE5LTExLTIwIGF0IDEyOjIzICswMTAwLCBB
+bGV4YW5kZXIgS2FuYXZpbiB3cm90ZToNCj4gPiBPbiBXZWQsIDIwIE5vdiAyMDE5IGF0IDA3OjI2
+LCA8c2hvaGVpLm1hcnV5YW1hQGN5YmVydHJ1c3QuY28uanA+IHdyb3RlOg0KPiA+ID4gUmVjZW50
+bHkgcHNldWRvLmluYyBoYXMgYmVlbiB1cGRhdGVkIHRvIGxhdGVzdCBtYXN0ZXINCj4gPiA+IChk
+NTBiOWM1MTFlMTdjNmY1ODJlDQo+ID4gPiBmMzliNjFlYWFhOGQ0NTU1ZWFiYmEpLCBidXQgY2hl
+Y2tzdW0gb2YgdGhlIGxpY2Vuc2UgZmlsZSBkaWQgbm90DQo+ID4gPiBjaGFuZ2UuDQo+ID4gPiBU
+aGlzIGNvbW1pdCB1cGRhdGVzIHRoZSBjaGVja3N1bSB0byBsYXRlc3Qgb25lLg0KPiA+IA0KPiA+
+IEkgYW0gbm90IHN1cmUgSSBjYW4gbWFrZSBzZW5zZSBvZiB0aGlzLiBXaGVuIHRoZSBjaGVja3N1
+bSBvZiB0aGUgZmlsZQ0KPiA+IGNoYW5nZXMgdXBzdHJlYW0sIGJpdGJha2Ugd2lsbCBjb21wbGFp
+biBhbmQgcmVmdXNlIHRvIHByb2NlZWQsIHdoaWNoIGlzDQo+ID4gbm90IGhhcHBlbmluZyB3aXRo
+IHRoZSBjdXJyZW50IG1hc3RlciBicmFuY2guDQo+ID4gV2hhdCBlcnJvciBtZXNzYWdlIGFyZSB5
+b3Ugc2VlaW5nIGFuZCB3aGF0IGNvbW1pdCBhcmUgeW91IG9uPw0KPiA+IA0KPiA+IEFsZXgNCj4g
+DQo+IEhpIEFsZXgsDQo+IA0KPiBUaGFuayB5b3UgZm9yIHJlcGx5aW5nLg0KPiBJJ20gc29ycnkg
+Zm9yIEkgZm9yZ290IHRvIGRlc2NyaWJlIG15IHNpdHVhdGlvbi4gSSdtIG9uDQo+IGM5YTFhNjA4
+ZjUxNDZlNWRjZmViYzhlNTY2Y2I3ZjYzODhhMzk4NmYgKHdhcnJpb3IpLg0KPiANCj4gUmVnYXJk
+cywNCj4gDQo+IFNob2hlaSBNYXJ1eWFtYQ0KDQpQbGVhc2UgaWdub3JlIHRoaXMgcGF0Y2guIFRo
+ZSBwcm9ibGVtIGlzIG5vdCByZWxhdGluZyBwb2t5LCByZWxhdGluZyBvdGhlcg0KbGF5ZXIuDQoN
+ClJlZ2FyZHMsDQoNClNob2hlaSBNYXJ1eWFtYQ0KDQo=
 
---_000_f3e6ab8a8e2fad37929e16fb99ab861741319d24camelcybertrust_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <5DADBDEC2EC1A74ABD12F78E31D35FE8@jpnprd01.prod.outlook.com>
-Content-Transfer-Encoding: base64
-
-PGh0bWwgZGlyPSJsdHIiPg0KPGhlYWQ+DQo8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUi
-IGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD11dGYtOCI+DQo8L2hlYWQ+DQo8Ym9keSBzdHls
-ZT0idGV4dC1hbGlnbjpsZWZ0OyBkaXJlY3Rpb246bHRyOyI+DQo8ZGl2Pk9uIFdlZCwgMjAxOS0x
-MS0yMCBhdCAxMjoyMyAmIzQzOzAxMDAsIEFsZXhhbmRlciBLYW5hdmluIHdyb3RlOjwvZGl2Pg0K
-PGJsb2NrcXVvdGUgdHlwZT0iY2l0ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4OyBib3JkZXIt
-bGVmdDoycHggIzcyOWZjZiBzb2xpZDtwYWRkaW5nLWxlZnQ6MWV4Ij4NCjxkaXYgZGlyPSJsdHIi
-Pg0KPGRpdiBkaXI9Imx0ciI+T24gV2VkLCAyMCBOb3YgMjAxOSBhdCAwNzoyNiwgJmx0OzxhIGhy
-ZWY9Im1haWx0bzpzaG9oZWkubWFydXlhbWFAY3liZXJ0cnVzdC5jby5qcCI+c2hvaGVpLm1hcnV5
-YW1hQGN5YmVydHJ1c3QuY28uanA8L2E+Jmd0OyB3cm90ZTo8YnI+DQo8L2Rpdj4NCjxkaXYgY2xh
-c3M9ImdtYWlsX3F1b3RlIj4NCjxibG9ja3F1b3RlIHR5cGU9ImNpdGUiIHN0eWxlPSJtYXJnaW46
-MCAwIDAgLjhleDsgYm9yZGVyLWxlZnQ6MnB4ICM3MjlmY2Ygc29saWQ7cGFkZGluZy1sZWZ0OjFl
-eCI+DQpSZWNlbnRseSBwc2V1ZG8uaW5jIGhhcyBiZWVuIHVwZGF0ZWQgdG8gbGF0ZXN0IG1hc3Rl
-ciAoZDUwYjljNTExZTE3YzZmNTgyZTxicj4NCmYzOWI2MWVhYWE4ZDQ1NTVlYWJiYSksIGJ1dCBj
-aGVja3N1bSBvZiB0aGUgbGljZW5zZSBmaWxlIGRpZCBub3QgY2hhbmdlLjxicj4NClRoaXMgY29t
-bWl0IHVwZGF0ZXMgdGhlIGNoZWNrc3VtIHRvIGxhdGVzdCBvbmUuPGJyPg0KPC9ibG9ja3F1b3Rl
-Pg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+SSBhbSBub3Qgc3VyZSBJIGNhbiBtYWtlIHNlbnNl
-IG9mIHRoaXMuIFdoZW4gdGhlIGNoZWNrc3VtIG9mIHRoZSBmaWxlIGNoYW5nZXMgdXBzdHJlYW0s
-IGJpdGJha2Ugd2lsbCBjb21wbGFpbiBhbmQgcmVmdXNlIHRvIHByb2NlZWQsIHdoaWNoIGlzIG5v
-dCBoYXBwZW5pbmcgd2l0aCB0aGUgY3VycmVudCBtYXN0ZXIgYnJhbmNoLjwvZGl2Pg0KPGRpdj5X
-aGF0IGVycm9yIG1lc3NhZ2UgYXJlIHlvdSBzZWVpbmcgYW5kIHdoYXQgY29tbWl0IGFyZSB5b3Ug
-b24/PC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5BbGV4PC9kaXY+DQo8L2Rpdj4NCjwv
-ZGl2Pg0KPC9ibG9ja3F1b3RlPg0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+SGkgQWxleCw8L2Rp
-dj4NCjxkaXY+PGJyPg0KPC9kaXY+DQo8ZGl2PlRoYW5rIHlvdSBmb3IgcmVwbHlpbmcuPC9kaXY+
-DQo8ZGl2PkknbSBzb3JyeSBmb3IgSSBmb3Jnb3QgdG8gZGVzY3JpYmUgbXkgc2l0dWF0aW9uLiBJ
-J20gb24gYzlhMWE2MDhmNTE0NmU1ZGNmZWJjOGU1NjZjYjdmNjM4OGEzOTg2ZiAod2Fycmlvciku
-PC9kaXY+DQo8ZGl2Pjxicj4NCjwvZGl2Pg0KPGRpdj5SZWdhcmRzLDwvZGl2Pg0KPGRpdj48YnI+
-DQo8L2Rpdj4NCjxkaXY+U2hvaGVpIE1hcnV5YW1hPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
-
---_000_f3e6ab8a8e2fad37929e16fb99ab861741319d24camelcybertrust_--
