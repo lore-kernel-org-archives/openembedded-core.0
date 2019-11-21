@@ -1,24 +1,50 @@
-Return-Path: <Stefan.Ghinea@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D79F374769
+Return-Path: <marek.belisko@gmail.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id BD77274769
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 15:28:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xALFS665007030
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 Nov 2019 15:29:41 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 8so4218284wmo.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 07:28:06 -0800 (PST)
-Received: from otp-sghinea-d1.wrs.com (128.224.124.155) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Thu, 21 Nov 2019 07:28:06 -0800
-From: Stefan Ghinea <stefan.ghinea@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2019 17:28:04 +0200
-Message-ID: <1574350084-21061-1-git-send-email-stefan.ghinea@windriver.com>
+	Thu, 21 Nov 2019 07:29:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=8HySAWsIyNobTKyxTJbJ/upAWWvGMJiii9WO36jSfKA=;
+	b=pcYh6z3kQPSzL5xGHlJX69uYqNGMIjbWXwDuz+gdO7VGr4P3WBNJUKfmnL7ElGN4IP
+	hTR8lZmT1Tt5dxs+zoc4ordLBZWeObmMo/0/rOyZs8/jLBD6T0NP+9RljzEWN/DQfYXo
+	QScBuf8dnyUTAZrJY51MdNSE7dsU6/WorjNwmfpRubWNsj6Kqxn0xHzc5UEOapOUgOtR
+	/qpu4N0LhcKh/yACtW+AqF0kiCj/RVxD7hsCDVeO7ErBpIyEQ7nuR9wEhRwg7RZerEtM
+	RrQ+NuLN28KC4TvS57LmuafmCSNYv1vhKEawllCBhzQgxteu5Mk1R5qG/rs4DskRRfjB
+	It8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=8HySAWsIyNobTKyxTJbJ/upAWWvGMJiii9WO36jSfKA=;
+	b=bdqhRoS2wUIvupUKlifqiEXMsfkIDpxiEYRwTjvF7TH17SF312XwBfR1XdJo9r+F40
+	8GiAMzEzMEjvAvgfa4OY0VK2iPWPwOl6pSPt4W/sWEe6wyh+MEBfp/X+/MH3bGKqunz+
+	kuUANxso0JCl3tvT7EFCN/pDMoy3jshZUFjZJ8G0dTHEHmVwCLWuk8USEuEHJvtHlDxs
+	lvY9ZcmOmX0jSEp+BRhhhEIDwmv/jO7kJSJN42Am0PVELKiOo3mj8IH6u2mjYQ8klwCc
+	MsB83wRbSlzo/3esU3XkKujoWDQVXa/XGnOv9v3IykIljI3AgJpOUeCXXLsP31czHjZ4
+	mZpQ==
+X-Gm-Message-State: APjAAAUICb1k5l+2MaZghJ2rK5pqFfWDX+tFVqBTdDQPcgZEW7ilxBuR
+	1aDhN8nlGyFlck0rHfRiTnXQkaXfIHp21g==
+X-Google-Smtp-Source: APXvYqyBgSU8k9SKqwfJ84+txQgsrSL25hZh3DIhBFR6DgDWPzYR7zw91hJAPrxHyU1rcL2n++cCdQ==
+X-Received: by 2002:a7b:cf26:: with SMTP id m6mr4285658wmg.17.1574350182117;
+	Thu, 21 Nov 2019 07:29:42 -0800 (PST)
+Received: from localhost.localdomain (bband-dyn50.95-103-53.t-com.sk.
+	[95.103.53.50])
+	by smtp.gmail.com with ESMTPSA id j2sm3600757wrt.61.2019.11.21.07.29.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 21 Nov 2019 07:29:41 -0800 (PST)
+Sender: Belisko Marek <marek.belisko@gmail.com>
+From: Marek Belisko <marek.belisko@open-nandra.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Nov 2019 16:29:38 +0100
+Message-Id: <1574350178-22957-1-git-send-email-marek.belisko@open-nandra.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] ghostscript: CVE-2019-14869
+Cc: Jake Withecombe <jake@ruggednetworks.co.uk>,
+	Marek Belisko <marek.belisko@open-nandra.com>
+Subject: [meta-oe][PATCH] multimedia: janus-gateway: Added new recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,119 +57,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 15:28:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Nov 2019 15:29:42 -0000
 
-A flaw was found in all versions of ghostscript 9.x before 9.28,
-where the `.charkeys` procedure, where it did not properly secure
-its privileged calls, enabling scripts to bypass `-dSAFER` restrictions.
-An attacker could abuse this flaw by creating a specially crafted
-PostScript file that could escalate privileges within the Ghostscript
-and access files outside of restricted areas or execute commands.
-
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2019-14869
-
-Upstream patches:
-https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=485904
-
-Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+Signed-off-by: Marek Belisko <marek.belisko@open-nandra.com>
+Signed-off-by: Jake Withecombe <jake@ruggednetworks.co.uk>
 ---
- .../ghostscript/CVE-2019-14869-0001.patch     | 70 +++++++++++++++++++
- .../ghostscript/ghostscript_9.27.bb           |  2 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
+ .../janus-gateway/files/janus-gateway.service      | 14 +++++++
+ .../janus-gateway/janus-gateway_0.7.4.bb           | 48 ++++++++++++++++++++++
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta-multimedia/recipes-multimedia/janus-gateway/files/janus-gateway.service
+ create mode 100644 meta-multimedia/recipes-multimedia/janus-gateway/janus-gateway_0.7.4.bb
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
+diff --git a/meta-multimedia/recipes-multimedia/janus-gateway/files/janus-gateway.service b/meta-multimedia/recipes-multimedia/janus-gateway/files/janus-gateway.service
 new file mode 100644
-index 0000000000..715ec1c450
+index 0000000..5b4d4f2
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
-@@ -0,0 +1,70 @@
-+From 485904772c5f0aa1140032746e5a0abfc40f4cef Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Tue, 5 Nov 2019 09:45:27 +0000
-+Subject: [PATCH] Bug 701841: remove .forceput from /.charkeys
++++ b/meta-multimedia/recipes-multimedia/janus-gateway/files/janus-gateway.service
+@@ -0,0 +1,14 @@
++[Unit]
++Description=Janus WebRTC Server
++After=network.target network-online.target
++Wants=network-online.target
 +
-+When loading Type 1 or Truetype fonts from disk, we attempt to extend the glyph
-+name table to include all identifiable glyph names from the Adobe Glyph List.
++[Service]
++Type=simple
++ExecStart=/usr/bin/janus -o
++Restart=always
++RestartSec=60
++LimitNOFILE=65536
 +
-+In the case of Type 1 fonts, the font itself (almost always) marks the
-+CharStrings dictionary as read-only, hence we have to use .forceput for that
-+case.
++[Install]
++WantedBy=multi-user.target
+diff --git a/meta-multimedia/recipes-multimedia/janus-gateway/janus-gateway_0.7.4.bb b/meta-multimedia/recipes-multimedia/janus-gateway/janus-gateway_0.7.4.bb
+new file mode 100644
+index 0000000..bca716f
+--- /dev/null
++++ b/meta-multimedia/recipes-multimedia/janus-gateway/janus-gateway_0.7.4.bb
+@@ -0,0 +1,48 @@
++DESCRIPTION = "Janus is an open source, general purpose, WebRTC server designed and developed by Meetecho"
++HOMEPAGE = "https://janus.conf.meetecho.com/"
++SECTION = "libs/multimedia"
 +
-+But for Truetype fonts, the CharStrings dictionary is created internally and is
-+not read-only until *after* we have fully populated it (including the extended
-+glyph names from the AGL), hence there is no need for .forceput, and no need to
-+carry the security risk of using it.
++LICENSE = "GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=c9e0a79f2244c2f79cda22ea5fed9135"
 +
-+Replace with regular put.
++SRC_URI = "https://github.com/meetecho/janus-gateway/archive/v${PV}.tar.gz \
++	   file://janus-gateway.service \
++"
 +
-+CVE: CVE-2019-14869
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
++SRC_URI[md5sum] = "b068ac2b40ae800d83f471b8189bc87c"
++SRC_URI[sha256sum] = "01ddaf204203a1219dd46a5ce70b548bab75bc494c9ba05429f8fb1e786b2995"
 +
-+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
-+---
-+ Resource/Init/gs_ttf.ps | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++inherit autotools-brokensep pkgconfig systemd
 +
-+diff --git a/Resource/Init/gs_ttf.ps b/Resource/Init/gs_ttf.ps
-+index e34967d..5354ff0 100644
-+--- a/Resource/Init/gs_ttf.ps
-++++ b/Resource/Init/gs_ttf.ps
-+@@ -1301,7 +1301,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
-+           TTFDEBUG { (\n1 setting alias: ) print dup ==only
-+                 ( to be the same as  ) print 2 index //== exec } if
-+ 
-+-          7 index 2 index 3 -1 roll exch .forceput
-++          7 index 2 index 3 -1 roll exch put
-+         } forall
-+         pop pop pop
-+       }
-+@@ -1319,7 +1319,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
-+           exch pop
-+           TTFDEBUG { (\n2 setting alias: ) print 1 index ==only
-+                      ( to use glyph index: ) print dup //== exec } if
-+-          5 index 3 1 roll .forceput
-++          5 index 3 1 roll put
-+           //false
-+         }
-+         {
-+@@ -1336,7 +1336,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
-+         {                            %  CharStrings(dict) isunicode(boolean) cmap(dict) RAGL(dict) gname(name) codep(integer) gindex(integer)
-+           TTFDEBUG { (\3 nsetting alias: ) print 1 index ==only
-+                 ( to be index: ) print dup //== exec } if
-+-          exch pop 5 index 3 1 roll .forceput
-++          exch pop 5 index 3 1 roll put
-+         }
-+         {
-+           pop pop
-+@@ -1366,7 +1366,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
-+       } ifelse
-+     ]
-+   TTFDEBUG { (Encoding: ) print dup === flush } if
-+-} .bind executeonly odef		% hides .forceput
-++} .bind odef
-+ 
-+ % ---------------- CIDFontType 2 font loading ---------------- %
-+ 
-+-- 
-+2.20.1
++DEPENDS = "libsrtp jansson libconfig libnice openssl glib-2.0 gengetopt-native"
 +
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-index 9e1f3e2f49..a7eab5e603 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-@@ -28,6 +28,8 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2019-14811-0001.patch \
-                 file://CVE-2019-14817-0001.patch \
-                 file://CVE-2019-14817-0002.patch \
-+                file://CVE-2019-14869-0001.patch \
++PACKAGECONFIG ?= "rest_api rest"
++#PACKAGECONFIG[disablewarnings] = "--disable-warnings-as-errors,,"
++#PACKAGECONFIG[inet] = "--enable-inet,--disable-inet,"
++#PACKAGECONFIG[inet6] = "--enable-inet6,--disable-inet6,"
++PACKAGECONFIG[rest_api] = "--enable-turn-rest-api,--disable-turn-rest-api,curl"
++PACKAGECONFIG[rest] = "--enable-rest,--disable-rest,libmicrohttpd"
++PACKAGECONFIG[unix_sockets] = "--enable-unix-sockets,--disable-unix-sockets,"
++PACKAGECONFIG[post_processing] = "--enable-post-processing,--disable-post-processing,"
++PACKAGECONFIG[plugin_echo] = "--enable-plugin-echotest,--disable-plugin-echotest,"
++PACKAGECONFIG[plugin_videocall] = "--enable-plugin-videocall,--disable-plugin-videocall,"
++PACKAGECONFIG[plugin_nosip] = "--enable-plugin-nosip,--disable-plugin-nosip,"
++PACKAGECONFIG[plugin_videoroom] = "--enable-plugin-videoroom,--disable-plugin-videoroom,"
++PACKAGECONFIG[plugin_voicemail] = "--enable-plugin-voicemail,--disable-plugin-voicemail,"
++PACKAGECONFIG[plugin_recordplay] = "--enable-plugin-recordplay,--disable-plugin-recordplay,"
++PACKAGECONFIG[plugin_textroom] = "--enable-plugin-textroom,--disable-plugin-textroom,"
 +
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
++FILES_${PN}_append = " ${libdir}/janus/plugins/* ${libdir}/janus/transports/* ${libdir}/janus/events"
++FILES_${PN}-demo = "${datadir}/janus/*"
++
++PACKAGES_append = " ${PN}-demo"
++
++INSANE_SKIP_${PN} = "dev-so"
++
++SYSTEMD_SERVICE_${PN} = "janus-gateway.service"
++
++do_install_append() {
++	# Install the systemd service so we can kick start on boot
++	install -d ${D}${systemd_unitdir}/system
++	install -m 644 ${WORKDIR}/janus-gateway.service ${D}${systemd_unitdir}/system/
++}
 -- 
-2.20.1
+2.7.4
 
 
