@@ -1,50 +1,50 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 70A407F9E4
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+	[209.85.166.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 241987F9E4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 16:57:55 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id j20so4202451ioo.11
+	Thu, 21 Nov 2019 16:58:02 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id i11so4193568iol.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 08:57:57 -0800 (PST)
+	Thu, 21 Nov 2019 08:58:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=oDc6xRTh8bw0C7oc/J4XqsxG9flIQ9WQo0cItqivwxM=;
-	b=rCe5JmGu9jq514p5SWb4JoX0zoZeC90T1j1U8IXJoIGXnv8nhtcyuTS9tbbJsg1euw
-	RqqQKW1jD5xOW78z2x9jILhKpYd+7YWton9jbwT1X+WlA/1/3mPkwQwKvvEziXSdDdnv
-	XQJortROX1d9hGy9nBd7dLijFKhxWjeepximeqRwA7917+Fuk3yoQeHINeghA9BgMoGM
-	9cOirRvEjDCeWHHICQTYWo0Wf5puwy03Z/R13nOWv12z+v0Mr+VlOArozEzc/drQvvwt
-	w866sFNNM/9pZYb0t6vljaXk14bZhQ95e1wSq+kWo4q1kSIrEvKjqPacg3lFXsHg/KNl
-	WoFg==
+	bh=EidsidDJRU9oN/rt5nzIAsZxaXBTjKWyCy9HiGHYEPs=;
+	b=iyOECEa3sNYvQ88FvJK5vEKPQ9XnvZjZLwpfKiYpWo6X8SpgU6GjA6gbjutiNZNMqg
+	Grnf4mkuvaB3JV688NgJJWoviBsSEW4OQwHIdftzujg2zdd1DTckKEXe39hpuXzJyvik
+	HtRCOqVKKrFuSnFGdRAbSDgeV8LweoBSh+JGVKohZQ0GBDdA3XdrsmSpnYe7ujrDAVAZ
+	3Qy47x2c82cYBQMsLYwTkyno8G6weR/8Oi5feGun9lXTWITNcoigcDNRJ7eBjcpYYFEA
+	d/r1yf2q5C8TcaIVIOohfgGjIS1gJdL2b1SOVCz2oeep5GfsUzo4aSuSaIrUpdsvqde/
+	A8aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=oDc6xRTh8bw0C7oc/J4XqsxG9flIQ9WQo0cItqivwxM=;
-	b=lsTxadhwSHWu2KySkYP4KtE0ngDV83nZUt/SXJ23E88i/qIr3aAs910pBqhw0xX54x
-	W/Ys+iHC1SPd2Eh/Lz6n+rFJch7p011PfyYXJENb7jyzTe2/uyr4PRpI7+EyIms9S+Qi
-	Lkm1jzXNah7HE73im3GG8Kg0zz2TQH2lelkibY3L4xGdQG8S4to9DYEDPFgPuvOGTy4b
-	lG1aQRJEFHc66Pvgi4ePydn4tjgx+le5NeKcOXGoZ83ZfbPJuAgD9NN+48StZr94MBcg
-	+2EGT0jwpohDV6/OXpqCddkrp+3PyVU8iVcU6wV0fJiDkMG26VjqSENoipO6gdnl7h2s
-	iZ2A==
-X-Gm-Message-State: APjAAAUPJEchGa93a3VuXBuFwoT9wybXg6qwm1h+kTy9YlTtnwQrKtJm
-	LiT11vhFK8uW8d9KLkdIDKMURP7qs/o=
-X-Google-Smtp-Source: APXvYqxcUkGN37XFRbwMWt59V1DVRRwSRvl5iZzjkpmruf2fZcKSOPb5gqYd3uEpo0xVTiHU+Zeujw==
-X-Received: by 2002:a6b:9245:: with SMTP id u66mr8366297iod.98.1574355476187; 
-	Thu, 21 Nov 2019 08:57:56 -0800 (PST)
+	bh=EidsidDJRU9oN/rt5nzIAsZxaXBTjKWyCy9HiGHYEPs=;
+	b=pDdLBtvNdGPwPoGX7STr84JtVJdBvWPwKecA5/pt2TPn5Jmg1iyZSKWdBtqrTAQzvc
+	s4kvECyQrqcijjN96qb2sfncvIC8EK1D2fU0map+XTkfwGUs4WMFayYhRe+DJKrBtNAd
+	0Qrm16igpbwTn7arZ4ooFp434GjwLshzTtj2SPSGD2kaMRnUVYpCVi49lqlCHmTSDuOo
+	b6jqlWhIdj2tdQYKUnWCDCi+2nbbofQRcnX9c+YMfXRWVNqTXrQC7x/U/Ui5RO3sB2ZH
+	t9AkbG0jcpy8LfDL//cgFWu7uI4PvTpYft/gTvyu+QbtviGAhv6NsVsPGLyvGT9fnw9O
+	AvFg==
+X-Gm-Message-State: APjAAAVZs9Zf8NLlLgL1ia/Gyfeo5gO/f0lMZgmTHyQmqr1BtdKo3Ws8
+	CVqZ3SENSyoaf8XglAUGmi0/lT0n4GQ=
+X-Google-Smtp-Source: APXvYqx0tTQN2de/PjmsRTrcm5NmBN5rHh+m8ZvobBL4ZRf/pLxxSCut1P9woda72oC+tzaUPm5T3g==
+X-Received: by 2002:a02:58c8:: with SMTP id f191mr9277893jab.94.1574355482981; 
+	Thu, 21 Nov 2019 08:58:02 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id x9sm1372328ilp.43.2019.11.21.08.57.55
+	by smtp.gmail.com with ESMTPSA id x9sm1372479ilp.43.2019.11.21.08.58.02
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 21 Nov 2019 08:57:55 -0800 (PST)
+	Thu, 21 Nov 2019 08:58:02 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2019 10:57:52 -0600
-Message-Id: <20191121165752.1219946-1-JPEWhacker@gmail.com>
+Date: Thu, 21 Nov 2019 10:58:00 -0600
+Message-Id: <20191121165800.1220005-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH] at-spi2-core: Fix reproducibility
+Subject: [PATCH] gobject-introspection: Fix reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +57,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 16:57:55 -0000
+X-List-Received-Date: Thu, 21 Nov 2019 16:58:03 -0000
 Content-Transfer-Encoding: 8bit
 
-Adds a patch to fix to make the -src packages reproducible
+Adds a patch to remove build paths from gobject-introspection
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../0001-Fix-source-reproducibility.patch     | 32 +++++++++++++++++++
- .../atk/at-spi2-core_2.32.1.bb                |  3 +-
- 2 files changed, 34 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/atk/at-spi2-core/0001-Fix-source-reproducibility.patch
+ .../0001-Fix-build-reproducibility.patch      | 50 +++++++++++++++++++
+ .../gobject-introspection_1.62.0.bb           |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Fix-build-reproducibility.patch
 
-diff --git a/meta/recipes-support/atk/at-spi2-core/0001-Fix-source-reproducibility.patch b/meta/recipes-support/atk/at-spi2-core/0001-Fix-source-reproducibility.patch
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Fix-build-reproducibility.patch b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Fix-build-reproducibility.patch
 new file mode 100644
-index 00000000000..7631969cd62
+index 00000000000..743693e9dff
 --- /dev/null
-+++ b/meta/recipes-support/atk/at-spi2-core/0001-Fix-source-reproducibility.patch
-@@ -0,0 +1,32 @@
-+From b7fa0aa00b07e03e338dd02af564431bf2f2b185 Mon Sep 17 00:00:00 2001
-+From: Joshua Watt <Joshua.Watt@garmin.com>
-+Date: Wed, 20 Nov 2019 15:24:02 -0600
-+Subject: [PATCH] Fix source reproducibility
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection/0001-Fix-build-reproducibility.patch
+@@ -0,0 +1,50 @@
++From 59d2cbb54c012b25adeb965a94b6585d911a4539 Mon Sep 17 00:00:00 2001
++From: Joshua Watt <JPEWhacker@gmail.com>
++Date: Wed, 20 Nov 2019 09:03:47 -0600
++Subject: [PATCH] Fix build reproducibility
 +
-+The generated enum type files can be included in source packages meant
-+for debugging, and thus need to be reproducible. Replace the absolute
-+include of the header with the basename. This is sufficient because the
-+target include files are always in the include path anyway.
++ba744068 ("Make meson.override_find_program working on more complex use
++cases") made the build no longer reproducible by encoding a build system
++path into the output. This shouldn't be necessary anyway, since it
++should be possible to add new paths to search for gir files by setting
++the XDG_DATA_DIR environment variable.
 +
-+Upstream-Status: Accepted [https://gitlab.gnome.org/GNOME/at-spi2-core/merge_requests/25]
-+Signed-off-by: Joshua Watt <Joshua.Watt@garmin.com>
++Closes #318
++
++Upstream-Status: Pending [https://gitlab.gnome.org/GNOME/gobject-introspection/merge_requests/192]
++Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 +---
-+ atspi/atspi-enum-types.c.template | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ girepository/girparser.c | 4 ----
++ meson.build              | 1 -
++ 2 files changed, 5 deletions(-)
 +
-+diff --git a/atspi/atspi-enum-types.c.template b/atspi/atspi-enum-types.c.template
-+index 385d0ee..92e4937 100644
-+--- a/atspi/atspi-enum-types.c.template
-++++ b/atspi/atspi-enum-types.c.template
-+@@ -5,7 +5,7 @@
++diff --git a/girepository/girparser.c b/girepository/girparser.c
++index fb47e75c..53450baf 100644
++--- a/girepository/girparser.c
+++++ b/girepository/girparser.c
++@@ -309,10 +309,6 @@ locate_gir (GIrParser  *parser,
++   if (g_file_test (path, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
++     return path;
++   g_free (path);
++-  path = g_build_filename (UNINSTALLED_GIR_DIR, girname, NULL);
++-  if (g_file_test (path, G_FILE_TEST_EXISTS | G_FILE_TEST_IS_REGULAR))
++-    return path;
++-  g_free (path);
++   return NULL;
++ }
 + 
-+ /*** BEGIN file-production ***/
-+ /* enumerations from "@basename@" */
-+-#include "@filename@"
-++#include "@basename@"
++diff --git a/meson.build b/meson.build
++index d6231c5f..2f248579 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -90,7 +90,6 @@ endif
++ girdir = join_paths(gir_dir_prefix, 'gir-1.0')
++ config.set_quoted('GIR_DIR', girdir)
++ config.set_quoted('GOBJECT_INTROSPECTION_LIBDIR', join_paths(get_option('prefix'), get_option('libdir')))
++-config.set_quoted('UNINSTALLED_GIR_DIR', join_paths(meson.current_build_dir(), 'gir'))
 + 
-+ /*** END file-production ***/
-+ 
++ foreach type : ['char', 'short', 'int', 'long']
++   size = cc.sizeof(type)
 +-- 
 +2.23.0
 +
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.32.1.bb b/meta/recipes-support/atk/at-spi2-core_2.32.1.bb
-index 11052a8ecef..18b5de2d581 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.32.1.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.32.1.bb
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
+diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb
+index a9739cc552b..b1371776af4 100644
+--- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb
++++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.62.0.bb
+@@ -21,6 +21,7 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-$
+            file://0001-giscanner-ignore-error-return-codes-from-ldd-wrapper.patch \
+            file://0001-Port-cross-compilation-support-to-meson.patch \
+            file://0001-meson.build-disable-tests-when-cross-compiling.patch \
++           file://0001-Fix-build-reproducibility.patch \
+            "
  
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
--SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz"
-+SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-+           file://0001-Fix-source-reproducibility.patch"
- 
- SRC_URI[md5sum] = "998fd9d858f8fa22c4c8c15567bf6254"
- SRC_URI[sha256sum] = "3c2aa937ebfaca2c86569bce9b16a34fbe20d69ef0c58846313b1c42f53b0d53"
+ SRC_URI[md5sum] = "37278eab3704e42234b6080b8cf241f1"
 -- 
 2.23.0
 
