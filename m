@@ -1,55 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B9197F937
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+	[209.85.216.50])
+	by mail.openembedded.org (Postfix) with ESMTP id B1D247F931
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 18:09:54 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id i12so5601737wro.5
+	Thu, 21 Nov 2019 18:21:19 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id o14so1858645pjr.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 10:09:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=MiNW9elj8yj8QbWItO3MPKAjTeEE6WYSOZCYcMKkgRE=;
-	b=f+QtVVmyqhtltaFXu/97TknmjWxy8smaxvq/frVYadfxfOIh+tzsaLj6t9AsheABKO
-	QncG4PMvsuMzURfEUpQ5HF0NnSAwsdDL1Y/FDe6H0h+tRqIRVfvdm52aR6EPXdpNDbpz
-	NCj6DBoOudn6ySnC9WVcD7lNyC+yYNTQj3SYc=
+	Thu, 21 Nov 2019 10:21:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=bN1p1X4dPcAWRcqRHZ2hiXy0XU0BV2NrZe6YfuwR3XQ=;
+	b=YH+lSNBOXddLgUBl3Br6HAFIyyxJ/GdMcwLLXQNMAdPtONvu5tYPepd1tFpEmeS0NN
+	We+XVbFcgJq+seev2ZLd94qqx319/mnxQ3oKy1ympOSyYSr3fU8Dj5MULUQf2ve/Sorl
+	I5R0xlNDeDIUktHMqtc+DUa47ItxXb458iuc/dS4nQ8LpOP4vmR3w99CHCez+S+HGKaY
+	qJcv/XXFjMFXHQLfOHLxfgpC3DA371K+Y5DB1tHQgsSJTXV5N83blidBuik1JLGcRcF+
+	oSIGxF0KHsqptroAT1dDJc1k+BrKfWCrNEz87CFeCIlm37BNHunfqdt9Edxa9QXK8B6A
+	Ltvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=MiNW9elj8yj8QbWItO3MPKAjTeEE6WYSOZCYcMKkgRE=;
-	b=ZPZSxdXi5MjWDJwgOWNmIcZ/8p50S0SuqDwExylzkfS2xDyUpzN0nKsWrLuECmhmOh
-	625iJocGOQGclJdNI9haPOrzRjhqbFwB3drPacMQ4D37joFtdGQN/n2n3kXnDrOZZy7T
-	9BLppYTG7njwWurIhRfqkiU+9lkfjKX2Fsm5utFKobagPJcNI/bTorjbDuBZT+/UMhNV
-	tUAxL/CqDTWFDj+NgK34djaHmTyaOEiBHfZB6qbm73YM87j1yf8Ut9An52sz1na3DfJr
-	YQnO7wdOa/LYjOjpVHUitr5uzpqxAhKBLCkD7WgnwOb++Enig0i0zpq7ZwgxHOY5ge5L
-	jHig==
-X-Gm-Message-State: APjAAAVzgi2qI4D2f0qb604uNxn0qti+ksE5TJudHAB6b4jk2GRnC47D
-	Pl4KapBWZ0gCP4qzQtJo7JIpACWhA1E=
-X-Google-Smtp-Source: APXvYqxBFoggibhNkrQxlNazONx2V4y7D9tpjcws63I2mml03lZWerllf+/9WTXUVshcMmAxlKKGNg==
-X-Received: by 2002:a5d:4684:: with SMTP id u4mr12166520wrq.352.1574359795087; 
-	Thu, 21 Nov 2019 10:09:55 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=bN1p1X4dPcAWRcqRHZ2hiXy0XU0BV2NrZe6YfuwR3XQ=;
+	b=dVb5whHVC7NDENZn5dZS56BBIdo133a3OZg3Xm6o4vyWVM9TpTwXr2L0WA/d2ROPmn
+	klHyhchzYZ/4UMUoDiIYsoMDVmDc+LZsQLGyBb/VQSiyQ7fhbVxO4YgozEFhzHpu/JUw
+	QT9J8IjuaEBpr3WFNFSSCQAzPG71nk7uSB9ecD1jKqB7Yp7uscgEeA+IQv+AelW0Dbsy
+	7vSezHT+FUN6OghWNc9q6y97LAFbW2VVc3xsIP3JoEE9HD4M8BKT638wJ4DtUmSFPJk1
+	8yuLe1kpgmY4lUAK5XC0dDQ/1vZkYuYJIp+t4j8P7ICLLIOd0ULnsOrIB0TPlhFKvIpD
+	ttHA==
+X-Gm-Message-State: APjAAAWGGwbMU/nG35Umt4Upo/pYUytQ4yNcb0I7KmKODmsOkw7GyTU5
+	kfEkHnird1WgwRBzmH+qX69XMyWl6OU=
+X-Google-Smtp-Source: APXvYqyBXhz65Ngnv4CRIekaHC3FGw38p9izNtECAy9poSPrIMS004eKqwgkajPB7gAMyzITRl49dA==
+X-Received: by 2002:a17:90a:ff02:: with SMTP id
+	ce2mr13234226pjb.117.1574360479989; 
+	Thu, 21 Nov 2019 10:21:19 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::d61])
 	by smtp.gmail.com with ESMTPSA id
-	w17sm4413166wrt.45.2019.11.21.10.09.54
+	k13sm3877082pgl.69.2019.11.21.10.21.19
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 21 Nov 2019 10:09:54 -0800 (PST)
-Message-ID: <0f2a46118e8847a3a785a2ab50999ecc22ec205f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Thu, 21 Nov 2019 18:09:51 +0000
-In-Reply-To: <20191121170948.GC28013@localhost>
-References: <20191121150207.3657-1-richard.purdie@linuxfoundation.org>
-	<20191121150207.3657-3-richard.purdie@linuxfoundation.org>
-	<20191121155018.GB28013@localhost>
-	<ec0c2ab6397acc54c64cc4f8927eed97e82a9509.camel@linuxfoundation.org>
-	<20191121170948.GC28013@localhost>
-User-Agent: Evolution 3.34.1-2 
+	Thu, 21 Nov 2019 10:21:19 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Nov 2019 10:21:05 -0800
+Message-Id: <20191121182105.2803314-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] sanity: Add check for tar older than 1.28
+Subject: [PATCH] systemd-bootchart: Add RISC-V support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,83 +58,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 18:09:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Nov 2019 18:21:19 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-11-21 at 19:09 +0200, Adrian Bunk wrote:
-> On Thu, Nov 21, 2019 at 04:54:12PM +0000, Richard Purdie wrote:
-> > On Thu, 2019-11-21 at 17:50 +0200, Adrian Bunk wrote:
-> > > On Thu, Nov 21, 2019 at 03:02:07PM +0000, Richard Purdie wrote:
-> > > > Older versions break opkg-build when reproducible builds are
-> > > > enabled.
-> > > > Rather than trying to be selective based on which features are
-> > > > enabled,
-> > > > lets just make this a minimum version.
-> > > > ...
-> > > > +    if LooseVersion(version) < LooseVersion("1.28"):
-> > > > +        return "Your version of tar is older than 1.28 and
-> > > > does
-> > > > not have the support needed to enable reproducible builds.
-> > > > Please
-> > > > install a newer version of tar.\n"
-> > > > ...
-> > > 
-> > > How does "Please install a newer version of tar" work in practice
-> > > on a supported host distribution like CentOS 7 ?
-> > > 
-> > > As user I would expect such things to just work when using
-> > > a distribution that is documented as supported.
-> > 
-> > We're going to have to solve this issue on our autobuilder. Centos7
-> > already causes problems and there is documetation in the manual
-> > about
-> > it:
-> > 
-> > https://www.yoctoproject.org/docs/3.0/ref-manual/ref-manual.html#centos-packages
-> > 
-> > (and the need to use EPEL)
-> > 
-> > Unfortunately a newer tar isn't in EPEL.
-> 
-> EPEL does not contain more recent versions of packages already
-> in RHEL/CentOS.
+This is a partial backport from upstream systemd
 
-Sorry, I had thought Centos7 had python3 already and we needed EPEL to
-obtain python 3.6.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...itecture-Recognise-RISCV-32-RISCV-64.patch | 45 +++++++++++++++++++
+ .../systemd-bootchart_233.bb                  |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-architecture-Recognise-RISCV-32-RISCV-64.patch
 
-> 
-> > I don't have a solution yet, I do know that silently creating empty
-> > packages is much worst than telling a user something won't work
-> > though.
-> > 
-> > Any suggestions on how we fix it?
-> 
-> My preferred solution would be to replace CentOS 7 with CentOS 8
-> as supported distribution, which would also allow to drop hacks
-> for two major releases of gcc in various places.
-
-We are working towards that, equally the older version support is
-useful to a significant portion of our userbase so its a balancing act.
-
-> If all other supported distribution already ship 1.28 this would
-> solve your problem.
-
-I believe that is now the case, yes.
-
-> > (We could make opkg-utils-native depend on tar-native but for most
-> > people that isn't necessary so it seems a shame).
-> 
-> Building tar-native is not something that would strike me as 
-> problematic.
-
-Its an extra build dependency and extra build time, just complicates
-things. "tar-native" is in ASSUME_PROVIDED and gives bootstrap issues
-although we have the "tar-replacement-native" mechanism to account for
-this already. So possible but not entirely straightforward.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-architecture-Recognise-RISCV-32-RISCV-64.patch b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-architecture-Recognise-RISCV-32-RISCV-64.patch
+new file mode 100644
+index 0000000000..5e89195915
+--- /dev/null
++++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-architecture-Recognise-RISCV-32-RISCV-64.patch
+@@ -0,0 +1,45 @@
++From 4a6ace0a965965ea15e88c3418c7158ca5cc9f8f Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 21 Nov 2019 10:12:05 -0800
++Subject: [PATCH] architecture: Recognise RISCV-32/RISCV-64
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/architecture.h | 13 +++++++++++++
++ 1 file changed, 13 insertions(+)
++
++diff --git a/src/architecture.h b/src/architecture.h
++index 26679e2..89c7d32 100644
++--- a/src/architecture.h
+++++ b/src/architecture.h
++@@ -57,6 +57,8 @@ enum {
++         ARCHITECTURE_M68K,
++         ARCHITECTURE_TILEGX,
++         ARCHITECTURE_CRIS,
+++       ARCHITECTURE_RISCV32,
+++       ARCHITECTURE_RISCV64,
++         _ARCHITECTURE_MAX,
++         _ARCHITECTURE_INVALID = -1
++ };
++@@ -194,6 +196,17 @@ int uname_architecture(void);
++ #elif defined(__cris__)
++ #  define native_architecture() ARCHITECTURE_CRIS
++ #  error "Missing LIB_ARCH_TUPLE for CRIS"
+++#elif defined(__riscv)
+++#  if __SIZEOF_POINTER__ == 4
+++#    define native_architecture() ARCHITECTURE_RISCV32
+++#    define LIB_ARCH_TUPLE "riscv32-linux-gnu"
+++#  elif __SIZEOF_POINTER__ == 8
+++#    define native_architecture() ARCHITECTURE_RISCV64
+++#    define LIB_ARCH_TUPLE "riscv64-linux-gnu"
+++#  else
+++#    error "Unrecognized riscv architecture variant"
+++#  endif
+++#  define PROC_CPUINFO_MODEL "cpu model"
++ #else
++ #  error "Please register your architecture here!"
++ #endif
++-- 
++2.24.0
++
+diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb
+index aef8839864..960edc75e6 100644
+--- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb
++++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb
+@@ -3,6 +3,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c
+                     file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe"
+ 
+ SRC_URI = "git://github.com/systemd/systemd-bootchart.git;protocol=https \
++           file://0001-architecture-Recognise-RISCV-32-RISCV-64.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = " \
+-- 
+2.24.0
 
 
