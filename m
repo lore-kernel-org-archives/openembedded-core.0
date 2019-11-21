@@ -1,46 +1,51 @@
 Return-Path: <prvs=22116a6d0=Mikko.Rapeli@bmw.de>
-Received: from esa10.bmw.c3s2.iphmx.com (esa10.bmw.c3s2.iphmx.com
-	[68.232.139.98])
-	by mail.openembedded.org (Postfix) with ESMTP id E2A107D6A8
+Received: from esa6.bmw.c3s2.iphmx.com (esa6.bmw.c3s2.iphmx.com
+	[68.232.139.124])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FBB37F57F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 08:01:36 +0000 (UTC)
+	Thu, 21 Nov 2019 08:05:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1574323299; x=1605859299;
+	t=1574323508; x=1605859508;
 	h=from:to:cc:subject:date:message-id:references:
 	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=C5P2j8fLH06+ATiHk8PR2OeLNsYW5vqPHWDBjo3wwpw=;
-	b=AKPvJBN4Ix68CKe1uJ5q4gfT9sqb7V6YJ0/XuW8egly5OirYlEJL+aEH
-	DQsmZ3N+wLY4aOcGFWDgRWudLTCOr0N/J2KuItA7Mmp+yL2iN66NaP9oi
-	LSOy/YAxyZhVaQyzrlPmPiviJ+8DY7SPoPRY133GGcuNb968jxPvVBN/2 c=;
-IronPort-SDR: DCTx2ocajRWGGO9n203Pz+BlRtsBXRT2dP9q/BkiN4xlLKBRNk02X509RpY+BLwaFSEh6I8e4r
-	3oI58QPa+p+jJ8WfP7OKO2puhdsEGP7PHyc/acBN2bIR+VP040C0M3k/mz0WgRWwdJZ13Runfr
-	6l20hPy0LccJOTUXzJyXAFpIsqljOw8ZO61k6nYOvPEgEJ1xswbJ0vpPKLYVLpuql55qMAbgws
-	zAe4ClHDFwaGyBnbVhlo0FUFlAdrkuqGFt4mOGZRRiCGdRLlDToXH33cWJo3dt2ceAfa3khH6K
-	7Vw=
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
-	esa10.bmw.c3s2.iphmx.com with ESMTP/TLS; 21 Nov 2019 09:01:37 +0100
-Received: from esabb3.muc ([160.50.100.30])  by esagw2.muc with ESMTP/TLS;
-	21 Nov 2019 09:01:36 +0100
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb3.muc with ESMTP/TLS; 21 Nov 2019 09:01:35 +0100
+	bh=0N6PJmJIMTCkgDayl/S6wNg3g3cXzPfRsbu0geID2OQ=;
+	b=S0j8GSUjPCezaSx1U/xMTwYvknBkIHd8BB4sCOK8e6BupkdP2D1KWnAY
+	zDp5qvuawAFjR5FHMk2UEKGW+SZm0Y8DOQauHaF2aJBa1VYoYp/6AF6nB
+	c41mWvaaEjebHgQAsiW7tAVRvyDr4kjKDMrr//o+3N9SdlzjxSUlDY8Hk M=;
+IronPort-SDR: VPlYDvTARo+pJoV1ZJVzxUKvqKv9IZTeHBMBf2DKqwwwZZZhC4BRACLM0QVQWTbUsoj1LmZXZm
+	QeKKGbLF8bVJDeDwYA+KmY0suUi+M7sJPSA4mFL33pxfOUOaXjZJKXeEzhVFrz2YjD+oY9f/s1
+	HOJGmHYXWIXakafs/vOanJ2F0x4YFwT2pbcN5BXtkkEeZJqAQzUL4LEULmoZ9x2JC0GwvnMtgm
+	V0kFkY0fz1zOi0/fdKHRk+KloGmNsO3l3RvtQG5sfDGTGsJ1B4YPAIHd3j1e2QjvAIF8j47MZ9
+	xQU=
+Received: from esagw4.bmwgroup.com (HELO esagw4.muc) ([160.46.252.39]) by
+	esa6.bmw.c3s2.iphmx.com with ESMTP/TLS; 21 Nov 2019 09:05:06 +0100
+Received: from esabb6.muc ([160.50.100.50])  by esagw4.muc with ESMTP/TLS;
+	21 Nov 2019 09:05:05 +0100
+Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
+	([160.48.96.47])
+	by esabb6.muc with ESMTP/TLS; 21 Nov 2019 09:05:05 +0100
 Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Thu, 21 Nov 2019 09:01:35 +0100
+	smucm10k.europe.bmw.corp
+	(160.48.96.47) with Microsoft SMTP Server (TLS;
+	Thu, 21 Nov 2019 09:05:05 +0100
 Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
 	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Thu, 21 Nov 2019 09:01:35 +0100
+	Thu, 21 Nov 2019 09:05:05 +0100
 From: <Mikko.Rapeli@bmw.de>
-To: <bunk@stusta.de>
+To: <armccurdy@gmail.com>
 Thread-Topic: [OE-core] How to backport openssl to Sumo
-Thread-Index: AQHVn87w8ZAVFbXnIEGLd+JWxeWsfaeUhbKAgAAYDICAAJWngA==
-Date: Thu, 21 Nov 2019 08:01:35 +0000
-Message-ID: <20191121080133.GB3527@hiutale>
+Thread-Index: AQHVn87w8ZAVFbXnIEGLd+JWxeWsfaeUUpOAgAAIKACAAAD7gIAAJxaAgAAUHQCAABQNAIAAiWqA
+Date: Thu, 21 Nov 2019 08:05:05 +0000
+Message-ID: <20191121080503.GC3527@hiutale>
 References: <CAD0U-hKudOEYkkPQQ1He3=Cg1hLqT7u5Uhsn_e2ZK0vGmo+z3w@mail.gmail.com>
-	<20191120213951.GA3527@hiutale> <20191120230555.GA3962@localhost>
-In-Reply-To: <20191120230555.GA3962@localhost>
+	<5c9cb09a-e0b3-f43b-36cd-bc9a7df2dd6c@kernel.crashing.org>
+	<CAD0U-hLzTxYw3F-tPbj5m1+iqW+2PZcU5n4bE1sxL9KxGmuVUw@mail.gmail.com>
+	<31b224ae-8e1a-943c-0554-684557ef33bc@kernel.crashing.org>
+	<CAD0U-hKMtXR+tvpS45D9=+XqaZVZBs7jMm9U3Vk7r+mJuVW5-A@mail.gmail.com>
+	<CAD0U-hJ96imEfDwAyMQyjvABmaNYxEexQWNvpHJr+wsNzpGSbw@mail.gmail.com>
+	<CAJ86T=Ucx125+XdRrpnh64km1WypAyyc1fUN5pWbjXzmUSXu3g@mail.gmail.com>
+In-Reply-To: <CAJ86T=Ucx125+XdRrpnh64km1WypAyyc1fUN5pWbjXzmUSXu3g@mail.gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -60,58 +65,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 08:01:37 -0000
+X-List-Received-Date: Thu, 21 Nov 2019 08:05:06 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
-Content-ID: <61766B9D98F79541B6E1C9611D82E4B9@bmwmail.corp>
+Content-ID: <A23929FF44379546874C7FF68F388ACE@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 21, 2019 at 01:05:55AM +0200, Adrian Bunk wrote:
-> On Wed, Nov 20, 2019 at 09:39:51PM +0000, Mikko.Rapeli@bmw.de wrote:
-> >...
-> > I could submit these too if someone wants to setup a communit maintenan=
-ce branch for sumo.
->=20
-> I would not consider this appropriate for a stable branch. With such=20
-> invasive changes it would no longer be reasonably safe for users to=20
-> follow the branch to receive security updates for other recipes.
->=20
-> In Ubuntu 18.04 security support for OpenSSL 1.0.2 is provided until at=20
-> least April 2023. Similar schedules exist for other LTS distributions.
-> This provides sources for piggy-backing security support for a few years
-> after upstream support ends.
+On Wed, Nov 20, 2019 at 03:53:14PM -0800, Andre McCurdy wrote:
+> But anyway, in all cases, the way to debug what's going on isn't to
+> try random recipe changes and then rebuild the final image. Instead
+> you should build your chosen version of openssl, look in the
+> packages-split directory to see which package includes the openssl
+> command line tool and then add that package to your image.
 
-Yes, I agree to this. The reasons for the large intrusive backport are:
-
- * openssl version 1.1.0 in sumo is no longer supported by upstream
-   developers, see https://www.openssl.org/policies/releasestrat.html
-   "Version 1.1.0 will be supported until 2019-09-11." but 1.1.1
-   is an LTS with support unit 2023-09-11
-
- * many recipes like openssh in sumo do not support openssl 1.1.x and an
-   update is needed to cover the API breakage. The backported pathes
-   fixes most of the issues in poky and meta-openembedded and I've been
-   able to use the set in multiple projects with different BSP stacks.
-
-So in sumo, openssl 1.0.2 could still be maintainable with Ubuntu etc
-help even when upstream openssl.org support has now ended. Same could
-apply to openssl 1.1.0 there, but if one suffers and fixes the API
-changes, then it is maybe better for users to jump directly to the next
-openssl 1.1.1x LTS version. The patches I mentioned achieve this,
-but I agree they are intrucive and not following stable policies.
-
-In my case, openssl 1.1.x transition is one of the major blockers
-for doing more yocto updates and running closer to master. The backport
-has helped there and a following jump to zeus was really straight
-forward (ignoring lots of issues in BSP layers but that's life).
-
-Then a note on openssl 1.1.x impact to various BSP layers, some scripting a=
-nd
-bbclasses related to signing etc may need to be updated but also
-those changes are simple. I wish there was more open source community
-approach so share changes like these among users of various BSPs.
-
-Cheers,
+Or enable buildhistory, build openssl and/or image(s), cd build/buildhistor=
+y
+and git grep for the binaries needed to find out which binary package
+they belong to.
 
 -Mikko=
 
