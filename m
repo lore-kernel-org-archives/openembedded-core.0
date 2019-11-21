@@ -1,49 +1,44 @@
-Return-Path: <tanuk@iki.fi>
-Received: from new1-smtp.messagingengine.com (new1-smtp.messagingengine.com
-	[66.111.4.221])
-	by mail.openembedded.org (Postfix) with ESMTP id 620D97F377
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5071F7F96B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 14:06:42 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailnew.nyi.internal (Postfix) with ESMTP id 5F35D4970
+	Thu, 21 Nov 2019 14:07:42 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id i12so4577452wro.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 09:06:43 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-	by compute5.internal (MEProxy); Thu, 21 Nov 2019 09:06:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:date:from
-	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=lKAS7eiCVD39zbqOh
-	9ZDnRrHNUrhxqeJr4+xpwy1Pak=; b=aXGoWuRJgYFQGipNTM4MLtJgXmK0TBJ1J
-	UpogZURpMxpTQ3VaXoMcjp0Hd5ZRnlXdGw2sIjFI6hx2bD/ceHXOHs5fldwPR/JQ
-	0fCvHRopyrCg2pP7gZcd8esCwmpGpWucNPKLRZVpR7ylmmaAOWEgcnPBHeLfdlWY
-	rRn8KaLLbtg7jBULQnirILb8FO20L/U7DmAR0emnZv3QL0UEeFiCeVB//3PTrdzA
-	cYLfvo1ppHxSk4vKYUmmiInvfJSTXMEK44yNbuqI9ilP+GdO1MfJnmCuaRU9ftFg
-	J7vRdMZzNJxx8SpsSh+Mh1rLBYHqOcpJGNmUHZZnCy/YmOzbN2X5w==
-X-ME-Sender: <xms:85nWXRI9BuuUqWhvJE5Y34swdsSa8SNroDN3vVRzJwVy0ETHfebicg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudehvddgieduucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucgorfhhihhshhhinhhgqdfkphfpvghtfihorhhkuc
-	dlfedttddmnecujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefv
-	rghnuhcumfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhiqeenucffohhmrghinh
-	epfhhrvggvuggvshhkthhophdrohhrghdprhgvphhrohguuhgtihgslhgvqdgsuhhilhgu
-	shdrohhrghenucfkphepudeliedrvdeggedrudeluddruddtieenucfrrghrrghmpehmrg
-	hilhhfrhhomhepthgrnhhukhesihhkihdrfhhinecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:85nWXX6i1972eNCwpJELI2ULECy1BANPw6_EIGdU0SvVdDjPjehsng>
-	<xmx:85nWXTBOKjpOb0k-t19GngylV5ns1pUEBmmtZ8fsnfT8u-gW_S91wg>
-	<xmx:85nWXRK73XSagz4P92hz-VugWI1ZH2lzDAn_CZ4w-2qCOcXEaaFOhg>
-	<xmx:85nWXfwnMlLA1vYpuqW7QhrSuH5iHAZOyTX05CVy7BeBWeQ0uQEGKg>
-Received: from localhost.localdomain (unknown [196.244.191.106])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 55C5380061
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 09:06:42 -0500 (EST)
-From: Tanu Kaskinen <tanuk@iki.fi>
+	Thu, 21 Nov 2019 06:07:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=TmnLDH6ZafuvtY2BQcbv4ePZKSEv3h07TdYsFT0oUeo=;
+	b=Hbc5da5rjmTXzCati5My6BVRjmdMzEXpQhO7eFcF4JfEKtN5OWPoLPxUjRGWvRCR0r
+	vcMkfXJp6V4ojqr1LeBOIgVV5+k314z6uPfVnuw1IQ1h5UFCJd6JUYuBsVF4cf3/0IWP
+	H4UIYXhdYqFOWiQukvDk2cg4G3y9Ja8mdzb+87zCB13nkhhuPeEgJ8+g/h+JD7UufGXG
+	eQJusuKoJLK2sHaRF1OdacdO9D0UC4kE53Tp0/tavmZbPiwCrbiIVArB+iwkddjJ1DuC
+	9fAxtwNDBWvsZdlLIJpO9amhm3c7PhTpg/iI74olIoPQG8F68ljgkgIqU0UYjPny0alG
+	VvSg==
+X-Gm-Message-State: APjAAAUerCW39z9+7LDkEpG2X0Y03r6yCm5vgqDdeU3n3GFn8plukg89
+	b+M8tgjq+VRRLp7cIuQ4CyzvB9AY
+X-Google-Smtp-Source: APXvYqwexdd34KMswAseibMydqtqGsU0KwOcrVyg3hYFE2uAQeoBzSALUaePV9B43FDOQqrQPzvaeg==
+X-Received: by 2002:adf:ec84:: with SMTP id z4mr2562941wrn.289.1574345262595; 
+	Thu, 21 Nov 2019 06:07:42 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id 16sm9375474wmf.0.2019.11.21.06.07.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 21 Nov 2019 06:07:41 -0800 (PST)
+Message-ID: <5ea261a1289f54f523b371f3d5a32d7bdf3e21aa.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2019 16:06:24 +0200
-Message-Id: <20191121140624.36423-1-tanuk@iki.fi>
-X-Mailer: git-send-email 2.20.1
+Date: Thu, 21 Nov 2019 14:07:41 +0000
+In-Reply-To: <315444F4-D824-4698-B0EB-B20309CD6809@linux.intel.com>
+References: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<549C1F29-84E4-43A3-9DD2-FBED13A92C37@linux.intel.com>
+	<315444F4-D824-4698-B0EB-B20309CD6809@linux.intel.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Subject: [PATCH] pulseaudio: 12.2 -> 13.0
+Subject: Re: [PATCH v3 00/17] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,343 +51,190 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 14:06:42 -0000
+X-List-Received-Date: Thu, 21 Nov 2019 14:07:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-Release notes:
-https://www.freedesktop.org/wiki/Software/PulseAudio/Notes/13.0/
+Hi,
 
-Dropped intltool-native from DEPENDS. The .desktop file translations
-don't need intltool any more, gettext is enough.
+On Wed, 2019-11-20 at 22:36 -0800, Tim Orling wrote:
+> 
+> 
+> > On Nov 20, 2019, at 10:27 PM, Tim Orling <timothy.t.orling@linux.intel.com> wrote:
+> > 
+> > 
+> > 
+> > > On Nov 20, 2019, at 1:33 AM, Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com> wrote:
+> > > 
+> > > The current NPM support have several issues:
+> > > - The current NPM fetcher downloads the dependency tree but not the other
+> > >   fetchers. The 'subdir' parameter was used to fix this issue.
+> > > - They are multiple issues with package names (uppercase, exotic characters,
+> > >   scoped packages) even if they are inside the dependencies.
+> > > - The lockdown file generation have issues. When a package depends on
+> > >   multiple version of the same package (all versions have the same checksum).
+> > > 
+> > > This patchset refactors the NPM support in Yocto:
+> > > - As the NPM algorithm for dependency management is hard to handle, the new
+> > >   NPM fetcher downloads only the package source (and not the dependencies,
+> > >   like the other fetchers) (patch submitted in the bitbake-devel list).
+> > > - The NPM class handles the dependencies using NPM (and not manually).
+> > > - The NPM recipe creation is simplified to avoid issues.
+> > > - The lockdown file is no more used as it is no longer relevant compared to the
+> > >   latest shrinkwrap file format.
+> > > 
+> > > This patchset may remove some features (lockdown file, license management for
+> > > dependencies) but fixes the majority of the NPM issues. All of these issues
+> > > from the bugzilla.yoctoproject.org are resolved by this patchset:
+> > > #10237, #10760, #11028, #11728, #11902, #12534
+> > > 
+> > > The fetcher and recipetool are now aware of a 'latest' keyword for the version
+> > > which allow to build the latest version available on the registry. This feature
+> > > fixes the two issues: #10515, #11029
+> > > 
+> > > Moreover the issue #13415 should also be fixed but I cannot test it.
+> > > 
+> > > I have tested the recipe creation and builds using a self made example to
+> > > generate build failures:
+> > > - https://github.com/savoirfairelinux/node-server-example
+> > > - https://npmjs.com/package/@savoirfairelinux/node-server-example
+> > > 
+> > > The test steps are these ones:
+> > >  $ source poky/oe-init-build-env
+> > >  $ bitbake-layers add-layer ../meta-openembedded/meta-oe
+> > >  $ devtool add "npm://registry.npmjs.org;name=@savoirfairelinux/node-server-example;version=latest”
+> > 
+> > I noticed this before but forgot to report it:
+> > 
+> > ERROR: Nothing PROVIDES 'c-ares-native' (but virtual:native:/build/meta-openembedded/meta-oe/recipes-
+> > devtools/nodejs/nodejs_10.17.0.bb DEPENDS on or otherwise requires it). ...
+> > http://layers.openembedded.org/layerindex/recipe/50318/
+> > $ bitbake-layers add-layer ../meta-openembedded/meta-networking
+> > Which requires
+> > $ bitbake-layers add-layer ../meta-openembedded/meta-python
+> > 
+> > 
+> > Using tip of bitbake with V3, openembedded-core with V3 and meta-openembedded master, somehow nodejs-native
+> > do_compile broke (at least on qemux86-64) since the last time I built it shortly after ELC-E…
+> > So now I’ll have to git bisect that…more to come…
+> 
+> See https://errors.yoctoproject.org/Errors/Details/274939/
+> The same error I am seeing.
 
-Dropped upstreamed patches:
-0001-alsa-Fix-inclusion-of-use-case.h.patch
-0001-introduce-a-special-build-flag-to-explicitly-disable.patch
+Might be caused by 0005-Link-atomic-library.patch which unconditionally makes it
+link against libatomic.so
+I'd say this should be done conditionally on those arches that need it, exclusively.
+Ideally using some kind of auto-detection...
 
-Added a new package: pulseaudio-pa-info. It contains the new pa-info
-script.
+Not sure why it's a problem only now, though.
 
-BlueZ 4 support was removed in this version. That's not visible in the
-recipe, but I noticed that the BlueZ 4 modules were still being built in
-12.2, since they hadn't been explicitly disabled in the recipe.
+Cheers,
+Andre'
 
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
----
- .../pulseaudio/pulseaudio.inc                 |  27 ++-
- ...001-alsa-Fix-inclusion-of-use-case.h.patch |  46 -----
- ...ial-build-flag-to-explicitly-disable.patch | 161 ------------------
- ...{pulseaudio_12.2.bb => pulseaudio_13.0.bb} |   6 +-
- 4 files changed, 26 insertions(+), 214 deletions(-)
- delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-alsa-Fix-inclusion-of-use-case.h.patch
- delete mode 100644 meta/recipes-multimedia/pulseaudio/pulseaudio/0001-introduce-a-special-build-flag-to-explicitly-disable.patch
- rename meta/recipes-multimedia/pulseaudio/{pulseaudio_12.2.bb => pulseaudio_13.0.bb} (58%)
-
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-index ec51d8b279..4e32b27087 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio.inc
-@@ -56,7 +56,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0e5cd938de1a7a53ea5adac38cc10c39 \
-                     file://src/pulsecore/filter/biquad.h;beginline=1;endline=4;md5=6d46d1365206528a20137355924233c1 \
- "
- 
--DEPENDS = "libatomic-ops libsndfile1 libtool intltool-native"
-+DEPENDS = "libatomic-ops libsndfile1 libtool"
- # optional
- DEPENDS += "udev alsa-lib glib-2.0"
- DEPENDS += "speexdsp libxml-parser-perl-native libcap"
-@@ -158,12 +158,22 @@ USERADD_PARAM_pulseaudio-server = "--system --home /var/run/pulse \
-                               --no-create-home --shell /bin/false \
-                               --groups audio,pulse --gid pulse pulse"
- 
-+PACKAGES =+ "\
-+             libpulse \
-+             libpulse-mainloop-glib \
-+             libpulse-simple \
-+             libpulsecommon \
-+             libpulsecore \
-+             ${PN}-pa-info \
-+             ${PN}-server \
-+             ${PN}-misc \
-+             "
-+
- # The console-kit module is included here explicitly so bitbake can map to the
- # RDEPENDS we define for it in this recipe, and thereby ensure that when
- # adding the console-kit module to an image, we also get the necessary
- # consolekit package produced.
--PACKAGES =+ "libpulsecore libpulsecommon libpulse libpulse-simple libpulse-mainloop-glib \
--             pulseaudio-server pulseaudio-misc ${@bb.utils.contains('PACKAGECONFIG', 'dbus', 'pulseaudio-module-console-kit', '', d)}"
-+PACKAGES =+ "${@bb.utils.contains('PACKAGECONFIG', 'dbus', 'pulseaudio-module-console-kit', '', d)}"
- 
- #upgrade path:
- RREPLACES_pulseaudio-server = "libpulse-bin libpulse-conf"
-@@ -183,6 +193,7 @@ FILES_libpulse-mainloop-glib = "${libdir}/libpulse-mainloop-glib.so.*"
- FILES_${PN}-dev += "${libdir}/pulse-${PV}/modules/*.la ${datadir}/vala ${libdir}/cmake"   
- FILES_${PN}-conf = "${sysconfdir}"
- FILES_${PN}-bin += "${sysconfdir}/default/volatiles/volatiles.04_pulse"
-+FILES_${PN}-pa-info = "${bindir}/pa-info"
- FILES_${PN}-server = "${bindir}/pulseaudio ${bindir}/start-* ${sysconfdir} ${bindir}/pactl */udev/rules.d/*.rules */*/udev/rules.d/*.rules ${systemd_user_unitdir}/*"
- 
- #SYSTEMD_PACKAGES = "${PN}-server"
-@@ -214,6 +225,16 @@ python populate_packages_prepend() {
-     do_split_packages(d, plugindir, r'^lib(.*)\.so$', '${PN}-lib-%s', 'PulseAudio library for %s', extra_depends='', prepend=True)
- }
- 
-+# pa-info is a bash script that collects information about the audio setup.
-+# It's primarily useful for attaching an information dump when reporting bugs.
-+RDEPENDS_${PN}-pa-info = "\
-+                          alsa-utils-amixer \
-+                          alsa-utils-aplay \
-+                          alsa-utils-scripts \
-+                          bash \
-+                          ${PN}-server \
-+                          "
-+
- RDEPENDS_pulseaudio-server = " \
-     pulseaudio-module-filter-apply \
-     pulseaudio-module-filter-heuristics \
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-alsa-Fix-inclusion-of-use-case.h.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-alsa-Fix-inclusion-of-use-case.h.patch
-deleted file mode 100644
-index 15026a2f83..0000000000
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-alsa-Fix-inclusion-of-use-case.h.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From b89d33bb182c42db5ad3987b0e91b7bf62f421e8 Mon Sep 17 00:00:00 2001
--From: Takashi Iwai <tiwai@suse.de>
--Date: Sun, 21 Apr 2019 11:59:30 +0200
--Subject: [PATCH] alsa: Fix inclusion of use-case.h
--
--The recent change in ALSA upstream stripped -I$include/alsa path from
--pkgconfig.  We already fixed for this change in some places but still
--the code for UCM was overlooked, and this resulted in the unresolved
--symbols in alsa card module. Fix them as well.
--
--Signed-off-by: Takashi Iwai <tiwai@suse.de>
--Upstream-Status: Backport
-----
-- configure.ac                | 2 +-
-- src/modules/alsa/alsa-ucm.h | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index c004bd70d..b44ed1595 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -826,7 +826,7 @@ AS_IF([test "x$enable_alsa" = "xyes" && test "x$HAVE_ALSA" = "x0"],
-- AS_IF([test "x$HAVE_ALSA" = "x1"],
--     [
--         save_CPPFLAGS="$CPPFLAGS"; CPPFLAGS="$CPPFLAGS $ASOUNDLIB_CFLAGS"
---        AC_CHECK_HEADERS([use-case.h], HAVE_ALSA_UCM=1, HAVE_ALSA_UCM=0)
--+        AC_CHECK_HEADERS([alsa/use-case.h], HAVE_ALSA_UCM=1, HAVE_ALSA_UCM=0)
--         CPPFLAGS="$save_CPPFLAGS"
--     ],
--     HAVE_ALSA_UCM=0)
--diff --git a/src/modules/alsa/alsa-ucm.h b/src/modules/alsa/alsa-ucm.h
--index 53abf3f90..c926f3cc3 100644
----- a/src/modules/alsa/alsa-ucm.h
--+++ b/src/modules/alsa/alsa-ucm.h
--@@ -23,7 +23,7 @@
-- ***/
-- 
-- #ifdef HAVE_ALSA_UCM
---#include <use-case.h>
--+#include <alsa/use-case.h>
-- #else
-- typedef void snd_use_case_mgr_t;
-- #endif
---- 
--2.21.0
--
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-introduce-a-special-build-flag-to-explicitly-disable.patch b/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-introduce-a-special-build-flag-to-explicitly-disable.patch
-deleted file mode 100644
-index b7e9cd8c5c..0000000000
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio/0001-introduce-a-special-build-flag-to-explicitly-disable.patch
-+++ /dev/null
-@@ -1,161 +0,0 @@
--From 36feb98e568221e24286615730888d5f6ff323f0 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Fri, 7 Dec 2018 15:12:38 +0800
--Subject: [PATCH] introduce a special build flag to explicitly disables running
-- from build tree
--
--It is helpful to improve reproducibility build [1] since
--PA_SRCDIR/PA_BUILDDIR contains build path, disable running
--from build tree could drop these macros at precompilation.
--
--[1] https://reproducible-builds.org/
--
--Upstream-Status: Submitted [pulseaudio-discuss@lists.freedesktop.org]
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
--Acked-by: Tanu Kaskinen <tanuk@iki.fi>
-----
-- configure.ac                             | 10 ++++++++++
-- src/daemon/daemon-conf.c                 |  4 +++-
-- src/daemon/main.c                        |  6 ++++++
-- src/modules/alsa/alsa-mixer.c            |  4 ++++
-- src/modules/gconf/module-gconf.c         |  2 +-
-- src/modules/gsettings/module-gsettings.c |  2 +-
-- src/pulsecore/core-util.c                |  4 +++-
-- 7 files changed, 28 insertions(+), 4 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index c9c414f..8b345ef 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -998,6 +998,16 @@ AS_IF([test "x$enable_asyncns" = "xyes" && test "x$HAVE_LIBASYNCNS" = "x0"],
-- AM_CONDITIONAL([HAVE_LIBASYNCNS], [test "x$HAVE_LIBASYNCNS" = x1])
-- AS_IF([test "x$HAVE_LIBASYNCNS" = "x1"], AC_DEFINE([HAVE_LIBASYNCNS], 1, [Have libasyncns?]))
-- 
--+#### Running from build tree (optional) ####
--+
--+AC_ARG_ENABLE([running-from-build-tree],
--+    AS_HELP_STRING([--disable-running-from-build-tree],[Disable running from build tree]))
--+
--+AS_IF([test "x$enable_running_from_build_tree" != "xno"],
--+      AC_DEFINE([HAVE_RUNNING_FROM_BUILD_TREE], 1, [Have running from build tree]))
--+
--+AC_SUBST(HAVE_RUNNING_FROM_BUILD_TREE)
--+
-- #### TCP wrappers (optional) ####
-- 
-- AC_ARG_ENABLE([tcpwrap],
--diff --git a/src/daemon/daemon-conf.c b/src/daemon/daemon-conf.c
--index 9883126..f01eff4 100644
----- a/src/daemon/daemon-conf.c
--+++ b/src/daemon/daemon-conf.c
--@@ -155,12 +155,14 @@ pa_daemon_conf *pa_daemon_conf_new(void) {
--     c->dl_search_path = pa_sprintf_malloc("%s" PA_PATH_SEP "lib" PA_PATH_SEP "pulse-%d.%d" PA_PATH_SEP "modules",
--                                           pa_win32_get_toplevel(NULL), PA_MAJOR, PA_MINOR);
-- #else
--+#ifdef HAVE_RUNNING_FROM_BUILD_TREE
--     if (pa_run_from_build_tree()) {
--         pa_log_notice("Detected that we are run from the build tree, fixing search path.");
--         c->dl_search_path = pa_xstrdup(PA_BUILDDIR);
--     } else
---        c->dl_search_path = pa_xstrdup(PA_DLSEARCHPATH);
-- #endif
--+        c->dl_search_path = pa_xstrdup(PA_DLSEARCHPATH);
--+#endif //Endof #ifdef OS_IS_WIN32
-- 
--     return c;
-- }
--diff --git a/src/daemon/main.c b/src/daemon/main.c
--index c80fa94..1e00388 100644
----- a/src/daemon/main.c
--+++ b/src/daemon/main.c
--@@ -932,6 +932,12 @@ int main(int argc, char *argv[]) {
-- 
--     pa_log_debug("Running in VM: %s", pa_yes_no(pa_running_in_vm()));
-- 
--+#ifdef HAVE_RUNNING_FROM_BUILD_TREE
--+    pa_log_debug("Running from build tree: %s", pa_yes_no(pa_run_from_build_tree()));
--+#else
--+    pa_log_debug("Running from build tree: no");
--+#endif
--+
-- #ifdef __OPTIMIZE__
--     pa_log_debug("Optimized build: yes");
-- #else
--diff --git a/src/modules/alsa/alsa-mixer.c b/src/modules/alsa/alsa-mixer.c
--index a524d6d..670f646 100644
----- a/src/modules/alsa/alsa-mixer.c
--+++ b/src/modules/alsa/alsa-mixer.c
--@@ -2571,9 +2571,11 @@ static int path_verify(pa_alsa_path *p) {
-- }
-- 
-- static const char *get_default_paths_dir(void) {
--+#ifdef HAVE_RUNNING_FROM_BUILD_TREE
--     if (pa_run_from_build_tree())
--         return PA_SRCDIR "/modules/alsa/mixer/paths/";
--     else
--+#endif
--         return PA_ALSA_PATHS_DIR;
-- }
-- 
--@@ -4455,7 +4457,9 @@ pa_alsa_profile_set* pa_alsa_profile_set_new(const char *fname, const pa_channel
--         fname = "default.conf";
-- 
--     fn = pa_maybe_prefix_path(fname,
--+#ifdef HAVE_RUNNING_FROM_BUILD_TREE
--                               pa_run_from_build_tree() ? PA_SRCDIR "/modules/alsa/mixer/profile-sets/" :
--+#endif
--                               PA_ALSA_PROFILE_SETS_DIR);
-- 
--     r = pa_config_parse(fn, NULL, items, NULL, false, ps);
--diff --git a/src/modules/gconf/module-gconf.c b/src/modules/gconf/module-gconf.c
--index c0f4dde..76a1f19 100644
----- a/src/modules/gconf/module-gconf.c
--+++ b/src/modules/gconf/module-gconf.c
--@@ -51,7 +51,7 @@ int pa__init(pa_module*m) {
--     u->buf_fill = 0;
-- 
--     if ((u->fd = pa_start_child_for_read(
---#if defined(__linux__) && !defined(__OPTIMIZE__)
--+#if defined(__linux__) && defined(HAVE_RUNNING_FROM_BUILD_TREE)
--                               pa_run_from_build_tree() ? PA_BUILDDIR "/gconf-helper" :
-- #endif
--                  PA_GCONF_HELPER, NULL, &u->pid)) < 0)
--diff --git a/src/modules/gsettings/module-gsettings.c b/src/modules/gsettings/module-gsettings.c
--index 330eca1..209c857 100644
----- a/src/modules/gsettings/module-gsettings.c
--+++ b/src/modules/gsettings/module-gsettings.c
--@@ -51,7 +51,7 @@ int pa__init(pa_module*m) {
--     u->buf_fill = 0;
-- 
--     if ((u->fd = pa_start_child_for_read(
---#if defined(__linux__) && !defined(__OPTIMIZE__)
--+#if defined(__linux__) && defined(HAVE_RUNNING_FROM_BUILD_TREE)
--                               pa_run_from_build_tree() ? PA_BUILDDIR "/gsettings-helper" :
-- #endif
--                  PA_GSETTINGS_HELPER, NULL, &u->pid)) < 0)
--diff --git a/src/pulsecore/core-util.c b/src/pulsecore/core-util.c
--index 64e9f21..f85dd20 100644
----- a/src/pulsecore/core-util.c
--+++ b/src/pulsecore/core-util.c
--@@ -3436,15 +3436,17 @@ void pa_reset_personality(void) {
-- }
-- 
-- bool pa_run_from_build_tree(void) {
---    char *rp;
--     static bool b = false;
-- 
--+#ifdef HAVE_RUNNING_FROM_BUILD_TREE
--+    char *rp;
--     PA_ONCE_BEGIN {
--         if ((rp = pa_readlink("/proc/self/exe"))) {
--             b = pa_startswith(rp, PA_BUILDDIR);
--             pa_xfree(rp);
--         }
--     } PA_ONCE_END;
--+#endif
-- 
--     return b;
-- }
---- 
--2.7.4
--
-diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
-similarity index 58%
-rename from meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-rename to meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
-index 88b4975a66..7f8ebc2090 100644
---- a/meta/recipes-multimedia/pulseaudio/pulseaudio_12.2.bb
-+++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_13.0.bb
-@@ -2,13 +2,11 @@ require pulseaudio.inc
- 
- SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
-            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
--           file://0001-introduce-a-special-build-flag-to-explicitly-disable.patch \
--           file://0001-alsa-Fix-inclusion-of-use-case.h.patch \
-            file://0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch \
-            file://volatiles.04_pulse \
-            "
--SRC_URI[md5sum] = "c42f1f1465e8df9859d023dc184734bf"
--SRC_URI[sha256sum] = "809668ffc296043779c984f53461c2b3987a45b7a25eb2f0a1d11d9f23ba4055"
-+SRC_URI[md5sum] = "e41d606f90254ed45c90520faf83d95c"
-+SRC_URI[sha256sum] = "961b23ca1acfd28f2bc87414c27bb40e12436efcf2158d29721b1e89f3f28057"
- 
- do_compile_prepend() {
-     mkdir -p ${S}/libltdl
--- 
-2.20.1
+> 
+> > FWIW I had previously successfully run your instructions and the tests for both bitbake and oe-selftest for V2
+> > (distroless, e.g. not with poky). Something unrelated has broken I suspect.
+> > 
+> > >  $ devtool build savoirfairelinux-node-server-example
+> > >  $ bitbake-layers create-layer ../meta-test
+> > >  $ bitbake-layers add-layer ../meta-test
+> > >  $ devtool finish savoirfairelinux-node-server-example ../meta-test
+> > >  $ echo IMAGE_INSTALL_append = '" savoirfairelinux-node-server-example"' >> conf/local.conf
+> > >  $ bitbake core-image-minimal
+> > > 
+> > > Also the 'devtool add' url could be one of these:
+> > > - npm://registry.npmjs.org;name=@savoirfairelinux/node-server-example;version=latest
+> > >   This url uses the new npm fetcher and request the latest version available on
+> > >   the registry.
+> > > - npm://registry.npmjs.org;name=@savoirfairelinux/node-server-example;version=1.0.0
+> > >   This url uses the new npm fetcher and request a fixed version.
+> > > - git://github.com/savoirfairelinux/node-server-example.git;protocol=https
+> > >   This url uses the git fetcher. As the dependencies are managed by the NPM
+> > >   class, any fetcher can be used.
+> > > 
+> > > When this patchset will be merged, I have planned to update the NPM wiki:
+> > >  https://wiki.yoctoproject.org/wiki/TipsAndTricks/NPM
+> > > 
+> > > This patchset is also the base work for the full Angular support in Yocto that I
+> > > am preparing. These applications have a huge dependency tree which is ideal to
+> > > test the NPM support.
+> > > 
+> > > --- V2
+> > > 
+> > > - Add the 'check_network_access' function before each network access to check
+> > >   for 'BB_NO_NETWORK' and 'BB_ALLOWED_NETWORKS' variables.
+> > > 
+> > > - Add a 'recipetool.RecipetoolTests.test_recipetool_create_npm' test case for
+> > >   'oe-selftest' to test the npm recipe creation.
+> > > 
+> > > - Update the 'npm.bbclass' to fetch the dependencies in the 'do_fetch' task.
+> > >   The dependencies are cached in a npm cache stored in '${DL_DIR}/npm_cache'
+> > >   allowing the dependencies to be saved in the download directory and verify
+> > >   on insertion and extraction [1]:
+> > >      "All data that passes through the cache is fully verified
+> > >       for integrity on both insertion and extraction."
+> > > 
+> > > 1: https://docs.npmjs.com/cli/cache.html
+> > > 
+> > > --- V3
+> > > 
+> > > - Add a test regarding the 'devtool add' and 'devtool build' command:
+> > >     - devtool.DevtoolAddTests.test_devtool_add_npm
+> > > 
+> > > - Add the license management for dependencies.
+> > > 
+> > > - Split the npm workflow to use the bitbake default tasks (do_fetch, do_unpack,
+> > >   do_compile, do_install). Make sure that only the do_fetch task requires
+> > >   network access.
+> > > 
+> > > - Split the commits for better understanding.
+> > > 
+> > > - Force the rebuild of prebuild addons.
+> > > 
+> > > - Use ${nonarch_libdir} instead of ${libdir} in the do_install task.
+> > > 
+> > >  - These patches can be found here:
+> > >     - https://github.com/savoirfairelinux/openembedded-core/tree/npm-refactoring-v3
+> > >     - https://github.com/savoirfairelinux/poky/tree/npm-refactoring-v3
+> > > 
+> > > Jean-Marie LEMETAYER (17):
+> > >  devtool: npm: update command line options
+> > >  npm.bbclass: refactor the npm class
+> > >  recipetool/create_npm.py: refactor the npm recipe creation handler
+> > >  lib/oe/package.py: remove unneeded npm_split_package_dirs function
+> > >  devtool/standard.py: npm: update the append file
+> > >  recipetool/create.py: npm: remove the 'noverify' url parameter
+> > >  recipetool/create.py: npm: replace the 'latest' keyword
+> > >  npm.bbclass: split the do_compile task
+> > >  devtool/standard.py: npm: exclude the node_modules directory
+> > >  recipetool/create_npm.py: handle the licenses of the dependencies
+> > >  npm.bbclass: restrict the build to be offline
+> > >  npm.bbclass: use the local node headers
+> > >  recipetool/create_npm.py: convert the shrinkwrap file
+> > >  npm.bbclass: force to rebuild the prebuild addons
+> > >  devtool/standard.py: npm: configure the NPM_CACHE_DIR to be persistent
+> > >  oeqa/selftest/recipetool: add npm recipe creation test
+> > >  oeqa/selftest/devtool: add npm recipe build test
+> > > 
+> > > meta/classes/npm.bbclass                   | 224 +++++---
+> > > meta/lib/oe/package.py                     |  33 --
+> > > meta/lib/oeqa/selftest/cases/devtool.py    |  20 +
+> > > meta/lib/oeqa/selftest/cases/recipetool.py |  21 +
+> > > scripts/lib/devtool/standard.py            |  31 +-
+> > > scripts/lib/recipetool/create.py           |  16 +-
+> > > scripts/lib/recipetool/create_npm.py       | 565 +++++++++++----------
+> > > 7 files changed, 510 insertions(+), 400 deletions(-)
+> > > 
+> > > --
+> > > 2.20.1
+> > > 
+> > 
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
 
 
