@@ -1,50 +1,50 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E0FB7F7CC
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+	[209.85.166.175])
+	by mail.openembedded.org (Postfix) with ESMTP id A62F77C4DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 16:56:41 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id s3so4281377ioe.3
+	Thu, 21 Nov 2019 16:57:46 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id n18so3946686ilt.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 08:56:43 -0800 (PST)
+	Thu, 21 Nov 2019 08:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=1PjzOWPQ9f+xds8yzVspQfyoO4NgV44bNoofvLlPzZU=;
-	b=YAhXxPdhLaloiZtIrLbhkSBYvApzLABtI0IBOFKAdJ5KwbgCa0Rh/qlpKgamXsntBC
-	G/tGRF9rifWHNTfr9+lhmbdrjA6utWp2jvWcDqtpJC+woHcYtilNisSt/QsZPZ5WjgFB
-	+Hsxq5uiavV+cJj/FfqwZGMeflCcxO+Jfvx+G36zjynQi/pzYsvdZ94RHM1fbnSx/rlj
-	0Yw2IU5MJ8te0xavh8zM3hXV6L75tcrpA7rdddychAW7V+3piL3cdd4pLoAbAJgPpwB2
-	8/uS6divbmtK8iF5+HB9uIOiko+mWWShUyegrlkOc5Fz4HFNl62/VnV0hldg4GW/qobl
-	OhqQ==
+	bh=MIPzcrMNRTtJlisRIeud1EtFYzMnT5UiEBtR7OlC998=;
+	b=cjHfOHcGN0nVtNr0ku13kKfiyHxEzGkWtbyJwZD7hf1sz5N5YvTj7XNxrrIoXyZlNz
+	jpPVLjJtoDZbLGvFMWNrFM3chNUdUO2OphS5U5ze3KE/AdgP+pzaf4tuZZ2IENrs+u/K
+	eegS5lypkOVOtdA1+OwVjXQ2+vE5d00Twv4AWWtQ40tNAQW6XLIjFMM+wX6OUR15GFv5
+	UesPX90hHtBLxahlHiIAzGDDoLFNQdWRk27QM+pxeQEbkSNv+Ox0bhG5Etxutj/123ru
+	GDGo5VRwE6gVNWhpA+0DjUjkp9HvPOGah66eXklgpnbfIcFpyZHokYSyZnle6Ig7xlAE
+	2GjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=1PjzOWPQ9f+xds8yzVspQfyoO4NgV44bNoofvLlPzZU=;
-	b=eY1HfiJWo0uL9bATMP0k5krnWcnBNiec5r1RBEWfrl507iOQMy7MsGsG+HUq2mbjLA
-	feGnU8mXZga/0BD31A1fPLN4uwtTL9Y9qko4gyVFgkrsQwpg2eyr9sxy4NWe81+ZWDoo
-	DlxvvORL5hlQYLiDeG4XR9TjFZMHwe8Tu/aI/hymdchxgcwXwK+ssADKD2cWKvcvoHKp
-	LUrUJyTkswuIMTu2cJgrkLYIVAvWCBoDOe4MRWZHorsv8hinIjxos9wHgOnE4XWiD3Rx
-	iXr8t9n6p0SIFq2M/p6XX2CWMxcUKZz+C3Sc6U8jHp2eln3xD3qkztbHSFSQaEzdXY9b
-	eJxg==
-X-Gm-Message-State: APjAAAXJVG9hGLhn3017Qazzq1WDrvOaJPF21CywSVK5ZI6cRn2TqHs9
-	SEckJT9/kJsCWSN5Rrw31KSSjYZ6L8c=
-X-Google-Smtp-Source: APXvYqy48ZZSrctzEZDw9htu2EPuSEOPgteDxgF5w7nWE30LrHiazf4Jtw7QCWE4y5/1Xt58qShfgg==
-X-Received: by 2002:a5e:8e02:: with SMTP id a2mr8727341ion.269.1574355402074; 
-	Thu, 21 Nov 2019 08:56:42 -0800 (PST)
+	bh=MIPzcrMNRTtJlisRIeud1EtFYzMnT5UiEBtR7OlC998=;
+	b=ClnbA8xC2/i/XuirGoDjyD6HaRkXt86HYgKH7gzLxIRgWWTPDauArdho02jSqO5Rvv
+	WdHJM+pQ/dseShdrSZWcakAqAHjcTiH2NsIZF9kH7U5BCfq4hjCphDzJbymHMRbCdE0g
+	2bmrVCVpRh6rV/iqFFdzoWq3YAJk1ZQV02KRMTmYh+piH8jGGqrnQEhdhZW9MeczDNy0
+	TF8PWhi4KIFhE1om1XqU5nn+qKwe5E1Xgko0xrJVg3tdKRzTDBc/y/foE/EDT36vsU3c
+	lfna65SEVwTXkjAZaImxAO/pNXXDr5+TocFlfusOeCBcRVCAQ8CpYJu1wfmiyElrtQrH
+	16tA==
+X-Gm-Message-State: APjAAAUODVj92hEz2+0xoZU8wMM5fy+w9xhgZD7pqfgewnf4hq2azl/l
+	hDuh0Gm7W6WaxM0GRUIrthELwdqDf0U=
+X-Google-Smtp-Source: APXvYqxH413NdLkiyb4D6mk4gKVrFt4JK2R9bwmDQLwr4qcZaoUh44hE2zCR4whbSs/rmeBnWeERyQ==
+X-Received: by 2002:a92:6609:: with SMTP id a9mr11680525ilc.131.1574355467283; 
+	Thu, 21 Nov 2019 08:57:47 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id f2sm1086546iog.30.2019.11.21.08.56.41
+	by smtp.gmail.com with ESMTPSA id w85sm17661ili.44.2019.11.21.08.57.46
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 21 Nov 2019 08:56:41 -0800 (PST)
+	Thu, 21 Nov 2019 08:57:46 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2019 10:56:32 -0600
-Message-Id: <20191121165632.1219807-1-JPEWhacker@gmail.com>
+Date: Thu, 21 Nov 2019 10:57:42 -0600
+Message-Id: <20191121165742.1219887-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH] libjitterentropy: Upgrade 2.1.2 -> 2.2.0
+Subject: [PATCH] pango: Fix reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,161 +57,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 16:56:41 -0000
+X-List-Received-Date: Thu, 21 Nov 2019 16:57:46 -0000
 Content-Transfer-Encoding: 8bit
 
-Upstream has a patch that replaces "install -s" with an INSTALL_STRIP
-make variable, which can be used to replace the custom patch being
-carried.
-
-License checksum change was due to a date in the license text being
-updated. The actual contents are unchanged.
+Applies a patch to fix the build reproducibility of the -src package.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- ...akefile-cleanup-install-for-rebuilds.patch | 56 +++++++++++++++++++
- .../0001-fix-do_install-failure-on-oe.patch   | 33 -----------
- ...opy_2.1.2.bb => libjitterentropy_2.2.0.bb} | 12 ++--
- 3 files changed, 62 insertions(+), 39 deletions(-)
- create mode 100644 meta/recipes-support/libjitterentropy/files/0001-Makefile-cleanup-install-for-rebuilds.patch
- delete mode 100644 meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch
- rename meta/recipes-support/libjitterentropy/{libjitterentropy_2.1.2.bb => libjitterentropy_2.2.0.bb} (73%)
+ .../0001-Fix-build-reproducibility.patch      | 31 +++++++++++++++++++
+ meta/recipes-graphics/pango/pango_1.44.6.bb   |  3 +-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/pango/pango/0001-Fix-build-reproducibility.patch
 
-diff --git a/meta/recipes-support/libjitterentropy/files/0001-Makefile-cleanup-install-for-rebuilds.patch b/meta/recipes-support/libjitterentropy/files/0001-Makefile-cleanup-install-for-rebuilds.patch
+diff --git a/meta/recipes-graphics/pango/pango/0001-Fix-build-reproducibility.patch b/meta/recipes-graphics/pango/pango/0001-Fix-build-reproducibility.patch
 new file mode 100644
-index 00000000000..a19b2522935
+index 00000000000..03abf8763ce
 --- /dev/null
-+++ b/meta/recipes-support/libjitterentropy/files/0001-Makefile-cleanup-install-for-rebuilds.patch
-@@ -0,0 +1,56 @@
-+From 060b9b4147f6e5ff386a8b017796118d783e59fa Mon Sep 17 00:00:00 2001
-+From: Matt Weber <matthew.weber@rockwellcollins.com>
-+Date: Tue, 22 Oct 2019 12:44:30 -0500
-+Subject: [PATCH] Makefile: cleanup install for rebuilds
++++ b/meta/recipes-graphics/pango/pango/0001-Fix-build-reproducibility.patch
+@@ -0,0 +1,31 @@
++From f8b32901981a06a8db4169b82a704dcf7e8b6560 Mon Sep 17 00:00:00 2001
++From: Joshua Watt <JPEWhacker@gmail.com>
++Date: Wed, 20 Nov 2019 15:43:57 -0600
++Subject: [PATCH] Fix build reproducibility
 +
-+Support the ability to rebuild and redeploy without a clean. This
-+required some force linking and man archive creation.
++Changes the comment in pango-enum-types.c to reference the file basename
++instead of the full path. This ensures that the generated file is
++reproducible when it is included in source packages meant for debugging.
 +
-+Provide the ability to override the stripping of the shared lib for
-+cases where a embedded target build may want to control stripping
-+or provide cross arch tools.
-+
-+Upstream-Status: Accepted [060b9b4147f6e5ff386a8b017796118d783e59fa]
-+Signed-off-by: Matthew Weber <matthew.weber@rockwellcollins.com>
-+Signed-off-by: Stephan Mueller <smueller@chronox.de>
++Upstream-Status: Pending [https://gitlab.gnome.org/GNOME/pango/merge_requests/159]
 +Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 +---
-+ Makefile | 10 ++++++----
-+ 1 file changed, 6 insertions(+), 4 deletions(-)
++ pango/pango-enum-types.c.template | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Makefile b/Makefile
-+index 4ff069b..2e78607 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -14,6 +14,8 @@ LIBDIR := lib
-+ # include target directory
-+ INCDIR := include
++diff --git a/pango/pango-enum-types.c.template b/pango/pango-enum-types.c.template
++index d922c691..0d55ef74 100644
++--- a/pango/pango-enum-types.c.template
+++++ b/pango/pango-enum-types.c.template
++@@ -6,7 +6,7 @@
++ /*** END file-header ***/
 + 
-++INSTALL_STRIP ?= install -s
-++
-+ NAME := jitterentropy
-+ LIBMAJOR=$(shell cat jitterentropy-base.c | grep define | grep MAJVERSION | awk '{print $$3}')
-+ LIBMINOR=$(shell cat jitterentropy-base.c | grep define | grep MINVERSION | awk '{print $$3}')
-+@@ -58,15 +60,15 @@ cppcheck:
-+ install:
-+ 	install -d -m 0755 $(DESTDIR)$(PREFIX)/share/man/man3
-+ 	install -m 644 doc/$(NAME).3 $(DESTDIR)$(PREFIX)/share/man/man3/
-+-	gzip -9 $(DESTDIR)$(PREFIX)/share/man/man3/$(NAME).3
-++	gzip -f -9 $(DESTDIR)$(PREFIX)/share/man/man3/$(NAME).3
-+ 	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(LIBDIR)
-+-	install -m 0755 -s lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
-++	$(INSTALL_STRIP) -m 0755 lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
-+ 	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(INCDIR)
-+ 	install -m 0644 jitterentropy.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
-+ 	install -m 0644 jitterentropy-base-user.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
-+ 	$(RM) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so.$(LIBMAJOR)
-+-	ln -s lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so.$(LIBMAJOR)
-+-	ln -s lib$(NAME).so.$(LIBMAJOR) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so
-++	ln -sf lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so.$(LIBMAJOR)
-++	ln -sf lib$(NAME).so.$(LIBMAJOR) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so
++ /*** BEGIN file-production ***/
++-/* enumerations from "@filename@" */
+++/* enumerations from "@basename@" */
++ /*** END file-production ***/
 + 
-+ clean:
-+ 	@- $(RM) $(NAME)
++ /*** BEGIN value-header ***/
 +-- 
 +2.23.0
 +
-diff --git a/meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch b/meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch
-deleted file mode 100644
-index 30ff4feb6b7..00000000000
---- a/meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch
-+++ /dev/null
-@@ -1,33 +0,0 @@
--From 00cefca0eefecec657969b50cd4e1ed5b057a857 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Thu, 25 Oct 2018 16:30:06 +0800
--Subject: [PATCH] fix do_install failure on oe
--
--- Do not strip at do_install
--
--- Create includedir
--
--Upstream-Status: Pending
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- Makefile | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/Makefile b/Makefile
--index 5e31276..76fcbfa 100644
----- a/Makefile
--+++ b/Makefile
--@@ -51,7 +51,8 @@ install:
-- 	install -m 644 doc/$(NAME).3 $(DESTDIR)$(PREFIX)/share/man/man3/
-- 	gzip -9 $(DESTDIR)$(PREFIX)/share/man/man3/$(NAME).3
-- 	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(LIBDIR)
---	install -m 0755 -s lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
--+	install -m 0755 lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
--+	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(INCDIR)/
-- 	install -m 0644 jitterentropy.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
-- 	install -m 0644 jitterentropy-base-user.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
-- 	$(RM) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so.$(LIBMAJOR)
---- 
--2.7.4
--
-diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_2.2.0.bb
-similarity index 73%
-rename from meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb
-rename to meta/recipes-support/libjitterentropy/libjitterentropy_2.2.0.bb
-index 3b5b4e4aa04..db8d80e0edd 100644
---- a/meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb
-+++ b/meta/recipes-support/libjitterentropy/libjitterentropy_2.2.0.bb
-@@ -5,14 +5,13 @@ stamp. It is a small-scale, yet fast entropy source that is viable in almost \
- all environments and on a lot of CPU architectures."
- HOMEPAGE = "http://www.chronox.de/jent.html"
- LICENSE = "GPLv2+ | BSD"
--LIC_FILES_CHKSUM = "file://COPYING;md5=e52365752b36cfcd7f9601d80de7d8c6 \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a95aadbdfae7ed812bb2b7b86eb5981c \
-                     file://COPYING.gplv2;md5=eb723b61539feef013de476e68b5c50a \
-                     file://COPYING.bsd;md5=66a5cedaf62c4b2637025f049f9b826f \
--                   "
-+                    "
- SRC_URI = "git://github.com/smuellerDD/jitterentropy-library.git \
--           file://0001-fix-do_install-failure-on-oe.patch \
--          "
--SRCREV = "f5a80c6f3fcc6deebd0eabf75324f48aed1afbce"
-+           file://0001-Makefile-cleanup-install-for-rebuilds.patch"
-+SRCREV = "933a44f33ed3d6612f7cfaa7ad1207c8da4886ba"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-graphics/pango/pango_1.44.6.bb b/meta/recipes-graphics/pango/pango_1.44.6.bb
+index 8138ef72c16..c741d5836af 100644
+--- a/meta/recipes-graphics/pango/pango_1.44.6.bb
++++ b/meta/recipes-graphics/pango/pango_1.44.6.bb
+@@ -16,7 +16,8 @@ GNOMEBASEBUILDCLASS = "meson"
+ inherit gnomebase gtk-doc ptest-gnome upstream-version-is-even gobject-introspection
  
- do_configure[noexec] = "1"
-@@ -23,6 +22,7 @@ do_install () {
-     oe_runmake install INCDIR="/include" \
-                        DESTDIR="${D}" \
-                        PREFIX="${exec_prefix}" \
--                       LIBDIR="${baselib}"
-+                       LIBDIR="${baselib}" \
-+                       INSTALL_STRIP="install"
- }
+ SRC_URI += "file://run-ptest \
+-            file://0001-Skip-thai-break-tests-without-libthai.patch"
++            file://0001-Skip-thai-break-tests-without-libthai.patch \
++            file://0001-Fix-build-reproducibility.patch"
+ SRC_URI[archive.md5sum] = "db0a3243ba33e02aaa775412f8e5f412"
+ SRC_URI[archive.sha256sum] = "3e1e41ba838737e200611ff001e3b304c2ca4cdbba63d200a20db0b0ddc0f86c"
  
 -- 
 2.23.0
