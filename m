@@ -1,50 +1,50 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
-	[209.85.166.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D8127C4DB
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
+	[209.85.222.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 767527F9B2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 16:59:16 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id p6so4008506ilp.1
+	Thu, 21 Nov 2019 17:02:12 +0000 (UTC)
+Received: by mail-ua1-f66.google.com with SMTP id i31so1199802uae.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 08:59:18 -0800 (PST)
+	Thu, 21 Nov 2019 09:02:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=EltMBn2tPsr4xjiK3JCFKxyoGpru9sEQ7/ENvFZ2P/0=;
-	b=A+Ofk2jZUAPG+bVkvSFM8k0M4w4dBpHSNQaY1ru0iTGYoVBXmiNAPPFmkNwb7CgGI4
-	4EM93cPmDpx79r3fngT++cHydXYvyJH7xgTkXvVwsAxlno2ciuLO33NKMpM5iabkwU3w
-	Eq0biLYc0J0xCecdxTBL4qQnTEu9hzbYuJnkM+0e5eTE2m0T76BlGb+O3CLnHwEwR9KM
-	OCzDS57YoOfSwNJopwhKiG8vnOiAE9LC9j2XjB0wK43W3SzPG0hpVho74nRZrE0z/wdQ
-	nKV6Kx3QjCUO6PHObbaT1IsJsw/tK8CcSrC/RwvJaeeYiban1f6pmbTDG2hCbZOeGhm4
-	eNtg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=u8G6cQr++QCotFpo0K0VBWocw5ZfPi3M5O2edaIYYes=;
+	b=eGrMHmJB8U5i8j1VKoEWMNYieBcielFCyYPyCV8L8fmqxP4uLjCggKPp76O1gIMOxs
+	Ih7J85qPr45m55qIXphS/eOxLAvZp/rzeUU0qV2jppRGzoy2ON5fvu8KPUq4dJ3gV6fI
+	q1JTAvpg1fUqtC/5ueDczWVxW8RJWu/iBRLjpPz4MGiX1kK7IpijTddXdEMH5OFzC466
+	/W03ZlHjkjBX0SVUkwkmt/G+IXqjiRygrW0Z620PNUh8E4OJ27fPYb8EnWyrH1W36ruD
+	Bl53XLp5/PLOYEchHJJMHnBlkA9bRnLhKn8j0PcLIkwJXv/aT3yWbhGNcET9V/kRUpi7
+	VUUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=EltMBn2tPsr4xjiK3JCFKxyoGpru9sEQ7/ENvFZ2P/0=;
-	b=lhL9WhspmttCmmf5jYhRM4CP+p5HAMDbINa9GDzEuV61YaAWb+VeJH9gMTnSG8Usox
-	c7vjRqpO/iMQGtpMc6bQVpmcSfOVx4i9aGci6PFYYte/LFjRiv56YdWX4yJLJz/w1BJV
-	IRJ8T+ZXiVakhB7HAwBsPOh7wwWmBZVLLyO6GbNQDcpKhOBgMVpD7MB2epnZrUvdWJq0
-	O/rvldggMvUREDtxDb2nmVg1554oZFzvLwoSRaBle+jzqih9vmBDV84bXAHdm1O4BsDX
-	DhRF2fbVY96zNg6LTVC/3Pl7hJz07nLNq+irZV14vWzfLpUylPo3Q8l7gifKOOOz6ten
-	N0Hg==
-X-Gm-Message-State: APjAAAUHIkG/sUzObsNoGl98iQPJr0WWEB7VR/rpr93N2jFRfB+4ayoN
-	6yDm69qC6lqhfe1iJ3JjvqOFDISCpPA=
-X-Google-Smtp-Source: APXvYqwPBy+Bsrkyd2CU7n8v7jcfdnHGnfOxXQwONuIYZbWLG1+9kjzjrwKDzvv27WhgQYZlEr/VJg==
-X-Received: by 2002:a92:17ce:: with SMTP id 75mr11055949ilx.88.1574355557302; 
-	Thu, 21 Nov 2019 08:59:17 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id d8sm1365839ilr.82.2019.11.21.08.59.15
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 21 Nov 2019 08:59:16 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2019 10:59:11 -0600
-Message-Id: <20191121165911.1220156-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.23.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=u8G6cQr++QCotFpo0K0VBWocw5ZfPi3M5O2edaIYYes=;
+	b=OKSZ5snFeHYiXIZFhJgA4Mw77KZxtQ0C01gNEyrJHvufZFRIC7SHio19xAQo6pfaS3
+	3l1zPaDmYPQLafEMevqOzVYbcKXYCrCt/Ki5Qb0idKPimg+yWImKZdnWjyKV8OW9KqKH
+	ckjXTh8usrbXzw4owfkFACzqVxTns9VCS/JZcPBfmLocIlhIIItHb9dtoIkxsHbpnNFU
+	W70CWvlxDF/jg4sRnhp9/NwkAdTG/X70UyMY2vuqGhGMHBaM4neXulv9MI61do4CYEDL
+	tY8plXfhHqqDutYPmnkidQzHCOJNWGzlsUOOw745zmSCB46BAyeFotZscfjobLGT1sMb
+	6HPA==
+X-Gm-Message-State: APjAAAUzpniUtjr//xkcWCF4YdF61eZiHOgLFaVA2lJ3c7RuTGcuaNNL
+	AO0gC/fLxB3gs8nlWSdxWU+eze6mNV6djEGK//Y=
+X-Google-Smtp-Source: APXvYqwV0rXp3rNI2lUUcR32WT6jwAz7oxlGi/rwNfSiyZg2k0tzvfT4JSXp2iSK+kxdZgGXxUIz8Us+9bGmApkZT78=
+X-Received: by 2002:ab0:6545:: with SMTP id x5mr6528433uap.89.1574355733140;
+	Thu, 21 Nov 2019 09:02:13 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] classes/cmake: Use relative RPATHs
+References: <20191121150207.3657-1-richard.purdie@linuxfoundation.org>
+	<20191121150207.3657-3-richard.purdie@linuxfoundation.org>
+	<20191121155018.GB28013@localhost>
+	<ec0c2ab6397acc54c64cc4f8927eed97e82a9509.camel@linuxfoundation.org>
+In-Reply-To: <ec0c2ab6397acc54c64cc4f8927eed97e82a9509.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 21 Nov 2019 18:02:01 +0100
+Message-ID: <CANNYZj-7XGYwBGqM-Rq9Hh+E28ak9JF=ga1YrYifWSwLkzL-dg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH 3/3] sanity: Add check for tar older than 1.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 16:59:17 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Nov 2019 17:02:12 -0000
+Content-Type: multipart/alternative; boundary="000000000000395b370597de4207"
 
-In most cases, the RPATH is stripped out when the ELF file is packages,
-but by then the damage is done from a reproducible perspective because
-this absolute path is hashed as part of the build-id generated at link
-time ([1] has a good explanation). Fortunately, newer cmake has an
-option to generated relative RPATHs that use $ORIGIN to set the path, so
-set it in the toolchain file.
+--000000000000395b370597de4207
+Content-Type: text/plain; charset="UTF-8"
 
-[1]: https://gitlab.kitware.com/cmake/cmake/issues/18413
+On Thu, 21 Nov 2019 at 17:54, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/classes/cmake.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+>
+> Unfortunately a newer tar isn't in EPEL.
+>
+> I don't have a solution yet, I do know that silently creating empty
+> packages is much worst than telling a user something won't work though.
+>
+> Any suggestions on how we fix it?
+>
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 291f1e8d448..8ccb1eefc7d 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -120,6 +120,9 @@ set( ENV{QT_CONF_PATH} ${WORKDIR}/qt.conf )
- # directory as rpath by default
- set( CMAKE_INSTALL_RPATH ${OECMAKE_RPATH} )
- 
-+# Use RPATHs relative to build directory for reproducibility
-+set( CMAKE_BUILD_RPATH_USE_ORIGIN ON )
-+
- # Use our cmake modules
- list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
- 
--- 
-2.23.0
+ Centos 8 is now out, and it does have 1.30 version of tar, so maybe we
+should retire centos 7 from the autobuilder and update the list of
+supported distros?
 
+Alex
 
+--000000000000395b370597de4207
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"></div><div dir=3D"ltr"><div dir=3D"ltr">O=
+n Thu, 21 Nov 2019 at 17:54, Richard Purdie &lt;<a href=3D"mailto:richard.p=
+urdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation=
+.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><br>
+Unfortunately a newer tar isn&#39;t in EPEL.<br>
+<br>
+I don&#39;t have a solution yet, I do know that silently creating empty<br>
+packages is much worst than telling a user something won&#39;t work though.=
+<br>
+<br>
+Any suggestions on how we fix it?<br></blockquote><div><br></div><div>=C2=
+=A0Centos 8 is now out, and it does have 1.30 version of tar, so maybe we s=
+hould retire centos 7 from the autobuilder and update the list of supported=
+ distros?</div><div><br></div><div>Alex<br></div></div></div>
+</div>
+
+--000000000000395b370597de4207--
