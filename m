@@ -1,53 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E18577F8AA
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E0FB7F7CC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 16:54:16 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id t2so5341939wrr.1
+	Thu, 21 Nov 2019 16:56:41 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id s3so4281377ioe.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 08:54:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=tQBbOhEkDWj2KSSfEexNHbYdfx3ea99s1de+C2++GBs=;
-	b=OMrh1Q+n89pFa4fc7B50IGZybe4Q5MnYPr4LAcCwuCYfHtBRSBAszk1JIjlnN1r06z
-	4grdMAia6pWPduEFjEMYNbCKI1Tr+bgpPun90TK+58jlS3bI9vkcvuAvFDISC8RQiWCO
-	aGOa/AYPTuC7rBEXDCxV32pf+T95R3/19aJPY=
+	Thu, 21 Nov 2019 08:56:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1PjzOWPQ9f+xds8yzVspQfyoO4NgV44bNoofvLlPzZU=;
+	b=YAhXxPdhLaloiZtIrLbhkSBYvApzLABtI0IBOFKAdJ5KwbgCa0Rh/qlpKgamXsntBC
+	G/tGRF9rifWHNTfr9+lhmbdrjA6utWp2jvWcDqtpJC+woHcYtilNisSt/QsZPZ5WjgFB
+	+Hsxq5uiavV+cJj/FfqwZGMeflCcxO+Jfvx+G36zjynQi/pzYsvdZ94RHM1fbnSx/rlj
+	0Yw2IU5MJ8te0xavh8zM3hXV6L75tcrpA7rdddychAW7V+3piL3cdd4pLoAbAJgPpwB2
+	8/uS6divbmtK8iF5+HB9uIOiko+mWWShUyegrlkOc5Fz4HFNl62/VnV0hldg4GW/qobl
+	OhqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tQBbOhEkDWj2KSSfEexNHbYdfx3ea99s1de+C2++GBs=;
-	b=rSj6Ong0JMQykNj0t3ZPUXdY9/UoIUvyDjRgFR4G3BaBEHF3YSTQgOCezkPAmR95I7
-	r++iRVyWNESeWGdlQMLu1aenKAzqY348m4yiuwb3D6DrZOfIkW3MAiS8WwaX6bg5CgoW
-	h8QnnFg1RsgiX9WTzc9PPHIsAutT4WobnJz2V3UBIYcDURBk2Q/b6o2NY13O4ZNhAj/3
-	qFwpOYcUe0R5RWkWei5oy3LmdjMES5/Ka0cU6i2RrDTN48dkLyI/a2K4lFP+XqppzB7z
-	+W++kwvCNlzRg2d2vQC2muur9SozeNWwKkJ9DR1E6ZWUSHO1oVTf2UBVsID7CzoNnEJ2
-	FRLQ==
-X-Gm-Message-State: APjAAAWakDMHD+M4sC0A9QYXKR+8Q5z6rMP3+x7m9h16iU+Hl0a1Bvuy
-	ZeD/HfGiipZCPqTzUGQdN2aTpW9Pa6Y=
-X-Google-Smtp-Source: APXvYqz9xvZWu6pf73oBOZ6B6kb/58FJvMQodNhX53P3Cz3506RR1a2z5OnN25PR2hCx3W9SHwxcHQ==
-X-Received: by 2002:adf:d4d0:: with SMTP id w16mr12309320wrk.184.1574355257224;
-	Thu, 21 Nov 2019 08:54:17 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u18sm3986480wrp.14.2019.11.21.08.54.15
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1PjzOWPQ9f+xds8yzVspQfyoO4NgV44bNoofvLlPzZU=;
+	b=eY1HfiJWo0uL9bATMP0k5krnWcnBNiec5r1RBEWfrl507iOQMy7MsGsG+HUq2mbjLA
+	feGnU8mXZga/0BD31A1fPLN4uwtTL9Y9qko4gyVFgkrsQwpg2eyr9sxy4NWe81+ZWDoo
+	DlxvvORL5hlQYLiDeG4XR9TjFZMHwe8Tu/aI/hymdchxgcwXwK+ssADKD2cWKvcvoHKp
+	LUrUJyTkswuIMTu2cJgrkLYIVAvWCBoDOe4MRWZHorsv8hinIjxos9wHgOnE4XWiD3Rx
+	iXr8t9n6p0SIFq2M/p6XX2CWMxcUKZz+C3Sc6U8jHp2eln3xD3qkztbHSFSQaEzdXY9b
+	eJxg==
+X-Gm-Message-State: APjAAAXJVG9hGLhn3017Qazzq1WDrvOaJPF21CywSVK5ZI6cRn2TqHs9
+	SEckJT9/kJsCWSN5Rrw31KSSjYZ6L8c=
+X-Google-Smtp-Source: APXvYqy48ZZSrctzEZDw9htu2EPuSEOPgteDxgF5w7nWE30LrHiazf4Jtw7QCWE4y5/1Xt58qShfgg==
+X-Received: by 2002:a5e:8e02:: with SMTP id a2mr8727341ion.269.1574355402074; 
+	Thu, 21 Nov 2019 08:56:42 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id f2sm1086546iog.30.2019.11.21.08.56.41
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 21 Nov 2019 08:54:16 -0800 (PST)
-Message-ID: <ec0c2ab6397acc54c64cc4f8927eed97e82a9509.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Thu, 21 Nov 2019 16:54:12 +0000
-In-Reply-To: <20191121155018.GB28013@localhost>
-References: <20191121150207.3657-1-richard.purdie@linuxfoundation.org>
-	<20191121150207.3657-3-richard.purdie@linuxfoundation.org>
-	<20191121155018.GB28013@localhost>
-User-Agent: Evolution 3.34.1-2 
+	Thu, 21 Nov 2019 08:56:41 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Nov 2019 10:56:32 -0600
+Message-Id: <20191121165632.1219807-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] sanity: Add check for tar older than 1.28
+Subject: [PATCH] libjitterentropy: Upgrade 2.1.2 -> 2.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,50 +57,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 16:54:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Nov 2019 16:56:41 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-11-21 at 17:50 +0200, Adrian Bunk wrote:
-> On Thu, Nov 21, 2019 at 03:02:07PM +0000, Richard Purdie wrote:
-> > Older versions break opkg-build when reproducible builds are
-> > enabled.
-> > Rather than trying to be selective based on which features are
-> > enabled,
-> > lets just make this a minimum version.
-> > ...
-> > +    if LooseVersion(version) < LooseVersion("1.28"):
-> > +        return "Your version of tar is older than 1.28 and does
-> > not have the support needed to enable reproducible builds. Please
-> > install a newer version of tar.\n"
-> > ...
-> 
-> How does "Please install a newer version of tar" work in practice
-> on a supported host distribution like CentOS 7 ?
-> 
-> As user I would expect such things to just work when using
-> a distribution that is documented as supported.
+Upstream has a patch that replaces "install -s" with an INSTALL_STRIP
+make variable, which can be used to replace the custom patch being
+carried.
 
-We're going to have to solve this issue on our autobuilder. Centos7
-already causes problems and there is documetation in the manual about
-it:
+License checksum change was due to a date in the license text being
+updated. The actual contents are unchanged.
 
-https://www.yoctoproject.org/docs/3.0/ref-manual/ref-manual.html#centos-packages
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ ...akefile-cleanup-install-for-rebuilds.patch | 56 +++++++++++++++++++
+ .../0001-fix-do_install-failure-on-oe.patch   | 33 -----------
+ ...opy_2.1.2.bb => libjitterentropy_2.2.0.bb} | 12 ++--
+ 3 files changed, 62 insertions(+), 39 deletions(-)
+ create mode 100644 meta/recipes-support/libjitterentropy/files/0001-Makefile-cleanup-install-for-rebuilds.patch
+ delete mode 100644 meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch
+ rename meta/recipes-support/libjitterentropy/{libjitterentropy_2.1.2.bb => libjitterentropy_2.2.0.bb} (73%)
 
-(and the need to use EPEL)
-
-Unfortunately a newer tar isn't in EPEL.
-
-I don't have a solution yet, I do know that silently creating empty
-packages is much worst than telling a user something won't work though.
-
-Any suggestions on how we fix it?
-
-(We could make opkg-utils-native depend on tar-native but for most
-people that isn't necessary so it seems a shame).
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/libjitterentropy/files/0001-Makefile-cleanup-install-for-rebuilds.patch b/meta/recipes-support/libjitterentropy/files/0001-Makefile-cleanup-install-for-rebuilds.patch
+new file mode 100644
+index 00000000000..a19b2522935
+--- /dev/null
++++ b/meta/recipes-support/libjitterentropy/files/0001-Makefile-cleanup-install-for-rebuilds.patch
+@@ -0,0 +1,56 @@
++From 060b9b4147f6e5ff386a8b017796118d783e59fa Mon Sep 17 00:00:00 2001
++From: Matt Weber <matthew.weber@rockwellcollins.com>
++Date: Tue, 22 Oct 2019 12:44:30 -0500
++Subject: [PATCH] Makefile: cleanup install for rebuilds
++
++Support the ability to rebuild and redeploy without a clean. This
++required some force linking and man archive creation.
++
++Provide the ability to override the stripping of the shared lib for
++cases where a embedded target build may want to control stripping
++or provide cross arch tools.
++
++Upstream-Status: Accepted [060b9b4147f6e5ff386a8b017796118d783e59fa]
++Signed-off-by: Matthew Weber <matthew.weber@rockwellcollins.com>
++Signed-off-by: Stephan Mueller <smueller@chronox.de>
++Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
++---
++ Makefile | 10 ++++++----
++ 1 file changed, 6 insertions(+), 4 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index 4ff069b..2e78607 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -14,6 +14,8 @@ LIBDIR := lib
++ # include target directory
++ INCDIR := include
++ 
+++INSTALL_STRIP ?= install -s
+++
++ NAME := jitterentropy
++ LIBMAJOR=$(shell cat jitterentropy-base.c | grep define | grep MAJVERSION | awk '{print $$3}')
++ LIBMINOR=$(shell cat jitterentropy-base.c | grep define | grep MINVERSION | awk '{print $$3}')
++@@ -58,15 +60,15 @@ cppcheck:
++ install:
++ 	install -d -m 0755 $(DESTDIR)$(PREFIX)/share/man/man3
++ 	install -m 644 doc/$(NAME).3 $(DESTDIR)$(PREFIX)/share/man/man3/
++-	gzip -9 $(DESTDIR)$(PREFIX)/share/man/man3/$(NAME).3
+++	gzip -f -9 $(DESTDIR)$(PREFIX)/share/man/man3/$(NAME).3
++ 	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(LIBDIR)
++-	install -m 0755 -s lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
+++	$(INSTALL_STRIP) -m 0755 lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
++ 	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(INCDIR)
++ 	install -m 0644 jitterentropy.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
++ 	install -m 0644 jitterentropy-base-user.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
++ 	$(RM) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so.$(LIBMAJOR)
++-	ln -s lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so.$(LIBMAJOR)
++-	ln -s lib$(NAME).so.$(LIBMAJOR) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so
+++	ln -sf lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so.$(LIBMAJOR)
+++	ln -sf lib$(NAME).so.$(LIBMAJOR) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so
++ 
++ clean:
++ 	@- $(RM) $(NAME)
++-- 
++2.23.0
++
+diff --git a/meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch b/meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch
+deleted file mode 100644
+index 30ff4feb6b7..00000000000
+--- a/meta/recipes-support/libjitterentropy/files/0001-fix-do_install-failure-on-oe.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 00cefca0eefecec657969b50cd4e1ed5b057a857 Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Thu, 25 Oct 2018 16:30:06 +0800
+-Subject: [PATCH] fix do_install failure on oe
+-
+-- Do not strip at do_install
+-
+-- Create includedir
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- Makefile | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 5e31276..76fcbfa 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -51,7 +51,8 @@ install:
+- 	install -m 644 doc/$(NAME).3 $(DESTDIR)$(PREFIX)/share/man/man3/
+- 	gzip -9 $(DESTDIR)$(PREFIX)/share/man/man3/$(NAME).3
+- 	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(LIBDIR)
+--	install -m 0755 -s lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
+-+	install -m 0755 lib$(NAME).so.$(LIBVERSION) $(DESTDIR)$(PREFIX)/$(LIBDIR)/
+-+	install -d -m 0755 $(DESTDIR)$(PREFIX)/$(INCDIR)/
+- 	install -m 0644 jitterentropy.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
+- 	install -m 0644 jitterentropy-base-user.h $(DESTDIR)$(PREFIX)/$(INCDIR)/
+- 	$(RM) $(DESTDIR)$(PREFIX)/$(LIBDIR)/lib$(NAME).so.$(LIBMAJOR)
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb b/meta/recipes-support/libjitterentropy/libjitterentropy_2.2.0.bb
+similarity index 73%
+rename from meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb
+rename to meta/recipes-support/libjitterentropy/libjitterentropy_2.2.0.bb
+index 3b5b4e4aa04..db8d80e0edd 100644
+--- a/meta/recipes-support/libjitterentropy/libjitterentropy_2.1.2.bb
++++ b/meta/recipes-support/libjitterentropy/libjitterentropy_2.2.0.bb
+@@ -5,14 +5,13 @@ stamp. It is a small-scale, yet fast entropy source that is viable in almost \
+ all environments and on a lot of CPU architectures."
+ HOMEPAGE = "http://www.chronox.de/jent.html"
+ LICENSE = "GPLv2+ | BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=e52365752b36cfcd7f9601d80de7d8c6 \
++LIC_FILES_CHKSUM = "file://COPYING;md5=a95aadbdfae7ed812bb2b7b86eb5981c \
+                     file://COPYING.gplv2;md5=eb723b61539feef013de476e68b5c50a \
+                     file://COPYING.bsd;md5=66a5cedaf62c4b2637025f049f9b826f \
+-                   "
++                    "
+ SRC_URI = "git://github.com/smuellerDD/jitterentropy-library.git \
+-           file://0001-fix-do_install-failure-on-oe.patch \
+-          "
+-SRCREV = "f5a80c6f3fcc6deebd0eabf75324f48aed1afbce"
++           file://0001-Makefile-cleanup-install-for-rebuilds.patch"
++SRCREV = "933a44f33ed3d6612f7cfaa7ad1207c8da4886ba"
+ S = "${WORKDIR}/git"
+ 
+ do_configure[noexec] = "1"
+@@ -23,6 +22,7 @@ do_install () {
+     oe_runmake install INCDIR="/include" \
+                        DESTDIR="${D}" \
+                        PREFIX="${exec_prefix}" \
+-                       LIBDIR="${baselib}"
++                       LIBDIR="${baselib}" \
++                       INSTALL_STRIP="install"
+ }
+ 
+-- 
+2.23.0
 
 
