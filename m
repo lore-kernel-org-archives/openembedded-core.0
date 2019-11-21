@@ -1,56 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DB3B7F7C8
+Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C9527FA29
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 19:33:09 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id l1so5046588wme.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 11:33:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=OK5p1zWIPI7JiffnBbtT3dzQsL1AzAzQE9p/hOvLtpk=;
-	b=WbyhdZlm+oZl1LuSxueFGMKEaCUCytIDv4twdX0QUp5BQF+eCAmvV4tUSxjoGSLquC
-	6fJa/tpt9lBTsyXS71GDtqQLXg/IrkX86v6XVFHR/m+I9R+AUshJ/rD2ajZMnmXqoOPd
-	Fi+FBQ23GnEdqPvJyRu/9x+9WoRS3nJQP7Ea8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=OK5p1zWIPI7JiffnBbtT3dzQsL1AzAzQE9p/hOvLtpk=;
-	b=oe8dBIrxvSB8/nlA9LU5IJSmUiW6HRlsmZS96u3gCOlKeidztxc3DXWOdLtxti6LwK
-	uOmAAvH9VigaMIB1Ck62we+6M+0QVS63fhiYQcrAqJ2XUT0uy6V39PB5doz2dbkDxogu
-	0TkG5NB/pdwCHWyOucngRHuF0+MUCJlA15uEvXzp9YukoEjKX1gMP1X8MxbFdFg8J0UM
-	iCfMQUZ534t6MjRp59xyJOwtEY43RlBfrmFb6sK0e67cAZCj8h78kQcD4xfYqHzlnWFO
-	5v89VxW+QN3cZc67T7NiCaPKTNShc/O9Qh8bD3zGIspu7ak6FMAKSUxmt91lH6jUuZIX
-	cL5A==
-X-Gm-Message-State: APjAAAVKpeZynLgjgjdkpZbisqQnjlbsnUF6ZQJqMAx/Y6TlHuMLYdHg
-	8XYhRYSnS/3krU8THDmzTFe8HEFN93E=
-X-Google-Smtp-Source: APXvYqyRB68COnOeX6Ut0FIlw/iKU0dPuRftTrXIRgdSui73MNo9atIFS5kq7A6cDKbDoi/l+cL9ug==
-X-Received: by 2002:a7b:c4c8:: with SMTP id g8mr11467206wmk.36.1574364790225; 
-	Thu, 21 Nov 2019 11:33:10 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 65sm4700771wrs.9.2019.11.21.11.33.09
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 21 Nov 2019 11:33:09 -0800 (PST)
-Message-ID: <a41449c79577ce3dd1442d8c4cdefcc04bb74f05.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>, Adrian Bunk <bunk@stusta.de>
-Date: Thu, 21 Nov 2019 19:33:08 +0000
-In-Reply-To: <38e95272-cef4-e80a-456d-eb365a81e393@kernel.crashing.org>
-References: <20191121150207.3657-1-richard.purdie@linuxfoundation.org>
-	<20191121150207.3657-3-richard.purdie@linuxfoundation.org>
-	<20191121155018.GB28013@localhost>
-	<ec0c2ab6397acc54c64cc4f8927eed97e82a9509.camel@linuxfoundation.org>
-	<20191121170948.GC28013@localhost>
-	<0f2a46118e8847a3a785a2ab50999ecc22ec205f.camel@linuxfoundation.org>
-	<38e95272-cef4-e80a-456d-eb365a81e393@kernel.crashing.org>
-User-Agent: Evolution 3.34.1-2 
+	Thu, 21 Nov 2019 19:53:50 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id A5A329C030D;
+	Thu, 21 Nov 2019 14:53:50 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id t3LH0h0_PIBx; Thu, 21 Nov 2019 14:53:49 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 996929C0394;
+	Thu, 21 Nov 2019 14:53:49 -0500 (EST)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id 4c-33-8-xpBn; Thu, 21 Nov 2019 14:53:49 -0500 (EST)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 5FCA89C030D;
+	Thu, 21 Nov 2019 14:53:49 -0500 (EST)
+Date: Thu, 21 Nov 2019 14:53:48 -0500 (EST)
+From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <531618732.621500.1574366028835.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <b3ae667e644cf4b81c096562965268dbe5596065.camel@linuxfoundation.org>
+References: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<b3ae667e644cf4b81c096562965268dbe5596065.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] sanity: Add check for tar older than 1.28
+X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC78 (Win)/8.8.11_GA_3737)
+Thread-Topic: NPM refactoring
+Thread-Index: cP+APhlom4Gms0fyDObdSuQmmYQCbg==
+Cc: Jonas Andersson <jonaskgandersson@gmail.com>,
+	paul eggleton <paul.eggleton@linux.intel.com>,
+	Savoir-faire Linux Rennes <rennes@savoirfairelinux.com>,
+	OE-core <openembedded-core@lists.openembedded.org>, bunk <bunk@stusta.de>
+Subject: Re: [PATCH v3 00/17] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,64 +51,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 19:33:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 21 Nov 2019 19:53:50 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-11-21 at 13:14 -0600, Mark Hatle wrote:
-> On 11/21/19 12:09 PM, Richard Purdie wrote:
-> > On Thu, 2019-11-21 at 19:09 +0200, Adrian Bunk wrote:
-> > > On Thu, Nov 21, 2019 at 04:54:12PM +0000, Richard Purdie wrote:
-> > > > Any suggestions on how we fix it?
-> > > 
-> > > My preferred solution would be to replace CentOS 7 with CentOS 8
-> > > as supported distribution, which would also allow to drop hacks
-> > > for two major releases of gcc in various places.
-> > 
-> > We are working towards that, equally the older version support is
-> > useful to a significant portion of our userbase so its a balancing
-> > act.
+
+
+Hi Richard,
+
+On Nov 21, 2019, at 7:26 PM, Richard Purdie richard.purdie@linuxfoundation.org wrote:
+> On Wed, 2019-11-20 at 10:33 +0100, Jean-Marie LEMETAYER wrote:
+>> The current NPM support have several issues:
+>>  - The current NPM fetcher downloads the dependency tree but not the other
+>>    fetchers. The 'subdir' parameter was used to fix this issue.
+>>  - They are multiple issues with package names (uppercase, exotic characters,
+>>    scoped packages) even if they are inside the dependencies.
+>>  - The lockdown file generation have issues. When a package depends on
+>>    multiple version of the same package (all versions have the same checksum).
+>> 
+>> This patchset refactors the NPM support in Yocto:
+>>  - As the NPM algorithm for dependency management is hard to handle, the new
+>>    NPM fetcher downloads only the package source (and not the dependencies,
+>>    like the other fetchers) (patch submitted in the bitbake-devel list).
 > 
-> RHEL 7 is still heavily used.  But if we can provide a buildtools-
-> tarball that includes a new enough tar, that should be able to
-> workaround the issue.
+> I'm a little confused by this item.
+> 
+> If the NPM fetcher only downloads a given package's source and it has
+> dependencies, where/when are the dependencies downloaded?
+> 
+> My worry here is that if the fetcher isn't downloading them, DL_DIR
+> can't contain all the needed pieces needed to reproduce a build at a
+> later date?
+> 
+> I suspect I'm missing something obvious...
 
-After some discussion, this is the direction we've gone. Debian 8 also
-has the issue. On the autobuilder we've installed buildtools-tarball on
-that and the Centos7 workers.
+The magic is in the bbclass, in the do_fetch_append() function:
+https://github.com/savoirfairelinux/poky/blob/npm-refactoring-v3/meta/classes/npm.bbclass#L51
 
-> > > If all other supported distribution already ship 1.28 this would
-> > > solve your problem.
-> > 
-> > I believe that is now the case, yes.
-> > 
-> > > > (We could make opkg-utils-native depend on tar-native but for
-> > > > most
-> > > > people that isn't necessary so it seems a shame).
-> > > 
-> > > Building tar-native is not something that would strike me as 
-> > > problematic.
-> > 
-> > Its an extra build dependency and extra build time, just
-> > complicates
-> > things. "tar-native" is in ASSUME_PROVIDED and gives bootstrap
-> > issues
-> > although we have the "tar-replacement-native" mechanism to account
-> > for
-> > this already. So possible but not entirely straightforward.
+Which calls:
+https://github.com/savoirfairelinux/poky/blob/npm-refactoring-v3/bitbake/lib/bb/fetch2/npm.py#L312
 
-For fun I tried this. It exploded in circular dependency problems :(.
-
-> Requiring a newer version, and suggesting to the user to use a
-> buildtools-tarball (SDK) I think is a reasonable compromise.
-
-Agreed, we reached the same conclusion. I'll tweak the patch to improve
-the error message to the user.
-
-Cheers,
-
-Richard
+Which runs the npm fetcher for each dependencies described in the
+shrinkwrap file. This is the same behavior for the do_unpack task.
 
 
+To be more clear, a recipe like this:
 
+```
+SRC_URI = "npm://registry.npmjs.org/;name=my-package;version=1.0.0"
+S = "${WORKDIR}/npm"
+```
+
+Will only fetch/unpack the package source without handling the
+dependencies.
+
+But a recipe like this:
+
+```
+SRC_URI = "npm://registry.npmjs.org/;name=my-package;version=1.0.0"
+S = "${WORKDIR}/npm"
+
+NPM_SHRINKWRAP = "${THISDIR}/${BPN}/npm-shrinkwrap.json"
+inherit npm
+```
+
+Will fetch/unpack the package and all the dependencies which are
+described in the shrinkwrap file.
+
+
+Bonus tips: you can have your base package SRC_URI using another
+fetcher than npm (e.g. git) without breaking anything. The behavior
+will still be the same.
+
+
+Best regards,
+Jean-Marie
 
