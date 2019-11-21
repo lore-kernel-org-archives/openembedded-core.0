@@ -1,45 +1,55 @@
-Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F19975E80
+Return-Path: <nicolas.dechesne@linaro.org>
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+	[209.85.208.174])
+	by mail.openembedded.org (Postfix) with ESMTP id C5AEC6BDE3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 13:21:57 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id A11AD9C01AD;
-	Thu, 21 Nov 2019 08:21:58 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id EXh2zZ191oU5; Thu, 21 Nov 2019 08:21:57 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 680139C02B1;
-	Thu, 21 Nov 2019 08:21:57 -0500 (EST)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id RyPbcYf8DQsA; Thu, 21 Nov 2019 08:21:57 -0500 (EST)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[192.168.48.237])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3BC319C01AD;
-	Thu, 21 Nov 2019 08:21:57 -0500 (EST)
-Date: Thu, 21 Nov 2019 08:21:57 -0500 (EST)
-From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
-To: Tim Orling <timothy.t.orling@linux.intel.com>
-Message-ID: <1501877168.602363.1574342517198.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <315444F4-D824-4698-B0EB-B20309CD6809@linux.intel.com>
-References: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
-	<549C1F29-84E4-43A3-9DD2-FBED13A92C37@linux.intel.com>
-	<315444F4-D824-4698-B0EB-B20309CD6809@linux.intel.com>
+	Thu, 21 Nov 2019 13:39:10 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id t5so3299036ljk.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 21 Nov 2019 05:39:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=sc2wa9lHswfCToTfCYGX1EwlYXmlYOm8U5wgmxS8M38=;
+	b=EmGhuXnPvPvxbvprO9WdCRFASUHGboVpMAD49Me8vCZsmn+gVe7q/SqAVPepFWqGXt
+	xRPqdLZR499VDLke+Nk1fJZQjq+Ck0rAX+G1gK9DmoyyMusNaGconixGQzM71HytHd+i
+	w8urnIpOrF7y75JDiPUK+n2IUETxQHtZHscNGt3RSfnBsE0KFou5zGmRKNGEmKw5NiEJ
+	30m1jwQ75q3a2tecynurRnFmdxNMKAyOkCLMc/JguNoandjFGSLWSI1cC/ObajesBBpl
+	4yZYDeRtZyW2CR9+hk4h2H2KrBfEaBQqyNOqZ+GRaIeVDm0Km0zhdQSeK+Sq73xDqqQH
+	50aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=sc2wa9lHswfCToTfCYGX1EwlYXmlYOm8U5wgmxS8M38=;
+	b=kyIi3spbyO6XsJWjL/adgq04ku6G+5OSF7XdznF9UKLQ8+9+w7egvjPjZ3Ze9x6W4y
+	g8zbR6Ks4YaoP+7lhXhjn736XHgM0rdSQXuuxcwTz3qS8ZB+uwYmOqlwTlGcFvy8aZLh
+	A7IFxcQ0j90QVIkgoivaKgsHDXdkujLK3cqpPo+4Wcvu2wmLtut8WmjZbR6e2aL20zQG
+	L+g9yXSutT0kdCGhtX8pLW/jekZuzAa78oqCQU5riTn8XMp8mYRm6nqYRRs/kbji5vX5
+	c5IOG6z/9AK8/H/Pr6aMJelg/49I4kwolRUtjDG/TMC+JLIs+7+kYw3R2AHfpIqAq032
+	cFng==
+X-Gm-Message-State: APjAAAWijgGL8mO3ZHEpa0dmiR3K9t+6QyyvR3dVth76onDgb1nH5EZL
+	bXUK/8204SOUiGxwFJ1oVWt9QJ6fzoFDS9o5EGU5Qw==
+X-Google-Smtp-Source: APXvYqxF9GDLvktNP6R4T5xrryszpewwXygKlF3QN8Ii9XJjjJQAA4Hu9fjkjrfe1zfWzBbW0SrhbGf8XlLM3bisCME=
+X-Received: by 2002:a2e:898a:: with SMTP id c10mr7521481lji.177.1574343551113; 
+	Thu, 21 Nov 2019 05:39:11 -0800 (PST)
 MIME-Version: 1.0
-X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC78 (Linux)/8.8.11_GA_3737)
-Thread-Topic: NPM refactoring
-Thread-Index: 2j77hP2Hrpo8IAbjyI+T1+eYEkn2HQ==
-Cc: paul eggleton <paul.eggleton@linux.intel.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Savoir-faire Linux Rennes <rennes@savoirfairelinux.com>,
-	bunk@stusta.de, Jonas Andersson <jonaskgandersson@gmail.com>
-Subject: Re: [PATCH v3 00/17] NPM refactoring
+References: <CAD0U-hKudOEYkkPQQ1He3=Cg1hLqT7u5Uhsn_e2ZK0vGmo+z3w@mail.gmail.com>
+	<5c9cb09a-e0b3-f43b-36cd-bc9a7df2dd6c@kernel.crashing.org>
+	<CAD0U-hLzTxYw3F-tPbj5m1+iqW+2PZcU5n4bE1sxL9KxGmuVUw@mail.gmail.com>
+	<31b224ae-8e1a-943c-0554-684557ef33bc@kernel.crashing.org>
+	<CAD0U-hKMtXR+tvpS45D9=+XqaZVZBs7jMm9U3Vk7r+mJuVW5-A@mail.gmail.com>
+	<CAD0U-hJ96imEfDwAyMQyjvABmaNYxEexQWNvpHJr+wsNzpGSbw@mail.gmail.com>
+	<CAJ86T=Ucx125+XdRrpnh64km1WypAyyc1fUN5pWbjXzmUSXu3g@mail.gmail.com>
+	<CAD0U-h+RGNRr2omcsCdKkD7qsnbQiGqW3MzGc93ZtgmVXEagLA@mail.gmail.com>
+In-Reply-To: <CAD0U-h+RGNRr2omcsCdKkD7qsnbQiGqW3MzGc93ZtgmVXEagLA@mail.gmail.com>
+From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
+Date: Thu, 21 Nov 2019 14:38:58 +0100
+Message-ID: <CAP71WjyEBYf-XaaMGceZ_+78=vJKGT6=n_3HnRk_OXkZEBm8UQ@mail.gmail.com>
+To: Ryan Harkin <ryan.harkin@linaro.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: How to backport openssl to Sumo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,102 +62,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 13:21:58 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 21 Nov 2019 13:39:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Tim,
+On Thu, Nov 21, 2019 at 2:15 PM Ryan Harkin <ryan.harkin@linaro.org> wrote:
+>
+>
+>
+> On Wed, 20 Nov 2019 at 23:53, Andre McCurdy <armccurdy@gmail.com> wrote:
+>>
+>> On Wed, Nov 20, 2019 at 2:41 PM Ryan Harkin <ryan.harkin@linaro.org> wro=
+te:
+>> > On Wed, 20 Nov 2019 at 21:29, Ryan Harkin <ryan.harkin@linaro.org> wro=
+te:
+>> >>
+>> >> I pulled the whole openssl dir from your repo, added the layer.conf c=
+hanges to my layer.conf and rebuilt openssl and my image.
+>> >>
+>> >> Unfortunately, I still have no /usr/bin/openssl in my disk image. So =
+I've added the RPROVIDES from Andre's in a vain attempt to get it to work:
+>> >>
+>> >> RPROVIDES_${PN} +=3D "openssl-bin"
+>> >>
+>> >> ... although I'm not hopeful it'll do the trick...
+>> >
+>> > It didn't work. Once thing that's puzzling me: where is the package "o=
+penssl-bin"? I can only find references to it, but no package.
+>>
+>> The "openssl-bin" package is created by the openssl 1.1.x recipe.
+>>
+>> Adding "openssl-bin" to RPROVIDES in the openssl 1.0.2 recipe is a
+>> solution for users who are switching from openssl 1.1.x back to 1.0.2
+>> and have an image which is tries to include the new openssl-bin
+>> package. I don't think that's what you are trying to do (?).
+>
+>
+> Correct. I only tried it because the 1.0.2t recipe wasn't working.
+>
+> To be clear - I have /usr/bin/openssl in my image when using 1.0.2p from =
+the Poky Sumo branch. When I add the 1.0.2t recipe to my own layer, openssl=
+ builds without errors, but I don't get the binary.
+>
+>>
+>> If you are using openssl 1.0.2 then the openssl command line tool is
+>> in the openssl package... so to include the openssl command line tool,
+>> add the "openssl" package to your image.
+>>
+>> If you are using openssl 1.1.x then the openssl command line tool is
+>> in the openssl-bin package... so to include the openssl command line
+>> tool, add the "openssl-bin" package to your image.
+>>
+>> But anyway, in all cases, the way to debug what's going on isn't to
+>> try random recipe changes and then rebuild the final image. Instead
+>> you should build your chosen version of openssl, look in the
+>> packages-split directory to see which package includes the openssl
+>> command line tool and then add that package to your image.
+>
+>
+> I don't have a packages-split. I was unaware of it, and reading the manua=
+l, it seems I should have one. But I don't. Running 'bitbake -e openssl | g=
+rep "PKGDEST=3D"' tells me I should have one, but there are no instances in=
+ a directory called "packages-split" in my tmp dir.
 
-On Nov 21, 2019, at 7:36 AM, Tim Orling timothy.t.orling@linux.intel.com wr=
-ote:
->> On Nov 20, 2019, at 10:27 PM, Tim Orling <timothy.t.orling@linux.intel.c=
-om>
->> wrote:
->>> On Nov 20, 2019, at 1:33 AM, Jean-Marie LEMETAYER
->>> <jean-marie.lemetayer@savoirfairelinux.com
->>> <mailto:jean-marie.lemetayer@savoirfairelinux.com>> wrote:
->>>=20
->>> The test steps are these ones:
->>>  $ source poky/oe-init-build-env
->>>  $ bitbake-layers add-layer ../meta-openembedded/meta-oe
->>>  $ devtool add
->>>  "npm://registry.npmjs.org;name=3D@savoirfairelinux/node-server-example=
-;version=3Dlatest
->>>  <npm://registry.npmjs.org%3Bname%3D@savoirfairelinux/node-server-examp=
-le;version=3Dlatest>=E2=80=9D
->>=20
->> I noticed this before but forgot to report it:
->>=20
->> ERROR: Nothing PROVIDES 'c-ares-native' (but
->> virtual:native:/build/meta-openembedded/meta-oe/recipes-devtools/nodejs/=
-nodejs_10.17.0.bb
->> DEPENDS on or otherwise requires it). ...
->> http://layers.openembedded.org/layerindex/recipe/50318/
->> <http://layers.openembedded.org/layerindex/recipe/50318/>
->> $ bitbake-layers add-layer ../meta-openembedded/meta-networking
->> Which requires
->> $ bitbake-layers add-layer ../meta-openembedded/meta-python
->>=20
->>=20
->> Using tip of bitbake with V3, openembedded-core with V3 and meta-openemb=
-edded
->> master, somehow nodejs-native do_compile broke (at least on qemux86-64) =
-since
->> the last time I built it shortly after ELC-E=E2=80=A6
->> So now I=E2=80=99ll have to git bisect that=E2=80=A6more to come=E2=80=
-=A6
->=20
-> See https://errors.yoctoproject.org/Errors/Details/274939/
-> <https://errors.yoctoproject.org/Errors/Details/274939/>
-> The same error I am seeing.
->=20
->>=20
->> FWIW I had previously successfully run your instructions and the tests f=
-or both
->> bitbake and oe-selftest for V2 (distroless, e.g. not with poky). Somethi=
-ng
->> unrelated has broken I suspect.
+most likely because you are using rm_work.
 
-Thanks for your feedback.
-
-Since ELCE the nodejs recipe have received some patches including this one:
-http://lists.openembedded.org/pipermail/openembedded-devel/2019-October/202=
-636.html
-
-And was updated to 10.17.0:
-http://lists.openembedded.org/pipermail/openembedded-devel/2019-October/202=
-639.html
-
-But since it is concerning the nodejs recipe and not the npm fetcher/class
-do you think it should block the patchset ?
-
->>>  $ devtool build savoirfairelinux-node-server-example
->>>  $ bitbake-layers create-layer ../meta-test
->>>  $ bitbake-layers add-layer ../meta-test
->>>  $ devtool finish savoirfairelinux-node-server-example ../meta-test
->>>  $ echo IMAGE_INSTALL_append =3D '" savoirfairelinux-node-server-exampl=
-e"' >>
->>>  conf/local.conf
->>>  $ bitbake core-image-minimal
->>>=20
->>> --- V2
->>>=20
->>> - Add a 'recipetool.RecipetoolTests.test_recipetool_create_npm' test ca=
-se for
->>>   'oe-selftest' to test the npm recipe creation.
->>>=20
->>> --- V3
->>>=20
->>> - Add a test regarding the 'devtool add' and 'devtool build' command:
->>>     - devtool.DevtoolAddTests.test_devtool_add_npm
-
-I had a lot of requests about tests. What do you think about these ?
-FYI some fetcher tests have also been posted in the bitbake mailing list.
-
-Regards,
-Jean-Marie
-
-
-
-
+>
+> Anyway, I'm giving up for now. I'll come back to another time... or more =
+likely, get someone smarter than me to sort it out ;-)
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
