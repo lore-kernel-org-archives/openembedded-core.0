@@ -1,26 +1,46 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E45A7F9B4
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
+	[209.85.222.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C2B97F9A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 17:43:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xALHhMKU006833
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 21 Nov 2019 17:53:05 +0000 (UTC)
+Received: by mail-ua1-f46.google.com with SMTP id z9so1282253uan.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 09:43:22 -0800
-Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 21 Nov 2019 09:43:20 -0800
-From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 21 Nov 2019 12:43:18 -0500
-Message-ID: <20191121174318.4512-2-Trevor.Gamblin@windriver.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191121174318.4512-1-Trevor.Gamblin@windriver.com>
-References: <20191121174318.4512-1-Trevor.Gamblin@windriver.com>
+	Thu, 21 Nov 2019 09:53:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=7RzG8R6BKrNDqMMU7iOMhV7rbuPxT5UUJNU4j5PVM4M=;
+	b=RFwxCvpk+LLteodvXnMQZc3GYM8fO0XDDqMRqev1GOv5p4tqf56QYkD4oc+PPUGc8r
+	lX4XFzPg+QR9gymtMAOJ4efJh5PzC7+3zj7nAzvJWMBwsdHFg5tZk8gvy9DBSjaAN7mO
+	wNbcFfWk8BG23uaZkwz7o7o/+Gons61DxYhggrE0b3NGWNnHuGmB4PS7vaW92Q0qTgqb
+	34z179TU1xdSKI5JApEQOD8W/Yby/5MNhXUB+gm9Z7JBBfr9QOrZsIql2btzDOFoZ96J
+	b4ErzNZ3xXEKkbBBGk/QgQM6fBwbMR1yQei2hq+sOAE+e7lAMTtU1unpqvREe3k3yvn0
+	A3dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=7RzG8R6BKrNDqMMU7iOMhV7rbuPxT5UUJNU4j5PVM4M=;
+	b=QgHEGhJp1QSYxs8eVv6lAWAjFSuNnuF+gIf3+Hi+IYD9iKqIoMkHzU6tHenAUEe174
+	7K3Yz3E/YxNy4Co9h7UzUMX6qbaKnlqdGqN/uWwQLzjhDpVQfktupwR8bLIdfX5/PxCf
+	cA18rqNkHCPkZ2S2ZH6EVWn0T9cunohnZA2ufMZS2iXXuBeDX/w3i+9MVAfhKvnZNHYG
+	x8liC5ct3tmFAheUdogn40Y1UmEGvdcre2UMcOmjb9MKxQonXmnfPyj+9xfNItpuhRLp
+	ps9XApV85p+03WGAJzFX9y2jAj5rjyUyMmLSdRhoYKvJ75hglkCjimHwCq7/ZfNWZRqB
+	XnQA==
+X-Gm-Message-State: APjAAAXvfvMsendnHQSIb3yYdXhhaVILQM26UNQ04HB2aYBGkK9GMbl0
+	AvtAFaF5uwJhJW4ggkfbn4T3/EB24QzLh4lXZnE=
+X-Google-Smtp-Source: APXvYqw7vEC9kgFhX69a0ERFwhWj4jmhZfs7sJ+hqsOv5MwljXBw6q9aihIyjPz2r9UkS+emIrMVgHCZgXczonjNzjs=
+X-Received: by 2002:ab0:3399:: with SMTP id y25mr6864439uap.100.1574358786374; 
+	Thu, 21 Nov 2019 09:53:06 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] coreutils: add ptest
+References: <20191121174318.4512-1-Trevor.Gamblin@windriver.com>
+In-Reply-To: <20191121174318.4512-1-Trevor.Gamblin@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 21 Nov 2019 18:52:55 +0100
+Message-ID: <CANNYZj9UeD13ytgBgQ45G3B5kGX3bA-HnMVkunozwL=_uZpGHQ@mail.gmail.com>
+To: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/1] Adding coreutils ptest to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,114 +53,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 17:43:21 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Thu, 21 Nov 2019 17:53:05 -0000
+Content-Type: multipart/alternative; boundary="00000000000036002a0597def81a"
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+--00000000000036002a0597def81a
+Content-Type: text/plain; charset="UTF-8"
 
-coreutils has a large number of tests, (and potential RDEPENDS
-to support them), including tests added with the flags
-RUN_EXPENSIVE_TESTS and RUN_VERY_EXPENSIVE_TESTS that add
-significant run time for their coverage. The RUN_VERY_EXPENSIVE_TESTS
-option has been omitted from the run-ptest script to reduce
-some of this run time, even though this increases the SKIP count
-in the results. Also, the ptest directory for coreutils is given
-blanket permissions at runtime with chmod -R 777 to ensure that
-the user created for the tests will be able to run the test
-scripts and create the necessary files in the process.
+On Thu, 21 Nov 2019 at 18:43, Trevor Gamblin <Trevor.Gamblin@windriver.com>
+wrote:
 
-There is still room to improve the results of this ptest without
-the aforementioned additions. Of the tests marked SKIP, there
-are 30 tests that are currently counted as SKIP because they
-require root permissions, and another 21 that require membership
-in multiple user groups. It is important to know that coreutils
-has tests for both root and non-root users. Testing showed that
-42 tests are skipped when running as root versus 30 when running
-as a non-root user, so the decision was made to run the suite as
-the latter.
+> MACHINE    | PASS | FAIL | SKIP | TOTAL |
+> qemux86-64 |  481 |    2 |  132 |   615 |
+> qemuarm64  |  481 |    2 |  132 |   615 |
+> MACHINE    | PASS | FAIL | SKIP | TOTAL |
+> qemux86-64 |  483 |    1 |  131 |   615 |
+> qemuarm64  |  483 |    1 |  131 |   615 |
+>
 
-Finally, note that the ptest suite for coreutils has a short
-runtime on x86-64/kvm of approximately 4.5 minutes, in contrast
-to the arm64 runtime of ~70 minutes.
+One (and two) is very close to zero. Can you reach that?
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- .../coreutils/coreutils/run-ptest             | 17 +++++++++
- meta/recipes-core/coreutils/coreutils_8.31.bb | 38 +++++++++++++++++++
- 2 files changed, 55 insertions(+)
- create mode 100755 meta/recipes-core/coreutils/coreutils/run-ptest
+Alex
 
-diff --git a/meta/recipes-core/coreutils/coreutils/run-ptest b/meta/recipes-core/coreutils/coreutils/run-ptest
-new file mode 100755
-index 0000000000..683fedee7a
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils/run-ptest
-@@ -0,0 +1,17 @@
-+#!/bin/bash
-+
-+COREUTILSLIB=/usr/lib/coreutils
-+LOG="${COREUTILSLIB}/ptest/coreutils_ptest_$(date +%Y%m%d-%H%M%S).log"
-+
-+addgroup usergroup1
-+adduser --ingroup usergroup1 tester
-+
-+su tester -c "make check-TESTS RUN_EXPENSIVE_TESTS=yes top_srcdir=. srcdir=." | tee -a ${LOG}
-+deluser tester 
-+delgroup usergroup1
-+
-+passed=`grep PASS ${LOG}|wc -l`
-+failed=`grep FAIL ${LOG}|wc -l`
-+skipped=`grep -E SKIP ${LOG}|wc -l`
-+all=$((passed + failed + skipped))
-+
-diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
-index 57b2c1bdba..5ce2730048 100644
---- a/meta/recipes-core/coreutils/coreutils_8.31.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-@@ -143,3 +143,41 @@ python __anonymous() {
- }
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+inherit ptest
-+
-+FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
-+ 
-+SRC_URI += 	"file://run-ptest"
-+RDEPENDS_${PN}-ptest += "bash findutils gawk gdb glibc libconvert-asn1-perl liberror-perl libmodule-build-perl libtimedate-perl liburi-perl make perl perl-module-file-stat python strace"
-+
-+do_install_ptest () {
-+	install -d ${D}${PTEST_PATH}/tests
-+	cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests
-+	sed -i 's/ginstall/install/g'  `grep -R ginstall ${D}${PTEST_PATH}/tests | awk -F: '{print $1}' | uniq`
-+	install -d ${D}${PTEST_PATH}/build-aux
-+	install ${S}/build-aux/test-driver ${D}${PTEST_PATH}/build-aux/
-+	cp ${B}/Makefile ${D}${PTEST_PATH}/
-+	cp ${S}/init.cfg ${D}${PTEST_PATH}/
-+	cp -r ${B}/src ${D}${PTEST_PATH}/
-+	cp -r ${S}/src/*.c ${D}${PTEST_PATH}/src
-+	cd ${D}${PTEST_PATH}
-+	tar -czvf ${D}${PTEST_PATH}/src.tar.gz ./src
-+	cd -
-+	sed -i '/^VPATH/s/= .*$/= ./g' ${D}${PTEST_PATH}/Makefile
-+	sed -i '/^PROGRAMS/s/^/#/g' ${D}${PTEST_PATH}/Makefile
-+	sed -i '/^Makefile: /s/^.*$/Makefile:/g' ${D}${PTEST_PATH}/Makefile
-+	sed -i '/^abs_srcdir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
-+	sed -i '/^abs_top_builddir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
-+	sed -i '/^abs_top_srcdir/s/= .*$/= \$\{PWD\}/g' ${D}${PTEST_PATH}/Makefile
-+	sed -i '/^built_programs/s/ginstall/install/g' ${D}${PTEST_PATH}/Makefile
-+   chmod -R 777 ${D}${PTEST_PATH}
-+	# Disable subcase stty-pairs.sh, it will cause test framework hang
-+	sed -i '/stty-pairs.sh/d' ${D}${PTEST_PATH}/Makefile
-+	install ${B}/src/getlimits ${D}/${bindir}
-+}
-+
-+FILES_${PN}-ptest += "${bindir}/getlimits"
-+
-+INSANE_SKIP_${PN}-ptest += "ldflags"
-+INSANE_SKIP_${PN}-ptest += "rpaths"
--- 
-2.23.0
+--00000000000036002a0597def81a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 21 Nov 2019 at 18:43, Trevor Gamblin &lt;<a href=3D"mailto:T=
+revor.Gamblin@windriver.com">Trevor.Gamblin@windriver.com</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">MACHINE=C2=A0 =C2=
+=A0 | PASS | FAIL | SKIP | TOTAL |<br>
+qemux86-64 |=C2=A0 481 |=C2=A0 =C2=A0 2 |=C2=A0 132 |=C2=A0 =C2=A0615 |<br>
+qemuarm64=C2=A0 |=C2=A0 481 |=C2=A0 =C2=A0 2 |=C2=A0 132 |=C2=A0 =C2=A0615 =
+|<br>
+MACHINE=C2=A0 =C2=A0 | PASS | FAIL | SKIP | TOTAL |<br>
+qemux86-64 |=C2=A0 483 |=C2=A0 =C2=A0 1 |=C2=A0 131 |=C2=A0 =C2=A0615 |<br>
+qemuarm64=C2=A0 |=C2=A0 483 |=C2=A0 =C2=A0 1 |=C2=A0 131 |=C2=A0 =C2=A0615 =
+|<br></blockquote><div><br></div><div>One (and two) is very close to zero. =
+Can you reach that?</div><div><br></div><div>Alex<br></div></div></div>
 
+--00000000000036002a0597def81a--
