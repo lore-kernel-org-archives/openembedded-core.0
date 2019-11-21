@@ -1,50 +1,45 @@
-Return-Path: <marek.belisko@gmail.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id BD77274769
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id DF9857F89B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 15:29:41 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id 8so4218284wmo.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 07:29:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=8HySAWsIyNobTKyxTJbJ/upAWWvGMJiii9WO36jSfKA=;
-	b=pcYh6z3kQPSzL5xGHlJX69uYqNGMIjbWXwDuz+gdO7VGr4P3WBNJUKfmnL7ElGN4IP
-	hTR8lZmT1Tt5dxs+zoc4ordLBZWeObmMo/0/rOyZs8/jLBD6T0NP+9RljzEWN/DQfYXo
-	QScBuf8dnyUTAZrJY51MdNSE7dsU6/WorjNwmfpRubWNsj6Kqxn0xHzc5UEOapOUgOtR
-	/qpu4N0LhcKh/yACtW+AqF0kiCj/RVxD7hsCDVeO7ErBpIyEQ7nuR9wEhRwg7RZerEtM
-	RrQ+NuLN28KC4TvS57LmuafmCSNYv1vhKEawllCBhzQgxteu5Mk1R5qG/rs4DskRRfjB
-	It8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=8HySAWsIyNobTKyxTJbJ/upAWWvGMJiii9WO36jSfKA=;
-	b=bdqhRoS2wUIvupUKlifqiEXMsfkIDpxiEYRwTjvF7TH17SF312XwBfR1XdJo9r+F40
-	8GiAMzEzMEjvAvgfa4OY0VK2iPWPwOl6pSPt4W/sWEe6wyh+MEBfp/X+/MH3bGKqunz+
-	kuUANxso0JCl3tvT7EFCN/pDMoy3jshZUFjZJ8G0dTHEHmVwCLWuk8USEuEHJvtHlDxs
-	lvY9ZcmOmX0jSEp+BRhhhEIDwmv/jO7kJSJN42Am0PVELKiOo3mj8IH6u2mjYQ8klwCc
-	MsB83wRbSlzo/3esU3XkKujoWDQVXa/XGnOv9v3IykIljI3AgJpOUeCXXLsP31czHjZ4
-	mZpQ==
-X-Gm-Message-State: APjAAAUICb1k5l+2MaZghJ2rK5pqFfWDX+tFVqBTdDQPcgZEW7ilxBuR
-	1aDhN8nlGyFlck0rHfRiTnXQkaXfIHp21g==
-X-Google-Smtp-Source: APXvYqyBgSU8k9SKqwfJ84+txQgsrSL25hZh3DIhBFR6DgDWPzYR7zw91hJAPrxHyU1rcL2n++cCdQ==
-X-Received: by 2002:a7b:cf26:: with SMTP id m6mr4285658wmg.17.1574350182117;
-	Thu, 21 Nov 2019 07:29:42 -0800 (PST)
-Received: from localhost.localdomain (bband-dyn50.95-103-53.t-com.sk.
-	[95.103.53.50])
-	by smtp.gmail.com with ESMTPSA id j2sm3600757wrt.61.2019.11.21.07.29.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 21 Nov 2019 07:29:41 -0800 (PST)
-Sender: Belisko Marek <marek.belisko@gmail.com>
-From: Marek Belisko <marek.belisko@open-nandra.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2019 16:29:38 +0100
-Message-Id: <1574350178-22957-1-git-send-email-marek.belisko@open-nandra.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Jake Withecombe <jake@ruggednetworks.co.uk>,
-	Marek Belisko <marek.belisko@open-nandra.com>
-Subject: [meta-oe][PATCH] multimedia: janus-gateway: Added new recipe
+	Thu, 21 Nov 2019 15:36:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47JkDh092bz4c;
+	Thu, 21 Nov 2019 16:36:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1574350580;
+	bh=e00eRXABAHkzE0qzCQiLZOyfw144mJOF4/XMeJ0WmsE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PNuPHwV5tAiipOoeJ/zOJW1wpKmyTjCmRFov71CaxRmGOn6kxzrd0zwTbt5mXwvMA
+	3Fh1XVV8BZJWGeu5+VYDo9NcDNlFGP2/Fx6i2NCWv/BVUmDTJy53WpHuWS8UMWZtDb
+	NmsDgZ/d46d2D1QV7kO+2MbmnuWPJ6Xylvq4krFuPB5iGRGZiKPWT6EN7R1dp8SkAR
+	17yEKKm8GnXVgdvOa7//Y0jf5VDgzcPb3pKPRysQcBrwgGOBCiBwKsO+7g2l5xuDDT
+	rj0m3lYc/dClT2o8XsKCtgZafrZx2NKMz4+KNq5jfc5xBg4gfA7+j63Q3VdJT+6qZn
+	oma5FdsFVW4gsCQT83SdoKfQ1dgEdnPU7itfVSDc/+AMX24F/Q0ukpIwHqfTAQITrP
+	+p/zKW+MSXZgUymzMhyFjqTUeS16QuejZVfJGL6ryBaoKpy3KLsDReCJ/u6F94e8M7
+	z4li6dZZ8tOSo0Xj+gUgxNM/rhFE6xqLIvrqP6a2vRlCFAKGrcpU/ZfBSSueMxFXxq
+	ODjzQh812PBqeTf7VKVwLu89Rjzu7m1dhSQmVbrfHemTqC4z1/pXTkhHZbp5u9g5nq
+	4WDMzE4Cd6lJHeiOXcLwM9VlwFsE0IL9osXgmvkekvstLSTID6Ej5zCSh/UWSq4udG
+	wWXj8ZqyA/jjXp8cs/BGjqLY=
+Date: Thu, 21 Nov 2019 17:36:10 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20191121153610.GA28013@localhost>
+References: <20191120134455.125118-1-alex.kanavin@gmail.com>
+	<20191120134455.125118-8-alex.kanavin@gmail.com>
+	<20191120194927.GA28030@localhost>
+	<CANNYZj_g1kDJ5CSbKg4DEaATCiyPPT=2GuYEsUyHr+7ZpH8EkQ@mail.gmail.com>
+	<20191120213844.ome6ota74rmgosy3@pbcl.net>
+	<CANNYZj9uAs5wQPya6R9q3gfSQm_Xyu9xViGBxOQ2COKKbcYeWg@mail.gmail.com>
+	<20191120223207.6cuuklpgrzuhqug3@pbcl.net>
+	<CANNYZj93tJxTsCwS3cg3J=0WB--A0Af26Y=nO9fOdfNb9okRYg@mail.gmail.com>
+	<20191120231812.GB3962@localhost>
+	<238a39c7-b794-aaa0-1da6-4b585078f447@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <238a39c7-b794-aaa0-1da6-4b585078f447@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/11] lrzsz: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,92 +52,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 15:29:42 -0000
+X-List-Received-Date: Thu, 21 Nov 2019 15:36:22 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Signed-off-by: Marek Belisko <marek.belisko@open-nandra.com>
-Signed-off-by: Jake Withecombe <jake@ruggednetworks.co.uk>
----
- .../janus-gateway/files/janus-gateway.service      | 14 +++++++
- .../janus-gateway/janus-gateway_0.7.4.bb           | 48 ++++++++++++++++++++++
- 2 files changed, 62 insertions(+)
- create mode 100644 meta-multimedia/recipes-multimedia/janus-gateway/files/janus-gateway.service
- create mode 100644 meta-multimedia/recipes-multimedia/janus-gateway/janus-gateway_0.7.4.bb
+On Thu, Nov 21, 2019 at 09:24:34AM +0000, Ross Burton wrote:
+>...
+> So, if zmodem is still a useful feature to have in core, then is anyone
+> willing to step up and either:
+> 1) maintain the recipe.  I'd love someone who uses lrzsz to put a fork up on
+> github, integrate all of our patches, and start maintaining it. Maybe then
+> other distributions who still ship it will join in too.
+>...
 
-diff --git a/meta-multimedia/recipes-multimedia/janus-gateway/files/janus-gateway.service b/meta-multimedia/recipes-multimedia/janus-gateway/files/janus-gateway.service
-new file mode 100644
-index 0000000..5b4d4f2
---- /dev/null
-+++ b/meta-multimedia/recipes-multimedia/janus-gateway/files/janus-gateway.service
-@@ -0,0 +1,14 @@
-+[Unit]
-+Description=Janus WebRTC Server
-+After=network.target network-online.target
-+Wants=network-online.target
-+
-+[Service]
-+Type=simple
-+ExecStart=/usr/bin/janus -o
-+Restart=always
-+RestartSec=60
-+LimitNOFILE=65536
-+
-+[Install]
-+WantedBy=multi-user.target
-diff --git a/meta-multimedia/recipes-multimedia/janus-gateway/janus-gateway_0.7.4.bb b/meta-multimedia/recipes-multimedia/janus-gateway/janus-gateway_0.7.4.bb
-new file mode 100644
-index 0000000..bca716f
---- /dev/null
-+++ b/meta-multimedia/recipes-multimedia/janus-gateway/janus-gateway_0.7.4.bb
-@@ -0,0 +1,48 @@
-+DESCRIPTION = "Janus is an open source, general purpose, WebRTC server designed and developed by Meetecho"
-+HOMEPAGE = "https://janus.conf.meetecho.com/"
-+SECTION = "libs/multimedia"
-+
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c9e0a79f2244c2f79cda22ea5fed9135"
-+
-+SRC_URI = "https://github.com/meetecho/janus-gateway/archive/v${PV}.tar.gz \
-+	   file://janus-gateway.service \
-+"
-+
-+SRC_URI[md5sum] = "b068ac2b40ae800d83f471b8189bc87c"
-+SRC_URI[sha256sum] = "01ddaf204203a1219dd46a5ce70b548bab75bc494c9ba05429f8fb1e786b2995"
-+
-+inherit autotools-brokensep pkgconfig systemd
-+
-+DEPENDS = "libsrtp jansson libconfig libnice openssl glib-2.0 gengetopt-native"
-+
-+PACKAGECONFIG ?= "rest_api rest"
-+#PACKAGECONFIG[disablewarnings] = "--disable-warnings-as-errors,,"
-+#PACKAGECONFIG[inet] = "--enable-inet,--disable-inet,"
-+#PACKAGECONFIG[inet6] = "--enable-inet6,--disable-inet6,"
-+PACKAGECONFIG[rest_api] = "--enable-turn-rest-api,--disable-turn-rest-api,curl"
-+PACKAGECONFIG[rest] = "--enable-rest,--disable-rest,libmicrohttpd"
-+PACKAGECONFIG[unix_sockets] = "--enable-unix-sockets,--disable-unix-sockets,"
-+PACKAGECONFIG[post_processing] = "--enable-post-processing,--disable-post-processing,"
-+PACKAGECONFIG[plugin_echo] = "--enable-plugin-echotest,--disable-plugin-echotest,"
-+PACKAGECONFIG[plugin_videocall] = "--enable-plugin-videocall,--disable-plugin-videocall,"
-+PACKAGECONFIG[plugin_nosip] = "--enable-plugin-nosip,--disable-plugin-nosip,"
-+PACKAGECONFIG[plugin_videoroom] = "--enable-plugin-videoroom,--disable-plugin-videoroom,"
-+PACKAGECONFIG[plugin_voicemail] = "--enable-plugin-voicemail,--disable-plugin-voicemail,"
-+PACKAGECONFIG[plugin_recordplay] = "--enable-plugin-recordplay,--disable-plugin-recordplay,"
-+PACKAGECONFIG[plugin_textroom] = "--enable-plugin-textroom,--disable-plugin-textroom,"
-+
-+FILES_${PN}_append = " ${libdir}/janus/plugins/* ${libdir}/janus/transports/* ${libdir}/janus/events"
-+FILES_${PN}-demo = "${datadir}/janus/*"
-+
-+PACKAGES_append = " ${PN}-demo"
-+
-+INSANE_SKIP_${PN} = "dev-so"
-+
-+SYSTEMD_SERVICE_${PN} = "janus-gateway.service"
-+
-+do_install_append() {
-+	# Install the systemd service so we can kick start on boot
-+	install -d ${D}${systemd_unitdir}/system
-+	install -m 644 ${WORKDIR}/janus-gateway.service ${D}${systemd_unitdir}/system/
-+}
--- 
-2.7.4
+In embedded development there are some usecases left for this codebase 
+from the 1980s that implements protocols that were widely popular in
+the 1980s and early 1990s.
 
+Ancient code implementing obsolete ancient stuff is not fun to maintain.
+
+
+There are also two higher level topics that should be discussed:
+
+1. Removal of maintainers.inc
+There is some nitpicking that every recipe needs a maintainer.
+For the package in question the maintainer is not involved in the 
+discussion, and doesn't seem to have been asked for support or
+asked regarding the suggested removal.
+
+2. Who is responsible for fixing gettext breakages in meta-oe?
+Alexander or Khem?
+
+
+> Ross
+
+cu
+Adrian
 
