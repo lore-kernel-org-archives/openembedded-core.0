@@ -1,51 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
 	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 4690760197
+	by mail.openembedded.org (Postfix) with ESMTP id 3D4667F895
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 15:02:12 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id t26so4061338wmi.4
+	Thu, 21 Nov 2019 15:09:03 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id t26so4092601wmi.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 07:02:13 -0800 (PST)
+	Thu, 21 Nov 2019 07:09:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	h=message-id:subject:from:to:date:user-agent:mime-version
 	:content-transfer-encoding;
-	bh=ebFOLglBC/hjNNzdwxE9GGJrf1QVgtHlBveyGNJ0kNQ=;
-	b=U2r9dT9ON9xXR7wXUZWts56h2aN0bvAdHxaXfgk6FbDp4kl11prRn8ROm7OrHzZD55
-	H1gi7lbFtxfuNybI6P4IjsTfcr+pK4JUYuTUkh/9FFwZoyq212WbrB3NXiAqYZRjB8Kb
-	l+NOuU2NeJFPvDzrws8LvcGR2vZP4p6A3kuTU=
+	bh=Grqka47wKVoVZqHuG0fe3JJ+TSQDIK5CAD+yRXjq7sk=;
+	b=ca2BrXWNG8YuUATmy+IbaRLlumTwPiY1wPnif9Mx7QVRRMyxKxEH53ovBTAS2wqYQw
+	VMy64ULb7cJCCbw/7fBacdtN7NKDJcOMmbmEIC/8k8M+oADlMn8YYgIqDmVMWn/WvB32
+	CncL3ZlCdre5/CtdPTqurADHNDuq6ldmMhO+o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=ebFOLglBC/hjNNzdwxE9GGJrf1QVgtHlBveyGNJ0kNQ=;
-	b=EcHPv/q/Z0YALaak6sv6sRugaOcIQTvvy7Pwq57P6V6MIVtuUW7gyJnnV6FiITWZWS
-	+UmB0UYB3/nnjuDQwdGM4X1ehijhce65oAZM9c8B29oCz9ZoaBlLHPPF5EoyET3QfY/J
-	5CSltPmmPlMAaAM9kBFytOkWD26tUqO84afd2ceJePG5rNch572/fBwachAXIp6xWydT
-	Z9qEMYlNZ1T7WbJtLHX/eLgJdYIzox87GR0JxgahDEAQra6XUdSZ9pjBNtI8isJqOiJa
-	3rQGP9A5tgEMT5oJqiv2o4ES0J63v4UYHZbA75qOOFI2+NSi+Cbc+WH/5AO0DLt00lOD
-	+rAQ==
-X-Gm-Message-State: APjAAAWGnK3C8qSKPRK9cthuM4ZNsLDPSKbvbNH+1EzyGCWgOnHCF/FS
-	Dz3szx+HMUdkSgpkRox0tIapORJ/OfE=
-X-Google-Smtp-Source: APXvYqxqR80jDrsZeIenMmGW3RZ2ga1KLGXmRk/N2sD31GhHPkf0PVcE6/mVdDBmfKeZCXvYv2ySgA==
-X-Received: by 2002:a7b:c01a:: with SMTP id c26mr6659277wmb.160.1574348532584; 
-	Thu, 21 Nov 2019 07:02:12 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Grqka47wKVoVZqHuG0fe3JJ+TSQDIK5CAD+yRXjq7sk=;
+	b=aCoNoIxpdAExtaB7BBKEvcsoWPjQuupCoLjbGc28fbGn1XJcYFQ1e40Lj4EgImP4gi
+	RvGtzE/qrWM7qTpwX7zlAp58zeUUAepLg6kHg2hCX0Fmr2n+60eAezAIvYukXZACNEFK
+	pluU2HgsqMOY+2lx6azXsjW3NDjPLI06hbfU6QfZFj9r+4C20udlVoUdM+xjaS/6xk+u
+	BjOJrOubvv+FNoKwlULmPSYhN3jyk46yGmmxBKHtQOJihL957/9LjxmZhXn4/LLvlGpB
+	uu3I4shZGkWN+/A/FFzRmOks6rGHuNqRUJSbKTY9PHgGn0mrZfB54/ZYDTiQpdChjTvx
+	45NA==
+X-Gm-Message-State: APjAAAVzUj3R9MBw8KdnhYPzeBbexpmHzBfYE/cCwmbDTnCL3uw6PkKu
+	+r8Px9PJ4P2rLrgVHg56ZzyvQ7zEaRg=
+X-Google-Smtp-Source: APXvYqz2VAyyZG78wZItlwNw8hJUvARYC3IBD8ZYqZDz923UqBQDNDlp9iWegdSASPHe6SY5XI0tdA==
+X-Received: by 2002:a1c:3b82:: with SMTP id i124mr9939999wma.122.1574348943664;
+	Thu, 21 Nov 2019 07:09:03 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	x6sm3805297wrw.34.2019.11.21.07.02.11
-	for <openembedded-core@lists.openembedded.org>
+	a17sm3696009wrs.33.2019.11.21.07.09.02
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 21 Nov 2019 07:02:11 -0800 (PST)
+	Thu, 21 Nov 2019 07:09:03 -0800 (PST)
+Message-ID: <311a7b14047d26626a1669028386eb90c2a1d38f.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2019 15:02:07 +0000
-Message-Id: <20191121150207.3657-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191121150207.3657-1-richard.purdie@linuxfoundation.org>
-References: <20191121150207.3657-1-richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Date: Thu, 21 Nov 2019 15:09:02 +0000
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: [PATCH 3/3] sanity: Add check for tar older than 1.28
+Subject: Disbanding SWAT team/process
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 15:02:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Nov 2019 15:09:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Older versions break opkg-build when reproducible builds are enabled.
-Rather than trying to be selective based on which features are enabled,
-lets just make this a minimum version.
+It is with reluctance, after discussion with the TSC, that we've
+decided to disband the build failure SWAT process.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/sanity.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+The reason is simple, there were no longer enough people willing to
+participate in the process to make it viable.
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index a14bf53883c..0179fb8c687 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -523,6 +523,7 @@ def check_wsl(d):
- 
- # Tar version 1.24 and onwards handle overwriting symlinks correctly
- # but earlier versions do not; this needs to work properly for sstate
-+# Version 1.28 is needed so opkg-build works correctly when reproducibile builds are enabled
- def check_tar_version(sanity_data):
-     from distutils.version import LooseVersion
-     import subprocess
-@@ -532,7 +533,9 @@ def check_tar_version(sanity_data):
-         return "Unable to execute tar --version, exit code %d\n%s\n" % (e.returncode, e.output)
-     version = result.split()[3]
-     if LooseVersion(version) < LooseVersion("1.24"):
--        return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar.\n"
-+        return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar (1.28+).\n"
-+    if LooseVersion(version) < LooseVersion("1.28"):
-+        return "Your version of tar is older than 1.28 and does not have the support needed to enable reproducible builds. Please install a newer version of tar.\n"
-     return None
- 
- # We use git parameters and functionality only found in 1.7.8 or later
--- 
-2.20.1
+This process was there to try and offload some of the build failure
+handling (from me in particular) and try and engage a wider group of
+developers with the patch review/testing process. This worked with a
+rotating team of people ensuring failures were entered into the
+bugzilla with the appropriate information. It worked on the assumption
+that with a large team (12+), occasionally doing it wasn't a burden.
+The assumption no longer holds with 5 people left.
+
+The process did have issues with consistency and there are valid
+concerns about whether the people helping with the process had enough
+context to be effective too.
+
+From now on, people triggering builds are responsible for their own
+failures. Automated builds will fall to me (Richard).
+
+I'm taking that work on since it underpins the project quality and its
+of key importance that the build failures do get handled.
+
+I'd like to thank everyone who worked on the team over the years, it
+has been a big help and was much appreciated.
+
+Regards,
+
+Richard
+
 
 
