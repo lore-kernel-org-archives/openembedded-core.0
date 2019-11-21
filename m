@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D5A66BBE6;
-	Thu, 21 Nov 2019 02:02:02 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 7191A7F894;
+	Thu, 21 Nov 2019 02:02:03 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Wang Mingyu <wangmy@cn.fujitsu.com>
 Date: Thu, 21 Nov 2019 02:02:04 -0000
-Message-ID: <20191121020204.2331.37442@do>
+Message-ID: <20191121020204.2330.33549@do>
 References: <1574326536-1600-1-git-send-email-wangmy@cn.fujitsu.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <1574326536-1600-1-git-send-email-wangmy@cn.fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnVzeWJveDp1cGdyYWRlIDEuMzEuMCAtPiAxLjMxLjE=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnVzeWJveDp1cGdyYWRlIDEuMzEuMCAtPiAxLjMxLjEgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 02:02:02 -0000
+X-List-Received-Date: Thu, 21 Nov 2019 02:02:03 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: busybox:upgrade 1.31.0 -> 1.31.1
-Revision: 1
+Series: busybox:upgrade 1.31.0 -> 1.31.1 (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/21263/
 State : failure
 
@@ -45,7 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            busybox:upgrade 1.31.0 -> 1.31.1
+* Patch            cmake-native:upgrade 3.15.3 -> 3.15.5
  Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
   Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
 
