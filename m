@@ -1,32 +1,38 @@
-Return-Path: <lkml@jv-coder.de>
-X-Greylist: delayed 508 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 21 Nov 2019 08:42:23 UTC
-Received: from mail.jv-coder.de (mail.jv-coder.de [5.9.79.73])
-	by mail.openembedded.org (Postfix) with ESMTP id 7089A7F8AF
+Return-Path: <ross.burton@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 7576A731AE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 08:42:23 +0000 (UTC)
-Received: from ubuntu.localdomain (unknown [37.156.92.209])
-	by mail.jv-coder.de (Postfix) with ESMTPSA id 8D7A89F805;
-	Thu, 21 Nov 2019 08:33:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jv-coder.de; s=dkim;
-	t=1574325235; bh=QpfNNE/GSkh86m5jnAfeZS2WJwA/lSigrrC2tsJ4Ums=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=fHpG1uaTS96j2yyPUXOvuuWTsjNCIT8IuNZFX2uzOzvVP/9CVbzCmA+ZaXKqGCJFl
-	eG5/ClqHIRyD5dSX85Kha4tAqqSd7187f4LuFAD2z/2rBdMGpL94Yxb7SXLa42f7p0
-	zOxUQmlyBsdw1NClgkGE28Vo829lQvOvkxkU63pE=
-From: Joerg Vehlow <lkml@jv-coder.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 21 Nov 2019 09:33:49 +0100
-Message-Id: <20191121083349.77105-1-lkml@jv-coder.de>
-X-Mailer: git-send-email 2.20.1
+	Thu, 21 Nov 2019 09:24:35 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Nov 2019 01:24:36 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,224,1571727600"; d="scan'208";a="205095570"
+Received: from unknown (HELO blackadder.local) ([10.252.49.82])
+	by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2019 01:24:35 -0800
+To: Adrian Bunk <bunk@stusta.de>, Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20191120134455.125118-1-alex.kanavin@gmail.com>
+	<20191120134455.125118-8-alex.kanavin@gmail.com>
+	<20191120194927.GA28030@localhost>
+	<CANNYZj_g1kDJ5CSbKg4DEaATCiyPPT=2GuYEsUyHr+7ZpH8EkQ@mail.gmail.com>
+	<20191120213844.ome6ota74rmgosy3@pbcl.net>
+	<CANNYZj9uAs5wQPya6R9q3gfSQm_Xyu9xViGBxOQ2COKKbcYeWg@mail.gmail.com>
+	<20191120223207.6cuuklpgrzuhqug3@pbcl.net>
+	<CANNYZj93tJxTsCwS3cg3J=0WB--A0Af26Y=nO9fOdfNb9okRYg@mail.gmail.com>
+	<20191120231812.GB3962@localhost>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <238a39c7-b794-aaa0-1da6-4b585078f447@intel.com>
+Date: Thu, 21 Nov 2019 09:24:34 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=1.1 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-	DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE
-	autolearn=no autolearn_force=no version=3.4.2
-X-Spam-Level: *
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on mail.jv-coder.de
-Cc: Joerg Vehlow <joerg.vehlow@aox-tech.de>
-Subject: [PATCH] ltp: Remove acl and at runtime dependency
+In-Reply-To: <20191120231812.GB3962@localhost>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 08/11] lrzsz: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,33 +45,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 08:42:23 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 21 Nov 2019 09:24:35 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-From: Joerg Vehlow <joerg.vehlow@aox-tech.de>
+On 20/11/2019 23:18, Adrian Bunk wrote:
+> On Wed, Nov 20, 2019 at 11:56:38PM +0100, Alexander Kanavin wrote:
+>> On Wed, 20 Nov 2019 at 23:32, Phil Blundell <pb@pbcl.net> wrote:
+>>
+>>> However, I think the point still stands that the commit message needs to
+>>> provide a better description of why the package is being removed.  If you
+>>> think it represents an ongoing maintenance headache that's already bad and
+>>> only going to get worse, and this now outweighs its usefulness, let's just
+>>> say that.  Not all old software is problematic, and not all problematic
+>>> software is old; the fact that the last release was 20 years ago is an
+>>> interesting fact but in isolation that doesn't represent a problem.
+>>> Indeed, compared to some other packages in oe-core, eight patches in
+>>> total over a 20-year period doesn't seem like that bad of an average.
+>>>
+>>
+>> Fair enough, I wrote a hasty commit message. Mistakes happen.
+>>
+>> Can I say what my problem is? Here goes: so far, no one in this discussion
+>> offered actual help with the actual issue. If you need this or that
+>> functionality from Yocto, please try to place help ahead of complaints and
+>> criticism.
+> 
+> No, your problem is your way of communication.
+> 
+> It is a very unfriendly way of communication to request help in the form
+> patch aiming at immediate removal.
 
-Tests that use at and acl tool were removed in release 20190115.
-See ltp commit 0fc9b8624bea8acfdb408bf5ff4916b1453e3daa
+Hopefully everyone has calmed down overnight and we can continue this 
+discussion politely?
 
-Signed-off-by: Joerg Vehlow <joerg.vehlow@aox-tech.de>
----
- meta/recipes-extended/ltp/ltp_20190517.bb | 2 --
- 1 file changed, 2 deletions(-)
+Yes, Alex's commit message should have spelt out that both:
+1) there are doubts anyone is actually using zmodem still (he did this)
+2) the source is positively ancient and building it on modern linux is 
+getting harder over time (this was implied by being in a series that 
+upgraded gettext and fixed other recipes, instead of being spelt out).
 
-diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
-index 47aa9675d8..60f749b4c0 100644
---- a/meta/recipes-extended/ltp/ltp_20190517.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190517.bb
-@@ -85,8 +85,6 @@ do_install(){
- }
- 
- RDEPENDS_${PN} = "\
--    acl \
--    at \
-     attr \
-     bash \
-     cpio \
--- 
-2.20.1
+So, if zmodem is still a useful feature to have in core, then is anyone 
+willing to step up and either:
+1) maintain the recipe.  I'd love someone who uses lrzsz to put a fork 
+up on github, integrate all of our patches, and start maintaining it. 
+Maybe then other distributions who still ship it will join in too.
+2) provide an alternative.
 
+Ross
 
