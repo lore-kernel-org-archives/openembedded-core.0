@@ -1,29 +1,33 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 178857F816
+Return-Path: <jlu@pengutronix.de>
+X-Greylist: delayed 1020 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 21 Nov 2019 11:38:44 UTC
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
+	[85.220.165.71])
+	by mail.openembedded.org (Postfix) with ESMTP id 765347D0B1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 10:53:25 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Nov 2019 02:53:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,224,1571727600"; d="scan'208";a="205114362"
-Received: from unknown (HELO blackadder.local) ([10.252.49.82])
-	by fmsmga007.fm.intel.com with ESMTP; 21 Nov 2019 02:51:55 -0800
+	Thu, 21 Nov 2019 11:38:44 +0000 (UTC)
+Received: from dude.hi.pengutronix.de ([2001:67c:670:100:1d::7])
+	by metis.ext.pengutronix.de with esmtps
+	(TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1iXkWv-0000WC-AI; Thu, 21 Nov 2019 12:21:45 +0100
+Received: from jlu by dude.hi.pengutronix.de with local (Exim 4.92)
+	(envelope-from <jlu@pengutronix.de>)
+	id 1iXkWv-0003gX-1A; Thu, 21 Nov 2019 12:21:45 +0100
+From: Jan Luebbe <jlu@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
-References: <1574325871-52609-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <25a494a0-7b58-b16f-6949-c38dbc754938@intel.com>
-Date: Thu, 21 Nov 2019 10:51:54 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
+Date: Thu, 21 Nov 2019 12:12:48 +0100
+Message-Id: <20191121111248.16992-6-jlu@pengutronix.de>
+X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191121111248.16992-1-jlu@pengutronix.de>
+References: <20191121111248.16992-1-jlu@pengutronix.de>
 MIME-Version: 1.0
-In-Reply-To: <1574325871-52609-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Subject: Re: [PATCH] tiff: Refresh patch
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::7
+X-SA-Exim-Mail-From: jlu@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
+	SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+Subject: [meta-oe][PATCH 6/6] softhsm: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,15 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 10:53:26 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 21 Nov 2019 11:38:44 -0000
+Content-Transfer-Encoding: 8bit
 
-On 21/11/2019 08:44, Zheng Ruoqin wrote:
-> Refresh CVE-2019-7663.patch as it can't be applyed when using PATCHTOOL = "patch".
+This is useful for consolidation of code-signing interfaces when
+building an image with verified boot mechanisms or signed update
+artifacts. It can also be used on the target as a backend for software
+which uses the PKCS#11 API to access private key material.
 
-FWIW this file is removed in current master-next.
+Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
+---
+ .../recipes-security/softhsm/softhsm_git.bb    | 18 ++++++++++++++++++
+ 1 file changed, 18 insertions(+)
+ create mode 100644 meta-oe/recipes-security/softhsm/softhsm_git.bb
 
-Ross
+diff --git a/meta-oe/recipes-security/softhsm/softhsm_git.bb b/meta-oe/recipes-security/softhsm/softhsm_git.bb
+new file mode 100644
+index 000000000000..3236cb9a6097
+--- /dev/null
++++ b/meta-oe/recipes-security/softhsm/softhsm_git.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "PKCS#11 HSM/Token Emulator"
++HOMEPAGE = "https://www.opendnssec.org/softhsm/"
++LICENSE = "BSD-2-Clause & ISC"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=ef3f77a3507c3d91e75b9f2bdaee4210"
++DEPENDS = "openssl"
++PV = "2.5.0"
++
++SRC_URI = "git://github.com/opendnssec/SoftHSMv2.git;branch=master"
++SRCREV = "369df0383d101bc8952692c2a368ac8bc887d1b4"
++
++S = "${WORKDIR}/git"
++
++inherit autotools pkgconfig
++
++# EdDSA requires OpenSSL >= 1.1.1
++EXTRA_OECONF = "--enable-eddsa --disable-gost"
++
++BBCLASSEXTEND = "native"
+-- 
+2.24.0
+
 
