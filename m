@@ -1,48 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A09D7FC21
+Return-Path: <prvs=2224211a8=alistair.francis@wdc.com>
+Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
+	by mail.openembedded.org (Postfix) with ESMTP id D67677FC79
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 22:19:28 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id y39so5572425qty.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 21 Nov 2019 14:19:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1f3k1UZ2xEvyLJP8JKRTQF92/n52MCjZiVhQV1+sDbA=;
-	b=n8xkefLe+e3z1wzqoLHxCkv9wVU0D44FvLwlgnkfEy0W+/6SvQWZWGWV88hCocAysP
-	FduKIa7IJNeCYEmd44a388ct4O4oXSLjQLsdW1aa46tgm3RA6dSEOMb1gS6EDu5Vl0JS
-	3Ul99qpT7j6P1V6qBf/TBYqcbvBVFzN3pwTj+fIO37WZZUeFtFeU0pgYGJK/uJP4eatn
-	v8dRxxUgjVJK720FBEPZ/t09nfeci3R3S6S5IRdAhPoW2NPPc4nu+wKCJ80nDKHW/eM/
-	vYLqbGM/1P6odV4vhYLAjANkrMedW1x+2TA+SQrypjN6OBGbJdyH2HO3owYPwDd2jm+9
-	xrXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=1f3k1UZ2xEvyLJP8JKRTQF92/n52MCjZiVhQV1+sDbA=;
-	b=Z6I/FtEB92RdSn4TVN19nhb4iWP89OaEJLwWCPaLJ+6zw9+e1wdPPh2StekxFKuiNt
-	kEtCVzKkRhFy24oELXwznfbhsrw3JdoyxFwBhrYp+at/YdBMjI/TqjIidaifbNJLIbrr
-	Pf20heAG++Ugt+y5Ny/CNE7tMUie/SBeZ3ZGBj1m21YKuZ/CPC51muBWgpdwHItGUmv2
-	6ndQdLvYpWJK+A7E2j2hz2cfVX1ltDrDf7QOcn14MoPgRyy/8VhN2Zp+JHt+4QjvTXC3
-	/i8FsPp3wfafZ1RvChYDGfgQGy0x7RR7Q51+4Z7CQRulA6D72lmetF5HMd0XaPBW2dzE
-	FNXg==
-X-Gm-Message-State: APjAAAWm2v9eMA//PUMa8VW7jDKPJh+tpSCtWAs/hUyeA8jsqhRgJNNR
-	129Q6Wr7KZZwqTeZb5bceL9MYkB9sIQtdPC0Dn4=
-X-Google-Smtp-Source: APXvYqwLwougtEE1y6RR35fAwmh2fbRmZ/uMtb4H/Sxv9M4uHzqRDcVQ5KTaWeH7k9MErIV1o9qY6lrfijwNv4yJ4aA=
-X-Received: by 2002:ac8:5557:: with SMTP id o23mr11323371qtr.378.1574374769391;
-	Thu, 21 Nov 2019 14:19:29 -0800 (PST)
+	Fri, 22 Nov 2019 00:08:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1574381300; x=1605917300;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=8IQdTq9S+EYj99P729LlSkFQb5F+bzoHrb91L9fn+bk=;
+	b=CoPxfKvYPfkIxcyARG8dKhvUm0rC7GvFH8W7hln91KlMYbA0Iwh4i2Rd
+	eUxP10fnA/9UCfLLGhbsfd+dPHsgIDdXmmLJCiZdS6huNvYQSh6INLk1T
+	GpLbx04WuQMW5+Tsf6hSLKj8yHr8TqzOabf9AqP+xjnZ7yrrFswG/lVgd
+	CE+skdsFDDB/JK749bXg9AOvIUe8G/jPcT2XhY5TNdF/SOP6gNMfhu3cI
+	6rHxOJmEpOnnsr4KuyuRiO0yweWkxEFKUoJnOyOVYnPf/Uesm3zyNDyqu
+	SI06JPaxYy6DuaqAs1DmnyrwgEaUaZpNDWKFrpJGM6RYCbsfA2ls2Rs+f A==;
+IronPort-SDR: 9loHq0/o7YRVC3pxxLDNs+uXLJNEEyK0zC+0KfcJCZsjfQsOKRt6BpIdfFxoMcC3Ixp+2tSKlK
+	gd+XgyAMJ2lPuB7AsrKDWyjq7Pp5eCGBzKWqD5cCmcHgfsrX9gAB9B+7yD0afWhpzh50f0plAy
+	oC3lthT4Ax5PmqeaxmBTTRVEaaKbzSserwVYtdtB0aG1SL/gliqPsvc5zdMiNQPA0yf3HvDB45
+	c9tw+l1GsNrDUxrNBgohq0JlkM2m7pCysvOfPbE3vUsP5g/u6EvGHSc8ZVcQppjTEBAIk4S5RK
+	me8=
+X-IronPort-AV: E=Sophos;i="5.69,227,1571673600"; d="scan'208";a="125304011"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 22 Nov 2019 08:08:19 +0800
+IronPort-SDR: vOsHo+f+u2EzYkR8bemB7CyNKKelvbtZ0vzU6WWw4h73kjtOhZklwzCgUHvVSsR5V7d1OMaB8s
+	TxACcAod4FSQlKMc8zxF6AFHVmrwuJCb1t4Sf9diW61jn3w3aRBix5nfDxFRQ2Eztw1Np9R+Ux
+	Jb+Lqp3ad5+83ZWky6WcsPZAqX9Iek7tMg+dNLO76VbiOWYUwvVtSsevHdKmhmS3GpVF19PlNT
+	N+AbPgj/lF0rOzI5/KjlUHtn3yyq9KW8NstnMz0eJce9ZqkrWda1oUwY9W6SjoGUaxX7GlwkVQ
+	RW2U1IWzo0yQ7efD1Zi2Gk1C
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	21 Nov 2019 16:03:26 -0800
+IronPort-SDR: GIOGOpfS+o6nJoqYcWDIXZnHxoYQMgLFhKH59LNdYB3pltDSi7mmxC9d2dY/wX8wcgAX0C72Yy
+	zmga5IYfEy9cRTewiKWaDIxDXr3yQe/9U3JglAT5wBH554NetoR8lDAmb6Rf+J126tDYyTrwgc
+	BZX5wyH8WPbDxiUaBh3A0grFSxIHI4SGe2DRA6BG2SeT8Am5MumDOaKCihzBuXJo2TXn0PR4KB
+	J5E2NDNEqaS3eS30120/f4vCcNPLR6GjxnVUveNffQq1pocnV7YImJnxJy8PS5SbJ/11XOR/Pr
+	Q7E=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.58])
+	by uls-op-cesaip01.wdc.com with ESMTP; 21 Nov 2019 16:08:19 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Nov 2019 16:02:51 -0800
+Message-Id: <20191122000251.28530-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20191121182105.2803314-1-raj.khem@gmail.com>
-	<b7d34d41f90f560b267015c7b43cdc96e7e5ae49.camel@linuxfoundation.org>
-In-Reply-To: <b7d34d41f90f560b267015c7b43cdc96e7e5ae49.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 21 Nov 2019 14:19:02 -0800
-Message-ID: <CAMKF1srcupKbcmPfX5=xL=TKcDtxN+e2LEPaCBBZwCbxLSySGA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-bootchart: Add RISC-V support
+Subject: [PATCH v2] tune-riscv: Add support for no float
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,60 +60,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 21 Nov 2019 22:19:29 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 22 Nov 2019 00:08:18 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, Nov 21, 2019 at 12:46 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2019-11-21 at 10:21 -0800, Khem Raj wrote:
-> > This is a partial backport from upstream systemd
->
-> Partial in what regard? Its incomplete and doesn't work? or we don't
-> need some of it? :)
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ meta/conf/machine/include/riscv/arch-riscv.inc |  3 ++-
+ meta/conf/machine/include/riscv/tune-riscv.inc | 16 +++++++++++++++-
+ 2 files changed, 17 insertions(+), 2 deletions(-)
 
-Upstream code has been re-organised before risc-v support was added to
-its mix of two commits
-primarily
-https://github.com/systemd/systemd/commit/171b53380085b1288b03b19a2b978f36a5c003d0
+diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
+index f3edcc39f7..33ad6a28e1 100644
+--- a/meta/conf/machine/include/riscv/arch-riscv.inc
++++ b/meta/conf/machine/include/riscv/arch-riscv.inc
+@@ -4,7 +4,8 @@ DEFAULTTUNE ?= "riscv64"
+ 
+ TUNE_ARCH = "${TUNE_ARCH_tune-${DEFAULTTUNE}}"
+ TUNE_PKGARCH = "${TUNE_PKGARCH_tune-${DEFAULTTUNE}}"
+-TUNE_CCARGS .= ""
++TUNE_CCARGS_append_riscv64 = "${@bb.utils.contains('TUNE_FEATURES', 'riscv64nf', ' -mabi=lp64', ' ', d)}"
++TUNE_CCARGS_append_riscv32 = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32nf', ' -mabi=ilp32', ' ', d)}"
+ 
+ # QEMU usermode fails with invalid instruction error (For riscv32)
+ MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'riscv32', ' qemu-usermode', '', d)}"
+diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
+index 25d0463492..b7dcd244d6 100644
+--- a/meta/conf/machine/include/riscv/tune-riscv.inc
++++ b/meta/conf/machine/include/riscv/tune-riscv.inc
+@@ -3,10 +3,14 @@ require conf/machine/include/riscv/arch-riscv.inc
+ TUNEVALID[riscv64] = "Enable 64-bit RISC-V optimizations"
+ TUNEVALID[riscv32] = "Enable 32-bit RISC-V optimizations"
+ 
++TUNEVALID[riscv64nf] = "Enable 64-bit RISC-V optimizations no floating point"
++TUNEVALID[riscv32nf] = "Enable 32-bit RISC-V optimizations no floating point"
++
+ TUNEVALID[bigendian] = "Big endian mode"
+ 
+-AVAILTUNES += "riscv64 riscv32"
++AVAILTUNES += "riscv64 riscv32 riscv64nf riscv32nf"
+ 
++# Default
+ TUNE_FEATURES_tune-riscv64 = "riscv64"
+ TUNE_ARCH_tune-riscv64 = "riscv64"
+ TUNE_PKGARCH_tune-riscv64 = "riscv64"
+@@ -17,3 +21,13 @@ TUNE_ARCH_tune-riscv32 = "riscv32"
+ TUNE_PKGARCH_tune-riscv32 = "riscv32"
+ PACKAGE_EXTRA_ARCHS_tune-riscv32 = "riscv32"
+ 
++# No float
++TUNE_FEATURES_tune-riscv64nf = "${TUNE_FEATURES_tune-riscv64} riscv64nf"
++TUNE_ARCH_tune-riscv64nf = "riscv64"
++TUNE_PKGARCH_tune-riscv64nf = "riscv64"
++PACKAGE_EXTRA_ARCHS_tune-riscv64nf = "riscv64"
++
++TUNE_FEATURES_tune-riscv32nf = "${TUNE_FEATURES_tune-riscv32} riscv32nf"
++TUNE_ARCH_tune-riscv32nf = "riscv32"
++TUNE_PKGARCH_tune-riscv32nf = "riscv32"
++PACKAGE_EXTRA_ARCHS_tune-riscv32nf = "riscv32"
+-- 
+2.24.0
 
-https://github.com/systemd/systemd/commit/680a752c834aba1b66449d34f17dbe37e040f6b0
-
-
-
->
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  ...itecture-Recognise-RISCV-32-RISCV-64.patch | 45
-> > +++++++++++++++++++
-> >  .../systemd-bootchart_233.bb                  |  1 +
-> >  2 files changed, 46 insertions(+)
-> >  create mode 100644 meta/recipes-devtools/systemd-bootchart/systemd-
-> > bootchart/0001-architecture-Recognise-RISCV-32-RISCV-64.patch
-> >
-> > diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-
-> > bootchart/0001-architecture-Recognise-RISCV-32-RISCV-64.patch
-> > b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-
-> > architecture-Recognise-RISCV-32-RISCV-64.patch
-> > new file mode 100644
-> > index 0000000000..5e89195915
-> > --- /dev/null
-> > +++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-
-> > architecture-Recognise-RISCV-32-RISCV-64.patch
-> > @@ -0,0 +1,45 @@
-> > +From 4a6ace0a965965ea15e88c3418c7158ca5cc9f8f Mon Sep 17 00:00:00
-> > 2001
-> > +From: Khem Raj <raj.khem@gmail.com>
-> > +Date: Thu, 21 Nov 2019 10:12:05 -0800
-> > +Subject: [PATCH] architecture: Recognise RISCV-32/RISCV-64
-> > +
-> > +Upstream-Status: Pending
->
-> So it isn't a backport?
->
-> Cheers,
->
-> Richard
->
 
