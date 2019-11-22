@@ -1,46 +1,24 @@
-Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C9B77D2E6
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F1147D2D6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2019 11:08:05 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 597829C0294;
-	Fri, 22 Nov 2019 06:08:06 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id d-D6Wwgm-hfu; Fri, 22 Nov 2019 06:08:05 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 676129C02E4;
-	Fri, 22 Nov 2019 06:08:05 -0500 (EST)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id 5k_4t7GPryak; Fri, 22 Nov 2019 06:08:05 -0500 (EST)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[192.168.48.237])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 2E9589C0294;
-	Fri, 22 Nov 2019 06:08:05 -0500 (EST)
-Date: Fri, 22 Nov 2019 06:08:04 -0500 (EST)
-From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <2010614174.635763.1574420884655.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <50236bca804ff079db05b696f783c9af7e408c8f.camel@linuxfoundation.org>
-References: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
-	<b3ae667e644cf4b81c096562965268dbe5596065.camel@linuxfoundation.org>
-	<531618732.621500.1574366028835.JavaMail.zimbra@savoirfairelinux.com>
-	<50236bca804ff079db05b696f783c9af7e408c8f.camel@linuxfoundation.org>
+	Fri, 22 Nov 2019 11:40:01 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Nov 2019 03:40:02 -0800
+X-IronPort-AV: E=Sophos;i="5.69,229,1571727600"; d="scan'208";a="201485220"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.164.245])
+	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Nov 2019 03:39:59 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Nov 2019 19:38:59 +0800
+Message-Id: <cover.1574422359.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC78 (Linux)/8.8.11_GA_3737)
-Thread-Topic: NPM refactoring
-Thread-Index: 2P7I1BYedB6r6q8vahk9iPJyEjr6dQ==
-Cc: Jonas Andersson <jonaskgandersson@gmail.com>,
-	paul eggleton <paul.eggleton@linux.intel.com>,
-	Savoir-faire Linux Rennes <rennes@savoirfairelinux.com>,
-	OE-core <openembedded-core@lists.openembedded.org>, bunk <bunk@stusta.de>
-Subject: Re: [PATCH v3 00/17] NPM refactoring
+Subject: [zeus][PATCH 00/15] zeus review/pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,109 +31,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2019 11:08:06 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Nov 2019 11:40:02 -0000
+Content-Transfer-Encoding: 8bit
 
-Hi Richard,
+zeus patch queue for review. a-full build passing on autobuilder.
 
-On Nov 21, 2019, at 9:25 PM, Richard Purdie richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2019-11-21 at 14:53 -0500, Jean-Marie LEMETAYER wrote:
->> On Nov 21, 2019, at 7:26 PM, Richard Purdie
->> richard.purdie@linuxfoundation.org wrote:
->> > On Wed, 2019-11-20 at 10:33 +0100, Jean-Marie LEMETAYER wrote:
->> > > The current NPM support have several issues:
->> > >  - The current NPM fetcher downloads the dependency tree but not
->> > > the other
->> > >    fetchers. The 'subdir' parameter was used to fix this issue.
->> > >  - They are multiple issues with package names (uppercase, exotic
->> > > characters,
->> > >    scoped packages) even if they are inside the dependencies.
->> > >  - The lockdown file generation have issues. When a package
->> > > depends on
->> > >    multiple version of the same package (all versions have the
->> > > same checksum).
->> > > 
->> > > This patchset refactors the NPM support in Yocto:
->> > >  - As the NPM algorithm for dependency management is hard to
->> > > handle, the new
->> > >    NPM fetcher downloads only the package source (and not the
->> > > dependencies,
->> > >    like the other fetchers) (patch submitted in the bitbake-devel
->> > > list).
->> > 
->> > I'm a little confused by this item.
->> > 
->> > If the NPM fetcher only downloads a given package's source and it
->> > has
->> > dependencies, where/when are the dependencies downloaded?
->> > 
->> > My worry here is that if the fetcher isn't downloading them, DL_DIR
->> > can't contain all the needed pieces needed to reproduce a build at
->> > a
->> > later date?
->> > 
->> > I suspect I'm missing something obvious...
->> 
->> The magic is in the bbclass, in the do_fetch_append() function:
->> https://github.com/savoirfairelinux/poky/blob/npm-refactoring-v3/meta/classes/npm.bbclass#L51
->> 
->> Which calls:
->> https://github.com/savoirfairelinux/poky/blob/npm-refactoring-v3/bitbake/lib/bb/fetch2/npm.py#L312
->> 
->> Which runs the npm fetcher for each dependencies described in the
->> shrinkwrap file. This is the same behavior for the do_unpack task.
->> 
->> 
->> To be more clear, a recipe like this:
->> 
->> ```
->> SRC_URI = "npm://registry.npmjs.org/;name=my-package;version=1.0.0"
->> S = "${WORKDIR}/npm"
->> ```
->> 
->> Will only fetch/unpack the package source without handling the
->> dependencies.
->> 
->> But a recipe like this:
->> 
->> ```
->> SRC_URI = "npm://registry.npmjs.org/;name=my-package;version=1.0.0"
->> S = "${WORKDIR}/npm"
->> 
->> NPM_SHRINKWRAP = "${THISDIR}/${BPN}/npm-shrinkwrap.json"
->> inherit npm
->> ```
->> 
->> Will fetch/unpack the package and all the dependencies which are
->> described in the shrinkwrap file.
-> 
-> That does remove some of my worries, thanks for explaining!
-> 
-> It does make me wonder if we shouldn't have two fetch classes and then
-> support a url like:
-> 
-> SRC_URI = "npm://registry.npmjs.org/;name=my-package;version=1.0.0 \
->           npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json"
-> 
-> where the "npmsw" handler would handle the shrinkwrap file?
-> 
-> Basically I don't like the way the current code has to tag the
-> shrinkwrap file handling on to the fetcher...
+Thanks,
 
-This definitely sounds like a great idea !
+Anuj
 
-I based my work on the current implementation, but I never thought of
-refactoring as much. I have however some concerns about the management
-of the registry and the development dependencies. I will try to come
-back with a v4.
+The following changes since commit 0275e68b0576cdefc19718e4b1977044f9f43f48:
 
->> Bonus tips: you can have your base package SRC_URI using another
->> fetcher than npm (e.g. git) without breaking anything. The behavior
->> will still be the same.
-> 
-> That does start to make it clearer why this is advantageous.
+  iputils: Whitelist CVE-2000-1213 CVE-2000-1214 (2019-11-19 00:24:22 +0000)
 
-Regards,
-Jean-Marie
+are available in the Git repository at:
+
+  git://push.yoctoproject.org/poky-contrib anujm/zeus
+
+Adrian Bunk (1):
+  lz4: Whitelist CVE-2014-4715
+
+Alexander Kanavin (2):
+  Revert "devtool/standard.py: Not filtering devtool workspace for
+    devtool finish"
+  python: update to 2.7.17
+
+Anuj Mittal (1):
+  boost: fix build for x32
+
+Kai Kang (1):
+  bind: fix CVE-2019-6471 and CVE-2018-5743
+
+Ross Burton (9):
+  libsoup: set CVE_PRODUCT
+  cve-check: we don't actually need to unpack to check
+  cve-update-db-native: don't refresh more than once an hour
+  cve-update-db-native: don't hardcode the database name
+  cve-update-db-native: add an index on the CVE ID column
+  cve-update-db-native: clean up proxy handling
+  cve-check: rewrite look to fix false negatives
+  cve-check: neaten get_cve_info
+  cve-check: fetch CVE data once at a time instead of in a single call
+
+Zheng Ruoqin (1):
+  tiff: Refresh patch
+
+ meta/classes/cve-check.bbclass                |  98 +-
+ .../bind/0001-bind-fix-CVE-2019-6471.patch    |  64 ++
+ ...01-fix-enforcement-of-tcp-clients-v1.patch |  60 ++
+ ...p-clients-could-still-be-exceeded-v2.patch | 670 +++++++++++++
+ ...rence-counter-for-pipeline-groups-v3.patch | 278 ++++++
+ ...accounting-and-client-mortality-chec.patch | 512 ++++++++++
+ ...a-and-pipeline-refs-allow-special-ca.patch | 911 ++++++++++++++++++
+ ...allowance-for-tcp-clients-interfaces.patch |  80 ++
+ ...perations-in-bin-named-client.c-with.patch | 140 +++
+ .../bind/bind_9.11.5-P4.bb                    |   8 +
+ .../recipes-core/meta/cve-update-db-native.bb |  44 +-
+ ...-fix-one-do_populate_sysroot-warning.patch |  25 +-
+ ...tive_2.7.16.bb => python-native_2.7.17.bb} |   2 +-
+ meta/recipes-devtools/python/python.inc       |  10 +-
+ ...nt-parse-domains-containing-GH-13079.patch |  90 --
+ ...cape-the-server-title-of-DocXMLRPCSe.patch | 101 --
+ ...Resolve-intermediate-staging-issues.patch} |  53 +-
+ .../python/python/CVE-2018-20852.patch        | 123 ---
+ .../python/python/CVE-2019-9740.patch         | 216 -----
+ .../python/bpo-35907-cve-2019-9948-fix.patch  |  55 --
+ .../python/bpo-35907-cve-2019-9948.patch      |  55 --
+ .../python/bpo-36216-cve-2019-9636-fix.patch  |  28 -
+ .../python/bpo-36216-cve-2019-9636.patch      | 111 ---
+ .../python/bpo-36742-cve-2019-10160.patch     |  81 --
+ .../{python_2.7.16.bb => python_2.7.17.bb}    |   3 -
+ .../libtiff/tiff/CVE-2019-7663.patch          |  71 +-
+ ...01-dont-setup-compiler-flags-m32-m64.patch |  42 +
+ meta/recipes-support/boost/boost_1.71.0.bb    |   1 +
+ .../libsoup/libsoup-2.4_2.66.2.bb             |   2 +
+ meta/recipes-support/lz4/lz4_1.9.2.bb         |   3 +
+ scripts/lib/devtool/standard.py               |   2 +-
+ 31 files changed, 2911 insertions(+), 1028 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/0001-bind-fix-CVE-2019-6471.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0001-fix-enforcement-of-tcp-clients-v1.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0002-tcp-clients-could-still-be-exceeded-v2.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0003-use-reference-counter-for-pipeline-groups-v3.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0004-better-tcpquota-accounting-and-client-mortality-chec.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0005-refactor-tcpquota-and-pipeline-refs-allow-special-ca.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0006-restore-allowance-for-tcp-clients-interfaces.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/0007-Replace-atomic-operations-in-bin-named-client.c-with.patch
+ rename meta/recipes-devtools/python/{python-native_2.7.16.bb => python-native_2.7.17.bb} (97%)
+ delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
+ rename meta/recipes-devtools/python/python/{builddir.patch => 0001-python-Resolve-intermediate-staging-issues.patch} (58%)
+ delete mode 100644 meta/recipes-devtools/python/python/CVE-2018-20852.patch
+ delete mode 100644 meta/recipes-devtools/python/python/CVE-2019-9740.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-36742-cve-2019-10160.patch
+ rename meta/recipes-devtools/python/{python_2.7.16.bb => python_2.7.17.bb} (97%)
+ create mode 100644 meta/recipes-support/boost/boost/0001-dont-setup-compiler-flags-m32-m64.patch
+
+-- 
+2.21.0
+
 
