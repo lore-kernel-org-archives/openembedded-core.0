@@ -1,33 +1,27 @@
-Return-Path: <quentin.schulz@streamunlimited.com>
-X-Greylist: delayed 2696 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 22 Nov 2019 16:00:51 UTC
-Received: from bsmtp3.bon.at (bsmtp3.bon.at [213.33.87.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 8510D7FCE3
+Return-Path: <stefan@agner.ch>
+Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
+	by mail.openembedded.org (Postfix) with ESMTP id 97CDD7FCCC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2019 16:00:51 +0000 (UTC)
-Received: from bsmtp2.bon.at (unknown [192.168.181.103])
-	by bsmtp3.bon.at (Postfix) with ESMTPS id 47KKkj1Cw5z5vd0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2019 16:15:57 +0100 (CET)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp2.bon.at (Postfix) with ESMTPSA id 47KKkd5djnz5tlH;
-	Fri, 22 Nov 2019 16:15:53 +0100 (CET)
-Date: Fri, 22 Nov 2019 16:15:52 +0100
-From: Quentin Schulz <quentin.schulz@streamunlimited.com>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20191122151552.rvbxrqris4ytn56f@qschulz>
-References: <1571325700-5138-1-git-send-email-akuster808@gmail.com>
-	<20191017184222.GN17412@denix.org>
-	<2e2b16b4-fff6-b84c-1f48-0e020a0f3629@gmail.com>
-	<20191017200153.GO17412@denix.org>
-	<80a9db47-73ab-3326-3488-d5d9649e352f@ni.com>
-	<21ecbf49-d34f-414c-bb05-636626ac6ee9@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <21ecbf49-d34f-414c-bb05-636626ac6ee9@gmail.com>
-User-Agent: NeoMutt/20180716
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [thud][PATCH] Revert "OpkgPM: use --add-ignore-recommends to process BAD_RECOMMENDATIONS"
+	Fri, 22 Nov 2019 16:24:45 +0000 (UTC)
+Received: from localhost.localdomain (31-10-206-124.static.upc.ch
+	[31.10.206.124])
+	by mail.kmu-office.ch (Postfix) with ESMTPSA id 131155C3BCC;
+	Fri, 22 Nov 2019 17:24:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
+	t=1574439885;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:content-type:content-transfer-encoding:
+	in-reply-to:references; bh=p9gA5Is75Kt+hNnUDnLnicnZ5eh9kJTWNP8ruew3D7w=;
+	b=DStyu+PnNw2W4U9I35HZ4PqY9E7pn7eKpvq5KgfzKv0f2mo04mbCqVMnSpsDuaYWFdp1hV
+	SXSk7s/7ZMEjhp2Ac/0xkwFNy1Sd2fbxH0+a6Y+vwC2oS0GlaM5ID8LAjQ+MdpoDfSIKHN
+	pO4loN/AtzBapGls4CWcd+66vvaXgS0=
+From: Stefan Agner <stefan@agner.ch>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 22 Nov 2019 16:24:41 +0000
+Message-Id: <20191122162441.26400-1-stefan@agner.ch>
+X-Mailer: git-send-email 2.17.1
+Cc: Stefan Agner <stefan.agner@toradex.com>
+Subject: [PATCH] rpcbind: use upstream systemd service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,48 +34,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2019 16:00:51 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 22 Nov 2019 16:24:46 -0000
 
-Hi all,
+From: Stefan Agner <stefan.agner@toradex.com>
 
-On Fri, Oct 18, 2019 at 02:18:15PM -0700, akuster808 wrote:
-> 
-> 
-> On 10/18/19 10:58 AM, Alejandro Del Castillo wrote:
-> >
-> > On 10/17/19 3:01 PM, Denys Dmytriyenko wrote:
-> >> On Thu, Oct 17, 2019 at 12:21:11PM -0700, akuster808 wrote:
-> >>> On 10/17/19 11:42 AM, Denys Dmytriyenko wrote:
-> >>>> Thank you for this revert! I've been pulling my hair out past couple days
-> >>>> figuring out why BAD_RECOMMENDATIONS stopped working for us. This fixed it.
-> >>> What I find curious is that the offending commit has been in thud since
-> >>> July 29th and we are just now hearing about issues.
-> >> Yeah, in our case we only noticed the issue when we started preparing the
-> >> latest release and found extra packages that weren't supposed to be there.
-> > Is there a bugzilla ticket tracking the issue? 
-> I am not aware of any for thud. IIRC, this commit was a backport request
-> from the community.
-> 
-> It would be interesting if those who have issues with thud check against
-> master.
-> 
+Use upstream systemd service files instead of our own service files.
+This also makes sure that /run/rpcbind.sock is used which fixes the
+following systemd warning:
+  /usr/lib/systemd/system/rpcbind.socket:5: ListenStream= references a
+  path below legacy directory /var/run/, updating /var/run/rpcbind.sock
+  \xe2\x86\x92 /run/rpcbind.sock; please update the unit file accordingly.
 
-Given that I took the patches from 2.7 (warrior) for backport, we should
-be safe from that side.
+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+---
+ .../0001-systemd-use-EnvironmentFile.patch    | 42 +++++++++++++++++++
+ .../rpcbind/rpcbind/rpcbind.conf              |  2 +-
+ .../rpcbind/rpcbind/rpcbind.service           | 12 ------
+ .../rpcbind/rpcbind/rpcbind.socket            |  8 ----
+ .../recipes-extended/rpcbind/rpcbind_1.2.5.bb | 13 +-----
+ 5 files changed, 45 insertions(+), 32 deletions(-)
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+ delete mode 100644 meta/recipes-extended/rpcbind/rpcbind/rpcbind.socket
 
-Tested anyway with poky c9a1a608f5146e5dcfebc8e566cb7f6388a3986f
-(warrior), and:
-1. BAD_RECOMMENDATIONS are not pulled, as intended and expected,
-2. the bug I explained in my cover letter[1] as a reason for backporting
-the patch Armin has since reverted does not happen,
-
-Quentin
-
-[1] https://lists.yoctoproject.org/g/poky/message/11671
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch b/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch
+new file mode 100644
+index 0000000000..b92f2cf7b1
+--- /dev/null
++++ b/meta/recipes-extended/rpcbind/rpcbind/0001-systemd-use-EnvironmentFile.patch
+@@ -0,0 +1,42 @@
++From da528d5d60137f13202102b53cf178aba45849a5 Mon Sep 17 00:00:00 2001
++From: Stefan Agner <stefan.agner@toradex.com>
++Date: Sun, 6 Oct 2019 00:05:54 +0200
++Subject: [PATCH] systemd: use EnvironmentFile
++
++Use OE specific environment file.
++
++Upstream-Status: Inappropriate [OE specific]
++Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
++---
++ configure.ac               | 2 ++
++ systemd/rpcbind.service.in | 2 +-
++ 2 files changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/configure.ac b/configure.ac
++index 2dd9471..47a46c0 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -69,5 +69,7 @@ AC_CHECK_HEADERS([nss.h rpcsvc/mount.h])
++ # 2 "evals" needed to expand variable names
++ AC_SUBST([_sbindir])
++ AC_CONFIG_COMMANDS_PRE([eval eval _sbindir=$sbindir])
+++AC_SUBST([_sysconfdir])
+++AC_CONFIG_COMMANDS_PRE([eval eval _sysconfdir=$sbindir])
++ 
++ AC_OUTPUT([Makefile systemd/rpcbind.service])
++diff --git a/systemd/rpcbind.service.in b/systemd/rpcbind.service.in
++index 7b1c74b..f45ee1e 100644
++--- a/systemd/rpcbind.service.in
+++++ b/systemd/rpcbind.service.in
++@@ -11,7 +11,7 @@ Wants=rpcbind.target
++ 
++ [Service]
++ Type=notify
++-# distro can provide a drop-in adding EnvironmentFile=-/??? if needed.
+++EnvironmentFile=-@_sysconfdir@/rpcbind.conf
++ ExecStart=@_sbindir@/rpcbind $RPCBIND_OPTIONS -w -f
++ 
++ [Install]
++-- 
++2.23.0
++
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf
+index 2a4dfbcfbc..f423ac1788 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf
++++ b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.conf
+@@ -1,3 +1,3 @@
+ # Optional arguments passed to rpcbind.
+ #
+-RPCBIND_OPTS=""
++RPCBIND_OPTIONS=""
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
+deleted file mode 100644
+index 9cdade4959..0000000000
+--- a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.service
++++ /dev/null
+@@ -1,12 +0,0 @@
+-[Unit]
+-Description=RPC Bind Service
+-Requires=rpcbind.socket
+-
+-[Service]
+-Type=forking
+-EnvironmentFile=-@SYSCONFDIR@/rpcbind.conf
+-ExecStart=@SBINDIR@/rpcbind $RPCBIND_OPTS
+-SuccessExitStatus=2
+-
+-[Install]
+-Also=rpcbind.socket
+diff --git a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.socket b/meta/recipes-extended/rpcbind/rpcbind/rpcbind.socket
+deleted file mode 100644
+index d63c1d9720..0000000000
+--- a/meta/recipes-extended/rpcbind/rpcbind/rpcbind.socket
++++ /dev/null
+@@ -1,8 +0,0 @@
+-[Unit]
+-Description=RPCbind Server Activation Socket
+-
+-[Socket]
+-ListenStream=/var/run/rpcbind.sock
+-
+-[Install]
+-WantedBy=sockets.target
+diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb b/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
+index 19d778b6d1..aff00e56e6 100644
+--- a/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
++++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.5.bb
+@@ -13,9 +13,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b46486e4c4a416602693a711bb5bfa39 \
+ SRC_URI = "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
+            file://init.d \
+            file://rpcbind.conf \
+-           file://rpcbind.socket \
+-           file://rpcbind.service \
+            file://rpcbind_add_option_to_fix_port_number.patch \
++           file://0001-systemd-use-EnvironmentFile.patch \
+           "
+ SRC_URI[md5sum] = "ed46f09b9c0fa2d49015f6431bc5ea7b"
+ SRC_URI[sha256sum] = "2ce360683963b35c19c43f0ee2c7f18aa5b81ef41c3fdbd15ffcb00b8bffda7a"
+@@ -28,7 +27,7 @@ PACKAGECONFIG[tcp-wrappers] = "--enable-libwrap,--disable-libwrap,tcp-wrappers"
+ INITSCRIPT_NAME = "rpcbind"
+ INITSCRIPT_PARAMS = "start 12 2 3 4 5 . stop 60 0 1 6 ."
+ 
+-SYSTEMD_SERVICE_${PN} = "rpcbind.service"
++SYSTEMD_SERVICE_${PN} = "rpcbind.service rpcbind.socket"
+ 
+ inherit useradd
+ 
+@@ -50,12 +49,4 @@ do_install_append () {
+ 		-e 's,/sbin/,${sbindir}/,g' \
+ 		${WORKDIR}/init.d > ${D}${sysconfdir}/init.d/rpcbind
+ 	chmod 0755 ${D}${sysconfdir}/init.d/rpcbind
+-
+-	install -m 0755 ${WORKDIR}/rpcbind.conf ${D}${sysconfdir}
+-	install -d ${D}${systemd_unitdir}/system
+-	install -m 0644 ${WORKDIR}/rpcbind.socket ${D}${systemd_unitdir}/system
+-	install -m 0644 ${WORKDIR}/rpcbind.service ${D}${systemd_unitdir}/system
+-	sed -i -e 's,@SBINDIR@,${sbindir},g' \
+-		-e 's,@SYSCONFDIR@,${sysconfdir},g' \
+-		${D}${systemd_unitdir}/system/rpcbind.service
+ }
 -- 
-StreamUnlimited Engineering GmbH
-High Tech Campus Vienna, Gutheil-Schoder-Gasse 10, 1100 Vienna, Austria
-quentin.schulz@streamunlimited.com, www.streamunlimited.com
+2.17.1
+
 
