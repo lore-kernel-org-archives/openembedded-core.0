@@ -1,52 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B0D07FA3E
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id AC5E97F7E9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2019 08:58:37 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id i12so7579509wrn.11
+	Fri, 22 Nov 2019 09:17:03 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.69,229,1571673600"; d="scan'208";a="78913203"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 22 Nov 2019 17:17:03 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id E41DF4CE1507
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2019 00:58:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=tIyhM9iF1SK3wEAcpc/rgL8A3ZQhAQDCXFJCBLqGnlE=;
-	b=Daxpmb5puu1ggWTRxhx+91lzCkedOfMy00g5YcfaLkSzlWVN7O3gsE6raAqA0S6B4X
-	ef+mr7W4gegx0Dguh6nOnWGexz078jcz7iobtE6gjCffLoKRQi4BVTPYLpehEc6mvtU2
-	H+bkPmjlpWcJA2N4731/4Ns6yHfm+ulHq20zQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tIyhM9iF1SK3wEAcpc/rgL8A3ZQhAQDCXFJCBLqGnlE=;
-	b=f4QIx9LucSXgbuyRNHnRMGGrytcnbBRBTXq4HnvZ42hQmVk77y/Xkyi8B0Hc/JZ1d9
-	u1qWjqeyE5p9E8RdgmmbgJl+6IIZM7/q1MF7Zy/9Uj148IENwraRzmQmwOa8zlVT5xif
-	TIqMUFT7TOyEW6tSnq88I0vjw1RwObkWuyJm3LIu7BNRGi7kNVCM8fylxZrxu/GyQoNQ
-	0MNabViaX9H3gq/Fpgu8GbLYGd+cfAyelA2j7qGUjcJbzBRTghwZKbF0PzX/da2Xo6C4
-	mD4a29pzuA6NpyRdtS/q1kOGcXk1B9ogTv2btQ3hOWB76hKWr6bgrc/VkZ5Tgc/7eZUH
-	x4Xw==
-X-Gm-Message-State: APjAAAXTPe52002fjUORk/3fICYyEXce7W064tpayYaSxGhdb4/VPWnU
-	iPyzh62Ck9Z1xTo48EzAPaHhIQ==
-X-Google-Smtp-Source: APXvYqzq7G2x7aEHy+95g9R4SKtrclTApJXP+N1TQ0gqSPniHS3FLWWP6KYNbaaY7t0x30YAuQOtaQ==
-X-Received: by 2002:a5d:4445:: with SMTP id x5mr17065308wrr.341.1574413117919; 
-	Fri, 22 Nov 2019 00:58:37 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w11sm7491442wra.83.2019.11.22.00.58.36
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 22 Nov 2019 00:58:37 -0800 (PST)
-Message-ID: <0e33e0aac09ea020a6a3d0714a9de15cf07d6f66.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 22 Nov 2019 08:58:35 +0000
-In-Reply-To: <CAMKF1soT1CqsRqkVOfpGjuCjvvHOExnwjZguXEog9Sa6dc_uFw@mail.gmail.com>
-References: <20191121150207.3657-1-richard.purdie@linuxfoundation.org>
-	<CAMKF1soT1CqsRqkVOfpGjuCjvvHOExnwjZguXEog9Sa6dc_uFw@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Fri, 22 Nov 2019 17:08:43 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Fri, 22 Nov 2019 17:17:03 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 22 Nov 2019 08:22:59 -0800
+Message-ID: <1574439782-29100-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/3] opkg: Add upstream fixes
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: E41DF4CE1507.A6BD6
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] cronie:upgrade 1.5.4 -> 1.5.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +37,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2019 08:58:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 22 Nov 2019 09:17:04 -0000
+Content-Type: text/plain
 
-On Thu, 2019-11-21 at 16:27 -0800, Khem Raj wrote:
-> On Thu, Nov 21, 2019 at 7:02 AM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >  .../opkg/opkg/open_inner.patch                | 150
-> > ++++++++++++++++
-> >  .../opkg/opkg/opkg_archive.patch              | 160
-> > ++++++++++++++++++
-> > 
-> > +X-Evolution-Source: 1525863794.3857.16@hex
-> > +Content-Transfer-Encoding: 8bit
-> 
-> Perhaps this raw mail header can be removed it seems to add no value
-> moreover is distracting 
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ meta/recipes-extended/cronie/{cronie_1.5.4.bb => cronie_1.5.5.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/cronie/{cronie_1.5.4.bb => cronie_1.5.5.bb} (94%)
 
-Yes, I realised and it was gone in the second version.
+diff --git a/meta/recipes-extended/cronie/cronie_1.5.4.bb b/meta/recipes-extended/cronie/cronie_1.5.5.bb
+similarity index 94%
+rename from meta/recipes-extended/cronie/cronie_1.5.4.bb
+rename to meta/recipes-extended/cronie/cronie_1.5.5.bb
+index d35c667..b327381 100644
+--- a/meta/recipes-extended/cronie/cronie_1.5.4.bb
++++ b/meta/recipes-extended/cronie/cronie_1.5.5.bb
+@@ -16,7 +16,7 @@ SECTION = "utils"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/cronie-crond/${BPN}/releases/"
+ 
+-SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}-final/cronie-${PV}.tar.gz \
++SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}/cronie-${PV}.tar.gz \
+            file://crond.init \
+            file://crontab \
+            file://crond.service \
+@@ -25,8 +25,8 @@ SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}
+ PAM_SRC_URI = "file://crond_pam_config.patch"
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
+ 
+-SRC_URI[md5sum] = "20233b96997e17a142e1fbe0d7ce8223"
+-SRC_URI[sha256sum] = "af8970559cad4262f8ffd7ec72abf682d2dcce04fdfb8f206a71d96566aba882"
++SRC_URI[md5sum] = "351a37d0b5bd0144816724b4482747ad"
++SRC_URI[sha256sum] = "be34c79505e5544323281854744b9955ff16b160ee569f9df7c0dddae5720eac"
+ 
+ inherit autotools update-rc.d useradd systemd
+ 
+-- 
+2.7.4
 
-Cheers,
 
-Richard
 
 
