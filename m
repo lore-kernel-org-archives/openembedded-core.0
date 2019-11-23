@@ -1,50 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F50F7FCD9
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3425B7FCDB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 16:18:50 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id 207so4950689pge.8
+	Sat, 23 Nov 2019 16:18:51 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id bb5so4554408plb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 08:18:51 -0800 (PST)
+	Sat, 23 Nov 2019 08:18:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tq5lGH/mq4qFGH4CHjk6pKTXSTRUUOAVPkoCtVxXiEo=;
-	b=tG+S/EixaAbB29cgIKA/IWmNvo7HSaKWSz2yPp8dHnISpxT+2qa0tNuuNZV1o17zFB
-	sq6V85bEbe7NnKzlRh6Fr2MorKCDyuKqTpUrglpGTj8doh4Lhsn+J/kCwHocd4vPP4RZ
-	LHqGaLgOjgxrHU2P6AOILrcLu/fKzFEukmcxyjhIqxfgYqUzcHqCqM6UZkBmhNO4fJyz
-	M6NTlmom27v0h0avTm+g+wp98hib///zP7jpnJk6zDg6wkEnngoBawS7l2PKdNqVJqdK
-	ZyO8ab8Q2vL9yY05kHuARaiO/ndlrhbZ4Eukagp1W1i19+BLv5Siaygg/SPtJgVU7Rwd
-	T6kA==
+	bh=d583mcwyno4Z9tOJHndA5WRA/xEMzGjZeuq5KxT+LnA=;
+	b=vCojz+pbiEvy4yFwhlTh1s8aaOcwImXI9nndZTUYpSZ0FoRR39ZBlcFJstmOX7vy5W
+	55ug4W+czBEo2KphYn0EXRF6OZ92akZycxSW6RLcDQMccfp+oxbP+eOI1LxzlRBrT/2Q
+	Oc7XHXKt4NGbGy8QHwwT9EFEU03NrQH7QHMnpi7dtQAudthdbHe5+P2mHHkTXCgajSCj
+	32Zi3UZgPUHpvx3801UI87eI91aewhkVaREAAVElDrJg3hOX9qNcd/elopBy/HQ2Debm
+	E9na/58O9JVweR9siLaBLrUI3X6jUEY0/JJARAQmb47QSqxmN98M4VQPuqhGlVq2zD0r
+	R95A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=tq5lGH/mq4qFGH4CHjk6pKTXSTRUUOAVPkoCtVxXiEo=;
-	b=s5mEUwkkEnQZNiRrnSZZqvUpw8RUjlCjjvLlg5IMU1R4WT0QlTdlIvSc4pqw7d3Nl6
-	0DuLx5LwBbqDQqhBq5rDe/tFezxlxtp1APiuZV3tQE8YBgkluYUfKQuAb2tPBWe+6LYB
-	qpVAzstmHGQciTzJ8hDnlfjq5wbpQdNPV7pgcMiPCtNgpfWIdK/poYD5sJAKLLIDCP1c
-	eJjYyi3ZmBfosnafm4NjSSElZuh73ClzeeJ9w5GHvIoxyTOw00M9kKIzZ9VEEqpdkH53
-	ScJFYGBu+ZrcaSU+JwN2XU7YxmIpSi0+mUDP26HV+4rCGsnmGowZ6+debbGjKz39VELO
-	gFbQ==
-X-Gm-Message-State: APjAAAUoe9WPXcbH8AmZtB5M6uyf0cVB5rB1s5J6xka5MEEmx4hKaV1N
-	Q5wmB0LK3O5JroTMO+iemgD3TXno
-X-Google-Smtp-Source: APXvYqxBxTURduRHlvx+5HW4HCEQK+1Hn3YFDbN8QXdHGvtsb7DTWlsqqlLFKTkE9U3uLEjUEQmmIQ==
-X-Received: by 2002:aa7:870c:: with SMTP id b12mr24409193pfo.30.1574525931395; 
-	Sat, 23 Nov 2019 08:18:51 -0800 (PST)
+	bh=d583mcwyno4Z9tOJHndA5WRA/xEMzGjZeuq5KxT+LnA=;
+	b=BzJq0m9L8TCfruAy5d2BN4TFwWp647Ch4sSuOz/CgBUy/ajEySnSQWlgyHvw3C+5I9
+	JH7TJbHG3mRfuLPbg/D4SEI/ppFWYtH4uCe1wDzsLyFv4vywzeVBs9K1zhuHKm5XlNyy
+	uAQMj508kEVDN8sFNJxtOVB1mJtiS6ZjN86HO/IDQwN38TzcC9LoX7L7OxfyIOpF1zMZ
+	NP74rKqZBciooEXDfx/1CNsAGVmuz2FIyni3jO98nGzPMOzFi6zGDC9sJxS+fNX/5Zem
+	DX5QZhz8eA9Cuy+T/ukr6ffgD8K2vyIgSMUrRpXTsY/hUEmlVk3+Vq1yea6qnsQpdk9O
+	NByw==
+X-Gm-Message-State: APjAAAVJw0dCo4IvGskDrXoJ0eRUBNhJ1+tp5QIDoXdcQBWHPm0/m2lw
+	FVNfkgCMe3KedoQwJ9sjD1o42Yqx
+X-Google-Smtp-Source: APXvYqyHLgdN0dMGiGA7L5uKsixPhFX92bZXV9SpOwzsv1FT1mJ6lds+gZECRcPCPFsWpoooQ2eqzg==
+X-Received: by 2002:a17:902:b681:: with SMTP id
+	c1mr19641585pls.202.1574525932132; 
+	Sat, 23 Nov 2019 08:18:52 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:d5a1:4623:137e:d439])
-	by smtp.gmail.com with ESMTPSA id u7sm2647804pjx.19.2019.11.23.08.18.50
+	by smtp.gmail.com with ESMTPSA id u7sm2647804pjx.19.2019.11.23.08.18.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 23 Nov 2019 08:18:50 -0800 (PST)
+	Sat, 23 Nov 2019 08:18:51 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Nov 2019 08:18:42 -0800
-Message-Id: <1574525924-20765-5-git-send-email-akuster808@gmail.com>
+Date: Sat, 23 Nov 2019 08:18:43 -0800
+Message-Id: <1574525924-20765-6-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1574525924-20765-1-git-send-email-akuster808@gmail.com>
 References: <1574525924-20765-1-git-send-email-akuster808@gmail.com>
-Subject: [zeus][PATCH 5/7] oeqa/selftest/sstatetests: Ensure we don't use hashequiv for sstatesigs tests
+Subject: [zeus][PATCH 6/7] cairo: the component is dual licensed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,114 +58,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Nov 2019 16:18:50 -0000
+X-List-Received-Date: Sat, 23 Nov 2019 16:18:51 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
+Somehow, over the years, no one noticed that cairo does in fact
+offer a choice between mpl and lgpl, but the COPYING makes it clear:
+
+https://gitlab.freedesktop.org/cairo/cairo/blob/1.16/COPYING
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/sstatetests.py | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 2867cb7..6757a0e 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -255,6 +255,7 @@ BUILD_ARCH = "x86_64"
- BUILD_OS = "linux"
- SDKMACHINE = "x86_64"
- PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
-         bitbake("core-image-sato -S none")
-@@ -266,6 +267,7 @@ BUILD_ARCH = "i686"
- BUILD_OS = "linux"
- SDKMACHINE = "i686"
- PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
-         bitbake("core-image-sato -S none")
-@@ -298,6 +300,7 @@ PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
- TCLIBCAPPEND = \"\"
- NATIVELSBSTRING = \"DistroA\"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
-         bitbake("core-image-sato -S none")
-@@ -305,6 +308,7 @@ NATIVELSBSTRING = \"DistroA\"
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
- TCLIBCAPPEND = \"\"
- NATIVELSBSTRING = \"DistroB\"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
-         bitbake("core-image-sato -S none")
-@@ -332,11 +336,13 @@ NATIVELSBSTRING = \"DistroB\"
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
- TCLIBCAPPEND = \"\"
- MACHINE = \"qemux86-64\"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """
-         configB = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
- TCLIBCAPPEND = \"\"
- MACHINE = \"qemuarm\"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """
-         self.sstate_allarch_samesigs(configA, configB)
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+index f32e9ba..e3de3f6 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+@@ -10,12 +10,12 @@ HOMEPAGE = "http://cairographics.org"
+ BUGTRACKER = "http://bugs.freedesktop.org"
+ SECTION = "libs"
  
-@@ -352,6 +358,7 @@ MACHINE = \"qemux86-64\"
- require conf/multilib.conf
- MULTILIBS = \"multilib:lib32\"
- DEFAULTTUNE_virtclass-multilib-lib32 = \"x86\"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """
-         configB = """
- TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
-@@ -359,6 +366,7 @@ TCLIBCAPPEND = \"\"
- MACHINE = \"qemuarm\"
- require conf/multilib.conf
- MULTILIBS = \"\"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """
-         self.sstate_allarch_samesigs(configA, configB)
+-LICENSE = "MPL-1.1 & LGPLv2.1 & GPLv3+"
+-LICENSE_${PN} = "MPL-1.1 & LGPLv2.1"
+-LICENSE_${PN}-dev = "MPL-1.1 & LGPLv2.1"
+-LICENSE_${PN}-doc = "MPL-1.1 & LGPLv2.1"
+-LICENSE_${PN}-gobject = "MPL-1.1 & LGPLv2.1"
+-LICENSE_${PN}-script-interpreter = "MPL-1.1 & LGPLv2.1"
++LICENSE = "(MPL-1.1 | LGPLv2.1) & GPLv3+"
++LICENSE_${PN} = "MPL-1.1 | LGPLv2.1"
++LICENSE_${PN}-dev = "MPL-1.1 | LGPLv2.1"
++LICENSE_${PN}-doc = "MPL-1.1 | LGPLv2.1"
++LICENSE_${PN}-gobject = "MPL-1.1 | LGPLv2.1"
++LICENSE_${PN}-script-interpreter = "MPL-1.1 | LGPLv2.1"
+ LICENSE_${PN}-perf-utils = "GPLv3+"
  
-@@ -404,6 +412,7 @@ MACHINE = \"qemux86\"
- require conf/multilib.conf
- MULTILIBS = "multilib:lib32"
- DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
-         bitbake("world meta-toolchain -S none")
-@@ -414,6 +423,7 @@ MACHINE = \"qemux86copy\"
- require conf/multilib.conf
- MULTILIBS = "multilib:lib32"
- DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
-         bitbake("world meta-toolchain -S none")
-@@ -452,6 +462,7 @@ TIME = "111111"
- DATE = "20161111"
- INHERIT_remove = "buildstats-summary buildhistory uninative"
- http_proxy = ""
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
-         self.track_for_cleanup(self.topdir + "/download1")
-@@ -468,6 +479,7 @@ DATE = "20161212"
- INHERIT_remove = "uninative"
- INHERIT += "buildstats-summary buildhistory"
- http_proxy = "http://example.com/"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
- """)
-         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
-         self.track_for_cleanup(self.topdir + "/download2")
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
 -- 
 2.7.4
 
