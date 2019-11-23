@@ -1,51 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 15F1A7FCAD
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
+	[209.85.214.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 4EFEC7FCE0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 18:10:52 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id s8so4583561pji.2
+	Sat, 23 Nov 2019 18:15:45 +0000 (UTC)
+Received: by mail-pl1-f178.google.com with SMTP id t8so4545140plr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 10:10:54 -0800 (PST)
+	Sat, 23 Nov 2019 10:15:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=X+1FSoVkJykbL13jHRUpmGghyhLHCAXN0xuLx5SGlpQ=;
-	b=ZQ8pxE/luKTKUihflPEr69PYycweWQBI/l2HKeZgc4HZLBGgefH51XmuUM9582Vvaw
-	mhTUCKwf7YRHfg41wpdEwfKUVoGnjC1PXD9nCf2Tln3jScHEi9o9jXrZHU73GnCCYpug
-	Xf2r/wgVDE+kJFROMhGZAPXm5mSCI1gP49LzM2puG8Lz2tlhgjFunhwh3mzKfAJR90fM
-	1Jh+GTV5ksHrjjjKsPlk8g19Fy28OJ6ZZZFhq3Zsrcjlq9A30tFnExnaIEevYQOj7poM
-	nkBCLECF8GNuXZRb41vv5wUsffJjfxre1pSoFqKceX1sGFXXDJ+G3hOeME1hg8ngG7eu
-	lsOg==
+	bh=ETLgysEjzK+3vHjXFYGypCvaCAFl3cv8vLIw+kyCfog=;
+	b=gtQ9KX323DKnKJLfq7tZp2XwpMMvA3VI9wp601c2S6ZZ81BXW95Svs7jviw9tpZXtr
+	PEVO5ApnHKR1dOtjWWCnZ6Z3Wyndon+ByRszJzSbsOoYACygqH/gRRhNx1sWTUhpm46G
+	Yuxx1ITloA0oF72SPYSmBFcdf0N1jiknhtxUMCf+ciMEyG3XktFH14mRi9+m/jra02Uh
+	tcgZhgpqvWwHc1SNk1xpOKBkCor3pwn3UdNNzKAIn51bff6IEgJp0ZpzN3jSmna3W8bk
+	mNsKloxTthLfs02ztnmPuO3MKTgBul1xxiCCKR7ziEZiIpYBLiDRNz/nDLskKVmGeOnf
+	OMCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=X+1FSoVkJykbL13jHRUpmGghyhLHCAXN0xuLx5SGlpQ=;
-	b=MNXCto24jnknGkGnKfN6BO7E8JGB+sVr/Y3sYqIIrCL/QGc74zqCsM4I9G2Drfxa1Y
-	zEtrBgPK6DpyN5hs3doBqFS/whpbsUI6r+FSDhlmSxQrnbvkHRT+Yq9S5JFG/yzs7KPr
-	VvqTj3a1aQY8UWfCfYuvQwU03zNaASH+6kDeQo/Es63Y4WlTlRIHgtiXSpSqbS/RlEDl
-	EUpV8+VumkPjf3xG5pGTfDo35Lw+WyLwLSUIztSasZ1aRu4lNvN0S+WAQtaDknBnLcgb
-	twJiC6LugZSej7eelxWagzB6O7FzvtaL3+RbP+RHdwmdWua7SxtF33TGylZuH3p+AWIB
-	NyWA==
-X-Gm-Message-State: APjAAAXKqVD8UcBrCkmVsLeQMLZAEd4tuJIifJ5w3g3MJZpq4yONip3r
-	UI/z8TuGDTl2izeLOpLruk5I0X3KsNE=
-X-Google-Smtp-Source: APXvYqw5VONFgo94UGRWH2P0ASbx3sIl/LbXMaw3WISCnXA1psm6teGduXx2SdxREEsxyoofftdF/Q==
-X-Received: by 2002:a17:902:8c84:: with SMTP id
-	t4mr20235330plo.269.1574532653325; 
-	Sat, 23 Nov 2019 10:10:53 -0800 (PST)
+	bh=ETLgysEjzK+3vHjXFYGypCvaCAFl3cv8vLIw+kyCfog=;
+	b=jiRPXSjo+1br4Ws1FPESIYhjY8LQ/Bz6SsptFLto54ITKw5pPngPnEw25nO4/Wg2Qs
+	nzc1E1Nsjn3mW7l+FwYZgBz0UvXykSB/gyt3StnnbchGkWOoOFuXFYqyecuh2MZDO2Sv
+	JfRCUUE/dM49q35wamY69SZFZOFNRq+rzbo7kwSYy9fW0YgLVOjSJnQohZASvKk7WyeT
+	mYgrc5F3ug735bQu2rLFCU93neJU2VtMhHmJCKQ/NFGem1V4KjrGaT0Q4Mr1raAijyhJ
+	vIY2Pna9r92q17FRu3GEoPwq0qP/DyOJLZKr/ktD8gcSDmzdG7aTYHA5vFepO7L3va5V
+	O+Gg==
+X-Gm-Message-State: APjAAAU49dIG6+0dMLghjkv1GUE+sPxPpGbf3DrtsGHLzLwewJmSd3qE
+	axkbkI3IZmkqcTcGPPDdtmwczaIS3Vw=
+X-Google-Smtp-Source: APXvYqx46BRXsA5t3pwCy/fFoKBzu4hwmb3wmHt5ozW8rE2634kwbuBV9hOSaL+fA3VEW85BmCM+Sg==
+X-Received: by 2002:a17:902:9a8d:: with SMTP id
+	w13mr20379974plp.330.1574532945566; 
+	Sat, 23 Nov 2019 10:15:45 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::d61])
-	by smtp.gmail.com with ESMTPSA id
-	o125sm2320037pfg.118.2019.11.23.10.10.52
+	by smtp.gmail.com with ESMTPSA id a3sm2595145pjh.31.2019.11.23.10.15.44
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 23 Nov 2019 10:10:52 -0800 (PST)
+	Sat, 23 Nov 2019 10:15:45 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Nov 2019 10:10:37 -0800
-Message-Id: <20191123181037.2776067-1-raj.khem@gmail.com>
+Date: Sat, 23 Nov 2019 10:15:28 -0800
+Message-Id: <20191123181528.2826658-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Subject: [PATCH v2] systemd-bootchart: Backport RISC-V support
+Subject: [PATCH v3] systemd-bootchart: Backport RISC-V support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,7 +57,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Nov 2019 18:10:53 -0000
+X-List-Received-Date: Sat, 23 Nov 2019 18:15:45 -0000
 Content-Transfer-Encoding: 8bit
 
 This is a combined backport from upstream patches for added risc-v
@@ -71,10 +70,10 @@ https://github.com/systemd/systemd/commit/171b53380085b1288b03b19a2b978f36a5c003
 
 https://github.com/systemd/systemd/commit/680a752c834aba1b66449d34f17dbe37e040f6b0
 
-Upstream-Status: Backport [https://github.com/systemd/systemd/commit/171b53380085b1288b03b19a2b978f36a5c003d0]
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
 v2: Improve commit msg
+v3: Move Upstream-Status to patch itself
 
  ...itecture-Recognise-RISCV-32-RISCV-64.patch | 45 +++++++++++++++++++
  .../systemd-bootchart_233.bb                  |  1 +
@@ -83,7 +82,7 @@ v2: Improve commit msg
 
 diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-architecture-Recognise-RISCV-32-RISCV-64.patch b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-architecture-Recognise-RISCV-32-RISCV-64.patch
 new file mode 100644
-index 0000000000..5e89195915
+index 0000000000..fc03812bb9
 --- /dev/null
 +++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/0001-architecture-Recognise-RISCV-32-RISCV-64.patch
 @@ -0,0 +1,45 @@
@@ -92,7 +91,7 @@ index 0000000000..5e89195915
 +Date: Thu, 21 Nov 2019 10:12:05 -0800
 +Subject: [PATCH] architecture: Recognise RISCV-32/RISCV-64
 +
-+Upstream-Status: Pending
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/171b53380085b1288b03b19a2b978f36a5c003d0]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
 + src/architecture.h | 13 +++++++++++++
