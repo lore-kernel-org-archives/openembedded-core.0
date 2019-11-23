@@ -1,52 +1,52 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 3523F6D7C1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id F2E6B7F7BD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2019 23:40:02 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id f6so4638225ilh.9
+	Sat, 23 Nov 2019 12:50:24 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id n1so11868268wra.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 22 Nov 2019 15:40:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=WiY8gvA0vOKYc82QXHlw9tLjxEX4OuC4vu8gdSFxCHQ=;
-	b=qule6j9dLEQtPlgeR5w+go8I+M3FdapGtNOtWm8py/HA1y3uGWkk/5b1plXp7DtjOB
-	PM9TD6cxitfJwqq4jdbPNO4MCEeEMAFu7DFHT2AeFLMB24qh/4jTc7/JTusrh8f72jLE
-	aRHZNQN4pVpIidb23ysj3K5Gt34ltqnq6+PEP83SzQm38bu4SoM53AtIPzfhuvLgN/hf
-	lOKp4A81LegkmNbH1DoFMwieB/AGfFlPCEnWOFVWc56cJoEkkzMEA5q0wbRqg1w0yq4R
-	wj18aNhAObSewmwlzdSrmleJUPkKSpBwho00v7D9GQHPBgL7jSUjNIOV/X9s/wmY8jVs
-	tF5w==
+	Sat, 23 Nov 2019 04:50:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=VRaHfJEY/AahFT3Lyqr17jfVIzrhpGDGnDj0XDVk4qE=;
+	b=aqWDs9jbVu5NIOFKbXaS6wtpDkdjauMi9dwtBRhoF19W0InR7zDCVMgDcJ2U3/qrmZ
+	PLQRgS7Cu9N7homHxjBSRDG/tY1GSFK1C6ScNvu+LS58qHcU86vzZ8ZDdkecgSv5kNlw
+	B4g+s1o65FPxZNRavkoNUxlvb7NmErcn6Hdi0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=WiY8gvA0vOKYc82QXHlw9tLjxEX4OuC4vu8gdSFxCHQ=;
-	b=UGBoVdRU6XSFc9bJqbRA4g1TiHE8Lj57F+dr2IvIgHNmmSQsMDwixqMHMZxMklHlgi
-	ZTAsKvBOnyZY0Q2+pnzfqkZPtLsUfZNYFHBhXkniysE0Zyj+ZVh3vcN7MK7jQ8Vh8Yje
-	T9rs43Yu9V9zEhdPNd1scw4ftif9WJ+3JseKQNAY4CpI7da0edhWa7gFdLn5pdzmA7Qt
-	76S35xouQ/RSYM3ywPuvQj8YW12d0Hz+K1oqL1vFerPqcWof3yJjzuujlN0mAx0sqUG2
-	SF62CO7lqRmyJysM0dLN47s3GD6pTQUtnAQuD5XUdbbK7zUj+6liUMJbVLP04i2vxCrH
-	gRgA==
-X-Gm-Message-State: APjAAAW5MZoxV3Ylr86TphCHnAmyBfjHUeC+/UO58CGsumQ5S0sIJCEh
-	8VPlMTVSys0DkOa2bJ+x57WEROiNxM2iRZV+e3c=
-X-Google-Smtp-Source: APXvYqxhwQ3yloTf9xIKsGX6/jftCtQsHW7HjO51O5APucB9H3OUyVOJhi/ChOo+8SniJcCbTpa47ylRd0AXLpitRB4=
-X-Received: by 2002:a92:d80e:: with SMTP id y14mr20410343ilm.267.1574466003146;
-	Fri, 22 Nov 2019 15:40:03 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=VRaHfJEY/AahFT3Lyqr17jfVIzrhpGDGnDj0XDVk4qE=;
+	b=caL9h7qtczpvxMsdUR5FU2x1VsE4N8StbkMenYPicJCrUi3qcjR6migLUSxlJ9GQuq
+	j8lxsTpclZlrwj6yBrPhIrGZZUb+3GsUXc8dkerNhxuE6jeFhY85W4a/PlPHoQDkpnpV
+	D+C5758Nvo6AA1te4mgSh65jUQG/sbpUNeKl1JFkispu6B3owVriA2tqHo+unFvEZgDB
+	/WvyfOSEthaDoYb2zIxnjCAG/f6gLM6Xar6O/uCYkrkydlUN4Q6luUYukQEd39bi3eBi
+	cS8w3gkHc90DO/Je+qBoeSR7t+RMLhrHEETRHW1HycrUBqzONSpn0sRkGZKJJOubK1zO
+	j9Qw==
+X-Gm-Message-State: APjAAAX99VSu/QTBZPatiZCFL7yzW7ADECcVMKzBV+2vTbVt8K4ghgUa
+	/wJeV6wYpEMOQ0X4FI/30KvQI5n36EI=
+X-Google-Smtp-Source: APXvYqylfZ/v6iDBfnrcgKMnwZz2lQu2SjxxjwpuqiHSTNoG487aT9bb/7DoEFDs8aKS4zDu5oYY6g==
+X-Received: by 2002:adf:fd45:: with SMTP id h5mr18853523wrs.388.1574513425465; 
+	Sat, 23 Nov 2019 04:50:25 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a26sm1708855wmm.14.2019.11.23.04.50.24
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 23 Nov 2019 04:50:24 -0800 (PST)
+Message-ID: <259c97ddeba6c67c8506eba66a8e4fdbc502dc1d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Trevor Gamblin <Trevor.Gamblin@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 23 Nov 2019 12:50:23 +0000
+In-Reply-To: <20191121174318.4512-2-Trevor.Gamblin@windriver.com>
+References: <20191121174318.4512-1-Trevor.Gamblin@windriver.com>
+	<20191121174318.4512-2-Trevor.Gamblin@windriver.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <1573778407-13250-1-git-send-email-denis@denix.org>
-	<CALbNGRQFFrkNuv8---ck=16VLaN09_9G+=r1Ppb-yAerQYEbEw@mail.gmail.com>
-	<6396b0dfd5c33ac1633eecd3a2f6d519d87438df.camel@linuxfoundation.org>
-	<20191122231639.GN4735@denix.org>
-In-Reply-To: <20191122231639.GN4735@denix.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Sat, 23 Nov 2019 00:39:51 +0100
-Message-ID: <CALbNGRRGYyJzUx21DT8p+SVLCN0Mj4GvEJ6Uv5ELnyGW9R-cPw@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH v2] distro_features_check: expand with MACHINE_FEATURES and COMBINED_FEATURES, rename
+Subject: Re: [PATCH 1/1] coreutils: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,41 +59,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 22 Nov 2019 23:40:02 -0000
+X-List-Received-Date: Sat, 23 Nov 2019 12:50:25 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Sat, Nov 23, 2019 at 12:16 AM Denys Dmytriyenko <denis@denix.org> wrote:
->
-> On Fri, Nov 22, 2019 at 11:10:14PM +0000, Richard Purdie wrote:
-> > On Fri, 2019-11-22 at 23:58 +0100, Andreas M=C3=BCller wrote:
-> > > Whatever this patch does renaming does nothing but causing me lots of
-> > > useles (rebasing) efforts. To me ist is simlpy the worst patch of
-> > > this
-> > > year and thanks for blocking me with this. I am really really
-> > > upset!!!!!!!
-> >
-> > FWIW you can probably unblock yourself by adding a local copy of the
-> > compatibility bbclass with the warning removed. That will then let you
-> > fix the fallout at a time of your choosing.
->
-> I thought warning would be relatively harmless... Why would it be blockin=
-g?
-> Do you want this to be a notice instead?
-am somewhat special:
+On Thu, 2019-11-21 at 12:43 -0500, Trevor Gamblin wrote:
+> From: Trevor Gamblin <trevor.gamblin@windriver.com>
+> 
+> coreutils has a large number of tests, (and potential RDEPENDS
+> to support them), including tests added with the flags
+> RUN_EXPENSIVE_TESTS and RUN_VERY_EXPENSIVE_TESTS that add
+> significant run time for their coverage. The RUN_VERY_EXPENSIVE_TESTS
+> option has been omitted from the run-ptest script to reduce
+> some of this run time, even though this increases the SKIP count
+> in the results. Also, the ptest directory for coreutils is given
+> blanket permissions at runtime with chmod -R 777 to ensure that
+> the user created for the tests will be able to run the test
+> scripts and create the necessary files in the process.
+> 
+> There is still room to improve the results of this ptest without
+> the aforementioned additions. Of the tests marked SKIP, there
+> are 30 tests that are currently counted as SKIP because they
+> require root permissions, and another 21 that require membership
+> in multiple user groups. It is important to know that coreutils
+> has tests for both root and non-root users. Testing showed that
+> 42 tests are skipped when running as root versus 30 when running
+> as a non-root user, so the decision was made to run the suite as
+> the latter.
+> 
+> Finally, note that the ptest suite for coreutils has a short
+> runtime on x86-64/kvm of approximately 4.5 minutes, in contrast
+> to the arm64 runtime of ~70 minutes.
 
-* Am sitting on 50+ patches for meta-openembedded and there was a
-patch sent adjusting features that causes me lots of nasty rebasing
-and go through the patches again.
-* (Try to) maintain MANY recipes. Did not run a test yet but I expect
-lots of warnings. Problem is that you might miss important so they
-should be fixed. But since I expect distro-features to go in the long
-term spawning a warning is the right thing to do.
+Its good to see this coming together thanks. Unfortunately it failed in
+testing.
 
-I understand the intention but sometimes we should just keep things
-stable or as is.
+> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> ---
+>  .../coreutils/coreutils/run-ptest             | 17 +++++++++
+>  meta/recipes-core/coreutils/coreutils_8.31.bb | 38 +++++++++++++++++++
+>  2 files changed, 55 insertions(+)
+>  create mode 100755 meta/recipes-core/coreutils/coreutils/run-ptest
+> 
+> diff --git a/meta/recipes-core/coreutils/coreutils/run-ptest b/meta/recipes-core/coreutils/coreutils/run-ptest
+> new file mode 100755
+> index 0000000000..683fedee7a
+> --- /dev/null
+> +++ b/meta/recipes-core/coreutils/coreutils/run-ptest
+> @@ -0,0 +1,17 @@
+> +#!/bin/bash
+> +
+> +COREUTILSLIB=/usr/lib/coreutils
+> +LOG="${COREUTILSLIB}/ptest/coreutils_ptest_$(date +%Y%m%d-%H%M%S).log"
+> +
+> +addgroup usergroup1
+> +adduser --ingroup usergroup1 tester
+> +
+> +su tester -c "make check-TESTS RUN_EXPENSIVE_TESTS=yes top_srcdir=. srcdir=." | tee -a ${LOG}
+> +deluser tester 
+> +delgroup usergroup1
+> +
+> +passed=`grep PASS ${LOG}|wc -l`
+> +failed=`grep FAIL ${LOG}|wc -l`
+> +skipped=`grep -E SKIP ${LOG}|wc -l`
+> +all=$((passed + failed + skipped))
+> +
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> index 57b2c1bdba..5ce2730048 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.31.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> @@ -143,3 +143,41 @@ python __anonymous() {
+>  }
+>  
+>  BBCLASSEXTEND = "native nativesdk"
+> +
+> +inherit ptest
+> +
+> +FILESEXTRAPATHS_prepend := "${THISDIR}/files:"
+> + 
+> +SRC_URI += 	"file://run-ptest"
 
-Time for zzz
 
-Andeas
+Parsing recipes...WARNING: /home/pokybuild/yocto-worker/musl-qemux86/build/meta/recipes-core/coreutils/coreutils_8.31.bb: Unable to get checksum for coreutils SRC_URI entry run-ptestfile: file could not be found
+
+I think this is a whitespace problem in SRC_URI where file from another
+url is being added to the string above.
+
+> +RDEPENDS_${PN}-ptest += "bash findutils gawk gdb glibc libconvert-asn1-perl liberror-perl libmodule-build-perl libtimedate-perl liburi-perl make perl perl-module-file-stat python strace"
+
+Using glibc here breaks musl builds.
+
+
+In the next version could you please also update:
+
+meta/conf/distro/include/ptest-packagelists.inc
+
+(this would be a slow ptest)
+
+Cheers,
+
+Richard
+
 
