@@ -1,51 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 418DD7FCE5
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F50F7FCD9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 16:18:49 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id az9so4533350plb.11
+	Sat, 23 Nov 2019 16:18:50 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id 207so4950689pge.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 08:18:50 -0800 (PST)
+	Sat, 23 Nov 2019 08:18:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=rimGlRafE8ivv54QwgBig6t10ko57CXjagQgN53FVHo=;
-	b=iFaGpyMyvIDQgoTip5sVlXQ9UDM8uWMF/nN3nPz4me23CmP9N1ZTwHRn4NBGcn6ZrU
-	9pjcD5m18A0vqYraYjfTyoD6CmVRaz8C90RZ6yG8HgAz1rbBaNjn2oByGg81JD7ewbtX
-	w60t+4Q4d14+Qdf5fHOtrZrknftdI6g0f53g1l5JeFTdCzZc5Z/FxNJWOWauZibtI63F
-	kBU+k5EDUnDSioyCLZCESaJGi+ah1QueJovRHQUGaWptDnlRegDyKcYT23DE4VG8tPwJ
-	fQKlIWSACWEJSCzYaOMDpQqAa/HQxwQRD4NbQ4HnoWzW9fpqYM1iDPYUu5nOm8isq/0V
-	u5ow==
+	bh=tq5lGH/mq4qFGH4CHjk6pKTXSTRUUOAVPkoCtVxXiEo=;
+	b=tG+S/EixaAbB29cgIKA/IWmNvo7HSaKWSz2yPp8dHnISpxT+2qa0tNuuNZV1o17zFB
+	sq6V85bEbe7NnKzlRh6Fr2MorKCDyuKqTpUrglpGTj8doh4Lhsn+J/kCwHocd4vPP4RZ
+	LHqGaLgOjgxrHU2P6AOILrcLu/fKzFEukmcxyjhIqxfgYqUzcHqCqM6UZkBmhNO4fJyz
+	M6NTlmom27v0h0avTm+g+wp98hib///zP7jpnJk6zDg6wkEnngoBawS7l2PKdNqVJqdK
+	ZyO8ab8Q2vL9yY05kHuARaiO/ndlrhbZ4Eukagp1W1i19+BLv5Siaygg/SPtJgVU7Rwd
+	T6kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=rimGlRafE8ivv54QwgBig6t10ko57CXjagQgN53FVHo=;
-	b=HLNMK9RGrCjs5waVEn4lgkdZ0lHqDT3rLutIC1CkM+dCOXzxEysE8s0j1GKWYLf++K
-	rKHtotZsBgna0WWoVKE36bHMR9Y7vHyGPDrd4r5fFp3EsN/xe4gKnqJtMTfzKRX1aShU
-	IMLTLO967VmQLkKvKRtQ684QbAdu9bQFGYAzvbdSOAbbvFzhNBQ/QuT2szb/Me4s491+
-	24Onn0V/7hc1IIqxigCSiWnrz/m/QuXFEDeoPJBSa5TVFG0eXPa61+iQECx3ZiVGoLqa
-	IYHwLv1NiZ+PDJK2Mmyz4CCY0IQ6sIuQyMczDRZSPd3UIaMv0aGQ8+OiSTzfdPgkFFwB
-	tmww==
-X-Gm-Message-State: APjAAAWP3ek3Y/isFAIlzFxb7Bzkumya+hk6d/KkJH8E/+9Rgs1NgFPQ
-	SvgUjnGuvhVIgc1aX0Z7g05/Bel+
-X-Google-Smtp-Source: APXvYqwDfm2oR0P3szbzVOxYKxDZje1F6Zf21JuDeH8FPQcywJmz3lMIXawlIvQZQGe1m2ItCFFTug==
-X-Received: by 2002:a17:902:9687:: with SMTP id
-	n7mr20185762plp.335.1574525930134; 
-	Sat, 23 Nov 2019 08:18:50 -0800 (PST)
+	bh=tq5lGH/mq4qFGH4CHjk6pKTXSTRUUOAVPkoCtVxXiEo=;
+	b=s5mEUwkkEnQZNiRrnSZZqvUpw8RUjlCjjvLlg5IMU1R4WT0QlTdlIvSc4pqw7d3Nl6
+	0DuLx5LwBbqDQqhBq5rDe/tFezxlxtp1APiuZV3tQE8YBgkluYUfKQuAb2tPBWe+6LYB
+	qpVAzstmHGQciTzJ8hDnlfjq5wbpQdNPV7pgcMiPCtNgpfWIdK/poYD5sJAKLLIDCP1c
+	eJjYyi3ZmBfosnafm4NjSSElZuh73ClzeeJ9w5GHvIoxyTOw00M9kKIzZ9VEEqpdkH53
+	ScJFYGBu+ZrcaSU+JwN2XU7YxmIpSi0+mUDP26HV+4rCGsnmGowZ6+debbGjKz39VELO
+	gFbQ==
+X-Gm-Message-State: APjAAAUoe9WPXcbH8AmZtB5M6uyf0cVB5rB1s5J6xka5MEEmx4hKaV1N
+	Q5wmB0LK3O5JroTMO+iemgD3TXno
+X-Google-Smtp-Source: APXvYqxBxTURduRHlvx+5HW4HCEQK+1Hn3YFDbN8QXdHGvtsb7DTWlsqqlLFKTkE9U3uLEjUEQmmIQ==
+X-Received: by 2002:aa7:870c:: with SMTP id b12mr24409193pfo.30.1574525931395; 
+	Sat, 23 Nov 2019 08:18:51 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:d5a1:4623:137e:d439])
-	by smtp.gmail.com with ESMTPSA id u7sm2647804pjx.19.2019.11.23.08.18.49
+	by smtp.gmail.com with ESMTPSA id u7sm2647804pjx.19.2019.11.23.08.18.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 23 Nov 2019 08:18:49 -0800 (PST)
+	Sat, 23 Nov 2019 08:18:50 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Nov 2019 08:18:41 -0800
-Message-Id: <1574525924-20765-4-git-send-email-akuster808@gmail.com>
+Date: Sat, 23 Nov 2019 08:18:42 -0800
+Message-Id: <1574525924-20765-5-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1574525924-20765-1-git-send-email-akuster808@gmail.com>
 References: <1574525924-20765-1-git-send-email-akuster808@gmail.com>
-Subject: [zeus][PATCH 4/7] sanity: Add check for tar older than 1.28
+Subject: [zeus][PATCH 5/7] oeqa/selftest/sstatetests: Ensure we don't use hashequiv for sstatesigs tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,43 +57,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Nov 2019 16:18:49 -0000
+X-List-Received-Date: Sat, 23 Nov 2019 16:18:50 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Older versions break opkg-build when reproducible builds are enabled.
-Rather than trying to be selective based on which features are enabled,
-lets just make this a minimum version.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/sanity.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 705062b..9d0c784 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -523,6 +523,7 @@ def check_wsl(d):
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 2867cb7..6757a0e 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -255,6 +255,7 @@ BUILD_ARCH = "x86_64"
+ BUILD_OS = "linux"
+ SDKMACHINE = "x86_64"
+ PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
+         bitbake("core-image-sato -S none")
+@@ -266,6 +267,7 @@ BUILD_ARCH = "i686"
+ BUILD_OS = "linux"
+ SDKMACHINE = "i686"
+ PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
+         bitbake("core-image-sato -S none")
+@@ -298,6 +300,7 @@ PACKAGE_CLASSES = "package_rpm package_ipk package_deb"
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
+ TCLIBCAPPEND = \"\"
+ NATIVELSBSTRING = \"DistroA\"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
+         bitbake("core-image-sato -S none")
+@@ -305,6 +308,7 @@ NATIVELSBSTRING = \"DistroA\"
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
+ TCLIBCAPPEND = \"\"
+ NATIVELSBSTRING = \"DistroB\"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
+         bitbake("core-image-sato -S none")
+@@ -332,11 +336,13 @@ NATIVELSBSTRING = \"DistroB\"
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
+ TCLIBCAPPEND = \"\"
+ MACHINE = \"qemux86-64\"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """
+         configB = """
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
+ TCLIBCAPPEND = \"\"
+ MACHINE = \"qemuarm\"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """
+         self.sstate_allarch_samesigs(configA, configB)
  
- # Tar version 1.24 and onwards handle overwriting symlinks correctly
- # but earlier versions do not; this needs to work properly for sstate
-+# Version 1.28 is needed so opkg-build works correctly when reproducibile builds are enabled
- def check_tar_version(sanity_data):
-     from distutils.version import LooseVersion
-     import subprocess
-@@ -532,7 +533,9 @@ def check_tar_version(sanity_data):
-         return "Unable to execute tar --version, exit code %d\n%s\n" % (e.returncode, e.output)
-     version = result.split()[3]
-     if LooseVersion(version) < LooseVersion("1.24"):
--        return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar.\n"
-+        return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar (1.28+).\n"
-+    if LooseVersion(version) < LooseVersion("1.28"):
-+        return "Your version of tar is older than 1.28 and does not have the support needed to enable reproducible builds. Please install a newer version of tar (you could use the projects buildtools-tarball from our last release).\n"
-     return None
+@@ -352,6 +358,7 @@ MACHINE = \"qemux86-64\"
+ require conf/multilib.conf
+ MULTILIBS = \"multilib:lib32\"
+ DEFAULTTUNE_virtclass-multilib-lib32 = \"x86\"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """
+         configB = """
+ TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
+@@ -359,6 +366,7 @@ TCLIBCAPPEND = \"\"
+ MACHINE = \"qemuarm\"
+ require conf/multilib.conf
+ MULTILIBS = \"\"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """
+         self.sstate_allarch_samesigs(configA, configB)
  
- # We use git parameters and functionality only found in 1.7.8 or later
+@@ -404,6 +412,7 @@ MACHINE = \"qemux86\"
+ require conf/multilib.conf
+ MULTILIBS = "multilib:lib32"
+ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
+         bitbake("world meta-toolchain -S none")
+@@ -414,6 +423,7 @@ MACHINE = \"qemux86copy\"
+ require conf/multilib.conf
+ MULTILIBS = "multilib:lib32"
+ DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
+         bitbake("world meta-toolchain -S none")
+@@ -452,6 +462,7 @@ TIME = "111111"
+ DATE = "20161111"
+ INHERIT_remove = "buildstats-summary buildhistory uninative"
+ http_proxy = ""
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
+         self.track_for_cleanup(self.topdir + "/download1")
+@@ -468,6 +479,7 @@ DATE = "20161212"
+ INHERIT_remove = "uninative"
+ INHERIT += "buildstats-summary buildhistory"
+ http_proxy = "http://example.com/"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
+ """)
+         self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
+         self.track_for_cleanup(self.topdir + "/download2")
 -- 
 2.7.4
 
