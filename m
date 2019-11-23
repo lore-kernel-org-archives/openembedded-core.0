@@ -1,52 +1,47 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 392AD7FCB3
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+	[209.85.210.171])
+	by mail.openembedded.org (Postfix) with ESMTP id C5A977FCA8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 16:11:36 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id d7so4552248pls.3
+	Sat, 23 Nov 2019 16:18:45 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id z4so5151121pfn.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 08:11:37 -0800 (PST)
+	Sat, 23 Nov 2019 08:18:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=I/YF10EMHUj8TcZjRdf/iudwHhoCZBhRMb2zVDUCwDo=;
-	b=AWDa0qffThNlEHQzQam+jZDZ8opdpUQvRdDxNIj+oY6MhoMMdjf3TccYLTnYe442rw
-	LCc0hloLXxqTmjjOlBOxlMre0KcgjDsvawUUdrfW+/1uZBsu3n1seCF3qpj8+n9LNKpm
-	C7Ju6Ax68YuQstevrDUfQTEGjgQSvLD3yjpauL180INMwfUrbMr4vsjcK7Qcs8Jp8nff
-	6qcTgpQsph1Xgm7jlzp7uwiz9aXxa8p1L0bVu41jEouf8eQohhx2MnzlUK9aMvxQ+bNQ
-	vphM0KmY+b3bmmkZoyn+87LxyNAmAMJuTsNwza7AeamwUlOil9ynf0UYDdIXm8n2Ps+A
-	MB6Q==
+	h=from:to:cc:subject:date:message-id;
+	bh=r1g73/lbr3zLMFInBRcaYkY3daDX/c8u2606Ed+ZZlc=;
+	b=O1Vm6LUB/5fHriBD2mcdhIZQ1xJaEIeaF9OAT7Ra5/PzOTXenhEAIc35bzk5nkIfVF
+	DEePvq2X9iG/iBzUZ8DtnLgY6eUn3VdW7GvbP1Szk2fTE4aNMhcAAyNm+bOOcMMFTl/y
+	5JUqp8fTg2vVpGtn7epGn3AxrAkUtipkDzg3/2Y8X3tSCQrKo0ENVsY4Xpm7STizYGQp
+	utGfpYPlUucq/1rRMbsWuhvnfpbZC32DC5VKgazhDE8vzH2bQ7REJHUKrcye23+Ub2JQ
+	3UK2ImolvgwY50Te0vFKuz+YIVjTWB7bHQLgQDv3/WMRdWJLi/+beiY9yNQtpPAg7PJ9
+	g4Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=I/YF10EMHUj8TcZjRdf/iudwHhoCZBhRMb2zVDUCwDo=;
-	b=dI1tMXzTSmmhZUot8zNLtrcQc3sgS19NCkGG1urW8vuuiD7jPiv5kN+05FTZWwfYdp
-	poE9UNcPfDmKcqaWUzJuTvxeXeyzjXxXfHMVFNyxpUKlLsuoDmDjfN5duCgoKP91bDuF
-	OC8NOBM17+kdFLrDqYeDbsi8mQngERF7Aj3tXFLHg21pukXT2VbegX9Sd0xxMI6sLej8
-	Cx1/ZlFdgCOZNgxZcM9jWtGsTTlAIG2KJdUv2poBGBKDJ6iOdBnRPEomz4RgYyq22/KR
-	0p4gzXAts9qtRrGhf0FaE9R03BvlEdlD74hykTvCJEaymxZ47KGZYrLFGrjpbS2D3itV
-	wueA==
-X-Gm-Message-State: APjAAAWGLbfAgP451dmNOFsG3J983Yq201BeAnm+tkLAEwgtZoi5Ei7l
-	9gsMe0q3WMmHlfB8uXryCU4mqgiX
-X-Google-Smtp-Source: APXvYqwu8+51xfqyN/6CxIP2rNKXFVxyBNMDQBNvCqm2C478RCm6O6yliEtiOsWtoJ0cPWG6LjdUMA==
-X-Received: by 2002:a17:902:ab87:: with SMTP id
-	f7mr20270415plr.78.1574525497184; 
-	Sat, 23 Nov 2019 08:11:37 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=r1g73/lbr3zLMFInBRcaYkY3daDX/c8u2606Ed+ZZlc=;
+	b=bjCYv/0iuNfVmK0nclUGjgRR8VueRnFsH86uNIMZcgW6QSQAJfU/hnsPYpLVDv2jMx
+	/L4MHkqIeOp3RQ8FU2N/QmOVDQTeeVCEbTJRgH1AklqT111QGJTvFfpSJyWSBNgKaKro
+	PC7ZkPKTgOiv7RIK9kpoIYhUkv6lN6XnnE+0SzmHqIIroWm1UUs0pknRCWIa9n68Vugj
+	gO2EzqXPCuCzPg2DEpoeg7NrwAsLcax6eCfVWuLLbiArDAIx+UfChtGAKpOMt++/5ZLM
+	UnXbpw7LaKVOxrYdrS406W+UL+zmXe9gE+rg45M7iNxk3DmxW+PakFg8YpKctGoS1E/e
+	E1YA==
+X-Gm-Message-State: APjAAAUkhzIvx4tWqUIAkH2b4G7swLjocjzxLQa0GFKm4HCJPwkelBwL
+	idbPI1mLxX/rd4MeKQL3d4SmeKLM
+X-Google-Smtp-Source: APXvYqyuY9eRba28+VNGX7tpj4LjaSVb2iXiPUYxyknaI7lpPAaz9RVYDwZwI0rA7CTWvnQbxRYtHQ==
+X-Received: by 2002:a62:18d8:: with SMTP id 207mr23878174pfy.15.1574525926567; 
+	Sat, 23 Nov 2019 08:18:46 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:d5a1:4623:137e:d439])
-	by smtp.gmail.com with ESMTPSA id
-	199sm2091943pfz.186.2019.11.23.08.11.36
+	by smtp.gmail.com with ESMTPSA id u7sm2647804pjx.19.2019.11.23.08.18.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 23 Nov 2019 08:11:36 -0800 (PST)
+	Sat, 23 Nov 2019 08:18:45 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 23 Nov 2019 08:11:25 -0800
-Message-Id: <1574525485-20450-11-git-send-email-akuster808@gmail.com>
+Date: Sat, 23 Nov 2019 08:18:38 -0800
+Message-Id: <1574525924-20765-1-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1574525485-20450-1-git-send-email-akuster808@gmail.com>
-References: <1574525485-20450-1-git-send-email-akuster808@gmail.com>
-Subject: [zeus][PATCH 11/11] gstreamer: Change SRC_URI to use HTTPS access instead of HTTP
+Subject: [zeus][PATCH 1/7] opkg: Add upstream fixes for empty packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,147 +54,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Nov 2019 16:11:37 -0000
+X-List-Received-Date: Sat, 23 Nov 2019 16:18:45 -0000
 
-From: Carlos Rafael Giani <crg7475@mailbox.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Some GStreamer recipes like gstreamer1.0-vaapi already use HTTPS instead
-of http. Also, access to http:// is simply redirected by the freedesktop
-server to https://, and using HTTPS is anyway generally recommended over
-plain HTTP for security reasons. So, normalize the URLs to use HTTPS only.
+An ipk with a zero size data.tar file caused opkg to crash with a
+double free abort. Add the upstream fixes for this.
 
-Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb        | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.16.1.bb          | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb  | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.1.bb | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.1.bb | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb       | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.1.bb  | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb              | 2 +-
- 9 files changed, 9 insertions(+), 9 deletions(-)
+ meta/recipes-devtools/opkg/opkg/open_inner.patch   | 46 ++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg/opkg_archive.patch | 54 ++++++++++++++++++++++
+ meta/recipes-devtools/opkg/opkg_0.4.1.bb           |  2 +
+ 3 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/open_inner.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/opkg_archive.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb
-index d3918cf..10955ff 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://gst-libs/ext/libav/COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
-                     file://gst-libs/ext/libav/COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
+diff --git a/meta/recipes-devtools/opkg/opkg/open_inner.patch b/meta/recipes-devtools/opkg/opkg/open_inner.patch
+new file mode 100644
+index 0000000..278e099
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/open_inner.patch
+@@ -0,0 +1,46 @@
++From alejandro.delcastillo@ni.com Wed Nov 20 22:35:02 2019
++From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++To: <opkg-devel@googlegroups.com>, <richard.purdie@linuxfoundation.org>
++CC: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++Subject: [opkg][PATCH 2/2] open_inner: add support for empty payloads
++Date: Wed, 20 Nov 2019 16:34:48 -0600
++Message-ID: <20191120223448.26522-3-alejandro.delcastillo@ni.com>
++X-Mailer: git-send-email 2.22.0
++In-Reply-To: <20191120223448.26522-1-alejandro.delcastillo@ni.com>
++References: <20191120223448.26522-1-alejandro.delcastillo@ni.com>
++MIME-Version: 1.0
++Content-Type: text/plain
++Content-Transfer-Encoding: 8bit
++
++Support for empty compressed payloads need to be explicitly enabled on
++libarchive.
++
++Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++
++Upstream-Status: Backport
++---
++ libopkg/opkg_archive.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/libopkg/opkg_archive.c b/libopkg/opkg_archive.c
++index 0e9ccea..f19cece 100644
++--- a/libopkg/opkg_archive.c
+++++ b/libopkg/opkg_archive.c
++@@ -618,6 +618,13 @@ static struct archive *open_inner(struct archive *outer)
++         goto err_cleanup;
++     }
++ 
+++    r = archive_read_support_format_empty(inner);
+++    if (r != ARCHIVE_OK) {
+++        opkg_msg(ERROR, "Empty format not supported: %s\n",
+++                 archive_error_string(inner));
+++        goto err_cleanup;
+++    }
+++
++     r = archive_read_open(inner, data, NULL, inner_read, inner_close);
++     if (r != ARCHIVE_OK) {
++         opkg_msg(ERROR, "Failed to open inner archive: %s\n",
++-- 
++2.22.0
++
++
+diff --git a/meta/recipes-devtools/opkg/opkg/opkg_archive.patch b/meta/recipes-devtools/opkg/opkg/opkg_archive.patch
+new file mode 100644
+index 0000000..3e1ebae
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/opkg_archive.patch
+@@ -0,0 +1,54 @@
++From alejandro.delcastillo@ni.com Wed Nov 20 22:35:01 2019
++Return-Path: <richard.purdie+caf_=rpurdie=rpsys.net@linuxfoundation.org>
++From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++To: <opkg-devel@googlegroups.com>, <richard.purdie@linuxfoundation.org>
++CC: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++Subject: [opkg][PATCH 1/2] opkg_archive.c: avoid double free on uncompress
++ error
++Date: Wed, 20 Nov 2019 16:34:47 -0600
++Message-ID: <20191120223448.26522-2-alejandro.delcastillo@ni.com>
++X-Mailer: git-send-email 2.22.0
++In-Reply-To: <20191120223448.26522-1-alejandro.delcastillo@ni.com>
++References: <20191120223448.26522-1-alejandro.delcastillo@ni.com>
++MIME-Version: 1.0
++Content-Type: text/plain
++Content-Transfer-Encoding: 8bit
++
++The open-inner function calls archive_read_open. On error,
++archive_read_open calls inner_close, which also closes the outter
++archive. On error, return NULL directly to avoid double free.
++
++
++Upstream-Status: Backport
++
++Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++---
++ libopkg/opkg_archive.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libopkg/opkg_archive.c b/libopkg/opkg_archive.c
++index 3d87db1..0e9ccea 100644
++--- a/libopkg/opkg_archive.c
+++++ b/libopkg/opkg_archive.c
++@@ -622,7 +622,7 @@ static struct archive *open_inner(struct archive *outer)
++     if (r != ARCHIVE_OK) {
++         opkg_msg(ERROR, "Failed to open inner archive: %s\n",
++                  archive_error_string(inner));
++-        goto err_cleanup;
+++        return NULL;
++     }
++ 
++     return inner;
++@@ -683,7 +683,7 @@ static struct archive *extract_outer(const char *filename, const char *arname)
++ 
++     inner = open_inner(outer);
++     if (!inner)
++-        goto err_cleanup;
+++        return NULL;
++ 
++     return inner;
++ 
++-- 
++2.22.0
++
++
+diff --git a/meta/recipes-devtools/opkg/opkg_0.4.1.bb b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+index 104f07f..1cd7dca 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.4.1.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+@@ -14,6 +14,8 @@ PE = "1"
+ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
+            file://opkg.conf \
+            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
++           file://opkg_archive.patch \
++           file://open_inner.patch \
+            file://run-ptest \
+ "
  
--SRC_URI = "http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz \
-+SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz \
-            file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
-            file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
-            file://mips64_cpu_detection.patch \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.16.1.bb
-index 4c6c839..cb2f704 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-omx_1.16.1.bb
-@@ -7,7 +7,7 @@ LICENSE_FLAGS = "commercial"
- LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
-                     file://omx/gstomx.h;beginline=1;endline=21;md5=5c8e1fca32704488e76d2ba9ddfa935f"
- 
--SRC_URI = "http://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
-+SRC_URI = "https://gstreamer.freedesktop.org/src/gst-omx/gst-omx-${PV}.tar.xz"
- 
- SRC_URI[md5sum] = "89772e7a277fd0abfc250eaf8e4e9ce9"
- SRC_URI[sha256sum] = "cbf54121a2cba575d460833e8132265781252ce32cf5b8f9fa8753e42ab24bb2"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-index 4330c79..1731be8 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-@@ -1,7 +1,7 @@
- require gstreamer1.0-plugins.inc
- 
- SRC_URI = " \
--    http://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${PV}.tar.xz \
-+    https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${PV}.tar.xz \
-     file://configure-allow-to-disable-libssh2.patch \
-     file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
-     file://avoid-including-sys-poll.h-directly.patch \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.1.bb
-index 9df67e7..cb99fba 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.1.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
-                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607"
- 
- SRC_URI = " \
--            http://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${PV}.tar.xz \
-+            https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-${PV}.tar.xz \
-             file://get-caps-from-src-pad-when-query-caps.patch \
-             file://0003-ssaparse-enhance-SSA-text-lines-parsing.patch \
-             file://make-gio_unix_2_0-dependency-configurable.patch \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-index 21d2b2b..0fa7b86 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-@@ -1,7 +1,7 @@
- require gstreamer1.0-plugins.inc
- 
- SRC_URI = " \
--            http://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
-+            https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
-             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-             "
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.1.bb
-index de677c0..ecab318 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.1.bb
-@@ -7,7 +7,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+ & LGPLv2+"
- LICENSE_FLAGS = "commercial"
- 
- SRC_URI = " \
--            http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-+            https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-             "
- SRC_URI[md5sum] = "668795903cb4971fba9aa89abdea8369"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
-index 52ed150..5a950f1 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
-@@ -5,7 +5,7 @@ SECTION = "multimedia"
- LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
--SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- SRC_URI[md5sum] = "499645fbd1790c5845c02a3998dccc1b"
- SRC_URI[sha256sum] = "b469c8955126f41b8ce0bf689b7029f182cd305f422b3a8df35b780bd8347489"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.1.bb
-index ca360bc..45302ef 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.1.bb
-@@ -8,7 +8,7 @@ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
- 
- PNREAL = "gst-rtsp-server"
- 
--SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
-            file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-            file://gtk-doc-tweaks.patch \
-            "
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-index d77c8aa..ff92f63 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6762ed442b3822387a51c92d928ead0d \
- S = "${WORKDIR}/gstreamer-${PV}"
- 
- SRC_URI = " \
--    http://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-+    https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.xz \
-     file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-     file://gtk-doc-tweaks.patch \
-     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
 -- 
 2.7.4
 
