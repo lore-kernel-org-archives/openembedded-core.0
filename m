@@ -1,51 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E6D227FCA4
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+	[209.85.216.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0666E7FCA8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 15:55:29 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id t1so12251484wrv.4
+	Sat, 23 Nov 2019 16:06:09 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id a10so4498593pju.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 23 Nov 2019 07:55:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=4E3bh0/IqnSLOGbeqUox0hVm5eKp99WauXBRmArtOEI=;
-	b=YhSt09Gj7ZptrB3N+gGZNIkG0ls4G/Z9KQK3bnQekKLmmiK3V6VDpBbQq33YaolMew
-	DwtvWzaGmYd65tgmyQcw9eVrC0qx5G6sKK1XC6TGYhqHWvT8mfkuuXgPsDIlUXDgJNU4
-	ADmYNxPqbQx2snyDEc9Blz7Vg4H2jZjIJ9jfg=
+	Sat, 23 Nov 2019 08:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=gOvTRHJcXckE1XPqLCl6QS404qba4D1om+nW7KF6ER4=;
+	b=YcmFWCFBTs1W/9OUCtDEET0P/OT83PuCHLAg/f8jzUjkqbLoIAPF/4j7E7cu3N0aNu
+	VydXvud03AQ7Uzt3Vb3IYCCKp0grbby/I1GhB9++ir3CUdv5DgkQzT+c2RPVDLZm82EE
+	6D1FpwqB5dUvnkgw3cRdgBaiU9ZmkbmDzUU/7M0QiZ1bi6wpikUoJlVRjlNpfKU78pzP
+	fenvjGcj0ULs2gOfKeModXcmtdt91wsI9vRDxeiunrmglclNRdwewNriIiNlu/SBHOmF
+	8rOa0F0ieSSDUFb8gejqsjywWWnaYRNa+HXOohuK/mWw8ti8rD/MwlsQLSiMNVDg/cXi
+	e04w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=4E3bh0/IqnSLOGbeqUox0hVm5eKp99WauXBRmArtOEI=;
-	b=sKYMy/HLGQIh8nMPJ8aK1N5bvKYWHKOgFLmNrM15PCEOWopxigLbrlxZAu5Vou9SfM
-	noxpXWE29PytYbe7WBVkT+5TVdClkJHx3okycLKDJCapS/rWQTmllM8o+03K2Ww+t1sc
-	k7SqBbeqPTIlKKi2liJ/TD3ob69YzGW+Ha7557xrtw+phwV5qxXOvytkzS3eDc/nmVe4
-	yTm8WcgcAVACrucKCq8mZgAi659YpMosI4xBllW6Pc6TT8vx8CHiUdEkuCMeVQJSeVYC
-	03qmHhpqj2FPpiTI3oshHe2v16ZFe1cKAomfBO1WKDf6b0V5yZQU8Vr6BYPbug+j529z
-	qs5A==
-X-Gm-Message-State: APjAAAWXjQpYKECxOS9b8UZiC2ycLHWaTHG2+3cPLr4aQNl9apyoBJoT
-	NonSGQacrm5AS5R+tIKKzSX5dQ==
-X-Google-Smtp-Source: APXvYqxI+6Z66h7fdeo1haNtohu+HE54fKVwaQX4KlljJd8qMryVT/EfrSj43xswvFrLtY2oTJ2OMg==
-X-Received: by 2002:a5d:6cb0:: with SMTP id a16mr24404724wra.194.1574524530563;
-	Sat, 23 Nov 2019 07:55:30 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id z4sm2377127wmf.36.2019.11.23.07.55.29
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 23 Nov 2019 07:55:29 -0800 (PST)
-Message-ID: <b4e27afa9809fe3d43362b270415841bf7df4266.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 23 Nov 2019 15:55:28 +0000
-In-Reply-To: <1574439782-29100-2-git-send-email-wangmy@cn.fujitsu.com>
-References: <1574439782-29100-1-git-send-email-wangmy@cn.fujitsu.com>
-	<1574439782-29100-2-git-send-email-wangmy@cn.fujitsu.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH v2] kexec-tools: upgrade 2.0.19 -> 2.0.20
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=gOvTRHJcXckE1XPqLCl6QS404qba4D1om+nW7KF6ER4=;
+	b=dwpvuCSAbbwTzvkBiLAT61vM4iv47MNU0CiDrR0tzUK943AbF+Ih3/88nHh42TDX8I
+	lA9iu7FR3SQn42L1jjVBn5kyqfue+9YzILSe8JZH5+GBQ18bC4ZjXZpMYlmBb2fagkKZ
+	H7bPmXYlvc1Am/3glqliPq6oKjIHSNNu+hvI+CqHeQ7h0CLu6JzVDuFGx1P6usoz7Rz0
+	TFn3hd3yy095oJSJEDeWIfWea12w3PAMfo5yeNZNa7e101ScYeb4SrtALVeRIL0dKAPf
+	WZmwRVTlry/emwf3VRzNWtyAeTgmbHgYxbFzCQqgJd1a4p/CVt6c6+T70Ca1U5ZqmzYQ
+	1g2A==
+X-Gm-Message-State: APjAAAU23bPhVmYiCuZ4toP6NbAQxvVjiz0KhdzWInlnqEd1jalVh0a5
+	zjIL1XZDIpAMgAUysRHcwDd20hsK
+X-Google-Smtp-Source: APXvYqzzLVxUem3iG7msiV+HI5wQ2XeRCix+xvlgOufsnuoVuo4xeomBBUuqLKqjIvTrA4L80PjjIA==
+X-Received: by 2002:a17:902:70cc:: with SMTP id
+	l12mr20126796plt.198.1574525170538; 
+	Sat, 23 Nov 2019 08:06:10 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:d5a1:4623:137e:d439])
+	by smtp.gmail.com with ESMTPSA id
+	y81sm2158127pfb.178.2019.11.23.08.06.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 23 Nov 2019 08:06:09 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 23 Nov 2019 08:06:08 -0800
+Message-Id: <1574525168-20243-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [zeus][PATCH] gstreamer1.0: upgrade to version 1.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,78 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 23 Nov 2019 15:55:30 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 23 Nov 2019 16:06:10 -0000
 
-On Fri, 2019-11-22 at 08:23 -0800, Wang Mingyu wrote:
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
->  .../kexec/{kexec-tools_2.0.19.bb => kexec-
-> tools_2.0.20.bb}            | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-kernel/kexec/{kexec-tools_2.0.19.bb => kexec-
-> tools_2.0.20.bb} (95%)
-> 
-> diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
-> b/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
-> similarity index 95%
-> rename from meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
-> rename to meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
-> index c3f7435..b79e33b 100644
-> --- a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
-> +++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
-> @@ -21,8 +21,8 @@ SRC_URI =
-> "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-
-> ${PV}.tar.gz
->      file://0006-kexec-arm-undefine-__NR_kexec_file_load-for-
-> arm.patch \
->  "
->  
-> -SRC_URI[md5sum] = "052458f0a35c2a3b0d2302caa3318e9f"
-> -SRC_URI[sha256sum] =
-> "913c8dee918e5855a4ba60d609371390978144b4c8d15d6446ca0057b7bc5e58"
-> +SRC_URI[md5sum] = "46724b67f32501c5d3e778161347cad9"
-> +SRC_URI[sha256sum] =
-> "cb16d79818e0c9de3bb3e33ede5677c34a1d28c646379c7ab44e0faa3eb57a16"
->  
->  inherit autotools update-rc.d systemd
+From: Carlos Rafael Giani <crg7475@mailbox.org>
 
-Fails to compile:
+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+[ Bug fix only update per release notes:
+https://gstreamer.freedesktop.org/releases/1.16/#1.16.1]
+1.16.1
+The first 1.16 bug-fix release (1.16.1) was released on 23 September 2019
+This release only contains bugfixes and it should be safe to update from 1.16.0.
+]
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../gstreamer/{gstreamer1.0_1.16.0.bb => gstreamer1.0_1.16.1.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.0.bb => gstreamer1.0_1.16.1.bb} (96%)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/1264
-
-i686-poky-linux-gcc  -m32 -march=core2 -mtune=core2 -msse3 -mfpmath=sse
--fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-
-security -Werror=format-security --sysroot=/home/pokybuild/yocto-
-worker/pkgman-non-rpm/build/build/tmp/work/core2-32-poky-linux/kexec-
-tools/2.0.20-r0/recipe-sysroot -fno-zero-initialized-in-bss  -Os -fno-
-builtin -ffreestanding -fno-zero-initialized-in-bss -fno-PIC -fno-PIE
--fno-stack-protector  -I../kexec-tools-2.0.20/purgatory/include
--I../kexec-tools-2.0.20/purgatory/arch/i386/include -I../kexec-tools-
-2.0.20/util_lib/include -I../kexec-tools-2.0.20/include -Iinclude
--I/home/pokybuild/yocto-worker/pkgman-non-
-rpm/build/build/tmp/work/core2-32-poky-linux/kexec-tools/2.0.20-
-r0/recipe-sysroot-native/usr/bin/i686-poky-linux/../../lib/i686-poky-
-linux/gcc/i686-poky-linux/9.2.0/include  -c -MD -o
-purgatory/purgatory.o ../kexec-tools-2.0.20/purgatory/purgatory.c
-../kexec-tools-2.0.20/kexec/arch/i386/kexec-x86.c:39:22: error:
-'multiboot2_x86_probe' undeclared here (not in a function); did you
-mean 'multiboot_x86_probe'?
-   39 |  { "multiboot2-x86", multiboot2_x86_probe, multiboot2_x86_load,
-      |                      ^~~~~~~~~~~~~~~~~~~~
-      |                      multiboot_x86_probe
-../kexec-tools-2.0.20/kexec/arch/i386/kexec-x86.c:39:44: error:
-'multiboot2_x86_load' undeclared here (not in a function); did you mean
-'multiboot_x86_load'?
-   39 |  { "multiboot2-x86", multiboot2_x86_probe, multiboot2_x86_load,
-      |                                            ^~~~~~~~~~~~~~~~~~~
-      |                                            multiboot_x86_load
-
-(and more)
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+index da2d14c..d77c8aa 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+@@ -27,8 +27,8 @@ SRC_URI = " \
+     file://add-a-target-to-compile-tests.patch \
+     file://run-ptest \
+ "
+-SRC_URI[md5sum] = "862b7e4263d946bc2ef31b3c582e5587"
+-SRC_URI[sha256sum] = "0e8e2f7118be437cba879353970cf83c2acced825ecb9275ba05d9186ef07c00"
++SRC_URI[md5sum] = "c505fb818b36988daaa846e9e63eabe8"
++SRC_URI[sha256sum] = "02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af0639d46f1cf4377d"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    "
+-- 
+2.7.4
 
 
