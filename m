@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 774D57FC0B
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 768597FC57
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 23:50:56 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id 6so1598433pgk.0
+	Sun, 24 Nov 2019 23:50:58 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id gc1so5596332pjb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 15:50:57 -0800 (PST)
+	Sun, 24 Nov 2019 15:50:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=iPW3twGi2P5SncPBAKOa675BFRrIwfG7BM6LP8of7jU=;
-	b=jbDKA1YMa8OarDETYkVjpOoI0j1RfYBaq+KxMjfmoh6Tic7NNAwiCNpn2r/X760RxJ
-	qRO/un9JN5Boe31zplAfkt0pWX1SF2EJyPgBy/pNVTA2RZzHKkt38f5EPRN+Yrdi1uyH
-	wXJQXM+lBDXWjJfWzqTdlv/ot4xGDlR9arzOdNzVXSXFMTMlV9XxlwDAsTLQKpuAcxMy
-	J2ynOLO5LUDFmcVt6wHuaSkzIC2tXJtDD2thC4n/0EyJMN+OjNHUsz8Raj9UBZ1KHgN8
-	tuh8Z4kbYr9OyVgoVR9DHN0jXblpOWDsYgyzb07NWRDkH99jWY8TLPQxHw9/FjuOFxMM
-	bWiA==
+	bh=gOvTRHJcXckE1XPqLCl6QS404qba4D1om+nW7KF6ER4=;
+	b=EWjg6LyPtbrXXVLj1TPDzijjEAsfKN0cPLZS1kjAsyOFzRd6MAVCUcpwJAtqMFYomQ
+	w3AeN5EdtHVok4G0aSsUtZP6i0XyXo7mU/3zKLCw8aMdPB/uvtpGax+wEYc6Lu9p+8Vb
+	VIbRQLc947ul4y5Bk9w05NKb0io2JaUEpJQIHdmsIMhzVJI1b4k80Z3LUm+XOdnbt8hZ
+	mwlHmjEU3oN66sYtB6RwsETkb49TLAlQtyxqAr2hJLq/IH+ER3hSoJXGiUvDrwcEw7q1
+	hcnNO1Ci6C6HGg517J6HboTw8sfJ3G+p2A1FQTYrQs83+voXP12p6KWJ6G2dA1l9ZnOD
+	Zt7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=iPW3twGi2P5SncPBAKOa675BFRrIwfG7BM6LP8of7jU=;
-	b=o9xBCewEInBzzjcyvaztzZaIJi5xHgMydD5LQqNPT5QewBHQ8EJYnpqeJn+Euvr94M
-	L+6FKYwPD+1ohc71XfNH2CHVWM1D+AfLgxwKR8adTZNCOBLGnC7wuYIyeOqo4cZeA6gD
-	ok+ePd8ZocHdgy1Br61REijsUp/hymbVCTleLYGirIYidx0p0q17TBcocCna5/Pdz0n6
-	xU6h9s8bmGlaRkJ6+KhAZcWeYF4Ze2cMJ5uoC9tf1huj0YS/5GZWPib58ZT2uBSRW+G7
-	qirPeb3mJNZjaGBpHv68G4/f0IPDzhDGfr82pxB4FqKHUxBs/aZ6u1nV0ihlFyr1lITv
-	jehA==
-X-Gm-Message-State: APjAAAVxqypVe8SLnz7pAy12DxB7k+oQNBKpPVbYD4MY25zXtcIqo0OR
-	i8K7xkQICJhRGlntytEZtQB+m34I
-X-Google-Smtp-Source: APXvYqzpXoZLs71J4iltJ5NFLUJbzhUxzVR0DjR8TOQ7LrPw9BigD65ggNg0ld+qRS6xSWQy42PXwA==
-X-Received: by 2002:a63:4b52:: with SMTP id k18mr28289718pgl.394.1574639457277;
-	Sun, 24 Nov 2019 15:50:57 -0800 (PST)
+	bh=gOvTRHJcXckE1XPqLCl6QS404qba4D1om+nW7KF6ER4=;
+	b=q5EXwDHqez0bZNhh46CvN1Rb1hzMg4ZEEVVGskx+QtiN+ad341a0DfTle96yG4nU8e
+	PuoHAagSMAcu3PeWLnuO48tEu36soJZqxcxqP3on93x/D34d1bu2i3ClzAXX26aaeMb/
+	RhqNGGbvsZrkMLrM64YnBeiNEYbcibMuudC30aIjbZeobV1lwJGBHp9JsjFaFlw0xdag
+	Z4QkugIRRK4bh9dhP0E1B2KxCC5FLxbXMUUpKW2VmLrnRTWA1Ke7c3ZK2ReqGoW+q9Mx
+	s3IdtBh1ifOkM38GWj9pWdtyrCF5tMAMOTHJo8h1ttopcT3ZB6bhJKPXhUK2VeMqi/PZ
+	SOTw==
+X-Gm-Message-State: APjAAAWierJjgogY0+mCydPkyHqmc5JGPDDbNw8uGU08+ERQUs4COwVE
+	QGcv706283NoRJ2adKRdHSeGc4dL
+X-Google-Smtp-Source: APXvYqwwXs2+E8E4XBTrGeNEseIgGQGZ4oD0LSyW/2PY1DyR3rwxL0MI6MVMmZFzQScWkE1ggL3g2A==
+X-Received: by 2002:a17:90a:b292:: with SMTP id
+	c18mr35489335pjr.107.1574639459411; 
+	Sun, 24 Nov 2019 15:50:59 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:69ac:e4d2:e89f:98da])
 	by smtp.gmail.com with ESMTPSA id
-	q200sm5619783pfq.87.2019.11.24.15.50.56
+	q200sm5619783pfq.87.2019.11.24.15.50.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 24 Nov 2019 15:50:56 -0800 (PST)
+	Sun, 24 Nov 2019 15:50:59 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Nov 2019 15:50:19 -0800
-Message-Id: <5a4465726e25b9ea1cc5c819be0b4dc8d2bc504a.1574639349.git.akuster808@gmail.com>
+Date: Sun, 24 Nov 2019 15:50:21 -0800
+Message-Id: <360059908719b27e570b790de65a1809fb6edf3d.1574639349.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1574639349.git.akuster808@gmail.com>
 References: <cover.1574639349.git.akuster808@gmail.com>
-Subject: [zeus 14/35] tiff: Refresh patch
+Subject: [zeus 16/35] gstreamer1.0: upgrade to version 1.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,123 +60,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Nov 2019 23:50:56 -0000
+X-List-Received-Date: Sun, 24 Nov 2019 23:50:58 -0000
 
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+From: Carlos Rafael Giani <crg7475@mailbox.org>
 
-Refresh CVE-2019-7663.patch as it can't be applyed when using PATCHTOOL = "patch".
-
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+[ Bug fix only update per release notes:
+https://gstreamer.freedesktop.org/releases/1.16/#1.16.1]
+1.16.1
+The first 1.16 bug-fix release (1.16.1) was released on 23 September 2019
+This release only contains bugfixes and it should be safe to update from 1.16.0.
+]
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../libtiff/tiff/CVE-2019-7663.patch               | 71 ++++++++--------------
- 1 file changed, 26 insertions(+), 45 deletions(-)
+ .../gstreamer/{gstreamer1.0_1.16.0.bb => gstreamer1.0_1.16.1.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.0.bb => gstreamer1.0_1.16.1.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/libtiff/tiff/CVE-2019-7663.patch b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-7663.patch
-index f244fb2..94e4e33 100644
---- a/meta/recipes-multimedia/libtiff/tiff/CVE-2019-7663.patch
-+++ b/meta/recipes-multimedia/libtiff/tiff/CVE-2019-7663.patch
-@@ -1,22 +1,37 @@
--CVE: CVE-2019-7663
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-+CVE: CVE-2019-7663 
-+Upstream-Status: Backport 
-+Signed-off-by:
-+Ross Burton <ross.burton@intel.com>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+index da2d14c..d77c8aa 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+@@ -27,8 +27,8 @@ SRC_URI = " \
+     file://add-a-target-to-compile-tests.patch \
+     file://run-ptest \
+ "
+-SRC_URI[md5sum] = "862b7e4263d946bc2ef31b3c582e5587"
+-SRC_URI[sha256sum] = "0e8e2f7118be437cba879353970cf83c2acced825ecb9275ba05d9186ef07c00"
++SRC_URI[md5sum] = "c505fb818b36988daaa846e9e63eabe8"
++SRC_URI[sha256sum] = "02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af0639d46f1cf4377d"
  
- From c6fc6c1fa895024c86285c58efd6424cf8078f32 Mon Sep 17 00:00:00 2001
- From: Thomas Bernard <miniupnp@free.fr>
- Date: Mon, 11 Feb 2019 10:05:33 +0100
- Subject: [PATCH 1/2] check that (Tile Width)*(Samples/Pixel) do no overflow
- 
--fixes bug 2833
-+From da6454aa80b9bb3154dfab4e8b21637de47531e0 Mon Sep 17 00:00:00 2001
-+From: Thomas Bernard <miniupnp@free.fr>
-+Date: Mon, 11 Feb 2019 21:42:03 +0100
-+Subject: [PATCH 2/2] tiffcp.c: use INT_MAX
-+
-+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-+Refresh this patch as it can't be applyed when using PATCHTOOL = "patch".
- ---
-- tools/tiffcp.c | 8 +++++++-
-- 1 file changed, 7 insertions(+), 1 deletion(-)
-+ tools/tiffcp.c | 9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
- 
- diff --git a/tools/tiffcp.c b/tools/tiffcp.c
--index 2f406e2d..f0ee2c02 100644
-+index 2f406e2..8c81aa4 100644
- --- a/tools/tiffcp.c
- +++ b/tools/tiffcp.c
--@@ -1408,7 +1408,7 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
-+@@ -41,6 +41,7 @@
-+ #include <stdio.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-++#include <limits.h>
-+ 
-+ #include <ctype.h>
-+ 
-+@@ -1408,7 +1409,7 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
-  	int status = 1;
-  	uint32 imagew = TIFFRasterScanlineSize(in);
-  	uint32 tilew = TIFFTileRowSize(in);
-@@ -25,11 +40,11 @@ index 2f406e2d..f0ee2c02 100644
-  	tsize_t tilesize = TIFFTileSize(in);
-  	tdata_t tilebuf;
-  	uint8* bufp = (uint8*) buf;
--@@ -1416,6 +1416,12 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
-+@@ -1416,6 +1417,12 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
-  	uint32 row;
-  	uint16 bps = 0, bytes_per_sample;
-  
--+	if (spp > (0x7fffffff / tilew))
-++	if (spp > (INT_MAX / tilew))
- +	{
- +		TIFFError(TIFFFileName(in), "Error, cannot handle that much samples per tile row (Tile Width * Samples/Pixel)");
- +		return 0;
-@@ -39,39 +54,5 @@ index 2f406e2d..f0ee2c02 100644
-  	if (tilebuf == 0)
-  		return 0;
- -- 
--2.20.1
--
--
--From da6454aa80b9bb3154dfab4e8b21637de47531e0 Mon Sep 17 00:00:00 2001
--From: Thomas Bernard <miniupnp@free.fr>
--Date: Mon, 11 Feb 2019 21:42:03 +0100
--Subject: [PATCH 2/2] tiffcp.c: use INT_MAX
--
-----
-- tools/tiffcp.c | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/tools/tiffcp.c b/tools/tiffcp.c
--index f0ee2c02..8c81aa4f 100644
----- a/tools/tiffcp.c
--+++ b/tools/tiffcp.c
--@@ -41,6 +41,7 @@
-- #include <stdio.h>
-- #include <stdlib.h>
-- #include <string.h>
--+#include <limits.h>
-- 
-- #include <ctype.h>
-- 
--@@ -1416,7 +1417,7 @@ DECLAREreadFunc(readSeparateTilesIntoBuffer)
-- 	uint32 row;
-- 	uint16 bps = 0, bytes_per_sample;
-- 
---	if (spp > (0x7fffffff / tilew))
--+	if (spp > (INT_MAX / tilew))
-- 	{
-- 		TIFFError(TIFFFileName(in), "Error, cannot handle that much samples per tile row (Tile Width * Samples/Pixel)");
-- 		return 0;
---- 
--2.20.1
-+2.7.4
- 
+ PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
+                    "
 -- 
 2.7.4
 
