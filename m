@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
 	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 768597FC57
+	by mail.openembedded.org (Postfix) with ESMTP id 4B9187FC4F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 23:50:58 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id gc1so5596332pjb.8
+	Sun, 24 Nov 2019 23:50:59 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id w8so5585323pjh.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 15:50:59 -0800 (PST)
+	Sun, 24 Nov 2019 15:51:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=gOvTRHJcXckE1XPqLCl6QS404qba4D1om+nW7KF6ER4=;
-	b=EWjg6LyPtbrXXVLj1TPDzijjEAsfKN0cPLZS1kjAsyOFzRd6MAVCUcpwJAtqMFYomQ
-	w3AeN5EdtHVok4G0aSsUtZP6i0XyXo7mU/3zKLCw8aMdPB/uvtpGax+wEYc6Lu9p+8Vb
-	VIbRQLc947ul4y5Bk9w05NKb0io2JaUEpJQIHdmsIMhzVJI1b4k80Z3LUm+XOdnbt8hZ
-	mwlHmjEU3oN66sYtB6RwsETkb49TLAlQtyxqAr2hJLq/IH+ER3hSoJXGiUvDrwcEw7q1
-	hcnNO1Ci6C6HGg517J6HboTw8sfJ3G+p2A1FQTYrQs83+voXP12p6KWJ6G2dA1l9ZnOD
-	Zt7A==
+	bh=s0U58Y+R+PHwTk11BMKVmZhSjxmj37aIcdzJOSZJFUI=;
+	b=Nw+0wvXdyQspvpx1erVuEIXj5Gv2+jqWgFknZ6fZMMN01rIGE4S5BKbnG43BLXWNRF
+	KZJgEeUpJUbPTsX4bPNaU0Dme2YqgO+W4qhE6P12RFwr8nBsh7H1Hit97zktIgruqvp+
+	57kgXxUNwGOEnrxOXTP5DCZSe3T4Hzzettsk6eRCcMLDIAbL3S33kMrvHxTwiTzytIz6
+	lRrytpxPm5slVktmP4NLBAGX90aSwym6Q+C9ksrOW53K19X6Z1pRUPj2t8h9GVjp4GqJ
+	CQN8n+nps9LRTc68Y1aeSUPkhgIUBBLVTQqdXj0kDvXrWNoGxIVRiQa6x7wTR8eWYEOV
+	K0wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=gOvTRHJcXckE1XPqLCl6QS404qba4D1om+nW7KF6ER4=;
-	b=q5EXwDHqez0bZNhh46CvN1Rb1hzMg4ZEEVVGskx+QtiN+ad341a0DfTle96yG4nU8e
-	PuoHAagSMAcu3PeWLnuO48tEu36soJZqxcxqP3on93x/D34d1bu2i3ClzAXX26aaeMb/
-	RhqNGGbvsZrkMLrM64YnBeiNEYbcibMuudC30aIjbZeobV1lwJGBHp9JsjFaFlw0xdag
-	Z4QkugIRRK4bh9dhP0E1B2KxCC5FLxbXMUUpKW2VmLrnRTWA1Ke7c3ZK2ReqGoW+q9Mx
-	s3IdtBh1ifOkM38GWj9pWdtyrCF5tMAMOTHJo8h1ttopcT3ZB6bhJKPXhUK2VeMqi/PZ
-	SOTw==
-X-Gm-Message-State: APjAAAWierJjgogY0+mCydPkyHqmc5JGPDDbNw8uGU08+ERQUs4COwVE
-	QGcv706283NoRJ2adKRdHSeGc4dL
-X-Google-Smtp-Source: APXvYqwwXs2+E8E4XBTrGeNEseIgGQGZ4oD0LSyW/2PY1DyR3rwxL0MI6MVMmZFzQScWkE1ggL3g2A==
-X-Received: by 2002:a17:90a:b292:: with SMTP id
-	c18mr35489335pjr.107.1574639459411; 
-	Sun, 24 Nov 2019 15:50:59 -0800 (PST)
+	bh=s0U58Y+R+PHwTk11BMKVmZhSjxmj37aIcdzJOSZJFUI=;
+	b=Ww0XAQPZc4PvrBRFCQOsYhCRrm4RhgxB7Aycr4kpcykW3mmZGR5yBbblaxq92BtPz9
+	8F+0iXcvmrsgiSJ/1Y/aAELHerQVEMptopOG76K15qpiMNw+Zc0gNKsEjg8O+ENvds0d
+	ZgEvGGRs7DDm+oaWfXczxDsPTxyiUyisrfQc1Wh5lONY+kCpYQi9YKUOBVdSbI1auA+f
+	NQ7MtyKPlg+8H1d2KEiZxF2KfKfJQ6QvUjPb505Z2J3fh8dKjLtYKpmNXI9/sZxdel1U
+	5t8b9vc4GYF5dJC/5AyJvPrdtkC1XZCpTFT3l3Dw3SdIgY7q/Da6oBMlIjVgjeFTBFhk
+	dItQ==
+X-Gm-Message-State: APjAAAX3VFFfFX+YxYCEqLHrUqRFWr2oQG8BNpo12kEeeEX8BvIP2Uic
+	RTY+i5wDEjDAi12r0XVrbXcBvySK
+X-Google-Smtp-Source: APXvYqwq+NYtWsnBRo/TfEk1u/ry6ap/0S0N77QNtbIjsRH/2mDxxJK/PnRcODFCHz2tLNvPpUGZKg==
+X-Received: by 2002:a17:90a:e651:: with SMTP id
+	ep17mr35603195pjb.74.1574639460264; 
+	Sun, 24 Nov 2019 15:51:00 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:69ac:e4d2:e89f:98da])
 	by smtp.gmail.com with ESMTPSA id
-	q200sm5619783pfq.87.2019.11.24.15.50.58
+	q200sm5619783pfq.87.2019.11.24.15.50.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Sun, 24 Nov 2019 15:50:59 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Nov 2019 15:50:21 -0800
-Message-Id: <360059908719b27e570b790de65a1809fb6edf3d.1574639349.git.akuster808@gmail.com>
+Date: Sun, 24 Nov 2019 15:50:22 -0800
+Message-Id: <b27a644ef5c2fa40127893fb803230e8d918b1db.1574639349.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1574639349.git.akuster808@gmail.com>
 References: <cover.1574639349.git.akuster808@gmail.com>
-Subject: [zeus 16/35] gstreamer1.0: upgrade to version 1.16.1
+Subject: [zeus 17/35] gstreamer1.0-plugins-base: upgrade to version 1.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,42 +60,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Nov 2019 23:50:58 -0000
+X-List-Received-Date: Sun, 24 Nov 2019 23:50:59 -0000
 
 From: Carlos Rafael Giani <crg7475@mailbox.org>
 
 Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
-[ Bug fix only update per release notes:
-https://gstreamer.freedesktop.org/releases/1.16/#1.16.1]
-1.16.1
-The first 1.16 bug-fix release (1.16.1) was released on 23 September 2019
-This release only contains bugfixes and it should be safe to update from 1.16.0.
-]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../gstreamer/{gstreamer1.0_1.16.0.bb => gstreamer1.0_1.16.1.bb}      | 4 ++--
+ ...1.0-plugins-base_1.16.0.bb => gstreamer1.0-plugins-base_1.16.1.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.16.0.bb => gstreamer1.0_1.16.1.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.16.0.bb => gstreamer1.0-plugins-base_1.16.1.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.0.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.1.bb
 similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-index da2d14c..d77c8aa 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-@@ -27,8 +27,8 @@ SRC_URI = " \
-     file://add-a-target-to-compile-tests.patch \
-     file://run-ptest \
- "
--SRC_URI[md5sum] = "862b7e4263d946bc2ef31b3c582e5587"
--SRC_URI[sha256sum] = "0e8e2f7118be437cba879353970cf83c2acced825ecb9275ba05d9186ef07c00"
-+SRC_URI[md5sum] = "c505fb818b36988daaa846e9e63eabe8"
-+SRC_URI[sha256sum] = "02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af0639d46f1cf4377d"
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.0.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.1.bb
+index 1d6f15e..9df67e7 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.0.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.16.1.bb
+@@ -18,8 +18,8 @@ SRC_URI = " \
+             file://0001-gstreamer-gl.pc.in-don-t-append-GL_CFLAGS-to-CFLAGS.patch \
+             file://link-with-libvchostif.patch \
+             "
+-SRC_URI[md5sum] = "41dde92930710c75cdb49169c5cc6dfc"
+-SRC_URI[sha256sum] = "4093aa7b51e28fb24dfd603893fead8d1b7782f088b05ed0f22a21ef176fb5ae"
++SRC_URI[md5sum] = "b5eb0651bab70bf1714f103bdd66ce47"
++SRC_URI[sha256sum] = "5c3cc489933d0597087c9bc6ba251c93693d64554bcc563539a084fa2d5fcb2b"
  
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    "
+ S = "${WORKDIR}/gst-plugins-base-${PV}"
+ 
 -- 
 2.7.4
 
