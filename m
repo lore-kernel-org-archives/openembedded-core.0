@@ -1,47 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 65C7E7FC13
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B5227FC38
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 16:54:59 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id c184so6087330pfb.0
+	Sun, 24 Nov 2019 16:55:00 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id j12so5350412plt.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 08:55:00 -0800 (PST)
+	Sun, 24 Nov 2019 08:55:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=PTVVPqA4C5RhXPMvkQJQYGfTxeEAZ0ngapj4eB1753c=;
-	b=vScis8FW6ZlxpaSlkvTdqLVBOTZGsFA1Lbm6GqeZGNHjdWBZo3xQZEwq/PqQWMw7st
-	i7sA9Gkg9Wv0R4G8jzQY4A+727ViNmgjXeNnbEDCApH0bhzMPbkkcLGFStUYDew02+Lk
-	ugPUovn0e2rxDIVztBbhqENp5w8eQLREQJYGsUdNjalO5kPy6/w1JvAio101Nc5f1N49
-	+KDtclE1lxuUMU7dYDv8O8aURzyw5IFK845BMbhWXf/bCesU/bUa02AnEYYiOtdSIvdr
-	2vQilm6fL9r1spd/uEL4FcxhvJcqEdpzfT/q/XkHIkHls2mDGjbc9LFCJ4tw6+olN+TS
-	OSLQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=xHdauR1uot/Ns/Eo8E/vIdB9ny2/xcS/WGhAeQmY35Y=;
+	b=Vs8NvSQ0Tvmux5b0Of1ag/q5AUojfqvWMMjQvhPHHx2M05nygS8us9ESNZPtm0JhuZ
+	AYbazj09VLbuoYu1zk6ujE6dXXuhf1vl4vo6zZvTNqYOE9b3RaYUe6cnB4Iryl9FNHdM
+	f3pjGumPwPfifO51Eots1J9oxCxlutZLXTRL+YyhsKbrKpSlPY8QCoy5ooRzBSJdqtlL
+	s6Po65RFlQb03Vv30si0t6Mv3puHwln/IsHlZvJMRRyBVKg4TXMQpipPtVY4p6OjtJ2f
+	76J6MVApecE+Ge+x2uMRoyXiuLtyKAI4M25mpdlMXMHFqj1L0L6TIKwXiYP7vJqpYmSU
+	ZVkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=PTVVPqA4C5RhXPMvkQJQYGfTxeEAZ0ngapj4eB1753c=;
-	b=B2OvD2eKvs0ibeNHrI6wNXYJw7jsdg3Ft0c4/9mSa9PD44oknKGGLlfy2Newl96yla
-	wGK5bWCUI2ddmg94sodjWECtaB14if4StWrngIyltvNCIeBzFJOSwEJplmKSm+ujwRhj
-	Skyvkm/zN25et3JQGrP7sMqrz86JCldFwhsGBWfhufLZD3O4shdRJgNV7YcNxHVQUhIa
-	b/vFIvGrpPwstAg8+p+bIuzcrqDQz5vEl55AgwDa1B57ucGWkLJo+l+Hq5lEJh+v22fM
-	GhOm1Nk69S6BWxXMwMk3B1UOOlcBVEZubSEE9NZ0zjo9gxQHdlTEaiX+ykZumzgPyZqC
-	C5Yw==
-X-Gm-Message-State: APjAAAVbB7ozGfgS+GIYyhAjxpLpjobexP00hX+radF6gRVAQfF+tlcA
-	qfIYevYfXQyg5vXw5jy8JFkkd5OJ
-X-Google-Smtp-Source: APXvYqzo6DGbE5jNjPTDj2Jrq8/OLrJfbKFU2MfG3I/AAT12leHS/WhSqmADarcCdEBFbfGY4/1+0w==
-X-Received: by 2002:a63:5221:: with SMTP id g33mr28103465pgb.68.1574614497609; 
-	Sun, 24 Nov 2019 08:54:57 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=xHdauR1uot/Ns/Eo8E/vIdB9ny2/xcS/WGhAeQmY35Y=;
+	b=LOn0Ez8bX2u5DS2wGwhHOGhrI4cYw6mUzea3Sso6x/Sju1YmlgxqV49S6kQxUkcpJH
+	ifTtOENKvqfnGS5W4gBD59vSdh4rYXsH91ZmlJWjpKAVxpZhLS62Cm845HOh4v9VGdxn
+	i47CtZnIDHhApCRSBQPNOKSxGI/s8Mr3JC9Gn35ScvF98WVPTfLxNMUSxeC6O4ia4/tD
+	jdqkEDZMNCsTbVyQeYCF2UiyFbc4GfUBYYF5cR3sXk+bPlnQDXC1yJ32BSfmVI50kjfz
+	IbjV8Nvf2vGCdDT7hvZdfDkPn9eYlgJeiyPfjnn0c5ICI1wp0Vw67/IGtOc7R1qiFu9h
+	s94Q==
+X-Gm-Message-State: APjAAAUIuW5gItAgNFH8NF7D6lprocmC5gQbAKDnF0RNSdJ1f6eOdtDS
+	pnaGIah33LAdOpXeiNV3ijMW64Tv
+X-Google-Smtp-Source: APXvYqwerdfx6Ry+p69okzcRrMLQ+v2Qt4Hdgqceg5V6ap8qIeMppwsxAtpLJTnTmNYrzQb7aJxSVg==
+X-Received: by 2002:a17:902:ba82:: with SMTP id
+	k2mr24934983pls.238.1574614501136; 
+	Sun, 24 Nov 2019 08:55:01 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:69ac:e4d2:e89f:98da])
-	by smtp.gmail.com with ESMTPSA id o14sm5331101pfp.5.2019.11.24.08.54.56
+	by smtp.gmail.com with ESMTPSA id o14sm5331101pfp.5.2019.11.24.08.54.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 24 Nov 2019 08:54:56 -0800 (PST)
+	Sun, 24 Nov 2019 08:55:00 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Nov 2019 08:54:52 -0800
-Message-Id: <1574614495-32677-1-git-send-email-akuster808@gmail.com>
+Date: Sun, 24 Nov 2019 08:54:55 -0800
+Message-Id: <1574614495-32677-4-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [warrior][PATCH 1/4] bind: fix CVE-2019-6471 and CVE-2018-5743
+In-Reply-To: <1574614495-32677-1-git-send-email-akuster808@gmail.com>
+References: <1574614495-32677-1-git-send-email-akuster808@gmail.com>
+MIME-Version: 1.0
+Subject: [warrior][PATCH 4/4] python: update to 2.7.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,2823 +60,1148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Nov 2019 16:54:59 -0000
+X-List-Received-Date: Sun, 24 Nov 2019 16:55:00 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Backport patches to fix CVE-2019-6471 and CVE-2018-5743 for bind.
-CVE-2019-6471 is fixed by 0001-bind-fix-CVE-2019-6471.patch and the
-other 6 patches are for CVE-2018-5743. And backport one more patch to
-fix compile error on arm caused by these 6 commits.
+Drop backports, rebase a couple of patches.
 
-(From OE-Core rev: 3c39d4158677b97253df63f23b74c3a9dd5539f6)
+This is the second last release of py 2.x; upstream support ends on
+1 January 2020, there will be one final 2.x afterwards.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Note that the only thing that still needs python 2.x in oe-core is
+u-boot; when the next u-boot update arrives, we should find out
+where the py3 migration is for that component before merging the
+update.
+
+(From OE-Core rev: 184b60eb905bb75ecc7a0c29a175e624d8555fac)
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+[Minor fixup for warrior context]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../bind/bind/0001-bind-fix-CVE-2019-6471.patch    |  64 ++
- .../0001-fix-enforcement-of-tcp-clients-v1.patch   |  60 ++
- ...02-tcp-clients-could-still-be-exceeded-v2.patch | 670 +++++++++++++++
- ...-reference-counter-for-pipeline-groups-v3.patch | 278 +++++++
- ...uota-accounting-and-client-mortality-chec.patch | 512 ++++++++++++
- ...pquota-and-pipeline-refs-allow-special-ca.patch | 911 +++++++++++++++++++++
- ...tore-allowance-for-tcp-clients-interfaces.patch |  80 ++
- ...mic-operations-in-bin-named-client.c-with.patch | 140 ++++
- meta/recipes-connectivity/bind/bind_9.11.5-P4.bb   |   8 +
- 9 files changed, 2723 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/0001-bind-fix-CVE-2019-6471.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0001-fix-enforcement-of-tcp-clients-v1.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0002-tcp-clients-could-still-be-exceeded-v2.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0003-use-reference-counter-for-pipeline-groups-v3.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0004-better-tcpquota-accounting-and-client-mortality-chec.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0005-refactor-tcpquota-and-pipeline-refs-allow-special-ca.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0006-restore-allowance-for-tcp-clients-interfaces.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0007-Replace-atomic-operations-in-bin-named-client.c-with.patch
+ ...ative-fix-one-do_populate_sysroot-warning.patch |  25 +--
+ ...on-native_2.7.16.bb => python-native_2.7.17.bb} |   2 +-
+ meta/recipes-devtools/python/python.inc            |  10 +-
+ ...55-Dont-parse-domains-containing-GH-13079.patch |  90 ---------
+ ...43-Escape-the-server-title-of-DocXMLRPCSe.patch | 101 ----------
+ ...thon-Resolve-intermediate-staging-issues.patch} |  53 +++--
+ .../python/python/CVE-2018-20852.patch             | 123 ------------
+ .../python/python/CVE-2019-9740.patch              | 215 ---------------------
+ .../python/bpo-35907-cve-2019-9948-fix.patch       |  55 ------
+ .../python/python/bpo-35907-cve-2019-9948.patch    |  55 ------
+ .../python/bpo-36216-cve-2019-9636-fix.patch       |  28 ---
+ .../python/python/bpo-36216-cve-2019-9636.patch    | 111 -----------
+ .../python/python/bpo-36742-cve-2019-10160.patch   |  81 --------
+ .../python/{python_2.7.16.bb => python_2.7.17.bb}  |   3 -
+ 14 files changed, 49 insertions(+), 903 deletions(-)
+ rename meta/recipes-devtools/python/{python-native_2.7.16.bb => python-native_2.7.17.bb} (97%)
+ delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
+ delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
+ rename meta/recipes-devtools/python/python/{builddir.patch => 0001-python-Resolve-intermediate-staging-issues.patch} (58%)
+ delete mode 100644 meta/recipes-devtools/python/python/CVE-2018-20852.patch
+ delete mode 100644 meta/recipes-devtools/python/python/CVE-2019-9740.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
+ delete mode 100644 meta/recipes-devtools/python/python/bpo-36742-cve-2019-10160.patch
+ rename meta/recipes-devtools/python/{python_2.7.16.bb => python_2.7.17.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/bind/bind/0001-bind-fix-CVE-2019-6471.patch b/meta/recipes-connectivity/bind/bind/0001-bind-fix-CVE-2019-6471.patch
-new file mode 100644
-index 0000000..2fed99e
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0001-bind-fix-CVE-2019-6471.patch
-@@ -0,0 +1,64 @@
-+Backport patch to fix CVE-2019-6471.
+diff --git a/meta/recipes-devtools/python/python-native/0001-python-native-fix-one-do_populate_sysroot-warning.patch b/meta/recipes-devtools/python/python-native/0001-python-native-fix-one-do_populate_sysroot-warning.patch
+index 9898189..707ee59 100644
+--- a/meta/recipes-devtools/python/python-native/0001-python-native-fix-one-do_populate_sysroot-warning.patch
++++ b/meta/recipes-devtools/python/python-native/0001-python-native-fix-one-do_populate_sysroot-warning.patch
+@@ -1,4 +1,4 @@
+-From 12292444e1b3662b994bc223d92b8338fb0895ff Mon Sep 17 00:00:00 2001
++From 6cbb7529cf7ff0da3ca649fb3486facd9620d625 Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Thu, 25 Oct 2018 07:32:14 +0000
+ Subject: [PATCH] python-native: fix one do_populate_sysroot warning
+@@ -17,23 +17,24 @@ when do_populate_sysroot. use append to fix it.
+ Upstream-Status: Inappropriate [oe-specific]
+ 
+ Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +
-+Ref:
-+https://security-tracker.debian.org/tracker/CVE-2019-6471
+ ---
+  setup.py | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/setup.py b/setup.py
+-index 7bf13ed..6c0f29b 100644
++index a2c8127..22f9e23 100644
+ --- a/setup.py
+ +++ b/setup.py
+-@@ -40,7 +40,7 @@ def add_dir_to_list(dirlist, dir):
+-     1) 'dir' is not already in 'dirlist'
+-     2) 'dir' actually exists, and is a directory."""
+-     if dir is not None and os.path.isdir(dir) and dir not in dirlist:
+--        dirlist.insert(0, dir)
+-+        dirlist.append(dir)
+-
+- def macosx_sdk_root():
+-     """
++@@ -47,7 +47,7 @@ def add_dir_to_list(dirlist, dir):
++         else:
++             dir_exists = os.path.isdir(dir)
++         if dir_exists:
++-            dirlist.insert(0, dir)
+++            dirlist.append(dir)
++ 
++ MACOS_SDK_ROOT = None
++ 
+ -- 
+-2.18.0
++2.17.1
+ 
+diff --git a/meta/recipes-devtools/python/python-native_2.7.16.bb b/meta/recipes-devtools/python/python-native_2.7.17.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python-native_2.7.16.bb
+rename to meta/recipes-devtools/python/python-native_2.7.17.bb
+index b744280..335318b 100644
+--- a/meta/recipes-devtools/python/python-native_2.7.16.bb
++++ b/meta/recipes-devtools/python/python-native_2.7.17.bb
+@@ -12,7 +12,7 @@ SRC_URI += "\
+             file://nohostlibs.patch \
+             file://multilib.patch \
+             file://add-md5module-support.patch \
+-            file://builddir.patch \
++            file://0001-python-Resolve-intermediate-staging-issues.patch \
+             file://parallel-makeinst-create-bindir.patch \
+             file://revert_use_of_sysconfigdata.patch \
+             file://0001-python-native-fix-one-do_populate_sysroot-warning.patch \
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 7048100..b093ea6 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -8,16 +8,10 @@ INC_PR = "r1"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e466242989bd33c1bd2b6a526a742498"
+ 
+ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+-           file://bpo-35907-cve-2019-9948.patch \
+-           file://bpo-35907-cve-2019-9948-fix.patch \
+-           file://bpo-36216-cve-2019-9636.patch \
+-           file://bpo-36216-cve-2019-9636-fix.patch \
+-           file://CVE-2019-9740.patch \
+-           file://CVE-2018-20852.patch \
+            "
+ 
+-SRC_URI[md5sum] = "30157d85a2c0479c09ea2cbe61f2aaf5"
+-SRC_URI[sha256sum] = "f222ef602647eecb6853681156d32de4450a2c39f4de93bd5b20235f2e660ed7"
++SRC_URI[md5sum] = "b3b6d2c92f42a60667814358ab9f0cfd"
++SRC_URI[sha256sum] = "4d43f033cdbd0aa7b7023c81b0e986fd11e653b5248dac9144d508f11812ba41"
+ 
+ # python recipe is actually python 2.x
+ # also, exclude pre-releases for both python 2.x and 3.x
+diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
+deleted file mode 100644
+index 5415472..0000000
+--- a/meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
++++ /dev/null
+@@ -1,90 +0,0 @@
+-From 532ed09c5454bb789a301bb6f1339a0818255610 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Roberto=20C=2E=20S=C3=A1nchez?= <roberto@connexer.com>
+-Date: Sat, 14 Sep 2019 13:26:38 -0400
+-Subject: [PATCH] [2.7] bpo-34155: Dont parse domains containing @ (GH-13079)
+- (GH-16006)
+-
+-This change skips parsing of email addresses where domains include a "@" character, which can be maliciously used since the local part is returned as a complete address.
+-
+-(cherry picked from commit 8cb65d1381b027f0b09ee36bfed7f35bb4dec9a9)
+-
+-Excludes changes to Lib/email/_header_value_parser.py, which did not
+-exist in 2.7.
+-
+-Co-authored-by: jpic <jpic@users.noreply.github.com>
+-
+-https://bugs.python.org/issue34155
+-
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/8cb65d1381b027f0b09ee36bfed7f35bb4dec9a9]
+-
+-CVE: CVE-2019-16056
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- Lib/email/_parseaddr.py                            | 11 ++++++++++-
+- Lib/email/test/test_email.py                       | 14 ++++++++++++++
+- .../2019-05-04-13-33-37.bpo-34155.MJll68.rst       |  1 +
+- 3 files changed, 25 insertions(+), 1 deletion(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
+-
+-diff --git a/Lib/email/_parseaddr.py b/Lib/email/_parseaddr.py
+-index 690db2c22d..dc49d2e45a 100644
+---- a/Lib/email/_parseaddr.py
+-+++ b/Lib/email/_parseaddr.py
+-@@ -336,7 +336,12 @@ class AddrlistClass:
+-         aslist.append('@')
+-         self.pos += 1
+-         self.gotonext()
+--        return EMPTYSTRING.join(aslist) + self.getdomain()
+-+        domain = self.getdomain()
+-+        if not domain:
+-+            # Invalid domain, return an empty address instead of returning a
+-+            # local part to denote failed parsing.
+-+            return EMPTYSTRING
+-+        return EMPTYSTRING.join(aslist) + domain
+- 
+-     def getdomain(self):
+-         """Get the complete domain name from an address."""
+-@@ -351,6 +356,10 @@ class AddrlistClass:
+-             elif self.field[self.pos] == '.':
+-                 self.pos += 1
+-                 sdlist.append('.')
+-+            elif self.field[self.pos] == '@':
+-+                # bpo-34155: Don't parse domains with two `@` like
+-+                # `a@malicious.org@important.com`.
+-+                return EMPTYSTRING
+-             elif self.field[self.pos] in self.atomends:
+-                 break
+-             else:
+-diff --git a/Lib/email/test/test_email.py b/Lib/email/test/test_email.py
+-index 4b4dee3d34..2efe44ac5a 100644
+---- a/Lib/email/test/test_email.py
+-+++ b/Lib/email/test/test_email.py
+-@@ -2306,6 +2306,20 @@ class TestMiscellaneous(TestEmailBase):
+-         self.assertEqual(Utils.parseaddr('<>'), ('', ''))
+-         self.assertEqual(Utils.formataddr(Utils.parseaddr('<>')), '')
+- 
+-+    def test_parseaddr_multiple_domains(self):
+-+        self.assertEqual(
+-+            Utils.parseaddr('a@b@c'),
+-+            ('', '')
+-+        )
+-+        self.assertEqual(
+-+            Utils.parseaddr('a@b.c@c'),
+-+            ('', '')
+-+        )
+-+        self.assertEqual(
+-+            Utils.parseaddr('a@172.17.0.1@c'),
+-+            ('', '')
+-+        )
+-+
+-     def test_noquote_dump(self):
+-         self.assertEqual(
+-             Utils.formataddr(('A Silly Person', 'person@dom.ain')),
+-diff --git a/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
+-new file mode 100644
+-index 0000000000..50292e29ed
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2019-05-04-13-33-37.bpo-34155.MJll68.rst
+-@@ -0,0 +1 @@
+-+Fix parsing of invalid email addresses with more than one ``@`` (e.g. a@b@c.com.) to not return the part before 2nd ``@`` as valid email address. Patch by maxking & jpic.
+diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
+deleted file mode 100644
+index 3025cf7..0000000
+--- a/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
++++ /dev/null
+@@ -1,101 +0,0 @@
+-From b161c89c8bd66fe928192e21364678c8e9b8fcc0 Mon Sep 17 00:00:00 2001
+-From: Dong-hee Na <donghee.na92@gmail.com>
+-Date: Tue, 1 Oct 2019 19:58:01 +0900
+-Subject: [PATCH] [2.7] bpo-38243: Escape the server title of DocXMLRPCServer
+- (GH-16447)
+-
+-Escape the server title of DocXMLRPCServer.DocXMLRPCServer
+-when rendering the document page as HTML.
+-
+-CVE: CVE-2019-16935
+-
+-Upstream-Status: Backport [https://github.com/python/cpython/pull/16447/commits/b41cde823d026f2adc21ef14b1c2e92b1006de06]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- Lib/DocXMLRPCServer.py                        | 13 +++++++++++-
+- Lib/test/test_docxmlrpc.py                    | 20 +++++++++++++++++++
+- .../2019-09-25-13-21-09.bpo-38243.1pfz24.rst  |  3 +++
+- 3 files changed, 35 insertions(+), 1 deletion(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
+-
+-diff --git a/Lib/DocXMLRPCServer.py b/Lib/DocXMLRPCServer.py
+-index 4064ec2e48..90b037dd35 100644
+---- a/Lib/DocXMLRPCServer.py
+-+++ b/Lib/DocXMLRPCServer.py
+-@@ -20,6 +20,16 @@ from SimpleXMLRPCServer import (SimpleXMLRPCServer,
+-             CGIXMLRPCRequestHandler,
+-             resolve_dotted_attribute)
+- 
+-+
+-+def _html_escape_quote(s):
+-+    s = s.replace("&", "&amp;") # Must be done first!
+-+    s = s.replace("<", "&lt;")
+-+    s = s.replace(">", "&gt;")
+-+    s = s.replace('"', "&quot;")
+-+    s = s.replace('\'', "&#x27;")
+-+    return s
+-+
+-+
+- class ServerHTMLDoc(pydoc.HTMLDoc):
+-     """Class used to generate pydoc HTML document for a server"""
+- 
+-@@ -210,7 +220,8 @@ class XMLRPCDocGenerator:
+-                                 methods
+-                             )
+- 
+--        return documenter.page(self.server_title, documentation)
+-+        title = _html_escape_quote(self.server_title)
+-+        return documenter.page(title, documentation)
+- 
+- class DocXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
+-     """XML-RPC and documentation request handler class.
+-diff --git a/Lib/test/test_docxmlrpc.py b/Lib/test/test_docxmlrpc.py
+-index 4dff4159e2..c45b892b8b 100644
+---- a/Lib/test/test_docxmlrpc.py
+-+++ b/Lib/test/test_docxmlrpc.py
+-@@ -1,5 +1,6 @@
+- from DocXMLRPCServer import DocXMLRPCServer
+- import httplib
+-+import re
+- import sys
+- from test import test_support
+- threading = test_support.import_module('threading')
+-@@ -176,6 +177,25 @@ class DocXMLRPCHTTPGETServer(unittest.TestCase):
+-         self.assertIn("""Try&nbsp;self.<strong>add</strong>,&nbsp;too.""",
+-                       response.read())
+- 
+-+    def test_server_title_escape(self):
+-+        """Test that the server title and documentation
+-+        are escaped for HTML.
+-+        """
+-+        self.serv.set_server_title('test_title<script>')
+-+        self.serv.set_server_documentation('test_documentation<script>')
+-+        self.assertEqual('test_title<script>', self.serv.server_title)
+-+        self.assertEqual('test_documentation<script>',
+-+                self.serv.server_documentation)
+-+
+-+        generated = self.serv.generate_html_documentation()
+-+        title = re.search(r'<title>(.+?)</title>', generated).group()
+-+        documentation = re.search(r'<p><tt>(.+?)</tt></p>', generated).group()
+-+        self.assertEqual('<title>Python: test_title&lt;script&gt;</title>',
+-+                title)
+-+        self.assertEqual('<p><tt>test_documentation&lt;script&gt;</tt></p>',
+-+                documentation)
+-+
+-+
+- def test_main():
+-     test_support.run_unittest(DocXMLRPCHTTPGETServer)
+- 
+-diff --git a/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
+-new file mode 100644
+-index 0000000000..8f02baed9e
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
+-@@ -0,0 +1,3 @@
+-+Escape the server title of :class:`DocXMLRPCServer.DocXMLRPCServer`
+-+when rendering the document page as HTML.
+-+(Contributed by Dong-hee Na in :issue:`38243`.)
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-devtools/python/python/builddir.patch b/meta/recipes-devtools/python/python/0001-python-Resolve-intermediate-staging-issues.patch
+similarity index 58%
+rename from meta/recipes-devtools/python/python/builddir.patch
+rename to meta/recipes-devtools/python/python/0001-python-Resolve-intermediate-staging-issues.patch
+index ad629a0..2ff2ccc 100644
+--- a/meta/recipes-devtools/python/python/builddir.patch
++++ b/meta/recipes-devtools/python/python/0001-python-Resolve-intermediate-staging-issues.patch
+@@ -1,5 +1,10 @@
+-When cross compiling python, we used to need to install the Makefile, pyconfig.h 
+-and the python library to their final location before being able to compile the 
++From 77bcb3238b2853d511714544e0f84a37be6c79bf Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Wed, 14 Nov 2012 14:31:24 +0000
++Subject: [PATCH] python: Resolve intermediate staging issues
 +
-+CVE: CVE-2019-6471
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/commit/3a9c7bb]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 3a9c7bb80d4a609b86427406d9dd783199920b5b Mon Sep 17 00:00:00 2001
-+From: Mark Andrews <marka@isc.org>
-+Date: Tue, 19 Mar 2019 14:14:21 +1100
-+Subject: [PATCH] move item_out test inside lock in dns_dispatch_getnext()
-+
-+(cherry picked from commit 60c42f849d520564ed42e5ed0ba46b4b69c07712)
++When cross compiling python, we used to need to install the Makefile, pyconfig.h
++and the python library to their final location before being able to compile the
+ rest of python. This change allows us to point python at its own source when
+ building, avoiding a variety of sysroot staging issues and simplifying the main
+ python recipe.
+@@ -7,10 +12,29 @@ python recipe.
+ Upstream-Status: Inappropriate
+ RP 2012/11/13
+ 
+-Index: Python-2.7.9/Lib/sysconfig.py
+-===================================================================
+---- Python-2.7.9.orig/Lib/sysconfig.py
+-+++ Python-2.7.9/Lib/sysconfig.py
 +---
-+ lib/dns/dispatch.c | 12 ++++++++----
-+ 1 file changed, 8 insertions(+), 4 deletions(-)
++ Lib/distutils/sysconfig.py | 3 +++
++ Lib/sysconfig.py           | 5 ++++-
++ 2 files changed, 7 insertions(+), 1 deletion(-)
 +
-+diff --git a/lib/dns/dispatch.c b/lib/dns/dispatch.c
-+index 408beda367..3278db4a07 100644
-+--- a/lib/dns/dispatch.c
-++++ b/lib/dns/dispatch.c
-+@@ -134,7 +134,7 @@ struct dns_dispentry {
-+ 	isc_task_t		       *task;
-+ 	isc_taskaction_t		action;
-+ 	void			       *arg;
-+-	bool			item_out;
-++	bool				item_out;
-+ 	dispsocket_t			*dispsocket;
-+ 	ISC_LIST(dns_dispatchevent_t)	items;
-+ 	ISC_LINK(dns_dispentry_t)	link;
-+@@ -3422,13 +3422,14 @@ dns_dispatch_getnext(dns_dispentry_t *resp, dns_dispatchevent_t **sockevent) {
-+ 	disp = resp->disp;
-+ 	REQUIRE(VALID_DISPATCH(disp));
-+ 
-+-	REQUIRE(resp->item_out == true);
-+-	resp->item_out = false;
-+-
-+ 	ev = *sockevent;
-+ 	*sockevent = NULL;
-+ 
-+ 	LOCK(&disp->lock);
-++
-++	REQUIRE(resp->item_out == true);
-++	resp->item_out = false;
-++
-+ 	if (ev->buffer.base != NULL)
-+ 		free_buffer(disp, ev->buffer.base, ev->buffer.length);
-+ 	free_devent(disp, ev);
-+@@ -3573,6 +3574,9 @@ dns_dispatch_removeresponse(dns_dispentry_t **resp,
-+ 		isc_task_send(disp->task[0], &disp->ctlevent);
-+ }
-+ 
-++/*
-++ * disp must be locked.
-++ */
-+ static void
-+ do_cancel(dns_dispatch_t *disp) {
-+ 	dns_dispatchevent_t *ev;
++diff --git a/Lib/distutils/sysconfig.py b/Lib/distutils/sysconfig.py
++index 2f4b8ca..15bceb5 100644
++--- a/Lib/distutils/sysconfig.py
+++++ b/Lib/distutils/sysconfig.py
++@@ -31,6 +31,9 @@ else:
++     # sys.executable can be empty if argv[0] has been changed and Python is
++     # unable to retrieve the real program name
++     project_base = os.getcwd()
+++_PYTHONBUILDDIR = os.environ.get("PYTHONBUILDDIR", None)
+++if _PYTHONBUILDDIR:
+++    project_base = _PYTHONBUILDDIR
++ if os.name == "nt" and "pcbuild" in project_base[-8:].lower():
++     project_base = os.path.abspath(os.path.join(project_base, os.path.pardir))
++ # PC/VS7.1
++diff --git a/Lib/sysconfig.py b/Lib/sysconfig.py
++index 9c8350d..bddbe2e 100644
++--- a/Lib/sysconfig.py
+++++ b/Lib/sysconfig.py
+ @@ -93,6 +93,7 @@ _PREFIX = os.path.normpath(sys.prefix)
+  _EXEC_PREFIX = os.path.normpath(sys.exec_prefix)
+  _CONFIG_VARS = None
+@@ -30,17 +54,6 @@ Index: Python-2.7.9/Lib/sysconfig.py
+      _PROJECT_BASE = os.path.dirname(_safe_realpath(sys.executable))
+  else:
+      # sys.executable can be empty if argv[0] has been changed and Python is
+-Index: Python-2.7.9/Lib/distutils/sysconfig.py
+-===================================================================
+---- Python-2.7.9.orig/Lib/distutils/sysconfig.py
+-+++ Python-2.7.9/Lib/distutils/sysconfig.py
+-@@ -26,6 +26,9 @@ EXEC_PREFIX = os.path.normpath(sys.exec_
+- # live in project/PCBuild9.  If we're dealing with an x64 Windows build,
+- # it'll live in project/PCbuild/amd64.
+- project_base = os.path.dirname(os.path.abspath(sys.executable))
+-+_PYTHONBUILDDIR = os.environ.get("PYTHONBUILDDIR", None)
+-+if _PYTHONBUILDDIR:
+-+    project_base = _PYTHONBUILDDIR
+- if os.name == "nt" and "pcbuild" in project_base[-8:].lower():
+-     project_base = os.path.abspath(os.path.join(project_base, os.path.pardir))
+- # PC/VS7.1
 +-- 
-+2.20.1
++2.17.1
 +
-diff --git a/meta/recipes-connectivity/bind/bind/0001-fix-enforcement-of-tcp-clients-v1.patch b/meta/recipes-connectivity/bind/bind/0001-fix-enforcement-of-tcp-clients-v1.patch
-new file mode 100644
-index 0000000..48ae125
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0001-fix-enforcement-of-tcp-clients-v1.patch
-@@ -0,0 +1,60 @@
-+Backport patch to fix CVE-2018-5743.
-+
-+Ref:
-+https://security-tracker.debian.org/tracker/CVE-2018-5743
-+
-+CVE: CVE-2018-5743
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/commit/ec2d50d]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From ec2d50da8d81814640e28593d912f4b96c7efece Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Witold=20Kr=C4=99cicki?= <wpk@isc.org>
-+Date: Thu, 3 Jan 2019 14:17:43 +0100
-+Subject: [PATCH 1/6] fix enforcement of tcp-clients (v1)
-+
-+tcp-clients settings could be exceeded in some cases by
-+creating more and more active TCP clients that are over
-+the set quota limit, which in the end could lead to a
-+DoS attack by e.g. exhaustion of file descriptors.
-+
-+If TCP client we're closing went over the quota (so it's
-+not attached to a quota) mark it as mortal - so that it
-+will be destroyed and not set up to listen for new
-+connections - unless it's the last client for a specific
-+interface.
-+
-+(cherry picked from commit f97131d21b97381cef72b971b157345c1f9b4115)
-+(cherry picked from commit 9689ffc485df8f971f0ad81ab8ab1f5389493776)
-+---
-+ bin/named/client.c | 13 ++++++++++++-
-+ 1 file changed, 12 insertions(+), 1 deletion(-)
-+
-+diff --git a/bin/named/client.c b/bin/named/client.c
-+index d482da7121..0739dd48af 100644
-+--- a/bin/named/client.c
-++++ b/bin/named/client.c
-+@@ -421,8 +421,19 @@ exit_check(ns_client_t *client) {
-+ 			isc_socket_detach(&client->tcpsocket);
-+ 		}
-+ 
-+-		if (client->tcpquota != NULL)
-++		if (client->tcpquota != NULL) {
-+ 			isc_quota_detach(&client->tcpquota);
-++		} else {
-++			/*
-++			 * We went over quota with this client, we don't
-++			 * want to restart listening unless this is the
-++			 * last client on this interface, which is
-++			 * checked later.
-++			 */
-++			if (TCP_CLIENT(client)) {
-++				client->mortal = true;
-++			}
-++		}
-+ 
-+ 		if (client->timerset) {
-+ 			(void)isc_timer_reset(client->timer,
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind/0002-tcp-clients-could-still-be-exceeded-v2.patch b/meta/recipes-connectivity/bind/bind/0002-tcp-clients-could-still-be-exceeded-v2.patch
-new file mode 100644
-index 0000000..ca4e8b1
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0002-tcp-clients-could-still-be-exceeded-v2.patch
-@@ -0,0 +1,670 @@
-+Backport patch to fix CVE-2018-5743.
-+
-+Ref:
-+https://security-tracker.debian.org/tracker/CVE-2018-5743
-+
-+CVE: CVE-2018-5743
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/commit/719f604]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 719f604e3fad5b7479bd14e2fa0ef4413f0a8fdc Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Witold=20Kr=C4=99cicki?= <wpk@isc.org>
-+Date: Fri, 4 Jan 2019 12:50:51 +0100
-+Subject: [PATCH 2/6] tcp-clients could still be exceeded (v2)
-+
-+the TCP client quota could still be ineffective under some
-+circumstances.  this change:
-+
-+- improves quota accounting to ensure that TCP clients are
-+  properly limited, while still guaranteeing that at least one client
-+  is always available to serve TCP connections on each interface.
-+- uses more descriptive names and removes one (ntcptarget) that
-+  was no longer needed
-+- adds comments
-+
-+(cherry picked from commit 924651f1d5e605cd186d03f4f7340bcc54d77cc2)
-+(cherry picked from commit 55a7a458e30e47874d34bdf1079eb863a0512396)
-+---
-+ bin/named/client.c                     | 311 ++++++++++++++++++++-----
-+ bin/named/include/named/client.h       |  14 +-
-+ bin/named/include/named/interfacemgr.h |  11 +-
-+ bin/named/interfacemgr.c               |   8 +-
-+ 4 files changed, 267 insertions(+), 77 deletions(-)
-+
-+diff --git a/bin/named/client.c b/bin/named/client.c
-+index 0739dd48af..a7b49a0f71 100644
-+--- a/bin/named/client.c
-++++ b/bin/named/client.c
-+@@ -246,10 +246,11 @@ static void ns_client_dumpmessage(ns_client_t *client, const char *reason);
-+ static isc_result_t get_client(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+ 			       dns_dispatch_t *disp, bool tcp);
-+ static isc_result_t get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+-			       isc_socket_t *sock);
-++			       isc_socket_t *sock, ns_client_t *oldclient);
-+ static inline bool
-+-allowed(isc_netaddr_t *addr, dns_name_t *signer, isc_netaddr_t *ecs_addr,
-+-	uint8_t ecs_addrlen, uint8_t *ecs_scope, dns_acl_t *acl);
-++allowed(isc_netaddr_t *addr, dns_name_t *signer,
-++	isc_netaddr_t *ecs_addr, uint8_t ecs_addrlen,
-++	uint8_t *ecs_scope, dns_acl_t *acl)
-+ static void compute_cookie(ns_client_t *client, uint32_t when,
-+ 			   uint32_t nonce, const unsigned char *secret,
-+ 			   isc_buffer_t *buf);
-+@@ -405,8 +406,11 @@ exit_check(ns_client_t *client) {
-+ 		 */
-+ 		INSIST(client->recursionquota == NULL);
-+ 		INSIST(client->newstate <= NS_CLIENTSTATE_READY);
-+-		if (client->nreads > 0)
-++
-++		if (client->nreads > 0) {
-+ 			dns_tcpmsg_cancelread(&client->tcpmsg);
-++		}
-++
-+ 		if (client->nreads != 0) {
-+ 			/* Still waiting for read cancel completion. */
-+ 			return (true);
-+@@ -416,25 +420,58 @@ exit_check(ns_client_t *client) {
-+ 			dns_tcpmsg_invalidate(&client->tcpmsg);
-+ 			client->tcpmsg_valid = false;
-+ 		}
-++
-+ 		if (client->tcpsocket != NULL) {
-+ 			CTRACE("closetcp");
-+ 			isc_socket_detach(&client->tcpsocket);
-++
-++			if (client->tcpactive) {
-++				LOCK(&client->interface->lock);
-++				INSIST(client->interface->ntcpactive > 0);
-++				client->interface->ntcpactive--;
-++				UNLOCK(&client->interface->lock);
-++				client->tcpactive = false;
-++			}
-+ 		}
-+ 
-+ 		if (client->tcpquota != NULL) {
-+-			isc_quota_detach(&client->tcpquota);
-+-		} else {
-+ 			/*
-+-			 * We went over quota with this client, we don't
-+-			 * want to restart listening unless this is the
-+-			 * last client on this interface, which is
-+-			 * checked later.
-++			 * If we are not in a pipeline group, or
-++			 * we are the last client in the group, detach from
-++			 * tcpquota; otherwise, transfer the quota to
-++			 * another client in the same group.
-+ 			 */
-+-			if (TCP_CLIENT(client)) {
-+-				client->mortal = true;
-++			if (!ISC_LINK_LINKED(client, glink) ||
-++			    (client->glink.next == NULL &&
-++			     client->glink.prev == NULL))
-++			{
-++				isc_quota_detach(&client->tcpquota);
-++			} else if (client->glink.next != NULL) {
-++				INSIST(client->glink.next->tcpquota == NULL);
-++				client->glink.next->tcpquota = client->tcpquota;
-++				client->tcpquota = NULL;
-++			} else {
-++				INSIST(client->glink.prev->tcpquota == NULL);
-++				client->glink.prev->tcpquota = client->tcpquota;
-++				client->tcpquota = NULL;
-+ 			}
-+ 		}
-+ 
-++		/*
-++		 * Unlink from pipeline group.
-++		 */
-++		if (ISC_LINK_LINKED(client, glink)) {
-++			if (client->glink.next != NULL) {
-++				client->glink.next->glink.prev =
-++					client->glink.prev;
-++			}
-++			if (client->glink.prev != NULL) {
-++				client->glink.prev->glink.next =
-++					client->glink.next;
-++			}
-++			ISC_LINK_INIT(client, glink);
-++		}
-++
-+ 		if (client->timerset) {
-+ 			(void)isc_timer_reset(client->timer,
-+ 					      isc_timertype_inactive,
-+@@ -455,15 +492,16 @@ exit_check(ns_client_t *client) {
-+ 		 * that already.  Check whether this client needs to remain
-+ 		 * active and force it to go inactive if not.
-+ 		 *
-+-		 * UDP clients go inactive at this point, but TCP clients
-+-		 * may remain active if we have fewer active TCP client
-+-		 * objects than desired due to an earlier quota exhaustion.
-++		 * UDP clients go inactive at this point, but a TCP client
-++		 * will needs to remain active if no other clients are
-++		 * listening for TCP requests on this interface, to
-++		 * prevent this interface from going nonresponsive.
-+ 		 */
-+ 		if (client->mortal && TCP_CLIENT(client) && !ns_g_clienttest) {
-+ 			LOCK(&client->interface->lock);
-+-			if (client->interface->ntcpcurrent <
-+-				    client->interface->ntcptarget)
-++			if (client->interface->ntcpaccepting == 0) {
-+ 				client->mortal = false;
-++			}
-+ 			UNLOCK(&client->interface->lock);
-+ 		}
-+ 
-+@@ -472,15 +510,17 @@ exit_check(ns_client_t *client) {
-+ 		 * queue for recycling.
-+ 		 */
-+ 		if (client->mortal) {
-+-			if (client->newstate > NS_CLIENTSTATE_INACTIVE)
-++			if (client->newstate > NS_CLIENTSTATE_INACTIVE) {
-+ 				client->newstate = NS_CLIENTSTATE_INACTIVE;
-++			}
-+ 		}
-+ 
-+ 		if (NS_CLIENTSTATE_READY == client->newstate) {
-+ 			if (TCP_CLIENT(client)) {
-+ 				client_accept(client);
-+-			} else
-++			} else {
-+ 				client_udprecv(client);
-++			}
-+ 			client->newstate = NS_CLIENTSTATE_MAX;
-+ 			return (true);
-+ 		}
-+@@ -492,41 +532,57 @@ exit_check(ns_client_t *client) {
-+ 		/*
-+ 		 * We are trying to enter the inactive state.
-+ 		 */
-+-		if (client->naccepts > 0)
-++		if (client->naccepts > 0) {
-+ 			isc_socket_cancel(client->tcplistener, client->task,
-+ 					  ISC_SOCKCANCEL_ACCEPT);
-++		}
-+ 
-+ 		/* Still waiting for accept cancel completion. */
-+-		if (! (client->naccepts == 0))
-++		if (! (client->naccepts == 0)) {
-+ 			return (true);
-++		}
-+ 
-+ 		/* Accept cancel is complete. */
-+-		if (client->nrecvs > 0)
-++		if (client->nrecvs > 0) {
-+ 			isc_socket_cancel(client->udpsocket, client->task,
-+ 					  ISC_SOCKCANCEL_RECV);
-++		}
-+ 
-+ 		/* Still waiting for recv cancel completion. */
-+-		if (! (client->nrecvs == 0))
-++		if (! (client->nrecvs == 0)) {
-+ 			return (true);
-++		}
-+ 
-+ 		/* Still waiting for control event to be delivered */
-+-		if (client->nctls > 0)
-++		if (client->nctls > 0) {
-+ 			return (true);
-+-
-+-		/* Deactivate the client. */
-+-		if (client->interface)
-+-			ns_interface_detach(&client->interface);
-++		}
-+ 
-+ 		INSIST(client->naccepts == 0);
-+ 		INSIST(client->recursionquota == NULL);
-+-		if (client->tcplistener != NULL)
-++		if (client->tcplistener != NULL) {
-+ 			isc_socket_detach(&client->tcplistener);
-+ 
-+-		if (client->udpsocket != NULL)
-++			if (client->tcpactive) {
-++				LOCK(&client->interface->lock);
-++				INSIST(client->interface->ntcpactive > 0);
-++				client->interface->ntcpactive--;
-++				UNLOCK(&client->interface->lock);
-++				client->tcpactive = false;
-++			}
-++		}
-++		if (client->udpsocket != NULL) {
-+ 			isc_socket_detach(&client->udpsocket);
-++		}
-+ 
-+-		if (client->dispatch != NULL)
-++		/* Deactivate the client. */
-++		if (client->interface != NULL) {
-++			ns_interface_detach(&client->interface);
-++		}
-++
-++		if (client->dispatch != NULL) {
-+ 			dns_dispatch_detach(&client->dispatch);
-++		}
-+ 
-+ 		client->attributes = 0;
-+ 		client->mortal = false;
-+@@ -551,10 +607,13 @@ exit_check(ns_client_t *client) {
-+ 			client->newstate = NS_CLIENTSTATE_MAX;
-+ 			if (!ns_g_clienttest && manager != NULL &&
-+ 			    !manager->exiting)
-++			{
-+ 				ISC_QUEUE_PUSH(manager->inactive, client,
-+ 					       ilink);
-+-			if (client->needshutdown)
-++			}
-++			if (client->needshutdown) {
-+ 				isc_task_shutdown(client->task);
-++			}
-+ 			return (true);
-+ 		}
-+ 	}
-+@@ -675,7 +734,6 @@ client_start(isc_task_t *task, isc_event_t *event) {
-+ 	}
-+ }
-+ 
-+-
-+ /*%
-+  * The client's task has received a shutdown event.
-+  */
-+@@ -2507,17 +2565,12 @@ client_request(isc_task_t *task, isc_event_t *event) {
-+ 	/*
-+ 	 * Pipeline TCP query processing.
-+ 	 */
-+-	if (client->message->opcode != dns_opcode_query)
-++	if (client->message->opcode != dns_opcode_query) {
-+ 		client->pipelined = false;
-++	}
-+ 	if (TCP_CLIENT(client) && client->pipelined) {
-+-		result = isc_quota_reserve(&ns_g_server->tcpquota);
-+-		if (result == ISC_R_SUCCESS)
-+-			result = ns_client_replace(client);
-++		result = ns_client_replace(client);
-+ 		if (result != ISC_R_SUCCESS) {
-+-			ns_client_log(client, NS_LOGCATEGORY_CLIENT,
-+-				      NS_LOGMODULE_CLIENT, ISC_LOG_WARNING,
-+-				      "no more TCP clients(read): %s",
-+-				      isc_result_totext(result));
-+ 			client->pipelined = false;
-+ 		}
-+ 	}
-+@@ -3087,6 +3140,7 @@ client_create(ns_clientmgr_t *manager, ns_client_t **clientp) {
-+ 	client->filter_aaaa = dns_aaaa_ok;
-+ #endif
-+ 	client->needshutdown = ns_g_clienttest;
-++	client->tcpactive = false;
-+ 
-+ 	ISC_EVENT_INIT(&client->ctlevent, sizeof(client->ctlevent), 0, NULL,
-+ 		       NS_EVENT_CLIENTCONTROL, client_start, client, client,
-+@@ -3100,6 +3154,7 @@ client_create(ns_clientmgr_t *manager, ns_client_t **clientp) {
-+ 	client->formerrcache.id = 0;
-+ 	ISC_LINK_INIT(client, link);
-+ 	ISC_LINK_INIT(client, rlink);
-++	ISC_LINK_INIT(client, glink);
-+ 	ISC_QLINK_INIT(client, ilink);
-+ 	client->keytag = NULL;
-+ 	client->keytag_len = 0;
-+@@ -3193,12 +3248,19 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 
-+ 	INSIST(client->state == NS_CLIENTSTATE_READY);
-+ 
-++	/*
-++	 * The accept() was successful and we're now establishing a new
-++	 * connection. We need to make note of it in the client and
-++	 * interface objects so client objects can do the right thing
-++	 * when going inactive in exit_check() (see comments in
-++	 * client_accept() for details).
-++	 */
-+ 	INSIST(client->naccepts == 1);
-+ 	client->naccepts--;
-+ 
-+ 	LOCK(&client->interface->lock);
-+-	INSIST(client->interface->ntcpcurrent > 0);
-+-	client->interface->ntcpcurrent--;
-++	INSIST(client->interface->ntcpaccepting > 0);
-++	client->interface->ntcpaccepting--;
-+ 	UNLOCK(&client->interface->lock);
-+ 
-+ 	/*
-+@@ -3232,6 +3294,9 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 			      NS_LOGMODULE_CLIENT, ISC_LOG_DEBUG(3),
-+ 			      "accept failed: %s",
-+ 			      isc_result_totext(nevent->result));
-++		if (client->tcpquota != NULL) {
-++			isc_quota_detach(&client->tcpquota);
-++		}
-+ 	}
-+ 
-+ 	if (exit_check(client))
-+@@ -3270,18 +3335,12 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 		 * deny service to legitimate TCP clients.
-+ 		 */
-+ 		client->pipelined = false;
-+-		result = isc_quota_attach(&ns_g_server->tcpquota,
-+-					  &client->tcpquota);
-+-		if (result == ISC_R_SUCCESS)
-+-			result = ns_client_replace(client);
-+-		if (result != ISC_R_SUCCESS) {
-+-			ns_client_log(client, NS_LOGCATEGORY_CLIENT,
-+-				      NS_LOGMODULE_CLIENT, ISC_LOG_WARNING,
-+-				      "no more TCP clients(accept): %s",
-+-				      isc_result_totext(result));
-+-		} else if (ns_g_server->keepresporder == NULL ||
-+-			   !allowed(&netaddr, NULL, NULL, 0, NULL,
-+-				    ns_g_server->keepresporder)) {
-++		result = ns_client_replace(client);
-++		if (result == ISC_R_SUCCESS &&
-++		    (client->sctx->keepresporder == NULL ||
-++		     !allowed(&netaddr, NULL, NULL, 0, NULL,
-++			      ns_g_server->keepresporder)))
-++		{
-+ 			client->pipelined = true;
-+ 		}
-+ 
-+@@ -3298,12 +3357,80 @@ client_accept(ns_client_t *client) {
-+ 
-+ 	CTRACE("accept");
-+ 
-++	/*
-++	 * The tcpquota object can only be simultaneously referenced a
-++	 * pre-defined number of times; this is configured by 'tcp-clients'
-++	 * in named.conf. If we can't attach to it here, that means the TCP
-++	 * client quota has been exceeded.
-++	 */
-++	result = isc_quota_attach(&client->sctx->tcpquota,
-++				  &client->tcpquota);
-++	if (result != ISC_R_SUCCESS) {
-++			bool exit;
-++
-++			ns_client_log(client, NS_LOGCATEGORY_CLIENT,
-++				      NS_LOGMODULE_CLIENT, ISC_LOG_DEBUG(1),
-++				      "no more TCP clients: %s",
-++				      isc_result_totext(result));
-++
-++			/*
-++			 * We have exceeded the system-wide TCP client
-++			 * quota.  But, we can't just block this accept
-++			 * in all cases, because if we did, a heavy TCP
-++			 * load on other interfaces might cause this
-++			 * interface to be starved, with no clients able
-++			 * to accept new connections.
-++			 *
-++			 * So, we check here to see if any other client
-++			 * is already servicing TCP queries on this
-++			 * interface (whether accepting, reading, or
-++			 * processing).
-++			 *
-++			 * If so, then it's okay *not* to call
-++			 * accept - we can let this client to go inactive
-++			 * and the other one handle the next connection
-++			 * when it's ready.
-++			 *
-++			 * But if not, then we need to be a little bit
-++			 * flexible about the quota. We allow *one* extra
-++			 * TCP client through, to ensure we're listening on
-++			 * every interface.
-++			 *
-++			 * (Note: In practice this means that the *real*
-++			 * TCP client quota is tcp-clients plus the number
-++			 * of interfaces.)
-++			 */
-++			LOCK(&client->interface->lock);
-++			exit = (client->interface->ntcpactive > 0);
-++			UNLOCK(&client->interface->lock);
-++
-++			if (exit) {
-++				client->newstate = NS_CLIENTSTATE_INACTIVE;
-++				(void)exit_check(client);
-++				return;
-++			}
-++	}
-++
-++	/*
-++	 * By incrementing the interface's ntcpactive counter we signal
-++	 * that there is at least one client servicing TCP queries for the
-++	 * interface.
-++	 *
-++	 * We also make note of the fact in the client itself with the
-++	 * tcpactive flag. This ensures proper accounting by preventing
-++	 * us from accidentally incrementing or decrementing ntcpactive
-++	 * more than once per client object.
-++	 */
-++	if (!client->tcpactive) {
-++		LOCK(&client->interface->lock);
-++		client->interface->ntcpactive++;
-++		UNLOCK(&client->interface->lock);
-++		client->tcpactive = true;
-++	}
-++
-+ 	result = isc_socket_accept(client->tcplistener, client->task,
-+ 				   client_newconn, client);
-+ 	if (result != ISC_R_SUCCESS) {
-+-		UNEXPECTED_ERROR(__FILE__, __LINE__,
-+-				 "isc_socket_accept() failed: %s",
-+-				 isc_result_totext(result));
-+ 		/*
-+ 		 * XXXRTH  What should we do?  We're trying to accept but
-+ 		 *	   it didn't work.  If we just give up, then TCP
-+@@ -3311,12 +3438,39 @@ client_accept(ns_client_t *client) {
-+ 		 *
-+ 		 *	   For now, we just go idle.
-+ 		 */
-++		UNEXPECTED_ERROR(__FILE__, __LINE__,
-++				 "isc_socket_accept() failed: %s",
-++				 isc_result_totext(result));
-++		if (client->tcpquota != NULL) {
-++			isc_quota_detach(&client->tcpquota);
-++		}
-+ 		return;
-+ 	}
-++
-++	/*
-++	 * The client's 'naccepts' counter indicates that this client has
-++	 * called accept() and is waiting for a new connection. It should
-++	 * never exceed 1.
-++	 */
-+ 	INSIST(client->naccepts == 0);
-+ 	client->naccepts++;
-++
-++	/*
-++	 * The interface's 'ntcpaccepting' counter is incremented when
-++	 * any client calls accept(), and decremented in client_newconn()
-++	 * once the connection is established.
-++	 *
-++	 * When the client object is shutting down after handling a TCP
-++	 * request (see exit_check()), it looks to see whether this value is
-++	 * non-zero. If so, that means another client has already called
-++	 * accept() and is waiting to establish the next connection, which
-++	 * means the first client is free to go inactive. Otherwise,
-++	 * the first client must come back and call accept() again; this
-++	 * guarantees there will always be at least one client listening
-++	 * for new TCP connections on each interface.
-++	 */
-+ 	LOCK(&client->interface->lock);
-+-	client->interface->ntcpcurrent++;
-++	client->interface->ntcpaccepting++;
-+ 	UNLOCK(&client->interface->lock);
-+ }
-+ 
-+@@ -3390,13 +3544,14 @@ ns_client_replace(ns_client_t *client) {
-+ 	tcp = TCP_CLIENT(client);
-+ 	if (tcp && client->pipelined) {
-+ 		result = get_worker(client->manager, client->interface,
-+-				    client->tcpsocket);
-++				    client->tcpsocket, client);
-+ 	} else {
-+ 		result = get_client(client->manager, client->interface,
-+ 				    client->dispatch, tcp);
-+ 	}
-+-	if (result != ISC_R_SUCCESS)
-++	if (result != ISC_R_SUCCESS) {
-+ 		return (result);
-++	}
-+ 
-+ 	/*
-+ 	 * The responsibility for listening for new requests is hereby
-+@@ -3585,6 +3740,7 @@ get_client(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+ 		client->attributes |= NS_CLIENTATTR_TCP;
-+ 		isc_socket_attach(ifp->tcpsocket,
-+ 				  &client->tcplistener);
-++
-+ 	} else {
-+ 		isc_socket_t *sock;
-+ 
-+@@ -3602,7 +3758,8 @@ get_client(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+ }
-+ 
-+ static isc_result_t
-+-get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock)
-++get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock,
-++	   ns_client_t *oldclient)
-+ {
-+ 	isc_result_t result = ISC_R_SUCCESS;
-+ 	isc_event_t *ev;
-+@@ -3610,6 +3767,7 @@ get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock)
-+ 	MTRACE("get worker");
-+ 
-+ 	REQUIRE(manager != NULL);
-++	REQUIRE(oldclient != NULL);
-+ 
-+ 	if (manager->exiting)
-+ 		return (ISC_R_SHUTTINGDOWN);
-+@@ -3642,7 +3800,28 @@ get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock)
-+ 	ns_interface_attach(ifp, &client->interface);
-+ 	client->newstate = client->state = NS_CLIENTSTATE_WORKING;
-+ 	INSIST(client->recursionquota == NULL);
-+-	client->tcpquota = &ns_g_server->tcpquota;
-++
-++	/*
-++	 * Transfer TCP quota to the new client.
-++	 */
-++	INSIST(client->tcpquota == NULL);
-++	INSIST(oldclient->tcpquota != NULL);
-++	client->tcpquota = oldclient->tcpquota;
-++	oldclient->tcpquota = NULL;
-++
-++	/*
-++	 * Link to a pipeline group, creating it if needed.
-++	 */
-++	if (!ISC_LINK_LINKED(oldclient, glink)) {
-++		oldclient->glink.next = NULL;
-++		oldclient->glink.prev = NULL;
-++	}
-++	client->glink.next = oldclient->glink.next;
-++	client->glink.prev = oldclient;
-++	if (oldclient->glink.next != NULL) {
-++		oldclient->glink.next->glink.prev = client;
-++	}
-++	oldclient->glink.next = client;
-+ 
-+ 	client->dscp = ifp->dscp;
-+ 
-+@@ -3656,6 +3835,12 @@ get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock)
-+ 	(void)isc_socket_getpeername(client->tcpsocket, &client->peeraddr);
-+ 	client->peeraddr_valid = true;
-+ 
-++	LOCK(&client->interface->lock);
-++	client->interface->ntcpactive++;
-++	UNLOCK(&client->interface->lock);
-++
-++	client->tcpactive = true;
-++
-+ 	INSIST(client->tcpmsg_valid == false);
-+ 	dns_tcpmsg_init(client->mctx, client->tcpsocket, &client->tcpmsg);
-+ 	client->tcpmsg_valid = true;
-+diff --git a/bin/named/include/named/client.h b/bin/named/include/named/client.h
-+index b23a7b191d..1f7973f9c5 100644
-+--- a/bin/named/include/named/client.h
-++++ b/bin/named/include/named/client.h
-+@@ -94,7 +94,8 @@ struct ns_client {
-+ 	int			nupdates;
-+ 	int			nctls;
-+ 	int			references;
-+-	bool		needshutdown; 	/*
-++	bool			tcpactive;
-++	bool			needshutdown; 	/*
-+ 						 * Used by clienttest to get
-+ 						 * the client to go from
-+ 						 * inactive to free state
-+@@ -130,9 +131,9 @@ struct ns_client {
-+ 	isc_stdtime_t		now;
-+ 	isc_time_t		tnow;
-+ 	dns_name_t		signername;   /*%< [T]SIG key name */
-+-	dns_name_t *		signer;	      /*%< NULL if not valid sig */
-+-	bool		mortal;	      /*%< Die after handling request */
-+-	bool		pipelined;   /*%< TCP queries not in sequence */
-++	dns_name_t		*signer;      /*%< NULL if not valid sig */
-++	bool			mortal;	      /*%< Die after handling request */
-++	bool			pipelined;   /*%< TCP queries not in sequence */
-+ 	isc_quota_t		*tcpquota;
-+ 	isc_quota_t		*recursionquota;
-+ 	ns_interface_t		*interface;
-+@@ -143,8 +144,8 @@ struct ns_client {
-+ 	isc_sockaddr_t		destsockaddr;
-+ 
-+ 	isc_netaddr_t		ecs_addr;	/*%< EDNS client subnet */
-+-	uint8_t		ecs_addrlen;
-+-	uint8_t		ecs_scope;
-++	uint8_t			ecs_addrlen;
-++	uint8_t			ecs_scope;
-+ 
-+ 	struct in6_pktinfo	pktinfo;
-+ 	isc_dscp_t		dscp;
-+@@ -166,6 +167,7 @@ struct ns_client {
-+ 
-+ 	ISC_LINK(ns_client_t)	link;
-+ 	ISC_LINK(ns_client_t)	rlink;
-++	ISC_LINK(ns_client_t)	glink;
-+ 	ISC_QLINK(ns_client_t)	ilink;
-+ 	unsigned char		cookie[8];
-+ 	uint32_t		expire;
-+diff --git a/bin/named/include/named/interfacemgr.h b/bin/named/include/named/interfacemgr.h
-+index 7d1883e1e8..61b08826a6 100644
-+--- a/bin/named/include/named/interfacemgr.h
-++++ b/bin/named/include/named/interfacemgr.h
-+@@ -77,9 +77,14 @@ struct ns_interface {
-+ 						/*%< UDP dispatchers. */
-+ 	isc_socket_t *		tcpsocket;	/*%< TCP socket. */
-+ 	isc_dscp_t		dscp;		/*%< "listen-on" DSCP value */
-+-	int			ntcptarget;	/*%< Desired number of concurrent
-+-						     TCP accepts */
-+-	int			ntcpcurrent;	/*%< Current ditto, locked */
-++	int			ntcpaccepting;	/*%< Number of clients
-++						     ready to accept new
-++						     TCP connections on this
-++						     interface */
-++	int			ntcpactive;	/*%< Number of clients
-++						     servicing TCP queries
-++						     (whether accepting or
-++						     connected) */
-+ 	int			nudpdispatch;	/*%< Number of UDP dispatches */
-+ 	ns_clientmgr_t *	clientmgr;	/*%< Client manager. */
-+ 	ISC_LINK(ns_interface_t) link;
-+diff --git a/bin/named/interfacemgr.c b/bin/named/interfacemgr.c
-+index 419927bf54..955096ef47 100644
-+--- a/bin/named/interfacemgr.c
-++++ b/bin/named/interfacemgr.c
-+@@ -386,8 +386,8 @@ ns_interface_create(ns_interfacemgr_t *mgr, isc_sockaddr_t *addr,
-+ 	 * connections will be handled in parallel even though there is
-+ 	 * only one client initially.
-+ 	 */
-+-	ifp->ntcptarget = 1;
-+-	ifp->ntcpcurrent = 0;
-++	ifp->ntcpaccepting = 0;
-++	ifp->ntcpactive = 0;
-+ 	ifp->nudpdispatch = 0;
-+ 
-+ 	ifp->dscp = -1;
-+@@ -522,9 +522,7 @@ ns_interface_accepttcp(ns_interface_t *ifp) {
-+ 	 */
-+ 	(void)isc_socket_filter(ifp->tcpsocket, "dataready");
-+ 
-+-	result = ns_clientmgr_createclients(ifp->clientmgr,
-+-					    ifp->ntcptarget, ifp,
-+-					    true);
-++	result = ns_clientmgr_createclients(ifp->clientmgr, 1, ifp, true);
-+ 	if (result != ISC_R_SUCCESS) {
-+ 		UNEXPECTED_ERROR(__FILE__, __LINE__,
-+ 				 "TCP ns_clientmgr_createclients(): %s",
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind/0003-use-reference-counter-for-pipeline-groups-v3.patch b/meta/recipes-connectivity/bind/bind/0003-use-reference-counter-for-pipeline-groups-v3.patch
-new file mode 100644
-index 0000000..032cfb8
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0003-use-reference-counter-for-pipeline-groups-v3.patch
-@@ -0,0 +1,278 @@
-+Backport patch to fix CVE-2018-5743.
-+
-+Ref:
-+https://security-tracker.debian.org/tracker/CVE-2018-5743
-+
-+CVE: CVE-2018-5743
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/commit/366b4e1]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 366b4e1ede8aed690e981e07137cb1cb77879c36 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Micha=C5=82=20K=C4=99pie=C5=84?= <michal@isc.org>
-+Date: Thu, 17 Jan 2019 15:53:38 +0100
-+Subject: [PATCH 3/6] use reference counter for pipeline groups (v3)
-+
-+Track pipeline groups using a shared reference counter
-+instead of a linked list.
-+
-+(cherry picked from commit 513afd33eb17d5dc41a3f0d2d38204ef8c5f6f91)
-+(cherry picked from commit 9446629b730c59c4215f08d37fbaf810282fbccb)
-+---
-+ bin/named/client.c               | 171 ++++++++++++++++++++-----------
-+ bin/named/include/named/client.h |   2 +-
-+ 2 files changed, 110 insertions(+), 63 deletions(-)
-+
-+diff --git a/bin/named/client.c b/bin/named/client.c
-+index a7b49a0f71..277656cef0 100644
-+--- a/bin/named/client.c
-++++ b/bin/named/client.c
-+@@ -299,6 +299,75 @@ ns_client_settimeout(ns_client_t *client, unsigned int seconds) {
-+ 	}
-+ }
-+ 
-++/*%
-++ * Allocate a reference counter that will track the number of client structures
-++ * using the TCP connection that 'client' called accept() for.  This counter
-++ * will be shared between all client structures associated with this TCP
-++ * connection.
-++ */
-++static void
-++pipeline_init(ns_client_t *client) {
-++	isc_refcount_t *refs;
-++
-++	REQUIRE(client->pipeline_refs == NULL);
-++
-++	/*
-++	 * A global memory context is used for the allocation as different
-++	 * client structures may have different memory contexts assigned and a
-++	 * reference counter allocated here might need to be freed by a
-++	 * different client.  The performance impact caused by memory context
-++	 * contention here is expected to be negligible, given that this code
-++	 * is only executed for TCP connections.
-++	 */
-++	refs = isc_mem_allocate(client->sctx->mctx, sizeof(*refs));
-++	isc_refcount_init(refs, 1);
-++	client->pipeline_refs = refs;
-++}
-++
-++/*%
-++ * Increase the count of client structures using the TCP connection that
-++ * 'source' is associated with and put a pointer to that count in 'target',
-++ * thus associating it with the same TCP connection.
-++ */
-++static void
-++pipeline_attach(ns_client_t *source, ns_client_t *target) {
-++	int old_refs;
-++
-++	REQUIRE(source->pipeline_refs != NULL);
-++	REQUIRE(target->pipeline_refs == NULL);
-++
-++	old_refs = isc_refcount_increment(source->pipeline_refs);
-++	INSIST(old_refs > 0);
-++	target->pipeline_refs = source->pipeline_refs;
-++}
-++
-++/*%
-++ * Decrease the count of client structures using the TCP connection that
-++ * 'client' is associated with.  If this is the last client using this TCP
-++ * connection, free the reference counter and return true; otherwise, return
-++ * false.
-++ */
-++static bool
-++pipeline_detach(ns_client_t *client) {
-++	isc_refcount_t *refs;
-++	int old_refs;
-++
-++	REQUIRE(client->pipeline_refs != NULL);
-++
-++	refs = client->pipeline_refs;
-++	client->pipeline_refs = NULL;
-++
-++	old_refs = isc_refcount_decrement(refs);
-++	INSIST(old_refs > 0);
-++
-++	if (old_refs == 1) {
-++		isc_mem_free(client->sctx->mctx, refs);
-++		return (true);
-++	}
-++
-++	return (false);
-++}
-++
-+ /*%
-+  * Check for a deactivation or shutdown request and take appropriate
-+  * action.  Returns true if either is in progress; in this case
-+@@ -421,6 +490,40 @@ exit_check(ns_client_t *client) {
-+ 			client->tcpmsg_valid = false;
-+ 		}
-+ 
-++		if (client->tcpquota != NULL) {
-++			if (client->pipeline_refs == NULL ||
-++			    pipeline_detach(client))
-++			{
-++				/*
-++				 * Only detach from the TCP client quota if
-++				 * there are no more client structures using
-++				 * this TCP connection.
-++				 *
-++				 * Note that we check 'pipeline_refs' and not
-++				 * 'pipelined' because in some cases (e.g.
-++				 * after receiving a request with an opcode
-++				 * different than QUERY) 'pipelined' is set to
-++				 * false after the reference counter gets
-++				 * allocated in pipeline_init() and we must
-++				 * still drop our reference as failing to do so
-++				 * would prevent the reference counter itself
-++				 * from being freed.
-++				 */
-++				isc_quota_detach(&client->tcpquota);
-++			} else {
-++				/*
-++				 * There are other client structures using this
-++				 * TCP connection, so we cannot detach from the
-++				 * TCP client quota to prevent excess TCP
-++				 * connections from being accepted.  However,
-++				 * this client structure might later be reused
-++				 * for accepting new connections and thus must
-++				 * have its 'tcpquota' field set to NULL.
-++				 */
-++				client->tcpquota = NULL;
-++			}
-++		}
-++
-+ 		if (client->tcpsocket != NULL) {
-+ 			CTRACE("closetcp");
-+ 			isc_socket_detach(&client->tcpsocket);
-+@@ -434,44 +537,6 @@ exit_check(ns_client_t *client) {
-+ 			}
-+ 		}
-+ 
-+-		if (client->tcpquota != NULL) {
-+-			/*
-+-			 * If we are not in a pipeline group, or
-+-			 * we are the last client in the group, detach from
-+-			 * tcpquota; otherwise, transfer the quota to
-+-			 * another client in the same group.
-+-			 */
-+-			if (!ISC_LINK_LINKED(client, glink) ||
-+-			    (client->glink.next == NULL &&
-+-			     client->glink.prev == NULL))
-+-			{
-+-				isc_quota_detach(&client->tcpquota);
-+-			} else if (client->glink.next != NULL) {
-+-				INSIST(client->glink.next->tcpquota == NULL);
-+-				client->glink.next->tcpquota = client->tcpquota;
-+-				client->tcpquota = NULL;
-+-			} else {
-+-				INSIST(client->glink.prev->tcpquota == NULL);
-+-				client->glink.prev->tcpquota = client->tcpquota;
-+-				client->tcpquota = NULL;
-+-			}
-+-		}
-+-
-+-		/*
-+-		 * Unlink from pipeline group.
-+-		 */
-+-		if (ISC_LINK_LINKED(client, glink)) {
-+-			if (client->glink.next != NULL) {
-+-				client->glink.next->glink.prev =
-+-					client->glink.prev;
-+-			}
-+-			if (client->glink.prev != NULL) {
-+-				client->glink.prev->glink.next =
-+-					client->glink.next;
-+-			}
-+-			ISC_LINK_INIT(client, glink);
-+-		}
-+-
-+ 		if (client->timerset) {
-+ 			(void)isc_timer_reset(client->timer,
-+ 					      isc_timertype_inactive,
-+@@ -3130,6 +3195,7 @@ client_create(ns_clientmgr_t *manager, ns_client_t **clientp) {
-+ 	dns_name_init(&client->signername, NULL);
-+ 	client->mortal = false;
-+ 	client->pipelined = false;
-++	client->pipeline_refs = NULL;
-+ 	client->tcpquota = NULL;
-+ 	client->recursionquota = NULL;
-+ 	client->interface = NULL;
-+@@ -3154,7 +3220,6 @@ client_create(ns_clientmgr_t *manager, ns_client_t **clientp) {
-+ 	client->formerrcache.id = 0;
-+ 	ISC_LINK_INIT(client, link);
-+ 	ISC_LINK_INIT(client, rlink);
-+-	ISC_LINK_INIT(client, glink);
-+ 	ISC_QLINK_INIT(client, ilink);
-+ 	client->keytag = NULL;
-+ 	client->keytag_len = 0;
-+@@ -3341,6 +3406,7 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 		     !allowed(&netaddr, NULL, NULL, 0, NULL,
-+ 			      ns_g_server->keepresporder)))
-+ 		{
-++			pipeline_init(client);
-+ 			client->pipelined = true;
-+ 		}
-+ 
-+@@ -3800,35 +3866,16 @@ get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock,
-+ 	ns_interface_attach(ifp, &client->interface);
-+ 	client->newstate = client->state = NS_CLIENTSTATE_WORKING;
-+ 	INSIST(client->recursionquota == NULL);
-+-
-+-	/*
-+-	 * Transfer TCP quota to the new client.
-+-	 */
-+-	INSIST(client->tcpquota == NULL);
-+-	INSIST(oldclient->tcpquota != NULL);
-+-	client->tcpquota = oldclient->tcpquota;
-+-	oldclient->tcpquota = NULL;
-+-
-+-	/*
-+-	 * Link to a pipeline group, creating it if needed.
-+-	 */
-+-	if (!ISC_LINK_LINKED(oldclient, glink)) {
-+-		oldclient->glink.next = NULL;
-+-		oldclient->glink.prev = NULL;
-+-	}
-+-	client->glink.next = oldclient->glink.next;
-+-	client->glink.prev = oldclient;
-+-	if (oldclient->glink.next != NULL) {
-+-		oldclient->glink.next->glink.prev = client;
-+-	}
-+-	oldclient->glink.next = client;
-++	client->tcpquota = &client->sctx->tcpquota;
-+ 
-+ 	client->dscp = ifp->dscp;
-+ 
-+ 	client->attributes |= NS_CLIENTATTR_TCP;
-+-	client->pipelined = true;
-+ 	client->mortal = true;
-+ 
-++	pipeline_attach(oldclient, client);
-++	client->pipelined = true;
-++
-+ 	isc_socket_attach(ifp->tcpsocket, &client->tcplistener);
-+ 	isc_socket_attach(sock, &client->tcpsocket);
-+ 	isc_socket_setname(client->tcpsocket, "worker-tcp", NULL);
-+diff --git a/bin/named/include/named/client.h b/bin/named/include/named/client.h
-+index 1f7973f9c5..aeed9ccdda 100644
-+--- a/bin/named/include/named/client.h
-++++ b/bin/named/include/named/client.h
-+@@ -134,6 +134,7 @@ struct ns_client {
-+ 	dns_name_t		*signer;      /*%< NULL if not valid sig */
-+ 	bool			mortal;	      /*%< Die after handling request */
-+ 	bool			pipelined;   /*%< TCP queries not in sequence */
-++	isc_refcount_t		*pipeline_refs;
-+ 	isc_quota_t		*tcpquota;
-+ 	isc_quota_t		*recursionquota;
-+ 	ns_interface_t		*interface;
-+@@ -167,7 +168,6 @@ struct ns_client {
-+ 
-+ 	ISC_LINK(ns_client_t)	link;
-+ 	ISC_LINK(ns_client_t)	rlink;
-+-	ISC_LINK(ns_client_t)	glink;
-+ 	ISC_QLINK(ns_client_t)	ilink;
-+ 	unsigned char		cookie[8];
-+ 	uint32_t		expire;
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind/0004-better-tcpquota-accounting-and-client-mortality-chec.patch b/meta/recipes-connectivity/bind/bind/0004-better-tcpquota-accounting-and-client-mortality-chec.patch
-new file mode 100644
-index 0000000..034ab13
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0004-better-tcpquota-accounting-and-client-mortality-chec.patch
-@@ -0,0 +1,512 @@
-+Backport patch to fix CVE-2018-5743.
-+
-+Ref:
-+https://security-tracker.debian.org/tracker/CVE-2018-5743
-+
-+CVE: CVE-2018-5743
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/commit/2ab8a08]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 2ab8a085b3c666f28f1f9229bd6ecb59915b26c3 Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Fri, 5 Apr 2019 16:12:18 -0700
-+Subject: [PATCH 4/6] better tcpquota accounting and client mortality checks
-+
-+- ensure that tcpactive is cleaned up correctly when accept() fails.
-+- set 'client->tcpattached' when the client is attached to the tcpquota.
-+  carry this value on to new clients sharing the same pipeline group.
-+  don't call isc_quota_detach() on the tcpquota unless tcpattached is
-+  set.  this way clients that were allowed to accept TCP connections
-+  despite being over quota (and therefore, were never attached to the
-+  quota) will not inadvertently detach from it and mess up the
-+  accounting.
-+- simplify the code for tcpquota disconnection by using a new function
-+  tcpquota_disconnect().
-+- before deciding whether to reject a new connection due to quota
-+  exhaustion, check to see whether there are at least two active
-+  clients. previously, this was "at least one", but that could be
-+  insufficient if there was one other client in READING state (waiting
-+  for messages on an open connection) but none in READY (listening
-+  for new connections).
-+- before deciding whether a TCP client object can to go inactive, we
-+  must ensure there are enough other clients to maintain service
-+  afterward -- both accepting new connections and reading/processing new
-+  queries.  A TCP client can't shut down unless at least one
-+  client is accepting new connections and (in the case of pipelined
-+  clients) at least one additional client is waiting to read.
-+
-+(cherry picked from commit c7394738b2445c16f728a88394864dd61baad900)
-+(cherry picked from commit e965d5f11d3d0f6d59704e614fceca2093cb1856)
-+(cherry picked from commit 87d431161450777ea093821212abfb52d51b36e3)
-+---
-+ bin/named/client.c               | 244 +++++++++++++++++++------------
-+ bin/named/include/named/client.h |   3 +-
-+ 2 files changed, 152 insertions(+), 95 deletions(-)
-+
-+diff --git a/bin/named/client.c b/bin/named/client.c
-+index 277656cef0..61e96dd28c 100644
-+--- a/bin/named/client.c
-++++ b/bin/named/client.c
-+@@ -244,13 +244,14 @@ static void client_start(isc_task_t *task, isc_event_t *event);
-+ static void client_request(isc_task_t *task, isc_event_t *event);
-+ static void ns_client_dumpmessage(ns_client_t *client, const char *reason);
-+ static isc_result_t get_client(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+-			       dns_dispatch_t *disp, bool tcp);
-++			       dns_dispatch_t *disp, ns_client_t *oldclient,
-++			       bool tcp);
-+ static isc_result_t get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+ 			       isc_socket_t *sock, ns_client_t *oldclient);
-+ static inline bool
-+ allowed(isc_netaddr_t *addr, dns_name_t *signer,
-+ 	isc_netaddr_t *ecs_addr, uint8_t ecs_addrlen,
-+-	uint8_t *ecs_scope, dns_acl_t *acl)
-++	uint8_t *ecs_scope, dns_acl_t *acl);
-+ static void compute_cookie(ns_client_t *client, uint32_t when,
-+ 			   uint32_t nonce, const unsigned char *secret,
-+ 			   isc_buffer_t *buf);
-+@@ -319,7 +320,7 @@ pipeline_init(ns_client_t *client) {
-+ 	 * contention here is expected to be negligible, given that this code
-+ 	 * is only executed for TCP connections.
-+ 	 */
-+-	refs = isc_mem_allocate(client->sctx->mctx, sizeof(*refs));
-++	refs = isc_mem_allocate(ns_g_mctx, sizeof(*refs));
-+ 	isc_refcount_init(refs, 1);
-+ 	client->pipeline_refs = refs;
-+ }
-+@@ -331,13 +332,13 @@ pipeline_init(ns_client_t *client) {
-+  */
-+ static void
-+ pipeline_attach(ns_client_t *source, ns_client_t *target) {
-+-	int old_refs;
-++	int refs;
-+ 
-+ 	REQUIRE(source->pipeline_refs != NULL);
-+ 	REQUIRE(target->pipeline_refs == NULL);
-+ 
-+-	old_refs = isc_refcount_increment(source->pipeline_refs);
-+-	INSIST(old_refs > 0);
-++	isc_refcount_increment(source->pipeline_refs, &refs);
-++	INSIST(refs > 1);
-+ 	target->pipeline_refs = source->pipeline_refs;
-+ }
-+ 
-+@@ -349,25 +350,51 @@ pipeline_attach(ns_client_t *source, ns_client_t *target) {
-+  */
-+ static bool
-+ pipeline_detach(ns_client_t *client) {
-+-	isc_refcount_t *refs;
-+-	int old_refs;
-++	isc_refcount_t *refcount;
-++	int refs;
-+ 
-+ 	REQUIRE(client->pipeline_refs != NULL);
-+ 
-+-	refs = client->pipeline_refs;
-++	refcount = client->pipeline_refs;
-+ 	client->pipeline_refs = NULL;
-+ 
-+-	old_refs = isc_refcount_decrement(refs);
-+-	INSIST(old_refs > 0);
-++	isc_refcount_decrement(refcount, refs);
-+ 
-+-	if (old_refs == 1) {
-+-		isc_mem_free(client->sctx->mctx, refs);
-++	if (refs == 0) {
-++		isc_mem_free(ns_g_mctx, refs);
-+ 		return (true);
-+ 	}
-+ 
-+ 	return (false);
-+ }
-+ 
-++/*
-++ * Detach a client from the TCP client quota if appropriate, and set
-++ * the quota pointer to NULL.
-++ *
-++ * Sometimes when the TCP client quota is exhausted but there are no other
-++ * clients servicing the interface, a client will be allowed to continue
-++ * running despite not having been attached to the quota. In this event,
-++ * the TCP quota was never attached to the client, so when the client (or
-++ * associated pipeline group) shuts down, the quota must NOT be detached.
-++ *
-++ * Otherwise, if the quota pointer is set, it should be detached. If not
-++ * set at all, we just return without doing anything.
-++ */
-++static void
-++tcpquota_disconnect(ns_client_t *client) {
-++	if (client->tcpquota == NULL) {
-++		return;
-++	}
-++
-++	if (client->tcpattached) {
-++		isc_quota_detach(&client->tcpquota);
-++		client->tcpattached = false;
-++	} else {
-++		client->tcpquota = NULL;
-++	}
-++}
-++
-+ /*%
-+  * Check for a deactivation or shutdown request and take appropriate
-+  * action.  Returns true if either is in progress; in this case
-+@@ -490,38 +517,31 @@ exit_check(ns_client_t *client) {
-+ 			client->tcpmsg_valid = false;
-+ 		}
-+ 
-+-		if (client->tcpquota != NULL) {
-+-			if (client->pipeline_refs == NULL ||
-+-			    pipeline_detach(client))
-+-			{
-+-				/*
-+-				 * Only detach from the TCP client quota if
-+-				 * there are no more client structures using
-+-				 * this TCP connection.
-+-				 *
-+-				 * Note that we check 'pipeline_refs' and not
-+-				 * 'pipelined' because in some cases (e.g.
-+-				 * after receiving a request with an opcode
-+-				 * different than QUERY) 'pipelined' is set to
-+-				 * false after the reference counter gets
-+-				 * allocated in pipeline_init() and we must
-+-				 * still drop our reference as failing to do so
-+-				 * would prevent the reference counter itself
-+-				 * from being freed.
-+-				 */
-+-				isc_quota_detach(&client->tcpquota);
-+-			} else {
-+-				/*
-+-				 * There are other client structures using this
-+-				 * TCP connection, so we cannot detach from the
-+-				 * TCP client quota to prevent excess TCP
-+-				 * connections from being accepted.  However,
-+-				 * this client structure might later be reused
-+-				 * for accepting new connections and thus must
-+-				 * have its 'tcpquota' field set to NULL.
-+-				 */
-+-				client->tcpquota = NULL;
-+-			}
-++		/*
-++		 * Detach from pipeline group and from TCP client quota,
-++		 * if appropriate.
-++		 *
-++		 * - If no pipeline group is active, attempt to
-++		 *   detach from the TCP client quota.
-++		 *
-++		 * - If a pipeline group is active, detach from it;
-++		 *   if the return code indicates that there no more
-++		 *   clients left if this pipeline group, we also detach
-++		 *   from the TCP client quota.
-++		 *
-++		 * - Otherwise we don't try to detach, we just set the
-++		 *   TCP quota pointer to NULL if it wasn't NULL already.
-++		 *
-++		 * tcpquota_disconnect() will set tcpquota to NULL, either
-++		 * by detaching it or by assignment, depending on the
-++		 * needs of the client. See the comments on that function
-++		 * for further information.
-++		 */
-++		if (client->pipeline_refs == NULL || pipeline_detach(client)) {
-++			tcpquota_disconnect(client);
-++		} else {
-++			client->tcpquota = NULL;
-++			client->tcpattached = false;
-+ 		}
-+ 
-+ 		if (client->tcpsocket != NULL) {
-+@@ -544,8 +564,6 @@ exit_check(ns_client_t *client) {
-+ 			client->timerset = false;
-+ 		}
-+ 
-+-		client->pipelined = false;
-+-
-+ 		client->peeraddr_valid = false;
-+ 
-+ 		client->state = NS_CLIENTSTATE_READY;
-+@@ -558,18 +576,27 @@ exit_check(ns_client_t *client) {
-+ 		 * active and force it to go inactive if not.
-+ 		 *
-+ 		 * UDP clients go inactive at this point, but a TCP client
-+-		 * will needs to remain active if no other clients are
-+-		 * listening for TCP requests on this interface, to
-+-		 * prevent this interface from going nonresponsive.
-++		 * may need to remain active and go into ready state if
-++		 * no other clients are available to listen for TCP
-++		 * requests on this interface or (in the case of pipelined
-++		 * clients) to read for additional messages on the current
-++		 * connection.
-+ 		 */
-+ 		if (client->mortal && TCP_CLIENT(client) && !ns_g_clienttest) {
-+ 			LOCK(&client->interface->lock);
-+-			if (client->interface->ntcpaccepting == 0) {
-++			if ((client->interface->ntcpaccepting == 0 ||
-++			    (client->pipelined &&
-++			     client->interface->ntcpactive < 2)) &&
-++			    client->newstate != NS_CLIENTSTATE_FREED)
-++			{
-+ 				client->mortal = false;
-++				client->newstate = NS_CLIENTSTATE_READY;
-+ 			}
-+ 			UNLOCK(&client->interface->lock);
-+ 		}
-+ 
-++		client->pipelined = false;
-++
-+ 		/*
-+ 		 * We don't need the client; send it to the inactive
-+ 		 * queue for recycling.
-+@@ -2634,6 +2661,18 @@ client_request(isc_task_t *task, isc_event_t *event) {
-+ 		client->pipelined = false;
-+ 	}
-+ 	if (TCP_CLIENT(client) && client->pipelined) {
-++		/*
-++		 * We're pipelining. Replace the client; the
-++		 * the replacement can read the TCP socket looking
-++		 * for new messages and this client can process the
-++		 * current message asynchronously.
-++		 *
-++		 * There are now at least three clients using this
-++		 * TCP socket - one accepting new connections,
-++		 * one reading an existing connection to get new
-++		 * messages, and one answering the message already
-++		 * received.
-++		 */
-+ 		result = ns_client_replace(client);
-+ 		if (result != ISC_R_SUCCESS) {
-+ 			client->pipelined = false;
-+@@ -3197,6 +3236,7 @@ client_create(ns_clientmgr_t *manager, ns_client_t **clientp) {
-+ 	client->pipelined = false;
-+ 	client->pipeline_refs = NULL;
-+ 	client->tcpquota = NULL;
-++	client->tcpattached = false;
-+ 	client->recursionquota = NULL;
-+ 	client->interface = NULL;
-+ 	client->peeraddr_valid = false;
-+@@ -3359,9 +3399,7 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 			      NS_LOGMODULE_CLIENT, ISC_LOG_DEBUG(3),
-+ 			      "accept failed: %s",
-+ 			      isc_result_totext(nevent->result));
-+-		if (client->tcpquota != NULL) {
-+-			isc_quota_detach(&client->tcpquota);
-+-		}
-++		tcpquota_disconnect(client);
-+ 	}
-+ 
-+ 	if (exit_check(client))
-+@@ -3402,7 +3440,7 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 		client->pipelined = false;
-+ 		result = ns_client_replace(client);
-+ 		if (result == ISC_R_SUCCESS &&
-+-		    (client->sctx->keepresporder == NULL ||
-++		    (ns_g_server->keepresporder == NULL ||
-+ 		     !allowed(&netaddr, NULL, NULL, 0, NULL,
-+ 			      ns_g_server->keepresporder)))
-+ 		{
-+@@ -3429,7 +3467,7 @@ client_accept(ns_client_t *client) {
-+ 	 * in named.conf. If we can't attach to it here, that means the TCP
-+ 	 * client quota has been exceeded.
-+ 	 */
-+-	result = isc_quota_attach(&client->sctx->tcpquota,
-++	result = isc_quota_attach(&ns_g_server->tcpquota,
-+ 				  &client->tcpquota);
-+ 	if (result != ISC_R_SUCCESS) {
-+ 			bool exit;
-+@@ -3447,27 +3485,27 @@ client_accept(ns_client_t *client) {
-+ 			 * interface to be starved, with no clients able
-+ 			 * to accept new connections.
-+ 			 *
-+-			 * So, we check here to see if any other client
-+-			 * is already servicing TCP queries on this
-++			 * So, we check here to see if any other clients
-++			 * are already servicing TCP queries on this
-+ 			 * interface (whether accepting, reading, or
-+-			 * processing).
-+-			 *
-+-			 * If so, then it's okay *not* to call
-+-			 * accept - we can let this client to go inactive
-+-			 * and the other one handle the next connection
-+-			 * when it's ready.
-++			 * processing). If there are at least two
-++			 * (one reading and one processing a request)
-++			 * then it's okay *not* to call accept - we
-++			 * can let this client go inactive and another
-++			 * one will resume accepting when it's done.
-+ 			 *
-+-			 * But if not, then we need to be a little bit
-+-			 * flexible about the quota. We allow *one* extra
-+-			 * TCP client through, to ensure we're listening on
-+-			 * every interface.
-++			 * If there aren't enough active clients on the
-++			 * interface, then we can be a little bit
-++			 * flexible about the quota. We'll allow *one*
-++			 * extra client through to ensure we're listening
-++			 * on every interface.
-+ 			 *
-+-			 * (Note: In practice this means that the *real*
-+-			 * TCP client quota is tcp-clients plus the number
-+-			 * of interfaces.)
-++			 * (Note: In practice this means that the real
-++			 * TCP client quota is tcp-clients plus the
-++			 * number of listening interfaces plus 2.)
-+ 			 */
-+ 			LOCK(&client->interface->lock);
-+-			exit = (client->interface->ntcpactive > 0);
-++			exit = (client->interface->ntcpactive > 1);
-+ 			UNLOCK(&client->interface->lock);
-+ 
-+ 			if (exit) {
-+@@ -3475,6 +3513,9 @@ client_accept(ns_client_t *client) {
-+ 				(void)exit_check(client);
-+ 				return;
-+ 			}
-++
-++	} else {
-++		client->tcpattached = true;
-+ 	}
-+ 
-+ 	/*
-+@@ -3507,9 +3548,16 @@ client_accept(ns_client_t *client) {
-+ 		UNEXPECTED_ERROR(__FILE__, __LINE__,
-+ 				 "isc_socket_accept() failed: %s",
-+ 				 isc_result_totext(result));
-+-		if (client->tcpquota != NULL) {
-+-			isc_quota_detach(&client->tcpquota);
-++
-++		tcpquota_disconnect(client);
-++
-++		if (client->tcpactive) {
-++			LOCK(&client->interface->lock);
-++			client->interface->ntcpactive--;
-++			UNLOCK(&client->interface->lock);
-++			client->tcpactive = false;
-+ 		}
-++
-+ 		return;
-+ 	}
-+ 
-+@@ -3527,13 +3575,12 @@ client_accept(ns_client_t *client) {
-+ 	 * once the connection is established.
-+ 	 *
-+ 	 * When the client object is shutting down after handling a TCP
-+-	 * request (see exit_check()), it looks to see whether this value is
-+-	 * non-zero. If so, that means another client has already called
-+-	 * accept() and is waiting to establish the next connection, which
-+-	 * means the first client is free to go inactive. Otherwise,
-+-	 * the first client must come back and call accept() again; this
-+-	 * guarantees there will always be at least one client listening
-+-	 * for new TCP connections on each interface.
-++	 * request (see exit_check()), if this value is at least one, that
-++	 * means another client has called accept() and is waiting to
-++	 * establish the next connection. That means the client may be
-++	 * be free to become inactive; otherwise it may need to start
-++	 * listening for connections itself to prevent the interface
-++	 * going dead.
-+ 	 */
-+ 	LOCK(&client->interface->lock);
-+ 	client->interface->ntcpaccepting++;
-+@@ -3613,19 +3660,19 @@ ns_client_replace(ns_client_t *client) {
-+ 				    client->tcpsocket, client);
-+ 	} else {
-+ 		result = get_client(client->manager, client->interface,
-+-				    client->dispatch, tcp);
-++				    client->dispatch, client, tcp);
-++
-++		/*
-++		 * The responsibility for listening for new requests is hereby
-++		 * transferred to the new client.  Therefore, the old client
-++		 * should refrain from listening for any more requests.
-++		 */
-++		client->mortal = true;
-+ 	}
-+ 	if (result != ISC_R_SUCCESS) {
-+ 		return (result);
-+ 	}
-+ 
-+-	/*
-+-	 * The responsibility for listening for new requests is hereby
-+-	 * transferred to the new client.  Therefore, the old client
-+-	 * should refrain from listening for any more requests.
-+-	 */
-+-	client->mortal = true;
-+-
-+ 	return (ISC_R_SUCCESS);
-+ }
-+ 
-+@@ -3759,7 +3806,7 @@ ns_clientmgr_destroy(ns_clientmgr_t **managerp) {
-+ 
-+ static isc_result_t
-+ get_client(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+-	   dns_dispatch_t *disp, bool tcp)
-++	   dns_dispatch_t *disp, ns_client_t *oldclient, bool tcp)
-+ {
-+ 	isc_result_t result = ISC_R_SUCCESS;
-+ 	isc_event_t *ev;
-+@@ -3803,6 +3850,16 @@ get_client(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+ 	client->dscp = ifp->dscp;
-+ 
-+ 	if (tcp) {
-++		client->tcpattached = false;
-++		if (oldclient != NULL) {
-++			client->tcpattached = oldclient->tcpattached;
-++		}
-++
-++		LOCK(&client->interface->lock);
-++		client->interface->ntcpactive++;
-++		UNLOCK(&client->interface->lock);
-++		client->tcpactive = true;
-++
-+ 		client->attributes |= NS_CLIENTATTR_TCP;
-+ 		isc_socket_attach(ifp->tcpsocket,
-+ 				  &client->tcplistener);
-+@@ -3866,7 +3923,8 @@ get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock,
-+ 	ns_interface_attach(ifp, &client->interface);
-+ 	client->newstate = client->state = NS_CLIENTSTATE_WORKING;
-+ 	INSIST(client->recursionquota == NULL);
-+-	client->tcpquota = &client->sctx->tcpquota;
-++	client->tcpquota = &ns_g_server->tcpquota;
-++	client->tcpattached = oldclient->tcpattached;
-+ 
-+ 	client->dscp = ifp->dscp;
-+ 
-+@@ -3885,7 +3943,6 @@ get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock,
-+ 	LOCK(&client->interface->lock);
-+ 	client->interface->ntcpactive++;
-+ 	UNLOCK(&client->interface->lock);
-+-
-+ 	client->tcpactive = true;
-+ 
-+ 	INSIST(client->tcpmsg_valid == false);
-+@@ -3913,7 +3970,8 @@ ns_clientmgr_createclients(ns_clientmgr_t *manager, unsigned int n,
-+ 	MTRACE("createclients");
-+ 
-+ 	for (disp = 0; disp < n; disp++) {
-+-		result = get_client(manager, ifp, ifp->udpdispatch[disp], tcp);
-++		result = get_client(manager, ifp, ifp->udpdispatch[disp],
-++				    NULL, tcp);
-+ 		if (result != ISC_R_SUCCESS)
-+ 			break;
-+ 	}
-+diff --git a/bin/named/include/named/client.h b/bin/named/include/named/client.h
-+index aeed9ccdda..e2c40acd28 100644
-+--- a/bin/named/include/named/client.h
-++++ b/bin/named/include/named/client.h
-+@@ -9,8 +9,6 @@
-+  * information regarding copyright ownership.
-+  */
-+ 
-+-/* $Id: client.h,v 1.96 2012/01/31 23:47:31 tbox Exp $ */
-+-
-+ #ifndef NAMED_CLIENT_H
-+ #define NAMED_CLIENT_H 1
-+ 
-+@@ -136,6 +134,7 @@ struct ns_client {
-+ 	bool			pipelined;   /*%< TCP queries not in sequence */
-+ 	isc_refcount_t		*pipeline_refs;
-+ 	isc_quota_t		*tcpquota;
-++	bool			tcpattached;
-+ 	isc_quota_t		*recursionquota;
-+ 	ns_interface_t		*interface;
-+ 
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind/0005-refactor-tcpquota-and-pipeline-refs-allow-special-ca.patch b/meta/recipes-connectivity/bind/bind/0005-refactor-tcpquota-and-pipeline-refs-allow-special-ca.patch
-new file mode 100644
-index 0000000..987e75b
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0005-refactor-tcpquota-and-pipeline-refs-allow-special-ca.patch
-@@ -0,0 +1,911 @@
-+Backport patch to fix CVE-2018-5743.
-+
-+Ref:
-+https://security-tracker.debian.org/tracker/CVE-2018-5743
-+
-+CVE: CVE-2018-5743
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/commit/c47ccf6]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From c47ccf630f147378568b33e8fdb7b754f228c346 Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Fri, 5 Apr 2019 16:26:05 -0700
-+Subject: [PATCH 5/6] refactor tcpquota and pipeline refs; allow special-case
-+ overrun in isc_quota
-+
-+- if the TCP quota has been exceeded but there are no clients listening
-+  for new connections on the interface, we can now force attachment to the
-+  quota using isc_quota_force(), instead of carrying on with the quota not
-+  attached.
-+- the TCP client quota is now referenced via a reference-counted
-+  'ns_tcpconn' object, one of which is created whenever a client begins
-+  listening for new connections, and attached to by members of that
-+  client's pipeline group. when the last reference to the tcpconn
-+  object is detached, it is freed and the TCP quota slot is released.
-+- reduce code duplication by adding mark_tcp_active() function.
-+- convert counters to atomic.
-+
-+(cherry picked from commit 7e8222378ca24f1302a0c1c638565050ab04681b)
-+(cherry picked from commit 4939451275722bfda490ea86ca13e84f6bc71e46)
-+(cherry picked from commit 13f7c918b8720d890408f678bd73c20e634539d9)
-+---
-+ bin/named/client.c                     | 444 +++++++++++--------------
-+ bin/named/include/named/client.h       |  12 +-
-+ bin/named/include/named/interfacemgr.h |   6 +-
-+ bin/named/interfacemgr.c               |   1 +
-+ lib/isc/include/isc/quota.h            |   7 +
-+ lib/isc/quota.c                        |  33 +-
-+ lib/isc/win32/libisc.def.in            |   1 +
-+ 7 files changed, 236 insertions(+), 268 deletions(-)
-+
-+diff --git a/bin/named/client.c b/bin/named/client.c
-+index 61e96dd28c..d826ab32bf 100644
-+--- a/bin/named/client.c
-++++ b/bin/named/client.c
-+@@ -244,8 +244,7 @@ static void client_start(isc_task_t *task, isc_event_t *event);
-+ static void client_request(isc_task_t *task, isc_event_t *event);
-+ static void ns_client_dumpmessage(ns_client_t *client, const char *reason);
-+ static isc_result_t get_client(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+-			       dns_dispatch_t *disp, ns_client_t *oldclient,
-+-			       bool tcp);
-++			       dns_dispatch_t *disp, bool tcp);
-+ static isc_result_t get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+ 			       isc_socket_t *sock, ns_client_t *oldclient);
-+ static inline bool
-+@@ -301,16 +300,32 @@ ns_client_settimeout(ns_client_t *client, unsigned int seconds) {
-+ }
-+ 
-+ /*%
-+- * Allocate a reference counter that will track the number of client structures
-+- * using the TCP connection that 'client' called accept() for.  This counter
-+- * will be shared between all client structures associated with this TCP
-+- * connection.
-++ * Allocate a reference-counted object that will maintain a single pointer to
-++ * the (also reference-counted) TCP client quota, shared between all the
-++ * clients processing queries on a single TCP connection, so that all
-++ * clients sharing the one socket will together consume only one slot in
-++ * the 'tcp-clients' quota.
-+  */
-+-static void
-+-pipeline_init(ns_client_t *client) {
-+-	isc_refcount_t *refs;
-++static isc_result_t
-++tcpconn_init(ns_client_t *client, bool force) {
-++	isc_result_t result;
-++	isc_quota_t *quota = NULL;
-++	ns_tcpconn_t *tconn = NULL;
-+ 
-+-	REQUIRE(client->pipeline_refs == NULL);
-++	REQUIRE(client->tcpconn == NULL);
-++
-++	/*
-++	 * Try to attach to the quota first, so we won't pointlessly
-++	 * allocate memory for a tcpconn object if we can't get one.
-++	 */
-++	if (force) {
-++		result = isc_quota_force(&ns_g_server->tcpquota, &quota);
-++	} else {
-++		result = isc_quota_attach(&ns_g_server->tcpquota, &quota);
-++	}
-++	if (result != ISC_R_SUCCESS) {
-++		return (result);
-++	}
-+ 
-+ 	/*
-+ 	 * A global memory context is used for the allocation as different
-+@@ -320,78 +335,80 @@ pipeline_init(ns_client_t *client) {
-+ 	 * contention here is expected to be negligible, given that this code
-+ 	 * is only executed for TCP connections.
-+ 	 */
-+-	refs = isc_mem_allocate(ns_g_mctx, sizeof(*refs));
-+-	isc_refcount_init(refs, 1);
-+-	client->pipeline_refs = refs;
-++	tconn = isc_mem_allocate(ns_g_mctx, sizeof(*tconn));
-++
-++	isc_refcount_init(&tconn->refs, 1);
-++	tconn->tcpquota = quota;
-++	quota = NULL;
-++	tconn->pipelined = false;
-++
-++	client->tcpconn = tconn;
-++
-++	return (ISC_R_SUCCESS);
-+ }
-+ 
-+ /*%
-+- * Increase the count of client structures using the TCP connection that
-+- * 'source' is associated with and put a pointer to that count in 'target',
-+- * thus associating it with the same TCP connection.
-++ * Increase the count of client structures sharing the TCP connection
-++ * that 'source' is associated with; add a pointer to the same tcpconn
-++ * to 'target', thus associating it with the same TCP connection.
-+  */
-+ static void
-+-pipeline_attach(ns_client_t *source, ns_client_t *target) {
-++tcpconn_attach(ns_client_t *source, ns_client_t *target) {
-+ 	int refs;
-+ 
-+-	REQUIRE(source->pipeline_refs != NULL);
-+-	REQUIRE(target->pipeline_refs == NULL);
-++	REQUIRE(source->tcpconn != NULL);
-++	REQUIRE(target->tcpconn == NULL);
-++	REQUIRE(source->tcpconn->pipelined);
-+ 
-+-	isc_refcount_increment(source->pipeline_refs, &refs);
-++	isc_refcount_increment(&source->tcpconn->refs, &refs);
-+ 	INSIST(refs > 1);
-+-	target->pipeline_refs = source->pipeline_refs;
-++	target->tcpconn = source->tcpconn;
-+ }
-+ 
-+ /*%
-+- * Decrease the count of client structures using the TCP connection that
-++ * Decrease the count of client structures sharing the TCP connection that
-+  * 'client' is associated with.  If this is the last client using this TCP
-+- * connection, free the reference counter and return true; otherwise, return
-+- * false.
-++ * connection, we detach from the TCP quota and free the tcpconn
-++ * object. Either way, client->tcpconn is set to NULL.
-+  */
-+-static bool
-+-pipeline_detach(ns_client_t *client) {
-+-	isc_refcount_t *refcount;
-++static void
-++tcpconn_detach(ns_client_t *client) {
-++	ns_tcpconn_t *tconn = NULL;
-+ 	int refs;
-+ 
-+-	REQUIRE(client->pipeline_refs != NULL);
-+-
-+-	refcount = client->pipeline_refs;
-+-	client->pipeline_refs = NULL;
-++	REQUIRE(client->tcpconn != NULL);
-+ 
-+-	isc_refcount_decrement(refcount, refs);
-++	tconn = client->tcpconn;
-++	client->tcpconn = NULL;
-+ 
-++	isc_refcount_decrement(&tconn->refs, &refs);
-+ 	if (refs == 0) {
-+-		isc_mem_free(ns_g_mctx, refs);
-+-		return (true);
-++		isc_quota_detach(&tconn->tcpquota);
-++		isc_mem_free(ns_g_mctx, tconn);
-+ 	}
-+-
-+-	return (false);
-+ }
-+ 
-+-/*
-+- * Detach a client from the TCP client quota if appropriate, and set
-+- * the quota pointer to NULL.
-+- *
-+- * Sometimes when the TCP client quota is exhausted but there are no other
-+- * clients servicing the interface, a client will be allowed to continue
-+- * running despite not having been attached to the quota. In this event,
-+- * the TCP quota was never attached to the client, so when the client (or
-+- * associated pipeline group) shuts down, the quota must NOT be detached.
-++/*%
-++ * Mark a client as active and increment the interface's 'ntcpactive'
-++ * counter, as a signal that there is at least one client servicing
-++ * TCP queries for the interface. If we reach the TCP client quota at
-++ * some point, this will be used to determine whether a quota overrun
-++ * should be permitted.
-+  *
-+- * Otherwise, if the quota pointer is set, it should be detached. If not
-+- * set at all, we just return without doing anything.
-++ * Marking the client active with the 'tcpactive' flag ensures proper
-++ * accounting, by preventing us from incrementing or decrementing
-++ * 'ntcpactive' more than once per client.
-+  */
-+ static void
-+-tcpquota_disconnect(ns_client_t *client) {
-+-	if (client->tcpquota == NULL) {
-+-		return;
-+-	}
-+-
-+-	if (client->tcpattached) {
-+-		isc_quota_detach(&client->tcpquota);
-+-		client->tcpattached = false;
-+-	} else {
-+-		client->tcpquota = NULL;
-++mark_tcp_active(ns_client_t *client, bool active) {
-++	if (active && !client->tcpactive) {
-++		isc_atomic_xadd(&client->interface->ntcpactive, 1);
-++		client->tcpactive = active;
-++	} else if (!active && client->tcpactive) {
-++		uint32_t old =
-++			isc_atomic_xadd(&client->interface->ntcpactive, -1);
-++		INSIST(old > 0);
-++		client->tcpactive = active;
-+ 	}
-+ }
-+ 
-+@@ -484,7 +501,8 @@ exit_check(ns_client_t *client) {
-+ 		INSIST(client->recursionquota == NULL);
-+ 
-+ 		if (NS_CLIENTSTATE_READING == client->newstate) {
-+-			if (!client->pipelined) {
-++			INSIST(client->tcpconn != NULL);
-++			if (!client->tcpconn->pipelined) {
-+ 				client_read(client);
-+ 				client->newstate = NS_CLIENTSTATE_MAX;
-+ 				return (true); /* We're done. */
-+@@ -507,8 +525,8 @@ exit_check(ns_client_t *client) {
-+ 			dns_tcpmsg_cancelread(&client->tcpmsg);
-+ 		}
-+ 
-+-		if (client->nreads != 0) {
-+-			/* Still waiting for read cancel completion. */
-++		/* Still waiting for read cancel completion. */
-++		if (client->nreads > 0) {
-+ 			return (true);
-+ 		}
-+ 
-+@@ -518,43 +536,45 @@ exit_check(ns_client_t *client) {
-+ 		}
-+ 
-+ 		/*
-+-		 * Detach from pipeline group and from TCP client quota,
-+-		 * if appropriate.
-++		 * Soon the client will be ready to accept a new TCP
-++		 * connection or UDP request, but we may have enough
-++		 * clients doing that already.  Check whether this client
-++		 * needs to remain active and allow it go inactive if
-++		 * not.
-+ 		 *
-+-		 * - If no pipeline group is active, attempt to
-+-		 *   detach from the TCP client quota.
-++		 * UDP clients always go inactive at this point, but a TCP
-++		 * client may need to stay active and return to READY
-++		 * state if no other clients are available to listen
-++		 * for TCP requests on this interface.
-+ 		 *
-+-		 * - If a pipeline group is active, detach from it;
-+-		 *   if the return code indicates that there no more
-+-		 *   clients left if this pipeline group, we also detach
-+-		 *   from the TCP client quota.
-+-		 *
-+-		 * - Otherwise we don't try to detach, we just set the
-+-		 *   TCP quota pointer to NULL if it wasn't NULL already.
-+-		 *
-+-		 * tcpquota_disconnect() will set tcpquota to NULL, either
-+-		 * by detaching it or by assignment, depending on the
-+-		 * needs of the client. See the comments on that function
-+-		 * for further information.
-++		 * Regardless, if we're going to FREED state, that means
-++		 * the system is shutting down and we don't need to
-++		 * retain clients.
-+ 		 */
-+-		if (client->pipeline_refs == NULL || pipeline_detach(client)) {
-+-			tcpquota_disconnect(client);
-+-		} else {
-+-			client->tcpquota = NULL;
-+-			client->tcpattached = false;
-++		if (client->mortal && TCP_CLIENT(client) &&
-++		    client->newstate != NS_CLIENTSTATE_FREED &&
-++		    !ns_g_clienttest &&
-++		    isc_atomic_xadd(&client->interface->ntcpaccepting, 0) == 0)
-++		{
-++			/* Nobody else is accepting */
-++			client->mortal = false;
-++			client->newstate = NS_CLIENTSTATE_READY;
-++		}
-++
-++		/*
-++		 * Detach from TCP connection and TCP client quota,
-++		 * if appropriate. If this is the last reference to
-++		 * the TCP connection in our pipeline group, the
-++		 * TCP quota slot will be released.
-++		 */
-++		if (client->tcpconn) {
-++			tcpconn_detach(client);
-+ 		}
-+ 
-+ 		if (client->tcpsocket != NULL) {
-+ 			CTRACE("closetcp");
-+ 			isc_socket_detach(&client->tcpsocket);
-+-
-+-			if (client->tcpactive) {
-+-				LOCK(&client->interface->lock);
-+-				INSIST(client->interface->ntcpactive > 0);
-+-				client->interface->ntcpactive--;
-+-				UNLOCK(&client->interface->lock);
-+-				client->tcpactive = false;
-+-			}
-++			mark_tcp_active(client, false);
-+ 		}
-+ 
-+ 		if (client->timerset) {
-+@@ -567,35 +587,6 @@ exit_check(ns_client_t *client) {
-+ 		client->peeraddr_valid = false;
-+ 
-+ 		client->state = NS_CLIENTSTATE_READY;
-+-		INSIST(client->recursionquota == NULL);
-+-
-+-		/*
-+-		 * Now the client is ready to accept a new TCP connection
-+-		 * or UDP request, but we may have enough clients doing
-+-		 * that already.  Check whether this client needs to remain
-+-		 * active and force it to go inactive if not.
-+-		 *
-+-		 * UDP clients go inactive at this point, but a TCP client
-+-		 * may need to remain active and go into ready state if
-+-		 * no other clients are available to listen for TCP
-+-		 * requests on this interface or (in the case of pipelined
-+-		 * clients) to read for additional messages on the current
-+-		 * connection.
-+-		 */
-+-		if (client->mortal && TCP_CLIENT(client) && !ns_g_clienttest) {
-+-			LOCK(&client->interface->lock);
-+-			if ((client->interface->ntcpaccepting == 0 ||
-+-			    (client->pipelined &&
-+-			     client->interface->ntcpactive < 2)) &&
-+-			    client->newstate != NS_CLIENTSTATE_FREED)
-+-			{
-+-				client->mortal = false;
-+-				client->newstate = NS_CLIENTSTATE_READY;
-+-			}
-+-			UNLOCK(&client->interface->lock);
-+-		}
-+-
-+-		client->pipelined = false;
-+ 
-+ 		/*
-+ 		 * We don't need the client; send it to the inactive
-+@@ -630,7 +621,7 @@ exit_check(ns_client_t *client) {
-+ 		}
-+ 
-+ 		/* Still waiting for accept cancel completion. */
-+-		if (! (client->naccepts == 0)) {
-++		if (client->naccepts > 0) {
-+ 			return (true);
-+ 		}
-+ 
-+@@ -641,7 +632,7 @@ exit_check(ns_client_t *client) {
-+ 		}
-+ 
-+ 		/* Still waiting for recv cancel completion. */
-+-		if (! (client->nrecvs == 0)) {
-++		if (client->nrecvs > 0) {
-+ 			return (true);
-+ 		}
-+ 
-+@@ -654,14 +645,7 @@ exit_check(ns_client_t *client) {
-+ 		INSIST(client->recursionquota == NULL);
-+ 		if (client->tcplistener != NULL) {
-+ 			isc_socket_detach(&client->tcplistener);
-+-
-+-			if (client->tcpactive) {
-+-				LOCK(&client->interface->lock);
-+-				INSIST(client->interface->ntcpactive > 0);
-+-				client->interface->ntcpactive--;
-+-				UNLOCK(&client->interface->lock);
-+-				client->tcpactive = false;
-+-			}
-++			mark_tcp_active(client, false);
-+ 		}
-+ 		if (client->udpsocket != NULL) {
-+ 			isc_socket_detach(&client->udpsocket);
-+@@ -816,7 +800,7 @@ client_start(isc_task_t *task, isc_event_t *event) {
-+ 		return;
-+ 
-+ 	if (TCP_CLIENT(client)) {
-+-		if (client->pipelined) {
-++		if (client->tcpconn != NULL) {
-+ 			client_read(client);
-+ 		} else {
-+ 			client_accept(client);
-+@@ -2470,6 +2454,7 @@ client_request(isc_task_t *task, isc_event_t *event) {
-+ 		client->nrecvs--;
-+ 	} else {
-+ 		INSIST(TCP_CLIENT(client));
-++		INSIST(client->tcpconn != NULL);
-+ 		REQUIRE(event->ev_type == DNS_EVENT_TCPMSG);
-+ 		REQUIRE(event->ev_sender == &client->tcpmsg);
-+ 		buffer = &client->tcpmsg.buffer;
-+@@ -2657,17 +2642,19 @@ client_request(isc_task_t *task, isc_event_t *event) {
-+ 	/*
-+ 	 * Pipeline TCP query processing.
-+ 	 */
-+-	if (client->message->opcode != dns_opcode_query) {
-+-		client->pipelined = false;
-++	if (TCP_CLIENT(client) &&
-++	    client->message->opcode != dns_opcode_query)
-++	{
-++		client->tcpconn->pipelined = false;
-+ 	}
-+-	if (TCP_CLIENT(client) && client->pipelined) {
-++	if (TCP_CLIENT(client) && client->tcpconn->pipelined) {
-+ 		/*
-+ 		 * We're pipelining. Replace the client; the
-+-		 * the replacement can read the TCP socket looking
-+-		 * for new messages and this client can process the
-++		 * replacement can read the TCP socket looking
-++		 * for new messages and this one can process the
-+ 		 * current message asynchronously.
-+ 		 *
-+-		 * There are now at least three clients using this
-++		 * There will now be at least three clients using this
-+ 		 * TCP socket - one accepting new connections,
-+ 		 * one reading an existing connection to get new
-+ 		 * messages, and one answering the message already
-+@@ -2675,7 +2662,7 @@ client_request(isc_task_t *task, isc_event_t *event) {
-+ 		 */
-+ 		result = ns_client_replace(client);
-+ 		if (result != ISC_R_SUCCESS) {
-+-			client->pipelined = false;
-++			client->tcpconn->pipelined = false;
-+ 		}
-+ 	}
-+ 
-+@@ -3233,10 +3220,7 @@ client_create(ns_clientmgr_t *manager, ns_client_t **clientp) {
-+ 	client->signer = NULL;
-+ 	dns_name_init(&client->signername, NULL);
-+ 	client->mortal = false;
-+-	client->pipelined = false;
-+-	client->pipeline_refs = NULL;
-+-	client->tcpquota = NULL;
-+-	client->tcpattached = false;
-++	client->tcpconn = NULL;
-+ 	client->recursionquota = NULL;
-+ 	client->interface = NULL;
-+ 	client->peeraddr_valid = false;
-+@@ -3341,9 +3325,10 @@ client_read(ns_client_t *client) {
-+ 
-+ static void
-+ client_newconn(isc_task_t *task, isc_event_t *event) {
-++	isc_result_t result;
-+ 	ns_client_t *client = event->ev_arg;
-+ 	isc_socket_newconnev_t *nevent = (isc_socket_newconnev_t *)event;
-+-	isc_result_t result;
-++	uint32_t old;
-+ 
-+ 	REQUIRE(event->ev_type == ISC_SOCKEVENT_NEWCONN);
-+ 	REQUIRE(NS_CLIENT_VALID(client));
-+@@ -3363,10 +3348,8 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 	INSIST(client->naccepts == 1);
-+ 	client->naccepts--;
-+ 
-+-	LOCK(&client->interface->lock);
-+-	INSIST(client->interface->ntcpaccepting > 0);
-+-	client->interface->ntcpaccepting--;
-+-	UNLOCK(&client->interface->lock);
-++	old = isc_atomic_xadd(&client->interface->ntcpaccepting, -1);
-++	INSIST(old > 0);
-+ 
-+ 	/*
-+ 	 * We must take ownership of the new socket before the exit
-+@@ -3399,7 +3382,7 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 			      NS_LOGMODULE_CLIENT, ISC_LOG_DEBUG(3),
-+ 			      "accept failed: %s",
-+ 			      isc_result_totext(nevent->result));
-+-		tcpquota_disconnect(client);
-++		tcpconn_detach(client);
-+ 	}
-+ 
-+ 	if (exit_check(client))
-+@@ -3437,15 +3420,13 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 		 * telnetting to port 53 (once per CPU) will
-+ 		 * deny service to legitimate TCP clients.
-+ 		 */
-+-		client->pipelined = false;
-+ 		result = ns_client_replace(client);
-+ 		if (result == ISC_R_SUCCESS &&
-+ 		    (ns_g_server->keepresporder == NULL ||
-+ 		     !allowed(&netaddr, NULL, NULL, 0, NULL,
-+ 			      ns_g_server->keepresporder)))
-+ 		{
-+-			pipeline_init(client);
-+-			client->pipelined = true;
-++			client->tcpconn->pipelined = true;
-+ 		}
-+ 
-+ 		client_read(client);
-+@@ -3462,78 +3443,59 @@ client_accept(ns_client_t *client) {
-+ 	CTRACE("accept");
-+ 
-+ 	/*
-+-	 * The tcpquota object can only be simultaneously referenced a
-+-	 * pre-defined number of times; this is configured by 'tcp-clients'
-+-	 * in named.conf. If we can't attach to it here, that means the TCP
-+-	 * client quota has been exceeded.
-++	 * Set up a new TCP connection. This means try to attach to the
-++	 * TCP client quota (tcp-clients), but fail if we're over quota.
-+ 	 */
-+-	result = isc_quota_attach(&ns_g_server->tcpquota,
-+-				  &client->tcpquota);
-++	result = tcpconn_init(client, false);
-+ 	if (result != ISC_R_SUCCESS) {
-+-			bool exit;
-++		bool exit;
-+ 
-+-			ns_client_log(client, NS_LOGCATEGORY_CLIENT,
-+-				      NS_LOGMODULE_CLIENT, ISC_LOG_DEBUG(1),
-+-				      "no more TCP clients: %s",
-+-				      isc_result_totext(result));
-+-
-+-			/*
-+-			 * We have exceeded the system-wide TCP client
-+-			 * quota.  But, we can't just block this accept
-+-			 * in all cases, because if we did, a heavy TCP
-+-			 * load on other interfaces might cause this
-+-			 * interface to be starved, with no clients able
-+-			 * to accept new connections.
-+-			 *
-+-			 * So, we check here to see if any other clients
-+-			 * are already servicing TCP queries on this
-+-			 * interface (whether accepting, reading, or
-+-			 * processing). If there are at least two
-+-			 * (one reading and one processing a request)
-+-			 * then it's okay *not* to call accept - we
-+-			 * can let this client go inactive and another
-+-			 * one will resume accepting when it's done.
-+-			 *
-+-			 * If there aren't enough active clients on the
-+-			 * interface, then we can be a little bit
-+-			 * flexible about the quota. We'll allow *one*
-+-			 * extra client through to ensure we're listening
-+-			 * on every interface.
-+-			 *
-+-			 * (Note: In practice this means that the real
-+-			 * TCP client quota is tcp-clients plus the
-+-			 * number of listening interfaces plus 2.)
-+-			 */
-+-			LOCK(&client->interface->lock);
-+-			exit = (client->interface->ntcpactive > 1);
-+-			UNLOCK(&client->interface->lock);
-++		ns_client_log(client, NS_LOGCATEGORY_CLIENT,
-++			      NS_LOGMODULE_CLIENT, ISC_LOG_WARNING,
-++			      "TCP client quota reached: %s",
-++			      isc_result_totext(result));
-+ 
-+-			if (exit) {
-+-				client->newstate = NS_CLIENTSTATE_INACTIVE;
-+-				(void)exit_check(client);
-+-				return;
-+-			}
-++		/*
-++		 * We have exceeded the system-wide TCP client quota.  But,
-++		 * we can't just block this accept in all cases, because if
-++		 * we did, a heavy TCP load on other interfaces might cause
-++		 * this interface to be starved, with no clients able to
-++		 * accept new connections.
-++		 *
-++		 * So, we check here to see if any other clients are
-++		 * already servicing TCP queries on this interface (whether
-++		 * accepting, reading, or processing). If we find at least
-++		 * one, then it's okay *not* to call accept - we can let this
-++		 * client go inactive and another will take over when it's
-++		 * done.
-++		 *
-++		 * If there aren't enough active clients on the interface,
-++		 * then we can be a little bit flexible about the quota.
-++		 * We'll allow *one* extra client through to ensure we're
-++		 * listening on every interface; we do this by setting the
-++		 * 'force' option to tcpconn_init().
-++		 *
-++		 * (Note: In practice this means that the real TCP client
-++		 * quota is tcp-clients plus the number of listening
-++		 * interfaces plus 1.)
-++		 */
-++		exit = (isc_atomic_xadd(&client->interface->ntcpactive, 0) > 0);
-++		if (exit) {
-++			client->newstate = NS_CLIENTSTATE_INACTIVE;
-++			(void)exit_check(client);
-++			return;
-++		}
-+ 
-+-	} else {
-+-		client->tcpattached = true;
-++		result = tcpconn_init(client, true);
-++		RUNTIME_CHECK(result == ISC_R_SUCCESS);
-+ 	}
-+ 
-+ 	/*
-+-	 * By incrementing the interface's ntcpactive counter we signal
-+-	 * that there is at least one client servicing TCP queries for the
-+-	 * interface.
-+-	 *
-+-	 * We also make note of the fact in the client itself with the
-+-	 * tcpactive flag. This ensures proper accounting by preventing
-+-	 * us from accidentally incrementing or decrementing ntcpactive
-+-	 * more than once per client object.
-++	 * If this client was set up using get_client() or get_worker(),
-++	 * then TCP is already marked active. However, if it was restarted
-++	 * from exit_check(), it might not be, so we take care of it now.
-+ 	 */
-+-	if (!client->tcpactive) {
-+-		LOCK(&client->interface->lock);
-+-		client->interface->ntcpactive++;
-+-		UNLOCK(&client->interface->lock);
-+-		client->tcpactive = true;
-+-	}
-++	mark_tcp_active(client, true);
-+ 
-+ 	result = isc_socket_accept(client->tcplistener, client->task,
-+ 				   client_newconn, client);
-+@@ -3549,15 +3511,8 @@ client_accept(ns_client_t *client) {
-+ 				 "isc_socket_accept() failed: %s",
-+ 				 isc_result_totext(result));
-+ 
-+-		tcpquota_disconnect(client);
-+-
-+-		if (client->tcpactive) {
-+-			LOCK(&client->interface->lock);
-+-			client->interface->ntcpactive--;
-+-			UNLOCK(&client->interface->lock);
-+-			client->tcpactive = false;
-+-		}
-+-
-++		tcpconn_detach(client);
-++		mark_tcp_active(client, false);
-+ 		return;
-+ 	}
-+ 
-+@@ -3582,9 +3537,7 @@ client_accept(ns_client_t *client) {
-+ 	 * listening for connections itself to prevent the interface
-+ 	 * going dead.
-+ 	 */
-+-	LOCK(&client->interface->lock);
-+-	client->interface->ntcpaccepting++;
-+-	UNLOCK(&client->interface->lock);
-++	isc_atomic_xadd(&client->interface->ntcpaccepting, 1);
-+ }
-+ 
-+ static void
-+@@ -3655,24 +3608,25 @@ ns_client_replace(ns_client_t *client) {
-+ 	REQUIRE(client->manager != NULL);
-+ 
-+ 	tcp = TCP_CLIENT(client);
-+-	if (tcp && client->pipelined) {
-++	if (tcp && client->tcpconn != NULL && client->tcpconn->pipelined) {
-+ 		result = get_worker(client->manager, client->interface,
-+ 				    client->tcpsocket, client);
-+ 	} else {
-+ 		result = get_client(client->manager, client->interface,
-+-				    client->dispatch, client, tcp);
-++				    client->dispatch, tcp);
-+ 
-+-		/*
-+-		 * The responsibility for listening for new requests is hereby
-+-		 * transferred to the new client.  Therefore, the old client
-+-		 * should refrain from listening for any more requests.
-+-		 */
-+-		client->mortal = true;
-+ 	}
-+ 	if (result != ISC_R_SUCCESS) {
-+ 		return (result);
-+ 	}
-+ 
-++	/*
-++	 * The responsibility for listening for new requests is hereby
-++	 * transferred to the new client.  Therefore, the old client
-++	 * should refrain from listening for any more requests.
-++	 */
-++	client->mortal = true;
-++
-+ 	return (ISC_R_SUCCESS);
-+ }
-+ 
-+@@ -3806,7 +3760,7 @@ ns_clientmgr_destroy(ns_clientmgr_t **managerp) {
-+ 
-+ static isc_result_t
-+ get_client(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+-	   dns_dispatch_t *disp, ns_client_t *oldclient, bool tcp)
-++	   dns_dispatch_t *disp, bool tcp)
-+ {
-+ 	isc_result_t result = ISC_R_SUCCESS;
-+ 	isc_event_t *ev;
-+@@ -3850,15 +3804,7 @@ get_client(ns_clientmgr_t *manager, ns_interface_t *ifp,
-+ 	client->dscp = ifp->dscp;
-+ 
-+ 	if (tcp) {
-+-		client->tcpattached = false;
-+-		if (oldclient != NULL) {
-+-			client->tcpattached = oldclient->tcpattached;
-+-		}
-+-
-+-		LOCK(&client->interface->lock);
-+-		client->interface->ntcpactive++;
-+-		UNLOCK(&client->interface->lock);
-+-		client->tcpactive = true;
-++		mark_tcp_active(client, true);
-+ 
-+ 		client->attributes |= NS_CLIENTATTR_TCP;
-+ 		isc_socket_attach(ifp->tcpsocket,
-+@@ -3923,16 +3869,14 @@ get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock,
-+ 	ns_interface_attach(ifp, &client->interface);
-+ 	client->newstate = client->state = NS_CLIENTSTATE_WORKING;
-+ 	INSIST(client->recursionquota == NULL);
-+-	client->tcpquota = &ns_g_server->tcpquota;
-+-	client->tcpattached = oldclient->tcpattached;
-+ 
-+ 	client->dscp = ifp->dscp;
-+ 
-+ 	client->attributes |= NS_CLIENTATTR_TCP;
-+ 	client->mortal = true;
-+ 
-+-	pipeline_attach(oldclient, client);
-+-	client->pipelined = true;
-++	tcpconn_attach(oldclient, client);
-++	mark_tcp_active(client, true);
-+ 
-+ 	isc_socket_attach(ifp->tcpsocket, &client->tcplistener);
-+ 	isc_socket_attach(sock, &client->tcpsocket);
-+@@ -3940,11 +3884,6 @@ get_worker(ns_clientmgr_t *manager, ns_interface_t *ifp, isc_socket_t *sock,
-+ 	(void)isc_socket_getpeername(client->tcpsocket, &client->peeraddr);
-+ 	client->peeraddr_valid = true;
-+ 
-+-	LOCK(&client->interface->lock);
-+-	client->interface->ntcpactive++;
-+-	UNLOCK(&client->interface->lock);
-+-	client->tcpactive = true;
-+-
-+ 	INSIST(client->tcpmsg_valid == false);
-+ 	dns_tcpmsg_init(client->mctx, client->tcpsocket, &client->tcpmsg);
-+ 	client->tcpmsg_valid = true;
-+@@ -3970,8 +3909,7 @@ ns_clientmgr_createclients(ns_clientmgr_t *manager, unsigned int n,
-+ 	MTRACE("createclients");
-+ 
-+ 	for (disp = 0; disp < n; disp++) {
-+-		result = get_client(manager, ifp, ifp->udpdispatch[disp],
-+-				    NULL, tcp);
-++		result = get_client(manager, ifp, ifp->udpdispatch[disp], tcp);
-+ 		if (result != ISC_R_SUCCESS)
-+ 			break;
-+ 	}
-+diff --git a/bin/named/include/named/client.h b/bin/named/include/named/client.h
-+index e2c40acd28..969ee4c08f 100644
-+--- a/bin/named/include/named/client.h
-++++ b/bin/named/include/named/client.h
-+@@ -78,6 +78,13 @@
-+  *** Types
-+  ***/
-+ 
-++/*% reference-counted TCP connection object */
-++typedef struct ns_tcpconn {
-++	isc_refcount_t		refs;
-++	isc_quota_t		*tcpquota;
-++	bool			pipelined;
-++} ns_tcpconn_t;
-++
-+ /*% nameserver client structure */
-+ struct ns_client {
-+ 	unsigned int		magic;
-+@@ -131,10 +138,7 @@ struct ns_client {
-+ 	dns_name_t		signername;   /*%< [T]SIG key name */
-+ 	dns_name_t		*signer;      /*%< NULL if not valid sig */
-+ 	bool			mortal;	      /*%< Die after handling request */
-+-	bool			pipelined;   /*%< TCP queries not in sequence */
-+-	isc_refcount_t		*pipeline_refs;
-+-	isc_quota_t		*tcpquota;
-+-	bool			tcpattached;
-++	ns_tcpconn_t		*tcpconn;
-+ 	isc_quota_t		*recursionquota;
-+ 	ns_interface_t		*interface;
-+ 
-+diff --git a/bin/named/include/named/interfacemgr.h b/bin/named/include/named/interfacemgr.h
-+index 61b08826a6..3535ef22a8 100644
-+--- a/bin/named/include/named/interfacemgr.h
-++++ b/bin/named/include/named/interfacemgr.h
-+@@ -9,8 +9,6 @@
-+  * information regarding copyright ownership.
-+  */
-+ 
-+-/* $Id: interfacemgr.h,v 1.35 2011/07/28 23:47:58 tbox Exp $ */
-+-
-+ #ifndef NAMED_INTERFACEMGR_H
-+ #define NAMED_INTERFACEMGR_H 1
-+ 
-+@@ -77,11 +75,11 @@ struct ns_interface {
-+ 						/*%< UDP dispatchers. */
-+ 	isc_socket_t *		tcpsocket;	/*%< TCP socket. */
-+ 	isc_dscp_t		dscp;		/*%< "listen-on" DSCP value */
-+-	int			ntcpaccepting;	/*%< Number of clients
-++	int32_t			ntcpaccepting;	/*%< Number of clients
-+ 						     ready to accept new
-+ 						     TCP connections on this
-+ 						     interface */
-+-	int			ntcpactive;	/*%< Number of clients
-++	int32_t			ntcpactive;	/*%< Number of clients
-+ 						     servicing TCP queries
-+ 						     (whether accepting or
-+ 						     connected) */
-+diff --git a/bin/named/interfacemgr.c b/bin/named/interfacemgr.c
-+index 955096ef47..d9f6df5802 100644
-+--- a/bin/named/interfacemgr.c
-++++ b/bin/named/interfacemgr.c
-+@@ -388,6 +388,7 @@ ns_interface_create(ns_interfacemgr_t *mgr, isc_sockaddr_t *addr,
-+ 	 */
-+ 	ifp->ntcpaccepting = 0;
-+ 	ifp->ntcpactive = 0;
-++
-+ 	ifp->nudpdispatch = 0;
-+ 
-+ 	ifp->dscp = -1;
-+diff --git a/lib/isc/include/isc/quota.h b/lib/isc/include/isc/quota.h
-+index b9bf59877a..36c5830242 100644
-+--- a/lib/isc/include/isc/quota.h
-++++ b/lib/isc/include/isc/quota.h
-+@@ -100,6 +100,13 @@ isc_quota_attach(isc_quota_t *quota, isc_quota_t **p);
-+  * quota if successful (ISC_R_SUCCESS or ISC_R_SOFTQUOTA).
-+  */
-+ 
-++isc_result_t
-++isc_quota_force(isc_quota_t *quota, isc_quota_t **p);
-++/*%<
-++ * Like isc_quota_attach, but will attach '*p' to the quota
-++ * even if the hard quota has been exceeded.
-++ */
-++
-+ void
-+ isc_quota_detach(isc_quota_t **p);
-+ /*%<
-+diff --git a/lib/isc/quota.c b/lib/isc/quota.c
-+index 3ddff0d875..556a61f21d 100644
-+--- a/lib/isc/quota.c
-++++ b/lib/isc/quota.c
-+@@ -74,20 +74,39 @@ isc_quota_release(isc_quota_t *quota) {
-+ 	UNLOCK(&quota->lock);
-+ }
-+ 
-+-isc_result_t
-+-isc_quota_attach(isc_quota_t *quota, isc_quota_t **p)
-+-{
-++static isc_result_t
-++doattach(isc_quota_t *quota, isc_quota_t **p, bool force) {
-+ 	isc_result_t result;
-+-	INSIST(p != NULL && *p == NULL);
-++	REQUIRE(p != NULL && *p == NULL);
-++
-+ 	result = isc_quota_reserve(quota);
-+-	if (result == ISC_R_SUCCESS || result == ISC_R_SOFTQUOTA)
-++	if (result == ISC_R_SUCCESS || result == ISC_R_SOFTQUOTA) {
-++		*p = quota;
-++	} else if (result == ISC_R_QUOTA && force) {
-++		/* attach anyway */
-++		LOCK(&quota->lock);
-++		quota->used++;
-++		UNLOCK(&quota->lock);
-++
-+ 		*p = quota;
-++		result = ISC_R_SUCCESS;
-++	}
-++
-+ 	return (result);
-+ }
-+ 
-++isc_result_t
-++isc_quota_attach(isc_quota_t *quota, isc_quota_t **p) {
-++	return (doattach(quota, p, false));
-++}
-++
-++isc_result_t
-++isc_quota_force(isc_quota_t *quota, isc_quota_t **p) {
-++	return (doattach(quota, p, true));
-++}
-++
-+ void
-+-isc_quota_detach(isc_quota_t **p)
-+-{
-++isc_quota_detach(isc_quota_t **p) {
-+ 	INSIST(p != NULL && *p != NULL);
-+ 	isc_quota_release(*p);
-+ 	*p = NULL;
-+diff --git a/lib/isc/win32/libisc.def.in b/lib/isc/win32/libisc.def.in
-+index a82facec0f..7b9f23d776 100644
-+--- a/lib/isc/win32/libisc.def.in
-++++ b/lib/isc/win32/libisc.def.in
-+@@ -519,6 +519,7 @@ isc_portset_removerange
-+ isc_quota_attach
-+ isc_quota_destroy
-+ isc_quota_detach
-++isc_quota_force
-+ isc_quota_init
-+ isc_quota_max
-+ isc_quota_release
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind/0006-restore-allowance-for-tcp-clients-interfaces.patch b/meta/recipes-connectivity/bind/bind/0006-restore-allowance-for-tcp-clients-interfaces.patch
-new file mode 100644
-index 0000000..3821d18
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0006-restore-allowance-for-tcp-clients-interfaces.patch
-@@ -0,0 +1,80 @@
-+Backport patch to fix CVE-2018-5743.
-+
-+Ref:
-+https://security-tracker.debian.org/tracker/CVE-2018-5743
-+
-+CVE: CVE-2018-5743
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/commit/59434b9]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From 59434b987e8eb436b08c24e559ee094c4e939daa Mon Sep 17 00:00:00 2001
-+From: Evan Hunt <each@isc.org>
-+Date: Fri, 5 Apr 2019 16:26:19 -0700
-+Subject: [PATCH 6/6] restore allowance for tcp-clients < interfaces
-+
-+in the "refactor tcpquota and pipeline refs" commit, the counting
-+of active interfaces was tightened in such a way that named could
-+fail to listen on an interface if there were more interfaces than
-+tcp-clients. when checking the quota to start accepting on an
-+interface, if the number of active clients was above zero, then
-+it was presumed that some other client was able to handle accepting
-+new connections. this, however, ignored the fact that the current client
-+could be included in that count, so if the quota was already exceeded
-+before all the interfaces were listening, some interfaces would never
-+listen.
-+
-+we now check whether the current client has been marked active; if so,
-+then the number of active clients on the interface must be greater
-+than 1, not 0.
-+
-+(cherry picked from commit 0b4e2cd4c3192ba88569dd344f542a8cc43742b5)
-+(cherry picked from commit d01023aaac35543daffbdf48464e320150235d41)
-+---
-+ bin/named/client.c      | 8 +++++---
-+ doc/arm/Bv9ARM-book.xml | 3 ++-
-+ 2 files changed, 7 insertions(+), 4 deletions(-)
-+
-+diff --git a/bin/named/client.c b/bin/named/client.c
-+index d826ab32bf..845326abc0 100644
-+--- a/bin/named/client.c
-++++ b/bin/named/client.c
-+@@ -3464,8 +3464,9 @@ client_accept(ns_client_t *client) {
-+ 		 *
-+ 		 * So, we check here to see if any other clients are
-+ 		 * already servicing TCP queries on this interface (whether
-+-		 * accepting, reading, or processing). If we find at least
-+-		 * one, then it's okay *not* to call accept - we can let this
-++		 * accepting, reading, or processing). If we find that at
-++		 * least one client other than this one is active, then
-++		 * it's okay *not* to call accept - we can let this
-+ 		 * client go inactive and another will take over when it's
-+ 		 * done.
-+ 		 *
-+@@ -3479,7 +3480,8 @@ client_accept(ns_client_t *client) {
-+ 		 * quota is tcp-clients plus the number of listening
-+ 		 * interfaces plus 1.)
-+ 		 */
-+-		exit = (isc_atomic_xadd(&client->interface->ntcpactive, 0) > 0);
-++		exit = (isc_atomic_xadd(&client->interface->ntcpactive, 0) >
-++			(client->tcpactive ? 1 : 0));
-+ 		if (exit) {
-+ 			client->newstate = NS_CLIENTSTATE_INACTIVE;
-+ 			(void)exit_check(client);
-+diff --git a/doc/arm/Bv9ARM-book.xml b/doc/arm/Bv9ARM-book.xml
-+index 381768d540..9c76d3cd6f 100644
-+--- a/doc/arm/Bv9ARM-book.xml
-++++ b/doc/arm/Bv9ARM-book.xml
-+@@ -8493,7 +8493,8 @@ avoid-v6-udp-ports { 40000; range 50000 60000; };
-+ 		<para>
-+ 		  The number of file descriptors reserved for TCP, stdio,
-+ 		  etc.  This needs to be big enough to cover the number of
-+-		  interfaces <command>named</command> listens on, <command>tcp-clients</command> as well as
-++		  interfaces <command>named</command> listens on plus
-++		  <command>tcp-clients</command>, as well as
-+ 		  to provide room for outgoing TCP queries and incoming zone
-+ 		  transfers.  The default is <literal>512</literal>.
-+ 		  The minimum value is <literal>128</literal> and the
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind/0007-Replace-atomic-operations-in-bin-named-client.c-with.patch b/meta/recipes-connectivity/bind/bind/0007-Replace-atomic-operations-in-bin-named-client.c-with.patch
-new file mode 100644
-index 0000000..1a84eca
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/0007-Replace-atomic-operations-in-bin-named-client.c-with.patch
-@@ -0,0 +1,140 @@
-+Backport commit to fix compile error on arm caused by commits which are
-+to fix CVE-2018-5743.
-+
-+CVE: CVE-2018-5743
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/commit/ef49780]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From ef49780d30d3ddc5735cfc32561b678a634fa72f Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Ond=C5=99ej=20Sur=C3=BD?= <ondrej@sury.org>
-+Date: Wed, 17 Apr 2019 15:22:27 +0200
-+Subject: [PATCH] Replace atomic operations in bin/named/client.c with
-+ isc_refcount reference counting
-+
-+---
-+ bin/named/client.c                     | 18 +++++++-----------
-+ bin/named/include/named/interfacemgr.h |  5 +++--
-+ bin/named/interfacemgr.c               |  7 +++++--
-+ 3 files changed, 15 insertions(+), 15 deletions(-)
-+
-+diff --git a/bin/named/client.c b/bin/named/client.c
-+index 845326abc0..29fecadca8 100644
-+--- a/bin/named/client.c
-++++ b/bin/named/client.c
-+@@ -402,12 +402,10 @@ tcpconn_detach(ns_client_t *client) {
-+ static void
-+ mark_tcp_active(ns_client_t *client, bool active) {
-+ 	if (active && !client->tcpactive) {
-+-		isc_atomic_xadd(&client->interface->ntcpactive, 1);
-++		isc_refcount_increment0(&client->interface->ntcpactive, NULL);
-+ 		client->tcpactive = active;
-+ 	} else if (!active && client->tcpactive) {
-+-		uint32_t old =
-+-			isc_atomic_xadd(&client->interface->ntcpactive, -1);
-+-		INSIST(old > 0);
-++		isc_refcount_decrement(&client->interface->ntcpactive, NULL);
-+ 		client->tcpactive = active;
-+ 	}
-+ }
-+@@ -554,7 +552,7 @@ exit_check(ns_client_t *client) {
-+ 		if (client->mortal && TCP_CLIENT(client) &&
-+ 		    client->newstate != NS_CLIENTSTATE_FREED &&
-+ 		    !ns_g_clienttest &&
-+-		    isc_atomic_xadd(&client->interface->ntcpaccepting, 0) == 0)
-++		    isc_refcount_current(&client->interface->ntcpaccepting) == 0)
-+ 		{
-+ 			/* Nobody else is accepting */
-+ 			client->mortal = false;
-+@@ -3328,7 +3326,6 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 	isc_result_t result;
-+ 	ns_client_t *client = event->ev_arg;
-+ 	isc_socket_newconnev_t *nevent = (isc_socket_newconnev_t *)event;
-+-	uint32_t old;
-+ 
-+ 	REQUIRE(event->ev_type == ISC_SOCKEVENT_NEWCONN);
-+ 	REQUIRE(NS_CLIENT_VALID(client));
-+@@ -3348,8 +3345,7 @@ client_newconn(isc_task_t *task, isc_event_t *event) {
-+ 	INSIST(client->naccepts == 1);
-+ 	client->naccepts--;
-+ 
-+-	old = isc_atomic_xadd(&client->interface->ntcpaccepting, -1);
-+-	INSIST(old > 0);
-++	isc_refcount_decrement(&client->interface->ntcpaccepting, NULL);
-+ 
-+ 	/*
-+ 	 * We must take ownership of the new socket before the exit
-+@@ -3480,8 +3476,8 @@ client_accept(ns_client_t *client) {
-+ 		 * quota is tcp-clients plus the number of listening
-+ 		 * interfaces plus 1.)
-+ 		 */
-+-		exit = (isc_atomic_xadd(&client->interface->ntcpactive, 0) >
-+-			(client->tcpactive ? 1 : 0));
-++		exit = (isc_refcount_current(&client->interface->ntcpactive) >
-++			(client->tcpactive ? 1U : 0U));
-+ 		if (exit) {
-+ 			client->newstate = NS_CLIENTSTATE_INACTIVE;
-+ 			(void)exit_check(client);
-+@@ -3539,7 +3535,7 @@ client_accept(ns_client_t *client) {
-+ 	 * listening for connections itself to prevent the interface
-+ 	 * going dead.
-+ 	 */
-+-	isc_atomic_xadd(&client->interface->ntcpaccepting, 1);
-++	isc_refcount_increment0(&client->interface->ntcpaccepting, NULL);
-+ }
-+ 
-+ static void
-+diff --git a/bin/named/include/named/interfacemgr.h b/bin/named/include/named/interfacemgr.h
-+index 3535ef22a8..6e10f210fd 100644
-+--- a/bin/named/include/named/interfacemgr.h
-++++ b/bin/named/include/named/interfacemgr.h
-+@@ -45,6 +45,7 @@
-+ #include <isc/magic.h>
-+ #include <isc/mem.h>
-+ #include <isc/socket.h>
-++#include <isc/refcount.h>
-+ 
-+ #include <dns/result.h>
-+ 
-+@@ -75,11 +76,11 @@ struct ns_interface {
-+ 						/*%< UDP dispatchers. */
-+ 	isc_socket_t *		tcpsocket;	/*%< TCP socket. */
-+ 	isc_dscp_t		dscp;		/*%< "listen-on" DSCP value */
-+-	int32_t			ntcpaccepting;	/*%< Number of clients
-++	isc_refcount_t		ntcpaccepting;	/*%< Number of clients
-+ 						     ready to accept new
-+ 						     TCP connections on this
-+ 						     interface */
-+-	int32_t			ntcpactive;	/*%< Number of clients
-++	isc_refcount_t		ntcpactive;	/*%< Number of clients
-+ 						     servicing TCP queries
-+ 						     (whether accepting or
-+ 						     connected) */
-+diff --git a/bin/named/interfacemgr.c b/bin/named/interfacemgr.c
-+index d9f6df5802..135533be6b 100644
-+--- a/bin/named/interfacemgr.c
-++++ b/bin/named/interfacemgr.c
-+@@ -386,8 +386,8 @@ ns_interface_create(ns_interfacemgr_t *mgr, isc_sockaddr_t *addr,
-+ 	 * connections will be handled in parallel even though there is
-+ 	 * only one client initially.
-+ 	 */
-+-	ifp->ntcpaccepting = 0;
-+-	ifp->ntcpactive = 0;
-++	isc_refcount_init(&ifp->ntcpaccepting, 0);
-++	isc_refcount_init(&ifp->ntcpactive, 0);
-+ 
-+ 	ifp->nudpdispatch = 0;
-+ 
-+@@ -618,6 +618,9 @@ ns_interface_destroy(ns_interface_t *ifp) {
-+ 
-+ 	ns_interfacemgr_detach(&ifp->mgr);
-+ 
-++	isc_refcount_destroy(&ifp->ntcpactive);
-++	isc_refcount_destroy(&ifp->ntcpaccepting);
-++
-+ 	ifp->magic = 0;
-+ 	isc_mem_put(mctx, ifp, sizeof(*ifp));
-+ }
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-index 1355841..4fc0f19 100644
---- a/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.11.5-P4.bb
-@@ -20,6 +20,14 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.gz \
-            file://0001-configure.in-remove-useless-L-use_openssl-lib.patch \
-            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-+           file://0001-bind-fix-CVE-2019-6471.patch \
-+           file://0001-fix-enforcement-of-tcp-clients-v1.patch \
-+           file://0002-tcp-clients-could-still-be-exceeded-v2.patch \
-+           file://0003-use-reference-counter-for-pipeline-groups-v3.patch \
-+           file://0004-better-tcpquota-accounting-and-client-mortality-chec.patch \
-+           file://0005-refactor-tcpquota-and-pipeline-refs-allow-special-ca.patch \
-+           file://0006-restore-allowance-for-tcp-clients-interfaces.patch \
-+           file://0007-Replace-atomic-operations-in-bin-named-client.c-with.patch \
+diff --git a/meta/recipes-devtools/python/python/CVE-2018-20852.patch b/meta/recipes-devtools/python/python/CVE-2018-20852.patch
+deleted file mode 100644
+index 23c784a..0000000
+--- a/meta/recipes-devtools/python/python/CVE-2018-20852.patch
++++ /dev/null
+@@ -1,123 +0,0 @@
+-From 979daae300916adb399ab5b51410b6ebd0888f13 Mon Sep 17 00:00:00 2001
+-From: Xtreak <tir.karthi@gmail.com>
+-Date: Sat, 15 Jun 2019 20:59:43 +0530
+-Subject: [PATCH] [2.7] bpo-35121: prefix dot in domain for proper subdomain
+- validation (GH-10258) (GH-13426)
+-
+-This is a manual backport of ca7fe5063593958e5efdf90f068582837f07bd14 since 2.7 has `http.cookiejar` in `cookielib`
+-
+-
+-https://bugs.python.org/issue35121
+-CVE: CVE-2018-20852
+-Upstream-Status: Backport [https://github.com/python/cpython/pull/13426]
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- Lib/cookielib.py                              | 13 ++++++--
+- Lib/test/test_cookielib.py                    | 30 +++++++++++++++++++
+- .../2019-05-20-00-35-12.bpo-35121.RRi-HU.rst  |  4 +++
+- 3 files changed, 45 insertions(+), 2 deletions(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2019-05-20-00-35-12.bpo-35121.RRi-HU.rst
+-
+-diff --git a/Lib/cookielib.py b/Lib/cookielib.py
+-index 2dd7c48728e0..0b471a42f296 100644
+---- a/Lib/cookielib.py
+-+++ b/Lib/cookielib.py
+-@@ -1139,6 +1139,11 @@ def return_ok_domain(self, cookie, request):
+-         req_host, erhn = eff_request_host(request)
+-         domain = cookie.domain
+- 
+-+        if domain and not domain.startswith("."):
+-+            dotdomain = "." + domain
+-+        else:
+-+            dotdomain = domain
+-+
+-         # strict check of non-domain cookies: Mozilla does this, MSIE5 doesn't
+-         if (cookie.version == 0 and
+-             (self.strict_ns_domain & self.DomainStrictNonDomain) and
+-@@ -1151,7 +1156,7 @@ def return_ok_domain(self, cookie, request):
+-             _debug("   effective request-host name %s does not domain-match "
+-                    "RFC 2965 cookie domain %s", erhn, domain)
+-             return False
+--        if cookie.version == 0 and not ("."+erhn).endswith(domain):
+-+        if cookie.version == 0 and not ("."+erhn).endswith(dotdomain):
+-             _debug("   request-host %s does not match Netscape cookie domain "
+-                    "%s", req_host, domain)
+-             return False
+-@@ -1165,7 +1170,11 @@ def domain_return_ok(self, domain, request):
+-             req_host = "."+req_host
+-         if not erhn.startswith("."):
+-             erhn = "."+erhn
+--        if not (req_host.endswith(domain) or erhn.endswith(domain)):
+-+        if domain and not domain.startswith("."):
+-+            dotdomain = "." + domain
+-+        else:
+-+            dotdomain = domain
+-+        if not (req_host.endswith(dotdomain) or erhn.endswith(dotdomain)):
+-             #_debug("   request domain %s does not match cookie domain %s",
+-             #       req_host, domain)
+-             return False
+-diff --git a/Lib/test/test_cookielib.py b/Lib/test/test_cookielib.py
+-index f2dd9727d137..7f7ff614d61d 100644
+---- a/Lib/test/test_cookielib.py
+-+++ b/Lib/test/test_cookielib.py
+-@@ -368,6 +368,7 @@ def test_domain_return_ok(self):
+-             ("http://foo.bar.com/", ".foo.bar.com", True),
+-             ("http://foo.bar.com/", "foo.bar.com", True),
+-             ("http://foo.bar.com/", ".bar.com", True),
+-+            ("http://foo.bar.com/", "bar.com", True),
+-             ("http://foo.bar.com/", "com", True),
+-             ("http://foo.com/", "rhubarb.foo.com", False),
+-             ("http://foo.com/", ".foo.com", True),
+-@@ -378,6 +379,8 @@ def test_domain_return_ok(self):
+-             ("http://foo/", "foo", True),
+-             ("http://foo/", "foo.local", True),
+-             ("http://foo/", ".local", True),
+-+            ("http://barfoo.com", ".foo.com", False),
+-+            ("http://barfoo.com", "foo.com", False),
+-             ]:
+-             request = urllib2.Request(url)
+-             r = pol.domain_return_ok(domain, request)
+-@@ -938,6 +941,33 @@ def test_domain_block(self):
+-         c.add_cookie_header(req)
+-         self.assertFalse(req.has_header("Cookie"))
+- 
+-+        c.clear()
+-+
+-+        pol.set_blocked_domains([])
+-+        req = Request("http://acme.com/")
+-+        res = FakeResponse(headers, "http://acme.com/")
+-+        cookies = c.make_cookies(res, req)
+-+        c.extract_cookies(res, req)
+-+        self.assertEqual(len(c), 1)
+-+
+-+        req = Request("http://acme.com/")
+-+        c.add_cookie_header(req)
+-+        self.assertTrue(req.has_header("Cookie"))
+-+
+-+        req = Request("http://badacme.com/")
+-+        c.add_cookie_header(req)
+-+        self.assertFalse(pol.return_ok(cookies[0], req))
+-+        self.assertFalse(req.has_header("Cookie"))
+-+
+-+        p = pol.set_blocked_domains(["acme.com"])
+-+        req = Request("http://acme.com/")
+-+        c.add_cookie_header(req)
+-+        self.assertFalse(req.has_header("Cookie"))
+-+
+-+        req = Request("http://badacme.com/")
+-+        c.add_cookie_header(req)
+-+        self.assertFalse(req.has_header("Cookie"))
+-+
+-     def test_secure(self):
+-         from cookielib import CookieJar, DefaultCookiePolicy
+- 
+-diff --git a/Misc/NEWS.d/next/Security/2019-05-20-00-35-12.bpo-35121.RRi-HU.rst b/Misc/NEWS.d/next/Security/2019-05-20-00-35-12.bpo-35121.RRi-HU.rst
+-new file mode 100644
+-index 000000000000..77251806163b
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2019-05-20-00-35-12.bpo-35121.RRi-HU.rst
+-@@ -0,0 +1,4 @@
+-+Don't send cookies of domain A without Domain attribute to domain B when
+-+domain A is a suffix match of domain B while using a cookiejar with
+-+:class:`cookielib.DefaultCookiePolicy` policy. Patch by Karthikeyan
+-+Singaravelan.
+diff --git a/meta/recipes-devtools/python/python/CVE-2019-9740.patch b/meta/recipes-devtools/python/python/CVE-2019-9740.patch
+deleted file mode 100644
+index 066ac68..0000000
+--- a/meta/recipes-devtools/python/python/CVE-2019-9740.patch
++++ /dev/null
+@@ -1,215 +0,0 @@
+-From bb8071a4cae5ab3fe321481dd3d73662ffb26052 Mon Sep 17 00:00:00 2001
+-From: Victor Stinner <victor.stinner@gmail.com>
+-Date: Tue, 21 May 2019 15:12:33 +0200
+-Subject: [PATCH] bpo-30458: Disallow control chars in http URLs (GH-12755)
+- (GH-13154) (GH-13315)
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-Disallow control chars in http URLs in urllib2.urlopen.  This
+-addresses a potential security problem for applications that do not
+-sanity check their URLs where http request headers could be injected.
+-
+-Disable https related urllib tests on a build without ssl (GH-13032)
+-These tests require an SSL enabled build. Skip these tests when
+-python is built without SSL to fix test failures.
+-
+-Use httplib.InvalidURL instead of ValueError as the new error case's
+-exception. (GH-13044)
+-
+-Backport Co-Authored-By: Miro Hrončok <miro@hroncok.cz>
+-
+-(cherry picked from commit 7e200e0763f5b71c199aaf98bd5588f291585619)
+-
+-Notes on backport to Python 2.7:
+-
+-* test_urllib tests urllib.urlopen() which quotes the URL and so is
+-  not vulerable to HTTP Header Injection.
+-* Add tests to test_urllib2 on urllib2.urlopen().
+-* Reject non-ASCII characters: range 0x80-0xff.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2019-9740
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- Lib/httplib.py                                | 16 ++++++
+- Lib/test/test_urllib.py                       | 25 +++++++++
+- Lib/test/test_urllib2.py                      | 51 ++++++++++++++++++-
+- Lib/test/test_xmlrpc.py                       |  8 ++-
+- .../2019-04-10-08-53-30.bpo-30458.51E-DA.rst  |  1 +
+- 5 files changed, 99 insertions(+), 2 deletions(-)
+- create mode 100644 Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
+-
+-diff --git a/Lib/httplib.py b/Lib/httplib.py
+-index 60a8fb4e355f..1b41c346e090 100644
+---- a/Lib/httplib.py
+-+++ b/Lib/httplib.py
+-@@ -247,6 +247,16 @@
+- _is_legal_header_name = re.compile(r'\A[^:\s][^:\r\n]*\Z').match
+- _is_illegal_header_value = re.compile(r'\n(?![ \t])|\r(?![ \t\n])').search
+- 
+-+# These characters are not allowed within HTTP URL paths.
+-+#  See https://tools.ietf.org/html/rfc3986#section-3.3 and the
+-+#  https://tools.ietf.org/html/rfc3986#appendix-A pchar definition.
+-+# Prevents CVE-2019-9740.  Includes control characters such as \r\n.
+-+# Restrict non-ASCII characters above \x7f (0x80-0xff).
+-+_contains_disallowed_url_pchar_re = re.compile('[\x00-\x20\x7f-\xff]')
+-+# Arguably only these _should_ allowed:
+-+#  _is_allowed_url_pchars_re = re.compile(r"^[/!$&'()*+,;=:@%a-zA-Z0-9._~-]+$")
+-+# We are more lenient for assumed real world compatibility purposes.
+-+
+- # We always set the Content-Length header for these methods because some
+- # servers will otherwise respond with a 411
+- _METHODS_EXPECTING_BODY = {'PATCH', 'POST', 'PUT'}
+-@@ -927,6 +937,12 @@ def putrequest(self, method, url, skip_host=0, skip_accept_encoding=0):
+-         self._method = method
+-         if not url:
+-             url = '/'
+-+        # Prevent CVE-2019-9740.
+-+        match = _contains_disallowed_url_pchar_re.search(url)
+-+        if match:
+-+            raise InvalidURL("URL can't contain control characters. %r "
+-+                             "(found at least %r)"
+-+                             % (url, match.group()))
+-         hdr = '%s %s %s' % (method, url, self._http_vsn_str)
+- 
+-         self._output(hdr)
+-diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
+-index 1ce9201c0693..d7778d4194f3 100644
+---- a/Lib/test/test_urllib.py
+-+++ b/Lib/test/test_urllib.py
+-@@ -257,6 +257,31 @@ def test_url_fragment(self):
+-         finally:
+-             self.unfakehttp()
+- 
+-+    def test_url_with_control_char_rejected(self):
+-+        for char_no in range(0, 0x21) + range(0x7f, 0x100):
+-+            char = chr(char_no)
+-+            schemeless_url = "//localhost:7777/test%s/" % char
+-+            self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+-+            try:
+-+                # urllib quotes the URL so there is no injection.
+-+                resp = urllib.urlopen("http:" + schemeless_url)
+-+                self.assertNotIn(char, resp.geturl())
+-+            finally:
+-+                self.unfakehttp()
+-+
+-+    def test_url_with_newline_header_injection_rejected(self):
+-+        self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+-+        host = "localhost:7777?a=1 HTTP/1.1\r\nX-injected: header\r\nTEST: 123"
+-+        schemeless_url = "//" + host + ":8080/test/?test=a"
+-+        try:
+-+            # urllib quotes the URL so there is no injection.
+-+            resp = urllib.urlopen("http:" + schemeless_url)
+-+            self.assertNotIn(' ', resp.geturl())
+-+            self.assertNotIn('\r', resp.geturl())
+-+            self.assertNotIn('\n', resp.geturl())
+-+        finally:
+-+            self.unfakehttp()
+-+
+-     def test_read_bogus(self):
+-         # urlopen() should raise IOError for many error codes.
+-         self.fakehttp('''HTTP/1.1 401 Authentication Required
+-diff --git a/Lib/test/test_urllib2.py b/Lib/test/test_urllib2.py
+-index 6d24d5ddf83c..9531818e16b2 100644
+---- a/Lib/test/test_urllib2.py
+-+++ b/Lib/test/test_urllib2.py
+-@@ -15,6 +15,9 @@
+- except ImportError:
+-     ssl = None
+- 
+-+from test.test_urllib import FakeHTTPMixin
+-+
+-+
+- # XXX
+- # Request
+- # CacheFTPHandler (hard to write)
+-@@ -1262,7 +1265,7 @@ def _test_basic_auth(self, opener, auth_handler, auth_header,
+-         self.assertEqual(len(http_handler.requests), 1)
+-         self.assertFalse(http_handler.requests[0].has_header(auth_header))
+- 
+--class MiscTests(unittest.TestCase):
+-+class MiscTests(unittest.TestCase, FakeHTTPMixin):
+- 
+-     def test_build_opener(self):
+-         class MyHTTPHandler(urllib2.HTTPHandler): pass
+-@@ -1317,6 +1320,52 @@ def test_unsupported_algorithm(self):
+-             "Unsupported digest authentication algorithm 'invalid'"
+-         )
+- 
+-+    @unittest.skipUnless(ssl, "ssl module required")
+-+    def test_url_with_control_char_rejected(self):
+-+        for char_no in range(0, 0x21) + range(0x7f, 0x100):
+-+            char = chr(char_no)
+-+            schemeless_url = "//localhost:7777/test%s/" % char
+-+            self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+-+            try:
+-+                # We explicitly test urllib.request.urlopen() instead of the top
+-+                # level 'def urlopen()' function defined in this... (quite ugly)
+-+                # test suite.  They use different url opening codepaths.  Plain
+-+                # urlopen uses FancyURLOpener which goes via a codepath that
+-+                # calls urllib.parse.quote() on the URL which makes all of the
+-+                # above attempts at injection within the url _path_ safe.
+-+                escaped_char_repr = repr(char).replace('\\', r'\\')
+-+                InvalidURL = httplib.InvalidURL
+-+                with self.assertRaisesRegexp(
+-+                    InvalidURL, "contain control.*" + escaped_char_repr):
+-+                    urllib2.urlopen("http:" + schemeless_url)
+-+                with self.assertRaisesRegexp(
+-+                    InvalidURL, "contain control.*" + escaped_char_repr):
+-+                    urllib2.urlopen("https:" + schemeless_url)
+-+            finally:
+-+                self.unfakehttp()
+-+
+-+    @unittest.skipUnless(ssl, "ssl module required")
+-+    def test_url_with_newline_header_injection_rejected(self):
+-+        self.fakehttp(b"HTTP/1.1 200 OK\r\n\r\nHello.")
+-+        host = "localhost:7777?a=1 HTTP/1.1\r\nX-injected: header\r\nTEST: 123"
+-+        schemeless_url = "//" + host + ":8080/test/?test=a"
+-+        try:
+-+            # We explicitly test urllib2.urlopen() instead of the top
+-+            # level 'def urlopen()' function defined in this... (quite ugly)
+-+            # test suite.  They use different url opening codepaths.  Plain
+-+            # urlopen uses FancyURLOpener which goes via a codepath that
+-+            # calls urllib.parse.quote() on the URL which makes all of the
+-+            # above attempts at injection within the url _path_ safe.
+-+            InvalidURL = httplib.InvalidURL
+-+            with self.assertRaisesRegexp(
+-+                InvalidURL, r"contain control.*\\r.*(found at least . .)"):
+-+                urllib2.urlopen("http:" + schemeless_url)
+-+            with self.assertRaisesRegexp(InvalidURL, r"contain control.*\\n"):
+-+                urllib2.urlopen("https:" + schemeless_url)
+-+        finally:
+-+            self.unfakehttp()
+-+
+-+
+- 
+- class RequestTests(unittest.TestCase):
+- 
+-diff --git a/Lib/test/test_xmlrpc.py b/Lib/test/test_xmlrpc.py
+-index 36b3be67fd6b..90ccb30716ff 100644
+---- a/Lib/test/test_xmlrpc.py
+-+++ b/Lib/test/test_xmlrpc.py
+-@@ -659,7 +659,13 @@ def test_dotted_attribute(self):
+-     def test_partial_post(self):
+-         # Check that a partial POST doesn't make the server loop: issue #14001.
+-         conn = httplib.HTTPConnection(ADDR, PORT)
+--        conn.request('POST', '/RPC2 HTTP/1.0\r\nContent-Length: 100\r\n\r\nbye')
+-+        conn.send('POST /RPC2 HTTP/1.0\r\n'
+-+                  'Content-Length: 100\r\n\r\n'
+-+                  'bye HTTP/1.1\r\n'
+-+                  'Host: %s:%s\r\n'
+-+                  'Accept-Encoding: identity\r\n'
+-+                  'Content-Length: 0\r\n\r\n'
+-+                  % (ADDR, PORT))
+-         conn.close()
+- 
+- class SimpleServerEncodingTestCase(BaseServerTestCase):
+-diff --git a/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
+-new file mode 100644
+-index 000000000000..47cb899df1af
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2019-04-10-08-53-30.bpo-30458.51E-DA.rst
+-@@ -0,0 +1 @@
+-+Address CVE-2019-9740 by disallowing URL paths with embedded whitespace or control characters through into the underlying http client request.  Such potentially malicious header injection URLs now cause an httplib.InvalidURL exception to be raised.
+diff --git a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
+deleted file mode 100644
+index b267237..0000000
+--- a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 179a5f75f1121dab271fe8f90eb35145f9dcbbda Mon Sep 17 00:00:00 2001
+-From: Sihoon Lee <push0ebp@gmail.com>
+-Date: Fri, 17 May 2019 02:41:06 +0900
+-Subject: [PATCH] Update test_urllib.py and urllib.py\nchange assertEqual into
+- assertRasies in DummyURLopener test, and simplify mitigation
+-
+-Upstream-Status: Submitted https://github.com/python/cpython/pull/11842
+-
+-CVE: CVE-2019-9948
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+- Lib/test/test_urllib.py | 11 +++--------
+- Lib/urllib.py           |  4 ++--
+- 2 files changed, 5 insertions(+), 10 deletions(-)
+-
+-diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
+-index e5f210e62a18..1e23dfb0bb16 100644
+---- a/Lib/test/test_urllib.py
+-+++ b/Lib/test/test_urllib.py
+-@@ -1027,14 +1027,9 @@ def test_local_file_open(self):
+-         class DummyURLopener(urllib.URLopener):
+-             def open_local_file(self, url):
+-                 return url
+--        self.assertEqual(DummyURLopener().open(
+--            'local-file://example'), '//example')
+--        self.assertEqual(DummyURLopener().open(
+--            'local_file://example'), '//example')
+--        self.assertRaises(IOError, urllib.urlopen,
+--            'local-file://example')
+--        self.assertRaises(IOError, urllib.urlopen,
+--            'local_file://example')
+-+        for url in ('local_file://example', 'local-file://example'):
+-+            self.assertRaises(IOError, DummyURLopener().open, url)
+-+            self.assertRaises(IOError, urllib.urlopen, url)
+- 
+- # Just commented them out.
+- # Can't really tell why keep failing in windows and sparc.
+-diff --git a/Lib/urllib.py b/Lib/urllib.py
+-index a24e9a5c68fb..39b834054e9e 100644
+---- a/Lib/urllib.py
+-+++ b/Lib/urllib.py
+-@@ -203,10 +203,10 @@ def open(self, fullurl, data=None):
+-         name = 'open_' + urltype
+-         self.type = urltype
+-         name = name.replace('-', '_')
+--        
+-+
+-         # bpo-35907: # disallow the file reading with the type not allowed
+-         if not hasattr(self, name) or \
+--            (self == _urlopener and name == 'open_local_file'):
+-+            getattr(self, name) == self.open_local_file:
+-             if proxy:
+-                 return self.open_unknown_proxy(proxy, fullurl, data)
+-             else:
+diff --git a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
+deleted file mode 100644
+index f4c225d..0000000
+--- a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 8f99cc799e4393bf1112b9395b2342f81b3f45ef Mon Sep 17 00:00:00 2001
+-From: push0ebp <push0ebp@shl-MacBook-Pro.local>
+-Date: Thu, 14 Feb 2019 02:05:46 +0900
+-Subject: [PATCH] bpo-35907: Avoid file reading as disallowing the unnecessary
+- URL scheme in urllib
+-
+-Upstream-Status: Submitted https://github.com/python/cpython/pull/11842
+-
+-CVE: CVE-2019-9948
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+- Lib/test/test_urllib.py | 12 ++++++++++++
+- Lib/urllib.py           |  5 ++++-
+- 2 files changed, 16 insertions(+), 1 deletion(-)
+-
+-diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
+-index 1ce9201c0693..e5f210e62a18 100644
+---- a/Lib/test/test_urllib.py
+-+++ b/Lib/test/test_urllib.py
+-@@ -1023,6 +1023,18 @@ def open_spam(self, url):
+-             "spam://c:|windows%/:=&?~#+!$,;'@()*[]|/path/"),
+-             "//c:|windows%/:=&?~#+!$,;'@()*[]|/path/")
+- 
+-+    def test_local_file_open(self):
+-+        class DummyURLopener(urllib.URLopener):
+-+            def open_local_file(self, url):
+-+                return url
+-+        self.assertEqual(DummyURLopener().open(
+-+            'local-file://example'), '//example')
+-+        self.assertEqual(DummyURLopener().open(
+-+            'local_file://example'), '//example')
+-+        self.assertRaises(IOError, urllib.urlopen,
+-+            'local-file://example')
+-+        self.assertRaises(IOError, urllib.urlopen,
+-+            'local_file://example')
+- 
+- # Just commented them out.
+- # Can't really tell why keep failing in windows and sparc.
+-diff --git a/Lib/urllib.py b/Lib/urllib.py
+-index d85504a5cb7e..a24e9a5c68fb 100644
+---- a/Lib/urllib.py
+-+++ b/Lib/urllib.py
+-@@ -203,7 +203,10 @@ def open(self, fullurl, data=None):
+-         name = 'open_' + urltype
+-         self.type = urltype
+-         name = name.replace('-', '_')
+--        if not hasattr(self, name):
+-+        
+-+        # bpo-35907: # disallow the file reading with the type not allowed
+-+        if not hasattr(self, name) or \
+-+            (self == _urlopener and name == 'open_local_file'):
+-             if proxy:
+-                 return self.open_unknown_proxy(proxy, fullurl, data)
+-             else:
+diff --git a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
+deleted file mode 100644
+index 2ce4d2c..0000000
+--- a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From 06b5ee585d6e76bdbb4002f642d864d860cbbd2b Mon Sep 17 00:00:00 2001
+-From: Steve Dower <steve.dower@python.org>
+-Date: Tue, 12 Mar 2019 08:23:33 -0700
+-Subject: [PATCH] bpo-36216: Only print test messages when verbose
+-
+-CVE: CVE-2019-9636
+- 
+-Upstream-Status: Backport https://github.com/python/cpython/pull/12291/commits/06b5ee585d6e76bdbb4002f642d864d860cbbd2b
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+- Lib/test/test_urlparse.py | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
+-index 73b0228ea8e3..1830d0b28688 100644
+---- a/Lib/test/test_urlparse.py
+-+++ b/Lib/test/test_urlparse.py
+-@@ -644,7 +644,8 @@ def test_urlsplit_normalization(self):
+-         for scheme in [u"http", u"https", u"ftp"]:
+-             for c in denorm_chars:
+-                 url = u"{}://netloc{}false.netloc/path".format(scheme, c)
+--                print "Checking %r" % url
+-+                if test_support.verbose:
+-+                    print "Checking %r" % url
+-                 with self.assertRaises(ValueError):
+-                     urlparse.urlsplit(url)
+- 
+diff --git a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
+deleted file mode 100644
+index 352b13b..0000000
+--- a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
++++ /dev/null
+@@ -1,111 +0,0 @@
+-From 3e3669c9c41a27e1466e2c28b3906e3dd0ce3e7e Mon Sep 17 00:00:00 2001
+-From: Steve Dower <steve.dower@python.org>
+-Date: Thu, 7 Mar 2019 08:25:22 -0800
+-Subject: [PATCH] bpo-36216: Add check for characters in netloc that normalize
+- to separators (GH-12201)
+-
+-CVE: CVE-2019-9636
+-
+-Upstream-Status: Backport https://github.com/python/cpython/pull/12216/commits/3e3669c9c41a27e1466e2c28b3906e3dd0ce3e7e
+-
+-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+----
+- Doc/library/urlparse.rst                      | 20 ++++++++++++++++
+- Lib/test/test_urlparse.py                     | 24 +++++++++++++++++++
+- Lib/urlparse.py                               | 17 +++++++++++++
+- .../2019-03-06-09-38-40.bpo-36216.6q1m4a.rst  |  3 +++
+- 4 files changed, 64 insertions(+)
+- create mode 100644 Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
+-
+-diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
+-index 4e1ded73c266..73b0228ea8e3 100644
+---- a/Lib/test/test_urlparse.py
+-+++ b/Lib/test/test_urlparse.py
+-@@ -1,4 +1,6 @@
+- from test import test_support
+-+import sys
+-+import unicodedata
+- import unittest
+- import urlparse
+- 
+-@@ -624,6 +626,28 @@ def test_portseparator(self):
+-         self.assertEqual(urlparse.urlparse("http://www.python.org:80"),
+-                 ('http','www.python.org:80','','','',''))
+- 
+-+    def test_urlsplit_normalization(self):
+-+        # Certain characters should never occur in the netloc,
+-+        # including under normalization.
+-+        # Ensure that ALL of them are detected and cause an error
+-+        illegal_chars = u'/:#?@'
+-+        hex_chars = {'{:04X}'.format(ord(c)) for c in illegal_chars}
+-+        denorm_chars = [
+-+            c for c in map(unichr, range(128, sys.maxunicode))
+-+            if (hex_chars & set(unicodedata.decomposition(c).split()))
+-+            and c not in illegal_chars
+-+        ]
+-+        # Sanity check that we found at least one such character
+-+        self.assertIn(u'\u2100', denorm_chars)
+-+        self.assertIn(u'\uFF03', denorm_chars)
+-+
+-+        for scheme in [u"http", u"https", u"ftp"]:
+-+            for c in denorm_chars:
+-+                url = u"{}://netloc{}false.netloc/path".format(scheme, c)
+-+                print "Checking %r" % url
+-+                with self.assertRaises(ValueError):
+-+                    urlparse.urlsplit(url)
+-+
+- def test_main():
+-     test_support.run_unittest(UrlParseTestCase)
+- 
+-diff --git a/Lib/urlparse.py b/Lib/urlparse.py
+-index f7c2b032b097..54eda08651ab 100644
+---- a/Lib/urlparse.py
+-+++ b/Lib/urlparse.py
+-@@ -165,6 +165,21 @@ def _splitnetloc(url, start=0):
+-             delim = min(delim, wdelim)     # use earliest delim position
+-     return url[start:delim], url[delim:]   # return (domain, rest)
+- 
+-+def _checknetloc(netloc):
+-+    if not netloc or not isinstance(netloc, unicode):
+-+        return
+-+    # looking for characters like \u2100 that expand to 'a/c'
+-+    # IDNA uses NFKC equivalence, so normalize for this check
+-+    import unicodedata
+-+    netloc2 = unicodedata.normalize('NFKC', netloc)
+-+    if netloc == netloc2:
+-+        return
+-+    _, _, netloc = netloc.rpartition('@') # anything to the left of '@' is okay
+-+    for c in '/?#@:':
+-+        if c in netloc2:
+-+            raise ValueError("netloc '" + netloc2 + "' contains invalid " +
+-+                             "characters under NFKC normalization")
+-+
+- def urlsplit(url, scheme='', allow_fragments=True):
+-     """Parse a URL into 5 components:
+-     <scheme>://<netloc>/<path>?<query>#<fragment>
+-@@ -193,6 +208,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
+-                 url, fragment = url.split('#', 1)
+-             if '?' in url:
+-                 url, query = url.split('?', 1)
+-+            _checknetloc(netloc)
+-             v = SplitResult(scheme, netloc, url, query, fragment)
+-             _parse_cache[key] = v
+-             return v
+-@@ -216,6 +232,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
+-         url, fragment = url.split('#', 1)
+-     if '?' in url:
+-         url, query = url.split('?', 1)
+-+    _checknetloc(netloc)
+-     v = SplitResult(scheme, netloc, url, query, fragment)
+-     _parse_cache[key] = v
+-     return v
+-diff --git a/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
+-new file mode 100644
+-index 000000000000..1e1ad92c6feb
+---- /dev/null
+-+++ b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
+-@@ -0,0 +1,3 @@
+-+Changes urlsplit() to raise ValueError when the URL contains characters that
+-+decompose under IDNA encoding (NFKC-normalization) into characters that
+-+affect how the URL is parsed.
+-\ No newline at end of file
+diff --git a/meta/recipes-devtools/python/python/bpo-36742-cve-2019-10160.patch b/meta/recipes-devtools/python/python/bpo-36742-cve-2019-10160.patch
+deleted file mode 100644
+index 1b6cb8c..0000000
+--- a/meta/recipes-devtools/python/python/bpo-36742-cve-2019-10160.patch
++++ /dev/null
+@@ -1,81 +0,0 @@
+-From 5a1033fe5be764a135adcfff2fdc14edc3e5f327 Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Thu, 10 Oct 2019 16:32:19 +0800
+-Subject: [PATCH] bpo-36742: Fixes handling of pre-normalization characters in
+- urlsplit() bpo-36742: Corrects fix to handle decomposition in usernames
+-
+-Upstream-Status: Backport
+-
+-https://github.com/python/cpython/commit/98a4dcefbbc3bce5ab07e7c0830a183157250259
+-https://github.com/python/cpython/commit/f61599b050c621386a3fc6bc480359e2d3bb93de#diff-b577545d73dd0cdb2c337a4c5f89e1d7
+-
+-CVE: CVE-2019-10160
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- Lib/test/test_urlparse.py | 19 +++++++++++++------
+- Lib/urlparse.py           | 14 +++++++++-----
+- 2 files changed, 22 insertions(+), 11 deletions(-)
+-
+-diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
+-index 1830d0b..857ed96 100644
+---- a/Lib/test/test_urlparse.py
+-+++ b/Lib/test/test_urlparse.py
+-@@ -641,13 +641,20 @@ class UrlParseTestCase(unittest.TestCase):
+-         self.assertIn(u'\u2100', denorm_chars)
+-         self.assertIn(u'\uFF03', denorm_chars)
+- 
+-+        # bpo-36742: Verify port separators are ignored when they
+-+        # existed prior to decomposition
+-+        urlparse.urlsplit(u'http://\u30d5\u309a:80')
+-+        with self.assertRaises(ValueError):
+-+            urlparse.urlsplit(u'http://\u30d5\u309a\ufe1380')
+-+
+-         for scheme in [u"http", u"https", u"ftp"]:
+--            for c in denorm_chars:
+--                url = u"{}://netloc{}false.netloc/path".format(scheme, c)
+--                if test_support.verbose:
+--                    print "Checking %r" % url
+--                with self.assertRaises(ValueError):
+--                    urlparse.urlsplit(url)
+-+            for netloc in [u"netloc{}false.netloc", u"n{}user@netloc"]:
+-+                for c in denorm_chars:
+-+                    url = u"{}://{}/path".format(scheme, netloc.format(c))
+-+                    if test_support.verbose:
+-+                        print "Checking %r" % url
+-+                    with self.assertRaises(ValueError):
+-+                        urlparse.urlsplit(url)
+- 
+- def test_main():
+-     test_support.run_unittest(UrlParseTestCase)
+-diff --git a/Lib/urlparse.py b/Lib/urlparse.py
+-index 54eda08..e34b368 100644
+---- a/Lib/urlparse.py
+-+++ b/Lib/urlparse.py
+-@@ -171,14 +171,18 @@ def _checknetloc(netloc):
+-     # looking for characters like \u2100 that expand to 'a/c'
+-     # IDNA uses NFKC equivalence, so normalize for this check
+-     import unicodedata
+--    netloc2 = unicodedata.normalize('NFKC', netloc)
+--    if netloc == netloc2:
+-+    n = netloc.replace(u'@', u'') # ignore characters already included
+-+    n = n.replace(u':', u'')      # but not the surrounding text
+-+    n = n.replace(u'#', u'')
+-+    n = n.replace(u'?', u'')
+-+
+-+    netloc2 = unicodedata.normalize('NFKC', n)
+-+    if n == netloc2:
+-         return
+--    _, _, netloc = netloc.rpartition('@') # anything to the left of '@' is okay
+-     for c in '/?#@:':
+-         if c in netloc2:
+--            raise ValueError("netloc '" + netloc2 + "' contains invalid " +
+--                             "characters under NFKC normalization")
+-+            raise ValueError(u"netloc '" + netloc + u"' contains invalid " +
+-+                             u"characters under NFKC normalization")
+- 
+- def urlsplit(url, scheme='', allow_fragments=True):
+-     """Parse a URL into 5 components:
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.17.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python_2.7.16.bb
+rename to meta/recipes-devtools/python/python_2.7.17.bb
+index 8cae22a..ec724c3 100644
+--- a/meta/recipes-devtools/python/python_2.7.16.bb
++++ b/meta/recipes-devtools/python/python_2.7.17.bb
+@@ -30,9 +30,6 @@ SRC_URI += " \
+            file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
+            file://float-endian.patch \
+            file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch \
+-           file://0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
+-           file://bpo-36742-cve-2019-10160.patch \
+-           file://0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch \
  "
  
- SRC_URI[md5sum] = "8ddab4b61fa4516fe404679c74e37960"
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.7.4
 
