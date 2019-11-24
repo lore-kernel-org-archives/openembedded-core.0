@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 016407FBF9
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id EDD347FBF9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 23:50:43 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id r18so6103837pgu.13
+	Sun, 24 Nov 2019 23:50:44 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id s10so5611990plp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 15:50:45 -0800 (PST)
+	Sun, 24 Nov 2019 15:50:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=+LMlGnKmI3AhhiR5NxqS1aLpHol+DUF5nRTJyRHD1sY=;
-	b=gaINqP8+Ffl4qNKuQSlIRMY8s+bC0LiEGZmc87hJY7NV9Qv3eJoJGRyT+RhSwV7gYf
-	/WU8jI1ZFttN51dk/S68DSBn89tuBA0ZJ6yYdzNG7C+z+1bfBBgV+PpD6J2AfBc9OiXk
-	taUgVEt8Rko0qL8ddmAPqMjqX6lzYSirVFAaCdE3W5LSGUDBOUbgq4A5P3TBrnmkx27V
-	RmyhX0PSpw08OjLngCysVWV/mYEOyJrwC8Wn9LIDw/a+CSxUgE5S+D40O2sg6QmpAMzG
-	xjPp/UlBwTnjSFfB4Oxjict5MNdtQHCRi4cjT/WVhIpJvmj6Rfs6PemeFmv87RlckuSC
-	6IcQ==
+	bh=fpjJ1oG4eLQ/WQlT/fCoQGFzfHyNGL4y7EoLl7wFyD8=;
+	b=troxKw9cF+cqgrQEPb4jlmLPW+7riR4IGlCApABqoAtyjWrIlVIT3ZReKX9RLIu5d9
+	ycbeFti2ISMW9w7eFQ1S4mP4Rh6cT3fiCTKTfQYSJsh0CWS/9lQheXPQTNuQ7esFlTFp
+	AuWv8eTuGhxgXxJT0vRbmxncPZNdOMV+WPQhSESwAj9DBaLe/I8/fIOtTv224R9E1QFm
+	JCKJqNRHgGba+Ejdzfp64jymdBBwDiSrYSpcWuYedaXzsjGbU9UZX6g5KpuDMymmKewg
+	5ywVLb5ZPdTSAEGulwO6+uGrU7+qheFPG5ETH+4VBrOxy1J2WPUXviELiU3usapRpKAc
+	noCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=+LMlGnKmI3AhhiR5NxqS1aLpHol+DUF5nRTJyRHD1sY=;
-	b=PL9k9Qh+lFLh3+tnN/iTP5phiszt93ZmU3OXqfCRigd7ThVY1G+ol1IrEz48iSw7hJ
-	Ral2rObTDgk5Qy+B9lxaX4ClJ1LpAylEYeo5ofHqc7wlMhAvvF3PLqFwb8OvmgGzdOUB
-	1U/RDOpv/P24HrN1T5ZIORdeuxy4fNVoPhrMXi4I+Ok80OkgrCu0kDfJZQPohCIQTMZ+
-	Kb/N3KUCzw+PwvIiULrL/HSdSLi8ha4bu/xgapUMC92nMYKokyofZmVKXb9E+a6Za4px
-	q+bC9C7xglU0iE8U59w7IE46eJfUz3KI9l89gqtit7XHEHBwLmUGWM8qUC8xa/zk6W82
-	ElHw==
-X-Gm-Message-State: APjAAAX8FMTfrLxZaq+nLn99BJVcuGilMGxTpd8CuX3gKOwZnknKpZZ2
-	dQcMSiD2rXAT5WUYZxVFn1v7EDcw
-X-Google-Smtp-Source: APXvYqzxUVD9/GbHKapdOilfBRk9v1fNiBPSlxkpeG2vGBCESoEpclU5EqHh1fcKfqWlF5wGN/K1QQ==
-X-Received: by 2002:a62:2a14:: with SMTP id q20mr31347524pfq.148.1574639444873;
-	Sun, 24 Nov 2019 15:50:44 -0800 (PST)
+	bh=fpjJ1oG4eLQ/WQlT/fCoQGFzfHyNGL4y7EoLl7wFyD8=;
+	b=Bc8YMjEHzHOkTZLRb+MyCm3fM/K/Y4c5xNxg4dUKnqrL3Tcmt+l5QXrCGy48/nK2k8
+	o+1Uo8/AFHJe5ZFB9vrxREkfHWJLqE/f9+3HVC0+CJkMbdoW4NFI862rCHsK6/FfApaV
+	P2AraGUR7fih0cSktPsh5PDlbqjR4n22uXlMmHhyT7tcfBmyl+hs+gKw72SRtsGNTzhw
+	PCHLnMS+12iwbFw2LXNxzb95nVyBn4qJlw0tMIWiX/r9cmWtA3UF4aLXr6p3na5QVHyq
+	9hp1NupiOQBIONPHWWW3jnrGqeNLjKsuIkoYVSBHupQ4ej3O1pRSPL0Plmxnf94K9Fey
+	23pQ==
+X-Gm-Message-State: APjAAAXqgbyYbW1DD5i9CQw3O5kPwvv6QMXD53g5EA5NuznBm7Du8G7b
+	9F6Q7aoYtnLMzSat37xGhaMfBFmq
+X-Google-Smtp-Source: APXvYqwpwQw9WRMRW/eoycsw1GJM83xXQQxJUQdIN6Zjpg5Au0BrKUsyl92cSxFcmsFA/8/HpL3KmA==
+X-Received: by 2002:a17:90a:bc41:: with SMTP id
+	t1mr35831378pjv.89.1574639445903; 
+	Sun, 24 Nov 2019 15:50:45 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:69ac:e4d2:e89f:98da])
 	by smtp.gmail.com with ESMTPSA id
 	q200sm5619783pfq.87.2019.11.24.15.50.44
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 24 Nov 2019 15:50:44 -0800 (PST)
+	Sun, 24 Nov 2019 15:50:45 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Nov 2019 15:50:06 -0800
-Message-Id: <e9a2b7dfe912375bd95423d228aa1036bd97421c.1574639349.git.akuster808@gmail.com>
+Date: Sun, 24 Nov 2019 15:50:07 -0800
+Message-Id: <91948de716d5eb03c1c3bdaca7bc95d9159ab1f4.1574639349.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1574639349.git.akuster808@gmail.com>
 References: <cover.1574639349.git.akuster808@gmail.com>
-Subject: [zeus 01/35] lz4: Whitelist CVE-2014-4715
+Subject: [zeus 02/35] libsoup: set CVE_PRODUCT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +60,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Nov 2019 23:50:44 -0000
+X-List-Received-Date: Sun, 24 Nov 2019 23:50:45 -0000
 
-From: Adrian Bunk <bunk@stusta.de>
+From: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-support/lz4/lz4_1.9.2.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/lz4/lz4_1.9.2.bb b/meta/recipes-support/lz4/lz4_1.9.2.bb
-index f0a8416..ed4452c 100644
---- a/meta/recipes-support/lz4/lz4_1.9.2.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.2.bb
-@@ -18,6 +18,9 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
+index 357f2fd..3a735cf 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
+@@ -15,6 +15,8 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+ SRC_URI[md5sum] = "66c2ae89d6031b01337d78a2c57c75d5"
+ SRC_URI[sha256sum] = "bd2ea602eba642509672812f3c99b77cbec2f3de02ba1cc8cb7206bf7de0ae2a"
  
- S = "${WORKDIR}/git"
- 
-+# Fixed in r118, which is larger than the current version.
-+CVE_CHECK_WHITELIST += "CVE-2014-4715"
++CVE_PRODUCT = "libsoup"
 +
- EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
+ S = "${WORKDIR}/libsoup-${PV}"
  
- do_install() {
+ inherit meson gettext pkgconfig upstream-version-is-even gobject-introspection gtk-doc
 -- 
 2.7.4
 
