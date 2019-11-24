@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id AB0317FC0A
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A1757FC50
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 23:50:47 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id w8so5585005pjh.11
+	Sun, 24 Nov 2019 23:50:48 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id cq11so5612172pjb.3
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 24 Nov 2019 15:50:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=TqNrn9U3D+Iq4V2VGhGE7YQXx3GiAI4JY7mRHk1+n48=;
-	b=b6hgeCVCvAFDgfN9hTS+MnIFmdUW6XjhoJBdxfvdCLrx1MVz9btMuwtTW49Zbm0VY1
-	4QB4liCT6SmBM1Xs5bVBO67Y+5PNb6yID6u9g9qvXzBuCEtaaaqJMKCdroAPTGcJlzIE
-	NKkKeFyESNa0zXxWGETnQ2AppG4zAWS5PDAQirs4/Xj0tzZ4hMn8DHG/xz+S3yms7f/y
-	2TdFCTkNcjnW8Hos5FalO12BOsWvkTvlfip01azpydTtsySvVPlGso66uwiPtPV0s/bo
-	11i70no/TL8CkA0KI0EvuDs46m6c6lQ5iMnT3+/2iyJ9UwAwYUWNRvqCyTl89v//s4wq
-	+yGg==
+	bh=Cg4ckRcTmWbznFYo1v+ip3JEdDP5iM/tv32hOxb5mXc=;
+	b=Y5ghSVe/Eh+dbjaWzPMPl8PReaU97yq2WI3dUF5qOpaK02tvG/3MYbF9rhYAR9FNPq
+	LibgDdFULmy4msChhFZEugaYetRtxrKAqYmfguM7kdOoVPEA3TT7mnh3InXS60rqRcw7
+	0CP9liRpMHJtVhe1epy81itWsEuyl46S9Kqz59sm5sJ/asDrotR/bL8oBQSnT1UK0lOa
+	JbIifYAHG1NRBWNyhMBw2ywL5ia59msSBfsb7IWjYNSCB03NedjvAvBi64xPgdJeYvwe
+	QzU6q2yhQrWeVrnebd3T/o8e/Gxu9zKTXwK4aYAJ+avsTS3poLr561PWPMrSgINHMM4C
+	2ueA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=TqNrn9U3D+Iq4V2VGhGE7YQXx3GiAI4JY7mRHk1+n48=;
-	b=UZ3LVl1WAMfRkJvysm5MrVWQB+VdlbsT0r5R3RYDttxrRerDS1eVyESvTNKiTjNQ55
-	LIfsklfZIQJmM9x3Yq1BYAn0jU3Ts2wE0vrIzLg9gT4feC2YLRapL0NExQ9axI4qbgOt
-	lTiK95vi0wRZJk75RhJhjFKEZdjIVKtdc0mROIDdNCiVbP4oYvgpoLDBghVzviSVxvWX
-	K0tPpgEzPmbHT26NcI7mwQYHni5dfJI4CGq208XIm00807BIc1RR1TcEwEzwt6Go060w
-	EgCVcQihpljavidjWjNuWofz+FmrdudwRlfck4Cj48QGE+TxJj36yx6NpG3vQ9/smTXN
-	PF/A==
-X-Gm-Message-State: APjAAAV0lz7tCGw/ZIa4Ut8rVAlpuzZ4QU9dA/cV/vtwgIi9pzGp0kiI
-	kwWyeS8TBN7NoRVLjk+UD1iIGLw8
-X-Google-Smtp-Source: APXvYqxwCCGf1wDYA9obvj+h6gImV32898siCuKyCFUrYJ+9UuptPl0McHi8L+Qb5Rz4F07L0ez3yg==
-X-Received: by 2002:a17:90a:a00d:: with SMTP id
-	q13mr34726932pjp.106.1574639448634; 
-	Sun, 24 Nov 2019 15:50:48 -0800 (PST)
+	bh=Cg4ckRcTmWbznFYo1v+ip3JEdDP5iM/tv32hOxb5mXc=;
+	b=Va5sA8UStPUaQ553O+Cy6hGF0it+MqFKdHcVW5sSPK641CAJIQ3KfZE8uYXIafjzLe
+	DPuxTNiha3+YHunhiHmEG0hS3xHJZeLhaY+AM561St7rDKgF05dZP3/dHRpNvZ33KrIn
+	7sINjB6Rm/JFJyP6/F5I1ZkWUcxQOtAw4/L+d+eZyHWl/TYXHa4JjjnXffmrQLHcJAyH
+	rbekayFZ14iiDJcysLV4HUvv38s1GV2nmV8ou8aAfV7cbOKqohkJB7B4gLQfhLI8g3Hf
+	PZynv79rxNgpg6RpNTYZZupxSR+B0AvLrvSfa56S+3adIsLOO0rG8v+KOslqnsVsZN/o
+	r8SA==
+X-Gm-Message-State: APjAAAUCHRSClOWgOCYLfZnKB+2nMSYg6ttXsMRpvm0/aI9AG2KzoUAP
+	hBuhVeLANmriOwLqofildyXNNkF2
+X-Google-Smtp-Source: APXvYqydAl5riV22y+D1YoNFD6Qcr+wMgS6KFv5yVxsWB7Bt4UF3XYhPYS9WvQtE6+T5WAkFgZc4HA==
+X-Received: by 2002:a17:902:bd03:: with SMTP id
+	p3mr25075457pls.115.1574639449368; 
+	Sun, 24 Nov 2019 15:50:49 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:69ac:e4d2:e89f:98da])
 	by smtp.gmail.com with ESMTPSA id
-	q200sm5619783pfq.87.2019.11.24.15.50.47
+	q200sm5619783pfq.87.2019.11.24.15.50.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Sun, 24 Nov 2019 15:50:48 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Nov 2019 15:50:10 -0800
-Message-Id: <00b322e35a7f5b95f3e3c5189796f7901ca596a1.1574639349.git.akuster808@gmail.com>
+Date: Sun, 24 Nov 2019 15:50:11 -0800
+Message-Id: <fabb573a0e221ae024aca3de0633439f94e5c17a.1574639349.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1574639349.git.akuster808@gmail.com>
 References: <cover.1574639349.git.akuster808@gmail.com>
-Subject: [zeus 05/35] cve-update-db-native: don't hardcode the database name
+Subject: [zeus 06/35] cve-update-db-native: add an index on the CVE ID column
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,37 +60,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Nov 2019 23:50:47 -0000
+X-List-Received-Date: Sun, 24 Nov 2019 23:50:48 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-Don't hardcode the database filename, there's a variable for this in
-cve-check.bbclass.
+Create an index on the PRODUCTS table which contains a row for each CPE,
+drastically increasing the performance of lookups for a specific CVE.
 
-(From OE-Core rev: 0d188a9dc4ae64c64cd661e9d9c3841e86f226ab)
+(From OE-Core rev: b4048b05b3a00d85c40d09961f846eadcebd812e)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 19875a4..c15534d 100644
+index c15534d..08b18f0 100644
 --- a/meta/recipes-core/meta/cve-update-db-native.bb
 +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -28,8 +28,8 @@ python do_populate_cve_db() {
-     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
-     YEAR_START = 2002
+@@ -120,11 +120,14 @@ python do_populate_cve_db() {
  
--    db_dir = os.path.join(d.getVar("DL_DIR"), 'CVE_CHECK')
--    db_file = os.path.join(db_dir, 'nvdcve_1.0.db')
-+    db_file = d.getVar("CVE_CHECK_DB_FILE")
-+    db_dir = os.path.dirname(db_file)
-     json_tmpfile = os.path.join(db_dir, 'nvd.json.gz')
+ def initialize_db(c):
+     c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
++
+     c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
+         SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
++
+     c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
+         VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
+         VERSION_END TEXT, OPERATOR_END TEXT)")
++    c.execute("CREATE INDEX IF NOT EXISTS PRODUCT_ID_IDX on PRODUCTS(ID);")
  
-     # Don't refresh the database more than once an hour
+ def parse_node_and_insert(c, node, cveId):
+     # Parse children node if needed
 -- 
 2.7.4
 
