@@ -1,44 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E28027F775
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C0987F7AA
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 20:51:56 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id t1so15097822wrv.4
+	Sun, 24 Nov 2019 23:17:58 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id z7so12011994wrl.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 12:51:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=my2eZE6f/wLeQ7FR8kAxQdR6klHdu3Jil98hONA6PM4=;
-	b=KVLgBwPHCobT0nXzYuETLRvv4/6aL9bUa8bx+HnCACIjzZrW4L5laKNaxjYXNYc1ji
-	eAeiwsi9X3SZTHde9fbqEbm+tSerda1htmN8QWnHlZBzxJ5nYoNEwD7PQbbBgjQJk0/9
-	3yYRcnsBXUy+EGbqC+uXdhdr3D81nDiJAU9Gxdw181w+v/9aFRTvsW4jc3lj/8lEYfKG
-	2+KNj2tQokQI/7jAe7t9hbYziTzkKCW+GmXhwt2RKmU+YFTJYVP1cwY+f5Vt67hJlsef
-	TEkIuYlPabK1N6MlSu/OD80rdj2io1UfYaPQ5rRTUEWD1zuYxp+W4M01GPr34hNocPgu
-	+iow==
+	Sun, 24 Nov 2019 15:18:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=VUvqitnQlTIkRRfBaDDRJyzWUup2vBmCnBkFN+NwX7A=;
+	b=RUQP1zLt6DeIH99l+YpHtRA9Kh1yrFGpho9Gm+ng7fK3BAPkeQJLL9J7Vtkn8Rd4Gt
+	npc0fAU7YlwM0/PVNIfwMx+2CrnI7ia6IYCKtdrZoTJ3mdpfAwmdMwfBST2aumn6I/Vz
+	2V9H0QTZuIu4GfQh0+sYY7irE91IVM5igugCc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=my2eZE6f/wLeQ7FR8kAxQdR6klHdu3Jil98hONA6PM4=;
-	b=UOzz3++9pAwiXZDlEBSKCoyoOc8TfhvifQEc7JZ/s4xpJs7RVADBNt5edwyZJ/9Juc
-	YCcfwuLS7peCUV7HL0Nb5M4xmTM0Rzhdc9J5kd8OBaOuOH9uaLxJK3Tn60qKJ1hGHGSg
-	hwaLWB3H9e4uYVz8UmP0AHVQsUEmY3Puf4bYK4JEDqsCKm4egQMGy0BGtDrYDSHz1GD5
-	ookdWy9X0Fv3QDw3Te6BznIT04JXJ4Mm6meONtbaczO0Jd1wlIVdt7KKS+MIpaqxMs3z
-	MHZ65i5TxV/coeCMFVCeIfszvQ+jCWvBOu2qkJM/evQSorOrA0hEWvkWGPfkDYs3mRFI
-	kw5g==
-X-Gm-Message-State: APjAAAX/NsxerV+BnzhUqqqC8uv0BW+KwsrzlQtS3FJLA0vhVQMzSbnn
-	CX34VNxh6ARkstQ0spr+3lQ6d+QpUgvFjV8O45LMuG7UUtQ=
-X-Google-Smtp-Source: APXvYqy/XiH619UvaC4iYIgug4z+yliB3tzLYT71iSvFWrmcGW6pDYbh8uHlXfw8XnZGY3A0Dq+gagCBF2+AsiojAiA=
-X-Received: by 2002:adf:f308:: with SMTP id i8mr27623343wro.319.1574628717317; 
-	Sun, 24 Nov 2019 12:51:57 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=VUvqitnQlTIkRRfBaDDRJyzWUup2vBmCnBkFN+NwX7A=;
+	b=hbsJnBdgaLGVZsP//x68pqYyhXPcvV2g/kmF16wr0z46/fMNRY9qQMmwYKtwf8DJej
+	lrVp4p90btX8T4bgRs4XZrNGeVafHDaFIOsBd4ERO/lpjXQxPd8Pysfj2YYjFRE9Dg6B
+	IPoisiKyKx1IkmpXmYP2DShw90SCegY6wozBs+qKZUiRcq1tWn0xs36BNLboqExT6Zny
+	XyQZijbtFcHHjum92YcNp4BUME93WJ9gvQ3Xmc/GCVFqygOUhhI6Np8Wa2bG/rLu32eR
+	mv2SeJL5385v5o1eFBFKS3giPGaK3uv2SvvPr9XYw63j1dvu2iXBwsEYTqTM/tkgYk4C
+	rbVg==
+X-Gm-Message-State: APjAAAU6XlTYU88UJvNnXCAqYrQfNRjbpABejqYFnJg4iaExUvP4clVH
+	2U7LhbKcS+M+WEymsxdwl/SK9A==
+X-Google-Smtp-Source: APXvYqyouFJOmMk4eIAowmKLrznncOYIA/plmc3Als3++cEtUjqv8MfIDvFnl/Y20WPdKtaduUe/Lw==
+X-Received: by 2002:a5d:49cf:: with SMTP id t15mr20307121wrs.183.1574637479021;
+	Sun, 24 Nov 2019 15:17:59 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id z2sm8053308wrs.89.2019.11.24.15.17.58
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 24 Nov 2019 15:17:58 -0800 (PST)
+Message-ID: <d41e19af4eebc30cee6e847e367b34411de46346.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>
+Date: Sun, 24 Nov 2019 23:17:57 +0000
+In-Reply-To: <CAJdd5Gb=umP9TssH2+SnbbogDYhdTmRDsiz=thp_buVz5wJk5A@mail.gmail.com>
 References: <559334b39f154c70d868dce6067984298976d841.camel@linuxfoundation.org>
-In-Reply-To: <559334b39f154c70d868dce6067984298976d841.camel@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sun, 24 Nov 2019 14:51:45 -0600
-Message-ID: <CAJdd5Gb=umP9TssH2+SnbbogDYhdTmRDsiz=thp_buVz5wJk5A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CAJdd5Gb=umP9TssH2+SnbbogDYhdTmRDsiz=thp_buVz5wJk5A@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
 Cc: openembedded-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Hash Equiv rehash problems
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,174 +58,313 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 24 Nov 2019 20:51:57 -0000
+X-List-Received-Date: Sun, 24 Nov 2019 23:17:59 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Nov 24, 2019 at 9:58 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> We have a small problem with hash equiv. I've spent quite a lot of time
-> staring at broken builds trying to figure out what is happening and its
-> not even easy to explain. The easiest example I have is perhaps this:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/1260
->
-> where the eSDK is failing as meta-extsdk-toolchain can't be installed
-> into the eDSK.
->
-> Its easy enough to reproduce from the build artefacts:
->
-> pokybuild@debian8-ty-1:/tmp$ ~/yocto-worker/qemux86/build/build/tmp/deploy/sdk/poky-glibc-x86_64-core-image-minimal-core2-32-qemux86-toolchain-ext-3.0.sh
->  Poky (Yocto Project Reference Distro) Extensible SDK installer version 3.0
->  ==========================================================================
->  Enter target directory for SDK (default: ~/poky_sdk): /tmp/rptest
->  [...]
-> pokybuild@debian8-ty-1:/tmp$ . /tmp/rptest/environment-setup-core2-32-poky-linux
->  SDK environment now set up; additionally you may now run devtool to perform development tasks.
->  Run devtool --help for further details.
-> pokybuild@debian8-ty-1:/tmp$ devtool sdk-install meta-extsdk-toolchain
->  NOTE: Starting bitbake server...
->  Loading cache: 100% |###############################################################################################################################| Time: 0:00:00
->  Loaded 1302 entries from dependency cache.
->  INFO: Installing meta-extsdk-toolchain...
->  Loading cache: 100% |###############################################################################################################################| Time: 0:00:00
->  Loaded 1302 entries from dependency cache.
->  NOTE: Resolving any missing task queue dependencies
->  Initialising tasks: 100% |##########################################################################################################################| Time: 0:00:00
->  Checking sstate mirror object availability: 100% |##################################################################################################| Time: 0:00:00
->  Sstate summary: Wanted 53 Found 50 Missed 3 Current 133 (94% match, 98% complete)
->  NOTE: Executing Tasks
->  NOTE: Setscene tasks completed
->  NOTE: Tasks Summary: Attempted 0 tasks of which 0 didn't need to be rerun and all succeeded.
-> ERROR: Failed to install meta-extsdk-toolchain - unavailable
->
-> [adding -s allows it to work, it doesn't build much]
->
-> The interesting bit is to look back at the original build logs:
->
-> [meta-extsdk-toolchain comes from the sstate cache]
-> NOTE: Task /home/pokybuild/yocto-worker/qemux86/build/meta/recipes-devtools/gdb/gdb-cross_8.3.1.bb:do_populate_sysroot unihash changed to 577ad44bb0150016da775bda4d1eadbad665a3714e9ad9c4a2b3d28d0f20a28b
-> NOTE: Already covered setscene for /home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/meta/meta-extsdk-toolchain.bb:do_package_qa so ignoring rehash
-> NOTE: Already covered setscene for /home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/meta/meta-extsdk-toolchain.bb:do_packagedata so ignoring rehash
-> NOTE: Already covered setscene for /home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/meta/meta-extsdk-toolchain.bb:do_package so ignoring rehash
-> NOTE: Already covered setscene for /home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/meta/meta-extsdk-toolchain.bb:do_package_write_ipk so ignoring rehash
-> NOTE: Already covered setscene for /home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/meta/meta-extsdk-toolchain.bb:do_package_write_deb so ignoring rehash
-> NOTE: Already covered setscene for /home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/meta/meta-extsdk-toolchain.bb:do_package_write_rpm so ignoring rehash
-> NOTE: Already covered setscene for /home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/meta/meta-extsdk-toolchain.bb:do_populate_sysroot so ignoring rehash
-> NOTE: Running task 8970 of 8974 (/home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/meta/meta-extsdk-toolchain.bb:do_locked_sigs)
-> NOTE: Running task 8971 of 8974 (/home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/images/core-image-minimal.bb:do_sdk_depends)
-> NOTE: Running task 8972 of 8974 (/home/pokybuild/yocto-worker/qemux86/build/meta/recipes-sato/images/core-image-sato.bb:do_sdk_depends)
-> NOTE: recipe meta-extsdk-toolchain-1.0-r0: task do_locked_sigs: Started
-> NOTE: recipe core-image-minimal-1.0-r0: task do_sdk_depends: Started
-> NOTE: recipe meta-extsdk-toolchain-1.0-r0: task do_locked_sigs: Succeeded
-> NOTE: recipe core-image-sato-1.0-r0: task do_sdk_depends: Started
-> NOTE: recipe core-image-minimal-1.0-r0: task do_sdk_depends: Succeeded
-> NOTE: recipe core-image-sato-1.0-r0: task do_sdk_depends: Succeeded
-> NOTE: recipe buildtools-tarball-1.0-r0: task do_populate_sdk: Succeeded
-> NOTE: Running task 8973 of 8974 (/home/pokybuild/yocto-worker/qemux86/build/meta/recipes-core/images/core-image-minimal.bb:do_populate_sdk_ext)
-> NOTE: Running task 8974 of 8974 (/home/pokybuild/yocto-worker/qemux86/build/meta/recipes-sato/images/core-image-sato.bb:do_populate_sdk_ext)
-> NOTE: recipe core-image-minimal-1.0-r0: task do_populate_sdk_ext: Started
-> NOTE: recipe core-image-sato-1.0-r0: task do_populate_sdk_ext: Started
-> NOTE: recipe core-image-sato-1.0-r0: task do_populate_sdk: Succeeded
-> NOTE: recipe core-image-sato-1.0-r0: task do_populate_sdk_ext: Succeeded
-> NOTE: recipe core-image-minimal-1.0-r0: task do_populate_sdk_ext: Succeeded
-> NOTE: Tasks Summary: Attempted 8974 tasks of which 8939 didn't need to be rerun and all succeeded.
-> NOTE: Writing buildhistory
-> NOTE: Writing buildhistory took: 6 seconds
->
+On Sun, 2019-11-24 at 14:51 -0600, Joshua Watt wrote:
 > What this means is that gdb-cross changes the sstate hash of meta-
-> extsdk-toolchain:do_* as it found an equiv match but those artefacts
-> were never generated. That hash was written into the eSDK sigs but it
-> isn't present in sstate.
+> > extsdk-toolchain:do_* as it found an equiv match but those
+> > artefacts
+> > were never generated. That hash was written into the eSDK sigs but
+> > it
+> > isn't present in sstate.
+> 
+> So, to summarize and make sure I understand: The eSDK built with hash
+> equivalence enabled doesn't function because it is looking for sstate
+> object that do not exist?
 
-So, to summarize and make sure I understand: The eSDK built with hash
-equivalence enabled doesn't function because it is looking for sstate
-object that do not exist?
+Correct.
 
-I'm not very familiar with the eSDK, but it doesn't surprise me too
-much; the locking mechanism used by the eSDK (at least the little I
-understand), has some overlap with hash equivalence, so it seems like
-they might not play nice together.
+Its easy to say "that is an SDK problem" however the other case I
+mentioned "bitbake X; bitbake X" rebuilding a load of things bothers me
+a lot more.
 
->
-> I did put a comment in runqueue.py a while back:
->
-> # Potentially risky, should we report this hash as a match?
-> logger.info("Already covered setscene for %s so ignoring rehash" % (tid))
->
-> and it does re-raise this question.
->
-> There may be two possible fixes:
->
-> a) We force setscene tasks which have already run to rerun if this kind
-> of rehash happens. We did previously do this but runqueue *really*
-> doesn't like rerunning setscene tasks.
+> I'm not very familiar with the eSDK, but it doesn't surprise me too
+> much; the locking mechanism used by the eSDK (at least the little I
+> understand), has some overlap with hash equivalence, so it seems like
+> they might not play nice together.
 
-Do we remember why this is the case? I know we've talked about it off
-and on, but I don't think we've ever listed out the specific reasons
-why this doesn't work.
+Its only a symptom of the bigger problem though and just an easier way
+to see what is breaking.
 
-I do know that one of the reasons was that it isn't possible to
-transition a task from being covered by sstate to being uncovered,
-because there might be dependent tasks that were completely skipped
-when the task was restored from sstate (e.g. do_fetch, do_unpack,
-do_compile, do_install might all get skipped if do_package_setscene is
-run).
+> > I did put a comment in runqueue.py a while back:
+> > 
+> > # Potentially risky, should we report this hash as a match?
+> > logger.info("Already covered setscene for %s so ignoring rehash" %
+> > (tid))
+> > 
+> > and it does re-raise this question.
+> > 
+> > There may be two possible fixes:
+> > 
+> > a) We force setscene tasks which have already run to rerun if this
+> > kind
+> > of rehash happens. We did previously do this but runqueue *really*
+> > doesn't like rerunning setscene tasks.
+> 
+> Do we remember why this is the case? I know we've talked about it off
+> and on, but I don't think we've ever listed out the specific reasons
+> why this doesn't work.
+> 
+> I do know that one of the reasons was that it isn't possible to
+> transition a task from being covered by sstate to being uncovered,
+> because there might be dependent tasks that were completely skipped
+> when the task was restored from sstate (e.g. do_fetch, do_unpack,
+> do_compile, do_install might all get skipped if do_package_setscene
+> is
+> run).
+> 
+> Are there other reasons?
 
-Are there other reasons?
+I have to admit I don't fully remember the reasons why we went this way
+but it was something along the lines of rerunning a setscene multiple
+times in a given build got ugly. Once a setscene has run, other things
+can run which depend on it and if we then go back and re-run it, what
+else do we have to rerun.
 
-> b) We report these 'additional' equivalences to the server
+Put another way, we execute the two different task graphs in opposite
+directions. Rerunning setscenes that already executed just complicates
+the graph to the point you can't figure out what to execute.
 
-I'll admit, this never sat well with me. I couldn't ever prove why
-this was "correct" (or, it has been shown to me and I didn't
-understand :/ ). From a theoretical standpoint, it seems like
-reporting these hashes as equivalent would be wrong since I'm not
-necessarily sure we can say that the task would reproduce in an
-equivalent manner. The implementation of this would, I think, agree
-with me since the best mechanisms I can think of to implement this on
-the server side aren't particularly pretty :(.
+> > b) We report these 'additional' equivalences to the server
+> 
+> I'll admit, this never sat well with me. I couldn't ever prove why
+> this was "correct" (or, it has been shown to me and I didn't
+> understand :/ ). From a theoretical standpoint, it seems like
+> reporting these hashes as equivalent would be wrong since I'm not
+> necessarily sure we can say that the task would reproduce in an
+> equivalent manner.
 
-However, I do think it's possible I'm just missing something, and this
-isn't as bad as I think.
+First, I think I should explain exactly how this is breaking as it was
+a puzzle to me until I just worked it out.
 
->
-> We are seeing other symptoms of this "rehashing" in builds where
-> "bitbake X; bitbake X" will suddenly rebuild a load of stuff in the
-> second build as it didn't build it originally due to the "ignoring
-> rehash" messages. This is very counter-intuitive and effectively a
-> different representation of the same bug. Its less problematic since we
-> just rebuild things (eSDK can't).
->
-> If we decide b) is correct, it also raises an interesting scope
-> question. Should we:
->
-> a) only report things we've run into in real builds
+meta-extsdk-toochain depends on gdb-cross.
 
-This would effectively mean only reporting equivalence when we would
-print the log message "Already covered setscene..."?
+gdb-cross runs on the native architecture. On an x86 worker its an x86
+binary, on an arm server its an arm binary. We have both servers in our
+cluster.
 
-> b) report all hashes (there'd be loads)
+sstate handles this fine by having the arch in the artefact name.
 
-I'm not quite clear on how this would work, can you elaborate?
+This means you have the same input hash generating two different binary
+artefacts depending upon which arch it was built upon. When you realise
+that, you start to see where/why this breaks.
 
-> c) report all hashes which are present in sstate
+meta-extsdk-toolchain builds on one kind of server and hashes go into
+hash equiv, artefacts to sstate.
 
-I'm also not sure how this one would work, can your provide more detail?
+When the next build happens on a different native architecture, the
+sstate artefacts are valid for meta-extsdk-toolchain but the gdb-cross
+are not. gdb-cross therefore rebuilds which then gets a new hash which
+then changes the hashes for meta-extsdk-toolchain, invalidating the
+original artefacts.
 
->
-> ?
->
-> I think I need to sit and think about this for a while. Ccing Joshua in
-> case he has any insights into this...
->
-> We can't enable hashequiv by default until we get this fixed somehow.
->
-> Cheers,
->
-> Richard
->
->
->
->
->
+The outhash for native binaries on two different arches will never
+match. sstate assumes we can make the hashes match though.
+
+>  The implementation of this would, I think, agree
+> with me since the best mechanisms I can think of to implement this on
+> the server side aren't particularly pretty :(.
+
+I tried mocking up a patch, included at the end below. Its wrong in
+that it tries to inject duplicate entries, it needs to check and just
+return if it would do that. I've run out of time/energy to fix it
+further tonight but it shows what I'm thinking.
+
+> However, I do think it's possible I'm just missing something, and
+> this isn't as bad as I think.
+
+Maybe, maybe not.
+
+> > We are seeing other symptoms of this "rehashing" in builds where
+> > "bitbake X; bitbake X" will suddenly rebuild a load of stuff in the
+> > second build as it didn't build it originally due to the "ignoring
+> > rehash" messages. This is very counter-intuitive and effectively a
+> > different representation of the same bug. Its less problematic
+> > since we
+> > just rebuild things (eSDK can't).
+> > 
+> > If we decide b) is correct, it also raises an interesting scope
+> > question. Should we:
+> > 
+> > a) only report things we've run into in real builds
+> 
+> This would effectively mean only reporting equivalence when we would
+> print the log message "Already covered setscene..."?
+
+Yes, see the patch below as this implements that.
+
+> > b) report all hashes (there'd be loads)
+> 
+> I'm not quite clear on how this would work, can you elaborate?
+
+Every time the server rehashes there are new hash combinations found.
+We could argue many are equivalent. We don't want to pollute the
+database with all of them though.
+
+> > c) report all hashes which are present in sstate
+> 
+> I'm also not sure how this one would work, can your provide more
+> detail?
+
+In light of my above analysis this doesn't make so much sense.
+
+> > ?
+> > 
+> > I think I need to sit and think about this for a while. Ccing
+> > Joshua in
+> > case he has any insights into this...
+> > 
+> > We can't enable hashequiv by default until we get this fixed
+> > somehow.
+
+Patch for adding equiv mapping support to the server follows. Its
+currently broken as I mention above but shows its at least possible.
+
+Basic idea is to search on the old hash to get the outhash, then mark
+the new hash as equivalent to that outhash.
+
+Cheers,
+
+Richard
+
+diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
+index 485d9341f55..09767a4b88f 100644
+--- a/bitbake/lib/bb/runqueue.py
++++ b/bitbake/lib/bb/runqueue.py
+@@ -1718,6 +1718,7 @@ class RunQueueExecute:
+         self.sq_deferred = {}
+ 
+         self.stampcache = {}
++        self.rehashes = {}
+ 
+         self.holdoff_tasks = set()
+         self.holdoff_need_update = True
+@@ -2286,7 +2287,8 @@ class RunQueueExecute:
+                         self.rqdata.runtaskentries[tid].hash = bb.parse.siggen.get_taskhash(tid, procdep, self.rqdata.dataCaches[mc_from_tid(tid)])
+                         origuni = self.rqdata.runtaskentries[tid].unihash
+                         self.rqdata.runtaskentries[tid].unihash = bb.parse.siggen.get_unihash(tid)
+-                        logger.debug(1, "Task %s hash changes: %s->%s %s->%s" % (tid, orighash, self.rqdata.runtaskentries[tid].hash, origuni, self.rqdata.runtaskentries[tid].unihash))
++                        self.rehashes[tid] = origuni
++                        #logger.info("Task %s hash changes: %s->%s %s->%s" % (tid, orighash, self.rqdata.runtaskentries[tid].hash, origuni, self.rqdata.runtaskentries[tid].unihash))
+                         next |= self.rqdata.runtaskentries[tid].revdeps
+                         changed.add(tid)
+                         total.remove(tid)
+@@ -2314,7 +2320,8 @@ class RunQueueExecute:
+ 
+             if tid in self.scenequeue_covered or tid in self.sq_live:
+                 # Already ran this setscene task or it running
+-                # Potentially risky, should we report this hash as a match?
++                # Potentially risky, should we report this hash as a match
++                bb.parse.siggen.report_unihash_equiv(tid, self.rehashes[tid], self.rqdata.runtaskentries[tid].unihash)
+                 logger.info("Already covered setscene for %s so ignoring rehash" % (tid))
+                 self.pending_migrations.remove(tid)
+                 continue
+diff --git a/bitbake/lib/bb/siggen.py b/bitbake/lib/bb/siggen.py
+index a4bb1ff7fbe..8080159044e 100644
+--- a/bitbake/lib/bb/siggen.py
++++ b/bitbake/lib/bb/siggen.py
+@@ -524,6 +524,14 @@ class SignatureGeneratorUniHashMixIn(object):
+                 except OSError:
+                     pass
+ 
++    def report_unihash_equiv(self, tid, unihash, newunihash):
++        try:
++            extra_data = {}
++            data = self.client().report_unihash_equiv(newunihash, self.method, unihash, extra_data)
++            bb.warn('Reported task %s as unihash %s to %s (%s)' % (tid, newunihash, self.server, str(data)))
++
++        except hashserv.client.HashConnectionError as e:
++            bb.warn('Error contacting Hash Equivalence Server %s: %s' % (self.server, str(e)))
+ 
+ #
+ # Dummy class used for bitbake-selftest
+diff --git a/bitbake/lib/hashserv/client.py b/bitbake/lib/hashserv/client.py
+index f65956617b9..ae0cce9df4f 100644
+--- a/bitbake/lib/hashserv/client.py
++++ b/bitbake/lib/hashserv/client.py
+@@ -148,6 +148,14 @@ class Client(object):
+         m['unihash'] = unihash
+         return self.send_message({'report': m})
+ 
++    def report_unihash_equiv(self, taskhash, method, unihash, extra={}):
++        self._set_mode(self.MODE_NORMAL)
++        m = extra.copy()
++        m['taskhash'] = taskhash
++        m['method'] = method
++        m['unihash'] = unihash
++        return self.send_message({'report-equiv': m})
++
+     def get_stats(self):
+         self._set_mode(self.MODE_NORMAL)
+         return self.send_message({'get-stats': None})
+diff --git a/bitbake/lib/hashserv/server.py b/bitbake/lib/hashserv/server.py
+index 0aff77688e4..b1276dcfc5c 100644
+--- a/bitbake/lib/hashserv/server.py
++++ b/bitbake/lib/hashserv/server.py
+@@ -143,6 +143,7 @@ class ServerClient(object):
+             handlers = {
+                 'get': self.handle_get,
+                 'report': self.handle_report,
++                'report-equiv': self.handle_equivreport,
+                 'get-stream': self.handle_get_stream,
+                 'get-stats': self.handle_get_stats,
+                 'reset-stats': self.handle_reset_stats,
+@@ -303,6 +304,54 @@ class ServerClient(object):
+ 
+         self.write_message(d)
+ 
++    async def handle_equivreport(self, data):
++        with closing(self.db.cursor()) as cursor:
++            cursor.execute('''
++                -- Find the task entry for the matching taskhash
++                SELECT unihash, outhash FROM tasks_v2 WHERE method=:method AND taskhash=:unihash AND taskhash!=:taskhash
++
++                -- Only return one row
++                LIMIT 1
++                ''', {k: data[k] for k in ('method', 'unihash', 'taskhash')})
++
++            row = cursor.fetchone()
++
++            if row is None:
++                self.write_message(None)
++                return
++
++            insert_data = {
++                'method': data['method'],
++                'outhash': row['outhash'],
++                'taskhash': data['taskhash'],
++                'unihash': row['unihash'],
++                'created': datetime.now()
++            }
++
++            for k in ('owner', 'PN', 'PV', 'PR', 'task', 'outhash_siginfo'):
++                if k in data:
++                    insert_data[k] = data[k]
++
++            cursor.execute('''INSERT INTO tasks_v2 (%s) VALUES (%s)''' % (
++                ', '.join(sorted(insert_data.keys())),
++                ', '.join(':' + k for k in sorted(insert_data.keys()))),
++                insert_data)
++
++            self.db.commit()
++
++            logger.info('Adding taskhash equivaence for %s with unihash %s',
++                            data['taskhash'], row['unihash'])
++
++            d = {
++                'taskhash': data['taskhash'],
++                'method': data['method'],
++                'unihash': row['unihash'],
++                'outhash': row['outhash'],
++            }
++
++        self.write_message(d)
++
++
+     async def handle_get_stats(self, request):
+         d = {
+             'requests': self.request_stats.todict(),
+
 
