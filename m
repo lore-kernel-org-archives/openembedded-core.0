@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
-	[209.85.214.178])
-	by mail.openembedded.org (Postfix) with ESMTP id A0B607FCAA
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com
+	[209.85.214.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7196A7FCDC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 23:51:10 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id w7so5577505plz.12
+	Sun, 24 Nov 2019 23:51:11 +0000 (UTC)
+Received: by mail-pl1-f172.google.com with SMTP id f9so5604146plr.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 24 Nov 2019 15:51:12 -0800 (PST)
+	Sun, 24 Nov 2019 15:51:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=cGz+I40OhU3eBw3cXQNwtSezOFj2xOrJynffXUkRH1o=;
-	b=MFR7ucIJqgJejLEVaNOLP2zT7qeEvzLbQkBUqJrFKvWFJlV4IOBMO5CiWBSUo0Iwig
-	7OGNR2/Nm0fa74NCqCpSN+7JDURCUbFm3hVOwKMm80XaGs02nPtY1fbFG9eETPgoqZ6M
-	qJFyMvtAn7wJ774m+FkFY8oKZcg8vhaw4V2xOJ3DIHGJ5qj4vJzZt2+hxdNecIzMS3bQ
-	Ut52vJfFEe+ibObdgQ9FxEhf+I3hmTacPiu15L4PHR9wX3Y//LVcopl5xjerq6WDltDZ
-	m1w5wBeL0Jao1nyPTbJTkT1qUvVat9VAyE0VsO+Wp064yvL2BlE8o+9ff8nZDYjZRJMo
-	ZyOA==
+	bh=rimGlRafE8ivv54QwgBig6t10ko57CXjagQgN53FVHo=;
+	b=uhy5mD1JSF+xtqDeajDziQd1d7IaTuPaEI1hG+hzZnG469OQ7+d9YhgD13ts579Za+
+	j77BqoSgwOAFqPvLs1872nR56tB456qVLZqlexRi8pkm5EfPvnbvrMBFyqrX4QDv2Cn3
+	GpEnz6pIVIutorzruatUH2TXnys8Jbe0y+ndKWFXvlUDFvl4qLJf8Kfaw5gfoLWpMUyH
+	0CF6D8WiGhzKp3IGu9rBuzP5pAuEpXMvbBmi7mHXnYBIYaxcU58+ZJjs6skbdPKEnFGP
+	OOUQkImGS5/+s9dTZL0E8wvPfZ2NEKP2JiRgxjQsExLvbZn+wyEpvHFQMVaNvJoG++hv
+	Qrkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=cGz+I40OhU3eBw3cXQNwtSezOFj2xOrJynffXUkRH1o=;
-	b=Acjg+DqSr4T1HRMFoJk0qhoJVxsO+SGNlwuck0/jrUG/JaM5sPs+JclxavzUH4ULu/
-	Y5cCQTiYKhV/1AbBtGoHWZ1d5kHb0kDuG5/v0vDKqX87IaHf5jFBhey3tfio9Z+lS7Pk
-	FTx3Pj+ogTi3ETR308hD0Czn9x+1zwkmFGG8iX7Cimqb5g0t66BWZVP5R0s5sqsG/t0H
-	FYYtI7Ukdj+qcMeWfUA2ATyJn+8ts03fjLejNLgAxMuV5dPIRP4aHGpfHHgvnsczYzWG
-	2ZPqYVKfO8LXXZCFT8scjFw58exrE4pwuyR18WvVbqBElQnHiwMdhJZb3utiRqq+KkKx
-	pg4A==
-X-Gm-Message-State: APjAAAV4ab2AcJ8BDFvDHZ5x3zGTY8LKZSS6cE1dpRbsQnURhKHcpjt4
-	U7MFeGnKn2w6qPpHq+s+M8PVuHqm
-X-Google-Smtp-Source: APXvYqxBU+43RmkNQ3vVq+oZZI2gg22P/KaxbjT74MzdVA8Ei1EEFcyune0redl1CyWQ13Y7cqCdSQ==
-X-Received: by 2002:a17:90a:77c8:: with SMTP id
-	e8mr33981645pjs.83.1574639471613; 
-	Sun, 24 Nov 2019 15:51:11 -0800 (PST)
+	bh=rimGlRafE8ivv54QwgBig6t10ko57CXjagQgN53FVHo=;
+	b=cpLjpEP193DYXPgHOcsrd6X6BnJ2ZM8Of3jU1bkfveGh9RQomAcIwy4/J4A9toycnP
+	/4bYuBJuu9pgUHyz9cdl37aP1vhvfQrSaHIEt6vELMgxmCs7u54gEt3VyFTIOt+bT9ty
+	Kj1LQYZ7JpvVmHoCH0Mg2AsCXIQl3LasPBxV7iR3aHE9qorgCV6bUq0pJ9rvVoioyFl3
+	kIjYXlfK/vuMt2DUXiMmbkyROgBudHW7+rybyrx9BkhM9YLD0afdKWlWOLvMqiDLQmzx
+	2bzZx+HOKOyBth7ExUNUWSlSdxjFA4BRd7XbM78qPu2wusPyqdDd07Or9LUil0SHaCqt
+	H1dg==
+X-Gm-Message-State: APjAAAVbDQfJcOG2GA6GHqT3DCQCHOh/xv+geJiY2Hp1Ooe8740wmli6
+	QIt4EBVkZhi8saVAjSDtyi3D67GK
+X-Google-Smtp-Source: APXvYqxp3b4YacutW2+ws0nekR3r87XmJt28Ki7PfAoNupKhbjH46jn7w5tn7qXVLItx9hBm6Ob8sg==
+X-Received: by 2002:a17:90b:d93:: with SMTP id
+	bg19mr34250700pjb.81.1574639472387; 
+	Sun, 24 Nov 2019 15:51:12 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:69ac:e4d2:e89f:98da])
 	by smtp.gmail.com with ESMTPSA id
-	q200sm5619783pfq.87.2019.11.24.15.51.10
+	q200sm5619783pfq.87.2019.11.24.15.51.11
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Sun, 24 Nov 2019 15:51:11 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 24 Nov 2019 15:50:35 -0800
-Message-Id: <37ed803128fcc09bc3f941e62726da2821de4932.1574639349.git.akuster808@gmail.com>
+Date: Sun, 24 Nov 2019 15:50:36 -0800
+Message-Id: <78afae458bd025e0853308bece9953946b708862.1574639349.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1574639349.git.akuster808@gmail.com>
 References: <cover.1574639349.git.akuster808@gmail.com>
-Subject: [zeus 30/35] core-image-full-cmdline: Add less
+Subject: [zeus 31/35] sanity: Add check for tar older than 1.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,28 +64,39 @@ X-List-Received-Date: Sun, 24 Nov 2019 23:51:11 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Less was coming from busybox in these images, add the full version.
-
-[YOCTO #13630]
+Older versions break opkg-build when reproducible builds are enabled.
+Rather than trying to be selective based on which features are enabled,
+lets just make this a minimum version.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/sanity.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-index 2d96d1b..15a8e6d 100644
---- a/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-+++ b/meta/recipes-extended/packagegroups/packagegroup-core-full-cmdline.bb
-@@ -81,6 +81,7 @@ RDEPENDS_packagegroup-core-full-cmdline-utils = "\
-     gawk \
-     gmp \
-     grep \
-+    less \
-     makedevs \
-     mc \
-     mc-fish \
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 705062b..9d0c784 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -523,6 +523,7 @@ def check_wsl(d):
+ 
+ # Tar version 1.24 and onwards handle overwriting symlinks correctly
+ # but earlier versions do not; this needs to work properly for sstate
++# Version 1.28 is needed so opkg-build works correctly when reproducibile builds are enabled
+ def check_tar_version(sanity_data):
+     from distutils.version import LooseVersion
+     import subprocess
+@@ -532,7 +533,9 @@ def check_tar_version(sanity_data):
+         return "Unable to execute tar --version, exit code %d\n%s\n" % (e.returncode, e.output)
+     version = result.split()[3]
+     if LooseVersion(version) < LooseVersion("1.24"):
+-        return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar.\n"
++        return "Your version of tar is older than 1.24 and has bugs which will break builds. Please install a newer version of tar (1.28+).\n"
++    if LooseVersion(version) < LooseVersion("1.28"):
++        return "Your version of tar is older than 1.28 and does not have the support needed to enable reproducible builds. Please install a newer version of tar (you could use the projects buildtools-tarball from our last release).\n"
+     return None
+ 
+ # We use git parameters and functionality only found in 1.7.8 or later
 -- 
 2.7.4
 
