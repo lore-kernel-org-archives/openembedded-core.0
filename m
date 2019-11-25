@@ -1,30 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id D883A7FAB1
+Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 420C17CBE4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2019 14:06:47 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Nov 2019 06:06:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,241,1571727600"; d="scan'208";a="260408900"
-Received: from xsanroma-mobl1.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.34.24])
-	by FMSMGA003.fm.intel.com with ESMTP; 25 Nov 2019 06:06:48 -0800
-To: openembedded-core@lists.openembedded.org
-References: <CABPh3UNv+RcyrU8crvf4PAU--s-trBgBYj0-Er5eHan9_Gy6RQ@mail.gmail.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <d3760388-0877-17fc-3467-8c3e2feb01d6@intel.com>
-Date: Mon, 25 Nov 2019 14:06:47 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
+	Mon, 25 Nov 2019 15:03:06 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id E36499C026D;
+	Mon, 25 Nov 2019 10:03:06 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id INllVlYaHx5p; Mon, 25 Nov 2019 10:03:06 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 67CE79C031E;
+	Mon, 25 Nov 2019 10:03:06 -0500 (EST)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id ntBH0BpV2HDV; Mon, 25 Nov 2019 10:03:06 -0500 (EST)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 401C09C026D;
+	Mon, 25 Nov 2019 10:03:06 -0500 (EST)
+Date: Mon, 25 Nov 2019 10:03:06 -0500 (EST)
+From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <297481662.719279.1574694186234.JavaMail.zimbra@savoirfairelinux.com>
+In-Reply-To: <f12cb0c9-04ab-f695-dcaa-de162f7f1672@intel.com>
+References: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<b3ae667e644cf4b81c096562965268dbe5596065.camel@linuxfoundation.org>
+	<531618732.621500.1574366028835.JavaMail.zimbra@savoirfairelinux.com>
+	<50236bca804ff079db05b696f783c9af7e408c8f.camel@linuxfoundation.org>
+	<2010614174.635763.1574420884655.JavaMail.zimbra@savoirfairelinux.com>
+	<f12cb0c9-04ab-f695-dcaa-de162f7f1672@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <CABPh3UNv+RcyrU8crvf4PAU--s-trBgBYj0-Er5eHan9_Gy6RQ@mail.gmail.com>
-Subject: Re: Oe-core: python and BBCLASSEXTEND = "native nativesdk"
+X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC78 (Linux)/8.8.11_GA_3737)
+Thread-Topic: NPM refactoring
+Thread-Index: qsDbcPadOQyi6wpV9Uza8uHPC6+pwA==
+Cc: Savoir-faire Linux Rennes <rennes@savoirfairelinux.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 00/17] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,28 +53,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Nov 2019 14:06:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Mon, 25 Nov 2019 15:03:06 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 19/11/2019 15:21, nick83ola wrote:
-> Dear Openembedded developer,
+Hi Ross,
+
+On Nov 25, 2019, at 2:55 PM, Ross Burton ross.burton@intel.com wrote:
+> On 22/11/2019 11:08, Jean-Marie LEMETAYER wrote:
+>> I based my work on the current implementation, but I never thought of
+>> refactoring as much. I have however some concerns about the management
+>> of the registry and the development dependencies. I will try to come
+>> back with a v4.
 > 
-> a lot of python recipes need to add the
-> 
-> BBCLASSEXTEND = "native nativesdk"
-> 
-> To the recipe to build the native version of the package.
-> Wouldn't be better to add it to the pythonnative.bbclass by default?
+> There's a lot of NPM patches flying around now: are any of the patches
+> in this 17-long series able to be merged ahead of a full refactor?
 
-No.
+No every patches are more or less linked. Moreover Richard points me
+some possible enhancements. I will come back with a v4.
 
-pythonnative.bbclass means "I build-depend on python-native and would 
-like that python to be on $PATH before the host python".
-
-None of that is relevant to whether a recipe can be built for native or 
-nativesdk.
-
-Ross
+Thanks,
+Jean-Marie
 
