@@ -1,28 +1,42 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 317BC7C89C
+Return-Path: <a.manache@gmail.com>
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+	[209.85.208.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DC207C5F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2019 07:31:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xAP7VSOi014785
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Sun, 24 Nov 2019 23:31:28 -0800 (PST)
-Received: from [128.224.162.169] (128.224.162.169) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Sun, 24 Nov 2019 23:31:16 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <1573457996-19353-1-git-send-email-hongxu.jia@windriver.com>
-	<1573458184-19483-1-git-send-email-hongxu.jia@windriver.com>
-Message-ID: <1ec5201e-598a-c500-c6e2-1fac22a2fa9d@windriver.com>
-Date: Mon, 25 Nov 2019 15:31:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	Mon, 25 Nov 2019 07:55:15 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id a24so11840542edt.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 24 Nov 2019 23:55:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=tsslRioDYms3CYM6I0XuuON9ynz8nL+YacG8gxhM8gU=;
+	b=u7weObVzntXDp6Jxst0HzPsxxi5G1tP4PjddfzvY9N8Pg+Shd+/N7SgJ+RbYCYubXd
+	Fap6lLpRKezEryTPoII5FNCcqIREav9i9rIN99bkB/JAM0GmMOPRj8EO15jsMsk/V5Kr
+	/H+ERkrnsA5X5EhYjPFWSPv0sA2Qgakwe9lB+9vXPfMxmO+oA9Pp1JKlxFpYdbOIq+bh
+	ugRLOePKXsjsQ0Ipgp2lQ1HHdRdA0dHUtLc597+9syc62AhxF/OD1CoWYNGTu+EVpyJa
+	xrSeZwpBybqzJna7/c5sGBZ5qTt/w1o72grLil0H+XWFcVllwDogf1KbmpvwhBSRN2lH
+	KgHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=tsslRioDYms3CYM6I0XuuON9ynz8nL+YacG8gxhM8gU=;
+	b=a5SqZwJcWBLJJsnWsPh4cjJ7NGRwrIUSKb9eISZWqsGdJWrtxC2EODbkgnJ+0k6u5p
+	5Wc/4K69VnCDsUHuqbacRQCMaGd+Vl4AcR5K16htQ7owI8iXXo8vNfz7R/tbV63U8eoz
+	wsUoHpHGRHNRI/zEcwCdtsdokqn/bSX6zDf+5QM2yHjO7BvWxirOniz8tPlvW8kddInJ
+	6v1wDrxvg8/vD+FI872iLDavAH79OfLkQgYq10dhNoTf+WWpvmWOIiFQckTwA+XJnITl
+	+KV7Jecu9KTeL70dy+MOJHF2ciWDO7y800mLERA92qVJM3aaB42+BUjHPnxNZKH6U04w
+	D0gA==
+X-Gm-Message-State: APjAAAVr4OZPIfRuR9YoVfO2bv3+1UfDMPPIb9yHRiuKBlKQW3kuaosg
+	n/uFSxVqGUwpjiW5CZE6oyN3WlGMxntYOumenKsVAbEv
+X-Google-Smtp-Source: APXvYqwF9W2lQFzO5iOJEo+IBnry0cr6v1XXqkkGo65eRg7M/+TkLK5crpNEjrkY8loiOr2LphZfrasKS35q/A0MYjQ=
+X-Received: by 2002:a50:eb8b:: with SMTP id y11mr17323983edr.242.1574668515562;
+	Sun, 24 Nov 2019 23:55:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1573458184-19483-1-git-send-email-hongxu.jia@windriver.com>
-Subject: Re: [PATCH V4] gnupg-native: fix GPG homedir path length limit
+From: Antoine Manache <a.manache@gmail.com>
+Date: Mon, 25 Nov 2019 08:55:04 +0100
+Message-ID: <CAMu9Sp+wv1Pa5CoJBQ0R4G__PigUdV3B1Cvg778VOP5xuyFm4A@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: sdk: backport of ba2df1f on thud ?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,210 +49,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Nov 2019 07:31:29 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 25 Nov 2019 07:55:15 -0000
+Content-Type: multipart/alternative; boundary="0000000000008257a00598271519"
 
-Ping
+--0000000000008257a00598271519
+Content-Type: text/plain; charset="UTF-8"
 
-//Hongxu
-On 11/11/19 3:43 PM, Hongxu Jia wrote:
-> The gpg uses unix socket to communicate with its agent, before doing that,
-> it checks whether the extra socketdir prefix (/tmp/gnupg,/run/,/var/run/gnupg,
-> /var/run) has proper permissions. If all these checking failed, it will
-> choose gpg homedir as prefix to create socketdir.
->
-> While using gpg in Yocto build, we usually set gpg homedir under build dir,
-> if homedir is too long (>100chars), gpg will fail due to unix socket path
-> length limit [1][2][3]
->
-> Yocto build usually does not have access permission on /run, /var/run, but it
-> may have permission on /tmp, so allows to build GnuPG with an extra socketdir
-> under /tmp/gnupg.
->
-> But Yocto build creates gpg socketdir through pseudo which makes the real uid
-> differs between different build (even different recipes in one build), so apply
-> fix to not require gpg socketdir to be owned by the user. Then multiple recipes
-> or builds could use the same socketdir prefix /tmp/gnupg.
->
-> Conversely, if /tmp/gnupg does not exist, or Yocto builds do not have permission
-> on /tmp, gpg uses homedir as usual. In other words, in order to fix GPG homedir
-> path length limit, the gpg user in Yocto build should not only apply this commit,
-> but also create the socket in the /tmp/gnupg directory: Make sure that
-> /tmp/gnupg/user/$(id -u) [4]
->
-> [1] https://dev.gnupg.org/rG17efcd2a2acdc3b7f00711272aa51e5be2476921
-> [2] https://lists.gnupg.org/pipermail/gnupg-users/2017-January/057444.html
-> [3] https://unix.stackexchange.com/questions/367008/why-is-socket-path-length-limited-to-a-hundred-chars
-> [4] https://lists.gnupg.org/pipermail/gnupg-users/2017-January/057451.html
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   ...uild-GnuPG-with-an-extra-socketdir-below-.patch | 51 ++++++++++++++++
->   ...t-check-socketdir-to-be-owned-by-the-user.patch | 71 ++++++++++++++++++++++
->   meta/recipes-support/gnupg/gnupg_2.2.17.bb         |  5 ++
->   3 files changed, 127 insertions(+)
->   create mode 100644 meta/recipes-support/gnupg/gnupg/0001-allows-to-build-GnuPG-with-an-extra-socketdir-below-.patch
->   create mode 100644 meta/recipes-support/gnupg/gnupg/0002-do-not-check-socketdir-to-be-owned-by-the-user.patch
->
-> diff --git a/meta/recipes-support/gnupg/gnupg/0001-allows-to-build-GnuPG-with-an-extra-socketdir-below-.patch b/meta/recipes-support/gnupg/gnupg/0001-allows-to-build-GnuPG-with-an-extra-socketdir-below-.patch
-> new file mode 100644
-> index 0000000..e255279
-> --- /dev/null
-> +++ b/meta/recipes-support/gnupg/gnupg/0001-allows-to-build-GnuPG-with-an-extra-socketdir-below-.patch
-> @@ -0,0 +1,51 @@
-> +From 26358e491084f4a546ae1fcb71f0405a7b5cf575 Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Sat, 9 Nov 2019 00:51:25 -0500
-> +Subject: [PATCH 1/2] allows to build GnuPG with an extra socketdir below
-> + /tmp/gnupg
-> +
-> +Since upstream applied commit [17efcd2 build: New configure option
-> +--enable-run-gnupg-user-socket] [1], it allows to build GnuPG with an
-> +extra socketdir below /run.
-> +
-> +For Yocto build which does not have access permission on /run, it could
-> +not create the extra socketdir in /run/gnupg and uses homedir to replace.
-> +
-> +If homedir is too long(>100chars), gpg connect agent will fail [2][3]
-> +...
-> +|gpg: can't connect to the agent: File name too long
-> +...
-> +
-> +Yocto builds may have permission on /tmp on many hosts, so allows to build
-> +GnuPG with an extra socketdir below /tmp/gnupg.
-> +
-> +Conversely, if Yocto builds do not have permission on /tmp, it still uses homedir
-> +as usual;
-> +
-> +[1] https://dev.gnupg.org/rG17efcd2a2acdc3b7f00711272aa51e5be2476921
-> +[2] https://lists.gnupg.org/pipermail/gnupg-users/2017-January/057444.html
-> +[3] https://unix.stackexchange.com/questions/367008/why-is-socket-path-length-limited-to-a-hundred-chars
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + common/homedir.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/common/homedir.c b/common/homedir.c
-> +index e9e75d0..9dd5f6c 100644
-> +--- a/common/homedir.c
-> ++++ b/common/homedir.c
-> +@@ -574,7 +574,7 @@ _gnupg_socketdir_internal (int skip_checks, unsigned *r_info)
-> +
-> +   static const char * const bases[] = {
-> + #ifdef USE_RUN_GNUPG_USER_SOCKET
-> +-    "/run/gnupg",
-> ++    "/tmp/gnupg",
-> + #endif
-> +     "/run",
-> + #ifdef USE_RUN_GNUPG_USER_SOCKET
-> +--
-> +2.23.0
-> +
-> diff --git a/meta/recipes-support/gnupg/gnupg/0002-do-not-check-socketdir-to-be-owned-by-the-user.patch b/meta/recipes-support/gnupg/gnupg/0002-do-not-check-socketdir-to-be-owned-by-the-user.patch
-> new file mode 100644
-> index 0000000..14ddedd
-> --- /dev/null
-> +++ b/meta/recipes-support/gnupg/gnupg/0002-do-not-check-socketdir-to-be-owned-by-the-user.patch
-> @@ -0,0 +1,71 @@
-> +From 78bf195f85b42cc46ce875c1ae63090ac28cca75 Mon Sep 17 00:00:00 2001
-> +From: Hongxu Jia <hongxu.jia@windriver.com>
-> +Date: Sat, 9 Nov 2019 16:35:16 +0800
-> +Subject: [PATCH 2/2] do not check socketdir to be owned by the user
-> +
-> +The gpg uses unix socket to communicate with its agent, before doing that,
-> +it checks whether the extra socketdir prefix (/tmp/gnupg,/run/,/var/run/gnupg,
-> +/var/run) has proper permissions. If all these checking failed, it will
-> +choose gpg homedir to create socketdir prefix
-> +
-> +While using gpg in Yocto build, we usually set gpg homedir under build dir,
-> +if homedir is too long (>100chars), gpg will fail due to unix socket path
-> +length limit [1]
-> +
-> +To improve user experience which do not limit gpg homedir with a short path,
-> +Yocto build could use /tmp/gnupg as gpg socketdir prefix. But Yocto build
-> +creates gpg socketdir through pseudo which makes the real uid differs between
-> +different build (even different recipes in one build), so apply fix to not
-> +require gpg socketdir to be owned by the user. Then multiple recipes or builds
-> +could use the same socketdir prefix /tmp/gnupg.
-> +
-> +[1] https://unix.stackexchange.com/questions/367008/why-is-socket-path-length-limited-to-a-hundred-chars
-> +
-> +Upstream-Status: Inappropriate [OE specific]
-> +
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> +---
-> + common/homedir.c | 11 +----------
-> + 1 file changed, 1 insertion(+), 10 deletions(-)
-> +
-> +diff --git a/common/homedir.c b/common/homedir.c
-> +index 9dd5f6c..d94e044 100644
-> +--- a/common/homedir.c
-> ++++ b/common/homedir.c
-> +@@ -614,13 +614,6 @@ _gnupg_socketdir_internal (int skip_checks, unsigned *r_info)
-> +       goto leave;
-> +     }
-> +
-> +-  if (sb.st_uid != getuid ())
-> +-    {
-> +-      *r_info |= 4; /* Not owned by the user.  */
-> +-      if (!skip_checks)
-> +-        goto leave;
-> +-    }
-> +-
-> +   if (strlen (prefix) + 7 >= sizeof prefix)
-> +     {
-> +       *r_info |= 1; /* Ooops: Buffer too short to append "/gnupg".  */
-> +@@ -649,10 +642,9 @@ _gnupg_socketdir_internal (int skip_checks, unsigned *r_info)
-> +           goto leave;
-> +         }
-> +     }
-> +-  /* Check that it is a directory, owned by the user, and only the
-> ++  /* Check that it is a directory, and only the
-> +    * user has permissions to use it.  */
-> +   if (!S_ISDIR(sb.st_mode)
-> +-      || sb.st_uid != getuid ()
-> +       || (sb.st_mode & (S_IRWXG|S_IRWXO)))
-> +     {
-> +       *r_info |= 4; /* Bad permissions or not a directory. */
-> +@@ -719,7 +711,6 @@ _gnupg_socketdir_internal (int skip_checks, unsigned *r_info)
-> +             }
-> +         }
-> +       else if (!S_ISDIR(sb.st_mode)
-> +-               || sb.st_uid != getuid ()
-> +                || (sb.st_mode & (S_IRWXG|S_IRWXO)))
-> +         {
-> +           *r_info |= 8; /* Bad permissions or subdir is not a directory.  */
-> +--
-> +2.23.0
-> +
-> diff --git a/meta/recipes-support/gnupg/gnupg_2.2.17.bb b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
-> index bb8885f..79db8f0 100644
-> --- a/meta/recipes-support/gnupg/gnupg_2.2.17.bb
-> +++ b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
-> @@ -17,6 +17,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->              file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
->              "
->   SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
-> +                                file://0001-allows-to-build-GnuPG-with-an-extra-socketdir-below-.patch \
-> +                                file://0002-do-not-check-socketdir-to-be-owned-by-the-user.patch \
->                                   file://relocate.patch"
->   
->   SRC_URI[md5sum] = "1ba2d9b70c377f8e967742064c27a19c"
-> @@ -29,6 +31,9 @@ EXTRA_OECONF = "--disable-ldap \
->   		--with-readline=${STAGING_LIBDIR}/.. \
->   		--enable-gpg-is-gpg2 \
->                  "
-> +EXTRA_OECONF_append_class-native = " \
-> +       --enable-run-gnupg-user-socket \
-> +"
->   
->   # A minimal package containing just enough to run gpg+gpgagent (E.g. use gpgme in opkg)
->   PACKAGES =+ "${PN}-gpg"
+Hi all,
 
+Is it already planned to backport this fix to the thud branch ?
+ba2df1fa43b79c4959911c1b0bcad996f255b7a8
+<http://git.openembedded.org/openembedded-core/commit/?id=ba2df1fa43b79c4959911c1b0bcad996f255b7a8>
 
+I see it is OK in Yocto 3.0 but not in 2.6.4, and I have an issue with my
+eSDK install on a DISTRO configured with TCLIBC musl.
 
+Thanks
+Antoine
+
+--0000000000008257a00598271519
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi all,</div><div><br></div><div>Is it already planne=
+d to backport this fix to the thud branch ?<br></div><div><a href=3D"http:/=
+/git.openembedded.org/openembedded-core/commit/?id=3Dba2df1fa43b79c4959911c=
+1b0bcad996f255b7a8">ba2df1fa43b79c4959911c1b0bcad996f255b7a8</a></div><div>=
+<br></div><div>I see it is OK in Yocto 3.0 but not in 2.6.4, and I have an =
+issue with my eSDK install on a DISTRO configured with TCLIBC musl.</div><d=
+iv><br></div><div>Thanks</div><div>Antoine<br></div></div>
+
+--0000000000008257a00598271519--
