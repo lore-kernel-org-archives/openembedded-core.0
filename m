@@ -1,54 +1,43 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 676647FC0B
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BF71A7FBF9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2019 12:05:15 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id t2so17697130wrr.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2019 04:05:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=6B2pb05XM7uy+VvsNjIK2oeWMzh1Z8Uj6YiPmb1SSug=;
-	b=wU6+EPyt0AwA3RO0BlWkp306cbu4cEY9Pb4nL9pDhYaPPILv4PWUo2nn7iuvvWheUq
-	IzM5/jaceZerhUDhVouYPI9dkeiZ44NCj1plmxfQSQ60kkfKPAaOEhMsZ1bP0xwWAbNr
-	qEyn6/dVK0yZaw45mRXkvRL8ttvPVvtUotLi5ypt+sP4jLTIv7DsZHI1UBV3l9MuUrY7
-	H+wEBJDUMleXWKpH3msYuqnETvtyR2uzfAo5v1fqGlWL6N4drZjWv3v6jLtjjjbZJb6a
-	hezsRtm7J+oZMGXUkBBxstRT9cFU0mG2+jamV56x8yiAO4m9TD9JfTnhfqPT0KE+5PMD
-	61Dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=6B2pb05XM7uy+VvsNjIK2oeWMzh1Z8Uj6YiPmb1SSug=;
-	b=M5EeoJfL8VIV0us2nBT1bS9pMqsxn4ux820AOXT8+J5HUP2nng7hMIsn4riPVH2JYr
-	HyEh9sOJe1OvSNw37MzsAjarzLAUdhmWaGJYvc1CsP+wQR7ARAkz6rJiWlMm5GbAcqd4
-	d4pi5tr28l8T1JpMwzNrsZSfiRwvS79NQPyR3gCBCvEb0g9pC7ngIiouF+LUKfFrs67C
-	G5wuqQiiplK2hCyp77qDzRMe02vAI4gVCasekw644ArghtGKnd7XbS7WdulLSNOa4oqv
-	t6Ys55v1rrRPDAnBQsIghNPSrMBrnSfOGv72ox4ycqRYOKsMo3dj6Gy1BtkNwEpMWU7a
-	jNvg==
-X-Gm-Message-State: APjAAAW2LHQ1ZdzPEH8Rw3rk2Qp55c1XcwC4fB56oynWF0Jl4ZsbB+6M
-	A2B9f3q9VhINpKfapG8vf4niJ0H4AoE=
-X-Google-Smtp-Source: APXvYqzyABpMBa5vZqeu5l4BXwI+MuTidwY5cV3qgkD4DY05dx4SiDnso9RBNndEy+gQdnkC4LvkyQ==
-X-Received: by 2002:a5d:6b51:: with SMTP id x17mr32910979wrw.148.1574683515860;
-	Mon, 25 Nov 2019 04:05:15 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	e16sm10227411wrj.80.2019.11.25.04.05.14
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 25 Nov 2019 04:05:15 -0800 (PST)
+	Mon, 25 Nov 2019 12:07:27 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Nov 2019 04:07:28 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,241,1571727600"; d="scan'208";a="408289133"
+Received: from xsanroma-mobl1.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.34.24])
+	by fmsmga005.fm.intel.com with ESMTP; 25 Nov 2019 04:07:26 -0800
+To: Phil Blundell <pb@pbcl.net>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20191120134455.125118-8-alex.kanavin@gmail.com>
+	<20191120194927.GA28030@localhost>
+	<CANNYZj_g1kDJ5CSbKg4DEaATCiyPPT=2GuYEsUyHr+7ZpH8EkQ@mail.gmail.com>
+	<20191120213844.ome6ota74rmgosy3@pbcl.net>
+	<CANNYZj9uAs5wQPya6R9q3gfSQm_Xyu9xViGBxOQ2COKKbcYeWg@mail.gmail.com>
+	<20191120223207.6cuuklpgrzuhqug3@pbcl.net>
+	<CANNYZj93tJxTsCwS3cg3J=0WB--A0Af26Y=nO9fOdfNb9okRYg@mail.gmail.com>
+	<20191120231812.GB3962@localhost>
+	<238a39c7-b794-aaa0-1da6-4b585078f447@intel.com>
+	<fc3a26d7c77f2781cbad28cdb8fc71995ab5e327.camel@linuxfoundation.org>
+	<20191121135942.h776ktsg6jwow4sj@pbcl.net>
 From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 25 Nov 2019 12:04:35 +0000
-Message-Id: <20191125120435.5203-4-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191125120435.5203-1-ross.burton@intel.com>
-References: <20191125120435.5203-1-ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <32d99e6a-b196-6d1d-dac2-a0e1ccfa2c75@intel.com>
+Date: Mon, 25 Nov 2019 12:07:25 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Subject: [PATCH 4/4] texi2html: remove
+In-Reply-To: <20191121135942.h776ktsg6jwow4sj@pbcl.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH 08/11] lrzsz: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,117 +50,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Nov 2019 12:05:15 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 25 Nov 2019 12:07:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-The last user of this obsolete recipe (abandoned upstream in 2010, removed from
-oe-core build dependencies in 2012) has now been deleted from oe-core, so delete
-the recipe too.
+On 21/11/2019 13:59, Phil Blundell wrote:
+> I also have at least a passing fondness for lrzsz and if a small amount
+> of maintenance now will suffice to keep it working for another 21 years
+> then I think I would consider that a good outcome.  I will have a quick
+> look at the code and see if I can fix whatever is apparently problematic
+> about it.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 -
- .../0001-Allow-compiling-out-of-source.patch  | 39 -------------------
- .../texi2html/texi2html_5.0.bb                | 31 ---------------
- 3 files changed, 71 deletions(-)
- delete mode 100644 meta/recipes-extended/texi2html/files/0001-Allow-compiling-out-of-source.patch
- delete mode 100644 meta/recipes-extended/texi2html/texi2html_5.0.bb
+If you can send a patch sooner rather than later for lrzsz to fix the 
+build with modern gettext then that would be *awesome*, as this recipe 
+is the sole blocker.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index a289008b8c1..79404dfbdb7 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -677,7 +677,6 @@ RECIPE_MAINTAINER_pn-tcf-agent = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-tcl = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-tcp-wrappers = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-testexport-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
--RECIPE_MAINTAINER_pn-texi2html = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER_pn-texinfo = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-texinfo-dummy-native = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-tiff = "Alexander Kanavin <alex.kanavin@gmail.com>"
-diff --git a/meta/recipes-extended/texi2html/files/0001-Allow-compiling-out-of-source.patch b/meta/recipes-extended/texi2html/files/0001-Allow-compiling-out-of-source.patch
-deleted file mode 100644
-index 0cf025ff4a5..00000000000
---- a/meta/recipes-extended/texi2html/files/0001-Allow-compiling-out-of-source.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From: Olaf Mandel <o.mandel@menlosystems.com>
--Date: Fri, 21 Oct 2016 13:04:44 +0000
--Subject: [PATCH] Allow compiling out-of-source
--
--Upstream-Status: Backport of [svn://svn.sv.gnu.org/texinfo/trunk r3602]
-----
-- Makefile.am | 2 +-
-- Makefile.in | 2 +-
-- 2 files changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/Makefile.am b/Makefile.am
--index 3447463..c9b5b5c 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -208,7 +208,7 @@ i18n/en.thl i18n/: $(po_document_dir)/po_document/$(PACKAGE)_document.pot
-- 	  done; \
-- 	  msgexec -i $< "$(srcdir)/gettext_to_separated.pl" | "$(srcdir)/separated_to_hash.pl" en > i18n/en.thl; \
-- 	else \
---	  cp -p i18n_ref/*.thl i18n; \
--+	  cp -p "$(srcdir)/i18n_ref/"*.thl i18n; \
-- 	fi
-- 
-- i18n_ref:
--diff --git a/Makefile.in b/Makefile.in
--index 4264b37..a13f84d 100644
----- a/Makefile.in
--+++ b/Makefile.in
--@@ -1126,7 +1126,7 @@ i18n/en.thl i18n/: $(po_document_dir)/po_document/$(PACKAGE)_document.pot
-- 	  done; \
-- 	  msgexec -i $< "$(srcdir)/gettext_to_separated.pl" | "$(srcdir)/separated_to_hash.pl" en > i18n/en.thl; \
-- 	else \
---	  cp -p i18n_ref/*.thl i18n; \
--+	  cp -p "$(srcdir)/i18n_ref/"*.thl i18n; \
-- 	fi
-- 
-- i18n_ref:
---- 
--2.1.4
--
-diff --git a/meta/recipes-extended/texi2html/texi2html_5.0.bb b/meta/recipes-extended/texi2html/texi2html_5.0.bb
-deleted file mode 100644
-index afd125b08fa..00000000000
---- a/meta/recipes-extended/texi2html/texi2html_5.0.bb
-+++ /dev/null
-@@ -1,31 +0,0 @@
--SUMMARY = "Perl script that converts Texinfo to HTML"
--HOMEPAGE    = "http://www.nongnu.org/texi2html/"
--SECTION     = "console/utils"
--LICENSE     = "GPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
--
--PR = "r2"
--
--SRC_URI     = "${SAVANNAH_GNU_MIRROR}/texi2html/${BPN}-${PV}.tar.bz2 \
--               file://0001-Allow-compiling-out-of-source.patch \
--               "
--
--SRC_URI[md5sum] = "f15ac876fcdc8be865b16535f480aa54"
--SRC_URI[sha256sum] = "e8a98b0ee20c495a6ab894398a065ef580272dbd5a15b1b19e8bd1bc89d9f9fa"
--
--inherit autotools gettext texinfo
--
--do_configure_prepend() {
--	# autotools_do_configure updates po/Makefile.in.in, we also need
--	# update po_document.
--	cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po_document/
--	cp -f ${STAGING_DATADIR_NATIVE}/gettext/po/Makefile.in.in ${S}/po_messages/
--}
--
--do_install_append () {
--	sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' ${D}${bindir}/texi2html
--}
--
--FILES_${PN}-doc += "${datadir}/texinfo"
--
--RDEPENDS_${PN} = "perl"
--- 
-2.20.1
-
+Ross
 
