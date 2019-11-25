@@ -1,43 +1,37 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BF71A7FBF9
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id E9FA57F946
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 25 Nov 2019 12:07:27 +0000 (UTC)
+	Mon, 25 Nov 2019 13:55:30 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Nov 2019 04:07:28 -0800
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Nov 2019 05:55:31 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,241,1571727600"; d="scan'208";a="408289133"
+X-IronPort-AV: E=Sophos;i="5.69,241,1571727600"; d="scan'208";a="260405479"
 Received: from xsanroma-mobl1.ger.corp.intel.com (HELO blackadder.local)
 	([10.249.34.24])
-	by fmsmga005.fm.intel.com with ESMTP; 25 Nov 2019 04:07:26 -0800
-To: Phil Blundell <pb@pbcl.net>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20191120134455.125118-8-alex.kanavin@gmail.com>
-	<20191120194927.GA28030@localhost>
-	<CANNYZj_g1kDJ5CSbKg4DEaATCiyPPT=2GuYEsUyHr+7ZpH8EkQ@mail.gmail.com>
-	<20191120213844.ome6ota74rmgosy3@pbcl.net>
-	<CANNYZj9uAs5wQPya6R9q3gfSQm_Xyu9xViGBxOQ2COKKbcYeWg@mail.gmail.com>
-	<20191120223207.6cuuklpgrzuhqug3@pbcl.net>
-	<CANNYZj93tJxTsCwS3cg3J=0WB--A0Af26Y=nO9fOdfNb9okRYg@mail.gmail.com>
-	<20191120231812.GB3962@localhost>
-	<238a39c7-b794-aaa0-1da6-4b585078f447@intel.com>
-	<fc3a26d7c77f2781cbad28cdb8fc71995ab5e327.camel@linuxfoundation.org>
-	<20191121135942.h776ktsg6jwow4sj@pbcl.net>
+	by FMSMGA003.fm.intel.com with ESMTP; 25 Nov 2019 05:55:29 -0800
+To: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+References: <20191120093358.11622-1-jean-marie.lemetayer@savoirfairelinux.com>
+	<b3ae667e644cf4b81c096562965268dbe5596065.camel@linuxfoundation.org>
+	<531618732.621500.1574366028835.JavaMail.zimbra@savoirfairelinux.com>
+	<50236bca804ff079db05b696f783c9af7e408c8f.camel@linuxfoundation.org>
+	<2010614174.635763.1574420884655.JavaMail.zimbra@savoirfairelinux.com>
 From: Ross Burton <ross.burton@intel.com>
 Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
 	Swindon SN3 1RJ
-Message-ID: <32d99e6a-b196-6d1d-dac2-a0e1ccfa2c75@intel.com>
-Date: Mon, 25 Nov 2019 12:07:25 +0000
+Message-ID: <f12cb0c9-04ab-f695-dcaa-de162f7f1672@intel.com>
+Date: Mon, 25 Nov 2019 13:55:29 +0000
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
 	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <20191121135942.h776ktsg6jwow4sj@pbcl.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH 08/11] lrzsz: remove the recipe
+In-Reply-To: <2010614174.635763.1574420884655.JavaMail.zimbra@savoirfairelinux.com>
+Cc: paul eggleton <paul.eggleton@linux.intel.com>, bunk <bunk@stusta.de>,
+	Savoir-faire Linux Rennes <rennes@savoirfairelinux.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 00/17] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,21 +44,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 25 Nov 2019 12:07:27 -0000
+X-List-Received-Date: Mon, 25 Nov 2019 13:55:31 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On 21/11/2019 13:59, Phil Blundell wrote:
-> I also have at least a passing fondness for lrzsz and if a small amount
-> of maintenance now will suffice to keep it working for another 21 years
-> then I think I would consider that a good outcome.  I will have a quick
-> look at the code and see if I can fix whatever is apparently problematic
-> about it.
+On 22/11/2019 11:08, Jean-Marie LEMETAYER wrote:
+> I based my work on the current implementation, but I never thought of
+> refactoring as much. I have however some concerns about the management
+> of the registry and the development dependencies. I will try to come
+> back with a v4.
 
-If you can send a patch sooner rather than later for lrzsz to fix the 
-build with modern gettext then that would be *awesome*, as this recipe 
-is the sole blocker.
+There's a lot of NPM patches flying around now: are any of the patches 
+in this 17-long series able to be merged ahead of a full refactor?
 
 Ross
 
