@@ -1,30 +1,50 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 014C87EC47
+Return-Path: <ankur.tyagi85@gmail.com>
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
+	[209.85.208.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EC817FCF5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2019 06:14:50 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.69,244,1571673600"; d="scan'208";a="79078713"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Nov 2019 14:14:49 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 9E86F4CE1BEC
+	Tue, 26 Nov 2019 06:16:51 +0000 (UTC)
+Received: by mail-lj1-f175.google.com with SMTP id k15so18771441lja.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2019 14:06:26 +0800 (CST)
-Received: from localhost.local (10.167.225.81) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Tue, 26 Nov 2019 14:14:45 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 26 Nov 2019 14:15:34 +0800
-Message-ID: <20191126061534.23817-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Mon, 25 Nov 2019 22:16:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=QttjqEMwBjRGzmSzdPKa4tjdr9KooxFkjVBM+qjbyUY=;
+	b=A/JD/FaNpoEgPX0YXWt1eFp0OM98/cjjnL1qMk1uGxlPJ3OCZFij05ATLdge1jz6BU
+	M7o1FCsduS2//AXkbJnXEIRu2vRPNQn+8ACJFGmm0sTiCjn7D1Rz4huqbGNLciDg/8sn
+	dKHquNBlbxfjE/tqrDVeHMWV0bYzCY9oAIOswYRWYJRWxjRITgaFLMNlzt0vFS2b3a4Q
+	/nEyyfe9LANDNroIr6oHV7pZiA3NDNk2jQdJQssuPaZOjWVdrJgMTor92AEaWb+KFSnh
+	WyTA716+mMGzzMf8u08xjquKefG8Z/On244IKy7XarBjYPPHPNOzq1QiqMJHg3GvpN3p
+	ejwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=QttjqEMwBjRGzmSzdPKa4tjdr9KooxFkjVBM+qjbyUY=;
+	b=ZDihvEB3IiIyLn0dZEtya1jy5e8YAZUZoWfhev8J3UeKv81/sAWQF+54JqPXBH4fB/
+	GYzGu0MCARAd/92xM2qoG2Pgdz3exkC59aNCEYnBdVHOPFvT4BGgB0J1WJnF6jcgHwVD
+	xQtoqaHRyfRxkgCTcEvAFXd9ztArwbgEznj4rfz0LLwAK0sCbL+jZni6tT88EJW4WJOa
+	XBeC+BJr7R6ow5IRg65sB5tiQuRHK7Zt9EF+GCoaIRRJtiGCr0c1L6C8W4B3kJhtAswl
+	5Ufq5/nuo/RfCX1V6V+/Qtn1ctXv8wMcLiWNDgkgz4G42PdQ90nEoS9YnzjkMDqZbVp4
+	x2iQ==
+X-Gm-Message-State: APjAAAUECjlkHod5YODezdgWTHZ+11TbTvHNKoXkZ5pOr21ZOz1iEcMz
+	66MeKiLiNMi/fGQOSNH3C8r6awkgWxwufr02gA4=
+X-Google-Smtp-Source: APXvYqwMe8Z5cGMGrnAtJa+88X4yOkQswAfWnBQTC85cEB2Tqa4pBI2ExB7612jh5AkRKXN/LeLDCu2tFDMs5k/cngQ=
+X-Received: by 2002:a05:651c:d1:: with SMTP id
+	17mr18671770ljr.238.1574749011806; 
+	Mon, 25 Nov 2019 22:16:51 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.81]
-X-yoursite-MailScanner-ID: 9E86F4CE1BEC.ADE65
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCHv3] cronie:upgrade 1.5.4 -> 1.5.5
+References: <CADySD0HN_q_ffonmJJAmHJvjcRUHrDrhzo6zoWd8vYZUZzd_Tw@mail.gmail.com>
+	<20191125195555.GA31543@localhost>
+	<CADySD0Ey3Zo_6g5mJMxPyG4uETgbya6aXN28qr_rifvH=BYhwg@mail.gmail.com>
+	<1e0c5549-d862-bfa9-caba-9b2c44e560e9@intel.com>
+In-Reply-To: <1e0c5549-d862-bfa9-caba-9b2c44e560e9@intel.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Mon, 25 Nov 2019 22:16:39 -0800
+Message-ID: <CADySD0H_AZ9L_kqKFtcdAdLRxSW6QXuC8TZSsD-OjAXtS63MiA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Very large size of libraries in core-image-minimal rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,49 +57,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2019 06:14:51 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Nov 2019 06:16:51 -0000
+Content-Type: multipart/alternative; boundary="000000000000758fd9059839d3bd"
 
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
+--000000000000758fd9059839d3bd
+Content-Type: text/plain; charset="UTF-8"
 
--Added PACKAGECONFIG to solve compilation problems with musl.
+Hi Ross,
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- meta/recipes-extended/cronie/{cronie_1.5.4.bb => cronie_1.5.5.bb} | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/cronie/{cronie_1.5.4.bb => cronie_1.5.5.bb} (93%)
+I just used arago distro as it is but you are right, once I have stable
+builds
+with default configuration then I will try your suggestion.
 
-diff --git a/meta/recipes-extended/cronie/cronie_1.5.4.bb b/meta/recipes-extended/cronie/cronie_1.5.5.bb
-similarity index 93%
-rename from meta/recipes-extended/cronie/cronie_1.5.4.bb
-rename to meta/recipes-extended/cronie/cronie_1.5.5.bb
-index d35c667..82cd428 100644
---- a/meta/recipes-extended/cronie/cronie_1.5.4.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.5.5.bb
-@@ -25,8 +25,8 @@ SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}
- PAM_SRC_URI = "file://crond_pam_config.patch"
- PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
- 
--SRC_URI[md5sum] = "20233b96997e17a142e1fbe0d7ce8223"
--SRC_URI[sha256sum] = "af8970559cad4262f8ffd7ec72abf682d2dcce04fdfb8f206a71d96566aba882"
-+SRC_URI[md5sum] = "351a37d0b5bd0144816724b4482747ad"
-+SRC_URI[sha256sum] = "be34c79505e5544323281854744b9955ff16b160ee569f9df7c0dddae5720eac"
- 
- inherit autotools update-rc.d useradd systemd
- 
-@@ -34,6 +34,7 @@ PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
- 
- PACKAGECONFIG[audit] = "--with-audit,--without-audit,audit,"
- PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam,${PAM_DEPS}"
-+PACKAGECONFIG[anacron] = "--enable-anacron,--disable-anacron,anacron"
- 
- INITSCRIPT_NAME = "crond"
- INITSCRIPT_PARAMS = "start 90 2 3 4 5 . stop 60 0 1 6 ."
--- 
-2.7.4
+Thanks for your help
 
+Ankur
 
+On Mon, Nov 25, 2019 at 12:58 PM Ross Burton <ross.burton@intel.com> wrote:
 
+> On 25/11/2019 20:22, Ankur Tyagi wrote:
+> > # Select external binary prebuilt Arm toolchain
+> > TCMODE = "external-arm"
+> > TCLIBC = "external-arm-toolchain"
+>
+> FWIW, I don't see what the value in external toolchains actually is.
+> You might get better results by simply setting:
+>
+> TCMODE = "default"
+> TCLIB = "glibc"
+>
+> (or TCLIBC="musl" if you want to save even more space)
+>
+> Ross
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--000000000000758fd9059839d3bd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-family:verdana,sans-serif">Hi Ross,</div><div class=3D"gmail_default" sty=
+le=3D"font-family:verdana,sans-serif"><br></div><div class=3D"gmail_default=
+" style=3D"font-family:verdana,sans-serif">I just used arago distro as it i=
+s but you are right, once I have stable builds</div><div class=3D"gmail_def=
+ault" style=3D"font-family:verdana,sans-serif">with default configuration t=
+hen I will try your suggestion.</div><div class=3D"gmail_default" style=3D"=
+font-family:verdana,sans-serif"><br></div><div class=3D"gmail_default" styl=
+e=3D"font-family:verdana,sans-serif">Thanks for your help</div><div class=
+=3D"gmail_default" style=3D"font-family:verdana,sans-serif"><br></div><div =
+class=3D"gmail_default" style=3D"font-family:verdana,sans-serif">Ankur<br><=
+/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Mon, Nov 25, 2019 at 12:58 PM Ross Burton &lt;<a href=3D"mailto:ros=
+s.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex">On 25/11/2019 20:22, Ankur Tyagi w=
+rote:<br>
+&gt; # Select external binary prebuilt Arm toolchain<br>
+&gt; TCMODE =3D &quot;external-arm&quot;<br>
+&gt; TCLIBC =3D &quot;external-arm-toolchain&quot;<br>
+<br>
+FWIW, I don&#39;t see what the value in external toolchains actually is. <b=
+r>
+You might get better results by simply setting:<br>
+<br>
+TCMODE =3D &quot;default&quot;<br>
+TCLIB =3D &quot;glibc&quot;<br>
+<br>
+(or TCLIBC=3D&quot;musl&quot; if you want to save even more space)<br>
+<br>
+Ross<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--000000000000758fd9059839d3bd--
