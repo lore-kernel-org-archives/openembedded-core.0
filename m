@@ -1,31 +1,26 @@
-Return-Path: <pb@pbcl.net>
-Received: from pbcl.net (pbcl.net [159.69.221.92])
-	by mail.openembedded.org (Postfix) with ESMTP id B6B467BEDF
+Return-Path: <cengiz@kernel.wtf>
+X-Greylist: delayed 1614 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 26 Nov 2019 14:15:59 UTC
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+	by mail.openembedded.org (Postfix) with ESMTP id 8827B7D70B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2019 12:06:17 +0000 (UTC)
-Received: from pb by pbcl.net with local (Exim 4.89)
-	(envelope-from <pb@pbcl.net>)
-	id 1iZZbj-00057K-Em; Tue, 26 Nov 2019 13:06:15 +0100
-Date: Tue, 26 Nov 2019 13:06:15 +0100
-From: Phil Blundell <pb@pbcl.net>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20191126120615.kknhw4cwolwfadnf@pbcl.net>
-References: <20191120213844.ome6ota74rmgosy3@pbcl.net>
-	<CANNYZj9uAs5wQPya6R9q3gfSQm_Xyu9xViGBxOQ2COKKbcYeWg@mail.gmail.com>
-	<20191120223207.6cuuklpgrzuhqug3@pbcl.net>
-	<CANNYZj93tJxTsCwS3cg3J=0WB--A0Af26Y=nO9fOdfNb9okRYg@mail.gmail.com>
-	<20191120231812.GB3962@localhost>
-	<238a39c7-b794-aaa0-1da6-4b585078f447@intel.com>
-	<fc3a26d7c77f2781cbad28cdb8fc71995ab5e327.camel@linuxfoundation.org>
-	<20191121135942.h776ktsg6jwow4sj@pbcl.net>
-	<32d99e6a-b196-6d1d-dac2-a0e1ccfa2c75@intel.com>
-	<20191126115954.f4mlttmrp2ieahax@pbcl.net>
+	Tue, 26 Nov 2019 14:15:59 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (unknown [217.70.183.199])
+	by mslow2.mail.gandi.net (Postfix) with ESMTP id 5A6B13B2CDE
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 26 Nov 2019 13:39:47 +0000 (UTC)
+X-Originating-IP: 84.44.14.226
+Received: from nexussix.ar.arcelik (unknown [84.44.14.226])
+	(Authenticated sender: cengiz@kernel.wtf)
+	by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 4822EFF80F;
+	Tue, 26 Nov 2019 13:39:45 +0000 (UTC)
+From: Cengiz Can <cengiz@kernel.wtf>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Nov 2019 16:39:43 +0300
+Message-Id: <20191126133943.124402-1-cengiz@kernel.wtf>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-In-Reply-To: <20191126115954.f4mlttmrp2ieahax@pbcl.net>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH 08/11] lrzsz: remove the recipe
+Subject: [PATCH] systemd-conf: add timesyncd.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +33,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2019 12:06:18 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 26 Nov 2019 14:15:59 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 26, 2019 at 12:59:54PM +0100, Phil Blundell wrote:
-> On Mon, Nov 25, 2019 at 12:07:25PM +0000, Ross Burton wrote:
-> > If you can send a patch sooner rather than later for lrzsz to fix the build
-> > with modern gettext then that would be *awesome*, as this recipe is the sole
-> > blocker.
->
-> This works for me and should resolve your immediate issue.  We can think about
-> a better long-term solution separately.
+Currently OE-Core's systemd-timesyncd defaults to Google's time servers.
 
-Incidentally, "gettextize -f" would have taken care of the majority of this.  In
-autotools.bbclass we have:
+However those servers are not always reachable.
 
-		elif [ "${BPN}" != "gettext" ] && grep -q "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC; then
-			# We'd call gettextize here if it wasn't so broken...
+```
+systemd-timesyncd[242]:
+  Timed out waiting for reply from 216.239.35.12:123 (time4.google.com).
+systemd-timesyncd[242]:
+  Timed out waiting for reply from 216.239.35.0:123 (time1.google.com).
+systemd-timesyncd[242]:
+  Timed out waiting for reply from 216.239.35.4:123 (time2.google.com).
+systemd-timesyncd[242]:
+  Timed out waiting for reply from 216.239.35.8:123 (time3.google.com).
+systemd-timesyncd[242]:
+  Timed out waiting for reply from 216.239.35.12:123 (time4.google.com).
+```
 
-and we then proceed to do a slightly half-baked partial version of what
-gettextize would have done.  This results in using the Makefile.in.in from
-the version of gettext that's in the sysroot, but without any of the other
-bits that gettextize would have copied and this is arguably the worst of
-all possible outcomes.  Actually running gettextize is indeed problematic
-because it has a tendency to require you to press RETURN on the terminal
-(and it reads from /dev/tty to avoid any attempt to subvert this check
-by redirecting stdin!) but I think one could argue that if we can't/won't
-run the full gettextize then we oughtn't to be messing around with any
-of the files that it installs and we should rely on the ones that the
-upstream package shipped.  That may not always work either, but I have at
-least half a suspicion that the current autotools.bbclass behaviour is
-creating as many problems as it solves.
+Even if they are, it is much more sensible to use pool servers from
+ntp.org.
 
-p.
+This patch adds a default timesyncd.conf with Google's time servers
+moved to Fallback and pool.ntp.org as primary time servers.
+
+Signed-off-by: Cengiz Can <cengiz@kernel.wtf>
+---
+ .../systemd/systemd-conf/timesyncd.conf         | 17 +++++++++++++++++
+ meta/recipes-core/systemd/systemd-conf_243.bb   |  3 +++
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd-conf/timesyncd.conf
+
+diff --git a/meta/recipes-core/systemd/systemd-conf/timesyncd.conf b/meta/recipes-core/systemd/systemd-conf/timesyncd.conf
+new file mode 100644
+index 0000000000..84fdc354b8
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd-conf/timesyncd.conf
+@@ -0,0 +1,17 @@
++#  This file is part of systemd.
++#
++#  systemd is free software; you can redistribute it and/or modify it
++#  under the terms of the GNU Lesser General Public License as published by
++#  the Free Software Foundation; either version 2.1 of the License, or
++#  (at your option) any later version.
++#
++# Entries in this file show the compile time defaults.
++# You can change settings by editing this file.
++# Defaults can be restored by simply deleting this file.
++#
++# See timesyncd.conf(5) for details.
++
++[Time]
++NTP=0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org
++FallbackNTP=time1.google.com time2.google.com time3.google.com time4.google.com
++
+diff --git a/meta/recipes-core/systemd/systemd-conf_243.bb b/meta/recipes-core/systemd/systemd-conf_243.bb
+index d9ec023bfd..238bca9373 100644
+--- a/meta/recipes-core/systemd/systemd-conf_243.bb
++++ b/meta/recipes-core/systemd/systemd-conf_243.bb
+@@ -11,6 +11,7 @@ SRC_URI = "\
+     file://system.conf \
+     file://system.conf-qemuall \
+     file://wired.network \
++    file://timesyncd.conf \
+ "
+ 
+ do_install() {
+@@ -18,6 +19,7 @@ do_install() {
+ 	install -D -m0644 ${WORKDIR}/logind.conf ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
+ 	install -D -m0644 ${WORKDIR}/system.conf ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
+ 	install -D -m0644 ${WORKDIR}/wired.network ${D}${systemd_unitdir}/network/80-wired.network
++	install -D -m0644 ${WORKDIR}/timesyncd.conf ${D}${sysconfdir}/systemd/timesyncd.conf
+ }
+ 
+ # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
+@@ -35,4 +37,5 @@ FILES_${PN} = "\
+     ${systemd_unitdir}/logind.conf.d/ \
+     ${systemd_unitdir}/system.conf.d/ \
+     ${systemd_unitdir}/network/ \
++    ${sysconfdir}/systemd/timesyncd.conf \
+ "
+-- 
+2.24.0
+
 
