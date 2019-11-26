@@ -1,43 +1,27 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id DD8057FD0D
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CF4A27F8B2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2019 00:19:41 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.69,243,1571673600"; d="scan'208,217";a="79061822"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 26 Nov 2019 08:19:41 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 65F664CE151A;
-	Tue, 26 Nov 2019 08:11:18 +0800 (CST)
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) by
-	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Tue, 26 Nov 2019 08:19:38 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local ([fe80::48ac:85e1:701e:67f2])
-	by G08CNEXMBPEKD05.g08.fujitsu.local
-	([fe80::48ac:85e1:701e:67f2%14]) with
-	mapi id 15.00.1395.000; Tue, 26 Nov 2019 08:19:38 +0800
-From: "Wang, Mingyu" <wangmy@cn.fujitsu.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Thread-Topic: [OE-core] [PATCH v2] cmake-native:upgrade 3.15.3 -> 3.15.5
-Thread-Index: AQHVoSvrYjMuqM6lbUOL5L9uvjhq5qecm3dQ
-Date: Tue, 26 Nov 2019 00:19:37 +0000
-Message-ID: <c58c362b9d474a61a67326d3aac1649a@G08CNEXMBPEKD05.g08.fujitsu.local>
-References: <1574439782-29100-1-git-send-email-wangmy@cn.fujitsu.com>
-	<1574439782-29100-3-git-send-email-wangmy@cn.fujitsu.com>
-	<CANNYZj-b2C6LbrDCNKSV4DL0+zbWVq6-dVj-pcgytEce--VnEw@mail.gmail.com>
-In-Reply-To: <CANNYZj-b2C6LbrDCNKSV4DL0+zbWVq6-dVj-pcgytEce--VnEw@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.167.225.33]
+	Tue, 26 Nov 2019 02:58:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xAQ2x0so032626
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 25 Nov 2019 18:59:00 -0800
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Mon, 25 Nov 2019 18:59:00 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <20191119031514.10105-1-kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <f84b3ed1-78eb-5b89-836a-c4c5f2fa1b0a@windriver.com>
+Date: Tue, 26 Nov 2019 10:58:58 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 65F664CE151A.A3012
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] cmake-native:upgrade 3.15.3 -> 3.15.5
+In-Reply-To: <20191119031514.10105-1-kai.kang@windriver.com>
+Subject: Re: [PATCH] multilib.bbclass: fix qa warning of kernel-devicetree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,138 +34,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2019 00:19:42 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_c58c362b9d474a61a67326d3aac1649aG08CNEXMBPEKD05g08fujit_"
+X-List-Received-Date: Tue, 26 Nov 2019 02:59:00 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
---_000_c58c362b9d474a61a67326d3aac1649aG08CNEXMBPEKD05g08fujit_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+On 2019/11/19 上午11:15, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> When kernel-devicetree is in RRECOMMENDS such as via variable
+> MACHINE_EXTRA_RRECOMMENDS for some bsp, it shows QA warning of multilib:
+>
+> | WARNING: lib32-packagegroup-base-1.0-r83 do_package: QA Issue:
+> | lib32-packagegroup-base package lib32-packagegroup-machine-base
+> | - suspicious values 'kernel-devicetree' in RRECOMMENDS [multilib]
+>
+> Add kernel-devicetree to exceptions to fix the QA issue. Because there
+> are already 3 kernel related criteria, simplify them by judging package
+> names whether start with 'kernel-'. And also refactor to remove
+> duplicate 'not'.
 
-SGksIEFsZXgNCg0KT0ssIEkgd2lsbCByZW1ha2UgdGhlIHBhdGNoIG9mIGNt
-YWtlIGFuZCBjbWFrZS1uYXRpdmUgYW5kIHJlc3VibWl0Lg0KDQpXYW5nDQoN
-Cg0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gW21haWx0bzphbGV4LmthbmF2
-aW5AZ21haWwuY29tXQ0KU2VudDogRnJpZGF5LCBOb3ZlbWJlciAyMiwgMjAx
-OSA3OjU2IFBNDQpUbzogV2FuZywgTWluZ3l1L+eOiyDpuKPnkZwgPHdhbmdt
-eUBjbi5mdWppdHN1LmNvbT4NCkNjOiBPRS1jb3JlIDxvcGVuZW1iZWRkZWQt
-Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbUEFUQ0ggdjJdIGNtYWtlLW5hdGl2ZTp1cGdyYWRlIDMuMTUu
-MyAtPiAzLjE1LjUNCg0KT24gRnJpLCAyMiBOb3YgMjAxOSBhdCAxMDoxNywg
-V2FuZyBNaW5neXUgPHdhbmdteUBjbi5mdWppdHN1LmNvbTxtYWlsdG86d2Fu
-Z215QGNuLmZ1aml0c3UuY29tPj4gd3JvdGU6DQogLi4uL2NtYWtlL3tjbWFr
-ZS1uYXRpdmVfMy4xNS4zLmJiPGh0dHA6Ly9jbWFrZS1uYXRpdmVfMy4xNS4z
-LmJiPiA9PiBjbWFrZS1uYXRpdmVfMy4xNS41LmJiPGh0dHA6Ly9jbWFrZS1u
-YXRpdmVfMy4xNS41LmJiPn0gICAgICAgICAgfCAwDQogbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYyAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHwgNCArKy0tDQoNCllvdSBuZWVkIHRvIHJlbmFtZSB0
-aGUgdGFyZ2V0IHJlY2lwZSBhcyB3ZWxsLg0KDQpBbGV4DQoKCg==
+Any comment please?
 
---_000_c58c362b9d474a61a67326d3aac1649aG08CNEXMBPEKD05g08fujit_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+Regards,
+Kai
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
-IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
-ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
-Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
-bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
-cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
-IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
-Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
-b2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
-Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
-YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
-fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
-CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
-Cgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToyIDE1IDUgMiAy
-IDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OiJcQOWu
-i+S9kyI7DQoJcGFub3NlLTE6MiAxIDYgMCAzIDEgMSAxIDEgMTt9DQovKiBT
-dHlsZSBEZWZpbml0aW9ucyAqLw0KcC5Nc29Ob3JtYWwsIGxpLk1zb05vcm1h
-bCwgZGl2Lk1zb05vcm1hbA0KCXttYXJnaW46MGNtOw0KCW1hcmdpbi1ib3R0
-b206LjAwMDFwdDsNCglmb250LXNpemU6MTIuMHB0Ow0KCWZvbnQtZmFtaWx5
-OiJUaW1lcyBOZXcgUm9tYW4iLHNlcmlmO30NCmE6bGluaywgc3Bhbi5Nc29I
-eXBlcmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJs
-dWU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQs
-IHNwYW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9y
-aXR5Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5k
-ZXJsaW5lO30NCnByZQ0KCXttc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNv
-LXN0eWxlLWxpbms6IkhUTUwg6aKE6K6+5qC85byPIENoYXIiOw0KCW1hcmdp
-bjowY207DQoJbWFyZ2luLWJvdHRvbTouMDAwMXB0Ow0KCWZvbnQtc2l6ZTox
-MC4wcHQ7DQoJZm9udC1mYW1pbHk6IkNvdXJpZXIgTmV3Ijt9DQpzcGFuLkhU
-TUxDaGFyDQoJe21zby1zdHlsZS1uYW1lOiJIVE1MIOmihOiuvuagvOW8jyBD
-aGFyIjsNCgltc28tc3R5bGUtcHJpb3JpdHk6OTk7DQoJbXNvLXN0eWxlLWxp
-bms6IkhUTUwg6aKE6K6+5qC85byPIjsNCglmb250LWZhbWlseToiQ291cmll
-ciBOZXciO30NCnNwYW4uRW1haWxTdHlsZTE5DQoJe21zby1zdHlsZS10eXBl
-OnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
-LXNlcmlmOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0KLk1zb0NocERlZmF1bHQNCgl7
-bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1zaXplOjEwLjBw
-dDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQpAcGFn
-ZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7DQoJbWFy
-Z2luOjcyLjBwdCA5MC4wcHQgNzIuMHB0IDkwLjBwdDt9DQpkaXYuV29yZFNl
-Y3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5bGU+PCEt
-LVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRzIHY6ZXh0
-PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5kaWZdLS0+
-PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91dCB2OmV4
-dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0iMSIgLz4N
-CjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwvaGVhZD4N
-Cjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0icHVycGxl
-Ij4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj5IaSwgQWxleDxvOnA+PC9vOnA+PC9wPg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj5PSywgSSB3aWxsIHJlbWFrZSB0aGUgcGF0Y2ggb2YgY21ha2Ug
-YW5kIGNtYWtlLW5hdGl2ZSBhbmQgcmVzdWJtaXQuPG86cD48L286cD48L3A+
-DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPldhbmc8bzpwPjwvbzpwPjwvcD4NCjxw
-IGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZToxMS4w
-cHQ7Zm9udC1mYW1pbHk6JnF1b3Q7Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlm
-O2NvbG9yOiMxRjQ5N0QiPjxvOnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4N
-CjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxiPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
-cy1zZXJpZiI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTEuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O0NhbGlicmkmcXVvdDssc2Fu
-cy1zZXJpZiI+IEFsZXhhbmRlciBLYW5hdmluIFttYWlsdG86YWxleC5rYW5h
-dmluQGdtYWlsLmNvbV0NCjxicj4NCjxiPlNlbnQ6PC9iPiBGcmlkYXksIE5v
-dmVtYmVyIDIyLCAyMDE5IDc6NTYgUE08YnI+DQo8Yj5Ubzo8L2I+IFdhbmcs
-IE1pbmd5dS88L3NwYW4+PHNwYW4gbGFuZz0iWkgtQ04iIHN0eWxlPSJmb250
-LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5OuWui+S9kyI+546LPC9zcGFuPjxz
-cGFuIGxhbmc9IlpILUNOIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250
-LWZhbWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPg0KPC9z
-cGFuPjxzcGFuIGxhbmc9IlpILUNOIiBzdHlsZT0iZm9udC1zaXplOjExLjBw
-dDtmb250LWZhbWlseTrlrovkvZMiPum4o+eRnDwvc3Bhbj48c3BhbiBzdHls
-ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtDYWxpYnJp
-JnF1b3Q7LHNhbnMtc2VyaWYiPiAmbHQ7d2FuZ215QGNuLmZ1aml0c3UuY29t
-Jmd0Ozxicj4NCjxiPkNjOjwvYj4gT0UtY29yZSAmbHQ7b3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyZndDs8YnI+DQo8Yj5TdWJq
-ZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjJdIGNtYWtlLW5hdGl2
-ZTp1cGdyYWRlIDMuMTUuMyAtJmd0OyAzLjE1LjU8bzpwPjwvbzpwPjwvc3Bh
-bj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpw
-PjwvcD4NCjxkaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+T24g
-RnJpLCAyMiBOb3YgMjAxOSBhdCAxMDoxNywgV2FuZyBNaW5neXUgJmx0Ozxh
-IGhyZWY9Im1haWx0bzp3YW5nbXlAY24uZnVqaXRzdS5jb20iIHRhcmdldD0i
-X2JsYW5rIj53YW5nbXlAY24uZnVqaXRzdS5jb208L2E+Jmd0OyB3cm90ZTo8
-bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxibG9ja3F1b3RlIHN0
-eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEu
-MHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6NC44
-cHQ7bWFyZ2luLXRvcDo1LjBwdDttYXJnaW4tcmlnaHQ6MGNtO21hcmdpbi1i
-b3R0b206NS4wcHQiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+Jm5ic3A7Li4u
-L2NtYWtlL3s8YSBocmVmPSJodHRwOi8vY21ha2UtbmF0aXZlXzMuMTUuMy5i
-YiIgdGFyZ2V0PSJfYmxhbmsiPmNtYWtlLW5hdGl2ZV8zLjE1LjMuYmI8L2E+
-ID0mZ3Q7DQo8YSBocmVmPSJodHRwOi8vY21ha2UtbmF0aXZlXzMuMTUuNS5i
-YiIgdGFyZ2V0PSJfYmxhbmsiPmNtYWtlLW5hdGl2ZV8zLjE1LjUuYmI8L2E+
-fSZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgfCAwPGJyPg0K
-Jm5ic3A7bWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYyZu
-YnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNw
-OyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAm
-bmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDt8IDQgJiM0MzsmIzQzOy0tPG86
-cD48L286cD48L3A+DQo8L2Jsb2NrcXVvdGU+DQo8ZGl2Pg0KPHAgY2xhc3M9
-Ik1zb05vcm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8L2Rpdj4NCjxk
-aXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj5Zb3UgbmVlZCB0byByZW5hbWUg
-dGhlIHRhcmdldCByZWNpcGUgYXMgd2VsbC48bzpwPjwvbzpwPjwvcD4NCjwv
-ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7
-PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05vcm1h
-bCI+QWxleDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2
-Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
---_000_c58c362b9d474a61a67326d3aac1649aG08CNEXMBPEKD05g08fujit_--
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/classes/multilib.bbclass | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/multilib.bbclass b/meta/classes/multilib.bbclass
+> index 1a9295d36f..ee677da1e2 100644
+> --- a/meta/classes/multilib.bbclass
+> +++ b/meta/classes/multilib.bbclass
+> @@ -184,11 +184,12 @@ python do_package_qa_multilib() {
+>           for i in values:
+>               if i.startswith('virtual/'):
+>                   i = i[len('virtual/'):]
+> -            if (not i.startswith('kernel-module')) and (not i.startswith(mlprefix)) and \
+> -                (not 'cross-canadian' in i) and (not i.startswith("nativesdk-")) and \
+> -                (not i.startswith("rtld")) and (not i.startswith('kernel-vmlinux')) \
+> -                and (not i.startswith("kernel-image")) and (not i.startswith("/")):
+> +
+> +            if (not (i.startswith(mlprefix) or i.startswith("kernel-") \
+> +                    or ('cross-canadian' in i) or i.startswith("nativesdk-") \
+> +                    or i.startswith("rtld") or i.startswith("/"))):
+>                   candidates.append(i)
+> +
+>           if len(candidates) > 0:
+>               msg = "%s package %s - suspicious values '%s' in %s" \
+>                      % (d.getVar('PN'), pkg, ' '.join(candidates), var)
+
+
+-- 
+Kai Kang
+
+
