@@ -1,60 +1,42 @@
-Return-Path: <paul@betafive.co.uk>
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
-	[64.147.123.20])
-	by mail.openembedded.org (Postfix) with ESMTP id C4B6C7FCC3
+Return-Path: <ross.burton@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 36C7A7FCC6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2019 14:28:17 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 1650D88D;
-	Tue, 26 Nov 2019 09:28:17 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
-	by compute1.internal (MEProxy); Tue, 26 Nov 2019 09:28:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=mime-version:message-id:in-reply-to:references:date:from:to
-	:subject:content-type; s=fm3; bh=Kh+Gb74FolYXfqI0g08uM94ng17d0ig
-	M6cEVMjszZ60=; b=E2AKeIhlHqjctLGsjVaOuiPDKahTX9IAtfL7KF2jMgr9RvM
-	pFNuNlNvkaTZ0TsxSVBEf+6OX0OPzJkeWWUhHWk1wPj6H6VZsBWsQCCQ7PPR4Jow
-	tp7whQ/T88JWJ2fHCN3eLeIyjTJyMdafbs1rOKL8y/bMVZaeP2XE5ykE5iH+7MVN
-	hzQSTcHBU9L95Og72AAWD/6dvpgdTyn0BsrRALLiHCFXr1cS0Z6lulsfwpgtkBO8
-	EIe4AudF/CyhjjVTUmTfo3zBnHyA+O73ZtV5VGGl99Gzb/QNlLJdRlBwElumDfca
-	byS54i968Rs3QJlufTgSyr/dvww5n5mr3Z2AZpw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Kh+Gb7
-	4FolYXfqI0g08uM94ng17d0igM6cEVMjszZ60=; b=qij/AqjiQJDce12bX4F43J
-	KJRivprP6NLp3RHJ2KfrGbS/8p6QDh/MOSDk3hE9leacWxDbBw7G7+hzF32aJwMR
-	1FenU7D2IqkcQMBvlrMU50ysEe2/VN3ZhIGY2Eg6niMTjI245i6PsC9PzkR0Rcnl
-	Gh2mizrUbO1vn75D4gpj/oRgY2Kk/k4VYMYm+xy0viOsnCFy9xke6MC1GkGC49Hd
-	ZHeStyAMUDfE+vA9aPAXnHGygTHiKMxrrRwXWE7UI0/R5bcpPt23Uw8DPRSCiBtQ
-	OW0KGw+tUIpGZrpryUTTAWm8u0TaNmZYbgRlbThbUyzumKrDtudAjGju1CrSkDmg
-	==
-X-ME-Sender: <xms:gDbdXYVg4Vo9GsXaVozbBz3UCXso9Wy6qAaVKr7INtSrM7Bi038Zkw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudeifedgieeiucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-	cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfrrghu
-	lhcuuegrrhhkvghrfdcuoehprghulhessggvthgrfhhivhgvrdgtohdruhhkqeenucffoh
-	hmrghinhepnhhtphdrohhrghdpnhhtphhpohholhdrohhrghdpghhoohhglhgvrdgtohhm
-	necurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhessggvthgrfhhivhgvrdgtohdruh
-	hknecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:gDbdXfXik6c8Q5FVMbsC62MLeuBvgZIYOYQT15A5BaSYhqSzkCYBtg>
-	<xmx:gDbdXZRbGHsvzaeWamo5tJidGzoGKqSKvOHr404jfYSvLBZLH-1TNQ>
-	<xmx:gDbdXe2mFA2aRrJnQNEkeieGE-I7G0iq2gh1mqsM2mVXd_JARWj9Tw>
-	<xmx:gDbdXXqeelG86y4RvCBFmxO5xVykOVehsFgVn4R0dSDX6xTuqVAbMQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 286F6E00A2; Tue, 26 Nov 2019 09:28:16 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-578-g826f590-fmstable-20191119v1
-Mime-Version: 1.0
-Message-Id: <abf17fb0-6ee0-457d-8cb6-37bcf78f9400@www.fastmail.com>
-In-Reply-To: <20191126133943.124402-1-cengiz@kernel.wtf>
-References: <20191126133943.124402-1-cengiz@kernel.wtf>
-Date: Tue, 26 Nov 2019 14:27:54 +0000
-From: "Paul Barker" <paul@betafive.co.uk>
-To: "Cengiz Can" <cengiz@kernel.wtf>,
-	"OE Core" <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-conf: add timesyncd.conf
+	Tue, 26 Nov 2019 14:49:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 Nov 2019 06:49:23 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,246,1571727600"; d="scan'208";a="359183626"
+Received: from xsanroma-mobl1.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.34.24])
+	by orsmga004.jf.intel.com with ESMTP; 26 Nov 2019 06:49:21 -0800
+To: Phil Blundell <pb@pbcl.net>
+References: <20191120213844.ome6ota74rmgosy3@pbcl.net>
+	<CANNYZj9uAs5wQPya6R9q3gfSQm_Xyu9xViGBxOQ2COKKbcYeWg@mail.gmail.com>
+	<20191120223207.6cuuklpgrzuhqug3@pbcl.net>
+	<CANNYZj93tJxTsCwS3cg3J=0WB--A0Af26Y=nO9fOdfNb9okRYg@mail.gmail.com>
+	<20191120231812.GB3962@localhost>
+	<238a39c7-b794-aaa0-1da6-4b585078f447@intel.com>
+	<fc3a26d7c77f2781cbad28cdb8fc71995ab5e327.camel@linuxfoundation.org>
+	<20191121135942.h776ktsg6jwow4sj@pbcl.net>
+	<32d99e6a-b196-6d1d-dac2-a0e1ccfa2c75@intel.com>
+	<20191126115954.f4mlttmrp2ieahax@pbcl.net>
+	<20191126120615.kknhw4cwolwfadnf@pbcl.net>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <5d6a0cf0-3751-a961-215d-4dfe0344c51e@intel.com>
+Date: Tue, 26 Nov 2019 14:49:20 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
+MIME-Version: 1.0
+In-Reply-To: <20191126120615.kknhw4cwolwfadnf@pbcl.net>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH 08/11] lrzsz: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,66 +49,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2019 14:28:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 26 Nov 2019 14:49:23 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Tue, 26 Nov 2019, at 13:39, Cengiz Can wrote:
-> Currently OE-Core's systemd-timesyncd defaults to Google's time servers.
+On 26/11/2019 12:06, Phil Blundell wrote:
+> On Tue, Nov 26, 2019 at 12:59:54PM +0100, Phil Blundell wrote:
+>> On Mon, Nov 25, 2019 at 12:07:25PM +0000, Ross Burton wrote:
+>>> If you can send a patch sooner rather than later for lrzsz to fix the build
+>>> with modern gettext then that would be *awesome*, as this recipe is the sole
+>>> blocker.
+>>
+>> This works for me and should resolve your immediate issue.  We can think about
+>> a better long-term solution separately.
 > 
-> However those servers are not always reachable.
+> Incidentally, "gettextize -f" would have taken care of the majority of this.  In
+> autotools.bbclass we have:
 > 
-> ```
-> systemd-timesyncd[242]:
->   Timed out waiting for reply from 216.239.35.12:123 (time4.google.com).
-> systemd-timesyncd[242]:
->   Timed out waiting for reply from 216.239.35.0:123 (time1.google.com).
-> systemd-timesyncd[242]:
->   Timed out waiting for reply from 216.239.35.4:123 (time2.google.com).
-> systemd-timesyncd[242]:
->   Timed out waiting for reply from 216.239.35.8:123 (time3.google.com).
-> systemd-timesyncd[242]:
->   Timed out waiting for reply from 216.239.35.12:123 (time4.google.com).
-> ```
+> 		elif [ "${BPN}" != "gettext" ] && grep -q "^[[:space:]]*AM_GNU_GETTEXT" $CONFIGURE_AC; then
+> 			# We'd call gettextize here if it wasn't so broken...
 > 
-> Even if they are, it is much more sensible to use pool servers from
-> ntp.org.
-> 
-> This patch adds a default timesyncd.conf with Google's time servers
-> moved to Fallback and pool.ntp.org as primary time servers.
-> 
-> Signed-off-by: Cengiz Can <cengiz@kernel.wtf>
-> ---
->  .../systemd/systemd-conf/timesyncd.conf         | 17 +++++++++++++++++
->  meta/recipes-core/systemd/systemd-conf_243.bb   |  3 +++
->  2 files changed, 20 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd-conf/timesyncd.conf
-> 
-> diff --git a/meta/recipes-core/systemd/systemd-conf/timesyncd.conf 
-> b/meta/recipes-core/systemd/systemd-conf/timesyncd.conf
-> new file mode 100644
-> index 0000000000..84fdc354b8
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd-conf/timesyncd.conf
-> @@ -0,0 +1,17 @@
-> +#  This file is part of systemd.
-> +#
-> +#  systemd is free software; you can redistribute it and/or modify it
-> +#  under the terms of the GNU Lesser General Public License as 
-> published by
-> +#  the Free Software Foundation; either version 2.1 of the License, or
-> +#  (at your option) any later version.
-> +#
-> +# Entries in this file show the compile time defaults.
-> +# You can change settings by editing this file.
-> +# Defaults can be restored by simply deleting this file.
-> +#
-> +# See timesyncd.conf(5) for details.
-> +
-> +[Time]
-> +NTP=0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org
+> and we then proceed to do a slightly half-baked partial version of what
+> gettextize would have done.  This results in using the Makefile.in.in from
+> the version of gettext that's in the sysroot, but without any of the other
+> bits that gettextize would have copied and this is arguably the worst of
+> all possible outcomes.  Actually running gettextize is indeed problematic
+> because it has a tendency to require you to press RETURN on the terminal
+> (and it reads from /dev/tty to avoid any attempt to subvert this check
+> by redirecting stdin!) but I think one could argue that if we can't/won't
+> run the full gettextize then we oughtn't to be messing around with any
+> of the files that it installs and we should rely on the ones that the
+> upstream package shipped.  That may not always work either, but I have at
+> least half a suspicion that the current autotools.bbclass behaviour is
+> creating as many problems as it solves.
 
-https://www.ntppool.org/en/vendors.html should be considered before changing the defaults to these values. We should probably get a vendor zone.
+gettextize is dead, autopoint is the glorious future, and I've a branch 
+that is practically complete implementing that (ross/autopoint).
 
--- 
-Paul Barker
+Ross
 
