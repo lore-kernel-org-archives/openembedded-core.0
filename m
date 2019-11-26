@@ -1,56 +1,54 @@
-Return-Path: <kergoth@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D10FF7F7C1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BCB27F7B5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2019 17:29:45 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id 207so9324982pge.8
+	Tue, 26 Nov 2019 18:06:10 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id b19so9568272pfd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2019 09:29:47 -0800 (PST)
+	Tue, 26 Nov 2019 10:06:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:message-id:in-reply-to:references:subject
-	:mime-version; bh=zA6maQYj5H1noU3YXqRHT0Q1MtTTCQ8ngohjC9cRh1M=;
-	b=CGmopGmRLx1EoknX1d9ReRr4njsVXgZ94xuo2PL/tfuALpXglSvUl6aI6tNXQiAkLg
-	x36WKVwb3i2p9f3/dYsnXDs74kQlExlOZMkgf7zB04o77EdrDk6M9KPFff3jw5uAyq7A
-	VBRD1Qry+YDeMJiglCgbo5fsx+uYOxSHLlsPJ57RBK4reSKwoxPAaTtwfKEknlFA/LnS
-	r9dCb8E9LGakdr7PVHuOwrZhSKr9YWwSGvaXJxCLuTtIX1L+GwKwvSn9tPFMIbu16ND7
-	Kdlzz0LE3GdTCyhhr3sFsVujx9ld7LBSgqtlI1Td88WB3UfhCZ86rj3p9B3lJGFjMbLG
-	YIew==
+	h=message-id:subject:from:to:date:in-reply-to:references:organization
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=m547+2Iv+HT1TAhLh8i8bIGnX4nn+17Ul6x5XnFiH5U=;
+	b=ZEHQeK76sw8widdyYfLSMAgjN0E+tXPiNSRZt4UCzeGLWNKxXIbZ+TTXFG6tlSnYIz
+	Hnqr+tkR50qrySkH5Hc7shK6/6FbjeFtITO49q6X0RRvLEfTc1t+fVZo2u8zREskvo+O
+	UQZqgMiv7Vn9mWyJFSgdtSfIygLi/E3Ta57L2FJuDFVL6iufEjmUCwgJf/3pz9ngCvpM
+	48oGA/WXly8FUeW3IaBYhcmy1nVoOR//PptcPlQvOKY5nfjIfQMkr2pxFOylrpmHC6si
+	vJUHdT3OfGFOSMJUQVugjRXLXcBmnSTtUASCHZBtnbeVIhea0wmrAOyWRg9HFgMB6aa5
+	HECw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
-	:references:subject:mime-version;
-	bh=zA6maQYj5H1noU3YXqRHT0Q1MtTTCQ8ngohjC9cRh1M=;
-	b=qXYD9lR7L3viCNSM66ixCAQhFB8SGNG3xKChzW0ZsB1iHovXEybn3slIf0fKx+qllx
-	gkcb5d1zdTo+M9Mfz1RPKqTKANY9T8vYyubnVMpI+kh1rL4TrpuA4DlRBsNrT8amZxoZ
-	Es5KfIwJ4hwVxenPp374cTu8K/7oVzFj9KVKdMDcRNdY5/o4+MzeAKh6yT1nD0miqAKE
-	elBQPr/+Wend+LigUImGoHJRwYtzK1yNlVy8JpIxKIB5kXraaf0DXRkB6ipeon9Z5wvA
-	nc3Qu9TcAoMcKaJ3ZE4aag/aBvxNXsmIIvt/VTGRG6vvV23E/49SWKaYr2TcoxR5o67F
-	sAjg==
-X-Gm-Message-State: APjAAAV7MENjYH0IFAZkMAF2B9JtZyRIRufBU05o/TgxzVMDkPg0WT13
-	r2Lac8pEUHQ0nmgYhB7F32Pr1Pkwf1zLJQ==
-X-Google-Smtp-Source: APXvYqyLMbOn15tmHf+c3jwDwDZBzdNCGLvLCzFxDDX5Wm1ctfvcIFVCFi+ZofLy1kFC+1TBXsDUIQ==
-X-Received: by 2002:aa7:93ce:: with SMTP id y14mr41400807pff.138.1574789386808;
-	Tue, 26 Nov 2019 09:29:46 -0800 (PST)
-Received: from [192.168.1.17] (ip70-180-21-74.ph.ph.cox.net. [70.180.21.74])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:organization:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=m547+2Iv+HT1TAhLh8i8bIGnX4nn+17Ul6x5XnFiH5U=;
+	b=Rq9AI0xNR9MO68ovFi9UiMQt4P3fl7W3nxd1YAupXKSqmzcNms4ZP9KIEHwyxjj1Cf
+	nNxFLR0pzj6vEOuCEfEnz4HS/FDTmTvueoxP1E5N3LqoC75XP5be7Enbj/j2iRCilb2/
+	VKfzJtKr38OKXoJ/JUcBNAaPoh6+h9Esymf9E4Suy5Dvws3vsdN+SJrGWBMygHtqOLP/
+	lak+nl+L5PPsVUxdI+H+AmzU0OA6oow+ZRLV7BHChO2BQebEgTQ+u/6vkhYCYkrB+mAK
+	2UWYxYaTUW3lv+JMuQPu/CyZ2IdompM1KQmWgPJejoqD9vffKdrMS8r0/Zp9Vg6ukRvh
+	nAtg==
+X-Gm-Message-State: APjAAAUK21VDxXSFOrxQA0KVjUMpH2m4p3z/95G2jLqukqlmTUvOEujJ
+	xk8AiK4oGuwntHSMrtL5dmWH+uf6Fmw=
+X-Google-Smtp-Source: APXvYqyorXGpML2imJZEuF8oAp+S0You2AnaAPYXdawiHkvfSo2M9Z60hycfmOEsmyV94TYlYHAFSQ==
+X-Received: by 2002:a63:ea09:: with SMTP id c9mr40641475pgi.232.1574791571624; 
+	Tue, 26 Nov 2019 10:06:11 -0800 (PST)
+Received: from apollo ([2601:646:8500:1c20::e439])
 	by smtp.gmail.com with ESMTPSA id
-	v63sm13347012pfb.181.2019.11.26.09.29.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 26 Nov 2019 09:29:45 -0800 (PST)
-Date: Tue, 26 Nov 2019 10:29:38 -0700
-From: Christopher Larson <kergoth@gmail.com>
-To: Christopher Larson <kergoth@gmail.com>, Khem Raj
- <raj.khem@gmail.com>
-Message-ID: <ca0ac6d6-2e30-4c68-b9e4-83121bd8b137@Spark>
-In-Reply-To: <CAMKF1sos77k28JEJYBf_ox3s-dOJL_-ohHJuyQ15kv=xxP6S4A@mail.gmail.com>
-References: <20191125221357.6560-1-kergoth@gmail.com>
-	<20191125221357.6560-3-kergoth@gmail.com>
-	<CAMKF1sos77k28JEJYBf_ox3s-dOJL_-ohHJuyQ15kv=xxP6S4A@mail.gmail.com>
-X-Readdle-Message-ID: ca0ac6d6-2e30-4c68-b9e4-83121bd8b137@Spark
+	s13sm13661810pfc.110.2019.11.26.10.06.10
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 26 Nov 2019 10:06:11 -0800 (PST)
+Message-ID: <463f7c99f0ca6e249716679aa28b15b152474a80.camel@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+To: Cengiz Can <cengiz@kernel.wtf>, openembedded-core@lists.openembedded.org
+Date: Tue, 26 Nov 2019 10:06:06 -0800
+In-Reply-To: <20191126133943.124402-1-cengiz@kernel.wtf>
+References: <20191126133943.124402-1-cengiz@kernel.wtf>
+Organization: HIMVIS LLC
+User-Agent: Evolution 3.34.2 
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] libcap-ng: fix built failure with some external toolchains due to missing pthread
+Subject: Re: [PATCH] systemd-conf: add timesyncd.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,302 +61,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2019 17:29:46 -0000
-Content-Type: multipart/alternative; boundary="5ddd6107_3352255a_2d9"
+X-List-Received-Date: Tue, 26 Nov 2019 18:06:11 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---5ddd6107_3352255a_2d9
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+On Tue, 2019-11-26 at 16:39 +0300, Cengiz Can wrote:
+> Currently OE-Core's systemd-timesyncd defaults to Google's time
+> servers.
+> 
+> However those servers are not always reachable.
+> 
+> ```
+> systemd-timesyncd[242]:
+>   Timed out waiting for reply from 216.239.35.12:123
+> (time4.google.com).
+> systemd-timesyncd[242]:
+>   Timed out waiting for reply from 216.239.35.0:123
+> (time1.google.com).
+> systemd-timesyncd[242]:
+>   Timed out waiting for reply from 216.239.35.4:123
+> (time2.google.com).
+> systemd-timesyncd[242]:
+>   Timed out waiting for reply from 216.239.35.8:123
+> (time3.google.com).
+> systemd-timesyncd[242]:
+>   Timed out waiting for reply from 216.239.35.12:123
+> (time4.google.com).
+> ```
+> 
+> Even if they are, it is much more sensible to use pool servers from
+> ntp.org.
+> 
+> This patch adds a default timesyncd.conf with Google's time servers
+> moved to Fallback and pool.ntp.org as primary time servers.
+> 
 
-Testing with=C2=A0https://github.com/stevegrubb/libcap-ng/pull/10=C2=A0+ =
-HAVE=5FPTHREAD=5FH conditional now. Thanks.
-On Nov 25, 2019, 3:27 PM -0700, Khem Raj <raj.khem=40gmail.com>, wrote:
-> On Mon, Nov 25, 2019 at 2:13 PM Christopher Larson <kergoth=40gmail.com=
-> wrote:
-> >
-> > =46rom: Christopher Larson <chris=5Flarson=40mentor.com>
-> >
-> > The libcap-ng build doesn't pass -pthread and can fail to link.
-> >
->
-> perhaps, adding a configure time check for pthread.h would be possible
->
-> AC=5FCHECK=5FHEADERS(pthread.h, =5B=5D, =5BAC=5FMSG=5FWARN(pthread.h no=
-t found,
-> pthread=5Fatfork disabled.)=5D)
->
-> then include pthread.h inside conditional like below in source files.
->
-> =23ifdef HAVE=5FPTHREAD=5FH
-> =23endif
->
->
->
-> > Signed-off-by: Christopher Larson <chris=5Flarson=40mentor.com>
-> > ---
-> > meta/recipes-support/libcap-ng/libcap-ng.inc =7C 1 +
-> > .../libcap-ng/revert-pthread=5Fatfork-fix.patch =7C 56 ++++++++++++++=
-++++++++
-> > 2 files changed, 57 insertions(+)
-> > create mode 100644 meta/recipes-support/libcap-ng/libcap-ng/revert-pt=
-hread=5Fatfork-fix.patch
-> >
-> > diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/reci=
-pes-support/libcap-ng/libcap-ng.inc
-> > index aec83896e4..46d37e6807 100644
-> > --- a/meta/recipes-support/libcap-ng/libcap-ng.inc
-> > +++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
-> > =40=40 -9,6 +9,7 =40=40 LIC=5F=46ILES=5FCHKSUM =3D =22file://COPYING;=
-md5=3D94d55d512a9ba36caa9b7df079bae19f =5C
-> >
-> > SRC=5FURI =3D =22http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-=
-=24=7BPV=7D.tar.gz =5C
-> > file://python.patch =5C
-> > + file://revert-pthread=5Fatfork-fix.patch =5C
-> > =22
-> >
-> > SRC=5FURI=5Bmd5sum=5D =3D =2257dc267e2949cdecb651a929f9206572=22
-> > diff --git a/meta/recipes-support/libcap-ng/libcap-ng/revert-pthread=5F=
-atfork-fix.patch b/meta/recipes-support/libcap-ng/libcap-ng/revert-pthrea=
-d=5Fatfork-fix.patch
-> > new file mode 100644
-> > index 0000000000..d3f7790b1e
-> > --- /dev/null
-> > +++ b/meta/recipes-support/libcap-ng/libcap-ng/revert-pthread=5Fatfor=
-k-fix.patch
-> > =40=40 -0,0 +1,56 =40=40
-> > +=46rom 81dc82393fae9851397fa5d94094434aa1d5c3d1 Mon Sep 17 00:00:00 =
-2001
-> > +=46rom: Christopher Larson <chris=5Flarson=40mentor.com>
-> > +Date: Thu, 14 Nov 2019 21:13:24 +0500
-> > +Subject: =5BPATCH=5D Revert =22=46ix usage of pthread=5Fatfork a who=
-le different way=22
-> > +
-> > +This reverts commit 08a09cba90f3d960c080a20833fb8c0908f1cea6.
-> > +
-> > +The fix was breaking builds with some toolchains.
-> > +
-> > +Signed-off-by: Christopher Larson <chris=5Flarson=40mentor.com>
-> > +---
-> > + src/Makefile.am =7C 2 +-
-> > + src/cap-ng.c =7C 12 +++++++++++-
-> > + 2 files changed, 12 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/src/Makefile.am b/src/Makefile.am
-> > +index 5a66d4e..d46d02b 100644
-> > +--- a/src/Makefile.am
-> > ++++ b/src/Makefile.am
-> > +=40=40 -34,5 +34,5 =40=40 noinst=5FHEADERS =3D captab.h
-> > + libcap=5Fng=5Fla=5FSOURCES =3D cap-ng.c lookup=5Ftable.c
-> > + libcap=5Fng=5Fla=5FLIBADD =3D
-> > + libcap=5Fng=5Fla=5FDEPENDENCIES =3D =24(libcap=5Fng=5Fla=5FSOURCES)=
- ../config.h
-> > +-libcap=5Fng=5Fla=5FLD=46LAGS =3D -Wl,-z,relro
-> > ++libcap=5Fng=5Fla=5FLD=46LAGS =3D -Wl,-z,relro -Wl,-z,nodelete
-> > +
-> > +diff --git a/src/cap-ng.c b/src/cap-ng.c
-> > +index 35fcd7a..ed31afa 100644
-> > +--- a/src/cap-ng.c
-> > ++++ b/src/cap-ng.c
-> > +=40=40 -155,6 +155,15 =40=40 static =5F=5Fthread struct cap=5Fng m =3D=
- =7B 1,
-> > + CAPNG=5FNEW,
-> > + =7B0, 0=7D =7D;
-> > +
-> > ++
-> > ++/*
-> > ++ * The pthread=5Fatfork function is being made weak so that we can =
-use it
-> > ++ * if the program is linked with pthreads and not requiring it for
-> > ++ * everything that uses libcap-ng.
-> > ++ */
-> > ++extern int =5F=5Fattribute=5F=5F((weak)) pthread=5Fatfork(void (*pr=
-epare)(void),
-> > ++ void (*parent)(void), void (*child)(void));
-> > ++
-> > + /*
-> > + * Reset the state so that init gets called to erase everything
-> > + */
-> > +=40=40 -166,7 +175,8 =40=40 static void deinit(void)
-> > + static void init=5Flib(void) =5F=5Fattribute=5F=5F ((constructor));=
+if we want to make this change then we should also let users know about
+any restrictions on its use will be imposed by moving to new servers,
+my suggestion would be to stay with defaults as it is, and have
+bbappends in own layers to point to time servers suitable for your
+projects. 
 
-> > + static void init=5Flib(void)
-> > + =7B
-> > +- pthread=5Fatfork(NULL, NULL, deinit);
-> > ++ if (pthread=5Fatfork)
-> > ++ pthread=5Fatfork(NULL, NULL, deinit);
-> > + =7D
-> > +
-> > + static void init(void)
-> > --
-> > 2.11.1
-> >
-> > --
-> > =5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F
-> > Openembedded-core mailing list
-> > Openembedded-core=40lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Signed-off-by: Cengiz Can <cengiz@kernel.wtf>
+> ---
+>  .../systemd/systemd-conf/timesyncd.conf         | 17
+> +++++++++++++++++
+>  meta/recipes-core/systemd/systemd-conf_243.bb   |  3 +++
+>  2 files changed, 20 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd-
+> conf/timesyncd.conf
+> 
+> diff --git a/meta/recipes-core/systemd/systemd-conf/timesyncd.conf
+> b/meta/recipes-core/systemd/systemd-conf/timesyncd.conf
+> new file mode 100644
+> index 0000000000..84fdc354b8
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd-conf/timesyncd.conf
+> @@ -0,0 +1,17 @@
+> +#  This file is part of systemd.
+> +#
+> +#  systemd is free software; you can redistribute it and/or modify
+> it
+> +#  under the terms of the GNU Lesser General Public License as
+> published by
+> +#  the Free Software Foundation; either version 2.1 of the License,
+> or
+> +#  (at your option) any later version.
+> +#
+> +# Entries in this file show the compile time defaults.
+> +# You can change settings by editing this file.
+> +# Defaults can be restored by simply deleting this file.
+> +#
+> +# See timesyncd.conf(5) for details.
+> +
+> +[Time]
+> +NTP=0.pool.ntp.org 1.pool.ntp.org 2.pool.ntp.org 3.pool.ntp.org
+> +FallbackNTP=time1.google.com time2.google.com time3.google.com
+> time4.google.com
+> +
+> diff --git a/meta/recipes-core/systemd/systemd-conf_243.bb
+> b/meta/recipes-core/systemd/systemd-conf_243.bb
+> index d9ec023bfd..238bca9373 100644
+> --- a/meta/recipes-core/systemd/systemd-conf_243.bb
+> +++ b/meta/recipes-core/systemd/systemd-conf_243.bb
+> @@ -11,6 +11,7 @@ SRC_URI = "\
+>      file://system.conf \
+>      file://system.conf-qemuall \
+>      file://wired.network \
+> +    file://timesyncd.conf \
+>  "
+>  
+>  do_install() {
+> @@ -18,6 +19,7 @@ do_install() {
+>  	install -D -m0644 ${WORKDIR}/logind.conf
+> ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
+>  	install -D -m0644 ${WORKDIR}/system.conf
+> ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
+>  	install -D -m0644 ${WORKDIR}/wired.network
+> ${D}${systemd_unitdir}/network/80-wired.network
+> +	install -D -m0644 ${WORKDIR}/timesyncd.conf
+> ${D}${sysconfdir}/systemd/timesyncd.conf
+>  }
+>  
+>  # Based on change from YP bug 8141, OE commit
+> 5196d7bacaef1076c361adaa2867be31759c1b52
+> @@ -35,4 +37,5 @@ FILES_${PN} = "\
+>      ${systemd_unitdir}/logind.conf.d/ \
+>      ${systemd_unitdir}/system.conf.d/ \
+>      ${systemd_unitdir}/network/ \
+> +    ${sysconfdir}/systemd/timesyncd.conf \
+>  "
+> -- 
+> 2.24.0
+> 
 
---5ddd6107_3352255a_2d9
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
 
-<html xmlns=3D=22http://www.w3.org/1999/xhtml=22>
-<head>
-<title></title>
-</head>
-<body>
-<div name=3D=22messageBodySection=22>
-<div dir=3D=22auto=22>Testing with&=23160;<a href=3D=22https://github.com=
-/stevegrubb/libcap-ng/pull/10=22>https://github.com/stevegrubb/libcap-ng/=
-pull/10</a>&=23160;+ HAVE=5FPTHREAD=5FH conditional now. Thanks.</div>
-</div>
-<div name=3D=22messageReplySection=22>On Nov 25, 2019, 3:27 PM -0700, Khe=
-m Raj &lt;raj.khem=40gmail.com&gt;, wrote:<br />
-<blockquote type=3D=22cite=22 class=3D=22spark=5Fquote=22 style=3D=22marg=
-in: 5px 5px; padding-left: 10px; border-left: thin solid =231abc9c;=22>On=
- Mon, Nov 25, 2019 at 2:13 PM Christopher Larson &lt;kergoth=40gmail.com&=
-gt; wrote:<br />
-<blockquote type=3D=22cite=22 class=3D=22spark=5Fquote=22 style=3D=22marg=
-in: 5px 5px; padding-left: 10px; border-left: thin solid =23e67e22;=22><b=
-r />
-=46rom: Christopher Larson &lt;chris=5Flarson=40mentor.com&gt;<br />
-<br />
-The libcap-ng build doesn't pass -pthread and can fail to link.<br />
-<br /></blockquote>
-<br />
-perhaps, adding a configure time check for pthread.h would be possible<br=
- />
-<br />
-AC=5FCHECK=5FHEADERS(pthread.h, =5B=5D, =5BAC=5FMSG=5FWARN(pthread.h not =
-found,<br />
-pthread=5Fatfork disabled.)=5D)<br />
-<br />
-then include pthread.h inside conditional like below in source files.<br =
-/>
-<br />
-=23ifdef HAVE=5FPTHREAD=5FH<br />
-=23endif<br />
-<br />
-<br />
-<br />
-<blockquote type=3D=22cite=22 class=3D=22spark=5Fquote=22 style=3D=22marg=
-in: 5px 5px; padding-left: 10px; border-left: thin solid =23e67e22;=22>Si=
-gned-off-by: Christopher Larson &lt;chris=5Flarson=40mentor.com&gt;<br />=
-
----<br />
-meta/recipes-support/libcap-ng/libcap-ng.inc =7C 1 +<br />
-.../libcap-ng/revert-pthread=5Fatfork-fix.patch =7C 56 ++++++++++++++++++=
-++++<br />
-2 files changed, 57 insertions(+)<br />
-create mode 100644 meta/recipes-support/libcap-ng/libcap-ng/revert-pthrea=
-d=5Fatfork-fix.patch<br />
-<br />
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-=
-support/libcap-ng/libcap-ng.inc<br />
-index aec83896e4..46d37e6807 100644<br />
---- a/meta/recipes-support/libcap-ng/libcap-ng.inc<br />
-+++ b/meta/recipes-support/libcap-ng/libcap-ng.inc<br />
-=40=40 -9,6 +9,7 =40=40 LIC=5F=46ILES=5FCHKSUM =3D =22file://COPYING;md5=3D=
-94d55d512a9ba36caa9b7df079bae19f =5C<br />
-<br />
-SRC=5FURI =3D =22http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-=24=7B=
-PV=7D.tar.gz =5C<br />
-file://python.patch =5C<br />
-+ file://revert-pthread=5Fatfork-fix.patch =5C<br />
-=22<br />
-<br />
-SRC=5FURI=5Bmd5sum=5D =3D =2257dc267e2949cdecb651a929f9206572=22<br />
-diff --git a/meta/recipes-support/libcap-ng/libcap-ng/revert-pthread=5Fat=
-fork-fix.patch b/meta/recipes-support/libcap-ng/libcap-ng/revert-pthread=5F=
-atfork-fix.patch<br />
-new file mode 100644<br />
-index 0000000000..d3f7790b1e<br />
---- /dev/null<br />
-+++ b/meta/recipes-support/libcap-ng/libcap-ng/revert-pthread=5Fatfork-fi=
-x.patch<br />
-=40=40 -0,0 +1,56 =40=40<br />
-+=46rom 81dc82393fae9851397fa5d94094434aa1d5c3d1 Mon Sep 17 00:00:00 2001=
-<br />
-+=46rom: Christopher Larson &lt;chris=5Flarson=40mentor.com&gt;<br />
-+Date: Thu, 14 Nov 2019 21:13:24 +0500<br />
-+Subject: =5BPATCH=5D Revert =22=46ix usage of pthread=5Fatfork a whole d=
-ifferent way=22<br />
-+<br />
-+This reverts commit 08a09cba90f3d960c080a20833fb8c0908f1cea6.<br />
-+<br />
-+The fix was breaking builds with some toolchains.<br />
-+<br />
-+Signed-off-by: Christopher Larson &lt;chris=5Flarson=40mentor.com&gt;<br=
- />
-+---<br />
-+ src/Makefile.am =7C 2 +-<br />
-+ src/cap-ng.c =7C 12 +++++++++++-<br />
-+ 2 files changed, 12 insertions(+), 2 deletions(-)<br />
-+<br />
-+diff --git a/src/Makefile.am b/src/Makefile.am<br />
-+index 5a66d4e..d46d02b 100644<br />
-+--- a/src/Makefile.am<br />
-++++ b/src/Makefile.am<br />
-+=40=40 -34,5 +34,5 =40=40 noinst=5FHEADERS =3D captab.h<br />
-+ libcap=5Fng=5Fla=5FSOURCES =3D cap-ng.c lookup=5Ftable.c<br />
-+ libcap=5Fng=5Fla=5FLIBADD =3D<br />
-+ libcap=5Fng=5Fla=5FDEPENDENCIES =3D =24(libcap=5Fng=5Fla=5FSOURCES) ../=
-config.h<br />
-+-libcap=5Fng=5Fla=5FLD=46LAGS =3D -Wl,-z,relro<br />
-++libcap=5Fng=5Fla=5FLD=46LAGS =3D -Wl,-z,relro -Wl,-z,nodelete<br />
-+<br />
-+diff --git a/src/cap-ng.c b/src/cap-ng.c<br />
-+index 35fcd7a..ed31afa 100644<br />
-+--- a/src/cap-ng.c<br />
-++++ b/src/cap-ng.c<br />
-+=40=40 -155,6 +155,15 =40=40 static =5F=5Fthread struct cap=5Fng m =3D =7B=
- 1,<br />
-+ CAPNG=5FNEW,<br />
-+ =7B0, 0=7D =7D;<br />
-+<br />
-++<br />
-++/*<br />
-++ * The pthread=5Fatfork function is being made weak so that we can use =
-it<br />
-++ * if the program is linked with pthreads and not requiring it for<br /=
->
-++ * everything that uses libcap-ng.<br />
-++ */<br />
-++extern int =5F=5Fattribute=5F=5F((weak)) pthread=5Fatfork(void (*prepar=
-e)(void),<br />
-++ void (*parent)(void), void (*child)(void));<br />
-++<br />
-+ /*<br />
-+ * Reset the state so that init gets called to erase everything<br />
-+ */<br />
-+=40=40 -166,7 +175,8 =40=40 static void deinit(void)<br />
-+ static void init=5Flib(void) =5F=5Fattribute=5F=5F ((constructor));<br =
-/>
-+ static void init=5Flib(void)<br />
-+ =7B<br />
-+- pthread=5Fatfork(NULL, NULL, deinit);<br />
-++ if (pthread=5Fatfork)<br />
-++ pthread=5Fatfork(NULL, NULL, deinit);<br />
-+ =7D<br />
-+<br />
-+ static void init(void)<br />
---<br />
-2.11.1<br />
-<br />
---<br />
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=
-=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F=5F<br />
-Openembedded-core mailing list<br />
-Openembedded-core=40lists.openembedded.org<br />
-http://lists.openembedded.org/mailman/listinfo/openembedded-core<br /></b=
-lockquote>
-</blockquote>
-</div>
-</body>
-</html>
-
---5ddd6107_3352255a_2d9--
