@@ -1,23 +1,39 @@
-Return-Path: <cengiz@kernel.wtf>
-Received: from relay11.mail.gandi.net (relay11.mail.gandi.net [217.70.178.231])
-	by mail.openembedded.org (Postfix) with ESMTP id 26E9E7FC81
+Return-Path: <niko.mauno@iki.fi>
+Received: from sirokuusama2.dnainternet.net (sirokuusama2.dnainternet.net
+	[83.102.40.153])
+	by mail.openembedded.org (Postfix) with ESMTP id E31BE7FCC4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 26 Nov 2019 20:02:16 +0000 (UTC)
-Received: from [10.1.10.1] (unknown [176.88.139.188])
-	(Authenticated sender: cengiz@kernel.wtf)
-	by relay11.mail.gandi.net (Postfix) with ESMTPSA id 33891100005;
-	Tue, 26 Nov 2019 20:02:16 +0000 (UTC)
-From: Cengiz Can <cengiz@kernel.wtf>
-To: Phil Blundell <pb@pbcl.net>
-Date: Tue, 26 Nov 2019 23:02:15 +0300
-Message-ID: <16ea94ea570.2bfa.85c738e3968116fc5c0dc2de74002084@kernel.wtf>
-In-Reply-To: <20191126181929.sys6lo2fadf72wdn@pbcl.net>
-References: <20191126133943.124402-1-cengiz@kernel.wtf>
-	<20191126181929.sys6lo2fadf72wdn@pbcl.net>
-User-Agent: AquaMail/1.21.0-1492 (build: 102100009)
+	Tue, 26 Nov 2019 20:21:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by sirokuusama2.dnainternet.net (Postfix) with ESMTP id DD78E12208;
+	Tue, 26 Nov 2019 22:15:06 +0200 (EET)
+X-Virus-Scanned: DNA Internet at dnainternet.net
+X-Spam-Flag: NO
+X-Spam-Score: 0.653
+X-Spam-Level: 
+X-Spam-Status: No, score=0.653 tagged_above=-9999 required=6
+	tests=[SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.652] autolearn=disabled
+Received: from sirokuusama2.dnainternet.net ([83.102.40.153])
+	by localhost (sirokuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
+	port 10041)
+	with ESMTP id hGEaKMF3jcMY; Tue, 26 Nov 2019 22:15:05 +0200 (EET)
+Received: from kirsikkapuu2.dnainternet.net (kirsikkapuu2.dnainternet.net
+	[83.102.40.52])
+	by sirokuusama2.dnainternet.net (Postfix) with ESMTP id 975E0123BB;
+	Tue, 26 Nov 2019 22:15:02 +0200 (EET)
+Received: from localhost.localdomain (62-78-161-185.bb.dnainternet.fi
+	[62.78.161.185])
+	by kirsikkapuu2.dnainternet.net (Postfix) with ESMTP id 1A0DB3FE6;
+	Tue, 26 Nov 2019 22:14:58 +0200 (EET)
+From: Niko Mauno <niko.mauno@iki.fi>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 26 Nov 2019 22:14:06 +0200
+Message-Id: <20191126201407.111980-2-niko.mauno@iki.fi>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20191126201407.111980-1-niko.mauno@iki.fi>
+References: <20191126201407.111980-1-niko.mauno@iki.fi>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] systemd-conf: add timesyncd.conf
+Subject: [PATCH 2/3] iptables: Allow overriding rules file location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,38 +46,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 26 Nov 2019 20:02:17 -0000
-Content-Type: text/plain; format=flowed; charset="us-ascii"
+X-List-Received-Date: Tue, 26 Nov 2019 20:21:48 -0000
 Content-Transfer-Encoding: 8bit
 
-Hello,
+In some cases a distribution may want to install rules file into a
+location other than /etc/iptables/ so introduce custom recipe-level
+IPTABLES_RULES_DIR parameter which allows conveniently overriding
+the rules directory location.
 
-I didn't know that they were using vendor naming for rate limiting.
+Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
+---
+ .../iptables/iptables/iptables.service                |  4 ++--
+ meta/recipes-extended/iptables/iptables_1.8.3.bb      | 11 ++++++++---
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
-On November 26, 2019 21:19:31 Phil Blundell <pb@pbcl.net> wrote:
-
-> The "advice for vendors" on the ntp.org website specifically says:
->
->
->   Do not use the standard pool.ntp.org names as a default
->   configuration in your system.
->
->
-> I don't think we should make this change.
-
-I have two questions though
-
-1) Does Google allow their time servers to be directly used?
-
-2) Can we apply for a vendor name like "oe" so at least they can 
-throttle/rate limit their inbound traffic?
-
-Because at current state, timesyncd is unreliable and doesn't have sane 
-defaults enabled. pool.ntp.org is a community effort but has thousands of 
-servers that are available for service. Not just 4 Google controlled servers.
-
-
-
-
+diff --git a/meta/recipes-extended/iptables/iptables/iptables.service b/meta/recipes-extended/iptables/iptables/iptables.service
+index 041316e457..5a8aa3f298 100644
+--- a/meta/recipes-extended/iptables/iptables/iptables.service
++++ b/meta/recipes-extended/iptables/iptables/iptables.service
+@@ -5,8 +5,8 @@ Wants=network-pre.target
+ 
+ [Service]
+ Type=oneshot
+-ExecStart=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
+-ExecReload=@SBINDIR@/iptables-restore /etc/iptables/iptables.rules
++ExecStart=@SBINDIR@/iptables-restore @RULESDIR@/iptables.rules
++ExecReload=@SBINDIR@/iptables-restore @RULESDIR@/iptables.rules
+ RemainAfterExit=yes
+ 
+ [Install]
+diff --git a/meta/recipes-extended/iptables/iptables_1.8.3.bb b/meta/recipes-extended/iptables/iptables_1.8.3.bb
+index 563c8ae354..73680207b4 100644
+--- a/meta/recipes-extended/iptables/iptables_1.8.3.bb
++++ b/meta/recipes-extended/iptables/iptables_1.8.3.bb
+@@ -38,14 +38,19 @@ do_configure_prepend() {
+     rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+ }
+ 
++IPTABLES_RULES_DIR ?= "${sysconfdir}/${BPN}"
++
+ do_install_append() {
+-    install -d ${D}${sysconfdir}/iptables
+-    install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
++    install -d ${D}${IPTABLES_RULES_DIR}
++    install -m 0644 ${WORKDIR}/iptables.rules ${D}${IPTABLES_RULES_DIR}
+ 
+     install -d ${D}${systemd_system_unitdir}
+     install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_system_unitdir}
+ 
+-    sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/iptables.service
++    sed -i \
++        -e 's,@SBINDIR@,${sbindir},g' \
++        -e 's,@RULESDIR@,${IPTABLES_RULES_DIR},g' \
++        ${D}${systemd_system_unitdir}/iptables.service
+ }
+ 
+ PACKAGES += "${PN}-modules"
+-- 
+2.20.1
 
 
