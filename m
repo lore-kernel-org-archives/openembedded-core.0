@@ -1,41 +1,53 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id B04AC7F9AE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 71F247FA0A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 12:56:43 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id s5so26547513wrw.2
+	Wed, 27 Nov 2019 13:30:49 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id g206so7111252wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 04:56:45 -0800 (PST)
+	Wed, 27 Nov 2019 05:30:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MXhUizleM+MuEc1+WxJDYiSMRvtK/j1H5LA6VwLNlCU=;
+	b=jBh6IzmTFBI0WsitGIDEGrtBdUoolUVT3ijS1iDDok9Sg8Btw4SFGzAkoCeMsxo3GA
+	oaRy33zoTWVUOYh6hMxDVdCtj57Azgny9yyzzBROz0VkvZq+KgD61P7z9sFea+tkWwY/
+	1bFpKHzO9Cx8OqSHdNqXHyI+StkMxKtnTu+8/dfXCcZfHc/KtZQ9fyPpweemya/Qxp3i
+	La7vdrlFwL6sUqZhX/bQZlVnCS/TMKMsGCSwkHj1tlGWVkmsLuELLq1E3bUNEuD+7vCd
+	eYRQZrgIxXUhXstN9xhSStapFZSqoYzkhutkxg9vmxIatASX3IF83dY8vEmsCZkiiQUz
+	S7vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=x+/PRG6tecrQ/x7QJmJNqcst2aJ3CSBWqNXVjcN5PQg=;
-	b=AfkJBJxlf+3ygbbD/sAyRSBLGzzDkTLXj/dYP1wrmP8qsAUOL1XqOO0NpDmfusByOD
-	Dxgh6NFeMpZ/U+vyZhRE4Jgp97dpvryAEBoIJx05ee0P2HYfwcQiK6bbAmUWd8sSaW4A
-	SQzihtH5WzEyYE2HOVVDblrA8vn33/a1709is/dj6WK0nqjf0oI3Ox6M9SpS/xgQymFz
-	i0oEHy/84b98JKyco+U/GeoUGLTu88iNA0+USX36WEVRILMNvG4qdtdW4XSf60Q7K6jp
-	mLN7DzNSZw8tefZqLtKXxvNEiQfEmIkoOp2YzejBlTA27h5QXW1+a3K5o1zXZitgNNqT
-	j2CA==
-X-Gm-Message-State: APjAAAU0z+fmI+uWavdeQImPTtYlzHDfx9WJUFT1PVf7l4irg58UpL2/
-	83ODcMZloA30NmKHqNZXbkNexNod
-X-Google-Smtp-Source: APXvYqyy122MIh+7q9necBOtR1XlqGMzZv/pCipyX700X5GnSHjrN9lCbud6LwZS1fX4V1RrKoorGQ==
-X-Received: by 2002:a5d:4991:: with SMTP id r17mr42662331wrq.176.1574859404217;
-	Wed, 27 Nov 2019 04:56:44 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	v20sm6854540wmj.32.2019.11.27.04.56.43
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MXhUizleM+MuEc1+WxJDYiSMRvtK/j1H5LA6VwLNlCU=;
+	b=P+wz/GXCafzYectZJasiVwbJZTFclwH119K2RqiT+iP5pMxnOf9vmO0Pd+fAZst+DO
+	MJBCJy0o93JRmlZltzG7g4HoSqIEep74ZG1u8281s+dFetB5vT43+FerjYTZVuTEwinv
+	O72Rd7nDGhPWgRo1iQrTIt/zd/qczSclskCv5Jd5dl5mY55YSk80xmt92AQ7ELz3oTxw
+	RVtFy/ML45J5qa0NsxjawroW01qUye/vnDEOh3ad2DRgNnrUNLBossgf98BXyQCle48c
+	tYphq65ZJ97P35EX3EBnSbw20VEtKZdEtm2/XNXaFIdp8a9Gb0tFeIrYrpUsweLQZRaS
+	xN4g==
+X-Gm-Message-State: APjAAAU1dyDKJCw1prpYkkumfRlEbZAjWC5a5po2x/2qSuaiQc9woZ3g
+	JeBTXcSVT6CYnkoGhbi8aqnsyf2wVrk=
+X-Google-Smtp-Source: APXvYqx/z75kRaNXEPa2ueCUEX7Jpvq11ObRUbp9RS7FUj5B/llnSuzw8jSl5Y1uXzAt9skeLWTYhw==
+X-Received: by 2002:a05:600c:2549:: with SMTP id
+	e9mr4229536wma.177.1574861450073; 
+	Wed, 27 Nov 2019 05:30:50 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	d9sm17914952wrj.10.2019.11.27.05.30.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 27 Nov 2019 04:56:43 -0800 (PST)
-Message-ID: <0a51e56f3585d35895cf858f8e044a3dc5234948.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Wed, 27 Nov 2019 05:30:48 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Nov 2019 12:56:43 +0000
-User-Agent: Evolution 3.30.5-1.1 
+Date: Wed, 27 Nov 2019 13:30:47 +0000
+Message-Id: <20191127133047.4850-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: packageA rdepends on packageB but it isn't a build dependency warnings
+Subject: [PATCH] conf/machine/x86-base: use wic instead of live
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,29 +60,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2019 12:56:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 27 Nov 2019 13:30:51 -0000
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Use wic instead of the live/hddimg filesystem type for x86 machines, as it
+produces better filesystems and doesn't have a hard limit of 4GB.
 
-I am getting above QA warnings for some packages. Simple example - a recipe
-packageA with a shell script that calls out to certain other command line
-utilities from packageB.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/machine/include/x86-base.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Given packageA is only a shell script, it ought to be enough to simply add
-an RDEPENDS on packageB in that recipe. But when I do that, most of the time
-(not always it appears, though!) I get the warning from the subject of this
-email.
-I have even seen the generated IPK package to not have an entry for the runtime
-dependency. Again, sometimes, not always.
-
-Is it really necessary in this case to add a DEPENDS, or is there some flag
-that can be set or something? I didn't find anything after a quick search...
-
-
-Cheers,
-Andre'
-
+diff --git a/meta/conf/machine/include/x86-base.inc b/meta/conf/machine/include/x86-base.inc
+index 0227f3c289b..da56cc35740 100644
+--- a/meta/conf/machine/include/x86-base.inc
++++ b/meta/conf/machine/include/x86-base.inc
+@@ -8,7 +8,7 @@
+ MACHINE_FEATURES += "screen keyboard pci usbhost ext2 ext3 x86 \
+                      acpi serial usbgadget alsa"
+ 
+-IMAGE_FSTYPES ?= "hddimg"
++IMAGE_FSTYPES ?= "wic"
+ 
+ KERNEL_IMAGETYPE ?= "bzImage"
+ 
+-- 
+2.20.1
 
 
