@@ -1,38 +1,53 @@
-Return-Path: <obi@opendreambox.org>
-Received: from relay.dream-property.net (relay.dream-property.net
-	[178.19.67.222])
-	by mail.openembedded.org (Postfix) with ESMTP id F3CA87FBC1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id A4C557FA45
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 13:57:41 +0000 (UTC)
-Received: from mail.dream-property.net (mail.dream-property.net
-	[82.149.226.172])
-	by relay.dream-property.net (Postfix) with ESMTPS id 99B8410095A21;
-	Wed, 27 Nov 2019 13:57:41 +0000 (UTC)
-Received: from localhost (ip-176-199-141-47.hsi06.unitymediagroup.de
-	[176.199.141.47])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits)
-	server-digest SHA256) (No client certificate requested)
-	by mail.dream-property.net (Postfix) with ESMTPSA id 235F23147CCF;
-	Wed, 27 Nov 2019 14:57:40 +0100 (CET)
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=opendreambox.org; 
-	s=dkim; t=1574863061;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=R6XCo76Ojp7V2YYsz/f4YAVBlBTmvh+cE3u4rtFKXFA=;
-	b=yNo1qz+nXwIiVqzQKMZd0PhFTfTbmuZMH/3+P+fycPbBpGa138BJnl9lbE2Q2ALDxt25ln
-	zogxN9vVUiwus4Bw==
-Date: Wed, 27 Nov 2019 14:57:38 +0100
-From: Andreas Oberritter <obi@opendreambox.org>
-To: =?UTF-8?B?QW5kcsOp?= Draszik <git@andred.net>
-Message-ID: <20191127145738.51091396@opendreambox.org>
-In-Reply-To: <0a51e56f3585d35895cf858f8e044a3dc5234948.camel@andred.net>
-References: <0a51e56f3585d35895cf858f8e044a3dc5234948.camel@andred.net>
+	Wed, 27 Nov 2019 14:00:35 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id i12so26874494wro.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Nov 2019 06:00:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=haCTNdolDgAr5vc2azaUOWwy4yiz2cVcD3OcWNNSDI8=;
+	b=IAQrTFsdR5Q3j/r9r00S7fvMXrXqXr6UCbtO1i94jhxa/hinEZdJQl58T8u02pqWlC
+	rRf4KE/DbvCUY3vCv3LykASET09Uf1xLq/kL7cYEQAuOOfnilfn7P8+gSf98oG2dS3Ix
+	Hedc4MjlyaPH9GVBnyzkK6hHGxVJFysYEeSlYDr0L7ktRGQPdHxQ2EwlrpPuT+dgx8/S
+	VjLsmnoi7wNo6U73yc+mu5YWpU+tWRUBGB+nORocorTLK4g/QN3tG9QGy2Vl3DxwjpNF
+	ue05JqQhl8+pgbu+9ghvauZMHQi0zOHHDt8/QYsXt88RI+c0L+oXaDyXzYiuUgDF/msy
+	NQzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=haCTNdolDgAr5vc2azaUOWwy4yiz2cVcD3OcWNNSDI8=;
+	b=TL/Mvk84XLQAQU+ufi1yrsN7MjuH6Apx80l3EmSW+2Iw/r173ba9tvLbKPjoSxefOJ
+	qcHw0REunOVmZyfdCStoPKTfpuGmdvipRa91tJqBNulqfIG9Mxa989r1sIUv/PnuB7B9
+	2LnD7gduHg1jyIRSomWAG0w+CoTG8AlIkjmKRR3z3lyeS7AQ22n0aqVX2Rcet6/gDSoz
+	G55bk7tKnG+h4zCtkkWNoJvi2NOCa7kTtQy0B559bUYBiw7XU9ESnFguCnsy2M04TUR2
+	lz4eNMbpKQR8o0GzGeWEShDhf6LC7kw42WcgC4+CcpDtABxbShucFnz7zDyhF9OFQYlx
+	MUKg==
+X-Gm-Message-State: APjAAAUrWmvHQhMxyfoBkJIfehUqr/y3mL1mivEKhRdf19m1kAz69p5h
+	FTsR+LedRWx8VZaP9I5X79uxSy2AbY4=
+X-Google-Smtp-Source: APXvYqy2LGRCAbsyt67jan1B3nu/2NmFPPjOvslS4a5lbnzWS9z/xnETrpFpYzEfPReof/KnfxTf1w==
+X-Received: by 2002:a05:6000:1286:: with SMTP id
+	f6mr38490418wrx.44.1574863235927; 
+	Wed, 27 Nov 2019 06:00:35 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	o1sm19372284wrs.50.2019.11.27.06.00.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 27 Nov 2019 06:00:34 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Nov 2019 14:00:25 +0000
+Message-Id: <20191127140030.7838-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: packageA rdepends on packageB but it isn't a build dependency warnings
+Subject: [PATCH 1/6] python: no need to add HOSTPGEN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,41 +60,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2019 13:57:42 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 27 Nov 2019 14:00:35 -0000
+Content-Transfer-Encoding: 8bit
 
-Hi Andr=C3=A9,
+There's no need to patch in HOSTPGEN when we can just override PGEN directly.
 
-On Wed, 27 Nov 2019 12:56:43 +0000
-Andr=C3=A9 Draszik <git@andred.net> wrote:
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../01-use-proper-tools-for-cross-build.patch   | 17 -----------------
+ meta/recipes-devtools/python/python_2.7.17.bb   |  9 ++++++---
+ 2 files changed, 6 insertions(+), 20 deletions(-)
 
-> I am getting above QA warnings for some packages. Simple example - a reci=
-pe
-> packageA with a shell script that calls out to certain other command line
-> utilities from packageB.
->=20
-> Given packageA is only a shell script, it ought to be enough to simply add
-> an RDEPENDS on packageB in that recipe. But when I do that, most of the t=
-ime
-> (not always it appears, though!) I get the warning from the subject of th=
-is
-> email.
-> I have even seen the generated IPK package to not have an entry for the r=
-untime
-> dependency. Again, sometimes, not always.
->=20
-> Is it really necessary in this case to add a DEPENDS, or is there some fl=
-ag
-> that can be set or something? I didn't find anything after a quick search=
-...
+diff --git a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+index e795a74b911..7d8e95fe5cc 100644
+--- a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
++++ b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+@@ -16,14 +16,6 @@ Index: Python-2.7.13/Makefile.pre.in
+ ===================================================================
+ --- Python-2.7.13.orig/Makefile.pre.in
+ +++ Python-2.7.13/Makefile.pre.in
+-@@ -245,6 +245,7 @@ LIBFFI_INCLUDEDIR=	@LIBFFI_INCLUDEDIR@
+- ##########################################################################
+- # Parser
+- PGEN=		Parser/pgen$(EXE)
+-+HOSTPGEN=	$(PGEN)$(EXE)
+- 
+- PSRCS=		\
+- 		Parser/acceler.c \
+ @@ -512,7 +513,7 @@ $(BUILDPYTHON):	Modules/python.o $(LIBRA
+  			$(BLDLIBRARY) $(LIBS) $(MODLIBS) $(SYSLIBS) $(LDLAST)
+  
+@@ -33,15 +25,6 @@ Index: Python-2.7.13/Makefile.pre.in
+  
+  # Create build directory and generate the sysconfig build-time data there.
+  # pybuilddir.txt contains the name of the build dir and is used for
+-@@ -663,7 +663,7 @@
+- 	# Regenerate Include/graminit.h and Python/graminit.c
+- 	# from Grammar/Grammar using pgen
+- 	@$(MKDIR_P) Include
+--	$(PGEN) $(srcdir)/Grammar/Grammar \
+-+	$(HOSTPGEN) $(srcdir)/Grammar/Grammar \
+- 		$(srcdir)/Include/graminit.h \
+- 		$(srcdir)/Python/graminit.c
+- 
+ @@ -1121,27 +1122,27 @@ libinstall:	build_all $(srcdir)/Lib/$(PL
+  			$(DESTDIR)$(LIBDEST)/distutils/tests ; \
+  	fi
+diff --git a/meta/recipes-devtools/python/python_2.7.17.bb b/meta/recipes-devtools/python/python_2.7.17.bb
+index 5b856a50977..6199a5da760 100644
+--- a/meta/recipes-devtools/python/python_2.7.17.bb
++++ b/meta/recipes-devtools/python/python_2.7.17.bb
+@@ -44,6 +44,9 @@ PACKAGECONFIG ??= "bdb"
+ PACKAGECONFIG[bdb] = ",,db"
+ PACKAGECONFIG[tk] = ",,tk"
+ 
++# pgen isn't needed in the current build, but use the binary from python-native just in case.
++EXTRA_OEMAKE = "PGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen"
++
+ do_configure_append() {
+ 	rm -f ${S}/Makefile.orig
+         autoreconf -Wcross --verbose --install --force --exclude=autopoint ../Python-${PV}/Modules/_ctypes/libffi
+@@ -82,7 +85,7 @@ do_compile() {
+ 	export CROSS_COMPILE="${TARGET_PREFIX}"
+ 	export PYTHONBUILDDIR="${B}"
+ 
+-	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
++	oe_runmake \
+ 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+ 		STAGING_LIBDIR=${STAGING_LIBDIR} \
+ 		STAGING_INCDIR=${STAGING_INCDIR} \
+@@ -100,7 +103,7 @@ do_install() {
+ 
+ 	# After swizzling the makefile, we need to run the build again.
+ 	# install can race with the build so we have to run this first, then install
+-	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
++	oe_runmake \
+ 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+ 		CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
+ 		STAGING_LIBDIR=${STAGING_LIBDIR} \
+@@ -108,7 +111,7 @@ do_install() {
+ 		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
+ 		DESTDIR=${D} LIBDIR=${libdir}
+ 	
+-	oe_runmake HOSTPGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
++	oe_runmake \
+ 		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+ 		CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
+ 		STAGING_LIBDIR=${STAGING_LIBDIR} \
+-- 
+2.20.1
 
-in general, it should work with just RDEPENDS_${package}, if package is lis=
-ted
-in PACKAGES statically. If you build the list of PACKAGES dynamically, e.g.
-with do_split_packages or anonymous python, then you'll need to add explicit
-entries in DEPENDS.
-
-Best regards,
-Andreas
 
