@@ -1,54 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A0BE67FC0C
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EA567FC06
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 27 Nov 2019 14:00:37 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id n1so26820427wra.10
+Received: by mail-wr1-f66.google.com with SMTP id g7so6119715wrw.4
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 27 Nov 2019 06:00:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=5cJjUG1a3bmsMm5Oa0wAoGpp01I4V5fHIofG00dya7k=;
-	b=cGRWYTiHi3zki4G32yKnJ/tkfeWVMtAoQ8POQDTQ+OuTAof1FmfmaEbLiKAUl20b78
-	SUnJxA+Kzw19xwkAVozLOduMlQnJG6UgEeMulon0nZD8W7j2ndM2oFmYxiWwo3qVaIQB
-	dKEOsaSaHAz7rgWoWuij92wOfC1vQy+poS5lTqw8fwPHBnGydb3E4kAojViWWcd4qAZN
-	Z8zkeOOBhTBMv1n28jIsaamnB/enUkOEBQEUcrdlg/sROx7RSBSrK6X4W0Bo/ovVonlQ
-	wm3qI6Gfl3oUFBXCts0cYGEfXRarIMaidFq2THZoLHCInSaY+p2a8t2w5DqqGdXmuMTC
-	vCfw==
+	bh=3HMUwVdb20hza9lWbI77svFF6q8sqSjq/SynzFT//2w=;
+	b=PY277SED3UUPF7Kn96QpKD8ln39LSQAZVAZ5F2wH/5eegCAC42E92xTpGjJc392hp+
+	loxFefZrTQEPyd8MEwD7YForP148r1LukYHPP8JfL4RtmfxFHLbAsFu39sliPpxaLoKq
+	cNnNdbyZBn/DWBY3zkhq704oJhLrv3BcVawyB19Mbu5CHiLFg5NajcD5PbUp5H+PrYpL
+	a4rL3c48Dv2ksmsGBz/5MViluhemtuNU6+wb7fKBCSmZ8V+XbVOpdGEs/IPLbeh/ID2I
+	bA3GksKDtMJu19j+T+eoTV2wGiY9XCxepq5Zaz6MbrAup/j6xLSV2XAxD/DQHvF8TLwX
+	F6ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=5cJjUG1a3bmsMm5Oa0wAoGpp01I4V5fHIofG00dya7k=;
-	b=OyMxwnwLAxrUO5D4JTQG+l1TBOU/ve2RlFOJ2Cb4EqizKJ17fIpU8Bw6Q1QnYNzT30
-	A/cUeH/D1Pwbs1AK7dgyd5D8zeOZ3G5ahCvy2MvdyPwIQrl0wSd/xgrbWQoFafz7RQ31
-	5FcnaSiiLtIL0tt7ujhcdazNd4HdSApjg1V7nzUjW+F4AuuPCkbWc3A4wtEvJ/ACOQ4+
-	iZHGxyrajVi6C6iPgPaonqgZ7ujHJcR/i/CfspuraQR+VxtEGrs5cNFsLCPwYDCJ+bWy
-	tzclQe8xZ3Qq6TZURuMFPD+UX3b/2sP7S3FwYN8rFHYedrxCe+94149VMUKr2y6nS4G/
-	DKGA==
-X-Gm-Message-State: APjAAAVxwj2C4CDewqUfzN/uItimmeN2RM4rx2v1WX1j5+AhjukUydaO
-	FtLmevE0knITSm24dj5bZj7leaKRAF4=
-X-Google-Smtp-Source: APXvYqxtB/AzHuFvqdp4z/ynVUrmgPj1+xbwRd9KaQpoZBf2aT7RUqlITU1ROIkiDL3BFaIkIuYe/Q==
-X-Received: by 2002:adf:f709:: with SMTP id r9mr41456456wrp.8.1574863237945;
+	bh=3HMUwVdb20hza9lWbI77svFF6q8sqSjq/SynzFT//2w=;
+	b=oXvSTZSKEI4hE9XIDnJZtUwxHaCI65tTowegnew78aTQuNfA3qwl4UOl2+RaboMdlN
+	8e8yD539dE7zYx5LOZeW3y86UhKHg6jMZa1hb+iolAk5UuHdlr8M3FeYVViBz0wOHURw
+	r0EtBD7kLTmPqGHNkRoMpssF0Xc/CcJD6UnyD3RQUEyWpupomzNTVvTNNByTF1lopYZs
+	WfIjgedSYJBZXGb5sY8U2qTp6ld8GRW+9XpXLMoN69bRqlGCHzgBGWvBF8tXi17wfqBY
+	7ZK9QROHrpCnfF/22wpqyHH/S3yGMhwkI4/hZdL0cb9iRwQB6T1/v9882XpHWsL/wU4K
+	naZw==
+X-Gm-Message-State: APjAAAUAwmanKXNh5noaj3eS6u0MVsMRaEOglvF8S7kZaWXkoZCT9fh3
+	fMpoyA1OFXgEW4MaHx+kcaH9VF6Wqws=
+X-Google-Smtp-Source: APXvYqx4NoHLLEql4gI7kDbtZqDl5orYyxAgt4EZYhk3uL3uQMDXOYNqP3zwsxPJWnQ2qw3ciWFn2A==
+X-Received: by 2002:a5d:5267:: with SMTP id l7mr101410wrc.84.1574863237064;
 	Wed, 27 Nov 2019 06:00:37 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o1sm19372284wrs.50.2019.11.27.06.00.37
+	o1sm19372284wrs.50.2019.11.27.06.00.35
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 27 Nov 2019 06:00:37 -0800 (PST)
+	Wed, 27 Nov 2019 06:00:36 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Nov 2019 14:00:27 +0000
-Message-Id: <20191127140030.7838-3-ross.burton@intel.com>
+Date: Wed, 27 Nov 2019 14:00:26 +0000
+Message-Id: <20191127140030.7838-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191127140030.7838-1-ross.burton@intel.com>
 References: <20191127140030.7838-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/6] python: package .pyo files too
+Subject: [PATCH 2/6] python: move make override variables to EXTRA_OEMAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,27 +64,71 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 27 Nov 2019 14:00:38 -0000
 Content-Transfer-Encoding: 8bit
 
-The manifest parsing code was only adding .py and .pyc paths to FILES,
-generalise the latter to .py? so it catches .pyo files too.
+Instead of passing the same five variables to oe_runmake repeatedly, add them to
+EXTRA_OEMAKE once.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/python/python_2.7.17.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python_2.7.17.bb | 31 ++++++-------------
+ 1 file changed, 10 insertions(+), 21 deletions(-)
 
 diff --git a/meta/recipes-devtools/python/python_2.7.17.bb b/meta/recipes-devtools/python/python_2.7.17.bb
-index ef5d5644812..5807f63db44 100644
+index 6199a5da760..ef5d5644812 100644
 --- a/meta/recipes-devtools/python/python_2.7.17.bb
 +++ b/meta/recipes-devtools/python/python_2.7.17.bb
-@@ -218,7 +218,7 @@ python(){
-             d.appendVar('FILES_' + pypackage, ' ' + value)
-             if include_pycs == '1':
-                 if value.endswith('.py'):
--                    d.appendVar('FILES_' + pypackage, ' ' + value + 'c')
-+                    d.appendVar('FILES_' + pypackage, ' ' + value + '?')
+@@ -45,7 +45,13 @@ PACKAGECONFIG[bdb] = ",,db"
+ PACKAGECONFIG[tk] = ",,tk"
  
-         for value in python_manifest[key]['rdepends']:
-             # Make it work with or without $PN
+ # pgen isn't needed in the current build, but use the binary from python-native just in case.
+-EXTRA_OEMAKE = "PGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen"
++EXTRA_OEMAKE = "PGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
++                HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
++                CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
++                STAGING_LIBDIR=${STAGING_LIBDIR} \
++                STAGING_INCDIR=${STAGING_INCDIR} \
++                STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
++                "
+ 
+ do_configure_append() {
+ 	rm -f ${S}/Makefile.orig
+@@ -85,12 +91,7 @@ do_compile() {
+ 	export CROSS_COMPILE="${TARGET_PREFIX}"
+ 	export PYTHONBUILDDIR="${B}"
+ 
+-	oe_runmake \
+-		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+-		STAGING_LIBDIR=${STAGING_LIBDIR} \
+-		STAGING_INCDIR=${STAGING_INCDIR} \
+-		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
+-		OPT="${CFLAGS}"
++	oe_runmake OPT="${CFLAGS}"
+ }
+ 
+ do_install() {
+@@ -103,21 +104,9 @@ do_install() {
+ 
+ 	# After swizzling the makefile, we need to run the build again.
+ 	# install can race with the build so we have to run this first, then install
+-	oe_runmake \
+-		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+-		CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
+-		STAGING_LIBDIR=${STAGING_LIBDIR} \
+-		STAGING_INCDIR=${STAGING_INCDIR} \
+-		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
+-		DESTDIR=${D} LIBDIR=${libdir}
++	oe_runmake DESTDIR=${D} LIBDIR=${libdir}
+ 	
+-	oe_runmake \
+-		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
+-		CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
+-		STAGING_LIBDIR=${STAGING_LIBDIR} \
+-		STAGING_INCDIR=${STAGING_INCDIR} \
+-		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
+-		DESTDIR=${D} LIBDIR=${libdir} install
++	oe_runmake DESTDIR=${D} LIBDIR=${libdir} install
+ 
+ 	install -m 0644 Makefile.sysroot ${D}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
+ 
 -- 
 2.20.1
 
