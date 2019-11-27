@@ -1,102 +1,53 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F7907FC21
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D01D7FA30
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 20:26:08 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id bb5so10354058plb.4
+	Wed, 27 Nov 2019 21:14:02 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id m125so20837380qkd.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 12:26:09 -0800 (PST)
+	Wed, 27 Nov 2019 13:14:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=qDZhhTyW1N+yRgDNy8rEP06rA/qm/vvvZu/9FfUo5xA=;
-	b=DxwJs5MO4yb7bG0dCsOa7k+yzTyeG4liTKW3cCNbzT2Icim5rltP7p1qTcYNbdAMGn
-	LfJZS5/O1IPEFO5g/acBlUUqTrOgqvrpCBPdAkERoaNo782qqkNg4NlJbjuM1tn3XSGk
-	P98JKk41rf/hY61wRGNHaT9Kye9rErk1QkfBQTfS49p2tizklogSfh+1LTK5iJCy1SqR
-	FeGYBHwudsnaVztxwldxU64PVo+XO6iTLrn5KaR1cxXAaERjM0iBj76UovdDTN8Wh5+r
-	WmeGBJaFw8CHAoSN4gSr87cX89nUIv7+sSE4UfJrFC0HThsEYehOKUgfKu3UFvsv6Pcj
-	LUtw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=48OdT3a8a/jWe/SC9828XhTdDoDm/TAzIPtD8HU415Y=;
+	b=J5nZB9eG2m5yQ9Fm6Th+PvoEuf7JMsN/WJAKtdx1oiV4ghkufyhYC+8mjUAcVShrcY
+	6EVzSz1PWuz9CoWUidqmKPPyp8Z1qc2A/cBlL5yw1cb9/nKeYWAi7qgKr8yGW5+J5UDG
+	dPT3JkwAI0NGhjXp1yEjqFKschjURfGAho4TZGjfd5vSdZLJIwou+Nb3xqNS/5TGyTiA
+	k2Q20CLq0BRtMpLlt2oDMFN3ntDzRLlH5IEQ5VjCPuqCZDi1vMGbQ+kL0I1zwYPnaCV0
+	p9kFJkvj3VzfyDW46Kn697bIq4D/8ydQ4iYCHv+WU4UQUwx6yulBkqsh+IvS2kp6rFRC
+	KWsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=qDZhhTyW1N+yRgDNy8rEP06rA/qm/vvvZu/9FfUo5xA=;
-	b=dbHQRdwZ/rLWmIe/PEBU4JciSFWS2xzNPRoFbUzpZfqxdcQHqplTyEvpFcddVug6zZ
-	URMSS/1Q/qr1xdRJ/UFHrRUDZMs5oXc6D7hHqplRKCxn4b4aGe1mIQMKQn4R/tVtc2v4
-	JpJ8mjTDEDeeoB+Lueek2vXEw9GAicljoHgjG15s5CFGzYuo8hrjoLfU/ot3L1ldHoh5
-	jVe+mWirfqWTaJ3eOPXi2QW/shS29xMolgScDTNFk5UObfcWKwTg02o+FuIFePcQDf9A
-	LtOGDPEH5Y3C/C+LvkauXr35LicHfl+aafPYB0ChVZNj9Kqwd0ZhaijfOgG8FHOkbyfZ
-	hofA==
-X-Gm-Message-State: APjAAAURgS3MFSlKWEhYFtv9r2WGweczZG6ru/somUbDfeVrj7hiVdDR
-	aSP99Gt85Boje6GSN1vNI+uUoRvR
-X-Google-Smtp-Source: APXvYqypM/l61ji6QZ4OTBf7hciFcojf1f4yt4miR3iD+qR2RiSnmmN6VOSXFJ1Qf9CJy5GsUuwOcg==
-X-Received: by 2002:a17:902:d708:: with SMTP id
-	w8mr1655237ply.280.1574886369212; 
-	Wed, 27 Nov 2019 12:26:09 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:88c1:6db9:7b72:a2e8?
-	([2601:202:4180:a5c0:88c1:6db9:7b72:a2e8])
-	by smtp.gmail.com with ESMTPSA id
-	q10sm6518344pfh.103.2019.11.27.12.26.08
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 27 Nov 2019 12:26:08 -0800 (PST)
-To: Ross Burton <ross.burton@intel.com>,
-	openembedded-core@lists.openembedded.org
-References: <20191127141521.8739-1-ross.burton@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <928ed81f-3411-c3dc-338b-be2c29206f04@gmail.com>
-Date: Wed, 27 Nov 2019 12:26:07 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=48OdT3a8a/jWe/SC9828XhTdDoDm/TAzIPtD8HU415Y=;
+	b=JUdBM6XwFK/Rwk9hGQMdxGoLm/8+Cmtytd+zvIeXu6MrMFxTRwci703S+hJXjDCfAE
+	VVf2fZLV2uXjp0ctLR1fjl6Ez/0q+d8wstFJQEpi9d1P/ATaridJZEnf8iUvJ5eHIO1Z
+	gq2uVPosKTgQltakyJ+ZKqzWCMKBkCCmLIK3TCyJcIgOYdtFLDSfcYKhtOCGvQPMjuV+
+	MKomaEeV+1oxToQ7BpUqelpPslv+YtARwzoFqJHilPFoMQBJu1Koc1nqE81MorbT1KkI
+	nsKAfDLRGD49qto1REFw3/9oAU0iSUp6ye2LKl692JUemhcFI9WeNrSJx2+2vkNWRpzP
+	6wQg==
+X-Gm-Message-State: APjAAAX5ycDeFhUltbj5FZnIcOJ/4CuUJdStPqjFa+GKOHTOs+YfkpuD
+	i6Ipmg1u/uJwPbMwmBmZPzJ5eEqWWrMAnsiPLuc=
+X-Google-Smtp-Source: APXvYqzeN9dGx8Gng8K4KVnd1Y47tGjDvwPy8nju8W3vgZzOUN9JhUPXHTk8QDDE3DuUm4UJ3CsuO+KsYac8yXk8oHo=
+X-Received: by 2002:a37:4cd3:: with SMTP id z202mr6733089qka.212.1574889242509;
+	Wed, 27 Nov 2019 13:14:02 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191127141521.8739-1-ross.burton@intel.com>
-Subject: Re: [PATCH] insane: fix GitHub /archive/ test
+References: <CADySD0HN_q_ffonmJJAmHJvjcRUHrDrhzo6zoWd8vYZUZzd_Tw@mail.gmail.com>
+	<e92b8e21-99c6-c2c9-646a-b3a2e76d90aa@intel.com>
+	<20191125211027.GA32080@localhost>
+	<0c6015a022140c820803a3963ef33af984f19c8c.camel@gmail.com>
+	<20191126195632.GA27863@localhost>
+	<CAMKF1sq6=mY5WbyCE2APxNzBvqurr65vvrdubMvnA7b=fOD0_w@mail.gmail.com>
+	<20191127063729.GA31353@localhost>
+In-Reply-To: <20191127063729.GA31353@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Nov 2019 13:13:51 -0800
+Message-ID: <CAMKF1soggA5tcr-ousJ12WZdVSTOnmTDDkWMPLy=DFyvG-bMAA@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Very large size of libraries in core-image-minimal rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,48 +60,221 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2019 20:26:08 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 27 Nov 2019 21:14:02 -0000
+Content-Type: multipart/alternative; boundary="000000000000dc4ee405985a79c5"
 
+--000000000000dc4ee405985a79c5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Nov 26, 2019 at 10:37 PM Adrian Bunk <bunk@stusta.de> wrote:
 
-On 11/27/19 6:15 AM, Ross Burton wrote:
-> This test was failing to split the URL list to individual URLs, so if
-> SRC_URI is something like this then the test incorrectly triggers:
+> On Tue, Nov 26, 2019 at 02:57:43PM -0800, Khem Raj wrote:
+> > On Tue, Nov 26, 2019 at 11:56 AM Adrian Bunk <bunk@stusta.de> wrote:
+> >...
+> > > > there are many other design considerations where musl might make mo=
+re
+> > > > sense
+> > >
+> > > Which of these are not covered by linking only your application
+> > > with musl?
+> > >
+> > > It is not clear that all this outweights the constant pains of forcin=
+g
+> > > people to fix the steady stream of new musl issues for all recipes.
+> > >
+> > For a moment if you do not assume glibc =3D=3D linux then
+> > Most of times issues are in application assuming wrong things from
+> system.
+> > in cases where issues are
 >
-> SRC_URI = "git://github.com/foo http://example.com/archive/foo"
+> In general I consider portability a positive thing, but it is also
+> legitimate when an upstream makes the decision to use everything
+> provided by glibc.
 >
-> Fix this by splitting the SRC_URI list and iterating through the URIs
-> one at time.
+> But this is not really relevant when discussing what kind of effort
+> should be required from people contributing to OE - many build failures
+> and work are a price OE pays for musl compatibility, and it can be
+> questioned whether it is really worth spending scarce resources on that.
 >
-> [ YOCTO #13660 ]
-Test-by: Armin Kuster <akuster808@gmail.com>
+> The effort is smaller and the benefits are clearer when supporting musl
+> only in a limited amount of recipes relevant for tiny systems.
+>
+> >...
+> > > The combinations that are most relevant in practice are:
+> > > - normal: -O2 + glibc + systemd
+> > > - tiny: -Os + musl + busybox init
+> >
+> > again its two of many combinations  with OE.
+>
+> There are combinations that match common usecases, and there are
+> combinations that don't match common usecases.
+>
+> Development and testing effort is best spent on combinations that
+> match common usecases.
+
+
+Keeping rat holing and derailing conversation in mind this will be my last
+reply to this thread
+
+It=E2=80=99s an opensource project and if contributors stop contributing to=
+ musl
+effort it will die on its own we do t have to install a kill switch. OE
+philosophy is to be a distro builder not a distro that=E2=80=99s key differ=
+entiator
+and all of these arguments are very distro centric mindset. We do ask for
+keeping builds clean and help with servicing the part of project that
+interests a person, so pitch in what interests and hopefully there will be
+enough of us around to support OE
+
+
+
+>
+> poky-tiny building with -O2 is weird.
+>
+> > > Using musl with -O2 or with systemd is far from the primary usecase
+> > > of using musl for size benefits.
+> > >
+> > > The other advantage of -Os is that it is also useful for non-tiny
+> > > systems since the benefits scale with the size of the filesystem.
+> > > It is a nice knob to fix kernel or userspace space problems that
+> > > does not change the API or ABI.
+> >
+> > perhaps, however, reducing code size is a design decision more than
+> > compiler switch problem. Throwing any code at the compiler and expectin=
+g
+> > it to optimize for a given vector is never optimal.
+>
+> The compiler switch is part of the design decision, and on a tiny system
+> you do often not have the luxury of picking only some size
+> optimizations.
+
+
+And not many upstream packages are built and tested regularly with Os leave
+aside writing size friendly code in their dev streams so perhaps someone
+should help them provide help testing with Os things will get better
 
 
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/classes/insane.bbclass | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+> Tiny is when you have to squeeze bootloader, kernel and userspace
+> together on 4 MB flash
+
+
+Why 4 and not 2 or 16 fact is it depends on usecase
+
+
 >
-> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-> index f856cf6a2b6..0564f9c2a41 100644
-> --- a/meta/classes/insane.bbclass
-> +++ b/meta/classes/insane.bbclass
-> @@ -893,9 +893,9 @@ def package_qa_check_src_uri(pn, d, messages):
->      if "${PN}" in d.getVar("SRC_URI", False):
->          package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % pn, d)
->  
-> -    pn = d.getVar("SRC_URI")
-> -    if re.search(r"github\.com/.+/.+/archive/.+", pn):
-> -        package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub archives" % pn, d)
-> +    for url in d.getVar("SRC_URI").split():
-> +        if re.search(r"github\.com/.+/.+/archive/.+", url):
-> +            package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub archives" % pn, d)
->  
->  
->  # The PACKAGE FUNC to scan each package
+> cu
+> Adrian
+>
 
+--000000000000dc4ee405985a79c5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Nov 26, 2019 at 10:37 PM Adrian Bunk &lt;<a href=3D=
+"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">On Tue, Nov 26, 2019 at 02:57:43PM -0800, Khem Raj wrote=
+:<br>
+&gt; On Tue, Nov 26, 2019 at 11:56 AM Adrian Bunk &lt;<a href=3D"mailto:bun=
+k@stusta.de" target=3D"_blank">bunk@stusta.de</a>&gt; wrote:<br>
+&gt;...<br>
+&gt; &gt; &gt; there are many other design considerations where musl might =
+make more<br>
+&gt; &gt; &gt; sense<br>
+&gt; &gt;<br>
+&gt; &gt; Which of these are not covered by linking only your application<b=
+r>
+&gt; &gt; with musl?<br>
+&gt; &gt;<br>
+&gt; &gt; It is not clear that all this outweights the constant pains of fo=
+rcing<br>
+&gt; &gt; people to fix the steady stream of new musl issues for all recipe=
+s.<br>
+&gt; &gt;<br>
+&gt; For a moment if you do not assume glibc =3D=3D linux then<br>
+&gt; Most of times issues are in application assuming wrong things from sys=
+tem.<br>
+&gt; in cases where issues are<br>
+<br>
+In general I consider portability a positive thing, but it is also <br>
+legitimate when an upstream makes the decision to use everything<br>
+provided by glibc.<br>
+<br>
+But this is not really relevant when discussing what kind of effort <br>
+should be required from people contributing to OE - many build failures <br=
+>
+and work are a price OE pays for musl compatibility, and it can be <br>
+questioned whether it is really worth spending scarce resources on that.<br=
+>
+<br>
+The effort is smaller and the benefits are clearer when supporting musl<br>
+only in a limited amount of recipes relevant for tiny systems.<br>
+<br>
+&gt;...<br>
+&gt; &gt; The combinations that are most relevant in practice are:<br>
+&gt; &gt; - normal: -O2 + glibc + systemd<br>
+&gt; &gt; - tiny: -Os + musl + busybox init<br>
+&gt; <br>
+&gt; again its two of many combinations=C2=A0 with OE.<br>
+<br>
+There are combinations that match common usecases, and there are <br>
+combinations that don&#39;t match common usecases.<br>
+<br>
+Development and testing effort is best spent on combinations that<br>
+match common usecases.</blockquote><div dir=3D"auto"><br></div><div dir=3D"=
+auto">Keeping rat holing and derailing conversation in mind this will be my=
+ last reply to this thread=C2=A0</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">It=E2=80=99s an opensource project and if contributors stop contr=
+ibuting to musl effort it will die on its own we do t have to install a kil=
+l switch. OE philosophy is to be a distro builder not a distro that=E2=80=
+=99s key differentiator and all of these arguments are very distro centric =
+mindset. We do ask for keeping builds clean and help with servicing the par=
+t of project that interests a person, so pitch in what interests and hopefu=
+lly there will be enough of us around to support OE</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+<br>
+poky-tiny building with -O2 is weird.<br>
+<br>
+&gt; &gt; Using musl with -O2 or with systemd is far from the primary useca=
+se<br>
+&gt; &gt; of using musl for size benefits.<br>
+&gt; &gt;<br>
+&gt; &gt; The other advantage of -Os is that it is also useful for non-tiny=
+<br>
+&gt; &gt; systems since the benefits scale with the size of the filesystem.=
+<br>
+&gt; &gt; It is a nice knob to fix kernel or userspace space problems that<=
+br>
+&gt; &gt; does not change the API or ABI.<br>
+&gt; <br>
+&gt; perhaps, however, reducing code size is a design decision more than<br=
+>
+&gt; compiler switch problem. Throwing any code at the compiler and expecti=
+ng<br>
+&gt; it to optimize for a given vector is never optimal.<br>
+<br>
+The compiler switch is part of the design decision, and on a tiny system <b=
+r>
+you do often not have the luxury of picking only some size <br>
+optimizations.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">An=
+d not many upstream packages are built and tested regularly with Os leave a=
+side writing size friendly code in their dev streams so perhaps someone sho=
+uld help them provide help testing with Os things will get better</div><div=
+ dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+ 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+<br>
+Tiny is when you have to squeeze bootloader, kernel and userspace <br>
+together on 4 MB flash</blockquote><div dir=3D"auto"><br></div><div dir=3D"=
+auto">Why 4 and not 2 or 16 fact is it depends on usecase</div><div dir=3D"=
+auto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8e=
+x;border-left:1px #ccc solid;padding-left:1ex"><br>
+<br>
+cu<br>
+Adrian<br>
+</blockquote></div></div>
+
+--000000000000dc4ee405985a79c5--
