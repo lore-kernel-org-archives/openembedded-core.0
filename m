@@ -1,49 +1,41 @@
-Return-Path: <dbaryshkov@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AA177F8B1
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id B04AC7F9AE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 12:53:33 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id o8so5373451pls.5
+	Wed, 27 Nov 2019 12:56:43 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id s5so26547513wrw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 04:53:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=hQyF5MzcmdirLrbvv4w+m++R72aH1eeVhrOxwWSDxKw=;
-	b=gU/RyPATDBQW1cwxnDFuIummDTPr8+5GUIFL6wgCAnbzuOwMpMrndEzUxcK6zO2QjB
-	nnADl/oYwbUiEbC9lnTDW7D/FuiKLsTM5gbz1jgvSFB02+x3OPEeT/sNWOfnATpqDZDV
-	vMOxmRFaYHcWDgimjz2swcP5b2mojbFTMS3b9pY1nNwWf0iCu1cPwIli/ZkYshiTOu9A
-	ydjMq4FECSAUYXljGjvW7QqBOW8XwgIYFYudW5z72/vE7VYdPhdhJAgnrvGBy4cgwud0
-	O3qTyW7370df1923W9SIipn261WFKfoNurSwZIuK7AZ8g6mnqEhluwuXaiTrb5q1RVB+
-	eS/g==
+	Wed, 27 Nov 2019 04:56:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:content-transfer-encoding;
-	bh=hQyF5MzcmdirLrbvv4w+m++R72aH1eeVhrOxwWSDxKw=;
-	b=ONc6uPaqDe1pmacKcLw2BP7ApRvizShLUSdKJlcgv6CzUXHQvZ54/2msT4KjqokPFx
-	kjGkl2+btcSuksQvmT/Z4gCPn687Q8kwx9zi9Wyzr3+4U+glh6Z6HdehXpbRQ+DFrIeF
-	ekTxCp2xO6QuNDn1Cj6sGJ7rKcwF1S5FY9SOYxJIMaUcnejU1YptEKT4BoQbvjqjptR0
-	30LRFthhwfw0niMPWT5eKd4FwQDjgZAN8aqASTLxV+LwRQIw1uHMaZ01TaGL0+aSG/q4
-	4hP2Q1pn2dDP1ZhkzdR1OaOqNDVcqQwk0Kw9VkR++w1dhM4emof1OOFDkxsQeF/AZ8dq
-	MBtg==
-X-Gm-Message-State: APjAAAUXNw0vvubYAzEV1tUL+lR99PaNhW/FbRlkeFZYXAB3TkgM3+8Q
-	ljb0KZi9seILbnxKILbNBpQCWVlASGf5v9wra4sisAXo
-X-Google-Smtp-Source: APXvYqyJzcOO8bSD+nEiuI523xyxprbhGa0WPUi2PUk+E0bEg8pWULyXz7gBAoa06vQirYbp7/2+0l3t96UgqQQW27o=
-X-Received: by 2002:a17:902:be10:: with SMTP id
-	r16mr4061638pls.169.1574859214673; 
-	Wed, 27 Nov 2019 04:53:34 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=x+/PRG6tecrQ/x7QJmJNqcst2aJ3CSBWqNXVjcN5PQg=;
+	b=AfkJBJxlf+3ygbbD/sAyRSBLGzzDkTLXj/dYP1wrmP8qsAUOL1XqOO0NpDmfusByOD
+	Dxgh6NFeMpZ/U+vyZhRE4Jgp97dpvryAEBoIJx05ee0P2HYfwcQiK6bbAmUWd8sSaW4A
+	SQzihtH5WzEyYE2HOVVDblrA8vn33/a1709is/dj6WK0nqjf0oI3Ox6M9SpS/xgQymFz
+	i0oEHy/84b98JKyco+U/GeoUGLTu88iNA0+USX36WEVRILMNvG4qdtdW4XSf60Q7K6jp
+	mLN7DzNSZw8tefZqLtKXxvNEiQfEmIkoOp2YzejBlTA27h5QXW1+a3K5o1zXZitgNNqT
+	j2CA==
+X-Gm-Message-State: APjAAAU0z+fmI+uWavdeQImPTtYlzHDfx9WJUFT1PVf7l4irg58UpL2/
+	83ODcMZloA30NmKHqNZXbkNexNod
+X-Google-Smtp-Source: APXvYqyy122MIh+7q9necBOtR1XlqGMzZv/pCipyX700X5GnSHjrN9lCbud6LwZS1fX4V1RrKoorGQ==
+X-Received: by 2002:a5d:4991:: with SMTP id r17mr42662331wrq.176.1574859404217;
+	Wed, 27 Nov 2019 04:56:44 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	v20sm6854540wmj.32.2019.11.27.04.56.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 27 Nov 2019 04:56:43 -0800 (PST)
+Message-ID: <0a51e56f3585d35895cf858f8e044a3dc5234948.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Nov 2019 12:56:43 +0000
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-References: <20191101143147.26812-1-dbaryshkov@gmail.com>
-In-Reply-To: <20191101143147.26812-1-dbaryshkov@gmail.com>
-From: Dmitry Eremin-Solenikov <dbaryshkov@gmail.com>
-Date: Wed, 27 Nov 2019 15:53:17 +0300
-Message-ID: <CALT56yOJG1cMBfkC6jXa9RHq_dVHVQxRF2yK1zWF6Q4Dc9oaTA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH 0/2] fix multilib issues with UEFI bootloaders
+Subject: packageA rdepends on packageB but it isn't a build dependency warnings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,24 +48,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2019 12:53:34 -0000
+X-List-Received-Date: Wed, 27 Nov 2019 12:56:44 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Hi,
 
-=D0=BF=D1=82, 1 =D0=BD=D0=BE=D1=8F=D0=B1. 2019 =D0=B3. =D0=B2 17:32, <dbary=
-shkov@gmail.com>:
->
-> Last UEFI patchset that went in broke building not-native multilib
-> images (like lib32-core-image-minimal). Fix this issue by listing
-> systemd-boot as non-multilib recipe and by fixing UEFI app naming in
-> multilib cases.
+I am getting above QA warnings for some packages. Simple example - a recipe
+packageA with a shell script that calls out to certain other command line
+utilities from packageB.
 
-We'd like to unbreak such build. Is there anything wrong with these
-two patches? No feedback received up to this point.
+Given packageA is only a shell script, it ought to be enough to simply add
+an RDEPENDS on packageB in that recipe. But when I do that, most of the time
+(not always it appears, though!) I get the warning from the subject of this
+email.
+I have even seen the generated IPK package to not have an entry for the runtime
+dependency. Again, sometimes, not always.
 
---=20
-With best wishes
-Dmitry
+Is it really necessary in this case to add a DEPENDS, or is there some flag
+that can be set or something? I didn't find anything after a quick search...
+
+
+Cheers,
+Andre'
+
+
 
