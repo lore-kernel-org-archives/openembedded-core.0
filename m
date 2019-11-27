@@ -1,31 +1,51 @@
-Return-Path: <pb@pbcl.net>
-Received: from pbcl.net (pbcl.net [159.69.221.92])
-	by mail.openembedded.org (Postfix) with ESMTP id F07AC7FA0E
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+	[209.85.128.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 342187FAA3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 15:07:41 +0000 (UTC)
-Received: from pb by pbcl.net with local (Exim 4.89)
-	(envelope-from <pb@pbcl.net>)
-	id 1iZyuf-0008NV-3i; Wed, 27 Nov 2019 16:07:29 +0100
-Date: Wed, 27 Nov 2019 16:07:29 +0100
-From: Phil Blundell <pb@pbcl.net>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20191127150729.hzgkcifbrerveady@pbcl.net>
-References: <CANNYZj9uAs5wQPya6R9q3gfSQm_Xyu9xViGBxOQ2COKKbcYeWg@mail.gmail.com>
-	<20191120223207.6cuuklpgrzuhqug3@pbcl.net>
-	<CANNYZj93tJxTsCwS3cg3J=0WB--A0Af26Y=nO9fOdfNb9okRYg@mail.gmail.com>
-	<20191120231812.GB3962@localhost>
-	<238a39c7-b794-aaa0-1da6-4b585078f447@intel.com>
-	<fc3a26d7c77f2781cbad28cdb8fc71995ab5e327.camel@linuxfoundation.org>
-	<20191121135942.h776ktsg6jwow4sj@pbcl.net>
-	<32d99e6a-b196-6d1d-dac2-a0e1ccfa2c75@intel.com>
-	<20191126115954.f4mlttmrp2ieahax@pbcl.net>
-	<69bd2c0d-ef6d-b194-c36e-d91594e8bd68@intel.com>
-MIME-Version: 1.0
-In-Reply-To: <69bd2c0d-ef6d-b194-c36e-d91594e8bd68@intel.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH 08/11] lrzsz: remove the recipe
+	Wed, 27 Nov 2019 16:38:22 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id y5so8281483wmi.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Nov 2019 08:38:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=GL900HdL4KDjprZStxha0EMiNgiUTPyGP5j+VSxMIiQ=;
+	b=c53NdZVhKk4q3jbz+9FxNwjSz7Pliosvj3UY2o8mEQkS1JhH0b0ROVNmPeuEnpI0lV
+	Y0Dfnozg4SijxE5At3chBWQwix7y8PPa3zO/StdQhrewv7rBRLsSWzNiNWe6IIEFb/tU
+	xfSosqvzINgoeeihiohHWSe9w6E0J3thY80ZZx3PoddTZ7k7drUOuI3OyEsZP9mSCRGT
+	b+vle/gPy1YQeJhe72RdkWyVUsbLDQ8Rv/REcgrKUcqOCb4spDt68uFlnBRXHR1aw4Zx
+	yzgmc9mmkjoAG3v3HgY3095W1zOTjYWCbij03Ohx5hkIVxZtcuB+5usWkO0YgV5IWuIp
+	E3WQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=GL900HdL4KDjprZStxha0EMiNgiUTPyGP5j+VSxMIiQ=;
+	b=H742vEscXUcbcJmGKHaFwYb2PQcf5xgkyw3aYv+NcdbA1njpp3GuFXrPOyG+hayy4O
+	B2IDERekyUjni9RFdTLJjruSWpyLl72yMmp0ARmrtsVfpcZFSZPdQKCFlITqHHjVF/23
+	Ii3ezkCllApYv7svTl0wZmAgZGBumH9bOPFYxlsdaaWKLJkd38yadmHZrMacbW636MGT
+	i6xM0nyLVpVS0RdEvHg2Sa1OQVKrs0TzEh6bEbt8PAfyU5CCAI9W7GHlvGcyIHNYTFp0
+	l1fRA/UKpj0XXViNezwA9t0tiEOrB+rRPuPmepliDn/4ecGcSPeSoOhXkFmwYUItsFsu
+	v7kA==
+X-Gm-Message-State: APjAAAUKwY1spXTiTcDA4/NiE6+v35geLlcM6PzdGDIHE6keIO2GRV9a
+	p8Q9ni5Dttw5VGUpW3+/jVZkHDK1
+X-Google-Smtp-Source: APXvYqyUe6ceVFjDXFmuWsSwI05IPCm0T1NJakq8K6L0Hxxzs3Sf3nmNeejCH5hu95Q14xIoALw+qQ==
+X-Received: by 2002:a05:600c:3cd:: with SMTP id
+	z13mr5254015wmd.105.1574872702727; 
+	Wed, 27 Nov 2019 08:38:22 -0800 (PST)
+Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
+	by smtp.gmail.com with ESMTPSA id
+	c1sm19170290wrs.24.2019.11.27.08.38.21
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 27 Nov 2019 08:38:22 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 27 Nov 2019 17:37:58 +0100
+Message-Id: <20191127163811.115720-3-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191127163811.115720-1-alex.kanavin@gmail.com>
+References: <20191127163811.115720-1-alex.kanavin@gmail.com>
+Subject: [PATCH 03/16] oe-selftest: extend virgl gtk test to also check the SDL option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,25 +58,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2019 15:07:42 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 27 Nov 2019 16:38:22 -0000
 
-On Wed, Nov 27, 2019 at 02:32:46PM +0000, Ross Burton wrote:
-> On 26/11/2019 11:59, Phil Blundell wrote:
-> > On Mon, Nov 25, 2019 at 12:07:25PM +0000, Ross Burton wrote:
-> > > If you can send a patch sooner rather than later for lrzsz to fix the build
-> > > with modern gettext then that would be *awesome*, as this recipe is the sole
-> > > blocker.
-> 
-> We run autoreconf as part of do_configure, so why is this patch shipping
-> replacement aclocal/configure/etc files that are going to be overwritten?
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-Because you said you wanted the patch sooner rather than later, and the easiest
-way to do that was to update the whole package to use modern autotools, generate
-a new tarball with "make dist", and then just generate a diff between the old
-and new tarballs.  If what you actually want is a minimal patch, I can do that 
-but it will take longer.
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 4b56e5beca2..ccd2c40aa3f 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -166,9 +166,9 @@ class TestImage(OESelftestTestCase):
+         bitbake('core-image-full-cmdline socat')
+         bitbake('-c testimage core-image-full-cmdline')
+ 
+-    def test_testimage_virgl_gtk(self):
++    def test_testimage_virgl_gtk_sdl(self):
+         """
+-        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk frontend
++        Summary: Check host-assisted accelerate OpenGL functionality in qemu with gtk and SDL frontends
+         Expected: 1. Check that virgl kernel driver is loaded and 3d acceleration is enabled
+                   2. Check that kmscube demo runs without crashing.
+         Product: oe-core
+@@ -183,18 +183,27 @@ class TestImage(OESelftestTestCase):
+             self.skipTest('virgl isn\'t working with Centos 7')
+ 
+         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
++        sdl_packageconfig = get_bb_var('PACKAGECONFIG', 'libsdl2-native')
+         features = 'INHERIT += "testimage"\n'
+         if 'gtk+' not in qemu_packageconfig:
+             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"\n'
++        if 'sdl' not in qemu_packageconfig:
++            features += 'PACKAGECONFIG_append_pn-qemu-system-native = " sdl"\n'
+         if 'virglrenderer' not in qemu_packageconfig:
+             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " virglrenderer"\n'
+         if 'glx' not in qemu_packageconfig:
+             features += 'PACKAGECONFIG_append_pn-qemu-system-native = " glx"\n'
++        if 'opengl' not in sdl_packageconfig:
++            features += 'PACKAGECONFIG_append_pn-libsdl2-native = " opengl"\n'
+         features += 'TEST_SUITES = "ping ssh virgl"\n'
+         features += 'IMAGE_FEATURES_append = " ssh-server-dropbear"\n'
+         features += 'IMAGE_INSTALL_append = " kmscube"\n'
+-        features += 'TEST_RUNQEMUPARAMS = "gtk gl"\n'
+-        self.write_config(features)
++        features_gtk = features + 'TEST_RUNQEMUPARAMS = "gtk gl"\n'
++        self.write_config(features_gtk)
++        bitbake('core-image-minimal')
++        bitbake('-c testimage core-image-minimal')
++        features_sdl = features + 'TEST_RUNQEMUPARAMS = "sdl gl"\n'
++        self.write_config(features_sdl)
+         bitbake('core-image-minimal')
+         bitbake('-c testimage core-image-minimal')
+ 
+-- 
+2.17.1
 
-p.
 
