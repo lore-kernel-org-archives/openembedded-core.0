@@ -1,54 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EA567FC06
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BFD77FC0C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 14:00:37 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id g7so6119715wrw.4
+	Wed, 27 Nov 2019 14:00:38 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id s5so26795182wrw.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 27 Nov 2019 06:00:38 -0800 (PST)
+	Wed, 27 Nov 2019 06:00:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=3HMUwVdb20hza9lWbI77svFF6q8sqSjq/SynzFT//2w=;
-	b=PY277SED3UUPF7Kn96QpKD8ln39LSQAZVAZ5F2wH/5eegCAC42E92xTpGjJc392hp+
-	loxFefZrTQEPyd8MEwD7YForP148r1LukYHPP8JfL4RtmfxFHLbAsFu39sliPpxaLoKq
-	cNnNdbyZBn/DWBY3zkhq704oJhLrv3BcVawyB19Mbu5CHiLFg5NajcD5PbUp5H+PrYpL
-	a4rL3c48Dv2ksmsGBz/5MViluhemtuNU6+wb7fKBCSmZ8V+XbVOpdGEs/IPLbeh/ID2I
-	bA3GksKDtMJu19j+T+eoTV2wGiY9XCxepq5Zaz6MbrAup/j6xLSV2XAxD/DQHvF8TLwX
-	F6ww==
+	bh=ySgwyLgna8TMpx2gOFCpckNX+8VS5FMlc9psqBwtLco=;
+	b=B0ebvKiU6M000h/iGRMGDIyM/rq04v9GDrOdQLkIXP6X70nkKko2wnfzhiRDsrRwy9
+	4Xh1H28pL+DhVZ087wjZIKeet/JCNooc6MLpQ8P0gafgD0PaTDb6Cn0B79bBmPxjtGn1
+	jGuUNeJnlGagm4ZVd7GzhLR44l+HsG6sjK1hOpsTOXjnKLTdSM8cN7WDtgOj+/6N81Fk
+	rrMsL1Wb39vk+FGJ359GP8KNXgmpFZG5OLdqFM6fLhzd0A3qKju0W0kBg3bQNZNwJH/X
+	sZFoTrQpnqGmME5e3QW/lMeGCX/evtZ3oNu6wIS8FtUcQo0wbUyIBfyaQF44mF2S1VdH
+	GMHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=3HMUwVdb20hza9lWbI77svFF6q8sqSjq/SynzFT//2w=;
-	b=oXvSTZSKEI4hE9XIDnJZtUwxHaCI65tTowegnew78aTQuNfA3qwl4UOl2+RaboMdlN
-	8e8yD539dE7zYx5LOZeW3y86UhKHg6jMZa1hb+iolAk5UuHdlr8M3FeYVViBz0wOHURw
-	r0EtBD7kLTmPqGHNkRoMpssF0Xc/CcJD6UnyD3RQUEyWpupomzNTVvTNNByTF1lopYZs
-	WfIjgedSYJBZXGb5sY8U2qTp6ld8GRW+9XpXLMoN69bRqlGCHzgBGWvBF8tXi17wfqBY
-	7ZK9QROHrpCnfF/22wpqyHH/S3yGMhwkI4/hZdL0cb9iRwQB6T1/v9882XpHWsL/wU4K
-	naZw==
-X-Gm-Message-State: APjAAAUAwmanKXNh5noaj3eS6u0MVsMRaEOglvF8S7kZaWXkoZCT9fh3
-	fMpoyA1OFXgEW4MaHx+kcaH9VF6Wqws=
-X-Google-Smtp-Source: APXvYqx4NoHLLEql4gI7kDbtZqDl5orYyxAgt4EZYhk3uL3uQMDXOYNqP3zwsxPJWnQ2qw3ciWFn2A==
-X-Received: by 2002:a5d:5267:: with SMTP id l7mr101410wrc.84.1574863237064;
-	Wed, 27 Nov 2019 06:00:37 -0800 (PST)
+	bh=ySgwyLgna8TMpx2gOFCpckNX+8VS5FMlc9psqBwtLco=;
+	b=ActmoTiY1IW+D5GkXNven6JgVIVya4/Eufcoco2Rr9LiPVy4fvnH9J000FZUNk6eN/
+	OZ0N86a8loHgHYw9aukoJ6192OFwaakoWiEBYjqubp7uMUxMLzkCVqt5ZnHR8ZGu2esj
+	KegD5/dtJlyy7tkyJwB2QNJIiFJPxCw1a5Gu/SYw7GGECSdSv7GBG1QlDj58sLW7kW/W
+	TQAEDP8xgZMSOjyaXd/QxLdcxSzIkmY3OUMgEsxxtC8IZ6fF2SVl2dBI30cQfLRKFsMl
+	VidckOvWjrf7u0KddMRusWEZARzwOmMWMkBan9o2yO4IIQ2P5yqSwheEb4OTpvsAiBq7
+	k9SQ==
+X-Gm-Message-State: APjAAAUDnPxgWAGa5yTH9fghnxktjGZIVWWK2UJPLQh+L659FGsoSqSG
+	DSCGIeHuXV4Ay7RGK9jqZGlc2tV9HZQ=
+X-Google-Smtp-Source: APXvYqxx0V0Ru8sBL/qjB3iKGDB1/E0uaA6QVSlZBeC1RXNUZTZIKwAobgIVsvCKAU2OOA140dJhsQ==
+X-Received: by 2002:a5d:5487:: with SMTP id h7mr1881351wrv.396.1574863239009; 
+	Wed, 27 Nov 2019 06:00:39 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o1sm19372284wrs.50.2019.11.27.06.00.35
+	o1sm19372284wrs.50.2019.11.27.06.00.37
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 27 Nov 2019 06:00:36 -0800 (PST)
+	Wed, 27 Nov 2019 06:00:38 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 27 Nov 2019 14:00:26 +0000
-Message-Id: <20191127140030.7838-2-ross.burton@intel.com>
+Date: Wed, 27 Nov 2019 14:00:28 +0000
+Message-Id: <20191127140030.7838-4-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191127140030.7838-1-ross.burton@intel.com>
 References: <20191127140030.7838-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/6] python: move make override variables to EXTRA_OEMAKE
+Subject: [PATCH 4/6] python: restore bytecode optimisation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,74 +61,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 27 Nov 2019 14:00:38 -0000
+X-List-Received-Date: Wed, 27 Nov 2019 14:00:39 -0000
 Content-Transfer-Encoding: 8bit
 
-Instead of passing the same five variables to oe_runmake repeatedly, add them to
-EXTRA_OEMAKE once.
+The upgrade from 2.7.3 to 2.7.9 in oe-core cb02ecb introduced some
+copy-paste errors which inadvertandly disabled the generation of
+optimised bytecode (.pyo files).
+
+Restore the intended behaviour and bring back .pyo files.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/python/python_2.7.17.bb | 31 ++++++-------------
- 1 file changed, 10 insertions(+), 21 deletions(-)
+ .../python/python/01-use-proper-tools-for-cross-build.patch | 6 +++---
+ .../python/python/fix_for_using_different_libdir.patch      | 6 +++---
+ 2 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python_2.7.17.bb b/meta/recipes-devtools/python/python_2.7.17.bb
-index 6199a5da760..ef5d5644812 100644
---- a/meta/recipes-devtools/python/python_2.7.17.bb
-+++ b/meta/recipes-devtools/python/python_2.7.17.bb
-@@ -45,7 +45,13 @@ PACKAGECONFIG[bdb] = ",,db"
- PACKAGECONFIG[tk] = ",,tk"
- 
- # pgen isn't needed in the current build, but use the binary from python-native just in case.
--EXTRA_OEMAKE = "PGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen"
-+EXTRA_OEMAKE = "PGEN=${STAGING_BINDIR_NATIVE}/python-native/pgen \
-+                HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
-+                CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
-+                STAGING_LIBDIR=${STAGING_LIBDIR} \
-+                STAGING_INCDIR=${STAGING_INCDIR} \
-+                STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
-+                "
- 
- do_configure_append() {
- 	rm -f ${S}/Makefile.orig
-@@ -85,12 +91,7 @@ do_compile() {
- 	export CROSS_COMPILE="${TARGET_PREFIX}"
- 	export PYTHONBUILDDIR="${B}"
- 
--	oe_runmake \
--		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
--		STAGING_LIBDIR=${STAGING_LIBDIR} \
--		STAGING_INCDIR=${STAGING_INCDIR} \
--		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		OPT="${CFLAGS}"
-+	oe_runmake OPT="${CFLAGS}"
- }
- 
- do_install() {
-@@ -103,21 +104,9 @@ do_install() {
- 
- 	# After swizzling the makefile, we need to run the build again.
- 	# install can race with the build so we have to run this first, then install
--	oe_runmake \
--		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
--		CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
--		STAGING_LIBDIR=${STAGING_LIBDIR} \
--		STAGING_INCDIR=${STAGING_INCDIR} \
--		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		DESTDIR=${D} LIBDIR=${libdir}
-+	oe_runmake DESTDIR=${D} LIBDIR=${libdir}
- 	
--	oe_runmake \
--		HOSTPYTHON=${STAGING_BINDIR_NATIVE}/python-native/python \
--		CROSSPYTHONPATH=${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/ \
--		STAGING_LIBDIR=${STAGING_LIBDIR} \
--		STAGING_INCDIR=${STAGING_INCDIR} \
--		STAGING_BASELIBDIR=${STAGING_BASELIBDIR} \
--		DESTDIR=${D} LIBDIR=${libdir} install
-+	oe_runmake DESTDIR=${D} LIBDIR=${libdir} install
- 
- 	install -m 0644 Makefile.sysroot ${D}/${libdir}/python${PYTHON_MAJMIN}/config/Makefile
- 
+diff --git a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+index 7d8e95fe5cc..56992210a23 100644
+--- a/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
++++ b/meta/recipes-devtools/python/python/01-use-proper-tools-for-cross-build.patch
+@@ -36,18 +36,18 @@ Index: Python-2.7.13/Makefile.pre.in
+  		$(DESTDIR)$(LIBDEST)
+  	PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+ -		$(PYTHON_FOR_BUILD) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
+-+		$(HOSTPYTHON) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
+++		$(HOSTPYTHON) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
+  		-d $(LIBDEST) -f \
+  		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
+  		$(DESTDIR)$(LIBDEST)
+  	-PYTHONPATH=$(DESTDIR)$(LIBDEST)  $(RUNSHARED) \
+ -		$(PYTHON_FOR_BUILD) -Wi -t $(DESTDIR)$(LIBDEST)/compileall.py \
+-+		$(HOSTPYTHON) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
+++		$(HOSTPYTHON) -Wi -t $(DESTDIR)$(LIBDEST)/compileall.py \
+  		-d $(LIBDEST)/site-packages -f \
+  		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
+  	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+ -		$(PYTHON_FOR_BUILD) -Wi -t -O $(DESTDIR)$(LIBDEST)/compileall.py \
+-+		$(HOSTPYTHON) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
+++		$(HOSTPYTHON) -Wi -t -O $(DESTDIR)$(LIBDEST)/compileall.py \
+  		-d $(LIBDEST)/site-packages -f \
+  		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
+  	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+diff --git a/meta/recipes-devtools/python/python/fix_for_using_different_libdir.patch b/meta/recipes-devtools/python/python/fix_for_using_different_libdir.patch
+index 5f7309367c4..b4e72193ff8 100644
+--- a/meta/recipes-devtools/python/python/fix_for_using_different_libdir.patch
++++ b/meta/recipes-devtools/python/python/fix_for_using_different_libdir.patch
+@@ -52,8 +52,8 @@ Index: Python-2.7.9/Makefile.pre.in
+  		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
+  		$(DESTDIR)$(LIBDEST)
+ -	PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+-+	PYTHONPATH=$(DESTDIR)$(LIBDEST):${CROSSPYTHONPATH}$(RUNSHARED) \
+- 		$(HOSTPYTHON) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
+++	PYTHONPATH=$(DESTDIR)$(LIBDEST):${CROSSPYTHONPATH} $(RUNSHARED) \
++ 		$(HOSTPYTHON) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
+  		-d $(LIBDEST) -f \
+  		-x 'bad_coding|badsyntax|site-packages|lib2to3/tests/data' \
+  		$(DESTDIR)$(LIBDEST)
+@@ -64,7 +64,7 @@ Index: Python-2.7.9/Makefile.pre.in
+  		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
+ -	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
+ +	-PYTHONPATH=$(DESTDIR)$(LIBDEST):${CROSSPYTHONPATH} $(RUNSHARED) \
+- 		$(HOSTPYTHON) -Wi -tt $(DESTDIR)$(LIBDEST)/compileall.py \
++ 		$(HOSTPYTHON) -Wi -tt -O $(DESTDIR)$(LIBDEST)/compileall.py \
+  		-d $(LIBDEST)/site-packages -f \
+  		-x badsyntax $(DESTDIR)$(LIBDEST)/site-packages
+ -	-PYTHONPATH=$(DESTDIR)$(LIBDEST) $(RUNSHARED) \
 -- 
 2.20.1
 
