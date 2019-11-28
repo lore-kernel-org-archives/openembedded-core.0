@@ -1,18 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F3437FC1C;
-	Thu, 28 Nov 2019 02:32:38 +0000 (UTC)
+Return-Path: <jdmason@kudzu.us>
+Received: from mail-il1-f177.google.com (mail-il1-f177.google.com
+	[209.85.166.177])
+	by mail.openembedded.org (Postfix) with ESMTP id B766B7FAC4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 28 Nov 2019 02:40:38 +0000 (UTC)
+Received: by mail-il1-f177.google.com with SMTP id z12so13433605iln.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 27 Nov 2019 18:40:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=ufIwhoTkrpyxZykUmq2pmvPbPe6VuyVkxwdu0fD04oY=;
+	b=a+ySI2ImKZbuZsPSjzB8pyS1HHwnPxYYRocJJYKWDAmccO2JKnCy/OnlJcjjfYSpop
+	2cgEsWh+Sz7EbqkiH6SiNYVm9Q/+npWW0UJRuP+jeBlroEu9T+fGN1If7jCQpjAprZNV
+	l9q4kgaymif8tatA42ornw4FJP90NbfDN3ThXccOflp2gxO7x9e+qjYELtsQ7igKDYYP
+	FelJtiKlDWlKKndT8boRnwbN8Vewr7owfLT1yGtBlzn7Fd20DcLpHhhQGZLXO81NHRFW
+	iK/csfX18OedxTodDCU+xqkP/Wj8BpMQUQxLN2h+JJU/Y/m66aEbKcHZUkLHprTGC5Ym
+	0d6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=ufIwhoTkrpyxZykUmq2pmvPbPe6VuyVkxwdu0fD04oY=;
+	b=CfKD7+AALdDiKH/XfzksrTExl1Ib2cBPMaFl1eHjWUACtxBJrxOfzaMlR3me1gm/ev
+	PI5tvVKksIptoFdiPBHx8SgNhPRtGwrpCIU32qMLhQfOoUOl5wYWW9WmZJ+uYFWQ7dFq
+	gPgNaU+zDqmexPUVPmsbJ2zEcYL1xv10eN7of4jt1xm8eGb/cKjx47jeTyarLQ7t5kyA
+	zRa3IdiuCOsWYIiCq30TjB0uLCcRYyxKagMBg1ESJOJjyuVDVfUFhg4knspZv0nxlHG6
+	UGNc7KpvX8A3zGkukb8SJOeMnjzf83IOTQ2PgGJdQyFcibPYRt+1OQl6N7dmcjiANNPb
+	Pk5w==
+X-Gm-Message-State: APjAAAUmpcFp/j/DoXmhGYqTYTyBZ+7rg96SAtWRj0xEU92p9/rmffp2
+	v4m2KNE4R1pCXEJaKhilJu1bnKBTxH6farmq7rIONg==
+X-Google-Smtp-Source: APXvYqz+i8KpXd753hb94eNGiHvyr4+kMeGPm2RiCguxbsGvd2ixMpsVmq7kBzobQbhEtvMFWFqMZM3JU/BfOiNExQs=
+X-Received: by 2002:a92:cf46:: with SMTP id c6mr28097876ilr.159.1574908839616; 
+	Wed, 27 Nov 2019 18:40:39 -0800 (PST)
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Date: Thu, 28 Nov 2019 02:32:39 -0000
-Message-ID: <20191128023239.2273.82415@do>
-References: <1574932348-14525-1-git-send-email-wangmy@cn.fujitsu.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <1574932348-14525-1-git-send-email-wangmy@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY21ha2U6dXBncmFkZSAzLjE1LjMgLT4gMy4xNS41IChyZXYzKQ==?=
+References: <CAPoiz9w9qWwEqMipK7iF-VLP5dFH21nZdTCpeLNncsqHHpFJxQ@mail.gmail.com>
+In-Reply-To: <CAPoiz9w9qWwEqMipK7iF-VLP5dFH21nZdTCpeLNncsqHHpFJxQ@mail.gmail.com>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Wed, 27 Nov 2019 21:40:27 -0500
+Message-ID: <CAPoiz9yEp0xESQQYjBqAOoQTbv+CtkY+uw50_bBtV+ntQL2xPw@mail.gmail.com>
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Yocto discussion list <yocto@yoctoproject.org>
+Subject: Re: OpenEmbedded Workshop at FOSDEM20 CFP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +56,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Nov 2019 02:32:38 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 28 Nov 2019 02:40:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-== Series Details ==
+On Thu, Nov 21, 2019 at 4:12 PM Jon Mason <jdmason@kudzu.us> wrote:
+>
+> We are proud to announce the inaugural OpenEmbedded Workshop. It is
+> being held on 03 February 2020 in Brussels, Belgium. The day after
+> FOSDEM.
+>
+> The Call for Participation is open now. For more information, go to
+> https://pretalx.com/oe-workshop-2020/cfp
+>
+> Early-bird tickets coming soon!
+>
+> Thank you,
+> The OpenEmbedded Board
 
-Series: cmake:upgrade 3.15.3 -> 3.15.5 (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/21392/
-State : failure
+We forgot to mention that the deadline for the CFP is December 15th.
+Please get your topic in before the deadline.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            stress-ng 0.10.10 -> 0.10.11
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Also, look for early-bird tickets next week!
 
