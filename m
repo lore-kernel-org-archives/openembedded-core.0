@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 49DE06C0ED
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 428307F945
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2019 18:07:53 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id y23so3430111wma.0
+	Thu, 28 Nov 2019 18:09:55 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id z19so12616309wmk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2019 10:07:54 -0800 (PST)
+	Thu, 28 Nov 2019 10:09:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=xn6ikVh8j0puZqSM+r/M9ehxeTDFgHyq6RQZYX7yoeo=;
-	b=A0aQG4jWXySyuwNMR+irg0R/ay7X3B4oXWakJkyyi0foqFpF5y1o6zSwFpbnXOjhMI
-	DpBsW02vBnffN9aoiD/NfHINeTK/B7UOS1qCkHV/TGHi9tc8pO0UbQJxgJeXfYQIwZ6+
-	B41fYjvMO072LinJskcEl9siMx5KlI2AlTICA=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=mAMHNyPZWkwS0WoNheNqooqGErYQNwYTQ1HJUoyMEhk=;
+	b=Pa92Rcq90LHF0Wrb5SD2kRLsAKOoEc356EzQWOEHysc1ZwbsmO4NA8OvDE/mch7D+U
+	/PJgWj8OPn4VVIOViNOMZrWOovNegyBT+NvNk8oDy5CTvTrl25XSpJKLetxYyIy+rX9i
+	hAMUgO4Xbui3Is1xh8NM1kQoKe7CTGYfePSIw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=xn6ikVh8j0puZqSM+r/M9ehxeTDFgHyq6RQZYX7yoeo=;
-	b=ujcLtoQkSW2xcghobY2Q6BSlPAsy9jqAEWJCc8x+ZOPwrSsBNJEumdgwS67Iln169g
-	HaiMpMHnHPjwpKZapOiOykpzjtSgilAKJqNJikQAaqu/BUt9oJC72e1humF4XBmRlC/M
-	rCRBq43IJOWaiSSATsk3XcaqhMHrVTo+JBgOn7l8l3QGkmLK7aapOPt4vGW9lnV6Gmsx
-	TT1tLI93zdflWm6jrfbdvV5zkP+Y45GGpMeJXp46bCirtHSnAw5tv4pgTS0gYK0BPoxa
-	MtQJ5OS9jy0YTwElzER4r5cu9boiVr0DzQgOAeyQl6oxpSs02fvxJlE3KGfFvQSk9Z38
-	WLEg==
-X-Gm-Message-State: APjAAAWdb3xnyRacXphOL5tkMin0rZZkOEzSQnnbgiyw765sbfDyKTOB
-	trQT61jjQNcvt7svPzs6Ay2GsdUpcN4=
-X-Google-Smtp-Source: APXvYqwu3b6OYkvEj9YUvvZH/zT7nowlIoY6pwT3YxjSzZWPBpfSZfsXBakGqwAbOXVWMlrXDRJDLg==
-X-Received: by 2002:a1c:2846:: with SMTP id o67mr10979969wmo.7.1574964473961; 
-	Thu, 28 Nov 2019 10:07:53 -0800 (PST)
+	bh=mAMHNyPZWkwS0WoNheNqooqGErYQNwYTQ1HJUoyMEhk=;
+	b=l3uB7n7okknfNwww0p4w0H2T/xdfuhNDnRW9s1vtWucDNHAusej9ZrQDXzlptKyoK4
+	CVrpkTX/fA+xQuAmMaUwhvIdU4ndljBI6E341OLmqR+DmQOK/WxquQ1kvoT/X7EiEPd0
+	//MzHwRpHs2oIcGrEpqqUrH5S/ZRFZdu2il9/nIcoB5N8t4yhM6tFtC8I+vJrDV2oiyl
+	k8tzL7sX5DBqvOL9yYT09wQO6O7j36lc33jsYAn/bCFKSX7yYFIU/ODnzRivz3siCxgl
+	PX/Vvvr1+oGJcoLi3gf7SG73XIW8pRyTLErGH4AX2Mli7Dv/5t98nKtlmKnCy1gtXzEA
+	FwKQ==
+X-Gm-Message-State: APjAAAVn9eIY++m1jD4yeKeCAfcRMdRsFZJjQ7wJq4fZmrSGlCHSP/eB
+	azqbOj6wtgz4srw//p7qperx3fkwH+w=
+X-Google-Smtp-Source: APXvYqwhZzOb2YvxYyuBxVQD2/19aAbxsqDE50CRikyycXAipCGcHxiSmV9YuG8F5V8h84cBqiafmA==
+X-Received: by 2002:a1c:560b:: with SMTP id k11mr11564846wmb.153.1574964595973;
+	Thu, 28 Nov 2019 10:09:55 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	s82sm11326300wms.28.2019.11.28.10.07.53
+	72sm24807863wrl.73.2019.11.28.10.09.52
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 28 Nov 2019 10:07:53 -0800 (PST)
-Message-ID: <0f7a57a8653678f004b45ed3379f55d27a95ec3b.camel@linuxfoundation.org>
+	Thu, 28 Nov 2019 10:09:55 -0800 (PST)
+Message-ID: <19c01871bece378f73254ead8953c24f9f3b3180.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Nathan Rossi <nathan@nathanrossi.com>, 
+To: Trevor Gamblin <Trevor.Gamblin@windriver.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Thu, 28 Nov 2019 18:07:52 +0000
-In-Reply-To: <20191125065800.332481-1-nathan@nathanrossi.com>
-References: <20191125065800.332481-1-nathan@nathanrossi.com>
+Date: Thu, 28 Nov 2019 18:09:48 +0000
+In-Reply-To: <20191123221854.1656-1-Trevor.Gamblin@windriver.com>
+References: <20191123221854.1656-1-Trevor.Gamblin@windriver.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH] gcc-cross.inc: Prevent native sysroot from leaking into configargs.h
+Subject: Re: [PATCH 0/2 v2] add coreutils ptest to oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,41 +58,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Nov 2019 18:07:53 -0000
+X-List-Received-Date: Thu, 28 Nov 2019 18:09:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-11-25 at 06:58 +0000, Nathan Rossi wrote:
-> Prevent the native(sdk) sysroot path from leaking into configargs.h.
-> The configargs.h header is intended to be static and unchanged as the
-> content is used as a means of determining that a gcc plugin is built
-> for the same gcc. This also effects the output of 'gcc --version'.
-> Due to per recipe sysroots and staging, the sysroot path would be
-> replaced with the sysroot local to the recipe thus changing the
-> content of configargs.h.
+On Sat, 2019-11-23 at 17:18 -0500, Trevor Gamblin wrote:
+> From: Trevor Gamblin <trevor.gamblin@windriver.com>
 > 
-> The sysroot path is replaced with a generic "/host" prefix which
-> represents the host sysroot (e.g. native or nativesdk).
+> Sample test results:
 > 
-> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-cross.inc   | 7 +++++++
->  meta/recipes-devtools/gcc/gcc-runtime.inc | 4 ----
->  2 files changed, 7 insertions(+), 4 deletions(-)
+> core-image-minimal:
+> MACHINE    | PASS | FAIL | SKIP | TOTAL | TIME (m) |
+> qemux86-64 |  483 |    0 |  132 |   615 |      3.8 |
+> qemuarm64  |  483 |    0 |  132 |   615 |       70 |
+> 
+> core-image-sato:
+> MACHINE    | PASS | FAIL | SKIP | TOTAL | Time (m) |
+> qemux86-64 |  484 |    0 |  131 |   615 |      3.9 |
+> qemuarm64  |  484 |    0 |  131 |   615 |       70 |
 
-I think this is causing the reproducibile builds selftest to fail:
+I do like this patch but I think this is causing the reproducibile
+builds selftest to fail:
 
 https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/515
 
-Note the:
+as coreutils ptest is in the list.
 
-g++_9.2.0-r0_amd64.deb
-cpp_9.2.0-r0_amd64.deb
+I think there are other patches in master-next contributing to this too
+but this one is an issue.
 
-in the list.
+Its also causing a size overflow for genericx86-64:
 
-I think there are other patches in master-next contributing to this
-too.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/1298
+
+but I believe Anuj and Ross are working through changes which would
+address this issue.
 
 Cheers,
 
