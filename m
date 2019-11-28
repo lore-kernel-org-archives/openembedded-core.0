@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 614E07FA6F;
-	Thu, 28 Nov 2019 02:32:37 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 5F3437FC1C;
+	Thu, 28 Nov 2019 02:32:38 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Date: Thu, 28 Nov 2019 02:32:38 -0000
-Message-ID: <20191128023238.2273.84566@do>
+Date: Thu, 28 Nov 2019 02:32:39 -0000
+Message-ID: <20191128023239.2273.82415@do>
 References: <1574932348-14525-1-git-send-email-wangmy@cn.fujitsu.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <1574932348-14525-1-git-send-email-wangmy@cn.fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY21ha2U6dXBncmFkZSAzLjE1LjMgLT4gMy4xNS41IChyZXYyKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY21ha2U6dXBncmFkZSAzLjE1LjMgLT4gMy4xNS41IChyZXYzKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Nov 2019 02:32:37 -0000
+X-List-Received-Date: Thu, 28 Nov 2019 02:32:38 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: cmake:upgrade 3.15.3 -> 3.15.5 (rev2)
-Revision: 2
+Series: cmake:upgrade 3.15.3 -> 3.15.5 (rev3)
+Revision: 3
 URL   : https://patchwork.openembedded.org/series/21392/
 State : failure
 
@@ -45,7 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            xserver-xorg 1.20.5 -> 1.20.6
+* Patch            stress-ng 0.10.10 -> 0.10.11
  Issue             Shortlog does not follow expected format [test_shortlog_format] 
   Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
