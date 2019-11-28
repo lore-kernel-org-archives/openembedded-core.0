@@ -1,48 +1,48 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F1427F8DB
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 829467F8F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2019 17:27:53 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id y23so1850397ual.2
+	Thu, 28 Nov 2019 17:47:12 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id a13so8443964uaq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2019 09:27:54 -0800 (PST)
+	Thu, 28 Nov 2019 09:47:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=SD4AVOGWxWq80Yoz1+OIPM5SAGCchEG8UTfflAqDZMI=;
-	b=kl8JMLC1KuvlKtCEhEOXScdyK0DlriWaZ3U00Huqw24NVzURXtfQAImKBP/gXhsSMa
-	Wsbs09L4VzI04SorsWOkgA46rRY1C4Sn9bkcxfv/KK4nLgTL6YFI5sCKiyN6PxeD6EEF
-	//2+dcxFJrw7mUBaWdn++AGYyubV6qLS3L6w1KdFcvjba5aqHWv6C6rDp9MLhSFfaccV
-	6vR+zQ2VuCrA4qRQOqn4/laca2s32gfO/nCjcjJnRRY2iSzq3U56NPI6BQCyR7cogzmB
-	BoB2cJQ0+P+IOJWVQ6MsoLPyYBo0u16QKyazySx6SRTaCuXglUWPdjOudvOwbKkENgf4
-	cZVg==
+	:cc; bh=W+vQYmbD4gUAKcYAonsEN9do8XCYejJeyeePx1uACrs=;
+	b=sSaQ124Y7JuwdTkIY91F6zBeU2n5f6VmHE0trX048P/SeQeGndGxw4TQmDAs+J+uHq
+	XJObQj6b/fQIQFXMOL2v2KiBxjb04gYQFiFTNgXTFX0UzJWiP04Ox0Ef76nOEWzdkzen
+	6/RhtZXs3mKZoItUPxUdO4faV479UmdKUjUpj2+dInVOMNzmLkSog35h2/Y5RuZwOM/o
+	3UoGsIqhQlYeiMMMfaWM28r1pmxMlN8zoHit6GbGXo2CVSvUF335TW5qTlQRjBlFPKlK
+	v68UhH9Pdp4bMfqA66Dyg+QHtr38FEt5rGbqfibSqCKmqFlnIWZtTyY+w6CEsTM7LLRe
+	psGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=SD4AVOGWxWq80Yoz1+OIPM5SAGCchEG8UTfflAqDZMI=;
-	b=DJcX7Nl5W6v1LFzXQ1MQP87DsRQvGUXP99jEJhDfw8N+WsBLC41ydaWlk/Oh63Mmow
-	bsVX0zFvYNF4mrcV4NByudyFTP0NNmQQKHFsNSqpmdsY8Ta47SsifdF1Hzc1nl04ON+E
-	bF32XTKildV0m7dPLdrXzKh/e4BzagFGWxVGAL6nH6Sc9GXxCquvDEo2y2CdR5uN4qfr
-	HL+n5h6UtDUD/o54WvH1IAoj0g10/38GSpdzJkBHQzzqEnaizO9Ht8Pndl3ACep2KQvx
-	POC43mgVlj39QHYQtSzh5CeZQ0mqpLz+zRoMJnC8ov3En1swImrAySO53HpsPqGjusE6
-	g48w==
-X-Gm-Message-State: APjAAAUxcHIWiPwGiWY9Ts6ThwvRE73jP+lwt6V7fNR988iTiM0eX6Jp
-	2a1TRJddQW/UIsUzJ63ExBxuKfpZqNGZityIQes=
-X-Google-Smtp-Source: APXvYqx6B+iMEtFKIMJiJHgHmMVpZ1o0Gmcy9+EEXe0RA2JSvITx5zBgmsPx/Vy4fNdnj3Q302avkg96rcNc0OYop10=
-X-Received: by 2002:ab0:6894:: with SMTP id t20mr120018uar.100.1574962073763; 
-	Thu, 28 Nov 2019 09:27:53 -0800 (PST)
+	bh=W+vQYmbD4gUAKcYAonsEN9do8XCYejJeyeePx1uACrs=;
+	b=aIrWFS4e2XNuW5aWCGJMRVnj5/bRTzBZrHjRQRtOKTPrw7ZKH9K+H9r6XBJ1VOOM2X
+	8BPih4oKm1duV+uqpkuNz94IRGrtzp5tPIIlmIpkm1HbQOExf3/MlLE5fZ/NV124Fm58
+	qwPZ2djReZ02TnlRLJ85zFx3BjNY1zLxpy1Txr/bCs+dwM8JrhwTbZ1+NIbPfO+MuHOp
+	MAy5z5MVdxu3mCS+u+sUL1/SO4r3BuXrvrLh4/OnyTsKL0JBSybPT63ZmOF5VApCGC/D
+	6NrI4CL/5m/ocNkd8WbUb2CuDbWwU9NjbWSq79NsONeriHwQS1yYet+fkXhzTjV++9pC
+	h6/Q==
+X-Gm-Message-State: APjAAAVJc7jWF6PaEORhbg0eCwMrOCyR3FjNAyiym44r3FuX3ZQm+Yb0
+	FfGzLlUopE+OiTvhE4dQ+1bRHD260yHdA35jhuo=
+X-Google-Smtp-Source: APXvYqxGNCm7zKk6h4V0iHH5ZUsyFW+0angH7VESgEPDyHyqIskG1iooTVKENjDvUXvQFS6xMPbI4/3SCOo4kRFWVvw=
+X-Received: by 2002:ab0:49e9:: with SMTP id f38mr7163468uad.71.1574963232790; 
+	Thu, 28 Nov 2019 09:47:12 -0800 (PST)
 MIME-Version: 1.0
 References: <20191127164003.115980-1-alex.kanavin@gmail.com>
-	<20191127164003.115980-2-alex.kanavin@gmail.com>
-	<158d5306-6ce3-8510-3c4c-20194b88eec6@gmail.com>
-In-Reply-To: <158d5306-6ce3-8510-3c4c-20194b88eec6@gmail.com>
+	<20191127164003.115980-8-alex.kanavin@gmail.com>
+	<4b9811bd-bbeb-c2f3-9020-3d9c624bb652@gmail.com>
+In-Reply-To: <4b9811bd-bbeb-c2f3-9020-3d9c624bb652@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 28 Nov 2019 18:27:42 +0100
-Message-ID: <CANNYZj9P4aP1Pcgt4U1AAMYF9Y2nfAbxpiU88s9+kCpHsMKO6A@mail.gmail.com>
+Date: Thu, 28 Nov 2019 18:47:01 +0100
+Message-ID: <CANNYZj_p=RM2SycCwa5kq=1FwQHSggxQT8wYPhRsLpgOEkegpg@mail.gmail.com>
 To: akuster808 <akuster808@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/14] rpm: upgrade to 4.15.1
+Subject: Re: [PATCH 08/14] gettext: update to 0.20.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,2796 +55,3767 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Nov 2019 17:27:54 -0000
-Content-Type: multipart/alternative; boundary="000000000000f1058e05986b6e99"
+X-List-Received-Date: Thu, 28 Nov 2019 17:47:13 -0000
+Content-Type: multipart/alternative; boundary="000000000000065e4b05986bb464"
 
---000000000000f1058e05986b6e99
+--000000000000065e4b05986bb464
 Content-Type: text/plain; charset="UTF-8"
 
-I believe RP has a patch queued in master-next for this.
-
-Alex
-
-On Thu, 28 Nov 2019 at 16:22, akuster808 <akuster808@gmail.com> wrote:
+On Thu, 28 Nov 2019 at 16:19, akuster808 <akuster808@gmail.com> wrote:
 
 >
 >
 > On 11/27/19 8:39 AM, Alexander Kanavin wrote:
-> > Drop patches that were merged upstream.
-> >
-> > 0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-> > modifies a file that was removed upstream.
-> >
-> > Add a 0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-> > as unfortunately the new parallel file classification feature from
-> > upstream trips over somewhere in libmagic when inspected files are
-> > compressed:
-> > https://github.com/rpm-software-management/rpm/issues/756
->
-> Failed on ab selftest
->
-> https://errors.yoctoproject.org/Errors/Details/288828/
-> >
+> > License-Update: URLs changed from http to https
 > > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>
+> This failed on the AB
+>
+> https://errors.yoctoproject.org/Errors/Details/288797/
+>
+
+Weird this didn't fail locally for my world builds, I queued a patch to fix
+this.
+
+
+
+> an for meta-mingw bbappend.
+>
+> https://errors.yoctoproject.org/Errors/Details/284185/
+>
+
+Patch sent.
+
+
 > > ---
-> >  ...satisfiable-dependency-when-building.patch |  28 +-
-> >  ...lib-rpm-as-the-installation-path-for.patch |  14 +-
-> >  ...kage-building-into-a-separate-functi.patch |  84 -----
-> >  ...es-requires-do-not-use-monodis-from-.patch |  58 ---
-> >  ...-run-file-classification-in-parallel.patch |  65 ++++
-> >  ...ry-package-creation-via-thread-pools.patch | 127 -------
-> >  ...e-operations-over-string-pools-threa.patch | 207 -----------
-> >  ...ove-static-local-variables-from-buil.patch | 336 ------------------
-> >  .../rpm/{rpm_4.14.2.1.bb => rpm_4.15.1.bb}    |  15 +-
-> >  9 files changed, 90 insertions(+), 844 deletions(-)
+> >  .../gettext-0.19.8.1/fix-CVE-2018-18751.patch | 141 ----
+> >  .../gettext/gettext-0.19.8.1/parallel.patch   |  23 -
+> >  .../gettext-0.19.8.1/use-pkgconfig.patch      | 321 --------
+> >  .../add-with-bisonlocaledir.patch             |   0
+> >  ...nt.c-timsort.h-fix-formatting-issues.patch |  30 +-
+> >  .../gettext/gettext-0.20.1/parallel.patch     |  32 +
+> >  .../run-ptest                                 |   0
+> >  .../serial-tests-config.patch                 |  26 +-
+> >  .../gettext-0.20.1/use-pkgconfig.patch        | 713 ++++++++++++++++++
+> >  ...{gettext_0.19.8.1.bb => gettext_0.20.1.bb} |  23 +-
+> >  10 files changed, 775 insertions(+), 534 deletions(-)
 > >  delete mode 100644
-> meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+> meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.patch
 > >  delete mode 100644
-> meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+> meta/recipes-core/gettext/gettext-0.19.8.1/parallel.patch
+> >  delete mode 100644
+> meta/recipes-core/gettext/gettext-0.19.8.1/use-pkgconfig.patch
+> >  rename meta/recipes-core/gettext/{gettext-0.19.8.1 =>
+> gettext-0.20.1}/add-with-bisonlocaledir.patch (100%)
+> >  rename meta/recipes-core/gettext/{gettext-0.19.8.1 =>
+> gettext-0.20.1}/cr-statement.c-timsort.h-fix-formatting-issues.patch (68%)
 > >  create mode 100644
-> meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-> >  delete mode 100644
-> meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
-> >  delete mode 100644
-> meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
-> >  delete mode 100644
-> meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-> >  rename meta/recipes-devtools/rpm/{rpm_4.14.2.1.bb => rpm_4.15.1.bb}
-> (90%)
+> meta/recipes-core/gettext/gettext-0.20.1/parallel.patch
+> >  rename meta/recipes-core/gettext/{gettext-0.19.8.1 =>
+> gettext-0.20.1}/run-ptest (100%)
+> >  rename meta/recipes-core/gettext/{gettext-0.19.8.1 =>
+> gettext-0.20.1}/serial-tests-config.patch (75%)
+> >  create mode 100644
+> meta/recipes-core/gettext/gettext-0.20.1/use-pkgconfig.patch
+> >  rename meta/recipes-core/gettext/{gettext_0.19.8.1.bb =>
+> gettext_0.20.1.bb} (94%)
 > >
 > > diff --git
-> a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
-> b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
-> > index 80e2f0fad70..4029233fb70 100644
+> a/meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.patch
+> b/meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.patch
+> > deleted file mode 100644
+> > index 6dfe200d654..00000000000
+> > --- a/meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.patch
+> > +++ /dev/null
+> > @@ -1,141 +0,0 @@
+> > -Upstream-Status: Backport [
+> https://git.savannah.gnu.org/gitweb/?p=gettext.git;a=commit;h=dce3a16]
+> > -CVE: CVE-2018-18751
+> > -
+> > -Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > -
+> > -From dce3a16e5e9368245735e29bf498dcd5e3e474a4 Mon Sep 17 00:00:00 2001
+> > -From: Daiki Ueno <ueno@gnu.org>
+> > -Date: Thu, 15 Sep 2016 13:57:24 +0200
+> > -Subject: [PATCH] xgettext: Fix crash with *.po file input
+> > -
+> > -When xgettext was given two *.po files with the same msgid_plural, it
+> > -crashed with double-free.  Problem reported by Davlet Panech in:
+> > -http://lists.gnu.org/archive/html/bug-gettext/2016-09/msg00001.html
+> > -* gettext-tools/src/po-gram-gen.y: Don't free msgid_pluralform after
+> > -calling do_callback_message, assuming that it takes ownership.
+> > -* gettext-tools/src/read-catalog.c (default_add_message): Free
+> > -msgid_plural after calling message_alloc.
+> > -* gettext-tools/tests/xgettext-po-2: New file.
+> > -* gettext-tools/tests/Makefile.am (TESTS): Add new test.
+> > ----
+> > - gettext-tools/src/po-gram-gen.y   | 13 ++++-----
+> > - gettext-tools/src/read-catalog.c  |  2 ++
+> > - gettext-tools/tests/Makefile.am   |  2 +-
+> > - gettext-tools/tests/xgettext-po-2 | 55
+> +++++++++++++++++++++++++++++++++++++++
+> > - 4 files changed, 63 insertions(+), 9 deletions(-)
+> > - create mode 100755 gettext-tools/tests/xgettext-po-2
+> > -
+> > -diff --git a/gettext-tools/src/po-gram-gen.y
+> b/gettext-tools/src/po-gram-gen.y
+> > -index becf5e6..4428e77 100644
+> > ---- a/gettext-tools/src/po-gram-gen.y
+> > -+++ b/gettext-tools/src/po-gram-gen.y
+> > -@@ -221,14 +221,11 @@ message
+> > -                   check_obsolete ($1, $3);
+> > -                   check_obsolete ($1, $4);
+> > -                   if (!$1.obsolete || pass_obsolete_entries)
+> > --                    {
+> > --                      do_callback_message ($1.ctxt, string2, &$1.pos,
+> $3.string,
+> > --                                           $4.rhs.msgstr,
+> $4.rhs.msgstr_len, &$4.pos,
+> > --                                           $1.prev_ctxt,
+> > --                                           $1.prev_id,
+> $1.prev_id_plural,
+> > --                                           $1.obsolete);
+> > --                      free ($3.string);
+> > --                    }
+> > -+                    do_callback_message ($1.ctxt, string2, &$1.pos,
+> $3.string,
+> > -+                                         $4.rhs.msgstr,
+> $4.rhs.msgstr_len, &$4.pos,
+> > -+                                         $1.prev_ctxt,
+> > -+                                         $1.prev_id, $1.prev_id_plural,
+> > -+                                         $1.obsolete);
+> > -                   else
+> > -                     {
+> > -                       free_message_intro ($1);
+> > -diff --git a/gettext-tools/src/read-catalog.c
+> b/gettext-tools/src/read-catalog.c
+> > -index 571d18e..6af6d20 100644
+> > ---- a/gettext-tools/src/read-catalog.c
+> > -+++ b/gettext-tools/src/read-catalog.c
+> > -@@ -397,6 +397,8 @@ default_add_message (default_catalog_reader_ty
+> *this,
+> > -          appropriate.  */
+> > -       mp = message_alloc (msgctxt, msgid, msgid_plural, msgstr,
+> msgstr_len,
+> > -                           msgstr_pos);
+> > -+      if (msgid_plural != NULL)
+> > -+        free (msgid_plural);
+> > -       mp->prev_msgctxt = prev_msgctxt;
+> > -       mp->prev_msgid = prev_msgid;
+> > -       mp->prev_msgid_plural = prev_msgid_plural;
+> > -diff --git a/gettext-tools/tests/Makefile.am
+> b/gettext-tools/tests/Makefile.am
+> > -index 23b09b1..0dfb4d8 100644
+> > ---- a/gettext-tools/tests/Makefile.am
+> > -+++ b/gettext-tools/tests/Makefile.am
+> > -@@ -95,7 +95,7 @@ TESTS = gettext-1 gettext-2 gettext-3 gettext-4
+> gettext-5 gettext-6 gettext-7 \
+> > -     xgettext-perl-1 xgettext-perl-2 xgettext-perl-3 xgettext-perl-4 \
+> > -     xgettext-perl-5 xgettext-perl-6 xgettext-perl-7 xgettext-perl-8 \
+> > -     xgettext-php-1 xgettext-php-2 xgettext-php-3 xgettext-php-4 \
+> > --    xgettext-po-1 \
+> > -+    xgettext-po-1 xgettext-po-2 \
+> > -     xgettext-properties-1 \
+> > -     xgettext-python-1 xgettext-python-2 xgettext-python-3 \
+> > -     xgettext-python-4 \
+> > -diff --git a/gettext-tools/tests/xgettext-po-2
+> b/gettext-tools/tests/xgettext-po-2
+> > -new file mode 100755
+> > -index 0000000..c4bd9d0
+> > ---- /dev/null
+> > -+++ b/gettext-tools/tests/xgettext-po-2
+> > -@@ -0,0 +1,55 @@
+> > -+#! /bin/sh
+> > -+. "${srcdir=.}/init.sh"; path_prepend_ . ../src
+> > -+
+> > -+# Test PO extractors with multiple input files.
+> > -+
+> > -+cat <<EOF > xg-po-2-1.po
+> > -+msgid "first msgid"
+> > -+msgid_plural "first msgid (plural)"
+> > -+msgstr[0] ""
+> > -+msgstr[1] ""
+> > -+
+> > -+msgid "second msgid"
+> > -+msgid_plural "second msgid (plural)"
+> > -+msgstr[0] ""
+> > -+msgstr[1] ""
+> > -+EOF
+> > -+
+> > -+cat <<EOF > xg-po-2-2.po
+> > -+msgid "third msgid"
+> > -+msgid_plural "third msgid (plural)"
+> > -+msgstr[0] ""
+> > -+msgstr[1] ""
+> > -+
+> > -+msgid "second msgid"
+> > -+msgid_plural "second msgid (plural)"
+> > -+msgstr[0] ""
+> > -+msgstr[1] ""
+> > -+EOF
+> > -+
+> > -+: ${XGETTEXT=xgettext}
+> > -+${XGETTEXT} --omit-header xg-po-2-1.po xg-po-2-2.po -o xg-po-2.tmp.po
+> || Exit 1
+> > -+LC_ALL=C tr -d '\r' < xg-po-2.tmp.po > xg-po-2.po || Exit 1
+> > -+
+> > -+cat <<EOF > xg-po-2.ok
+> > -+msgid "first msgid"
+> > -+msgid_plural "first msgid (plural)"
+> > -+msgstr[0] ""
+> > -+msgstr[1] ""
+> > -+
+> > -+msgid "second msgid"
+> > -+msgid_plural "second msgid (plural)"
+> > -+msgstr[0] ""
+> > -+msgstr[1] ""
+> > -+
+> > -+msgid "third msgid"
+> > -+msgid_plural "third msgid (plural)"
+> > -+msgstr[0] ""
+> > -+msgstr[1] ""
+> > -+EOF
+> > -+
+> > -+: ${DIFF=diff}
+> > -+${DIFF} xg-po-2.ok xg-po-2.po
+> > -+result=$?
+> > -+
+> > -+exit $result
 > > ---
-> a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+> > -1.9.1
+> > -
+> > diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/parallel.patch
+> b/meta/recipes-core/gettext/gettext-0.19.8.1/parallel.patch
+> > deleted file mode 100644
+> > index c8e2c94af0e..00000000000
+> > --- a/meta/recipes-core/gettext/gettext-0.19.8.1/parallel.patch
+> > +++ /dev/null
+> > @@ -1,23 +0,0 @@
+> > -instal libgettextlib.a before removing it
+> > -
+> > -In a multiple job build, Makefile can simultaneously
+> > -be installing and removing libgettextlib.a.  We serialize
+> > -the operations.
+> > -
+> > -Upstream-Status: Pending
+> > -
+> > -Signed-off-by: Joe Slater <jslater@windriver.com>
+> > -
+> > ---- a/gettext-tools/gnulib-lib/Makefile.am
+> > -+++ b/gettext-tools/gnulib-lib/Makefile.am
+> > -@@ -57,6 +57,10 @@ endif
+> > - # Rules generated and collected by gnulib-tool.
+> > - include Makefile.gnulib
+> > -
+> > -+# defined in Makefile.gnulib but missing this dependency
+> > -+#
+> > -+install-exec-clean: install-libLTLIBRARIES
+> > -+
+> > - # Which classes to export from the shared library.
+> > - MOOPPFLAGS += --dllexport=styled_ostream
+> > -
+> > diff --git
+> a/meta/recipes-core/gettext/gettext-0.19.8.1/use-pkgconfig.patch
+> b/meta/recipes-core/gettext/gettext-0.19.8.1/use-pkgconfig.patch
+> > deleted file mode 100644
+> > index 6156a153f74..00000000000
+> > --- a/meta/recipes-core/gettext/gettext-0.19.8.1/use-pkgconfig.patch
+> > +++ /dev/null
+> > @@ -1,321 +0,0 @@
+> > -For reasons which I just can't fathom gnulib doesn't use the expected
+> tools to
+> > -find libraries but badly reinvents the wheel.  This will trivially lead
+> to host
+> > -contamination (explicit searches of /usr/lib) or incorrect RPATHs (bad
+> > -canonicalisation resulting in relative paths).
+> > -
+> > -Simply delete all the crazy, and replace with a single call to
+> pkg-config.
+> > -
+> > -Upstream-Status: Inappropriate (upstream still refuse to consider
+> pkg-config)
+> > -Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > -
+> > -diff --git a/gnulib-local/m4/libcroco.m4 b/gnulib-local/m4/libcroco.m4
+> > -index f79ea82f1..1f67274db 100644
+> > ---- a/gettext-tools/gnulib-m4/libcroco.m4
+> > -+++ b/gettext-tools/gnulib-m4/libcroco.m4
+> > -@@ -8,6 +8,7 @@ dnl From Bruno Haible.
+> > -
+> > - AC_DEFUN([gl_LIBCROCO],
+> > - [
+> > -+  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+> > -   dnl libcroco depends on libglib.
+> > -   AC_REQUIRE([gl_LIBGLIB])
+> > -
+> > -@@ -23,65 +24,10 @@ AC_DEFUN([gl_LIBCROCO],
+> > -   LTLIBCROCO=
+> > -   INCCROCO=
+> > -   if test "$gl_cv_libcroco_use_included" != yes; then
+> > --    dnl Figure out whether we can use a preinstalled libcroco-0.6, or
+> have to
+> > --    dnl use the included one.
+> > --    AC_CACHE_VAL([gl_cv_libcroco], [
+> > --      gl_cv_libcroco=no
+> > --      gl_cv_LIBCROCO=
+> > --      gl_cv_LTLIBCROCO=
+> > --      gl_cv_INCCROCO=
+> > --      gl_save_LIBS="$LIBS"
+> > --      dnl Search for libcroco and define LIBCROCO_0_6, LTLIBCROCO_0_6
+> and
+> > --      dnl INCCROCO_0_6 accordingly.
+> > --      dnl Don't use croco-0.6-config nor pkg-config, since it doesn't
+> work when
+> > --      dnl cross-compiling or when the C compiler in use is different
+> from the
+> > --      dnl one that built the library.
+> > --      AC_LIB_LINKFLAGS_BODY([croco-0.6], [glib-2.0])
+> > --      LIBS="$gl_save_LIBS $LIBCROCO_0_6"
+> > --      AC_TRY_LINK([#include <libcroco-config.h>],
+> > --        [const char *version = LIBCROCO_VERSION; return !version;],
+> > --        [gl_cv_libcroco=yes
+> > --         gl_cv_LIBCROCO="$LIBCROCO_0_6"
+> > --         gl_cv_LTLIBCROCO="$LTLIBCROCO_0_6"
+> > --        ])
+> > --      if test "$gl_cv_libcroco" != yes; then
+> > --        gl_save_CPPFLAGS="$CPPFLAGS"
+> > --        CPPFLAGS="$CPPFLAGS $INCCROCO_0_6"
+> > --        AC_TRY_LINK([#include <libcroco-config.h>],
+> > --          [const char *version = LIBCROCO_VERSION; return !version;],
+> > --          [gl_cv_libcroco=yes
+> > --           gl_cv_LIBCROCO="$LIBCROCO_0_6"
+> > --           gl_cv_LTLIBCROCO="$LTLIBCROCO_0_6"
+> > --           gl_cv_INCCROCO="$INCCROCO_0_6"
+> > --          ])
+> > --        if test "$gl_cv_libcroco" != yes; then
+> > --          dnl Often the include files are installed in
+> > --          dnl /usr/include/libcroco-0.6/libcroco.
+> > --          AC_TRY_LINK([#include
+> <libcroco-0.6/libcroco/libcroco-config.h>],
+> > --            [const char *version = LIBCROCO_VERSION; return !version;],
+> > --
+> [gl_ABSOLUTE_HEADER([libcroco-0.6/libcroco/libcroco-config.h])
+> > --             libcroco_include_dir=`echo
+> "$gl_cv_absolute_libcroco_0_6_libcroco_libcroco_config_h" | sed -e
+> 's,.libcroco-config\.h$,,'`
+> > --             if test -d "$libcroco_include_dir"; then
+> > --               gl_cv_libcroco=yes
+> > --               gl_cv_LIBCROCO="$LIBCROCO_0_6"
+> > --               gl_cv_LTLIBCROCO="$LTLIBCROCO_0_6"
+> > --               gl_cv_INCCROCO="-I$libcroco_include_dir"
+> > --             fi
+> > --            ])
+> > --        fi
+> > --        CPPFLAGS="$gl_save_CPPFLAGS"
+> > --      fi
+> > --      LIBS="$gl_save_LIBS"
+> > --    ])
+> > --    AC_MSG_CHECKING([for libcroco])
+> > --    AC_MSG_RESULT([$gl_cv_libcroco])
+> > --    if test $gl_cv_libcroco = yes; then
+> > --      LIBCROCO="$gl_cv_LIBCROCO"
+> > --      LTLIBCROCO="$gl_cv_LTLIBCROCO"
+> > --      INCCROCO="$gl_cv_INCCROCO"
+> > --    else
+> > --      gl_cv_libcroco_use_included=yes
+> > --    fi
+> > -+    PKG_CHECK_MODULES([CROCO], [libcroco-0.6])
+> > -+    LIBCROCO=$CROCO_LIBS
+> > -+    LTLIBCROCO=$CROCO_LIBS
+> > -+    INCCROCO=$CROCO_CFLAGS
+> > -   fi
+> > -   AC_SUBST([LIBCROCO])
+> > -   AC_SUBST([LTLIBCROCO])
+> > -diff --git a/gnulib-local/m4/libglib.m4 b/gnulib-local/m4/libglib.m4
+> > -index 42e55e6fd..ab25a5b22 100644
+> > ---- a/gettext-tools/gnulib-m4/libglib.m4
+> > -+++ b/gettext-tools/gnulib-m4/libglib.m4
+> > -@@ -8,6 +8,7 @@ dnl From Bruno Haible.
+> > -
+> > - AC_DEFUN([gl_LIBGLIB],
+> > - [
+> > -+  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+> > -   AC_MSG_CHECKING([whether included glib is requested])
+> > -   AC_ARG_WITH([included-glib],
+> > -     [  --with-included-glib    use the glib2 included here],
+> > -@@ -20,76 +21,10 @@ AC_DEFUN([gl_LIBGLIB],
+> > -   LTLIBGLIB=
+> > -   INCGLIB=
+> > -   if test "$gl_cv_libglib_use_included" != yes; then
+> > --    dnl Figure out whether we can use a preinstalled libglib-2.0, or
+> have to use
+> > --    dnl the included one.
+> > --    AC_CACHE_VAL([gl_cv_libglib], [
+> > --      gl_cv_libglib=no
+> > --      gl_cv_LIBGLIB=
+> > --      gl_cv_LTLIBGLIB=
+> > --      gl_cv_INCGLIB=
+> > --      gl_save_LIBS="$LIBS"
+> > --      dnl Search for libglib2 and define LIBGLIB_2_0, LTLIBGLIB_2_0 and
+> > --      dnl INCGLIB_2_0 accordingly.
+> > --      dnl Don't use glib-config nor pkg-config, since it doesn't work
+> when
+> > --      dnl cross-compiling or when the C compiler in use is different
+> from the
+> > --      dnl one that built the library.
+> > --      AC_LIB_LINKFLAGS_BODY([glib-2.0])
+> > --      LIBS="$gl_save_LIBS $LIBGLIB_2_0"
+> > --      AC_TRY_LINK([#include <glib.h>
+> > --#ifndef G_BEGIN_DECLS
+> > --error this glib.h includes a glibconfig.h from a glib version 1.x
+> > --#endif
+> > --],
+> > --        [g_string_new ("foo");],
+> > --        [gl_cv_libglib=yes
+> > --         gl_cv_LIBGLIB="$LIBGLIB_2_0"
+> > --         gl_cv_LTLIBGLIB="$LTLIBGLIB_2_0"
+> > --        ])
+> > --      if test "$gl_cv_libglib" != yes; then
+> > --        gl_save_CPPFLAGS="$CPPFLAGS"
+> > --        CPPFLAGS="$CPPFLAGS $INCGLIB_2_0"
+> > --        AC_TRY_LINK([#include <glib.h>
+> > --#ifndef G_BEGIN_DECLS
+> > --error this glib.h includes a glibconfig.h from a glib version 1.x
+> > --#endif
+> > --],
+> > --          [g_string_new ("foo");],
+> > --          [gl_cv_libglib=yes
+> > --           gl_cv_LIBGLIB="$LIBGLIB_2_0"
+> > --           gl_cv_LTLIBGLIB="$LTLIBGLIB_2_0"
+> > --           gl_cv_INCGLIB="$INCGLIB_2_0"
+> > --          ])
+> > --        if test "$gl_cv_libglib" != yes; then
+> > --          dnl Often the include files are installed in
+> /usr/include/glib-2.0
+> > --          dnl and /usr/lib/glib-2.0/include.
+> > --          if test -n "$LIBGLIB_2_0_PREFIX"; then
+> > --            CPPFLAGS="$gl_save_CPPFLAGS
+> -I$LIBGLIB_2_0_PREFIX/include/glib-2.0
+> -I$LIBGLIB_2_0_PREFIX/$acl_libdirstem/glib-2.0/include"
+> > --            AC_TRY_LINK([#include <glib.h>
+> > --#ifndef G_BEGIN_DECLS
+> > --error this glib.h includes a glibconfig.h from a glib version 1.x
+> > --#endif
+> > --],
+> > --              [g_string_new ("foo");],
+> > --              [gl_cv_libglib=yes
+> > --               gl_cv_LIBGLIB="$LIBGLIB_2_0"
+> > --               gl_cv_LTLIBGLIB="$LTLIBGLIB_2_0"
+> > --               gl_cv_INCGLIB="-I$LIBGLIB_2_0_PREFIX/include/glib-2.0
+> -I$LIBGLIB_2_0_PREFIX/$acl_libdirstem/glib-2.0/include"
+> > --              ])
+> > --          fi
+> > --        fi
+> > --        CPPFLAGS="$gl_save_CPPFLAGS"
+> > --      fi
+> > --      LIBS="$gl_save_LIBS"
+> > --    ])
+> > --    AC_MSG_CHECKING([for glib])
+> > --    AC_MSG_RESULT([$gl_cv_libglib])
+> > --    if test $gl_cv_libglib = yes; then
+> > --      LIBGLIB="$gl_cv_LIBGLIB"
+> > --      LTLIBGLIB="$gl_cv_LTLIBGLIB"
+> > --      INCGLIB="$gl_cv_INCGLIB"
+> > --    else
+> > --      gl_cv_libglib_use_included=yes
+> > --    fi
+> > -+    PKG_CHECK_MODULES([GLIB], [glib-2.0])
+> > -+    LIBGLIB="$GLIB_LIBS"
+> > -+    LTLIBGLIB="$GLIB_LIBS"
+> > -+    INCGLIB="$GLIB_CFLAGS"
+> > -   fi
+> > -   AC_SUBST([LIBGLIB])
+> > -   AC_SUBST([LTLIBGLIB])
+> > -diff --git a/gnulib-local/m4/libxml.m4 b/gnulib-local/m4/libxml.m4
+> > -index 480c700d2..cb39309d5 100644
+> > ---- a/gettext-tools/gnulib-m4/libxml.m4
+> > -+++ b/gettext-tools/gnulib-m4/libxml.m4
+> > -@@ -8,6 +8,7 @@ dnl From Bruno Haible.
+> > -
+> > - AC_DEFUN([gl_LIBXML],
+> > - [
+> > -+  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+> > -   AC_REQUIRE([AM_ICONV_LINK])
+> > -
+> > -   AC_MSG_CHECKING([whether included libxml is requested])
+> > -@@ -22,100 +22,10 @@ AC_DEFUN([gl_LIBXML],
+> > -   LTLIBXML=
+> > -   INCXML=
+> > -   if test "$gl_cv_libxml_use_included" != yes; then
+> > --    dnl Figure out whether we can use a preinstalled libxml2, or have
+> to use
+> > --    dnl the included one.
+> > --    AC_CACHE_VAL([gl_cv_libxml], [
+> > --      gl_cv_libxml=no
+> > --      gl_cv_LIBXML=
+> > --      gl_cv_LTLIBXML=
+> > --      gl_cv_INCXML=
+> > --      gl_save_LIBS="$LIBS"
+> > --      LIBS="$LIBS $LIBICONV"
+> > --      dnl Search for libxml2 and define LIBXML2, LTLIBXML2 and INCXML2
+> > --      dnl accordingly.
+> > --      dnl Don't use xml2-config nor pkg-config, since it doesn't work
+> when
+> > --      dnl cross-compiling or when the C compiler in use is different
+> from the
+> > --      dnl one that built the library.
+> > --      dnl Use a test program that tries to invoke xmlFree. On Cygwin
+> 1.7.x,
+> > --      dnl libxml2 is built in such a way that uses of xmlFree work
+> fine with
+> > --      dnl -Wl,--enable-auto-import but lead to a link error with
+> > --      dnl -Wl,--disable-auto-import.
+> > --      AC_LIB_LINKFLAGS_BODY([xml2])
+> > --      LIBS="$gl_save_LIBS $LIBXML2 $LIBICONV"
+> > --      AC_TRY_LINK([#include <libxml/xmlversion.h>
+> > --                   #include <libxml/xmlmemory.h>
+> > --                   #include <libxml/xpath.h>
+> > --                  ],
+> > --        [xmlCheckVersion (0);
+> > --         xmlFree ((void *) 0);
+> > --         xmlXPathSetContextNode ((void *)0, (void *)0);
+> > --        ],
+> > --        [gl_cv_libxml=yes
+> > --         gl_cv_LIBXML="$LIBXML2 $LIBICONV"
+> > --         gl_cv_LTLIBXML="$LTLIBXML2 $LTLIBICONV"
+> > --        ])
+> > --      if test "$gl_cv_libxml" != yes; then
+> > --        gl_save_CPPFLAGS="$CPPFLAGS"
+> > --        CPPFLAGS="$CPPFLAGS $INCXML2"
+> > --        AC_TRY_LINK([#include <libxml/xmlversion.h>
+> > --                     #include <libxml/xmlmemory.h>
+> > --                     #include <libxml/xpath.h>
+> > --                    ],
+> > --          [xmlCheckVersion (0);
+> > --           xmlFree ((void *) 0);
+> > --           xmlXPathSetContextNode ((void *)0, (void *)0);
+> > --          ],
+> > --          [gl_cv_libxml=yes
+> > --           gl_cv_LIBXML="$LIBXML2 $LIBICONV"
+> > --           gl_cv_LTLIBXML="$LTLIBXML2 $LTLIBICONV"
+> > --           gl_cv_INCXML="$INCXML2"
+> > --          ])
+> > --        if test "$gl_cv_libxml" != yes; then
+> > --          dnl Often the include files are installed in
+> /usr/include/libxml2.
+> > --          dnl In libxml2-2.5, <libxml/xmlversion.h> is self-contained.
+> > --          dnl In libxml2-2.6, it includes <libxml/xmlexports.h> which
+> is
+> > --          dnl self-contained.
+> > --          libxml2_include_dir=
+> > --          AC_TRY_CPP([#include <libxml2/libxml/xmlexports.h>],
+> > --            [gl_ABSOLUTE_HEADER([libxml2/libxml/xmlexports.h])
+> > --             libxml2_include_dir=`echo
+> "$gl_cv_absolute_libxml2_libxml_xmlexports_h" | sed -e
+> 's,.libxml.xmlexports\.h$,,'`
+> > --            ])
+> > --          if test -z "$libxml2_include_dir"; then
+> > --            AC_TRY_CPP([#include <libxml2/libxml/xmlversion.h>],
+> > --              [gl_ABSOLUTE_HEADER([libxml2/libxml/xmlversion.h])
+> > --               libxml2_include_dir=`echo
+> "$gl_cv_absolute_libxml2_libxml_xmlversion_h" | sed -e
+> 's,.libxml.xmlversion\.h$,,'`
+> > --              ])
+> > --          fi
+> > --          if test -n "$libxml2_include_dir" && test -d
+> "$libxml2_include_dir"; then
+> > --            CPPFLAGS="$gl_save_CPPFLAGS -I$libxml2_include_dir"
+> > --            AC_TRY_LINK([#include <libxml/xmlversion.h>
+> > --                         #include <libxml/xmlmemory.h>
+> > --                         #include <libxml/xpath.h>
+> > --                        ],
+> > --              [xmlCheckVersion (0);
+> > --               xmlFree ((void *) 0);
+> > --               xmlXPathSetContextNode ((void *)0, (void *)0);
+> > --              ],
+> > --              [gl_cv_libxml=yes
+> > --               gl_cv_LIBXML="$LIBXML2 $LIBICONV"
+> > --               gl_cv_LTLIBXML="$LTLIBXML2 $LTLIBICONV"
+> > --               gl_cv_INCXML="-I$libxml2_include_dir"
+> > --              ])
+> > --          fi
+> > --        fi
+> > --        CPPFLAGS="$gl_save_CPPFLAGS"
+> > --      fi
+> > --      LIBS="$gl_save_LIBS"
+> > --    ])
+> > --    AC_MSG_CHECKING([for libxml])
+> > --    AC_MSG_RESULT([$gl_cv_libxml])
+> > --    if test $gl_cv_libxml = yes; then
+> > --      LIBXML="$gl_cv_LIBXML"
+> > --      LTLIBXML="$gl_cv_LTLIBXML"
+> > --      INCXML="$gl_cv_INCXML"
+> > --    else
+> > --      gl_cv_libxml_use_included=yes
+> > --    fi
+> > -+    PKG_CHECK_MODULES([XML], [libxml-2.0])
+> > -+    LIBXML=$XML_LIBS
+> > -+    LTLIBXML=$XML_LIBS
+> > -+    INCXML=$XML_CFLAGS
+> > -   fi
+> > -   AC_SUBST([LIBXML])
+> > -   AC_SUBST([LTLIBXML])
+> > -diff --git a/gnulib-local/lib/term-styled-ostream.oo.c
+> b/gnulib-local/lib/term-styled-ostream.oo.c
+> > -index 81a407467..218565329 100644
+> > ---- a/gettext-tools/gnulib-lib/term-styled-ostream.oo.c
+> > -+++ b/gettext-tools/gnulib-lib/term-styled-ostream.oo.c
+> > -@@ -25,4 +25,4 @@
+> > --#include <cr-om-parser.h>
+> > --#include <cr-sel-eng.h>
+> > --#include <cr-style.h>
+> > --#include <cr-rgb.h>
+> > -+#include <libcroco/cr-om-parser.h>
+> > -+#include <libcroco/cr-sel-eng.h>
+> > -+#include <libcroco/cr-style.h>
+> > -+#include <libcroco/cr-rgb.h>
+> > -@@ -31 +31 @@
+> > --# include <cr-fonts.h>
+> > -+# include <libcroco/cr-fonts.h>
+> > -@@ -33 +33 @@
+> > --#include <cr-string.h>
+> > -+#include <libcroco/cr-string.h>
+> > diff --git
+> a/meta/recipes-core/gettext/gettext-0.19.8.1/add-with-bisonlocaledir.patch
+> b/meta/recipes-core/gettext/gettext-0.20.1/add-with-bisonlocaledir.patch
+> > similarity index 100%
+> > rename from
+> meta/recipes-core/gettext/gettext-0.19.8.1/add-with-bisonlocaledir.patch
+> > rename to
+> meta/recipes-core/gettext/gettext-0.20.1/add-with-bisonlocaledir.patch
+> > diff --git
+> a/meta/recipes-core/gettext/gettext-0.19.8.1/cr-statement.c-timsort.h-fix-formatting-issues.patch
+> b/meta/recipes-core/gettext/gettext-0.20.1/cr-statement.c-timsort.h-fix-formatting-issues.patch
+> > similarity index 68%
+> > rename from
+> meta/recipes-core/gettext/gettext-0.19.8.1/cr-statement.c-timsort.h-fix-formatting-issues.patch
+> > rename to
+> meta/recipes-core/gettext/gettext-0.20.1/cr-statement.c-timsort.h-fix-formatting-issues.patch
+> > index 6af16041987..0561ed7d32c 100644
+> > ---
+> a/meta/recipes-core/gettext/gettext-0.19.8.1/cr-statement.c-timsort.h-fix-formatting-issues.patch
 > > +++
-> b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+> b/meta/recipes-core/gettext/gettext-0.20.1/cr-statement.c-timsort.h-fix-formatting-issues.patch
 > > @@ -1,4 +1,4 @@
-> > -From 87cfc0db1ed6fe381a5ed5f0016d8c3344a31a11 Mon Sep 17 00:00:00 2001
-> > +From f39c28eb52f12ae6e82db360ffd5a903ac8faca5 Mon Sep 17 00:00:00 2001
-> >  From: Alexander Kanavin <alex.kanavin@gmail.com>
-> >  Date: Mon, 9 Jan 2017 18:52:11 +0200
-> >  Subject: [PATCH] Do not add an unsatisfiable dependency when building
-> rpms in
-> > @@ -9,25 +9,23 @@ hand produces rpms that way by design.
+> > -From e546de65a333789e83f5485757967cee29ee3681 Mon Sep 17 00:00:00 2001
+> > +From f6245ef5530fc37a6243e798df34162fbbeab6f0 Mon Sep 17 00:00:00 2001
+> >  From: Robert Yang <liezhi.yang@windriver.com>
+> >  Date: Sun, 19 Feb 2017 23:32:46 -0800
+> >  Subject: [PATCH] cr-statement.c/timsort.h: fix formatting issues
+> > @@ -15,15 +15,15 @@ gettext-tools/gnulib-lib/libxml/timsort.h:326:80:
+> warning: format '%lu' expects
+> >  Upstream-Status: Pending
 > >
-> >  Upstream-Status: Inappropriate [oe-core specific]
-> >  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> >  Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 > > +
 > >  ---
-> >   build/pack.c | 4 ----
-> >   1 file changed, 4 deletions(-)
+> > - gettext-tools/gnulib-lib/libcroco/cr-statement.c | 10 +++++-----
+> > - gettext-tools/gnulib-lib/libxml/timsort.h        |  2 +-
+> > - 2 files changed, 6 insertions(+), 6 deletions(-)
+> > + libtextstyle/lib/libcroco/cr-statement.c | 10 +++++-----
+> > + 1 file changed, 5 insertions(+), 5 deletions(-)
 > >
-> >  diff --git a/build/pack.c b/build/pack.c
-> > -index 1261cdbba..bb2d6f4f6 100644
-> > +index e6cec1816..810cd7351 100644
-> >  --- a/build/pack.c
-> >  +++ b/build/pack.c
-> > -@@ -595,10 +595,6 @@ rpmRC packageBinaries(rpmSpec spec, const char
-> *cookie, int cheating)
-> > -         headerPutBin(pkg->header, RPMTAG_SOURCEPKGID,
-> spec->sourcePkgId,16);
+> > -diff --git a/gettext-tools/gnulib-lib/libcroco/cr-statement.c
+> b/gettext-tools/gnulib-lib/libcroco/cr-statement.c
+> > +diff --git a/libtextstyle/lib/libcroco/cr-statement.c
+> b/libtextstyle/lib/libcroco/cr-statement.c
+> >  index 617520f..100104b 100644
+> > ---- a/gettext-tools/gnulib-lib/libcroco/cr-statement.c
+> > -+++ b/gettext-tools/gnulib-lib/libcroco/cr-statement.c
+> > +--- a/libtextstyle/lib/libcroco/cr-statement.c
+> > ++++ b/libtextstyle/lib/libcroco/cr-statement.c
+> >  @@ -2607,7 +2607,7 @@ cr_statement_dump_ruleset (CRStatement * a_this,
+> FILE * a_fp, glong a_indent)
+> >           g_return_if_fail (a_fp && a_this);
+> >           str = cr_statement_ruleset_to_string (a_this, a_indent);
+> > @@ -69,19 +69,3 @@ index 617520f..100104b 100644
+> >                   g_free (str) ;
+> >                   str = NULL ;
+> >           }
+> > -diff --git a/gettext-tools/gnulib-lib/libxml/timsort.h
+> b/gettext-tools/gnulib-lib/libxml/timsort.h
+> > -index 795f272..443918a 100644
+> > ---- a/gettext-tools/gnulib-lib/libxml/timsort.h
+> > -+++ b/gettext-tools/gnulib-lib/libxml/timsort.h
+> > -@@ -323,7 +323,7 @@ static void TIM_SORT_RESIZE(TEMP_STORAGE_T *store,
+> const size_t new_size)
+> > -     SORT_TYPE *tempstore = (SORT_TYPE *)realloc(store->storage,
+> new_size * sizeof(SORT_TYPE));
+> > -     if (tempstore == NULL)
+> > -     {
+> > --      fprintf(stderr, "Error allocating temporary storage for tim
+> sort: need %lu bytes", sizeof(SORT_TYPE) * new_size);
+> > -+      fprintf(stderr, "Error allocating temporary storage for tim
+> sort: need %zu bytes", sizeof(SORT_TYPE) * new_size);
+> > -       exit(1);
 > > -     }
-> > +@@ -724,10 +724,6 @@ static rpmRC packageBinary(rpmSpec spec, Package
-> pkg, const char *cookie, int ch
-> > +     headerPutBin(pkg->header, RPMTAG_SOURCEPKGID,
-> spec->sourcePkgId,16);
-> > +     }
-> > +
-> > +-    if (cheating) {
-> > +-    (void) rpmlibNeedsFeature(pkg, "ShortCircuited", "4.9.0-1");
-> > +-    }
-> > +-
-> > +     if ((rc = getPkgFilename(pkg->header, filename)))
-> > +     return rc;
-> >
-> > --    if (cheating) {
-> > --        (void) rpmlibNeedsFeature(pkg, "ShortCircuited", "4.9.0-1");
-> > --    }
-> > --
-> > -     {   char *binFormat = rpmGetPath("%{_rpmfilename}", NULL);
-> > -         char *binRpm, *binDir;
-> > -         binRpm = headerFormat(pkg->header, binFormat, &errorString);
+> > -     store->storage = tempstore;
 > > ---
-> > -2.11.0
+> > -2.10.2
 > > -
+> > diff --git a/meta/recipes-core/gettext/gettext-0.20.1/parallel.patch
+> b/meta/recipes-core/gettext/gettext-0.20.1/parallel.patch
+> > new file mode 100644
+> > index 00000000000..d96a376b7d1
+> > --- /dev/null
+> > +++ b/meta/recipes-core/gettext/gettext-0.20.1/parallel.patch
+> > @@ -0,0 +1,32 @@
+> > +From 4a2a0a93b469093b60ffd0bec55d33d1e03d4713 Mon Sep 17 00:00:00 2001
+> > +From: Joe Slater <jslater@windriver.com>
+> > +Date: Thu, 7 Jun 2012 16:37:01 -0700
+> > +Subject: [PATCH] instal libgettextlib.a before removing it
+> > +
+> > +In a multiple job build, Makefile can simultaneously
+> > +be installing and removing libgettextlib.a.  We serialize
+> > +the operations.
+> > +
+> > +Upstream-Status: Pending
+> > +
+> > +Signed-off-by: Joe Slater <jslater@windriver.com>
+> > +
+> > +---
+> > + gettext-tools/gnulib-lib/Makefile.am | 4 ++++
+> > + 1 file changed, 4 insertions(+)
+> > +
+> > +diff --git a/gettext-tools/gnulib-lib/Makefile.am
+> b/gettext-tools/gnulib-lib/Makefile.am
+> > +index 2126699..d2dd7e4 100644
+> > +--- a/gettext-tools/gnulib-lib/Makefile.am
+> > ++++ b/gettext-tools/gnulib-lib/Makefile.am
+> > +@@ -58,6 +58,10 @@ endif
+> > + # Rules generated and collected by gnulib-tool.
+> > + include Makefile.gnulib
+> > +
+> > ++# defined in Makefile.gnulib but missing this dependency
+> > ++#
+> > ++install-exec-clean: install-libLTLIBRARIES
+> > ++
+> > + # OS/2 does not support a DLL name longer than 8 characters.
+> > + if OS2
+> > + libgettextlib_la_LDFLAGS += -os2dllname gtlib
+> > diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/run-ptest
+> b/meta/recipes-core/gettext/gettext-0.20.1/run-ptest
+> > similarity index 100%
+> > rename from meta/recipes-core/gettext/gettext-0.19.8.1/run-ptest
+> > rename to meta/recipes-core/gettext/gettext-0.20.1/run-ptest
 > > diff --git
-> a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-> b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-> > index 82e7328757f..52440d68180 100644
+> a/meta/recipes-core/gettext/gettext-0.19.8.1/serial-tests-config.patch
+> b/meta/recipes-core/gettext/gettext-0.20.1/serial-tests-config.patch
+> > similarity index 75%
+> > rename from
+> meta/recipes-core/gettext/gettext-0.19.8.1/serial-tests-config.patch
+> > rename to
+> meta/recipes-core/gettext/gettext-0.20.1/serial-tests-config.patch
+> > index 31ff9138a91..93f7c03334a 100644
 > > ---
-> a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-> > +++
-> b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+> a/meta/recipes-core/gettext/gettext-0.19.8.1/serial-tests-config.patch
+> > +++ b/meta/recipes-core/gettext/gettext-0.20.1/serial-tests-config.patch
 > > @@ -1,4 +1,4 @@
-> > -From bd08eb0ae1312f347f49949481daa7c923752df2 Mon Sep 17 00:00:00 2001
-> > +From 2f3d1619b6510bc131c4375827caf912559f0fa2 Mon Sep 17 00:00:00 2001
-> >  From: Alexander Kanavin <alex.kanavin@gmail.com>
-> >  Date: Mon, 27 Feb 2017 09:43:30 +0200
-> >  Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
-> > @@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <
-> alex.kanavin@gmail.com>
-> >   3 files changed, 4 insertions(+), 4 deletions(-)
+> > -From c4b1f3a0c7b7c40b343be9b95deb84e0485643be Mon Sep 17 00:00:00 2001
+> > +From ed64a5724ef7d6eb4e9a876f817ea266a536e195 Mon Sep 17 00:00:00 2001
+> >  From: "Hongjun.Yang" <hongjun.yang@windriver.com>
+> >  Date: Thu, 28 Jul 2016 12:36:15 +0800
+> >  Subject: [PATCH] fix for ptest
+> > @@ -8,6 +8,7 @@ Add serial-tests support, ptest need it
+> >  Upstream-Status: Inappropriate [oe specific]
+> >
+> >  Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> > +
+> >  ---
+> >   configure.ac                 | 2 +-
+> >   gettext-runtime/configure.ac | 2 +-
+> > @@ -15,24 +16,24 @@ Signed-off-by: Changqing Li <
+> changqing.li@windriver.com>
+> >   3 files changed, 3 insertions(+), 3 deletions(-)
 > >
 > >  diff --git a/configure.ac b/configure.ac
-> > -index 09af7c4..9bd6903 100644
-> > +index d3aeab86e..1a1f3f91f 100644
+> > -index 5e996fa..880581f 100644
+> > +index 38db6fd..f019ae0 100644
 > >  --- a/configure.ac
 > >  +++ b/configure.ac
-> > -@@ -1055,7 +1055,7 @@ else
-> > +@@ -1086,7 +1086,7 @@ else
-> >       usrprefix=$prefix
-> >   fi
+> > -@@ -23,7 +23,7 @@ AC_INIT([gettext],
+> > -     [bug-gnu-gettext@gnu.org])
+> > +@@ -22,7 +22,7 @@ AC_INIT([gettext],
+> > +     [bug-gettext@gnu.org])
+> >   AC_CONFIG_SRCDIR([gettext-tools/src/msgfmt.c])
+> >   AC_CONFIG_AUX_DIR([build-aux])
+> > --AM_INIT_AUTOMAKE([1.13 silent-rules parallel-tests dist-xz dist-lzip])
+> > -+AM_INIT_AUTOMAKE([1.13 silent-rules serial-tests dist-xz dist-lzip])
+> > +-AM_INIT_AUTOMAKE([1.13 silent-rules parallel-tests tar-ustar])
+> > ++AM_INIT_AUTOMAKE([1.13 silent-rules serial-tests tar-ustar])
 > >
-> > @@ -27,10 +27,10 @@ index 09af7c4..9bd6903 100644
+> >   dnl Override automake's tar command used for creating distributions.
+> > - am__tar='${AMTAR} chof - --owner=root --group=root "$$tardir"'
+> > + am__tar='${AMTAR} chf - --format=ustar --owner=root --group=root
+> "$$tardir"'
+> >  diff --git a/gettext-runtime/configure.ac b/gettext-runtime/
+> configure.ac
+> > -index e9299b6..d4f5528 100644
+> > +index de203e7..138a07f 100644
+> >  --- a/gettext-runtime/configure.ac
+> >  +++ b/gettext-runtime/configure.ac
+> >  @@ -22,7 +22,7 @@ AC_INIT([gettext-runtime],
+> > -     [bug-gnu-gettext@gnu.org])
+> > +     [bug-gettext@gnu.org])
+> >   AC_CONFIG_SRCDIR([intl/dcigettext.c])
+> >   AC_CONFIG_AUX_DIR([../build-aux])
+> >  -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])
+> > @@ -41,11 +42,11 @@ index e9299b6..d4f5528 100644
 > >
-> >   AC_SUBST(OBJDUMP)
-> >  diff --git a/macros.in b/macros.in
-> > -index a3aa7a9..62cee5c 100644
-> > +index fe9803aad..d128675bf 100644
-> >  --- a/macros.in
-> >  +++ b/macros.in
-> > -@@ -970,7 +970,7 @@ package or when debugging this package.\
-> > +@@ -985,7 +985,7 @@ package or when debugging this package.\
-> >   %_sharedstatedir    %{_prefix}/com
-> >   %_localstatedir             %{_prefix}/var
-> >   %_lib                       lib
-> > @@ -40,7 +40,7 @@ index a3aa7a9..62cee5c 100644
-> >   %_infodir           %{_datadir}/info
-> >   %_mandir            %{_datadir}/man
-> >  diff --git a/rpm.am b/rpm.am
-> > -index 82c2d7c..6341b51 100644
-> > +index 40b4ec55f..3139ce8f6 100644
-> >  --- a/rpm.am
-> >  +++ b/rpm.am
-> >  @@ -1,10 +1,10 @@
-> > @@ -55,4 +55,4 @@ index 82c2d7c..6341b51 100644
-> >  +rpmconfigdir = $(libdir)/rpm
+> >   dnl Installation directories.
+> >  diff --git a/gettext-tools/configure.ac b/gettext-tools/configure.ac
+> > -index 920eeb6..c507434 100644
+> > +index cf1dd73..b544d6d 100644
+> >  --- a/gettext-tools/configure.ac
+> >  +++ b/gettext-tools/configure.ac
+> >  @@ -22,7 +22,7 @@ AC_INIT([gettext-tools],
+> > -     [bug-gnu-gettext@gnu.org])
+> > +     [bug-gettext@gnu.org])
+> >   AC_CONFIG_SRCDIR([src/msgfmt.c])
+> >   AC_CONFIG_AUX_DIR([../build-aux])
+> >  -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])
+> > @@ -53,6 +54,3 @@ index 920eeb6..c507434 100644
+> >   AC_CONFIG_HEADERS([config.h])
 > >
-> >   # Libtool version (current-revision-age) for all our libraries
-> > - rpm_version_info = 9:0:1
-> > + rpm_version_info = 9:1:0
-> > diff --git
-> a/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
-> b/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
-> > deleted file mode 100644
-> > index 6e44f0b7fc9..00000000000
+> >   dnl Installation directories.
 > > ---
-> a/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
-> > +++ /dev/null
-> > @@ -1,84 +0,0 @@
-> > -From 721a660a507d6d062e7aecafad886c643970a5d5 Mon Sep 17 00:00:00 2001
-> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -Date: Thu, 25 May 2017 18:15:27 +0300
-> > -Subject: [PATCH 1/4] Split binary package building into a separate
-> function
-> > -
-> > -So that it can be run as a thread pool task.
-> > -
-> > -Upstream-Status: Submitted [
-> https://github.com/rpm-software-management/rpm/pull/226]
-> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -
-> > ----
-> > - build/pack.c | 33 +++++++++++++++++++++------------
-> > - 1 file changed, 21 insertions(+), 12 deletions(-)
-> > -
-> > -diff --git a/build/pack.c b/build/pack.c
-> > -index 518f4e92a..ccfd614cc 100644
-> > ---- a/build/pack.c
-> > -+++ b/build/pack.c
-> > -@@ -546,18 +546,13 @@ static rpmRC checkPackages(char *pkgcheck)
-> > -     return RPMRC_OK;
-> > - }
-> > -
-> > --rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
-> > -+static rpmRC packageBinary(rpmSpec spec, Package pkg, const char
-> *cookie, int cheating, char** filename)
-> > - {
-> > --    rpmRC rc;
-> > --    const char *errorString;
-> > --    Package pkg;
-> > --    char *pkglist = NULL;
-> > --
-> > --    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
-> > --    char *fn;
-> > -+    const char *errorString;
-> > -+    rpmRC rc = RPMRC_OK;
-> > -
-> > -     if (pkg->fileList == NULL)
-> > --        continue;
-> > -+        return rc;
-> > -
-> > -     if ((rc = processScriptFiles(spec, pkg)))
-> > -         return rc;
-> > -@@ -587,7 +582,7 @@ rpmRC packageBinaries(rpmSpec spec, const char
-> *cookie, int cheating)
-> > -                  headerGetString(pkg->header, RPMTAG_NAME),
-> errorString);
-> > -             return RPMRC_FAIL;
-> > -         }
-> > --        fn = rpmGetPath("%{_rpmdir}/", binRpm, NULL);
-> > -+        *filename = rpmGetPath("%{_rpmdir}/", binRpm, NULL);
-> > -         if ((binDir = strchr(binRpm, '/')) != NULL) {
-> > -             struct stat st;
-> > -             char *dn;
-> > -@@ -609,14 +604,28 @@ rpmRC packageBinaries(rpmSpec spec, const char
-> *cookie, int cheating)
-> > -         free(binRpm);
-> > -     }
-> > -
-> > --    rc = writeRPM(pkg, NULL, fn, NULL);
-> > -+    rc = writeRPM(pkg, NULL, *filename, NULL);
-> > -     if (rc == RPMRC_OK) {
-> > -         /* Do check each written package if enabled */
-> > --        char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", fn, NULL);
-> > -+        char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", *filename,
-> NULL);
-> > -         if (pkgcheck[0] != ' ') {
-> > -             rc = checkPackages(pkgcheck);
-> > -         }
-> > -         free(pkgcheck);
-> > -+    }
-> > -+    return rc;
-> > -+}
-> > -+
-> > -+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
-> > -+{
-> > -+    rpmRC rc;
-> > -+    Package pkg;
-> > -+    char *pkglist = NULL;
-> > -+
-> > -+    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
-> > -+    char *fn = NULL;
-> > -+    rc = packageBinary(spec, pkg, cookie, cheating, &fn);
-> > -+    if (rc == RPMRC_OK) {
-> > -         rstrcat(&pkglist, fn);
-> > -         rstrcat(&pkglist, " ");
-> > -     }
-> > ---
-> > -2.11.0
+> > -2.1.4
 > > -
 > > diff --git
-> a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-> b/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-> > deleted file mode 100644
-> > index 24aa4c7ffff..00000000000
-> > ---
-> a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-> > +++ /dev/null
-> > @@ -1,58 +0,0 @@
-> > -From 43fbc3f53302a395463e8450ac81c53f623eec3f Mon Sep 17 00:00:00 2001
-> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -Date: Tue, 27 Aug 2019 17:42:34 +0200
-> > -Subject: [PATCH] mono-find-provides/requires: do not use monodis from
-> the host
-> > -
-> > -There was a host contamination issue here: if monodis was installed
-> > -on the host, do_package would use that to resolve dependencies
-> > -of mono libraries (and often fail in that). Without monodis,
-> > -no dependencies are resolved, which is seemingly how things
-> > -are supposed to work.
-> > -
-> > -Upstream-Status: Inappropriate [oe-core specific]
-> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ----
-> > - scripts/mono-find-provides | 8 ++++----
-> > - scripts/mono-find-requires | 8 ++++----
-> > - 2 files changed, 8 insertions(+), 8 deletions(-)
-> > -
-> > -diff --git a/scripts/mono-find-provides b/scripts/mono-find-provides
-> > -index 9348457d3..b28872ffb 100644
-> > ---- a/scripts/mono-find-provides
-> > -+++ b/scripts/mono-find-provides
-> > -@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep
-> -E "\\.(exe|dll)\$"))
-> > - build_bindir="$2/usr/bin"
-> > - build_libdir="$2$3"
-> > -
-> > --if [ -x $build_bindir/monodis ]; then
-> > --    monodis="$build_bindir/monodis"
-> > -+if [ -x $build_bindir/monodis.bogus ]; then
-> > -+    monodis="$build_bindir/monodis.bogus"
-> > -     export
-> LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-> > --elif [ -x /usr/bin/monodis ]; then
-> > --    monodis="/usr/bin/monodis"
-> > -+elif [ -x /usr/bin/monodis.bogus ]; then
-> > -+    monodis="/usr/bin/monodis.bogus"
-> > - else
-> > -     exit 0;
-> > - fi
-> > -diff --git a/scripts/mono-find-requires b/scripts/mono-find-requires
-> > -index ea58cae48..d270169e1 100644
-> > ---- a/scripts/mono-find-requires
-> > -+++ b/scripts/mono-find-requires
-> > -@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep
-> -E "\\.(exe|dll)\$"))
-> > - build_bindir="$2/usr/bin"
-> > - build_libdir="$2$3"
-> > -
-> > --if [ -x $build_bindir/monodis ]; then
-> > --    monodis="$build_bindir/monodis"
-> > -+if [ -x $build_bindir/monodis.bogus ]; then
-> > -+    monodis="$build_bindir/monodis.bogus"
-> > -     export
-> LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-> > --elif [ -x /usr/bin/monodis ]; then
-> > --    monodis="/usr/bin/monodis"
-> > -+elif [ -x /usr/bin/monodis.bogus ]; then
-> > -+    monodis="/usr/bin/monodis.bogus"
-> > - else
-> > -     exit 0;
-> > - fi
-> > diff --git
-> a/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-> b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+> a/meta/recipes-core/gettext/gettext-0.20.1/use-pkgconfig.patch
+> b/meta/recipes-core/gettext/gettext-0.20.1/use-pkgconfig.patch
 > > new file mode 100644
-> > index 00000000000..9a5cd7c80dc
+> > index 00000000000..d1b2603779b
 > > --- /dev/null
-> > +++
-> b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-> > @@ -0,0 +1,65 @@
-> > +From 93c3c7f043f62e96941274e957c4ad9432032af1 Mon Sep 17 00:00:00 2001
-> > +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > +Date: Mon, 18 Nov 2019 16:22:56 +0100
-> > +Subject: [PATCH] rpmfc.c: do not run file classification in parallel
+> > +++ b/meta/recipes-core/gettext/gettext-0.20.1/use-pkgconfig.patch
+> > @@ -0,0 +1,713 @@
+> > +From ef414b06be80c6f605731abc9e674e396b80ec9e Mon Sep 17 00:00:00 2001
+> > +From: Ross Burton <ross.burton@intel.com>
+> > +Date: Tue, 23 Jan 2018 00:54:13 +0000
+> > +Subject: [PATCH] gettext: beat library detection into shape
 > > +
-> > +This is causing freezes with libmagic when the file in question is
-> compressed:
-> > +https://github.com/rpm-software-management/rpm/issues/756
+> > +For reasons which I just can't fathom gnulib doesn't use the expected
+> tools to
+> > +find libraries but badly reinvents the wheel.  This will trivially lead
+> to host
+> > +contamination (explicit searches of /usr/lib) or incorrect RPATHs (bad
+> > +canonicalisation resulting in relative paths).
 > > +
-> > +Upstream-Status: Inapppropriate [upstream wants a proper fix]
-> > +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > +Simply delete all the crazy, and replace with a single call to
+> pkg-config.
+> > +
+> > +Upstream-Status: Inappropriate (upstream still refuse to consider
+> pkg-config)
+> > +Signed-off-by: Ross Burton <ross.burton@intel.com>
+> > +
 > > +---
-> > + build/rpmfc.c | 8 --------
-> > + 1 file changed, 8 deletions(-)
+> > + gettext-tools/gnulib-m4/libxml.m4             |  99 +----------------
+> > + .../gnulib-local/lib/term-styled-ostream.oo.c |  12 +-
+> > + libtextstyle/gnulib-local/m4/libcroco.m4      |  99 +++--------------
+> > + libtextstyle/gnulib-local/m4/libglib.m4       | 104 +++---------------
+> > + libtextstyle/gnulib-m4/libcroco.m4            |  99 +++--------------
+> > + libtextstyle/gnulib-m4/libglib.m4             | 104 +++---------------
+> > + libtextstyle/lib/term-styled-ostream.c        |  12 +-
+> > + libtextstyle/lib/term-styled-ostream.oo.c     |  12 +-
+> > + 8 files changed, 87 insertions(+), 454 deletions(-)
 > > +
-> > +diff --git a/build/rpmfc.c b/build/rpmfc.c
-> > +index 3db7a9352..17afdd57a 100644
-> > +--- a/build/rpmfc.c
-> > ++++ b/build/rpmfc.c
-> > +@@ -680,7 +680,6 @@ static void rpmfcAttributes(rpmfc fc, int ix, const
-> char *ftype, const char *ful
-> > +     /* Add attributes on libmagic type & path pattern matches */
-> > +     if (matches(&(*attr)->incl, ftype, path, is_executable)) {
-> > +         argvAddTokens(&fc->fattrs[ix], (*attr)->name);
-> > +-        #pragma omp critical(fahash)
-> > +         fattrHashAddEntry(fc->fahash, attr-fc->atypes, ix);
-> > +     }
-> > +     }
-> > +@@ -1105,7 +1104,6 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv,
-> rpm_mode_t * fmode)
-> > +     /* Build (sorted) file class dictionary. */
-> > +     fc->cdict = rpmstrPoolCreate();
+> > +diff --git a/gettext-tools/gnulib-m4/libxml.m4
+> b/gettext-tools/gnulib-m4/libxml.m4
+> > +index 05b9550..031ee65 100644
+> > +--- a/gettext-tools/gnulib-m4/libxml.m4
+> > ++++ b/gettext-tools/gnulib-m4/libxml.m4
+> > +@@ -13,6 +13,7 @@ dnl gl_LIBXML(FORCE-INCLUDED)
+> > + dnl   forces the use of the included or an external libxml.
+> > + AC_DEFUN([gl_LIBXML],
+> > + [
+> > ++  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+> > +   AC_REQUIRE([AM_ICONV_LINK])
 > > +
-> > +-    #pragma omp parallel
-> > +     {
-> > +     /* libmagic is not thread-safe, each thread needs to a private
-> handle */
-> > +     magic_t ms = magic_open(msflags);
-> > +@@ -1113,15 +1111,12 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv,
-> rpm_mode_t * fmode)
-> > +     if (ms == NULL) {
-> > +     rpmlog(RPMLOG_ERR, _("magic_open(0x%x) failed: %s\n"),
-> > +             msflags, strerror(errno));
-> > +-    #pragma omp cancel parallel
-> > +     }
+> > +   ifelse([$1], , [
+> > +@@ -30,100 +31,10 @@ AC_DEFUN([gl_LIBXML],
+> > +   INCXML=
+> > +   ifelse([$1], [yes], , [
+> > +     if test "$gl_cv_libxml_use_included" != yes; then
+> > +-      dnl Figure out whether we can use a preinstalled libxml2, or
+> have to use
+> > +-      dnl the included one.
+> > +-      AC_CACHE_VAL([gl_cv_libxml], [
+> > +-        gl_cv_libxml=no
+> > +-        gl_cv_LIBXML=
+> > +-        gl_cv_LTLIBXML=
+> > +-        gl_cv_INCXML=
+> > +-        gl_save_LIBS="$LIBS"
+> > +-        LIBS="$LIBS $LIBICONV"
+> > +-        dnl Search for libxml2 and define LIBXML2, LTLIBXML2 and
+> INCXML2
+> > +-        dnl accordingly.
+> > +-        dnl Don't use xml2-config nor pkg-config, since it doesn't
+> work when
+> > +-        dnl cross-compiling or when the C compiler in use is different
+> from the
+> > +-        dnl one that built the library.
+> > +-        dnl Use a test program that tries to invoke xmlFree. On Cygwin
+> 1.7.x,
+> > +-        dnl libxml2 is built in such a way that uses of xmlFree work
+> fine with
+> > +-        dnl -Wl,--enable-auto-import but lead to a link error with
+> > +-        dnl -Wl,--disable-auto-import.
+> > +-        AC_LIB_LINKFLAGS_BODY([xml2])
+> > +-        LIBS="$gl_save_LIBS $LIBXML2 $LIBICONV"
+> > +-        AC_TRY_LINK([#include <libxml/xmlversion.h>
+> > +-                     #include <libxml/xmlmemory.h>
+> > +-                     #include <libxml/xpath.h>
+> > +-                    ],
+> > +-          [xmlCheckVersion (0);
+> > +-           xmlFree ((void *) 0);
+> > +-           xmlXPathSetContextNode ((void *)0, (void *)0);
+> > +-          ],
+> > +-          [gl_cv_libxml=yes
+> > +-           gl_cv_LIBXML="$LIBXML2 $LIBICONV"
+> > +-           gl_cv_LTLIBXML="$LTLIBXML2 $LTLIBICONV"
+> > +-          ])
+> > +-        if test "$gl_cv_libxml" != yes; then
+> > +-          gl_save_CPPFLAGS="$CPPFLAGS"
+> > +-          CPPFLAGS="$CPPFLAGS $INCXML2"
+> > +-          AC_TRY_LINK([#include <libxml/xmlversion.h>
+> > +-                       #include <libxml/xmlmemory.h>
+> > +-                       #include <libxml/xpath.h>
+> > +-                      ],
+> > +-            [xmlCheckVersion (0);
+> > +-             xmlFree ((void *) 0);
+> > +-             xmlXPathSetContextNode ((void *)0, (void *)0);
+> > +-            ],
+> > +-            [gl_cv_libxml=yes
+> > +-             gl_cv_LIBXML="$LIBXML2 $LIBICONV"
+> > +-             gl_cv_LTLIBXML="$LTLIBXML2 $LTLIBICONV"
+> > +-             gl_cv_INCXML="$INCXML2"
+> > +-            ])
+> > +-          if test "$gl_cv_libxml" != yes; then
+> > +-            dnl Often the include files are installed in
+> /usr/include/libxml2.
+> > +-            dnl In libxml2-2.5, <libxml/xmlversion.h> is
+> self-contained.
+> > +-            dnl In libxml2-2.6, it includes <libxml/xmlexports.h>
+> which is
+> > +-            dnl self-contained.
+> > +-            libxml2_include_dir=
+> > +-            AC_TRY_CPP([#include <libxml2/libxml/xmlexports.h>],
+> > +-              [gl_ABSOLUTE_HEADER([libxml2/libxml/xmlexports.h])
+> > +-               libxml2_include_dir=`echo
+> "$gl_cv_absolute_libxml2_libxml_xmlexports_h" | sed -e
+> 's,.libxml.xmlexports\.h$,,'`
+> > +-              ])
+> > +-            if test -z "$libxml2_include_dir"; then
+> > +-              AC_TRY_CPP([#include <libxml2/libxml/xmlversion.h>],
+> > +-                [gl_ABSOLUTE_HEADER([libxml2/libxml/xmlversion.h])
+> > +-                 libxml2_include_dir=`echo
+> "$gl_cv_absolute_libxml2_libxml_xmlversion_h" | sed -e
+> 's,.libxml.xmlversion\.h$,,'`
+> > +-                ])
+> > +-            fi
+> > +-            if test -n "$libxml2_include_dir" && test -d
+> "$libxml2_include_dir"; then
+> > +-              CPPFLAGS="$gl_save_CPPFLAGS -I$libxml2_include_dir"
+> > +-              AC_TRY_LINK([#include <libxml/xmlversion.h>
+> > +-                           #include <libxml/xmlmemory.h>
+> > +-                           #include <libxml/xpath.h>
+> > +-                          ],
+> > +-                [xmlCheckVersion (0);
+> > +-                 xmlFree ((void *) 0);
+> > +-                 xmlXPathSetContextNode ((void *)0, (void *)0);
+> > +-                ],
+> > +-                [gl_cv_libxml=yes
+> > +-                 gl_cv_LIBXML="$LIBXML2 $LIBICONV"
+> > +-                 gl_cv_LTLIBXML="$LTLIBXML2 $LTLIBICONV"
+> > +-                 gl_cv_INCXML="-I$libxml2_include_dir"
+> > +-                ])
+> > +-            fi
+> > +-          fi
+> > +-          CPPFLAGS="$gl_save_CPPFLAGS"
+> > +-        fi
+> > +-        LIBS="$gl_save_LIBS"
+> > +-      ])
+> > +-      AC_MSG_CHECKING([for libxml])
+> > +-      AC_MSG_RESULT([$gl_cv_libxml])
+> > +-      if test $gl_cv_libxml = yes; then
+> > +-        LIBXML="$gl_cv_LIBXML"
+> > +-        LTLIBXML="$gl_cv_LTLIBXML"
+> > +-        INCXML="$gl_cv_INCXML"
+> > +-      else
+> > +-        gl_cv_libxml_use_included=yes
+> > +-      fi
+> > ++      PKG_CHECK_MODULES([XML], [libxml-2.0])
+> > ++      LIBXML=$XML_LIBS
+> > ++      LTLIBXML=$XML_LIBS
+> > ++      INCXML=$XML_CFLAGS
+> > +     fi
+> > +   ])
+> > +   AC_SUBST([LIBXML])
+> > +diff --git a/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c
+> b/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c
+> > +index 2cfd4a8..d42c8b4 100644
+> > +--- a/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c
+> > ++++ b/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c
+> > +@@ -22,15 +22,15 @@
 > > +
-> > +     if (magic_load(ms, NULL) == -1) {
-> > +     rpmlog(RPMLOG_ERR, _("magic_load failed: %s\n"), magic_error(ms));
-> > +-    #pragma omp cancel parallel
-> > +     }
+> > + #include <stdlib.h>
 > > +
-> > +-    #pragma omp for ordered reduction(+:nerrors)
-> > +     for (int ix = 0; ix < fc->nfiles; ix++) {
-> > +     rpmsid ftypeId;
-> > +     const char * ftype;
-> > +@@ -1185,14 +1180,11 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv,
-> rpm_mode_t * fmode)
-> > +     fc->fcolor[ix] = fcolor;
+> > +-#include <cr-om-parser.h>
+> > +-#include <cr-sel-eng.h>
+> > +-#include <cr-style.h>
+> > +-#include <cr-rgb.h>
+> > ++#include <libcroco/cr-om-parser.h>
+> > ++#include <libcroco/cr-sel-eng.h>
+> > ++#include <libcroco/cr-style.h>
+> > ++#include <libcroco/cr-rgb.h>
+> > + /* <cr-fonts.h> has a broken double-inclusion guard in
+> libcroco-0.6.1.  */
+> > + #ifndef __CR_FONTS_H__
+> > +-# include <cr-fonts.h>
+> > ++# include <libcroco/cr-fonts.h>
+> > + #endif
+> > +-#include <cr-string.h>
+> > ++#include <libcroco/cr-string.h>
 > > +
-> > +     /* Add to file class dictionary and index array */
-> > +-    #pragma omp ordered
-> > +     if (fcolor != RPMFC_WHITE && (fcolor & RPMFC_INCLUDE)) {
-> > +         ftypeId = rpmstrPoolId(fc->cdict, ftype, 1);
-> > +-        #pragma omp atomic
-> > +         fc->fknown++;
-> > +     } else {
-> > +         ftypeId = rpmstrPoolId(fc->cdict, "", 1);
-> > +-        #pragma omp atomic
-> > +         fc->fwhite++;
-> > +     }
-> > +     /* Pool id's start from 1, for headers we want it from 0 */
-> > diff --git
-> a/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
-> b/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
-> > deleted file mode 100644
-> > index d10041c2e14..00000000000
-> > ---
-> a/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
-> > +++ /dev/null
-> > @@ -1,127 +0,0 @@
-> > -From 513200cf76758de4668312c628d6362bdabfaf4b Mon Sep 17 00:00:00 2001
-> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -Date: Thu, 25 May 2017 19:30:20 +0300
-> > -Subject: [PATCH 1/3] Run binary package creation via thread pools.
-> > -
-> > -Upstream-Status: Submitted [
-> https://github.com/rpm-software-management/rpm/pull/226]
-> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -
-> > ----
-> > - build/pack.c | 81
-> +++++++++++++++++++++++++++++++++++++++++++++++++-----------
-> > - configure.ac |  3 +++
-> > - 2 files changed, 70 insertions(+), 14 deletions(-)
-> > -
-> > -diff --git a/build/pack.c b/build/pack.c
-> > -index ccfd614cc..ed5b9ab4e 100644
-> > ---- a/build/pack.c
-> > -+++ b/build/pack.c
-> > -@@ -616,25 +616,78 @@ static rpmRC packageBinary(rpmSpec spec, Package
-> pkg, const char *cookie, int ch
-> > -     return rc;
-> > - }
-> > -
-> > --rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
-> > -+struct binaryPackageTaskData
-> > - {
-> > --    rpmRC rc;
-> > -     Package pkg;
-> > -+    char *filename;
-> > -+    rpmRC result;
-> > -+    struct binaryPackageTaskData *next;
-> > -+};
-> > -+
-> > -+static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec
-> spec, const char *cookie, int cheating)
-> > -+{
-> > -+    struct binaryPackageTaskData *tasks = NULL;
-> > -+    struct binaryPackageTaskData *task = NULL;
-> > -+    struct binaryPackageTaskData *prev = NULL;
-> > -+
-> > -+    for (Package pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
-> > -+        task = rcalloc(1, sizeof(*task));
-> > -+        task->pkg = pkg;
-> > -+        if (pkg == spec->packages) {
-> > -+            // the first package needs to be processed ahead of
-> others, as they copy
-> > -+            // changelog data from it, and so otherwise data races
-> would happen
-> > -+            task->result = packageBinary(spec, pkg, cookie, cheating,
-> &(task->filename));
-> > -+            rpmlog(RPMLOG_NOTICE, _("Finished binary package job,
-> result %d, filename %s\n"), task->result, task->filename);
-> > -+            tasks = task;
-> > -+        }
-> > -+        if (prev != NULL) {
-> > -+            prev->next = task;
-> > -+        }
-> > -+        prev = task;
-> > -+    }
-> > -+
-> > -+    #pragma omp parallel
-> > -+    #pragma omp single
-> > -+    // re-declaring task variable is necessary, or older gcc versions
-> will produce code that segfaults
-> > -+    for (struct binaryPackageTaskData *task = tasks; task != NULL;
-> task = task->next) {
-> > -+        if (task != tasks)
-> > -+        #pragma omp task
-> > -+        {
-> > -+            task->result = packageBinary(spec, task->pkg, cookie,
-> cheating, &(task->filename));
-> > -+            rpmlog(RPMLOG_NOTICE, _("Finished binary package job,
-> result %d, filename %s\n"), task->result, task->filename);
-> > -+        }
-> > -+    }
-> > -+
-> > -+    return tasks;
-> > -+}
-> > -+
-> > -+static void freeBinaryPackageTasks(struct binaryPackageTaskData* tasks)
-> > -+{
-> > -+    while (tasks != NULL) {
-> > -+        struct binaryPackageTaskData* next = tasks->next;
-> > -+        rfree(tasks->filename);
-> > -+        rfree(tasks);
-> > -+        tasks = next;
-> > -+    }
-> > -+}
-> > -+
-> > -+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
-> > -+{
-> > -     char *pkglist = NULL;
-> > -
-> > --    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
-> > --    char *fn = NULL;
-> > --    rc = packageBinary(spec, pkg, cookie, cheating, &fn);
-> > --    if (rc == RPMRC_OK) {
-> > --        rstrcat(&pkglist, fn);
-> > --        rstrcat(&pkglist, " ");
-> > --    }
-> > --    free(fn);
-> > --    if (rc != RPMRC_OK) {
-> > --        pkglist = _free(pkglist);
-> > --        return rc;
-> > --    }
-> > -+    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec,
-> cookie, cheating);
-> > -+
-> > -+    for (struct binaryPackageTaskData *task = tasks; task != NULL;
-> task = task->next) {
-> > -+        if (task->result == RPMRC_OK) {
-> > -+            rstrcat(&pkglist, task->filename);
-> > -+            rstrcat(&pkglist, " ");
-> > -+        } else {
-> > -+            _free(pkglist);
-> > -+            freeBinaryPackageTasks(tasks);
-> > -+            return RPMRC_FAIL;
-> > -+        }
-> > -     }
-> > -+    freeBinaryPackageTasks(tasks);
-> > -
-> > -     /* Now check the package set if enabled */
-> > -     if (pkglist != NULL) {
-> > -diff --git a/configure.ac b/configure.ac
-> > -index a506ec819..59fa0acaf 100644
-> > ---- a/configure.ac
-> > -+++ b/configure.ac
-> > -@@ -17,6 +17,9 @@ AC_DISABLE_STATIC
-> > -
-> > - PKG_PROG_PKG_CONFIG
-> > -
-> > -+AC_OPENMP
-> > -+RPMCFLAGS="$OPENMP_CFLAGS $RPMCFLAGS"
-> > -+
-> > - dnl Checks for programs.
-> > - AC_PROG_CXX
-> > - AC_PROG_AWK
-> > ---
-> > -2.11.0
-> > -
-> > diff --git
-> a/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
-> b/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
-> > deleted file mode 100644
-> > index c348ae5330e..00000000000
-> > ---
-> a/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
-> > +++ /dev/null
-> > @@ -1,207 +0,0 @@
-> > -From c80892f17e44331206c8318d53b63bb6a99554d0 Mon Sep 17 00:00:00 2001
-> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -Date: Tue, 30 May 2017 13:58:30 +0300
-> > -Subject: [PATCH 3/4] rpmstrpool.c: make operations over string pools
-> > - thread-safe
-> > -
-> > -Otherwise multithreaded rpm building explodes in various ways due
-> > -to data races.
-> > -
-> > -Upstream-Status: Submitted [
-> https://github.com/rpm-software-management/rpm/pull/226]
-> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -
-> > ----
-> > - rpmio/rpmstrpool.c | 56
-> +++++++++++++++++++++++++++++++++++++++++++++---------
-> > - 1 file changed, 47 insertions(+), 9 deletions(-)
-> > -
-> > -diff --git a/rpmio/rpmstrpool.c b/rpmio/rpmstrpool.c
-> > -index 30a57eb10..58ba95a02 100644
-> > ---- a/rpmio/rpmstrpool.c
-> > -+++ b/rpmio/rpmstrpool.c
-> > -@@ -113,6 +113,8 @@ static poolHash poolHashCreate(int numBuckets)
-> > -     return ht;
-> > - }
-> > -
-> > -+static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid);
-> > -+
-> > - static void poolHashResize(rpmstrPool pool, int numBuckets)
-> > - {
-> > -     poolHash ht = pool->hash;
-> > -@@ -120,7 +122,7 @@ static void poolHashResize(rpmstrPool pool, int
-> numBuckets)
-> > -
-> > -     for (int i=0; i<ht->numBuckets; i++) {
-> > -         if (!ht->buckets[i].keyid) continue;
-> > --        unsigned int keyHash = rstrhash(rpmstrPoolStr(pool,
-> ht->buckets[i].keyid));
-> > -+        unsigned int keyHash = rstrhash(rpmstrPoolStrNoLock(pool,
-> ht->buckets[i].keyid));
-> > -         for (unsigned int j=0;;j++) {
-> > -             unsigned int hash = hashbucket(keyHash, j) % numBuckets;
-> > -             if (!buckets[hash].keyid) {
-> > -@@ -149,7 +151,7 @@ static void poolHashAddHEntry(rpmstrPool pool,
-> const char * key, unsigned int ke
-> > -             ht->buckets[hash].keyid = keyid;
-> > -             ht->keyCount++;
-> > -             break;
-> > --        } else if (!strcmp(rpmstrPoolStr(pool,
-> ht->buckets[hash].keyid), key)) {
-> > -+        } else if (!strcmp(rpmstrPoolStrNoLock(pool,
-> ht->buckets[hash].keyid), key)) {
-> > -             return;
-> > -         }
-> > -     }
-> > -@@ -191,7 +193,7 @@ static void poolHashPrintStats(rpmstrPool pool)
-> > -     int maxcollisions = 0;
-> > -
-> > -     for (i=0; i<ht->numBuckets; i++) {
-> > --        unsigned int keyHash = rstrhash(rpmstrPoolStr(pool,
-> ht->buckets[i].keyid));
-> > -+        unsigned int keyHash = rstrhash(rpmstrPoolStrNoLock(pool,
-> ht->buckets[i].keyid));
-> > -         for (unsigned int j=0;;j++) {
-> > -             unsigned int hash = hashbucket(keyHash, i) %
-> ht->numBuckets;
-> > -             if (hash==i) {
-> > -@@ -221,7 +223,7 @@ static void rpmstrPoolRehash(rpmstrPool pool)
-> > -
-> > -     pool->hash = poolHashCreate(sizehint);
-> > -     for (int i = 1; i <= pool->offs_size; i++)
-> > --    poolHashAddEntry(pool, rpmstrPoolStr(pool, i), i);
-> > -+    poolHashAddEntry(pool, rpmstrPoolStrNoLock(pool, i), i);
-> > - }
-> > -
-> > - rpmstrPool rpmstrPoolCreate(void)
-> > -@@ -245,6 +247,8 @@ rpmstrPool rpmstrPoolCreate(void)
-> > -
-> > - rpmstrPool rpmstrPoolFree(rpmstrPool pool)
-> > - {
-> > -+    #pragma omp critical(rpmstrpool)
-> > -+    {
-> > -     if (pool) {
-> > -     if (pool->nrefs > 1) {
-> > -         pool->nrefs--;
-> > -@@ -260,18 +264,24 @@ rpmstrPool rpmstrPoolFree(rpmstrPool pool)
-> > -         free(pool);
-> > -     }
-> > -     }
-> > -+    }
-> > -     return NULL;
-> > - }
-> > -
-> > - rpmstrPool rpmstrPoolLink(rpmstrPool pool)
-> > - {
-> > -+    #pragma omp critical(rpmstrpool)
-> > -+    {
-> > -     if (pool)
-> > -     pool->nrefs++;
-> > -+    }
-> > -     return pool;
-> > - }
-> > -
-> > - void rpmstrPoolFreeze(rpmstrPool pool, int keephash)
-> > - {
-> > -+    #pragma omp critical(rpmstrpool)
-> > -+    {
-> > -     if (pool && !pool->frozen) {
-> > -     if (!keephash) {
-> > -         pool->hash = poolHashFree(pool->hash);
-> > -@@ -281,16 +291,20 @@ void rpmstrPoolFreeze(rpmstrPool pool, int
-> keephash)
-> > -                           pool->offs_alloced * sizeof(*pool->offs));
-> > -     pool->frozen = 1;
-> > -     }
-> > -+    }
-> > - }
-> > -
-> > - void rpmstrPoolUnfreeze(rpmstrPool pool)
-> > - {
-> > -+    #pragma omp critical(rpmstrpool)
-> > -+    {
-> > -     if (pool) {
-> > -     if (pool->hash == NULL) {
-> > -         rpmstrPoolRehash(pool);
-> > -     }
-> > -     pool->frozen = 0;
-> > -     }
-> > -+    }
-> > - }
-> > -
-> > - static rpmsid rpmstrPoolPut(rpmstrPool pool, const char *s, size_t
-> slen, unsigned int hash)
-> > -@@ -350,7 +364,7 @@ static rpmsid rpmstrPoolGet(rpmstrPool pool, const
-> char * key, size_t keylen,
-> > -             return 0;
-> > -         }
-> > -
-> > --    s = rpmstrPoolStr(pool, ht->buckets[hash].keyid);
-> > -+    s = rpmstrPoolStrNoLock(pool, ht->buckets[hash].keyid);
-> > -     /* pool string could be longer than keylen, require exact matche */
-> > -     if (strncmp(s, key, keylen) == 0 && s[keylen] == '\0')
-> > -         return ht->buckets[hash].keyid;
-> > -@@ -373,27 +387,31 @@ static inline rpmsid strn2id(rpmstrPool pool,
-> const char *s, size_t slen,
-> > - rpmsid rpmstrPoolIdn(rpmstrPool pool, const char *s, size_t slen, int
-> create)
-> > - {
-> > -     rpmsid sid = 0;
-> > --
-> > -+    #pragma omp critical(rpmstrpool)
-> > -+    {
-> > -     if (s != NULL) {
-> > -     unsigned int hash = rstrnhash(s, slen);
-> > -     sid = strn2id(pool, s, slen, hash, create);
-> > -     }
-> > -+    }
-> > -     return sid;
-> > - }
-> > -
-> > - rpmsid rpmstrPoolId(rpmstrPool pool, const char *s, int create)
-> > - {
-> > -     rpmsid sid = 0;
-> > --
-> > -+    #pragma omp critical(rpmstrpool)
-> > -+    {
-> > -     if (s != NULL) {
-> > -     size_t slen;
-> > -     unsigned int hash = rstrlenhash(s, &slen);
-> > -     sid = strn2id(pool, s, slen, hash, create);
-> > -     }
-> > -+    }
-> > -     return sid;
-> > - }
-> > -
-> > --const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
-> > -+static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid)
-> > - {
-> > -     const char *s = NULL;
-> > -     if (pool && sid > 0 && sid <= pool->offs_size)
-> > -@@ -401,12 +419,25 @@ const char * rpmstrPoolStr(rpmstrPool pool,
-> rpmsid sid)
-> > -     return s;
-> > - }
-> > -
-> > -+const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
-> > -+{
-> > -+    const char *s = NULL;
-> > -+    #pragma omp critical(rpmstrpool)
-> > -+    {
-> > -+    s = rpmstrPoolStrNoLock(pool, sid);
-> > -+    }
-> > -+    return s;
-> > -+}
-> > -+
-> > - size_t rpmstrPoolStrlen(rpmstrPool pool, rpmsid sid)
-> > - {
-> > -     size_t slen = 0;
-> > -+    #pragma omp critical(rpmstrpool)
-> > -+    {
-> > -     if (pool && sid > 0 && sid <= pool->offs_size) {
-> > -     slen = strlen(pool->offs[sid]);
-> > -     }
-> > -+    }
-> > -     return slen;
-> > - }
-> > -
-> > -@@ -421,5 +452,12 @@ int rpmstrPoolStreq(rpmstrPool poolA, rpmsid sidA,
-> > -
-> > - rpmsid rpmstrPoolNumStr(rpmstrPool pool)
-> > - {
-> > --    return (pool != NULL) ? pool->offs_size : 0;
-> > -+    rpmsid id = 0;
-> > -+    #pragma omp critical(rpmstrpool)
-> > -+    {
-> > -+    if (pool) {
-> > -+    id = pool->offs_size;
-> > -+    }
-> > -+    }
-> > -+    return id;
-> > - }
-> > ---
-> > -2.11.0
-> > -
-> > diff --git
-> a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-> b/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-> > deleted file mode 100644
-> > index 652e30b3e4a..00000000000
-> > ---
-> a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
-> > +++ /dev/null
-> > @@ -1,336 +0,0 @@
-> > -From 792693bb90768cfde4898e8dd31ee1b5de803d2f Mon Sep 17 00:00:00 2001
-> > -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -Date: Thu, 8 Jun 2017 17:08:09 +0300
-> > -Subject: [PATCH] build/pack.c: remove static local variables from
-> buildHost()
-> > - and getBuildTime()
-> > -
-> > -Their use is causing difficult to diagnoze data races when building
-> multiple
-> > -packages in parallel, and is a bad idea in general, as it also makes it
-> more
-> > -difficult to reason about code.
-> > -
-> > -Upstream-Status: Submitted [
-> https://github.com/rpm-software-management/rpm/pull/226]
-> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -
-> > -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > -
-> > ----
-> > - build/build.c             | 54 ++++++++++++++++++++++++++++--
-> > - build/pack.c              | 84
-> +++++++++--------------------------------------
-> > - build/rpmbuild_internal.h |  8 +++--
-> > - 3 files changed, 74 insertions(+), 72 deletions(-)
-> > -
-> > -diff --git a/build/build.c b/build/build.c
-> > -index 13c3df2..b154f08 100644
-> > ---- a/build/build.c
-> > -+++ b/build/build.c
-> > -@@ -6,6 +6,8 @@
-> > - #include "system.h"
-> > -
-> > - #include <errno.h>
-> > -+#include <netdb.h>
-> > -+#include <time.h>
-> > - #include <sys/wait.h>
-> > -
-> > - #include <rpm/rpmlog.h>
-> > -@@ -16,6 +18,50 @@
-> > -
-> > - #include "debug.h"
-> > -
-> > -+static rpm_time_t getBuildTime(void)
-> > -+{
-> > -+    rpm_time_t buildTime = 0;
-> > -+    char *srcdate;
-> > -+    time_t epoch;
-> > -+    char *endptr;
-> > -+
-> > -+    srcdate = getenv("SOURCE_DATE_EPOCH");
-> > -+    if (srcdate) {
-> > -+        errno = 0;
-> > -+        epoch = strtol(srcdate, &endptr, 10);
-> > -+        if (srcdate == endptr || *endptr || errno != 0)
-> > -+            rpmlog(RPMLOG_ERR, _("unable to parse
-> SOURCE_DATE_EPOCH\n"));
-> > -+        else
-> > -+            buildTime = (int32_t) epoch;
-> > -+    } else
-> > -+        buildTime = (int32_t) time(NULL);
-> > -+
-> > -+    return buildTime;
-> > -+}
-> > -+
-> > -+static char * buildHost(void)
-> > -+{
-> > -+    char* hostname;
-> > -+    struct hostent *hbn;
-> > -+    char *bhMacro;
-> > -+
-> > -+    bhMacro = rpmExpand("%{?_buildhost}", NULL);
-> > -+    if (strcmp(bhMacro, "") != 0) {
-> > -+        rasprintf(&hostname, "%s", bhMacro);
-> > -+    } else {
-> > -+        hostname = rcalloc(1024, sizeof(*hostname));
-> > -+        (void) gethostname(hostname, 1024);
-> > -+        hbn = gethostbyname(hostname);
-> > -+        if (hbn)
-> > -+            strcpy(hostname, hbn->h_name);
-> > -+        else
-> > -+            rpmlog(RPMLOG_WARNING,
-> > -+                    _("Could not canonicalize hostname: %s\n"),
-> hostname);
-> > -+    }
-> > -+    free(bhMacro);
-> > -+    return(hostname);
-> > -+}
-> > -+
-> > - /**
-> > -  */
-> > - static rpmRC doRmSource(rpmSpec spec)
-> > -@@ -201,6 +247,9 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec
-> spec, int what)
-> > -     rpmRC rc = RPMRC_OK;
-> > -     int test = (what & RPMBUILD_NOBUILD);
-> > -     char *cookie = buildArgs->cookie ? xstrdup(buildArgs->cookie) :
-> NULL;
-> > -+    const char* host = buildHost();
-> > -+    rpm_time_t buildTime = getBuildTime();
-> > -+
-> > -
-> > -     if (rpmExpandNumeric("%{?source_date_epoch_from_changelog}") &&
-> > -     getenv("SOURCE_DATE_EPOCH") == NULL) {
-> > -@@ -269,11 +318,11 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec
-> spec, int what)
-> > -             goto exit;
-> > -
-> > -     if (((what & RPMBUILD_PACKAGESOURCE) && !test) &&
-> > --        (rc = packageSources(spec, &cookie)))
-> > -+        (rc = packageSources(spec, &cookie, buildTime, host)))
-> > -             goto exit;
-> > -
-> > -     if (((what & RPMBUILD_PACKAGEBINARY) && !test) &&
-> > --        (rc = packageBinaries(spec, cookie, (didBuild == 0))))
-> > -+        (rc = packageBinaries(spec, cookie, (didBuild == 0),
-> buildTime, host)))
-> > -             goto exit;
-> > -
-> > -     if ((what & RPMBUILD_CLEAN) &&
-> > -@@ -293,6 +342,7 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec
-> spec, int what)
-> > -     (void) unlink(spec->specFile);
-> > -
-> > - exit:
-> > -+    free(host);
-> > -     free(cookie);
-> > -     spec->rootDir = NULL;
-> > -     if (rc != RPMRC_OK && rpmlogGetNrecs() > 0) {
-> > -diff --git a/build/pack.c b/build/pack.c
-> > -index df15876..17a4b09 100644
-> > ---- a/build/pack.c
-> > -+++ b/build/pack.c
-> > -@@ -6,8 +6,6 @@
-> > - #include "system.h"
-> > -
-> > - #include <errno.h>
-> > --#include <netdb.h>
-> > --#include <time.h>
-> > - #include <sys/wait.h>
-> > -
-> > - #include <rpm/rpmlib.h>                     /* RPMSIGTAG*,
-> rpmReadPackageFile */
-> > -@@ -152,57 +150,6 @@ exit:
-> > -     return rc;
-> > - }
-> > -
-> > --static rpm_time_t * getBuildTime(void)
-> > --{
-> > --    static rpm_time_t buildTime[1];
-> > --    char *srcdate;
-> > --    time_t epoch;
-> > --    char *endptr;
-> > --
-> > --    if (buildTime[0] == 0) {
-> > --        srcdate = getenv("SOURCE_DATE_EPOCH");
-> > --        if (srcdate) {
-> > --            errno = 0;
-> > --            epoch = strtol(srcdate, &endptr, 10);
-> > --            if (srcdate == endptr || *endptr || errno != 0)
-> > --                rpmlog(RPMLOG_ERR, _("unable to parse
-> SOURCE_DATE_EPOCH\n"));
-> > --            else
-> > --                buildTime[0] = (int32_t) epoch;
-> > --        } else
-> > --            buildTime[0] = (int32_t) time(NULL);
-> > --    }
-> > --
-> > --    return buildTime;
-> > --}
-> > --
-> > --static const char * buildHost(void)
-> > --{
-> > --    static char hostname[1024];
-> > --    static int oneshot = 0;
-> > --    struct hostent *hbn;
-> > --    char *bhMacro;
-> > --
-> > --    if (! oneshot) {
-> > --        bhMacro = rpmExpand("%{?_buildhost}", NULL);
-> > --        if (strcmp(bhMacro, "") != 0 && strlen(bhMacro) < 1024) {
-> > --            strcpy(hostname, bhMacro);
-> > --        } else {
-> > --            if (strcmp(bhMacro, "") != 0)
-> > --                rpmlog(RPMLOG_WARNING, _("The _buildhost macro is too
-> long\n"));
-> > --            (void) gethostname(hostname, sizeof(hostname));
-> > --            hbn = gethostbyname(hostname);
-> > --            if (hbn)
-> > --                strcpy(hostname, hbn->h_name);
-> > --            else
-> > --                rpmlog(RPMLOG_WARNING,
-> > --                        _("Could not canonicalize hostname: %s\n"),
-> hostname);
-> > --        }
-> > --        free(bhMacro);
-> > --        oneshot = 1;
-> > --    }
-> > --    return(hostname);
-> > --}
-> > --
-> > - static rpmRC processScriptFiles(rpmSpec spec, Package pkg)
-> > - {
-> > -     struct TriggerFileEntry *p;
-> > -@@ -476,7 +423,8 @@ exit:
-> > -  * order to how the RPM format is laid on disk.
-> > -  */
-> > - static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
-> > --                  const char *fileName, char **cookie)
-> > -+                  const char *fileName, char **cookie,
-> > -+                  rpm_time_t buildTime, const char* buildHost)
-> > - {
-> > -     FD_t fd = NULL;
-> > -     char * rpmio_flags = NULL;
-> > -@@ -500,7 +448,7 @@ static rpmRC writeRPM(Package pkg, unsigned char **
-> pkgidp,
-> > -
-> > -     /* Create and add the cookie */
-> > -     if (cookie) {
-> > --    rasprintf(cookie, "%s %d", buildHost(), (int) (*getBuildTime()));
-> > -+    rasprintf(cookie, "%s %d", buildHost, buildTime);
-> > -     headerPutString(pkg->header, RPMTAG_COOKIE, *cookie);
-> > -     }
-> > -
-> > -@@ -641,7 +589,7 @@ static rpmRC checkPackages(char *pkgcheck)
-> > -     return RPMRC_OK;
-> > - }
-> > -
-> > --static rpmRC packageBinary(rpmSpec spec, Package pkg, const char
-> *cookie, int cheating, char** filename)
-> > -+static rpmRC packageBinary(rpmSpec spec, Package pkg, const char
-> *cookie, int cheating, char** filename, rpm_time_t buildTime, const char*
-> buildHost)
-> > - {
-> > -     const char *errorString;
-> > -     rpmRC rc = RPMRC_OK;
-> > -@@ -660,8 +608,8 @@ static rpmRC packageBinary(rpmSpec spec, Package
-> pkg, const char *cookie, int ch
-> > -     headerCopyTags(spec->packages->header, pkg->header, copyTags);
-> > -
-> > -     headerPutString(pkg->header, RPMTAG_RPMVERSION, VERSION);
-> > --    headerPutString(pkg->header, RPMTAG_BUILDHOST, buildHost());
-> > --    headerPutUint32(pkg->header, RPMTAG_BUILDTIME, getBuildTime(), 1);
-> > -+    headerPutString(pkg->header, RPMTAG_BUILDHOST, buildHost);
-> > -+    headerPutUint32(pkg->header, RPMTAG_BUILDTIME, &buildTime, 1);
-> > -
-> > -     if (spec->sourcePkgId != NULL) {
-> > -         headerPutBin(pkg->header, RPMTAG_SOURCEPKGID,
-> spec->sourcePkgId,16);
-> > -@@ -699,7 +647,7 @@ static rpmRC packageBinary(rpmSpec spec, Package
-> pkg, const char *cookie, int ch
-> > -         free(binRpm);
-> > -     }
-> > -
-> > --    rc = writeRPM(pkg, NULL, *filename, NULL);
-> > -+    rc = writeRPM(pkg, NULL, *filename, NULL, buildTime, buildHost);
-> > -     if (rc == RPMRC_OK) {
-> > -         /* Do check each written package if enabled */
-> > -         char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", *filename,
-> NULL);
-> > -@@ -719,7 +667,7 @@ struct binaryPackageTaskData
-> > -     struct binaryPackageTaskData *next;
-> > - };
-> > -
-> > --static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec
-> spec, const char *cookie, int cheating)
-> > -+static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec
-> spec, const char *cookie, int cheating, rpm_time_t buildTime, char*
-> buildHost)
-> > - {
-> > -     struct binaryPackageTaskData *tasks = NULL;
-> > -     struct binaryPackageTaskData *task = NULL;
-> > -@@ -731,7 +679,7 @@ static struct binaryPackageTaskData*
-> runBinaryPackageTasks(rpmSpec spec, const c
-> > -         if (pkg == spec->packages) {
-> > -             // the first package needs to be processed ahead of
-> others, as they copy
-> > -             // changelog data from it, and so otherwise data races
-> would happen
-> > --            task->result = packageBinary(spec, pkg, cookie, cheating,
-> &(task->filename));
-> > -+            task->result = packageBinary(spec, pkg, cookie, cheating,
-> &(task->filename), buildTime, buildHost);
-> > -             rpmlog(RPMLOG_NOTICE, _("Finished binary package job,
-> result %d, filename %s\n"), task->result, task->filename);
-> > -             tasks = task;
-> > -         }
-> > -@@ -748,7 +696,7 @@ static struct binaryPackageTaskData*
-> runBinaryPackageTasks(rpmSpec spec, const c
-> > -         if (task != tasks)
-> > -         #pragma omp task
-> > -         {
-> > --            task->result = packageBinary(spec, task->pkg, cookie,
-> cheating, &(task->filename));
-> > -+            task->result = packageBinary(spec, task->pkg, cookie,
-> cheating, &(task->filename), buildTime, buildHost);
-> > -             rpmlog(RPMLOG_NOTICE, _("Finished binary package job,
-> result %d, filename %s\n"), task->result, task->filename);
-> > -         }
-> > -     }
-> > -@@ -766,11 +714,11 @@ static void freeBinaryPackageTasks(struct
-> binaryPackageTaskData* tasks)
-> > -     }
-> > - }
-> > -
-> > --rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
-> > -+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating,
-> rpm_time_t buildTime, char* buildHost)
-> > - {
-> > -     char *pkglist = NULL;
-> > -
-> > --    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec,
-> cookie, cheating);
-> > -+    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec,
-> cookie, cheating, buildTime, buildHost);
-> > -
-> > -     for (struct binaryPackageTaskData *task = tasks; task != NULL;
-> task = task->next) {
-> > -         if (task->result == RPMRC_OK) {
-> > -@@ -797,7 +745,7 @@ rpmRC packageBinaries(rpmSpec spec, const char
-> *cookie, int cheating)
-> > -     return RPMRC_OK;
-> > - }
-> > -
-> > --rpmRC packageSources(rpmSpec spec, char **cookie)
-> > -+rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t
-> buildTime, char* buildHost)
-> > - {
-> > -     Package sourcePkg = spec->sourcePackage;
-> > -     rpmRC rc;
-> > -@@ -805,8 +753,8 @@ rpmRC packageSources(rpmSpec spec, char **cookie)
-> > -
-> > -     /* Add some cruft */
-> > -     headerPutString(sourcePkg->header, RPMTAG_RPMVERSION, VERSION);
-> > --    headerPutString(sourcePkg->header, RPMTAG_BUILDHOST, buildHost());
-> > --    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME,
-> getBuildTime(), 1);
-> > -+    headerPutString(sourcePkg->header, RPMTAG_BUILDHOST, buildHost);
-> > -+    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME, &buildTime,
-> 1);
-> > -     headerPutUint32(sourcePkg->header, RPMTAG_SOURCEPACKAGE, &one, 1);
-> > -
-> > -     /* XXX this should be %_srpmdir */
-> > -@@ -814,7 +762,7 @@ rpmRC packageSources(rpmSpec spec, char **cookie)
-> > -     char *pkgcheck = rpmExpand("%{?_build_pkgcheck_srpm} ", fn, NULL);
-> > -
-> > -     spec->sourcePkgId = NULL;
-> > --    rc = writeRPM(sourcePkg, &spec->sourcePkgId, fn, cookie);
-> > -+    rc = writeRPM(sourcePkg, &spec->sourcePkgId, fn, cookie,
-> buildTime, buildHost);
-> > -
-> > -     /* Do check SRPM package if enabled */
-> > -     if (rc == RPMRC_OK && pkgcheck[0] != ' ') {
-> > -diff --git a/build/rpmbuild_internal.h b/build/rpmbuild_internal.h
-> > -index 439b7d3..07e8338 100644
-> > ---- a/build/rpmbuild_internal.h
-> > -+++ b/build/rpmbuild_internal.h
-> > -@@ -427,19 +427,23 @@ rpmRC processSourceFiles(rpmSpec spec,
-> rpmBuildPkgFlags pkgFlags);
-> > -  * @param spec              spec file control structure
-> > -  * @param cookie    build identifier "cookie" or NULL
-> > -  * @param cheating  was build shortcircuited?
-> > -+ * @param buildTime the build timestamp that goes into packages
-> > -+ * @param buildHost the hostname where the build is happening
-> > -  * @return          RPMRC_OK on success
-> > -  */
-> > - RPM_GNUC_INTERNAL
-> > --rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating);
-> > -+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating,
-> rpm_time_t buildTime, char* buildHost);
-> > -
-> > - /** \ingroup rpmbuild
-> > -  * Generate source package.
-> > -  * @param spec              spec file control structure
-> > -  * @retval cookie   build identifier "cookie" or NULL
-> > -+ * @param buildTime the build timestamp that goes into packages
-> > -+ * @param buildHost the hostname where the build is happening
-> > -  * @return          RPMRC_OK on success
-> > -  */
-> > - RPM_GNUC_INTERNAL
-> > --rpmRC packageSources(rpmSpec spec, char **cookie);
-> > -+rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t
-> buildTime, char* buildHost);
-> > -
-> > - RPM_GNUC_INTERNAL
-> > - int addLangTag(rpmSpec spec, Header h, rpmTagVal tag,
-> > diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-> b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
-> > similarity index 90%
-> > rename from meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-> > rename to meta/recipes-devtools/rpm/rpm_4.15.1.bb
-> > index c37330eb4c6..5896e78e734 100644
-> > --- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
-> > +++ b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
-> > @@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
-> >  LICENSE = "GPL-2.0"
-> >  LIC_FILES_CHKSUM = "file://COPYING;md5=c0bf017c0fd1920e6158a333acabfd4a"
-> >
-> > -SRC_URI = "git://
-> github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
-> > +SRC_URI = "git://
-> github.com/rpm-software-management/rpm;branch=rpm-4.15.x \
-> >
->  file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
-> >             file://0001-Do-not-read-config-files-from-HOME.patch \
-> >
->  file://0001-When-cross-installing-execute-package-scriptlets-wit.patch \
-> > @@ -34,18 +34,14 @@ SRC_URI = "git://
-> github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
-> >             file://0001-Fix-build-with-musl-C-library.patch \
-> >
->  file://0001-Add-a-color-setting-for-mips64_n32-binaries.patch \
-> >
->  file://0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch \
-> > -
->  file://0001-Split-binary-package-building-into-a-separate-functi.patch \
-> > -
->  file://0002-Run-binary-package-creation-via-thread-pools.patch \
-> > -
->  file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
-> > -
->  file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
-> >             file://0001-perl-disable-auto-reqs.patch \
-> >
->  file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
-> >
->  file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
-> > -
->  file://0001-mono-find-provides-requires-do-not-use-monodis-from-.patch \
+> > + #include "term-ostream.h"
+> > + #include "hash.h"
+> > +diff --git a/libtextstyle/gnulib-local/m4/libcroco.m4
+> b/libtextstyle/gnulib-local/m4/libcroco.m4
+> > +index bc53cc6..10b2455 100644
+> > +--- a/libtextstyle/gnulib-local/m4/libcroco.m4
+> > ++++ b/libtextstyle/gnulib-local/m4/libcroco.m4
+> > +@@ -1,99 +1,34 @@
+> > +-# libcroco.m4 serial 3
+> > +-dnl Copyright (C) 2006-2007, 2019 Free Software Foundation, Inc.
+> > ++# libcroco.m4 serial 2 (gettext-0.17)
+> > ++dnl Copyright (C) 2006, 2015-2016 Free Software Foundation, Inc.
+> > + dnl This file is free software; the Free Software Foundation
+> > + dnl gives unlimited permission to copy and/or distribute it,
+> > + dnl with or without modifications, as long as this notice is preserved.
 > > +
->  file://0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch \
-> >             "
+> > + dnl From Bruno Haible.
+> > +
+> > +-dnl gl_LIBCROCO
+> > +-dnl   gives the user the option to decide whether to use the included
+> or
+> > +-dnl   an external libcroco.
+> > +-dnl gl_LIBCROCO(FORCE-INCLUDED)
+> > +-dnl   forces the use of the included or an external libcroco.
+> > + AC_DEFUN([gl_LIBCROCO],
+> > + [
+> > +-  ifelse([$1], [yes], , [
+> > +-    dnl libcroco depends on libglib.
+> > +-    AC_REQUIRE([gl_LIBGLIB])
+> > +-  ])
+> > ++  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+> > ++  dnl libcroco depends on libglib.
+> > ++  AC_REQUIRE([gl_LIBGLIB])
+> > +
+> > +-  ifelse([$1], , [
+> > +-    AC_MSG_CHECKING([whether included libcroco is requested])
+> > +-    AC_ARG_WITH([included-libcroco],
+> > +-      [  --with-included-libcroco  use the libcroco included here],
+> > +-      [gl_cv_libcroco_force_included=$withval],
+> > +-      [gl_cv_libcroco_force_included=no])
+> > +-    AC_MSG_RESULT([$gl_cv_libcroco_force_included])
+> > +-  ], [gl_cv_libcroco_force_included=$1])
+> > ++  AC_MSG_CHECKING([whether included libcroco is requested])
+> > ++  AC_ARG_WITH([included-libcroco],
+> > ++    [  --with-included-libcroco  use the libcroco included here],
+> > ++    [gl_cv_libcroco_force_included=$withval],
+> > ++    [gl_cv_libcroco_force_included=no])
+> > ++  AC_MSG_RESULT([$gl_cv_libcroco_force_included])
+> > +
+> > +   gl_cv_libcroco_use_included="$gl_cv_libcroco_force_included"
+> > +   LIBCROCO=
+> > +   LTLIBCROCO=
+> > +   INCCROCO=
+> > +-  ifelse([$1], [yes], , [
+> > +-    if test "$gl_cv_libcroco_use_included" != yes; then
+> > +-      dnl Figure out whether we can use a preinstalled libcroco-0.6,
+> or have to
+> > +-      dnl use the included one.
+> > +-      AC_CACHE_VAL([gl_cv_libcroco], [
+> > +-        gl_cv_libcroco=no
+> > +-        gl_cv_LIBCROCO=
+> > +-        gl_cv_LTLIBCROCO=
+> > +-        gl_cv_INCCROCO=
+> > +-        gl_save_LIBS="$LIBS"
+> > +-        dnl Search for libcroco and define LIBCROCO_0_6,
+> LTLIBCROCO_0_6 and
+> > +-        dnl INCCROCO_0_6 accordingly.
+> > +-        dnl Don't use croco-0.6-config nor pkg-config, since it
+> doesn't work when
+> > +-        dnl cross-compiling or when the C compiler in use is different
+> from the
+> > +-        dnl one that built the library.
+> > +-        AC_LIB_LINKFLAGS_BODY([croco-0.6], [glib-2.0])
+> > +-        LIBS="$gl_save_LIBS $LIBCROCO_0_6"
+> > +-        AC_TRY_LINK([#include <libcroco-config.h>],
+> > +-          [const char *version = LIBCROCO_VERSION; return !version;],
+> > +-          [gl_cv_libcroco=yes
+> > +-           gl_cv_LIBCROCO="$LIBCROCO_0_6"
+> > +-           gl_cv_LTLIBCROCO="$LTLIBCROCO_0_6"
+> > +-          ])
+> > +-        if test "$gl_cv_libcroco" != yes; then
+> > +-          gl_save_CPPFLAGS="$CPPFLAGS"
+> > +-          CPPFLAGS="$CPPFLAGS $INCCROCO_0_6"
+> > +-          AC_TRY_LINK([#include <libcroco-config.h>],
+> > +-            [const char *version = LIBCROCO_VERSION; return !version;],
+> > +-            [gl_cv_libcroco=yes
+> > +-             gl_cv_LIBCROCO="$LIBCROCO_0_6"
+> > +-             gl_cv_LTLIBCROCO="$LTLIBCROCO_0_6"
+> > +-             gl_cv_INCCROCO="$INCCROCO_0_6"
+> > +-            ])
+> > +-          if test "$gl_cv_libcroco" != yes; then
+> > +-            dnl Often the include files are installed in
+> > +-            dnl /usr/include/libcroco-0.6/libcroco.
+> > +-            AC_TRY_LINK([#include
+> <libcroco-0.6/libcroco/libcroco-config.h>],
+> > +-              [const char *version = LIBCROCO_VERSION; return
+> !version;],
+> > +-
+> [gl_ABSOLUTE_HEADER([libcroco-0.6/libcroco/libcroco-config.h])
+> > +-               libcroco_include_dir=`echo
+> "$gl_cv_absolute_libcroco_0_6_libcroco_libcroco_config_h" | sed -e
+> 's,.libcroco-config\.h$,,'`
+> > +-               if test -d "$libcroco_include_dir"; then
+> > +-                 gl_cv_libcroco=yes
+> > +-                 gl_cv_LIBCROCO="$LIBCROCO_0_6"
+> > +-                 gl_cv_LTLIBCROCO="$LTLIBCROCO_0_6"
+> > +-                 gl_cv_INCCROCO="-I$libcroco_include_dir"
+> > +-               fi
+> > +-              ])
+> > +-          fi
+> > +-          CPPFLAGS="$gl_save_CPPFLAGS"
+> > +-        fi
+> > +-        LIBS="$gl_save_LIBS"
+> > +-      ])
+> > +-      AC_MSG_CHECKING([for libcroco])
+> > +-      AC_MSG_RESULT([$gl_cv_libcroco])
+> > +-      if test $gl_cv_libcroco = yes; then
+> > +-        LIBCROCO="$gl_cv_LIBCROCO"
+> > +-        LTLIBCROCO="$gl_cv_LTLIBCROCO"
+> > +-        INCCROCO="$gl_cv_INCCROCO"
+> > +-      else
+> > +-        gl_cv_libcroco_use_included=yes
+> > +-      fi
+> > +-    fi
+> > +-  ])
+> > ++  if test "$gl_cv_libcroco_use_included" != yes; then
+> > ++    PKG_CHECK_MODULES([CROCO], [libcroco-0.6])
+> > ++    LIBCROCO=$CROCO_LIBS
+> > ++    LTLIBCROCO=$CROCO_LIBS
+> > ++    INCCROCO=$CROCO_CFLAGS
+> > ++  fi
+> > +   AC_SUBST([LIBCROCO])
+> > +   AC_SUBST([LTLIBCROCO])
+> > +   AC_SUBST([INCCROCO])
+> > +diff --git a/libtextstyle/gnulib-local/m4/libglib.m4
+> b/libtextstyle/gnulib-local/m4/libglib.m4
+> > +index bef6fa3..8841755 100644
+> > +--- a/libtextstyle/gnulib-local/m4/libglib.m4
+> > ++++ b/libtextstyle/gnulib-local/m4/libglib.m4
+> > +@@ -1,105 +1,31 @@
+> > +-# libglib.m4 serial 4
+> > +-dnl Copyright (C) 2006-2007, 2019 Free Software Foundation, Inc.
+> > ++# libglib.m4 serial 3 (gettext-0.17)
+> > ++dnl Copyright (C) 2006-2007, 2015-2016 Free Software Foundation, Inc.
+> > + dnl This file is free software; the Free Software Foundation
+> > + dnl gives unlimited permission to copy and/or distribute it,
+> > + dnl with or without modifications, as long as this notice is preserved.
+> > +
+> > + dnl From Bruno Haible.
+> > +
+> > +-dnl gl_LIBGLIB
+> > +-dnl   gives the user the option to decide whether to use the included
+> or
+> > +-dnl   an external libglib.
+> > +-dnl gl_LIBGLIB(FORCE-INCLUDED)
+> > +-dnl   forces the use of the included or an external libglib.
+> > + AC_DEFUN([gl_LIBGLIB],
+> > + [
+> > +-  ifelse([$1], , [
+> > +-    AC_MSG_CHECKING([whether included glib is requested])
+> > +-    AC_ARG_WITH([included-glib],
+> > +-      [  --with-included-glib    use the glib2 included here],
+> > +-      [gl_cv_libglib_force_included=$withval],
+> > +-      [gl_cv_libglib_force_included=no])
+> > +-    AC_MSG_RESULT([$gl_cv_libglib_force_included])
+> > +-  ], [gl_cv_libglib_force_included=$1])
+> > ++  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+> > ++  AC_MSG_CHECKING([whether included glib is requested])
+> > ++  AC_ARG_WITH([included-glib],
+> > ++    [  --with-included-glib    use the glib2 included here],
+> > ++    [gl_cv_libglib_force_included=$withval],
+> > ++    [gl_cv_libglib_force_included=no])
+> > ++  AC_MSG_RESULT([$gl_cv_libglib_force_included])
+> > +
+> > +   gl_cv_libglib_use_included="$gl_cv_libglib_force_included"
+> > +   LIBGLIB=
+> > +   LTLIBGLIB=
+> > +   INCGLIB=
+> > +-  ifelse([$1], [yes], , [
+> > +-    if test "$gl_cv_libglib_use_included" != yes; then
+> > +-      dnl Figure out whether we can use a preinstalled libglib-2.0, or
+> have to use
+> > +-      dnl the included one.
+> > +-      AC_CACHE_VAL([gl_cv_libglib], [
+> > +-        gl_cv_libglib=no
+> > +-        gl_cv_LIBGLIB=
+> > +-        gl_cv_LTLIBGLIB=
+> > +-        gl_cv_INCGLIB=
+> > +-        gl_save_LIBS="$LIBS"
+> > +-        dnl Search for libglib2 and define LIBGLIB_2_0, LTLIBGLIB_2_0
+> and
+> > +-        dnl INCGLIB_2_0 accordingly.
+> > +-        dnl Don't use glib-config nor pkg-config, since it doesn't
+> work when
+> > +-        dnl cross-compiling or when the C compiler in use is different
+> from the
+> > +-        dnl one that built the library.
+> > +-        AC_LIB_LINKFLAGS_BODY([glib-2.0])
+> > +-        LIBS="$gl_save_LIBS $LIBGLIB_2_0"
+> > +-        AC_TRY_LINK([#include <glib.h>
+> > +-#ifndef G_BEGIN_DECLS
+> > +-error this glib.h includes a glibconfig.h from a glib version 1.x
+> > +-#endif
+> > +-],
+> > +-          [g_string_new ("foo");],
+> > +-          [gl_cv_libglib=yes
+> > +-           gl_cv_LIBGLIB="$LIBGLIB_2_0"
+> > +-           gl_cv_LTLIBGLIB="$LTLIBGLIB_2_0"
+> > +-          ])
+> > +-        if test "$gl_cv_libglib" != yes; then
+> > +-          gl_save_CPPFLAGS="$CPPFLAGS"
+> > +-          CPPFLAGS="$CPPFLAGS $INCGLIB_2_0"
+> > +-          AC_TRY_LINK([#include <glib.h>
+> > +-#ifndef G_BEGIN_DECLS
+> > +-error this glib.h includes a glibconfig.h from a glib version 1.x
+> > +-#endif
+> > +-],
+> > +-            [g_string_new ("foo");],
+> > +-            [gl_cv_libglib=yes
+> > +-             gl_cv_LIBGLIB="$LIBGLIB_2_0"
+> > +-             gl_cv_LTLIBGLIB="$LTLIBGLIB_2_0"
+> > +-             gl_cv_INCGLIB="$INCGLIB_2_0"
+> > +-            ])
+> > +-          if test "$gl_cv_libglib" != yes; then
+> > +-            dnl Often the include files are installed in
+> /usr/include/glib-2.0
+> > +-            dnl and /usr/lib/glib-2.0/include.
+> > +-            if test -n "$LIBGLIB_2_0_PREFIX"; then
+> > +-              CPPFLAGS="$gl_save_CPPFLAGS
+> -I$LIBGLIB_2_0_PREFIX/include/glib-2.0
+> -I$LIBGLIB_2_0_PREFIX/$acl_libdirstem/glib-2.0/include"
+> > +-              AC_TRY_LINK([#include <glib.h>
+> > +-#ifndef G_BEGIN_DECLS
+> > +-error this glib.h includes a glibconfig.h from a glib version 1.x
+> > +-#endif
+> > +-],
+> > +-                [g_string_new ("foo");],
+> > +-                [gl_cv_libglib=yes
+> > +-                 gl_cv_LIBGLIB="$LIBGLIB_2_0"
+> > +-                 gl_cv_LTLIBGLIB="$LTLIBGLIB_2_0"
+> > +-                 gl_cv_INCGLIB="-I$LIBGLIB_2_0_PREFIX/include/glib-2.0
+> -I$LIBGLIB_2_0_PREFIX/$acl_libdirstem/glib-2.0/include"
+> > +-                ])
+> > +-            fi
+> > +-          fi
+> > +-          CPPFLAGS="$gl_save_CPPFLAGS"
+> > +-        fi
+> > +-        LIBS="$gl_save_LIBS"
+> > +-      ])
+> > +-      AC_MSG_CHECKING([for glib])
+> > +-      AC_MSG_RESULT([$gl_cv_libglib])
+> > +-      if test $gl_cv_libglib = yes; then
+> > +-        LIBGLIB="$gl_cv_LIBGLIB"
+> > +-        LTLIBGLIB="$gl_cv_LTLIBGLIB"
+> > +-        INCGLIB="$gl_cv_INCGLIB"
+> > +-      else
+> > +-        gl_cv_libglib_use_included=yes
+> > +-      fi
+> > +-    fi
+> > +-  ])
+> > ++  if test "$gl_cv_libglib_use_included" != yes; then
+> > ++    PKG_CHECK_MODULES([GLIB], [glib-2.0])
+> > ++    LIBGLIB="$GLIB_LIBS"
+> > ++    LTLIBGLIB="$GLIB_LIBS"
+> > ++    INCGLIB="$GLIB_CFLAGS"
+> > ++  fi
+> > +   AC_SUBST([LIBGLIB])
+> > +   AC_SUBST([LTLIBGLIB])
+> > +   AC_SUBST([INCGLIB])
+> > +diff --git a/libtextstyle/gnulib-m4/libcroco.m4
+> b/libtextstyle/gnulib-m4/libcroco.m4
+> > +index bc53cc6..10b2455 100644
+> > +--- a/libtextstyle/gnulib-m4/libcroco.m4
+> > ++++ b/libtextstyle/gnulib-m4/libcroco.m4
+> > +@@ -1,99 +1,34 @@
+> > +-# libcroco.m4 serial 3
+> > +-dnl Copyright (C) 2006-2007, 2019 Free Software Foundation, Inc.
+> > ++# libcroco.m4 serial 2 (gettext-0.17)
+> > ++dnl Copyright (C) 2006, 2015-2016 Free Software Foundation, Inc.
+> > + dnl This file is free software; the Free Software Foundation
+> > + dnl gives unlimited permission to copy and/or distribute it,
+> > + dnl with or without modifications, as long as this notice is preserved.
+> > +
+> > + dnl From Bruno Haible.
+> > +
+> > +-dnl gl_LIBCROCO
+> > +-dnl   gives the user the option to decide whether to use the included
+> or
+> > +-dnl   an external libcroco.
+> > +-dnl gl_LIBCROCO(FORCE-INCLUDED)
+> > +-dnl   forces the use of the included or an external libcroco.
+> > + AC_DEFUN([gl_LIBCROCO],
+> > + [
+> > +-  ifelse([$1], [yes], , [
+> > +-    dnl libcroco depends on libglib.
+> > +-    AC_REQUIRE([gl_LIBGLIB])
+> > +-  ])
+> > ++  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+> > ++  dnl libcroco depends on libglib.
+> > ++  AC_REQUIRE([gl_LIBGLIB])
+> > +
+> > +-  ifelse([$1], , [
+> > +-    AC_MSG_CHECKING([whether included libcroco is requested])
+> > +-    AC_ARG_WITH([included-libcroco],
+> > +-      [  --with-included-libcroco  use the libcroco included here],
+> > +-      [gl_cv_libcroco_force_included=$withval],
+> > +-      [gl_cv_libcroco_force_included=no])
+> > +-    AC_MSG_RESULT([$gl_cv_libcroco_force_included])
+> > +-  ], [gl_cv_libcroco_force_included=$1])
+> > ++  AC_MSG_CHECKING([whether included libcroco is requested])
+> > ++  AC_ARG_WITH([included-libcroco],
+> > ++    [  --with-included-libcroco  use the libcroco included here],
+> > ++    [gl_cv_libcroco_force_included=$withval],
+> > ++    [gl_cv_libcroco_force_included=no])
+> > ++  AC_MSG_RESULT([$gl_cv_libcroco_force_included])
+> > +
+> > +   gl_cv_libcroco_use_included="$gl_cv_libcroco_force_included"
+> > +   LIBCROCO=
+> > +   LTLIBCROCO=
+> > +   INCCROCO=
+> > +-  ifelse([$1], [yes], , [
+> > +-    if test "$gl_cv_libcroco_use_included" != yes; then
+> > +-      dnl Figure out whether we can use a preinstalled libcroco-0.6,
+> or have to
+> > +-      dnl use the included one.
+> > +-      AC_CACHE_VAL([gl_cv_libcroco], [
+> > +-        gl_cv_libcroco=no
+> > +-        gl_cv_LIBCROCO=
+> > +-        gl_cv_LTLIBCROCO=
+> > +-        gl_cv_INCCROCO=
+> > +-        gl_save_LIBS="$LIBS"
+> > +-        dnl Search for libcroco and define LIBCROCO_0_6,
+> LTLIBCROCO_0_6 and
+> > +-        dnl INCCROCO_0_6 accordingly.
+> > +-        dnl Don't use croco-0.6-config nor pkg-config, since it
+> doesn't work when
+> > +-        dnl cross-compiling or when the C compiler in use is different
+> from the
+> > +-        dnl one that built the library.
+> > +-        AC_LIB_LINKFLAGS_BODY([croco-0.6], [glib-2.0])
+> > +-        LIBS="$gl_save_LIBS $LIBCROCO_0_6"
+> > +-        AC_TRY_LINK([#include <libcroco-config.h>],
+> > +-          [const char *version = LIBCROCO_VERSION; return !version;],
+> > +-          [gl_cv_libcroco=yes
+> > +-           gl_cv_LIBCROCO="$LIBCROCO_0_6"
+> > +-           gl_cv_LTLIBCROCO="$LTLIBCROCO_0_6"
+> > +-          ])
+> > +-        if test "$gl_cv_libcroco" != yes; then
+> > +-          gl_save_CPPFLAGS="$CPPFLAGS"
+> > +-          CPPFLAGS="$CPPFLAGS $INCCROCO_0_6"
+> > +-          AC_TRY_LINK([#include <libcroco-config.h>],
+> > +-            [const char *version = LIBCROCO_VERSION; return !version;],
+> > +-            [gl_cv_libcroco=yes
+> > +-             gl_cv_LIBCROCO="$LIBCROCO_0_6"
+> > +-             gl_cv_LTLIBCROCO="$LTLIBCROCO_0_6"
+> > +-             gl_cv_INCCROCO="$INCCROCO_0_6"
+> > +-            ])
+> > +-          if test "$gl_cv_libcroco" != yes; then
+> > +-            dnl Often the include files are installed in
+> > +-            dnl /usr/include/libcroco-0.6/libcroco.
+> > +-            AC_TRY_LINK([#include
+> <libcroco-0.6/libcroco/libcroco-config.h>],
+> > +-              [const char *version = LIBCROCO_VERSION; return
+> !version;],
+> > +-
+> [gl_ABSOLUTE_HEADER([libcroco-0.6/libcroco/libcroco-config.h])
+> > +-               libcroco_include_dir=`echo
+> "$gl_cv_absolute_libcroco_0_6_libcroco_libcroco_config_h" | sed -e
+> 's,.libcroco-config\.h$,,'`
+> > +-               if test -d "$libcroco_include_dir"; then
+> > +-                 gl_cv_libcroco=yes
+> > +-                 gl_cv_LIBCROCO="$LIBCROCO_0_6"
+> > +-                 gl_cv_LTLIBCROCO="$LTLIBCROCO_0_6"
+> > +-                 gl_cv_INCCROCO="-I$libcroco_include_dir"
+> > +-               fi
+> > +-              ])
+> > +-          fi
+> > +-          CPPFLAGS="$gl_save_CPPFLAGS"
+> > +-        fi
+> > +-        LIBS="$gl_save_LIBS"
+> > +-      ])
+> > +-      AC_MSG_CHECKING([for libcroco])
+> > +-      AC_MSG_RESULT([$gl_cv_libcroco])
+> > +-      if test $gl_cv_libcroco = yes; then
+> > +-        LIBCROCO="$gl_cv_LIBCROCO"
+> > +-        LTLIBCROCO="$gl_cv_LTLIBCROCO"
+> > +-        INCCROCO="$gl_cv_INCCROCO"
+> > +-      else
+> > +-        gl_cv_libcroco_use_included=yes
+> > +-      fi
+> > +-    fi
+> > +-  ])
+> > ++  if test "$gl_cv_libcroco_use_included" != yes; then
+> > ++    PKG_CHECK_MODULES([CROCO], [libcroco-0.6])
+> > ++    LIBCROCO=$CROCO_LIBS
+> > ++    LTLIBCROCO=$CROCO_LIBS
+> > ++    INCCROCO=$CROCO_CFLAGS
+> > ++  fi
+> > +   AC_SUBST([LIBCROCO])
+> > +   AC_SUBST([LTLIBCROCO])
+> > +   AC_SUBST([INCCROCO])
+> > +diff --git a/libtextstyle/gnulib-m4/libglib.m4
+> b/libtextstyle/gnulib-m4/libglib.m4
+> > +index bef6fa3..8841755 100644
+> > +--- a/libtextstyle/gnulib-m4/libglib.m4
+> > ++++ b/libtextstyle/gnulib-m4/libglib.m4
+> > +@@ -1,105 +1,31 @@
+> > +-# libglib.m4 serial 4
+> > +-dnl Copyright (C) 2006-2007, 2019 Free Software Foundation, Inc.
+> > ++# libglib.m4 serial 3 (gettext-0.17)
+> > ++dnl Copyright (C) 2006-2007, 2015-2016 Free Software Foundation, Inc.
+> > + dnl This file is free software; the Free Software Foundation
+> > + dnl gives unlimited permission to copy and/or distribute it,
+> > + dnl with or without modifications, as long as this notice is preserved.
+> > +
+> > + dnl From Bruno Haible.
+> > +
+> > +-dnl gl_LIBGLIB
+> > +-dnl   gives the user the option to decide whether to use the included
+> or
+> > +-dnl   an external libglib.
+> > +-dnl gl_LIBGLIB(FORCE-INCLUDED)
+> > +-dnl   forces the use of the included or an external libglib.
+> > + AC_DEFUN([gl_LIBGLIB],
+> > + [
+> > +-  ifelse([$1], , [
+> > +-    AC_MSG_CHECKING([whether included glib is requested])
+> > +-    AC_ARG_WITH([included-glib],
+> > +-      [  --with-included-glib    use the glib2 included here],
+> > +-      [gl_cv_libglib_force_included=$withval],
+> > +-      [gl_cv_libglib_force_included=no])
+> > +-    AC_MSG_RESULT([$gl_cv_libglib_force_included])
+> > +-  ], [gl_cv_libglib_force_included=$1])
+> > ++  AC_REQUIRE([PKG_PROG_PKG_CONFIG])
+> > ++  AC_MSG_CHECKING([whether included glib is requested])
+> > ++  AC_ARG_WITH([included-glib],
+> > ++    [  --with-included-glib    use the glib2 included here],
+> > ++    [gl_cv_libglib_force_included=$withval],
+> > ++    [gl_cv_libglib_force_included=no])
+> > ++  AC_MSG_RESULT([$gl_cv_libglib_force_included])
+> > +
+> > +   gl_cv_libglib_use_included="$gl_cv_libglib_force_included"
+> > +   LIBGLIB=
+> > +   LTLIBGLIB=
+> > +   INCGLIB=
+> > +-  ifelse([$1], [yes], , [
+> > +-    if test "$gl_cv_libglib_use_included" != yes; then
+> > +-      dnl Figure out whether we can use a preinstalled libglib-2.0, or
+> have to use
+> > +-      dnl the included one.
+> > +-      AC_CACHE_VAL([gl_cv_libglib], [
+> > +-        gl_cv_libglib=no
+> > +-        gl_cv_LIBGLIB=
+> > +-        gl_cv_LTLIBGLIB=
+> > +-        gl_cv_INCGLIB=
+> > +-        gl_save_LIBS="$LIBS"
+> > +-        dnl Search for libglib2 and define LIBGLIB_2_0, LTLIBGLIB_2_0
+> and
+> > +-        dnl INCGLIB_2_0 accordingly.
+> > +-        dnl Don't use glib-config nor pkg-config, since it doesn't
+> work when
+> > +-        dnl cross-compiling or when the C compiler in use is different
+> from the
+> > +-        dnl one that built the library.
+> > +-        AC_LIB_LINKFLAGS_BODY([glib-2.0])
+> > +-        LIBS="$gl_save_LIBS $LIBGLIB_2_0"
+> > +-        AC_TRY_LINK([#include <glib.h>
+> > +-#ifndef G_BEGIN_DECLS
+> > +-error this glib.h includes a glibconfig.h from a glib version 1.x
+> > +-#endif
+> > +-],
+> > +-          [g_string_new ("foo");],
+> > +-          [gl_cv_libglib=yes
+> > +-           gl_cv_LIBGLIB="$LIBGLIB_2_0"
+> > +-           gl_cv_LTLIBGLIB="$LTLIBGLIB_2_0"
+> > +-          ])
+> > +-        if test "$gl_cv_libglib" != yes; then
+> > +-          gl_save_CPPFLAGS="$CPPFLAGS"
+> > +-          CPPFLAGS="$CPPFLAGS $INCGLIB_2_0"
+> > +-          AC_TRY_LINK([#include <glib.h>
+> > +-#ifndef G_BEGIN_DECLS
+> > +-error this glib.h includes a glibconfig.h from a glib version 1.x
+> > +-#endif
+> > +-],
+> > +-            [g_string_new ("foo");],
+> > +-            [gl_cv_libglib=yes
+> > +-             gl_cv_LIBGLIB="$LIBGLIB_2_0"
+> > +-             gl_cv_LTLIBGLIB="$LTLIBGLIB_2_0"
+> > +-             gl_cv_INCGLIB="$INCGLIB_2_0"
+> > +-            ])
+> > +-          if test "$gl_cv_libglib" != yes; then
+> > +-            dnl Often the include files are installed in
+> /usr/include/glib-2.0
+> > +-            dnl and /usr/lib/glib-2.0/include.
+> > +-            if test -n "$LIBGLIB_2_0_PREFIX"; then
+> > +-              CPPFLAGS="$gl_save_CPPFLAGS
+> -I$LIBGLIB_2_0_PREFIX/include/glib-2.0
+> -I$LIBGLIB_2_0_PREFIX/$acl_libdirstem/glib-2.0/include"
+> > +-              AC_TRY_LINK([#include <glib.h>
+> > +-#ifndef G_BEGIN_DECLS
+> > +-error this glib.h includes a glibconfig.h from a glib version 1.x
+> > +-#endif
+> > +-],
+> > +-                [g_string_new ("foo");],
+> > +-                [gl_cv_libglib=yes
+> > +-                 gl_cv_LIBGLIB="$LIBGLIB_2_0"
+> > +-                 gl_cv_LTLIBGLIB="$LTLIBGLIB_2_0"
+> > +-                 gl_cv_INCGLIB="-I$LIBGLIB_2_0_PREFIX/include/glib-2.0
+> -I$LIBGLIB_2_0_PREFIX/$acl_libdirstem/glib-2.0/include"
+> > +-                ])
+> > +-            fi
+> > +-          fi
+> > +-          CPPFLAGS="$gl_save_CPPFLAGS"
+> > +-        fi
+> > +-        LIBS="$gl_save_LIBS"
+> > +-      ])
+> > +-      AC_MSG_CHECKING([for glib])
+> > +-      AC_MSG_RESULT([$gl_cv_libglib])
+> > +-      if test $gl_cv_libglib = yes; then
+> > +-        LIBGLIB="$gl_cv_LIBGLIB"
+> > +-        LTLIBGLIB="$gl_cv_LTLIBGLIB"
+> > +-        INCGLIB="$gl_cv_INCGLIB"
+> > +-      else
+> > +-        gl_cv_libglib_use_included=yes
+> > +-      fi
+> > +-    fi
+> > +-  ])
+> > ++  if test "$gl_cv_libglib_use_included" != yes; then
+> > ++    PKG_CHECK_MODULES([GLIB], [glib-2.0])
+> > ++    LIBGLIB="$GLIB_LIBS"
+> > ++    LTLIBGLIB="$GLIB_LIBS"
+> > ++    INCGLIB="$GLIB_CFLAGS"
+> > ++  fi
+> > +   AC_SUBST([LIBGLIB])
+> > +   AC_SUBST([LTLIBGLIB])
+> > +   AC_SUBST([INCGLIB])
+> > +diff --git a/libtextstyle/lib/term-styled-ostream.c
+> b/libtextstyle/lib/term-styled-ostream.c
+> > +index 3675b5f..811e546 100644
+> > +--- a/libtextstyle/lib/term-styled-ostream.c
+> > ++++ b/libtextstyle/lib/term-styled-ostream.c
+> > +@@ -28,15 +28,15 @@
+> > +
+> > + #include <stdlib.h>
+> > +
+> > +-#include <cr-om-parser.h>
+> > +-#include <cr-sel-eng.h>
+> > +-#include <cr-style.h>
+> > +-#include <cr-rgb.h>
+> > ++#include <libcroco/cr-om-parser.h>
+> > ++#include <libcroco/cr-sel-eng.h>
+> > ++#include <libcroco/cr-style.h>
+> > ++#include <libcroco/cr-rgb.h>
+> > + /* <cr-fonts.h> has a broken double-inclusion guard in
+> libcroco-0.6.1.  */
+> > + #ifndef __CR_FONTS_H__
+> > +-# include <cr-fonts.h>
+> > ++# include <libcroco/cr-fonts.h>
+> > + #endif
+> > +-#include <cr-string.h>
+> > ++#include <libcroco/cr-string.h>
+> > +
+> > + #include "term-ostream.h"
+> > + #include "hash.h"
+> > +diff --git a/libtextstyle/lib/term-styled-ostream.oo.c
+> b/libtextstyle/lib/term-styled-ostream.oo.c
+> > +index 2cfd4a8..d42c8b4 100644
+> > +--- a/libtextstyle/lib/term-styled-ostream.oo.c
+> > ++++ b/libtextstyle/lib/term-styled-ostream.oo.c
+> > +@@ -22,15 +22,15 @@
+> > +
+> > + #include <stdlib.h>
+> > +
+> > +-#include <cr-om-parser.h>
+> > +-#include <cr-sel-eng.h>
+> > +-#include <cr-style.h>
+> > +-#include <cr-rgb.h>
+> > ++#include <libcroco/cr-om-parser.h>
+> > ++#include <libcroco/cr-sel-eng.h>
+> > ++#include <libcroco/cr-style.h>
+> > ++#include <libcroco/cr-rgb.h>
+> > + /* <cr-fonts.h> has a broken double-inclusion guard in
+> libcroco-0.6.1.  */
+> > + #ifndef __CR_FONTS_H__
+> > +-# include <cr-fonts.h>
+> > ++# include <libcroco/cr-fonts.h>
+> > + #endif
+> > +-#include <cr-string.h>
+> > ++#include <libcroco/cr-string.h>
+> > +
+> > + #include "term-ostream.h"
+> > + #include "hash.h"
+> > diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+> b/meta/recipes-core/gettext/gettext_0.20.1.bb
+> > similarity index 94%
+> > rename from meta/recipes-core/gettext/gettext_0.19.8.1.bb
+> > rename to meta/recipes-core/gettext/gettext_0.20.1.bb
+> > index 30121ad23e1..fc05ef2e0a3 100644
+> > --- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+> > +++ b/meta/recipes-core/gettext/gettext_0.20.1.bb
+> > @@ -6,7 +6,7 @@ a few stand-alone programs to massage in various ways
+> the sets of translatable a
+> >  HOMEPAGE = "http://www.gnu.org/software/gettext/gettext.html"
+> >  SECTION = "libs"
+> >  LICENSE = "GPLv3+ & LGPL-2.1+"
+> > -LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+> > +LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
 > >
-> >  PE = "1"
-> > -SRCREV = "4a9440006398646583f0d9ae1837dad2875013aa"
-> > +SRCREV = "ab2179452c5be276a6b96c591afded485c7e58c3"
+> >  # Because po-gram-gen.y has been modified by fix-CVE-2018-18751.patch,
+> >  # it requires yacc which provided by bison-native
+> > @@ -17,17 +17,16 @@ PROVIDES = "virtual/libintl virtual/gettext"
+> >  PROVIDES_class-native = "virtual/gettext-native"
+> >  RCONFLICTS_${PN} = "proxy-libintl"
+> >  SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+> > -        file://parallel.patch \
+> > -        file://add-with-bisonlocaledir.patch \
+> > -        file://cr-statement.c-timsort.h-fix-formatting-issues.patch \
+> > -        file://use-pkgconfig.patch \
+> > -        file://fix-CVE-2018-18751.patch \
+> > -        file://run-ptest \
+> > -        file://serial-tests-config.patch \
+> > -"
+> > +           file://parallel.patch \
+> > +           file://add-with-bisonlocaledir.patch \
+> > +           file://cr-statement.c-timsort.h-fix-formatting-issues.patch \
+> > +           file://use-pkgconfig.patch \
+> > +           file://run-ptest \
+> > +           file://serial-tests-config.patch \
+> > +           "
 > >
-> >  S = "${WORKDIR}/git"
+> > -SRC_URI[md5sum] = "97e034cf8ce5ba73a28ff6c3c0638092"
+> > -SRC_URI[sha256sum] =
+> "ff942af0e438ced4a8b0ea4b0b6e0d6d657157c5e2364de57baa279c1c125c43"
+> > +SRC_URI[md5sum] = "bb5b0c0caa028105f3ca1905ddc306e2"
+> > +SRC_URI[sha256sum] =
+> "66415634c6e8c3fa8b71362879ec7575e27da43da562c798a8a2f223e6e47f5c"
 > >
-> > @@ -59,7 +55,7 @@ export PYTHON_ABI
-> >  EXTRA_AUTORECONF_append = " --exclude=gnu-configize"
+> >  inherit autotools texinfo pkgconfig ptest
 > >
-> >  EXTRA_OECONF_append = " --without-lua --enable-python"
-> > -EXTRA_OECONF_append_libc-musl = " --disable-nls"
-> > +EXTRA_OECONF_append_libc-musl = " --disable-nls --disable-openmp"
+> > @@ -127,7 +126,7 @@ do_install_append_class-native () {
+> >       rm ${D}${datadir}/gettext/po/remove-potcdate.sin
 > >
-> >  # --sysconfdir prevents rpm from attempting to access machine-specific
-> configuration in sysroot/etc; we need to have it in rootfs
-> >  #
-> > @@ -125,8 +121,7 @@ do_install_append () {
-> >           ${D}/${libdir}/rpm/macros
+> >          create_wrapper ${D}${bindir}/msgfmt \
+> > -
+> GETTEXTDATADIR="${STAGING_DATADIR_NATIVE}/gettext-0.19.8/"
+> > +                GETTEXTDATADIR="${STAGING_DATADIR_NATIVE}/gettext-0.20/"
 > >
-> >       sed -i -e 's|/usr/bin/python|${USRBINPATH}/env ${PYTHON_PN}|' \
-> > -         ${D}${libdir}/rpm/pythondistdeps.py \
-> > -         ${D}${libdir}/rpm/python-macro-helper
-> > +         ${D}${libdir}/rpm/pythondistdeps.py
 > >  }
 > >
-> >  FILES_${PN} += "${libdir}/rpm-plugins/*.so \
 >
 >
 
---000000000000f1058e05986b6e99
+--000000000000065e4b05986bb464
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>I believe RP has a patch queued in master-next for th=
-is.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, 28 Nov 2019 at 16:22, ak=
-uster808 &lt;<a href=3D"mailto:akuster808@gmail.com">akuster808@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><b=
-r>
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 28 Nov 2019 at 16:19, akuster808 =
+&lt;<a href=3D"mailto:akuster808@gmail.com" target=3D"_blank">akuster808@gm=
+ail.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid r=
+gb(204,204,204);padding-left:1ex"><br>
 <br>
 On 11/27/19 8:39 AM, Alexander Kanavin wrote:<br>
-&gt; Drop patches that were merged upstream.<br>
-&gt;<br>
-&gt; 0001-mono-find-provides-requires-do-not-use-monodis-from-.patch<br>
-&gt; modifies a file that was removed upstream.<br>
-&gt;<br>
-&gt; Add a 0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch<br=
->
-&gt; as unfortunately the new parallel file classification feature from<br>
-&gt; upstream trips over somewhere in libmagic when inspected files are<br>
-&gt; compressed:<br>
-&gt; <a href=3D"https://github.com/rpm-software-management/rpm/issues/756" =
-rel=3D"noreferrer" target=3D"_blank">https://github.com/rpm-software-manage=
-ment/rpm/issues/756</a><br>
-<br>
-Failed on ab selftest<br>
-<br>
-<a href=3D"https://errors.yoctoproject.org/Errors/Details/288828/" rel=3D"n=
-oreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/Details=
-/288828/</a><br>
-&gt;<br>
+&gt; License-Update: URLs changed from http to https<br>
 &gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
 ail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 ...satisfiable-dependency-when-building.patch |=C2=A0 28 +-<br>
-&gt;=C2=A0 ...lib-rpm-as-the-installation-path-for.patch |=C2=A0 14 +-<br>
-&gt;=C2=A0 ...kage-building-into-a-separate-functi.patch |=C2=A0 84 -----<b=
-r>
-&gt;=C2=A0 ...es-requires-do-not-use-monodis-from-.patch |=C2=A0 58 ---<br>
-&gt;=C2=A0 ...-run-file-classification-in-parallel.patch |=C2=A0 65 ++++<br=
+<br>
+This failed on the AB<br>
+<br>
+<a href=3D"https://errors.yoctoproject.org/Errors/Details/288797/" rel=3D"n=
+oreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/Details=
+/288797/</a><br></blockquote><div><br></div><div>Weird this didn&#39;t fail=
+ locally for my world builds, I queued a patch to fix this.<br></div><div><=
+br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
 >
-&gt;=C2=A0 ...ry-package-creation-via-thread-pools.patch | 127 -------<br>
-&gt;=C2=A0 ...e-operations-over-string-pools-threa.patch | 207 -----------<=
-br>
-&gt;=C2=A0 ...ove-static-local-variables-from-buil.patch | 336 ------------=
-------<br>
-&gt;=C2=A0 .../rpm/{<a href=3D"http://rpm_4.14.2.1.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">rpm_4.14.2.1.bb</a> =3D&gt; <a href=3D"http://rpm_4.15.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">rpm_4.15.1.bb</a>}=C2=A0 =C2=A0 |=
-=C2=A0 15 +-<br>
-&gt;=C2=A0 9 files changed, 90 insertions(+), 844 deletions(-)<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/rpm/files/0001-Split-bi=
-nary-package-building-into-a-separate-functi.patch<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/rpm/files/0001-mono-fin=
-d-provides-requires-do-not-use-monodis-from-.patch<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-devtools/rpm/files/0001-rpmfc.c-=
-do-not-run-file-classification-in-parallel.patch<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/rpm/files/0002-Run-bina=
-ry-package-creation-via-thread-pools.patch<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/rpm/files/0003-rpmstrpo=
-ol.c-make-operations-over-string-pools-threa.patch<br>
-&gt;=C2=A0 delete mode 100644 meta/recipes-devtools/rpm/files/0004-build-pa=
-ck.c-remove-static-local-variables-from-buil.patch<br>
-&gt;=C2=A0 rename meta/recipes-devtools/rpm/{<a href=3D"http://rpm_4.14.2.1=
-.bb" rel=3D"noreferrer" target=3D"_blank">rpm_4.14.2.1.bb</a> =3D&gt; <a hr=
-ef=3D"http://rpm_4.15.1.bb" rel=3D"noreferrer" target=3D"_blank">rpm_4.15.1=
-.bb</a>} (90%)<br>
+an for meta-mingw bbappend.<br>
+<br>
+<a href=3D"https://errors.yoctoproject.org/Errors/Details/284185/" rel=3D"n=
+oreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/Details=
+/284185/</a><br></blockquote><div><br></div><div>Patch sent.<br></div><div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+&gt; ---<br>
+&gt;=C2=A0 .../gettext-0.19.8.1/fix-CVE-2018-18751.patch | 141 ----<br>
+&gt;=C2=A0 .../gettext/gettext-0.19.8.1/parallel.patch=C2=A0 =C2=A0|=C2=A0 =
+23 -<br>
+&gt;=C2=A0 .../gettext-0.19.8.1/use-pkgconfig.patch=C2=A0 =C2=A0 =C2=A0 | 3=
+21 --------<br>
+&gt;=C2=A0 .../add-with-bisonlocaledir.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A00<br>
+&gt;=C2=A0 ...nt.c-timsort.h-fix-formatting-issues.patch |=C2=A0 30 +-<br>
+&gt;=C2=A0 .../gettext/gettext-0.20.1/parallel.patch=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 32 +<br>
+&gt;=C2=A0 .../run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 =C2=A00<br>
+&gt;=C2=A0 .../serial-tests-config.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 26 +-<br>
+&gt;=C2=A0 .../gettext-0.20.1/use-pkgconfig.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 713 ++++++++++++++++++<br>
+&gt;=C2=A0 ...{<a href=3D"http://gettext_0.19.8.1.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">gettext_0.19.8.1.bb</a> =3D&gt; <a href=3D"http://gettext_0=
+.20.1.bb" rel=3D"noreferrer" target=3D"_blank">gettext_0.20.1.bb</a>} |=C2=
+=A0 23 +-<br>
+&gt;=C2=A0 10 files changed, 775 insertions(+), 534 deletions(-)<br>
+&gt;=C2=A0 delete mode 100644 meta/recipes-core/gettext/gettext-0.19.8.1/fi=
+x-CVE-2018-18751.patch<br>
+&gt;=C2=A0 delete mode 100644 meta/recipes-core/gettext/gettext-0.19.8.1/pa=
+rallel.patch<br>
+&gt;=C2=A0 delete mode 100644 meta/recipes-core/gettext/gettext-0.19.8.1/us=
+e-pkgconfig.patch<br>
+&gt;=C2=A0 rename meta/recipes-core/gettext/{gettext-0.19.8.1 =3D&gt; gette=
+xt-0.20.1}/add-with-bisonlocaledir.patch (100%)<br>
+&gt;=C2=A0 rename meta/recipes-core/gettext/{gettext-0.19.8.1 =3D&gt; gette=
+xt-0.20.1}/cr-statement.c-timsort.h-fix-formatting-issues.patch (68%)<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-core/gettext/gettext-0.20.1/para=
+llel.patch<br>
+&gt;=C2=A0 rename meta/recipes-core/gettext/{gettext-0.19.8.1 =3D&gt; gette=
+xt-0.20.1}/run-ptest (100%)<br>
+&gt;=C2=A0 rename meta/recipes-core/gettext/{gettext-0.19.8.1 =3D&gt; gette=
+xt-0.20.1}/serial-tests-config.patch (75%)<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-core/gettext/gettext-0.20.1/use-=
+pkgconfig.patch<br>
+&gt;=C2=A0 rename meta/recipes-core/gettext/{<a href=3D"http://gettext_0.19=
+.8.1.bb" rel=3D"noreferrer" target=3D"_blank">gettext_0.19.8.1.bb</a> =3D&g=
+t; <a href=3D"http://gettext_0.20.1.bb" rel=3D"noreferrer" target=3D"_blank=
+">gettext_0.20.1.bb</a>} (94%)<br>
 &gt;<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsati=
-sfiable-dependency-when-building.patch b/meta/recipes-devtools/rpm/files/00=
-01-Do-not-add-an-unsatisfiable-dependency-when-building.patch<br>
-&gt; index 80e2f0fad70..4029233fb70 100644<br>
-&gt; --- a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable=
--dependency-when-building.patch<br>
-&gt; +++ b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable=
--dependency-when-building.patch<br>
+&gt; diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-1=
+8751.patch b/meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.=
+patch<br>
+&gt; deleted file mode 100644<br>
+&gt; index 6dfe200d654..00000000000<br>
+&gt; --- a/meta/recipes-core/gettext/gettext-0.19.8.1/fix-CVE-2018-18751.pa=
+tch<br>
+&gt; +++ /dev/null<br>
+&gt; @@ -1,141 +0,0 @@<br>
+&gt; -Upstream-Status: Backport [<a href=3D"https://git.savannah.gnu.org/gi=
+tweb/?p=3Dgettext.git;a=3Dcommit;h=3Ddce3a16" rel=3D"noreferrer" target=3D"=
+_blank">https://git.savannah.gnu.org/gitweb/?p=3Dgettext.git;a=3Dcommit;h=
+=3Ddce3a16</a>]<br>
+&gt; -CVE: CVE-2018-18751<br>
+&gt; -<br>
+&gt; -Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver.com"=
+ target=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
+&gt; -<br>
+&gt; -From dce3a16e5e9368245735e29bf498dcd5e3e474a4 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; -From: Daiki Ueno &lt;<a href=3D"mailto:ueno@gnu.org" target=3D"_blank=
+">ueno@gnu.org</a>&gt;<br>
+&gt; -Date: Thu, 15 Sep 2016 13:57:24 +0200<br>
+&gt; -Subject: [PATCH] xgettext: Fix crash with *.po file input<br>
+&gt; -<br>
+&gt; -When xgettext was given two *.po files with the same msgid_plural, it=
+<br>
+&gt; -crashed with double-free.=C2=A0 Problem reported by Davlet Panech in:=
+<br>
+&gt; -<a href=3D"http://lists.gnu.org/archive/html/bug-gettext/2016-09/msg0=
+0001.html" rel=3D"noreferrer" target=3D"_blank">http://lists.gnu.org/archiv=
+e/html/bug-gettext/2016-09/msg00001.html</a><br>
+&gt; -* gettext-tools/src/po-gram-gen.y: Don&#39;t free msgid_pluralform af=
+ter<br>
+&gt; -calling do_callback_message, assuming that it takes ownership.<br>
+&gt; -* gettext-tools/src/read-catalog.c (default_add_message): Free<br>
+&gt; -msgid_plural after calling message_alloc.<br>
+&gt; -* gettext-tools/tests/xgettext-po-2: New file.<br>
+&gt; -* gettext-tools/tests/Makefile.am (TESTS): Add new test.<br>
+&gt; ----<br>
+&gt; - gettext-tools/src/po-gram-gen.y=C2=A0 =C2=A0| 13 ++++-----<br>
+&gt; - gettext-tools/src/read-catalog.c=C2=A0 |=C2=A0 2 ++<br>
+&gt; - gettext-tools/tests/Makefile.am=C2=A0 =C2=A0|=C2=A0 2 +-<br>
+&gt; - gettext-tools/tests/xgettext-po-2 | 55 +++++++++++++++++++++++++++++=
+++++++++++<br>
+&gt; - 4 files changed, 63 insertions(+), 9 deletions(-)<br>
+&gt; - create mode 100755 gettext-tools/tests/xgettext-po-2<br>
+&gt; -<br>
+&gt; -diff --git a/gettext-tools/src/po-gram-gen.y b/gettext-tools/src/po-g=
+ram-gen.y<br>
+&gt; -index becf5e6..4428e77 100644<br>
+&gt; ---- a/gettext-tools/src/po-gram-gen.y<br>
+&gt; -+++ b/gettext-tools/src/po-gram-gen.y<br>
+&gt; -@@ -221,14 +221,11 @@ message<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+check_obsolete ($1, $3);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+check_obsolete ($1, $4);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+if (!$1.obsolete || pass_obsolete_entries)<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 {<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 do_callback_message ($1.ctxt, string2, &amp;$1.pos, $3.string,<b=
+r>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0$4.rhs.msgstr, $4.rhs.msgstr_len, &amp;$4.pos,<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0$1.prev_ctxt,<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0$1.prev_id, $1.prev_id_plural,<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0$1.obsolete);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 free ($3.string);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 }<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 do_callback_message ($1.ctxt, string2, &amp;$1.pos, $3.string,<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0$4.rhs.msgstr, $4.rhs.msgstr_len, &amp;$4.pos,<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0$1.prev_ctxt,<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0$1.prev_id, $1.prev_id_plural,<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0$1.obsolete);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+else<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0{<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0free_message_intro ($1);<br>
+&gt; -diff --git a/gettext-tools/src/read-catalog.c b/gettext-tools/src/rea=
+d-catalog.c<br>
+&gt; -index 571d18e..6af6d20 100644<br>
+&gt; ---- a/gettext-tools/src/read-catalog.c<br>
+&gt; -+++ b/gettext-tools/src/read-catalog.c<br>
+&gt; -@@ -397,6 +397,8 @@ default_add_message (default_catalog_reader_ty *t=
+his,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 appropriate.=C2=A0 */<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0mp =3D message_alloc (msgctxt, msgid, msgi=
+d_plural, msgstr, msgstr_len,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0msgstr_pos);<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 if (msgid_plural !=3D NULL)<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 free (msgid_plural);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0mp-&gt;prev_msgctxt =3D prev_msgctxt;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0mp-&gt;prev_msgid =3D prev_msgid;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0mp-&gt;prev_msgid_plural =3D prev_msgid_pl=
+ural;<br>
+&gt; -diff --git a/gettext-tools/tests/Makefile.am b/gettext-tools/tests/Ma=
+kefile.am<br>
+&gt; -index 23b09b1..0dfb4d8 100644<br>
+&gt; ---- a/gettext-tools/tests/Makefile.am<br>
+&gt; -+++ b/gettext-tools/tests/Makefile.am<br>
+&gt; -@@ -95,7 +95,7 @@ TESTS =3D gettext-1 gettext-2 gettext-3 gettext-4 g=
+ettext-5 gettext-6 gettext-7 \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0xgettext-perl-1 xgettext-perl-2 xgettext-perl-3 x=
+gettext-perl-4 \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0xgettext-perl-5 xgettext-perl-6 xgettext-perl-7 x=
+gettext-perl-8 \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0xgettext-php-1 xgettext-php-2 xgettext-php-3 xget=
+text-php-4 \<br>
+&gt; --=C2=A0 =C2=A0 xgettext-po-1 \<br>
+&gt; -+=C2=A0 =C2=A0 xgettext-po-1 xgettext-po-2 \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0xgettext-properties-1 \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0xgettext-python-1 xgettext-python-2 xgettext-pyth=
+on-3 \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0xgettext-python-4 \<br>
+&gt; -diff --git a/gettext-tools/tests/xgettext-po-2 b/gettext-tools/tests/=
+xgettext-po-2<br>
+&gt; -new file mode 100755<br>
+&gt; -index 0000000..c4bd9d0<br>
+&gt; ---- /dev/null<br>
+&gt; -+++ b/gettext-tools/tests/xgettext-po-2<br>
+&gt; -@@ -0,0 +1,55 @@<br>
+&gt; -+#! /bin/sh<br>
+&gt; -+. &quot;${srcdir=3D.}/init.sh&quot;; path_prepend_ . ../src<br>
+&gt; -+<br>
+&gt; -+# Test PO extractors with multiple input files.<br>
+&gt; -+<br>
+&gt; -+cat &lt;&lt;EOF &gt; xg-po-2-1.po<br>
+&gt; -+msgid &quot;first msgid&quot;<br>
+&gt; -+msgid_plural &quot;first msgid (plural)&quot;<br>
+&gt; -+msgstr[0] &quot;&quot;<br>
+&gt; -+msgstr[1] &quot;&quot;<br>
+&gt; -+<br>
+&gt; -+msgid &quot;second msgid&quot;<br>
+&gt; -+msgid_plural &quot;second msgid (plural)&quot;<br>
+&gt; -+msgstr[0] &quot;&quot;<br>
+&gt; -+msgstr[1] &quot;&quot;<br>
+&gt; -+EOF<br>
+&gt; -+<br>
+&gt; -+cat &lt;&lt;EOF &gt; xg-po-2-2.po<br>
+&gt; -+msgid &quot;third msgid&quot;<br>
+&gt; -+msgid_plural &quot;third msgid (plural)&quot;<br>
+&gt; -+msgstr[0] &quot;&quot;<br>
+&gt; -+msgstr[1] &quot;&quot;<br>
+&gt; -+<br>
+&gt; -+msgid &quot;second msgid&quot;<br>
+&gt; -+msgid_plural &quot;second msgid (plural)&quot;<br>
+&gt; -+msgstr[0] &quot;&quot;<br>
+&gt; -+msgstr[1] &quot;&quot;<br>
+&gt; -+EOF<br>
+&gt; -+<br>
+&gt; -+: ${XGETTEXT=3Dxgettext}<br>
+&gt; -+${XGETTEXT} --omit-header xg-po-2-1.po xg-po-2-2.po -o xg-po-2.tmp.p=
+o || Exit 1<br>
+&gt; -+LC_ALL=3DC tr -d &#39;\r&#39; &lt; xg-po-2.tmp.po &gt; xg-po-2.po ||=
+ Exit 1<br>
+&gt; -+<br>
+&gt; -+cat &lt;&lt;EOF &gt; xg-po-2.ok<br>
+&gt; -+msgid &quot;first msgid&quot;<br>
+&gt; -+msgid_plural &quot;first msgid (plural)&quot;<br>
+&gt; -+msgstr[0] &quot;&quot;<br>
+&gt; -+msgstr[1] &quot;&quot;<br>
+&gt; -+<br>
+&gt; -+msgid &quot;second msgid&quot;<br>
+&gt; -+msgid_plural &quot;second msgid (plural)&quot;<br>
+&gt; -+msgstr[0] &quot;&quot;<br>
+&gt; -+msgstr[1] &quot;&quot;<br>
+&gt; -+<br>
+&gt; -+msgid &quot;third msgid&quot;<br>
+&gt; -+msgid_plural &quot;third msgid (plural)&quot;<br>
+&gt; -+msgstr[0] &quot;&quot;<br>
+&gt; -+msgstr[1] &quot;&quot;<br>
+&gt; -+EOF<br>
+&gt; -+<br>
+&gt; -+: ${DIFF=3Ddiff}<br>
+&gt; -+${DIFF} xg-po-2.ok xg-po-2.po<br>
+&gt; -+result=3D$?<br>
+&gt; -+<br>
+&gt; -+exit $result<br>
+&gt; --- <br>
+&gt; -1.9.1<br>
+&gt; -<br>
+&gt; diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/parallel.patch=
+ b/meta/recipes-core/gettext/gettext-0.19.8.1/parallel.patch<br>
+&gt; deleted file mode 100644<br>
+&gt; index c8e2c94af0e..00000000000<br>
+&gt; --- a/meta/recipes-core/gettext/gettext-0.19.8.1/parallel.patch<br>
+&gt; +++ /dev/null<br>
+&gt; @@ -1,23 +0,0 @@<br>
+&gt; -instal libgettextlib.a before removing it<br>
+&gt; -<br>
+&gt; -In a multiple job build, Makefile can simultaneously<br>
+&gt; -be installing and removing libgettextlib.a.=C2=A0 We serialize<br>
+&gt; -the operations.<br>
+&gt; -<br>
+&gt; -Upstream-Status: Pending<br>
+&gt; -<br>
+&gt; -Signed-off-by: Joe Slater &lt;<a href=3D"mailto:jslater@windriver.com=
+" target=3D"_blank">jslater@windriver.com</a>&gt;<br>
+&gt; -<br>
+&gt; ---- a/gettext-tools/gnulib-lib/Makefile.am<br>
+&gt; -+++ b/gettext-tools/gnulib-lib/Makefile.am<br>
+&gt; -@@ -57,6 +57,10 @@ endif<br>
+&gt; - # Rules generated and collected by gnulib-tool.<br>
+&gt; - include Makefile.gnulib<br>
+&gt; - <br>
+&gt; -+# defined in Makefile.gnulib but missing this dependency<br>
+&gt; -+#<br>
+&gt; -+install-exec-clean: install-libLTLIBRARIES<br>
+&gt; -+<br>
+&gt; - # Which classes to export from the shared library.<br>
+&gt; - MOOPPFLAGS +=3D --dllexport=3Dstyled_ostream<br>
+&gt; - <br>
+&gt; diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/use-pkgconfig.=
+patch b/meta/recipes-core/gettext/gettext-0.19.8.1/use-pkgconfig.patch<br>
+&gt; deleted file mode 100644<br>
+&gt; index 6156a153f74..00000000000<br>
+&gt; --- a/meta/recipes-core/gettext/gettext-0.19.8.1/use-pkgconfig.patch<b=
+r>
+&gt; +++ /dev/null<br>
+&gt; @@ -1,321 +0,0 @@<br>
+&gt; -For reasons which I just can&#39;t fathom gnulib doesn&#39;t use the =
+expected tools to<br>
+&gt; -find libraries but badly reinvents the wheel.=C2=A0 This will trivial=
+ly lead to host<br>
+&gt; -contamination (explicit searches of /usr/lib) or incorrect RPATHs (ba=
+d<br>
+&gt; -canonicalisation resulting in relative paths).<br>
+&gt; -<br>
+&gt; -Simply delete all the crazy, and replace with a single call to pkg-co=
+nfig.<br>
+&gt; -<br>
+&gt; -Upstream-Status: Inappropriate (upstream still refuse to consider pkg=
+-config)<br>
+&gt; -Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.co=
+m" target=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+&gt; -<br>
+&gt; -diff --git a/gnulib-local/m4/libcroco.m4 b/gnulib-local/m4/libcroco.m=
+4<br>
+&gt; -index f79ea82f1..1f67274db 100644<br>
+&gt; ---- a/gettext-tools/gnulib-m4/libcroco.m4<br>
+&gt; -+++ b/gettext-tools/gnulib-m4/libcroco.m4<br>
+&gt; -@@ -8,6 +8,7 @@ dnl From Bruno Haible.<br>
+&gt; - <br>
+&gt; - AC_DEFUN([gl_LIBCROCO],<br>
+&gt; - [<br>
+&gt; -+=C2=A0 AC_REQUIRE([PKG_PROG_PKG_CONFIG])<br>
+&gt; -=C2=A0 =C2=A0dnl libcroco depends on libglib.<br>
+&gt; -=C2=A0 =C2=A0AC_REQUIRE([gl_LIBGLIB])<br>
+&gt; - <br>
+&gt; -@@ -23,65 +24,10 @@ AC_DEFUN([gl_LIBCROCO],<br>
+&gt; -=C2=A0 =C2=A0LTLIBCROCO=3D<br>
+&gt; -=C2=A0 =C2=A0INCCROCO=3D<br>
+&gt; -=C2=A0 =C2=A0if test &quot;$gl_cv_libcroco_use_included&quot; !=3D ye=
+s; then<br>
+&gt; --=C2=A0 =C2=A0 dnl Figure out whether we can use a preinstalled libcr=
+oco-0.6, or have to<br>
+&gt; --=C2=A0 =C2=A0 dnl use the included one.<br>
+&gt; --=C2=A0 =C2=A0 AC_CACHE_VAL([gl_cv_libcroco], [<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_libcroco=3Dno<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_LIBCROCO=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_LTLIBCROCO=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_INCCROCO=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_save_LIBS=3D&quot;$LIBS&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl Search for libcroco and define LIBCROCO_0_6=
+, LTLIBCROCO_0_6 and<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl INCCROCO_0_6 accordingly.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl Don&#39;t use croco-0.6-config nor pkg-conf=
+ig, since it doesn&#39;t work when<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl cross-compiling or when the C compiler in u=
+se is different from the<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl one that built the library.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 AC_LIB_LINKFLAGS_BODY([croco-0.6], [glib-2.0])<=
+br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS $LIBCROCO_0_6&quot;<=
+br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libcroco-config.h&gt;=
+],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 [const char *version =3D LIBCROCO_VERSIO=
+N; return !version;],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBCROCO=3D&quot;$LIBCROCO_0=
+_6&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBCROCO=3D&quot;$LTLIBCRO=
+CO_0_6&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libcroco&quot; !=3D yes; t=
+hen<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_CPPFLAGS=3D&quot;$CPPFLAGS&quot;=
+<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$CPPFLAGS $INCCROCO_0_6=
+&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libcroco-confi=
+g.h&gt;],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [const char *version =3D LIBCROCO=
+_VERSION; return !version;],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBCROCO=3D&quot;$LIB=
+CROCO_0_6&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBCROCO=3D&quot;$L=
+TLIBCROCO_0_6&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCCROCO=3D&quot;$INC=
+CROCO_0_6&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libcroco&quot; !=3D=
+ yes; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Often the include files are i=
+nstalled in<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl /usr/include/libcroco-0.6/lib=
+croco.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libcroc=
+o-0.6/libcroco/libcroco-config.h&gt;],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [const char *version =3D L=
+IBCROCO_VERSION; return !version;],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_ABSOLUTE_HEADER([libcr=
+oco-0.6/libcroco/libcroco-config.h])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libcroco_include_dir=
+=3D`echo &quot;$gl_cv_absolute_libcroco_0_6_libcroco_libcroco_config_h&quot=
+; | sed -e &#39;s,.libcroco-config\.h$,,&#39;`<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if test -d &quot;$li=
+bcroco_include_dir&quot;; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_libcroc=
+o=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBCROC=
+O=3D&quot;$LIBCROCO_0_6&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBCR=
+OCO=3D&quot;$LTLIBCROCO_0_6&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCCROC=
+O=3D&quot;-I$libcroco_include_dir&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_CPPFLAGS&quot;=
+<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS&quot;<br>
+&gt; --=C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 AC_MSG_CHECKING([for libcroco])<br>
+&gt; --=C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libcroco])<br>
+&gt; --=C2=A0 =C2=A0 if test $gl_cv_libcroco =3D yes; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBCROCO=3D&quot;$gl_cv_LIBCROCO&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LTLIBCROCO=3D&quot;$gl_cv_LTLIBCROCO&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 INCCROCO=3D&quot;$gl_cv_INCCROCO&quot;<br>
+&gt; --=C2=A0 =C2=A0 else<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_libcroco_use_included=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 fi<br>
+&gt; -+=C2=A0 =C2=A0 PKG_CHECK_MODULES([CROCO], [libcroco-0.6])<br>
+&gt; -+=C2=A0 =C2=A0 LIBCROCO=3D$CROCO_LIBS<br>
+&gt; -+=C2=A0 =C2=A0 LTLIBCROCO=3D$CROCO_LIBS<br>
+&gt; -+=C2=A0 =C2=A0 INCCROCO=3D$CROCO_CFLAGS<br>
+&gt; -=C2=A0 =C2=A0fi<br>
+&gt; -=C2=A0 =C2=A0AC_SUBST([LIBCROCO])<br>
+&gt; -=C2=A0 =C2=A0AC_SUBST([LTLIBCROCO])<br>
+&gt; -diff --git a/gnulib-local/m4/libglib.m4 b/gnulib-local/m4/libglib.m4<=
+br>
+&gt; -index 42e55e6fd..ab25a5b22 100644<br>
+&gt; ---- a/gettext-tools/gnulib-m4/libglib.m4<br>
+&gt; -+++ b/gettext-tools/gnulib-m4/libglib.m4<br>
+&gt; -@@ -8,6 +8,7 @@ dnl From Bruno Haible.<br>
+&gt; - <br>
+&gt; - AC_DEFUN([gl_LIBGLIB],<br>
+&gt; - [<br>
+&gt; -+=C2=A0 AC_REQUIRE([PKG_PROG_PKG_CONFIG])<br>
+&gt; -=C2=A0 =C2=A0AC_MSG_CHECKING([whether included glib is requested])<br=
+>
+&gt; -=C2=A0 =C2=A0AC_ARG_WITH([included-glib],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0[=C2=A0 --with-included-glib=C2=A0 =C2=A0 use the=
+ glib2 included here],<br>
+&gt; -@@ -20,76 +21,10 @@ AC_DEFUN([gl_LIBGLIB],<br>
+&gt; -=C2=A0 =C2=A0LTLIBGLIB=3D<br>
+&gt; -=C2=A0 =C2=A0INCGLIB=3D<br>
+&gt; -=C2=A0 =C2=A0if test &quot;$gl_cv_libglib_use_included&quot; !=3D yes=
+; then<br>
+&gt; --=C2=A0 =C2=A0 dnl Figure out whether we can use a preinstalled libgl=
+ib-2.0, or have to use<br>
+&gt; --=C2=A0 =C2=A0 dnl the included one.<br>
+&gt; --=C2=A0 =C2=A0 AC_CACHE_VAL([gl_cv_libglib], [<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_libglib=3Dno<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_LIBGLIB=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_LTLIBGLIB=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_INCGLIB=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_save_LIBS=3D&quot;$LIBS&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl Search for libglib2 and define LIBGLIB_2_0,=
+ LTLIBGLIB_2_0 and<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl INCGLIB_2_0 accordingly.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl Don&#39;t use glib-config nor pkg-config, s=
+ince it doesn&#39;t work when<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl cross-compiling or when the C compiler in u=
+se is different from the<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl one that built the library.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 AC_LIB_LINKFLAGS_BODY([glib-2.0])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS $LIBGLIB_2_0&quot;<b=
+r>
+&gt; --=C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;glib.h&gt;<br>
+&gt; --#ifndef G_BEGIN_DECLS<br>
+&gt; --error this glib.h includes a glibconfig.h from a glib version 1.x<br=
+>
+&gt; --#endif<br>
+&gt; --],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 [g_string_new (&quot;foo&quot;);],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBGLIB=3D&quot;$LIBGLIB_2_0=
+&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBGLIB=3D&quot;$LTLIBGLIB=
+_2_0&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libglib&quot; !=3D yes; th=
+en<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_CPPFLAGS=3D&quot;$CPPFLAGS&quot;=
+<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$CPPFLAGS $INCGLIB_2_0&=
+quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;glib.h&gt;<br>
+&gt; --#ifndef G_BEGIN_DECLS<br>
+&gt; --error this glib.h includes a glibconfig.h from a glib version 1.x<br=
+>
+&gt; --#endif<br>
+&gt; --],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [g_string_new (&quot;foo&quot;);]=
+,<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBGLIB=3D&quot;$LIBG=
+LIB_2_0&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBGLIB=3D&quot;$LT=
+LIBGLIB_2_0&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCGLIB=3D&quot;$INCG=
+LIB_2_0&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libglib&quot; !=3D =
+yes; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Often the include files are i=
+nstalled in /usr/include/glib-2.0<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl and /usr/lib/glib-2.0/include=
+.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test -n &quot;$LIBGLIB_2_0_PRE=
+FIX&quot;; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_=
+CPPFLAGS -I$LIBGLIB_2_0_PREFIX/include/glib-2.0 -I$LIBGLIB_2_0_PREFIX/$acl_=
+libdirstem/glib-2.0/include&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;=
+glib.h&gt;<br>
+&gt; --#ifndef G_BEGIN_DECLS<br>
+&gt; --error this glib.h includes a glibconfig.h from a glib version 1.x<br=
+>
+&gt; --#endif<br>
+&gt; --],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [g_string_new (&quo=
+t;foo&quot;);],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib=3Dye=
+s<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBGLIB=
+=3D&quot;$LIBGLIB_2_0&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBGL=
+IB=3D&quot;$LTLIBGLIB_2_0&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCGLIB=
+=3D&quot;-I$LIBGLIB_2_0_PREFIX/include/glib-2.0 -I$LIBGLIB_2_0_PREFIX/$acl_=
+libdirstem/glib-2.0/include&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_CPPFLAGS&quot;=
+<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS&quot;<br>
+&gt; --=C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 AC_MSG_CHECKING([for glib])<br>
+&gt; --=C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libglib])<br>
+&gt; --=C2=A0 =C2=A0 if test $gl_cv_libglib =3D yes; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBGLIB=3D&quot;$gl_cv_LIBGLIB&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LTLIBGLIB=3D&quot;$gl_cv_LTLIBGLIB&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 INCGLIB=3D&quot;$gl_cv_INCGLIB&quot;<br>
+&gt; --=C2=A0 =C2=A0 else<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_libglib_use_included=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 fi<br>
+&gt; -+=C2=A0 =C2=A0 PKG_CHECK_MODULES([GLIB], [glib-2.0])<br>
+&gt; -+=C2=A0 =C2=A0 LIBGLIB=3D&quot;$GLIB_LIBS&quot;<br>
+&gt; -+=C2=A0 =C2=A0 LTLIBGLIB=3D&quot;$GLIB_LIBS&quot;<br>
+&gt; -+=C2=A0 =C2=A0 INCGLIB=3D&quot;$GLIB_CFLAGS&quot;<br>
+&gt; -=C2=A0 =C2=A0fi<br>
+&gt; -=C2=A0 =C2=A0AC_SUBST([LIBGLIB])<br>
+&gt; -=C2=A0 =C2=A0AC_SUBST([LTLIBGLIB])<br>
+&gt; -diff --git a/gnulib-local/m4/libxml.m4 b/gnulib-local/m4/libxml.m4<br=
+>
+&gt; -index 480c700d2..cb39309d5 100644<br>
+&gt; ---- a/gettext-tools/gnulib-m4/libxml.m4<br>
+&gt; -+++ b/gettext-tools/gnulib-m4/libxml.m4<br>
+&gt; -@@ -8,6 +8,7 @@ dnl From Bruno Haible.<br>
+&gt; -<br>
+&gt; - AC_DEFUN([gl_LIBXML],<br>
+&gt; - [<br>
+&gt; -+=C2=A0 AC_REQUIRE([PKG_PROG_PKG_CONFIG])<br>
+&gt; -=C2=A0 =C2=A0AC_REQUIRE([AM_ICONV_LINK])<br>
+&gt; -<br>
+&gt; -=C2=A0 =C2=A0AC_MSG_CHECKING([whether included libxml is requested])<=
+br>
+&gt; -@@ -22,100 +22,10 @@ AC_DEFUN([gl_LIBXML],<br>
+&gt; -=C2=A0 =C2=A0LTLIBXML=3D<br>
+&gt; -=C2=A0 =C2=A0INCXML=3D<br>
+&gt; -=C2=A0 =C2=A0if test &quot;$gl_cv_libxml_use_included&quot; !=3D yes;=
+ then<br>
+&gt; --=C2=A0 =C2=A0 dnl Figure out whether we can use a preinstalled libxm=
+l2, or have to use<br>
+&gt; --=C2=A0 =C2=A0 dnl the included one.<br>
+&gt; --=C2=A0 =C2=A0 AC_CACHE_VAL([gl_cv_libxml], [<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_libxml=3Dno<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_LIBXML=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_LTLIBXML=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_INCXML=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_save_LIBS=3D&quot;$LIBS&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$LIBS $LIBICONV&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl Search for libxml2 and define LIBXML2, LTLI=
+BXML2 and INCXML2<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl accordingly.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl Don&#39;t use xml2-config nor pkg-config, s=
+ince it doesn&#39;t work when<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl cross-compiling or when the C compiler in u=
+se is different from the<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl one that built the library.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl Use a test program that tries to invoke xml=
+Free. On Cygwin 1.7.x,<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl libxml2 is built in such a way that uses of=
+ xmlFree work fine with<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl -Wl,--enable-auto-import but lead to a link=
+ error with<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 dnl -Wl,--disable-auto-import.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 AC_LIB_LINKFLAGS_BODY([xml2])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS $LIBXML2 $LIBICONV&q=
+uot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libxml/xmlversion.h&g=
+t;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0#include &lt;libxml/xmlmemory.h&gt;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0#include &lt;libxml/xpath.h&gt;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ],<br=
+>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 [xmlCheckVersion (0);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlFree ((void *) 0);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlXPathSetContextNode ((void *)0,=
+ (void *)0);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 ],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libxml=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBXML=3D&quot;$LIBXML2 $LIB=
+ICONV&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBXML=3D&quot;$LTLIBXML2 =
+$LTLIBICONV&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libxml&quot; !=3D yes; the=
+n<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_CPPFLAGS=3D&quot;$CPPFLAGS&quot;=
+<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$CPPFLAGS $INCXML2&quot=
+;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libxml/xmlvers=
+ion.h&gt;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0#include &lt;libxml/xmlmemory.h&gt;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0#include &lt;libxml/xpath.h&gt;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [xmlCheckVersion (0);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlFree ((void *) 0);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlXPathSetContextNode ((vo=
+id *)0, (void *)0);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libxml=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBXML=3D&quot;$LIBXM=
+L2 $LIBICONV&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBXML=3D&quot;$LTL=
+IBXML2 $LTLIBICONV&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCXML=3D&quot;$INCXM=
+L2&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libxml&quot; !=3D y=
+es; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Often the include files are i=
+nstalled in /usr/include/libxml2.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl In libxml2-2.5, &lt;libxml/xm=
+lversion.h&gt; is self-contained.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl In libxml2-2.6, it includes &=
+lt;libxml/xmlexports.h&gt; which is<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl self-contained.<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libxml2_include_dir=3D<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_CPP([#include &lt;libxml2/=
+libxml/xmlexports.h&gt;],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_ABSOLUTE_HEADER([libxm=
+l2/libxml/xmlexports.h])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libxml2_include_dir=
+=3D`echo &quot;$gl_cv_absolute_libxml2_libxml_xmlexports_h&quot; | sed -e &=
+#39;s,.libxml.xmlexports\.h$,,&#39;`<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test -z &quot;$libxml2_include=
+_dir&quot;; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_CPP([#include &lt;l=
+ibxml2/libxml/xmlversion.h&gt;],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_ABSOLUTE_HEADER=
+([libxml2/libxml/xmlversion.h])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libxml2_inclu=
+de_dir=3D`echo &quot;$gl_cv_absolute_libxml2_libxml_xmlversion_h&quot; | se=
+d -e &#39;s,.libxml.xmlversion\.h$,,&#39;`<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test -n &quot;$libxml2_include=
+_dir&quot; &amp;&amp; test -d &quot;$libxml2_include_dir&quot;; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_=
+CPPFLAGS -I$libxml2_include_dir&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;=
+libxml/xmlversion.h&gt;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0#include &lt;libxml/xmlmemory.h&gt;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0#include &lt;libxml/xpath.h&gt;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 ],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [xmlCheckVersion (0=
+);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlFree ((voi=
+d *) 0);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlXPathSetCo=
+ntextNode ((void *)0, (void *)0);<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ],<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libxml=3Dyes=
+<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBXML=
+=3D&quot;$LIBXML2 $LIBICONV&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBXM=
+L=3D&quot;$LTLIBXML2 $LTLIBICONV&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCXML=
+=3D&quot;-I$libxml2_include_dir&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_CPPFLAGS&quot;=
+<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS&quot;<br>
+&gt; --=C2=A0 =C2=A0 ])<br>
+&gt; --=C2=A0 =C2=A0 AC_MSG_CHECKING([for libxml])<br>
+&gt; --=C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libxml])<br>
+&gt; --=C2=A0 =C2=A0 if test $gl_cv_libxml =3D yes; then<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LIBXML=3D&quot;$gl_cv_LIBXML&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 LTLIBXML=3D&quot;$gl_cv_LTLIBXML&quot;<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 INCXML=3D&quot;$gl_cv_INCXML&quot;<br>
+&gt; --=C2=A0 =C2=A0 else<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 gl_cv_libxml_use_included=3Dyes<br>
+&gt; --=C2=A0 =C2=A0 fi<br>
+&gt; -+=C2=A0 =C2=A0 PKG_CHECK_MODULES([XML], [libxml-2.0])<br>
+&gt; -+=C2=A0 =C2=A0 LIBXML=3D$XML_LIBS<br>
+&gt; -+=C2=A0 =C2=A0 LTLIBXML=3D$XML_LIBS<br>
+&gt; -+=C2=A0 =C2=A0 INCXML=3D$XML_CFLAGS<br>
+&gt; -=C2=A0 =C2=A0fi<br>
+&gt; -=C2=A0 =C2=A0AC_SUBST([LIBXML])<br>
+&gt; -=C2=A0 =C2=A0AC_SUBST([LTLIBXML])<br>
+&gt; -diff --git a/gnulib-local/lib/term-styled-ostream.oo.c b/gnulib-local=
+/lib/term-styled-ostream.oo.c<br>
+&gt; -index 81a407467..218565329 100644<br>
+&gt; ---- a/gettext-tools/gnulib-lib/term-styled-ostream.oo.c<br>
+&gt; -+++ b/gettext-tools/gnulib-lib/term-styled-ostream.oo.c<br>
+&gt; -@@ -25,4 +25,4 @@<br>
+&gt; --#include &lt;cr-om-parser.h&gt;<br>
+&gt; --#include &lt;cr-sel-eng.h&gt;<br>
+&gt; --#include &lt;cr-style.h&gt;<br>
+&gt; --#include &lt;cr-rgb.h&gt;<br>
+&gt; -+#include &lt;libcroco/cr-om-parser.h&gt;<br>
+&gt; -+#include &lt;libcroco/cr-sel-eng.h&gt;<br>
+&gt; -+#include &lt;libcroco/cr-style.h&gt;<br>
+&gt; -+#include &lt;libcroco/cr-rgb.h&gt;<br>
+&gt; -@@ -31 +31 @@<br>
+&gt; --# include &lt;cr-fonts.h&gt;<br>
+&gt; -+# include &lt;libcroco/cr-fonts.h&gt;<br>
+&gt; -@@ -33 +33 @@<br>
+&gt; --#include &lt;cr-string.h&gt;<br>
+&gt; -+#include &lt;libcroco/cr-string.h&gt;<br>
+&gt; diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/add-with-bison=
+localedir.patch b/meta/recipes-core/gettext/gettext-0.20.1/add-with-bisonlo=
+caledir.patch<br>
+&gt; similarity index 100%<br>
+&gt; rename from meta/recipes-core/gettext/gettext-0.19.8.1/add-with-bisonl=
+ocaledir.patch<br>
+&gt; rename to meta/recipes-core/gettext/gettext-0.20.1/add-with-bisonlocal=
+edir.patch<br>
+&gt; diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/cr-statement.c=
+-timsort.h-fix-formatting-issues.patch b/meta/recipes-core/gettext/gettext-=
+0.20.1/cr-statement.c-timsort.h-fix-formatting-issues.patch<br>
+&gt; similarity index 68%<br>
+&gt; rename from meta/recipes-core/gettext/gettext-0.19.8.1/cr-statement.c-=
+timsort.h-fix-formatting-issues.patch<br>
+&gt; rename to meta/recipes-core/gettext/gettext-0.20.1/cr-statement.c-tims=
+ort.h-fix-formatting-issues.patch<br>
+&gt; index 6af16041987..0561ed7d32c 100644<br>
+&gt; --- a/meta/recipes-core/gettext/gettext-0.19.8.1/cr-statement.c-timsor=
+t.h-fix-formatting-issues.patch<br>
+&gt; +++ b/meta/recipes-core/gettext/gettext-0.20.1/cr-statement.c-timsort.=
+h-fix-formatting-issues.patch<br>
 &gt; @@ -1,4 +1,4 @@<br>
-&gt; -From 87cfc0db1ed6fe381a5ed5f0016d8c3344a31a11 Mon Sep 17 00:00:00 200=
+&gt; -From e546de65a333789e83f5485757967cee29ee3681 Mon Sep 17 00:00:00 200=
 1<br>
-&gt; +From f39c28eb52f12ae6e82db360ffd5a903ac8faca5 Mon Sep 17 00:00:00 200=
+&gt; +From f6245ef5530fc37a6243e798df34162fbbeab6f0 Mon Sep 17 00:00:00 200=
 1<br>
-&gt;=C2=A0 From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail=
-.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt;=C2=A0 Date: Mon, 9 Jan 2017 18:52:11 +0200<br>
-&gt;=C2=A0 Subject: [PATCH] Do not add an unsatisfiable dependency when bui=
-lding rpms in<br>
-&gt; @@ -9,25 +9,23 @@ hand produces rpms that way by design.<br>
+&gt;=C2=A0 From: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@windriver.co=
+m" target=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br>
+&gt;=C2=A0 Date: Sun, 19 Feb 2017 23:32:46 -0800<br>
+&gt;=C2=A0 Subject: [PATCH] cr-statement.c/timsort.h: fix formatting issues=
+<br>
+&gt; @@ -15,15 +15,15 @@ gettext-tools/gnulib-lib/libxml/timsort.h:326:80: =
+warning: format &#39;%lu&#39; expects<br>
+&gt;=C2=A0 Upstream-Status: Pending<br>
 &gt;=C2=A0 <br>
-&gt;=C2=A0 Upstream-Status: Inappropriate [oe-core specific]<br>
-&gt;=C2=A0 Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kana=
-vin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt;=C2=A0 Signed-off-by: Robert Yang &lt;<a href=3D"mailto:liezhi.yang@win=
+driver.com" target=3D"_blank">liezhi.yang@windriver.com</a>&gt;<br>
 &gt; +<br>
 &gt;=C2=A0 ---<br>
-&gt;=C2=A0 =C2=A0build/pack.c | 4 ----<br>
-&gt;=C2=A0 =C2=A01 file changed, 4 deletions(-)<br>
+&gt; - gettext-tools/gnulib-lib/libcroco/cr-statement.c | 10 +++++-----<br>
+&gt; - gettext-tools/gnulib-lib/libxml/timsort.h=C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ |=C2=A0 2 +-<br>
+&gt; - 2 files changed, 6 insertions(+), 6 deletions(-)<br>
+&gt; + libtextstyle/lib/libcroco/cr-statement.c | 10 +++++-----<br>
+&gt; + 1 file changed, 5 insertions(+), 5 deletions(-)<br>
 &gt;=C2=A0 <br>
-&gt;=C2=A0 diff --git a/build/pack.c b/build/pack.c<br>
-&gt; -index 1261cdbba..bb2d6f4f6 100644<br>
-&gt; +index e6cec1816..810cd7351 100644<br>
-&gt;=C2=A0 --- a/build/pack.c<br>
-&gt;=C2=A0 +++ b/build/pack.c<br>
-&gt; -@@ -595,10 +595,6 @@ rpmRC packageBinaries(rpmSpec spec, const char *=
-cookie, int cheating)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0headerPutBin(pkg-&gt;header, RPMTAG=
-_SOURCEPKGID, spec-&gt;sourcePkgId,16);<br>
+&gt; -diff --git a/gettext-tools/gnulib-lib/libcroco/cr-statement.c b/gette=
+xt-tools/gnulib-lib/libcroco/cr-statement.c<br>
+&gt; +diff --git a/libtextstyle/lib/libcroco/cr-statement.c b/libtextstyle/=
+lib/libcroco/cr-statement.c<br>
+&gt;=C2=A0 index 617520f..100104b 100644<br>
+&gt; ---- a/gettext-tools/gnulib-lib/libcroco/cr-statement.c<br>
+&gt; -+++ b/gettext-tools/gnulib-lib/libcroco/cr-statement.c<br>
+&gt; +--- a/libtextstyle/lib/libcroco/cr-statement.c<br>
+&gt; ++++ b/libtextstyle/lib/libcroco/cr-statement.c<br>
+&gt;=C2=A0 @@ -2607,7 +2607,7 @@ cr_statement_dump_ruleset (CRStatement * a=
+_this, FILE * a_fp, glong a_indent)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_return_if_fail (a_fp &amp;&a=
+mp; a_this);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0str =3D cr_statement_ruleset_t=
+o_string (a_this, a_indent);<br>
+&gt; @@ -69,19 +69,3 @@ index 617520f..100104b 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_=
+free (str) ;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0st=
+r =3D NULL ;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; -diff --git a/gettext-tools/gnulib-lib/libxml/timsort.h b/gettext-tool=
+s/gnulib-lib/libxml/timsort.h<br>
+&gt; -index 795f272..443918a 100644<br>
+&gt; ---- a/gettext-tools/gnulib-lib/libxml/timsort.h<br>
+&gt; -+++ b/gettext-tools/gnulib-lib/libxml/timsort.h<br>
+&gt; -@@ -323,7 +323,7 @@ static void TIM_SORT_RESIZE(TEMP_STORAGE_T *store=
+, const size_t new_size)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0SORT_TYPE *tempstore =3D (SORT_TYPE *)realloc(sto=
+re-&gt;storage, new_size * sizeof(SORT_TYPE));<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0if (tempstore =3D=3D NULL)<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0{<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Error allocating temporar=
+y storage for tim sort: need %lu bytes&quot;, sizeof(SORT_TYPE) * new_size)=
+;<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 fprintf(stderr, &quot;Error allocating temporar=
+y storage for tim sort: need %zu bytes&quot;, sizeof(SORT_TYPE) * new_size)=
+;<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0exit(1);<br>
 &gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +@@ -724,10 +724,6 @@ static rpmRC packageBinary(rpmSpec spec, Package=
- pkg, const char *cookie, int ch<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0headerPutBin(pkg-&gt;header, RPMTAG_SOURCEPKGID, =
-spec-&gt;sourcePkgId,16);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; + <br>
-&gt; +-=C2=A0 =C2=A0 if (cheating) {<br>
-&gt; +-=C2=A0 =C2=A0 (void) rpmlibNeedsFeature(pkg, &quot;ShortCircuited&qu=
-ot;, &quot;4.9.0-1&quot;);<br>
-&gt; +-=C2=A0 =C2=A0 }<br>
-&gt; +-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if ((rc =3D getPkgFilename(pkg-&gt;header, filena=
-me)))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return rc;<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; --=C2=A0 =C2=A0 if (cheating) {<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 (void) rpmlibNeedsFeature(pkg, &quot;Sho=
-rtCircuited&quot;, &quot;4.9.0-1&quot;);<br>
-&gt; --=C2=A0 =C2=A0 }<br>
-&gt; --=C2=A0 =C2=A0 <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0{=C2=A0 =C2=A0char *binFormat =3D rpmGetPath(&quo=
-t;%{_rpmfilename}&quot;, NULL);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *binRpm, *binDir;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0binRpm =3D headerFormat(pkg-&gt;hea=
-der, binFormat, &amp;errorString);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0store-&gt;storage =3D tempstore;<br>
 &gt; --- <br>
-&gt; -2.11.0<br>
+&gt; -2.10.2<br>
 &gt; -<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-=
-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/00=
-01-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch<br>
-&gt; index 82e7328757f..52440d68180 100644<br>
-&gt; --- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-=
-the-installation-path-for.patch<br>
-&gt; +++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-=
-the-installation-path-for.patch<br>
+&gt; diff --git a/meta/recipes-core/gettext/gettext-0.20.1/parallel.patch b=
+/meta/recipes-core/gettext/gettext-0.20.1/parallel.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 00000000000..d96a376b7d1<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-core/gettext/gettext-0.20.1/parallel.patch<br>
+&gt; @@ -0,0 +1,32 @@<br>
+&gt; +From 4a2a0a93b469093b60ffd0bec55d33d1e03d4713 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Joe Slater &lt;<a href=3D"mailto:jslater@windriver.com" target=
+=3D"_blank">jslater@windriver.com</a>&gt;<br>
+&gt; +Date: Thu, 7 Jun 2012 16:37:01 -0700<br>
+&gt; +Subject: [PATCH] instal libgettextlib.a before removing it<br>
+&gt; +<br>
+&gt; +In a multiple job build, Makefile can simultaneously<br>
+&gt; +be installing and removing libgettextlib.a.=C2=A0 We serialize<br>
+&gt; +the operations.<br>
+&gt; +<br>
+&gt; +Upstream-Status: Pending<br>
+&gt; +<br>
+&gt; +Signed-off-by: Joe Slater &lt;<a href=3D"mailto:jslater@windriver.com=
+" target=3D"_blank">jslater@windriver.com</a>&gt;<br>
+&gt; +<br>
+&gt; +---<br>
+&gt; + gettext-tools/gnulib-lib/Makefile.am | 4 ++++<br>
+&gt; + 1 file changed, 4 insertions(+)<br>
+&gt; +<br>
+&gt; +diff --git a/gettext-tools/gnulib-lib/Makefile.am b/gettext-tools/gnu=
+lib-lib/Makefile.am<br>
+&gt; +index 2126699..d2dd7e4 100644<br>
+&gt; +--- a/gettext-tools/gnulib-lib/Makefile.am<br>
+&gt; ++++ b/gettext-tools/gnulib-lib/Makefile.am<br>
+&gt; +@@ -58,6 +58,10 @@ endif<br>
+&gt; + # Rules generated and collected by gnulib-tool.<br>
+&gt; + include Makefile.gnulib<br>
+&gt; + <br>
+&gt; ++# defined in Makefile.gnulib but missing this dependency<br>
+&gt; ++#<br>
+&gt; ++install-exec-clean: install-libLTLIBRARIES<br>
+&gt; ++<br>
+&gt; + # OS/2 does not support a DLL name longer than 8 characters.<br>
+&gt; + if OS2<br>
+&gt; + libgettextlib_la_LDFLAGS +=3D -os2dllname gtlib<br>
+&gt; diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/run-ptest b/me=
+ta/recipes-core/gettext/gettext-0.20.1/run-ptest<br>
+&gt; similarity index 100%<br>
+&gt; rename from meta/recipes-core/gettext/gettext-0.19.8.1/run-ptest<br>
+&gt; rename to meta/recipes-core/gettext/gettext-0.20.1/run-ptest<br>
+&gt; diff --git a/meta/recipes-core/gettext/gettext-0.19.8.1/serial-tests-c=
+onfig.patch b/meta/recipes-core/gettext/gettext-0.20.1/serial-tests-config.=
+patch<br>
+&gt; similarity index 75%<br>
+&gt; rename from meta/recipes-core/gettext/gettext-0.19.8.1/serial-tests-co=
+nfig.patch<br>
+&gt; rename to meta/recipes-core/gettext/gettext-0.20.1/serial-tests-config=
+.patch<br>
+&gt; index 31ff9138a91..93f7c03334a 100644<br>
+&gt; --- a/meta/recipes-core/gettext/gettext-0.19.8.1/serial-tests-config.p=
+atch<br>
+&gt; +++ b/meta/recipes-core/gettext/gettext-0.20.1/serial-tests-config.pat=
+ch<br>
 &gt; @@ -1,4 +1,4 @@<br>
-&gt; -From bd08eb0ae1312f347f49949481daa7c923752df2 Mon Sep 17 00:00:00 200=
+&gt; -From c4b1f3a0c7b7c40b343be9b95deb84e0485643be Mon Sep 17 00:00:00 200=
 1<br>
-&gt; +From 2f3d1619b6510bc131c4375827caf912559f0fa2 Mon Sep 17 00:00:00 200=
+&gt; +From ed64a5724ef7d6eb4e9a876f817ea266a536e195 Mon Sep 17 00:00:00 200=
 1<br>
-&gt;=C2=A0 From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail=
-.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt;=C2=A0 Date: Mon, 27 Feb 2017 09:43:30 +0200<br>
-&gt;=C2=A0 Subject: [PATCH] Do not hardcode &quot;lib/rpm&quot; as the inst=
-allation path for<br>
-&gt; @@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin &lt;<a href=3D"ma=
-ilto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&g=
-t;<br>
-&gt;=C2=A0 =C2=A03 files changed, 4 insertions(+), 4 deletions(-)<br>
+&gt;=C2=A0 From: &quot;Hongjun.Yang&quot; &lt;<a href=3D"mailto:hongjun.yan=
+g@windriver.com" target=3D"_blank">hongjun.yang@windriver.com</a>&gt;<br>
+&gt;=C2=A0 Date: Thu, 28 Jul 2016 12:36:15 +0800<br>
+&gt;=C2=A0 Subject: [PATCH] fix for ptest<br>
+&gt; @@ -8,6 +8,7 @@ Add serial-tests support, ptest need it<br>
+&gt;=C2=A0 Upstream-Status: Inappropriate [oe specific]<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 Signed-off-by: Changqing Li &lt;<a href=3D"mailto:changqing.li@w=
+indriver.com" target=3D"_blank">changqing.li@windriver.com</a>&gt;<br>
+&gt; +<br>
+&gt;=C2=A0 ---<br>
+&gt;=C2=A0 =C2=A0<a href=3D"http://configure.ac" rel=3D"noreferrer" target=
+=3D"_blank">configure.ac</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt;=C2=A0 =C2=A0gettext-runtime/<a href=3D"http://configure.ac" rel=3D"nor=
+eferrer" target=3D"_blank">configure.ac</a> | 2 +-<br>
+&gt; @@ -15,24 +16,24 @@ Signed-off-by: Changqing Li &lt;<a href=3D"mailto:=
+changqing.li@windriver.com" target=3D"_blank">changqing.li@windriver.com</a=
+>&gt;<br>
+&gt;=C2=A0 =C2=A03 files changed, 3 insertions(+), 3 deletions(-)<br>
 &gt;=C2=A0 <br>
 &gt;=C2=A0 diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" =
 target=3D"_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D=
 "noreferrer" target=3D"_blank">configure.ac</a><br>
-&gt; -index 09af7c4..9bd6903 100644<br>
-&gt; +index d3aeab86e..1a1f3f91f 100644<br>
+&gt; -index 5e996fa..880581f 100644<br>
+&gt; +index 38db6fd..f019ae0 100644<br>
 &gt;=C2=A0 --- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=
 =3D"_blank">configure.ac</a><br>
 &gt;=C2=A0 +++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=
 =3D"_blank">configure.ac</a><br>
-&gt; -@@ -1055,7 +1055,7 @@ else<br>
-&gt; +@@ -1086,7 +1086,7 @@ else<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0usrprefix=3D$prefix<br>
-&gt;=C2=A0 =C2=A0fi<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt; @@ -27,10 +27,10 @@ index 09af7c4..9bd6903 100644<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0AC_SUBST(OBJDUMP)<br>
-&gt;=C2=A0 diff --git a/<a href=3D"http://macros.in" rel=3D"noreferrer" tar=
-get=3D"_blank">macros.in</a> b/<a href=3D"http://macros.in" rel=3D"noreferr=
-er" target=3D"_blank">macros.in</a><br>
-&gt; -index a3aa7a9..62cee5c 100644<br>
-&gt; +index fe9803aad..d128675bf 100644<br>
-&gt;=C2=A0 --- a/<a href=3D"http://macros.in" rel=3D"noreferrer" target=3D"=
-_blank">macros.in</a><br>
-&gt;=C2=A0 +++ b/<a href=3D"http://macros.in" rel=3D"noreferrer" target=3D"=
-_blank">macros.in</a><br>
-&gt; -@@ -970,7 +970,7 @@ package or when debugging this package.\<br>
-&gt; +@@ -985,7 +985,7 @@ package or when debugging this package.\<br>
-&gt;=C2=A0 =C2=A0%_sharedstatedir=C2=A0 =C2=A0 %{_prefix}/com<br>
-&gt;=C2=A0 =C2=A0%_localstatedir=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0%{_prefix}/var<br>
-&gt;=C2=A0 =C2=A0%_lib=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lib<br>
-&gt; @@ -40,7 +40,7 @@ index a3aa7a9..62cee5c 100644<br>
-&gt;=C2=A0 =C2=A0%_infodir=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0%{_datad=
-ir}/info<br>
-&gt;=C2=A0 =C2=A0%_mandir=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 %{_datad=
-ir}/man<br>
-&gt;=C2=A0 diff --git a/<a href=3D"http://rpm.am" rel=3D"noreferrer" target=
-=3D"_blank">rpm.am</a> b/<a href=3D"http://rpm.am" rel=3D"noreferrer" targe=
-t=3D"_blank">rpm.am</a><br>
-&gt; -index 82c2d7c..6341b51 100644<br>
-&gt; +index 40b4ec55f..3139ce8f6 100644<br>
-&gt;=C2=A0 --- a/<a href=3D"http://rpm.am" rel=3D"noreferrer" target=3D"_bl=
-ank">rpm.am</a><br>
-&gt;=C2=A0 +++ b/<a href=3D"http://rpm.am" rel=3D"noreferrer" target=3D"_bl=
-ank">rpm.am</a><br>
-&gt;=C2=A0 @@ -1,10 +1,10 @@<br>
-&gt; @@ -55,4 +55,4 @@ index 82c2d7c..6341b51 100644<br>
-&gt;=C2=A0 +rpmconfigdir =3D $(libdir)/rpm<br>
-&gt;=C2=A0 =C2=A0<br>
-&gt;=C2=A0 =C2=A0# Libtool version (current-revision-age) for all our libra=
-ries<br>
-&gt; - rpm_version_info =3D 9:0:1<br>
-&gt; + rpm_version_info =3D 9:1:0<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/files/0001-Split-binary-package=
--building-into-a-separate-functi.patch b/meta/recipes-devtools/rpm/files/00=
-01-Split-binary-package-building-into-a-separate-functi.patch<br>
-&gt; deleted file mode 100644<br>
-&gt; index 6e44f0b7fc9..00000000000<br>
-&gt; --- a/meta/recipes-devtools/rpm/files/0001-Split-binary-package-buildi=
-ng-into-a-separate-functi.patch<br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,84 +0,0 @@<br>
-&gt; -From 721a660a507d6d062e7aecafad886c643970a5d5 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; -From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
- target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -Date: Thu, 25 May 2017 18:15:27 +0300<br>
-&gt; -Subject: [PATCH 1/4] Split binary package building into a separate fu=
-nction<br>
-&gt; -<br>
-&gt; -So that it can be run as a thread pool task.<br>
-&gt; -<br>
-&gt; -Upstream-Status: Submitted [<a href=3D"https://github.com/rpm-softwar=
-e-management/rpm/pull/226" rel=3D"noreferrer" target=3D"_blank">https://git=
-hub.com/rpm-software-management/rpm/pull/226</a>]<br>
-&gt; -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
-mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -<br>
-&gt; ----<br>
-&gt; - build/pack.c | 33 +++++++++++++++++++++------------<br>
-&gt; - 1 file changed, 21 insertions(+), 12 deletions(-)<br>
-&gt; -<br>
-&gt; -diff --git a/build/pack.c b/build/pack.c<br>
-&gt; -index 518f4e92a..ccfd614cc 100644<br>
-&gt; ---- a/build/pack.c<br>
-&gt; -+++ b/build/pack.c<br>
-&gt; -@@ -546,18 +546,13 @@ static rpmRC checkPackages(char *pkgcheck)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return RPMRC_OK;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; --rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating=
-)<br>
-&gt; -+static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *co=
-okie, int cheating, char** filename)<br>
-&gt; - {<br>
-&gt; --=C2=A0 =C2=A0 rpmRC rc;<br>
-&gt; --=C2=A0 =C2=A0 const char *errorString;<br>
-&gt; --=C2=A0 =C2=A0 Package pkg;<br>
-&gt; --=C2=A0 =C2=A0 char *pkglist =3D NULL;<br>
-&gt; --<br>
-&gt; --=C2=A0 =C2=A0 for (pkg =3D spec-&gt;packages; pkg !=3D NULL; pkg =3D=
- pkg-&gt;next) {<br>
-&gt; --=C2=A0 =C2=A0 char *fn;<br>
-&gt; -+=C2=A0 =C2=A0 const char *errorString;<br>
-&gt; -+=C2=A0 =C2=A0 rpmRC rc =3D RPMRC_OK;<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pkg-&gt;fileList =3D=3D NULL)<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 continue;<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return rc;<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if ((rc =3D processScriptFiles(spec, pkg)))<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return rc;<br>
-&gt; -@@ -587,7 +582,7 @@ rpmRC packageBinaries(rpmSpec spec, const char *c=
-ookie, int cheating)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 header=
-GetString(pkg-&gt;header, RPMTAG_NAME), errorString);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return RPMRC_FAIL;<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 fn =3D rpmGetPath(&quot;%{_rpmdir}/&quot=
-;, binRpm, NULL);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 *filename =3D rpmGetPath(&quot;%{_rpmdir=
-}/&quot;, binRpm, NULL);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if ((binDir =3D strchr(binRpm, &#39=
-;/&#39;)) !=3D NULL) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0struct stat st;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *dn;<br>
-&gt; -@@ -609,14 +604,28 @@ rpmRC packageBinaries(rpmSpec spec, const char =
-*cookie, int cheating)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free(binRpm);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; - <br>
-&gt; --=C2=A0 =C2=A0 rc =3D writeRPM(pkg, NULL, fn, NULL);<br>
-&gt; -+=C2=A0 =C2=A0 rc =3D writeRPM(pkg, NULL, *filename, NULL);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (rc =3D=3D RPMRC_OK) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Do check each written package if=
- enabled */<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *pkgcheck =3D rpmExpand(&quot;%{?_b=
-uild_pkgcheck} &quot;, fn, NULL);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 char *pkgcheck =3D rpmExpand(&quot;%{?_b=
-uild_pkgcheck} &quot;, *filename, NULL);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (pkgcheck[0] !=3D &#39; &#39;) {=
+&gt; -@@ -23,7 +23,7 @@ AC_INIT([gettext],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0[<a href=3D"mailto:bug-gnu-gettext@gnu.org" targe=
+t=3D"_blank">bug-gnu-gettext@gnu.org</a>])<br>
+&gt; +@@ -22,7 +22,7 @@ AC_INIT([gettext],<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0[<a href=3D"mailto:bug-gettext@gnu.org" target=3D=
+"_blank">bug-gettext@gnu.org</a>])<br>
+&gt;=C2=A0 =C2=A0AC_CONFIG_SRCDIR([gettext-tools/src/msgfmt.c])<br>
+&gt;=C2=A0 =C2=A0AC_CONFIG_AUX_DIR([build-aux])<br>
+&gt; --AM_INIT_AUTOMAKE([1.13 silent-rules parallel-tests dist-xz dist-lzip=
+])<br>
+&gt; -+AM_INIT_AUTOMAKE([1.13 silent-rules serial-tests dist-xz dist-lzip])=
 <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rc =3D checkPackages(=
-pkgcheck);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free(pkgcheck);<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -+=C2=A0 =C2=A0 return rc;<br>
-&gt; -+}<br>
-&gt; -+<br>
-&gt; -+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating=
-)<br>
-&gt; -+{<br>
-&gt; -+=C2=A0 =C2=A0 rpmRC rc;<br>
-&gt; -+=C2=A0 =C2=A0 Package pkg;<br>
-&gt; -+=C2=A0 =C2=A0 char *pkglist =3D NULL;<br>
-&gt; -+<br>
-&gt; -+=C2=A0 =C2=A0 for (pkg =3D spec-&gt;packages; pkg !=3D NULL; pkg =3D=
- pkg-&gt;next) {<br>
-&gt; -+=C2=A0 =C2=A0 char *fn =3D NULL;<br>
-&gt; -+=C2=A0 =C2=A0 rc =3D packageBinary(spec, pkg, cookie, cheating, &amp=
-;fn);<br>
-&gt; -+=C2=A0 =C2=A0 if (rc =3D=3D RPMRC_OK) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rstrcat(&amp;pkglist, fn);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rstrcat(&amp;pkglist, &quot; &quot;=
-);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
+&gt; +-AM_INIT_AUTOMAKE([1.13 silent-rules parallel-tests tar-ustar])<br>
+&gt; ++AM_INIT_AUTOMAKE([1.13 silent-rules serial-tests tar-ustar])<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0dnl Override automake&#39;s tar command used for creating =
+distributions.<br>
+&gt; - am__tar=3D&#39;${AMTAR} chof - --owner=3Droot --group=3Droot &quot;$=
+$tardir&quot;&#39;<br>
+&gt; + am__tar=3D&#39;${AMTAR} chf - --format=3Dustar --owner=3Droot --grou=
+p=3Droot &quot;$$tardir&quot;&#39;<br>
+&gt;=C2=A0 diff --git a/gettext-runtime/<a href=3D"http://configure.ac" rel=
+=3D"noreferrer" target=3D"_blank">configure.ac</a> b/gettext-runtime/<a hre=
+f=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank">configure.ac=
+</a><br>
+&gt; -index e9299b6..d4f5528 100644<br>
+&gt; +index de203e7..138a07f 100644<br>
+&gt;=C2=A0 --- a/gettext-runtime/<a href=3D"http://configure.ac" rel=3D"nor=
+eferrer" target=3D"_blank">configure.ac</a><br>
+&gt;=C2=A0 +++ b/gettext-runtime/<a href=3D"http://configure.ac" rel=3D"nor=
+eferrer" target=3D"_blank">configure.ac</a><br>
+&gt;=C2=A0 @@ -22,7 +22,7 @@ AC_INIT([gettext-runtime],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0[<a href=3D"mailto:bug-gnu-gettext@gnu.org" targe=
+t=3D"_blank">bug-gnu-gettext@gnu.org</a>])<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0[<a href=3D"mailto:bug-gettext@gnu.org" target=3D=
+"_blank">bug-gettext@gnu.org</a>])<br>
+&gt;=C2=A0 =C2=A0AC_CONFIG_SRCDIR([intl/dcigettext.c])<br>
+&gt;=C2=A0 =C2=A0AC_CONFIG_AUX_DIR([../build-aux])<br>
+&gt;=C2=A0 -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])<br>
+&gt; @@ -41,11 +42,11 @@ index e9299b6..d4f5528 100644<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0dnl Installation directories.<br>
+&gt;=C2=A0 diff --git a/gettext-tools/<a href=3D"http://configure.ac" rel=
+=3D"noreferrer" target=3D"_blank">configure.ac</a> b/gettext-tools/<a href=
+=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank">configure.ac<=
+/a><br>
+&gt; -index 920eeb6..c507434 100644<br>
+&gt; +index cf1dd73..b544d6d 100644<br>
+&gt;=C2=A0 --- a/gettext-tools/<a href=3D"http://configure.ac" rel=3D"noref=
+errer" target=3D"_blank">configure.ac</a><br>
+&gt;=C2=A0 +++ b/gettext-tools/<a href=3D"http://configure.ac" rel=3D"noref=
+errer" target=3D"_blank">configure.ac</a><br>
+&gt;=C2=A0 @@ -22,7 +22,7 @@ AC_INIT([gettext-tools],<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0[<a href=3D"mailto:bug-gnu-gettext@gnu.org" targe=
+t=3D"_blank">bug-gnu-gettext@gnu.org</a>])<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0[<a href=3D"mailto:bug-gettext@gnu.org" target=3D=
+"_blank">bug-gettext@gnu.org</a>])<br>
+&gt;=C2=A0 =C2=A0AC_CONFIG_SRCDIR([src/msgfmt.c])<br>
+&gt;=C2=A0 =C2=A0AC_CONFIG_AUX_DIR([../build-aux])<br>
+&gt;=C2=A0 -AM_INIT_AUTOMAKE([1.11.1 silent-rules parallel-tests])<br>
+&gt; @@ -53,6 +54,3 @@ index 920eeb6..c507434 100644<br>
+&gt;=C2=A0 =C2=A0AC_CONFIG_HEADERS([config.h])<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0dnl Installation directories.<br>
 &gt; --- <br>
-&gt; -2.11.0<br>
+&gt; -2.1.4<br>
 &gt; -<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-r=
-equires-do-not-use-monodis-from-.patch b/meta/recipes-devtools/rpm/files/00=
-01-mono-find-provides-requires-do-not-use-monodis-from-.patch<br>
-&gt; deleted file mode 100644<br>
-&gt; index 24aa4c7ffff..00000000000<br>
-&gt; --- a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires=
--do-not-use-monodis-from-.patch<br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,58 +0,0 @@<br>
-&gt; -From 43fbc3f53302a395463e8450ac81c53f623eec3f Mon Sep 17 00:00:00 200=
-1<br>
-&gt; -From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
- target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -Date: Tue, 27 Aug 2019 17:42:34 +0200<br>
-&gt; -Subject: [PATCH] mono-find-provides/requires: do not use monodis from=
- the host<br>
-&gt; -<br>
-&gt; -There was a host contamination issue here: if monodis was installed<b=
-r>
-&gt; -on the host, do_package would use that to resolve dependencies<br>
-&gt; -of mono libraries (and often fail in that). Without monodis,<br>
-&gt; -no dependencies are resolved, which is seemingly how things<br>
-&gt; -are supposed to work.<br>
-&gt; -<br>
-&gt; -Upstream-Status: Inappropriate [oe-core specific]<br>
-&gt; -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
-mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; ----<br>
-&gt; - scripts/mono-find-provides | 8 ++++----<br>
-&gt; - scripts/mono-find-requires | 8 ++++----<br>
-&gt; - 2 files changed, 8 insertions(+), 8 deletions(-)<br>
-&gt; -<br>
-&gt; -diff --git a/scripts/mono-find-provides b/scripts/mono-find-provides<=
-br>
-&gt; -index 9348457d3..b28872ffb 100644<br>
-&gt; ---- a/scripts/mono-find-provides<br>
-&gt; -+++ b/scripts/mono-find-provides<br>
-&gt; -@@ -18,11 +18,11 @@ monolist=3D($(printf &quot;%s\n&quot; &quot;${fil=
-elist[@]}&quot; | grep -E &quot;\\.(exe|dll)\$&quot;))<br>
-&gt; - build_bindir=3D&quot;$2/usr/bin&quot;<br>
-&gt; - build_libdir=3D&quot;$2$3&quot;<br>
-&gt; - <br>
-&gt; --if [ -x $build_bindir/monodis ]; then<br>
-&gt; --=C2=A0 =C2=A0 monodis=3D&quot;$build_bindir/monodis&quot;<br>
-&gt; -+if [ -x $build_bindir/monodis.bogus ]; then<br>
-&gt; -+=C2=A0 =C2=A0 monodis=3D&quot;$build_bindir/monodis.bogus&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0export LD_LIBRARY_PATH=3D$build_libdir${LD_LIBRAR=
-Y_PATH:+:$LD_LIBRARY_PATH}<br>
-&gt; --elif [ -x /usr/bin/monodis ]; then<br>
-&gt; --=C2=A0 =C2=A0 monodis=3D&quot;/usr/bin/monodis&quot;<br>
-&gt; -+elif [ -x /usr/bin/monodis.bogus ]; then<br>
-&gt; -+=C2=A0 =C2=A0 monodis=3D&quot;/usr/bin/monodis.bogus&quot;<br>
-&gt; - else<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0exit 0;<br>
-&gt; - fi<br>
-&gt; -diff --git a/scripts/mono-find-requires b/scripts/mono-find-requires<=
-br>
-&gt; -index ea58cae48..d270169e1 100644<br>
-&gt; ---- a/scripts/mono-find-requires<br>
-&gt; -+++ b/scripts/mono-find-requires<br>
-&gt; -@@ -18,11 +18,11 @@ monolist=3D($(printf &quot;%s\n&quot; &quot;${fil=
-elist[@]}&quot; | grep -E &quot;\\.(exe|dll)\$&quot;))<br>
-&gt; - build_bindir=3D&quot;$2/usr/bin&quot;<br>
-&gt; - build_libdir=3D&quot;$2$3&quot;<br>
-&gt; - <br>
-&gt; --if [ -x $build_bindir/monodis ]; then<br>
-&gt; --=C2=A0 =C2=A0 monodis=3D&quot;$build_bindir/monodis&quot;<br>
-&gt; -+if [ -x $build_bindir/monodis.bogus ]; then<br>
-&gt; -+=C2=A0 =C2=A0 monodis=3D&quot;$build_bindir/monodis.bogus&quot;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0export LD_LIBRARY_PATH=3D$build_libdir${LD_LIBRAR=
-Y_PATH:+:$LD_LIBRARY_PATH}<br>
-&gt; --elif [ -x /usr/bin/monodis ]; then<br>
-&gt; --=C2=A0 =C2=A0 monodis=3D&quot;/usr/bin/monodis&quot;<br>
-&gt; -+elif [ -x /usr/bin/monodis.bogus ]; then<br>
-&gt; -+=C2=A0 =C2=A0 monodis=3D&quot;/usr/bin/monodis.bogus&quot;<br>
-&gt; - else<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0exit 0;<br>
-&gt; - fi<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-f=
-ile-classification-in-parallel.patch b/meta/recipes-devtools/rpm/files/0001=
--rpmfc.c-do-not-run-file-classification-in-parallel.patch<br>
+&gt; diff --git a/meta/recipes-core/gettext/gettext-0.20.1/use-pkgconfig.pa=
+tch b/meta/recipes-core/gettext/gettext-0.20.1/use-pkgconfig.patch<br>
 &gt; new file mode 100644<br>
-&gt; index 00000000000..9a5cd7c80dc<br>
+&gt; index 00000000000..d1b2603779b<br>
 &gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-cla=
-ssification-in-parallel.patch<br>
-&gt; @@ -0,0 +1,65 @@<br>
-&gt; +From 93c3c7f043f62e96941274e957c4ad9432032af1 Mon Sep 17 00:00:00 200=
+&gt; +++ b/meta/recipes-core/gettext/gettext-0.20.1/use-pkgconfig.patch<br>
+&gt; @@ -0,0 +1,713 @@<br>
+&gt; +From ef414b06be80c6f605731abc9e674e396b80ec9e Mon Sep 17 00:00:00 200=
 1<br>
-&gt; +From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
- target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; +Date: Mon, 18 Nov 2019 16:22:56 +0100<br>
-&gt; +Subject: [PATCH] rpmfc.c: do not run file classification in parallel<=
-br>
+&gt; +From: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" target=
+=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+&gt; +Date: Tue, 23 Jan 2018 00:54:13 +0000<br>
+&gt; +Subject: [PATCH] gettext: beat library detection into shape<br>
 &gt; +<br>
-&gt; +This is causing freezes with libmagic when the file in question is co=
-mpressed:<br>
-&gt; +<a href=3D"https://github.com/rpm-software-management/rpm/issues/756"=
- rel=3D"noreferrer" target=3D"_blank">https://github.com/rpm-software-manag=
-ement/rpm/issues/756</a><br>
+&gt; +For reasons which I just can&#39;t fathom gnulib doesn&#39;t use the =
+expected tools to<br>
+&gt; +find libraries but badly reinvents the wheel.=C2=A0 This will trivial=
+ly lead to host<br>
+&gt; +contamination (explicit searches of /usr/lib) or incorrect RPATHs (ba=
+d<br>
+&gt; +canonicalisation resulting in relative paths).<br>
 &gt; +<br>
-&gt; +Upstream-Status: Inapppropriate [upstream wants a proper fix]<br>
-&gt; +Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
-mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; +Simply delete all the crazy, and replace with a single call to pkg-co=
+nfig.<br>
+&gt; +<br>
+&gt; +Upstream-Status: Inappropriate (upstream still refuse to consider pkg=
+-config)<br>
+&gt; +Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.co=
+m" target=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+&gt; +<br>
 &gt; +---<br>
-&gt; + build/rpmfc.c | 8 --------<br>
-&gt; + 1 file changed, 8 deletions(-)<br>
+&gt; + gettext-tools/gnulib-m4/libxml.m4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 99 +----------------<br>
+&gt; + .../gnulib-local/lib/term-styled-ostream.oo.c |=C2=A0 12 +-<br>
+&gt; + libtextstyle/gnulib-local/m4/libcroco.m4=C2=A0 =C2=A0 =C2=A0 |=C2=A0=
+ 99 +++--------------<br>
+&gt; + libtextstyle/gnulib-local/m4/libglib.m4=C2=A0 =C2=A0 =C2=A0 =C2=A0| =
+104 +++---------------<br>
+&gt; + libtextstyle/gnulib-m4/libcroco.m4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 |=C2=A0 99 +++--------------<br>
+&gt; + libtextstyle/gnulib-m4/libglib.m4=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0| 104 +++---------------<br>
+&gt; + libtextstyle/lib/term-styled-ostream.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 12 +-<br>
+&gt; + libtextstyle/lib/term-styled-ostream.oo.c=C2=A0 =C2=A0 =C2=A0|=C2=A0=
+ 12 +-<br>
+&gt; + 8 files changed, 87 insertions(+), 454 deletions(-)<br>
 &gt; +<br>
-&gt; +diff --git a/build/rpmfc.c b/build/rpmfc.c<br>
-&gt; +index 3db7a9352..17afdd57a 100644<br>
-&gt; +--- a/build/rpmfc.c<br>
-&gt; ++++ b/build/rpmfc.c<br>
-&gt; +@@ -680,7 +680,6 @@ static void rpmfcAttributes(rpmfc fc, int ix, con=
-st char *ftype, const char *ful<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* Add attributes on libmagic type &amp; path pat=
-tern matches */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (matches(&amp;(*attr)-&gt;incl, ftype, path, i=
-s_executable)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0argvAddTokens(&amp;fc-&gt;fattrs[ix=
-], (*attr)-&gt;name);<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 #pragma omp critical(fahash)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fattrHashAddEntry(fc-&gt;fahash, at=
-tr-fc-&gt;atypes, ix);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +@@ -1105,7 +1104,6 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_=
-mode_t * fmode)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* Build (sorted) file class dictionary. */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fc-&gt;cdict =3D rpmstrPoolCreate();<br>
+&gt; +diff --git a/gettext-tools/gnulib-m4/libxml.m4 b/gettext-tools/gnulib=
+-m4/libxml.m4<br>
+&gt; +index 05b9550..031ee65 100644<br>
+&gt; +--- a/gettext-tools/gnulib-m4/libxml.m4<br>
+&gt; ++++ b/gettext-tools/gnulib-m4/libxml.m4<br>
+&gt; +@@ -13,6 +13,7 @@ dnl gl_LIBXML(FORCE-INCLUDED)<br>
+&gt; + dnl=C2=A0 =C2=A0forces the use of the included or an external libxml=
+.<br>
+&gt; + AC_DEFUN([gl_LIBXML],<br>
+&gt; + [<br>
+&gt; ++=C2=A0 AC_REQUIRE([PKG_PROG_PKG_CONFIG])<br>
+&gt; +=C2=A0 =C2=A0AC_REQUIRE([AM_ICONV_LINK])<br>
 &gt; + <br>
-&gt; +-=C2=A0 =C2=A0 #pragma omp parallel<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0{<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* libmagic is not thread-safe, each thread needs=
- to a private handle */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0magic_t ms =3D magic_open(msflags);<br>
-&gt; +@@ -1113,15 +1111,12 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rp=
-m_mode_t * fmode)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (ms =3D=3D NULL) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rpmlog(RPMLOG_ERR, _(&quot;magic_open(0x%x) faile=
-d: %s\n&quot;),<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0msflags, strerror(err=
-no));<br>
-&gt; +-=C2=A0 =C2=A0 #pragma omp cancel parallel<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; + <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (magic_load(ms, NULL) =3D=3D -1) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rpmlog(RPMLOG_ERR, _(&quot;magic_load failed: %s\=
-n&quot;), magic_error(ms));<br>
-&gt; +-=C2=A0 =C2=A0 #pragma omp cancel parallel<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; + <br>
-&gt; +-=C2=A0 =C2=A0 #pragma omp for ordered reduction(+:nerrors)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0for (int ix =3D 0; ix &lt; fc-&gt;nfiles; ix++) {=
-<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0rpmsid ftypeId;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0const char * ftype;<br>
-&gt; +@@ -1185,14 +1180,11 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rp=
-m_mode_t * fmode)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0fc-&gt;fcolor[ix] =3D fcolor;<br>
-&gt; + <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* Add to file class dictionary and index array *=
-/<br>
-&gt; +-=C2=A0 =C2=A0 #pragma omp ordered<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if (fcolor !=3D RPMFC_WHITE &amp;&amp; (fcolor &a=
-mp; RPMFC_INCLUDE)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ftypeId =3D rpmstrPoolId(fc-&gt;cdi=
-ct, ftype, 1);<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 #pragma omp atomic<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fc-&gt;fknown++;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0} else {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ftypeId =3D rpmstrPoolId(fc-&gt;cdi=
-ct, &quot;&quot;, 1);<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 #pragma omp atomic<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fc-&gt;fwhite++;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0/* Pool id&#39;s start from 1, for headers we wan=
-t it from 0 */<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/files/0002-Run-binary-package-c=
-reation-via-thread-pools.patch b/meta/recipes-devtools/rpm/files/0002-Run-b=
-inary-package-creation-via-thread-pools.patch<br>
-&gt; deleted file mode 100644<br>
-&gt; index d10041c2e14..00000000000<br>
-&gt; --- a/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation=
--via-thread-pools.patch<br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,127 +0,0 @@<br>
-&gt; -From 513200cf76758de4668312c628d6362bdabfaf4b Mon Sep 17 00:00:00 200=
-1<br>
-&gt; -From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
- target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -Date: Thu, 25 May 2017 19:30:20 +0300<br>
-&gt; -Subject: [PATCH 1/3] Run binary package creation via thread pools.<br=
->
-&gt; -<br>
-&gt; -Upstream-Status: Submitted [<a href=3D"https://github.com/rpm-softwar=
-e-management/rpm/pull/226" rel=3D"noreferrer" target=3D"_blank">https://git=
-hub.com/rpm-software-management/rpm/pull/226</a>]<br>
-&gt; -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
-mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -<br>
-&gt; ----<br>
-&gt; - build/pack.c | 81 +++++++++++++++++++++++++++++++++++++++++++++++++-=
-----------<br>
-&gt; - <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
->configure.ac</a> |=C2=A0 3 +++<br>
-&gt; - 2 files changed, 70 insertions(+), 14 deletions(-)<br>
-&gt; -<br>
-&gt; -diff --git a/build/pack.c b/build/pack.c<br>
-&gt; -index ccfd614cc..ed5b9ab4e 100644<br>
-&gt; ---- a/build/pack.c<br>
-&gt; -+++ b/build/pack.c<br>
-&gt; -@@ -616,25 +616,78 @@ static rpmRC packageBinary(rpmSpec spec, Packag=
-e pkg, const char *cookie, int ch<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return rc;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; --rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating=
-)<br>
-&gt; -+struct binaryPackageTaskData<br>
-&gt; - {<br>
-&gt; --=C2=A0 =C2=A0 rpmRC rc;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0Package pkg;<br>
-&gt; -+=C2=A0 =C2=A0 char *filename;<br>
-&gt; -+=C2=A0 =C2=A0 rpmRC result;<br>
-&gt; -+=C2=A0 =C2=A0 struct binaryPackageTaskData *next;<br>
-&gt; -+};<br>
-&gt; -+<br>
-&gt; -+static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec s=
-pec, const char *cookie, int cheating)<br>
-&gt; -+{<br>
-&gt; -+=C2=A0 =C2=A0 struct binaryPackageTaskData *tasks =3D NULL;<br>
-&gt; -+=C2=A0 =C2=A0 struct binaryPackageTaskData *task =3D NULL;<br>
-&gt; -+=C2=A0 =C2=A0 struct binaryPackageTaskData *prev =3D NULL;<br>
-&gt; -+<br>
-&gt; -+=C2=A0 =C2=A0 for (Package pkg =3D spec-&gt;packages; pkg !=3D NULL;=
- pkg =3D pkg-&gt;next) {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 task =3D rcalloc(1, sizeof(*task));<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 task-&gt;pkg =3D pkg;<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (pkg =3D=3D spec-&gt;packages) {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // the first package needs=
- to be processed ahead of others, as they copy<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 // changelog data from it,=
- and so otherwise data races would happen<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 task-&gt;result =3D packag=
-eBinary(spec, pkg, cookie, cheating, &amp;(task-&gt;filename));<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLOG_NOTICE, _(&q=
-uot;Finished binary package job, result %d, filename %s\n&quot;), task-&gt;=
-result, task-&gt;filename);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 tasks =3D task;<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (prev !=3D NULL) {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 prev-&gt;next =3D task;<br=
->
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 prev =3D task;<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -+<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp parallel<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp single<br>
-&gt; -+=C2=A0 =C2=A0 // re-declaring task variable is necessary, or older g=
-cc versions will produce code that segfaults<br>
-&gt; -+=C2=A0 =C2=A0 for (struct binaryPackageTaskData *task =3D tasks; tas=
-k !=3D NULL; task =3D task-&gt;next) {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (task !=3D tasks)<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 #pragma omp task<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 task-&gt;result =3D packag=
-eBinary(spec, task-&gt;pkg, cookie, cheating, &amp;(task-&gt;filename));<br=
->
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLOG_NOTICE, _(&q=
-uot;Finished binary package job, result %d, filename %s\n&quot;), task-&gt;=
-result, task-&gt;filename);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -+<br>
-&gt; -+=C2=A0 =C2=A0 return tasks;<br>
-&gt; -+}<br>
-&gt; -+<br>
-&gt; -+static void freeBinaryPackageTasks(struct binaryPackageTaskData* tas=
-ks)<br>
-&gt; -+{<br>
-&gt; -+=C2=A0 =C2=A0 while (tasks !=3D NULL) {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 struct binaryPackageTaskData* next =3D t=
-asks-&gt;next;<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rfree(tasks-&gt;filename);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rfree(tasks);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 tasks =3D next;<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -+}<br>
-&gt; -+<br>
-&gt; -+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating=
-)<br>
-&gt; -+{<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0char *pkglist =3D NULL;<br>
-&gt; - <br>
-&gt; --=C2=A0 =C2=A0 for (pkg =3D spec-&gt;packages; pkg !=3D NULL; pkg =3D=
- pkg-&gt;next) {<br>
-&gt; --=C2=A0 =C2=A0 char *fn =3D NULL;<br>
-&gt; --=C2=A0 =C2=A0 rc =3D packageBinary(spec, pkg, cookie, cheating, &amp=
-;fn);<br>
-&gt; --=C2=A0 =C2=A0 if (rc =3D=3D RPMRC_OK) {<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 rstrcat(&amp;pkglist, fn);<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 rstrcat(&amp;pkglist, &quot; &quot;);<br=
->
-&gt; --=C2=A0 =C2=A0 }<br>
-&gt; --=C2=A0 =C2=A0 free(fn);<br>
-&gt; --=C2=A0 =C2=A0 if (rc !=3D RPMRC_OK) {<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkglist =3D _free(pkglist);<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 return rc;<br>
-&gt; --=C2=A0 =C2=A0 }<br>
-&gt; -+=C2=A0 =C2=A0 struct binaryPackageTaskData *tasks =3D runBinaryPacka=
-geTasks(spec, cookie, cheating);<br>
-&gt; -+<br>
-&gt; -+=C2=A0 =C2=A0 for (struct binaryPackageTaskData *task =3D tasks; tas=
-k !=3D NULL; task =3D task-&gt;next) {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (task-&gt;result =3D=3D RPMRC_OK) {<b=
-r>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rstrcat(&amp;pkglist, task=
--&gt;filename);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rstrcat(&amp;pkglist, &quo=
-t; &quot;);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 _free(pkglist);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 freeBinaryPackageTasks(tas=
-ks);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return RPMRC_FAIL;<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -+=C2=A0 =C2=A0 freeBinaryPackageTasks(tasks);<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0/* Now check the package set if enabled */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pkglist !=3D NULL) {<br>
-&gt; -diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" targe=
-t=3D"_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"nore=
-ferrer" target=3D"_blank">configure.ac</a><br>
-&gt; -index a506ec819..59fa0acaf 100644<br>
-&gt; ---- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
-lank">configure.ac</a><br>
-&gt; -+++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
-lank">configure.ac</a><br>
-&gt; -@@ -17,6 +17,9 @@ AC_DISABLE_STATIC<br>
-&gt; - <br>
-&gt; - PKG_PROG_PKG_CONFIG<br>
-&gt; - <br>
-&gt; -+AC_OPENMP<br>
-&gt; -+RPMCFLAGS=3D&quot;$OPENMP_CFLAGS $RPMCFLAGS&quot;<br>
-&gt; -+<br>
-&gt; - dnl Checks for programs.<br>
-&gt; - AC_PROG_CXX<br>
-&gt; - AC_PROG_AWK<br>
-&gt; --- <br>
-&gt; -2.11.0<br>
-&gt; -<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-op=
-erations-over-string-pools-threa.patch b/meta/recipes-devtools/rpm/files/00=
-03-rpmstrpool.c-make-operations-over-string-pools-threa.patch<br>
-&gt; deleted file mode 100644<br>
-&gt; index c348ae5330e..00000000000<br>
-&gt; --- a/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operation=
-s-over-string-pools-threa.patch<br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,207 +0,0 @@<br>
-&gt; -From c80892f17e44331206c8318d53b63bb6a99554d0 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; -From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
- target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -Date: Tue, 30 May 2017 13:58:30 +0300<br>
-&gt; -Subject: [PATCH 3/4] rpmstrpool.c: make operations over string pools<=
-br>
-&gt; - thread-safe<br>
-&gt; -<br>
-&gt; -Otherwise multithreaded rpm building explodes in various ways due<br>
-&gt; -to data races.<br>
-&gt; -<br>
-&gt; -Upstream-Status: Submitted [<a href=3D"https://github.com/rpm-softwar=
-e-management/rpm/pull/226" rel=3D"noreferrer" target=3D"_blank">https://git=
-hub.com/rpm-software-management/rpm/pull/226</a>]<br>
-&gt; -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
-mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -<br>
-&gt; ----<br>
-&gt; - rpmio/rpmstrpool.c | 56 ++++++++++++++++++++++++++++++++++++++++++++=
-+---------<br>
-&gt; - 1 file changed, 47 insertions(+), 9 deletions(-)<br>
-&gt; -<br>
-&gt; -diff --git a/rpmio/rpmstrpool.c b/rpmio/rpmstrpool.c<br>
-&gt; -index 30a57eb10..58ba95a02 100644<br>
-&gt; ---- a/rpmio/rpmstrpool.c<br>
-&gt; -+++ b/rpmio/rpmstrpool.c<br>
-&gt; -@@ -113,6 +113,8 @@ static poolHash poolHashCreate(int numBuckets)<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0return ht;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; -+static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid)=
+&gt; +=C2=A0 =C2=A0ifelse([$1], , [<br>
+&gt; +@@ -30,100 +31,10 @@ AC_DEFUN([gl_LIBXML],<br>
+&gt; +=C2=A0 =C2=A0INCXML=3D<br>
+&gt; +=C2=A0 =C2=A0ifelse([$1], [yes], , [<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0if test &quot;$gl_cv_libxml_use_included&quot; !=
+=3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl Figure out whether we can use a preinstalle=
+d libxml2, or have to use<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl the included one.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_CACHE_VAL([gl_cv_libxml], [<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libxml=3Dno<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LIBXML=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LTLIBXML=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_INCXML=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_LIBS=3D&quot;$LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$LIBS $LIBICONV&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Search for libxml2 and define LIBXML=
+2, LTLIBXML2 and INCXML2<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl accordingly.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Don&#39;t use xml2-config nor pkg-co=
+nfig, since it doesn&#39;t work when<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl cross-compiling or when the C compil=
+er in use is different from the<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl one that built the library.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Use a test program that tries to inv=
+oke xmlFree. On Cygwin 1.7.x,<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl libxml2 is built in such a way that =
+uses of xmlFree work fine with<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl -Wl,--enable-auto-import but lead to=
+ a link error with<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl -Wl,--disable-auto-import.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_LIB_LINKFLAGS_BODY([xml2])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS $LIBXML2 $LIB=
+ICONV&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libxml/xmlvers=
+ion.h&gt;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0#include &lt;libxml/xmlmemory.h&gt;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0#include &lt;libxml/xpath.h&gt;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 ],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [xmlCheckVersion (0);<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlFree ((void *) 0);<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlXPathSetContextNode ((vo=
+id *)0, (void *)0);<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libxml=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBXML=3D&quot;$LIBXM=
+L2 $LIBICONV&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBXML=3D&quot;$LTL=
+IBXML2 $LTLIBICONV&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libxml&quot; !=3D y=
+es; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_CPPFLAGS=3D&quot;$CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$CPPFLAGS $INCXM=
+L2&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libxml/=
+xmlversion.h&gt;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0#include &lt;libxml/xmlmemory.h&gt;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0#include &lt;libxml/xpath.h&gt;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 ],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [xmlCheckVersion (0);<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlFree ((void *) 0)=
 ;<br>
-&gt; -+<br>
-&gt; - static void poolHashResize(rpmstrPool pool, int numBuckets)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0poolHash ht =3D pool-&gt;hash;<br>
-&gt; -@@ -120,7 +122,7 @@ static void poolHashResize(rpmstrPool pool, int n=
-umBuckets)<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0for (int i=3D0; i&lt;ht-&gt;numBuckets; i++) {<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!ht-&gt;buckets[i].keyid) conti=
-nue;<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int keyHash =3D rstrhash(rpmstr=
-PoolStr(pool, ht-&gt;buckets[i].keyid));<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int keyHash =3D rstrhash(rpmstr=
-PoolStrNoLock(pool, ht-&gt;buckets[i].keyid));<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (unsigned int j=3D0;;j++) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int hash =3D=
- hashbucket(keyHash, j) % numBuckets;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!buckets[hash].ke=
-yid) {<br>
-&gt; -@@ -149,7 +151,7 @@ static void poolHashAddHEntry(rpmstrPool pool, co=
-nst char * key, unsigned int ke<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ht-&gt;buckets[hash].=
-keyid =3D keyid;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ht-&gt;keyCount++;<br=
->
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!strcmp(rpmstrPoolStr(pool, h=
-t-&gt;buckets[hash].keyid), key)) {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!strcmp(rpmstrPoolStrNoLock(p=
-ool, ht-&gt;buckets[hash].keyid), key)) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -@@ -191,7 +193,7 @@ static void poolHashPrintStats(rpmstrPool pool)<b=
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlXPathSetContextNo=
+de ((void *)0, (void *)0);<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libxml=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBXML=3D&quot=
+;$LIBXML2 $LIBICONV&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBXML=3D&qu=
+ot;$LTLIBXML2 $LTLIBICONV&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCXML=3D&quot=
+;$INCXML2&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libxml&quot;=
+ !=3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Often the include file=
+s are installed in /usr/include/libxml2.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl In libxml2-2.5, &lt;li=
+bxml/xmlversion.h&gt; is self-contained.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl In libxml2-2.6, it inc=
+ludes &lt;libxml/xmlexports.h&gt; which is<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl self-contained.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libxml2_include_dir=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_CPP([#include &lt;l=
+ibxml2/libxml/xmlexports.h&gt;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_ABSOLUTE_HEADER=
+([libxml2/libxml/xmlexports.h])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libxml2_inclu=
+de_dir=3D`echo &quot;$gl_cv_absolute_libxml2_libxml_xmlexports_h&quot; | se=
+d -e &#39;s,.libxml.xmlexports\.h$,,&#39;`<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test -z &quot;$libxml2_=
+include_dir&quot;; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_CPP([#includ=
+e &lt;libxml2/libxml/xmlversion.h&gt;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_ABSOLUTE=
+_HEADER([libxml2/libxml/xmlversion.h])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libxml=
+2_include_dir=3D`echo &quot;$gl_cv_absolute_libxml2_libxml_xmlversion_h&quo=
+t; | sed -e &#39;s,.libxml.xmlversion\.h$,,&#39;`<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test -n &quot;$libxml2_=
+include_dir&quot; &amp;&amp; test -d &quot;$libxml2_include_dir&quot;; then=
+<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$g=
+l_save_CPPFLAGS -I$libxml2_include_dir&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#inclu=
+de &lt;libxml/xmlversion.h&gt;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#include &lt;libxml/xmlmemory.h&gt;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#include &lt;libxml/xpath.h&gt;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 ],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [xmlCheckVer=
+sion (0);<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlFre=
+e ((void *) 0);<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0xmlXPa=
+thSetContextNode ((void *)0, (void *)0);<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libxm=
+l=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LIBXML=3D&quot;$LIBXML2 $LIBICONV&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LTLIBXML=3D&quot;$LTLIBXML2 $LTLIBICONV&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+INCXML=3D&quot;-I$libxml2_include_dir&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_CHECKING([for libxml])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libxml])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if test $gl_cv_libxml =3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBXML=3D&quot;$gl_cv_LIBXML&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LTLIBXML=3D&quot;$gl_cv_LTLIBXML&quot;<b=
 r>
-&gt; -=C2=A0 =C2=A0 =C2=A0int maxcollisions =3D 0;<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0for (i=3D0; i&lt;ht-&gt;numBuckets; i++) {<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int keyHash =3D rstrhash(rpmstr=
-PoolStr(pool, ht-&gt;buckets[i].keyid));<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 unsigned int keyHash =3D rstrhash(rpmstr=
-PoolStrNoLock(pool, ht-&gt;buckets[i].keyid));<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (unsigned int j=3D0;;j++) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0unsigned int hash =3D=
- hashbucket(keyHash, i) % ht-&gt;numBuckets;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (hash=3D=3Di) {<br=
->
-&gt; -@@ -221,7 +223,7 @@ static void rpmstrPoolRehash(rpmstrPool pool)<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0pool-&gt;hash =3D poolHashCreate(sizehint);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0for (int i =3D 1; i &lt;=3D pool-&gt;offs_size; i=
-++)<br>
-&gt; --=C2=A0 =C2=A0 poolHashAddEntry(pool, rpmstrPoolStr(pool, i), i);<br>
-&gt; -+=C2=A0 =C2=A0 poolHashAddEntry(pool, rpmstrPoolStrNoLock(pool, i), i=
-);<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; - rpmstrPool rpmstrPoolCreate(void)<br>
-&gt; -@@ -245,6 +247,8 @@ rpmstrPool rpmstrPoolCreate(void)<br>
-&gt; - <br>
-&gt; - rpmstrPool rpmstrPoolFree(rpmstrPool pool)<br>
-&gt; - {<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp critical(rpmstrpool)<br>
-&gt; -+=C2=A0 =C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pool) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pool-&gt;nrefs &gt; 1) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pool-&gt;nrefs--;<br>
-&gt; -@@ -260,18 +264,24 @@ rpmstrPool rpmstrPoolFree(rpmstrPool pool)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free(pool);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return NULL;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; - rpmstrPool rpmstrPoolLink(rpmstrPool pool)<br>
-&gt; - {<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp critical(rpmstrpool)<br>
-&gt; -+=C2=A0 =C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pool)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0pool-&gt;nrefs++;<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return pool;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; - void rpmstrPoolFreeze(rpmstrPool pool, int keephash)<br>
-&gt; - {<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp critical(rpmstrpool)<br>
-&gt; -+=C2=A0 =C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pool &amp;&amp; !pool-&gt;frozen) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (!keephash) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pool-&gt;hash =3D poolHashFree(pool=
--&gt;hash);<br>
-&gt; -@@ -281,16 +291,20 @@ void rpmstrPoolFreeze(rpmstrPool pool, int keep=
-hash)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0pool-&gt;offs_alloced * sizeof(*pool-&gt;offs))=
-;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0pool-&gt;frozen =3D 1;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; - void rpmstrPoolUnfreeze(rpmstrPool pool)<br>
-&gt; - {<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp critical(rpmstrpool)<br>
-&gt; -+=C2=A0 =C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pool) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pool-&gt;hash =3D=3D NULL) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rpmstrPoolRehash(pool);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0pool-&gt;frozen =3D 0;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; - static rpmsid rpmstrPoolPut(rpmstrPool pool, const char *s, size_t s=
-len, unsigned int hash)<br>
-&gt; -@@ -350,7 +364,7 @@ static rpmsid rpmstrPoolGet(rpmstrPool pool, cons=
-t char * key, size_t keylen,<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return 0;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; - <br>
-&gt; --=C2=A0 =C2=A0 s =3D rpmstrPoolStr(pool, ht-&gt;buckets[hash].keyid);=
-<br>
-&gt; -+=C2=A0 =C2=A0 s =3D rpmstrPoolStrNoLock(pool, ht-&gt;buckets[hash].k=
-eyid);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0/* pool string could be longer than keylen, requi=
-re exact matche */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (strncmp(s, key, keylen) =3D=3D 0 &amp;&amp; s=
-[keylen] =3D=3D &#39;\0&#39;)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return ht-&gt;buckets[hash].keyid;<=
-br>
-&gt; -@@ -373,27 +387,31 @@ static inline rpmsid strn2id(rpmstrPool pool, c=
-onst char *s, size_t slen,<br>
-&gt; - rpmsid rpmstrPoolIdn(rpmstrPool pool, const char *s, size_t slen, in=
-t create)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0rpmsid sid =3D 0;<br>
-&gt; --<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp critical(rpmstrpool)<br>
-&gt; -+=C2=A0 =C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (s !=3D NULL) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0unsigned int hash =3D rstrnhash(s, slen);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0sid =3D strn2id(pool, s, slen, hash, create);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return sid;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; - rpmsid rpmstrPoolId(rpmstrPool pool, const char *s, int create)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0rpmsid sid =3D 0;<br>
-&gt; --<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp critical(rpmstrpool)<br>
-&gt; -+=C2=A0 =C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (s !=3D NULL) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0size_t slen;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0unsigned int hash =3D rstrlenhash(s, &amp;slen);<=
-br>
-&gt; -=C2=A0 =C2=A0 =C2=A0sid =3D strn2id(pool, s, slen, hash, create);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return sid;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; --const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)<br>
-&gt; -+static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid)=
-<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0const char *s =3D NULL;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pool &amp;&amp; sid &gt; 0 &amp;&amp; sid &lt=
-;=3D pool-&gt;offs_size)<br>
-&gt; -@@ -401,12 +419,25 @@ const char * rpmstrPoolStr(rpmstrPool pool, rpm=
-sid sid)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return s;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; -+const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)<br>
-&gt; -+{<br>
-&gt; -+=C2=A0 =C2=A0 const char *s =3D NULL;<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp critical(rpmstrpool)<br>
-&gt; -+=C2=A0 =C2=A0 {<br>
-&gt; -+=C2=A0 =C2=A0 s =3D rpmstrPoolStrNoLock(pool, sid);<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -+=C2=A0 =C2=A0 return s;<br>
-&gt; -+}<br>
-&gt; -+<br>
-&gt; - size_t rpmstrPoolStrlen(rpmstrPool pool, rpmsid sid)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0size_t slen =3D 0;<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp critical(rpmstrpool)<br>
-&gt; -+=C2=A0 =C2=A0 {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (pool &amp;&amp; sid &gt; 0 &amp;&amp; sid &lt=
-;=3D pool-&gt;offs_size) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0slen =3D strlen(pool-&gt;offs[sid]);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return slen;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; -@@ -421,5 +452,12 @@ int rpmstrPoolStreq(rpmstrPool poolA, rpmsid sid=
-A,<br>
-&gt; - <br>
-&gt; - rpmsid rpmstrPoolNumStr(rpmstrPool pool)<br>
-&gt; - {<br>
-&gt; --=C2=A0 =C2=A0 return (pool !=3D NULL) ? pool-&gt;offs_size : 0;<br>
-&gt; -+=C2=A0 =C2=A0 rpmsid id =3D 0;<br>
-&gt; -+=C2=A0 =C2=A0 #pragma omp critical(rpmstrpool)<br>
-&gt; -+=C2=A0 =C2=A0 {<br>
-&gt; -+=C2=A0 =C2=A0 if (pool) {<br>
-&gt; -+=C2=A0 =C2=A0 id =3D pool-&gt;offs_size;<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -+=C2=A0 =C2=A0 return id;<br>
-&gt; - }<br>
-&gt; --- <br>
-&gt; -2.11.0<br>
-&gt; -<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-=
-static-local-variables-from-buil.patch b/meta/recipes-devtools/rpm/files/00=
-04-build-pack.c-remove-static-local-variables-from-buil.patch<br>
-&gt; deleted file mode 100644<br>
-&gt; index 652e30b3e4a..00000000000<br>
-&gt; --- a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-=
-local-variables-from-buil.patch<br>
-&gt; +++ /dev/null<br>
-&gt; @@ -1,336 +0,0 @@<br>
-&gt; -From 792693bb90768cfde4898e8dd31ee1b5de803d2f Mon Sep 17 00:00:00 200=
-1<br>
-&gt; -From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
- target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -Date: Thu, 8 Jun 2017 17:08:09 +0300<br>
-&gt; -Subject: [PATCH] build/pack.c: remove static local variables from bui=
-ldHost()<br>
-&gt; - and getBuildTime()<br>
-&gt; -<br>
-&gt; -Their use is causing difficult to diagnoze data races when building m=
-ultiple<br>
-&gt; -packages in parallel, and is a bad idea in general, as it also makes =
-it more<br>
-&gt; -difficult to reason about code.<br>
-&gt; -<br>
-&gt; -Upstream-Status: Submitted [<a href=3D"https://github.com/rpm-softwar=
-e-management/rpm/pull/226" rel=3D"noreferrer" target=3D"_blank">https://git=
-hub.com/rpm-software-management/rpm/pull/226</a>]<br>
-&gt; -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
-mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -<br>
-&gt; -Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@g=
-mail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt; -<br>
-&gt; ----<br>
-&gt; - build/build.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 54 ++=
-++++++++++++++++++++++++++--<br>
-&gt; - build/pack.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 84 ++=
-+++++++--------------------------------------<br>
-&gt; - build/rpmbuild_internal.h |=C2=A0 8 +++--<br>
-&gt; - 3 files changed, 74 insertions(+), 72 deletions(-)<br>
-&gt; -<br>
-&gt; -diff --git a/build/build.c b/build/build.c<br>
-&gt; -index 13c3df2..b154f08 100644<br>
-&gt; ---- a/build/build.c<br>
-&gt; -+++ b/build/build.c<br>
-&gt; -@@ -6,6 +6,8 @@<br>
-&gt; - #include &quot;system.h&quot;<br>
-&gt; - <br>
-&gt; - #include &lt;errno.h&gt;<br>
-&gt; -+#include &lt;netdb.h&gt;<br>
-&gt; -+#include &lt;time.h&gt;<br>
-&gt; - #include &lt;sys/wait.h&gt;<br>
-&gt; - <br>
-&gt; - #include &lt;rpm/rpmlog.h&gt;<br>
-&gt; -@@ -16,6 +18,50 @@<br>
-&gt; - <br>
-&gt; - #include &quot;debug.h&quot;<br>
-&gt; - <br>
-&gt; -+static rpm_time_t getBuildTime(void)<br>
-&gt; -+{<br>
-&gt; -+=C2=A0 =C2=A0 rpm_time_t buildTime =3D 0;<br>
-&gt; -+=C2=A0 =C2=A0 char *srcdate;<br>
-&gt; -+=C2=A0 =C2=A0 time_t epoch;<br>
-&gt; -+=C2=A0 =C2=A0 char *endptr;<br>
-&gt; -+<br>
-&gt; -+=C2=A0 =C2=A0 srcdate =3D getenv(&quot;SOURCE_DATE_EPOCH&quot;);<br>
-&gt; -+=C2=A0 =C2=A0 if (srcdate) {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D 0;<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 epoch =3D strtol(srcdate, &amp;endptr, 1=
-0);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (srcdate =3D=3D endptr || *endptr || =
-errno !=3D 0)<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLOG_ERR, _(&quot=
-;unable to parse SOURCE_DATE_EPOCH\n&quot;));<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buildTime =3D (int32_t) ep=
-och;<br>
-&gt; -+=C2=A0 =C2=A0 } else<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 buildTime =3D (int32_t) time(NULL);<br>
-&gt; -+<br>
-&gt; -+=C2=A0 =C2=A0 return buildTime;<br>
-&gt; -+}<br>
-&gt; -+<br>
-&gt; -+static char * buildHost(void)<br>
-&gt; -+{<br>
-&gt; -+=C2=A0 =C2=A0 char* hostname;<br>
-&gt; -+=C2=A0 =C2=A0 struct hostent *hbn;<br>
-&gt; -+=C2=A0 =C2=A0 char *bhMacro;<br>
-&gt; -+<br>
-&gt; -+=C2=A0 =C2=A0 bhMacro =3D rpmExpand(&quot;%{?_buildhost}&quot;, NULL=
-);<br>
-&gt; -+=C2=A0 =C2=A0 if (strcmp(bhMacro, &quot;&quot;) !=3D 0) {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 rasprintf(&amp;hostname, &quot;%s&quot;,=
- bhMacro);<br>
-&gt; -+=C2=A0 =C2=A0 } else {<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 hostname =3D rcalloc(1024, sizeof(*hostn=
-ame));<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (void) gethostname(hostname, 1024);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 hbn =3D gethostbyname(hostname);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (hbn)<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 strcpy(hostname, hbn-&gt;h=
-_name);<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLOG_WARNING,<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 _(&quot;Could not canonicalize hostname: %s\n&quot;), hostname);<br>
-&gt; -+=C2=A0 =C2=A0 }<br>
-&gt; -+=C2=A0 =C2=A0 free(bhMacro);<br>
-&gt; -+=C2=A0 =C2=A0 return(hostname);<br>
-&gt; -+}<br>
-&gt; -+<br>
-&gt; - /**<br>
-&gt; -=C2=A0 */<br>
-&gt; - static rpmRC doRmSource(rpmSpec spec)<br>
-&gt; -@@ -201,6 +247,9 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec s=
-pec, int what)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0rpmRC rc =3D RPMRC_OK;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0int test =3D (what &amp; RPMBUILD_NOBUILD);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0char *cookie =3D buildArgs-&gt;cookie ? xstrdup(b=
-uildArgs-&gt;cookie) : NULL;<br>
-&gt; -+=C2=A0 =C2=A0 const char* host =3D buildHost();<br>
-&gt; -+=C2=A0 =C2=A0 rpm_time_t buildTime =3D getBuildTime();<br>
-&gt; -+<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (rpmExpandNumeric(&quot;%{?source_date_epoch_f=
-rom_changelog}&quot;) &amp;&amp;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0getenv(&quot;SOURCE_DATE_EPOCH&quot;) =3D=3D NULL=
-) {<br>
-&gt; -@@ -269,11 +318,11 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec=
- spec, int what)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto exit;<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (((what &amp; RPMBUILD_PACKAGESOURCE) &amp;&am=
-p; !test) &amp;&amp;<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 (rc =3D packageSources(spec, &amp;cookie=
-)))<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (rc =3D packageSources(spec, &amp;cookie=
-, buildTime, host)))<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto exit;<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (((what &amp; RPMBUILD_PACKAGEBINARY) &amp;&am=
-p; !test) &amp;&amp;<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 (rc =3D packageBinaries(spec, cookie, (d=
-idBuild =3D=3D 0))))<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (rc =3D packageBinaries(spec, cookie, (d=
-idBuild =3D=3D 0), buildTime, host)))<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto exit;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if ((what &amp; RPMBUILD_CLEAN) &amp;&amp;<br>
-&gt; -@@ -293,6 +342,7 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec s=
-pec, int what)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0(void) unlink(spec-&gt;specFile);<br>
-&gt; - <br>
-&gt; - exit:<br>
-&gt; -+=C2=A0 =C2=A0 free(host);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0free(cookie);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0spec-&gt;rootDir =3D NULL;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (rc !=3D RPMRC_OK &amp;&amp; rpmlogGetNrecs() =
-&gt; 0) {<br>
-&gt; -diff --git a/build/pack.c b/build/pack.c<br>
-&gt; -index df15876..17a4b09 100644<br>
-&gt; ---- a/build/pack.c<br>
-&gt; -+++ b/build/pack.c<br>
-&gt; -@@ -6,8 +6,6 @@<br>
-&gt; - #include &quot;system.h&quot;<br>
-&gt; - <br>
-&gt; - #include &lt;errno.h&gt;<br>
-&gt; --#include &lt;netdb.h&gt;<br>
-&gt; --#include &lt;time.h&gt;<br>
-&gt; - #include &lt;sys/wait.h&gt;<br>
-&gt; - <br>
-&gt; - #include &lt;rpm/rpmlib.h&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* RPMSIGTAG*, rpmReadPackageFile */<=
-br>
-&gt; -@@ -152,57 +150,6 @@ exit:<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return rc;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; --static rpm_time_t * getBuildTime(void)<br>
-&gt; --{<br>
-&gt; --=C2=A0 =C2=A0 static rpm_time_t buildTime[1];<br>
-&gt; --=C2=A0 =C2=A0 char *srcdate;<br>
-&gt; --=C2=A0 =C2=A0 time_t epoch;<br>
-&gt; --=C2=A0 =C2=A0 char *endptr;<br>
-&gt; --<br>
-&gt; --=C2=A0 =C2=A0 if (buildTime[0] =3D=3D 0) {<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 srcdate =3D getenv(&quot;SOURCE_DATE_EPO=
-CH&quot;);<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (srcdate) {<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 errno =3D 0;<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 epoch =3D strtol(srcdate, =
-&amp;endptr, 10);<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (srcdate =3D=3D endptr =
-|| *endptr || errno !=3D 0)<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLO=
-G_ERR, _(&quot;unable to parse SOURCE_DATE_EPOCH\n&quot;));<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buildTime[0]=
- =3D (int32_t) epoch;<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 buildTime[0] =3D (int32_t)=
- time(NULL);<br>
-&gt; --=C2=A0 =C2=A0 }<br>
-&gt; --<br>
-&gt; --=C2=A0 =C2=A0 return buildTime;<br>
-&gt; --}<br>
-&gt; --<br>
-&gt; --static const char * buildHost(void)<br>
-&gt; --{<br>
-&gt; --=C2=A0 =C2=A0 static char hostname[1024];<br>
-&gt; --=C2=A0 =C2=A0 static int oneshot =3D 0;<br>
-&gt; --=C2=A0 =C2=A0 struct hostent *hbn;<br>
-&gt; --=C2=A0 =C2=A0 char *bhMacro;<br>
-&gt; --<br>
-&gt; --=C2=A0 =C2=A0 if (! oneshot) {<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 bhMacro =3D rpmExpand(&quot;%{?_buildhos=
-t}&quot;, NULL);<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(bhMacro, &quot;&quot;) !=3D 0=
- &amp;&amp; strlen(bhMacro) &lt; 1024) {<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 strcpy(hostname, bhMacro);=
-<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (strcmp(bhMacro, &quot;=
-&quot;) !=3D 0)<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLO=
-G_WARNING, _(&quot;The _buildhost macro is too long\n&quot;));<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (void) gethostname(hostnam=
-e, sizeof(hostname));<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 hbn =3D gethostbyname(host=
-name);<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (hbn)<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 strcpy(hostn=
-ame, hbn-&gt;h_name);<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpmlog(RPMLO=
-G_WARNING,<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 _(&quot;Could not canonicalize hostname: %s\n&quot;), hos=
-tname);<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 free(bhMacro);<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 oneshot =3D 1;<br>
-&gt; --=C2=A0 =C2=A0 }<br>
-&gt; --=C2=A0 =C2=A0 return(hostname);<br>
-&gt; --}<br>
-&gt; --<br>
-&gt; - static rpmRC processScriptFiles(rpmSpec spec, Package pkg)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0struct TriggerFileEntry *p;<br>
-&gt; -@@ -476,7 +423,8 @@ exit:<br>
-&gt; -=C2=A0 * order to how the RPM format is laid on disk.<br>
-&gt; -=C2=A0 */<br>
-&gt; - static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const=
- char *fileName, char **cookie)<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 const=
- char *fileName, char **cookie,<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 rpm_t=
-ime_t buildTime, const char* buildHost)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0FD_t fd =3D NULL;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0char * rpmio_flags =3D NULL;<br>
-&gt; -@@ -500,7 +448,7 @@ static rpmRC writeRPM(Package pkg, unsigned char =
-** pkgidp,<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0/* Create and add the cookie */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (cookie) {<br>
-&gt; --=C2=A0 =C2=A0 rasprintf(cookie, &quot;%s %d&quot;, buildHost(), (int=
-) (*getBuildTime()));<br>
-&gt; -+=C2=A0 =C2=A0 rasprintf(cookie, &quot;%s %d&quot;, buildHost, buildT=
-ime);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0headerPutString(pkg-&gt;header, RPMTAG_COOKIE, *c=
-ookie);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; - <br>
-&gt; -@@ -641,7 +589,7 @@ static rpmRC checkPackages(char *pkgcheck)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return RPMRC_OK;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; --static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *co=
-okie, int cheating, char** filename)<br>
-&gt; -+static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *co=
-okie, int cheating, char** filename, rpm_time_t buildTime, const char* buil=
-dHost)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0const char *errorString;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0rpmRC rc =3D RPMRC_OK;<br>
-&gt; -@@ -660,8 +608,8 @@ static rpmRC packageBinary(rpmSpec spec, Package =
-pkg, const char *cookie, int ch<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0headerCopyTags(spec-&gt;packages-&gt;header, pkg-=
-&gt;header, copyTags);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0headerPutString(pkg-&gt;header, RPMTAG_RPMVERSION=
-, VERSION);<br>
-&gt; --=C2=A0 =C2=A0 headerPutString(pkg-&gt;header, RPMTAG_BUILDHOST, buil=
-dHost());<br>
-&gt; --=C2=A0 =C2=A0 headerPutUint32(pkg-&gt;header, RPMTAG_BUILDTIME, getB=
-uildTime(), 1);<br>
-&gt; -+=C2=A0 =C2=A0 headerPutString(pkg-&gt;header, RPMTAG_BUILDHOST, buil=
-dHost);<br>
-&gt; -+=C2=A0 =C2=A0 headerPutUint32(pkg-&gt;header, RPMTAG_BUILDTIME, &amp=
-;buildTime, 1);<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (spec-&gt;sourcePkgId !=3D NULL) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0headerPutBin(pkg-&gt;header, RPMTAG=
-_SOURCEPKGID, spec-&gt;sourcePkgId,16);<br>
-&gt; -@@ -699,7 +647,7 @@ static rpmRC packageBinary(rpmSpec spec, Package =
-pkg, const char *cookie, int ch<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0free(binRpm);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; - <br>
-&gt; --=C2=A0 =C2=A0 rc =3D writeRPM(pkg, NULL, *filename, NULL);<br>
-&gt; -+=C2=A0 =C2=A0 rc =3D writeRPM(pkg, NULL, *filename, NULL, buildTime,=
- buildHost);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (rc =3D=3D RPMRC_OK) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* Do check each written package if=
- enabled */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0char *pkgcheck =3D rpmExpand(&quot;=
-%{?_build_pkgcheck} &quot;, *filename, NULL);<br>
-&gt; -@@ -719,7 +667,7 @@ struct binaryPackageTaskData<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0struct binaryPackageTaskData *next;<br>
-&gt; - };<br>
-&gt; - <br>
-&gt; --static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec s=
-pec, const char *cookie, int cheating)<br>
-&gt; -+static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec s=
-pec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHos=
-t)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0struct binaryPackageTaskData *tasks =3D NULL;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0struct binaryPackageTaskData *task =3D NULL;<br>
-&gt; -@@ -731,7 +679,7 @@ static struct binaryPackageTaskData* runBinaryPac=
-kageTasks(rpmSpec spec, const c<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (pkg =3D=3D spec-&gt;packages) {=
-<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// the first package =
-needs to be processed ahead of others, as they copy<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// changelog data fro=
-m it, and so otherwise data races would happen<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 task-&gt;result =3D packag=
-eBinary(spec, pkg, cookie, cheating, &amp;(task-&gt;filename));<br>
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 task-&gt;result =3D packag=
-eBinary(spec, pkg, cookie, cheating, &amp;(task-&gt;filename), buildTime, b=
-uildHost);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rpmlog(RPMLOG_NOTICE,=
- _(&quot;Finished binary package job, result %d, filename %s\n&quot;), task=
--&gt;result, task-&gt;filename);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tasks =3D task;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -@@ -748,7 +696,7 @@ static struct binaryPackageTaskData* runBinaryPac=
-kageTasks(rpmSpec spec, const c<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (task !=3D tasks)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#pragma omp task<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0{<br>
-&gt; --=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 task-&gt;result =3D packag=
-eBinary(spec, task-&gt;pkg, cookie, cheating, &amp;(task-&gt;filename));<br=
->
-&gt; -+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 task-&gt;result =3D packag=
-eBinary(spec, task-&gt;pkg, cookie, cheating, &amp;(task-&gt;filename), bui=
-ldTime, buildHost);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rpmlog(RPMLOG_NOTICE,=
- _(&quot;Finished binary package job, result %d, filename %s\n&quot;), task=
--&gt;result, task-&gt;filename);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; -@@ -766,11 +714,11 @@ static void freeBinaryPackageTasks(struct binar=
-yPackageTaskData* tasks)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; --rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating=
-)<br>
-&gt; -+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating=
-, rpm_time_t buildTime, char* buildHost)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0char *pkglist =3D NULL;<br>
-&gt; - <br>
-&gt; --=C2=A0 =C2=A0 struct binaryPackageTaskData *tasks =3D runBinaryPacka=
-geTasks(spec, cookie, cheating);<br>
-&gt; -+=C2=A0 =C2=A0 struct binaryPackageTaskData *tasks =3D runBinaryPacka=
-geTasks(spec, cookie, cheating, buildTime, buildHost);<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0for (struct binaryPackageTaskData *task =3D tasks=
-; task !=3D NULL; task =3D task-&gt;next) {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (task-&gt;result =3D=3D RPMRC_OK=
-) {<br>
-&gt; -@@ -797,7 +745,7 @@ rpmRC packageBinaries(rpmSpec spec, const char *c=
-ookie, int cheating)<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0return RPMRC_OK;<br>
-&gt; - }<br>
-&gt; - <br>
-&gt; --rpmRC packageSources(rpmSpec spec, char **cookie)<br>
-&gt; -+rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t buildTi=
-me, char* buildHost)<br>
-&gt; - {<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0Package sourcePkg =3D spec-&gt;sourcePackage;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0rpmRC rc;<br>
-&gt; -@@ -805,8 +753,8 @@ rpmRC packageSources(rpmSpec spec, char **cookie)=
-<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0/* Add some cruft */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0headerPutString(sourcePkg-&gt;header, RPMTAG_RPMV=
-ERSION, VERSION);<br>
-&gt; --=C2=A0 =C2=A0 headerPutString(sourcePkg-&gt;header, RPMTAG_BUILDHOST=
-, buildHost());<br>
-&gt; --=C2=A0 =C2=A0 headerPutUint32(sourcePkg-&gt;header, RPMTAG_BUILDTIME=
-, getBuildTime(), 1);<br>
-&gt; -+=C2=A0 =C2=A0 headerPutString(sourcePkg-&gt;header, RPMTAG_BUILDHOST=
-, buildHost);<br>
-&gt; -+=C2=A0 =C2=A0 headerPutUint32(sourcePkg-&gt;header, RPMTAG_BUILDTIME=
-, &amp;buildTime, 1);<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0headerPutUint32(sourcePkg-&gt;header, RPMTAG_SOUR=
-CEPACKAGE, &amp;one, 1);<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0/* XXX this should be %_srpmdir */<br>
-&gt; -@@ -814,7 +762,7 @@ rpmRC packageSources(rpmSpec spec, char **cookie)=
-<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0char *pkgcheck =3D rpmExpand(&quot;%{?_build_pkgc=
-heck_srpm} &quot;, fn, NULL);<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0spec-&gt;sourcePkgId =3D NULL;<br>
-&gt; --=C2=A0 =C2=A0 rc =3D writeRPM(sourcePkg, &amp;spec-&gt;sourcePkgId, =
-fn, cookie);<br>
-&gt; -+=C2=A0 =C2=A0 rc =3D writeRPM(sourcePkg, &amp;spec-&gt;sourcePkgId, =
-fn, cookie, buildTime, buildHost);<br>
-&gt; - <br>
-&gt; -=C2=A0 =C2=A0 =C2=A0/* Do check SRPM package if enabled */<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0if (rc =3D=3D RPMRC_OK &amp;&amp; pkgcheck[0] !=
-=3D &#39; &#39;) {<br>
-&gt; -diff --git a/build/rpmbuild_internal.h b/build/rpmbuild_internal.h<br=
->
-&gt; -index 439b7d3..07e8338 100644<br>
-&gt; ---- a/build/rpmbuild_internal.h<br>
-&gt; -+++ b/build/rpmbuild_internal.h<br>
-&gt; -@@ -427,19 +427,23 @@ rpmRC processSourceFiles(rpmSpec spec, rpmBuild=
-PkgFlags pkgFlags);<br>
-&gt; -=C2=A0 * @param spec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-spec file control structure<br>
-&gt; -=C2=A0 * @param cookie=C2=A0 =C2=A0 build identifier &quot;cookie&quo=
-t; or NULL<br>
-&gt; -=C2=A0 * @param cheating=C2=A0 was build shortcircuited?<br>
-&gt; -+ * @param buildTime the build timestamp that goes into packages<br>
-&gt; -+ * @param buildHost the hostname where the build is happening<br>
-&gt; -=C2=A0 * @return=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 RPMRC_OK on succes=
-s<br>
-&gt; -=C2=A0 */<br>
-&gt; - RPM_GNUC_INTERNAL<br>
-&gt; --rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating=
-);<br>
-&gt; -+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating=
-, rpm_time_t buildTime, char* buildHost);<br>
-&gt; - <br>
-&gt; - /** \ingroup rpmbuild<br>
-&gt; -=C2=A0 * Generate source package.<br>
-&gt; -=C2=A0 * @param spec=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-spec file control structure<br>
-&gt; -=C2=A0 * @retval cookie=C2=A0 =C2=A0build identifier &quot;cookie&quo=
-t; or NULL<br>
-&gt; -+ * @param buildTime the build timestamp that goes into packages<br>
-&gt; -+ * @param buildHost the hostname where the build is happening<br>
-&gt; -=C2=A0 * @return=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 RPMRC_OK on succes=
-s<br>
-&gt; -=C2=A0 */<br>
-&gt; - RPM_GNUC_INTERNAL<br>
-&gt; --rpmRC packageSources(rpmSpec spec, char **cookie);<br>
-&gt; -+rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t buildTi=
-me, char* buildHost);<br>
-&gt; - <br>
-&gt; - RPM_GNUC_INTERNAL<br>
-&gt; - int addLangTag(rpmSpec spec, Header h, rpmTagVal tag,<br>
-&gt; diff --git a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.14.2.1.=
-bb" rel=3D"noreferrer" target=3D"_blank">rpm_4.14.2.1.bb</a> b/meta/recipes=
--devtools/rpm/<a href=3D"http://rpm_4.15.1.bb" rel=3D"noreferrer" target=3D=
-"_blank">rpm_4.15.1.bb</a><br>
-&gt; similarity index 90%<br>
-&gt; rename from meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.14.2.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">rpm_4.14.2.1.bb</a><br>
-&gt; rename to meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.15.1.bb" r=
-el=3D"noreferrer" target=3D"_blank">rpm_4.15.1.bb</a><br>
-&gt; index c37330eb4c6..5896e78e734 100644<br>
-&gt; --- a/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.14.2.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rpm_4.14.2.1.bb</a><br>
-&gt; +++ b/meta/recipes-devtools/rpm/<a href=3D"http://rpm_4.15.1.bb" rel=
-=3D"noreferrer" target=3D"_blank">rpm_4.15.1.bb</a><br>
-&gt; @@ -24,7 +24,7 @@ HOMEPAGE =3D &quot;<a href=3D"http://www.rpm.org" re=
-l=3D"noreferrer" target=3D"_blank">http://www.rpm.org</a>&quot;<br>
-&gt;=C2=A0 LICENSE =3D &quot;GPL-2.0&quot;<br>
-&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dc0bf017c0fd1920e=
-6158a333acabfd4a&quot;<br>
-&gt;=C2=A0 <br>
-&gt; -SRC_URI =3D &quot;git://<a href=3D"http://github.com/rpm-software-man=
-agement/rpm;branch=3Drpm-4.14.x" rel=3D"noreferrer" target=3D"_blank">githu=
-b.com/rpm-software-management/rpm;branch=3Drpm-4.14.x</a> \<br>
-&gt; +SRC_URI =3D &quot;git://<a href=3D"http://github.com/rpm-software-man=
-agement/rpm;branch=3Drpm-4.15.x" rel=3D"noreferrer" target=3D"_blank">githu=
-b.com/rpm-software-management/rpm;branch=3Drpm-4.15.x</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Do-not-add-=
-an-unsatisfiable-dependency-when-building.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Do-not-read=
--config-files-from-HOME.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-When-cross-=
-installing-execute-package-scriptlets-wit.patch \<br>
-&gt; @@ -34,18 +34,14 @@ SRC_URI =3D &quot;git://<a href=3D"http://github.c=
-om/rpm-software-management/rpm;branch=3Drpm-4.14.x" rel=3D"noreferrer" targ=
-et=3D"_blank">github.com/rpm-software-management/rpm;branch=3Drpm-4.14.x</a=
-> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-build-w=
-ith-musl-C-library.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Add-a-color=
--setting-for-mips64_n32-binaries.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0011-Do-not-requ=
-ire-that-ELF-binaries-are-executable-to-b.patch \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Split-binary-pac=
-kage-building-into-a-separate-functi.patch \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-Run-binary-packa=
-ge-creation-via-thread-pools.patch \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-rpmstrpool.c-mak=
-e-operations-over-string-pools-threa.patch \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0004-build-pack.c-rem=
-ove-static-local-variables-from-buil.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-perl-disabl=
-e-auto-reqs.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-rpm-rpmio.c=
--restrict-virtual-memory-usage-if-limit-s.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0016-rpmscript.c=
--change-logging-level-around-scriptlets-t.patch \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-mono-find-provid=
-es-requires-do-not-use-monodis-from-.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-rpmfc.c-do-not-r=
-un-file-classification-in-parallel.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 PE =3D &quot;1&quot;<br>
-&gt; -SRCREV =3D &quot;4a9440006398646583f0d9ae1837dad2875013aa&quot;<br>
-&gt; +SRCREV =3D &quot;ab2179452c5be276a6b96c591afded485c7e58c3&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt;=C2=A0 <br>
-&gt; @@ -59,7 +55,7 @@ export PYTHON_ABI<br>
-&gt;=C2=A0 EXTRA_AUTORECONF_append =3D &quot; --exclude=3Dgnu-configize&quo=
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 INCXML=3D&quot;$gl_cv_INCXML&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 else<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libxml_use_included=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 PKG_CHECK_MODULES([XML], [libxml-2.0])<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 LIBXML=3D$XML_LIBS<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 LTLIBXML=3D$XML_LIBS<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 INCXML=3D$XML_CFLAGS<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; +=C2=A0 =C2=A0])<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([LIBXML])<br>
+&gt; +diff --git a/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c b=
+/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c<br>
+&gt; +index 2cfd4a8..d42c8b4 100644<br>
+&gt; +--- a/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c<br>
+&gt; ++++ b/libtextstyle/gnulib-local/lib/term-styled-ostream.oo.c<br>
+&gt; +@@ -22,15 +22,15 @@<br>
+&gt; + <br>
+&gt; + #include &lt;stdlib.h&gt;<br>
+&gt; + <br>
+&gt; +-#include &lt;cr-om-parser.h&gt;<br>
+&gt; +-#include &lt;cr-sel-eng.h&gt;<br>
+&gt; +-#include &lt;cr-style.h&gt;<br>
+&gt; +-#include &lt;cr-rgb.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-om-parser.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-sel-eng.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-style.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-rgb.h&gt;<br>
+&gt; + /* &lt;cr-fonts.h&gt; has a broken double-inclusion guard in libcroc=
+o-0.6.1.=C2=A0 */<br>
+&gt; + #ifndef __CR_FONTS_H__<br>
+&gt; +-# include &lt;cr-fonts.h&gt;<br>
+&gt; ++# include &lt;libcroco/cr-fonts.h&gt;<br>
+&gt; + #endif<br>
+&gt; +-#include &lt;cr-string.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-string.h&gt;<br>
+&gt; + <br>
+&gt; + #include &quot;term-ostream.h&quot;<br>
+&gt; + #include &quot;hash.h&quot;<br>
+&gt; +diff --git a/libtextstyle/gnulib-local/m4/libcroco.m4 b/libtextstyle/=
+gnulib-local/m4/libcroco.m4<br>
+&gt; +index bc53cc6..10b2455 100644<br>
+&gt; +--- a/libtextstyle/gnulib-local/m4/libcroco.m4<br>
+&gt; ++++ b/libtextstyle/gnulib-local/m4/libcroco.m4<br>
+&gt; +@@ -1,99 +1,34 @@<br>
+&gt; +-# libcroco.m4 serial 3<br>
+&gt; +-dnl Copyright (C) 2006-2007, 2019 Free Software Foundation, Inc.<br>
+&gt; ++# libcroco.m4 serial 2 (gettext-0.17)<br>
+&gt; ++dnl Copyright (C) 2006, 2015-2016 Free Software Foundation, Inc.<br>
+&gt; + dnl This file is free software; the Free Software Foundation<br>
+&gt; + dnl gives unlimited permission to copy and/or distribute it,<br>
+&gt; + dnl with or without modifications, as long as this notice is preserv=
+ed.<br>
+&gt; + <br>
+&gt; + dnl From Bruno Haible.<br>
+&gt; + <br>
+&gt; +-dnl gl_LIBCROCO<br>
+&gt; +-dnl=C2=A0 =C2=A0gives the user the option to decide whether to use t=
+he included or<br>
+&gt; +-dnl=C2=A0 =C2=A0an external libcroco.<br>
+&gt; +-dnl gl_LIBCROCO(FORCE-INCLUDED)<br>
+&gt; +-dnl=C2=A0 =C2=A0forces the use of the included or an external libcro=
+co.<br>
+&gt; + AC_DEFUN([gl_LIBCROCO],<br>
+&gt; + [<br>
+&gt; +-=C2=A0 ifelse([$1], [yes], , [<br>
+&gt; +-=C2=A0 =C2=A0 dnl libcroco depends on libglib.<br>
+&gt; +-=C2=A0 =C2=A0 AC_REQUIRE([gl_LIBGLIB])<br>
+&gt; +-=C2=A0 ])<br>
+&gt; ++=C2=A0 AC_REQUIRE([PKG_PROG_PKG_CONFIG])<br>
+&gt; ++=C2=A0 dnl libcroco depends on libglib.<br>
+&gt; ++=C2=A0 AC_REQUIRE([gl_LIBGLIB])<br>
+&gt; + <br>
+&gt; +-=C2=A0 ifelse([$1], , [<br>
+&gt; +-=C2=A0 =C2=A0 AC_MSG_CHECKING([whether included libcroco is requeste=
+d])<br>
+&gt; +-=C2=A0 =C2=A0 AC_ARG_WITH([included-libcroco],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [=C2=A0 --with-included-libcroco=C2=A0 use the =
+libcroco included here],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco_force_included=3D$withval],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco_force_included=3Dno])<br>
+&gt; +-=C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libcroco_force_included])<br>
+&gt; +-=C2=A0 ], [gl_cv_libcroco_force_included=3D$1])<br>
+&gt; ++=C2=A0 AC_MSG_CHECKING([whether included libcroco is requested])<br>
+&gt; ++=C2=A0 AC_ARG_WITH([included-libcroco],<br>
+&gt; ++=C2=A0 =C2=A0 [=C2=A0 --with-included-libcroco=C2=A0 use the libcroc=
+o included here],<br>
+&gt; ++=C2=A0 =C2=A0 [gl_cv_libcroco_force_included=3D$withval],<br>
+&gt; ++=C2=A0 =C2=A0 [gl_cv_libcroco_force_included=3Dno])<br>
+&gt; ++=C2=A0 AC_MSG_RESULT([$gl_cv_libcroco_force_included])<br>
+&gt; + <br>
+&gt; +=C2=A0 =C2=A0gl_cv_libcroco_use_included=3D&quot;$gl_cv_libcroco_forc=
+e_included&quot;<br>
+&gt; +=C2=A0 =C2=A0LIBCROCO=3D<br>
+&gt; +=C2=A0 =C2=A0LTLIBCROCO=3D<br>
+&gt; +=C2=A0 =C2=A0INCCROCO=3D<br>
+&gt; +-=C2=A0 ifelse([$1], [yes], , [<br>
+&gt; +-=C2=A0 =C2=A0 if test &quot;$gl_cv_libcroco_use_included&quot; !=3D =
+yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl Figure out whether we can use a preinstalle=
+d libcroco-0.6, or have to<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl use the included one.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_CACHE_VAL([gl_cv_libcroco], [<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libcroco=3Dno<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LIBCROCO=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LTLIBCROCO=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_INCCROCO=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_LIBS=3D&quot;$LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Search for libcroco and define LIBCR=
+OCO_0_6, LTLIBCROCO_0_6 and<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl INCCROCO_0_6 accordingly.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Don&#39;t use croco-0.6-config nor p=
+kg-config, since it doesn&#39;t work when<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl cross-compiling or when the C compil=
+er in use is different from the<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl one that built the library.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_LIB_LINKFLAGS_BODY([croco-0.6], [glib=
+-2.0])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS $LIBCROCO_0_6=
+&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libcroco-confi=
+g.h&gt;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [const char *version =3D LIBCROCO=
+_VERSION; return !version;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBCROCO=3D&quot;$LIB=
+CROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBCROCO=3D&quot;$L=
+TLIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libcroco&quot; !=3D=
+ yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_CPPFLAGS=3D&quot;$CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$CPPFLAGS $INCCR=
+OCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libcroc=
+o-config.h&gt;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [const char *version =3D L=
+IBCROCO_VERSION; return !version;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBCROCO=3D&qu=
+ot;$LIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBCROCO=3D&=
+quot;$LTLIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCCROCO=3D&qu=
+ot;$INCCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libcroco&quo=
+t; !=3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Often the include file=
+s are installed in<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl /usr/include/libcroco-=
+0.6/libcroco.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;=
+libcroco-0.6/libcroco/libcroco-config.h&gt;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [const char *versio=
+n =3D LIBCROCO_VERSION; return !version;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_ABSOLUTE_HEADER=
+([libcroco-0.6/libcroco/libcroco-config.h])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libcroco_incl=
+ude_dir=3D`echo &quot;$gl_cv_absolute_libcroco_0_6_libcroco_libcroco_config=
+_h&quot; | sed -e &#39;s,.libcroco-config\.h$,,&#39;`<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if test -d &q=
+uot;$libcroco_include_dir&quot;; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+libcroco=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LIBCROCO=3D&quot;$LIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LTLIBCROCO=3D&quot;$LTLIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+INCCROCO=3D&quot;-I$libcroco_include_dir&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_CHECKING([for libcroco])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libcroco])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if test $gl_cv_libcroco =3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBCROCO=3D&quot;$gl_cv_LIBCROCO&quot;<b=
+r>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LTLIBCROCO=3D&quot;$gl_cv_LTLIBCROCO&quo=
 t;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 EXTRA_OECONF_append =3D &quot; --without-lua --enable-python&quo=
-t;<br>
-&gt; -EXTRA_OECONF_append_libc-musl =3D &quot; --disable-nls&quot;<br>
-&gt; +EXTRA_OECONF_append_libc-musl =3D &quot; --disable-nls --disable-open=
-mp&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 # --sysconfdir prevents rpm from attempting to access machine-sp=
-ecific configuration in sysroot/etc; we need to have it in rootfs<br>
-&gt;=C2=A0 #<br>
-&gt; @@ -125,8 +121,7 @@ do_install_append () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${D}/${libdir}/rpm/macros<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;s|/usr/bin/python|${USRBINPAT=
-H}/env ${PYTHON_PN}|&#39; \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${D}${libdir}/rpm/pythondistdeps.py=
- \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${D}${libdir}/rpm/python-macro-help=
-er<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${D}${libdir}/rpm/pythondistdeps.py=
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 INCCROCO=3D&quot;$gl_cv_INCCROCO&quot;<b=
+r>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 else<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libcroco_use_included=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 ])<br>
+&gt; ++=C2=A0 if test &quot;$gl_cv_libcroco_use_included&quot; !=3D yes; th=
+en<br>
+&gt; ++=C2=A0 =C2=A0 PKG_CHECK_MODULES([CROCO], [libcroco-0.6])<br>
+&gt; ++=C2=A0 =C2=A0 LIBCROCO=3D$CROCO_LIBS<br>
+&gt; ++=C2=A0 =C2=A0 LTLIBCROCO=3D$CROCO_LIBS<br>
+&gt; ++=C2=A0 =C2=A0 INCCROCO=3D$CROCO_CFLAGS<br>
+&gt; ++=C2=A0 fi<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([LIBCROCO])<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([LTLIBCROCO])<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([INCCROCO])<br>
+&gt; +diff --git a/libtextstyle/gnulib-local/m4/libglib.m4 b/libtextstyle/g=
+nulib-local/m4/libglib.m4<br>
+&gt; +index bef6fa3..8841755 100644<br>
+&gt; +--- a/libtextstyle/gnulib-local/m4/libglib.m4<br>
+&gt; ++++ b/libtextstyle/gnulib-local/m4/libglib.m4<br>
+&gt; +@@ -1,105 +1,31 @@<br>
+&gt; +-# libglib.m4 serial 4<br>
+&gt; +-dnl Copyright (C) 2006-2007, 2019 Free Software Foundation, Inc.<br>
+&gt; ++# libglib.m4 serial 3 (gettext-0.17)<br>
+&gt; ++dnl Copyright (C) 2006-2007, 2015-2016 Free Software Foundation, Inc=
+.<br>
+&gt; + dnl This file is free software; the Free Software Foundation<br>
+&gt; + dnl gives unlimited permission to copy and/or distribute it,<br>
+&gt; + dnl with or without modifications, as long as this notice is preserv=
+ed.<br>
+&gt; + <br>
+&gt; + dnl From Bruno Haible.<br>
+&gt; + <br>
+&gt; +-dnl gl_LIBGLIB<br>
+&gt; +-dnl=C2=A0 =C2=A0gives the user the option to decide whether to use t=
+he included or<br>
+&gt; +-dnl=C2=A0 =C2=A0an external libglib.<br>
+&gt; +-dnl gl_LIBGLIB(FORCE-INCLUDED)<br>
+&gt; +-dnl=C2=A0 =C2=A0forces the use of the included or an external libgli=
+b.<br>
+&gt; + AC_DEFUN([gl_LIBGLIB],<br>
+&gt; + [<br>
+&gt; +-=C2=A0 ifelse([$1], , [<br>
+&gt; +-=C2=A0 =C2=A0 AC_MSG_CHECKING([whether included glib is requested])<=
+br>
+&gt; +-=C2=A0 =C2=A0 AC_ARG_WITH([included-glib],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [=C2=A0 --with-included-glib=C2=A0 =C2=A0 use t=
+he glib2 included here],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib_force_included=3D$withval],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib_force_included=3Dno])<br>
+&gt; +-=C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libglib_force_included])<br>
+&gt; +-=C2=A0 ], [gl_cv_libglib_force_included=3D$1])<br>
+&gt; ++=C2=A0 AC_REQUIRE([PKG_PROG_PKG_CONFIG])<br>
+&gt; ++=C2=A0 AC_MSG_CHECKING([whether included glib is requested])<br>
+&gt; ++=C2=A0 AC_ARG_WITH([included-glib],<br>
+&gt; ++=C2=A0 =C2=A0 [=C2=A0 --with-included-glib=C2=A0 =C2=A0 use the glib=
+2 included here],<br>
+&gt; ++=C2=A0 =C2=A0 [gl_cv_libglib_force_included=3D$withval],<br>
+&gt; ++=C2=A0 =C2=A0 [gl_cv_libglib_force_included=3Dno])<br>
+&gt; ++=C2=A0 AC_MSG_RESULT([$gl_cv_libglib_force_included])<br>
+&gt; + <br>
+&gt; +=C2=A0 =C2=A0gl_cv_libglib_use_included=3D&quot;$gl_cv_libglib_force_=
+included&quot;<br>
+&gt; +=C2=A0 =C2=A0LIBGLIB=3D<br>
+&gt; +=C2=A0 =C2=A0LTLIBGLIB=3D<br>
+&gt; +=C2=A0 =C2=A0INCGLIB=3D<br>
+&gt; +-=C2=A0 ifelse([$1], [yes], , [<br>
+&gt; +-=C2=A0 =C2=A0 if test &quot;$gl_cv_libglib_use_included&quot; !=3D y=
+es; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl Figure out whether we can use a preinstalle=
+d libglib-2.0, or have to use<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl the included one.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_CACHE_VAL([gl_cv_libglib], [<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libglib=3Dno<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LIBGLIB=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LTLIBGLIB=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_INCGLIB=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_LIBS=3D&quot;$LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Search for libglib2 and define LIBGL=
+IB_2_0, LTLIBGLIB_2_0 and<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl INCGLIB_2_0 accordingly.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Don&#39;t use glib-config nor pkg-co=
+nfig, since it doesn&#39;t work when<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl cross-compiling or when the C compil=
+er in use is different from the<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl one that built the library.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_LIB_LINKFLAGS_BODY([glib-2.0])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS $LIBGLIB_2_0&=
+quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;glib.h&gt;<br>
+&gt; +-#ifndef G_BEGIN_DECLS<br>
+&gt; +-error this glib.h includes a glibconfig.h from a glib version 1.x<br=
+>
+&gt; +-#endif<br>
+&gt; +-],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [g_string_new (&quot;foo&quot;);]=
+,<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBGLIB=3D&quot;$LIBG=
+LIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBGLIB=3D&quot;$LT=
+LIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libglib&quot; !=3D =
+yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_CPPFLAGS=3D&quot;$CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$CPPFLAGS $INCGL=
+IB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;glib.h&=
+gt;<br>
+&gt; +-#ifndef G_BEGIN_DECLS<br>
+&gt; +-error this glib.h includes a glibconfig.h from a glib version 1.x<br=
+>
+&gt; +-#endif<br>
+&gt; +-],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [g_string_new (&quot;foo&q=
+uot;);],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBGLIB=3D&quo=
+t;$LIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBGLIB=3D&q=
+uot;$LTLIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCGLIB=3D&quo=
+t;$INCGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libglib&quot=
+; !=3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Often the include file=
+s are installed in /usr/include/glib-2.0<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl and /usr/lib/glib-2.0/=
+include.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test -n &quot;$LIBGLIB_=
+2_0_PREFIX&quot;; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$g=
+l_save_CPPFLAGS -I$LIBGLIB_2_0_PREFIX/include/glib-2.0 -I$LIBGLIB_2_0_PREFI=
+X/$acl_libdirstem/glib-2.0/include&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#inclu=
+de &lt;glib.h&gt;<br>
+&gt; +-#ifndef G_BEGIN_DECLS<br>
+&gt; +-error this glib.h includes a glibconfig.h from a glib version 1.x<br=
+>
+&gt; +-#endif<br>
+&gt; +-],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [g_string_ne=
+w (&quot;foo&quot;);],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libgl=
+ib=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LIBGLIB=3D&quot;$LIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LTLIBGLIB=3D&quot;$LTLIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+INCGLIB=3D&quot;-I$LIBGLIB_2_0_PREFIX/include/glib-2.0 -I$LIBGLIB_2_0_PREFI=
+X/$acl_libdirstem/glib-2.0/include&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_CHECKING([for glib])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libglib])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if test $gl_cv_libglib =3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBGLIB=3D&quot;$gl_cv_LIBGLIB&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LTLIBGLIB=3D&quot;$gl_cv_LTLIBGLIB&quot;=
 <br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 INCGLIB=3D&quot;$gl_cv_INCGLIB&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 else<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libglib_use_included=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 ])<br>
+&gt; ++=C2=A0 if test &quot;$gl_cv_libglib_use_included&quot; !=3D yes; the=
+n<br>
+&gt; ++=C2=A0 =C2=A0 PKG_CHECK_MODULES([GLIB], [glib-2.0])<br>
+&gt; ++=C2=A0 =C2=A0 LIBGLIB=3D&quot;$GLIB_LIBS&quot;<br>
+&gt; ++=C2=A0 =C2=A0 LTLIBGLIB=3D&quot;$GLIB_LIBS&quot;<br>
+&gt; ++=C2=A0 =C2=A0 INCGLIB=3D&quot;$GLIB_CFLAGS&quot;<br>
+&gt; ++=C2=A0 fi<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([LIBGLIB])<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([LTLIBGLIB])<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([INCGLIB])<br>
+&gt; +diff --git a/libtextstyle/gnulib-m4/libcroco.m4 b/libtextstyle/gnulib=
+-m4/libcroco.m4<br>
+&gt; +index bc53cc6..10b2455 100644<br>
+&gt; +--- a/libtextstyle/gnulib-m4/libcroco.m4<br>
+&gt; ++++ b/libtextstyle/gnulib-m4/libcroco.m4<br>
+&gt; +@@ -1,99 +1,34 @@<br>
+&gt; +-# libcroco.m4 serial 3<br>
+&gt; +-dnl Copyright (C) 2006-2007, 2019 Free Software Foundation, Inc.<br>
+&gt; ++# libcroco.m4 serial 2 (gettext-0.17)<br>
+&gt; ++dnl Copyright (C) 2006, 2015-2016 Free Software Foundation, Inc.<br>
+&gt; + dnl This file is free software; the Free Software Foundation<br>
+&gt; + dnl gives unlimited permission to copy and/or distribute it,<br>
+&gt; + dnl with or without modifications, as long as this notice is preserv=
+ed.<br>
+&gt; + <br>
+&gt; + dnl From Bruno Haible.<br>
+&gt; + <br>
+&gt; +-dnl gl_LIBCROCO<br>
+&gt; +-dnl=C2=A0 =C2=A0gives the user the option to decide whether to use t=
+he included or<br>
+&gt; +-dnl=C2=A0 =C2=A0an external libcroco.<br>
+&gt; +-dnl gl_LIBCROCO(FORCE-INCLUDED)<br>
+&gt; +-dnl=C2=A0 =C2=A0forces the use of the included or an external libcro=
+co.<br>
+&gt; + AC_DEFUN([gl_LIBCROCO],<br>
+&gt; + [<br>
+&gt; +-=C2=A0 ifelse([$1], [yes], , [<br>
+&gt; +-=C2=A0 =C2=A0 dnl libcroco depends on libglib.<br>
+&gt; +-=C2=A0 =C2=A0 AC_REQUIRE([gl_LIBGLIB])<br>
+&gt; +-=C2=A0 ])<br>
+&gt; ++=C2=A0 AC_REQUIRE([PKG_PROG_PKG_CONFIG])<br>
+&gt; ++=C2=A0 dnl libcroco depends on libglib.<br>
+&gt; ++=C2=A0 AC_REQUIRE([gl_LIBGLIB])<br>
+&gt; + <br>
+&gt; +-=C2=A0 ifelse([$1], , [<br>
+&gt; +-=C2=A0 =C2=A0 AC_MSG_CHECKING([whether included libcroco is requeste=
+d])<br>
+&gt; +-=C2=A0 =C2=A0 AC_ARG_WITH([included-libcroco],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [=C2=A0 --with-included-libcroco=C2=A0 use the =
+libcroco included here],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco_force_included=3D$withval],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco_force_included=3Dno])<br>
+&gt; +-=C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libcroco_force_included])<br>
+&gt; +-=C2=A0 ], [gl_cv_libcroco_force_included=3D$1])<br>
+&gt; ++=C2=A0 AC_MSG_CHECKING([whether included libcroco is requested])<br>
+&gt; ++=C2=A0 AC_ARG_WITH([included-libcroco],<br>
+&gt; ++=C2=A0 =C2=A0 [=C2=A0 --with-included-libcroco=C2=A0 use the libcroc=
+o included here],<br>
+&gt; ++=C2=A0 =C2=A0 [gl_cv_libcroco_force_included=3D$withval],<br>
+&gt; ++=C2=A0 =C2=A0 [gl_cv_libcroco_force_included=3Dno])<br>
+&gt; ++=C2=A0 AC_MSG_RESULT([$gl_cv_libcroco_force_included])<br>
+&gt; + <br>
+&gt; +=C2=A0 =C2=A0gl_cv_libcroco_use_included=3D&quot;$gl_cv_libcroco_forc=
+e_included&quot;<br>
+&gt; +=C2=A0 =C2=A0LIBCROCO=3D<br>
+&gt; +=C2=A0 =C2=A0LTLIBCROCO=3D<br>
+&gt; +=C2=A0 =C2=A0INCCROCO=3D<br>
+&gt; +-=C2=A0 ifelse([$1], [yes], , [<br>
+&gt; +-=C2=A0 =C2=A0 if test &quot;$gl_cv_libcroco_use_included&quot; !=3D =
+yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl Figure out whether we can use a preinstalle=
+d libcroco-0.6, or have to<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl use the included one.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_CACHE_VAL([gl_cv_libcroco], [<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libcroco=3Dno<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LIBCROCO=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LTLIBCROCO=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_INCCROCO=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_LIBS=3D&quot;$LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Search for libcroco and define LIBCR=
+OCO_0_6, LTLIBCROCO_0_6 and<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl INCCROCO_0_6 accordingly.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Don&#39;t use croco-0.6-config nor p=
+kg-config, since it doesn&#39;t work when<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl cross-compiling or when the C compil=
+er in use is different from the<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl one that built the library.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_LIB_LINKFLAGS_BODY([croco-0.6], [glib=
+-2.0])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS $LIBCROCO_0_6=
+&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libcroco-confi=
+g.h&gt;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [const char *version =3D LIBCROCO=
+_VERSION; return !version;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBCROCO=3D&quot;$LIB=
+CROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBCROCO=3D&quot;$L=
+TLIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libcroco&quot; !=3D=
+ yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_CPPFLAGS=3D&quot;$CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$CPPFLAGS $INCCR=
+OCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;libcroc=
+o-config.h&gt;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [const char *version =3D L=
+IBCROCO_VERSION; return !version;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libcroco=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBCROCO=3D&qu=
+ot;$LIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBCROCO=3D&=
+quot;$LTLIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCCROCO=3D&qu=
+ot;$INCCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libcroco&quo=
+t; !=3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Often the include file=
+s are installed in<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl /usr/include/libcroco-=
+0.6/libcroco.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;=
+libcroco-0.6/libcroco/libcroco-config.h&gt;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [const char *versio=
+n =3D LIBCROCO_VERSION; return !version;],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_ABSOLUTE_HEADER=
+([libcroco-0.6/libcroco/libcroco-config.h])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0libcroco_incl=
+ude_dir=3D`echo &quot;$gl_cv_absolute_libcroco_0_6_libcroco_libcroco_config=
+_h&quot; | sed -e &#39;s,.libcroco-config\.h$,,&#39;`<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if test -d &q=
+uot;$libcroco_include_dir&quot;; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+libcroco=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LIBCROCO=3D&quot;$LIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LTLIBCROCO=3D&quot;$LTLIBCROCO_0_6&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+INCCROCO=3D&quot;-I$libcroco_include_dir&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_CHECKING([for libcroco])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libcroco])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if test $gl_cv_libcroco =3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBCROCO=3D&quot;$gl_cv_LIBCROCO&quot;<b=
+r>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LTLIBCROCO=3D&quot;$gl_cv_LTLIBCROCO&quo=
+t;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 INCCROCO=3D&quot;$gl_cv_INCCROCO&quot;<b=
+r>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 else<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libcroco_use_included=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 ])<br>
+&gt; ++=C2=A0 if test &quot;$gl_cv_libcroco_use_included&quot; !=3D yes; th=
+en<br>
+&gt; ++=C2=A0 =C2=A0 PKG_CHECK_MODULES([CROCO], [libcroco-0.6])<br>
+&gt; ++=C2=A0 =C2=A0 LIBCROCO=3D$CROCO_LIBS<br>
+&gt; ++=C2=A0 =C2=A0 LTLIBCROCO=3D$CROCO_LIBS<br>
+&gt; ++=C2=A0 =C2=A0 INCCROCO=3D$CROCO_CFLAGS<br>
+&gt; ++=C2=A0 fi<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([LIBCROCO])<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([LTLIBCROCO])<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([INCCROCO])<br>
+&gt; +diff --git a/libtextstyle/gnulib-m4/libglib.m4 b/libtextstyle/gnulib-=
+m4/libglib.m4<br>
+&gt; +index bef6fa3..8841755 100644<br>
+&gt; +--- a/libtextstyle/gnulib-m4/libglib.m4<br>
+&gt; ++++ b/libtextstyle/gnulib-m4/libglib.m4<br>
+&gt; +@@ -1,105 +1,31 @@<br>
+&gt; +-# libglib.m4 serial 4<br>
+&gt; +-dnl Copyright (C) 2006-2007, 2019 Free Software Foundation, Inc.<br>
+&gt; ++# libglib.m4 serial 3 (gettext-0.17)<br>
+&gt; ++dnl Copyright (C) 2006-2007, 2015-2016 Free Software Foundation, Inc=
+.<br>
+&gt; + dnl This file is free software; the Free Software Foundation<br>
+&gt; + dnl gives unlimited permission to copy and/or distribute it,<br>
+&gt; + dnl with or without modifications, as long as this notice is preserv=
+ed.<br>
+&gt; + <br>
+&gt; + dnl From Bruno Haible.<br>
+&gt; + <br>
+&gt; +-dnl gl_LIBGLIB<br>
+&gt; +-dnl=C2=A0 =C2=A0gives the user the option to decide whether to use t=
+he included or<br>
+&gt; +-dnl=C2=A0 =C2=A0an external libglib.<br>
+&gt; +-dnl gl_LIBGLIB(FORCE-INCLUDED)<br>
+&gt; +-dnl=C2=A0 =C2=A0forces the use of the included or an external libgli=
+b.<br>
+&gt; + AC_DEFUN([gl_LIBGLIB],<br>
+&gt; + [<br>
+&gt; +-=C2=A0 ifelse([$1], , [<br>
+&gt; +-=C2=A0 =C2=A0 AC_MSG_CHECKING([whether included glib is requested])<=
+br>
+&gt; +-=C2=A0 =C2=A0 AC_ARG_WITH([included-glib],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [=C2=A0 --with-included-glib=C2=A0 =C2=A0 use t=
+he glib2 included here],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib_force_included=3D$withval],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib_force_included=3Dno])<br>
+&gt; +-=C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libglib_force_included])<br>
+&gt; +-=C2=A0 ], [gl_cv_libglib_force_included=3D$1])<br>
+&gt; ++=C2=A0 AC_REQUIRE([PKG_PROG_PKG_CONFIG])<br>
+&gt; ++=C2=A0 AC_MSG_CHECKING([whether included glib is requested])<br>
+&gt; ++=C2=A0 AC_ARG_WITH([included-glib],<br>
+&gt; ++=C2=A0 =C2=A0 [=C2=A0 --with-included-glib=C2=A0 =C2=A0 use the glib=
+2 included here],<br>
+&gt; ++=C2=A0 =C2=A0 [gl_cv_libglib_force_included=3D$withval],<br>
+&gt; ++=C2=A0 =C2=A0 [gl_cv_libglib_force_included=3Dno])<br>
+&gt; ++=C2=A0 AC_MSG_RESULT([$gl_cv_libglib_force_included])<br>
+&gt; + <br>
+&gt; +=C2=A0 =C2=A0gl_cv_libglib_use_included=3D&quot;$gl_cv_libglib_force_=
+included&quot;<br>
+&gt; +=C2=A0 =C2=A0LIBGLIB=3D<br>
+&gt; +=C2=A0 =C2=A0LTLIBGLIB=3D<br>
+&gt; +=C2=A0 =C2=A0INCGLIB=3D<br>
+&gt; +-=C2=A0 ifelse([$1], [yes], , [<br>
+&gt; +-=C2=A0 =C2=A0 if test &quot;$gl_cv_libglib_use_included&quot; !=3D y=
+es; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl Figure out whether we can use a preinstalle=
+d libglib-2.0, or have to use<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 dnl the included one.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_CACHE_VAL([gl_cv_libglib], [<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libglib=3Dno<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LIBGLIB=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_LTLIBGLIB=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_INCGLIB=3D<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_LIBS=3D&quot;$LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Search for libglib2 and define LIBGL=
+IB_2_0, LTLIBGLIB_2_0 and<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl INCGLIB_2_0 accordingly.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Don&#39;t use glib-config nor pkg-co=
+nfig, since it doesn&#39;t work when<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl cross-compiling or when the C compil=
+er in use is different from the<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl one that built the library.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_LIB_LINKFLAGS_BODY([glib-2.0])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS $LIBGLIB_2_0&=
+quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;glib.h&gt;<br>
+&gt; +-#ifndef G_BEGIN_DECLS<br>
+&gt; +-error this glib.h includes a glibconfig.h from a glib version 1.x<br=
+>
+&gt; +-#endif<br>
+&gt; +-],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [g_string_new (&quot;foo&quot;);]=
+,<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBGLIB=3D&quot;$LIBG=
+LIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBGLIB=3D&quot;$LT=
+LIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libglib&quot; !=3D =
+yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_save_CPPFLAGS=3D&quot;$CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$CPPFLAGS $INCGL=
+IB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#include &lt;glib.h&=
+gt;<br>
+&gt; +-#ifndef G_BEGIN_DECLS<br>
+&gt; +-error this glib.h includes a glibconfig.h from a glib version 1.x<br=
+>
+&gt; +-#endif<br>
+&gt; +-],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [g_string_new (&quot;foo&q=
+uot;);],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libglib=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LIBGLIB=3D&quo=
+t;$LIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_LTLIBGLIB=3D&q=
+uot;$LTLIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_INCGLIB=3D&quo=
+t;$INCGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test &quot;$gl_cv_libglib&quot=
+; !=3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl Often the include file=
+s are installed in /usr/include/glib-2.0<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dnl and /usr/lib/glib-2.0/=
+include.<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if test -n &quot;$LIBGLIB_=
+2_0_PREFIX&quot;; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$g=
+l_save_CPPFLAGS -I$LIBGLIB_2_0_PREFIX/include/glib-2.0 -I$LIBGLIB_2_0_PREFI=
+X/$acl_libdirstem/glib-2.0/include&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 AC_TRY_LINK([#inclu=
+de &lt;glib.h&gt;<br>
+&gt; +-#ifndef G_BEGIN_DECLS<br>
+&gt; +-error this glib.h includes a glibconfig.h from a glib version 1.x<br=
+>
+&gt; +-#endif<br>
+&gt; +-],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [g_string_ne=
+w (&quot;foo&quot;);],<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 [gl_cv_libgl=
+ib=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LIBGLIB=3D&quot;$LIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+LTLIBGLIB=3D&quot;$LTLIBGLIB_2_0&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gl_cv_=
+INCGLIB=3D&quot;-I$LIBGLIB_2_0_PREFIX/include/glib-2.0 -I$LIBGLIB_2_0_PREFI=
+X/$acl_libdirstem/glib-2.0/include&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 CPPFLAGS=3D&quot;$gl_save_CPPFLAG=
+S&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBS=3D&quot;$gl_save_LIBS&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 ])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_CHECKING([for glib])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 AC_MSG_RESULT([$gl_cv_libglib])<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 if test $gl_cv_libglib =3D yes; then<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LIBGLIB=3D&quot;$gl_cv_LIBGLIB&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 LTLIBGLIB=3D&quot;$gl_cv_LTLIBGLIB&quot;=
+<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 INCGLIB=3D&quot;$gl_cv_INCGLIB&quot;<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 else<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 gl_cv_libglib_use_included=3Dyes<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 =C2=A0 fi<br>
+&gt; +-=C2=A0 ])<br>
+&gt; ++=C2=A0 if test &quot;$gl_cv_libglib_use_included&quot; !=3D yes; the=
+n<br>
+&gt; ++=C2=A0 =C2=A0 PKG_CHECK_MODULES([GLIB], [glib-2.0])<br>
+&gt; ++=C2=A0 =C2=A0 LIBGLIB=3D&quot;$GLIB_LIBS&quot;<br>
+&gt; ++=C2=A0 =C2=A0 LTLIBGLIB=3D&quot;$GLIB_LIBS&quot;<br>
+&gt; ++=C2=A0 =C2=A0 INCGLIB=3D&quot;$GLIB_CFLAGS&quot;<br>
+&gt; ++=C2=A0 fi<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([LIBGLIB])<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([LTLIBGLIB])<br>
+&gt; +=C2=A0 =C2=A0AC_SUBST([INCGLIB])<br>
+&gt; +diff --git a/libtextstyle/lib/term-styled-ostream.c b/libtextstyle/li=
+b/term-styled-ostream.c<br>
+&gt; +index 3675b5f..811e546 100644<br>
+&gt; +--- a/libtextstyle/lib/term-styled-ostream.c<br>
+&gt; ++++ b/libtextstyle/lib/term-styled-ostream.c<br>
+&gt; +@@ -28,15 +28,15 @@<br>
+&gt; + <br>
+&gt; + #include &lt;stdlib.h&gt;<br>
+&gt; + <br>
+&gt; +-#include &lt;cr-om-parser.h&gt;<br>
+&gt; +-#include &lt;cr-sel-eng.h&gt;<br>
+&gt; +-#include &lt;cr-style.h&gt;<br>
+&gt; +-#include &lt;cr-rgb.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-om-parser.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-sel-eng.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-style.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-rgb.h&gt;<br>
+&gt; + /* &lt;cr-fonts.h&gt; has a broken double-inclusion guard in libcroc=
+o-0.6.1.=C2=A0 */<br>
+&gt; + #ifndef __CR_FONTS_H__<br>
+&gt; +-# include &lt;cr-fonts.h&gt;<br>
+&gt; ++# include &lt;libcroco/cr-fonts.h&gt;<br>
+&gt; + #endif<br>
+&gt; +-#include &lt;cr-string.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-string.h&gt;<br>
+&gt; + <br>
+&gt; + #include &quot;term-ostream.h&quot;<br>
+&gt; + #include &quot;hash.h&quot;<br>
+&gt; +diff --git a/libtextstyle/lib/term-styled-ostream.oo.c b/libtextstyle=
+/lib/term-styled-ostream.oo.c<br>
+&gt; +index 2cfd4a8..d42c8b4 100644<br>
+&gt; +--- a/libtextstyle/lib/term-styled-ostream.oo.c<br>
+&gt; ++++ b/libtextstyle/lib/term-styled-ostream.oo.c<br>
+&gt; +@@ -22,15 +22,15 @@<br>
+&gt; + <br>
+&gt; + #include &lt;stdlib.h&gt;<br>
+&gt; + <br>
+&gt; +-#include &lt;cr-om-parser.h&gt;<br>
+&gt; +-#include &lt;cr-sel-eng.h&gt;<br>
+&gt; +-#include &lt;cr-style.h&gt;<br>
+&gt; +-#include &lt;cr-rgb.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-om-parser.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-sel-eng.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-style.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-rgb.h&gt;<br>
+&gt; + /* &lt;cr-fonts.h&gt; has a broken double-inclusion guard in libcroc=
+o-0.6.1.=C2=A0 */<br>
+&gt; + #ifndef __CR_FONTS_H__<br>
+&gt; +-# include &lt;cr-fonts.h&gt;<br>
+&gt; ++# include &lt;libcroco/cr-fonts.h&gt;<br>
+&gt; + #endif<br>
+&gt; +-#include &lt;cr-string.h&gt;<br>
+&gt; ++#include &lt;libcroco/cr-string.h&gt;<br>
+&gt; + <br>
+&gt; + #include &quot;term-ostream.h&quot;<br>
+&gt; + #include &quot;hash.h&quot;<br>
+&gt; diff --git a/meta/recipes-core/gettext/<a href=3D"http://gettext_0.19.=
+8.1.bb" rel=3D"noreferrer" target=3D"_blank">gettext_0.19.8.1.bb</a> b/meta=
+/recipes-core/gettext/<a href=3D"http://gettext_0.20.1.bb" rel=3D"noreferre=
+r" target=3D"_blank">gettext_0.20.1.bb</a><br>
+&gt; similarity index 94%<br>
+&gt; rename from meta/recipes-core/gettext/<a href=3D"http://gettext_0.19.8=
+.1.bb" rel=3D"noreferrer" target=3D"_blank">gettext_0.19.8.1.bb</a><br>
+&gt; rename to meta/recipes-core/gettext/<a href=3D"http://gettext_0.20.1.b=
+b" rel=3D"noreferrer" target=3D"_blank">gettext_0.20.1.bb</a><br>
+&gt; index 30121ad23e1..fc05ef2e0a3 100644<br>
+&gt; --- a/meta/recipes-core/gettext/<a href=3D"http://gettext_0.19.8.1.bb"=
+ rel=3D"noreferrer" target=3D"_blank">gettext_0.19.8.1.bb</a><br>
+&gt; +++ b/meta/recipes-core/gettext/<a href=3D"http://gettext_0.20.1.bb" r=
+el=3D"noreferrer" target=3D"_blank">gettext_0.20.1.bb</a><br>
+&gt; @@ -6,7 +6,7 @@ a few stand-alone programs to massage in various ways =
+the sets of translatable a<br>
+&gt;=C2=A0 HOMEPAGE =3D &quot;<a href=3D"http://www.gnu.org/software/gettex=
+t/gettext.html" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/sof=
+tware/gettext/gettext.html</a>&quot;<br>
+&gt;=C2=A0 SECTION =3D &quot;libs&quot;<br>
+&gt;=C2=A0 LICENSE =3D &quot;GPLv3+ &amp; LGPL-2.1+&quot;<br>
+&gt; -LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dd32239bcb673463ab874e=
+80d47fae504&quot;<br>
+&gt; +LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Dc678957b0c8e964aa6c70=
+fd77641a71e&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 # Because po-gram-gen.y has been modified by fix-CVE-2018-18751.=
+patch,<br>
+&gt;=C2=A0 # it requires yacc which provided by bison-native<br>
+&gt; @@ -17,17 +17,16 @@ PROVIDES =3D &quot;virtual/libintl virtual/gettext=
+&quot;<br>
+&gt;=C2=A0 PROVIDES_class-native =3D &quot;virtual/gettext-native&quot;<br>
+&gt;=C2=A0 RCONFLICTS_${PN} =3D &quot;proxy-libintl&quot;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \<b=
+r>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://parallel.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://add-with-bisonlocaledir.patch \<br=
+>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://cr-statement.c-timsort.h-fix-forma=
+tting-issues.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://use-pkgconfig.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://fix-CVE-2018-18751.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 file://serial-tests-config.patch \<br>
+&gt; -&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://parallel.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://add-with-bisonlocaled=
+ir.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://cr-statement.c-timsor=
+t.h-fix-formatting-issues.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://use-pkgconfig.patch \=
+<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://serial-tests-config.p=
+atch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;=C2=A0 <br>
+&gt; -SRC_URI[md5sum] =3D &quot;97e034cf8ce5ba73a28ff6c3c0638092&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;ff942af0e438ced4a8b0ea4b0b6e0d6d657157c5=
+e2364de57baa279c1c125c43&quot;<br>
+&gt; +SRC_URI[md5sum] =3D &quot;bb5b0c0caa028105f3ca1905ddc306e2&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;66415634c6e8c3fa8b71362879ec7575e27da43d=
+a562c798a8a2f223e6e47f5c&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 inherit autotools texinfo pkgconfig ptest<br>
+&gt;=C2=A0 <br>
+&gt; @@ -127,7 +126,7 @@ do_install_append_class-native () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0rm ${D}${datadir}/gettext/po/remove-potcdate=
+.sin<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 create_wrapper ${D}${bindir}/msgfmt =
+\<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GETTEXTDATADI=
+R=3D&quot;${STAGING_DATADIR_NATIVE}/gettext-0.19.8/&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 GETTEXTDATADI=
+R=3D&quot;${STAGING_DATADIR_NATIVE}/gettext-0.20/&quot;<br>
+&gt;=C2=A0 <br>
 &gt;=C2=A0 }<br>
 &gt;=C2=A0 <br>
-&gt;=C2=A0 FILES_${PN} +=3D &quot;${libdir}/rpm-plugins/*.so \<br>
 <br>
-</blockquote></div>
+</blockquote></div></div>
 
---000000000000f1058e05986b6e99--
+--000000000000065e4b05986bb464--
