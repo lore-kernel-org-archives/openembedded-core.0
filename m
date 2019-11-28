@@ -1,32 +1,26 @@
-Return-Path: <peter@berginkonsult.se>
-X-Greylist: delayed 963 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 28 Nov 2019 06:30:59 UTC
-Received: from mailrelay1-2.pub.mailoutpod1-cph3.one.com
-	(mailrelay1-2.pub.mailoutpod1-cph3.one.com [46.30.212.0])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A10F7FA16
+Return-Path: <cengiz@kernel.wtf>
+Received: from relay12.mail.gandi.net (relay12.mail.gandi.net [217.70.178.232])
+	by mail.openembedded.org (Postfix) with ESMTP id A5C367F61C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2019 06:30:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=berginkonsult.se; s=20191106;
-	h=message-id:date:subject:cc:to:from:from;
-	bh=ya0imk0VCF/btldg7fvV7jSJ1pR32c6+xhzwyIVc0pk=;
-	b=ilPFJMMnuJZEVnoRiEoNYkbOgidtVMf5pteV+E4zxsNtjSLR+0PTlkgs8iIXbs0ateTxYmfUvgnj/
-	0GicyJkw/4fqciH80f6GT1tsNG+eVd8M3v0paCyvSu6m0PWQrShFyiVtYSZppDhhIoBR13jQlNIObR
-	a0bdSwQ8M8NWCEqntz/yqesyuUGi5aLQgkJhuXqsYHnJihitV/40/GINOtHZcXN7FlbV1yVeGIjhgQ
-	0T13FC1uTMYBlq0BEkHwz5NV7P3q2UR/wygMW3pLC1KlIPpUyM5iQIF1UP3HKNTUnGoiZZwD60gh43
-	nGAobelxE+RlrTccswBj4/LTGBMPTow==
-X-HalOne-Cookie: 12d80446961dfce1222cb1774e02bca3585aee90
-X-HalOne-ID: 63956519-11a6-11ea-aee4-d0431ea8a283
-Received: from localhost.localdomain (unknown [83.250.5.252])
-	by mailrelay1.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-	id 63956519-11a6-11ea-aee4-d0431ea8a283;
-	Thu, 28 Nov 2019 06:14:56 +0000 (UTC)
-From: Peter Bergin <peter@berginkonsult.se>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 28 Nov 2019 07:14:24 +0100
-Message-Id: <1574921664-22600-1-git-send-email-peter@berginkonsult.se>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] kernel-devsrc: fix error with old (<4.2) x86 kernels
+	Thu, 28 Nov 2019 10:38:32 +0000 (UTC)
+Received: from nexussix (unknown [84.44.14.226])
+	(Authenticated sender: cengiz@kernel.wtf)
+	by relay12.mail.gandi.net (Postfix) with ESMTPSA id 7F91920000F;
+	Thu, 28 Nov 2019 10:38:32 +0000 (UTC)
+Message-ID: <6444214b7e74abf19a4bb0ec1983c05b71e59d16.camel@kernel.wtf>
+From: Cengiz Can <cengiz@kernel.wtf>
+To: Phil Blundell <pb@pbcl.net>, Khem Raj <raj.khem@gmail.com>, Paul Barker
+	<paul@betafive.co.uk>
+Date: Thu, 28 Nov 2019 13:38:31 +0300
+In-Reply-To: <20191127114904.bfiotnxlsebtpko7@pbcl.net>
+References: <20191126133943.124402-1-cengiz@kernel.wtf>
+	<20191126181929.sys6lo2fadf72wdn@pbcl.net>
+	<16ea94ea570.2bfa.85c738e3968116fc5c0dc2de74002084@kernel.wtf>
+	<20191127114904.bfiotnxlsebtpko7@pbcl.net>
+User-Agent: Evolution 3.34.2 
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] systemd-conf: add timesyncd.conf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,50 +33,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Nov 2019 06:30:59 -0000
+X-List-Received-Date: Thu, 28 Nov 2019 10:38:34 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When using kernel-devsrc for older kernels do_install fails with:
+On Wed, 2019-11-27 at 12:49 +0100, Phil Blundell wrote:
+> I believe so.  I couldn't immediately find anything on their website
+> that
+> said differently.
 
-| cp: failed to get attributes of 'arch/x86/entry': No such file or directory
+Ok. I've found it here: https://developers.google.com/time/faq
 
-In the Linux kernel commit 1f57d5d85
-"x86/asm/entry: Move the arch/x86/syscalls/ definitions to arch/x86/entry/syscalls/"
-moved some files copied in the kernel-devsrc recipe. Commit 1f57d5d85 was added in
-v4.2.
+> The Google servers also do leap smearing which might or might not be
+> a good thing depending on your point of view.  I'm not sure whether
+> the pool.ntp.org ones do the same thing or not.
 
-To be able to use kernel-devsrc for kernels older than v4.2 this commit make use of find
-for the files that shall be copied.
+ntp.org's Discourse forum has posts mentioning that leap smearing is
+not supported and Google specific only.
 
-Signed-off-by: Peter Bergin <peter@berginkonsult.se>
----
- meta/recipes-kernel/linux/kernel-devsrc.bb | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+How often those leap seconds occur is out of my knowledge and
+expertise.
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index b68d945..b6f2dbc 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -185,14 +185,14 @@ do_install() {
- 	cp -a --parents tools/include/tools/be_byteshift.h $kerneldir/build/
- 
- 	# required for generate missing syscalls prepare phase
--	cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl $kerneldir/build
-+	cp -a --parents $(find arch/x86 -type f -name "syscall_32.tbl") $kerneldir/build
- 
- 	if [ "${ARCH}" = "x86" ]; then
- 	    # files for 'make prepare' to succeed with kernel-devel
--	    cp -a --parents arch/x86/entry/syscalls/syscall_32.tbl $kerneldir/build/
--	    cp -a --parents arch/x86/entry/syscalls/syscalltbl.sh $kerneldir/build/
--	    cp -a --parents arch/x86/entry/syscalls/syscallhdr.sh $kerneldir/build/
--	    cp -a --parents arch/x86/entry/syscalls/syscall_64.tbl $kerneldir/build/
-+	    cp -a --parents $(find arch/x86 -type f -name "syscall_32.tbl") $kerneldir/build/
-+	    cp -a --parents $(find arch/x86 -type f -name "syscalltbl.sh") $kerneldir/build/
-+	    cp -a --parents $(find arch/x86 -type f -name "syscallhdr.sh") $kerneldir/build/
-+	    cp -a --parents $(find arch/x86 -type f -name "syscall_64.tbl") $kerneldir/build/
- 	    cp -a --parents arch/x86/tools/relocs_32.c $kerneldir/build/
- 	    cp -a --parents arch/x86/tools/relocs_64.c $kerneldir/build/
- 	    cp -a --parents arch/x86/tools/relocs.c $kerneldir/build/
--- 
-2.7.4
+So I guess I'm giving up on this and let distro bakers decide on what
+to use.
+
+Thanks everyone. 
+
+Cengiz Can
+@cengiz_io
 
 
