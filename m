@@ -1,51 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 428307F945
+Return-Path: <ross.burton@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A2777F87C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2019 18:09:55 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id z19so12616309wmk.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 28 Nov 2019 10:09:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=mAMHNyPZWkwS0WoNheNqooqGErYQNwYTQ1HJUoyMEhk=;
-	b=Pa92Rcq90LHF0Wrb5SD2kRLsAKOoEc356EzQWOEHysc1ZwbsmO4NA8OvDE/mch7D+U
-	/PJgWj8OPn4VVIOViNOMZrWOovNegyBT+NvNk8oDy5CTvTrl25XSpJKLetxYyIy+rX9i
-	hAMUgO4Xbui3Is1xh8NM1kQoKe7CTGYfePSIw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=mAMHNyPZWkwS0WoNheNqooqGErYQNwYTQ1HJUoyMEhk=;
-	b=l3uB7n7okknfNwww0p4w0H2T/xdfuhNDnRW9s1vtWucDNHAusej9ZrQDXzlptKyoK4
-	CVrpkTX/fA+xQuAmMaUwhvIdU4ndljBI6E341OLmqR+DmQOK/WxquQ1kvoT/X7EiEPd0
-	//MzHwRpHs2oIcGrEpqqUrH5S/ZRFZdu2il9/nIcoB5N8t4yhM6tFtC8I+vJrDV2oiyl
-	k8tzL7sX5DBqvOL9yYT09wQO6O7j36lc33jsYAn/bCFKSX7yYFIU/ODnzRivz3siCxgl
-	PX/Vvvr1+oGJcoLi3gf7SG73XIW8pRyTLErGH4AX2Mli7Dv/5t98nKtlmKnCy1gtXzEA
-	FwKQ==
-X-Gm-Message-State: APjAAAVn9eIY++m1jD4yeKeCAfcRMdRsFZJjQ7wJq4fZmrSGlCHSP/eB
-	azqbOj6wtgz4srw//p7qperx3fkwH+w=
-X-Google-Smtp-Source: APXvYqwhZzOb2YvxYyuBxVQD2/19aAbxsqDE50CRikyycXAipCGcHxiSmV9YuG8F5V8h84cBqiafmA==
-X-Received: by 2002:a1c:560b:: with SMTP id k11mr11564846wmb.153.1574964595973;
-	Thu, 28 Nov 2019 10:09:55 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	72sm24807863wrl.73.2019.11.28.10.09.52
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 28 Nov 2019 10:09:55 -0800 (PST)
-Message-ID: <19c01871bece378f73254ead8953c24f9f3b3180.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Gamblin <Trevor.Gamblin@windriver.com>, 
+	Thu, 28 Nov 2019 18:22:49 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	28 Nov 2019 10:22:50 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,254,1571727600"; d="scan'208";a="234499996"
+Received: from xsanroma-mobl1.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.34.24])
+	by fmsmga004.fm.intel.com with ESMTP; 28 Nov 2019 10:22:49 -0800
+To: Wang Mingyu <wangmy@cn.fujitsu.com>,
 	openembedded-core@lists.openembedded.org
-Date: Thu, 28 Nov 2019 18:09:48 +0000
-In-Reply-To: <20191123221854.1656-1-Trevor.Gamblin@windriver.com>
-References: <20191123221854.1656-1-Trevor.Gamblin@windriver.com>
-User-Agent: Evolution 3.34.1-2 
+References: <1574932348-14525-1-git-send-email-wangmy@cn.fujitsu.com>
+	<1574932348-14525-3-git-send-email-wangmy@cn.fujitsu.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <021a6e04-6ecd-fbd1-959d-11e0ce13eca4@intel.com>
+Date: Thu, 28 Nov 2019 18:22:48 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/2 v2] add coreutils ptest to oe-core
+In-Reply-To: <1574932348-14525-3-git-send-email-wangmy@cn.fujitsu.com>
+Subject: Re: [PATCH] stress-ng 0.10.10 -> 0.10.11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +39,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 28 Nov 2019 18:09:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 28 Nov 2019 18:22:49 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2019-11-23 at 17:18 -0500, Trevor Gamblin wrote:
-> From: Trevor Gamblin <trevor.gamblin@windriver.com>
+On 28/11/2019 09:12, Wang Mingyu wrote:
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>   .../stress-ng/{stress-ng_0.10.10.bb => stress-ng_0.10.11.bb}          | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>   rename meta/recipes-extended/stress-ng/{stress-ng_0.10.10.bb => stress-ng_0.10.11.bb} (83%)
 > 
-> Sample test results:
-> 
-> core-image-minimal:
-> MACHINE    | PASS | FAIL | SKIP | TOTAL | TIME (m) |
-> qemux86-64 |  483 |    0 |  132 |   615 |      3.8 |
-> qemuarm64  |  483 |    0 |  132 |   615 |       70 |
-> 
-> core-image-sato:
-> MACHINE    | PASS | FAIL | SKIP | TOTAL | Time (m) |
-> qemux86-64 |  484 |    0 |  131 |   615 |      3.9 |
-> qemuarm64  |  484 |    0 |  131 |   615 |       70 |
+> diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.10.10.bb b/meta/recipes-extended/stress-ng/stress-ng_0.10.11.bb
+> similarity index 83%
+> rename from meta/recipes-extended/stress-ng/stress-ng_0.10.10.bb
+> rename to meta/recipes-extended/stress-ng/stress-ng_0.10.11.bb
+> index 47a98f3..0e17385 100644
+> --- a/meta/recipes-extended/stress-ng/stress-ng_0.10.10.bb
+> +++ b/meta/recipes-extended/stress-ng/stress-ng_0.10.11.bb
+> @@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>   SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
+>              file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
+>              "
+> -SRC_URI[md5sum] = "ad4de38d6ff1ccf3640573e967dfb136"
+> -SRC_URI[sha256sum] = "031de5ebc44b49992c11633f10aae96da05a85b326aebdffd88ba8c445d23cf4"
+> +SRC_URI[md5sum] = "08b694eeb152c659b06cbe0c723fbf2a"
+> +SRC_URI[sha256sum] = "ec41d375d1ae61862b00a939a5263791c8c8fdb262ad14ea204944df4ca140f1"
 
-I do like this patch but I think this is causing the reproducibile
-builds selftest to fail:
+ERROR: stress-ng-0.10.11-r0 do_fetch: Fetcher failure for URL: 
+'https://kernel.ubuntu.com/~cking/tarballs/stress-ng/stress-ng-0.10.11.tar.xz'. 
+Checksum mismatch!
+File: '/home/ross/Yocto/downloads/stress-ng-0.10.11.tar.xz' has md5 
+checksum 03e836175d039cd69a64d2790b9d1a98 when 
+08b694eeb152c659b06cbe0c723fbf2a was expected
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/515
+Did upstream change their tarball already?
 
-as coreutils ptest is in the list.
-
-I think there are other patches in master-next contributing to this too
-but this one is an issue.
-
-Its also causing a size overflow for genericx86-64:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/1298
-
-but I believe Anuj and Ross are working through changes which would
-address this issue.
-
-Cheers,
-
-Richard
-
+Ross
 
