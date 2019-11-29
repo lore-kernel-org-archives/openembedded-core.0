@@ -1,49 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 024597FC7B
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F8477FC8B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2019 13:12:25 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id p17so9133644wma.1
+	Fri, 29 Nov 2019 13:12:28 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id w15so4185316wru.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2019 05:12:27 -0800 (PST)
+	Fri, 29 Nov 2019 05:12:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Fhfmb3036Atu28VSAfMRWhcyulSrnoDEjbXcnnGahW0=;
-	b=lEtnWuWu/2HGpIw43ERLwtj84t+7Nz40+NDfi1wdJmuoBVgKrd20M6mZ5BAN2bpBoI
-	HgLXDVpo7/+qN7G4Rw4jz9uglQ8DY37mszSaKFdxLGgJYTe7xD4EpmTgyCEOb5wX4Iei
-	o1XJ1j0BJLKVHa5mn4yCvOjJ6oef04/gkqQqeVcplk3ojVkwXMltYce3Yy3HdrRmMUwh
-	rMNPqvbvIw2Yxur8zEUE+xzRDqq1vXUzIXV9BNuzw/9DcjGYnnokhhwA4+I9TkkIsdp9
-	QN92cmEyacqDCNfhW/EhLsL47BzpMY3sV/A64nsKyfGQ01MpRw7F2vBZW3Mw3FAUMwal
-	y5lQ==
+	bh=uaameoyiGg3L9pt5mh/pAOKG9AMzDKoJ6H3iwxb8jqo=;
+	b=qwNZ3tm5BiwuX3HQpLZ4j0eK2A209pQx3raOW83KMcaYSXqoiDUJ1LtORPJcMVC2XS
+	7fY1NeTfSIDSuVVVsx1Iz83f6dWTT4KPACcP90JirBKTM4+0HZ0CiRCrxQU+NiW6eVfA
+	xPXvyeifvIyVxWg1hm6jGkY6YY2BnFYFSQpaTHhVmBGo8ai6kffFC7Ea2fKwTwn59ZcS
+	6b1GKnNrGGlSs3X9ky8f+KZd+zMVlv/AubCkhk6XWOH64zhBANLmfd08qg4/r27YGyVU
+	a0ciTGOyK/tumkziG0hCxojxDwE8o5nWDWbKwf0wwJ7T13i570L0SKyCVzOB47JE0ojy
+	CQKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Fhfmb3036Atu28VSAfMRWhcyulSrnoDEjbXcnnGahW0=;
-	b=CqayStaErjyOSIxT/lykKxjkeNFKy6DQUT7twfOfETj4ji3y1O9THTBTAYypd85I6l
-	LSpDTzhgaCbVabnPq/7/8witctdPUf0/sV5UeKK/jQOTQDaHmFMjYkCRry5GNnYu58qa
-	d5BUcejeaOkmOfCSe65rJ29VGsTHVY9ijHRJKTxVCruZg3DQxRx1drNC1KFp1bDUMJyJ
-	1teeotyyGmbp/+dLlYHXixVn8n6/WmFfrMiMIV7ag3oG8u9+4Ygx1nFwCLDhR6JTNiql
-	udd32QwlMPjl9Jx+HILVp6VL/9caMO5ZgffxPyuJePMAvh/q10qGR8CbkAry8Hi3XczO
-	VWqQ==
-X-Gm-Message-State: APjAAAVV4F74prHv1z6v54/rRNsAnKIlTI16S8AaGLQ8rHbM2gD5bNho
-	DxyXe5v65pKppbY3owzHqzeFz/9h
-X-Google-Smtp-Source: APXvYqxIpfMMDULQojfTuAAR6JIBtEqWoxNM+JZ1/1acmM/FLsnlY8x9MAk6ll2Hld5bTKLHnafhSA==
-X-Received: by 2002:a7b:c255:: with SMTP id b21mr15337919wmj.39.1575033145765; 
-	Fri, 29 Nov 2019 05:12:25 -0800 (PST)
+	bh=uaameoyiGg3L9pt5mh/pAOKG9AMzDKoJ6H3iwxb8jqo=;
+	b=HInnDuEYL0pva6oQhw0DIagEfVwG87MpPGz4+Ix2NgCqkWLLljIznhZxiGjQFfRtX4
+	94nzprlHLqBOx8eZwCh3yvpyynM8HCKtlpUeqTrcOE6Mk/RYRRXM7M+m+n3xrLddw51j
+	2PlyDuSuEzxkD1Dwx+NOtIPD7dwNHx/APQ2hlEKyjE6g2F4hZDSOZBSDU/CR3GFEkbeD
+	as5vgm4cpMT4cL8N39OPSf2xSUhtmj6G75FrTcoJh9Kps09lF4oZ2csffI3OvC+iw4zg
+	4Q6YfiyzS3HMN1qa6+34yy04ev/UZYiyuI3zIHw4RT6soB+lhLtJHCVoB+7klSIySdT5
+	G2TQ==
+X-Gm-Message-State: APjAAAWFYdPYWEWKOs44LbCuN/zq1/DKSCWw3eAwA0EBedstHSfdQpK8
+	KTQQQJKq8r5z72gp8AmUfOIhN3n/
+X-Google-Smtp-Source: APXvYqzyIHjRUjSDEqN0j5ZlSq2IWM5lmLtduf/S6sFbfIZQlQ712JoXM9JCqxtE0QRhlx3+Pg89cA==
+X-Received: by 2002:a05:6000:12ce:: with SMTP id
+	l14mr41829490wrx.342.1575033148248; 
+	Fri, 29 Nov 2019 05:12:28 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id v17sm637224wrt.91.2019.11.29.05.12.23
+	by smtp.gmail.com with ESMTPSA id v17sm637224wrt.91.2019.11.29.05.12.25
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 29 Nov 2019 05:12:24 -0800 (PST)
+	Fri, 29 Nov 2019 05:12:26 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Nov 2019 14:11:50 +0100
-Message-Id: <20191129131152.128311-13-alex.kanavin@gmail.com>
+Date: Fri, 29 Nov 2019 14:11:51 +0100
+Message-Id: <20191129131152.128311-14-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191129131152.128311-1-alex.kanavin@gmail.com>
 References: <20191129131152.128311-1-alex.kanavin@gmail.com>
-Subject: [PATCH 13/15] libffi: update to 3.3 final
+Subject: [PATCH 14/15] libcomps: update to 0.1.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,115 +57,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2019 13:12:26 -0000
+X-List-Received-Date: Fri, 29 Nov 2019 13:12:29 -0000
 
-License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...ixed-missed-ifndef-for-__mips_soft_float.patch |  8 ++------
- .../recipes-support/libffi/libffi/not-win32.patch | 15 +++++++++++++--
- .../libffi/{libffi_3.3~rc0.bb => libffi_3.3.bb}   | 11 ++++-------
- 3 files changed, 19 insertions(+), 15 deletions(-)
- rename meta/recipes-support/libffi/{libffi_3.3~rc0.bb => libffi_3.3.bb} (78%)
+ ...PYTHON_INSTALL_DIR-by-running-python.patch | 50 +++++++------------
+ .../recipes-devtools/libcomps/libcomps_git.bb |  4 +-
+ 2 files changed, 19 insertions(+), 35 deletions(-)
 
-diff --git a/meta/recipes-support/libffi/libffi/0001-Fixed-missed-ifndef-for-__mips_soft_float.patch b/meta/recipes-support/libffi/libffi/0001-Fixed-missed-ifndef-for-__mips_soft_float.patch
-index 00a30a35545..397194bc930 100644
---- a/meta/recipes-support/libffi/libffi/0001-Fixed-missed-ifndef-for-__mips_soft_float.patch
-+++ b/meta/recipes-support/libffi/libffi/0001-Fixed-missed-ifndef-for-__mips_soft_float.patch
-@@ -1,12 +1,11 @@
--From 4149a7627a998731cc246d3f58a36808745d04c8 Mon Sep 17 00:00:00 2001
-+From 14e2e74682db3bfcf057688f738fdd842a02ff2d Mon Sep 17 00:00:00 2001
- From: Carl Hurd <carl@Carls-MacBook-Pro.local>
- Date: Wed, 18 Jul 2018 09:04:32 -0400
- Subject: [PATCH] Fixed missed #ifndef for __mips_soft_float
+diff --git a/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch b/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+index 26e8b06f378..59c09aa70a1 100644
+--- a/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
++++ b/meta/recipes-devtools/libcomps/libcomps/0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch
+@@ -1,41 +1,25 @@
+-From ff4aae4c8beaf17cb8e7a3431f6c541eccfae244 Mon Sep 17 00:00:00 2001
++From b28859ea93110d52d8a87d7b5a6c8796d0d523ed Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:22:09 +0200
+-Subject: [PATCH 1/2] Do not set PYTHON_INSTALL_DIR by running python.
++Subject: [PATCH] Do not set PYTHON_INSTALL_DIR by running python.
  
- Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-----
- Upstream-Status: Submitted [https://github.com/libffi/libffi/pull/442]
--
-+---
-  src/mips/o32.S | 2 ++
-  1 file changed, 2 insertions(+)
- 
-@@ -26,6 +25,3 @@ index 44e74cb..799139b 100644
-  1:
-  	# prepare arguments for ffi_closure_mips_inner_O32
-  	REG_L	a0, 4($15)	 # cif 
---- 
--2.21.0
--
-diff --git a/meta/recipes-support/libffi/libffi/not-win32.patch b/meta/recipes-support/libffi/libffi/not-win32.patch
-index 86a7fc9e405..62daaf4b389 100644
---- a/meta/recipes-support/libffi/libffi/not-win32.patch
-+++ b/meta/recipes-support/libffi/libffi/not-win32.patch
-@@ -1,3 +1,8 @@
-+From 306719369a0d3608b4ff2737de74ae284788a14b Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Thu, 4 Feb 2016 16:22:50 +0000
-+Subject: [PATCH] libffi: ensure sysroot paths are not in libffi.pc
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +
- libffi's configure assumes that cross-compiled builds are complicated and
- introduces convoluted path manipulation involving gcc search paths to the
- install paths, resulting in paths like -L/usr/lib/../lib/ appearing in
-@@ -11,9 +16,15 @@ As this block is generally pointless, disable it.
- Upstream-Status: Inappropriate
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
-+---
-+ configure.ac | 2 +-
+ ---
+- libcomps/src/python/src/python2/CMakeLists.txt | 2 +-
+- libcomps/src/python/src/python3/CMakeLists.txt | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
++ libcomps/src/python/src/CMakeLists.txt | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index b764368..d51ce91 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -350,7 +350,7 @@ AC_ARG_ENABLE(multi-os-directory,
-+@@ -354,7 +354,7 @@ AC_ARG_ENABLE(multi-os-directory,
-                            
-  # These variables are only ever used when we cross-build to X86_WIN32.
-  # And we only support this with GCC, so...
-@@ -21,4 +32,4 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
- +if false; then
-    if test -n "$with_cross_host" &&
-       test x"$with_cross_host" != x"no"; then
--     toolexecdir="${exec_prefix}"/'$(target_alias)'
-+     toolexecdir='${exec_prefix}'/'$(target_alias)'
-diff --git a/meta/recipes-support/libffi/libffi_3.3~rc0.bb b/meta/recipes-support/libffi/libffi_3.3.bb
-similarity index 78%
-rename from meta/recipes-support/libffi/libffi_3.3~rc0.bb
-rename to meta/recipes-support/libffi/libffi_3.3.bb
-index 8acb699d4ab..f97d49ce1fa 100644
---- a/meta/recipes-support/libffi/libffi_3.3~rc0.bb
-+++ b/meta/recipes-support/libffi/libffi_3.3.bb
-@@ -8,24 +8,21 @@ library really only provides the lowest, machine dependent layer of a fully feat
- A layer must exist above `libffi' that handles type conversions for values passed between the two languages."
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=3610bb17683a0089ed64055416b2ae1b"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=492385fe22195952f5b9b197868ba268"
- 
--SRC_URI = "https://github.com/libffi/libffi/releases/download/v3.3-rc0/libffi-3.3-rc0.tar.gz \
-+SRC_URI = "https://github.com/libffi/libffi/releases/download/v${PV}/${BPN}-${PV}.tar.gz \
-            file://not-win32.patch \
-            file://0001-Fixed-missed-ifndef-for-__mips_soft_float.patch \
-            "
--SRC_URI[md5sum] = "8d2a82a78faf10a5e53c27d986e8f04e"
--SRC_URI[sha256sum] = "403d67aabf1c05157855ea2b1d9950263fb6316536c8c333f5b9ab1eb2f20ecf"
-+SRC_URI[md5sum] = "6313289e32f1d38a9df4770b014a2ca7"
-+SRC_URI[sha256sum] = "72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056"
- UPSTREAM_CHECK_URI = "https://github.com/libffi/libffi/releases/"
- UPSTREAM_CHECK_REGEX = "libffi-(?P<pver>\d+(\.\d+)+)\.tar"
--UPSTREAM_VERSION_UNKNOWN = "1"
- 
- EXTRA_OECONF += "--disable-builddir"
- EXTRA_OEMAKE_class-target = "LIBTOOLFLAGS='--tag=CC'"
- inherit autotools texinfo multilib_header
- 
--S = "${WORKDIR}/${BPN}-3.3-rc0"
+-diff --git a/libcomps/src/python/src/python2/CMakeLists.txt b/libcomps/src/python/src/python2/CMakeLists.txt
+-index 3ad9e18..0e7dd4b 100644
+---- a/libcomps/src/python/src/python2/CMakeLists.txt
+-+++ b/libcomps/src/python/src/python2/CMakeLists.txt
+-@@ -1,7 +1,7 @@
+- find_package (PythonLibs 2.6)
+- find_package (PythonInterp 2.6 REQUIRED)
+- 
+--execute_process (COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+-+#execute_process (COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+- 
+- include_directories(${PYTHON_INCLUDE_PATH})
+- include_directories(${LIBCOMPS_INCLUDE_PATH})
+-diff --git a/libcomps/src/python/src/python3/CMakeLists.txt b/libcomps/src/python/src/python3/CMakeLists.txt
+-index 7fafa9f..ed82d3d 100644
+---- a/libcomps/src/python/src/python3/CMakeLists.txt
+-+++ b/libcomps/src/python/src/python3/CMakeLists.txt
+-@@ -2,7 +2,7 @@ find_package (PythonLibs 3.0)
+- find_package (PythonInterp 3.0)
+- #add_custom_target(py3-copy)
++diff --git a/libcomps/src/python/src/CMakeLists.txt b/libcomps/src/python/src/CMakeLists.txt
++index fa590ae..6913214 100644
++--- a/libcomps/src/python/src/CMakeLists.txt
+++++ b/libcomps/src/python/src/CMakeLists.txt
++@@ -117,7 +117,7 @@ IF (SKBUILD)
++     INSTALL(FILES libcomps/__init__.py DESTINATION libcomps/src/python/src/libcomps)
++     INSTALL(TARGETS pycomps LIBRARY DESTINATION libcomps/src/python/src/libcomps)
++ ELSE ()
++-    EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+++    #EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+  
+--execute_process (COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+-+#execute_process (COMMAND ${PYTHON_EXECUTABLE} -c "from sys import stdout; from distutils import sysconfig; stdout.write(sysconfig.get_python_lib(True))" OUTPUT_VARIABLE PYTHON_INSTALL_DIR)
+- 
+- include_directories(${PYTHON_INCLUDE_PATH})
+- include_directories(${LIBCOMPS_INCLUDE_PATH})
+--- 
+-2.11.0
 -
- do_install_append() {
- 	oe_multilib_header ffi.h
- }
++     INSTALL(FILES ${pycomps_SRCDIR}/libcomps/__init__.py DESTINATION ${PYTHON_INSTALL_DIR}/libcomps)
++     #INSTALL(FILES ${pycomps_SRCDIR}/tests/__test.py DESTINATION
+diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_git.bb
+index 372c3c35804..34881bba372 100644
+--- a/meta/recipes-devtools/libcomps/libcomps_git.bb
++++ b/meta/recipes-devtools/libcomps/libcomps_git.bb
+@@ -8,8 +8,8 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
+            file://0001-Add-crc32.c-to-sources-list.patch \
+            "
+ 
+-PV = "0.1.11"
+-SRCREV = "d868a79b76fb980d1371c28124ae07f00d2b63a9"
++PV = "0.1.12"
++SRCREV = "d0c8aa312dcab75c265ed6123f8afe0d7c8e91db"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.17.1
 
