@@ -1,51 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 750377FA3B
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 707B67FAB7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2019 13:12:20 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id s14so8246648wmh.4
+	Fri, 29 Nov 2019 13:12:23 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id g17so3112667wro.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2019 05:12:21 -0800 (PST)
+	Fri, 29 Nov 2019 05:12:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=ePOfFhqdb5Aq7zXA0mdj2mQaYJZTrBSxeqGtM58GGmQ=;
-	b=kxY6No1ikI60qdCJixXrhupgLgs4KQYHkXTXx+w1Xksz6pCMELkvn3gxeTgOFZHWbO
-	oByxeLrA7IykoMxg3QDHZX6Jd8gAnjWJ0V0xwvhNaHkuKBiVmUmuvDvjxFBpUcFXCmN5
-	Pe0NZIr5B1Cze3UYIv3T/ImxsGfQE+TxEkcD9Pznqpcgd0nojSC/++kzM0R4FFW5wTv0
-	eGh/Xt87Wcfihh3vq5LpuMZDSJ33EXhNWgTu6tTZnr0RQiIMoCJ9OAXeZo+kN2IpukX8
-	eQiI8kpb3ALF4PpIVHeNUg6nbB7M8pMu3889eeNCx+KhTNAypdEIo4nCf3cZHdI3PSjm
-	DFYw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=S7y3a4neEKCcOHCjGyZ0EQLQ2Tk5YpxAA4vZl5FVsTQ=;
+	b=G6NYK0aOS1uA80K9HKhyWenbeLj7Hob4IlCxjC69X6dU4acqVne5KoXGeD686zhfNC
+	qiX0p/KGdy21PS12nz3KnHddhI2C5avxcytt4RPWce9OHyV71b9o1og4Ge/EoerNabwC
+	Zx8b3TmrhcNakLBilvQBmUQC1MygcG7+Ez5C5D1LKvXppsLQqK39qEFabQbVlYYQ/eYw
+	1NKHAvYqjX2wfLt6fyC3zIG5qGld/ZfD2xMTT3ePdI4zU4KRmwIKWrFnwZQ5YVLIsW5w
+	+TmZ/qouKWJdJl4r2gYznv0vKzxuhwffc6U0SqNrJxeNo+RsbU0bATlOMDkYMEOdNEJl
+	XqNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=ePOfFhqdb5Aq7zXA0mdj2mQaYJZTrBSxeqGtM58GGmQ=;
-	b=oEpGPZ2JuZ/zNiZsDJMUs3ZXovqIV2xMMZHUMgDX5YMQnTLu/j3e11/XbJEn5STY2F
-	Cc55cNo9jFn6hOSAoXH2kP5YD1JYBolXySvib3OpXrZ2HXksoC+hUvEP0xNhzKfYCLGJ
-	fBdwc1GV5VRwwPsVb7gCZNTTeOglKgFx6m6W/unBxdR5uOUfqT52vAe6Ts0zTsoPcfhM
-	n25dutuyvhlloFNfmFX4C32/ROElc4LvSesksHfHhf7k0LcyX/hQ6X0GrQDEgKLQMPtW
-	vOow4iraQyOvmJfIE/Pdt4VMxNv3+P/KFIEk1pvqi+YX8yteWYpeEpz7t/ZA/K/7BQSE
-	4/Zw==
-X-Gm-Message-State: APjAAAWTfbOXPWOOh5IyIg+UUR0EVP/2F+1o7Z10x9LLFW9zwnt3EXh9
-	DgV/zGYhYB16aYT8+nDtVYS/PJTw
-X-Google-Smtp-Source: APXvYqxzEwAo/Tqe0dYHoCDwtMZRbn6k0oLZqmVlf8qCKHnsxtooB0coygt7GpI2ijaeqxliAh/avw==
-X-Received: by 2002:a7b:ca4b:: with SMTP id m11mr2405775wml.74.1575033139977; 
-	Fri, 29 Nov 2019 05:12:19 -0800 (PST)
+	:references;
+	bh=S7y3a4neEKCcOHCjGyZ0EQLQ2Tk5YpxAA4vZl5FVsTQ=;
+	b=qdEryjyvnxQWAHXfIyMgmANPmL8PMWnyNjGPqDsr8031dg+TnPjWAVxNoN7RKzgsQS
+	2rAGx3KkJm9L/iX15hrxEVRXKgVG3/aV+PQF+Db9KLTgRWwCOjtuEripEL1HByZuvun9
+	JnU/I9/8XWiXppSlO6ImCSO5Cvy7ap6gcJ6HyjlwcGCKklIUzrJHKs4F9YCkgGc/Mx/L
+	A4fWEZHuJhravLTV0RB2hKdHTyA0Lp/14IsTIXZPQp0vMx5OdoObmIpsAYnzaqVS1n2Z
+	eOPOvceN1Q4scsxj/lyxfmKKLbWMO5SvQ1Lfbo6wjrT7bAaz3F6i3wZWJqkTS1O5M7P7
+	Aj3g==
+X-Gm-Message-State: APjAAAX5BVkNgHlYraBryjAXQS2JgGXKd0qo/jqNR6Zv+NcdKGtt7Sja
+	DBQ7jgOR/nfYs7gXVNARXGxXgTHl
+X-Google-Smtp-Source: APXvYqy5QCKfdvT4Ozz6wjNCyIRgq6qw7HoMroB2PyEVWctXLxROnXZPFLirigbWT9k1xsojSTXtKw==
+X-Received: by 2002:adf:ec89:: with SMTP id z9mr54288328wrn.153.1575033143383; 
+	Fri, 29 Nov 2019 05:12:23 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id v17sm637224wrt.91.2019.11.29.05.12.18
+	by smtp.gmail.com with ESMTPSA id v17sm637224wrt.91.2019.11.29.05.12.20
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 29 Nov 2019 05:12:18 -0800 (PST)
+	Fri, 29 Nov 2019 05:12:22 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Nov 2019 14:11:48 +0100
-Message-Id: <20191129131152.128311-11-alex.kanavin@gmail.com>
+Date: Fri, 29 Nov 2019 14:11:49 +0100
+Message-Id: <20191129131152.128311-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191129131152.128311-1-alex.kanavin@gmail.com>
 References: <20191129131152.128311-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 11/15] flex: update to 2.6.4
+Subject: [PATCH 12/15] gettext: fix failing ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,278 +56,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2019 13:12:20 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 29 Nov 2019 13:12:23 -0000
 
-Add a backport patch that addresses segfaults on newer glibc versions.
+Results:
 
-Remove:
-CVE-2016-6354.patch (backport)
-0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch (issue fixed upstream)
-do_not_create_pdf_doc.patch (issue fixed upstream)
-
-ptest pass rate is 100%.
+pass 400
+fail 0
+skip 32
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...SE_SYSTEM_EXTENSIONS-in-configure.ac.patch | 32 ++++++++++
- ...-comments-in-c-code-fails-with-gcc-6.patch | 64 -------------------
- .../flex/flex/CVE-2016-6354.patch             | 59 -----------------
- .../flex/flex/do_not_create_pdf_doc.patch     | 17 -----
- meta/recipes-devtools/flex/flex/run-ptest     |  2 +-
- .../flex/{flex_2.6.0.bb => flex_2.6.4.bb}     | 12 ++--
- 6 files changed, 38 insertions(+), 148 deletions(-)
- create mode 100644 meta/recipes-devtools/flex/flex/0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch
- delete mode 100644 meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
- delete mode 100644 meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
- delete mode 100644 meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
- rename meta/recipes-devtools/flex/{flex_2.6.0.bb => flex_2.6.4.bb} (85%)
+ meta/recipes-core/gettext/gettext_0.20.1.bb | 23 +++++++++++++++++++--
+ 1 file changed, 21 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/flex/flex/0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch b/meta/recipes-devtools/flex/flex/0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch
-new file mode 100644
-index 00000000000..60bf7ce8cfd
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex/0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch
-@@ -0,0 +1,32 @@
-+From ed1f7e9de0d6a1d5a9e581e02a63593d22cf1e52 Mon Sep 17 00:00:00 2001
-+From: Explorer09 <explorer09@gmail.com>
-+Date: Mon, 4 Sep 2017 10:47:33 +0800
-+Subject: [PATCH] build: AC_USE_SYSTEM_EXTENSIONS in configure.ac.
+diff --git a/meta/recipes-core/gettext/gettext_0.20.1.bb b/meta/recipes-core/gettext/gettext_0.20.1.bb
+index fc05ef2e0a3..a6fc2195685 100644
+--- a/meta/recipes-core/gettext/gettext_0.20.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.20.1.bb
+@@ -44,6 +44,10 @@ EXTRA_OECONF += "--without-lispdir \
+                 "
+ EXTRA_OECONF_append_class-target = " \
+                  --with-bisonlocaledir=${datadir}/locale \
++                 gt_cv_locale_fr_utf8=fr_FR \
++                 gt_cv_locale_fr=fr_FR.ISO-8859-1 \
++                 gt_cv_locale_de_utf8=de_DE \
++                 gt_cv_locale_de=de_DE.ISO-8859-1 \
+ "
+ 
+ PACKAGECONFIG ??= "croco glib libxml"
+@@ -143,13 +147,17 @@ do_install_ptest() {
+         mkdir -p                                        ${D}${PTEST_PATH}/src
+         mkdir -p                                        ${D}${PTEST_PATH}/po
+         mkdir -p                                        ${D}${PTEST_PATH}/misc
++        mkdir -p                                        ${D}${PTEST_PATH}/its
++        mkdir -p                                        ${D}${PTEST_PATH}/styles
++        cp -rf ${S}/gettext-tools/its/*                 ${D}${PTEST_PATH}/its
++        cp -rf ${S}/gettext-tools/styles/*              ${D}${PTEST_PATH}/styles
+         cp -rf ${S}/gettext-tools/tests/*               ${D}${PTEST_PATH}/tests
+         cp -rf ${B}/gettext-tools/tests/.libs/*         ${D}${PTEST_PATH}/tests
+         cp -rf ${B}/gettext-runtime/intl/.libs/libgnuintl.so.8*         ${D}${libdir}/
+         cp -rf ${B}/gettext-tools/tests/Makefile        ${D}${PTEST_PATH}/tests
++        cp -rf ${B}/gettext-tools/tests/init-env        ${D}${PTEST_PATH}/tests
+         sed -i '/^Makefile:/c Makefile:'                ${D}${PTEST_PATH}/tests/Makefile
+-        sed -i -e 's:CONFIG_SHELL=.*:& LOCALE_FR='fr_FR.iso88591' LOCALE_FR_UTF8='fr_FR.utf8' LOCALE_JA='ja_JP.eucjp':g' \
+-            -e 's:lang-c lang-c++:lang-c++:g' ${D}${PTEST_PATH}/tests/Makefile
++        sed -i -e 's:lang-c lang-c++:lang-c++:g'        ${D}${PTEST_PATH}/tests/Makefile
+         install ${S}/gettext-tools/src/msgunfmt.tcl     ${D}${PTEST_PATH}/src
+         install ${S}/gettext-tools/src/project-id       ${D}${PTEST_PATH}/src
+         install ${B}/gettext-runtime/src/gettext.sh     ${D}${PTEST_PATH}/src
+@@ -177,8 +185,19 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
+     glibc-gconv-koi8-r \
+     glibc-gconv-iso8859-2 \
+     glibc-charmap-iso-8859-2 \
++    glibc-gconv-iso8859-1 \
++    glibc-charmap-iso-8859-1 \
+     glibc-gconv-euc-kr \
+     glibc-charmap-euc-kr \
++    glibc-gconv-euc-jp \
++    glibc-charmap-euc-jp \
++    locale-base-de-de \
++    locale-base-fr-fr \
++"
 +
-+This would, e.g. define _GNU_SOURCE in config.h, enabling the
-+reallocarray() prototype in glibc 2.26+ on Linux systems with that
-+version of glibc.
-+
-+Fixes #241.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ configure.ac | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 55e774b..c879fe1 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -25,8 +25,10 @@
-+ # autoconf requirements and initialization
-+ 
-+ AC_INIT([the fast lexical analyser generator],[2.6.4],[flex-help@lists.sourceforge.net],[flex])
-++AC_PREREQ([2.60])
-+ AC_CONFIG_SRCDIR([src/scan.l])
-+ AC_CONFIG_AUX_DIR([build-aux])
-++AC_USE_SYSTEM_EXTENSIONS
-+ LT_INIT
-+ AM_INIT_AUTOMAKE([1.11.3 -Wno-portability foreign check-news std-options dist-lzip parallel-tests subdir-objects])
-+ AC_CONFIG_HEADER([src/config.h])
-diff --git a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
-deleted file mode 100644
-index 438ca5f5276..00000000000
---- a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
-+++ /dev/null
-@@ -1,64 +0,0 @@
--From 7072befe1397af4eb01c3ff7edf99f0cd5076089 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
--Date: Tue, 30 Aug 2016 14:25:32 +0200
--Subject: [PATCH] avoid c++ comments in c-code - fails with gcc-6
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--fixes:
--
--| error: C++ style comments are not allowed in ISO C90
--| num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
--
--Upstream-Status: Pending
--
--Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
-----
-- src/flex.skl | 2 +-
-- src/scan.c   | 2 +-
-- src/skel.c   | 2 +-
-- 3 files changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/src/flex.skl b/src/flex.skl
--index 73a0b9e..ed71627 100644
----- a/src/flex.skl
--+++ b/src/flex.skl
--@@ -2350,7 +2350,7 @@ void yyFlexLexer::yyensure_buffer_stack(void)
-- 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
-- 		 * immediate realloc on the next call.
--          */
---		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
--+		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
-- 		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
-- 								(num_to_alloc * sizeof(struct yy_buffer_state*)
-- 								M4_YY_CALL_LAST_ARG);
--diff --git a/src/scan.c b/src/scan.c
--index b55df2d..f1dce75 100644
----- a/src/scan.c
--+++ b/src/scan.c
--@@ -4672,7 +4672,7 @@ static void yyensure_buffer_stack (void)
-- 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
-- 		 * immediate realloc on the next call.
--          */
---		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
--+		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways...*/
-- 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
-- 								(num_to_alloc * sizeof(struct yy_buffer_state*)
-- 								);
--diff --git a/src/skel.c b/src/skel.c
--index ef657d3..26cc889 100644
----- a/src/skel.c
--+++ b/src/skel.c
--@@ -2561,7 +2561,7 @@ const char *skel[] = {
--   "		 * scanner will even need a stack. We use 2 instead of 1 to avoid an",
--   "		 * immediate realloc on the next call.",
--   "         */",
---  "		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...",
--+  "		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */",
--   "		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc",
--   "								(num_to_alloc * sizeof(struct yy_buffer_state*)",
--   "								M4_YY_CALL_LAST_ARG);",
---- 
--2.5.5
--
-diff --git a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch b/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
-deleted file mode 100644
-index 216ac7ae1c4..00000000000
---- a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--From 3939eccdff598f47e5b37b05d58bf1b44d3796e7 Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Fri, 7 Oct 2016 14:15:38 +0300
--Subject: [PATCH] Prevent buffer overflow in yy_get_next_buffer
--
--This is upstream commit a5cbe929ac3255d371e698f62dc256afe7006466
--with some additional backporting to make binutils build again.
--
--Upstream-Status: Backport
--CVE: CVE-2016-6354
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-----
-- src/flex.skl | 2 +-
-- src/scan.c   | 2 +-
-- src/skel.c   | 2 +-
-- 3 files changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/src/flex.skl b/src/flex.skl
--index ed71627..814d562 100644
----- a/src/flex.skl
--+++ b/src/flex.skl
--@@ -1718,7 +1718,7 @@ int yyFlexLexer::yy_get_next_buffer()
-- 
-- 	else
-- 		{
---			yy_size_t num_to_read =
--+			int num_to_read =
-- 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
-- 
-- 		while ( num_to_read <= 0 )
--diff --git a/src/scan.c b/src/scan.c
--index f1dce75..1949872 100644
----- a/src/scan.c
--+++ b/src/scan.c
--@@ -4181,7 +4181,7 @@ static int yy_get_next_buffer (void)
-- 
-- 	else
-- 		{
---			yy_size_t num_to_read =
--+			int num_to_read =
-- 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
-- 
-- 		while ( num_to_read <= 0 )
--diff --git a/src/skel.c b/src/skel.c
--index 26cc889..0344d18 100644
----- a/src/skel.c
--+++ b/src/skel.c
--@@ -1929,7 +1929,7 @@ const char *skel[] = {
--   "",
--   "	else",
--   "		{",
---  "			yy_size_t num_to_read =",
--+  "			int num_to_read =",
--   "			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;",
--   "",
--   "		while ( num_to_read <= 0 )",
---- 
--2.1.4
--
-diff --git a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch b/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
-deleted file mode 100644
-index 29792efee87..00000000000
---- a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
-+++ /dev/null
-@@ -1,17 +0,0 @@
--Upstream-Status: Inappropriate (embedded specific)
--
--Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
--
--Index: flex-2.6.0/doc/Makefile.am
--===================================================================
----- flex-2.6.0.orig/doc/Makefile.am
--+++ flex-2.6.0/doc/Makefile.am
--@@ -2,7 +2,7 @@ help2man = @HELP2MAN@
-- 
-- info_TEXINFOS =	flex.texi
-- dist_man_MANS = flex.1
---dist_doc_DATA= flex.pdf
--+EXTRA_DIST= flex.pdf
-- 
-- CLEANFILES = \
-- 	flex.aux \
-diff --git a/meta/recipes-devtools/flex/flex/run-ptest b/meta/recipes-devtools/flex/flex/run-ptest
-index 19db3379002..037301c40fa 100755
---- a/meta/recipes-devtools/flex/flex/run-ptest
-+++ b/meta/recipes-devtools/flex/flex/run-ptest
-@@ -2,4 +2,4 @@
++RRECOMMENDS_${PN}-ptest_append_libc-glibc = "\
++    locale-base-de-de.iso-8859-1 \
++    locale-base-fr-fr.iso-8859-1 \
+ "
  
- # make would want to rebuild some files with a compiler otherwise :-/
- make FLEX=/usr/bin/flex -t check-TESTS || true
--make FLEX=/usr/bin/flex check-TESTS
-+make FLEX=/usr/bin/flex abs_builddir=./ check-TESTS
-diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
-similarity index 85%
-rename from meta/recipes-devtools/flex/flex_2.6.0.bb
-rename to meta/recipes-devtools/flex/flex_2.6.4.bb
-index 9bdd99c59f8..d8e2f7f28c2 100644
---- a/meta/recipes-devtools/flex/flex_2.6.0.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
-@@ -10,17 +10,15 @@ BBCLASSEXTEND = "native nativesdk"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
-+SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.tar.gz \
-            file://run-ptest \
--           file://do_not_create_pdf_doc.patch \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
--           file://0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch \
--           file://CVE-2016-6354.patch \
-            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
-+           file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
-            "
- 
--SRC_URI[md5sum] = "266270f13c48ed043d95648075084d59"
--SRC_URI[sha256sum] = "24e611ef5a4703a191012f80c1027dc9d12555183ce0ecd46f3636e587e9b8e9"
-+SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
-+SRC_URI[sha256sum] = "e87aae032bf07c26f85ac0ed3250998c37621d95f8bd748b31f15b33c45ee995"
- 
- # Flex has moved to github from 2.6.1 onwards
- UPSTREAM_CHECK_URI = "https://github.com/westes/flex/releases"
-@@ -30,7 +28,7 @@ inherit autotools gettext texinfo ptest
- 
- M4 = "${bindir}/m4"
- M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
--EXTRA_OECONF += "ac_cv_path_M4=${M4}"
-+EXTRA_OECONF += "ac_cv_path_M4=${M4} ac_cv_func_reallocarray=no"
- EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
- 
- EXTRA_OEMAKE += "${@bb.utils.contains('PTEST_ENABLED', '1', 'FLEX=${STAGING_BINDIR_NATIVE}/flex', '', d)}"
+ INSANE_SKIP_${PN}-ptest += "ldflags"
 -- 
 2.17.1
 
