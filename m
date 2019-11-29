@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 53A5B7FA3E
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BE467FA3E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2019 13:12:04 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id y5so15006771wmi.5
+	Fri, 29 Nov 2019 13:12:09 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id n1so35166604wra.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2019 05:12:05 -0800 (PST)
+	Fri, 29 Nov 2019 05:12:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=EAMxL9cen2imH69UlrV2J8XX6d3rorZ4EreBxfi/BZk=;
-	b=kOafiESkJE9P+dDHOA4jRLcVg1ytLr661J2idGHt2XYxlTqT2if00qFp4Uj6TYJOvi
-	8yoLQaZ2b86ByfH9oYf1apUy8siaZKn0HVYjP1oF0q32SYtHdmw6RXoJoZUxOVaBWZJR
-	D57n+5dECelDkjdM0NW9WmjXt2JX+pZx8SX1PyRvCMM5GYtHyIR6u4OrhP+QVw2hbGUD
-	vvSlTwi+sngKIFfWQAdn+sHEV+6AS5+Vl1IDSJhYgfPAnaBWxAt0nrkNfkDaVvA8/xKi
-	YQ2yIncWfYdTaoBbOfmURPX5RCZRWAbkWissZCQPkOI6ogvDHLUH7FbOsppluV8NZSSR
-	S+qA==
+	bh=UQQ+ktMG3+feDVwhH3dIY91PbFkI3ddQxW0M18BavEc=;
+	b=FOVTST6qxvyiAO1/CI1MhIs4VY/+q8zZS/ROIz0EpLCaoFcUyhwuFNCQ1nUvTnxyWX
+	dcuARX6lvu+a55BksnxsV0pkQB3dlNfKs163shCKmzGhNRjpBnrgjRlec7M3fSXRwvXz
+	yms2gv8fq9GWbCMOYIsdNhCKWP7wv1DK8Ad2l9oMqRbUOaQRdFEYpXec7nA2KI4k1Fvk
+	Q9O3xhOI/zBE+nDdSo5tap+n23wmINebeu0V6GL1myPk0jPRn2veytfc9g0pcig016aU
+	oy60A7U3D2cW5DJApr6fwfWOfOwtJl4Eb9w/ffwAnPVBqDkA5A6WSWP4uDPM/PtMIKOi
+	BxCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=EAMxL9cen2imH69UlrV2J8XX6d3rorZ4EreBxfi/BZk=;
-	b=L60kRD+gDfaPo4q7PEjayrvJ/OSgeIpT7c7IFqjIddhCL4IHidIcDEsbxpf8qXFc3e
-	PsWjE7IMDYECU5JzmOYKHgEm/nKFe1TUimMrbUZi6oMHDLN6fEsjpzfIVALtSxPQvpxW
-	odjd8pmG6khA68XAW/4hFGz0d3wozsuYDVwdhmQFqKarS3uk11xoe7tkdwwbCMJ9yp5x
-	6cN0dU4t0z4ql2OnuFhRwParaGvfYJvoYHpoMGl0JveHQjJPkCgVGRzemtQ3FiUhQ9VP
-	bITvulxm9nuI1I4WLsOnuET+/upEU3m4fef3qSzA/gYxY+1vy9AC4sgOgPhl7pbFkTKC
-	uhsA==
-X-Gm-Message-State: APjAAAXmPBU46HbQOGa2DipFU8kZ4FcI/aKiuI2VAF5K6cEBxdsDKUWH
-	ukzctQ/QipT7Nxh9+oU1WidGX3CZ
-X-Google-Smtp-Source: APXvYqzv8UEuZEL8nn0JwcA03OyQN9Au/W0vvaAPSiJS+vbT7ILxHiRDUYdFcUwbuHu6/nw3Y/1g3Q==
-X-Received: by 2002:a7b:c255:: with SMTP id b21mr15335647wmj.39.1575033124496; 
-	Fri, 29 Nov 2019 05:12:04 -0800 (PST)
+	bh=UQQ+ktMG3+feDVwhH3dIY91PbFkI3ddQxW0M18BavEc=;
+	b=HiK0hcxeTaBQFYvv2cgFCa/N9+aKmUN9pz7XxA34cpxk1eIU4s3RFC1nVrGS5VzWLQ
+	APidAQr/5NWz35blrKOiucLWgYN3zms13atFwTRus//Bds1vOuE+KE2m1Mfymk5qKHPJ
+	8ognUNh6Z6PAg7TQ9bmdLUAmwpZ1vjN26XeMdRRvMG/qQ92J9N+wI/9vy4zFG7yzPSTe
+	TcVzRaYf62kQqezqUA2kSqD+hKoTkwzek8n+8Z3LHEEWD2l0ch5bw+YcwWWS4D3DNMkN
+	TDQcGiBD2/vEsJH7KdFVOSO+/pmECJtbnoO+mKUn44Mk9TzYkBYcv1vhRcRoWozshO/9
+	lhmQ==
+X-Gm-Message-State: APjAAAVrZ5pMnr6Mqj+VfqZ0t6u1eCVL+XheALf06MA/Js42sdl5d2i3
+	2UVLan1tThjIDxQzAiogQCMgn/TT
+X-Google-Smtp-Source: APXvYqxL/P3gfjDEZi9CTEsPNMXFoRHSUhfA1y6P45TtzQoL4Jn/lkscLPZ7Yigj0jkTQJcz9Z2dcg==
+X-Received: by 2002:a5d:43c7:: with SMTP id v7mr1728578wrr.32.1575033129578;
+	Fri, 29 Nov 2019 05:12:09 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id v17sm637224wrt.91.2019.11.29.05.12.02
+	by smtp.gmail.com with ESMTPSA id v17sm637224wrt.91.2019.11.29.05.12.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 29 Nov 2019 05:12:02 -0800 (PST)
+	Fri, 29 Nov 2019 05:12:08 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 29 Nov 2019 14:11:40 +0100
-Message-Id: <20191129131152.128311-3-alex.kanavin@gmail.com>
+Date: Fri, 29 Nov 2019 14:11:43 +0100
+Message-Id: <20191129131152.128311-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191129131152.128311-1-alex.kanavin@gmail.com>
 References: <20191129131152.128311-1-alex.kanavin@gmail.com>
-Subject: [PATCH 03/15] dnf: upgrade 4.2.2 -> 4.2.16
+Subject: [PATCH 06/15] lrzsz: fix issues with newer versions of gettext
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +56,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2019 13:12:04 -0000
+X-List-Received-Date: Fri, 29 Nov 2019 13:12:09 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/dnf/{dnf_4.2.2.bb => dnf_4.2.16.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/dnf/{dnf_4.2.2.bb => dnf_4.2.16.bb} (98%)
+ ...-issues-with-recent-gettext-versions.patch | 42 +++++++++++++++++++
+ meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       | 11 ++---
+ 2 files changed, 48 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0009-Fix-issues-with-recent-gettext-versions.patch
 
-diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.16.bb
-similarity index 98%
-rename from meta/recipes-devtools/dnf/dnf_4.2.2.bb
-rename to meta/recipes-devtools/dnf/dnf_4.2.16.bb
-index f38167f1ad0..1373bccee23 100644
---- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.2.16.bb
-@@ -15,7 +15,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
-            file://0030-Run-python-scripts-using-env.patch \
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0009-Fix-issues-with-recent-gettext-versions.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0009-Fix-issues-with-recent-gettext-versions.patch
+new file mode 100644
+index 00000000000..c8a05f3818b
+--- /dev/null
++++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/0009-Fix-issues-with-recent-gettext-versions.patch
+@@ -0,0 +1,42 @@
++From 245c104267363c13f2ba83eca4409c673ee99fcf Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 21 Nov 2019 12:34:56 +0100
++Subject: [PATCH] Fix issues with recent gettext versions
++
++[external] is required by recent gettext versions,
++USE_INCLUDED_LIBINTL is no longer defined by the gettext m4
++macro and was never documented anyway.
++
++Upstream-Status: Inappropriate [upstream is dead]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ configure.in     | 2 +-
++ intl/Makefile.in | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure.in b/configure.in
++index aa20263..4bde433 100644
++--- a/configure.in
+++++ b/configure.in
++@@ -256,7 +256,7 @@ AC_SUBST(CFLAGS)
++ AC_SUBST(LDFLAGS)
++ AC_SUBST(LIBS)
++ 
++-AM_GNU_GETTEXT
+++AM_GNU_GETTEXT([external])
++ 
++ AC_DEFINE_UNQUOTED(LOCALEDIR,"$prefix/$DATADIRNAME",[locale directory])
++ 
++diff --git a/intl/Makefile.in b/intl/Makefile.in
++index bbac1d5..7629a94 100644
++--- a/intl/Makefile.in
+++++ b/intl/Makefile.in
++@@ -138,7 +138,7 @@ libgnuintl.h.msvc-static libgnuintl.h.msvc-shared README.woe32 Makefile.msvc
++ DISTFILES.obsolete = xopen-msg.sed linux-msg.sed po2tbl.sed.in cat-compat.c \
++ COPYING.LIB-2 gettext.h libgettext.h plural-eval.c libgnuintl.h
++ 
++-all: all-@USE_INCLUDED_LIBINTL@
+++all: all-no-no
++ all-yes: libintl.$la libintl.h charset.alias ref-add.sed ref-del.sed
++ all-no: all-no-@BUILD_INCLUDED_LIBINTL@
++ all-no-yes: libgnuintl.$la
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+index 34556b2c294..47962bcfffc 100644
+--- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
++++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+@@ -13,14 +13,15 @@ DEPENDS = ""
+ PR = "r6"
+ 
+ SRC_URI = "http://www.ohse.de/uwe/releases/lrzsz-${PV}.tar.gz \
+-	   file://autotools.patch \
+-	   file://makefile.patch \
+-	   file://gettext.patch \
+-	   file://acdefine.patch \
+-	   file://lrzsz_fix_for_automake-1.12.patch \
++           file://autotools.patch \
++           file://makefile.patch \
++           file://gettext.patch \
++           file://acdefine.patch \
++           file://lrzsz_fix_for_automake-1.12.patch \
+            file://lrzsz-check-locale.h.patch \
+            file://cve-2018-10195.patch \
+            file://include.patch \
++           file://0009-Fix-issues-with-recent-gettext-versions.patch \
             "
  
--SRCREV = "9947306a55271b8b7c9e2b6e3b7d582885b6045d"
-+SRCREV = "4c74fe24c4232ce6bbde4b252f9715cdb29923f0"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
- 
- S = "${WORKDIR}/git"
+ SRC_URI[md5sum] = "b5ce6a74abc9b9eb2af94dffdfd372a4"
 -- 
 2.17.1
 
