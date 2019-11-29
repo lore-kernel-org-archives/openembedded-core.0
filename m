@@ -1,33 +1,38 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id A2CC17DE74
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EA527F822
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 29 Nov 2019 22:56:42 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	29 Nov 2019 14:56:43 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,259,1571727600"; d="scan'208";a="221720437"
-Received: from xsanroma-mobl1.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.34.24])
-	by orsmga002.jf.intel.com with ESMTP; 29 Nov 2019 14:56:42 -0800
-From: Ross Burton <ross.burton@intel.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
+	Fri, 29 Nov 2019 23:25:19 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47PrG46ylMz23;
+	Sat, 30 Nov 2019 00:25:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1575069917;
+	bh=AhQ4RlVp+VKLmlpCSrpA0G7JVQxzJGOUpivHT0d9aYE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AYwXYTZdoQsMKRMnt92ip65bhVb7BBARZcVIr/kvOZW6Xc1C4aGfLK1z3dsWSCIrp
+	DCV2kxwGfcwdWBjXWOURY1tz+hcyetTgjuYcJcZU+PLtfdg9gcKNzJKtkuGrcC7WTW
+	6a2ZcmQb0QI2wx/0L0AwEASWe3W+0i5+pk/P5kaTgpXRnVIUxc9rzqaEgqTXT5PP0J
+	msBtr/7gC9wu2REuBr7FOoE+RWcJMzAJMBlhSRyG2seiG3c3vHe/LnNzejQ31yr2tX
+	+Hyj4yYmBPBGVh7CiNoQMVGYRqLVSdzA5OUvVD3t5VRulKXdB6nClJq8FKg7+DGEFN
+	Cr8qAvfLHijB+GyDD98SynVfE9v3bnNXIqRwPity/gQbWsLEFFdGsjnbsFvcF9l9BL
+	beKyr3orP4x4fW5mZMNtMF+1ZmqVU5PoVnisvDLuewK+JTGuTp+IMPCW8o8vrTqjYV
+	FA9KAMAidNBMI84ivUGHxE2hKCb4C3RIs1UVSP4NE2V8ZMerwP0q6b/AHWElzcc1Pq
+	gO7XCkfsm49mTFXcK+PqtrMsFEhOVsEOlPx+S2uM8KDAeIWcrNerJ2RbrS7wXWZTxM
+	uk89a/fOFyhZ85IzPCChMFiHwvnIgbhimzG8b2N8c6cQq+RjT1GB37oUJMUS89qFyI
+	KBVMpxQnOmsT+U44VHTAU9+E=
+Date: Sat, 30 Nov 2019 01:25:14 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20191129232514.GA19686@localhost>
 References: <20191129131152.128311-1-alex.kanavin@gmail.com>
 	<20191129131152.128311-15-alex.kanavin@gmail.com>
 	<54364ceb-4a85-8912-134b-8880eecccabb@intel.com>
 	<ce46910c-b481-f7a8-9f41-b8a4a745644f@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <82467efe-623f-4442-586e-d054d86b96db@intel.com>
-Date: Fri, 29 Nov 2019 22:56:41 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
 In-Reply-To: <ce46910c-b481-f7a8-9f41-b8a4a745644f@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 15/15] python3: update to 3.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -41,17 +46,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 29 Nov 2019 22:56:42 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 29 Nov 2019 23:25:20 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Ah,
+On Fri, Nov 29, 2019 at 10:55:23PM +0000, Ross Burton wrote:
+> On 29/11/2019 22:54, Ross Burton wrote:
+> > Not sure what is going on but with this when btrfs-tools is rebuild:
+> > 
+> > packages/corei7-64-poky-linux/btrfs-tools/btrfs-tools: FILELIST:
+> > directory renamed
+> > /usr/lib/python3.7/site-packages/btrfsutil-1.1.1-py3.7.egg-info ->
+> > /usr/lib/python3.8/site-packages/btrfsutil-1.1.1-py3.8.egg-info, removed "/usr/lib/python3.7/site-packages/btrfsutil.cpython-37m-x86_64-linux-gnu.so",
+> > added
+> > "/usr/lib/python3.8/site-packages/btrfsutil.cpython-38-x86_64-linux-gnu.so"
+> > 
+> > Basically, all the 3.7 references are now 3.8.  That's fine.
+> > 
+> > packages/corei7-64-poky-linux/btrfs-tools/btrfs-tools: RDEPENDS: removed
+> > "libpython3 (['>= 3.7.5'])"
+> > 
+> > Python 3.7 is removed but no Python 3.8 added. Weird!
+> 
+> Same happened to gpgme:
+> 
+> packages/corei7-64-poky-linux/gpgme/python3-gpg: RDEPENDS: removed
+> "libpython3 (['>= 3.7.5'])"
 
-packages/corei7-64-poky-linux/python3/libpython3: PKG changed from 
-libpython3.7m1.0 to libpython3.8-1.0
+That's expected, C extensions are no longer linked with libpython by default.
 
-Maybe remove the m from python3dir.bbclass?
 
-Ross
+> Ross
+
+cu
+Adrian
 
