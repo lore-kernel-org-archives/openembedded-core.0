@@ -1,46 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E15F7EC92
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pj1-f67.google.com (mail-pj1-f67.google.com
+	[209.85.216.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C13F87F2BC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Nov 2019 09:49:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47Q66k2Rnpz43;
-	Sat, 30 Nov 2019 10:49:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1575107390;
-	bh=k3n18/jSLKrrrOHFaUDG/5qWjdEvgmgm+Arp2WWuQ5s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gSaJliLvw9JMMpQfwU/TzHdXZyc08tjxeV+iZ4m8xg9sJiKce8C6Hl62yvkD8andD
-	Kc238mhWqFae8Kpllz76peE/MmExtXTUd1+MA+Erssn3eDHsNEBUXxfl0Ae2hvBD+d
-	T3rQewaLe0PfQJtcETAung/CnDG63UMKDLkLR4v+PwF77OFD3jNozbvriO+5COCzeX
-	GZjz/AqjuhYG5tEDb0lq3Gcwp2BOb4hIi3IExYW+8GgtLqjB5QMOaNqzC09UXz0tNM
-	Gk5SmiIpXCWHL1MPgQnOZNWhbTIsXqNndstk7o+4IiWgIIQzKLmTWDwAs58n4odcP4
-	nx5B+/yrLwkWLjC1HGi2bznmBuYEyMJY+MgGvB22KrdEFoMtk3WtF2aGVJQlI1Ka+v
-	0gR5C7ziAypsXvqbV7F8VhAZrIsbLVDiQsJsuVCGJnSY552EpvcsL9RbU/TnVzO7lr
-	XnZP38vltkyV/MAwIVHQKA+nGuBBFbn/dSCu/gEVxSHHCVk+o2Vnx6jecN2H1kbZ8f
-	FT3M3cLmWqLtLqbZoA9eWm578m3eLdsCI/lh0d4ma5iJWGi72qFFBhuXZT66+B4biK
-	uLRBY7c46UKU+MLbZqsv7nzBlj6F2SEKQO/VBo5m99m44/f3WkaQQmECPM+1Q84/LI
-	KIabKYgTSz8MxwJVJzC3T/4o=
-Date: Sat, 30 Nov 2019 11:49:48 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20191130094948.GA4526@localhost>
-References: <20191118130801.21860-1-alex.kanavin@gmail.com>
-	<CAMKF1sp5SWYgoOj7Ujy5GMEEcuuATkuD45q7k7+LSc2SSkTVNg@mail.gmail.com>
-	<20191118210500.GA4741@localhost>
-	<CAMKF1spsipv7AbxJfmwHMU5dPtPDm-8VBxeQGWhEGUxJFG4WUw@mail.gmail.com>
-	<20191118220613.GA7568@localhost>
-	<CAMKF1sq3hnUuM7rcCbEhfbTmUtGbpMVVZkq8mFo24FKGG=kFYA@mail.gmail.com>
-	<20191118225500.GB7568@localhost>
-	<CAMKF1squJq7mLJJBhf_+EQbBTHb1c8R1g449e6Uo2v=MtNk2XQ@mail.gmail.com>
-	<CANx9H-D0Bve0QUDd3pERWV7xOvTfjro5+=FuaAJUxYz+tp3X5w@mail.gmail.com>
-	<CANNYZj_2+0+6Suq0Gu74t+QDhx3mdb6FZsr2mwy8WhtNk493ug@mail.gmail.com>
+	Sat, 30 Nov 2019 10:47:33 +0000 (UTC)
+Received: by mail-pj1-f67.google.com with SMTP id l4so3153478pjt.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 30 Nov 2019 02:47:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:content-transfer-encoding
+	:mime-version; bh=LDmYUJAmTY+0GCDgIUuGcnd4whzlH7vFursr3aN2L3o=;
+	b=Y0orb5plqCA5gRl2W5iZzxGJiHjQtBA7ZwI3Vp2vdaIYsiLhoAVQXw7kzdZORIj7Jl
+	bugEBHXUAAsIIVkTfwsLXJSeuXYJ+tCO3gxOsdSQi8jh3+IRZwFqps9RCmYQ0ro1C6p2
+	rufauQXVw0FtucG02uK5xOp3zKwS909eg7Bfcgz7uHQgzBOrRmpnwNoY1KSaXjuByVcL
+	HVCFIVLxMM1rRTgJSM/RRQs8EkHNt2UKS1OUjsKHCOJb3CoTlJ7q9g72Dr2NlOYF4MaO
+	1l1lcTIaiitr2rsxiRV2XlgKpexZIuk2J40KiEb/jwJVuaoo4IhCwIjld9XGcLT1E2Nt
+	FviQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:message-id:from:to:cc:subject
+	:content-transfer-encoding:mime-version;
+	bh=LDmYUJAmTY+0GCDgIUuGcnd4whzlH7vFursr3aN2L3o=;
+	b=EDyJPgch4evKM2u2M5OIufYko2TRRYGDHV0X7qgItRO+hXKNNYHStnaCA4K98BPYuy
+	JlnPeX8TN/6DCuOcnPx5H9XXnkOHx2GIkIL3cihU/3INQ7yxDaw6jZO1WWSqSxbOTgOl
+	Qnv70dLYmWA0N/vBFxysbEwcrS/xEWPFcUk7htS/O3y70b42jzce4Chm1e3bjQkVqqeQ
+	++qy++9G3Gfb755gBJBsbfDB8vfN2xfWMhHmhdSfvalvIiTPrISA1fpGtS5KwUExZZ8t
+	hC0JP3vV21W0jVrxFK6x6KB9tDss975sJNIkJwEs66nHOprYtnE8Yi3bz0Ka9RqCuRdb
+	Uv6A==
+X-Gm-Message-State: APjAAAWWkoC+KdFuDoM98OjLPhryVEUCQaQvkdQQ9CW6vUfCH7PMZgAo
+	+VbeK9nG+9HwI87PpXugjhwzQh3pr8U=
+X-Google-Smtp-Source: APXvYqzjaOkk3B7fBKuNCnot8V4PJKMQnFd1qsL7uO0nMd3zPIO0+0t/VMoVp4jSKAmOTPd89Z+BnA==
+X-Received: by 2002:a17:90a:ec10:: with SMTP id
+	l16mr444833pjy.19.1575110854296; 
+	Sat, 30 Nov 2019 02:47:34 -0800 (PST)
+Received: from [127.0.1.1] ([101.184.60.82])
+	by smtp.gmail.com with UTF8SMTPSA id
+	u65sm27621616pfb.35.2019.11.30.02.47.31
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 30 Nov 2019 02:47:33 -0800 (PST)
+Date: Sat, 30 Nov 2019 10:47:24 +0000
+Message-Id: <20191130104724.584271-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_2+0+6Suq0Gu74t+QDhx3mdb6FZsr2mwy8WhtNk493ug@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/13] python: update to 2.7.17
+Subject: [PATCH 1/2] gcc-target.inc: Prevent sysroot from leaking into configargs.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,52 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Nov 2019 09:49:52 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 30 Nov 2019 10:47:33 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 19, 2019 at 12:30:41PM +0100, Alexander Kanavin wrote:
-> On Tue, 19 Nov 2019 at 08:58, Tim Orling <ticotimo@gmail.com> wrote:
-> 
-> > I have the beginnings of scripts to generate a meta-python2 layer. Someone
-> > with a vested interest in keeping python2 supported will need to step up to
-> > maintain it. After bitbake and Oe-core moved to python3, my use of python2
-> > has gone to near zero.
-> >
-> > I intend to move all python2 recipes from meta-python to the new layer.
-> > meta-python will become python3 only in 3.1 release timeframe. The bb files
-> > and inc files will also be merged, simplifying AUH and devtool usage.
-> >
-> > Attempts to send python2 patches to meta-python after that shift will be
-> > nacked.
-> 
-> Thanks! There is however a missing part: how close is meta-oe to being
-> py2-free? Oe-core is very close (u-boot is the last holdout as noted), but
-> I am not sure that we can simply take out py2, and not have half of meta-oe
-> fail. For instance (random example) mozjs, a fairly important component,
-> still pulls it in, together with a few 3rd party libraries:
-> https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-extended/mozjs/mozjs_60.5.2.bb
-> 
-> It's tempting to force the transition by breaking things, but it also
-> antagonizes users.
+Prevent the full recipe-sysroot path from leaking into configargs.h. The
+configargs.h header is intended to be static and unchanged as the
+content is used as a means of determining that a gcc plugin is built for
+the same gcc. This also effects the output of 'gcc -v'. Due to per
+recipe sysroots and staging, the sysroot path would be replaced with the
+sysroot local to the recipe thus changing the content of configargs.h.
+This change also improves gcc binary reproducibility. The sysroot path
+is replaced with the base target root "/".
 
-The problem is not that half of meta-oe would fail, but the few hard cases.
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/recipes-devtools/gcc/gcc-target.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-There might be 1 or 2 recipes where the rational solution would be to 
-keep Python 2 in meta-oe for one release until a new upstream of these 
-recipes solves the problem.
-
-AFAIK for nodejs the choice for Yocto 3.1 will be between a short-term 
-stable that can be built with Python 3 but will become EOL shortly after 
-Yocto 3.1 releases, and an LTS release with upstream support for 2 more 
-years that needs Python 2.
-
-Python 2 is security supportable without upstream support since many
-other distributions have committed to do the same, security supporting
-Node.js without upstream support might be impossible.
-
-> Alex
-
-cu
-Adrian
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index bdc6ff658f..987e88d32c 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -137,6 +137,14 @@ FILES_${PN}-doc = "\
+ "
+ 
+ do_compile () {
++	# Prevent full target sysroot path from being used in configargs.h header,
++	# as it will be rewritten when used by other sysroots preventing support
++	# for gcc plugins. Additionally the path is embeddeded into the output
++	# binary, this prevents building a reproducible binary.
++	oe_runmake configure-gcc
++	sed -i 's@${STAGING_DIR_TARGET}@/@g' ${B}/gcc/configargs.h
++	sed -i 's@${STAGING_DIR_HOST}@/@g' ${B}/gcc/configargs.h
++
+ 	oe_runmake all-host
+ }
+ 
+---
+2.24.0
 
