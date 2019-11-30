@@ -1,51 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 936937F775
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E15F7EC92
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Nov 2019 08:07:18 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id 193so15751034pfc.13
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Nov 2019 00:07:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=LJDcbNPche5/+njrYqGrObOU4OWj8iaXyyLLQsaxzZQ=;
-	b=shrnV1wWfN3ihLZjPWvdYzkR1mCT1MghIVqgqOG7Xm+sc5H9NM1iltewbM/xLErY2K
-	9ylrb4EWISwh2dP6Cy4/PCIWsuok+gJ5MXiYHIZ7aLjdE8nhD/zNAKKKRPJUou2zc7mm
-	OpWrL+HUUt+grkopX689zOwLq8I/PWv/h+gQxbNyBqQUxS09jrt4VIavS7TnMWb67dbQ
-	t7QwRLpb1cKyLtri505yDWYcNXm+LdLyAe8ZO5opdnwAnaxl70oPqU77Pt4NRsPAlRkx
-	PYmpFneWHHWSy+pu/rrUrAoOTmHnN87nQEYirS16qvuCHeQ2aHfiir1BFeqiZO0WuFp/
-	JxJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=LJDcbNPche5/+njrYqGrObOU4OWj8iaXyyLLQsaxzZQ=;
-	b=JnszpYTGboaoN8ML1iPVFinrmhV/b5po2ffHki253kfqNv+51IilVs4qQLtz6izKn3
-	qe/4u/Kn0xXevXPGHi2ZxWmmean/UYGdk1j3bvJZP33ZwOI6Vbwe6n2kY6yVuzUID1wW
-	v2eL+ZxxIQlUKwC1m1t1BjNoQ5AKi+qJq97PMuBRY7KuEx67KNU3rDviU1U6vVjPf2gE
-	ZGOMhYLk9Y3oDFqnydZxMcQCYS2V4uMhXgiv822bXJ7cyFMF4DVMnplOFDn5gKBlWFTq
-	t2o7G50CRnHKi89e7YmHmVfNm4KzVe+T20PoVXg09Z2Hw3yZIy32I1INxzilBNKnPAI4
-	NR8Q==
-X-Gm-Message-State: APjAAAUvHsItNMPBmKG0puqfccqoXXajyQPMNZJPQhuG0+nPu6FJzEjo
-	mgOpPH5rkpqd9+8mEO0rKjHCqQdM1z8=
-X-Google-Smtp-Source: APXvYqxbZTRw9k67VILHLyv6qSIR2r4eKdLX/aFDXaKOMG3Cd7jmMDMLRN/8bRQamcJeDwX7NGJlkw==
-X-Received: by 2002:a63:e316:: with SMTP id f22mr20629899pgh.102.1575101238941;
-	Sat, 30 Nov 2019 00:07:18 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::e439])
-	by smtp.gmail.com with ESMTPSA id
-	q20sm26518634pff.134.2019.11.30.00.07.18
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 30 Nov 2019 00:07:18 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 30 Nov 2019 00:07:05 -0800
-Message-Id: <20191130080705.1918858-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
+	Sat, 30 Nov 2019 09:49:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47Q66k2Rnpz43;
+	Sat, 30 Nov 2019 10:49:50 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1575107390;
+	bh=k3n18/jSLKrrrOHFaUDG/5qWjdEvgmgm+Arp2WWuQ5s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gSaJliLvw9JMMpQfwU/TzHdXZyc08tjxeV+iZ4m8xg9sJiKce8C6Hl62yvkD8andD
+	Kc238mhWqFae8Kpllz76peE/MmExtXTUd1+MA+Erssn3eDHsNEBUXxfl0Ae2hvBD+d
+	T3rQewaLe0PfQJtcETAung/CnDG63UMKDLkLR4v+PwF77OFD3jNozbvriO+5COCzeX
+	GZjz/AqjuhYG5tEDb0lq3Gcwp2BOb4hIi3IExYW+8GgtLqjB5QMOaNqzC09UXz0tNM
+	Gk5SmiIpXCWHL1MPgQnOZNWhbTIsXqNndstk7o+4IiWgIIQzKLmTWDwAs58n4odcP4
+	nx5B+/yrLwkWLjC1HGi2bznmBuYEyMJY+MgGvB22KrdEFoMtk3WtF2aGVJQlI1Ka+v
+	0gR5C7ziAypsXvqbV7F8VhAZrIsbLVDiQsJsuVCGJnSY552EpvcsL9RbU/TnVzO7lr
+	XnZP38vltkyV/MAwIVHQKA+nGuBBFbn/dSCu/gEVxSHHCVk+o2Vnx6jecN2H1kbZ8f
+	FT3M3cLmWqLtLqbZoA9eWm578m3eLdsCI/lh0d4ma5iJWGi72qFFBhuXZT66+B4biK
+	uLRBY7c46UKU+MLbZqsv7nzBlj6F2SEKQO/VBo5m99m44/f3WkaQQmECPM+1Q84/LI
+	KIabKYgTSz8MxwJVJzC3T/4o=
+Date: Sat, 30 Nov 2019 11:49:48 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20191130094948.GA4526@localhost>
+References: <20191118130801.21860-1-alex.kanavin@gmail.com>
+	<CAMKF1sp5SWYgoOj7Ujy5GMEEcuuATkuD45q7k7+LSc2SSkTVNg@mail.gmail.com>
+	<20191118210500.GA4741@localhost>
+	<CAMKF1spsipv7AbxJfmwHMU5dPtPDm-8VBxeQGWhEGUxJFG4WUw@mail.gmail.com>
+	<20191118220613.GA7568@localhost>
+	<CAMKF1sq3hnUuM7rcCbEhfbTmUtGbpMVVZkq8mFo24FKGG=kFYA@mail.gmail.com>
+	<20191118225500.GB7568@localhost>
+	<CAMKF1squJq7mLJJBhf_+EQbBTHb1c8R1g449e6Uo2v=MtNk2XQ@mail.gmail.com>
+	<CANx9H-D0Bve0QUDd3pERWV7xOvTfjro5+=FuaAJUxYz+tp3X5w@mail.gmail.com>
+	<CANNYZj_2+0+6Suq0Gu74t+QDhx3mdb6FZsr2mwy8WhtNk493ug@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Christopher Larson <chris_larson@mentor.com>
-Subject: [PATCH] base.bbclass: Add python3-native to native paths for hg fetcher
+In-Reply-To: <CANNYZj_2+0+6Suq0Gu74t+QDhx3mdb6FZsr2mwy8WhtNk493ug@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/13] python: update to 2.7.17
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +53,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Nov 2019 08:07:18 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 30 Nov 2019 09:49:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-This helps fix an issue where python interpreter in hg script could
-overflow the BINPRM_BUF_SIZE which is 128 on most of systems, because
-interpreter is hardcoded and build paths can be deep.
+On Tue, Nov 19, 2019 at 12:30:41PM +0100, Alexander Kanavin wrote:
+> On Tue, 19 Nov 2019 at 08:58, Tim Orling <ticotimo@gmail.com> wrote:
+> 
+> > I have the beginnings of scripts to generate a meta-python2 layer. Someone
+> > with a vested interest in keeping python2 supported will need to step up to
+> > maintain it. After bitbake and Oe-core moved to python3, my use of python2
+> > has gone to near zero.
+> >
+> > I intend to move all python2 recipes from meta-python to the new layer.
+> > meta-python will become python3 only in 3.1 release timeframe. The bb files
+> > and inc files will also be merged, simplifying AUH and devtool usage.
+> >
+> > Attempts to send python2 patches to meta-python after that shift will be
+> > nacked.
+> 
+> Thanks! There is however a missing part: how close is meta-oe to being
+> py2-free? Oe-core is very close (u-boot is the last holdout as noted), but
+> I am not sure that we can simply take out py2, and not have half of meta-oe
+> fail. For instance (random example) mozjs, a fairly important component,
+> still pulls it in, together with a few 3rd party libraries:
+> https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-extended/mozjs/mozjs_60.5.2.bb
+> 
+> It's tempting to force the transition by breaking things, but it also
+> antagonizes users.
 
-This patch helps, because now the absolute python interp path in hg can
-be replaced with '/usr/bin/env python3' and it will ensure that python3
-from native install is used instead of the one on host.
+The problem is not that half of meta-oe would fail, but the few hard cases.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Christopher Larson <chris_larson@mentor.com>
----
- meta/classes/base.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+There might be 1 or 2 recipes where the rational solution would be to 
+keep Python 2 in meta-oe for one release until a new upstream of these 
+recipes solves the problem.
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index ff3fbb28c3..31457f9f12 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -601,6 +601,7 @@ python () {
-         # Mercurial packages should DEPEND on mercurial-native
-         elif scheme == "hg":
-             needsrcrev = True
-+            d.appendVar("EXTRANATIVEPATH", ' python3-native ')
-             d.appendVarFlag('do_fetch', 'depends', ' mercurial-native:do_populate_sysroot')
- 
-         # Perforce packages support SRCREV = "${AUTOREV}"
--- 
-2.24.0
+AFAIK for nodejs the choice for Yocto 3.1 will be between a short-term 
+stable that can be built with Python 3 but will become EOL shortly after 
+Yocto 3.1 releases, and an LTS release with upstream support for 2 more 
+years that needs Python 2.
 
+Python 2 is security supportable without upstream support since many
+other distributions have committed to do the same, security supporting
+Node.js without upstream support might be impossible.
+
+> Alex
+
+cu
+Adrian
 
