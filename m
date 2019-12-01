@@ -1,47 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com
-	[209.85.222.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 729FE7F7D1
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C6677F610
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Nov 2019 15:09:24 +0000 (UTC)
-Received: by mail-qk1-f170.google.com with SMTP id v19so8641210qkv.3
+	Sun,  1 Dec 2019 18:47:39 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id u18so19336134wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 30 Nov 2019 07:09:25 -0800 (PST)
+	Sun, 01 Dec 2019 10:47:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=vP/+bRxn0e2iRAKQrX02RcRBcp+5ri6fKDKRb1kF8E0=;
-	b=hLCIcnGEGGV4BLGjHeHj9C9s/aXbgz6SYl2MJH7tUvUKRsLd4tdrg2Y8TJr/V1bedi
-	TaoGjw0BSYcKzLZY/aMo18XqM04t2lHBaQplDaADEawh4MwDq22v8AHlflTU6Wj+/Dyl
-	E2PUD7FJyqu1RVEokSJ+nZfG7ytBUDvyPOiO2Jig0jquye+MuI8v9HOzuY+Byo2O0fje
-	8gZ1mCMqMOXLhZprz6+YByJheJOYFDB3AmCUwukZ0aI4EwCGzECU0MiO2dDDE2O6UrXG
-	EImiC6XAE86fqaE2VTFAIK7E2+NVhTbaO8+bnJdTHN5dn4yE5NksIvD1Q+FfldiuB3qC
-	/AtQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=ghCxztgd1SmPY8LWpxHkOeVmxGsPB89/Pn0nuPteCns=;
+	b=mIEMU4ud6dJqMwAQM4Dz84Vx2MrvCbpqkNWmLS0fBaIA5JWkT8moCtW12Qml1XV7NO
+	6DGTsnDsUJwtLP+GzLk7mgWmGjm7AThn2pR5naRWXch+NRuZEYj5ZUCL+fmCYveeEVS5
+	I15QaoF84EcVeCNm0XDlPsaN4J+bziyxUyss0r53spD095xPzaaUEzkdCY6A4ly9Qg5D
+	42aV4gIvplKl6xG9r+gUTEk6EiMD9kET2wQaZtuOZ5esc3IRE8VI4TQfuALn2GJsMLH0
+	gL9twa+YSqQXrLyk/ctxILrNmu1IXs/XvTD720pI/6tpRcNe32VZ+KQJ+ddB9WEtLpYd
+	s1oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=vP/+bRxn0e2iRAKQrX02RcRBcp+5ri6fKDKRb1kF8E0=;
-	b=MxyubTHfYjQB7pOWOll8SMZsDcHc+1H3N2MFGMKsMC+PcIShZEHZUa2CZXdD4uBjbd
-	Bs5vY43ExZbs5gM42Boaq0TODHx+VgBgS4XkMCoNms+oWqtLusX0JG+Tj+y469zIUOjb
-	IZB4gdsgxz1XCygWIsvmaF6ehcpOkRGPQJkeXSjwBG4/vVQOoZhYeuj4mQtd/symJ5wW
-	XW6gQzPQTvxn2RIRhLaJsvwE1Lyt+Bh3pZLAkyjlF5s/ZGh5J4paI8v/8S+zcAR8qUcS
-	Et5Z/Tb7EICZLoUIiP9dPkzTDSFt7FsihrIyuKNZGXaOz0ZEhHvDitEx42Du9D+HzL3m
-	IiPA==
-X-Gm-Message-State: APjAAAWHpy5cXvsdjrIyQXWXjIhui9nO1vYJT5ML2Flb/BchIAikrSER
-	qksCDRLpK+2Eo7IVQo6JeCA3BUu3iAbkKpZBfxs=
-X-Google-Smtp-Source: APXvYqxe2GqzZLaSeHe5fmyHvaZACw7o8Qsc6qA83cFFFSTc9hAwETAvsz0pX62sZpxm8OEIT9e/oBQQk3niN1JeqhY=
-X-Received: by 2002:a37:a0cf:: with SMTP id j198mr23095271qke.9.1575126564558; 
-	Sat, 30 Nov 2019 07:09:24 -0800 (PST)
-MIME-Version: 1.0
-References: <20191130104823.584542-1-nathan@nathanrossi.com>
-In-Reply-To: <20191130104823.584542-1-nathan@nathanrossi.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 30 Nov 2019 07:08:58 -0800
-Message-ID: <CAMKF1sr4fS_VNm9HzHrb4MpnU7eVkuvFB3OndqhK5kQVXjdsZA@mail.gmail.com>
-To: Nathan Rossi <nathan@nathanrossi.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-cross.inc: Remove test runner script generation
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ghCxztgd1SmPY8LWpxHkOeVmxGsPB89/Pn0nuPteCns=;
+	b=mI2HIHWx/nbjv5XPBUPiaH03gMXOBtXc5I41Tc/54L72e50H9E7k4KH7C8rVdlwUwV
+	TI2v5/cjeY3ErzBkuGeXykolr/2czz7qjUK5o4MmxuHmAnvIhg0d7+sIPv/G5qkuIXPp
+	X/FdnkZKbcVPxkIFkVfWnzbvkd1hlSCIuFd6ReqR5txlHs2BOye3yj9YY8W61rBRkmoV
+	0E5b3YJNA5aCVvrdTlDmjHjviKt1NHgXpsfH3VkAjFNrZAe2gDPmdJ2/zqrvpAcg/GNy
+	pvVB3Snor70/ldvs9okM1OFKSJhASgZj9gG7TfS5Npem8k58XM6o02ESQKYsaluakA43
+	jh9Q==
+X-Gm-Message-State: APjAAAV6iLUptuyZfNqnpig1FMBvcxbW5g+8XPIbLmraeRPpHO27kfaF
+	5m1Ca1GJkMiTLpVXQZYQZvamOQKi
+X-Google-Smtp-Source: APXvYqwkb26t0XaLwYucxQfwGU0NIblNSm/GzmgLrryfw/tWOAPQQdg0VmdmW52pykZBZHHhgjAn6w==
+X-Received: by 2002:a05:600c:21d6:: with SMTP id
+	x22mr24932977wmj.126.1575226059585; 
+	Sun, 01 Dec 2019 10:47:39 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246])
+	by smtp.gmail.com with ESMTPSA id c9sm7417746wmc.47.2019.12.01.10.47.38
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 01 Dec 2019 10:47:39 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  1 Dec 2019 18:47:33 +0000
+Message-Id: <20191201184733.77259-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] openssh: Upgrade 8.0p1 -> 8.1p1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,125 +55,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 30 Nov 2019 15:09:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 01 Dec 2019 18:47:39 -0000
 
-looks good, there was similar task for glibc as well remove that too
+Drop upstream backport of integer overflow in XMSS private key parsing.
+Add PACKAGECONFIG for kerberos, libedit and ldns. If api-documentation
+is enabled then install man(7) manpages rather than catman pages.
 
-On Sat, Nov 30, 2019 at 2:48 AM Nathan Rossi <nathan@nathanrossi.com> wrote:
->
-> Remove the generation of the testgcc script which could be used to run
-> the gcc test suite against a cross compiler with a remote execution
-> target. The same functionality can now be achieved with the 'do_check'
-> task of gcc-runtime or with oe-selftest (for automation of execution
-> against qemu-user/qemu-system targets).
->
-> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-cross.inc | 90 ---------------------------------
->  1 file changed, 90 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-cross.inc b/meta/recipes-devtools/gcc/gcc-cross.inc
-> index 6784d9673f..c68cdd5dc4 100644
-> --- a/meta/recipes-devtools/gcc/gcc-cross.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-cross.inc
-> @@ -77,96 +77,6 @@ do_compile () {
->
->         oe_runmake all-host configure-target-libgcc
->         (cd ${B}/${TARGET_SYS}/libgcc; oe_runmake enable-execute-stack.c unwind.h md-unwind-support.h sfp-machine.h gthr-default.h)
-> -       # now generate script to drive testing
-> -       echo "#!/usr/bin/env sh" >${B}/${TARGET_PREFIX}testgcc
-> -       set >> ${B}/${TARGET_PREFIX}testgcc
-> -       # prune out the unneeded vars
-> -       sed -i -e "/^BASH/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^USER/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^OPT/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^DIRSTACK/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^EUID/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^FUNCNAME/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^GROUPS/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^HOST/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^HOME/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^IFS/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^LC_ALL/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^LOGNAME/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^MACHTYPE/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^OSTYPE/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^PIPE/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^SHELL/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^'/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^UID/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^TERM/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^PKG_/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^POSIXLY_/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^PPID/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^PS4/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^Q/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^SHLVL/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^STAGING/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^LD_LIBRARY_PATH/d" ${B}/${TARGET_PREFIX}testgcc
-> -       sed -i -e "/^PSEUDO/d" ${B}/${TARGET_PREFIX}testgcc
-> -
-> -       # append execution part of the script
-> -cat >> ${B}/${TARGET_PREFIX}testgcc << STOP
-> -target="\$1"
-> -usage () {
-> -       echo "Usage:"
-> -       echo "\$0 user@target 'extra options to dejagnu'"
-> -       echo "\$0 target 'extra options to dejagnu'"
-> -       echo "\$0 target"
-> -       echo "e.g. \$0 192.168.7.2 ' dg.exp=visibility-d.c'"
-> -       echo "will only run visibility-d.c test case"
-> -       echo "e.g. \$0 192.168.7.2 '/-mthumb dg.exp=visibility-d.c'"
-> -       echo "will only run visibility-d.c test case in thumb mode"
-> -       echo "You need to have dejagnu autogen expect installed"
-> -       echo "on the build host"
-> -    }
-> -if [ "x\$target" = "x" ]
-> -then
-> -       echo "Please specify the target machine and remote user in form of user@target\n"
-> -       usage
-> -       exit 1;
-> -fi
-> -
-> -shift
-> -
-> -echo "\$target" | grep "@" 2>&1 > /dev/null
-> -if [ "x\$?" = "x0" ]
-> -then
-> -   user=\$(echo \$target | cut -d '@' -f 1)
-> -   target=\$(echo \$target | cut -d '@' -f 2)
-> -else
-> -   user=\$USER
-> -fi
-> -ssh \$user@\$target date 2>&1 > /dev/null
-> -if [ "x\$?" != "x0" ]
-> -then
-> -       echo "Failed connecting to \$user@\$target it could be because"
-> -       echo "you don't have passwordless ssh setup to access \$target"
-> -       echo "or sometimes host key has been changed"
-> -       echo "in such case do something like below on build host"
-> -       echo "ssh-keygen -f "~/.ssh/known_hosts" -R \$target"
-> -       echo "and then try ssh \$user@\$target"
-> -
-> -       usage
-> -       exit 1
-> -fi
-> -       echo "lappend boards_dir [pwd]/../../.." > ${B}/site.exp
-> -       echo "load_generic_config \"unix\"" > ${B}/${PACKAGE_ARCH}.exp
-> -       echo "set_board_info username \$user" >> ${B}/${PACKAGE_ARCH}.exp
-> -       echo "set_board_info rsh_prog ssh" >> ${B}/${PACKAGE_ARCH}.exp
-> -       echo "set_board_info rcp_prog scp" >> ${B}/${PACKAGE_ARCH}.exp
-> -       echo "set_board_info hostname \$target" >> ${B}/${PACKAGE_ARCH}.exp
-> -       DEJAGNU=${B}/site.exp make -k check RUNTESTFLAGS="--target_board=${PACKAGE_ARCH}\$@"
-> -
-> -STOP
-> -
-> -       chmod +x ${B}/${TARGET_PREFIX}testgcc
-> -
->  }
->
->  INHIBIT_PACKAGE_STRIP = "1"
-> ---
-> 2.24.0
+License-Update: convert to UTF-8
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+
+ ...eger-overflow-in-XMSS-private-key-pa.patch | 40 -------------------
+ .../{openssh_8.0p1.bb => openssh_8.1p1.bb}    | 15 ++++---
+ 2 files changed, 10 insertions(+), 45 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch
+ rename meta/recipes-connectivity/openssh/{openssh_8.0p1.bb => openssh_8.1p1.bb} (92%)
+
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch b/meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch
+deleted file mode 100644
+index 3265be348519..000000000000
+--- a/meta/recipes-connectivity/openssh/openssh/0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 2014fad3d28090b59d2f8a0971166c06e5fa6da6 Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@windriver.com>
+-Date: Fri, 18 Oct 2019 14:56:58 +0800
+-Subject: [PATCH] upstream: fix integer overflow in XMSS private key parsing.
+-
+-Reported by Adam Zabrocki via SecuriTeam's SSH program.
+-
+-Note that this code is experimental and not compiled by default.
+-
+-ok markus@
+-
+-OpenBSD-Commit-ID: cd0361896d15e8a1bac495ac583ff065ffca2be1
+-
+-Signed-off-by: "djm@openbsd.org" <djm@openbsd.org>
+-
+-Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/a546b17bbaeb12beac4c9aeed56f74a42b18a93a]
+-CVE: CVE-2019-16905
+-
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- sshkey-xmss.c | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/sshkey-xmss.c b/sshkey-xmss.c
+-index aaae702..c57681a 100644
+---- a/sshkey-xmss.c
+-+++ b/sshkey-xmss.c
+-@@ -977,7 +977,8 @@ sshkey_xmss_decrypt_state(const struct sshkey *k, struct sshbuf *encoded,
+- 		goto out;
+- 	}
+- 	/* check that an appropriate amount of auth data is present */
+--	if (sshbuf_len(encoded) < encrypted_len + authlen) {
+-+	if (sshbuf_len(encoded) < authlen ||
+-+	    sshbuf_len(encoded) - authlen < encrypted_len) {
+- 		r = SSH_ERR_INVALID_FORMAT;
+- 		goto out;
+- 	}
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb b/meta/recipes-connectivity/openssh/openssh_8.1p1.bb
+similarity index 92%
+rename from meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_8.1p1.bb
+index 2ffbc9a95f59..024ebca40228 100644
+--- a/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.1p1.bb
+@@ -6,7 +6,7 @@ and for executing commands on a remote machine."
+ HOMEPAGE = "http://www.openssh.com/"
+ SECTION = "console/network"
+ LICENSE = "BSD & ISC & MIT"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=429658c6612f3a9b1293782366ab29d8"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=18d9e5a8b3dd1790d73502f50426d4d3"
+ 
+ DEPENDS = "zlib openssl virtual/crypt"
+ DEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+@@ -24,14 +24,13 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
+-           file://0001-upstream-fix-integer-overflow-in-XMSS-private-key-pa.patch \
+            "
+-SRC_URI[md5sum] = "bf050f002fe510e1daecd39044e1122d"
+-SRC_URI[sha256sum] = "bd943879e69498e8031eb6b7f44d08cdc37d59a7ab689aa0b437320c3481fd68"
++SRC_URI[md5sum] = "513694343631a99841e815306806edf0"
++SRC_URI[sha256sum] = "02f5dbef3835d0753556f973cd57b4c19b6b1f6cd24c03445e23ac77ca1b93ff"
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+-inherit useradd update-rc.d update-alternatives systemd
++inherit manpages useradd update-rc.d update-alternatives systemd
+ 
+ USERADD_PACKAGES = "${PN}-sshd"
+ USERADD_PARAM_${PN}-sshd = "--system --no-create-home --home-dir /var/run/sshd --shell /bin/false --user-group sshd"
+@@ -44,6 +43,12 @@ SYSTEMD_SERVICE_${PN}-sshd = "sshd.socket"
+ 
+ inherit autotools-brokensep ptest
+ 
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[kerberos] = "--with-kerberos5,--without-kerberos5,krb5"
++PACKAGECONFIG[ldns] = "--with-ldns,--without-ldns,ldns"
++PACKAGECONFIG[libedit] = "--with-libedit,--without-libedit,libedit"
++PACKAGECONFIG[manpages] = "--with-mantype=man,--with-mantype=cat"
++
+ EXTRA_AUTORECONF += "--exclude=aclocal"
+ 
+ # login path is hardcoded in sshd
+-- 
+2.17.1
+
 
