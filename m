@@ -1,32 +1,35 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 966CA7F666
+Return-Path: <ross.burton@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 538C27D717
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2019 09:03:59 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.69,268,1571673600"; d="scan'208";a="79439462"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 02 Dec 2019 17:04:00 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id A72754CE1BEC
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2019 16:55:30 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 2 Dec 2019 17:04:00 +0800
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Dec 2019 07:30:30 -0800
-Message-ID: <1575300630-101677-3-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1575300630-101677-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1575300630-101677-1-git-send-email-wangmy@cn.fujitsu.com>
+	Mon,  2 Dec 2019 11:13:31 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Dec 2019 03:13:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,268,1571727600"; d="scan'208";a="241900847"
+Received: from aguttman-mobl2.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.33.85])
+	by fmsmga002.fm.intel.com with ESMTP; 02 Dec 2019 03:13:31 -0800
+To: Adrian Bunk <bunk@stusta.de>
+References: <20191129131152.128311-1-alex.kanavin@gmail.com>
+	<20191129131152.128311-15-alex.kanavin@gmail.com>
+	<54364ceb-4a85-8912-134b-8880eecccabb@intel.com>
+	<ce46910c-b481-f7a8-9f41-b8a4a745644f@intel.com>
+	<20191129232514.GA19686@localhost>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <9dcc931f-d33e-e0fd-68d0-803b3432c86d@intel.com>
+Date: Mon, 2 Dec 2019 11:13:30 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: A72754CE1BEC.AA314
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] python-setuptools: upgrade 41.6.0 -> 42.0.2
+In-Reply-To: <20191129232514.GA19686@localhost>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 15/15] python3: update to 3.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,44 +42,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2019 09:04:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 02 Dec 2019 11:13:32 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- meta/recipes-devtools/python/python-setuptools.inc                    | 4 ++--
- .../{python-setuptools_41.6.0.bb => python-setuptools_42.0.2.bb}      | 0
- .../{python3-setuptools_41.6.0.bb => python3-setuptools_42.0.2.bb}    | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python-setuptools_41.6.0.bb => python-setuptools_42.0.2.bb} (100%)
- rename meta/recipes-devtools/python/{python3-setuptools_41.6.0.bb => python3-setuptools_42.0.2.bb} (100%)
+On 29/11/2019 23:25, Adrian Bunk wrote:
+> That's expected, C extensions are no longer linked with libpython by default.
 
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index f0f100f..d8bce71 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -10,8 +10,8 @@ inherit pypi
- 
- SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
- 
--SRC_URI[md5sum] = "5585a55bfc28474ef13cc0b1819c5a46"
--SRC_URI[sha256sum] = "6afa61b391dcd16cb8890ec9f66cc4015a8a31a6e1c2b4e0c464514be1a3d722"
-+SRC_URI[md5sum] = "5ac69b66a6f7d4785517017f37df28e9"
-+SRC_URI[sha256sum] = "c5b372090d7c8709ce79a6a66872a91e518f7d65af97fca78135e1cb10d4b940"
- 
- DEPENDS += "${PYTHON_PN}"
- 
-diff --git a/meta/recipes-devtools/python/python-setuptools_41.6.0.bb b/meta/recipes-devtools/python/python-setuptools_42.0.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-setuptools_41.6.0.bb
-rename to meta/recipes-devtools/python/python-setuptools_42.0.2.bb
-diff --git a/meta/recipes-devtools/python/python3-setuptools_41.6.0.bb b/meta/recipes-devtools/python/python3-setuptools_42.0.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_41.6.0.bb
-rename to meta/recipes-devtools/python/python3-setuptools_42.0.2.bb
--- 
-2.7.4
+Great, thanks Adrian.
 
-
-
+Ross
 
