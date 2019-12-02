@@ -1,49 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BC157EC4B
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E6607EC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2019 17:55:19 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id w15so255398wru.4
+	Mon,  2 Dec 2019 17:55:20 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id p9so251879wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Dec 2019 09:55:20 -0800 (PST)
+	Mon, 02 Dec 2019 09:55:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Q6BkYd+COG689iAftSd57KiAAQcLi6umK822nfZ5tnA=;
-	b=tOYb4iD1j6tadfgtbW/WH6G21C282crQ6ryHV66WgFeKnkIujkdICiCvW7a+mOsRmu
-	heRRazk7hg6eY6GLBS/o5fbOWtcrV1UMAt9dEhKkxZpUsk+JDtizCEAMGWBNOXfmcZA+
-	9QjtVzdstFt1eg/CE0gdnJaYmhplGLUgKCxLwqujJV8f8ff73fsbthCK6ExL3U3jdtpe
-	MkECvnio1RrBBejWKM9h5HKpP7pJpDzpNYVfxDnVBGJ3S/QRbSsj8bFCEuw41tcopXcm
-	/xhUbxLB+hJrqd4dS8jBoZdo19DSG4k8cBQBTgk+vwWDWcQs0ISURK2DbWQ1ZR5OzujP
-	bs/w==
+	bh=UpFykkhQ4a5K6AhnEan7Gj5csS0ud4P8lVNoaKiBZ/I=;
+	b=LunE6m0E16vtxyxm7xHuxfGsdIK+0IT2hCw4HAyi9qHRH6uOr+8Dcn+vj2ELiQpY0F
+	L6ujCXZJvQwOeyk1BLQCM8IXZUgvraaCQSxwICEGjWwTAGGWiRpxjkBz6ewu7FxZGJn4
+	Thx34+ZK3nF2/biDigW2L0KG+NzAHsStukxAXYD/c1R7+TUjdu6OlP4Y2dgBioW+BUtt
+	8n2N3j2gtEXBhwfLdqczTi8P8PxmvxWGsd7fSCzMbBcWGPFTbyb+0zVupYqw+QZU39EZ
+	PG3z7r6CNmbjrp548ww5lait6LlHt3YNTfv4W1bPXL4k1m+JAw+x4UJzWoxLPynXdfM+
+	SSeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Q6BkYd+COG689iAftSd57KiAAQcLi6umK822nfZ5tnA=;
-	b=tynA4ecmc7G2MuRjJf82nsrFgeT2zjChFH3TdOh6QxAIVfCwdgY+mdOcMVuK20cr9s
-	Bf8M9FnhfpAIJ0JP4QhPPoNFplRAHdaBAYDMFMYP7C+/YtGwNcXqrF1XS3bJ9VS/tmHk
-	eVBMkSqypyO3MUt4ziGeFORIXiX4oXsWblpmffFGZnCMl9F1gnbbdAc5/t9Yl4tR9ItJ
-	M2mOt0DIR7Ztd5nR9id71ZQ0aXN6tJnS3jXyohgPHgLWVfxfL0wlxQNM2CRPHjJR0XyM
-	wZPcC7oI7rt4SBiVfyI85v4ozHEJy/tczVI9u/3WZLuOy6pM4LKnfL6uppQKtMhdsDKa
-	+0dg==
-X-Gm-Message-State: APjAAAX6OnlzzpiE3PxRA0aNRpjEQl7hcvMN+kbrgYMELZumWYayTyMG
-	k+IGuRnd7F/3F8eHXCDEWeVU6VgW
-X-Google-Smtp-Source: APXvYqxdAyGzv3ra5AmMcJfdpwi3eSbFczJCCSzDfpmtBHgxAUb3OwpS65RjEO3paW0PrB1XL8znDQ==
-X-Received: by 2002:a5d:5381:: with SMTP id d1mr79591wrv.259.1575309319822;
-	Mon, 02 Dec 2019 09:55:19 -0800 (PST)
+	bh=UpFykkhQ4a5K6AhnEan7Gj5csS0ud4P8lVNoaKiBZ/I=;
+	b=sc2JWoqpg471OxBZXlV0h28559rKOLsPogvbzwyGxVo/XSj7+YqbI/Mncn8I6yJ/3d
+	QwEXHJ3dhRid/bwBn+5cj2sxqepAMVFujJW98XxuzAVvz71sDVa4nm6vmxKt3ndAJbpP
+	h8qa09RjhCAQKc74yLsaVQr1enNKRkc9koJ2JgGkQz72eZKLdNjqlpadAkqzp2K98Nyc
+	sLSE23s0H5QmUFsMHCiTReEjOWu3Oxl7sVsclo0zJRKINWLbZlq7Vnf1HNhpD6Gc4zor
+	1PZdzWjtu7dlony9PNY96kw4goXDQKwMgMiupLb2ennd9+HCeUP11x1wrNMm1xvIAysI
+	vB5Q==
+X-Gm-Message-State: APjAAAWo+uvyp7q+ZcJKQ+kz7C0ohhl+MLU34VkohvPxfB0T1JTaddGZ
+	ZEYIHgcn5n/fDtNyOTX3XbmB+iu6
+X-Google-Smtp-Source: APXvYqxvy4eubm3pKpjFehH3RkVHXLN4sE2Tc5mibEzRcuCWE1N/IjDJrgwB3wa7NFAPU2q8MQXMgA==
+X-Received: by 2002:a05:600c:54c:: with SMTP id
+	k12mr29761662wmc.124.1575309321004; 
+	Mon, 02 Dec 2019 09:55:21 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id y8sm144069wru.59.2019.12.02.09.55.18
+	by smtp.gmail.com with ESMTPSA id y8sm144069wru.59.2019.12.02.09.55.19
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 02 Dec 2019 09:55:19 -0800 (PST)
+	Mon, 02 Dec 2019 09:55:20 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Dec 2019 18:54:57 +0100
-Message-Id: <20191202175459.112655-16-alex.kanavin@gmail.com>
+Date: Mon,  2 Dec 2019 18:54:58 +0100
+Message-Id: <20191202175459.112655-17-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191202175459.112655-1-alex.kanavin@gmail.com>
 References: <20191202175459.112655-1-alex.kanavin@gmail.com>
-Subject: [PATCH 16/18] selftest: skip virgl gtk/sdl test on opensuse 15.0
+Subject: [PATCH 17/18] gstreamer1.0-python: switch to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,22 +61,27 @@ X-List-Received-Date: Mon, 02 Dec 2019 17:55:20 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/runtime_test.py | 2 ++
- 1 file changed, 2 insertions(+)
+ .../gstreamer/gstreamer1.0-python_1.16.1.bb                 | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
-index ccd2c40aa3f..7aa9fb25da2 100644
---- a/meta/lib/oeqa/selftest/cases/runtime_test.py
-+++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
-@@ -181,6 +181,8 @@ class TestImage(OESelftestTestCase):
-             self.skipTest('virgl isn\'t working with Debian 8')
-         if distro and distro == 'centos-7':
-             self.skipTest('virgl isn\'t working with Centos 7')
-+        if distro and distro == 'opensuseleap-15.0':
-+            self.skipTest('virgl isn\'t working with Opensuse 15.0')
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
+index c722f028b3c..b770ec060e1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
+@@ -18,11 +18,9 @@ S = "${WORKDIR}/${PNREAL}-${PV}"
  
-         qemu_packageconfig = get_bb_var('PACKAGECONFIG', 'qemu-system-native')
-         sdl_packageconfig = get_bb_var('PACKAGECONFIG', 'libsdl2-native')
+ # gobject-introspection is mandatory and cannot be configured
+ REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
+-UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
++UNKNOWN_CONFIGURE_WHITELIST_append = " introspection"
+ 
+-inherit autotools pkgconfig distutils3-base upstream-version-is-even gobject-introspection features_check
+-
+-EXTRA_OECONF += "--with-libpython-dir=${libdir}"
++inherit meson pkgconfig distutils3-base upstream-version-is-even gobject-introspection features_check
+ 
+ do_install_append() {
+ 
 -- 
 2.17.1
 
