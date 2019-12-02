@@ -1,50 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E6607EC4B
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B3927EB0F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2019 17:55:20 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id p9so251879wmg.0
+	Mon,  2 Dec 2019 17:55:21 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id t2so289927wrr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Dec 2019 09:55:21 -0800 (PST)
+	Mon, 02 Dec 2019 09:55:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=UpFykkhQ4a5K6AhnEan7Gj5csS0ud4P8lVNoaKiBZ/I=;
-	b=LunE6m0E16vtxyxm7xHuxfGsdIK+0IT2hCw4HAyi9qHRH6uOr+8Dcn+vj2ELiQpY0F
-	L6ujCXZJvQwOeyk1BLQCM8IXZUgvraaCQSxwICEGjWwTAGGWiRpxjkBz6ewu7FxZGJn4
-	Thx34+ZK3nF2/biDigW2L0KG+NzAHsStukxAXYD/c1R7+TUjdu6OlP4Y2dgBioW+BUtt
-	8n2N3j2gtEXBhwfLdqczTi8P8PxmvxWGsd7fSCzMbBcWGPFTbyb+0zVupYqw+QZU39EZ
-	PG3z7r6CNmbjrp548ww5lait6LlHt3YNTfv4W1bPXL4k1m+JAw+x4UJzWoxLPynXdfM+
-	SSeg==
+	bh=gUMDnvZ7ANpadkqRxJicSoy/NrRdYTMJED7+eCOIrwQ=;
+	b=lGjIt7UBn+oYsWflTTcQOiTzSNruVo8qn88+BoI7s71lp6sPvHuFHz0OX3b78N+g0C
+	tAPI8cWOAbzTKPv2b8BbC3c05eFycPRgSL/TsuC2uCN22R94PtXP+jErZAWXVwPsyCZG
+	gkSEomS7OPpSVDzyrLIWTy5nZWfSZc9NkR2rWxT6f1IHa7IXCJQfVrHXOJ7OfyPt/Kcg
+	NWD1z4LWeev1aTqhesda1MbO+jk2rSQ8Q4+aBxwHncisxPVTtAXWrvrnEVSLYL1CmjO3
+	1JIcdhQRn096R6xu+IPgfj1cw60wJT+BZS+cGB3+8Ich64by52MnlIJusS/JeKdakh5C
+	31xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=UpFykkhQ4a5K6AhnEan7Gj5csS0ud4P8lVNoaKiBZ/I=;
-	b=sc2JWoqpg471OxBZXlV0h28559rKOLsPogvbzwyGxVo/XSj7+YqbI/Mncn8I6yJ/3d
-	QwEXHJ3dhRid/bwBn+5cj2sxqepAMVFujJW98XxuzAVvz71sDVa4nm6vmxKt3ndAJbpP
-	h8qa09RjhCAQKc74yLsaVQr1enNKRkc9koJ2JgGkQz72eZKLdNjqlpadAkqzp2K98Nyc
-	sLSE23s0H5QmUFsMHCiTReEjOWu3Oxl7sVsclo0zJRKINWLbZlq7Vnf1HNhpD6Gc4zor
-	1PZdzWjtu7dlony9PNY96kw4goXDQKwMgMiupLb2ennd9+HCeUP11x1wrNMm1xvIAysI
-	vB5Q==
-X-Gm-Message-State: APjAAAWo+uvyp7q+ZcJKQ+kz7C0ohhl+MLU34VkohvPxfB0T1JTaddGZ
-	ZEYIHgcn5n/fDtNyOTX3XbmB+iu6
-X-Google-Smtp-Source: APXvYqxvy4eubm3pKpjFehH3RkVHXLN4sE2Tc5mibEzRcuCWE1N/IjDJrgwB3wa7NFAPU2q8MQXMgA==
-X-Received: by 2002:a05:600c:54c:: with SMTP id
-	k12mr29761662wmc.124.1575309321004; 
+	bh=gUMDnvZ7ANpadkqRxJicSoy/NrRdYTMJED7+eCOIrwQ=;
+	b=tcPxNOqmXkM9e+HPOz4tlcdsfA6Sy0gf22YvfmXOvyuY5yDgvrylGPbcUzMR4s+YHD
+	R5v5oxzOAVTg0cCcpc9E+UOKrrWkFX34liYgsIwHXgOR2tM91KWu6hmPIeQbYLnh9PdN
+	QJ1dtHXyVQix1yZhL9OyJzOA4YHtMGzAtqLMLZ1XceGVBaMpjUa0zAPslzOj/gt2IulT
+	5Ya13HHm3unEtM6zpkWw90x9AflF97yQ8mRQlnvpe2GKS4mznD0/ry5a7rsGcmXSogz/
+	sZjt7C+8P1yCnWPxAvs1Gst8FBG0uANPkjb+xOpJpthJLwzb7yu7Pl/ZTkH3LwoR7HVC
+	5Fmg==
+X-Gm-Message-State: APjAAAXSIgfIQgDLXgfNtTNwU/0pXK+OiJY1oiOEPNC+Ym37Bauc3dL0
+	Q7oMFQPyahoKlPZsNwF4N4xTMZcZ
+X-Google-Smtp-Source: APXvYqzOFLsyiJ1qubi7nFE5wp7jQzZQzhs8AwFEtaoCf/BsFBMl5Cy5hdiWaSUdkWg24+p6pujaXw==
+X-Received: by 2002:a5d:6408:: with SMTP id z8mr164392wru.122.1575309321913;
 	Mon, 02 Dec 2019 09:55:21 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id y8sm144069wru.59.2019.12.02.09.55.19
+	by smtp.gmail.com with ESMTPSA id y8sm144069wru.59.2019.12.02.09.55.21
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 02 Dec 2019 09:55:20 -0800 (PST)
+	Mon, 02 Dec 2019 09:55:21 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Dec 2019 18:54:58 +0100
-Message-Id: <20191202175459.112655-17-alex.kanavin@gmail.com>
+Date: Mon,  2 Dec 2019 18:54:59 +0100
+Message-Id: <20191202175459.112655-18-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191202175459.112655-1-alex.kanavin@gmail.com>
 References: <20191202175459.112655-1-alex.kanavin@gmail.com>
-Subject: [PATCH 17/18] gstreamer1.0-python: switch to meson
+Subject: [PATCH 18/18] gstreamer1.0-python: add a patch to fix python 3.8 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +56,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2019 17:55:20 -0000
+X-List-Received-Date: Mon, 02 Dec 2019 17:55:21 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../gstreamer/gstreamer1.0-python_1.16.1.bb                 | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ ...son.build-fix-builds-with-python-3.8.patch | 24 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0-python_1.16.1.bb   |  4 +++-
+ 2 files changed, 27 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
+new file mode 100644
+index 00000000000..053108ad50b
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
+@@ -0,0 +1,24 @@
++From 61cfd1b49dc82baf14bb36d88b6c5be7b8c3d23a Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 2 Dec 2019 18:16:41 +0100
++Subject: [PATCH] meson.build: fix builds with python 3.8
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gst-python/merge_requests/14]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 1da81d5..3e0db38 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -24,7 +24,7 @@ pygobject_dep = dependency('pygobject-3.0', fallback: ['pygobject', 'pygobject_d
++ 
++ pymod = import('python')
++ python = pymod.find_installation(get_option('python'))
++-python_dep = python.dependency(required : true)
+++python_dep = dependency('python3-embed', required : true)
++ 
++ python_abi_flags = python.get_variable('ABIFLAGS', '')
++ pylib_loc = get_option('libpython-dir')
 diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
-index c722f028b3c..b770ec060e1 100644
+index b770ec060e1..0382360ec26 100644
 --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
 +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
-@@ -18,11 +18,9 @@ S = "${WORKDIR}/${PNREAL}-${PV}"
+@@ -5,7 +5,9 @@ SECTION = "multimedia"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
- # gobject-introspection is mandatory and cannot be configured
- REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
--UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
-+UNKNOWN_CONFIGURE_WHITELIST_append = " introspection"
- 
--inherit autotools pkgconfig distutils3-base upstream-version-is-even gobject-introspection features_check
--
--EXTRA_OECONF += "--with-libpython-dir=${libdir}"
-+inherit meson pkgconfig distutils3-base upstream-version-is-even gobject-introspection features_check
- 
- do_install_append() {
+-SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
++SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
++           file://0001-meson.build-fix-builds-with-python-3.8.patch \
++           "
+ SRC_URI[md5sum] = "499645fbd1790c5845c02a3998dccc1b"
+ SRC_URI[sha256sum] = "b469c8955126f41b8ce0bf689b7029f182cd305f422b3a8df35b780bd8347489"
  
 -- 
 2.17.1
