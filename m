@@ -1,53 +1,46 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
-	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 85FAA7EB0F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A9A46B8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2019 16:55:00 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id s10so175338plp.2
+	Mon,  2 Dec 2019 17:55:04 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id p9so230123wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Dec 2019 08:55:02 -0800 (PST)
+	Mon, 02 Dec 2019 09:55:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version:thread-index
-	:content-language;
-	bh=YXu20BCnGt90BXs3l8EVtiqnt/fuQpFEnlpDHk/OA/s=;
-	b=YYhBQq7IX6kXtDPoN6JLQDL+TRVfYsk6uuxQLoYV1xLjd8VVLD7naWMhVgAu3b6GlE
-	mkyiecWzKHh6Y8HotEs5JUlZ5AhFgJdma84hu6H+V3s7LART9rSgvcZA9LoXE6OcHrbW
-	P6xL1Rrt4j4lhftHnd5rnfT9D8iTIkl59xDk+j4nYzx5im0yKXLZB9CG0GeF8O/LNyyG
-	vE7eQLGcX7fmT0z34wux5elzePng2OtaH/t+qtH4NOndZoH0BGsQKAkWkLOUUvqoWHdT
-	bSjmxEQhgCgL3EURCUC0u6rIrhUH8KytFzDKUPpaEQYTDEwVoi+jLWny0F7hDJZRQ4dD
-	NyzQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=tmOFYQM+1xQJVpvEnjnVJCgLvpmTsvpOs6QvT4q5iEU=;
+	b=E2kZcX5wMoV2Ppu96dEz64Vg4PQMzTp2RXx4j2HfMvRqR43oEeIX36iWas75ZQFVsJ
+	LDlTbUDen+VWNP6hPOoSiAYNexlR4GRPnZm+r8uopsFcg35nHCpV4294gDrOfzTxc3wn
+	Hm8rO2t9Sp/+cxPnzXBhBdZ2a2pF02kqLg/XzvK3zJ0wvg1IH4J0Xxw5kI8Timqewa05
+	OpUPdVCQzf+0kKtlyCTrjO7++eLJOpqz0XaK0NJMXe6vdwvrA1Fd2fDnzY9h/ZHRRPMU
+	0/EYeASMDUuwdk/kOgzEejU7VgERre78g2Y8rw8+sJprApZVSCeK9ba8Bb4ljguSiM/q
+	ompA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:thread-index:content-language;
-	bh=YXu20BCnGt90BXs3l8EVtiqnt/fuQpFEnlpDHk/OA/s=;
-	b=sOm+fvudaZ4PoleJNCGbyQG62pbnSFlfNOqH1ghClq1H1w+bcvtJJ5qkwm3MR1mGul
-	NNhYXl+2db9iYIFkuzafqU1o8WN2vM0OpWOtQDi3IRni5ytdzaN81icdYD4zBJzKkka/
-	ohgfiu0aVHSaLiY/iQ1JVJ5HLOGiYE/cpmyBSr2fnDM/c3iBkaNKO50XLvkeyX2451BE
-	pcBLtPfUA3lIJsqwruLigFc/YdXbPAabICFc03EaTuYMjtWOu1a4brNbydf1itDyGKxL
-	oWbYrdYjXsmXt2h5pKj3r/lCYkp3t9ZHYbQQ2AwulnpjgzWGhczZETIYy4XE+RtfBKYs
-	5ndA==
-X-Gm-Message-State: APjAAAXG96mx51aS6l01mswXuUrbvQaWFTccsRh27JU4+neuiXOj64Y2
-	PRZwSaZ44by4aoKO9DuiRFBhTFQM
-X-Google-Smtp-Source: APXvYqzR379LdnmJU3Q/TWYZVfu0+87aMX2JGMfmTB6WVn09IFIs3FbMeKEL7P2ESAZrqWTPFaoR7Q==
-X-Received: by 2002:a17:902:6acb:: with SMTP id
-	i11mr127392plt.214.1575305701352; 
-	Mon, 02 Dec 2019 08:55:01 -0800 (PST)
-Received: from sjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-	by smtp.gmail.com with ESMTPSA id
-	d38sm106411pgd.59.2019.12.02.08.55.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 02 Dec 2019 08:55:00 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 2 Dec 2019 08:55:00 -0800
-Message-ID: <05e501d5a931$3c7a7e50$b56f7af0$@gmail.com>
-MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AdWpMRYMD5UqHHKyRYu2tup9cXxf/A==
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tmOFYQM+1xQJVpvEnjnVJCgLvpmTsvpOs6QvT4q5iEU=;
+	b=eXycd35vwiXAgg3yO3iv6YR5yBtCcKDIO4UnNYWaLUdvz8TsWWnphoVi9FjaMxPU5p
+	YhG2UdT7TGNfpfe/piL/Z/9oVtHmmt0Dqg438K+lCx4PxVvIgVzO7p5TLHZyBdJ6Mx8u
+	5mE0izmWVdnIdRgqqlVZpM9ZnjdOdWPbs63R6W01ltsb3MDeIAVktcufJ2IDHv2RGkME
+	hzi//Kr0IVpoRrgn4KDB6Zlbd9wVUBywgUOuUQYVDIQ+CTyPKNdD51Y9xUO06cR2wA66
+	HxBsKUSSGUiSUiHjwcqWQ8t718njf0wX1ubXRbNHqSWLg3mujcC8I6cXTnWVAmxwHcTi
+	P3aw==
+X-Gm-Message-State: APjAAAV559oI6WBHWdsvJswc5yb/MLDbIFjcKKl5lh5VBYGCIRiCiCpJ
+	JfuoXNAh93Sgp/iS0NabqPY/inur
+X-Google-Smtp-Source: APXvYqy/VgbEfWDDaE/srMNhCWIQbhbDCM9fcy+jV1lhBsuuwmk1bD+ps1XupsxkianW9DkPKUOmzA==
+X-Received: by 2002:a1c:a512:: with SMTP id o18mr28632213wme.4.1575309305116; 
+	Mon, 02 Dec 2019 09:55:05 -0800 (PST)
+Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
+	by smtp.gmail.com with ESMTPSA id y8sm144069wru.59.2019.12.02.09.55.04
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 02 Dec 2019 09:55:04 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  2 Dec 2019 18:54:42 +0100
+Message-Id: <20191202175459.112655-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 01/18] rpm: upgrade to 4.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,232 +53,1108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2019 16:55:00 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_05E6_01D5A8EE.2E589DE0"
-Content-Language: en-us
+X-List-Received-Date: Mon, 02 Dec 2019 17:55:05 -0000
 
-------=_NextPart_000_05E6_01D5A8EE.2E589DE0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Drop patches that were merged upstream.
 
-All,
+0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+modifies a file that was removed upstream.
 
+Add a 0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+as unfortunately the new parallel file classification feature from
+upstream trips over somewhere in libmagic when inspected files are
+compressed:
+https://github.com/rpm-software-management/rpm/issues/756
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...satisfiable-dependency-when-building.patch |  28 +-
+ ...lib-rpm-as-the-installation-path-for.patch |  14 +-
+ ...kage-building-into-a-separate-functi.patch |  84 -----
+ ...es-requires-do-not-use-monodis-from-.patch |  58 ---
+ ...-run-file-classification-in-parallel.patch |  65 ++++
+ ...ry-package-creation-via-thread-pools.patch | 127 -------
+ ...e-operations-over-string-pools-threa.patch | 207 -----------
+ ...ove-static-local-variables-from-buil.patch | 336 ------------------
+ .../rpm/{rpm_4.14.2.1.bb => rpm_4.15.1.bb}    |  15 +-
+ 9 files changed, 90 insertions(+), 844 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
+ rename meta/recipes-devtools/rpm/{rpm_4.14.2.1.bb => rpm_4.15.1.bb} (90%)
+
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+index 80e2f0fad70..4029233fb70 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+@@ -1,4 +1,4 @@
+-From 87cfc0db1ed6fe381a5ed5f0016d8c3344a31a11 Mon Sep 17 00:00:00 2001
++From f39c28eb52f12ae6e82db360ffd5a903ac8faca5 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 9 Jan 2017 18:52:11 +0200
+ Subject: [PATCH] Do not add an unsatisfiable dependency when building rpms in
+@@ -9,25 +9,23 @@ hand produces rpms that way by design.
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
+ ---
+  build/pack.c | 4 ----
+  1 file changed, 4 deletions(-)
  
-
- <https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs>
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
-
+ diff --git a/build/pack.c b/build/pack.c
+-index 1261cdbba..bb2d6f4f6 100644
++index e6cec1816..810cd7351 100644
+ --- a/build/pack.c
+ +++ b/build/pack.c
+-@@ -595,10 +595,6 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+- 	    headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
+- 	}
++@@ -724,10 +724,6 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
++ 	headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
++     }
++ 
++-    if (cheating) {
++-	(void) rpmlibNeedsFeature(pkg, "ShortCircuited", "4.9.0-1");
++-    }
++-
++     if ((rc = getPkgFilename(pkg->header, filename)))
++ 	return rc;
+  
+--	if (cheating) {
+--	    (void) rpmlibNeedsFeature(pkg, "ShortCircuited", "4.9.0-1");
+--	}
+--	
+- 	{   char *binFormat = rpmGetPath("%{_rpmfilename}", NULL);
+- 	    char *binRpm, *binDir;
+- 	    binRpm = headerFormat(pkg->header, binFormat, &errorString);
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+index 82e7328757f..52440d68180 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+@@ -1,4 +1,4 @@
+-From bd08eb0ae1312f347f49949481daa7c923752df2 Mon Sep 17 00:00:00 2001
++From 2f3d1619b6510bc131c4375827caf912559f0fa2 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 27 Feb 2017 09:43:30 +0200
+ Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  3 files changed, 4 insertions(+), 4 deletions(-)
  
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
+ diff --git a/configure.ac b/configure.ac
+-index 09af7c4..9bd6903 100644
++index d3aeab86e..1a1f3f91f 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1055,7 +1055,7 @@ else
++@@ -1086,7 +1086,7 @@ else
+      usrprefix=$prefix
+  fi
+  
+@@ -27,10 +27,10 @@ index 09af7c4..9bd6903 100644
+  
+  AC_SUBST(OBJDUMP)
+ diff --git a/macros.in b/macros.in
+-index a3aa7a9..62cee5c 100644
++index fe9803aad..d128675bf 100644
+ --- a/macros.in
+ +++ b/macros.in
+-@@ -970,7 +970,7 @@ package or when debugging this package.\
++@@ -985,7 +985,7 @@ package or when debugging this package.\
+  %_sharedstatedir	%{_prefix}/com
+  %_localstatedir		%{_prefix}/var
+  %_lib			lib
+@@ -40,7 +40,7 @@ index a3aa7a9..62cee5c 100644
+  %_infodir		%{_datadir}/info
+  %_mandir		%{_datadir}/man
+ diff --git a/rpm.am b/rpm.am
+-index 82c2d7c..6341b51 100644
++index 40b4ec55f..3139ce8f6 100644
+ --- a/rpm.am
+ +++ b/rpm.am
+ @@ -1,10 +1,10 @@
+@@ -55,4 +55,4 @@ index 82c2d7c..6341b51 100644
+ +rpmconfigdir = $(libdir)/rpm
+  
+  # Libtool version (current-revision-age) for all our libraries
+- rpm_version_info = 9:0:1
++ rpm_version_info = 9:1:0
+diff --git a/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch b/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+deleted file mode 100644
+index 6e44f0b7fc9..00000000000
+--- a/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
++++ /dev/null
+@@ -1,84 +0,0 @@
+-From 721a660a507d6d062e7aecafad886c643970a5d5 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 25 May 2017 18:15:27 +0300
+-Subject: [PATCH 1/4] Split binary package building into a separate function
+-
+-So that it can be run as a thread pool task.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- build/pack.c | 33 +++++++++++++++++++++------------
+- 1 file changed, 21 insertions(+), 12 deletions(-)
+-
+-diff --git a/build/pack.c b/build/pack.c
+-index 518f4e92a..ccfd614cc 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
+-@@ -546,18 +546,13 @@ static rpmRC checkPackages(char *pkgcheck)
+-     return RPMRC_OK;
+- }
+- 
+--rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int cheating, char** filename)
+- {
+--    rpmRC rc;
+--    const char *errorString;
+--    Package pkg;
+--    char *pkglist = NULL;
+--
+--    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+--	char *fn;
+-+	const char *errorString;
+-+	rpmRC rc = RPMRC_OK;
+- 
+- 	if (pkg->fileList == NULL)
+--	    continue;
+-+	    return rc;
+- 
+- 	if ((rc = processScriptFiles(spec, pkg)))
+- 	    return rc;
+-@@ -587,7 +582,7 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+- 		     headerGetString(pkg->header, RPMTAG_NAME), errorString);
+- 		return RPMRC_FAIL;
+- 	    }
+--	    fn = rpmGetPath("%{_rpmdir}/", binRpm, NULL);
+-+	    *filename = rpmGetPath("%{_rpmdir}/", binRpm, NULL);
+- 	    if ((binDir = strchr(binRpm, '/')) != NULL) {
+- 		struct stat st;
+- 		char *dn;
+-@@ -609,14 +604,28 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+- 	    free(binRpm);
+- 	}
+- 
+--	rc = writeRPM(pkg, NULL, fn, NULL);
+-+	rc = writeRPM(pkg, NULL, *filename, NULL);
+- 	if (rc == RPMRC_OK) {
+- 	    /* Do check each written package if enabled */
+--	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", fn, NULL);
+-+	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", *filename, NULL);
+- 	    if (pkgcheck[0] != ' ') {
+- 		rc = checkPackages(pkgcheck);
+- 	    }
+- 	    free(pkgcheck);
+-+	}
+-+	return rc;
+-+}
+-+
+-+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+{
+-+    rpmRC rc;
+-+    Package pkg;
+-+    char *pkglist = NULL;
+-+
+-+    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+-+	char *fn = NULL;
+-+	rc = packageBinary(spec, pkg, cookie, cheating, &fn);
+-+	if (rc == RPMRC_OK) {
+- 	    rstrcat(&pkglist, fn);
+- 	    rstrcat(&pkglist, " ");
+- 	}
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch b/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+deleted file mode 100644
+index 24aa4c7ffff..00000000000
+--- a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 43fbc3f53302a395463e8450ac81c53f623eec3f Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 27 Aug 2019 17:42:34 +0200
+-Subject: [PATCH] mono-find-provides/requires: do not use monodis from the host
+-
+-There was a host contamination issue here: if monodis was installed
+-on the host, do_package would use that to resolve dependencies
+-of mono libraries (and often fail in that). Without monodis,
+-no dependencies are resolved, which is seemingly how things
+-are supposed to work.
+-
+-Upstream-Status: Inappropriate [oe-core specific]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- scripts/mono-find-provides | 8 ++++----
+- scripts/mono-find-requires | 8 ++++----
+- 2 files changed, 8 insertions(+), 8 deletions(-)
+-
+-diff --git a/scripts/mono-find-provides b/scripts/mono-find-provides
+-index 9348457d3..b28872ffb 100644
+---- a/scripts/mono-find-provides
+-+++ b/scripts/mono-find-provides
+-@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep -E "\\.(exe|dll)\$"))
+- build_bindir="$2/usr/bin"
+- build_libdir="$2$3"
+- 
+--if [ -x $build_bindir/monodis ]; then
+--    monodis="$build_bindir/monodis"
+-+if [ -x $build_bindir/monodis.bogus ]; then
+-+    monodis="$build_bindir/monodis.bogus"
+-     export LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+--elif [ -x /usr/bin/monodis ]; then
+--    monodis="/usr/bin/monodis"
+-+elif [ -x /usr/bin/monodis.bogus ]; then
+-+    monodis="/usr/bin/monodis.bogus"
+- else
+-     exit 0;
+- fi
+-diff --git a/scripts/mono-find-requires b/scripts/mono-find-requires
+-index ea58cae48..d270169e1 100644
+---- a/scripts/mono-find-requires
+-+++ b/scripts/mono-find-requires
+-@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep -E "\\.(exe|dll)\$"))
+- build_bindir="$2/usr/bin"
+- build_libdir="$2$3"
+- 
+--if [ -x $build_bindir/monodis ]; then
+--    monodis="$build_bindir/monodis"
+-+if [ -x $build_bindir/monodis.bogus ]; then
+-+    monodis="$build_bindir/monodis.bogus"
+-     export LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+--elif [ -x /usr/bin/monodis ]; then
+--    monodis="/usr/bin/monodis"
+-+elif [ -x /usr/bin/monodis.bogus ]; then
+-+    monodis="/usr/bin/monodis.bogus"
+- else
+-     exit 0;
+- fi
+diff --git a/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+new file mode 100644
+index 00000000000..d8d338792d3
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+@@ -0,0 +1,65 @@
++From 93c3c7f043f62e96941274e957c4ad9432032af1 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 18 Nov 2019 16:22:56 +0100
++Subject: [PATCH] rpmfc.c: do not run file classification in parallel
++
++This is causing freezes with libmagic when the file in question is compressed:
++https://github.com/rpm-software-management/rpm/issues/756
++
++Upstream-Status: Inappropriate [upstream wants a proper fix]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ build/rpmfc.c | 8 --------
++ 1 file changed, 8 deletions(-)
++
++diff --git a/build/rpmfc.c b/build/rpmfc.c
++index 3db7a9352..17afdd57a 100644
++--- a/build/rpmfc.c
+++++ b/build/rpmfc.c
++@@ -680,7 +680,6 @@ static void rpmfcAttributes(rpmfc fc, int ix, const char *ftype, const char *ful
++ 	/* Add attributes on libmagic type & path pattern matches */
++ 	if (matches(&(*attr)->incl, ftype, path, is_executable)) {
++ 	    argvAddTokens(&fc->fattrs[ix], (*attr)->name);
++-	    #pragma omp critical(fahash)
++ 	    fattrHashAddEntry(fc->fahash, attr-fc->atypes, ix);
++ 	}
++     }
++@@ -1105,7 +1104,6 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_mode_t * fmode)
++     /* Build (sorted) file class dictionary. */
++     fc->cdict = rpmstrPoolCreate();
++ 
++-    #pragma omp parallel
++     {
++     /* libmagic is not thread-safe, each thread needs to a private handle */
++     magic_t ms = magic_open(msflags);
++@@ -1113,15 +1111,12 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_mode_t * fmode)
++     if (ms == NULL) {
++ 	rpmlog(RPMLOG_ERR, _("magic_open(0x%x) failed: %s\n"),
++ 		msflags, strerror(errno));
++-	#pragma omp cancel parallel
++     }
++ 
++     if (magic_load(ms, NULL) == -1) {
++ 	rpmlog(RPMLOG_ERR, _("magic_load failed: %s\n"), magic_error(ms));
++-	#pragma omp cancel parallel
++     }
++ 
++-    #pragma omp for ordered reduction(+:nerrors)
++     for (int ix = 0; ix < fc->nfiles; ix++) {
++ 	rpmsid ftypeId;
++ 	const char * ftype;
++@@ -1185,14 +1180,11 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_mode_t * fmode)
++ 	fc->fcolor[ix] = fcolor;
++ 
++ 	/* Add to file class dictionary and index array */
++-	#pragma omp ordered
++ 	if (fcolor != RPMFC_WHITE && (fcolor & RPMFC_INCLUDE)) {
++ 	    ftypeId = rpmstrPoolId(fc->cdict, ftype, 1);
++-	    #pragma omp atomic
++ 	    fc->fknown++;
++ 	} else {
++ 	    ftypeId = rpmstrPoolId(fc->cdict, "", 1);
++-	    #pragma omp atomic
++ 	    fc->fwhite++;
++ 	}
++ 	/* Pool id's start from 1, for headers we want it from 0 */
+diff --git a/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch b/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
+deleted file mode 100644
+index d10041c2e14..00000000000
+--- a/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
++++ /dev/null
+@@ -1,127 +0,0 @@
+-From 513200cf76758de4668312c628d6362bdabfaf4b Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 25 May 2017 19:30:20 +0300
+-Subject: [PATCH 1/3] Run binary package creation via thread pools.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- build/pack.c | 81 +++++++++++++++++++++++++++++++++++++++++++++++++-----------
+- configure.ac |  3 +++
+- 2 files changed, 70 insertions(+), 14 deletions(-)
+-
+-diff --git a/build/pack.c b/build/pack.c
+-index ccfd614cc..ed5b9ab4e 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
+-@@ -616,25 +616,78 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
+- 	return rc;
+- }
+- 
+--rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+struct binaryPackageTaskData
+- {
+--    rpmRC rc;
+-     Package pkg;
+-+    char *filename;
+-+    rpmRC result;
+-+    struct binaryPackageTaskData *next;
+-+};
+-+
+-+static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const char *cookie, int cheating)
+-+{
+-+    struct binaryPackageTaskData *tasks = NULL;
+-+    struct binaryPackageTaskData *task = NULL;
+-+    struct binaryPackageTaskData *prev = NULL;
+-+
+-+    for (Package pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+-+        task = rcalloc(1, sizeof(*task));
+-+        task->pkg = pkg;
+-+        if (pkg == spec->packages) {
+-+            // the first package needs to be processed ahead of others, as they copy
+-+            // changelog data from it, and so otherwise data races would happen
+-+            task->result = packageBinary(spec, pkg, cookie, cheating, &(task->filename));
+-+            rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+-+            tasks = task;
+-+        }
+-+        if (prev != NULL) {
+-+            prev->next = task;
+-+        }
+-+        prev = task;
+-+    }
+-+
+-+    #pragma omp parallel
+-+    #pragma omp single
+-+    // re-declaring task variable is necessary, or older gcc versions will produce code that segfaults
+-+    for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
+-+        if (task != tasks)
+-+        #pragma omp task
+-+        {
+-+            task->result = packageBinary(spec, task->pkg, cookie, cheating, &(task->filename));
+-+            rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+-+        }
+-+    }
+-+
+-+    return tasks;
+-+}
+-+
+-+static void freeBinaryPackageTasks(struct binaryPackageTaskData* tasks)
+-+{
+-+    while (tasks != NULL) {
+-+        struct binaryPackageTaskData* next = tasks->next;
+-+        rfree(tasks->filename);
+-+        rfree(tasks);
+-+        tasks = next;
+-+    }
+-+}
+-+
+-+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+{
+-     char *pkglist = NULL;
+- 
+--    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+--	char *fn = NULL;
+--	rc = packageBinary(spec, pkg, cookie, cheating, &fn);
+--	if (rc == RPMRC_OK) {
+--	    rstrcat(&pkglist, fn);
+--	    rstrcat(&pkglist, " ");
+--	}
+--	free(fn);
+--	if (rc != RPMRC_OK) {
+--	    pkglist = _free(pkglist);
+--	    return rc;
+--	}
+-+    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec, cookie, cheating);
+-+
+-+    for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
+-+        if (task->result == RPMRC_OK) {
+-+            rstrcat(&pkglist, task->filename);
+-+            rstrcat(&pkglist, " ");
+-+        } else {
+-+            _free(pkglist);
+-+            freeBinaryPackageTasks(tasks);
+-+            return RPMRC_FAIL;
+-+        }
+-     }
+-+    freeBinaryPackageTasks(tasks);
+- 
+-     /* Now check the package set if enabled */
+-     if (pkglist != NULL) {
+-diff --git a/configure.ac b/configure.ac
+-index a506ec819..59fa0acaf 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -17,6 +17,9 @@ AC_DISABLE_STATIC
+- 
+- PKG_PROG_PKG_CONFIG
+- 
+-+AC_OPENMP
+-+RPMCFLAGS="$OPENMP_CFLAGS $RPMCFLAGS"
+-+
+- dnl Checks for programs.
+- AC_PROG_CXX
+- AC_PROG_AWK
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch b/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
+deleted file mode 100644
+index c348ae5330e..00000000000
+--- a/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
++++ /dev/null
+@@ -1,207 +0,0 @@
+-From c80892f17e44331206c8318d53b63bb6a99554d0 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 30 May 2017 13:58:30 +0300
+-Subject: [PATCH 3/4] rpmstrpool.c: make operations over string pools
+- thread-safe
+-
+-Otherwise multithreaded rpm building explodes in various ways due
+-to data races.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- rpmio/rpmstrpool.c | 56 +++++++++++++++++++++++++++++++++++++++++++++---------
+- 1 file changed, 47 insertions(+), 9 deletions(-)
+-
+-diff --git a/rpmio/rpmstrpool.c b/rpmio/rpmstrpool.c
+-index 30a57eb10..58ba95a02 100644
+---- a/rpmio/rpmstrpool.c
+-+++ b/rpmio/rpmstrpool.c
+-@@ -113,6 +113,8 @@ static poolHash poolHashCreate(int numBuckets)
+-     return ht;
+- }
+- 
+-+static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid);
+-+
+- static void poolHashResize(rpmstrPool pool, int numBuckets)
+- {
+-     poolHash ht = pool->hash;
+-@@ -120,7 +122,7 @@ static void poolHashResize(rpmstrPool pool, int numBuckets)
+- 
+-     for (int i=0; i<ht->numBuckets; i++) {
+-         if (!ht->buckets[i].keyid) continue;
+--        unsigned int keyHash = rstrhash(rpmstrPoolStr(pool, ht->buckets[i].keyid));
+-+        unsigned int keyHash = rstrhash(rpmstrPoolStrNoLock(pool, ht->buckets[i].keyid));
+-         for (unsigned int j=0;;j++) {
+-             unsigned int hash = hashbucket(keyHash, j) % numBuckets;
+-             if (!buckets[hash].keyid) {
+-@@ -149,7 +151,7 @@ static void poolHashAddHEntry(rpmstrPool pool, const char * key, unsigned int ke
+-             ht->buckets[hash].keyid = keyid;
+-             ht->keyCount++;
+-             break;
+--        } else if (!strcmp(rpmstrPoolStr(pool, ht->buckets[hash].keyid), key)) {
+-+        } else if (!strcmp(rpmstrPoolStrNoLock(pool, ht->buckets[hash].keyid), key)) {
+-             return;
+-         }
+-     }
+-@@ -191,7 +193,7 @@ static void poolHashPrintStats(rpmstrPool pool)
+-     int maxcollisions = 0;
+- 
+-     for (i=0; i<ht->numBuckets; i++) {
+--        unsigned int keyHash = rstrhash(rpmstrPoolStr(pool, ht->buckets[i].keyid));
+-+        unsigned int keyHash = rstrhash(rpmstrPoolStrNoLock(pool, ht->buckets[i].keyid));
+-         for (unsigned int j=0;;j++) {
+-             unsigned int hash = hashbucket(keyHash, i) % ht->numBuckets;
+-             if (hash==i) {
+-@@ -221,7 +223,7 @@ static void rpmstrPoolRehash(rpmstrPool pool)
+- 
+-     pool->hash = poolHashCreate(sizehint);
+-     for (int i = 1; i <= pool->offs_size; i++)
+--	poolHashAddEntry(pool, rpmstrPoolStr(pool, i), i);
+-+	poolHashAddEntry(pool, rpmstrPoolStrNoLock(pool, i), i);
+- }
+- 
+- rpmstrPool rpmstrPoolCreate(void)
+-@@ -245,6 +247,8 @@ rpmstrPool rpmstrPoolCreate(void)
+- 
+- rpmstrPool rpmstrPoolFree(rpmstrPool pool)
+- {
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool) {
+- 	if (pool->nrefs > 1) {
+- 	    pool->nrefs--;
+-@@ -260,18 +264,24 @@ rpmstrPool rpmstrPoolFree(rpmstrPool pool)
+- 	    free(pool);
+- 	}
+-     }
+-+    }
+-     return NULL;
+- }
+- 
+- rpmstrPool rpmstrPoolLink(rpmstrPool pool)
+- {
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool)
+- 	pool->nrefs++;
+-+    }
+-     return pool;
+- }
+- 
+- void rpmstrPoolFreeze(rpmstrPool pool, int keephash)
+- {
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool && !pool->frozen) {
+- 	if (!keephash) {
+- 	    pool->hash = poolHashFree(pool->hash);
+-@@ -281,16 +291,20 @@ void rpmstrPoolFreeze(rpmstrPool pool, int keephash)
+- 			      pool->offs_alloced * sizeof(*pool->offs));
+- 	pool->frozen = 1;
+-     }
+-+    }
+- }
+- 
+- void rpmstrPoolUnfreeze(rpmstrPool pool)
+- {
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool) {
+- 	if (pool->hash == NULL) {
+- 	    rpmstrPoolRehash(pool);
+- 	}
+- 	pool->frozen = 0;
+-     }
+-+    }
+- }
+- 
+- static rpmsid rpmstrPoolPut(rpmstrPool pool, const char *s, size_t slen, unsigned int hash)
+-@@ -350,7 +364,7 @@ static rpmsid rpmstrPoolGet(rpmstrPool pool, const char * key, size_t keylen,
+-             return 0;
+-         }
+- 
+--	s = rpmstrPoolStr(pool, ht->buckets[hash].keyid);
+-+	s = rpmstrPoolStrNoLock(pool, ht->buckets[hash].keyid);
+- 	/* pool string could be longer than keylen, require exact matche */
+- 	if (strncmp(s, key, keylen) == 0 && s[keylen] == '\0')
+- 	    return ht->buckets[hash].keyid;
+-@@ -373,27 +387,31 @@ static inline rpmsid strn2id(rpmstrPool pool, const char *s, size_t slen,
+- rpmsid rpmstrPoolIdn(rpmstrPool pool, const char *s, size_t slen, int create)
+- {
+-     rpmsid sid = 0;
+--
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (s != NULL) {
+- 	unsigned int hash = rstrnhash(s, slen);
+- 	sid = strn2id(pool, s, slen, hash, create);
+-     }
+-+    }
+-     return sid;
+- }
+- 
+- rpmsid rpmstrPoolId(rpmstrPool pool, const char *s, int create)
+- {
+-     rpmsid sid = 0;
+--
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (s != NULL) {
+- 	size_t slen;
+- 	unsigned int hash = rstrlenhash(s, &slen);
+- 	sid = strn2id(pool, s, slen, hash, create);
+-     }
+-+    }
+-     return sid;
+- }
+- 
+--const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
+-+static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid)
+- {
+-     const char *s = NULL;
+-     if (pool && sid > 0 && sid <= pool->offs_size)
+-@@ -401,12 +419,25 @@ const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
+-     return s;
+- }
+- 
+-+const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
+-+{
+-+    const char *s = NULL;
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-+    s = rpmstrPoolStrNoLock(pool, sid);
+-+    }
+-+    return s;
+-+}
+-+
+- size_t rpmstrPoolStrlen(rpmstrPool pool, rpmsid sid)
+- {
+-     size_t slen = 0;
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool && sid > 0 && sid <= pool->offs_size) {
+- 	slen = strlen(pool->offs[sid]);
+-     }
+-+    }
+-     return slen;
+- }
+- 
+-@@ -421,5 +452,12 @@ int rpmstrPoolStreq(rpmstrPool poolA, rpmsid sidA,
+- 
+- rpmsid rpmstrPoolNumStr(rpmstrPool pool)
+- {
+--    return (pool != NULL) ? pool->offs_size : 0;
+-+    rpmsid id = 0;
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-+    if (pool) {
+-+	id = pool->offs_size;
+-+    }
+-+    }
+-+    return id;
+- }
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch b/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
+deleted file mode 100644
+index 652e30b3e4a..00000000000
+--- a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
++++ /dev/null
+@@ -1,336 +0,0 @@
+-From 792693bb90768cfde4898e8dd31ee1b5de803d2f Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 8 Jun 2017 17:08:09 +0300
+-Subject: [PATCH] build/pack.c: remove static local variables from buildHost()
+- and getBuildTime()
+-
+-Their use is causing difficult to diagnoze data races when building multiple
+-packages in parallel, and is a bad idea in general, as it also makes it more
+-difficult to reason about code.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- build/build.c             | 54 ++++++++++++++++++++++++++++--
+- build/pack.c              | 84 +++++++++--------------------------------------
+- build/rpmbuild_internal.h |  8 +++--
+- 3 files changed, 74 insertions(+), 72 deletions(-)
+-
+-diff --git a/build/build.c b/build/build.c
+-index 13c3df2..b154f08 100644
+---- a/build/build.c
+-+++ b/build/build.c
+-@@ -6,6 +6,8 @@
+- #include "system.h"
+- 
+- #include <errno.h>
+-+#include <netdb.h>
+-+#include <time.h>
+- #include <sys/wait.h>
+- 
+- #include <rpm/rpmlog.h>
+-@@ -16,6 +18,50 @@
+- 
+- #include "debug.h"
+- 
+-+static rpm_time_t getBuildTime(void)
+-+{
+-+    rpm_time_t buildTime = 0;
+-+    char *srcdate;
+-+    time_t epoch;
+-+    char *endptr;
+-+
+-+    srcdate = getenv("SOURCE_DATE_EPOCH");
+-+    if (srcdate) {
+-+        errno = 0;
+-+        epoch = strtol(srcdate, &endptr, 10);
+-+        if (srcdate == endptr || *endptr || errno != 0)
+-+            rpmlog(RPMLOG_ERR, _("unable to parse SOURCE_DATE_EPOCH\n"));
+-+        else
+-+            buildTime = (int32_t) epoch;
+-+    } else
+-+        buildTime = (int32_t) time(NULL);
+-+
+-+    return buildTime;
+-+}
+-+
+-+static char * buildHost(void)
+-+{
+-+    char* hostname;
+-+    struct hostent *hbn;
+-+    char *bhMacro;
+-+
+-+    bhMacro = rpmExpand("%{?_buildhost}", NULL);
+-+    if (strcmp(bhMacro, "") != 0) {
+-+        rasprintf(&hostname, "%s", bhMacro);
+-+    } else {
+-+        hostname = rcalloc(1024, sizeof(*hostname));
+-+        (void) gethostname(hostname, 1024);
+-+        hbn = gethostbyname(hostname);
+-+        if (hbn)
+-+            strcpy(hostname, hbn->h_name);
+-+        else
+-+            rpmlog(RPMLOG_WARNING,
+-+                    _("Could not canonicalize hostname: %s\n"), hostname);
+-+    }
+-+    free(bhMacro);
+-+    return(hostname);
+-+}
+-+
+- /**
+-  */
+- static rpmRC doRmSource(rpmSpec spec)
+-@@ -201,6 +247,9 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
+-     rpmRC rc = RPMRC_OK;
+-     int test = (what & RPMBUILD_NOBUILD);
+-     char *cookie = buildArgs->cookie ? xstrdup(buildArgs->cookie) : NULL;
+-+    const char* host = buildHost();
+-+    rpm_time_t buildTime = getBuildTime();
+-+
+- 
+-     if (rpmExpandNumeric("%{?source_date_epoch_from_changelog}") &&
+- 	getenv("SOURCE_DATE_EPOCH") == NULL) {
+-@@ -269,11 +318,11 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
+- 		goto exit;
+- 
+- 	if (((what & RPMBUILD_PACKAGESOURCE) && !test) &&
+--	    (rc = packageSources(spec, &cookie)))
+-+	    (rc = packageSources(spec, &cookie, buildTime, host)))
+- 		goto exit;
+- 
+- 	if (((what & RPMBUILD_PACKAGEBINARY) && !test) &&
+--	    (rc = packageBinaries(spec, cookie, (didBuild == 0))))
+-+	    (rc = packageBinaries(spec, cookie, (didBuild == 0), buildTime, host)))
+- 		goto exit;
+- 	
+- 	if ((what & RPMBUILD_CLEAN) &&
+-@@ -293,6 +342,7 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
+- 	(void) unlink(spec->specFile);
+- 
+- exit:
+-+    free(host);
+-     free(cookie);
+-     spec->rootDir = NULL;
+-     if (rc != RPMRC_OK && rpmlogGetNrecs() > 0) {
+-diff --git a/build/pack.c b/build/pack.c
+-index df15876..17a4b09 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
+-@@ -6,8 +6,6 @@
+- #include "system.h"
+- 
+- #include <errno.h>
+--#include <netdb.h>
+--#include <time.h>
+- #include <sys/wait.h>
+- 
+- #include <rpm/rpmlib.h>			/* RPMSIGTAG*, rpmReadPackageFile */
+-@@ -152,57 +150,6 @@ exit:
+-     return rc;
+- }
+- 
+--static rpm_time_t * getBuildTime(void)
+--{
+--    static rpm_time_t buildTime[1];
+--    char *srcdate;
+--    time_t epoch;
+--    char *endptr;
+--
+--    if (buildTime[0] == 0) {
+--        srcdate = getenv("SOURCE_DATE_EPOCH");
+--        if (srcdate) {
+--            errno = 0;
+--            epoch = strtol(srcdate, &endptr, 10);
+--            if (srcdate == endptr || *endptr || errno != 0)
+--                rpmlog(RPMLOG_ERR, _("unable to parse SOURCE_DATE_EPOCH\n"));
+--            else
+--                buildTime[0] = (int32_t) epoch;
+--        } else
+--            buildTime[0] = (int32_t) time(NULL);
+--    }
+--
+--    return buildTime;
+--}
+--
+--static const char * buildHost(void)
+--{
+--    static char hostname[1024];
+--    static int oneshot = 0;
+--    struct hostent *hbn;
+--    char *bhMacro;
+--
+--    if (! oneshot) {
+--        bhMacro = rpmExpand("%{?_buildhost}", NULL);
+--        if (strcmp(bhMacro, "") != 0 && strlen(bhMacro) < 1024) {
+--            strcpy(hostname, bhMacro);
+--        } else {
+--            if (strcmp(bhMacro, "") != 0)
+--                rpmlog(RPMLOG_WARNING, _("The _buildhost macro is too long\n"));
+--            (void) gethostname(hostname, sizeof(hostname));
+--            hbn = gethostbyname(hostname);
+--            if (hbn)
+--                strcpy(hostname, hbn->h_name);
+--            else
+--                rpmlog(RPMLOG_WARNING,
+--                        _("Could not canonicalize hostname: %s\n"), hostname);
+--        }
+--        free(bhMacro);
+--        oneshot = 1;
+--    }
+--    return(hostname);
+--}
+--
+- static rpmRC processScriptFiles(rpmSpec spec, Package pkg)
+- {
+-     struct TriggerFileEntry *p;
+-@@ -476,7 +423,8 @@ exit:
+-  * order to how the RPM format is laid on disk.
+-  */
+- static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
+--		      const char *fileName, char **cookie)
+-+		      const char *fileName, char **cookie,
+-+		      rpm_time_t buildTime, const char* buildHost)
+- {
+-     FD_t fd = NULL;
+-     char * rpmio_flags = NULL;
+-@@ -500,7 +448,7 @@ static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
+- 
+-     /* Create and add the cookie */
+-     if (cookie) {
+--	rasprintf(cookie, "%s %d", buildHost(), (int) (*getBuildTime()));
+-+	rasprintf(cookie, "%s %d", buildHost, buildTime);
+- 	headerPutString(pkg->header, RPMTAG_COOKIE, *cookie);
+-     }
+- 
+-@@ -641,7 +589,7 @@ static rpmRC checkPackages(char *pkgcheck)
+-     return RPMRC_OK;
+- }
+- 
+--static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int cheating, char** filename)
+-+static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int cheating, char** filename, rpm_time_t buildTime, const char* buildHost)
+- {
+- 	const char *errorString;
+- 	rpmRC rc = RPMRC_OK;
+-@@ -660,8 +608,8 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
+- 	headerCopyTags(spec->packages->header, pkg->header, copyTags);
+- 	
+- 	headerPutString(pkg->header, RPMTAG_RPMVERSION, VERSION);
+--	headerPutString(pkg->header, RPMTAG_BUILDHOST, buildHost());
+--	headerPutUint32(pkg->header, RPMTAG_BUILDTIME, getBuildTime(), 1);
+-+	headerPutString(pkg->header, RPMTAG_BUILDHOST, buildHost);
+-+	headerPutUint32(pkg->header, RPMTAG_BUILDTIME, &buildTime, 1);
+- 
+- 	if (spec->sourcePkgId != NULL) {
+- 	    headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
+-@@ -699,7 +647,7 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
+- 	    free(binRpm);
+- 	}
+- 
+--	rc = writeRPM(pkg, NULL, *filename, NULL);
+-+	rc = writeRPM(pkg, NULL, *filename, NULL, buildTime, buildHost);
+- 	if (rc == RPMRC_OK) {
+- 	    /* Do check each written package if enabled */
+- 	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", *filename, NULL);
+-@@ -719,7 +667,7 @@ struct binaryPackageTaskData
+-     struct binaryPackageTaskData *next;
+- };
+- 
+--static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const char *cookie, int cheating)
+-+static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHost)
+- {
+-     struct binaryPackageTaskData *tasks = NULL;
+-     struct binaryPackageTaskData *task = NULL;
+-@@ -731,7 +679,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
+-         if (pkg == spec->packages) {
+-             // the first package needs to be processed ahead of others, as they copy
+-             // changelog data from it, and so otherwise data races would happen
+--            task->result = packageBinary(spec, pkg, cookie, cheating, &(task->filename));
+-+            task->result = packageBinary(spec, pkg, cookie, cheating, &(task->filename), buildTime, buildHost);
+-             rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+-             tasks = task;
+-         }
+-@@ -748,7 +696,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
+-         if (task != tasks)
+-         #pragma omp task
+-         {
+--            task->result = packageBinary(spec, task->pkg, cookie, cheating, &(task->filename));
+-+            task->result = packageBinary(spec, task->pkg, cookie, cheating, &(task->filename), buildTime, buildHost);
+-             rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+-         }
+-     }
+-@@ -766,11 +714,11 @@ static void freeBinaryPackageTasks(struct binaryPackageTaskData* tasks)
+-     }
+- }
+- 
+--rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHost)
+- {
+-     char *pkglist = NULL;
+- 
+--    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec, cookie, cheating);
+-+    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec, cookie, cheating, buildTime, buildHost);
+- 
+-     for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
+-         if (task->result == RPMRC_OK) {
+-@@ -797,7 +745,7 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-     return RPMRC_OK;
+- }
+- 
+--rpmRC packageSources(rpmSpec spec, char **cookie)
+-+rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t buildTime, char* buildHost)
+- {
+-     Package sourcePkg = spec->sourcePackage;
+-     rpmRC rc;
+-@@ -805,8 +753,8 @@ rpmRC packageSources(rpmSpec spec, char **cookie)
+- 
+-     /* Add some cruft */
+-     headerPutString(sourcePkg->header, RPMTAG_RPMVERSION, VERSION);
+--    headerPutString(sourcePkg->header, RPMTAG_BUILDHOST, buildHost());
+--    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME, getBuildTime(), 1);
+-+    headerPutString(sourcePkg->header, RPMTAG_BUILDHOST, buildHost);
+-+    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME, &buildTime, 1);
+-     headerPutUint32(sourcePkg->header, RPMTAG_SOURCEPACKAGE, &one, 1);
+- 
+-     /* XXX this should be %_srpmdir */
+-@@ -814,7 +762,7 @@ rpmRC packageSources(rpmSpec spec, char **cookie)
+- 	char *pkgcheck = rpmExpand("%{?_build_pkgcheck_srpm} ", fn, NULL);
+- 
+- 	spec->sourcePkgId = NULL;
+--	rc = writeRPM(sourcePkg, &spec->sourcePkgId, fn, cookie);
+-+	rc = writeRPM(sourcePkg, &spec->sourcePkgId, fn, cookie, buildTime, buildHost);
+- 
+- 	/* Do check SRPM package if enabled */
+- 	if (rc == RPMRC_OK && pkgcheck[0] != ' ') {
+-diff --git a/build/rpmbuild_internal.h b/build/rpmbuild_internal.h
+-index 439b7d3..07e8338 100644
+---- a/build/rpmbuild_internal.h
+-+++ b/build/rpmbuild_internal.h
+-@@ -427,19 +427,23 @@ rpmRC processSourceFiles(rpmSpec spec, rpmBuildPkgFlags pkgFlags);
+-  * @param spec		spec file control structure
+-  * @param cookie	build identifier "cookie" or NULL
+-  * @param cheating	was build shortcircuited?
+-+ * @param buildTime	the build timestamp that goes into packages
+-+ * @param buildHost	the hostname where the build is happening
+-  * @return		RPMRC_OK on success
+-  */
+- RPM_GNUC_INTERNAL
+--rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating);
+-+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHost);
+- 
+- /** \ingroup rpmbuild
+-  * Generate source package.
+-  * @param spec		spec file control structure
+-  * @retval cookie	build identifier "cookie" or NULL
+-+ * @param buildTime	the build timestamp that goes into packages
+-+ * @param buildHost	the hostname where the build is happening
+-  * @return		RPMRC_OK on success
+-  */
+- RPM_GNUC_INTERNAL
+--rpmRC packageSources(rpmSpec spec, char **cookie);
+-+rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t buildTime, char* buildHost);
+- 
+- RPM_GNUC_INTERNAL
+- int addLangTag(rpmSpec spec, Header h, rpmTagVal tag,
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
+similarity index 90%
+rename from meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+rename to meta/recipes-devtools/rpm/rpm_4.15.1.bb
+index c37330eb4c6..5896e78e734 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
+@@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
+ LICENSE = "GPL-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c0bf017c0fd1920e6158a333acabfd4a"
  
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 295
-unassigned or newcomer bugs.
-
+-SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
++SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.15.x \
+            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
+            file://0001-Do-not-read-config-files-from-HOME.patch \
+            file://0001-When-cross-installing-execute-package-scriptlets-wit.patch \
+@@ -34,18 +34,14 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
+            file://0001-Fix-build-with-musl-C-library.patch \
+            file://0001-Add-a-color-setting-for-mips64_n32-binaries.patch \
+            file://0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch \
+-           file://0001-Split-binary-package-building-into-a-separate-functi.patch \
+-           file://0002-Run-binary-package-creation-via-thread-pools.patch \
+-           file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
+-           file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
+            file://0001-perl-disable-auto-reqs.patch \
+            file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
+            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
+-           file://0001-mono-find-provides-requires-do-not-use-monodis-from-.patch \
++           file://0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch \
+            "
  
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
-being in "3.1" and then "3.2".
-
+ PE = "1"
+-SRCREV = "4a9440006398646583f0d9ae1837dad2875013aa"
++SRCREV = "ab2179452c5be276a6b96c591afded485c7e58c3"
  
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (
-<mailto:sjolley.yp.pm@gmail.com> sjolley.yp.pm@gmail.com) an e-mail with the
-bug number you would like and I will assign it to you (please make sure you
-have a Bugzilla account).  The list is at:
-<https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs>
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
-
+ S = "${WORKDIR}/git"
  
-
-Thanks,
-
+@@ -59,7 +55,7 @@ export PYTHON_ABI
+ EXTRA_AUTORECONF_append = " --exclude=gnu-configize"
  
-
-Stephen K. Jolley
-
-Yocto Project Project Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:               <mailto:sjolley.yp.pm@gmail.com>
-sjolley.yp.pm@gmail.com
-
+ EXTRA_OECONF_append = " --without-lua --enable-python"
+-EXTRA_OECONF_append_libc-musl = " --disable-nls"
++EXTRA_OECONF_append_libc-musl = " --disable-nls --disable-openmp"
  
+ # --sysconfdir prevents rpm from attempting to access machine-specific configuration in sysroot/etc; we need to have it in rootfs
+ #
+@@ -125,8 +121,7 @@ do_install_append () {
+ 	    ${D}/${libdir}/rpm/macros
+ 
+ 	sed -i -e 's|/usr/bin/python|${USRBINPATH}/env ${PYTHON_PN}|' \
+-	    ${D}${libdir}/rpm/pythondistdeps.py \
+-	    ${D}${libdir}/rpm/python-macro-helper
++	    ${D}${libdir}/rpm/pythondistdeps.py
+ }
+ 
+ FILES_${PN} += "${libdir}/rpm-plugins/*.so \
+-- 
+2.17.1
 
 
-------=_NextPart_000_05E6_01D5A8EE.2E589DE0
-Content-Type: text/html;
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><META =
-HTTP-EQUIV=3D"Content-Type" CONTENT=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
-starting to try and collect up and classify bugs which a newcomer to the =
-project would be able to work on in a way which means people can find =
-them. They're being listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs"><spa=
-n =
-style=3D'color:#0563C1'>https://wiki.yoctoproject.org/wiki/Bug_Triage#New=
-comer_Bugs</span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 295 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com"><span =
-style=3D'color:#0563C1'>sjolley.yp.pm@gmail.com</span></a>) an e-mail =
-with the bug number you would like and I will assign it to you (please =
-make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
-mer_Bugs"><span =
-style=3D'color:#0563C1'>https://wiki.yoctoproject.org/wiki/Bug_Triage#Una=
-ssigned_or_Newcomer_Bugs</span></a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Project Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460</span><span style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:black'><o:p></o:p></span></p><p class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com"><span =
-style=3D'color:#0563C1'>sjolley.yp.pm@gmail.com</span></a></span></u></sp=
-an><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_05E6_01D5A8EE.2E589DE0--
