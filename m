@@ -1,49 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0368E7F230
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 25B8E7EC4B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2019 17:55:10 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id z3so265428wru.3
+	Mon,  2 Dec 2019 17:55:12 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id w15so254935wru.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 02 Dec 2019 09:55:12 -0800 (PST)
+	Mon, 02 Dec 2019 09:55:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OwKKHVXb6zMiBoIU+SYWVdqWA/UlH1LOlDYiRn3mOGQ=;
-	b=InZ6qantagWrgwpCxJVi04st15yEx8ytt5MFsOUVIvJJ2ZTMK4+1b7daj7wy/OQ3Ek
-	+IDlAZ3UyRGkNTsh+w4GQsuT/g9QwzFBPXrtchqG8zD9QfTmZgI74V0yQbn7cZ5gom+o
-	e0EHRHJZsqMRozJZ/P7sLJLSWr/NUsXRiI+fUEoiEDbW+xINUTyJky94aZBoPjJ2UzpN
-	9eWHyR3Aqu0wTXQ/RtqHzv9Rd8+Gcg046oaLGZzrinyWqMPeRLyU99pAg/oDE18D0TFC
-	atn7cYw07mm9RiPpStdAS132tvgvdnOaPZDGzdfdhUP2QovY5uYDRkMC4k/AL9rB0ToC
-	OIsg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=ePOfFhqdb5Aq7zXA0mdj2mQaYJZTrBSxeqGtM58GGmQ=;
+	b=svw/HUP6gF+dIkuSM2S1u/usIn43buTT3wZXswOXlx+tSrES1/F0xHDP1ldSd0m3dY
+	kbS+v7wj1sET3FMP3m/CTD1Wsm6H1reiAe3dHq4s9h566T9nAakUfb3enWUu9cz4pXSi
+	UFYA2R4RtX3Rtu3Z9Fo7JP/IdtuBiAE+4bs3sIRLLhyJyr+pJ+Lz2POapsSjgrYFJ2rs
+	xvP4avrPMtC0IBU4xp28gdBresXEoBadUblqdmUFcYFQ0rnzlv7r4hY6IUGDBMUuPGme
+	IwSXojBtsIDnZuFFs+HE24a6z98n93qt5xI4d4Cn6nRruOrwrWlrXRNWjtTZ3aFkeo/D
+	iz9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=OwKKHVXb6zMiBoIU+SYWVdqWA/UlH1LOlDYiRn3mOGQ=;
-	b=j+IDFR2pLL1Js+MTvWLNgYQhh0ZLZIZ9jpQRSzM0gvl5VXF8ZydqjSXGA+/0PpPBuB
-	bip3Zsed8UstLB367FjADfjqwz8/U+L4+abCkGOOEe32AYaJ5dQ6eEwXoN/wnCDzVCnX
-	Myfvcur3ADtWkx2K6BPaqMUbwLy7bZpF5jfwwDclbnioFpaFcHTqovd2ptv5dN234g4g
-	qMLWtLmj7bIjKXZitRZzSDiLPsZEQYcYhJv+7/052EnuNlsg7W8t6EuNu2LOewSeuLTb
-	9jkwj6zAGwTDoWcnT5FO2xue3rxTU4JMtYift8CKteiuQgpZALm3Xer5ZgnihvGDD6fW
-	dAkw==
-X-Gm-Message-State: APjAAAWOZyIea2vw8TC834L87+MRS2x5ciYu5DshJvKGNR6IEZUoP/yI
-	COFcEVBjpk5HYna94zFo1Q3/8TZ2
-X-Google-Smtp-Source: APXvYqw54uKu4nUMqj1iQeLScOmBvdOIVatJkCqkq36hlSW4LRv7tdfaaDtzb6vrhwB/XgEu2x2rvA==
-X-Received: by 2002:a5d:6408:: with SMTP id z8mr163562wru.122.1575309311085;
-	Mon, 02 Dec 2019 09:55:11 -0800 (PST)
+	:references:mime-version:content-transfer-encoding;
+	bh=ePOfFhqdb5Aq7zXA0mdj2mQaYJZTrBSxeqGtM58GGmQ=;
+	b=qBYE9zfXex+ACkCx+fQuezk0/PnLq3Dac1RpPQ/vv/gbVXDUt+XiYp8iaMb+9GbiG7
+	M9HfXoxrxwitY5zhH93zIDoq+Kenjg+XZsiBEIqLVeOe1r2jomHGD57HjQnuPwkAtVY2
+	AD6FCUr1Jy8jYTSOXREJ5sMFelDngPv7bNpJU8x9V3gB2Upxwnh1gc3v9AJ2OS9pv1Kz
+	vtJW/MetsN5up711cCLapmI+w35iBPY0uNIDnFxx8EPq9h73M9SQIi1DVnM9yfXNY/OG
+	cWh6VI2sfp+GDYI8QaISi0m3R2M6xwtOAKqnYjoRG3bxyvYxsTjFdR/P9WdsLzgP6p7Q
+	HzxA==
+X-Gm-Message-State: APjAAAU0Ebv4xdLWc5OBQI1Vz+cIspeBtOMk96ZN7EHPO5N6Qtphjv1m
+	wD0Mtc7TevDKVJSi39IcjUqWsbpZ
+X-Google-Smtp-Source: APXvYqwCoEUOMc5Q0gYi2Nzn/ozGhqiD50YDPf/CsqAI5VvH3t2GtEme9iY9eNFNkQM+9qRVR27Zuw==
+X-Received: by 2002:a5d:68cf:: with SMTP id p15mr121750wrw.31.1575309313158;
+	Mon, 02 Dec 2019 09:55:13 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id y8sm144069wru.59.2019.12.02.09.55.10
+	by smtp.gmail.com with ESMTPSA id y8sm144069wru.59.2019.12.02.09.55.12
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 02 Dec 2019 09:55:10 -0800 (PST)
+	Mon, 02 Dec 2019 09:55:12 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  2 Dec 2019 18:54:48 +0100
-Message-Id: <20191202175459.112655-7-alex.kanavin@gmail.com>
+Date: Mon,  2 Dec 2019 18:54:50 +0100
+Message-Id: <20191202175459.112655-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191202175459.112655-1-alex.kanavin@gmail.com>
 References: <20191202175459.112655-1-alex.kanavin@gmail.com>
-Subject: [PATCH 07/18] sed: upgrade to 4.7
+MIME-Version: 1.0
+Subject: [PATCH 09/18] flex: update to 2.6.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,290 +58,278 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2019 17:55:11 -0000
+X-List-Received-Date: Mon, 02 Dec 2019 17:55:13 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Drop both patches as they are no longer necessary.
+Add a backport patch that addresses segfaults on newer glibc versions.
 
-Rewrite ptest support as it has been refactored upstream.
+Remove:
+CVE-2016-6354.patch (backport)
+0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch (issue fixed upstream)
+do_not_create_pdf_doc.patch (issue fixed upstream)
 
-Ptest results:
-TOTAL: 67
-PASS: 59
-SKIP: 8 (due to missing valgrind)
+ptest pass rate is 100%.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...charset_alias-when-building-for-musl.patch | 33 ----------
- meta/recipes-extended/sed/sed-4.2.2/run-ptest |  3 -
- .../sed/sed-4.2.2/sed-add-ptest.patch         | 66 -------------------
- meta/recipes-extended/sed/sed/run-ptest       |  5 ++
- meta/recipes-extended/sed/sed_4.2.2.bb        | 53 ---------------
- meta/recipes-extended/sed/sed_4.7.bb          | 61 +++++++++++++++++
- 6 files changed, 66 insertions(+), 155 deletions(-)
- delete mode 100644 meta/recipes-extended/sed/sed-4.2.2/0001-Unset-need_charset_alias-when-building-for-musl.patch
- delete mode 100644 meta/recipes-extended/sed/sed-4.2.2/run-ptest
- delete mode 100644 meta/recipes-extended/sed/sed-4.2.2/sed-add-ptest.patch
- create mode 100644 meta/recipes-extended/sed/sed/run-ptest
- delete mode 100644 meta/recipes-extended/sed/sed_4.2.2.bb
- create mode 100644 meta/recipes-extended/sed/sed_4.7.bb
+ ...SE_SYSTEM_EXTENSIONS-in-configure.ac.patch | 32 ++++++++++
+ ...-comments-in-c-code-fails-with-gcc-6.patch | 64 -------------------
+ .../flex/flex/CVE-2016-6354.patch             | 59 -----------------
+ .../flex/flex/do_not_create_pdf_doc.patch     | 17 -----
+ meta/recipes-devtools/flex/flex/run-ptest     |  2 +-
+ .../flex/{flex_2.6.0.bb => flex_2.6.4.bb}     | 12 ++--
+ 6 files changed, 38 insertions(+), 148 deletions(-)
+ create mode 100644 meta/recipes-devtools/flex/flex/0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
+ delete mode 100644 meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
+ rename meta/recipes-devtools/flex/{flex_2.6.0.bb => flex_2.6.4.bb} (85%)
 
-diff --git a/meta/recipes-extended/sed/sed-4.2.2/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-extended/sed/sed-4.2.2/0001-Unset-need_charset_alias-when-building-for-musl.patch
+diff --git a/meta/recipes-devtools/flex/flex/0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch b/meta/recipes-devtools/flex/flex/0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch
+new file mode 100644
+index 00000000000..60bf7ce8cfd
+--- /dev/null
++++ b/meta/recipes-devtools/flex/flex/0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch
+@@ -0,0 +1,32 @@
++From ed1f7e9de0d6a1d5a9e581e02a63593d22cf1e52 Mon Sep 17 00:00:00 2001
++From: Explorer09 <explorer09@gmail.com>
++Date: Mon, 4 Sep 2017 10:47:33 +0800
++Subject: [PATCH] build: AC_USE_SYSTEM_EXTENSIONS in configure.ac.
++
++This would, e.g. define _GNU_SOURCE in config.h, enabling the
++reallocarray() prototype in glibc 2.26+ on Linux systems with that
++version of glibc.
++
++Fixes #241.
++
++Upstream-Status: Backport
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ configure.ac | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/configure.ac b/configure.ac
++index 55e774b..c879fe1 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -25,8 +25,10 @@
++ # autoconf requirements and initialization
++ 
++ AC_INIT([the fast lexical analyser generator],[2.6.4],[flex-help@lists.sourceforge.net],[flex])
+++AC_PREREQ([2.60])
++ AC_CONFIG_SRCDIR([src/scan.l])
++ AC_CONFIG_AUX_DIR([build-aux])
+++AC_USE_SYSTEM_EXTENSIONS
++ LT_INIT
++ AM_INIT_AUTOMAKE([1.11.3 -Wno-portability foreign check-news std-options dist-lzip parallel-tests subdir-objects])
++ AC_CONFIG_HEADER([src/config.h])
+diff --git a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch b/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
 deleted file mode 100644
-index ba1a4bab4c1..00000000000
---- a/meta/recipes-extended/sed/sed-4.2.2/0001-Unset-need_charset_alias-when-building-for-musl.patch
+index 438ca5f5276..00000000000
+--- a/meta/recipes-devtools/flex/flex/0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch
 +++ /dev/null
-@@ -1,33 +0,0 @@
--From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 13 Apr 2015 17:02:13 -0700
--Subject: [PATCH] Unset need_charset_alias when building for musl
+@@ -1,64 +0,0 @@
+-From 7072befe1397af4eb01c3ff7edf99f0cd5076089 Mon Sep 17 00:00:00 2001
+-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@googlemail.com>
+-Date: Tue, 30 Aug 2016 14:25:32 +0200
+-Subject: [PATCH] avoid c++ comments in c-code - fails with gcc-6
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
 -
--localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
--which actually shoudl be fixed in gnulib and then all downstream
--projects will get it eventually. For now we apply the fix to
--coreutils
+-fixes:
+-
+-| error: C++ style comments are not allowed in ISO C90
+-| num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
 -
 -Upstream-Status: Pending
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Andreas Müller <schnitzeltony@googlemail.com>
 ----
-- lib/gnulib.mk | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- src/flex.skl | 2 +-
+- src/scan.c   | 2 +-
+- src/skel.c   | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
 -
--diff --git a/lib/gnulib.mk b/lib/gnulib.mk
--index e1d74db..c0e92dd 100644
----- a/lib/gnulib.mk
--+++ b/lib/gnulib.mk
--@@ -1882,7 +1882,7 @@ install-exec-localcharset: all-local
-- 	  case '$(host_os)' in \
-- 	    darwin[56]*) \
-- 	      need_charset_alias=true ;; \
---	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
--+	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
-- 	      need_charset_alias=false ;; \
-- 	    *) \
-- 	      need_charset_alias=true ;; \
+-diff --git a/src/flex.skl b/src/flex.skl
+-index 73a0b9e..ed71627 100644
+---- a/src/flex.skl
+-+++ b/src/flex.skl
+-@@ -2350,7 +2350,7 @@ void yyFlexLexer::yyensure_buffer_stack(void)
+- 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
+- 		 * immediate realloc on the next call.
+-          */
+--		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+-+		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */
+- 		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
+- 								(num_to_alloc * sizeof(struct yy_buffer_state*)
+- 								M4_YY_CALL_LAST_ARG);
+-diff --git a/src/scan.c b/src/scan.c
+-index b55df2d..f1dce75 100644
+---- a/src/scan.c
+-+++ b/src/scan.c
+-@@ -4672,7 +4672,7 @@ static void yyensure_buffer_stack (void)
+- 		 * scanner will even need a stack. We use 2 instead of 1 to avoid an
+- 		 * immediate realloc on the next call.
+-          */
+--		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...
+-+		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways...*/
+- 		(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc
+- 								(num_to_alloc * sizeof(struct yy_buffer_state*)
+- 								);
+-diff --git a/src/skel.c b/src/skel.c
+-index ef657d3..26cc889 100644
+---- a/src/skel.c
+-+++ b/src/skel.c
+-@@ -2561,7 +2561,7 @@ const char *skel[] = {
+-   "		 * scanner will even need a stack. We use 2 instead of 1 to avoid an",
+-   "		 * immediate realloc on the next call.",
+-   "         */",
+--  "		num_to_alloc = 1; // After all that talk, this was set to 1 anyways...",
+-+  "		num_to_alloc = 1; /* After all that talk, this was set to 1 anyways... */",
+-   "		YY_G(yy_buffer_stack) = (struct yy_buffer_state**)yyalloc",
+-   "								(num_to_alloc * sizeof(struct yy_buffer_state*)",
+-   "								M4_YY_CALL_LAST_ARG);",
+--- 
+-2.5.5
+-
+diff --git a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch b/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
+deleted file mode 100644
+index 216ac7ae1c4..00000000000
+--- a/meta/recipes-devtools/flex/flex/CVE-2016-6354.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-From 3939eccdff598f47e5b37b05d58bf1b44d3796e7 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Fri, 7 Oct 2016 14:15:38 +0300
+-Subject: [PATCH] Prevent buffer overflow in yy_get_next_buffer
+-
+-This is upstream commit a5cbe929ac3255d371e698f62dc256afe7006466
+-with some additional backporting to make binutils build again.
+-
+-Upstream-Status: Backport
+-CVE: CVE-2016-6354
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+----
+- src/flex.skl | 2 +-
+- src/scan.c   | 2 +-
+- src/skel.c   | 2 +-
+- 3 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/flex.skl b/src/flex.skl
+-index ed71627..814d562 100644
+---- a/src/flex.skl
+-+++ b/src/flex.skl
+-@@ -1718,7 +1718,7 @@ int yyFlexLexer::yy_get_next_buffer()
+- 
+- 	else
+- 		{
+--			yy_size_t num_to_read =
+-+			int num_to_read =
+- 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
+- 
+- 		while ( num_to_read <= 0 )
+-diff --git a/src/scan.c b/src/scan.c
+-index f1dce75..1949872 100644
+---- a/src/scan.c
+-+++ b/src/scan.c
+-@@ -4181,7 +4181,7 @@ static int yy_get_next_buffer (void)
+- 
+- 	else
+- 		{
+--			yy_size_t num_to_read =
+-+			int num_to_read =
+- 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
+- 
+- 		while ( num_to_read <= 0 )
+-diff --git a/src/skel.c b/src/skel.c
+-index 26cc889..0344d18 100644
+---- a/src/skel.c
+-+++ b/src/skel.c
+-@@ -1929,7 +1929,7 @@ const char *skel[] = {
+-   "",
+-   "	else",
+-   "		{",
+--  "			yy_size_t num_to_read =",
+-+  "			int num_to_read =",
+-   "			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;",
+-   "",
+-   "		while ( num_to_read <= 0 )",
 --- 
 -2.1.4
 -
-diff --git a/meta/recipes-extended/sed/sed-4.2.2/run-ptest b/meta/recipes-extended/sed/sed-4.2.2/run-ptest
+diff --git a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch b/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
 deleted file mode 100644
-index 7c0f62770e7..00000000000
---- a/meta/recipes-extended/sed/sed-4.2.2/run-ptest
+index 29792efee87..00000000000
+--- a/meta/recipes-devtools/flex/flex/do_not_create_pdf_doc.patch
 +++ /dev/null
-@@ -1,3 +0,0 @@
--#!/bin/sh
+@@ -1,17 +0,0 @@
+-Upstream-Status: Inappropriate (embedded specific)
 -
--make -C testsuite -k runtest-TESTS
-diff --git a/meta/recipes-extended/sed/sed-4.2.2/sed-add-ptest.patch b/meta/recipes-extended/sed/sed-4.2.2/sed-add-ptest.patch
-deleted file mode 100644
-index 0293900fbf3..00000000000
---- a/meta/recipes-extended/sed/sed-4.2.2/sed-add-ptest.patch
-+++ /dev/null
-@@ -1,66 +0,0 @@
--sed: add ptest
+-Signed-off-by: Laurentiu Palcu <laurentiu.palcu@intel.com>
 -
--ptest needs buildtest-TESTS and runtest-TESTS targets.
--serial-tests is required to generate those targets.
--
--And fix following error after add serial-tests.
--
--[snip]
--help2man: can't get `--help' info from ../sed/sed
--make[2]: *** [sed.1] Error 2
--[snip]
--
--Upstream-Status: Inappropriate
--
--Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-----
-- configure.ac          |    2 +-
-- doc/Makefile.am       |    2 +-
-- testsuite/Makefile.am |    6 ++++++
-- 3 files changed, 8 insertions(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 9d33ec9..4f0c532 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -4,7 +4,7 @@ AC_CONFIG_AUX_DIR(build-aux)
-- AC_CONFIG_SRCDIR([sed/sed.c])
-- AM_CONFIG_HEADER(config.h:config_h.in)
-- AC_PREREQ(2.60)
---AM_INIT_AUTOMAKE
--+AM_INIT_AUTOMAKE([serial-tests])
+-Index: flex-2.6.0/doc/Makefile.am
+-===================================================================
+---- flex-2.6.0.orig/doc/Makefile.am
+-+++ flex-2.6.0/doc/Makefile.am
+-@@ -2,7 +2,7 @@ help2man = @HELP2MAN@
 - 
-- SED_FEATURE_VERSION=4.2.2
-- AC_DEFINE_UNQUOTED(SED_FEATURE_VERSION, "$SED_FEATURE_VERSION",
--diff --git a/doc/Makefile.am b/doc/Makefile.am
--index af6975c..6fd8c9a 100644
----- a/doc/Makefile.am
--+++ b/doc/Makefile.am
--@@ -25,7 +25,7 @@ $(srcdir)/s-texi: sed-in.texi $(srcdir)/groupify.sed
-- 	fi
-- 	echo stamp > $(srcdir)/s-texi
+- info_TEXINFOS =	flex.texi
+- dist_man_MANS = flex.1
+--dist_doc_DATA= flex.pdf
+-+EXTRA_DIST= flex.pdf
 - 
---sed.1: $(top_srcdir)/sed/sed.c $(top_srcdir)/configure.ac $(srcdir)/sed.x
--+_sed.1: $(top_srcdir)/sed/sed.c $(top_srcdir)/configure.ac $(srcdir)/sed.x
-- 	$(HELP2MAN) --name "stream editor for filtering and transforming text" \
-- 	  -p sed --include $(srcdir)/sed.x -o $(srcdir)/sed.1 $(SED) 
-- 
--diff --git a/testsuite/Makefile.am b/testsuite/Makefile.am
--index d80e72c..b05f01e 100644
----- a/testsuite/Makefile.am
--+++ b/testsuite/Makefile.am
--@@ -99,5 +99,11 @@ EXTRA_DIST = \
-- # automake makes `check' depend on $(TESTS).  Declare
-- # dummy targets for $(TESTS) so that make does not complain.
-- 
--+install-ptest:
--+	cd $(BUILDDIR); tar -c --exclude=*.o $(TESTDIR) | ( cd $(DESTDIR) && tar -xf - )
--+	for i in $(EXTRA_DIST) tst-regex2.c; do install $(srcdir)/$$i $(DESTDIR)/$(TESTDIR); done
--+	sed -e 's/^Makefile:/_Makefile:/' -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/bash/sh/' -i $(DESTDIR)/$(TESTDIR)/Makefile
--+	for i in `grep -rl "../sed/sed" $(DESTDIR)/$(TESTDIR)`; do sed -e 's/..\/sed\/sed/sed/' -i $$i; done
--+
-- .PHONY: $(SEDTESTS)
-- $(SEDTESTS):
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-extended/sed/sed/run-ptest b/meta/recipes-extended/sed/sed/run-ptest
-new file mode 100644
-index 00000000000..993d7d5d75e
---- /dev/null
-+++ b/meta/recipes-extended/sed/sed/run-ptest
-@@ -0,0 +1,5 @@
-+#!/bin/sh
-+
-+chown nobody testsuite
-+chown nobody ../ptest
-+su nobody -c "make test-suite.log"
-diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
-deleted file mode 100644
-index 8e436bad803..00000000000
---- a/meta/recipes-extended/sed/sed_4.2.2.bb
-+++ /dev/null
-@@ -1,53 +0,0 @@
--SUMMARY = "Stream EDitor (text filtering utility)"
--HOMEPAGE = "http://www.gnu.org/software/sed/"
--LICENSE = "GPLv3+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949 \
--                    file://sed/sed.h;beginline=1;endline=17;md5=767ab3a06d7584f6fd0469abaec4412f"
--SECTION = "console/utils"
--
--SRC_URI = "${GNU_MIRROR}/sed/sed-${PV}.tar.gz \
--           file://sed-add-ptest.patch \
--	   file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
--           file://run-ptest \
--"
--
--SRC_URI[md5sum] = "4111de4faa3b9848a0686b2f260c5056"
--SRC_URI[sha256sum] = "fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae7367c2cf07908b2ff"
--
--inherit autotools texinfo update-alternatives gettext ptest
--RDEPENDS_${PN}-ptest += "make"
--RRECOMMENDS_${PN}-ptest_append_libc-glibc = " locale-base-ru-ru"
--
--EXTRA_OECONF = "--disable-acl \
--                ${@bb.utils.contains('PTEST_ENABLED', '1', '--enable-regex-tests', '', d)}"
--
--do_install () {
--	autotools_do_install
--	install -d ${D}${base_bindir}
--	if [ ! ${D}${bindir} -ef ${D}${base_bindir} ]; then
--	    mv ${D}${bindir}/sed ${D}${base_bindir}/sed
--	    rmdir ${D}${bindir}/
--	fi
--}
--
--ALTERNATIVE_${PN} = "sed"
--ALTERNATIVE_LINK_NAME[sed] = "${base_bindir}/sed"
--ALTERNATIVE_PRIORITY = "100"
--
--TESTDIR = "testsuite"
--
--do_compile_ptest() {
--	oe_runmake -C ${TESTDIR} buildtest-TESTS
--}
--
--do_install_ptest() {
--	oe_runmake -C ${TESTDIR} install-ptest BUILDDIR=${B} DESTDIR=${D}${PTEST_PATH} TESTDIR=${TESTDIR}
--	sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
--	    -e 's|${DEBUG_PREFIX_MAP}||g' \
--	    -e 's:${HOSTTOOLS_DIR}/::g' \
--	    -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
--	    -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
--	    -i ${D}${PTEST_PATH}/${TESTDIR}/Makefile
--}
--
--RPROVIDES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '/bin/sed', '', d)}"
-diff --git a/meta/recipes-extended/sed/sed_4.7.bb b/meta/recipes-extended/sed/sed_4.7.bb
-new file mode 100644
-index 00000000000..312f07f0479
---- /dev/null
-+++ b/meta/recipes-extended/sed/sed_4.7.bb
-@@ -0,0 +1,61 @@
-+SUMMARY = "Stream EDitor (text filtering utility)"
-+HOMEPAGE = "http://www.gnu.org/software/sed/"
-+LICENSE = "GPLv3+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e \
-+                    file://sed/sed.h;beginline=1;endline=15;md5=e869c874e5472ba89f63f381b0e93475"
-+SECTION = "console/utils"
-+
-+SRC_URI = "${GNU_MIRROR}/sed/sed-${PV}.tar.xz \
-+           file://run-ptest \
-+"
-+
-+SRC_URI[md5sum] = "777ddfd9d71dd06711fe91f0925e1573"
-+SRC_URI[sha256sum] = "2885768cd0a29ff8d58a6280a270ff161f6a3deb5690b2be6c49f46d4c67bd6a"
-+
-+inherit autotools texinfo update-alternatives gettext ptest
-+RDEPENDS_${PN}-ptest += "make gawk perl perl-module-filehandle perl-module-file-compare perl-module-file-find perl-module-file-temp perl-module-file-stat"
-+RRECOMMENDS_${PN}-ptest_append_libc-glibc = " locale-base-ru-ru locale-base-en-us locale-base-el-gr.iso-8859-7"
-+
-+EXTRA_OECONF = "--disable-acl \
-+               "
-+
-+do_install () {
-+	autotools_do_install
-+	install -d ${D}${base_bindir}
-+	if [ ! ${D}${bindir} -ef ${D}${base_bindir} ]; then
-+	    mv ${D}${bindir}/sed ${D}${base_bindir}/sed
-+	    rmdir ${D}${bindir}/
-+	fi
-+}
-+
-+ALTERNATIVE_${PN} = "sed"
-+ALTERNATIVE_LINK_NAME[sed] = "${base_bindir}/sed"
-+ALTERNATIVE_PRIORITY = "100"
-+
-+do_compile_ptest() {
-+	oe_runmake testsuite/get-mb-cur-max testsuite/test-mbrtowc
-+}
-+
-+do_install_ptest() {
-+        cp -rf ${S}/testsuite/ ${D}${PTEST_PATH}
-+        cp -rf ${B}/testsuite/* ${D}${PTEST_PATH}/testsuite/
-+        cp -rf ${S}/build-aux/ ${D}${PTEST_PATH}/
-+        cp ${B}/Makefile ${D}${PTEST_PATH}
-+        cp ${S}/init.cfg ${D}${PTEST_PATH}
-+
-+        sed -e 's/^Makefile:/_Makefile:/' -e 's/^srcdir = \(.*\)/srcdir = ./' -e 's/bash/sh/' -i ${D}${PTEST_PATH}/Makefile
-+        for i in `grep -rl "sed/sed" ${D}${PTEST_PATH}`; do sed -e 's/..\/sed\/sed/sed/' -i $i; done
-+
-+	sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
-+	    -e 's|${DEBUG_PREFIX_MAP}||g' \
-+	    -e 's:${HOSTTOOLS_DIR}/::g' \
-+	    -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-+	    -e 's:abs_top_builddir =.*:abs_top_builddir = ..:g' \
-+	    -e 's:abs_top_srcdir =.*:abs_top_srcdir = ..:g' \
-+	    -e 's:abs_srcdir =.*:abs_srcdir = ..:g' \
-+	    -e 's:top_srcdir =.*:top_srcdir = ..:g' \
-+	    -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
-+	    -i ${D}${PTEST_PATH}/Makefile
-+}
-+
-+RPROVIDES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '/bin/sed', '', d)}"
+- CLEANFILES = \
+- 	flex.aux \
+diff --git a/meta/recipes-devtools/flex/flex/run-ptest b/meta/recipes-devtools/flex/flex/run-ptest
+index 19db3379002..037301c40fa 100755
+--- a/meta/recipes-devtools/flex/flex/run-ptest
++++ b/meta/recipes-devtools/flex/flex/run-ptest
+@@ -2,4 +2,4 @@
+ 
+ # make would want to rebuild some files with a compiler otherwise :-/
+ make FLEX=/usr/bin/flex -t check-TESTS || true
+-make FLEX=/usr/bin/flex check-TESTS
++make FLEX=/usr/bin/flex abs_builddir=./ check-TESTS
+diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
+similarity index 85%
+rename from meta/recipes-devtools/flex/flex_2.6.0.bb
+rename to meta/recipes-devtools/flex/flex_2.6.4.bb
+index 9bdd99c59f8..d8e2f7f28c2 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.0.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
+@@ -10,17 +10,15 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e4742cf92e89040b39486a6219b68067"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/flex/flex-${PV}.tar.bz2 \
++SRC_URI = "https://github.com/westes/flex/releases/download/v${PV}/flex-${PV}.tar.gz \
+            file://run-ptest \
+-           file://do_not_create_pdf_doc.patch \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+-           file://0002-avoid-c-comments-in-c-code-fails-with-gcc-6.patch \
+-           file://CVE-2016-6354.patch \
+            ${@bb.utils.contains('PTEST_ENABLED', '1', '', 'file://disable-tests.patch', d)} \
++           file://0001-build-AC_USE_SYSTEM_EXTENSIONS-in-configure.ac.patch \
+            "
+ 
+-SRC_URI[md5sum] = "266270f13c48ed043d95648075084d59"
+-SRC_URI[sha256sum] = "24e611ef5a4703a191012f80c1027dc9d12555183ce0ecd46f3636e587e9b8e9"
++SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
++SRC_URI[sha256sum] = "e87aae032bf07c26f85ac0ed3250998c37621d95f8bd748b31f15b33c45ee995"
+ 
+ # Flex has moved to github from 2.6.1 onwards
+ UPSTREAM_CHECK_URI = "https://github.com/westes/flex/releases"
+@@ -30,7 +28,7 @@ inherit autotools gettext texinfo ptest
+ 
+ M4 = "${bindir}/m4"
+ M4_class-native = "${STAGING_BINDIR_NATIVE}/m4"
+-EXTRA_OECONF += "ac_cv_path_M4=${M4}"
++EXTRA_OECONF += "ac_cv_path_M4=${M4} ac_cv_func_reallocarray=no"
+ EXTRA_OEMAKE += "m4=${STAGING_BINDIR_NATIVE}/m4"
+ 
+ EXTRA_OEMAKE += "${@bb.utils.contains('PTEST_ENABLED', '1', 'FLEX=${STAGING_BINDIR_NATIVE}/flex', '', d)}"
 -- 
 2.17.1
 
