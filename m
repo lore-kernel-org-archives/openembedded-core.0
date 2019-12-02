@@ -1,40 +1,29 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 39C117F79C
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  2 Dec 2019 21:37:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47RdkH4DP0z4R;
-	Mon,  2 Dec 2019 22:37:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1575322649;
-	bh=rMLCrWqOM0PMfhnPk8zgob1rrolBvyvjVzsHXAi7POU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=E1UWCZTUKuy7GNtIPz7CC6bueB9UJ2IzGk/VTsHlIuNXF3NP6fY3BpzTMplY47TTl
-	3RADAaKGEZzlq6zhflRp1Vr2bAJ44l4Dk35FsU6eDxBT0YoG4TtMTLwsgkphZZhEOy
-	uDV08MSrHLoVyu27cnIK8IIIz3RX6AYCKzyjL62LoctME0z7Dqt0N8l8EjE3sPBtC6
-	0NLdgA5YkFHgPIn/7c4VTk3Iv71DkWmo3pBQMPemgca9Zrhng9ueUU7METlUMjC3sE
-	el+gHwOaXloU+SOpptdSOoQ+pDzmfqWthM3n+298tdLBfCVcVD440WN32TrDkMvWuB
-	pI7Mce7HWaEABE4yPQI9zlz2n5T3zfjN+UTq+eMpV7Avpxl0gyIlexbRfX/tN71I1d
-	wlhAF5rsZA92si3WOUr4+2J03Na8IOh9hIWKQSIqsbAKXgyJmmRExYrgJyoffuxSFr
-	3c6b8z7+MRrZQKrUwUlC7vHhDNi31D7qbh0tLfM6PX1jL/nGpNBXGpmlnv7Qk7cDdt
-	gKBX7w8vcui1h/CLmg7x2IEPuHYKBmlwFtOVIBPFGKC3r8tz7t9r5dtLPyVo1B/vOR
-	4U086laiRbvTP6J3ZuWwd2boxejLAtkl7kw5n+05cwcGwE7VN0qYM9cBoBerpNnH3m
-	6BQN/QP5XRxXFgwIU7KBN82E=
-Date: Mon, 2 Dec 2019 23:37:25 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20191202213725.GA20379@localhost>
-References: <20191129131152.128311-1-alex.kanavin@gmail.com>
-	<20191129131152.128311-2-alex.kanavin@gmail.com>
-	<33182b29-de6e-f918-2915-df016b854e81@intel.com>
-	<20191202151051.GC1581@localhost>
-	<CANNYZj-VDVRB4qQDRG9+uHk0+QSm4d+Af-U2DNyb8QjyAj+o=w@mail.gmail.com>
+Return-Path: <ross.burton@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 236927F31F;
+	Mon,  2 Dec 2019 22:27:21 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Dec 2019 14:27:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,270,1571727600"; d="scan'208";a="213205409"
+Received: from aaronsan-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.32.186])
+	by orsmga003.jf.intel.com with ESMTP; 02 Dec 2019 14:27:21 -0800
+To: oe-core <openembedded-core@lists.openembedded.org>,
+	openembeded-devel <openembedded-devel@lists.openembedded.org>,
+	Yocto-mailing-list <yocto@lists.yoctoproject.org>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <7ae3e998-5fd8-7d40-bdad-a3558b172f78@intel.com>
+Date: Mon, 2 Dec 2019 22:27:20 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj-VDVRB4qQDRG9+uHk0+QSm4d+Af-U2DNyb8QjyAj+o=w@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/15] libdnf: upgrade 0.28.1 -> 0.38.1
+Subject: Removal of Python 2 from oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,32 +36,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 02 Dec 2019 21:37:30 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 02 Dec 2019 22:27:22 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-On Mon, Dec 02, 2019 at 04:24:49PM +0100, Alexander Kanavin wrote:
-> It's using -std=c++11.
+At the time of writing, pythonclock.org tells me that Python 2.7 will 
+retire in 29 days and 1 hour.
 
-Oh.
+This means no more releases of Python 2.  No more security fixes.  No 
+critical bug fixes.  No support at all.
 
-> I'm not sure if switching to gnu flavour would have
-> made a difference with gcc 4.8 provided in centos 7 and gcc 4.9 from Debian
-> 8 - is it worth trying?
+As such, we're removing Python 2 from openembedded-core on Monday 9th 
+December.  Python 2 isn't required by anything else in oe-core so if you 
+just use oe-core this won't have any impact on you.  If you use other 
+layers, then these layers may need to be updated.
 
-No, it doesn't make a difference.
+The recipe will be moved to the newly created meta-python2 repository[1] 
+for anyone who needs to continue to use Python 2, but remember that from 
+2020 it will not be supported upstream so please do simply use Python 2 
+as a stop-gap before migrating to Python 3.
 
-> Newer gcc versions don't complain and build this
-> without error while still using -std=c++11.
-> 
-> I'm leaning towards taking out the dnf/libdnf updates until these distros
-> are retired from the supported distro list.
+If you have any questions about this, feel free to ask.
 
-I was able to reproduce the error in an Ubuntu 14.04 chroot,
-but no immediate clue whether it is easily fixable.
+Regards,
+Ross
 
-> Alex
-
-cu
-Adrian
+[1] https://git.openembedded.org/meta-python2/
 
