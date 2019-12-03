@@ -1,46 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 001917F266
+Return-Path: <ross.burton@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 384847E98A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2019 23:37:56 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id m188so5377925qkc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Dec 2019 15:37:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=nzqNQ7W4mt3y/zUuZWm1k59P87Ml9bHBYYpyE7wsB3c=;
-	b=LO0SMv5Og+GNhy3xp41V3pnjmB42wNooLlILe/OZOjqEwv/Ofqsk6UAPKL77Z3dxKg
-	Xk7gN7CCwVSwgqPONh4i/VbvXKU+PgkocOzsA3gwv5SQw5u1V2LJHBvOhvXx4Li0rR/m
-	HXBmMzPpnxWR40bX19YKv4/1UtJCcwt5bzpV0WMStCpqlVQXlHJd2Z4bzuPs4UUjY9LS
-	SugHV/CPQ8YFmb6KM/qDpVcXRS5fJdiE5FhRbimKgZWVkbnh3+Gkv6MNrPcmFz1BTqfv
-	jEOfNKtcsMEvThT7VW5rWURFdXN/tNdxAjwPdhItiLCoxnmFfXuRlhZ7AIa3+iob2uGF
-	t1pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=nzqNQ7W4mt3y/zUuZWm1k59P87Ml9bHBYYpyE7wsB3c=;
-	b=YjcCAHFBpzKVKaf65xbohpErRCfa1Be2nR7bpkXDDvbxZyXVWd09ZWE5koOtij54UH
-	c5VOLjo9sd3hQxOTHdNwlrBT+lQJ3qmxt0c6aCyJCgrsaLKywN4y/9XwGTRV06EjtRP2
-	wfCOpL9jU6PXT31twWLywnM0grINlbis4vyWsp2cWsSAz7fhP3jImlDhT0eE7CWQ8SOW
-	svo8Y4DUTPlCHWcLNe8yh5zExgC9RNlVnQqT9L+DuvfL6MpDsQXtkZm1n+vqnUjoqNd1
-	Ed4jtOlLtsmDg2qMvxbWpWzUgcIomJ9ZuCDoUZpsSbW0ggG6nPwR1rbYOVlsYgWcWQCh
-	sDhA==
-X-Gm-Message-State: APjAAAVL66MxxSyKlEoRhrH5ewUvb/LE0u+Q5Pfl3NWJ4YsFa7An3XxM
-	1IlX3nCv2lPLIkD8WUINFtuP1e8Kqx1FhuyU8Jg=
-X-Google-Smtp-Source: APXvYqwBA922x2FDy0t4vDiwvZPjSGAoEzxnWqyMIjcW8AxQ/EE7qniCSUZb4zZdLkcH2p2VDeuvSmiG90gvK5ATccI=
-X-Received: by 2002:a37:bf82:: with SMTP id p124mr8184453qkf.337.1575416277488;
-	Tue, 03 Dec 2019 15:37:57 -0800 (PST)
+	Tue,  3 Dec 2019 23:52:36 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Dec 2019 15:52:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,275,1571727600"; d="scan'208";a="242610991"
+Received: from aaronsan-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.32.186])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2019 15:52:34 -0800
+From: Ross Burton <ross.burton@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20191129131152.128311-1-alex.kanavin@gmail.com>
+	<1b6971c1-ce0d-5cda-862b-d0a84b5be20a@intel.com>
+	<CANNYZj-b0Ufwum+4vA5aqNm+=E+a+HM0vso=61UPERm57QrCDw@mail.gmail.com>
+	<661436bf-4167-10a7-a632-473948d8c950@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <ed34d6cb-50bc-7185-3d8d-f5a0c7bd6db5@intel.com>
+Date: Tue, 3 Dec 2019 23:52:33 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-References: <20191203220624.26500-1-anibal.limon@linaro.org>
-In-Reply-To: <20191203220624.26500-1-anibal.limon@linaro.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 3 Dec 2019 15:37:47 -0800
-Message-ID: <CAMKF1spabEvBMwjvefWN7ULZ8ZpGfNDgJ1gf75u1B7h3oD4nJg@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] meta/classes/meson.bbclass: Add inherit setuptools3
+In-Reply-To: <661436bf-4167-10a7-a632-473948d8c950@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/15] rpm: upgrade to 4.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,111 +41,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2019 23:37:57 -0000
-Content-Type: multipart/alternative; boundary="00000000000097d77e0598d52f4b"
+X-List-Received-Date: Tue, 03 Dec 2019 23:52:37 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
---00000000000097d77e0598d52f4b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 03/12/2019 23:05, Ross Burton wrote:
+> On 29/11/2019 21:28, Alexander Kanavin wrote:
+>> On Fri, 29 Nov 2019 at 21:52, Ross Burton <ross.burton@intel.com 
+>> <mailto:ross.burton@intel.com>> wrote:
+>>
+>>     This is reliably crashing for me when running rpmdeps:
+>>
+>>     Exception: bb.process.ExecutionError: Execution of
+>>     
+>> '/data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/temp/run.BUILDSPEC.1481' 
+>>
+>>
+>>     failed with exit code 139:
+>>     Building target platforms: corei7_64-poky-linux
+>>     Building for target corei7_64-poky-linux
+>>     Processing files: systemd-compat-units-1.0-r29.corei7_64
+>>     Processing files: systemd-compat-units-dbg-1.0-r29.corei7_64
+>>     Processing files: systemd-compat-units-dev-1.0-r29.corei7_64
+>>     Checking for unpackaged file(s):
+>>     
+>> /data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/recipe-sysroot-native/usr/bin/../../usr/lib/rpm/check-files 
+>>
+>>
+>>     
+>> /data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/package 
+>>
+>>     Segmentation fault (core dumped)
+>>     WARNING: exit code 139 from a shell command.
+>>
+>>
+>> Here it's been robust. Can you produce a backtrace?
+> 
+> Reliably crashes here with systemd-compat-units.
+> 
+> Program terminated with signal SIGSEGV, Segmentation fault.
+> #0  0x00007fd087a2414a in dataLength (type=type@entry=8, 
+> p=p@entry=0x7fd07ec22c08, count=0,
+>      count@entry=1, onDisk=onDisk@entry=0, pend=pend@entry=0x0) at 
+> ../../git/lib/header.c:462
+> 462    ../../git/lib/header.c: No such file or directory.
+> [Current thread is 1 (LWP 19382)]
+> (gdb) bt
+> #0  0x00007fd087a2414a in dataLength (type=type@entry=8, 
+> p=p@entry=0x7fd07ec22c08, count=0,
+>      count@entry=1, onDisk=onDisk@entry=0, pend=pend@entry=0x0) at 
+> ../../git/lib/header.c:462
+> #1  0x00007fd087a247fb in grabData (type=8, p=0x7fd07ec22c08, c=1,
+>      lengthPtr=lengthPtr@entry=0x7fd07ec22b3c) at 
+> ../../git/lib/header.c:1406
+> #2  0x00007fd087a24891 in intAddEntry (h=h@entry=0x55d2e872e9b0, 
+> td=td@entry=0x7fd07ec22b90)
+>      at ../../git/lib/header.c:1432
+> #3  0x00007fd087a258e7 in headerPut (h=h@entry=0x55d2e872e9b0, 
+> td=td@entry=0x7fd07ec22b90,
+>      flags=flags@entry=1) at ../../git/lib/header.c:1499
+> #4  0x00007fd087a23034 in headerPutType (h=h@entry=0x55d2e872e9b0, 
+> tag=tag@entry=5092,
+>      reqtype=<optimized out>, data=0x7fd07ec22c08, size=size@entry=1) at 
+> ../../git/lib/headerutil.c:135
+> #5  0x00007fd087a232fc in headerPutString (h=0x55d2e872e9b0, 
+> tag=tag@entry=5092, val=<optimized out>)
+>      at ../../git/lib/headerutil.c:155
+> #6  0x00007fd087a93fe9 in writeRPM (pkg=pkg@entry=0x55d2e872e870, 
+> pkgidp=pkgidp@entry=0x0,
+>      fileName=0x7fd068004cf0 
+> "/data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/deploy-rpms/corei7_64/systemd-compat-units-dev-1.0-r29.corei7_64.rpm", 
+> cookie=cookie@entry=0x0,
+>      buildTime=1575413653, buildHost=0x55d2e87ebc20 "reproducible") at 
+> ../../git/build/pack.c:499
+> #7  0x00007fd087a945e1 in packageBinary (spec=0x55d2e87195c0, 
+> pkg=pkg@entry=0x55d2e872e870, cookie=0x0,
+>      cheating=<optimized out>, filename=filename@entry=0x55d2e872e990) 
+> at ../../git/build/pack.c:730
+> #8  0x00007fd087a94659 in packageBinaries._omp_fn.1 () at 
+> ../../git/build/pack.c:753
+> #9  0x00007fd087627769 in ?? () from /usr/lib/x86_64-linux-gnu/libgomp.so.1
+> #10 0x00007fd08762ff00 in ?? () from /usr/lib/x86_64-linux-gnu/libgomp.so.1
+> #11 0x00007fd087a92f4c in packageBinaries._omp_fn.0 () at 
+> ../../git/build/pack.c:749
+> #12 0x00007fd08762d79e in ?? () from /usr/lib/x86_64-linux-gnu/libgomp.so.1
+> #13 0x00007fd08765eed4 in ?? ()
+>     from 
+> /data/poky-tmp/master/sysroots-uninative/x86_64-linux/lib/libpthread.so.0
+> #14 0x00007fd08754deff in clone ()
+>     from 
+> /data/poky-tmp/master/sysroots-uninative/x86_64-linux/lib/libc.so.6
 
-On Tue, Dec 3, 2019 at 2:06 PM An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.=
-org> wrote:
+Okay, maybe this is actually due to my gcrypt-using patch...
 
-> Fixes,
->
-> ...
-> | Program python3 found: YES
-> (/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aa=
-rch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-na=
-tive/python3)
-> |
-> | meson.build:36:0: ERROR: <ExternalProgram 'python3' ->
-> ['/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/a=
-arch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-n=
-ative/python3']>
-> is not a valid python or it is missing setuptools
-> |
-> | A full log can be found at
-> /home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aar=
-ch64-linaro-linux/waffle/1.6.0-r0/build/meson-logs/meson-log.txt
-> | WARNING: exit code 1 from a shell command.
-> ...
->
-
-I wonder if it=E2=80=99s better to add this inherit to waffle recipe alone =
-I doubt
-that all meson using recipes are building python modules
+Ross
 
 
-> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
-> ---
->  meta/classes/meson.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-> index efa6234078..90868963b7 100644
-> --- a/meta/classes/meson.bbclass
-> +++ b/meta/classes/meson.bbclass
-> @@ -1,4 +1,4 @@
-> -inherit siteinfo python3native
-> +inherit siteinfo python3native setuptools3
->
->  DEPENDS_append =3D " meson-native ninja-native"
->
-> --
-> 2.24.0
->
->
-
---00000000000097d77e0598d52f4b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Dec 3, 2019 at 2:06 PM An=C3=ADbal Lim=C3=B3n &lt;<=
-a href=3D"mailto:anibal.limon@linaro.org">anibal.limon@linaro.org</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex">Fixes,<br>
-<br>
-...<br>
-| Program python3 found: YES (/home/anibal.limon/linaro/oe-rpb-master/build=
--410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroo=
-t-native/usr/bin/python3-native/python3)<br>
-|<br>
-| meson.build:36:0: ERROR: &lt;ExternalProgram &#39;python3&#39; -&gt; [&#3=
-9;/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aar=
-ch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-nat=
-ive/python3&#39;]&gt; is not a valid python or it is missing setuptools<br>
-|<br>
-| A full log can be found at /home/anibal.limon/linaro/oe-rpb-master/build-=
-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/build/meson-lo=
-gs/meson-log.txt<br>
-| WARNING: exit code 1 from a shell command.<br>
-...<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I wonder if it=
-=E2=80=99s better to add this inherit to waffle recipe alone I doubt that a=
-ll meson using recipes are building python modules=C2=A0</div><div dir=3D"a=
-uto"><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><br>
-Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
-naro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
----<br>
-=C2=A0meta/classes/meson.bbclass | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass<br>
-index efa6234078..90868963b7 100644<br>
---- a/meta/classes/meson.bbclass<br>
-+++ b/meta/classes/meson.bbclass<br>
-@@ -1,4 +1,4 @@<br>
--inherit siteinfo python3native<br>
-+inherit siteinfo python3native setuptools3<br>
-<br>
-=C2=A0DEPENDS_append =3D &quot; meson-native ninja-native&quot;<br>
-<br>
--- <br>
-2.24.0<br>
-<br>
-</blockquote></div></div>
-
---00000000000097d77e0598d52f4b--
