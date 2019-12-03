@@ -1,50 +1,33 @@
-Return-Path: <anibal.limon@linaro.org>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EB1A97C5F0
+Return-Path: <ross.burton@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 253996D470
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2019 22:06:26 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id b8so4903072oiy.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Dec 2019 14:06:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Sv+A4z9Gk/HJO4M+sP1fj+oblg8gQzgwEJHLVKYZ9y8=;
-	b=cXGPeX+WidS+jvhBt2wGY2DEGzB6Y7RMD/ZSGDbqKLyK1W9d0WTenzSMXayc2o5nQ+
-	8+0i6zf7XUBmLhvML6zeTFvl8u5Y5E65hnL5xznpw5MTtWdvJPtpJSERzVSZGQWeHA1+
-	H+uExsiLcPTfM3Vrxf9eq6yNr1LwrtvfxtGRTtS7NIZajix5XlJ+cjEyKehhby4xqvp3
-	6g37Bu5NCVIhKFRSwshja2qEZygnz22wYDFSQCbeOGra16tPYO9nfKCAMj9TnQC1UjKU
-	jHnFoM3xCN/pCWYN4Uh2VoQowk6FrlEmEzM9ZnzErtRqssWQQbBCE8dC5FNNxU/UgbyW
-	B+dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Sv+A4z9Gk/HJO4M+sP1fj+oblg8gQzgwEJHLVKYZ9y8=;
-	b=X/EMffZ8xa0IAs/lASrl+88MuKXU7D2pfXVnYg3BFTDDV6qYCCBiYlT3KT3uGnro5j
-	ijmeDIKWxl4yugji4DeOPsoOqkHUklXjVP4DKs8FDgppjim6Fg67ch0VPr5M/xF1rXIa
-	gKAUyNvNHeGxJeOabV8x2i0vqegM6XaHg1jqx8BsjSlq6ueiJShEsvt5NpwDELuqKiEx
-	jMArZ9/UOd2XGlJFPZGGHj1qcFySF0dNldiT72TrY4Zi3VX/UDBuIw/9c1MB2nvvugN5
-	rvOZ3p4q8WtJC4sbHQxSFLFos8InUMaOP/OfnAIhxPuLSXOIs/uE/4Q9uBpA/0kle3oN
-	sT6Q==
-X-Gm-Message-State: APjAAAVHuGAoTSOyIiTZx7zlh4ibzlBERuAkC0GopSnHPG1ICPrrfJq8
-	BcgT9JZYWx7j0ei76rf/eeB1j/3zTdY=
-X-Google-Smtp-Source: APXvYqzUC1sXLqcnPxyuHeYjESiB6UAP9nTrmBuXdwxQxoY+QsxdyKhPCiLiPR2YeccvKZYxzhZ0Aw==
-X-Received: by 2002:aca:5cc4:: with SMTP id q187mr174535oib.45.1575410787654; 
-	Tue, 03 Dec 2019 14:06:27 -0800 (PST)
-Received: from blackbox.rga.ip ([2806:109f:4:db29:908a:c7ff:fe6a:e9f5])
-	by smtp.gmail.com with ESMTPSA id
-	g18sm1501342otg.50.2019.12.03.14.06.26
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 03 Dec 2019 14:06:27 -0800 (PST)
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Dec 2019 16:06:24 -0600
-Message-Id: <20191203220624.26500-1-anibal.limon@linaro.org>
-X-Mailer: git-send-email 2.24.0
+	Tue,  3 Dec 2019 23:05:15 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Dec 2019 15:05:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,275,1571727600"; d="scan'208";a="236058734"
+Received: from aaronsan-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.32.186])
+	by fmsmga004.fm.intel.com with ESMTP; 03 Dec 2019 15:05:13 -0800
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20191129131152.128311-1-alex.kanavin@gmail.com>
+	<1b6971c1-ce0d-5cda-862b-d0a84b5be20a@intel.com>
+	<CANNYZj-b0Ufwum+4vA5aqNm+=E+a+HM0vso=61UPERm57QrCDw@mail.gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <661436bf-4167-10a7-a632-473948d8c950@intel.com>
+Date: Tue, 3 Dec 2019 23:05:12 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Subject: [PATCH] meta/classes/meson.bbclass: Add inherit setuptools3
+In-Reply-To: <CANNYZj-b0Ufwum+4vA5aqNm+=E+a+HM0vso=61UPERm57QrCDw@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/15] rpm: upgrade to 4.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +40,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2019 22:06:27 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 03 Dec 2019 23:05:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Fixes,
+On 29/11/2019 21:28, Alexander Kanavin wrote:
+> On Fri, 29 Nov 2019 at 21:52, Ross Burton <ross.burton@intel.com 
+> <mailto:ross.burton@intel.com>> wrote:
+> 
+>     This is reliably crashing for me when running rpmdeps:
+> 
+>     Exception: bb.process.ExecutionError: Execution of
+>     '/data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/temp/run.BUILDSPEC.1481'
+> 
+>     failed with exit code 139:
+>     Building target platforms: corei7_64-poky-linux
+>     Building for target corei7_64-poky-linux
+>     Processing files: systemd-compat-units-1.0-r29.corei7_64
+>     Processing files: systemd-compat-units-dbg-1.0-r29.corei7_64
+>     Processing files: systemd-compat-units-dev-1.0-r29.corei7_64
+>     Checking for unpackaged file(s):
+>     /data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/recipe-sysroot-native/usr/bin/../../usr/lib/rpm/check-files
+> 
+>     /data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/package
+>     Segmentation fault (core dumped)
+>     WARNING: exit code 139 from a shell command.
+> 
+> 
+> Here it's been robust. Can you produce a backtrace?
 
-...
-| Program python3 found: YES (/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3)
-|
-| meson.build:36:0: ERROR: <ExternalProgram 'python3' -> ['/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3']> is not a valid python or it is missing setuptools
-|
-| A full log can be found at /home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/build/meson-logs/meson-log.txt
-| WARNING: exit code 1 from a shell command.
-...
+Reliably crashes here with systemd-compat-units.
 
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
----
- meta/classes/meson.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Program terminated with signal SIGSEGV, Segmentation fault.
+#0  0x00007fd087a2414a in dataLength (type=type@entry=8, 
+p=p@entry=0x7fd07ec22c08, count=0,
+     count@entry=1, onDisk=onDisk@entry=0, pend=pend@entry=0x0) at 
+../../git/lib/header.c:462
+462	../../git/lib/header.c: No such file or directory.
+[Current thread is 1 (LWP 19382)]
+(gdb) bt
+#0  0x00007fd087a2414a in dataLength (type=type@entry=8, 
+p=p@entry=0x7fd07ec22c08, count=0,
+     count@entry=1, onDisk=onDisk@entry=0, pend=pend@entry=0x0) at 
+../../git/lib/header.c:462
+#1  0x00007fd087a247fb in grabData (type=8, p=0x7fd07ec22c08, c=1,
+     lengthPtr=lengthPtr@entry=0x7fd07ec22b3c) at 
+../../git/lib/header.c:1406
+#2  0x00007fd087a24891 in intAddEntry (h=h@entry=0x55d2e872e9b0, 
+td=td@entry=0x7fd07ec22b90)
+     at ../../git/lib/header.c:1432
+#3  0x00007fd087a258e7 in headerPut (h=h@entry=0x55d2e872e9b0, 
+td=td@entry=0x7fd07ec22b90,
+     flags=flags@entry=1) at ../../git/lib/header.c:1499
+#4  0x00007fd087a23034 in headerPutType (h=h@entry=0x55d2e872e9b0, 
+tag=tag@entry=5092,
+     reqtype=<optimized out>, data=0x7fd07ec22c08, size=size@entry=1) at 
+../../git/lib/headerutil.c:135
+#5  0x00007fd087a232fc in headerPutString (h=0x55d2e872e9b0, 
+tag=tag@entry=5092, val=<optimized out>)
+     at ../../git/lib/headerutil.c:155
+#6  0x00007fd087a93fe9 in writeRPM (pkg=pkg@entry=0x55d2e872e870, 
+pkgidp=pkgidp@entry=0x0,
+     fileName=0x7fd068004cf0 
+"/data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/deploy-rpms/corei7_64/systemd-compat-units-dev-1.0-r29.corei7_64.rpm", 
+cookie=cookie@entry=0x0,
+     buildTime=1575413653, buildHost=0x55d2e87ebc20 "reproducible") at 
+../../git/build/pack.c:499
+#7  0x00007fd087a945e1 in packageBinary (spec=0x55d2e87195c0, 
+pkg=pkg@entry=0x55d2e872e870, cookie=0x0,
+     cheating=<optimized out>, filename=filename@entry=0x55d2e872e990) 
+at ../../git/build/pack.c:730
+#8  0x00007fd087a94659 in packageBinaries._omp_fn.1 () at 
+../../git/build/pack.c:753
+#9  0x00007fd087627769 in ?? () from /usr/lib/x86_64-linux-gnu/libgomp.so.1
+#10 0x00007fd08762ff00 in ?? () from /usr/lib/x86_64-linux-gnu/libgomp.so.1
+#11 0x00007fd087a92f4c in packageBinaries._omp_fn.0 () at 
+../../git/build/pack.c:749
+#12 0x00007fd08762d79e in ?? () from /usr/lib/x86_64-linux-gnu/libgomp.so.1
+#13 0x00007fd08765eed4 in ?? ()
+    from 
+/data/poky-tmp/master/sysroots-uninative/x86_64-linux/lib/libpthread.so.0
+#14 0x00007fd08754deff in clone ()
+    from /data/poky-tmp/master/sysroots-uninative/x86_64-linux/lib/libc.so.6
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index efa6234078..90868963b7 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -1,4 +1,4 @@
--inherit siteinfo python3native
-+inherit siteinfo python3native setuptools3
- 
- DEPENDS_append = " meson-native ninja-native"
- 
--- 
-2.24.0
+Ross
 
 
