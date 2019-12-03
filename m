@@ -1,24 +1,32 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id EDB136C42C
+Return-Path: <ross.burton@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id ACB217F2BC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2019 03:50:46 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xB33oiIC019444
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 2 Dec 2019 19:50:44 -0800 (PST)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 2 Dec 2019 19:50:43 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 3 Dec 2019 11:50:42 +0800
-Message-ID: <1575345042-29535-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue,  3 Dec 2019 08:56:21 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	03 Dec 2019 00:56:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,272,1571727600"; d="scan'208";a="242311128"
+Received: from aaronsan-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.32.186])
+	by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2019 00:56:21 -0800
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20191129131152.128311-1-alex.kanavin@gmail.com>
+	<20191129131152.128311-15-alex.kanavin@gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <de9108f1-8159-ba67-9465-a112533f76fa@intel.com>
+Date: Tue, 3 Dec 2019 08:56:20 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Subject: [PATCH] libtirpc: fix wrong path of command ln -sf
+In-Reply-To: <20191129131152.128311-15-alex.kanavin@gmail.com>
+Subject: Re: [PATCH 15/15] python3: update to 3.8.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +39,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2019 03:50:47 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 03 Dec 2019 08:56:21 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+New warning on some of the builders:
 
-fix wrong path of command "ln -sf", the file should under folder
-rpcsvc
+WARNING: python3-3.8.0-r0 do_package_qa: QA Issue: python3: 
+/usr/lib/python3.8/__pycache__/_bootlocale.cpython-38.opt-2.pyc is owned 
+by uid 6000, which is the same as the user running bitbake. This may be 
+due to host contamination [host-user-contaminated]
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-index 633cece..9d8533a 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-@@ -32,7 +32,7 @@ do_install_append() {
-         done
-         for link_header in ${D}${includedir}/tirpc/rpcsvc/*; do
-             if [ -f $link_header -a ! -e ${D}/${includedir}/rpcsvc/$(basename $link_header) ]; then
--                ln -sf ../tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpcsvc/$(basename $link_header)
-+                ln -sf ../tirpc/rpcsvc/$(basename $link_header) ${D}${includedir}/rpcsvc/$(basename $link_header)
-             fi
-         done
-         ln -sf  tirpc/netconfig.h ${D}/${includedir}/netconfig.h
--- 
-2.7.4
-
+Ross
 
