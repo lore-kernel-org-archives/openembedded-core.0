@@ -1,48 +1,23 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id ED5916C13D
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F1D947D2AE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2019 18:44:44 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id e10so5012760ljj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 03 Dec 2019 10:44:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=SMdUgF/ZkHFJja95cJUKkZF+9e6NgA9K7jXK4Fcz1Pw=;
-	b=ornmug9ym/EjWjnHpORThhCEW4muVyWhVi8Rj3m4+BGzPJtGY326tg3LjwX7c8Sanb
-	DHT0SWXw4BDb5aIldbITGa7rdn/kBl4/8NK+UI42vmb5WUq/nEkHYjfxc4Wnz0inZKc6
-	+gClHRY6fh6rB1HSM2m94/1qTZSmJvNAS7jTthnoN9u8h8Fnr3ydAilti+vCYSszJ0YY
-	fm0HqEWnpCY5KL0gpmzIf7HfAqC57pTnREtGl53IXSFuVtuVDRMycAyt/ZUkeUaL5NfW
-	zdPGaSKhwQHdx5vhc40UyyjDyD3JT/COwAiZkMvjBzpQKEd50tzZz5xekr5A6g2jZmpK
-	MwjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=SMdUgF/ZkHFJja95cJUKkZF+9e6NgA9K7jXK4Fcz1Pw=;
-	b=gupD3IIs3wWeThRGUbKQx+qhSW1s5ANj6Wucdvshz/LL6Ku/FYp6+cfvU9l6NACwWi
-	jxfq8AgXlFi2MZlpXcGxC1LfSrFje7htmh06nvTxOLhHd+kQvIkYftRuSicothtNd9Di
-	9grvGSRUrp/ZuLNywfRjAYZrxsdLcuDVXcF8UPDztz3HyAN43OPVM/d8FhNfdrdzfCdr
-	j5+i+xV0sgssKgkE40kmMSAOeV9errBV3IPqXypBZkL/MOeTsnzjSNKgtSJ8759eXpVS
-	WVLunnY1Rl98ZcdkBX/pZMDmfKW0iiN2JZ1g9OjP0h/etVu05hpA9i7IN0X2XGZCmqKb
-	5vfw==
-X-Gm-Message-State: APjAAAVJn8T+njProM4BjmXaq2GdzUzoWxJfOOr20t1nAFqV4ogeajNH
-	maA5V8PLQCNWg3zEi7jnAG7h1ngGe5w=
-X-Google-Smtp-Source: APXvYqwKvss564tB/tjkhhmdwnfGgsZQwdIuFCeXqXBkdF6dyrhqAwLO+hTGKuHMBHe0PkHv3g4Vyw==
-X-Received: by 2002:a2e:6f19:: with SMTP id k25mr3420698ljc.84.1575398685276; 
-	Tue, 03 Dec 2019 10:44:45 -0800 (PST)
-Received: from peterliu-Precision-7530.lan
-	(c-75fd72d5.022-417-73746f13.bbcust.telenor.se. [213.114.253.117])
-	by smtp.gmail.com with ESMTPSA id t9sm1757689ljj.19.2019.12.03.10.44.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 03 Dec 2019 10:44:44 -0800 (PST)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  3 Dec 2019 19:44:40 +0100
-Message-Id: <1575398680-3272-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: stefan.agner@toradex.com, Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] glibc: fix ldconfig packaging issue
+	Tue,  3 Dec 2019 19:49:41 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xB3JnesT020730
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 3 Dec 2019 11:49:40 -0800 (PST)
+Received: from yow-tgamblin-fedora1.wrs.com (128.224.56.206) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Tue, 3 Dec 2019 11:49:40 -0800
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 3 Dec 2019 14:49:39 -0500
+Message-ID: <20191203194939.3322425-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.23.0
+MIME-Version: 1.0
+Subject: [PATCH] oescripts.py: fix skip count behavior in OEPybootchartguyTests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,33 +30,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2019 18:44:45 -0000
+X-List-Received-Date: Tue, 03 Dec 2019 19:49:42 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Ming Liu <liu.ming50@gmail.com>
+Prior to this fix, the try/except block in OEScriptTests' setUpClass
+did both the import and the raise unittest.SkipTest for the
+subsequent OEPybootchartguyTests. The consequence of the this meant
+that, when cairo was not available on the test host, the raise was
+counted only once as a class setup failure, instead of once for each
+of the tests to be run, resulting in incorrect skip counts in the
+test results.
 
-ldconfig should be prior to glibc-utils in PACKAGES variable, or else
-ldconfig binary would not be split to its own package, hence will lead
-to runtime issues for the packages that depending on ldconfig, like
-systemd.
+Instead of raising unittest.SkipTest in setUpClass, this change
+sets the boolean cls.import_failure, which is then checked by the
+individual test methods in OEPybootchartguyTests. If it is True,
+each method will raise unittest.SkipTest individually, with a
+message string equal to the value of cls.import_failure_msg.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
- meta/recipes-core/glibc/glibc-package.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/oescripts.py | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 9dd5a0d..ede9e9b 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -1,6 +1,6 @@
- INHIBIT_SYSROOT_STRIP = "1"
+diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
+index 41cbe04808..7ab80f48f0 100644
+--- a/meta/lib/oeqa/selftest/cases/oescripts.py
++++ b/meta/lib/oeqa/selftest/cases/oescripts.py
+@@ -38,30 +38,43 @@ class OEScriptTests(OESelftestTestCase):
+     @classmethod
+     def setUpClass(cls):
+         super(OEScriptTests, cls).setUpClass()
++        # track the success of importing the required module, so that
++        # individual tests can raise unittest.SkipTest
++        cls.import_failure = False
+         try:
+             import cairo
+         except ImportError:
+-            raise unittest.SkipTest('Python module cairo is not present')
+-        bitbake("core-image-minimal -c rootfs -f")
+-        cls.tmpdir = get_bb_var('TMPDIR')
+-        cls.buildstats = cls.tmpdir + "/buildstats/" + sorted(os.listdir(cls.tmpdir + "/buildstats"))[-1]
++            cls.import_failure = True
++            cls.import_failure_msg = "Python module cairo is not present"
++        else:
++            bitbake("core-image-minimal -c rootfs -f")
++            cls.tmpdir = get_bb_var('TMPDIR')
++            cls.buildstats = cls.tmpdir + "/buildstats/" + sorted(os.listdir(cls.tmpdir + "/buildstats"))[-1]
  
--PACKAGES = "${PN}-dbg catchsegv sln nscd ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libnss-db libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc ldconfig"
-+PACKAGES = "${PN}-dbg catchsegv sln nscd ldconfig ldd tzcode glibc-thread-db ${PN}-pic libcidn libmemusage libnss-db libsegfault ${PN}-pcprofile libsotruss ${PN} ${PN}-utils glibc-extra-nss ${PN}-dev ${PN}-staticdev ${PN}-doc"
+     scripts_dir = os.path.join(get_bb_var('COREBASE'), 'scripts')
  
- # The ld.so in this glibc supports the GNU_HASH
- RPROVIDES_${PN} = "eglibc rtld(GNU_HASH)"
+ class OEPybootchartguyTests(OEScriptTests):
+ 
+     def test_pybootchartguy_help(self):
++        if self.import_failure:
++            raise unittest.SkipTest(self.import_failure_msg)
+         runCmd('%s/pybootchartgui/pybootchartgui.py  --help' % self.scripts_dir)
+ 
+     def test_pybootchartguy_to_generate_build_png_output(self):
++        if self.import_failure:
++            raise unittest.SkipTest(self.import_failure_msg)
+         runCmd('%s/pybootchartgui/pybootchartgui.py  %s -o %s/charts -f png' % (self.scripts_dir, self.buildstats, self.tmpdir))
+         self.assertTrue(os.path.exists(self.tmpdir + "/charts.png"))
+ 
+     def test_pybootchartguy_to_generate_build_svg_output(self):
++        if self.import_failure:
++            raise unittest.SkipTest(self.import_failure_msg)
+         runCmd('%s/pybootchartgui/pybootchartgui.py  %s -o %s/charts -f svg' % (self.scripts_dir, self.buildstats, self.tmpdir))
+         self.assertTrue(os.path.exists(self.tmpdir + "/charts.svg"))
+ 
+     def test_pybootchartguy_to_generate_build_pdf_output(self):
++        if self.import_failure:
++            raise unittest.SkipTest(self.import_failure_msg)
+         runCmd('%s/pybootchartgui/pybootchartgui.py  %s -o %s/charts -f pdf' % (self.scripts_dir, self.buildstats, self.tmpdir))
+         self.assertTrue(os.path.exists(self.tmpdir + "/charts.pdf"))
+ 
 -- 
-2.7.4
+2.23.0
 
 
