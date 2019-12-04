@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id BEFDD7CDC0
+	by mail.openembedded.org (Postfix) with ESMTP id 3AF487F80D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 13:32:05 +0000 (UTC)
+	Wed,  4 Dec 2019 13:32:07 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:07 -0800
-X-IronPort-AV: E=Sophos;i="5.69,277,1571727600"; d="scan'208";a="205389421"
+	04 Dec 2019 05:32:08 -0800
+X-IronPort-AV: E=Sophos;i="5.69,277,1571727600"; d="scan'208";a="205389428"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.164.178])
 	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:06 -0800
+	04 Dec 2019 05:32:07 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2019 21:31:45 +0800
-Message-Id: <ca0068ee156b6e38b0a45a39527dc6e38f958645.1575465665.git.anuj.mittal@intel.com>
+Date: Wed,  4 Dec 2019 21:31:46 +0800
+Message-Id: <09227a7ee7213ff0f09d92d06ad4ed1393af4968.1575465665.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1575465665.git.anuj.mittal@intel.com>
 References: <cover.1575465665.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 04/10] go: fix CVE-2019-17596
+Subject: [zeus][PATCH 05/10] libsoup-2.4: upgrade to 2.66.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,81 +33,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 13:32:05 -0000
+X-List-Received-Date: Wed, 04 Dec 2019 13:32:07 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
 
-https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73
+Fixes CVE-2019-17266.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+(From OE-Core rev: ffdbcd78955d43d34988991f1d217036f044167d)
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[Bug fix release:
+https://gitlab.gnome.org/GNOME/libsoup/compare/2.66.2...2.66.4]
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/go/go-1.12.inc          |  1 +
- .../go/go-1.12/0010-fix-CVE-2019-17596.patch  | 42 +++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+ .../{libsoup-2.4_2.66.2.bb => libsoup-2.4_2.66.4.bb}        | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.66.2.bb => libsoup-2.4_2.66.4.bb} (89%)
 
-diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
-index ed14b175e6..6aecaad75d 100644
---- a/meta/recipes-devtools/go/go-1.12.inc
-+++ b/meta/recipes-devtools/go/go-1.12.inc
-@@ -17,6 +17,7 @@ SRC_URI += "\
-     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
-     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-     file://0001-release-branch.go1.12-security-net-textproto-don-t-n.patch \
-+    file://0010-fix-CVE-2019-17596.patch \
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.66.4.bb
+similarity index 89%
+rename from meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
+rename to meta/recipes-support/libsoup/libsoup-2.4_2.66.4.bb
+index 3a735cf27a..7f5f910d3d 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.66.4.bb
+@@ -12,8 +12,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://0001-Do-not-enforce-no-introspection-when-cross-building.patch \
+            "
+-SRC_URI[md5sum] = "66c2ae89d6031b01337d78a2c57c75d5"
+-SRC_URI[sha256sum] = "bd2ea602eba642509672812f3c99b77cbec2f3de02ba1cc8cb7206bf7de0ae2a"
++SRC_URI[md5sum] = "42016d80ecae4cf8eb416631049a273a"
++SRC_URI[sha256sum] = "8308984f1eee1c4f8c113a9c1763b2b22d981bd811b0cc82a9f3f1aa63228779"
  
-diff --git a/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
-new file mode 100644
-index 0000000000..134cfab737
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
-@@ -0,0 +1,42 @@
-+From f1783e1ce44a86c000a7c380a57a805c89c3efbe Mon Sep 17 00:00:00 2001
-+From: Katie Hockman <katie@golang.org>
-+Date: Mon, 14 Oct 2019 16:42:21 -0400
-+Subject: [PATCH] crypto/dsa: prevent bad public keys from causing panic
-+
-+dsa.Verify might currently use a nil s inverse in a
-+multiplication if the public key contains a non-prime Q,
-+causing a panic. Change this to check that the mod
-+inverse exists before using it.
-+
-+Fixes CVE-2019-17596
-+
-+Change-Id: I94d5f3cc38f1b5d52d38dcb1d253c71b7fd1cae7
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/572809
-+Reviewed-by: Filippo Valsorda <valsorda@google.com>
-+(cherry picked from commit 9119dfb0511326d4485b248b83d4fde19c95d0f7)
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/575232
-+
-+CVE: CVE-2019-17596
-+Upstream-Status: Backport [https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ src/crypto/dsa/dsa.go | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/crypto/dsa/dsa.go b/src/crypto/dsa/dsa.go
-+index 575314b..2fc4f1f 100644
-+--- a/src/crypto/dsa/dsa.go
-++++ b/src/crypto/dsa/dsa.go
-+@@ -279,6 +279,9 @@ func Verify(pub *PublicKey, hash []byte, r, s *big.Int) bool {
-+ 	}
-+ 
-+ 	w := new(big.Int).ModInverse(s, pub.Q)
-++	if w == nil {
-++		return false
-++	}
-+ 
-+ 	n := pub.Q.BitLen()
-+ 	if n&7 != 0 {
-+-- 
-+2.23.0
-+
+ CVE_PRODUCT = "libsoup"
+ 
+@@ -28,7 +28,7 @@ PACKAGECONFIG[gssapi] = "-Dgssapi=true,-Dgssapi=false,krb5"
+ 
+ EXTRA_OEMESON_append = " -Dvapi=false"
+ 
+-GTKDOC_MESON_OPTION = "doc"
++GTKDOC_MESON_OPTION = "gtk_doc"
+ 
+ # When built without gnome support, libsoup-2.4 will contain only one shared lib
+ # and will therefore become subject to renaming by debian.bbclass. Prevent
 -- 
 2.21.0
 
