@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 53FE76B513
+	by mail.openembedded.org (Postfix) with ESMTP id 22FB97CDC0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 13:32:02 +0000 (UTC)
+	Wed,  4 Dec 2019 13:32:03 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:03 -0800
-X-IronPort-AV: E=Sophos;i="5.69,277,1571727600"; d="scan'208";a="205389406"
+	04 Dec 2019 05:32:04 -0800
+X-IronPort-AV: E=Sophos;i="5.69,277,1571727600"; d="scan'208";a="205389413"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.164.178])
 	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:02 -0800
+	04 Dec 2019 05:32:03 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2019 21:31:42 +0800
-Message-Id: <b259fa006a63ebb013b405bc5e8cab794d5bd681.1575465665.git.anuj.mittal@intel.com>
+Date: Wed,  4 Dec 2019 21:31:43 +0800
+Message-Id: <4490da5e44b098cffc1a7cfaf08016d7cab45c1f.1575465665.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1575465665.git.anuj.mittal@intel.com>
 References: <cover.1575465665.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 01/10] ghostscript: CVE-2019-14869
+Subject: [zeus][PATCH 02/10] gdb: Fix CVE-2019-1010180
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,124 +33,181 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 13:32:02 -0000
+X-List-Received-Date: Wed, 04 Dec 2019 13:32:03 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-From: Stefan Ghinea <stefan.ghinea@windriver.com>
+From: Vinay Kumar <vinay.m.engg@gmail.com>
 
-A flaw was found in all versions of ghostscript 9.x before 9.28,
-where the `.charkeys` procedure, where it did not properly secure
-its privileged calls, enabling scripts to bypass `-dSAFER` restrictions.
-An attacker could abuse this flaw by creating a specially crafted
-PostScript file that could escalate privileges within the Ghostscript
-and access files outside of restricted areas or execute commands.
+Source: git://sourceware.org/git/binutils-gdb.git
+Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=23657
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2019-14869
+Backported upstream commit 950b74950f6020eda38647f22e9077ac7f68ca49 to gdb-8.3.1 sources.
 
-Upstream patches:
-https://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=485904
+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=950b74950f6020eda38647f22e9077ac7f68ca49]
 
-(From OE-Core rev: 0bb88ac63b4e1728373c6425477a32f7a6362b2c)
+(From OE-Core rev: 82a227e54e704ef9237c1613b9d3350fa26fe9dd)
 
-Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../ghostscript/CVE-2019-14869-0001.patch     | 70 +++++++++++++++++++
- .../ghostscript/ghostscript_9.27.bb           |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
+ meta/recipes-devtools/gdb/gdb-8.3.1.inc       |   1 +
+ .../gdb/gdb/CVE-2019-1010180.patch            | 132 ++++++++++++++++++
+ 2 files changed, 133 insertions(+)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
+diff --git a/meta/recipes-devtools/gdb/gdb-8.3.1.inc b/meta/recipes-devtools/gdb/gdb-8.3.1.inc
+index 39f1c48cc7..aec913f3ce 100644
+--- a/meta/recipes-devtools/gdb/gdb-8.3.1.inc
++++ b/meta/recipes-devtools/gdb/gdb-8.3.1.inc
+@@ -16,6 +16,7 @@ SRC_URI = "${GNU_MIRROR}/gdb/gdb-${PV}.tar.xz \
+            file://0009-Change-order-of-CFLAGS.patch \
+            file://0010-resolve-restrict-keyword-conflict.patch \
+            file://0011-Fix-invalid-sigprocmask-call.patch \
++           file://CVE-2019-1010180.patch \
+            "
+ SRC_URI[md5sum] = "73b6a5d8141672c62bf851cd34c4aa83"
+ SRC_URI[sha256sum] = "1e55b4d7cdca7b34be12f4ceae651623aa73b2fd640152313f9f66a7149757c4"
+diff --git a/meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch b/meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
 new file mode 100644
-index 0000000000..715ec1c450
+index 0000000000..46b2b3a713
 --- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
-@@ -0,0 +1,70 @@
-+From 485904772c5f0aa1140032746e5a0abfc40f4cef Mon Sep 17 00:00:00 2001
-+From: Chris Liddell <chris.liddell@artifex.com>
-+Date: Tue, 5 Nov 2019 09:45:27 +0000
-+Subject: [PATCH] Bug 701841: remove .forceput from /.charkeys
++++ b/meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
+@@ -0,0 +1,132 @@
++From 950b74950f6020eda38647f22e9077ac7f68ca49 Mon Sep 17 00:00:00 2001
++From: Keith Seitz <keiths@redhat.com>
++Date: Wed, 16 Oct 2019 11:33:59 -0700
++Subject: [PATCH] DWARF reader: Reject sections with invalid sizes
 +
-+When loading Type 1 or Truetype fonts from disk, we attempt to extend the glyph
-+name table to include all identifiable glyph names from the Adobe Glyph List.
++This is another fuzzer bug, gdb/23567.  This time, the fuzzer has
++specifically altered the size of .debug_str:
 +
-+In the case of Type 1 fonts, the font itself (almost always) marks the
-+CharStrings dictionary as read-only, hence we have to use .forceput for that
-+case.
++$ eu-readelf -S objdump
++Section Headers:
++[Nr] Name                 Type         Addr             Off      Size     ES Flags Lk Inf Al
++[31] .debug_str           PROGBITS     0000000000000000 0057116d ffffffffffffffff  1 MS     0   0  1
 +
-+But for Truetype fonts, the CharStrings dictionary is created internally and is
-+not read-only until *after* we have fully populated it (including the extended
-+glyph names from the AGL), hence there is no need for .forceput, and no need to
-+carry the security risk of using it.
++When this file is loaded into GDB, the DWARF reader crashes attempting
++to access the string table (or it may just store a bunch of nonsense):
 +
-+Replace with regular put.
++[gdb-8.3-6-fc30]
++$ gdb -nx -q objdump
++BFD: warning: /path/to/objdump has a corrupt section with a size (ffffffffffffffff) larger than the file size
++Reading symbols from /path/to/objdump...
++Segmentation fault (core dumped)
 +
-+CVE: CVE-2019-14869
-+Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
++Nick has already committed a BFD patch to issue the warning seen above.
 +
-+Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
++[gdb master 6acc1a0b]
++$ gdb -BFD: warning: /path/to/objdump has a corrupt section with a size (ffffffffffffffff) larger than the file size
++Reading symbols from /path/to/objdump...
++(gdb) inf func
++All defined functions:
++
++File ./../include/dwarf2.def:
++186:	const
++
++              8 *>(.:
++                     ;'@�B);
++747:	const
++
++              8 *�(.:
++                     ;'@�B);
++701:	const
++
++              8 *�D �
++                     (.:
++                        ;'@�B);
++71:	const
++
++              8 *(.:
++                    ;'@�B);
++/* and more gibberish  */
++
++Consider read_indirect_string_at_offset_from:
++
++static const char *
++read_indirect_string_at_offset_from (struct objfile *objfile,
++                                     bfd *abfd, LONGEST str_offset,
++                                     struct dwarf2_section_info *sect,
++                                     const char *form_name,
++                                     const char *sect_name)
++{
++  dwarf2_read_section (objfile, sect);
++  if (sect->buffer == NULL)
++    error (_("%s used without %s section [in module %s]"),
++           form_name, sect_name, bfd_get_filename (abfd));
++  if (str_offset >= sect->size)
++    error (_("%s pointing outside of %s section [in module %s]"),
++           form_name, sect_name, bfd_get_filename (abfd));
++  gdb_assert (HOST_CHAR_BIT == 8);
++  if (sect->buffer[str_offset] == '\0')
++    return NULL;
++  return (const char *) (sect->buffer + str_offset);
++}
++
++With sect_size being ginormous, the code attempts to access
++sect->buffer[GINORMOUS], and depending on the layout of memory,
++GDB either stores a bunch of gibberish strings or crashes.
++
++This is an attempt to mitigate this by implementing a similar approach
++used by BFD. In our case, we simply reject the section with the invalid
++length:
++
++$ ./gdb -nx -q objdump
++BFD: warning: /path/to/objdump has a corrupt section with a size (ffffffffffffffff) larger than the file size
++Reading symbols from /path/to/objdump...
++
++warning: Discarding section .debug_str which has a section size (ffffffffffffffff) larger than the file size [in module /path/to/objdump]
++DW_FORM_strp used without .debug_str section [in module /path/to/objdump]
++(No debugging symbols found in /path/to/objdump)
++(gdb)
++
++Unfortunately, I have not found a way to regression test this, since it
++requires poking ELF section headers.
++
++gdb/ChangeLog:
++2019-10-16  Keith Seitz  <keiths@redhat.com>
++
++	PR gdb/23567
++	* dwarf2read.c (dwarf2_per_objfile::locate_sections): Discard
++	sections whose size is greater than the file size.
++
++Change-Id: I896ac3b4eb2207c54e8e05c16beab3051d9b4b2f
++
++CVE: CVE-2019-1010180
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=950b74950f6020eda38647f22e9077ac7f68ca49]
++[Removed Changelog entry]
++Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 +---
-+ Resource/Init/gs_ttf.ps | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++ gdb/dwarf2read.c | 9 +++++++++
++ 2 files changed, 15 insertions(+)
 +
-+diff --git a/Resource/Init/gs_ttf.ps b/Resource/Init/gs_ttf.ps
-+index e34967d..5354ff0 100644
-+--- a/Resource/Init/gs_ttf.ps
-++++ b/Resource/Init/gs_ttf.ps
-+@@ -1301,7 +1301,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
-+           TTFDEBUG { (\n1 setting alias: ) print dup ==only
-+                 ( to be the same as  ) print 2 index //== exec } if
-+ 
-+-          7 index 2 index 3 -1 roll exch .forceput
-++          7 index 2 index 3 -1 roll exch put
-+         } forall
-+         pop pop pop
-+       }
-+@@ -1319,7 +1319,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
-+           exch pop
-+           TTFDEBUG { (\n2 setting alias: ) print 1 index ==only
-+                      ( to use glyph index: ) print dup //== exec } if
-+-          5 index 3 1 roll .forceput
-++          5 index 3 1 roll put
-+           //false
-+         }
-+         {
-+@@ -1336,7 +1336,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
-+         {                            %  CharStrings(dict) isunicode(boolean) cmap(dict) RAGL(dict) gname(name) codep(integer) gindex(integer)
-+           TTFDEBUG { (\3 nsetting alias: ) print 1 index ==only
-+                 ( to be index: ) print dup //== exec } if
-+-          exch pop 5 index 3 1 roll .forceput
-++          exch pop 5 index 3 1 roll put
-+         }
-+         {
-+           pop pop
-+@@ -1366,7 +1366,7 @@ currentdict /.pickcmap_with_no_xlatmap .undef
-+       } ifelse
-+     ]
-+   TTFDEBUG { (Encoding: ) print dup === flush } if
-+-} .bind executeonly odef		% hides .forceput
-++} .bind odef
-+ 
-+ % ---------------- CIDFontType 2 font loading ---------------- %
-+ 
++diff --git a/gdb/dwarf2read.c b/gdb/dwarf2read.c
++index 0443b55..a78f818 100644
++--- a/gdb/dwarf2read.c
+++++ b/gdb/dwarf2read.c
++@@ -2338,6 +2338,15 @@ dwarf2_per_objfile::locate_sections (bfd *abfd, asection *sectp,
++   if ((aflag & SEC_HAS_CONTENTS) == 0)
++     {
++     }
+++  else if (elf_section_data (sectp)->this_hdr.sh_size
+++	   > bfd_get_file_size (abfd))
+++    {
+++      bfd_size_type size = elf_section_data (sectp)->this_hdr.sh_size;
+++      warning (_("Discarding section %s which has a section size (%s"
+++		 ") larger than the file size [in module %s]"),
+++	       bfd_section_name (abfd, sectp), phex_nz (size, sizeof (size)),
+++	       bfd_get_filename (abfd));
+++    }
++   else if (section_is_p (sectp->name, &names.info))
++     {
++       this->info.s.section = sectp;
 +-- 
-+2.20.1
++2.7.4
 +
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-index 9e1f3e2f49..32f938f254 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.27.bb
-@@ -28,6 +28,7 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2019-14811-0001.patch \
-                 file://CVE-2019-14817-0001.patch \
-                 file://CVE-2019-14817-0002.patch \
-+                file://CVE-2019-14869-0001.patch \
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
 -- 
 2.21.0
 
