@@ -1,46 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com
-	[209.85.222.46])
-	by mail.openembedded.org (Postfix) with ESMTP id C41447CDE4
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 251987F7AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 19:15:00 +0000 (UTC)
-Received: by mail-ua1-f46.google.com with SMTP id x15so216489uar.3
+	Wed,  4 Dec 2019 19:33:04 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id x7so321079pgl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2019 11:15:02 -0800 (PST)
+	Wed, 04 Dec 2019 11:33:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=x9pkW4maqyuKWYsuGiKgejvvSBAx4Nr2kMQuFUSHsXE=;
-	b=C6sRNYmmJg8LVO6iEMvwk2fJK/YnCDCHNGwuvXtQzWLFMR+k9K8fSQbupneZotXz7E
-	Qs0ZoWAzLRJZyXqWzcWyTzuA8AD8KVWRyNoV2jslMCXAUwv3sivLzgzW+D4AeV78yg11
-	oumgPRxJkySvmR+J/foNa4iHs25T/TwBK7YyluFfoV70+bTIok1T2CGUotCKGvRi02yv
-	qBiOqTY2tiTjF/DEj5Y/0qardIBEdenTY+izFDKEmrpqmYy1LbqsY8qlcwYJ/O6Bspjr
-	Zticm8L+4f7EIty0gWI34FAzbzN+fuq7G90i8VXS01Iga101FIreHOD9lRTaAyB7vzVW
-	VDrA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JrHyn5EBg0qpwg2B/CSiXcgbvzP7YNInMx+cZ2HLJ6M=;
+	b=EX1KkpnEZdyOk9kT+fkYf7YND504dgYcsIfoW7HDrT6IpwkCENRH9D2UvVhTVdBOai
+	l3qlCoUsRh51R4aKkNYkp8VonCMd+XzyZxGZYS4nrowpswSfUkEvfINc7V30UMh+b9Vj
+	VpVqZj2Zk17YIFilc/U86aDVzojoWVBx+UF/abh8nfnYu0ToCVcRfG0vNVHPtNf5BXK3
+	QpwF4YD+kvGEehdtv5xsIV0ROpt9nKo6U4q1AN7MtPW5TQoKeKLSBnbesSW2yvJPdzA3
+	ZArs6KJAtpcTOvt86Temm4XgQepCHQrTL09kiFq4v4FPnaBrQOd12kRMVied6PMlAIGh
+	hzxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=x9pkW4maqyuKWYsuGiKgejvvSBAx4Nr2kMQuFUSHsXE=;
-	b=EAuturhN8AvUsitT42IvFvuBSu8wkCgUAwlGJyVD4jzXZqu4WLo7Mvmsl2Fk8EjNnD
-	umQyyYN3N9KW8OqRCIRO3UtVVUgXJKDrPBqtBTKz/0KfZE3occvhEwXbKWr88rDr3PBJ
-	Voxo2eZvzXyY5cl99wUhO0hosjSURIrRgTsS9L8JWsJ9C/42YmA7AFGDBAVbaIpmYtUI
-	IAixhkCUZgRMerKy2VQaUPgXNzoeAOFruJT+mB1iIPkm/GApv/Ma+NJVB1/L5ZawcVFf
-	HII5pXqQg27AHBPiQteRnyWKo6vA80fUjY1RwrJMs2kCexPkLAPuaTfX/+CO30khgA4Q
-	9KgA==
-X-Gm-Message-State: APjAAAU1Tr+lK4vtrqsyByx1VBe5JxT+KDOVvh5gSHYX2PdVHwfAa6Rn
-	YiJS+J6XOzEk69Zn04+JuSL5A5dDUGwSvnnZuNc=
-X-Google-Smtp-Source: APXvYqw63MJ9CYHk5wus82eU0BFhwZGLsEcgzpDGhfSyNV4kd91LcT/s3VwtAZW3+vX1V3m08r7OzMFZEYiQdTnHpKQ=
-X-Received: by 2002:ab0:644c:: with SMTP id j12mr3669669uap.22.1575486901639; 
-	Wed, 04 Dec 2019 11:15:01 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JrHyn5EBg0qpwg2B/CSiXcgbvzP7YNInMx+cZ2HLJ6M=;
+	b=H6KwLN1+4K7dFzEY3MrW5NrczDh8EO/u4b+VAYK4hpRV4jdUNAWJdnWGql5Xfv9o36
+	/I4haQfuPOHQWqthGs4bZtogFf5DhNJksrJUqoVhMzrw1YGoSpqc1GSS9K6anMs/29zS
+	dn3eowqTdGhK0uw/6DXcezJQ4blOBllPxiVuzI4BIUPvp6nLjdtuNKTUPW9oP+j4zkYU
+	+sepn3/USf4NC9ef7pSUW3eoAf3vbPvar3WIr3zs7Uq/+0AF6mMtWm2DHl2h/OMIue8r
+	HulixkUcIohe78RH8a0b8lsjBNGqNWFaOmfpNiBp7XYpzzBazeKlvlZ+iXpJkHyFmlHX
+	pkwg==
+X-Gm-Message-State: APjAAAWY+uLOfWUfqCrL0MtBFJoCtSF4t7eGYL8qjO6i8sofbBIk960D
+	ZH0Vt4nAZD8OfD3fX4t8A/yr8wyZ5q8=
+X-Google-Smtp-Source: APXvYqzraBgJgqMDdZGccUVW6xGq6bCiF8gPutYRuBNF1caK67iIEzvClK1Or/PHk6NeXiLxvNBxdA==
+X-Received: by 2002:a63:545f:: with SMTP id e31mr5246678pgm.236.1575487985049; 
+	Wed, 04 Dec 2019 11:33:05 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::2797])
+	by smtp.gmail.com with ESMTPSA id e7sm8522292pfi.29.2019.12.04.11.33.04
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 04 Dec 2019 11:33:04 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Dec 2019 11:32:54 -0800
+Message-Id: <20191204193254.2418208-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-References: <20191204184028.14813-1-anibal.limon@linaro.org>
-In-Reply-To: <20191204184028.14813-1-anibal.limon@linaro.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 4 Dec 2019 20:14:50 +0100
-Message-ID: <CANNYZj8dQGgwgOCg_NohqU4H5eLwAK-aFowLa-ywFpf7-YU3ZQ@mail.gmail.com>
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] meta/recipes-graphics/waffle: Add inherit setuptools
+Subject: [PATCH] util-linux: Use PCRE for hardlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 19:15:00 -0000
-Content-Type: multipart/alternative; boundary="0000000000001edf120598e5a111"
+X-List-Received-Date: Wed, 04 Dec 2019 19:33:05 -0000
+Content-Transfer-Encoding: 8bit
 
---0000000000001edf120598e5a111
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Use PCRE, this enables using posix extended Regexps on cmdline
 
-On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.or=
-g> wrote:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> -inherit meson features_check lib_package bash-completion
-> +inherit meson setuptools3 features_check lib_package bash-completion
->
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 1fa82363b1..8f867aa9b4 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=972a134f1e14b2b060e365df2fab0099
+ 
+ #gtk-doc is not enabled as it requires xmlto which requires util-linux
+ inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
+-DEPENDS = "libcap-ng ncurses virtual/crypt zlib"
++DEPENDS = "libcap-ng ncurses virtual/crypt zlib libpcre2"
+ 
+ MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
+-- 
+2.24.0
 
-I don't think you actually need setuptools3 here, just target python3
-dependency is enough.
 
-Alex
-
---0000000000001edf120598e5a111
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal =
-Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org">anibal.limon@lina=
-ro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">-inherit meson features_check lib_package =
-bash-completion<br>
-+inherit meson setuptools3 features_check lib_package bash-completion<br></=
-blockquote><div><br></div><div>I don&#39;t think you actually need setuptoo=
-ls3 here, just target python3 dependency is enough.</div><div><br></div><di=
-v>Alex<br></div></div></div>
-
---0000000000001edf120598e5a111--
