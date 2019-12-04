@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id A04AD7F7AC
+	by mail.openembedded.org (Postfix) with ESMTP id F0FAA7CDC0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 13:32:09 +0000 (UTC)
+	Wed,  4 Dec 2019 13:32:10 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:11 -0800
-X-IronPort-AV: E=Sophos;i="5.69,277,1571727600"; d="scan'208";a="205389438"
+	04 Dec 2019 05:32:12 -0800
+X-IronPort-AV: E=Sophos;i="5.69,277,1571727600"; d="scan'208";a="205389446"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.164.178])
 	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:10 -0800
+	04 Dec 2019 05:32:11 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2019 21:31:48 +0800
-Message-Id: <722b899bef48c1de2e9b4693d9a1e2962054028a.1575465665.git.anuj.mittal@intel.com>
+Date: Wed,  4 Dec 2019 21:31:49 +0800
+Message-Id: <4a2f7c959372c1c5e182f3ead539317add9cf347.1575465665.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1575465665.git.anuj.mittal@intel.com>
 References: <cover.1575465665.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 07/10] nasm: fix CVE-2019-14248
+Subject: [zeus][PATCH 08/10] glibc: fix CVE-2019-19126
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,85 +33,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 13:32:09 -0000
+X-List-Received-Date: Wed, 04 Dec 2019 13:32:11 -0000
 Content-Transfer-Encoding: 8bit
 
-See:
-https://bugzilla.nasm.us/show_bug.cgi?id=3392576
+Backport from 2.30 stable branch and drop NEWS section.
 
-(From OE-Core rev: 5ac52e78775759d2d06514ac2ae4c98e94190875)
+(From OE-Core rev: b4d4f70380c100d8ab06557237d8d5649a885e30)
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../nasm/nasm/CVE-2019-14248.patch            | 43 +++++++++++++++++++
- meta/recipes-devtools/nasm/nasm_2.14.02.bb    |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch
+ .../glibc/glibc/CVE-2019-19126.patch          | 32 +++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.30.bb         |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-19126.patch
 
-diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch b/meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-19126.patch b/meta/recipes-core/glibc/glibc/CVE-2019-19126.patch
 new file mode 100644
-index 0000000000..d45d2cb465
+index 0000000000..aead04c485
 --- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch
-@@ -0,0 +1,43 @@
-+From 93d41d82963b2cfd0b24c906f5a8daf53281b559 Mon Sep 17 00:00:00 2001
-+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
-+Date: Fri, 16 Aug 2019 01:12:54 -0700
-+Subject: [PATCH] BR 3392576: don't segfault on a bad %pragma limit
++++ b/meta/recipes-core/glibc/glibc/CVE-2019-19126.patch
+@@ -0,0 +1,32 @@
++From 37c90e117310728a4ad1eb998c0bbe7d79c4a398 Mon Sep 17 00:00:00 2001
++From: =?utf8?q?Marcin=20Ko=C5=9Bcielnicki?= <mwk@0x04.net>
++Date: Thu, 21 Nov 2019 00:20:15 +0100
++Subject: [PATCH] rtld: Check __libc_enable_secure before honoring
++ LD_PREFER_MAP_32BIT_EXEC (CVE-2019-19126) [BZ #25204]
 +
-+Don't segfault on a bad %pragma limit. Instead treat a NULL pointer as
-+an empty string.
++The problem was introduced in glibc 2.23, in commit
++b9eb92ab05204df772eb4929eccd018637c9f3e9
++("Add Prefer_MAP_32BIT_EXEC to map executable pages with MAP_32BIT").
 +
-+Reported-by: Ren Kimura <rkx1209dev@gmail.com>
-+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
++(cherry picked from commit d5dfad4326fc683c813df1e37bbf5cf920591c8e)
 +
-+CVE: CVE-2019-14248
-+Upstream-Status: Backport [https://repo.or.cz/nasm.git/commit/93d41d82963b2cfd0b24c906f5a8daf53281b559]
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=37c90e117310728a4ad1eb998c0bbe7d79c4a398]
++CVE: CVE-2019-19126
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ asm/nasm.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/asm/nasm.c b/asm/nasm.c
-+index c84d675..65116ab 100644
-+--- a/asm/nasm.c
-++++ b/asm/nasm.c
-+@@ -212,6 +212,11 @@ nasm_set_limit(const char *limit, const char *valstr)
-+     bool rn_error;
-+     int errlevel;
-+ 
-++    if (!limit)
-++        limit = "";
-++    if (!valstr)
-++        valstr = "";
-++
-+     for (i = 0; i <= LIMIT_MAX; i++) {
-+         if (!nasm_stricmp(limit, limit_info[i].name))
-+             break;
-+@@ -204,7 +209,7 @@ nasm_set_limit(const char *limit, const char *valstr)
-+             errlevel = ERR_WARNING|ERR_NOFILE|ERR_USAGE;
-+         else
-+             errlevel = ERR_WARNING|ERR_PASS1|WARN_UNKNOWN_PRAGMA;
-+-        nasm_error(errlevel, "unknown limit: `%s'", limit);
-++        nasm_error(errlevel, "invalid limit value: `%s'", valstr);
-+         return DIRR_ERROR;
-+     }
-+ 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.14.02.bb b/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-index e4f964ce93..bd4ecea8b6 100644
---- a/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
- 
- SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
-            file://CVE-2018-19755.patch \
-+           file://CVE-2019-14248.patch \
++diff --git a/sysdeps/unix/sysv/linux/x86_64/64/dl-librecon.h b/sysdeps/unix/sysv/linux/x86_64/64/dl-librecon.h
++index 975cbe2..df2cdfd 100644
++--- a/sysdeps/unix/sysv/linux/x86_64/64/dl-librecon.h
+++++ b/sysdeps/unix/sysv/linux/x86_64/64/dl-librecon.h
++@@ -31,7 +31,8 @@
++    environment variable, LD_PREFER_MAP_32BIT_EXEC.  */
++ #define EXTRA_LD_ENVVARS \
++   case 21:								  \
++-    if (memcmp (envline, "PREFER_MAP_32BIT_EXEC", 21) == 0)		  \
+++    if (!__libc_enable_secure						  \
+++	&& memcmp (envline, "PREFER_MAP_32BIT_EXEC", 21) == 0)		  \
++       GLRO(dl_x86_cpu_features).feature[index_arch_Prefer_MAP_32BIT_EXEC] \
++ 	|= bit_arch_Prefer_MAP_32BIT_EXEC;				  \
++     break;
++-- 
++2.9.3
+diff --git a/meta/recipes-core/glibc/glibc_2.30.bb b/meta/recipes-core/glibc/glibc_2.30.bb
+index 03add3363c..7913bc2812 100644
+--- a/meta/recipes-core/glibc/glibc_2.30.bb
++++ b/meta/recipes-core/glibc/glibc_2.30.bb
+@@ -41,6 +41,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0026-intl-Emit-no-lines-in-bison-generated-files.patch \
+            file://0027-inject-file-assembly-directives.patch \
+            file://0028-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
++           file://CVE-2019-19126.patch \
             "
- 
- SRC_URI[md5sum] = "3f489aa48ad2aa1f967dc5e293bbd06f"
+ S = "${WORKDIR}/git"
+ B = "${WORKDIR}/build-${TARGET_SYS}"
 -- 
 2.21.0
 
