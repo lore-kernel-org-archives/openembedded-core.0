@@ -1,52 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FF697F7BC
+Return-Path: <anibal.limon@linaro.org>
+Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
+	[209.85.222.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 18B177F7E1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 20:26:07 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id d124so1241072qke.6
+	Wed,  4 Dec 2019 20:51:28 +0000 (UTC)
+Received: by mail-ua1-f48.google.com with SMTP id z17so349134uac.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2019 12:26:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 04 Dec 2019 12:51:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZkhD/vLsy8bnAuf7GyCptqw7Tyke+oMkvo/HyyHctPA=;
-	b=fH1hZRTz5hJwzwrWP6bN/8PfuiY/Jtahx7quZCzxVVzH7Rmk0ZwHXh3sLVsg3yYO3W
-	vzd0UAIQQEb6mnq0ainHwMDV2MjTqLjNkieicuLse+tD0S123lbdvX6HbxhD66uoZvBI
-	J91T8yuZQ/9YscS6PFINPgp37OkLaxGkE5b5/lMaqQh2ArApPvoP8zrL+O4kRalCq8uv
-	cbtXSobaMuAMvbnur7W6fTgtxx7yK01/+xTfyupVRD3UFcYWdTt2XbdmEPG2YOEjCNaV
-	3fJeBnMs3rYVOlpV83ekmvJa4gPF/2RcQyjk7gE8LXnJDoTPhhxqb/vNczogiRQ0DMus
-	RKiw==
+	:cc; bh=ls8afcB0Strdi2cMPWDhTzXhu56je5h5s6ewZTCW2BQ=;
+	b=z0eaYA/goCM5/Th3fgLVlXrJPb/RTSOpxmJxZtv0NO1UJOGh70PJWWM4y7QOJDfhZP
+	5DvoQD22+bhgoq7Id9bvHghTN5DYmq1AHng2aS+bViOGPp/5UbDIIZ8DlUVtd4+eFLzM
+	fLU2z8ISIJ3W03A/t0HM+KVvBG9PnMWWhd1PXr2igPopZupEPkMxFt7IGhBpwpwAabVf
+	iVKhltZDWuSiMW81PVObMVv5Wilydu3KrGApjtAxg65Qbzp9+D9HVyqJ2/6RBFQv1rt5
+	7dJGErdqCNyc87GOjfjl3MvU4dBnMtoMeGF20T/yIooyxtBIb+VO75x8tMD9JOYakMaa
+	1lZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=ZkhD/vLsy8bnAuf7GyCptqw7Tyke+oMkvo/HyyHctPA=;
-	b=k6RSBvfFTjDTrrQfjo3nkzwXzB7sj0KIo5GY3E9CPoA+xjWlODI8PG+prBMncfz1Xy
-	Onkd/NSD4nIlZyyqykknT5qjvgu7K2/uMSEJcPaCgK9Vz1Wp9iQMlEcjebTlU0w22n0P
-	YRuRyKpgwIpzt84771YugEvq/228N4HBnAPzeqPA2QS5Lf91z7n8iCm/XYJ7pUVVQNJq
-	LrMTD+xg/WrGMnMZkQKZeswzzYYTgRDuZPMS5tbk1hC72bjyIBlWiKyGP5MR2cOgHhOI
-	+xJmEwEtrKislVw9sGlR7m5R5ZYqmJHKV3UN6nQbqd89+fQZ/CvpelODuPIvaLrHMmpp
-	gvJQ==
-X-Gm-Message-State: APjAAAV9jwyvBT4eSb6vN1lEGGSkA8WdA6FJgoCaP4aEYONLK9INEFnN
-	Mo5xu7h3+ayjXFsZ8g4EYL/TDLgg3K4CVPsK16V03LGJ
-X-Google-Smtp-Source: APXvYqx/SmmkWM74tfuXuujZYazo2wnZy/zGmBtz6cz0mKw5cYcUvAFq8HakGsPfzmOULM7+Vq6jp1xJUc83HtE6EkY=
-X-Received: by 2002:a37:bf82:: with SMTP id p124mr5014563qkf.337.1575491167957;
-	Wed, 04 Dec 2019 12:26:07 -0800 (PST)
+	bh=ls8afcB0Strdi2cMPWDhTzXhu56je5h5s6ewZTCW2BQ=;
+	b=UEQpyDZl8Z+AtDFysjskkjiI4J9Eec27rb+/XRfKpmUWH4vJOJOJn3IJpxEkh3bDmx
+	gVhg0yVmrmbvhF9Hi+G07Tr7TcVx+e4PKb1wJF4se9LAEotF3Mq5fYijVdYaC1XyRgGq
+	e2p+nSm8859aiMYsNEok7UF8fJ91Rtw6YajrdtCk7o69qfqAacO6ncKmr3VS6/1SVzm6
+	zTRHcZCdHV7RqrR+zbhdwqzMUl5oi4e8o/j7PrTJd2NwO7KzDPUXiSKGy+58C1mJ9+nF
+	1J95bvcxECjjvraO1bJBJ75WLK+nB/5eDLlG3krVzUsBTqZH2EGYGSmOAXRf0N0hNb2t
+	5jTQ==
+X-Gm-Message-State: APjAAAWeeckID3kDabZImLMp+OFFfT/NEUdl9HsSkNvzVb0zNKPlwOyg
+	1b6djqRMYeJwZniNo5jmGLk86Aim55BntvtDG3Q1cQ==
+X-Google-Smtp-Source: APXvYqxOb9y23exhzXZYi+4Pus5MnrrKXbG4nf8BsBWYkmrSAobbIKbq7apYG00cbiEkhgcnqFTTCg8WkXrd+MGI5vg=
+X-Received: by 2002:ab0:7219:: with SMTP id u25mr4239376uao.10.1575492689726; 
+	Wed, 04 Dec 2019 12:51:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20191204193254.2418208-1-raj.khem@gmail.com>
-	<ea686615755dd811edab17648e6b5ac2377bf1af.camel@linuxfoundation.org>
-	<CAMKF1sp29T-e0=5BBoX_=ZtUEs7fh3qAU9P__dXQH6NxCL+6hw@mail.gmail.com>
-	<6cada1f180fe4bad594d71033573ff9fba3a30e9.camel@linuxfoundation.org>
-	<CAMKF1srBqMDRHTDr9uKg4VLwNnFqPrnOwcv7S=8EfzvHDBZxuQ@mail.gmail.com>
-	<da22a596541e5c77ada413de5b90898c6f180fe8.camel@linuxfoundation.org>
-In-Reply-To: <da22a596541e5c77ada413de5b90898c6f180fe8.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 4 Dec 2019 12:25:41 -0800
-Message-ID: <CAMKF1soCoGxxxvA3mdA1FUjCBQ6b+utmNYde_ff_H=BLSD9cKg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] util-linux: Use PCRE for hardlink
+References: <20191204184028.14813-1-anibal.limon@linaro.org>
+	<CANNYZj8dQGgwgOCg_NohqU4H5eLwAK-aFowLa-ywFpf7-YU3ZQ@mail.gmail.com>
+In-Reply-To: <CANNYZj8dQGgwgOCg_NohqU4H5eLwAK-aFowLa-ywFpf7-YU3ZQ@mail.gmail.com>
+From: Anibal Limon <anibal.limon@linaro.org>
+Date: Wed, 4 Dec 2019 14:51:18 -0600
+Message-ID: <CA+_Aqitgf4Q+p2C3n7t_GCo=zygsmC5zMEjJnCT3=QDs5Nq8wg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] meta/recipes-graphics/waffle: Add inherit setuptools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,76 +54,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 20:26:07 -0000
+X-List-Received-Date: Wed, 04 Dec 2019 20:51:29 -0000
+Content-Type: multipart/alternative; boundary="0000000000001e29570598e6faab"
+
+--0000000000001e29570598e6faab
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 4, 2019 at 12:22 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Wed, 4 Dec 2019 at 13:15, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.=
+org> wrote:
 >
-> On Wed, 2019-12-04 at 12:21 -0800, Khem Raj wrote:
-> > On Wed, Dec 4, 2019 at 12:18 PM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > On Wed, 2019-12-04 at 12:12 -0800, Khem Raj wrote:
-> > > > On Wed, Dec 4, 2019 at 12:00 PM Richard Purdie
-> > > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > > On Wed, 2019-12-04 at 11:32 -0800, Khem Raj wrote:
-> > > > > > Use PCRE, this enables using posix extended Regexps on
-> > > > > > cmdline
-> > > > > >
-> > > > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > > > ---
-> > > > > >  meta/recipes-core/util-linux/util-linux.inc | 2 +-
-> > > > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/meta/recipes-core/util-linux/util-linux.inc
-> > > > > > b/meta/recipes-core/util-linux/util-linux.inc
-> > > > > > index 1fa82363b1..8f867aa9b4 100644
-> > > > > > --- a/meta/recipes-core/util-linux/util-linux.inc
-> > > > > > +++ b/meta/recipes-core/util-linux/util-linux.inc
-> > > > > > @@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "
-> > > > > > file://README.licensing;md5=972a134f1e14b2b060e365df2fab0099
-> > > > > >
-> > > > > >  #gtk-doc is not enabled as it requires xmlto which requires
-> > > > > > util-
-> > > > > > linux
-> > > > > >  inherit autotools gettext manpages pkgconfig systemd update-
-> > > > > > alternatives python3-dir bash-completion ptest
-> > > > > > -DEPENDS = "libcap-ng ncurses virtual/crypt zlib"
-> > > > > > +DEPENDS = "libcap-ng ncurses virtual/crypt zlib libpcre2"
-> > > > > >
-> > > > > >  MAJOR_VERSION =
-> > > > > > "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
-> > > > > >  SRC_URI =
-> > > > > > "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${B
-> > > > > > P}.t
-> > > > > > ar.x
-> > > > > > z \
-> > > > >
-> > > > > Given it works today without that, shouldn't it be a
-> > > > > PACKAGECONFIG?
-> > > >
-> > > > its default with other main linux distros. I thought since what
-> > > > we
-> > > > were doing was not
-> > > > default, I did not see a need for packageconfig. I can certain do
-> > > > a
-> > > > v2 with packageconfig and enabling it by default, is that better
-> > > > ?
-> > >
-> > > We're embedded so we're supposed to expose this kind of config and
-> > > tend
-> > > to the more minimal ;-)
-> >
-> > I was more looking into native and nativesdk variants where this
-> > could be more important.
+>> -inherit meson features_check lib_package bash-completion
+>> +inherit meson setuptools3 features_check lib_package bash-completion
+>>
 >
-> Sure, but your patch changes the target version too...
+> I don't think you actually need setuptools3 here, just target python3
+> dependency is enough.
 >
 
-sent a v2
+Actually doesn't need python3 it needs python3-native with setuptools, not
+need to depend of python3 for the target.
 
-> Cheers,
+Anibal
+
+
 >
-> Richard
+> Alex
 >
 
+--0000000000001e29570598e6faab
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 4 Dec 2019 at 13:15, Alexande=
+r Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><div dir=3D"ltr"><div dir=3D"ltr">On Wed, 4 Dec 2019 at 20:04, An=C3=ADb=
+al Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org" target=3D"_bla=
+nk">anibal.limon@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quo=
+te"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">-inherit meson featur=
+es_check lib_package bash-completion<br>
++inherit meson setuptools3 features_check lib_package bash-completion<br></=
+blockquote><div><br></div><div>I don&#39;t think you actually need setuptoo=
+ls3 here, just target python3 dependency is enough.</div></div></div></bloc=
+kquote><div><br></div><div>Actually doesn&#39;t=C2=A0need python3 it needs =
+python3-native with setuptools, not need to depend of=C2=A0python3=C2=A0for=
+ the target.</div><div><br></div><div>Anibal</div><div>=C2=A0</div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gm=
+ail_quote"><div><br></div><div>Alex<br></div></div></div>
+</blockquote></div></div>
+
+--0000000000001e29570598e6faab--
