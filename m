@@ -1,52 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AF4F7F7D8
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 60B507F815
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 21:50:42 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id v19so1489612qkv.3
+	Wed,  4 Dec 2019 22:07:16 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id z3so1090239wru.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2019 13:50:43 -0800 (PST)
+	Wed, 04 Dec 2019 14:07:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xZftuWBE2r8UgzQ754z68jUQDjClTh4tVSAfnFuETsc=;
-	b=LzuVlNWkOqg1s38kYucnUPQ/Gj2yMzWoHNMlss3zqMnk2tgrjK9sKUgVC8l+UsoGVE
-	0ssv4rqXuW5jSti+ATR4vec2Qg5iPFrI4l+qgXKosUGDryqNw3x3MsFmEcKUbOrj/LJ1
-	jipQLzvad3eQI6R/5DYjfClBpLjOOPfN9AgY4Yeb5sjkpQLQ4AN80dGfAJf+MTwUfEJE
-	9ybssUodXmXEpToQJqwnQiQ69BKZFxEldaOSRtZv2f8vlxAXtr4sWTm7zpqxC3rV3mnq
-	FLINqOgHPhSNF+7wTDncoswqRE6XN3CLnfOx9BLmz/FU2jFwVB9jTr0JSfs40L5Gl6e9
-	dADg==
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=FZAKxB0HBNWtp2cFGHvYixqXDx68C04Bp+msNi2FsvI=;
+	b=h0ENRROlGhrmp0vl0lj0jDFYAuI726lT+dGw+ffn6iFZltkH5ocYl2MZbmgMTh4BCu
+	x8DsxTIJsAYTPNHhAA2/xpd67j+59BMyeZy/YtPbBZdkuKOgYUbaLgYBzZ8HAu4RI6lS
+	rJeDtx06a0Uq1RxMRGP2dpZMwk9J22yVNFtlNQIr1EUNwMx7obbKRf3OsVty3ikprSFV
+	jjL7cwif8P75fI3ddDk7FXyq1ethLMRFZATuXw4ZtOVQLGtq+24/sO6TobiKQKglfmza
+	JJQ1Jr7trrJ9YSohQFRZlyzkHjBQKpEbjUQdY8FlZ+V9zUN9DuoLxJebtGZF46hEQKTZ
+	Ipjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xZftuWBE2r8UgzQ754z68jUQDjClTh4tVSAfnFuETsc=;
-	b=Om2GSh20jJzIDPNRIwExktP17NSJvqmdBmoI23QLrp1YYI7al+WvN/6EDvC9LYAF4V
-	txU/2ZZG2cc9fYnTC8SZBU5W/XDY7yIOzl4O0HP/Uz4ZHKF7lz4Vjm43Css0h/dGcF7G
-	60+uzGt0ECt+BA9/ZLZjFdWiFBIuDi55TFcsgw+R6ueea6DoWZtolrELlHurwz8lSlsF
-	T5Ews1piRuKcYJptdyKvwyrCyzNSZ0NJoZKABT1p9RKXpFvF7TWMw3esbZa0wycLjcMc
-	UEJEaCgqg9uVPYsAWZXX1GOW1H8UepnYyT8ocQMxbNCAztkDxRDjoERm59s1JStXOvKV
-	5+7w==
-X-Gm-Message-State: APjAAAUHsSLxKQqibh39ww6q5rSFahXyexZK3nyJVxyrPXIYhSC0gUA1
-	EgIA/4nL8IM0fBB0XBQj5qh5vJ0FTKpqPcMleWs=
-X-Google-Smtp-Source: APXvYqwnea4UHsDU8ksbWfa/C7U55jBZ0eJuUKMUKZN+sCYRROfXKIRF3XO+5FD0CJqGTNto8hk3uIwu9JQbUEcjdpI=
-X-Received: by 2002:a37:a0cf:: with SMTP id j198mr5504726qke.9.1575496242475; 
-	Wed, 04 Dec 2019 13:50:42 -0800 (PST)
-MIME-Version: 1.0
-References: <20191203220624.26500-1-anibal.limon@linaro.org>
-	<CAMKF1spabEvBMwjvefWN7ULZ8ZpGfNDgJ1gf75u1B7h3oD4nJg@mail.gmail.com>
-	<CA+_AqisSN24sPo5vOzeGY4Kdb_mmQxGArCu0Kw6yeSBv-a+QHw@mail.gmail.com>
-	<CANNYZj90w9QghK8eTdvc-iE7tjONky=bDA=98Mr5ccH0sjgF4g@mail.gmail.com>
-	<CA+_AqisJ1+g7Btaq-T-SmSVXLsM0iePfxbq2mgbz+1VSSvDYZw@mail.gmail.com>
-	<CANNYZj_PLwj3LUGUq6BvZycwoZJOnANVk8bbwLPPxptBWE+n8Q@mail.gmail.com>
-	<814a4b72-0c15-f420-f579-46c92f8b93e9@intel.com>
-In-Reply-To: <814a4b72-0c15-f420-f579-46c92f8b93e9@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 4 Dec 2019 13:50:31 -0800
-Message-ID: <CAMKF1spFuYeip7Q_uDxjSCKPJidY4DM+_450+PsLJCXSLs2gzA@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=FZAKxB0HBNWtp2cFGHvYixqXDx68C04Bp+msNi2FsvI=;
+	b=ZK6yn32pTqt1CHsnLlxmvHs56pFKFwsRKV6zN7krHRMrwwPx7cvE1QWojpKBVMDUtG
+	86ykX09ZrUVcn2ezx7HL1Y9H0p547OA0OdXcBp8VemT5VcmfdB8AOniTFMg4x5LmFCOo
+	rpDLxNYBegv4S7z+tgqxYHrBfcZ0zTrsrJ/gYhmYzu2R1yM4ifLetPwkEguVEn4+spNJ
+	ZaVudzDdcrwn5UOKT56kGdZIUP3Emo0gCPUWuq5C8rK6TF0GwtrqG1JyAZkHsDwGPhP6
+	/R/9klVZKiZC2EDazXcGncLmpCYktJza2o3QH7LdHPqjlPQOnVDKPaCqFGsGqkbCrm9S
+	D8ow==
+X-Gm-Message-State: APjAAAXtMZqJLPHr1t2eAFslw4M6ywupeHBtDA/RBRCRIjBkQdcNVk0D
+	JyibhAeywuIaWW7QTvpYRPc=
+X-Google-Smtp-Source: APXvYqwF00KLS2iLuaOChFgCVJ00uqeNahVSntRcgeAK1aDuFAlC2mZF7UKdiAZ2MbaIGGkdTSoa/A==
+X-Received: by 2002:a5d:51c6:: with SMTP id n6mr6247922wrv.250.1575497236908; 
+	Wed, 04 Dec 2019 14:07:16 -0800 (PST)
+Received: from ?IPv6:2a02:2450:1011:56f:25b3:1485:4ba7:3624?
+	([2a02:2450:1011:56f:25b3:1485:4ba7:3624])
+	by smtp.gmail.com with ESMTPSA id
+	w17sm10082909wrt.89.2019.12.04.14.07.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 04 Dec 2019 14:07:16 -0800 (PST)
+Mime-Version: 1.0 (1.0)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: iPhone Mail (16G102)
+In-Reply-To: <CA+_Aqitgf4Q+p2C3n7t_GCo=zygsmC5zMEjJnCT3=QDs5Nq8wg@mail.gmail.com>
+Date: Wed, 4 Dec 2019 23:07:15 +0100
+Message-Id: <1CD180C7-0F85-4006-BFBC-9AF386C66F66@gmail.com>
+References: <20191204184028.14813-1-anibal.limon@linaro.org>
+	<CANNYZj8dQGgwgOCg_NohqU4H5eLwAK-aFowLa-ywFpf7-YU3ZQ@mail.gmail.com>
+	<CA+_Aqitgf4Q+p2C3n7t_GCo=zygsmC5zMEjJnCT3=QDs5Nq8wg@mail.gmail.com>
+To: Anibal Limon <anibal.limon@linaro.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta/classes/meson.bbclass: Add inherit setuptools3
+Subject: Re: [PATCHv2] meta/recipes-graphics/waffle: Add inherit setuptools
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,103 +63,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 21:50:42 -0000
-Content-Type: multipart/alternative; boundary="000000000000e0ba970598e7cdc9"
+X-List-Received-Date: Wed, 04 Dec 2019 22:07:16 -0000
+Content-Type: multipart/alternative;
+	boundary=Apple-Mail-7419AF9E-1342-44C3-B871-43E18207BE56
+Content-Transfer-Encoding: 7bit
 
---000000000000e0ba970598e7cdc9
-Content-Type: text/plain; charset="UTF-8"
+--Apple-Mail-7419AF9E-1342-44C3-B871-43E18207BE56
+Content-Type: text/plain;
+	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Dec 4, 2019 at 1:16 PM Ross Burton <ross.burton@intel.com> wrote:
+But inheriting setuptools does bring in the target python as well, and it=E2=
+=80=99s the target python that fixes the issue, not setuptools.
 
-> On 04/12/2019 18:42, Alexander Kanavin wrote:
-> > On Wed, 4 Dec 2019 at 19:35, Anibal Limon <anibal.limon@linaro.org
-> > <mailto:anibal.limon@linaro.org>> wrote:
-> >
-> >
-> >
-> >     On Wed, 4 Dec 2019 at 04:20, Alexander Kanavin
-> >     <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
-> >
-> >         I tend to agree with Khem; this change will pull in target
-> >         python as build and runtime dependency to all meson-using
-> >         recipes, even those that have nothing to do with python.
-> >
-> >
-> >     Ok, it depends on python3-setuptools-native I will add this inherit
-> >     on waffle recipe.
-> >
-> >
-> > Do test this change; I believe you actually need a dependency on target
-> > python3.
->
-> I'd say that if the true dependency is just python3-setuptools-native,
-> we can just add that to meson.bbclass as it's not really invasive.  If
-> it was a target dependency that is different of course.
+Alex
 
+> On 4 Dec 2019, at 21.51, Anibal Limon <anibal.limon@linaro.org> wrote:
+>=20
+>=20
+>=20
+>> On Wed, 4 Dec 2019 at 13:15, Alexander Kanavin <alex.kanavin@gmail.com> w=
+rote:
+>>> On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro=
+.org> wrote:
+>>=20
+>>> -inherit meson features_check lib_package bash-completion
+>>> +inherit meson setuptools3 features_check lib_package bash-completion
+>>=20
+>> I don't think you actually need setuptools3 here, just target python3 dep=
+endency is enough.
+>=20
+> Actually doesn't need python3 it needs python3-native with setuptools, not=
+ need to depend of python3 for the target.
+>=20
+> Anibal
+> =20
+>>=20
+>> Alex
 
-I think so too late if meson is demanding for setup tools then it should be
-in meson bbclass I was thinking that it=E2=80=99s a outlier but seems not
-
->
->
-> Ross
->
->
-
---000000000000e0ba970598e7cdc9
-Content-Type: text/html; charset="UTF-8"
+--Apple-Mail-7419AF9E-1342-44C3-B871-43E18207BE56
+Content-Type: text/html;
+	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Dec 4, 2019 at 1:16 PM Ross Burton &lt;<a href=3D"m=
-ailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">On 04/12/2019 18:42, Alexander Kanavin wrote=
-:<br>
-&gt; On Wed, 4 Dec 2019 at 19:35, Anibal Limon &lt;<a href=3D"mailto:anibal=
-.limon@linaro.org" target=3D"_blank">anibal.limon@linaro.org</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:anibal.limon@linaro.org" target=3D"_blank=
-">anibal.limon@linaro.org</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0On Wed, 4 Dec 2019 at 04:20, Alexander Kanavin<br>
-&gt;=C2=A0 =C2=A0 =C2=A0&lt;<a href=3D"mailto:alex.kanavin@gmail.com" targe=
-t=3D"_blank">alex.kanavin@gmail.com</a> &lt;mailto:<a href=3D"mailto:alex.k=
-anavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;&gt; wrot=
-e:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0I tend to agree with Khem; this chang=
-e will pull in target<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0python as build and runtime dependenc=
-y to all meson-using<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0recipes, even those that have nothing=
- to do with python.<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Ok, it depends on python3-setuptools-native I will =
-add this inherit<br>
-&gt;=C2=A0 =C2=A0 =C2=A0on waffle recipe.<br>
-&gt; <br>
-&gt; <br>
-&gt; Do test this change; I believe you actually need a dependency on targe=
-t <br>
-&gt; python3.<br>
+<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
+utf-8"></head><body dir=3D"auto">But inheriting setuptools does bring in the=
+ target python as well, and it=E2=80=99s the target python that fixes the is=
+sue, not setuptools.<br><br><div id=3D"AppleMailSignature" dir=3D"ltr">Alex<=
+/div><div dir=3D"ltr"><br>On 4 Dec 2019, at 21.51, Anibal Limon &lt;<a href=3D=
+"mailto:anibal.limon@linaro.org">anibal.limon@linaro.org</a>&gt; wrote:<br><=
+br></div><blockquote type=3D"cite"><div dir=3D"ltr"><div dir=3D"ltr"><div di=
+r=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">On Wed, 4 Dec 2019 at 13:15, Alexander Kanavin &lt;<a href=3D"m=
+ailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D=
+"ltr">On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mai=
+lto:anibal.limon@linaro.org" target=3D"_blank">anibal.limon@linaro.org</a>&g=
+t; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">-inherit meson features_check lib_package bash-completion=
 <br>
-I&#39;d say that if the true dependency is just python3-setuptools-native, =
-<br>
-we can just add that to meson.bbclass as it&#39;s not really invasive.=C2=
-=A0 If <br>
-it was a target dependency that is different of course.</blockquote><div di=
-r=3D"auto"><br></div><div dir=3D"auto">I think so too late if meson is dema=
-nding for setup tools then it should be in meson bbclass I was thinking tha=
-t it=E2=80=99s a outlier but seems not=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><br>
-<br>
-Ross<br>
-<br>
++inherit meson setuptools3 features_check lib_package bash-completion<br></b=
+lockquote><div><br></div><div>I don't think you actually need setuptools3 he=
+re, just target python3 dependency is enough.</div></div></div></blockquote>=
+<div><br></div><div>Actually doesn't&nbsp;need python3 it needs python3-nati=
+ve with setuptools, not need to depend of&nbsp;python3&nbsp;for the target.<=
+/div><div><br></div><div>Anibal</div><div>&nbsp;</div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div>=
+<br></div><div>Alex<br></div></div></div>
 </blockquote></div></div>
+</div></blockquote></body></html>=
 
---000000000000e0ba970598e7cdc9--
+--Apple-Mail-7419AF9E-1342-44C3-B871-43E18207BE56--
