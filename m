@@ -1,26 +1,18 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 36EF57CDC0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 13:32:13 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:14 -0800
-X-IronPort-AV: E=Sophos;i="5.69,277,1571727600"; d="scan'208";a="205389456"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.164.178])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:13 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2019 21:31:51 +0800
-Message-Id: <4e5430de840c1803d17530e56cb0c6e728871cd4.1575465665.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <cover.1575465665.git.anuj.mittal@intel.com>
-References: <cover.1575465665.git.anuj.mittal@intel.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C724C745BF;
+	Wed,  4 Dec 2019 14:01:57 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [zeus][PATCH 10/10] dosfstools: fix CP437 error from `dosfsck -l`
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Date: Wed, 04 Dec 2019 14:01:59 -0000
+Message-ID: <20191204140159.2275.91555@do>
+References: <cover.1575465665.git.anuj.mittal@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <cover.1575465665.git.anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgemV1cyAtbmV4dCByZXZpZXc=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,37 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 13:32:13 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Dec 2019 14:01:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Christopher Larson <chris_larson@mentor.com>
+== Series Details ==
 
-Fix this error seen when using dosfsck -l to list fs contents:
+Series: zeus -next review
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/21451/
+State : failure
 
-    CP437: Invalid argument
+== Summary ==
 
-(From OE-Core rev: 8a5fdac3c2d207b2cfac64ec2a2626c3ef154d84)
 
-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [zeus,03/10] bind: Whitelist CVE-2019-6470
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-devtools/dosfstools/dosfstools_4.1.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb b/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
-index 69aa81af44..23b8836670 100644
---- a/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
-+++ b/meta/recipes-devtools/dosfstools/dosfstools_4.1.bb
-@@ -23,3 +23,6 @@ EXTRA_OECONF = "--without-udev --enable-compat-symlinks"
- CFLAGS += "-D_GNU_SOURCE -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64"
- 
- BBCLASSEXTEND = "native"
-+
-+# Add codepage437 to avoid error from `dosfsck -l`
-+RRECOMMENDS_${PN}_append_libc-glibc = " glibc-gconv-ibm437"
--- 
-2.21.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
