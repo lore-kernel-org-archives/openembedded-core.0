@@ -1,47 +1,37 @@
-Return-Path: <anibal.limon@linaro.org>
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com
-	[209.85.222.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 18B177F7E1
+Return-Path: <ross.burton@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A67F7F7D6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 20:51:28 +0000 (UTC)
-Received: by mail-ua1-f48.google.com with SMTP id z17so349134uac.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2019 12:51:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ls8afcB0Strdi2cMPWDhTzXhu56je5h5s6ewZTCW2BQ=;
-	b=z0eaYA/goCM5/Th3fgLVlXrJPb/RTSOpxmJxZtv0NO1UJOGh70PJWWM4y7QOJDfhZP
-	5DvoQD22+bhgoq7Id9bvHghTN5DYmq1AHng2aS+bViOGPp/5UbDIIZ8DlUVtd4+eFLzM
-	fLU2z8ISIJ3W03A/t0HM+KVvBG9PnMWWhd1PXr2igPopZupEPkMxFt7IGhBpwpwAabVf
-	iVKhltZDWuSiMW81PVObMVv5Wilydu3KrGApjtAxg65Qbzp9+D9HVyqJ2/6RBFQv1rt5
-	7dJGErdqCNyc87GOjfjl3MvU4dBnMtoMeGF20T/yIooyxtBIb+VO75x8tMD9JOYakMaa
-	1lZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ls8afcB0Strdi2cMPWDhTzXhu56je5h5s6ewZTCW2BQ=;
-	b=UEQpyDZl8Z+AtDFysjskkjiI4J9Eec27rb+/XRfKpmUWH4vJOJOJn3IJpxEkh3bDmx
-	gVhg0yVmrmbvhF9Hi+G07Tr7TcVx+e4PKb1wJF4se9LAEotF3Mq5fYijVdYaC1XyRgGq
-	e2p+nSm8859aiMYsNEok7UF8fJ91Rtw6YajrdtCk7o69qfqAacO6ncKmr3VS6/1SVzm6
-	zTRHcZCdHV7RqrR+zbhdwqzMUl5oi4e8o/j7PrTJd2NwO7KzDPUXiSKGy+58C1mJ9+nF
-	1J95bvcxECjjvraO1bJBJ75WLK+nB/5eDLlG3krVzUsBTqZH2EGYGSmOAXRf0N0hNb2t
-	5jTQ==
-X-Gm-Message-State: APjAAAWeeckID3kDabZImLMp+OFFfT/NEUdl9HsSkNvzVb0zNKPlwOyg
-	1b6djqRMYeJwZniNo5jmGLk86Aim55BntvtDG3Q1cQ==
-X-Google-Smtp-Source: APXvYqxOb9y23exhzXZYi+4Pus5MnrrKXbG4nf8BsBWYkmrSAobbIKbq7apYG00cbiEkhgcnqFTTCg8WkXrd+MGI5vg=
-X-Received: by 2002:ab0:7219:: with SMTP id u25mr4239376uao.10.1575492689726; 
-	Wed, 04 Dec 2019 12:51:29 -0800 (PST)
+	Wed,  4 Dec 2019 21:16:20 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Dec 2019 13:16:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,278,1571727600"; d="scan'208";a="411402140"
+Received: from aaronsan-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.32.186])
+	by fmsmga005.fm.intel.com with ESMTP; 04 Dec 2019 13:16:18 -0800
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Anibal Limon <anibal.limon@linaro.org>
+References: <20191203220624.26500-1-anibal.limon@linaro.org>
+	<CAMKF1spabEvBMwjvefWN7ULZ8ZpGfNDgJ1gf75u1B7h3oD4nJg@mail.gmail.com>
+	<CA+_AqisSN24sPo5vOzeGY4Kdb_mmQxGArCu0Kw6yeSBv-a+QHw@mail.gmail.com>
+	<CANNYZj90w9QghK8eTdvc-iE7tjONky=bDA=98Mr5ccH0sjgF4g@mail.gmail.com>
+	<CA+_AqisJ1+g7Btaq-T-SmSVXLsM0iePfxbq2mgbz+1VSSvDYZw@mail.gmail.com>
+	<CANNYZj_PLwj3LUGUq6BvZycwoZJOnANVk8bbwLPPxptBWE+n8Q@mail.gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <814a4b72-0c15-f420-f579-46c92f8b93e9@intel.com>
+Date: Wed, 4 Dec 2019 21:16:18 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-References: <20191204184028.14813-1-anibal.limon@linaro.org>
-	<CANNYZj8dQGgwgOCg_NohqU4H5eLwAK-aFowLa-ywFpf7-YU3ZQ@mail.gmail.com>
-In-Reply-To: <CANNYZj8dQGgwgOCg_NohqU4H5eLwAK-aFowLa-ywFpf7-YU3ZQ@mail.gmail.com>
-From: Anibal Limon <anibal.limon@linaro.org>
-Date: Wed, 4 Dec 2019 14:51:18 -0600
-Message-ID: <CA+_Aqitgf4Q+p2C3n7t_GCo=zygsmC5zMEjJnCT3=QDs5Nq8wg@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+In-Reply-To: <CANNYZj_PLwj3LUGUq6BvZycwoZJOnANVk8bbwLPPxptBWE+n8Q@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] meta/recipes-graphics/waffle: Add inherit setuptools
+Subject: Re: [PATCH] meta/classes/meson.bbclass: Add inherit setuptools3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,61 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 20:51:29 -0000
-Content-Type: multipart/alternative; boundary="0000000000001e29570598e6faab"
+X-List-Received-Date: Wed, 04 Dec 2019 21:16:20 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---0000000000001e29570598e6faab
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 04/12/2019 18:42, Alexander Kanavin wrote:
+> On Wed, 4 Dec 2019 at 19:35, Anibal Limon <anibal.limon@linaro.org 
+> <mailto:anibal.limon@linaro.org>> wrote:
+> 
+> 
+> 
+>     On Wed, 4 Dec 2019 at 04:20, Alexander Kanavin
+>     <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
+> 
+>         I tend to agree with Khem; this change will pull in target
+>         python as build and runtime dependency to all meson-using
+>         recipes, even those that have nothing to do with python.
+> 
+> 
+>     Ok, it depends on python3-setuptools-native I will add this inherit
+>     on waffle recipe.
+> 
+> 
+> Do test this change; I believe you actually need a dependency on target 
+> python3.
 
-On Wed, 4 Dec 2019 at 13:15, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+I'd say that if the true dependency is just python3-setuptools-native, 
+we can just add that to meson.bbclass as it's not really invasive.  If 
+it was a target dependency that is different of course.
 
-> On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.=
-org> wrote:
->
->> -inherit meson features_check lib_package bash-completion
->> +inherit meson setuptools3 features_check lib_package bash-completion
->>
->
-> I don't think you actually need setuptools3 here, just target python3
-> dependency is enough.
->
-
-Actually doesn't need python3 it needs python3-native with setuptools, not
-need to depend of python3 for the target.
-
-Anibal
+Ross
 
 
->
-> Alex
->
-
---0000000000001e29570598e6faab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 4 Dec 2019 at 13:15, Alexande=
-r Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x"><div dir=3D"ltr"><div dir=3D"ltr">On Wed, 4 Dec 2019 at 20:04, An=C3=ADb=
-al Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org" target=3D"_bla=
-nk">anibal.limon@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quo=
-te"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex">-inherit meson featur=
-es_check lib_package bash-completion<br>
-+inherit meson setuptools3 features_check lib_package bash-completion<br></=
-blockquote><div><br></div><div>I don&#39;t think you actually need setuptoo=
-ls3 here, just target python3 dependency is enough.</div></div></div></bloc=
-kquote><div><br></div><div>Actually doesn&#39;t=C2=A0need python3 it needs =
-python3-native with setuptools, not need to depend of=C2=A0python3=C2=A0for=
- the target.</div><div><br></div><div>Anibal</div><div>=C2=A0</div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gm=
-ail_quote"><div><br></div><div>Alex<br></div></div></div>
-</blockquote></div></div>
-
---0000000000001e29570598e6faab--
