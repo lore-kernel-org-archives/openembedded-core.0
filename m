@@ -1,50 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 77EAF7F7C2
+Return-Path: <frieder.schrempf@kontron.de>
+X-Greylist: delayed 481 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 04 Dec 2019 16:52:03 UTC
+Received: from skedge03.snt-world.com (skedge03.snt-world.com [91.208.41.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 756117F828
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 16:51:40 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id q16so3386203plr.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2019 08:51:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=WVnHz9d3hzH+IiWRolLHjtgmV6aaGxvfFbhO92qW8nk=;
-	b=AwxWtR7XYWXSvVakgqYk03SwGzRyZVg2ix16CfAR2Rv4zWLTopUNMC4V5n+iGgMqov
-	AK/0hzjV1WQaGXkXvz7hE1LXQ0CdxW5CEjdZbYv/lv+n5M7v7MWPZvWDyvb7+HVws1IK
-	BmVoA/YwuAglwKx0lu0OlmG4LAC2kAn1jGMt4FxBibm/nsuV+A6nTprE2wqFEPk7RaMy
-	jlRVjJgrjr6B+Ch7UAundCB213erAyC+SCM75ehCiYgxRvQEBPeYY9GPLOZkCQ6UqugL
-	34T/Jun0tLWT5Oot/8y6a6Xkab6do/iqZ68y9ea8utq4njUgAoc8BL2uAhOFGTai+syl
-	BooQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=WVnHz9d3hzH+IiWRolLHjtgmV6aaGxvfFbhO92qW8nk=;
-	b=mpf38Gh4yZvjjBQKpQ8cbfOd1NNrM5TRDzMdaGhB2H8/MMCUzhvylx2/tOIDhOcrdJ
-	HJOE957KO8imA/BTvoJC5SRFp6K4VYZzcG3lM3qYEviWKwwcuFUqZmUlC9GpSNzZAfOt
-	ase1QHkEFPAX2PD70xRg+eQuyNlaGQr8OR7IGoxsb2D57aRXunuMz/Ksn3EpzPrBM2KS
-	smRyz3Qww3VCsDE4nLDRbH1GqOQhQvY2ilWzMuiJS++cSrsqjBjPkbwHzUxQvd6otaqp
-	vCaf/WarxE5JFeEMz4N8kJD4AxQt6bcxbXeFVqK50xqDX1v42C8Ric+GBhBKLr5KODlX
-	uSCA==
-X-Gm-Message-State: APjAAAU4+OXlDBcjXIza2+xnC9w8RnkjRPxB20jUahMswMQIGr166wbF
-	ae9ix7HDtWyjXqxllHXjLdo+f40EBQg=
-X-Google-Smtp-Source: APXvYqyLBm9xqROrQCsDu8XLTJBfJl7Mq/vb2YO2SVgoGTZpbGeWItI6MXUbOCsnLWJjTTig3khmGQ==
-X-Received: by 2002:a17:90a:fc94:: with SMTP id
-	ci20mr4176885pjb.6.1575478300847; 
-	Wed, 04 Dec 2019 08:51:40 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::2797])
-	by smtp.gmail.com with ESMTPSA id y6sm8178320pgc.10.2019.12.04.08.51.39
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Dec 2019 08:51:40 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2019 08:51:25 -0800
-Message-Id: <20191204165125.2546258-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
+	Wed,  4 Dec 2019 16:52:03 +0000 (UTC)
+Received: from sntmail10s.snt-is.com (unknown [10.203.32.183])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by skedge03.snt-world.com (Postfix) with ESMTPS id 9C5A267A649;
+	Wed,  4 Dec 2019 17:44:01 +0100 (CET)
+Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail10s.snt-is.com
+	(10.203.32.183) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5;
+	Wed, 4 Dec 2019 17:44:01 +0100
+Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
+	sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
+	15.01.1713.004; Wed, 4 Dec 2019 17:44:01 +0100
+From: Schrempf Frieder <frieder.schrempf@kontron.de>
+To: Tom Hochstein <tom.hochstein@nxp.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/2] devtool/standard.py: Allow recipe to
+	disable menuconfig logic
+Thread-Index: AQHVn9hOKHV1irVtG0aDGZ7QPWajF6eqM5oA
+Date: Wed, 4 Dec 2019 16:44:01 +0000
+Message-ID: <d25ed9e2-6ff8-355a-1de0-8b51aef9e2c8@kontron.de>
+References: <20191120192419.7352-1-tom.hochstein@nxp.com>
+In-Reply-To: <20191120192419.7352-1-tom.hochstein@nxp.com>
+Accept-Language: de-DE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.25.9.193]
+x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
 MIME-Version: 1.0
-Subject: [PATCH V2] go: Reset unneeded GOARCH variables for native recipe
+X-SnT-MailScanner-Information: Please contact the ISP for more information
+X-SnT-MailScanner-ID: 9C5A267A649.AF428
+X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
+	Provider for details
+X-SnT-MailScanner-SpamCheck: 
+X-SnT-MailScanner-From: frieder.schrempf@kontron.de
+X-SnT-MailScanner-To: openembedded-core@lists.openembedded.org,
+	tom.hochstein@nxp.com
+X-Spam-Status: No
+Subject: Re: [PATCH 1/2] devtool/standard.py: Allow recipe to disable menuconfig logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +56,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 16:51:40 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Dec 2019 16:52:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8AA0924CCDAB034CA98E48283863E8B4@snt-world.com>
+Content-Transfer-Encoding: base64
 
-These variables depend on TUNE_FEATURES variable and that creeps into
-dependencies for native as well as a result, which means go-native gets
-recompiled everytime machine/arch is changed.
-
-Fixes sstate differences found e.g.
-
-basehash changed from 600fb6be571fa4853232a7fed78945ee19b324e54b1b94cff93ef472b6290103 to 994de861190a56064d3e186d9c411152127e230bf2f77b17e59b2c5932a41249
-List of dependencies for variable TUNE_FEATURES changed from '{'TUNE_FEATURES_tune-core2-32', 'DEFAULTTUNE'}' to '{'TUNE_FEATURES_tune-armv7vethf-neon', 'DEFAULTTUNE'}'
-changed items: {'TUNE_FEATURES_tune-core2-32', 'TUNE_FEATURES_tune-armv7vethf-neon'}
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Cleanup a bit by defining YOCTO_ALTERNATE_EXE_PATH
-
- meta/recipes-devtools/go/go-common.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
-diff --git a/meta/recipes-devtools/go/go-common.inc b/meta/recipes-devtools/go/go-common.inc
-index f18d928c70..aa2482d356 100644
---- a/meta/recipes-devtools/go/go-common.inc
-+++ b/meta/recipes-devtools/go/go-common.inc
-@@ -37,6 +37,16 @@ export GO386 ?= "${TARGET_GO386}"
- export GOMIPS ?= "${TARGET_GOMIPS}"
- export GOROOT_FINAL ?= "${libdir}/go"
- 
-+GOEXPORTVARS = "1"
-+GOEXPORTVARS_class-native = "0"
-+
-+GOARM[export] = "${GOEXPORTVARS}"
-+GO386[export] = "${GOEXPORTVARS}"
-+GOMIPS[export] = "${GOEXPORTVARS}"
-+HOST_GOARM[export] = "${GOEXPORTVARS}"
-+HOST_GO386[export] = "${GOEXPORTVARS}"
-+HOST_GOMIPS[export] = "${GOEXPORTVARS}"
-+
- do_compile_prepend() {
- 	BUILD_CC=${BUILD_CC}
- }
--- 
-2.24.0
-
+SGksDQoNCk9uIDIwLjExLjE5IDIwOjI1LCBUb20gSG9jaHN0ZWluIHdyb3RlOg0KPiB1LWJvb3Qu
+aW5jIHN1cHBvcnRzIHUtYm9vdCByZWNpcGVzIHdpdGggb3Igd2l0aG91dCBtZW51Y29uZmlnIFsx
+XS4NCj4gSG93ZXZlciwgcnVubmluZyBkZXZ0b29sIG9uIGEgdS1ib290IHJlY2lwZSB0aGF0IGRv
+ZXMgbm90IHN1cHBvcnQgbWVudWNvbmZpZw0KPiByZXN1bHRzIGluIGFuIGVycm9yOg0KPiANCj4g
+Y3A6IGNhbm5vdCBzdGF0ICcvaG9tZS9yNjA4NzQvdXBzdHJlYW0vZnNsLXh3YXlsYW5kL3RtcC93
+b3JrL2lteDhtbWV2ay1mc2wtbGludXgvdS1ib290LWlteC8yMDE4LjAzLXIwL3UtYm9vdC1pbXgt
+MjAxOC4wMy8vLmNvbmZpZyc6IE5vIHN1Y2ggZmlsZSBvciBkaXJlY3RvcnkNCj4gDQo+IFRoZSBw
+cm9ibGVtIGlzIHRoZSBkZXZ0b29sIGxvZ2ljIGFzc3VtZXMgdGhhdCBhbnkgcmVjaXBlIHdpdGgg
+YSBkb19tZW51Y29uZmlnIHRhc2sNCj4gd2lsbCBnZW5lcmF0ZSBhIC5jb25maWcgaW4gZG9fY29u
+ZmlndXJlKCkuDQo+IA0KPiBGaXggdGhlIHByb2JsZW0gYnkgcmVtb3ZpbmcgdGhlIGFzc3VtcHRp
+b24gd2l0aCBhIGZsYWcgdGhhdCB0aGUgcmVjaXBlIGNhbiBjb250cm9sLA0KPiBsaWtlIHRoaXM6
+DQo+IA0KPiBkb19jb25maWd1cmUoKSB7DQo+ICAgICAgaWYgWyBtZW51Y29uZmlnLXN1cHBvcnRl
+ZCBdOyB0aGVuDQo+ICAgICAgICAgIC4uLg0KPiAgICAgIGVsc2UNCj4gICAgICAgICAgREVWVE9P
+TF9ESVNBQkxFX01FTlVDT05GSUc9dHJ1ZQ0KPiAgICAgIGZpDQo+IH0NCj4gDQo+IFsxXSBodHRw
+czovL2dpdGh1Yi5jb20vb3BlbmVtYmVkZGVkL29wZW5lbWJlZGRlZC1jb3JlL2NvbW1pdC8xMTI3
+OGUzYjJjNzViZTgwNjQ1Yjk4NDE3NjNhOTdkYmIzNWRhYWRjDQo+IA0KPiBTaWduZWQtb2ZmLWJ5
+OiBUb20gSG9jaHN0ZWluIDx0b20uaG9jaHN0ZWluQG54cC5jb20+DQoNCkknbSBleHBlcmllbmNp
+bmcgdGhpcyBpc3N1ZSBzaW5jZSBtb3ZpbmcgdG8gemV1cy4gWW91ciBmaXggaW4gdGhpcyANCnNl
+cmllcyB3b3JrcyBmaW5lIGZvciBtZSBhbmQgSSB3b3VsZCByZWFsbHkgbGlrZSB0byBzZWUgdGhp
+cyBtZXJnZWQgaW4gemV1cy4NCg0KVGhhbmtzLA0KRnJpZWRlcg0KDQo+IC0tLQ0KPiAgIHNjcmlw
+dHMvbGliL2RldnRvb2wvc3RhbmRhcmQucHkgfCA2ICsrKystLQ0KPiAgIDEgZmlsZSBjaGFuZ2Vk
+LCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvc2Ny
+aXB0cy9saWIvZGV2dG9vbC9zdGFuZGFyZC5weSBiL3NjcmlwdHMvbGliL2RldnRvb2wvc3RhbmRh
+cmQucHkNCj4gaW5kZXggOGQ5YzFhMzAyMi4uNjZiZDE0MTVjMyAxMDA2NDQNCj4gLS0tIGEvc2Ny
+aXB0cy9saWIvZGV2dG9vbC9zdGFuZGFyZC5weQ0KPiArKysgYi9zY3JpcHRzL2xpYi9kZXZ0b29s
+L3N0YW5kYXJkLnB5DQo+IEBAIC05NDAsOCArOTQwLDEwIEBAIGRlZiBtb2RpZnkoYXJncywgY29u
+ZmlnLCBiYXNlcGF0aCwgd29ya3NwYWNlKToNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAn
+fVxuJykNCj4gICAgICAgICAgICAgICBpZiByZC5nZXRWYXJGbGFnKCdkb19tZW51Y29uZmlnJywn
+dGFzaycpOg0KPiAgICAgICAgICAgICAgICAgICBmLndyaXRlKCdcbmRvX2NvbmZpZ3VyZV9hcHBl
+bmQoKSB7XG4nDQo+IC0gICAgICAgICAgICAgICAgJyAgICBjcCAke0J9Ly5jb25maWcgJHtTfS8u
+Y29uZmlnLmJhc2VsaW5lXG4nDQo+IC0gICAgICAgICAgICAgICAgJyAgICBsbiAtc2ZUICR7Qn0v
+LmNvbmZpZyAke1N9Ly5jb25maWcubmV3XG4nDQo+ICsgICAgICAgICAgICAgICAgJyAgICBpZiBb
+ICEgJHtERVZUT09MX0RJU0FCTEVfTUVOVUNPTkZJR30gXTsgdGhlblxuJw0KPiArICAgICAgICAg
+ICAgICAgICcgICAgICAgIGNwICR7Qn0vLmNvbmZpZyAke1N9Ly5jb25maWcuYmFzZWxpbmVcbicN
+Cj4gKyAgICAgICAgICAgICAgICAnICAgICAgICBsbiAtc2ZUICR7Qn0vLmNvbmZpZyAke1N9Ly5j
+b25maWcubmV3XG4nDQo+ICsgICAgICAgICAgICAgICAgJyAgICBmaVxuJw0KPiAgICAgICAgICAg
+ICAgICAgICAnfVxuJykNCj4gICAgICAgICAgICAgICBpZiBpbml0aWFsX3JldjoNCj4gICAgICAg
+ICAgICAgICAgICAgZi53cml0ZSgnXG4jIGluaXRpYWxfcmV2OiAlc1xuJyAlIGluaXRpYWxfcmV2
+KQ0KPiA=
 
