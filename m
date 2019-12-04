@@ -1,34 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 384847E98A
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E58926D230
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  3 Dec 2019 23:52:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Dec 2019 15:52:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,275,1571727600"; d="scan'208";a="242610991"
-Received: from aaronsan-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.32.186])
-	by fmsmga002.fm.intel.com with ESMTP; 03 Dec 2019 15:52:34 -0800
-From: Ross Burton <ross.burton@intel.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20191129131152.128311-1-alex.kanavin@gmail.com>
-	<1b6971c1-ce0d-5cda-862b-d0a84b5be20a@intel.com>
-	<CANNYZj-b0Ufwum+4vA5aqNm+=E+a+HM0vso=61UPERm57QrCDw@mail.gmail.com>
-	<661436bf-4167-10a7-a632-473948d8c950@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <ed34d6cb-50bc-7185-3d8d-f5a0c7bd6db5@intel.com>
-Date: Tue, 3 Dec 2019 23:52:33 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
+	Wed,  4 Dec 2019 00:25:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xB40PpXK020033
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 3 Dec 2019 16:25:51 -0800 (PST)
+Received: from [128.224.162.189] (128.224.162.189) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 3 Dec 2019 16:25:50 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <1573547565-352904-1-git-send-email-changqing.li@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <fc362303-861c-8d71-9a4e-493c1444d977@windriver.com>
+Date: Wed, 4 Dec 2019 08:25:47 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <661436bf-4167-10a7-a632-473948d8c950@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/15] rpm: upgrade to 4.15.1
+In-Reply-To: <1573547565-352904-1-git-send-email-changqing.li@windriver.com>
+X-Originating-IP: [128.224.162.189]
+Subject: Re: [PATCH] report-error.bbclass: replace angle brackets with &lt; and &gt;
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,100 +35,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 03 Dec 2019 23:52:37 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Dec 2019 00:25:51 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On 03/12/2019 23:05, Ross Burton wrote:
-> On 29/11/2019 21:28, Alexander Kanavin wrote:
->> On Fri, 29 Nov 2019 at 21:52, Ross Burton <ross.burton@intel.com 
->> <mailto:ross.burton@intel.com>> wrote:
->>
->>     This is reliably crashing for me when running rpmdeps:
->>
->>     Exception: bb.process.ExecutionError: Execution of
->>     
->> '/data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/temp/run.BUILDSPEC.1481' 
->>
->>
->>     failed with exit code 139:
->>     Building target platforms: corei7_64-poky-linux
->>     Building for target corei7_64-poky-linux
->>     Processing files: systemd-compat-units-1.0-r29.corei7_64
->>     Processing files: systemd-compat-units-dbg-1.0-r29.corei7_64
->>     Processing files: systemd-compat-units-dev-1.0-r29.corei7_64
->>     Checking for unpackaged file(s):
->>     
->> /data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/recipe-sysroot-native/usr/bin/../../usr/lib/rpm/check-files 
->>
->>
->>     
->> /data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/package 
->>
->>     Segmentation fault (core dumped)
->>     WARNING: exit code 139 from a shell command.
->>
->>
->> Here it's been robust. Can you produce a backtrace?
-> 
-> Reliably crashes here with systemd-compat-units.
-> 
-> Program terminated with signal SIGSEGV, Segmentation fault.
-> #0  0x00007fd087a2414a in dataLength (type=type@entry=8, 
-> p=p@entry=0x7fd07ec22c08, count=0,
->      count@entry=1, onDisk=onDisk@entry=0, pend=pend@entry=0x0) at 
-> ../../git/lib/header.c:462
-> 462    ../../git/lib/header.c: No such file or directory.
-> [Current thread is 1 (LWP 19382)]
-> (gdb) bt
-> #0  0x00007fd087a2414a in dataLength (type=type@entry=8, 
-> p=p@entry=0x7fd07ec22c08, count=0,
->      count@entry=1, onDisk=onDisk@entry=0, pend=pend@entry=0x0) at 
-> ../../git/lib/header.c:462
-> #1  0x00007fd087a247fb in grabData (type=8, p=0x7fd07ec22c08, c=1,
->      lengthPtr=lengthPtr@entry=0x7fd07ec22b3c) at 
-> ../../git/lib/header.c:1406
-> #2  0x00007fd087a24891 in intAddEntry (h=h@entry=0x55d2e872e9b0, 
-> td=td@entry=0x7fd07ec22b90)
->      at ../../git/lib/header.c:1432
-> #3  0x00007fd087a258e7 in headerPut (h=h@entry=0x55d2e872e9b0, 
-> td=td@entry=0x7fd07ec22b90,
->      flags=flags@entry=1) at ../../git/lib/header.c:1499
-> #4  0x00007fd087a23034 in headerPutType (h=h@entry=0x55d2e872e9b0, 
-> tag=tag@entry=5092,
->      reqtype=<optimized out>, data=0x7fd07ec22c08, size=size@entry=1) at 
-> ../../git/lib/headerutil.c:135
-> #5  0x00007fd087a232fc in headerPutString (h=0x55d2e872e9b0, 
-> tag=tag@entry=5092, val=<optimized out>)
->      at ../../git/lib/headerutil.c:155
-> #6  0x00007fd087a93fe9 in writeRPM (pkg=pkg@entry=0x55d2e872e870, 
-> pkgidp=pkgidp@entry=0x0,
->      fileName=0x7fd068004cf0 
-> "/data/poky-tmp/master/work/corei7-64-poky-linux/systemd-compat-units/1.0-r29/deploy-rpms/corei7_64/systemd-compat-units-dev-1.0-r29.corei7_64.rpm", 
-> cookie=cookie@entry=0x0,
->      buildTime=1575413653, buildHost=0x55d2e87ebc20 "reproducible") at 
-> ../../git/build/pack.c:499
-> #7  0x00007fd087a945e1 in packageBinary (spec=0x55d2e87195c0, 
-> pkg=pkg@entry=0x55d2e872e870, cookie=0x0,
->      cheating=<optimized out>, filename=filename@entry=0x55d2e872e990) 
-> at ../../git/build/pack.c:730
-> #8  0x00007fd087a94659 in packageBinaries._omp_fn.1 () at 
-> ../../git/build/pack.c:753
-> #9  0x00007fd087627769 in ?? () from /usr/lib/x86_64-linux-gnu/libgomp.so.1
-> #10 0x00007fd08762ff00 in ?? () from /usr/lib/x86_64-linux-gnu/libgomp.so.1
-> #11 0x00007fd087a92f4c in packageBinaries._omp_fn.0 () at 
-> ../../git/build/pack.c:749
-> #12 0x00007fd08762d79e in ?? () from /usr/lib/x86_64-linux-gnu/libgomp.so.1
-> #13 0x00007fd08765eed4 in ?? ()
->     from 
-> /data/poky-tmp/master/sysroots-uninative/x86_64-linux/lib/libpthread.so.0
-> #14 0x00007fd08754deff in clone ()
->     from 
-> /data/poky-tmp/master/sysroots-uninative/x86_64-linux/lib/libc.so.6
+ping
 
-Okay, maybe this is actually due to my gcrypt-using patch...
-
-Ross
-
+On 11/12/19 4:32 PM, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+>
+> when we have below content in local.conf or auto.conf:
+> BUILDHISTORY_COMMIT_AUTHOR ?= "Khem Raj <raj.khem@gmail.com>"
+> send-error-report will fail with "HTTP Error 500: OK"
+>
+> error-report-web do rudimentary check on all fields that are
+> passed to the graphs page to avoid any XSS happening, if contains
+> '<', the server will return error(Invalid characters in json).
+> fixed by use escape of <> to replace it.
+>
+> NOTE: with this change, error-report-web need to add filter 'safe'
+> for the string wanted to display to avoid further HTML escaping
+> prior to output. Below is how the content displayed on webpage:
+> with the filter 'safe':
+> BUILDHISTORY_COMMIT_AUTHOR ?= "Khem Raj <raj.khem@gmail.com>"
+> without the filter 'safe':
+> BUILDHISTORY_COMMIT_AUTHOR ?= "Khem Raj &lt;raj.khem@gmail.com&gt;"
+>
+> Another patch for error-report-web will send to yocto mail list.
+>
+> [YOCTO #13252]
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>   meta/classes/report-error.bbclass | 1 +
+>   1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/classes/report-error.bbclass b/meta/classes/report-error.bbclass
+> index 1a12db1..6046867 100644
+> --- a/meta/classes/report-error.bbclass
+> +++ b/meta/classes/report-error.bbclass
+> @@ -36,6 +36,7 @@ def get_conf_data(e, filename):
+>                       continue
+>                   else:
+>                       jsonstring=jsonstring + line
+> +    jsonstring = jsonstring.replace("<", "&lt;").replace(">", "&gt;")
+>       return jsonstring
+>   
+>   python errorreport_handler () {
 
