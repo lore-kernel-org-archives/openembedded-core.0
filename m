@@ -1,51 +1,54 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id E05DC7F7A3
+Return-Path: <trini@konsulko.com>
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+	[209.85.160.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 884887F7A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 22:48:55 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id h13so354299plr.1
+	Wed,  4 Dec 2019 23:02:40 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id p5so1495498qtq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2019 14:48:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qMJoUMPg/CEZuT7A1It7iDzh4fnakSrYBOaT+t3eT2c=;
-	b=ZuvYY47ou//JsPFGDy59GxOKpq3Il7MQ5nLETqMvjBTToAALG0CzNSAd/2Eiid6G6q
-	JY7n8pqeM2iOLqpmLbxKpEmoI2ikRgchwMYK/KuK5HWlG1m3EDggpWkyT6MupCB9tp/E
-	MqMvbhj8PWKHXIlutN+NMna//s4SvZ8XMTgwU1iwdtEduf7188C1Zwj07h69IQbgAbBa
-	QIvFOkisGmDhAoLJ/dtAuR+Q6tLafw3w5Yzcy46ppcdEgXNl82jUSHxl06al/dT+2gNK
-	cDJLVlv8n/lJk6ZZedHLqya2UCEL7aMk98k3tOEfh8GZe1yVgszjMt9XY7oVWnqrOQ+W
-	BVag==
+	Wed, 04 Dec 2019 15:02:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=RX4o7w6roHmCS27N8ycZtpf26Q0gIXRPnIxHasXEMxc=;
+	b=ZU8XZnPQDgSbT2SfmrmVXGPo0uXMdX3R8oQd8rCzKjKRt2PtgV+TeRIIrYtBQlbUaU
+	YnOnA/hE5KPAQYLWyXy/tC8YoaOAzbKJGt70EE5JQpJcInvW+/OiPgOO8M/LImAFL2Vg
+	4b/NLPiN6dMvriF6tflSkddtj+E+rH3vcdCbY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qMJoUMPg/CEZuT7A1It7iDzh4fnakSrYBOaT+t3eT2c=;
-	b=oKE3t416H59VUBZwheH4cJhvpBfHygIIpcbrORLZ2XXtne2Cn8BSS7q5IK3GkTN89D
-	jUrZdkVMrCNSVMgcGYiEtA5AJf11DAFQk7lSLKGg1PCZJk0FFg8a6gS/+Cyo8v1h4IU9
-	5zDe10UxoXYwYahK3f5xdJ3ytqk/oki6rwABbP2YPX3usfMmp0AwWRJXdKhIQDtBHOtu
-	CTiKBc/ss0QNmBepgFtW6YDI6MBGOlCCAlKyQ534q5aSTh97xKX3b8w0Kb5QoYryEk5E
-	AIdBU405WZINBj+NMAWoUXj+tE8Gz4YYkxQ6vAD8Zhk8IKRovADl1eA1gscB+EGR8L6r
-	bmrQ==
-X-Gm-Message-State: APjAAAVqsFO4JOfaZ9xdlbq0NBEfTE0erI6aQ/eRBjaDBbK3FsxeW1jp
-	QZqWYumLgFXPf3fCDhU5QHkTQtqvmz0=
-X-Google-Smtp-Source: APXvYqxcY/4GUnPEJRS5qvBXjTzQoACCceZvXPaIlV9z8zVMnitZ9ecT1tDhSFOxwdJrHN4VIF9gyQ==
-X-Received: by 2002:a17:90a:3702:: with SMTP id
-	u2mr5571642pjb.112.1575499736349; 
-	Wed, 04 Dec 2019 14:48:56 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::2797])
-	by smtp.gmail.com with ESMTPSA id
-	g191sm9325851pfb.19.2019.12.04.14.48.55
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 04 Dec 2019 14:48:55 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2019 14:48:45 -0800
-Message-Id: <20191204224845.2937981-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=RX4o7w6roHmCS27N8ycZtpf26Q0gIXRPnIxHasXEMxc=;
+	b=B38x6u1vTKBVdao+nJIN0NPO0Px1QKtEUXfQOGJ4oEieXdfYETnFT+faE+X7oKbdCm
+	pifLdxZ1sMNn4s0jGiC+aq+EAqWaXmO10xXtTuuskgWA2a+bJcnlfJsdWoTkTG1jQiS8
+	ULxMBXZizSVb7j1w36WVsXK2NisqjaTt1UprrWb1/qDxcWTBoHxNj2e2gmpQbTt28EXV
+	YMiIqK+PaQa4KKYucPQGmkDt3PRf9VzjA4sGbsCT7Yp8Opv1XRGd7xJWrd9XuoYnU7I1
+	wLtJ/B46LKohQPOGFwIdv28XV93ZqaG42naDIBGDdPWBAnFwn/dbN/Ya+Oj/vzSuMhwJ
+	5SCQ==
+X-Gm-Message-State: APjAAAVVZBVnxlqGX1y75ZsPo0254aUJmFzQFtF1IdGuaTtnyf5CAwnm
+	IppYaUbY9zuvRv+8CoRLEP/ETA==
+X-Google-Smtp-Source: APXvYqyLXiWUzAcCuD6rRMd1L9RxoPd5q0C0q9s3yTJqhj3NuVgKXzcPy4Bs7zeS8wGYyim5t8CiBw==
+X-Received: by 2002:ac8:1115:: with SMTP id c21mr5227656qtj.188.1575500561271; 
+	Wed, 04 Dec 2019 15:02:41 -0800 (PST)
+Received: from bill-the-cat
+	(2606-a000-1401-86dd-7932-2583-af8a-646f.inf6.spectrum.com.
+	[2606:a000:1401:86dd:7932:2583:af8a:646f])
+	by smtp.gmail.com with ESMTPSA id z3sm4394570qts.50.2019.12.04.15.02.38
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 04 Dec 2019 15:02:39 -0800 (PST)
+Date: Wed, 4 Dec 2019 18:02:37 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20191204230237.GE9549@bill-the-cat>
+References: <216e9c7062d44b98a54b6fd572128266383e83ad.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH] mesa: Fix vc4 build for 64bit time_t changes on 32bit arches
+In-Reply-To: <216e9c7062d44b98a54b6fd572128266383e83ad.camel@linuxfoundation.org>
+X-Clacks-Overhead: GNU Terry Pratchett
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OE-Core python minimum version requirement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,88 +61,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 22:48:56 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Dec 2019 23:02:40 -0000
+X-Groupsio-MsgNum: 132173
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="jTMWTj4UTAEmbWeb"
+Content-Disposition: inline
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...-for-formatted-output-of-timespec-me.patch | 53 +++++++++++++++++++
- meta/recipes-graphics/mesa/mesa_19.2.4.bb     |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
+--jTMWTj4UTAEmbWeb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch b/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
-new file mode 100644
-index 0000000000..901feca556
---- /dev/null
-+++ b/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
-@@ -0,0 +1,53 @@
-+From 38a313474e127d61e749866423e708fc86ed9ec5 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 4 Dec 2019 14:15:28 -0800
-+Subject: [PATCH] vc4: use intmax_t for formatted output of timespec members
-+
-+32bit architectures which have 64bit time_t does not fit the assumption
-+of time_t being same as system long int
-+
-+Fixes
-+error: format specifies type 'long' but the argument has type 'time_t' (aka 'long long') [-Werror,-Wformat]
-+                        time.tv_sec);
-+                        ^~~~~~~~~~~
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2966]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/gallium/drivers/v3d/v3d_bufmgr.c | 4 ++--
-+ src/gallium/drivers/vc4/vc4_bufmgr.c | 4 ++--
-+ 2 files changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/src/gallium/drivers/v3d/v3d_bufmgr.c b/src/gallium/drivers/v3d/v3d_bufmgr.c
-+index b3e4d053cc0..c514bf00bf0 100644
-+--- a/src/gallium/drivers/v3d/v3d_bufmgr.c
-++++ b/src/gallium/drivers/v3d/v3d_bufmgr.c
-+@@ -80,8 +80,8 @@ v3d_bo_dump_stats(struct v3d_screen *screen)
-+ 
-+                 struct timespec time;
-+                 clock_gettime(CLOCK_MONOTONIC, &time);
-+-                fprintf(stderr, "  now:               %ld\n",
-+-                        time.tv_sec);
-++                fprintf(stderr, "  now:               %jd\n",
-++                        (intmax_t)time.tv_sec);
-+         }
-+ }
-+ 
-+diff --git a/src/gallium/drivers/vc4/vc4_bufmgr.c b/src/gallium/drivers/vc4/vc4_bufmgr.c
-+index 5ec360934c0..bf05f6cadd6 100644
-+--- a/src/gallium/drivers/vc4/vc4_bufmgr.c
-++++ b/src/gallium/drivers/vc4/vc4_bufmgr.c
-+@@ -107,8 +107,8 @@ vc4_bo_dump_stats(struct vc4_screen *screen)
-+ 
-+                 struct timespec time;
-+                 clock_gettime(CLOCK_MONOTONIC, &time);
-+-                fprintf(stderr, "  now:               %ld\n",
-+-                        time.tv_sec);
-++                fprintf(stderr, "  now:               %jd\n",
-++                        (intmax_t)time.tv_sec);
-+         }
-+ }
-+ 
-+-- 
-+2.24.0
-+
-diff --git a/meta/recipes-graphics/mesa/mesa_19.2.4.bb b/meta/recipes-graphics/mesa/mesa_19.2.4.bb
-index f4b33df227..46ecee3a73 100644
---- a/meta/recipes-graphics/mesa/mesa_19.2.4.bb
-+++ b/meta/recipes-graphics/mesa/mesa_19.2.4.bb
-@@ -5,6 +5,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0002-meson.build-make-TLS-ELF-optional.patch \
-            file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
-            file://0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch \
-+           file://0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch \
-            "
- 
- SRC_URI[md5sum] = "5c047732b81651ddb341597528b4b096"
--- 
-2.24.0
+On Wed, Dec 04, 2019 at 05:45:03PM +0000, Richard Purdie wrote:
 
+> I just enabled hashequiv's server in local mode by default in poky.
+>=20
+> This causes an unintended side effect of requiring python 3.5 as the
+> minimum version.
+>=20
+> We had thought that the servers would be 'rare' and a 3.5 version
+> requirement for that was fine. It turns out a local server is also
+> extremely useful.
+>=20
+> The code needed the python 3.5 async support and trying to write it any
+> other way is a nightmare, we need that performance for the server.
+>=20
+> At this point I think we just give in and require python 3.5 as a
+> minimum. Any objections?
 
+In having to pick a minimum Python 3 for U-Boot, it was noted that
+Debian/Stretch is 3.4 and gets end of long term support in 2022.  3.5
+was otherwise fine I believe in the end.
+
+--=20
+Tom
+
+--jTMWTj4UTAEmbWeb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE6HLbQJwaaH776GM2h/n2NdMddlIFAl3oOwcACgkQh/n2NdMd
+dlJpQg//S/21sRjbdhzxLtJG5TBKFWrIjZNuNhZuXm1rs/gQHUTkwa0kHj9iMB4X
+kXmp1jvcfSr5MzXthrnWKWjQnWIxypl04CMvQ+XdC3iyXgNVN2eEa4CZ543Xt9c8
+g20OCRXCu7Epzon2vn40zixSH1DZt0emwhs1N91FOyMFZeC+wRiZiM6tSXunLWsT
+ybYOtbN9fbJeHcv2m6/YOuEmzCjvGGpr6rmbGrFcDawOoUswITHW6PvatRjZBU1G
+XF30rNXfWyv1/L0lGa+TjNvLyUnDeA4/+Fr8kJbq8UBvIvGM0BYBt6H7lLadbqWD
+27nhX4VCa5nTu7VrAfycgbGffSdmDXJMLg8T5nNqe8Qe6+S85nIsNxUScHP73AiI
+7up1uEzPjxb2trGQRQIKgTwYhWbCO5xN8L3gPbIBpuArg+KxkrcrZXPjt6SWrJxU
+siorVGsABVNGNdrXDLFA5/qcMV0Q2o8zjid4xdEtBxvghFxjAy0MO+MjR1X7XQCD
+X7cB247iDKJ1EAKXOxnFyZX2MOzdqWurkvQ/GVF8gHvFxjB6iZb1iO9/RUDiDJOF
+61yY5zHBPazZ/s8nSwiHGWcGRYF7iza48xicGQrHGnXOI2lr4dGdRouws2ggg3nR
+7AoNjIe1ZOaTspiw+OZDzBqo6ksa0YgaESjuX7sCz+pjUaieu9Q=
+=JaZY
+-----END PGP SIGNATURE-----
+
+--jTMWTj4UTAEmbWeb--
