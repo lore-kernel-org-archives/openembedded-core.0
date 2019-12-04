@@ -1,50 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
-	[209.85.219.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 293087D185
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id E05DC7F7A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 22:47:32 +0000 (UTC)
-Received: by mail-qv1-f45.google.com with SMTP id c2so525900qvp.12
+	Wed,  4 Dec 2019 22:48:55 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id h13so354299plr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2019 14:47:33 -0800 (PST)
+	Wed, 04 Dec 2019 14:48:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=PzrttryZrFk1PXp/3oYQh8RVNQvliDx/hUm7Zbpr4g8=;
-	b=TFTfSDlD1RrqOq+VylqQSn64lt10kObYEJS13RU4SSEZvCQJaXWCGkoWPYILdlNH4N
-	LX1336i96qs+4nZTbrOD2rRqZfT026gPf7D49Gy5f5xvBaea82p4ZSD5bZdvN/w0ysex
-	ZIQdkZP03kUGq6Mryy3XdCNB/AkzVQXnF3irzXJnp37F760yEwqh/QJrhMOU1M7AHEX+
-	+AtCwzaKt+PpKioDWhnP1m3RT0R81+76P4Jmmffk1HyI7gzAtQfffBjksBht++EMS5KJ
-	wCV7S0cToSm+uD9TXAfVlFKqN9Tfzzedj/zIYj3Us0o7DZ0hoyG1cdN3RiOgAL2joPtV
-	G01g==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=qMJoUMPg/CEZuT7A1It7iDzh4fnakSrYBOaT+t3eT2c=;
+	b=ZuvYY47ou//JsPFGDy59GxOKpq3Il7MQ5nLETqMvjBTToAALG0CzNSAd/2Eiid6G6q
+	JY7n8pqeM2iOLqpmLbxKpEmoI2ikRgchwMYK/KuK5HWlG1m3EDggpWkyT6MupCB9tp/E
+	MqMvbhj8PWKHXIlutN+NMna//s4SvZ8XMTgwU1iwdtEduf7188C1Zwj07h69IQbgAbBa
+	QIvFOkisGmDhAoLJ/dtAuR+Q6tLafw3w5Yzcy46ppcdEgXNl82jUSHxl06al/dT+2gNK
+	cDJLVlv8n/lJk6ZZedHLqya2UCEL7aMk98k3tOEfh8GZe1yVgszjMt9XY7oVWnqrOQ+W
+	BVag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=PzrttryZrFk1PXp/3oYQh8RVNQvliDx/hUm7Zbpr4g8=;
-	b=X3+YTsr1miIzuZHG3rULuZDkTYAen1BGbh/ETxBqRA1MIBANBTR9t+xrpTN4opZLu6
-	/YY+pXrsgnaI1qmYo0E+bSmdmZ6DMJc8n3vagzWn8csG1Lpnt5FVa4iUeevmqqm/yluG
-	m29nUOo5EhlXdDWoYhS3zU0bEkxuVFHUWXJ0sMSan+v5k49XtjsxPlu5Vv2sX+nHx8iJ
-	4k2F7kpk/q43/TX20YO1FdEXPQfZH1IpkA20RcCQ7pyBEvAnNUm17I3I5BP/+H5xc1O8
-	f4BVocuFydEZWJkgzh8CcMWRlTmgVIkeK7FPt2910eRgDw5hSAUtnoUgKxKDnza9OzD7
-	wzfw==
-X-Gm-Message-State: APjAAAUz1XjEOUsXUPilaIpHmTGgPvafZ4lvs4LNOnakqc0VfpEM21Sh
-	xMyEK37NtUrXmBmN2SqJ9ZOQsoRjmZyjr6N2pvY=
-X-Google-Smtp-Source: APXvYqxUiPHmyUlQriKxvplBej8G+aL6Lc8djGM+zjdZx9ak+puP8t8s1+7YaIRjQQpQ5PkG/hVJpvNr6VjyVUu8/3Q=
-X-Received: by 2002:a0c:f513:: with SMTP id j19mr4925625qvm.206.1575499653155; 
-	Wed, 04 Dec 2019 14:47:33 -0800 (PST)
-MIME-Version: 1.0
-References: <20191204184028.14813-1-anibal.limon@linaro.org>
-	<CANNYZj8dQGgwgOCg_NohqU4H5eLwAK-aFowLa-ywFpf7-YU3ZQ@mail.gmail.com>
-	<CA+_Aqitgf4Q+p2C3n7t_GCo=zygsmC5zMEjJnCT3=QDs5Nq8wg@mail.gmail.com>
-	<1CD180C7-0F85-4006-BFBC-9AF386C66F66@gmail.com>
-In-Reply-To: <1CD180C7-0F85-4006-BFBC-9AF386C66F66@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=qMJoUMPg/CEZuT7A1It7iDzh4fnakSrYBOaT+t3eT2c=;
+	b=oKE3t416H59VUBZwheH4cJhvpBfHygIIpcbrORLZ2XXtne2Cn8BSS7q5IK3GkTN89D
+	jUrZdkVMrCNSVMgcGYiEtA5AJf11DAFQk7lSLKGg1PCZJk0FFg8a6gS/+Cyo8v1h4IU9
+	5zDe10UxoXYwYahK3f5xdJ3ytqk/oki6rwABbP2YPX3usfMmp0AwWRJXdKhIQDtBHOtu
+	CTiKBc/ss0QNmBepgFtW6YDI6MBGOlCCAlKyQ534q5aSTh97xKX3b8w0Kb5QoYryEk5E
+	AIdBU405WZINBj+NMAWoUXj+tE8Gz4YYkxQ6vAD8Zhk8IKRovADl1eA1gscB+EGR8L6r
+	bmrQ==
+X-Gm-Message-State: APjAAAVqsFO4JOfaZ9xdlbq0NBEfTE0erI6aQ/eRBjaDBbK3FsxeW1jp
+	QZqWYumLgFXPf3fCDhU5QHkTQtqvmz0=
+X-Google-Smtp-Source: APXvYqxcY/4GUnPEJRS5qvBXjTzQoACCceZvXPaIlV9z8zVMnitZ9ecT1tDhSFOxwdJrHN4VIF9gyQ==
+X-Received: by 2002:a17:90a:3702:: with SMTP id
+	u2mr5571642pjb.112.1575499736349; 
+	Wed, 04 Dec 2019 14:48:56 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::2797])
+	by smtp.gmail.com with ESMTPSA id
+	g191sm9325851pfb.19.2019.12.04.14.48.55
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 04 Dec 2019 14:48:55 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 4 Dec 2019 14:47:07 -0800
-Message-ID: <CAMKF1sq6fy10KdQUUxcvKa3+OLeYr+dwm2vghQTLHc7pW8Q+AQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] meta/recipes-graphics/waffle: Add inherit setuptools
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  4 Dec 2019 14:48:45 -0800
+Message-Id: <20191204224845.2937981-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Subject: [PATCH] mesa: Fix vc4 build for 64bit time_t changes on 32bit arches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,45 +58,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 22:47:34 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 04 Dec 2019 22:48:56 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 4, 2019 at 2:07 PM Alexander Kanavin <alex.kanavin@gmail.com> w=
-rote:
->
-> But inheriting setuptools does bring in the target python as well, and it=
-=E2=80=99s the target python that fixes the issue, not setuptools.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...-for-formatted-output-of-timespec-me.patch | 53 +++++++++++++++++++
+ meta/recipes-graphics/mesa/mesa_19.2.4.bb     |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
 
-perhaps setuptools3-native in deps is enough.
+diff --git a/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch b/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
+new file mode 100644
+index 0000000000..901feca556
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch
+@@ -0,0 +1,53 @@
++From 38a313474e127d61e749866423e708fc86ed9ec5 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 4 Dec 2019 14:15:28 -0800
++Subject: [PATCH] vc4: use intmax_t for formatted output of timespec members
++
++32bit architectures which have 64bit time_t does not fit the assumption
++of time_t being same as system long int
++
++Fixes
++error: format specifies type 'long' but the argument has type 'time_t' (aka 'long long') [-Werror,-Wformat]
++                        time.tv_sec);
++                        ^~~~~~~~~~~
++
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/mesa/merge_requests/2966]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/gallium/drivers/v3d/v3d_bufmgr.c | 4 ++--
++ src/gallium/drivers/vc4/vc4_bufmgr.c | 4 ++--
++ 2 files changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/src/gallium/drivers/v3d/v3d_bufmgr.c b/src/gallium/drivers/v3d/v3d_bufmgr.c
++index b3e4d053cc0..c514bf00bf0 100644
++--- a/src/gallium/drivers/v3d/v3d_bufmgr.c
+++++ b/src/gallium/drivers/v3d/v3d_bufmgr.c
++@@ -80,8 +80,8 @@ v3d_bo_dump_stats(struct v3d_screen *screen)
++ 
++                 struct timespec time;
++                 clock_gettime(CLOCK_MONOTONIC, &time);
++-                fprintf(stderr, "  now:               %ld\n",
++-                        time.tv_sec);
+++                fprintf(stderr, "  now:               %jd\n",
+++                        (intmax_t)time.tv_sec);
++         }
++ }
++ 
++diff --git a/src/gallium/drivers/vc4/vc4_bufmgr.c b/src/gallium/drivers/vc4/vc4_bufmgr.c
++index 5ec360934c0..bf05f6cadd6 100644
++--- a/src/gallium/drivers/vc4/vc4_bufmgr.c
+++++ b/src/gallium/drivers/vc4/vc4_bufmgr.c
++@@ -107,8 +107,8 @@ vc4_bo_dump_stats(struct vc4_screen *screen)
++ 
++                 struct timespec time;
++                 clock_gettime(CLOCK_MONOTONIC, &time);
++-                fprintf(stderr, "  now:               %ld\n",
++-                        time.tv_sec);
+++                fprintf(stderr, "  now:               %jd\n",
+++                        (intmax_t)time.tv_sec);
++         }
++ }
++ 
++-- 
++2.24.0
++
+diff --git a/meta/recipes-graphics/mesa/mesa_19.2.4.bb b/meta/recipes-graphics/mesa/mesa_19.2.4.bb
+index f4b33df227..46ecee3a73 100644
+--- a/meta/recipes-graphics/mesa/mesa_19.2.4.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.2.4.bb
+@@ -5,6 +5,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0002-meson.build-make-TLS-ELF-optional.patch \
+            file://0003-Allow-enable-DRI-without-DRI-drivers.patch \
+            file://0004-Revert-mesa-Enable-asm-unconditionally-now-that-gen_.patch \
++           file://0005-vc4-use-intmax_t-for-formatted-output-of-timespec-me.patch \
+            "
+ 
+ SRC_URI[md5sum] = "5c047732b81651ddb341597528b4b096"
+-- 
+2.24.0
 
->
-> Alex
->
-> On 4 Dec 2019, at 21.51, Anibal Limon <anibal.limon@linaro.org> wrote:
->
->
->
-> On Wed, 4 Dec 2019 at 13:15, Alexander Kanavin <alex.kanavin@gmail.com> w=
-rote:
->>
->> On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro=
-.org> wrote:
->>>
->>> -inherit meson features_check lib_package bash-completion
->>> +inherit meson setuptools3 features_check lib_package bash-completion
->>
->>
->> I don't think you actually need setuptools3 here, just target python3 de=
-pendency is enough.
->
->
-> Actually doesn't need python3 it needs python3-native with setuptools, no=
-t need to depend of python3 for the target.
->
-> Anibal
->
->>
->>
->> Alex
 
