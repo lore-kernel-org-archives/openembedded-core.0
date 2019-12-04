@@ -1,30 +1,30 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DB5267CBE4
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B50437F4FE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 08:21:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xB48LIFk011363
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 4 Dec 2019 00:21:18 -0800 (PST)
-Received: from [128.224.162.189] (128.224.162.189) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Wed, 4 Dec 2019 00:21:18 -0800
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1573547565-352904-1-git-send-email-changqing.li@windriver.com>
-	<fc362303-861c-8d71-9a4e-493c1444d977@windriver.com>
-	<f2584b5129459354675042d78310a782c749ee57.camel@linuxfoundation.org>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <782019d2-c8cb-db2f-ebff-be96a0219e3d@windriver.com>
-Date: Wed, 4 Dec 2019 16:21:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Wed,  4 Dec 2019 08:48:43 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.69,276,1571673600"; d="scan'208";a="79574379"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 04 Dec 2019 16:48:43 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id ED5C44CE1C0D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Dec 2019 16:40:13 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 4 Dec 2019 16:48:43 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 4 Dec 2019 07:09:39 -0800
+Message-ID: <1575472180-11923-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <f2584b5129459354675042d78310a782c749ee57.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.189]
-Subject: Re: [PATCH] report-error.bbclass: replace angle brackets with &lt; and &gt;
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: ED5C44CE1C0D.A93E5
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] nss: 3.45 -> 3.47.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,73 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 08:21:19 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 04 Dec 2019 08:48:44 -0000
+Content-Type: text/plain
+
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ meta/recipes-support/nss/{nss_3.45.bb => nss_3.47.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/nss/{nss_3.45.bb => nss_3.47.1.bb} (98%)
+
+diff --git a/meta/recipes-support/nss/nss_3.45.bb b/meta/recipes-support/nss/nss_3.47.1.bb
+similarity index 98%
+rename from meta/recipes-support/nss/nss_3.45.bb
+rename to meta/recipes-support/nss/nss_3.47.1.bb
+index e89e7d6..f49a50a 100644
+--- a/meta/recipes-support/nss/nss_3.45.bb
++++ b/meta/recipes-support/nss/nss_3.47.1.bb
+@@ -33,8 +33,8 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
+            file://system-pkcs11.txt \
+            "
+ 
+-SRC_URI[md5sum] = "f1752d7223ee9d910d551e57264bafa8"
+-SRC_URI[sha256sum] = "112f05223d1fde902c170966bfc6f011b24a838be16969b110ecf2bb7bc24e8b"
++SRC_URI[md5sum] = "1c32c2e89958e8255a6da1ea43ea8206"
++SRC_URI[sha256sum] = "1ae3d1cb1de345b258788f2ef6b10a460068034c3fd64f42427a183d8342a6fb"
+ 
+ UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
+ UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
+-- 
+2.7.4
 
 
-On 12/4/19 4:16 PM, Richard Purdie wrote:
-> On Wed, 2019-12-04 at 08:25 +0800, Changqing Li wrote:
->> ping
-> There was a reply from Paul Eggleton about the server side of this
-> patch, were those issues addressed?
->
-> Cheers,
->
-> Richard
 
-I should have missed the reply:-[, I will check it.
-
-Thanks.
-
-
-BRs
-
-Sandy
-
->> On 11/12/19 4:32 PM, changqing.li@windriver.com wrote:
->>> From: Changqing Li <changqing.li@windriver.com>
->>>
->>> when we have below content in local.conf or auto.conf:
->>> BUILDHISTORY_COMMIT_AUTHOR ?= "Khem Raj <raj.khem@gmail.com>"
->>> send-error-report will fail with "HTTP Error 500: OK"
->>>
->>> error-report-web do rudimentary check on all fields that are
->>> passed to the graphs page to avoid any XSS happening, if contains
->>> '<', the server will return error(Invalid characters in json).
->>> fixed by use escape of <> to replace it.
->>>
->>> NOTE: with this change, error-report-web need to add filter 'safe'
->>> for the string wanted to display to avoid further HTML escaping
->>> prior to output. Below is how the content displayed on webpage:
->>> with the filter 'safe':
->>> BUILDHISTORY_COMMIT_AUTHOR ?= "Khem Raj <raj.khem@gmail.com>"
->>> without the filter 'safe':
->>> BUILDHISTORY_COMMIT_AUTHOR ?= "Khem Raj &lt;raj.khem@gmail.com&gt;"
->>>
->>> Another patch for error-report-web will send to yocto mail list.
->>>
->>> [YOCTO #13252]
->>>
->>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
->>> ---
->>>    meta/classes/report-error.bbclass | 1 +
->>>    1 file changed, 1 insertion(+)
->>>
->>> diff --git a/meta/classes/report-error.bbclass
->>> b/meta/classes/report-error.bbclass
->>> index 1a12db1..6046867 100644
->>> --- a/meta/classes/report-error.bbclass
->>> +++ b/meta/classes/report-error.bbclass
->>> @@ -36,6 +36,7 @@ def get_conf_data(e, filename):
->>>                        continue
->>>                    else:
->>>                        jsonstring=jsonstring + line
->>> +    jsonstring = jsonstring.replace("<", "&lt;").replace(">",
->>> "&gt;")
->>>        return jsonstring
->>>    
->>>    python errorreport_handler () {
->
 
