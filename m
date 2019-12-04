@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 3AF487F80D
+	by mail.openembedded.org (Postfix) with ESMTP id 904F87CDC0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 13:32:07 +0000 (UTC)
+	Wed,  4 Dec 2019 13:32:08 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:08 -0800
-X-IronPort-AV: E=Sophos;i="5.69,277,1571727600"; d="scan'208";a="205389428"
+	04 Dec 2019 05:32:09 -0800
+X-IronPort-AV: E=Sophos;i="5.69,277,1571727600"; d="scan'208";a="205389432"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.164.178])
 	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Dec 2019 05:32:07 -0800
+	04 Dec 2019 05:32:08 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  4 Dec 2019 21:31:46 +0800
-Message-Id: <09227a7ee7213ff0f09d92d06ad4ed1393af4968.1575465665.git.anuj.mittal@intel.com>
+Date: Wed,  4 Dec 2019 21:31:47 +0800
+Message-Id: <dcaac7e79e46960ba2392049aa13623d110f2f4d.1575465665.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1575465665.git.anuj.mittal@intel.com>
 References: <cover.1575465665.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 05/10] libsoup-2.4: upgrade to 2.66.4
+Subject: [zeus][PATCH 06/10] ghostscript: fix for CVE-2019-14811 is same as CVE-2019-14813
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,52 +33,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 13:32:07 -0000
+X-List-Received-Date: Wed, 04 Dec 2019 13:32:08 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross.burton@intel.com>
+https://bugzilla.redhat.com/show_bug.cgi?id=CVE-2019-14813
+https://www.openwall.com/lists/oss-security/2019/08/28/2
 
-Fixes CVE-2019-17266.
+(From OE-Core rev: afef29326b4332fc87c53a5d9d43288cddcdd944)
 
-(From OE-Core rev: ffdbcd78955d43d34988991f1d217036f044167d)
-
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[Bug fix release:
-https://gitlab.gnome.org/GNOME/libsoup/compare/2.66.2...2.66.4]
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../{libsoup-2.4_2.66.2.bb => libsoup-2.4_2.66.4.bb}        | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.66.2.bb => libsoup-2.4_2.66.4.bb} (89%)
+ .../ghostscript/ghostscript/CVE-2019-14811-0001.patch            | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.66.4.bb
-similarity index 89%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.66.4.bb
-index 3a735cf27a..7f5f910d3d 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.66.4.bb
-@@ -12,8 +12,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://0001-Do-not-enforce-no-introspection-when-cross-building.patch \
-            "
--SRC_URI[md5sum] = "66c2ae89d6031b01337d78a2c57c75d5"
--SRC_URI[sha256sum] = "bd2ea602eba642509672812f3c99b77cbec2f3de02ba1cc8cb7206bf7de0ae2a"
-+SRC_URI[md5sum] = "42016d80ecae4cf8eb416631049a273a"
-+SRC_URI[sha256sum] = "8308984f1eee1c4f8c113a9c1763b2b22d981bd811b0cc82a9f3f1aa63228779"
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14811-0001.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14811-0001.patch
+index 3f28555e8a..d4ef0996ec 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14811-0001.patch
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14811-0001.patch
+@@ -12,6 +12,7 @@ handler being used, but nevertheless, prevent access to .forceput from
+ .setuserparams2.
  
- CVE_PRODUCT = "libsoup"
+ CVE: CVE-2019-14811
++CVE: CVE-2019-14813
+ Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
  
-@@ -28,7 +28,7 @@ PACKAGECONFIG[gssapi] = "-Dgssapi=true,-Dgssapi=false,krb5"
- 
- EXTRA_OEMESON_append = " -Dvapi=false"
- 
--GTKDOC_MESON_OPTION = "doc"
-+GTKDOC_MESON_OPTION = "gtk_doc"
- 
- # When built without gnome support, libsoup-2.4 will contain only one shared lib
- # and will therefore become subject to renaming by debian.bbclass. Prevent
+ Signed-off-by: Stefan Ghinea <stefan.ghinea@windriver.com>
 -- 
 2.21.0
 
