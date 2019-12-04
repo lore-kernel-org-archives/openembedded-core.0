@@ -1,32 +1,51 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F4757DD6A
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F98A7DD6A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 08:50:56 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.69,276,1571673600"; d="scan'208";a="79574613"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 04 Dec 2019 16:50:57 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 58F554CE1C93
+	Wed,  4 Dec 2019 10:17:36 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id x18so4492710vsq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 16:42:24 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 4 Dec 2019 16:50:53 +0800
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 4 Dec 2019 07:09:40 -0800
-Message-ID: <1575472180-11923-2-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1575472180-11923-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1575472180-11923-1-git-send-email-wangmy@cn.fujitsu.com>
+	Wed, 04 Dec 2019 02:17:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=bfYun8HvoSBNtpvX5azRDaBpkKulvRIgApq3WXhRpCg=;
+	b=ijDdMKNpCSBkgOn6eI6kP6k9vCqP3uaheQOV5qxrVvdYpTH3ot02fb9jCPxZbyBIld
+	r4mnVKETWniFx54kpNj2rgxux83k5qLpkdKMtZVlissWc7RB+OxM3wn7toFObC8bwg1R
+	Sk3hyNwuA/y9QapFFNilQa4MM2yyqGaufybvsl87nGewHAAolmWeuAGNGHWv9uYdmz0A
+	e2G/dO0guCxppzkhEtnlxhE1ySaZSmcXeJZkIhwdlfD4p6MBr5XWEy2+N5Fc+ltYfxpz
+	tDIgWXLcNgbp+OhGNcpKYyWzzSP1Kwy7rgQYvaN0KQfdhF8bWbN70JxuZM+xSCJ23c+r
+	byYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=bfYun8HvoSBNtpvX5azRDaBpkKulvRIgApq3WXhRpCg=;
+	b=k2cTE+SjekK1XggHUdtuBIRcXbWbOPc4F+euAk/gcWOY37rzehN3hRzNkqymXbMioZ
+	nbwrTZHVmbA9f9P+AdwZj7u+8yZn70Cy4KOUPBww6G4Kuh7SylJ8S8MmodH3ABVvXR3g
+	02vD56ODNZOvxd8GhZ/0Qt4uSkt/D+pN/eG/iZkE0zltT2KEGE70gJ55fMGKiC8THvhz
+	DMhrnamTnxX3ILGBk9/HZcwDy2q/xtRUrGDFx9A0c56gQfQxZbeMI1BGGKDNcihHdne/
+	4dcZNdcfKgpevGnxTg9IItoVdiRzDjOt414/x2pt7jr6Iv8/owgdi/KXG6ftsDiENGdY
+	9jUg==
+X-Gm-Message-State: APjAAAVrghNTlxvqOeBXgalTDmOlILKRDDrCCLbr/o8Er8AVokckDUhH
+	CQieMZ+UF4vhU04+RtR3qBeAVQHjWhAvUEWTmgs=
+X-Google-Smtp-Source: APXvYqyGQWu44z6ju6T8Ib4w3qiNXCWnoZWrNqLKAa8pIjcV2Fih2egNkFOIOOBP6yN6Ep9ht/Y5OHFCKIX2el6ueL8=
+X-Received: by 2002:a05:6102:21d8:: with SMTP id
+	r24mr1175485vsg.83.1575454657980; 
+	Wed, 04 Dec 2019 02:17:37 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 58F554CE1C93.A98FF
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] netbase: 5.6 -> 5.7
+References: <20191129131152.128311-1-alex.kanavin@gmail.com>
+	<1b6971c1-ce0d-5cda-862b-d0a84b5be20a@intel.com>
+	<CANNYZj-b0Ufwum+4vA5aqNm+=E+a+HM0vso=61UPERm57QrCDw@mail.gmail.com>
+	<661436bf-4167-10a7-a632-473948d8c950@intel.com>
+	<ed34d6cb-50bc-7185-3d8d-f5a0c7bd6db5@intel.com>
+In-Reply-To: <ed34d6cb-50bc-7185-3d8d-f5a0c7bd6db5@intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 4 Dec 2019 11:17:26 +0100
+Message-ID: <CANNYZj_+37AxAzFipHGt-JD+sRGsdQan6mGmjjwQxn8kDfjtng@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/15] rpm: upgrade to 4.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,97 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 08:50:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 04 Dec 2019 10:17:37 -0000
+Content-Type: multipart/alternative; boundary="0000000000003faf1b0598de1f64"
 
-netbase-add-rpcbind-as-an-alias-to-sunrpc.patch
-Removed since it is included in 5.7
+--0000000000003faf1b0598de1f64
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- ...netbase-add-rpcbind-as-an-alias-to-sunrpc.patch | 46 ----------------------
- .../netbase/{netbase_5.6.bb => netbase_5.7.bb}     |  7 ++--
- 2 files changed, 3 insertions(+), 50 deletions(-)
- delete mode 100644 meta/recipes-core/netbase/netbase/netbase-add-rpcbind-as-an-alias-to-sunrpc.patch
- rename meta/recipes-core/netbase/{netbase_5.6.bb => netbase_5.7.bb} (69%)
+On Wed, 4 Dec 2019 at 00:52, Ross Burton <ross.burton@intel.com> wrote:
 
-diff --git a/meta/recipes-core/netbase/netbase/netbase-add-rpcbind-as-an-alias-to-sunrpc.patch b/meta/recipes-core/netbase/netbase/netbase-add-rpcbind-as-an-alias-to-sunrpc.patch
-deleted file mode 100644
-index 27ba2f6..0000000
---- a/meta/recipes-core/netbase/netbase/netbase-add-rpcbind-as-an-alias-to-sunrpc.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 52d46c4d1fbd4c88d69c2fcf7837b2f2ba7ef6f2 Mon Sep 17 00:00:00 2001
--From: "Maxin B. John" <maxin.john@intel.com>
--Date: Thu, 12 Jan 2017 16:50:58 +0200
--Subject: [PATCH] netbase: add rpcbind as an alias to sunrpc
--
--the patch comes from:
--https://bugs.archlinux.org/task/20273
--
--Upstream-Status: Pending
--
--Signed-off-by: Li Wang <li.wang@windriver.com>
--Signed-off-by: Maxin B. John <maxin.john@intel.com>
--
-----
-- etc-rpc      | 2 +-
-- etc-services | 4 ++--
-- 2 files changed, 3 insertions(+), 3 deletions(-)
--
--diff --git a/etc-rpc b/etc-rpc
--index 1b30625..9a9a81a 100644
----- a/etc-rpc
--+++ b/etc-rpc
--@@ -1,7 +1,7 @@
-- # This file contains user readable names that can be used in place of rpc
-- # program numbers.
-- 
---portmapper	100000	portmap sunrpc
--+portmapper	100000	portmap sunrpc rpcbind
-- rstatd		100001	rstat rstat_svc rup perfmeter
-- rusersd		100002	rusers
-- nfs		100003	nfsprog
--diff --git a/etc-services b/etc-services
--index fa7ae24..10ba2bc 100644
----- a/etc-services
--+++ b/etc-services
--@@ -51,8 +51,8 @@ kerberos	88/udp		kerberos5 krb5 kerberos-sec	# Kerberos v5
-- iso-tsap	102/tcp		tsap		# part of ISODE
-- acr-nema	104/tcp		dicom		# Digital Imag. & Comm. 300
-- pop3		110/tcp		pop-3		# POP version 3
---sunrpc		111/tcp		portmapper	# RPC 4.0 portmapper
---sunrpc		111/udp		portmapper
--+sunrpc		111/tcp		portmapper rpcbind # RPC 4.0 portmapper
--+sunrpc		111/udp		portmapper rpcbind
-- auth		113/tcp		authentication tap ident
-- sftp		115/tcp
-- nntp		119/tcp		readnews untp	# USENET News Transfer Protocol
-diff --git a/meta/recipes-core/netbase/netbase_5.6.bb b/meta/recipes-core/netbase/netbase_5.7.bb
-similarity index 69%
-rename from meta/recipes-core/netbase/netbase_5.6.bb
-rename to meta/recipes-core/netbase/netbase_5.7.bb
-index 2aa4971..754c244 100644
---- a/meta/recipes-core/netbase/netbase_5.6.bb
-+++ b/meta/recipes-core/netbase/netbase_5.7.bb
-@@ -6,11 +6,10 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=3dd6192d306f582dee7687da3d8748ab"
- PE = "1"
- 
--SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz \
--           file://netbase-add-rpcbind-as-an-alias-to-sunrpc.patch"
-+SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
- 
--SRC_URI[md5sum] = "7ad156272c5a42f49c73386ff39c8624"
--SRC_URI[sha256sum] = "5d93a099deb28869b7306e914700fafbd293b55bdb5df05a5aa6effd0af5930c"
-+SRC_URI[md5sum] = "f1e50e8d637f6be12af169fa1b67b40a"
-+SRC_URI[sha256sum] = "1802ed95847a30d0b618cdfb6fc8f62989fda9fc3d1c0efd0b19e3011a34f915"
- 
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
- do_install () {
--- 
-2.7.4
+>
+> Okay, maybe this is actually due to my gcrypt-using patch...
+>
 
+This implies rpm's usage of gcrypt is somehow not thread-safe :( as the
+backtrace includes those openmp routines that we use to write packages in
+parallel.
 
+Alex
 
+--0000000000003faf1b0598de1f64
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 4 Dec 2019 at 00:52, Ross Burton &lt;<a href=3D"mailto:ross.=
+burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex"><br>
+Okay, maybe this is actually due to my gcrypt-using patch...<br></blockquot=
+e><div><br></div><div><div dir=3D"ltr"><div>This implies rpm&#39;s usage of=
+ gcrypt is somehow not thread-safe :( as the backtrace includes those openm=
+p routines that we use to write packages in parallel.</div><div><br></div><=
+div>Alex<br></div></div>=C2=A0</div></div></div>
+
+--0000000000003faf1b0598de1f64--
