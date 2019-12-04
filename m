@@ -1,54 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 60B507F815
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com
+	[209.85.219.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 293087D185
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  4 Dec 2019 22:07:16 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id z3so1090239wru.3
+	Wed,  4 Dec 2019 22:47:32 +0000 (UTC)
+Received: by mail-qv1-f45.google.com with SMTP id c2so525900qvp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 04 Dec 2019 14:07:17 -0800 (PST)
+	Wed, 04 Dec 2019 14:47:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=FZAKxB0HBNWtp2cFGHvYixqXDx68C04Bp+msNi2FsvI=;
-	b=h0ENRROlGhrmp0vl0lj0jDFYAuI726lT+dGw+ffn6iFZltkH5ocYl2MZbmgMTh4BCu
-	x8DsxTIJsAYTPNHhAA2/xpd67j+59BMyeZy/YtPbBZdkuKOgYUbaLgYBzZ8HAu4RI6lS
-	rJeDtx06a0Uq1RxMRGP2dpZMwk9J22yVNFtlNQIr1EUNwMx7obbKRf3OsVty3ikprSFV
-	jjL7cwif8P75fI3ddDk7FXyq1ethLMRFZATuXw4ZtOVQLGtq+24/sO6TobiKQKglfmza
-	JJQ1Jr7trrJ9YSohQFRZlyzkHjBQKpEbjUQdY8FlZ+V9zUN9DuoLxJebtGZF46hEQKTZ
-	Ipjw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=PzrttryZrFk1PXp/3oYQh8RVNQvliDx/hUm7Zbpr4g8=;
+	b=TFTfSDlD1RrqOq+VylqQSn64lt10kObYEJS13RU4SSEZvCQJaXWCGkoWPYILdlNH4N
+	LX1336i96qs+4nZTbrOD2rRqZfT026gPf7D49Gy5f5xvBaea82p4ZSD5bZdvN/w0ysex
+	ZIQdkZP03kUGq6Mryy3XdCNB/AkzVQXnF3irzXJnp37F760yEwqh/QJrhMOU1M7AHEX+
+	+AtCwzaKt+PpKioDWhnP1m3RT0R81+76P4Jmmffk1HyI7gzAtQfffBjksBht++EMS5KJ
+	wCV7S0cToSm+uD9TXAfVlFKqN9Tfzzedj/zIYj3Us0o7DZ0hoyG1cdN3RiOgAL2joPtV
+	G01g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=FZAKxB0HBNWtp2cFGHvYixqXDx68C04Bp+msNi2FsvI=;
-	b=ZK6yn32pTqt1CHsnLlxmvHs56pFKFwsRKV6zN7krHRMrwwPx7cvE1QWojpKBVMDUtG
-	86ykX09ZrUVcn2ezx7HL1Y9H0p547OA0OdXcBp8VemT5VcmfdB8AOniTFMg4x5LmFCOo
-	rpDLxNYBegv4S7z+tgqxYHrBfcZ0zTrsrJ/gYhmYzu2R1yM4ifLetPwkEguVEn4+spNJ
-	ZaVudzDdcrwn5UOKT56kGdZIUP3Emo0gCPUWuq5C8rK6TF0GwtrqG1JyAZkHsDwGPhP6
-	/R/9klVZKiZC2EDazXcGncLmpCYktJza2o3QH7LdHPqjlPQOnVDKPaCqFGsGqkbCrm9S
-	D8ow==
-X-Gm-Message-State: APjAAAXtMZqJLPHr1t2eAFslw4M6ywupeHBtDA/RBRCRIjBkQdcNVk0D
-	JyibhAeywuIaWW7QTvpYRPc=
-X-Google-Smtp-Source: APXvYqwF00KLS2iLuaOChFgCVJ00uqeNahVSntRcgeAK1aDuFAlC2mZF7UKdiAZ2MbaIGGkdTSoa/A==
-X-Received: by 2002:a5d:51c6:: with SMTP id n6mr6247922wrv.250.1575497236908; 
-	Wed, 04 Dec 2019 14:07:16 -0800 (PST)
-Received: from ?IPv6:2a02:2450:1011:56f:25b3:1485:4ba7:3624?
-	([2a02:2450:1011:56f:25b3:1485:4ba7:3624])
-	by smtp.gmail.com with ESMTPSA id
-	w17sm10082909wrt.89.2019.12.04.14.07.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 04 Dec 2019 14:07:16 -0800 (PST)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16G102)
-In-Reply-To: <CA+_Aqitgf4Q+p2C3n7t_GCo=zygsmC5zMEjJnCT3=QDs5Nq8wg@mail.gmail.com>
-Date: Wed, 4 Dec 2019 23:07:15 +0100
-Message-Id: <1CD180C7-0F85-4006-BFBC-9AF386C66F66@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=PzrttryZrFk1PXp/3oYQh8RVNQvliDx/hUm7Zbpr4g8=;
+	b=X3+YTsr1miIzuZHG3rULuZDkTYAen1BGbh/ETxBqRA1MIBANBTR9t+xrpTN4opZLu6
+	/YY+pXrsgnaI1qmYo0E+bSmdmZ6DMJc8n3vagzWn8csG1Lpnt5FVa4iUeevmqqm/yluG
+	m29nUOo5EhlXdDWoYhS3zU0bEkxuVFHUWXJ0sMSan+v5k49XtjsxPlu5Vv2sX+nHx8iJ
+	4k2F7kpk/q43/TX20YO1FdEXPQfZH1IpkA20RcCQ7pyBEvAnNUm17I3I5BP/+H5xc1O8
+	f4BVocuFydEZWJkgzh8CcMWRlTmgVIkeK7FPt2910eRgDw5hSAUtnoUgKxKDnza9OzD7
+	wzfw==
+X-Gm-Message-State: APjAAAUz1XjEOUsXUPilaIpHmTGgPvafZ4lvs4LNOnakqc0VfpEM21Sh
+	xMyEK37NtUrXmBmN2SqJ9ZOQsoRjmZyjr6N2pvY=
+X-Google-Smtp-Source: APXvYqxUiPHmyUlQriKxvplBej8G+aL6Lc8djGM+zjdZx9ak+puP8t8s1+7YaIRjQQpQ5PkG/hVJpvNr6VjyVUu8/3Q=
+X-Received: by 2002:a0c:f513:: with SMTP id j19mr4925625qvm.206.1575499653155; 
+	Wed, 04 Dec 2019 14:47:33 -0800 (PST)
+MIME-Version: 1.0
 References: <20191204184028.14813-1-anibal.limon@linaro.org>
 	<CANNYZj8dQGgwgOCg_NohqU4H5eLwAK-aFowLa-ywFpf7-YU3ZQ@mail.gmail.com>
 	<CA+_Aqitgf4Q+p2C3n7t_GCo=zygsmC5zMEjJnCT3=QDs5Nq8wg@mail.gmail.com>
-To: Anibal Limon <anibal.limon@linaro.org>
+	<1CD180C7-0F85-4006-BFBC-9AF386C66F66@gmail.com>
+In-Reply-To: <1CD180C7-0F85-4006-BFBC-9AF386C66F66@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 4 Dec 2019 14:47:07 -0800
+Message-ID: <CAMKF1sq6fy10KdQUUxcvKa3+OLeYr+dwm2vghQTLHc7pW8Q+AQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCHv2] meta/recipes-graphics/waffle: Add inherit setuptools
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -63,77 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 22:07:16 -0000
-Content-Type: multipart/alternative;
-	boundary=Apple-Mail-7419AF9E-1342-44C3-B871-43E18207BE56
-Content-Transfer-Encoding: 7bit
-
---Apple-Mail-7419AF9E-1342-44C3-B871-43E18207BE56
-Content-Type: text/plain;
-	charset=utf-8
+X-List-Received-Date: Wed, 04 Dec 2019 22:47:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-But inheriting setuptools does bring in the target python as well, and it=E2=
-=80=99s the target python that fixes the issue, not setuptools.
-
-Alex
-
-> On 4 Dec 2019, at 21.51, Anibal Limon <anibal.limon@linaro.org> wrote:
->=20
->=20
->=20
->> On Wed, 4 Dec 2019 at 13:15, Alexander Kanavin <alex.kanavin@gmail.com> w=
+On Wed, Dec 4, 2019 at 2:07 PM Alexander Kanavin <alex.kanavin@gmail.com> w=
 rote:
->>> On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro=
+>
+> But inheriting setuptools does bring in the target python as well, and it=
+=E2=80=99s the target python that fixes the issue, not setuptools.
+
+perhaps setuptools3-native in deps is enough.
+
+>
+> Alex
+>
+> On 4 Dec 2019, at 21.51, Anibal Limon <anibal.limon@linaro.org> wrote:
+>
+>
+>
+> On Wed, 4 Dec 2019 at 13:15, Alexander Kanavin <alex.kanavin@gmail.com> w=
+rote:
+>>
+>> On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro=
 .org> wrote:
->>=20
+>>>
 >>> -inherit meson features_check lib_package bash-completion
 >>> +inherit meson setuptools3 features_check lib_package bash-completion
->>=20
->> I don't think you actually need setuptools3 here, just target python3 dep=
-endency is enough.
->=20
-> Actually doesn't need python3 it needs python3-native with setuptools, not=
- need to depend of python3 for the target.
->=20
+>>
+>>
+>> I don't think you actually need setuptools3 here, just target python3 de=
+pendency is enough.
+>
+>
+> Actually doesn't need python3 it needs python3-native with setuptools, no=
+t need to depend of python3 for the target.
+>
 > Anibal
-> =20
->>=20
+>
+>>
+>>
 >> Alex
 
---Apple-Mail-7419AF9E-1342-44C3-B871-43E18207BE56
-Content-Type: text/html;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
-utf-8"></head><body dir=3D"auto">But inheriting setuptools does bring in the=
- target python as well, and it=E2=80=99s the target python that fixes the is=
-sue, not setuptools.<br><br><div id=3D"AppleMailSignature" dir=3D"ltr">Alex<=
-/div><div dir=3D"ltr"><br>On 4 Dec 2019, at 21.51, Anibal Limon &lt;<a href=3D=
-"mailto:anibal.limon@linaro.org">anibal.limon@linaro.org</a>&gt; wrote:<br><=
-br></div><blockquote type=3D"cite"><div dir=3D"ltr"><div dir=3D"ltr"><div di=
-r=3D"ltr"><br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Wed, 4 Dec 2019 at 13:15, Alexander Kanavin &lt;<a href=3D"m=
-ailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D=
-"ltr">On Wed, 4 Dec 2019 at 20:04, An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mai=
-lto:anibal.limon@linaro.org" target=3D"_blank">anibal.limon@linaro.org</a>&g=
-t; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">-inherit meson features_check lib_package bash-completion=
-<br>
-+inherit meson setuptools3 features_check lib_package bash-completion<br></b=
-lockquote><div><br></div><div>I don't think you actually need setuptools3 he=
-re, just target python3 dependency is enough.</div></div></div></blockquote>=
-<div><br></div><div>Actually doesn't&nbsp;need python3 it needs python3-nati=
-ve with setuptools, not need to depend of&nbsp;python3&nbsp;for the target.<=
-/div><div><br></div><div>Anibal</div><div>&nbsp;</div><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div>=
-<br></div><div>Alex<br></div></div></div>
-</blockquote></div></div>
-</div></blockquote></body></html>=
-
---Apple-Mail-7419AF9E-1342-44C3-B871-43E18207BE56--
