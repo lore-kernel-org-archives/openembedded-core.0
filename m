@@ -1,58 +1,56 @@
-Return-Path: <prvs=124166d38b=holzmayr@rsi-elektrotechnik.de>
-X-Greylist: delayed 725 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 04 Dec 2019 21:19:48 UTC
-Received: from mo4-p00-ob.smtp.rzone.de (mo4-p00-ob.smtp.rzone.de
-	[81.169.146.161])
-	by mail.openembedded.org (Postfix) with ESMTP id CC5357F7DB;
-	Wed,  4 Dec 2019 21:19:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1575494388;
-	s=strato-dkim-0002; d=rsi-elektrotechnik.de;
-	h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
-	X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-	bh=ds5R5AXKU8ZC40j9faprVpm9hMzcDOp97yjDeo6VCek=;
-	b=MGSbKSSC2R7lqCrDoW8edN5TxIkbwcI+J2i3uC3+0Jfw8nuYMs+pqP8vx7D+YSsWew
-	2wyck4A7z/g9m5hUWhkri837WHE47ffo3cp4LBfY1uJj+6OCcBFq3JJ/7K1yw6tiz3I3
-	CPccBm6t90f3ce8u2SgdQTOFRp3JvIrLOxKb7ZdiP0/BRVTnyEHkbhUYd/ADaotT5sSv
-	FaPJkCBxXp4TDNGUg0LVk9bOQ+GLSoOzpD8fOv4nRHAlWKRaoSxNDAx3/0K7PUBWxrrE
-	CPfHuatzS18LrsEnLk1Va2cGzPfW6E17JYul3jgLL/l0kxXFIHlZwf+htstcl33QQwH1
-	c8pw==
-X-RZG-AUTH: ":fz5RJhWIaexwuXGosGLfiBc0xYyi1Y5bd+wRKqrzPXw4V1/KqCOd+ZZzzoK8epFp9XQIUl6aPGQL"
-X-RZG-CLASS-ID: mo00
-Received: from mail.rsi-elektrotechnik.de by smtp.strato.de (RZmta 46.0.2 AUTH)
-	with ESMTPSA id K047a1vB4L7h97i
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
-	(Client did not present a certificate);
-	Wed, 4 Dec 2019 22:07:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/relaxed;
-	d=rsi-elektrotechnik.de; s=MDaemon; t=1575493663; x=1576098463;
-	i=holzmayr@rsi-elektrotechnik.de; q=dns/txt; h=Date:From:To:Cc:
-	Subject:Message-ID:References:MIME-Version:Content-Type:
-	Content-Disposition:Content-Transfer-Encoding:In-Reply-To; bh=ds
-	5R5AXKU8ZC40j9faprVpm9hMzcDOp97yjDeo6VCek=; b=lt3mg4nzXwVcKKKWBZ
-	LmO5eHUO7hqfb8FYI/r0LKzBJPZZcjyvNS9VbIqH72S4mE8pablDyIQMtDJpdW0k
-	1V4OkK2gDNeMLE3eTCN7gL8+qDHGfuoYRl1m6dkM0IeNztlk8+sqFQIgUOlFhLZj
-	WFvayOPa2H8mCrT5rJok+qRfM=
-Received: by mail.rsi-elektrotechnik.de (MDaemon PRO v19.5.1) with ESMTPSA id
-	md50000224346.msg; Wed, 04 Dec 2019 22:07:43 +0100
-X-Spam-Processed: mail.rsi-elektrotechnik.de, Wed, 04 Dec 2019 22:07:43 +0100
-	(not processed: message from trusted or authenticated source)
-X-MDRemoteIP: 178.27.65.232
-X-MDHelo: jholzmayr.localdomain
-X-MDArrival-Date: Wed, 04 Dec 2019 22:07:43 +0100
-X-Authenticated-Sender: holzmayr@rsi-elektrotechnik.de
-X-Return-Path: prvs=124166d38b=holzmayr@rsi-elektrotechnik.de
-X-Envelope-From: holzmayr@rsi-elektrotechnik.de
-Date: Wed, 4 Dec 2019 22:07:30 +0100
-From: Josef Holzmayr <holzmayr@rsi-elektrotechnik.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20191204210730.g5hrp6ur4d4fgeis@jholzmayr.localdomain>
-References: <216e9c7062d44b98a54b6fd572128266383e83ad.camel@linuxfoundation.org>
+Return-Path: <tanuk@iki.fi>
+X-Greylist: delayed 462 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 04 Dec 2019 21:25:57 UTC
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com
+	[64.147.123.21])
+	by mail.openembedded.org (Postfix) with ESMTP id 10FBB7F7DB
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  4 Dec 2019 21:25:57 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 491EE916;
+	Wed,  4 Dec 2019 16:18:16 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+	by compute5.internal (MEProxy); Wed, 04 Dec 2019 16:18:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm1; bh=H8+tPNDwec48vt4kbDYkyU/XZiZI04RFunrGiJ8yz
+	Lk=; b=kv4xLppRCssW7n+QGurqUrK+deZ279EAd/X6Dm6X8XP3nDwJCvDRgTI4W
+	N0AVoBDSGVKM5lmp7+4xC/G2FCTSofvU7Dzj42WUk/CnGjgifJN7ZLnOTeIBQAMH
+	H70tArRgFep6M/5f1llHD1EJxNjGmaNvqPBoABM0Nm5A2gFakmdmy2X9BPnj3Ooq
+	Rurvp3jNyw/5mwM6/SXxvC6BaSJpCHgl1S08w2j2+IWMXTyqCWAHb77QCqX7/Ujp
+	VPBWe+YU49zWdk2vr7P9tdQaX78vNxNMBialPVTJh+Nw1GgGv/CBryBuoYlT2Sug
+	1gsSQukGVhMCfGDVd85qgk183p6sA==
+X-ME-Sender: <xms:lyLoXdZy1PZyzXRaoJiRSQM-EQ5jBn8FSH3tSQuJhC5TiBDzWwGCcA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrudejledgudeghecutefuodetggdotefrod
+	ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+	necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+	enucfjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefvrghn
+	uhcumfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhiqeenucffohhmrghinheplh
+	hisggvrhgrphgrhidrtghomhdpuggvsghirghnrdhorhhgpdgrlhhsrgdqphhrohhjvggt
+	thdrohhrghdpphgrthhrvghonhdrtghomhenucfkphepudeliedrvdeggedrudeluddrud
+	dtieenucfrrghrrghmpehmrghilhhfrhhomhepthgrnhhukhesihhkihdrfhhinecuvehl
+	uhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:lyLoXRF1k3Z_X1Fh6isEHcWmZ739GSkgue_ApSoEQ4OBtOPHnwVOwQ>
+	<xmx:lyLoXT0BkBs6v4UQwG66OzyIa-5WN8PrXb_yqBOMdtQs00qce3u4zw>
+	<xmx:lyLoXVxIb8Wb_UEMwFldU6H4ilA-Q329IV45sjmabi6tuGKEapFOIQ>
+	<xmx:lyLoXU2Ii3Kn4VF4AFDdQJ0IDsqcAX8fDC4qkNaS_7USnSuLvwVaMA>
+Received: from laptop (unknown [196.244.191.106])
+	by mail.messagingengine.com (Postfix) with ESMTPA id CB7D630600D4;
+	Wed,  4 Dec 2019 16:18:14 -0500 (EST)
+Message-ID: <a8165efac9ffc06e16b0256e646799ded7ec272c.camel@iki.fi>
+From: Tanu Kaskinen <tanuk@iki.fi>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Zang Ruochen
+	<zangrc.fnst@cn.fujitsu.com>
+Date: Wed, 04 Dec 2019 23:18:10 +0200
+In-Reply-To: <CANNYZj9Xhm3ciQZQjSy6-sGamkQTFxT0K2QZ=k0ncwnWXYuMZw@mail.gmail.com>
+References: <20191120051704.24066-1-zangrc.fnst@cn.fujitsu.com>
+	<CANNYZj9Xhm3ciQZQjSy6-sGamkQTFxT0K2QZ=k0ncwnWXYuMZw@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <216e9c7062d44b98a54b6fd572128266383e83ad.camel@linuxfoundation.org>
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OE-Core python minimum version requirement
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-lib:upgrade 1.1.9 -> 1.2.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,65 +63,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 04 Dec 2019 21:19:49 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 04 Dec 2019 21:25:58 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 04, 2019 at 05:45:03PM +0000, Richard Purdie wrote:
-> I just enabled hashequiv's server in local mode by default in poky.
+On Wed, 2019-11-20 at 12:16 +0100, Alexander Kanavin wrote:
+> On Wed, 20 Nov 2019 at 06:17, Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> wrote:
 > 
-> This causes an unintended side effect of requiring python 3.5 as the
-> minimum version.
+> > +From f419276a716daf8d98846b3df50995e5ac030134 Mon Sep 17 00:00:00 2001
+> > +From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> > +Date: Wed, 20 Nov 2019 11:24:17 +0800
+> > +Subject: [PATCH] Fix problem with libtool not found
+> > +
+> > +Upstream-Status: Inappropriate
+> > 
 > 
-> We had thought that the servers would be 'rare' and a 3.5 version
-> requirement for that was fine. It turns out a local server is also
-> extremely useful.
-> 
-> The code needed the python 3.5 async support and trying to write it any
-> other way is a nightmare, we need that performance for the server.
-> 
-> At this point I think we just give in and require python 3.5 as a
-> minimum. Any objections?
+> Why inappropriate? To me this seems like a real problem and should be
+> submitted upstream.
 
-A quick check on packages.ubuntu.com says 16.04 is on python 3.5.1,
-18.04 is on 3.6.something.
+I planned to submit this patch to upstream on behalf of Zang, but while
+investigating what the root cause for the failure really is, I found
+that this really is OE specific.
 
-Hence, looks good to me.
+Upstream for some reason (not documented in the commit message, and the
+main point of the commit was something else entirely[1]) added this to
+the end of configure.ac:
 
-Greetz
+dnl Taken from https://wiki.debian.org/RpathIssue
+case $host in
+   *-*-linux-gnu)
+   AC_MSG_RESULT([Fixing libtool for -rpath problems.])
+   sed < libtool > libtool-2 \
+     's/^hardcode_libdir_flag_spec.*$'/'hardcode_libdir_flag_spec=" -D__LIBTOOL_IS_A_FOOL__ "/'
+   mv libtool-2 libtool
+   chmod 755 libtool
+ ;;
+esac
 
-> 
-> Cheers,
-> 
-> Richard
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+If I understand the referenced Debian wiki page correctly, this is only
+useful if the tarball ships libtool older than 1.5.2 (released 2004-01-
+05). That is, this addition seems completely useless to me. Probably
+I'm missing something.
+
+The configure script fails, because it tries to modify the libtool
+script in the build directory, but the libtool script doesn't exist.
+And it doesn't exist, because OE renames it to ${host_alias}-libtool
+(e.g. x86_64-oe-linux-libtool).
+
+I'm not sure where the libtool script in the build directory comes
+from. Is it copied from the tarball's libtool script, or does it come
+from the libtool package? (Bitbake seems to run autoreconf and
+libtoolize, if that's relevant.) If the script comes from the libtool
+package, then modifying the script in the source directory (like Zang's
+patch does) is useless, since that script isn't used at all. If the
+tarball's libtool script is used, then Zang's patch still doesn't do
+what it's expected to do, because the script modification is the very
+last thing the configure script does, and the build directory's libtool
+script has already been created by then, so modifying the source
+directory's libtool script happens too late.
+
+I'll have to ask upstream if the strange configure.ac addition could be
+just removed. If it for some reason won't be removed, then an OE
+specific patch is needed. Either configure.ac needs to be modified to
+operate on ${host_alias}-libtool, or I can simply remove the libtool
+modification part, because OE hasn't needed that in the past, and I
+can't see how it would be needed now.
+
+[1] https://git.alsa-project.org/?p=alsa-lib.git;a=commitdiff;h=75d393a563efb578c79364a277087c6326267f52;hp=1f37ba2a2b1c07c04de1c368cd4943f712cccfa5
 
 -- 
-———————————————
-Josef Holzmayr
-Software Developer Embedded Systems
+Tanu
 
-Tel: +49 8444 9204-48
-Fax: +49 8444 9204-50
-
-R-S-I Elektrotechnik GmbH & Co. KG
-Woelkestrasse 11
-D-85301 Schweitenkirchen
-www.rsi-elektrotechnik.de
-———————————————
-Amtsgericht Ingolstadt – GmbH: HRB 191328 – KG: HRA 170393
-Geschäftsführer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
-Ust-IdNr: DE 128592548 
-
-_____________________________________________________________
-Amtsgericht Ingolstadt - GmbH: HRB 191328 - KG: HRA 170363
-Geschäftsführer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
-USt-IdNr.: DE 128592548
+https://www.patreon.com/tanuk
+https://liberapay.com/tanuk
 
 
