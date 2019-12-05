@@ -1,30 +1,26 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 5706B7F96F
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 130A27F876
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 22:23:11 +0000 (UTC)
-IronPort-SDR: OOtNzGzQNHYEPOU2EuPBhHgAlCR91TbAjITflsufeKCl2E4I832zQ2AJJF9ffjfglTolVD5nts
-	YNv1R+tHksyLqJxX9BCNT25tsq2D2txXzAk7Hd3XQMtzQSnMwM8NY/LPTOG+0VHCrRkTWsq2S4
-	TiB9KfpcZC1YwwpQXLKVacZ+2av/70Uj3JzSMPZh5KyttHDcCXzZvrFucv/B+LfUxHCjLGybwl
-	c89tujW9zO0jFdipIMN8kndVg+3wKjGCGtyglK9mkZWgTdxoM5Dwd5YikpFEufKND1ZBi5EB4m
-	GOQ=
+	Thu,  5 Dec 2019 22:29:26 +0000 (UTC)
+IronPort-SDR: HfQVl1RlMrvRTe0lzAp4HRgPGga9xm80TzUj5Wj73js381iZQEQFL2x135qYaDVDkZbxTRRZ7n
+	CdyY/2jh1uiaUfAYap/f2QNWB6CwUx76OWYjpD/YypguAR2iZYJ+OWzo00dWiN85svaVaORIc6
+	nSSaQSUdWflgcnUn8YMB175Ih9S6Alkqotq5fFY1BnYyaQrMJCgsix2XBICfYxeEcfzDEix9S5
+	qP0dVOEir3P+DWDcePow7EwzbiQqq512pWH4T2GPi1q+BvJovDgwNzmSeXryFvnYNUtY11ULfj
+	jJ8=
 X-IronPort-AV: E=Sophos;i="5.69,282,1571695200"; 
-   d="scan'208";a="3293093"
+   d="scan'208";a="3192580"
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [master][zeus][PATCH 2/2] libtirpc: Make it easy to
-	disable the installation of legacy headers
-Thread-Index: AdWruoWoTI2B8oLkS2SGSslD/nqHJg==
-Date: Thu, 5 Dec 2019 22:22:48 +0000
-Message-ID: <3082aa3cab14404d97c7f3c03af84462@XBOX03.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Dec 2019 23:26:17 +0100
+Message-Id: <20191205222617.31872-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: Re: [master][zeus][PATCH 2/2] libtirpc: Make it easy to disable the installation of legacy headers
+X-TM-AS-GCONF: 00
+Subject: [master][zeus][PATCH] cairo: Adapt license for cairo-dbg and cairo-src based on contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,89 +33,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 22:23:12 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 05 Dec 2019 22:29:27 -0000
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 5 december 2019 23:07
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [master][zeus][PATCH 2/2] libtirpc: Make it easy to di=
-sable the installation of legacy headers
->=20
-> Providing symbolic links to the header files to replace the old
-> corresponding glibc headers seems like a band aid for applications
-> that have not been updated to cope with the lack of the RPC headers
-> from glibc. Additionally they clash with glibc if an older version of
-> glibc is used that still provides the header files. To remedy this,
-> make it easy to disable the installation of the legacy headers by not
-> setting the legacy-headers PACKAGECONFIG.
->=20
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  .../libtirpc/libtirpc_1.1.4.bb                | 23 +++++++++++--------
->  1 file changed, 14 insertions(+), 9 deletions(-)
->=20
-> diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb b/meta/reci=
-pes-extended/libtirpc/libtirpc_1.1.4.bb
-> index 91e0ce6fd2..3c84694161 100644
-> --- a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-> +++ b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-> @@ -17,6 +17,9 @@ UPSTREAM_CHECK_REGEX =3D "(?P<pver>\d+(\.\d+)+)/"
->  SRC_URI[md5sum] =3D "f5d2a623e9dfbd818d2f3f3a4a878e3a"
->  SRC_URI[sha256sum] =3D "2ca529f02292e10c158562295a1ffd95d2ce8af97820e353=
-4fe1b0e3aec7561d"
->=20
-> +PACKAGECONFIG =3D "legacy-headers"
+Introduce a PACKAGECONFIG "trace" to disable cairo-trace (the only
+part of the code licensed as GPL-3.0, and which is normally packaged
+separately in cairo-perf-utils). By disabling this, we can adapt the
+licenses for cairo-dbg and cairo-src so that they do not include
+"GPLv3+" when trace is disabled and thus they can be used also when,
+e.g., GPL-3.0 is blacklisted in INCOMPATIBLE_LICENSE.
 
-I set the legacy-headers PACKAGECONFIG by default to maintain the=20
-compatibility with zeus-22.0.1. However, it can be argued that it=20
-should not be set to maintain compatibility with zeus-22.0.0. In=20
-our case, the change between 22.0.0 and 22.0.1 broke the build=20
-for a couple of our products that build using an older glibc.
+The "trace" PACKAGECONFIG is enabled by default for backwards
+compatibility.
 
-> +PACKAGECONFIG[legacy-headers] =3D ""
-> +
->  inherit autotools pkgconfig
->=20
->  EXTRA_OECONF =3D "--disable-gssapi"
-> @@ -24,16 +27,18 @@ EXTRA_OECONF =3D "--disable-gssapi"
->  do_install_append() {
->  	chown root:root ${D}${sysconfdir}/netconfig
->=20
-> -	for dir in rpc rpcsvc; do
-> -		install -d ${D}${includedir}/$dir
-> -		for link_header in ${D}${includedir}/tirpc/$dir/*; do
-> -			if [ -f $link_header ] &&
-> -			   [ ! -e ${D}${includedir}/$dir/$(basename $link_header) ]; then
-> -				ln -sf ../tirpc/$dir/$(basename $link_header) ${D}${includedir}/$dir=
-/$(basename $link_header)
-> -			fi
-> +	if [ "${@bb.utils.filter('PACKAGECONFIG', 'legacy-headers', d)}" ]; the=
-n
-> +		for dir in rpc rpcsvc; do
-> +			install -d ${D}${includedir}/$dir
-> +			for link_header in ${D}${includedir}/tirpc/$dir/*; do
-> +				if [ -f $link_header ] &&
-> +				   [ ! -e ${D}${includedir}/$dir/$(basename $link_header) ]; then
-> +					ln -sf ../tirpc/$dir/$(basename $link_header) ${D}${includedir}/$di=
-r/$(basename $link_header)
-> +				fi
-> +			done
->  		done
-> -	done
-> -	ln -sf tirpc/netconfig.h ${D}${includedir}/netconfig.h
-> +		ln -sf tirpc/netconfig.h ${D}${includedir}/netconfig.h
-> +	fi
->  }
->=20
->  BBCLASSEXTEND =3D "native nativesdk"
-> --
-> 2.21.0
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-//Peter
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+index e3de3f6164..36a7b3c180 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+@@ -17,6 +17,10 @@ LICENSE_${PN}-doc = "MPL-1.1 | LGPLv2.1"
+ LICENSE_${PN}-gobject = "MPL-1.1 | LGPLv2.1"
+ LICENSE_${PN}-script-interpreter = "MPL-1.1 | LGPLv2.1"
+ LICENSE_${PN}-perf-utils = "GPLv3+"
++# Adapt the licenses for cairo-dbg and cairo-src depending on whether
++# cairo-trace is being built.
++LICENSE_${PN}-dbg = "(MPL-1.1 | LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '', d)}"
++LICENSE_${PN}-src = "(MPL-1.1 | LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '', d)}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+ 
+@@ -40,7 +44,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)}"
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
++                   trace"
+ 
+ PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+ PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+@@ -49,6 +54,7 @@ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
+ PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
+ PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
+ PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
++PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+ 
+ EXTRA_OECONF += " \
+     ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
+-- 
+2.21.0
 
 
