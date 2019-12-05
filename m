@@ -1,52 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 020D66C10B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 752707F81C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 14:45:56 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id t14so3966378wmi.5
+	Thu,  5 Dec 2019 15:44:04 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id t2so4224839wrr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2019 06:45:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=+/tCTS9Fk0Z2hYv5tLzlucO7q20yk1U7GS3ajKiSvwM=;
-	b=TJfYVl1Nc2RQ6iL9lxJzcmHs1cQpMbAmhYnRQuoMRP/n3+BNmTKegb8pdOVWvxhvyZ
-	XgCMFxxKO4icQdtiv0fdHvm5/dwTlb0tGpvDTrYZFDRCfj8mSruzuXsdZ8bMSMMYBRvz
-	l5Cx2yfVLuIVZTWANyWG0I8rpwXtklKSDe9Y+hym93wQ3r/IkrqFx4xhw/ElqyoB4vsR
-	QiAXXeybiivL5w9Ep1YJrCmDmMYtTMG6qCqOpajLZKHGfk6tmP1Q8eDOHdp7x5FpZWCX
-	3OA5PWY08fOwsqHNjTZ4zJKPEd/zozM8i8X5soVYf7u9DUnCCuHZB1rgdrFwsR62wdtq
-	xA3g==
+	Thu, 05 Dec 2019 07:44:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=tmOFYQM+1xQJVpvEnjnVJCgLvpmTsvpOs6QvT4q5iEU=;
+	b=T4IcU+EzwB2F9dLICAqywtDqyYt4/esYg6ZxomVb7VMNxvSUEUMt0h7t8Hx6TnL4d8
+	WNZ505xFTIIRVvjUDjPPOPD7SMFEf8ma9y4VUDmiGKkEmnX/+zZxY5rghP17QPpMNbPG
+	GS1J9B0gQkZtKzKxpwr0TCTsatK+5xafrYJ+Wzh2CHQXNyfUu6I2DpA9sZNvjq0mAasr
+	fi5HQvPqgu0zv/2294RORfv9xWi1CASeD6X4a20i/lY4RmXaPLAxx3of4w6sNIWCPc7s
+	UfP7q8X4obRBF99j9TE9YyhtcStE/4XJV4iwvI0x6x027BOeICmq7jDeZKTzY+zTNf+C
+	H4OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=+/tCTS9Fk0Z2hYv5tLzlucO7q20yk1U7GS3ajKiSvwM=;
-	b=emLehF6qCxqQybTSAzjXomHtQUkO85uBkHpXEQ1zEqoRI9VfYzss+GQRBM8Xrb9W0m
-	P8oX77BETw5lGB3KVoT2ZfZ+HOOetaqNxZQi8wp3s1JHLPLZgUATOPWfdkS4Sc6iDsor
-	d8wPiNkYdWBbLQX2NrwSwsuqiyN2q+POvytibHIjK47Nc+HOdBHNaiA8sVpFqXpdmsi8
-	shcS7a+94gUhAplFIbj7UiIz4Cfw7dUNBl3kUg8nprJVttk4xwCFV4LqHp2VqKSW42PC
-	amRMnJnafnWpzZnJGfKF42hOxTaQfM62owhKv7i8w5E3OtwYLVNf02c7i+dzA3TlNZkf
-	llbg==
-X-Gm-Message-State: APjAAAV5SJMsvu4Hf14ddtfxM5u59d6Yf7FuNxehD3CU0J7gHtCdiiiq
-	kmp7G9rMyHpZw8LaSDMQGPo7KhpGtpM=
-X-Google-Smtp-Source: APXvYqyiZnMhct6B8yYitkvDvEZGEC+mND9cikbJjEqAvH40WO7q7iwt1Qb6YZTif0YXKFhmMEGVww==
-X-Received: by 2002:a7b:c847:: with SMTP id c7mr5759891wml.3.1575557156093;
-	Thu, 05 Dec 2019 06:45:56 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	h8sm13394306wrx.63.2019.12.05.06.45.53
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tmOFYQM+1xQJVpvEnjnVJCgLvpmTsvpOs6QvT4q5iEU=;
+	b=esBA/Nw5pnT4DHvg0tfxK8uXZG0HMiXHVObZAqpqHWBgwivv+3+m/+j4GHGsOFqBLo
+	pU3Xx5r/vBOsS4bRvH2cNPvD5hAPqEqkAB55syHLRsup2P0d1JACyqjFY0WQCFPYGVy9
+	TBm70W3YGLK3TTCTRgLdQWArSOxxYJcRE/+tYEpiqM00Bb5vU8Te0iV6gLktx3qiqDIN
+	fC5ySF8x+kVxlmd7J0yI2wBI7Zt2xPWs38dchES+WGuqKJmFSMmnWBwUSQX4ZYku538V
+	IWbZ0rOHOd6xyBNL8L6dhu/U2ECyObnLboBTq7GAQOaMYAX7Aie+h+pbuMM8v9hZcGn9
+	W3vQ==
+X-Gm-Message-State: APjAAAW/Y4GobNWivKSR1/n7PryToKUtRgZ8X5Yu80mFJyadaZVadszU
+	lHAM3HMtY6qPJ/Dpn6XGwc3bgdG2
+X-Google-Smtp-Source: APXvYqzUWRWWMdRvu2RcEzXPPwDu6DoNWB8QiXzbXblOZXxyGcV9W04BvNN/RBbAdkVEZ1KUIhnXgg==
+X-Received: by 2002:adf:f508:: with SMTP id q8mr7757371wro.334.1575560644546; 
+	Thu, 05 Dec 2019 07:44:04 -0800 (PST)
+Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
+	by smtp.gmail.com with ESMTPSA id z64sm223330wmg.30.2019.12.05.07.44.03
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Dec 2019 06:45:54 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Thu, 05 Dec 2019 07:44:03 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2019 14:45:51 +0000
-Message-Id: <20191205144551.26888-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH][thud] glibc: finish incomplete fix for CVE-2016-10739
+Date: Thu,  5 Dec 2019 16:43:34 +0100
+Message-Id: <20191205154357.121346-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 01/24] rpm: upgrade to 4.15.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,968 +53,1108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 14:45:57 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 05 Dec 2019 15:44:05 -0000
 
-Somehow the patch for this CVE only included one of the four required patches.
+Drop patches that were merged upstream.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+modifies a file that was removed upstream.
+
+Add a 0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+as unfortunately the new parallel file classification feature from
+upstream trips over somewhere in libmagic when inspected files are
+compressed:
+https://github.com/rpm-software-management/rpm/issues/756
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../glibc/glibc/CVE-2016-10739.patch          | 932 +++++++++++++++++-
- 1 file changed, 929 insertions(+), 3 deletions(-)
+ ...satisfiable-dependency-when-building.patch |  28 +-
+ ...lib-rpm-as-the-installation-path-for.patch |  14 +-
+ ...kage-building-into-a-separate-functi.patch |  84 -----
+ ...es-requires-do-not-use-monodis-from-.patch |  58 ---
+ ...-run-file-classification-in-parallel.patch |  65 ++++
+ ...ry-package-creation-via-thread-pools.patch | 127 -------
+ ...e-operations-over-string-pools-threa.patch | 207 -----------
+ ...ove-static-local-variables-from-buil.patch | 336 ------------------
+ .../rpm/{rpm_4.14.2.1.bb => rpm_4.15.1.bb}    |  15 +-
+ 9 files changed, 90 insertions(+), 844 deletions(-)
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+ create mode 100644 meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
+ delete mode 100644 meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
+ rename meta/recipes-devtools/rpm/{rpm_4.14.2.1.bb => rpm_4.15.1.bb} (90%)
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-10739.patch b/meta/recipes-core/glibc/glibc/CVE-2016-10739.patch
-index 7eb55d6663d..871627da195 100644
---- a/meta/recipes-core/glibc/glibc/CVE-2016-10739.patch
-+++ b/meta/recipes-core/glibc/glibc/CVE-2016-10739.patch
-@@ -5,12 +5,12 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
- From 8e92ca5dd7a7e38a4dddf1ebc4e1e8f0cb27e4aa Mon Sep 17 00:00:00 2001
- From: Florian Weimer <fweimer@redhat.com>
- Date: Mon, 21 Jan 2019 08:59:42 +0100
--Subject: [PATCH] resolv: Reformat inet_addr, inet_aton to GNU style
-+Subject: [PATCH 1/4] resolv: Reformat inet_addr, inet_aton to GNU style
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+index 80e2f0fad70..4029233fb70 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch
+@@ -1,4 +1,4 @@
+-From 87cfc0db1ed6fe381a5ed5f0016d8c3344a31a11 Mon Sep 17 00:00:00 2001
++From f39c28eb52f12ae6e82db360ffd5a903ac8faca5 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 9 Jan 2017 18:52:11 +0200
+ Subject: [PATCH] Do not add an unsatisfiable dependency when building rpms in
+@@ -9,25 +9,23 @@ hand produces rpms that way by design.
  
- (cherry picked from commit 5e30b8ef0758763effa115634e0ed7d8938e4bc0)
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++
  ---
-  ChangeLog          |   5 ++
-- resolv/inet_addr.c | 192 ++++++++++++++++++++++++++++-------------------------
-+ resolv/inet_addr.c | 192 ++++++++++++++++++++++++---------------------
-  2 files changed, 106 insertions(+), 91 deletions(-)
+  build/pack.c | 4 ----
+  1 file changed, 4 deletions(-)
  
- diff --git a/resolv/inet_addr.c b/resolv/inet_addr.c
-@@ -229,4 +229,930 @@ index 022f7ea084..32f58b0e13 100644
-  weak_alias (__inet_aton, inet_aton)
-  libc_hidden_def (__inet_aton)
- -- 
--2.11.0
-+2.20.1
-+
-+
-+From 37edf1d3f8ab9adefb61cc466ac52b53114fbd5b Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Mon, 21 Jan 2019 09:26:41 +0100
-+Subject: [PATCH 2/4] resolv: Do not send queries for non-host-names in nss_dns
-+ [BZ #24112]
-+
-+Before this commit, nss_dns would send a query which did not contain a
-+host name as the query name (such as invalid\032name.example.com) and
-+then reject the answer in getanswer_r and gaih_getanswer_slice, using
-+a check based on res_hnok.  With this commit, no query is sent, and a
-+host-not-found error is returned to NSS without network interaction.
-+
-+(cherry picked from commit 6ca53a2453598804a2559a548a08424fca96434a)
-+---
-+ ChangeLog                 |  9 +++++++++
-+ resolv/nss_dns/dns-host.c | 24 ++++++++++++++++++++++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+
-+diff --git a/resolv/nss_dns/dns-host.c b/resolv/nss_dns/dns-host.c
-+index 5dc2829cd1..99c3b61e1c 100644
-+--- a/resolv/nss_dns/dns-host.c
-++++ b/resolv/nss_dns/dns-host.c
-+@@ -274,11 +274,26 @@ gethostbyname3_context (struct resolv_context *ctx,
-+   return status;
-+ }
-+ 
-++/* Verify that the name looks like a host name.  There is no point in
-++   sending a query which will not produce a usable name in the
-++   response.  */
-++static enum nss_status
-++check_name (const char *name, int *h_errnop)
-++{
-++  if (res_hnok (name))
-++    return NSS_STATUS_SUCCESS;
-++  *h_errnop = HOST_NOT_FOUND;
-++  return NSS_STATUS_NOTFOUND;
-++}
-++
-+ enum nss_status
-+ _nss_dns_gethostbyname2_r (const char *name, int af, struct hostent *result,
-+ 			   char *buffer, size_t buflen, int *errnop,
-+ 			   int *h_errnop)
-+ {
-++  enum nss_status status = check_name (name, h_errnop);
-++  if (status != NSS_STATUS_SUCCESS)
-++    return status;
-+   return _nss_dns_gethostbyname3_r (name, af, result, buffer, buflen, errnop,
-+ 				    h_errnop, NULL, NULL);
-+ }
-+@@ -289,6 +304,9 @@ _nss_dns_gethostbyname_r (const char *name, struct hostent *result,
-+ 			  char *buffer, size_t buflen, int *errnop,
-+ 			  int *h_errnop)
-+ {
-++  enum nss_status status = check_name (name, h_errnop);
-++  if (status != NSS_STATUS_SUCCESS)
-++    return status;
-+   struct resolv_context *ctx = __resolv_context_get ();
-+   if (ctx == NULL)
-+     {
-+@@ -296,7 +314,7 @@ _nss_dns_gethostbyname_r (const char *name, struct hostent *result,
-+       *h_errnop = NETDB_INTERNAL;
-+       return NSS_STATUS_UNAVAIL;
+ diff --git a/build/pack.c b/build/pack.c
+-index 1261cdbba..bb2d6f4f6 100644
++index e6cec1816..810cd7351 100644
+ --- a/build/pack.c
+ +++ b/build/pack.c
+-@@ -595,10 +595,6 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+- 	    headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
+- 	}
++@@ -724,10 +724,6 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
++ 	headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
 +     }
-+-  enum nss_status status = NSS_STATUS_NOTFOUND;
-++  status = NSS_STATUS_NOTFOUND;
-+   if (res_use_inet6 ())
-+     status = gethostbyname3_context (ctx, name, AF_INET6, result, buffer,
-+ 				     buflen, errnop, h_errnop, NULL, NULL);
-+@@ -313,6 +331,9 @@ _nss_dns_gethostbyname4_r (const char *name, struct gaih_addrtuple **pat,
-+ 			   char *buffer, size_t buflen, int *errnop,
-+ 			   int *herrnop, int32_t *ttlp)
-+ {
-++  enum nss_status status = check_name (name, herrnop);
-++  if (status != NSS_STATUS_SUCCESS)
-++    return status;
-+   struct resolv_context *ctx = __resolv_context_get ();
-+   if (ctx == NULL)
-+     {
-+@@ -347,7 +368,6 @@ _nss_dns_gethostbyname4_r (const char *name, struct gaih_addrtuple **pat,
-+   int ans2p_malloced = 0;
 + 
-+   int olderr = errno;
-+-  enum nss_status status;
-+   int n = __res_context_search (ctx, name, C_IN, T_QUERY_A_AND_AAAA,
-+ 				host_buffer.buf->buf, 2048, &host_buffer.ptr,
-+ 				&ans2p, &nans2p, &resplen2, &ans2p_malloced);
-+-- 
-+2.20.1
++-    if (cheating) {
++-	(void) rpmlibNeedsFeature(pkg, "ShortCircuited", "4.9.0-1");
++-    }
++-
++     if ((rc = getPkgFilename(pkg->header, filename)))
++ 	return rc;
+  
+--	if (cheating) {
+--	    (void) rpmlibNeedsFeature(pkg, "ShortCircuited", "4.9.0-1");
+--	}
+--	
+- 	{   char *binFormat = rpmGetPath("%{_rpmfilename}", NULL);
+- 	    char *binRpm, *binDir;
+- 	    binRpm = headerFormat(pkg->header, binFormat, &errorString);
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+index 82e7328757f..52440d68180 100644
+--- a/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
++++ b/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
+@@ -1,4 +1,4 @@
+-From bd08eb0ae1312f347f49949481daa7c923752df2 Mon Sep 17 00:00:00 2001
++From 2f3d1619b6510bc131c4375827caf912559f0fa2 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 27 Feb 2017 09:43:30 +0200
+ Subject: [PATCH] Do not hardcode "lib/rpm" as the installation path for
+@@ -14,10 +14,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  3 files changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/configure.ac b/configure.ac
+-index 09af7c4..9bd6903 100644
++index d3aeab86e..1a1f3f91f 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -1055,7 +1055,7 @@ else
++@@ -1086,7 +1086,7 @@ else
+      usrprefix=$prefix
+  fi
+  
+@@ -27,10 +27,10 @@ index 09af7c4..9bd6903 100644
+  
+  AC_SUBST(OBJDUMP)
+ diff --git a/macros.in b/macros.in
+-index a3aa7a9..62cee5c 100644
++index fe9803aad..d128675bf 100644
+ --- a/macros.in
+ +++ b/macros.in
+-@@ -970,7 +970,7 @@ package or when debugging this package.\
++@@ -985,7 +985,7 @@ package or when debugging this package.\
+  %_sharedstatedir	%{_prefix}/com
+  %_localstatedir		%{_prefix}/var
+  %_lib			lib
+@@ -40,7 +40,7 @@ index a3aa7a9..62cee5c 100644
+  %_infodir		%{_datadir}/info
+  %_mandir		%{_datadir}/man
+ diff --git a/rpm.am b/rpm.am
+-index 82c2d7c..6341b51 100644
++index 40b4ec55f..3139ce8f6 100644
+ --- a/rpm.am
+ +++ b/rpm.am
+ @@ -1,10 +1,10 @@
+@@ -55,4 +55,4 @@ index 82c2d7c..6341b51 100644
+ +rpmconfigdir = $(libdir)/rpm
+  
+  # Libtool version (current-revision-age) for all our libraries
+- rpm_version_info = 9:0:1
++ rpm_version_info = 9:1:0
+diff --git a/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch b/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
+deleted file mode 100644
+index 6e44f0b7fc9..00000000000
+--- a/meta/recipes-devtools/rpm/files/0001-Split-binary-package-building-into-a-separate-functi.patch
++++ /dev/null
+@@ -1,84 +0,0 @@
+-From 721a660a507d6d062e7aecafad886c643970a5d5 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 25 May 2017 18:15:27 +0300
+-Subject: [PATCH 1/4] Split binary package building into a separate function
+-
+-So that it can be run as a thread pool task.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- build/pack.c | 33 +++++++++++++++++++++------------
+- 1 file changed, 21 insertions(+), 12 deletions(-)
+-
+-diff --git a/build/pack.c b/build/pack.c
+-index 518f4e92a..ccfd614cc 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
+-@@ -546,18 +546,13 @@ static rpmRC checkPackages(char *pkgcheck)
+-     return RPMRC_OK;
+- }
+- 
+--rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int cheating, char** filename)
+- {
+--    rpmRC rc;
+--    const char *errorString;
+--    Package pkg;
+--    char *pkglist = NULL;
+--
+--    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+--	char *fn;
+-+	const char *errorString;
+-+	rpmRC rc = RPMRC_OK;
+- 
+- 	if (pkg->fileList == NULL)
+--	    continue;
+-+	    return rc;
+- 
+- 	if ((rc = processScriptFiles(spec, pkg)))
+- 	    return rc;
+-@@ -587,7 +582,7 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+- 		     headerGetString(pkg->header, RPMTAG_NAME), errorString);
+- 		return RPMRC_FAIL;
+- 	    }
+--	    fn = rpmGetPath("%{_rpmdir}/", binRpm, NULL);
+-+	    *filename = rpmGetPath("%{_rpmdir}/", binRpm, NULL);
+- 	    if ((binDir = strchr(binRpm, '/')) != NULL) {
+- 		struct stat st;
+- 		char *dn;
+-@@ -609,14 +604,28 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+- 	    free(binRpm);
+- 	}
+- 
+--	rc = writeRPM(pkg, NULL, fn, NULL);
+-+	rc = writeRPM(pkg, NULL, *filename, NULL);
+- 	if (rc == RPMRC_OK) {
+- 	    /* Do check each written package if enabled */
+--	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", fn, NULL);
+-+	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", *filename, NULL);
+- 	    if (pkgcheck[0] != ' ') {
+- 		rc = checkPackages(pkgcheck);
+- 	    }
+- 	    free(pkgcheck);
+-+	}
+-+	return rc;
+-+}
+-+
+-+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+{
+-+    rpmRC rc;
+-+    Package pkg;
+-+    char *pkglist = NULL;
+-+
+-+    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+-+	char *fn = NULL;
+-+	rc = packageBinary(spec, pkg, cookie, cheating, &fn);
+-+	if (rc == RPMRC_OK) {
+- 	    rstrcat(&pkglist, fn);
+- 	    rstrcat(&pkglist, " ");
+- 	}
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch b/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
+deleted file mode 100644
+index 24aa4c7ffff..00000000000
+--- a/meta/recipes-devtools/rpm/files/0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 43fbc3f53302a395463e8450ac81c53f623eec3f Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 27 Aug 2019 17:42:34 +0200
+-Subject: [PATCH] mono-find-provides/requires: do not use monodis from the host
+-
+-There was a host contamination issue here: if monodis was installed
+-on the host, do_package would use that to resolve dependencies
+-of mono libraries (and often fail in that). Without monodis,
+-no dependencies are resolved, which is seemingly how things
+-are supposed to work.
+-
+-Upstream-Status: Inappropriate [oe-core specific]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- scripts/mono-find-provides | 8 ++++----
+- scripts/mono-find-requires | 8 ++++----
+- 2 files changed, 8 insertions(+), 8 deletions(-)
+-
+-diff --git a/scripts/mono-find-provides b/scripts/mono-find-provides
+-index 9348457d3..b28872ffb 100644
+---- a/scripts/mono-find-provides
+-+++ b/scripts/mono-find-provides
+-@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep -E "\\.(exe|dll)\$"))
+- build_bindir="$2/usr/bin"
+- build_libdir="$2$3"
+- 
+--if [ -x $build_bindir/monodis ]; then
+--    monodis="$build_bindir/monodis"
+-+if [ -x $build_bindir/monodis.bogus ]; then
+-+    monodis="$build_bindir/monodis.bogus"
+-     export LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+--elif [ -x /usr/bin/monodis ]; then
+--    monodis="/usr/bin/monodis"
+-+elif [ -x /usr/bin/monodis.bogus ]; then
+-+    monodis="/usr/bin/monodis.bogus"
+- else
+-     exit 0;
+- fi
+-diff --git a/scripts/mono-find-requires b/scripts/mono-find-requires
+-index ea58cae48..d270169e1 100644
+---- a/scripts/mono-find-requires
+-+++ b/scripts/mono-find-requires
+-@@ -18,11 +18,11 @@ monolist=($(printf "%s\n" "${filelist[@]}" | grep -E "\\.(exe|dll)\$"))
+- build_bindir="$2/usr/bin"
+- build_libdir="$2$3"
+- 
+--if [ -x $build_bindir/monodis ]; then
+--    monodis="$build_bindir/monodis"
+-+if [ -x $build_bindir/monodis.bogus ]; then
+-+    monodis="$build_bindir/monodis.bogus"
+-     export LD_LIBRARY_PATH=$build_libdir${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+--elif [ -x /usr/bin/monodis ]; then
+--    monodis="/usr/bin/monodis"
+-+elif [ -x /usr/bin/monodis.bogus ]; then
+-+    monodis="/usr/bin/monodis.bogus"
+- else
+-     exit 0;
+- fi
+diff --git a/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+new file mode 100644
+index 00000000000..d8d338792d3
+--- /dev/null
++++ b/meta/recipes-devtools/rpm/files/0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
+@@ -0,0 +1,65 @@
++From 93c3c7f043f62e96941274e957c4ad9432032af1 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 18 Nov 2019 16:22:56 +0100
++Subject: [PATCH] rpmfc.c: do not run file classification in parallel
 +
++This is causing freezes with libmagic when the file in question is compressed:
++https://github.com/rpm-software-management/rpm/issues/756
 +
-+From 2373941bd73cb288c8a42a33e23e7f7bb81151e7 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Mon, 21 Jan 2019 21:26:03 +0100
-+Subject: [PATCH 3/4] CVE-2016-10739: getaddrinfo: Fully parse IPv4 address
-+ strings [BZ #20018]
-+
-+The IPv4 address parser in the getaddrinfo function is changed so that
-+it does not ignore trailing whitespace and all characters after it.
-+For backwards compatibility, the getaddrinfo function still recognizes
-+legacy name syntax, such as 192.000.002.010 interpreted as 192.0.2.8
-+(octal).
-+
-+This commit does not change the behavior of inet_addr and inet_aton.
-+gethostbyname already had additional sanity checks (but is switched
-+over to the new __inet_aton_exact function for completeness as well).
-+
-+To avoid sending the problematic query names over DNS, commit
-+6ca53a2453598804a2559a548a08424fca96434a ("resolv: Do not send queries
-+for non-host-names in nss_dns [BZ #24112]") is needed.
-+
-+(cherry picked from commit 108bc4049f8ae82710aec26a92ffdb4b439c83fd)
++Upstream-Status: Inappropriate [upstream wants a proper fix]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ ChangeLog                      |  33 ++++++++
-+ NEWS                           |   4 +
-+ include/arpa/inet.h            |   6 +-
-+ nscd/gai.c                     |   1 -
-+ nscd/gethstbynm3_r.c           |   2 -
-+ nss/digits_dots.c              |   3 +-
-+ resolv/Makefile                |   7 ++
-+ resolv/Versions                |   1 +
-+ resolv/inet_addr.c             |  62 ++++++++++-----
-+ resolv/res_init.c              |  17 ++--
-+ resolv/tst-aton.c              |  35 +++++++--
-+ resolv/tst-inet_aton_exact.c   |  47 +++++++++++
-+ resolv/tst-resolv-nondecimal.c | 139 +++++++++++++++++++++++++++++++++
-+ resolv/tst-resolv-trailing.c   | 136 ++++++++++++++++++++++++++++++++
-+ sysdeps/posix/getaddrinfo.c    |   2 +-
-+ 15 files changed, 455 insertions(+), 40 deletions(-)
-+ create mode 100644 resolv/tst-inet_aton_exact.c
-+ create mode 100644 resolv/tst-resolv-nondecimal.c
-+ create mode 100644 resolv/tst-resolv-trailing.c
++ build/rpmfc.c | 8 --------
++ 1 file changed, 8 deletions(-)
 +
-+diff --git a/NEWS b/NEWS
-+index 0e58ca8904..a1af88e193 100644
-+--- a/NEWS
-++++ b/NEWS
-+@@ -10,6 +10,7 @@ Version 2.28.1
-+ The following bugs are resolved with this release:
-+ 
-+   [19444] build failures with -O1 due to -Wmaybe-uninitialized
-++  [20018] getaddrinfo should reject IP addresses with trailing characters
-+   [20209] localedata: Spelling mistake for Sunday in Greenlandic kl_GL
-+   [22927] libanl: properly cleanup if first helper thread creation failed
-+   [23400] stdlib/test-bz22786.c creates temporary files in glibc source tree
-+@@ -57,6 +58,9 @@ Security related changes:
-+   memcmp gave the wrong result since it treated the size argument as
-+   zero.  Reported by H.J. Lu.
-+ 
-++  CVE-2016-10739: The getaddrinfo function could successfully parse IPv4
-++  addresses with arbitrary trailing characters, potentially leading to data
-++  or command injection issues in applications.
-+ 
-+ Version 2.28
-+ 
-+diff --git a/include/arpa/inet.h b/include/arpa/inet.h
-+index c3f28f2baa..19aec74275 100644
-+--- a/include/arpa/inet.h
-++++ b/include/arpa/inet.h
-+@@ -1,10 +1,10 @@
-+ #include <inet/arpa/inet.h>
-+ 
-+ #ifndef _ISOMAC
-+-extern int __inet_aton (const char *__cp, struct in_addr *__inp);
-+-libc_hidden_proto (__inet_aton)
-++/* Variant of inet_aton which rejects trailing garbage.  */
-++extern int __inet_aton_exact (const char *__cp, struct in_addr *__inp);
-++libc_hidden_proto (__inet_aton_exact)
-+ 
-+-libc_hidden_proto (inet_aton)
-+ libc_hidden_proto (inet_ntop)
-+ libc_hidden_proto (inet_pton)
-+ extern __typeof (inet_pton) __inet_pton;
-+diff --git a/nscd/gai.c b/nscd/gai.c
-+index 24bdfee1db..f57f396f57 100644
-+--- a/nscd/gai.c
-++++ b/nscd/gai.c
-+@@ -19,7 +19,6 @@
-+ 
-+ /* This file uses the getaddrinfo code but it compiles it without NSCD
-+    support.  We just need a few symbol renames.  */
-+-#define __inet_aton inet_aton
-+ #define __ioctl ioctl
-+ #define __getsockname getsockname
-+ #define __socket socket
-+diff --git a/nscd/gethstbynm3_r.c b/nscd/gethstbynm3_r.c
-+index 7beb9dce9f..f792c4fcd0 100644
-+--- a/nscd/gethstbynm3_r.c
-++++ b/nscd/gethstbynm3_r.c
-+@@ -38,8 +38,6 @@
-+ #define HAVE_LOOKUP_BUFFER	1
-+ #define HAVE_AF			1
-+ 
-+-#define __inet_aton inet_aton
-+-
-+ /* We are nscd, so we don't want to be talking to ourselves.  */
-+ #undef	USE_NSCD
-+ 
-+diff --git a/nss/digits_dots.c b/nss/digits_dots.c
-+index 39bff38865..5441bce16e 100644
-+--- a/nss/digits_dots.c
-++++ b/nss/digits_dots.c
-+@@ -29,7 +29,6 @@
-+ #include "nsswitch.h"
-+ 
-+ #ifdef USE_NSCD
-+-# define inet_aton __inet_aton
-+ # include <nscd/nscd_proto.h>
-+ #endif
-+ 
-+@@ -160,7 +159,7 @@ __nss_hostname_digits_dots_context (struct resolv_context *ctx,
-+ 		     255.255.255.255?  The test below will succeed
-+ 		     spuriously... ???  */
-+ 		  if (af == AF_INET)
-+-		    ok = __inet_aton (name, (struct in_addr *) host_addr);
-++		    ok = __inet_aton_exact (name, (struct in_addr *) host_addr);
-+ 		  else
-+ 		    {
-+ 		      assert (af == AF_INET6);
-+diff --git a/resolv/Makefile b/resolv/Makefile
-+index ea395ac3eb..d36eedd34a 100644
-+--- a/resolv/Makefile
-++++ b/resolv/Makefile
-+@@ -34,6 +34,9 @@ routines := herror inet_addr inet_ntop inet_pton nsap_addr res_init \
-+ tests = tst-aton tst-leaks tst-inet_ntop
-+ xtests = tst-leaks2
-+ 
-++tests-internal += tst-inet_aton_exact
-++
-++
-+ generate := mtrace-tst-leaks.out tst-leaks.mtrace tst-leaks2.mtrace
-+ 
-+ extra-libs := libresolv libnss_dns
-+@@ -54,8 +57,10 @@ tests += \
-+   tst-resolv-binary \
-+   tst-resolv-edns \
-+   tst-resolv-network \
-++  tst-resolv-nondecimal \
-+   tst-resolv-res_init-multi \
-+   tst-resolv-search \
-++  tst-resolv-trailing \
-+ 
-+ # These tests need libdl.
-+ ifeq (yes,$(build-shared))
-+@@ -190,9 +195,11 @@ $(objpfx)tst-resolv-res_init-multi: $(objpfx)libresolv.so \
-+   $(shared-thread-library)
-+ $(objpfx)tst-resolv-res_init-thread: $(libdl) $(objpfx)libresolv.so \
-+   $(shared-thread-library)
-++$(objpfx)tst-resolv-nondecimal: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-qtypes: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-rotate: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-search: $(objpfx)libresolv.so $(shared-thread-library)
-++$(objpfx)tst-resolv-trailing: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-threads: \
-+   $(libdl) $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-canonname: \
-+diff --git a/resolv/Versions b/resolv/Versions
-+index b05778d965..9a82704af7 100644
-+--- a/resolv/Versions
-++++ b/resolv/Versions
-+@@ -27,6 +27,7 @@ libc {
-+     __h_errno; __resp;
-+ 
-+     __res_iclose;
-++    __inet_aton_exact;
-+     __inet_pton_length;
-+     __resolv_context_get;
-+     __resolv_context_get_preinit;
-+diff --git a/resolv/inet_addr.c b/resolv/inet_addr.c
-+index 32f58b0e13..41b6166a5b 100644
-+--- a/resolv/inet_addr.c
-++++ b/resolv/inet_addr.c
-+@@ -96,26 +96,14 @@
-+ #include <limits.h>
-+ #include <errno.h>
-+ 
-+-/* ASCII IPv4 Internet address interpretation routine.  The value
-+-   returned is in network order.  */
-+-in_addr_t
-+-__inet_addr (const char *cp)
-+-{
-+-  struct in_addr val;
-+-
-+-  if (__inet_aton (cp, &val))
-+-    return val.s_addr;
-+-  return INADDR_NONE;
-+-}
-+-weak_alias (__inet_addr, inet_addr)
-+-
-+ /* Check whether "cp" is a valid ASCII representation of an IPv4
-+    Internet address and convert it to a binary address.  Returns 1 if
-+    the address is valid, 0 if not.  This replaces inet_addr, the
-+    return value from which cannot distinguish between failure and a
-+-   local broadcast address.  */
-+-int
-+-__inet_aton (const char *cp, struct in_addr *addr)
-++   local broadcast address.  Write a pointer to the first
-++   non-converted character to *endp.  */
-++static int
-++inet_aton_end (const char *cp, struct in_addr *addr, const char **endp)
-+ {
-+   static const in_addr_t max[4] = { 0xffffffff, 0xffffff, 0xffff, 0xff };
-+   in_addr_t val;
-+@@ -180,6 +168,7 @@ __inet_aton (const char *cp, struct in_addr *addr)
-+ 
-+   if (addr != NULL)
-+     addr->s_addr = res.word | htonl (val);
-++  *endp = cp;
-+ 
-+   __set_errno (saved_errno);
-+   return 1;
-+@@ -188,6 +177,41 @@ __inet_aton (const char *cp, struct in_addr *addr)
-+   __set_errno (saved_errno);
-+   return 0;
-+ }
-+-weak_alias (__inet_aton, inet_aton)
-+-libc_hidden_def (__inet_aton)
-+-libc_hidden_weak (inet_aton)
-++
-++int
-++__inet_aton_exact (const char *cp, struct in_addr *addr)
-++{
-++  struct in_addr val;
-++  const char *endp;
-++  /* Check that inet_aton_end parsed the entire string.  */
-++  if (inet_aton_end (cp, &val, &endp) != 0 && *endp == 0)
-++    {
-++      *addr = val;
-++      return 1;
-++    }
-++  else
-++    return 0;
-++}
-++libc_hidden_def (__inet_aton_exact)
-++
-++/* inet_aton ignores trailing garbage.  */
-++int
-++__inet_aton_ignore_trailing (const char *cp, struct in_addr *addr)
-++{
-++  const char *endp;
-++  return  inet_aton_end (cp, addr, &endp);
-++}
-++weak_alias (__inet_aton_ignore_trailing, inet_aton)
-++
-++/* ASCII IPv4 Internet address interpretation routine.  The value
-++   returned is in network order.  */
-++in_addr_t
-++__inet_addr (const char *cp)
-++{
-++  struct in_addr val;
-++  const char *endp;
-++  if (inet_aton_end (cp, &val, &endp))
-++    return val.s_addr;
-++  return INADDR_NONE;
-++}
-++weak_alias (__inet_addr, inet_addr)
-+diff --git a/resolv/res_init.c b/resolv/res_init.c
-+index f5e52cbbb9..94743a252e 100644
-+--- a/resolv/res_init.c
-++++ b/resolv/res_init.c
-+@@ -399,8 +399,16 @@ res_vinit_1 (FILE *fp, struct resolv_conf_parser *parser)
-+               cp = parser->buffer + sizeof ("nameserver") - 1;
-+               while (*cp == ' ' || *cp == '\t')
-+                 cp++;
-++
-++              /* Ignore trailing contents on the name server line.  */
-++              {
-++                char *el;
-++                if ((el = strpbrk (cp, " \t\n")) != NULL)
-++                  *el = '\0';
-++              }
-++
-+               struct sockaddr *sa;
-+-              if ((*cp != '\0') && (*cp != '\n') && __inet_aton (cp, &a))
-++              if ((*cp != '\0') && (*cp != '\n') && __inet_aton_exact (cp, &a))
-+                 {
-+                   sa = allocate_address_v4 (a, NAMESERVER_PORT);
-+                   if (sa == NULL)
-+@@ -410,9 +418,6 @@ res_vinit_1 (FILE *fp, struct resolv_conf_parser *parser)
-+                 {
-+                   struct in6_addr a6;
-+                   char *el;
-+-
-+-                  if ((el = strpbrk (cp, " \t\n")) != NULL)
-+-                    *el = '\0';
-+                   if ((el = strchr (cp, SCOPE_DELIMITER)) != NULL)
-+                     *el = '\0';
-+                   if ((*cp != '\0') && (__inet_pton (AF_INET6, cp, &a6) > 0))
-+@@ -472,7 +477,7 @@ res_vinit_1 (FILE *fp, struct resolv_conf_parser *parser)
-+                   char separator = *cp;
-+                   *cp = 0;
-+                   struct resolv_sortlist_entry e;
-+-                  if (__inet_aton (net, &a))
-++                  if (__inet_aton_exact (net, &a))
-+                     {
-+                       e.addr = a;
-+                       if (is_sort_mask (separator))
-+@@ -484,7 +489,7 @@ res_vinit_1 (FILE *fp, struct resolv_conf_parser *parser)
-+                             cp++;
-+                           separator = *cp;
-+                           *cp = 0;
-+-                          if (__inet_aton (net, &a))
-++                          if (__inet_aton_exact (net, &a))
-+                             e.mask = a.s_addr;
-+                           else
-+                             e.mask = net_mask (e.addr);
-+diff --git a/resolv/tst-aton.c b/resolv/tst-aton.c
-+index 08110a007a..eb734d7758 100644
-+--- a/resolv/tst-aton.c
-++++ b/resolv/tst-aton.c
-+@@ -1,11 +1,29 @@
-++/* Test legacy IPv4 text-to-address function inet_aton.
-++   Copyright (C) 1998-2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <array_length.h>
-+ #include <stdio.h>
-+ #include <stdint.h>
-+ #include <sys/socket.h>
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ 
-+-
-+-static struct tests
-++static const struct tests
-+ {
-+   const char *input;
-+   int valid;
-+@@ -16,6 +34,7 @@ static struct tests
-+   { "-1", 0, 0 },
-+   { "256", 1, 0x00000100 },
-+   { "256.", 0, 0 },
-++  { "255a", 0, 0 },
-+   { "256a", 0, 0 },
-+   { "0x100", 1, 0x00000100 },
-+   { "0200.0x123456", 1, 0x80123456 },
-+@@ -40,7 +59,12 @@ static struct tests
-+   { "1.2.256.4", 0, 0 },
-+   { "1.2.3.0x100", 0, 0 },
-+   { "323543357756889", 0, 0 },
-+-  { "10.1.2.3.4", 0, 0},
-++  { "10.1.2.3.4", 0, 0 },
-++  { "192.0.2.1", 1, 0xc0000201 },
-++  { "192.0.2.2\nX", 1, 0xc0000202 },
-++  { "192.0.2.3 Y", 1, 0xc0000203 },
-++  { "192.0.2.3Z", 0, 0 },
-++  { "192.000.002.010", 1, 0xc0000208 },
-+ };
-+ 
-+ 
-+@@ -50,7 +74,7 @@ do_test (void)
-+   int result = 0;
-+   size_t cnt;
-+ 
-+-  for (cnt = 0; cnt < sizeof (tests) / sizeof (tests[0]); ++cnt)
-++  for (cnt = 0; cnt < array_length (tests); ++cnt)
-+     {
-+       struct in_addr addr;
-+ 
-+@@ -73,5 +97,4 @@ do_test (void)
-+   return result;
-+ }
-+ 
-+-#define TEST_FUNCTION do_test ()
-+-#include "../test-skeleton.c"
-++#include <support/test-driver.c>
-+diff --git a/resolv/tst-inet_aton_exact.c b/resolv/tst-inet_aton_exact.c
-+new file mode 100644
-+index 0000000000..0fdfa3d6aa
-+--- /dev/null
-++++ b/resolv/tst-inet_aton_exact.c
-+@@ -0,0 +1,47 @@
-++/* Test internal legacy IPv4 text-to-address function __inet_aton_exact.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <arpa/inet.h>
-++#include <support/check.h>
-++
-++static int
-++do_test (void)
-++{
-++  struct in_addr addr = { };
-++
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.1", &addr), 1);
-++  TEST_COMPARE (ntohl (addr.s_addr), 0xC0000201);
-++
-++  TEST_COMPARE (__inet_aton_exact ("192.000.002.010", &addr), 1);
-++  TEST_COMPARE (ntohl (addr.s_addr), 0xC0000208);
-++  TEST_COMPARE (__inet_aton_exact ("0xC0000234", &addr), 1);
-++  TEST_COMPARE (ntohl (addr.s_addr), 0xC0000234);
-++
-++  /* Trailing content is not accepted.  */
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.2X", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.3 Y", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.4\nZ", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.5\tT", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.6 Y", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.7\n", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.8\t", &addr), 0);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/resolv/tst-resolv-nondecimal.c b/resolv/tst-resolv-nondecimal.c
-+new file mode 100644
-+index 0000000000..a0df6f332a
-+--- /dev/null
-++++ b/resolv/tst-resolv-nondecimal.c
-+@@ -0,0 +1,139 @@
-++/* Test name resolution behavior for octal, hexadecimal IPv4 addresses.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <netdb.h>
-++#include <stdlib.h>
-++#include <support/check.h>
-++#include <support/check_nss.h>
-++#include <support/resolv_test.h>
-++#include <support/support.h>
-++
-++static void
-++response (const struct resolv_response_context *ctx,
-++          struct resolv_response_builder *b,
-++          const char *qname, uint16_t qclass, uint16_t qtype)
-++{
-++  /* The tests are not supposed send any DNS queries.  */
-++  FAIL_EXIT1 ("unexpected DNS query for %s/%d/%d", qname, qclass, qtype);
-++}
-++
-++static void
-++run_query_addrinfo (const char *query, const char *address)
-++{
-++  char *quoted_query = support_quote_string (query);
-++
-++  struct addrinfo *ai;
-++  struct addrinfo hints =
-++    {
-++     .ai_socktype = SOCK_STREAM,
-++     .ai_protocol = IPPROTO_TCP,
-++    };
-++
-++  char *context = xasprintf ("getaddrinfo \"%s\" AF_INET", quoted_query);
-++  char *expected = xasprintf ("address: STREAM/TCP %s 80\n", address);
-++  hints.ai_family = AF_INET;
-++  int ret = getaddrinfo (query, "80", &hints, &ai);
-++  check_addrinfo (context, ai, ret, expected);
-++  if (ret == 0)
-++    freeaddrinfo (ai);
-++  free (context);
-++
-++  context = xasprintf ("getaddrinfo \"%s\" AF_UNSPEC", quoted_query);
-++  hints.ai_family = AF_UNSPEC;
-++  ret = getaddrinfo (query, "80", &hints, &ai);
-++  check_addrinfo (context, ai, ret, expected);
-++  if (ret == 0)
-++    freeaddrinfo (ai);
-++  free (expected);
-++  free (context);
-++
-++  context = xasprintf ("getaddrinfo \"%s\" AF_INET6", quoted_query);
-++  expected = xasprintf ("flags: AI_V4MAPPED\n"
-++                        "address: STREAM/TCP ::ffff:%s 80\n",
-++                        address);
-++  hints.ai_family = AF_INET6;
-++  hints.ai_flags = AI_V4MAPPED;
-++  ret = getaddrinfo (query, "80", &hints, &ai);
-++  check_addrinfo (context, ai, ret, expected);
-++  if (ret == 0)
-++    freeaddrinfo (ai);
-++  free (expected);
-++  free (context);
-++
-++  free (quoted_query);
-++}
-++
-++static void
-++run_query (const char *query, const char *address)
-++{
-++  char *quoted_query = support_quote_string (query);
-++  char *context = xasprintf ("gethostbyname (\"%s\")", quoted_query);
-++  char *expected = xasprintf ("name: %s\n"
-++                              "address: %s\n", query, address);
-++  check_hostent (context, gethostbyname (query), expected);
-++  free (context);
-++
-++  context = xasprintf ("gethostbyname_r \"%s\"", quoted_query);
-++  struct hostent storage;
-++  char buf[4096];
-++  struct hostent *e = NULL;
-++  TEST_COMPARE (gethostbyname_r (query, &storage, buf, sizeof (buf),
-++                                 &e, &h_errno), 0);
-++  check_hostent (context, e, expected);
-++  free (context);
-++
-++  context = xasprintf ("gethostbyname2 (\"%s\", AF_INET)", quoted_query);
-++  check_hostent (context, gethostbyname2 (query, AF_INET), expected);
-++  free (context);
-++
-++  context = xasprintf ("gethostbyname2_r \"%s\" AF_INET", quoted_query);
-++  e = NULL;
-++  TEST_COMPARE (gethostbyname2_r (query, AF_INET, &storage, buf, sizeof (buf),
-++                                  &e, &h_errno), 0);
-++  check_hostent (context, e, expected);
-++  free (context);
-++  free (expected);
-++
-++  free (quoted_query);
-++
-++  /* The gethostbyname tests are always valid for getaddrinfo, but not
-++     vice versa.  */
-++  run_query_addrinfo (query, address);
-++}
-++
-++static int
-++do_test (void)
-++{
-++  struct resolv_test *aux = resolv_test_start
-++    ((struct resolv_redirect_config)
-++     {
-++       .response_callback = response,
-++     });
-++
-++  run_query ("192.000.002.010", "192.0.2.8");
-++
-++  /* Hexadecimal numbers are not accepted by gethostbyname.  */
-++  run_query_addrinfo ("0xc0000210", "192.0.2.16");
-++  run_query_addrinfo ("192.0x234", "192.0.2.52");
-++
-++  resolv_test_end (aux);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/resolv/tst-resolv-trailing.c b/resolv/tst-resolv-trailing.c
-+new file mode 100644
-+index 0000000000..7504bdae57
-+--- /dev/null
-++++ b/resolv/tst-resolv-trailing.c
-+@@ -0,0 +1,136 @@
-++/* Test name resolution behavior with trailing characters.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <array_length.h>
-++#include <netdb.h>
-++#include <support/check.h>
-++#include <support/check_nss.h>
-++#include <support/resolv_test.h>
-++#include <support/support.h>
-++
-++static void
-++response (const struct resolv_response_context *ctx,
-++          struct resolv_response_builder *b,
-++          const char *qname, uint16_t qclass, uint16_t qtype)
-++{
-++  /* The tests are not supposed send any DNS queries.  */
-++  FAIL_EXIT1 ("unexpected DNS query for %s/%d/%d", qname, qclass, qtype);
-++}
-++
-++static int
-++do_test (void)
-++{
-++  struct resolv_test *aux = resolv_test_start
-++    ((struct resolv_redirect_config)
-++     {
-++       .response_callback = response,
-++     });
-++
-++  static const char *const queries[] =
-++    {
-++     "192.0.2.1 ",
-++     "192.0.2.2\t",
-++     "192.0.2.3\n",
-++     "192.0.2.4 X",
-++     "192.0.2.5\tY",
-++     "192.0.2.6\nZ",
-++     "192.0.2. ",
-++     "192.0.2.\t",
-++     "192.0.2.\n",
-++     "192.0.2. X",
-++     "192.0.2.\tY",
-++     "192.0.2.\nZ",
-++     "2001:db8::1 ",
-++     "2001:db8::2\t",
-++     "2001:db8::3\n",
-++     "2001:db8::4 X",
-++     "2001:db8::5\tY",
-++     "2001:db8::6\nZ",
-++    };
-++  for (size_t query_idx = 0; query_idx < array_length (queries); ++query_idx)
-++    {
-++      const char *query = queries[query_idx];
-++      struct hostent storage;
-++      char buf[4096];
-++      struct hostent *e;
-++
-++      h_errno = 0;
-++      TEST_VERIFY (gethostbyname (query) == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      e = NULL;
-++      TEST_COMPARE (gethostbyname_r (query, &storage, buf, sizeof (buf),
-++                                     &e, &h_errno), 0);
-++      TEST_VERIFY (e == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      TEST_VERIFY (gethostbyname2 (query, AF_INET) == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      e = NULL;
-++      TEST_COMPARE (gethostbyname2_r (query, AF_INET,
-++                                      &storage, buf, sizeof (buf),
-++                                     &e, &h_errno), 0);
-++      TEST_VERIFY (e == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      TEST_VERIFY (gethostbyname2 (query, AF_INET6) == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      e = NULL;
-++      TEST_COMPARE (gethostbyname2_r (query, AF_INET6,
-++                                      &storage, buf, sizeof (buf),
-++                                     &e, &h_errno), 0);
-++      TEST_VERIFY (e == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      static const int gai_flags[] =
-++        {
-++         0,
-++         AI_ADDRCONFIG,
-++         AI_NUMERICHOST,
-++         AI_IDN,
-++         AI_IDN | AI_NUMERICHOST,
-++         AI_V4MAPPED,
-++         AI_V4MAPPED | AI_NUMERICHOST,
-++        };
-++      for (size_t gai_flags_idx; gai_flags_idx < array_length (gai_flags);
-++             ++gai_flags_idx)
-++        {
-++          struct addrinfo hints = { .ai_flags = gai_flags[gai_flags_idx], };
-++          struct addrinfo *ai;
-++          hints.ai_family = AF_INET;
-++          TEST_COMPARE (getaddrinfo (query, "80", &hints, &ai), EAI_NONAME);
-++          hints.ai_family = AF_INET6;
-++          TEST_COMPARE (getaddrinfo (query, "80", &hints, &ai), EAI_NONAME);
-++          hints.ai_family = AF_UNSPEC;
-++          TEST_COMPARE (getaddrinfo (query, "80", &hints, &ai), EAI_NONAME);
-++        }
-++    };
-++
-++  resolv_test_end (aux);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
-+index 553833d1f2..c91b281e31 100644
-+--- a/sysdeps/posix/getaddrinfo.c
-++++ b/sysdeps/posix/getaddrinfo.c
-+@@ -488,7 +488,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 	  malloc_name = true;
++diff --git a/build/rpmfc.c b/build/rpmfc.c
++index 3db7a9352..17afdd57a 100644
++--- a/build/rpmfc.c
+++++ b/build/rpmfc.c
++@@ -680,7 +680,6 @@ static void rpmfcAttributes(rpmfc fc, int ix, const char *ftype, const char *ful
++ 	/* Add attributes on libmagic type & path pattern matches */
++ 	if (matches(&(*attr)->incl, ftype, path, is_executable)) {
++ 	    argvAddTokens(&fc->fattrs[ix], (*attr)->name);
++-	    #pragma omp critical(fahash)
++ 	    fattrHashAddEntry(fc->fahash, attr-fc->atypes, ix);
 + 	}
++     }
++@@ -1105,7 +1104,6 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_mode_t * fmode)
++     /* Build (sorted) file class dictionary. */
++     fc->cdict = rpmstrPoolCreate();
 + 
-+-      if (__inet_aton (name, (struct in_addr *) at->addr) != 0)
-++      if (__inet_aton_exact (name, (struct in_addr *) at->addr) != 0)
-+ 	{
-+ 	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET)
-+ 	    at->family = AF_INET;
-+-- 
-+2.20.1
-+
-+
-+From c533244b8e00ae701583ec50aeb43377d292452d Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Mon, 4 Feb 2019 20:07:18 +0100
-+Subject: [PATCH 4/4] nscd: Do not use __inet_aton_exact@GLIBC_PRIVATE [BZ
-+ #20018]
-+
-+This commit avoids referencing the __inet_aton_exact@GLIBC_PRIVATE
-+symbol from nscd.  In master, the separately-compiled getaddrinfo
-+implementation in nscd needs it, however such an internal ABI change
-+is not desirable on a release branch if it can be avoided.
-+---
-+ ChangeLog             | 10 ++++++++++
-+ nscd/Makefile         |  2 +-
-+ nscd/gai.c            |  6 ++++++
-+ nscd/nscd-inet_addr.c | 32 ++++++++++++++++++++++++++++++++
-+ 4 files changed, 49 insertions(+), 1 deletion(-)
-+ create mode 100644 nscd/nscd-inet_addr.c
-+
-+diff --git a/nscd/Makefile b/nscd/Makefile
-+index b713a84c49..eb23c01a39 100644
-+--- a/nscd/Makefile
-++++ b/nscd/Makefile
-+@@ -36,7 +36,7 @@ nscd-modules := nscd connections pwdcache getpwnam_r getpwuid_r grpcache \
-+ 		getsrvbynm_r getsrvbypt_r servicescache \
-+ 		dbg_log nscd_conf nscd_stat cache mem nscd_setup_thread \
-+ 		xmalloc xstrdup aicache initgrcache gai res_hconf \
-+-		netgroupcache
-++		netgroupcache nscd-inet_addr
++-    #pragma omp parallel
++     {
++     /* libmagic is not thread-safe, each thread needs to a private handle */
++     magic_t ms = magic_open(msflags);
++@@ -1113,15 +1111,12 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_mode_t * fmode)
++     if (ms == NULL) {
++ 	rpmlog(RPMLOG_ERR, _("magic_open(0x%x) failed: %s\n"),
++ 		msflags, strerror(errno));
++-	#pragma omp cancel parallel
++     }
 + 
-+ ifeq ($(build-nscd)$(have-thread-library),yesyes)
++     if (magic_load(ms, NULL) == -1) {
++ 	rpmlog(RPMLOG_ERR, _("magic_load failed: %s\n"), magic_error(ms));
++-	#pragma omp cancel parallel
++     }
 + 
-+diff --git a/nscd/gai.c b/nscd/gai.c
-+index f57f396f57..68a4abd30e 100644
-+--- a/nscd/gai.c
-++++ b/nscd/gai.c
-+@@ -33,6 +33,12 @@
-+ #define __getifaddrs getifaddrs
-+ #define __freeifaddrs freeifaddrs
++-    #pragma omp for ordered reduction(+:nerrors)
++     for (int ix = 0; ix < fc->nfiles; ix++) {
++ 	rpmsid ftypeId;
++ 	const char * ftype;
++@@ -1185,14 +1180,11 @@ rpmRC rpmfcClassify(rpmfc fc, ARGV_t argv, rpm_mode_t * fmode)
++ 	fc->fcolor[ix] = fcolor;
 + 
-++/* We do not want to export __inet_aton_exact.  Get the prototype and
-++   change its visibility to hidden.  */
-++#include <arpa/inet.h>
-++__typeof__ (__inet_aton_exact) __inet_aton_exact
-++  __attribute__ ((visibility ("hidden")));
-++
-+ /* We are nscd, so we don't want to be talking to ourselves.  */
-+ #undef  USE_NSCD
-+ 
-+diff --git a/nscd/nscd-inet_addr.c b/nscd/nscd-inet_addr.c
-+new file mode 100644
-+index 0000000000..f366b9567d
-+--- /dev/null
-++++ b/nscd/nscd-inet_addr.c
-+@@ -0,0 +1,32 @@
-++/* Legacy IPv4 text-to-address functions.  Version for nscd.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <arpa/inet.h>
-++
-++/* We do not want to export __inet_aton_exact.  Get the prototype and
-++   change the visibility to hidden.  */
-++#include <arpa/inet.h>
-++__typeof__ (__inet_aton_exact) __inet_aton_exact
-++  __attribute__ ((visibility ("hidden")));
-++
-++/* Do not provide definitions of the public symbols exported from
-++   libc.  */
-++#undef weak_alias
-++#define weak_alias(from, to)
-++
-++#include <resolv/inet_addr.c>
-+-- 
-+2.20.1
++ 	/* Add to file class dictionary and index array */
++-	#pragma omp ordered
++ 	if (fcolor != RPMFC_WHITE && (fcolor & RPMFC_INCLUDE)) {
++ 	    ftypeId = rpmstrPoolId(fc->cdict, ftype, 1);
++-	    #pragma omp atomic
++ 	    fc->fknown++;
++ 	} else {
++ 	    ftypeId = rpmstrPoolId(fc->cdict, "", 1);
++-	    #pragma omp atomic
++ 	    fc->fwhite++;
++ 	}
++ 	/* Pool id's start from 1, for headers we want it from 0 */
+diff --git a/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch b/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
+deleted file mode 100644
+index d10041c2e14..00000000000
+--- a/meta/recipes-devtools/rpm/files/0002-Run-binary-package-creation-via-thread-pools.patch
++++ /dev/null
+@@ -1,127 +0,0 @@
+-From 513200cf76758de4668312c628d6362bdabfaf4b Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 25 May 2017 19:30:20 +0300
+-Subject: [PATCH 1/3] Run binary package creation via thread pools.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- build/pack.c | 81 +++++++++++++++++++++++++++++++++++++++++++++++++-----------
+- configure.ac |  3 +++
+- 2 files changed, 70 insertions(+), 14 deletions(-)
+-
+-diff --git a/build/pack.c b/build/pack.c
+-index ccfd614cc..ed5b9ab4e 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
+-@@ -616,25 +616,78 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
+- 	return rc;
+- }
+- 
+--rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+struct binaryPackageTaskData
+- {
+--    rpmRC rc;
+-     Package pkg;
+-+    char *filename;
+-+    rpmRC result;
+-+    struct binaryPackageTaskData *next;
+-+};
+-+
+-+static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const char *cookie, int cheating)
+-+{
+-+    struct binaryPackageTaskData *tasks = NULL;
+-+    struct binaryPackageTaskData *task = NULL;
+-+    struct binaryPackageTaskData *prev = NULL;
+-+
+-+    for (Package pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+-+        task = rcalloc(1, sizeof(*task));
+-+        task->pkg = pkg;
+-+        if (pkg == spec->packages) {
+-+            // the first package needs to be processed ahead of others, as they copy
+-+            // changelog data from it, and so otherwise data races would happen
+-+            task->result = packageBinary(spec, pkg, cookie, cheating, &(task->filename));
+-+            rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+-+            tasks = task;
+-+        }
+-+        if (prev != NULL) {
+-+            prev->next = task;
+-+        }
+-+        prev = task;
+-+    }
+-+
+-+    #pragma omp parallel
+-+    #pragma omp single
+-+    // re-declaring task variable is necessary, or older gcc versions will produce code that segfaults
+-+    for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
+-+        if (task != tasks)
+-+        #pragma omp task
+-+        {
+-+            task->result = packageBinary(spec, task->pkg, cookie, cheating, &(task->filename));
+-+            rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+-+        }
+-+    }
+-+
+-+    return tasks;
+-+}
+-+
+-+static void freeBinaryPackageTasks(struct binaryPackageTaskData* tasks)
+-+{
+-+    while (tasks != NULL) {
+-+        struct binaryPackageTaskData* next = tasks->next;
+-+        rfree(tasks->filename);
+-+        rfree(tasks);
+-+        tasks = next;
+-+    }
+-+}
+-+
+-+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+{
+-     char *pkglist = NULL;
+- 
+--    for (pkg = spec->packages; pkg != NULL; pkg = pkg->next) {
+--	char *fn = NULL;
+--	rc = packageBinary(spec, pkg, cookie, cheating, &fn);
+--	if (rc == RPMRC_OK) {
+--	    rstrcat(&pkglist, fn);
+--	    rstrcat(&pkglist, " ");
+--	}
+--	free(fn);
+--	if (rc != RPMRC_OK) {
+--	    pkglist = _free(pkglist);
+--	    return rc;
+--	}
+-+    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec, cookie, cheating);
+-+
+-+    for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
+-+        if (task->result == RPMRC_OK) {
+-+            rstrcat(&pkglist, task->filename);
+-+            rstrcat(&pkglist, " ");
+-+        } else {
+-+            _free(pkglist);
+-+            freeBinaryPackageTasks(tasks);
+-+            return RPMRC_FAIL;
+-+        }
+-     }
+-+    freeBinaryPackageTasks(tasks);
+- 
+-     /* Now check the package set if enabled */
+-     if (pkglist != NULL) {
+-diff --git a/configure.ac b/configure.ac
+-index a506ec819..59fa0acaf 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -17,6 +17,9 @@ AC_DISABLE_STATIC
+- 
+- PKG_PROG_PKG_CONFIG
+- 
+-+AC_OPENMP
+-+RPMCFLAGS="$OPENMP_CFLAGS $RPMCFLAGS"
+-+
+- dnl Checks for programs.
+- AC_PROG_CXX
+- AC_PROG_AWK
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch b/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
+deleted file mode 100644
+index c348ae5330e..00000000000
+--- a/meta/recipes-devtools/rpm/files/0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch
++++ /dev/null
+@@ -1,207 +0,0 @@
+-From c80892f17e44331206c8318d53b63bb6a99554d0 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 30 May 2017 13:58:30 +0300
+-Subject: [PATCH 3/4] rpmstrpool.c: make operations over string pools
+- thread-safe
+-
+-Otherwise multithreaded rpm building explodes in various ways due
+-to data races.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- rpmio/rpmstrpool.c | 56 +++++++++++++++++++++++++++++++++++++++++++++---------
+- 1 file changed, 47 insertions(+), 9 deletions(-)
+-
+-diff --git a/rpmio/rpmstrpool.c b/rpmio/rpmstrpool.c
+-index 30a57eb10..58ba95a02 100644
+---- a/rpmio/rpmstrpool.c
+-+++ b/rpmio/rpmstrpool.c
+-@@ -113,6 +113,8 @@ static poolHash poolHashCreate(int numBuckets)
+-     return ht;
+- }
+- 
+-+static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid);
+-+
+- static void poolHashResize(rpmstrPool pool, int numBuckets)
+- {
+-     poolHash ht = pool->hash;
+-@@ -120,7 +122,7 @@ static void poolHashResize(rpmstrPool pool, int numBuckets)
+- 
+-     for (int i=0; i<ht->numBuckets; i++) {
+-         if (!ht->buckets[i].keyid) continue;
+--        unsigned int keyHash = rstrhash(rpmstrPoolStr(pool, ht->buckets[i].keyid));
+-+        unsigned int keyHash = rstrhash(rpmstrPoolStrNoLock(pool, ht->buckets[i].keyid));
+-         for (unsigned int j=0;;j++) {
+-             unsigned int hash = hashbucket(keyHash, j) % numBuckets;
+-             if (!buckets[hash].keyid) {
+-@@ -149,7 +151,7 @@ static void poolHashAddHEntry(rpmstrPool pool, const char * key, unsigned int ke
+-             ht->buckets[hash].keyid = keyid;
+-             ht->keyCount++;
+-             break;
+--        } else if (!strcmp(rpmstrPoolStr(pool, ht->buckets[hash].keyid), key)) {
+-+        } else if (!strcmp(rpmstrPoolStrNoLock(pool, ht->buckets[hash].keyid), key)) {
+-             return;
+-         }
+-     }
+-@@ -191,7 +193,7 @@ static void poolHashPrintStats(rpmstrPool pool)
+-     int maxcollisions = 0;
+- 
+-     for (i=0; i<ht->numBuckets; i++) {
+--        unsigned int keyHash = rstrhash(rpmstrPoolStr(pool, ht->buckets[i].keyid));
+-+        unsigned int keyHash = rstrhash(rpmstrPoolStrNoLock(pool, ht->buckets[i].keyid));
+-         for (unsigned int j=0;;j++) {
+-             unsigned int hash = hashbucket(keyHash, i) % ht->numBuckets;
+-             if (hash==i) {
+-@@ -221,7 +223,7 @@ static void rpmstrPoolRehash(rpmstrPool pool)
+- 
+-     pool->hash = poolHashCreate(sizehint);
+-     for (int i = 1; i <= pool->offs_size; i++)
+--	poolHashAddEntry(pool, rpmstrPoolStr(pool, i), i);
+-+	poolHashAddEntry(pool, rpmstrPoolStrNoLock(pool, i), i);
+- }
+- 
+- rpmstrPool rpmstrPoolCreate(void)
+-@@ -245,6 +247,8 @@ rpmstrPool rpmstrPoolCreate(void)
+- 
+- rpmstrPool rpmstrPoolFree(rpmstrPool pool)
+- {
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool) {
+- 	if (pool->nrefs > 1) {
+- 	    pool->nrefs--;
+-@@ -260,18 +264,24 @@ rpmstrPool rpmstrPoolFree(rpmstrPool pool)
+- 	    free(pool);
+- 	}
+-     }
+-+    }
+-     return NULL;
+- }
+- 
+- rpmstrPool rpmstrPoolLink(rpmstrPool pool)
+- {
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool)
+- 	pool->nrefs++;
+-+    }
+-     return pool;
+- }
+- 
+- void rpmstrPoolFreeze(rpmstrPool pool, int keephash)
+- {
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool && !pool->frozen) {
+- 	if (!keephash) {
+- 	    pool->hash = poolHashFree(pool->hash);
+-@@ -281,16 +291,20 @@ void rpmstrPoolFreeze(rpmstrPool pool, int keephash)
+- 			      pool->offs_alloced * sizeof(*pool->offs));
+- 	pool->frozen = 1;
+-     }
+-+    }
+- }
+- 
+- void rpmstrPoolUnfreeze(rpmstrPool pool)
+- {
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool) {
+- 	if (pool->hash == NULL) {
+- 	    rpmstrPoolRehash(pool);
+- 	}
+- 	pool->frozen = 0;
+-     }
+-+    }
+- }
+- 
+- static rpmsid rpmstrPoolPut(rpmstrPool pool, const char *s, size_t slen, unsigned int hash)
+-@@ -350,7 +364,7 @@ static rpmsid rpmstrPoolGet(rpmstrPool pool, const char * key, size_t keylen,
+-             return 0;
+-         }
+- 
+--	s = rpmstrPoolStr(pool, ht->buckets[hash].keyid);
+-+	s = rpmstrPoolStrNoLock(pool, ht->buckets[hash].keyid);
+- 	/* pool string could be longer than keylen, require exact matche */
+- 	if (strncmp(s, key, keylen) == 0 && s[keylen] == '\0')
+- 	    return ht->buckets[hash].keyid;
+-@@ -373,27 +387,31 @@ static inline rpmsid strn2id(rpmstrPool pool, const char *s, size_t slen,
+- rpmsid rpmstrPoolIdn(rpmstrPool pool, const char *s, size_t slen, int create)
+- {
+-     rpmsid sid = 0;
+--
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (s != NULL) {
+- 	unsigned int hash = rstrnhash(s, slen);
+- 	sid = strn2id(pool, s, slen, hash, create);
+-     }
+-+    }
+-     return sid;
+- }
+- 
+- rpmsid rpmstrPoolId(rpmstrPool pool, const char *s, int create)
+- {
+-     rpmsid sid = 0;
+--
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (s != NULL) {
+- 	size_t slen;
+- 	unsigned int hash = rstrlenhash(s, &slen);
+- 	sid = strn2id(pool, s, slen, hash, create);
+-     }
+-+    }
+-     return sid;
+- }
+- 
+--const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
+-+static const char * rpmstrPoolStrNoLock(rpmstrPool pool, rpmsid sid)
+- {
+-     const char *s = NULL;
+-     if (pool && sid > 0 && sid <= pool->offs_size)
+-@@ -401,12 +419,25 @@ const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
+-     return s;
+- }
+- 
+-+const char * rpmstrPoolStr(rpmstrPool pool, rpmsid sid)
+-+{
+-+    const char *s = NULL;
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-+    s = rpmstrPoolStrNoLock(pool, sid);
+-+    }
+-+    return s;
+-+}
+-+
+- size_t rpmstrPoolStrlen(rpmstrPool pool, rpmsid sid)
+- {
+-     size_t slen = 0;
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-     if (pool && sid > 0 && sid <= pool->offs_size) {
+- 	slen = strlen(pool->offs[sid]);
+-     }
+-+    }
+-     return slen;
+- }
+- 
+-@@ -421,5 +452,12 @@ int rpmstrPoolStreq(rpmstrPool poolA, rpmsid sidA,
+- 
+- rpmsid rpmstrPoolNumStr(rpmstrPool pool)
+- {
+--    return (pool != NULL) ? pool->offs_size : 0;
+-+    rpmsid id = 0;
+-+    #pragma omp critical(rpmstrpool)
+-+    {
+-+    if (pool) {
+-+	id = pool->offs_size;
+-+    }
+-+    }
+-+    return id;
+- }
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch b/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
+deleted file mode 100644
+index 652e30b3e4a..00000000000
+--- a/meta/recipes-devtools/rpm/files/0004-build-pack.c-remove-static-local-variables-from-buil.patch
++++ /dev/null
+@@ -1,336 +0,0 @@
+-From 792693bb90768cfde4898e8dd31ee1b5de803d2f Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 8 Jun 2017 17:08:09 +0300
+-Subject: [PATCH] build/pack.c: remove static local variables from buildHost()
+- and getBuildTime()
+-
+-Their use is causing difficult to diagnoze data races when building multiple
+-packages in parallel, and is a bad idea in general, as it also makes it more
+-difficult to reason about code.
+-
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/rpm/pull/226]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+----
+- build/build.c             | 54 ++++++++++++++++++++++++++++--
+- build/pack.c              | 84 +++++++++--------------------------------------
+- build/rpmbuild_internal.h |  8 +++--
+- 3 files changed, 74 insertions(+), 72 deletions(-)
+-
+-diff --git a/build/build.c b/build/build.c
+-index 13c3df2..b154f08 100644
+---- a/build/build.c
+-+++ b/build/build.c
+-@@ -6,6 +6,8 @@
+- #include "system.h"
+- 
+- #include <errno.h>
+-+#include <netdb.h>
+-+#include <time.h>
+- #include <sys/wait.h>
+- 
+- #include <rpm/rpmlog.h>
+-@@ -16,6 +18,50 @@
+- 
+- #include "debug.h"
+- 
+-+static rpm_time_t getBuildTime(void)
+-+{
+-+    rpm_time_t buildTime = 0;
+-+    char *srcdate;
+-+    time_t epoch;
+-+    char *endptr;
+-+
+-+    srcdate = getenv("SOURCE_DATE_EPOCH");
+-+    if (srcdate) {
+-+        errno = 0;
+-+        epoch = strtol(srcdate, &endptr, 10);
+-+        if (srcdate == endptr || *endptr || errno != 0)
+-+            rpmlog(RPMLOG_ERR, _("unable to parse SOURCE_DATE_EPOCH\n"));
+-+        else
+-+            buildTime = (int32_t) epoch;
+-+    } else
+-+        buildTime = (int32_t) time(NULL);
+-+
+-+    return buildTime;
+-+}
+-+
+-+static char * buildHost(void)
+-+{
+-+    char* hostname;
+-+    struct hostent *hbn;
+-+    char *bhMacro;
+-+
+-+    bhMacro = rpmExpand("%{?_buildhost}", NULL);
+-+    if (strcmp(bhMacro, "") != 0) {
+-+        rasprintf(&hostname, "%s", bhMacro);
+-+    } else {
+-+        hostname = rcalloc(1024, sizeof(*hostname));
+-+        (void) gethostname(hostname, 1024);
+-+        hbn = gethostbyname(hostname);
+-+        if (hbn)
+-+            strcpy(hostname, hbn->h_name);
+-+        else
+-+            rpmlog(RPMLOG_WARNING,
+-+                    _("Could not canonicalize hostname: %s\n"), hostname);
+-+    }
+-+    free(bhMacro);
+-+    return(hostname);
+-+}
+-+
+- /**
+-  */
+- static rpmRC doRmSource(rpmSpec spec)
+-@@ -201,6 +247,9 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
+-     rpmRC rc = RPMRC_OK;
+-     int test = (what & RPMBUILD_NOBUILD);
+-     char *cookie = buildArgs->cookie ? xstrdup(buildArgs->cookie) : NULL;
+-+    const char* host = buildHost();
+-+    rpm_time_t buildTime = getBuildTime();
+-+
+- 
+-     if (rpmExpandNumeric("%{?source_date_epoch_from_changelog}") &&
+- 	getenv("SOURCE_DATE_EPOCH") == NULL) {
+-@@ -269,11 +318,11 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
+- 		goto exit;
+- 
+- 	if (((what & RPMBUILD_PACKAGESOURCE) && !test) &&
+--	    (rc = packageSources(spec, &cookie)))
+-+	    (rc = packageSources(spec, &cookie, buildTime, host)))
+- 		goto exit;
+- 
+- 	if (((what & RPMBUILD_PACKAGEBINARY) && !test) &&
+--	    (rc = packageBinaries(spec, cookie, (didBuild == 0))))
+-+	    (rc = packageBinaries(spec, cookie, (didBuild == 0), buildTime, host)))
+- 		goto exit;
+- 	
+- 	if ((what & RPMBUILD_CLEAN) &&
+-@@ -293,6 +342,7 @@ static rpmRC buildSpec(BTA_t buildArgs, rpmSpec spec, int what)
+- 	(void) unlink(spec->specFile);
+- 
+- exit:
+-+    free(host);
+-     free(cookie);
+-     spec->rootDir = NULL;
+-     if (rc != RPMRC_OK && rpmlogGetNrecs() > 0) {
+-diff --git a/build/pack.c b/build/pack.c
+-index df15876..17a4b09 100644
+---- a/build/pack.c
+-+++ b/build/pack.c
+-@@ -6,8 +6,6 @@
+- #include "system.h"
+- 
+- #include <errno.h>
+--#include <netdb.h>
+--#include <time.h>
+- #include <sys/wait.h>
+- 
+- #include <rpm/rpmlib.h>			/* RPMSIGTAG*, rpmReadPackageFile */
+-@@ -152,57 +150,6 @@ exit:
+-     return rc;
+- }
+- 
+--static rpm_time_t * getBuildTime(void)
+--{
+--    static rpm_time_t buildTime[1];
+--    char *srcdate;
+--    time_t epoch;
+--    char *endptr;
+--
+--    if (buildTime[0] == 0) {
+--        srcdate = getenv("SOURCE_DATE_EPOCH");
+--        if (srcdate) {
+--            errno = 0;
+--            epoch = strtol(srcdate, &endptr, 10);
+--            if (srcdate == endptr || *endptr || errno != 0)
+--                rpmlog(RPMLOG_ERR, _("unable to parse SOURCE_DATE_EPOCH\n"));
+--            else
+--                buildTime[0] = (int32_t) epoch;
+--        } else
+--            buildTime[0] = (int32_t) time(NULL);
+--    }
+--
+--    return buildTime;
+--}
+--
+--static const char * buildHost(void)
+--{
+--    static char hostname[1024];
+--    static int oneshot = 0;
+--    struct hostent *hbn;
+--    char *bhMacro;
+--
+--    if (! oneshot) {
+--        bhMacro = rpmExpand("%{?_buildhost}", NULL);
+--        if (strcmp(bhMacro, "") != 0 && strlen(bhMacro) < 1024) {
+--            strcpy(hostname, bhMacro);
+--        } else {
+--            if (strcmp(bhMacro, "") != 0)
+--                rpmlog(RPMLOG_WARNING, _("The _buildhost macro is too long\n"));
+--            (void) gethostname(hostname, sizeof(hostname));
+--            hbn = gethostbyname(hostname);
+--            if (hbn)
+--                strcpy(hostname, hbn->h_name);
+--            else
+--                rpmlog(RPMLOG_WARNING,
+--                        _("Could not canonicalize hostname: %s\n"), hostname);
+--        }
+--        free(bhMacro);
+--        oneshot = 1;
+--    }
+--    return(hostname);
+--}
+--
+- static rpmRC processScriptFiles(rpmSpec spec, Package pkg)
+- {
+-     struct TriggerFileEntry *p;
+-@@ -476,7 +423,8 @@ exit:
+-  * order to how the RPM format is laid on disk.
+-  */
+- static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
+--		      const char *fileName, char **cookie)
+-+		      const char *fileName, char **cookie,
+-+		      rpm_time_t buildTime, const char* buildHost)
+- {
+-     FD_t fd = NULL;
+-     char * rpmio_flags = NULL;
+-@@ -500,7 +448,7 @@ static rpmRC writeRPM(Package pkg, unsigned char ** pkgidp,
+- 
+-     /* Create and add the cookie */
+-     if (cookie) {
+--	rasprintf(cookie, "%s %d", buildHost(), (int) (*getBuildTime()));
+-+	rasprintf(cookie, "%s %d", buildHost, buildTime);
+- 	headerPutString(pkg->header, RPMTAG_COOKIE, *cookie);
+-     }
+- 
+-@@ -641,7 +589,7 @@ static rpmRC checkPackages(char *pkgcheck)
+-     return RPMRC_OK;
+- }
+- 
+--static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int cheating, char** filename)
+-+static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int cheating, char** filename, rpm_time_t buildTime, const char* buildHost)
+- {
+- 	const char *errorString;
+- 	rpmRC rc = RPMRC_OK;
+-@@ -660,8 +608,8 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
+- 	headerCopyTags(spec->packages->header, pkg->header, copyTags);
+- 	
+- 	headerPutString(pkg->header, RPMTAG_RPMVERSION, VERSION);
+--	headerPutString(pkg->header, RPMTAG_BUILDHOST, buildHost());
+--	headerPutUint32(pkg->header, RPMTAG_BUILDTIME, getBuildTime(), 1);
+-+	headerPutString(pkg->header, RPMTAG_BUILDHOST, buildHost);
+-+	headerPutUint32(pkg->header, RPMTAG_BUILDTIME, &buildTime, 1);
+- 
+- 	if (spec->sourcePkgId != NULL) {
+- 	    headerPutBin(pkg->header, RPMTAG_SOURCEPKGID, spec->sourcePkgId,16);
+-@@ -699,7 +647,7 @@ static rpmRC packageBinary(rpmSpec spec, Package pkg, const char *cookie, int ch
+- 	    free(binRpm);
+- 	}
+- 
+--	rc = writeRPM(pkg, NULL, *filename, NULL);
+-+	rc = writeRPM(pkg, NULL, *filename, NULL, buildTime, buildHost);
+- 	if (rc == RPMRC_OK) {
+- 	    /* Do check each written package if enabled */
+- 	    char *pkgcheck = rpmExpand("%{?_build_pkgcheck} ", *filename, NULL);
+-@@ -719,7 +667,7 @@ struct binaryPackageTaskData
+-     struct binaryPackageTaskData *next;
+- };
+- 
+--static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const char *cookie, int cheating)
+-+static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHost)
+- {
+-     struct binaryPackageTaskData *tasks = NULL;
+-     struct binaryPackageTaskData *task = NULL;
+-@@ -731,7 +679,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
+-         if (pkg == spec->packages) {
+-             // the first package needs to be processed ahead of others, as they copy
+-             // changelog data from it, and so otherwise data races would happen
+--            task->result = packageBinary(spec, pkg, cookie, cheating, &(task->filename));
+-+            task->result = packageBinary(spec, pkg, cookie, cheating, &(task->filename), buildTime, buildHost);
+-             rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+-             tasks = task;
+-         }
+-@@ -748,7 +696,7 @@ static struct binaryPackageTaskData* runBinaryPackageTasks(rpmSpec spec, const c
+-         if (task != tasks)
+-         #pragma omp task
+-         {
+--            task->result = packageBinary(spec, task->pkg, cookie, cheating, &(task->filename));
+-+            task->result = packageBinary(spec, task->pkg, cookie, cheating, &(task->filename), buildTime, buildHost);
+-             rpmlog(RPMLOG_NOTICE, _("Finished binary package job, result %d, filename %s\n"), task->result, task->filename);
+-         }
+-     }
+-@@ -766,11 +714,11 @@ static void freeBinaryPackageTasks(struct binaryPackageTaskData* tasks)
+-     }
+- }
+- 
+--rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHost)
+- {
+-     char *pkglist = NULL;
+- 
+--    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec, cookie, cheating);
+-+    struct binaryPackageTaskData *tasks = runBinaryPackageTasks(spec, cookie, cheating, buildTime, buildHost);
+- 
+-     for (struct binaryPackageTaskData *task = tasks; task != NULL; task = task->next) {
+-         if (task->result == RPMRC_OK) {
+-@@ -797,7 +745,7 @@ rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating)
+-     return RPMRC_OK;
+- }
+- 
+--rpmRC packageSources(rpmSpec spec, char **cookie)
+-+rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t buildTime, char* buildHost)
+- {
+-     Package sourcePkg = spec->sourcePackage;
+-     rpmRC rc;
+-@@ -805,8 +753,8 @@ rpmRC packageSources(rpmSpec spec, char **cookie)
+- 
+-     /* Add some cruft */
+-     headerPutString(sourcePkg->header, RPMTAG_RPMVERSION, VERSION);
+--    headerPutString(sourcePkg->header, RPMTAG_BUILDHOST, buildHost());
+--    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME, getBuildTime(), 1);
+-+    headerPutString(sourcePkg->header, RPMTAG_BUILDHOST, buildHost);
+-+    headerPutUint32(sourcePkg->header, RPMTAG_BUILDTIME, &buildTime, 1);
+-     headerPutUint32(sourcePkg->header, RPMTAG_SOURCEPACKAGE, &one, 1);
+- 
+-     /* XXX this should be %_srpmdir */
+-@@ -814,7 +762,7 @@ rpmRC packageSources(rpmSpec spec, char **cookie)
+- 	char *pkgcheck = rpmExpand("%{?_build_pkgcheck_srpm} ", fn, NULL);
+- 
+- 	spec->sourcePkgId = NULL;
+--	rc = writeRPM(sourcePkg, &spec->sourcePkgId, fn, cookie);
+-+	rc = writeRPM(sourcePkg, &spec->sourcePkgId, fn, cookie, buildTime, buildHost);
+- 
+- 	/* Do check SRPM package if enabled */
+- 	if (rc == RPMRC_OK && pkgcheck[0] != ' ') {
+-diff --git a/build/rpmbuild_internal.h b/build/rpmbuild_internal.h
+-index 439b7d3..07e8338 100644
+---- a/build/rpmbuild_internal.h
+-+++ b/build/rpmbuild_internal.h
+-@@ -427,19 +427,23 @@ rpmRC processSourceFiles(rpmSpec spec, rpmBuildPkgFlags pkgFlags);
+-  * @param spec		spec file control structure
+-  * @param cookie	build identifier "cookie" or NULL
+-  * @param cheating	was build shortcircuited?
+-+ * @param buildTime	the build timestamp that goes into packages
+-+ * @param buildHost	the hostname where the build is happening
+-  * @return		RPMRC_OK on success
+-  */
+- RPM_GNUC_INTERNAL
+--rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating);
+-+rpmRC packageBinaries(rpmSpec spec, const char *cookie, int cheating, rpm_time_t buildTime, char* buildHost);
+- 
+- /** \ingroup rpmbuild
+-  * Generate source package.
+-  * @param spec		spec file control structure
+-  * @retval cookie	build identifier "cookie" or NULL
+-+ * @param buildTime	the build timestamp that goes into packages
+-+ * @param buildHost	the hostname where the build is happening
+-  * @return		RPMRC_OK on success
+-  */
+- RPM_GNUC_INTERNAL
+--rpmRC packageSources(rpmSpec spec, char **cookie);
+-+rpmRC packageSources(rpmSpec spec, char **cookie, rpm_time_t buildTime, char* buildHost);
+- 
+- RPM_GNUC_INTERNAL
+- int addLangTag(rpmSpec spec, Header h, rpmTagVal tag,
+diff --git a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
+similarity index 90%
+rename from meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
+rename to meta/recipes-devtools/rpm/rpm_4.15.1.bb
+index c37330eb4c6..5896e78e734 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.15.1.bb
+@@ -24,7 +24,7 @@ HOMEPAGE = "http://www.rpm.org"
+ LICENSE = "GPL-2.0"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c0bf017c0fd1920e6158a333acabfd4a"
+ 
+-SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
++SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.15.x \
+            file://0001-Do-not-add-an-unsatisfiable-dependency-when-building.patch \
+            file://0001-Do-not-read-config-files-from-HOME.patch \
+            file://0001-When-cross-installing-execute-package-scriptlets-wit.patch \
+@@ -34,18 +34,14 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.14.x \
+            file://0001-Fix-build-with-musl-C-library.patch \
+            file://0001-Add-a-color-setting-for-mips64_n32-binaries.patch \
+            file://0011-Do-not-require-that-ELF-binaries-are-executable-to-b.patch \
+-           file://0001-Split-binary-package-building-into-a-separate-functi.patch \
+-           file://0002-Run-binary-package-creation-via-thread-pools.patch \
+-           file://0003-rpmstrpool.c-make-operations-over-string-pools-threa.patch \
+-           file://0004-build-pack.c-remove-static-local-variables-from-buil.patch \
+            file://0001-perl-disable-auto-reqs.patch \
+            file://0001-rpm-rpmio.c-restrict-virtual-memory-usage-if-limit-s.patch \
+            file://0016-rpmscript.c-change-logging-level-around-scriptlets-t.patch \
+-           file://0001-mono-find-provides-requires-do-not-use-monodis-from-.patch \
++           file://0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch \
+            "
+ 
+ PE = "1"
+-SRCREV = "4a9440006398646583f0d9ae1837dad2875013aa"
++SRCREV = "ab2179452c5be276a6b96c591afded485c7e58c3"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -59,7 +55,7 @@ export PYTHON_ABI
+ EXTRA_AUTORECONF_append = " --exclude=gnu-configize"
+ 
+ EXTRA_OECONF_append = " --without-lua --enable-python"
+-EXTRA_OECONF_append_libc-musl = " --disable-nls"
++EXTRA_OECONF_append_libc-musl = " --disable-nls --disable-openmp"
+ 
+ # --sysconfdir prevents rpm from attempting to access machine-specific configuration in sysroot/etc; we need to have it in rootfs
+ #
+@@ -125,8 +121,7 @@ do_install_append () {
+ 	    ${D}/${libdir}/rpm/macros
+ 
+ 	sed -i -e 's|/usr/bin/python|${USRBINPATH}/env ${PYTHON_PN}|' \
+-	    ${D}${libdir}/rpm/pythondistdeps.py \
+-	    ${D}${libdir}/rpm/python-macro-helper
++	    ${D}${libdir}/rpm/pythondistdeps.py
+ }
+ 
+ FILES_${PN} += "${libdir}/rpm-plugins/*.so \
 -- 
-2.20.1
+2.17.1
 
 
