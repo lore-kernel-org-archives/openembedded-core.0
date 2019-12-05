@@ -1,57 +1,31 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6428B7F989
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 63DFB7F973
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 22:38:04 +0000 (UTC)
-Received: by mail-il1-f193.google.com with SMTP id z90so4480186ilc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2019 14:38:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:references:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=7NSWp7lRJVl6ZxjFntUoSiB3zlgj5oeVTGSdvZbs+eI=;
-	b=o42rAMIbtFr+Pzm0rq+u7VhQozfTViZYVkl4Ir7e1v4mOHq162mIaWOhIld+gxaIXb
-	CUFUoH9rY433F3TXIVLAfsXGiSrWvhoJueaVoObdsEzik7NH9mXC5CtPECqAGQLB/MsS
-	4opkLNGYkNWRgbhZ1pfxjsu0rgsq7F9T/PATcsnNhgwaeDRMFgJh7I6hdQKOFHEOg/rg
-	utzlvhII5W9QpMZ5vcXd9/HVCI4/fNLpih9JW498PPuLPyCqCoSOjmo13P+JbveqYQdP
-	6cqQZfYBPfMbi2BRHpIZqWnDId/MkUjMau02/83V1sbx7wfspIknsMRbwaJeek6XtHS+
-	gRrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=7NSWp7lRJVl6ZxjFntUoSiB3zlgj5oeVTGSdvZbs+eI=;
-	b=CDpDia6AYH6QpGIPAbH6jOj1d7h4qEO8TFyt2p+VA9RyHe2qHvVTS2ooetm65PklEk
-	EhObiZp8ndXG+yUYza3bm0sI3maJDoLGaRtNcqigm8eaTQ9l/nsSuQh+l9sVb4yAC8GF
-	svLwqd8UqZ5/MwAIQoJOyPV0joxQi7WJy6anizsaLtX/5sxYjsziauECqf3czuvpdpD9
-	Xfbias1pW4Nm2CwBjVsMBEr9fUoOSj9zAfySTgJD5evuotNPShjykRqyTQNHCMbMdMl5
-	2AxKC5UkHEliFd26og6khSjerlMbhStz1XFOQ2t2uRli2CRbjSBTLNeNAtBYEKAa781v
-	NkEQ==
-X-Gm-Message-State: APjAAAVWsp+tAkecHg6SuKGrkc+dBA4e4HFjL1JKft/eZQfRmZlgNo/a
-	u0PKoZSBSbXrC7EnHF1AEZjhG+oeKjs=
-X-Google-Smtp-Source: APXvYqzXjsLiAOODDmRDKVh000WiETTiM19Sd7xWica0VWiV1alsQOug2Xq1rjdmqroJlUpepH+ZZQ==
-X-Received: by 2002:a05:6e02:d92:: with SMTP id
-	i18mr10927392ilj.20.1575585484959; 
-	Thu, 05 Dec 2019 14:38:04 -0800 (PST)
-Received: from [10.30.196.43] ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	h14sm3239730ilc.87.2019.12.05.14.38.04
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 05 Dec 2019 14:38:04 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20191205213428.13693-1-richard.purdie@linuxfoundation.org>
-Message-ID: <93a53bb8-3f54-2411-c1d9-83f74af2b6b8@gmail.com>
-Date: Thu, 5 Dec 2019 16:38:03 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	Thu,  5 Dec 2019 22:46:13 +0000 (UTC)
+IronPort-SDR: 75WVK7Eyx8sg3rnwjkI+kz2zQ4ndiZbFzH7+cwvxVM7kpUCbuTiO9brhDQR41ODwuCJ39DR5tO
+	kkLEs3+5YCi3/78rP9gE2EqD0vywNErofhw3rqeupu23aTRbVxLCfkiY7IWp70BHCuEpA4vG1b
+	9JGUdtouj2r77UdUcnDT1+q66woxWvKVctj1tYp/ZygbbHBnr9/GvLrYdKPG/8ObpHT6I8Tx8k
+	EocG6U5buxhAs/Abi7eoqrdACxBaotM7/mbPUjoM+d0s0DaMiCvmAuvfqQ6RKFlAgu0l3onXlo
+	AZw=
+X-IronPort-AV: E=Sophos;i="5.69,282,1571695200"; 
+   d="scan'208";a="3293429"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Niko Mauno <niko.mauno@iki.fi>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [zeus][PATCH 1/3] iptables: Cosmetic fixes to recipe
+Thread-Index: AQHVq6dma3ew1jg+CkamMKHBtseQI6esI0Og
+Date: Thu, 5 Dec 2019 22:45:31 +0000
+Message-ID: <f66739bfac294f33aa76aaa8b4bee7f7@XBOX03.axis.com>
+References: <20191205200518.82007-1-niko.mauno@iki.fi>
+In-Reply-To: <20191205200518.82007-1-niko.mauno@iki.fi>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <20191205213428.13693-1-richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH] qemu-helper-native/systemtap-native: Ensure sysroots are populated with dependencies
+Subject: Re: [zeus][PATCH 1/3] iptables: Cosmetic fixes to recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,68 +38,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 22:38:04 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Dec 2019 22:46:14 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Niko Mauno
+> Sent: den 5 december 2019 21:05
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [zeus][PATCH 1/3] iptables: Cosmetic fixes to recipe
+>=20
+> Introduce cosmetic changes to recipe content, most notably
+>  - Change indentation style to four spaces in task statements
 
-On 12/5/19 3:34 PM, Richard Purdie wrote:
-> As Alex Kanavin found, dependencies aren't always populated, particularly
-> with the hash equivalence server enabled locally:
->
-> 'bitbake core-image-minimal' with gtk+ disabled.
-> can confirm with: $ tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-x86_64 -display gtk
-> qemu-system-x86_64: Display 'gtk' is not available.
-> Enable gtk in local.conf with: PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"
-> 'bitbake core-image-minimal', without deleting tmp/
-> $ tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-x86_64 -display gtk
-> qemu-system-x86_64: Display 'gtk' is not available.
->
-> This change ensures the dependencies are correctly handled as the full
-> sysroot is always depended upon even if things come from sstate.
->
+Unless I'm wrong, the standard for shell code in recipes in=20
+OE-Core is still to indent using tabs. (OpenEmbedded on the=20
+other hand uses four spaces for indentation also for shell=20
+code.)
+
+//Peter
+
+>  - Reorder several entries according to oe-stylize.py suggestions
+>=20
+> (From OE-Core rev: c1d162b6165f11b7b5ae5c6066e7683d5e1379fc)
+>=20
+> Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->   meta/classes/native.bbclass                           | 2 +-
->   meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb  | 2 +-
->   meta/recipes-kernel/systemtap/systemtap-native_git.bb | 2 +-
->   3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-> index d5b6f6af8bb..2cc6ad60b34 100644
-> --- a/meta/classes/native.bbclass
-> +++ b/meta/classes/native.bbclass
-> @@ -185,7 +185,7 @@ native_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
->   python do_addto_recipe_sysroot () {
->       bb.build.exec_func("extend_recipe_sysroot", d)
->   }
-> -addtask addto_recipe_sysroot after do_populate_sysroot
-> +addtask addto_recipe_sysroot after do_populate_sysroot do_prepare_recipe_sysroot
+>  .../iptables/iptables_1.8.3.bb                | 60 +++++++++----------
+>  1 file changed, 29 insertions(+), 31 deletions(-)
+>=20
+> diff --git a/meta/recipes-extended/iptables/iptables_1.8.3.bb
+> b/meta/recipes-extended/iptables/iptables_1.8.3.bb
+> index ff9fcb1b53..563c8ae354 100644
+> --- a/meta/recipes-extended/iptables/iptables_1.8.3.bb
+> +++ b/meta/recipes-extended/iptables/iptables_1.8.3.bb
+> @@ -4,8 +4,9 @@ filtering code in Linux."
+>  HOMEPAGE =3D "http://www.netfilter.org/"
+>  BUGTRACKER =3D "http://bugzilla.netfilter.org/"
+>  LICENSE =3D "GPLv2+"
+> -LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
+263\
+> -
+> file://iptables/iptables.c;beginline=3D13;endline=3D25;md5=3Dc5cffd099745=
+58cf27d
+> 0f763df2a12dc"
+> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
+263 \
+> +
+> file://iptables/iptables.c;beginline=3D13;endline=3D25;md5=3Dc5cffd099745=
+58cf27d
+> 0f763df2a12dc \
+> +"
+>=20
+>  SRC_URI =3D "http://netfilter.org/projects/iptables/files/iptables-
+> ${PV}.tar.bz2 \
+>             file://0001-configure-Add-option-to-enable-disable-
+> libnfnetlink.patch \
+> @@ -13,16 +14,16 @@ SRC_URI =3D
+> "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+>             file://iptables.service \
+>             file://iptables.rules \
+>  "
+> -
+>  SRC_URI[md5sum] =3D "29de711d15c040c402cf3038c69ff513"
+>  SRC_URI[sha256sum] =3D
+> "a23cac034181206b4545f4e7e730e76e08b5f3dd78771ba9645a6756de9cdd80"
+>=20
+> +SYSTEMD_SERVICE_${PN} =3D "iptables.service"
+> +
+>  inherit autotools pkgconfig systemd
+>=20
+>  EXTRA_OECONF =3D "--with-kernel=3D${STAGING_INCDIR}"
+>=20
+>  PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+> -
+>  PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
+>=20
+>  # libnfnetlink recipe is in meta-networking layer
+> @@ -32,9 +33,19 @@ PACKAGECONFIG[libnfnetlink] =3D "--enable-libnfnetlink=
+,--
+> disable-libnfnetlink,libn
+>  PACKAGECONFIG[libnftnl] =3D "--enable-nftables,--disable-nftables,libnft=
+nl"
+>=20
+>  do_configure_prepend() {
+> -	# Remove some libtool m4 files
+> -	# Keep ax_check_linker_flags.m4 which belongs to autoconf-
+> archive.
+> -	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4
+> ltversion.m4
+> +    # Remove some libtool m4 files
+> +    # Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
+> +    rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+> +}
+> +
+> +do_install_append() {
+> +    install -d ${D}${sysconfdir}/iptables
+> +    install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
+> +
+> +    install -d ${D}${systemd_system_unitdir}
+> +    install -m 0644 ${WORKDIR}/iptables.service
+> ${D}${systemd_system_unitdir}
+> +
+> +    sed -i -e 's,@SBINDIR@,${sbindir},g'
+> ${D}${systemd_system_unitdir}/iptables.service
+>  }
+>=20
+>  PACKAGES +=3D "${PN}-modules"
+> @@ -47,30 +58,6 @@ python populate_packages_prepend() {
+>          d.appendVar('RDEPENDS_' + metapkg, ' ' + ' '.join(modules))
+>  }
+>=20
+> -FILES_${PN} +=3D "${datadir}/xtables"
+> -
+> -# Include the symlinks as well in respective packages
+> -FILES_${PN}-module-xt-conntrack +=3D "${libdir}/xtables/libxt_state.so"
+> -FILES_${PN}-module-xt-ct +=3D "${libdir}/xtables/libxt_NOTRACK.so"
+> -
+> -INSANE_SKIP_${PN}-module-xt-conntrack =3D "dev-so"
+> -INSANE_SKIP_${PN}-module-xt-ct =3D "dev-so"
+> -
+> -ALLOW_EMPTY_${PN}-modules =3D "1"
+> -
+> -do_install_append() {
+> -
+> -        install -d ${D}${sysconfdir}/iptables
+> -        install -m 0644 ${WORKDIR}/iptables.rules
+> ${D}${sysconfdir}/iptables
+> -
+> -        install -d ${D}${systemd_system_unitdir}
+> -        install -m 0644 ${WORKDIR}/iptables.service
+> ${D}${systemd_system_unitdir}
+> -
+> -	sed -i -e 's,@SBINDIR@,${sbindir},g'
+> ${D}${systemd_system_unitdir}/iptables.service
+> -}
+> -
+> -SYSTEMD_SERVICE_${PN} =3D "iptables.service"
+> -
+>  RDEPENDS_${PN} =3D "${PN}-module-xt-standard"
+>  RRECOMMENDS_${PN} =3D " \
+>      ${PN}-modules \
+> @@ -84,3 +71,14 @@ RRECOMMENDS_${PN} =3D " \
+>      kernel-module-nf-nat \
+>      kernel-module-ipt-masquerade \
+>  "
+> +
+> +FILES_${PN} +=3D "${datadir}/xtables"
+> +
+> +# Include the symlinks as well in respective packages
+> +FILES_${PN}-module-xt-conntrack +=3D "${libdir}/xtables/libxt_state.so"
+> +FILES_${PN}-module-xt-ct +=3D "${libdir}/xtables/libxt_NOTRACK.so"
+> +
+> +ALLOW_EMPTY_${PN}-modules =3D "1"
+> +
+> +INSANE_SKIP_${PN}-module-xt-conntrack =3D "dev-so"
+> +INSANE_SKIP_${PN}-module-xt-ct =3D "dev-so"
+> --
+> 2.20.1
 
-I didn't mention it, but cross.bbclass does this too.
-
->   
->   inherit nopackages
->   
-> diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-> index 372eebd8864..ab4eb2d2268 100644
-> --- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-> +++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
-> @@ -21,4 +21,4 @@ do_install() {
->   }
->   
->   DEPENDS += "qemu-system-native"
-> -addtask addto_recipe_sysroot after do_populate_sysroot before do_build
-> +addtask addto_recipe_sysroot after do_populate_sysroot do_prepare_recipe_sysroot before do_build
-> diff --git a/meta/recipes-kernel/systemtap/systemtap-native_git.bb b/meta/recipes-kernel/systemtap/systemtap-native_git.bb
-> index 19cc1cf0f0a..b00f66e25dd 100644
-> --- a/meta/recipes-kernel/systemtap/systemtap-native_git.bb
-> +++ b/meta/recipes-kernel/systemtap/systemtap-native_git.bb
-> @@ -3,4 +3,4 @@ require systemtap_git.bb
->   
->   inherit native
->   
-> -addtask addto_recipe_sysroot after do_populate_sysroot before do_build
-> +addtask addto_recipe_sysroot after do_prepare_recipe_sysroot do_populate_sysroot before do_build
 
