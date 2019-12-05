@@ -1,50 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 18C8A7F829
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C0C7A7F88A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 15:44:21 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id g206so4389890wme.1
+	Thu,  5 Dec 2019 15:44:22 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p9so4402514wmg.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2019 07:44:23 -0800 (PST)
+	Thu, 05 Dec 2019 07:44:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=+wUY615K4GCsroUa+5TB3tsJDpS2Dw07zJiWVEN8b6w=;
-	b=S6DCy11ChNx6VGgss9I0dDajOUdqYK0FC7h9dXBXZEUBnBfysYitCiOso8AmMToBA7
-	cBaL862sr7dufAFx0NpcZsME9IhxD69YuG2uHLAtXT5945SP+2hQGd2S8XN3At8zDgtm
-	MzVtMEbRpP5gev0lAFZCZPLv+ScjQ+ekq98YReUTmM9G7j+N6C6Ic9tWtD1+DCc3Oawm
-	IzUaOknWu6/3vAw473yufAmvSvq0b9+cQw4n1TzeMTf9rGZHH9NOeFppB85kC80jBmZ4
-	HsHjYphzEUYkMsPwKRzYFTdgu73Np6c9D5SqohaVpQn3d5Xc2TkrysX2xyROX3zsLTba
-	/Dlw==
+	bh=P7/4qj2iQ8jCPKAq/IngPEIcV44UAlTrM6Rxc34tkZY=;
+	b=SLsSKv9D0xxuKaOoLAqfeHoCygSrmBdjjc2pZxQ7/7l7Xe55nitEST5vBRG3/iyL+l
+	HTYSbhEwOv3w3vKzihfYCKLgWPD0G5OQATBAU53I6+PpJGqn+lo3Qw6dKcNdARgd7e7V
+	OrsfYo0HpenZKeR5FOAAR1qlSz1ugI6Fti4FtKuwHnZflRpzhE2S/32rsTt/bgEvzUOS
+	aF7t00yOS+fcUAhtLgLr2/7aDjnb4kOEp7+XotLvhRZ3R8QC/SdMfdI7qe/tkRAx8aZl
+	pHMgXoSCzsH08pT4/Xcji0gtY8zvhBqnQUNgeOghU6aNQAjJZe52grv+ZERjxZ931lFy
+	E/ZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=+wUY615K4GCsroUa+5TB3tsJDpS2Dw07zJiWVEN8b6w=;
-	b=LJpC+SyuiakhOPvfavim8X6uNZKcCMq/UrK9HgQ+KTmKWon8L6wQ7/hS/9dA99+Mf3
-	NrrbFaEVk1x3ewws1wuwzwenf8daM98LYu1jNEUNzLf7nW6tT6f8Wainbr7TicabVMOu
-	UilMCoYweIL1UXd14VIhspehQ4S4URGC8wt8vNm3VDgziB46RgN2LrInVskdKFFUhYsF
-	23utg7IgtX4CCxxYK4kv8X/94OfeIiJrgGX/qLaydl17lzTm9rgEEZnO9lHjVwXK1BwB
-	Pn9DteSAGHKRCNvKHjRKipxUWEtuB8o+6zQEkKNp/Fbv5DyekMAOabyxdF6WJ603Wijz
-	hACQ==
-X-Gm-Message-State: APjAAAVd1/Qt2vCosxrYN+UJXPh0pYq0+czzz3kX/KHyF/X30M5YIu2K
-	KPN5WJ/c5DB4xPJxHBuTdQlrqm40
-X-Google-Smtp-Source: APXvYqzhJIN/Xb579GT+Wm7tEstD7NS6TEbdo7INf+pW1AjRBhF0tssDrgC/ZJFTCX17EEKeEcIyQA==
-X-Received: by 2002:a05:600c:230d:: with SMTP id
-	13mr5990820wmo.13.1575560662498; 
-	Thu, 05 Dec 2019 07:44:22 -0800 (PST)
+	bh=P7/4qj2iQ8jCPKAq/IngPEIcV44UAlTrM6Rxc34tkZY=;
+	b=q3aH3Sgqwb0/2OErfKhPkIbyBtUKPZBiW/HwLqhyiu6GxfEzL9Zh75qR/01krXTNVg
+	dpTMzqEfWlR4UabzAzwdpGajeJRB4jtCqbSjpgM5hYR561RDfKWIMwSU4T4T1SlMOGjV
+	nbXckKl2Y/EE1+Woe3qUJCKdfuVzCftOG+0kTO54krFzvGJkTr+baTv+JwFeieV1hMB8
+	OwgzcRNOi806ikA/HDjaD+2w6XtFUXe8TktEcuukqBO6ee6hb1l9J1l2qjkKxESaHvou
+	3i2NKEbEdniDEvMiFaYlvupBI1I/4stingglS1XW/62q7M1x0gq4/UpKpkKsrQCA0Pew
+	Q9Tw==
+X-Gm-Message-State: APjAAAXvCkg+GTi/refAp0ePu7s/JYXPY0QBqI2+35QfivXL339mA1OS
+	gVdjd4Y4xc5uEfiDyIz8KnmKlFFv
+X-Google-Smtp-Source: APXvYqxYCsEbETLtKJOhu9xvwfLTn1TdRQCvog2gDLo5sSUcRXH+nYryvdTjwwpZAME0vZ9h+fLnhQ==
+X-Received: by 2002:a1c:c917:: with SMTP id f23mr5681254wmb.95.1575560663224; 
+	Thu, 05 Dec 2019 07:44:23 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id z64sm223330wmg.30.2019.12.05.07.44.21
+	by smtp.gmail.com with ESMTPSA id z64sm223330wmg.30.2019.12.05.07.44.22
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Thu, 05 Dec 2019 07:44:22 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2019 16:43:55 +0100
-Message-Id: <20191205154357.121346-22-alex.kanavin@gmail.com>
+Date: Thu,  5 Dec 2019 16:43:56 +0100
+Message-Id: <20191205154357.121346-23-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191205154357.121346-1-alex.kanavin@gmail.com>
 References: <20191205154357.121346-1-alex.kanavin@gmail.com>
-Subject: [PATCH 22/24] debianutils: update to 4.9
+Subject: [PATCH 23/24] nspr: update to 4.24
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 15:44:22 -0000
+X-List-Received-Date: Thu, 05 Dec 2019 15:44:23 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{debianutils_4.8.6.3.bb => debianutils_4.9.bb}          | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/debianutils/{debianutils_4.8.6.3.bb => debianutils_4.9.bb} (87%)
+ meta/recipes-support/nspr/{nspr_4.23.bb => nspr_4.24.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/nspr/{nspr_4.23.bb => nspr_4.24.bb} (96%)
 
-diff --git a/meta/recipes-support/debianutils/debianutils_4.8.6.3.bb b/meta/recipes-support/debianutils/debianutils_4.9.bb
-similarity index 87%
-rename from meta/recipes-support/debianutils/debianutils_4.8.6.3.bb
-rename to meta/recipes-support/debianutils/debianutils_4.9.bb
-index a69d01e0f95..94ac34d15d5 100644
---- a/meta/recipes-support/debianutils/debianutils_4.8.6.3.bb
-+++ b/meta/recipes-support/debianutils/debianutils_4.9.bb
-@@ -3,13 +3,13 @@ SECTION = "base"
- LICENSE = "GPLv2 & SMAIL_GPL"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=f01a5203d50512fc4830b4332b696a9f"
+diff --git a/meta/recipes-support/nspr/nspr_4.23.bb b/meta/recipes-support/nspr/nspr_4.24.bb
+similarity index 96%
+rename from meta/recipes-support/nspr/nspr_4.23.bb
+rename to meta/recipes-support/nspr/nspr_4.24.bb
+index 8e2761c20e9..5f823f89414 100644
+--- a/meta/recipes-support/nspr/nspr_4.23.bb
++++ b/meta/recipes-support/nspr/nspr_4.24.bb
+@@ -23,8 +23,8 @@ CACHED_CONFIGUREVARS_append_libc-musl = " CFLAGS='${CFLAGS} -D_PR_POLL_AVAILABLE
+ UPSTREAM_CHECK_URI = "http://ftp.mozilla.org/pub/nspr/releases/"
+ UPSTREAM_CHECK_REGEX = "v(?P<pver>\d+(\.\d+)+)/"
  
--SRC_URI = "http://snapshot.debian.org/archive/debian/20190717T213444Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20191205T090816Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
- # the package is taken from snapshots.debian.org; that source is static and goes stale
- # so we check the latest upstream from a directory that does get updated
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
+-SRC_URI[md5sum] = "90af0450423b0588f0eba6255c07ab79"
+-SRC_URI[sha256sum] = "4b9d821037faf5723da901515ed9cac8b23ef1ea3729022259777393453477a4"
++SRC_URI[md5sum] = "d630c2111e1db6d2ec2069aad22b4121"
++SRC_URI[sha256sum] = "90a59a0df6a11528749647fe18401cc7e03881e3e63c309f8c520ce06dd413d0"
  
--SRC_URI[md5sum] = "ca57cc6621275346d7d516ab0b5fa1f5"
--SRC_URI[sha256sum] = "2cc7de3afc6df1cf6d00af9938efac7ee8f739228e548e512ddc186b6a7be221"
-+SRC_URI[md5sum] = "bc599768703e594b91d8f6172ce82746"
-+SRC_URI[sha256sum] = "20975c5cb8cb305f28c2ac35dd99fd9f594f25b6140b5d478a0a364e9fa8073f"
- 
- inherit autotools update-alternatives
+ CVE_PRODUCT = "netscape_portable_runtime"
  
 -- 
 2.17.1
