@@ -1,18 +1,50 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D5BFF7F870;
-	Thu,  5 Dec 2019 19:32:30 +0000 (UTC)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E9CB17F829
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  5 Dec 2019 19:39:22 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id h14so2075664pfe.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Dec 2019 11:39:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gLCKf01Gt7J8uAQFCD1i9aThwvyGy5LxEatIca1p7dI=;
+	b=NCPz8sFV7Mo0RvjOVdg3ZZq64dnguH7Gdu+vmpwFklwMFt1s3CwjQjOpoHb0NriD0L
+	2UNMTiPObaQK4Q7VCHAhnyYt4mgSOq5/F+Y6blS+MWpaznGrASRwHn3BF+RwWuI6ClN9
+	PslKQ+cFCZnKRuHkCBhmPlM4e1qsIxo+ddYC9sn/DDHPBjJJ5TbiW+01wDgxzJDU3qBr
+	m57P9OZ41GYKeqyRSVoBvZmKrKmY58zrGZKZP8JK0riykX68kvq/CwKJH4953U8v+iWQ
+	3Zqsf/RIgDksOmyhWJ0ecuSvzL/HhLak0KAdCQ59JN238KGuypoRDXpVhX0uhivTQVri
+	60hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gLCKf01Gt7J8uAQFCD1i9aThwvyGy5LxEatIca1p7dI=;
+	b=sOCwpuoNtTQvl4OsKpHB6M3++6tpyukey8ZuqnkZ5RX1Jm60T7D24NR7DGAGp3kdRc
+	cFSjL99JzoOl5qnw4sWH9keo0F3wHyrFRzeZcovniIWOmEvOdostJZJ1cdILDQfkAtoJ
+	WYZ5nPkuWpd8Ad66TCZp1kSEIhBdGgNW8XJbwACiqwVM9IWHZ3nvr5lEZS4THQsndldm
+	yMKPmcANkNy0PQFezJow5T2m4QQy7HhhRyAMLbNXVJJ7kAugAvSe6TOPgTzeonbY/nD9
+	crUYKDr6ppNkj5rROrLbRhbyb3KLEgECjVpSD2vYlTBzXl5BslFGc6EX6cFvPSOkNpN8
+	0R1w==
+X-Gm-Message-State: APjAAAWy0vFY7VYQdac6ZnGozS2D2vye7Q/7Y2cO/ZCiLgpcBmVi8lw2
+	KkQKX904gpSyTsUypmh+5SsTYqZq3AQ=
+X-Google-Smtp-Source: APXvYqx1afbDVVoI/43m887eyo5rvRw8tywIS1Lmqjxvm5Pyi+sWEQ86d90EL8RXr4hWn6imtlIRXQ==
+X-Received: by 2002:a63:4246:: with SMTP id p67mr10898356pga.243.1575574763308;
+	Thu, 05 Dec 2019 11:39:23 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::2797])
+	by smtp.gmail.com with ESMTPSA id
+	r66sm1412918pfc.74.2019.12.05.11.39.22
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 05 Dec 2019 11:39:22 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  5 Dec 2019 11:37:08 -0800
+Message-Id: <20191205193708.262610-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Thu, 05 Dec 2019 19:32:32 -0000
-Message-ID: <20191205193232.2277.77253@do>
-References: <20191205192814.18201-1-bunk@stusta.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20191205192814.18201-1-bunk@stusta.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uOiBXaGl0ZWxpc3QgQ1ZFLTIwMTctMTc1MjIgQ1ZFLTIwMTctMTgyMDcgQ1ZFLTIwMTUtNTY1MiAocmV2Mik=?=
+Subject: [PATCH] llvm: rv32/rv64 target builds are not supported yet
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 19:32:31 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Dec 2019 19:39:23 -0000
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
-
-Series: python: Whitelist CVE-2017-17522 CVE-2017-18207 CVE-2015-5652 (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/21468/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at afb8d45636)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/llvm/llvm_git.bb | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
+index 5f9277fc0f..cb2e1164cf 100644
+--- a/meta/recipes-devtools/llvm/llvm_git.bb
++++ b/meta/recipes-devtools/llvm/llvm_git.bb
+@@ -10,6 +10,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=8a15a0759ef07f2682d2ba4b893c9afe"
+ 
+ DEPENDS = "libffi libxml2 zlib libedit ninja-native llvm-native"
+ 
++COMPATIBLE_HOST_riscv64 = "null"
++COMPATIBLE_HOST_riscv32 = "null"
++
+ RDEPENDS_${PN}_append_class-target = " ncurses-terminfo"
+ 
+ inherit cmake pkgconfig
+-- 
+2.24.0
 
 
