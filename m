@@ -1,31 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 26FF07F816
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 14:33:50 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Dec 2019 06:33:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,281,1571727600"; d="scan'208";a="205785594"
-Received: from aaronsan-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.249.32.186])
-	by orsmga008.jf.intel.com with ESMTP; 05 Dec 2019 06:33:50 -0800
-To: Adrian Bunk <bunk@stusta.de>
-References: <20191205131113.GB3151@localhost>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <c5d244f0-2f18-2f22-211b-b346f0e630b6@intel.com>
-Date: Thu, 5 Dec 2019 14:33:48 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+	[209.85.160.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A3C06C44A;
+	Thu,  5 Dec 2019 14:38:04 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id v2so3693837qtv.8;
+	Thu, 05 Dec 2019 06:38:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=l4nOPCg0iBm2S0xSP4s3jXuUz9m/0sWbxCizv/5/XmU=;
+	b=Fz9oJX+QCZLI+BV+9NovANCXxY6f6wyv4UH+NNFJM5WW0DzOMWX6mCKZFW7hZfVh6x
+	2QCxhq8DV6CBEiFi66WhKJSml8R4wHw3ZuyRgEQc1ANxji70lhg5y/snZp5k6AF9Xbbe
+	hC890qFbjmsm2RkXZJD2Axm1ZvYHEBUdvon656tIzZaq9RLJ9ToLh53fhbSqX7UtA1E5
+	hdTID71dvZwPaYPPdVZIipghneuex1BhOaN145aPgxLknbCo0ohkNdkJYFkmmfiCevsE
+	vsqhOPmwsxsb+BSu1h0ozaAtIjwo1T7BhbZEncFjVtaGyE0DCK5wddMVHA0MkdbTk1xb
+	bLWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=l4nOPCg0iBm2S0xSP4s3jXuUz9m/0sWbxCizv/5/XmU=;
+	b=QDbr+PVEhwYBHQMSZx6qOc9dJoonEcFMMZPJqoTJ6S2DXdHE5B+lAwlPAK7wnL5xtV
+	sW3WjykaYku8Dn+bXl/jXdmdGvEkhUJs5SW5wePTg4SwWnZdSZdng6oQQmjJ9dyw5Nlf
+	PIYCG/C8ZYEXXwpfJLcfd1oPpeT2YoCYaKMIUvvj5DViLXMbz8wLmg7GQW937QAggnfW
+	/jo2WQ80gWCuAvC7d/If23v70deupAQPEDopOawJHS+NDldztKvxVQm1ePnlz2AsjvMi
+	I/zmhycyA1m+85kbBqTxVybsylwfqC7vabWt8Z13CFvJ0OYB3TPpQLOcDjjOTeoz1W5D
+	hWvw==
+X-Gm-Message-State: APjAAAWi9m/cZOmxE89pgEudRr1g/d6GN+QOxh5p7jZZc63WwU4IzbpZ
+	K+531hBQgoXft4yu7syokKIw08fVPyvKHRfS9iY=
+X-Google-Smtp-Source: APXvYqxgDi8hTYnK13FczCuVtLrxxBODsqptU8y74k8JeSOU3iorWisrX5EFN+kxND3kIjZ19X1rxR8cLrLX5rFrEnk=
+X-Received: by 2002:ac8:748:: with SMTP id k8mr7843835qth.378.1575556685027;
+	Thu, 05 Dec 2019 06:38:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191205131113.GB3151@localhost>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Is the CVE-2016-10739 fix in thud incomplete?
+References: <216e9c7062d44b98a54b6fd572128266383e83ad.camel@linuxfoundation.org>
+	<9058755.I6fkynWszP@shodan>
+	<CAP71WjybqtUNXJWnOv52QQYevR99_tVyEPpHjx_rwVZfjU02nA@mail.gmail.com>
+	<2454376.zbUpM14kzO@shodan>
+In-Reply-To: <2454376.zbUpM14kzO@shodan>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 5 Dec 2019 06:37:38 -0800
+Message-ID: <CAMKF1so90+_uwUjcXRVB69qFa8ikkcCsjEeR=WzLkQcSz+553w@mail.gmail.com>
+To: Paul Eggleton <paul.eggleton@linux.intel.com>
+Cc: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [Openembedded-architecture] OE-Core python minimum version requirement
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,21 +56,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 14:33:50 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 05 Dec 2019 14:38:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 05/12/2019 13:11, Adrian Bunk wrote:
-> https://sourceware.org/bugzilla/show_bug.cgi?id=20018#c15
-> 
-> meta/recipes-core/glibc/glibc/CVE-2016-10739.patch seems to only contain
-> the "resolv: Reformat inet_addr, inet_aton to GNU style" commit.
+On Thu, Dec 5, 2019 at 2:19 AM Paul Eggleton
+<paul.eggleton@linux.intel.com> wrote:
+>
+> On Thursday, 5 December 2019 7:48:11 PM NZDT Nicolas Dechesne wrote:
+> > On Thu, Dec 5, 2019 at 3:08 AM Paul Eggleton
+> > <paul.eggleton@linux.intel.com> wrote:
+> > > FYI I came across repology.org which tells you the version of various
+> > > packages in each distro, though it's not ideal:
+> > >
+> > >   https://repology.org/project/python/versions
+> >
+> > Nice! How do we get OE plugged into that? Have you looked at that?
+>
+> No, I haven't - only discovered it today. I agree we should look into it
+> though.
+>
 
-Erm, yes.  Not sure what happened there.
 
-Build-testing a revised patch now.  I wonder if I accidentally forgot to 
-concatenate the patches... :/
+you need to have binary feeds somewhere.
 
-Ross
+> Cheers
+> Paul
+>
+> --
+>
+> Paul Eggleton
+> Intel System Software Products
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
