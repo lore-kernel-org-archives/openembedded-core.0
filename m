@@ -1,50 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E3F97F870
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F1DB7F828
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 15:44:11 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id n9so3866809wmd.3
+	Thu,  5 Dec 2019 15:44:12 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id q10so4155154wrm.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2019 07:44:13 -0800 (PST)
+	Thu, 05 Dec 2019 07:44:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=q0ilm579wQsw6Zy9J4fq42CDMGCImGR9jIf6kaXYP3Q=;
-	b=qqVTQWDFDSH7DmflBjkRwl7Oy95qNS9r9H25p8ljgIHq3V49kt75bHyf6m577kl89W
-	czdtwlxzaNEGlxEY5hPxDxpc4y2RdTxSz1K7Mm4rgA6LKQy5Lac76gAO54VkgSciGGiA
-	zZPKQKUfyfCHz7plV+5YImHMl2apFIF8OWTb54g1LKysBRyT+tMyspcRBPCXj9zf1kB1
-	QGUxXwvAU3A8zgFms7m6I3mmBMUW236L7RHOZeB5DgHwfDwJz2xiwl7NCOaF99Ofh+Gv
-	5BJtmmjPiJCv4sTU/ZQ1DX6B+tGTX+BicJvvCVYBIqRyva1wXZbhQwL7SuqNzfWeQ8uV
-	vaqA==
+	bh=oYTQzeU2TtPO8sApyqsJ2WGrorzYi2qXu2AeEuDuuZc=;
+	b=l77kVceYgsElB8j6hfo0+bS8YI/yXWb+Ry6l8/9C4XlYb4B5k22IKprPKARsQE4/hg
+	X/TgrrQOZpEJw0zbweOj4FXERADkq1b6rzhmP6Xgt771NRTf1K40HUOffuzituN7NyLs
+	vFICxYg8AEbmIFIoqyWSLJVox+4xjNRnAaIqS/qby0SODNlfbyJHvlr9uzj+u0faIdT0
+	VH9dNddvxBoiuUFIncdr9zqylYFruHJqg9hHuvOP+yqJh7jlGuwmypE1N4+7jLfg+Idl
+	DabO/mGoaKdQ4vD9I6b4wX3TGiWdCpwL3mbm4gqZx9OX+ydEykUJLZeKgDMwHyftvlrp
+	o+FA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=q0ilm579wQsw6Zy9J4fq42CDMGCImGR9jIf6kaXYP3Q=;
-	b=ltYRKhsXO5dDR0+GP9yS4rS1k47LixiCRgT13UH2yYmM5nZhFv4wdCMT4qQNmNe9Hg
-	GkHwY2/RhUwEJZK7C9S5nMAi1T4XPwGh12jeFmlrlyVm80aAVUZSCTZh3hc+Pnn/nXVf
-	RfVBEVjzwIJxtERJ9Oerdl3JD1kM6CM6hyuVZnrAtRM6LK9p5fj/mTlKzBVSBC6Q0UaL
-	n0tkDnqWd92Fo6gwne+o8Jvppe667r7fK0Bj3Tz8g+8PEX+cx4hTGwopLJFgig08IAy2
-	rehrW0CYrZUbXy361brJy9itgEFmIn4nujT5gBdTe0uRbW+8J7k/DeJmrzwBRbRa360X
-	3DkQ==
-X-Gm-Message-State: APjAAAXycUdCxHvwqTAqI5cs+2gvskIZLRQOWOTW6dZNr7s0+t1sSLdR
-	qW/UGqc9MpRvzoXrn54FmB6oo3Sz
-X-Google-Smtp-Source: APXvYqxzu/3V+S6Rxdk5yrtFJJTI+cbGVB1PcxNrKKIEG94ebbifNnFqJ6VpgAjLR9JALx9TLky3Ig==
-X-Received: by 2002:a05:600c:230d:: with SMTP id
-	13mr5990012wmo.13.1575560652468; 
-	Thu, 05 Dec 2019 07:44:12 -0800 (PST)
+	bh=oYTQzeU2TtPO8sApyqsJ2WGrorzYi2qXu2AeEuDuuZc=;
+	b=Pjtpo2xeqmMKb355NCWs45JHlzzKqX2XZeZ557BsprEa6bMCWUsbcrzEdEiIn/1Ru4
+	+hxH/4xUy7F6KxdOZSkQk1qRj5Xw5C9Uea1MmAJn7S++1RBOOswfZZQORIE01OIQejLA
+	0t4NnNy0Pgahp5DmlXIFBS0lWSuSn08hi5ptgQKTbWqycM5VFdz/Cv61agEF9xwvYac1
+	3Z2gb7AgboAaX0Eou+KF/VCz6458CLsN1ADR8CbsNLlV7v50qHAm+uGK6stgdCamOMKK
+	t1vDKMG3hNv5PaIv5oUm0a1fBlkcVTqzdxQOhf+7qOzeOsw0I9cVGOclCYPJRhIXi5an
+	RZkg==
+X-Gm-Message-State: APjAAAVl8ffK2l4MzonV+ma2Qj1T+Y6QnoFi5K43ErND3goylbJG9rf2
+	icvXofhz3yiDoyAVeTJsGHbvgenK
+X-Google-Smtp-Source: APXvYqwdxSLcDAe24mLhO1Ya2ZvR/1tWV3M9SSfibJu5WJ/OuxRL6wOwzjJyQF+aFshaGXJzeUX/TQ==
+X-Received: by 2002:adf:eb48:: with SMTP id u8mr10444056wrn.283.1575560653501; 
+	Thu, 05 Dec 2019 07:44:13 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id z64sm223330wmg.30.2019.12.05.07.44.11
+	by smtp.gmail.com with ESMTPSA id z64sm223330wmg.30.2019.12.05.07.44.12
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Thu, 05 Dec 2019 07:44:12 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2019 16:43:43 +0100
-Message-Id: <20191205154357.121346-10-alex.kanavin@gmail.com>
+Date: Thu,  5 Dec 2019 16:43:44 +0100
+Message-Id: <20191205154357.121346-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191205154357.121346-1-alex.kanavin@gmail.com>
 References: <20191205154357.121346-1-alex.kanavin@gmail.com>
-Subject: [PATCH 10/24] kbd: update to 2.2.0
+Subject: [PATCH 11/24] perl: update to 5.30.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,172 +56,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 15:44:12 -0000
+X-List-Received-Date: Thu, 05 Dec 2019 15:44:13 -0000
 
-Rebase set-proper-path-of-resources.patch
+Drop fix-setgroup.patch as the upstream has fixed the issue.
 
-Add a patch to address a string format error; as it modifies
-a .l file, add a dependency on flex which is processing that into
-C source code.
-
-License-Update: file with copyright statements was replaced with original GPLv2 text
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-analyze.l-add-missing-string-format.patch | 24 ++++++++
- .../kbd/set-proper-path-of-resources.patch    | 57 ++++++++++++-------
- .../kbd/{kbd_2.0.4.bb => kbd_2.2.0.bb}        | 11 ++--
- 3 files changed, 66 insertions(+), 26 deletions(-)
- create mode 100644 meta/recipes-core/kbd/kbd/0001-analyze.l-add-missing-string-format.patch
- rename meta/recipes-core/kbd/{kbd_2.0.4.bb => kbd_2.2.0.bb} (86%)
+ .../perl/files/fix-setgroup.patch             | 49 -------------------
+ .../perl/{perl_5.30.0.bb => perl_5.30.1.bb}   | 11 ++---
+ 2 files changed, 5 insertions(+), 55 deletions(-)
+ delete mode 100644 meta/recipes-devtools/perl/files/fix-setgroup.patch
+ rename meta/recipes-devtools/perl/{perl_5.30.0.bb => perl_5.30.1.bb} (97%)
 
-diff --git a/meta/recipes-core/kbd/kbd/0001-analyze.l-add-missing-string-format.patch b/meta/recipes-core/kbd/kbd/0001-analyze.l-add-missing-string-format.patch
-new file mode 100644
-index 00000000000..8916fd9f5ee
---- /dev/null
-+++ b/meta/recipes-core/kbd/kbd/0001-analyze.l-add-missing-string-format.patch
-@@ -0,0 +1,24 @@
-+From dc6bf2ae0835c6569b270e8e1f26a3173f3927d9 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 4 Dec 2019 13:14:01 +0100
-+Subject: [PATCH] analyze.l: add missing string format
-+
-+Upstream-Status: Submitted [https://github.com/legionus/kbd/pull/35]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ src/libkeymap/analyze.l | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/libkeymap/analyze.l b/src/libkeymap/analyze.l
-+index e32ace6..de62f46 100644
-+--- a/src/libkeymap/analyze.l
-++++ b/src/libkeymap/analyze.l
-+@@ -463,7 +463,7 @@ To                      to|To|TO
-+ 
-+ 					strerror_r(errno, buf, sizeof(buf));
-+ 
-+-					ERR(yyextra, buf);
-++					ERR(yyextra, "%s", buf);
-+ 					return(ERROR);
-+ 				}
-+ 
-diff --git a/meta/recipes-core/kbd/kbd/set-proper-path-of-resources.patch b/meta/recipes-core/kbd/kbd/set-proper-path-of-resources.patch
-index a9a3ab8abfb..5872cef36b7 100644
---- a/meta/recipes-core/kbd/kbd/set-proper-path-of-resources.patch
-+++ b/meta/recipes-core/kbd/kbd/set-proper-path-of-resources.patch
-@@ -1,3 +1,8 @@
-+From 7f953dd689155bc1224a3369205c310bb5b760a7 Mon Sep 17 00:00:00 2001
-+From: Kai Kang <kai.kang@windriver.com>
-+Date: Fri, 30 Sep 2016 16:49:55 +0800
-+Subject: [PATCH] kbd: create ptest sub-package
-+
- Upstream-Status: Inappropriate [embedded specific]
- 
- kbd is out of source built, then the value of $(srcdir) is relative path of
-@@ -13,38 +18,46 @@ run as expected.
- 
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
- 
--Index: kbd-2.0.4/tests/Makefile.am
+diff --git a/meta/recipes-devtools/perl/files/fix-setgroup.patch b/meta/recipes-devtools/perl/files/fix-setgroup.patch
+deleted file mode 100644
+index 2b490e60676..00000000000
+--- a/meta/recipes-devtools/perl/files/fix-setgroup.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-Test script to reproduce the problem:
+-
+-#!/usr/bin/env perl
+-$) = "2 2";
+-print $!;
+-
+-Result from perl 5.28 under strace:
+-
+-setgroups(1, [2])                       = 0
+-setresgid(-1, 2, -1)                    = 0
+-
+-Result from perl 5.30 under strace:
+-
+-setgroups(1, [-1])                      = -1 EINVAL (Invalid argument)
+-setresgid(-1, 2, -1)                    = 0
+-
+-Patch which broke this upstream:
+-https://perl5.git.perl.org/perl.git/commitdiff/5d4a52b5c68a11bfc97c2e24806993b84a61eade
+-
+-Issue is that the new function changes the endptr to the end of the
+-scanned number and needs to be reset to the end of the string for 
+-each iteration of the loop.
+-
+-[YOCTO #13391]
+-
+-RP
+-2019/6/14
+-Upstream-Status: Pending
+-
+-Index: perl-5.30.0/mg.c
 -===================================================================
----- kbd-2.0.4.orig/tests/Makefile.am
--+++ kbd-2.0.4/tests/Makefile.am
--@@ -1,7 +1,7 @@
-- AM_CPPFLAGS = \
-- 	-I$(srcdir)/../src/libkeymap \
-+---
-+ tests/Makefile.am           | 2 +-
-+ tests/alt-is-meta.in        | 6 ++----
-+ tests/dumpkeys-fulltable.in | 2 +-
-+ 3 files changed, 4 insertions(+), 6 deletions(-)
-+
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index f32b9aa..973cd26 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -7,7 +7,7 @@ AM_CPPFLAGS = \
-  	-I$(builddir)/../src/libkeymap \
---	-DDATADIR=\"$(srcdir)\" -DBUILDDIR=\"$(builddir)\"
--+	-DDATADIR=\".\" -DBUILDDIR=\"$(builddir)\"
-+ 	-I$(srcdir)/../src/libkbdfile \
-+ 	-I$(builddir)/../src/libkbdfile \
-+-	-DDATADIR=\"$(srcdir)\" \
-++	-DDATADIR=\".\" \
-+ 	-DABS_DATADIR=\"$(realpath $(srcdir))\" \
-+ 	-DBUILDDIR=\"$(builddir)\"
-  
-- AM_CFLAGS = $(CHECK_CFLAGS)
-- LDADD  = $(top_builddir)/src/libkeymap/libkeymap.la $(CHECK_LIBS) @INTLLIBS@
--Index: kbd-2.0.4/tests/alt-is-meta.in
--===================================================================
----- kbd-2.0.4.orig/tests/alt-is-meta.in
--+++ kbd-2.0.4/tests/alt-is-meta.in
--@@ -7,8 +7,8 @@ cd "$cwd"
-+diff --git a/tests/alt-is-meta.in b/tests/alt-is-meta.in
-+index 3a1441f..772fb51 100755
-+--- a/tests/alt-is-meta.in
-++++ b/tests/alt-is-meta.in
-+@@ -7,10 +7,8 @@ cd "$cwd"
-  rc=0
-  temp="$(mktemp "@BUILDDIR@/temp.XXXXXXXXX")"
-  
---./libkeymap-showmaps "@DATADIR@"/alt-is-meta.map > "$temp" || rc=$?
---cmp -s "@DATADIR@//alt-is-meta.output" "$temp" || rc=$?
-+-datadir="@DATADIR@/data/alt-is-meta"
-+-
-+-./libkeymap-showmaps "$datadir"/alt-is-meta.map > "$temp" || rc=$?
-+-cmp -s "$datadir/alt-is-meta.output" "$temp" || rc=$?
- +./libkeymap-showmaps ./alt-is-meta.map > "$temp" || rc=$?
- +cmp -s "./alt-is-meta.output" "$temp" || rc=$?
-  
-  if [ "$rc" != 0 ]; then
-  	printf 'failed\n'
--Index: kbd-2.0.4/tests/dumpkeys-fulltable.in
--===================================================================
----- kbd-2.0.4.orig/tests/dumpkeys-fulltable.in
--+++ kbd-2.0.4/tests/dumpkeys-fulltable.in
-+diff --git a/tests/dumpkeys-fulltable.in b/tests/dumpkeys-fulltable.in
-+index a3a5ece..67a73ef 100755
-+--- a/tests/dumpkeys-fulltable.in
-++++ b/tests/dumpkeys-fulltable.in
- @@ -5,7 +5,7 @@ cwd="$(readlink -ev "${0%/*}")"
-  cd "$cwd"
-  
-diff --git a/meta/recipes-core/kbd/kbd_2.0.4.bb b/meta/recipes-core/kbd/kbd_2.2.0.bb
-similarity index 86%
-rename from meta/recipes-core/kbd/kbd_2.0.4.bb
-rename to meta/recipes-core/kbd/kbd_2.2.0.bb
-index 4af3256fff0..9556302ab51 100644
---- a/meta/recipes-core/kbd/kbd_2.0.4.bb
-+++ b/meta/recipes-core/kbd/kbd_2.2.0.bb
-@@ -2,10 +2,12 @@ SUMMARY = "Keytable files and keyboard utilities"
- HOMEPAGE = "http://www.kbd-project.org/"
- # everything minus console-fonts is GPLv2+
- LICENSE = "GPLv2+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=a5fcc36121d93e1f69d96a313078c8b5"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=892f569a555ba9c07a568a7c0c4fa63a"
+---- perl-5.30.0.orig/mg.c
+-+++ perl-5.30.0/mg.c
+-@@ -3179,6 +3256,7 @@ Perl_magic_set(pTHX_ SV *sv, MAGIC *mg)
+- 	    const char *p = SvPV_const(sv, len);
+-             Groups_t *gary = NULL;
+-             const char* endptr = p + len;
+-+            const char* realend = p + len;
+-             UV uv;
+- #ifdef _SC_NGROUPS_MAX
+-            int maxgrp = sysconf(_SC_NGROUPS_MAX);
+-@@ -3209,6 +3287,7 @@ Perl_magic_set(pTHX_ SV *sv, MAGIC *mg)
+-                     Newx(gary, i + 1, Groups_t);
+-                 else
+-                     Renew(gary, i + 1, Groups_t);
+-+                endptr = realend;
+-                 if (grok_atoUV(p, &uv, &endptr))
+-                     gary[i] = (Groups_t)uv;
+-                 else {
+diff --git a/meta/recipes-devtools/perl/perl_5.30.0.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
+similarity index 97%
+rename from meta/recipes-devtools/perl/perl_5.30.0.bb
+rename to meta/recipes-devtools/perl/perl_5.30.1.bb
+index 1d906a75150..9b1f1af0729 100644
+--- a/meta/recipes-devtools/perl/perl_5.30.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=5b122a36d0f6dc55279a0ebc69f3c60b \
  
- inherit autotools gettext ptest pkgconfig
  
-+DEPENDS += "flex-native"
-+
- RREPLACES_${PN} = "console-tools"
- RPROVIDES_${PN} = "console-tools"
- RCONFLICTS_${PN} = "console-tools"
-@@ -13,10 +15,11 @@ RCONFLICTS_${PN} = "console-tools"
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
-            file://run-ptest \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://set-proper-path-of-resources.patch', '', d)} \
--          "
-+           file://0001-analyze.l-add-missing-string-format.patch \
-+           "
+ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+-           https://github.com/arsv/perl-cross/releases/download/1.3/perl-cross-1.3.tar.gz;name=perl-cross \
++           https://github.com/arsv/perl-cross/releases/download/1.3.1/perl-cross-1.3.1.tar.gz;name=perl-cross \
+            file://perl-rdepends.txt \
+            file://0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch \
+            file://0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch \
+@@ -18,7 +18,6 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch \
+            file://perl-dynloader.patch \
+            file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
+-           file://fix-setgroup.patch \
+            file://0001-enc2xs-Add-environment-variable-to-suppress-comments.patch \
+            file://0002-Constant-Fix-up-shebang.patch \
+            "
+@@ -26,10 +25,10 @@ SRC_URI_append_class-native = " \
+            file://perl-configpm-switch.patch \
+ "
  
--SRC_URI[md5sum] = "c1635a5a83b63aca7f97a3eab39ebaa6"
--SRC_URI[sha256sum] = "5fd90af6beb225a9bb9b9fb414c090fba53c9a55793e172f508cd43652e59a88"
-+SRC_URI[md5sum] = "d1d7ae0b5fb875dc082731e09cd0c8bc"
-+SRC_URI[sha256sum] = "21a1bc5f6fb3b18ce9fdd717e4533368060a3182a39c7155eaf7ec0f5f83e9f7"
+-SRC_URI[perl.md5sum] = "9770584cdf9b5631c38097645ce33549"
+-SRC_URI[perl.sha256sum] = "851213c754d98ccff042caa40ba7a796b2cee88c5325f121be5cbb61bbf975f2"
+-SRC_URI[perl-cross.md5sum] = "4dda3daf9c4fe42b3d6a5dd052852a48"
+-SRC_URI[perl-cross.sha256sum] = "49edea1ea2cd6c5c47386ca71beda8d150c748835781354dbe7f75b1df27e703"
++SRC_URI[perl.md5sum] = "6438eb7b8db9bbde28e01086de376a46"
++SRC_URI[perl.sha256sum] = "bf3d25571ff1ee94186177c2cdef87867fd6a14aa5a84f0b1fb7bf798f42f964"
++SRC_URI[perl-cross.md5sum] = "1e463b105cfa56d251a86979af23e3a7"
++SRC_URI[perl-cross.sha256sum] = "edce0b0c2f725e2db3f203d6d8e9f3f7161256f5d1590551e40694f21200141d"
  
- PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} \
-                   ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests','', d)} \
+ S = "${WORKDIR}/perl-${PV}"
+ 
 -- 
 2.17.1
 
