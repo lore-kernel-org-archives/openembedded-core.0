@@ -1,50 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E9CB17F829
+Return-Path: <niko.mauno@iki.fi>
+Received: from tulikuusama2.dnainternet.net (tulikuusama3.dnainternet.net
+	[83.102.40.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A2377F7C3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 19:39:22 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id h14so2075664pfe.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2019 11:39:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=gLCKf01Gt7J8uAQFCD1i9aThwvyGy5LxEatIca1p7dI=;
-	b=NCPz8sFV7Mo0RvjOVdg3ZZq64dnguH7Gdu+vmpwFklwMFt1s3CwjQjOpoHb0NriD0L
-	2UNMTiPObaQK4Q7VCHAhnyYt4mgSOq5/F+Y6blS+MWpaznGrASRwHn3BF+RwWuI6ClN9
-	PslKQ+cFCZnKRuHkCBhmPlM4e1qsIxo+ddYC9sn/DDHPBjJJ5TbiW+01wDgxzJDU3qBr
-	m57P9OZ41GYKeqyRSVoBvZmKrKmY58zrGZKZP8JK0riykX68kvq/CwKJH4953U8v+iWQ
-	3Zqsf/RIgDksOmyhWJ0ecuSvzL/HhLak0KAdCQ59JN238KGuypoRDXpVhX0uhivTQVri
-	60hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=gLCKf01Gt7J8uAQFCD1i9aThwvyGy5LxEatIca1p7dI=;
-	b=sOCwpuoNtTQvl4OsKpHB6M3++6tpyukey8ZuqnkZ5RX1Jm60T7D24NR7DGAGp3kdRc
-	cFSjL99JzoOl5qnw4sWH9keo0F3wHyrFRzeZcovniIWOmEvOdostJZJ1cdILDQfkAtoJ
-	WYZ5nPkuWpd8Ad66TCZp1kSEIhBdGgNW8XJbwACiqwVM9IWHZ3nvr5lEZS4THQsndldm
-	yMKPmcANkNy0PQFezJow5T2m4QQy7HhhRyAMLbNXVJJ7kAugAvSe6TOPgTzeonbY/nD9
-	crUYKDr6ppNkj5rROrLbRhbyb3KLEgECjVpSD2vYlTBzXl5BslFGc6EX6cFvPSOkNpN8
-	0R1w==
-X-Gm-Message-State: APjAAAWy0vFY7VYQdac6ZnGozS2D2vye7Q/7Y2cO/ZCiLgpcBmVi8lw2
-	KkQKX904gpSyTsUypmh+5SsTYqZq3AQ=
-X-Google-Smtp-Source: APXvYqx1afbDVVoI/43m887eyo5rvRw8tywIS1Lmqjxvm5Pyi+sWEQ86d90EL8RXr4hWn6imtlIRXQ==
-X-Received: by 2002:a63:4246:: with SMTP id p67mr10898356pga.243.1575574763308;
-	Thu, 05 Dec 2019 11:39:23 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::2797])
-	by smtp.gmail.com with ESMTPSA id
-	r66sm1412918pfc.74.2019.12.05.11.39.22
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Dec 2019 11:39:22 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Thu,  5 Dec 2019 20:05:32 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by tulikuusama2.dnainternet.net (Postfix) with ESMTP id DCECC20836;
+	Thu,  5 Dec 2019 22:05:31 +0200 (EET)
+X-Virus-Scanned: DNA Internet at dnainternet.net
+X-Spam-Flag: NO
+X-Spam-Score: 0.653
+X-Spam-Level: 
+X-Spam-Status: No, score=0.653 tagged_above=-9999 required=6
+	tests=[SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.652] autolearn=disabled
+Received: from tulikuusama2.dnainternet.net ([83.102.40.155])
+	by localhost (tulikuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
+	port 10041)
+	with ESMTP id Tsl8QZYgSuZa; Thu,  5 Dec 2019 22:05:30 +0200 (EET)
+Received: from luumupuu2.dnainternet.net (luumupuu2.dnainternet.net
+	[83.102.40.55])
+	by tulikuusama2.dnainternet.net (Postfix) with ESMTP id C9BDF20797;
+	Thu,  5 Dec 2019 22:05:30 +0200 (EET)
+Received: from localhost.localdomain (62-78-161-185.bb.dnainternet.fi
+	[62.78.161.185])
+	by luumupuu2.dnainternet.net (Postfix) with ESMTP id AF1FA93;
+	Thu,  5 Dec 2019 22:05:25 +0200 (EET)
+From: Niko Mauno <niko.mauno@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2019 11:37:08 -0800
-Message-Id: <20191205193708.262610-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
+Date: Thu,  5 Dec 2019 22:05:16 +0200
+Message-Id: <20191205200518.82007-1-niko.mauno@iki.fi>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] llvm: rv32/rv64 target builds are not supported yet
+Subject: [zeus][PATCH 1/3] iptables: Cosmetic fixes to recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,29 +44,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 19:39:23 -0000
+X-List-Received-Date: Thu, 05 Dec 2019 20:05:33 -0000
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/llvm/llvm_git.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Introduce cosmetic changes to recipe content, most notably
+ - Change indentation style to four spaces in task statements
+ - Reorder several entries according to oe-stylize.py suggestions
 
-diff --git a/meta/recipes-devtools/llvm/llvm_git.bb b/meta/recipes-devtools/llvm/llvm_git.bb
-index 5f9277fc0f..cb2e1164cf 100644
---- a/meta/recipes-devtools/llvm/llvm_git.bb
-+++ b/meta/recipes-devtools/llvm/llvm_git.bb
-@@ -10,6 +10,9 @@ LIC_FILES_CHKSUM = "file://LICENSE.TXT;md5=8a15a0759ef07f2682d2ba4b893c9afe"
+(From OE-Core rev: c1d162b6165f11b7b5ae5c6066e7683d5e1379fc)
+
+Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../iptables/iptables_1.8.3.bb                | 60 +++++++++----------
+ 1 file changed, 29 insertions(+), 31 deletions(-)
+
+diff --git a/meta/recipes-extended/iptables/iptables_1.8.3.bb b/meta/recipes-extended/iptables/iptables_1.8.3.bb
+index ff9fcb1b53..563c8ae354 100644
+--- a/meta/recipes-extended/iptables/iptables_1.8.3.bb
++++ b/meta/recipes-extended/iptables/iptables_1.8.3.bb
+@@ -4,8 +4,9 @@ filtering code in Linux."
+ HOMEPAGE = "http://www.netfilter.org/"
+ BUGTRACKER = "http://bugzilla.netfilter.org/"
+ LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
+-                    file://iptables/iptables.c;beginline=13;endline=25;md5=c5cffd09974558cf27d0f763df2a12dc"
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://iptables/iptables.c;beginline=13;endline=25;md5=c5cffd09974558cf27d0f763df2a12dc \
++"
  
- DEPENDS = "libffi libxml2 zlib libedit ninja-native llvm-native"
+ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+@@ -13,16 +14,16 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+            file://iptables.service \
+            file://iptables.rules \
+ "
+-
+ SRC_URI[md5sum] = "29de711d15c040c402cf3038c69ff513"
+ SRC_URI[sha256sum] = "a23cac034181206b4545f4e7e730e76e08b5f3dd78771ba9645a6756de9cdd80"
  
-+COMPATIBLE_HOST_riscv64 = "null"
-+COMPATIBLE_HOST_riscv32 = "null"
++SYSTEMD_SERVICE_${PN} = "iptables.service"
 +
- RDEPENDS_${PN}_append_class-target = " ncurses-terminfo"
+ inherit autotools pkgconfig systemd
  
- inherit cmake pkgconfig
+ EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR}"
+ 
+ PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+-
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+ 
+ # libnfnetlink recipe is in meta-networking layer
+@@ -32,9 +33,19 @@ PACKAGECONFIG[libnfnetlink] = "--enable-libnfnetlink,--disable-libnfnetlink,libn
+ PACKAGECONFIG[libnftnl] = "--enable-nftables,--disable-nftables,libnftnl"
+ 
+ do_configure_prepend() {
+-	# Remove some libtool m4 files
+-	# Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
+-	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
++    # Remove some libtool m4 files
++    # Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
++    rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
++}
++
++do_install_append() {
++    install -d ${D}${sysconfdir}/iptables
++    install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
++
++    install -d ${D}${systemd_system_unitdir}
++    install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_system_unitdir}
++
++    sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/iptables.service
+ }
+ 
+ PACKAGES += "${PN}-modules"
+@@ -47,30 +58,6 @@ python populate_packages_prepend() {
+         d.appendVar('RDEPENDS_' + metapkg, ' ' + ' '.join(modules))
+ }
+ 
+-FILES_${PN} += "${datadir}/xtables"
+-
+-# Include the symlinks as well in respective packages
+-FILES_${PN}-module-xt-conntrack += "${libdir}/xtables/libxt_state.so"
+-FILES_${PN}-module-xt-ct += "${libdir}/xtables/libxt_NOTRACK.so"
+-
+-INSANE_SKIP_${PN}-module-xt-conntrack = "dev-so"
+-INSANE_SKIP_${PN}-module-xt-ct = "dev-so"
+-
+-ALLOW_EMPTY_${PN}-modules = "1"
+-
+-do_install_append() {
+-
+-        install -d ${D}${sysconfdir}/iptables
+-        install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
+-
+-        install -d ${D}${systemd_system_unitdir}
+-        install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_system_unitdir}
+-
+-	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/iptables.service
+-}
+-
+-SYSTEMD_SERVICE_${PN} = "iptables.service"
+-
+ RDEPENDS_${PN} = "${PN}-module-xt-standard"
+ RRECOMMENDS_${PN} = " \
+     ${PN}-modules \
+@@ -84,3 +71,14 @@ RRECOMMENDS_${PN} = " \
+     kernel-module-nf-nat \
+     kernel-module-ipt-masquerade \
+ "
++
++FILES_${PN} += "${datadir}/xtables"
++
++# Include the symlinks as well in respective packages
++FILES_${PN}-module-xt-conntrack += "${libdir}/xtables/libxt_state.so"
++FILES_${PN}-module-xt-ct += "${libdir}/xtables/libxt_NOTRACK.so"
++
++ALLOW_EMPTY_${PN}-modules = "1"
++
++INSANE_SKIP_${PN}-module-xt-conntrack = "dev-so"
++INSANE_SKIP_${PN}-module-xt-ct = "dev-so"
 -- 
-2.24.0
+2.20.1
 
 
