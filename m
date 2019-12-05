@@ -1,33 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id BAA547F944
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 58A1B7F555
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 21:23:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47TTH04s0Rz4s
+	Thu,  5 Dec 2019 21:34:30 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id b11so5582161wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 22:23:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1575581020;
-	bh=DtqFhVYIFneBkPaW52rcMu/ggsufTca8DSYBaUqlCwE=;
-	h=From:To:Subject:Date:From;
-	b=Af22f26EbsEgfDdrbQo4LgPIVUkHQtUYMlRR1beb/cxCJL74lzjginZsWrWX3/QFh
-	Wyw9bkB4LBJd+1nV59T6/X41P+/PBmFbzTPzdgI/YK1y3xNPfHzjkjtpag5mdZqOPr
-	kdHz7VXTJAuT8Y/J2ozIj1At+lbdZpXDuX9mhs5SPX3fFU1/4nqCh9PFsnTiG1NfAU
-	eoEwqglTFfnNeV/rgqvwuwOXcefeczYJe8XBR7rkOMgUJlOeMzZ0C9kd7IJaLyXUzp
-	aU7CFcSv5+CeKYBcHRqLczAuGXhk5GcRJC3M2ernQdfy8xhQRk9s/qez1na0sqd5t+
-	BxpNV2dKHX3t+DxYY6TihqD9MM6ZZvwV1Hbz4apLQsM5GcPZjUhasQECgZZ6zmiBNQ
-	NzPaj0K5YcJ5u3T3QRBakG0oSQmU7+SXSs0L/TCSCciYfBOd3oihBLT56jmGMbY/VZ
-	g42yt/mBERPw26mdi5Sp1SdEDWg6tb0uaz+nfrzpkVSYyRQeI6ii18jxyqpiSbRk/8
-	Fl+5lEMAVx6i5PBm0Mo7HNMvnNU1P4dudYZS10XJZ0Fh3K5B6njnWwocf1AjIV6V0R
-	hF+q86W2MjJ2x64gfH8BwfOlPepw+y6lZ0SIjztJUtZ2vSCKKy+ncqZ7njiB4lVfXc
-	82YCIryQh5k3le0VkQhfHCWY=
-From: Adrian Bunk <bunk@stusta.de>
+	Thu, 05 Dec 2019 13:34:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mb9AAn5zWVkdE1ff9i5Mlmum1UaMjnDblDDnQaOYTUE=;
+	b=R904X20TIp2BN/sApbzVdsAIYi+ZTtq1NGVA/yIFwr2Ls8VasY4zsKUTjKe3UXRHas
+	UN494VpTroReUfAkTBo58uY8gg4Rrt48jg8umlUFLibCIz5PoA7cZtRch+B0rw4BZp2S
+	qSqqMumFH/FFboamhNjh21JH8mFZtfg/G15VA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=mb9AAn5zWVkdE1ff9i5Mlmum1UaMjnDblDDnQaOYTUE=;
+	b=sdjXDAf02SOGFuF3MFeqMj2XsyUieQGY3WTa7Ev+xF9c+QbTY/5tlKkBoblGsXXmoV
+	yW2XGBcXRYiHC5ug5nBoOxwiHx3RxcBkzCgCo4L+UH8HiphRW815GWJrn+IIa+w3704J
+	DVy3fd/rMpNOKrpl+4rkjt0l2yZ1ZaJGBrwC+srSGz+obmxiFGf6XywQt8ByXLutd8a5
+	UGArLFUDYXuDDwlBH9cKfCCXDcNe3yzcyMhUSnv4BJr9C0KbknjiAY9TxYDlQxMbKLm3
+	SDBdoD4uxjqXHZsQwpKcHt0C2aj2aFNS7RGBcL8RU065m8zk2nTyjgqcfB0npUHvkjVF
+	RqMQ==
+X-Gm-Message-State: APjAAAX7atcNd+TooTHuWMb2iFMtfqnMVvA+GzUN21rMDC1SXfZzyXit
+	DolSA4Ijfwy88tOxBJ9rIoUixHA5y/E=
+X-Google-Smtp-Source: APXvYqz/rAYig5YDmgMRxhikIaMSJqtwo0H7DHkiMkUSKOSQYbkb1wsSqOnsuBfKW1/3AwN0yuiJdA==
+X-Received: by 2002:a1c:3d87:: with SMTP id k129mr6986515wma.26.1575581670731; 
+	Thu, 05 Dec 2019 13:34:30 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	x7sm13643217wrq.41.2019.12.05.13.34.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 05 Dec 2019 13:34:30 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2019 23:23:38 +0200
-Message-Id: <20191205212338.26696-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] systemd: Upgrade 243 -> 243.2
+Date: Thu,  5 Dec 2019 21:34:28 +0000
+Message-Id: <20191205213428.13693-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] qemu-helper-native/systemtap-native: Ensure sysroots are populated with dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,95 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 21:23:43 -0000
+X-List-Received-Date: Thu, 05 Dec 2019 21:34:30 -0000
+Content-Transfer-Encoding: 8bit
 
-Bugfix-only changes on the 243 stable branch.
+As Alex Kanavin found, dependencies aren't always populated, particularly
+with the hash equivalence server enabled locally:
 
-Backported patch removed.
+'bitbake core-image-minimal' with gtk+ disabled.
+can confirm with: $ tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-x86_64 -display gtk
+qemu-system-x86_64: Display 'gtk' is not available.
+Enable gtk in local.conf with: PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"
+'bitbake core-image-minimal', without deleting tmp/
+$ tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-x86_64 -display gtk
+qemu-system-x86_64: Display 'gtk' is not available.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+This change ensures the dependencies are correctly handled as the full
+sysroot is always depended upon even if things come from sstate.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/systemd/systemd.inc         |  4 +-
- .../0001-pstore-fix-use-after-free.patch      | 39 -------------------
- meta/recipes-core/systemd/systemd_243.bb      |  1 -
- 3 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-core/systemd/systemd/0001-pstore-fix-use-after-free.patch
+ meta/classes/native.bbclass                           | 2 +-
+ meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb  | 2 +-
+ meta/recipes-kernel/systemtap/systemtap-native_git.bb | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 7f3a59c208..6965b3b482 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -14,10 +14,10 @@ LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index d5b6f6af8bb..2cc6ad60b34 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -185,7 +185,7 @@ native_virtclass_handler[eventmask] = "bb.event.RecipePreFinalise"
+ python do_addto_recipe_sysroot () {
+     bb.build.exec_func("extend_recipe_sysroot", d)
+ }
+-addtask addto_recipe_sysroot after do_populate_sysroot
++addtask addto_recipe_sysroot after do_populate_sysroot do_prepare_recipe_sysroot
  
--SRCREV = "efb536d0cbe2e58f80e501d19999928c75e08f6a"
-+SRCREV = "fab6f010ac6c3bc93a10868de722d7c8c3622eb9"
- SRCBRANCH = "v243-stable"
- SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ inherit nopackages
  
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+index 372eebd8864..ab4eb2d2268 100644
+--- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
++++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+@@ -21,4 +21,4 @@ do_install() {
+ }
  
--PV_append = "+${SRCPV}"
-+PV_append = ".2"
-diff --git a/meta/recipes-core/systemd/systemd/0001-pstore-fix-use-after-free.patch b/meta/recipes-core/systemd/systemd/0001-pstore-fix-use-after-free.patch
-deleted file mode 100644
-index fd147a18be..0000000000
---- a/meta/recipes-core/systemd/systemd/0001-pstore-fix-use-after-free.patch
-+++ /dev/null
-@@ -1,39 +0,0 @@
--From 1b3156edd291e0882d80a695d035dd30521345d1 Mon Sep 17 00:00:00 2001
--From: Michael Olbrich <m.olbrich@pengutronix.de>
--Date: Fri, 6 Sep 2019 15:04:01 +0200
--Subject: [PATCH] pstore: fix use after free
--
--The memory is still needed in the sd_journal_sendv() after the 'if' block.
--
--(cherry picked from commit 1e19f5ac0d680a63eccae7ef1fc6ce225dca0bbf)
--
--Upstream-Status: Backport
--
--Signed-off-by: Yongxin Liu <yongxin.liu@windriver.com>
-----
-- src/pstore/pstore.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/pstore/pstore.c b/src/pstore/pstore.c
--index c760b3e899..8ffe523830 100644
----- a/src/pstore/pstore.c
--+++ b/src/pstore/pstore.c
--@@ -117,6 +117,7 @@ static int compare_pstore_entries(const void *_a, const void *_b) {
-- 
-- static int move_file(PStoreEntry *pe, const char *subdir) {
--         _cleanup_free_ char *ifd_path = NULL, *ofd_path = NULL;
--+        _cleanup_free_ void *field = NULL;
--         const char *suffix, *message;
--         struct iovec iovec[2];
--         int n_iovec = 0, r;
--@@ -138,7 +139,6 @@ static int move_file(PStoreEntry *pe, const char *subdir) {
--         iovec[n_iovec++] = IOVEC_MAKE_STRING(message);
-- 
--         if (pe->content_size > 0) {
---                _cleanup_free_ void *field = NULL;
--                 size_t field_size;
-- 
--                 field_size = strlen("FILE=") + pe->content_size;
---- 
--2.14.4
--
-diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.bb
-index b31d0b5ed4..ac7a5f86b3 100644
---- a/meta/recipes-core/systemd/systemd_243.bb
-+++ b/meta/recipes-core/systemd/systemd_243.bb
-@@ -24,7 +24,6 @@ SRC_URI += "file://touchscreen.rules \
-            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
-            file://0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch \
-            file://99-default.preset \
--           file://0001-pstore-fix-use-after-free.patch \
-            "
+ DEPENDS += "qemu-system-native"
+-addtask addto_recipe_sysroot after do_populate_sysroot before do_build
++addtask addto_recipe_sysroot after do_populate_sysroot do_prepare_recipe_sysroot before do_build
+diff --git a/meta/recipes-kernel/systemtap/systemtap-native_git.bb b/meta/recipes-kernel/systemtap/systemtap-native_git.bb
+index 19cc1cf0f0a..b00f66e25dd 100644
+--- a/meta/recipes-kernel/systemtap/systemtap-native_git.bb
++++ b/meta/recipes-kernel/systemtap/systemtap-native_git.bb
+@@ -3,4 +3,4 @@ require systemtap_git.bb
  
- # patches needed by musl
+ inherit native
+ 
+-addtask addto_recipe_sysroot after do_populate_sysroot before do_build
++addtask addto_recipe_sysroot after do_prepare_recipe_sysroot do_populate_sysroot before do_build
 -- 
-2.17.1
+2.20.1
 
 
