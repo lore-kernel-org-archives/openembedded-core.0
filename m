@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 922F17F883
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 469947F82F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 15:44:18 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f4so7638124wmj.1
+	Thu,  5 Dec 2019 15:44:19 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id w15so4202670wru.4
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 05 Dec 2019 07:44:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=9YLPKrTfmZqHORP/l+qEXgdUZwMpex79C4RJjh/nyRg=;
-	b=sOTjvAV244iBdKFI2NTNXZ+GgZVi8pgH71EpXnwtrUqgw8+ZZ3qM2vCI81Z69hdSkP
-	R+IqSmCxa9BZO3CHoeFuleNaiSgiQ3zQsSoCuwdaBHRC2rf7jZSf6GL4l1BI+DHgDyyZ
-	8Ls3tckztY6niAEIo+lVk2nE6r1nyfDRWrMH2h9MOdrGfss9YVAvzrAYFg53QKdmPZMn
-	Yxln+WfLWyRtGNTlOL/Rwl2+DbAnhLopK/iNFv8fLxrpzV7urFk5/SIl45pFck0C8Sk/
-	IuaKn2Tk0f6W4L/j4lxEMEF0+84hZkhAzRxm8poZFFNM3THWKo8NDGWz/BAMfu9U1qa7
-	F9pA==
+	bh=cwj0CQBoVWll6gGFvw61biw1Y0TLYJbOxManG8ZXFcg=;
+	b=S+g4fsVjHQoD9aUxOBF0cyU1LgqYk9iMqC9ZeYyg8ye1qpBqtITbF+G08RxicMTV6y
+	PTzba1rSE2A3qRd5RZCVMTvbXrUCmr//aysMKJyNTtTacb5cesNi4qm25ownBqH/Vfbi
+	zG0G2ewCcf2iR/J1n69efUWjvR4O9nrbYxE0edHgFTsBsJla7K03tGr798dplKrT8HYi
+	vZOaEgqFON/3Dl+xRV+AJDh8qWEZbw0mKAuTT1fmrF8VC9T8qqVQcBAkLUoYgrZjWMEk
+	iKjsj8L8znbJnYFeUxNRvLQWvgvjqudrlXV1RkU4mSz3BP8s/RgU7eBAShUdXWO0HGOy
+	QJHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=9YLPKrTfmZqHORP/l+qEXgdUZwMpex79C4RJjh/nyRg=;
-	b=JBL4TTrSToVRq2iQU7TnVZ/YfQB2+8uau9E4NaMVV3qrP5k77waWaE1xrTv21Ds8Cz
-	r03xIKo4AF74NeF9QdM5w8LpPc+Tqgo0MBDK7/6gAocr7PAldrE44KhGG5lZWCIyBxuo
-	FBvm3nPBF6XuevNeu2wQTurgVgRlEvlcvBJ+q6L/oEowZbj48E4VBo7FrbYCP3hi9KeH
-	WFSjFUbw6qxkfhIuFusoduFNKOltn251lJoboajbsfiPphCrFarRTVjG8X7puJrgD55S
-	touOHX4BZ3akZHGw6lqr/QA60746btnYyZ0XHmjY/ySZFlpmpRKl32iDqNGsaTcp8DBT
-	okHQ==
-X-Gm-Message-State: APjAAAWAtH+C2s65G3w2lZ/IUZ3hXxqCLgOfbfQNx1JYMGwLTEF7OxMd
-	zcHyKHvI0dXnPADjDujoCn6McZ7J
-X-Google-Smtp-Source: APXvYqwP7vIzt0xqov+4NtKxBpxiE6Hnaf0bPnHcgvgH/kYUXTzIrfLci2JQsZ+0GDuWPyHv/RJtAg==
-X-Received: by 2002:a1c:6255:: with SMTP id w82mr6249538wmb.20.1575560659118; 
+	bh=cwj0CQBoVWll6gGFvw61biw1Y0TLYJbOxManG8ZXFcg=;
+	b=hvucva+vthMT634DhOOW5d2c7+hCLukfZywC0lWCtw+xXnaoGpGtTsoirwTIOJHzI3
+	1+l/7q+fiiPQuO/een/NGmellPAvDtFZ5nYlaHf3M2RcBLgv/l6KyJ7PDEopmXEpW1X1
+	SAju0Xe9SbYqbC1KYHjVg1xSk+Mb7bfLQCH44I4/6NAEMo8vkdf8XMaVtwXhjRQJw0bF
+	UToLqCVIzCsRhMiDSL8/VOhbweaEqLimy8kpjtWzgGU2Q9ehZ5P4vuIDlBQaxREkRCuk
+	D3AaJYKx8Azwono9elP2NU9HFgAG7WmrM6pTpXOMZz3MKaFIT0nO/qZRLFWjVBhIRcOF
+	X+iQ==
+X-Gm-Message-State: APjAAAVo9sl1Svnl+r0D96dOCcKmQUVrdgis8WGoG/mZriuSBmvbkKW8
+	zgADZWMEPqGFAhmuhprweth3tygb
+X-Google-Smtp-Source: APXvYqwsNZ7lZwYHgFxqkEdIAj630CsXT6JQyHR0FjbeMnAsmOlxmvV7FiuqZXUe9m4QQ4ZzAu/oeg==
+X-Received: by 2002:adf:f5cb:: with SMTP id k11mr10375007wrp.71.1575560659931; 
 	Thu, 05 Dec 2019 07:44:19 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id z64sm223330wmg.30.2019.12.05.07.44.18
+	by smtp.gmail.com with ESMTPSA id z64sm223330wmg.30.2019.12.05.07.44.19
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Dec 2019 07:44:18 -0800 (PST)
+	Thu, 05 Dec 2019 07:44:19 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2019 16:43:51 +0100
-Message-Id: <20191205154357.121346-18-alex.kanavin@gmail.com>
+Date: Thu,  5 Dec 2019 16:43:52 +0100
+Message-Id: <20191205154357.121346-19-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191205154357.121346-1-alex.kanavin@gmail.com>
 References: <20191205154357.121346-1-alex.kanavin@gmail.com>
-Subject: [PATCH 18/24] sysstat: update to 12.2.0
+Subject: [PATCH 19/24] mkfontscale: update to 1.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,103 +56,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 15:44:18 -0000
+X-List-Received-Date: Thu, 05 Dec 2019 15:44:19 -0000
 
+mkfontdir utility has been merged into mkfontscale source tree,
+so a separate recipe is no longer needed (and clashes on install).
+
+License-Update: additional copyright claims from Red Hat and Open Group
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...orruption-bug-due-to-Integer-Overflo.patch | 46 -------------------
- .../sysstat/sysstat_12.1.6.bb                 | 11 -----
- .../sysstat/sysstat_12.2.0.bb                 | 10 ++++
- 3 files changed, 10 insertions(+), 57 deletions(-)
- delete mode 100644 meta/recipes-extended/sysstat/sysstat/0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch
- delete mode 100644 meta/recipes-extended/sysstat/sysstat_12.1.6.bb
- create mode 100644 meta/recipes-extended/sysstat/sysstat_12.2.0.bb
+ .../xorg-app/mkfontdir_1.0.7.bb               | 22 -------------------
+ ...ontscale_1.1.3.bb => mkfontscale_1.2.1.bb} |  9 +++++---
+ 2 files changed, 6 insertions(+), 25 deletions(-)
+ delete mode 100644 meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb
+ rename meta/recipes-graphics/xorg-app/{mkfontscale_1.1.3.bb => mkfontscale_1.2.1.bb} (65%)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat/0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch b/meta/recipes-extended/sysstat/sysstat/0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch
+diff --git a/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb b/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb
 deleted file mode 100644
-index 46b111806c4..00000000000
---- a/meta/recipes-extended/sysstat/sysstat/0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch
+index a453e24876f..00000000000
+--- a/meta/recipes-graphics/xorg-app/mkfontdir_1.0.7.bb
 +++ /dev/null
-@@ -1,46 +0,0 @@
--From 603ae4ed8cd65abf0776ef7f68354a5c24a3411c Mon Sep 17 00:00:00 2001
--From: Sebastien GODARD <sysstat@users.noreply.github.com>
--Date: Tue, 15 Oct 2019 14:39:33 +0800
--Subject: [PATCH] Fix #232: Memory corruption bug due to Integer Overflow in
-- remap_struct()
+@@ -1,22 +0,0 @@
+-require xorg-app-common.inc
 -
--Try to avoid integer overflow when reading a corrupted binary datafile
--with sadf.
+-SUMMARY = "A program to create an index of X font files in a directory"
 -
--Upstream-Status: Backport [https://github.com/sysstat/sysstat/commit/83fad9c895d1ac13f76af5883b7451b3302beef5]
--CVE: CVE-2019-16167
+-DESCRIPTION = "For each directory argument, mkfontdir reads all of the \
+-font files in the directory. The font names and related data are written \
+-out to the files \"fonts.dir\", \"fonts.scale\", and \"fonts.alias\".  \
+-The X server and font server use these files to find the available font \
+-files."
 -
--Signed-off-by: Sebastien GODARD <sysstat@users.noreply.github.com>
--Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-----
-- sa_common.c | 7 +++++--
-- 1 file changed, 5 insertions(+), 2 deletions(-)
+-PE = "1"
+-PR = "${INC_PR}.0"
 -
--diff --git a/sa_common.c b/sa_common.c
--index 395c11c..cfa9007 100644
----- a/sa_common.c
--+++ b/sa_common.c
--@@ -1336,7 +1336,8 @@ int remap_struct(unsigned int gtypes_nr[], unsigned int ftypes_nr[],
-- 	/* Remap [unsigned] int fields */
-- 	d = gtypes_nr[1] - ftypes_nr[1];
-- 	if (d) {
---		if (ftypes_nr[1] * UL_ALIGNMENT_WIDTH < ftypes_nr[1])
--+		if (gtypes_nr[0] * ULL_ALIGNMENT_WIDTH +
--+		    ftypes_nr[1] * UL_ALIGNMENT_WIDTH < ftypes_nr[1])
-- 			/* Overflow */
-- 			return -1;
-- 
--@@ -1365,7 +1366,9 @@ int remap_struct(unsigned int gtypes_nr[], unsigned int ftypes_nr[],
-- 	/* Remap possible fields (like strings of chars) following int fields */
-- 	d = gtypes_nr[2] - ftypes_nr[2];
-- 	if (d) {
---		if (ftypes_nr[2] * U_ALIGNMENT_WIDTH < ftypes_nr[2])
--+		if (gtypes_nr[0] * ULL_ALIGNMENT_WIDTH +
--+		    gtypes_nr[1] * UL_ALIGNMENT_WIDTH +
--+		    ftypes_nr[2] * U_ALIGNMENT_WIDTH < ftypes_nr[2])
-- 			/* Overflow */
-- 			return -1;
-- 
---- 
--1.9.1
+-RDEPENDS_${PN} += "mkfontscale"
+-RDEPENDS_${PN}_class-native += "mkfontscale-native"
 -
-diff --git a/meta/recipes-extended/sysstat/sysstat_12.1.6.bb b/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-deleted file mode 100644
-index 83bb45ea258..00000000000
---- a/meta/recipes-extended/sysstat/sysstat_12.1.6.bb
-+++ /dev/null
-@@ -1,11 +0,0 @@
--require sysstat.inc
+-BBCLASSEXTEND = "native"
 -
--LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=b4fcf2b90cadbfc15009b9e124dc3a3f"
 -
--SRC_URI += "file://0001-Include-needed-headers-explicitly.patch \
--	    file://0001-Fix-232-Memory-corruption-bug-due-to-Integer-Overflo.patch \
--	    file://0001-configure.in-remove-check-for-chkconfig.patch \
--"
--
--SRC_URI[md5sum] = "d8e3bbb9c873dd370f6d33664e326570"
--SRC_URI[sha256sum] = "f752f3c406153a6fc446496f1102872505ace3f0931d975c1d664c81ec09f129"
-diff --git a/meta/recipes-extended/sysstat/sysstat_12.2.0.bb b/meta/recipes-extended/sysstat/sysstat_12.2.0.bb
-new file mode 100644
-index 00000000000..e3ae3dd51cd
---- /dev/null
-+++ b/meta/recipes-extended/sysstat/sysstat_12.2.0.bb
-@@ -0,0 +1,10 @@
-+require sysstat.inc
+-SRC_URI[md5sum] = "18c429148c96c2079edda922a2b67632"
+-SRC_URI[sha256sum] = "56d52a482df130484e51fd066d1b6eda7c2c02ddbc91fe6e2be1b9c4e7306530"
+diff --git a/meta/recipes-graphics/xorg-app/mkfontscale_1.1.3.bb b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.1.bb
+similarity index 65%
+rename from meta/recipes-graphics/xorg-app/mkfontscale_1.1.3.bb
+rename to meta/recipes-graphics/xorg-app/mkfontscale_1.2.1.bb
+index 2a6bec16491..a767ee847b7 100644
+--- a/meta/recipes-graphics/xorg-app/mkfontscale_1.1.3.bb
++++ b/meta/recipes-graphics/xorg-app/mkfontscale_1.2.1.bb
+@@ -10,9 +10,12 @@ is used by the mkfontdir program."
+ 
+ DEPENDS = "util-macros-native zlib libfontenc freetype xorgproto"
+ 
++PROVIDES += "mkfontdir"
++RPROVIDES_${PN} += "mkfontdir"
 +
-+LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
-+
-+SRC_URI += "file://0001-Include-needed-headers-explicitly.patch \
-+            file://0001-configure.in-remove-check-for-chkconfig.patch \
-+"
-+
-+SRC_URI[md5sum] = "7deffb18e7f32a0b74ab81f1f75de9ee"
-+SRC_URI[sha256sum] = "61aa98eb8b38542eb97defcc2472adee1a24df8252f41b96e20d64c6064a8375"
+ BBCLASSEXTEND = "native"
+ 
+-LIC_FILES_CHKSUM = "file://COPYING;md5=2e0d129d05305176d1a790e0ac1acb7f"
++LIC_FILES_CHKSUM = "file://COPYING;md5=99b1e1269aba5179139b9e4380fc0934"
+ 
+-SRC_URI[md5sum] = "987c438e79f5ddb84a9c5726a1610819"
+-SRC_URI[sha256sum] = "1e98df69ee5f4542d711e140e1d93e2c3f2775407ccbb7849110d52b91782a6a"
++SRC_URI[md5sum] = "215940de158b1a3d8b3f8b442c606e2f"
++SRC_URI[sha256sum] = "ca0495eb974a179dd742bfa6199d561bda1c8da4a0c5a667f21fd82aaab6bac7"
 -- 
 2.17.1
 
