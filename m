@@ -1,33 +1,35 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id E163A7F870
+	by mail.openembedded.org (Postfix) with ESMTP id E06F77F867
 	for <openembedded-core@lists.openembedded.org>;
 	Thu,  5 Dec 2019 19:28:17 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47TQjq6wc1z40
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47TQjr336hz5h
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 20:28:15 +0100 (CET)
+	Thu,  5 Dec 2019 20:28:16 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1575574096;
-	bh=4HvIdVQaV7QYrgjb2MAFZshxsiQsTxbugBhFtf3WffA=;
-	h=From:To:Subject:Date:From;
-	b=HLdZH7BYLBCKTm4vsfA1Jsu15RfxrUWXp7Egh+moDCPMlCy95Y0gGc9B73pyui+vI
-	iyCxXi5rVSZTsujhpdwKl5BB3rx1la9UfH4nB5bOgWu0yjW2nX2LvgzgPdRKf3JdPf
-	XVA9ifm9ORHs0qDccrK9/m7Nd6+XhHyVTc4JP47Ix5XCS4DR3ZrSN4H9Qi0W6ZjRTS
-	xu4n+Pe0HC7lJ2C1bmrguA1IfAlC5EQm570DZJSppK8y6hQv2yepqOyNiBwkz8oTuk
-	cC4byV7arNwAwg13uu1jPa5vEILNrvhjLf3mtO+yaf7H9pwE7r8sjg7F0rO8TyPs7n
-	UeSxulX8bW3FDI8FyqfQ2anUeMNTPbt0ogqem1O52rRKsCUHwy0EWluXAOUDwWunrd
-	Pbz1M3P3oiyl8hQPGtYjaIxiV6va7QNR9TBNX8ll1sgL4yNBTMk+jNK2qU8IS7u9ac
-	ibj40dccQPH8c3rVCw3amzYAPlwgwv4BabrFFa+PhTATP5VYjQeGbU6Ype1/SWI4Nm
-	4H08wif9baT8qYo1fWAILE7mLLqF/SwUFz0BmmDCHTj0bUkD9HA3rzws+BT1k6GVZ2
-	JH5usIrY1tsTL9k0Aj6toum99hT298fbNIx8a3wunJq1CrlD7Eb8LA0/uvAs676z36
-	g6LJ9jZVmq8/G3s/vk8mTzZU=
+	bh=ZwltAIsRSeBvcxEXzwdxmGiKubhwl6qg9/+hdtp0md0=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=ty+ms1nIenQlS7VjCYpXO+mWx9bEGflaZpm+SbmNgr5oF0QgJL7ZQ3BFDlXK//4Vg
+	E+TUp9STg9PzSWmsIeVzhfzgRzhsE3qi8T2PQNG7jHuOaB9q1USoG4sC9F28IezckI
+	CpmDrg52rsyOzdlnU3FMl/sMV/IPTrzZTw2LHdRgb0zdar8BI1BKJ7Pu1av9jrI4mW
+	n7Ck/WGB3m76080MWa90WRUSbSE6d0bnfjIfemAepwkTBTKFDo1sPfEwdH8emShefK
+	et4Qo7Ad6VyxNXFa/4fTZatCSXc05SyzMzh51jwSa1RgxrdE+OkTJMTV0Tuo69GCR6
+	0Abebqgw85YTILCLy2ApYFjLF0mHaJoU0fbBvoqAWDR5Yck4KkufSVGSz9i7d4f6+e
+	IcRWAU9yo3qQPlZNhow/NThqIuMmzQt9ZvL7ATIe2yGDRmDw8sBUlRXy4O8whDnrA3
+	Jyj4D70egwLj63orNDCdPlm3Yj/B/UD9MSi16XRemkqMoi2VHD8n4vHvlStfgkwTVa
+	zXIZV1Ks5lshjRCcwaDxQK9FE7t//Iw/z1IS9zmG7k9tDs5xLThFqmeEV45294vqIg
+	0tFEkjOBQkB08ilqetOfCzSxh4xF+IAkmkJ32nVbVbdj7o1nTgICFWBopySqqlgRtS
+	GN2Eq2nq79U9CXpL7mOxXo74=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2019 21:28:13 +0200
-Message-Id: <20191205192814.18201-1-bunk@stusta.de>
+Date: Thu,  5 Dec 2019 21:28:14 +0200
+Message-Id: <20191205192814.18201-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] python: Whitelist CVE-2017-17522 CVE-2017-18207 CVE-2015-5652
+In-Reply-To: <20191205192814.18201-1-bunk@stusta.de>
+References: <20191205192814.18201-1-bunk@stusta.de>
+Subject: [PATCH] python/python3: Whitelist CVE-2019-18348
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,35 +44,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 05 Dec 2019 19:28:18 -0000
 
-One Windows-only CVE that cannot be fixed, and two CVEs
-where upstream agreement is that they are not vulnerabilities.
+This is not exploitable when glibc has CVE-2016-10739 fixed,
+which is fixed in the upstream version since warrior.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-devtools/python/python.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/recipes-devtools/python/python.inc       | 3 +++
+ meta/recipes-devtools/python/python3_3.7.5.bb | 3 +++
+ 2 files changed, 6 insertions(+)
 
 diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index a630c26e89..110ec315d9 100644
+index 110ec315d9..19a2f3e743 100644
 --- a/meta/recipes-devtools/python/python.inc
 +++ b/meta/recipes-devtools/python/python.inc
-@@ -19,6 +19,16 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>2(\.\d+)+).tar"
+@@ -29,6 +29,9 @@ CVE_CHECK_WHITELIST += "CVE-2017-18207"
+ # of Python that cannot really be altered at this point."
+ CVE_CHECK_WHITELIST += "CVE-2015-5652"
  
- CVE_PRODUCT = "python"
- 
-+# Upstream agreement is that these are not security issues:
-+# https://bugs.python.org/issue32367
-+CVE_CHECK_WHITELIST += "CVE-2017-17522"
-+# https://bugs.python.org/issue32056
-+CVE_CHECK_WHITELIST += "CVE-2017-18207"
-+
-+# Windows-only, "It was determined that this is a longtime behavior
-+# of Python that cannot really be altered at this point."
-+CVE_CHECK_WHITELIST += "CVE-2015-5652"
++# This is not exploitable when glibc has CVE-2016-10739 fixed.
++CVE_CHECK_WHITELIST += "CVE-2019-18348"
 +
  PYTHON_MAJMIN = "2.7"
  
  inherit autotools pkgconfig
+diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.5.bb
+index 57eaaea5e7..da991f5139 100644
+--- a/meta/recipes-devtools/python/python3_3.7.5.bb
++++ b/meta/recipes-devtools/python/python3_3.7.5.bb
+@@ -47,6 +47,9 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ 
+ CVE_PRODUCT = "python"
+ 
++# This is not exploitable when glibc has CVE-2016-10739 fixed.
++CVE_CHECK_WHITELIST += "CVE-2019-18348"
++
+ PYTHON_MAJMIN = "3.7"
+ PYTHON_BINABI = "${PYTHON_MAJMIN}m"
+ 
 -- 
 2.17.1
 
