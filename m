@@ -1,50 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
-	[209.85.216.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F3F687FA47
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B38237F968
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 01:32:47 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id l4so2026985pjt.5
+	Fri,  6 Dec 2019 01:58:22 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id b19so2510052pfo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2019 17:32:49 -0800 (PST)
+	Thu, 05 Dec 2019 17:58:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1K/jDz3tRz4WjyXDMyBG123VzCK7yw8lIwGJ78kfY6s=;
-	b=HThgxWUw9k2waJlif97tV7aB7E+cxAERrQ5OWpoqJskHgxCcgej8qgFWmIEtI10EUy
-	pNUGvp5ofrWzsoZkGCgG9kqD0mHvIZO1DNUvjGQ7R8jLUXFLqe4ojYjShGnqzRX/V/9T
-	RjashkKhSJkRfd+OjOwROd91LE93AWcYhJ1x5SC7uZwrQDgbdinuUuQlFBQe7tfdKu5W
-	5yjgSpj2R4Uu7H2xI4vQuchqrb14gU78SFDiQ/z/JCLFRumdzxrODeJScdJW80KZ9IZ0
-	0XrLJmo7gdeSVeY9bx6755LG1OMh6o9vjbtUpJ4ujcEr6BnYVNnzpbd1jqdG0FUYRrDJ
-	NjTQ==
+	h=from:to:subject:date:message-id;
+	bh=sJhOQ2fgQ8cUHjzdBh6VUaP/bu7MFghG48G5C3hUmVw=;
+	b=BcZA6m7EkIw9uJ0ZcyWe2wIdioSH2AGvjzqrV6bsQ61WeU0704CNtCi29pU3fZR6by
+	zy5kbjhqoc+ZXhuOiZxMGekZc7HBBXImpePX0aEtcaoP6/2SEDVojwELawdy8dHYip69
+	goFUERxtRv97ON1SsfhBeUKWAFNbEPiG3+FjxNQRqlWfYT0/wz5O/RAJc8dM8tiYGYkz
+	g8tGxd107iHtRdquNENqwzpgUzskZYwGXAGlcbykTK9Or6CYo+eL+dw0S8LdquVJgdJu
+	LWkQRFWj/nrSerTS9QjBh50tWZ1whxFGg4eU8ARQsaANMkCaugi4B3R9gsqVyYUAmmQ3
+	I5Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1K/jDz3tRz4WjyXDMyBG123VzCK7yw8lIwGJ78kfY6s=;
-	b=QyUmc4kn0jvyV2H8Qa8JR4wo0kqWAXn+SQsY2wpqHQC5G1aPecwzqi/brAWkQ0wDLr
-	bD2/dvJoNPcnUG9RRh4hLi8FCBoeGvaQw43lkprl+CkJ3eImm29wXzEITwmGvU7tNh6J
-	Xm+/c/7uXPTbJ8d2WjBHsW/29Wi3a4ctwgyHOJMmuGkgOWQuCZH8JAQCPr6lbE9Ru3bd
-	jz2OWZr6B0Pgc5LHAlhJaBJNOR9uBgn6cCGyUyCU3OwrnsCj+D+4MfYEZtWTXiNKOyt9
-	MWBXRXz08oIl6pRoy37u9HbbTVUT8LtjY8AVQrOaDC9GiqIGgY7TAysXPz2CuxVs4rkz
-	0gJA==
-X-Gm-Message-State: APjAAAWb6ewT/Jy+R+NlNpaYh9NTEIRKZpqeWkAF5zsIlQiRwPprU9YI
-	S8tqCzUZTZp5p9xtQ/eri/cXnOKkwtM=
-X-Google-Smtp-Source: APXvYqwSEAusxgok6esfB4ND0A09vn4S5zGrYc0ZRWXFb2pX8LMXT1mQbJa+kui8NluQDFN+VHTiUQ==
-X-Received: by 2002:a17:902:a5c8:: with SMTP id
-	t8mr11069807plq.86.1575595967740; 
-	Thu, 05 Dec 2019 17:32:47 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::2797])
-	by smtp.gmail.com with ESMTPSA id o8sm936360pjo.7.2019.12.05.17.32.46
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=sJhOQ2fgQ8cUHjzdBh6VUaP/bu7MFghG48G5C3hUmVw=;
+	b=dVFppZygZWEiOA0AO0/Kygj4QHMPPtEmhpR54VmLm4e9VHl2XsstDkRp4NCRH9aiXL
+	3V+29dd8j/D4tPXAaq4+o/1XefUssxe7oHYCp0ao5mn0MbwL2d3sJI18MBmJ0qJB1xCl
+	O17fUuzx3qpAmTHPAf71Lbif9sWOhLHQsqq0DzdaP1oPm7pHjeu+eQJF+Rl4E3/Vrh2I
+	PFUzwLWbOx4zk1lEq7KDvvIXlGUxBv4gOm3FeTqvts8IFEm33CgFQeqkI+zsF+szPvPh
+	Idj25tDVDkjgCu3uY0T+FlZB36USs8AYJa2hUWddHjcwjcl915GaQgFakdte0qjEp3pm
+	1AxQ==
+X-Gm-Message-State: APjAAAW7Wm3uEs5phaRVXXYUt+ELfhyWJEHXbs29PMiwFylPt6vy7+8k
+	o+Idz+CurmL6QtLK+NOd3hQciQ56
+X-Google-Smtp-Source: APXvYqzQpZuXNt9INUTRj9ES80EiBw72OaNcaaSYyB2RGZrJSKeXwqlvxlYwhJ+pkil+xhGhT+7Xjw==
+X-Received: by 2002:a63:31d0:: with SMTP id x199mr824504pgx.286.1575597503100; 
+	Thu, 05 Dec 2019 17:58:23 -0800 (PST)
+Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
+	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
+	z19sm12894827pfn.49.2019.12.05.17.58.22
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Dec 2019 17:32:47 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Thu, 05 Dec 2019 17:58:22 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2019 17:32:36 -0800
-Message-Id: <20191206013237.3105393-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
-MIME-Version: 1.0
-Subject: [PATCH 1/2] libffi: Fix build on ppc64
+Date: Thu,  5 Dec 2019 17:58:20 -0800
+Message-Id: <20191206015820.1839-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] oeqa/selftest/runtime_test: split systemd and sysvinit tests out
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,72 +55,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 01:32:48 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 06 Dec 2019 01:58:22 -0000
 
-Similar fix was applied already upstream but not extended to all the
-cases
+This should help debug which part of this selftest is failing.
+We can not tell which outloop is failing so split the tests into
+systemd and sysvinit.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+See [Yocto # 13650] for more details.
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...ess-platforms-with-no-__int128-part2.patch | 34 +++++++++++++++++++
- meta/recipes-support/libffi/libffi_3.3.bb     |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-support/libffi/libffi/0001-Address-platforms-with-no-__int128-part2.patch
+ meta/lib/oeqa/selftest/cases/runtime_test.py | 102 ++++++++++++++-----
+ 1 file changed, 76 insertions(+), 26 deletions(-)
 
-diff --git a/meta/recipes-support/libffi/libffi/0001-Address-platforms-with-no-__int128-part2.patch b/meta/recipes-support/libffi/libffi/0001-Address-platforms-with-no-__int128-part2.patch
-new file mode 100644
-index 0000000000..6b5b7d4747
---- /dev/null
-+++ b/meta/recipes-support/libffi/libffi/0001-Address-platforms-with-no-__int128-part2.patch
-@@ -0,0 +1,34 @@
-+Address platforms with no __int128.
+diff --git a/meta/lib/oeqa/selftest/cases/runtime_test.py b/meta/lib/oeqa/selftest/cases/runtime_test.py
+index 4b56e5beca2..94dece621b1 100644
+--- a/meta/lib/oeqa/selftest/cases/runtime_test.py
++++ b/meta/lib/oeqa/selftest/cases/runtime_test.py
+@@ -232,7 +232,7 @@ class TestImage(OESelftestTestCase):
+         bitbake('-c testimage core-image-minimal')
+ 
+ class Postinst(OESelftestTestCase):
+-    def test_postinst_rootfs_and_boot(self):
++    def test_postinst_rootfs_and_boot_sysvinit(self):
+         """
+         Summary:        The purpose of this test case is to verify Post-installation
+                         scripts are called when rootfs is created and also test
+@@ -246,7 +246,7 @@ class Postinst(OESelftestTestCase):
+                            created by postinst_boot recipe is present on image.
+         Expected:       The files are successfully created during rootfs and boot
+                         time for 3 different package managers: rpm,ipk,deb and
+-                        for initialization managers: sysvinit and systemd.
++                        for initialization managers: sysvinit.
+ 
+         """
+ 
+@@ -261,30 +261,80 @@ class Postinst(OESelftestTestCase):
+         hosttestdir = oe.path.join(rootfs, sysconfdir, "postinst-test")
+         targettestdir = os.path.join(sysconfdir, "postinst-test")
+ 
+-        for init_manager in ("sysvinit", "systemd"):
+-            for classes in ("package_rpm", "package_deb", "package_ipk"):
+-                with self.subTest(init_manager=init_manager, package_class=classes):
+-                    features = 'CORE_IMAGE_EXTRA_INSTALL = "postinst-delayed-b"\n'
+-                    features += 'IMAGE_FEATURES += "package-management empty-root-password"\n'
+-                    features += 'PACKAGE_CLASSES = "%s"\n' % classes
+-                    if init_manager == "systemd":
+-                        features += 'DISTRO_FEATURES_append = " systemd"\n'
+-                        features += 'VIRTUAL-RUNTIME_init_manager = "systemd"\n'
+-                        features += 'DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"\n'
+-                        features += 'VIRTUAL-RUNTIME_initscripts = ""\n'
+-                    self.write_config(features)
+-
+-                    bitbake('core-image-minimal')
+-
+-                    self.assertTrue(os.path.isfile(os.path.join(hosttestdir, "rootfs")),
+-                                    "rootfs state file was not created")
+-
+-                    with runqemu('core-image-minimal') as qemu:
+-                        # Make the test echo a string and search for that as
+-                        # run_serial()'s status code is useless.'
+-                        for filename in ("rootfs", "delayed-a", "delayed-b"):
+-                            status, output = qemu.run_serial("test -f %s && echo found" % os.path.join(targettestdir, filename))
+-                            self.assertEqual(output, "found", "%s was not present on boot" % filename)
++        init_manager = "sysvinit"
++        for classes in ("package_rpm", "package_deb", "package_ipk"):
++            with self.subTest(init_manager=init_manager, package_class=classes):
++                features = 'CORE_IMAGE_EXTRA_INSTALL = "postinst-delayed-b"\n'
++                features += 'IMAGE_FEATURES += "package-management empty-root-password"\n'
++                features += 'PACKAGE_CLASSES = "%s"\n' % classes
++                self.write_config(features)
 +
-+Fixes remaining pieces from
-+https://github.com/libffi/libffi/commit/6663047f56c2932a6b10a790f4ac6666dd181326
++                bitbake('core-image-minimal')
 +
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++                self.assertTrue(os.path.isfile(os.path.join(hosttestdir, "rootfs")),
++                                "rootfs state file was not created")
 +
-+--- a/src/powerpc/ffi_linux64.c.org	2019-12-05 14:48:33.140579431 -0800
-++++ a/src/powerpc/ffi_linux64.c	2019-12-05 14:53:58.827244495 -0800
-+@@ -680,9 +680,9 @@ ffi_prep_args64 (extended_cif *ecif, uns
-+                     {
-+                       if (vecarg_count < NUM_VEC_ARG_REGISTERS64
-+                           && i < nfixedargs)
-+-                        *vec_base.f128++ = *arg.f128++;
-++		        memcpy (vec_base.f128++, arg.f128, sizeof (float128));
-+                       else
-+-                        *next_arg.f128 = *arg.f128++;
-++		        memcpy (next_arg.f128, arg.f128++, sizeof (float128));
-+                       if (++next_arg.f128 == gpr_end.f128)
-+                         next_arg.f128 = rest.f128;
-+                       vecarg_count++;
-+@@ -986,9 +986,9 @@ ffi_closure_helper_LINUX64 (ffi_cif *cif
-+                   do
-+                     {
-+                       if (pvec < end_pvec && i < nfixedargs)
-+-                        *to.f128 = *pvec++;
-++		        memcpy (to.f128, pvec++, sizeof (float128));
-+                       else
-+-                        *to.f128 = *from.f128;
-++		        memcpy (to.f128, from.f128, sizeof (float128));
-+                       to.f128++;
-+                       from.f128++;
-+                     }
-diff --git a/meta/recipes-support/libffi/libffi_3.3.bb b/meta/recipes-support/libffi/libffi_3.3.bb
-index f57d03d2f5..803a25fa35 100644
---- a/meta/recipes-support/libffi/libffi_3.3.bb
-+++ b/meta/recipes-support/libffi/libffi_3.3.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://github.com/libffi/libffi/releases/download/v${PV}/${BPN}-${PV
-            file://0001-Fixed-missed-ifndef-for-__mips_soft_float.patch \
-            file://0001-powerpc-fix-build-failure-on-power7-and-older-532.patch \
-            file://0001-Address-platforms-with-no-__int128.patch \
-+           file://0001-Address-platforms-with-no-__int128-part2.patch \
-            "
- SRC_URI[md5sum] = "6313289e32f1d38a9df4770b014a2ca7"
- SRC_URI[sha256sum] = "72fba7922703ddfa7a028d513ac15a85c8d54c8d67f55fa5a4802885dc652056"
++                with runqemu('core-image-minimal') as qemu:
++                    # Make the test echo a string and search for that as
++                    # run_serial()'s status code is useless.'
++                    for filename in ("rootfs", "delayed-a", "delayed-b"):
++                        status, output = qemu.run_serial("test -f %s && echo found" % os.path.join(targettestdir, filename))
++                        self.assertEqual(output, "found", "%s was not present on boot" % filename)
++
++
++    def test_postinst_rootfs_and_boot_systemd(self):
++        """
++        Summary:        The purpose of this test case is to verify Post-installation
++                        scripts are called when rootfs is created and also test
++                        that script can be delayed to run at first boot.
++        Dependencies:   NA
++        Steps:          1. Add proper configuration to local.conf file
++                        2. Build a "core-image-minimal" image
++                        3. Verify that file created by postinst_rootfs recipe is
++                           present on rootfs dir.
++                        4. Boot the image created on qemu and verify that the file
++                           created by postinst_boot recipe is present on image.
++        Expected:       The files are successfully created during rootfs and boot
++                        time for 3 different package managers: rpm,ipk,deb and
++                        for initialization managers: systemd.
++
++        """
++
++        import oe.path
++
++        vars = get_bb_vars(("IMAGE_ROOTFS", "sysconfdir"), "core-image-minimal")
++        rootfs = vars["IMAGE_ROOTFS"]
++        self.assertIsNotNone(rootfs)
++        sysconfdir = vars["sysconfdir"]
++        self.assertIsNotNone(sysconfdir)
++        # Need to use oe.path here as sysconfdir starts with /
++        hosttestdir = oe.path.join(rootfs, sysconfdir, "postinst-test")
++        targettestdir = os.path.join(sysconfdir, "postinst-test")
++
++        init_manager = "systemd"
++        for classes in ("package_rpm", "package_deb", "package_ipk"):
++            with self.subTest(init_manager=init_manager, package_class=classes):
++                features = 'CORE_IMAGE_EXTRA_INSTALL = "postinst-delayed-b"\n'
++                features += 'IMAGE_FEATURES += "package-management empty-root-password"\n'
++                features += 'PACKAGE_CLASSES = "%s"\n' % classes
++                features += 'DISTRO_FEATURES_append = " systemd"\n'
++                features += 'VIRTUAL-RUNTIME_init_manager = "systemd"\n'
++                features += 'DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"\n'
++                features += 'VIRTUAL-RUNTIME_initscripts = ""\n'
++                self.write_config(features)
++
++                bitbake('core-image-minimal')
++
++                self.assertTrue(os.path.isfile(os.path.join(hosttestdir, "rootfs")),
++                                "rootfs state file was not created")
++
++                with runqemu('core-image-minimal') as qemu:
++                    # Make the test echo a string and search for that as
++                    # run_serial()'s status code is useless.'
++                    for filename in ("rootfs", "delayed-a", "delayed-b"):
++                        status, output = qemu.run_serial("test -f %s && echo found" % os.path.join(targettestdir, filename))
++                        self.assertEqual(output, "found", "%s was not present on boot" % filename)
++
+ 
+ 
+ 
 -- 
-2.24.0
+2.17.1
 
 
