@@ -1,49 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 60F247F9B8
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 0794D7FA49
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 15:21:38 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id f7so1898201qkd.7
+	Fri,  6 Dec 2019 15:39:49 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47Txbm3ZsKz3L
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Dec 2019 07:21:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JOIkcB9mbAcAnQ9tths+rlvl3YFxPJLqmPNHgksktmA=;
-	b=pGsk1tOhXQ8oQBlISNEdOtqCGpo/jZOldFNnFwmoq8+WQ8xAwuTG0G3McG4A1Ik7wY
-	mMbIyI121lud5oQMsolNKCdEQNBbCisbnx61QUXhrl2//TEahR0gFa9JjbHf2DDphrgg
-	7/ZY3WDnBaTnPVB3bbt/HqSRev29YRoqbcyd4lkw1UmJqUiLzZ1KnM5EvyEJFORz6+gH
-	Xo/xmLHHI/WBrYpHPjgGLZPqIZVQh5BlDYK+t+PDl8uZlBqwFE+lu4Aza3n9wV44PmaD
-	8+Uz7vAj1BGx8K87p9MXAdw49PUgLKgSYkkzRrVG9I9Ta5lB1LLT0u5Ta8aAZrpHtfWl
-	KJYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JOIkcB9mbAcAnQ9tths+rlvl3YFxPJLqmPNHgksktmA=;
-	b=ciBHK/7OTBikRhrAVvq0s9K2YEQfql6U36jioWZlMqODzYm0B51PCseUcl/eaKEYhw
-	xlax2mssQephGQJDV0YeMqucXcLODWNbt1XDCPOKXIcq4JTzmNgldicHfyALOpTtO5NK
-	89Otr/iVlgdcn2gQSl1LPxfG8CNggfwvbU4FvAwmWxM2NIUURFDadOfNmqhMUPBQrnC+
-	2pTT+NcdN6vO9lkW4dto0SxTd5iQBiI4Ko+5WZ1H/HLhIH3+cc03ZmEU28GR0zHM9b2J
-	sS9prP5+Glvz8TBzmjatfi08TtXL6FlTzR4pA1kq/usQLRV1+hGHzOB/B8SAPaCIuD4F
-	W0NQ==
-X-Gm-Message-State: APjAAAUmFbQaycNNzBE7oD/fSOv3wlHGpLv5J0Ea4qRNUeoFvAkN9nQX
-	z7eeLfJEuJt2mqpGv5EwLAxpxF+PKw153NdUPOWMgPAT
-X-Google-Smtp-Source: APXvYqzfDSGMrv/K2tfpv3k0H8p6aEkxLAmyelF5UHaxuRMfBx/BEFcM6skvbGI1SY4IxdpieM7XNhxhRr69ff9ntB4=
-X-Received: by 2002:a37:a348:: with SMTP id m69mr14896056qke.474.1575645698984;
-	Fri, 06 Dec 2019 07:21:38 -0800 (PST)
-MIME-Version: 1.0
-References: <20191205220716.29178-1-pkj@axis.com>
-	<bf7d7c11-f4ee-864f-7e94-b307700a9c78@gmail.com>
-	<26df55cb3ae746e6b99dc1597fec2bd7@XBOX03.axis.com>
-In-Reply-To: <26df55cb3ae746e6b99dc1597fec2bd7@XBOX03.axis.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 6 Dec 2019 07:21:12 -0800
-Message-ID: <CAMKF1sqW+466VDT5Qghmr4=BXJ7886jEzFNV_ny0FTo8ka2gkA@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][zeus][PATCH 1/2] libtirpc: Simplify the installation of symlinks for legacy headers
+	Fri,  6 Dec 2019 16:39:48 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1575646788;
+	bh=f8NQJnwXRp6Dg+1HZIxxTXzcbx5GbpxgpLQ9G3Zf/v0=;
+	h=From:To:Subject:Date:From;
+	b=idZCd1hzWiYxVxTj/K95O/16WR6rsPnc19HDM4fHOF3Wu8e+jceccD92Wdf/tVxug
+	AK+Nh932o64DZhv5nUR4rKmMo0HweEfk6Zm5rsfWiW9tc+QY/njxCSkWVGqNi66JeA
+	CisbdYe+EHW0edEN1s7gk3uo9K4CTOjpbwpCh94NPmzc9xzjG/KT5ewx7RxEsBXQMm
+	lHdN2fF8BRPv4uYrm4V0EXel6sGax1ceoXl6zskbzixXoLup1tx9WrTEhQGSS9oAqL
+	T2qI0FcRFxAbkESt/98LQfpdyBsUac8hww1wuudcvwXSdYKvdMSENlack3FyZewdk4
+	2piNOSc741dnb9enlG57c8l8I22KdgoV/A0zmwWMoDO163yJOleP2TSEgcjhSvRJHi
+	kw8fVWJIbVcznujpciuGwnu5MQEjivWOvxdUByHRThhIshWiMlVtQ89T9fV46P+lIM
+	FbBUNQ4VrMfRUK0D2/QHC2gZhXvP6HTZjsg8CuhMVly9Op0yXwEP/DwBG8EeBKsMu/
+	xmI7qJjDPM7IR1leQh2MqeeSJaJNQYwfwOu/4vAOqTfvP2ePyQia3s7Pxbqvw/8YMp
+	pnGjLbh1jGm0E2hZ1MhxQorGNPpPtc+CWo9DSz7MGzYNyj6qiqGt+7SuoJIrGrkbwY
+	/H5wN+JQz8jo59o3mZwiPJoY=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Dec 2019 17:39:47 +0200
+Message-Id: <20191206153947.30935-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2] python/python3: Whitelist CVE-2019-18348
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,99 +40,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 15:21:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 06 Dec 2019 15:39:50 -0000
 
-perhaps send a revert request instead
+This is not exploitable when glibc has CVE-2016-10739 fixed,
+which is fixed in the upstream version since warrior.
 
-On Fri, Dec 6, 2019 at 12:59 AM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
->
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-
-> > bounces@lists.openembedded.org> On Behalf Of Khem Raj
-> > Sent: den 6 december 2019 05:56
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: Re: [OE-core] [master][zeus][PATCH 1/2] libtirpc: Simplify the
-> > installation of symlinks for legacy headers
-> >
-> > On 12/5/19 2:07 PM, Peter Kjellerstedt wrote:
-> > > This also corrects the symbolic links installed in
-> > > /usr/include/rpcsvc.
-> > >
-> > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > > ---
-> > >   .../libtirpc/libtirpc_1.1.4.bb                | 27 +++++++++----------
-> > >   1 file changed, 12 insertions(+), 15 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-> > b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-> > > index 633cececd4..91e0ce6fd2 100644
-> > > --- a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-> > > +++ b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-> > > @@ -1,5 +1,5 @@
-> > >   SUMMARY = "Transport-Independent RPC library"
-> > > -DESCRIPTION = "Libtirpc is a port of Suns Transport-Independent RPC
-> > library to Linux"
-> > > +DESCRIPTION = "Libtirpc is a port of Sun's Transport-Independent RPC
-> > library to Linux"
-> > >   SECTION = "libs/network"
-> > >   HOMEPAGE = "http://sourceforge.net/projects/libtirpc/"
-> > >   BUGTRACKER =
-> > "http://sourceforge.net/tracker/?group_id=183075&atid=903784"
-> > > @@ -22,21 +22,18 @@ inherit autotools pkgconfig
-> > >   EXTRA_OECONF = "--disable-gssapi"
-> > >
-> > >   do_install_append() {
-> > > -        chown root:root ${D}${sysconfdir}/netconfig
-> > > -        install -d ${D}${includedir}/rpc
-> > > -        install -d ${D}${includedir}/rpcsvc
-> > > -        for link_header in ${D}${includedir}/tirpc/rpc/*; do
-> > > -            if [ -f $link_header -a ! -e
-> > ${D}/${includedir}/rpc/$(basename $link_header) ]; then
-> > > -                ln -sf ../tirpc/rpc/$(basename $link_header)
-> > ${D}${includedir}/rpc/$(basename $link_header)
-> > > -            fi
-> > > -        done
-> > > -        for link_header in ${D}${includedir}/tirpc/rpcsvc/*; do
-> > > -            if [ -f $link_header -a ! -e
-> > ${D}/${includedir}/rpcsvc/$(basename $link_header) ]; then
-> > > -                ln -sf ../tirpc/rpc/$(basename $link_header)
-> > ${D}${includedir}/rpcsvc/$(basename $link_header)
-> > > -            fi
-> > > -        done
-> > > -        ln -sf  tirpc/netconfig.h ${D}/${includedir}/netconfig.h
-> > > +   chown root:root ${D}${sysconfdir}/netconfig
-> > >
-> > > +   for dir in rpc rpcsvc; do
-> > > +           install -d ${D}${includedir}/$dir
-> > > +           for link_header in ${D}${includedir}/tirpc/$dir/*;
-> > do
-> > > +                   if [ -f $link_header ] &&
-> > > +                      [ ! -e
-> > ${D}${includedir}/$dir/$(basename $link_header) ]; then
-> > > +                           ln -sf ../tirpc/$dir/$(basename
-> > $link_header) ${D}${includedir}/$dir/$(basename $link_header)
-> > > +                   fi
-> > > +           done
-> > > +   done
-> > > +   ln -sf tirpc/netconfig.h ${D}${includedir}/netconfig.h
-> > >   }
-> > >
-> >
-> > I know this patch is making the existing logic better. But I dont think
-> > we should be substituting, sunrpc headers like this, what problems does
-> > this fix is not clear. tirpc is not a drop in replacement for sun rpc.
-> > Applications have to use it consciously. Sneaking the headers like this
-> > can cause subtle errors.
-> >
-> > Perhaps original patch should just be reverted.
->
-> I'm perfectly fine with reverting the original patch instead as that will
-> solve my problem.
->
-> > >   BBCLASSEXTEND = "native nativesdk"
->
-> //Peter
->
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-devtools/python/python.inc       | 3 +++
+ meta/recipes-devtools/python/python3_3.8.0.bb | 3 +++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 110ec315d9..19a2f3e743 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -29,6 +29,9 @@ CVE_CHECK_WHITELIST += "CVE-2017-18207"
+ # of Python that cannot really be altered at this point."
+ CVE_CHECK_WHITELIST += "CVE-2015-5652"
+ 
++# This is not exploitable when glibc has CVE-2016-10739 fixed.
++CVE_CHECK_WHITELIST += "CVE-2019-18348"
++
+ PYTHON_MAJMIN = "2.7"
+ 
+ inherit autotools pkgconfig
+diff --git a/meta/recipes-devtools/python/python3_3.8.0.bb b/meta/recipes-devtools/python/python3_3.8.0.bb
+index 1feaebea8e..92f6527c70 100644
+--- a/meta/recipes-devtools/python/python3_3.8.0.bb
++++ b/meta/recipes-devtools/python/python3_3.8.0.bb
+@@ -42,6 +42,9 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ 
+ CVE_PRODUCT = "python"
+ 
++# This is not exploitable when glibc has CVE-2016-10739 fixed.
++CVE_CHECK_WHITELIST += "CVE-2019-18348"
++
+ PYTHON_MAJMIN = "3.8"
+ 
+ S = "${WORKDIR}/Python-${PV}"
+-- 
+2.17.1
+
 
