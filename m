@@ -1,24 +1,56 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id EF8C07FA45
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C045C7F95C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 02:42:13 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Dec 2019 18:42:15 -0800
-X-IronPort-AV: E=Sophos;i="5.69,282,1571727600"; d="scan'208";a="201972254"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.16.196])
-	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Dec 2019 18:42:13 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
+	Fri,  6 Dec 2019 04:56:22 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id x1so6056488iop.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 05 Dec 2019 20:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=y1faLVX9OAwJMcI+dBpea73HGLwFvWROYD1dlXoAY24=;
+	b=B17kZXOIljUFRtv9tp2BJHaS34VdiLvxeYmHBQ87PjM7TfAYoUzxEqZXyiVW4DsKxF
+	DPnNmbhV5/PKD8ozRlWKBMaxYzt9cMaH507iIX6MpwRn6JUherWNq314DsrMX3x5tQ/S
+	1XrCsh/d49sDbdJFiPcPY+cjAfDgftkNdAXiFx2JjCDKGhNbJBgjrgkw03XDwUVc8203
+	KTAFToVC5U3eX3sSggpPEP1hZ5GBrSVJV3J/mrbIa0aaYo0o1Z5dB9FbClT0YN7aRx5D
+	3CboHG5THN2Wt72vV1TEuBAeMATUUTq0epXgojJcTS7/nVaZIuAod0ni4nS5gUayMsrw
+	pAIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=y1faLVX9OAwJMcI+dBpea73HGLwFvWROYD1dlXoAY24=;
+	b=ueowWz7+GMIRB8K6rLYHq/ycBd3XLHHV0SOosFCKJ7mjZbdphMFmpQT8DURWqduH3+
+	clJL6NX1nQa+qy3C7RExijgqUAJuMTS/I85nnK8mWtQZ6jCozUrAwPspm6gQ73IjuRj9
+	8bJZYjjmDs88GBIAl3ibGb3aQDha+Xc+HC+2wL4ZzfsRLJlfHtWClRKun2UgV/cI0Z62
+	ioxAwONdzdGHC0I7SQ/JdoBRYiPAVEokt1MkznISuEqjwOCClqvPMgxTgQNeRvVPd3sP
+	2glrndDhSzyuOj0hk4mODM9OTIkw4Y+D0rOfhr3tjHjdeqmURMEJtHKtPKimE3vWmLUr
+	9oLQ==
+X-Gm-Message-State: APjAAAXkXhXq6x100D0ccCW+EdTsPt8HbryeJRrvRWelUu1Z3gINbN5w
+	9i2kkF0viGKW73Ei2efFJdZrue5FNtM=
+X-Google-Smtp-Source: APXvYqxTndVXj3hkIDP1lnBmwFq/+7hZrLLUQ9QJCoEcKgTKEIVQc6NC52WejWoXloOfECrhGy0azA==
+X-Received: by 2002:a5d:9f51:: with SMTP id u17mr9200037iot.258.1575608183078; 
+	Thu, 05 Dec 2019 20:56:23 -0800 (PST)
+Received: from ?IPv6:2601:646:8500:1c20:f522:3e2a:85ae:c5d2?
+	([2601:646:8500:1c20:f522:3e2a:85ae:c5d2])
+	by smtp.gmail.com with ESMTPSA id n5sm3571906ila.7.2019.12.05.20.56.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Thu, 05 Dec 2019 20:56:22 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Dec 2019 10:41:50 +0800
-Message-Id: <cover.1575599938.git.anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.21.0
+References: <20191205220716.29178-1-pkj@axis.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <bf7d7c11-f4ee-864f-7e94-b307700a9c78@gmail.com>
+Date: Thu, 5 Dec 2019 20:56:20 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.3.0
 MIME-Version: 1.0
-Subject: [zeus][PATCH 00/10] zeus merge request - cover letter only
+In-Reply-To: <20191205220716.29178-1-pkj@axis.com>
+Subject: Re: [master][zeus][PATCH 1/2] libtirpc: Simplify the installation of symlinks for legacy headers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,76 +63,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 02:42:14 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 06 Dec 2019 04:56:23 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi Richard
+On 12/5/19 2:07 PM, Peter Kjellerstedt wrote:
+> This also corrects the symbolic links installed in
+> /usr/include/rpcsvc.
+> 
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>   .../libtirpc/libtirpc_1.1.4.bb                | 27 +++++++++----------
+>   1 file changed, 12 insertions(+), 15 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
+> index 633cececd4..91e0ce6fd2 100644
+> --- a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
+> +++ b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
+> @@ -1,5 +1,5 @@
+>   SUMMARY = "Transport-Independent RPC library"
+> -DESCRIPTION = "Libtirpc is a port of Suns Transport-Independent RPC library to Linux"
+> +DESCRIPTION = "Libtirpc is a port of Sun's Transport-Independent RPC library to Linux"
+>   SECTION = "libs/network"
+>   HOMEPAGE = "http://sourceforge.net/projects/libtirpc/"
+>   BUGTRACKER = "http://sourceforge.net/tracker/?group_id=183075&atid=903784"
+> @@ -22,21 +22,18 @@ inherit autotools pkgconfig
+>   EXTRA_OECONF = "--disable-gssapi"
+>   
+>   do_install_append() {
+> -        chown root:root ${D}${sysconfdir}/netconfig
+> -        install -d ${D}${includedir}/rpc
+> -        install -d ${D}${includedir}/rpcsvc
+> -        for link_header in ${D}${includedir}/tirpc/rpc/*; do
+> -            if [ -f $link_header -a ! -e ${D}/${includedir}/rpc/$(basename $link_header) ]; then
+> -                ln -sf ../tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpc/$(basename $link_header)
+> -            fi
+> -        done
+> -        for link_header in ${D}${includedir}/tirpc/rpcsvc/*; do
+> -            if [ -f $link_header -a ! -e ${D}/${includedir}/rpcsvc/$(basename $link_header) ]; then
+> -                ln -sf ../tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpcsvc/$(basename $link_header)
+> -            fi
+> -        done
+> -        ln -sf  tirpc/netconfig.h ${D}/${includedir}/netconfig.h
+> +	chown root:root ${D}${sysconfdir}/netconfig
+>   
+> +	for dir in rpc rpcsvc; do
+> +		install -d ${D}${includedir}/$dir
+> +		for link_header in ${D}${includedir}/tirpc/$dir/*; do
+> +			if [ -f $link_header ] &&
+> +			   [ ! -e ${D}${includedir}/$dir/$(basename $link_header) ]; then
+> +				ln -sf ../tirpc/$dir/$(basename $link_header) ${D}${includedir}/$dir/$(basename $link_header)
+> +			fi
+> +		done
+> +	done
+> +	ln -sf tirpc/netconfig.h ${D}${includedir}/netconfig.h
+>   }
+>   
 
-Can you please merge these changes in zeus? They can be pulled from
-stable/zeus-next.
+I know this patch is making the existing logic better. But I dont think 
+we should be substituting, sunrpc headers like this, what problems does 
+this fix is not clear. tirpc is not a drop in replacement for sun rpc. 
+Applications have to use it consciously. Sneaking the headers like this 
+can cause subtle errors.
 
-Thanks,
+Perhaps original patch should just be reverted.
 
-Anuj
-
-The following changes since commit b57ab03376fffd2546e55596ec03bc595e320fa1:
-
-  oeqa: reproducible: Add option to capture bad packages (2019-11-23 12:51:37 -0800)
-
-are available in the Git repository at:
-
-  git://push.openembedded.org/openembedded-core-contrib stable/zeus-next
-
-Adrian Bunk (1):
-  bind: Whitelist CVE-2019-6470
-
-Anuj Mittal (4):
-  ghostscript: fix for CVE-2019-14811 is same as CVE-2019-14813
-  nasm: fix CVE-2019-14248
-  glibc: fix CVE-2019-19126
-  libarchive: fix CVE-2019-19221
-
-Christopher Larson (1):
-  dosfstools: fix CP437 error from `dosfsck -l`
-
-Hongxu Jia (1):
-  go: fix CVE-2019-17596
-
-Ross Burton (1):
-  libsoup-2.4: upgrade to 2.66.4
-
-Stefan Ghinea (1):
-  ghostscript: CVE-2019-14869
-
-Vinay Kumar (1):
-  gdb: Fix CVE-2019-1010180
-
- .../bind/bind_9.11.5-P4.bb                    |   4 +
- .../glibc/glibc/CVE-2019-19126.patch          |  32 +++++
- meta/recipes-core/glibc/glibc_2.30.bb         |   1 +
- .../dosfstools/dosfstools_4.1.bb              |   3 +
- meta/recipes-devtools/gdb/gdb-8.3.1.inc       |   1 +
- .../gdb/gdb/CVE-2019-1010180.patch            | 132 ++++++++++++++++++
- meta/recipes-devtools/go/go-1.12.inc          |   1 +
- .../go/go-1.12/0010-fix-CVE-2019-17596.patch  |  42 ++++++
- .../nasm/nasm/CVE-2019-14248.patch            |  43 ++++++
- meta/recipes-devtools/nasm/nasm_2.14.02.bb    |   1 +
- .../ghostscript/CVE-2019-14811-0001.patch     |   1 +
- .../ghostscript/CVE-2019-14869-0001.patch     |  70 ++++++++++
- .../ghostscript/ghostscript_9.27.bb           |   1 +
- .../libarchive/CVE-2019-19221.patch           | 101 ++++++++++++++
- .../libarchive/libarchive_3.4.0.bb            |   1 +
- ...up-2.4_2.66.2.bb => libsoup-2.4_2.66.4.bb} |   6 +-
- 16 files changed, 437 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-19126.patch
- create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
- create mode 100644 meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2019-19221.patch
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.66.2.bb => libsoup-2.4_2.66.4.bb} (89%)
-
--- 
-2.21.0
+>   BBCLASSEXTEND = "native nativesdk"
+> 
 
 
