@@ -1,47 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D3CBC7FA43
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3608A7FA47
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 18:09:55 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id q9so8766315wmj.5
+	Fri,  6 Dec 2019 18:09:57 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id c20so6781811wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Dec 2019 10:09:57 -0800 (PST)
+	Fri, 06 Dec 2019 10:09:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=qmCaDP0Avk42izgMvxyElkc5VmitBIq1eEX2zvcKt7A=;
-	b=HwygjXeYWiHL21o+ZpXwH9CkVgzWyNmcelQvjxnOMT64oO86C6G6wsTVC7+7cc4TUS
-	LLBtxGepMlt/K+oRi5QCMwJny/tw6o6Cl62ZAtTVFuMoscjqqgrIap/u1C36WBDrHhcv
-	v8DPTE530zGN9hK2BdzvRFmi93BoGfWXH92G59/rGoJMob9B+r1WWN++oPHXRmP3rhg5
-	OS/A663KnERPxXeAbI7tSUY1dn8cQ1pRW+HAf+M7lMuhlt4UPFhXjl3NACrUuW5xv6TW
-	rWQY/QjqVpko01/hwgAX8VakCgzZVK842vJqK4T7by2zYc7ByFhn44iyukMXG5EKS1In
-	n5Cw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=GXvvwuMTtn7BSCspEqUFRpU8HfCVt1xbiWsfz+wYI5U=;
+	b=nNB67w4QYODUfxj0ederJ7d1cO7Hsl/WZE9EW3NBoi6KzOwgHJgtq7LLGTawTIyMsV
+	plcowR9nXhKTBsgi/x+UApOOJO0x3VqoD6M6/sD8eC8wKRDEPVJ05GQyEC+oKCHzKxe7
+	AU4mg74QjV0MSqvNvZgcsG7se4SsiexwQvariFlfYCWsGsfoJTyN2Pq1lGHtEdOayXYM
+	SSmTa9vWqfGI3GGzqnZOh2dZIofnyCwr2HjOZ9ndNy6BgyCKLE+ZRYZWn5aMGGdB+jyA
+	VQ9oLMRLveakrmwPJsgqvqCQZ5YjN640Bv3Rp5tu8a8jwTRHxVJ4QjPTeBUPq+NU5WZ7
+	gLQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=qmCaDP0Avk42izgMvxyElkc5VmitBIq1eEX2zvcKt7A=;
-	b=rmsO65AmAqsbC3EXvh1MEbxPZzGZclyvhzMuvNezWCI4HSm7+Q6+BbjLrpCT2tXGN7
-	OGHk/QFRymyBlidx/CzzDKt2b+ZH+ro8aKk682uq6/Ilv4GZsJQic6tlyw6q8nypd+oF
-	R3eEI7Nsty3Ol3YLakB8piyrxfgMIYuOtlT95nsh9w5oqhDf4Gs0V0hBxYJvK7dVUXgL
-	aE2b0UYOZZqm4lBY9la2kVYz3qqEzyHvgSTkW97Ik2lvhym1EiqtYh6k4XuI5cwL/Qlp
-	U4amb6AiYZ9klpyB6Q++jG8gi41TOi1L67y1E8nNB2fumhHtACSS24PA7lmyMvj37Rg5
-	wHYg==
-X-Gm-Message-State: APjAAAWEEzZv6wbus11FLhzuvptMMLCWhC8kd35wNQ4lmJABXB3xt5Dr
-	gXUG1X0gOD922xpCnRLDjVroTePG
-X-Google-Smtp-Source: APXvYqzXRWezsGPAks5DdTHVekLv/CUtubf76jW6GVc2Im2VD/KhuDhXjucMKESPDgHmT+Dk3Zzr9g==
-X-Received: by 2002:a7b:cf0e:: with SMTP id l14mr12396275wmg.23.1575655796153; 
-	Fri, 06 Dec 2019 10:09:56 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=GXvvwuMTtn7BSCspEqUFRpU8HfCVt1xbiWsfz+wYI5U=;
+	b=fOeGBqM7b4qsCHQyCJ4n8NOw2V0e5f+HbVbRi7klARvQIvlwAaznebogCkwFIU4uFf
+	VEOi1nc+GkppScj7u0sPmF9uth6kGYokJ30HqlRfIQLgFikPfY/tK2WtDAKAM509E1LT
+	3wWJsI4A0xZ7i0hUpFj3F72/JhnzExB4Vm1J4UIjL1WsQl/VIcoetYVEsMsgWI5XVfF4
+	jlVi+RF03RjFTqDRz4U1MwJ2BhcBfFfYWeOGvyxvcanoyaqlnO0dpf9MLcWfriWbesM2
+	EIfAjzT8KZ3G+lrPxB59Npu6ilI3La25dat4KS4ULAgnvmATLp+wIzs3uU1ZcrecfBse
+	uPOg==
+X-Gm-Message-State: APjAAAUSXKMJI8L20cvvDEPyYpM/On77TxCdke27aSsB+iHDEhLwYm6X
+	OGj8vqZ3Ok8HjlLrI+FOUy9TWI/E
+X-Google-Smtp-Source: APXvYqzth1qNUva9TmP5enepbuwqt7VInKPAblZThzep/ZAefkauNKLRUO14jdrR20h7YFOxQq6fwA==
+X-Received: by 2002:a7b:c386:: with SMTP id s6mr11680381wmj.105.1575655797762; 
+	Fri, 06 Dec 2019 10:09:57 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	v14sm17011347wrm.28.2019.12.06.10.09.55
+	v14sm17011347wrm.28.2019.12.06.10.09.56
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Dec 2019 10:09:55 -0800 (PST)
+	Fri, 06 Dec 2019 10:09:57 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Dec 2019 19:09:40 +0100
-Message-Id: <20191206180949.59953-1-alex.kanavin@gmail.com>
+Date: Fri,  6 Dec 2019 19:09:41 +0100
+Message-Id: <20191206180949.59953-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 01/10] orc: update to 0.4.31
+In-Reply-To: <20191206180949.59953-1-alex.kanavin@gmail.com>
+References: <20191206180949.59953-1-alex.kanavin@gmail.com>
+Subject: [PATCH 02/10] vulkan: update to 1.1.126
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +57,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 18:09:56 -0000
+X-List-Received-Date: Fri, 06 Dec 2019 18:09:57 -0000
 
-Switch to meson build system.
+Disable assembly for vulkan-loader, as it tries to execute
+a target binary (previously it would fail to detect a working
+assembler and do the same fallback quietly).
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../orc/{orc_0.4.29.bb => orc_0.4.31.bb}               | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/orc/{orc_0.4.29.bb => orc_0.4.31.bb} (72%)
+ ...vulkan-headers_1.1.108.bb => vulkan-headers_1.1.126.0.bb} | 4 ++--
+ .../{vulkan-loader_1.1.108.bb => vulkan-loader_1.1.126.0.bb} | 5 +++--
+ .../{vulkan-tools_1.1.108.bb => vulkan-tools_1.1.126.0.bb}   | 4 ++--
+ 3 files changed, 7 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-headers_1.1.108.bb => vulkan-headers_1.1.126.0.bb} (87%)
+ rename meta/recipes-graphics/vulkan/{vulkan-loader_1.1.108.bb => vulkan-loader_1.1.126.0.bb} (92%)
+ rename meta/recipes-graphics/vulkan/{vulkan-tools_1.1.108.bb => vulkan-tools_1.1.126.0.bb} (94%)
 
-diff --git a/meta/recipes-devtools/orc/orc_0.4.29.bb b/meta/recipes-devtools/orc/orc_0.4.31.bb
-similarity index 72%
-rename from meta/recipes-devtools/orc/orc_0.4.29.bb
-rename to meta/recipes-devtools/orc/orc_0.4.31.bb
-index 8313576ab49..cd4dc31d703 100644
---- a/meta/recipes-devtools/orc/orc_0.4.29.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.31.bb
-@@ -4,10 +4,14 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.1.126.0.bb
+similarity index 87%
+rename from meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb
+rename to meta/recipes-graphics/vulkan/vulkan-headers_1.1.126.0.bb
+index 284c19d7979..72c29a72a2c 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.1.126.0.bb
+@@ -5,9 +5,9 @@ SECTION = "libs"
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
--SRC_URI[md5sum] = "25799917c7d31a891d5e32b83ad08f6d"
--SRC_URI[sha256sum] = "4f8901f9144b5ec17dffdb33548b5f4c7f8049b0d1023be3462cdd64ec5a3ab2"
-+SRC_URI[md5sum] = "b6b95a47eff713e91873e2c2b1a5b3ad"
-+SRC_URI[sha256sum] = "a0ab5f10a6a9ae7c3a6b4218246564c3bf00d657cbdf587e6d34ec3ef0616075"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=sdk-${PV}"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=sdk-1.1.126"
  
--inherit autotools pkgconfig gtk-doc
-+inherit meson pkgconfig gtk-doc
-+
-+GTKDOC_MESON_OPTION = "gtk_doc"
-+GTKDOC_MESON_ENABLE_FLAG = "enabled"
-+GTKDOC_MESON_DISABLE_FLAG = "disabled"
+-SRCREV = "097a1045098213919fd56442f52c716fc78eeb27"
++SRCREV = "5bc459e2921304c32568b73edaac8d6df5f98b84"
  
- BBCLASSEXTEND = "native nativesdk"
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-graphics/vulkan/vulkan-loader_1.1.108.bb b/meta/recipes-graphics/vulkan/vulkan-loader_1.1.126.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/vulkan/vulkan-loader_1.1.108.bb
+rename to meta/recipes-graphics/vulkan/vulkan-loader_1.1.126.0.bb
+index a539c5a3ce8..504cf85a2b7 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-loader_1.1.108.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-loader_1.1.126.0.bb
+@@ -9,8 +9,8 @@ SECTION = "libs"
+ 
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=7dbefed23242760aa3475ee42801c5ac"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=sdk-${PV}"
+-SRCREV = "ecb0b1e69fb2f4d3cae262e6da24c170ce62ae13"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Loader.git;branch=sdk-1.1.126"
++SRCREV = "4adad4ff705fa76f9edb2d37cb57e593decb60ed"
+ 
+ S = "${WORKDIR}/git"
+ 
+@@ -24,6 +24,7 @@ DEPENDS += "vulkan-headers"
+ EXTRA_OECMAKE = "\
+                  -DBUILD_TESTS=OFF \
+                  -DPYTHON_EXECUTABLE=${HOSTTOOLS_DIR}/python3 \
++                 -DASSEMBLER_WORKS=FALSE \
+                  "
+ 
+ # must choose x11 or wayland or both
+diff --git a/meta/recipes-graphics/vulkan/vulkan-tools_1.1.108.bb b/meta/recipes-graphics/vulkan/vulkan-tools_1.1.126.0.bb
+similarity index 94%
+rename from meta/recipes-graphics/vulkan/vulkan-tools_1.1.108.bb
+rename to meta/recipes-graphics/vulkan/vulkan-tools_1.1.126.0.bb
+index 4ac1bafd173..2fd61c989ab 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-tools_1.1.108.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-tools_1.1.126.0.bb
+@@ -5,8 +5,8 @@ SECTION = "libs"
+ 
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-${PV}"
+-SRCREV = "3ccd7f6ebae3e1919adf837718c04feb6c2acc61"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Tools.git;branch=sdk-1.1.126"
++SRCREV = "09695dfc5dbe54f869aeaff8db93bb7bb6a220e0"
+ 
+ S = "${WORKDIR}/git"
  
 -- 
 2.17.1
