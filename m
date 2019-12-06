@@ -1,50 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 93A387FA2E
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id EF8C07FA45
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 02:15:37 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id n13so2534687pff.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2019 18:15:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=2g2htjcv3Ca98QeJ7+b4Z3cDewymyBi3QU84lJy2OOs=;
-	b=Mw+XXLqjao9suc6ka/7fKsyOK9ipjnZ4EjuVVb/kNiTozcGZo8EzMavA/fAAYZby4v
-	ctmgZbN5UjbIgORiq5H8Rc0q9j5HcBcalRPFgltfX6NhIVf2SY3Cq121hevLOG4cOtXI
-	Mv9/WlKdH4AbTO4CQLKWOPuT28udi86vUrb+xJHCjtMm06rEL7R28jyoZTNEvah6gLwK
-	y/L7wR16n0645ZXR+CvA8WLTiZwXqz9NU5Z0EJss63bY7Xaj/MI1agfN+NtWuLvLQjHX
-	qzQQ9KdhpxTewW3mcYf2c179uB0sBAv+0VTmFi00iy26Deb7MYlb/0G0/RQNtPRxdFyH
-	IaUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=2g2htjcv3Ca98QeJ7+b4Z3cDewymyBi3QU84lJy2OOs=;
-	b=EbTaHq6cJaNyhy91qI7pfjhSIFRaHDAz4ytCGLIyQKzfFnN5XcpYZj6Hy+kpR2PywM
-	k3dW2qiI7Np9M3SbHpVXrsQvE1+mjt2+JyrU79sXsKLuUwJWmt8rXhccf2+HFC3weFJz
-	i1gQDO4u1hQmPJXy+GRHBWhromYbQ+lry95tGlIodZLJYieLmVL7FCIJ6jVVv3g5KpIg
-	whl1W+MPgRNbQk+qZAFQgSuLQlOndZQiMsRpl0HwC4uMDk+8KzsSVfVpiE8RfCmjEQzl
-	oeMWkEr3bu3LjxKnr9Q3RCqL6XIPEAwoStzWeBkjWN6Tn9j9ig1CSo1xQ0AdSuNvOlZn
-	1roA==
-X-Gm-Message-State: APjAAAV3w8aDsWPAAdeigmhXO3Kepq1CaLudwV0KF9VbSQv763CLSVeC
-	TOEHCLLLDcsy8WqjksHOsIed4LKHvDc=
-X-Google-Smtp-Source: APXvYqzTmeGLwQXV5wznux3LiMOZ/V0qgSj4jC6w47sM/UWJyN1aHrbYttu/IAPaoVbmqovtyVVOqg==
-X-Received: by 2002:a63:6704:: with SMTP id b4mr899025pgc.424.1575598537944;
-	Thu, 05 Dec 2019 18:15:37 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:1c20::2797])
-	by smtp.gmail.com with ESMTPSA id
-	x11sm13385833pfn.53.2019.12.05.18.15.36
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 05 Dec 2019 18:15:37 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri,  6 Dec 2019 02:42:13 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Dec 2019 18:42:15 -0800
+X-IronPort-AV: E=Sophos;i="5.69,282,1571727600"; d="scan'208";a="201972254"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.16.196])
+	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Dec 2019 18:42:13 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  5 Dec 2019 18:08:16 -0800
-Message-Id: <20191206020816.3141604-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
+Date: Fri,  6 Dec 2019 10:41:50 +0800
+Message-Id: <cover.1575599938.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH] nss: Backport clang build fix
+Subject: [zeus][PATCH 00/10] zeus merge request - cover letter only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 02:15:37 -0000
+X-List-Received-Date: Fri, 06 Dec 2019 02:42:14 -0000
 Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...ppc64-inline-assembler-for-clang-r-j.patch | 35 +++++++++++++++++++
- meta/recipes-support/nss/nss_3.45.bb          |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-support/nss/nss/0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch
+Hi Richard
 
-diff --git a/meta/recipes-support/nss/nss/0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch b/meta/recipes-support/nss/nss/0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch
-new file mode 100644
-index 0000000000..59e44e6841
---- /dev/null
-+++ b/meta/recipes-support/nss/nss/0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch
-@@ -0,0 +1,35 @@
-+From 6b351dbb049b3b3ab6c0d51aa3c1c7fb3c9df80c Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>
-+Date: Mon, 22 Jul 2019 11:07:41 -0700
-+Subject: [PATCH] Bug 1493916 - Fix ppc64 inline assembler for clang r=jcj
-+ Seems clang's inline assembler doesn't want registers to be prefixed with
-+ "r", while gcc accepts both - r0 and 0 for GPR0.
-+
-+tested with clang 6.0 and gcc 8.1
-+
-+--HG--
-+extra : amend_source : 87e09bb59c78bdb25b9573b9f29511e10b9db6fa
-+extra : histedit_source : 9b3fad70ac2851bf7de14d42c34db4a5fba41710
-+
-+Upstream-Status: Backport [https://github.com/nss-dev/nss/commit/671d89b6c4a6f41707bb044534751098e2e3f211]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ nss/lib/freebl/mpi/mpcpucache.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/nss/lib/freebl/mpi/mpcpucache.c b/nss/lib/freebl/mpi/mpcpucache.c
-+index 336b4cc..2ad291f 100644
-+--- a/nss/lib/freebl/mpi/mpcpucache.c
-++++ b/nss/lib/freebl/mpi/mpcpucache.c
-+@@ -727,7 +727,7 @@ static inline void
-+ dcbzl(char *array)
-+ {
-+     register char *a asm("r2") = array;
-+-    __asm__ __volatile__("dcbzl %0,r0"
-++    __asm__ __volatile__("dcbzl %0,0"
-+                          : "=r"(a)
-+                          : "0"(a));
-+ }
-+-- 
-+2.24.0
-+
-diff --git a/meta/recipes-support/nss/nss_3.45.bb b/meta/recipes-support/nss/nss_3.45.bb
-index e89e7d69d5..c8005a5b3a 100644
---- a/meta/recipes-support/nss/nss_3.45.bb
-+++ b/meta/recipes-support/nss/nss_3.45.bb
-@@ -28,6 +28,7 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
-            file://nss-fix-nsinstall-build.patch \
-            file://disable-Wvarargs-with-clang.patch \
-            file://pqg.c-ULL_addend.patch \
-+           file://0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch \
-            file://blank-cert9.db \
-            file://blank-key4.db \
-            file://system-pkcs11.txt \
+Can you please merge these changes in zeus? They can be pulled from
+stable/zeus-next.
+
+Thanks,
+
+Anuj
+
+The following changes since commit b57ab03376fffd2546e55596ec03bc595e320fa1:
+
+  oeqa: reproducible: Add option to capture bad packages (2019-11-23 12:51:37 -0800)
+
+are available in the Git repository at:
+
+  git://push.openembedded.org/openembedded-core-contrib stable/zeus-next
+
+Adrian Bunk (1):
+  bind: Whitelist CVE-2019-6470
+
+Anuj Mittal (4):
+  ghostscript: fix for CVE-2019-14811 is same as CVE-2019-14813
+  nasm: fix CVE-2019-14248
+  glibc: fix CVE-2019-19126
+  libarchive: fix CVE-2019-19221
+
+Christopher Larson (1):
+  dosfstools: fix CP437 error from `dosfsck -l`
+
+Hongxu Jia (1):
+  go: fix CVE-2019-17596
+
+Ross Burton (1):
+  libsoup-2.4: upgrade to 2.66.4
+
+Stefan Ghinea (1):
+  ghostscript: CVE-2019-14869
+
+Vinay Kumar (1):
+  gdb: Fix CVE-2019-1010180
+
+ .../bind/bind_9.11.5-P4.bb                    |   4 +
+ .../glibc/glibc/CVE-2019-19126.patch          |  32 +++++
+ meta/recipes-core/glibc/glibc_2.30.bb         |   1 +
+ .../dosfstools/dosfstools_4.1.bb              |   3 +
+ meta/recipes-devtools/gdb/gdb-8.3.1.inc       |   1 +
+ .../gdb/gdb/CVE-2019-1010180.patch            | 132 ++++++++++++++++++
+ meta/recipes-devtools/go/go-1.12.inc          |   1 +
+ .../go/go-1.12/0010-fix-CVE-2019-17596.patch  |  42 ++++++
+ .../nasm/nasm/CVE-2019-14248.patch            |  43 ++++++
+ meta/recipes-devtools/nasm/nasm_2.14.02.bb    |   1 +
+ .../ghostscript/CVE-2019-14811-0001.patch     |   1 +
+ .../ghostscript/CVE-2019-14869-0001.patch     |  70 ++++++++++
+ .../ghostscript/ghostscript_9.27.bb           |   1 +
+ .../libarchive/CVE-2019-19221.patch           | 101 ++++++++++++++
+ .../libarchive/libarchive_3.4.0.bb            |   1 +
+ ...up-2.4_2.66.2.bb => libsoup-2.4_2.66.4.bb} |   6 +-
+ 16 files changed, 437 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-19126.patch
+ create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-14869-0001.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2019-19221.patch
+ rename meta/recipes-support/libsoup/{libsoup-2.4_2.66.2.bb => libsoup-2.4_2.66.4.bb} (89%)
+
 -- 
-2.24.0
+2.21.0
 
 
