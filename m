@@ -1,103 +1,46 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D97B37FA43
+Return-Path: <jdmason@kudzu.us>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id E31E57F97A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 16:09:32 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id c13so2275447pls.0
+	Fri,  6 Dec 2019 16:10:20 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id z7so8283735wrl.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Dec 2019 08:09:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=47rGAyl28Fr/ls4Pl5SfwuFtBnSMfQ3hXzTwjy9TFtI=;
-	b=ueLt/bRNkvCCmYrNV5H9hij+o4GWycCEX9S5WPCxeiCYhp0DfAvh1sTDVWR5P+OIby
-	2qgE9nXcObRv4DET3NNzJQW6TQSO9pIb2toQgoyBvHPT6AZV3YebtkUUpbJp79F3+4KT
-	p06OHSa1rFDT8oN7o9eZXUbF0DLKAn0ucIuFSqPbCrrcgxODw+kIFW4xivTcmt98tAG9
-	YgQGiRQcWgECJ4FZHftlLARMkY+bCrEGuYhLQz5vAO0ELLD5c0K+WTZvKyoLN/WZf6RP
-	dxvftDZaurVGBFR9rwFS3CA38PWgS2/bDLFx5nXx0g2o9/ptlDqpQ5rKu/OuTKMy9uDu
-	Z90A==
+	Fri, 06 Dec 2019 08:10:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=MFB0taAlSkRDCeSxOAK7yjV1QxH96CVr2KWPeXEWOkc=;
+	b=H77XQkwzisOBbwyM3zRfmZjjByR8AHvyBVlLg2EQTOVcVYB7xwX4PKFzrAVNQFe7hD
+	fTqOfVGcIVSx0JWNYhgKiKj8o+Kzy+lDkAgIJxky2/OAPVTJVDtLs3mcXIgyNu3OXizk
+	zeuQUA4cbBAFTPdNK7rVSVb4N3HvLwKQxpFCCgTE2M6Wqai7eJYbvm+9soU4AqwzRimT
+	xYjLfYS0nIWMMKXIZZ1F+d5fCaAJZWDkMbdZnJOm2qMesOW2Op3HSVb4K7A8fa1NvXb9
+	RztqneWWl/SsV9G3bcmJF34HYlFdRVii3nGQT7rQcBanWtlsRvvD3ZMzDC3nSGRsyzSc
+	IRDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=47rGAyl28Fr/ls4Pl5SfwuFtBnSMfQ3hXzTwjy9TFtI=;
-	b=C9BxK4oeUXK8HP7KucuZvl6Iz674EmaKteTjtsxZF1NNBZoiVnB5WtcuRE8Jp6pPkD
-	bK/OuIPrbURDD6t1ZsIL84uO76TGvBAET45kl6icx1np7I/Jr8n5S+T7knfyMM7teKeh
-	5iUar3RmPC+Q5dzhaAg3Yboa95lnujl8WctPh2wglb/63h3cCTg+7v7MrTPgn+NHxe6y
-	MnPG26fe8A2KDEcVf0KHqLYbqmi93FoxmcHmKWBGl7S7GeomSZWtDA5eSFZkuZPG/b4e
-	5ROgK4HwEMcrZ6PghWl6R7TQlN073t6Q64OHzVJ8/Fx8KA9ojWfxaShBRvJMo9iys5KN
-	1lmQ==
-X-Gm-Message-State: APjAAAUXlpgxeEUPy9sc1ia0SxnejgeeAncPhQ7mxxzqYCZsahzTbuJ7
-	DakdA9ofQXc0tdR0U3HzrwA731RM
-X-Google-Smtp-Source: APXvYqyikBOIUeGB3nKwW0oGcDzI24XDy5OVUaekEY5PJJ2Tw33gYzJSvpJA8hdIKYvnDnwVZ/DZzw==
-X-Received: by 2002:a17:90a:330c:: with SMTP id
-	m12mr16300840pjb.18.1575648573633; 
-	Fri, 06 Dec 2019 08:09:33 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:48fd:cef4:c646:d439?
-	([2601:202:4180:a5c0:48fd:cef4:c646:d439])
-	by smtp.gmail.com with ESMTPSA id
-	q3sm17817688pfc.114.2019.12.06.08.09.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 06 Dec 2019 08:09:33 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20191206015820.1839-1-akuster808@gmail.com>
-	<6a80ccde7c8e45b32fe916fe66ca02f01388f4e1.camel@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <7e53326d-44e7-9453-ed8b-dabd473813b6@gmail.com>
-Date: Fri, 6 Dec 2019 08:09:31 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=MFB0taAlSkRDCeSxOAK7yjV1QxH96CVr2KWPeXEWOkc=;
+	b=r+dscIA+jMw0YSUEPj62CuppM2FeFcMGvL99cmuyFLpQE47hfrGIIMI95rvUJRAj+D
+	a1xL0bFO/16gMTrfkginwFOiVNyC/IdbAyjJd+KoZm2WLmSUSUlcxV60xnOBAo9UXxqm
+	tV3FJnmy1UEKtBqwagcMq2lJpr9fmu+DBA34hm8sXq+iWPWH2KekjLKrYsn1qmJd33T8
+	1mPaFdz1akfQ7doBIYxLORY3uhiaWkRRLiiInIf2xSmt4c0TFm6/I5ZwzrUYlPpBUZXW
+	Wu3dHy0qgOYGUnmh9XRT+exRpczP4/Z/VisJ7JqFp2mnrDiDl7MPqKEdv3zhryDVQU8D
+	+rMw==
+X-Gm-Message-State: APjAAAVwpUJhUfSxizegLeWP14gV8in8jw2in8xHVPAZMGEN7/Oy7+1X
+	hSzP805hJ6Hxh/5imBp3FW4tcjEpsNenMwDHTQ6EAQ==
+X-Google-Smtp-Source: APXvYqyKTrY7FL4SpCxSo93oXHcO06KJZ3QB1FlNZ28SiZu7Jxbiy2ldACl7K32vSi7e7K2Cp1ck2lyD0KtJ5gPoHgc=
+X-Received: by 2002:a5d:68cf:: with SMTP id p15mr16664925wrw.31.1575648621395; 
+	Fri, 06 Dec 2019 08:10:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6a80ccde7c8e45b32fe916fe66ca02f01388f4e1.camel@linuxfoundation.org>
-Subject: Re: [PATCH] oeqa/selftest/runtime_test: split systemd and sysvinit tests out
+From: Jon Mason <jdmason@kudzu.us>
+Date: Fri, 6 Dec 2019 11:10:10 -0500
+Message-ID: <CAPoiz9ysfd7NogxVWL1ZYHGESDdpcHkCp5koMKOUfzK=rSOR=Q@mail.gmail.com>
+To: OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>, 
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Yocto discussion list <yocto@yoctoproject.org>
+Subject: OpenEmbedded Workshop at FOSDEM20 tickets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,35 +53,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 16:09:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 06 Dec 2019 16:10:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+We are happy to inform everyone that tickets to the inaugural
+OpenEmbedded Workshop are now on sale.  Early bird tickets are
+available for 1/3rd off regular price.  Also, we are offering a
+"Supporter Ticket".  This is for those who are able to contribute more
+to help support OpenEmbedded, and/or would like to see more events
+similar to this in the future.
+Both of these can be purchased at
+https://pretix.eu/OpenEmbedded/oe-workshop-2020/
 
+Get your tickets now, as we expect these to sellout quickly.  Also,
+early bird pricing ends on December 31st.
 
-On 12/6/19 6:44 AM, Richard Purdie wrote:
-> On Thu, 2019-12-05 at 17:58 -0800, Armin Kuster wrote:
->> This should help debug which part of this selftest is failing.
->> We can not tell which outloop is failing so split the tests into
->> systemd and sysvinit.
->>
->> See [Yocto # 13650] for more details.
->>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  meta/lib/oeqa/selftest/cases/runtime_test.py | 102 ++++++++++++++---
->> --
->>  1 file changed, 76 insertions(+), 26 deletions(-)
-> Rather than duplicating the code could we have a common function the
-> tests call please?
-sure thing,
+Finally, there are still a few slots open for Speakers.  If you have a
+talk you would like to give, go to
+https://pretalx.com/oe-workshop-2020/cfp
+CFP deadline is December 15th.
 
-- armin
->
-> Cheers,
->
-> Richard
->
+More information on the OpenEmbedded Workshop can be found at
+https://pretalx.com/oe-workshop-2020/
 
+Thank you,
+The OpenEmbedded Board
 
