@@ -1,33 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D9557F989
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
+	[209.85.221.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AD697F7CB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 13:06:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47TtBN5m22z3Q
+	Fri,  6 Dec 2019 13:16:03 +0000 (UTC)
+Received: by mail-vk1-f195.google.com with SMTP id u189so2217211vkf.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 14:06:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1575637565;
-	bh=dMW4qya7LYQuIZRPdew17gD77sogp0YBON33a5licSo=;
-	h=From:To:Subject:Date:From;
-	b=pMsujkyIbV9CgbLUI9MZetCQvVj0dVbNQP5zn85+BY/Jx/+BY+ENma6D6AFFbrSE+
-	7M87fUs3LYQn2AJszpmy+HJNpl/dND0/BA5z1RDw89vPop45l4SI1MmyknMAIdP3kB
-	H6/0YBq252LWf0+yt76b1FrkyIgR1nQWj4X+Wxkkyg3okQ8IFunbo6y6SxPVtHU3N5
-	nYY5s0d50G34B5aVgT3xqielO1NbAOT5chDQq6evpgvVIQ9Wa4Vbvd2trbDX+tCVHk
-	tjS6FR3S7rs4l02OX9+UmrNAPUoI/3PgX47ArY8Lrhu1qq6v+oX9P+AUXnGP6m+clS
-	M+zJi29AVXvozOiIvzAkVA0xq8kglXiYKBWzDQuj3F3q9S6WFiruFaFo1ktY++pILq
-	U20nrUg0EYc6EojaLBtmvCpQiNOn3c4i3w7DOaWyBtefMUSNVr7PGHxjWf8WrAKRe6
-	di82WDCi3LAQK2gYN61flSpODXPsgxaygEfszrAu4Z+7QfL5xy+Ocqj0Y/xwnclbri
-	63L35k2jvTP8ktB/tziVNI9cqnuH8jPlr36f5mwBRzK9BMwy05zjH2QUl0mY1E1oJX
-	LmOI5iVGaUl0Jn2QZ78Twfj80ZBPH25rOqE3xMs0dYwRLV9jd5Mg53a678pJdOpsqF
-	Rg3rHkhzJjyVLLQCD1fqal4E=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Dec 2019 15:06:03 +0200
-Message-Id: <20191206130603.3719-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [zeus][PATCH] glib: Whitelist CVE-2019-12450
+	Fri, 06 Dec 2019 05:16:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=miEjGEpC5dp+HL7vMwihvQ5rI82iG6CeYB9KgcGRfCw=;
+	b=jTxmvp7dwXv71JkSbT9CHUL9PJ7zkb3B49Kqq5No4ETcHNrtEqvLirN0wbfURfOTmD
+	N4A//pOfbW3EIfTbSQ67PdeawGXljdiVP6blPKrorVo5HTQqX89D0sy2md68GLme8xxF
+	57vcixCDT3pHYPoe1uSc5H0ksKe6qCb/MflXdi85oalaWOYzRLDhGj+vW5Y/9rMj+p7q
+	rMY1BAvX8o1Q3HXMJICVN5F0G5Nr8mpZeNk3Cu1Ku4rxNbwyAi26G1Eq8qVkPQO9sV4u
+	3t5WhWUj9RGqL+zIWWE5ZI7d+llpetfGvEL8pixyzGuJ7SgABJoxUJvLtNM2NXGkslzH
+	onkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=miEjGEpC5dp+HL7vMwihvQ5rI82iG6CeYB9KgcGRfCw=;
+	b=qlOGwjUzgNka8ExARNP+ECC2/fPB1XDzaKNtQ3M5JzYKE/QAuleZsagQ4LlAHOYjuh
+	/jL8V6yrofHoPxQ2B3x6LR4er0fwh1wUsDhvERZEL+kLjU4hB55ScTiaeOJ58n5KKzeb
+	fwwEpO6x2FiowTpxxnDdfqn43tId/896Ct/Wid7UnZEDQ091rU4mytuCNSXZhIgqsfse
+	bVhYZMeqxRxZLUYevBy8bLp4SPck5y5RBaf10wFfYtejU564o98OdxUjAK7PHkBa70ZN
+	4zStSAHEmx+dJ/AqiQypM8bKt2eDSOUqVX1Z6LJIgtT9TbHVQGoQb3c4mtq8mICCVZTM
+	SO5A==
+X-Gm-Message-State: APjAAAXCPBfeikfYxyudsrvDImLVnf4argbzewzXFS5l6CKG3GxfQmrN
+	aClT9bDVfRi3Dt3tWF5Pit7OdgudYKFJQ4VIVfk=
+X-Google-Smtp-Source: APXvYqyh6d4JMlytYavRi+9s/6O2KGhAIRne1yaNRWG6hPFMiBwUrd+CuUo9qu/iSVoCctqvnFX5IaC91EOn7uY2TTs=
+X-Received: by 2002:a05:6122:2b6:: with SMTP id
+	22mr10043112vkq.49.1575638164048; 
+	Fri, 06 Dec 2019 05:16:04 -0800 (PST)
+MIME-Version: 1.0
+References: <20191205154357.121346-1-alex.kanavin@gmail.com>
+	<20191205154357.121346-15-alex.kanavin@gmail.com>
+	<5ba2ff8d-0d22-67f4-38bb-e000ea505ead@intel.com>
+In-Reply-To: <5ba2ff8d-0d22-67f4-38bb-e000ea505ead@intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 6 Dec 2019 14:15:52 +0100
+Message-ID: <CANNYZj-jGCuPgi_7WPeKTN6s8retagVDxVXhySdwZ2zDRVECxA@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 15/24] sysklogd: update to 2.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,27 +56,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 13:06:04 -0000
+X-List-Received-Date: Fri, 06 Dec 2019 13:16:03 -0000
+Content-Type: multipart/alternative; boundary="00000000000010112e059908d9ec"
 
-Fixed in 2.60.4, but CPE data is outdated.
+--00000000000010112e059908d9ec
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb | 3 +++
- 1 file changed, 3 insertions(+)
+Thanks, I fixed this and will resend.
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
-index 740473719d..5aefa6ad8b 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
-@@ -23,3 +23,6 @@ SRC_URI_append_class-target = " file://glib-meson.cross"
- 
- SRC_URI[md5sum] = "f036f78a7fca330d9f7d939fcf794bde"
- SRC_URI[sha256sum] = "8b12c0af569afd3b71200556ad751bad4cf4bf7bc4b5f880638459a42ca86310"
-+
-+# Fixed in 2.60.4, but CPE data is outdated
-+CVE_CHECK_WHITELIST += "CVE-2019-12450"
--- 
-2.17.1
+Alex
 
+On Fri, 6 Dec 2019 at 00:48, Ross Burton <ross.burton@intel.com> wrote:
 
+> On 05/12/2019 15:43, Alexander Kanavin wrote:
+> > Drop all patches as they are no longer necessary with autotools,
+> > fix problems that are addressed upstream, or (in case of
+> no-vectorization.patch)
+> > don't apply to the old version either, which means no one is using that
+> hw target
+> > anymore.
+> >
+> > Remove custom systemd configs (provided by upstream), and custom
+> > syslog config (also provided by upstream but not installed by default).
+>
+> Sorry, but:
+>
+> ERROR: sysklogd-2.0.3-r0 do_package: SYSTEMD_SERVICE_sysklogd value
+> syslogd.service does not exist
+>
+> Ross
+>
+>
+
+--00000000000010112e059908d9ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Thanks, I fixed this and will resend.</div><div><br><=
+/div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Fri, 6 Dec 2019 at 00:48, Ross Burton &lt;<a hre=
+f=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">On 05/12/2019 15:43=
+, Alexander Kanavin wrote:<br>
+&gt; Drop all patches as they are no longer necessary with autotools,<br>
+&gt; fix problems that are addressed upstream, or (in case of no-vectorizat=
+ion.patch)<br>
+&gt; don&#39;t apply to the old version either, which means no one is using=
+ that hw target<br>
+&gt; anymore.<br>
+&gt; <br>
+&gt; Remove custom systemd configs (provided by upstream), and custom<br>
+&gt; syslog config (also provided by upstream but not installed by default)=
+.<br>
+<br>
+Sorry, but:<br>
+<br>
+ERROR: sysklogd-2.0.3-r0 do_package: SYSTEMD_SERVICE_sysklogd value <br>
+syslogd.service does not exist<br>
+<br>
+Ross<br>
+<br>
+</blockquote></div>
+
+--00000000000010112e059908d9ec--
