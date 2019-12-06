@@ -1,49 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C01B7F232
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 347437F9B5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 14:49:27 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id g17so8095060wro.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Dec 2019 06:49:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=z2VzZLpZXUYMVvCrr5MHCl6fKaGW3X7hubYpFeisnjc=;
-	b=GFSwMvULbAeLAY4i2h65uxhdD2XBYUNAaAATQqM17PrrolAKGqDmkOFoE2Uw2Cglrd
-	ZXae9rNGPYZJILhBzFRbdvXCP27SD4m76Ldmd6lpvUkziTpPPtAbhadby+rILlQ75vzX
-	U/sx1tXfGM/kFoJp0ldMLNau1Rtq9EsLr0Jcw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=z2VzZLpZXUYMVvCrr5MHCl6fKaGW3X7hubYpFeisnjc=;
-	b=ouf3M3aJI+3VE4dJFUaDjbsEpxgN5SQ3dLtJ3EtIOtbZo2EIHQrQzmFG9TBqrJBAGQ
-	fbk0tXJ7hweSbDR0Lyi/nbFv4Dz45DVBXibs6aW6eAOrmmsD0JrLbUAwwdXrxy86loH3
-	V3GNDwEdcAWZyIDtdhgXwDS3tlnbd95HdVAMGsaoYB8LRIxAlkSqDl5ne/34a8gXTirO
-	h2RDiFShAwODSLFTgZMsotd2byg5NGVEIM/XQmLcl5CRpyVPG+SW6M8qwwJXLTGi+aPY
-	1EFG1s0NK7sluIC21YdMzdvluiNDd9hG7ZvuDJ3ccDbaTsyPxkbxZVe7kTidwhMzZ1iR
-	PZRw==
-X-Gm-Message-State: APjAAAWAFr7lrpcBKfVk3OWY6lEtcBaTDgFbR+WwKTlfiJSyAM3PeuVg
-	dqf8shfMo0Qpc/k/OojzlsYxVA==
-X-Google-Smtp-Source: APXvYqz1LDqk5JK20/MYNu3CQrIBy4yZqKRFlaeBjakEAHkGAOe7Nx+wggbiVNFDOfaBIdcG7rzm+g==
-X-Received: by 2002:a5d:46d0:: with SMTP id g16mr17181940wrs.287.1575643768064;
-	Fri, 06 Dec 2019 06:49:28 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u18sm16341869wrt.26.2019.12.06.06.49.26
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Dec 2019 06:49:27 -0800 (PST)
-Message-ID: <76e1d18ee834fbc3e953f8e516a768ae80e9f304.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Anuj Mittal <anuj.mittal@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 06 Dec 2019 14:49:26 +0000
-In-Reply-To: <cover.1575599938.git.anuj.mittal@intel.com>
+	Fri,  6 Dec 2019 15:11:43 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Dec 2019 07:11:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,285,1571727600"; d="scan'208";a="413367802"
+Received: from pgsmsx103.gar.corp.intel.com ([10.221.44.82])
+	by fmsmga006.fm.intel.com with ESMTP; 06 Dec 2019 07:11:43 -0800
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.61]) by
+	PGSMSX103.gar.corp.intel.com ([169.254.2.49]) with mapi id
+	14.03.0439.000; Fri, 6 Dec 2019 23:11:42 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [zeus][PATCH 00/10] zeus merge request - cover
+	letter only
+Thread-Index: AQHVq96hD0JNouEtMkiBokUmvKaUWqesqtwAgAAGNgA=
+Date: Fri, 6 Dec 2019 15:11:41 +0000
+Message-ID: <80e3c5df5bb8802ced30a08c377841f268e7908d.camel@intel.com>
 References: <cover.1575599938.git.anuj.mittal@intel.com>
-User-Agent: Evolution 3.34.1-2 
+	<76e1d18ee834fbc3e953f8e516a768ae80e9f304.camel@linuxfoundation.org>
+In-Reply-To: <76e1d18ee834fbc3e953f8e516a768ae80e9f304.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.133.162]
 MIME-Version: 1.0
 Subject: Re: [zeus][PATCH 00/10] zeus merge request - cover letter only
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -58,39 +45,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 14:49:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 06 Dec 2019 15:11:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <100213463D94E34595BE26F18718A60B@intel.com>
+Content-Transfer-Encoding: base64
 
-Hi Anuj,
-
-On Fri, 2019-12-06 at 10:41 +0800, Anuj Mittal wrote:
-> Hi Richard
-> 
-> Can you please merge these changes in zeus? They can be pulled from
-> stable/zeus-next.
-
-I merged the anujm/zeus branch since that's the one which has these
-changes in! stable/zeus-next doesn't merge cleanly.
-
-Cheers,
-
-Richard
-
-> Thanks,
-> 
-> Anuj
-> 
-> The following changes since commit
-> b57ab03376fffd2546e55596ec03bc595e320fa1:
-> 
->   oeqa: reproducible: Add option to capture bad packages (2019-11-23
-> 12:51:37 -0800)
-> 
-> are available in the Git repository at:
-> 
->   git://push.openembedded.org/openembedded-core-contrib stable/zeus-
-> next
-> 
-
+T24gRnJpLCAyMDE5LTEyLTA2IGF0IDE0OjQ5ICswMDAwLCBSaWNoYXJkIFB1cmRpZSB3cm90ZToN
+Cj4gSGkgQW51aiwNCj4gDQo+IE9uIEZyaSwgMjAxOS0xMi0wNiBhdCAxMDo0MSArMDgwMCwgQW51
+aiBNaXR0YWwgd3JvdGU6DQo+ID4gSGkgUmljaGFyZA0KPiA+IA0KPiA+IENhbiB5b3UgcGxlYXNl
+IG1lcmdlIHRoZXNlIGNoYW5nZXMgaW4gemV1cz8gVGhleSBjYW4gYmUgcHVsbGVkIGZyb20NCj4g
+PiBzdGFibGUvemV1cy1uZXh0Lg0KPiANCj4gSSBtZXJnZWQgdGhlIGFudWptL3pldXMgYnJhbmNo
+IHNpbmNlIHRoYXQncyB0aGUgb25lIHdoaWNoIGhhcyB0aGVzZQ0KPiBjaGFuZ2VzIGluISBzdGFi
+bGUvemV1cy1uZXh0IGRvZXNuJ3QgbWVyZ2UgY2xlYW5seS4NCj4gDQoNClRoYW5rcyBSaWNoYXJk
+LiBJIGZvcmdvdCB0byByZWJhc2Ugb2UtY29yZS1jb250cmliOnN0YWJsZS96ZXVzLW5leHQNCmJl
+Zm9yZSBtZXJnaW5nIHRoZSBjaGFuZ2VzIHRoZXJlIGFuZCBoYXZlIGZpeGVkIHRoYXQgYnJhbmNo
+IHRvbyBub3cuDQoNClRoYW5rcywNCg0KQW51ag0K
 
