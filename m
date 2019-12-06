@@ -1,26 +1,38 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id D2B9F7FA14
+Return-Path: <niko.mauno@iki.fi>
+Received: from sinikuusama2.dnainternet.net (sinikuusama2.dnainternet.net
+	[83.102.40.152])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C7927FA2B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 19:52:24 +0000 (UTC)
-IronPort-SDR: WAxn1WpbXCoTqxizQ4LkHiPGSRK2XdscV1tg/gX6dB4/y3lYISpIvKmiyVfbYqFyA+/yRN61qp
-	jBYoahgDncYuqEHGQOmumG3XHsTa9Q80auY2ziI7IztbYWwA6nEGXKbB3nG3u7S2CH5VwBPhoH
-	6qxZXh1OssrPiVEHDZccitx/rbGNGEP6NEE5flLq1pUrk6bHkhugGdHMOrJUCDkfCT3jP5F477
-	sAOiMTlNZFvGXulXzFC7pG0soBjHQEmUOTpxlrmqcUMK7t3Qm+JdHupoX7MyGnaXDYrWxJIQYM
-	8rU=
-X-IronPort-AV: E=Sophos;i="5.69,285,1571695200"; 
-   d="scan'208";a="3346807"
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Fri,  6 Dec 2019 19:53:44 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id A635BEE31;
+	Fri,  6 Dec 2019 21:53:43 +0200 (EET)
+X-Virus-Scanned: DNA Internet at dnainternet.net
+X-Spam-Flag: NO
+X-Spam-Score: 1.152
+X-Spam-Level: *
+X-Spam-Status: No, score=1.152 tagged_above=-9999 required=6
+	tests=[PDS_BTC_ID=0.499, SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.652]
+	autolearn=disabled
+Received: from sinikuusama2.dnainternet.net ([83.102.40.152])
+	by localhost (sinikuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
+	port 10041)
+	with ESMTP id mm1MjIsUfutg; Fri,  6 Dec 2019 21:53:42 +0200 (EET)
+Received: from kirsikkapuu2.dnainternet.net (kirsikkapuu2.dnainternet.net
+	[83.102.40.52])
+	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id 94FA6D255;
+	Fri,  6 Dec 2019 21:53:42 +0200 (EET)
+Received: from localhost.localdomain (62-78-161-185.bb.dnainternet.fi
+	[62.78.161.185])
+	by kirsikkapuu2.dnainternet.net (Postfix) with ESMTP id C8A813FEA;
+	Fri,  6 Dec 2019 21:53:38 +0200 (EET)
+From: Niko Mauno <niko.mauno@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Dec 2019 20:52:21 +0100
-Message-Id: <20191206195221.17915-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
+Date: Fri,  6 Dec 2019 21:53:23 +0200
+Message-Id: <20191206195323.63167-1-niko.mauno@iki.fi>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [zeus][PATCH] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
+Subject: [PATCH] cve-check: Switch to NVD CVE JSON feed version 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,39 +45,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 19:52:25 -0000
+X-List-Received-Date: Fri, 06 Dec 2019 19:53:44 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Mattias Hansson <mattias.hansson@axis.com>
+Switch to recently released version 1.1 of NVD CVE JSON feed, as in
+https://nvd.nist.gov/General/News/JSON-1-1-Vulnerability-Feed-Release
+it is mentioned that
 
-do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
-However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
-which sometimes causes a build error when building a recipe that adds
-groups.
+  Due to changes required to support CVSS v3.1 scoring, the JSON
+  vulnerability feeds must be modified. This will require the consumers
+  of this data to update their internal processes. We will be providing
+  the JSON 1.1 schema on the data feeds page and the information below
+  to prepare for this transition.
+  ...
+  The JSON 1.1 data feeds will be available on September 9th, 2019. At
+  that time the current JSON 1.0 data feeds will no longer available.
 
-This issue only occurs when executing do_prepare_recipe_sysroot for a
-recipe that adds groups before finishing a task that depends on pseudo
-for a recipe that doesn't add groups.
+This change was tested briefly by issuing 'bitbake core-image-minimal'
+with 'cve-check.bbclass' inherited via local.conf, and then comparing
+the content between the resulting two
+'DEPLOY_DIR_IMAGE/core-image-minimal-qemux86.cve' files, which did not
+seem to contain any other change, except total of 167 entries like
 
-Signed-off-by: Mattias Hansson <mattihn@axis.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+  CVSS v3 BASE SCORE: 0.0
+
+were replaced with similar 'CVSS v3 BASE SCORE:' entries which had
+scores that were greater than '0.0' (up to '9.8').
+
+Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
 ---
- meta/classes/base.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/cve-check.bbclass                 | 2 +-
+ meta/recipes-core/meta/cve-update-db-native.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index d3184ecf7b..1cea3a2213 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -482,6 +482,7 @@ python () {
-     # If we're building a target package we need to use fakeroot (pseudo)
-     # in order to capture permissions, owners, groups and special files
-     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
-+        d.appendVarFlag('do_prepare_recipe_sysroot', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
-         d.setVarFlag('do_unpack', 'umask', '022')
-         d.setVarFlag('do_configure', 'umask', '022')
-         d.setVarFlag('do_compile', 'umask', '022')
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 19ed5548b3..01b3637469 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -26,7 +26,7 @@ CVE_PRODUCT ??= "${BPN}"
+ CVE_VERSION ??= "${PV}"
+ 
+ CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
+-CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.0.db"
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.1.db"
+ 
+ CVE_CHECK_LOG ?= "${T}/cve.log"
+ CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index db1d69a28e..575254af40 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -27,7 +27,7 @@ python do_populate_cve_db() {
+ 
+     bb.utils.export_proxies(d)
+ 
+-    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
++    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
+     YEAR_START = 2002
+ 
+     db_file = d.getVar("CVE_CHECK_DB_FILE")
 -- 
-2.21.0
+2.20.1
 
 
