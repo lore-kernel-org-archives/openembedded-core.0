@@ -1,33 +1,51 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 25A467F37D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ED897F232
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 13:29:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47Tthq4sD2z3Q
+	Fri,  6 Dec 2019 14:44:12 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id w15so8078198wru.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 14:28:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1575638939;
-	bh=ruSpFVy8kgptZoePY0DsylAhbRCCVq6MAPKBF+8Hrkg=;
-	h=From:To:Subject:Date:From;
-	b=GTrv/q1wUCwBISRdhvOiePql2uisV+634HAJlQjNq2Q3MABxIxRopo8aYACoqClRJ
-	t5sy2abwBHTYMrS2kl57liGKERbIK9V+DFnxrRo+zlyzhK9QMa3KW6Kd0MMz5uqTwp
-	KxToTMCwh9XUPUQdR4pueZus5oWsdDER2DLK4OTZlvmCI8j5wzekkYXUvtzdFUtQw+
-	R9WUiCmyyyPOfHcdV2QlEWpGpL+FUwqLFr2WA3UD1/l8dQ2q9COe5f6Sbt0O3ns+Tv
-	hSUN0ioV3otOIfoFHE4XGZtKjMqvWtHODyCG0wJUzsv0MKJtX7X+6zRlkXuMmrvUuv
-	iErSqPdD1t0FkTLCuaflosgY4z5a3VxYAIkHEhDve3Q98GGfS0am8PnZ3RIqNMHRMq
-	H2rdE6TsyLl5Mhbjq5KKierBccfdMTnxiCaDLI2oobkfM1UVrYlejeTAZC3Ctz5DdW
-	m+n1GONH2erNkFXZEqAEiphG5H4uMRmwLnz2Oh2fIXCgwqfynugf215BQDmg5eXMhd
-	2r1rusT8BdkTQravKBEeZp18o4XKVi9zFLZvbNd5ydijXXxHTq3F64SGfospU7yWXr
-	btZS+VmGFb6rhfMMd2agcE3w2KSjGstVUdMWc47IZMtldPR3y3Ps+guJT9UGIWT/iP
-	o+fvh7t5/LUMYsZhOC9eXx1U=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Dec 2019 15:28:53 +0200
-Message-Id: <20191206132853.4335-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] glib-2.0: Backport the CVE-2019-12450 fix
+	Fri, 06 Dec 2019 06:44:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=zayEX9oRIZvldmvmBMptBsnitb0CZ5r6xITErGRzQgQ=;
+	b=hMYmib0LeMSV4CwDXeKv/DSjkH8NRi0TR8p1k0WQycICkofN3eTCkFS7KgSsBVtY9W
+	i+GpVyyBUC/+KWyts1fRVPqpkw2+kbVr3AX1x0+rUljZn7DrQla5h4ZcD3NYUPTudV5H
+	4Lpz37RNh2HmQH/xpXDe3aab7xbZk8cI5cCjI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=zayEX9oRIZvldmvmBMptBsnitb0CZ5r6xITErGRzQgQ=;
+	b=ZVWHGOLa9P3k8EJdphUYY1fq4bVkR/g4OHaHb7QIA4r8bj9BY9DqIRMArEcZJ7tmwr
+	erW80gKN8MEYldcl44P6Ju9FciEAuNKroqCIxV32nio04D+abG8+umKd21o9xX+hx9ms
+	nMSWnbPAZytv5hIek+5Wx+5pn0zXwTdCpydiEiMZcslbNywm2UDH8nSm81oV+zbY2ebH
+	pBxGTCBNMl1eNmJXBPNQjixf9ujEE+0usRmtNfZq8SdzS94ly1nf/I4toulFmAKlUra6
+	nWQ6DDLcZU+pG4+piSptyCNmw1CkPGtThglf+eYaHXtKAEi3pTN73wCANLiEPmemq+xm
+	asPA==
+X-Gm-Message-State: APjAAAXtkBMrwRVDcnOgdI5VYIWW7woirBhkGrOwTCXgcmoSGC2Q/Rxc
+	rj1YLhljH8PXKEm5DwnEh/XPhw==
+X-Google-Smtp-Source: APXvYqxtnsyH2m2Two8XBRxunY5xqHjNOMJP9k8Y7QBEgrKfdQrJhHSCLyMzJ3COooz7XTlyOrJ+pw==
+X-Received: by 2002:adf:e609:: with SMTP id p9mr15564041wrm.397.1575643452729; 
+	Fri, 06 Dec 2019 06:44:12 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	s65sm3682263wmf.48.2019.12.06.06.44.11
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 06 Dec 2019 06:44:12 -0800 (PST)
+Message-ID: <6a80ccde7c8e45b32fe916fe66ca02f01388f4e1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 06 Dec 2019 14:44:07 +0000
+In-Reply-To: <20191206015820.1839-1-akuster808@gmail.com>
+References: <20191206015820.1839-1-akuster808@gmail.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH] oeqa/selftest/runtime_test: split systemd and sysvinit tests out
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,91 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 13:29:01 -0000
+X-List-Received-Date: Fri, 06 Dec 2019 14:44:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- ...e-Limit-access-to-files-when-copying.patch | 57 +++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gfile-Limit-access-to-files-when-copying.patch
+On Thu, 2019-12-05 at 17:58 -0800, Armin Kuster wrote:
+> This should help debug which part of this selftest is failing.
+> We can not tell which outloop is failing so split the tests into
+> systemd and sysvinit.
+> 
+> See [Yocto # 13650] for more details.
+> 
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/runtime_test.py | 102 ++++++++++++++---
+> --
+>  1 file changed, 76 insertions(+), 26 deletions(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gfile-Limit-access-to-files-when-copying.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gfile-Limit-access-to-files-when-copying.patch
-new file mode 100644
-index 0000000000..8fc03d1aed
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-gfile-Limit-access-to-files-when-copying.patch
-@@ -0,0 +1,57 @@
-+From e6b769819d63d2b24b251dbc9f902fe6fd614da3 Mon Sep 17 00:00:00 2001
-+From: Ondrej Holy <oholy@redhat.com>
-+Date: Thu, 23 May 2019 10:41:53 +0200
-+Subject: gfile: Limit access to files when copying
-+
-+file_copy_fallback creates new files with default permissions and
-+set the correct permissions after the operation is finished. This
-+might cause that the files can be accessible by more users during
-+the operation than expected. Use G_FILE_CREATE_PRIVATE for the new
-+files to limit access to those files.
-+
-+CVE: CVE-2019-12450
-+Upstream-Status: Backport
-+Signed-off-by: Adrian Bunk <bunk@stusta.de>
-+---
-+ gio/gfile.c | 11 ++++++-----
-+ 1 file changed, 6 insertions(+), 5 deletions(-)
-+
-+diff --git a/gio/gfile.c b/gio/gfile.c
-+index 1cc69166a..13b435480 100644
-+--- a/gio/gfile.c
-++++ b/gio/gfile.c
-+@@ -3284,12 +3284,12 @@ file_copy_fallback (GFile                  *source,
-+         out = (GOutputStream*)_g_local_file_output_stream_replace (_g_local_file_get_filename (G_LOCAL_FILE (destination)),
-+                                                                    FALSE, NULL,
-+                                                                    flags & G_FILE_COPY_BACKUP,
-+-                                                                   G_FILE_CREATE_REPLACE_DESTINATION,
-+-                                                                   info,
-++                                                                   G_FILE_CREATE_REPLACE_DESTINATION |
-++                                                                   G_FILE_CREATE_PRIVATE, info,
-+                                                                    cancellable, error);
-+       else
-+         out = (GOutputStream*)_g_local_file_output_stream_create (_g_local_file_get_filename (G_LOCAL_FILE (destination)),
-+-                                                                  FALSE, 0, info,
-++                                                                  FALSE, G_FILE_CREATE_PRIVATE, info,
-+                                                                   cancellable, error);
-+     }
-+   else if (flags & G_FILE_COPY_OVERWRITE)
-+@@ -3297,12 +3297,13 @@ file_copy_fallback (GFile                  *source,
-+       out = (GOutputStream *)g_file_replace (destination,
-+                                              NULL,
-+                                              flags & G_FILE_COPY_BACKUP,
-+-                                             G_FILE_CREATE_REPLACE_DESTINATION,
-++                                             G_FILE_CREATE_REPLACE_DESTINATION |
-++                                             G_FILE_CREATE_PRIVATE,
-+                                              cancellable, error);
-+     }
-+   else
-+     {
-+-      out = (GOutputStream *)g_file_create (destination, 0, cancellable, error);
-++      out = (GOutputStream *)g_file_create (destination, G_FILE_CREATE_PRIVATE, cancellable, error);
-+     }
-+ 
-+   if (!out)
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-index 2286d03148..f151a3358f 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch \
-            file://glib-meson.cross \
-            file://CVE-2019-13012.patch \
-+           file://0001-gfile-Limit-access-to-files-when-copying.patch \
-            "
- 
- SRC_URI_append_class-native = " file://relocate-modules.patch"
--- 
-2.17.1
+Rather than duplicating the code could we have a common function the
+tests call please?
+
+Cheers,
+
+Richard
 
 
