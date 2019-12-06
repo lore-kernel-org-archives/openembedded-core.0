@@ -1,44 +1,30 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-il1-f171.google.com (mail-il1-f171.google.com
-	[209.85.166.171])
-	by mail.openembedded.org (Postfix) with ESMTP id B9EE07F8BD
+Return-Path: <ross.burton@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C11D7F8DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  5 Dec 2019 23:51:57 +0000 (UTC)
-Received: by mail-il1-f171.google.com with SMTP id g12so4654471ild.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 05 Dec 2019 15:51:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=RACOxHQSHV7GW0hwrtA7m7O+cXXSrwcLIf09WsmkIH0=;
-	b=IOO/V+6k713LtxDDwS9Zw6MhY1eD+Lkx/LjJI+9CF5JGMdD2BRkHfWYq//tbVERGBO
-	J/aQVXXSZjE/mpkWxmCkIdmfezDlFUhNy5KEchp1L5NYMh1JdlvJOf8rhWieW1pZnwiz
-	1Yw+s/+5Z9ltyl2gKCdLaScD8sYvHA6k4TFoo1U3Lt+XAvJ7J5K4F/UXndNYOpyIq+dr
-	A2Yi05GTtIX4N2EQe0y2JXZTZkUJHeInhzQ5DJTE9a2aFk2ZfNFlr5f0jL+GutohW3Ci
-	THtcm2xRGZVr9jG6B6Mosn05nZmfidupulH+nLzt9Z+1FXhmCa50zwgKmZyar+U03k+i
-	HATQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=RACOxHQSHV7GW0hwrtA7m7O+cXXSrwcLIf09WsmkIH0=;
-	b=TgnFjwSaBpJEDupm1WbdmT+o+Nyu0hxYV+DKKDAXz2HhN59sidoPf38XQ58ZeGlkle
-	fGzlSV7u8UD1lTfjJXF6LEpa7S/j+HhAf4I8mZ5lCdU8p0m6OSid6TOYl8pEzINCt6Nv
-	9xMNP55iuVTaW76NKbEGUqbj8Odiyd7L8q0uugJyCM6bqAAGIlxYQJv0GtwLyTTdRdBz
-	oxVbT+A6LLaI9vyA7B2ubk7VToMEuw8gveZkjARFhIxhS9ZmfC+B9Ilf+oHGgez23tNT
-	B395CFbPh0dAp7vH7huqOrN3baNcbCB+6tD9MP+bRLtoYeASsxr/dmnbzBZTuUc+fX8q
-	2/ww==
-X-Gm-Message-State: APjAAAVDXOx9C4t7OV6XggHXWHKpmazkodaUj9+vAGh4nEChCi+jY+pJ
-	qOh8odIVG/mURXJD32Cql1uXv/OvalLK6VnLUq8r/Q==
-X-Google-Smtp-Source: APXvYqy1sVBoda2QBOCIE+q9DSZwpC2IcYCmbYRESCZwyRJA2YCrMh0h8W5oz/K+dtEOcwIPRbKeFbLQ3rt50qSmpIo=
-X-Received: by 2002:a92:d5cf:: with SMTP id d15mr11183631ilq.306.1575589918437;
-	Thu, 05 Dec 2019 15:51:58 -0800 (PST)
+	Fri,  6 Dec 2019 00:08:26 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Dec 2019 16:08:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,282,1571727600"; d="scan'208";a="294697063"
+Received: from aaronsan-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.32.186])
+	by orsmga001.jf.intel.com with ESMTP; 05 Dec 2019 16:08:26 -0800
+To: openembedded-core@lists.openembedded.org
+References: <CAA=hcWRc087t=w3tm00awTakdeytwVSrKsHzNckS=dsLfDrB=Q@mail.gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <7c2f38e8-f58f-0bdf-611a-5063e991e9c7@intel.com>
+Date: Fri, 6 Dec 2019 00:08:25 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Received: by 2002:ac0:f24e:0:0:0:0:0 with HTTP;
-	Thu, 5 Dec 2019 15:51:58 -0800 (PST)
-From: JH <jupiter.hce@gmail.com>
-Date: Fri, 6 Dec 2019 10:51:58 +1100
-Message-ID: <CAA=hcWRc087t=w3tm00awTakdeytwVSrKsHzNckS=dsLfDrB=Q@mail.gmail.com>
-To: oe-core <openembedded-core@lists.openembedded.org>
-Subject: glib-2.0-native recipe
+In-Reply-To: <CAA=hcWRc087t=w3tm00awTakdeytwVSrKsHzNckS=dsLfDrB=Q@mail.gmail.com>
+Subject: Re: glib-2.0-native recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,18 +37,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 05 Dec 2019 23:51:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 06 Dec 2019 00:08:26 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On 05/12/2019 23:51, JH wrote:
+> Hi,
+> 
+> I am building libqmi which has dependency on libmbim which has
+> dependency on glib-2.0-native, but I could not glib-2.0-native recipe,
+> appreciate a clue.
 
-I am building libqmi which has dependency on libmbim which has
-dependency on glib-2.0-native, but I could not glib-2.0-native recipe,
-appreciate a clue.
+The file glib-2.0_[version].bb has BBCLASSEXTENDS = "native nativesdk", 
+which means that there are virtual glib-2.0-native and 
+nativesdk-glib-2.0 recipes available.
 
-Thank you.
-
-Kind regards,
-
-- jh
+Ross
 
