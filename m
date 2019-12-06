@@ -1,18 +1,103 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D5787FA45;
-	Fri,  6 Dec 2019 16:02:19 +0000 (UTC)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D97B37FA43
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  6 Dec 2019 16:09:32 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id c13so2275447pls.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Dec 2019 08:09:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=47rGAyl28Fr/ls4Pl5SfwuFtBnSMfQ3hXzTwjy9TFtI=;
+	b=ueLt/bRNkvCCmYrNV5H9hij+o4GWycCEX9S5WPCxeiCYhp0DfAvh1sTDVWR5P+OIby
+	2qgE9nXcObRv4DET3NNzJQW6TQSO9pIb2toQgoyBvHPT6AZV3YebtkUUpbJp79F3+4KT
+	p06OHSa1rFDT8oN7o9eZXUbF0DLKAn0ucIuFSqPbCrrcgxODw+kIFW4xivTcmt98tAG9
+	YgQGiRQcWgECJ4FZHftlLARMkY+bCrEGuYhLQz5vAO0ELLD5c0K+WTZvKyoLN/WZf6RP
+	dxvftDZaurVGBFR9rwFS3CA38PWgS2/bDLFx5nXx0g2o9/ptlDqpQ5rKu/OuTKMy9uDu
+	Z90A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=47rGAyl28Fr/ls4Pl5SfwuFtBnSMfQ3hXzTwjy9TFtI=;
+	b=C9BxK4oeUXK8HP7KucuZvl6Iz674EmaKteTjtsxZF1NNBZoiVnB5WtcuRE8Jp6pPkD
+	bK/OuIPrbURDD6t1ZsIL84uO76TGvBAET45kl6icx1np7I/Jr8n5S+T7knfyMM7teKeh
+	5iUar3RmPC+Q5dzhaAg3Yboa95lnujl8WctPh2wglb/63h3cCTg+7v7MrTPgn+NHxe6y
+	MnPG26fe8A2KDEcVf0KHqLYbqmi93FoxmcHmKWBGl7S7GeomSZWtDA5eSFZkuZPG/b4e
+	5ROgK4HwEMcrZ6PghWl6R7TQlN073t6Q64OHzVJ8/Fx8KA9ojWfxaShBRvJMo9iys5KN
+	1lmQ==
+X-Gm-Message-State: APjAAAUXlpgxeEUPy9sc1ia0SxnejgeeAncPhQ7mxxzqYCZsahzTbuJ7
+	DakdA9ofQXc0tdR0U3HzrwA731RM
+X-Google-Smtp-Source: APXvYqyikBOIUeGB3nKwW0oGcDzI24XDy5OVUaekEY5PJJ2Tw33gYzJSvpJA8hdIKYvnDnwVZ/DZzw==
+X-Received: by 2002:a17:90a:330c:: with SMTP id
+	m12mr16300840pjb.18.1575648573633; 
+	Fri, 06 Dec 2019 08:09:33 -0800 (PST)
+Received: from ?IPv6:2601:202:4180:a5c0:48fd:cef4:c646:d439?
+	([2601:202:4180:a5c0:48fd:cef4:c646:d439])
+	by smtp.gmail.com with ESMTPSA id
+	q3sm17817688pfc.114.2019.12.06.08.09.32
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 06 Dec 2019 08:09:33 -0800 (PST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20191206015820.1839-1-akuster808@gmail.com>
+	<6a80ccde7c8e45b32fe916fe66ca02f01388f4e1.camel@linuxfoundation.org>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <7e53326d-44e7-9453-ed8b-dabd473813b6@gmail.com>
+Date: Fri, 6 Dec 2019 08:09:31 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Fri, 06 Dec 2019 16:02:21 -0000
-Message-ID: <20191206160221.2273.82550@do>
-References: <20191206153947.30935-1-bunk@stusta.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20191206153947.30935-1-bunk@stusta.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uL3B5dGhvbjM6IFdoaXRlbGlzdCBDVkUtMjAxOS0xODM0OA==?=
+In-Reply-To: <6a80ccde7c8e45b32fe916fe66ca02f01388f4e1.camel@linuxfoundation.org>
+Subject: Re: [PATCH] oeqa/selftest/runtime_test: split systemd and sysvinit tests out
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +110,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 16:02:20 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Fri, 06 Dec 2019 16:09:33 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-
-== Series Details ==
-
-Series: python/python3: Whitelist CVE-2019-18348
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/21497/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+Content-Language: en-US
 
 
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at d40853b10d)
+On 12/6/19 6:44 AM, Richard Purdie wrote:
+> On Thu, 2019-12-05 at 17:58 -0800, Armin Kuster wrote:
+>> This should help debug which part of this selftest is failing.
+>> We can not tell which outloop is failing so split the tests into
+>> systemd and sysvinit.
+>>
+>> See [Yocto # 13650] for more details.
+>>
+>> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+>> ---
+>>  meta/lib/oeqa/selftest/cases/runtime_test.py | 102 ++++++++++++++---
+>> --
+>>  1 file changed, 76 insertions(+), 26 deletions(-)
+> Rather than duplicating the code could we have a common function the
+> tests call please?
+sure thing,
 
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+- armin
+>
+> Cheers,
+>
+> Richard
+>
 
 
