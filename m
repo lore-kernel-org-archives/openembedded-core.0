@@ -1,36 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id D96767FA16
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D3CBC7FA43
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 18:01:51 +0000 (UTC)
-IronPort-SDR: doIWNbMkedLbzipGWXF67D26pR4Y9Zn7mNvrLRVuq/ZALi2f/HEij5auSsIhQozsAb3lzXiuLF
-	sl/shPK2JD4NPg9ANmilvKYShrWldd77zdIy6nDmczGx61jhNaHI4Y5BN4fuKKmfohG4/ERWBM
-	xJqL4kNee2uDV0DWyF1k4+LgOFAQuMmtCELij+5WV/98HKvQassQakZ9M4USfqYEQddGWRfIXl
-	WGQ2UGmYk5njsLoUMdtW0rEHAoWGa5NINKdzWOtykO96zU2CEZgz57IjOtR+o6Jy3xzEGWNorv
-	kTc=
-X-IronPort-AV: E=Sophos;i="5.69,285,1571695200"; 
-   d="scan'208";a="3343101"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [master][zeus][PATCH 1/2] libtirpc: Simplify the
-	installation of symlinks for legacy headers
-Thread-Index: AQHVq/GWhCw93dLQoEChTREjB6InRaesziMQgABazACAAD2cEA==
-Date: Fri, 6 Dec 2019 18:01:51 +0000
-Message-ID: <5a039ee7b9f44845b3a4405051ca66b0@XBOX03.axis.com>
-References: <20191205220716.29178-1-pkj@axis.com>
-	<bf7d7c11-f4ee-864f-7e94-b307700a9c78@gmail.com>
-	<26df55cb3ae746e6b99dc1597fec2bd7@XBOX03.axis.com>
-	<CAMKF1sqW+466VDT5Qghmr4=BXJ7886jEzFNV_ny0FTo8ka2gkA@mail.gmail.com>
-In-Reply-To: <CAMKF1sqW+466VDT5Qghmr4=BXJ7886jEzFNV_ny0FTo8ka2gkA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][zeus][PATCH 1/2] libtirpc: Simplify the installation of symlinks for legacy headers
+	Fri,  6 Dec 2019 18:09:55 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id q9so8766315wmj.5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Dec 2019 10:09:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=qmCaDP0Avk42izgMvxyElkc5VmitBIq1eEX2zvcKt7A=;
+	b=HwygjXeYWiHL21o+ZpXwH9CkVgzWyNmcelQvjxnOMT64oO86C6G6wsTVC7+7cc4TUS
+	LLBtxGepMlt/K+oRi5QCMwJny/tw6o6Cl62ZAtTVFuMoscjqqgrIap/u1C36WBDrHhcv
+	v8DPTE530zGN9hK2BdzvRFmi93BoGfWXH92G59/rGoJMob9B+r1WWN++oPHXRmP3rhg5
+	OS/A663KnERPxXeAbI7tSUY1dn8cQ1pRW+HAf+M7lMuhlt4UPFhXjl3NACrUuW5xv6TW
+	rWQY/QjqVpko01/hwgAX8VakCgzZVK842vJqK4T7by2zYc7ByFhn44iyukMXG5EKS1In
+	n5Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=qmCaDP0Avk42izgMvxyElkc5VmitBIq1eEX2zvcKt7A=;
+	b=rmsO65AmAqsbC3EXvh1MEbxPZzGZclyvhzMuvNezWCI4HSm7+Q6+BbjLrpCT2tXGN7
+	OGHk/QFRymyBlidx/CzzDKt2b+ZH+ro8aKk682uq6/Ilv4GZsJQic6tlyw6q8nypd+oF
+	R3eEI7Nsty3Ol3YLakB8piyrxfgMIYuOtlT95nsh9w5oqhDf4Gs0V0hBxYJvK7dVUXgL
+	aE2b0UYOZZqm4lBY9la2kVYz3qqEzyHvgSTkW97Ik2lvhym1EiqtYh6k4XuI5cwL/Qlp
+	U4amb6AiYZ9klpyB6Q++jG8gi41TOi1L67y1E8nNB2fumhHtACSS24PA7lmyMvj37Rg5
+	wHYg==
+X-Gm-Message-State: APjAAAWEEzZv6wbus11FLhzuvptMMLCWhC8kd35wNQ4lmJABXB3xt5Dr
+	gXUG1X0gOD922xpCnRLDjVroTePG
+X-Google-Smtp-Source: APXvYqzXRWezsGPAks5DdTHVekLv/CUtubf76jW6GVc2Im2VD/KhuDhXjucMKESPDgHmT+Dk3Zzr9g==
+X-Received: by 2002:a7b:cf0e:: with SMTP id l14mr12396275wmg.23.1575655796153; 
+	Fri, 06 Dec 2019 10:09:56 -0800 (PST)
+Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
+	by smtp.gmail.com with ESMTPSA id
+	v14sm17011347wrm.28.2019.12.06.10.09.55
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 06 Dec 2019 10:09:55 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  6 Dec 2019 19:09:40 +0100
+Message-Id: <20191206180949.59953-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 01/10] orc: update to 0.4.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,89 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 18:01:52 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 06 Dec 2019 18:09:56 -0000
 
-V2lsbCBkby4NCg0KLy9QZXRlcg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZy
-b206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQo+IFNlbnQ6IGRlbiA2IGRlY2VtYmVy
-IDIwMTkgMTY6MjENCj4gVG86IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0
-QGF4aXMuY29tPg0KPiBDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFttYXN0ZXJdW3pldXNdW1BBVENIIDEvMl0gbGli
-dGlycGM6IFNpbXBsaWZ5IHRoZQ0KPiBpbnN0YWxsYXRpb24gb2Ygc3ltbGlua3MgZm9yIGxlZ2Fj
-eSBoZWFkZXJzDQo+IA0KPiBwZXJoYXBzIHNlbmQgYSByZXZlcnQgcmVxdWVzdCBpbnN0ZWFkDQo+
-IA0KPiBPbiBGcmksIERlYyA2LCAyMDE5IGF0IDEyOjU5IEFNIFBldGVyIEtqZWxsZXJzdGVkdA0K
-PiA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPiB3cm90ZToNCj4gPg0KPiA+ID4gLS0tLS1P
-cmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5j
-ZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlLQ0KPiA+ID4g
-Ym91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgS2hlbSBSYWoNCj4g
-PiA+IFNlbnQ6IGRlbiA2IGRlY2VtYmVyIDIwMTkgMDU6NTYNCj4gPiA+IFRvOiBvcGVuZW1iZWRk
-ZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiBTdWJqZWN0OiBSZTogW09FLWNv
-cmVdIFttYXN0ZXJdW3pldXNdW1BBVENIIDEvMl0gbGlidGlycGM6IFNpbXBsaWZ5DQo+IHRoZQ0K
-PiA+ID4gaW5zdGFsbGF0aW9uIG9mIHN5bWxpbmtzIGZvciBsZWdhY3kgaGVhZGVycw0KPiA+ID4N
-Cj4gPiA+IE9uIDEyLzUvMTkgMjowNyBQTSwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3RlOg0KPiA+
-ID4gPiBUaGlzIGFsc28gY29ycmVjdHMgdGhlIHN5bWJvbGljIGxpbmtzIGluc3RhbGxlZCBpbg0K
-PiA+ID4gPiAvdXNyL2luY2x1ZGUvcnBjc3ZjLg0KPiA+ID4gPg0KPiA+ID4gPiBTaWduZWQtb2Zm
-LWJ5OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4g
-PiA+ID4gLS0tDQo+ID4gPiA+ICAgLi4uL2xpYnRpcnBjL2xpYnRpcnBjXzEuMS40LmJiICAgICAg
-ICAgICAgICAgIHwgMjcgKysrKysrKysrLS0tLS0tDQo+IC0tLS0NCj4gPiA+ID4gICAxIGZpbGUg
-Y2hhbmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgMTUgZGVsZXRpb25zKC0pDQo+ID4gPiA+DQo+ID4g
-PiA+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidGlycGMvbGlidGlycGNf
-MS4xLjQuYmINCj4gPiA+IGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBjL2xpYnRpcnBj
-XzEuMS40LmJiDQo+ID4gPiA+IGluZGV4IDYzM2NlY2VjZDQuLjkxZTBjZTZmZDIgMTAwNjQ0DQo+
-ID4gPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwY18xLjEu
-NC5iYg0KPiA+ID4gPiArKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidGlycGMvbGlidGly
-cGNfMS4xLjQuYmINCj4gPiA+ID4gQEAgLTEsNSArMSw1IEBADQo+ID4gPiA+ICAgU1VNTUFSWSA9
-ICJUcmFuc3BvcnQtSW5kZXBlbmRlbnQgUlBDIGxpYnJhcnkiDQo+ID4gPiA+IC1ERVNDUklQVElP
-TiA9ICJMaWJ0aXJwYyBpcyBhIHBvcnQgb2YgU3VucyBUcmFuc3BvcnQtSW5kZXBlbmRlbnQgUlBD
-DQo+ID4gPiBsaWJyYXJ5IHRvIExpbnV4Ig0KPiA+ID4gPiArREVTQ1JJUFRJT04gPSAiTGlidGly
-cGMgaXMgYSBwb3J0IG9mIFN1bidzIFRyYW5zcG9ydC1JbmRlcGVuZGVudA0KPiBSUEMNCj4gPiA+
-IGxpYnJhcnkgdG8gTGludXgiDQo+ID4gPiA+ICAgU0VDVElPTiA9ICJsaWJzL25ldHdvcmsiDQo+
-ID4gPiA+ICAgSE9NRVBBR0UgPSAiaHR0cDovL3NvdXJjZWZvcmdlLm5ldC9wcm9qZWN0cy9saWJ0
-aXJwYy8iDQo+ID4gPiA+ICAgQlVHVFJBQ0tFUiA9DQo+ID4gPiAiaHR0cDovL3NvdXJjZWZvcmdl
-Lm5ldC90cmFja2VyLz9ncm91cF9pZD0xODMwNzUmYXRpZD05MDM3ODQiDQo+ID4gPiA+IEBAIC0y
-MiwyMSArMjIsMTggQEAgaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnDQo+ID4gPiA+ICAgRVhU
-UkFfT0VDT05GID0gIi0tZGlzYWJsZS1nc3NhcGkiDQo+ID4gPiA+DQo+ID4gPiA+ICAgZG9faW5z
-dGFsbF9hcHBlbmQoKSB7DQo+ID4gPiA+IC0gICAgICAgIGNob3duIHJvb3Q6cm9vdCAke0R9JHtz
-eXNjb25mZGlyfS9uZXRjb25maWcNCj4gPiA+ID4gLSAgICAgICAgaW5zdGFsbCAtZCAke0R9JHtp
-bmNsdWRlZGlyfS9ycGMNCj4gPiA+ID4gLSAgICAgICAgaW5zdGFsbCAtZCAke0R9JHtpbmNsdWRl
-ZGlyfS9ycGNzdmMNCj4gPiA+ID4gLSAgICAgICAgZm9yIGxpbmtfaGVhZGVyIGluICR7RH0ke2lu
-Y2x1ZGVkaXJ9L3RpcnBjL3JwYy8qOyBkbw0KPiA+ID4gPiAtICAgICAgICAgICAgaWYgWyAtZiAk
-bGlua19oZWFkZXIgLWEgISAtZQ0KPiA+ID4gJHtEfS8ke2luY2x1ZGVkaXJ9L3JwYy8kKGJhc2Vu
-YW1lICRsaW5rX2hlYWRlcikgXTsgdGhlbg0KPiA+ID4gPiAtICAgICAgICAgICAgICAgIGxuIC1z
-ZiAuLi90aXJwYy9ycGMvJChiYXNlbmFtZSAkbGlua19oZWFkZXIpDQo+ID4gPiAke0R9JHtpbmNs
-dWRlZGlyfS9ycGMvJChiYXNlbmFtZSAkbGlua19oZWFkZXIpDQo+ID4gPiA+IC0gICAgICAgICAg
-ICBmaQ0KPiA+ID4gPiAtICAgICAgICBkb25lDQo+ID4gPiA+IC0gICAgICAgIGZvciBsaW5rX2hl
-YWRlciBpbiAke0R9JHtpbmNsdWRlZGlyfS90aXJwYy9ycGNzdmMvKjsgZG8NCj4gPiA+ID4gLSAg
-ICAgICAgICAgIGlmIFsgLWYgJGxpbmtfaGVhZGVyIC1hICEgLWUNCj4gPiA+ICR7RH0vJHtpbmNs
-dWRlZGlyfS9ycGNzdmMvJChiYXNlbmFtZSAkbGlua19oZWFkZXIpIF07IHRoZW4NCj4gPiA+ID4g
-LSAgICAgICAgICAgICAgICBsbiAtc2YgLi4vdGlycGMvcnBjLyQoYmFzZW5hbWUgJGxpbmtfaGVh
-ZGVyKQ0KPiA+ID4gJHtEfSR7aW5jbHVkZWRpcn0vcnBjc3ZjLyQoYmFzZW5hbWUgJGxpbmtfaGVh
-ZGVyKQ0KPiA+ID4gPiAtICAgICAgICAgICAgZmkNCj4gPiA+ID4gLSAgICAgICAgZG9uZQ0KPiA+
-ID4gPiAtICAgICAgICBsbiAtc2YgIHRpcnBjL25ldGNvbmZpZy5oICR7RH0vJHtpbmNsdWRlZGly
-fS9uZXRjb25maWcuaA0KPiA+ID4gPiArICAgY2hvd24gcm9vdDpyb290ICR7RH0ke3N5c2NvbmZk
-aXJ9L25ldGNvbmZpZw0KPiA+ID4gPg0KPiA+ID4gPiArICAgZm9yIGRpciBpbiBycGMgcnBjc3Zj
-OyBkbw0KPiA+ID4gPiArICAgICAgICAgICBpbnN0YWxsIC1kICR7RH0ke2luY2x1ZGVkaXJ9LyRk
-aXINCj4gPiA+ID4gKyAgICAgICAgICAgZm9yIGxpbmtfaGVhZGVyIGluICR7RH0ke2luY2x1ZGVk
-aXJ9L3RpcnBjLyRkaXIvKjsNCj4gPiA+IGRvDQo+ID4gPiA+ICsgICAgICAgICAgICAgICAgICAg
-aWYgWyAtZiAkbGlua19oZWFkZXIgXSAmJg0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAg
-IFsgISAtZQ0KPiA+ID4gJHtEfSR7aW5jbHVkZWRpcn0vJGRpci8kKGJhc2VuYW1lICRsaW5rX2hl
-YWRlcikgXTsgdGhlbg0KPiA+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgbG4gLXNm
-IC4uL3RpcnBjLyRkaXIvJChiYXNlbmFtZQ0KPiA+ID4gJGxpbmtfaGVhZGVyKSAke0R9JHtpbmNs
-dWRlZGlyfS8kZGlyLyQoYmFzZW5hbWUgJGxpbmtfaGVhZGVyKQ0KPiA+ID4gPiArICAgICAgICAg
-ICAgICAgICAgIGZpDQo+ID4gPiA+ICsgICAgICAgICAgIGRvbmUNCj4gPiA+ID4gKyAgIGRvbmUN
-Cj4gPiA+ID4gKyAgIGxuIC1zZiB0aXJwYy9uZXRjb25maWcuaCAke0R9JHtpbmNsdWRlZGlyfS9u
-ZXRjb25maWcuaA0KPiA+ID4gPiAgIH0NCj4gPiA+ID4NCj4gPiA+DQo+ID4gPiBJIGtub3cgdGhp
-cyBwYXRjaCBpcyBtYWtpbmcgdGhlIGV4aXN0aW5nIGxvZ2ljIGJldHRlci4gQnV0IEkgZG9udA0K
-PiB0aGluaw0KPiA+ID4gd2Ugc2hvdWxkIGJlIHN1YnN0aXR1dGluZywgc3VucnBjIGhlYWRlcnMg
-bGlrZSB0aGlzLCB3aGF0IHByb2JsZW1zDQo+IGRvZXMNCj4gPiA+IHRoaXMgZml4IGlzIG5vdCBj
-bGVhci4gdGlycGMgaXMgbm90IGEgZHJvcCBpbiByZXBsYWNlbWVudCBmb3Igc3VuIHJwYy4NCj4g
-PiA+IEFwcGxpY2F0aW9ucyBoYXZlIHRvIHVzZSBpdCBjb25zY2lvdXNseS4gU25lYWtpbmcgdGhl
-IGhlYWRlcnMgbGlrZQ0KPiB0aGlzDQo+ID4gPiBjYW4gY2F1c2Ugc3VidGxlIGVycm9ycy4NCj4g
-PiA+DQo+ID4gPiBQZXJoYXBzIG9yaWdpbmFsIHBhdGNoIHNob3VsZCBqdXN0IGJlIHJldmVydGVk
-Lg0KPiA+DQo+ID4gSSdtIHBlcmZlY3RseSBmaW5lIHdpdGggcmV2ZXJ0aW5nIHRoZSBvcmlnaW5h
-bCBwYXRjaCBpbnN0ZWFkIGFzIHRoYXQNCj4gd2lsbA0KPiA+IHNvbHZlIG15IHByb2JsZW0uDQo+
-ID4NCj4gPiA+ID4gICBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiDQo+ID4NCj4g
-PiAvL1BldGVyDQo+ID4NCg==
+Switch to meson build system.
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../orc/{orc_0.4.29.bb => orc_0.4.31.bb}               | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/orc/{orc_0.4.29.bb => orc_0.4.31.bb} (72%)
+
+diff --git a/meta/recipes-devtools/orc/orc_0.4.29.bb b/meta/recipes-devtools/orc/orc_0.4.31.bb
+similarity index 72%
+rename from meta/recipes-devtools/orc/orc_0.4.29.bb
+rename to meta/recipes-devtools/orc/orc_0.4.31.bb
+index 8313576ab49..cd4dc31d703 100644
+--- a/meta/recipes-devtools/orc/orc_0.4.29.bb
++++ b/meta/recipes-devtools/orc/orc_0.4.31.bb
+@@ -4,10 +4,14 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
+ 
+ SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
+-SRC_URI[md5sum] = "25799917c7d31a891d5e32b83ad08f6d"
+-SRC_URI[sha256sum] = "4f8901f9144b5ec17dffdb33548b5f4c7f8049b0d1023be3462cdd64ec5a3ab2"
++SRC_URI[md5sum] = "b6b95a47eff713e91873e2c2b1a5b3ad"
++SRC_URI[sha256sum] = "a0ab5f10a6a9ae7c3a6b4218246564c3bf00d657cbdf587e6d34ec3ef0616075"
+ 
+-inherit autotools pkgconfig gtk-doc
++inherit meson pkgconfig gtk-doc
++
++GTKDOC_MESON_OPTION = "gtk_doc"
++GTKDOC_MESON_ENABLE_FLAG = "enabled"
++GTKDOC_MESON_DISABLE_FLAG = "disabled"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.17.1
+
 
