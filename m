@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
-	[209.85.128.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 11B587FBAC
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BB9097FB1F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  6 Dec 2019 18:10:01 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id b11so8755108wmj.4
+	Fri,  6 Dec 2019 18:10:02 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id g206so8776599wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 06 Dec 2019 10:10:03 -0800 (PST)
+	Fri, 06 Dec 2019 10:10:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HXr2QygjLy+RabazXmCN0MQ7yiR2dD8271/SEfzlKco=;
-	b=EleBL3n7725ZxVGZf4jw2p5TIJHLG+kG+6He+P9EGAdmLbuy/IPmgVr4MLzyKrxIwY
-	HWuOtQaSLcgdVT+D78IAYxW6/vK8H5EW7F7juLcPwbn1WqpdmFeTH4Tx/arjbnq805jK
-	vs2PtlpyPzqxRwItKdIS2grolu6sZq9jvbBN7jjLNsJ5mFtI54n88smP9t9sRYo4pdfB
-	hyE6JQI7PcZrtJTzPb7evs2enxi0YxXhPSfYtJC2xVnF+0oZWygdZWpM7/MQ3FttyCPX
-	ZuUOmicrZO0bpt1jHf/hHpx8lXbzPyvY0VGgNsO2wdvJmzWoTZXcQG75Qd2ySz5TzFM0
-	eHfg==
+	bh=WdHAp2SrlAGAvxJjKjLRIhjnmRGEq26550LZLkfv5Co=;
+	b=suPgnXu93+59VWe8ZVE4b33qMMQr10L93Z/sB0j5FMR1/dRHNQorTUc0aq0QiYba8R
+	KgbmLB8W2q1Q2n2rZfQrvM6zC/dDhWjLc70R7+HC+2fVu4N3DvBSCy5MCrbFyQyQmNmJ
+	HRyyIT8RxzWPMeSRpV3PtQk+fswbdFbg5WDXPa/ogy2KbFWD4MYMbY9tJGMd79Sy8j6C
+	erdfx95jYFmQuN38DVHMNe1mGp0E+kmK7KHTZfTFeUd6vvC270rRDv32eGrjJixJJTWc
+	6orcNJw1HBqGJcU5IPokE1FcWkQc6ZgKVTCC7BX1JD1dFyzwjyGWqL7JvbVn/q+snE1v
+	ZVbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=HXr2QygjLy+RabazXmCN0MQ7yiR2dD8271/SEfzlKco=;
-	b=PKGdwhX1agV+evRTEH8bmDpVdE5gpqhNijrleq6dFCvKSBS68iE4oNL41VqcdLU1wt
-	EzEQXeQSGfEz6GsZS8wVobmcysQ2MuvAWEmOVzjR5bCfGofAeTq8MC8NxhBtkeQm7Teh
-	kTFFfOt/bR903FcfeYg5+fUPRvHl2sfZNeuk+MCK6BHy2iB2VdnzhNHilxhrDeovXhTh
-	t6/VJnd0/sy/kV5eRB5ozNViUf/FQNZAL5cWQ/XYR/19XCvh9XvKjLxZtvD3iziVbcrx
-	UmM423HEadpIBVdjyPhTUHXRYTvHojJE8Gtt7x5DvHea5M3QK2LpmqhNqYtgMZbC/GbC
-	Shvw==
-X-Gm-Message-State: APjAAAWcB/C9tC1RTitxQJdC1ojv2n5ku6HnQwZ2skpByd4Q2in1JwY8
-	C89iTrLvxqlRPEzeSns7640OO+rz
-X-Google-Smtp-Source: APXvYqwQOTZvTKFDi46PyW1FbHT3jjChHiHFmE6fkM4PSQSkWGtpjpde5976Hih5Iqclg/8C7OrM/g==
-X-Received: by 2002:a7b:c24c:: with SMTP id b12mr11788646wmj.16.1575655802388; 
-	Fri, 06 Dec 2019 10:10:02 -0800 (PST)
+	bh=WdHAp2SrlAGAvxJjKjLRIhjnmRGEq26550LZLkfv5Co=;
+	b=j7pq3P0FcSCcoFXlnu9fivSVEt9/TThi2CT9nsnebM/gFd3bUBdfCdHDTOrSVVIwZv
+	+0EemcV6EYMrvhsB5IRzvAnyCGA5LdTyEhM2BAdSQBXpwDzDR/nrdrpURkFZBGT3gajs
+	m6ZlTAjMRef6Dr8Ifo10gD4kMQ2kdYzip4lChoq/vBU3nM8f/rQXPUSBExqiaRmpd2HY
+	AdwhPIIuViRhJb6ywWlGaEHvqwIJCCd7HBRARDynZnUHhV9B8j2vD0YMnTp2EzsXoCKR
+	e0EA5f5qtex246i8FyIajWaE3CoGNA/FDWKcqfoM+OwTfxL5GDyQ4D/+RdT3HfKGVOWX
+	Htbg==
+X-Gm-Message-State: APjAAAWD3HjH0HJc6INjNxXudSNsEg/GNJlVwR+61TNvLzYAenj/0bov
+	BjQ3DJjMX7Nq/CQ1HuVQZqvffEjg
+X-Google-Smtp-Source: APXvYqxDyH8CSYHxVwTcCKlnInfkkS7mZqvYnUaYlTndjmAHoVCcyD3BJKdUaG2tZbCk/YqYHrUyKg==
+X-Received: by 2002:a1c:7205:: with SMTP id n5mr12203537wmc.9.1575655803323;
+	Fri, 06 Dec 2019 10:10:03 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	v14sm17011347wrm.28.2019.12.06.10.10.01
+	v14sm17011347wrm.28.2019.12.06.10.10.02
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 06 Dec 2019 10:10:01 -0800 (PST)
+	Fri, 06 Dec 2019 10:10:02 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  6 Dec 2019 19:09:46 +0100
-Message-Id: <20191206180949.59953-7-alex.kanavin@gmail.com>
+Date: Fri,  6 Dec 2019 19:09:47 +0100
+Message-Id: <20191206180949.59953-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191206180949.59953-1-alex.kanavin@gmail.com>
 References: <20191206180949.59953-1-alex.kanavin@gmail.com>
-Subject: [PATCH 07/10] atk: update to 2.34.1
+Subject: [PATCH 08/10] at-spi2-core: update to 2.34.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,69 +57,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 06 Dec 2019 18:10:02 -0000
+X-List-Received-Date: Fri, 06 Dec 2019 18:10:03 -0000
 
+License-Update: updated to LGPLv2.1
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...able-introspection-for-cross-compile.patch | 29 -------------------
- .../atk/{atk_2.32.0.bb => atk_2.34.1.bb}      |  5 ++--
- 2 files changed, 2 insertions(+), 32 deletions(-)
- delete mode 100644 meta/recipes-support/atk/atk/0001-meson.build-enable-introspection-for-cross-compile.patch
- rename meta/recipes-support/atk/{atk_2.32.0.bb => atk_2.34.1.bb} (73%)
+ .../{at-spi2-core_2.32.1.bb => at-spi2-core_2.34.0.bb}    | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.32.1.bb => at-spi2-core_2.34.0.bb} (83%)
 
-diff --git a/meta/recipes-support/atk/atk/0001-meson.build-enable-introspection-for-cross-compile.patch b/meta/recipes-support/atk/atk/0001-meson.build-enable-introspection-for-cross-compile.patch
-deleted file mode 100644
-index d1b08bc04b6..00000000000
---- a/meta/recipes-support/atk/atk/0001-meson.build-enable-introspection-for-cross-compile.patch
-+++ /dev/null
-@@ -1,29 +0,0 @@
--From 44d46baa5e1519c6c3df7e4d34fb333e247b5bc8 Mon Sep 17 00:00:00 2001
--From: Anuj Mittal <anuj.mittal@intel.com>
--Date: Fri, 6 Apr 2018 12:04:00 +0800
--Subject: [PATCH] meson.build: enable introspection for cross-compile
--
--It works fine in OE-core and doesn't need to be disabled. Let the user decide
--if it should be disabled or not.
--
--Upstream-Status: Pending
--
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
--
-----
-- atk/meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/atk/meson.build b/atk/meson.build
--index 0ad67e5..1d2a49c 100644
----- a/atk/meson.build
--+++ b/atk/meson.build
--@@ -137,7 +137,7 @@ libatk_dep = declare_dependency(link_with: libatk,
--                                 dependencies: glib_dep,
--                                 sources: atk_enum_h)
-- 
---if not meson.is_cross_build() and get_option('introspection')
--+if get_option('introspection')
--   gnome.generate_gir(libatk,
--                      sources: atk_sources + atk_headers + [ atk_enum_h ] + [ atk_version_h ],
--                      namespace: 'Atk',
-diff --git a/meta/recipes-support/atk/atk_2.32.0.bb b/meta/recipes-support/atk/atk_2.34.1.bb
-similarity index 73%
-rename from meta/recipes-support/atk/atk_2.32.0.bb
-rename to meta/recipes-support/atk/atk_2.34.1.bb
-index 67223729e93..277397c6943 100644
---- a/meta/recipes-support/atk/atk_2.32.0.bb
-+++ b/meta/recipes-support/atk/atk_2.34.1.bb
-@@ -14,9 +14,8 @@ DEPENDS = "gettext-native glib-2.0"
- GNOMEBASEBUILDCLASS = "meson"
- inherit gnomebase gtk-doc gettext upstream-version-is-even gobject-introspection
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.32.1.bb b/meta/recipes-support/atk/at-spi2-core_2.34.0.bb
+similarity index 83%
+rename from meta/recipes-support/atk/at-spi2-core_2.32.1.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.34.0.bb
+index 18b5de2d581..d1afc9b5c1f 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.32.1.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.34.0.bb
+@@ -1,15 +1,15 @@
+ SUMMARY = "Assistive Technology Service Provider Interface (dbus core)"
+ HOMEPAGE = "https://wiki.linuxfoundation.org/accessibility/d-bus"
+-LICENSE = "LGPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
++LICENSE = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--SRC_URI += " file://0001-meson.build-enable-introspection-for-cross-compile.patch"
--SRC_URI[archive.md5sum] = "c10b0b2af3c199e42caa6275b845c49d"
--SRC_URI[archive.sha256sum] = "cb41feda7fe4ef0daa024471438ea0219592baf7c291347e5a858bb64e4091cc"
-+SRC_URI[archive.md5sum] = "f60bbaf8bdd08b93d98736b54b2fc8e9"
-+SRC_URI[archive.sha256sum] = "d4f0e3b3d21265fcf2bc371e117da51c42ede1a71f6db1c834e6976bb20997cb"
+ MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
  
- BBCLASSEXTEND = "native nativesdk"
+ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
+            file://0001-Fix-source-reproducibility.patch"
+ 
+-SRC_URI[md5sum] = "998fd9d858f8fa22c4c8c15567bf6254"
+-SRC_URI[sha256sum] = "3c2aa937ebfaca2c86569bce9b16a34fbe20d69ef0c58846313b1c42f53b0d53"
++SRC_URI[md5sum] = "53c21565507105fb68031cd9c21a559b"
++SRC_URI[sha256sum] = "d629cdbd674e539f8912028512af583990938c7b49e25184c126b00121ef11c6"
+ 
+ X11DEPENDS = "virtual/libx11 libxi libxtst"
  
 -- 
 2.17.1
