@@ -1,51 +1,46 @@
-Return-Path: <claus.stovgaard@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 562157FA2E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com
+	[209.85.160.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ABD26C42C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Dec 2019 15:40:35 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id c14so11096696wrn.7
+	Sat,  7 Dec 2019 15:43:44 +0000 (UTC)
+Received: by mail-qt1-f174.google.com with SMTP id d5so10544657qto.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Dec 2019 07:40:36 -0800 (PST)
+	Sat, 07 Dec 2019 07:43:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=Or+kNOeaqN7zdQZOwzDGgHfJq1JgARC83LOXZVMtFUQ=;
-	b=ZOA8f4OxyfLmdhnhb6JJ2SePIp9YjNGYJPKlxrwPFQtqbTNlP/38e6yOxd9CG/Td5M
-	yw6ycF8oeTI9+k/kJQj4zEvDP9ATyg2SQTtFzyK4SK2TKeaqsq375VNT9MI1JNXTa4jQ
-	L+YCIPqsT5+3XSUHRIVd4GtKvLxKhaXJuir1vk+5gLQguT4qm+AytHQnqrs2dphbo270
-	MW4rwzfXu4jVNaMf6eJJbt7Nv5pC2UZXmzOLMm6cYQf4xexLW3uVVU1gpWo9zV+i573v
-	bmafYiJrb2Vtg0gjqTb+RN1SNknRmi/+VTxtdx4xtQW1KfNHECrt1lVNSdszUggOiOhy
-	2rDw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=QCqKQma06WVhZjpjsMzfMwdZ2W2piB7JURrWxTOMNIQ=;
+	b=Be4R8EwR2sckbRPal3JxNh48du9Sycypn/1+2JVAMldUPu2bjXsMk+6dBlCSSfSx1M
+	p/NOy/jE0u/Jk/pbRKuPBowsBnKpzbu+aUJszYeyqC1Y9LccHLT/VzqyqZLoJtR/lZRt
+	doz1xcsLapKLH7E54923+6P2NndxJjqvFk9ghd+nD/Le5gaP4wwaq7wgLj54sPgG87dT
+	nM9N8QzGRSGOVPS7DP80LJPUrLVUXp2D85ZwJLJY9D4XgkGl/IrE1zLMy/t4T1AHful5
+	y6kTCkHOjtr/r73NmqxwRhYZvga1uiQMXi+gn3IeqK3b2PlwyWirW9gMok6AShqF5qDX
+	Inuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=Or+kNOeaqN7zdQZOwzDGgHfJq1JgARC83LOXZVMtFUQ=;
-	b=WTXv1Cq3qZPX+7HDj2VRcwmoO4wvhsxw+XiYqNgZQNpae6bhovQnLTvFhKiV3GfDr7
-	y7OcmGTht/2REXfN5BZ6J69cxv5jalAy9F60apoEKNSugNc83FH/YgzSnDEfG9SL/5Vj
-	LabiIpn2X8BHnr2sMsYG7gah9z4sB+iBPDxkTYnlmC4YMzjJsGBHxQOnMYpvir9mDyxJ
-	nZ0aMrI77VwRPQqaq05ctTcjXJ8g27u5Cgt5KL0JL0pl7v2u9ZG+b075tlU1wzKsTR3Q
-	I69BIuvNSsFbpG/AyFAqj57YvUNnEYa7kJmH6pDAQ4aRWBV3axB1c5rhJmNnqJ47VhF9
-	wysg==
-X-Gm-Message-State: APjAAAWL9Pi9/4lRBg7k+Rz/4JYchd3zlO834w7KdXEo5rDh9chijzUi
-	fuG8nqBMnGRR12Lbc7+3hPvZxOh6
-X-Google-Smtp-Source: APXvYqz+HorjBmbSCLwKIrkLuWXi9kU4pjAiaicLUjXNefkq0mAPM6rmNQ8zkuWKfby+IYr1CwI8YQ==
-X-Received: by 2002:adf:dfc9:: with SMTP id q9mr17133675wrn.219.1575733235354; 
-	Sat, 07 Dec 2019 07:40:35 -0800 (PST)
-Received: from [192.168.1.60] (0126800801.0.fullrate.ninja. [2.110.44.75])
-	by smtp.gmail.com with ESMTPSA id
-	a127sm7487130wmh.43.2019.12.07.07.40.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Dec 2019 07:40:34 -0800 (PST)
-Message-ID: <8746d8e88a538d8abede3a76718fd594ca895af0.camel@gmail.com>
-From: claus.stovgaard@gmail.com
-To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Sat, 07 Dec 2019 16:40:33 +0100
-User-Agent: Evolution 3.30.5 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=QCqKQma06WVhZjpjsMzfMwdZ2W2piB7JURrWxTOMNIQ=;
+	b=ezXx+t+/WkhVPujGazEsCwxqKJEFkNi6SiLXOtaEx7mpMEQ7aze7Yb/ij+MjLmJkDw
+	rpFLekfO+rBHRqyKpwXLrv+JGWo+E5jKysw3V5ddlWyPHege2d1DQPw65hztE4b2LkeU
+	nq9Y/obpx6MDzbQibd1+SVlQCVKbYPkvVXTsyBLqZthxOqO3UU3Q5Iqvdk02AEyDF093
+	1Og5X64fH6AH8JD/XolABeDPx6N1Zns3F9KsogNZW2wjGSa8GsJlsecJhjYYaCvQBVTk
+	qjH5K4doIRMUg4NxQ5HilFJKo58sgY3g/vOtN5Vy0hjKY/+IcInHyw/xAmBarmyXYy+o
+	ly0g==
+X-Gm-Message-State: APjAAAW+AVNbc2hOl2wfgjldcXJRM5zilyWaw8nSdwlq0DcQCjdetK5E
+	gYUkFaQlyZ0bfobuickIhXjT0G0OdlnQ+Ixzu/g=
+X-Google-Smtp-Source: APXvYqxaYV0zQmT7gnQC1yWzVeo/A37Gc6WSDaPbAYdWwfOoGOCwZ7oxEqywFjgayfA1i6Zstx02nuCaEW+s9vbRsv8=
+X-Received: by 2002:ac8:41c3:: with SMTP id o3mr17686604qtm.88.1575733424869; 
+	Sat, 07 Dec 2019 07:43:44 -0800 (PST)
 MIME-Version: 1.0
-Subject: connman dependency of readline
+References: <8746d8e88a538d8abede3a76718fd594ca895af0.camel@gmail.com>
+In-Reply-To: <8746d8e88a538d8abede3a76718fd594ca895af0.camel@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 7 Dec 2019 07:43:18 -0800
+Message-ID: <CAMKF1sr+KfcD3=St9E2ATQgN6RyF=AHdpFh3pAHE9R5X-kr0wQ@mail.gmail.com>
+To: claus.stovgaard@gmail.com
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: connman dependency of readline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +53,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2019 15:40:35 -0000
+X-List-Received-Date: Sat, 07 Dec 2019 15:43:44 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-Hi
+On Sat, Dec 7, 2019 at 7:40 AM <claus.stovgaard@gmail.com> wrote:
+>
+> Hi
+>
+> I am starting to use Yocto / OpenEmbedded, where I was looking into
+> using ConnMan as network manager.
+>
+> Though I was wondering about the readline dependency.
+> Looking at the recipe
+> https://github.com/openembedded/openembedded-core/blob/master/meta/recipes-connectivity/connman/connman.inc
+> it is set to always depend on readline in the DEPENDS variable, even
+> though as far as I know it is only the connmanctl which depend on
+> readline.
+> In EXTRA_OECONF the --enable-client is hardcoded.
+>
+> The client is though not included in the image unless you also add
+> connman-client.
+>
+> So I am thinking on creating a patch where I create a
+> PACKAGECONFIG[readline] like bluez5, as I would not need the client and
+> will need not to include readline because of GPLv3.
+>
+> I guess email is the prefered way for patches compared to github pull
+> requests?
 
-I am starting to use Yocto / OpenEmbedded, where I was looking into
-using ConnMan as network manager.
+yes
 
-Though I was wondering about the readline dependency.
-Looking at the recipe 
-https://github.com/openembedded/openembedded-core/blob/master/meta/recipes-connectivity/connman/connman.inc
-it is set to always depend on readline in the DEPENDS variable, even
-though as far as I know it is only the connmanctl which depend on
-readline.
-In EXTRA_OECONF the --enable-client is hardcoded.
+>
+> Instead of my idea of creating as PACKAGECONFIG[readline], is there a
+> better way so it is only included if connman-client is used, instead of
+> just connman?
 
-The client is though not included in the image unless you also add
-connman-client.
+you are on the right track
 
-So I am thinking on creating a patch where I create a
-PACKAGECONFIG[readline] like bluez5, as I would not need the client and
-will need not to include readline because of GPLv3.
-
-I guess email is the prefered way for patches compared to github pull
-requests?
-
-Instead of my idea of creating as PACKAGECONFIG[readline], is there a
-better way so it is only included if connman-client is used, instead of
-just connman?
-
-Have a nice weekend.
-Claus Stovgaard
-
-
-
-
-
+>
+> Have a nice weekend.
+> Claus Stovgaard
+>
+>
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
