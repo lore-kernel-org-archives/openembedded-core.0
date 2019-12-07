@@ -1,52 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D8D3D7E648
+Return-Path: <claus.stovgaard@gmail.com>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 562157FA2E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Dec 2019 11:16:33 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id q9so10497041wmj.5
+	Sat,  7 Dec 2019 15:40:35 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id c14so11096696wrn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Dec 2019 03:16:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=NKNCl3GzjwCjH8m9Sz8j9BdlRKSRT5VXT4nrct8peNg=;
-	b=Z6q4ekHkBk5UWtN6oV5EERyRv6Bvruy3E03bAQwfycgUnTULcozTBnVJ3GgPK/o498
-	NEx5I8IRssDL5njetNlUd+RzmtpFPGwCv7eOdY1wrO8PkeAxsclFCfpGFPZmuqlDSkmR
-	J1QX3Cz4NQJNiU91pdnfqi8OO3YB7D1wYyLy8=
+	Sat, 07 Dec 2019 07:40:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=message-id:subject:from:to:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=Or+kNOeaqN7zdQZOwzDGgHfJq1JgARC83LOXZVMtFUQ=;
+	b=ZOA8f4OxyfLmdhnhb6JJ2SePIp9YjNGYJPKlxrwPFQtqbTNlP/38e6yOxd9CG/Td5M
+	yw6ycF8oeTI9+k/kJQj4zEvDP9ATyg2SQTtFzyK4SK2TKeaqsq375VNT9MI1JNXTa4jQ
+	L+YCIPqsT5+3XSUHRIVd4GtKvLxKhaXJuir1vk+5gLQguT4qm+AytHQnqrs2dphbo270
+	MW4rwzfXu4jVNaMf6eJJbt7Nv5pC2UZXmzOLMm6cYQf4xexLW3uVVU1gpWo9zV+i573v
+	bmafYiJrb2Vtg0gjqTb+RN1SNknRmi/+VTxtdx4xtQW1KfNHECrt1lVNSdszUggOiOhy
+	2rDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=NKNCl3GzjwCjH8m9Sz8j9BdlRKSRT5VXT4nrct8peNg=;
-	b=rB2YF4PD71rK1hOB69jcYWRUXkRwhGFv5fJJVjen1Og/LVTXE07WMMB/n0r9ETPpSB
-	h4lL22x1R6gIv0DrWZXjPw8YHqjJzC9wrHA9ycfkIoCcd/2eL1xfrm5aQb5VEzB1yPlC
-	1Swsp/icfQcwELRGvbkbieDDdNpMA159f0lEfJT7ZfWoGijVKBrLCIaiHgd75Z34u7F6
-	Uxe9Oo42SjnS9W5diQhhNYnCcIjcemI5apG9iiMCXHvyx8CtsC3IgFIXkAQxKf1eJqU2
-	39yiN+pzEY1wX2jxkeN90czgRXQBS6wJmVsy1K9MVmgXGREbUoUYBLnj450SWj4LLTqK
-	DXww==
-X-Gm-Message-State: APjAAAXD808LOC+Iz+eNfHULhSeMBgMUMdqg0djxcg+LamTxCrW8wSsc
-	oxMb3Kdr7nbJQ+81F3COuJ3N2Q==
-X-Google-Smtp-Source: APXvYqxAwQUQLDtjFFfmGBDdSZ/wUgiBvX/aal6B9Ij9guLzcnr5tXKWs5h7mSOLDUfs3MLFIuUIog==
-X-Received: by 2002:a05:600c:2144:: with SMTP id
-	v4mr16050072wml.31.1575717394403; 
-	Sat, 07 Dec 2019 03:16:34 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id u8sm4941831wmm.15.2019.12.07.03.16.33
+	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Or+kNOeaqN7zdQZOwzDGgHfJq1JgARC83LOXZVMtFUQ=;
+	b=WTXv1Cq3qZPX+7HDj2VRcwmoO4wvhsxw+XiYqNgZQNpae6bhovQnLTvFhKiV3GfDr7
+	y7OcmGTht/2REXfN5BZ6J69cxv5jalAy9F60apoEKNSugNc83FH/YgzSnDEfG9SL/5Vj
+	LabiIpn2X8BHnr2sMsYG7gah9z4sB+iBPDxkTYnlmC4YMzjJsGBHxQOnMYpvir9mDyxJ
+	nZ0aMrI77VwRPQqaq05ctTcjXJ8g27u5Cgt5KL0JL0pl7v2u9ZG+b075tlU1wzKsTR3Q
+	I69BIuvNSsFbpG/AyFAqj57YvUNnEYa7kJmH6pDAQ4aRWBV3axB1c5rhJmNnqJ47VhF9
+	wysg==
+X-Gm-Message-State: APjAAAWL9Pi9/4lRBg7k+Rz/4JYchd3zlO834w7KdXEo5rDh9chijzUi
+	fuG8nqBMnGRR12Lbc7+3hPvZxOh6
+X-Google-Smtp-Source: APXvYqz+HorjBmbSCLwKIrkLuWXi9kU4pjAiaicLUjXNefkq0mAPM6rmNQ8zkuWKfby+IYr1CwI8YQ==
+X-Received: by 2002:adf:dfc9:: with SMTP id q9mr17133675wrn.219.1575733235354; 
+	Sat, 07 Dec 2019 07:40:35 -0800 (PST)
+Received: from [192.168.1.60] (0126800801.0.fullrate.ninja. [2.110.44.75])
+	by smtp.gmail.com with ESMTPSA id
+	a127sm7487130wmh.43.2019.12.07.07.40.34
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Dec 2019 03:16:33 -0800 (PST)
-Message-ID: <115b7125290e36e572ab3b5712dca286bced0e8f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 07 Dec 2019 11:16:32 +0000
-In-Reply-To: <20191206180949.59953-9-alex.kanavin@gmail.com>
-References: <20191206180949.59953-1-alex.kanavin@gmail.com>
-	<20191206180949.59953-9-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Sat, 07 Dec 2019 07:40:34 -0800 (PST)
+Message-ID: <8746d8e88a538d8abede3a76718fd594ca895af0.camel@gmail.com>
+From: claus.stovgaard@gmail.com
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 07 Dec 2019 16:40:33 +0100
+User-Agent: Evolution 3.30.5 
 MIME-Version: 1.0
-Subject: Re: [PATCH 09/10] at-spi2-atk: update to 2.34.1
+Subject: connman dependency of readline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,119 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2019 11:16:34 -0000
+X-List-Received-Date: Sat, 07 Dec 2019 15:40:35 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-12-06 at 19:09 +0100, Alexander Kanavin wrote:
-> License-Update: license updated to LGPL v2.1
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  .../atk/{at-spi2-atk_2.32.0.bb =3D> at-spi2-atk_2.34.1.bb}  | 8 ++++
-> ----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->  rename meta/recipes-support/atk/{at-spi2-atk_2.32.0.bb =3D> at-spi2-
-> atk_2.34.1.bb} (65%)
+Hi
+
+I am starting to use Yocto / OpenEmbedded, where I was looking into
+using ConnMan as network manager.
+
+Though I was wondering about the readline dependency.
+Looking at the recipe 
+https://github.com/openembedded/openembedded-core/blob/master/meta/recipes-connectivity/connman/connman.inc
+it is set to always depend on readline in the DEPENDS variable, even
+though as far as I know it is only the connmanctl which depend on
+readline.
+In EXTRA_OECONF the --enable-client is hardcoded.
+
+The client is though not included in the image unless you also add
+connman-client.
+
+So I am thinking on creating a patch where I create a
+PACKAGECONFIG[readline] like bluez5, as I would not need the client and
+will need not to include readline because of GPLv3.
+
+I guess email is the prefered way for patches compared to github pull
+requests?
+
+Instead of my idea of creating as PACKAGECONFIG[readline], is there a
+better way so it is only included if connman-client is used, instead of
+just connman?
+
+Have a nice weekend.
+Claus Stovgaard
 
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/381
 
-Summary: 1 task failed:
-  virtual:native:/home/pokybuild/yocto-worker/qemux86-64-ltp/build/meta/rec=
-ipes-support/atk/at-spi2-atk_2.34.1.bb:do_compile
-Summary: There was 1 ERROR message shown, returning a non-zero exit code.
 
-gcc -Itests/59830eb@@testutils@sta -Itests -I../at-spi2-atk-2.34.1/tests -I=
-. -I../at-spi2-atk-2.34.1/ -I/home/pokybuild/yocto-worker/qemux86-64-ltp/bu=
-ild/build/tmp/work/x86_64-linux/at-spi2-atk-native/2.34.1-r0/recipe-sysroot=
--native/usr/lib/pkgconfig/../../../usr/include/glib-2.0 -I/home/pokybuild/y=
-octo-worker/qemux86-64-ltp/build/build/tmp/work/x86_64-linux/at-spi2-atk-na=
-tive/2.34.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/lib/gli=
-b-2.0/include -I/home/pokybuild/yocto-worker/qemux86-64-ltp/build/build/tmp=
-/work/x86_64-linux/at-spi2-atk-native/2.34.1-r0/recipe-sysroot-native/usr/l=
-ib/pkgconfig/../../../usr/include -I/home/pokybuild/yocto-worker/qemux86-64=
--ltp/build/build/tmp/work/x86_64-linux/at-spi2-atk-native/2.34.1-r0/recipe-=
-sysroot-native/usr/lib/pkgconfig/../../../usr/include/at-spi-2.0 -I/home/po=
-kybuild/yocto-worker/qemux86-64-ltp/build/build/tmp/work/x86_64-linux/at-sp=
-i2-atk-native/2.34.1-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../us=
-r/include/dbus-1.0 -I/home/pokybuild/yocto-worker/qemux86-64-ltp/build/buil=
-d/tmp/work/x86_64-linux/at-spi2-atk-native/2.34.1-r0/recipe-sysroot-native/=
-usr/lib/pkgconfig/../../../usr/lib/dbus-1.0/include -I/home/pokybuild/yocto=
--worker/qemux86-64-ltp/build/build/tmp/work/x86_64-linux/at-spi2-atk-native=
-/2.34.1-r0/recipe-sysroot-native/usr/share/pkgconfig/../../../usr/include -=
-pipe -D_FILE_OFFSET_BITS=3D64 -std=3Dc99 -D_DEFAULT_SOURCE -DATK_DISABLE_DE=
-PRECATION_WARNINGS -O2 -isystem/home/pokybuild/yocto-worker/qemux86-64-ltp/=
-build/build/tmp/work/x86_64-linux/at-spi2-atk-native/2.34.1-r0/recipe-sysro=
-ot-native/usr/include -fPIC '-DTESTS_BUILD_DIR=3D"/home/pokybuild/yocto-wor=
-ker/qemux86-64-ltp/build/build/tmp/work/x86_64-linux/at-spi2-atk-native/2.3=
-4.1-r0/build/tests"' -MD -MQ 'tests/59830eb@@testutils@sta/atk_test_util.c.=
-o' -MF 'tests/59830eb@@testutils@sta/atk_test_util.c.o.d' -o 'tests/59830eb=
-@@testutils@sta/atk_test_util.c.o' -c ../at-spi2-atk-2.34.1/tests/atk_test_=
-util.c
-../at-spi2-atk-2.34.1/tests/atk_test_util.c: In function =E2=80=98assert_cl=
-ean_exit=E2=80=99:
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:30:3: warning: implicit declara=
-tion of function =E2=80=98kill=E2=80=99 [-Wimplicit-function-declaration]
-   kill (child_pid, SIGTERM);
-   ^
-../at-spi2-atk-2.34.1/tests/atk_test_util.c: In function =E2=80=98get_root_=
-obj=E2=80=99:
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error: variable =E2=80=
-=98timeout=E2=80=99 has initializer but incomplete type
-   struct timespec timeout =3D { .tv_sec =3D 0, .tv_nsec =3D 10 * 1000000 }=
-;
-          ^
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error: unknown field =E2=
-=80=98tv_sec=E2=80=99 specified in initializer
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: excess elements=
- in struct initializer [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: (near initializ=
-ation for =E2=80=98timeout=E2=80=99) [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: error: unknown field =E2=
-=80=98tv_nsec=E2=80=99 specified in initializer
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: excess elements=
- in struct initializer [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:10: warning: (near initializ=
-ation for =E2=80=98timeout=E2=80=99) [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:75:19: error: storage size of =
-=E2=80=98timeout=E2=80=99 isn=E2=80=99t known
-   struct timespec timeout =3D { .tv_sec =3D 0, .tv_nsec =3D 10 * 1000000 }=
-;
-                   ^
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:90:5: warning: implicit declara=
-tion of function =E2=80=98nanosleep=E2=80=99 [-Wimplicit-function-declarati=
-on]
-     nanosleep(&timeout, NULL);
-     ^
-../at-spi2-atk-2.34.1/tests/atk_test_util.c: In function =E2=80=98terminate=
-_app=E2=80=99:
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: variable =E2=80=
-=98timeout=E2=80=99 has initializer but incomplete type
-   struct timespec timeout =3D { .tv_sec =3D 0, .tv_nsec =3D 10 * 1000000 }=
-;
-          ^
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: unknown field =
-=E2=80=98tv_sec=E2=80=99 specified in initializer
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: excess element=
-s in struct initializer [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: (near initiali=
-zation for =E2=80=98timeout=E2=80=99) [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: error: unknown field =
-=E2=80=98tv_nsec=E2=80=99 specified in initializer
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: excess element=
-s in struct initializer [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:10: warning: (near initiali=
-zation for =E2=80=98timeout=E2=80=99) [enabled by default]
-../at-spi2-atk-2.34.1/tests/atk_test_util.c:108:19: error: storage size of =
-=E2=80=98timeout=E2=80=99 isn=E2=80=99t known
-   struct timespec timeout =3D { .tv_sec =3D 0, .tv_nsec =3D 10 * 1000000 }=
-;
-                   ^
-
-On centos7.
-
-Cheers,
-
-Richard
 
 
