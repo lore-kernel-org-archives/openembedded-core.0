@@ -1,28 +1,28 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 656CC7F363
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CC8F7FA9E
 	for <openembedded-core@lists.openembedded.org>;
 	Sat,  7 Dec 2019 05:38:18 +0000 (UTC)
-IronPort-SDR: g7M0W8A5ckDySQrx0Pr8df9Qcel4QzZ2D1cd+GXczU8Lh31ix9RJcsXYC86rIjT8Ozh9WkxIFw
-	aWFG03RKe78BHU4OhcT/WlI8RdO14M8QBepDbE4CzcWLPeCpcdTBPOsW3o3wOqOTZfhWU/fum5
-	YlV90n6PJdZbPJPT0CwKz9LSHXKhdYax3ZBpM28T+fLpV3urAMr6caVW0VU5x7tuWgQdB0CLdm
-	KLoPakY/gN0aYqMy5l6L7gmaCXfjuELstKx2yR1ehvPXwm2+AFpFz2zOarwNbZ454FCfPr42FQ
-	5jM=
+IronPort-SDR: q0aw6iogHyKkeC8tqkgzSNj3pcb9M8pBpUGDjIjiZ7eljV7efy8PaOgOEaK7Q5aX/j7zL+AJrY
+	nTAsC2iD9oQ9tmnscefBTHupBTKhnc0JtlVmSsloSupc7snqbhTrTCxS+UkxP2HeJ+J/dMEJhG
+	Rb3WuSEJyvFPjzoGyc8BRlvJyG7qBmD6Y8V86NZpILtpoaKtcfkOKWDV+nvLFDIwzpF7DTDuD/
+	fV/eJD6mJ+CW3LjWAkjixXVEsmiVY+e/TFmU+Io93qVkw0URG1RzS6H+iCuZnD90XP3kBAXTvJ
+	Ci4=
 X-IronPort-AV: E=Sophos;i="5.69,286,1571695200"; 
-   d="scan'208";a="3353225"
+   d="scan'208";a="3252006"
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  7 Dec 2019 06:38:10 +0100
-Message-Id: <20191207053815.1757-2-pkj@axis.com>
+Date: Sat,  7 Dec 2019 06:38:11 +0100
+Message-Id: <20191207053815.1757-3-pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191207053815.1757-1-pkj@axis.com>
 References: <20191207053815.1757-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCH 2/7] licenses.conf: Remove the SRC_DISTRIBUTE_LICENSES variable
+Subject: [PATCH 3/7] license.bbclass: Make incompatible_pkg_license return incompatible lics
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,73 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2019 05:38:19 -0000
+X-List-Received-Date: Sat, 07 Dec 2019 05:38:20 -0000
 Content-Transfer-Encoding: 8bit
 
-The SRC_DISTRIBUTE_LICENSES variable and its static list of licenses
-has been replaced by AVAILABLE_LICENSES, which automatically contains
-all available licenses.
+This makes it possible to report the incompatible licenses.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/conf/licenses.conf | 43 -----------------------------------------
- 1 file changed, 43 deletions(-)
+ meta/classes/license.bbclass | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-index 7b01c57632..1c586a3bc6 100644
---- a/meta/conf/licenses.conf
-+++ b/meta/conf/licenses.conf
-@@ -1,44 +1,3 @@
--# These aren't actually used anywhere that I can tell
--# They may be in the future (or are used by someone else
--# For completion sake, I've updated them
--SRC_DISTRIBUTE_LICENSES += "AAL Adobe AFL-1.2 AFL-2.0 AFL-2.1 AFL-3.0"
--SRC_DISTRIBUTE_LICENSES += "AGPL-3.0 ANTLR-PD Apache-1.0 Apache-1.1 Apache-2.0"
--SRC_DISTRIBUTE_LICENSES += "APL-1.0 APSL-1.0 APSL-1.1 APSL-1.2 APSL-2.0"
--SRC_DISTRIBUTE_LICENSES += "Artistic-1.0 Artistic-2.0 BitstreamVera BSD"
--SRC_DISTRIBUTE_LICENSES += "BSD-2-Clause BSD-3-Clause BSD-4-Clause BSL-1.0"
--SRC_DISTRIBUTE_LICENSES += "CATOSL-1.1 CC0-1.0 CC-BY-1.0 CC-BY-2.0 CC-BY-2.5"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-3.0 CC-BY-NC-1.0 CC-BY-NC-2.0 CC-BY-NC-2.5"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-NC-3.0 CC-BY-NC-ND-1.0 CC-BY-NC-ND-2.0"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-NC-ND-2.5 CC-BY-NC-ND-3.0 CC-BY-NC-SA-1.0"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-NC-SA-2.0 CC-BY-NC-SA-2.5 CC-BY-NC-SA-3.0"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-ND-1.0 CC-BY-ND-2.0 CC-BY-ND-2.5 CC-BY-ND-3.0"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-SA-1.0 CC-BY-SA-2.0 CC-BY-SA-2.5 CC-BY-SA-3.0 CC-BY-SA-4.0"
--SRC_DISTRIBUTE_LICENSES += "CDDL-1.0 CECILL-1.0 CECILL-2.0 CECILL-B CECILL-C"
--SRC_DISTRIBUTE_LICENSES += "ClArtistic CPAL-1.0 CPL-1.0 CUA-OPL-1.0 DSSSL"
--SRC_DISTRIBUTE_LICENSES += "ECL-1.0 ECL-2.0 eCos-2.0 EDL-1.0 EFL-1.0 EFL-2.0"
--SRC_DISTRIBUTE_LICENSES += "Entessa EPL-1.0 EPL-2.0 ErlPL-1.1"
--SRC_DISTRIBUTE_LICENSES += "EUDatagrid EUPL-1.0 EUPL-1.1 Fair Frameworx-1.0"
--SRC_DISTRIBUTE_LICENSES += "FreeType GFDL-1.1 GFDL-1.2 GFDL-1.3 GPL-1.0"
--SRC_DISTRIBUTE_LICENSES += "GPL-2.0 GPL-2.0-with-autoconf-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-2.0-with-classpath-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-2.0-with-font-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-2.0-with-GCC-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-2-with-bison-exception GPL-3.0"
--SRC_DISTRIBUTE_LICENSES += "GPL-3.0-with-autoconf-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-3.0-with-GCC-exception"
--SRC_DISTRIBUTE_LICENSES += "gSOAP-1 gSOAP-1.3b HPND IPA IPL-1.0 ISC LGPL-2.0"
--SRC_DISTRIBUTE_LICENSES += "LGPL-2.1 LGPL-3.0 Libpng LPL-1.02 LPPL-1.0 LPPL-1.1"
--SRC_DISTRIBUTE_LICENSES += "LPPL-1.2 LPPL-1.3c MirOS MIT Motosoto MPL-1.0"
--SRC_DISTRIBUTE_LICENSES += "MPL-1.1 MS-PL MS-RL Multics NASA-1.3 Nauman NCSA"
--SRC_DISTRIBUTE_LICENSES += "NGPL Nokia NPOSL-3.0 NTP OASIS OCLC-2.0 ODbL-1.0"
--SRC_DISTRIBUTE_LICENSES += "OFL-1.1 OGTSL OLDAP-2.8 OpenSSL OSL-1.0 OSL-2.0"
--SRC_DISTRIBUTE_LICENSES += "OSL-3.0 PD PHP-3.0 PostgreSQL Proprietary"
--SRC_DISTRIBUTE_LICENSES += "Python-2.0 QPL-1.0 RHeCos-1 RHeCos-1.1 RPL-1.5"
--SRC_DISTRIBUTE_LICENSES += "RPSL-1.0 RSCPL Ruby SAX-PD SGI-1 Simple-2.0 Sleepycat"
--SRC_DISTRIBUTE_LICENSES += "SPL-1.0 SugarCRM-1 SugarCRM-1.1.3 UCB VSL-1.0 W3C"
--SRC_DISTRIBUTE_LICENSES += "Watcom-1.0 WXwindows XFree86-1.0 XFree86-1.1 Xnet XSL YPL-1.1"
--SRC_DISTRIBUTE_LICENSES += "Zimbra-1.3 Zlib ZPL-1.1 ZPL-2.0 ZPL-2.1"
--
- # Standards are great! Everyone has their own. In an effort to standardize licensing
- # names, common-licenses will use the SPDX standard license names. In order to not
- # break the non-standardized license names that we find in LICENSE, we'll set
-@@ -188,5 +147,3 @@ FOSS_BASE_URL = "http://localhost/repo/?mod=spdx_license_once"
- FOSS_SERVER = "${FOSS_BASE_URL}&fullSPDXFlag=${FOSS_FULL_SPDX}&noCopyright=${FOSS_NO_COPYRIGHT}&recursiveUnpack=${FOSS_RECURSIVE_UNPACK}"
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 20af6d34b6..8094883a87 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -310,15 +310,21 @@ def incompatible_pkg_license(d, dont_want_licenses, license):
+     # Handles an "or" or two license sets provided by
+     # flattened_licenses(), pick one that works if possible.
+     def choose_lic_set(a, b):
+-        return a if all(oe.license.license_ok(canonical_license(d, lic), 
++        return a if all(oe.license.license_ok(canonical_license(d, lic),
+                             dont_want_licenses) for lic in a) else b
  
- FOSS_WGET_FLAGS = "-qO - --no-check-certificate --timeout=0"
--
--
+     try:
+         licenses = oe.license.flattened_licenses(license, choose_lic_set)
+     except oe.license.LicenseError as exc:
+         bb.fatal('%s: %s' % (d.getVar('P'), exc))
+-    return any(not oe.license.license_ok(canonical_license(d, l), \
+-               dont_want_licenses) for l in licenses)
++
++    incompatible_lic = []
++    for l in licenses:
++        license = canonical_license(d, l)
++        if not oe.license.license_ok(license, dont_want_licenses):
++            incompatible_lic.append(license)
++
++    return sorted(incompatible_lic)
+ 
+ def incompatible_license(d, dont_want_licenses, package=None):
+     """
 -- 
 2.21.0
 
