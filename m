@@ -1,50 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A2FD27D1F9
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id B7C296C4DA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Dec 2019 22:48:13 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q10so11822491wrm.11
+	Sat,  7 Dec 2019 23:11:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47VlZZ6rVNz3J
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Dec 2019 14:48:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=OAhq0Hml03YEfZXh2tfcg0LWTvHP4gRl4/vNaW9B9t8=;
-	b=cB45kVhf+W3pDDYMCDT42NmaeThUccbf3gj3F8SBcfgXu5c9MIjP+UlyzI0530EaUq
-	UxwV8wNGfhrIxyAqFwIz5WdPK+GmBYHjOBn/MTwJMwf7BpYuewdWfpBx1oZkUfnCzuCn
-	9xzgxU92QcGSPMW8gYGNP0ktZK+5dqN3DT8I8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=OAhq0Hml03YEfZXh2tfcg0LWTvHP4gRl4/vNaW9B9t8=;
-	b=VKJTNPYsoTv9Kh7BFcBq66tFGxYRxD39amqr4z67NgCUKgdmqj2XpIvBcF1Qxh7tcn
-	ZQaX4klvLqD69qXdkh1wUxtK1HV2u/qMNzpbEBiqXTJPl9/tx7GwuJtET/3K5ds+I/Pf
-	w5IuE2fj1Bfs7OAdKnxGv1sLkf2ZxIpL00gW6Ez3XXvBPCm8jkmDf9QQKP+mYoynhFDp
-	L56KL7WZKJb+0NutpM8XA0seRmL53i+hXjObV/c2lluxm+6X8OqkcxdouwpSUb/Ez8+3
-	s1faoE3F5tMuOD0ixRo3Bz5qpTKqKcz6WQknriePA7LSw4IU35wtMsUd4KjDLqajkhuM
-	laOg==
-X-Gm-Message-State: APjAAAUN9yWVSSR3ChsRWq//ZEyHZKTBFHJWRTXrYiJLC2e7JCQ9OUQ2
-	qpMPqDHmk/RDC7GeX1HkUfCxrQ==
-X-Google-Smtp-Source: APXvYqyts8PhEKubOww1IfKF5R4OvKkbGiUsMjg3FHiC7uuubrznjOopUHhTlu1UXkej5W8zMQUgzA==
-X-Received: by 2002:adf:ea88:: with SMTP id s8mr22880240wrm.293.1575758894469; 
-	Sat, 07 Dec 2019 14:48:14 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 62sm5740133wmb.27.2019.12.07.14.48.13
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 07 Dec 2019 14:48:13 -0800 (PST)
-Message-ID: <2dd45ad42e8ec7a336ef12e4beebb19a6bab2a77.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 07 Dec 2019 22:48:12 +0000
-In-Reply-To: <20191205154357.121346-1-alex.kanavin@gmail.com>
-References: <20191205154357.121346-1-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH 01/24] rpm: upgrade to 4.15.1
+	Sun,  8 Dec 2019 00:11:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1575760295;
+	bh=ZwltAIsRSeBvcxEXzwdxmGiKubhwl6qg9/+hdtp0md0=;
+	h=From:To:Subject:Date:From;
+	b=qYPJsCkS6KBxTWdkDg8sYZY93Uc9ZcUv5h4INBN2MsAmHzcPUx4IAHrdA6b6kJnC9
+	LRCAuZhc2Vl/3D7LDY3aq8bS4d1HADjd3N+oO/ZuECUEDzIsZ+aCG112pbosluOuhz
+	XkBmGxrbasFDuibepYwWAQN3hbWGyxbt2QGes3iadJ/pe7j79qDd61bSeE2CuKK9YU
+	Q75dvaqc7XoaZwjqI2h884jOFH6d949Jpiw+pD/ZP1ILgPfBGrk1RBVT4omBqxoEnN
+	MZLIG9VPWObVfxO5dP4LTn9Kxc4zXdKBtBMFoM8uCGKWfArDfcDUb5gTgAqBq4F9YU
+	7kQ6YB+AJa6T+tC84q+rCdyI8tWgIXMQgcDwDVnfZvGNInYWY96l3A2wjbFAQtcgSL
+	nVtaiT6GoQ/tqEqxeJQTfsITISWEcva3XiPZHv+aiX3V4ccSz6bLI3qDFM7f8iR4d7
+	GG96pL6hDeevn1tvzcraz13yQOdzftscCWIa6wGJbsQz+czjnNdah2q8YTLvtBKSi9
+	cFCWvvgyuEmle3Jfhho+ikWZpff6f1KZtol92p1R1riA2ablvhRoZQsOIMTTB3t5QQ
+	8dbwGjoSbrZHEGgN2OsFdilSfCyPKTMcgBeGYP3o69gyMbfWpYfsnq/xqVSZZLFMWZ
+	BEWO2xbImva+21qQEK15Gyn4=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  8 Dec 2019 01:11:34 +0200
+Message-Id: <20191207231134.27610-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v3] python/python3: Whitelist CVE-2019-18348
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +40,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2019 22:48:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 07 Dec 2019 23:11:38 -0000
 
-On Thu, 2019-12-05 at 16:43 +0100, Alexander Kanavin wrote:
-> Drop patches that were merged upstream.
-> 
-> 0001-mono-find-provides-requires-do-not-use-monodis-from-.patch
-> modifies a file that was removed upstream.
-> 
-> Add a 0001-rpmfc.c-do-not-run-file-classification-in-parallel.patch
-> as unfortunately the new parallel file classification feature from
-> upstream trips over somewhere in libmagic when inspected files are
-> compressed:
-> https://github.com/rpm-software-management/rpm/issues/756
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+This is not exploitable when glibc has CVE-2016-10739 fixed,
+which is fixed in the upstream version since warrior.
 
-This patch series (and your following patches) is showing quite a few
-problems. This gives an idea:
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-devtools/python/python.inc       | 3 +++
+ meta/recipes-devtools/python/python3_3.7.5.bb | 3 +++
+ 2 files changed, 6 insertions(+)
 
-http://errors.yoctoproject.org/Errors/Latest/?filter=2cfc5dd223815df65d2001a6a9c352eadf936f94&type=commit&limit=150
-
-I'm going to drop:
-* gettext changes (needs testing in isolation)
-* python 3.8 (build failures)
-* debianutil upgrade (build failure)
-* sysklogd upgrade (build failure)
-* atk/at-spi2* (build failures)
-* rpm upgrade (load of segfaults in do_package_write_rpm in previous build)
-* libtasn upgrade (build failure)
-
-so we can at least try and get the simpler pieces sorted out first...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
+index 110ec315d9..19a2f3e743 100644
+--- a/meta/recipes-devtools/python/python.inc
++++ b/meta/recipes-devtools/python/python.inc
+@@ -29,6 +29,9 @@ CVE_CHECK_WHITELIST += "CVE-2017-18207"
+ # of Python that cannot really be altered at this point."
+ CVE_CHECK_WHITELIST += "CVE-2015-5652"
+ 
++# This is not exploitable when glibc has CVE-2016-10739 fixed.
++CVE_CHECK_WHITELIST += "CVE-2019-18348"
++
+ PYTHON_MAJMIN = "2.7"
+ 
+ inherit autotools pkgconfig
+diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.5.bb
+index 57eaaea5e7..da991f5139 100644
+--- a/meta/recipes-devtools/python/python3_3.7.5.bb
++++ b/meta/recipes-devtools/python/python3_3.7.5.bb
+@@ -47,6 +47,9 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ 
+ CVE_PRODUCT = "python"
+ 
++# This is not exploitable when glibc has CVE-2016-10739 fixed.
++CVE_CHECK_WHITELIST += "CVE-2019-18348"
++
+ PYTHON_MAJMIN = "3.7"
+ PYTHON_BINABI = "${PYTHON_MAJMIN}m"
+ 
+-- 
+2.17.1
 
 
