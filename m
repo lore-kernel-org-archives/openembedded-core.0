@@ -1,28 +1,28 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A9357FAA5
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 3884C7FA9E
 	for <openembedded-core@lists.openembedded.org>;
 	Sat,  7 Dec 2019 05:38:20 +0000 (UTC)
-IronPort-SDR: Kg+NVbf4zmLzZ2HWu3hP5U0M6MD7BrG3MZMKPZXGV8aqHQDvxtmNl36b3On9/FIDxhhyrcf13W
-	T45V/B6VY88sl/bABR6UwfbZunodLdl8vHEXJKhqANLSv2MER/gepuulw13AAtobV9RS0TrZvy
-	rjVveoJznTfv0vc5q5wglfeI5sF1YZNPXIUkmRTAnRyTyriV3a8/1O8uZvco59Ai4IGHt/uN1l
-	/78qUSAral5g2w7cAaWqOnnsG89EDOIMVCu7n4cHo+Kvi2RkSjkvdRMirvF3jjAhq5XWd3rAVj
-	32I=
+IronPort-SDR: SOjOLiz6m1Bbw6bxJYKtZihmy9e+SqzARDjeigDJ1QWJ/0xdTWGZBR8XgsHB07TakBDM3DxveY
+	CBAXF/x/WYHgBNokyyXat0WB0zpEQAKGy0JFmD08yj8/y6PsGQOIo5dAKxbjA2gnwqCuJ7+3ne
+	1vyg5M06e293W2eiTuwdrdM0iL6DK6lgPtBZMqW0EJC3y5YVXObBhbKs/6qNgX0+gU9ESvl4Fo
+	+pYe/cn4cZcKKQNc9GvA45flEUt0QyRdYi6XIM5iLlKyLOqglQE3xxTDAWWB1IArugz8eDcJE+
+	P2U=
 X-IronPort-AV: E=Sophos;i="5.69,286,1571695200"; 
-   d="scan'208";a="3252007"
+   d="scan'208";a="3353226"
 X-Axis-User: NO
 X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  7 Dec 2019 06:38:14 +0100
-Message-Id: <20191207053815.1757-6-pkj@axis.com>
+Date: Sat,  7 Dec 2019 06:38:12 +0100
+Message-Id: <20191207053815.1757-4-pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191207053815.1757-1-pkj@axis.com>
 References: <20191207053815.1757-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCH 6/7] package.bbclass: Report only the licenses that are incompatible
+Subject: [PATCH 4/7] base.bbclass: Simplify the check for whitelisted licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +38,57 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 07 Dec 2019 05:38:20 -0000
 Content-Transfer-Encoding: 8bit
 
-When excluding a package from being packaged due to incompatible
-licenses, report the license(s) that are actually incompatible.
+After a number of rewrites, the code checking if a package has been
+whitelisted for an incompatible license was calculating the
+whitelisted packages twice (as 'whitelist' and as 'incompatwl').
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/package.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ meta/classes/base.bbclass | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index e0d6ff6701..6f5939e12f 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1263,8 +1263,9 @@ python populate_packages () {
-     # Handle LICENSE_EXCLUSION
-     package_list = []
-     for pkg in packages:
--        if d.getVar('LICENSE_EXCLUSION-' + pkg):
--            msg = "%s has an incompatible license. Excluding from packaging." % pkg
-+        licenses = d.getVar('LICENSE_EXCLUSION-' + pkg)
-+        if licenses:
-+            msg = "Excluding %s from packaging as it has incompatible license(s): %s" % (pkg, ' '.join(licenses))
-             package_qa_handle_error("incompatible-license", msg, d)
-         else:
-             package_list.append(pkg)
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 3306b316bb..5176168cf8 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -531,23 +531,21 @@ python () {
+             bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+ 
+             whitelist = []
+-            incompatwl = []
+             for lic in bad_licenses:
+                 spdx_license = return_spdx(d, lic)
+                 whitelist.extend((d.getVar("WHITELIST_" + lic) or "").split())
+                 if spdx_license:
+                     whitelist.extend((d.getVar("WHITELIST_" + spdx_license) or "").split())
++
++            if pn in whitelist:
+                 '''
+                 We need to track what we are whitelisting and why. If pn is
+                 incompatible we need to be able to note that the image that
+                 is created may infact contain incompatible licenses despite
+                 INCOMPATIBLE_LICENSE being set.
+                 '''
+-                incompatwl.extend((d.getVar("WHITELIST_" + lic) or "").split())
+-                if spdx_license:
+-                    incompatwl.extend((d.getVar("WHITELIST_" + spdx_license) or "").split())
+-
+-            if not pn in whitelist:
++                bb.note("Including %s as buildable despite it having an incompatible license because it has been whitelisted" % pn)
++            else:
+                 pkgs = d.getVar('PACKAGES').split()
+                 skipped_pkgs = []
+                 unskipped_pkgs = []
+@@ -567,9 +565,6 @@ python () {
+                 elif all_skipped or incompatible_license(d, bad_licenses):
+                     bb.debug(1, "SKIPPING recipe %s because it's %s" % (pn, license))
+                     raise bb.parse.SkipRecipe("it has an incompatible license: %s" % license)
+-            elif pn in whitelist:
+-                if pn in incompatwl:
+-                    bb.note("INCLUDING " + pn + " as buildable despite INCOMPATIBLE_LICENSE because it has been whitelisted")
+ 
+         # Try to verify per-package (LICENSE_<pkg>) values. LICENSE should be a
+         # superset of all per-package licenses. We do not do advanced (pattern)
 -- 
 2.21.0
 
