@@ -1,49 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4719D7FA2E
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
+	[209.85.215.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E7487CFEE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Dec 2019 15:48:11 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id v23so9264320qkg.2
+	Sat,  7 Dec 2019 18:40:56 +0000 (UTC)
+Received: by mail-pg1-f179.google.com with SMTP id 6so5004133pgk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 07 Dec 2019 07:48:12 -0800 (PST)
+	Sat, 07 Dec 2019 10:40:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rVm5CRDl/7/7CW53GCCjZNP0EZVGWWcmg3Hhe5FIVqg=;
-	b=TTt8AbFbMSxOB81l1GWvjevDKwEMQ1ELkB5KZtDtkMAUyJ4EiybpnJfBJwsNvzPO5Q
-	E0Z9yKuPvUDiwKfXfFRUGxRW31uG/hDmI9mWDDX8Zq5jskXDP+s4SgxG+g9jvqQ/qZMD
-	biCXUJkONPYZ20ijOUYIh4Vqo/xsbpFeQ+o2Wl2P6+kfS9DQHZBnN+Cw8zF0NHnCi8VH
-	XXZHwx+O74BB4s27PEpDK2NCsJpLVBY/lx2Vyv07f232uw6DUiUv7SJGh/tiLT3rmfoB
-	S9ADSub3xSWxIEVxsCq6A+i2kNt6sMzJ8mdDkDPRSyrv8RQxNSNPs3ZlW+5tgT6t46bp
-	8sWw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=v+lBAwESPiMQ1p/6VB41sFpZReNe5pM6yylW2J/0oFA=;
+	b=npRE7HkcXwhH6wdBI0lkFiYCQThGq2XLhZoz9ZACk5Qw+FvLMs+/GipZ2X3VouGRwJ
+	skz8dJ9AfQro3hNka6c9ckg2C0FtqlTG6Uej3L3Cy/91WCbUKYumHtXFNulKSZzAm/Bi
+	jBkQPSSddq0s6BTJdYG18hoiq0HDHXFAPnk3Ax6an8vebyr3rM0mLeleyoFQClSjCGvB
+	84X5EPqBtWCQgnx+qZcrAV7RwJ0aormjTFQvekZhPank3LWUtu90LPgKgYggtFB0w8kF
+	CmSlgkXKlRT8ZQ3x/NsDEmkzZclAsu/avv8bQVwljgXUSSJ9xvDVJQYTAT3pL77djew0
+	BcCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rVm5CRDl/7/7CW53GCCjZNP0EZVGWWcmg3Hhe5FIVqg=;
-	b=GmL4HtcH6zScujyNPf+5kOXcaqgTRmt5bRxEmX8WMLIk3evObRBND7oeIBcP5D0hLd
-	+2gu7VsW+Kx9PR6BOhSS9nx69BfpAbOtYO5Uk617P0+Jq2rruTnB2d212IAD/DlmMspa
-	yGpmorcPP1mlmgxsuVyenvvU3X5VrUQ6JonKT6E1hhqa1WKpUgwGKtRskpnkgV3v73Rr
-	1dEJW78w+gGovWvsRHRxIo8QGLh1zTBbP0ULhU+tc7VB8gMrju1CjZO11YfaI3GN2wqs
-	2vRFVgC3W++w0Kj0Ias6QhsYMKcjoJC5jCws9alO5q1HwOxEPZ3+QbYx8afpIGMvnQNN
-	1eQA==
-X-Gm-Message-State: APjAAAVuGNNIPy0a2WzUhMT1chllGsWL4Sv/r2l2Hy0rKnJnc/5vjUDe
-	WPfX82jSdga7/VLf0C4xxJnMr393r0VWK/ze9Hs=
-X-Google-Smtp-Source: APXvYqxv2grAcsyrgiybSlRTlZ1XbMj6FymLIusODztO+dCd9yChC6H6WNEunI5U9hQd9QgPcm+qd7zIdRifpwNk+TM=
-X-Received: by 2002:a37:bf82:: with SMTP id
-	p124mr19672706qkf.337.1575733691311; 
-	Sat, 07 Dec 2019 07:48:11 -0800 (PST)
-MIME-Version: 1.0
-References: <20191205154357.121346-1-alex.kanavin@gmail.com>
-	<20191205154357.121346-6-alex.kanavin@gmail.com>
-In-Reply-To: <20191205154357.121346-6-alex.kanavin@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=v+lBAwESPiMQ1p/6VB41sFpZReNe5pM6yylW2J/0oFA=;
+	b=V6rQbP0JT1Oxa0XCM3BcQs2AnIih+rdJFJfAvCgyQGjGRnHw4fmqy+YKglfL/gA/lw
+	3UWZW5mArHUVEYaq58frMsx6HQbLZO6wjZJtCPGex6cAuRrWlxJzpUN0MwDvT9CW/4xl
+	zVxTMHNsyAK4N2nGNz9LMN05yUNSZ8DBRndN7KyVKBsd3QL+xLBM/DJkBWP0Vx/HvLQE
+	HKOI3fhTna4YKRvEWpoghMYpy3wUeEqIL90D7Xyn81uWFv8bDeuj1F+7b+R2F4Z5nJ9n
+	RwMN2xGDtQF9dLtJdZ2Y+C0UKum8vHr5vVbGsPIH6SVXkcHdWnNLrHJEZrJZMe7LHm1z
+	Voeg==
+X-Gm-Message-State: APjAAAVJ9j8j37zL1GnD+N0ebm2lHw2iVndtwhuFmBFHq8w1R1ZssoIT
+	Oibzrl70b5FshELRNH9llJhk71/u4ZY=
+X-Google-Smtp-Source: APXvYqzZ5xXk8ryFTFu5K+N40BhMTHMHBKZyoahs/960VH5YCIb9yWGYVtJGJ+fMukJuMoynYLLofw==
+X-Received: by 2002:a63:4641:: with SMTP id v1mr10145609pgk.389.1575744055519; 
+	Sat, 07 Dec 2019 10:40:55 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::afb7])
+	by smtp.gmail.com with ESMTPSA id
+	b73sm22129519pfb.72.2019.12.07.10.40.54
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 07 Dec 2019 10:40:54 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 7 Dec 2019 07:47:44 -0800
-Message-ID: <CAMKF1sqx35CX9Mzup2WJeaEsK_9qsk=6tHRwjL5+p_xAnAafZw@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 06/24] python3: update to 3.8.0
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  7 Dec 2019 10:40:41 -0800
+Message-Id: <20191207184042.3826637-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.0
+MIME-Version: 1.0
+Subject: [PATCH 1/2] cross-localedef: Re-arrange patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,1129 +57,2066 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2019 15:48:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 07 Dec 2019 18:40:56 -0000
+Content-Transfer-Encoding: 8bit
 
-besides gettext this is another reason I suppose causing a few more failures see
+Patches are currently, crossing across repo boundaries, between glibc
+and localedef, therefore it is better to divide the patches
+accordiningly, with this patchset makery patch is spun out since that
+applies to localedef alone.
 
+There are no other code changes
 
-http://errors.yoctoproject.org/Errors/Build/94077/
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Jason Wessel <jason.wessel@windriver.com>
+---
+ .../glibc/cross-localedef-native_2.30.bb      |    5 +-
+ ...d-hardlink-resolver-from-util-linux.patch} | 1697 +++++++++--------
+ ...hardlink-fix-ups-to-make-it-compile.patch} |   50 +-
+ .../0031-Add-hardlink-resolver-to-build.patch |   55 +
+ 4 files changed, 945 insertions(+), 862 deletions(-)
+ rename meta/recipes-core/glibc/glibc/{add-cross-localedef-hardlink.patch => 0029-Add-hardlink-resolver-from-util-linux.patch} (92%)
+ rename meta/recipes-core/glibc/glibc/{allow-compile-separate-from-util-linux-hardlink.patch => 0030-hardlink-fix-ups-to-make-it-compile.patch} (85%)
+ create mode 100644 meta/recipes-core/glibc/glibc/0031-Add-hardlink-resolver-to-build.patch
 
-all do_prepare_recipe_sysroot seems to be failing in python snippets.
-and do_configure aree also related to native python missing modules
-do_compile are mostly related to gettext.
+diff --git a/meta/recipes-core/glibc/cross-localedef-native_2.30.bb b/meta/recipes-core/glibc/cross-localedef-native_2.30.bb
+index 29cd43e89a..99c3d30397 100644
+--- a/meta/recipes-core/glibc/cross-localedef-native_2.30.bb
++++ b/meta/recipes-core/glibc/cross-localedef-native_2.30.bb
+@@ -30,8 +30,9 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0022-eglibc-Forward-port-cross-locale-generation-support.patch \
+            file://0023-Define-DUMMY_LOCALE_T-if-not-defined.patch \
+            file://0024-localedef-add-to-archive-uses-a-hard-coded-locale-pa.patch \
+-           file://add-cross-localedef-hardlink.patch \
+-           file://allow-compile-separate-from-util-linux-hardlink.patch \
++           file://0029-Add-hardlink-resolver-from-util-linux.patch \
++           file://0030-hardlink-fix-ups-to-make-it-compile.patch \
++           file://0031-Add-hardlink-resolver-to-build.patch \
+ "
+ # Makes for a rather long rev (22 characters), but...
+ #
+diff --git a/meta/recipes-core/glibc/glibc/add-cross-localedef-hardlink.patch b/meta/recipes-core/glibc/glibc/0029-Add-hardlink-resolver-from-util-linux.patch
+similarity index 92%
+rename from meta/recipes-core/glibc/glibc/add-cross-localedef-hardlink.patch
+rename to meta/recipes-core/glibc/glibc/0029-Add-hardlink-resolver-from-util-linux.patch
+index 8471121949..b7fb0321c4 100644
+--- a/meta/recipes-core/glibc/glibc/add-cross-localedef-hardlink.patch
++++ b/meta/recipes-core/glibc/glibc/0029-Add-hardlink-resolver-from-util-linux.patch
+@@ -1,986 +1,1001 @@
++From 9e5e5297d9a5ef66b3920313356bf7f25955dff3 Mon Sep 17 00:00:00 2001
++From: Jason Wessel <jason.wessel@windriver.com>
++Date: Sat, 7 Dec 2019 09:59:22 -0800
++Subject: [PATCH] Add hardlink resolver from util-linux
++
++The hard link resolver that is built into localedef cannot be run in
++parallel.  It will search sibling directories (which are be processed
++in parallel) and perform a creation of a .tmp file and remove the
++original and move the .tmp file in.  The problem is that if a probe
++occurs a hard link can be requested to the file that is being removed.
++This will lead to a stray copy or potentially, on a loaded system
++cause race condition which pseudo cannot deal with, where it is left
++with a hard link request to a file that no longer exists.  In this
++situation psuedo will inherit the permissions of what ever the target
++inode had to offer.
++
++In short, there are two problems:
++
++1) You will be left with stray copies when using the hard link
++resolution that is built in while running in parallel with
++localedef.
++
++2) When running under pseudo the possibility exists for uid/gid
++leakage when the source file is removed before the hard link can
++be completed.
++
++The solution is to call localedef with --no-hard-links and separately
++process the hardlinks at a later point.  To do this requires the
++inclusion of the hardlink utility found in modern versions of
++util-linux.  Most host systems do not have this, so it will be
++included with the cross-localedef binary.
++
++[YOCTO #11299]
++[YOCTO #12434]
++
++Upstream-Status: Pending
++
++Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- locale/programs/c.h                        |  407 ++++++++++++++++++++++
+- locale/programs/cross-localedef-hardlink.c |  528 +++++++++++++++++++++++++++++
+- locale/programs/xalloc.h                   |  129 +++++++
+- localedef/Makefile.in                      |    8 
+- 4 files changed, 1071 insertions(+), 1 deletion(-)
++ locale/programs/c.h                        | 407 ++++++++++++++++
++ locale/programs/cross-localedef-hardlink.c | 528 +++++++++++++++++++++
++ locale/programs/xalloc.h                   | 129 +++++
++ 3 files changed, 1064 insertions(+)
++ create mode 100644 locale/programs/c.h
++ create mode 100644 locale/programs/cross-localedef-hardlink.c
++ create mode 100644 locale/programs/xalloc.h
+ 
++diff --git a/locale/programs/c.h b/locale/programs/c.h
++new file mode 100644
++index 0000000000..d0a402e90e
+ --- /dev/null
+-+++ b/locale/programs/cross-localedef-hardlink.c
+-@@ -0,0 +1,528 @@
+++++ b/locale/programs/c.h
++@@ -0,0 +1,407 @@
+ +/*
+-+ * hardlink - consolidate duplicate files via hardlinks
+-+ *
+-+ * Copyright (C) 2018 Red Hat, Inc. All rights reserved.
+-+ * Written by Jakub Jelinek <jakub@redhat.com>
+-+ *
+-+ * Copyright (C) 2019 Karel Zak <kzak@redhat.com>
+-+ *
+-+ * This program is free software; you can redistribute it and/or modify
+-+ * it under the terms of the GNU General Public License as published by
+-+ * the Free Software Foundation; either version 2 of the License, or
+-+ * (at your option) any later version.
+-+ *
+-+ * This program is distributed in the hope that it would be useful,
+-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-+ * GNU General Public License for more details.
+-+ *
+-+ * You should have received a copy of the GNU General Public License along
+-+ * with this program; if not, write to the Free Software Foundation, Inc.,
+-+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+++ * Fundamental C definitions.
+ + */
+-+#include <sys/types.h>
+-+#include <stdlib.h>
+-+#include <getopt.h>
+++
+++#ifndef UTIL_LINUX_C_H
+++#define UTIL_LINUX_C_H
+++
+++#include <limits.h>
+++#include <stddef.h>
+++#include <stdint.h>
+ +#include <stdio.h>
+ +#include <unistd.h>
+-+#include <sys/stat.h>
+-+#include <sys/mman.h>
+++#include <stdarg.h>
+++#include <stdlib.h>
+ +#include <string.h>
+-+#include <dirent.h>
+-+#include <fcntl.h>
+ +#include <errno.h>
+-+#ifdef HAVE_PCRE
+-+# define PCRE2_CODE_UNIT_WIDTH 8
+-+# include <pcre2.h>
+-+#endif
+-+
+-+#include "c.h"
+-+#include "xalloc.h"
+-+#include "nls.h"
+-+#include "closestream.h"
+ +
+-+#define NHASH   (1<<17)  /* Must be a power of 2! */
+-+#define NBUF    64
+++#include <assert.h>
+ +
+-+struct hardlink_file;
+++#ifdef HAVE_ERR_H
+++# include <err.h>
+++#endif
+ +
+-+struct hardlink_hash {
+-+	struct hardlink_hash *next;
+-+	struct hardlink_file *chain;
+-+	off_t size;
+-+	time_t mtime;
+-+};
+++#ifdef HAVE_SYS_SYSMACROS_H
+++# include <sys/sysmacros.h>     /* for major, minor */
+++#endif
+ +
+-+struct hardlink_dir {
+-+	struct hardlink_dir *next;
+-+	char name[];
+-+};
+++#ifndef LOGIN_NAME_MAX
+++# define LOGIN_NAME_MAX 256
+++#endif
+ +
+-+struct hardlink_file {
+-+	struct hardlink_file *next;
+-+	ino_t ino;
+-+	dev_t dev;
+-+	unsigned int cksum;
+-+	char name[];
+-+};
+++#ifndef NAME_MAX
+++# define NAME_MAX PATH_MAX
+++#endif
+ +
+-+struct hardlink_dynstr {
+-+	char *buf;
+-+	size_t alloc;
+-+};
+++/*
+++ * __GNUC_PREREQ is deprecated in favour of __has_attribute() and
+++ * __has_feature(). The __has macros are supported by clang and gcc>=5.
+++ */
+++#ifndef __GNUC_PREREQ
+++# if defined __GNUC__ && defined __GNUC_MINOR__
+++#  define __GNUC_PREREQ(maj, min) \
+++	((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+++# else
+++#  define __GNUC_PREREQ(maj, min) 0
+++# endif
+++#endif
+ +
+-+struct hardlink_ctl {
+-+	struct hardlink_dir *dirs;
+-+	struct hardlink_hash *hps[NHASH];
+-+	char iobuf1[BUFSIZ];
+-+	char iobuf2[BUFSIZ];
+-+	/* summary counters */
+-+	unsigned long long ndirs;
+-+	unsigned long long nobjects;
+-+	unsigned long long nregfiles;
+-+	unsigned long long ncomp;
+-+	unsigned long long nlinks;
+-+	unsigned long long nsaved;
+-+	/* current device */
+-+	dev_t dev;
+-+	/* flags */
+-+	unsigned int verbose;
+-+	unsigned int
+-+		no_link:1,
+-+		content_only:1,
+-+		force:1;
+-+};
+-+/* ctl is in global scope due use in atexit() */
+-+struct hardlink_ctl global_ctl;
+++#ifdef __GNUC__
+ +
+-+__attribute__ ((always_inline))
+-+static inline unsigned int hash(off_t size, time_t mtime)
+-+{
+-+	return (size ^ mtime) & (NHASH - 1);
+-+}
+++/* &a[0] degrades to a pointer: a different type from an array */
+++# define __must_be_array(a) \
+++	UL_BUILD_BUG_ON_ZERO(__builtin_types_compatible_p(__typeof__(a), __typeof__(&a[0])))
+ +
+-+__attribute__ ((always_inline))
+-+static inline int stcmp(struct stat *st1, struct stat *st2, int content_scope)
+-+{
+-+	if (content_scope)
+-+		return st1->st_size != st2->st_size;
+++# define ignore_result(x) __extension__ ({ \
+++	__typeof__(x) __dummy __attribute__((__unused__)) = (x); (void) __dummy; \
+++})
+ +
+-+	return st1->st_mode != st2->st_mode
+-+		|| st1->st_uid != st2->st_uid
+-+		|| st1->st_gid != st2->st_gid
+-+		|| st1->st_size != st2->st_size
+-+		|| st1->st_mtime != st2->st_mtime;
+-+}
+++#else /* !__GNUC__ */
+++# define __must_be_array(a)	0
+++# define __attribute__(_arg_)
+++# define ignore_result(x) ((void) (x))
+++#endif /* !__GNUC__ */
+ +
+-+static void print_summary(void)
+-+{
+-+	struct hardlink_ctl const *const ctl = &global_ctl;
+++/*
+++ * It evaluates to 1 if the attribute/feature is supported by the current
+++ * compilation targed. Fallback for old compilers.
+++ */
+++#ifndef __has_attribute
+++  #define __has_attribute(x) 0
+++#endif
+ +
+-+	if (!ctl->verbose)
+-+		return;
+++#ifndef __has_feature
+++  #define __has_feature(x) 0
+++#endif
+ +
+-+	if (ctl->verbose > 1 && ctl->nlinks)
+-+		fputc('\n', stdout);
+++/*
+++ * Function attributes
+++ */
+++#ifndef __ul_alloc_size
+++# if (__has_attribute(alloc_size) && __has_attribute(warn_unused_result)) || __GNUC_PREREQ (4, 3)
+++#  define __ul_alloc_size(s) __attribute__((alloc_size(s), warn_unused_result))
+++# else
+++#  define __ul_alloc_size(s)
+++# endif
+++#endif
+ +
+-+	printf(_("Directories:   %9lld\n"), ctl->ndirs);
+-+	printf(_("Objects:       %9lld\n"), ctl->nobjects);
+-+	printf(_("Regular files: %9lld\n"), ctl->nregfiles);
+-+	printf(_("Comparisons:   %9lld\n"), ctl->ncomp);
+-+	printf(  "%s%9lld\n", (ctl->no_link ?
+-+	       _("Would link:    ") :
+-+	       _("Linked:        ")), ctl->nlinks);
+-+	printf(  "%s %9lld\n", (ctl->no_link ?
+-+	       _("Would save:   ") :
+-+	       _("Saved:        ")), ctl->nsaved);
+-+}
+++#ifndef __ul_calloc_size
+++# if (__has_attribute(alloc_size) && __has_attribute(warn_unused_result)) || __GNUC_PREREQ (4, 3)
+++#  define __ul_calloc_size(n, s) __attribute__((alloc_size(n, s), warn_unused_result))
+++# else
+++#  define __ul_calloc_size(n, s)
+++# endif
+++#endif
+ +
+-+static void __attribute__((__noreturn__)) usage(void)
+-+{
+-+	fputs(USAGE_HEADER, stdout);
+-+	printf(_(" %s [options] directory...\n"), program_invocation_short_name);
+++#if __has_attribute(returns_nonnull) || __GNUC_PREREQ (4, 9)
+++# define __ul_returns_nonnull __attribute__((returns_nonnull))
+++#else
+++# define __ul_returns_nonnull
+++#endif
+ +
+-+	fputs(USAGE_SEPARATOR, stdout);
+-+	puts(_("Consolidate duplicate files using hardlinks."));
+++/*
+++ * Force a compilation error if condition is true, but also produce a
+++ * result (of value 0 and type size_t), so the expression can be used
+++ * e.g. in a structure initializer (or wherever else comma expressions
+++ * aren't permitted).
+++ */
+++#define UL_BUILD_BUG_ON_ZERO(e) __extension__ (sizeof(struct { int:-!!(e); }))
+++#define BUILD_BUG_ON_NULL(e) ((void *)sizeof(struct { int:-!!(e); }))
+ +
+-+	fputs(USAGE_OPTIONS, stdout);
+-+	puts(_(" -c, --content          compare only contents, ignore permission, etc."));
+-+	puts(_(" -n, --dry-run          don't actually link anything"));
+-+	puts(_(" -v, --verbose          print summary after hardlinking"));
+-+	puts(_(" -vv                    print every hardlinked file and summary"));
+-+	puts(_(" -f, --force            force hardlinking across filesystems"));
+-+	puts(_(" -x, --exclude <regex>  exclude files matching pattern"));
+++#ifndef ARRAY_SIZE
+++# define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+++#endif
+ +
+-+	fputs(USAGE_SEPARATOR, stdout);
+-+	printf(USAGE_HELP_OPTIONS(16)); /* char offset to align option descriptions */
+-+	printf(USAGE_MAN_TAIL("hardlink(1)"));
+-+	exit(EXIT_SUCCESS);
+-+}
+++#ifndef PATH_MAX
+++# define PATH_MAX 4096
+++#endif
+ +
+-+__attribute__ ((always_inline))
+-+static inline size_t add2(size_t a, size_t b)
+-+{
+-+	size_t sum = a + b;
+++#ifndef TRUE
+++# define TRUE 1
+++#endif
+ +
+-+	if (sum < a)
+-+		errx(EXIT_FAILURE, _("integer overflow"));
+-+	return sum;
+-+}
+++#ifndef FALSE
+++# define FALSE 0
+++#endif
+ +
+-+__attribute__ ((always_inline))
+-+static inline size_t add3(size_t a, size_t b, size_t c)
+++#ifndef min
+++# define min(x, y) __extension__ ({		\
+++	__typeof__(x) _min1 = (x);		\
+++	__typeof__(y) _min2 = (y);		\
+++	(void) (&_min1 == &_min2);		\
+++	_min1 < _min2 ? _min1 : _min2; })
+++#endif
+++
+++#ifndef max
+++# define max(x, y) __extension__ ({		\
+++	__typeof__(x) _max1 = (x);		\
+++	__typeof__(y) _max2 = (y);		\
+++	(void) (&_max1 == &_max2);		\
+++	_max1 > _max2 ? _max1 : _max2; })
+++#endif
+++
+++#ifndef cmp_numbers
+++# define cmp_numbers(x, y) __extension__ ({	\
+++	__typeof__(x) _a = (x);			\
+++	__typeof__(y) _b = (y);			\
+++	(void) (&_a == &_b);			\
+++	_a == _b ? 0 : _a > _b ? 1 : -1; })
+++#endif
+++
+++#ifndef offsetof
+++#define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
+++#endif
+++
+++/*
+++ * container_of - cast a member of a structure out to the containing structure
+++ * @ptr:	the pointer to the member.
+++ * @type:	the type of the container struct this is embedded in.
+++ * @member:	the name of the member within the struct.
+++ */
+++#ifndef container_of
+++#define container_of(ptr, type, member) __extension__ ({	\
+++	const __typeof__( ((type *)0)->member ) *__mptr = (ptr); \
+++	(type *)( (char *)__mptr - offsetof(type,member) );})
+++#endif
+++
+++#ifndef HAVE_PROGRAM_INVOCATION_SHORT_NAME
+++# ifdef HAVE___PROGNAME
+++extern char *__progname;
+++#  define program_invocation_short_name __progname
+++# else
+++#  ifdef HAVE_GETEXECNAME
+++#   define program_invocation_short_name \
+++		prog_inv_sh_nm_from_file(getexecname(), 0)
+++#  else
+++#   define program_invocation_short_name \
+++		prog_inv_sh_nm_from_file(__FILE__, 1)
+++#  endif
+++static char prog_inv_sh_nm_buf[256];
+++static inline char *
+++prog_inv_sh_nm_from_file(char *f, char stripext)
+ +{
+-+	return add2(add2(a, b), c);
+++	char *t;
+++
+++	if ((t = strrchr(f, '/')) != NULL)
+++		t++;
+++	else
+++		t = f;
+++
+++	strncpy(prog_inv_sh_nm_buf, t, sizeof(prog_inv_sh_nm_buf) - 1);
+++	prog_inv_sh_nm_buf[sizeof(prog_inv_sh_nm_buf) - 1] = '\0';
+++
+++	if (stripext && (t = strrchr(prog_inv_sh_nm_buf, '.')) != NULL)
+++		*t = '\0';
+++
+++	return prog_inv_sh_nm_buf;
+ +}
+++# endif
+++#endif
+ +
+-+static void growstr(struct hardlink_dynstr *str, size_t newlen)
+++
+++#ifndef HAVE_ERR_H
+++static inline void
+++errmsg(char doexit, int excode, char adderr, const char *fmt, ...)
+ +{
+-+	if (newlen < str->alloc)
+-+		return;
+-+	str->buf = xrealloc(str->buf, str->alloc = add2(newlen, 1));
+++	fprintf(stderr, "%s: ", program_invocation_short_name);
+++	if (fmt != NULL) {
+++		va_list argp;
+++		va_start(argp, fmt);
+++		vfprintf(stderr, fmt, argp);
+++		va_end(argp);
+++		if (adderr)
+++			fprintf(stderr, ": ");
+++	}
+++	if (adderr)
+++		fprintf(stderr, "%m");
+++	fprintf(stderr, "\n");
+++	if (doexit)
+++		exit(excode);
+ +}
+ +
+-+static void process_path(struct hardlink_ctl *ctl, const char *name)
+-+{
+-+	struct stat st, st2, st3;
+-+	const size_t namelen = strlen(name);
+++#ifndef HAVE_ERR
+++# define err(E, FMT...) errmsg(1, E, 1, FMT)
+++#endif
+ +
+-+	ctl->nobjects++;
+-+	if (lstat(name, &st))
+-+		return;
+++#ifndef HAVE_ERRX
+++# define errx(E, FMT...) errmsg(1, E, 0, FMT)
+++#endif
+ +
+-+	if (st.st_dev != ctl->dev && !ctl->force) {
+-+		if (ctl->dev)
+-+			errx(EXIT_FAILURE,
+-+			     _("%s is on different filesystem than the rest "
+-+			       "(use -f option to override)."), name);
+-+		ctl->dev = st.st_dev;
+-+	}
+-+	if (S_ISDIR(st.st_mode)) {
+-+		struct hardlink_dir *dp = xmalloc(add3(sizeof(*dp), namelen, 1));
+-+		memcpy(dp->name, name, namelen + 1);
+-+		dp->next = ctl->dirs;
+-+		ctl->dirs = dp;
+++#ifndef HAVE_WARN
+++# define warn(FMT...) errmsg(0, 0, 1, FMT)
+++#endif
+ +
+-+	} else if (S_ISREG(st.st_mode)) {
+-+		int fd, i;
+-+		struct hardlink_file *fp, *fp2;
+-+		struct hardlink_hash *hp;
+-+		const char *n1, *n2;
+-+		unsigned int buf[NBUF];
+-+		int cksumsize = sizeof(buf);
+-+		unsigned int cksum;
+-+		time_t mtime = ctl->content_only ? 0 : st.st_mtime;
+-+		unsigned int hsh = hash(st.st_size, mtime);
+-+		off_t fsize;
+++#ifndef HAVE_WARNX
+++# define warnx(FMT...) errmsg(0, 0, 0, FMT)
+++#endif
+++#endif /* !HAVE_ERR_H */
+ +
+-+		ctl->nregfiles++;
+-+		if (ctl->verbose > 1)
+-+			printf("%s\n", name);
+ +
+-+		fd = open(name, O_RDONLY);
+-+		if (fd < 0)
+-+			return;
+++/* Don't use inline function to avoid '#include "nls.h"' in c.h
+++ */
+++#define errtryhelp(eval) __extension__ ({ \
+++	fprintf(stderr, _("Try '%s --help' for more information.\n"), \
+++			program_invocation_short_name); \
+++	exit(eval); \
+++})
+ +
+-+		if ((size_t)st.st_size < sizeof(buf)) {
+-+			cksumsize = st.st_size;
+-+			memset(((char *)buf) + cksumsize, 0,
+-+			       (sizeof(buf) - cksumsize) % sizeof(buf[0]));
+-+		}
+-+		if (read(fd, buf, cksumsize) != cksumsize) {
+-+			close(fd);
+-+			return;
+-+		}
+-+		cksumsize = (cksumsize + sizeof(buf[0]) - 1) / sizeof(buf[0]);
+-+		for (i = 0, cksum = 0; i < cksumsize; i++) {
+-+			if (cksum + buf[i] < cksum)
+-+				cksum += buf[i] + 1;
+-+			else
+-+				cksum += buf[i];
+-+		}
+-+		for (hp = ctl->hps[hsh]; hp; hp = hp->next) {
+-+			if (hp->size == st.st_size && hp->mtime == mtime)
+-+				break;
+-+		}
+-+		if (!hp) {
+-+			hp = xmalloc(sizeof(*hp));
+-+			hp->size = st.st_size;
+-+			hp->mtime = mtime;
+-+			hp->chain = NULL;
+-+			hp->next = ctl->hps[hsh];
+-+			ctl->hps[hsh] = hp;
+-+		}
+-+		for (fp = hp->chain; fp; fp = fp->next) {
+-+			if (fp->cksum == cksum)
+-+				break;
+-+		}
+-+		for (fp2 = fp; fp2 && fp2->cksum == cksum; fp2 = fp2->next) {
+-+			if (fp2->ino == st.st_ino && fp2->dev == st.st_dev) {
+-+				close(fd);
+-+				return;
+-+			}
+-+		}
+-+		for (fp2 = fp; fp2 && fp2->cksum == cksum; fp2 = fp2->next) {
+++/* After failed execvp() */
+++#define EX_EXEC_FAILED		126	/* Program located, but not usable. */
+++#define EX_EXEC_ENOENT		127	/* Could not find program to exec.  */
+++#define errexec(name)	err(errno == ENOENT ? EX_EXEC_ENOENT : EX_EXEC_FAILED, \
+++			_("failed to execute %s"), name)
+ +
+-+			if (!lstat(fp2->name, &st2) && S_ISREG(st2.st_mode) &&
+-+			    !stcmp(&st, &st2, ctl->content_only) &&
+-+			    st2.st_ino != st.st_ino &&
+-+			    st2.st_dev == st.st_dev) {
+ +
+-+				int fd2 = open(fp2->name, O_RDONLY);
+-+				if (fd2 < 0)
+-+					continue;
+++static inline __attribute__((const)) int is_power_of_2(unsigned long num)
+++{
+++	return (num != 0 && ((num & (num - 1)) == 0));
+++}
+ +
+-+				if (fstat(fd2, &st2) || !S_ISREG(st2.st_mode)
+-+				    || st2.st_size == 0) {
+-+					close(fd2);
+-+					continue;
+-+				}
+-+				ctl->ncomp++;
+-+				lseek(fd, 0, SEEK_SET);
+++#ifndef HAVE_LOFF_T
+++typedef int64_t loff_t;
+++#endif
+ +
+-+				for (fsize = st.st_size; fsize > 0;
+-+				     fsize -= (off_t)sizeof(ctl->iobuf1)) {
+-+					ssize_t xsz;
+-+					ssize_t rsize = fsize > (ssize_t) sizeof(ctl->iobuf1) ?
+-+							(ssize_t) sizeof(ctl->iobuf1) : fsize;
+++#if !defined(HAVE_DIRFD) && (!defined(HAVE_DECL_DIRFD) || HAVE_DECL_DIRFD == 0) && defined(HAVE_DIR_DD_FD)
+++#include <sys/types.h>
+++#include <dirent.h>
+++static inline int dirfd(DIR *d)
+++{
+++	return d->dd_fd;
+++}
+++#endif
+ +
+-+					if ((xsz = read(fd, ctl->iobuf1, rsize)) != rsize)
+-+						warn(_("cannot read %s"), name);
+-+					else if ((xsz = read(fd2, ctl->iobuf2, rsize)) != rsize)
+-+						warn(_("cannot read %s"), fp2->name);
+++/*
+++ * Fallback defines for old versions of glibc
+++ */
+++#include <fcntl.h>
+ +
+-+					if (xsz != rsize) {
+-+						close(fd);
+-+						close(fd2);
+-+						return;
+-+					}
+-+					if (memcmp(ctl->iobuf1, ctl->iobuf2, rsize))
+-+						break;
+-+				}
+-+				close(fd2);
+-+				if (fsize > 0)
+-+					continue;
+-+				if (lstat(name, &st3)) {
+-+					warn(_("cannot stat %s"), name);
+-+					close(fd);
+-+					return;
+-+				}
+-+				st3.st_atime = st.st_atime;
+-+				if (stcmp(&st, &st3, 0)) {
+-+					warnx(_("file %s changed underneath us"), name);
+-+					close(fd);
+-+					return;
+-+				}
+-+				n1 = fp2->name;
+-+				n2 = name;
+-+
+-+				if (!ctl->no_link) {
+-+					const char *suffix =
+-+					    ".$$$___cleanit___$$$";
+-+					const size_t suffixlen = strlen(suffix);
+-+					size_t n2len = strlen(n2);
+-+					struct hardlink_dynstr nam2 = { NULL, 0 };
+-+
+-+					growstr(&nam2, add2(n2len, suffixlen));
+-+					memcpy(nam2.buf, n2, n2len);
+-+					memcpy(&nam2.buf[n2len], suffix,
+-+					       suffixlen + 1);
+-+					/* First create a temporary link to n1 under a new name */
+-+					if (link(n1, nam2.buf)) {
+-+						warn(_("failed to hardlink %s to %s (create temporary link as %s failed)"),
+-+							n1, n2, nam2.buf);
+-+						free(nam2.buf);
+-+						continue;
+-+					}
+-+					/* Then rename into place over the existing n2 */
+-+					if (rename(nam2.buf, n2)) {
+-+						warn(_("failed to hardlink %s to %s (rename temporary link to %s failed)"),
+-+							n1, n2, n2);
+-+						/* Something went wrong, try to remove the now redundant temporary link */
+-+						if (unlink(nam2.buf))
+-+							warn(_("failed to remove temporary link %s"), nam2.buf);
+-+						free(nam2.buf);
+-+						continue;
+-+					}
+-+					free(nam2.buf);
+-+				}
+-+				ctl->nlinks++;
+-+				if (st3.st_nlink > 1) {
+-+					/* We actually did not save anything this time, since the link second argument
+-+					   had some other links as well.  */
+-+					if (ctl->verbose > 1)
+-+						printf(_(" %s %s to %s\n"),
+-+							(ctl->no_link ? _("Would link") : _("Linked")),
+-+							n1, n2);
+-+				} else {
+-+					ctl->nsaved += ((st.st_size + 4095) / 4096) * 4096;
+-+					if (ctl->verbose > 1)
+-+						printf(_(" %s %s to %s, %s %jd\n"),
+-+							(ctl->no_link ? _("Would link") : _("Linked")),
+-+							n1, n2,
+-+							(ctl->no_link ? _("would save") : _("saved")),
+-+							(intmax_t)st.st_size);
+-+				}
+-+				close(fd);
+-+				return;
+-+			}
+-+		}
+-+		fp2 = xmalloc(add3(sizeof(*fp2), namelen, 1));
+-+		close(fd);
+-+		fp2->ino = st.st_ino;
+-+		fp2->dev = st.st_dev;
+-+		fp2->cksum = cksum;
+-+		memcpy(fp2->name, name, namelen + 1);
+-+
+-+		if (fp) {
+-+			fp2->next = fp->next;
+-+			fp->next = fp2;
+-+		} else {
+-+			fp2->next = hp->chain;
+-+			hp->chain = fp2;
+-+		}
+-+		return;
+-+	}
+-+}
+-+
+-+int main(int argc, char **argv)
+-+{
+-+	int ch;
+-+	int i;
+-+#ifdef HAVE_PCRE
+-+	int errornumber;
+-+	PCRE2_SIZE erroroffset;
+-+	pcre2_code *re = NULL;
+-+	PCRE2_SPTR exclude_pattern = NULL;
+-+	pcre2_match_data *match_data = NULL;
+++#ifdef O_CLOEXEC
+++#define UL_CLOEXECSTR	"e"
+++#else
+++#define UL_CLOEXECSTR	""
+ +#endif
+-+	struct hardlink_dynstr nam1 = { NULL, 0 };
+-+	struct hardlink_ctl *ctl = &global_ctl;
+ +
+-+	static const struct option longopts[] = {
+-+		{ "content",    no_argument, NULL, 'c' },
+-+		{ "dry-run",    no_argument, NULL, 'n' },
+-+		{ "exclude",    required_argument, NULL, 'x' },
+-+		{ "force",      no_argument, NULL, 'f' },
+-+		{ "help",       no_argument, NULL, 'h' },
+-+		{ "verbose",    no_argument, NULL, 'v' },
+-+		{ "version",    no_argument, NULL, 'V' },
+-+		{ NULL, 0, NULL, 0 },
+-+	};
+-+
+-+	setlocale(LC_ALL, "");
+-+	bindtextdomain(PACKAGE, LOCALEDIR);
+-+	textdomain(PACKAGE);
+-+	close_stdout_atexit();
+++#ifndef O_CLOEXEC
+++#define O_CLOEXEC 0
+++#endif
+ +
+-+	while ((ch = getopt_long(argc, argv, "cnvfx:Vh", longopts, NULL)) != -1) {
+-+		switch (ch) {
+-+		case 'n':
+-+			ctl->no_link = 1;
+-+			break;
+-+		case 'v':
+-+			ctl->verbose++;
+-+			break;
+-+		case 'c':
+-+			ctl->content_only = 1;
+-+			break;
+-+		case 'f':
+-+			ctl->force = 1;
+-+			break;
+-+		case 'x':
+-+#ifdef HAVE_PCRE
+-+			exclude_pattern = (PCRE2_SPTR) optarg;
+-+#else
+-+			errx(EXIT_FAILURE,
+-+			     _("option --exclude not supported (built without pcre2)"));
+++#ifdef __FreeBSD_kernel__
+++#ifndef F_DUPFD_CLOEXEC
+++#define F_DUPFD_CLOEXEC	17	/* Like F_DUPFD, but FD_CLOEXEC is set */
+++#endif
+ +#endif
+-+			break;
+-+		case 'V':
+-+			print_version(EXIT_SUCCESS);
+-+		case 'h':
+-+			usage();
+-+		default:
+-+			errtryhelp(EXIT_FAILURE);
+-+		}
+-+	}
+ +
+-+	if (optind == argc) {
+-+		warnx(_("no directory specified"));
+-+		errtryhelp(EXIT_FAILURE);
+-+	}
+ +
+-+#ifdef HAVE_PCRE
+-+	if (exclude_pattern) {
+-+		re = pcre2_compile(exclude_pattern, /* the pattern */
+-+				   PCRE2_ZERO_TERMINATED, /* indicates pattern is zero-terminate */
+-+				   0, /* default options */
+-+				   &errornumber, &erroroffset, NULL); /* use default compile context */
+-+		if (!re) {
+-+			PCRE2_UCHAR buffer[256];
+-+			pcre2_get_error_message(errornumber, buffer,
+-+						sizeof(buffer));
+-+			errx(EXIT_FAILURE, _("pattern error at offset %d: %s"),
+-+				(int)erroroffset, buffer);
+-+		}
+-+		match_data = pcre2_match_data_create_from_pattern(re, NULL);
+-+	}
+++#ifndef AI_ADDRCONFIG
+++#define AI_ADDRCONFIG 0x0020
+ +#endif
+-+	atexit(print_summary);
+-+
+-+	for (i = optind; i < argc; i++)
+-+		process_path(ctl, argv[i]);
+ +
+-+	while (ctl->dirs) {
+-+		DIR *dh;
+-+		struct dirent *di;
+-+		struct hardlink_dir *dp = ctl->dirs;
+-+		size_t nam1baselen = strlen(dp->name);
+++#ifndef IUTF8
+++#define IUTF8 0040000
+++#endif
+ +
+-+		ctl->dirs = dp->next;
+-+		growstr(&nam1, add2(nam1baselen, 1));
+-+		memcpy(nam1.buf, dp->name, nam1baselen);
+-+		free(dp);
+-+		nam1.buf[nam1baselen++] = '/';
+-+		nam1.buf[nam1baselen] = 0;
+-+		dh = opendir(nam1.buf);
+++/*
+++ * MAXHOSTNAMELEN replacement
+++ */
+++static inline size_t get_hostname_max(void)
+++{
+++	long len = sysconf(_SC_HOST_NAME_MAX);
+ +
+-+		if (dh == NULL)
+-+			continue;
+-+		ctl->ndirs++;
+++	if (0 < len)
+++		return len;
+ +
+-+		while ((di = readdir(dh)) != NULL) {
+-+			if (!di->d_name[0])
+-+				continue;
+-+			if (di->d_name[0] == '.') {
+-+				if (!di->d_name[1] || !strcmp(di->d_name, ".."))
+-+					continue;
+-+			}
+-+#ifdef HAVE_PCRE
+-+			if (re && pcre2_match(re, /* compiled regex */
+-+					      (PCRE2_SPTR) di->d_name, strlen(di->d_name), 0, /* start at offset 0 */
+-+					      0, /* default options */
+-+					      match_data, /* block for storing the result */
+-+					      NULL) /* use default match context */
+-+			    >=0) {
+-+				if (ctl->verbose) {
+-+					nam1.buf[nam1baselen] = 0;
+-+					printf(_("Skipping %s%s\n"), nam1.buf, di->d_name);
+-+				}
+-+				continue;
+-+			}
+++#ifdef MAXHOSTNAMELEN
+++	return MAXHOSTNAMELEN;
+++#elif HOST_NAME_MAX
+++	return HOST_NAME_MAX;
+ +#endif
+-+			{
+-+				size_t subdirlen;
+-+				growstr(&nam1,
+-+					add2(nam1baselen, subdirlen =
+-+					     strlen(di->d_name)));
+-+				memcpy(&nam1.buf[nam1baselen], di->d_name,
+-+				       add2(subdirlen, 1));
+-+			}
+-+			process_path(ctl, nam1.buf);
+-+		}
+-+		closedir(dh);
+-+	}
+-+
+-+	return 0;
+++	return 64;
+ +}
+---- a/localedef/Makefile.in
+-+++ b/localedef/Makefile.in
+-@@ -40,6 +40,8 @@ WARNFLAGS	= -Wall -Wno-format
+- FULLCC		= $(CC) $(CPPFLAGS) $(CFLAGS) \
+- 		  $(DEFINES) $(INCLUDES) $(WARNFLAGS)
+- 
+-+CROSS_LOCALEDEF_HARDLINK_OBJS = cross-localedef-hardlink.o
+-+
+- LOCALEDEF_OBJS	= charmap.o charmap-dir.o ld-address.o ld-collate.o \
+- 		  ld-ctype.o ld-identification.o ld-measurement.o \
+- 		  ld-messages.o ld-monetary.o ld-name.o ld-numeric.o \
+-@@ -54,11 +56,14 @@ LOCALEDEF_OBJS	= charmap.o charmap-dir.o
+- 		  asprintf.o getdelim.o localedef_extra.o \
+- 		  obstack_printf.o vasprintf.o
+- 
+--all:		localedef$(EXEEXT)
+-+all:		localedef$(EXEEXT) cross-localedef-hardlink$(EXEEXT)
+- 
+- localedef$(EXEEXT): $(LOCALEDEF_OBJS)
+- 		$(CC) -o $@ $(LOCALEDEF_OBJS) $(LIBS)
+- 
+-+cross-localedef-hardlink$(EXEEXT): $(CROSS_LOCALEDEF_HARDLINK_OBJS)
+-+		$(CC) -o $@ $(CROSS_LOCALEDEF_HARDLINK_OBJS) $(LIBS)
+-+
+- clean:
+- 		rm -f locale$(EXEEXT) $(LOCALEDEF_OBJS)
+- 
+-@@ -77,6 +82,7 @@ clean:
+- %.o: $(srcdir)/%.c
+- 		$(FULLCC) -c -o $@ $<
+- 
+-+cross-localedef-hardlink.o: glibc/locale/programs/cross-localedef-hardlink.c
+- charmap.o: glibc/locale/programs/charmap.c
+- charmap-dir.o: glibc/locale/programs/charmap-dir.c
+- ld-address.o: glibc/locale/programs/ld-address.c
+---- /dev/null
+-+++ b/locale/programs/c.h
+-@@ -0,0 +1,407 @@
+++
+++
+ +/*
+-+ * Fundamental C definitions.
+++ * Constant strings for usage() functions. For more info see
+++ * Documentation/{howto-usage-function.txt,boilerplate.c}
+ + */
+++#define USAGE_HEADER     ("\nUsage:\n")
+++#define USAGE_OPTIONS    ("\nOptions:\n")
+++#define USAGE_FUNCTIONS  ("\nFunctions:\n")
+++#define USAGE_COMMANDS   ("\nCommands:\n")
+++#define USAGE_COLUMNS    ("\nAvailable output columns:\n")
+++#define USAGE_SEPARATOR    "\n"
+ +
+-+#ifndef UTIL_LINUX_C_H
+-+#define UTIL_LINUX_C_H
+-+
+-+#include <limits.h>
+-+#include <stddef.h>
+-+#include <stdint.h>
+-+#include <stdio.h>
+-+#include <unistd.h>
+-+#include <stdarg.h>
+-+#include <stdlib.h>
+-+#include <string.h>
+-+#include <errno.h>
+++#define USAGE_OPTSTR_HELP     ("display this help")
+++#define USAGE_OPTSTR_VERSION  ("display version")
+ +
+-+#include <assert.h>
+++#define USAGE_HELP_OPTIONS(marg_dsc) \
+++		"%-" #marg_dsc "s%s\n" \
+++		"%-" #marg_dsc "s%s\n" \
+++		, " -h, --help",    USAGE_OPTSTR_HELP \
+++		, " -V, --version", USAGE_OPTSTR_VERSION
+ +
+-+#ifdef HAVE_ERR_H
+-+# include <err.h>
+-+#endif
+++#define USAGE_MAN_TAIL(_man)   ("\nFor more details see %s.\n"), _man
+ +
+-+#ifdef HAVE_SYS_SYSMACROS_H
+-+# include <sys/sysmacros.h>     /* for major, minor */
+-+#endif
+++#define UTIL_LINUX_VERSION ("%s from %s\n"), program_invocation_short_name, PACKAGE_STRING
+ +
+-+#ifndef LOGIN_NAME_MAX
+-+# define LOGIN_NAME_MAX 256
+-+#endif
+++#define print_version(eval) __extension__ ({ \
+++		printf(UTIL_LINUX_VERSION); \
+++		exit(eval); \
+++})
+ +
+-+#ifndef NAME_MAX
+-+# define NAME_MAX PATH_MAX
+++/*
+++ * scanf modifiers for "strings allocation"
+++ */
+++#ifdef HAVE_SCANF_MS_MODIFIER
+++#define UL_SCNsA	"%ms"
+++#elif defined(HAVE_SCANF_AS_MODIFIER)
+++#define UL_SCNsA	"%as"
+ +#endif
+ +
+ +/*
+-+ * __GNUC_PREREQ is deprecated in favour of __has_attribute() and
+-+ * __has_feature(). The __has macros are supported by clang and gcc>=5.
+++ * seek stuff
+ + */
+-+#ifndef __GNUC_PREREQ
+-+# if defined __GNUC__ && defined __GNUC_MINOR__
+-+#  define __GNUC_PREREQ(maj, min) \
+-+	((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min))
+-+# else
+-+#  define __GNUC_PREREQ(maj, min) 0
+-+# endif
+++#ifndef SEEK_DATA
+++# define SEEK_DATA	3
+++#endif
+++#ifndef SEEK_HOLE
+++# define SEEK_HOLE	4
+ +#endif
+ +
+-+#ifdef __GNUC__
+-+
+-+/* &a[0] degrades to a pointer: a different type from an array */
+-+# define __must_be_array(a) \
+-+	UL_BUILD_BUG_ON_ZERO(__builtin_types_compatible_p(__typeof__(a), __typeof__(&a[0])))
+ +
+-+# define ignore_result(x) __extension__ ({ \
+-+	__typeof__(x) __dummy __attribute__((__unused__)) = (x); (void) __dummy; \
+-+})
+-+
+-+#else /* !__GNUC__ */
+-+# define __must_be_array(a)	0
+-+# define __attribute__(_arg_)
+-+# define ignore_result(x) ((void) (x))
+-+#endif /* !__GNUC__ */
+++/*
+++ * Macros to convert #define'itions to strings, for example
+++ * #define XYXXY 42
+++ * printf ("%s=%s\n", stringify(XYXXY), stringify_value(XYXXY));
+++ */
+++#define stringify_value(s) stringify(s)
+++#define stringify(s) #s
+ +
+ +/*
+-+ * It evaluates to 1 if the attribute/feature is supported by the current
+-+ * compilation targed. Fallback for old compilers.
+++ * UL_ASAN_BLACKLIST is a macro to tell AddressSanitizer (a compile-time
+++ * instrumentation shipped with Clang and GCC) to not instrument the
+++ * annotated function.  Furthermore, it will prevent the compiler from
+++ * inlining the function because inlining currently breaks the blacklisting
+++ * mechanism of AddressSanitizer.
+ + */
+-+#ifndef __has_attribute
+-+  #define __has_attribute(x) 0
+++#if __has_feature(address_sanitizer) && __has_attribute(no_sanitize_memory) && __has_attribute(no_sanitize_address)
+++# define UL_ASAN_BLACKLIST __attribute__((noinline)) __attribute__((no_sanitize_memory)) __attribute__((no_sanitize_address))
+++#else
+++# define UL_ASAN_BLACKLIST	/* nothing */
+ +#endif
+ +
+-+#ifndef __has_feature
+-+  #define __has_feature(x) 0
+-+#endif
+++/*
+++ * Note that sysconf(_SC_GETPW_R_SIZE_MAX) returns *initial* suggested size for
+++ * pwd buffer and in some cases it is not large enough. See POSIX and
+++ * getpwnam_r man page for more details.
+++ */
+++#define UL_GETPW_BUFSIZ	(16 * 1024)
+ +
+ +/*
+-+ * Function attributes
+++ * Darwin or other BSDs may only have MAP_ANON. To get it on Darwin we must
+++ * define _DARWIN_C_SOURCE before including sys/mman.h. We do this in config.h.
+ + */
+-+#ifndef __ul_alloc_size
+-+# if (__has_attribute(alloc_size) && __has_attribute(warn_unused_result)) || __GNUC_PREREQ (4, 3)
+-+#  define __ul_alloc_size(s) __attribute__((alloc_size(s), warn_unused_result))
+-+# else
+-+#  define __ul_alloc_size(s)
+-+# endif
+++#if !defined MAP_ANONYMOUS && defined MAP_ANON
+++# define MAP_ANONYMOUS  (MAP_ANON)
+ +#endif
+ +
+-+#ifndef __ul_calloc_size
+-+# if (__has_attribute(alloc_size) && __has_attribute(warn_unused_result)) || __GNUC_PREREQ (4, 3)
+-+#  define __ul_calloc_size(n, s) __attribute__((alloc_size(n, s), warn_unused_result))
+-+# else
+-+#  define __ul_calloc_size(n, s)
+-+# endif
+++#endif /* UTIL_LINUX_C_H */
++diff --git a/locale/programs/cross-localedef-hardlink.c b/locale/programs/cross-localedef-hardlink.c
++new file mode 100644
++index 0000000000..63615896b0
++--- /dev/null
+++++ b/locale/programs/cross-localedef-hardlink.c
++@@ -0,0 +1,528 @@
+++/*
+++ * hardlink - consolidate duplicate files via hardlinks
+++ *
+++ * Copyright (C) 2018 Red Hat, Inc. All rights reserved.
+++ * Written by Jakub Jelinek <jakub@redhat.com>
+++ *
+++ * Copyright (C) 2019 Karel Zak <kzak@redhat.com>
+++ *
+++ * This program is free software; you can redistribute it and/or modify
+++ * it under the terms of the GNU General Public License as published by
+++ * the Free Software Foundation; either version 2 of the License, or
+++ * (at your option) any later version.
+++ *
+++ * This program is distributed in the hope that it would be useful,
+++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+++ * GNU General Public License for more details.
+++ *
+++ * You should have received a copy of the GNU General Public License along
+++ * with this program; if not, write to the Free Software Foundation, Inc.,
+++ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+++ */
+++#include <sys/types.h>
+++#include <stdlib.h>
+++#include <getopt.h>
+++#include <stdio.h>
+++#include <unistd.h>
+++#include <sys/stat.h>
+++#include <sys/mman.h>
+++#include <string.h>
+++#include <dirent.h>
+++#include <fcntl.h>
+++#include <errno.h>
+++#ifdef HAVE_PCRE
+++# define PCRE2_CODE_UNIT_WIDTH 8
+++# include <pcre2.h>
+ +#endif
+ +
+-+#if __has_attribute(returns_nonnull) || __GNUC_PREREQ (4, 9)
+-+# define __ul_returns_nonnull __attribute__((returns_nonnull))
+-+#else
+-+# define __ul_returns_nonnull
+-+#endif
+++#include "c.h"
+++#include "xalloc.h"
+++#include "nls.h"
+++#include "closestream.h"
+ +
+-+/*
+-+ * Force a compilation error if condition is true, but also produce a
+-+ * result (of value 0 and type size_t), so the expression can be used
+-+ * e.g. in a structure initializer (or wherever else comma expressions
+-+ * aren't permitted).
+-+ */
+-+#define UL_BUILD_BUG_ON_ZERO(e) __extension__ (sizeof(struct { int:-!!(e); }))
+-+#define BUILD_BUG_ON_NULL(e) ((void *)sizeof(struct { int:-!!(e); }))
+++#define NHASH   (1<<17)  /* Must be a power of 2! */
+++#define NBUF    64
+ +
+-+#ifndef ARRAY_SIZE
+-+# define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + __must_be_array(arr))
+-+#endif
+++struct hardlink_file;
+ +
+-+#ifndef PATH_MAX
+-+# define PATH_MAX 4096
+-+#endif
+++struct hardlink_hash {
+++	struct hardlink_hash *next;
+++	struct hardlink_file *chain;
+++	off_t size;
+++	time_t mtime;
+++};
+ +
+-+#ifndef TRUE
+-+# define TRUE 1
+-+#endif
+++struct hardlink_dir {
+++	struct hardlink_dir *next;
+++	char name[];
+++};
+ +
+-+#ifndef FALSE
+-+# define FALSE 0
+-+#endif
+++struct hardlink_file {
+++	struct hardlink_file *next;
+++	ino_t ino;
+++	dev_t dev;
+++	unsigned int cksum;
+++	char name[];
+++};
+ +
+-+#ifndef min
+-+# define min(x, y) __extension__ ({		\
+-+	__typeof__(x) _min1 = (x);		\
+-+	__typeof__(y) _min2 = (y);		\
+-+	(void) (&_min1 == &_min2);		\
+-+	_min1 < _min2 ? _min1 : _min2; })
+-+#endif
+++struct hardlink_dynstr {
+++	char *buf;
+++	size_t alloc;
+++};
+ +
+-+#ifndef max
+-+# define max(x, y) __extension__ ({		\
+-+	__typeof__(x) _max1 = (x);		\
+-+	__typeof__(y) _max2 = (y);		\
+-+	(void) (&_max1 == &_max2);		\
+-+	_max1 > _max2 ? _max1 : _max2; })
+-+#endif
+++struct hardlink_ctl {
+++	struct hardlink_dir *dirs;
+++	struct hardlink_hash *hps[NHASH];
+++	char iobuf1[BUFSIZ];
+++	char iobuf2[BUFSIZ];
+++	/* summary counters */
+++	unsigned long long ndirs;
+++	unsigned long long nobjects;
+++	unsigned long long nregfiles;
+++	unsigned long long ncomp;
+++	unsigned long long nlinks;
+++	unsigned long long nsaved;
+++	/* current device */
+++	dev_t dev;
+++	/* flags */
+++	unsigned int verbose;
+++	unsigned int
+++		no_link:1,
+++		content_only:1,
+++		force:1;
+++};
+++/* ctl is in global scope due use in atexit() */
+++struct hardlink_ctl global_ctl;
+ +
+-+#ifndef cmp_numbers
+-+# define cmp_numbers(x, y) __extension__ ({	\
+-+	__typeof__(x) _a = (x);			\
+-+	__typeof__(y) _b = (y);			\
+-+	(void) (&_a == &_b);			\
+-+	_a == _b ? 0 : _a > _b ? 1 : -1; })
+-+#endif
+++__attribute__ ((always_inline))
+++static inline unsigned int hash(off_t size, time_t mtime)
+++{
+++	return (size ^ mtime) & (NHASH - 1);
+++}
+ +
+-+#ifndef offsetof
+-+#define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
+-+#endif
+++__attribute__ ((always_inline))
+++static inline int stcmp(struct stat *st1, struct stat *st2, int content_scope)
+++{
+++	if (content_scope)
+++		return st1->st_size != st2->st_size;
+ +
+-+/*
+-+ * container_of - cast a member of a structure out to the containing structure
+-+ * @ptr:	the pointer to the member.
+-+ * @type:	the type of the container struct this is embedded in.
+-+ * @member:	the name of the member within the struct.
+-+ */
+-+#ifndef container_of
+-+#define container_of(ptr, type, member) __extension__ ({	\
+-+	const __typeof__( ((type *)0)->member ) *__mptr = (ptr); \
+-+	(type *)( (char *)__mptr - offsetof(type,member) );})
+-+#endif
+++	return st1->st_mode != st2->st_mode
+++		|| st1->st_uid != st2->st_uid
+++		|| st1->st_gid != st2->st_gid
+++		|| st1->st_size != st2->st_size
+++		|| st1->st_mtime != st2->st_mtime;
+++}
+ +
+-+#ifndef HAVE_PROGRAM_INVOCATION_SHORT_NAME
+-+# ifdef HAVE___PROGNAME
+-+extern char *__progname;
+-+#  define program_invocation_short_name __progname
+-+# else
+-+#  ifdef HAVE_GETEXECNAME
+-+#   define program_invocation_short_name \
+-+		prog_inv_sh_nm_from_file(getexecname(), 0)
+-+#  else
+-+#   define program_invocation_short_name \
+-+		prog_inv_sh_nm_from_file(__FILE__, 1)
+-+#  endif
+-+static char prog_inv_sh_nm_buf[256];
+-+static inline char *
+-+prog_inv_sh_nm_from_file(char *f, char stripext)
+++static void print_summary(void)
+ +{
+-+	char *t;
+++	struct hardlink_ctl const *const ctl = &global_ctl;
+ +
+-+	if ((t = strrchr(f, '/')) != NULL)
+-+		t++;
+-+	else
+-+		t = f;
+++	if (!ctl->verbose)
+++		return;
+ +
+-+	strncpy(prog_inv_sh_nm_buf, t, sizeof(prog_inv_sh_nm_buf) - 1);
+-+	prog_inv_sh_nm_buf[sizeof(prog_inv_sh_nm_buf) - 1] = '\0';
+++	if (ctl->verbose > 1 && ctl->nlinks)
+++		fputc('\n', stdout);
+ +
+-+	if (stripext && (t = strrchr(prog_inv_sh_nm_buf, '.')) != NULL)
+-+		*t = '\0';
+++	printf(_("Directories:   %9lld\n"), ctl->ndirs);
+++	printf(_("Objects:       %9lld\n"), ctl->nobjects);
+++	printf(_("Regular files: %9lld\n"), ctl->nregfiles);
+++	printf(_("Comparisons:   %9lld\n"), ctl->ncomp);
+++	printf(  "%s%9lld\n", (ctl->no_link ?
+++	       _("Would link:    ") :
+++	       _("Linked:        ")), ctl->nlinks);
+++	printf(  "%s %9lld\n", (ctl->no_link ?
+++	       _("Would save:   ") :
+++	       _("Saved:        ")), ctl->nsaved);
+++}
+++
+++static void __attribute__((__noreturn__)) usage(void)
+++{
+++	fputs(USAGE_HEADER, stdout);
+++	printf(_(" %s [options] directory...\n"), program_invocation_short_name);
+++
+++	fputs(USAGE_SEPARATOR, stdout);
+++	puts(_("Consolidate duplicate files using hardlinks."));
+++
+++	fputs(USAGE_OPTIONS, stdout);
+++	puts(_(" -c, --content          compare only contents, ignore permission, etc."));
+++	puts(_(" -n, --dry-run          don't actually link anything"));
+++	puts(_(" -v, --verbose          print summary after hardlinking"));
+++	puts(_(" -vv                    print every hardlinked file and summary"));
+++	puts(_(" -f, --force            force hardlinking across filesystems"));
+++	puts(_(" -x, --exclude <regex>  exclude files matching pattern"));
+ +
+-+	return prog_inv_sh_nm_buf;
+++	fputs(USAGE_SEPARATOR, stdout);
+++	printf(USAGE_HELP_OPTIONS(16)); /* char offset to align option descriptions */
+++	printf(USAGE_MAN_TAIL("hardlink(1)"));
+++	exit(EXIT_SUCCESS);
+ +}
+-+# endif
+-+#endif
+-+
+ +
+-+#ifndef HAVE_ERR_H
+-+static inline void
+-+errmsg(char doexit, int excode, char adderr, const char *fmt, ...)
+++__attribute__ ((always_inline))
+++static inline size_t add2(size_t a, size_t b)
+ +{
+-+	fprintf(stderr, "%s: ", program_invocation_short_name);
+-+	if (fmt != NULL) {
+-+		va_list argp;
+-+		va_start(argp, fmt);
+-+		vfprintf(stderr, fmt, argp);
+-+		va_end(argp);
+-+		if (adderr)
+-+			fprintf(stderr, ": ");
+-+	}
+-+	if (adderr)
+-+		fprintf(stderr, "%m");
+-+	fprintf(stderr, "\n");
+-+	if (doexit)
+-+		exit(excode);
+++	size_t sum = a + b;
+++
+++	if (sum < a)
+++		errx(EXIT_FAILURE, _("integer overflow"));
+++	return sum;
+ +}
+ +
+-+#ifndef HAVE_ERR
+-+# define err(E, FMT...) errmsg(1, E, 1, FMT)
+-+#endif
+++__attribute__ ((always_inline))
+++static inline size_t add3(size_t a, size_t b, size_t c)
+++{
+++	return add2(add2(a, b), c);
+++}
+ +
+-+#ifndef HAVE_ERRX
+-+# define errx(E, FMT...) errmsg(1, E, 0, FMT)
+-+#endif
+++static void growstr(struct hardlink_dynstr *str, size_t newlen)
+++{
+++	if (newlen < str->alloc)
+++		return;
+++	str->buf = xrealloc(str->buf, str->alloc = add2(newlen, 1));
+++}
+ +
+-+#ifndef HAVE_WARN
+-+# define warn(FMT...) errmsg(0, 0, 1, FMT)
+-+#endif
+++static void process_path(struct hardlink_ctl *ctl, const char *name)
+++{
+++	struct stat st, st2, st3;
+++	const size_t namelen = strlen(name);
+ +
+-+#ifndef HAVE_WARNX
+-+# define warnx(FMT...) errmsg(0, 0, 0, FMT)
+-+#endif
+-+#endif /* !HAVE_ERR_H */
+++	ctl->nobjects++;
+++	if (lstat(name, &st))
+++		return;
+ +
+++	if (st.st_dev != ctl->dev && !ctl->force) {
+++		if (ctl->dev)
+++			errx(EXIT_FAILURE,
+++			     _("%s is on different filesystem than the rest "
+++			       "(use -f option to override)."), name);
+++		ctl->dev = st.st_dev;
+++	}
+++	if (S_ISDIR(st.st_mode)) {
+++		struct hardlink_dir *dp = xmalloc(add3(sizeof(*dp), namelen, 1));
+++		memcpy(dp->name, name, namelen + 1);
+++		dp->next = ctl->dirs;
+++		ctl->dirs = dp;
+ +
+-+/* Don't use inline function to avoid '#include "nls.h"' in c.h
+-+ */
+-+#define errtryhelp(eval) __extension__ ({ \
+-+	fprintf(stderr, _("Try '%s --help' for more information.\n"), \
+-+			program_invocation_short_name); \
+-+	exit(eval); \
+-+})
+++	} else if (S_ISREG(st.st_mode)) {
+++		int fd, i;
+++		struct hardlink_file *fp, *fp2;
+++		struct hardlink_hash *hp;
+++		const char *n1, *n2;
+++		unsigned int buf[NBUF];
+++		int cksumsize = sizeof(buf);
+++		unsigned int cksum;
+++		time_t mtime = ctl->content_only ? 0 : st.st_mtime;
+++		unsigned int hsh = hash(st.st_size, mtime);
+++		off_t fsize;
+ +
+-+/* After failed execvp() */
+-+#define EX_EXEC_FAILED		126	/* Program located, but not usable. */
+-+#define EX_EXEC_ENOENT		127	/* Could not find program to exec.  */
+-+#define errexec(name)	err(errno == ENOENT ? EX_EXEC_ENOENT : EX_EXEC_FAILED, \
+-+			_("failed to execute %s"), name)
+++		ctl->nregfiles++;
+++		if (ctl->verbose > 1)
+++			printf("%s\n", name);
+ +
+++		fd = open(name, O_RDONLY);
+++		if (fd < 0)
+++			return;
+ +
+-+static inline __attribute__((const)) int is_power_of_2(unsigned long num)
+-+{
+-+	return (num != 0 && ((num & (num - 1)) == 0));
+-+}
+++		if ((size_t)st.st_size < sizeof(buf)) {
+++			cksumsize = st.st_size;
+++			memset(((char *)buf) + cksumsize, 0,
+++			       (sizeof(buf) - cksumsize) % sizeof(buf[0]));
+++		}
+++		if (read(fd, buf, cksumsize) != cksumsize) {
+++			close(fd);
+++			return;
+++		}
+++		cksumsize = (cksumsize + sizeof(buf[0]) - 1) / sizeof(buf[0]);
+++		for (i = 0, cksum = 0; i < cksumsize; i++) {
+++			if (cksum + buf[i] < cksum)
+++				cksum += buf[i] + 1;
+++			else
+++				cksum += buf[i];
+++		}
+++		for (hp = ctl->hps[hsh]; hp; hp = hp->next) {
+++			if (hp->size == st.st_size && hp->mtime == mtime)
+++				break;
+++		}
+++		if (!hp) {
+++			hp = xmalloc(sizeof(*hp));
+++			hp->size = st.st_size;
+++			hp->mtime = mtime;
+++			hp->chain = NULL;
+++			hp->next = ctl->hps[hsh];
+++			ctl->hps[hsh] = hp;
+++		}
+++		for (fp = hp->chain; fp; fp = fp->next) {
+++			if (fp->cksum == cksum)
+++				break;
+++		}
+++		for (fp2 = fp; fp2 && fp2->cksum == cksum; fp2 = fp2->next) {
+++			if (fp2->ino == st.st_ino && fp2->dev == st.st_dev) {
+++				close(fd);
+++				return;
+++			}
+++		}
+++		for (fp2 = fp; fp2 && fp2->cksum == cksum; fp2 = fp2->next) {
+ +
+-+#ifndef HAVE_LOFF_T
+-+typedef int64_t loff_t;
+-+#endif
+++			if (!lstat(fp2->name, &st2) && S_ISREG(st2.st_mode) &&
+++			    !stcmp(&st, &st2, ctl->content_only) &&
+++			    st2.st_ino != st.st_ino &&
+++			    st2.st_dev == st.st_dev) {
+ +
+-+#if !defined(HAVE_DIRFD) && (!defined(HAVE_DECL_DIRFD) || HAVE_DECL_DIRFD == 0) && defined(HAVE_DIR_DD_FD)
+-+#include <sys/types.h>
+-+#include <dirent.h>
+-+static inline int dirfd(DIR *d)
+-+{
+-+	return d->dd_fd;
+-+}
+-+#endif
+++				int fd2 = open(fp2->name, O_RDONLY);
+++				if (fd2 < 0)
+++					continue;
+ +
+-+/*
+-+ * Fallback defines for old versions of glibc
+-+ */
+-+#include <fcntl.h>
+++				if (fstat(fd2, &st2) || !S_ISREG(st2.st_mode)
+++				    || st2.st_size == 0) {
+++					close(fd2);
+++					continue;
+++				}
+++				ctl->ncomp++;
+++				lseek(fd, 0, SEEK_SET);
+ +
+-+#ifdef O_CLOEXEC
+-+#define UL_CLOEXECSTR	"e"
+-+#else
+-+#define UL_CLOEXECSTR	""
+-+#endif
+++				for (fsize = st.st_size; fsize > 0;
+++				     fsize -= (off_t)sizeof(ctl->iobuf1)) {
+++					ssize_t xsz;
+++					ssize_t rsize = fsize > (ssize_t) sizeof(ctl->iobuf1) ?
+++							(ssize_t) sizeof(ctl->iobuf1) : fsize;
+ +
+-+#ifndef O_CLOEXEC
+-+#define O_CLOEXEC 0
+-+#endif
+++					if ((xsz = read(fd, ctl->iobuf1, rsize)) != rsize)
+++						warn(_("cannot read %s"), name);
+++					else if ((xsz = read(fd2, ctl->iobuf2, rsize)) != rsize)
+++						warn(_("cannot read %s"), fp2->name);
+ +
+-+#ifdef __FreeBSD_kernel__
+-+#ifndef F_DUPFD_CLOEXEC
+-+#define F_DUPFD_CLOEXEC	17	/* Like F_DUPFD, but FD_CLOEXEC is set */
+-+#endif
+-+#endif
+++					if (xsz != rsize) {
+++						close(fd);
+++						close(fd2);
+++						return;
+++					}
+++					if (memcmp(ctl->iobuf1, ctl->iobuf2, rsize))
+++						break;
+++				}
+++				close(fd2);
+++				if (fsize > 0)
+++					continue;
+++				if (lstat(name, &st3)) {
+++					warn(_("cannot stat %s"), name);
+++					close(fd);
+++					return;
+++				}
+++				st3.st_atime = st.st_atime;
+++				if (stcmp(&st, &st3, 0)) {
+++					warnx(_("file %s changed underneath us"), name);
+++					close(fd);
+++					return;
+++				}
+++				n1 = fp2->name;
+++				n2 = name;
+ +
+++				if (!ctl->no_link) {
+++					const char *suffix =
+++					    ".$$$___cleanit___$$$";
+++					const size_t suffixlen = strlen(suffix);
+++					size_t n2len = strlen(n2);
+++					struct hardlink_dynstr nam2 = { NULL, 0 };
+ +
+-+#ifndef AI_ADDRCONFIG
+-+#define AI_ADDRCONFIG 0x0020
+-+#endif
+++					growstr(&nam2, add2(n2len, suffixlen));
+++					memcpy(nam2.buf, n2, n2len);
+++					memcpy(&nam2.buf[n2len], suffix,
+++					       suffixlen + 1);
+++					/* First create a temporary link to n1 under a new name */
+++					if (link(n1, nam2.buf)) {
+++						warn(_("failed to hardlink %s to %s (create temporary link as %s failed)"),
+++							n1, n2, nam2.buf);
+++						free(nam2.buf);
+++						continue;
+++					}
+++					/* Then rename into place over the existing n2 */
+++					if (rename(nam2.buf, n2)) {
+++						warn(_("failed to hardlink %s to %s (rename temporary link to %s failed)"),
+++							n1, n2, n2);
+++						/* Something went wrong, try to remove the now redundant temporary link */
+++						if (unlink(nam2.buf))
+++							warn(_("failed to remove temporary link %s"), nam2.buf);
+++						free(nam2.buf);
+++						continue;
+++					}
+++					free(nam2.buf);
+++				}
+++				ctl->nlinks++;
+++				if (st3.st_nlink > 1) {
+++					/* We actually did not save anything this time, since the link second argument
+++					   had some other links as well.  */
+++					if (ctl->verbose > 1)
+++						printf(_(" %s %s to %s\n"),
+++							(ctl->no_link ? _("Would link") : _("Linked")),
+++							n1, n2);
+++				} else {
+++					ctl->nsaved += ((st.st_size + 4095) / 4096) * 4096;
+++					if (ctl->verbose > 1)
+++						printf(_(" %s %s to %s, %s %jd\n"),
+++							(ctl->no_link ? _("Would link") : _("Linked")),
+++							n1, n2,
+++							(ctl->no_link ? _("would save") : _("saved")),
+++							(intmax_t)st.st_size);
+++				}
+++				close(fd);
+++				return;
+++			}
+++		}
+++		fp2 = xmalloc(add3(sizeof(*fp2), namelen, 1));
+++		close(fd);
+++		fp2->ino = st.st_ino;
+++		fp2->dev = st.st_dev;
+++		fp2->cksum = cksum;
+++		memcpy(fp2->name, name, namelen + 1);
+ +
+-+#ifndef IUTF8
+-+#define IUTF8 0040000
+-+#endif
+++		if (fp) {
+++			fp2->next = fp->next;
+++			fp->next = fp2;
+++		} else {
+++			fp2->next = hp->chain;
+++			hp->chain = fp2;
+++		}
+++		return;
+++	}
+++}
+ +
+-+/*
+-+ * MAXHOSTNAMELEN replacement
+-+ */
+-+static inline size_t get_hostname_max(void)
+++int main(int argc, char **argv)
+ +{
+-+	long len = sysconf(_SC_HOST_NAME_MAX);
+-+
+-+	if (0 < len)
+-+		return len;
+-+
+-+#ifdef MAXHOSTNAMELEN
+-+	return MAXHOSTNAMELEN;
+-+#elif HOST_NAME_MAX
+-+	return HOST_NAME_MAX;
+++	int ch;
+++	int i;
+++#ifdef HAVE_PCRE
+++	int errornumber;
+++	PCRE2_SIZE erroroffset;
+++	pcre2_code *re = NULL;
+++	PCRE2_SPTR exclude_pattern = NULL;
+++	pcre2_match_data *match_data = NULL;
+ +#endif
+-+	return 64;
+-+}
+-+
+-+
+-+/*
+-+ * Constant strings for usage() functions. For more info see
+-+ * Documentation/{howto-usage-function.txt,boilerplate.c}
+-+ */
+-+#define USAGE_HEADER     ("\nUsage:\n")
+-+#define USAGE_OPTIONS    ("\nOptions:\n")
+-+#define USAGE_FUNCTIONS  ("\nFunctions:\n")
+-+#define USAGE_COMMANDS   ("\nCommands:\n")
+-+#define USAGE_COLUMNS    ("\nAvailable output columns:\n")
+-+#define USAGE_SEPARATOR    "\n"
+-+
+-+#define USAGE_OPTSTR_HELP     ("display this help")
+-+#define USAGE_OPTSTR_VERSION  ("display version")
+-+
+-+#define USAGE_HELP_OPTIONS(marg_dsc) \
+-+		"%-" #marg_dsc "s%s\n" \
+-+		"%-" #marg_dsc "s%s\n" \
+-+		, " -h, --help",    USAGE_OPTSTR_HELP \
+-+		, " -V, --version", USAGE_OPTSTR_VERSION
+-+
+-+#define USAGE_MAN_TAIL(_man)   ("\nFor more details see %s.\n"), _man
+++	struct hardlink_dynstr nam1 = { NULL, 0 };
+++	struct hardlink_ctl *ctl = &global_ctl;
+ +
+-+#define UTIL_LINUX_VERSION ("%s from %s\n"), program_invocation_short_name, PACKAGE_STRING
+++	static const struct option longopts[] = {
+++		{ "content",    no_argument, NULL, 'c' },
+++		{ "dry-run",    no_argument, NULL, 'n' },
+++		{ "exclude",    required_argument, NULL, 'x' },
+++		{ "force",      no_argument, NULL, 'f' },
+++		{ "help",       no_argument, NULL, 'h' },
+++		{ "verbose",    no_argument, NULL, 'v' },
+++		{ "version",    no_argument, NULL, 'V' },
+++		{ NULL, 0, NULL, 0 },
+++	};
+ +
+-+#define print_version(eval) __extension__ ({ \
+-+		printf(UTIL_LINUX_VERSION); \
+-+		exit(eval); \
+-+})
+++	setlocale(LC_ALL, "");
+++	bindtextdomain(PACKAGE, LOCALEDIR);
+++	textdomain(PACKAGE);
+++	close_stdout_atexit();
+ +
+-+/*
+-+ * scanf modifiers for "strings allocation"
+-+ */
+-+#ifdef HAVE_SCANF_MS_MODIFIER
+-+#define UL_SCNsA	"%ms"
+-+#elif defined(HAVE_SCANF_AS_MODIFIER)
+-+#define UL_SCNsA	"%as"
+++	while ((ch = getopt_long(argc, argv, "cnvfx:Vh", longopts, NULL)) != -1) {
+++		switch (ch) {
+++		case 'n':
+++			ctl->no_link = 1;
+++			break;
+++		case 'v':
+++			ctl->verbose++;
+++			break;
+++		case 'c':
+++			ctl->content_only = 1;
+++			break;
+++		case 'f':
+++			ctl->force = 1;
+++			break;
+++		case 'x':
+++#ifdef HAVE_PCRE
+++			exclude_pattern = (PCRE2_SPTR) optarg;
+++#else
+++			errx(EXIT_FAILURE,
+++			     _("option --exclude not supported (built without pcre2)"));
+ +#endif
+++			break;
+++		case 'V':
+++			print_version(EXIT_SUCCESS);
+++		case 'h':
+++			usage();
+++		default:
+++			errtryhelp(EXIT_FAILURE);
+++		}
+++	}
+ +
+-+/*
+-+ * seek stuff
+-+ */
+-+#ifndef SEEK_DATA
+-+# define SEEK_DATA	3
+-+#endif
+-+#ifndef SEEK_HOLE
+-+# define SEEK_HOLE	4
+++	if (optind == argc) {
+++		warnx(_("no directory specified"));
+++		errtryhelp(EXIT_FAILURE);
+++	}
+++
+++#ifdef HAVE_PCRE
+++	if (exclude_pattern) {
+++		re = pcre2_compile(exclude_pattern, /* the pattern */
+++				   PCRE2_ZERO_TERMINATED, /* indicates pattern is zero-terminate */
+++				   0, /* default options */
+++				   &errornumber, &erroroffset, NULL); /* use default compile context */
+++		if (!re) {
+++			PCRE2_UCHAR buffer[256];
+++			pcre2_get_error_message(errornumber, buffer,
+++						sizeof(buffer));
+++			errx(EXIT_FAILURE, _("pattern error at offset %d: %s"),
+++				(int)erroroffset, buffer);
+++		}
+++		match_data = pcre2_match_data_create_from_pattern(re, NULL);
+++	}
+ +#endif
+++	atexit(print_summary);
+ +
+++	for (i = optind; i < argc; i++)
+++		process_path(ctl, argv[i]);
+ +
+-+/*
+-+ * Macros to convert #define'itions to strings, for example
+-+ * #define XYXXY 42
+-+ * printf ("%s=%s\n", stringify(XYXXY), stringify_value(XYXXY));
+-+ */
+-+#define stringify_value(s) stringify(s)
+-+#define stringify(s) #s
+++	while (ctl->dirs) {
+++		DIR *dh;
+++		struct dirent *di;
+++		struct hardlink_dir *dp = ctl->dirs;
+++		size_t nam1baselen = strlen(dp->name);
+ +
+-+/*
+-+ * UL_ASAN_BLACKLIST is a macro to tell AddressSanitizer (a compile-time
+-+ * instrumentation shipped with Clang and GCC) to not instrument the
+-+ * annotated function.  Furthermore, it will prevent the compiler from
+-+ * inlining the function because inlining currently breaks the blacklisting
+-+ * mechanism of AddressSanitizer.
+-+ */
+-+#if __has_feature(address_sanitizer) && __has_attribute(no_sanitize_memory) && __has_attribute(no_sanitize_address)
+-+# define UL_ASAN_BLACKLIST __attribute__((noinline)) __attribute__((no_sanitize_memory)) __attribute__((no_sanitize_address))
+-+#else
+-+# define UL_ASAN_BLACKLIST	/* nothing */
+-+#endif
+++		ctl->dirs = dp->next;
+++		growstr(&nam1, add2(nam1baselen, 1));
+++		memcpy(nam1.buf, dp->name, nam1baselen);
+++		free(dp);
+++		nam1.buf[nam1baselen++] = '/';
+++		nam1.buf[nam1baselen] = 0;
+++		dh = opendir(nam1.buf);
+ +
+-+/*
+-+ * Note that sysconf(_SC_GETPW_R_SIZE_MAX) returns *initial* suggested size for
+-+ * pwd buffer and in some cases it is not large enough. See POSIX and
+-+ * getpwnam_r man page for more details.
+-+ */
+-+#define UL_GETPW_BUFSIZ	(16 * 1024)
+++		if (dh == NULL)
+++			continue;
+++		ctl->ndirs++;
+ +
+-+/*
+-+ * Darwin or other BSDs may only have MAP_ANON. To get it on Darwin we must
+-+ * define _DARWIN_C_SOURCE before including sys/mman.h. We do this in config.h.
+-+ */
+-+#if !defined MAP_ANONYMOUS && defined MAP_ANON
+-+# define MAP_ANONYMOUS  (MAP_ANON)
+++		while ((di = readdir(dh)) != NULL) {
+++			if (!di->d_name[0])
+++				continue;
+++			if (di->d_name[0] == '.') {
+++				if (!di->d_name[1] || !strcmp(di->d_name, ".."))
+++					continue;
+++			}
+++#ifdef HAVE_PCRE
+++			if (re && pcre2_match(re, /* compiled regex */
+++					      (PCRE2_SPTR) di->d_name, strlen(di->d_name), 0, /* start at offset 0 */
+++					      0, /* default options */
+++					      match_data, /* block for storing the result */
+++					      NULL) /* use default match context */
+++			    >=0) {
+++				if (ctl->verbose) {
+++					nam1.buf[nam1baselen] = 0;
+++					printf(_("Skipping %s%s\n"), nam1.buf, di->d_name);
+++				}
+++				continue;
+++			}
+ +#endif
+++			{
+++				size_t subdirlen;
+++				growstr(&nam1,
+++					add2(nam1baselen, subdirlen =
+++					     strlen(di->d_name)));
+++				memcpy(&nam1.buf[nam1baselen], di->d_name,
+++				       add2(subdirlen, 1));
+++			}
+++			process_path(ctl, nam1.buf);
+++		}
+++		closedir(dh);
+++	}
+ +
+-+#endif /* UTIL_LINUX_C_H */
+++	return 0;
+++}
++diff --git a/locale/programs/xalloc.h b/locale/programs/xalloc.h
++new file mode 100644
++index 0000000000..0129a85e2e
+ --- /dev/null
+ +++ b/locale/programs/xalloc.h
+ @@ -0,0 +1,129 @@
+diff --git a/meta/recipes-core/glibc/glibc/allow-compile-separate-from-util-linux-hardlink.patch b/meta/recipes-core/glibc/glibc/0030-hardlink-fix-ups-to-make-it-compile.patch
+similarity index 85%
+rename from meta/recipes-core/glibc/glibc/allow-compile-separate-from-util-linux-hardlink.patch
+rename to meta/recipes-core/glibc/glibc/0030-hardlink-fix-ups-to-make-it-compile.patch
+index 1148ebfcc7..1a5f6b6825 100644
+--- a/meta/recipes-core/glibc/glibc/allow-compile-separate-from-util-linux-hardlink.patch
++++ b/meta/recipes-core/glibc/glibc/0030-hardlink-fix-ups-to-make-it-compile.patch
+@@ -1,8 +1,31 @@
++From d08f436635cb9d627ebae4512105708d28fc36fe Mon Sep 17 00:00:00 2001
++From: Jason Wessel <jason.wessel@windriver.com>
++Date: Sat, 7 Dec 2019 10:01:37 -0800
++Subject: [PATCH] hardlink: fix-ups to make it compile
++
++Upstream-Status: Pending
++Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ ---
+- locale/programs/c.h                        |    2 
+- locale/programs/cross-localedef-hardlink.c |   79 +++++++++++++----------------
++ locale/programs/c.h                        |  2 +-
++ locale/programs/cross-localedef-hardlink.c | 79 +++++++++++-----------
+  2 files changed, 39 insertions(+), 42 deletions(-)
+ 
++diff --git a/locale/programs/c.h b/locale/programs/c.h
++index d0a402e90e..1804d31c73 100644
++--- a/locale/programs/c.h
+++++ b/locale/programs/c.h
++@@ -240,7 +240,7 @@ errmsg(char doexit, int excode, char adderr, const char *fmt, ...)
++ /* Don't use inline function to avoid '#include "nls.h"' in c.h
++  */
++ #define errtryhelp(eval) __extension__ ({ \
++-	fprintf(stderr, _("Try '%s --help' for more information.\n"), \
+++	fprintf(stderr, ("Try '%s --help' for more information.\n"), \
++ 			program_invocation_short_name); \
++ 	exit(eval); \
++ })
++diff --git a/locale/programs/cross-localedef-hardlink.c b/locale/programs/cross-localedef-hardlink.c
++index 63615896b0..726e6dd948 100644
+ --- a/locale/programs/cross-localedef-hardlink.c
+ +++ b/locale/programs/cross-localedef-hardlink.c
+ @@ -20,6 +20,8 @@
+@@ -75,7 +98,7 @@
+  
+  	fputs(USAGE_SEPARATOR, stdout);
+  	printf(USAGE_HELP_OPTIONS(16)); /* char offset to align option descriptions */
+-@@ -164,7 +166,7 @@ static inline size_t add2(size_t a, size
++@@ -164,7 +166,7 @@ static inline size_t add2(size_t a, size_t b)
+  	size_t sum = a + b;
+  
+  	if (sum < a)
+@@ -84,7 +107,7 @@
+  	return sum;
+  }
+  
+-@@ -193,7 +195,7 @@ static void process_path(struct hardlink
++@@ -193,7 +195,7 @@ static void process_path(struct hardlink_ctl *ctl, const char *name)
+  	if (st.st_dev != ctl->dev && !ctl->force) {
+  		if (ctl->dev)
+  			errx(EXIT_FAILURE,
+@@ -93,7 +116,7 @@
+  			       "(use -f option to override)."), name);
+  		ctl->dev = st.st_dev;
+  	}
+-@@ -287,9 +289,9 @@ static void process_path(struct hardlink
++@@ -287,9 +289,9 @@ static void process_path(struct hardlink_ctl *ctl, const char *name)
+  							(ssize_t) sizeof(ctl->iobuf1) : fsize;
+  
+  					if ((xsz = read(fd, ctl->iobuf1, rsize)) != rsize)
+@@ -105,7 +128,7 @@
+  
+  					if (xsz != rsize) {
+  						close(fd);
+-@@ -303,13 +305,13 @@ static void process_path(struct hardlink
++@@ -303,13 +305,13 @@ static void process_path(struct hardlink_ctl *ctl, const char *name)
+  				if (fsize > 0)
+  					continue;
+  				if (lstat(name, &st3)) {
+@@ -121,7 +144,7 @@
+  					close(fd);
+  					return;
+  				}
+-@@ -329,18 +331,18 @@ static void process_path(struct hardlink
++@@ -329,18 +331,18 @@ static void process_path(struct hardlink_ctl *ctl, const char *name)
+  					       suffixlen + 1);
+  					/* First create a temporary link to n1 under a new name */
+  					if (link(n1, nam2.buf)) {
+@@ -143,7 +166,7 @@
+  						free(nam2.buf);
+  						continue;
+  					}
+-@@ -351,16 +353,16 @@ static void process_path(struct hardlink
++@@ -351,16 +353,16 @@ static void process_path(struct hardlink_ctl *ctl, const char *name)
+  					/* We actually did not save anything this time, since the link second argument
+  					   had some other links as well.  */
+  					if (ctl->verbose > 1)
+@@ -213,14 +236,3 @@
+  				}
+  				continue;
+  			}
+---- a/locale/programs/c.h
+-+++ b/locale/programs/c.h
+-@@ -240,7 +240,7 @@ errmsg(char doexit, int excode, char add
+- /* Don't use inline function to avoid '#include "nls.h"' in c.h
+-  */
+- #define errtryhelp(eval) __extension__ ({ \
+--	fprintf(stderr, _("Try '%s --help' for more information.\n"), \
+-+	fprintf(stderr, ("Try '%s --help' for more information.\n"), \
+- 			program_invocation_short_name); \
+- 	exit(eval); \
+- })
+diff --git a/meta/recipes-core/glibc/glibc/0031-Add-hardlink-resolver-to-build.patch b/meta/recipes-core/glibc/glibc/0031-Add-hardlink-resolver-to-build.patch
+new file mode 100644
+index 0000000000..e87a3bfb6f
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/0031-Add-hardlink-resolver-to-build.patch
+@@ -0,0 +1,55 @@
++From 1ef58f566e6ed575f7caee35308025e2b0f4101c Mon Sep 17 00:00:00 2001
++From: Jason Wessel <jason.wessel@windriver.com>
++Date: Sat, 7 Dec 2019 09:56:23 -0800
++Subject: [PATCH] Add hardlink resolver to build
++
++The sourcecode for this is imported from util-linux and is kept with
++glibc sources
++
++Upstream-Status: Pending
++Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ Makefile.in | 8 +++++++-
++ 1 file changed, 7 insertions(+), 1 deletion(-)
++
++diff --git a/localedef/Makefile.in b/localedef/Makefile.in
++index 77fbded..a87e5b2 100644
++--- a/localedef/Makefile.in
+++++ b/localedef/Makefile.in
++@@ -40,6 +40,8 @@ WARNFLAGS	= -Wall -Wno-format
++ FULLCC		= $(CC) $(CPPFLAGS) $(CFLAGS) \
++ 		  $(DEFINES) $(INCLUDES) $(WARNFLAGS)
++ 
+++CROSS_LOCALEDEF_HARDLINK_OBJS = cross-localedef-hardlink.o
+++
++ LOCALEDEF_OBJS	= charmap.o charmap-dir.o ld-address.o ld-collate.o \
++ 		  ld-ctype.o ld-identification.o ld-measurement.o \
++ 		  ld-messages.o ld-monetary.o ld-name.o ld-numeric.o \
++@@ -54,11 +56,14 @@ LOCALEDEF_OBJS	= charmap.o charmap-dir.o ld-address.o ld-collate.o \
++ 		  asprintf.o getdelim.o localedef_extra.o \
++ 		  obstack_printf.o vasprintf.o
++ 
++-all:		localedef$(EXEEXT)
+++all:		localedef$(EXEEXT) cross-localedef-hardlink$(EXEEXT)
++ 
++ localedef$(EXEEXT): $(LOCALEDEF_OBJS)
++ 		$(CC) -o $@ $(LOCALEDEF_OBJS) $(LIBS)
++ 
+++cross-localedef-hardlink$(EXEEXT): $(CROSS_LOCALEDEF_HARDLINK_OBJS)
+++		$(CC) -o $@ $(CROSS_LOCALEDEF_HARDLINK_OBJS) $(LIBS)
+++
++ clean:
++ 		rm -f locale$(EXEEXT) $(LOCALEDEF_OBJS)
++ 
++@@ -77,6 +82,7 @@ clean:
++ %.o: $(srcdir)/%.c
++ 		$(FULLCC) -c -o $@ $<
++ 
+++cross-localedef-hardlink.o: glibc/locale/programs/cross-localedef-hardlink.c
++ charmap.o: glibc/locale/programs/charmap.c
++ charmap-dir.o: glibc/locale/programs/charmap-dir.c
++ ld-address.o: glibc/locale/programs/ld-address.c
++-- 
++2.24.0
++
+-- 
+2.24.0
 
-On Thu, Dec 5, 2019 at 7:45 AM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> Drop backports, rebase other patches.
->
-> One patch I wasn't able to rebase as upstream code changed too much:
-> 0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
-> Please determine if it is still needed, produce a new version,
-> and work with upstream to get it merged.
->
-> 0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-> is removed as the use case (allowing python 2 and 3 to coexist
-> in SDKs) is no longer relevant with Python 2.x reaching end of line
-> and upstream has refactored the code making a rebase difficult.
-> If needed, please re-add the patch to py2, rather than py3.
->
-> Python 3.8 no longer adds "m" to "3.8" in paths, so adjust the recipes
-> and classes accordingly.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/classes/python3-dir.bbclass              |   4 +-
->  ...ib-termcap-to-linker-flags-to-avoid-.patch |  14 +-
->  ...lib-as-location-for-site-packages-an.patch | 156 ++++++++------
->  ...-detection-of-mips-architecture-for-.patch |  16 +-
->  ...fig-append-STAGING_LIBDIR-python-sys.patch |   2 +-
->  ...ON3HOME-is-set-use-instead-of-PYTHON.patch |  47 -----
->  ...asename-to-replace-CC-for-checking-c.patch |  37 ++--
->  ...runtime-test-to-get-float-byte-order.patch | 199 ------------------
->  ...ssing-libraries-to-Extension-for-mul.patch |  80 -------
->  ...report-missing-dependencies-for-disa.patch |  11 +-
->  ...tutils-prefix-is-inside-staging-area.patch |   2 +-
->  .../python3/avoid_warning_about_tkinter.patch |  33 ++-
->  .../python/python3/python-config.patch        |  24 ++-
->  .../python/python3/python3-manifest.json      |   4 +-
->  .../{python3_3.7.5.bb => python3_3.8.0.bb}    |  28 ++-
->  15 files changed, 175 insertions(+), 482 deletions(-)
->  delete mode 100644 meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
->  delete mode 100644 meta/recipes-devtools/python/python3/0002-Don-t-do-runtime-test-to-get-float-byte-order.patch
->  delete mode 100644 meta/recipes-devtools/python/python3/0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
->  rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.8.0.bb} (91%)
->
-> diff --git a/meta/classes/python3-dir.bbclass b/meta/classes/python3-dir.bbclass
-> index 7dd130bad99..036d7140d99 100644
-> --- a/meta/classes/python3-dir.bbclass
-> +++ b/meta/classes/python3-dir.bbclass
-> @@ -1,5 +1,5 @@
-> -PYTHON_BASEVERSION = "3.7"
-> -PYTHON_ABI = "m"
-> +PYTHON_BASEVERSION = "3.8"
-> +PYTHON_ABI = ""
->  PYTHON_DIR = "python${PYTHON_BASEVERSION}"
->  PYTHON_PN = "python3"
->  PYTHON_SITEPACKAGES_DIR = "${libdir}/${PYTHON_DIR}/site-packages"
-> diff --git a/meta/recipes-devtools/python/python3/0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avoid-.patch b/meta/recipes-devtools/python/python3/0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avoid-.patch
-> index 09f279ba1d7..59592821d7f 100644
-> --- a/meta/recipes-devtools/python/python3/0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avoid-.patch
-> +++ b/meta/recipes-devtools/python/python3/0001-Do-not-add-usr-lib-termcap-to-linker-flags-to-avoid-.patch
-> @@ -1,4 +1,4 @@
-> -From 23294c6ba6896115828293fdb7e67b47b38ba675 Mon Sep 17 00:00:00 2001
-> +From 039c53dd5baddec3359a05be0bff46a3b32bbb84 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Fri, 25 Jan 2019 19:04:13 +0100
->  Subject: [PATCH] Do not add /usr/lib/termcap to linker flags to avoid host
-> @@ -12,14 +12,14 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->   1 file changed, 1 deletion(-)
->
->  diff --git a/setup.py b/setup.py
-> -index b4357e3..fbec00d 100644
-> +index 20d7f35..ab18ff0 100644
->  --- a/setup.py
->  +++ b/setup.py
-> -@@ -856,7 +856,6 @@ class PyBuildExt(build_ext):
-> +@@ -957,7 +957,6 @@ class PyBuildExt(build_ext):
->                                                        'termcap'):
->                   readline_libs.append('termcap')
-> -             exts.append( Extension('readline', ['readline.c'],
-> --                                   library_dirs=['/usr/lib/termcap'],
-> -                                    extra_link_args=readline_extra_link_args,
-> -                                    libraries=readline_libs) )
-> +             self.add(Extension('readline', ['readline.c'],
-> +-                               library_dirs=['/usr/lib/termcap'],
-> +                                extra_link_args=readline_extra_link_args,
-> +                                libraries=readline_libs))
->           else:
-> diff --git a/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch b/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
-> index ea75262c4f6..112c979441f 100644
-> --- a/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
-> +++ b/meta/recipes-devtools/python/python3/0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch
-> @@ -1,4 +1,4 @@
-> -From 0fbdad1eaf541a8e92be81f39514cd249b3b0801 Mon Sep 17 00:00:00 2001
-> +From a078b6ff1492e848ad1055764fb9a414abaf3e12 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Tue, 5 Feb 2019 15:52:02 +0100
->  Subject: [PATCH] Do not hardcode "lib" as location for modules, site-packages
-> @@ -11,13 +11,13 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->   Include/pythonrun.h  |  2 ++
->   Lib/site.py          |  4 ++--
->   Makefile.pre.in      |  5 +++--
-> - Modules/getpath.c    | 18 ++++++++++++------
-> + Modules/getpath.c    | 22 ++++++++++++++--------
->   Python/getplatform.c | 10 ++++++++++
->   Python/sysmodule.c   |  2 ++
-> - 6 files changed, 31 insertions(+), 10 deletions(-)
-> + 6 files changed, 33 insertions(+), 12 deletions(-)
->
->  diff --git a/Include/pythonrun.h b/Include/pythonrun.h
-> -index 6f0c6fc..0a17edd 100644
-> +index 46091e0..61b2e15 100644
->  --- a/Include/pythonrun.h
->  +++ b/Include/pythonrun.h
->  @@ -7,6 +7,8 @@
-> @@ -28,12 +28,12 @@ index 6f0c6fc..0a17edd 100644
->  +
->   #ifndef Py_LIMITED_API
->   PyAPI_FUNC(int) PyRun_SimpleStringFlags(const char *, PyCompilerFlags *);
-> - PyAPI_FUNC(int) PyRun_AnyFileFlags(FILE *, const char *, PyCompilerFlags *);
-> + PyAPI_FUNC(int) PyRun_AnyFileExFlags(
->  diff --git a/Lib/site.py b/Lib/site.py
-> -index ffd132b..b55f6d8 100644
-> +index a065ab0..1d720ef 100644
->  --- a/Lib/site.py
->  +++ b/Lib/site.py
-> -@@ -334,12 +334,12 @@ def getsitepackages(prefixes=None):
-> +@@ -335,12 +335,12 @@ def getsitepackages(prefixes=None):
->           seen.add(prefix)
->
->           if os.sep == '/':
-> @@ -49,10 +49,10 @@ index ffd132b..b55f6d8 100644
->
->   def addsitepackages(known_paths, prefixes=None):
->  diff --git a/Makefile.pre.in b/Makefile.pre.in
-> -index 6e81b2f..671a20e 100644
-> +index 65665df..be49140 100644
->  --- a/Makefile.pre.in
->  +++ b/Makefile.pre.in
-> -@@ -142,7 +142,7 @@ LIBDIR=            @libdir@
-> +@@ -143,7 +143,7 @@ LIBDIR=            @libdir@
->   MANDIR=               @mandir@
->   INCLUDEDIR=   @includedir@
->   CONFINCLUDEDIR=       $(exec_prefix)/include
-> @@ -61,7 +61,7 @@ index 6e81b2f..671a20e 100644
->   ABIFLAGS=     @ABIFLAGS@
->
->   # Detailed destination directories
-> -@@ -768,6 +768,7 @@ Modules/getpath.o: $(srcdir)/Modules/getpath.c Makefile
-> +@@ -753,6 +753,7 @@ Modules/getpath.o: $(srcdir)/Modules/getpath.c Makefile
->                 -DEXEC_PREFIX='"$(exec_prefix)"' \
->                 -DVERSION='"$(VERSION)"' \
->                 -DVPATH='"$(VPATH)"' \
-> @@ -69,7 +69,7 @@ index 6e81b2f..671a20e 100644
->                 -o $@ $(srcdir)/Modules/getpath.c
->
->   Programs/python.o: $(srcdir)/Programs/python.c
-> -@@ -856,7 +857,7 @@ regen-opcode:
-> +@@ -868,7 +869,7 @@ regen-symbol: $(srcdir)/Include/graminit.h
->   Python/compile.o Python/symtable.o Python/ast_unparse.o Python/ast.o Python/future.o Parser/parsetok.o: $(srcdir)/Include/graminit.h $(srcdir)/Include/Python-ast.h
->
->   Python/getplatform.o: $(srcdir)/Python/getplatform.c
-> @@ -79,72 +79,90 @@ index 6e81b2f..671a20e 100644
->   Python/importdl.o: $(srcdir)/Python/importdl.c
->                 $(CC) -c $(PY_CORE_CFLAGS) -I$(DLINCLDIR) -o $@ $(srcdir)/Python/importdl.c
->  diff --git a/Modules/getpath.c b/Modules/getpath.c
-> -index e6a3e8e..0c62af6 100644
-> +index b727f66..c003e46 100644
->  --- a/Modules/getpath.c
->  +++ b/Modules/getpath.c
-> -@@ -123,6 +123,7 @@ typedef struct {
-> -     wchar_t *exec_prefix;              /* EXEC_PREFIX define */
-> +@@ -128,6 +128,7 @@ typedef struct {
-> +     wchar_t *exec_prefix;              /* EXEC_PREFIX macro */
->
->       wchar_t *lib_python;               /* "lib/pythonX.Y" */
->  +    wchar_t *multilib_python;               /* "lib[suffix]/pythonX.Y" */
-> -     wchar_t argv0_path[MAXPATHLEN+1];
-> -     wchar_t zip_path[MAXPATHLEN+1];    /* ".../lib/pythonXY.zip" */
->
-> -@@ -314,7 +315,7 @@ search_for_prefix(const _PyCoreConfig *core_config,
-> +     int prefix_found;         /* found platform independent libraries? */
-> +     int exec_prefix_found;    /* found the platform dependent libraries? */
-> +@@ -386,7 +387,7 @@ search_for_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
->           if (delim) {
->               *delim = L'\0';
->           }
-> --        joinpath(prefix, calculate->lib_python);
-> -+        joinpath(prefix, calculate->multilib_python);
-> -         joinpath(prefix, LANDMARK);
-> -         return 1;
-> -     }
-> -@@ -343,7 +344,7 @@ search_for_prefix(const _PyCoreConfig *core_config,
-> -     copy_absolute(prefix, calculate->argv0_path, MAXPATHLEN+1);
-> +-        status = joinpath(prefix, calculate->lib_python, prefix_len);
-> ++        status = joinpath(prefix, calculate->multilib_python, prefix_len);
-> +         if (_PyStatus_EXCEPTION(status)) {
-> +             return status;
-> +         }
-> +@@ -444,7 +445,7 @@ search_for_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
->       do {
-> -         n = wcslen(prefix);
-> --        joinpath(prefix, calculate->lib_python);
-> -+        joinpath(prefix, calculate->multilib_python);
-> -         joinpath(prefix, LANDMARK);
-> -         if (ismodule(prefix)) {
-> -             return 1;
-> -@@ -355,7 +356,7 @@ search_for_prefix(const _PyCoreConfig *core_config,
-> -     /* Look at configure's PREFIX */
-> -     wcsncpy(prefix, calculate->prefix, MAXPATHLEN);
-> -     prefix[MAXPATHLEN] = L'\0';
-> --    joinpath(prefix, calculate->lib_python);
-> -+    joinpath(prefix, calculate->multilib_python);
-> -     joinpath(prefix, LANDMARK);
-> -     if (ismodule(prefix)) {
-> -         return 1;
-> -@@ -427,7 +428,7 @@ search_for_exec_prefix(const _PyCoreConfig *core_config,
-> -             wcsncpy(exec_prefix, core_config->home, MAXPATHLEN);
-> +         /* Path: <argv0_path or substring> / <lib_python> / LANDMARK */
-> +         size_t n = wcslen(prefix);
-> +-        status = joinpath(prefix, calculate->lib_python, prefix_len);
-> ++        status = joinpath(prefix, calculate->multilib_python, prefix_len);
-> +         if (_PyStatus_EXCEPTION(status)) {
-> +             return status;
->           }
-> -         exec_prefix[MAXPATHLEN] = L'\0';
-> --        joinpath(exec_prefix, calculate->lib_python);
-> -+        joinpath(exec_prefix, calculate->multilib_python);
-> -         joinpath(exec_prefix, L"lib-dynload");
-> -         return 1;
-> +@@ -467,7 +468,7 @@ search_for_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
-> +     if (safe_wcscpy(prefix, calculate->prefix, prefix_len) < 0) {
-> +         return PATHLEN_ERR();
-> +     }
-> +-    status = joinpath(prefix, calculate->lib_python, prefix_len);
-> ++    status = joinpath(prefix, calculate->multilib_python, prefix_len);
-> +     if (_PyStatus_EXCEPTION(status)) {
-> +         return status;
->       }
-> -@@ -464,7 +465,7 @@ search_for_exec_prefix(const _PyCoreConfig *core_config,
-> -     copy_absolute(exec_prefix, calculate->argv0_path, MAXPATHLEN+1);
-> +@@ -510,7 +511,7 @@ calculate_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
-> +         if (safe_wcscpy(prefix, calculate->prefix, prefix_len) < 0) {
-> +             return PATHLEN_ERR();
-> +         }
-> +-        status = joinpath(prefix, calculate->lib_python, prefix_len);
-> ++        status = joinpath(prefix, calculate->multilib_python, prefix_len);
-> +         if (_PyStatus_EXCEPTION(status)) {
-> +             return status;
-> +         }
-> +@@ -635,7 +636,7 @@ search_for_exec_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
-> +                 return PATHLEN_ERR();
-> +             }
-> +         }
-> +-        status = joinpath(exec_prefix, calculate->lib_python, exec_prefix_len);
-> ++        status = joinpath(exec_prefix, calculate->multilib_python, exec_prefix_len);
-> +         if (_PyStatus_EXCEPTION(status)) {
-> +             return status;
-> +         }
-> +@@ -667,7 +668,7 @@ search_for_exec_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
->       do {
-> -         n = wcslen(exec_prefix);
-> --        joinpath(exec_prefix, calculate->lib_python);
-> -+        joinpath(exec_prefix, calculate->multilib_python);
-> -         joinpath(exec_prefix, L"lib-dynload");
-> -         if (isdir(exec_prefix)) {
-> -             return 1;
-> -@@ -476,7 +477,7 @@ search_for_exec_prefix(const _PyCoreConfig *core_config,
-> -     /* Look at configure's EXEC_PREFIX */
-> -     wcsncpy(exec_prefix, calculate->exec_prefix, MAXPATHLEN);
-> -     exec_prefix[MAXPATHLEN] = L'\0';
-> --    joinpath(exec_prefix, calculate->lib_python);
-> -+    joinpath(exec_prefix, calculate->multilib_python);
-> -     joinpath(exec_prefix, L"lib-dynload");
-> -     if (isdir(exec_prefix)) {
-> -         return 1;
-> -@@ -871,6 +872,10 @@ calculate_init(PyCalculatePath *calculate,
-> +         /* Path: <argv0_path or substring> / <lib_python> / "lib-dynload" */
-> +         size_t n = wcslen(exec_prefix);
-> +-        status = joinpath(exec_prefix, calculate->lib_python, exec_prefix_len);
-> ++        status = joinpath(exec_prefix, calculate->multilib_python, exec_prefix_len);
-> +         if (_PyStatus_EXCEPTION(status)) {
-> +             return status;
-> +         }
-> +@@ -689,7 +690,7 @@ search_for_exec_prefix(PyCalculatePath *calculate, _PyPathConfig *pathconfig,
-> +     if (safe_wcscpy(exec_prefix, calculate->exec_prefix, exec_prefix_len) < 0) {
-> +         return PATHLEN_ERR();
-> +     }
-> +-    status = joinpath(exec_prefix, calculate->lib_python, exec_prefix_len);
-> ++    status = joinpath(exec_prefix, calculate->multilib_python, exec_prefix_len);
-> +     if (_PyStatus_EXCEPTION(status)) {
-> +         return status;
-> +     }
-> +@@ -928,7 +929,7 @@ calculate_argv0_path(PyCalculatePath *calculate, const wchar_t *program_full_pat
-> +             return PATHLEN_ERR();
-> +         }
-> +         reduce(argv0_path);
-> +-        status = joinpath(argv0_path, calculate->lib_python, argv0_path_len);
-> ++        status = joinpath(argv0_path, calculate->multilib_python, argv0_path_len);
-> +         if (_PyStatus_EXCEPTION(status)) {
-> +             PyMem_RawFree(wbuf);
-> +             return status;
-> +@@ -1201,6 +1202,10 @@ calculate_init(PyCalculatePath *calculate, const PyConfig *config)
->       if (!calculate->lib_python) {
->           return DECODE_LOCALE_ERR("EXEC_PREFIX define", len);
->       }
-> @@ -152,10 +170,10 @@ index e6a3e8e..0c62af6 100644
->  +    if (!calculate->multilib_python) {
->  +        return DECODE_LOCALE_ERR("EXEC_PREFIX define", len);
->  +    }
-> -     return _Py_INIT_OK();
-> - }
->
-> -@@ -882,6 +887,7 @@ calculate_free(PyCalculatePath *calculate)
-> +     calculate->warnings = config->pathconfig_warnings;
-> +     calculate->pythonpath_env = config->pythonpath_env;
-> +@@ -1216,6 +1221,7 @@ calculate_free(PyCalculatePath *calculate)
->       PyMem_RawFree(calculate->prefix);
->       PyMem_RawFree(calculate->exec_prefix);
->       PyMem_RawFree(calculate->lib_python);
-> @@ -182,10 +200,10 @@ index 81a0f7a..d55396b 100644
->  +      return LIB;
->  +}
->  diff --git a/Python/sysmodule.c b/Python/sysmodule.c
-> -index efe5b29..de77b17 100644
-> +index 5b0fb81..0dce754 100644
->  --- a/Python/sysmodule.c
->  +++ b/Python/sysmodule.c
-> -@@ -2319,6 +2319,8 @@ _PySys_BeginInit(PyObject **sysmod)
-> +@@ -2668,6 +2668,8 @@ _PySys_InitCore(_PyRuntimeState *runtime, PyInterpreterState *interp,
->                           PyUnicode_FromString(Py_GetCopyright()));
->       SET_SYS_FROM_STRING("platform",
->                           PyUnicode_FromString(Py_GetPlatform()));
-> diff --git a/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch b/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
-> index e7af88654da..fe0aa8aabed 100644
-> --- a/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
-> +++ b/meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
-> @@ -1,4 +1,4 @@
-> -From 7535c39951b9d15dd64c4669092a8582ba555466 Mon Sep 17 00:00:00 2001
-> +From 2581ebe3cd9686089aed223651e1b8bf0b862b48 Mon Sep 17 00:00:00 2001
->  From: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
->  Date: Fri, 31 May 2019 15:34:34 +0200
->  Subject: [PATCH] bpo-36852: proper detection of mips architecture for soft
-> @@ -12,15 +12,16 @@ to do this in a more autoconf/autotools manner.
->
->  Upstream-Status: Submitted [https://github.com/python/cpython/pull/13196]
->  Signed-off-by: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
-> +
->  ---
-> - configure.ac | 169 ++++++---------------------------------------------
-> - 1 file changed, 17 insertions(+), 152 deletions(-)
-> + configure.ac | 171 +++++----------------------------------------------
-> + 1 file changed, 17 insertions(+), 154 deletions(-)
->
->  diff --git a/configure.ac b/configure.ac
-> -index a7de901e08..a73e2de51b 100644
-> +index 0f85486..0ca7e24 100644
->  --- a/configure.ac
->  +++ b/configure.ac
-> -@@ -727,158 +727,23 @@ fi
-> +@@ -704,160 +704,23 @@ fi
->   MULTIARCH=$($CC --print-multiarch 2>/dev/null)
->   AC_SUBST(MULTIARCH)
->
-> @@ -163,6 +164,8 @@ index a7de901e08..a73e2de51b 100644
->  -        i386-gnu
->  -#elif defined(__APPLE__)
->  -        darwin
-> +-#elif defined(__VXWORKS__)
-> +-        vxworks
->  -#else
->  -# error unknown platform triplet
->  -#endif
-> @@ -196,6 +199,3 @@ index a7de901e08..a73e2de51b 100644
->
->   if test x$PLATFORM_TRIPLET != x && test x$MULTIARCH != x; then
->     if test x$PLATFORM_TRIPLET != x$MULTIARCH; then
-> ---
-> -2.21.0
-> -
-> diff --git a/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch b/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
-> index 1709011be8a..ee37f6bd52d 100644
-> --- a/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
-> +++ b/meta/recipes-devtools/python/python3/0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch
-> @@ -1,4 +1,4 @@
-> -From eff903c600f4c40f5753e95ab1557126fc6e0c9c Mon Sep 17 00:00:00 2001
-> +From cf676775109c0a7fb38058bb60b453ff8f1a166b Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Thu, 31 Jan 2019 16:46:30 +0100
->  Subject: [PATCH] distutils/sysconfig: append
-> diff --git a/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-> deleted file mode 100644
-> index a146c747f83..00000000000
-> --- a/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-> +++ /dev/null
-> @@ -1,47 +0,0 @@
-> -From 5ce3ac59531828ff682646fbba59b2126b28a8aa Mon Sep 17 00:00:00 2001
-> -From: Jaewon Lee <jaewon.lee@xilinx.com>
-> -Date: Thu, 25 Apr 2019 15:34:26 -0700
-> -Subject: [PATCH] main.c: if OEPYTHON3HOME is set use instead of PYTHONHOME
-> -
-> -There is one variable PYTHONHOME to determine where libraries are coming
-> -from for both python2 and python3. This becomes an issue if only one has
-> -libraries in the specified PYTHONHOME path, but they are using the same
-> -PYTHONHOME. Creating another variable OEPYTHON3HOME to allow for a way
-> -to set a different path for python3
-> -
-> -Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-> -
-> -Upstream-Status: Inappropriate [OE specific configuration]
-> -
-> ----
-> - Modules/main.c | 17 +++++++++++++----
-> - 1 file changed, 13 insertions(+), 4 deletions(-)
-> -
-> -diff --git a/Modules/main.c b/Modules/main.c
-> -index acc59c6..407085a 100644
-> ---- a/Modules/main.c
-> -+++ b/Modules/main.c
-> -@@ -1834,10 +1834,19 @@ config_init_home(_PyCoreConfig *config)
-> -         }
-> -         return _Py_INIT_OK();
-> -     }
-> --
-> --    int res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
-> --    if (res < 0) {
-> --        return DECODE_LOCALE_ERR("PYTHONHOME", res);
-> -+    int res;
-> -+    const char *oepython3home = config_get_env_var("OEPYTHON3HOME");
-> -+    if (oepython3home) {
-> -+        res = config_get_env_var_dup(&home, L"OEPYTHON3HOME", "OEPYTHON3HOME");
-> -+        if (res < 0) {
-> -+            return DECODE_LOCALE_ERR("OEPYTHON3HOME", res);
-> -+        }
-> -+    }
-> -+    else {
-> -+        res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
-> -+        if (res < 0) {
-> -+            return DECODE_LOCALE_ERR("PYTHONHOME", res);
-> -+        }
-> -     }
-> -     config->home = home;
-> -     return _Py_INIT_OK();
-> diff --git a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-> index a0ea897f4e8..fb10ca94b31 100644
-> --- a/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-> +++ b/meta/recipes-devtools/python/python3/0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch
-> @@ -1,4 +1,4 @@
-> -From 2645317fef09afe31b01bb2c1d4fe5b9afdbb11a Mon Sep 17 00:00:00 2001
-> +From 994783da5c21cab81b6589ed2d4275e665a946f9 Mon Sep 17 00:00:00 2001
->  From: Changqing Li <changqing.li@windriver.com>
->  Date: Mon, 22 Oct 2018 15:19:51 +0800
->  Subject: [PATCH] python3: use cc_basename to replace CC for checking compiler
-> @@ -21,12 +21,13 @@ Signed-off-by: Li Zhou <li.zhou@windriver.com>
->  patch originally from Li Zhou, I just rework it to new version
->
->  Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> +
->  ---
->   configure.ac | 19 ++++++++++---------
->   1 file changed, 10 insertions(+), 9 deletions(-)
->
->  diff --git a/configure.ac b/configure.ac
-> -index a7de901..4a3681f 100644
-> +index a189d42..0f85486 100644
->  --- a/configure.ac
->  +++ b/configure.ac
->  @@ -54,6 +54,7 @@ AC_CONFIG_HEADER(pyconfig.h)
-> @@ -37,7 +38,7 @@ index a7de901..4a3681f 100644
->
->   # pybuilddir.txt will be created by --generate-posix-vars in the Makefile
->   rm -f pybuilddir.txt
-> -@@ -695,7 +696,7 @@ AC_MSG_RESULT($with_cxx_main)
-> +@@ -671,7 +672,7 @@ AC_MSG_RESULT($with_cxx_main)
->   preset_cxx="$CXX"
->   if test -z "$CXX"
->   then
-> @@ -46,7 +47,7 @@ index a7de901..4a3681f 100644
->           gcc)    AC_PATH_TOOL(CXX, [g++], [g++], [notfound]) ;;
->           cc)     AC_PATH_TOOL(CXX, [c++], [c++], [notfound]) ;;
->           clang|*/clang)     AC_PATH_TOOL(CXX, [clang++], [clang++], [notfound]) ;;
-> -@@ -979,7 +980,7 @@ rmdir CaseSensitiveTestDir
-> +@@ -957,7 +958,7 @@ rmdir CaseSensitiveTestDir
->
->   case $ac_sys_system in
->   hp*|HP*)
-> @@ -55,7 +56,7 @@ index a7de901..4a3681f 100644
->       cc|*/cc) CC="$CC -Ae";;
->       esac;;
->   esac
-> -@@ -1336,7 +1337,7 @@ else
-> +@@ -1335,7 +1336,7 @@ else
->   fi],
->   [AC_MSG_RESULT(no)])
->   if test "$Py_LTO" = 'true' ; then
-> @@ -64,7 +65,7 @@ index a7de901..4a3681f 100644
->       *clang*)
->         AC_SUBST(LLVM_AR)
->         AC_PATH_TOOL(LLVM_AR, llvm-ar, '', ${llvm_path})
-> -@@ -1426,7 +1427,7 @@ then
-> +@@ -1425,7 +1426,7 @@ then
->     fi
->   fi
->   LLVM_PROF_ERR=no
-> @@ -73,16 +74,16 @@ index a7de901..4a3681f 100644
->     *clang*)
->       # Any changes made here should be reflected in the GCC+Darwin case below
->       PGO_PROF_GEN_FLAG="-fprofile-instr-generate"
-> -@@ -1500,7 +1501,7 @@ then
-> -            WRAP="-fwrapv"
-> -         fi
-> +@@ -1486,7 +1487,7 @@ esac
-> + # compiler and platform.  BASECFLAGS tweaks need to be made even if the
-> + # user set OPT.
->
-> --        case $CC in
-> -+        case $cc_basename in
-> -             *clang*)
-> -                 cc_is_clang=1
-> -                 ;;
-> -@@ -1623,7 +1624,7 @@ yes)
-> +-case $CC in
-> ++case $cc_basename in
-> +     *clang*)
-> +         cc_is_clang=1
-> +         ;;
-> +@@ -1622,7 +1623,7 @@ yes)
->
->       # ICC doesn't recognize the option, but only emits a warning
->       ## XXX does it emit an unused result warning and can it be disabled?
-> @@ -91,7 +92,7 @@ index a7de901..4a3681f 100644
->       *icc*)
->       ac_cv_disable_unused_result_warning=no
->       ;;
-> -@@ -1965,7 +1966,7 @@ yes)
-> +@@ -1943,7 +1944,7 @@ yes)
->   esac
->
->   # ICC needs -fp-model strict or floats behave badly
-> @@ -100,7 +101,7 @@ index a7de901..4a3681f 100644
->   *icc*)
->       CFLAGS_NODIST="$CFLAGS_NODIST -fp-model strict"
->       ;;
-> -@@ -2727,7 +2728,7 @@ then
-> +@@ -2711,7 +2712,7 @@ then
->                 then
->                         LINKFORSHARED="-Wl,--export-dynamic"
->                 fi;;
-> @@ -109,7 +110,7 @@ index a7de901..4a3681f 100644
->                   *gcc*)
->                     if $CC -Xlinker --help 2>&1 | grep export-dynamic >/dev/null
->                     then
-> -@@ -5429,7 +5430,7 @@ if test "$have_gcc_asm_for_x87" = yes; then
-> +@@ -5362,7 +5363,7 @@ if test "$have_gcc_asm_for_x87" = yes; then
->       # Some versions of gcc miscompile inline asm:
->       # http://gcc.gnu.org/bugzilla/show_bug.cgi?id=46491
->       # http://gcc.gnu.org/ml/gcc/2010-11/msg00366.html
-> diff --git a/meta/recipes-devtools/python/python3/0002-Don-t-do-runtime-test-to-get-float-byte-order.patch b/meta/recipes-devtools/python/python3/0002-Don-t-do-runtime-test-to-get-float-byte-order.patch
-> deleted file mode 100644
-> index 58ab709028e..00000000000
-> --- a/meta/recipes-devtools/python/python3/0002-Don-t-do-runtime-test-to-get-float-byte-order.patch
-> +++ /dev/null
-> @@ -1,199 +0,0 @@
-> -From fa96a7fd19e17b9c6b4dd01c3c3774fb382dddc6 Mon Sep 17 00:00:00 2001
-> -From: Ross Burton <ross.burton@intel.com>
-> -Date: Wed, 5 Sep 2018 11:45:52 +0100
-> -Subject: [PATCH] Don't do runtime test to get float byte order
-> -
-> -Python uses AC_RUN_IFELSE to determine the byte order for floats and doubles,
-> -and falls back onto "I don't know" if it can't run code.  This results in
-> -crippled floating point numbers in Python, and the regression tests fail.
-> -
-> -Instead of running code, take a macro from autoconf-archive which compiles C
-> -with a special double in which has an ASCII representation, and then greps the
-> -binary to identify the format.
-> -
-> -Upstream-Status: Backport [2a9c3805ddedf282881ef7811a561c70b74f80b1]
-> -Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ----
-> - configure.ac                     | 72 +++------------------------
-> - m4/ax_c_float_words_bigendian.m4 | 83 ++++++++++++++++++++++++++++++++
-> - 2 files changed, 90 insertions(+), 65 deletions(-)
-> - create mode 100644 m4/ax_c_float_words_bigendian.m4
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 4a3681f..4ab19a6 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -4328,77 +4328,19 @@ fi
-> - # * Check for various properties of floating point *
-> - # **************************************************
-> -
-> --AC_MSG_CHECKING(whether C doubles are little-endian IEEE 754 binary64)
-> --AC_CACHE_VAL(ac_cv_little_endian_double, [
-> --AC_RUN_IFELSE([AC_LANG_SOURCE([[
-> --#include <string.h>
-> --int main() {
-> --    double x = 9006104071832581.0;
-> --    if (memcmp(&x, "\x05\x04\x03\x02\x01\xff\x3f\x43", 8) == 0)
-> --        return 0;
-> --    else
-> --        return 1;
-> --}
-> --]])],
-> --[ac_cv_little_endian_double=yes],
-> --[ac_cv_little_endian_double=no],
-> --[ac_cv_little_endian_double=no])])
-> --AC_MSG_RESULT($ac_cv_little_endian_double)
-> --if test "$ac_cv_little_endian_double" = yes
-> --then
-> --  AC_DEFINE(DOUBLE_IS_LITTLE_ENDIAN_IEEE754, 1,
-> --  [Define if C doubles are 64-bit IEEE 754 binary format, stored
-> --   with the least significant byte first])
-> --fi
-> --
-> --AC_MSG_CHECKING(whether C doubles are big-endian IEEE 754 binary64)
-> --AC_CACHE_VAL(ac_cv_big_endian_double, [
-> --AC_RUN_IFELSE([AC_LANG_SOURCE([[
-> --#include <string.h>
-> --int main() {
-> --    double x = 9006104071832581.0;
-> --    if (memcmp(&x, "\x43\x3f\xff\x01\x02\x03\x04\x05", 8) == 0)
-> --        return 0;
-> --    else
-> --        return 1;
-> --}
-> --]])],
-> --[ac_cv_big_endian_double=yes],
-> --[ac_cv_big_endian_double=no],
-> --[ac_cv_big_endian_double=no])])
-> --AC_MSG_RESULT($ac_cv_big_endian_double)
-> --if test "$ac_cv_big_endian_double" = yes
-> -+AX_C_FLOAT_WORDS_BIGENDIAN
-> -+if test "$ax_cv_c_float_words_bigendian" = "yes"
-> - then
-> -   AC_DEFINE(DOUBLE_IS_BIG_ENDIAN_IEEE754, 1,
-> -   [Define if C doubles are 64-bit IEEE 754 binary format, stored
-> -    with the most significant byte first])
-> --fi
-> --
-> --# Some ARM platforms use a mixed-endian representation for doubles.
-> --# While Python doesn't currently have full support for these platforms
-> --# (see e.g., issue 1762561), we can at least make sure that float <-> string
-> --# conversions work.
-> --AC_MSG_CHECKING(whether C doubles are ARM mixed-endian IEEE 754 binary64)
-> --AC_CACHE_VAL(ac_cv_mixed_endian_double, [
-> --AC_RUN_IFELSE([AC_LANG_SOURCE([[
-> --#include <string.h>
-> --int main() {
-> --    double x = 9006104071832581.0;
-> --    if (memcmp(&x, "\x01\xff\x3f\x43\x05\x04\x03\x02", 8) == 0)
-> --        return 0;
-> --    else
-> --        return 1;
-> --}
-> --]])],
-> --[ac_cv_mixed_endian_double=yes],
-> --[ac_cv_mixed_endian_double=no],
-> --[ac_cv_mixed_endian_double=no])])
-> --AC_MSG_RESULT($ac_cv_mixed_endian_double)
-> --if test "$ac_cv_mixed_endian_double" = yes
-> -+elif test "$ax_cv_c_float_words_bigendian" = "no"
-> - then
-> --  AC_DEFINE(DOUBLE_IS_ARM_MIXED_ENDIAN_IEEE754, 1,
-> -+  AC_DEFINE(DOUBLE_IS_LITTLE_ENDIAN_IEEE754, 1,
-> -   [Define if C doubles are 64-bit IEEE 754 binary format, stored
-> --   in ARM mixed-endian order (byte order 45670123)])
-> -+   with the least significant byte first])
-> -+else
-> -+  AC_MSG_ERROR([Cannot identify floating point byte order])
-> - fi
-> -
-> - # The short float repr introduced in Python 3.1 requires the
-> -diff --git a/m4/ax_c_float_words_bigendian.m4 b/m4/ax_c_float_words_bigendian.m4
-> -new file mode 100644
-> -index 0000000..216b90d
-> ---- /dev/null
-> -+++ b/m4/ax_c_float_words_bigendian.m4
-> -@@ -0,0 +1,83 @@
-> -+# ===============================================================================
-> -+#  https://www.gnu.org/software/autoconf-archive/ax_c_float_words_bigendian.html
-> -+# ===============================================================================
-> -+#
-> -+# SYNOPSIS
-> -+#
-> -+#   AX_C_FLOAT_WORDS_BIGENDIAN([ACTION-IF-TRUE], [ACTION-IF-FALSE], [ACTION-IF-UNKNOWN])
-> -+#
-> -+# DESCRIPTION
-> -+#
-> -+#   Checks the ordering of words within a multi-word float. This check is
-> -+#   necessary because on some systems (e.g. certain ARM systems), the float
-> -+#   word ordering can be different from the byte ordering. In a multi-word
-> -+#   float context, "big-endian" implies that the word containing the sign
-> -+#   bit is found in the memory location with the lowest address. This
-> -+#   implementation was inspired by the AC_C_BIGENDIAN macro in autoconf.
-> -+#
-> -+#   The endianness is detected by first compiling C code that contains a
-> -+#   special double float value, then grepping the resulting object file for
-> -+#   certain strings of ASCII values. The double is specially crafted to have
-> -+#   a binary representation that corresponds with a simple string. In this
-> -+#   implementation, the string "noonsees" was selected because the
-> -+#   individual word values ("noon" and "sees") are palindromes, thus making
-> -+#   this test byte-order agnostic. If grep finds the string "noonsees" in
-> -+#   the object file, the target platform stores float words in big-endian
-> -+#   order. If grep finds "seesnoon", float words are in little-endian order.
-> -+#   If neither value is found, the user is instructed to specify the
-> -+#   ordering.
-> -+#
-> -+# LICENSE
-> -+#
-> -+#   Copyright (c) 2008 Daniel Amelang <dan@amelang.net>
-> -+#
-> -+#   Copying and distribution of this file, with or without modification, are
-> -+#   permitted in any medium without royalty provided the copyright notice
-> -+#   and this notice are preserved. This file is offered as-is, without any
-> -+#   warranty.
-> -+
-> -+#serial 11
-> -+
-> -+AC_DEFUN([AX_C_FLOAT_WORDS_BIGENDIAN],
-> -+  [AC_CACHE_CHECK(whether float word ordering is bigendian,
-> -+                  ax_cv_c_float_words_bigendian, [
-> -+
-> -+ax_cv_c_float_words_bigendian=unknown
-> -+AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
-> -+
-> -+double d = 90904234967036810337470478905505011476211692735615632014797120844053488865816695273723469097858056257517020191247487429516932130503560650002327564517570778480236724525140520121371739201496540132640109977779420565776568942592.0;
-> -+
-> -+]])], [
-> -+
-> -+if grep noonsees conftest.$ac_objext >/dev/null ; then
-> -+  ax_cv_c_float_words_bigendian=yes
-> -+fi
-> -+if grep seesnoon conftest.$ac_objext >/dev/null ; then
-> -+  if test "$ax_cv_c_float_words_bigendian" = unknown; then
-> -+    ax_cv_c_float_words_bigendian=no
-> -+  else
-> -+    ax_cv_c_float_words_bigendian=unknown
-> -+  fi
-> -+fi
-> -+
-> -+])])
-> -+
-> -+case $ax_cv_c_float_words_bigendian in
-> -+  yes)
-> -+    m4_default([$1],
-> -+      [AC_DEFINE([FLOAT_WORDS_BIGENDIAN], 1,
-> -+                 [Define to 1 if your system stores words within floats
-> -+                  with the most significant word first])]) ;;
-> -+  no)
-> -+    $2 ;;
-> -+  *)
-> -+    m4_default([$3],
-> -+      [AC_MSG_ERROR([
-> -+
-> -+Unknown float word ordering. You need to manually preset
-> -+ax_cv_c_float_words_bigendian=no (or yes) according to your system.
-> -+
-> -+    ])]) ;;
-> -+esac
-> -+
-> -+])# AX_C_FLOAT_WORDS_BIGENDIAN
-> diff --git a/meta/recipes-devtools/python/python3/0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch b/meta/recipes-devtools/python/python3/0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
-> deleted file mode 100644
-> index b9d5bc9c516..00000000000
-> --- a/meta/recipes-devtools/python/python3/0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
-> +++ /dev/null
-> @@ -1,80 +0,0 @@
-> -From b881a79adcd4ae5ac8fe4f49d0fc77c47f777919 Mon Sep 17 00:00:00 2001
-> -From: Hongxu Jia <hongxu.jia@windriver.com>
-> -Date: Fri, 4 Aug 2017 11:16:14 +0800
-> -Subject: [PATCH] setup.py: pass missing libraries to Extension for
-> - multiprocessing module
-> -
-> -In the following commit:
-> -...
-> -commit e711cafab13efc9c1fe6c5cd75826401445eb585
-> -Author: Benjamin Peterson <benjamin@python.org>
-> -Date:   Wed Jun 11 16:44:04 2008 +0000
-> -
-> -    Merged revisions 64104,64117 via svnmerge from
-> -    svn+ssh://pythondev@svn.python.org/python/trunk
-> -...
-> -(see diff in setup.py)
-> -It assigned libraries for multiprocessing module according
-> -the host_platform, but not pass it to Extension.
-> -
-> -In glibc, the following commit caused two definition of
-> -sem_getvalue are different.
-> -https://sourceware.org/git/?p=glibc.git;a=commit;h=042e1521c794a945edc43b5bfa7e69ad70420524
-> -(see diff in nptl/sem_getvalue.c for detail)
-> -`__new_sem_getvalue' is the latest sem_getvalue@@GLIBC_2.1
-> -and `__old_sem_getvalue' is to compat the old version
-> -sem_getvalue@GLIBC_2.0.
-> -
-> -To build python for embedded Linux systems:
-> -http://www.yoctoproject.org/docs/2.3.1/yocto-project-qs/yocto-project-qs.html
-> -If not explicitly link to library pthread (-lpthread), it will
-> -load glibc's sem_getvalue randomly at runtime.
-> -
-> -Such as build python on linux x86_64 host and run the python
-> -on linux x86_32 target. If not link library pthread, it caused
-> -multiprocessing bounded semaphore could not work correctly.
-> -...
-> ->>> import multiprocessing
-> ->>> pool_sema = multiprocessing.BoundedSemaphore(value=1)
-> ->>> pool_sema.acquire()
-> -True
-> ->>> pool_sema.release()
-> -Traceback (most recent call last):
-> -  File "<stdin>", line 1, in <module>
-> -ValueError: semaphore or lock released too many times
-> -...
-> -
-> -And the semaphore issue also caused multiprocessing.Queue().put() hung.
-> -
-> -Upstream-Status: Submitted [https://github.com/python/cpython/pull/2999]
-> -
-> -Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ----
-> - setup.py | 7 +++++--
-> - 1 file changed, 5 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/setup.py b/setup.py
-> -index b7a36a6..658ead3 100644
-> ---- a/setup.py
-> -+++ b/setup.py
-> -@@ -1584,8 +1584,10 @@ class PyBuildExt(build_ext):
-> -         elif host_platform.startswith('netbsd'):
-> -             macros = dict()
-> -             libraries = []
-> --
-> --        else:                                   # Linux and other unices
-> -+        elif host_platform.startswith(('linux')):
-> -+            macros = dict()
-> -+            libraries = ['pthread']
-> -+        else:                                   # Other unices
-> -             macros = dict()
-> -             libraries = ['rt']
-> -
-> -@@ -1603,6 +1605,7 @@ class PyBuildExt(build_ext):
-> -
-> -         exts.append ( Extension('_multiprocessing', multiprocessing_srcs,
-> -                                 define_macros=list(macros.items()),
-> -+                                libraries=libraries,
-> -                                 include_dirs=["Modules/_multiprocessing"]))
-> -         # End multiprocessing
-> -
-> diff --git a/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch b/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
-> index c15295c034c..4bd98f62fd6 100644
-> --- a/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
-> +++ b/meta/recipes-devtools/python/python3/0017-setup.py-do-not-report-missing-dependencies-for-disa.patch
-> @@ -1,4 +1,4 @@
-> -From e3b59cb9658e1d3efa3535840939a0fa92a70a5a Mon Sep 17 00:00:00 2001
-> +From a2dd127b4163aff6cc35af0d0251321964232ad4 Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex.kanavin@gmail.com>
->  Date: Mon, 7 Oct 2019 13:22:14 +0200
->  Subject: [PATCH] setup.py: do not report missing dependencies for disabled
-> @@ -10,22 +10,23 @@ build completeness checker which relies on the report.
->
->  Upstream-Status: Inappropriate [oe-core specific]
->  Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +
->  ---
->   setup.py | 4 ++++
->   1 file changed, 4 insertions(+)
->
->  diff --git a/setup.py b/setup.py
-> -index 4b53668..0097643 100644
-> +index 7691258..ec3f2a4 100644
->  --- a/setup.py
->  +++ b/setup.py
-> -@@ -365,6 +365,10 @@ class PyBuildExt(build_ext):
-> +@@ -408,6 +408,10 @@ class PyBuildExt(build_ext):
->                   print("%-*s   %-*s   %-*s" % (longest, e, longest, f,
->                                                 longest, g))
->
->  +        # There is no need to report missing module dependencies,
->  +        # if the modules have been disabled in the first place.
-> -+        missing = list(set(missing) - set(sysconf_dis))
-> ++        self.missing = list(set(self.missing) - set(sysconf_dis))
->  +
-> -         if missing:
-> +         if self.missing:
->               print()
->               print("Python build finished successfully!")
-> diff --git a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-> index d49604ba4d9..219b3551b8b 100644
-> --- a/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-> +++ b/meta/recipes-devtools/python/python3/12-distutils-prefix-is-inside-staging-area.patch
-> @@ -1,4 +1,4 @@
-> -From a274ba778838824efcacaba57c415b7262f779ec Mon Sep 17 00:00:00 2001
-> +From 93b2c26467b0ea9a18c178e4e1371d52e917a68b Mon Sep 17 00:00:00 2001
->  From: Khem Raj <raj.khem@gmail.com>
->  Date: Tue, 14 May 2013 15:00:26 -0700
->  Subject: [PATCH] python3: Add target and native recipes
-> diff --git a/meta/recipes-devtools/python/python3/avoid_warning_about_tkinter.patch b/meta/recipes-devtools/python/python3/avoid_warning_about_tkinter.patch
-> index 24e67b4ca14..184540e794c 100644
-> --- a/meta/recipes-devtools/python/python3/avoid_warning_about_tkinter.patch
-> +++ b/meta/recipes-devtools/python/python3/avoid_warning_about_tkinter.patch
-> @@ -1,4 +1,4 @@
-> -From fead48c8b501a8d7c3db21df2e599f90f38f11d3 Mon Sep 17 00:00:00 2001
-> +From ba7202700578d435b07cfdfb7b57e83185752800 Mon Sep 17 00:00:00 2001
->  From: Andrei Gherzan <andrei@gherzan.ro>
->  Date: Mon, 28 Jan 2019 15:57:54 +0000
->  Subject: [PATCH] _tkinter module needs tk module along with tcl. tk is not yet
-> @@ -11,26 +11,21 @@ Also simply disable the tk module since its not in DEPENDS.
->  Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
->
->  ---
-> - setup.py | 8 +++++---
-> - 1 file changed, 5 insertions(+), 3 deletions(-)
-> + setup.py | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
->
->  diff --git a/setup.py b/setup.py
-> -index fbec00d..b7a36a6 100644
-> +index ab18ff0..7691258 100644
->  --- a/setup.py
->  +++ b/setup.py
-> -@@ -1623,10 +1623,12 @@ class PyBuildExt(build_ext):
-> -         self.extensions.extend(exts)
-> +@@ -1706,8 +1706,8 @@ class PyBuildExt(build_ext):
-> +         self.detect_decimal()
-> +         self.detect_ctypes()
-> +         self.detect_multiprocessing()
-> +-        if not self.detect_tkinter():
-> +-            self.missing.append('_tkinter')
-> ++#        if not self.detect_tkinter():
-> ++#            self.missing.append('_tkinter')
-> +         self.detect_uuid()
->
-> -         # Call the method for detecting whether _tkinter can be compiled
-> --        self.detect_tkinter(inc_dirs, lib_dirs)
-> -+        # self.detect_tkinter(inc_dirs, lib_dirs)
-> -
-> --        if '_tkinter' not in [e.name for e in self.extensions]:
-> --            missing.append('_tkinter')
-> -+        # tkinter module will not be avalaible as yocto
-> -+        # doesn't have tk integrated (yet)
-> -+        #if '_tkinter' not in [e.name for e in self.extensions]:
-> -+        #    missing.append('_tkinter')
-> -
-> -         # Build the _uuid module if possible
-> -         uuid_incs = find_file("uuid.h", inc_dirs, ["/usr/include/uuid"])
-> + ##         # Uncomment these lines if you want to play with xxmodule.c
-> diff --git a/meta/recipes-devtools/python/python3/python-config.patch b/meta/recipes-devtools/python/python3/python-config.patch
-> index f23b8b7df06..c8a8f3d4aa3 100644
-> --- a/meta/recipes-devtools/python/python3/python-config.patch
-> +++ b/meta/recipes-devtools/python/python3/python-config.patch
-> @@ -1,4 +1,7 @@
-> -python-config: Revert to using distutils.sysconfig
-> +From 07df0ae0d70cba6d1847fe1c24a71063930bec60 Mon Sep 17 00:00:00 2001
-> +From: Tyler Hall <tylerwhall@gmail.com>
-> +Date: Sun, 4 May 2014 20:06:43 -0400
-> +Subject: [PATCH] python-config: Revert to using distutils.sysconfig
->
->  The newer sysconfig module shares some code with distutils.sysconfig, but the same modifications as in
->
-> @@ -12,11 +15,16 @@ Upstream-Status: Inappropriate [Embedded Specific]
->
->  Signed-off-by: Tyler Hall <tylerwhall@gmail.com>
->  :
-> -Index: Python-3.3.3/Misc/python-config.in
-> -===================================================================
-> ---- Python-3.3.3.orig/Misc/python-config.in
-> -+++ Python-3.3.3/Misc/python-config.in
-> -@@ -4,7 +4,7 @@
-> +
-> +---
-> + Misc/python-config.in | 10 +++++-----
-> + 1 file changed, 5 insertions(+), 5 deletions(-)
-> +
-> +diff --git a/Misc/python-config.in b/Misc/python-config.in
-> +index 727c4a8..c702829 100644
-> +--- a/Misc/python-config.in
-> ++++ b/Misc/python-config.in
-> +@@ -6,7 +6,7 @@
->   import getopt
->   import os
->   import sys
-> @@ -24,8 +32,8 @@ Index: Python-3.3.3/Misc/python-config.in
->  +from distutils import sysconfig
->
->   valid_opts = ['prefix', 'exec-prefix', 'includes', 'libs', 'cflags',
-> -               'ldflags', 'extension-suffix', 'help', 'abiflags', 'configdir']
-> -@@ -32,14 +32,14 @@ if '--help' in opt_flags:
-> +               'ldflags', 'extension-suffix', 'help', 'abiflags', 'configdir',
-> +@@ -35,14 +35,14 @@ if '--help' in opt_flags:
->
->   for opt in opt_flags:
->       if opt == '--prefix':
-> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-> index dba92b0e396..ebfc10b4045 100644
-> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
-> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-> @@ -213,8 +213,8 @@
->              "${bindir}/python3",
->              "${bindir}/python${PYTHON_MAJMIN}",
->              "${bindir}/python${PYTHON_MAJMIN}.real",
-> -            "${bindir}/python${PYTHON_BINABI}",
-> -            "${includedir}/python${PYTHON_BINABI}/pyconfig*.h",
-> +            "${bindir}/python${PYTHON_MAJMIN}",
-> +            "${includedir}/python${PYTHON_MAJMIN}/pyconfig*.h",
->              "${prefix}/lib/python${PYTHON_MAJMIN}/config*/*[!.a]",
->              "${libdir}/python${PYTHON_MAJMIN}/UserDict.py",
->              "${libdir}/python${PYTHON_MAJMIN}/UserList.py",
-> diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.8.0.bb
-> similarity index 91%
-> rename from meta/recipes-devtools/python/python3_3.7.5.bb
-> rename to meta/recipes-devtools/python/python3_3.8.0.bb
-> index 57eaaea5e7c..1feaebea8ee 100644
-> --- a/meta/recipes-devtools/python/python3_3.7.5.bb
-> +++ b/meta/recipes-devtools/python/python3_3.8.0.bb
-> @@ -19,8 +19,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
->             file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch \
->             file://0001-Do-not-hardcode-lib-as-location-for-site-packages-an.patch \
->             file://0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch \
-> -           file://0002-Don-t-do-runtime-test-to-get-float-byte-order.patch \
-> -           file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
->             file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
->             file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
->             file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
-> @@ -35,20 +33,16 @@ SRC_URI_append_class-native = " \
->             file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
->             file://12-distutils-prefix-is-inside-staging-area.patch \
->             "
-> -SRC_URI_append_class-nativesdk = " \
-> -           file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
-> -           "
->
-> -SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
-> -SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
-> +SRC_URI[md5sum] = "dbac8df9d8b9edc678d0f4cacdb7dbb0"
-> +SRC_URI[sha256sum] = "b356244e13fb5491da890b35b13b2118c3122977c2cd825e3eb6e7d462030d84"
->
->  # exclude pre-releases for both python 2.x and 3.x
->  UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
->
->  CVE_PRODUCT = "python"
->
-> -PYTHON_MAJMIN = "3.7"
-> -PYTHON_BINABI = "${PYTHON_MAJMIN}m"
-> +PYTHON_MAJMIN = "3.8"
->
->  S = "${WORKDIR}/Python-${PV}"
->
-> @@ -59,8 +53,8 @@ inherit autotools pkgconfig qemu ptest multilib_header update-alternatives
->  MULTILIB_SUFFIX = "${@d.getVar('base_libdir',1).split('/')[-1]}"
->
->  ALTERNATIVE_${PN}-dev = "python3-config"
-> -ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_BINABI}-config"
-> -ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_BINABI}-config-${MULTILIB_SUFFIX}"
-> +ALTERNATIVE_LINK_NAME[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config"
-> +ALTERNATIVE_TARGET[python3-config] = "${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}"
->
->
->  DEPENDS = "bzip2-replacement-native libffi bzip2 openssl sqlite3 zlib virtual/libintl xz virtual/crypt util-linux libtirpc libnsl2"
-> @@ -131,7 +125,7 @@ do_install_prepend() {
->  }
->
->  do_install_append_class-target() {
-> -        oe_multilib_header python${PYTHON_BINABI}/pyconfig.h
-> +        oe_multilib_header python${PYTHON_MAJMIN}/pyconfig.h
->  }
->
->  do_install_append_class-native() {
-> @@ -161,7 +155,7 @@ do_install_append() {
->  }
->
->  do_install_append_class-nativesdk () {
-> -    create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} OEPYTHON3HOME='${prefix}' TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
-> +    create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
->  }
->
->  SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
-> @@ -177,7 +171,7 @@ py_package_preprocess () {
->                  -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
->                  ${PKGD}/${prefix}/lib/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile \
->                  ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py \
-> -                ${PKGD}/${bindir}/python${PYTHON_BINABI}-config
-> +                ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config
->
->          # Reformat _sysconfigdata after modifying it so that it remains
->          # reproducible
-> @@ -196,7 +190,7 @@ py_package_preprocess () {
->               -c "from py_compile import compile; compile('$sysconfigfile', optimize=2)"
->          cd -
->
-> -        mv ${PKGD}/${bindir}/python${PYTHON_BINABI}-config ${PKGD}/${bindir}/python${PYTHON_BINABI}-config-${MULTILIB_SUFFIX}
-> +        mv ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config-${MULTILIB_SUFFIX}
->
->          #Remove the unneeded copy of target sysconfig data
->          rm -rf ${PKGD}/${libdir}/python-sysconfigdata
-> @@ -322,7 +316,7 @@ RPROVIDES_${PN}-venv += "python3-pyvenv"
->  # package libpython3
->  PACKAGES =+ "libpython3 libpython3-staticdev"
->  FILES_libpython3 = "${libdir}/libpython*.so.*"
-> -FILES_libpython3-staticdev += "${prefix}/lib/python${PYTHON_MAJMIN}/config-${PYTHON_BINABI}-*/libpython${PYTHON_BINABI}.a"
-> +FILES_libpython3-staticdev += "${prefix}/lib/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}-*/libpython${PYTHON_MAJMIN}.a"
->  INSANE_SKIP_${PN}-dev += "dev-elf"
->
->  # catch all the rest (unsorted)
-> @@ -341,3 +335,5 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
->  RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
->  RDEPENDS_${PN}-dev = ""
->
-> +RDEPENDS_${PN}-tests_append_class-target = " bash"
-> +RDEPENDS_${PN}-tests_append_class-nativesdk = " bash"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
