@@ -1,28 +1,50 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id BDEC37FBA6
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 908AD7F986
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  7 Dec 2019 05:38:20 +0000 (UTC)
-IronPort-SDR: ryTVu5NWOvUiE6SQyMCu34l+tP/nKcPkgbFTAEeA6QFw673xUIAJdOia7zRCOciys4qIvNzqBl
-	rm5kh//wmsM9TYgYhl/1oBSMbyOa1IrIlPFMg1L1GWbUTKO2B45gO9oeEEuQ2qyuT74EY920p8
-	INZGsX3yGv/3mmGQ9khBH4VVlEvWYZYnWzQJQV9Do/1LNZJWqTo+FRU2UOGW30LplbE3nQWXo2
-	QJpxVRUtUZqzjQz+XCw9Dpt4XvjQkKtelShxxNF6L7J8I4w/6HpwL2JgJDO3H4xCo9D7ba3Rqf
-	kWw=
-X-IronPort-AV: E=Sophos;i="5.69,286,1571695200"; 
-   d="scan'208";a="3252008"
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+	Sat,  7 Dec 2019 07:22:21 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id q8so4537108pfh.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 06 Dec 2019 23:22:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=10R3fxdxCWaAQH6wlO8t5LGCt+Ik4JS3sb+BZ2LPGA0=;
+	b=Our9qX24Oobt6wXVQopjDW/uB3p9E/N8K8YXRRLRaRZLrlLqp21DIynSqu+kuB0dSV
+	Bebt9bbio/3aqzp/cCEB/JEEWn7YBoiJVG4xJ9qhbmywg/md+N3UlwZGQ3wWk7awej/A
+	U3VCtoIals68SjTRfKBat7vFIVk7eh6qXmmMC7tzx7XyH67b5POoj1cUJMx6bOXmJ0Ar
+	MKgghdIZ6TSF9qLJS4E/muRwwGfa5yS8xeIY5MpB5Q8wJO2lH8V5wopOafBJzEaOFBFY
+	fstnq3dCTlandN6DPNwdJ7u/sBhxK43EiDzltfZRGvVX5e4QSW+9hM4J6B84siXsa09b
+	E7Hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=10R3fxdxCWaAQH6wlO8t5LGCt+Ik4JS3sb+BZ2LPGA0=;
+	b=KHrAhmGj1MyKHTVXW9ZM7Kyp2dcfCIrpCfVDGqsGO3L7nUrZRwcvFKgHTiAXj+9T8P
+	2neu/FDNl6XZUYCIVG716cKv4DWZo3vT9BmGfF+0/4J49yRo21gaRxAinYnpvtl4MGIC
+	nBd0XEbq7EUy35B12ptnSU2AxYnZ0hk77IdVy0Quzh/aDD810LLeK8OiLKAKNXv3dvIE
+	fa/wqJ5wZ/Gr0wzeW1DsY2gDIntzGVkRke0MBNPfWQ+/FUm/WjFNSORVofP7oIRBvf+t
+	j+XCeD54z1dfE/W30RZdeBURcMO8PFs+zA60ukRobxrt7egOH8DJ4f5LdhI/52uFxEY1
+	9pBg==
+X-Gm-Message-State: APjAAAVUziO1DHHz5QfvMwBPm+N90hqJSbrxDSYJEqFdGtPWSNZeOaJq
+	crWx5s30n3UTgwZPQyoap16Bb3BbAjg=
+X-Google-Smtp-Source: APXvYqx0uLx6IyX5fTRNU1kBuDO0h9yYy3ajxYM41aUe+uPZyuzcFivNBZFLbkkcTzQyx2Tm1bQWDw==
+X-Received: by 2002:a63:5211:: with SMTP id g17mr7530662pgb.299.1575703341939; 
+	Fri, 06 Dec 2019 23:22:21 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::afb7])
+	by smtp.gmail.com with ESMTPSA id
+	w10sm17314152pgi.47.2019.12.06.23.22.21
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 06 Dec 2019 23:22:21 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  7 Dec 2019 06:38:15 +0100
-Message-Id: <20191207053815.1757-7-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191207053815.1757-1-pkj@axis.com>
-References: <20191207053815.1757-1-pkj@axis.com>
+Date: Fri,  6 Dec 2019 23:22:08 -0800
+Message-Id: <20191207072208.2773273-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH 7/7] license_image.bbclass: Report only the licenses that are incompatible
+Subject: [PATCH] kbd: avoid vlock conflict with busybox
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,58 +57,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 07 Dec 2019 05:38:22 -0000
+X-List-Received-Date: Sat, 07 Dec 2019 07:22:21 -0000
 Content-Transfer-Encoding: 8bit
 
-Instead of reporting ${LICENSE} when a package cannot be installed
-into an image because it is using an incompatible license, report the
-license(s) that are actually incompatible.
+busybox as well as vlock utility from meta-oe provides vlock utility
+which can conflict when with kbd if pam is a enabled distro_feature
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Fixes image build errors
+
+update-alternatives: Error: not linking <rootfs>/usr/bin/vlock to /bin/busybox.suid since <rootfs>/usr/bin/vlock exists and is not a link
+
+ERROR: yoe-qt5-wayland-image-1.0-r0 do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
+then please place them into pkg_postinst_ontarget_${PN} ().
+Deferring to first boot via 'exit 1' is no longer supported.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/license_image.bbclass               | 5 +++--
- meta/lib/oeqa/selftest/cases/incompatible_lic.py | 4 ++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
+ meta/recipes-core/kbd/kbd_2.2.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index b5399b6d96..a8c72da3cb 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -51,8 +51,9 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-         for pkg in sorted(pkg_dic):
-             if bad_licenses and pkg not in whitelist:
-                 try:
--                    if incompatible_pkg_license(d, bad_licenses, pkg_dic[pkg]["LICENSE"]):
--                        bb.fatal("Package %s has an incompatible license %s and cannot be installed into the image." %(pkg, pkg_dic[pkg]["LICENSE"]))
-+                    licenses = incompatible_pkg_license(d, bad_licenses, pkg_dic[pkg]["LICENSE"])
-+                    if licenses:
-+                        bb.fatal("Package %s cannot be installed into the image because it has incompatible license(s): %s" %(pkg, ' '.join(licenses)))
-                     (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) = \
-                         oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"],
-                         bad_licenses, canonical_license, d)
-diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-index 9d1e801117..458a940618 100644
---- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-+++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-@@ -49,7 +49,7 @@ INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
+diff --git a/meta/recipes-core/kbd/kbd_2.2.0.bb b/meta/recipes-core/kbd/kbd_2.2.0.bb
+index 9556302ab5..4853db8a78 100644
+--- a/meta/recipes-core/kbd/kbd_2.2.0.bb
++++ b/meta/recipes-core/kbd/kbd_2.2.0.bb
+@@ -61,7 +61,7 @@ RDEPENDS_${PN}-ptest = "make"
  
-     def test_bash_default(self):
-         self.write_config(self.default_config())
--        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash has an incompatible license GPLv3+ and cannot be installed into the image."
-+        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash cannot be installed into the image because it has incompatible license(s): GPL-3.0+"
+ inherit update-alternatives
  
-         result = bitbake('core-image-minimal', ignore_status=True)
-         if error_msg not in result.output:
-@@ -57,7 +57,7 @@ INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
+-ALTERNATIVE_${PN} = "chvt deallocvt fgconsole openvt showkey"
++ALTERNATIVE_${PN} = "chvt deallocvt fgconsole openvt showkey vlock"
+ ALTERNATIVE_PRIORITY = "100"
  
-     def test_bash_and_license(self):
-         self.write_config(self.default_config() + '\nLICENSE_append_pn-bash = " & SomeLicense"')
--        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash has an incompatible license GPLv3+ & SomeLicense and cannot be installed into the image."
-+        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash cannot be installed into the image because it has incompatible license(s): GPL-3.0+"
- 
-         result = bitbake('core-image-minimal', ignore_status=True)
-         if error_msg not in result.output:
+ BBCLASSEXTEND = "native"
 -- 
-2.21.0
+2.24.0
 
 
