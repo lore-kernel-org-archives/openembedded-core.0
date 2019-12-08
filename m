@@ -1,39 +1,39 @@
 Return-Path: <niko.mauno@iki.fi>
-Received: from tulikuusama2.dnainternet.net (tulikuusama3.dnainternet.net
-	[83.102.40.155])
-	by mail.openembedded.org (Postfix) with ESMTP id C40157F9B4
+Received: from sinikuusama2.dnainternet.net (sinikuusama2.dnainternet.net
+	[83.102.40.152])
+	by mail.openembedded.org (Postfix) with ESMTP id AB61B7F9DE
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  8 Dec 2019 18:40:14 +0000 (UTC)
+	Sun,  8 Dec 2019 18:40:28 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by tulikuusama2.dnainternet.net (Postfix) with ESMTP id 9C9D7291B3;
-	Sun,  8 Dec 2019 20:40:15 +0200 (EET)
+	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id 86C5CF9A5;
+	Sun,  8 Dec 2019 20:40:29 +0200 (EET)
 X-Virus-Scanned: DNA Internet at dnainternet.net
 X-Spam-Flag: NO
 X-Spam-Score: 0.653
 X-Spam-Level: 
 X-Spam-Status: No, score=0.653 tagged_above=-9999 required=6
 	tests=[SPF_HELO_NONE=0.001, SPF_NEUTRAL=0.652] autolearn=disabled
-Received: from tulikuusama2.dnainternet.net ([83.102.40.155])
-	by localhost (tulikuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
+Received: from sinikuusama2.dnainternet.net ([83.102.40.152])
+	by localhost (sinikuusama2.dnainternet.net [127.0.0.1]) (DNA Internet,
 	port 10041)
-	with ESMTP id UVgJmpui5RHG; Sun,  8 Dec 2019 20:40:15 +0200 (EET)
+	with ESMTP id nDg_jOZyMKT5; Sun,  8 Dec 2019 20:40:29 +0200 (EET)
 Received: from luumupuu2.dnainternet.net (luumupuu2.dnainternet.net
 	[83.102.40.55])
-	by tulikuusama2.dnainternet.net (Postfix) with ESMTP id 24185293FA;
-	Sun,  8 Dec 2019 20:40:15 +0200 (EET)
+	by sinikuusama2.dnainternet.net (Postfix) with ESMTP id 3346810992;
+	Sun,  8 Dec 2019 20:40:29 +0200 (EET)
 Received: from localhost.localdomain (62-78-161-185.bb.dnainternet.fi
 	[62.78.161.185])
-	by luumupuu2.dnainternet.net (Postfix) with ESMTP id 49C4E74;
-	Sun,  8 Dec 2019 20:40:09 +0200 (EET)
+	by luumupuu2.dnainternet.net (Postfix) with ESMTP id 5613B74;
+	Sun,  8 Dec 2019 20:40:24 +0200 (EET)
 From: Niko Mauno <niko.mauno@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Dec 2019 20:35:51 +0200
-Message-Id: <20191208183557.32589-5-niko.mauno@iki.fi>
+Date: Sun,  8 Dec 2019 20:35:52 +0200
+Message-Id: <20191208183557.32589-6-niko.mauno@iki.fi>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191208183557.32589-1-niko.mauno@iki.fi>
 References: <20191208183557.32589-1-niko.mauno@iki.fi>
 MIME-Version: 1.0
-Subject: [thud-next][PATCH 05/11] cve-update-db-native: don't refresh more than once an hour
+Subject: [thud-next][PATCH 06/11] cve-update-db-native: don't hardcode the database name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,45 +46,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 08 Dec 2019 18:40:15 -0000
+X-List-Received-Date: Sun, 08 Dec 2019 18:40:28 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Ross Burton <ross.burton@intel.com>
 
-We already fetch the yearly CVE metadata and check that for updates before
-downloading the full data, but we can speed up CVE checking further by only
-checking the CVE metadata once an hour.
+Don't hardcode the database filename, there's a variable for this in
+cve-check.bbclass.
 
-(From OE-Core rev: 50d898fd360c58fe85460517d965f62b7654771a)
+(From OE-Core rev: 0d188a9dc4ae64c64cd661e9d9c3841e86f226ab)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 2c427a5884..19875a49b1 100644
+index 19875a49b1..c15534de08 100644
 --- a/meta/recipes-core/meta/cve-update-db-native.bb
 +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -31,8 +31,16 @@ python do_populate_cve_db() {
-     db_dir = os.path.join(d.getVar("DL_DIR"), 'CVE_CHECK')
-     db_file = os.path.join(db_dir, 'nvdcve_1.0.db')
-     json_tmpfile = os.path.join(db_dir, 'nvd.json.gz')
--    proxy = d.getVar("https_proxy")
+@@ -28,8 +28,8 @@ python do_populate_cve_db() {
+     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
+     YEAR_START = 2002
  
-+    # Don't refresh the database more than once an hour
-+    try:
-+        import time
-+        if time.time() - os.path.getmtime(db_file) < (60*60):
-+            return
-+    except OSError:
-+        pass
-+
-+    proxy = d.getVar("https_proxy")
-     if proxy:
-         # instantiate an opener but do not install it as the global
-         # opener unless if we're really sure it's applicable for all
+-    db_dir = os.path.join(d.getVar("DL_DIR"), 'CVE_CHECK')
+-    db_file = os.path.join(db_dir, 'nvdcve_1.0.db')
++    db_file = d.getVar("CVE_CHECK_DB_FILE")
++    db_dir = os.path.dirname(db_file)
+     json_tmpfile = os.path.join(db_dir, 'nvd.json.gz')
+ 
+     # Don't refresh the database more than once an hour
 -- 
 2.20.1
 
