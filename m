@@ -1,30 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 642187FC9E
+Return-Path: <paul.eggleton@linux.intel.com>
+X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 09 Dec 2019 11:06:25 UTC
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B9B87FC98
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2019 10:43:11 +0000 (UTC)
+	Mon,  9 Dec 2019 11:06:25 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Dec 2019 02:43:12 -0800
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Dec 2019 02:59:20 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,294,1571727600"; d="scan'208";a="224740101"
-Received: from pozo-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.252.33.212])
-	by orsmga002.jf.intel.com with ESMTP; 09 Dec 2019 02:43:11 -0800
+X-IronPort-AV: E=Sophos;i="5.69,294,1571727600"; d="scan'208";a="210078895"
+Received: from ntruong2-mobl.ccr.corp.intel.com (HELO shodan.fritz.box)
+	([10.255.170.244])
+	by fmsmga008.fm.intel.com with ESMTP; 09 Dec 2019 02:59:18 -0800
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <1575627191-12947-1-git-send-email-yamane07ynct@gmail.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <cf16a85c-f7e7-57e8-c6c2-9ffec81e8af7@intel.com>
-Date: Mon, 9 Dec 2019 10:43:11 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
+Date: Mon,  9 Dec 2019 23:59:04 +1300
+Message-Id: <cover.1575888923.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1575627191-12947-1-git-send-email-yamane07ynct@gmail.com>
-Subject: Re: [PATCH v2] u-boot-fw-utils: Add capability of building from out-of-tree
+Subject: [PATCH 0/5] runqemu/testimage logging fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,16 +34,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2019 10:43:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Dec 2019 11:06:25 -0000
+Content-Transfer-Encoding: 8bit
 
-On 06/12/2019 10:13, Daisuke Yamane wrote:
-> This patch also helps to build with EXTERNALSRC.
+A fix for https://bugzilla.yoctoproject.org/show_bug.cgi?id=13681 along
+with some fixes for other minor related issues with the logging when
+testimage runs QEMU.
 
-As this doesn't actually set B, will you be sending a follow-up patch to 
-set B so out-of-tree builds actually work?
+(The "host dump" functionality may be of questionable usefulness, but
+at least it now works again.)
 
-Ross
+
+The following changes since commit d821415ab09248a894d58f6e5a5749e822d30939:
+
+  wayland: Add PACKAGECONFIG for dtd-validation (2019-12-09 10:21:24 +0000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib paule/runqemu-fixes-oe
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/runqemu-fixes-oe
+
+Paul Eggleton (5):
+  oeqa: qemu: ensure that host dump commands can be run properly
+  oeqa: qemu: fix width of top output in host dump
+  oeqa: qemu: ensure we print runqemu output in the event of failure
+  runqemu: log parameters correctly within testimage
+  runqemu: handle tap device creation failure properly
+
+ meta/lib/oeqa/utils/dump.py       |  5 ++++-
+ meta/lib/oeqa/utils/qemurunner.py |  4 ++--
+ scripts/runqemu                   | 33 ++++++++++++++++++-------------
+ 3 files changed, 25 insertions(+), 17 deletions(-)
+
+-- 
+2.20.1
+
 
