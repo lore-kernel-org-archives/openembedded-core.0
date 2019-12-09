@@ -1,50 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D7297CB4F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E53636D6F5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2019 18:27:12 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id k25so7517560pgt.7
+	Mon,  9 Dec 2019 23:41:53 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id j42so17997650wrj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Dec 2019 10:27:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=tsub6EUGUkzkLjBdW9uiuM403fLnh/COELnjSpFFQ2s=;
-	b=qeC+gOBtKtpFSwBDx0MuK7i7e2xvj886I8SFTj1qvcjSj9Oo9mg1Rhw2czC+MlxBC3
-	eF4Zp5XzhEcJFa5ZFZgdrLyPxgOlK+lugX+LwbolQ4RgTY//li69iZuRaoaR2gABKyTn
-	2ZslrSIKsQApnkh/Ixpi3pWV/QO9w0OuXzmOj/GpfQXrydtodJr7BzQYa2q5o8G4gNXx
-	u8tebmn3wD0KJ/Z6CEdCaXtu5TfoKpRaNRGPRfhbaL47KGHkNGqbIGWDbH5vWtl80r9O
-	92OWZ+eyPA+W0pptN2ntXWgMfrCxTP/dEvX1duTP2a/3tFpSABl6gl67YNcDToEzUjRx
-	V8Eg==
+	Mon, 09 Dec 2019 15:41:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=BdQsbBHDUv4+NwFweFyyKW4vBccxOGi4tyK4ZxOdux4=;
+	b=P+pTDq7cOS2CnQVl8ER9JXOU9NqSK/yB4YL3Ycaj1kRF8YZhU6LRH+3b4q2BLqBPfm
+	xTWd/5xzJTnACiLeYt4W3cM7eWwLGijt1o/nyEVP5x9frRKdO5U5golryFEOdI+oe2LC
+	IhWz1wQKQqDNNv6LPA+fOVRuNIpn9oajuBmgQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=tsub6EUGUkzkLjBdW9uiuM403fLnh/COELnjSpFFQ2s=;
-	b=pZHSXpINGzca1OEODb4pqSKWsOa31wJD7ygiaoK2gQbjdsGjGpzt9tHcC4wmQnqAN/
-	Y33k+M6aoH/96dAap10TduHiwADyhwcxjIDFMLe9/WN3BvVg9jeGtqjKOVIlk/369zpm
-	mFwgz1mzb1165TLGizRurVjwqcAsrf4TbJJdtZBOVfry1BR8q2ymBuEj1WWVtfI00v4t
-	6W4KTtkmPf3pmdq/cnvqUNbDIU7b5ax/9METHORQdNvH7umOBPfxvx+lvufvjEY8HDqY
-	3Joiz0tjSFGb5raumn5MtcsiJwdzYguhh/YhhRMH1iLCm/gt+eCBRLpWP7UVofu2Yv7/
-	1Xvw==
-X-Gm-Message-State: APjAAAUz3Qh209DvKAxZKg4P1I8srStWmvaLhMtqv1oRUqNKeAZloQsB
-	1KV91AHxkwjY0xQp9soJNK2DTO6w0q0=
-X-Google-Smtp-Source: APXvYqywkQTLpAF/4Rzv/RIjYONR38ti/DWy6ULv5rc0Cpy2hdUoqR5JYI8+5hUuvW/4yRG17eaCwg==
-X-Received: by 2002:a63:4d4c:: with SMTP id n12mr20543046pgl.212.1575916032608;
-	Mon, 09 Dec 2019 10:27:12 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::afb7])
-	by smtp.gmail.com with ESMTPSA id 20sm237465pgw.71.2019.12.09.10.27.11
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=BdQsbBHDUv4+NwFweFyyKW4vBccxOGi4tyK4ZxOdux4=;
+	b=aErNyFZHm/S3EtogOOYqGj6xXarj8OsNFoV4f5wXd0cKhQ6tomytr5GF8PwX2zaQPM
+	2d3egrKTtdu+bTQUh+Ne7r89AROejG69mFnthwNEZq3mOfzKiYWCCEkwfIuzd//Gevan
+	CS9v+2iD8G6tHoQicG0BFFbFsnktP8VY8uJlqus55xSNW53FzukwcwoAwfACiPicQaJR
+	S46D91MRmEoXnqRUfOFNGoPsjdceCI1JaBJaoAN2h7sfvjWsVBW2vGAAFtpeLpmzIiHp
+	SMV0ufrVKNWFfzQEafv3aE6EsStN6HnlSeSH+aUjV/b5qbMxfWbVPpf7pO2yMDpDdBuC
+	FoXQ==
+X-Gm-Message-State: APjAAAU9sLvdpsOIbFXmuVEXQFFgU2tJM6VMmF2uBBi7qLeZlcBaoB3a
+	YHEjLKypCZZSCvjd9QjIrXmknQ==
+X-Google-Smtp-Source: APXvYqzCs5mVgIomzgkd7S3lASWpO1K4ENzVJFcRtdUT2D5vmc1DJqc+F8kCHBvF39SwjABUQ4ylNg==
+X-Received: by 2002:adf:ffc5:: with SMTP id x5mr4800726wrs.92.1575934914534;
+	Mon, 09 Dec 2019 15:41:54 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id n3sm997243wmc.27.2019.12.09.15.41.53
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 09 Dec 2019 10:27:11 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	ross.burton@intel.com
-Date: Mon,  9 Dec 2019 10:27:01 -0800
-Message-Id: <20191209182701.4120643-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
+	Mon, 09 Dec 2019 15:41:53 -0800 (PST)
+Message-ID: <cd3cd74323732762097a80f32c594f33612730a4.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 09 Dec 2019 23:41:52 +0000
+In-Reply-To: <20191205154357.121346-11-alex.kanavin@gmail.com>
+References: <20191205154357.121346-1-alex.kanavin@gmail.com>
+	<20191205154357.121346-11-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: [PATCH v2] kbd: avoid vlock conflict with busybox when pam is enabled
+Subject: Re: [PATCH 11/24] perl: update to 5.30.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +58,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2019 18:27:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 09 Dec 2019 23:41:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-busybox as well as vlock utility from meta-oe provides vlock utility
-which can conflict when with kbd if pam is a enabled distro_feature
+On Thu, 2019-12-05 at 16:43 +0100, Alexander Kanavin wrote:
+> Drop fix-setgroup.patch as the upstream has fixed the issue.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../perl/files/fix-setgroup.patch             | 49 ---------------
+> ----
+>  .../perl/{perl_5.30.0.bb => perl_5.30.1.bb}   | 11 ++---
+>  2 files changed, 5 insertions(+), 55 deletions(-)
+>  delete mode 100644 meta/recipes-devtools/perl/files/fix-
+> setgroup.patch
+>  rename meta/recipes-devtools/perl/{perl_5.30.0.bb => perl_5.30.1.bb}
+> (97%)
 
-Fixes image build errors
+I think a build race sneaked in with this upgrade:
 
-update-alternatives: Error: not linking <rootfs>/usr/bin/vlock to /bin/busybox.suid since <rootfs>/usr/bin/vlock exists and is not a link
+https://autobuilder.yoctoproject.org/typhoon/#/builders/103/builds/240
 
-ERROR: yoe-qt5-wayland-image-1.0-r0 do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
-then please place them into pkg_postinst_ontarget_${PN} ().
-Deferring to first boot via 'exit 1' is no longer supported.
+  /usr/share/man/man3/TAP::Parser::SourceHandler::Executable.3
+  /usr/sinstallman: Can't open cpan/podlators/blib/script/pod2text: No such file or directory
+ABORTED
+hare/man/man3/TAP::Parser::SourceHandler::File.3
+  /usr/share/man/man3/TAP::Parser::SourceHandler::Handle.3
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Check for pam in distro feautres
+Cheers,
 
- meta/recipes-core/kbd/kbd_2.2.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-core/kbd/kbd_2.2.0.bb b/meta/recipes-core/kbd/kbd_2.2.0.bb
-index 9556302ab5..5270508b36 100644
---- a/meta/recipes-core/kbd/kbd_2.2.0.bb
-+++ b/meta/recipes-core/kbd/kbd_2.2.0.bb
-@@ -62,6 +62,8 @@ RDEPENDS_${PN}-ptest = "make"
- inherit update-alternatives
- 
- ALTERNATIVE_${PN} = "chvt deallocvt fgconsole openvt showkey"
-+ALTERNATIVE_${PN}_append = "${@bb.utils.contains('DISTRO_FEATURES', 'pam', ' vlock', '', d)}"
-+
- ALTERNATIVE_PRIORITY = "100"
- 
- BBCLASSEXTEND = "native"
--- 
-2.24.0
+Richard
 
 
