@@ -1,54 +1,54 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3599D7FCF8
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BF757FCF3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2019 12:20:16 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id y11so15934687wrt.6
+	Mon,  9 Dec 2019 12:20:17 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id j42so15902410wrj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Dec 2019 04:20:17 -0800 (PST)
+	Mon, 09 Dec 2019 04:20:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=wXIVAr+2zHiVRflmDHtLui+FNJ2q9zVFt0jOnRYziVE=;
-	b=lrS7opwQHtHwg2vE14/9+2iSeesdfWBt92Gnh9Qh2SOTy69L9oCWKZPafyAdKjhFUn
-	QNkRZ4I3ivrMNUNFOoFhJ2DbfVactnGRggdG54JbW9h79gsCm+/Q3hcwBl2o3q6jPRV1
-	hV40TJgwXkP8get5ci8Rz2hFvQEfvNSmIrsk6zQfL/9wMdasY5E/4Pw5FaAooloAbbmn
-	GpKZMscS7LOm3XdL3g2Hwn6cAd42l6Qceq5VIpENWgtowrz+9FLuDpG6+mD4ampMEDqr
-	KnyrMsih+uGDqBDQ5hRLZAOrAlsbmnfHg5isOGEZPASounhMU3EIopLAKZL55BJ/zbqo
-	aQFA==
+	bh=ZLoABNFiMIlJlrgebsJ0KHBlYO2pNKFElpeyyVt1UXI=;
+	b=Q0gkYaJ4GglLZmmCkV8Ug22YDWkdXsBzq/W459KaVvUg7NGs7evkhnM6ZYOwWUNGr5
+	2QErEsIXW8hGMX8mqmF2N3IokM4/Avz7aNOuwd1feBgKomG+kr+n8py7aqV7DIxdQhnX
+	KPd0AgUxLrVkyvVwldYGjF5bYJFAgrdh0+BNvs/CYhUeenXr2U+ervp4E7NSs3Y8qSL9
+	9scdrAoSuoWXweFuxxuwCI7Z/OeJM3nLRdstzGK4TwDM5lo5CnUI9nKMFs0osfAYNq8u
+	OSU1JmJQ4apMCYCqWdp2qKVlsXiC23fTy3v4MuS7ExcNYk7Je1yu80YqqCdLGk59bgun
+	Jd7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=wXIVAr+2zHiVRflmDHtLui+FNJ2q9zVFt0jOnRYziVE=;
-	b=TpWD8qHm9e8PrR6N/JdKwHzStoN4leQFZ/au8x55ziRtmd7qbGMLPBAVtud8YvFJ3y
-	GYhJ0MoMR0u/gRsNE+VGjG26akrA1ADip2Ps6GIQEE+6nOjCdNCaQ7c5IAWFZE97IFwf
-	vlkfEBfUz0vOwX8ToxNoCDTJi1fbgxfFAyvlVUYWk1j6nflwtnPC4DYtPLcoK/uXupRv
-	Qb7Sh+n4VQ0BJXv23dhhsB4dGWcP94DffRkrjfWIHSSXvkY736mQfLrKc2n1TwgMUCcq
-	kxf6dA081ZXK8/wCRh/cvM8forIySph8RX/Iam58SnjdriqPIMRquD0DEqwHis1Uu0mg
-	GKgg==
-X-Gm-Message-State: APjAAAW8KQfv+1YbtDNR2fSWZY9+ukgOc9VfY7iQhrzWiLm1xeza1SsZ
-	oTWso3Hrp+wT1mlmzY+lPZq63RZXsf0=
-X-Google-Smtp-Source: APXvYqxD0GMUpkLORhjXp/NJT7YZMzuJ00FlAARR4Sg316Ig6Nt/iWz01q1LOMrZSZn80DJoRuVEag==
-X-Received: by 2002:adf:82f3:: with SMTP id 106mr1920438wrc.69.1575894016717; 
-	Mon, 09 Dec 2019 04:20:16 -0800 (PST)
+	bh=ZLoABNFiMIlJlrgebsJ0KHBlYO2pNKFElpeyyVt1UXI=;
+	b=KkgCy1hFC6zbAFhoxboGw8ujSNQuoV8R9OFcWT47UYOcxLqjA5l/O9H1XIaDISri7K
+	mjtUqDgDrbfpwg73yPswIfgaO6vFl4bg804lTCWOhBk8T+9jHmEDb3fI9VASyt+ZYIJB
+	PTWWIjBiUSWTCyHRVLq0CmLrgFTOP6/v/YlwPBJmrHYZ781aSVORQzUnV5c38g3YxGJ2
+	4/gOhowrJIUj1kdrMUyRqaWVolErLfNuWd+5e7EL1gr5oBuRc0Lt5fWg2UjPIvfyWi0B
+	BIQJWiIItk9UHFvgG/g59BuVrPwnvbcNdXgofgqnkajiA/SatCBREuhkqZrla5nlVyXv
+	uhwQ==
+X-Gm-Message-State: APjAAAWqcQl92rKH/LMcvNZe7fFfsdoJsHbOh7ftKOS1g3gC0YAX47i5
+	mckrimYhzs5XjJT0W1l/jicW15JlylM=
+X-Google-Smtp-Source: APXvYqwJbeuDBq0azeC3n76tBoSNUWdl2DIunqCO1LfbHPJG9R8ty7FQ+CFRuEP0JAyLDMuK7RBtPQ==
+X-Received: by 2002:adf:fbc1:: with SMTP id d1mr1903416wrs.267.1575894017996; 
+	Mon, 09 Dec 2019 04:20:17 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id a3sm14611177wmh.5.2019.12.09.04.20.15
+	by smtp.gmail.com with ESMTPSA id a3sm14611177wmh.5.2019.12.09.04.20.16
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 09 Dec 2019 04:20:16 -0800 (PST)
+	Mon, 09 Dec 2019 04:20:17 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  9 Dec 2019 12:20:06 +0000
-Message-Id: <20191209122007.13306-3-ross.burton@intel.com>
+Date: Mon,  9 Dec 2019 12:20:07 +0000
+Message-Id: <20191209122007.13306-4-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20191209122007.13306-1-ross.burton@intel.com>
 References: <20191209122007.13306-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] rootfs: don't use oe.cachedpath
+Subject: [PATCH 4/4] insane: don't use cachedpath
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,7 +61,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2019 12:20:16 -0000
+X-List-Received-Date: Mon, 09 Dec 2019 12:20:17 -0000
 Content-Transfer-Encoding: 8bit
 
 Unless cachedpath is used correctly then it's just a glorified clone of
@@ -70,33 +70,30 @@ this codepath there is no point to using cachedpath.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/lib/oe/rootfs.py | 5 ++---
+ meta/classes/insane.bbclass | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index c62fa5f54ad..cd65e620300 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -126,17 +126,16 @@ class Rootfs(object, metaclass=ABCMeta):
-             bb.utils.mkdirhier(self.image_rootfs + os.path.dirname(dir))
-             shutil.copytree(self.image_rootfs + '-orig' + dir, self.image_rootfs + dir, symlinks=True)
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 0564f9c2a41..723348fc8e7 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -937,14 +937,13 @@ python do_package_qa () {
+     pkgdest = d.getVar('PKGDEST')
+     packages = set((d.getVar('PACKAGES') or '').split())
  
--        cpath = oe.cachedpath.CachedPath()
-         # Copy files located in /usr/lib/debug or /usr/src/debug
-         for dir in ["/usr/lib/debug", "/usr/src/debug"]:
-             src = self.image_rootfs + '-orig' + dir
--            if cpath.exists(src):
-+            if os.path.exists(src):
-                 dst = self.image_rootfs + dir
-                 bb.utils.mkdirhier(os.path.dirname(dst))
-                 shutil.copytree(src, dst)
+-    cpath = oe.cachedpath.CachedPath()
+     global pkgfiles
+     pkgfiles = {}
+     for pkg in packages:
+         pkgfiles[pkg] = []
+-        for walkroot, dirs, files in cpath.walk(pkgdest + "/" + pkg):
++        for walkroot, dirs, files in os.walk(os.path.join(pkgdest, pkg)):
+             for file in files:
+-                pkgfiles[pkg].append(walkroot + os.sep + file)
++                pkgfiles[pkg].append(os.path.join(walkroot, file))
  
-         # Copy files with suffix '.debug' or located in '.debug' dir.
--        for root, dirs, files in cpath.walk(self.image_rootfs + '-orig'):
-+        for root, dirs, files in os.walk(self.image_rootfs + '-orig'):
-             relative_dir = root[len(self.image_rootfs + '-orig'):]
-             for f in files:
-                 if f.endswith('.debug') or '/.debug' in relative_dir:
+     # no packages should be scanned
+     if not packages:
 -- 
 2.20.1
 
