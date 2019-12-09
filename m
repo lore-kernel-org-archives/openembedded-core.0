@@ -1,54 +1,30 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AB127FBEB
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EB4C7FC21
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2019 04:03:22 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id l17so13299126ioj.3
+	Mon,  9 Dec 2019 08:57:52 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.69,294,1571673600"; d="scan'208";a="79869123"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 09 Dec 2019 16:57:53 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 7A5504CE1C0A
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 08 Dec 2019 20:03:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=+oaIQA1eh8PKuCXFbjwd7Umqrk6F2EKhouGBvrCt8zc=;
-	b=P8anEzA9qW5t7mdLoCjcr2EIoYne4unHVMRf8ljRJzMrWiw2DB0wjuPa4Yp6FMIZP7
-	GIMpnO52R8V43AAhhHx2BP3zrrQc1dky8LfRgw/ApAEGFpe+UB242Zd4uY0MOLDogoDD
-	IS+HPK98/AM0ZER8EXVKMiXavqc81zwB2Sr2JV49cOGra9W5Z6pFzrmNOPRbmSs2P0cV
-	NcHDSIJ9nVS+9cUDwuxPbiCJRjgkXnEUCIQM0viHaJYPc5M3ZP4qcJFyQYD/DTPJH3JR
-	OF4cinHE0Z5fnQqA5aGNc+3izc8hR7cniTf9Xo8HfkF2DlfVGcpf+jiSWH8KG4M1cR36
-	xQHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=+oaIQA1eh8PKuCXFbjwd7Umqrk6F2EKhouGBvrCt8zc=;
-	b=VfIYX7ShZ5jsbira8nVJ7gOi767azGQLAYc2kAtuzXb/epsFIDi0KXNxG9GPj1V/nj
-	Zk7Qc6jEsrhhmyKazG861+v2kZLuH4rh59cMl7WlDZDX1aRWucmeES9ZgiYM9mX480oL
-	caV2mDZSNDM3rDfIeqFZQlCzajMZFLb7xNAfqElvfHUmL5WbD39tr+YhOGZ3CNGjUkgC
-	mCQ6rYU6551H6RsiBXBYDpYosL+mwSRJGF9l5Y2PYhlSR8QqzxMAZS2K7EEeeMYb1pl6
-	76eD4lrGFSV83xvqFOkM9qHLRMbRRJjiZGGT7vuZIaVm5UHKowS7FGls6dJ0mBSFXL1s
-	Euwg==
-X-Gm-Message-State: APjAAAUiIpsWi3Ub9lC76u0MraIloGtNJ4HSj54SnMCzVi3J0BXln7od
-	Y6qyfLZPd2HEMuJNll/b5/Jx5NVMues=
-X-Google-Smtp-Source: APXvYqzGn2OctQ6BS9fObEKJ3hANT2BjChgIw6ZjGTLNQJfjl5XHR39r2CjZ6Cp9Hif6Q6UqD4RpcQ==
-X-Received: by 2002:a05:6638:10a:: with SMTP id
-	x10mr24461624jao.25.1575864202914; 
-	Sun, 08 Dec 2019 20:03:22 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	v21sm3465649ios.69.2019.12.08.20.03.22
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 08 Dec 2019 20:03:22 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  8 Dec 2019 22:03:12 -0600
-Message-Id: <20191209040312.3475750-3-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191209040312.3475750-1-JPEWhacker@gmail.com>
-References: <20191209040312.3475750-1-JPEWhacker@gmail.com>
+	Mon,  9 Dec 2019 16:49:17 +0800 (CST)
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 9 Dec 2019 16:57:53 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 9 Dec 2019 06:59:59 -0800
+Message-ID: <1575903599-113625-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] libjpeg-turbo: Build reproducibly
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: 7A5504CE1C0A.A7EFA
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] netbase: upgrade 5.7 -> 5.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,31 +37,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2019 04:03:22 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 09 Dec 2019 08:57:53 -0000
+Content-Type: text/plain
 
-Configures the options passed to nasm to remove build paths in the
-generated object files.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-core/netbase/{netbase_5.7.bb => netbase_5.8.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/netbase/{netbase_5.7.bb => netbase_5.8.bb} (82%)
 
-diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb
-index 1cf854de625..32d3bd93b18 100644
---- a/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb
-+++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_2.0.3.bb
-@@ -29,6 +29,8 @@ RCONFLICTS_${PN} += "jpeg"
+diff --git a/meta/recipes-core/netbase/netbase_5.7.bb b/meta/recipes-core/netbase/netbase_5.8.bb
+similarity index 82%
+rename from meta/recipes-core/netbase/netbase_5.7.bb
+rename to meta/recipes-core/netbase/netbase_5.8.bb
+index 754c244..df617f4 100644
+--- a/meta/recipes-core/netbase/netbase_5.7.bb
++++ b/meta/recipes-core/netbase/netbase_5.8.bb
+@@ -8,8 +8,8 @@ PE = "1"
  
- inherit cmake pkgconfig
+ SRC_URI = "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
  
-+export NASMENV = "--debug-prefix-map=${WORKDIR}=/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}"
-+
- # Add nasm-native dependency consistently for all build arches is hard
- EXTRA_OECMAKE_append_class-native = " -DWITH_SIMD=False"
- EXTRA_OECMAKE_append_class-nativesdk = " -DWITH_SIMD=False"
+-SRC_URI[md5sum] = "f1e50e8d637f6be12af169fa1b67b40a"
+-SRC_URI[sha256sum] = "1802ed95847a30d0b618cdfb6fc8f62989fda9fc3d1c0efd0b19e3011a34f915"
++SRC_URI[md5sum] = "ca2e339861b64370779341b9696ee3df"
++SRC_URI[sha256sum] = "4a9035eb379c4f7f7d424e5580b219b79566fa366c812542691ae337486cfb8e"
+ 
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/n/netbase/"
+ do_install () {
 -- 
-2.23.0
+2.7.4
+
+
 
 
