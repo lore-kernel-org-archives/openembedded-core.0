@@ -1,30 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DB807FCAB
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id D28C37F81A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2019 13:16:51 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Dec 2019 05:16:52 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,294,1571727600"; d="scan'208";a="237747090"
-Received: from pozo-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.252.33.212])
-	by fmsmga004.fm.intel.com with ESMTP; 09 Dec 2019 05:16:52 -0800
-To: openembedded-core@lists.openembedded.org
-References: <20191207072208.2773273-1-raj.khem@gmail.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <1376b3f4-9ed1-5b97-4afd-afde1e4c4a13@intel.com>
-Date: Mon, 9 Dec 2019 13:16:51 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
+	Mon,  9 Dec 2019 14:42:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47WmBQ3smFz3H;
+	Mon,  9 Dec 2019 15:42:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1575902558;
+	bh=BuI5sYXMuShN7Nt9+BRs+yCRuVWgmwMyafoYLDoEH3Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=akFy9l6sb4lu/JvShcWQQMTcG3ShH8d5yaTlnTvDGkcRUHvuI845OIHVISSQK6Dkq
+	eIwFyzMsuRTXqwL+AxGtkOzYNAKgxWrguhiDG0RbGYi+mlPNT6igIKhOmQF2OcJZ3/
+	K7nuYqb1tBM2/PjtVTmeK6FfoTrgZmHQS8IyFOqVdEKSGbnOmlwfp45wj3KTp5J8Gj
+	6hvEnPc1e8FIAEIf4XsodTW8hyCL/0aSPGKcxjHRvzEAWtAh6W/3KmRftJiziLggDj
+	W7xwT//uew10/L9bIe0T0ofNVyWEats/6j96fpoff6LoPg4KPcpBLi+0DNcKr8PuOK
+	Y5/OV3sjZekcXfY2b05qeUPedqOkqe+wLv7NPg0tFC9U7CglDM7RnHO6HVNB9K6tB1
+	ZiQAeHpI4vyIdylekhlBLfzUIIhffyn8gOp4sGEtmtKn6VbZLwSic7RCBHEKnPNcvI
+	N2rLhk9jPANQaEOYdhcVOFV50N/iiko0cPsmtKucNmZZASAFNtwZ2xthAmoNSTJDjr
+	GJjnca60BPReAHnCttbb3vvJ/qdhQ5lpMfWxm8y/keWmy0ovNIimWxJk/INVMLqsl8
+	o98vyrUJMHLyz41G2x1nzaHH+bZVcZo6aBx1g0KIvUyQnqYBJx2pdiu+Lxmx56EGYS
+	APbiA7wwQgrVVZiwavMhCJhQ=
+Date: Mon, 9 Dec 2019 16:42:35 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20191209144235.GA5701@localhost>
+References: <20191205212338.26696-1-bunk@stusta.de>
+	<d710a6b0-a785-f8ab-48c9-0f2cb284ec58@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20191207072208.2773273-1-raj.khem@gmail.com>
-Subject: Re: [PATCH] kbd: avoid vlock conflict with busybox
+In-Reply-To: <d710a6b0-a785-f8ab-48c9-0f2cb284ec58@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Upgrade 243 -> 243.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,23 +44,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2019 13:16:52 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 09 Dec 2019 14:42:41 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On 07/12/2019 07:22, Khem Raj wrote:
-> busybox as well as vlock utility from meta-oe provides vlock utility
-> which can conflict when with kbd if pam is a enabled distro_feature
+On Mon, Dec 09, 2019 at 10:41:13AM +0000, Ross Burton wrote:
+> On 05/12/2019 21:23, Adrian Bunk wrote:
+> > +PV_append = ".2"
 > 
-> Fixes image build errors
-> 
-> update-alternatives: Error: not linking <rootfs>/usr/bin/vlock to /bin/busybox.suid since <rootfs>/usr/bin/vlock exists and is not a link
+> Why not just rename the recipe?
 
-WARNING: kbd-2.2.0-r0 do_package: kbd: alternative target 
-(/usr/bin/vlock or /usr/bin/vlock.kbd) does not exist, skipping...
+Laziness struck when seeing that these were 3 recipes...
 
-vlock doesn't exist is PAM isn't enabled.
+I'll send a followup commit with this changed.
 
-Ross
+> Ross
+
+cu
+Adrian
 
