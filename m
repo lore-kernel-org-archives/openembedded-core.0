@@ -1,49 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 08A1D7CFE3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2019 12:56:45 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id p9so3090945wmc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2019 04:56:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=NpYdvKxup1xFRy4FZdEdqAsPYZ6P552bYrUMdaG6SPc=;
-	b=WTp3JwFTL/cKkF+PsK984ndsujlVf7wnF1JVArm9o3BXm3Za8wfpHxAkK+quGnezTx
-	PSDrNz+8plHFc/zTV46mskJMpN2PL1esCTMQh8uWyxH8AzScY15EGvU25d2jMJ4Yjrre
-	AjIGWJ/MbNtAnqrqqF81fAVugeTwaRjc8W8mk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=NpYdvKxup1xFRy4FZdEdqAsPYZ6P552bYrUMdaG6SPc=;
-	b=BY75zTzZ147O771uWSWzcKkZAJGBAvCS5SA3CgSLdwHjaIxOvkLzo6Kfig3YOlLpx9
-	xSrJYDkMbHc/hDvq4JcHubn6Ns62+tCI/WzdC3ohNihSN4B4ouwMZziZKdbmMFKoaiQT
-	LYJQpunORUI246lGw2fzvPyF7BwJ7teHdnpz8Ch8u5zN9pKltx+Ir7C6l2D46pskkrJv
-	XhaSD2h0+q9qWHHH2YdKj8rZR5bNb1kVMwHtMh+MlOqOKXZ3shHRxKFY3DNlAx1UaNZ8
-	k6aQXwLZUGqi4pXxrR5QWBIAbKKmfacgZWV32jmv4VFVjCMoxU1Vd6cM8AW3hF/bUSDq
-	LgrA==
-X-Gm-Message-State: APjAAAV8kQ1MaPGPiBvsoXG9ladXNghx20NOVeWt3mlnpjuFVJ4YbJ7C
-	rF97DZkWfRCgD80cTq3QRlh7Rfe9rcg=
-X-Google-Smtp-Source: APXvYqxFzDps9Mp1e8aBVcLcQuhNjd0V2mepml0mCkAm9xIqS7/P+WWzrzgWYDzTd2iZKJkrZxPiqw==
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr5126797wma.62.1575982606263;
-	Tue, 10 Dec 2019 04:56:46 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w13sm3317965wru.38.2019.12.10.04.56.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Dec 2019 04:56:45 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Dec 2019 12:56:44 +0000
-Message-Id: <20191210125644.2073-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id CE09C7CFE3;
+	Tue, 10 Dec 2019 13:01:59 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] sstate: Stop overwriting SSTATE_PKG
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 10 Dec 2019 13:02:01 -0000
+Message-ID: <20191210130201.2276.28948@do>
+References: <20191210125644.2073-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20191210125644.2073-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3N0YXRlOiBTdG9wIG92ZXJ3cml0aW5nIFNTVEFURV9QS0c=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,61 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2019 12:56:46 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Dec 2019 13:01:59 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Its rather antisocial to overwrite SSTATE_PKG with an expanded form for the variable
-and it stops the value of BB_UNIHASH being changed when the package is written out.
+== Series Details ==
 
-Instead of expanding the variable, append to it instead to avoid this rather
-hard to figure out behaviour and allow the siggen code to behave as expected.
+Series: sstate: Stop overwriting SSTATE_PKG
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/21553/
+State : failure
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 42719edc86)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/classes/sstate.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 64808f8e105..eb1ecd6822d 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -318,7 +318,8 @@ def sstate_installpkg(ss, d):
- 
-     sstateinst = d.expand("${WORKDIR}/sstate-install-%s/" % ss['task'])
-     sstatefetch = d.getVar('SSTATE_PKGNAME') + '_' + ss['task'] + ".tgz"
--    sstatepkg = d.getVar('SSTATE_PKG') + '_' + ss['task'] + ".tgz"
-+    d.appendVar('SSTATE_PKG', '_'+ ss['task'] + ".tgz")
-+    sstatepkg = d.getVar('SSTATE_PKG')
- 
-     if not os.path.exists(sstatepkg):
-         pstaging_fetch(sstatefetch, d)
-@@ -330,7 +331,6 @@ def sstate_installpkg(ss, d):
-     sstate_clean(ss, d)
- 
-     d.setVar('SSTATE_INSTDIR', sstateinst)
--    d.setVar('SSTATE_PKG', sstatepkg)
- 
-     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
-         signer = get_signer(d, 'local')
-@@ -612,7 +612,8 @@ def sstate_package(ss, d):
-     tmpdir = d.getVar('TMPDIR')
- 
-     sstatebuild = d.expand("${WORKDIR}/sstate-build-%s/" % ss['task'])
--    sstatepkg = d.getVar('SSTATE_PKG') + '_'+ ss['task'] + ".tgz"
-+    d.appendVar('SSTATE_PKG', '_'+ ss['task'] + ".tgz")
-+    sstatepkg = d.getVar('SSTATE_PKG')
-     bb.utils.remove(sstatebuild, recurse=True)
-     bb.utils.mkdirhier(sstatebuild)
-     bb.utils.mkdirhier(os.path.dirname(sstatepkg))
-@@ -648,7 +649,6 @@ def sstate_package(ss, d):
-         os.rename(plain, pdir)
- 
-     d.setVar('SSTATE_BUILDDIR', sstatebuild)
--    d.setVar('SSTATE_PKG', sstatepkg)
-     d.setVar('SSTATE_INSTDIR', sstatebuild)
- 
-     if d.getVar('SSTATE_SKIP_CREATION') == '1':
--- 
-2.20.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
