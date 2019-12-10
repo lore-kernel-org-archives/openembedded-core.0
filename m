@@ -1,86 +1,50 @@
-Return-Path: <chris.laplante@agilent.com>
-Received: from NAM04-BN3-obe.outbound.protection.outlook.com
-	(mail-eopbgr680069.outbound.protection.outlook.com [40.107.68.69])
-	by mail.openembedded.org (Postfix) with ESMTP id C1D667FC37
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D31287FC5D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2019 19:05:57 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=SX+eThyWS/rKR5mrL8xKWWjfhom2vX18+v1sFX5bb76JBp56FHOltqmoqTDf8RxZa/aLQeJg+YklIXirlRoLV/ZB7nMkMytXFXitpz3XDWneULpjrIOIroRhL+phqV4tr20bTa40uZuPvIe1g0SFMc1M4xnzQdViCdekxUTCUaggaJPTbFwScNhcMie95ZtaZbcYxGehR2jM6WHLDzntj8gp8p8nZInAIPHTpzvXPhn1PQa+gwNIMvaDJuRZMLKzf60zw7fi7LKlCorbvcTDVMO0+NHcmaayG9BHdGjzIDyFb4wnNz3VTQHK67lvxPbomNJ/mPCQY+XArLr4R5u8yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=6okmc00jhBRxVNocen+u7o6ToaqlROcWLjFm+sVpOWo=;
-	b=ETClbvYjRPSCbz66KJuBUCJx+dMXnHJrWCQgGA2UmkXeFCpFdPGxA3hw6PuVoeFYcVppjrPLOetY0+rPDSewrCbUUNy+8bcNmeXnReJ1SaJ5wX3Hta1f599h7bbW++he9tQALIbc4vxj9SDTSKMmEBCV2BjIsjqBr0ZT3mW2ts9ItHyaxV/NwB9UiOQr86P5qm9LgswxGasXY9dnrJjbuoTHyGr7UNDX/pGDyyebH8BPcfGcFPM3AcT9cYA7n7SccD5pH2NMNCZbjiPFF72lrY4p1Zoy4Y3y0TJ3pqCwK1WsOG1EDbj06hAYnqsdeJgkGzy7KJRcaAc1JLCz0U0xcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
-	192.25.218.41) smtp.rcpttodomain=lists.openembedded.org
-	smtp.mailfrom=agilent.com;
-	dmarc=pass (p=reject sp=none pct=100) action=none
-	header.from=agilent.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector2;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=6okmc00jhBRxVNocen+u7o6ToaqlROcWLjFm+sVpOWo=;
-	b=AmjLEHn1wJjIx9oB3rSYnFVq0xTIs74ANVRIAECwv1YCSKQEuK6q0UYJpxTBrEy/VcPnOSqE4NCx7PWiyl5tl1Vyua7ySwFkWFJQBvXHUgTz/uIl+KTbK3N+PjC2IuM6GZJ0Ft0gLY9p35V887Wse2cJ6JqpqkXK9TkxI6Wy8RM=
-Received: from BN6PR1201CA0002.namprd12.prod.outlook.com
-	(2603:10b6:405:4c::12) by MN2PR12MB3455.namprd12.prod.outlook.com
-	(2603:10b6:208:d0::22) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.17;
-	Tue, 10 Dec 2019 19:05:56 +0000
-Received: from MW2NAM12FT009.eop-nam12.prod.protection.outlook.com
-	(2a01:111:f400:fe5a::207) by BN6PR1201CA0002.outlook.office365.com
-	(2603:10b6:405:4c::12) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2516.14 via
-	Frontend Transport; Tue, 10 Dec 2019 19:05:56 +0000
-Authentication-Results: spf=pass (sender IP is 192.25.218.41)
-	smtp.mailfrom=agilent.com; lists.openembedded.org;
-	dkim=none (message not
-	signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
-	header.from=agilent.com;
-Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
-	192.25.218.41 as permitted sender) receiver=protection.outlook.com;
-	client-ip=192.25.218.41; helo=edgeappmail.agilent.com;
-Received: from edgeappmail.agilent.com (192.25.218.41) by
-	MW2NAM12FT009.mail.protection.outlook.com (10.13.180.76) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2495.18 via Frontend Transport; Tue, 10 Dec 2019 19:05:56 +0000
-Received: from localhost.localdomain (192.25.126.27) by
-	edgeappmail.agilent.com (192.25.218.41) with Microsoft SMTP Server id
-	15.1.1713.5; Tue, 10 Dec 2019 12:05:48 -0700
-From: Chris Laplante <chris.laplante@agilent.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 10 Dec 2019 14:05:29 -0500
-Message-ID: <1576004729-18448-1-git-send-email-chris.laplante@agilent.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 10 Dec 2019 19:17:28 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id r14so9270053qke.13
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Dec 2019 11:17:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=5t0H140/nTDck9ntXr9/VsLfVeXWZpwnsgQf0ZMEdrk=;
+	b=enWLu/bogqJ3CnYb3/qzTDZr3UI8vmu/OsP42NDajrEbIiK9yTp4mf0ZRUtlpVRHsL
+	ryJFbzyVFhppmxGraokAoMvUVlzXxhptmEoS/kL7CD5i7a3HcLa55sZW8Wlser6dTVdi
+	ERhA2sodoe6thWDBFVaFA5Dq4r4FOICA5AaTMr3P6e1/HzlKP6H2I4aAIwFunWtipBWp
+	dQtLiVdaZz6JaELGcoEoEde8MwJvAdPBUnUBKHkjc5YmYH+8NkwsWjzkxNsfaoDhmbMn
+	rdvXhl1RKuaouKZe2t24/A12PDSDLBdVy1W0rc4vr7aRu8qhOHXQYibK1NVOouY1JS7Y
+	42XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=5t0H140/nTDck9ntXr9/VsLfVeXWZpwnsgQf0ZMEdrk=;
+	b=AqqSxbDerueZpU+775JTLAdIGg2GcvjDQEHtjI1POdOxvMWDYrnzWBJ+BFcpyEdaqS
+	6b1kNLr5OmrbgeZgFz7s5Ax+Ji1y6p+3nAhuOo4CbYSuDP4rd2esaguLhwzncpIqLlFI
+	dpkhlS23asVqAfqj6D+xe5OuwUExQp1OjOP6I4whtDxeOod+mGEj9wtC4vDMGKlnR/mY
+	HEDf2tKP01/o83Za8EjNjWOXKF7sa9jMOfkejydQz5JrnSU5b1VSOG2+YHHycxvBzdKM
+	hm0aFuZ0CbVZ23PA9gR8QUcV1H+CHifKg6h022eM/fU/GUnoJbroljS9xyi/t6Q+piuJ
+	dl+g==
+X-Gm-Message-State: APjAAAW3bctQlJ0mYK4frDErkpBmoiyDq027ZqsulEI951J5B3XJa8Rp
+	2gW7Ig8R9uDolbRPrEKacBQytsU6vnBompsnCqU=
+X-Google-Smtp-Source: APXvYqzLBgVa5L/qEP9hQiP0jUdgN1htxeJlB7vjdcmmByeYUEUd3Zatl4MmAuA5Aoc2OD4XnGZTgmVR20bMRX0mZAY=
+X-Received: by 2002:a05:620a:6b8:: with SMTP id
+	i24mr9705013qkh.9.1576005449336; 
+	Tue, 10 Dec 2019 11:17:29 -0800 (PST)
 MIME-Version: 1.0
-Received-SPF: None (wpcosapexchedg2.windmz.agilent.com:
-	chris.laplante@agilent.com does not designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:192.25.218.41; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(376002)(346002)(136003)(396003)(39860400002)(29502001)(189003)(199004)(336012)(4744005)(246002)(956004)(44832011)(36756003)(6916009)(107886003)(426003)(8936002)(478600001)(2616005)(6666004)(356004)(186003)(7636002)(4326008)(26005)(36906005)(5660300002)(2906002)(316002)(86362001)(70206006)(8676002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:MN2PR12MB3455;
-	H:edgeappmail.agilent.com; FPR:; SPF:Pass; LANG:en;
-	PTR:exch.smtp.agilent.com; MX:1; A:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2e365f14-d981-41af-2317-08d77da3fc49
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3455:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3455ABE1DFFA89AA3431450E8B5B0@MN2PR12MB3455.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1051;
-X-Forefront-PRVS: 02475B2A01
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 62k3pVEhz0ihSrmPc+T+TLJbT716mEn634wsWUv5uwI1MO1NfdvgijhVvEh/VhVM0OnpU2DhlQlgZ3zTJkSXGB1a39xLkyfuITG0FsNwEqauoC6Y+4JlEcnksS/Ld/OylbdQ3iRnKrmQbUJrS1hBjQACdsDdXUgy/iq566UQqu6fV0PhsC1U6t+GQjurvkJ61d1inBq5Z4lRO0v9EdvFJOD1gl3Qxjs/oz9dpfrT03rvLyugS+VwaIY6ws2RkHtJCRGZB0iBNHNrpb/9p4PSiHvkZtMWNufZq6/+LDWu+6nSUUV2jcvNSUh1b8KOvPBlWIypNzj/2LnNjr+Yne6aund0/dRcR113xWqJL/jyfKjJc5EHUs1vprrFi6ImuWC2aL31ovh+zxtgKpehkSCcq20OG33UPXYOvpZLxFRJoCsmbXb9GRviATv6Nf0oPyvoZjqauKlHUY6NhVVLI31THepE8kXvljK4u0ZXWfZ2yQ1ho/U99KrIieJE9S7PgMum
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Dec 2019 19:05:56.0796 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e365f14-d981-41af-2317-08d77da3fc49
-X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;
-	Ip=[192.25.218.41]; Helo=[edgeappmail.agilent.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3455
-Subject: [PATCH] bitbake.conf: add number_threads to BB_SIGNATURE_EXCLUDE_FLAGS
+References: <20191203220624.26500-1-anibal.limon@linaro.org>
+	<b33a0156-ac10-b53d-7d27-75fe07d9fa7b@intel.com>
+In-Reply-To: <b33a0156-ac10-b53d-7d27-75fe07d9fa7b@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 10 Dec 2019 11:17:02 -0800
+Message-ID: <CAMKF1sq-VV9bdP+MqV5Wk4pM3PopbT_gGjnKFXU+NEHTgtmneg@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meta/classes/meson.bbclass: Add inherit setuptools3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -93,30 +57,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2019 19:05:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 10 Dec 2019 19:17:29 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Just as BB_NUMBER_THREADS is in BB_HASHCONFIG_WHITELIST.
+On Tue, Dec 10, 2019 at 5:44 AM Ross Burton <ross.burton@intel.com> wrote:
+>
+> On 03/12/2019 22:06, An=C3=ADbal Lim=C3=B3n wrote:
+> > +inherit siteinfo python3native setuptools3
+> >
+> >   DEPENDS_append =3D " meson-native ninja-native"
+>
+> Considering setuptools3 inherits distutil3 which adds a load of tasks,
+> shouldn't this just be a DEPENDS +=3D python3-setuptools3-native?
+>
 
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+right, we dont need the tasks so class is unnecessary
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e75bbce..394484b 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -884,7 +884,7 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
-     file-checksums python func task export unexport noexec nostamp dirs cleandirs \
-     sstate-lockfile-shared prefuncs postfuncs export_func deptask rdeptask \
-     recrdeptask nodeprrecs stamp-extra-info sstate-outputdirs filename lineno \
--    progress mcdepends"
-+    progress mcdepends number_threads"
- 
- MLPREFIX ??= ""
- MULTILIB_VARIANTS ??= ""
--- 
-2.7.4
-
+> Ross
 
