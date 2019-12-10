@@ -1,51 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id E53636D6F5
+Return-Path: <ross.burton@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id A8E447FC83
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  9 Dec 2019 23:41:53 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id j42so17997650wrj.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 09 Dec 2019 15:41:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=BdQsbBHDUv4+NwFweFyyKW4vBccxOGi4tyK4ZxOdux4=;
-	b=P+pTDq7cOS2CnQVl8ER9JXOU9NqSK/yB4YL3Ycaj1kRF8YZhU6LRH+3b4q2BLqBPfm
-	xTWd/5xzJTnACiLeYt4W3cM7eWwLGijt1o/nyEVP5x9frRKdO5U5golryFEOdI+oe2LC
-	IhWz1wQKQqDNNv6LPA+fOVRuNIpn9oajuBmgQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=BdQsbBHDUv4+NwFweFyyKW4vBccxOGi4tyK4ZxOdux4=;
-	b=aErNyFZHm/S3EtogOOYqGj6xXarj8OsNFoV4f5wXd0cKhQ6tomytr5GF8PwX2zaQPM
-	2d3egrKTtdu+bTQUh+Ne7r89AROejG69mFnthwNEZq3mOfzKiYWCCEkwfIuzd//Gevan
-	CS9v+2iD8G6tHoQicG0BFFbFsnktP8VY8uJlqus55xSNW53FzukwcwoAwfACiPicQaJR
-	S46D91MRmEoXnqRUfOFNGoPsjdceCI1JaBJaoAN2h7sfvjWsVBW2vGAAFtpeLpmzIiHp
-	SMV0ufrVKNWFfzQEafv3aE6EsStN6HnlSeSH+aUjV/b5qbMxfWbVPpf7pO2yMDpDdBuC
-	FoXQ==
-X-Gm-Message-State: APjAAAU9sLvdpsOIbFXmuVEXQFFgU2tJM6VMmF2uBBi7qLeZlcBaoB3a
-	YHEjLKypCZZSCvjd9QjIrXmknQ==
-X-Google-Smtp-Source: APXvYqzCs5mVgIomzgkd7S3lASWpO1K4ENzVJFcRtdUT2D5vmc1DJqc+F8kCHBvF39SwjABUQ4ylNg==
-X-Received: by 2002:adf:ffc5:: with SMTP id x5mr4800726wrs.92.1575934914534;
-	Mon, 09 Dec 2019 15:41:54 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id n3sm997243wmc.27.2019.12.09.15.41.53
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 09 Dec 2019 15:41:53 -0800 (PST)
-Message-ID: <cd3cd74323732762097a80f32c594f33612730a4.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 09 Dec 2019 23:41:52 +0000
-In-Reply-To: <20191205154357.121346-11-alex.kanavin@gmail.com>
-References: <20191205154357.121346-1-alex.kanavin@gmail.com>
-	<20191205154357.121346-11-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Tue, 10 Dec 2019 00:00:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	09 Dec 2019 16:00:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,297,1571727600"; d="scan'208";a="264397088"
+Received: from pozo-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.252.33.212])
+	by FMSMGA003.fm.intel.com with ESMTP; 09 Dec 2019 16:00:38 -0800
+To: openembedded-core@lists.openembedded.org
+References: <20191207231134.27610-1-bunk@stusta.de>
+	<20191209151709.GD5701@localhost>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <0cb9d57e-532b-957a-5456-fc20dbf7a85f@intel.com>
+Date: Tue, 10 Dec 2019 00:00:37 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 11/24] perl: update to 5.30.1
+In-Reply-To: <20191209151709.GD5701@localhost>
+Subject: Re: [PATCH v3] python/python3: Whitelist CVE-2019-18348
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +38,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 09 Dec 2019 23:41:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 10 Dec 2019 00:00:38 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-12-05 at 16:43 +0100, Alexander Kanavin wrote:
-> Drop fix-setgroup.patch as the upstream has fixed the issue.
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  .../perl/files/fix-setgroup.patch             | 49 ---------------
-> ----
->  .../perl/{perl_5.30.0.bb => perl_5.30.1.bb}   | 11 ++---
->  2 files changed, 5 insertions(+), 55 deletions(-)
->  delete mode 100644 meta/recipes-devtools/perl/files/fix-
-> setgroup.patch
->  rename meta/recipes-devtools/perl/{perl_5.30.0.bb => perl_5.30.1.bb}
-> (97%)
+On 09/12/2019 15:17, Adrian Bunk wrote:
+> Please apply, v2 was already on master-next at some point but this
+> change has some trivial context overlap with the Python 3.7->3.8
+> upgrade so v2 was dropped when 3.8 was dropped.
 
-I think a build race sneaked in with this upgrade:
+Rebased this morning and queued again in ross/mut.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/103/builds/240
-
-  /usr/share/man/man3/TAP::Parser::SourceHandler::Executable.3
-  /usr/sinstallman: Can't open cpan/podlators/blib/script/pod2text: No such file or directory
-ABORTED
-hare/man/man3/TAP::Parser::SourceHandler::File.3
-  /usr/share/man/man3/TAP::Parser::SourceHandler::Handle.3
-
-Cheers,
-
-Richard
-
+Ross
 
