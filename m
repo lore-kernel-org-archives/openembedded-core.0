@@ -1,50 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D31287FC5D
+Return-Path: <anonumiko@gmail.com>
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DB507F95C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2019 19:17:28 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id r14so9270053qke.13
+	Tue, 10 Dec 2019 19:58:58 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id 15so14768686lfr.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2019 11:17:30 -0800 (PST)
+	Tue, 10 Dec 2019 11:59:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=5t0H140/nTDck9ntXr9/VsLfVeXWZpwnsgQf0ZMEdrk=;
-	b=enWLu/bogqJ3CnYb3/qzTDZr3UI8vmu/OsP42NDajrEbIiK9yTp4mf0ZRUtlpVRHsL
-	ryJFbzyVFhppmxGraokAoMvUVlzXxhptmEoS/kL7CD5i7a3HcLa55sZW8Wlser6dTVdi
-	ERhA2sodoe6thWDBFVaFA5Dq4r4FOICA5AaTMr3P6e1/HzlKP6H2I4aAIwFunWtipBWp
-	dQtLiVdaZz6JaELGcoEoEde8MwJvAdPBUnUBKHkjc5YmYH+8NkwsWjzkxNsfaoDhmbMn
-	rdvXhl1RKuaouKZe2t24/A12PDSDLBdVy1W0rc4vr7aRu8qhOHXQYibK1NVOouY1JS7Y
-	42XA==
+	h=sender:subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=RWtJOJtpcovGlJSsiRC2vPef5+WRLaGBRLEmRzgL1oc=;
+	b=OUWYucaz0UvbQ9GaufW/mI7y8QM2UQqq48FBvLNmdaAWC19LMwkYlxwGhQnYO1yiDQ
+	q++r8B1oiUyw8mojKRjeeUeFWbaxmuksoC6SzcPltt8B4kHVWW1vJeIEWQX1p8qFt5AH
+	91I3a/W1mcPUR3sfwesFbD1uzLn1l7RR06+qchjXPieG5gxDGx1MdKAk+8bjjCAh7dJO
+	x+ayFt84qoR+yORyntcSO0RttoBP4g8+NTLzkqxuvOhJayA+VC3DBH1pgHZIA6bdUmDA
+	3h8lgb8jWdeTgUhFhMb3sphneoY6uRgbIz+6fQswJk8HMrlyR7JZfa4/62qJ7oov0i6r
+	Yisg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=5t0H140/nTDck9ntXr9/VsLfVeXWZpwnsgQf0ZMEdrk=;
-	b=AqqSxbDerueZpU+775JTLAdIGg2GcvjDQEHtjI1POdOxvMWDYrnzWBJ+BFcpyEdaqS
-	6b1kNLr5OmrbgeZgFz7s5Ax+Ji1y6p+3nAhuOo4CbYSuDP4rd2esaguLhwzncpIqLlFI
-	dpkhlS23asVqAfqj6D+xe5OuwUExQp1OjOP6I4whtDxeOod+mGEj9wtC4vDMGKlnR/mY
-	HEDf2tKP01/o83Za8EjNjWOXKF7sa9jMOfkejydQz5JrnSU5b1VSOG2+YHHycxvBzdKM
-	hm0aFuZ0CbVZ23PA9gR8QUcV1H+CHifKg6h022eM/fU/GUnoJbroljS9xyi/t6Q+piuJ
-	dl+g==
-X-Gm-Message-State: APjAAAW3bctQlJ0mYK4frDErkpBmoiyDq027ZqsulEI951J5B3XJa8Rp
-	2gW7Ig8R9uDolbRPrEKacBQytsU6vnBompsnCqU=
-X-Google-Smtp-Source: APXvYqzLBgVa5L/qEP9hQiP0jUdgN1htxeJlB7vjdcmmByeYUEUd3Zatl4MmAuA5Aoc2OD4XnGZTgmVR20bMRX0mZAY=
-X-Received: by 2002:a05:620a:6b8:: with SMTP id
-	i24mr9705013qkh.9.1576005449336; 
-	Tue, 10 Dec 2019 11:17:29 -0800 (PST)
+	h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=RWtJOJtpcovGlJSsiRC2vPef5+WRLaGBRLEmRzgL1oc=;
+	b=TS9YcatP/GD6kKTIOVVTMWvdgyNPV0UJeW8bCSQHy919B5+JC/VDq/VZ9Aopq2sYxO
+	W/+udeIiPSbM+r9DqUzzD/U6BfNHp7y3ujxu9Dt36/YBegsYk7v+dU8noR8eD6vNE2OJ
+	bhDkrR80tJVjHjSA1Jlo7i4AE2F00KXCG42ZZ9Tqv1CeCJHva9P5aH8H0qS+zs4oDbXm
+	za/7bz3AhCD/fdJgjS8BtZLpEu/5i3n8o1H26u+7/9dh2156nTIBCvAGOOuwcjUa+Wzw
+	3ckV5WdBICuJ7vEBb9XB+pDhpkrkH07eJeMCzB0wOTlKY5V2R1UZOFtgELO8n58Y8pL3
+	EMxA==
+X-Gm-Message-State: APjAAAUCzCGIvAp/Y/OV/xASInC35D4Gp3HojFhDslgBfVimWWFwti5T
+	Fv7dDcfmUveXUz3UdjCMPB0=
+X-Google-Smtp-Source: APXvYqxN2nlLVQH/7O7vzESIGCO5vRsMj9Cm/VgTVykXDDcvRCGVWBPbs6IJixf8XN5Id+rO0Ohvnw==
+X-Received: by 2002:ac2:46dc:: with SMTP id p28mr12629358lfo.23.1576007939461; 
+	Tue, 10 Dec 2019 11:58:59 -0800 (PST)
+Received: from [62.78.161.185] (62-78-161-185.bb.dnainternet.fi.
+	[62.78.161.185])
+	by smtp.gmail.com with ESMTPSA id t2sm2290319ljj.11.2019.12.10.11.58.58
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 10 Dec 2019 11:58:58 -0800 (PST)
+Sender: Niko Mauno <anonumiko@gmail.com>
+To: akuster808 <akuster808@gmail.com>, openembedded-core@lists.openembedded.org
+References: <20191205200518.82007-1-niko.mauno@iki.fi>
+	<5c0c9f90-d4d5-fef5-838a-d8f596e20ebb@gmail.com>
+From: Niko Mauno <niko.mauno@iki.fi>
+Message-ID: <61ddebb6-8a18-8035-7db4-0f9c50bc0e92@iki.fi>
+Date: Tue, 10 Dec 2019 21:58:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-References: <20191203220624.26500-1-anibal.limon@linaro.org>
-	<b33a0156-ac10-b53d-7d27-75fe07d9fa7b@intel.com>
-In-Reply-To: <b33a0156-ac10-b53d-7d27-75fe07d9fa7b@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 10 Dec 2019 11:17:02 -0800
-Message-ID: <CAMKF1sq-VV9bdP+MqV5Wk4pM3PopbT_gGjnKFXU+NEHTgtmneg@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta/classes/meson.bbclass: Add inherit setuptools3
+In-Reply-To: <5c0c9f90-d4d5-fef5-838a-d8f596e20ebb@gmail.com>
+Subject: Re: [zeus][PATCH 1/3] iptables: Cosmetic fixes to recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,22 +63,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2019 19:17:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 10 Dec 2019 19:58:59 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Dec 10, 2019 at 5:44 AM Ross Burton <ross.burton@intel.com> wrote:
->
-> On 03/12/2019 22:06, An=C3=ADbal Lim=C3=B3n wrote:
-> > +inherit siteinfo python3native setuptools3
-> >
-> >   DEPENDS_append =3D " meson-native ninja-native"
->
-> Considering setuptools3 inherits distutil3 which adds a load of tasks,
-> shouldn't this just be a DEPENDS +=3D python3-setuptools3-native?
->
+On 12/6/19 1:32 AM, akuster808 wrote:
+> 
+> 
+> On 12/5/19 12:05 PM, Niko Mauno wrote:
+>> Introduce cosmetic changes to recipe content, most notably
+>>   - Change indentation style to four spaces in task statements
+>>   - Reorder several entries according to oe-stylize.py suggestions
+>>
+>> (From OE-Core rev: c1d162b6165f11b7b5ae5c6066e7683d5e1379fc)
+>>
+>> Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
+>> Signed-off-by: Ross Burton <ross.burton@intel.com>
+>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> 
+> These changes do not pass the 'stable' bar for backporting. Unless a
+> more compelling reason is give, this series is being "NACKed" at this time.
+> 
+> - armin
 
-right, we dont need the tasks so class is unnecessary
+Thanks for checking Armin. For the record, proposed mainly for complementing the existing systemd-specific automatic ipv4 rules loading functionality with ipv6, particularly since both 'ipv4' and 'ipv6' are enabled in DISTRO_FEATURES by default. 
 
-> Ross
+-Niko
+
+>> ---
+>>   .../iptables/iptables_1.8.3.bb                | 60 +++++++++----------
+>>   1 file changed, 29 insertions(+), 31 deletions(-)
+>>
+>> diff --git a/meta/recipes-extended/iptables/iptables_1.8.3.bb b/meta/recipes-extended/iptables/iptables_1.8.3.bb
+>> index ff9fcb1b53..563c8ae354 100644
+>> --- a/meta/recipes-extended/iptables/iptables_1.8.3.bb
+>> +++ b/meta/recipes-extended/iptables/iptables_1.8.3.bb
+>> @@ -4,8 +4,9 @@ filtering code in Linux."
+>>   HOMEPAGE = "http://www.netfilter.org/"
+>>   BUGTRACKER = "http://bugzilla.netfilter.org/"
+>>   LICENSE = "GPLv2+"
+>> -LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
+>> -                    file://iptables/iptables.c;beginline=13;endline=25;md5=c5cffd09974558cf27d0f763df2a12dc"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+>> +                    file://iptables/iptables.c;beginline=13;endline=25;md5=c5cffd09974558cf27d0f763df2a12dc \
+>> +"
+>>   
+>>   SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+>>              file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
+>> @@ -13,16 +14,16 @@ SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
+>>              file://iptables.service \
+>>              file://iptables.rules \
+>>   "
+>> -
+>>   SRC_URI[md5sum] = "29de711d15c040c402cf3038c69ff513"
+>>   SRC_URI[sha256sum] = "a23cac034181206b4545f4e7e730e76e08b5f3dd78771ba9645a6756de9cdd80"
+>>   
+>> +SYSTEMD_SERVICE_${PN} = "iptables.service"
+>> +
+>>   inherit autotools pkgconfig systemd
+>>   
+>>   EXTRA_OECONF = "--with-kernel=${STAGING_INCDIR}"
+>>   
+>>   PACKAGECONFIG ?= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+>> -
+>>   PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
+>>   
+>>   # libnfnetlink recipe is in meta-networking layer
+>> @@ -32,9 +33,19 @@ PACKAGECONFIG[libnfnetlink] = "--enable-libnfnetlink,--disable-libnfnetlink,libn
+>>   PACKAGECONFIG[libnftnl] = "--enable-nftables,--disable-nftables,libnftnl"
+>>   
+>>   do_configure_prepend() {
+>> -	# Remove some libtool m4 files
+>> -	# Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
+>> -	rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+>> +    # Remove some libtool m4 files
+>> +    # Keep ax_check_linker_flags.m4 which belongs to autoconf-archive.
+>> +    rm -f libtool.m4 lt~obsolete.m4 ltoptions.m4 ltsugar.m4 ltversion.m4
+>> +}
+>> +
+>> +do_install_append() {
+>> +    install -d ${D}${sysconfdir}/iptables
+>> +    install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
+>> +
+>> +    install -d ${D}${systemd_system_unitdir}
+>> +    install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_system_unitdir}
+>> +
+>> +    sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/iptables.service
+>>   }
+>>   
+>>   PACKAGES += "${PN}-modules"
+>> @@ -47,30 +58,6 @@ python populate_packages_prepend() {
+>>           d.appendVar('RDEPENDS_' + metapkg, ' ' + ' '.join(modules))
+>>   }
+>>   
+>> -FILES_${PN} += "${datadir}/xtables"
+>> -
+>> -# Include the symlinks as well in respective packages
+>> -FILES_${PN}-module-xt-conntrack += "${libdir}/xtables/libxt_state.so"
+>> -FILES_${PN}-module-xt-ct += "${libdir}/xtables/libxt_NOTRACK.so"
+>> -
+>> -INSANE_SKIP_${PN}-module-xt-conntrack = "dev-so"
+>> -INSANE_SKIP_${PN}-module-xt-ct = "dev-so"
+>> -
+>> -ALLOW_EMPTY_${PN}-modules = "1"
+>> -
+>> -do_install_append() {
+>> -
+>> -        install -d ${D}${sysconfdir}/iptables
+>> -        install -m 0644 ${WORKDIR}/iptables.rules ${D}${sysconfdir}/iptables
+>> -
+>> -        install -d ${D}${systemd_system_unitdir}
+>> -        install -m 0644 ${WORKDIR}/iptables.service ${D}${systemd_system_unitdir}
+>> -
+>> -	sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_system_unitdir}/iptables.service
+>> -}
+>> -
+>> -SYSTEMD_SERVICE_${PN} = "iptables.service"
+>> -
+>>   RDEPENDS_${PN} = "${PN}-module-xt-standard"
+>>   RRECOMMENDS_${PN} = " \
+>>       ${PN}-modules \
+>> @@ -84,3 +71,14 @@ RRECOMMENDS_${PN} = " \
+>>       kernel-module-nf-nat \
+>>       kernel-module-ipt-masquerade \
+>>   "
+>> +
+>> +FILES_${PN} += "${datadir}/xtables"
+>> +
+>> +# Include the symlinks as well in respective packages
+>> +FILES_${PN}-module-xt-conntrack += "${libdir}/xtables/libxt_state.so"
+>> +FILES_${PN}-module-xt-ct += "${libdir}/xtables/libxt_NOTRACK.so"
+>> +
+>> +ALLOW_EMPTY_${PN}-modules = "1"
+>> +
+>> +INSANE_SKIP_${PN}-module-xt-conntrack = "dev-so"
+>> +INSANE_SKIP_${PN}-module-xt-ct = "dev-so"
+> 
+
 
