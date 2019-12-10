@@ -1,31 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3215D7FAAA
+Return-Path: <yamane07ynct@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id DE17A7FCB6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2019 13:44:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Dec 2019 05:44:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,299,1571727600"; d="scan'208";a="203190854"
-Received: from pozo-mobl.ger.corp.intel.com (HELO blackadder.local)
-	([10.252.33.212])
-	by orsmga007.jf.intel.com with ESMTP; 10 Dec 2019 05:44:37 -0800
-To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>,
-	openembedded-core@lists.openembedded.org
-References: <20191203220624.26500-1-anibal.limon@linaro.org>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <b33a0156-ac10-b53d-7d27-75fe07d9fa7b@intel.com>
-Date: Tue, 10 Dec 2019 13:44:36 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
+	Tue, 10 Dec 2019 13:59:46 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id z23so18808863iog.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 10 Dec 2019 05:59:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=rQtXeMRSSwJ9zJH6EU/+NYPdgO83DfLKaElvl+1xIiI=;
+	b=N6QUjnkUGedFjueCTMNyeZDYie6sWzESLNKFT8UHgkWQofHlZNblQBpL1gDsAPxum7
+	ILF7LgJrOfawA3f2+sKLlhBlgjDx3kIldQv/2GCF4b/Yc2SbVM/02E9Ft4GIUyodJUc9
+	DuiexeHygrna+eIEP2kZLU+1WY+f6hOIzvu43BgHTSA1AEok/eGMOTq4uRifkfvoPX9W
+	7mYHsOXcJVPpU05ctEEusf5tT3+9CKTQZ/zFFg8j5/226EXKdVxowuvZidiqp0cIcSgJ
+	lbbjO6MDe16JOCSchwLwAfk/Dh6YajRkdpObxYhIeRR+7KkZQ0e2QEPGxb9EqbkdVTbP
+	19gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=rQtXeMRSSwJ9zJH6EU/+NYPdgO83DfLKaElvl+1xIiI=;
+	b=UkV4mQYNxHybufGzNxLSXS/3f5DP+71km/HKn+YRnqkZ8Vns7EYEP+Y+QYLu4oBtNN
+	cr7JZm/iKMZB771XughjfmGJo+Iv7mCnw6yVGtQ94d9bZsrUJzoZfi9LkZzfwVuMWi+s
+	0Kr7q07ay32ClZdcoMpdq1zNYpsnBvr4abOENI1y5wyBPiuGrg0z3zfeqmQr73qowM7O
+	kxuinDcLTnl9fSNu2eFcLPkH8Wzh4RVOGa/KMd4Yn8UBire3RyNRnV/MuNBb8xtLAaXP
+	BhhRgop3D57kojyntXGxCim9xibl468I4R9gNVZbik6/miohTpppievfh3ft1JgcWfUI
+	f2Bg==
+X-Gm-Message-State: APjAAAVMmCbgxHVVkgkitG6eDeuwgu+5WK7i8bvX4E6XDjhZwCiZd1YO
+	UMEqdqLhy6yk1878053yU7PFwNo1z6vehs+rjg4=
+X-Google-Smtp-Source: APXvYqwF2usYBkF+BQ7s/9SBMH0I7lmx1GEHwJtVqVfnpemji9zoPRa/6zUPw+Cv56xEmmlF/3G6QQKkMFiwdQs+ZXQ=
+X-Received: by 2002:a02:c611:: with SMTP id i17mr33452888jan.28.1575986387794; 
+	Tue, 10 Dec 2019 05:59:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20191203220624.26500-1-anibal.limon@linaro.org>
-Subject: Re: [PATCH] meta/classes/meson.bbclass: Add inherit setuptools3
+References: <1575627191-12947-1-git-send-email-yamane07ynct@gmail.com>
+	<cf16a85c-f7e7-57e8-c6c2-9ffec81e8af7@intel.com>
+	<CAHZ3=rpH=C1FXieMV2n-7oDveSoHdfprH8YSwxstN2YscWEPVw@mail.gmail.com>
+	<1a341964-16a0-e6b7-123e-51f06e2657c2@intel.com>
+In-Reply-To: <1a341964-16a0-e6b7-123e-51f06e2657c2@intel.com>
+From: Daisuke Yamane <yamane07ynct@gmail.com>
+Date: Tue, 10 Dec 2019 22:59:11 +0900
+Message-ID: <CAHZ3=rpt+G0YxdDyEfaycJTNstrtN1Z+kHkCkk44LyxoNAK-cw@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2] u-boot-fw-utils: Add capability of building from out-of-tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,18 +57,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 10 Dec 2019 13:44:38 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 10 Dec 2019 13:59:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 03/12/2019 22:06, Aníbal Limón wrote:
-> +inherit siteinfo python3native setuptools3
->   
->   DEPENDS_append = " meson-native ninja-native"
+2019=E5=B9=B412=E6=9C=8810=E6=97=A5(=E7=81=AB) 19:39 Ross Burton <ross.burt=
+on@intel.com>:
+>
+> On 10/12/2019 06:09, =E5=B1=B1=E6=A0=B9=E5=A4=A7=E5=85=B8 wrote:
+> > 2019=E5=B9=B412=E6=9C=889=E6=97=A5(=E6=9C=88) 19:43 Ross Burton <ross.b=
+urton@intel.com>:
+> >>
+> >> On 06/12/2019 10:13, Daisuke Yamane wrote:
+> >>> This patch also helps to build with EXTERNALSRC.
+> >>
+> >> As this doesn't actually set B, will you be sending a follow-up patch =
+to
+> >> set B so out-of-tree builds actually work?
+> > As there is EXTERNALSRC_BUILD in externalsrc.bbclass, I don't think
+> > the follow-up patch is necessary.
+>
+> I mean in the general case, not specifically externalsrc.
+>
+> Out-of-tree builds are fundamentally better than in-tree.
+I got it what you mean!
+OK, I'll send the patch.
 
-Considering setuptools3 inherits distutil3 which adds a load of tasks, 
-shouldn't this just be a DEPENDS += python3-setuptools3-native?
-
-Ross
+Thank you for pointing it out.
 
