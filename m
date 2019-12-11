@@ -1,28 +1,28 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 7AD967FBDB
+	by mail.openembedded.org (Postfix) with ESMTP id 7F9C47FBDD
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 11 Dec 2019 16:48:24 +0000 (UTC)
-IronPort-SDR: 7yK0CVrXjromP8eeajGJ0VAE5XGmO7dQn58JgB1cHAY6aMNb9bE7cXGQlNC8KyiWvRSf5HdNal
-	WQuZdBSXjflCAKcUiYWjJLr9Bc7p3XZ7jaOMpDoGHC7uJMe/jiPml6mdr2q3Yhk/3dI7Db/MMz
-	PsIGUDUmn7TCfxKWNlcrQM9TcWNvCJuSpSVTAQh8VYT1nTDPnItt+7qsvhwvIXI3+wfYrpIDX5
-	ur4pe6jHUOOnndkk8X1tcThnG2P51LeEWCROIyza4kwINYdh/ehLpFukStuqyuFt522nhWFt6t
-	tVA=
+IronPort-SDR: GtHgRUFP/liD85VFhRe39YtnUPw5q6t4VXW/YXloYpEIaEgReUclf5hduVTfI4tjzr9xRlj7H4
+	n6MsKeBxmM0vXUX1B4FbSJca2Qy8ttaAzhPTtpEFO/TehkfNkjA0RLi6sQxgJizNxPAzASMIR1
+	zpW3WyK3vIfa/ubBoPSs8HLLuu8LQAxAQeJ7vwcxkIePbeIxxAW253G6g44VVwME17a2BIyI3k
+	QjmCFBVNJpUeHGhyBNtS3LXIrMJ7BlLX3kJZDFejp/ENc6ozBRnE7EV819kk6l6ebNNVVNhhQl
+	Qcs=
 X-IronPort-AV: E=Sophos;i="5.69,302,1571695200"; 
-   d="scan'208";a="3390379"
+   d="scan'208";a="3390378"
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Dec 2019 17:48:16 +0100
-Message-Id: <20191211164820.26588-4-pkj@axis.com>
+Date: Wed, 11 Dec 2019 17:48:20 +0100
+Message-Id: <20191211164820.26588-8-pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191211164820.26588-1-pkj@axis.com>
 References: <20191211164820.26588-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCHv3 4/8] base.bbclass: Simplify the check for whitelisted licenses
+Subject: [PATCHv3 8/8] incompatible_lic.py: Add tests for incompatible licenses with wildcards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,57 +38,87 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 11 Dec 2019 16:48:25 -0000
 Content-Transfer-Encoding: 8bit
 
-After a number of rewrites, the code checking if a package has been
-whitelisted for an incompatible license was calculating the
-whitelisted packages twice (as 'whitelist' and as 'incompatwl').
-
+Suggested-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/base.bbclass | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 31457f9f12..a3170d219c 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -526,23 +526,21 @@ python () {
-             bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+PATCHv2: New in this patch set.
+PATCHv3: Added the missing incompatible-licenses.bb recipe file.
+
+ .../license/incompatible-licenses.bb          |  3 ++
+ .../oeqa/selftest/cases/incompatible_lic.py   | 42 +++++++++++++++++++
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/license/incompatible-licenses.bb
+
+diff --git a/meta-selftest/recipes-test/license/incompatible-licenses.bb b/meta-selftest/recipes-test/license/incompatible-licenses.bb
+new file mode 100644
+index 0000000000..9c1545efba
+--- /dev/null
++++ b/meta-selftest/recipes-test/license/incompatible-licenses.bb
+@@ -0,0 +1,3 @@
++SUMMARY = "Recipe with multiple SPDX licenses"
++DESCRIPTION = "Is licensed with multiple SPDX licenses to be used for testing"
++LICENSE = "GPL-2.0 & GPL-3.0 & LGPL-3.0"
+diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+index 458a940618..3eabd79097 100644
+--- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
++++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+@@ -23,6 +23,18 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+     def test_incompatible_alias_spdx_license(self):
+         self.lic_test('incompatible-license', 'GPL-3.0', 'GPLv3')
  
-             whitelist = []
--            incompatwl = []
-             for lic in bad_licenses:
-                 spdx_license = return_spdx(d, lic)
-                 whitelist.extend((d.getVar("WHITELIST_" + lic) or "").split())
-                 if spdx_license:
-                     whitelist.extend((d.getVar("WHITELIST_" + spdx_license) or "").split())
++    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
++    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded license
++    # matching this SPDX license
++    def test_incompatible_spdx_license_wildcard(self):
++        self.lic_test('incompatible-license', 'GPL-3.0', '*GPL-3.0')
 +
-+            if pn in whitelist:
-                 '''
-                 We need to track what we are whitelisting and why. If pn is
-                 incompatible we need to be able to note that the image that
-                 is created may infact contain incompatible licenses despite
-                 INCOMPATIBLE_LICENSE being set.
-                 '''
--                incompatwl.extend((d.getVar("WHITELIST_" + lic) or "").split())
--                if spdx_license:
--                    incompatwl.extend((d.getVar("WHITELIST_" + spdx_license) or "").split())
--
--            if not pn in whitelist:
-+                bb.note("Including %s as buildable despite it having an incompatible license because it has been whitelisted" % pn)
-+            else:
-                 pkgs = d.getVar('PACKAGES').split()
-                 skipped_pkgs = []
-                 unskipped_pkgs = []
-@@ -562,9 +560,6 @@ python () {
-                 elif all_skipped or incompatible_license(d, bad_licenses):
-                     bb.debug(1, "SKIPPING recipe %s because it's %s" % (pn, license))
-                     raise bb.parse.SkipRecipe("it has an incompatible license: %s" % license)
--            elif pn in whitelist:
--                if pn in incompatwl:
--                    bb.note("INCLUDING " + pn + " as buildable despite INCOMPATIBLE_LICENSE because it has been whitelisted")
++    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
++    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded alias
++    # license matching this SPDX license
++    def test_incompatible_alias_spdx_license_wildcard(self):
++        self.lic_test('incompatible-license', 'GPL-3.0', '*GPLv3')
++
+     # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
+     # license cannot be built when INCOMPATIBLE_LICENSE contains this SPDX
+     # license
+@@ -34,6 +46,36 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+     def test_incompatible_alias_spdx_license_alias(self):
+         self.lic_test('incompatible-license-alias', 'GPL-3.0', 'GPLv3')
  
-         # Try to verify per-package (LICENSE_<pkg>) values. LICENSE should be a
-         # superset of all per-package licenses. We do not do advanced (pattern)
++    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
++    # license cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
++    # license matching this SPDX license
++    def test_incompatible_spdx_license_alias_wildcard(self):
++        self.lic_test('incompatible-license-alias', 'GPL-3.0', '*GPL-3.0')
++
++    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
++    # license cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
++    # alias license matching the SPDX license
++    def test_incompatible_alias_spdx_license_alias_wildcard(self):
++        self.lic_test('incompatible-license-alias', 'GPL-3.0', '*GPLv3')
++
++    # Verify that a package with multiple SPDX licenses (from
++    # AVAILABLE_LICENSES) cannot be built when INCOMPATIBLE_LICENSE contains
++    # some of them
++    def test_incompatible_spdx_licenses(self):
++        self.lic_test('incompatible-licenses', 'GPL-3.0 LGPL-3.0', 'GPL-3.0 LGPL-3.0')
++
++    # Verify that a package with multiple SPDX licenses (from
++    # AVAILABLE_LICENSES) cannot be built when INCOMPATIBLE_LICENSE contains a
++    # wildcard to some of them
++    def test_incompatible_spdx_licenses_wildcard(self):
++        self.lic_test('incompatible-licenses', 'GPL-3.0 LGPL-3.0', '*GPL-3.0')
++
++    # Verify that a package with multiple SPDX licenses (from
++    # AVAILABLE_LICENSES) cannot be built when INCOMPATIBLE_LICENSE contains a
++    # wildcard matching all licenses
++    def test_incompatible_all_licenses_wildcard(self):
++        self.lic_test('incompatible-licenses', 'GPL-2.0 GPL-3.0 LGPL-3.0', '*')
++
+     # Verify that a package with a non-SPDX license (neither in
+     # AVAILABLE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
+     # INCOMPATIBLE_LICENSE contains this license
 -- 
 2.21.0
 
