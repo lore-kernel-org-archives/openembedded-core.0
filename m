@@ -1,28 +1,28 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id B6BF07FB3E
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 682547FB11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2019 16:48:22 +0000 (UTC)
-IronPort-SDR: q3G3jP1g2j/mgKDvGEG8gZx5vTc+Ok6uhbx6xDW8sLk/ge7wSDNC9cDAzgV/ChhgZOIChH5u6a
-	zDlg7o/sEAm+ShZCgzPttTJR2GntO5Lv3rC8D9JNYYHYCNJIgT9F3WeiWXU+uE5JImbuXTOrH8
-	rJJxU4bngtO/vYonsY/FfJo2P4Cmzd0qO36deWhbugvvobLhsCbDTn+t87gLVWma25pb/DH8hu
-	HyTBEZqaNeAbFL8F/GCbsAQLJdtRH5I5wRWGNGUe7UbLTkOx3JnufS0J6b0D8ISgdaRlZx9B/8
-	/BM=
+	Wed, 11 Dec 2019 16:48:23 +0000 (UTC)
+IronPort-SDR: UqntPFdv3eGdDE4IGRVPC/BqNV4yEA2NEG4TREQtQvxYyosjoCT2Yp85pdgWfcFixpKxC0ebbz
+	T0Xp5YHW65pz2qJ5/hjL0uHzuwYOOaVlEv6zZT/3Km/CcsgXKe157WTP03/6CWfiCOMx8MItiN
+	IDH0+iQaihIQem3yDX9beHYVe+To6A6f3cIOsR7j7LXGbnL9JyRi/LWXLWbdimIjEBE1YpWYz+
+	BA6jlqYviIy2PzTRYXdx465GU7hSIaR/rz246CiRg0x4hU1GPj2PKta7hE/1aNd39pHQnnv8VA
+	Vw0=
 X-IronPort-AV: E=Sophos;i="5.69,302,1571695200"; 
-   d="scan'208";a="3390376"
+   d="scan'208";a="3494976"
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Dec 2019 17:48:15 +0100
-Message-Id: <20191211164820.26588-3-pkj@axis.com>
+Date: Wed, 11 Dec 2019 17:48:17 +0100
+Message-Id: <20191211164820.26588-5-pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191211164820.26588-1-pkj@axis.com>
 References: <20191211164820.26588-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCHv3 3/8] license.bbclass: Make incompatible_pkg_license return incompatible lics
+Subject: [PATCHv3 5/8] base.bbclass: Report only the licenses that are incompatible for a package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,42 +38,89 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 11 Dec 2019 16:48:23 -0000
 Content-Transfer-Encoding: 8bit
 
-This makes it possible to report the incompatible licenses.
+Instead of reporting ${LICENSE} when a package is identified as using
+an incompatible license, report the license(s) that are actually
+incompatible.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/license.bbclass | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ meta/classes/base.bbclass                     | 26 ++++++++++++-------
+ .../oeqa/selftest/cases/incompatible_lic.py   |  6 ++---
+ 2 files changed, 19 insertions(+), 13 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index c388740003..f90176d6c0 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -310,15 +310,21 @@ def incompatible_pkg_license(d, dont_want_licenses, license):
-     # Handles an "or" or two license sets provided by
-     # flattened_licenses(), pick one that works if possible.
-     def choose_lic_set(a, b):
--        return a if all(oe.license.license_ok(canonical_license(d, lic), 
-+        return a if all(oe.license.license_ok(canonical_license(d, lic),
-                             dont_want_licenses) for lic in a) else b
- 
-     try:
-         licenses = oe.license.flattened_licenses(license, choose_lic_set)
-     except oe.license.LicenseError as exc:
-         bb.fatal('%s: %s' % (d.getVar('P'), exc))
--    return any(not oe.license.license_ok(canonical_license(d, l), \
--               dont_want_licenses) for l in licenses)
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index a3170d219c..145daea3ec 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -542,24 +542,30 @@ python () {
+                 bb.note("Including %s as buildable despite it having an incompatible license because it has been whitelisted" % pn)
+             else:
+                 pkgs = d.getVar('PACKAGES').split()
+-                skipped_pkgs = []
++                skipped_pkgs = {}
+                 unskipped_pkgs = []
+                 for pkg in pkgs:
+-                    if incompatible_license(d, bad_licenses, pkg):
+-                        skipped_pkgs.append(pkg)
++                    incompatible_lic = incompatible_license(d, bad_licenses, pkg)
++                    if incompatible_lic:
++                        skipped_pkgs[pkg] = incompatible_lic
+                     else:
+                         unskipped_pkgs.append(pkg)
+-                all_skipped = skipped_pkgs and not unskipped_pkgs
+                 if unskipped_pkgs:
+                     for pkg in skipped_pkgs:
+-                        bb.debug(1, "SKIPPING the package " + pkg + " at do_rootfs because it's " + license)
++                        bb.debug(1, "Skipping the package %s at do_rootfs because of incompatible license(s): %s" % (pkg, ' '.join(skipped_pkgs[pkg])))
+                         mlprefix = d.getVar('MLPREFIX')
+-                        d.setVar('LICENSE_EXCLUSION-' + mlprefix + pkg, 1)
++                        d.setVar('LICENSE_EXCLUSION-' + mlprefix + pkg, ' '.join(skipped_pkgs[pkg]))
+                     for pkg in unskipped_pkgs:
+-                        bb.debug(1, "INCLUDING the package " + pkg)
+-                elif all_skipped or incompatible_license(d, bad_licenses):
+-                    bb.debug(1, "SKIPPING recipe %s because it's %s" % (pn, license))
+-                    raise bb.parse.SkipRecipe("it has an incompatible license: %s" % license)
++                        bb.debug(1, "Including the package %s" % pkg)
++                else:
++                    incompatible_lic = incompatible_license(d, bad_licenses)
++                    for pkg in skipped_pkgs:
++                        incompatible_lic += skipped_pkgs[pkg]
++                    incompatible_lic = sorted(list(set(incompatible_lic)))
 +
-+    incompatible_lic = []
-+    for l in licenses:
-+        license = canonical_license(d, l)
-+        if not oe.license.license_ok(license, dont_want_licenses):
-+            incompatible_lic.append(license)
-+
-+    return sorted(incompatible_lic)
++                    if incompatible_lic:
++                        bb.debug(1, "Skipping recipe %s because of incompatible license(s): %s" % (pn, ' '.join(incompatible_lic)))
++                        raise bb.parse.SkipRecipe("it has incompatible license(s): %s" % ' '.join(incompatible_lic))
  
- def incompatible_license(d, dont_want_licenses, package=None):
-     """
+         # Try to verify per-package (LICENSE_<pkg>) values. LICENSE should be a
+         # superset of all per-package licenses. We do not do advanced (pattern)
+diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+index ad878571b5..9d1e801117 100644
+--- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
++++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+@@ -4,7 +4,7 @@ from oeqa.utils.commands import bitbake
+ class IncompatibleLicenseTests(OESelftestTestCase):
+ 
+     def lic_test(self, pn, pn_lic, lic):
+-        error_msg = 'ERROR: Nothing PROVIDES \'%s\'\n%s was skipped: it has an incompatible license: %s' % (pn, pn, pn_lic)
++        error_msg = 'ERROR: Nothing PROVIDES \'%s\'\n%s was skipped: it has incompatible license(s): %s' % (pn, pn, pn_lic)
+ 
+         self.write_config("INCOMPATIBLE_LICENSE += \"%s\"" % (lic))
+ 
+@@ -27,12 +27,12 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+     # license cannot be built when INCOMPATIBLE_LICENSE contains this SPDX
+     # license
+     def test_incompatible_spdx_license_alias(self):
+-        self.lic_test('incompatible-license-alias', 'GPLv3', 'GPL-3.0')
++        self.lic_test('incompatible-license-alias', 'GPL-3.0', 'GPL-3.0')
+ 
+     # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
+     # license cannot be built when INCOMPATIBLE_LICENSE contains this alias
+     def test_incompatible_alias_spdx_license_alias(self):
+-        self.lic_test('incompatible-license-alias', 'GPLv3', 'GPLv3')
++        self.lic_test('incompatible-license-alias', 'GPL-3.0', 'GPLv3')
+ 
+     # Verify that a package with a non-SPDX license (neither in
+     # AVAILABLE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
 -- 
 2.21.0
 
