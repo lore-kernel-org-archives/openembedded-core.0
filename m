@@ -1,35 +1,28 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 766167FAAE
+	by mail.openembedded.org (Postfix) with ESMTP id A7F177FB11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2019 16:29:01 +0000 (UTC)
-IronPort-SDR: tQnCP/29SgqbIXbZXFXxVZLhmjB56dS/kTMNhkK0z79otIRTu2qCBKo1Gaa2ygLiJD2xQIU8ay
-	ACPrPxjLSxZXWvJGGWibZ+e9M1RTSniF2nzP3+ho1AnlA9sQYf7Twb7M76T+YCMZYv9QL0WFiW
-	+MzKNeGe4t9TRRKPFrmloUfoFDw3Kz5i5a0ZwCo2OIZprbCkkJKu2oPHI0dHSyTsvagFeA4FlN
-	HoO4usW0tnZxJ9zDAI8kIU8c7ih6oyZ0JYafgtpxEwP2bymFOM+EpmRC1X/RHXRu8GcS2lOqQu
-	w6s=
-X-IronPort-AV: E=Sophos;i="5.69,301,1571695200"; 
-   d="scan'208";a="3494284"
+	Wed, 11 Dec 2019 16:48:22 +0000 (UTC)
+IronPort-SDR: 5V9I2w/gqtm6C5qZe3dqM3FZ0A3c1JVjGvCxu54lxMvdH5i8W6+LG1CNjC4GhN6+ipL1jV+z1n
+	9WVhoMmVxpCiss+7uXN5vIPwjFYKY/EElROhCHrSl0aMNYyMPNX2xZlJ5twxhw6LEVRY+6/jBb
+	CC2QTAMHprFHks/vGenwsnHLriCum7BfvM2GWPOpCvpdWb2MMB64eI4nvY/7gw0rItZ5zv6KH1
+	OChNhJmTXaF8SxPB0LDJMv85BBXCr1S+9ny/k+gwVCm3xjfw5Xlt+hHtaA7sHENbaQncoTYci5
+	Azs=
+X-IronPort-AV: E=Sophos;i="5.69,302,1571695200"; 
+   d="scan'208";a="3494974"
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Thread-Topic: [OE-core] [PATCHv2 8/8] incompatible_lic.py: Add tests for
-	incompatible licenses with wildcards
-Thread-Index: AQHVsAgyXWd4wf6xREOZuLIqzJvG7Ke1H97A
-Date: Wed, 11 Dec 2019 16:29:01 +0000
-Message-ID: <d58b88b279904c2b86d0a6935e11c3e9@XBOX03.axis.com>
-References: <20191211031126.22782-1-pkj@axis.com>
-	<20191211031126.22782-8-pkj@axis.com>
-	<20191211094847.psxarymfddjjto42@qschulz>
-In-Reply-To: <20191211094847.psxarymfddjjto42@qschulz>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Dec 2019 17:48:14 +0100
+Message-Id: <20191211164820.26588-2-pkj@axis.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20191211164820.26588-1-pkj@axis.com>
+References: <20191211164820.26588-1-pkj@axis.com>
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2 8/8] incompatible_lic.py: Add tests for incompatible licenses with wildcards
+X-TM-AS-GCONF: 00
+Subject: [PATCHv3 2/8] licenses.conf: Remove the SRC_DISTRIBUTE_LICENSES variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,134 +35,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2019 16:29:01 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 11 Dec 2019 16:48:23 -0000
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: Quentin Schulz <quentin.schulz@streamunlimited.com>
-> Sent: den 11 december 2019 10:49
-> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCHv2 8/8] incompatible_lic.py: Add tests for
-> incompatible licenses with wildcards
->=20
-> Hi Peter,
->=20
-> On Wed, Dec 11, 2019 at 04:11:26AM +0100, Peter Kjellerstedt wrote:
-> > Suggested-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > ---
-> >
-> > PATCHv2: New in this patch set.
-> >
-> >  .../oeqa/selftest/cases/incompatible_lic.py   | 42 +++++++++++++++++++
-> >  1 file changed, 42 insertions(+)
-> >
-> > diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-> b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-> > index 458a940618..3eabd79097 100644
-> > --- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-> > +++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-> > @@ -23,6 +23,18 @@ class IncompatibleLicenseTests(OESelftestTestCase):
-> >      def test_incompatible_alias_spdx_license(self):
-> >          self.lic_test('incompatible-license', 'GPL-3.0', 'GPLv3')
-> >
-> > +    # Verify that a package with an SPDX license (from
-> AVAILABLE_LICENSES)
-> > +    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
-> license
-> > +    # matching this SPDX license
-> > +    def test_incompatible_spdx_license_wildcard(self):
-> > +        self.lic_test('incompatible-license', 'GPL-3.0', '*GPL-3.0')
-> > +
-> > +    # Verify that a package with an SPDX license (from
-> AVAILABLE_LICENSES)
-> > +    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
-> alias
-> > +    # license matching this SPDX license
-> > +    def test_incompatible_alias_spdx_license_wildcard(self):
-> > +        self.lic_test('incompatible-license', 'GPL-3.0', '*GPLv3')
-> > +
-> >      # Verify that a package with an alias (from SPDXLICENSEMAP) to an
-> SPDX
-> >      # license cannot be built when INCOMPATIBLE_LICENSE contains this
-> SPDX
-> >      # license
-> > @@ -34,6 +46,36 @@ class IncompatibleLicenseTests(OESelftestTestCase):
-> >      def test_incompatible_alias_spdx_license_alias(self):
-> >          self.lic_test('incompatible-license-alias', 'GPL-3.0', 'GPLv3'=
-)
-> >
-> > +    # Verify that a package with an alias (from SPDXLICENSEMAP) to an
-> SPDX
-> > +    # license cannot be built when INCOMPATIBLE_LICENSE contains a
-> wildcarded
-> > +    # license matching this SPDX license
-> > +    def test_incompatible_spdx_license_alias_wildcard(self):
-> > +        self.lic_test('incompatible-license-alias', 'GPL-3.0', '*GPL-
-> 3.0')
-> > +
-> > +    # Verify that a package with an alias (from SPDXLICENSEMAP) to an
-> SPDX
-> > +    # license cannot be built when INCOMPATIBLE_LICENSE contains a
-> wildcarded
-> > +    # alias license matching the SPDX license
-> > +    def test_incompatible_alias_spdx_license_alias_wildcard(self):
-> > +        self.lic_test('incompatible-license-alias', 'GPL-3.0',
-> '*GPLv3')
-> > +
-> > +    # Verify that a package with multiple SPDX licenses (from
-> > +    # AVAILABLE_LICENSES) cannot be built when INCOMPATIBLE_LICENSE
-> contains
-> > +    # some of them
-> > +    def test_incompatible_spdx_licenses(self):
-> > +        self.lic_test('incompatible-licenses', 'GPL-3.0 LGPL-3.0',
-> 'GPL-3.0 LGPL-3.0')
-> > +
->=20
-> I think you forgot to add
-> meta-selftest/recipes-test/license/incompatible-licenses.bb in your
-> patch :)
+The SRC_DISTRIBUTE_LICENSES variable and its static list of licenses
+has been replaced by AVAILABLE_LICENSES, which automatically contains
+all available licenses.
 
-Bah, of course I did. v3 incoming...
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/conf/licenses.conf | 43 -----------------------------------------
+ 1 file changed, 43 deletions(-)
 
-> 2019-12-11 10:40:13,581 - oe-selftest - INFO -
-> test_incompatible_all_licenses_wildcard
-> (incompatible_lic.IncompatibleLicenseTests)
-> 2019-12-11 10:40:18,658 - oe-selftest - INFO -  ... FAIL
-> 2019-12-11 10:40:18,658 - oe-selftest - INFO - Traceback (most recent cal=
-l
-> last):
->   File "/tmp/poky/meta/lib/oeqa/selftest/cases/incompatible_lic.py", line
-> 77, in test_incompatible_all_licenses_wildcard
->     self.lic_test('incompatible-licenses', 'GPL-2.0 GPL-3.0 LGPL-3.0',
-> '*')
->   File "/tmp/poky/meta/lib/oeqa/selftest/cases/incompatible_lic.py", line
-> 13, in lic_test
->     raise AssertionError(result.output)
-> AssertionError: Parsing recipes...done.
-> ERROR: Nothing PROVIDES 'incompatible-licenses'. Close matches:
->   incompatible-license
->   incompatible-license-alias
->   incompatible-nonspdx-license
-> Parsing of 798 .bb files complete (0 cached, 798 parsed). 1332 targets,
-> 763 skipped, 0 masked, 0 errors.
->=20
-> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
->=20
-> Thanks for the added tests.
->=20
-> Looks good to me otherwise. I don't really know if YP cares about the
-> Reviewed-by in patches (seems not by quickly looking in the git
-> history), but for the whole path series:
->=20
-> Reviewed-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
->=20
-> Thanks!
-> Quentin
-
-//Peter
+diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
+index 7b01c57632..1c586a3bc6 100644
+--- a/meta/conf/licenses.conf
++++ b/meta/conf/licenses.conf
+@@ -1,44 +1,3 @@
+-# These aren't actually used anywhere that I can tell
+-# They may be in the future (or are used by someone else
+-# For completion sake, I've updated them
+-SRC_DISTRIBUTE_LICENSES += "AAL Adobe AFL-1.2 AFL-2.0 AFL-2.1 AFL-3.0"
+-SRC_DISTRIBUTE_LICENSES += "AGPL-3.0 ANTLR-PD Apache-1.0 Apache-1.1 Apache-2.0"
+-SRC_DISTRIBUTE_LICENSES += "APL-1.0 APSL-1.0 APSL-1.1 APSL-1.2 APSL-2.0"
+-SRC_DISTRIBUTE_LICENSES += "Artistic-1.0 Artistic-2.0 BitstreamVera BSD"
+-SRC_DISTRIBUTE_LICENSES += "BSD-2-Clause BSD-3-Clause BSD-4-Clause BSL-1.0"
+-SRC_DISTRIBUTE_LICENSES += "CATOSL-1.1 CC0-1.0 CC-BY-1.0 CC-BY-2.0 CC-BY-2.5"
+-SRC_DISTRIBUTE_LICENSES += "CC-BY-3.0 CC-BY-NC-1.0 CC-BY-NC-2.0 CC-BY-NC-2.5"
+-SRC_DISTRIBUTE_LICENSES += "CC-BY-NC-3.0 CC-BY-NC-ND-1.0 CC-BY-NC-ND-2.0"
+-SRC_DISTRIBUTE_LICENSES += "CC-BY-NC-ND-2.5 CC-BY-NC-ND-3.0 CC-BY-NC-SA-1.0"
+-SRC_DISTRIBUTE_LICENSES += "CC-BY-NC-SA-2.0 CC-BY-NC-SA-2.5 CC-BY-NC-SA-3.0"
+-SRC_DISTRIBUTE_LICENSES += "CC-BY-ND-1.0 CC-BY-ND-2.0 CC-BY-ND-2.5 CC-BY-ND-3.0"
+-SRC_DISTRIBUTE_LICENSES += "CC-BY-SA-1.0 CC-BY-SA-2.0 CC-BY-SA-2.5 CC-BY-SA-3.0 CC-BY-SA-4.0"
+-SRC_DISTRIBUTE_LICENSES += "CDDL-1.0 CECILL-1.0 CECILL-2.0 CECILL-B CECILL-C"
+-SRC_DISTRIBUTE_LICENSES += "ClArtistic CPAL-1.0 CPL-1.0 CUA-OPL-1.0 DSSSL"
+-SRC_DISTRIBUTE_LICENSES += "ECL-1.0 ECL-2.0 eCos-2.0 EDL-1.0 EFL-1.0 EFL-2.0"
+-SRC_DISTRIBUTE_LICENSES += "Entessa EPL-1.0 EPL-2.0 ErlPL-1.1"
+-SRC_DISTRIBUTE_LICENSES += "EUDatagrid EUPL-1.0 EUPL-1.1 Fair Frameworx-1.0"
+-SRC_DISTRIBUTE_LICENSES += "FreeType GFDL-1.1 GFDL-1.2 GFDL-1.3 GPL-1.0"
+-SRC_DISTRIBUTE_LICENSES += "GPL-2.0 GPL-2.0-with-autoconf-exception"
+-SRC_DISTRIBUTE_LICENSES += "GPL-2.0-with-classpath-exception"
+-SRC_DISTRIBUTE_LICENSES += "GPL-2.0-with-font-exception"
+-SRC_DISTRIBUTE_LICENSES += "GPL-2.0-with-GCC-exception"
+-SRC_DISTRIBUTE_LICENSES += "GPL-2-with-bison-exception GPL-3.0"
+-SRC_DISTRIBUTE_LICENSES += "GPL-3.0-with-autoconf-exception"
+-SRC_DISTRIBUTE_LICENSES += "GPL-3.0-with-GCC-exception"
+-SRC_DISTRIBUTE_LICENSES += "gSOAP-1 gSOAP-1.3b HPND IPA IPL-1.0 ISC LGPL-2.0"
+-SRC_DISTRIBUTE_LICENSES += "LGPL-2.1 LGPL-3.0 Libpng LPL-1.02 LPPL-1.0 LPPL-1.1"
+-SRC_DISTRIBUTE_LICENSES += "LPPL-1.2 LPPL-1.3c MirOS MIT Motosoto MPL-1.0"
+-SRC_DISTRIBUTE_LICENSES += "MPL-1.1 MS-PL MS-RL Multics NASA-1.3 Nauman NCSA"
+-SRC_DISTRIBUTE_LICENSES += "NGPL Nokia NPOSL-3.0 NTP OASIS OCLC-2.0 ODbL-1.0"
+-SRC_DISTRIBUTE_LICENSES += "OFL-1.1 OGTSL OLDAP-2.8 OpenSSL OSL-1.0 OSL-2.0"
+-SRC_DISTRIBUTE_LICENSES += "OSL-3.0 PD PHP-3.0 PostgreSQL Proprietary"
+-SRC_DISTRIBUTE_LICENSES += "Python-2.0 QPL-1.0 RHeCos-1 RHeCos-1.1 RPL-1.5"
+-SRC_DISTRIBUTE_LICENSES += "RPSL-1.0 RSCPL Ruby SAX-PD SGI-1 Simple-2.0 Sleepycat"
+-SRC_DISTRIBUTE_LICENSES += "SPL-1.0 SugarCRM-1 SugarCRM-1.1.3 UCB VSL-1.0 W3C"
+-SRC_DISTRIBUTE_LICENSES += "Watcom-1.0 WXwindows XFree86-1.0 XFree86-1.1 Xnet XSL YPL-1.1"
+-SRC_DISTRIBUTE_LICENSES += "Zimbra-1.3 Zlib ZPL-1.1 ZPL-2.0 ZPL-2.1"
+-
+ # Standards are great! Everyone has their own. In an effort to standardize licensing
+ # names, common-licenses will use the SPDX standard license names. In order to not
+ # break the non-standardized license names that we find in LICENSE, we'll set
+@@ -188,5 +147,3 @@ FOSS_BASE_URL = "http://localhost/repo/?mod=spdx_license_once"
+ FOSS_SERVER = "${FOSS_BASE_URL}&fullSPDXFlag=${FOSS_FULL_SPDX}&noCopyright=${FOSS_NO_COPYRIGHT}&recursiveUnpack=${FOSS_RECURSIVE_UNPACK}"
+ 
+ FOSS_WGET_FLAGS = "-qO - --no-check-certificate --timeout=0"
+-
+-
+-- 
+2.21.0
 
 
