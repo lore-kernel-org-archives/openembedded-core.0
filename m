@@ -1,35 +1,35 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D8037F971
-	for <Openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2019 16:25:41 +0000 (UTC)
-IronPort-SDR: puzCQwrH8/qwYG+P7FgfAkt69DunTwKnYFa6v6TxMWD+AMar9rdplTvxCEco/LALaPP7IM+A+d
-	g0EVyOpeEQeFATL31QnK81xNL7M6OjQ8l0pHWKIWF6e/Lv3/GMwXZiSdIZqPL6buI1eK6GlVbs
-	hG8RUji/zWTjST7Qz9uUBBdA5iAWjAxFvBuG0PiGWh3TzDRF5BVaTc3qJXNAh6QWdGeYkiBCiY
-	qSCrEzPU2euw4y4gzJdYbJS49n8KI1BklJeq1dTaVzpDHeBre1WFLiUZQ5t8lH6Sqs7KUKyd/u
-	t48=
+	by mail.openembedded.org (Postfix) with ESMTP id 766167FAAE
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Dec 2019 16:29:01 +0000 (UTC)
+IronPort-SDR: tQnCP/29SgqbIXbZXFXxVZLhmjB56dS/kTMNhkK0z79otIRTu2qCBKo1Gaa2ygLiJD2xQIU8ay
+	ACPrPxjLSxZXWvJGGWibZ+e9M1RTSniF2nzP3+ho1AnlA9sQYf7Twb7M76T+YCMZYv9QL0WFiW
+	+MzKNeGe4t9TRRKPFrmloUfoFDw3Kz5i5a0ZwCo2OIZprbCkkJKu2oPHI0dHSyTsvagFeA4FlN
+	HoO4usW0tnZxJ9zDAI8kIU8c7ih6oyZ0JYafgtpxEwP2bymFOM+EpmRC1X/RHXRu8GcS2lOqQu
+	w6s=
 X-IronPort-AV: E=Sophos;i="5.69,301,1571695200"; 
-   d="scan'208";a="3494126"
+   d="scan'208";a="3494284"
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>, Joshua Watt
-	<jpewhacker@gmail.com>
-Thread-Topic: [bitbake-devel] hashequiv, pseudo, and GIDs
-Thread-Index: AQHVsDYLm74OpLmGakKsrD4IfcF0Sqe1GqRg
-Date: Wed, 11 Dec 2019 16:25:42 +0000
-Message-ID: <318f567345524ba08950eb1c0daa3ec6@XBOX03.axis.com>
-References: <CY4PR12MB16537AC33CB9D19F94A126458B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
-	<CAJdd5GZ0LTrTtU=gYMp0ZqTwQA9UQyU7WMx6mNG2scv--7wNVw@mail.gmail.com>
-	<CY4PR12MB16536C79902AB2538F4206508B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
-In-Reply-To: <CY4PR12MB16536C79902AB2538F4206508B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Thread-Topic: [OE-core] [PATCHv2 8/8] incompatible_lic.py: Add tests for
+	incompatible licenses with wildcards
+Thread-Index: AQHVsAgyXWd4wf6xREOZuLIqzJvG7Ke1H97A
+Date: Wed, 11 Dec 2019 16:29:01 +0000
+Message-ID: <d58b88b279904c2b86d0a6935e11c3e9@XBOX03.axis.com>
+References: <20191211031126.22782-1-pkj@axis.com>
+	<20191211031126.22782-8-pkj@axis.com>
+	<20191211094847.psxarymfddjjto42@qschulz>
+In-Reply-To: <20191211094847.psxarymfddjjto42@qschulz>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] hashequiv, pseudo, and GIDs
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2 8/8] incompatible_lic.py: Add tests for incompatible licenses with wildcards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,62 +42,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2019 16:25:43 -0000
+X-List-Received-Date: Wed, 11 Dec 2019 16:29:01 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 > -----Original Message-----
-> From: bitbake-devel-bounces@lists.openembedded.org <bitbake-devel-
-> bounces@lists.openembedded.org> On Behalf Of chris.laplante--- via
-> bitbake-devel
-> Sent: den 11 december 2019 16:17
-> To: Joshua Watt <jpewhacker@gmail.com>
-> Cc: bitbake-devel@lists.openembedded.org; Openembedded-
-> core@lists.openembedded.org
-> Subject: Re: [bitbake-devel] hashequiv, pseudo, and GIDs
+> From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+> Sent: den 11 december 2019 10:49
+> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCHv2 8/8] incompatible_lic.py: Add tests for
+> incompatible licenses with wildcards
 >=20
-> > > So why is the group name used in the hash, as opposed to the GID?=20
-> > > (I also have the same question regarding user name vs UID). If
-> > > the GID was used we wouldn't have this issue.
-> >
-> > That was done in response to this mailing list thread:
-> > http://lists.openembedded.org/pipermail/openembedded-core/2019-January/=
-277755.html
-> >
-> > Basically, the GID and UID aren't stable values across builds so the
-> > suggestion was to use the names. My understanding was that this
-> > corresponded to how the user and groups are dealt with in general.
+> Hi Peter,
 >=20
-> That doesn't make sense (intuitively) to me. If I have a file with owner
-> GID 1000, and copy it to some system, then the group name is defined by
-> whatever groups happen to exist on the system. If I copy it to a differen=
-t
-> system, the owner group name might be different, depending on /etc/group.
-> In both cases, it is the GID of 1000 that is stable.
+> On Wed, Dec 11, 2019 at 04:11:26AM +0100, Peter Kjellerstedt wrote:
+> > Suggested-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > ---
+> >
+> > PATCHv2: New in this patch set.
+> >
+> >  .../oeqa/selftest/cases/incompatible_lic.py   | 42 +++++++++++++++++++
+> >  1 file changed, 42 insertions(+)
+> >
+> > diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> > index 458a940618..3eabd79097 100644
+> > --- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> > +++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> > @@ -23,6 +23,18 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+> >      def test_incompatible_alias_spdx_license(self):
+> >          self.lic_test('incompatible-license', 'GPL-3.0', 'GPLv3')
+> >
+> > +    # Verify that a package with an SPDX license (from
+> AVAILABLE_LICENSES)
+> > +    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
+> license
+> > +    # matching this SPDX license
+> > +    def test_incompatible_spdx_license_wildcard(self):
+> > +        self.lic_test('incompatible-license', 'GPL-3.0', '*GPL-3.0')
+> > +
+> > +    # Verify that a package with an SPDX license (from
+> AVAILABLE_LICENSES)
+> > +    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
+> alias
+> > +    # license matching this SPDX license
+> > +    def test_incompatible_alias_spdx_license_wildcard(self):
+> > +        self.lic_test('incompatible-license', 'GPL-3.0', '*GPLv3')
+> > +
+> >      # Verify that a package with an alias (from SPDXLICENSEMAP) to an
+> SPDX
+> >      # license cannot be built when INCOMPATIBLE_LICENSE contains this
+> SPDX
+> >      # license
+> > @@ -34,6 +46,36 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+> >      def test_incompatible_alias_spdx_license_alias(self):
+> >          self.lic_test('incompatible-license-alias', 'GPL-3.0', 'GPLv3'=
+)
+> >
+> > +    # Verify that a package with an alias (from SPDXLICENSEMAP) to an
+> SPDX
+> > +    # license cannot be built when INCOMPATIBLE_LICENSE contains a
+> wildcarded
+> > +    # license matching this SPDX license
+> > +    def test_incompatible_spdx_license_alias_wildcard(self):
+> > +        self.lic_test('incompatible-license-alias', 'GPL-3.0', '*GPL-
+> 3.0')
+> > +
+> > +    # Verify that a package with an alias (from SPDXLICENSEMAP) to an
+> SPDX
+> > +    # license cannot be built when INCOMPATIBLE_LICENSE contains a
+> wildcarded
+> > +    # alias license matching the SPDX license
+> > +    def test_incompatible_alias_spdx_license_alias_wildcard(self):
+> > +        self.lic_test('incompatible-license-alias', 'GPL-3.0',
+> '*GPLv3')
+> > +
+> > +    # Verify that a package with multiple SPDX licenses (from
+> > +    # AVAILABLE_LICENSES) cannot be built when INCOMPATIBLE_LICENSE
+> contains
+> > +    # some of them
+> > +    def test_incompatible_spdx_licenses(self):
+> > +        self.lic_test('incompatible-licenses', 'GPL-3.0 LGPL-3.0',
+> 'GPL-3.0 LGPL-3.0')
+> > +
+>=20
+> I think you forgot to add
+> meta-selftest/recipes-test/license/incompatible-licenses.bb in your
+> patch :)
 
-That depends on how you copy the files. E.g., if you use a `tar | ssh tar`=
-=20
-pipeline to copy the files between the systems, it will be the user/group=20
-names that are used. If on the other hand you do it using an SD-card, then=
-=20
-it will be the UIDs/GIDs that are used.
+Bah, of course I did. v3 incoming...
 
-> From a caching point of view, it seems incorrect to care about what the
-> corresponding group name happened to be at the time when the cache was
-> created.
-
-On the contrary. For almost all practical use cases you care about what=20
-user/group owns a file, not what UID/GID they happen to be. E.g., in the=20
-recipe (or Makefile or whatever) you typically want to specify that a=20
-file shall be owned by user foo, not UID 1234. Then, either you do not=20
-care about the actual UIDs used, or if you do, you use statically assigned=
-=20
-UIDs/GIDs for all users/groups. This is typically necessary if you want=20
-to be able to support upgrading your product, and it is very well=20
-supported by the useradd-staticids.bbclass.
-
-> Chris
+> 2019-12-11 10:40:13,581 - oe-selftest - INFO -
+> test_incompatible_all_licenses_wildcard
+> (incompatible_lic.IncompatibleLicenseTests)
+> 2019-12-11 10:40:18,658 - oe-selftest - INFO -  ... FAIL
+> 2019-12-11 10:40:18,658 - oe-selftest - INFO - Traceback (most recent cal=
+l
+> last):
+>   File "/tmp/poky/meta/lib/oeqa/selftest/cases/incompatible_lic.py", line
+> 77, in test_incompatible_all_licenses_wildcard
+>     self.lic_test('incompatible-licenses', 'GPL-2.0 GPL-3.0 LGPL-3.0',
+> '*')
+>   File "/tmp/poky/meta/lib/oeqa/selftest/cases/incompatible_lic.py", line
+> 13, in lic_test
+>     raise AssertionError(result.output)
+> AssertionError: Parsing recipes...done.
+> ERROR: Nothing PROVIDES 'incompatible-licenses'. Close matches:
+>   incompatible-license
+>   incompatible-license-alias
+>   incompatible-nonspdx-license
+> Parsing of 798 .bb files complete (0 cached, 798 parsed). 1332 targets,
+> 763 skipped, 0 masked, 0 errors.
+>=20
+> Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+>=20
+> Thanks for the added tests.
+>=20
+> Looks good to me otherwise. I don't really know if YP cares about the
+> Reviewed-by in patches (seems not by quickly looking in the git
+> history), but for the whole path series:
+>=20
+> Reviewed-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+>=20
+> Thanks!
+> Quentin
 
 //Peter
 
