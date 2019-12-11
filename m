@@ -1,48 +1,35 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 36BF17FA30
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2019 16:16:06 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id 6so11001245pgk.0
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2019 08:16:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=9a+XYu7lK2SinSOSzD0ygYSQCor04tAyzkWVb6FJtOM=;
-	b=dVlGEGx0iHBVaeXJa666mADXtZHswE/ivh64oxjLvkw/E80h7GFePKXgEAUfavWjjp
-	4PB89ROJYvTtOQUJ/P/nrHm15CfURVKoaYtPf/07sOdf8uJg2NA2SqVfsFFKGFDuhGvd
-	gq16O4cbkZMrI0qVMHPJW5RDRg0NjKp1uu8VzacTNUsZcsE1hZ2uETy2xcsaWKauhD0e
-	dtGQtUHqIGgF//4u+h8rP7kRM8Dd5MU4JITyjQYd/dx7Ld8cNxEMAqVyyAWGSnxUdL4N
-	vvHKIdwCQMs1O5GlyS3z5jmdnuvcqvBcMa++hBIxFUh4giX7y+6v1nzR1NgQCvxidfKu
-	6BZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=9a+XYu7lK2SinSOSzD0ygYSQCor04tAyzkWVb6FJtOM=;
-	b=E++db6QEj1aLtmtVfX0+mphvH02T3IsgqnsVglwnglz7R/dRUVHIabqP0ViptkIxV4
-	XKihJ2RY5Vpc2+jQ2xIoqEXubw7kplH8kuKWbD+pqxUPioQYVnR+hBxCI9Y/8cWD+qEk
-	vlFoOCGJWai0cPjzOy1W9HGnH5WNXPPcKZsaujOK6orx+5pdu4GNSaayRpaijWKNEqEb
-	+XJp4qsC0ON7ZuMVMXyrjKe3QYQrr+Gx+boBesHD5Q8zNGhimi9WI0MWgwcE6NTQU7T2
-	ARKFaIabJpOBMIbr3t4xfkJUkIgecivSAaclalZm2PIXAX4FXMLQZI/y/sbUkgiAoyL7
-	q1eA==
-X-Gm-Message-State: APjAAAUL5p/44v76XSKFCI3Ob3nUACNEs7Xe7YVWq1faryAIWCV0v/Bx
-	dXqsmKHsIehUaOSCUb6FLCQmb5DdgEs=
-X-Google-Smtp-Source: APXvYqzxMUpY+kc4ZuKCNL+jk5Tjwv/1nLCAkcF4aEeT1LwAlEahX9gBJmhb31+Uzx6wo8Kkq7LnCg==
-X-Received: by 2002:a65:6815:: with SMTP id l21mr4864228pgt.283.1576080966841; 
-	Wed, 11 Dec 2019 08:16:06 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:50a9:9288:81a1:163b])
-	by smtp.gmail.com with ESMTPSA id d2sm3008206pjv.18.2019.12.11.08.16.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 11 Dec 2019 08:16:06 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Dec 2019 08:16:04 -0800
-Message-Id: <1576080964-13796-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [V2][PATCH] cve-check: fail gracefully when file not found
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D8037F971
+	for <Openembedded-core@lists.openembedded.org>;
+	Wed, 11 Dec 2019 16:25:41 +0000 (UTC)
+IronPort-SDR: puzCQwrH8/qwYG+P7FgfAkt69DunTwKnYFa6v6TxMWD+AMar9rdplTvxCEco/LALaPP7IM+A+d
+	g0EVyOpeEQeFATL31QnK81xNL7M6OjQ8l0pHWKIWF6e/Lv3/GMwXZiSdIZqPL6buI1eK6GlVbs
+	hG8RUji/zWTjST7Qz9uUBBdA5iAWjAxFvBuG0PiGWh3TzDRF5BVaTc3qJXNAh6QWdGeYkiBCiY
+	qSCrEzPU2euw4y4gzJdYbJS49n8KI1BklJeq1dTaVzpDHeBre1WFLiUZQ5t8lH6Sqs7KUKyd/u
+	t48=
+X-IronPort-AV: E=Sophos;i="5.69,301,1571695200"; 
+   d="scan'208";a="3494126"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>, Joshua Watt
+	<jpewhacker@gmail.com>
+Thread-Topic: [bitbake-devel] hashequiv, pseudo, and GIDs
+Thread-Index: AQHVsDYLm74OpLmGakKsrD4IfcF0Sqe1GqRg
+Date: Wed, 11 Dec 2019 16:25:42 +0000
+Message-ID: <318f567345524ba08950eb1c0daa3ec6@XBOX03.axis.com>
+References: <CY4PR12MB16537AC33CB9D19F94A126458B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
+	<CAJdd5GZ0LTrTtU=gYMp0ZqTwQA9UQyU7WMx6mNG2scv--7wNVw@mail.gmail.com>
+	<CY4PR12MB16536C79902AB2538F4206508B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
+In-Reply-To: <CY4PR12MB16536C79902AB2538F4206508B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [bitbake-devel] hashequiv, pseudo, and GIDs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,50 +42,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2019 16:16:06 -0000
+X-List-Received-Date: Wed, 11 Dec 2019 16:25:43 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-With out these changes, a traceback displayed when a file
-is listed in the SRC_URI but the file does not exist.
+> -----Original Message-----
+> From: bitbake-devel-bounces@lists.openembedded.org <bitbake-devel-
+> bounces@lists.openembedded.org> On Behalf Of chris.laplante--- via
+> bitbake-devel
+> Sent: den 11 december 2019 16:17
+> To: Joshua Watt <jpewhacker@gmail.com>
+> Cc: bitbake-devel@lists.openembedded.org; Openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [bitbake-devel] hashequiv, pseudo, and GIDs
+>=20
+> > > So why is the group name used in the hash, as opposed to the GID?=20
+> > > (I also have the same question regarding user name vs UID). If
+> > > the GID was used we wouldn't have this issue.
+> >
+> > That was done in response to this mailing list thread:
+> > http://lists.openembedded.org/pipermail/openembedded-core/2019-January/=
+277755.html
+> >
+> > Basically, the GID and UID aren't stable values across builds so the
+> > suggestion was to use the names. My understanding was that this
+> > corresponded to how the user and groups are dealt with in general.
+>=20
+> That doesn't make sense (intuitively) to me. If I have a file with owner
+> GID 1000, and copy it to some system, then the group name is defined by
+> whatever groups happen to exist on the system. If I copy it to a differen=
+t
+> system, the owner group name might be different, depending on /etc/group.
+> In both cases, it is the GID of 1000 that is stable.
 
-raise FileNotFoundError and print the patch then mark the task as failed.
+That depends on how you copy the files. E.g., if you use a `tar | ssh tar`=
+=20
+pipeline to copy the files between the systems, it will be the user/group=20
+names that are used. If on the other hand you do it using an SD-card, then=
+=20
+it will be the UIDs/GIDs that are used.
 
-[v2]
-forgot to refresh patch.
-now print missing file
+> From a caching point of view, it seems incorrect to care about what the
+> corresponding group name happened to be at the time when the cache was
+> created.
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/classes/cve-check.bbclass | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+On the contrary. For almost all practical use cases you care about what=20
+user/group owns a file, not what UID/GID they happen to be. E.g., in the=20
+recipe (or Makefile or whatever) you typically want to specify that a=20
+file shall be owned by user foo, not UID 1234. Then, either you do not=20
+care about the actual UIDs used, or if you do, you use statically assigned=
+=20
+UIDs/GIDs for all users/groups. This is typically necessary if you want=20
+to be able to support upgrading your product, and it is very well=20
+supported by the useradd-staticids.bbclass.
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 01b3637..7412436 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -52,7 +52,10 @@ python do_cve_check () {
-     """
- 
-     if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
--        patched_cves = get_patches_cves(d)
-+        try:
-+            patched_cves = get_patches_cves(d)
-+        except FileNotFoundError:
-+            bb.fatal("Failure in searching patches")
-         patched, unpatched = check_cves(d, patched_cves)
-         if patched or unpatched:
-             cve_data = get_cve_info(d, patched + unpatched)
-@@ -129,6 +132,10 @@ def get_patches_cves(d):
-     for url in src_patches(d):
-         patch_file = bb.fetch.decodeurl(url)[2]
- 
-+        if not os.path.isfile(patch_file):
-+            bb.error("File Not found: %s" % patch_file)
-+            raise FileNotFoundError
-+
-         # Check patch file name for CVE ID
-         fname_match = cve_file_name_match.search(patch_file)
-         if fname_match:
--- 
-2.7.4
+> Chris
+
+//Peter
 
 
