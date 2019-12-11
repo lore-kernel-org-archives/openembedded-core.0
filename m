@@ -1,50 +1,22 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 11BEE7F935
+Return-Path: <quentin.schulz@streamunlimited.com>
+Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EF307ED3D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2019 04:06:12 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id c13so873240pls.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 10 Dec 2019 20:06:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=kzvLJuBoTGkH/HjBnTVZNesKQXytBPMBrkQ+mweExcA=;
-	b=o/M0LYBormufh/Q7yiXfJENoHiszyjlA8F+152C/yfKC3nRoItUP41nXtKCB/au8gs
-	jBsIqAsr/4AzQqMMH1M1yQEXqtA/rN5uXGOyyipldlpYJdrEQiCXX644rB1c3wT5rhfF
-	zl7k2fhJuoximBiNL1gk2lttvqJHvoCGhoxv0w4p+QPBV+SvMuYCGor9LMWGPzKjJiLZ
-	5rOmXvoxbZVs82znkW/RmqYO3G1YpvCXnS30pvTT9xlUUz+VOTbS3R/vVteDicP+NDN+
-	rAiIgKb6+m7xD/C70OIYcGvSXDYma0OajT3OfYNb31bexFde0a7m/Ii6N/1XuQn3oAyB
-	bf5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=kzvLJuBoTGkH/HjBnTVZNesKQXytBPMBrkQ+mweExcA=;
-	b=JH4B+HKHkv1cPlEcAwqvlibLCMoPEX3hnVv1j3RhiFF/DJ+3apavLlPRiMhAiaZQxM
-	Qj5I6y7lO2Q+K83xnWlBpV4YO55BQdRxQCQd4hzQrCSbgS9kzdWh9jy/K5dVTqT0C/O/
-	saQeBNqvwfR/1dge+XaR7EaEx6/o9LG6OgydGc/1GteOEKIhdMhdSdXya7ZSrq02VhBD
-	mvKyIOW6NneDlWCLDnqUZDmJ0vl04DNNStIA54bDw60R4Uep+0IfCMWIWNnYoCaRHZyp
-	NjdxsO72yLg9cbwVZIPe/Onkge7nBw621Xx5XBodEQ3hQ4h1/GVM95fTOo/JjiOyt2nf
-	mZkA==
-X-Gm-Message-State: APjAAAVzJwSJGXTQU1fRbSaxvSkPqMKKofXm4vv/rBhKSP/7MDkvVuKB
-	qlGnt9badc/i4+LvOhnVKywDvCSPga4=
-X-Google-Smtp-Source: APXvYqwq8CLY8XYY/3Z6ZqAl1Z/UeaB7Wyz8chO1c3cI3IUN/q98EW2GqiFecRYEOPXZQ11iEXcviw==
-X-Received: by 2002:a17:90a:8902:: with SMTP id
-	u2mr1154580pjn.85.1576037173452; 
-	Tue, 10 Dec 2019 20:06:13 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::3552])
-	by smtp.gmail.com with ESMTPSA id bo9sm486209pjb.21.2019.12.10.20.06.12
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 10 Dec 2019 20:06:12 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 10 Dec 2019 20:06:00 -0800
-Message-Id: <20191211040600.783068-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.0
+	Wed, 11 Dec 2019 09:48:49 +0000 (UTC)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp2.bon.at (Postfix) with ESMTPSA id 47XsZT3sTDz5tlM;
+	Wed, 11 Dec 2019 10:48:48 +0100 (CET)
+Date: Wed, 11 Dec 2019 10:48:47 +0100
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Message-ID: <20191211094847.psxarymfddjjto42@qschulz>
+References: <20191211031126.22782-1-pkj@axis.com>
+	<20191211031126.22782-8-pkj@axis.com>
 MIME-Version: 1.0
-Subject: [PATCH v2] libpng: Correct SRC_URI path
+In-Reply-To: <20191211031126.22782-8-pkj@axis.com>
+User-Agent: NeoMutt/20180716
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2 8/8] incompatible_lic.py: Add tests for incompatible licenses with wildcards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +29,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2019 04:06:13 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 11 Dec 2019 09:48:50 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes fetcher warning
-WARNING: libpng-1.6.37-r0 do_fetch: Failed to fetch URL https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.xz, attempting MIRRORS if available
+Hi Peter,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Fix a typo in specifying var in SRC_URI
+On Wed, Dec 11, 2019 at 04:11:26AM +0100, Peter Kjellerstedt wrote:
+> Suggested-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+> 
+> PATCHv2: New in this patch set.
+> 
+>  .../oeqa/selftest/cases/incompatible_lic.py   | 42 +++++++++++++++++++
+>  1 file changed, 42 insertions(+)
+> 
+> diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> index 458a940618..3eabd79097 100644
+> --- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> +++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+> @@ -23,6 +23,18 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+>      def test_incompatible_alias_spdx_license(self):
+>          self.lic_test('incompatible-license', 'GPL-3.0', 'GPLv3')
+>  
+> +    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
+> +    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded license
+> +    # matching this SPDX license
+> +    def test_incompatible_spdx_license_wildcard(self):
+> +        self.lic_test('incompatible-license', 'GPL-3.0', '*GPL-3.0')
+> +
+> +    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
+> +    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded alias
+> +    # license matching this SPDX license
+> +    def test_incompatible_alias_spdx_license_wildcard(self):
+> +        self.lic_test('incompatible-license', 'GPL-3.0', '*GPLv3')
+> +
+>      # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
+>      # license cannot be built when INCOMPATIBLE_LICENSE contains this SPDX
+>      # license
+> @@ -34,6 +46,36 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+>      def test_incompatible_alias_spdx_license_alias(self):
+>          self.lic_test('incompatible-license-alias', 'GPL-3.0', 'GPLv3')
+>  
+> +    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
+> +    # license cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
+> +    # license matching this SPDX license
+> +    def test_incompatible_spdx_license_alias_wildcard(self):
+> +        self.lic_test('incompatible-license-alias', 'GPL-3.0', '*GPL-3.0')
+> +
+> +    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
+> +    # license cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
+> +    # alias license matching the SPDX license
+> +    def test_incompatible_alias_spdx_license_alias_wildcard(self):
+> +        self.lic_test('incompatible-license-alias', 'GPL-3.0', '*GPLv3')
+> +
+> +    # Verify that a package with multiple SPDX licenses (from
+> +    # AVAILABLE_LICENSES) cannot be built when INCOMPATIBLE_LICENSE contains
+> +    # some of them
+> +    def test_incompatible_spdx_licenses(self):
+> +        self.lic_test('incompatible-licenses', 'GPL-3.0 LGPL-3.0', 'GPL-3.0 LGPL-3.0')
+> +
 
- meta/recipes-multimedia/libpng/libpng_1.6.37.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I think you forgot to add
+meta-selftest/recipes-test/license/incompatible-licenses.bb in your
+patch :)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-index 78f3248d739..8c53d116420 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-@@ -7,11 +7,11 @@ DEPENDS = "zlib"
- 
- LIBV = "16"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/${BP}.tar.xz"
- SRC_URI[md5sum] = "015e8e15db1eecde5f2eb9eb5b6e59e9"
- SRC_URI[sha256sum] = "505e70834d35383537b6491e7ae8641f1a4bed1876dbfe361201fc80868d88ca"
- 
--MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/ ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/${PV}/"
-+MIRRORS += "${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/ ${SOURCEFORGE_MIRROR}/${BPN}/${BPN}${LIBV}/older-releases/"
- 
- UPSTREAM_CHECK_URI = "http://libpng.org/pub/png/libpng.html"
- 
--- 
-2.24.0
+2019-12-11 10:40:13,581 - oe-selftest - INFO - test_incompatible_all_licenses_wildcard (incompatible_lic.IncompatibleLicenseTests)
+2019-12-11 10:40:18,658 - oe-selftest - INFO -  ... FAIL
+2019-12-11 10:40:18,658 - oe-selftest - INFO - Traceback (most recent call last):
+  File "/tmp/poky/meta/lib/oeqa/selftest/cases/incompatible_lic.py", line 77, in test_incompatible_all_licenses_wildcard
+    self.lic_test('incompatible-licenses', 'GPL-2.0 GPL-3.0 LGPL-3.0', '*')
+  File "/tmp/poky/meta/lib/oeqa/selftest/cases/incompatible_lic.py", line 13, in lic_test
+    raise AssertionError(result.output)
+AssertionError: Parsing recipes...done.
+ERROR: Nothing PROVIDES 'incompatible-licenses'. Close matches:
+  incompatible-license
+  incompatible-license-alias
+  incompatible-nonspdx-license
+Parsing of 798 .bb files complete (0 cached, 798 parsed). 1332 targets, 763 skipped, 0 masked, 0 errors.
 
+Summary: There was 1 ERROR message shown, returning a non-zero exit code.
+
+Thanks for the added tests.
+
+Looks good to me otherwise. I don't really know if YP cares about the
+Reviewed-by in patches (seems not by quickly looking in the git
+history), but for the whole path series:
+
+Reviewed-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+
+Thanks!
+Quentin
 
