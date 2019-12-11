@@ -1,80 +1,49 @@
-Return-Path: <chris.laplante@agilent.com>
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com
-	(mail-dm6nam10on2063.outbound.protection.outlook.com [40.107.93.63])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F72F7FA2E;
-	Wed, 11 Dec 2019 15:16:34 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=WnJNq/EKkLi+N+1fZVISs6F6rGuYSYfavUuOMT+rmlMRJJGEt6Zzqs4JJOLYuXMwj6Zp/Z9/94himy1l4rkzEvWQvoxoZCvvct4Bu69HNmjUZK00KpHg0bQA9HDG+bflJ+Yp8j/CmG608/8eV42xErU1sBCM/1emikksLsDDX9r64bwrPy7xCIHBcIReE6jHpAxZHKwHATbqqxpH/yViQ2mPE8xeNslHeYZrF7cJ92eJVwRgFqbRXr1FwlMpnmyJnHpErYsy0G1FvKcuKaSf1KrGy6MM/WHEdtSUz1cUk2+1rzf82agLTmTEY8uIo0FZmcGPvq2Oep51Jp74NFcYHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=PTMfvSpbJJY7K7VNxs4XSFoQZJ1emUB1Lzc/qYdLEw8=;
-	b=Y33iQi5214SGFaV2T0jxdXdpuHqEESOu2XLc6sfUDFu4VfDlvZqOg3a5PbxUzAXP3EJE0F05M2GO2w/M6N2JNgRCffq35s9yBEsnYTR69+QKhxdI5hO+UuM4fe1NHGIxim9aM3WKjN1loFtfNHtGyIiPb4qkw3SC0T9aMFF9eULGlhZcqeNO8cK8Ca5xQmW944gmgZcxuRszga7u37pdUu7PLft/NY8Cm4YYWw6DMwDef3yvR5aSsyPvtchdhSg3JKw4VuOk3at1NBMt3qC3BUobklVlXNp97qb4i9M+cgdhpvnR5JRzxDlqKHxDO9RlbfEyZPsvQWJ/DB+9IpWkgQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=agilent.com;
-	dmarc=pass action=none header.from=agilent.com; 
-	dkim=pass header.d=agilent.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector2;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=PTMfvSpbJJY7K7VNxs4XSFoQZJ1emUB1Lzc/qYdLEw8=;
-	b=RTZZD3Nn9rDw1YTSpvQIaRLkvjtQGCBOMX30aUsehQ48uzAYB2JGiN5ApVUcp/ZAQpjBVJ6uMWUb5rDZgVUzk57xKssXRV55o5G9daAlMGoLVjQsoDL7+KYD/FiQJCJLl+fbOLFk9o51MxDPAo3A9sDYTrwk0fXZK2FF1emMxTs=
-Received: from CY4PR12MB1653.namprd12.prod.outlook.com (10.172.71.137) by
-	CY4PR12MB1590.namprd12.prod.outlook.com (10.172.69.8) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2516.17; Wed, 11 Dec 2019 15:16:35 +0000
-Received: from CY4PR12MB1653.namprd12.prod.outlook.com
-	([fe80::8048:9c4a:16a1:f584]) by
-	CY4PR12MB1653.namprd12.prod.outlook.com
-	([fe80::8048:9c4a:16a1:f584%4]) with mapi id 15.20.2516.018;
-	Wed, 11 Dec 2019 15:16:35 +0000
-From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Thread-Topic: [bitbake-devel] hashequiv, pseudo, and GIDs
-Thread-Index: AdWvxXGeOYsqYFTMSCmAlM1iHqCZyQAEnsAAABdChhA=
-Date: Wed, 11 Dec 2019 15:16:35 +0000
-Message-ID: <CY4PR12MB16536C79902AB2538F4206508B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
-References: <CY4PR12MB16537AC33CB9D19F94A126458B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
-	<CAJdd5GZ0LTrTtU=gYMp0ZqTwQA9UQyU7WMx6mNG2scv--7wNVw@mail.gmail.com>
-In-Reply-To: <CAJdd5GZ0LTrTtU=gYMp0ZqTwQA9UQyU7WMx6mNG2scv--7wNVw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chris.laplante@agilent.com; 
-x-originating-ip: [4.16.127.92]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: b9cb0fb8-c793-4fd0-79e4-08d77e4d1c95
-x-ms-traffictypediagnostic: CY4PR12MB1590:
-x-microsoft-antispam-prvs: <CY4PR12MB15902BA15B9FD3CFFB93519C8B5A0@CY4PR12MB1590.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 024847EE92
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39860400002)(366004)(136003)(396003)(346002)(376002)(29502001)(199004)(189003)(5660300002)(55016002)(81166006)(81156014)(2906002)(26005)(6506007)(9686003)(4326008)(76116006)(52536014)(66556008)(71200400001)(66946007)(316002)(8676002)(66476007)(7696005)(64756008)(66446008)(54906003)(6916009)(33656002)(186003)(86362001)(478600001)(8936002)(966005);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1590;
-	H:CY4PR12MB1653.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: agilent.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: P6qkss8XJEy2aNl4R1XqHYxFvxcV5eU+0kmc2Lx+hoIQSCKZNRVs7rsfrQBJ8VzIWLxMdXJ/kWeSSKx15ZI+muJEClSr1gK/im0mQNUcGdPKUTSuBrliIjok+w2DQb7pO6ZJ+UqX87vnrDlqEtNZz/lxYO9JxXCF+lUpv8bH8wRl70QeMB11zjXECvAbLxf6TR/wgtkiHCh2uenn3enOSYYGOzHOZ4Ap3yPvEhkfuujpmbU2gBgUlvA7/WZygfx39Qkd2TJuQhkTA9K3x3YRd//mecd2mUgvifuAvHd4NycrDqS1wHE2nbGTRAqIe614vCMq1zNzG9fxE29PjTLXqUyKDhkLdCSTWQUEAkxo9bzWqKsRXH5DJ2ZwzZ4IZW2lVd1dYhi0YeGwC/r5mgU+0Ivq/yD0EHn86QGAObc0PntET/CQyN7fUyjDYAnV0P/w4gTD8ZRQRD5Smo+YUH9WqCo7k8Z1cxCZPY/QjHwlBiH+D+pgJwmRl/evjEhuvMpv2ETpVyNtaMW2Fhn2RQunb2ZpR/DnU9MLX0Mmm8Ycmmw=
-x-ms-exchange-transport-forked: True
-MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9cb0fb8-c793-4fd0-79e4-08d77e4d1c95
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Dec 2019 15:16:35.1515 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: P2OUsQpkWt6J75j4UFm3w2hC8W1Z1tEIcXNB84tu0VoouV66MedYbOFb39VhCBkjFzlupgOjh8BecXVnNhl0bgT2u71VbFiXQY0lO1+E+W8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1590
-Cc: "bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>,
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [bitbake-devel] hashequiv, pseudo, and GIDs
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 170E17FA30
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Dec 2019 15:57:57 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id w23so9105881pjd.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 11 Dec 2019 07:57:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=QjK9cV5OUDsv26KiqZnW9gHLJM/E3c5kJBKU5iyMnVo=;
+	b=j1FaR4S8YLuVQPjewHnoPvqnze4D2CXv5MKPzvk3BoQ+XBaFRPGA6i5Q67FpqVohx6
+	mJ5OqYd6d2T9IBiVHL2UsdY7zFdpxbyFe2dmuVRWl/njSFtaqi85dM+ouYdu1Aw1eVfw
+	uqubHrbA68qJy3ZMJq6c9QpQv8VG5ZXdzaO4CxnDX2Fe6c8/VOEqI23xZu4kA/5977ZB
+	l0/lufO1fO+6GTN1wODiR9OrxmL603GeCj8dVjeEVQx5igqOQF0Dz1koNBztOQD056PT
+	xY54NEe/fXzfLpVS7ARCllKDpNNDmfGbsgtcnekQ6rDLoNMxS0lGn4W87nk8C4mKyGM3
+	CgBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=QjK9cV5OUDsv26KiqZnW9gHLJM/E3c5kJBKU5iyMnVo=;
+	b=uLRl2fzTjzGizaVNgL0AO5Si4vV+iRnCoibjVjamqRriqdTsazw5Jh927EnybsgT6c
+	MYJwW1RkW/dS3T5Qso+vjCwm6m89et40Sl+HB56HajTbjxiwOFz3dcQl7ASom+iuxJca
+	yeFtsbij0ZDp31r+pqEQbsZA8pTA8/1PtFqDfHCcFjVj6f9B7ty+0ggo2NOMG8sfYd+N
+	bvBBosQ7p3gEFhXgwAofUlsw46uJSCyVsWOemu+nNTEF5kA54FyeeyjeYpdrOoBN8OqL
+	gIS32PBpFLrRW071ANrwP2hz5VWwMVDf5ff+ju84gzDboWdlaLTmawODqDePw15z2Zbs
+	416w==
+X-Gm-Message-State: APjAAAXTXYOuaYEkMg/fZ9SmfYnu8BuJ45vL7Cen8cyOgJSSJN23WIXq
+	HFPbj2Do9HtKZdu9xUFh9fOwhOz3gls=
+X-Google-Smtp-Source: APXvYqzoUit71DLpEpVTJz60YtD5Ip5rQrmL7BZbvAgoRmA2n1A91H7DEt6ypGvyR/PskK1YCkHdwQ==
+X-Received: by 2002:a17:90a:d801:: with SMTP id
+	a1mr4399351pjv.34.1576079878752; 
+	Wed, 11 Dec 2019 07:57:58 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:50a9:9288:81a1:163b])
+	by smtp.gmail.com with ESMTPSA id o6sm3455566pgg.37.2019.12.11.07.57.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 11 Dec 2019 07:57:58 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 11 Dec 2019 07:57:56 -0800
+Message-Id: <1576079876-13443-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] cve-check: fail gracefully when file not found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -87,28 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2019 15:16:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 11 Dec 2019 15:57:58 -0000
 
-PiA+IFNvIHdoeSBpcyB0aGUgZ3JvdXAgbmFtZSB1c2VkIGluIHRoZSBoYXNoLCBhcyBvcHBvc2Vk
-IHRvIHRoZSBHSUQ/IChJIGFsc28gaGF2ZSB0aGUgc2FtZSBxdWVzdGlvbiByZWdhcmRpbmcgdXNl
-ciBuYW1lIHZzIFVJRCkuIElmDQo+IHRoZSBHSUQgd2FzIHVzZWQgd2Ugd291bGRuJ3QgaGF2ZSB0
-aGlzIGlzc3VlLg0KPiANCj4gVGhhdCB3YXMgZG9uZSBpbiByZXNwb25zZSB0byB0aGlzIG1haWxp
-bmcgbGlzdCB0aHJlYWQ6DQo+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL3BpcGVybWFp
-bC9vcGVuZW1iZWRkZWQtY29yZS8yMDE5LUphbnVhcnkvMjc3NzU1Lmh0bWwNCj4gDQo+IEJhc2lj
-YWxseSwgdGhlIEdJRCBhbmQgVUlEIGFyZW4ndCBzdGFibGUgdmFsdWVzIGFjcm9zcyBidWlsZHMg
-c28gdGhlDQo+IHN1Z2dlc3Rpb24gd2FzIHRvIHVzZSB0aGUgbmFtZXMuIE15IHVuZGVyc3RhbmRp
-bmcgd2FzIHRoYXQgdGhpcw0KPiBjb3JyZXNwb25kZWQgdG8gaG93IHRoZSB1c2VyIGFuZCBncm91
-cHMgYXJlIGRlYWx0IHdpdGggaW4gZ2VuZXJhbC4NCg0KVGhhdCBkb2Vzbid0IG1ha2Ugc2Vuc2Ug
-KGludHVpdGl2ZWx5KSB0byBtZS4gSWYgSSBoYXZlIGEgZmlsZSB3aXRoIG93bmVyIEdJRCAxMDAw
-LCBhbmQgY29weSBpdCB0byBzb21lIHN5c3RlbSwgdGhlbiB0aGUgZ3JvdXAgbmFtZSBpcyBkZWZp
-bmVkIGJ5IHdoYXRldmVyIGdyb3VwcyBoYXBwZW4gdG8gZXhpc3Qgb24gdGhlIHN5c3RlbS4gSWYg
-SSBjb3B5IGl0IHRvIGEgZGlmZmVyZW50IHN5c3RlbSwgdGhlIG93bmVyIGdyb3VwIG5hbWUgbWln
-aHQgYmUgZGlmZmVyZW50LCBkZXBlbmRpbmcgb24gL2V0Yy9ncm91cC4gSW4gYm90aCBjYXNlcywg
-aXQgaXMgdGhlIEdJRCBvZiAxMDAwIHRoYXQgaXMgc3RhYmxlLiANCg0KRnJvbSBhIGNhY2hpbmcg
-cG9pbnQgb2YgdmlldywgaXQgc2VlbXMgaW5jb3JyZWN0IHRvIGNhcmUgYWJvdXQgd2hhdCB0aGUg
-Y29ycmVzcG9uZGluZyBncm91cCBuYW1lIGhhcHBlbmVkIHRvIGJlIGF0IHRoZSB0aW1lIHdoZW4g
-dGhlIGNhY2hlIHdhcyBjcmVhdGVkLiANCg0KQ2hyaXMgDQo=
+With out these changes, a traceback displayed when a file
+is listed in the SRC_URI but the file does not exist.
+
+raise FileNotFoundError and print the patch then mark the task as failed.
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/classes/cve-check.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 01b3637..c2dbb8d 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -52,7 +52,10 @@ python do_cve_check () {
+     """
+ 
+     if os.path.exists(d.getVar("CVE_CHECK_DB_FILE")):
+-        patched_cves = get_patches_cves(d)
++        try:
++            patched_cves = get_patches_cves(d)
++        except FileNotFoundError:
++            bb.fatal("Failure in searching patches")
+         patched, unpatched = check_cves(d, patched_cves)
+         if patched or unpatched:
+             cve_data = get_cve_info(d, patched + unpatched)
+@@ -129,6 +132,9 @@ def get_patches_cves(d):
+     for url in src_patches(d):
+         patch_file = bb.fetch.decodeurl(url)[2]
+ 
++        if not os.path.isfile(patch_file):
++            raise FileNotFoundError
++
+         # Check patch file name for CVE ID
+         fname_match = cve_file_name_match.search(patch_file)
+         if fname_match:
+-- 
+2.7.4
+
 
