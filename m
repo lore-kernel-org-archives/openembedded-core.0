@@ -1,31 +1,34 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 30B167FA1A
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 8454D7FA13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2019 00:34:57 +0000 (UTC)
-IronPort-SDR: emLH6ZZsT2+7FwAtmEKSZN5IAPUSOTCuQqKn93bYAH1F3IuypFqoBn2w7xOdiKmjvpCkhareBi
-	I3qBNmW4VeBsX7W6qsQ+dKXoDn6ewflp882sVmqTGgjzl3cY2Dse5014NUqzbfVH8s8JvG3OR2
-	1kPd1n/u7Wm7kgjMabDQzgWamGib2jcCFXtypB6IA4zcNAuUFNk6iJvWzJiZh9uUZ+hLRdo4yT
-	BtuSz3Ri2EBSD4gH8tss06zrf0reyYfR2NKNr3eQ+90PUkAThmiwL2LHw4COjDdvtMRfoAFNZB
-	UvU=
+	Wed, 11 Dec 2019 00:51:25 +0000 (UTC)
+IronPort-SDR: bx7c39oepqxekzBrwC4+3nnUc0PP3XoMZ06SxkiV/s8pF/BS3Xv7HWG4FfaGFK7mBFiBmQbDgu
+	fxURJGksJEVTgcqEbwluaBOVTDqW3Utqt62MXa86yNdllUOGZhgDrn4l7sKKWtXvkWaqjnesq7
+	hwYhKmb6XpRZwE3D/Z+r2kXMdIrNBP9/7brSe28U0nacZgssptgalg8KTUiGehX7qzxOvfUrzT
+	1+93ulhBTM1uRLre5Wp3S+E3/aXPRVoix2/GDGYbxEVrdSTEj6kWuT1OUV+bPr9o5zI4T+efye
+	iFw=
 X-IronPort-AV: E=Sophos;i="5.69,301,1571695200"; 
-   d="scan'208";a="3461754"
+   d="scan'208";a="3358536"
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "claus.stovgaard@gmail.com" <claus.stovgaard@gmail.com>, oe-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] connman dependency of readline
-Thread-Index: AQHVrRS4iSsyKcPrK0mc3DtFanBJiKe0GP6g
-Date: Wed, 11 Dec 2019 00:34:57 +0000
-Message-ID: <89df20728e824340bd9f7193b01cf978@XBOX03.axis.com>
-References: <8746d8e88a538d8abede3a76718fd594ca895af0.camel@gmail.com>
-In-Reply-To: <8746d8e88a538d8abede3a76718fd594ca895af0.camel@gmail.com>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Thread-Topic: [OE-core] [PATCH 1/7] license.bbclass: Introduce
+	AVAILABLE_LICENSES that lists all licenses
+Thread-Index: AQHVrnS3l56ux/xf7Ea1ZTnyAcoGHKe0G0tw
+Date: Wed, 11 Dec 2019 00:51:25 +0000
+Message-ID: <a9aa0682d4044e2fa2c55a9f4e1e3687@XBOX03.axis.com>
+References: <20191207053815.1757-1-pkj@axis.com>
+	<20191209094030.pvfalrwhipafpnp4@qschulz>
+In-Reply-To: <20191209094030.pvfalrwhipafpnp4@qschulz>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: Re: connman dependency of readline
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/7] license.bbclass: Introduce AVAILABLE_LICENSES that lists all licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,56 +41,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 11 Dec 2019 00:34:58 -0000
+X-List-Received-Date: Wed, 11 Dec 2019 00:51:27 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
 > -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of claus.stovgaard@gmail.com
-> Sent: den 7 december 2019 16:41
-> To: oe-core <openembedded-core@lists.openembedded.org>
-> Subject: [OE-core] connman dependency of readline
+> From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+> Sent: den 9 december 2019 10:41
+> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/7] license.bbclass: Introduce
+> AVAILABLE_LICENSES that lists all licenses
 >=20
-> Hi
+> Hi Peter,
 >=20
-> I am starting to use Yocto / OpenEmbedded, where I was looking into
-> using ConnMan as network manager.
+> On Sat, Dec 07, 2019 at 06:38:09AM +0100, Peter Kjellerstedt wrote:
+> > Previously, there was SRC_DISTRIBUTE_LICENSES, an undocumented
+> > variable that contained a static list of licenses. It was used by
+> > expand_wildcard_licenses() to expand any wildcards used in, e.g.,
+> > INCOMPATIBLE_LICENSE. However, since this static list of licenses has
+> > not been kept up-to-date, many licenses were missing, with the result
+> > that if one tried to use any of those licenses with a wildcard, no
+> > licenses would be found, effectively ignoring that they should be
+> > marked as incompatible.
+> >
+> > This introduces a new (documented) variable, AVAILABLE_LICENSES, that
+> > is automatically updated to contain all licenses found in any
+> > directories specified by ${COMMON_LICENSE_DIR} and ${LICENSE_PATH},
+> > and uses it instead of SRC_DISTRIBUTE_LICENSES when expanding
+> > wildcards.
+> >
 >=20
-> Though I was wondering about the readline dependency.
-> Looking at the recipe
-> https://github.com/openembedded/openembedded-core/blob/master/meta/recipe=
-s-connectivity/connman/connman.inc
-> it is set to always depend on readline in the DEPENDS variable, even
-> though as far as I know it is only the connmanctl which depend on
-> readline.
-> In EXTRA_OECONF the --enable-client is hardcoded.
+> Great addition, thanks!
 >=20
-> The client is though not included in the image unless you also add
-> connman-client.
+> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > ---
+> >  meta/classes/license.bbclass                  | 27 ++++++++++++++++---
+> >  meta/conf/documentation.conf                  |  1 +
+> >  .../oeqa/selftest/cases/incompatible_lic.py   |  6 ++---
+> >  3 files changed, 27 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclas=
+s
+> > index 648a4d7892..20af6d34b6 100644
+> > --- a/meta/classes/license.bbclass
+> > +++ b/meta/classes/license.bbclass
+> > @@ -252,7 +252,7 @@ def canonical_license(d, license):
+> >      """
+> >      Return the canonical (SPDX) form of the license if available (so G=
+PLv3
+> >      becomes GPL-3.0), for the license named 'X+', return canonical for=
+m of
+> > -    'X' if availabel and the tailing '+' (so GPLv3+ becomes GPL-3.0+),
+> > +    'X' if availabel and the tailing '+' (so GPLv3+ becomes GPL-3.0+),
 >=20
-> So I am thinking on creating a patch where I create a
-> PACKAGECONFIG[readline] like bluez5, as I would not need the client and
-> will need not to include readline because of GPLv3.
+> Might not be fully awake yet but looks like it's a spurious change here.
 
-If readline is only needed to build the connman client and it is=20
-packaged in a separate package, then you are only affected by=20
-readline's GPL-3.0 license if you install that package. If you do=20
-not install it you are ok even if readline is needed during the=20
-build. So there should not be any real need to disable the building=20
-of the client.
+There was a trailing space on that line that I removed.
 
-> I guess email is the prefered way for patches compared to github pull
-> requests?
+> Though, there's actually a typo in availabel that could be fixed :)
+
+Now that you mention it, there actually is. Might as well fix that=20
+too now that it has been discovered.
+
+> [...]
+> >
+> >      # Verify that a package with a non-SPDX license (neither in
+> > -    # SRC_DISTRIBUTE_LICENSES nor in SPDXLICENSEMAP) cannot be built w=
+hen
+> > +    # AVAILABLE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
+> >      # INCOMPATIBLE_LICENSE contains this license
+> >      def test_incompatible_nonspdx_license(self):
+> >          self.lic_test('incompatible-nonspdx-license', 'FooLicense', 'F=
+ooLicense')
+> > --
 >=20
-> Instead of my idea of creating as PACKAGECONFIG[readline], is there a
-> better way so it is only included if connman-client is used, instead of
-> just connman?
->=20
-> Have a nice weekend.
-> Claus Stovgaard
+> I think it could be great to have a new test in that selftest file to
+> check that INCOMPATIBLE_LICENSE works with wildcards for licenses not in
+> SRC_DISTRIBUTE_LICENSES.
+
+Well, I remove SRC_DISTRIBUTE_LICENSES in the next commit so I do not=20
+see what that would add?
+
+> Thanks,
+> Quentin
 
 //Peter
 
