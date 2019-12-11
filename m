@@ -1,28 +1,26 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id ED9FE7FC41
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 469FA7FC0D
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 11 Dec 2019 03:11:30 +0000 (UTC)
-IronPort-SDR: Ad6fmDY+Utyn8Oy1NSQ+2QRRzY9Htcgl+VfpN9rpPJwTGkk7T1sO7MnNzW7NpXUBFZCGyMFaqm
-	Usk/AlW0Gz3rjpUDrPDaJSjM5ueDIf9Tiqhqu5s8VTYq0rnmZd/FVz549EycQIBHl0AfJFz8lo
-	tpYN2QnNvl+LejmtDA+H1r6I7udvPYf73NnkLdIzPtbvqDt4240YeThMy15q0TEy5+tp3i/Dvv
-	18nzDSoEJuPwvMbHIriiAIr62k9Os9kvjchYZpCd3ybvOf1LTX825Y3Ns6O6adDmx/iy3WkG3j
-	Klw=
+IronPort-SDR: RsWPYnfMwWvWmcZP0NVbtP3Tzm+aGFZCAZ8QBqSNVEXAfbyf2d7QWbrbqcXuy1TH5irrCA32qA
+	o8rVqQuYncZFhxmFTgHHqiZ5uh/AgAMsTiHsUG2oMe7xLaJHwvU90y7/N1avnxNa3D4kf034XW
+	zbDtb7BlsydtFpuhKuX9C9EqnNsD3etuVxCBDtpMtUA10v6zWu6tgwPsbtxgUetFZ/vHvnL6Ia
+	vSrzYqMQndPs1+tD9AJvNnmPitnxU20QUSwv5py1z2hJgL9X33a/FeVdVBtN/6/IOxAOG9o6uE
+	a58=
 X-IronPort-AV: E=Sophos;i="5.69,301,1571695200"; 
-   d="scan'208";a="3360216"
+   d="scan'208";a="3463585"
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Dec 2019 04:11:20 +0100
-Message-Id: <20191211031126.22782-2-pkj@axis.com>
+Date: Wed, 11 Dec 2019 04:11:19 +0100
+Message-Id: <20191211031126.22782-1-pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20191211031126.22782-1-pkj@axis.com>
-References: <20191211031126.22782-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCHv2 2/8] licenses.conf: Remove the SRC_DISTRIBUTE_LICENSES variable
+Subject: [PATCHv2 1/8] license.bbclass: Introduce AVAILABLE_LICENSES that lists all licenses
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,70 +36,125 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 11 Dec 2019 03:11:31 -0000
 Content-Transfer-Encoding: 8bit
 
-The SRC_DISTRIBUTE_LICENSES variable and its static list of licenses
-has been replaced by AVAILABLE_LICENSES, which automatically contains
-all available licenses.
+Previously, there was SRC_DISTRIBUTE_LICENSES, an undocumented
+variable that contained a static list of licenses. It was used by
+expand_wildcard_licenses() to expand any wildcards used in, e.g.,
+INCOMPATIBLE_LICENSE. However, since this static list of licenses has
+not been kept up-to-date, many licenses were missing, with the result
+that if one tried to use any of those licenses with a wildcard, no
+licenses would be found, effectively ignoring that they should be
+marked as incompatible.
+
+This introduces a new (documented) variable, AVAILABLE_LICENSES, that
+is automatically updated to contain all licenses found in any
+directories specified by ${COMMON_LICENSE_DIR} and ${LICENSE_PATH},
+and uses it instead of SRC_DISTRIBUTE_LICENSES when expanding
+wildcards.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/conf/licenses.conf | 43 -----------------------------------------
- 1 file changed, 43 deletions(-)
 
-diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-index 7b01c57632..1c586a3bc6 100644
---- a/meta/conf/licenses.conf
-+++ b/meta/conf/licenses.conf
-@@ -1,44 +1,3 @@
--# These aren't actually used anywhere that I can tell
--# They may be in the future (or are used by someone else
--# For completion sake, I've updated them
--SRC_DISTRIBUTE_LICENSES += "AAL Adobe AFL-1.2 AFL-2.0 AFL-2.1 AFL-3.0"
--SRC_DISTRIBUTE_LICENSES += "AGPL-3.0 ANTLR-PD Apache-1.0 Apache-1.1 Apache-2.0"
--SRC_DISTRIBUTE_LICENSES += "APL-1.0 APSL-1.0 APSL-1.1 APSL-1.2 APSL-2.0"
--SRC_DISTRIBUTE_LICENSES += "Artistic-1.0 Artistic-2.0 BitstreamVera BSD"
--SRC_DISTRIBUTE_LICENSES += "BSD-2-Clause BSD-3-Clause BSD-4-Clause BSL-1.0"
--SRC_DISTRIBUTE_LICENSES += "CATOSL-1.1 CC0-1.0 CC-BY-1.0 CC-BY-2.0 CC-BY-2.5"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-3.0 CC-BY-NC-1.0 CC-BY-NC-2.0 CC-BY-NC-2.5"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-NC-3.0 CC-BY-NC-ND-1.0 CC-BY-NC-ND-2.0"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-NC-ND-2.5 CC-BY-NC-ND-3.0 CC-BY-NC-SA-1.0"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-NC-SA-2.0 CC-BY-NC-SA-2.5 CC-BY-NC-SA-3.0"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-ND-1.0 CC-BY-ND-2.0 CC-BY-ND-2.5 CC-BY-ND-3.0"
--SRC_DISTRIBUTE_LICENSES += "CC-BY-SA-1.0 CC-BY-SA-2.0 CC-BY-SA-2.5 CC-BY-SA-3.0 CC-BY-SA-4.0"
--SRC_DISTRIBUTE_LICENSES += "CDDL-1.0 CECILL-1.0 CECILL-2.0 CECILL-B CECILL-C"
--SRC_DISTRIBUTE_LICENSES += "ClArtistic CPAL-1.0 CPL-1.0 CUA-OPL-1.0 DSSSL"
--SRC_DISTRIBUTE_LICENSES += "ECL-1.0 ECL-2.0 eCos-2.0 EDL-1.0 EFL-1.0 EFL-2.0"
--SRC_DISTRIBUTE_LICENSES += "Entessa EPL-1.0 EPL-2.0 ErlPL-1.1"
--SRC_DISTRIBUTE_LICENSES += "EUDatagrid EUPL-1.0 EUPL-1.1 Fair Frameworx-1.0"
--SRC_DISTRIBUTE_LICENSES += "FreeType GFDL-1.1 GFDL-1.2 GFDL-1.3 GPL-1.0"
--SRC_DISTRIBUTE_LICENSES += "GPL-2.0 GPL-2.0-with-autoconf-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-2.0-with-classpath-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-2.0-with-font-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-2.0-with-GCC-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-2-with-bison-exception GPL-3.0"
--SRC_DISTRIBUTE_LICENSES += "GPL-3.0-with-autoconf-exception"
--SRC_DISTRIBUTE_LICENSES += "GPL-3.0-with-GCC-exception"
--SRC_DISTRIBUTE_LICENSES += "gSOAP-1 gSOAP-1.3b HPND IPA IPL-1.0 ISC LGPL-2.0"
--SRC_DISTRIBUTE_LICENSES += "LGPL-2.1 LGPL-3.0 Libpng LPL-1.02 LPPL-1.0 LPPL-1.1"
--SRC_DISTRIBUTE_LICENSES += "LPPL-1.2 LPPL-1.3c MirOS MIT Motosoto MPL-1.0"
--SRC_DISTRIBUTE_LICENSES += "MPL-1.1 MS-PL MS-RL Multics NASA-1.3 Nauman NCSA"
--SRC_DISTRIBUTE_LICENSES += "NGPL Nokia NPOSL-3.0 NTP OASIS OCLC-2.0 ODbL-1.0"
--SRC_DISTRIBUTE_LICENSES += "OFL-1.1 OGTSL OLDAP-2.8 OpenSSL OSL-1.0 OSL-2.0"
--SRC_DISTRIBUTE_LICENSES += "OSL-3.0 PD PHP-3.0 PostgreSQL Proprietary"
--SRC_DISTRIBUTE_LICENSES += "Python-2.0 QPL-1.0 RHeCos-1 RHeCos-1.1 RPL-1.5"
--SRC_DISTRIBUTE_LICENSES += "RPSL-1.0 RSCPL Ruby SAX-PD SGI-1 Simple-2.0 Sleepycat"
--SRC_DISTRIBUTE_LICENSES += "SPL-1.0 SugarCRM-1 SugarCRM-1.1.3 UCB VSL-1.0 W3C"
--SRC_DISTRIBUTE_LICENSES += "Watcom-1.0 WXwindows XFree86-1.0 XFree86-1.1 Xnet XSL YPL-1.1"
--SRC_DISTRIBUTE_LICENSES += "Zimbra-1.3 Zlib ZPL-1.1 ZPL-2.0 ZPL-2.1"
--
- # Standards are great! Everyone has their own. In an effort to standardize licensing
- # names, common-licenses will use the SPDX standard license names. In order to not
- # break the non-standardized license names that we find in LICENSE, we'll set
-@@ -188,5 +147,3 @@ FOSS_BASE_URL = "http://localhost/repo/?mod=spdx_license_once"
- FOSS_SERVER = "${FOSS_BASE_URL}&fullSPDXFlag=${FOSS_FULL_SPDX}&noCopyright=${FOSS_NO_COPYRIGHT}&recursiveUnpack=${FOSS_RECURSIVE_UNPACK}"
+PATCHv2: Correct spelling of 'available'.
+
+ meta/classes/license.bbclass                  | 27 ++++++++++++++++---
+ meta/conf/documentation.conf                  |  1 +
+ .../oeqa/selftest/cases/incompatible_lic.py   |  6 ++---
+ 3 files changed, 27 insertions(+), 7 deletions(-)
+
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index 648a4d7892..c388740003 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -252,7 +252,7 @@ def canonical_license(d, license):
+     """
+     Return the canonical (SPDX) form of the license if available (so GPLv3
+     becomes GPL-3.0), for the license named 'X+', return canonical form of
+-    'X' if availabel and the tailing '+' (so GPLv3+ becomes GPL-3.0+), 
++    'X' if available and the tailing '+' (so GPLv3+ becomes GPL-3.0+),
+     or the passed license if there is no canonical form.
+     """
+     lic = d.getVarFlag('SPDXLICENSEMAP', license) or ""
+@@ -262,10 +262,29 @@ def canonical_license(d, license):
+             lic += '+'
+     return lic or license
  
- FOSS_WGET_FLAGS = "-qO - --no-check-certificate --timeout=0"
--
--
++def available_licenses(d):
++    """
++    Return the available licenses by searching the directories specified by
++    COMMON_LICENSE_DIR and LICENSE_PATH.
++    """
++    lic_dirs = ((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' +
++                (d.getVar('LICENSE_PATH') or '')).split()
++
++    licenses = []
++    for lic_dir in lic_dirs:
++        licenses += os.listdir(lic_dir)
++
++    licenses = sorted(licenses)
++    return licenses
++
++# Only determine the list of all available licenses once. This assumes that any
++# additions to LICENSE_PATH have been done before this file is parsed.
++AVAILABLE_LICENSES := "${@' '.join(available_licenses(d))}"
++
+ def expand_wildcard_licenses(d, wildcard_licenses):
+     """
+-    Return actual spdx format license names if wildcard used. We expand
+-    wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
++    Return actual spdx format license names if wildcards are used. We expand
++    wildcards from SPDXLICENSEMAP flags and AVAILABLE_LICENSES.
+     """
+     import fnmatch
+     licenses = wildcard_licenses[:]
+@@ -274,7 +293,7 @@ def expand_wildcard_licenses(d, wildcard_licenses):
+         spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
+         licenses += [d.getVarFlag('SPDXLICENSEMAP', flag) for flag in spdxflags]
+ 
+-    spdx_lics = (d.getVar('SRC_DISTRIBUTE_LICENSES', False) or '').split()
++    spdx_lics = d.getVar('AVAILABLE_LICENSES').split()
+     for wld_lic in wildcard_licenses:
+         licenses += fnmatch.filter(spdx_lics, wld_lic)
+ 
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index fca36f3cf6..0b21d1f63e 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -69,6 +69,7 @@ ASSUME_SHLIBS[doc] = "List of shlib:package[_version] mappings. Useful for lib p
+ AUTHOR[doc] = "Email address used to contact the original author(s) in order to send patches and forward bugs."
+ AUTO_SYSLINUXMENU[doc] = "Enables creating an automatic menu for the syslinux bootloader."
+ AUTOREV[doc] = "When SRCREV is set to the value of this variable, it specifies to use the latest source revision in the repository."
++AVAILABLE_LICENSES[doc] = "List of licenses found in the directories specified by COMMON_LICENSE_DIR and LICENSE_PATH."
+ 
+ #B
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+index 904b5b4094..ad878571b5 100644
+--- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
++++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+@@ -12,12 +12,12 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+         if error_msg not in result.output:
+             raise AssertionError(result.output)
+ 
+-    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
++    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
+     # cannot be built when INCOMPATIBLE_LICENSE contains this SPDX license
+     def test_incompatible_spdx_license(self):
+         self.lic_test('incompatible-license', 'GPL-3.0', 'GPL-3.0')
+ 
+-    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
++    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
+     # cannot be built when INCOMPATIBLE_LICENSE contains an alias (in
+     # SPDXLICENSEMAP) of this SPDX license
+     def test_incompatible_alias_spdx_license(self):
+@@ -35,7 +35,7 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+         self.lic_test('incompatible-license-alias', 'GPLv3', 'GPLv3')
+ 
+     # Verify that a package with a non-SPDX license (neither in
+-    # SRC_DISTRIBUTE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
++    # AVAILABLE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
+     # INCOMPATIBLE_LICENSE contains this license
+     def test_incompatible_nonspdx_license(self):
+         self.lic_test('incompatible-nonspdx-license', 'FooLicense', 'FooLicense')
 -- 
 2.21.0
 
