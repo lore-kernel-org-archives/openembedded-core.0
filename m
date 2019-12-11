@@ -1,28 +1,28 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DA057FC75
+	by mail.openembedded.org (Postfix) with ESMTP id 89F647FC78
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 11 Dec 2019 03:11:32 +0000 (UTC)
-IronPort-SDR: un8wkPsEDthfNMnLciJsnA71ULruaG4JYy0HrpOw6GdejtbsLz+XK552XEpLTGs5xoqa4RJrlC
-	/7BpFSsbTxnEOpTjGFaUqymIitzHOQ3N+mfBLl7RYx5surIJeUTS8lJieCPfXri1rMDkwi8Y5+
-	+QugLaTFqvdkL3Ek8jJ8jlzpYAQ+lRsWkPfIrW4pIvF4TrEPsaQmWoqSnDR1CCwJmi3pKqdx9M
-	GYzl3VcA64pLIkkZ8wuBbPxj8L+OnMbN9mda0tT2QEo5QZlHH8wrm5SVJqvEyHrCPBQeGiUNVa
-	Fy0=
+IronPort-SDR: oD0eD/AW5NKNO5zb0GtQuw1U9asgEy+sXC6G9tbSgpVMvilZilWCYn845ur/aNqs72YCa8HEZW
+	VOyIu52uCy9d/2cqy2yKMolyiFSDGOwRRcleOB1Vo9unxCHyxFNWb6CvFFos0NCS6dmk8CSLPV
+	DRUwBmwkZ5vjUQ+h0CIF2i0CkKG5WRi5LHFDngeyk0pSyW4Z6ZfAHMBURBCBO9yg9gtLyd5/e7
+	xgMAncYFpP6LAcovmLogZ3W8FgzDvfenz5yEaay7X+a2E0Zy+tdGBeMz4Sc3ABB3mVVrjYboki
+	3XQ=
 X-IronPort-AV: E=Sophos;i="5.69,301,1571695200"; 
-   d="scan'208";a="3360219"
+   d="scan'208";a="3360220"
 X-Axis-User: NO
 X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 11 Dec 2019 04:11:25 +0100
-Message-Id: <20191211031126.22782-7-pkj@axis.com>
+Date: Wed, 11 Dec 2019 04:11:26 +0100
+Message-Id: <20191211031126.22782-8-pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20191211031126.22782-1-pkj@axis.com>
 References: <20191211031126.22782-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCHv2 7/8] license_image.bbclass: Report only the licenses that are incompatible
+Subject: [PATCHv2 8/8] incompatible_lic.py: Add tests for incompatible licenses with wildcards
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,54 +38,75 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 11 Dec 2019 03:11:33 -0000
 Content-Transfer-Encoding: 8bit
 
-Instead of reporting ${LICENSE} when a package cannot be installed
-into an image because it is using an incompatible license, report the
-license(s) that are actually incompatible.
-
+Suggested-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/license_image.bbclass               | 5 +++--
- meta/lib/oeqa/selftest/cases/incompatible_lic.py | 4 ++--
- 2 files changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index b5399b6d96..a8c72da3cb 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -51,8 +51,9 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-         for pkg in sorted(pkg_dic):
-             if bad_licenses and pkg not in whitelist:
-                 try:
--                    if incompatible_pkg_license(d, bad_licenses, pkg_dic[pkg]["LICENSE"]):
--                        bb.fatal("Package %s has an incompatible license %s and cannot be installed into the image." %(pkg, pkg_dic[pkg]["LICENSE"]))
-+                    licenses = incompatible_pkg_license(d, bad_licenses, pkg_dic[pkg]["LICENSE"])
-+                    if licenses:
-+                        bb.fatal("Package %s cannot be installed into the image because it has incompatible license(s): %s" %(pkg, ' '.join(licenses)))
-                     (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) = \
-                         oe.license.manifest_licenses(pkg_dic[pkg]["LICENSE"],
-                         bad_licenses, canonical_license, d)
+PATCHv2: New in this patch set.
+
+ .../oeqa/selftest/cases/incompatible_lic.py   | 42 +++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
 diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-index 9d1e801117..458a940618 100644
+index 458a940618..3eabd79097 100644
 --- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
 +++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-@@ -49,7 +49,7 @@ INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
+@@ -23,6 +23,18 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+     def test_incompatible_alias_spdx_license(self):
+         self.lic_test('incompatible-license', 'GPL-3.0', 'GPLv3')
  
-     def test_bash_default(self):
-         self.write_config(self.default_config())
--        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash has an incompatible license GPLv3+ and cannot be installed into the image."
-+        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash cannot be installed into the image because it has incompatible license(s): GPL-3.0+"
++    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
++    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded license
++    # matching this SPDX license
++    def test_incompatible_spdx_license_wildcard(self):
++        self.lic_test('incompatible-license', 'GPL-3.0', '*GPL-3.0')
++
++    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
++    # cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded alias
++    # license matching this SPDX license
++    def test_incompatible_alias_spdx_license_wildcard(self):
++        self.lic_test('incompatible-license', 'GPL-3.0', '*GPLv3')
++
+     # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
+     # license cannot be built when INCOMPATIBLE_LICENSE contains this SPDX
+     # license
+@@ -34,6 +46,36 @@ class IncompatibleLicenseTests(OESelftestTestCase):
+     def test_incompatible_alias_spdx_license_alias(self):
+         self.lic_test('incompatible-license-alias', 'GPL-3.0', 'GPLv3')
  
-         result = bitbake('core-image-minimal', ignore_status=True)
-         if error_msg not in result.output:
-@@ -57,7 +57,7 @@ INCOMPATIBLE_LICENSE_pn-core-image-minimal = "GPL-3.0 LGPL-3.0"
- 
-     def test_bash_and_license(self):
-         self.write_config(self.default_config() + '\nLICENSE_append_pn-bash = " & SomeLicense"')
--        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash has an incompatible license GPLv3+ & SomeLicense and cannot be installed into the image."
-+        error_msg = "ERROR: core-image-minimal-1.0-r0 do_rootfs: Package bash cannot be installed into the image because it has incompatible license(s): GPL-3.0+"
- 
-         result = bitbake('core-image-minimal', ignore_status=True)
-         if error_msg not in result.output:
++    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
++    # license cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
++    # license matching this SPDX license
++    def test_incompatible_spdx_license_alias_wildcard(self):
++        self.lic_test('incompatible-license-alias', 'GPL-3.0', '*GPL-3.0')
++
++    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
++    # license cannot be built when INCOMPATIBLE_LICENSE contains a wildcarded
++    # alias license matching the SPDX license
++    def test_incompatible_alias_spdx_license_alias_wildcard(self):
++        self.lic_test('incompatible-license-alias', 'GPL-3.0', '*GPLv3')
++
++    # Verify that a package with multiple SPDX licenses (from
++    # AVAILABLE_LICENSES) cannot be built when INCOMPATIBLE_LICENSE contains
++    # some of them
++    def test_incompatible_spdx_licenses(self):
++        self.lic_test('incompatible-licenses', 'GPL-3.0 LGPL-3.0', 'GPL-3.0 LGPL-3.0')
++
++    # Verify that a package with multiple SPDX licenses (from
++    # AVAILABLE_LICENSES) cannot be built when INCOMPATIBLE_LICENSE contains a
++    # wildcard to some of them
++    def test_incompatible_spdx_licenses_wildcard(self):
++        self.lic_test('incompatible-licenses', 'GPL-3.0 LGPL-3.0', '*GPL-3.0')
++
++    # Verify that a package with multiple SPDX licenses (from
++    # AVAILABLE_LICENSES) cannot be built when INCOMPATIBLE_LICENSE contains a
++    # wildcard matching all licenses
++    def test_incompatible_all_licenses_wildcard(self):
++        self.lic_test('incompatible-licenses', 'GPL-2.0 GPL-3.0 LGPL-3.0', '*')
++
+     # Verify that a package with a non-SPDX license (neither in
+     # AVAILABLE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
+     # INCOMPATIBLE_LICENSE contains this license
 -- 
 2.21.0
 
