@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7774F7FC06
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 01F237FC1A
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 Dec 2019 18:15:08 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id p17so3640146wmb.0
+Received: by mail-wr1-f67.google.com with SMTP id t2so3816623wrr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 10:15:09 -0800 (PST)
+	Thu, 12 Dec 2019 10:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=QiYv5OdsMBn4oyYfFG1itpiUq4yL9wLyXOp0tZEwiG8=;
-	b=doP5qq3MudiyTCUAIhlWbbtUGfj21TSDoTt/AZgIodMhW7Wce+b6+3XnYOwrlmLkqL
-	HwwgMnZRN55z1tXzRJEVP8SXvB1zI1UoFXAm0ZI1jK09nS9Hx6GRfD7y8j1kPMQ9cHNq
-	m/xPajRh3N/9GiWZxZ+a1fW1keaasZBi1x78rzFcZJ6mh/S+OsgN6XamYHapMlpOBDt9
-	QWs36RVR14ao3z7xll9Zx/whTyaeQ1VTGvT9+8BroRjf+c4L5VeomFsAE6tP8pAB0bFF
-	zbJvcnDM6MlSTulmoHL57F3frtRgGjt99ikkzCRWvLvGX0Bqa5mROU/EtQxue6FR3jgz
-	c0Bg==
+	bh=TAVlQ3RQK0QgXgokWAcswsm84CRTIpGvoOyfsOqWvyU=;
+	b=cQX7bhv0E5X5zBFi/RUGiwVh9hWw9sh1IeUAdxZuWYGSuRlHay+3Q2KOukEfmTt6jY
+	gQQ892Pz9v8qDfXjlJhIws315ND2BUzW1JJXONXl9N/gXUQ80gQ64vsBDgcPA+yOMMas
+	WxqM+6VRbrjlEgrc3BkGz5mQG+FljG6D26StEzdUmuBvdWU6sP6Fky6dogpBTh+rqyC+
+	HDYOIjGUqLmLOyaY3N2eecHQi7+vjZqIEmu2pZx+PMmxMPzNWoCshw61Wd8wsNrHML5r
+	Y6hsdqTcHN3mtLIY5xJv6zK3qUJWTypm3ftL9f16QL/4zGx1/fF5pSKOARxL0xoxmeso
+	ORbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=QiYv5OdsMBn4oyYfFG1itpiUq4yL9wLyXOp0tZEwiG8=;
-	b=pZNP/qGclgDd/qv8vCaQVM7gaKtatkSVCewDrYvcjeAJKKyoZucnLXVa8j8+t1PXGW
-	9FlO525/hMRV+3UGs+TdjtKu3GJi7gm6mEGS/ESx6feu76K+mhMUCkIXAjokQDMJXT79
-	h/NZgxeArepluvmQHepWm5NK5xWzSeKaO0fvmth8/i6umKt1KaQJ7is9lV7apLQ9l67U
-	V7TmZdAsvY3odwxOFQIaqpvZPTbhOLk2e10kdGJItdZYrmbVViuZnNALO+FN09FA6CfT
-	/rYWfTmWcio/KGHD6b1cDlU9oAoL3QB4wX9CnNytaG3eXVg5xOUjaooXfg6BK12gikmw
-	EaPA==
-X-Gm-Message-State: APjAAAVPtZvtkhwkU5cQv8iNOAIDp6yPns75w6kBxKXL5KciMfb+3AXl
-	2nhtTtkrd1dXOw05sL873XFiXsol
-X-Google-Smtp-Source: APXvYqzFq5uEpS4gx+JV4YAneWDSwtkwqgLhsDpxqxZ2hLowb/jpZMMlx71lGdeF6U/yhE7y7okuyw==
-X-Received: by 2002:a7b:c389:: with SMTP id s9mr8233157wmj.7.1576174508329;
-	Thu, 12 Dec 2019 10:15:08 -0800 (PST)
+	bh=TAVlQ3RQK0QgXgokWAcswsm84CRTIpGvoOyfsOqWvyU=;
+	b=L17wUxEMcoM0mUyvOKeXr/XF6Xc1iUWkibJ0XYjPrrrGFNsTmWsZSXPWVi8//mBm5B
+	2U0L68pzkHsyvPag/MODvWPK/IS0bhrggN9QHjtp1/HkDBRozaC7Xg4jiKsQtCg9t9GA
+	QUgvCTyR/ftUqJj/8wApdM0YTsmJ5cO1WcALWqsjV3587K72LaQo4ORcVb/edG1DPGBR
+	RQdLwcnsY+J+F8zEztn2L7TtPO6nHATqI5+GP1rpAmk+JKicjTtIjpO3LEG1VLA268cY
+	WbQJ3z6nNLenNY4hAzQrWGR5ISMdNnE71RWJgBmFZ84bsXl6PdpoJN6dBAeTiwCCQ/9g
+	61TA==
+X-Gm-Message-State: APjAAAViTT5GIZ6sGATyqibRuHFm3SX11WXO9j+ukhNNJxVPdnjj5/ln
+	pBuZYYJE+uUrV7GDUvY0rQkUgpiR
+X-Google-Smtp-Source: APXvYqwQbX/Byr4m8EvKv4JNUrmb8Q4y77rqLkMkONE3l8649v7RolsJF2RIvGcAaGixVkZVTu9Ufw==
+X-Received: by 2002:adf:e58d:: with SMTP id l13mr7509908wrm.135.1576174509073; 
+	Thu, 12 Dec 2019 10:15:09 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	o66sm3147571wmo.20.2019.12.12.10.15.07
+	o66sm3147571wmo.20.2019.12.12.10.15.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 10:15:07 -0800 (PST)
+	Thu, 12 Dec 2019 10:15:08 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 19:14:32 +0100
-Message-Id: <20191212181436.1322-26-alex.kanavin@gmail.com>
+Date: Thu, 12 Dec 2019 19:14:33 +0100
+Message-Id: <20191212181436.1322-27-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-Subject: [PATCH 26/30] ltp: update to 20190930
+Subject: [PATCH 27/30] cpio: update to 2.13
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,1220 +59,461 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 12 Dec 2019 18:15:09 -0000
 
-Drop a big pile of backports.
-
-Add a patch to address absent string formatting error.
+Drop a couple of backports.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...me-check-for-getdents-getdents64-API.patch |  72 --------
- ...option-to-select-libc-implementation.patch |  27 ++-
- ...-17052-Avoid-unsafe-exits-in-threads.patch |  64 -------
- ...meltdown.c-Fix-kernel-symbol-finding.patch |  81 ---------
- ...y-update-for-mm-fix-false-positive-O.patch |  57 -------
- ...medwait01-Fix-wrong-sigset-length-fo.patch |  46 -----
- ...3-wait-for-defunct-tid-to-get-detach.patch |  75 --------
- ...es-fix-an-absent-format-string-issue.patch |  24 +++
- ...thon3-everywhere-to-run-python-scrip.patch | 161 ------------------
- ...x-EFAULT-in-32bit-compatibility-mode.patch |  36 ----
- ...k-for-RES_USE_INET6-during-configure.patch |  68 --------
- ...BC_PREREQ-is-defined-before-using-it.patch |  27 ++-
- ...se-hardcoded-index-0-for-SHM_STAT-te.patch |  82 ---------
- ...11-direct_io-diotest4-drop-MAP_FIXED.patch |  56 ------
- ...st-a-bit-of-code-to-compatiable-with.patch |  64 -------
- .../ltp/{ltp_20190517.bb => ltp_20190930.bb}  |  15 +-
- 16 files changed, 51 insertions(+), 904 deletions(-)
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0011-direct_io-diotest4-drop-MAP_FIXED.patch
- delete mode 100644 meta/recipes-extended/ltp/ltp/0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
- rename meta/recipes-extended/ltp/{ltp_20190517.bb => ltp_20190930.bb} (84%)
+ ...2016-2037-1-byte-out-of-bounds-write.patch | 346 ------------------
+ .../0001-Fix-segfault-with-append.patch       |  51 ---
+ .../0001-Fix-CVE-2015-1197.patch              |   0
+ ...charset_alias-when-building-for-musl.patch |   0
+ .../cpio/{cpio_2.12.bb => cpio_2.13.bb}       |   6 +-
+ 5 files changed, 2 insertions(+), 401 deletions(-)
+ delete mode 100644 meta/recipes-extended/cpio/cpio-2.12/0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch
+ delete mode 100644 meta/recipes-extended/cpio/cpio-2.12/0001-Fix-segfault-with-append.patch
+ rename meta/recipes-extended/cpio/{cpio-2.12 => cpio-2.13}/0001-Fix-CVE-2015-1197.patch (100%)
+ rename meta/recipes-extended/cpio/{cpio-2.12 => cpio-2.13}/0001-Unset-need_charset_alias-when-building-for-musl.patch (100%)
+ rename meta/recipes-extended/cpio/{cpio_2.12.bb => cpio_2.13.bb} (83%)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch b/meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch
+diff --git a/meta/recipes-extended/cpio/cpio-2.12/0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch b/meta/recipes-extended/cpio/cpio-2.12/0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch
 deleted file mode 100644
-index bfceadb190d..00000000000
---- a/meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch
+index 0a3054483cb..00000000000
+--- a/meta/recipes-extended/cpio/cpio-2.12/0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch
 +++ /dev/null
-@@ -1,72 +0,0 @@
--From 404dfeb4faef213b0450f173b60cd7080edec349 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 26 Jul 2019 10:32:29 -0700
--Subject: [PATCH 1/2] Add configure time check for getdents/getdents64 APIs
+@@ -1,346 +0,0 @@
+-From ebf9a2d776474181936a720ce811d72bbd1da3b6 Mon Sep 17 00:00:00 2001
+-From: Pavel Raiskup <praiskup@redhat.com>
+-Date: Tue, 26 Jan 2016 23:17:54 +0100
+-Subject: [PATCH] CVE-2016-2037 - 1 byte out-of-bounds write
 -
--glibc 2.30 has added wrapper for getdents64 this will help in detecting
--right condition to use fallback
+-Ensure that cpio_safer_name_suffix always works with dynamically
+-allocated buffer, and that it has size of at least 32 bytes.
+-Then, any call to cpio_safer_name_suffix is safe (it requires at
+-least 2 bytes in the buffer).
 -
--Check for getdents API as well while here
+-Also ensure that c_namesize is always correctly initialized (by
+-cpio_set_c_name) to avoid undefined behavior when reading
+-file_hdr.c_namesize (previously happened for tar archives).
 -
--Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-July/012954.html]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-References:
+-http://www.mail-archive.com/bug-cpio@gnu.org/msg00545.html
+-
+-* src/copyin.c (query_rename): Drop the hack, as we now work with
+-dynamically allocated buffer.  Use cpio_set_c_name.
+-(create_defered_links_to_skipped): Use cpio_set_c_name rather than
+-manual assignment.
+-(read_name_from_file): New function to avoid C&P.
+-(read_in_old_ascii, read_in_new_ascii, read_in_binary): Use
+-read_name_from_file.
+-(process_copy_in): Initialize file_hdr.c_namesize.
+-* src/copyout.c (process_copy_out): Use cpio_set_c_name.
+-* src/cpiohdr.h (cpio_set_c_name): New prototype.
+-* src/tar.c (read_in_tar_header): Use cpio_set_c_name.
+-* src/util.c (cpio_set_c_name): New function to set
+-file_hdr->c_name and c_namesize from arbitrary string.
+-(cpio_safer_name_suffix): Some docs fixes.
+-* tests/inout.at: Also test copy-in, and try various formats.
+-
+-CVE: CVE-2016-2037
+-
+-Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/cpio.git/commit/?id=d36ec5f4e93130efb24fb9678aafd88e8070095b]
+-
+-Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ----
-- configure.ac                                  | 2 ++
-- testcases/kernel/syscalls/getdents/getdents.h | 8 ++++++--
-- 2 files changed, 8 insertions(+), 2 deletions(-)
+- src/copyin.c   | 68 +++++++++++++++++++---------------------------------------
+- src/copyout.c  | 13 +++++------
+- src/cpiohdr.h  |  1 +
+- src/tar.c      | 10 +++++----
+- src/util.c     | 32 ++++++++++++++++++++++++++-
+- tests/inout.at | 19 ++++++++++++++--
+- 6 files changed, 82 insertions(+), 61 deletions(-)
 -
----- a/configure.ac
--+++ b/configure.ac
--@@ -65,6 +65,8 @@ AC_CHECK_FUNCS([ \
--     fallocate \
--     fchownat \
--     fstatat \
--+    getdents \
--+    getdents64 \
--     kcmp \
--     mkdirat \
--     mknodat \
----- a/testcases/kernel/syscalls/getdents/getdents.h
--+++ b/testcases/kernel/syscalls/getdents/getdents.h
--@@ -23,7 +23,7 @@
-- #include <stdint.h>
-- #include "test.h"
-- #include "lapi/syscalls.h"
---
--+#include "config.h"
-- /*
--  * See fs/compat.c struct compat_linux_dirent
--  */
--@@ -34,12 +34,17 @@ struct linux_dirent {
-- 	char            d_name[];
-- };
-- 
--+#if HAVE_GETDENTS
--+#include <unistd.h>
--+#else
-- static inline int
-- getdents(unsigned int fd, struct linux_dirent *dirp, unsigned int size)
-- {
-- 	return ltp_syscall(__NR_getdents, fd, dirp, size);
+-diff --git a/src/copyin.c b/src/copyin.c
+-index cde911e..972f8a6 100644
+---- a/src/copyin.c
+-+++ b/src/copyin.c
+-@@ -76,28 +76,7 @@ query_rename(struct cpio_file_stat* file_hdr, FILE *tty_in, FILE *tty_out,
+-       return -1;
+-     }
+-   else
+--  /* Debian hack: file_hrd.c_name is sometimes set to
+--     point to static memory by code in tar.c.  This
+--     causes a segfault.  This has been fixed and an
+--     additional check to ensure that the file name
+--     is not too long has been added.  (Reported by
+--     Horst Knobloch.)  This bug has been reported to
+--     "bug-gnu-utils@prep.ai.mit.edu". (99/1/6) -BEM */
+--    {
+--      if (archive_format != arf_tar && archive_format != arf_ustar)
+--	{
+--	  free (file_hdr->c_name);
+--	  file_hdr->c_name = xstrdup (new_name.ds_string);
+--	}
+--      else
+--	{
+--	  if (is_tar_filename_too_long (new_name.ds_string))
+--	    error (0, 0, _("%s: file name too long"),
+--		   new_name.ds_string);
+--	  else
+--	    strcpy (file_hdr->c_name, new_name.ds_string);
+--	}
+--    }
+-+    cpio_set_c_name (file_hdr, new_name.ds_string);
+-   return 0;
+- }
+- 
+-@@ -344,8 +323,7 @@ create_defered_links_to_skipped (struct cpio_file_stat *file_hdr,
+- 	    d_prev->next = d->next;
+- 	  else
+- 	    deferments = d->next;
+--	  free (file_hdr->c_name);
+--	  file_hdr->c_name = xstrdup(d->header.c_name);
+-+	  cpio_set_c_name (file_hdr, d->header.c_name);
+- 	  free_deferment (d);
+- 	  copyin_regular_file(file_hdr, in_file_des);
+- 	  return 0;
+-@@ -1064,6 +1042,22 @@ read_in_header (struct cpio_file_stat *file_hdr, int in_des)
+-     }
 - }
 - 
--+#endif /* HAVE_GETDENTS */
+-+static void
+-+read_name_from_file (struct cpio_file_stat *file_hdr, int fd, uintmax_t len)
+-+{
+-+  static char *tmp_filename;
+-+  static size_t buflen;
 -+
-- struct linux_dirent64 {
-- 	uint64_t	d_ino;
-- 	int64_t		d_off;
--@@ -48,10 +53,13 @@ struct linux_dirent64 {
-- 	char		d_name[];
-- };
-- 
--+#if HAVE_GETDENTS64
--+#include <unistd.h>
--+#else
-- static inline int
-- getdents64(unsigned int fd, struct linux_dirent64 *dirp64, unsigned int size)
-- {
-- 	return ltp_syscall(__NR_getdents64, fd, dirp64, size);
-- }
---
--+#endif /* HAVE_GETDENTS64 */
-- #endif /* GETDENTS_H */
-diff --git a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch b/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
-index b5c25c56a57..1705abcf196 100644
---- a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
-+++ b/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
-@@ -1,4 +1,4 @@
--From ec282980e6eee96f5b74aba464141f86049263e6 Mon Sep 17 00:00:00 2001
-+From 62c3481c73a2414d7a5f0a70808bfc9a06195bd9 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 7 Jan 2016 18:19:03 +0000
- Subject: [PATCH] build: Add option to select libc implementation
-@@ -12,6 +12,7 @@ Disable tests specifically not building _yet_ on musl based systems
- Upstream-Status: Pending
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
- ---
-  Makefile                                    | 5 +++++
-  testcases/kernel/Makefile                   | 5 ++++-
-@@ -24,7 +25,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  8 files changed, 35 insertions(+), 2 deletions(-)
- 
- diff --git a/Makefile b/Makefile
--index 768ca46..e9d679a 100644
-+index 768ca4606..e9d679a71 100644
- --- a/Makefile
- +++ b/Makefile
- @@ -41,6 +41,11 @@ vpath %.mk		$(top_srcdir)/mk:$(top_srcdir)/mk/include
-@@ -40,18 +41,19 @@ index 768ca46..e9d679a 100644
-  # COMMON_TARGETS:	Targets which exist in all, clean, and install.
-  # INSTALL_TARGETS:	Targets which exist in clean and install (contains
- diff --git a/testcases/kernel/Makefile b/testcases/kernel/Makefile
--index 39d79c7..24a57d9 100644
-+index 3319b3163..94ea362c8 100644
- --- a/testcases/kernel/Makefile
- +++ b/testcases/kernel/Makefile
--@@ -49,12 +49,15 @@ SUBDIRS			+= connectors \
-+@@ -49,13 +49,16 @@ SUBDIRS			+= connectors \
-  			   logging \
-  			   mem \
-  			   numa \
- -			   pty \
-  			   sched \
-  			   security \
-- 			   timers \
-+ 			   sound \
-  			   tracing \
-+ 			   uevents \
-  
- +ifneq ($(LIBC),musl)
- +SUBDIRS			+= pty
-@@ -61,7 +63,7 @@ index 39d79c7..24a57d9 100644
-  SUBDIRS			+= power_management
-  endif
- diff --git a/testcases/kernel/sched/Makefile b/testcases/kernel/sched/Makefile
--index 6a57d79..74bb933 100644
-+index 6a57d79ee..74bb93370 100644
- --- a/testcases/kernel/sched/Makefile
- +++ b/testcases/kernel/sched/Makefile
- @@ -23,5 +23,7 @@
-@@ -74,7 +76,7 @@ index 6a57d79..74bb933 100644
- +endif
-  include $(top_srcdir)/include/mk/generic_trunk_target.mk
- diff --git a/testcases/kernel/syscalls/Makefile b/testcases/kernel/syscalls/Makefile
--index 45a00cf..d1becd0 100644
-+index 45a00cf7d..d1becd054 100644
- --- a/testcases/kernel/syscalls/Makefile
- +++ b/testcases/kernel/syscalls/Makefile
- @@ -28,6 +28,11 @@ ifeq ($(UCLINUX),1)
-@@ -90,7 +92,7 @@ index 45a00cf..d1becd0 100644
-  ifeq ($(UCLIBC),1)
-  FILTER_OUT_DIRS	+= profil
- diff --git a/testcases/network/nfsv4/acl/Makefile b/testcases/network/nfsv4/acl/Makefile
--index 8c55a6b..f7cda62 100644
-+index 8c55a6bbd..f7cda621d 100644
- --- a/testcases/network/nfsv4/acl/Makefile
- +++ b/testcases/network/nfsv4/acl/Makefile
- @@ -26,4 +26,8 @@ include $(top_srcdir)/include/mk/env_pre.mk
-@@ -103,7 +105,7 @@ index 8c55a6b..f7cda62 100644
- +
-  include $(top_srcdir)/include/mk/generic_leaf_target.mk
- diff --git a/testcases/network/rpc/basic_tests/Makefile b/testcases/network/rpc/basic_tests/Makefile
--index 66e9d56..ea8eb8a 100644
-+index 66e9d5675..ea8eb8a98 100644
- --- a/testcases/network/rpc/basic_tests/Makefile
- +++ b/testcases/network/rpc/basic_tests/Makefile
- @@ -23,4 +23,9 @@
-@@ -117,7 +119,7 @@ index 66e9d56..ea8eb8a 100644
- +
-  include $(top_srcdir)/include/mk/generic_trunk_target.mk
- diff --git a/testcases/realtime/func/pi-tests/Makefile b/testcases/realtime/func/pi-tests/Makefile
--index 68616a7..748754b 100644
-+index 68616a711..748754bb4 100644
- --- a/testcases/realtime/func/pi-tests/Makefile
- +++ b/testcases/realtime/func/pi-tests/Makefile
- @@ -27,5 +27,9 @@ include $(top_srcdir)/include/mk/env_pre.mk
-@@ -131,7 +133,7 @@ index 68616a7..748754b 100644
-  
-  include $(top_srcdir)/include/mk/generic_leaf_target.mk
- diff --git a/testcases/realtime/stress/pi-tests/Makefile b/testcases/realtime/stress/pi-tests/Makefile
--index 1881f75..266e0b8 100644
-+index 1881f7565..266e0b815 100644
- --- a/testcases/realtime/stress/pi-tests/Makefile
- +++ b/testcases/realtime/stress/pi-tests/Makefile
- @@ -24,4 +24,9 @@ top_srcdir		?= ../../../..
-@@ -144,6 +146,3 @@ index 1881f75..266e0b8 100644
- +endif
- +
-  include $(top_srcdir)/include/mk/generic_leaf_target.mk
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch b/meta/recipes-extended/ltp/ltp/0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch
-deleted file mode 100644
-index cc40081300c..00000000000
---- a/meta/recipes-extended/ltp/ltp/0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch
-+++ /dev/null
-@@ -1,64 +0,0 @@
--From e3a8502d0a4f8a44ddd02ca4b2efc097133fb9f7 Mon Sep 17 00:00:00 2001
--From: Mathias Fiedler <mathias.fiedler@aox-tech.de>
--Date: Fri, 23 Aug 2019 12:46:48 +0200
--Subject: [PATCH] cve-2017-17052: Avoid unsafe exits in threads
--
--According to manpage exit(3) calling exit is not thread-safe.
--And with glibc 2.28 (and probably also with glibc >=2.27) sometimes
--child processes created in fork_thread can get stuck on process exit in
--glibc's __run_exit_handlers trying to acquire some lock which was in
--locked state while the fork was created. This can happen when exit is
--called in mmap_thread concurrently to the fork.
--While the main process will still return with PASSED some of its
--children are left behind.
--
--Comparing the source code with the original program as described in the
--commit 2b7e8665b4ff51c034c55df3cff76518d1a9ee3a of linux kernel >=4.13
--the exits in mmap_thread and fork_thread should not be necessary to
--trigger the original bug.
--
--Therefore those exit calls are removed. The mmap_thread and fork_thread
--should still exit when their corresponding main thread in do_test_fork
--calls exit_group. The remaining exit in do_test_fork will be called in
--the main thread without any concurrent thread in the same process.
--
--Signed-off-by: Mathias Fiedler <mathias.fiedler@aox-tech.de>
--Acked-by: Cyril Hrubis <chrubis@suse.cz>
--Acked-by: Jan Stancek <jstancek@redhat.com>
--
--Upstream-Status: Backport
--[https://github.com/linux-test-project/ltp/commit/9f0b452c1af4bcb54da35711eb3fa77334a350b4]
--
--CVE: CVE-2017-17052
--
--Signed-off-by: He Zhe <zhe.he@windriver.com>
-----
-- testcases/cve/cve-2017-17052.c | 5 -----
-- 1 file changed, 5 deletions(-)
--
--diff --git a/testcases/cve/cve-2017-17052.c b/testcases/cve/cve-2017-17052.c
--index d7da7e919..18cd2a6d7 100644
----- a/testcases/cve/cve-2017-17052.c
--+++ b/testcases/cve/cve-2017-17052.c
--@@ -58,8 +58,6 @@ static void *mmap_thread(void *arg)
-- 	for (;;) {
-- 		SAFE_MMAP(NULL, 0x1000000, PROT_READ,
-- 				MAP_POPULATE|MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
---		if (*do_exit)
---			exit(0);
-- 	}
-- 
-- 	return arg;
--@@ -67,9 +65,6 @@ static void *mmap_thread(void *arg)
-- 
-- static void *fork_thread(void *arg)
-- {
---	if (*do_exit)
---		exit(0);
---
-- 	usleep(rand() % 10000);
-- 	SAFE_FORK();
-- 
---- 
--2.17.1
--
-diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch b/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
-deleted file mode 100644
-index 94f6f5a15a6..00000000000
---- a/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
-+++ /dev/null
-@@ -1,81 +0,0 @@
--From fbeda82f440a0098be42dd668cbc47212a86ab48 Mon Sep 17 00:00:00 2001
--From: He Zhe <zhe.he@windriver.com>
--Date: Wed, 21 Aug 2019 16:27:24 +0800
--Subject: [PATCH] cve/meltdown.c: Fix kernel symbol finding
--
--meltdown case fails as below.
--safe_file_ops.c:219: BROK: Expected 3 conversions got 2 at meltdown.c:272
--
--find_kernel_symbol is defined to try twice with each of /proc/kallsyms and
--/boot/System.map-%s. Currently if the symbol is not found in /proc/kallsyms,
--when kernel option CONFIG_KALLSYMS_ALL is disabled, it would stop the case
--immediately due to SAFE_FILE_LINES_SCANF.
--
--This patch turns to use FILE_LINES_SCANF to give find_kernel_symbol second
--chance.
--
--[jstancek] Fix also condition introduced in 7709d2ae92ea, even if
--           /proc/kallsyms is disabled, we still want to try System.map.
--
--Signed-off-by: He Zhe <zhe.he@windriver.com>
--Signed-off-by: Jan Stancek <jstancek@redhat.com>
--
--Upstream-Status: Backport
--[https://github.com/linux-test-project/ltp/commit/c2049b5c874bc071f8185bffb5fd7dcb042d9ec8]
--
--Remove the hunk for upstream 7709d2ae92ea ("cve/meltdown.c: abort the test if kallsyms was not enabled")
--that has been covered by this patch.
--
--Signed-off-by: He Zhe <zhe.he@windriver.com>
-----
-- testcases/cve/meltdown.c | 13 ++++++++++---
-- 1 file changed, 10 insertions(+), 3 deletions(-)
--
--diff --git a/testcases/cve/meltdown.c b/testcases/cve/meltdown.c
--index a53ea9b..22651a6 100644
----- a/testcases/cve/meltdown.c
--+++ b/testcases/cve/meltdown.c
--@@ -267,9 +267,15 @@ find_symbol_in_file(const char *filename, const char *symname)
-- 	int ret, read;
-- 	char fmt[strlen(symname) + 64];
-- 
--+	tst_res(TINFO, "Looking for %s in %s", symname, filename);
--+	if (access(filename, F_OK) == -1) {
--+		tst_res(TINFO, "%s not available", filename);
--+		return 0;
--+	}
+-+  if (buflen < len)
+-+    {
+-+      buflen = len;
+-+      tmp_filename = xrealloc (tmp_filename, buflen);
+-+    }
 -+
-- 	sprintf(fmt, "%%lx %%c %s%%c", symname);
-- 
---	ret = SAFE_FILE_LINES_SCANF(filename, fmt, &addr, &type, &read);
--+	ret = FILE_LINES_SCANF(filename, fmt, &addr, &type, &read);
-- 	if (ret)
-- 		return 0;
-- 
--@@ -287,13 +293,11 @@ find_kernel_symbol(const char *name)
-- 	if (addr)
-- 		return addr;
-- 
---	tst_res(TINFO, "not found '%s' in /proc/kallsyms", name);
-- 	if (uname(&utsname) < 0)
-- 		tst_brk(TBROK | TERRNO, "uname");
-- 
-- 	sprintf(systemmap, "/boot/System.map-%s", utsname.release);
-- 
---	tst_res(TINFO, "looking in '%s'\n", systemmap);
-- 	addr = find_symbol_in_file(systemmap, name);
-- 	return addr;
-- }
--@@ -308,6 +312,9 @@ static void setup(void)
-- 	saved_cmdline_addr = find_kernel_symbol("saved_command_line");
-- 	tst_res(TINFO, "&saved_command_line == 0x%lx", saved_cmdline_addr);
-- 
--+	if (!saved_cmdline_addr)
--+		tst_brk(TCONF, "saved_command_line not found");
--+
-- 	spec_fd = SAFE_OPEN("/proc/cmdline", O_RDONLY);
-- 
-- 	memset(target_array, 1, sizeof(target_array));
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch b/meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch
-deleted file mode 100644
-index bed84712a15..00000000000
---- a/meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch
-+++ /dev/null
-@@ -1,57 +0,0 @@
--From d656a447893dccc310c975a239f482278550c3e0 Mon Sep 17 00:00:00 2001
--From: Jan Stancek <jstancek@redhat.com>
--Date: Tue, 21 May 2019 10:10:44 +0200
--Subject: [PATCH] overcommit_memory: update for "mm: fix false-positive
-- OVERCOMMIT_GUESS failures"
--
--commit 8c7829b04c52 ("mm: fix false-positive OVERCOMMIT_GUESS failures")
--changes logic of __vm_enough_memory(), simplifying it to:
--    When in GUESS mode, catch wild allocations by comparing their request
--    size to total amount of ram and swap in the system.
--
--Testcase currently allocates mem_total + swap_total, which doesn't trigger
--new condition. Make it more extreme, but assuming free_total / 2 will PASS,
--and 2*sum_total will FAIL.
--
--Signed-off-by: Jan Stancek <jstancek@redhat.com>
--Acked-by: Cyril Hrubis <chrubis@suse.cz>
--
--Upstream-Status: Backport [https://github.com/linux-test-project/ltp/commit/d656a447893dccc310c975a239f482278550c3e0]
--Signed-off-by: He Zhe <zhe.he@windriver.com>
-----
-- testcases/kernel/mem/tunable/overcommit_memory.c | 11 ++++-------
-- 1 file changed, 4 insertions(+), 7 deletions(-)
--
--diff --git a/testcases/kernel/mem/tunable/overcommit_memory.c b/testcases/kernel/mem/tunable/overcommit_memory.c
--index 555298f..345764d 100644
----- a/testcases/kernel/mem/tunable/overcommit_memory.c
--+++ b/testcases/kernel/mem/tunable/overcommit_memory.c
--@@ -36,11 +36,10 @@
--  *
--  * The program is designed to test the two tunables:
--  *
--- * When overcommit_memory = 0, allocatable memory can't overextends
--- * the amount of free memory. I choose the three cases:
--+ * When overcommit_memory = 0, allocatable memory can't overextend
--+ * the amount of total memory:
--  * a. less than free_total:    free_total / 2, alloc should pass.
--- * b. greater than free_total: free_total * 2, alloc should fail.
--- * c. equal to sum_total:      sum_tatal,      alloc should fail
--+ * b. greater than sum_total:   sum_total * 2, alloc should fail.
--  *
--  * When overcommit_memory = 1, it can alloc enough much memory, I
--  * choose the three cases:
--@@ -164,9 +163,7 @@ static void overcommit_memory_test(void)
-- 
-- 	update_mem();
-- 	alloc_and_check(free_total / 2, EXPECT_PASS);
---	update_mem();
---	alloc_and_check(free_total * 2, EXPECT_FAIL);
---	alloc_and_check(sum_total, EXPECT_FAIL);
--+	alloc_and_check(sum_total * 2, EXPECT_FAIL);
-- 
-- 	/* start to test overcommit_memory=1 */
-- 	set_sys_tune("overcommit_memory", 1, 1);
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp/0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch b/meta/recipes-extended/ltp/ltp/0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch
-deleted file mode 100644
-index 0e56c08255e..00000000000
---- a/meta/recipes-extended/ltp/ltp/0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From a5046625eaeed2d3fba456c3ba84c6c141c2ad7c Mon Sep 17 00:00:00 2001
--From: He Zhe <zhe.he@windriver.com>
--Date: Thu, 29 Aug 2019 21:09:46 +0800
--Subject: [PATCH] syscall/rt_sigtimedwait01: Fix wrong sigset length for MIPS
--
--rt_sigtimedwait01 fails as follow on MIPS arches
--rt_sigtimedwait01    1  TFAIL  :  .../sigwaitinfo01.c:58: test_empty_set
--(.../sigwaitinfo01.c: 148): Unexpected failure:
--TEST_ERRNO=EINVAL(22): Invalid argument
--
--As this case purposely bypasses glibc, it should align with the size of kernel
--definition of sigset_t which is different from other arches.
--https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/mips/include/uapi/asm/signal.h#n15
--
--This patch turns to use _NSIG which is always right for all arches.
--
--Upstream-Status: Backport [a5046625eaeed2d3fba456c3ba84c6c141c2ad7c]
--
--Suggested-by: Jan Stancek <jstancek@redhat.com>
--Acked-by: Jan Stancek <jstancek@redhat.com>
--Acked-by: Cyril Hrubis <chrubis@suse.cz>
--Signed-off-by: He Zhe <zhe.he@windriver.com>
--Signed-off-by: Petr Vorel <pvorel@suse.cz>
-----
-- testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c | 5 ++---
-- 1 file changed, 2 insertions(+), 3 deletions(-)
--
--diff --git a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
--index 5a32ce1..6a30c27 100644
----- a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
--+++ b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
--@@ -128,9 +128,8 @@ static int my_sigtimedwait(const sigset_t * set, siginfo_t * info,
-- static int my_rt_sigtimedwait(const sigset_t * set, siginfo_t * info,
-- 			      struct timespec *timeout)
-- {
---
---	/* The last argument is (number_of_signals)/(bits_per_byte), which are 64 and 8, resp. */
---	return ltp_syscall(__NR_rt_sigtimedwait, set, info, timeout, 8);
--+	/* _NSIG is always the right number of bits of signal map for all arches */
--+	return ltp_syscall(__NR_rt_sigtimedwait, set, info, timeout, _NSIG/8);
-- }
-- #endif
-- 
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch
-deleted file mode 100644
-index 6ea26150fbf..00000000000
---- a/meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch
-+++ /dev/null
-@@ -1,75 +0,0 @@
--From e747d0456adc080a1d31fb653bda9dc491795c80 Mon Sep 17 00:00:00 2001
--From: Jan Stancek <jstancek@redhat.com>
--Date: Sun, 16 Jun 2019 11:14:16 +0200
--Subject: [PATCH] syscalls/tgkill03: wait for defunct tid to get detached
--
--Case where defunct tid is used has been observed to sporadically fail:
--  tgkill03.c:96: FAIL: Defunct tid should have failed with ESRCH: SUCCESS
--
--glibc __pthread_timedjoin_ex() waits for CLONE_CHILD_CLEARTID to clear tid,
--and then resumes. Kernel clears it (glibc pd->tid) at:
--  do_exit
--    exit_mm
--      mm_release
--        put_user(0, tsk->clear_child_tid);
--
--but kernel tid is still valid, presumably until:
--  release_task
--    __exit_signal
--      __unhash_process
--        detach_pid
--
--To avoid race wait until /proc/<pid>/task/<tid> disappears.
--
--Signed-off-by: Jan Stancek <jstancek@redhat.com>
--Reviewed-by: Li Wang <liwang@redhat.com>
--Acked-by: Sumit Garg <sumit.garg@linaro.org>
--
--Upstream-Status: Backport
--[https://github.com/linux-test-project/ltp/commit/e747d0456adc080a1d31fb653bda9dc491795c80]
--
--Signed-off-by: He Zhe <zhe.he@windriver.com>
-----
-- testcases/kernel/syscalls/tgkill/tgkill03.c | 6 +++++-
-- 1 file changed, 5 insertions(+), 1 deletion(-)
--
--diff --git a/testcases/kernel/syscalls/tgkill/tgkill03.c b/testcases/kernel/syscalls/tgkill/tgkill03.c
--index f5bbdc5..593a217 100644
----- a/testcases/kernel/syscalls/tgkill/tgkill03.c
--+++ b/testcases/kernel/syscalls/tgkill/tgkill03.c
--@@ -7,6 +7,7 @@
-- 
-- #include <pthread.h>
-- #include <pwd.h>
--+#include <stdio.h>
-- #include <sys/types.h>
-- 
-- #include "tst_safe_pthread.h"
--@@ -42,6 +43,7 @@ static void setup(void)
-- {
-- 	sigset_t sigusr1;
-- 	pthread_t defunct_thread;
--+	char defunct_tid_path[PATH_MAX];
-- 
-- 	sigemptyset(&sigusr1);
-- 	sigaddset(&sigusr1, SIGUSR1);
--@@ -55,8 +57,9 @@ static void setup(void)
-- 	TST_CHECKPOINT_WAIT(0);
-- 
-- 	SAFE_PTHREAD_CREATE(&defunct_thread, NULL, defunct_thread_func, NULL);
---
-- 	SAFE_PTHREAD_JOIN(defunct_thread, NULL);
--+	sprintf(defunct_tid_path, "/proc/%d/task/%d", getpid(), defunct_tid);
--+	TST_RETRY_FN_EXP_BACKOFF(access(defunct_tid_path, R_OK), -1, 15);
-- }
-- 
-- static void cleanup(void)
--@@ -108,4 +111,5 @@ static struct tst_test test = {
-- 	.setup = setup,
-- 	.cleanup = cleanup,
-- 	.test = run,
--+	.timeout = 20,
-- };
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch b/meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch
-new file mode 100644
-index 00000000000..93308445098
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch
-@@ -0,0 +1,24 @@
-+From 476ce907fa18042cdde0a244ba9a46cd895ce76c Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 12 Dec 2019 17:56:02 +0100
-+Subject: [PATCH] testcases: fix an absent format string issue
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ .../kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c     | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c b/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c
-+index 27dbc6626..19d943d06 100644
-+--- a/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c
-++++ b/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c
-+@@ -59,7 +59,7 @@ static void verify_pidfd_send_signal(void)
-+ 
-+ 		/* Manipulate PID for next process */
-+ 		sprintf(pid_str, "%d", pid - 1);
-+-		SAFE_FILE_PRINTF(last_pid_file, pid_str);
-++		SAFE_FILE_PRINTF(last_pid_file, "%s", pid_str);
-+ 
-+ 		new_pid = SAFE_FORK();
-+ 		if (new_pid == 0) {
-diff --git a/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch b/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
-deleted file mode 100644
-index f4f87f38ab7..00000000000
---- a/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
-+++ /dev/null
-@@ -1,161 +0,0 @@
--From 0463d793566772a606255957915f99d166d5740c Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 28 Aug 2019 18:30:23 +0200
--Subject: [PATCH] testcases: use python3 everywhere to run python scripts
--
--The scripts themselves have #!/usr/bin/python3 in them,
--so I trust they are already py3-compatible.
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- testcases/kernel/power_management/runpwtests05.sh  |  2 +-
-- .../power_management/runpwtests_exclusive01.sh     |  2 +-
-- .../power_management/runpwtests_exclusive02.sh     |  2 +-
-- .../power_management/runpwtests_exclusive03.sh     |  2 +-
-- .../power_management/runpwtests_exclusive04.sh     |  2 +-
-- .../power_management/runpwtests_exclusive05.sh     |  2 +-
-- testcases/network/nfsv4/acl/runtest                | 14 +++++++-------
-- testcases/realtime/func/pi-tests/run_auto.sh       |  6 +++---
-- 8 files changed, 16 insertions(+), 16 deletions(-)
--
--diff --git a/testcases/kernel/power_management/runpwtests05.sh b/testcases/kernel/power_management/runpwtests05.sh
--index 8a7d0f6e0..43e234d01 100755
----- a/testcases/kernel/power_management/runpwtests05.sh
--+++ b/testcases/kernel/power_management/runpwtests05.sh
--@@ -35,7 +35,7 @@ else
-- 	max_sched_smt=1
-- fi
-- 
---tst_test_cmds python
--+tst_test_cmds python3
-- 
-- if ! grep sched_debug -qw /proc/cmdline ; then
-- 	tst_brkm TCONF "Kernel cmdline parameter 'sched_debug' needed," \
--diff --git a/testcases/kernel/power_management/runpwtests_exclusive01.sh b/testcases/kernel/power_management/runpwtests_exclusive01.sh
--index ec78319e2..9fefcbf6e 100755
----- a/testcases/kernel/power_management/runpwtests_exclusive01.sh
--+++ b/testcases/kernel/power_management/runpwtests_exclusive01.sh
--@@ -35,7 +35,7 @@ else
-- 	max_sched_smt=1
-- fi
-- 
---tst_test_cmds python
--+tst_test_cmds python3
-- 
-- hyper_threaded=$(is_hyper_threaded)
-- multi_socket=$(is_multi_socket)
--diff --git a/testcases/kernel/power_management/runpwtests_exclusive02.sh b/testcases/kernel/power_management/runpwtests_exclusive02.sh
--index e107fce35..2cd0ecb05 100755
----- a/testcases/kernel/power_management/runpwtests_exclusive02.sh
--+++ b/testcases/kernel/power_management/runpwtests_exclusive02.sh
--@@ -33,7 +33,7 @@ else
-- 	max_sched_smt=1
-- fi
-- 
---tst_test_cmds python
--+tst_test_cmds python3
-- 
-- hyper_threaded=$(is_hyper_threaded)
-- multi_socket=$(is_multi_socket)
--diff --git a/testcases/kernel/power_management/runpwtests_exclusive03.sh b/testcases/kernel/power_management/runpwtests_exclusive03.sh
--index 490344bb3..ab3a5d11d 100755
----- a/testcases/kernel/power_management/runpwtests_exclusive03.sh
--+++ b/testcases/kernel/power_management/runpwtests_exclusive03.sh
--@@ -35,7 +35,7 @@ else
-- 	max_sched_smt=1
-- fi
-- 
---tst_test_cmds python
--+tst_test_cmds python3
-- 
-- hyper_threaded=$(is_hyper_threaded)
-- multi_socket=$(is_multi_socket)
--diff --git a/testcases/kernel/power_management/runpwtests_exclusive04.sh b/testcases/kernel/power_management/runpwtests_exclusive04.sh
--index 978ca02ae..438ef603f 100755
----- a/testcases/kernel/power_management/runpwtests_exclusive04.sh
--+++ b/testcases/kernel/power_management/runpwtests_exclusive04.sh
--@@ -27,7 +27,7 @@ export TST_TOTAL=2
-- # Checking test environment
-- check_kervel_arch
-- 
---tst_test_cmds python
--+tst_test_cmds python3
-- 
-- hyper_threaded=$(is_hyper_threaded)
-- multi_socket=$(is_multi_socket)
--diff --git a/testcases/kernel/power_management/runpwtests_exclusive05.sh b/testcases/kernel/power_management/runpwtests_exclusive05.sh
--index a0dad5834..3a9afdbf2 100755
----- a/testcases/kernel/power_management/runpwtests_exclusive05.sh
--+++ b/testcases/kernel/power_management/runpwtests_exclusive05.sh
--@@ -35,7 +35,7 @@ else
-- 	max_sched_smt=1
-- fi
-- 
---tst_test_cmds python
--+tst_test_cmds python3
-- 
-- hyper_threaded=$(is_hyper_threaded)
-- multi_socket=$(is_multi_socket)
--diff --git a/testcases/network/nfsv4/acl/runtest b/testcases/network/nfsv4/acl/runtest
--index d2e1b4c49..a859e85bc 100755
----- a/testcases/network/nfsv4/acl/runtest
--+++ b/testcases/network/nfsv4/acl/runtest
--@@ -22,7 +22,7 @@ do
-- done
-- 
-- #  creation of users on the remote machine (removed only at the end of the tests)
---rsh -n $REMOTEHOST python $PWD/create_users.py -u 50 -g 50
--+rsh -n $REMOTEHOST python3 $PWD/create_users.py -u 50 -g 50
-- 
-- echo "Starting ACL testing"
-- 
--@@ -51,19 +51,19 @@ echo "Basic tests finished"
-- 
-- echo "LONG ACL TEST"
-- echo "creating necessary users and groups"
---python create_users.py -u 50 -g 50
--+python3 create_users.py -u 50 -g 50
-- echo "creating necessary users and groups on the remote host"
-- mkdir $NFSMNTDIR/lacl-testdir
---python test_long_acl.py -l $MAXLENGTH -p $NFSMNTDIR/lacl-testdir
--+python3 test_long_acl.py -l $MAXLENGTH -p $NFSMNTDIR/lacl-testdir
-- rm -rf $NFSMNTDIR/lacl-testdir
-- echo "Long ACL test OK with $MAXLENGTH entries"
-- echo "ACL STRESSING TEST"
---python setacl_stress.py -n 100 -u $USER_NB -g $GRP_NB -f $FILE_NB -p $NFSMNTDIR
--+python3 setacl_stress.py -n 100 -u $USER_NB -g $GRP_NB -f $FILE_NB -p $NFSMNTDIR
-- 
-- # remove local an remote users
---python cleanusers.py
---python cleangroups.py
---rsh -n $REMOTEHOST python $PWD/cleanusers.py
--+python3 cleanusers.py
--+python3 cleangroups.py
--+rsh -n $REMOTEHOST python3 $PWD/cleanusers.py
-- 
-- echo "Test OK"
-- 
--diff --git a/testcases/realtime/func/pi-tests/run_auto.sh b/testcases/realtime/func/pi-tests/run_auto.sh
--index d13026049..277988568 100755
----- a/testcases/realtime/func/pi-tests/run_auto.sh
--+++ b/testcases/realtime/func/pi-tests/run_auto.sh
--@@ -15,15 +15,15 @@ $SCRIPTS_DIR/run_c_files.sh $profile testpi-0
-- 
-- export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-1.log"
-- $SCRIPTS_DIR/run_c_files.sh $profile testpi-1
---PYTHONPATH=../../  python parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
--+PYTHONPATH=../../  python3 parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
-- 
-- export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-2.log"
-- $SCRIPTS_DIR/run_c_files.sh $profile testpi-2
---PYTHONPATH=../../  python parse-testpi2.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
--+PYTHONPATH=../../  python3 parse-testpi2.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
-- 
-- export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-4.log"
-- $SCRIPTS_DIR/run_c_files.sh $profile testpi-4
---PYTHONPATH=../../  python parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
--+PYTHONPATH=../../  python3 parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
-- 
-- 
-- export LOG_FILE=""
-diff --git a/meta/recipes-extended/ltp/ltp/0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch b/meta/recipes-extended/ltp/ltp/0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch
-deleted file mode 100644
-index c936b788fe1..00000000000
---- a/meta/recipes-extended/ltp/ltp/0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 156776a3e29491b363fdc9811912e1298655d060 Mon Sep 17 00:00:00 2001
--From: Steven Price <steven.price@arm.com>
--Date: Fri, 19 Jul 2019 13:48:17 +0100
--Subject: [PATCH] ustat02: Fix EFAULT in 32bit compatibility mode
--
--The size of dev_t is larger than 32 bits which causes the dev argument
--to be passed incorrectly. On Arm this means that the EFAULT test case
--actually returns EINVAL because the device number isn't recognised.
--
--Signed-off-by: Steven Price <steven.price@arm.com>
--Acked-by: Li Wang <liwang@redhat.com>
--
--Upstream-Status: Backport
--[https://github.com/linux-test-project/ltp/commit/156776a3e29491b363fdc9811912e1298655d060]
--
--Signed-off-by: He Zhe <zhe.he@windriver.com>
-----
-- testcases/kernel/syscalls/ustat/ustat02.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/testcases/kernel/syscalls/ustat/ustat02.c b/testcases/kernel/syscalls/ustat/ustat02.c
--index 9bbe4f3..1a0e9e0 100644
----- a/testcases/kernel/syscalls/ustat/ustat02.c
--+++ b/testcases/kernel/syscalls/ustat/ustat02.c
--@@ -36,7 +36,7 @@ int TST_TOTAL = ARRAY_SIZE(tc);
-- 
-- void run(unsigned int test)
-- {
---	TEST(tst_syscall(__NR_ustat, *tc[test].dev, tc[test].buf));
--+	TEST(tst_syscall(__NR_ustat, (unsigned int)*tc[test].dev, tc[test].buf));
-- 
-- 	if ((TST_RET == -1) && (TST_ERR == tc[test].exp_errno))
-- 		tst_res(TPASS | TTERRNO, "ustat(2) expected failure");
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch b/meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch
-deleted file mode 100644
-index 12e47eb2b61..00000000000
---- a/meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch
-+++ /dev/null
-@@ -1,68 +0,0 @@
--From 7bc134545b7beb09717a60541530c20a1a5740d3 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 26 Jul 2019 10:55:28 -0700
--Subject: [PATCH 2/2] check for RES_USE_INET6 during configure
--
--glibc 2.30 has remove RES_USE_INET6 define which has been on its way out
--since 2.26 release, this check ensures that we detect it before using it
--
--Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-July/012955.html]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- configure.ac                                        | 13 +++++++++++++
-- testcases/network/multicast/mc_gethost/mc_gethost.c |  6 ++++++
-- 2 files changed, 19 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index 2255b5c181..ed7acccb01 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -91,6 +91,19 @@ AC_CHECK_FUNCS([ \
--     vmsplice \
-- ])
-- 
--+#check defines
--+AC_MSG_CHECKING([for RES_USE_INET6])
--+AC_COMPILE_IFELSE( [AC_LANG_PROGRAM([[#include <resolv.h>]],
--+  [[char dummy[RES_USE_INET6];]])],
--+  [
--+    AC_MSG_RESULT([yes])
--+    AC_DEFINE_UNQUOTED([HAVE_RES_USE_INET6], 1, [Define to 1 if you have the RES_USE_INET6 macro.])
--+  ],
--+  [
--+    AC_MSG_RESULT([no])
--+    AC_DEFINE_UNQUOTED([HAVE_RES_USE_INET6], 0, [Define to 1 if you have the RES_USE_INET6 macro.])
--+  ]
--+)
-- # Tools knobs
-- 
-- # Expect
--diff --git a/testcases/network/multicast/mc_gethost/mc_gethost.c b/testcases/network/multicast/mc_gethost/mc_gethost.c
--index 9cc15d086b..d1cae5441a 100644
----- a/testcases/network/multicast/mc_gethost/mc_gethost.c
--+++ b/testcases/network/multicast/mc_gethost/mc_gethost.c
--@@ -17,6 +17,8 @@
-- #include <string.h>
-- #include <stdlib.h>
-- 
--+#include "config.h"
--+
-- #ifndef LOG_PERROR
-- #define LOG_PERROR 0
-- #endif
--@@ -50,8 +52,12 @@ usage:
-- 		argv++, argc--;
-- 	}
-- 	if (argc >= 1 && !strcmp(*argv, "-6")) {
--+#if HAVE_RES_USE_INET6
-- 		af = AF_INET6, size = IN6ADDRSZ;
-- 		_res.options |= RES_USE_INET6;
--+#else
--+		af = AF_INET, size = INADDRSZ;
--+#endif
-- 		argv++, argc--;
-- 	}
-- 	if (argc >= 1 && !strcmp(*argv, "-f")) {
---- 
--2.22.0
--
-diff --git a/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch b/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
-index c0f69ecf5fc..df3e8831f54 100644
---- a/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
-+++ b/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
-@@ -1,4 +1,4 @@
--From 29ce9fdab3bd34e69d73b5b890795559c06553f7 Mon Sep 17 00:00:00 2001
-+From 1ce47a6ed811fd78ed04ea2f82e6321c6bca57b6 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 7 Jan 2016 19:40:08 +0000
- Subject: [PATCH] Check if __GLIBC_PREREQ is defined before using it
-@@ -10,16 +10,17 @@ Upstream-Status: Pending
- 
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
- Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+
- ---
-  testcases/kernel/syscalls/accept4/accept4_01.c | 7 +++++++
-  1 file changed, 7 insertions(+)
- 
- diff --git a/testcases/kernel/syscalls/accept4/accept4_01.c b/testcases/kernel/syscalls/accept4/accept4_01.c
--index dd289cf..76aa969 100644
-+index 29e18f27d..07444a46f 100644
- --- a/testcases/kernel/syscalls/accept4/accept4_01.c
- +++ b/testcases/kernel/syscalls/accept4/accept4_01.c
- @@ -38,6 +38,7 @@
-- static struct sockaddr_in conn_addr;
-+ static struct sockaddr_in *conn_addr, *accept_addr;
-  static int listening_fd;
-  
- +#if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
-@@ -34,25 +35,21 @@ index dd289cf..76aa969 100644
-  
-  static int create_listening_socket(void)
-  {
--@@ -115,6 +117,7 @@ static void verify_accept4(unsigned int nr)
-- 	SAFE_CONNECT(connfd, (struct sockaddr *)&conn_addr, sizeof(conn_addr));
-- 	addrlen = sizeof(claddr);
-+@@ -114,12 +116,17 @@ static void verify_accept4(unsigned int nr)
-+ 	SAFE_CONNECT(connfd, (struct sockaddr *)conn_addr, sizeof(*conn_addr));
-+ 	addrlen = sizeof(*accept_addr);
-  
- +#if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
-  #if !(__GLIBC_PREREQ(2, 10))
-- 	TEST(accept4_01(listening_fd, (struct sockaddr *)&claddr, &addrlen,
-+ 	TEST(accept4_01(listening_fd, (struct sockaddr *)accept_addr, &addrlen,
-  				tcase->cloexec | tcase->nonblock));
--@@ -122,6 +125,10 @@ static void verify_accept4(unsigned int nr)
-- 	TEST(accept4(listening_fd, (struct sockaddr *)&claddr, &addrlen,
-+ #else
-+ 	TEST(accept4(listening_fd, (struct sockaddr *)accept_addr, &addrlen,
-  				tcase->cloexec | tcase->nonblock));
-- #endif
-++#endif
- +#else
- +	TEST(accept4(listening_fd, (struct sockaddr *)&claddr, &addrlen,
- +				tcase->cloexec | tcase->nonblock));
--+#endif
-+ #endif
-  	if (TST_RET == -1) {
-  		if (TST_ERR == ENOSYS)
-- 			tst_brk(TCONF, "syscall __NR_accept4 not supported");
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp/0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch b/meta/recipes-extended/ltp/ltp/0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
-deleted file mode 100644
-index 8704e5ffe8a..00000000000
---- a/meta/recipes-extended/ltp/ltp/0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
-+++ /dev/null
-@@ -1,82 +0,0 @@
--From 794933b38354a2612cf2c471f11798b306f35315 Mon Sep 17 00:00:00 2001
--From: Jan Stancek <jstancek@redhat.com>
--Date: Mon, 20 May 2019 20:47:20 +0200
--Subject: [PATCH] shmctl01: don't use hardcoded index == 0 for SHM_STAT test
--
--Test fails on SHM_STAT testcase:
--   shmctl01    5  TFAIL  :  shmctl01.c:173: shmctl01 call failed
--                            errno = 22 : Invalid argument
--   shmctl(0, SHM_STAT, 0x601060)           = -EINVAL
--
--since following commit:
--   commit 99db46ea292780cd978d56932d9445b1e8bdafe8
--   Author: Manfred Spraul <manfred@colorfullife.com>
--   Date:   Tue May 14 15:46:36 2019 -0700
--     ipc: do cyclic id allocation for the ipc object.
--
--Don't rely on index 0 being always available, but instead
--use (maximum) index returned by SHM_INFO.
--
--Signed-off-by: Jan Stancek <jstancek@redhat.com>
--Reviewed-by: Petr Vorel <pvorel@suse.cz>
--Acked-by: Cyril Hrubis <chrubis@suse.cz>
--
--Upstream-Status: Backport
--[https://github.com/linux-test-project/ltp/commit/db0a43d9388be2c347a8306751bbe6bec086d062]
--
--Signed-off-by: Hongzhi Song <hongzhi.song@windriver.com>
--Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-----
-- testcases/kernel/syscalls/ipc/shmctl/shmctl01.c | 21 ++++++++++++++++++---
-- 1 file changed, 18 insertions(+), 3 deletions(-)
--
--diff --git a/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c b/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c
--index 1b46977..52bf23a 100644
----- a/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c
--+++ b/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c
--@@ -79,6 +79,7 @@ static void func_info(int ret);
-- 
-- /* Check routine for SHM_STAT */
-- static void func_sstat(int ret);
--+static void func_sstat_setup(void);
-- 
-- /* Check routine for SHM_LOCK */
-- static void func_lock(int ret);
--@@ -110,7 +111,7 @@ static struct test_case_t {
-- #endif
-- 	{&shm_id_1, IPC_SET, &buf, func_set, set_setup},
-- 	{&shm_id_1, IPC_INFO, (struct shmid_ds *) &info, func_info, NULL},
---	{&shm_index, SHM_STAT, &buf, func_sstat, NULL},
--+	{&shm_index, SHM_STAT, &buf, func_sstat, func_sstat_setup},
-- 	{&shm_id_1, SHM_LOCK, NULL, func_lock, NULL},
-- 	{&shm_id_1, SHM_UNLOCK, NULL, func_unlock, NULL},
-- 	{&shm_id_1, IPC_RMID, NULL, func_rmid, NULL},
--@@ -407,9 +408,23 @@ static void func_info(int ret)
-- static void func_sstat(int ret)
-- {
-- 	if (ret >= 0)
---		tst_resm(TPASS, "get correct shared memory id");
--+		tst_resm(TPASS, "get correct shared memory id for index: %d",
--+			shm_index);
-- 	else
---		tst_resm(TFAIL, "shared memory id is incorrect");
--+		tst_resm(TFAIL, "shared memory id is incorrect, index: %d",
--+			shm_index);
+-+  tape_buffered_read (tmp_filename, fd, len);
+-+  cpio_set_c_name (file_hdr, tmp_filename);
 -+}
 -+
--+static void func_sstat_setup(void)
--+{
--+	struct shm_info tmp;
--+	int ret;
+- /* Fill in FILE_HDR by reading an old-format ASCII format cpio header from
+-    file descriptor IN_DES, except for the magic number, which is
+-    already filled in.  */
+-@@ -1090,14 +1084,8 @@ read_in_old_ascii (struct cpio_file_stat *file_hdr, int in_des)
+-   file_hdr->c_rdev_min = minor (dev);
+- 
+-   file_hdr->c_mtime = FROM_OCTAL (ascii_header.c_mtime);
+--  file_hdr->c_namesize = FROM_OCTAL (ascii_header.c_namesize);
+-   file_hdr->c_filesize = FROM_OCTAL (ascii_header.c_filesize);
+--  
+--  /* Read file name from input.  */
+--  if (file_hdr->c_name != NULL)
+--    free (file_hdr->c_name);
+--  file_hdr->c_name = (char *) xmalloc (file_hdr->c_namesize + 1);
+--  tape_buffered_read (file_hdr->c_name, in_des, (long) file_hdr->c_namesize);
+-+  read_name_from_file (file_hdr, in_des, FROM_OCTAL (ascii_header.c_namesize));
+- 
+-   /* HP/UX cpio creates archives that look just like ordinary archives,
+-      but for devices it sets major = 0, minor = 1, and puts the
+-@@ -1152,14 +1140,8 @@ read_in_new_ascii (struct cpio_file_stat *file_hdr, int in_des)
+-   file_hdr->c_dev_min = FROM_HEX (ascii_header.c_dev_min);
+-   file_hdr->c_rdev_maj = FROM_HEX (ascii_header.c_rdev_maj);
+-   file_hdr->c_rdev_min = FROM_HEX (ascii_header.c_rdev_min);
+--  file_hdr->c_namesize = FROM_HEX (ascii_header.c_namesize);
+-   file_hdr->c_chksum = FROM_HEX (ascii_header.c_chksum);
+--  
+--  /* Read file name from input.  */
+--  if (file_hdr->c_name != NULL)
+--    free (file_hdr->c_name);
+--  file_hdr->c_name = (char *) xmalloc (file_hdr->c_namesize);
+--  tape_buffered_read (file_hdr->c_name, in_des, (long) file_hdr->c_namesize);
+-+  read_name_from_file (file_hdr, in_des, FROM_HEX (ascii_header.c_namesize));
+- 
+-   /* In SVR4 ASCII format, the amount of space allocated for the header
+-      is rounded up to the next long-word, so we might need to drop
+-@@ -1207,16 +1189,9 @@ read_in_binary (struct cpio_file_stat *file_hdr,
+-   file_hdr->c_rdev_min = minor (short_hdr->c_rdev);
+-   file_hdr->c_mtime = (unsigned long) short_hdr->c_mtimes[0] << 16
+-                       | short_hdr->c_mtimes[1];
+--
+--  file_hdr->c_namesize = short_hdr->c_namesize;
+-   file_hdr->c_filesize = (unsigned long) short_hdr->c_filesizes[0] << 16
+-                       | short_hdr->c_filesizes[1];
+--
+--  /* Read file name from input.  */
+--  if (file_hdr->c_name != NULL)
+--    free (file_hdr->c_name);
+--  file_hdr->c_name = (char *) xmalloc (file_hdr->c_namesize);
+--  tape_buffered_read (file_hdr->c_name, in_des, (long) file_hdr->c_namesize);
+-+  read_name_from_file (file_hdr, in_des, short_hdr->c_namesize);
+- 
+-   /* In binary mode, the amount of space allocated in the header for
+-      the filename is `c_namesize' rounded up to the next short-word,
+-@@ -1297,6 +1272,7 @@ process_copy_in ()
+-       read_pattern_file ();
+-     }
+-   file_hdr.c_name = NULL;
+-+  file_hdr.c_namesize = 0;
+- 
+-   if (rename_batch_file)
+-     {
+-diff --git a/src/copyout.c b/src/copyout.c
+-index 1f0987a..bb39559 100644
+---- a/src/copyout.c
+-+++ b/src/copyout.c
+-@@ -660,8 +660,7 @@ process_copy_out ()
+- 	  cpio_safer_name_suffix (input_name.ds_string, false,
+- 				  !no_abs_paths_flag, true);
+- #ifndef HPUX_CDF
+--	  file_hdr.c_name = input_name.ds_string;
+--	  file_hdr.c_namesize = strlen (input_name.ds_string) + 1;
+-+	  cpio_set_c_name (&file_hdr, input_name.ds_string);
+- #else
+- 	  if ( (archive_format != arf_tar) && (archive_format != arf_ustar) )
+- 	    {
+-@@ -670,16 +669,15 @@ process_copy_out ()
+- 		 properly recreate the directory as hidden (in case the
+- 		 files of a directory go into the archive before the
+- 		 directory itself (e.g from "find ... -depth ... | cpio")).  */
+--	      file_hdr.c_name = add_cdf_double_slashes (input_name.ds_string);
+--	      file_hdr.c_namesize = strlen (file_hdr.c_name) + 1;
+-+              cpio_set_c_name (&file_hdr,
+-+                               add_cdf_double_slashes (input_name.ds_string));
+- 	    }
+- 	  else
+- 	    {
+- 	      /* We don't mark CDF's in tar files.  We assume the "hidden"
+- 		 directory will always go into the archive before any of
+- 		 its files.  */
+--	      file_hdr.c_name = input_name.ds_string;
+--	      file_hdr.c_namesize = strlen (input_name.ds_string) + 1;
+-+              cpio_set_c_name (&file_hdr, input_name.ds_string);
+- 	    }
+- #endif
+- 
+-@@ -866,8 +864,7 @@ process_copy_out ()
+-   file_hdr.c_chksum = 0;
+- 
+-   file_hdr.c_filesize = 0;
+--  file_hdr.c_namesize = 11;
+--  file_hdr.c_name = CPIO_TRAILER_NAME;
+-+  cpio_set_c_name (&file_hdr, CPIO_TRAILER_NAME);
+-   if (archive_format != arf_tar && archive_format != arf_ustar)
+-     write_out_header (&file_hdr, out_file_des);
+-   else
+-diff --git a/src/cpiohdr.h b/src/cpiohdr.h
+-index b29e6fb..f4c63be 100644
+---- a/src/cpiohdr.h
+-+++ b/src/cpiohdr.h
+-@@ -129,5 +129,6 @@ struct cpio_file_stat /* Internal representation of a CPIO header */
+-   char *c_tar_linkname;
+- };
+- 
+-+void cpio_set_c_name(struct cpio_file_stat *file_hdr, char *name);
+- 
+- #endif /* cpiohdr.h */
+-diff --git a/src/tar.c b/src/tar.c
+-index a2ce171..e41f89d 100644
+---- a/src/tar.c
+-+++ b/src/tar.c
+-@@ -282,7 +282,7 @@ read_in_tar_header (struct cpio_file_stat *file_hdr, int in_des)
+-       if (null_block ((long *) &tar_rec, TARRECORDSIZE))
+- #endif
+- 	{
+--	  file_hdr->c_name = CPIO_TRAILER_NAME;
+-+	  cpio_set_c_name (file_hdr, CPIO_TRAILER_NAME);
+- 	  return;
+- 	}
+- #if 0
+-@@ -316,9 +316,11 @@ read_in_tar_header (struct cpio_file_stat *file_hdr, int in_des)
+- 	}
+- 
+-       if (archive_format != arf_ustar)
+--	file_hdr->c_name = stash_tar_filename (NULL, tar_hdr->name);
+-+        cpio_set_c_name (file_hdr, stash_tar_filename (NULL, tar_hdr->name));
+-       else
+--	file_hdr->c_name = stash_tar_filename (tar_hdr->prefix, tar_hdr->name);
+-+        cpio_set_c_name (file_hdr, stash_tar_filename (tar_hdr->prefix,
+-+                                                      tar_hdr->name));
 -+
--+	ret = shmctl(shm_id_1, SHM_INFO, (void *)&tmp);
--+	if (ret < 0)
--+		tst_resm(TFAIL|TERRNO, "shmctl(SHM_INFO)");
--+	else
--+		shm_index = ret;
+-       file_hdr->c_nlink = 1;
+-       file_hdr->c_mode = FROM_OCTAL (tar_hdr->mode);
+-       file_hdr->c_mode = file_hdr->c_mode & 07777;
+-@@ -398,7 +400,7 @@ read_in_tar_header (struct cpio_file_stat *file_hdr, int in_des)
+- 	case AREGTYPE:
+- 	  /* Old tar format; if the last char in filename is '/' then it is
+- 	     a directory, otherwise it's a regular file.  */
+--	  if (file_hdr->c_name[strlen (file_hdr->c_name) - 1] == '/')
+-+	  if (file_hdr->c_name[file_hdr->c_namesize - 1] == '/')
+- 	    file_hdr->c_mode |= CP_IFDIR;
+- 	  else
+- 	    file_hdr->c_mode |= CP_IFREG;
+-diff --git a/src/util.c b/src/util.c
+-index 6ff6032..4f3c073 100644
+---- a/src/util.c
+-+++ b/src/util.c
+-@@ -1410,8 +1410,34 @@ set_file_times (int fd,
+-     utime_error (name);
 - }
 - 
-- static void func_lock(int ret)
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp/0011-direct_io-diotest4-drop-MAP_FIXED.patch b/meta/recipes-extended/ltp/ltp/0011-direct_io-diotest4-drop-MAP_FIXED.patch
-deleted file mode 100644
-index 9cd188f6567..00000000000
---- a/meta/recipes-extended/ltp/ltp/0011-direct_io-diotest4-drop-MAP_FIXED.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--From f210d7e19b721041f31b7f258a169f89dc850303 Mon Sep 17 00:00:00 2001
--From: Jan Stancek <jstancek@redhat.com>
--Date: Thu, 4 Jul 2019 16:45:23 +0200
--Subject: [PATCH] direct_io/diotest4: drop MAP_FIXED
--
--Hongzhi reports that this test is failing on mips64 with 5.1+:
--  diotest4 10 TBROK : diotest4.c:368: can't mmap file: Invalid argument
--  diotest4 11 TBROK : diotest4.c:368: Remaining cases broken
--I could reproduce it on emulated 5kc-malta, running 5.2.0-rc7.
--
--Test is trying to map into area immediately following heap as MAP_SHARED,
--but it used wrong alignment (fixed by 'lapi/mmap.h: include config.h').
--
--Usage of MAP_FIXED seems unnecessary, so drop that too and let the kernel
--pick an address.
--
--Reported-by: Hongzhi.Song <hongzhi.song@windriver.com>
--Signed-off-by: Jan Stancek <jstancek@redhat.com>
--Acked-by: Cyril Hrubis <chrubis@suse.cz>
--
--Upstream-Status: Backport
--[https://github.com/linux-test-project/ltp/commit/f5444eeeabf252b8884b9465d277b6af853819e3]
--
--Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-----
-- testcases/kernel/io/direct_io/diotest4.c | 8 ++------
-- 1 file changed, 2 insertions(+), 6 deletions(-)
--
--diff --git a/testcases/kernel/io/direct_io/diotest4.c b/testcases/kernel/io/direct_io/diotest4.c
--index e4616e4..bf200cd 100644
----- a/testcases/kernel/io/direct_io/diotest4.c
--+++ b/testcases/kernel/io/direct_io/diotest4.c
--@@ -352,18 +352,14 @@ int main(int argc, char *argv[])
-- 	total++;
-- 
-- 	/* Test-10: read, write to a mmaped file */
---	shm_base = (char *)(((long)sbrk(0) + (shmsz - 1)) & ~(shmsz - 1));
---	if (shm_base == NULL) {
---		tst_brkm(TBROK, cleanup, "sbrk failed: %s", strerror(errno));
---	}
-- 	offset = 4096;
-- 	count = bufsize;
-- 	if ((fd = open(filename, O_DIRECT | O_RDWR)) < 0) {
-- 		tst_brkm(TBROK, cleanup, "can't open %s: %s",
-- 			 filename, strerror(errno));
-- 	}
---	shm_base = mmap(shm_base, 0x100000, PROT_READ | PROT_WRITE,
---			MAP_SHARED | MAP_FIXED, fd, 0);
--+	shm_base = mmap(0, 0x100000, PROT_READ | PROT_WRITE,
--+			MAP_SHARED, fd, 0);
-- 	if (shm_base == (caddr_t) - 1) {
-- 		tst_brkm(TBROK, cleanup, "can't mmap file: %s",
-- 			 strerror(errno));
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/ltp/ltp/0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch b/meta/recipes-extended/ltp/ltp/0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
-deleted file mode 100644
-index aecbc80e9b5..00000000000
---- a/meta/recipes-extended/ltp/ltp/0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
-+++ /dev/null
-@@ -1,64 +0,0 @@
--From 4ac747c1f7ff8e2ec2567d6672822e95a9b56e55 Mon Sep 17 00:00:00 2001
--From: "Hongzhi.Song" <hongzhi.song@windriver.com>
--Date: Mon, 15 Jul 2019 03:39:06 -0400
--Subject: [PATCH] getrlimit03: adjust a bit of code to compatiable with mips32
--
--Error info:
--getrlimit03.c:104: FAIL: __NR_prlimit64(0) had rlim_cur =
--ffffffffffffffff but __NR_getrlimit(0) had rlim_cur = 7fffffff
--
--According to kernel code: [arch/mips/include/uapi/asm/resource.h]
--RLIM_INFINITY is set to 0x7fffffffUL instead of ULONG_MAX on mips32.
--
-- /*
-- * SuS says limits have to be unsigned.
-- * Which makes a ton more sense anyway,
-- * but we keep the old value on MIPS32,
-- * for compatibility:
-- */
-- #ifndef __mips64
-- # define RLIM_INFINITY      0x7fffffffUL
-- #endif
--
--Adding conditional statement about mips to fix this.
--
--Signed-off-by: Jan Stancek <jstancek@redhat.com>
--Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
--
--Upstream-Status: Backport
--[https://github.com/linux-test-project/ltp/commit/7a3bca63cd7f059d490b6274f0fdf3247be93fde]
--
--Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-----
-- testcases/kernel/syscalls/getrlimit/getrlimit03.c | 8 +++++++-
-- 1 file changed, 7 insertions(+), 1 deletion(-)
--
--diff --git a/testcases/kernel/syscalls/getrlimit/getrlimit03.c b/testcases/kernel/syscalls/getrlimit/getrlimit03.c
--index e4d56c4..319bc49 100644
----- a/testcases/kernel/syscalls/getrlimit/getrlimit03.c
--+++ b/testcases/kernel/syscalls/getrlimit/getrlimit03.c
--@@ -26,6 +26,7 @@
-- 
-- #include "tst_test.h"
-- #include "lapi/syscalls.h"
--+#include "lapi/abisize.h"
-- 
-- /**
--  * Linux provides an "old" getrlimit syscall handler that uses signed long,
--@@ -61,7 +62,12 @@ struct rlimit_ulong {
-- 	unsigned long rlim_cur;
-- 	unsigned long rlim_max;
-- };
---const unsigned long RLIM_INFINITY_UL = ULONG_MAX;
 -+
--+#if defined(__mips__) && defined(TST_ABI32)
--+	const unsigned long RLIM_INFINITY_UL = 0x7fffffffUL;
--+#else
--+	const unsigned long RLIM_INFINITY_UL = ULONG_MAX;
--+#endif
+-+void
+-+cpio_set_c_name (struct cpio_file_stat *file_hdr, char *name)
+-+{
+-+  static size_t buflen = 0;
+-+  size_t len = strlen (name) + 1;
+-+
+-+  if (buflen == 0)
+-+    {
+-+      buflen = len;
+-+      if (buflen < 32)
+-+        buflen = 32;
+-+      file_hdr->c_name = xmalloc (buflen);
+-+    }
+-+  else if (buflen < len)
+-+    {
+-+      buflen = len;
+-+      file_hdr->c_name = xrealloc (file_hdr->c_name, buflen);
+-+    }
+-+
+-+  file_hdr->c_namesize = len;
+-+  memmove (file_hdr->c_name, name, len);
+-+}
+-+
+- /* Do we have to ignore absolute paths, and if so, does the filename
+--   have an absolute path?  */
+-+   have an absolute path?  Before calling this function make sure that the
+-+   allocated NAME buffer has capacity at least 2 bytes. */
+-+
+- void
+- cpio_safer_name_suffix (char *name, bool link_target, bool absolute_names,
+- 			bool strip_leading_dots)
+-@@ -1426,6 +1452,10 @@ cpio_safer_name_suffix (char *name, bool link_target, bool absolute_names,
+- 	  ++p;
+-       }
+-   if (p != name)
+-+    /* The 'p' string is shortened version of 'name' with one exception;  when
+-+       the 'name' points to an empty string (buffer where name[0] == '\0') the
+-+       'p' then points to static string ".".  So caller needs to ensure there
+-+       are at least two bytes available in 'name' buffer so memmove succeeds. */
+-     memmove (name, p, (size_t)(strlen (p) + 1));
+- }
 - 
-- static int getrlimit_ulong(int resource, struct rlimit_ulong *rlim)
-- {
+-diff --git a/tests/inout.at b/tests/inout.at
+-index 60c3716..730cbd2 100644
+---- a/tests/inout.at
+-+++ b/tests/inout.at
+-@@ -35,7 +35,22 @@ while read NAME LENGTH
+- do
+- 	genfile --length $LENGTH > $NAME
+- 	echo $NAME
+--done < filelist |
+-- cpio --quiet -o > archive])
+-+done < filelist > filelist_raw
+-+
+-+for format in bin odc newc crc tar ustar hpbin hpodc
+-+do
+-+    cpio --format=$format --quiet -o < filelist_raw > archive.$format
+-+    rm -rf output
+-+    mkdir output && cd output
+-+    cpio -i --quiet < ../archive.$format
+-+
+-+    while read file
+-+    do
+-+        test -f $file || echo "$file not found"
+-+    done < ../filelist_raw
+-+
+-+    cd ..
+-+done
+-+])
+- 
+- AT_CLEANUP
 --- 
--2.7.4
+-1.9.1
 -
-diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190930.bb
-similarity index 84%
-rename from meta/recipes-extended/ltp/ltp_20190517.bb
-rename to meta/recipes-extended/ltp/ltp_20190930.bb
-index 60f749b4c01..9a436a52303 100644
---- a/meta/recipes-extended/ltp/ltp_20190517.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190930.bb
-@@ -27,7 +27,7 @@ CFLAGS_append_x86-64 = " -fomit-frame-pointer"
- 
- CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
- CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
--SRCREV = "ac33ef87f0b9dc56533026435be3ea8c67ce86d2"
-+SRCREV = "c9707b465a08397569920b676345474f44327200"
- 
- SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-build-Add-option-to-select-libc-implementation.patch \
-@@ -38,19 +38,8 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0007-Fix-test_proc_kill-hanging.patch \
-            file://0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
-            file://0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
--           file://0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch \
--           file://0011-direct_io-diotest4-drop-MAP_FIXED.patch \
--           file://0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch \
--           file://0001-Add-configure-time-check-for-getdents-getdents64-API.patch \
--           file://0002-check-for-RES_USE_INET6-during-configure.patch \
--           file://0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch \
--           file://0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch \
--           file://0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch \
--           file://0001-testcases-use-python3-everywhere-to-run-python-scrip.patch \
--           file://0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch \
--           file://0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch \
--           file://0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch \
-            file://0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch \
-+           file://0001-testcases-fix-an-absent-format-string-issue.patch \
+diff --git a/meta/recipes-extended/cpio/cpio-2.12/0001-Fix-segfault-with-append.patch b/meta/recipes-extended/cpio/cpio-2.12/0001-Fix-segfault-with-append.patch
+deleted file mode 100644
+index ec8b303c43a..00000000000
+--- a/meta/recipes-extended/cpio/cpio-2.12/0001-Fix-segfault-with-append.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 32d95fe0c90c59352a0ce3102fc9866cbfb0f629 Mon Sep 17 00:00:00 2001
+-From: Sergey Poznyakoff <gray@gnu.org>
+-Date: Sat, 1 Dec 2018 11:40:02 +0200
+-Subject: [PATCH] Fix sigfault when appending to archive
+-
+-Bug reported by Ross Burton. See
+-<http://lists.gnu.org/archive/html/bug-cpio/2018-11/msg00000.html>
+-
+-* src/util.c: Keep static copy of the buffer pointer; always
+-assign it to file_hdr->c_name. Use x2realloc for memory management.
+----
+- src/util.c | 17 ++++-------------
+- 1 file changed, 4 insertions(+), 13 deletions(-)
+-
+-diff --git a/src/util.c b/src/util.c
+-index 10486dc..4e49124 100644
+---- a/src/util.c
+-+++ b/src/util.c
+-@@ -1413,22 +1413,13 @@ set_file_times (int fd,
+- void
+- cpio_set_c_name (struct cpio_file_stat *file_hdr, char *name)
+- {
+-+  static char *buf = NULL;
+-   static size_t buflen = 0;
+-   size_t len = strlen (name) + 1;
+- 
+--  if (buflen == 0)
+--    {
+--      buflen = len;
+--      if (buflen < 32)
+--        buflen = 32;
+--      file_hdr->c_name = xmalloc (buflen);
+--    }
+--  else if (buflen < len)
+--    {
+--      buflen = len;
+--      file_hdr->c_name = xrealloc (file_hdr->c_name, buflen);
+--    }
+--
+-+  while (buflen < len)
+-+    buf = x2realloc (buf, &buflen);
+-+  file_hdr->c_name = buf;
+-   file_hdr->c_namesize = len;
+-   memmove (file_hdr->c_name, name, len);
+- }
+--- 
+-2.18.0
+-
+diff --git a/meta/recipes-extended/cpio/cpio-2.12/0001-Fix-CVE-2015-1197.patch b/meta/recipes-extended/cpio/cpio-2.13/0001-Fix-CVE-2015-1197.patch
+similarity index 100%
+rename from meta/recipes-extended/cpio/cpio-2.12/0001-Fix-CVE-2015-1197.patch
+rename to meta/recipes-extended/cpio/cpio-2.13/0001-Fix-CVE-2015-1197.patch
+diff --git a/meta/recipes-extended/cpio/cpio-2.12/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-extended/cpio/cpio-2.13/0001-Unset-need_charset_alias-when-building-for-musl.patch
+similarity index 100%
+rename from meta/recipes-extended/cpio/cpio-2.12/0001-Unset-need_charset_alias-when-building-for-musl.patch
+rename to meta/recipes-extended/cpio/cpio-2.13/0001-Unset-need_charset_alias-when-building-for-musl.patch
+diff --git a/meta/recipes-extended/cpio/cpio_2.12.bb b/meta/recipes-extended/cpio/cpio_2.13.bb
+similarity index 83%
+rename from meta/recipes-extended/cpio/cpio_2.12.bb
+rename to meta/recipes-extended/cpio/cpio_2.13.bb
+index 3713bf0b1f4..69615a9a0f5 100644
+--- a/meta/recipes-extended/cpio/cpio_2.12.bb
++++ b/meta/recipes-extended/cpio/cpio_2.13.bb
+@@ -9,12 +9,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
+ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+            file://0001-Fix-CVE-2015-1197.patch \
+-           file://0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch \
+-           file://0001-Fix-segfault-with-append.patch \
             "
  
- S = "${WORKDIR}/git"
+-SRC_URI[md5sum] = "fc207561a86b63862eea4b8300313e86"
+-SRC_URI[sha256sum] = "08a35e92deb3c85d269a0059a27d4140a9667a6369459299d08c17f713a92e73"
++SRC_URI[md5sum] = "389c5452d667c23b5eceb206f5000810"
++SRC_URI[sha256sum] = "e87470d9c984317f658567c03bfefb6b0c829ff17dbf6b0de48d71a4c8f3db88"
+ 
+ inherit autotools gettext texinfo
+ 
 -- 
 2.17.1
 
