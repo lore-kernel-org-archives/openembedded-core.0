@@ -1,24 +1,29 @@
-Return-Path: <Quanyang.Wang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A29A07CF88
+Return-Path: <pascal.bach@siemens.com>
+X-Greylist: delayed 513 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 12 Dec 2019 08:34:02 UTC
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id A9E717F8B5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 07:25:18 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xBC7PJOO019479
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Thu, 12 Dec 2019 08:34:02 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id xBC8PTnu008299
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2019 23:25:19 -0800 (PST)
-Received: from pek-qwang2-d1.wrs.com (128.224.162.199) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 11 Dec 2019 23:25:12 -0800
-From: <quanyang.wang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Dec 2019 15:25:11 +0800
-Message-ID: <20191212072511.31930-1-quanyang.wang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Thu, 12 Dec 2019 09:25:29 +0100
+Received: from dev.vm6.ccp.siemens.com (MD1FZU9C.ad001.siemens.net
+	[139.16.79.241])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id xBC8PRMN027862;
+	Thu, 12 Dec 2019 09:25:27 +0100
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 828379857FE;
+	Thu, 12 Dec 2019 09:25:27 +0100 (CET)
+From: Pascal Bach <pascal.bach@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 12 Dec 2019 09:25:07 +0100
+Message-Id: <20191212082507.26704-1-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] lttng-modules: fix NULL pointer deference error when testing rpc_task_running
+Subject: [PATCH] cmake: 3.15.5 -> 3.16.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,134 +36,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 07:25:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 12 Dec 2019 08:34:04 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Quanyang Wang <quanyang.wang@windriver.com>
+Patches have been refreshed and all of meta-oe and oe-core was sucessfully built.
 
-This fixes NULL pointer deference error when running kts testcase lttng_syscall_events.
-
-Upstream-Status: Pending
-
-Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
 ---
- ...ops-when-trace-sunrpc_task-events-in.patch | 93 +++++++++++++++++++
- .../lttng/lttng-modules_2.10.11.bb            |  1 +
- 2 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
+ ...cmake-native_3.15.5.bb => cmake-native_3.16.1.bb} |  0
+ meta/recipes-devtools/cmake/cmake.inc                |  4 ++--
+ ...rmineSystem-use-oe-environment-vars-to-load.patch |  2 +-
+ .../0002-cmake-Prevent-the-detection-of-Qt5.patch    | 12 ++++++------
+ ...-support-OpenEmbedded-Qt4-tool-binary-names.patch |  4 ++--
+ ...ilently-if-system-Qt-installation-is-broken.patch |  4 ++--
+ .../cmake/{cmake_3.15.5.bb => cmake_3.16.1.bb}       |  0
+ 7 files changed, 13 insertions(+), 13 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.15.5.bb => cmake-native_3.16.1.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.15.5.bb => cmake_3.16.1.bb} (100%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
-new file mode 100644
-index 0000000000..b46bf26dd4
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
-@@ -0,0 +1,93 @@
-+From f79f32bffcd968748e744e273e73b6048c4668f4 Mon Sep 17 00:00:00 2001
-+From: Quanyang Wang <quanyang.wang@windriver.com>
-+Date: Thu, 5 Dec 2019 13:41:06 +0800
-+Subject: [PATCH] Fix: SUNRPC: Fix oops when trace sunrpc_task events in nfs
-+ client
-+
-+See upstream commit :
-+
-+	commit 2ca310fc4160ed0420da65534a21ae77b24326a8
-+	Author: Ditang Chen <chendt.fnst@cn.fujitsu.com>
-+	Date: Fri, 7 Mar 2014 13:27:57 +0800
-+	Subject: SUNRPC: Fix oops when trace sunrpc_task events in nfs client
-+
-+	When tracking sunrpc_task events in nfs client, the clnt pointer may be NULL.
-+
-+	[  139.269266] BUG: unable to handle kernel NULL pointer dereference at 0000000000000004
-+	[  139.269915] IP: [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
-+	[  139.269915] PGD 1d293067 PUD 1d294067 PMD 0
-+	[  139.269915] Oops: 0000 [#1] SMP
-+	[  139.269915] Modules linked in: nfsv4 dns_resolver nfs lockd sunrpc fscache sg ppdev e1000
-+	serio_raw pcspkr parport_pc parport i2c_piix4 i2c_core microcode xfs libcrc32c sd_mod sr_mod
-+	cdrom ata_generic crc_t10dif crct10dif_common pata_acpi ahci libahci ata_piix libata dm_mirror
-+	dm_region_hash dm_log dm_mod
-+	[  139.269915] CPU: 0 PID: 59 Comm: kworker/0:2 Not tainted 3.10.0-84.el7.x86_64 #1
-+	[  139.269915] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
-+	[  139.269915] Workqueue: rpciod rpc_async_schedule [sunrpc]
-+	[  139.269915] task: ffff88001b598000 ti: ffff88001b632000 task.ti: ffff88001b632000
-+	[  139.269915] RIP: 0010:[<ffffffffa026f216>]  [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
-+	[  139.269915] RSP: 0018:ffff88001b633d70  EFLAGS: 00010206
-+	[  139.269915] RAX: ffff88001dfc5338 RBX: ffff88001cc37a00 RCX: ffff88001dfc5334
-+	[  139.269915] RDX: ffff88001dfc5338 RSI: 0000000000000000 RDI: ffff88001dfc533c
-+	[  139.269915] RBP: ffff88001b633db0 R08: 000000000000002c R09: 000000000000000a
-+	[  139.269915] R10: 0000000000062180 R11: 00000020759fb9dc R12: ffffffffa0292c20
-+	[  139.269915] R13: ffff88001dfc5334 R14: 0000000000000000 R15: 0000000000000000
-+	[  139.269915] FS:  0000000000000000(0000) GS:ffff88001fc00000(0000) knlGS:0000000000000000
-+	[  139.269915] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
-+	[  139.269915] CR2: 0000000000000004 CR3: 000000001d290000 CR4: 00000000000006f0
-+	[  139.269915] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-+	[  139.269915] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
-+	[  139.269915] Stack:
-+	[  139.269915]  000000001b633d98 0000000000000246 ffff88001df1dc00 ffff88001cc37a00
-+	[  139.269915]  ffff88001bc35e60 0000000000000000 ffff88001ffa0a48 ffff88001bc35ee0
-+	[  139.269915]  ffff88001b633e08 ffffffffa02704b5 0000000000010000 ffff88001cc37a70
-+	[  139.269915] Call Trace:
-+	[  139.269915]  [<ffffffffa02704b5>] __rpc_execute+0x1d5/0x400 [sunrpc]
-+	[  139.269915]  [<ffffffffa0270706>] rpc_async_schedule+0x26/0x30 [sunrpc]
-+	[  139.269915]  [<ffffffff8107867b>] process_one_work+0x17b/0x460
-+	[  139.269915]  [<ffffffff8107942b>] worker_thread+0x11b/0x400
-+	[  139.269915]  [<ffffffff81079310>] ? rescuer_thread+0x3e0/0x3e0
-+	[  139.269915]  [<ffffffff8107fc80>] kthread+0xc0/0xd0
-+	[  139.269915]  [<ffffffff8107fbc0>] ? kthread_create_on_node+0x110/0x110
-+	[  139.269915]  [<ffffffff815d122c>] ret_from_fork+0x7c/0xb0
-+	[  139.269915]  [<ffffffff8107fbc0>] ? kthread_create_on_node+0x110/0x110
-+	[  139.269915] Code: 4c 8b 45 c8 48 8d 7d d0 89 4d c4 41 89 c9 b9 28 00 00 00 e8 9d b4 e9
-+	e0 48 85 c0 49 89 c5 74 a2 48 89 c7 e8 9d 3f e9 e0 48 89 c2 <41> 8b 46 04 48 8b 7d d0 4c
-+	89 e9 4c 89 e6 89 42 0c 0f b7 83 d4
-+	[  139.269915] RIP  [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
-+	[  139.269915]  RSP <ffff88001b633d70>
-+	[  139.269915] CR2: 0000000000000004
-+	[  140.946406] ---[ end trace ba486328b98d7622 ]---
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
-+---
-+ instrumentation/events/lttng-module/rpc.h | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
-+index 3798e8e..fb13106 100644
-+--- a/instrumentation/events/lttng-module/rpc.h
-++++ b/instrumentation/events/lttng-module/rpc.h
-+@@ -139,7 +139,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
-+ 
-+ 	TP_FIELDS(
-+ 		ctf_integer(unsigned int, task_id, task->tk_pid)
-+-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
-++		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
-+ 		ctf_integer_hex(const void *, action, action)
-+ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-+ 		ctf_integer(int, status, task->tk_status)
-+@@ -208,7 +208,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
-+ 
-+ 	TP_FIELDS(
-+ 		ctf_integer(unsigned int, task_id, task->tk_pid)
-+-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
-++		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
-+ 		ctf_integer_hex(const void *, action, action)
-+ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
-+ 		ctf_integer(int, status, task->tk_status)
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
-index c116fddc60..494b2031c1 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
-@@ -14,6 +14,7 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-+           file://0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch \
-            "
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.15.5.bb b/meta/recipes-devtools/cmake/cmake-native_3.16.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.15.5.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.16.1.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 24190dec02..9d14c14b54 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -22,7 +22,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ "
  
- SRC_URI[md5sum] = "c618fb646514dfc1bf910cfd7cda4256"
+-SRC_URI[md5sum] = "5fe3ebca627b4c3dcc2f127fbcfbceba"
+-SRC_URI[sha256sum] = "fbdd7cef15c0ced06bb13024bfda0ecc0dedbcaaaa6b8a5d368c75255243beb4"
++SRC_URI[md5sum] = "142cf11cd9a7c298cf875604cee96434"
++SRC_URI[sha256sum] = "a275b3168fa8626eca4465da7bb159ff07c8c6cb0fb7179be59e12cbdfa725fd"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+index 3720833d3e..e2a58d25e2 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineSystem-use-oe-environment-vars-to-load.patch
+@@ -1,4 +1,4 @@
+-From 1e67c3fe52c6c51c00cf1ebb0bfc30c7a5ef9fdb Mon Sep 17 00:00:00 2001
++From ab272d703ce77f323aa1285526559c9efbf85834 Mon Sep 17 00:00:00 2001
+ From: Cody P Schafer <dev@codyps.com>
+ Date: Thu, 27 Apr 2017 11:35:05 -0400
+ Subject: [PATCH] CMakeDetermineSystem: use oe environment vars to load default
+diff --git a/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch b/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
+index db229e63e2..61c8f27cd6 100644
+--- a/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
++++ b/meta/recipes-devtools/cmake/cmake/0002-cmake-Prevent-the-detection-of-Qt5.patch
+@@ -1,4 +1,4 @@
+-From 5cb6c86696f842274043e7d406f84b3ead1c36e0 Mon Sep 17 00:00:00 2001
++From 5a86c7fa987bd407f228176df2abeffd015be9ea Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Wed, 17 Jan 2018 10:02:14 -0200
+ Subject: [PATCH] cmake: Prevent the detection of Qt5
+@@ -38,10 +38,10 @@ index cb89d19..9e68981 100644
+    include_directories(${Qt5Widgets_INCLUDE_DIRS})
+    add_definitions(${Qt5Widgets_DEFINITONS})
+ diff --git a/Tests/CMakeLists.txt b/Tests/CMakeLists.txt
+-index e73b277..91b8b67 100644
++index 57fa7fc..d50c146 100644
+ --- a/Tests/CMakeLists.txt
+ +++ b/Tests/CMakeLists.txt
+-@@ -1348,7 +1348,7 @@ ${CMake_SOURCE_DIR}/Utilities/Release/push.bash --dir dev -- '${CMake_BUILD_NIGH
++@@ -1329,7 +1329,7 @@ ${CMake_SOURCE_DIR}/Utilities/Release/push.bash --dir dev -- '${CMake_BUILD_NIGH
+      set(CMake_TEST_Qt5 1)
+    endif()
+    if(CMake_TEST_Qt5)
+@@ -96,11 +96,11 @@ index c08efc4..87e25d9 100644
+  set(CMAKE_CXX_STANDARD 11)
+  set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/output/bin)
+ diff --git a/Tests/RunCMake/CMakeLists.txt b/Tests/RunCMake/CMakeLists.txt
+-index 69f8162..f389523 100644
++index 6b2f117..1002005 100644
+ --- a/Tests/RunCMake/CMakeLists.txt
+ +++ b/Tests/RunCMake/CMakeLists.txt
+-@@ -334,7 +334,7 @@ add_RunCMake_test(configure_file)
+- add_RunCMake_test(CTestTimeoutAfterMatch)
++@@ -376,7 +376,7 @@ else()
++ endif()
+  
+  find_package(Qt4 QUIET)
+ -find_package(Qt5Core QUIET)
+diff --git a/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch b/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
+index d7d87a5256..e30dc51e4a 100644
+--- a/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
++++ b/meta/recipes-devtools/cmake/cmake/0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch
+@@ -1,4 +1,4 @@
+-From b003857d3481105c473e2e75bad4e9e2c6e70004 Mon Sep 17 00:00:00 2001
++From e528861023bf69df0ad061a59fd4e527c9dde1ce Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 12 May 2011 15:36:03 +0000
+ Subject: [PATCH] cmake: support OpenEmbedded Qt4 tool binary names
+@@ -25,7 +25,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 5 insertions(+), 5 deletions(-)
+ 
+ diff --git a/Modules/FindQt4.cmake b/Modules/FindQt4.cmake
+-index a145b46..7e18243 100644
++index 3993968..b2a8585 100644
+ --- a/Modules/FindQt4.cmake
+ +++ b/Modules/FindQt4.cmake
+ @@ -518,7 +518,7 @@ endfunction()
+diff --git a/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch b/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch
+index 676e2857d7..48f43be837 100644
+--- a/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch
++++ b/meta/recipes-devtools/cmake/cmake/0004-Fail-silently-if-system-Qt-installation-is-broken.patch
+@@ -1,4 +1,4 @@
+-From d4a78e8739e845c2963666f7ef6a6c7a89827988 Mon Sep 17 00:00:00 2001
++From b0aeca35187983e22ec256a439cff4702dbde331 Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 5 Jul 2018 10:26:48 -0300
+ Subject: [PATCH] Fail silently if system Qt installation is broken
+@@ -28,7 +28,7 @@ Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+  1 file changed, 20 insertions(+), 19 deletions(-)
+ 
+ diff --git a/Modules/FindQt4.cmake b/Modules/FindQt4.cmake
+-index 7e18243..497d5c3 100644
++index b2a8585..77c89aa 100644
+ --- a/Modules/FindQt4.cmake
+ +++ b/Modules/FindQt4.cmake
+ @@ -988,25 +988,26 @@ if (QT_QMAKE_EXECUTABLE AND
+diff --git a/meta/recipes-devtools/cmake/cmake_3.15.5.bb b/meta/recipes-devtools/cmake/cmake_3.16.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.15.5.bb
+rename to meta/recipes-devtools/cmake/cmake_3.16.1.bb
 -- 
-2.17.1
+2.20.1
 
 
