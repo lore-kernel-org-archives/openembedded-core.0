@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 73FA57FA0C
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+	[209.85.128.43])
+	by mail.openembedded.org (Postfix) with ESMTP id D56BA7FBFA
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 Dec 2019 18:15:04 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id b11so3408154wmj.4
+Received: by mail-wm1-f43.google.com with SMTP id d5so3622024wmb.4
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 Dec 2019 10:15:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6k8ruxqjNPxRozzO24e1jH5tE7Fsd6mtUBy+qkV5sTs=;
-	b=dY1bhUfGZ4kYEB1OITmaI8qCNnYufPWBjiu1rVaB9r+VNby52/fMdJL67vVOMqVrKm
-	5A94nhRCc2zTg2LUf/y2kxkHz6RhxjtVoh9QXX/l4tcKjeTaSWfGcprbNYHZlHWE/wjl
-	QEZp5CTNCXLu+ZFGzsouAZ9dOsdG4X1aHWBIvRPYEQqClIFq7yM5Ms4Uqypj2eqG7vnG
-	7mj5Z5+DkIkT9ZG9QbwLXfgmqwHsuVun8ha/SIes8vpuJK7vQh8CBYNHJewm+Ta7cPpj
-	brtwy8WobMQKIE3kBg5jyJ3EOqEBYEHWJn65Y+3QPTk48DhVHDdPBb0ye+uHKIoklxXq
-	zfDw==
+	bh=glsfS+khV/1loX02wRblI0tDt9Wp6ysXii/Py39sVY4=;
+	b=HTiLeFwCOETDREmzM+K0gbegQ6eovNFI8VOOvCKQFzn+ybKfXMikXKQctxXjM4554R
+	HrQ8W8HGxkW1+uh7ozyyli4nMNMMVu12sE5UT6F5/N5a1CUCNxLD9CYN3NGFDDtGgwcL
+	NYhZobOk14+qGJlJ8lETjLin9ire5ZeoSJu91mQJbxIxNmU6X6j5sfp0NsrO99XTInYA
+	bTLk52eB43rvXZAb7J6pjGDrfHzegdGd7IeBZL1dK5GeMTz7Rt8zupxT4giRMXnIFu7J
+	rKQmjx9lcR9Ie8Eqm/03fykJ+mPR+407w0EbHFFKjigO61T+mskK/9Jc098lLh9y5PFH
+	FiRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=6k8ruxqjNPxRozzO24e1jH5tE7Fsd6mtUBy+qkV5sTs=;
-	b=mAif8LbLfBIVK0iAhQRudYqdh95y8IfFBfHbqa3kWT0BrYsSvHDnI+3UaI9gPJtp6o
-	nDrmZunQVb1ssjUJFXPGKlatZiy8gWvJ9xMLXxHcuV8MbFwrPtQrL1DwB7mifK8ymO6I
-	SZms4XD1VneTFJnkQ1dpOJg/aAmrDJKMGdIdOWvtBXoUzUOCFbZJA/njwsR4cX6S1Sin
-	oo6FS3UA//qbaEp998QVAIi4hfyOuQ/ZfJLaTGODAflXfBcMiRUWk3kqfWWTsdVS8pSD
-	4HEivhCzRRIhtu7J46eB5hrH95k6AdIcdnIWAAYygZHk5hgy1AkYh24FUgVYP0Fg5zjF
-	eo3w==
-X-Gm-Message-State: APjAAAVESYESu67PuncgOq7+kzDT5qYxf/FZiX+z7eFUjcxzVlO6sqZw
-	m96AdtQVN8vvlQ82gZMHi78i2Gz2
-X-Google-Smtp-Source: APXvYqwcuGvHkniedAhgC8ihOdESyNyJXweRdXs78W0HovM6YGg+reVlbgYyDpxilxL1/I41MLGJ1w==
-X-Received: by 2002:a7b:cbd6:: with SMTP id n22mr8005182wmi.118.1576174504503; 
-	Thu, 12 Dec 2019 10:15:04 -0800 (PST)
+	bh=glsfS+khV/1loX02wRblI0tDt9Wp6ysXii/Py39sVY4=;
+	b=HQNGX0gIN1jkE7yj5brFCtWCjBYhfAfj2v2B9d5eZx/qKLCzAv3WxefMQ0rePpF3yE
+	vXZiQkO3hCBCQK7vwX9GCwHtV4x19fX4XYQ/T5gSgBj5q8OaGa7AhnHslD0H2gBjTza5
+	5oIUMoHY1VF1ki6X7M8U5Pag8++RSVax5nHhiSbzcRcPfl7hxWTKHF8HWALteGyxw8Mp
+	J89zwo8kTZiRUcOMEq86J59RxER4sWrvqh5tV1brIKyVhi/hqIONfcgii/DliwdyEEYB
+	dUK/4PEyTKw6cONipRTUVsQbhunKFvvbA/AT/bRQY6jbkW9sxXT7wF+r2q36VjQC60xL
+	ReFA==
+X-Gm-Message-State: APjAAAWVtEiHFtOpRL7bVlcYId6/RhXUbcDssm0fyydd//Egoka2Htvb
+	s90IpEM+XCD3jH37UoANLiqkejHZ
+X-Google-Smtp-Source: APXvYqx5Kqf3nSvDfDfK6KmYUAHajAxmn5SMvE1vWlma7jz1ElQSn/Xnmvd1Kgbp1IoBGnEYILyyTg==
+X-Received: by 2002:a7b:c851:: with SMTP id c17mr8420884wml.71.1576174505276; 
+	Thu, 12 Dec 2019 10:15:05 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	o66sm3147571wmo.20.2019.12.12.10.15.03
+	o66sm3147571wmo.20.2019.12.12.10.15.04
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 10:15:03 -0800 (PST)
+	Thu, 12 Dec 2019 10:15:04 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 19:14:28 +0100
-Message-Id: <20191212181436.1322-22-alex.kanavin@gmail.com>
+Date: Thu, 12 Dec 2019 19:14:29 +0100
+Message-Id: <20191212181436.1322-23-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-Subject: [PATCH 22/30] lttng-tools: update to 2.11.0
+Subject: [PATCH 23/30] cups: update to 2.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,822 +59,350 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 12 Dec 2019 18:15:06 -0000
 
-Remove 0001-Skip-when-testapp-is-not-present.patch as it is unclear
-whether it needs to be rebased, and difficult to rebase.
+License-Update: license changed to Apache 2.0
 
-Remove 0001-check-for-gettid-API-during-configure.patch as it
-is no longer needed.
+Remove no longer recognized configure options.
 
-Ptests still seem to run ok, however they are rather slow,
-so I did not wait for their completion.
+Refresh all patches.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...001-Skip-when-testapp-is-not-present.patch | 610 ------------------
- ...heck-for-gettid-API-during-configure.patch |  55 --
- ...-tests-do-not-strip-a-helper-library.patch |  27 +
- ...ttng-modules-presence-before-testing.patch |  24 -
- ...-tools_2.10.7.bb => lttng-tools_2.11.0.bb} |  14 +-
- 5 files changed, 35 insertions(+), 695 deletions(-)
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-Skip-when-testapp-is-not-present.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-check-for-gettid-API-during-configure.patch
- create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
- delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/0002-Fix-check-for-lttng-modules-presence-before-testing.patch
- rename meta/recipes-kernel/lttng/{lttng-tools_2.10.7.bb => lttng-tools_2.11.0.bb} (94%)
+ meta/recipes-extended/cups/cups.inc           | 14 ++---
+ .../cups/cups/0001-cups-Update-to-1.6.1.patch | 27 ++++++++++
+ ...don-t-try-to-run-generated-binaries.patch} | 29 ++++++-----
+ ...003-cups_1.4.6.bb-Fix-build-on-ppc64.patch | 51 +++++++++++++++++++
+ ...fix-multilib-install-file-conflicts.patch} | 12 +++++
+ .../cups/cups/cups_serverbin.patch            | 38 --------------
+ .../cups/cups/use_echo_only_in_init.patch     | 15 ------
+ meta/recipes-extended/cups/cups_2.2.12.bb     |  6 ---
+ meta/recipes-extended/cups/cups_2.3.0.bb      |  6 +++
+ 9 files changed, 117 insertions(+), 81 deletions(-)
+ create mode 100644 meta/recipes-extended/cups/cups/0001-cups-Update-to-1.6.1.patch
+ rename meta/recipes-extended/cups/cups/{0001-don-t-try-to-run-generated-binaries.patch => 0002-don-t-try-to-run-generated-binaries.patch} (69%)
+ create mode 100644 meta/recipes-extended/cups/cups/0003-cups_1.4.6.bb-Fix-build-on-ppc64.patch
+ rename meta/recipes-extended/cups/cups/{cups-avoid-install-file-conflicts.patch => 0004-cups-fix-multilib-install-file-conflicts.patch} (68%)
+ delete mode 100644 meta/recipes-extended/cups/cups/cups_serverbin.patch
+ delete mode 100644 meta/recipes-extended/cups/cups/use_echo_only_in_init.patch
+ delete mode 100644 meta/recipes-extended/cups/cups_2.2.12.bb
+ create mode 100644 meta/recipes-extended/cups/cups_2.3.0.bb
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-Skip-when-testapp-is-not-present.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-Skip-when-testapp-is-not-present.patch
-deleted file mode 100644
-index 6c9f7e462cc..00000000000
---- a/meta/recipes-kernel/lttng/lttng-tools/0001-Skip-when-testapp-is-not-present.patch
-+++ /dev/null
-@@ -1,610 +0,0 @@
--From 95c27e6acceaeda55c729b9e92e594322adef13f Mon Sep 17 00:00:00 2001
--From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
--Date: Wed, 3 Apr 2019 16:31:18 -0400
--Subject: [PATCH lttng-tools] Skip when testapp is not present
--
--We expect lttng-ust do be present, this is a wrong assumptions.
--
--This is a quick fix. The real fix is to either detect at runtime
--lttng-ust support or at build time (HAVE_LIBLTTNG_UST_CTL).
--
--This prevent hang for make check done on a build configured with
----without-lttng-ust.
--
--Upstream-Status: Inappropriate [other] 
--Reason: This patch is inappropriate for upstream for 2.10 stable release 
--since we do not backport "superficial" fix to the test suite. We do 
--backport when a test is broken. The fact that on --without-lttng-ust 
--hang is not a "broken" test per-see. Still, a variation of this fix will 
--be upstreamed in our master branch and possibly 2.11. The upstreamed 
--version will split the test in kernel/ust test and skip them at the 
--build system level. This patch is more succinct.
--
--Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
-----
-- tests/regression/tools/crash/test_crash       |  4 ++
-- .../regression/tools/exclusion/test_exclusion |  4 ++
-- .../tools/filtering/test_valid_filter         | 21 ++++--
-- tests/regression/tools/health/test_thread_ok  | 29 +++++---
-- tests/regression/tools/live/Makefile.am       |  2 -
-- tests/regression/tools/live/test_lttng_ust    |  4 ++
-- tests/regression/tools/live/test_ust          |  4 ++
-- .../tools/live/test_ust_tracefile_count       |  4 ++
-- tests/regression/tools/mi/test_mi             |  4 ++
-- .../notification/test_notification_multi_app  | 18 +++--
-- .../tools/notification/test_notification_ust  |  4 ++
-- .../regression/tools/regen-metadata/test_ust  |  2 +-
-- .../regression/tools/regen-statedump/test_ust |  2 +-
-- .../regression/tools/save-load/test_autoload  |  7 ++
-- tests/regression/tools/save-load/test_load    |  8 +++
-- tests/regression/tools/save-load/test_save    |  7 ++
-- .../regression/tools/snapshots/test_ust_fast  |  2 +-
-- .../regression/tools/snapshots/test_ust_long  |  2 +-
-- .../tools/snapshots/test_ust_streaming        |  2 +-
-- tests/regression/tools/snapshots/ust_test     |  2 +-
-- .../streaming/test_high_throughput_limits     |  2 +-
-- tests/regression/tools/streaming/test_ust     |  2 +-
-- .../tracefile-limits/test_tracefile_count     |  2 +-
-- .../tracefile-limits/test_tracefile_size      |  2 +-
-- .../tools/wildcard/test_event_wildcard        | 67 ++++++++++---------
-- 25 files changed, 147 insertions(+), 60 deletions(-)
--
--diff --git a/tests/regression/tools/crash/test_crash b/tests/regression/tools/crash/test_crash
--index 8c62c513d..3cbe97688 100755
----- a/tests/regression/tools/crash/test_crash
--+++ b/tests/regression/tools/crash/test_crash
--@@ -35,6 +35,10 @@ NUM_TESTS=77
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- # Global declaration for simplification
-- LTTNG_CRASH=$TESTDIR/../src/bin/lttng-crash/$CRASH_BIN
-- 
--diff --git a/tests/regression/tools/exclusion/test_exclusion b/tests/regression/tools/exclusion/test_exclusion
--index 949cd41df..42e4d72fb 100755
----- a/tests/regression/tools/exclusion/test_exclusion
--+++ b/tests/regression/tools/exclusion/test_exclusion
--@@ -30,6 +30,10 @@ NUM_TESTS=149
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- function enable_ust_lttng_all_event_exclusion()
-- {
-- 	sess_name="$1"
--diff --git a/tests/regression/tools/filtering/test_valid_filter b/tests/regression/tools/filtering/test_valid_filter
--index 163b32182..1e8da630b 100755
----- a/tests/regression/tools/filtering/test_valid_filter
--+++ b/tests/regression/tools/filtering/test_valid_filter
--@@ -418,12 +418,18 @@ issue_356_filter+="intfield > 4 && intfield > 5 && "
-- issue_356_filter+="intfield > 6 && intfield > 7 && "
-- issue_356_filter+="intfield > 8 || intfield > 0"
-- 
--+BIN_NAME="gen-ust-events"
--+
--+skip_ust=1
--+if [ ! -x "$CURDIR/$BIN_NAME" ]; then
--+	skip_ust=0
--+	skip 0 "No UST nevents binary detected." $NUM_UST_TESTS
--+fi
--+
-- start_lttng_sessiond
-- 
-- ### UST TESTS
-- 
---BIN_NAME="gen-ust-events"
---
-- KIRK_KRAUSS_TESTS=(
-- 	# the tests below were written by Kirk Krauss in this article:
-- 	# http://www.drdobbs.com/architecture-and-design/matching-wildcards-an-empirical-way-to-t/240169123
--@@ -897,9 +903,6 @@ UST_STR_FILTERS=(
-- 	END
-- )
-- 
---if [ ! -x "$CURDIR/$BIN_NAME" ]; then
---	BAIL_OUT "No UST nevents binary detected."
---fi
-- 
-- IFS="$OLDIFS"
-- 
--@@ -910,6 +913,10 @@ i=0
-- while true; do
-- 	validator="${UST_FILTERS[$i]}"
-- 
--+	if [ $skip_ust -eq 0 ]; then
--+		break
--+	fi
--+
-- 	if [ "$validator" = END ]; then
-- 		break
-- 	fi
--@@ -929,6 +936,10 @@ i=0
-- while true; do
-- 	validator="${UST_STR_FILTERS[$i]}"
-- 
--+	if [ $skip_ust -eq 0 ]; then
--+		break
--+	fi
--+
-- 	if [ "$validator" = END ]; then
-- 		break
-- 	fi
--diff --git a/tests/regression/tools/health/test_thread_ok b/tests/regression/tools/health/test_thread_ok
--index e81d6ed24..849b7e71f 100755
----- a/tests/regression/tools/health/test_thread_ok
--+++ b/tests/regression/tools/health/test_thread_ok
--@@ -27,6 +27,9 @@ CHANNEL_NAME="testchan"
-- HEALTH_CHECK_BIN="health_check"
-- NUM_TESTS=17
-- SLEEP_TIME=30
--+TESTAPP_PATH="$TESTDIR/utils/testapp"
--+TESTAPP_NAME="gen-ust-events"
--+TESTAPP_BIN="$TESTAPP_PATH/$TESTAPP_NAME/$TESTAPP_NAME"
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--@@ -76,15 +79,19 @@ function test_thread_ok
-- 	$CURDIR/$HEALTH_CHECK_BIN > ${STDOUT_PATH} 2> ${STDERR_PATH}
-- 	report_errors
-- 
---	diag "With UST consumer daemons"
---	create_lttng_session_no_output $SESSION_NAME
---	enable_ust_lttng_event_ok $SESSION_NAME $UST_EVENT_NAME $CHANNEL_NAME
---	start_lttng_tracing_ok $SESSION_NAME
---	destroy_lttng_session_ok $SESSION_NAME
--+	skip $skip_ust "Ust does not seems to be supported" "5" ||
--+	{
--+		diag "With UST consumer daemons"
--+		create_lttng_session_no_output $SESSION_NAME
--+		enable_ust_lttng_event_ok $SESSION_NAME $UST_EVENT_NAME $CHANNEL_NAME
--+		start_lttng_tracing_ok $SESSION_NAME
--+		destroy_lttng_session_ok $SESSION_NAME
-- 
---	# Check health status
---	$CURDIR/$HEALTH_CHECK_BIN > ${STDOUT_PATH} 2> ${STDERR_PATH}
---	report_errors
--+
--+		# Check health status
--+		$CURDIR/$HEALTH_CHECK_BIN > ${STDOUT_PATH} 2> ${STDERR_PATH}
--+		report_errors
--+	}
-- 
-- 	skip $isroot "Root access is needed. Skipping kernel consumer health check test." "5" ||
-- 	{
--@@ -141,6 +148,12 @@ else
-- 	isroot=0
-- fi
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	skip_ust=0
--+else
--+	skip_ust=1
--+fi
--+
-- test_thread_ok
-- 
-- rm -rf ${HEALTH_PATH}
--diff --git a/tests/regression/tools/live/Makefile.am b/tests/regression/tools/live/Makefile.am
--index 46186d383..db74de8d5 100644
----- a/tests/regression/tools/live/Makefile.am
--+++ b/tests/regression/tools/live/Makefile.am
--@@ -16,9 +16,7 @@ LIVE=$(top_builddir)/src/bin/lttng-sessiond/session.$(OBJEXT) \
-- noinst_PROGRAMS = live_test
-- EXTRA_DIST = test_kernel test_lttng_kernel
-- 
---if HAVE_LIBLTTNG_UST_CTL
-- EXTRA_DIST += test_ust test_ust_tracefile_count test_lttng_ust
---endif
-- 
-- live_test_SOURCES = live_test.c
-- live_test_LDADD = $(LIBTAP) $(LIBCOMMON) $(LIBRELAYD) $(LIBSESSIOND_COMM) \
--diff --git a/tests/regression/tools/live/test_lttng_ust b/tests/regression/tools/live/test_lttng_ust
--index 06017d01d..be9b3d7f7 100755
----- a/tests/regression/tools/live/test_lttng_ust
--+++ b/tests/regression/tools/live/test_lttng_ust
--@@ -38,6 +38,10 @@ NUM_TESTS=12
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- # MUST set TESTDIR before calling those functions
-- plan_tests $NUM_TESTS
-- 
--diff --git a/tests/regression/tools/live/test_ust b/tests/regression/tools/live/test_ust
--index 0384a706f..add521bfc 100755
----- a/tests/regression/tools/live/test_ust
--+++ b/tests/regression/tools/live/test_ust
--@@ -36,6 +36,10 @@ DIR=$(readlink -f $TESTDIR)
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- echo "$TEST_DESC"
-- 
-- function setup_live_tracing()
--diff --git a/tests/regression/tools/live/test_ust_tracefile_count b/tests/regression/tools/live/test_ust_tracefile_count
--index 6da368fc6..10504f8c6 100755
----- a/tests/regression/tools/live/test_ust_tracefile_count
--+++ b/tests/regression/tools/live/test_ust_tracefile_count
--@@ -36,6 +36,10 @@ DIR=$(readlink -f $TESTDIR)
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- echo "$TEST_DESC"
-- 
-- function setup_live_tracing()
--diff --git a/tests/regression/tools/mi/test_mi b/tests/regression/tools/mi/test_mi
--index 48dda7da6..2cc30b29a 100755
----- a/tests/regression/tools/mi/test_mi
--+++ b/tests/regression/tools/mi/test_mi
--@@ -61,6 +61,10 @@ NUM_TESTS=228
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- #Overwrite the lttng_bin to get mi output
-- LTTNG_BIN="lttng --mi xml"
-- 
--diff --git a/tests/regression/tools/notification/test_notification_multi_app b/tests/regression/tools/notification/test_notification_multi_app
--index 0a05ea6a0..29b0f62fa 100755
----- a/tests/regression/tools/notification/test_notification_multi_app
--+++ b/tests/regression/tools/notification/test_notification_multi_app
--@@ -52,6 +52,11 @@ plan_tests $NUM_TESTS
-- 
-- print_test_banner "$TEST_DESC"
-- 
--+skip_ust=1
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	skip_ust=0
--+fi
--+
-- app_pids=()
-- 
-- function kernel_event_generator_toogle_state
--@@ -468,10 +473,15 @@ function test_on_register_evaluation ()
-- }
-- 
-- 
---TESTS=(
---	test_multi_app_ust
---	test_on_register_evaluation_ust
---)
--+TESTS=()
--+if [ $skip_ust -eq "1" ]; then
--+	TESTS+=(
--+		test_multi_app_ust
--+		test_on_register_evaluation_ust
--+	)
--+else
--+	skip 0 "No UST events binary detected." $NUM_TEST_UST
--+fi
-- 
-- if [ "$(id -u)" == "0" ]; then
-- 	TESTS+=(
--diff --git a/tests/regression/tools/notification/test_notification_ust b/tests/regression/tools/notification/test_notification_ust
--index 8941e476d..eb2e15cad 100755
----- a/tests/regression/tools/notification/test_notification_ust
--+++ b/tests/regression/tools/notification/test_notification_ust
--@@ -46,6 +46,10 @@ DIR=$(readlink -f $TESTDIR)
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- function ust_event_generator_toogle_state
-- {
-- 	ust_event_generator_suspended=$((ust_event_generator_suspended==0))
--diff --git a/tests/regression/tools/regen-metadata/test_ust b/tests/regression/tools/regen-metadata/test_ust
--index b7f1af1d8..312c8a40d 100755
----- a/tests/regression/tools/regen-metadata/test_ust
--+++ b/tests/regression/tools/regen-metadata/test_ust
--@@ -34,7 +34,7 @@ NUM_TESTS=33
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$TESTAPP_BIN" ]; then
---	BAIL_OUT "No UST events binary detected."
--+	plan_skip_all "No UST events binary detected."
-- fi
-- 
-- function lttng_create_session_uri
--diff --git a/tests/regression/tools/regen-statedump/test_ust b/tests/regression/tools/regen-statedump/test_ust
--index 486b9a560..8d455b26a 100755
----- a/tests/regression/tools/regen-statedump/test_ust
--+++ b/tests/regression/tools/regen-statedump/test_ust
--@@ -34,7 +34,7 @@ NUM_TESTS=11
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$TESTAPP_BIN" ]; then
---	BAIL_OUT "No UST events binary detected."
--+	plan_skip_all "No UST events binary detected."
-- fi
-- 
-- function test_ust_local ()
--diff --git a/tests/regression/tools/save-load/test_autoload b/tests/regression/tools/save-load/test_autoload
--index 7ee5e9906..ec376cfb3 100755
----- a/tests/regression/tools/save-load/test_autoload
--+++ b/tests/regression/tools/save-load/test_autoload
--@@ -21,6 +21,9 @@ CURDIR=$(dirname $0)/
-- CONFIG_DIR="${CURDIR}/configuration"
-- TESTDIR=$CURDIR/../../../
-- export LTTNG_SESSION_CONFIG_XSD_PATH=$(readlink -m ${TESTDIR}../src/common/config/)
--+TESTAPP_PATH="$TESTDIR/utils/testapp"
--+TESTAPP_NAME="gen-ust-events"
--+TESTAPP_BIN="$TESTAPP_PATH/$TESTAPP_NAME/$TESTAPP_NAME"
-- 
-- DIR=$(readlink -f $TESTDIR)
-- 
--@@ -28,6 +31,10 @@ NUM_TESTS=9
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- # MUST set TESTDIR before calling those functions
-- plan_tests $NUM_TESTS
-- 
--diff --git a/tests/regression/tools/save-load/test_load b/tests/regression/tools/save-load/test_load
--index 5e38b46b6..b6fdd8192 100755
----- a/tests/regression/tools/save-load/test_load
--+++ b/tests/regression/tools/save-load/test_load
--@@ -20,6 +20,10 @@ TEST_DESC="Load session(s)"
-- CURDIR=$(dirname $0)/
-- CONFIG_DIR="${CURDIR}/configuration"
-- TESTDIR=$CURDIR/../../../
--+TESTAPP_PATH="$TESTDIR/utils/testapp"
--+TESTAPP_NAME="gen-ust-events"
--+TESTAPP_BIN="$TESTAPP_PATH/$TESTAPP_NAME/$TESTAPP_NAME"
--+
-- export LTTNG_SESSION_CONFIG_XSD_PATH=$(readlink -m ${TESTDIR}../src/common/config/)
-- 
-- SESSION_NAME="load-42"
--@@ -31,6 +35,10 @@ NUM_TESTS=67
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "$TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- # MUST set TESTDIR before calling those functions
-- plan_tests $NUM_TESTS
-- 
--diff --git a/tests/regression/tools/save-load/test_save b/tests/regression/tools/save-load/test_save
--index c5f6b1341..cfaf67b7a 100755
----- a/tests/regression/tools/save-load/test_save
--+++ b/tests/regression/tools/save-load/test_save
--@@ -23,6 +23,9 @@ TESTDIR=$CURDIR/../../../
-- SESSION_NAME="save-42"
-- CHANNEL_NAME="chan-save"
-- EVENT_NAME="tp:tptest"
--+TESTAPP_PATH="$TESTDIR/utils/testapp"
--+TESTAPP_NAME="gen-ust-events"
--+TESTAPP_BIN="$TESTAPP_PATH/$TESTAPP_NAME/$TESTAPP_NAME"
-- 
-- DIR=$(readlink -f $TESTDIR)
-- 
--@@ -30,6 +33,10 @@ NUM_TESTS=41
-- 
-- source $TESTDIR/utils/utils.sh
-- 
--+if [ ! -x "TESTAPP_BIN" ]; then
--+	plan_skip_all "No UST events binary detected."
--+fi
--+
-- # MUST set TESTDIR before calling those functions
-- plan_tests $NUM_TESTS
-- 
--diff --git a/tests/regression/tools/snapshots/test_ust_fast b/tests/regression/tools/snapshots/test_ust_fast
--index edb435c52..5a68ec56d 100755
----- a/tests/regression/tools/snapshots/test_ust_fast
--+++ b/tests/regression/tools/snapshots/test_ust_fast
--@@ -23,7 +23,7 @@ TEST_BIN="ust_test"
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$CURDIR/$TEST_BIN" ]; then
---	BAIL_OUT "No UST test found: $TEST_BIN"
--+	plan_skip_all "No UST test found: $TEST_BIN"
-- fi
-- 
-- ./$CURDIR/$TEST_BIN $NR_SNAPSHOT
--diff --git a/tests/regression/tools/snapshots/test_ust_long b/tests/regression/tools/snapshots/test_ust_long
--index 9e1a0c262..afa019f6a 100755
----- a/tests/regression/tools/snapshots/test_ust_long
--+++ b/tests/regression/tools/snapshots/test_ust_long
--@@ -23,7 +23,7 @@ TEST_BIN="ust_test"
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$CURDIR/$TEST_BIN" ]; then
---	BAIL_OUT "No UST test found: $TEST_BIN"
--+	plan_skip_all "No UST test found: $TEST_BIN"
-- fi
-- 
-- ./$CURDIR/$TEST_BIN $NR_SNAPSHOT
--diff --git a/tests/regression/tools/snapshots/test_ust_streaming b/tests/regression/tools/snapshots/test_ust_streaming
--index 93b0957f3..69291ab4d 100755
----- a/tests/regression/tools/snapshots/test_ust_streaming
--+++ b/tests/regression/tools/snapshots/test_ust_streaming
--@@ -37,7 +37,7 @@ NUM_TESTS=75
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$TESTAPP_BIN" ]; then
---	BAIL_OUT "No UST events binary detected."
--+	plan_skip_all "No UST events binary detected."
-- fi
-- 
-- function snapshot_add_output ()
--diff --git a/tests/regression/tools/snapshots/ust_test b/tests/regression/tools/snapshots/ust_test
--index 755cef9e0..92f9f6cff 100755
----- a/tests/regression/tools/snapshots/ust_test
--+++ b/tests/regression/tools/snapshots/ust_test
--@@ -34,7 +34,7 @@ TRACE_PATH=$(mktemp -d)
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$TESTAPP_BIN" ]; then
---	BAIL_OUT "No UST events binary detected."
--+	plan_skip_all "No UST events binary detected."
-- fi
-- 
-- # Need the number of snapshot to do.
--diff --git a/tests/regression/tools/streaming/test_high_throughput_limits b/tests/regression/tools/streaming/test_high_throughput_limits
--index 32c3f1f2b..f54178923 100755
----- a/tests/regression/tools/streaming/test_high_throughput_limits
--+++ b/tests/regression/tools/streaming/test_high_throughput_limits
--@@ -38,7 +38,7 @@ NUM_TESTS=104
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$TESTAPP_BIN" ]; then
---	BAIL_OUT "No UST events binary detected."
--+	plan_skip_all "No UST events binary detected."
-- fi
-- 
-- function set_bw_limit
--diff --git a/tests/regression/tools/streaming/test_ust b/tests/regression/tools/streaming/test_ust
--index a5d5b5e92..e1dd98ee7 100755
----- a/tests/regression/tools/streaming/test_ust
--+++ b/tests/regression/tools/streaming/test_ust
--@@ -34,7 +34,7 @@ NUM_TESTS=16
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$TESTAPP_BIN" ]; then
---	BAIL_OUT "No UST events binary detected."
--+	plan_skip_all "No UST events binary detected."
-- fi
-- 
-- function lttng_create_session_uri
--diff --git a/tests/regression/tools/tracefile-limits/test_tracefile_count b/tests/regression/tools/tracefile-limits/test_tracefile_count
--index 6ada8580f..7553c7d1f 100755
----- a/tests/regression/tools/tracefile-limits/test_tracefile_count
--+++ b/tests/regression/tools/tracefile-limits/test_tracefile_count
--@@ -33,7 +33,7 @@ PAGE_SIZE=$(getconf PAGE_SIZE)
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$TESTAPP_BIN" ]; then
---	BAIL_OUT "No UST events binary detected."
--+	plan_skip_all "No UST events binary detected."
-- fi
-- 
-- function enable_lttng_channel_count_limit ()
--diff --git a/tests/regression/tools/tracefile-limits/test_tracefile_size b/tests/regression/tools/tracefile-limits/test_tracefile_size
--index 3dddbe613..1089487ff 100755
----- a/tests/regression/tools/tracefile-limits/test_tracefile_size
--+++ b/tests/regression/tools/tracefile-limits/test_tracefile_size
--@@ -33,7 +33,7 @@ NUM_TESTS=66
-- source $TESTDIR/utils/utils.sh
-- 
-- if [ ! -x "$TESTAPP_BIN" ]; then
---	BAIL_OUT "No UST events binary detected."
--+	plan_skip_all "No UST events binary detected."
-- fi
-- 
-- function enable_lttng_channel_size_limit ()
--diff --git a/tests/regression/tools/wildcard/test_event_wildcard b/tests/regression/tools/wildcard/test_event_wildcard
--index 61ea67a72..921a2301d 100755
----- a/tests/regression/tools/wildcard/test_event_wildcard
--+++ b/tests/regression/tools/wildcard/test_event_wildcard
--@@ -97,42 +97,47 @@ print_test_banner "$TEST_DESC"
-- 
-- start_lttng_sessiond
-- 
---diag "Test UST wildcard"
---
-- if [ ! -x "$TESTAPP_BIN" ]; then
---	BAIL_OUT "No UST nevents binary detected."
--+	skip_ust=0
--+else
--+	skip_ust=1
-- fi
-- 
---EVENT_NAME="tp:tptest"
--+skip $skip_ust "No UST nevents binary detected." $NUM_UST_TESTS ||
--+{
--+	diag "Test UST wildcard"
-- 
---# non-matching
---test_event_wildcard ust 0 'tp:abc*'
---test_event_wildcard ust 0 '*abc'
---test_event_wildcard ust 0 '*z*'
---test_event_wildcard ust 0 '*\**'
---test_event_wildcard ust 0 '*\*'
---test_event_wildcard ust 0 '\**'
---test_event_wildcard ust 0 '*:*tpte*s'
---test_event_wildcard ust 0 'tp**tpTest'
--+	EVENT_NAME="tp:tptest"
-- 
---# matching
---test_event_wildcard ust 1 'tp:tp*'
---test_event_wildcard ust 1 '*'
---test_event_wildcard ust 1 'tp:tptest*'
---test_event_wildcard ust 1 '**'
---test_event_wildcard ust 1 '***'
---test_event_wildcard ust 1 '*tptest'
---test_event_wildcard ust 1 '**tptest'
---test_event_wildcard ust 1 '*tpte*'
---test_event_wildcard ust 1 '*tp*'
---test_event_wildcard ust 1 '*tp**'
---test_event_wildcard ust 1 '*:*tptest'
---test_event_wildcard ust 1 '*:*tpte*t'
---test_event_wildcard ust 1 't*p*:*t*e*s*t'
---test_event_wildcard ust 1 '*t*p*:*t*e*s*t*'
---test_event_wildcard ust 1 'tp*tptest'
---test_event_wildcard ust 1 'tp**tptest'
---test_event_wildcard ust 1 'tp*test'
--+	# non-matching
--+	test_event_wildcard ust 0 'tp:abc*'
--+	test_event_wildcard ust 0 '*abc'
--+	test_event_wildcard ust 0 '*z*'
--+	test_event_wildcard ust 0 '*\**'
--+	test_event_wildcard ust 0 '*\*'
--+	test_event_wildcard ust 0 '\**'
--+	test_event_wildcard ust 0 '*:*tpte*s'
--+	test_event_wildcard ust 0 'tp**tpTest'
--+
--+	# matching
--+	test_event_wildcard ust 1 'tp:tp*'
--+	test_event_wildcard ust 1 '*'
--+	test_event_wildcard ust 1 'tp:tptest*'
--+	test_event_wildcard ust 1 '**'
--+	test_event_wildcard ust 1 '***'
--+	test_event_wildcard ust 1 '*tptest'
--+	test_event_wildcard ust 1 '**tptest'
--+	test_event_wildcard ust 1 '*tpte*'
--+	test_event_wildcard ust 1 '*tp*'
--+	test_event_wildcard ust 1 '*tp**'
--+	test_event_wildcard ust 1 '*:*tptest'
--+	test_event_wildcard ust 1 '*:*tpte*t'
--+	test_event_wildcard ust 1 't*p*:*t*e*s*t'
--+	test_event_wildcard ust 1 '*t*p*:*t*e*s*t*'
--+	test_event_wildcard ust 1 'tp*tptest'
--+	test_event_wildcard ust 1 'tp**tptest'
--+	test_event_wildcard ust 1 'tp*test'
--+}
-- 
-- if [ "$(id -u)" == "0" ]; then
-- 	isroot=1
---- 
--2.17.1
--
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-check-for-gettid-API-during-configure.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-check-for-gettid-API-during-configure.patch
-deleted file mode 100644
-index c494cee6040..00000000000
---- a/meta/recipes-kernel/lttng/lttng-tools/0001-check-for-gettid-API-during-configure.patch
-+++ /dev/null
-@@ -1,55 +0,0 @@
--From 69c62f5f3cc424b7dd0c8e4097743b39a9c48306 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 27 Jul 2019 08:48:13 -0700
--Subject: [lttng-tools][PATCH] check for gettid API during configure
--
--Add support for gettid() provided by glibc 2.30+
--
--Since version 2.30 glibc provides gettid and it causes conflicts with
--locally defined gettid(). Use the local definition of
--gettid only if system gettid is not available.
--
--https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=NEWS;hb=HEAD<Paste>
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- configure.ac            | 2 +-
-- src/common/compat/tid.h | 3 ++-
-- 2 files changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 7b99f5c..e4bd82c 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -190,7 +190,7 @@ AC_CHECK_HEADERS([ \
-- # Basic functions check
-- AC_CHECK_FUNCS([ \
-- 	atexit bzero clock_gettime dup2 fdatasync fls ftruncate \
---	gethostbyname gethostname getpagesize localtime_r memchr memset \
--+	gethostbyname gethostname getpagesize gettid localtime_r memchr memset \
-- 	mkdir munmap putenv realpath rmdir socket strchr strcspn strdup \
-- 	strncasecmp strndup strnlen strpbrk strrchr strstr strtol strtoul \
-- 	strtoull dirfd gethostbyname2 getipnodebyname epoll_create1 \
--diff --git a/src/common/compat/tid.h b/src/common/compat/tid.h
--index 40f562f..aa07a85 100644
----- a/src/common/compat/tid.h
--+++ b/src/common/compat/tid.h
--@@ -25,6 +25,7 @@
-- #ifndef LTTNG_TID_H
-- #define LTTNG_TID_H
-- 
--+#if !HAVE_GETTID
-- #ifdef __linux__
-- #include <syscall.h>
-- #endif
--@@ -47,5 +48,5 @@ static inline pid_t gettid(void)
-- 	return getpid();
-- }
-- #endif
---
--+#endif /* HAVE_GETTID */
-- #endif /* LTTNG_TID_H */
---- 
--2.22.0
--
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
+diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
+index 2149cbe4cfb..d16eb4c735f 100644
+--- a/meta/recipes-extended/cups/cups.inc
++++ b/meta/recipes-extended/cups/cups.inc
+@@ -5,14 +5,14 @@ Protocol (IPP), and has its own filtering driver model for handling various \
+ document types."
+ HOMEPAGE = "https://www.cups.org/"
+ SECTION = "console/utils"
+-LICENSE = "GPLv2 & LGPLv2"
++LICENSE = "Apache-2.0"
+ DEPENDS = "gnutls libpng jpeg dbus zlib libusb1"
+ 
+ SRC_URI = "https://github.com/apple/cups/releases/download/v${PV}/${BP}-source.tar.gz \
+-           file://use_echo_only_in_init.patch \
+-           file://0001-don-t-try-to-run-generated-binaries.patch \
+-           file://cups_serverbin.patch \
+-           file://cups-avoid-install-file-conflicts.patch \
++           file://0001-cups-Update-to-1.6.1.patch \
++           file://0002-don-t-try-to-run-generated-binaries.patch \
++           file://0003-cups_1.4.6.bb-Fix-build-on-ppc64.patch \
++           file://0004-cups-fix-multilib-install-file-conflicts.patch\
+            "
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/apple/cups/releases"
+@@ -45,10 +45,6 @@ EXTRA_OECONF = " \
+                --enable-debug \
+                --disable-relro \
+                --enable-libusb \
+-               --without-php \
+-               --without-perl \
+-               --without-python \
+-               --without-java \
+                DSOFLAGS='${LDFLAGS}' \
+                "
+ 
+diff --git a/meta/recipes-extended/cups/cups/0001-cups-Update-to-1.6.1.patch b/meta/recipes-extended/cups/cups/0001-cups-Update-to-1.6.1.patch
 new file mode 100644
-index 00000000000..2d08b088794
+index 00000000000..1cd02e8b324
 --- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
++++ b/meta/recipes-extended/cups/cups/0001-cups-Update-to-1.6.1.patch
 @@ -0,0 +1,27 @@
-+From ab238c213fac190972f55e73cf3e0bb1c7846eb8 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 12 Dec 2019 16:52:07 +0100
-+Subject: [PATCH] tests: do not strip a helper library
++From a3f4d8ba97f4669a95943a7e65eb61aa44ce7999 Mon Sep 17 00:00:00 2001
++From: Saul Wold <sgw@linux.intel.com>
++Date: Thu, 13 Dec 2012 19:03:52 -0800
++Subject: [PATCH 1/4] cups: Update to 1.6.1
 +
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++Upstream-Status: Inappropriate [embedded specific]
++
 +---
-+ tests/utils/testapp/userspace-probe-elf-binary/Makefile.am | 2 +-
++ scheduler/cups.sh.in | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
-+index 03f5d5a..d12c343 100644
-+--- a/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
-++++ b/tests/utils/testapp/userspace-probe-elf-binary/Makefile.am
-+@@ -12,7 +12,7 @@ userspace_probe_elf_binary_LDADD = libfoo.la
-+ libfoo.strip: libfoo.la
-+ 	$(OBJCOPY) --strip-all .libs/libfoo.so
++diff --git a/scheduler/cups.sh.in b/scheduler/cups.sh.in
++index 89ac36d..6618a0f 100644
++--- a/scheduler/cups.sh.in
+++++ b/scheduler/cups.sh.in
++@@ -50,7 +50,7 @@ case "`uname`" in
++ 		ECHO_ERROR=:
++ 		;;
 + 
-+-all-local: libfoo.strip
-++all-local:
-+ 	@if [ x"$(srcdir)" != x"$(builddir)" ]; then \
-+ 		for script in $(EXTRA_DIST); do \
-+ 			cp -f $(srcdir)/$$script $(builddir); \
++-	Linux*)
+++	DisableLinux*)
++ 		IS_ON=/bin/true
++ 		if test -f /etc/init.d/functions; then
++ 			. /etc/init.d/functions
 +-- 
 +2.17.1
 +
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0002-Fix-check-for-lttng-modules-presence-before-testing.patch b/meta/recipes-kernel/lttng/lttng-tools/0002-Fix-check-for-lttng-modules-presence-before-testing.patch
+diff --git a/meta/recipes-extended/cups/cups/0001-don-t-try-to-run-generated-binaries.patch b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+similarity index 69%
+rename from meta/recipes-extended/cups/cups/0001-don-t-try-to-run-generated-binaries.patch
+rename to meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+index d6a69f28338..ea248e4710a 100644
+--- a/meta/recipes-extended/cups/cups/0001-don-t-try-to-run-generated-binaries.patch
++++ b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+@@ -1,7 +1,7 @@
+-From 1fb07162a9ed187cccf06e34c9bf841d15c6e64e Mon Sep 17 00:00:00 2001
++From 3e9a965dcd65ab2d40b753b6f792a1a4559182aa Mon Sep 17 00:00:00 2001
+ From: Koen Kooi <koen@dominion.thruhere.net>
+ Date: Sun, 30 Jan 2011 16:37:27 +0100
+-Subject: [PATCH] don't try to run generated binaries
++Subject: [PATCH 2/4] don't try to run generated binaries
+ 
+ Upstream-Status: Inappropriate [embedded specific]
+ 
+@@ -12,13 +12,13 @@ Signed-off-by: Koen Kooi <koen@dominion.thruhere.net>
+  1 file changed, 16 insertions(+), 16 deletions(-)
+ 
+ diff --git a/ppdc/Makefile b/ppdc/Makefile
+-index e563988..973dd3f 100644
++index 32e2e0b..f1478d4 100644
+ --- a/ppdc/Makefile
+ +++ b/ppdc/Makefile
+-@@ -189,8 +189,8 @@ genstrings:		genstrings.o libcupsppdc.a ../cups/$(LIBCUPSSTATIC) \
+- 	$(LD_CXX) $(ARCHFLAGS) $(LDFLAGS) -o genstrings genstrings.o \
+- 		libcupsppdc.a ../cups/$(LIBCUPSSTATIC) $(LIBGSSAPI) $(SSLLIBS) \
+- 		$(DNSSDLIBS) $(COMMONLIBS) $(LIBZ)
++@@ -186,8 +186,8 @@ genstrings:		genstrings.o libcupsppdc.a ../cups/$(LIBCUPSSTATIC) \
++ 	$(LD_CXX) $(ARCHFLAGS) $(ALL_LDFLAGS) -o genstrings genstrings.o \
++ 		libcupsppdc.a $(LINKCUPSSTATIC)
++ 	$(CODE_SIGN) -s "$(CODE_SIGN_IDENTITY)" $@
+ -	echo Generating localization strings...
+ -	./genstrings >sample.c
+ +#	echo Generating localization strings...
+@@ -26,9 +26,9 @@ index e563988..973dd3f 100644
+  
+  
+  #
+-@@ -209,9 +209,9 @@ ppdc-static:		ppdc.o libcupsppdc.a ../cups/$(LIBCUPSSTATIC) foo.drv foo-fr.po
+- 		../cups/$(LIBCUPSSTATIC) $(LIBGSSAPI) $(SSLLIBS) $(DNSSDLIBS) \
+- 		$(COMMONLIBS) $(LIBZ)
++@@ -205,9 +205,9 @@ ppdc-static:		ppdc.o libcupsppdc.a ../cups/$(LIBCUPSSTATIC) foo.drv foo-fr.po
++ 	$(LD_CXX) $(ARCHFLAGS) $(ALL_LDFLAGS) -o ppdc-static ppdc.o libcupsppdc.a \
++ 		$(LINKCUPSSTATIC)
+  	$(CODE_SIGN) -s "$(CODE_SIGN_IDENTITY)" $@
+ -	echo Testing PPD compiler...
+ -	./ppdc-static -l en,fr -I ../data foo.drv
+@@ -39,9 +39,9 @@ index e563988..973dd3f 100644
+  
+  
+  #
+-@@ -240,17 +240,17 @@ ppdi-static:		ppdc-static ppdi.o libcupsppdc.a  ../cups/$(LIBCUPSSTATIC)
+- 		../cups/$(LIBCUPSSTATIC) $(LIBGSSAPI) $(SSLLIBS) $(DNSSDLIBS) \
+- 		$(COMMONLIBS) $(LIBZ)
++@@ -235,17 +235,17 @@ ppdi-static:		ppdc-static ppdi.o libcupsppdc.a ../cups/$(LIBCUPSSTATIC)
++ 	$(LD_CXX) $(ARCHFLAGS) $(ALL_LDFLAGS) -o ppdi-static ppdi.o libcupsppdc.a \
++ 		$(LINKCUPSSTATIC)
+  	$(CODE_SIGN) -s "$(CODE_SIGN_IDENTITY)" $@
+ -	echo Testing PPD importer...
+ -	$(RM) -r ppd ppd2 sample-import.drv
+@@ -68,3 +68,6 @@ index e563988..973dd3f 100644
+  
+  
+  #
++-- 
++2.17.1
++
+diff --git a/meta/recipes-extended/cups/cups/0003-cups_1.4.6.bb-Fix-build-on-ppc64.patch b/meta/recipes-extended/cups/cups/0003-cups_1.4.6.bb-Fix-build-on-ppc64.patch
+new file mode 100644
+index 00000000000..b48c7a9ad2f
+--- /dev/null
++++ b/meta/recipes-extended/cups/cups/0003-cups_1.4.6.bb-Fix-build-on-ppc64.patch
+@@ -0,0 +1,51 @@
++From 66c2079ae91389ee0f9d704bf0d2cccd53b2c603 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sun, 22 Jul 2012 16:54:17 -0700
++Subject: [PATCH 3/4] cups_1.4.6.bb: Fix build on ppc64
++
++Make CUPS_SERVERBIN relative to libdir otherwise on 64bit arches
++e.g. ppc64 where base libdir is lib64 this does not go well
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: Inappropriate [OE config specific]
++
++Update on 20190904:
++Redefine CUPS_SERVERBIN to "$libexecdir/cups" which solves file confliction
++when multilib is enabled.
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++---
++ config-scripts/cups-directories.m4 | 2 +-
++ configure                          | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/config-scripts/cups-directories.m4 b/config-scripts/cups-directories.m4
++index b74083a..9a5abb2 100644
++--- a/config-scripts/cups-directories.m4
+++++ b/config-scripts/cups-directories.m4
++@@ -270,7 +270,7 @@ case "$host_os_name" in
++ 	*)
++ 		# All others
++ 		INSTALL_SYSV="install-sysv"
++-		CUPS_SERVERBIN="$exec_prefix/lib/cups"
+++		CUPS_SERVERBIN="$libexecdir/cups"
++ 		;;
++ esac
++ 
++diff --git a/configure b/configure
++index d3df145..bc68a6c 100755
++--- a/configure
+++++ b/configure
++@@ -6420,7 +6420,7 @@ case "$host_os_name" in
++ 	*)
++ 		# All others
++ 		INSTALL_SYSV="install-sysv"
++-		CUPS_SERVERBIN="$exec_prefix/lib/cups"
+++		CUPS_SERVERBIN="$libexecdir/cups"
++ 		;;
++ esac
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-extended/cups/cups/cups-avoid-install-file-conflicts.patch b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+similarity index 68%
+rename from meta/recipes-extended/cups/cups/cups-avoid-install-file-conflicts.patch
+rename to meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+index 68885fa4db0..bc9260307c8 100644
+--- a/meta/recipes-extended/cups/cups/cups-avoid-install-file-conflicts.patch
++++ b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+@@ -1,3 +1,8 @@
++From 7dbda1887aa19ab720aff22312f4caff2d575f62 Mon Sep 17 00:00:00 2001
++From: Kai Kang <kai.kang@windriver.com>
++Date: Wed, 3 Oct 2018 00:27:11 +0800
++Subject: [PATCH 4/4] cups: fix multilib install file conflicts
++
+ @CUPS_SERVERBIN@ is ${libdir} related that causes multilib install file
+ conflict. Remove @CUPS_SERVERBIN@ from the comment line of cups-files.conf to
+ avoid the conflict.
+@@ -6,6 +11,10 @@ Upstream-Status: Inappropriate [OE specific]
+ 
+ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+ 
++---
++ conf/cups-files.conf.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
+ diff --git a/conf/cups-files.conf.in b/conf/cups-files.conf.in
+ index 4a78ba6..03c6582 100644
+ --- a/conf/cups-files.conf.in
+@@ -19,3 +28,6 @@ index 4a78ba6..03c6582 100644
+  
+  # SSL/TLS keychain for the scheduler...
+  #ServerKeychain @CUPS_SERVERKEYCHAIN@
++-- 
++2.17.1
++
+diff --git a/meta/recipes-extended/cups/cups/cups_serverbin.patch b/meta/recipes-extended/cups/cups/cups_serverbin.patch
 deleted file mode 100644
-index 784a07940a4..00000000000
---- a/meta/recipes-kernel/lttng/lttng-tools/0002-Fix-check-for-lttng-modules-presence-before-testing.patch
+index 85c6af10719..00000000000
+--- a/meta/recipes-extended/cups/cups/cups_serverbin.patch
 +++ /dev/null
-@@ -1,24 +0,0 @@
--From 58e4dcce48b48b68b65bffc0cd51d9e26b44c75d Mon Sep 17 00:00:00 2001
--From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
--Date: Wed, 22 May 2019 16:44:54 -0400
--Subject: [PATCH] Fix: check for lttng modules presence before testing
+@@ -1,38 +0,0 @@
+-Make CUPS_SERVERBIN relative to libdir otherwise on 64bit arches
+-e.g. ppc64 where base libdir is lib64 this does not go well
 -
--Upstream-Status: Submitted [https://lists.lttng.org/pipermail/lttng-dev/2019-May/028987.html]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Inappropriate [OE config specific]
 -
--Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
-----
-- tests/regression/tools/notification/test_notification_multi_app | 1 +
-- 1 file changed, 1 insertion(+)
+-Update on 20190904:
+-Redefine CUPS_SERVERBIN to "$libexecdir/cups" which solves file confliction
+-when multilib is enabled.
 -
--diff --git a/tests/regression/tools/notification/test_notification_multi_app b/tests/regression/tools/notification/test_notification_multi_app
--index 29b0f62..a6baf65 100755
----- a/tests/regression/tools/notification/test_notification_multi_app
--+++ b/tests/regression/tools/notification/test_notification_multi_app
--@@ -484,6 +484,7 @@ else
-- fi
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-
+-Index: cups-1.4.6/config-scripts/cups-directories.m4
+-===================================================================
+---- cups-1.4.6.orig/config-scripts/cups-directories.m4	2009-04-12 16:04:51.000000000 -0700
+-+++ cups-1.4.6/config-scripts/cups-directories.m4	2012-07-21 12:12:05.896405923 -0700
+-@@ -397,7 +397,7 @@
+- 	*)
+- 		# All others
+- 		INSTALL_SYSV="install-sysv"
+--		CUPS_SERVERBIN="$exec_prefix/lib/cups"
+-+		CUPS_SERVERBIN="$libexecdir/cups"
+- 		;;
+- esac
 - 
-- if [ "$(id -u)" == "0" ]; then
--+	validate_lttng_modules_present
-- 	TESTS+=(
-- 	test_multi_app_kernel
-- 	test_on_register_evaluation_kernel
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.7.bb b/meta/recipes-kernel/lttng/lttng-tools_2.11.0.bb
-similarity index 94%
-rename from meta/recipes-kernel/lttng/lttng-tools_2.10.7.bb
-rename to meta/recipes-kernel/lttng/lttng-tools_2.11.0.bb
-index aa6d19d0fa5..a2797567410 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.10.7.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.11.0.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
- 
- DEPENDS = "liburcu popt libxml2 util-linux"
- RDEPENDS_${PN} = "libgcc"
--RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules sed"
-+RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules sed python3-core"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
- RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
- # babelstats.pl wants getopt-long
-@@ -30,15 +30,13 @@ PACKAGECONFIG_remove_arc = "lttng-ust"
- 
- SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
-            file://x32.patch \
-+           file://0001-tests-do-not-strip-a-helper-library.patch \
-            file://run-ptest \
-            file://lttng-sessiond.service \
--           file://0001-Skip-when-testapp-is-not-present.patch \
--           file://0002-Fix-check-for-lttng-modules-presence-before-testing.patch \
--           file://0001-check-for-gettid-API-during-configure.patch \
-            "
- 
--SRC_URI[md5sum] = "e7804d10e4cade381e241601f6047373"
--SRC_URI[sha256sum] = "ed71ebe00c5d985c74f30e97b614e909573cbd9276c85e05d9557a0b817a1312"
-+SRC_URI[md5sum] = "e6c23244a36e2a09783d03a362eb63cb"
-+SRC_URI[sha256sum] = "dce493c82db673c96049b5fad155a760fa449fab3d92467a69fcb0ddaf3f0fbc"
- 
- inherit autotools ptest pkgconfig useradd python3-dir manpages systemd
- 
-@@ -59,6 +57,8 @@ FILES_${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/*.la"
- INSANE_SKIP_${PN} = "libexec dev-so"
- INSANE_SKIP_${PN}-dbg = "libexec"
- 
-+PRIVATE_LIBS_${PN}-ptest = "libfoo.so"
+-Index: cups-1.4.6/configure
+-===================================================================
+---- cups-1.4.6.orig/configure	2012-07-21 12:13:34.512405950 -0700
+-+++ cups-1.4.6/configure	2012-07-21 12:14:05.724406017 -0700
+-@@ -11181,7 +11181,7 @@
+- 	*)
+- 		# All others
+- 		INSTALL_SYSV="install-sysv"
+--		CUPS_SERVERBIN="$exec_prefix/lib/cups"
+-+		CUPS_SERVERBIN="$libexecdir/cups"
+- 		;;
+- esac
+- 
+diff --git a/meta/recipes-extended/cups/cups/use_echo_only_in_init.patch b/meta/recipes-extended/cups/cups/use_echo_only_in_init.patch
+deleted file mode 100644
+index 696f1374d9c..00000000000
+--- a/meta/recipes-extended/cups/cups/use_echo_only_in_init.patch
++++ /dev/null
+@@ -1,15 +0,0 @@
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Index: cups-1.6.1/scheduler/cups.sh.in
+-===================================================================
+---- cups-1.6.1.orig/scheduler/cups.sh.in
+-+++ cups-1.6.1/scheduler/cups.sh.in
+-@@ -67,7 +67,7 @@ case "`uname`" in
+- 		ECHO_ERROR=:
+- 		;;
+- 
+--	Linux*)
+-+	DisableLinux*)
+- 		IS_ON=/bin/true
+- 		if test -f /etc/init.d/functions; then
+- 			. /etc/init.d/functions
+diff --git a/meta/recipes-extended/cups/cups_2.2.12.bb b/meta/recipes-extended/cups/cups_2.2.12.bb
+deleted file mode 100644
+index 8e5534a979e..00000000000
+--- a/meta/recipes-extended/cups/cups_2.2.12.bb
++++ /dev/null
+@@ -1,6 +0,0 @@
+-require cups.inc
+-
+-LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f212b4338db0da8cb892e94bf2949460"
+-
+-SRC_URI[md5sum] = "e763689f7735d3fe95a2943397189e40"
+-SRC_URI[sha256sum] = "0f61ab449e4748a24c6ab355b481ff7691247a140d327b2b7526fce34b7f9aa8"
+diff --git a/meta/recipes-extended/cups/cups_2.3.0.bb b/meta/recipes-extended/cups/cups_2.3.0.bb
+new file mode 100644
+index 00000000000..ebe2b18fb49
+--- /dev/null
++++ b/meta/recipes-extended/cups/cups_2.3.0.bb
+@@ -0,0 +1,6 @@
++require cups.inc
 +
- do_install_append () {
-     # install systemd unit file
-     install -d ${D}${systemd_unitdir}/system
-@@ -111,6 +111,8 @@ do_install_ptest () {
-         done
-     done
- 
-+    chrpath --delete ${D}${PTEST_PATH}/tests/utils/testapp/userspace-probe-elf-binary/userspace-probe-elf-binary
++LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
 +
-     #
-     # Use the versioned libs of liblttng-ust-dl.
-     #
++SRC_URI[md5sum] = "644f374573f5433fb8a8af3880db6a98"
++SRC_URI[sha256sum] = "acaf0229cf008ea8f06353ffd1bbd62d71dbe88990dd3330650ef87edb95a1a5"
 -- 
 2.17.1
 
