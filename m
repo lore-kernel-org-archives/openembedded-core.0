@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id EDA867FB1F
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AC0DE7F9F4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 18:14:56 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id a5so3428111wmb.0
+	Thu, 12 Dec 2019 18:14:58 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id p17so3626298wmi.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 10:14:58 -0800 (PST)
+	Thu, 12 Dec 2019 10:15:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=yDZw7GcUODpC8k01rhT+KzX9NZci6coQhYRyFAC9l0I=;
-	b=nKfLVzPMsq2sUddE5Jjus3sexBx3s0B9chKrWqoScqks7Yg2cPak3/UjLpaQYMILSU
-	S5/QOtomqpjnPX/moPMY1v6ha8TDW4jZpdZfdQa2i3c+25jCoZpRoGcqNL4m5eyLcDvE
-	hUy1N8pUO6d7Eza+8hWIYilfqfgobtyHct2Bwy2FRPeHOKpRlcUmhdF0AhOsC+dpMmEb
-	XDYS94zO38uiqPzkyu6keojjvWQMQCLuWTMWnkIoOyM1+P1pLwXgT74mvXNQb0DkHvgG
-	4n61Oh5br3pqWXXafRW0TiFyLYygPiGlmUjrttMv10yN/l0cIujl2WAQvM4tp4bI9Bmm
-	HV6w==
+	bh=leGr8EPJCmpVL3HJ/RD4VBIHT1SzOWJjQYbQvtwVu94=;
+	b=V6Q4tgBdiwTbWRdDhnKxIimDq+ENz/6Q1QkInWhoMuoy1EKFQrtnk9dzpCG2LTlEnZ
+	5kFbotO6jDlbEK+3rx3Co3gwjLra0qGQNdokDMeuBm6DiKbnHag+oIGhIKQZ/k4F+jQ6
+	/soZ6739GFfvkGgRHEbzf6EH0D1DSionie2bnV3OVwzghZ9oiF3ElCsPyDtbXaceyf6J
+	ewyFFdZRyvH2k4WBUIB9XezWudRg55nBhU/fyB72xqfntT2lWs+XRdzCFNXwnsGDJs2t
+	yHj1R9f0d5Bu1gra/0x7KrcutOpS7HBUF1XSex4QoC6GO5jhN6RYAVLcZI/AVVlmYHJ5
+	lR3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=yDZw7GcUODpC8k01rhT+KzX9NZci6coQhYRyFAC9l0I=;
-	b=H44/bKYEIWlFydG+rrOglha3sDIJylLs8mrJoV36h2fYFgoT2ZS0Vu6v1W1OzFa11u
-	UQ0e8qlaN66AALgLzC+0rme2PVTB47QiKE+dlx8xozzkyS2UYNqgkP4X2hUcdYUtEDLM
-	O2OM4C2kq3FmIqt9ZajfBXOoQ3JNDa9h1FbGK+sCVxdrJdt1Am1TAVxZyH8fB6mZXuxV
-	Z9mOxAZvL/f51WseiyaYBlwaldUhRTGfMfVsZToj5hzH+tenS2DO7CIxp67kv6pi5Smx
-	bohxETUgKQPtjftOm7f2EDqriq16MV3bCdg7gJSFWcyK8cOSTynOKpb5jbiKEPzntq2U
-	1lAw==
-X-Gm-Message-State: APjAAAX4imrl8msA2eUab0HlJ1Zf4CepErtDIqtAxHiHUfv0P9JpzTP8
-	hRiyFcpa0eS32g7RujQRlZIJGJmY
-X-Google-Smtp-Source: APXvYqwXifYiCDmggNbKsaMsJcc2EBV/sTCdYiqovqSX1rT0puAMTc00uvvGvfYdJzXTYqAGJjZDSw==
-X-Received: by 2002:a05:600c:1:: with SMTP id g1mr7804166wmc.131.1576174497411;
-	Thu, 12 Dec 2019 10:14:57 -0800 (PST)
+	bh=leGr8EPJCmpVL3HJ/RD4VBIHT1SzOWJjQYbQvtwVu94=;
+	b=TmG7Z/PTAMEo9vDhYPH4pYBizYiOjhRCF0vKIv3FoubdeZL09kzlu8z+t97BpkApC9
+	rIZzgQKMXWUEyPs6zbhWSFzvhOmIQQNcHwdZqda1+BO8VmRTrxkULww+FMYTuh/vJVQ7
+	9VNVEUZFDGisCFddqkzn4hDDhbvg3JJCM/W+5BC6xiVpkac7SdHtoAZqqfOZqruePcY6
+	Y6CH12W31ZULOHasxHVOi+zwwaf+xR8+FLUSIjQgz1/RxlZFowjCkZHptYt443+K91Oz
+	X3DdQE4WXdOv+sx6lv5htzKhsCtr0P4L3SCHQBtPcpQs91en9KKa7M6bqTkJ2ptLdRcj
+	l+QA==
+X-Gm-Message-State: APjAAAXLFD8l6sHN/LFUu3CMoh6LW0jocAtjdRsnLvnrMtKX+XWP2UAP
+	8bRFhc1o0X/c/aCCTH77ZpFPP5Z2
+X-Google-Smtp-Source: APXvYqzmLZvqUnn5k/+J1L/ypxOxd2EcZKbircM4kwmokdcH7y71j8psnmBHfEq6vplu2lHXiV+BVw==
+X-Received: by 2002:a1c:5401:: with SMTP id i1mr7760671wmb.99.1576174499128;
+	Thu, 12 Dec 2019 10:14:59 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	o66sm3147571wmo.20.2019.12.12.10.14.56
+	o66sm3147571wmo.20.2019.12.12.10.14.58
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 10:14:56 -0800 (PST)
+	Thu, 12 Dec 2019 10:14:58 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 19:14:20 +0100
-Message-Id: <20191212181436.1322-14-alex.kanavin@gmail.com>
+Date: Thu, 12 Dec 2019 19:14:22 +0100
+Message-Id: <20191212181436.1322-16-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-Subject: [PATCH 14/30] glide: update to 0.13.3
+Subject: [PATCH 16/30] bluez5: disable debug output in ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 18:14:57 -0000
+X-List-Received-Date: Thu, 12 Dec 2019 18:14:58 -0000
+
+This makes the log very large and breaks the ptest result
+parser.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../recipes-devtools/glide/{glide_0.13.2.bb => glide_0.13.3.bb} | 2 +-
+ meta/recipes-connectivity/bluez5/bluez5/run-ptest | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/glide/{glide_0.13.2.bb => glide_0.13.3.bb} (98%)
 
-diff --git a/meta/recipes-devtools/glide/glide_0.13.2.bb b/meta/recipes-devtools/glide/glide_0.13.3.bb
-similarity index 98%
-rename from meta/recipes-devtools/glide/glide_0.13.2.bb
-rename to meta/recipes-devtools/glide/glide_0.13.3.bb
-index 7faaf4a3888..ebad0ec60a0 100644
---- a/meta/recipes-devtools/glide/glide_0.13.2.bb
-+++ b/meta/recipes-devtools/glide/glide_0.13.3.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://src/${GO_IMPORT}/LICENSE;md5=54905cf894f8cc416a92f4fc
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/run-ptest b/meta/recipes-connectivity/bluez5/bluez5/run-ptest
+index 21df00c3277..0335e68e489 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5/run-ptest
++++ b/meta/recipes-connectivity/bluez5/bluez5/run-ptest
+@@ -6,7 +6,7 @@ failed=0
+ all=0
  
- GO_IMPORT = "github.com/Masterminds/glide"
- SRC_URI = "git://${GO_IMPORT}"
--SRCREV = "9ef6ca313b3200079861f2de4e567b1d22081d19"
-+SRCREV = "8ed5b9292379d86c39592a7e6a58eb9c903877cf"
- 
- inherit go
- 
+ for f in test-*; do
+-    "./$f"
++    "./$f" -q
+     case "$?" in
+         0)
+             echo "PASS: $f"
 -- 
 2.17.1
 
