@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 810177FA3F
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 33AEE7FA11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 18:14:51 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id a5so3427846wmb.0
+	Thu, 12 Dec 2019 18:14:52 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id p17so3639351wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 10:14:52 -0800 (PST)
+	Thu, 12 Dec 2019 10:14:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=n/WxxHoEskOmuuwF4HgMAFE9pt7bbJQJLEmC3pKmjNE=;
-	b=ooc7lBKrg8ByoPSW6N7yGxngUjmvJlplOWfFjBNOCnuZJav6JgWitCCeIbO/MSFFYv
-	xAdiPqiRX/H5u2PGm/dgOvoL1dV2locmU1RNKH6d8X8WfcJ0K5/oLFw4xLINtjYyZpgC
-	z6ymlZ+4Q9OqJmz5bghDD2r7mIclv9TDVkvkFc1TvV8oKBV7WkccVL1TgyYCFPz1ll0p
-	sEZ4ehOYxjzEALXDHDKtvdeWdsK0zDyqV8WKJW3KqUS3zxvLbrtUT7DDL8WSswYZBACI
-	vKMFkv8rYqKt5a9p6gkau+clqlg9YLthYeqFegPLJ7Fx4hBJh56IoNIE/GN3/2v0xF3W
-	BT4w==
+	bh=H9WYQm/6n2NgBMizEjRKRAECS95ZGhR/H4eCsU/D6Lg=;
+	b=Plnc29Fx0C1zpmCmh2sq/xBmDCPxHz4v+29SaXKx6QfyOZ3nThwO1EJ1PCKJKRuGGd
+	4Ff9mPnYOSUQmAn744cycGCHo6Qp7ipT/Feul8Le/FqqUwozqJIizqndRt8rsrI8y/iF
+	NE1JUp0+dn0Z763sNQmvUWeETmyxHAIvL+Fs/kebZJVb34kqHFNlLuGpVelfkqn9WwFX
+	rIxSDZfMXt/Lsy6r3iIeTwdSnq67awBuk1jFe/50GPR/HTIQuETX7gNNelvy9IRmqr3f
+	zAPSXMIi5DLTbY4OCru3oBSdCKkGsCA101oJO8IEXZYyhYdKSim2krJ1HTb2ogoliGpX
+	Kf8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=n/WxxHoEskOmuuwF4HgMAFE9pt7bbJQJLEmC3pKmjNE=;
-	b=ado1Yzki++u9RP7I28sQU51AddmakiUqRYu0SskAdxDBRv1XP+hWVTwTytQTbbhnLO
-	Crw1sDLhtagWKkYI03H0ZAdDNvlNrn7sI7xboAhkGF0rwUCoAj1+ttlbcQf4Ecc3jhUg
-	393ZdO1O0usjZqazxha+ePKmlLbBjf93FbBIQuc+oxWtzzFmWmza/qDYogvVua8YP+aV
-	pxETUNGSDWsg2ZZTw4fzbuDZrol+/7KfUr03/WHjEw/c3BUhft9DQfu8hgtb7gSJ3p4/
-	8peYq567tR9oRDqEmNWtvu8BtAmD7JSGwfLPVBwLXwzQ4okHITbA3n6BbccT4n2dWBZV
-	m6kA==
-X-Gm-Message-State: APjAAAWkQEloY12prupr0pxbO9BbH70tBvrcAi2NGcP3VS/yNrtqz/zE
-	OT9p3LitQLx/kT2kxx+BbdUQQz1S
-X-Google-Smtp-Source: APXvYqx+GPhE6vkbUWzr5UA6K4DlrE8wYGytn30E6IsdkrgiRIMVbdByISRzKqCnEku6BB13qNqZaw==
-X-Received: by 2002:a7b:cb46:: with SMTP id v6mr8084390wmj.117.1576174491616; 
-	Thu, 12 Dec 2019 10:14:51 -0800 (PST)
+	bh=H9WYQm/6n2NgBMizEjRKRAECS95ZGhR/H4eCsU/D6Lg=;
+	b=QGV1YZUVV9WZdUKSGS1xuwCxuycpXEldNJ1GKau/fK1QibzZIBGp/diwcZmfTkv1t1
+	xxA8Kl15oycJjSvVnt976Nh0fpSOAIGPgwLilBPHqXU+qpjS/BgnLmOZlQFRAPngFqIm
+	T5l/Bgpe8LIA//qBRwLt3/WJINKSoSIj2rAZWUlv84qVg/wJn7DUXbjJjZZdvc8RfM/p
+	PYG0/t9GJgzLIHu+Msay4CXyrJYbB4W4+Q/bsANlqu/a7M2eNA6p+4hDsG923VD18vFV
+	b+gsHkbV0tVBxRoDkalk0u7+AypENFewPCO2I4hLCM3pfzvbw1HL7/qgXUz/BdlI2HA3
+	gvdA==
+X-Gm-Message-State: APjAAAVOh7EAnq4LlHXeX0R0kBWTfsZpKd7H85dS0vZdqB8ZHYdlzZjc
+	/9zpJ3AXiOfVRamgUtfTQ7M87HcE
+X-Google-Smtp-Source: APXvYqyPUGPOWBDOePGCmRA8ld04juethuD20rRXQdKIGoX78rvD3Q2jv28oADU+lTJ7j+7+AIN2bw==
+X-Received: by 2002:a05:600c:1051:: with SMTP id
+	17mr7981796wmx.49.1576174492382; 
+	Thu, 12 Dec 2019 10:14:52 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	o66sm3147571wmo.20.2019.12.12.10.14.50
+	o66sm3147571wmo.20.2019.12.12.10.14.51
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Thu, 12 Dec 2019 10:14:51 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 19:14:14 +0100
-Message-Id: <20191212181436.1322-8-alex.kanavin@gmail.com>
+Date: Thu, 12 Dec 2019 19:14:15 +0100
+Message-Id: <20191212181436.1322-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-Subject: [PATCH 08/30] shadow: update 4.6 -> 4.8
+Subject: [PATCH 09/30] sysklogd: update to 2.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,856 +60,552 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 12 Dec 2019 18:14:52 -0000
 
-Drop two backports.
+Drop all patches as they are no longer necessary with autotools,
+fix problems that are addressed upstream, or (in case of no-vectorization.patch)
+don't apply to the old version either, which means no one is using that hw target
+anymore.
 
-Remove 0001-useradd.c-create-parent-directories-when-necessary.patch
-as upstream has addressed the issue:
-https://github.com/shadow-maint/shadow/commit/b3b6d9d77c1d18b98670b97157777bb74092cd69
+Remove custom systemd configs (provided by upstream), and custom
+syslog config (also provided by upstream but not installed by default).
 
-Rebase the rest of the paches.
+Adjust parselogs to not error out on not being able to find
+System.map file during boot (that is packaged into kernel-dev
+and is not normally installed).
 
-Add a patch to remove the check for validity of login shells
-which does not work in our environment.
-
+License-Update: various tweaks; the license terms are the same.
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...01-Disable-use-of-syslog-for-sysroot.patch |  18 ++-
- ...eck-for-validity-of-shell-executable.patch |  29 +++++
- ...chg-shadow-field-reproducible-re.-71.patch |  89 --------------
- ...ure.ac-fix-configure-error-with-dash.patch |  36 ------
- ...te-parent-directories-when-necessary.patch | 116 ------------------
- ...-for-setting-password-in-clear-text.patch} | 101 +++++++--------
- ...nexpected-open-failure-in-chroot-env.patch |  15 ++-
- .../files/shadow-relaxed-usernames.patch      |  51 +++++---
- meta/recipes-extended/shadow/shadow.inc       |  10 +-
- .../shadow/{shadow_4.6.bb => shadow_4.8.bb}   |   0
- 10 files changed, 132 insertions(+), 333 deletions(-)
- create mode 100644 meta/recipes-extended/shadow/files/0001-Do-not-check-for-validity-of-shell-executable.patch
- delete mode 100644 meta/recipes-extended/shadow/files/0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch
- delete mode 100644 meta/recipes-extended/shadow/files/0001-configure.ac-fix-configure-error-with-dash.patch
- delete mode 100644 meta/recipes-extended/shadow/files/0001-useradd.c-create-parent-directories-when-necessary.patch
- rename meta/recipes-extended/shadow/files/{allow-for-setting-password-in-clear-text.patch => 0002-Allow-for-setting-password-in-clear-text.patch} (81%)
- rename meta/recipes-extended/shadow/{shadow_4.6.bb => shadow_4.8.bb} (100%)
+ meta/lib/oeqa/runtime/cases/parselogs.py      |   3 +-
+ .../files/0001-Fix-build-with-musl.patch      | 132 ------------------
+ ...t-causes-a-segmentation-fault-under-.patch |  28 ----
+ ...or-respecting-flags-from-environment.patch |  35 -----
+ .../sysklogd/files/klogd.service              |  13 --
+ .../sysklogd/files/no-strip-install.patch     |  17 ---
+ .../sysklogd/files/no-vectorization.patch     |  20 ---
+ meta/recipes-extended/sysklogd/files/sysklogd |   4 +-
+ .../sysklogd/files/syslog.conf                |  71 ----------
+ .../sysklogd/files/syslogd.service            |  14 --
+ .../sysklogd/files/tmpfiles.sysklogd.conf     |   1 -
+ meta/recipes-extended/sysklogd/sysklogd.inc   |  46 ++----
+ .../sysklogd/sysklogd_1.5.1.bb                |   3 -
+ .../sysklogd/sysklogd_2.0.3.bb                |   3 +
+ 14 files changed, 19 insertions(+), 371 deletions(-)
+ delete mode 100644 meta/recipes-extended/sysklogd/files/0001-Fix-build-with-musl.patch
+ delete mode 100644 meta/recipes-extended/sysklogd/files/0001-fix-problems-that-causes-a-segmentation-fault-under-.patch
+ delete mode 100644 meta/recipes-extended/sysklogd/files/0002-Make-way-for-respecting-flags-from-environment.patch
+ delete mode 100644 meta/recipes-extended/sysklogd/files/klogd.service
+ delete mode 100644 meta/recipes-extended/sysklogd/files/no-strip-install.patch
+ delete mode 100644 meta/recipes-extended/sysklogd/files/no-vectorization.patch
+ delete mode 100644 meta/recipes-extended/sysklogd/files/syslog.conf
+ delete mode 100644 meta/recipes-extended/sysklogd/files/syslogd.service
+ delete mode 100644 meta/recipes-extended/sysklogd/files/tmpfiles.sysklogd.conf
+ delete mode 100644 meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb
+ create mode 100644 meta/recipes-extended/sysklogd/sysklogd_2.0.3.bb
 
-diff --git a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
-index aac2d42b12a..ab317b9aa03 100644
---- a/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
-+++ b/meta/recipes-extended/shadow/files/0001-Disable-use-of-syslog-for-sysroot.patch
-@@ -1,4 +1,4 @@
--From 8cf3454d567f77233023be49a39a33e9f0836f89 Mon Sep 17 00:00:00 2001
-+From fa2d9453656641002802d8165e80adb9e6a729d2 Mon Sep 17 00:00:00 2001
- From: Scott Garman <scott.a.garman@intel.com>
- Date: Thu, 14 Apr 2016 12:28:57 +0200
- Subject: [PATCH] Disable use of syslog for sysroot
-@@ -12,6 +12,7 @@ Upstream-Status: Inappropriate [disable feature]
- Signed-off-by: Scott Garman <scott.a.garman@intel.com>
- Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+
- ---
-  src/groupadd.c  | 3 +++
-  src/groupdel.c  | 3 +++
-@@ -23,7 +24,7 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  7 files changed, 21 insertions(+)
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index 15343d7abbe..b7c7b30adf5 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -55,7 +55,8 @@ common_errors = [
+     "Failed to read /var/lib/nfs/statd/state: Success",
+     "error retry time-out =",
+     "logind: cannot setup systemd-logind helper (-61), using legacy fallback",
+-    "Error changing net interface name 'eth0' to "
++    "Error changing net interface name 'eth0' to ",
++    "Cannot find a map file"
+     ]
  
- diff --git a/src/groupadd.c b/src/groupadd.c
--index 63e1c48..a596c49 100644
-+index 2dd8eec..e9c4bb7 100644
- --- a/src/groupadd.c
- +++ b/src/groupadd.c
- @@ -34,6 +34,9 @@
-@@ -37,7 +38,7 @@ index 63e1c48..a596c49 100644
-  #include <fcntl.h>
-  #include <getopt.h>
- diff --git a/src/groupdel.c b/src/groupdel.c
--index 70bed01..ababd81 100644
-+index f941a84..5a70056 100644
- --- a/src/groupdel.c
- +++ b/src/groupdel.c
- @@ -34,6 +34,9 @@
-@@ -65,7 +66,7 @@ index fc91c8b..2842514 100644
-  #include <getopt.h>
-  #include <grp.h>
- diff --git a/src/groupmod.c b/src/groupmod.c
--index 72daf2c..8965f9d 100644
-+index 1dca5fc..bc14438 100644
- --- a/src/groupmod.c
- +++ b/src/groupmod.c
- @@ -34,6 +34,9 @@
-@@ -79,7 +80,7 @@ index 72daf2c..8965f9d 100644
-  #include <fcntl.h>
-  #include <getopt.h>
- diff --git a/src/useradd.c b/src/useradd.c
--index 3aaf45c..1ab9174 100644
-+index 4af0f7c..1b7bf06 100644
- --- a/src/useradd.c
- +++ b/src/useradd.c
- @@ -34,6 +34,9 @@
-@@ -93,7 +94,7 @@ index 3aaf45c..1ab9174 100644
-  #include <ctype.h>
-  #include <errno.h>
- diff --git a/src/userdel.c b/src/userdel.c
--index c8de1d3..24d3ea9 100644
-+index cc951e5..153e0be 100644
- --- a/src/userdel.c
- +++ b/src/userdel.c
- @@ -34,6 +34,9 @@
-@@ -107,7 +108,7 @@ index c8de1d3..24d3ea9 100644
-  #include <errno.h>
-  #include <fcntl.h>
- diff --git a/src/usermod.c b/src/usermod.c
--index ccfbb99..24fb60d 100644
-+index 05b9871..21c6da9 100644
- --- a/src/usermod.c
- +++ b/src/usermod.c
- @@ -34,6 +34,9 @@
-@@ -120,6 +121,3 @@ index ccfbb99..24fb60d 100644
-  #include <assert.h>
-  #include <ctype.h>
-  #include <errno.h>
---- 
--2.11.0
--
-diff --git a/meta/recipes-extended/shadow/files/0001-Do-not-check-for-validity-of-shell-executable.patch b/meta/recipes-extended/shadow/files/0001-Do-not-check-for-validity-of-shell-executable.patch
-new file mode 100644
-index 00000000000..2d15ff0673a
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/0001-Do-not-check-for-validity-of-shell-executable.patch
-@@ -0,0 +1,29 @@
-+From 0d0aded7307a9f4ee0d299951512acd18b3e029e Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 4 Dec 2019 19:28:48 +0100
-+Subject: [PATCH] Do not check for validity of shell executable.
-+
-+This kind of check fails when building a rootfs.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ src/useradd.c | 5 +----
-+ 1 file changed, 1 insertion(+), 4 deletions(-)
-+
-+diff --git a/src/useradd.c b/src/useradd.c
-+index 4af0f7c..898fe02 100644
-+--- a/src/useradd.c
-++++ b/src/useradd.c
-+@@ -1328,10 +1328,7 @@ static void process_flags (int argc, char **argv)
-+ 				if (   ( !VALID (optarg) )
-+ 				    || (   ('\0' != optarg[0])
-+ 				        && ('/'  != optarg[0])
-+-				        && ('*'  != optarg[0]) )
-+-				    || (stat(optarg, &st) != 0)
-+-				    || (S_ISDIR(st.st_mode))
-+-				    || (access(optarg, X_OK) != 0)) {
-++				        && ('*'  != optarg[0]) )) {
-+ 					fprintf (stderr,
-+ 					         _("%s: invalid shell '%s'\n"),
-+ 					         Prog, optarg);
-diff --git a/meta/recipes-extended/shadow/files/0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch b/meta/recipes-extended/shadow/files/0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch
+ video_related = [
+diff --git a/meta/recipes-extended/sysklogd/files/0001-Fix-build-with-musl.patch b/meta/recipes-extended/sysklogd/files/0001-Fix-build-with-musl.patch
 deleted file mode 100644
-index de0ba3ebb42..00000000000
---- a/meta/recipes-extended/shadow/files/0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch
+index 9567946c0cb..00000000000
+--- a/meta/recipes-extended/sysklogd/files/0001-Fix-build-with-musl.patch
 +++ /dev/null
-@@ -1,89 +0,0 @@
--From fe34a2a0e44bc80ff213bfd185046a5f10c94997 Mon Sep 17 00:00:00 2001
--From: Chris Lamb <chris@chris-lamb.co.uk>
--Date: Wed, 2 Jan 2019 18:06:16 +0000
--Subject: [PATCH 1/2] Make the sp_lstchg shadow field reproducible (re. #71)
+@@ -1,132 +0,0 @@
+-From f0af5bcfd753691652eac35efbcb208c933253f1 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Mon, 31 Aug 2015 05:11:53 +0000
+-Subject: [PATCH] Fix build with musl
 -
--From <https://github.com/shadow-maint/shadow/pull/71>:
+-Explicitly include fcntl.h since with glibc is comes in as indirect
+-include but not with musl
 -
--```
--The third field in the /etc/shadow file (sp_lstchg) contains the date of
--the last password change expressed as the number of days since Jan 1, 1970.
--As this is a relative time, creating a user today will result in:
+-linux/time.h inclusion is not required on musl so using !__GLIBC__ is
+-not right for musl here
 -
--username:17238:0:99999:7:::
--whilst creating the same user tomorrow will result in:
+-wait type is glibc specific
 -
--username:17239:0:99999:7:::
--This has an impact for the Reproducible Builds[0] project where we aim to
--be independent of as many elements the build environment as possible,
--including the current date.
--
--This patch changes the behaviour to use the SOURCE_DATE_EPOCH[1]
--environment variable (instead of Jan 1, 1970) if valid.
--```
--
--This updated PR adds some missing calls to gettime (). This was originally
--filed by Johannes Schauer in Debian as #917773 [2].
--
--[0] https://reproducible-builds.org/
--[1] https://reproducible-builds.org/specs/source-date-epoch/
--[2] https://bugs.debian.org/917773
--
--Upstream-Status: Backport
--Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- libmisc/pwd2spwd.c | 3 +--
-- src/pwck.c         | 2 +-
-- src/pwconv.c       | 2 +-
-- 3 files changed, 3 insertions(+), 4 deletions(-)
+-Upstream-Status: Pending
 -
--diff --git a/libmisc/pwd2spwd.c b/libmisc/pwd2spwd.c
--index c1b9b29ac873..6799dd50d490 100644
----- a/libmisc/pwd2spwd.c
--+++ b/libmisc/pwd2spwd.c
--@@ -40,7 +40,6 @@
-- #include "prototypes.h"
-- #include "defines.h"
-- #include <pwd.h>
---extern time_t time (time_t *);
+- klogd.c    | 10 +---------
+- ksym_mod.c |  5 +----
+- pidfile.c  |  1 +
+- syslog.c   |  3 ++-
+- syslogd.c  |  4 +---
+- 5 files changed, 6 insertions(+), 17 deletions(-)
+-
+-diff --git a/klogd.c b/klogd.c
+-index 6cc80ed..9219671 100644
+---- a/klogd.c
+-+++ b/klogd.c
+-@@ -260,11 +260,8 @@
+- #include <unistd.h>
+- #include <signal.h>
+- #include <errno.h>
+--#include <sys/fcntl.h>
+-+#include <fcntl.h>
+- #include <sys/stat.h>
+--#if !defined(__GLIBC__)
+--#include <linux/time.h>
+--#endif /* __GLIBC__ */
+- #include <stdarg.h>
+- #include <paths.h>
+- #include <stdlib.h>
+-@@ -277,13 +274,8 @@
 - 
-- /*
--  * pwd_to_spwd - create entries for new spwd structure
--@@ -66,7 +65,7 @@ struct spwd *pwd_to_spwd (const struct passwd *pw)
-- 		 */
-- 		sp.sp_min = 0;
-- 		sp.sp_max = (10000L * DAY) / SCALE;
---		sp.sp_lstchg = (long) time ((time_t *) 0) / SCALE;
--+		sp.sp_lstchg = (long) gettime () / SCALE;
-- 		if (0 == sp.sp_lstchg) {
-- 			/* Better disable aging than requiring a password
-- 			 * change */
--diff --git a/src/pwck.c b/src/pwck.c
--index 0ffb711efb13..f70071b12500 100644
----- a/src/pwck.c
--+++ b/src/pwck.c
--@@ -609,7 +609,7 @@ static void check_pw_file (int *errors, bool *changed)
-- 					sp.sp_inact  = -1;
-- 					sp.sp_expire = -1;
-- 					sp.sp_flag   = SHADOW_SP_FLAG_UNSET;
---					sp.sp_lstchg = (long) time ((time_t *) 0) / SCALE;
--+					sp.sp_lstchg = (long) gettime () / SCALE;
-- 					if (0 == sp.sp_lstchg) {
-- 						/* Better disable aging than
-- 						 * requiring a password change
--diff --git a/src/pwconv.c b/src/pwconv.c
--index 9c69fa131d8e..f932f266c59c 100644
----- a/src/pwconv.c
--+++ b/src/pwconv.c
--@@ -267,7 +267,7 @@ int main (int argc, char **argv)
-- 			spent.sp_flag   = SHADOW_SP_FLAG_UNSET;
-- 		}
-- 		spent.sp_pwdp = pw->pw_passwd;
---		spent.sp_lstchg = (long) time ((time_t *) 0) / SCALE;
--+		spent.sp_lstchg = (long) gettime () / SCALE;
-- 		if (0 == spent.sp_lstchg) {
-- 			/* Better disable aging than requiring a password
-- 			 * change */
---- 
--2.17.1
--
-diff --git a/meta/recipes-extended/shadow/files/0001-configure.ac-fix-configure-error-with-dash.patch b/meta/recipes-extended/shadow/files/0001-configure.ac-fix-configure-error-with-dash.patch
-deleted file mode 100644
-index a74cbb0c0e7..00000000000
---- a/meta/recipes-extended/shadow/files/0001-configure.ac-fix-configure-error-with-dash.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 3c52a84ff8775590e7e9da9c0d4408c23494305e Mon Sep 17 00:00:00 2001
--From: Yi Zhao <yi.zhao@windriver.com>
--Date: Mon, 17 Jun 2019 15:36:34 +0800
--Subject: [PATCH] configure.ac: fix configure error with dash
--
--A configure error occurs when /bin/sh -> dash:
--  checking for is_selinux_enabled in -lselinux... yes
--  checking for semanage_connect in -lsemanage... yes
--  configure: 16322: test: yesyes: unexpected operator
--
--Use "=" instead of "==" since dash doesn't support this operator.
--
--Upstream-Status: Backport
--[https://github.com/shadow-maint/shadow/commit/3c52a84ff8775590e7e9da9c0d4408c23494305e]
--
--Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 6762556..1907afb 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -500,7 +500,7 @@ if test "$with_selinux" != "no"; then
-- 			AC_MSG_ERROR([libsemanage not found])
-- 		fi
-- 
---		if test "$selinux_lib$semanage_lib" == "yesyes" ; then
--+		if test "$selinux_lib$semanage_lib" = "yesyes" ; then
-- 			AC_DEFINE(WITH_SELINUX, 1,
-- 			          [Build shadow with SELinux support])
-- 			LIBSELINUX="-lselinux"
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/shadow/files/0001-useradd.c-create-parent-directories-when-necessary.patch b/meta/recipes-extended/shadow/files/0001-useradd.c-create-parent-directories-when-necessary.patch
-deleted file mode 100644
-index faa6f68ebe2..00000000000
---- a/meta/recipes-extended/shadow/files/0001-useradd.c-create-parent-directories-when-necessary.patch
-+++ /dev/null
-@@ -1,116 +0,0 @@
--Subject: [PATCH] useradd.c: create parent directories when necessary
--
--Upstream-Status: Inappropriate [OE specific]
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- src/useradd.c | 80 +++++++++++++++++++++++++++++++++++++++--------------------
-- 1 file changed, 53 insertions(+), 27 deletions(-)
--
--diff --git a/src/useradd.c b/src/useradd.c
--index 00a3c30..9ecbb58 100644
----- a/src/useradd.c
--+++ b/src/useradd.c
--@@ -2021,6 +2021,35 @@ static void usr_update (void)
-- }
-- 
-- /*
--+ * mkdir_p - create directories, including parent directories when needed
--+ *
--+ * similar to `mkdir -p'
--+ */
--+void mkdir_p(const char *path) {
--+	int len = strlen(path);
--+	char newdir[len + 1];
--+	mode_t mode = 0755;
--+	int i = 0;
--+
--+	if (path[i] == '\0') {
--+		return;
--+	}
--+
--+	/* skip the leading '/' */
--+	i++;
--+
--+	while(path[i] != '\0') {
--+		if (path[i] == '/') {
--+			strncpy(newdir, path, i);
--+			newdir[i] = '\0';
--+			mkdir(newdir, mode);
--+		}
--+		i++;
--+	}
--+	mkdir(path, mode);
--+}
--+
--+/*
--  * create_home - create the user's home directory
--  *
--  *	create_home() creates the user's home directory if it does not
--@@ -2038,39 +2067,36 @@ static void create_home (void)
-- 			fail_exit (E_HOMEDIR);
-- 		}
-- #endif
---		/* XXX - create missing parent directories.  --marekm */
---		if (mkdir (prefix_user_home, 0) != 0) {
---			fprintf (stderr,
---			         _("%s: cannot create directory %s\n"),
---			         Prog, prefix_user_home);
--+		mkdir_p(user_home);
--+	}
--+	if (access (prefix_user_home, F_OK) != 0) {
-- #ifdef WITH_AUDIT
---			audit_logger (AUDIT_ADD_USER, Prog,
---			              "adding home directory",
---			              user_name, (unsigned int) user_id,
---			              SHADOW_AUDIT_FAILURE);
--+		audit_logger (AUDIT_ADD_USER, Prog,
--+			      "adding home directory",
--+			      user_name, (unsigned int) user_id,
--+			      SHADOW_AUDIT_FAILURE);
-- #endif
---			fail_exit (E_HOMEDIR);
---		}
---		(void) chown (prefix_user_home, user_id, user_gid);
---		chmod (prefix_user_home,
---		       0777 & ~getdef_num ("UMASK", GETDEF_DEFAULT_UMASK));
---		home_added = true;
--+		fail_exit (E_HOMEDIR);
--+	}
--+	(void) chown (prefix_user_home, user_id, user_gid);
--+	chmod (prefix_user_home,
--+	       0777 & ~getdef_num ("UMASK", GETDEF_DEFAULT_UMASK));
--+	home_added = true;
-- #ifdef WITH_AUDIT
---		audit_logger (AUDIT_ADD_USER, Prog,
---		              "adding home directory",
---		              user_name, (unsigned int) user_id,
---		              SHADOW_AUDIT_SUCCESS);
--+	audit_logger (AUDIT_ADD_USER, Prog,
--+		      "adding home directory",
--+		      user_name, (unsigned int) user_id,
--+		      SHADOW_AUDIT_SUCCESS);
-- #endif
-- #ifdef WITH_SELINUX
---		/* Reset SELinux to create files with default contexts */
---		if (reset_selinux_file_context () != 0) {
---			fprintf (stderr,
---			         _("%s: cannot reset SELinux file creation context\n"),
---			         Prog);
---			fail_exit (E_HOMEDIR);
---		}
+- #define __LIBRARY__
+- #include <linux/unistd.h>
+--#if !defined(__GLIBC__)
+--# define __NR_ksyslog __NR_syslog
+--_syscall3(int,ksyslog,int, type, char *, buf, int, len);
+--#else
+- #include <sys/klog.h>
+- #define ksyslog klogctl
 --#endif
--+	/* Reset SELinux to create files with default contexts */
--+	if (reset_selinux_file_context () != 0) {
--+		fprintf (stderr,
--+			 _("%s: cannot reset SELinux file creation context\n"),
--+			 Prog);
--+		fail_exit (E_HOMEDIR);
-- 	}
--+#endif
-- }
 - 
-- /*
+- #define LOG_BUFFER_SIZE 4096
+- #define LOG_LINE_LENGTH 1000
+-diff --git a/ksym_mod.c b/ksym_mod.c
+-index 68cd6b6..6e26da1 100644
+---- a/ksym_mod.c
+-+++ b/ksym_mod.c
+-@@ -113,12 +113,9 @@
+- #include <unistd.h>
+- #include <signal.h>
+- #include <errno.h>
+--#include <sys/fcntl.h>
+-+#include <fcntl.h>
+- #include <sys/stat.h>
+- #include "module.h"
+--#if !defined(__GLIBC__)
+--#include <linux/time.h>
+--#endif /* __GLIBC__ */
+- #include <stdarg.h>
+- #include <paths.h>
+- #include <linux/version.h>
+-diff --git a/pidfile.c b/pidfile.c
+-index e0959a0..6daa2e0 100644
+---- a/pidfile.c
+-+++ b/pidfile.c
+-@@ -31,6 +31,7 @@
+- #include <string.h>
+- #include <errno.h>
+- #include <signal.h>
+-+#include <fcntl.h>
+- 
+- /* read_pid
+-  *
+-diff --git a/syslog.c b/syslog.c
+-index bdb3ff2..ef7b34e 100644
+---- a/syslog.c
+-+++ b/syslog.c
+-@@ -55,7 +55,7 @@ static char sccsid[] = "@(#)syslog.c	5.28 (Berkeley) 6/27/90";
+- #include <sys/types.h>
+- #include <sys/socket.h>
+- #include <sys/file.h>
+--#include <sys/signal.h>
+-+//#include <sys/signal.h>
+- #include <sys/syslog.h>
+- #if 0
+- #include "syslog.h"
+-@@ -72,6 +72,7 @@ static char sccsid[] = "@(#)syslog.c	5.28 (Berkeley) 6/27/90";
+- #include <stdarg.h>
+- #include <paths.h>
+- #include <stdio.h>
+-+#include <fcntl.h>
+- 
+- #define	_PATH_LOGNAME	"/dev/log"
+- 
+-diff --git a/syslogd.c b/syslogd.c
+-index ea73ea5..1ca0595 100644
+---- a/syslogd.c
+-+++ b/syslogd.c
+-@@ -818,9 +818,7 @@ void doexit(int sig);
+- void init();
+- void cfline(char *line, register struct filed *f);
+- int decode(char *name, struct code *codetab);
+--#if defined(__GLIBC__)
+- #define dprintf mydprintf
+--#endif /* __GLIBC__ */
+- static void dprintf(char *, ...);
+- static void allocate_log(void);
+- void sighup_handler();
+-@@ -2094,7 +2092,7 @@ void reapchild()
+- 	(void) signal(SIGCHLD, reapchild);	/* reset signal handler -ASP */
+- 	wait ((int *)0);
+- #else
+--	union wait status;
+-+	int status;
+- 
+- 	while (wait3(&status, WNOHANG, (struct rusage *) NULL) > 0)
+- 		;
 --- 
--2.11.0
+-2.5.1
 -
-diff --git a/meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch b/meta/recipes-extended/shadow/files/0002-Allow-for-setting-password-in-clear-text.patch
-similarity index 81%
-rename from meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
-rename to meta/recipes-extended/shadow/files/0002-Allow-for-setting-password-in-clear-text.patch
-index fa7eb07aa51..c6332e4f766 100644
---- a/meta/recipes-extended/shadow/files/allow-for-setting-password-in-clear-text.patch
-+++ b/meta/recipes-extended/shadow/files/0002-Allow-for-setting-password-in-clear-text.patch
-@@ -1,8 +1,12 @@
-+From a7d995228491ad5255ad86c1f04ba071f6880897 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Sat, 16 Nov 2013 15:27:47 +0800
- Subject: [PATCH] Allow for setting password in clear text
- 
- Upstream-Status: Inappropriate [OE specific]
- 
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+
- ---
-  src/Makefile.am |  8 ++++----
-  src/groupadd.c  | 20 +++++++++++++++-----
-@@ -12,39 +16,39 @@ Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-  5 files changed, 64 insertions(+), 25 deletions(-)
- 
- diff --git a/src/Makefile.am b/src/Makefile.am
--index 3c98a8d..b8093d5 100644
-+index f31fd7a..4a317a3 100644
- --- a/src/Makefile.am
- +++ b/src/Makefile.am
--@@ -93,10 +93,10 @@ chgpasswd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBSELINUX) $(LIBCRYPT)
-- chsh_LDADD     = $(LDADD) $(LIBPAM) $(LIBSELINUX) $(LIBCRYPT_NOPAM) $(LIBSKEY) $(LIBMD)
-- chpasswd_LDADD = $(LDADD) $(LIBPAM) $(LIBSELINUX) $(LIBCRYPT)
-- gpasswd_LDADD  = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
---groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
--+groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
-- groupdel_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
-- groupmems_LDADD = $(LDADD) $(LIBPAM) $(LIBSELINUX)
---groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX)
--+groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT)
-- grpck_LDADD    = $(LDADD) $(LIBSELINUX)
-- grpconv_LDADD  = $(LDADD) $(LIBSELINUX)
-- grpunconv_LDADD = $(LDADD) $(LIBSELINUX)
--@@ -117,9 +117,9 @@ su_SOURCES     = \
-+@@ -103,10 +103,10 @@ chsh_LDADD     = $(LDADD) $(LIBPAM) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT_NOPAM)
-+ chpasswd_LDADD = $(LDADD) $(LIBPAM) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT) $(LIBECONF)
-+ expiry_LDADD = $(LDADD) $(LIBECONF)
-+ gpasswd_LDADD  = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBCRYPT) $(LIBECONF)
-+-groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
-++groupadd_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF) $(LIBCRYPT)
-+ groupdel_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
-+ groupmems_LDADD = $(LDADD) $(LIBPAM) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
-+-groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
-++groupmod_LDADD = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF) $(LIBCRYPT)
-+ grpck_LDADD    = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
-+ grpconv_LDADD  = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
-+ grpunconv_LDADD = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
-+@@ -127,9 +127,9 @@ su_SOURCES     = \
-  	suauth.c
-- su_LDADD       = $(LDADD) $(LIBPAM) $(LIBAUDIT) $(LIBCRYPT_NOPAM) $(LIBSKEY) $(LIBMD)
-- sulogin_LDADD  = $(LDADD) $(LIBCRYPT)
---useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR)
--+useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBCRYPT)
-- userdel_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE)
---usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR)
--+usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBCRYPT)
-- vipw_LDADD     = $(LDADD) $(LIBSELINUX)
-+ su_LDADD       = $(LDADD) $(LIBPAM) $(LIBAUDIT) $(LIBCRYPT_NOPAM) $(LIBSKEY) $(LIBMD) $(LIBECONF)
-+ sulogin_LDADD  = $(LDADD) $(LIBCRYPT) $(LIBECONF)
-+-useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBECONF)
-++useradd_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBECONF) $(LIBCRYPT)
-+ userdel_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBECONF)
-+-usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBECONF)
-++usermod_LDADD  = $(LDADD) $(LIBPAM_SUID) $(LIBAUDIT) $(LIBSELINUX) $(LIBSEMANAGE) $(LIBACL) $(LIBATTR) $(LIBECONF) $(LIBCRYPT)
-+ vipw_LDADD     = $(LDADD) $(LIBAUDIT) $(LIBSELINUX) $(LIBECONF)
-  
-  install-am: all-am
- diff --git a/src/groupadd.c b/src/groupadd.c
--index b57006c..63e1c48 100644
-+index e9c4bb7..d572c00 100644
- --- a/src/groupadd.c
- +++ b/src/groupadd.c
--@@ -123,9 +123,10 @@ static /*@noreturn@*/void usage (int status)
-+@@ -127,9 +127,10 @@ static /*@noreturn@*/void usage (int status)
-  	(void) fputs (_("  -o, --non-unique              allow to create groups with duplicate\n"
-  	                "                                (non-unique) GID\n"), usageout);
-  	(void) fputs (_("  -p, --password PASSWORD       use this encrypted password for the new group\n"), usageout);
-@@ -56,7 +60,7 @@ index b57006c..63e1c48 100644
-  	(void) fputs ("\n", usageout);
-  	exit (status);
-  }
--@@ -387,13 +388,14 @@ static void process_flags (int argc, char **argv)
-+@@ -391,13 +392,14 @@ static void process_flags (int argc, char **argv)
-  		{"key",        required_argument, NULL, 'K'},
-  		{"non-unique", no_argument,       NULL, 'o'},
-  		{"password",   required_argument, NULL, 'p'},
-@@ -73,7 +77,7 @@ index b57006c..63e1c48 100644
-  		                 long_options, NULL)) != -1) {
-  		switch (c) {
-  		case 'f':
--@@ -445,12 +447,20 @@ static void process_flags (int argc, char **argv)
-+@@ -449,12 +451,20 @@ static void process_flags (int argc, char **argv)
-  			pflg = true;
-  			group_passwd = optarg;
-  			break;
-@@ -95,7 +99,7 @@ index b57006c..63e1c48 100644
-  			break;
-  		default:
-  			usage (E_USAGE);
--@@ -584,7 +594,7 @@ int main (int argc, char **argv)
-+@@ -588,7 +598,7 @@ int main (int argc, char **argv)
-  	(void) textdomain (PACKAGE);
-  
-  	process_root_flag ("-R", argc, argv);
-@@ -105,10 +109,10 @@ index b57006c..63e1c48 100644
-  	OPENLOG ("groupadd");
-  #ifdef WITH_AUDIT
- diff --git a/src/groupmod.c b/src/groupmod.c
--index b293b98..72daf2c 100644
-+index bc14438..25ccb44 100644
- --- a/src/groupmod.c
- +++ b/src/groupmod.c
--@@ -134,8 +134,9 @@ static void usage (int status)
-+@@ -138,8 +138,9 @@ static void usage (int status)
-  	(void) fputs (_("  -o, --non-unique              allow to use a duplicate (non-unique) GID\n"), usageout);
-  	(void) fputs (_("  -p, --password PASSWORD       change the password to this (encrypted)\n"
-  	                "                                PASSWORD\n"), usageout);
-@@ -119,7 +123,7 @@ index b293b98..72daf2c 100644
-  	(void) fputs ("\n", usageout);
-  	exit (status);
-  }
--@@ -383,11 +384,12 @@ static void process_flags (int argc, char **argv)
-+@@ -387,11 +388,12 @@ static void process_flags (int argc, char **argv)
-  		{"new-name",   required_argument, NULL, 'n'},
-  		{"non-unique", no_argument,       NULL, 'o'},
-  		{"password",   required_argument, NULL, 'p'},
-@@ -134,7 +138,7 @@ index b293b98..72daf2c 100644
-  		                 long_options, NULL)) != -1) {
-  		switch (c) {
-  		case 'g':
--@@ -414,9 +416,17 @@ static void process_flags (int argc, char **argv)
-+@@ -418,9 +420,17 @@ static void process_flags (int argc, char **argv)
-  			group_passwd = optarg;
-  			pflg = true;
-  			break;
-@@ -153,7 +157,7 @@ index b293b98..72daf2c 100644
-  			break;
-  		default:
-  			usage (E_USAGE);
--@@ -757,7 +767,7 @@ int main (int argc, char **argv)
-+@@ -761,7 +771,7 @@ int main (int argc, char **argv)
-  	(void) textdomain (PACKAGE);
-  
-  	process_root_flag ("-R", argc, argv);
-@@ -163,10 +167,10 @@ index b293b98..72daf2c 100644
-  	OPENLOG ("groupmod");
-  #ifdef WITH_AUDIT
- diff --git a/src/useradd.c b/src/useradd.c
--index c74e491..7214e72 100644
-+index 1b7bf06..44f09e2 100644
- --- a/src/useradd.c
- +++ b/src/useradd.c
--@@ -829,9 +829,10 @@ static void usage (int status)
-+@@ -853,9 +853,10 @@ static void usage (int status)
-  	(void) fputs (_("  -o, --non-unique              allow to create users with duplicate\n"
-  	                "                                (non-unique) UID\n"), usageout);
-  	(void) fputs (_("  -p, --password PASSWORD       encrypted password of the new account\n"), usageout);
-@@ -178,7 +182,7 @@ index c74e491..7214e72 100644
-  	(void) fputs (_("  -s, --shell SHELL             login shell of the new account\n"), usageout);
-  	(void) fputs (_("  -u, --uid UID                 user ID of the new account\n"), usageout);
-  	(void) fputs (_("  -U, --user-group              create a group with the same name as the user\n"), usageout);
--@@ -1104,9 +1105,10 @@ static void process_flags (int argc, char **argv)
-+@@ -1133,9 +1134,10 @@ static void process_flags (int argc, char **argv)
-  			{"no-user-group",  no_argument,       NULL, 'N'},
-  			{"non-unique",     no_argument,       NULL, 'o'},
-  			{"password",       required_argument, NULL, 'p'},
-@@ -190,7 +194,7 @@ index c74e491..7214e72 100644
-  			{"shell",          required_argument, NULL, 's'},
-  			{"uid",            required_argument, NULL, 'u'},
-  			{"user-group",     no_argument,       NULL, 'U'},
--@@ -1117,9 +1119,9 @@ static void process_flags (int argc, char **argv)
-+@@ -1146,9 +1148,9 @@ static void process_flags (int argc, char **argv)
-  		};
-  		while ((c = getopt_long (argc, argv,
-  #ifdef WITH_SELINUX
-@@ -202,7 +206,7 @@ index c74e491..7214e72 100644
-  #endif				/* !WITH_SELINUX */
-  		                         long_options, NULL)) != -1) {
-  			switch (c) {
--@@ -1285,12 +1287,19 @@ static void process_flags (int argc, char **argv)
-+@@ -1320,12 +1322,19 @@ static void process_flags (int argc, char **argv)
-  				}
-  				user_pass = optarg;
-  				break;
-@@ -223,7 +227,7 @@ index c74e491..7214e72 100644
-  				break;
-  			case 's':
-  				if (   ( !VALID (optarg) )
--@@ -2148,7 +2157,7 @@ int main (int argc, char **argv)
-+@@ -2257,7 +2266,7 @@ int main (int argc, char **argv)
-  
-  	process_root_flag ("-R", argc, argv);
-  
-@@ -233,10 +237,10 @@ index c74e491..7214e72 100644
-  	OPENLOG ("useradd");
-  #ifdef WITH_AUDIT
- diff --git a/src/usermod.c b/src/usermod.c
--index e571426..ccfbb99 100644
-+index 21c6da9..cffdb3e 100644
- --- a/src/usermod.c
- +++ b/src/usermod.c
--@@ -424,8 +424,9 @@ static /*@noreturn@*/void usage (int status)
-+@@ -431,8 +431,9 @@ static /*@noreturn@*/void usage (int status)
-  	                "                                new location (use only with -d)\n"), usageout);
-  	(void) fputs (_("  -o, --non-unique              allow using duplicate (non-unique) UID\n"), usageout);
-  	(void) fputs (_("  -p, --password PASSWORD       use encrypted password for the new password\n"), usageout);
-@@ -247,7 +251,7 @@ index e571426..ccfbb99 100644
-  	(void) fputs (_("  -s, --shell SHELL             new login shell for the user account\n"), usageout);
-  	(void) fputs (_("  -u, --uid UID                 new UID for the user account\n"), usageout);
-  	(void) fputs (_("  -U, --unlock                  unlock the user account\n"), usageout);
--@@ -1002,8 +1003,9 @@ static void process_flags (int argc, char **argv)
-+@@ -1010,8 +1011,9 @@ static void process_flags (int argc, char **argv)
-  			{"move-home",    no_argument,       NULL, 'm'},
-  			{"non-unique",   no_argument,       NULL, 'o'},
-  			{"password",     required_argument, NULL, 'p'},
-@@ -258,16 +262,16 @@ index e571426..ccfbb99 100644
-  			{"shell",        required_argument, NULL, 's'},
-  			{"uid",          required_argument, NULL, 'u'},
-  			{"unlock",       no_argument,       NULL, 'U'},
--@@ -1019,7 +1021,7 @@ static void process_flags (int argc, char **argv)
-+@@ -1027,7 +1029,7 @@ static void process_flags (int argc, char **argv)
-  			{NULL, 0, NULL, '\0'}
-  		};
-  		while ((c = getopt_long (argc, argv,
---		                         "ac:d:e:f:g:G:hl:Lmop:R:s:u:UP:"
--+		                         "ac:d:e:f:g:G:hl:Lmop:P:R:s:u:UA:"
-+-		                         "abc:d:e:f:g:G:hl:Lmop:R:s:u:UP:"
-++		                         "abc:d:e:f:g:G:hl:Lmop:P:R:s:u:UA:"
-  #ifdef ENABLE_SUBIDS
-  		                         "v:w:V:W:"
-  #endif				/* ENABLE_SUBIDS */
--@@ -1119,9 +1121,17 @@ static void process_flags (int argc, char **argv)
-+@@ -1130,9 +1132,17 @@ static void process_flags (int argc, char **argv)
-  				user_pass = optarg;
-  				pflg = true;
-  				break;
-@@ -286,7 +290,7 @@ index e571426..ccfbb99 100644
-  				break;
-  			case 's':
-  				if (!VALID (optarg)) {
--@@ -2098,7 +2108,7 @@ int main (int argc, char **argv)
-+@@ -2127,7 +2137,7 @@ int main (int argc, char **argv)
-  	(void) textdomain (PACKAGE);
-  
-  	process_root_flag ("-R", argc, argv);
-@@ -295,6 +299,3 @@ index e571426..ccfbb99 100644
-  
-  	OPENLOG ("usermod");
-  #ifdef WITH_AUDIT
+diff --git a/meta/recipes-extended/sysklogd/files/0001-fix-problems-that-causes-a-segmentation-fault-under-.patch b/meta/recipes-extended/sysklogd/files/0001-fix-problems-that-causes-a-segmentation-fault-under-.patch
+deleted file mode 100644
+index 56431af8456..00000000000
+--- a/meta/recipes-extended/sysklogd/files/0001-fix-problems-that-causes-a-segmentation-fault-under-.patch
++++ /dev/null
+@@ -1,28 +0,0 @@
+-From cb72b3e172c238b4b5ae5935dc6be54f5034fcf1 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 30 Jun 2017 18:20:06 -0700
+-Subject: [PATCH 1/2] fix problems that causes a segmentation fault under some
+- conditions
+-
+-Upstream-Status: Inappropriate [ no upstream ]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- ksym_mod.c | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/ksym_mod.c b/ksym_mod.c
+-index 6e26da1..a3daa7d 100644
+---- a/ksym_mod.c
+-+++ b/ksym_mod.c
+-@@ -186,7 +186,6 @@ extern int InitMsyms()
+- 		else
+- 			Syslog(LOG_ERR, "Error loading kernel symbols " \
+- 			       "- %s\n", strerror(errno));
+--		fclose(ksyms);
+- 		return(0);
+- 	}
+- 
 --- 
--2.11.0
+-2.13.2
 -
-diff --git a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-index 4fa3d184edf..98252163692 100644
---- a/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-+++ b/meta/recipes-extended/shadow/files/commonio.c-fix-unexpected-open-failure-in-chroot-env.patch
-@@ -1,3 +1,8 @@
-+From 66533c7c6f347d257020675a1ed6e0c59cbbc3f0 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Thu, 17 Jul 2014 15:53:34 +0800
-+Subject: [PATCH] commonio.c-fix-unexpected-open-failure-in-chroot-env
-+
- Upstream-Status: Inappropriate [OE specific]
- 
- commonio.c: fix unexpected open failure in chroot environment
-@@ -10,15 +15,16 @@ Note that this patch doesn't change the logic in the code, it just expands
- the codes.
- 
- Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-+
- ---
-- lib/commonio.c |   16 ++++++++++++----
-+ lib/commonio.c | 16 ++++++++++++----
-  1 file changed, 12 insertions(+), 4 deletions(-)
- 
- diff --git a/lib/commonio.c b/lib/commonio.c
--index cc536bf..51cafd9 100644
-+index 16fa7e7..d6bc297 100644
- --- a/lib/commonio.c
- +++ b/lib/commonio.c
--@@ -613,10 +613,18 @@ int commonio_open (struct commonio_db *db, int mode)
-+@@ -632,10 +632,18 @@ int commonio_open (struct commonio_db *db, int mode)
-  	db->cursor = NULL;
-  	db->changed = false;
-  
-@@ -41,6 +47,3 @@ index cc536bf..51cafd9 100644
-  	db->fp = NULL;
-  	if (fd >= 0) {
-  #ifdef WITH_TCB
+diff --git a/meta/recipes-extended/sysklogd/files/0002-Make-way-for-respecting-flags-from-environment.patch b/meta/recipes-extended/sysklogd/files/0002-Make-way-for-respecting-flags-from-environment.patch
+deleted file mode 100644
+index ebbdef303bc..00000000000
+--- a/meta/recipes-extended/sysklogd/files/0002-Make-way-for-respecting-flags-from-environment.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From b22f244732cd0f475af2f82fc7eecec49f90623b Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 1 Jul 2017 00:01:50 -0700
+-Subject: [PATCH 2/2] Make way for respecting flags from environment
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- Makefile | 4 +---
+- 1 file changed, 1 insertion(+), 3 deletions(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 5af1689..af699d2 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -17,14 +17,12 @@
+- #   along with this program; if not, write to the Free Software
+- #   Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+- 
+--CC= gcc
+- #SKFLAGS= -g -DSYSV -Wall
+- #LDFLAGS= -g
+--SKFLAGS= $(RPM_OPT_FLAGS) -O3 -DSYSV -fomit-frame-pointer -Wall -fno-strength-reduce
+-+SKFLAGS = $(CFLAGS) $(CPPFLAGS) -DSYSV -Wall -fno-strength-reduce
+- # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+- # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
+- # $(shell getconf LFS_SKFLAGS)
+--LDFLAGS= -s
+- 
+- # Look where your install program is.
+- INSTALL = /usr/bin/install
 --- 
--1.7.9.5
+-2.13.2
 -
-diff --git a/meta/recipes-extended/shadow/files/shadow-relaxed-usernames.patch b/meta/recipes-extended/shadow/files/shadow-relaxed-usernames.patch
-index 1af04d5fe89..cc833362e9a 100644
---- a/meta/recipes-extended/shadow/files/shadow-relaxed-usernames.patch
-+++ b/meta/recipes-extended/shadow/files/shadow-relaxed-usernames.patch
-@@ -1,26 +1,37 @@
-+From ca472d6866e545aaa70a70020e3226f236a8aafc Mon Sep 17 00:00:00 2001
-+From: Shan Hai <shan.hai@windriver.com>
-+Date: Tue, 13 Sep 2016 13:45:46 +0800
-+Subject: [PATCH] shadow: use relaxed usernames
+diff --git a/meta/recipes-extended/sysklogd/files/klogd.service b/meta/recipes-extended/sysklogd/files/klogd.service
+deleted file mode 100644
+index 0c888c497dd..00000000000
+--- a/meta/recipes-extended/sysklogd/files/klogd.service
++++ /dev/null
+@@ -1,13 +0,0 @@
+-[Unit]
+-Description=Kernel Logging Service
+-After=syslogd.service
+-
+-[Service]
+-Type=forking
+-ExecStart=/sbin/klogd
+-PIDFile=/var/run/klogd.pid
+-StandardOutput=null
+-Restart=on-failure
+-
+-[Install]
+-WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/sysklogd/files/no-strip-install.patch b/meta/recipes-extended/sysklogd/files/no-strip-install.patch
+deleted file mode 100644
+index d426c83bf25..00000000000
+--- a/meta/recipes-extended/sysklogd/files/no-strip-install.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-Upstream-Status: Inappropriate [configuration]
+-
+-Index: sysklogd-1.5.1/Makefile
+-===================================================================
+---- sysklogd-1.5.1.orig/Makefile
+-+++ sysklogd-1.5.1/Makefile
+-@@ -127,8 +127,8 @@ clobber: clean
+- 	rm -f syslogd klogd ksym syslog_tst oops_test TAGS tsyslogd tklogd
+- 
+- install_exec: syslogd klogd
+--	${INSTALL} -m 500 -s syslogd ${BINDIR}/syslogd
+--	${INSTALL} -m 500 -s klogd ${BINDIR}/klogd
+-+	${INSTALL} -m 500 syslogd ${BINDIR}/syslogd
+-+	${INSTALL} -m 500 klogd ${BINDIR}/klogd
+- 
+- install_man:
+- 	${INSTALL} -o ${MAN_USER} -g ${MAN_GROUP} -m ${MAN_PERMS} sysklogd.8 ${MANDIR}/man8/sysklogd.8
+diff --git a/meta/recipes-extended/sysklogd/files/no-vectorization.patch b/meta/recipes-extended/sysklogd/files/no-vectorization.patch
+deleted file mode 100644
+index c1cc042c9cf..00000000000
+--- a/meta/recipes-extended/sysklogd/files/no-vectorization.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Upstream-Status: Inappropriate
+-
+-The compiler should not be generating vectorized instructions on this target.
+-This is a work around until I can determine why this is occuring on this
+-particular recipe
+-
+-Index: sysklogd-1.5/Makefile
+-===================================================================
+---- sysklogd-1.5.orig/Makefile
+-+++ sysklogd-1.5/Makefile
+-@@ -20,7 +20,8 @@
+- CC= gcc
+- #SKFLAGS= -g -DSYSV -Wall
+- #LDFLAGS= -g
+--SKFLAGS= $(RPM_OPT_FLAGS) -O3 -DSYSV -fomit-frame-pointer -Wall -fno-strength-reduce
+-+SKFLAGS= $(RPM_OPT_FLAGS) -O3 -DSYSV -fomit-frame-pointer -Wall -fno-strength-reduce \
+-+	-fno-tree-vectorize
+- # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE
+- # -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE
+- # $(shell getconf LFS_SKFLAGS)
+diff --git a/meta/recipes-extended/sysklogd/files/sysklogd b/meta/recipes-extended/sysklogd/files/sysklogd
+index 73424840ba3..4a4ca8a78ed 100755
+--- a/meta/recipes-extended/sysklogd/files/sysklogd
++++ b/meta/recipes-extended/sysklogd/files/sysklogd
+@@ -19,8 +19,8 @@ PATH=/bin:/usr/bin:/sbin:/usr/sbin
  
- The groupadd from shadow does not allow upper case group names, the
- same is true for the upstream shadow. But distributions like
- Debian/Ubuntu/CentOS has their own way to cope with this problem,
- this patch is picked up from CentOS release 7.0 to relax the usernames
- restrictions to allow the upper case group names, and the relaxation is
--POSIX compliant because POSIX indicate that usernames are composed of 
-+POSIX compliant because POSIX indicate that usernames are composed of
- characters from the portable filename character set [A-Za-z0-9._-].
+ pidfile_syslogd=/var/run/syslogd.pid
+ pidfile_klogd=/var/run/klogd.pid
+-binpath_syslogd=/sbin/syslogd
+-binpath_klogd=/sbin/klogd
++binpath_syslogd=/usr/sbin/syslogd
++binpath_klogd=/usr/sbin/klogd
  
- Upstream-Status: Pending
+ test -x $binpath || exit 0
  
--Signed-off-by: Shan Hai <shan.hai@windriver.com> 
-+Signed-off-by: Shan Hai <shan.hai@windriver.com>
+diff --git a/meta/recipes-extended/sysklogd/files/syslog.conf b/meta/recipes-extended/sysklogd/files/syslog.conf
+deleted file mode 100644
+index 0849de12687..00000000000
+--- a/meta/recipes-extended/sysklogd/files/syslog.conf
++++ /dev/null
+@@ -1,71 +0,0 @@
+-#  /etc/syslog.conf	Configuration file for syslogd.
+-#
+-#  Ported from debian by Yu Ke <ke.yu@intel.com>
+-#
+-
+-#
+-# First some standard logfiles.  Log by facility.
+-#
+-
+-auth,authpriv.*			/var/log/auth.log
+-*.*;auth,authpriv.none		-/var/log/syslog
+-#cron.*				/var/log/cron.log
+-daemon.*			-/var/log/daemon.log
+-kern.*				-/var/log/kern.log
+-lpr.*				-/var/log/lpr.log
+-mail.*				-/var/log/mail.log
+-user.*				-/var/log/user.log
+-
+-#
+-# Logging for the mail system.  Split it up so that
+-# it is easy to write scripts to parse these files.
+-#
+-mail.info			-/var/log/mail.info
+-mail.warn			-/var/log/mail.warn
+-mail.err			/var/log/mail.err
+-
+-# Logging for INN news system
+-#
+-news.crit			/var/log/news.crit
+-news.err			/var/log/news.err
+-news.notice			-/var/log/news.notice
+-
+-#
+-# Some `catch-all' logfiles.
+-#
+-*.=debug;\
+-auth,authpriv.none;\
+-news.none;mail.none	-/var/log/debug
+-
+-*.=info;*.=notice;*.=warn;\
+-auth,authpriv.none;\
+-cron,daemon.none;\
+-mail,news.none		-/var/log/messages
+-
+-#
+-# Emergencies are sent to everybody logged in.
+-#
+-*.emerg				*
+-
+-#
+-# I like to have messages displayed on the console, but only on a virtual
+-# console I usually leave idle.
+-#
+-#daemon,mail.*;\
+-#news.=crit;news.=err;news.=notice;\
+-#*.=debug;*.=info;\
+-#*.=notice;*.=warn	/dev/tty8
+-
+-# The named pipe /dev/xconsole is for the `xconsole' utility.  To use it,
+-# you must invoke `xconsole' with the `-file' option:
+-#
+-#    $ xconsole -file /dev/xconsole [...]
+-#
+-# NOTE: adjust the list below, or you'll go crazy if you have a reasonably
+-#      busy site..
+-#
+-daemon.*;mail.*;\
+-news.err;\
+-*.=debug;*.=info;\
+-*.=notice;*.=warn	|/dev/xconsole
+-
+diff --git a/meta/recipes-extended/sysklogd/files/syslogd.service b/meta/recipes-extended/sysklogd/files/syslogd.service
+deleted file mode 100644
+index eeaff3d38d6..00000000000
+--- a/meta/recipes-extended/sysklogd/files/syslogd.service
++++ /dev/null
+@@ -1,14 +0,0 @@
+-[Unit]
+-Description=System Logging Service
+-Requires=syslog.socket
+-
+-[Service]
+-Type=forking
+-ExecStart=/sbin/syslogd
+-PIDFile=/var/run/syslogd.pid
+-StandardOutput=null
+-Restart=on-failure
+-
+-[Install]
+-WantedBy=multi-user.target
+-Alias=syslog.service
+diff --git a/meta/recipes-extended/sysklogd/files/tmpfiles.sysklogd.conf b/meta/recipes-extended/sysklogd/files/tmpfiles.sysklogd.conf
+deleted file mode 100644
+index f4aecd385b6..00000000000
+--- a/meta/recipes-extended/sysklogd/files/tmpfiles.sysklogd.conf
++++ /dev/null
+@@ -1 +0,0 @@
+-p /dev/xconsole 0640 root adm
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index 749026f8533..b90911af2b7 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -6,27 +6,26 @@ SECTION = "base"
+ LICENSE = "GPLv2+ & BSD"
+ LICENSE_syslogd = "BSD"
+ LICENSE_klogd = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+-                    file://syslogd.c;beginline=2;endline=15;md5=77ffb2fec48c46d7ca0abb2d5813e7fd \
+-                    file://klogd.c;beginline=2;endline=19;md5=7e87ed0ae6142de079bce738c10c899d \
++LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://src/syslogd.c;beginline=2;endline=15;md5=a880fecbc04503f071c494a9c0dd4f97 \
++                    file://src/klogd.c;beginline=2;endline=19;md5=4f5591d04cccbeb0352758ed4a9d7213 \
+                    "
  
--diff -urpN a/libmisc/chkname.c b/libmisc/chkname.c
--index 5089112..f40a0da 100644
-+---
-+ libmisc/chkname.c  | 30 ++++++++++++++++++------------
-+ man/groupadd.8.xml |  6 ------
-+ man/useradd.8.xml  |  8 +-------
-+ 3 files changed, 19 insertions(+), 25 deletions(-)
+-inherit update-rc.d update-alternatives systemd
++inherit update-rc.d update-alternatives systemd autotools
+ 
+ SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
+-           file://no-strip-install.patch \
+-           file://0001-Fix-build-with-musl.patch \
+-           file://0001-fix-problems-that-causes-a-segmentation-fault-under-.patch \
+-           file://0002-Make-way-for-respecting-flags-from-environment.patch \
+            file://sysklogd \
+-           file://syslog.conf \
+-           file://syslogd.service \
+-           file://klogd.service \
+-           file://tmpfiles.sysklogd.conf \
+            "
+ S = "${WORKDIR}/git"
+ 
+-SRC_URI_append_e500v2 = " file://no-vectorization.patch"
++EXTRA_OECONF = "--with-systemd=${systemd_system_unitdir} --with-klogd --without-logger"
 +
-+diff --git a/libmisc/chkname.c b/libmisc/chkname.c
-+index 90f185c..65762b4 100644
- --- a/libmisc/chkname.c
- +++ b/libmisc/chkname.c
--@@ -49,21 +49,28 @@
-- static bool is_valid_name (const char *name)
-- {
-+@@ -55,22 +55,28 @@ static bool is_valid_name (const char *name)
-+ 	}
-+ 
-  	/*
- -	 * User/group names must match [a-z_][a-z0-9_-]*[$]
- -	 */
-+-
- -	if (('\0' == *name) ||
- -	    !((('a' <= *name) && ('z' >= *name)) || ('_' == *name))) {
- +         * User/group names must match gnu e-regex:
-@@ -55,28 +66,28 @@ index 5089112..f40a0da 100644
-  			return false;
-  		}
-  	}
--diff -urpN a/man/groupadd.8.xml b/man/groupadd.8.xml
--index 230fd0c..94f7807 100644
-+diff --git a/man/groupadd.8.xml b/man/groupadd.8.xml
-+index 1e58f09..d804b61 100644
- --- a/man/groupadd.8.xml
- +++ b/man/groupadd.8.xml
--@@ -222,12 +222,6 @@
-+@@ -272,12 +272,6 @@
-+ 
-     <refsect1 id='caveats'>
-       <title>CAVEATS</title>
--      <para>
-+-     <para>
- -       Groupnames must start with a lower case letter or an underscore,
- -       followed by lower case letters, digits, underscores, or dashes.
- -       They can end with a dollar sign.
- -       In regular expression terms: [a-z_][a-z0-9_-]*[$]?
- -     </para>
---     <para>
-+      <para>
-         Groupnames may only be up to &GROUP_NAME_MAX_LENGTH; characters long.
-       </para>
--      <para>
--diff -urpN a/man/useradd.8.xml b/man/useradd.8.xml
--index 5dec989..fe623b9 100644
-+diff --git a/man/useradd.8.xml b/man/useradd.8.xml
-+index a16d730..c0bd777 100644
- --- a/man/useradd.8.xml
- +++ b/man/useradd.8.xml
--@@ -336,7 +336,7 @@
-+@@ -366,7 +366,7 @@
-  	</term>
-  	<listitem>
-  	  <para>
-@@ -85,16 +96,16 @@ index 5dec989..fe623b9 100644
-  	    wide setting from <filename>/etc/login.defs</filename>
-  	    (<option>CREATE_HOME</option>) is set to
-  	    <replaceable>yes</replaceable>.
--@@ -607,12 +607,6 @@
-+@@ -660,12 +660,6 @@
-+       the user account creation request.
-      </para>
-  
--     <para>
-+-    <para>
- -      Usernames must start with a lower case letter or an underscore,
- -      followed by lower case letters, digits, underscores, or dashes.
- -      They can end with a dollar sign.
- -      In regular expression terms: [a-z_][a-z0-9_-]*[$]?
- -    </para>
---    <para>
-+     <para>
-        Usernames may only be up to 32 characters long.
-      </para>
--   </refsect1>
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 770c239e96d..670eee85a51 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -11,8 +11,6 @@ DEPENDS = "virtual/crypt"
- UPSTREAM_CHECK_URI = "https://github.com/shadow-maint/shadow/releases"
- SRC_URI = "https://github.com/shadow-maint/shadow/releases/download/${PV}/${BP}.tar.gz \
-            file://shadow-4.1.3-dots-in-usernames.patch \
--           file://0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch  \
--           file://0001-configure.ac-fix-configure-error-with-dash.patch \
-            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://shadow-relaxed-usernames.patch \
-            "
-@@ -24,16 +22,16 @@ SRC_URI_append_class-target = " \
++do_install_append () {
++       install -d ${D}${sysconfdir}
++       install -m 644 ${S}/syslog.conf ${D}${sysconfdir}/syslog.conf
++       install -d ${D}${sysconfdir}/init.d
++       install -m 755 ${WORKDIR}/sysklogd ${D}${sysconfdir}/init.d/syslog
++}
  
- SRC_URI_append_class-native = " \
-            file://0001-Disable-use-of-syslog-for-sysroot.patch \
--           file://allow-for-setting-password-in-clear-text.patch \
-+           file://0002-Allow-for-setting-password-in-clear-text.patch \
-            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
--           file://0001-useradd.c-create-parent-directories-when-necessary.patch \
-+           file://0001-Do-not-check-for-validity-of-shell-executable.patch \
-            "
- SRC_URI_append_class-nativesdk = " \
-            file://0001-Disable-use-of-syslog-for-sysroot.patch \
-            "
+ SYSTEMD_PACKAGES = "${PN}"
+ SYSTEMD_SERVICE_${PN} = "syslogd.service klogd.service"
+@@ -36,27 +35,6 @@ INITSCRIPT_NAME = "syslog"
+ CONFFILES_${PN} = "${sysconfdir}/syslog.conf"
+ RCONFLICTS_${PN} = "rsyslog busybox-syslog syslog-ng"
  
--SRC_URI[md5sum] = "36feb15665338ae3de414f2a88e434db"
--SRC_URI[sha256sum] = "4668f99bd087399c4a586084dc3b046b75f560720d83e92fd23bf7a89dda4d31"
-+SRC_URI[md5sum] = "017ac773ba370bc28e157cee30dad71a"
-+SRC_URI[sha256sum] = "82016d65317555fc8ce9e669eb187984d8d4b1f8ecda0769f4bc5412aed326e4"
+-CFLAGS += "-DSYSV -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
+-
+-do_install () {
+-	install -d ${D}${mandir}/man8 \
+-			${D}${mandir}/man5 \
+-			${D}${base_sbindir}
+-	oe_runmake 'BINDIR=${D}${base_sbindir}' \
+-			'MANDIR=${D}${mandir}' install
+-	install -d ${D}${sysconfdir}
+-	install -m 644 ${WORKDIR}/syslog.conf ${D}${sysconfdir}/syslog.conf
+-	install -d ${D}${sysconfdir}/init.d
+-	install -m 755 ${WORKDIR}/sysklogd ${D}${sysconfdir}/init.d/syslog
+-	install -d ${D}${systemd_unitdir}/system
+-	install -m 644 ${WORKDIR}/syslogd.service ${D}${systemd_unitdir}/system
+-	install -m 644 ${WORKDIR}/klogd.service ${D}${systemd_unitdir}/system
+-	if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true', 'false', d)}; then
+-		install -d ${D}${exec_prefix}/lib/tmpfiles.d
+-		install -m 644 ${WORKDIR}/tmpfiles.sysklogd.conf ${D}${exec_prefix}/lib/tmpfiles.d/sysklogd.conf
+-	fi
+-}
+-
+ FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','systemd','${exec_prefix}/lib/tmpfiles.d/sysklogd.conf', '', d)}"
  
- # Additional Policy files for PAM
- PAM_SRC_URI = "file://pam.d/chfn \
-diff --git a/meta/recipes-extended/shadow/shadow_4.6.bb b/meta/recipes-extended/shadow/shadow_4.8.bb
-similarity index 100%
-rename from meta/recipes-extended/shadow/shadow_4.6.bb
-rename to meta/recipes-extended/shadow/shadow_4.8.bb
+ ALTERNATIVE_PRIORITY = "100"
+diff --git a/meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb b/meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb
+deleted file mode 100644
+index 88bcfd9e4a0..00000000000
+--- a/meta/recipes-extended/sysklogd/sysklogd_1.5.1.bb
++++ /dev/null
+@@ -1,3 +0,0 @@
+-require sysklogd.inc
+-
+-SRCREV = "930a2b1c0d15b14309a49f14e3f30e905456af4d"
+diff --git a/meta/recipes-extended/sysklogd/sysklogd_2.0.3.bb b/meta/recipes-extended/sysklogd/sysklogd_2.0.3.bb
+new file mode 100644
+index 00000000000..21f750fa60f
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/sysklogd_2.0.3.bb
+@@ -0,0 +1,3 @@
++require sysklogd.inc
++
++SRCREV = "ad686ca86d977f9eac4cd0a0d0e9a5964a4621d3"
 -- 
 2.17.1
 
