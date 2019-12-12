@@ -1,16 +1,16 @@
 Return-Path: <chris.laplante@agilent.com>
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com
-	(mail-bn8nam11on2072.outbound.protection.outlook.com [40.107.236.72])
-	by mail.openembedded.org (Postfix) with ESMTP id F21017F9BD
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+	(mail-eopbgr750073.outbound.protection.outlook.com [40.107.75.73])
+	by mail.openembedded.org (Postfix) with ESMTP id E35E27F994
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 15:18:44 +0000 (UTC)
+	Thu, 12 Dec 2019 15:20:51 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=YRr6YfJMtLIiI1V4FBg/5xc9bfCStK7pKIJgT1txHK+rxwki/dKKebUwOd5AsA5B/I/4U3tQbtNzEx7hX1vpK1XIOx1z25QRfiAJQciW6Q7MBRVTv7TIGVj/XdN3E2T/YJ7qdTbhO0UJc+zDxps3TFmxYhFqC48YQ/633fbRTel0m7f6zZVgXAKBFnGbAQU4wzdVsPFVip5hz4vXTGHC7acF5AXbbbeyEu7M29ZSVd+1mFhb+GvI8wufc0o1DKjmfRwQq9RxhhjuVQl52x6GPXCBeevPxuQbRcRnv8gHlQbMZwBEHVapmP4y2l09CvIqw1Rs2UH9GaITmCRK4ulUzg==
+	b=k3t7em9sBVUT/j5BWQGJmcOWeayp2nex8m8oLZRqsFsxhLTCsgq/WFI5XES+YSln9G5wz6Jma+Jua9rvoz9kyZ/OBT6hHxwmQyHADQFt+BkUsdL4YgYhtPc/8QURW+fEBaS+bc0SWQpQfspNXRiDNDNNHfV5n2BUTsGjNJ+D6Bp8zDzzFd9loBqU6O9nobbDk6PCYtI43aH5lAm9qQh9/byuQu2B2iogxuUhZSlKvs+A17OtWfYeBzQOBugThOaU+UkhJUrjbsE/M5LZp90xtJQE+n6sXrYxbIsDalBI8YGZQa+Yr43WaBy6vEnwfTi9rUPLqOnlOdt1WC/MNBPJ+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
 	s=arcselector9901;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=LJ7dTbOb2xRU4UrIwrTxPT1IWlHF0eVMgL5eRsnaUx8=;
-	b=knbJUr0xq29sFAeaLgE3RJIvVXrFxiezN6LxClwl69wG88ai3rSDxP+fME+IUY6jLuNAtqy8VULPgXc4DzfMAu6iQ29E2qfE49wayV3C3n6ZndLh1Jv8jOdX04k0qzt8Xpysb6n2voNTRskgWtEzsM0cHnibQWotzBU3iFXT2r3hH3xl+l5S/z9uC+oFrvAh29Oqm+/vhX5t9midVwm+9iAzAlXupEMjybYxK0wt2HGcjeR24YWm/boHLz3adng3Dua3CAqnGG4lbuhj767c8qdh6fmqKg397wD7WSo4ydSCeGHSjHNYYBJUMN7Inlz5RwG56NoUzFAQQBOX3gM/IQ==
+	bh=MZMpqYanPxhi08Y+L3lkrgNDNeDAdMgoLS+9S3zMrSE=;
+	b=UY4UQsJuWkfyo8O9gPqXIm1uoswCjCamm/0U1HvEO9WUB3N9CybURXy+xXZ13w9xROoNqXO6KuSbbL6frOYHIIDbIVcoCsLInfkevl4u+IUfn0abRMGBSoWvnw6ECtnbDew6OSii6vu0dOhtlwbHiwKiqt7nAoEikl5f6k1ZpphRysQzMZ2h2phn6DyNZutz+mYfK0hG2rKhY2ZmEkwDnT6kEy1QIaCj6gS9YFYeDgb81ZnGc6jMMY6R6D9SvUITudM9PQT7/FEp5jby9XqXbuTrZF7utPzrXVwxJ9iZBvI8VkiIX0gt4ABBgVwoPOhFdRcBI04XZs8IhtlXongtGA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 	smtp.mailfrom=agilent.com;
 	dmarc=pass action=none header.from=agilent.com; 
@@ -18,30 +18,31 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
 	s=selector2;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=LJ7dTbOb2xRU4UrIwrTxPT1IWlHF0eVMgL5eRsnaUx8=;
-	b=dAhTCvGBp3fZYOH9fHtVhseZDNtEmfvdX1Ivo/j0Lre3hJX+2lCZ74xot5I19ZrgcjDu0iX9N2Uby0O5Ju81SAp+SIef5wcvEWhWIzBHyrSWHwUEhV6BsuAmJ8pRaDPwss3N2JWA7PXb2BJAX31sGmdafS0WnD+nlAn+7PqAWas=
+	bh=MZMpqYanPxhi08Y+L3lkrgNDNeDAdMgoLS+9S3zMrSE=;
+	b=FdA3u/i7+v2zza1PZbqEUBHPDCC++GiiAYTBFoqAQifqq5IoNTlDS6Hly9u1qAJ2xD6sCmwWwnErWkyyxTT+qMccw3lvB+VbtbiENHLwvaAFOudsX/VsAuiGzS8XUP01MsL5oXr4+cjt6g5RGjc15sQhS1hPcksezj8/R4ymnlg=
 Received: from CY4PR12MB1653.namprd12.prod.outlook.com (10.172.71.137) by
-	CY4PR12MB1767.namprd12.prod.outlook.com (10.175.62.137) with Microsoft
+	CY4PR12MB1912.namprd12.prod.outlook.com (10.175.60.10) with Microsoft
 	SMTP
 	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2516.12; Thu, 12 Dec 2019 15:18:44 +0000
+	15.20.2516.12; Thu, 12 Dec 2019 15:20:52 +0000
 Received: from CY4PR12MB1653.namprd12.prod.outlook.com
 	([fe80::8048:9c4a:16a1:f584]) by
 	CY4PR12MB1653.namprd12.prod.outlook.com
 	([fe80::8048:9c4a:16a1:f584%4]) with mapi id 15.20.2516.018;
-	Thu, 12 Dec 2019 15:18:44 +0000
+	Thu, 12 Dec 2019 15:20:52 +0000
 From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
 To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Joshua Watt
 	<jpewhacker@gmail.com>
 Thread-Topic: [bitbake-devel] hashequiv, pseudo, and GIDs
-Thread-Index: AdWvxXGeOYsqYFTMSCmAlM1iHqCZyQAEnsAAABdChhAAAqrAAAAv537w
-Date: Thu, 12 Dec 2019 15:18:44 +0000
-Message-ID: <CY4PR12MB1653C569E980C9CD9723D6DC8B550@CY4PR12MB1653.namprd12.prod.outlook.com>
+Thread-Index: AdWvxXGeOYsqYFTMSCmAlM1iHqCZyQAEnsAAABdChhAAAqrAAAAv537wAAAZohA=
+Date: Thu, 12 Dec 2019 15:20:51 +0000
+Message-ID: <CY4PR12MB16537AFC2A829D19A06E94738B550@CY4PR12MB1653.namprd12.prod.outlook.com>
 References: <CY4PR12MB16537AC33CB9D19F94A126458B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
 	<CAJdd5GZ0LTrTtU=gYMp0ZqTwQA9UQyU7WMx6mNG2scv--7wNVw@mail.gmail.com>
 	<CY4PR12MB16536C79902AB2538F4206508B5A0@CY4PR12MB1653.namprd12.prod.outlook.com>
 	<318f567345524ba08950eb1c0daa3ec6@XBOX03.axis.com>
-In-Reply-To: <318f567345524ba08950eb1c0daa3ec6@XBOX03.axis.com>
+	<CY4PR12MB1653C569E980C9CD9723D6DC8B550@CY4PR12MB1653.namprd12.prod.outlook.com>
+In-Reply-To: <CY4PR12MB1653C569E980C9CD9723D6DC8B550@CY4PR12MB1653.namprd12.prod.outlook.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
@@ -49,31 +50,31 @@ authentication-results: spf=none (sender IP is )
 	smtp.mailfrom=chris.laplante@agilent.com; 
 x-originating-ip: [4.16.127.92]
 x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: d63c1040-8fc5-4eee-5026-08d77f169416
-x-ms-traffictypediagnostic: CY4PR12MB1767:
-x-microsoft-antispam-prvs: <CY4PR12MB1767C2D0E9A8FBDB7BB978A08B550@CY4PR12MB1767.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-office365-filtering-correlation-id: 052fa45d-3643-4168-d3f9-08d77f16e005
+x-ms-traffictypediagnostic: CY4PR12MB1912:
+x-microsoft-antispam-prvs: <CY4PR12MB19123604D18F3CA9E379E5A88B550@CY4PR12MB1912.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
 x-forefront-prvs: 0249EFCB0B
 x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(376002)(136003)(346002)(396003)(39860400002)(366004)(51914003)(29502001)(189003)(199004)(186003)(316002)(26005)(478600001)(33656002)(71200400001)(52536014)(6506007)(5660300002)(7696005)(64756008)(8936002)(81166006)(66476007)(66946007)(86362001)(66446008)(66556008)(8676002)(76116006)(4326008)(2906002)(9686003)(110136005)(81156014)(55016002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1767;
+	SFS:(10009020)(396003)(346002)(366004)(376002)(136003)(39860400002)(199004)(51914003)(189003)(29502001)(5660300002)(52536014)(66476007)(55016002)(966005)(33656002)(6506007)(64756008)(8936002)(478600001)(71200400001)(26005)(316002)(2940100002)(110136005)(86362001)(7696005)(81166006)(66946007)(8676002)(4326008)(186003)(9686003)(2906002)(66556008)(66446008)(76116006)(81156014);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1912;
 	H:CY4PR12MB1653.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
 received-spf: None (protection.outlook.com: agilent.com does not designate
 	permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: z/QJkd7doJBriH9sV7mnxChvWthXMOJKtdpRhEHnS4CI3B8VvlgWHd0zPdfhjw4DqLYEIJ297u4TaHcHBVoieLRYyw0bISY8aLcrzstnM5H8FLuZNukAT9LcUjOXjIwOtTmHnikO+aF1nQVUmR6R1PuCecScmTbPutt72Zcm3EeKLRL92vb2eL2Xogdh1clpzsj3wGn8WFm99WbDOYWC8DfMiSeJMMlX+eUILsDL8vHa6JTfB9QHLphXwsPUjjc0Pdvr46zbtRD3an3JFHJBoUb6pPXSh4UXSKL/N9RB4diQ0UU7Q8V5wu+6T1FUjwzSaul4ZNeZ2TOkSIYDNgyCXtVIsFfI41ChX+T6PcG5AKMPnQTtdAfsJTWiu13FyBOTyZTsCihgHoeEg9Ax6fW+bLsWuslc2Y2HxTw/w7E669MXayJrgy2BsMWvMOCn5DUFBcnRY3bFG/fOa0gtYpKdD+xz8cKyBFKxV/HJrVugZPcynS/Z7Upo96A1wQkvPytGP+iMJo60xWLqVBFD6XNnIg==
+x-microsoft-antispam-message-info: PI4xU6PhKupGKpbVx1e56sWSkqBkyH1JWlJMDycdTKz64YOnnROq9tOXXad0XPh9Pp+i7ExJiUXz79Dpca/O9K0SWvWvbSB2U2PguZoJxRn5PzGG6do2VZwpqnN57hP+8/jXcIbUtP/uLysnGlxgvFBjYSdUcJSxrsuGGBXMmvRyUg8Nvg8M8sSuh++nSM4lGOTetIWZjil+fSi5hzB+0uUwMmT2Ys0/le4FLFC04hDmna4ztxuK3SrBWPmPXqyYfCg4MobPi7Pmjk4Gp06Ft8UonmZumVLNZ6wsKIPtWldwtTTzFXB6cae8QGDulspYMTrRl0b8p6qUzeB5fBrfLMyMEX7zLLdr3PmJpNEk21t+Tp07RNJ8SvvixuG/NsKcfWKggPFg9jkaprSVBg1YM+IHnlRm1GPqOSBDVaiMvyLkrUO9aE6RJ35DDgJrjwoZ/3qiVjNmg1nnlSoIV7RyI2muipUa4KVQCDaZe/Slv4YmAZ2ztf7alxNwv39XgwY+/s2Ma4OfkQ1thkXPdQz3PA==
 x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
 X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d63c1040-8fc5-4eee-5026-08d77f169416
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2019 15:18:44.6093 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 052fa45d-3643-4168-d3f9-08d77f16e005
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Dec 2019 15:20:52.0131 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 4RxN2ihVWdQCrSGKXNXXdV3wKEyjqpxGzvASVxvH4nOs+LjoMhJv2HFoTEewJQrB6g08n0maOH11yepMGi5brnsNJYUUUYyFyyRsjOR7Uf4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1767
+X-MS-Exchange-CrossTenant-userprincipalname: DMqBnmGswpafOu1WU+KRU3aE7H6ZA9gNqLHboGkiw4cev9SeTI1A1U+GcoC9RL0GfY0p1ueiOTfTLZS+Hjo1oyApHC5CcfXGHMFIgLKz3M4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1912
 Cc: "Openembedded-core@lists.openembedded.org"
 	<Openembedded-core@lists.openembedded.org>
 Subject: Re: [bitbake-devel] hashequiv, pseudo, and GIDs
@@ -89,29 +90,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 15:18:45 -0000
+X-List-Received-Date: Thu, 12 Dec 2019 15:20:52 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-> > From a caching point of view, it seems incorrect to care about what the
-> > corresponding group name happened to be at the time when the cache was
-> > created.
+> > On the contrary. For almost all practical use cases you care about what
+> > user/group owns a file, not what UID/GID they happen to be. E.g., in th=
+e
+> > recipe (or Makefile or whatever) you typically want to specify that a
+> > file shall be owned by user foo, not UID 1234. Then, either you do not
+> > care about the actual UIDs used, or if you do, you use statically assig=
+ned
+> > UIDs/GIDs for all users/groups. This is typically necessary if you want
+> > to be able to support upgrading your product, and it is very well
+> > supported by the useradd-staticids.bbclass.
 >=20
-> On the contrary. For almost all practical use cases you care about what
-> user/group owns a file, not what UID/GID they happen to be. E.g., in the
-> recipe (or Makefile or whatever) you typically want to specify that a
-> file shall be owned by user foo, not UID 1234. Then, either you do not
-> care about the actual UIDs used, or if you do, you use statically assigne=
-d
-> UIDs/GIDs for all users/groups. This is typically necessary if you want
-> to be able to support upgrading your product, and it is very well
-> supported by the useradd-staticids.bbclass.
+> Interesting, thanks for the background. Out of curiosity, what is the dif=
+ference between using useradd-staticids.bbclass vs. using
+> normal useradd.bbclass but hardcoding the GIDs/UIDs anyway? I ask because=
+ meta-skeleton/recipes-skeleton/useradd/useradd-
+> example.bb does the latter.
 
-Interesting, thanks for the background. Out of curiosity, what is the diffe=
-rence between using useradd-staticids.bbclass vs. using normal useradd.bbcl=
-ass but hardcoding the GIDs/UIDs anyway? I ask because meta-skeleton/recipe=
-s-skeleton/useradd/useradd-example.bb does the latter.
+Actually never mind, sorry. I see how it works in https://www.yoctoproject.=
+org/docs/latest/ref-manual/ref-manual.html#var-USERADDEXTENSION.=20
 
 Chris
 
