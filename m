@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 01F237FC1A
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+	[209.85.128.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 92E4A7FC06
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 18:15:08 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t2so3816623wrr.1
+	Thu, 12 Dec 2019 18:15:09 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id t14so3624779wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 10:15:10 -0800 (PST)
+	Thu, 12 Dec 2019 10:15:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=TAVlQ3RQK0QgXgokWAcswsm84CRTIpGvoOyfsOqWvyU=;
-	b=cQX7bhv0E5X5zBFi/RUGiwVh9hWw9sh1IeUAdxZuWYGSuRlHay+3Q2KOukEfmTt6jY
-	gQQ892Pz9v8qDfXjlJhIws315ND2BUzW1JJXONXl9N/gXUQ80gQ64vsBDgcPA+yOMMas
-	WxqM+6VRbrjlEgrc3BkGz5mQG+FljG6D26StEzdUmuBvdWU6sP6Fky6dogpBTh+rqyC+
-	HDYOIjGUqLmLOyaY3N2eecHQi7+vjZqIEmu2pZx+PMmxMPzNWoCshw61Wd8wsNrHML5r
-	Y6hsdqTcHN3mtLIY5xJv6zK3qUJWTypm3ftL9f16QL/4zGx1/fF5pSKOARxL0xoxmeso
-	ORbQ==
+	bh=ubVckeAZ7YbE918mVU6FV6QvNvPDoP7HzeMBBGO+Bzk=;
+	b=qHiLbcQyokIsqtnJNGLClYWDDm4eD62Od1oPvk1YwOGrzFgC8dtOlh7J08kfznA5UY
+	fQIHqyrTRCfK1VeJ3typrpiu8QhU0ANuGnPCmCMQg0pw5cse83pvBD60WQVC1fx3Asft
+	IkMbYiOaKYH4kexCLPM1PcD9t6mRJd0mIFvL3YtEx9UqU9e+iQK5ory80L9BmtX6zk/G
+	gT10xlEpks2rDcGBXnOftzcXa5zi5BcEaIULda4CskohKtanDM78ve5Pq6JEOCqFPhGn
+	Pc7+ED4n6JwtlF+w995bGmnewU4OhdGFi/ibZeLGvlCODnT0qB5Kz6bjWyq6Vh25sMgY
+	+KWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=TAVlQ3RQK0QgXgokWAcswsm84CRTIpGvoOyfsOqWvyU=;
-	b=L17wUxEMcoM0mUyvOKeXr/XF6Xc1iUWkibJ0XYjPrrrGFNsTmWsZSXPWVi8//mBm5B
-	2U0L68pzkHsyvPag/MODvWPK/IS0bhrggN9QHjtp1/HkDBRozaC7Xg4jiKsQtCg9t9GA
-	QUgvCTyR/ftUqJj/8wApdM0YTsmJ5cO1WcALWqsjV3587K72LaQo4ORcVb/edG1DPGBR
-	RQdLwcnsY+J+F8zEztn2L7TtPO6nHATqI5+GP1rpAmk+JKicjTtIjpO3LEG1VLA268cY
-	WbQJ3z6nNLenNY4hAzQrWGR5ISMdNnE71RWJgBmFZ84bsXl6PdpoJN6dBAeTiwCCQ/9g
-	61TA==
-X-Gm-Message-State: APjAAAViTT5GIZ6sGATyqibRuHFm3SX11WXO9j+ukhNNJxVPdnjj5/ln
-	pBuZYYJE+uUrV7GDUvY0rQkUgpiR
-X-Google-Smtp-Source: APXvYqwQbX/Byr4m8EvKv4JNUrmb8Q4y77rqLkMkONE3l8649v7RolsJF2RIvGcAaGixVkZVTu9Ufw==
-X-Received: by 2002:adf:e58d:: with SMTP id l13mr7509908wrm.135.1576174509073; 
+	bh=ubVckeAZ7YbE918mVU6FV6QvNvPDoP7HzeMBBGO+Bzk=;
+	b=EK8nZxkoIT4BvW2gml6H0Z1P+MzErDwrjhYpaHKXLmLaMFn/FQghidOnqvhvhxa5cF
+	sYPW4KcIl+XOybcxS5Iv/1EmQrloBudDUJFk81aPEyL9J8zCkoOKqadg6VuwtU/qiWMb
+	6MeRdIVH0rLzUFvHh+KaxaEmj5aXC5/kYr/cc70secfquV2Ynzt2Ln/pGvEs9SfUUjgu
+	RncurwUO9qpCIQropYhmqosWNEaAsZS/kP+PQ3UA8VHho47C6IrqaD+rnnMzQHLh6Ny8
+	vxFk1DIaOwN2uURD7xlM+cd9sDU19Rdfo29WJ8VlpGo5h4P97lTnwciSxYk3+LAkLTf5
+	TOZg==
+X-Gm-Message-State: APjAAAUAQmaw9agQ/e/k6Ma5ByacwRijt3Tdy3P2s5dpX7fCjSSwiSvS
+	2Atnh89qK1iKiYhzf3cO05IzZnAO
+X-Google-Smtp-Source: APXvYqwi85OBGHu/qjGaecDrMF33nDnPIOtBcwtAB5b0XBEhVkxGYQElVeuhTRVYhKzsDpY3+0bLAQ==
+X-Received: by 2002:a7b:c632:: with SMTP id p18mr7838029wmk.175.1576174509824; 
 	Thu, 12 Dec 2019 10:15:09 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	o66sm3147571wmo.20.2019.12.12.10.15.08
+	o66sm3147571wmo.20.2019.12.12.10.15.09
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 10:15:08 -0800 (PST)
+	Thu, 12 Dec 2019 10:15:09 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 19:14:33 +0100
-Message-Id: <20191212181436.1322-27-alex.kanavin@gmail.com>
+Date: Thu, 12 Dec 2019 19:14:34 +0100
+Message-Id: <20191212181436.1322-28-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-Subject: [PATCH 27/30] cpio: update to 2.13
+Subject: [PATCH 28/30] sudo: update to 1.8.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,463 +57,379 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 18:15:09 -0000
+X-List-Received-Date: Thu, 12 Dec 2019 18:15:10 -0000
 
-Drop a couple of backports.
-
+License-Update: added SPDX info.
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...2016-2037-1-byte-out-of-bounds-write.patch | 346 ------------------
- .../0001-Fix-segfault-with-append.patch       |  51 ---
- .../0001-Fix-CVE-2015-1197.patch              |   0
- ...charset_alias-when-building-for-musl.patch |   0
- .../cpio/{cpio_2.12.bb => cpio_2.13.bb}       |   6 +-
- 5 files changed, 2 insertions(+), 401 deletions(-)
- delete mode 100644 meta/recipes-extended/cpio/cpio-2.12/0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch
- delete mode 100644 meta/recipes-extended/cpio/cpio-2.12/0001-Fix-segfault-with-append.patch
- rename meta/recipes-extended/cpio/{cpio-2.12 => cpio-2.13}/0001-Fix-CVE-2015-1197.patch (100%)
- rename meta/recipes-extended/cpio/{cpio-2.12 => cpio-2.13}/0001-Unset-need_charset_alias-when-building-for-musl.patch (100%)
- rename meta/recipes-extended/cpio/{cpio_2.12.bb => cpio_2.13.bb} (83%)
+ meta/recipes-extended/sudo/sudo.inc           |  22 +--
+ .../sudo/sudo/CVE-2019-14287-1.patch          | 178 ------------------
+ .../sudo/sudo/CVE-2019-14287-2.patch          | 112 -----------
+ .../sudo/{sudo_1.8.27.bb => sudo_1.8.29.bb}   |   6 +-
+ 4 files changed, 13 insertions(+), 305 deletions(-)
+ delete mode 100644 meta/recipes-extended/sudo/sudo/CVE-2019-14287-1.patch
+ delete mode 100644 meta/recipes-extended/sudo/sudo/CVE-2019-14287-2.patch
+ rename meta/recipes-extended/sudo/{sudo_1.8.27.bb => sudo_1.8.29.bb} (87%)
 
-diff --git a/meta/recipes-extended/cpio/cpio-2.12/0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch b/meta/recipes-extended/cpio/cpio-2.12/0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch
+diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
+index 15075bcefd7..67815fa8584 100644
+--- a/meta/recipes-extended/sudo/sudo.inc
++++ b/meta/recipes-extended/sudo/sudo.inc
+@@ -5,17 +5,17 @@ BUGTRACKER = "http://www.sudo.ws/bugs/"
+ SECTION = "admin"
+ LICENSE = "ISC & BSD & Zlib"
+ LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=6c76b73603ac7763ab0516ebfbe67b42 \
+-                    file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=4a162fc04b86b03f5632180fe6076cda \
+-                    file://lib/util/reallocarray.c;beginline=3;endline=15;md5=b47f1f85a12f05a0744cd8b1b6f41a0d \
+-                    file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
+-                    file://lib/util/getcwd.c;beginline=2;endline=27;md5=09068a19b4f6b6f0a0958655bfe98b63 \
+-                    file://lib/util/glob.c;beginline=2;endline=31;md5=1f2f771c35fb0658d567a7824007e56d \
+-                    file://lib/util/snprintf.c;beginline=3;endline=33;md5=63e48e1b992bce749a19dd9b2256e9a0 \
+-                    file://include/sudo_queue.h;beginline=2;endline=27;md5=082b138b72ba3e568a13a25c3bf254dc \
+-                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a \
+-                    file://lib/util/arc4random.c;beginline=3;endline=20;md5=15bdc89c1b003fa4d7353e6296ebfd68 \
+-                    file://lib/util/arc4random_uniform.c;beginline=3;endline=17;md5=31e630ac814d692fd0ab7a942659b46f \
+-                    file://lib/util/getentropy.c;beginline=1;endline=19;md5=9f1a275ecd44cc264a2a4d5e06a75292 \
++                    file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
++                    file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
++                    file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
++                    file://lib/util/getcwd.c;beginline=2;endline=27;md5=50f8d9667750e18dea4e84a935c12009 \
++                    file://lib/util/glob.c;beginline=2;endline=31;md5=2852f68687544e3eb8a0a61665506f0e \
++                    file://lib/util/snprintf.c;beginline=3;endline=33;md5=b70df6179969e38fcf68da91b53b8029 \
++                    file://include/sudo_queue.h;beginline=2;endline=27;md5=ad578e9664d17a010b63e4bc0576ee8d \
++                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=27785c9f5835093eda42aa0816a2d0b4 \
++                    file://lib/util/arc4random.c;beginline=3;endline=20;md5=ced8636ecefa2ba907cfe390bc3bd964 \
++                    file://lib/util/arc4random_uniform.c;beginline=3;endline=17;md5=e30c2b777cdc00cfcaf7c445a10b262f \
++                    file://lib/util/getentropy.c;beginline=1;endline=19;md5=a0f58be3d60b6dcd898ec5fe0866d36f \
+                     "
+ 
+ inherit autotools
+diff --git a/meta/recipes-extended/sudo/sudo/CVE-2019-14287-1.patch b/meta/recipes-extended/sudo/sudo/CVE-2019-14287-1.patch
 deleted file mode 100644
-index 0a3054483cb..00000000000
---- a/meta/recipes-extended/cpio/cpio-2.12/0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch
+index 2a11e3f7ec7..00000000000
+--- a/meta/recipes-extended/sudo/sudo/CVE-2019-14287-1.patch
 +++ /dev/null
-@@ -1,346 +0,0 @@
--From ebf9a2d776474181936a720ce811d72bbd1da3b6 Mon Sep 17 00:00:00 2001
--From: Pavel Raiskup <praiskup@redhat.com>
--Date: Tue, 26 Jan 2016 23:17:54 +0100
--Subject: [PATCH] CVE-2016-2037 - 1 byte out-of-bounds write
+@@ -1,178 +0,0 @@
+-From f752ae5cee163253730ff7cdf293e34a91aa5520 Mon Sep 17 00:00:00 2001
+-From: "Todd C. Miller" <Todd.Miller@sudo.ws>
+-Date: Thu, 10 Oct 2019 10:04:13 -0600
+-Subject: [PATCH] Treat an ID of -1 as invalid since that means "no change".
+- Fixes CVE-2019-14287. Found by Joe Vennix from Apple Information Security.
 -
--Ensure that cpio_safer_name_suffix always works with dynamically
--allocated buffer, and that it has size of at least 32 bytes.
--Then, any call to cpio_safer_name_suffix is safe (it requires at
--least 2 bytes in the buffer).
+-Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/f752ae5cee163253730ff7cdf293e34a91aa5520]
+-CVE: CVE-2019-14287
 -
--Also ensure that c_namesize is always correctly initialized (by
--cpio_set_c_name) to avoid undefined behavior when reading
--file_hdr.c_namesize (previously happened for tar archives).
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
 -
--References:
--http://www.mail-archive.com/bug-cpio@gnu.org/msg00545.html
--
--* src/copyin.c (query_rename): Drop the hack, as we now work with
--dynamically allocated buffer.  Use cpio_set_c_name.
--(create_defered_links_to_skipped): Use cpio_set_c_name rather than
--manual assignment.
--(read_name_from_file): New function to avoid C&P.
--(read_in_old_ascii, read_in_new_ascii, read_in_binary): Use
--read_name_from_file.
--(process_copy_in): Initialize file_hdr.c_namesize.
--* src/copyout.c (process_copy_out): Use cpio_set_c_name.
--* src/cpiohdr.h (cpio_set_c_name): New prototype.
--* src/tar.c (read_in_tar_header): Use cpio_set_c_name.
--* src/util.c (cpio_set_c_name): New function to set
--file_hdr->c_name and c_namesize from arbitrary string.
--(cpio_safer_name_suffix): Some docs fixes.
--* tests/inout.at: Also test copy-in, and try various formats.
--
--CVE: CVE-2016-2037
--
--Upstream-Status: Backport [http://git.savannah.gnu.org/cgit/cpio.git/commit/?id=d36ec5f4e93130efb24fb9678aafd88e8070095b]
--
--Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
 ----
-- src/copyin.c   | 68 +++++++++++++++++++---------------------------------------
-- src/copyout.c  | 13 +++++------
-- src/cpiohdr.h  |  1 +
-- src/tar.c      | 10 +++++----
-- src/util.c     | 32 ++++++++++++++++++++++++++-
-- tests/inout.at | 19 ++++++++++++++--
-- 6 files changed, 82 insertions(+), 61 deletions(-)
+- lib/util/strtoid.c | 100 ++++++++++++++++++++++++++++-------------------------
+- 1 files changed, 53 insertions(+), 46 deletions(-)
 -
--diff --git a/src/copyin.c b/src/copyin.c
--index cde911e..972f8a6 100644
----- a/src/copyin.c
--+++ b/src/copyin.c
--@@ -76,28 +76,7 @@ query_rename(struct cpio_file_stat* file_hdr, FILE *tty_in, FILE *tty_out,
--       return -1;
--     }
--   else
---  /* Debian hack: file_hrd.c_name is sometimes set to
---     point to static memory by code in tar.c.  This
---     causes a segfault.  This has been fixed and an
---     additional check to ensure that the file name
---     is not too long has been added.  (Reported by
---     Horst Knobloch.)  This bug has been reported to
---     "bug-gnu-utils@prep.ai.mit.edu". (99/1/6) -BEM */
---    {
---      if (archive_format != arf_tar && archive_format != arf_ustar)
---	{
---	  free (file_hdr->c_name);
---	  file_hdr->c_name = xstrdup (new_name.ds_string);
---	}
---      else
---	{
---	  if (is_tar_filename_too_long (new_name.ds_string))
---	    error (0, 0, _("%s: file name too long"),
---		   new_name.ds_string);
---	  else
---	    strcpy (file_hdr->c_name, new_name.ds_string);
---	}
---    }
--+    cpio_set_c_name (file_hdr, new_name.ds_string);
--   return 0;
-- }
-- 
--@@ -344,8 +323,7 @@ create_defered_links_to_skipped (struct cpio_file_stat *file_hdr,
-- 	    d_prev->next = d->next;
-- 	  else
-- 	    deferments = d->next;
---	  free (file_hdr->c_name);
---	  file_hdr->c_name = xstrdup(d->header.c_name);
--+	  cpio_set_c_name (file_hdr, d->header.c_name);
-- 	  free_deferment (d);
-- 	  copyin_regular_file(file_hdr, in_file_des);
-- 	  return 0;
--@@ -1064,6 +1042,22 @@ read_in_header (struct cpio_file_stat *file_hdr, int in_des)
--     }
-- }
+-diff --git a/lib/util/strtoid.c b/lib/util/strtoid.c
+-index 2dfce75..6b3916b 100644
+---- a/lib/util/strtoid.c
+-+++ b/lib/util/strtoid.c
+-@@ -49,6 +49,27 @@
+- #include "sudo_util.h"
 - 
--+static void
--+read_name_from_file (struct cpio_file_stat *file_hdr, int fd, uintmax_t len)
+- /*
+-+ * Make sure that the ID ends with a valid separator char.
+-+ */
+-+static bool
+-+valid_separator(const char *p, const char *ep, const char *sep)
 -+{
--+  static char *tmp_filename;
--+  static size_t buflen;
+-+    bool valid = false;
+-+    debug_decl(valid_separator, SUDO_DEBUG_UTIL)
 -+
--+  if (buflen < len)
--+    {
--+      buflen = len;
--+      tmp_filename = xrealloc (tmp_filename, buflen);
+-+    if (ep != p) {
+-+	/* check for valid separator (including '\0') */
+-+	if (sep == NULL)
+-+	    sep = "";
+-+	do {
+-+	    if (*ep == *sep)
+-+		valid = true;
+-+	} while (*sep++ != '\0');
 -+    }
--+
--+  tape_buffered_read (tmp_filename, fd, len);
--+  cpio_set_c_name (file_hdr, tmp_filename);
+-+    debug_return_bool(valid);
 -+}
 -+
-- /* Fill in FILE_HDR by reading an old-format ASCII format cpio header from
--    file descriptor IN_DES, except for the magic number, which is
--    already filled in.  */
--@@ -1090,14 +1084,8 @@ read_in_old_ascii (struct cpio_file_stat *file_hdr, int in_des)
--   file_hdr->c_rdev_min = minor (dev);
+-+/*
+-  * Parse a uid/gid in string form.
+-  * If sep is non-NULL, it contains valid separator characters (e.g. comma, space)
+-  * If endp is non-NULL it is set to the next char after the ID.
+-@@ -62,36 +83,33 @@ sudo_strtoid_v1(const char *p, const char *sep, char **endp, const char **errstr
+-     char *ep;
+-     id_t ret = 0;
+-     long long llval;
+--    bool valid = false;
+-     debug_decl(sudo_strtoid, SUDO_DEBUG_UTIL)
 - 
--   file_hdr->c_mtime = FROM_OCTAL (ascii_header.c_mtime);
---  file_hdr->c_namesize = FROM_OCTAL (ascii_header.c_namesize);
--   file_hdr->c_filesize = FROM_OCTAL (ascii_header.c_filesize);
---  
---  /* Read file name from input.  */
---  if (file_hdr->c_name != NULL)
---    free (file_hdr->c_name);
---  file_hdr->c_name = (char *) xmalloc (file_hdr->c_namesize + 1);
---  tape_buffered_read (file_hdr->c_name, in_des, (long) file_hdr->c_namesize);
--+  read_name_from_file (file_hdr, in_des, FROM_OCTAL (ascii_header.c_namesize));
-- 
--   /* HP/UX cpio creates archives that look just like ordinary archives,
--      but for devices it sets major = 0, minor = 1, and puts the
--@@ -1152,14 +1140,8 @@ read_in_new_ascii (struct cpio_file_stat *file_hdr, int in_des)
--   file_hdr->c_dev_min = FROM_HEX (ascii_header.c_dev_min);
--   file_hdr->c_rdev_maj = FROM_HEX (ascii_header.c_rdev_maj);
--   file_hdr->c_rdev_min = FROM_HEX (ascii_header.c_rdev_min);
---  file_hdr->c_namesize = FROM_HEX (ascii_header.c_namesize);
--   file_hdr->c_chksum = FROM_HEX (ascii_header.c_chksum);
---  
---  /* Read file name from input.  */
---  if (file_hdr->c_name != NULL)
---    free (file_hdr->c_name);
---  file_hdr->c_name = (char *) xmalloc (file_hdr->c_namesize);
---  tape_buffered_read (file_hdr->c_name, in_des, (long) file_hdr->c_namesize);
--+  read_name_from_file (file_hdr, in_des, FROM_HEX (ascii_header.c_namesize));
-- 
--   /* In SVR4 ASCII format, the amount of space allocated for the header
--      is rounded up to the next long-word, so we might need to drop
--@@ -1207,16 +1189,9 @@ read_in_binary (struct cpio_file_stat *file_hdr,
--   file_hdr->c_rdev_min = minor (short_hdr->c_rdev);
--   file_hdr->c_mtime = (unsigned long) short_hdr->c_mtimes[0] << 16
--                       | short_hdr->c_mtimes[1];
---
---  file_hdr->c_namesize = short_hdr->c_namesize;
--   file_hdr->c_filesize = (unsigned long) short_hdr->c_filesizes[0] << 16
--                       | short_hdr->c_filesizes[1];
---
---  /* Read file name from input.  */
---  if (file_hdr->c_name != NULL)
---    free (file_hdr->c_name);
---  file_hdr->c_name = (char *) xmalloc (file_hdr->c_namesize);
---  tape_buffered_read (file_hdr->c_name, in_des, (long) file_hdr->c_namesize);
--+  read_name_from_file (file_hdr, in_des, short_hdr->c_namesize);
-- 
--   /* In binary mode, the amount of space allocated in the header for
--      the filename is `c_namesize' rounded up to the next short-word,
--@@ -1297,6 +1272,7 @@ process_copy_in ()
--       read_pattern_file ();
+-     /* skip leading space so we can pick up the sign, if any */
+-     while (isspace((unsigned char)*p))
+- 	p++;
+--    if (sep == NULL)
+--	sep = "";
+-+
+-+    /* While id_t may be 64-bit signed, uid_t and gid_t are 32-bit unsigned. */
+-     errno = 0;
+-     llval = strtoll(p, &ep, 10);
+--    if (ep != p) {
+--	/* check for valid separator (including '\0') */
+--	do {
+--	    if (*ep == *sep)
+--		valid = true;
+--	} while (*sep++ != '\0');
+-+    if ((errno == ERANGE && llval == LLONG_MAX) || llval > (id_t)UINT_MAX) {
+-+	errno = ERANGE;
+-+	if (errstr != NULL)
+-+	    *errstr = N_("value too large");
+-+	goto done;
 -     }
--   file_hdr.c_name = NULL;
--+  file_hdr.c_namesize = 0;
+--    if (!valid) {
+-+    if ((errno == ERANGE && llval == LLONG_MIN) || llval < INT_MIN) {
+-+	errno = ERANGE;
+- 	if (errstr != NULL)
+--	    *errstr = N_("invalid value");
+--	errno = EINVAL;
+-+	    *errstr = N_("value too small");
+- 	goto done;
+-     }
+--    if (errno == ERANGE) {
+--	if (errstr != NULL) {
+--	    if (llval == LLONG_MAX)
+--		*errstr = N_("value too large");
+--	    else
+--		*errstr = N_("value too small");
+--	}
+-+
+-+    /* Disallow id -1, which means "no change". */
+-+    if (!valid_separator(p, ep, sep) || llval == -1 || llval == (id_t)UINT_MAX) {
+-+	if (errstr != NULL)
+-+	    *errstr = N_("invalid value");
+-+	errno = EINVAL;
+- 	goto done;
+-     }
+-     ret = (id_t)llval;
+-@@ -108,30 +126,15 @@ sudo_strtoid_v1(const char *p, const char *sep, char **endp, const char **errstr
+- {
+-     char *ep;
+-     id_t ret = 0;
+--    bool valid = false;
+-     debug_decl(sudo_strtoid, SUDO_DEBUG_UTIL)
 - 
--   if (rename_batch_file)
--     {
--diff --git a/src/copyout.c b/src/copyout.c
--index 1f0987a..bb39559 100644
----- a/src/copyout.c
--+++ b/src/copyout.c
--@@ -660,8 +660,7 @@ process_copy_out ()
-- 	  cpio_safer_name_suffix (input_name.ds_string, false,
-- 				  !no_abs_paths_flag, true);
-- #ifndef HPUX_CDF
---	  file_hdr.c_name = input_name.ds_string;
---	  file_hdr.c_namesize = strlen (input_name.ds_string) + 1;
--+	  cpio_set_c_name (&file_hdr, input_name.ds_string);
+-     /* skip leading space so we can pick up the sign, if any */
+-     while (isspace((unsigned char)*p))
+- 	p++;
+--    if (sep == NULL)
+--	sep = "";
+-+
+-     errno = 0;
+-     if (*p == '-') {
+- 	long lval = strtol(p, &ep, 10);
+--	if (ep != p) {
+--	    /* check for valid separator (including '\0') */
+--	    do {
+--		if (*ep == *sep)
+--		    valid = true;
+--	    } while (*sep++ != '\0');
+--	}
+--	if (!valid) {
+--	    if (errstr != NULL)
+--		*errstr = N_("invalid value");
+--	    errno = EINVAL;
+--	    goto done;
+--	}
+- 	if ((errno == ERANGE && lval == LONG_MAX) || lval > INT_MAX) {
+- 	    errno = ERANGE;
+- 	    if (errstr != NULL)
+-@@ -144,28 +147,31 @@ sudo_strtoid_v1(const char *p, const char *sep, char **endp, const char **errstr
+- 		*errstr = N_("value too small");
+- 	    goto done;
+- 	}
+--	ret = (id_t)lval;
+--    } else {
+--	unsigned long ulval = strtoul(p, &ep, 10);
+--	if (ep != p) {
+--	    /* check for valid separator (including '\0') */
+--	    do {
+--		if (*ep == *sep)
+--		    valid = true;
+--	    } while (*sep++ != '\0');
+--	}
+--	if (!valid) {
+-+
+-+	/* Disallow id -1, which means "no change". */
+-+	if (!valid_separator(p, ep, sep) || lval == -1) {
+- 	    if (errstr != NULL)
+- 		*errstr = N_("invalid value");
+- 	    errno = EINVAL;
+- 	    goto done;
+- 	}
+-+	ret = (id_t)lval;
+-+    } else {
+-+	unsigned long ulval = strtoul(p, &ep, 10);
+- 	if ((errno == ERANGE && ulval == ULONG_MAX) || ulval > UINT_MAX) {
+- 	    errno = ERANGE;
+- 	    if (errstr != NULL)
+- 		*errstr = N_("value too large");
+- 	    goto done;
+- 	}
+-+
+-+	/* Disallow id -1, which means "no change". */
+-+	if (!valid_separator(p, ep, sep) || ulval == UINT_MAX) {
+-+	    if (errstr != NULL)
+-+		*errstr = N_("invalid value");
+-+	    errno = EINVAL;
+-+	    goto done;
+-+	}
+- 	ret = (id_t)ulval;
+-     }
+-     if (errstr != NULL)
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/sudo/sudo/CVE-2019-14287-2.patch b/meta/recipes-extended/sudo/sudo/CVE-2019-14287-2.patch
+deleted file mode 100644
+index 453a8b09a4a..00000000000
+--- a/meta/recipes-extended/sudo/sudo/CVE-2019-14287-2.patch
++++ /dev/null
+@@ -1,112 +0,0 @@
+-From 396bc57feff3e360007634f62448b64e0626390c Mon Sep 17 00:00:00 2001
+-From: "Todd C. Miller" <Todd.Miller@sudo.ws>
+-Date: Thu, 10 Oct 2019 10:04:13 -0600
+-Subject: [PATCH] Add sudo_strtoid() tests for -1 and range errors. Also adjust
+- testsudoers/test5 which relied upon gid -1 parsing.
+-
+-Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/396bc57]
+-CVE: CVE-2019-14287
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+-
+----
+- lib/util/regress/atofoo/atofoo_test.c            | 36 ++++++++++++++++------
+- plugins/sudoers/regress/testsudoers/test5.out.ok |  2 +-
+- plugins/sudoers/regress/testsudoers/test5.sh     |  2 +-
+- 3 files changed, 29 insertions(+), 11 deletions(-)
+-
+-diff --git a/lib/util/regress/atofoo/atofoo_test.c b/lib/util/regress/atofoo/atofoo_test.c
+-index 031a7ed..fb41c1a 100644
+---- a/lib/util/regress/atofoo/atofoo_test.c
+-+++ b/lib/util/regress/atofoo/atofoo_test.c
+-@@ -26,6 +26,7 @@
 - #else
-- 	  if ( (archive_format != arf_tar) && (archive_format != arf_ustar) )
-- 	    {
--@@ -670,16 +669,15 @@ process_copy_out ()
-- 		 properly recreate the directory as hidden (in case the
-- 		 files of a directory go into the archive before the
-- 		 directory itself (e.g from "find ... -depth ... | cpio")).  */
---	      file_hdr.c_name = add_cdf_double_slashes (input_name.ds_string);
---	      file_hdr.c_namesize = strlen (file_hdr.c_name) + 1;
--+              cpio_set_c_name (&file_hdr,
--+                               add_cdf_double_slashes (input_name.ds_string));
-- 	    }
-- 	  else
-- 	    {
-- 	      /* We don't mark CDF's in tar files.  We assume the "hidden"
-- 		 directory will always go into the archive before any of
-- 		 its files.  */
---	      file_hdr.c_name = input_name.ds_string;
---	      file_hdr.c_namesize = strlen (input_name.ds_string) + 1;
--+              cpio_set_c_name (&file_hdr, input_name.ds_string);
-- 	    }
+- # include "compat/stdbool.h"
 - #endif
+-+#include <errno.h>
 - 
--@@ -866,8 +864,7 @@ process_copy_out ()
--   file_hdr.c_chksum = 0;
-- 
--   file_hdr.c_filesize = 0;
---  file_hdr.c_namesize = 11;
---  file_hdr.c_name = CPIO_TRAILER_NAME;
--+  cpio_set_c_name (&file_hdr, CPIO_TRAILER_NAME);
--   if (archive_format != arf_tar && archive_format != arf_ustar)
--     write_out_header (&file_hdr, out_file_des);
--   else
--diff --git a/src/cpiohdr.h b/src/cpiohdr.h
--index b29e6fb..f4c63be 100644
----- a/src/cpiohdr.h
--+++ b/src/cpiohdr.h
--@@ -129,5 +129,6 @@ struct cpio_file_stat /* Internal representation of a CPIO header */
--   char *c_tar_linkname;
+- #include "sudo_compat.h"
+- #include "sudo_util.h"
+-@@ -80,15 +81,20 @@ static struct strtoid_data {
+-     id_t id;
+-     const char *sep;
+-     const char *ep;
+-+    int errnum;
+- } strtoid_data[] = {
+--    { "0,1", 0, ",", "," },
+--    { "10", 10, NULL, NULL },
+--    { "-2", -2, NULL, NULL },
+-+    { "0,1", 0, ",", ",", 0 },
+-+    { "10", 10, NULL, NULL, 0 },
+-+    { "-1", 0, NULL, NULL, EINVAL },
+-+    { "4294967295", 0, NULL, NULL, EINVAL },
+-+    { "4294967296", 0, NULL, NULL, ERANGE },
+-+    { "-2147483649", 0, NULL, NULL, ERANGE },
+-+    { "-2", -2, NULL, NULL, 0 },
+- #if SIZEOF_ID_T != SIZEOF_LONG_LONG
+--    { "-2", (id_t)4294967294U, NULL, NULL },
+-+    { "-2", (id_t)4294967294U, NULL, NULL, 0 },
+- #endif
+--    { "4294967294", (id_t)4294967294U, NULL, NULL },
+--    { NULL, 0, NULL, NULL }
+-+    { "4294967294", (id_t)4294967294U, NULL, NULL, 0 },
+-+    { NULL, 0, NULL, NULL, 0 }
 - };
 - 
--+void cpio_set_c_name(struct cpio_file_stat *file_hdr, char *name);
+- static int
+-@@ -104,11 +110,23 @@ test_strtoid(int *ntests)
+- 	(*ntests)++;
+- 	errstr = "some error";
+- 	value = sudo_strtoid(d->idstr, d->sep, &ep, &errstr);
+--	if (errstr != NULL) {
+--	    if (d->id != (id_t)-1) {
+--		sudo_warnx_nodebug("FAIL: %s: %s", d->idstr, errstr);
+-+	if (d->errnum != 0) {
+-+	    if (errstr == NULL) {
+-+		sudo_warnx_nodebug("FAIL: %s: missing errstr for errno %d",
+-+		    d->idstr, d->errnum);
+-+		errors++;
+-+	    } else if (value != 0) {
+-+		sudo_warnx_nodebug("FAIL: %s should return 0 on error",
+-+		    d->idstr);
+-+		errors++;
+-+	    } else if (errno != d->errnum) {
+-+		sudo_warnx_nodebug("FAIL: %s: errno mismatch, %d != %d",
+-+		    d->idstr, errno, d->errnum);
+- 		errors++;
+- 	    }
+-+	} else if (errstr != NULL) {
+-+	    sudo_warnx_nodebug("FAIL: %s: %s", d->idstr, errstr);
+-+	    errors++;
+- 	} else if (value != d->id) {
+- 	    sudo_warnx_nodebug("FAIL: %s != %u", d->idstr, (unsigned int)d->id);
+- 	    errors++;
+-diff --git a/plugins/sudoers/regress/testsudoers/test5.out.ok b/plugins/sudoers/regress/testsudoers/test5.out.ok
+-index 5e319c9..cecf700 100644
+---- a/plugins/sudoers/regress/testsudoers/test5.out.ok
+-+++ b/plugins/sudoers/regress/testsudoers/test5.out.ok
+-@@ -4,7 +4,7 @@ Parse error in sudoers near line 1.
+- Entries for user root:
 - 
-- #endif /* cpiohdr.h */
--diff --git a/src/tar.c b/src/tar.c
--index a2ce171..e41f89d 100644
----- a/src/tar.c
--+++ b/src/tar.c
--@@ -282,7 +282,7 @@ read_in_tar_header (struct cpio_file_stat *file_hdr, int in_des)
--       if (null_block ((long *) &tar_rec, TARRECORDSIZE))
-- #endif
-- 	{
---	  file_hdr->c_name = CPIO_TRAILER_NAME;
--+	  cpio_set_c_name (file_hdr, CPIO_TRAILER_NAME);
-- 	  return;
-- 	}
-- #if 0
--@@ -316,9 +316,11 @@ read_in_tar_header (struct cpio_file_stat *file_hdr, int in_des)
-- 	}
+- Command unmatched
+--testsudoers: test5.inc should be owned by gid 4294967295
+-+testsudoers: test5.inc should be owned by gid 4294967294
+- Parse error in sudoers near line 1.
 - 
--       if (archive_format != arf_ustar)
---	file_hdr->c_name = stash_tar_filename (NULL, tar_hdr->name);
--+        cpio_set_c_name (file_hdr, stash_tar_filename (NULL, tar_hdr->name));
--       else
---	file_hdr->c_name = stash_tar_filename (tar_hdr->prefix, tar_hdr->name);
--+        cpio_set_c_name (file_hdr, stash_tar_filename (tar_hdr->prefix,
--+                                                      tar_hdr->name));
--+
--       file_hdr->c_nlink = 1;
--       file_hdr->c_mode = FROM_OCTAL (tar_hdr->mode);
--       file_hdr->c_mode = file_hdr->c_mode & 07777;
--@@ -398,7 +400,7 @@ read_in_tar_header (struct cpio_file_stat *file_hdr, int in_des)
-- 	case AREGTYPE:
-- 	  /* Old tar format; if the last char in filename is '/' then it is
-- 	     a directory, otherwise it's a regular file.  */
---	  if (file_hdr->c_name[strlen (file_hdr->c_name) - 1] == '/')
--+	  if (file_hdr->c_name[file_hdr->c_namesize - 1] == '/')
-- 	    file_hdr->c_mode |= CP_IFDIR;
-- 	  else
-- 	    file_hdr->c_mode |= CP_IFREG;
--diff --git a/src/util.c b/src/util.c
--index 6ff6032..4f3c073 100644
----- a/src/util.c
--+++ b/src/util.c
--@@ -1410,8 +1410,34 @@ set_file_times (int fd,
--     utime_error (name);
-- }
+- Entries for user root:
+-diff --git a/plugins/sudoers/regress/testsudoers/test5.sh b/plugins/sudoers/regress/testsudoers/test5.sh
+-index 9e690a6..94d585c 100755
+---- a/plugins/sudoers/regress/testsudoers/test5.sh
+-+++ b/plugins/sudoers/regress/testsudoers/test5.sh
+-@@ -24,7 +24,7 @@ EOF
 - 
--+
--+void
--+cpio_set_c_name (struct cpio_file_stat *file_hdr, char *name)
--+{
--+  static size_t buflen = 0;
--+  size_t len = strlen (name) + 1;
--+
--+  if (buflen == 0)
--+    {
--+      buflen = len;
--+      if (buflen < 32)
--+        buflen = 32;
--+      file_hdr->c_name = xmalloc (buflen);
--+    }
--+  else if (buflen < len)
--+    {
--+      buflen = len;
--+      file_hdr->c_name = xrealloc (file_hdr->c_name, buflen);
--+    }
--+
--+  file_hdr->c_namesize = len;
--+  memmove (file_hdr->c_name, name, len);
--+}
--+
-- /* Do we have to ignore absolute paths, and if so, does the filename
---   have an absolute path?  */
--+   have an absolute path?  Before calling this function make sure that the
--+   allocated NAME buffer has capacity at least 2 bytes. */
--+
-- void
-- cpio_safer_name_suffix (char *name, bool link_target, bool absolute_names,
-- 			bool strip_leading_dots)
--@@ -1426,6 +1452,10 @@ cpio_safer_name_suffix (char *name, bool link_target, bool absolute_names,
-- 	  ++p;
--       }
--   if (p != name)
--+    /* The 'p' string is shortened version of 'name' with one exception;  when
--+       the 'name' points to an empty string (buffer where name[0] == '\0') the
--+       'p' then points to static string ".".  So caller needs to ensure there
--+       are at least two bytes available in 'name' buffer so memmove succeeds. */
--     memmove (name, p, (size_t)(strlen (p) + 1));
-- }
+- # Test group writable
+- chmod 664 $TESTFILE
+--./testsudoers -U $MYUID -G -1 root id <<EOF
+-+./testsudoers -U $MYUID -G -2 root id <<EOF
+- #include $TESTFILE
+- EOF
 - 
--diff --git a/tests/inout.at b/tests/inout.at
--index 60c3716..730cbd2 100644
----- a/tests/inout.at
--+++ b/tests/inout.at
--@@ -35,7 +35,22 @@ while read NAME LENGTH
-- do
-- 	genfile --length $LENGTH > $NAME
-- 	echo $NAME
---done < filelist |
--- cpio --quiet -o > archive])
--+done < filelist > filelist_raw
--+
--+for format in bin odc newc crc tar ustar hpbin hpodc
--+do
--+    cpio --format=$format --quiet -o < filelist_raw > archive.$format
--+    rm -rf output
--+    mkdir output && cd output
--+    cpio -i --quiet < ../archive.$format
--+
--+    while read file
--+    do
--+        test -f $file || echo "$file not found"
--+    done < ../filelist_raw
--+
--+    cd ..
--+done
--+])
-- 
-- AT_CLEANUP
 --- 
--1.9.1
+-2.7.4
 -
-diff --git a/meta/recipes-extended/cpio/cpio-2.12/0001-Fix-segfault-with-append.patch b/meta/recipes-extended/cpio/cpio-2.12/0001-Fix-segfault-with-append.patch
-deleted file mode 100644
-index ec8b303c43a..00000000000
---- a/meta/recipes-extended/cpio/cpio-2.12/0001-Fix-segfault-with-append.patch
-+++ /dev/null
-@@ -1,51 +0,0 @@
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 32d95fe0c90c59352a0ce3102fc9866cbfb0f629 Mon Sep 17 00:00:00 2001
--From: Sergey Poznyakoff <gray@gnu.org>
--Date: Sat, 1 Dec 2018 11:40:02 +0200
--Subject: [PATCH] Fix sigfault when appending to archive
--
--Bug reported by Ross Burton. See
--<http://lists.gnu.org/archive/html/bug-cpio/2018-11/msg00000.html>
--
--* src/util.c: Keep static copy of the buffer pointer; always
--assign it to file_hdr->c_name. Use x2realloc for memory management.
-----
-- src/util.c | 17 ++++-------------
-- 1 file changed, 4 insertions(+), 13 deletions(-)
--
--diff --git a/src/util.c b/src/util.c
--index 10486dc..4e49124 100644
----- a/src/util.c
--+++ b/src/util.c
--@@ -1413,22 +1413,13 @@ set_file_times (int fd,
-- void
-- cpio_set_c_name (struct cpio_file_stat *file_hdr, char *name)
-- {
--+  static char *buf = NULL;
--   static size_t buflen = 0;
--   size_t len = strlen (name) + 1;
-- 
---  if (buflen == 0)
---    {
---      buflen = len;
---      if (buflen < 32)
---        buflen = 32;
---      file_hdr->c_name = xmalloc (buflen);
---    }
---  else if (buflen < len)
---    {
---      buflen = len;
---      file_hdr->c_name = xrealloc (file_hdr->c_name, buflen);
---    }
---
--+  while (buflen < len)
--+    buf = x2realloc (buf, &buflen);
--+  file_hdr->c_name = buf;
--   file_hdr->c_namesize = len;
--   memmove (file_hdr->c_name, name, len);
-- }
---- 
--2.18.0
--
-diff --git a/meta/recipes-extended/cpio/cpio-2.12/0001-Fix-CVE-2015-1197.patch b/meta/recipes-extended/cpio/cpio-2.13/0001-Fix-CVE-2015-1197.patch
-similarity index 100%
-rename from meta/recipes-extended/cpio/cpio-2.12/0001-Fix-CVE-2015-1197.patch
-rename to meta/recipes-extended/cpio/cpio-2.13/0001-Fix-CVE-2015-1197.patch
-diff --git a/meta/recipes-extended/cpio/cpio-2.12/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-extended/cpio/cpio-2.13/0001-Unset-need_charset_alias-when-building-for-musl.patch
-similarity index 100%
-rename from meta/recipes-extended/cpio/cpio-2.12/0001-Unset-need_charset_alias-when-building-for-musl.patch
-rename to meta/recipes-extended/cpio/cpio-2.13/0001-Unset-need_charset_alias-when-building-for-musl.patch
-diff --git a/meta/recipes-extended/cpio/cpio_2.12.bb b/meta/recipes-extended/cpio/cpio_2.13.bb
-similarity index 83%
-rename from meta/recipes-extended/cpio/cpio_2.12.bb
-rename to meta/recipes-extended/cpio/cpio_2.13.bb
-index 3713bf0b1f4..69615a9a0f5 100644
---- a/meta/recipes-extended/cpio/cpio_2.12.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.13.bb
-@@ -9,12 +9,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
- SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://0001-Fix-CVE-2015-1197.patch \
--           file://0001-CVE-2016-2037-1-byte-out-of-bounds-write.patch \
--           file://0001-Fix-segfault-with-append.patch \
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.27.bb b/meta/recipes-extended/sudo/sudo_1.8.29.bb
+similarity index 87%
+rename from meta/recipes-extended/sudo/sudo_1.8.27.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.29.bb
+index 0a11a1b28f8..8da2d646318 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.27.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.29.bb
+@@ -3,14 +3,12 @@ require sudo.inc
+ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            file://0001-Include-sys-types.h-for-id_t-definition.patch \
+-           file://CVE-2019-14287-1.patch \
+-           file://CVE-2019-14287-2.patch \
             "
  
--SRC_URI[md5sum] = "fc207561a86b63862eea4b8300313e86"
--SRC_URI[sha256sum] = "08a35e92deb3c85d269a0059a27d4140a9667a6369459299d08c17f713a92e73"
-+SRC_URI[md5sum] = "389c5452d667c23b5eceb206f5000810"
-+SRC_URI[sha256sum] = "e87470d9c984317f658567c03bfefb6b0c829ff17dbf6b0de48d71a4c8f3db88"
+ PAM_SRC_URI = "file://sudo.pam"
  
- inherit autotools gettext texinfo
+-SRC_URI[md5sum] = "b5c184b13b6b5de32af630af2fd013fd"
+-SRC_URI[sha256sum] = "7beb68b94471ef56d8a1036dbcdc09a7b58a949a68ffce48b83f837dd33e2ec0"
++SRC_URI[md5sum] = "b28dabff9c460f115fe74de4d6a6f79d"
++SRC_URI[sha256sum] = "ce53ffac9604e23321334d8ba8ac59ded2bcf624fdb9dbde097ab2049bf29c7c"
  
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.17.1
 
