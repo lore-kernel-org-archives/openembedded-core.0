@@ -1,41 +1,33 @@
-Return-Path: <prvs=242d32312=Richard.Leitner@skidata.com>
-X-Greylist: delayed 429 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 12 Dec 2019 11:08:00 UTC
-Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
-	by mail.openembedded.org (Postfix) with ESMTP id A71847F798
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 270F57F798
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 11:08:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-	t=1576148882; x=1607684882;
-	h=subject:to:references:from:message-id:date:mime-version:
-	in-reply-to:content-transfer-encoding;
-	bh=3lx42krs39BVZX+dMPZRJsg1yDocgIH1DummSDvgtE0=;
-	b=BHc1y0mozvK+vMnUlO9JhkKlhrRFL5laDgbFxE7fk6qD69HERgfLvvmi
-	oMKyg/38kj5hCTRSqN8UdZI6kY6vdcYdJm7hvULigB6yjwKwLS77SSroq
-	v27lCli51WS8C+sXB5dL9hO2y8V8ull7iiyqjrx17bWod4Xm1V6YOu7c3
-	ZoxjAqfxK7b3irrU2itB+Z8A3l76mpF4/GgcCsJmZleHavlB2ZvOpiC0I
-	nKuArpxwRvVoOgHU935UtJ6MmFdy5fn+44ZK6cgstwQEEz0I15jXjXBJb
-	M6xOv+aL864XQM6qBqKIfozBNXovz0k6WP3VQOHeQQhRHkexLCLpq/TyM A==;
-IronPort-SDR: FoMWbg5PoiihfJwfwZT+JsYS2Y1L7iVV9UAY4q2TxZ2Jfdhhurl00epeIypGpPglkwU4vTCMye
-	ucXZn5v7nLpC8Om1tOhrA3QA2DfS6s6wR1R30swDgG+rTAo58Ys3kQxNfRI07Rb/BfB+nZ/tQ2
-	FtVNJDtEg7124MoGKxKQKi8CetrkfWXxHrs6OIwpW2Key4Tw8XdMzWPqjPN6UQxfd2iLl7D59i
-	fSCMInvOUd+WENjADbURUY8/i9Coq2E8iOSuIG8lwqhscd0Sd582rVHX/AuMwl4+msvyDmEE74
-	BI0=
-X-IronPort-AV: E=Sophos;i="5.69,305,1571695200"; d="scan'208";a="21471614"
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20191207072208.2773273-1-raj.khem@gmail.com>
-From: Richard Leitner <richard.leitner@skidata.com>
-Message-ID: <a1e5a5f0-f27d-572a-c26f-1061d68aa09a@skidata.com>
-Date: Thu, 12 Dec 2019 12:00:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	Thu, 12 Dec 2019 11:11:17 +0000 (UTC)
+IronPort-SDR: gug9E3A3EJVERD21sBrjDlcd2eDNAZFxNyytRHi1RMNg/a6qPDxxoKoHeVnh59pYk0RFeoAGvY
+	hF1FL1fcVMkyGP8J6w8jqqtoWSvXKvpwX9WGOL9W9MTrA9oz2tLzwLjBi6SO2X3k6ojP+x0kVf
+	agllhAJrPfNKQ+foQJMUtr7FH8awY0w/X/HmG33Vz4mvOpzt0Ocn0tR2u0z14gUxhqO3nUfCiZ
+	DT2Gplho4uTP/2+NpRedfJGO3ndm7IivCombAzGiyqBBWblLR4NGcbOXnKQArbmliZyqbmNMe0
+	M1g=
+X-IronPort-AV: E=Sophos;i="5.69,305,1571695200"; 
+   d="scan'208";a="3523175"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "claus.stovgaard@gmail.com" <claus.stovgaard@gmail.com>, oe-core
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] connman dependency of readline
+Thread-Index: AQHVrRS4iSsyKcPrK0mc3DtFanBJiKe0GP6ggAFLLICAAPlzcA==
+Date: Thu, 12 Dec 2019 11:11:17 +0000
+Message-ID: <c232d64f1bec4cc5a44b515f5ebe6507@XBOX03.axis.com>
+References: <8746d8e88a538d8abede3a76718fd594ca895af0.camel@gmail.com>
+	<89df20728e824340bd9f7193b01cf978@XBOX03.axis.com>
+	<3f2cf400275f8439e1ced2dbb8aaf612ad43229b.camel@gmail.com>
+In-Reply-To: <3f2cf400275f8439e1ced2dbb8aaf612ad43229b.camel@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <20191207072208.2773273-1-raj.khem@gmail.com>
-X-Originating-IP: [192.168.111.252]
-X-ClientProxiedBy: sdex4srv.skidata.net (192.168.111.82) To
-	sdex5srv.skidata.net (192.168.111.83)
-Subject: Re: kbd: avoid vlock conflict with busybox
+Subject: Re: connman dependency of readline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,24 +40,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 11:08:01 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Thu, 12 Dec 2019 11:11:18 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On 07/12/2019 08:22, Khem Raj wrote:
-> busybox as well as vlock utility from meta-oe provides vlock utility
-> which can conflict when with kbd if pam is a enabled distro_feature
-> 
-> Fixes image build errors
-> 
-> update-alternatives: Error: not linking <rootfs>/usr/bin/vlock to /bin/busybox.suid since <rootfs>/usr/bin/vlock exists and is not a link
-> 
-> ERROR: yoe-qt5-wayland-image-1.0-r0 do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
-> then please place them into pkg_postinst_ontarget_${PN} ().
-> Deferring to first boot via 'exit 1' is no longer supported.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-
-Tested-by: Richard Leitner <richard.leitner@skidata.com>
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBjbGF1cy5zdG92Z2FhcmRAZ21h
+aWwuY29tIDxjbGF1cy5zdG92Z2FhcmRAZ21haWwuY29tPg0KPiBTZW50OiBkZW4gMTEgZGVjZW1i
+ZXIgMjAxOSAyMjoxMQ0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3Rl
+ZHRAYXhpcy5jb20+OyBvZS1jb3JlDQo+IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIGNvbm5tYW4gZGVwZW5kZW5jeSBv
+ZiByZWFkbGluZQ0KPiANCj4gPiA+IGl0IGlzIHNldCB0byBhbHdheXMgZGVwZW5kIG9uIHJlYWRs
+aW5lIGluIHRoZSBERVBFTkRTIHZhcmlhYmxlLA0KPiA+ID4gZXZlbiB0aG91Z2ggYXMgZmFyIGFz
+IEkga25vdyBpdCBpcyBvbmx5IHRoZSBjb25ubWFuY3RsIHdoaWNoIA0KPiA+ID4gZGVwZW5kIG9u
+IHJlYWRsaW5lLiBJbiBFWFRSQV9PRUNPTkYgdGhlIC0tZW5hYmxlLWNsaWVudCBpcyANCj4gPiA+
+IGhhcmRjb2RlZC4NCj4gPiA+DQo+ID4gPiBUaGUgY2xpZW50IGlzIHRob3VnaCBub3QgaW5jbHVk
+ZWQgaW4gdGhlIGltYWdlIHVubGVzcyB5b3UgYWxzbyANCj4gPiA+IGFkZCBjb25ubWFuLWNsaWVu
+dC4NCj4gPiA+DQo+ID4gPiBTbyBJIGFtIHRoaW5raW5nIG9uIGNyZWF0aW5nIGEgcGF0Y2ggd2hl
+cmUgSSBjcmVhdGUgYQ0KPiA+ID4gUEFDS0FHRUNPTkZJR1tyZWFkbGluZV0gbGlrZSBibHVlejUs
+IGFzIEkgd291bGQgbm90IG5lZWQgdGhlIA0KPiA+ID4gY2xpZW50IGFuZCB3aWxsIG5lZWQgbm90
+IHRvIGluY2x1ZGUgcmVhZGxpbmUgYmVjYXVzZSBvZiBHUEx2My4NCj4gPg0KPiA+IElmIHJlYWRs
+aW5lIGlzIG9ubHkgbmVlZGVkIHRvIGJ1aWxkIHRoZSBjb25ubWFuIGNsaWVudCBhbmQgaXQgaXMN
+Cj4gPiBwYWNrYWdlZCBpbiBhIHNlcGFyYXRlIHBhY2thZ2UsIHRoZW4geW91IGFyZSBvbmx5IGFm
+ZmVjdGVkIGJ5DQo+ID4gcmVhZGxpbmUncyBHUEwtMy4wIGxpY2Vuc2UgaWYgeW91IGluc3RhbGwg
+dGhhdCBwYWNrYWdlLiBJZiB5b3UgZG8NCj4gPiBub3QgaW5zdGFsbCBpdCB5b3UgYXJlIG9rIGV2
+ZW4gaWYgcmVhZGxpbmUgaXMgbmVlZGVkIGR1cmluZyB0aGUNCj4gPiBidWlsZC4gU28gdGhlcmUg
+c2hvdWxkIG5vdCBiZSBhbnkgcmVhbCBuZWVkIHRvIGRpc2FibGUgdGhlDQo+ID4gYnVpbGRpbmcg
+b2YgdGhlIGNsaWVudC4NCj4gDQo+IFRoYW5rcyBmb3IgeW91ciByZXBseS4gV2FzIGFsc28gbWl4
+aW5nIERFUEVORFMgdXAgd2l0aCBSREVQRU5EUyANCj4gaW5zaWRlIG15IGhlYWQuDQo+IA0KPiBC
+ZWZvcmUgeW91ciBtYWlsIEkgaGFkIGNyZWF0ZWQgYSBzbWFsbCBwYXRjaCBhbmQgc2VudC4gSSB3
+YXMNCj4gY29uc2lkZXJpbmcganVzdCB0byByZXF1ZXN0IGl0IGJlaW5nIGRyb3BwZWQsIGJ1dCBv
+biB0aGUgDQo+IG90aGVyIGhhbmQgaXQgbWFrZXMgaXQgcG9zc2libGUgdG8gdXNlDQo+IA0KPiBJ
+TkNPTVBBVElCTEVfTElDRU5TRSA9ICJHUEwtMy4wIg0KPiANCj4gd2l0aG91dCBnZXR0aW5nIGJl
+bG93IGVycm9yLg0KPiANCj4gRVJST1I6IE5vdGhpbmcgUFJPVklERVMgJ3JlYWRsaW5lJyAoYnV0
+IC9vcGVuZW1iZWRkZWQvb2UtDQo+IGNvcmUvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9jb25u
+bWFuL2Nvbm5tYW5fMS4zNy5iYiBERVBFTkRTIG9uIA0KPiBvciBvdGhlcndpc2UgcmVxdWlyZXMg
+aXQpDQo+IHJlYWRsaW5lIHdhcyBza2lwcGVkOiBpdCBoYXMgYW4gaW5jb21wYXRpYmxlIGxpY2Vu
+c2U6IEdQTHYzKw0KPiANCj4gVGhvdWdoIGZpbmUgd2l0aCBtZSBpZiB0aGUgcGF0Y2ggaXMgZHJv
+cHBlZC4NCj4gDQo+IEFzIGEgc2lkZSBub3RlLCBpcyB0aGVyZSBhIHdheSBmb3Igc3BlY2lmaW5n
+IElOQ09NUEFUSUJMRV9MSUNFTlNFIA0KPiBvbiBhbiBpbWFnZSBsZXZlbCwgYW5kIG5vdCBhcyBo
+ZXJlIG9uIHRoZSBidWlsZCBsZXZlbD8gSWYgdGhpcyBpcyANCj4gdGhlIGNhc2UsIHRoZXJlIGlz
+IG5vIG5lZWQgZm9yIG15IGNoYW5nZSBhdCBhbGwuDQoNClllcy4gQWJvdXQgdHdvIG1vbnRocyBh
+Z28sIEFsZXhhbmRlciBLYW5hdmluIGFkZGVkIHN1cHBvcnQgZm9yIHNldHRpbmcgDQpJTkNPTVBB
+VElCTEVfTElDRU5TRSBwZXIgaW1hZ2UgKHNlZSBjb21taXQgZmQ1MDM5NWIgaW4gT0UtQ29yZSk6
+DQoNCklOQ09NUEFUSUJMRV9MSUNFTlNFX3BuLWNvcmUtaW1hZ2UtbWluaW1hbCA9ICJHUEwtMy4w
+IExHUEwtMy4wIg0KDQo+IFJlZ2FyZHMNCj4gQ2xhdXMNCg0KLy9QZXRlcg0KDQo=
 
