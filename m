@@ -1,33 +1,38 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 270F57F798
+Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id E5A6B6C45D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 11:11:17 +0000 (UTC)
-IronPort-SDR: gug9E3A3EJVERD21sBrjDlcd2eDNAZFxNyytRHi1RMNg/a6qPDxxoKoHeVnh59pYk0RFeoAGvY
-	hF1FL1fcVMkyGP8J6w8jqqtoWSvXKvpwX9WGOL9W9MTrA9oz2tLzwLjBi6SO2X3k6ojP+x0kVf
-	agllhAJrPfNKQ+foQJMUtr7FH8awY0w/X/HmG33Vz4mvOpzt0Ocn0tR2u0z14gUxhqO3nUfCiZ
-	DT2Gplho4uTP/2+NpRedfJGO3ndm7IivCombAzGiyqBBWblLR4NGcbOXnKQArbmliZyqbmNMe0
-	M1g=
-X-IronPort-AV: E=Sophos;i="5.69,305,1571695200"; 
-   d="scan'208";a="3523175"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "claus.stovgaard@gmail.com" <claus.stovgaard@gmail.com>, oe-core
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] connman dependency of readline
-Thread-Index: AQHVrRS4iSsyKcPrK0mc3DtFanBJiKe0GP6ggAFLLICAAPlzcA==
-Date: Thu, 12 Dec 2019 11:11:17 +0000
-Message-ID: <c232d64f1bec4cc5a44b515f5ebe6507@XBOX03.axis.com>
-References: <8746d8e88a538d8abede3a76718fd594ca895af0.camel@gmail.com>
-	<89df20728e824340bd9f7193b01cf978@XBOX03.axis.com>
-	<3f2cf400275f8439e1ced2dbb8aaf612ad43229b.camel@gmail.com>
-In-Reply-To: <3f2cf400275f8439e1ced2dbb8aaf612ad43229b.camel@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Thu, 12 Dec 2019 12:49:17 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id DF9E19C02B3;
+	Thu, 12 Dec 2019 07:49:17 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id cyRYyaaOVB5p; Thu, 12 Dec 2019 07:49:17 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 1D8059C0365;
+	Thu, 12 Dec 2019 07:49:17 -0500 (EST)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id 0VQ7H8mOjyc5; Thu, 12 Dec 2019 07:49:16 -0500 (EST)
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[192.168.48.237])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id E6DDA9C02B3;
+	Thu, 12 Dec 2019 07:49:16 -0500 (EST)
+Date: Thu, 12 Dec 2019 07:49:16 -0500 (EST)
+From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <1494667065.1274125.1576154956651.JavaMail.zimbra@savoirfairelinux.com>
 MIME-Version: 1.0
-Subject: Re: connman dependency of readline
+X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC79 (Linux)/8.8.11_GA_3737)
+Thread-Index: qfo+N5N9xMZQyLEvDG6jTDbZpy5Z7A==
+Thread-Topic: Status of the NPM refactoring
+Cc: rennes@savoirfairelinux.com
+Subject: Status of the NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,49 +45,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 11:11:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 12 Dec 2019 12:49:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBjbGF1cy5zdG92Z2FhcmRAZ21h
-aWwuY29tIDxjbGF1cy5zdG92Z2FhcmRAZ21haWwuY29tPg0KPiBTZW50OiBkZW4gMTEgZGVjZW1i
-ZXIgMjAxOSAyMjoxMQ0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3Rl
-ZHRAYXhpcy5jb20+OyBvZS1jb3JlDQo+IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnPg0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIGNvbm5tYW4gZGVwZW5kZW5jeSBv
-ZiByZWFkbGluZQ0KPiANCj4gPiA+IGl0IGlzIHNldCB0byBhbHdheXMgZGVwZW5kIG9uIHJlYWRs
-aW5lIGluIHRoZSBERVBFTkRTIHZhcmlhYmxlLA0KPiA+ID4gZXZlbiB0aG91Z2ggYXMgZmFyIGFz
-IEkga25vdyBpdCBpcyBvbmx5IHRoZSBjb25ubWFuY3RsIHdoaWNoIA0KPiA+ID4gZGVwZW5kIG9u
-IHJlYWRsaW5lLiBJbiBFWFRSQV9PRUNPTkYgdGhlIC0tZW5hYmxlLWNsaWVudCBpcyANCj4gPiA+
-IGhhcmRjb2RlZC4NCj4gPiA+DQo+ID4gPiBUaGUgY2xpZW50IGlzIHRob3VnaCBub3QgaW5jbHVk
-ZWQgaW4gdGhlIGltYWdlIHVubGVzcyB5b3UgYWxzbyANCj4gPiA+IGFkZCBjb25ubWFuLWNsaWVu
-dC4NCj4gPiA+DQo+ID4gPiBTbyBJIGFtIHRoaW5raW5nIG9uIGNyZWF0aW5nIGEgcGF0Y2ggd2hl
-cmUgSSBjcmVhdGUgYQ0KPiA+ID4gUEFDS0FHRUNPTkZJR1tyZWFkbGluZV0gbGlrZSBibHVlejUs
-IGFzIEkgd291bGQgbm90IG5lZWQgdGhlIA0KPiA+ID4gY2xpZW50IGFuZCB3aWxsIG5lZWQgbm90
-IHRvIGluY2x1ZGUgcmVhZGxpbmUgYmVjYXVzZSBvZiBHUEx2My4NCj4gPg0KPiA+IElmIHJlYWRs
-aW5lIGlzIG9ubHkgbmVlZGVkIHRvIGJ1aWxkIHRoZSBjb25ubWFuIGNsaWVudCBhbmQgaXQgaXMN
-Cj4gPiBwYWNrYWdlZCBpbiBhIHNlcGFyYXRlIHBhY2thZ2UsIHRoZW4geW91IGFyZSBvbmx5IGFm
-ZmVjdGVkIGJ5DQo+ID4gcmVhZGxpbmUncyBHUEwtMy4wIGxpY2Vuc2UgaWYgeW91IGluc3RhbGwg
-dGhhdCBwYWNrYWdlLiBJZiB5b3UgZG8NCj4gPiBub3QgaW5zdGFsbCBpdCB5b3UgYXJlIG9rIGV2
-ZW4gaWYgcmVhZGxpbmUgaXMgbmVlZGVkIGR1cmluZyB0aGUNCj4gPiBidWlsZC4gU28gdGhlcmUg
-c2hvdWxkIG5vdCBiZSBhbnkgcmVhbCBuZWVkIHRvIGRpc2FibGUgdGhlDQo+ID4gYnVpbGRpbmcg
-b2YgdGhlIGNsaWVudC4NCj4gDQo+IFRoYW5rcyBmb3IgeW91ciByZXBseS4gV2FzIGFsc28gbWl4
-aW5nIERFUEVORFMgdXAgd2l0aCBSREVQRU5EUyANCj4gaW5zaWRlIG15IGhlYWQuDQo+IA0KPiBC
-ZWZvcmUgeW91ciBtYWlsIEkgaGFkIGNyZWF0ZWQgYSBzbWFsbCBwYXRjaCBhbmQgc2VudC4gSSB3
-YXMNCj4gY29uc2lkZXJpbmcganVzdCB0byByZXF1ZXN0IGl0IGJlaW5nIGRyb3BwZWQsIGJ1dCBv
-biB0aGUgDQo+IG90aGVyIGhhbmQgaXQgbWFrZXMgaXQgcG9zc2libGUgdG8gdXNlDQo+IA0KPiBJ
-TkNPTVBBVElCTEVfTElDRU5TRSA9ICJHUEwtMy4wIg0KPiANCj4gd2l0aG91dCBnZXR0aW5nIGJl
-bG93IGVycm9yLg0KPiANCj4gRVJST1I6IE5vdGhpbmcgUFJPVklERVMgJ3JlYWRsaW5lJyAoYnV0
-IC9vcGVuZW1iZWRkZWQvb2UtDQo+IGNvcmUvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9jb25u
-bWFuL2Nvbm5tYW5fMS4zNy5iYiBERVBFTkRTIG9uIA0KPiBvciBvdGhlcndpc2UgcmVxdWlyZXMg
-aXQpDQo+IHJlYWRsaW5lIHdhcyBza2lwcGVkOiBpdCBoYXMgYW4gaW5jb21wYXRpYmxlIGxpY2Vu
-c2U6IEdQTHYzKw0KPiANCj4gVGhvdWdoIGZpbmUgd2l0aCBtZSBpZiB0aGUgcGF0Y2ggaXMgZHJv
-cHBlZC4NCj4gDQo+IEFzIGEgc2lkZSBub3RlLCBpcyB0aGVyZSBhIHdheSBmb3Igc3BlY2lmaW5n
-IElOQ09NUEFUSUJMRV9MSUNFTlNFIA0KPiBvbiBhbiBpbWFnZSBsZXZlbCwgYW5kIG5vdCBhcyBo
-ZXJlIG9uIHRoZSBidWlsZCBsZXZlbD8gSWYgdGhpcyBpcyANCj4gdGhlIGNhc2UsIHRoZXJlIGlz
-IG5vIG5lZWQgZm9yIG15IGNoYW5nZSBhdCBhbGwuDQoNClllcy4gQWJvdXQgdHdvIG1vbnRocyBh
-Z28sIEFsZXhhbmRlciBLYW5hdmluIGFkZGVkIHN1cHBvcnQgZm9yIHNldHRpbmcgDQpJTkNPTVBB
-VElCTEVfTElDRU5TRSBwZXIgaW1hZ2UgKHNlZSBjb21taXQgZmQ1MDM5NWIgaW4gT0UtQ29yZSk6
-DQoNCklOQ09NUEFUSUJMRV9MSUNFTlNFX3BuLWNvcmUtaW1hZ2UtbWluaW1hbCA9ICJHUEwtMy4w
-IExHUEwtMy4wIg0KDQo+IFJlZ2FyZHMNCj4gQ2xhdXMNCg0KLy9QZXRlcg0KDQo=
+Hi folks,
+
+I am currently trying to update/refactor the handling of the NPM packages.
+
+Here is the history of my patchset:
+
+V1:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-October/288179.html
+http://lists.openembedded.org/pipermail/bitbake-devel/2019-October/020435.html
+
+V2:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-October/288352.html
+http://lists.openembedded.org/pipermail/bitbake-devel/2019-October/020449.html
+
+V3:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-November/289431.html
+http://lists.openembedded.org/pipermail/bitbake-devel/2019-November/020532.html
+
+----
+
+I first tried to separate the fetching of a single npm package (with a "npm://"
+fetcher) and the fetching of its dependencies (managed in the npm.bbclass
+class). The good thing is that the initial package could be fetched by another
+fetcher ("git://", "http://" ...) and still get the dependencies by inheriting
+the npm class based on a npm-shrinkwrap.json file [1].
+
+1: https://docs.npmjs.com/files/shrinkwrap.json
+
+In the latest version, Richard suggest to create another "npmsw://" fetcher to
+get the dependencies. The fetching of the package and its dependencies is still
+divided AND the npm class no longer fetches anything, which is much cleaner.
+
+Here is a visual example of what a recipe could be:
+
+    SRC_URI = "npm://registry.npmjs.org;name=my-package;version=${PV} \
+               npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json"
+
+    S = "${WORKDIR}/npm"
+
+    inherit npm
+
+----
+
+Thinking about these fetchers I realized that they are in fact "proxy fetchers"
+as they just generate new URIs that are already handled by bitbake
+(mainly "http://" but also "git://" and "file://").
+
+The first fetcher "npm://" runs the "npm view" command [2] to get the tarball
+URI. There is only one URI for this one. The second fetcher have to manage
+multiple URIs which are already resolved in the npm-shrinkwrap.json file.
+
+2: https://docs.npmjs.com/cli/view.html
+
+To achieve this I have to correctly configure the localfile / localpath of the
+fetch files and manage the donestamp file and the lockfile. I may need to tweak
+a little these parts.
+
+----
+
+Another part is about the checksums. To be able to fetch something using
+"http://" a checksum must be set (md5 or sha256). On its side NPM provides
+shasum (sha1) or integrity (sha256, sha384 or sha512) [3].
+
+3: https://docs.npmjs.com/files/package-lock.json#integrity
+
+For this to work, I intend to add sha1, sha384 and sha512 support for fetchers.
+I would like to post these patches before the others because they are not
+directly related to NPM.
+
+----
+
+Is it OK ? Any thought ? Any advice ?
+
+Best Regards,
+
+Jean-Marie LEMETAYER
+Enthusiast embedded systems engineer
+Savoir-faire Linux
 
