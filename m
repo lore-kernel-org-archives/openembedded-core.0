@@ -1,41 +1,41 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 907937FB3E
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 372D26C102
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 21:41:58 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id c9so4372759wrw.8
+	Thu, 12 Dec 2019 21:52:13 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id j42so4367154wrj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 13:41:59 -0800 (PST)
+	Thu, 12 Dec 2019 13:52:15 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=C+ny4AiYQNbFY29S3uO3jI5ibE4t6VOF23PEZ6CMbbY=;
-	b=X8dXnpH+INicEAd0kmE7r9Nyz7JkOCMD5XVsIVXvBVLZvWqtXpluEz4A+rzM2JRz6e
-	CgAtmuJfQhgYN8H1xse44x/fZ7rR/UWivNweGPD9mkkIsW2CsHXHIRnlGKRG0FbX5TZK
-	5ejzUMSjlIdlRMTKU5RwBx/ryxjWxuMKEYoQTZv4wKLzJM30fXEief4OfihYHUmESjHf
-	sEpv851Auc9L+djAszKTlbHLycWNpvhdP0uBnFJKFNkmt/qFuZ4INoAwhemHE6ueZmsT
-	nUbB8AyE+sLiILY/DGb3TRgzhuH8iw5MuBmfWR8ZGTMbEgFCl9iyYBWlnioPBWE2p+ft
-	l9ug==
-X-Gm-Message-State: APjAAAWV6jcVPV/3VWx4HkYnRgcBlFo7URgqQlje3rrDM/DYJTrl1U29
-	5OgBtv2RytWsxo5PYFuwqtKEMTA5
-X-Google-Smtp-Source: APXvYqzUObyEy+lDR0ApFOaDiChsX48Jik4QjXfHc6reo8ECUNLxDwl6UzqfFy4/m1AZlhgT+1db4A==
-X-Received: by 2002:a5d:4807:: with SMTP id l7mr8856434wrq.64.1576186919169;
-	Thu, 12 Dec 2019 13:41:59 -0800 (PST)
-Received: from tfsielt31850.garage.tyco.com ([79.97.20.138])
+	bh=rILSsfxyIcbCoa/bDxAW1wduRoOSEOHut5Oz6opguYI=;
+	b=tuThHdbYEsKVuGLa6kKVo02Op0vY6nccO3/N+Bqett0Y1lqgtysrJILVV0bxOKHyll
+	M4iilfmuaSUGvoznDlglF3AfYLxOc80q5hqT02XAcTtlD+8EpLaIuICEkR3dANa7G2Qu
+	mP6tjyYAIy7+tstSGiiXDFuvAt5FmzQPa8Jdzh9smR7YyBRzIqMJS+Q+fwoblYoSo1CE
+	oYH/qjv5bdMDiRQwgxNCUrEctU0rIEwr61w5lCmDZ0oCga+LcdZtz2/J3/r5usxxN8uv
+	/JzA+0x2nQSPydK6kUbcVFz+T75HUbsrUENZxpR1fJ8sHYdTRN/c03hmIjpB7C5Ufa6t
+	OQMA==
+X-Gm-Message-State: APjAAAVYL0Q4IGHYqc9ktXOr5YTwaitvPlIfuJmGNBph0iM8B8O0aes9
+	UavdSTlN8dFaW3yFnJR4QwO1EiTp
+X-Google-Smtp-Source: APXvYqzk2tHq7IAcrHmj5c8KrgWGgg7Yqx6/fmvElGve/Ju68uCDMfN1CtfTUkJZ9CHJ9avB3C4VNg==
+X-Received: by 2002:adf:c746:: with SMTP id b6mr8262958wrh.298.1576187534554; 
+	Thu, 12 Dec 2019 13:52:14 -0800 (PST)
+Received: from tfsielt31850.fritz.box ([79.97.20.138])
 	by smtp.gmail.com with ESMTPSA id
-	p15sm2842362wma.40.2019.12.12.13.41.58
+	v188sm7723704wma.10.2019.12.12.13.52.13
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 13:41:58 -0800 (PST)
+	Thu, 12 Dec 2019 13:52:13 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 21:41:58 +0000
-Message-Id: <20191212214158.25526-1-git@andred.net>
+Date: Thu, 12 Dec 2019 21:52:08 +0000
+Message-Id: <20191212215212.27089-1-git@andred.net>
 X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Subject: [PATCH] connman: update kernel module RRECOMMENDS for kernel >= v4.19
+Subject: [PATCH 0/4] support OEQA inside container
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,38 +48,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 21:41:59 -0000
+X-List-Received-Date: Thu, 12 Dec 2019 21:52:14 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-nf_tables_inet.ko and nf_tables_ipv4.ko and nf_tables_ipv6.o
-(and nf_tables_arp.ko and nf_tables_netdev.ko) were merged into
-the core nf_tables.ko before v4.17 in kernel commit
-    02c7b25e5f54 netfilter: nf_tables: build-in filter chain type
+Hi,
 
-nf_meta.ko was merged to be a builtin of nf_tables.ko before
-v4.18 in kernel commit
-    8a22543c8e70 netfilter: nf_tables: make meta expression builtin
+With these patches it is possible to run bitbake inside a docker
+container and still successfully execute the OEQA tests that require
+the target to talk to a temporary http server spawned on the machine
+running bitake, e.g. using crops.
 
-Signed-off-by: André Draszik <git@andred.net>
----
- meta/recipes-connectivity/connman/connman.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This wasn't possible so far because:
+* we need to map a port from outside the container into the container
+  for the target to be able to reach the http server
+* we need to pass the IP address of the docker host to the target,
+  e.g. in the OPKG repository URL, but we can't bind the http server
+  to that IP address, as the http server is running inside the container
+  with a different IP address - the bind would fail
 
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index fb38ab4fc1..ff3aff5f1f 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -51,7 +51,7 @@ PACKAGECONFIG[l2tp] = "--enable-l2tp --with-l2tp=${sbindir}/xl2tpd,--disable-l2t
- PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,,pptp-linux"
- # WISPr support for logging into hotspots, requires TLS
- PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
--PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,,kernel-module-nf-tables-ipv4 kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-meta kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
-+PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,,kernel-module-nf-tables kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
- PACKAGECONFIG[iptables] = "--with-firewall=iptables ,,iptables,iptables"
- PACKAGECONFIG[nfc] = "--enable-neard, --disable-neard, neard, neard"
- 
--- 
-2.24.0
+To make this work, TEST_SERVER_IP needs to be set to the IP address of
+the docker host, and the port that is mapped into the container can now
+also be specified in TEST_SERVER_IP, similar to TEST_TARGET_IP
+
+Cheers,
+Andre'
+
+
 
 
