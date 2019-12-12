@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 669E27F9BD
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id F04327FA0E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 18:14:48 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id d73so3423988wmd.1
+	Thu, 12 Dec 2019 18:14:49 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f129so3634557wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 10:14:49 -0800 (PST)
+	Thu, 12 Dec 2019 10:14:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=S7y3a4neEKCcOHCjGyZ0EQLQ2Tk5YpxAA4vZl5FVsTQ=;
-	b=AQw85h5mQz3N1EgbqI1Wex1QVG4TRTFLuumQnpSDHOUi2OuyK4M6+Idc23PDmXRxZO
-	/qWLgTbtCNT3VAN7rcj1plBC/nUhOFzwwTBetwdXG/efWwh8y/AhAz+XKhcfKYA1yTgO
-	3cdT+1SxwnG7motNS1iQ0XXLDpO7Po5CLYYc62PBUds5GBsoKdBJYUV1OKdvnsxfnOc/
-	thPfoc/9zLYDhmAhL8/sByhBI2rvaFQAAwUgAhcWAkKbXHtFWBa1RjpQjk+RVX+A6wWm
-	scxJBGgTPhScERCzohf2Nbd8DUV/IoU41JghtToZ5eqauZK90f3FGc/iVyHuG0hz62ky
-	7XuA==
+	bh=gUMDnvZ7ANpadkqRxJicSoy/NrRdYTMJED7+eCOIrwQ=;
+	b=sWnZZEdfSEgy825GZT7jVNvf+znxdrkA8cKjE2C5Ucs/oxFhD5OISaK7cNh7MZKnip
+	6qlnAIa6BJX8SBCWBWGwm2bZTNV/wQs7D/U9GdwhvKUXK9dzCkZM1ZCHvkbhmkd/qwD2
+	OpZFjlPZXKV6+eFL890roMvh14FtL7BGmLWZGRKQfH8NlQcPRdaCPdifgRSnoew5XFZC
+	kMLLBbggvUlk3VFoSAXkQDqIvzEWjAwHuo4Qlf1JT08kIUBHRZyBgReygiZhUJLqF4uu
+	WtZxE6BnTPPaSKW+u1zffIfJsMoazWxS9QbLoNDvGIBDQFpBzmwgLnjRi6Kv7lT3lL4I
+	35qg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=S7y3a4neEKCcOHCjGyZ0EQLQ2Tk5YpxAA4vZl5FVsTQ=;
-	b=KpkVst34CNe7VYVyBGB5B7ld+CoJBErfkeZyafpOhR5eohvED1R1L9BYuVcserIAne
-	My8TdaJSI43/IKyEoTPL/o4KuyEpNPq1W7bEut74iVSWZ/+alGqptRLJ4WCbz8Jvzf0d
-	pSbVR1+DfwaM1/boP9R0OUswezS23PFHIsqAYKO+LYlZHmeH1PW47MAR50geBr40cDKF
-	pzL2KVDcgL2MQ2JGtIwroN8ZbUQBt8JyZYof0dMigJoZv2Qy8S3w4FJ6Q7rl9K22nFO8
-	f726xcQpha4QFhFr6PxKiou2JXX1/FWYxbkC/MGC5FjXcc7Ksw9My5cnHsP41w91GRSJ
-	DRpg==
-X-Gm-Message-State: APjAAAVT9rpzH3qx2LOm0MRDQF9kC+ycbgt68+7Uw+Ht246KquTfYGS1
-	EdiPh4EnkS752TCRIYNKRRQ4iLhi
-X-Google-Smtp-Source: APXvYqzHu2MpXKoMcm24UQj8BZKM3MXim56gBduRN2wcAwdvdPtSTmU0hPcYFqnwPjhencdQ3m4GbQ==
-X-Received: by 2002:a05:600c:24b:: with SMTP id
-	11mr8134930wmj.19.1576174488662; 
-	Thu, 12 Dec 2019 10:14:48 -0800 (PST)
+	bh=gUMDnvZ7ANpadkqRxJicSoy/NrRdYTMJED7+eCOIrwQ=;
+	b=mDAD66VLR7gjQMXpsNmBKuSSgEmQIQLRYShPBIOVaPDI78AItAW5I6hZedqJkJg0me
+	zuDLdL9WzsRY1YafOp1cto1PhZyVEXvMMoM8PjTNZSdYMefNfD2hWqHpUrS8wxNkACBz
+	sIxreTApcrBQkOVDYpx/6cafh5mVUqTt/nSL9SOwbRD05MgIg97g8BADSvJMwJsMgMLX
+	ZR8f6T32l3bpUis9LkudwVJIoDP01XKLaEtAgNgO/ZDaeIDGD97FqxGCQLKmXThPJhaP
+	nbXthgUUln3wjTL63KZhi0lwLFOt9FO6O1E0R4gnoUcFwnyueAEocGaCpsroMwiWtRHn
+	VPRA==
+X-Gm-Message-State: APjAAAUlhWrASM5kNWRtIYQgUC/7A7hQXS10tfeQoWUhmm7UJNnhAHdy
+	NamJixbb2LDojQ9rG3dd+AMxSKGa
+X-Google-Smtp-Source: APXvYqyAoWCG4sm42ylAdHnyJ6QmksaQcOkMeJ4SokSwPCxpDV24Y7nDi99MyXhwXk1YzZ6xQMWVmQ==
+X-Received: by 2002:a7b:cb0a:: with SMTP id u10mr8639879wmj.104.1576174490411; 
+	Thu, 12 Dec 2019 10:14:50 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	o66sm3147571wmo.20.2019.12.12.10.14.46
+	o66sm3147571wmo.20.2019.12.12.10.14.49
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 10:14:46 -0800 (PST)
+	Thu, 12 Dec 2019 10:14:49 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 19:14:11 +0100
-Message-Id: <20191212181436.1322-5-alex.kanavin@gmail.com>
+Date: Thu, 12 Dec 2019 19:14:13 +0100
+Message-Id: <20191212181436.1322-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-Subject: [PATCH 05/30] gettext: fix failing ptests
+Subject: [PATCH 07/30] gstreamer1.0-python: add a patch to fix python 3.8 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,74 +57,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 18:14:48 -0000
-
-Results:
-
-pass 400
-fail 0
-skip 32
+X-List-Received-Date: Thu, 12 Dec 2019 18:14:50 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-core/gettext/gettext_0.20.1.bb | 23 +++++++++++++++++++--
- 1 file changed, 21 insertions(+), 2 deletions(-)
+ ...son.build-fix-builds-with-python-3.8.patch | 24 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0-python_1.16.1.bb   |  4 +++-
+ 2 files changed, 27 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
 
-diff --git a/meta/recipes-core/gettext/gettext_0.20.1.bb b/meta/recipes-core/gettext/gettext_0.20.1.bb
-index fc05ef2e0a3..a6fc2195685 100644
---- a/meta/recipes-core/gettext/gettext_0.20.1.bb
-+++ b/meta/recipes-core/gettext/gettext_0.20.1.bb
-@@ -44,6 +44,10 @@ EXTRA_OECONF += "--without-lispdir \
-                 "
- EXTRA_OECONF_append_class-target = " \
-                  --with-bisonlocaledir=${datadir}/locale \
-+                 gt_cv_locale_fr_utf8=fr_FR \
-+                 gt_cv_locale_fr=fr_FR.ISO-8859-1 \
-+                 gt_cv_locale_de_utf8=de_DE \
-+                 gt_cv_locale_de=de_DE.ISO-8859-1 \
- "
- 
- PACKAGECONFIG ??= "croco glib libxml"
-@@ -143,13 +147,17 @@ do_install_ptest() {
-         mkdir -p                                        ${D}${PTEST_PATH}/src
-         mkdir -p                                        ${D}${PTEST_PATH}/po
-         mkdir -p                                        ${D}${PTEST_PATH}/misc
-+        mkdir -p                                        ${D}${PTEST_PATH}/its
-+        mkdir -p                                        ${D}${PTEST_PATH}/styles
-+        cp -rf ${S}/gettext-tools/its/*                 ${D}${PTEST_PATH}/its
-+        cp -rf ${S}/gettext-tools/styles/*              ${D}${PTEST_PATH}/styles
-         cp -rf ${S}/gettext-tools/tests/*               ${D}${PTEST_PATH}/tests
-         cp -rf ${B}/gettext-tools/tests/.libs/*         ${D}${PTEST_PATH}/tests
-         cp -rf ${B}/gettext-runtime/intl/.libs/libgnuintl.so.8*         ${D}${libdir}/
-         cp -rf ${B}/gettext-tools/tests/Makefile        ${D}${PTEST_PATH}/tests
-+        cp -rf ${B}/gettext-tools/tests/init-env        ${D}${PTEST_PATH}/tests
-         sed -i '/^Makefile:/c Makefile:'                ${D}${PTEST_PATH}/tests/Makefile
--        sed -i -e 's:CONFIG_SHELL=.*:& LOCALE_FR='fr_FR.iso88591' LOCALE_FR_UTF8='fr_FR.utf8' LOCALE_JA='ja_JP.eucjp':g' \
--            -e 's:lang-c lang-c++:lang-c++:g' ${D}${PTEST_PATH}/tests/Makefile
-+        sed -i -e 's:lang-c lang-c++:lang-c++:g'        ${D}${PTEST_PATH}/tests/Makefile
-         install ${S}/gettext-tools/src/msgunfmt.tcl     ${D}${PTEST_PATH}/src
-         install ${S}/gettext-tools/src/project-id       ${D}${PTEST_PATH}/src
-         install ${B}/gettext-runtime/src/gettext.sh     ${D}${PTEST_PATH}/src
-@@ -177,8 +185,19 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-     glibc-gconv-koi8-r \
-     glibc-gconv-iso8859-2 \
-     glibc-charmap-iso-8859-2 \
-+    glibc-gconv-iso8859-1 \
-+    glibc-charmap-iso-8859-1 \
-     glibc-gconv-euc-kr \
-     glibc-charmap-euc-kr \
-+    glibc-gconv-euc-jp \
-+    glibc-charmap-euc-jp \
-+    locale-base-de-de \
-+    locale-base-fr-fr \
-+"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
+new file mode 100644
+index 00000000000..053108ad50b
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
+@@ -0,0 +1,24 @@
++From 61cfd1b49dc82baf14bb36d88b6c5be7b8c3d23a Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Mon, 2 Dec 2019 18:16:41 +0100
++Subject: [PATCH] meson.build: fix builds with python 3.8
 +
-+RRECOMMENDS_${PN}-ptest_append_libc-glibc = "\
-+    locale-base-de-de.iso-8859-1 \
-+    locale-base-fr-fr.iso-8859-1 \
- "
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gst-python/merge_requests/14]
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 1da81d5..3e0db38 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -24,7 +24,7 @@ pygobject_dep = dependency('pygobject-3.0', fallback: ['pygobject', 'pygobject_d
++ 
++ pymod = import('python')
++ python = pymod.find_installation(get_option('python'))
++-python_dep = python.dependency(required : true)
+++python_dep = dependency('python3-embed', required : true)
++ 
++ python_abi_flags = python.get_variable('ABIFLAGS', '')
++ pylib_loc = get_option('libpython-dir')
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
+index b770ec060e1..0382360ec26 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
+@@ -5,7 +5,9 @@ SECTION = "multimedia"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
- INSANE_SKIP_${PN}-ptest += "ldflags"
+-SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
++SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
++           file://0001-meson.build-fix-builds-with-python-3.8.patch \
++           "
+ SRC_URI[md5sum] = "499645fbd1790c5845c02a3998dccc1b"
+ SRC_URI[sha256sum] = "b469c8955126f41b8ce0bf689b7029f182cd305f422b3a8df35b780bd8347489"
+ 
 -- 
 2.17.1
 
