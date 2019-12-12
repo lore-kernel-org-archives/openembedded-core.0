@@ -1,51 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A29027FC2A
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 18:15:10 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id d139so4193361wmd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 10:15:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=auahApo/+hRUfMzr5rZG6AjDp5mtSibwGoJhxRGuu4c=;
-	b=UbW/cU3ctGPIKzG0X/gfq6EPkSe5oVZI09BilfWdD2qES1np0IBN6HErATCw/Jvqlr
-	PLu2gNHsCKxnhjUKTM1v7TUJR116eD+tTL5sOC2BCsbuqykzJntYBfnCNZssh1USCl/A
-	7QY9QxY2MsDefB8HNZmnhZYqHtbchqWHL2n87eu8wA0+sp/weAqp3yWVlT3R+YJcsETO
-	jnYhlE/bBYDkI0njLHMvvsgIsSpDBNUs1+oTh9S896NhwX1qExQNPFtCGGMC8wojd0Ri
-	paIIQcKwIriyaLgACMmt3eikTicGBLO4OQDCJUb6IUTVEYB3t7+qo+BSNHM/MhY+t3ql
-	XJEg==
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A0757F9A5
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 12 Dec 2019 18:17:38 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id t2so3824170wrr.1
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 12 Dec 2019 10:17:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=qlqE3Ax7IwDtjHFgxeSsAJqogLda+yc5bORgA7RgHWk=;
+	b=f0nSgFr7U75S1lermn4NjHpI6LHZWOXZWAt1eiEO7srcydY7t2Iofhmh7+xd3HxyJ9
+	TyPOutfFrR+iK09Y9x6Fg8o79F8BJ2LdQDbOBHP2dYbC5w5uaAiUVd/y+14d0O1ZIlDI
+	PP5vFnxm30khTQGWLYl4YnhGr95t0kMZ+ByqE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=auahApo/+hRUfMzr5rZG6AjDp5mtSibwGoJhxRGuu4c=;
-	b=elJvBNVDXWYt+JUe89J8Cea1fcYoLMoADDfkEEX7pHThxALJtDzBwPKtY8WQy2qcIN
-	hfZdOEea9e2OSm9p0s9+la/rackqkOcAsCC9sHkqvMnByQl6sf9esX0MLqaYZV/zf//G
-	vd7xDMUqk1uxgdFQRh6y/lowHq4BthdJhQ26Yel76JO3fsYik9t++FfKClbP35MohCC9
-	dq5nJZOJGJ8QyGNF0uw5MdKrMit0Dp2ypregjWmqXGAWhqWvZf5sRs0ccWlDNZY0raHz
-	kZVmf2uSuR0ySHOH3+TKEU11UyzfXvJQALN2QYqqxWFWLbNhH4QYjN+PGznjMH4SEndS
-	+zlA==
-X-Gm-Message-State: APjAAAV5HijB6BicQTBHhazvQ9ilFmlkywTDu3MbJmsSvExgxfIyKmF6
-	ePhRmGmHDIitjp1gG0YeAkRbUZlV
-X-Google-Smtp-Source: APXvYqzJIVNIojdoKdVp3jZWxt9rKQBbb8cY08ysZ/vUbLOuNfwIjrenVzG89IlCfNnjCpH8d52WDQ==
-X-Received: by 2002:a05:600c:1051:: with SMTP id
-	17mr7983298wmx.49.1576174511235; 
-	Thu, 12 Dec 2019 10:15:11 -0800 (PST)
-Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id
-	o66sm3147571wmo.20.2019.12.12.10.15.10
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=qlqE3Ax7IwDtjHFgxeSsAJqogLda+yc5bORgA7RgHWk=;
+	b=Mtq5glsqnZgfclrMpQVNBxPNcwsZ4Qqh7xG66SGRK0prss9L3eo9qo6mIGzefDfayP
+	/+FQz0o9DuhTOmIbElsRCMNeSM+99bC6lreuz8ay2HsPA3s/p5MMATEV9c+31u2qPQYG
+	O/rHxLvjiF8AcDCyBSxFaWtM+DppTAc24cx+rW106KDC9qXhyemkNseyiiV/yJshgrwF
+	kR52I0FOxOkxtF5LPZP9KQjdVYxVWbo53qxx/Y8xo3bZqHCskuNLqIuEC/O3LfNq9jE+
+	Q+7emhdOh3XSqN6ez7C5DS21iU8ZW8NK0RadTZvATLHjmhXGMSQ0kEjCIep1VAOhu13A
+	RdOg==
+X-Gm-Message-State: APjAAAXSI1WMAfiTgFW1fLQFy6maeRWqe6kwD4vvVOWNLLI+oSV/kZN4
+	GxaTkzzaoFxgxCI/cGbQhJDZxg==
+X-Google-Smtp-Source: APXvYqzPpq+LwqWRqvkLIhA+dxKbDp43YqZjB+3TZkhCsyNBEXH53NNEYXpZFT9xeSVGH4ovHB745Q==
+X-Received: by 2002:a5d:6089:: with SMTP id w9mr7799736wrt.228.1576174659075; 
+	Thu, 12 Dec 2019 10:17:39 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id s3sm6782022wmh.25.2019.12.12.10.17.38
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 10:15:10 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 19:14:36 +0100
-Message-Id: <20191212181436.1322-30-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
-References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-Subject: [PATCH 30/30] debianutils: update to 4.9.1
+	Thu, 12 Dec 2019 10:17:38 -0800 (PST)
+Message-ID: <3c5243c3abf579069c651312902ca48a087e9842.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Mike Crowe <mac@mcrowe.com>, "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Date: Thu, 12 Dec 2019 18:17:37 +0000
+In-Reply-To: <20191212160557.GA9981@mcrowe.com>
+References: <20191212160557.GA9981@mcrowe.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: Use of multilib.conf taints hashes of -native recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 18:15:11 -0000
+X-List-Received-Date: Thu, 12 Dec 2019 18:17:38 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../{debianutils_4.8.6.3.bb => debianutils_4.9.1.bb}        | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/debianutils/{debianutils_4.8.6.3.bb => debianutils_4.9.1.bb} (87%)
+On Thu, 2019-12-12 at 16:05 +0000, Mike Crowe via Openembedded-core
+wrote:
+> We compile for a variety of machines, some of which require
+> multilib.conf
+> and some that do not. I was surprised to discover when switching
+> between
+> machines that the do_populate_sysroot_setscene tasks run for many
+> -native
+> recipe. :(
+> 
+> It looks like this is because RECIPE_SYSROOT changes:
+> 
+>  Variable RECIPE_SYSROOT value changed from '${WORKDIR}/recipe-
+> sysroot' to '${WORKDIR}/${MLPREFIX}recipe-sysroot'
+> 
+> This problem goes away if I add the following line to native.bbclass:
+> 
+>  RECIPE_SYSROOT = "${WORKDIR}/recipe-sysroot"
+> 
+> but this feels like I'm solving the problem in the wrong place. Would
+> it be
+> better to modify multilib.conf to say something like:
+> 
+>  RECIPE_SYSROOT_class-target = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+> 
+> instead? (Although I'm rather worried that this will stop it actually
+> working.)
 
-diff --git a/meta/recipes-support/debianutils/debianutils_4.8.6.3.bb b/meta/recipes-support/debianutils/debianutils_4.9.1.bb
-similarity index 87%
-rename from meta/recipes-support/debianutils/debianutils_4.8.6.3.bb
-rename to meta/recipes-support/debianutils/debianutils_4.9.1.bb
-index a69d01e0f95..904c52780f4 100644
---- a/meta/recipes-support/debianutils/debianutils_4.8.6.3.bb
-+++ b/meta/recipes-support/debianutils/debianutils_4.9.1.bb
-@@ -3,13 +3,13 @@ SECTION = "base"
- LICENSE = "GPLv2 & SMAIL_GPL"
- LIC_FILES_CHKSUM = "file://debian/copyright;md5=f01a5203d50512fc4830b4332b696a9f"
- 
--SRC_URI = "http://snapshot.debian.org/archive/debian/20190717T213444Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
-+SRC_URI = "http://snapshot.debian.org/archive/debian/20191212T145612Z/pool/main/d/${BPN}/${BPN}_${PV}.tar.xz"
- # the package is taken from snapshots.debian.org; that source is static and goes stale
- # so we check the latest upstream from a directory that does get updated
- UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/"
- 
--SRC_URI[md5sum] = "ca57cc6621275346d7d516ab0b5fa1f5"
--SRC_URI[sha256sum] = "2cc7de3afc6df1cf6d00af9938efac7ee8f739228e548e512ddc186b6a7be221"
-+SRC_URI[md5sum] = "95633416680bfd249b7cb07d94137048"
-+SRC_URI[sha256sum] = "af826685d9c56abfa873e84cd392539cd363cb0ba04a09d21187377e1b764091"
- 
- inherit autotools update-alternatives
- 
--- 
-2.17.1
+I'm a little bit surprised we don't have tests which detect this. 
+
+"oe-selftest -r ssstatetests"
+
+should have something which detected this, at least from memory. Could
+you take a look and see if we're missing some testcase?
+
+You're right that we probably should do something fix this and I think
+you are probably right about changing multiconfig.conf as above FWIW.
+
+Cheers,
+
+Richard
 
 
