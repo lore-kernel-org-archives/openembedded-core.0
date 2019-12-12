@@ -1,41 +1,44 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 372D26C102
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id B69A57CECE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 21:52:13 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id j42so4367154wrj.12
+	Thu, 12 Dec 2019 21:52:14 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id w8so822732wmd.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 13:52:15 -0800 (PST)
+	Thu, 12 Dec 2019 13:52:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=rILSsfxyIcbCoa/bDxAW1wduRoOSEOHut5Oz6opguYI=;
-	b=tuThHdbYEsKVuGLa6kKVo02Op0vY6nccO3/N+Bqett0Y1lqgtysrJILVV0bxOKHyll
-	M4iilfmuaSUGvoznDlglF3AfYLxOc80q5hqT02XAcTtlD+8EpLaIuICEkR3dANa7G2Qu
-	mP6tjyYAIy7+tstSGiiXDFuvAt5FmzQPa8Jdzh9smR7YyBRzIqMJS+Q+fwoblYoSo1CE
-	oYH/qjv5bdMDiRQwgxNCUrEctU0rIEwr61w5lCmDZ0oCga+LcdZtz2/J3/r5usxxN8uv
-	/JzA+0x2nQSPydK6kUbcVFz+T75HUbsrUENZxpR1fJ8sHYdTRN/c03hmIjpB7C5Ufa6t
-	OQMA==
-X-Gm-Message-State: APjAAAVYL0Q4IGHYqc9ktXOr5YTwaitvPlIfuJmGNBph0iM8B8O0aes9
-	UavdSTlN8dFaW3yFnJR4QwO1EiTp
-X-Google-Smtp-Source: APXvYqzk2tHq7IAcrHmj5c8KrgWGgg7Yqx6/fmvElGve/Ju68uCDMfN1CtfTUkJZ9CHJ9avB3C4VNg==
-X-Received: by 2002:adf:c746:: with SMTP id b6mr8262958wrh.298.1576187534554; 
-	Thu, 12 Dec 2019 13:52:14 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=qgXMvDmTyD+p9qeGP1BgBSp4wRsBMrCEUejkfIK+6ks=;
+	b=ZK1iroETz49D6QCWUO+Wi444CI78QyAqgloqPoj/RAwvcs5M0P6AOOZ5Tmad2REY+P
+	O6ST8lpIPyRUS+jB9STzqtxLdG/0OA0ZDVhjcyb3ortATv/qiaGKL4kxcJzgzN1MEzWz
+	xhvL1oS7/c1p69VVrXVfRIHcw19fbvEcK5Of935vxtWtSZxcYqI+WOhIg9jcXkkrRJM5
+	idtpi8hQHn6jpknOPNgvVhmw3b2iV3aoE6aW+Xd7+vLTDe+TN6hx+HIYnuG1FOW9V135
+	M+06sYoMOJaunzyCGGTdR2/DxfeCIDcQsKp4/NXwBS6HFQEWGwJayrQ1ju0Yaev9oNCy
+	KLFA==
+X-Gm-Message-State: APjAAAVAzzBPXCC0Uw9uAgKhNdTfwvwGVnW8QjrWwrbtljUakkP5foyK
+	8glccaLmceI1KaZKY1eRmAAEKRgT
+X-Google-Smtp-Source: APXvYqwERrZmLSs4Yrf8ejsiaHVx0j0SvHd+vvDaC4yliORS011UDC5id5HCsbbrY778IqpCup6JLA==
+X-Received: by 2002:a05:600c:24b:: with SMTP id
+	11mr9043895wmj.19.1576187535390; 
+	Thu, 12 Dec 2019 13:52:15 -0800 (PST)
 Received: from tfsielt31850.fritz.box ([79.97.20.138])
 	by smtp.gmail.com with ESMTPSA id
-	v188sm7723704wma.10.2019.12.12.13.52.13
+	v188sm7723704wma.10.2019.12.12.13.52.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 13:52:13 -0800 (PST)
+	Thu, 12 Dec 2019 13:52:14 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 21:52:08 +0000
-Message-Id: <20191212215212.27089-1-git@andred.net>
+Date: Thu, 12 Dec 2019 21:52:09 +0000
+Message-Id: <20191212215212.27089-2-git@andred.net>
 X-Mailer: git-send-email 2.24.0
+In-Reply-To: <20191212215212.27089-1-git@andred.net>
+References: <20191212215212.27089-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 0/4] support OEQA inside container
+Subject: [PATCH 1/4] oeqa/utils/httpserver: allow to pass in listening port
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,32 +51,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 21:52:14 -0000
+X-List-Received-Date: Thu, 12 Dec 2019 21:52:16 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
+Being able to specify the listening port is useful when
+running OEQA from within a docker container, e.g.
+crops or any other solution.
+In that case, a port on the outside must be mapped to a
+specific port inside the container. If no port is specified
+for the http server module in this case, the http server
+would choose a random port, which is unlikely to be mapped
+and thus won't be reachable from the outside.
 
-With these patches it is possible to run bitbake inside a docker
-container and still successfully execute the OEQA tests that require
-the target to talk to a temporary http server spawned on the machine
-running bitake, e.g. using crops.
+Signed-off-by: André Draszik <git@andred.net>
+---
+ meta/lib/oeqa/utils/httpserver.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-This wasn't possible so far because:
-* we need to map a port from outside the container into the container
-  for the target to be able to reach the http server
-* we need to pass the IP address of the docker host to the target,
-  e.g. in the OPKG repository URL, but we can't bind the http server
-  to that IP address, as the http server is running inside the container
-  with a different IP address - the bind would fail
-
-To make this work, TEST_SERVER_IP needs to be set to the IP address of
-the docker host, and the port that is mapped into the container can now
-also be specified in TEST_SERVER_IP, similar to TEST_TARGET_IP
-
-Cheers,
-Andre'
-
-
+diff --git a/meta/lib/oeqa/utils/httpserver.py b/meta/lib/oeqa/utils/httpserver.py
+index aa435590f0..58d3c3b3f8 100644
+--- a/meta/lib/oeqa/utils/httpserver.py
++++ b/meta/lib/oeqa/utils/httpserver.py
+@@ -22,10 +22,10 @@ class HTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+ 
+ class HTTPService(object):
+ 
+-    def __init__(self, root_dir, host='', logger=None):
++    def __init__(self, root_dir, host='', port=0, logger=None):
+         self.root_dir = root_dir
+         self.host = host
+-        self.port = 0
++        self.port = port
+         self.logger = logger
+ 
+     def start(self):
+-- 
+2.24.0
 
 
