@@ -1,50 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A0757F9A5
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 18:17:38 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id t2so3824170wrr.1
-	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 10:17:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=qlqE3Ax7IwDtjHFgxeSsAJqogLda+yc5bORgA7RgHWk=;
-	b=f0nSgFr7U75S1lermn4NjHpI6LHZWOXZWAt1eiEO7srcydY7t2Iofhmh7+xd3HxyJ9
-	TyPOutfFrR+iK09Y9x6Fg8o79F8BJ2LdQDbOBHP2dYbC5w5uaAiUVd/y+14d0O1ZIlDI
-	PP5vFnxm30khTQGWLYl4YnhGr95t0kMZ+ByqE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=qlqE3Ax7IwDtjHFgxeSsAJqogLda+yc5bORgA7RgHWk=;
-	b=Mtq5glsqnZgfclrMpQVNBxPNcwsZ4Qqh7xG66SGRK0prss9L3eo9qo6mIGzefDfayP
-	/+FQz0o9DuhTOmIbElsRCMNeSM+99bC6lreuz8ay2HsPA3s/p5MMATEV9c+31u2qPQYG
-	O/rHxLvjiF8AcDCyBSxFaWtM+DppTAc24cx+rW106KDC9qXhyemkNseyiiV/yJshgrwF
-	kR52I0FOxOkxtF5LPZP9KQjdVYxVWbo53qxx/Y8xo3bZqHCskuNLqIuEC/O3LfNq9jE+
-	Q+7emhdOh3XSqN6ez7C5DS21iU8ZW8NK0RadTZvATLHjmhXGMSQ0kEjCIep1VAOhu13A
-	RdOg==
-X-Gm-Message-State: APjAAAXSI1WMAfiTgFW1fLQFy6maeRWqe6kwD4vvVOWNLLI+oSV/kZN4
-	GxaTkzzaoFxgxCI/cGbQhJDZxg==
-X-Google-Smtp-Source: APXvYqzPpq+LwqWRqvkLIhA+dxKbDp43YqZjB+3TZkhCsyNBEXH53NNEYXpZFT9xeSVGH4ovHB745Q==
-X-Received: by 2002:a5d:6089:: with SMTP id w9mr7799736wrt.228.1576174659075; 
-	Thu, 12 Dec 2019 10:17:39 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id s3sm6782022wmh.25.2019.12.12.10.17.38
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 10:17:38 -0800 (PST)
-Message-ID: <3c5243c3abf579069c651312902ca48a087e9842.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Mike Crowe <mac@mcrowe.com>, "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Dec 2019 18:17:37 +0000
-In-Reply-To: <20191212160557.GA9981@mcrowe.com>
-References: <20191212160557.GA9981@mcrowe.com>
-User-Agent: Evolution 3.34.1-2 
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 43D557F9E4;
+	Thu, 12 Dec 2019 18:32:13 +0000 (UTC)
 MIME-Version: 1.0
-Subject: Re: Use of multilib.conf taints hashes of -native recipes
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 12 Dec 2019 18:32:14 -0000
+Message-ID: <20191212183214.2276.81395@do>
+References: <20191212181436.1322-1-alex.kanavin@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInJwbTogdXBncmFkZSB0byA0LjE1LjEuLi4iIGFuZCAyOSBtb3Jl?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,50 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 18:17:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 12 Dec 2019 18:32:13 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-12-12 at 16:05 +0000, Mike Crowe via Openembedded-core
-wrote:
-> We compile for a variety of machines, some of which require
-> multilib.conf
-> and some that do not. I was surprised to discover when switching
-> between
-> machines that the do_populate_sysroot_setscene tasks run for many
-> -native
-> recipe. :(
-> 
-> It looks like this is because RECIPE_SYSROOT changes:
-> 
->  Variable RECIPE_SYSROOT value changed from '${WORKDIR}/recipe-
-> sysroot' to '${WORKDIR}/${MLPREFIX}recipe-sysroot'
-> 
-> This problem goes away if I add the following line to native.bbclass:
-> 
->  RECIPE_SYSROOT = "${WORKDIR}/recipe-sysroot"
-> 
-> but this feels like I'm solving the problem in the wrong place. Would
-> it be
-> better to modify multilib.conf to say something like:
-> 
->  RECIPE_SYSROOT_class-target = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
-> 
-> instead? (Although I'm rather worried that this will stop it actually
-> working.)
+== Series Details ==
 
-I'm a little bit surprised we don't have tests which detect this. 
+Series: "rpm: upgrade to 4.15.1..." and 29 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/21597/
+State : failure
 
-"oe-selftest -r ssstatetests"
+== Summary ==
 
-should have something which detected this, at least from memory. Could
-you take a look and see if we're missing some testcase?
 
-You're right that we probably should do something fix this and I think
-you are probably right about changing multiconfig.conf as above FWIW.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Cheers,
 
-Richard
+
+* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
+  Suggested fix    Sign off the added patch file (meta/recipes-extended/cups/cups/0001-cups-Update-to-1.6.1.patch)
+
+* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
+  Suggested fix    Include a brief reason why use-pkgconfig.patch is inappropriate
+  Current          Upstream-Status: Inappropriate (upstream still refuse to consider pkg-config)
+  Standard format  Upstream-Status: Inappropriate [reason]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
