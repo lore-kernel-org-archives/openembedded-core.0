@@ -1,25 +1,24 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A70CA7F688
+Return-Path: <Quanyang.Wang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A29A07CF88
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 05:55:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xBC5tZWN018948
+	Thu, 12 Dec 2019 07:25:18 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xBC7PJOO019479
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 11 Dec 2019 21:55:35 -0800 (PST)
-Received: from localhost (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Wed, 11 Dec 2019 21:55:34 -0800
-From: Yi Zhao <yi.zhao@windriver.com>
+	Wed, 11 Dec 2019 23:25:19 -0800 (PST)
+Received: from pek-qwang2-d1.wrs.com (128.224.162.199) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Wed, 11 Dec 2019 23:25:12 -0800
+From: <quanyang.wang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 12 Dec 2019 13:55:32 +0800
-Message-ID: <20191212055532.15720-1-yi.zhao@windriver.com>
+Date: Thu, 12 Dec 2019 15:25:11 +0800
+Message-ID: <20191212072511.31930-1-quanyang.wang@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-Originating-IP: [128.224.162.174]
-Subject: [PATCH] tcl: upgrade 8.6.9 -> 8.6.10
+Subject: [PATCH] lttng-modules: fix NULL pointer deference error when testing rpc_task_running
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,170 +31,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 05:55:34 -0000
+X-List-Received-Date: Thu, 12 Dec 2019 07:25:18 -0000
 Content-Type: text/plain
 
-Refresh patches:
-  alter-includedir.patch
-  tcl-remove-hardcoded-install-path.patch
+From: Quanyang Wang <quanyang.wang@windriver.com>
 
-Backport a patch to fix tk build failure with cross compile:
-  0001-Fix-abd4abedd2-Failed-to-build-tk-8.6.10-with-cross-.patch
-See:
-https://core.tcl-lang.org/tk/tktview/abd4abedd2f01c12839f0ad94564ae31137f7af5
+This fixes NULL pointer deference error when running kts testcase lttng_syscall_events.
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Upstream-Status: Pending
+
+Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
 ---
- ...ailed-to-build-tk-8.6.10-with-cross-.patch | 44 +++++++++++++++++++
- .../tcltk/tcl/alter-includedir.patch          |  5 ++-
- .../tcl-remove-hardcoded-install-path.patch   | 15 ++++---
- .../tcltk/{tcl_8.6.9.bb => tcl_8.6.10.bb}     |  5 ++-
- 4 files changed, 58 insertions(+), 11 deletions(-)
- create mode 100644 meta/recipes-devtools/tcltk/tcl/0001-Fix-abd4abedd2-Failed-to-build-tk-8.6.10-with-cross-.patch
- rename meta/recipes-devtools/tcltk/{tcl_8.6.9.bb => tcl_8.6.10.bb} (93%)
+ ...ops-when-trace-sunrpc_task-events-in.patch | 93 +++++++++++++++++++
+ .../lttng/lttng-modules_2.10.11.bb            |  1 +
+ 2 files changed, 94 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
 
-diff --git a/meta/recipes-devtools/tcltk/tcl/0001-Fix-abd4abedd2-Failed-to-build-tk-8.6.10-with-cross-.patch b/meta/recipes-devtools/tcltk/tcl/0001-Fix-abd4abedd2-Failed-to-build-tk-8.6.10-with-cross-.patch
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
 new file mode 100644
-index 0000000000..3cd34155ee
+index 0000000000..b46bf26dd4
 --- /dev/null
-+++ b/meta/recipes-devtools/tcltk/tcl/0001-Fix-abd4abedd2-Failed-to-build-tk-8.6.10-with-cross-.patch
-@@ -0,0 +1,44 @@
-+From f7fa48c4c75a1e748dc5071e709c0b62ff739eaa Mon Sep 17 00:00:00 2001
-+From: "jan.nijtmans" <nijtmans@users.sourceforge.net>
-+Date: Mon, 9 Dec 2019 10:02:20 +0000
-+Subject: [PATCH] Fix [abd4abedd2]: Failed to build tk 8.6.10 with cross
-+ compile
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
+@@ -0,0 +1,93 @@
++From f79f32bffcd968748e744e273e73b6048c4668f4 Mon Sep 17 00:00:00 2001
++From: Quanyang Wang <quanyang.wang@windriver.com>
++Date: Thu, 5 Dec 2019 13:41:06 +0800
++Subject: [PATCH] Fix: SUNRPC: Fix oops when trace sunrpc_task events in nfs
++ client
 +
-+Upstream-Status: Backport
-+[https://github.com/tcltk/tcl/commit/f7fa48c4c75a1e748dc5071e709c0b62ff739eaa]
++See upstream commit :
 +
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++	commit 2ca310fc4160ed0420da65534a21ae77b24326a8
++	Author: Ditang Chen <chendt.fnst@cn.fujitsu.com>
++	Date: Fri, 7 Mar 2014 13:27:57 +0800
++	Subject: SUNRPC: Fix oops when trace sunrpc_task events in nfs client
++
++	When tracking sunrpc_task events in nfs client, the clnt pointer may be NULL.
++
++	[  139.269266] BUG: unable to handle kernel NULL pointer dereference at 0000000000000004
++	[  139.269915] IP: [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
++	[  139.269915] PGD 1d293067 PUD 1d294067 PMD 0
++	[  139.269915] Oops: 0000 [#1] SMP
++	[  139.269915] Modules linked in: nfsv4 dns_resolver nfs lockd sunrpc fscache sg ppdev e1000
++	serio_raw pcspkr parport_pc parport i2c_piix4 i2c_core microcode xfs libcrc32c sd_mod sr_mod
++	cdrom ata_generic crc_t10dif crct10dif_common pata_acpi ahci libahci ata_piix libata dm_mirror
++	dm_region_hash dm_log dm_mod
++	[  139.269915] CPU: 0 PID: 59 Comm: kworker/0:2 Not tainted 3.10.0-84.el7.x86_64 #1
++	[  139.269915] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
++	[  139.269915] Workqueue: rpciod rpc_async_schedule [sunrpc]
++	[  139.269915] task: ffff88001b598000 ti: ffff88001b632000 task.ti: ffff88001b632000
++	[  139.269915] RIP: 0010:[<ffffffffa026f216>]  [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
++	[  139.269915] RSP: 0018:ffff88001b633d70  EFLAGS: 00010206
++	[  139.269915] RAX: ffff88001dfc5338 RBX: ffff88001cc37a00 RCX: ffff88001dfc5334
++	[  139.269915] RDX: ffff88001dfc5338 RSI: 0000000000000000 RDI: ffff88001dfc533c
++	[  139.269915] RBP: ffff88001b633db0 R08: 000000000000002c R09: 000000000000000a
++	[  139.269915] R10: 0000000000062180 R11: 00000020759fb9dc R12: ffffffffa0292c20
++	[  139.269915] R13: ffff88001dfc5334 R14: 0000000000000000 R15: 0000000000000000
++	[  139.269915] FS:  0000000000000000(0000) GS:ffff88001fc00000(0000) knlGS:0000000000000000
++	[  139.269915] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
++	[  139.269915] CR2: 0000000000000004 CR3: 000000001d290000 CR4: 00000000000006f0
++	[  139.269915] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
++	[  139.269915] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
++	[  139.269915] Stack:
++	[  139.269915]  000000001b633d98 0000000000000246 ffff88001df1dc00 ffff88001cc37a00
++	[  139.269915]  ffff88001bc35e60 0000000000000000 ffff88001ffa0a48 ffff88001bc35ee0
++	[  139.269915]  ffff88001b633e08 ffffffffa02704b5 0000000000010000 ffff88001cc37a70
++	[  139.269915] Call Trace:
++	[  139.269915]  [<ffffffffa02704b5>] __rpc_execute+0x1d5/0x400 [sunrpc]
++	[  139.269915]  [<ffffffffa0270706>] rpc_async_schedule+0x26/0x30 [sunrpc]
++	[  139.269915]  [<ffffffff8107867b>] process_one_work+0x17b/0x460
++	[  139.269915]  [<ffffffff8107942b>] worker_thread+0x11b/0x400
++	[  139.269915]  [<ffffffff81079310>] ? rescuer_thread+0x3e0/0x3e0
++	[  139.269915]  [<ffffffff8107fc80>] kthread+0xc0/0xd0
++	[  139.269915]  [<ffffffff8107fbc0>] ? kthread_create_on_node+0x110/0x110
++	[  139.269915]  [<ffffffff815d122c>] ret_from_fork+0x7c/0xb0
++	[  139.269915]  [<ffffffff8107fbc0>] ? kthread_create_on_node+0x110/0x110
++	[  139.269915] Code: 4c 8b 45 c8 48 8d 7d d0 89 4d c4 41 89 c9 b9 28 00 00 00 e8 9d b4 e9
++	e0 48 85 c0 49 89 c5 74 a2 48 89 c7 e8 9d 3f e9 e0 48 89 c2 <41> 8b 46 04 48 8b 7d d0 4c
++	89 e9 4c 89 e6 89 42 0c 0f b7 83 d4
++	[  139.269915] RIP  [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
++	[  139.269915]  RSP <ffff88001b633d70>
++	[  139.269915] CR2: 0000000000000004
++	[  140.946406] ---[ end trace ba486328b98d7622 ]---
++
++Upstream-Status: Pending
++
++Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
 +---
-+ compat/strtol.c  | 2 +-
-+ compat/strtoul.c | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
++ instrumentation/events/lttng-module/rpc.h | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/compat/strtol.c b/compat/strtol.c
-+index b7f69196c..811006a64 100644
-+--- a/compat/strtol.c
-++++ b/compat/strtol.c
-+@@ -53,7 +53,7 @@ strtol(
-+      */
++diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
++index 3798e8e..fb13106 100644
++--- a/instrumentation/events/lttng-module/rpc.h
+++++ b/instrumentation/events/lttng-module/rpc.h
++@@ -139,7 +139,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
 + 
-+     p = string;
-+-    while (TclIsSpaceProc(*p)) {
-++    while (isspace(UCHAR(*p))) {
-+ 	p += 1;
-+     }
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
++ 		ctf_integer_hex(const void *, action, action)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++@@ -208,7 +208,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
 + 
-+diff --git a/compat/strtoul.c b/compat/strtoul.c
-+index e37eb05f8..15587f1da 100644
-+--- a/compat/strtoul.c
-++++ b/compat/strtoul.c
-+@@ -74,7 +74,7 @@ strtoul(
-+      */
-+ 
-+     p = string;
-+-    while (TclIsSpaceProc(*p)) {
-++    while (isspace(UCHAR(*p))) {
-+ 	p += 1;
-+     }
-+     if (*p == '-') {
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
++ 		ctf_integer_hex(const void *, action, action)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
 +-- 
 +2.17.1
 +
-diff --git a/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch b/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch
-index c8530e1f58..86632d9144 100644
---- a/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch
-@@ -8,6 +8,7 @@ Signed-off-by: Khem Raj <raj.khem@gmai.com>
- Fixed the TCL_INCLUDE_SPEC
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
+index c116fddc60..494b2031c1 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
+@@ -14,6 +14,7 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
++           file://0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch \
+            "
  
- Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
- ---
-  Makefile.in  |    2 +-
-  configure    |    4 ++--
-@@ -34,7 +35,7 @@ index 3e78b49..24b3f92 100755
- @@ -19134,7 +19134,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
-  eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
-  
-- TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
-+ test -z "$TCL_LIBRARY" && TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
- -PRIVATE_INCLUDE_DIR='$(includedir)'
- +PRIVATE_INCLUDE_DIR='$(includedir)/tcl$(VERSION)'
-  HTML_DIR='$(DISTDIR)/html'
-@@ -56,7 +57,7 @@ index 0e28b14..62d9b41 100755
- @@ -791,7 +791,7 @@ eval "TCL_LIB_FILE=libtcl${LIB_SUFFIX}"
-  eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
-  
-- TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
-+ test -z "$TCL_LIBRARY" && TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
- -PRIVATE_INCLUDE_DIR='$(includedir)'
- +PRIVATE_INCLUDE_DIR='$(includedir)/tcl$(VERSION)'
-  HTML_DIR='$(DISTDIR)/html'
-diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch b/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
-index 16f7c80516..17d251d554 100644
---- a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
-+++ b/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
-@@ -14,10 +14,11 @@ Upstream-Status: Inappropriate [configuration]
- 
- Signed-off-by: Song.Li <Song.Li@windriver.com>
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
- ---
-- configure |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
-+ configure    | 2 +-
-+ configure.in | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
- 
- Index: unix/configure
- ===================================================================
-@@ -27,8 +28,8 @@ Index: unix/configure
-  
-  eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
-  
---TCL_LIBRARY='$(prefix)/lib/tcl$(VERSION)'
--+TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
-+-test -z "$TCL_LIBRARY" && TCL_LIBRARY='$(prefix)/lib/tcl$(VERSION)'
-++test -z "$TCL_LIBRARY" && TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
-  PRIVATE_INCLUDE_DIR='$(includedir)'
-  HTML_DIR='$(DISTDIR)/html'
-  
-@@ -40,8 +41,8 @@ Index: unix/configure.in
-  
-  eval "TCL_LIB_FILE=${TCL_LIB_FILE}"
-  
---TCL_LIBRARY='$(prefix)/lib/tcl$(VERSION)'
--+TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
-+-test -z "$TCL_LIBRARY" && TCL_LIBRARY='$(prefix)/lib/tcl$(VERSION)'
-++test -z "$TCL_LIBRARY" && TCL_LIBRARY='$(libdir)/tcl$(VERSION)'
-  PRIVATE_INCLUDE_DIR='$(includedir)'
-  HTML_DIR='$(DISTDIR)/html'
-  
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.9.bb b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-similarity index 93%
-rename from meta/recipes-devtools/tcltk/tcl_8.6.9.bb
-rename to meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-index 7f3778153a..284f20e27a 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.9.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-@@ -22,10 +22,11 @@ SRC_URI = "${BASE_SRC_URI} \
-            file://no_packages.patch \
-            file://tcl-remove-hardcoded-install-path.patch \
-            file://alter-includedir.patch \
-+           file://0001-Fix-abd4abedd2-Failed-to-build-tk-8.6.10-with-cross-.patch;patchdir=.. \
-            file://run-ptest \
- "
--SRC_URI[md5sum] = "aa0a121d95a0e7b73a036f26028538d4"
--SRC_URI[sha256sum] = "ad0cd2de2c87b9ba8086b43957a0de3eb2eb565c7159d5f53ccbba3feb915f4e"
-+SRC_URI[md5sum] = "97c55573f8520bcab74e21bfd8d0aadc"
-+SRC_URI[sha256sum] = "5196dbf6638e3df8d5c87b5815c8c2b758496eb6f0e41446596c9a4e638d87ed"
- 
- SRC_URI_class-native = "${BASE_SRC_URI}"
- 
+ SRC_URI[md5sum] = "c618fb646514dfc1bf910cfd7cda4256"
 -- 
 2.17.1
 
