@@ -1,52 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AB9F7FA17
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 848C77FA15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 18:14:52 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id b11so3407517wmj.4
+	Thu, 12 Dec 2019 18:14:53 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id f129so3634762wmf.2
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 Dec 2019 10:14:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=AfL66+o8hezhHUuX7wH0MfkFnz0d9nbPd/rnbiFD340=;
-	b=Qx49ylOhCnEgIYLklVRSBGc1c6A7Ko1uNr8KBAhuZDWNaYTv+Vx3ePDA7X8+K7KMmd
-	jXdNM9f9oC2y/FZAFsCu/hR2fyeKhiRVk633i24poPiug8pM7fNzepgl2IIOMXHmsNx7
-	c25fhowXhjdXSsn+wBE1XlcJyOKcnVHjApFEumFypcEDnT0cjHRPhtBPsEF71afuCy2D
-	pM8BefXwLs3lq34YtFRRFVFRp1miUvrdVSUyiYR9qEwDdzG9scA86IfXOWTabmQPDpKN
-	uN/TJAIznU6p6F/BiDerULrA7STlVPFSRZdT08M/94/fxjs2a3ESWguzCqZmQ+uxEZHS
-	EwuQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=BBsuo2hOJ4ehNpQfkTBCG0dp/KtfljJQKl0ESedWIwE=;
+	b=Ry6nLT98CHivwWoM0IM1CKaXQOJVHT9+9Iz0ABEP/tr+eUBWI+Lkiqn+MqbQ5uJ9qM
+	DKKJ6b12fnPqPbkxoKB2013POwDeMXZ/mbcg1R4twK9J8/oo0TR6pPr+f+opiQ/MUIIZ
+	/uZSmtwqR/tZ6EHKUbbqcFkby+117tMl192U2EOYjlL+5CYSfYb21TzBUGZJJCDlfiSp
+	zcDAVKB0B90qTHGaVnlqBbV3EI/8ul0rIkQ2JEcrLpq7pdtb5HsFbw7FeKSk2/dn1X53
+	CareDhD7Xl+UcRYGUw3KU3Pv7wtxbAiIVZPksOmW8wRNIy02veKcHjW8WUqA12+ZhM0H
+	B24g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=AfL66+o8hezhHUuX7wH0MfkFnz0d9nbPd/rnbiFD340=;
-	b=Q1UDp8hdyTIhgEm1zxJT3b4LrxnXn4tnecHHMrkFDEm6V/dPviEoSSV4hIno53yhK1
-	6pQzSo5K0HSwRvj2spH32y9L84y+V3ZwAJueEbLJeWKb9rPv/oIHBVNNtfbGvopKUNnU
-	3KVo3LM/Z7gkcHVDxUMgX6oNH66nkznFJ/anP7due3ZQdPG5s97mcj+6yaFz29rLatSi
-	HQfzTAH6ipRop9pd3dVOnH7/FEo/nule37G9JMUyuQVLSdghx9dV62tKiLj3xUBOzE2t
-	rpbWvyO9ZK+KZYzOMMSfWK2qg7BCMnzTlZWwib5BUOaTo9qDji/VtPlvR3IxUgH4d/g4
-	Ugew==
-X-Gm-Message-State: APjAAAVJ1z5RWWGNtJNX6YTQnw87zN43BF7u2UxhDH0MROk2i1dc6/07
-	T+X+b4ME0zNCj7l6XE+Fif8bcaQ8
-X-Google-Smtp-Source: APXvYqzDY01WwpzxOCiPKB3WfbOf0JlG5999MWJglIP0QNfWbkc+cRkW93WHjGKMWXa53sUJTsbNVg==
-X-Received: by 2002:a1c:628b:: with SMTP id w133mr3976570wmb.25.1576174493199; 
-	Thu, 12 Dec 2019 10:14:53 -0800 (PST)
+	:references;
+	bh=BBsuo2hOJ4ehNpQfkTBCG0dp/KtfljJQKl0ESedWIwE=;
+	b=HVUBR+o1a4nwBYX9Q8VXZ+uwyXAAkyxIdD51a0Lm2vSnBWQ6kc4vt7H//ZcEDa8f/J
+	/GyyrYjnXk5myATHnfRscz6w3Ks5BBRV1bnhHzpPVmAflN3ZjtqHocawzSAJeMp3UkXa
+	iieWF8pOFLxZEjARFUNdanVN9iWF+b+aThBrMhZOY2cQuKmWklfbjRsCAWFP95ndX+0p
+	rM58aI0rJj/N7Ts+xeD8/FtO6EsHKZjMrd0d6wkm2USCLIxXll3haZoWJFWJcaUwtrC8
+	rMOVSXAMIRoBuY9hDjtbURutVLbePaQB8gK9hxBw0Yms5c8HlMg8Yh/KYBb8NXNKIB6l
+	ibtA==
+X-Gm-Message-State: APjAAAXFR41a6LrL9h5SScDMUo22K6DXZszsIF0VuRIA0R0YxIlpwKlN
+	WC/qqGWBdflwaoSYyZKlPyP3zuH3
+X-Google-Smtp-Source: APXvYqwIsCvXEgfPGgsu07hyAs6bnUNwYV31qtL1beY1iynmO8mcjWfrY/VeRF5ZPYQdl8NfjJNi7Q==
+X-Received: by 2002:a7b:cd82:: with SMTP id y2mr8406613wmj.58.1576174494034;
+	Thu, 12 Dec 2019 10:14:54 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	o66sm3147571wmo.20.2019.12.12.10.14.52
+	o66sm3147571wmo.20.2019.12.12.10.14.53
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 10:14:52 -0800 (PST)
+	Thu, 12 Dec 2019 10:14:53 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 19:14:16 +0100
-Message-Id: <20191212181436.1322-10-alex.kanavin@gmail.com>
+Date: Thu, 12 Dec 2019 19:14:17 +0100
+Message-Id: <20191212181436.1322-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 10/30] libtasn1: update to 4.15.0
+Subject: [PATCH 11/30] sysklogd: Fix 2.0.3 upgrade fallouts on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,132 +58,117 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Thu, 12 Dec 2019 18:14:53 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-Drop backports.
+From: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../gnutls/libtasn1/fix-gtkdoc.patch          | 38 -------------------
- .../gnutls/libtasn1/fix-ldflags.patch         | 31 ---------------
- .../{libtasn1_4.14.bb => libtasn1_4.15.0.bb}  | 11 ++++--
- 3 files changed, 7 insertions(+), 73 deletions(-)
- delete mode 100644 meta/recipes-support/gnutls/libtasn1/fix-gtkdoc.patch
- delete mode 100644 meta/recipes-support/gnutls/libtasn1/fix-ldflags.patch
- rename meta/recipes-support/gnutls/{libtasn1_4.14.bb => libtasn1_4.15.0.bb} (72%)
+ ...001-Remove-__BEGIN_DECLS-__END_DECLS.patch | 44 +++++++++++++++++++
+ .../0002-include-sys-types.h-for-off_t.patch  | 29 ++++++++++++
+ meta/recipes-extended/sysklogd/sysklogd.inc   |  2 +
+ 3 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-extended/sysklogd/files/0001-Remove-__BEGIN_DECLS-__END_DECLS.patch
+ create mode 100644 meta/recipes-extended/sysklogd/files/0002-include-sys-types.h-for-off_t.patch
 
-diff --git a/meta/recipes-support/gnutls/libtasn1/fix-gtkdoc.patch b/meta/recipes-support/gnutls/libtasn1/fix-gtkdoc.patch
-deleted file mode 100644
-index bfc9b9fca7e..00000000000
---- a/meta/recipes-support/gnutls/libtasn1/fix-gtkdoc.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--Upstream-Status: Backport [https://gitlab.com/gnutls/libtasn1/merge_requests/49]
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From ebd4f871b5241809f6a5b461444a6d331e15c949 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Mon, 9 Sep 2019 13:11:39 +0100
--Subject: [PATCH] doc/reference: don't add empty object hierarchy chapter
--
--The object hierarchy section is empty because there are no GObjects in the
--libtasn1 API.  With gtk-doc 1.30 onwards if there are no objects then the object
--hierarchy file won't exist, resulting in a failure when building the
--documentation:
--
--| ../libtasn1-docs.xml:39: element include: XInclude error : could not load ../xml/tree_index.sgml, and no fallback was found
--
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-----
-- doc/reference/libtasn1-docs.xml | 4 ----
-- 1 file changed, 4 deletions(-)
--
--diff --git a/doc/reference/libtasn1-docs.xml b/doc/reference/libtasn1-docs.xml
--index accdb85..f88b888 100644
----- a/doc/reference/libtasn1-docs.xml
--+++ b/doc/reference/libtasn1-docs.xml
--@@ -34,10 +34,6 @@
--         <xi:include href="xml/libtasn1.xml"/>
-- 
--   </chapter>
---  <chapter id="object-tree">
---    <title>Object Hierarchy</title>
---    <xi:include href="xml/tree_index.sgml"/>
---  </chapter>
--   <index id="api-index-full">
--     <title>API Index</title>
--     <xi:include href="xml/api-index-full.xml"><xi:fallback /></xi:include>
---- 
--2.20.1
--
-diff --git a/meta/recipes-support/gnutls/libtasn1/fix-ldflags.patch b/meta/recipes-support/gnutls/libtasn1/fix-ldflags.patch
-deleted file mode 100644
-index f18f3c62679..00000000000
---- a/meta/recipes-support/gnutls/libtasn1/fix-ldflags.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From a6f93b7ace347bc4fe29eb4a8fe4383d786cc8d0 Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
--Date: Tue, 23 Jul 2019 20:44:01 +0200
--Subject: [PATCH] Fix LDFLAGS to AM_LDFLAGS in src/Makefile.am
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Signed-off-by: Tim Rühsen <tim.ruehsen@gmx.de>
--Upstream-Status: Backport
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- src/Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/src/Makefile.am b/src/Makefile.am
--index 5bf3622..4459767 100644
----- a/src/Makefile.am
--+++ b/src/Makefile.am
--@@ -21,7 +21,7 @@ AM_CPPFLAGS = -I$(top_builddir)/lib/includes -I$(top_srcdir)/lib/includes \
--  -I$(top_builddir)/lib/gl -I$(top_srcdir)/lib/gl $(CODE_COVERAGE_CPPFLAGS)
-- 
-- LDADD = ../lib/libtasn1.la
---LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
--+AM_LDFLAGS = $(CODE_COVERAGE_LDFLAGS)
-- 
-- bin_PROGRAMS = asn1Parser asn1Coding asn1Decoding
-- 
---- 
--2.21.0
--
-diff --git a/meta/recipes-support/gnutls/libtasn1_4.14.bb b/meta/recipes-support/gnutls/libtasn1_4.15.0.bb
-similarity index 72%
-rename from meta/recipes-support/gnutls/libtasn1_4.14.bb
-rename to meta/recipes-support/gnutls/libtasn1_4.15.0.bb
-index ef2c1956a24..398faa29a86 100644
---- a/meta/recipes-support/gnutls/libtasn1_4.14.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_4.15.0.bb
-@@ -10,15 +10,18 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
- 
- SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
-            file://dont-depend-on-help2man.patch \
--           file://fix-ldflags.patch \
--           file://fix-gtkdoc.patch \
-            "
- 
- DEPENDS = "bison-native"
- 
--SRC_URI[md5sum] = "e9918200ed4a778e2b3cbe34c1be4205"
--SRC_URI[sha256sum] = "9e604ba5c5c8ea403487695c2e407405820d98540d9de884d6e844f9a9c5ba08"
-+SRC_URI[md5sum] = "33e3fb5501bb2142184238c815b0beb8"
-+SRC_URI[sha256sum] = "dd77509fe8f5304deafbca654dc7f0ea57f5841f41ba530cff9a5bf71382739e"
- 
- inherit autotools texinfo lib_package gtk-doc
- 
-+do_install_append () {
-+    # this utility has a bogus RPATH
-+    chrpath -d ${D}/${bindir}/corpus2array
-+}
+diff --git a/meta/recipes-extended/sysklogd/files/0001-Remove-__BEGIN_DECLS-__END_DECLS.patch b/meta/recipes-extended/sysklogd/files/0001-Remove-__BEGIN_DECLS-__END_DECLS.patch
+new file mode 100644
+index 00000000000..b2d45c0a0a6
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/files/0001-Remove-__BEGIN_DECLS-__END_DECLS.patch
+@@ -0,0 +1,44 @@
++From 8c7995ac8da99eed55bf5410c558b1f0a74998d0 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 7 Dec 2019 10:27:28 -0800
++Subject: [PATCH 1/2] Remove __BEGIN_DECLS/__END_DECLS
 +
- BBCLASSEXTEND = "native nativesdk"
++The __BEGIN_DECLS and __END_DECLS are internal identifiers in glibc and
++are not defined in any standard. Using them fails build on musl
++libc, its better to avoid them
++
++Upstream-Status: Submitted [https://github.com/troglobit/sysklogd/pull/10]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/syslog.h | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/src/syslog.h b/src/syslog.h
++index 4fb7627..120a18f 100644
++--- a/src/syslog.h
+++++ b/src/syslog.h
++@@ -221,7 +221,9 @@ struct syslog_data {
++     .log_mask = 0xff, \
++ }
++ 
++-__BEGIN_DECLS
+++#ifdef __cplusplus
+++extern "C" {
+++#endif
++ void	openlog    (const char *, int, int);
++ void	closelog   (void);
++ 
++@@ -245,7 +247,9 @@ void	syslogp_r  (int, struct syslog_data *, const char *, const char *,
++ 		    const char *, ...);
++ void	vsyslogp_r (int, struct syslog_data *, const char *, const char *,
++ 		    const char *, va_list);
++-__END_DECLS
+++#ifdef __cplusplus
+++}
+++#endif
++ 
++ #else /* !__KERNEL__ */
++ 
++-- 
++2.24.0
++
+diff --git a/meta/recipes-extended/sysklogd/files/0002-include-sys-types.h-for-off_t.patch b/meta/recipes-extended/sysklogd/files/0002-include-sys-types.h-for-off_t.patch
+new file mode 100644
+index 00000000000..799a7a4c4cd
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/files/0002-include-sys-types.h-for-off_t.patch
+@@ -0,0 +1,29 @@
++From 10cff4ba2d09b30f8f1967f910e8ab08447a8add Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Sat, 7 Dec 2019 10:31:04 -0800
++Subject: [PATCH 2/2] include sys/types.h for off_t
++
++Fixes
++error: unknown type name 'off_t'
++
++Upstream-Status: Submitted [https://github.com/troglobit/sysklogd/pull/10]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/compat.h | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/compat.h b/src/compat.h
++index a867636..1ef1bf0 100644
++--- a/src/compat.h
+++++ b/src/compat.h
++@@ -34,6 +34,7 @@
++ #include <pthread.h>
++ #include <stdlib.h>
++ #include <string.h>
+++#include <sys/types.h>
++ 
++ /*
++  * The following macro is used to remove const cast-away warnings
++-- 
++2.24.0
++
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index b90911af2b7..07edf403266 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -14,6 +14,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ inherit update-rc.d update-alternatives systemd autotools
+ 
+ SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
++           file://0001-Remove-__BEGIN_DECLS-__END_DECLS.patch \
++           file://0002-include-sys-types.h-for-off_t.patch \
+            file://sysklogd \
+            "
+ S = "${WORKDIR}/git"
 -- 
 2.17.1
 
