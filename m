@@ -1,50 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
-	[209.85.128.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 92E4A7FC06
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 525017FC22
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 18:15:09 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id t14so3624779wmi.5
+	Thu, 12 Dec 2019 18:15:10 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id z3so3806155wru.3
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 12 Dec 2019 10:15:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ubVckeAZ7YbE918mVU6FV6QvNvPDoP7HzeMBBGO+Bzk=;
-	b=qHiLbcQyokIsqtnJNGLClYWDDm4eD62Od1oPvk1YwOGrzFgC8dtOlh7J08kfznA5UY
-	fQIHqyrTRCfK1VeJ3typrpiu8QhU0ANuGnPCmCMQg0pw5cse83pvBD60WQVC1fx3Asft
-	IkMbYiOaKYH4kexCLPM1PcD9t6mRJd0mIFvL3YtEx9UqU9e+iQK5ory80L9BmtX6zk/G
-	gT10xlEpks2rDcGBXnOftzcXa5zi5BcEaIULda4CskohKtanDM78ve5Pq6JEOCqFPhGn
-	Pc7+ED4n6JwtlF+w995bGmnewU4OhdGFi/ibZeLGvlCODnT0qB5Kz6bjWyq6Vh25sMgY
-	+KWQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=ClbJyeXHKYBlVmcrvge2CswoUo+Y0JlNUT3R+ZIxfQs=;
+	b=K9RWxB17vtXMXaXvXCH9+znEJfj6SFQYDTqEnal4hWA29NPfkNtVUV/EHNFASuDHgt
+	P8B0eh9DKQ2tiOgb75tOipULeyOKbYyajZoWIyyHwdQKLE0u3xjzrNIOTHh5t1vgj9pE
+	bNMJM+YIlR6i8tR1DBpvosqB5ntedlQ+2k+Vs29E6AxOx+9f65UD+mjOOyno5N6KK9zO
+	lqZIrgS2+3Rhwk7ijh38aDTBKURbZtsiFUS8/0ZGQbTlIhU22mUciUWhiByPTGgi3QP9
+	NE/p+uo8I5K58HgqOBS7j0j8PrbZN+vxQH1N7lCwdGqfpsfhLGNcFPRovZVNFA8xHMeG
+	UoKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=ubVckeAZ7YbE918mVU6FV6QvNvPDoP7HzeMBBGO+Bzk=;
-	b=EK8nZxkoIT4BvW2gml6H0Z1P+MzErDwrjhYpaHKXLmLaMFn/FQghidOnqvhvhxa5cF
-	sYPW4KcIl+XOybcxS5Iv/1EmQrloBudDUJFk81aPEyL9J8zCkoOKqadg6VuwtU/qiWMb
-	6MeRdIVH0rLzUFvHh+KaxaEmj5aXC5/kYr/cc70secfquV2Ynzt2Ln/pGvEs9SfUUjgu
-	RncurwUO9qpCIQropYhmqosWNEaAsZS/kP+PQ3UA8VHho47C6IrqaD+rnnMzQHLh6Ny8
-	vxFk1DIaOwN2uURD7xlM+cd9sDU19Rdfo29WJ8VlpGo5h4P97lTnwciSxYk3+LAkLTf5
-	TOZg==
-X-Gm-Message-State: APjAAAUAQmaw9agQ/e/k6Ma5ByacwRijt3Tdy3P2s5dpX7fCjSSwiSvS
-	2Atnh89qK1iKiYhzf3cO05IzZnAO
-X-Google-Smtp-Source: APXvYqwi85OBGHu/qjGaecDrMF33nDnPIOtBcwtAB5b0XBEhVkxGYQElVeuhTRVYhKzsDpY3+0bLAQ==
-X-Received: by 2002:a7b:c632:: with SMTP id p18mr7838029wmk.175.1576174509824; 
-	Thu, 12 Dec 2019 10:15:09 -0800 (PST)
+	:references:mime-version:content-transfer-encoding;
+	bh=ClbJyeXHKYBlVmcrvge2CswoUo+Y0JlNUT3R+ZIxfQs=;
+	b=NI42R3CkzNkHunqRpiK3JUN1quMl6A6nJp7TYH96S02hUP0QH1mq+gXW61iUkQDDQb
+	bWJgnwIpt8HeyN29fPpzuIvclIg5PA6opqOoJQQAIwzI06MZqcye4eXe4Qniud39DQ3+
+	yfWj/X35aGMFNzhxGMjjgYVGbBYNW+C4aX/jBlpqoYq6rd/k28/icIdUA2o2d/wsalmf
+	n5zNnw1mNJRGZ8euHcmWLiNYhLvLzcmpAGXfoVjLveQUsD3B4p1en451JMcXKIWQh/D5
+	i9hYyiQzDbVaiQgLIzqBSXf0LJfFQdEEKwiYs9/yJBt8uYk2yP7FrUTG095TjwQYM7SK
+	Z61w==
+X-Gm-Message-State: APjAAAX5aptp3HexdQYYZxDNarD7P6YPVQn4LfhzAH2zOivar4F1mNbk
+	LdO3IMP35u/Y5/5mfrZLoSwHNALA
+X-Google-Smtp-Source: APXvYqy12SyVSs5vggnWf9Mien8xekhrUZF8FSYFshsxgcRIsDjK+Fxsiw157oFIeMOymCsXWPYVfw==
+X-Received: by 2002:adf:fc08:: with SMTP id i8mr8298929wrr.82.1576174510539;
+	Thu, 12 Dec 2019 10:15:10 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
 	o66sm3147571wmo.20.2019.12.12.10.15.09
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 12 Dec 2019 10:15:09 -0800 (PST)
+	Thu, 12 Dec 2019 10:15:10 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 12 Dec 2019 19:14:34 +0100
-Message-Id: <20191212181436.1322-28-alex.kanavin@gmail.com>
+Date: Thu, 12 Dec 2019 19:14:35 +0100
+Message-Id: <20191212181436.1322-29-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191212181436.1322-1-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-Subject: [PATCH 28/30] sudo: update to 1.8.29
+MIME-Version: 1.0
+Subject: [PATCH 29/30] nfs-utils: update to 2.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,379 +59,454 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 12 Dec 2019 18:15:10 -0000
+X-List-Received-Date: Thu, 12 Dec 2019 18:15:11 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-License-Update: added SPDX info.
+Drop backports, and a musl patch that is no longer needed.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/sudo/sudo.inc           |  22 +--
- .../sudo/sudo/CVE-2019-14287-1.patch          | 178 ------------------
- .../sudo/sudo/CVE-2019-14287-2.patch          | 112 -----------
- .../sudo/{sudo_1.8.27.bb => sudo_1.8.29.bb}   |   6 +-
- 4 files changed, 13 insertions(+), 305 deletions(-)
- delete mode 100644 meta/recipes-extended/sudo/sudo/CVE-2019-14287-1.patch
- delete mode 100644 meta/recipes-extended/sudo/sudo/CVE-2019-14287-2.patch
- rename meta/recipes-extended/sudo/{sudo_1.8.27.bb => sudo_1.8.29.bb} (87%)
+ ...de-order-between-config.h-and-stat.h.patch | 156 ---------------
+ .../nfs-utils/clang-format-string.patch       | 183 ------------------
+ .../nfs-utils-musl-res_querydomain.patch      |  46 -----
+ ...{nfs-utils_2.4.1.bb => nfs-utils_2.4.2.bb} |   9 +-
+ 4 files changed, 3 insertions(+), 391 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-string.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.4.1.bb => nfs-utils_2.4.2.bb} (94%)
 
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index 15075bcefd7..67815fa8584 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -5,17 +5,17 @@ BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD & Zlib"
- LIC_FILES_CHKSUM = "file://doc/LICENSE;md5=6c76b73603ac7763ab0516ebfbe67b42 \
--                    file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=4a162fc04b86b03f5632180fe6076cda \
--                    file://lib/util/reallocarray.c;beginline=3;endline=15;md5=b47f1f85a12f05a0744cd8b1b6f41a0d \
--                    file://lib/util/fnmatch.c;beginline=3;endline=27;md5=67f83ee9bd456557397082f8f1be0efd \
--                    file://lib/util/getcwd.c;beginline=2;endline=27;md5=09068a19b4f6b6f0a0958655bfe98b63 \
--                    file://lib/util/glob.c;beginline=2;endline=31;md5=1f2f771c35fb0658d567a7824007e56d \
--                    file://lib/util/snprintf.c;beginline=3;endline=33;md5=63e48e1b992bce749a19dd9b2256e9a0 \
--                    file://include/sudo_queue.h;beginline=2;endline=27;md5=082b138b72ba3e568a13a25c3bf254dc \
--                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=3970ab0518ab79cbd0bafb697f10b33a \
--                    file://lib/util/arc4random.c;beginline=3;endline=20;md5=15bdc89c1b003fa4d7353e6296ebfd68 \
--                    file://lib/util/arc4random_uniform.c;beginline=3;endline=17;md5=31e630ac814d692fd0ab7a942659b46f \
--                    file://lib/util/getentropy.c;beginline=1;endline=19;md5=9f1a275ecd44cc264a2a4d5e06a75292 \
-+                    file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
-+                    file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
-+                    file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-+                    file://lib/util/getcwd.c;beginline=2;endline=27;md5=50f8d9667750e18dea4e84a935c12009 \
-+                    file://lib/util/glob.c;beginline=2;endline=31;md5=2852f68687544e3eb8a0a61665506f0e \
-+                    file://lib/util/snprintf.c;beginline=3;endline=33;md5=b70df6179969e38fcf68da91b53b8029 \
-+                    file://include/sudo_queue.h;beginline=2;endline=27;md5=ad578e9664d17a010b63e4bc0576ee8d \
-+                    file://lib/util/inet_pton.c;beginline=3;endline=17;md5=27785c9f5835093eda42aa0816a2d0b4 \
-+                    file://lib/util/arc4random.c;beginline=3;endline=20;md5=ced8636ecefa2ba907cfe390bc3bd964 \
-+                    file://lib/util/arc4random_uniform.c;beginline=3;endline=17;md5=e30c2b777cdc00cfcaf7c445a10b262f \
-+                    file://lib/util/getentropy.c;beginline=1;endline=19;md5=a0f58be3d60b6dcd898ec5fe0866d36f \
-                     "
- 
- inherit autotools
-diff --git a/meta/recipes-extended/sudo/sudo/CVE-2019-14287-1.patch b/meta/recipes-extended/sudo/sudo/CVE-2019-14287-1.patch
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
 deleted file mode 100644
-index 2a11e3f7ec7..00000000000
---- a/meta/recipes-extended/sudo/sudo/CVE-2019-14287-1.patch
+index 7b0f93535f9..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
 +++ /dev/null
-@@ -1,178 +0,0 @@
--From f752ae5cee163253730ff7cdf293e34a91aa5520 Mon Sep 17 00:00:00 2001
--From: "Todd C. Miller" <Todd.Miller@sudo.ws>
--Date: Thu, 10 Oct 2019 10:04:13 -0600
--Subject: [PATCH] Treat an ID of -1 as invalid since that means "no change".
-- Fixes CVE-2019-14287. Found by Joe Vennix from Apple Information Security.
+@@ -1,156 +0,0 @@
+-From 2fbc62e2a13fc22b6ae4910e295a2c10fb790486 Mon Sep 17 00:00:00 2001
+-From: Zoltan Karcagi <zkr7432@gmail.com>
+-Date: Mon, 12 Aug 2019 13:27:16 -0400
+-Subject: [PATCH] Fix include order between config.h and stat.h
 -
--Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/f752ae5cee163253730ff7cdf293e34a91aa5520]
--CVE: CVE-2019-14287
+-At least on Arch linux ARM, the definition of struct stat in stat.h depends
+-on __USE_FILE_OFFSET64. This symbol comes from config.h when defined,
+-therefore config.h must always be included before stat.h. Fix all
+-occurrences where the order is wrong by moving config.h to the top.
 -
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
+-This fixes the client side error "Stale file handle" when mounting from
+-a server running Arch Linux ARM.
 -
+-Signed-off-by: Zoltan Karcagi <zkr7432@gmail.com>
+-Signed-off-by: Steve Dickson <steved@redhat.com>
+-
+-Upstream-Status: Backport
+-[http://git.linux-nfs.org/?p=steved/nfs-utils.git;a=commit;h=2fbc62e2a13fc22b6ae4910e295a2c10fb790486]
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ----
-- lib/util/strtoid.c | 100 ++++++++++++++++++++++++++++-------------------------
-- 1 files changed, 53 insertions(+), 46 deletions(-)
+- support/misc/nfsd_path.c         | 5 ++++-
+- support/misc/xstat.c             | 5 ++++-
+- support/nfs/conffile.c           | 8 +++++++-
+- utils/blkmapd/device-discovery.c | 8 ++++----
+- utils/idmapd/idmapd.c            | 8 ++++----
+- 5 files changed, 23 insertions(+), 11 deletions(-)
 -
--diff --git a/lib/util/strtoid.c b/lib/util/strtoid.c
--index 2dfce75..6b3916b 100644
----- a/lib/util/strtoid.c
--+++ b/lib/util/strtoid.c
--@@ -49,6 +49,27 @@
-- #include "sudo_util.h"
+-diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
+-index 84e4802..f078a66 100644
+---- a/support/misc/nfsd_path.c
+-+++ b/support/misc/nfsd_path.c
+-@@ -1,3 +1,7 @@
+-+#ifdef HAVE_CONFIG_H
+-+#include <config.h>
+-+#endif
+-+
+- #include <errno.h>
+- #include <sys/types.h>
+- #include <sys/stat.h>
+-@@ -5,7 +9,6 @@
+- #include <stdlib.h>
+- #include <unistd.h>
+- 
+--#include "config.h"
+- #include "conffile.h"
+- #include "xmalloc.h"
+- #include "xlog.h"
+-diff --git a/support/misc/xstat.c b/support/misc/xstat.c
+-index fa04788..4c997ee 100644
+---- a/support/misc/xstat.c
+-+++ b/support/misc/xstat.c
+-@@ -1,3 +1,7 @@
+-+#ifdef HAVE_CONFIG_H
+-+#include <config.h>
+-+#endif
+-+
+- #include <errno.h>
+- #include <sys/types.h>
+- #include <fcntl.h>
+-@@ -5,7 +9,6 @@
+- #include <sys/sysmacros.h>
+- #include <unistd.h>
+- 
+--#include "config.h"
+- #include "xstat.h"
+- 
+- #ifdef HAVE_FSTATAT
+-diff --git a/support/nfs/conffile.c b/support/nfs/conffile.c
+-index b6400be..6ba8a35 100644
+---- a/support/nfs/conffile.c
+-+++ b/support/nfs/conffile.c
+-@@ -500,7 +500,7 @@ conf_readfile(const char *path)
+- 
+- 	if ((stat (path, &sb) == 0) || (errno != ENOENT)) {
+- 		char *new_conf_addr = NULL;
+--		size_t sz = sb.st_size;
+-+		off_t sz;
+- 		int fd = open (path, O_RDONLY, 0);
+- 
+- 		if (fd == -1) {
+-@@ -517,6 +517,11 @@ conf_readfile(const char *path)
+- 
+- 		/* only after we have the lock, check the file size ready to read it */
+- 		sz = lseek(fd, 0, SEEK_END);
+-+		if (sz < 0) {
+-+			xlog_warn("conf_readfile: unable to determine file size: %s",
+-+				  strerror(errno));
+-+			goto fail;
+-+		}
+- 		lseek(fd, 0, SEEK_SET);
+- 
+- 		new_conf_addr = malloc(sz+1);
+-@@ -2162,6 +2167,7 @@ conf_write(const char *filename, const char *section, const char *arg,
+- 	ret = 0;
+- 
+- cleanup:
+-+	flush_outqueue(&inqueue, NULL);
+- 	flush_outqueue(&outqueue, NULL);
+- 
+- 	if (buff)
+-diff --git a/utils/blkmapd/device-discovery.c b/utils/blkmapd/device-discovery.c
+-index e811703..f5f9b10 100644
+---- a/utils/blkmapd/device-discovery.c
+-+++ b/utils/blkmapd/device-discovery.c
+-@@ -26,6 +26,10 @@
+-  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-  */
+- 
+-+#ifdef HAVE_CONFIG_H
+-+#include "config.h"
+-+#endif /* HAVE_CONFIG_H */
+-+
+- #include <sys/sysmacros.h>
+- #include <sys/types.h>
+- #include <sys/stat.h>
+-@@ -51,10 +55,6 @@
+- #include <errno.h>
+- #include <libdevmapper.h>
+- 
+--#ifdef HAVE_CONFIG_H
+--#include "config.h"
+--#endif /* HAVE_CONFIG_H */
+--
+- #include "device-discovery.h"
+- #include "xcommon.h"
+- #include "nfslib.h"
+-diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
+-index 62e37b8..267acea 100644
+---- a/utils/idmapd/idmapd.c
+-+++ b/utils/idmapd/idmapd.c
+-@@ -34,6 +34,10 @@
+-  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-  */
+- 
+-+#ifdef HAVE_CONFIG_H
+-+#include "config.h"
+-+#endif /* HAVE_CONFIG_H */
+-+
+- #include <sys/types.h>
+- #include <sys/time.h>
+- #include <sys/inotify.h>
+-@@ -62,10 +66,6 @@
+- #include <libgen.h>
+- #include <nfsidmap.h>
+- 
+--#ifdef HAVE_CONFIG_H
+--#include "config.h"
+--#endif /* HAVE_CONFIG_H */
+--
+- #include "xlog.h"
+- #include "conffile.h"
+- #include "queue.h"
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-string.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-string.patch
+deleted file mode 100644
+index 1d693e4142a..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-string.patch
++++ /dev/null
+@@ -1,183 +0,0 @@
+-Clang comes up with more printf format warnings
+-Correcting “format string is not a string literal” warning
+-requires us to declare that parameter is a printf style 
+-format using the attribute flag
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Index: nfs-utils-2.3.3/support/include/xcommon.h
+-===================================================================
+---- nfs-utils-2.3.3.orig/support/include/xcommon.h
+-+++ nfs-utils-2.3.3/support/include/xcommon.h
+-@@ -27,7 +27,7 @@
+- 
+- /* Functions in sundries.c that are used in mount.c and umount.c  */ 
+- char *canonicalize (const char *path);
+--void nfs_error (const char *fmt, ...);
+-+void nfs_error (const char *fmt, ...) __attribute__((__format__ (__printf__, 1, 2)));
+- void *xmalloc (size_t size);
+- void *xrealloc(void *p, size_t size);
+- void xfree(void *);
+-@@ -36,9 +36,9 @@ char *xstrndup (const char *s, int n);
+- char *xstrconcat2 (const char *, const char *);
+- char *xstrconcat3 (const char *, const char *, const char *);
+- char *xstrconcat4 (const char *, const char *, const char *, const char *);
+--void die (int errcode, const char *fmt, ...);
+-+void die (int errcode, const char *fmt, ...) __attribute__((__format__ (__printf__, 2, 3)));
+- 
+--extern void die(int err, const char *fmt, ...);
+-+extern void die(int err, const char *fmt, ...) __attribute__((__format__ (__printf__, 2, 3)));
+- extern void (*at_die)(void);
+- 
+- /* exit status - bits below are ORed */
+-Index: nfs-utils-2.3.3/support/include/xlog.h
+-===================================================================
+---- nfs-utils-2.3.3.orig/support/include/xlog.h
+-+++ nfs-utils-2.3.3/support/include/xlog.h
+-@@ -43,10 +43,10 @@ void			xlog_config(int fac, int on);
+- void			xlog_sconfig(char *, int on);
+- void			xlog_from_conffile(char *);
+- int			xlog_enabled(int fac);
+--void			xlog(int fac, const char *fmt, ...);
+--void			xlog_warn(const char *fmt, ...);
+--void			xlog_err(const char *fmt, ...);
+--void			xlog_errno(int err, const char *fmt, ...);
+--void			xlog_backend(int fac, const char *fmt, va_list args);
+-+void			xlog(int fac, const char *fmt, ...) __attribute__((__format__ (__printf__, 2, 3)));
+-+void			xlog_warn(const char *fmt, ...) __attribute__((__format__ (__printf__, 1, 2)));
+-+void			xlog_err(const char *fmt, ...) __attribute__((__format__ (__printf__, 1, 2)));
+-+void			xlog_errno(int err, const char *fmt, ...) __attribute__((__format__ (__printf__, 2, 3)));
+-+void			xlog_backend(int fac, const char *fmt, va_list args) __attribute__((__format__ (__printf__, 2, 0)));
+- 
+- #endif /* XLOG_H */
+-Index: nfs-utils-2.3.3/support/nfs/xcommon.c
+-===================================================================
+---- nfs-utils-2.3.3.orig/support/nfs/xcommon.c
+-+++ nfs-utils-2.3.3/support/nfs/xcommon.c
+-@@ -93,7 +93,10 @@ nfs_error (const char *fmt, ...) {
+- 
+-      fmt2 = xstrconcat2 (fmt, "\n");
+-      va_start (args, fmt);
+-+#pragma clang diagnostic push
+-+#pragma clang diagnostic ignored "-Wformat-nonliteral"
+-      vfprintf (stderr, fmt2, args);
+-+#pragma clang diagnostic pop
+-      va_end (args);
+-      free (fmt2);
+- }
+-Index: nfs-utils-2.3.3/utils/exportfs/exportfs.c
+-===================================================================
+---- nfs-utils-2.3.3.orig/utils/exportfs/exportfs.c
+-+++ nfs-utils-2.3.3/utils/exportfs/exportfs.c
+-@@ -644,6 +644,7 @@ out:
+- 	return result;
+- }
+- 
+-+__attribute__((__format__ (__printf__, 2, 3)))
+- static char
+- dumpopt(char c, char *fmt, ...)
+- {
+-Index: nfs-utils-2.3.3/utils/statd/statd.c
+-===================================================================
+---- nfs-utils-2.3.3.orig/utils/statd/statd.c
+-+++ nfs-utils-2.3.3/utils/statd/statd.c
+-@@ -136,7 +136,7 @@ static void log_modes(void)
+- 	strcat(buf, "TI-RPC ");
+- #endif
+- 
+--	xlog_warn(buf);
+-+	xlog_warn("%s", buf);
+- }
 - 
 - /*
--+ * Make sure that the ID ends with a valid separator char.
--+ */
--+static bool
--+valid_separator(const char *p, const char *ep, const char *sep)
--+{
--+    bool valid = false;
--+    debug_decl(valid_separator, SUDO_DEBUG_UTIL)
--+
--+    if (ep != p) {
--+	/* check for valid separator (including '\0') */
--+	if (sep == NULL)
--+	    sep = "";
--+	do {
--+	    if (*ep == *sep)
--+		valid = true;
--+	} while (*sep++ != '\0');
--+    }
--+    debug_return_bool(valid);
--+}
--+
--+/*
--  * Parse a uid/gid in string form.
--  * If sep is non-NULL, it contains valid separator characters (e.g. comma, space)
--  * If endp is non-NULL it is set to the next char after the ID.
--@@ -62,36 +83,33 @@ sudo_strtoid_v1(const char *p, const char *sep, char **endp, const char **errstr
--     char *ep;
--     id_t ret = 0;
--     long long llval;
---    bool valid = false;
--     debug_decl(sudo_strtoid, SUDO_DEBUG_UTIL)
+-Index: nfs-utils-2.3.3/support/nfs/svc_create.c
+-===================================================================
+---- nfs-utils-2.3.3.orig/support/nfs/svc_create.c
+-+++ nfs-utils-2.3.3/support/nfs/svc_create.c
+-@@ -184,7 +184,7 @@ svc_create_sock(const struct sockaddr *s
+- 		type = SOCK_STREAM;
+- 		break;
+- 	default:
+--		xlog(D_GENERAL, "%s: Unrecognized bind address semantics: %u",
+-+		xlog(D_GENERAL, "%s: Unrecognized bind address semantics: %lu",
+- 			__func__, nconf->nc_semantics);
+- 		return -1;
+- 	}
+-Index: nfs-utils-2.3.3/support/nsm/rpc.c
+-===================================================================
+---- nfs-utils-2.3.3.orig/support/nsm/rpc.c
+-+++ nfs-utils-2.3.3/support/nsm/rpc.c
+-@@ -182,7 +182,7 @@ nsm_xmit_getport(const int sock, const s
+- 	uint32_t xid;
+- 	XDR xdr;
 - 
--     /* skip leading space so we can pick up the sign, if any */
--     while (isspace((unsigned char)*p))
-- 	p++;
---    if (sep == NULL)
---	sep = "";
--+
--+    /* While id_t may be 64-bit signed, uid_t and gid_t are 32-bit unsigned. */
--     errno = 0;
--     llval = strtoll(p, &ep, 10);
---    if (ep != p) {
---	/* check for valid separator (including '\0') */
---	do {
---	    if (*ep == *sep)
---		valid = true;
---	} while (*sep++ != '\0');
--+    if ((errno == ERANGE && llval == LLONG_MAX) || llval > (id_t)UINT_MAX) {
--+	errno = ERANGE;
--+	if (errstr != NULL)
--+	    *errstr = N_("value too large");
--+	goto done;
--     }
---    if (!valid) {
--+    if ((errno == ERANGE && llval == LLONG_MIN) || llval < INT_MIN) {
--+	errno = ERANGE;
-- 	if (errstr != NULL)
---	    *errstr = N_("invalid value");
---	errno = EINVAL;
--+	    *errstr = N_("value too small");
-- 	goto done;
--     }
---    if (errno == ERANGE) {
---	if (errstr != NULL) {
---	    if (llval == LLONG_MAX)
---		*errstr = N_("value too large");
---	    else
---		*errstr = N_("value too small");
---	}
--+
--+    /* Disallow id -1, which means "no change". */
--+    if (!valid_separator(p, ep, sep) || llval == -1 || llval == (id_t)UINT_MAX) {
--+	if (errstr != NULL)
--+	    *errstr = N_("invalid value");
--+	errno = EINVAL;
-- 	goto done;
--     }
--     ret = (id_t)llval;
--@@ -108,30 +126,15 @@ sudo_strtoid_v1(const char *p, const char *sep, char **endp, const char **errstr
+--	xlog(D_CALL, "Sending PMAP_GETPORT for %u, %u, udp", program, version);
+-+	xlog(D_CALL, "Sending PMAP_GETPORT for %lu, %lu, udp", program, version);
+- 
+- 	nsm_init_xdrmem(msgbuf, NSM_MAXMSGSIZE, &xdr);
+- 	xid = nsm_init_rpc_header(PMAPPROG, PMAPVERS,
+-Index: nfs-utils-2.3.3/utils/mountd/cache.c
+-===================================================================
+---- nfs-utils-2.3.3.orig/utils/mountd/cache.c
+-+++ nfs-utils-2.3.3/utils/mountd/cache.c
+-@@ -968,8 +968,7 @@ lookup_export(char *dom, char *path, str
+- 			} else if (found_type == i && found->m_warned == 0) {
+- 				xlog(L_WARNING, "%s exported to both %s and %s, "
+- 				     "arbitrarily choosing options from first",
+--				     path, found->m_client->m_hostname, exp->m_client->m_hostname,
+--				     dom);
+-+				     path, found->m_client->m_hostname, exp->m_client->m_hostname);
+- 				found->m_warned = 1;
+- 			}
+- 		}
+-Index: nfs-utils-2.3.3/utils/mountd/mountd.c
+-===================================================================
+---- nfs-utils-2.3.3.orig/utils/mountd/mountd.c
+-+++ nfs-utils-2.3.3/utils/mountd/mountd.c
+-@@ -213,7 +213,7 @@ static void
+- sig_hup (int sig)
 - {
--     char *ep;
--     id_t ret = 0;
---    bool valid = false;
--     debug_decl(sudo_strtoid, SUDO_DEBUG_UTIL)
+- 	/* don't exit on SIGHUP */
+--	xlog (L_NOTICE, "Received SIGHUP... Ignoring.\n", sig);
+-+	xlog (L_NOTICE, "Received SIGHUP(%d)... Ignoring.\n", sig);
+- 	return;
+- }
 - 
--     /* skip leading space so we can pick up the sign, if any */
--     while (isspace((unsigned char)*p))
-- 	p++;
---    if (sep == NULL)
---	sep = "";
--+
--     errno = 0;
--     if (*p == '-') {
-- 	long lval = strtol(p, &ep, 10);
---	if (ep != p) {
---	    /* check for valid separator (including '\0') */
---	    do {
---		if (*ep == *sep)
---		    valid = true;
---	    } while (*sep++ != '\0');
---	}
---	if (!valid) {
---	    if (errstr != NULL)
---		*errstr = N_("invalid value");
---	    errno = EINVAL;
---	    goto done;
---	}
-- 	if ((errno == ERANGE && lval == LONG_MAX) || lval > INT_MAX) {
-- 	    errno = ERANGE;
-- 	    if (errstr != NULL)
--@@ -144,28 +147,31 @@ sudo_strtoid_v1(const char *p, const char *sep, char **endp, const char **errstr
-- 		*errstr = N_("value too small");
-- 	    goto done;
+-Index: nfs-utils-2.3.3/utils/statd/rmtcall.c
+-===================================================================
+---- nfs-utils-2.3.3.orig/utils/statd/rmtcall.c
+-+++ nfs-utils-2.3.3/utils/statd/rmtcall.c
+-@@ -247,7 +247,7 @@ process_reply(FD_SET_TYPE *rfds)
+- 		xlog_warn("%s: service %d not registered on localhost",
+- 			__func__, NL_MY_PROG(lp));
+- 	} else {
+--		xlog(D_GENERAL, "%s: Callback to %s (for %d) succeeded",
+-+		xlog(D_GENERAL, "%s: Callback to %s (for %s) succeeded",
+- 			__func__, NL_MY_NAME(lp), NL_MON_NAME(lp));
 - 	}
---	ret = (id_t)lval;
---    } else {
---	unsigned long ulval = strtoul(p, &ep, 10);
---	if (ep != p) {
---	    /* check for valid separator (including '\0') */
---	    do {
---		if (*ep == *sep)
---		    valid = true;
---	    } while (*sep++ != '\0');
---	}
---	if (!valid) {
--+
--+	/* Disallow id -1, which means "no change". */
--+	if (!valid_separator(p, ep, sep) || lval == -1) {
-- 	    if (errstr != NULL)
-- 		*errstr = N_("invalid value");
-- 	    errno = EINVAL;
-- 	    goto done;
-- 	}
--+	ret = (id_t)lval;
--+    } else {
--+	unsigned long ulval = strtoul(p, &ep, 10);
-- 	if ((errno == ERANGE && ulval == ULONG_MAX) || ulval > UINT_MAX) {
-- 	    errno = ERANGE;
-- 	    if (errstr != NULL)
-- 		*errstr = N_("value too large");
-- 	    goto done;
-- 	}
--+
--+	/* Disallow id -1, which means "no change". */
--+	if (!valid_separator(p, ep, sep) || ulval == UINT_MAX) {
--+	    if (errstr != NULL)
--+		*errstr = N_("invalid value");
--+	    errno = EINVAL;
--+	    goto done;
--+	}
-- 	ret = (id_t)ulval;
--     }
--     if (errstr != NULL)
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/sudo/sudo/CVE-2019-14287-2.patch b/meta/recipes-extended/sudo/sudo/CVE-2019-14287-2.patch
+- 	nlist_free(&notify, lp);
+-Index: nfs-utils-2.3.3/utils/statd/svc_run.c
+-===================================================================
+---- nfs-utils-2.3.3.orig/utils/statd/svc_run.c
+-+++ nfs-utils-2.3.3/utils/statd/svc_run.c
+-@@ -53,6 +53,7 @@
+- 
+- #include <errno.h>
+- #include <time.h>
+-+#include <inttypes.h>
+- #include "statd.h"
+- #include "notlist.h"
+- 
+-@@ -104,8 +105,8 @@ my_svc_run(int sockfd)
+- 
+- 			tv.tv_sec  = NL_WHEN(notify) - now;
+- 			tv.tv_usec = 0;
+--			xlog(D_GENERAL, "Waiting for reply... (timeo %d)",
+--							tv.tv_sec);
+-+			xlog(D_GENERAL, "Waiting for reply... (timeo %jd)",
+-+							(intmax_t)tv.tv_sec);
+- 			selret = select(FD_SETSIZE, &readfds,
+- 				(void *) 0, (void *) 0, &tv);
+- 		} else {
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
 deleted file mode 100644
-index 453a8b09a4a..00000000000
---- a/meta/recipes-extended/sudo/sudo/CVE-2019-14287-2.patch
+index 921f5edc82f..00000000000
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_querydomain.patch
 +++ /dev/null
-@@ -1,112 +0,0 @@
--From 396bc57feff3e360007634f62448b64e0626390c Mon Sep 17 00:00:00 2001
--From: "Todd C. Miller" <Todd.Miller@sudo.ws>
--Date: Thu, 10 Oct 2019 10:04:13 -0600
--Subject: [PATCH] Add sudo_strtoid() tests for -1 and range errors. Also adjust
-- testsudoers/test5 which relied upon gid -1 parsing.
+@@ -1,46 +0,0 @@
+-From caa19231196d73541445728e6813c8fa70345acb Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Tue, 26 Jun 2018 15:59:00 +0800
+-Subject: [PATCH] nfs-utils: 2.1.1 -> 2.3.1
 -
--Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/396bc57]
--CVE: CVE-2019-14287
+-Fixed:
+-configure: error: res_querydomain needed
 -
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
+-Upstream-Status: Pending [https://github.com/alpinelinux/aports/blob/master/main/nfs-utils/musl-configure_ac.patch]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 -
 ----
-- lib/util/regress/atofoo/atofoo_test.c            | 36 ++++++++++++++++------
-- plugins/sudoers/regress/testsudoers/test5.out.ok |  2 +-
-- plugins/sudoers/regress/testsudoers/test5.sh     |  2 +-
-- 3 files changed, 29 insertions(+), 11 deletions(-)
+- configure.ac | 9 ++++-----
+- 1 file changed, 4 insertions(+), 5 deletions(-)
 -
--diff --git a/lib/util/regress/atofoo/atofoo_test.c b/lib/util/regress/atofoo/atofoo_test.c
--index 031a7ed..fb41c1a 100644
----- a/lib/util/regress/atofoo/atofoo_test.c
--+++ b/lib/util/regress/atofoo/atofoo_test.c
--@@ -26,6 +26,7 @@
-- #else
-- # include "compat/stdbool.h"
-- #endif
--+#include <errno.h>
+-diff --git a/configure.ac b/configure.ac
+-index 50002b4..dcadb23 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -582,10 +582,10 @@ my_am_cflags="\
+-  -Wall \
+-  -Wextra \
+-  $rpcgen_cflags \
+-- -Werror=missing-prototypes \
+-- -Werror=missing-declarations \
+-+ -Wmissing-prototypes \
+-+ -Wmissing-declarations \
+-  -Werror=format=2 \
+-- -Werror=undef \
+-+ -Wundef \
+-  -Werror=missing-include-dirs \
+-  -Werror=strict-aliasing=2 \
+-  -Werror=init-self \
+-@@ -614,10 +614,9 @@ AC_DEFUN([CHECK_CCSUPPORT], [
 - 
-- #include "sudo_compat.h"
-- #include "sudo_util.h"
--@@ -80,15 +81,20 @@ static struct strtoid_data {
--     id_t id;
--     const char *sep;
--     const char *ep;
--+    int errnum;
-- } strtoid_data[] = {
---    { "0,1", 0, ",", "," },
---    { "10", 10, NULL, NULL },
---    { "-2", -2, NULL, NULL },
--+    { "0,1", 0, ",", ",", 0 },
--+    { "10", 10, NULL, NULL, 0 },
--+    { "-1", 0, NULL, NULL, EINVAL },
--+    { "4294967295", 0, NULL, NULL, EINVAL },
--+    { "4294967296", 0, NULL, NULL, ERANGE },
--+    { "-2147483649", 0, NULL, NULL, ERANGE },
--+    { "-2", -2, NULL, NULL, 0 },
-- #if SIZEOF_ID_T != SIZEOF_LONG_LONG
---    { "-2", (id_t)4294967294U, NULL, NULL },
--+    { "-2", (id_t)4294967294U, NULL, NULL, 0 },
-- #endif
---    { "4294967294", (id_t)4294967294U, NULL, NULL },
---    { NULL, 0, NULL, NULL }
--+    { "4294967294", (id_t)4294967294U, NULL, NULL, 0 },
--+    { NULL, 0, NULL, NULL, 0 }
-- };
+- CHECK_CCSUPPORT([-Werror=format-overflow=2], [flg1])
+- CHECK_CCSUPPORT([-Werror=int-conversion], [flg2])
+--CHECK_CCSUPPORT([-Werror=incompatible-pointer-types], [flg3])
+- CHECK_CCSUPPORT([-Werror=misleading-indentation], [flg4])
 - 
-- static int
--@@ -104,11 +110,23 @@ test_strtoid(int *ntests)
-- 	(*ntests)++;
-- 	errstr = "some error";
-- 	value = sudo_strtoid(d->idstr, d->sep, &ep, &errstr);
---	if (errstr != NULL) {
---	    if (d->id != (id_t)-1) {
---		sudo_warnx_nodebug("FAIL: %s: %s", d->idstr, errstr);
--+	if (d->errnum != 0) {
--+	    if (errstr == NULL) {
--+		sudo_warnx_nodebug("FAIL: %s: missing errstr for errno %d",
--+		    d->idstr, d->errnum);
--+		errors++;
--+	    } else if (value != 0) {
--+		sudo_warnx_nodebug("FAIL: %s should return 0 on error",
--+		    d->idstr);
--+		errors++;
--+	    } else if (errno != d->errnum) {
--+		sudo_warnx_nodebug("FAIL: %s: errno mismatch, %d != %d",
--+		    d->idstr, errno, d->errnum);
-- 		errors++;
-- 	    }
--+	} else if (errstr != NULL) {
--+	    sudo_warnx_nodebug("FAIL: %s: %s", d->idstr, errstr);
--+	    errors++;
-- 	} else if (value != d->id) {
-- 	    sudo_warnx_nodebug("FAIL: %s != %u", d->idstr, (unsigned int)d->id);
-- 	    errors++;
--diff --git a/plugins/sudoers/regress/testsudoers/test5.out.ok b/plugins/sudoers/regress/testsudoers/test5.out.ok
--index 5e319c9..cecf700 100644
----- a/plugins/sudoers/regress/testsudoers/test5.out.ok
--+++ b/plugins/sudoers/regress/testsudoers/test5.out.ok
--@@ -4,7 +4,7 @@ Parse error in sudoers near line 1.
-- Entries for user root:
+--AC_SUBST([AM_CFLAGS], ["$my_am_cflags $flg1 $flg2 $flg3 $flg4"])
+-+AC_SUBST([AM_CFLAGS], ["$my_am_cflags $flg1 $flg2 $flg4"])
 - 
-- Command unmatched
---testsudoers: test5.inc should be owned by gid 4294967295
--+testsudoers: test5.inc should be owned by gid 4294967294
-- Parse error in sudoers near line 1.
-- 
-- Entries for user root:
--diff --git a/plugins/sudoers/regress/testsudoers/test5.sh b/plugins/sudoers/regress/testsudoers/test5.sh
--index 9e690a6..94d585c 100755
----- a/plugins/sudoers/regress/testsudoers/test5.sh
--+++ b/plugins/sudoers/regress/testsudoers/test5.sh
--@@ -24,7 +24,7 @@ EOF
-- 
-- # Test group writable
-- chmod 664 $TESTFILE
---./testsudoers -U $MYUID -G -1 root id <<EOF
--+./testsudoers -U $MYUID -G -2 root id <<EOF
-- #include $TESTFILE
-- EOF
-- 
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.27.bb b/meta/recipes-extended/sudo/sudo_1.8.29.bb
-similarity index 87%
-rename from meta/recipes-extended/sudo/sudo_1.8.27.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.29.bb
-index 0a11a1b28f8..8da2d646318 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.27.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.29.bb
-@@ -3,14 +3,12 @@ require sudo.inc
- SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://0001-Include-sys-types.h-for-id_t-definition.patch \
--           file://CVE-2019-14287-1.patch \
--           file://CVE-2019-14287-2.patch \
-            "
+- # Make sure that $ACLOCAL_FLAGS are used during a rebuild
+- AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \$(ACLOCAL_FLAGS)"])
+diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb
+similarity index 94%
+rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
+rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb
+index eb32bccb57c..df3070bd8b0 100644
+--- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
++++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb
+@@ -29,16 +29,13 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
+            file://nfs-utils-debianize-start-statd.patch \
+            file://bugfix-adjust-statd-service-name.patch \
+            file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
+-           file://clang-format-string.patch \
+            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
+            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
+-           file://0001-Fix-include-order-between-config.h-and-stat.h.patch \
+-"
++           "
+ SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
+-SRC_URI_append_libc-musl = " file://nfs-utils-musl-res_querydomain.patch"
  
- PAM_SRC_URI = "file://sudo.pam"
+-SRC_URI[md5sum] = "161efe469ec1b06f1c750bd87f8ba6dd"
+-SRC_URI[sha256sum] = "85274ada94479b1beba9f8eeffd19f477c53a6710b9998d1192c807854087736"
++SRC_URI[md5sum] = "d427c6b3014e9a04e8498f0598b1c1b9"
++SRC_URI[sha256sum] = "4464737a03d5f73ded2ffefe19d5543ed7b1d6c541985d8acaafdc8025aa1038"
  
--SRC_URI[md5sum] = "b5c184b13b6b5de32af630af2fd013fd"
--SRC_URI[sha256sum] = "7beb68b94471ef56d8a1036dbcdc09a7b58a949a68ffce48b83f837dd33e2ec0"
-+SRC_URI[md5sum] = "b28dabff9c460f115fe74de4d6a6f79d"
-+SRC_URI[sha256sum] = "ce53ffac9604e23321334d8ba8ac59ded2bcf624fdb9dbde097ab2049bf29c7c"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+ # Only kernel-module-nfsd is required here (but can be built-in)  - the nfsd module will
+ # pull in the remainder of the dependencies.
 -- 
 2.17.1
 
