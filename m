@@ -1,24 +1,37 @@
 Return-Path: <anuj.mittal@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id CF12F7F971
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C43E7F82E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2019 02:31:35 +0000 (UTC)
+	Fri, 13 Dec 2019 02:55:07 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Dec 2019 18:31:37 -0800
-X-IronPort-AV: E=Sophos;i="5.69,308,1571727600"; d="scan'208";a="204180879"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.17.141])
-	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Dec 2019 18:31:35 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 13 Dec 2019 10:31:27 +0800
-Message-Id: <20191213023127.4965-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.21.0
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Dec 2019 18:55:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,308,1571727600"; d="scan'208";a="211312165"
+Received: from kmsmsx151.gar.corp.intel.com ([172.21.73.86])
+	by fmsmga008.fm.intel.com with ESMTP; 12 Dec 2019 18:55:06 -0800
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.61]) by
+	KMSMSX151.gar.corp.intel.com ([169.254.10.100]) with mapi id
+	14.03.0439.000; Fri, 13 Dec 2019 10:55:02 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "alex.kanavin@gmail.com"
+	<alex.kanavin@gmail.com>
+Thread-Topic: [OE-core] [PATCH 23/30] cups: update to 2.3.0
+Thread-Index: AQHVsRiXnPGam+K6g0S0kbFHaOaUn6e22R+A
+Date: Fri, 13 Dec 2019 02:55:02 +0000
+Message-ID: <82565f3f2785e354cd8ac183a57448732a84f9ff.camel@intel.com>
+References: <20191212181436.1322-1-alex.kanavin@gmail.com>
+	<20191212181436.1322-23-alex.kanavin@gmail.com>
+In-Reply-To: <20191212181436.1322-23-alex.kanavin@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.17.141]
 MIME-Version: 1.0
-Subject: [PATCH] git: upgrade 2.24.0 -> 2.24.1
+Subject: Re: [PATCH 23/30] cups: update to 2.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +44,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2019 02:31:35 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 13 Dec 2019 02:55:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <F60BFC653917074FB890258AFCB82FDD@intel.com>
+Content-Transfer-Encoding: base64
 
-Fixes a bunch of CVEs:
-https://github.com/git/git/commit/53a06cf39b756eddfe4a2a34da93e3d04eb7b728
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../recipes-devtools/git/{git_2.24.0.bb => git_2.24.1.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/git/{git_2.24.0.bb => git_2.24.1.bb} (39%)
-
-diff --git a/meta/recipes-devtools/git/git_2.24.0.bb b/meta/recipes-devtools/git/git_2.24.1.bb
-similarity index 39%
-rename from meta/recipes-devtools/git/git_2.24.0.bb
-rename to meta/recipes-devtools/git/git_2.24.1.bb
-index e9cb382f69..daea31eab2 100644
---- a/meta/recipes-devtools/git/git_2.24.0.bb
-+++ b/meta/recipes-devtools/git/git_2.24.1.bb
-@@ -5,7 +5,7 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-                  "
- EXTRA_OEMAKE += "NO_GETTEXT=1"
- 
--SRC_URI[tarball.md5sum] = "ed39361a3ae362c8af852d1a06992bc2"
--SRC_URI[tarball.sha256sum] = "ad11030d2eac656ee9e8862f56d1610550f7867181beff814c7712a99192e99d"
--SRC_URI[manpages.md5sum] = "57465e83f13ba910a178b717d93958c0"
--SRC_URI[manpages.sha256sum] = "ce995f86f441b56ab1fd0788a94786904ae2e2989e7191fd68060003011366d7"
-+SRC_URI[tarball.md5sum] = "166bde96adbbc11c8843d4f8f4f9811b"
-+SRC_URI[tarball.sha256sum] = "ad5334956301c86841eb1e5b1bb20884a6bad89a10a6762c958220c7cf64da02"
-+SRC_URI[manpages.md5sum] = "31c2272a8979022497ba3d4202df145d"
-+SRC_URI[manpages.sha256sum] = "9a7ae3a093bea39770eb96ca3e5b40bff7af0b9f6123f089d7821d0e5b8e1230"
--- 
-2.21.0
-
+T24gVGh1LCAyMDE5LTEyLTEyIGF0IDE5OjE0ICswMTAwLCBBbGV4YW5kZXIgS2FuYXZpbiB3cm90
+ZToNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMS1j
+dXBzLVVwZGF0ZS10by0NCj4gMS42LjEucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vw
+cy9jdXBzLzAwMDEtY3Vwcy1VcGRhdGUtdG8tDQo+IDEuNi4xLnBhdGNoDQo+IG5ldyBmaWxlIG1v
+ZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAwLi4xY2QwMmU4YjMyNA0KPiAtLS0gL2Rldi9u
+dWxsDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMS1jdXBzLVVw
+ZGF0ZS10by0xLjYuMS5wYXRjaA0KPiBAQCAtMCwwICsxLDI3IEBADQo+ICtGcm9tIGEzZjRkOGJh
+OTdmNDY2OWE5NTk0M2E3ZTY1ZWI2MWFhNDRjZTc5OTkgTW9uIFNlcCAxNyAwMDowMDowMA0KPiAy
+MDAxDQo+ICtGcm9tOiBTYXVsIFdvbGQgPHNnd0BsaW51eC5pbnRlbC5jb20+DQo+ICtEYXRlOiBU
+aHUsIDEzIERlYyAyMDEyIDE5OjAzOjUyIC0wODAwDQo+ICtTdWJqZWN0OiBbUEFUQ0ggMS80XSBj
+dXBzOiBVcGRhdGUgdG8gMS42LjENCg0KTG9va3MgbGlrZSBkZXZ0b29sIGNoYW5nZWQgdGhlIHN1
+YmplY3Qgb2Ygb3JpZ2luYWwgcGF0Y2ggd2hpY2ggd2FzDQp1c2VfZWNob19vbmx5X2luX2luaXQu
+cGF0Y2guIFBlcmhhcHMgd2Ugc2hvdWxkIGNoYW5nZSBpdCBiYWNrIHNvIHdlDQprbm93IHdoeSB3
+YXMgdGhlIHBhdGNoIG5lZWRlZC4NCg0KVGhhbmtzLA0KDQpBbnVqDQo=
 
