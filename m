@@ -1,36 +1,52 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 71AAD7F8BC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DCE8A7CE26
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2019 23:10:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47ZRGr2xJhz22;
-	Sat, 14 Dec 2019 00:10:44 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1576278644;
-	bh=XoepFgsrUcvVU8jMCVVEFjl1AlX6zVpIUS3le4KqizE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bVSnAIQVuSLgHyutCSTUEMMHAUeDpFZZnT2YV0DnvJ2J/34n8co7gbnnVJ6Kta6Fp
-	U7p9i0wH1sEPLb7eUEAvFpNH1g5Jaqi+uZROl7+XSxKTEJHxgcxY6+3dalB6xrIda/
-	a1r2qcY24qsoixMlJtwedf1pQGnkRmNe5CjuLB9FH4yRSHb/ETHbcqdLiO8FH+0vYP
-	YYsRhEZx0GvGaH7PbIkIJ0zmPoL5Vjd0SK3hz9ij55MurTbNOGxfTFC03+pgejeMqp
-	N7ob6MSIG6qe6aat0vtZOoE1pUJFHqnUZ2ckupbVs0hYNnB/TSSqJmxjTs86RjcA4D
-	qb9tvyevazKPYwk/M56ZGuaXdBsVGye0YnONSFXceXWnjRNTa/LYUFBQBvBKyad5fn
-	F9ubU/Xq6xhZJbr0GpL/un59oO6eDyZElPoOV6u0O1xxoxb25GoN0/JKw2Axmif6Hz
-	uzkT33sYur5ZwZm9JoHBm8Pjml7mqso2CYIe/HKxmMiQfjgqgiXofLKBtmwbSxi2kP
-	8g9ZxJNLBgO2zS/VXJHuxRTEABc+kR/4sKLqUAmpUSOTBInvz00Z3EV9r5YJtHU4CS
-	rWZH2DHrrh7E7fNhInsMG1XhaCz3RkTpni148tMpG364dlWoPQ2QZjKWsvy0+OForn
-	hKuHupX2FfVVDB9grr4SMf3s=
-Date: Sat, 14 Dec 2019 01:10:42 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Joshua Watt <jpewhacker@gmail.com>
-Message-ID: <20191213231042.GB8776@localhost>
-References: <20191213220309.3964324-1-JPEWhacker@gmail.com>
+	Fri, 13 Dec 2019 23:21:59 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id y11so492179wrt.6
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 13 Dec 2019 15:22:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7tUIRugy7/gE58w7d7w3UAA6Qj3aK4jFurRyb5vTqqk=;
+	b=c7IkSIUP4EHPXvTA3luqUIa69sJMd+ViomqNHmikBqwxJ9Se+zRvEigr79WLYTGB6k
+	eicwsoF9+mILAiFaAx/t9X8l79fXUJVeZI7gazvQHK3DnI6nspTI9xcBfM272Ql5KjVC
+	Whg05JoO6eNX7Nq47yntA2FwZaui4X6hoG1rSCVmux9YY7ohnCwFsNLKDvE0DSjU+7cp
+	/vV3Mc+PyDmWwLzAfhg528fPi/HnwmDPXXuTkx70HFP3kQPncr34lCyZmx9g0kiAVfp+
+	gaqxP2v+KWnveFxeAFgca/J8z7xtXgcI7fXB7+AFYfzYVnpLzKweal95tmY4jpyWyiAs
+	E8vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=7tUIRugy7/gE58w7d7w3UAA6Qj3aK4jFurRyb5vTqqk=;
+	b=cc3OKAmMhGCuj/4epvCXUkI0+z0P31NGTjDw05/Jvjiu9EDCwPjKguX9OdbulQLMhO
+	Gl6NN9u87wcGFfRBWYURNtQwTBNn+/F/QumGAABW5HI23ELJC3l7oQmr6ybzCodPNzyV
+	v5OrhxAVkUPyPmWqo4wxVxTCKP4nv4QoXCADQDL3bBnvcG4/0C2cK7Hx/3gjQsNXHOUW
+	pjKUzdagQ4l3G0omgiyjKhltT53LY+1x72+kIAAdyu/LANoxT5yyifzNlSJYlRPvyWgL
+	W8D3pxHcqYMdDeXxwpLqn2wLE2+eZWyKeVJGAzf6o0g3Ff3OtNIfkgkvKnTXNrQqXup7
+	HXzg==
+X-Gm-Message-State: APjAAAWdamJZvXCQNsnO4t5LQ+o0td+Hykx+VGOGCY6g1kctdadicOU9
+	ynKfKasS411u+qBSuDDQZ/r9OLoHzao=
+X-Google-Smtp-Source: APXvYqxRPB9OXnyX89ltouSyOE/ApEw4W0eMuyj3EItRs6fgemRnYuw3pSrtr0TkQhmpretcSVOvhA==
+X-Received: by 2002:a5d:4e0a:: with SMTP id p10mr15078437wrt.229.1576279320101;
+	Fri, 13 Dec 2019 15:22:00 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	z6sm11180507wmz.12.2019.12.13.15.21.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 13 Dec 2019 15:21:58 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Dec 2019 23:21:55 +0000
+Message-Id: <20191213232156.28367-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191213220309.3964324-1-JPEWhacker@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] tune-cortexa72-cortexa53: Add tune
+Subject: [RFC PATCH 1/2] podfix: class to remove Pod::Man versions from manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,23 +59,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2019 23:10:44 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 13 Dec 2019 23:22:00 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 13, 2019 at 04:03:09PM -0600, Joshua Watt wrote:
-> Adds a tune for Cortex-A72 Cortex-A53 big.LITTLE SoCs, e.g.  Rockchip
-> RK3399
->...
-> +TUNE_FEATURES_tune-cortexa72-cortexa53 = "${TUNE_FEATURES_tune-aarch64} cortexa72-cortexa53"
->...
+Manpages generated by Pod::Man contain the version number, which isn't
+reproducible if we're using the host Perl to generate manpage.
 
-Looking at the gcc sources cortexa72-cortexa53 defaults to crc enabled,
-so TUNE_FEATURES_tune-cortexa72-cortexa53 must contain crc.
+One option is to always depend on perl-native when generating manpages
+but this is a heavy dependency, so instead strip out the versions in
+do_install().
 
-The RK3399 implements the optional crypto extensions,
-it needs a TUNE_FEATURES_tune-cortexa72-cortexa53-crypto.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/podfix.bbclass | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+ create mode 100644 meta/classes/podfix.bbclass
 
-cu
-Adrian
+diff --git a/meta/classes/podfix.bbclass b/meta/classes/podfix.bbclass
+new file mode 100644
+index 00000000000..54fff6a0a23
+--- /dev/null
++++ b/meta/classes/podfix.bbclass
+@@ -0,0 +1,32 @@
++python pod_strip_version() {
++    import re
++
++    def opener(filename, mode):
++        if filename.endswith(".gz"):
++            import gzip
++            return gzip.open(filename, mode)
++        elif filename.endswith(".bz2"):
++            import bz2
++            return bz2.open(filename, mode)
++        else:
++            return open(filename, mode)
++
++    bad_re = re.compile(rb"Automatically generated by Pod::Man( [0-9]+.+)")
++
++    for root, dirs, files in os.walk(d.expand("${D}${mandir}")):
++        for filename in files:
++            filename = os.path.join(root, filename)
++            with opener(filename, "rb") as manfile:
++                manpage = manfile.read()
++                m = bad_re.search(manpage)
++                if not m:
++                    continue
++
++            bb.note("podfix: stripping version from %s" % filename)
++            os.unlink(filename)
++            with opener(filename, "wb") as manfile:
++                manfile.write(manpage[:m.start(1)])
++                manfile.write(manpage[m.end(1):])
++}
++
++do_install[postfuncs] += "pod_strip_version"
+-- 
+2.20.1
+
 
