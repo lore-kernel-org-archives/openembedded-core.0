@@ -1,42 +1,24 @@
-Return-Path: <ghalibkhanexaleap@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id ED34E7F62D
+Return-Path: <Quanyang.Wang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EFBA7F971
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2019 04:59:21 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id c9so5172883wrw.8
+	Fri, 13 Dec 2019 06:20:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xBD6K2f5032429
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 12 Dec 2019 20:59:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=G3o3VCkBUxKhvLXTIWjT6z6M1mWSGVas2ymZ2VKzMzQ=;
-	b=PmVtKOyjgfCNCwyK+rSviRGiAHfRrAmfOT9DLSF8Gwk9tiOoDb2XTmvzaBrPiINyYw
-	hCctroHG2k+WkNoqqp0+JmGQhpbn+M02n53YLTMQ0aM14PichD2cLg55WZUfKOReUSlE
-	7f/nEoQgwDFgTizvAXM7FJPY0wAix0C2nC19qwL6jD6rzD1lmbByT1IpN5o77v9BRUsH
-	w6JOqWtT07tSXwHRB2nun2ypKocIisWd43NRCVUzxy9oJfUeTkOs6UKB8BbirM6EK6aw
-	7sKnb/9d1f8b5H3bTgq2bok4Fr9egp+g4wGR+unyIjzRTG3lTgqkdyWTxnL1YqOJBGU0
-	RlXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=G3o3VCkBUxKhvLXTIWjT6z6M1mWSGVas2ymZ2VKzMzQ=;
-	b=N+wKEHasQsewq1mrtiZW8G/4fn4eiGv+SncYAyTzfbsiy03lk1HMy67HQmW3L0rJ20
-	RCM7kpNO7VdvOHFfw57idRpeZRdgturAwvp1e7IWv88+m4VbfW3d50nKFl2FZgcs26Nq
-	mmB8V2lWXmuHGTnyhpZZkfLGupaY0U1Y0f8XBKVc3QQb+bdGZq6FsSGrU/IxUIIJg6GR
-	QCr76y0jaQ6Yk97YltxLuIPVCfKjTo469IWxDK12PVXbYuGFpBzvTDaVagej0WzMHfDI
-	+5y/TJf2FI6c56UTXSO0hi+I7wRQ/nTqnajhrtlKeIqYxJ28xwMRCNmPE2H6r6ng8duG
-	NWRw==
-X-Gm-Message-State: APjAAAVWC85t1qG4U1HTPGqypqE89uj4quOPiHBEkmlPFxT/Idr00bEE
-	14ft9ca6NBxbDDT8iTxnBQ0ntYNCQ9ItxH2hN0fxr3At
-X-Google-Smtp-Source: APXvYqxuzGc/BNztQMJHeByAFNLzayEPwJWXQ5FFrtTuB4Z3coPzmLIe4UlWD+zCSioASnu1yQvDZm32LF1lE60hwcM=
-X-Received: by 2002:a5d:4847:: with SMTP id n7mr10385782wrs.30.1576213162164; 
-	Thu, 12 Dec 2019 20:59:22 -0800 (PST)
+	Thu, 12 Dec 2019 22:20:02 -0800
+Received: from pek-qwang2-d1.wrs.com (128.224.162.199) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 12 Dec 2019 22:19:54 -0800
+From: <quanyang.wang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 13 Dec 2019 14:19:52 +0800
+Message-ID: <20191213061952.11797-1-quanyang.wang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-From: ghalib exaleap <ghalibkhanexaleap@gmail.com>
-Date: Fri, 13 Dec 2019 10:29:10 +0530
-Message-ID: <CANTMPe2PGPzM=hF8DVm9d8+yzf9VbR-DQgHe-UXDGfVqSR9MbA@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: Add New recipe in custom layer.
+Subject: [V2][PATCH] lttng-modules: fix NULL pointer deference error when testing rpc_task_running
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,396 +31,440 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 13 Dec 2019 04:59:22 -0000
-X-Groupsio-MsgNum: 132492
-Content-Type: multipart/mixed; boundary="0000000000009fd2c905998eb953"
+X-List-Received-Date: Fri, 13 Dec 2019 06:20:01 -0000
+Content-Type: text/plain
 
---0000000000009fd2c905998eb953
-Content-Type: multipart/alternative; boundary="0000000000009fd2c705998eb951"
+From: Quanyang Wang <quanyang.wang@windriver.com>
 
---0000000000009fd2c705998eb951
-Content-Type: text/plain; charset="UTF-8"
+This is a backport from upstream https://github.com/lttng/lttng-modules.git stable-2.10
+to fix NULL pointer deference error when running kts testcase lttng_syscall_events.
 
-Hi,
+Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
+---
+ ...ops-when-trace-sunrpc_task-events-in.patch |  94 +++++++++++++
+ ...rpc_clnt-dereference-in-rpc_task_que.patch |  44 ++++++
+ ...rpc-use-signed-integer-for-client-id.patch | 105 ++++++++++++++
+ ...nrpc-introduce-lttng_get_clid-helper.patch | 130 ++++++++++++++++++
+ .../lttng/lttng-modules_2.10.11.bb            |   4 +
+ 5 files changed, 377 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0003-Fix-sunrpc-use-signed-integer-for-client-id.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0004-sunrpc-introduce-lttng_get_clid-helper.patch
 
-   I Added a New Layer & Recipe in yocto project ( *Openembedded-core* ),
-to add Layer & recipe i have gone through following step's
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
+new file mode 100644
+index 0000000000..bdbc4f811e
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch
+@@ -0,0 +1,94 @@
++From 1ff7013bcf7f068cf4371d12d758f9c0fd16a619 Mon Sep 17 00:00:00 2001
++From: Quanyang Wang <quanyang.wang@windriver.com>
++Date: Thu, 5 Dec 2019 15:35:32 +0800
++Subject: [PATCH 1/4] Fix: SUNRPC: Fix oops when trace sunrpc_task events in
++ nfs client
++
++See upstream commit :
++
++	commit 2ca310fc4160ed0420da65534a21ae77b24326a8
++	Author: Ditang Chen <chendt.fnst@cn.fujitsu.com>
++	Date: Fri, 7 Mar 2014 13:27:57 +0800
++	Subject: SUNRPC: Fix oops when trace sunrpc_task events in nfs client
++
++	When tracking sunrpc_task events in nfs client, the clnt pointer may be NULL.
++
++	[  139.269266] BUG: unable to handle kernel NULL pointer dereference at 0000000000000004
++	[  139.269915] IP: [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
++	[  139.269915] PGD 1d293067 PUD 1d294067 PMD 0
++	[  139.269915] Oops: 0000 [#1] SMP
++	[  139.269915] Modules linked in: nfsv4 dns_resolver nfs lockd sunrpc fscache sg ppdev e1000
++	serio_raw pcspkr parport_pc parport i2c_piix4 i2c_core microcode xfs libcrc32c sd_mod sr_mod
++	cdrom ata_generic crc_t10dif crct10dif_common pata_acpi ahci libahci ata_piix libata dm_mirror
++	dm_region_hash dm_log dm_mod
++	[  139.269915] CPU: 0 PID: 59 Comm: kworker/0:2 Not tainted 3.10.0-84.el7.x86_64 #1
++	[  139.269915] Hardware name: innotek GmbH VirtualBox/VirtualBox, BIOS VirtualBox 12/01/2006
++	[  139.269915] Workqueue: rpciod rpc_async_schedule [sunrpc]
++	[  139.269915] task: ffff88001b598000 ti: ffff88001b632000 task.ti: ffff88001b632000
++	[  139.269915] RIP: 0010:[<ffffffffa026f216>]  [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
++	[  139.269915] RSP: 0018:ffff88001b633d70  EFLAGS: 00010206
++	[  139.269915] RAX: ffff88001dfc5338 RBX: ffff88001cc37a00 RCX: ffff88001dfc5334
++	[  139.269915] RDX: ffff88001dfc5338 RSI: 0000000000000000 RDI: ffff88001dfc533c
++	[  139.269915] RBP: ffff88001b633db0 R08: 000000000000002c R09: 000000000000000a
++	[  139.269915] R10: 0000000000062180 R11: 00000020759fb9dc R12: ffffffffa0292c20
++	[  139.269915] R13: ffff88001dfc5334 R14: 0000000000000000 R15: 0000000000000000
++	[  139.269915] FS:  0000000000000000(0000) GS:ffff88001fc00000(0000) knlGS:0000000000000000
++	[  139.269915] CS:  0010 DS: 0000 ES: 0000 CR0: 000000008005003b
++	[  139.269915] CR2: 0000000000000004 CR3: 000000001d290000 CR4: 00000000000006f0
++	[  139.269915] DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
++	[  139.269915] DR3: 0000000000000000 DR6: 00000000ffff0ff0 DR7: 0000000000000400
++	[  139.269915] Stack:
++	[  139.269915]  000000001b633d98 0000000000000246 ffff88001df1dc00 ffff88001cc37a00
++	[  139.269915]  ffff88001bc35e60 0000000000000000 ffff88001ffa0a48 ffff88001bc35ee0
++	[  139.269915]  ffff88001b633e08 ffffffffa02704b5 0000000000010000 ffff88001cc37a70
++	[  139.269915] Call Trace:
++	[  139.269915]  [<ffffffffa02704b5>] __rpc_execute+0x1d5/0x400 [sunrpc]
++	[  139.269915]  [<ffffffffa0270706>] rpc_async_schedule+0x26/0x30 [sunrpc]
++	[  139.269915]  [<ffffffff8107867b>] process_one_work+0x17b/0x460
++	[  139.269915]  [<ffffffff8107942b>] worker_thread+0x11b/0x400
++	[  139.269915]  [<ffffffff81079310>] ? rescuer_thread+0x3e0/0x3e0
++	[  139.269915]  [<ffffffff8107fc80>] kthread+0xc0/0xd0
++	[  139.269915]  [<ffffffff8107fbc0>] ? kthread_create_on_node+0x110/0x110
++	[  139.269915]  [<ffffffff815d122c>] ret_from_fork+0x7c/0xb0
++	[  139.269915]  [<ffffffff8107fbc0>] ? kthread_create_on_node+0x110/0x110
++	[  139.269915] Code: 4c 8b 45 c8 48 8d 7d d0 89 4d c4 41 89 c9 b9 28 00 00 00 e8 9d b4 e9
++	e0 48 85 c0 49 89 c5 74 a2 48 89 c7 e8 9d 3f e9 e0 48 89 c2 <41> 8b 46 04 48 8b 7d d0 4c
++	89 e9 4c 89 e6 89 42 0c 0f b7 83 d4
++	[  139.269915] RIP  [<ffffffffa026f216>] ftrace_raw_event_rpc_task_running+0x86/0xf0 [sunrpc]
++	[  139.269915]  RSP <ffff88001b633d70>
++	[  139.269915] CR2: 0000000000000004
++	[  140.946406] ---[ end trace ba486328b98d7622 ]---
++
++Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/2b228b503cad10bf0c5a99b42a908ca906eab5b9]
++
++Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ instrumentation/events/lttng-module/rpc.h | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
++index 3798e8e..fb13106 100644
++--- a/instrumentation/events/lttng-module/rpc.h
+++++ b/instrumentation/events/lttng-module/rpc.h
++@@ -139,7 +139,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
++ 		ctf_integer_hex(const void *, action, action)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++@@ -208,7 +208,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
++ 		ctf_integer_hex(const void *, action, action)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++-- 
++2.17.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch b/meta/recipes-kernel/lttng/lttng-modules/0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch
+new file mode 100644
+index 0000000000..03264bac68
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch
+@@ -0,0 +1,44 @@
++From 032a74d83b263c4faead8e4c25d497fb8ea07b6e Mon Sep 17 00:00:00 2001
++From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Date: Thu, 12 Dec 2019 10:29:02 -0500
++Subject: [PATCH 2/4] Fix: sunrpc: null rpc_clnt dereference in rpc_task_queued
++ tracepoint
++
++Based on upstream Linux commit:
++
++commit 0be283f676a1e7b208db0c992283197ef8b52158
++Author: Benjamin Coddington <bcodding@redhat.com>
++Date:   Tue Jan 23 09:32:35 2018 -0500
++
++    SUNRPC: Fix null rpc_clnt dereference in rpc_task_queued tracepoint
++
++    Backchannel tasks will not have a reference to the rpc_clnt.  Return -1 for
++    cl_clid in that case.
++
++    Signed-off-by: Benjamin Coddington <bcodding@redhat.com>
++    Signed-off-by: Trond Myklebust <trondmy@gmail.com>
++
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/8f83a9103dcdf4f6b73783427fc5ded4869309d5]
++Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
++---
++ instrumentation/events/lttng-module/rpc.h | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
++index fb13106..68c622c 100644
++--- a/instrumentation/events/lttng-module/rpc.h
+++++ b/instrumentation/events/lttng-module/rpc.h
++@@ -176,7 +176,8 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(unsigned int, client_id, task->tk_client ?
+++				task->tk_client->cl_clid : -1)
++ 		ctf_integer(unsigned long, timeout, task->tk_timeout)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++-- 
++2.17.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0003-Fix-sunrpc-use-signed-integer-for-client-id.patch b/meta/recipes-kernel/lttng/lttng-modules/0003-Fix-sunrpc-use-signed-integer-for-client-id.patch
+new file mode 100644
+index 0000000000..c7529f16dd
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0003-Fix-sunrpc-use-signed-integer-for-client-id.patch
+@@ -0,0 +1,105 @@
++From 70389e422dd3146161089d454f525367c9046ecd Mon Sep 17 00:00:00 2001
++From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Date: Thu, 12 Dec 2019 10:29:37 -0500
++Subject: [PATCH 3/4] Fix: sunrpc: use signed integer for client id
++
++Within include/linux/sunrpc/clnt.h:struct rpc_cltn, the cl_clid field
++is an unsigned integer, which is the type expected by the tracepoint
++signature.
++
++However, looking into net/sunrpc/clnt.c:rpc_alloc_clid(), its allocation
++considers negative signed integer as errors.
++
++Therefore, in order to properly show "-1" in the trace output (rather
++than MAX_INT) when called with a NULL task->tk_client, move to a
++signed integer as backing type for the client_id field.
++
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/cc7bb0aa52cae22255581d67841449bb8ea36fda]
++Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
++---
++ instrumentation/events/lttng-module/rpc.h | 19 +++++++++++--------
++ 1 file changed, 11 insertions(+), 8 deletions(-)
++
++diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
++index 68c622c..2d06e55 100644
++--- a/instrumentation/events/lttng-module/rpc.h
+++++ b/instrumentation/events/lttng-module/rpc.h
++@@ -18,7 +18,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(int, client_id, task->tk_client->cl_clid)
++ 		ctf_integer(int, status, task->tk_status)
++ 	)
++ )
++@@ -43,7 +43,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(int, client_id, task->tk_client->cl_clid)
++ 		ctf_integer(int, status, task->tk_status)
++ 	)
++ )
++@@ -100,7 +100,7 @@ LTTNG_TRACEPOINT_EVENT(rpc_connect_status,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(int, client_id, task->tk_client->cl_clid)
++ 		ctf_integer(int, status, task->tk_status)
++ 	)
++ )
++@@ -112,7 +112,7 @@ LTTNG_TRACEPOINT_EVENT(rpc_connect_status,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(int, client_id, task->tk_client->cl_clid)
++ 		ctf_integer(int, status, status)
++ 	)
++ )
++@@ -139,7 +139,8 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
+++		ctf_integer(int, client_id, task->tk_client ?
+++			task->tk_client->cl_clid : -1)
++ 		ctf_integer_hex(const void *, action, action)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++@@ -176,7 +177,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client ?
+++		ctf_integer(int, client_id, task->tk_client ?
++ 				task->tk_client->cl_clid : -1)
++ 		ctf_integer(unsigned long, timeout, task->tk_timeout)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++@@ -209,7 +210,8 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client ? task->tk_client->cl_clid : -1)
+++		ctf_integer(int, client_id, task->tk_client ?
+++			task->tk_client->cl_clid : -1)
++ 		ctf_integer_hex(const void *, action, action)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++@@ -246,7 +248,8 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(unsigned int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(int, client_id, task->tk_client ?
+++			task->tk_client->cl_clid : -1)
++ 		ctf_integer(unsigned long, timeout, task->tk_timeout)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++-- 
++2.17.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0004-sunrpc-introduce-lttng_get_clid-helper.patch b/meta/recipes-kernel/lttng/lttng-modules/0004-sunrpc-introduce-lttng_get_clid-helper.patch
+new file mode 100644
+index 0000000000..4dd726cf2c
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules/0004-sunrpc-introduce-lttng_get_clid-helper.patch
+@@ -0,0 +1,130 @@
++From b6903d57e4c3234ec5b1c7f72e232023cdee0fab Mon Sep 17 00:00:00 2001
++From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Date: Thu, 12 Dec 2019 10:39:38 -0500
++Subject: [PATCH 4/4] sunrpc: introduce lttng_get_clid helper
++
++Introduce the lttng_get_clid helper to always check for NULL pointer
++when getting the client id. While not always strictly needed depending
++on the tracepoint callsite, prefer robustness of instrumentation and
++always check for NULL rather than play whack-a-mole.
++
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++Upstream-Status: Backport [https://github.com/lttng/lttng-modules/commit/1330a091a687a406513c3a326c2fc2a0dbe75536]
++Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
++---
++ instrumentation/events/lttng-module/rpc.h | 43 ++++++++++++++++-------
++ 1 file changed, 31 insertions(+), 12 deletions(-)
++
++diff --git a/instrumentation/events/lttng-module/rpc.h b/instrumentation/events/lttng-module/rpc.h
++index 2d06e55..ceaf9db 100644
++--- a/instrumentation/events/lttng-module/rpc.h
+++++ b/instrumentation/events/lttng-module/rpc.h
++@@ -9,6 +9,29 @@
++ #include <linux/sunrpc/sched.h>
++ #include <linux/sunrpc/clnt.h>
++ 
+++#ifndef ONCE_LTTNG_RPC_H
+++#define ONCE_LTTNG_RPC_H
+++
+++#if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0))
+++static inline
+++int lttng_get_clid(const struct rpc_task *task)
+++{
+++	struct rpc_clnt *tk_client;
+++
+++	tk_client = task->tk_client;
+++	if (!tk_client)
+++		return -1;
+++	/*
+++	 * The cl_clid field is always initialized to positive signed
+++	 * integers. Negative signed integer values are treated as
+++	 * errors.
+++	 */
+++	return (int) tk_client->cl_clid;
+++}
+++#endif /* #if (LINUX_VERSION_CODE >= KERNEL_VERSION(3,12,0)) */
+++
+++#endif /* ONCE_LTTNG_RPC_H */
+++
++ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(5,0,0))
++ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
++ 
++@@ -18,7 +41,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(int, client_id, lttng_get_clid(task))
++ 		ctf_integer(int, status, task->tk_status)
++ 	)
++ )
++@@ -43,7 +66,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_status,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(int, client_id, lttng_get_clid(task))
++ 		ctf_integer(int, status, task->tk_status)
++ 	)
++ )
++@@ -100,7 +123,7 @@ LTTNG_TRACEPOINT_EVENT(rpc_connect_status,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(int, client_id, lttng_get_clid(task))
++ 		ctf_integer(int, status, task->tk_status)
++ 	)
++ )
++@@ -112,7 +135,7 @@ LTTNG_TRACEPOINT_EVENT(rpc_connect_status,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(int, client_id, task->tk_client->cl_clid)
+++		ctf_integer(int, client_id, lttng_get_clid(task))
++ 		ctf_integer(int, status, status)
++ 	)
++ )
++@@ -139,8 +162,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(int, client_id, task->tk_client ?
++-			task->tk_client->cl_clid : -1)
+++		ctf_integer(int, client_id, lttng_get_clid(task))
++ 		ctf_integer_hex(const void *, action, action)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++@@ -177,8 +199,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(int, client_id, task->tk_client ?
++-				task->tk_client->cl_clid : -1)
+++		ctf_integer(int, client_id, lttng_get_clid(task))
++ 		ctf_integer(unsigned long, timeout, task->tk_timeout)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++@@ -210,8 +231,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_running,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(int, client_id, task->tk_client ?
++-			task->tk_client->cl_clid : -1)
+++		ctf_integer(int, client_id, lttng_get_clid(task))
++ 		ctf_integer_hex(const void *, action, action)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++@@ -248,8 +268,7 @@ LTTNG_TRACEPOINT_EVENT_CLASS(rpc_task_queued,
++ 
++ 	TP_FIELDS(
++ 		ctf_integer(unsigned int, task_id, task->tk_pid)
++-		ctf_integer(int, client_id, task->tk_client ?
++-			task->tk_client->cl_clid : -1)
+++		ctf_integer(int, client_id, lttng_get_clid(task))
++ 		ctf_integer(unsigned long, timeout, task->tk_timeout)
++ 		ctf_integer(unsigned long, runstate, task->tk_runstate)
++ 		ctf_integer(int, status, task->tk_status)
++-- 
++2.17.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
+index c116fddc60..1ab96d70b6 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.11.bb
+@@ -14,6 +14,10 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
++           file://0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch \
++           file://0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch \
++           file://0003-Fix-sunrpc-use-signed-integer-for-client-id.patch \
++           file://0004-sunrpc-introduce-lttng_get_clid-helper.patch \
+            "
+ 
+ SRC_URI[md5sum] = "c618fb646514dfc1bf910cfd7cda4256"
+-- 
+2.17.1
 
-1. cloned yocto
-2. source oe-init-build-env
-3. bitbake-layers add-layer ../meta-<MY-LAYER>
-4. bitbake core-image-minimal ---->  ( Here Meta layers Build's fine )
-5. bitbake -c compile <MY-RECIPE>
 
-In my custom Recipe <MY-RECIPE> added <MY-RECIPE>_0.1.bb has Written
-following statements...
-SRC_URI = "file://Makefile \
-file://build_cross_native.sh \
-           file://COPYING \
-
-do_compile() {
-${WORKDIR}/build_cross_native.sh
-}
-
-*Out-put:--*
-* what where i mentioned in SRC_URI it's coping to build a directory of
-yocto into its recipe folder, and script also running but *it stuck*, i
-don't know whats worg, Can any you help me to overcome this?
-* I have attached the log of this Recipes Build, if what any clarification
-please go through that.
-
-*console output: *
-Loading cache: 100%
-|########################################################################################################################################################################|
-Time: 0:00:00
-Loaded 1298 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "1.44.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "ubuntu-16.04"
-TARGET_SYS           = "x86_64-oe-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "nodistro"
-DISTRO_VERSION       = "nodistro.0"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta
-meta-myclang         = "master:cb5e746a2398d70b14a14ada7cef82bfd5e80d0e"
-
-Initialising tasks: 100%
-|###################################################################################################################################################################|
-Time: 0:00:00
-Sstate summary: Wanted 0 Found 0 Missed 0 Current 53 (0% match, 100%
-complete)
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-Currently  1 running tasks (429 of 429)  99%
-|############################################################################################################################################################
-|
-0: khanclang-0.1-r0 do_compile - *15h19m31s *(pid 12476)
-
-Thanks in advance
-Ghalib khan c.
-
---0000000000009fd2c705998eb951
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div><br></div><div>=C2=A0 =C2=A0I Added a New Layer &a=
-mp; Recipe in yocto project (=C2=A0<b style=3D"color:rgb(0,0,0);font-family=
-:&quot;Times New Roman&quot;;font-size:medium"><font color=3D"#000000">Open=
-embedded-core</font></b>=C2=A0), to add Layer &amp; recipe i have gone thro=
-ugh following step&#39;s</div><div><br></div><div>1. cloned yocto=C2=A0</di=
-v><div>2.=C2=A0source oe-init-build-env</div><div>3.=C2=A0bitbake-layers ad=
-d-layer ../meta-&lt;MY-LAYER&gt;</div><div>4. bitbake core-image-minimal --=
---&gt;=C2=A0 ( Here Meta layers Build&#39;s fine )</div><div>5. bitbake -c =
-compile &lt;MY-RECIPE&gt;</div><div><br></div><div>In my custom Recipe &lt;=
-MY-RECIPE&gt; added=C2=A0&lt;MY-RECIPE&gt;_<a href=3D"http://0.1.bb">0.1.bb=
-</a> has Written following statements...</div><div>SRC_URI =3D &quot;file:/=
-/Makefile \<br>	file://build_cross_native.sh \<br>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0file://COPYING \<br></div><div><br></div><div>do_compile()=
- {<br>${WORKDIR}/build_cross_native.sh<br>}<br></div><div><br></div><div><b=
->Out-put:--</b></div><div>* what where i mentioned=C2=A0in=C2=A0SRC_URI it&=
-#39;s coping to build a directory=C2=A0of yocto into its recipe folder, and=
- script also running=C2=A0but <b style=3D"background-color:rgb(255,255,0)">=
-it stuck</b>, i don&#39;t know whats worg, Can any you help me to overcome =
-this?=C2=A0<br></div><div>* I have attached the log of this Recipes Build, =
-if what any clarification please go through that.=C2=A0</div><div><br></div=
-><div><b>console output:=C2=A0</b></div><div>Loading cache: 100% |#########=
-###########################################################################=
-###########################################################################=
-#########| Time: 0:00:00<br>Loaded 1298 entries from dependency cache.<br>N=
-OTE: Resolving any missing task queue dependencies<br><br>Build Configurati=
-on:<br>BB_VERSION =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;1.44.0&quot;=
-<br>BUILD_SYS =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;x86_64-lin=
-ux&quot;<br>NATIVELSBSTRING =C2=A0 =C2=A0 =C2=A0=3D &quot;ubuntu-16.04&quot=
-;<br>TARGET_SYS =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;x86_64-oe-linu=
-x&quot;<br>MACHINE =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quo=
-t;qemux86-64&quot;<br>DISTRO =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =3D &quot;nodistro&quot;<br>DISTRO_VERSION =C2=A0 =C2=A0 =C2=A0 =3D &qu=
-ot;nodistro.0&quot;<br>TUNE_FEATURES =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;m=
-64 core2&quot;<br>TARGET_FPU =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;&=
-quot;<br>meta =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <br>m=
-eta-myclang =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;master:cb5e746a2398d70b14=
-a14ada7cef82bfd5e80d0e&quot;<br><br>Initialising tasks: 100% |#############=
-###########################################################################=
-###########################################################################=
-| Time: 0:00:00<br>Sstate summary: Wanted 0 Found 0 Missed 0 Current 53 (0%=
- match, 100% complete)<br>NOTE: Executing Tasks<br>NOTE: Setscene tasks com=
-pleted<br>Currently =C2=A01 running tasks (429 of 429) =C2=A099% |#########=
-###########################################################################=
-######################################################################## |<=
-br>0: khanclang-0.1-r0 do_compile - <b style=3D"background-color:rgb(255,25=
-5,0)">15h19m31s </b>(pid 12476)<br></div><div><br></div><div>Thanks in=C2=
-=A0advance</div><div>Ghalib khan c.</div></div>
-
---0000000000009fd2c705998eb951--
-
---0000000000009fd2c905998eb953
-Content-Type: application/octet-stream; name="log.do_compile.12476"
-Content-Disposition: attachment; filename="log.do_compile.12476"
-Content-Transfer-Encoding: base64
-Content-ID: <f_k43ojvmv0>
-X-Attachment-Id: f_k43ojvmv0
-
-REVCVUc6IEV4ZWN1dGluZyBweXRob24gZnVuY3Rpb24gYXV0b3Rvb2xzX2FjbG9jYWxzCkRFQlVH
-OiBTSVRFIGZpbGVzIFsnZW5kaWFuLWxpdHRsZScsICdjb21tb24tbGludXgnLCAnY29tbW9uLWds
-aWJjJywgJ2JpdC02NCcsICd4ODZfNjQtbGludXgnLCAnY29tbW9uJ10KREVCVUc6IFB5dGhvbiBm
-dW5jdGlvbiBhdXRvdG9vbHNfYWNsb2NhbHMgZmluaXNoZWQKREVCVUc6IEV4ZWN1dGluZyBzaGVs
-bCBmdW5jdGlvbiBkb19jb21waWxlCk5PVEU6ICoqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKgpOT1RFOiAjCQkJCSMgRnJvbSBraGFuY2xhbmcuYmIgIwkJCQkJ
-CQkjCk5PVEU6ICoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KgoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioKIwkJCQkJIyBGcm9tIGJ1
-aWxkX2Nyb3NzX25hdGl2ZS5zaCAjCQkJCQkjCioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKgovaG9tZS9leGFsZWFwc2VydmVyL2toYW5fd3Mva2hhbi90b29scy95b2N0b193
-cy93cy9yaXNjdi15b2N0by9vcGVuZW1iZWRkZWQtY29yZS9idWlsZC90bXAtZ2xpYmMvd29yay9x
-ZW11eDg2XzY0LW9lLWxpbnV4L2toYW5jbGFuZy8wLjEtcjAvYnVpbGQKQ2xvbmluZyBpbnRvICdy
-aXNjdi1nbnUtdG9vbGNoYWluJy4uLgpTdWJtb2R1bGUgJ3FlbXUnIChodHRwczovL2dpdC5xZW11
-Lm9yZy9naXQvcWVtdS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3FlbXUnClN1Ym1vZHVsZSAn
-cmlzY3YtYmludXRpbHMnIChodHRwczovL2dpdGh1Yi5jb20vcmlzY3YvcmlzY3YtYmludXRpbHMt
-Z2RiLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncmlzY3YtYmludXRpbHMnClN1Ym1vZHVsZSAn
-cmlzY3YtZGVqYWdudScgKGh0dHBzOi8vZ2l0aHViLmNvbS9yaXNjdi9yaXNjdi1kZWphZ251Lmdp
-dCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncmlzY3YtZGVqYWdudScKU3VibW9kdWxlICdyaXNjdi1n
-Y2MnIChodHRwczovL2dpdGh1Yi5jb20vcmlzY3YvcmlzY3YtZ2NjLmdpdCkgcmVnaXN0ZXJlZCBm
-b3IgcGF0aCAncmlzY3YtZ2NjJwpTdWJtb2R1bGUgJ3Jpc2N2LWdkYicgKGh0dHBzOi8vZ2l0aHVi
-LmNvbS9yaXNjdi9yaXNjdi1iaW51dGlscy1nZGIuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdy
-aXNjdi1nZGInClN1Ym1vZHVsZSAncmlzY3YtZ2xpYmMnIChodHRwczovL2dpdGh1Yi5jb20vcmlz
-Y3YvcmlzY3YtZ2xpYmMuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyaXNjdi1nbGliYycKU3Vi
-bW9kdWxlICdyaXNjdi1uZXdsaWInIChodHRwczovL2dpdGh1Yi5jb20vcmlzY3YvcmlzY3YtbmV3
-bGliLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncmlzY3YtbmV3bGliJwpDbG9uaW5nIGludG8g
-J3FlbXUnLi4uClN1Ym1vZHVsZSBwYXRoICdxZW11JzogY2hlY2tlZCBvdXQgJzU3ZGZjMmM0ZDUx
-ZTc3MGVkM2Y2MTdlNWQxNDU2ZDFlMmJhY2YzZjAnClN1Ym1vZHVsZSAnY2Fwc3RvbmUnIChodHRw
-czovL2dpdC5xZW11Lm9yZy9naXQvY2Fwc3RvbmUuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdj
-YXBzdG9uZScKU3VibW9kdWxlICdkdGMnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvZHRjLmdp
-dCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAnZHRjJwpTdWJtb2R1bGUgJ3JvbXMvUWVtdU1hY0RyaXZl
-cnMnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvUWVtdU1hY0RyaXZlcnMuZ2l0KSByZWdpc3Rl
-cmVkIGZvciBwYXRoICdyb21zL1FlbXVNYWNEcml2ZXJzJwpTdWJtb2R1bGUgJ3JvbXMvU0xPRicg
-KGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9TTE9GLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAn
-cm9tcy9TTE9GJwpTdWJtb2R1bGUgJ3JvbXMvZWRrMicgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dp
-dC9lZGsyLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAncm9tcy9lZGsyJwpTdWJtb2R1bGUgJ3Jv
-bXMvaXB4ZScgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9pcHhlLmdpdCkgcmVnaXN0ZXJlZCBm
-b3IgcGF0aCAncm9tcy9pcHhlJwpTdWJtb2R1bGUgJ3JvbXMvb3BlbmJpb3MnIChodHRwczovL2dp
-dC5xZW11Lm9yZy9naXQvb3BlbmJpb3MuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL29w
-ZW5iaW9zJwpTdWJtb2R1bGUgJ3JvbXMvb3BlbmhhY2t3YXJlJyAoaHR0cHM6Ly9naXQucWVtdS5v
-cmcvZ2l0L29wZW5oYWNrd2FyZS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvb3Blbmhh
-Y2t3YXJlJwpTdWJtb2R1bGUgJ3JvbXMvcWVtdS1wYWxjb2RlJyAoaHR0cHM6Ly9naXQucWVtdS5v
-cmcvZ2l0L3FlbXUtcGFsY29kZS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvcWVtdS1w
-YWxjb2RlJwpTdWJtb2R1bGUgJ3JvbXMvc2VhYmlvcycgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dp
-dC9zZWFiaW9zLmdpdC8pIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvc2VhYmlvcycKU3VibW9k
-dWxlICdyb21zL3NlYWJpb3MtaHBwYScgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9zZWFiaW9z
-LWhwcGEuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3NlYWJpb3MtaHBwYScKU3VibW9k
-dWxlICdyb21zL3NnYWJpb3MnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvc2dhYmlvcy5naXQp
-IHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3JvbXMvc2dhYmlvcycKU3VibW9kdWxlICdyb21zL3NraWJv
-b3QnIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvc2tpYm9vdC5naXQpIHJlZ2lzdGVyZWQgZm9y
-IHBhdGggJ3JvbXMvc2tpYm9vdCcKU3VibW9kdWxlICdyb21zL3UtYm9vdCcgKGh0dHBzOi8vZ2l0
-LnFlbXUub3JnL2dpdC91LWJvb3QuZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3UtYm9v
-dCcKU3VibW9kdWxlICdyb21zL3UtYm9vdC1zYW00NjBleCcgKGh0dHBzOi8vZ2l0LnFlbXUub3Jn
-L2dpdC91LWJvb3Qtc2FtNDYwZXguZ2l0KSByZWdpc3RlcmVkIGZvciBwYXRoICdyb21zL3UtYm9v
-dC1zYW00NjBleCcKU3VibW9kdWxlICdzbGlycCcgKGh0dHBzOi8vZ2l0LnFlbXUub3JnL2dpdC9s
-aWJzbGlycC5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3NsaXJwJwpTdWJtb2R1bGUgJ3Rlc3Rz
-L2ZwL2JlcmtlbGV5LXNvZnRmbG9hdC0zJyAoaHR0cHM6Ly9naXQucWVtdS5vcmcvZ2l0L2Jlcmtl
-bGV5LXNvZnRmbG9hdC0zLmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAndGVzdHMvZnAvYmVya2Vs
-ZXktc29mdGZsb2F0LTMnClN1Ym1vZHVsZSAndGVzdHMvZnAvYmVya2VsZXktdGVzdGZsb2F0LTMn
-IChodHRwczovL2dpdC5xZW11Lm9yZy9naXQvYmVya2VsZXktdGVzdGZsb2F0LTMuZ2l0KSByZWdp
-c3RlcmVkIGZvciBwYXRoICd0ZXN0cy9mcC9iZXJrZWxleS10ZXN0ZmxvYXQtMycKU3VibW9kdWxl
-ICd1aS9rZXljb2RlbWFwZGInIChodHRwczovL2dpdC5xZW11Lm9yZy9naXQva2V5Y29kZW1hcGRi
-LmdpdCkgcmVnaXN0ZXJlZCBmb3IgcGF0aCAndWkva2V5Y29kZW1hcGRiJwpDbG9uaW5nIGludG8g
-J2NhcHN0b25lJy4uLgpTdWJtb2R1bGUgcGF0aCAncWVtdS9jYXBzdG9uZSc6IGNoZWNrZWQgb3V0
-ICcyMmVhZDNlMGJmZGI4NzUxNjY1NjQ1MzMzNjE2MGUwYTM3YjA2NmJmJwpDbG9uaW5nIGludG8g
-J2R0YycuLi4KU3VibW9kdWxlIHBhdGggJ3FlbXUvZHRjJzogY2hlY2tlZCBvdXQgJzg4ZjE4OTA5
-ZGI3MzFhNjI3NDU2ZjI2ZDc3OTQ0NWY4NGU0NDk1MzYnCkNsb25pbmcgaW50byAncm9tcy9RZW11
-TWFjRHJpdmVycycuLi4KU3VibW9kdWxlIHBhdGggJ3FlbXUvcm9tcy9RZW11TWFjRHJpdmVycyc6
-IGNoZWNrZWQgb3V0ICc5MGM0ODhkNWY0YTQwNzM0MjI0N2I5ZWE4NjlkZjFjMmQ5YzhlMjY2JwpD
-bG9uaW5nIGludG8gJ3JvbXMvU0xPRicuLi4KU3VibW9kdWxlIHBhdGggJ3FlbXUvcm9tcy9TTE9G
-JzogY2hlY2tlZCBvdXQgJ2E1YjQyOGUxYzFlYWU3MDNiZGQ2MmEzZjUyNzIyM2MyOTFlZTNmZGMn
-CkNsb25pbmcgaW50byAncm9tcy9lZGsyJy4uLgpTdWJtb2R1bGUgcGF0aCAncWVtdS9yb21zL2Vk
-azInOiBjaGVja2VkIG91dCAnMjBkMmU1YTEyNWUzNGZjODUwMTAyNjYxM2E3MTU0OWIyYTFhM2U1
-NCcKU3VibW9kdWxlICdTb2Z0RmxvYXQnIChodHRwczovL2dpdGh1Yi5jb20vdWNiLWJhci9iZXJr
-ZWxleS1zb2Z0ZmxvYXQtMy5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ0FybVBrZy9MaWJyYXJ5
-L0FybVNvZnRGbG9hdExpYi9iZXJrZWxleS1zb2Z0ZmxvYXQtMycKU3VibW9kdWxlICdDcnlwdG9Q
-a2cvTGlicmFyeS9PcGVuc3NsTGliL29wZW5zc2wnIChodHRwczovL2dpdGh1Yi5jb20vb3BlbnNz
-bC9vcGVuc3NsKSByZWdpc3RlcmVkIGZvciBwYXRoICdDcnlwdG9Qa2cvTGlicmFyeS9PcGVuc3Ns
-TGliL29wZW5zc2wnCkNsb25pbmcgaW50byAnQXJtUGtnL0xpYnJhcnkvQXJtU29mdEZsb2F0TGli
-L2JlcmtlbGV5LXNvZnRmbG9hdC0zJy4uLgpTdWJtb2R1bGUgcGF0aCAncWVtdS9yb21zL2VkazIv
-QXJtUGtnL0xpYnJhcnkvQXJtU29mdEZsb2F0TGliL2JlcmtlbGV5LXNvZnRmbG9hdC0zJzogY2hl
-Y2tlZCBvdXQgJ2I2NGFmNDFjMzI3NmY5N2YwZTE4MTkyMDQwMGVlMDU2YjljODgwMzcnCkNsb25p
-bmcgaW50byAnQ3J5cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9vcGVuc3NsJy4uLgpTdWJtb2R1
-bGUgcGF0aCAncWVtdS9yb21zL2VkazIvQ3J5cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9vcGVu
-c3NsJzogY2hlY2tlZCBvdXQgJzUwZWFhYzlmMzMzNzY2NzI1OWRlNzI1NDUxZjIwMWU3ODQ1OTk2
-ODcnClN1Ym1vZHVsZSAnYm9yaW5nc3NsJyAoaHR0cHM6Ly9ib3Jpbmdzc2wuZ29vZ2xlc291cmNl
-LmNvbS9ib3Jpbmdzc2wpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ2JvcmluZ3NzbCcKU3VibW9kdWxl
-ICdrcmI1JyAoaHR0cHM6Ly9naXRodWIuY29tL2tyYjUva3JiNSkgcmVnaXN0ZXJlZCBmb3IgcGF0
-aCAna3JiNScKU3VibW9kdWxlICdweWNhLmNyeXB0b2dyYXBoeScgKGh0dHBzOi8vZ2l0aHViLmNv
-bS9weWNhL2NyeXB0b2dyYXBoeS5naXQpIHJlZ2lzdGVyZWQgZm9yIHBhdGggJ3B5Y2EtY3J5cHRv
-Z3JhcGh5JwpDbG9uaW5nIGludG8gJ2JvcmluZ3NzbCcuLi4KU3VibW9kdWxlIHBhdGggJ3FlbXUv
-cm9tcy9lZGsyL0NyeXB0b1BrZy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbC9ib3Jpbmdzc2wn
-OiBjaGVja2VkIG91dCAnMjA3MGY4YWQ5MTUxZGM4ZjNhNzNiZmZhYTE0NmI1ZTY5MzdhNTgzZicK
-Q2xvbmluZyBpbnRvICdrcmI1Jy4uLgpTdWJtb2R1bGUgcGF0aCAncWVtdS9yb21zL2VkazIvQ3J5
-cHRvUGtnL0xpYnJhcnkvT3BlbnNzbExpYi9vcGVuc3NsL2tyYjUnOiBjaGVja2VkIG91dCAnYjlh
-ZDZjNDk1MDVjOTZhMDg4MzI2YjYyYTUyNTY4ZTM0ODRmMjE2OCcKQ2xvbmluZyBpbnRvICdweWNh
-LWNyeXB0b2dyYXBoeScuLi4KU3VibW9kdWxlIHBhdGggJ3FlbXUvcm9tcy9lZGsyL0NyeXB0b1Br
-Zy9MaWJyYXJ5L09wZW5zc2xMaWIvb3BlbnNzbC9weWNhLWNyeXB0b2dyYXBoeSc6IGNoZWNrZWQg
-b3V0ICcwOTQwMzEwMGRlMmY2ZjFjZGQwZDQ4NGRjYjhlNjIwZjFjMzM1YzhmJwpDbG9uaW5nIGlu
-dG8gJ3JvbXMvaXB4ZScuLi4KU3VibW9kdWxlIHBhdGggJ3FlbXUvcm9tcy9pcHhlJzogY2hlY2tl
-ZCBvdXQgJ2RlNDU2NWNiZTc2ZWE5Zjc5MTNhMDFmMzMxYmUzZWU5MDFiYjZlMTcnCkNsb25pbmcg
-aW50byAncm9tcy9vcGVuYmlvcycuLi4KU3VibW9kdWxlIHBhdGggJ3FlbXUvcm9tcy9vcGVuYmlv
-cyc6IGNoZWNrZWQgb3V0ICdjNzllMGVjYjg0ZjRmMWVlM2Y3M2Y1MjE2MjJlMjY0ZWRkMWJmMTc0
-JwpDbG9uaW5nIGludG8gJ3JvbXMvb3BlbmhhY2t3YXJlJy4uLgpTdWJtb2R1bGUgcGF0aCAncWVt
-dS9yb21zL29wZW5oYWNrd2FyZSc6IGNoZWNrZWQgb3V0ICdjNTU5ZGE3YzhlZWM1ZTQ1ZWYxZjY3
-OTc4ODI3YWY2ZjBiOTU0NmY1JwpDbG9uaW5nIGludG8gJ3JvbXMvcWVtdS1wYWxjb2RlJy4uLgpT
-dWJtb2R1bGUgcGF0aCAncWVtdS9yb21zL3FlbXUtcGFsY29kZSc6IGNoZWNrZWQgb3V0ICdiZjBl
-MTM2OTg4NzI0NTAxNjRmYTcwNDBkYTM2YTk1ZDJkNGIzMjZmJwpDbG9uaW5nIGludG8gJ3JvbXMv
-c2VhYmlvcycuLi4KU3VibW9kdWxlIHBhdGggJ3FlbXUvcm9tcy9zZWFiaW9zJzogY2hlY2tlZCBv
-dXQgJ2E1Y2FiNThlOWEzZmI2ZTE2OGFiYTkxOWM1NjY5YmVhNDA2NTczYjQnCkNsb25pbmcgaW50
-byAncm9tcy9zZWFiaW9zLWhwcGEnLi4uClN1Ym1vZHVsZSBwYXRoICdxZW11L3JvbXMvc2VhYmlv
-cy1ocHBhJzogY2hlY2tlZCBvdXQgJzBmNGZlODQ2NTgxNjVlOTZjZTM1ODcwZmQxOWZjNjM0ZTE4
-MmU3N2InCkNsb25pbmcgaW50byAncm9tcy9zZ2FiaW9zJy4uLgpTdWJtb2R1bGUgcGF0aCAncWVt
-dS9yb21zL3NnYWJpb3MnOiBjaGVja2VkIG91dCAnY2JhZWU1MjI4N2U1ZjMyMzczMTgxY2ZmNTBh
-MDBiNmM0YWM5MDE1YScKQ2xvbmluZyBpbnRvICdyb21zL3NraWJvb3QnLi4uClN1Ym1vZHVsZSBw
-YXRoICdxZW11L3JvbXMvc2tpYm9vdCc6IGNoZWNrZWQgb3V0ICcyNjFjYThlNzc5ZTUxMzg4Njlh
-NDVmMTc0Y2FhNDliZTZhMjc0NTAxJwpDbG9uaW5nIGludG8gJ3JvbXMvdS1ib290Jy4uLgpTdWJt
-b2R1bGUgcGF0aCAncWVtdS9yb21zL3UtYm9vdCc6IGNoZWNrZWQgb3V0ICdkMzY4OTI2N2Y5MmM1
-OTU2ZTA5Y2M3ZDFiYWE0NzAwMTQxNjYyYmZmJwpDbG9uaW5nIGludG8gJ3JvbXMvdS1ib290LXNh
-bTQ2MGV4Jy4uLgpTdWJtb2R1bGUgcGF0aCAncWVtdS9yb21zL3UtYm9vdC1zYW00NjBleCc6IGNo
-ZWNrZWQgb3V0ICc2MGIzOTE2ZjMzZTYxN2E4MTU5NzNjNWE2ZGY3NzA1NWIyZTNhNTg4JwpDbG9u
-aW5nIGludG8gJ3NsaXJwJy4uLgpTdWJtb2R1bGUgcGF0aCAncWVtdS9zbGlycCc6IGNoZWNrZWQg
-b3V0ICdmMGRhNjcyNjIwN2I3NDBmNjEwMTAyOGIyOTkyZjkxODQ3N2E0YjA4JwpDbG9uaW5nIGlu
-dG8gJ3Rlc3RzL2ZwL2JlcmtlbGV5LXNvZnRmbG9hdC0zJy4uLgpTdWJtb2R1bGUgcGF0aCAncWVt
-dS90ZXN0cy9mcC9iZXJrZWxleS1zb2Z0ZmxvYXQtMyc6IGNoZWNrZWQgb3V0ICdiNjRhZjQxYzMy
-NzZmOTdmMGUxODE5MjA0MDBlZTA1NmI5Yzg4MDM3JwpDbG9uaW5nIGludG8gJ3Rlc3RzL2ZwL2Jl
-cmtlbGV5LXRlc3RmbG9hdC0zJy4uLgpTdWJtb2R1bGUgcGF0aCAncWVtdS90ZXN0cy9mcC9iZXJr
-ZWxleS10ZXN0ZmxvYXQtMyc6IGNoZWNrZWQgb3V0ICc1YTU5ZGNlYzE5MzI3Mzk2YTAxMWExN2Zk
-OTI0YWVkNGZlYzQxNmIzJwpDbG9uaW5nIGludG8gJ3VpL2tleWNvZGVtYXBkYicuLi4KU3VibW9k
-dWxlIHBhdGggJ3FlbXUvdWkva2V5Y29kZW1hcGRiJzogY2hlY2tlZCBvdXQgJzZiM2Q3MTZlMmI2
-NDcyZWI3MTg5ZDMyMjA1NTIyODBlZjNkODMyY2UnCkNsb25pbmcgaW50byAncmlzY3YtYmludXRp
-bHMnLi4uClN1Ym1vZHVsZSBwYXRoICdyaXNjdi1iaW51dGlscyc6IGNoZWNrZWQgb3V0ICdkOTFj
-YWRiNDVmM2VmOWY5NmM2ZWJlOGZmYjIwNDcyODI0ZWQwNWE3JwpDbG9uaW5nIGludG8gJ3Jpc2N2
-LWRlamFnbnUnLi4uClN1Ym1vZHVsZSBwYXRoICdyaXNjdi1kZWphZ251JzogY2hlY2tlZCBvdXQg
-JzRlYTQ5OGE4ZTFmYWZlYjU2ODUzMGQ4NGRiMTg4MDA2NjQ3OGM4NmInCkNsb25pbmcgaW50byAn
-cmlzY3YtZ2NjJy4uLgpTdWJtb2R1bGUgcGF0aCAncmlzY3YtZ2NjJzogY2hlY2tlZCBvdXQgJzU0
-OTQ1ZWI4YWQ1YTA2NmRhMmQ0ZTZhNjJmZmViNTEzZDM0MWViNDEnCkNsb25pbmcgaW50byAncmlz
-Y3YtZ2RiJy4uLgpTdWJtb2R1bGUgcGF0aCAncmlzY3YtZ2RiJzogY2hlY2tlZCBvdXQgJ2MzZWI0
-MDc4NTIwZGFkODIzNGZmZDdmYmY4OTNhYzBkYTIzYWQzYzgnCkNsb25pbmcgaW50byAncmlzY3Yt
-Z2xpYmMnLi4uClN1Ym1vZHVsZSBwYXRoICdyaXNjdi1nbGliYyc6IGNoZWNrZWQgb3V0ICcwNjk4
-M2ZlNTJjZmU4ZTQ3NzkwMzVjMjdlOGNjNWQyY2FhYjMxNTMxJwpDbG9uaW5nIGludG8gJ3Jpc2N2
-LW5ld2xpYicuLi4KU3VibW9kdWxlIHBhdGggJ3Jpc2N2LW5ld2xpYic6IGNoZWNrZWQgb3V0ICcw
-ZDI0YTg2ODIyYTVlZTczZDZhNmFhNjllMmEwMTE4YWExZTM1MjA0Jwpjb25maWd1cmU6IGxvYWRp
-bmcgc2l0ZSBzY3JpcHQgL2hvbWUvZXhhbGVhcHNlcnZlci9raGFuX3dzL2toYW4vdG9vbHMveW9j
-dG9fd3Mvd3MvcmlzY3YteW9jdG8vb3BlbmVtYmVkZGVkLWNvcmUvbWV0YS9zaXRlL2VuZGlhbi1s
-aXR0bGUKY29uZmlndXJlOiBsb2FkaW5nIHNpdGUgc2NyaXB0IC9ob21lL2V4YWxlYXBzZXJ2ZXIv
-a2hhbl93cy9raGFuL3Rvb2xzL3lvY3RvX3dzL3dzL3Jpc2N2LXlvY3RvL29wZW5lbWJlZGRlZC1j
-b3JlL21ldGEvc2l0ZS9jb21tb24tbGludXgKY29uZmlndXJlOiBsb2FkaW5nIHNpdGUgc2NyaXB0
-IC9ob21lL2V4YWxlYXBzZXJ2ZXIva2hhbl93cy9raGFuL3Rvb2xzL3lvY3RvX3dzL3dzL3Jpc2N2
-LXlvY3RvL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvc2l0ZS9jb21tb24tZ2xpYmMKY29uZmlndXJl
-OiBsb2FkaW5nIHNpdGUgc2NyaXB0IC9ob21lL2V4YWxlYXBzZXJ2ZXIva2hhbl93cy9raGFuL3Rv
-b2xzL3lvY3RvX3dzL3dzL3Jpc2N2LXlvY3RvL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvc2l0ZS94
-ODZfNjQtbGludXgKY29uZmlndXJlOiBsb2FkaW5nIHNpdGUgc2NyaXB0IC9ob21lL2V4YWxlYXBz
-ZXJ2ZXIva2hhbl93cy9raGFuL3Rvb2xzL3lvY3RvX3dzL3dzL3Jpc2N2LXlvY3RvL29wZW5lbWJl
-ZGRlZC1jb3JlL21ldGEvc2l0ZS9jb21tb24KY2hlY2tpbmcgZm9yIHg4Nl82NC1vZS1saW51eC1n
-Y2MuLi4geDg2XzY0LW9lLWxpbnV4LWdjYyAgLW02NCAtbWFyY2g9Y29yZTIgLW10dW5lPWNvcmUy
-IC1tc3NlMyAtbWZwbWF0aD1zc2UgLS1zeXNyb290PS9ob21lL2V4YWxlYXBzZXJ2ZXIva2hhbl93
-cy9raGFuL3Rvb2xzL3lvY3RvX3dzL3dzL3Jpc2N2LXlvY3RvL29wZW5lbWJlZGRlZC1jb3JlL2J1
-aWxkL3RtcC1nbGliYy93b3JrL3FlbXV4ODZfNjQtb2UtbGludXgva2hhbmNsYW5nLzAuMS1yMC9y
-ZWNpcGUtc3lzcm9vdApjaGVja2luZyB3aGV0aGVyIHRoZSBDIGNvbXBpbGVyIHdvcmtzLi4uIHll
-cwpjaGVja2luZyBmb3IgQyBjb21waWxlciBkZWZhdWx0IG91dHB1dCBmaWxlIG5hbWUuLi4gYS5v
-dXQKY2hlY2tpbmcgZm9yIHN1ZmZpeCBvZiBleGVjdXRhYmxlcy4uLiAKY2hlY2tpbmcgd2hldGhl
-ciB3ZSBhcmUgY3Jvc3MgY29tcGlsaW5nLi4uIHllcwpjaGVja2luZyBmb3Igc3VmZml4IG9mIG9i
-amVjdCBmaWxlcy4uLiBvCmNoZWNraW5nIHdoZXRoZXIgd2UgYXJlIHVzaW5nIHRoZSBHTlUgQyBj
-b21waWxlci4uLiB5ZXMKY2hlY2tpbmcgd2hldGhlciB4ODZfNjQtb2UtbGludXgtZ2NjICAtbTY0
-IC1tYXJjaD1jb3JlMiAtbXR1bmU9Y29yZTIgLW1zc2UzIC1tZnBtYXRoPXNzZSAtLXN5c3Jvb3Q9
-L2hvbWUvZXhhbGVhcHNlcnZlci9raGFuX3dzL2toYW4vdG9vbHMveW9jdG9fd3Mvd3MvcmlzY3Yt
-eW9jdG8vb3BlbmVtYmVkZGVkLWNvcmUvYnVpbGQvdG1wLWdsaWJjL3dvcmsvcWVtdXg4Nl82NC1v
-ZS1saW51eC9raGFuY2xhbmcvMC4xLXIwL3JlY2lwZS1zeXNyb290IGFjY2VwdHMgLWcuLi4geWVz
-CmNoZWNraW5nIGZvciB4ODZfNjQtb2UtbGludXgtZ2NjICAtbTY0IC1tYXJjaD1jb3JlMiAtbXR1
-bmU9Y29yZTIgLW1zc2UzIC1tZnBtYXRoPXNzZSAtLXN5c3Jvb3Q9L2hvbWUvZXhhbGVhcHNlcnZl
-ci9raGFuX3dzL2toYW4vdG9vbHMveW9jdG9fd3Mvd3MvcmlzY3YteW9jdG8vb3BlbmVtYmVkZGVk
-LWNvcmUvYnVpbGQvdG1wLWdsaWJjL3dvcmsvcWVtdXg4Nl82NC1vZS1saW51eC9raGFuY2xhbmcv
-MC4xLXIwL3JlY2lwZS1zeXNyb290IG9wdGlvbiB0byBhY2NlcHQgSVNPIEM4OS4uLiBub25lIG5l
-ZWRlZApjaGVja2luZyBmb3IgZ3JlcCB0aGF0IGhhbmRsZXMgbG9uZyBsaW5lcyBhbmQgLWUuLi4g
-L2hvbWUvZXhhbGVhcHNlcnZlci9raGFuX3dzL2toYW4vdG9vbHMveW9jdG9fd3Mvd3MvcmlzY3Yt
-eW9jdG8vb3BlbmVtYmVkZGVkLWNvcmUvYnVpbGQvdG1wLWdsaWJjL2hvc3R0b29scy9ncmVwCmNo
-ZWNraW5nIGZvciBmZ3JlcC4uLiAvaG9tZS9leGFsZWFwc2VydmVyL2toYW5fd3Mva2hhbi90b29s
-cy95b2N0b193cy93cy9yaXNjdi15b2N0by9vcGVuZW1iZWRkZWQtY29yZS9idWlsZC90bXAtZ2xp
-YmMvaG9zdHRvb2xzL2dyZXAgLUYKY2hlY2tpbmcgZm9yIGdyZXAgdGhhdCBoYW5kbGVzIGxvbmcg
-bGluZXMgYW5kIC1lLi4uIChjYWNoZWQpIC9ob21lL2V4YWxlYXBzZXJ2ZXIva2hhbl93cy9raGFu
-L3Rvb2xzL3lvY3RvX3dzL3dzL3Jpc2N2LXlvY3RvL29wZW5lbWJlZGRlZC1jb3JlL2J1aWxkL3Rt
-cC1nbGliYy9ob3N0dG9vbHMvZ3JlcApjaGVja2luZyBmb3IgYmFzaC4uLiAvYmluL2Jhc2gKY2hl
-Y2tpbmcgZm9yIF9fZ21wel9pbml0IGluIC1sZ21wLi4uIG5vCmNoZWNraW5nIGZvciBtcGZyX2lu
-aXQgaW4gLWxtcGZyLi4uIG5vCmNoZWNraW5nIGZvciBtcGNfaW5pdDIgaW4gLWxtcGMuLi4gbm8K
-Y2hlY2tpbmcgZm9yIGN1cmwuLi4gbm8KY2hlY2tpbmcgZm9yIHdnZXQuLi4gL2hvbWUvZXhhbGVh
-cHNlcnZlci9raGFuX3dzL2toYW4vdG9vbHMveW9jdG9fd3Mvd3MvcmlzY3YteW9jdG8vb3BlbmVt
-YmVkZGVkLWNvcmUvYnVpbGQvdG1wLWdsaWJjL2hvc3R0b29scy93Z2V0CmNoZWNraW5nIGZvciBm
-dHAuLi4gbm8KY29uZmlndXJlOiBjcmVhdGluZyAuL2NvbmZpZy5zdGF0dXMKY29uZmlnLnN0YXR1
-czogY3JlYXRpbmcgTWFrZWZpbGUKY29uZmlnLnN0YXR1czogY3JlYXRpbmcgc2NyaXB0cy93cmFw
-cGVyL2F3ay9hd2sKY29uZmlnLnN0YXR1czogY3JlYXRpbmcgc2NyaXB0cy93cmFwcGVyL3NlZC9z
-ZWQKL2hvbWUvZXhhbGVhcHNlcnZlci9raGFuX3dzL2toYW4vdG9vbHMveW9jdG9fd3Mvd3Mvcmlz
-Y3YteW9jdG8vb3BlbmVtYmVkZGVkLWNvcmUvYnVpbGQvdG1wLWdsaWJjL3dvcmsvcWVtdXg4Nl82
-NC1vZS1saW51eC9raGFuY2xhbmcvMC4xLXIwL2J1aWxkL3Jpc2N2L3Jpc2N2LWdudS10b29sY2hh
-aW4vcmlzY3YtZ2xpYmMKbWtkaXIgLXAgL2hvbWUvZXhhbGVhcHNlcnZlci9raGFuX3dzL2toYW4v
-dG9vbHMveW9jdG9fd3Mvd3MvcmlzY3YteW9jdG8vb3BlbmVtYmVkZGVkLWNvcmUvYnVpbGQvdG1w
-LWdsaWJjL3dvcmsvcWVtdXg4Nl82NC1vZS1saW51eC9raGFuY2xhbmcvMC4xLXIwL2J1aWxkLy4u
-L3Jpc2N2L2luc3RhbGwvLnRlc3QgfHwgXAoJKGVjaG8gIlNvcnJ5LCB5b3UgZG9uJ3QgaGF2ZSBw
-ZXJtaXNzaW9uIHRvIHdyaXRlIHRvIiBcCgkgIicvaG9tZS9leGFsZWFwc2VydmVyL2toYW5fd3Mv
-a2hhbi90b29scy95b2N0b193cy93cy9yaXNjdi15b2N0by9vcGVuZW1iZWRkZWQtY29yZS9idWls
-ZC90bXAtZ2xpYmMvd29yay9xZW11eDg2XzY0LW9lLWxpbnV4L2toYW5jbGFuZy8wLjEtcjAvYnVp
-bGQvLi4vcmlzY3YvaW5zdGFsbCcsIHVzZSAtLXByZWZpeCB0byBzcGVjaWZ5IiBcCgkgImFub3Ro
-ZXIgcGF0aCwgb3IgdXNlICdzdWRvIG1ha2UnIGlmIHlvdSAqUkVBTExZKiB3YW50IHRvIiBcCgkg
-Imluc3RhbGwgaW50byAnL2hvbWUvZXhhbGVhcHNlcnZlci9raGFuX3dzL2toYW4vdG9vbHMveW9j
-dG9fd3Mvd3MvcmlzY3YteW9jdG8vb3BlbmVtYmVkZGVkLWNvcmUvYnVpbGQvdG1wLWdsaWJjL3dv
-cmsvcWVtdXg4Nl82NC1vZS1saW51eC9raGFuY2xhbmcvMC4xLXIwL2J1aWxkLy4uL3Jpc2N2L2lu
-c3RhbGwnIiAmJiBleGl0IDEpCnJtIC1yIC9ob21lL2V4YWxlYXBzZXJ2ZXIva2hhbl93cy9raGFu
-L3Rvb2xzL3lvY3RvX3dzL3dzL3Jpc2N2LXlvY3RvL29wZW5lbWJlZGRlZC1jb3JlL2J1aWxkL3Rt
-cC1nbGliYy93b3JrL3FlbXV4ODZfNjQtb2UtbGludXgva2hhbmNsYW5nLzAuMS1yMC9idWlsZC8u
-Li9yaXNjdi9pbnN0YWxsLy50ZXN0Cm1rZGlyIC1wIHN0YW1wcy8gJiYgdG91Y2ggc3RhbXBzL2No
-ZWNrLXdyaXRlLXBlcm1pc3Npb24Kcm0gLXJmIHN0YW1wcy9idWlsZC1iaW51dGlscy1saW51eCBi
-dWlsZC1iaW51dGlscy1saW51eApta2RpciBidWlsZC1iaW51dGlscy1saW51eApjZCBidWlsZC1i
-aW51dGlscy1saW51eCAmJiBDQ19GT1JfVEFSR0VUPXJpc2N2NjQtdW5rbm93bi1saW51eC1nbnUt
-Z2NjIC9ob21lL2V4YWxlYXBzZXJ2ZXIva2hhbl93cy9raGFuL3Rvb2xzL3lvY3RvX3dzL3dzL3Jp
-c2N2LXlvY3RvL29wZW5lbWJlZGRlZC1jb3JlL2J1aWxkL3RtcC1nbGliYy93b3JrL3FlbXV4ODZf
-NjQtb2UtbGludXgva2hhbmNsYW5nLzAuMS1yMC9idWlsZC9yaXNjdi9yaXNjdi1nbnUtdG9vbGNo
-YWluL2J1aWxkLy4uL3Jpc2N2LWJpbnV0aWxzL2NvbmZpZ3VyZSBcCgktLXRhcmdldD1yaXNjdjY0
-LXVua25vd24tbGludXgtZ251IFwKCSBcCgktLXByZWZpeD0vaG9tZS9leGFsZWFwc2VydmVyL2to
-YW5fd3Mva2hhbi90b29scy95b2N0b193cy93cy9yaXNjdi15b2N0by9vcGVuZW1iZWRkZWQtY29y
-ZS9idWlsZC90bXAtZ2xpYmMvd29yay9xZW11eDg2XzY0LW9lLWxpbnV4L2toYW5jbGFuZy8wLjEt
-cjAvYnVpbGQvLi4vcmlzY3YvaW5zdGFsbCBcCgktLXdpdGgtc3lzcm9vdD0vaG9tZS9leGFsZWFw
-c2VydmVyL2toYW5fd3Mva2hhbi90b29scy95b2N0b193cy93cy9yaXNjdi15b2N0by9vcGVuZW1i
-ZWRkZWQtY29yZS9idWlsZC90bXAtZ2xpYmMvd29yay9xZW11eDg2XzY0LW9lLWxpbnV4L2toYW5j
-bGFuZy8wLjEtcjAvYnVpbGQvLi4vcmlzY3YvaW5zdGFsbC9zeXNyb290IFwKCS0tZGlzYWJsZS1t
-dWx0aWxpYiBcCgkgXAoJLS1kaXNhYmxlLXdlcnJvciBcCgktLWRpc2FibGUtbmxzIFwKCS0td2l0
-aC1leHBhdD15ZXMgIFwKCS0tZGlzYWJsZS1nZGIgXAoJLS1kaXNhYmxlLXNpbSBcCgktLWRpc2Fi
-bGUtbGliZGVjbnVtYmVyIFwKCS0tZGlzYWJsZS1yZWFkbGluZQpjb25maWd1cmU6IGxvYWRpbmcg
-c2l0ZSBzY3JpcHQgL2hvbWUvZXhhbGVhcHNlcnZlci9raGFuX3dzL2toYW4vdG9vbHMveW9jdG9f
-d3Mvd3MvcmlzY3YteW9jdG8vb3BlbmVtYmVkZGVkLWNvcmUvbWV0YS9zaXRlL2VuZGlhbi1saXR0
-bGUKY29uZmlndXJlOiBsb2FkaW5nIHNpdGUgc2NyaXB0IC9ob21lL2V4YWxlYXBzZXJ2ZXIva2hh
-bl93cy9raGFuL3Rvb2xzL3lvY3RvX3dzL3dzL3Jpc2N2LXlvY3RvL29wZW5lbWJlZGRlZC1jb3Jl
-L21ldGEvc2l0ZS9jb21tb24tbGludXgKY29uZmlndXJlOiBsb2FkaW5nIHNpdGUgc2NyaXB0IC9o
-b21lL2V4YWxlYXBzZXJ2ZXIva2hhbl93cy9raGFuL3Rvb2xzL3lvY3RvX3dzL3dzL3Jpc2N2LXlv
-Y3RvL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvc2l0ZS9jb21tb24tZ2xpYmMKY29uZmlndXJlOiBs
-b2FkaW5nIHNpdGUgc2NyaXB0IC9ob21lL2V4YWxlYXBzZXJ2ZXIva2hhbl93cy9raGFuL3Rvb2xz
-L3lvY3RvX3dzL3dzL3Jpc2N2LXlvY3RvL29wZW5lbWJlZGRlZC1jb3JlL21ldGEvc2l0ZS94ODZf
-NjQtbGludXgKY29uZmlndXJlOiBsb2FkaW5nIHNpdGUgc2NyaXB0IC9ob21lL2V4YWxlYXBzZXJ2
-ZXIva2hhbl93cy9raGFuL3Rvb2xzL3lvY3RvX3dzL3dzL3Jpc2N2LXlvY3RvL29wZW5lbWJlZGRl
-ZC1jb3JlL21ldGEvc2l0ZS9jb21tb24KY2hlY2tpbmcgYnVpbGQgc3lzdGVtIHR5cGUuLi4geDg2
-XzY0LXBjLWxpbnV4LWdudQpjaGVja2luZyBob3N0IHN5c3RlbSB0eXBlLi4uIHg4Nl82NC1wYy1s
-aW51eC1nbnUKY2hlY2tpbmcgdGFyZ2V0IHN5c3RlbSB0eXBlLi4uIHJpc2N2NjQtdW5rbm93bi1s
-aW51eC1nbnUKY2hlY2tpbmcgZm9yIGEgQlNELWNvbXBhdGlibGUgaW5zdGFsbC4uLiAvaG9tZS9l
-eGFsZWFwc2VydmVyL2toYW5fd3Mva2hhbi90b29scy95b2N0b193cy93cy9yaXNjdi15b2N0by9v
-cGVuZW1iZWRkZWQtY29yZS9idWlsZC90bXAtZ2xpYmMvaG9zdHRvb2xzL2luc3RhbGwgLWMKY2hl
-Y2tpbmcgd2hldGhlciBsbiB3b3Jrcy4uLiB5ZXMKY2hlY2tpbmcgd2hldGhlciBsbiAtcyB3b3Jr
-cy4uLiB5ZXMKY2hlY2tpbmcgZm9yIGEgc2VkIHRoYXQgZG9lcyBub3QgdHJ1bmNhdGUgb3V0cHV0
-Li4uIChjYWNoZWQpIHNlZApjaGVja2luZyBmb3IgZ2F3ay4uLiAvaG9tZS9leGFsZWFwc2VydmVy
-L2toYW5fd3Mva2hhbi90b29scy95b2N0b193cy93cy9yaXNjdi15b2N0by9vcGVuZW1iZWRkZWQt
-Y29yZS9idWlsZC90bXAtZ2xpYmMvaG9zdHRvb2xzL2dhd2sKY2hlY2tpbmcgZm9yIGdjYy4uLiB4
-ODZfNjQtb2UtbGludXgtZ2NjICAtbTY0IC1tYXJjaD1jb3JlMiAtbXR1bmU9Y29yZTIgLW1zc2Uz
-IC1tZnBtYXRoPXNzZSAtLXN5c3Jvb3Q9L2hvbWUvZXhhbGVhcHNlcnZlci9raGFuX3dzL2toYW4v
-dG9vbHMveW9jdG9fd3Mvd3MvcmlzY3YteW9jdG8vb3BlbmVtYmVkZGVkLWNvcmUvYnVpbGQvdG1w
-LWdsaWJjL3dvcmsvcWVtdXg4Nl82NC1vZS1saW51eC9raGFuY2xhbmcvMC4xLXIwL3JlY2lwZS1z
-eXNyb290Cg==
-
---0000000000009fd2c905998eb953--
