@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 754257CBE4
+	by mail.openembedded.org (Postfix) with ESMTP id A88B47F8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Dec 2019 06:15:21 +0000 (UTC)
+	Sat, 14 Dec 2019 06:15:22 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Dec 2019 22:15:22 -0800
-X-IronPort-AV: E=Sophos;i="5.69,312,1571727600"; d="scan'208";a="204540209"
+	13 Dec 2019 22:15:24 -0800
+X-IronPort-AV: E=Sophos;i="5.69,312,1571727600"; d="scan'208";a="204540212"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.64.187])
 	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Dec 2019 22:15:21 -0800
+	13 Dec 2019 22:15:23 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Dec 2019 14:14:57 +0800
-Message-Id: <efb0893d3250f2eec829e879ba40d2c11b1d3d29.1576303901.git.anuj.mittal@intel.com>
+Date: Sat, 14 Dec 2019 14:14:58 +0800
+Message-Id: <ea63c528adb03b9e68ec2f54570539e6e0a96361.1576303901.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1576303901.git.anuj.mittal@intel.com>
 References: <cover.1576303901.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 03/11] opkg: Trim the text part used for the license file checksum
+Subject: [zeus][PATCH 04/11] libpng: Remove duplicate license information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Dec 2019 06:15:21 -0000
+X-List-Received-Date: Sat, 14 Dec 2019 06:15:22 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-This avoids including irrelevant information when calculating the
-license checksum.
+The LICENSE file contains all the license information so there is no
+need to also include it from the png.h file (and additionally some
+lines were left out from the latter).
 
-License-Update: Trim the text part used for the license file checksum
+License-Update: Remove duplicate license information
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/opkg/opkg_0.4.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-multimedia/libpng/libpng_1.6.37.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.4.1.bb b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
-index 1cd7dcadb3..f6f0922b6a 100644
---- a/meta/recipes-devtools/opkg/opkg_0.4.1.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://code.google.com/p/opkg/"
- BUGTRACKER = "http://code.google.com/p/opkg/issues/list"
- LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
--                    file://src/opkg.c;beginline=2;endline=21;md5=90435a519c6ea69ef22e4a88bcc52fa0"
-+                    file://src/opkg.c;beginline=4;endline=18;md5=9f5a1ad5395378a807d6d591e2f92d25"
+diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
+index 2ed87a8437..78f3248d73 100644
+--- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
++++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
+@@ -2,9 +2,7 @@ SUMMARY = "PNG image format decoding library"
+ HOMEPAGE = "http://www.libpng.org/"
+ SECTION = "libs"
+ LICENSE = "Libpng"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=b0085051bf265bac2bfc38bc89f50000\
+-                    file://png.h;endline=144;md5=8acd23d544623816b097e07be0139509\
+-                    "
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b0085051bf265bac2bfc38bc89f50000"
+ DEPENDS = "zlib"
  
- DEPENDS = "libarchive"
- 
+ LIBV = "16"
 -- 
 2.21.0
 
