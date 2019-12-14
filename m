@@ -1,47 +1,54 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 6ED8C6BDD2
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 21CA66BDD2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Dec 2019 00:47:44 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id u2so599606wmc.3
+	Sat, 14 Dec 2019 00:54:55 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id a22so1505405ios.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2019 16:47:45 -0800 (PST)
+	Fri, 13 Dec 2019 16:54:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Wz4lpL8zmPr52jtR+HReYG8BRvqWRUTIFZYTYmbyXmc=;
-	b=c655y4nzpNpvtCdcVazGk4ClgSzwGC57OOQ9UCo/2oSyWHkw5U7Ft31MEGry1CjhAY
-	NBcgewEFnQlM43pTMdY9y0bRnxhvq+I4aekAekjMncH+f8E70JIWCzhKmLi4lO+FCA0R
-	8ayFt3jy7zb7Y6GxIa+Xw4IDlnFxbHPvnUyk6i8Tj47XzQRz0wxXOrl0AnSH3LlQR9wD
-	9ObR9MboDFB5K1cGoi6ufu53ZZAj8ijzUvNUFvO/rcQ4Oi+dtKR9K8GByOiMZ8UMMgM6
-	VD94uDYnlBQdxrULi7AG6plvawwJQVq/NfHLJ2RatNxgSK05n15l+22zAHlzWU1SC1d3
-	ODVA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=goIl72/q4FLvju6+LwFjgdVXUv/STQPIECnDiuoyfzw=;
+	b=fwvjFSqgQS1NSdF3jTz66qrm/2lrVcYCWbDKf+Q6xkuNP3LFNmo+6z4KOvhT3N4ySD
+	c/d732zhv/e+h2BdjEjgWw0qRCMyyqZdNhJfqetQ+1LKLYVbluQB+hcfdR6/VyWCGQYq
+	M+gqDzX30KNe6eLuP+D0fhHPZaSKj1M7wO+Q8lf1uNPCmSIc7DIFthW2KW4qimfx2onW
+	HwaHamOBvZWIcceOt/cE/66TJy2x7K7O4UOLuHx/ezrKrFnwuDBKTxoA3CayD0kr0Ukw
+	pSroqTsD9QocbJDP5Okh/ixPLhpfr9b2+2loERrBYqegdeDcv5FC4Krgmu0+FE7b3Abl
+	tdKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Wz4lpL8zmPr52jtR+HReYG8BRvqWRUTIFZYTYmbyXmc=;
-	b=VoHN2CKsa/a2rcwyfXW00FZxjJg9IwDAWj2ehGU77WGWSUBOWsMA8SewwY5Qhslyy+
-	YAhr25kwOiamOpFKj5Ogo5YSE/QUmOFjQgsYcjgn0Bd0UMsdHRjPXd1TW8D9HmzW96YZ
-	iTjaMRxtFM0KKoCRwdALY8S3P3K4OJbg3TXb6d9zIK26EUUUpAt38JxvdOoNioqABvxR
-	6Riu2iwlt945dfDtsahKYFwogHWGXv//QDMlZVD6nZ3zXWyGBteapDrSyYRQ7cgakixw
-	s+pczz+42XPb1JoM6K3bne9rhvfQcN+EAh54uAcbVEaxnmX6MibkSGpQeucO3LXXxIam
-	/Seg==
-X-Gm-Message-State: APjAAAXS1GM+jLt0bM9KUh70DUijXqu8COfOrY3125Qv5I5Z8+OCm0kd
-	nELwUH1sy6kLkt6iAPxicZD/zfkSMmjPYe6mMUN9oqT8
-X-Google-Smtp-Source: APXvYqzL0gjlhzsuHL8y02wGiprcXXAzKAoVSv7BRbBhSH2cHRwEwWiyT/8teaDU6xB4qyNpH+bKnKGxyehsWrFxobw=
-X-Received: by 2002:a1c:f001:: with SMTP id a1mr15543597wmb.76.1576284464962; 
-	Fri, 13 Dec 2019 16:47:44 -0800 (PST)
-MIME-Version: 1.0
-References: <20191213220309.3964324-1-JPEWhacker@gmail.com>
-	<20191213231042.GB8776@localhost>
-In-Reply-To: <20191213231042.GB8776@localhost>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=goIl72/q4FLvju6+LwFjgdVXUv/STQPIECnDiuoyfzw=;
+	b=sMa742jFkN7gtTUNOXpmzbilN/SaWLrAxH04Eh0c0iWgkvfY1SDUxFnmCs6xVicI3m
+	O/Az6SB3Q6iEj5iPEwdH8bAH02h3uNjNyi/0p8X294eXpGRLHoBXho6LdXi+36zTul8I
+	gfCj6L0xdY5RSZjXSt9Z0Vwubh7boFt8ZXyIhHpSsZiH7nEt+iLKEG246VR8f3Vrs60E
+	UBiYpXvrw3EAUvOWev2dxzBtJyA3H9b7ZBRT+O0qtb9oEWZbimLSz77bafRVLohbpvr0
+	K34RcfPRbYRPSCQVmsCrJaNFhHwYRHXBRD4yKPTQVn9rQTx1Mc2wFm+E+9GaVuuugsD8
+	lQvw==
+X-Gm-Message-State: APjAAAV248xQneVgvaAcObIvthY6r8tukFU7aF31sDr+fLPA034SC4H9
+	DINpdPRAeJ9C/JTzQMxrO2sIp2kQ4a8=
+X-Google-Smtp-Source: APXvYqw301MOeiKhEYA/UN8/ZtBhGmLz9OJ0o6D2eZzokXE+wc3o+fvstu0gNd2+AwkG8C813ewv1A==
+X-Received: by 2002:a6b:f80b:: with SMTP id o11mr9999775ioh.175.1576284896643; 
+	Fri, 13 Dec 2019 16:54:56 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	q17sm2511002ior.51.2019.12.13.16.54.55
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 13 Dec 2019 16:54:56 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 13 Dec 2019 18:47:33 -0600
-Message-ID: <CAJdd5GY4Ld9t1fo1sC2mK7nXuBCi=T39DwstZ5ZnTNFrEp226A@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] tune-cortexa72-cortexa53: Add tune
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 13 Dec 2019 18:54:48 -0600
+Message-Id: <20191214005448.162460-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20191213220309.3964324-1-JPEWhacker@gmail.com>
+References: <20191213220309.3964324-1-JPEWhacker@gmail.com>
+MIME-Version: 1.0
+Cc: bunk@stusta.de
+Subject: [PATCH v2] tune-cortexa72-cortexa53: Add tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +61,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Dec 2019 00:47:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 14 Dec 2019 00:54:56 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 13, 2019 at 5:10 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Fri, Dec 13, 2019 at 04:03:09PM -0600, Joshua Watt wrote:
-> > Adds a tune for Cortex-A72 Cortex-A53 big.LITTLE SoCs, e.g.  Rockchip
-> > RK3399
-> >...
-> > +TUNE_FEATURES_tune-cortexa72-cortexa53 = "${TUNE_FEATURES_tune-aarch64} cortexa72-cortexa53"
-> >...
->
-> Looking at the gcc sources cortexa72-cortexa53 defaults to crc enabled,
-> so TUNE_FEATURES_tune-cortexa72-cortexa53 must contain crc.
+Adds tunes for Cortex-A72 Cortex-A53 big.LITTLE SoCs (with and without
+crypto extensions), e.g. Rockchip RK3399
 
-I think that's armv8.1-a, the cortex A72 is only armv8-a (at least
-AFAICT), so I think crc would still be an optional feature.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ .../include/tune-cortexa72-cortexa53.inc      | 24 +++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-cortexa72-cortexa53.inc
 
->
-> The RK3399 implements the optional crypto extensions,
-> it needs a TUNE_FEATURES_tune-cortexa72-cortexa53-crypto.
+diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+new file mode 100644
+index 00000000000..6bf3b83abe9
+--- /dev/null
++++ b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+@@ -0,0 +1,24 @@
++DEFAULTTUNE ?= "cortexa72-cortexa53"
++
++require conf/machine/include/arm/arch-armv8a.inc
++
++TUNEVALID[cortexa72-cortexa53] = "Enable big.LITTLE Cortex-A72.Cortex-A53 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", " -march=armv8-a", "" ,d)}"
++
++TUNECONFLICTS[aarch64] = "armv4 armv5 armv6 armv7 armv7a"
++
++MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-cortexa53", "cortexa72-cortexa53:", "" ,d)}"
++
++TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-cortexa53", " -mtune=cortex-a72.cortex-a53", "", d)}"
++
++# Little Endian base configs
++AVAILTUNES += "cortexa72-cortexa53 cortexa72-cortexa53-crypto"
++ARMPKGARCH_tune-cortexa72-cortexa53                  = "cortexa72-cortexa53"
++ARMPKGARCH_tune-cortexa72-cortexa53-crypto           = "cortexa72-cortexa53"
++TUNE_FEATURES_tune-cortexa72-cortexa53               = "${TUNE_FEATURES_tune-armv8a}"
++TUNE_FEATURES_tune-cortexa72-cortexa53-crypto        = "${TUNE_FEATURES_tune-armv8a-crypto}"
++PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} cortexa72-cortexa53"
++PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto} cortexa72-cortexa53-crypto"
++BASE_LIB_tune-cortexa72-cortexa53                    = "lib64"
++BASE_LIB_tune-cortexa72-cortexa53-crypto             = "lib64"
++
+-- 
+2.23.0
 
-Ok, I've rewritten the patch to more closely align with the
-arch-armv8a.inc tune file, which looks a lot cleaner.
-
->
-> cu
-> Adrian
 
