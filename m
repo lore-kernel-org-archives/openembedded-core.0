@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A0F5C7F8C8
+	by mail.openembedded.org (Postfix) with ESMTP id C67DC7F8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Dec 2019 06:15:25 +0000 (UTC)
+	Sat, 14 Dec 2019 06:15:26 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Dec 2019 22:15:27 -0800
-X-IronPort-AV: E=Sophos;i="5.69,312,1571727600"; d="scan'208";a="204540220"
+	13 Dec 2019 22:15:28 -0800
+X-IronPort-AV: E=Sophos;i="5.69,312,1571727600"; d="scan'208";a="204540222"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.64.187])
 	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Dec 2019 22:15:26 -0800
+	13 Dec 2019 22:15:27 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Dec 2019 14:15:00 +0800
-Message-Id: <6695b54b27782fc8169efd2de6d5e5faad1f25aa.1576303901.git.anuj.mittal@intel.com>
+Date: Sat, 14 Dec 2019 14:15:01 +0800
+Message-Id: <84ad4604063c43ade55351b0ecd3b08bd0b011f4.1576303901.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1576303901.git.anuj.mittal@intel.com>
 References: <cover.1576303901.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 06/11] Revert "libtirpc: create the symbol link for rpc header files"
+Subject: [zeus][PATCH 07/11] glib: Whitelist CVE-2019-12450
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +33,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Dec 2019 06:15:25 -0000
+X-List-Received-Date: Sat, 14 Dec 2019 06:15:26 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Adrian Bunk <bunk@stusta.de>
 
-This reverts commit 0b9748c655b6f733b504e70288f4b91dca2e4d58.
+Fixed in 2.60.4, but CPE data is outdated.
 
-The headers provided by libtirpc are not drop in replacements for the
-RPC header files previously provided by glibc, so do not install them
-as if they were. Additionally, they clash with the header files
-installed by glibc if an older version of glibc is used.
-
-Any problems related to the lack of the old header files from glibc
-should be addressed in the application/library that expects them.
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb | 16 +---------------
- 1 file changed, 1 insertion(+), 15 deletions(-)
+ meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-index 8977a37cf0..692f0d9f9c 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-@@ -22,21 +22,7 @@ inherit autotools pkgconfig
- EXTRA_OECONF = "--disable-gssapi"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
+index 740473719d..5aefa6ad8b 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb
+@@ -23,3 +23,6 @@ SRC_URI_append_class-target = " file://glib-meson.cross"
  
- do_install_append() {
--        chown root:root ${D}${sysconfdir}/netconfig
--        install -d ${D}${includedir}/rpc
--        install -d ${D}${includedir}/rpcsvc
--        for link_header in ${D}${includedir}/tirpc/rpc/*; do
--            if [ -f $link_header -a ! -e ${D}/${includedir}/rpc/$(basename $link_header) ]; then
--                ln -sf ../tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpc/$(basename $link_header)
--            fi
--        done
--        for link_header in ${D}${includedir}/tirpc/rpcsvc/*; do
--            if [ -f $link_header -a ! -e ${D}/${includedir}/rpcsvc/$(basename $link_header) ]; then
--                ln -sf ../tirpc/rpc/$(basename $link_header) ${D}${includedir}/rpcsvc/$(basename $link_header)
--            fi
--        done
--        ln -sf  tirpc/netconfig.h ${D}/${includedir}/netconfig.h
--
-+	chown root:root ${D}${sysconfdir}/netconfig
- }
- 
- BBCLASSEXTEND = "native nativesdk"
+ SRC_URI[md5sum] = "f036f78a7fca330d9f7d939fcf794bde"
+ SRC_URI[sha256sum] = "8b12c0af569afd3b71200556ad751bad4cf4bf7bc4b5f880638459a42ca86310"
++
++# Fixed in 2.60.4, but CPE data is outdated
++CVE_CHECK_WHITELIST += "CVE-2019-12450"
 -- 
 2.21.0
 
