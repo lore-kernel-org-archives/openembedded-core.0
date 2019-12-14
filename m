@@ -1,26 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CC1597F895
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id BAEAE7CBE4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Dec 2019 03:59:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xBE3xA0l000758
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 13 Dec 2019 19:59:10 -0800
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Fri, 13 Dec 2019 19:59:09 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <ross.burton@intel.com>
-Date: Sat, 14 Dec 2019 11:59:08 +0800
-Message-ID: <1576295948-37371-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <20191207072208.2773273-1-raj.khem@gmail.com>
-References: <20191207072208.2773273-1-raj.khem@gmail.com>
+	Sat, 14 Dec 2019 06:15:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Dec 2019 22:15:18 -0800
+X-IronPort-AV: E=Sophos;i="5.69,312,1571727600"; d="scan'208";a="204540194"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.64.187])
+	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 Dec 2019 22:15:17 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 14 Dec 2019 14:14:54 +0800
+Message-Id: <cover.1576303901.git.anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH V2] kbd: avoid vlock conflict with busybox
+Subject: [zeus][PATCH 00/11] zeus -next review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,44 +31,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Dec 2019 03:59:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 14 Dec 2019 06:15:17 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-busybox as well as vlock utility from meta-oe provides vlock utility
-which can conflict when with kbd if pam is a enabled distro_feature
+Next set of changes for zeus. Please let me know if there are any
+comments.
 
-Fixes image build errors
+Thanks,
 
-update-alternatives: Error: not linking <rootfs>/usr/bin/vlock to /bin/busybox.suid since <rootfs>/usr/bin/vlock exists and is not a link
+Anuj
 
-ERROR: yoe-qt5-wayland-image-1.0-r0 do_rootfs: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
-then please place them into pkg_postinst_ontarget_${PN} ().
-Deferring to first boot via 'exit 1' is no longer supported.
+The following changes since commit da81542171f0cab0ea1a9bf45ac3c256e6f343f9:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  YP 3.0.1 Documentation: Set up the 3.0.1 release. (2019-12-09 12:03:06 +0000)
 
-The vlock doesn't exist if PAM isn't enabled.
+are available in the Git repository at:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/recipes-core/kbd/kbd_2.2.0.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+  git://push.yoctoproject.org/poky-contrib anujm/zeus
 
-diff --git a/meta/recipes-core/kbd/kbd_2.2.0.bb b/meta/recipes-core/kbd/kbd_2.2.0.bb
-index 9556302..f252161 100644
---- a/meta/recipes-core/kbd/kbd_2.2.0.bb
-+++ b/meta/recipes-core/kbd/kbd_2.2.0.bb
-@@ -61,7 +61,8 @@ RDEPENDS_${PN}-ptest = "make"
- 
- inherit update-alternatives
- 
--ALTERNATIVE_${PN} = "chvt deallocvt fgconsole openvt showkey"
-+ALTERNATIVE_${PN} = "chvt deallocvt fgconsole openvt showkey \
-+                     ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'vlock','', d)}"
- ALTERNATIVE_PRIORITY = "100"
- 
- BBCLASSEXTEND = "native"
+Adrian Bunk (2):
+  glib: Whitelist CVE-2019-12450
+  python: Whitelist CVE-2017-17522 CVE-2017-18207 CVE-2015-5652
+
+Mattias Hansson (1):
+  base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
+
+Niko Mauno (1):
+  cve-check: Switch to NVD CVE JSON feed version 1.1
+
+Peter Kjellerstedt (6):
+  alsa-lib: Trim the text part used for the license file checksum
+  alsa-utils: Trim the text part used for the license file checksum
+  opkg: Trim the text part used for the license file checksum
+  libpng: Remove duplicate license information
+  Revert "libtirpc: create the symbol link for rpc header files"
+  meson.bbclass: Prevent meson from downloading wrapped projects
+
+Stefan Müller-Klieser (1):
+  recipes: change SRC_URI to use https
+
+ meta/classes/base.bbclass                        |  1 +
+ meta/classes/cve-check.bbclass                   |  2 +-
+ meta/classes/meson.bbclass                       |  3 ++-
+ meta/recipes-core/busybox/busybox.inc            |  2 +-
+ meta/recipes-core/busybox/busybox_1.31.0.bb      |  2 +-
+ meta/recipes-core/dbus/dbus-glib_0.110.bb        |  4 ++--
+ meta/recipes-core/dbus/dbus_1.12.16.bb           |  4 ++--
+ meta/recipes-core/glib-2.0/glib-2.0_2.60.7.bb    |  3 +++
+ meta/recipes-core/meta/cve-update-db-native.bb   |  2 +-
+ meta/recipes-core/udev/eudev_3.2.8.bb            |  2 +-
+ meta/recipes-devtools/opkg/opkg_0.4.1.bb         |  2 +-
+ meta/recipes-devtools/patchelf/patchelf_0.10.bb  |  2 +-
+ meta/recipes-devtools/python/python.inc          | 10 ++++++++++
+ meta/recipes-extended/libmnl/libmnl_1.0.4.bb     |  4 ++--
+ meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb | 16 +---------------
+ .../xdg-utils/xdg-utils_1.1.3.bb                 |  2 +-
+ meta/recipes-extended/xz/xz_5.2.4.bb             |  4 ++--
+ .../hicolor-icon-theme_0.17.bb                   |  2 +-
+ meta/recipes-kernel/powertop/powertop_2.10.bb    |  6 +++---
+ meta/recipes-multimedia/alsa/alsa-lib_1.1.9.bb   |  2 +-
+ meta/recipes-multimedia/alsa/alsa-utils_1.1.9.bb |  2 +-
+ meta/recipes-multimedia/libpng/libpng_1.6.37.bb  |  4 +---
+ meta/recipes-sato/webkit/webkitgtk_2.24.4.bb     |  6 +++---
+ meta/recipes-support/db/db_5.3.28.bb             |  4 ++--
+ meta/recipes-support/libbsd/libbsd_0.10.0.bb     |  4 ++--
+ meta/recipes-support/libyaml/libyaml_0.2.2.bb    |  4 ++--
+ meta/recipes-support/mpfr/mpfr_4.0.2.bb          |  4 ++--
+ 27 files changed, 51 insertions(+), 52 deletions(-)
+
 -- 
-2.7.4
+2.21.0
 
 
