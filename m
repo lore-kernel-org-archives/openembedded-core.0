@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id A88B47F8BC
+	by mail.openembedded.org (Postfix) with ESMTP id 34C9F7F8BC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Dec 2019 06:15:22 +0000 (UTC)
+	Sat, 14 Dec 2019 06:15:24 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Dec 2019 22:15:24 -0800
-X-IronPort-AV: E=Sophos;i="5.69,312,1571727600"; d="scan'208";a="204540212"
+	13 Dec 2019 22:15:25 -0800
+X-IronPort-AV: E=Sophos;i="5.69,312,1571727600"; d="scan'208";a="204540215"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.64.187])
 	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 Dec 2019 22:15:23 -0800
+	13 Dec 2019 22:15:24 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 14 Dec 2019 14:14:58 +0800
-Message-Id: <ea63c528adb03b9e68ec2f54570539e6e0a96361.1576303901.git.anuj.mittal@intel.com>
+Date: Sat, 14 Dec 2019 14:14:59 +0800
+Message-Id: <fb3baca52fb89465aab0317bf3029c3b0e7f5c6f.1576303901.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1576303901.git.anuj.mittal@intel.com>
 References: <cover.1576303901.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 04/11] libpng: Remove duplicate license information
+Subject: [zeus][PATCH 05/11] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,38 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Dec 2019 06:15:22 -0000
+X-List-Received-Date: Sat, 14 Dec 2019 06:15:24 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Mattias Hansson <mattias.hansson@axis.com>
 
-The LICENSE file contains all the license information so there is no
-need to also include it from the png.h file (and additionally some
-lines were left out from the latter).
+do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
+However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
+which sometimes causes a build error when building a recipe that adds
+groups.
 
-License-Update: Remove duplicate license information
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+This issue only occurs when executing do_prepare_recipe_sysroot for a
+recipe that adds groups before finishing a task that depends on pseudo
+for a recipe that doesn't add groups.
+
+Signed-off-by: Mattias Hansson <mattihn@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-multimedia/libpng/libpng_1.6.37.bb | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ meta/classes/base.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-index 2ed87a8437..78f3248d73 100644
---- a/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-+++ b/meta/recipes-multimedia/libpng/libpng_1.6.37.bb
-@@ -2,9 +2,7 @@ SUMMARY = "PNG image format decoding library"
- HOMEPAGE = "http://www.libpng.org/"
- SECTION = "libs"
- LICENSE = "Libpng"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=b0085051bf265bac2bfc38bc89f50000\
--                    file://png.h;endline=144;md5=8acd23d544623816b097e07be0139509\
--                    "
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b0085051bf265bac2bfc38bc89f50000"
- DEPENDS = "zlib"
- 
- LIBV = "16"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index d3184ecf7b..1cea3a2213 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -482,6 +482,7 @@ python () {
+     # If we're building a target package we need to use fakeroot (pseudo)
+     # in order to capture permissions, owners, groups and special files
+     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
++        d.appendVarFlag('do_prepare_recipe_sysroot', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
+         d.setVarFlag('do_unpack', 'umask', '022')
+         d.setVarFlag('do_configure', 'umask', '022')
+         d.setVarFlag('do_compile', 'umask', '022')
 -- 
 2.21.0
 
