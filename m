@@ -1,48 +1,38 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
-	[209.85.217.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A46A26C4CE
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BC336C4CE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Dec 2019 01:21:48 +0000 (UTC)
-Received: by mail-vs1-f65.google.com with SMTP id l24so722438vsr.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 13 Dec 2019 17:21:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QxKRDkS3UlqgFnNeZLnESFVpqnjsL+wyE0i1NGdMRnc=;
-	b=NsqjQJwy7/uAzQJoGijbeMXQysFPw87hQ2FbZLcp1ng3bbGKe5Txnidf4S+4t0PolJ
-	fvWX7jdCDR40vgE+UJRgs4t2K6a3v7EgXqUM2VsHyjAIZQe9MuuG0JCD+AAHEZrBU5PN
-	dq3s2fwdqiXDekORE0klm5WN+R/7jq7cMz4pyeiZ6bucVlli6ZH4DE0ti85WXDfojmMt
-	hn25Jx80hlXZiEeO94TAchUK8Vsp7XWxw7/Rcr0U1mHEcMBli0Xr6JDIXaEVsh3ZMmRg
-	7iEnHBbvDIOBrnH6fJSU6yHvWzr9DLvf8isVQzbWaz3VfIod6vXkfVa/xrMVxCLHR4y+
-	r/AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QxKRDkS3UlqgFnNeZLnESFVpqnjsL+wyE0i1NGdMRnc=;
-	b=IsDRryshjXOBug0YIaC5Tpfs+g25Vj66XtytVB8miOgShuNzqnsfXAhBxzeWGCipzy
-	jQU7ASxG0lOjqJ0KLcZF/bcJ1CgzBKP5GiCZnKbUqMRnIgRzbqMT3qAP0xMJktHek8FV
-	EvAfN+3MYPEhFQRUjkvwWIryn85XmDJJe1+AvTN7ai1Z5xmFuO6dzwnCtn7exsKvNhBI
-	A+lysXxFAp+gnk4FS1TdlK5eXeO6058CbIiGiEWvFlo0OQaxniKHwvlXbZiB5BnYS51b
-	qf5ROjSyT1Ewdn+kaMmJ1bGhFX1G1w932lCU+DZ5kwMe1JHLrVaA7iR+86tUjr/6ITJH
-	AmIQ==
-X-Gm-Message-State: APjAAAVVfs8fQGZufJNoh2Bk8+x0SKeTj3XiA7VZoYRYWf3lB1O+M4Bi
-	sGVP3Gu6VE1GiOZN0UuNeoAigW3WGQ9y1ZfT5QY=
-X-Google-Smtp-Source: APXvYqxqPBSGPOGlCIJOWS/Z6zYEWdoMNlm9sdlujK2DbZJhzUkS6/Ikq4LgYjxcvTGCqSOpSlw/ocakf65YO50DTB0=
-X-Received: by 2002:a67:fa16:: with SMTP id i22mr13440826vsq.137.1576286509472;
-	Fri, 13 Dec 2019 17:21:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20191213220309.3964324-1-JPEWhacker@gmail.com>
-	<20191214005448.162460-1-JPEWhacker@gmail.com>
-In-Reply-To: <20191214005448.162460-1-JPEWhacker@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 13 Dec 2019 17:21:38 -0800
-Message-ID: <CAJ86T=WqO7W_XxfvKxZMj6k2wmZOK_Hmwi4gN3O2oWDDhn16Kw@mail.gmail.com>
+	Sat, 14 Dec 2019 01:22:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47ZVCH1PM0z3D;
+	Sat, 14 Dec 2019 02:22:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1576286571;
+	bh=8Tf6NxDD/K+xDvhAUQQMcujd1tRmOSuWkuXqvr1jbnY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DAsmUL7Lv9taHC3M0DXUxrA/+iSq2ZxSValE87P2xBld19IiVL0jRrFC1W2IhFCve
+	FR7sfXMvTfhuWYmOQC0UUNBcCgbC56LXr2gKhe0PCLsP9SQBKj9iL5wEQWRYjGm7Oz
+	eTZEK4GdfETVEqFe4+2iYQdrerNuuErQdmtFruwphE1YZRqep4NEn2NdD3qTKSrl1z
+	G8qThCp7zcMdb2ZnQu9rubuWdjq2Gu2WVYlSxiPHtN7kKimPx8b23d9z4gLvk2Ty5V
+	1M+3sV5omG9piIWDYXrHHmdNITdeAjDh6AgNkh7Pk4FCFCfXbcMjC5UwDGmh+/XuzD
+	/zzRywGnVdmcO+mAoS8rM8csIIgJhJ6S2m0q9mx5z2s9jASProw2xXo6ohvVEsd6i4
+	dYvgeMA7b1ADguBpPWlqWJp74XVWgCOxUAgv/k8rmLVpnEJhxEMe65dUbehY02DkIw
+	HFJ+HQIIBytSUolR0cnOkVQiJ5u9XkgZ5ayYdFw0caWWB17o/uRgTKC66nQYKiWmu7
+	qxMsq9Kl60nbl2rCnE1io8yFrNBtt/iZo68BwyhJ/wxDxaSiqJV+GnbcL7p8CwiWCK
+	Jx0vh+8I2yFRjXMrGQySmfr6dAbq17loxHxPSil8+mrndZkkGAFCNh1JMfaiOCTw3/
+	eTDGRRn4DdiIWXnJTYV3+2KA=
+Date: Sat, 14 Dec 2019 03:22:49 +0200
+From: Adrian Bunk <bunk@stusta.de>
 To: Joshua Watt <jpewhacker@gmail.com>
-Cc: Adrian Bunk <bunk@stusta.de>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] tune-cortexa72-cortexa53: Add tunes
+Message-ID: <20191214012249.GC8776@localhost>
+References: <20191213220309.3964324-1-JPEWhacker@gmail.com>
+	<20191213231042.GB8776@localhost>
+	<CAJdd5GY4Ld9t1fo1sC2mK7nXuBCi=T39DwstZ5ZnTNFrEp226A@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAJdd5GY4Ld9t1fo1sC2mK7nXuBCi=T39DwstZ5ZnTNFrEp226A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] tune-cortexa72-cortexa53: Add tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,60 +45,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 14 Dec 2019 01:21:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 14 Dec 2019 01:22:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Fri, Dec 13, 2019 at 4:55 PM Joshua Watt <jpewhacker@gmail.com> wrote:
->
-> Adds tunes for Cortex-A72 Cortex-A53 big.LITTLE SoCs (with and without
-> crypto extensions), e.g. Rockchip RK3399
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  .../include/tune-cortexa72-cortexa53.inc      | 24 +++++++++++++++++++
->  1 file changed, 24 insertions(+)
->  create mode 100644 meta/conf/machine/include/tune-cortexa72-cortexa53.inc
->
-> diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-> new file mode 100644
-> index 00000000000..6bf3b83abe9
-> --- /dev/null
-> +++ b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
-> @@ -0,0 +1,24 @@
-> +DEFAULTTUNE ?= "cortexa72-cortexa53"
-> +
-> +require conf/machine/include/arm/arch-armv8a.inc
-> +
-> +TUNEVALID[cortexa72-cortexa53] = "Enable big.LITTLE Cortex-A72.Cortex-A53 specific processor optimizations"
-> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "aarch64", " -march=armv8-a", "" ,d)}"
-> +
-> +TUNECONFLICTS[aarch64] = "armv4 armv5 armv6 armv7 armv7a"
-> +
-> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-cortexa53", "cortexa72-cortexa53:", "" ,d)}"
-> +
-> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-cortexa53", " -mtune=cortex-a72.cortex-a53", "", d)}"
-> +
-> +# Little Endian base configs
-> +AVAILTUNES += "cortexa72-cortexa53 cortexa72-cortexa53-crypto"
-> +ARMPKGARCH_tune-cortexa72-cortexa53                  = "cortexa72-cortexa53"
-> +ARMPKGARCH_tune-cortexa72-cortexa53-crypto           = "cortexa72-cortexa53"
-> +TUNE_FEATURES_tune-cortexa72-cortexa53               = "${TUNE_FEATURES_tune-armv8a}"
-> +TUNE_FEATURES_tune-cortexa72-cortexa53-crypto        = "${TUNE_FEATURES_tune-armv8a-crypto}"
-> +PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a} cortexa72-cortexa53"
-> +PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crypto} cortexa72-cortexa53-crypto"
+On Fri, Dec 13, 2019 at 06:47:33PM -0600, Joshua Watt wrote:
+> On Fri, Dec 13, 2019 at 5:10 PM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > On Fri, Dec 13, 2019 at 04:03:09PM -0600, Joshua Watt wrote:
+> > > Adds a tune for Cortex-A72 Cortex-A53 big.LITTLE SoCs, e.g.  Rockchip
+> > > RK3399
+> > >...
+> > > +TUNE_FEATURES_tune-cortexa72-cortexa53 = "${TUNE_FEATURES_tune-aarch64} cortexa72-cortexa53"
+> > >...
+> >
+> > Looking at the gcc sources cortexa72-cortexa53 defaults to crc enabled,
+> > so TUNE_FEATURES_tune-cortexa72-cortexa53 must contain crc.
+> 
+> I think that's armv8.1-a, the cortex A72 is only armv8-a (at least
+> AFAICT), so I think crc would still be an optional feature.
+>...
 
-Shouldn't cortexa72-cortexa53-crypto also be able to use
-cortexa72-cortexa53 packages?
+It is optional for armv8-a, but not for Cortex A53 or A72.
 
-> +BASE_LIB_tune-cortexa72-cortexa53                    = "lib64"
-> +BASE_LIB_tune-cortexa72-cortexa53-crypto             = "lib64"
-> +
-> --
-> 2.23.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+What matters in practice is that gcc automatically enables it for 
+cortex-a72.cortex-a53, so the resulting code might not run on
+armv8-a hardware without support for crc - things will break
+if the tune features are not 100% aligned with whatever gcc
+is doing.
+
+cu
+Adrian
 
