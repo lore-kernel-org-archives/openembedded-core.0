@@ -1,53 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
-	[209.85.221.196])
-	by mail.openembedded.org (Postfix) with ESMTP id BD0A47D9D5
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com
+	[209.85.219.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E0B47F7BD
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 17:24:16 +0000 (UTC)
-Received: by mail-vk1-f196.google.com with SMTP id h13so993536vkn.10
+	Sun, 15 Dec 2019 17:33:00 +0000 (UTC)
+Received: by mail-qv1-f49.google.com with SMTP id z3so1769487qvn.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 09:24:18 -0800 (PST)
+	Sun, 15 Dec 2019 09:33:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QzCU+SXpgUZ+y09GqoyhxuyBYtmLBfv6V/ZUKN25xMs=;
-	b=TQwaJEpusJDX3QROH/OB43aVRmCillbIl/9BSS/n6KYniu3QduYl7zEdP1qMwvjPZ8
-	JE0Sf4tJRd3e76P00Qb+gF1yk7tqTNB/+SC+FrBcJAFtHtqKVDkdeydlpOaTJzM+cHE9
-	DneH07iLA+U6hBFBfZHlaKhjNfi7CHiOzCPraBV3XMVNPb8+gmVVd0OTxd5VDhABSYYg
-	Viy/5j7Vt4Iv2LTh1ryCA8EczzVKS9MgQKVptQir/01E8gP31qavzNHdY0F4ME8EdC+/
-	SWUqKE56zkA7qsMXc7et+xv6hxVLosgw0zZelmuSGKZWKR+mXBDD28UCm+i3BWrXfdtj
-	zq1w==
+	:cc; bh=cDrEKB4O4CVglFC+fZxkMxbi0BmGrz4rW/bcp1JO3eQ=;
+	b=M7xtJrLmCQBE8QLDNYhn21gRlfPeLrpXE2Hrkpw3LSN0mhzy+p0RU43Kt6ITupyh2t
+	spP/+gWwy0x1lEnyMANkUTYWzikFdFYIDMi76gCWeWnjUDdLe1Ar21oV8gRiF+iS2CB9
+	n/3RdgOiO8hKaJy424SRBQYd5XO9Dqq+S0DYQFS1OIg21ZfkPrhap6M2mW8g1imkeG/t
+	bPFkNneapyNGmmg5FOaqxdC2rt0h9IshEgPeCjET0TSYr+MnCXdJoxEwFXUZR+mCg0LJ
+	BE6yKnFjyjXucye/BN3NwDEJ+TCRv/n0Td523/ofccLLqmyVaFN7l9mCZ4YRykZqbz15
+	73qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=QzCU+SXpgUZ+y09GqoyhxuyBYtmLBfv6V/ZUKN25xMs=;
-	b=B/zRH/EgxJEvDWaf5CJZX8IxTRAvSL6EhAxUxD0MbFJj5AtnRYjo2oNpNccFw1baR0
-	OZD25wDAuXHLU3pqxqP5EHQUVaGTqwo/IkTxzob95F3ZA1vW0UH4RIkFOI6zpfgyEynp
-	oLDMjaiKeRejzE8YAFG+CnEfST+AyH4tdVz3dlD1IV+jNJoQ74XYDVdi/xrYSrHHKrvt
-	UKXGEcmLXj+yGcdgJIXYAmdK4y1+p49V8rX5F11zdm8taJqfmk8/7LqNTJKjyugOIYR5
-	1QMDE8o2cKLUkiA2o6IIiJU50C4w4O0s6H0NAyGgXOfwOHLYn86kEhmCLxpacgSbaxGP
-	fcrg==
-X-Gm-Message-State: APjAAAUO8WloPk2hRIqpDjiCP/+4zKcgrb/Oo1xwVVFYJEUorI6ysEy5
-	/ZY98pGjrmqcKIJyIAJBPyLKmCDcCgLSg222FYw=
-X-Google-Smtp-Source: APXvYqxGhBToNNkoQZkGdZX2aL0+1tFYAP9nHgVOB6i/ZfRmfe7+WYdnvCkqONQYcANEgP4Ez8sJ11ox2xA1tg+AMGQ=
-X-Received: by 2002:a05:6122:2b6:: with SMTP id
-	22mr21182259vkq.49.1576430657558; 
-	Sun, 15 Dec 2019 09:24:17 -0800 (PST)
+	bh=cDrEKB4O4CVglFC+fZxkMxbi0BmGrz4rW/bcp1JO3eQ=;
+	b=EK7YPzsd4lN+doEwstBXbvpZbb5TXfLDicUEHJqb8MoDE5jXdDMW7bzNjZhTRuVufI
+	8K6h17PLYsxSYx5mUh3y+FeYQLF3sHRk2YmqdY33mg0+Y82eqyvcxUnZoO+bCD0es3E/
+	fiQgIeLsub0u6RXrbX6L98FHOW1mJabMpi8DMHQb4Zpby5RNMuN7yaI0Jv5BSohUD49B
+	vaF1Ux+Jz7u6LpzPUQxj5myW8cvWFA4ArSEAaawdL8670ccS2V4C/VjErObSXOsUTPUK
+	Q0LzFbh9cvRG+dUm2sNC/hMyYIAEddru/HQP7tJbh4iGidFLmb0qYS/IFmJTKnfa3e36
+	56hQ==
+X-Gm-Message-State: APjAAAWie0srXChqoIr+EajxGfZ/QGpMHZEJOXQqdoa8c/leuNJTgvRS
+	WkZdsQb6PyaRuqvfCv1PkqaTSC2a/QXwz5lWul0=
+X-Google-Smtp-Source: APXvYqwbiCHwRJxr7mKX/SQO6vUaqHE5DXYcqHDLwJtJbxG0sEVnsbRQT/Xkazcm47Bfcq9nUR+nTmwfJbWT+13x1M4=
+X-Received: by 2002:a0c:8605:: with SMTP id p5mr23043096qva.109.1576431180854; 
+	Sun, 15 Dec 2019 09:33:00 -0800 (PST)
 MIME-Version: 1.0
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-	<20191212181436.1322-20-alex.kanavin@gmail.com>
-	<e4288403d08c96589c285bcb3fb5ccda219809a1.camel@linuxfoundation.org>
-	<CANNYZj_Fj1KZoTDxsVzyJ_4Ya9KHOys9LsY1OQgm4UogC_xd-A@mail.gmail.com>
-	<CADkTA4MyfWZfd-a9jqhTOHtFyM0RW2Mo5aDa48zy817=1g0WXQ@mail.gmail.com>
-	<CANNYZj8x+iQmMAhHkv4yNu8dWfv7VgoE4jW2D-8HnjVeOwYPgQ@mail.gmail.com>
-	<afbc6e41d1dd42e39b715bdc48a135f3a93ceb1c.camel@linuxfoundation.org>
-In-Reply-To: <afbc6e41d1dd42e39b715bdc48a135f3a93ceb1c.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 15 Dec 2019 18:24:06 +0100
-Message-ID: <CANNYZj8vMukHUWvJ96Q8R7fFtQ2Z=C-R4XorH7-KuZyedoyRVA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 20/30] lttng-modules: update to 2.11.0
+	<20191212181436.1322-7-alex.kanavin@gmail.com>
+	<CAMKF1spXie5SDtsJj6R=6hAUjYo8kBTmyj+SfW4rYU+1cWUtig@mail.gmail.com>
+	<CANNYZj_k4NmmSAp+r80Ss+jgsd22hYcxRSySqYn7Yby8PCrDJw@mail.gmail.com>
+	<CAMKF1sof2JwFMX=kHVaup_-LA3UjsqrU5iGXZymR5TOzGik1ZA@mail.gmail.com>
+	<CANNYZj_ZaJ-prapQf6adS6Adp4CnF2X4TG3HPDonivPj_QAnrA@mail.gmail.com>
+In-Reply-To: <CANNYZj_ZaJ-prapQf6adS6Adp4CnF2X4TG3HPDonivPj_QAnrA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 15 Dec 2019 09:32:50 -0800
+Message-ID: <CAMKF1sp6a-hOuGazGtBj0mZQj9DpaM3iiC1Sbvw7Ah49vLLx9g@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 07/30] gstreamer1.0-python: add a patch to fix python 3.8 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,75 +59,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Dec 2019 17:24:17 -0000
-Content-Type: multipart/alternative; boundary="0000000000005b5e0f0599c15dfc"
+X-List-Received-Date: Sun, 15 Dec 2019 17:33:00 -0000
+Content-Type: multipart/alternative; boundary="0000000000008c3aef0599c17cf7"
 
---0000000000005b5e0f0599c15dfc
+--0000000000008c3aef0599c17cf7
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 15 Dec 2019 at 18:16, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Sun, Dec 15, 2019 at 9:12 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-> On Sun, 2019-12-15 at 17:45 +0100, Alexander Kanavin wrote:
-> > On Sun, 15 Dec 2019 at 17:28, Bruce Ashfield <
-> > bruce.ashfield@gmail.com> wrote:
-> > > > Another problem is that devtool isn't able to upgrade the main
-> > > variant properly with this included. I'd rather split it it into a
-> > > different recipe, if someone confirms the need.
-> > >
-> > > It is definitely needed.
-> >
-> > Right, then I'll rework this patch to split the dev version into a
-> > separate recipe with a shared .inc.
+> On Sun, 15 Dec 2019 at 18:06, Khem Raj <raj.khem@gmail.com> wrote:
 >
-> Can we teach devtool to be able to handle this?
+>> This is expected; the patch should be merged together with 3.8 upgrade.
+>>
+>> I don=E2=80=99t think this patch is right though since this patch is cre=
+ating
+>> py3.8 dependency if you want to upstream something that should work with
+>> all py3 I think
+>>
 >
-> In the back of my mind I'd still like to get poky-bleeding back running
-> to try and get earlier warning of upstream breakage.
->
-> This sets a precedent of disallowing devupstream in recipes which I
-> don't really like the idea of :/
+> It's being discussed in the upstream submission ticket, and will be
+> resolved; we can take the 3.8-specific fix meanwhile.
 >
 
-Maybe a quick fix would be to tell devtool to ignore devupstream, I'll take
-a look tomorrow.
+For better processing this series should be in three parts
 
-Alex
+1 Python 3.8 updates
+2 gettext updates
+3 rest of them
 
---0000000000005b5e0f0599c15dfc
+I have filtered it into roughly these and currently staged in yoe/mut just
+the third part which i think can be applied with out much problem
+
+For 1 and 2 there are breakages for many packages
+And it would be better to identify them and let community know of and seek
+help
+
+
+> Alex
+>
+
+--0000000000008c3aef0599c17cf7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 15 Dec 2019 at 18:16, Richard Pur=
-die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
-e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">On Sun, 2019-12-15 at 17:45=
- +0100, Alexander Kanavin wrote:<br>
-&gt; On Sun, 15 Dec 2019 at 17:28, Bruce Ashfield &lt;<br>
-&gt; <a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.as=
-hfield@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; Another problem is that devtool isn&#39;t able to upgrade th=
-e main<br>
-&gt; &gt; variant properly with this included. I&#39;d rather split it it i=
-nto a<br>
-&gt; &gt; different recipe, if someone confirms the need.<br>
-&gt; &gt; <br>
-&gt; &gt; It is definitely needed.<br>
-&gt; <br>
-&gt; Right, then I&#39;ll rework this patch to split the dev version into a=
-<br>
-&gt; separate recipe with a shared .inc.<br>
-<br>
-Can we teach devtool to be able to handle this?<br>
-<br>
-In the back of my mind I&#39;d still like to get poky-bleeding back running=
-<br>
-to try and get earlier warning of upstream breakage. <br>
-<br>
-This sets a precedent of disallowing devupstream in recipes which I<br>
-don&#39;t really like the idea of :/<br></blockquote><div><br></div><div>Ma=
-ybe a quick fix would be to tell devtool to ignore devupstream, I&#39;ll ta=
-ke a look tomorrow.</div><div><br></div><div>Alex<br></div></div></div>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sun, Dec 15, 2019 at 9:12 AM Alexander Kanavin &lt;<a hr=
+ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">O=
+n Sun, 15 Dec 2019 at 18:06, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.=
+com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></div><div clas=
+s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div di=
+r=3D"ltr"><div>This is expected; the patch should be merged together with 3=
+.8 upgrade.</div></div><div><div class=3D"gmail_quote"><div dir=3D"auto"><b=
+r></div><div dir=3D"auto">I don=E2=80=99t think this patch is right though =
+since this patch is creating py3.8 dependency if you want to upstream somet=
+hing that should work with all py3 I think <br></div></div></div></blockquo=
+te><div><br></div><div>It&#39;s being discussed in the upstream submission =
+ticket, and will be resolved; we can take the 3.8-specific fix meanwhile.</=
+div></div></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">=
+For better processing this series should be in three parts=C2=A0</div><div =
+dir=3D"auto"><br></div><div dir=3D"auto">1 Python 3.8 updates</div><div dir=
+=3D"auto">2 gettext updates</div><div dir=3D"auto">3 rest of them</div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">I have filtered it into roughly t=
+hese and currently staged in yoe/mut just the third part which i think can =
+be applied with out much problem</div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">For 1 and 2 there are breakages for many packages</div><div dir=
+=3D"auto">And it would be better to identify them and let community know of=
+ and seek help</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1=
+ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div><br></div><=
+div>Alex<br></div></div></div>
+</blockquote></div></div>
 
---0000000000005b5e0f0599c15dfc--
+--0000000000008c3aef0599c17cf7--
