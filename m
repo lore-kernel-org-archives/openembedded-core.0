@@ -1,50 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 106FA7F59D
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id BFD487F59D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 05:24:08 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id a203so1637768qkc.3
+	Sun, 15 Dec 2019 05:27:13 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id g17so1669477qtp.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 14 Dec 2019 21:24:10 -0800 (PST)
+	Sat, 14 Dec 2019 21:27:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=8w1/SLvzG73/P3zRf3igO+p72atNSNU7cRGjrOLYtHw=;
-	b=IeeJZOtqEabfcXPCNDn+W/AIMWMBIlg9dhB8OzCamK7NmTkeoDbwLNnz1yeGMcs2rw
-	FZRDNp8l4sF1ceM5NETt1IsyaysaUwm+BCMXDr7jftvtxOFSno+wLjavvx/a3PcgItzt
-	2kqtKGms2y9dy9H7OKrEbuidft+pDFZnU1BZQ2XB1FPbcKjJf/ECzjSGLC7kgxNIBpq/
-	yj1G5NAoQ339d10VqzapnBgzXOS6nYR45C+TGLtytefka3jB787duJO16zRm+UN+eITb
-	73keVRstbe2NVZ8pjwjroAZPN5VVEkqZmM3/PZ9fKwDrlULMDfOGX/+3CPdEKl8kJeJr
-	BzgA==
+	:cc; bh=JcrBO258hG50B1NgHvT+7a5qY/tj++gAgYTBOPlKw10=;
+	b=hisHO7T8cOvSqT/6K1GGnqbMtTQm9JbKserE4CE+W4k5KzZMij6AKC0pln31Kor+HD
+	HGQozbz7zLu9IBQheu+By582CIKdhQda0Su3mXB9eM64WIhpAnxhwkTLyDcfLSTaoQjE
+	OUcKyW3UMX0v9zKawr6HKnHPWHt4VlQwPSkFsNGdPWihzV82PXXquNX9eYS8l/IT3Ddt
+	b1+0rOplsdVrZvAgp2RbOe7+3HM/5+Y9ORrVZC2WNs2hUCSpVr7+ib1GAKVS2EsOh+Oh
+	kopTJl3a34iW/E3g9XWrccWYbnTRsGh8sb8hER/IAl2E1znYHOOt2j+7fFltigF1n0es
+	FvZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=8w1/SLvzG73/P3zRf3igO+p72atNSNU7cRGjrOLYtHw=;
-	b=nFO0naRPeZxBm82L/q/qdTz7mnaoLs5UWXYXuKXmYn8Him8+zMnXvACf10EqcYzPp+
-	CvrVZVt1KJacWykmmjmla7IlNSMfJTAYAI2uqgVUSSKag6mG8Sh6h7W+XNsSdVRP3k12
-	wC+TGCaDfNNB4rqFHAA7tbXGCXNy13nW6RIvG0gbsX8NuuxZTEYBQegTCzTloZ2VDtmr
-	XA6MKlM3cSxhFF5rWf1PiuTe1wDzgpq5SdbdmeHIVc8d6f4PnM5GvXq/WL2Yd00UvcDI
-	ygdy81CuMEP+K3xtm/AoCxvSv0eH+7/bW10ZWkLEVoVCeukJKHneq2Un8OR/3uyCIKE8
-	zWnA==
-X-Gm-Message-State: APjAAAULBTscHguvu4/l9dS08MFj62APooWfZFYbVM/12p92v5v64Egs
-	HkgQq9VKJHS5FZflpnapEQvwoGBinkJrPwBdci0=
-X-Google-Smtp-Source: APXvYqwRw4YHhunXU+Kagd/u4bbRb/S61kLbMnj288rzIahHd2UB9oLi8OqnPRIrLlKhtikxi1XHHgn2bwrxOpCyCEg=
-X-Received: by 2002:a37:bf82:: with SMTP id
-	p124mr21523667qkf.337.1576387449426; 
-	Sat, 14 Dec 2019 21:24:09 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=JcrBO258hG50B1NgHvT+7a5qY/tj++gAgYTBOPlKw10=;
+	b=TvzEC/akIjkIYZYxGniyqnFdPPFZl6nd/CKDNkHxbJYFUFjah9DluRT9P3PBD8MPJA
+	V4KOdaPCNMWZE3pgDfWQjwtgB0cCdTNd+FHrfHhb6foSkujDXHEhS1XISDOTuEcRS9Fp
+	1nyAnJVs6t8uJRnFN6sNxh/yS2yGD/U2P9u6IUX90QnqQWOY7tk1Y1DRdvZpjoq3dNq/
+	2lDijGkGFJ5SKYeNn3IKB4PHMS2eEe3w93M9C2rwuAhWAjoIM/xcDjkaahiH9xXKV5hx
+	L9ETN09jq6CL9Ci2lRvAt/dK6Zz50dcP495eyiuG5dpuJiaLCy3aGC+iVk+E8PUdd7Wz
+	UKlg==
+X-Gm-Message-State: APjAAAWyktSoi41t884sccxiekZZPuKn/v4Yp9jYljidsNWz6Jdkqv6b
+	nCEO0N+MF1rZRQPgbjl+hV0hwVwyxvm6On3VW18=
+X-Google-Smtp-Source: APXvYqwN1lwEcTJ6y5qbEi+mrtTU0fupQLvCoPtz87O87TBL5nVRaboIdWDDx3fcrVIA0zYtOUEscUwlIKfSQ/fZTVY=
+X-Received: by 2002:ac8:6ca:: with SMTP id j10mr16025835qth.378.1576387634466; 
+	Sat, 14 Dec 2019 21:27:14 -0800 (PST)
 MIME-Version: 1.0
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-	<20191212181436.1322-29-alex.kanavin@gmail.com>
-In-Reply-To: <20191212181436.1322-29-alex.kanavin@gmail.com>
+	<20191212181436.1322-21-alex.kanavin@gmail.com>
+In-Reply-To: <20191212181436.1322-21-alex.kanavin@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 14 Dec 2019 21:23:43 -0800
-Message-ID: <CAMKF1sqOFTeDy3hoR8dMX6wJn3Cr1p1+YOuD0WA9svzWpRfc7A@mail.gmail.com>
+Date: Sat, 14 Dec 2019 21:26:48 -0800
+Message-ID: <CAMKF1sryfLQN0GgBwaC5mstgjuHa_nOLn3=3choTTZ=LtNxttA@mail.gmail.com>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 29/30] nfs-utils: update to 2.4.2
+Subject: Re: [PATCH 21/30] lttng-ust: update to 2.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,536 +55,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Dec 2019 05:24:09 -0000
+X-List-Received-Date: Sun, 15 Dec 2019 05:27:14 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-clang format patch is still needed see
+some undefined symbols
 
-https://errors.yoctoproject.org/Errors/Details/297313/
+https://errors.yoctoproject.org/Errors/Details/297311/
 
-On Thu, Dec 12, 2019 at 10:19 AM Alexander Kanavin
+
+On Thu, Dec 12, 2019 at 10:18 AM Alexander Kanavin
 <alex.kanavin@gmail.com> wrote:
 >
-> Drop backports, and a musl patch that is no longer needed.
+> Remove patch as issue addressed upstream.
 >
 > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 > ---
->  ...de-order-between-config.h-and-stat.h.patch | 156 ---------------
->  .../nfs-utils/clang-format-string.patch       | 183 ------------------
->  .../nfs-utils-musl-res_querydomain.patch      |  46 -----
->  ...{nfs-utils_2.4.1.bb =3D> nfs-utils_2.4.2.bb} |   9 +-
->  4 files changed, 3 insertions(+), 391 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fi=
-x-include-order-between-config.h-and-stat.h.patch
->  delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/clang-f=
-ormat-string.patch
->  delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-uti=
-ls-musl-res_querydomain.patch
->  rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.4.1.bb =3D> nfs-=
-utils_2.4.2.bb} (94%)
+>  .../lttng-ust-doc-examples-disable.patch        | 17 -----------------
+>  ...{lttng-ust_2.10.5.bb => lttng-ust_2.11.0.bb} |  9 +++++----
+>  2 files changed, 5 insertions(+), 21 deletions(-)
+>  delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
+>  rename meta/recipes-kernel/lttng/{lttng-ust_2.10.5.bb => lttng-ust_2.11.0.bb} (89%)
 >
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-inclu=
-de-order-between-config.h-and-stat.h.patch b/meta/recipes-connectivity/nfs-=
-utils/nfs-utils/0001-Fix-include-order-between-config.h-and-stat.h.patch
+> diff --git a/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch b/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
 > deleted file mode 100644
-> index 7b0f93535f9..00000000000
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-Fix-include-orde=
-r-between-config.h-and-stat.h.patch
+> index bff852799d0..00000000000
+> --- a/meta/recipes-kernel/lttng/lttng-ust/lttng-ust-doc-examples-disable.patch
 > +++ /dev/null
-> @@ -1,156 +0,0 @@
-> -From 2fbc62e2a13fc22b6ae4910e295a2c10fb790486 Mon Sep 17 00:00:00 2001
-> -From: Zoltan Karcagi <zkr7432@gmail.com>
-> -Date: Mon, 12 Aug 2019 13:27:16 -0400
-> -Subject: [PATCH] Fix include order between config.h and stat.h
+> @@ -1,17 +0,0 @@
+> -Upstream-Status: Inappropriate [embedded specific]
 > -
-> -At least on Arch linux ARM, the definition of struct stat in stat.h depe=
-nds
-> -on __USE_FILE_OFFSET64. This symbol comes from config.h when defined,
-> -therefore config.h must always be included before stat.h. Fix all
-> -occurrences where the order is wrong by moving config.h to the top.
+> -Don't build the doc examples - we don't need them and in fact they
+> -never successfully built in previous iterations of the lttng-ust
+> -recipe anyway.
 > -
-> -This fixes the client side error "Stale file handle" when mounting from
-> -a server running Arch Linux ARM.
+> -Signed-off-by: Tom Zanussi <tom.zanussi@intel.com>
 > -
-> -Signed-off-by: Zoltan Karcagi <zkr7432@gmail.com>
-> -Signed-off-by: Steve Dickson <steved@redhat.com>
+> -Index: lttng-ust-2.9.1/doc/Makefile.am
+> -===================================================================
+> ---- lttng-ust-2.9.1.orig/doc/Makefile.am
+> -+++ lttng-ust-2.9.1/doc/Makefile.am
+> -@@ -1,3 +1,3 @@
+> --SUBDIRS = . man examples
+> -+SUBDIRS = . man
 > -
-> -Upstream-Status: Backport
-> -[http://git.linux-nfs.org/?p=3Dsteved/nfs-utils.git;a=3Dcommit;h=3D2fbc6=
-2e2a13fc22b6ae4910e295a2c10fb790486]
-> -
-> -Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ----
-> - support/misc/nfsd_path.c         | 5 ++++-
-> - support/misc/xstat.c             | 5 ++++-
-> - support/nfs/conffile.c           | 8 +++++++-
-> - utils/blkmapd/device-discovery.c | 8 ++++----
-> - utils/idmapd/idmapd.c            | 8 ++++----
-> - 5 files changed, 23 insertions(+), 11 deletions(-)
-> -
-> -diff --git a/support/misc/nfsd_path.c b/support/misc/nfsd_path.c
-> -index 84e4802..f078a66 100644
-> ---- a/support/misc/nfsd_path.c
-> -+++ b/support/misc/nfsd_path.c
-> -@@ -1,3 +1,7 @@
-> -+#ifdef HAVE_CONFIG_H
-> -+#include <config.h>
-> -+#endif
-> -+
-> - #include <errno.h>
-> - #include <sys/types.h>
-> - #include <sys/stat.h>
-> -@@ -5,7 +9,6 @@
-> - #include <stdlib.h>
-> - #include <unistd.h>
-> -
-> --#include "config.h"
-> - #include "conffile.h"
-> - #include "xmalloc.h"
-> - #include "xlog.h"
-> -diff --git a/support/misc/xstat.c b/support/misc/xstat.c
-> -index fa04788..4c997ee 100644
-> ---- a/support/misc/xstat.c
-> -+++ b/support/misc/xstat.c
-> -@@ -1,3 +1,7 @@
-> -+#ifdef HAVE_CONFIG_H
-> -+#include <config.h>
-> -+#endif
-> -+
-> - #include <errno.h>
-> - #include <sys/types.h>
-> - #include <fcntl.h>
-> -@@ -5,7 +9,6 @@
-> - #include <sys/sysmacros.h>
-> - #include <unistd.h>
-> -
-> --#include "config.h"
-> - #include "xstat.h"
-> -
-> - #ifdef HAVE_FSTATAT
-> -diff --git a/support/nfs/conffile.c b/support/nfs/conffile.c
-> -index b6400be..6ba8a35 100644
-> ---- a/support/nfs/conffile.c
-> -+++ b/support/nfs/conffile.c
-> -@@ -500,7 +500,7 @@ conf_readfile(const char *path)
-> -
-> -       if ((stat (path, &sb) =3D=3D 0) || (errno !=3D ENOENT)) {
-> -               char *new_conf_addr =3D NULL;
-> --              size_t sz =3D sb.st_size;
-> -+              off_t sz;
-> -               int fd =3D open (path, O_RDONLY, 0);
-> -
-> -               if (fd =3D=3D -1) {
-> -@@ -517,6 +517,11 @@ conf_readfile(const char *path)
-> -
-> -               /* only after we have the lock, check the file size ready=
- to read it */
-> -               sz =3D lseek(fd, 0, SEEK_END);
-> -+              if (sz < 0) {
-> -+                      xlog_warn("conf_readfile: unable to determine fil=
-e size: %s",
-> -+                                strerror(errno));
-> -+                      goto fail;
-> -+              }
-> -               lseek(fd, 0, SEEK_SET);
-> -
-> -               new_conf_addr =3D malloc(sz+1);
-> -@@ -2162,6 +2167,7 @@ conf_write(const char *filename, const char *secti=
-on, const char *arg,
-> -       ret =3D 0;
-> -
-> - cleanup:
-> -+      flush_outqueue(&inqueue, NULL);
-> -       flush_outqueue(&outqueue, NULL);
-> -
-> -       if (buff)
-> -diff --git a/utils/blkmapd/device-discovery.c b/utils/blkmapd/device-dis=
-covery.c
-> -index e811703..f5f9b10 100644
-> ---- a/utils/blkmapd/device-discovery.c
-> -+++ b/utils/blkmapd/device-discovery.c
-> -@@ -26,6 +26,10 @@
-> -  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-> -  */
-> -
-> -+#ifdef HAVE_CONFIG_H
-> -+#include "config.h"
-> -+#endif /* HAVE_CONFIG_H */
-> -+
-> - #include <sys/sysmacros.h>
-> - #include <sys/types.h>
-> - #include <sys/stat.h>
-> -@@ -51,10 +55,6 @@
-> - #include <errno.h>
-> - #include <libdevmapper.h>
-> -
-> --#ifdef HAVE_CONFIG_H
-> --#include "config.h"
-> --#endif /* HAVE_CONFIG_H */
-> --
-> - #include "device-discovery.h"
-> - #include "xcommon.h"
-> - #include "nfslib.h"
-> -diff --git a/utils/idmapd/idmapd.c b/utils/idmapd/idmapd.c
-> -index 62e37b8..267acea 100644
-> ---- a/utils/idmapd/idmapd.c
-> -+++ b/utils/idmapd/idmapd.c
-> -@@ -34,6 +34,10 @@
-> -  *  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-> -  */
-> -
-> -+#ifdef HAVE_CONFIG_H
-> -+#include "config.h"
-> -+#endif /* HAVE_CONFIG_H */
-> -+
-> - #include <sys/types.h>
-> - #include <sys/time.h>
-> - #include <sys/inotify.h>
-> -@@ -62,10 +66,6 @@
-> - #include <libgen.h>
-> - #include <nfsidmap.h>
-> -
-> --#ifdef HAVE_CONFIG_H
-> --#include "config.h"
-> --#endif /* HAVE_CONFIG_H */
-> --
-> - #include "xlog.h"
-> - #include "conffile.h"
-> - #include "queue.h"
-> ---
-> -2.7.4
-> -
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-s=
-tring.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-st=
-ring.patch
-> deleted file mode 100644
-> index 1d693e4142a..00000000000
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-format-string.p=
-atch
-> +++ /dev/null
-> @@ -1,183 +0,0 @@
-> -Clang comes up with more printf format warnings
-> -Correcting =E2=80=9Cformat string is not a string literal=E2=80=9D warni=
-ng
-> -requires us to declare that parameter is a printf style
-> -format using the attribute flag
-> -
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -Index: nfs-utils-2.3.3/support/include/xcommon.h
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/support/include/xcommon.h
-> -+++ nfs-utils-2.3.3/support/include/xcommon.h
-> -@@ -27,7 +27,7 @@
-> -
-> - /* Functions in sundries.c that are used in mount.c and umount.c  */
-> - char *canonicalize (const char *path);
-> --void nfs_error (const char *fmt, ...);
-> -+void nfs_error (const char *fmt, ...) __attribute__((__format__ (__prin=
-tf__, 1, 2)));
-> - void *xmalloc (size_t size);
-> - void *xrealloc(void *p, size_t size);
-> - void xfree(void *);
-> -@@ -36,9 +36,9 @@ char *xstrndup (const char *s, int n);
-> - char *xstrconcat2 (const char *, const char *);
-> - char *xstrconcat3 (const char *, const char *, const char *);
-> - char *xstrconcat4 (const char *, const char *, const char *, const char=
- *);
-> --void die (int errcode, const char *fmt, ...);
-> -+void die (int errcode, const char *fmt, ...) __attribute__((__format__ =
-(__printf__, 2, 3)));
-> -
-> --extern void die(int err, const char *fmt, ...);
-> -+extern void die(int err, const char *fmt, ...) __attribute__((__format_=
-_ (__printf__, 2, 3)));
-> - extern void (*at_die)(void);
-> -
-> - /* exit status - bits below are ORed */
-> -Index: nfs-utils-2.3.3/support/include/xlog.h
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/support/include/xlog.h
-> -+++ nfs-utils-2.3.3/support/include/xlog.h
-> -@@ -43,10 +43,10 @@ void                       xlog_config(int fac, int =
-on);
-> - void                  xlog_sconfig(char *, int on);
-> - void                  xlog_from_conffile(char *);
-> - int                   xlog_enabled(int fac);
-> --void                  xlog(int fac, const char *fmt, ...);
-> --void                  xlog_warn(const char *fmt, ...);
-> --void                  xlog_err(const char *fmt, ...);
-> --void                  xlog_errno(int err, const char *fmt, ...);
-> --void                  xlog_backend(int fac, const char *fmt, va_list ar=
-gs);
-> -+void                  xlog(int fac, const char *fmt, ...) __attribute__=
-((__format__ (__printf__, 2, 3)));
-> -+void                  xlog_warn(const char *fmt, ...) __attribute__((__=
-format__ (__printf__, 1, 2)));
-> -+void                  xlog_err(const char *fmt, ...) __attribute__((__f=
-ormat__ (__printf__, 1, 2)));
-> -+void                  xlog_errno(int err, const char *fmt, ...) __attri=
-bute__((__format__ (__printf__, 2, 3)));
-> -+void                  xlog_backend(int fac, const char *fmt, va_list ar=
-gs) __attribute__((__format__ (__printf__, 2, 0)));
-> -
-> - #endif /* XLOG_H */
-> -Index: nfs-utils-2.3.3/support/nfs/xcommon.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/support/nfs/xcommon.c
-> -+++ nfs-utils-2.3.3/support/nfs/xcommon.c
-> -@@ -93,7 +93,10 @@ nfs_error (const char *fmt, ...) {
-> -
-> -      fmt2 =3D xstrconcat2 (fmt, "\n");
-> -      va_start (args, fmt);
-> -+#pragma clang diagnostic push
-> -+#pragma clang diagnostic ignored "-Wformat-nonliteral"
-> -      vfprintf (stderr, fmt2, args);
-> -+#pragma clang diagnostic pop
-> -      va_end (args);
-> -      free (fmt2);
-> - }
-> -Index: nfs-utils-2.3.3/utils/exportfs/exportfs.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/utils/exportfs/exportfs.c
-> -+++ nfs-utils-2.3.3/utils/exportfs/exportfs.c
-> -@@ -644,6 +644,7 @@ out:
-> -       return result;
-> - }
-> -
-> -+__attribute__((__format__ (__printf__, 2, 3)))
-> - static char
-> - dumpopt(char c, char *fmt, ...)
-> - {
-> -Index: nfs-utils-2.3.3/utils/statd/statd.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/utils/statd/statd.c
-> -+++ nfs-utils-2.3.3/utils/statd/statd.c
-> -@@ -136,7 +136,7 @@ static void log_modes(void)
-> -       strcat(buf, "TI-RPC ");
-> - #endif
-> -
-> --      xlog_warn(buf);
-> -+      xlog_warn("%s", buf);
-> - }
-> -
-> - /*
-> -Index: nfs-utils-2.3.3/support/nfs/svc_create.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/support/nfs/svc_create.c
-> -+++ nfs-utils-2.3.3/support/nfs/svc_create.c
-> -@@ -184,7 +184,7 @@ svc_create_sock(const struct sockaddr *s
-> -               type =3D SOCK_STREAM;
-> -               break;
-> -       default:
-> --              xlog(D_GENERAL, "%s: Unrecognized bind address semantics:=
- %u",
-> -+              xlog(D_GENERAL, "%s: Unrecognized bind address semantics:=
- %lu",
-> -                       __func__, nconf->nc_semantics);
-> -               return -1;
-> -       }
-> -Index: nfs-utils-2.3.3/support/nsm/rpc.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/support/nsm/rpc.c
-> -+++ nfs-utils-2.3.3/support/nsm/rpc.c
-> -@@ -182,7 +182,7 @@ nsm_xmit_getport(const int sock, const s
-> -       uint32_t xid;
-> -       XDR xdr;
-> -
-> --      xlog(D_CALL, "Sending PMAP_GETPORT for %u, %u, udp", program, ver=
-sion);
-> -+      xlog(D_CALL, "Sending PMAP_GETPORT for %lu, %lu, udp", program, v=
-ersion);
-> -
-> -       nsm_init_xdrmem(msgbuf, NSM_MAXMSGSIZE, &xdr);
-> -       xid =3D nsm_init_rpc_header(PMAPPROG, PMAPVERS,
-> -Index: nfs-utils-2.3.3/utils/mountd/cache.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/utils/mountd/cache.c
-> -+++ nfs-utils-2.3.3/utils/mountd/cache.c
-> -@@ -968,8 +968,7 @@ lookup_export(char *dom, char *path, str
-> -                       } else if (found_type =3D=3D i && found->m_warned=
- =3D=3D 0) {
-> -                               xlog(L_WARNING, "%s exported to both %s a=
-nd %s, "
-> -                                    "arbitrarily choosing options from f=
-irst",
-> --                                   path, found->m_client->m_hostname, e=
-xp->m_client->m_hostname,
-> --                                   dom);
-> -+                                   path, found->m_client->m_hostname, e=
-xp->m_client->m_hostname);
-> -                               found->m_warned =3D 1;
-> -                       }
-> -               }
-> -Index: nfs-utils-2.3.3/utils/mountd/mountd.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/utils/mountd/mountd.c
-> -+++ nfs-utils-2.3.3/utils/mountd/mountd.c
-> -@@ -213,7 +213,7 @@ static void
-> - sig_hup (int sig)
-> - {
-> -       /* don't exit on SIGHUP */
-> --      xlog (L_NOTICE, "Received SIGHUP... Ignoring.\n", sig);
-> -+      xlog (L_NOTICE, "Received SIGHUP(%d)... Ignoring.\n", sig);
-> -       return;
-> - }
-> -
-> -Index: nfs-utils-2.3.3/utils/statd/rmtcall.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/utils/statd/rmtcall.c
-> -+++ nfs-utils-2.3.3/utils/statd/rmtcall.c
-> -@@ -247,7 +247,7 @@ process_reply(FD_SET_TYPE *rfds)
-> -               xlog_warn("%s: service %d not registered on localhost",
-> -                       __func__, NL_MY_PROG(lp));
-> -       } else {
-> --              xlog(D_GENERAL, "%s: Callback to %s (for %d) succeeded",
-> -+              xlog(D_GENERAL, "%s: Callback to %s (for %s) succeeded",
-> -                       __func__, NL_MY_NAME(lp), NL_MON_NAME(lp));
-> -       }
-> -       nlist_free(&notify, lp);
-> -Index: nfs-utils-2.3.3/utils/statd/svc_run.c
-> -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> ---- nfs-utils-2.3.3.orig/utils/statd/svc_run.c
-> -+++ nfs-utils-2.3.3/utils/statd/svc_run.c
-> -@@ -53,6 +53,7 @@
-> -
-> - #include <errno.h>
-> - #include <time.h>
-> -+#include <inttypes.h>
-> - #include "statd.h"
-> - #include "notlist.h"
-> -
-> -@@ -104,8 +105,8 @@ my_svc_run(int sockfd)
-> -
-> -                       tv.tv_sec  =3D NL_WHEN(notify) - now;
-> -                       tv.tv_usec =3D 0;
-> --                      xlog(D_GENERAL, "Waiting for reply... (timeo %d)"=
-,
-> --                                                      tv.tv_sec);
-> -+                      xlog(D_GENERAL, "Waiting for reply... (timeo %jd)=
-",
-> -+                                                      (intmax_t)tv.tv_s=
-ec);
-> -                       selret =3D select(FD_SETSIZE, &readfds,
-> -                               (void *) 0, (void *) 0, &tv);
-> -               } else {
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl=
--res_querydomain.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-=
-utils-musl-res_querydomain.patch
-> deleted file mode 100644
-> index 921f5edc82f..00000000000
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils/nfs-utils-musl-res_qu=
-erydomain.patch
-> +++ /dev/null
-> @@ -1,46 +0,0 @@
-> -From caa19231196d73541445728e6813c8fa70345acb Mon Sep 17 00:00:00 2001
-> -From: Robert Yang <liezhi.yang@windriver.com>
-> -Date: Tue, 26 Jun 2018 15:59:00 +0800
-> -Subject: [PATCH] nfs-utils: 2.1.1 -> 2.3.1
-> -
-> -Fixed:
-> -configure: error: res_querydomain needed
-> -
-> -Upstream-Status: Pending [https://github.com/alpinelinux/aports/blob/mas=
-ter/main/nfs-utils/musl-configure_ac.patch]
-> -
-> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> -
-> ----
-> - configure.ac | 9 ++++-----
-> - 1 file changed, 4 insertions(+), 5 deletions(-)
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 50002b4..dcadb23 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -582,10 +582,10 @@ my_am_cflags=3D"\
-> -  -Wall \
-> -  -Wextra \
-> -  $rpcgen_cflags \
-> -- -Werror=3Dmissing-prototypes \
-> -- -Werror=3Dmissing-declarations \
-> -+ -Wmissing-prototypes \
-> -+ -Wmissing-declarations \
-> -  -Werror=3Dformat=3D2 \
-> -- -Werror=3Dundef \
-> -+ -Wundef \
-> -  -Werror=3Dmissing-include-dirs \
-> -  -Werror=3Dstrict-aliasing=3D2 \
-> -  -Werror=3Dinit-self \
-> -@@ -614,10 +614,9 @@ AC_DEFUN([CHECK_CCSUPPORT], [
-> -
-> - CHECK_CCSUPPORT([-Werror=3Dformat-overflow=3D2], [flg1])
-> - CHECK_CCSUPPORT([-Werror=3Dint-conversion], [flg2])
-> --CHECK_CCSUPPORT([-Werror=3Dincompatible-pointer-types], [flg3])
-> - CHECK_CCSUPPORT([-Werror=3Dmisleading-indentation], [flg4])
-> -
-> --AC_SUBST([AM_CFLAGS], ["$my_am_cflags $flg1 $flg2 $flg3 $flg4"])
-> -+AC_SUBST([AM_CFLAGS], ["$my_am_cflags $flg1 $flg2 $flg4"])
-> -
-> - # Make sure that $ACLOCAL_FLAGS are used during a rebuild
-> - AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \$(ACLOCAL_FLAGS)"])
-> diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb b/met=
-a/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb
-> similarity index 94%
-> rename from meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-> rename to meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb
-> index eb32bccb57c..df3070bd8b0 100644
-> --- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.1.bb
-> +++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb
-> @@ -29,16 +29,13 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/nfs-util=
-s/${PV}/nfs-utils-${PV}.tar.x
->             file://nfs-utils-debianize-start-statd.patch \
->             file://bugfix-adjust-statd-service-name.patch \
->             file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
-> -           file://clang-format-string.patch \
->             file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.p=
-atch \
->             file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
-> -           file://0001-Fix-include-order-between-config.h-and-stat.h.pat=
-ch \
-> -"
+> - dist_doc_DATA = java-agent.txt
+> diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.10.5.bb b/meta/recipes-kernel/lttng/lttng-ust_2.11.0.bb
+> similarity index 89%
+> rename from meta/recipes-kernel/lttng/lttng-ust_2.10.5.bb
+> rename to meta/recipes-kernel/lttng/lttng-ust_2.11.0.bb
+> index cfaad30b694..6d7c05e65e3 100644
+> --- a/meta/recipes-kernel/lttng/lttng-ust_2.10.5.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-ust_2.11.0.bb
+> @@ -15,6 +15,8 @@ PYTHON_OPTION = "am_cv_python_pyexecdir='${PYTHON_SITEPACKAGES_DIR}' \
+>
+>  inherit autotools lib_package manpages python3native
+>
+> +EXTRA_OECONF = "--disable-numa"
+> +
+>  DEPENDS = "liburcu util-linux"
+>  RDEPENDS_${PN}-bin = "python3-core"
+>
+> @@ -26,12 +28,11 @@ RCONFLICTS_${PN} = "lttng2-ust"
+>  PE = "2"
+>
+>  SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
+> -           file://lttng-ust-doc-examples-disable.patch \
+>             file://0001-python-lttngust-Makefile.am-Add-install-lib-to-setup.patch \
+> -          "
 > +           "
->  SRC_URI_append_libc-glibc =3D " file://0001-configure.ac-Do-not-fatalize=
--Wmissing-prototypes.patch"
-> -SRC_URI_append_libc-musl =3D " file://nfs-utils-musl-res_querydomain.pat=
-ch"
 >
-> -SRC_URI[md5sum] =3D "161efe469ec1b06f1c750bd87f8ba6dd"
-> -SRC_URI[sha256sum] =3D "85274ada94479b1beba9f8eeffd19f477c53a6710b9998d1=
-192c807854087736"
-> +SRC_URI[md5sum] =3D "d427c6b3014e9a04e8498f0598b1c1b9"
-> +SRC_URI[sha256sum] =3D "4464737a03d5f73ded2ffefe19d5543ed7b1d6c541985d8a=
-caafdc8025aa1038"
+> -SRC_URI[md5sum] = "f0c86a9fa7dcfd0205fb42584a310b1c"
+> -SRC_URI[sha256sum] = "06f9ed9b2198855b1c7fcbf15fe57297ee259409ffa1b3bad87321412d98bc35"
+> +SRC_URI[md5sum] = "99823cfeb76562d753ffe67880e9cc59"
+> +SRC_URI[sha256sum] = "683280cfe5e12021e64c32cef9eeb0128f1f23dec32ba28adb5a2074be37c4d8"
 >
->  # Only kernel-module-nfsd is required here (but can be built-in)  - the =
-nfsd module will
->  # pull in the remainder of the dependencies.
+>  CVE_PRODUCT = "ust"
+>
 > --
 > 2.17.1
 >
