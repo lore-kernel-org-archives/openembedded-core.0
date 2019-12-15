@@ -1,52 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0189A7F7C9
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C587E7F7BC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 11:03:18 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id t14so3459426wmi.5
+	Sun, 15 Dec 2019 12:53:13 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id b72so1640063wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 03:03:20 -0800 (PST)
+	Sun, 15 Dec 2019 04:53:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=k6+jHl5ruq8khQ8OBtv1XA0hsMfpYvbo9b9hG0tZV60=;
-	b=OepHg/qDWNomxbObQsBD3tbGWsLc6IothV/DPWhodrP64ZFaXVrhftZlF3eMudiaLM
-	Zks2zrSl/n1I5T51odXI4/eBhEDz3xUBY8zHE82juFnhg2zqhXJdsvZF3a/Ak4urnrrR
-	NlQyt3eE/EZlzhkrJzO7ZOwXxj9JoHx6dv7iQ=
+	bh=MMHBkygMNdwJZhfRyYZHIK+EIwquBB+O16UIqogjX6g=;
+	b=bxZOA+FidLow8oURuIBpfT0T5WzE8L49LUxcUE1y0w/8/sOaD2PRjh/MVbNTkJ5zph
+	1HKxYC6EWwh/9p7Guqksc2oKuuIKTEq2fZf+FrwnhYvEjAfUUgJ4eZw3D5Yb/ScIozDZ
+	9OOeotAQWHkLeL0tkVudXfa1FtPHDIqWPDDts=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=k6+jHl5ruq8khQ8OBtv1XA0hsMfpYvbo9b9hG0tZV60=;
-	b=Q/pqegaSHrL6vmnKUQyjiqEOC73iABR+wejtJFr7p81gJM7UmciZ18pkkAC0W2TLYB
-	FP6fNVrzNz0oD2p1M+6PAtX+Fv3KSPHzXajIRE09QowlcLub2/VYXqwf2tJUR3gPkffJ
-	XliQPPZ5005A6NBEV/9vEvymAz2SEqFvFRHEDW2Lp1Hm7Guo/fXfejMAmk7UKBZS0ln4
-	9spciO/uNACDRD4Ihomd25vZVZJPOob4fIUmmf7vsP45vGmlPCyIaY8NyJbBDlTP1pGP
-	xIW8UNzHrVJMa3tlGLBC8nYfEUPot0ZshAuYaXlVdczv2MHlVLWDX4BKZJfiQXu0NHBL
-	bEsQ==
-X-Gm-Message-State: APjAAAVbrS4TQVZwlUZMsJFSe71JhgHiH6RxpSAvvEMNzHxKHJxdfRc6
-	Pl1nADeC1yKn3zjshlCY+GvqnA==
-X-Google-Smtp-Source: APXvYqxnIXkQiy0qR7wL3t6zkDqvtFob0RfEmDZ7Wc5qKNowqTPcnnIsOSy8tDZJm9GKfIl41J57LA==
-X-Received: by 2002:a1c:ab85:: with SMTP id u127mr23779792wme.40.1576407799740;
-	Sun, 15 Dec 2019 03:03:19 -0800 (PST)
+	bh=MMHBkygMNdwJZhfRyYZHIK+EIwquBB+O16UIqogjX6g=;
+	b=GfU3Y59ftCVMyAZw+bsxMZmUgKVjHpcPZErxx5Qr3k43NhMX3gtTPXHvnWthGRF7Yw
+	gi13ZfhDwHVZv0F54Ezif/yd5eArbCR2QbjlJUCsVQrbNX9uLe9NnHrBseHG076nDedg
+	29lr86kvD+LkQ5BbzO9KmAKJEbiO4deyrfUUUeXo++ucr0t/IW7mH/pggGXXN5Y/KC74
+	ojv9dpkgH2xXONl5rk58caY5uKF9P7V2MQNxZKhgBdkkFyfTQHx/kcQSOsYYp3TIvzDb
+	xpcK+O3ltDsR9lnlYz1kFM0jsKBy7qCam7OBS0Y32tjSNHDr+98x6u5Dqoqz6jHtG3N7
+	9ryA==
+X-Gm-Message-State: APjAAAVCjhYzm0yN9Kf/tIG43qDa9zuin6XbJuAHo5RkdvyNipzwL9D3
+	C09JD36dEHKoHTzGNr+iHLd5yQ==
+X-Google-Smtp-Source: APXvYqyht63vUoapoOs2sDmr92fCafM+hx5uRDULUKWNEZ5diY1Aih4+jqvIQAxNDD14iFvDluubAg==
+X-Received: by 2002:a7b:cc81:: with SMTP id p1mr25282639wma.62.1576414394486; 
+	Sun, 15 Dec 2019 04:53:14 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	e12sm17361450wrn.56.2019.12.15.03.03.18
+	z83sm17909605wmg.2.2019.12.15.04.53.13
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 15 Dec 2019 03:03:19 -0800 (PST)
-Message-ID: <b4e0b39cda58583411b3e6c05cb0566053e6cdb1.camel@linuxfoundation.org>
+	Sun, 15 Dec 2019 04:53:13 -0800 (PST)
+Message-ID: <e4288403d08c96589c285bcb3fb5ccda219809a1.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Alexander Kanavin <alex.kanavin@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Sun, 15 Dec 2019 11:03:18 +0000
-In-Reply-To: <20191212181436.1322-3-alex.kanavin@gmail.com>
+Date: Sun, 15 Dec 2019 12:53:12 +0000
+In-Reply-To: <20191212181436.1322-20-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-	<20191212181436.1322-3-alex.kanavin@gmail.com>
+	<20191212181436.1322-20-alex.kanavin@gmail.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH 03/30] gettext: update to 0.20.1
+Subject: Re: [PATCH 20/30] lttng-modules: update to 2.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +59,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Dec 2019 11:03:19 -0000
+X-List-Received-Date: Sun, 15 Dec 2019 12:53:14 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2019-12-12 at 19:14 +0100, Alexander Kanavin wrote:
-> License-Update: URLs changed from http to https
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> Removed the bleeding-edge variant; if it is still useful please
+> maintain it separately.
 
-In an effort to try and get to the bottom of which patches cause which
-failures I ran the gettext updates pieces by themselves (patches 2-5).
-
-systemtap fails:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1354
-
-the main a-full build in case there are other issues:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/580
-
-I know there is a fix for the check-layer/mingw pieces in master-next
-of meta-mingw, just forgot to set that branch.
+Its needed due to people using varying kernel versions and in
+particular by Bruce for testing of new kernels.
 
 Cheers,
 
 Richard
-
-
 
 
