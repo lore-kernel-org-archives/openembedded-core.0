@@ -1,55 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C32287F7BC
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
+	[209.85.221.196])
+	by mail.openembedded.org (Postfix) with ESMTP id BD0A47D9D5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 17:16:31 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id b6so4419407wrq.0
+	Sun, 15 Dec 2019 17:24:16 +0000 (UTC)
+Received: by mail-vk1-f196.google.com with SMTP id h13so993536vkn.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 09:16:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=xw1rjnBnBhStyQ9pC6NKFt3nbMhdzdghazfnTLl4sIA=;
-	b=NASTV4qxWfTJW4MWTeoZN5gjmJgDLicSGZQJXWMZP8CqltoTARRSk/aOLGjWzYOZ/H
-	nCBORcfp8xUotfA/vYkeeFj9/p7v86Eo/K3GTiwPigqcxSL69TESDQSVYylUXg3kPmIC
-	gWXhC6gg4Rr8GaJwRfJo9XhxCZkt3lFVGAOEk=
+	Sun, 15 Dec 2019 09:24:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=QzCU+SXpgUZ+y09GqoyhxuyBYtmLBfv6V/ZUKN25xMs=;
+	b=TQwaJEpusJDX3QROH/OB43aVRmCillbIl/9BSS/n6KYniu3QduYl7zEdP1qMwvjPZ8
+	JE0Sf4tJRd3e76P00Qb+gF1yk7tqTNB/+SC+FrBcJAFtHtqKVDkdeydlpOaTJzM+cHE9
+	DneH07iLA+U6hBFBfZHlaKhjNfi7CHiOzCPraBV3XMVNPb8+gmVVd0OTxd5VDhABSYYg
+	Viy/5j7Vt4Iv2LTh1ryCA8EczzVKS9MgQKVptQir/01E8gP31qavzNHdY0F4ME8EdC+/
+	SWUqKE56zkA7qsMXc7et+xv6hxVLosgw0zZelmuSGKZWKR+mXBDD28UCm+i3BWrXfdtj
+	zq1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=xw1rjnBnBhStyQ9pC6NKFt3nbMhdzdghazfnTLl4sIA=;
-	b=mTuHlqqlbTkmY6JMWIjuc+BWNlbAHPIw6RpsJB7jPFC2M6BTS/bSZEAgoSEixqfe0F
-	VAiiUIyQOj1JFvQwYh/9bHwqiQFLbsHD1XAmp6WCx8JqSGnG69rWBJCAJUVyo82PofIf
-	0aGBKED7UCPNuL26EzCirrGyhk7yRfD3Ekuj783p2iinAMXevFEtc8AR4ntUDc+pMpD1
-	89tUc8n7TZUzwPb+F0BSXMa0U/BVgLpENifVAQrpvjNYy1tsCNH4NWLrKGD309zNdMeH
-	BCT6FE7WdeuLInCPr+Zl2/BKjZdO8bQz9bhsGRzHYownnNzHugG+a4PjSdP0zKTo5tYx
-	2nlQ==
-X-Gm-Message-State: APjAAAVzEB/3sybQuSPbp4Ypph9VQUqi1iEFCLvHfwo6Lb/AxqLc+rnh
-	etgpQ0n+sgUTjry3WTsIH/cK+g==
-X-Google-Smtp-Source: APXvYqyWrA1NAaARZ/OFQ5UigtjYJ6kGQdoRf5dqZCLR9dpilBUlH5jP1pYTZYp+RnUOc+1cwMlkpw==
-X-Received: by 2002:a5d:4d06:: with SMTP id z6mr17950639wrt.339.1576430192538; 
-	Sun, 15 Dec 2019 09:16:32 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b10sm18497114wrt.90.2019.12.15.09.16.31
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 15 Dec 2019 09:16:31 -0800 (PST)
-Message-ID: <afbc6e41d1dd42e39b715bdc48a135f3a93ceb1c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Bruce Ashfield
-	<bruce.ashfield@gmail.com>
-Date: Sun, 15 Dec 2019 17:16:30 +0000
-In-Reply-To: <CANNYZj8x+iQmMAhHkv4yNu8dWfv7VgoE4jW2D-8HnjVeOwYPgQ@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=QzCU+SXpgUZ+y09GqoyhxuyBYtmLBfv6V/ZUKN25xMs=;
+	b=B/zRH/EgxJEvDWaf5CJZX8IxTRAvSL6EhAxUxD0MbFJj5AtnRYjo2oNpNccFw1baR0
+	OZD25wDAuXHLU3pqxqP5EHQUVaGTqwo/IkTxzob95F3ZA1vW0UH4RIkFOI6zpfgyEynp
+	oLDMjaiKeRejzE8YAFG+CnEfST+AyH4tdVz3dlD1IV+jNJoQ74XYDVdi/xrYSrHHKrvt
+	UKXGEcmLXj+yGcdgJIXYAmdK4y1+p49V8rX5F11zdm8taJqfmk8/7LqNTJKjyugOIYR5
+	1QMDE8o2cKLUkiA2o6IIiJU50C4w4O0s6H0NAyGgXOfwOHLYn86kEhmCLxpacgSbaxGP
+	fcrg==
+X-Gm-Message-State: APjAAAUO8WloPk2hRIqpDjiCP/+4zKcgrb/Oo1xwVVFYJEUorI6ysEy5
+	/ZY98pGjrmqcKIJyIAJBPyLKmCDcCgLSg222FYw=
+X-Google-Smtp-Source: APXvYqxGhBToNNkoQZkGdZX2aL0+1tFYAP9nHgVOB6i/ZfRmfe7+WYdnvCkqONQYcANEgP4Ez8sJ11ox2xA1tg+AMGQ=
+X-Received: by 2002:a05:6122:2b6:: with SMTP id
+	22mr21182259vkq.49.1576430657558; 
+	Sun, 15 Dec 2019 09:24:17 -0800 (PST)
+MIME-Version: 1.0
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
 	<20191212181436.1322-20-alex.kanavin@gmail.com>
 	<e4288403d08c96589c285bcb3fb5ccda219809a1.camel@linuxfoundation.org>
 	<CANNYZj_Fj1KZoTDxsVzyJ_4Ya9KHOys9LsY1OQgm4UogC_xd-A@mail.gmail.com>
 	<CADkTA4MyfWZfd-a9jqhTOHtFyM0RW2Mo5aDa48zy817=1g0WXQ@mail.gmail.com>
 	<CANNYZj8x+iQmMAhHkv4yNu8dWfv7VgoE4jW2D-8HnjVeOwYPgQ@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
+	<afbc6e41d1dd42e39b715bdc48a135f3a93ceb1c.camel@linuxfoundation.org>
+In-Reply-To: <afbc6e41d1dd42e39b715bdc48a135f3a93ceb1c.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 15 Dec 2019 18:24:06 +0100
+Message-ID: <CANNYZj8vMukHUWvJ96Q8R7fFtQ2Z=C-R4XorH7-KuZyedoyRVA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 20/30] lttng-modules: update to 2.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -64,32 +60,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Dec 2019 17:16:32 -0000
+X-List-Received-Date: Sun, 15 Dec 2019 17:24:17 -0000
+Content-Type: multipart/alternative; boundary="0000000000005b5e0f0599c15dfc"
+
+--0000000000005b5e0f0599c15dfc
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2019-12-15 at 17:45 +0100, Alexander Kanavin wrote:
-> On Sun, 15 Dec 2019 at 17:28, Bruce Ashfield <
-> bruce.ashfield@gmail.com> wrote:
-> > > Another problem is that devtool isn't able to upgrade the main
-> > variant properly with this included. I'd rather split it it into a
-> > different recipe, if someone confirms the need.
-> > 
-> > It is definitely needed.
-> 
-> Right, then I'll rework this patch to split the dev version into a
-> separate recipe with a shared .inc.
+On Sun, 15 Dec 2019 at 18:16, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Can we teach devtool to be able to handle this?
+> On Sun, 2019-12-15 at 17:45 +0100, Alexander Kanavin wrote:
+> > On Sun, 15 Dec 2019 at 17:28, Bruce Ashfield <
+> > bruce.ashfield@gmail.com> wrote:
+> > > > Another problem is that devtool isn't able to upgrade the main
+> > > variant properly with this included. I'd rather split it it into a
+> > > different recipe, if someone confirms the need.
+> > >
+> > > It is definitely needed.
+> >
+> > Right, then I'll rework this patch to split the dev version into a
+> > separate recipe with a shared .inc.
+>
+> Can we teach devtool to be able to handle this?
+>
+> In the back of my mind I'd still like to get poky-bleeding back running
+> to try and get earlier warning of upstream breakage.
+>
+> This sets a precedent of disallowing devupstream in recipes which I
+> don't really like the idea of :/
+>
 
-In the back of my mind I'd still like to get poky-bleeding back running
-to try and get earlier warning of upstream breakage. 
+Maybe a quick fix would be to tell devtool to ignore devupstream, I'll take
+a look tomorrow.
 
-This sets a precedent of disallowing devupstream in recipes which I
-don't really like the idea of :/
+Alex
 
-Cheers,
+--0000000000005b5e0f0599c15dfc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 15 Dec 2019 at 18:16, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex">On Sun, 2019-12-15 at 17:45=
+ +0100, Alexander Kanavin wrote:<br>
+&gt; On Sun, 15 Dec 2019 at 17:28, Bruce Ashfield &lt;<br>
+&gt; <a href=3D"mailto:bruce.ashfield@gmail.com" target=3D"_blank">bruce.as=
+hfield@gmail.com</a>&gt; wrote:<br>
+&gt; &gt; &gt; Another problem is that devtool isn&#39;t able to upgrade th=
+e main<br>
+&gt; &gt; variant properly with this included. I&#39;d rather split it it i=
+nto a<br>
+&gt; &gt; different recipe, if someone confirms the need.<br>
+&gt; &gt; <br>
+&gt; &gt; It is definitely needed.<br>
+&gt; <br>
+&gt; Right, then I&#39;ll rework this patch to split the dev version into a=
+<br>
+&gt; separate recipe with a shared .inc.<br>
+<br>
+Can we teach devtool to be able to handle this?<br>
+<br>
+In the back of my mind I&#39;d still like to get poky-bleeding back running=
+<br>
+to try and get earlier warning of upstream breakage. <br>
+<br>
+This sets a precedent of disallowing devupstream in recipes which I<br>
+don&#39;t really like the idea of :/<br></blockquote><div><br></div><div>Ma=
+ybe a quick fix would be to tell devtool to ignore devupstream, I&#39;ll ta=
+ke a look tomorrow.</div><div><br></div><div>Alex<br></div></div></div>
 
-
+--0000000000005b5e0f0599c15dfc--
