@@ -1,52 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C587E7F7BC
+Return-Path: <crg7475@mailbox.org>
+X-Greylist: delayed 306 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sun, 15 Dec 2019 12:54:32 UTC
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	by mail.openembedded.org (Postfix) with ESMTP id A869A7F7C8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 12:53:13 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id b72so1640063wme.4
+	Sun, 15 Dec 2019 12:54:32 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [80.241.60.241])
+	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 47bPP31bZ5zKmfB
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 04:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=MMHBkygMNdwJZhfRyYZHIK+EIwquBB+O16UIqogjX6g=;
-	b=bxZOA+FidLow8oURuIBpfT0T5WzE8L49LUxcUE1y0w/8/sOaD2PRjh/MVbNTkJ5zph
-	1HKxYC6EWwh/9p7Guqksc2oKuuIKTEq2fZf+FrwnhYvEjAfUUgJ4eZw3D5Yb/ScIozDZ
-	9OOeotAQWHkLeL0tkVudXfa1FtPHDIqWPDDts=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=MMHBkygMNdwJZhfRyYZHIK+EIwquBB+O16UIqogjX6g=;
-	b=GfU3Y59ftCVMyAZw+bsxMZmUgKVjHpcPZErxx5Qr3k43NhMX3gtTPXHvnWthGRF7Yw
-	gi13ZfhDwHVZv0F54Ezif/yd5eArbCR2QbjlJUCsVQrbNX9uLe9NnHrBseHG076nDedg
-	29lr86kvD+LkQ5BbzO9KmAKJEbiO4deyrfUUUeXo++ucr0t/IW7mH/pggGXXN5Y/KC74
-	ojv9dpkgH2xXONl5rk58caY5uKF9P7V2MQNxZKhgBdkkFyfTQHx/kcQSOsYYp3TIvzDb
-	xpcK+O3ltDsR9lnlYz1kFM0jsKBy7qCam7OBS0Y32tjSNHDr+98x6u5Dqoqz6jHtG3N7
-	9ryA==
-X-Gm-Message-State: APjAAAVCjhYzm0yN9Kf/tIG43qDa9zuin6XbJuAHo5RkdvyNipzwL9D3
-	C09JD36dEHKoHTzGNr+iHLd5yQ==
-X-Google-Smtp-Source: APXvYqyht63vUoapoOs2sDmr92fCafM+hx5uRDULUKWNEZ5diY1Aih4+jqvIQAxNDD14iFvDluubAg==
-X-Received: by 2002:a7b:cc81:: with SMTP id p1mr25282639wma.62.1576414394486; 
-	Sun, 15 Dec 2019 04:53:14 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	z83sm17909605wmg.2.2019.12.15.04.53.13
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 15 Dec 2019 04:53:13 -0800 (PST)
-Message-ID: <e4288403d08c96589c285bcb3fb5ccda219809a1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 15 Dec 2019 12:53:12 +0000
-In-Reply-To: <20191212181436.1322-20-alex.kanavin@gmail.com>
-References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-	<20191212181436.1322-20-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH 20/30] lttng-modules: update to 2.11.0
+	Sun, 15 Dec 2019 13:49:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+	references:in-reply-to:message-id:date:date:subject:subject:from
+	:from:received; s=mail20150812; t=1576414165; bh=k7M+7yBfSjz/8Bf
+	iSZ65pI4njJbOwfrUxBFvEZvi4a4=; b=Z2PraXJvi4Y25FX4izfMMCWA3nBc1Cs
+	vRgpWJfSATTWJgIaGdRWsDUGmxrCxwb1gKyJK1EiC7B9xw7odH6Cb+ew/wyVHcCL
+	NMgsb1thYX+GmRXZLC3ZWc5fq/BJZCQMqIFRoyDY0DX2Ylq4G0qO1Zk5fhhRhI3k
+	wx3BZrMElV3cMpEi4khg0UPS6RMYvSbtU1peQgUZtBYww0CXCAynq5ETOH76HZlO
+	ligTeDHpdhKAPdQWUDoRwMcy8CLRJdXJJeOXlj4eLNByZJyBo9XucBhxN+BaJyIK
+	EYFbfXvtU2zq6NEV2xe7LNyUtcxHAoXEsuxfgCRs7vf0cQs/PqVlcTQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+	s=mail20150812; t=1576414167;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:in-reply-to:in-reply-to:references:references;
+	bh=RClakvN07f8wLfVbqkZQWxtSB+WQhXic5ABMmGlqieM=;
+	b=jq7OTh6q03jkgYvXWYDXLkxKkZRZDx68zq9nFIyB4KFazQ4S8+FOowcL6BKx1grUoQsGbg
+	dpTKYAZ5F6BHIcYYXSvo1Xfcb7cscq+h2sBWeEiz+taPtxiouhzIS2T25XmOVi/N4ejDpW
+	GQEyUQoeVbyxLxXRE77VJ9MeuE8xSGTtpvbrgCGVgOEE4vmXoQxd2AlWayBzhBz5VB3SIn
+	UACykL1IMsXrRJX05eE0ENWLaO9B027j3siP9VOQvKDVTTe69O76wKq3jrsKd+E4cEL9Zo
+	KUuhCBUJhZRVgCjc2iMlykBLpcn9rv9oSCsiWIR16DL6xu33IsTYU32xfcyT0w==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+	by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de
+	[80.241.56.122]) (amavisd-new, port 10030) with ESMTP id 3KB1bca3G82h
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 15 Dec 2019 13:49:25 +0100 (CET)
+From: Carlos Rafael Giani <crg7475@mailbox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 15 Dec 2019 13:49:04 +0100
+Message-Id: <20191215124910.24946-6-crg7475@mailbox.org>
+In-Reply-To: <20191215124910.24946-1-crg7475@mailbox.org>
+References: <20191215124910.24946-1-crg7475@mailbox.org>
+Subject: [WIP][PATCH 06/12] gstreamer1.0-plugins-ugly: Transition to meson based builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,19 +55,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Dec 2019 12:53:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 15 Dec 2019 12:54:33 -0000
 
-On Thu, 2019-12-12 at 19:14 +0100, Alexander Kanavin wrote:
-> Removed the bleeding-edge variant; if it is still useful please
-> maintain it separately.
+* Removed autotools/M4 related patch
+  0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch.
 
-Its needed due to people using varying kernel versions and in
-particular by Bruce for testing of new kernels.
+* gettext handling now part of gstreamer1.0-plugins-common.inc.
 
-Cheers,
+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+---
+ .../gstreamer1.0-plugins-ugly_1.16.1.bb       | 23 +++++++++----------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-Richard
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.1.bb
+index ecab318899..30961d0e02 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.1.bb
+@@ -1,4 +1,4 @@
+-require gstreamer1.0-plugins.inc
++require gstreamer1.0-plugins-common.inc
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
+                     file://tests/check/elements/xingmux.c;beginline=1;endline=21;md5=4c771b8af188724855cb99cadd390068"
+@@ -8,7 +8,6 @@ LICENSE_FLAGS = "commercial"
+ 
+ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+-            file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+             "
+ SRC_URI[md5sum] = "668795903cb4971fba9aa89abdea8369"
+ SRC_URI[sha256sum] = "4bf913b2ca5195ac3b53b5e3ade2dc7c45d2258507552ddc850c5fa425968a1d"
+@@ -17,23 +16,23 @@ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
+ DEPENDS += "gstreamer1.0-plugins-base"
+ 
+-inherit gettext
++GST_PLUGIN_SET_HAS_EXAMPLES = "0"
+ 
+ PACKAGECONFIG ??= " \
+     ${GSTREAMER_ORC} \
+     a52dec mpeg2dec \
+ "
+ 
+-PACKAGECONFIG[a52dec]   = "--enable-a52dec,--disable-a52dec,liba52"
+-PACKAGECONFIG[amrnb]    = "--enable-amrnb,--disable-amrnb,opencore-amr"
+-PACKAGECONFIG[amrwb]    = "--enable-amrwb,--disable-amrwb,opencore-amr"
+-PACKAGECONFIG[cdio]     = "--enable-cdio,--disable-cdio,libcdio"
+-PACKAGECONFIG[dvdread]  = "--enable-dvdread,--disable-dvdread,libdvdread"
+-PACKAGECONFIG[mpeg2dec] = "--enable-mpeg2dec,--disable-mpeg2dec,mpeg2dec"
+-PACKAGECONFIG[x264]     = "--enable-x264,--disable-x264,x264"
++PACKAGECONFIG[a52dec]   = "-Da52dec=enabled,-Da52dec=disabled,liba52"
++PACKAGECONFIG[amrnb]    = "-Damrnb=enabled,-Damrnb=disabled,opencore-amr"
++PACKAGECONFIG[amrwb]    = "-Damrwbdec=enabled,-Damrwbdec=disabled,opencore-amr"
++PACKAGECONFIG[cdio]     = "-Dcdio=enabled,-Dcdio=disabled,libcdio"
++PACKAGECONFIG[dvdread]  = "-Ddvdread=enabled,-Ddvdread=disabled,libdvdread"
++PACKAGECONFIG[mpeg2dec] = "-Dmpeg2dec=enabled,-Dmpeg2dec=disabled,mpeg2dec"
++PACKAGECONFIG[x264]     = "-Dx264=enabled,-Dx264=disabled,x264"
+ 
+-EXTRA_OECONF += " \
+-    --disable-sidplay \
++EXTRA_OEMESON += " \
++    -Dsidplay=disabled \
+ "
+ 
+ FILES_${PN}-amrnb += "${datadir}/gstreamer-1.0/presets/GstAmrnbEnc.prs"
+-- 
+2.17.1
 
 
