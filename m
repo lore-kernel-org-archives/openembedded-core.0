@@ -1,46 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
-	[209.85.222.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A69A37F7B9
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 124967F7B9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 16:20:56 +0000 (UTC)
-Received: by mail-ua1-f67.google.com with SMTP id z17so1259926uac.5
+	Sun, 15 Dec 2019 16:28:03 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id c26so3035137eds.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 08:20:57 -0800 (PST)
+	Sun, 15 Dec 2019 08:28:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=18+Mg65aqRvkaCb9Ln2wMlJnex8mx+SZ7oiIAl38eaY=;
-	b=Gzy8nRB87v/IHhVNMCOmCDJ2/8zhhjuRTGS4EXX72X1aa7JYE8nIqcLhk0ebKRJOT/
-	uiY7SytJ8M8ZVVjE9yfViIRdQ9ps3sURE7BxnqkO6FIBFwpZ1HDdADnFIOauJxyo6ihB
-	4AoL+Mnhy6NSNuZKk0r4dHwEpHBrufVeu58Xjp9LrecxJHKkCBlYKD7SSizCqLAv8mBY
-	BudqlNEMJq33RCeIBmVUXktZlJYDGHxQ/PZlUijzvxERYNU92T0ztDRIufgiv6AmO5w3
-	7ApxmmQnhVSvFb61Bic3226exI49JwnVNLwSwk7xwFAH0sD+3ZrgbVfYf31pCdOWAHhU
-	CYZQ==
+	:cc:content-transfer-encoding;
+	bh=x0p2HCcdjjju7Yp6X1FFKNzz0GTjD8R3hLHB8PZx2sw=;
+	b=AZkqnBP9Rc2U+b6qOlK3V7lLqRJHsudQo0TQjMj2hewmc5AOaDCYmukerqR9vK2FvC
+	fkIbIDEZJf+YnH9TwD6H16wbkaK/LXAVbh40waMAYpnhUzoIVzPOc+pzArmbhn7bnBeC
+	IDTerjBD2CfV8LYAmd7cQmbHjPj2Uz3txCrRbdQ5WtJ0rOo53N+wvv+kAymCE5HSjE9q
+	o70ZbHRD7BKgzUnfo2wbAtGG3CBVkrUzIGlDFzRAlvB6U/HOc94tcODdLUMhg0HkX8tT
+	nT2mcj8gkGnDjGNIlDWcfOoLu1+ch7bOgVesRt3y62SopRowteLXGJxnS/RzUDZOj48b
+	GcEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=18+Mg65aqRvkaCb9Ln2wMlJnex8mx+SZ7oiIAl38eaY=;
-	b=mx9Gs+FPNnYRchQPxl6VB3B302oz9RgBL+JF7w/e4wvNeUw4n1IrJgW1B0PYR2xmpP
-	6iGpHsKp9iOJHfkquA6CzHUSuHaSxt9gIe8AIwrf18CoTfRzIpe6SOP+ZGJKx57Xkv5j
-	J9hyMOLudJqmW7uHslEzO1qECEm4dHLoGikr3BzidGOkPviq0u7r1737cLtBvXyNhcrn
-	NIziOJW9CTAZqrgnbOGEXtBKXd6L5T1o8IXRiRAkp6x/rSmPRfNd5fznrIptO1CQHRET
-	Ut0TbcS+40AcgqfFPpF2eUfEho8RDxhhTMajEmeHNqHU+zZlIuh6URxe+a4tCHhHy2rn
-	n6Qg==
-X-Gm-Message-State: APjAAAUkyGuNr2SYcNGVW+290JhfFaB0g7DlmDQLJg2nfVF86rDfgx80
-	XGDCOUxcU8JJeiaPBysIh+IUPl6yTR9U9zIUU98=
-X-Google-Smtp-Source: APXvYqwT2mhj5twu5xxyIv30lkJeh2z1Z2k9Fu7ISGoPXOH/CyHw0X4Runnm8Vni8cYFVuxAKHQpU6mayRwb4Owr3lQ=
-X-Received: by 2002:ab0:2006:: with SMTP id v6mr19637870uak.22.1576426857370; 
-	Sun, 15 Dec 2019 08:20:57 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=x0p2HCcdjjju7Yp6X1FFKNzz0GTjD8R3hLHB8PZx2sw=;
+	b=do4P1jZXXbW5ZJYFB+AdckbjW0yDpgCAMr4zZNPslFjUZP+JSG8jrr2LZQ9LREY3rs
+	rD6fTgZBcNRpiFHDlEbs4hOD8lH2wmwCP5uL5eCvPU5lKumWP4CDrZQ6DorPKTMy6NLx
+	5QE7++SZigLiuZvzUGv1JYQSbZtrbIEomDHXGbIsJKnwaA2SVKZX+gMP5tBx4KEiA/dv
+	DPp7Vni9Y7O1hBJIIXC3dH9+h4ojDZKXeZMsQxzZqPO6sdcZFjBUUu4ZLTW8FXerWBxY
+	niAuYtv3nAdVtgrWZxanRfLbwjAktG9ULG7ROHNrZev8PQDxsOWO6RDaN1k7zXPLnIw9
+	Xl7A==
+X-Gm-Message-State: APjAAAUGFLk3Q7FCp8UxH4qKpO20d6digXR4zrZ2gNZT1PUL6gNSQ/QO
+	7wnTMiABSS/D4jNF1LLWayq4EIP/QHbgsSQZq338kcn5
+X-Google-Smtp-Source: APXvYqx0F5NPdz3tAuzt7cjKq6j7CVQkWgmpd0/XwyRkzpi7VxPlVqRbXL/MkjqRf2C26pM/76Gy9k8torrkm6q/ArY=
+X-Received: by 2002:a17:906:4815:: with SMTP id
+	w21mr16475291ejq.259.1576427284507; 
+	Sun, 15 Dec 2019 08:28:04 -0800 (PST)
 MIME-Version: 1.0
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
 	<20191212181436.1322-20-alex.kanavin@gmail.com>
 	<e4288403d08c96589c285bcb3fb5ccda219809a1.camel@linuxfoundation.org>
-In-Reply-To: <e4288403d08c96589c285bcb3fb5ccda219809a1.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 15 Dec 2019 17:20:46 +0100
-Message-ID: <CANNYZj_Fj1KZoTDxsVzyJ_4Ya9KHOys9LsY1OQgm4UogC_xd-A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CANNYZj_Fj1KZoTDxsVzyJ_4Ya9KHOys9LsY1OQgm4UogC_xd-A@mail.gmail.com>
+In-Reply-To: <CANNYZj_Fj1KZoTDxsVzyJ_4Ya9KHOys9LsY1OQgm4UogC_xd-A@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 15 Dec 2019 11:27:53 -0500
+Message-ID: <CADkTA4MyfWZfd-a9jqhTOHtFyM0RW2Mo5aDa48zy817=1g0WXQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 20/30] lttng-modules: update to 2.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,58 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Dec 2019 16:20:56 -0000
-Content-Type: multipart/alternative; boundary="000000000000d919440599c07ace"
-
---000000000000d919440599c07ace
+X-List-Received-Date: Sun, 15 Dec 2019 16:28:04 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-On Sun, 15 Dec 2019 at 13:53, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Thu, 2019-12-12 at 19:14 +0100, Alexander Kanavin wrote:
-> > Removed the bleeding-edge variant; if it is still useful please
-> > maintain it separately.
->
-> Its needed due to people using varying kernel versions and in
-> particular by Bruce for testing of new kernels.
->
-
-The bleeding edge variant has been introduced for the first time by Zhe He
-of Wind River 6 months ago, and hasn't been updated since. If I had kept
-that in, it would actually be providing an older version of the component
-than the main variant. So I am not sure if it's actually being used; if it
-is, then it should see more frequent updates.
-
-Another problem is that devtool isn't able to upgrade the main variant
-properly with this included. I'd rather split it it into a different
-recipe, if someone confirms the need.
-
-Alex
-
---000000000000d919440599c07ace
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 15 Dec 2019 at 13:53, Richard Pur=
-die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
-e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">On Thu, 2019-12-12 at 19:14=
- +0100, Alexander Kanavin wrote:<br>
-&gt; Removed the bleeding-edge variant; if it is still useful please<br>
-&gt; maintain it separately.<br>
-<br>
-Its needed due to people using varying kernel versions and in<br>
-particular by Bruce for testing of new kernels.<br></blockquote><div><br></=
-div><div>The bleeding edge variant has been introduced for the first time b=
-y Zhe He of Wind River 6 months ago, and hasn&#39;t been updated since. If =
-I had kept that in, it would actually be providing an older version of the =
-component than the main variant. So I am not sure if it&#39;s actually bein=
-g used; if it is, then it should see more frequent updates.</div><div><br><=
-/div><div>Another problem is that devtool isn&#39;t able to upgrade the mai=
-n variant properly with this included. I&#39;d rather split it it into a di=
-fferent recipe, if someone confirms the need.<br></div><div><br></div><div>=
-Alex<br></div></div></div>
+On Sun, Dec 15, 2019 at 11:21 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> On Sun, 15 Dec 2019 at 13:53, Richard Purdie <richard.purdie@linuxfoundat=
+ion.org> wrote:
+>>
+>> On Thu, 2019-12-12 at 19:14 +0100, Alexander Kanavin wrote:
+>> > Removed the bleeding-edge variant; if it is still useful please
+>> > maintain it separately.
+>>
+>> Its needed due to people using varying kernel versions and in
+>> particular by Bruce for testing of new kernels.
+>
+>
+> The bleeding edge variant has been introduced for the first time by Zhe H=
+e of Wind River 6 months ago, and hasn't been updated since. If I had kept =
+that in, it would actually be providing an older version of the component t=
+han the main variant. So I am not sure if it's actually being used; if it i=
+s, then it should see more frequent updates.
 
---000000000000d919440599c07ace--
+linux-yocto-dev needs it, and unfortunately I've been hung up for
+several weeks on getting mips64 to boot with the latest kernels. Hence
+my entire queue is held up on that at the moment.
+
+>
+> Another problem is that devtool isn't able to upgrade the main variant pr=
+operly with this included. I'd rather split it it into a different recipe, =
+if someone confirms the need.
+
+It is definitely needed.
+
+So if it is dropped now, I'll just have to re-introduce it in my next serie=
+s.
+
+Bruce
+
+>
+> Alex
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
