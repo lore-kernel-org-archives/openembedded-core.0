@@ -1,47 +1,51 @@
 Return-Path: <crg7475@mailbox.org>
 Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	by mail.openembedded.org (Postfix) with ESMTP id AAB1E7F7CB
+	by mail.openembedded.org (Postfix) with ESMTP id A9C4C7F7C9
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 15 Dec 2019 12:54:32 +0000 (UTC)
 Received: from smtp2.mailbox.org (smtp2.mailbox.org
 	[IPv6:2001:67c:2050:105:465:1:2:0])
 	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 47bPP425JZzKmfr
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 47bPP73q8ZzKmfg
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 13:49:28 +0100 (CET)
+	Sun, 15 Dec 2019 13:49:31 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
-	references:in-reply-to:message-id:date:date:subject:subject:from
-	:from:received; s=mail20150812; t=1576414166; bh=Qylm3TWFaljb1Me
-	I5fpU5xPot0CGVkG35fhhkYezdqo=; b=LZb7OpOAM40yx4UyUlZ3NtFKItTBAAT
-	LRfDr0RjEAngB9ChL3IpDcQrEc+9zNYjzYL0ZVucJf825GlVwuL2C1TI+qmstBKE
-	hhM8Wlgajo/Bsv2xVaGByIGTMJsqigxrIJq7+L5UQC2V317BFOgjzTpGN6t6PkBf
-	zSPqAmi1nfC+Oal8Dxxn6LC5OwYe1rejzpjz0bXCD7WZ1EnSzw/We379ECg/xOGE
-	GjxtePtBnD1WKDls864jeTl+wmP9oIiKh7B37J0FMCA4rMH58iNi92z9M5fjYC8M
-	roOIwi+BsvlYRvoEUxwFfFWII7atKWu8ZQQiD90YVc/V5OocgMaoJlw==
+	content-transfer-encoding:content-type:content-type:mime-version
+	:references:in-reply-to:message-id:date:date:subject:subject
+	:from:from:received; s=mail20150812; t=1576414165; bh=pgiBFNDkhD
+	Xj2d0KkbeeBQEfIJg6+NxscJ4siQIHpag=; b=Nuvsb6zmymk3zDwk28BxEDkwVD
+	uw/m/oz/bG2s4hDnYphivdudvth/0xiVnwMY1+LpTqB6k7EwR6P8ZU02RhNghNwe
+	HqkpprA8QcnEY4s7nDNs2esEKpuPTtbwJL4uANfMsnBV3hyKnEQapTchWh6YJ39u
+	IgqH9K/6ZLk38nvOUpZUMlM81Y46wq5lm1tmR8lxdG6TsgEFRNod0wakcSL53NqF
+	JAeio8ZkG4HgQp+4Z8r8aD1hxBlzsxjxbHEjFgoaQWcj0oaKK8AmxC3uVpH+SPFr
+	IhjdIt3GEDzEtdbCUp4rr/nWd+Smsp7a3Ih14xmZyvbZxg7oE5lFH5WtZheg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
-	s=mail20150812; t=1576414168;
+	s=mail20150812; t=1576414171;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:in-reply-to:in-reply-to:references:references;
-	bh=XwlvvdSQ77ax4H0GJ5FUio6VvBE49DfTmsxqIjEPdcc=;
-	b=LaarfU9Vkkcr/lb9y97PIuRU1Cl/6U7odWJZySHPQjLY/pNG3DSPnsKgL6s3g02x17iP1/
-	e+DONmwfepGXb3A9TDDvZkNUh2Ryx7pcSqh0aGKPId3D8bOEX2YeUIFsGdj0JLf+UTVSYz
-	lGPJphVqPor/vzNspNH3SAd2MPbYiV5OUbOz7oBUY7T/7UfNwWwq80IXQ2MBPBDJZBOoec
-	3Gg+kGpxgQ19RXFM5G2KRSbDZi1rl7XLA7CHGtz5k+O4jriqu5eSJH/YyPWhS1vUcjs0Dm
-	0gp3BaN5KvWvoNlpMTq0gzR3QJWHxWOTc7qeP9tMo3YNyGJOgHOo+Mxro3CX1A==
+	to:to:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=CEw+iy1CN08BCd9MVNNOaEhZbTH0pfYVEzgJcd/gy7s=;
+	b=qFVcxEcWawUUCDKc3JracL+RWhlr/WaqIBMh4nspZ+CWV5Fyl37ZUEHMJDASvqZXWw4jUq
+	LGwqVSuKpcCcTYae1kxQ/sNp4AnV9VOB31xKY7I+lffYTlsDgKsd8trHofdmtuJbhO8uQ4
+	cCc5mSnbIIl/4o2vWMaiPbkCYVBkAsoTkRReiBPx5LL/MjUOiP6iVLXrPSkYzeiKP3ZykT
+	p4UEdrZvBAEzOo3yyLHqvc72xv0Vu+t98J5wwnZ89TvGy37hEcKyOSOy+yKk7tjjIz6+qs
+	HJpSXax0fQnTuazfozjzJtcIiPWRIKvKSC+FVSrwx5NP+1/6ibVN6TvJogZYFg==
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp2.mailbox.org ([80.241.60.241])
-	by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de
-	[80.241.56.122]) (amavisd-new, port 10030) with ESMTP id IScN7tTfXd59
+	by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de
+	[80.241.56.117]) (amavisd-new, port 10030) with ESMTP id P3eD1Jhoh1XC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 13:49:26 +0100 (CET)
+	Sun, 15 Dec 2019 13:49:25 +0100 (CET)
 From: Carlos Rafael Giani <crg7475@mailbox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 15 Dec 2019 13:49:08 +0100
-Message-Id: <20191215124910.24946-10-crg7475@mailbox.org>
+Date: Sun, 15 Dec 2019 13:49:05 +0100
+Message-Id: <20191215124910.24946-7-crg7475@mailbox.org>
 In-Reply-To: <20191215124910.24946-1-crg7475@mailbox.org>
 References: <20191215124910.24946-1-crg7475@mailbox.org>
-Subject: [WIP][PATCH 10/12] gstreamer1.0-rtsp-server: Transition to meson based build
+MIME-Version: 1.0
+Subject: [WIP][PATCH 07/12] gstreamer1.0-libav: Transition to meson based builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,100 +59,306 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 15 Dec 2019 12:54:33 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* 0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch is a
-  fix for GIR support in the meson.build file.
+meson based builds exclusively rely on external FFmpeg builds. The internal
+copy was added at a time when stable FFmpeg releases did not exist. They
+do nowadays, so the internal copy is not needed anymore. As a result, large
+portions of the recipe are unnecessary, since they set up the internal
+copy. Same goes for the patches and the zlib/bzip2/xz dependendencies.
 
 Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ---
- ...even-when-cross-compiling-if-introsp.patch | 36 +++++++++++++++++++
- .../gstreamer1.0-rtsp-server_1.16.1.bb        | 23 ++++++------
- 2 files changed, 46 insertions(+), 13 deletions(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+ ...ble-yasm-for-libav-when-disable-yasm.patch | 33 ----------
+ ...-configure-check-for-armv7ve-variant.patch | 35 -----------
+ .../0001-fix-host-contamination.patch         | 36 -----------
+ .../mips64_cpu_detection.patch                | 32 ----------
+ ...to-build-gst-libav-for-i586-with-gcc.patch | 26 --------
+ .../gstreamer/gstreamer1.0-libav_1.16.1.bb    | 63 +++++--------------
+ 6 files changed, 14 insertions(+), 211 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-Disable-yasm-for-libav-when-disable-yasm.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-configure-check-for-armv7ve-variant.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-fix-host-contamination.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
-new file mode 100644
-index 0000000000..6962a50d6e
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
-@@ -0,0 +1,36 @@
-+From 95ce953e34cd0e9f5d42ce7900a9572e7bc8ca47 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
-+Date: Fri, 18 Oct 2019 00:42:12 +0100
-+Subject: [PATCH] meson: build gir even when cross-compiling if introspection
-+ was enabled explicitly
-+
-+This can be made to work in certain circumstances when
-+cross-compiling, so default to not building g-i stuff
-+when cross-compiling, but allow it if introspection was
-+enabled explicitly via -Dintrospection=enabled.
-+
-+See gstreamer/gstreamer#454 and gstreamer/gstreamer#381.
-+
-+Upstream-Status: Backport [95ce953e34cd0e9f5d42ce7900a9572e7bc8ca47]
-+
-+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
-+---
-+ meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index e1e3b1d..3f45f0e 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -173,7 +173,7 @@ endif
-+ 
-+ gir = find_program('g-ir-scanner', required : get_option('introspection'))
-+ gnome = import('gnome')
-+-build_gir = gir.found() and not meson.is_cross_build()
-++build_gir = gir.found() and (not meson.is_cross_build() or get_option('introspection').enabled())
-+ gir_init_section = [ '--add-init-section=extern void gst_init(gint*,gchar**);' + \
-+     'g_setenv("GST_REGISTRY_1.0", "@0@", TRUE);'.format(meson.current_build_dir() + '/gir_empty_registry.reg') + \
-+     'g_setenv("GST_PLUGIN_PATH_1_0", "", TRUE);' + \
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.1.bb
-index 45302ef4f6..deac5a9664 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.1.bb
-@@ -9,8 +9,7 @@ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
- PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
--           file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
--           file://gtk-doc-tweaks.patch \
-+           file://0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
-            "
- 
- SRC_URI[md5sum] = "380d6a42e856c32fcefa508ad57129e0"
-@@ -18,17 +17,15 @@ SRC_URI[sha256sum] = "b0abacad2f86f60d63781d2b24443c5668733e8b08664bbef94124906d
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
--inherit autotools pkgconfig upstream-version-is-even gobject-introspection gtk-doc
-+inherit meson pkgconfig upstream-version-is-even gobject-introspection
- 
--EXTRA_OECONF = "--disable-examples --disable-tests"
-+EXTRA_OEMESON += " \
-+    -Dexamples=disabled \
-+    -Dtests=disabled \
-+"
- 
--# Starting with 1.8.0 gst-rtsp-server includes dependency-less plugins as well
--LIBV = "1.0"
--require gst-plugins-package.inc
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-Disable-yasm-for-libav-when-disable-yasm.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-Disable-yasm-for-libav-when-disable-yasm.patch
+deleted file mode 100644
+index 11571aefa1..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-Disable-yasm-for-libav-when-disable-yasm.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 54bba228ea52d01fd84941d97be23c03f9862b64 Mon Sep 17 00:00:00 2001
+-From: Carlos Rafael Giani <dv@pseudoterminal.org>
+-Date: Sat, 6 Apr 2013 01:22:22 +0200
+-Subject: [PATCH] Disable yasm for libav when --disable-yasm
 -
--delete_pkg_m4_file() {
--        # This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
--        rm "${S}/common/m4/pkg.m4" || true
--}
-+GIR_MESON_ENABLE_FLAG = "enabled"
-+GIR_MESON_DISABLE_FLAG = "disabled"
+-Upstream-Status: Inappropriate [configuration]
+-
+-Signed-off-by: Shane Wang <shane.wang@intel.com>
+-Signed-off-by: Carlos Rafael Giani <dv@pseudoterminal.org>
+----
+- configure.ac | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 22ede88..ef3c050 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -355,6 +355,12 @@ else
+-     emblibav_configure_args="$emblibav_configure_args --enable-gpl"
+-   fi
+-
+-+  AC_ARG_ENABLE(yasm,
+-+              [AC_HELP_STRING([--disable-yasm], [disable use of yasm assembler])])
+-+  if test "x$enable_yasm" = "xno"; then
+-+    emblibav_configure_args="$emblibav_configure_args --disable-yasm"
+-+  fi
+-+
+-   # if we are cross-compiling, tell libav so
+-   case $host in
+-       *android*)
+--- 
+-1.8.2
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-configure-check-for-armv7ve-variant.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-configure-check-for-armv7ve-variant.patch
+deleted file mode 100644
+index f182715bda..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-configure-check-for-armv7ve-variant.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From aac5902d3c9cb35c771e760d0e487622aa2e116a Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 20 Apr 2017 10:38:18 -0700
+-Subject: [PATCH] configure: check for armv7ve variant
+-
+-OE passes -mcpu and -march via cmdline and if
+-package tries to detect one of it own then it
+-should be compatible otherwise, newer gcc7+ will
+-error out
+-
+-Check for relevant preprocessor macro to determine
+-armv7ve architecture
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- gst-libs/ext/libav/configure | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/gst-libs/ext/libav/configure b/gst-libs/ext/libav/configure
+-index 4a5e477..727818e 100755
+---- a/gst-libs/ext/libav/configure
+-+++ b/gst-libs/ext/libav/configure
+-@@ -4745,6 +4745,7 @@ elif enabled arm; then
+-         elif check_arm_arch 6KZ;      then echo armv6zk
+-         elif check_arm_arch 6ZK;      then echo armv6zk
+-         elif check_arm_arch 6T2;      then echo armv6t2
+-+        elif check_arm_arch EXT_IDIV; then echo armv7ve
+-         elif check_arm_arch 7;        then echo armv7
+-         elif check_arm_arch 7A  7_A;  then echo armv7-a
+-         elif check_arm_arch 7S;       then echo armv7-a
+--- 
+-2.12.2
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-fix-host-contamination.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-fix-host-contamination.patch
+deleted file mode 100644
+index 120c0798ea..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-fix-host-contamination.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From c1700f867f876ee33c130a8e28b688e2b1d89663 Mon Sep 17 00:00:00 2001
+-From: Anuj Mittal <anuj.mittal@intel.com>
+-Date: Wed, 11 Apr 2018 17:14:55 +0800
+-Subject: [PATCH] Prevent host contamination
+-
+-Remove reference to host $(libdir) from .la files.
+-
+-Upstream-Status: Inappropriate [cross-compile specific]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- gst-libs/ext/Makefile.am | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/gst-libs/ext/Makefile.am b/gst-libs/ext/Makefile.am
+-index 6cdc048..a19d255 100644
+---- a/gst-libs/ext/Makefile.am
+-+++ b/gst-libs/ext/Makefile.am
+-@@ -49,7 +49,7 @@ echo "  GEN      $1.la" && \
+-  echo "library_names=''" && \
+-  echo "old_library='$1.a'" && \
+-  echo "inherited_linker_flags=''" && \
+-- echo "dependency_libs=' -L$(libdir) $(if $2,$(foreach dep,$2,$(abs_builddir)/$(dep).la)) $(call find_library_la,$3 $(LIBM),$(LDFLAGS)) '" && \
+-+ echo "dependency_libs=' -L $(if $2,$(foreach dep,$2,$(abs_builddir)/$(dep).la)) $(call find_library_la,$3 $(LIBM),$(LDFLAGS)) '" && \
+-  echo "weak_library_names=''" &&  \
+-  echo "current=" && \
+-  echo "age=" && \
+-@@ -58,7 +58,7 @@ echo "  GEN      $1.la" && \
+-  echo "shouldnotlink=no" && \
+-  echo "dlopen=''" && \
+-  echo "dlpreopen=''" && \
+-- echo "libdir='$(libdir)'") > $1.la
+-+ echo "libdir=''") > $1.la
+- endef
+- 
+- libavutil.la:
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch
+deleted file mode 100644
+index 90d042b313..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-It will add -mips64r6 and -mips64r2 to cmdline which will
+-cause conflicts
+-
+-in OE we user mips32r2 and mips64r2 for mips arch versions
+-so there is no benefit of detecting it automatically by
+-poking at tools especially in cross env
+-
+-Fixes errors like
+-
+-linking -mnan=2008 module with previous -mnan=legacy modules
+-failed to merge target specific data of file
+-
+--Khem
+-Upstream-Status: Inappropriate [OE-Specific]
+-
+-Index: gst-libav-1.10.1/gst-libs/ext/libav/configure
+-===================================================================
+---- gst-libav-1.10.1.orig/gst-libs/ext/libav/configure
+-+++ gst-libav-1.10.1/gst-libs/ext/libav/configure
+-@@ -5650,12 +5650,9 @@ elif enabled mips; then
+- 
+-     # Enable minimum ISA based on selected options
+-     if enabled mips64; then
+--        enabled mips64r6 && check_inline_asm_flags mips64r6 '"dlsa $0, $0, $0, 1"' '-mips64r6'
+-         enabled mips64r2 && check_inline_asm_flags mips64r2 '"dext $0, $0, 0, 1"' '-mips64r2'
+-         disabled mips64r6 && disabled mips64r2 && check_inline_asm_flags mips64r1 '"daddi $0, $0, 0"' '-mips64'
+-     else
+--        enabled mips32r6 && check_inline_asm_flags mips32r6 '"aui $0, $0, 0"' '-mips32r6'
+--        enabled mips32r5 && check_inline_asm_flags mips32r5 '"eretnc"' '-mips32r5'
+-         enabled mips32r2 && check_inline_asm_flags mips32r2 '"ext $0, $0, 0, 1"' '-mips32r2'
+-         disabled mips32r6 && disabled mips32r5 && disabled mips32r2 && check_inline_asm_flags mips32r1 '"addi $0, $0, 0"' '-mips32'
+-     fi
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
+deleted file mode 100644
+index 4b85356547..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-Description: Workaround to build libav for i586 with gcc 4.9.2 by avoiding memset
+-Author: Bernhard Übelacker <bernhardu@vr-web.de>
+-
+----
+-Bug-Debian: https://bugs.debian.org/783082
+-Last-Update: 2015-04-28
+-
+-Upstream-Status: Backport [debian]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-
+---- gst-libav-1.4.5.orig/gst-libs/ext/libav/libavcodec/h264_cabac.c
+-+++ gst-libav-1.4.5/gst-libs/ext/libav/libavcodec/h264_cabac.c
+-@@ -2057,7 +2057,11 @@ decode_intra_mb:
+-         // In deblocking, the quantizer is 0
+-         h->cur_pic.qscale_table[mb_xy] = 0;
+-         // All coeffs are present
+--        memset(h->non_zero_count[mb_xy], 16, 48);
+-+        /*memset(h->non_zero_count[mb_xy], 16, 48);*/
+-+            /* avoiding this memset because it leads at least with gcc4.9.2 to error: 'asm' operand has impossible constraints */
+-+        for (size_t i = 0; i < 48; i++) {
+-+            ( (unsigned char*)(h->non_zero_count[mb_xy]) ) [i] = 16;
+-+        }
+-         h->cur_pic.mb_type[mb_xy] = mb_type;
+-         sl->last_qscale_diff = 0;
+-         return 0;
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb
+index 10955ff161..c1bd6b1eb1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.1.bb
+@@ -6,65 +6,30 @@ LICENSE = "GPLv2+ & LGPLv2+ & ( (GPLv2+ & LGPLv2.1+) | (GPLv3+ & LGPLv3+) )"
+ LICENSE_FLAGS = "commercial"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LIB;md5=6762ed442b3822387a51c92d928ead0d \
+-                    file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c \
+-                    file://gst-libs/ext/libav/COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+-                    file://gst-libs/ext/libav/COPYING.GPLv3;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://gst-libs/ext/libav/COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+-                    file://gst-libs/ext/libav/COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
++                    file://ext/libav/gstav.h;beginline=1;endline=18;md5=a752c35267d8276fd9ca3db6994fca9c"
  
--do_configure[prefuncs] += " delete_pkg_m4_file"
-+# Starting with 1.8.0 gst-rtsp-server includes dependency-less plugins as well
-+require gstreamer1.0-plugins-packaging.inc
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz \
+-           file://0001-Disable-yasm-for-libav-when-disable-yasm.patch \
+-           file://workaround-to-build-gst-libav-for-i586-with-gcc.patch \
+-           file://mips64_cpu_detection.patch \
+-           file://0001-configure-check-for-armv7ve-variant.patch \
+-           file://0001-fix-host-contamination.patch \
+            "
+ SRC_URI[md5sum] = "58023f4c71bbd711061e350fcd76c09d"
+ SRC_URI[sha256sum] = "e8a5748ae9a4a7be9696512182ea9ffa6efe0be9b7976916548e9d4381ca61c4"
+ 
+ S = "${WORKDIR}/gst-libav-${PV}"
+ 
+-DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base zlib bzip2 xz"
++DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base ffmpeg"
+ 
+-inherit autotools pkgconfig upstream-version-is-even gtk-doc
+-
+-# CAUTION: Using the system libav is not recommended. Since the libav API is changing all the time,
+-# compilation errors (and other, more subtle bugs) can happen. It is usually better to rely on the
+-# libav copy included in the gst-libav package.
+-PACKAGECONFIG ??= "orc yasm"
+-
+-PACKAGECONFIG[gpl] = "--enable-gpl,--disable-gpl,"
+-PACKAGECONFIG[libav] = "--with-system-libav,,libav"
+-PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc"
+-PACKAGECONFIG[yasm] = "--enable-yasm,--disable-yasm,nasm-native"
+-PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind"
+-
+-GSTREAMER_1_0_DEBUG ?= "--disable-debug"
+-
+-LIBAV_EXTRA_CONFIGURE = "--with-libav-extra-configure"
+-
+-LIBAV_EXTRA_CONFIGURE_COMMON_ARG = "--target-os=linux \
+-  --cc='${CC}' --as='${CC}' --ld='${CC}' --nm='${NM}' --ar='${AR}' \
+-  --ranlib='${RANLIB}' \
+-  ${GSTREAMER_1_0_DEBUG} \
+-  --cross-prefix='${HOST_PREFIX}'"
+-
+-# Disable assembly optimizations for X32, as this libav lacks the support
+-PACKAGECONFIG_remove_linux-gnux32 = "yasm"
+-LIBAV_EXTRA_CONFIGURE_COMMON_ARG_append_linux-gnux32 = " --disable-asm"
+-
+-LIBAV_EXTRA_CONFIGURE_COMMON = \
+-'${LIBAV_EXTRA_CONFIGURE}="${LIBAV_EXTRA_CONFIGURE_COMMON_ARG}"'
+-
+-EXTRA_OECONF = "${LIBAV_EXTRA_CONFIGURE_COMMON}"
++inherit meson pkgconfig upstream-version-is-even
+ 
+ FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
+-FILES_${PN}-dev += "${libdir}/gstreamer-1.0/*.la"
+ FILES_${PN}-staticdev += "${libdir}/gstreamer-1.0/*.a"
+ 
+-# http://errors.yoctoproject.org/Errors/Details/20493/
+-ARM_INSTRUCTION_SET_armv4 = "arm"
+-ARM_INSTRUCTION_SET_armv5 = "arm"
+-
+-# ffmpeg/libav disables PIC on some platforms (e.g. x86-32)
+-INSANE_SKIP_${PN} = "textrel"
++delete_unused_libav_copy() {
++        # When building with meson, the internal libav copy is not used.
++        # It is only present for legacy autotools based builds. In future
++        # GStreamer versions, the autotools scripts will be gone, and so
++        # will this internal copy. Until then, it will be present. In order
++        # to make sure this copy is not included in the -src package, just
++        # manually delete the copy.
++        rm -rf "${S}/gst-libs/ext/libav/"
++}
++
++do_unpack[postfuncs] += " delete_unused_libav_copy"
 -- 
 2.17.1
 
