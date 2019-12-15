@@ -1,43 +1,39 @@
-Return-Path: <crg7475@mailbox.org>
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	by mail.openembedded.org (Postfix) with ESMTP id BD1376C23A
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
+	[209.85.217.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 410B77F6B5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 17:52:20 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
-	[IPv6:2001:67c:2050:105:465:1:1:0])
-	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47bX6Y1kJpzKmhM
+	Sun, 15 Dec 2019 18:10:44 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id m5so2749976vsj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 18:52:21 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
-	content-language:content-type:content-type:in-reply-to
-	:mime-version:date:date:message-id:from:from:references:subject
-	:subject:received; s=mail20150812; t=1576432334; bh=nCpd3vc55mxe
-	HyNWx7Blz+I46Hwu/J7lONUUgNjaWJ4=; b=JrskAYPPCeZmrBUekE089Do1CFtv
-	4HRl6b4M8Amp2a1QE4eN2icNUV9ojh4M1U/Dgtwu5sj6PEQknbAW7eAhXMKl+KrB
-	LsqvsInTsVJgLw+nsMRHMZimYLv83NXXesQ9TFukRppPzWorjpmjhJ4vE8uTQBXr
-	WgEsNvxLNCxgmjZRf5xJMMEaKcC6k01WPOoEMfsV9olJNPrzALX1nCD1+BOBVXAs
-	WgzyAn/hSrQ6k5n7kLqquA4qWN41l/+3Oc9e8+JhPBrCU1XLAu8M9f7YBV19r7UM
-	tPB3TvmbpRcKeSly53XjUzbsgcEZJfiwsyKSRWb+Z0zIEacJCNeb4/fekQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
-	s=mail20150812; t=1576432339;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:mime-version:mime-version:content-type:content-type:
-	in-reply-to:in-reply-to:references:references;
-	bh=4cU8fdll98HPrQtikXJGSvxjIUQ0b2ABy6OLBH6EjX8=;
-	b=PGxnPxzo4kIAdoIUvRs/sg185u1yj+ousjMCo28E5Tr7jrBsFgXjTGvbj6xZpw6SXK7j3s
-	gXJgqXOrFDsxaIMLdlk130KvmEu/YJlHfss2r3q2PXRmU0Egcpnnyq+phItKD1f24aeUT9
-	yxu3G6DnyqoXsQpzIfUreks0PkGnTpFviQI/Xk7OIpi94GJ8kUJRozsnoAgF1G43mav5qy
-	vwoAfNxLQC5dbh9VXmOAVriCiCxom1VWtpJEbAUS9ahDsKmufMMcLkCLHwb5EMJRNbYIdh
-	ykexBEi09LgLpZSYyv1J5Sxom0Pa4so/PKPyW+0o4emZ22vER8TFEf/rpvjx3A==
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-	by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de
-	[80.241.56.125]) (amavisd-new, port 10030) with ESMTP id 5Qrt8OD4K-tA
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 15 Dec 2019 18:52:14 +0100 (CET)
-To: openembedded-core@lists.openembedded.org
+	Sun, 15 Dec 2019 10:10:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=xskeiWnyjBN2QzR4mjMP+pknr/S47lr6ab8AhXx/tN0=;
+	b=Ic1jX5E30x6kuVMuCu0UN2SOJnLM2+UoVgVz1+vZ2Y8pQt/Wr9/6vt7qEiQ0W22WLV
+	1rWMC/P8igd4AoMJG8z/67fa1Le9na57sUZPOBgXfwV8DneCm44H+X2w6EqM6ZjNIwTV
+	xJN001mJePIe4xTaz+76y/ZCQkUwx/3ffyuAyXk8ENDFA/cLHuQVYP+Tt1bjLa1AnPb6
+	mmtuV/E6zKDDEE9ZYEQ07YqsEGRQ+KU/r1sySQdPi7gLnClMzISWemvok/9csP4tcEWq
+	M8Rs8sYPD+0J3cgCh+OxYfbjsUAMqxavOQMZHqAZO/i3cuvqQ74ukynaFIxLy5m0VGKV
+	yEhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=xskeiWnyjBN2QzR4mjMP+pknr/S47lr6ab8AhXx/tN0=;
+	b=o5ldIHsVkChKQgWloKyqRumECSxFTEuVlrY6/MC0FvRMbVUfrK2gG9ov1WQGK1jDrk
+	oZjBcHYxYA/qVhd0WzHyvHJxnDuKV8QztGxYu4l0oO0hFqo3SE97C/oTWSsCYlNUvrEG
+	doGT07W3RkKYX5ycPxbVW40Foh1nhdM7zWwsfcakqWDsXBxNT0o0nXbJViCh13rkxVLw
+	FJXH5A1HK1GKwovhXxquts4fDfjTUH7c+S9dqfVQOKP5LTW7UXnpMmBDr3902CK5D9M1
+	HCIPLdac7jyOeyWLOsjSkolovMB5nAIol2HwHT3f01vhutdlTx3FPslJqghtBu06NTm9
+	dbUQ==
+X-Gm-Message-State: APjAAAUK8knfaO+f3EZnN51CikZXqVAUTRZfUPcuprLLMLgO7AL7Ufy6
+	+FXOX0ceP01O4q4I/BBd51lw2C23GhYLLCoTe1U=
+X-Google-Smtp-Source: APXvYqw1JGuiru1KFMN6KPq+ozuK+tjPCgJiwtRTO/m0yCTFfsH1SVPypYeKL5ADyOV3MWiB6GnGdEAS9emg7qwg7xU=
+X-Received: by 2002:a05:6102:21d8:: with SMTP id
+	r24mr19243039vsg.83.1576433445094; 
+	Sun, 15 Dec 2019 10:10:45 -0800 (PST)
+MIME-Version: 1.0
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
 	<20191212181436.1322-7-alex.kanavin@gmail.com>
 	<CAMKF1spXie5SDtsJj6R=6hAUjYo8kBTmyj+SfW4rYU+1cWUtig@mail.gmail.com>
@@ -45,11 +41,13 @@ References: <20191212181436.1322-1-alex.kanavin@gmail.com>
 	<CAMKF1sof2JwFMX=kHVaup_-LA3UjsqrU5iGXZymR5TOzGik1ZA@mail.gmail.com>
 	<CANNYZj_ZaJ-prapQf6adS6Adp4CnF2X4TG3HPDonivPj_QAnrA@mail.gmail.com>
 	<CAMKF1sp6a-hOuGazGtBj0mZQj9DpaM3iiC1Sbvw7Ah49vLLx9g@mail.gmail.com>
-From: Carlos Rafael Giani <crg7475@mailbox.org>
-Message-ID: <823eb2bc-4c55-1679-011d-53733df3b80f@mailbox.org>
-Date: Sun, 15 Dec 2019 18:52:13 +0100
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sp6a-hOuGazGtBj0mZQj9DpaM3iiC1Sbvw7Ah49vLLx9g@mail.gmail.com>
+	<823eb2bc-4c55-1679-011d-53733df3b80f@mailbox.org>
+In-Reply-To: <823eb2bc-4c55-1679-011d-53733df3b80f@mailbox.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sun, 15 Dec 2019 19:10:33 +0100
+Message-ID: <CANNYZj8ddwZznSYvf6h13OXN6oZY2qKZgKknOrFPb1Xaw776PQ@mail.gmail.com>
+To: Carlos Rafael Giani <crg7475@mailbox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 07/30] gstreamer1.0-python: add a patch to fix python 3.8 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -63,47 +61,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 15 Dec 2019 17:52:21 -0000
-Content-Type: multipart/alternative;
-	boundary="------------4ACC72A8842F6211B98635B2"
-Content-Language: en-US
+X-List-Received-Date: Sun, 15 Dec 2019 18:10:45 -0000
+Content-Type: multipart/alternative; boundary="00000000000081c9730599c20353"
 
---------------4ACC72A8842F6211B98635B2
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+--00000000000081c9730599c20353
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Is this related to an issue I mentioned in my RFC?
+On Sun, 15 Dec 2019 at 18:52, Carlos Rafael Giani <crg7475@mailbox.org>
+wrote:
 
- > gstreamer1.0-python_1.16.1.bb currently has a problem in that the 
-gst-python code tries to load /usr/lib/libpython3.7m.so. But, in a 
-regular installation, only /usr/lib/libpython3.7m.so.1.0 would be 
-availale. It is possible to adjust the libpython path & name during the 
-build. But - what would it be adjusted to? How would the recipe know 
-that "/usr/lib/libpython3.7m.so.1.0" is the correct choice? Or perhaps 
-would it make sense to add the /usr/lib/libpython3.7m.so symlink to the 
-regular (as in: non-dev) Python package?
+> Is this related to an issue I mentioned in my RFC?
+>
+> > gstreamer1.0-python_1.16.1.bb currently has a problem in that the
+> gst-python code tries to load /usr/lib/libpython3.7m.so. But, in a
+> regular installation, only /usr/lib/libpython3.7m.so.1.0 would be availal=
+e.
+> It is possible to adjust the libpython path & name during the build. But =
+-
+> what would it be adjusted to? How would the recipe know that
+> "/usr/lib/libpython3.7m.so.1.0" is the correct choice? Or perhaps would i=
+t
+> make sense to add the /usr/lib/libpython3.7m.so symlink to the regular
+> (as in: non-dev) Python package?
+>
+
+The way I read the code [1], it only tries to do this if it's not
+explicitly linked with libpython, and at least on my host, it is:
+
+ak@linux-f9zs:~/development/poky> ldd /usr/lib64/gstreamer-1.0/
+libgstpython.cpython-37m-x86_64-linux-gnu.so
+        linux-vdso.so.1 (0x00007fffe931a000)
+        libpython3.7m.so.1.0 =3D> /usr/lib64/libpython3.7m.so.1.0
+(0x00007fbb718e7000)
+        libgstreamer-1.0.so.0 =3D> /usr/lib64/libgstreamer-1.0.so.0
+(0x00007fbb717a3000)
+        libgobject-2.0.so.0 =3D> /usr/lib64/libgobject-2.0.so.0
+(0x00007fbb71747000)
+...
+
+The use case is rather marginal I'd say: writing gstreamer plugins in
+python. The *other* thing gst-python does, accessing gstreamer API from
+python scripts, is not affected.
+
+[1]
+https://gitlab.freedesktop.org/gstreamer/gst-python/blob/1.16.2/plugin/gstp=
+ythonplugin.c#L227
+
+Alex
 
 
-On 15.12.19 18:32, Khem Raj wrote:
+
+> On 15.12.19 18:32, Khem Raj wrote:
 >
 >
-> On Sun, Dec 15, 2019 at 9:12 AM Alexander Kanavin 
-> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
 >
->     On Sun, 15 Dec 2019 at 18:06, Khem Raj <raj.khem@gmail.com
->     <mailto:raj.khem@gmail.com>> wrote:
+> On Sun, Dec 15, 2019 at 9:12 AM Alexander Kanavin <alex.kanavin@gmail.com=
 >
->         This is expected; the patch should be merged together with 3.8
->         upgrade.
+> wrote:
 >
->         I don’t think this patch is right though since this patch is
->         creating py3.8 dependency if you want to upstream something
->         that should work with all py3 I think
->
->
->     It's being discussed in the upstream submission ticket, and will
->     be resolved; we can take the 3.8-specific fix meanwhile.
->
+>> On Sun, 15 Dec 2019 at 18:06, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>> This is expected; the patch should be merged together with 3.8 upgrade.
+>>>
+>>> I don=E2=80=99t think this patch is right though since this patch is cr=
+eating
+>>> py3.8 dependency if you want to upstream something that should work wit=
+h
+>>> all py3 I think
+>>>
+>>
+>> It's being discussed in the upstream submission ticket, and will be
+>> resolved; we can take the 3.8-specific fix meanwhile.
+>>
 >
 > For better processing this series should be in three parts
 >
@@ -111,75 +141,108 @@ On 15.12.19 18:32, Khem Raj wrote:
 > 2 gettext updates
 > 3 rest of them
 >
-> I have filtered it into roughly these and currently staged in yoe/mut 
-> just the third part which i think can be applied with out much problem
+> I have filtered it into roughly these and currently staged in yoe/mut jus=
+t
+> the third part which i think can be applied with out much problem
 >
 > For 1 and 2 there are breakages for many packages
-> And it would be better to identify them and let community know of and 
-> seek help
+> And it would be better to identify them and let community know of and see=
+k
+> help
 >
 >
->     Alex
+>> Alex
+>>
 >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---------------4ACC72A8842F6211B98635B2
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
+--00000000000081c9730599c20353
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
+<div dir=3D"ltr"><div dir=3D"ltr">On Sun, 15 Dec 2019 at 18:52, Carlos Rafa=
+el Giani &lt;<a href=3D"mailto:crg7475@mailbox.org">crg7475@mailbox.org</a>=
+&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">
+ =20
+   =20
+ =20
+  <div>
     <p>Is this related to an issue I mentioned in my RFC?</p>
-    <p>&gt; gstreamer1.0-python_1.16.1.bb currently has a problem in
-      that the gst-python code tries to load /usr/lib/libpython3.7m.so.
+    <p>&gt; <a href=3D"http://gstreamer1.0-python_1.16.1.bb" target=3D"_bla=
+nk">gstreamer1.0-python_1.16.1.bb</a> currently has a problem in
+      that the gst-python code tries to load /usr/lib/<a href=3D"http://lib=
+python3.7m.so" target=3D"_blank">libpython3.7m.so</a>.
       But, in a regular installation, only /usr/lib/libpython3.7m.so.1.0
       would be availale. It is possible to adjust the libpython path
       &amp; name during the build. But - what would it be adjusted to?
-      How would the recipe know that "/usr/lib/libpython3.7m.so.1.0" is
+      How would the recipe know that &quot;/usr/lib/libpython3.7m.so.1.0&qu=
+ot; is
       the correct choice? Or perhaps would it make sense to add the
-      /usr/lib/libpython3.7m.so symlink to the regular (as in: non-dev)
+      /usr/lib/<a href=3D"http://libpython3.7m.so" target=3D"_blank">libpyt=
+hon3.7m.so</a> symlink to the regular (as in: non-dev)
       Python package?</p>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 15.12.19 18:32, Khem Raj wrote:<br>
+    </div></blockquote><div><br></div><div>The way I read the code [1], it =
+only tries to do this if it&#39;s not explicitly linked with libpython, and=
+ at least on my host, it is:</div><div><br></div><div>ak@linux-f9zs:~/devel=
+opment/poky&gt; ldd /usr/lib64/gstreamer-1.0/<a href=3D"http://libgstpython=
+.cpython-37m-x86_64-linux-gnu.so">libgstpython.cpython-37m-x86_64-linux-gnu=
+.so</a><br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 linux-vdso.so.1 (0x00007fffe931a000)=
+<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 libpython3.7m.so.1.0 =3D&gt; /usr/lib64/lib=
+python3.7m.so.1.0 (0x00007fbb718e7000)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 libgs=
+treamer-1.0.so.0 =3D&gt; /usr/lib64/libgstreamer-1.0.so.0 (0x00007fbb717a30=
+00)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 libgobject-2.0.so.0 =3D&gt; /usr/lib64/l=
+ibgobject-2.0.so.0 (0x00007fbb71747000)</div><div>...</div><div><br></div><=
+div>The use case is rather marginal I&#39;d say: writing gstreamer plugins =
+in python. The *other* thing gst-python does, accessing gstreamer API from =
+python scripts, is not affected.<br></div><div></div><div><br></div><div>[1=
+] <a href=3D"https://gitlab.freedesktop.org/gstreamer/gst-python/blob/1.16.=
+2/plugin/gstpythonplugin.c#L227">https://gitlab.freedesktop.org/gstreamer/g=
+st-python/blob/1.16.2/plugin/gstpythonplugin.c#L227</a></div><div><br></div=
+><div>Alex<br></div><div><br></div><div>=C2=A0</div><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex"><div>
+    <div>On 15.12.19 18:32, Khem Raj wrote:<br>
     </div>
-    <blockquote type="cite"
-cite="mid:CAMKF1sp6a-hOuGazGtBj0mZQj9DpaM3iiC1Sbvw7Ah49vLLx9g@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <blockquote type=3D"cite">
+     =20
       <div><br>
       </div>
       <div><br>
-        <div class="gmail_quote">
-          <div dir="ltr" class="gmail_attr">On Sun, Dec 15, 2019 at 9:12
-            AM Alexander Kanavin &lt;<a
-              href="mailto:alex.kanavin@gmail.com"
-              moz-do-not-send="true">alex.kanavin@gmail.com</a>&gt;
+        <div class=3D"gmail_quote">
+          <div dir=3D"ltr" class=3D"gmail_attr">On Sun, Dec 15, 2019 at 9:1=
+2
+            AM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.c=
+om" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;
             wrote:<br>
           </div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">
-            <div dir="ltr">
-              <div dir="ltr">On Sun, 15 Dec 2019 at 18:06, Khem Raj &lt;<a
-                  href="mailto:raj.khem@gmail.com" target="_blank"
-                  moz-do-not-send="true">raj.khem@gmail.com</a>&gt;
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <div dir=3D"ltr">
+              <div dir=3D"ltr">On Sun, 15 Dec 2019 at 18:06, Khem Raj &lt;<=
+a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</=
+a>&gt;
                 wrote:<br>
               </div>
-              <div class="gmail_quote">
-                <blockquote class="gmail_quote" style="margin:0px 0px
-                  0px 0.8ex;border-left:1px solid
-                  rgb(204,204,204);padding-left:1ex">
-                  <div dir="ltr">
+              <div class=3D"gmail_quote">
+                <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+                  <div dir=3D"ltr">
                     <div>This is expected; the patch should be merged
                       together with 3.8 upgrade.</div>
                   </div>
                   <div>
-                    <div class="gmail_quote">
-                      <div dir="auto"><br>
+                    <div class=3D"gmail_quote">
+                      <div dir=3D"auto"><br>
                       </div>
-                      <div dir="auto">I don’t think this patch is right
+                      <div dir=3D"auto">I don=E2=80=99t think this patch is=
+ right
                         though since this patch is creating py3.8
                         dependency if you want to upstream something
                         that should work with all py3 I think <br>
@@ -189,38 +252,38 @@ cite="mid:CAMKF1sp6a-hOuGazGtBj0mZQj9DpaM3iiC1Sbvw7Ah49vLLx9g@mail.gmail.com">
                 </blockquote>
                 <div><br>
                 </div>
-                <div>It's being discussed in the upstream submission
+                <div>It&#39;s being discussed in the upstream submission
                   ticket, and will be resolved; we can take the
                   3.8-specific fix meanwhile.</div>
               </div>
             </div>
           </blockquote>
-          <div dir="auto"><br>
+          <div dir=3D"auto"><br>
           </div>
-          <div dir="auto">For better processing this series should be in
-            three parts </div>
-          <div dir="auto"><br>
+          <div dir=3D"auto">For better processing this series should be in
+            three parts=C2=A0</div>
+          <div dir=3D"auto"><br>
           </div>
-          <div dir="auto">1 Python 3.8 updates</div>
-          <div dir="auto">2 gettext updates</div>
-          <div dir="auto">3 rest of them</div>
-          <div dir="auto"><br>
+          <div dir=3D"auto">1 Python 3.8 updates</div>
+          <div dir=3D"auto">2 gettext updates</div>
+          <div dir=3D"auto">3 rest of them</div>
+          <div dir=3D"auto"><br>
           </div>
-          <div dir="auto">I have filtered it into roughly these and
+          <div dir=3D"auto">I have filtered it into roughly these and
             currently staged in yoe/mut just the third part which i
             think can be applied with out much problem</div>
-          <div dir="auto"><br>
+          <div dir=3D"auto"><br>
           </div>
-          <div dir="auto">For 1 and 2 there are breakages for many
+          <div dir=3D"auto">For 1 and 2 there are breakages for many
             packages</div>
-          <div dir="auto">And it would be better to identify them and
+          <div dir=3D"auto">And it would be better to identify them and
             let community know of and seek help</div>
-          <div dir="auto"><br>
+          <div dir=3D"auto"><br>
           </div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">
-            <div dir="ltr">
-              <div class="gmail_quote">
+          <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+            <div dir=3D"ltr">
+              <div class=3D"gmail_quote">
                 <div><br>
                 </div>
                 <div>Alex<br>
@@ -231,9 +294,18 @@ cite="mid:CAMKF1sp6a-hOuGazGtBj0mZQj9DpaM3iiC1Sbvw7Ah49vLLx9g@mail.gmail.com">
         </div>
       </div>
       <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
+      <fieldset></fieldset>
     </blockquote>
-  </body>
-</html>
+  </div>
 
---------------4ACC72A8842F6211B98635B2--
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--00000000000081c9730599c20353--
