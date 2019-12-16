@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id C91A47FDA4
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+	[209.85.216.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 39A927FDD8
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 16 Dec 2019 16:00:28 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id r67so3176412pjb.0
+Received: by mail-pj1-f49.google.com with SMTP id r67so3176414pjb.0
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 16 Dec 2019 08:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=YdD3VcEF+a7PvParkWCL2/YffV5xH5fz3ICIWEFXuy8=;
-	b=raNhWk54iifJBMR4prwovBpLC0YoH4iHAJAEngWetTRODs1naZGc5sEQ66XVCJeVGm
-	pR1+7PV9KHO9TEM6gBvINh6mjdExRWtzT0ksfTT6zDjk5iKMDIeXEGVo2lFNM6lDpfVP
-	OvF7tstDxE8xAVkNHh/XNSwt0jI+NuLkoPuKIEnUMJ1fio7GipKP9zMO5J82i7jXn9jS
-	xRZPVfTBw5u9W94wBwtFxWjMZsY8zUk+ySPhPFKaOP5PWikqXuitBh6vR6EjOo0FOxN+
-	ujJF/CRIsZLf9INM7J+lkMCS1drqeYFwnJekTWJHPKv27uneBI599L6lRMtQDoSfHhxr
-	8bLA==
+	bh=gs2x43ZN/3/pEokSOjJF6Zfk7bS45aCH4Zn2m2lps0I=;
+	b=I2ITacFyTe82DcfnsbJxBiwN1Kb5yUVnn03sjnl/vEsybSS65TWtSEERAf0TGME4SP
+	JkkJsdJ7i/Mkdkg9xK1Tv6c3Qtb/6HK2IDY8H8DYkegor49JnRhMRHE9JD8tn+OuhAjh
+	jaizN+S+91r4VzSd00am1NjIifcQEl222+fUofWSXoQSDzuvCjlMLoBkmN67oAe133qn
+	bh1fYP7nNn5g9yq63QN4aX9jctPEOoRDvQx4q4+4gP8sRDdkXxmOfvIayQO+gAjTYNqr
+	jvltpPWfMpOC99CClCiLr9O5/7+MGTJbOiM8SZoKY81PcMBiDj+d5WrxfzjY+KIzRV47
+	/MNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=YdD3VcEF+a7PvParkWCL2/YffV5xH5fz3ICIWEFXuy8=;
-	b=ghvpPw3cDkR6arPCv77eAdO8cilVgTZooy01Zs83l7o5Au5E2pg+Os6uXtKijazCtF
-	n1a38TUwU30ygH5iBsrfHq5Eg7fFb+ibD8LPOvoqZb/O0BHaWkWHkQqCphREoF67dJK2
-	nMDOrArK9X381LargZuUV2FyetFoLNevDWv/ZCyNILbgY38wYyrULcxoeGGYFpE24Zbx
-	TIbW7R0tsdAN4Zxo/v+5K9LI6SwbavdS+fwGixzVAV+MOe4C2eT12/0P+ii8bHqFYFN2
-	qzK+QHiSWR5MAOCt/uTTYRXxrNRS9GVjdNVKXjjWZTdVweDruM9fbcf/JVYdkxbXFOGD
-	Pa9w==
-X-Gm-Message-State: APjAAAXU1tVPOkzJQWDIc9pL/o9oNsCcJMS9ZT/h8IWN+eCG0UE/FYUS
-	plSZoRuQOgiQ43K7KDPl+OR9vTqhJds=
-X-Google-Smtp-Source: APXvYqwWaIvSKxjFyeeo534/jxhu/t/jhRi94QwW64siqyv04ZbYjzkGsmv+AfLNbGZbcJfmJw8gEQ==
-X-Received: by 2002:a17:902:fe8d:: with SMTP id
-	x13mr17129200plm.232.1576512028396; 
-	Mon, 16 Dec 2019 08:00:28 -0800 (PST)
+	bh=gs2x43ZN/3/pEokSOjJF6Zfk7bS45aCH4Zn2m2lps0I=;
+	b=F8rZ4W2buaWSezH9oxFTKZ21NC8u+marPCh5VOsE0ijXObslyN/06AerXJzifHyzzr
+	604l86WVv5AaZWe/fxQ6u9V09fxSKjiYe/8rDltUwsDqvFQXJFLPk9R6nRJAHnkUWiBu
+	fHVUOb/5OULG6q7epXFWu+J21jycon4x/0okIe+5S1YqOTx9i/sq7iRJjIK4fgOCvRdq
+	0FCC6pikPH487pHwQgaJfmkXb06CDU5vfERYuDo5vKfrXPIXrvsguK6BZi7ceNnbSwlu
+	ncivMvpRAzNQCnR+7fFp1fdsLZEpQQA7+j107Yv9NZrJis/xaLMbWwf8flmT/xdsLdAT
+	Jpvg==
+X-Gm-Message-State: APjAAAVas0V6F8Uk5o7CpCqmnKcILmMEA/Q5KzZtIM4LQxuPahxOSOxf
+	8fb2JEbT8ZyfjV32PacA/swzvk4+Uxo=
+X-Google-Smtp-Source: APXvYqz6mjmdLSiwvgalcw2SwDPoYyJuOkAazf/u9N4nkz3PDQAIu95/haETx0PbUt5j0vxpixnhQw==
+X-Received: by 2002:a17:902:9f92:: with SMTP id
+	g18mr16398487plq.161.1576512029190; 
+	Mon, 16 Dec 2019 08:00:29 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e5c5:31c9:a010:f145])
 	by smtp.gmail.com with ESMTPSA id
-	g6sm19568697pjl.25.2019.12.16.08.00.27
+	g6sm19568697pjl.25.2019.12.16.08.00.28
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 16 Dec 2019 08:00:27 -0800 (PST)
+	Mon, 16 Dec 2019 08:00:28 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Dec 2019 08:00:07 -0800
-Message-Id: <e7ed139e48b683ebe3e6863886e712998aaa239c.1576511913.git.akuster808@gmail.com>
+Date: Mon, 16 Dec 2019 08:00:08 -0800
+Message-Id: <e68991ceb5933f7d03b96697e8a0ba0829feb320.1576511913.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1576511913.git.akuster808@gmail.com>
 References: <cover.1576511913.git.akuster808@gmail.com>
-Subject: [thud 17/18] glibc: finish incomplete fix for CVE-2016-10739
+Subject: [thud 18/18] linux-yocto/4.14: update to 4.14.154
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,947 +60,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Dec 2019 16:00:28 -0000
+X-List-Received-Date: Mon, 16 Dec 2019 16:00:29 -0000
 
-From: Ross Burton <ross.burton@intel.com>
-
-Somehow the patch for this CVE only included one of the four required patches.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/glibc/glibc/CVE-2016-10739.patch | 910 ++++++++++++++++++++-
- 1 file changed, 907 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_4.14.bb      | 20 ++++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2016-10739.patch b/meta/recipes-core/glibc/glibc/CVE-2016-10739.patch
-index 7eb55d6..7dc8428 100644
---- a/meta/recipes-core/glibc/glibc/CVE-2016-10739.patch
-+++ b/meta/recipes-core/glibc/glibc/CVE-2016-10739.patch
-@@ -5,12 +5,12 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
- From 8e92ca5dd7a7e38a4dddf1ebc4e1e8f0cb27e4aa Mon Sep 17 00:00:00 2001
- From: Florian Weimer <fweimer@redhat.com>
- Date: Mon, 21 Jan 2019 08:59:42 +0100
--Subject: [PATCH] resolv: Reformat inet_addr, inet_aton to GNU style
-+Subject: [PATCH 1/4] resolv: Reformat inet_addr, inet_aton to GNU style
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
+index 0ed2900..de6f5c9 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.14.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- (cherry picked from commit 5e30b8ef0758763effa115634e0ed7d8938e4bc0)
- ---
-  ChangeLog          |   5 ++
-- resolv/inet_addr.c | 192 ++++++++++++++++++++++++++++-------------------------
-+ resolv/inet_addr.c | 192 ++++++++++++++++++++++++---------------------
-  2 files changed, 106 insertions(+), 91 deletions(-)
+-SRCREV_machine ?= "72075349c6af55a7a6d024f0aa241711653fcb97"
+-SRCREV_meta ?= "1bd749b7ce4240e83024b10fa4a4a6b9de5a5e5f"
++SRCREV_machine ?= "3aa9671ae072f45665e72591be5636522c8a6215"
++SRCREV_meta ?= "a889c43359ca8bee705601817c50edf3c209bc09"
  
- diff --git a/resolv/inet_addr.c b/resolv/inet_addr.c
-@@ -229,4 +229,908 @@ index 022f7ea084..32f58b0e13 100644
-  weak_alias (__inet_aton, inet_aton)
-  libc_hidden_def (__inet_aton)
- -- 
--2.11.0
-+2.20.1
-+
-+
-+From 37edf1d3f8ab9adefb61cc466ac52b53114fbd5b Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Mon, 21 Jan 2019 09:26:41 +0100
-+Subject: [PATCH 2/4] resolv: Do not send queries for non-host-names in nss_dns
-+ [BZ #24112]
-+
-+Before this commit, nss_dns would send a query which did not contain a
-+host name as the query name (such as invalid\032name.example.com) and
-+then reject the answer in getanswer_r and gaih_getanswer_slice, using
-+a check based on res_hnok.  With this commit, no query is sent, and a
-+host-not-found error is returned to NSS without network interaction.
-+
-+(cherry picked from commit 6ca53a2453598804a2559a548a08424fca96434a)
-+---
-+ ChangeLog                 |  9 +++++++++
-+ resolv/nss_dns/dns-host.c | 24 ++++++++++++++++++++++--
-+ 2 files changed, 31 insertions(+), 2 deletions(-)
-+
-+diff --git a/resolv/nss_dns/dns-host.c b/resolv/nss_dns/dns-host.c
-+index 5dc2829cd1..99c3b61e1c 100644
-+--- a/resolv/nss_dns/dns-host.c
-++++ b/resolv/nss_dns/dns-host.c
-+@@ -274,11 +274,26 @@ gethostbyname3_context (struct resolv_context *ctx,
-+   return status;
-+ }
-+ 
-++/* Verify that the name looks like a host name.  There is no point in
-++   sending a query which will not produce a usable name in the
-++   response.  */
-++static enum nss_status
-++check_name (const char *name, int *h_errnop)
-++{
-++  if (res_hnok (name))
-++    return NSS_STATUS_SUCCESS;
-++  *h_errnop = HOST_NOT_FOUND;
-++  return NSS_STATUS_NOTFOUND;
-++}
-++
-+ enum nss_status
-+ _nss_dns_gethostbyname2_r (const char *name, int af, struct hostent *result,
-+ 			   char *buffer, size_t buflen, int *errnop,
-+ 			   int *h_errnop)
-+ {
-++  enum nss_status status = check_name (name, h_errnop);
-++  if (status != NSS_STATUS_SUCCESS)
-++    return status;
-+   return _nss_dns_gethostbyname3_r (name, af, result, buffer, buflen, errnop,
-+ 				    h_errnop, NULL, NULL);
-+ }
-+@@ -289,6 +304,9 @@ _nss_dns_gethostbyname_r (const char *name, struct hostent *result,
-+ 			  char *buffer, size_t buflen, int *errnop,
-+ 			  int *h_errnop)
-+ {
-++  enum nss_status status = check_name (name, h_errnop);
-++  if (status != NSS_STATUS_SUCCESS)
-++    return status;
-+   struct resolv_context *ctx = __resolv_context_get ();
-+   if (ctx == NULL)
-+     {
-+@@ -296,7 +314,7 @@ _nss_dns_gethostbyname_r (const char *name, struct hostent *result,
-+       *h_errnop = NETDB_INTERNAL;
-+       return NSS_STATUS_UNAVAIL;
-+     }
-+-  enum nss_status status = NSS_STATUS_NOTFOUND;
-++  status = NSS_STATUS_NOTFOUND;
-+   if (res_use_inet6 ())
-+     status = gethostbyname3_context (ctx, name, AF_INET6, result, buffer,
-+ 				     buflen, errnop, h_errnop, NULL, NULL);
-+@@ -313,6 +331,9 @@ _nss_dns_gethostbyname4_r (const char *name, struct gaih_addrtuple **pat,
-+ 			   char *buffer, size_t buflen, int *errnop,
-+ 			   int *herrnop, int32_t *ttlp)
-+ {
-++  enum nss_status status = check_name (name, herrnop);
-++  if (status != NSS_STATUS_SUCCESS)
-++    return status;
-+   struct resolv_context *ctx = __resolv_context_get ();
-+   if (ctx == NULL)
-+     {
-+@@ -347,7 +368,6 @@ _nss_dns_gethostbyname4_r (const char *name, struct gaih_addrtuple **pat,
-+   int ans2p_malloced = 0;
-+ 
-+   int olderr = errno;
-+-  enum nss_status status;
-+   int n = __res_context_search (ctx, name, C_IN, T_QUERY_A_AND_AAAA,
-+ 				host_buffer.buf->buf, 2048, &host_buffer.ptr,
-+ 				&ans2p, &nans2p, &resplen2, &ans2p_malloced);
-+-- 
-+2.20.1
-+
-+
-+From 2373941bd73cb288c8a42a33e23e7f7bb81151e7 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Mon, 21 Jan 2019 21:26:03 +0100
-+Subject: [PATCH 3/4] CVE-2016-10739: getaddrinfo: Fully parse IPv4 address
-+ strings [BZ #20018]
-+
-+The IPv4 address parser in the getaddrinfo function is changed so that
-+it does not ignore trailing whitespace and all characters after it.
-+For backwards compatibility, the getaddrinfo function still recognizes
-+legacy name syntax, such as 192.000.002.010 interpreted as 192.0.2.8
-+(octal).
-+
-+This commit does not change the behavior of inet_addr and inet_aton.
-+gethostbyname already had additional sanity checks (but is switched
-+over to the new __inet_aton_exact function for completeness as well).
-+
-+To avoid sending the problematic query names over DNS, commit
-+6ca53a2453598804a2559a548a08424fca96434a ("resolv: Do not send queries
-+for non-host-names in nss_dns [BZ #24112]") is needed.
-+
-+(cherry picked from commit 108bc4049f8ae82710aec26a92ffdb4b439c83fd)
-+---
-+ ChangeLog                      |  33 ++++++++
-+ NEWS                           |   4 +
-+ include/arpa/inet.h            |   6 +-
-+ nscd/gai.c                     |   1 -
-+ nscd/gethstbynm3_r.c           |   2 -
-+ nss/digits_dots.c              |   3 +-
-+ resolv/Makefile                |   7 ++
-+ resolv/Versions                |   1 +
-+ resolv/inet_addr.c             |  62 ++++++++++-----
-+ resolv/res_init.c              |  17 ++--
-+ resolv/tst-aton.c              |  35 +++++++--
-+ resolv/tst-inet_aton_exact.c   |  47 +++++++++++
-+ resolv/tst-resolv-nondecimal.c | 139 +++++++++++++++++++++++++++++++++
-+ resolv/tst-resolv-trailing.c   | 136 ++++++++++++++++++++++++++++++++
-+ sysdeps/posix/getaddrinfo.c    |   2 +-
-+ 15 files changed, 455 insertions(+), 40 deletions(-)
-+ create mode 100644 resolv/tst-inet_aton_exact.c
-+ create mode 100644 resolv/tst-resolv-nondecimal.c
-+ create mode 100644 resolv/tst-resolv-trailing.c
-+
-+diff --git a/include/arpa/inet.h b/include/arpa/inet.h
-+index c3f28f2baa..19aec74275 100644
-+--- a/include/arpa/inet.h
-++++ b/include/arpa/inet.h
-+@@ -1,10 +1,10 @@
-+ #include <inet/arpa/inet.h>
-+ 
-+ #ifndef _ISOMAC
-+-extern int __inet_aton (const char *__cp, struct in_addr *__inp);
-+-libc_hidden_proto (__inet_aton)
-++/* Variant of inet_aton which rejects trailing garbage.  */
-++extern int __inet_aton_exact (const char *__cp, struct in_addr *__inp);
-++libc_hidden_proto (__inet_aton_exact)
-+ 
-+-libc_hidden_proto (inet_aton)
-+ libc_hidden_proto (inet_ntop)
-+ libc_hidden_proto (inet_pton)
-+ extern __typeof (inet_pton) __inet_pton;
-+diff --git a/nscd/gai.c b/nscd/gai.c
-+index 24bdfee1db..f57f396f57 100644
-+--- a/nscd/gai.c
-++++ b/nscd/gai.c
-+@@ -19,7 +19,6 @@
-+ 
-+ /* This file uses the getaddrinfo code but it compiles it without NSCD
-+    support.  We just need a few symbol renames.  */
-+-#define __inet_aton inet_aton
-+ #define __ioctl ioctl
-+ #define __getsockname getsockname
-+ #define __socket socket
-+diff --git a/nscd/gethstbynm3_r.c b/nscd/gethstbynm3_r.c
-+index 7beb9dce9f..f792c4fcd0 100644
-+--- a/nscd/gethstbynm3_r.c
-++++ b/nscd/gethstbynm3_r.c
-+@@ -38,8 +38,6 @@
-+ #define HAVE_LOOKUP_BUFFER	1
-+ #define HAVE_AF			1
-+ 
-+-#define __inet_aton inet_aton
-+-
-+ /* We are nscd, so we don't want to be talking to ourselves.  */
-+ #undef	USE_NSCD
-+ 
-+diff --git a/nss/digits_dots.c b/nss/digits_dots.c
-+index 39bff38865..5441bce16e 100644
-+--- a/nss/digits_dots.c
-++++ b/nss/digits_dots.c
-+@@ -29,7 +29,6 @@
-+ #include "nsswitch.h"
-+ 
-+ #ifdef USE_NSCD
-+-# define inet_aton __inet_aton
-+ # include <nscd/nscd_proto.h>
-+ #endif
-+ 
-+@@ -160,7 +159,7 @@ __nss_hostname_digits_dots_context (struct resolv_context *ctx,
-+ 		     255.255.255.255?  The test below will succeed
-+ 		     spuriously... ???  */
-+ 		  if (af == AF_INET)
-+-		    ok = __inet_aton (name, (struct in_addr *) host_addr);
-++		    ok = __inet_aton_exact (name, (struct in_addr *) host_addr);
-+ 		  else
-+ 		    {
-+ 		      assert (af == AF_INET6);
-+diff --git a/resolv/Makefile b/resolv/Makefile
-+index ea395ac3eb..d36eedd34a 100644
-+--- a/resolv/Makefile
-++++ b/resolv/Makefile
-+@@ -34,6 +34,9 @@ routines := herror inet_addr inet_ntop inet_pton nsap_addr res_init \
-+ tests = tst-aton tst-leaks tst-inet_ntop
-+ xtests = tst-leaks2
-+ 
-++tests-internal += tst-inet_aton_exact
-++
-++
-+ generate := mtrace-tst-leaks.out tst-leaks.mtrace tst-leaks2.mtrace
-+ 
-+ extra-libs := libresolv libnss_dns
-+@@ -54,8 +57,10 @@ tests += \
-+   tst-resolv-binary \
-+   tst-resolv-edns \
-+   tst-resolv-network \
-++  tst-resolv-nondecimal \
-+   tst-resolv-res_init-multi \
-+   tst-resolv-search \
-++  tst-resolv-trailing \
-+ 
-+ # These tests need libdl.
-+ ifeq (yes,$(build-shared))
-+@@ -190,9 +195,11 @@ $(objpfx)tst-resolv-res_init-multi: $(objpfx)libresolv.so \
-+   $(shared-thread-library)
-+ $(objpfx)tst-resolv-res_init-thread: $(libdl) $(objpfx)libresolv.so \
-+   $(shared-thread-library)
-++$(objpfx)tst-resolv-nondecimal: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-qtypes: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-rotate: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-search: $(objpfx)libresolv.so $(shared-thread-library)
-++$(objpfx)tst-resolv-trailing: $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-threads: \
-+   $(libdl) $(objpfx)libresolv.so $(shared-thread-library)
-+ $(objpfx)tst-resolv-canonname: \
-+diff --git a/resolv/Versions b/resolv/Versions
-+index b05778d965..9a82704af7 100644
-+--- a/resolv/Versions
-++++ b/resolv/Versions
-+@@ -27,6 +27,7 @@ libc {
-+     __h_errno; __resp;
-+ 
-+     __res_iclose;
-++    __inet_aton_exact;
-+     __inet_pton_length;
-+     __resolv_context_get;
-+     __resolv_context_get_preinit;
-+diff --git a/resolv/inet_addr.c b/resolv/inet_addr.c
-+index 32f58b0e13..41b6166a5b 100644
-+--- a/resolv/inet_addr.c
-++++ b/resolv/inet_addr.c
-+@@ -96,26 +96,14 @@
-+ #include <limits.h>
-+ #include <errno.h>
-+ 
-+-/* ASCII IPv4 Internet address interpretation routine.  The value
-+-   returned is in network order.  */
-+-in_addr_t
-+-__inet_addr (const char *cp)
-+-{
-+-  struct in_addr val;
-+-
-+-  if (__inet_aton (cp, &val))
-+-    return val.s_addr;
-+-  return INADDR_NONE;
-+-}
-+-weak_alias (__inet_addr, inet_addr)
-+-
-+ /* Check whether "cp" is a valid ASCII representation of an IPv4
-+    Internet address and convert it to a binary address.  Returns 1 if
-+    the address is valid, 0 if not.  This replaces inet_addr, the
-+    return value from which cannot distinguish between failure and a
-+-   local broadcast address.  */
-+-int
-+-__inet_aton (const char *cp, struct in_addr *addr)
-++   local broadcast address.  Write a pointer to the first
-++   non-converted character to *endp.  */
-++static int
-++inet_aton_end (const char *cp, struct in_addr *addr, const char **endp)
-+ {
-+   static const in_addr_t max[4] = { 0xffffffff, 0xffffff, 0xffff, 0xff };
-+   in_addr_t val;
-+@@ -180,6 +168,7 @@ __inet_aton (const char *cp, struct in_addr *addr)
-+ 
-+   if (addr != NULL)
-+     addr->s_addr = res.word | htonl (val);
-++  *endp = cp;
-+ 
-+   __set_errno (saved_errno);
-+   return 1;
-+@@ -188,6 +177,41 @@ __inet_aton (const char *cp, struct in_addr *addr)
-+   __set_errno (saved_errno);
-+   return 0;
-+ }
-+-weak_alias (__inet_aton, inet_aton)
-+-libc_hidden_def (__inet_aton)
-+-libc_hidden_weak (inet_aton)
-++
-++int
-++__inet_aton_exact (const char *cp, struct in_addr *addr)
-++{
-++  struct in_addr val;
-++  const char *endp;
-++  /* Check that inet_aton_end parsed the entire string.  */
-++  if (inet_aton_end (cp, &val, &endp) != 0 && *endp == 0)
-++    {
-++      *addr = val;
-++      return 1;
-++    }
-++  else
-++    return 0;
-++}
-++libc_hidden_def (__inet_aton_exact)
-++
-++/* inet_aton ignores trailing garbage.  */
-++int
-++__inet_aton_ignore_trailing (const char *cp, struct in_addr *addr)
-++{
-++  const char *endp;
-++  return  inet_aton_end (cp, addr, &endp);
-++}
-++weak_alias (__inet_aton_ignore_trailing, inet_aton)
-++
-++/* ASCII IPv4 Internet address interpretation routine.  The value
-++   returned is in network order.  */
-++in_addr_t
-++__inet_addr (const char *cp)
-++{
-++  struct in_addr val;
-++  const char *endp;
-++  if (inet_aton_end (cp, &val, &endp))
-++    return val.s_addr;
-++  return INADDR_NONE;
-++}
-++weak_alias (__inet_addr, inet_addr)
-+diff --git a/resolv/res_init.c b/resolv/res_init.c
-+index f5e52cbbb9..94743a252e 100644
-+--- a/resolv/res_init.c
-++++ b/resolv/res_init.c
-+@@ -399,8 +399,16 @@ res_vinit_1 (FILE *fp, struct resolv_conf_parser *parser)
-+               cp = parser->buffer + sizeof ("nameserver") - 1;
-+               while (*cp == ' ' || *cp == '\t')
-+                 cp++;
-++
-++              /* Ignore trailing contents on the name server line.  */
-++              {
-++                char *el;
-++                if ((el = strpbrk (cp, " \t\n")) != NULL)
-++                  *el = '\0';
-++              }
-++
-+               struct sockaddr *sa;
-+-              if ((*cp != '\0') && (*cp != '\n') && __inet_aton (cp, &a))
-++              if ((*cp != '\0') && (*cp != '\n') && __inet_aton_exact (cp, &a))
-+                 {
-+                   sa = allocate_address_v4 (a, NAMESERVER_PORT);
-+                   if (sa == NULL)
-+@@ -410,9 +418,6 @@ res_vinit_1 (FILE *fp, struct resolv_conf_parser *parser)
-+                 {
-+                   struct in6_addr a6;
-+                   char *el;
-+-
-+-                  if ((el = strpbrk (cp, " \t\n")) != NULL)
-+-                    *el = '\0';
-+                   if ((el = strchr (cp, SCOPE_DELIMITER)) != NULL)
-+                     *el = '\0';
-+                   if ((*cp != '\0') && (__inet_pton (AF_INET6, cp, &a6) > 0))
-+@@ -472,7 +477,7 @@ res_vinit_1 (FILE *fp, struct resolv_conf_parser *parser)
-+                   char separator = *cp;
-+                   *cp = 0;
-+                   struct resolv_sortlist_entry e;
-+-                  if (__inet_aton (net, &a))
-++                  if (__inet_aton_exact (net, &a))
-+                     {
-+                       e.addr = a;
-+                       if (is_sort_mask (separator))
-+@@ -484,7 +489,7 @@ res_vinit_1 (FILE *fp, struct resolv_conf_parser *parser)
-+                             cp++;
-+                           separator = *cp;
-+                           *cp = 0;
-+-                          if (__inet_aton (net, &a))
-++                          if (__inet_aton_exact (net, &a))
-+                             e.mask = a.s_addr;
-+                           else
-+                             e.mask = net_mask (e.addr);
-+diff --git a/resolv/tst-aton.c b/resolv/tst-aton.c
-+index 08110a007a..eb734d7758 100644
-+--- a/resolv/tst-aton.c
-++++ b/resolv/tst-aton.c
-+@@ -1,11 +1,29 @@
-++/* Test legacy IPv4 text-to-address function inet_aton.
-++   Copyright (C) 1998-2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <array_length.h>
-+ #include <stdio.h>
-+ #include <stdint.h>
-+ #include <sys/socket.h>
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ 
-+-
-+-static struct tests
-++static const struct tests
-+ {
-+   const char *input;
-+   int valid;
-+@@ -16,6 +34,7 @@ static struct tests
-+   { "-1", 0, 0 },
-+   { "256", 1, 0x00000100 },
-+   { "256.", 0, 0 },
-++  { "255a", 0, 0 },
-+   { "256a", 0, 0 },
-+   { "0x100", 1, 0x00000100 },
-+   { "0200.0x123456", 1, 0x80123456 },
-+@@ -40,7 +59,12 @@ static struct tests
-+   { "1.2.256.4", 0, 0 },
-+   { "1.2.3.0x100", 0, 0 },
-+   { "323543357756889", 0, 0 },
-+-  { "10.1.2.3.4", 0, 0},
-++  { "10.1.2.3.4", 0, 0 },
-++  { "192.0.2.1", 1, 0xc0000201 },
-++  { "192.0.2.2\nX", 1, 0xc0000202 },
-++  { "192.0.2.3 Y", 1, 0xc0000203 },
-++  { "192.0.2.3Z", 0, 0 },
-++  { "192.000.002.010", 1, 0xc0000208 },
-+ };
-+ 
-+ 
-+@@ -50,7 +74,7 @@ do_test (void)
-+   int result = 0;
-+   size_t cnt;
-+ 
-+-  for (cnt = 0; cnt < sizeof (tests) / sizeof (tests[0]); ++cnt)
-++  for (cnt = 0; cnt < array_length (tests); ++cnt)
-+     {
-+       struct in_addr addr;
-+ 
-+@@ -73,5 +97,4 @@ do_test (void)
-+   return result;
-+ }
-+ 
-+-#define TEST_FUNCTION do_test ()
-+-#include "../test-skeleton.c"
-++#include <support/test-driver.c>
-+diff --git a/resolv/tst-inet_aton_exact.c b/resolv/tst-inet_aton_exact.c
-+new file mode 100644
-+index 0000000000..0fdfa3d6aa
-+--- /dev/null
-++++ b/resolv/tst-inet_aton_exact.c
-+@@ -0,0 +1,47 @@
-++/* Test internal legacy IPv4 text-to-address function __inet_aton_exact.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <arpa/inet.h>
-++#include <support/check.h>
-++
-++static int
-++do_test (void)
-++{
-++  struct in_addr addr = { };
-++
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.1", &addr), 1);
-++  TEST_COMPARE (ntohl (addr.s_addr), 0xC0000201);
-++
-++  TEST_COMPARE (__inet_aton_exact ("192.000.002.010", &addr), 1);
-++  TEST_COMPARE (ntohl (addr.s_addr), 0xC0000208);
-++  TEST_COMPARE (__inet_aton_exact ("0xC0000234", &addr), 1);
-++  TEST_COMPARE (ntohl (addr.s_addr), 0xC0000234);
-++
-++  /* Trailing content is not accepted.  */
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.2X", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.3 Y", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.4\nZ", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.5\tT", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.6 Y", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.7\n", &addr), 0);
-++  TEST_COMPARE (__inet_aton_exact ("192.0.2.8\t", &addr), 0);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/resolv/tst-resolv-nondecimal.c b/resolv/tst-resolv-nondecimal.c
-+new file mode 100644
-+index 0000000000..a0df6f332a
-+--- /dev/null
-++++ b/resolv/tst-resolv-nondecimal.c
-+@@ -0,0 +1,139 @@
-++/* Test name resolution behavior for octal, hexadecimal IPv4 addresses.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <netdb.h>
-++#include <stdlib.h>
-++#include <support/check.h>
-++#include <support/check_nss.h>
-++#include <support/resolv_test.h>
-++#include <support/support.h>
-++
-++static void
-++response (const struct resolv_response_context *ctx,
-++          struct resolv_response_builder *b,
-++          const char *qname, uint16_t qclass, uint16_t qtype)
-++{
-++  /* The tests are not supposed send any DNS queries.  */
-++  FAIL_EXIT1 ("unexpected DNS query for %s/%d/%d", qname, qclass, qtype);
-++}
-++
-++static void
-++run_query_addrinfo (const char *query, const char *address)
-++{
-++  char *quoted_query = support_quote_string (query);
-++
-++  struct addrinfo *ai;
-++  struct addrinfo hints =
-++    {
-++     .ai_socktype = SOCK_STREAM,
-++     .ai_protocol = IPPROTO_TCP,
-++    };
-++
-++  char *context = xasprintf ("getaddrinfo \"%s\" AF_INET", quoted_query);
-++  char *expected = xasprintf ("address: STREAM/TCP %s 80\n", address);
-++  hints.ai_family = AF_INET;
-++  int ret = getaddrinfo (query, "80", &hints, &ai);
-++  check_addrinfo (context, ai, ret, expected);
-++  if (ret == 0)
-++    freeaddrinfo (ai);
-++  free (context);
-++
-++  context = xasprintf ("getaddrinfo \"%s\" AF_UNSPEC", quoted_query);
-++  hints.ai_family = AF_UNSPEC;
-++  ret = getaddrinfo (query, "80", &hints, &ai);
-++  check_addrinfo (context, ai, ret, expected);
-++  if (ret == 0)
-++    freeaddrinfo (ai);
-++  free (expected);
-++  free (context);
-++
-++  context = xasprintf ("getaddrinfo \"%s\" AF_INET6", quoted_query);
-++  expected = xasprintf ("flags: AI_V4MAPPED\n"
-++                        "address: STREAM/TCP ::ffff:%s 80\n",
-++                        address);
-++  hints.ai_family = AF_INET6;
-++  hints.ai_flags = AI_V4MAPPED;
-++  ret = getaddrinfo (query, "80", &hints, &ai);
-++  check_addrinfo (context, ai, ret, expected);
-++  if (ret == 0)
-++    freeaddrinfo (ai);
-++  free (expected);
-++  free (context);
-++
-++  free (quoted_query);
-++}
-++
-++static void
-++run_query (const char *query, const char *address)
-++{
-++  char *quoted_query = support_quote_string (query);
-++  char *context = xasprintf ("gethostbyname (\"%s\")", quoted_query);
-++  char *expected = xasprintf ("name: %s\n"
-++                              "address: %s\n", query, address);
-++  check_hostent (context, gethostbyname (query), expected);
-++  free (context);
-++
-++  context = xasprintf ("gethostbyname_r \"%s\"", quoted_query);
-++  struct hostent storage;
-++  char buf[4096];
-++  struct hostent *e = NULL;
-++  TEST_COMPARE (gethostbyname_r (query, &storage, buf, sizeof (buf),
-++                                 &e, &h_errno), 0);
-++  check_hostent (context, e, expected);
-++  free (context);
-++
-++  context = xasprintf ("gethostbyname2 (\"%s\", AF_INET)", quoted_query);
-++  check_hostent (context, gethostbyname2 (query, AF_INET), expected);
-++  free (context);
-++
-++  context = xasprintf ("gethostbyname2_r \"%s\" AF_INET", quoted_query);
-++  e = NULL;
-++  TEST_COMPARE (gethostbyname2_r (query, AF_INET, &storage, buf, sizeof (buf),
-++                                  &e, &h_errno), 0);
-++  check_hostent (context, e, expected);
-++  free (context);
-++  free (expected);
-++
-++  free (quoted_query);
-++
-++  /* The gethostbyname tests are always valid for getaddrinfo, but not
-++     vice versa.  */
-++  run_query_addrinfo (query, address);
-++}
-++
-++static int
-++do_test (void)
-++{
-++  struct resolv_test *aux = resolv_test_start
-++    ((struct resolv_redirect_config)
-++     {
-++       .response_callback = response,
-++     });
-++
-++  run_query ("192.000.002.010", "192.0.2.8");
-++
-++  /* Hexadecimal numbers are not accepted by gethostbyname.  */
-++  run_query_addrinfo ("0xc0000210", "192.0.2.16");
-++  run_query_addrinfo ("192.0x234", "192.0.2.52");
-++
-++  resolv_test_end (aux);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/resolv/tst-resolv-trailing.c b/resolv/tst-resolv-trailing.c
-+new file mode 100644
-+index 0000000000..7504bdae57
-+--- /dev/null
-++++ b/resolv/tst-resolv-trailing.c
-+@@ -0,0 +1,136 @@
-++/* Test name resolution behavior with trailing characters.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <array_length.h>
-++#include <netdb.h>
-++#include <support/check.h>
-++#include <support/check_nss.h>
-++#include <support/resolv_test.h>
-++#include <support/support.h>
-++
-++static void
-++response (const struct resolv_response_context *ctx,
-++          struct resolv_response_builder *b,
-++          const char *qname, uint16_t qclass, uint16_t qtype)
-++{
-++  /* The tests are not supposed send any DNS queries.  */
-++  FAIL_EXIT1 ("unexpected DNS query for %s/%d/%d", qname, qclass, qtype);
-++}
-++
-++static int
-++do_test (void)
-++{
-++  struct resolv_test *aux = resolv_test_start
-++    ((struct resolv_redirect_config)
-++     {
-++       .response_callback = response,
-++     });
-++
-++  static const char *const queries[] =
-++    {
-++     "192.0.2.1 ",
-++     "192.0.2.2\t",
-++     "192.0.2.3\n",
-++     "192.0.2.4 X",
-++     "192.0.2.5\tY",
-++     "192.0.2.6\nZ",
-++     "192.0.2. ",
-++     "192.0.2.\t",
-++     "192.0.2.\n",
-++     "192.0.2. X",
-++     "192.0.2.\tY",
-++     "192.0.2.\nZ",
-++     "2001:db8::1 ",
-++     "2001:db8::2\t",
-++     "2001:db8::3\n",
-++     "2001:db8::4 X",
-++     "2001:db8::5\tY",
-++     "2001:db8::6\nZ",
-++    };
-++  for (size_t query_idx = 0; query_idx < array_length (queries); ++query_idx)
-++    {
-++      const char *query = queries[query_idx];
-++      struct hostent storage;
-++      char buf[4096];
-++      struct hostent *e;
-++
-++      h_errno = 0;
-++      TEST_VERIFY (gethostbyname (query) == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      e = NULL;
-++      TEST_COMPARE (gethostbyname_r (query, &storage, buf, sizeof (buf),
-++                                     &e, &h_errno), 0);
-++      TEST_VERIFY (e == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      TEST_VERIFY (gethostbyname2 (query, AF_INET) == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      e = NULL;
-++      TEST_COMPARE (gethostbyname2_r (query, AF_INET,
-++                                      &storage, buf, sizeof (buf),
-++                                     &e, &h_errno), 0);
-++      TEST_VERIFY (e == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      TEST_VERIFY (gethostbyname2 (query, AF_INET6) == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      h_errno = 0;
-++      e = NULL;
-++      TEST_COMPARE (gethostbyname2_r (query, AF_INET6,
-++                                      &storage, buf, sizeof (buf),
-++                                     &e, &h_errno), 0);
-++      TEST_VERIFY (e == NULL);
-++      TEST_COMPARE (h_errno, HOST_NOT_FOUND);
-++
-++      static const int gai_flags[] =
-++        {
-++         0,
-++         AI_ADDRCONFIG,
-++         AI_NUMERICHOST,
-++         AI_IDN,
-++         AI_IDN | AI_NUMERICHOST,
-++         AI_V4MAPPED,
-++         AI_V4MAPPED | AI_NUMERICHOST,
-++        };
-++      for (size_t gai_flags_idx; gai_flags_idx < array_length (gai_flags);
-++             ++gai_flags_idx)
-++        {
-++          struct addrinfo hints = { .ai_flags = gai_flags[gai_flags_idx], };
-++          struct addrinfo *ai;
-++          hints.ai_family = AF_INET;
-++          TEST_COMPARE (getaddrinfo (query, "80", &hints, &ai), EAI_NONAME);
-++          hints.ai_family = AF_INET6;
-++          TEST_COMPARE (getaddrinfo (query, "80", &hints, &ai), EAI_NONAME);
-++          hints.ai_family = AF_UNSPEC;
-++          TEST_COMPARE (getaddrinfo (query, "80", &hints, &ai), EAI_NONAME);
-++        }
-++    };
-++
-++  resolv_test_end (aux);
-++
-++  return 0;
-++}
-++
-++#include <support/test-driver.c>
-+diff --git a/sysdeps/posix/getaddrinfo.c b/sysdeps/posix/getaddrinfo.c
-+index 553833d1f2..c91b281e31 100644
-+--- a/sysdeps/posix/getaddrinfo.c
-++++ b/sysdeps/posix/getaddrinfo.c
-+@@ -488,7 +488,7 @@ gaih_inet (const char *name, const struct gaih_service *service,
-+ 	  malloc_name = true;
-+ 	}
-+ 
-+-      if (__inet_aton (name, (struct in_addr *) at->addr) != 0)
-++      if (__inet_aton_exact (name, (struct in_addr *) at->addr) != 0)
-+ 	{
-+ 	  if (req->ai_family == AF_UNSPEC || req->ai_family == AF_INET)
-+ 	    at->family = AF_INET;
-+-- 
-+2.20.1
-+
-+
-+From c533244b8e00ae701583ec50aeb43377d292452d Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Mon, 4 Feb 2019 20:07:18 +0100
-+Subject: [PATCH 4/4] nscd: Do not use __inet_aton_exact@GLIBC_PRIVATE [BZ
-+ #20018]
-+
-+This commit avoids referencing the __inet_aton_exact@GLIBC_PRIVATE
-+symbol from nscd.  In master, the separately-compiled getaddrinfo
-+implementation in nscd needs it, however such an internal ABI change
-+is not desirable on a release branch if it can be avoided.
-+---
-+ ChangeLog             | 10 ++++++++++
-+ nscd/Makefile         |  2 +-
-+ nscd/gai.c            |  6 ++++++
-+ nscd/nscd-inet_addr.c | 32 ++++++++++++++++++++++++++++++++
-+ 4 files changed, 49 insertions(+), 1 deletion(-)
-+ create mode 100644 nscd/nscd-inet_addr.c
-+
-+diff --git a/nscd/Makefile b/nscd/Makefile
-+index b713a84c49..eb23c01a39 100644
-+--- a/nscd/Makefile
-++++ b/nscd/Makefile
-+@@ -36,7 +36,7 @@ nscd-modules := nscd connections pwdcache getpwnam_r getpwuid_r grpcache \
-+ 		getsrvbynm_r getsrvbypt_r servicescache \
-+ 		dbg_log nscd_conf nscd_stat cache mem nscd_setup_thread \
-+ 		xmalloc xstrdup aicache initgrcache gai res_hconf \
-+-		netgroupcache
-++		netgroupcache nscd-inet_addr
-+ 
-+ ifeq ($(build-nscd)$(have-thread-library),yesyes)
-+ 
-+diff --git a/nscd/gai.c b/nscd/gai.c
-+index f57f396f57..68a4abd30e 100644
-+--- a/nscd/gai.c
-++++ b/nscd/gai.c
-+@@ -33,6 +33,12 @@
-+ #define __getifaddrs getifaddrs
-+ #define __freeifaddrs freeifaddrs
-+ 
-++/* We do not want to export __inet_aton_exact.  Get the prototype and
-++   change its visibility to hidden.  */
-++#include <arpa/inet.h>
-++__typeof__ (__inet_aton_exact) __inet_aton_exact
-++  __attribute__ ((visibility ("hidden")));
-++
-+ /* We are nscd, so we don't want to be talking to ourselves.  */
-+ #undef  USE_NSCD
-+ 
-+diff --git a/nscd/nscd-inet_addr.c b/nscd/nscd-inet_addr.c
-+new file mode 100644
-+index 0000000000..f366b9567d
-+--- /dev/null
-++++ b/nscd/nscd-inet_addr.c
-+@@ -0,0 +1,32 @@
-++/* Legacy IPv4 text-to-address functions.  Version for nscd.
-++   Copyright (C) 2019 Free Software Foundation, Inc.
-++   This file is part of the GNU C Library.
-++
-++   The GNU C Library is free software; you can redistribute it and/or
-++   modify it under the terms of the GNU Lesser General Public
-++   License as published by the Free Software Foundation; either
-++   version 2.1 of the License, or (at your option) any later version.
-++
-++   The GNU C Library is distributed in the hope that it will be useful,
-++   but WITHOUT ANY WARRANTY; without even the implied warranty of
-++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++   Lesser General Public License for more details.
-++
-++   You should have received a copy of the GNU Lesser General Public
-++   License along with the GNU C Library; if not, see
-++   <http://www.gnu.org/licenses/>.  */
-++
-++#include <arpa/inet.h>
-++
-++/* We do not want to export __inet_aton_exact.  Get the prototype and
-++   change the visibility to hidden.  */
-++#include <arpa/inet.h>
-++__typeof__ (__inet_aton_exact) __inet_aton_exact
-++  __attribute__ ((visibility ("hidden")));
-++
-++/* Do not provide definitions of the public symbols exported from
-++   libc.  */
-++#undef weak_alias
-++#define weak_alias(from, to)
-++
-++#include <resolv/inet_addr.c>
-+-- 
-+2.20.1
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.14.143"
++LINUX_VERSION ?= "4.14.154"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+index cb46307..52c02ca 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.14.bb
+@@ -4,7 +4,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "4.14.143"
++LINUX_VERSION ?= "4.14.154"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
+@@ -12,8 +12,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "3d884bc92763f474cc0728d1feb0becad8ed37d5"
+-SRCREV_meta ?= "1bd749b7ce4240e83024b10fa4a4a6b9de5a5e5f"
++SRCREV_machine ?= "38c3a6549d60a3b4a5ab0cb6a440929ba8502f7f"
++SRCREV_meta ?= "a889c43359ca8bee705601817c50edf3c209bc09"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_4.14.bb b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+index 4a92d27..0048735 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_4.14.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_4.14.bb
+@@ -11,20 +11,20 @@ KBRANCH_qemux86  ?= "v4.14/standard/base"
+ KBRANCH_qemux86-64 ?= "v4.14/standard/base"
+ KBRANCH_qemumips64 ?= "v4.14/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "bd85f4880bb890bf9c45ee6c2fd95f077d2bf67e"
+-SRCREV_machine_qemuarm64 ?= "445a4787bd489eb6b3d5c172b9842dbe5a34d734"
+-SRCREV_machine_qemumips ?= "3d07ac9aa6ca729674dfb763563202f18f9eedde"
+-SRCREV_machine_qemuppc ?= "81ba8dbab3b1bfc371e539956be905809db0e41a"
+-SRCREV_machine_qemux86 ?= "bc9d4b045fa0254d14ef3a667a200f02cb9af755"
+-SRCREV_machine_qemux86-64 ?= "bc9d4b045fa0254d14ef3a667a200f02cb9af755"
+-SRCREV_machine_qemumips64 ?= "3c4acadcbe2ee11043f7d0fce43a5181511d0935"
+-SRCREV_machine ?= "bc9d4b045fa0254d14ef3a667a200f02cb9af755"
+-SRCREV_meta ?= "1bd749b7ce4240e83024b10fa4a4a6b9de5a5e5f"
++SRCREV_machine_qemuarm ?= "e4e2990af921c2d1544d18efa5f7183f95289cd0"
++SRCREV_machine_qemuarm64 ?= "51c9e69ebef5d2d15dfbcdf098269d86e0e38317"
++SRCREV_machine_qemumips ?= "e70c76a3fe9cc785619d9e4c8e28cb4d4d76ecaf"
++SRCREV_machine_qemuppc ?= "6b6eab44d3a04294c233e0b47d6b7c6cbb6e9ffb"
++SRCREV_machine_qemux86 ?= "57278e88a6b0f7c6230f7429cab7e74229f2b7ce"
++SRCREV_machine_qemux86-64 ?= "57278e88a6b0f7c6230f7429cab7e74229f2b7ce"
++SRCREV_machine_qemumips64 ?= "4e099e87d223bfc1526543a5e4c5383cb2edda70"
++SRCREV_machine ?= "57278e88a6b0f7c6230f7429cab7e74229f2b7ce"
++SRCREV_meta ?= "a889c43359ca8bee705601817c50edf3c209bc09"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-4.14;destsuffix=${KMETA}"
+ 
+-LINUX_VERSION ?= "4.14.143"
++LINUX_VERSION ?= "4.14.154"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.7.4
 
