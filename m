@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E3B6F7FDA4
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id E84407FDA4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2019 16:00:20 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id y206so5828652pfb.0
+	Mon, 16 Dec 2019 16:00:21 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id ca19so3164168pjb.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2019 08:00:22 -0800 (PST)
+	Mon, 16 Dec 2019 08:00:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=6A2GdUKIpJUnY1JrZ0fhucnm89CqvsL5MZei6drO4Sg=;
-	b=bX1CmdYFB5ZpS/FGUzp5qRgonsDT4ozsq4ps1xSP+NX1CjJpDHMd8narQkHH6MWxd6
-	CJMldEyWCIGEk5U30c+aTfHzVGOl/FGZS2SZhvtT4ei/v201fiGCPV+h4GPiusbfmE1r
-	ACKJugTxdk3cW6ZCwCbvGtlga43kbWah+xwGqNAcT86siWlG67zxCQBHvzfp6SW4yg48
-	Ohq8BsQZtmEylhG5UuxM0AlwtoDaL1IZkB1b6ohx+oloB7H+/hbp4VjN9X7UIAYOS/n3
-	6adVWOlO5HaCcSv193rPNLp6UTrrNXgbsCU7yc64KZGGKfuN52B8KT105ErtfVZ6vG1J
-	nPGg==
+	bh=905yWqdeIGCayTdsC6Nq6OoyUJiefrqmQru1RYtH1Mc=;
+	b=DqBx+MAZzrtEIIg+h1qkYg6Zj/ra2jT/QGrU1yUiViXHXBl/IKSu3D0IhLbE5Gomiy
+	DSKtzHHQ8VVcuIqO5PHu2SPdpBZjJNmI/sPavJE3m44N9V8FOtpCskr1iJSh7G2DrV4U
+	cAb6xW3F6Fcu/fb5UCNPNmyWB6vyxR4QUjN3NAGZTXh/8DOXrVHhOxGFzDX/iJJsNdB+
+	9B9Tk+6pcoBIldBUjx7cIBq/VbeVXosRGe8P2oAd9qLuy5HL+XwSEJnuagnELW+oQABx
+	YzX1E2gv2Ef5MpzJtPqomC9oVDxOVMyIIi9m6k4DMP2uy8eNgB131zomjN5w1DLrQm2U
+	CH1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=6A2GdUKIpJUnY1JrZ0fhucnm89CqvsL5MZei6drO4Sg=;
-	b=O8/Y/nfiOWRoVgvPxfINnYu8dj3jUjPeOhVfOJ2LzT1sg15uH44X7xnmflot06wl2/
-	mmTWWNSrnZXS71XCL6NdM7kT0WuSBsC5TyxIE4j7US/2UOM11q4ycXcd90Ibd6/igoW0
-	6C5sLqbLGRU/xKGjJsrR/GIwWHhpXzs8S3pp1ptemHY2hlU6ZGk3i5AxnelPlSfkFQEh
-	K/bz/sUVX6rAnh25LcpJFgBlPQGDi/FjSMDbClZnIJoBKjU9RWSzG/LC/knF8AOcvDKW
-	fJ0/ylByJiqQowt1jg6u4O32hFeQ8S1yDqOZRXRXOm04InY7YzokUvw6GopXpvonCpCJ
-	OT2A==
-X-Gm-Message-State: APjAAAX98YKTsGL+4j4Id7IWpiuzIbyN8a1HBQe2unwLoaeZJD/5Fze+
-	TQzQ7HC8xgCrQg9wMP0tGnhH7MP2hYU=
-X-Google-Smtp-Source: APXvYqyJKtRWFRHHHY3hX6rny+mjSc4kxmjP+N0+/uI37YuKF1HkgsmuCl5EP4Cgzm0shjG1Bz2Zxw==
-X-Received: by 2002:a63:d442:: with SMTP id i2mr19646641pgj.349.1576512021851; 
-	Mon, 16 Dec 2019 08:00:21 -0800 (PST)
+	bh=905yWqdeIGCayTdsC6Nq6OoyUJiefrqmQru1RYtH1Mc=;
+	b=qoUD0B3i/FCbgqPJGpCTwpJh86s3AoPgYrUaOGgNAWVslCOjLeTXvJMAUYSyJJEfjs
+	ZSk4ncJ1cCmMVO6mFsfOQsQgKGySoKVfm+WmwoXRi/HJXbmlIQj3d4X9OB7TJRv1S2fh
+	pNbG+r/KZerMYl2LpArYcD69WlQbIUVnLmjn8MMPe55sZD8be8EDHUxeefF9E64x5SBB
+	flvw+SjEsAumkiO2QFZj3VYUfaHfWeqH8ovHEPYo8ypXytWXY4ylNJBUKGcCH6BEbmwM
+	/eQzJlZYC8V63r6JxSdrpHgvbiVrEpcI81Bz4alTQ+ATRKpRQ/Xkvhm9+Z6qcVBmBAYL
+	S2Ng==
+X-Gm-Message-State: APjAAAWubtqp7gZDzfQHLSbUYl/KScr/7t/EVfLEpRthO4v+9KKIIhGT
+	huvByVskhEmgDOXd5ETZ/8Nl7UU532c=
+X-Google-Smtp-Source: APXvYqxx8UncbWkTbtTSMNBUD8Jno3b20xA18AfSR6U86juuXvqyGHHSFtHl4qtvrDJTSAfO6BvXRA==
+X-Received: by 2002:a17:902:ff10:: with SMTP id
+	f16mr16806117plj.312.1576512022884; 
+	Mon, 16 Dec 2019 08:00:22 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e5c5:31c9:a010:f145])
 	by smtp.gmail.com with ESMTPSA id
-	g6sm19568697pjl.25.2019.12.16.08.00.20
+	g6sm19568697pjl.25.2019.12.16.08.00.22
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 16 Dec 2019 08:00:21 -0800 (PST)
+	Mon, 16 Dec 2019 08:00:22 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Dec 2019 08:00:00 -0800
-Message-Id: <091a35cfbd2f3e82a7783ba9c8fd5586433ba59f.1576511913.git.akuster808@gmail.com>
+Date: Mon, 16 Dec 2019 08:00:01 -0800
+Message-Id: <29cc2b5cd4bcce1c9e93395a1640014877486d7a.1576511913.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1576511913.git.akuster808@gmail.com>
 References: <cover.1576511913.git.akuster808@gmail.com>
-Subject: [thud 10/18] cve-update-db-native: don't refresh more than once an hour
+Subject: [thud 11/18] cve-update-db-native: don't hardcode the database name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,45 +60,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Dec 2019 16:00:21 -0000
+X-List-Received-Date: Mon, 16 Dec 2019 16:00:22 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-We already fetch the yearly CVE metadata and check that for updates before
-downloading the full data, but we can speed up CVE checking further by only
-checking the CVE metadata once an hour.
+Don't hardcode the database filename, there's a variable for this in
+cve-check.bbclass.
 
-(From OE-Core rev: 50d898fd360c58fe85460517d965f62b7654771a)
+(From OE-Core rev: 0d188a9dc4ae64c64cd661e9d9c3841e86f226ab)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ meta/recipes-core/meta/cve-update-db-native.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 2c427a5..19875a4 100644
+index 19875a4..c15534d 100644
 --- a/meta/recipes-core/meta/cve-update-db-native.bb
 +++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -31,8 +31,16 @@ python do_populate_cve_db() {
-     db_dir = os.path.join(d.getVar("DL_DIR"), 'CVE_CHECK')
-     db_file = os.path.join(db_dir, 'nvdcve_1.0.db')
-     json_tmpfile = os.path.join(db_dir, 'nvd.json.gz')
--    proxy = d.getVar("https_proxy")
+@@ -28,8 +28,8 @@ python do_populate_cve_db() {
+     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
+     YEAR_START = 2002
  
-+    # Don't refresh the database more than once an hour
-+    try:
-+        import time
-+        if time.time() - os.path.getmtime(db_file) < (60*60):
-+            return
-+    except OSError:
-+        pass
-+
-+    proxy = d.getVar("https_proxy")
-     if proxy:
-         # instantiate an opener but do not install it as the global
-         # opener unless if we're really sure it's applicable for all
+-    db_dir = os.path.join(d.getVar("DL_DIR"), 'CVE_CHECK')
+-    db_file = os.path.join(db_dir, 'nvdcve_1.0.db')
++    db_file = d.getVar("CVE_CHECK_DB_FILE")
++    db_dir = os.path.dirname(db_file)
+     json_tmpfile = os.path.join(db_dir, 'nvd.json.gz')
+ 
+     # Don't refresh the database more than once an hour
 -- 
 2.7.4
 
