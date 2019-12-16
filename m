@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id A8CF37FDC9
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
+	[209.85.214.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EF887FDD1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2019 16:00:23 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id q127so3963649pga.4
+	Mon, 16 Dec 2019 16:00:24 +0000 (UTC)
+Received: by mail-pl1-f177.google.com with SMTP id x17so4665931pln.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2019 08:00:25 -0800 (PST)
+	Mon, 16 Dec 2019 08:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=lVCLDTPb0GFJoEWDw+Gg93KUJz04qQroZhCJYvxuk0E=;
-	b=sWuilZB8F0LS6JkHR2J1gr3jonJfTHDzARzpPkr4nKd5/OU7yLLFAiNSYhpgC1+/gf
-	pcbGm3v/L7LrCXfYblFujPm0EWFlCUuKnZcxSse5Vb2vnvGhnxy+ELKgDhqZGDudT4Ka
-	jc6W1TQD6LenGjy/NM+G0ynEPXfJsPTlVGk/zLTe+DMsMuGcllHoYdzd81QBg2PcN5t7
-	BuyXvHnbgW87PpGb/bZhXvPI/tGKcrcBFFS7XooNMWdiJaun41LLdmd6RRfMNpHu3Bm+
-	Qa+IQyHN2JNVtLhlZuVcF83xVu52sj4ZrTUgnVcrvM0dYv1zZRYgm5VPY5b6+76OAB7Q
-	SfqA==
+	bh=ZFs0MnN/bBfSg/6D+ln1OmgzSOl42k/KJkc0HvAoc1g=;
+	b=PJTuy58ow2S2FE7eIICG33DJUTi+Hsew0X8d2edtyyRGHus5x3+XGwcahXka4qX8RC
+	mMuPp6I985ep267lRanC8YkOgRW0Q3TJXs3f0UWDhpiwI7jFhT/zaR68nZv8U4geWMqN
+	Rlnc3H9OVcdAo9cRyzjgchGT/NHPtiXPuGdpqq06DXEaklcTDCUmNEr/pxkegfBJbo8e
+	GkeeRhTTAAdbZwNcLKmxVert2ABb8oT0K+y9yckqae1SrpNg6a1Or+K8LMbwnR+LWa6r
+	eaqKF2j3GGVSNobOnC3mUXGif3WTmx9oNpCz7G+ySW7DHhYLFjkLgZHt+6K9hMBW19HQ
+	uGGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=lVCLDTPb0GFJoEWDw+Gg93KUJz04qQroZhCJYvxuk0E=;
-	b=h9OmJcLkCes7X/TtucwE7lHOHH+CFImMCpvHtmV2QJVS5yOtXfW5v8xqjwx7k+xXJ3
-	WfITjuR6qoni3T5kTIOtHfWhn+8/vsFEbbeY1rIAbw4CfW1ZalaiKm/mDaZ51pv1uL7R
-	IR4ox3CCiU3e1iWXekQxRkPlTtkwHAvfTGba0Yaq+xchDfyCwNr5jxyLKTuqljMZf5xf
-	3V4i9mIDdTWeQJd1e33NOesAcqALoKdph21Z7XB0of2/xvMAjKI/p8wi+dKACrMROOST
-	jvQSDok+ODJewc7HadwemZlRx2QfPNckp5X43fF/cIrbEbHirRe7bJBv4nTdwB5f7/Nz
-	+fhg==
-X-Gm-Message-State: APjAAAUhvpjs7WpgzfrpdWP1+n7SfZ8tpwbypBwPPUGWV+Wlr808Cnr6
-	E/6UjzdQCEvDelxboQHAOVSGjM865UA=
-X-Google-Smtp-Source: APXvYqybV0uRghdntqdoEhmUZACWW/We0Hky6MCXFL1bngOe5FEf+zTp9PsPvl0O16A7C5FykO+7Hg==
-X-Received: by 2002:a63:f64a:: with SMTP id u10mr18666101pgj.16.1576512024590; 
-	Mon, 16 Dec 2019 08:00:24 -0800 (PST)
+	bh=ZFs0MnN/bBfSg/6D+ln1OmgzSOl42k/KJkc0HvAoc1g=;
+	b=qfEC2UAPPdNN0ebM45onWLKR0zIQAgNsGvXzknC9FXl1naSyxxfhKoqyRivN0H4lFp
+	HnPzV2Y8Sx3A+ro0bsvVHN2zNaUy/HdqvsnsvdDBEfJbDOqIHcz0q8YmnfEhHCEXpbVW
+	JcEoDUh5jLA+7AjQFIbOi3Eeu80aJICIPMBZxp2867fSg6Zw42IDPJfaS0yWGP9HiZXo
+	jdqntJa6LP3bv1RO2AN3B97Rsd/03oAXoCHzGZymKpjIZJ1aJ+HaRpb7BaUaoAPJODEP
+	nM+yGtEqBFz1PT3bhaitl+f9nHQwc0BO6TWp7byauo7P2OkIm2JdoKL/kFgVx4fiif3H
+	rI3Q==
+X-Gm-Message-State: APjAAAWimrhzC1Ir5susdfI5fE4u5ZHlGqTsG9qWl4vcvgA3MRQ/lZc9
+	QSgQpDNUZmOMBbjJE+0gGiRphDZ8VeM=
+X-Google-Smtp-Source: APXvYqzyTPVm60avtMx1b4ropSZYti0QqNnGE2BjARqNPxBKujKTDDmZIKf35mfIh21bVFZ4PqjNmA==
+X-Received: by 2002:a17:902:9b84:: with SMTP id
+	y4mr16175242plp.13.1576512025495; 
+	Mon, 16 Dec 2019 08:00:25 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e5c5:31c9:a010:f145])
 	by smtp.gmail.com with ESMTPSA id
-	g6sm19568697pjl.25.2019.12.16.08.00.23
+	g6sm19568697pjl.25.2019.12.16.08.00.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Mon, 16 Dec 2019 08:00:24 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 16 Dec 2019 08:00:03 -0800
-Message-Id: <aa197b91e1770925ae1a31ee7334b593bfcdc9e3.1576511913.git.akuster808@gmail.com>
+Date: Mon, 16 Dec 2019 08:00:04 -0800
+Message-Id: <541dc24d974d3e22c45a650c34298eebc45121e8.1576511913.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1576511913.git.akuster808@gmail.com>
 References: <cover.1576511913.git.akuster808@gmail.com>
-Subject: [thud 13/18] cve-update-db-native: clean up proxy handling
+Subject: [thud 14/18] cve-check: rewrite look to fix false negatives
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,88 +60,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Dec 2019 16:00:23 -0000
+X-List-Received-Date: Mon, 16 Dec 2019 16:00:24 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-urllib handles adding proxy handlers if the proxies are set in the environment,
-so call bb.utils.export_proxies() to do that and remove the manual setup.
+A previous optimisation was premature and resulted in false-negatives in the report.
 
-(From OE-Core rev: 6b73004668b3b71c9c38814b79fbb58c893ed434)
+Rewrite the checking algorithm to first get the list of potential CVEs by
+vendor:product, then iterate through every matching CPE for that CVE to
+determine if the bounds match or not.  By doing this in two stages we can know
+if we've checked every CPE, instead of accidentally breaking out of the scan too
+early.
+
+(From OE-Core rev: d61aff9e22704ad69df1f7ab0f8784f4e7cc0c69)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/meta/cve-update-db-native.bb | 31 +++++---------------------
- 1 file changed, 5 insertions(+), 26 deletions(-)
+ meta/classes/cve-check.bbclass | 63 +++++++++++++++++++++++-------------------
+ 1 file changed, 34 insertions(+), 29 deletions(-)
 
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index 08b18f0..db1d69a 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -21,10 +21,12 @@ python do_populate_cve_db() {
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 3326944..c1cbdbd 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -165,7 +165,6 @@ def check_cves(d, patched_cves):
      """
-     Update NVD database with json data feed
+     Connect to the NVD database and find unpatched cves.
      """
--
-+    import bb.utils
-     import sqlite3, urllib, urllib.parse, shutil, gzip
-     from datetime import date
+-    import ast, csv, tempfile, subprocess, io
+     from distutils.version import LooseVersion
  
-+    bb.utils.export_proxies(d)
+     cves_unpatched = []
+@@ -187,68 +186,74 @@ def check_cves(d, patched_cves):
+     cve_whitelist = d.getVar("CVE_CHECK_WHITELIST").split()
+ 
+     import sqlite3
+-    db_file = d.getVar("CVE_CHECK_DB_FILE")
+-    conn = sqlite3.connect(db_file)
++    db_file = d.expand("file:${CVE_CHECK_DB_FILE}?mode=ro")
++    conn = sqlite3.connect(db_file, uri=True)
+ 
++    # For each of the known product names (e.g. curl has CPEs using curl and libcurl)...
+     for product in products:
+-        c = conn.cursor()
+         if ":" in product:
+             vendor, product = product.split(":", 1)
+-            c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ? AND VENDOR IS ?", (product, vendor))
+         else:
+-            c.execute("SELECT * FROM PRODUCTS WHERE PRODUCT IS ?", (product,))
++            vendor = "%"
+ 
+-        for row in c:
+-            cve = row[0]
+-            version_start = row[3]
+-            operator_start = row[4]
+-            version_end = row[5]
+-            operator_end = row[6]
++        # Find all relevant CVE IDs.
++        for cverow in conn.execute("SELECT DISTINCT ID FROM PRODUCTS WHERE PRODUCT IS ? AND VENDOR LIKE ?", (product, vendor)):
++            cve = cverow[0]
+ 
+             if cve in cve_whitelist:
+                 bb.note("%s-%s has been whitelisted for %s" % (product, pv, cve))
+                 # TODO: this should be in the report as 'whitelisted'
+                 patched_cves.add(cve)
++                continue
+             elif cve in patched_cves:
+                 bb.note("%s has been patched" % (cve))
+-            else:
+-                to_append = False
++                continue
 +
-     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
-     YEAR_START = 2002
++            vulnerable = False
++            for row in conn.execute("SELECT * FROM PRODUCTS WHERE ID IS ? AND PRODUCT IS ? AND VENDOR LIKE ?", (cve, product, vendor)):
++                (_, _, _, version_start, operator_start, version_end, operator_end) = row
++                #bb.debug(2, "Evaluating row " + str(row))
++
+                 if (operator_start == '=' and pv == version_start):
+-                    to_append = True
++                    vulnerable = True
+                 else:
+                     if operator_start:
+                         try:
+-                            to_append_start =  (operator_start == '>=' and LooseVersion(pv) >= LooseVersion(version_start))
+-                            to_append_start |= (operator_start == '>' and LooseVersion(pv) > LooseVersion(version_start))
++                            vulnerable_start =  (operator_start == '>=' and LooseVersion(pv) >= LooseVersion(version_start))
++                            vulnerable_start |= (operator_start == '>' and LooseVersion(pv) > LooseVersion(version_start))
+                         except:
+                             bb.warn("%s: Failed to compare %s %s %s for %s" %
+                                     (product, pv, operator_start, version_start, cve))
+-                            to_append_start = False
++                            vulnerable_start = False
+                     else:
+-                        to_append_start = False
++                        vulnerable_start = False
  
-@@ -40,16 +42,6 @@ python do_populate_cve_db() {
-     except OSError:
-         pass
+                     if operator_end:
+                         try:
+-                            to_append_end  = (operator_end == '<=' and LooseVersion(pv) <= LooseVersion(version_end))
+-                            to_append_end |= (operator_end == '<' and LooseVersion(pv) < LooseVersion(version_end))
++                            vulnerable_end  = (operator_end == '<=' and LooseVersion(pv) <= LooseVersion(version_end))
++                            vulnerable_end |= (operator_end == '<' and LooseVersion(pv) < LooseVersion(version_end))
+                         except:
+                             bb.warn("%s: Failed to compare %s %s %s for %s" %
+                                     (product, pv, operator_end, version_end, cve))
+-                            to_append_end = False
++                            vulnerable_end = False
+                     else:
+-                        to_append_end = False
++                        vulnerable_end = False
  
--    proxy = d.getVar("https_proxy")
--    if proxy:
--        # instantiate an opener but do not install it as the global
--        # opener unless if we're really sure it's applicable for all
--        # urllib requests
--        proxy_handler = urllib.request.ProxyHandler({'https': proxy})
--        proxy_opener = urllib.request.build_opener(proxy_handler)
--    else:
--        proxy_opener = None
--
-     cve_f = open(os.path.join(d.getVar("TMPDIR"), 'cve_check'), 'a')
+                     if operator_start and operator_end:
+-                        to_append = to_append_start and to_append_end
++                        vulnerable = vulnerable_start and vulnerable_end
+                     else:
+-                        to_append = to_append_start or to_append_end
++                        vulnerable = vulnerable_start or vulnerable_end
  
-     if not os.path.isdir(db_dir):
-@@ -67,15 +59,7 @@ python do_populate_cve_db() {
-         json_url = year_url + ".json.gz"
- 
-         # Retrieve meta last modified date
--
--        response = None
--
--        if proxy_opener:
--            response = proxy_opener.open(meta_url)
--        else:
--            req = urllib.request.Request(meta_url)
--            response = urllib.request.urlopen(req)
--
-+        response = urllib.request.urlopen(meta_url)
-         if response:
-             for l in response.read().decode("utf-8").splitlines():
-                 key, value = l.split(":", 1)
-@@ -95,12 +79,7 @@ python do_populate_cve_db() {
- 
-             # Update db with current year json file
-             try:
--                if proxy_opener:
--                    response = proxy_opener.open(json_url)
+-                if to_append:
++                if vulnerable:
+                     bb.note("%s-%s is vulnerable to %s" % (product, pv, cve))
+                     cves_unpatched.append(cve)
 -                else:
--                    req = urllib.request.Request(json_url)
--                    response = urllib.request.urlopen(req)
--
-+                response = urllib.request.urlopen(json_url)
-                 if response:
-                     update_db(c, gzip.decompress(response.read()).decode('utf-8'))
-                 c.execute("insert or replace into META values (?, ?)", [year, last_modified])
+-                    bb.note("%s-%s is not vulnerable to %s" % (product, pv, cve))
+-                    patched_cves.add(cve)
++                    break
++
++            if not vulnerable:
++                bb.note("%s-%s is not vulnerable to %s" % (product, pv, cve))
++                # TODO: not patched but not vulnerable
++                patched_cves.add(cve)
++
+     conn.close()
+ 
+     return (list(patched_cves), cves_unpatched)
 -- 
 2.7.4
 
