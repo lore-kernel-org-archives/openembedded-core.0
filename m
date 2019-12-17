@@ -1,49 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 243557FE32
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EA3CF7FE0B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 16:00:23 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id b6so11918506wrq.0
+	Tue, 17 Dec 2019 16:02:46 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id n27so6818701vsa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 08:00:24 -0800 (PST)
+	Tue, 17 Dec 2019 08:02:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Y01mHckQgZ3l7rTxfGi4Mqt1NCUbZVFFVXFzQsgRXjs=;
-	b=hXg2fViLmIl1iNX2/dwm4IHnJ8a6pa0uR/cjKsZmXho8kNpdFoJ+tbBwt2mwy/PWzm
-	sEhBfP+euR0H6Vbn8plzqomA3qe+JET9NKWhd4LQDRGkqlugVPVpfrAQyChHC0LT+W/j
-	IyTNbu+j74a6S1RclUlkjgIpLM61WuE2iv+ZNXJ0D3aOZMfVUZ0LofA/yzWS8ixfsxoU
-	A1nhL2v5lsFwD/5xQXXfkAXcZLNBrYx5VndubsUF9uaYePNIm1X/Cs3xYwXTGacxIr66
-	JrW8HiHSiZpuMb9JKhZkRx4Q13t02NaSmIny6WCPCwFkg8/LHU71uNeRf7MKYZpg+E+0
-	4zlg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=kShiUhV/I/dDrLp3d9NJl4Mg+Jz4QTelE1O3+NcjDto=;
+	b=fEjcw210FcoapwBojFT27ANKauM5/jDLHS9gZ5nenwlxDnBkUZRf8XlR2gk1RLADkQ
+	0MBW3XAIlXw6Ur/hVF/gBddAvXJNEhHv1zst8Hh4G/j3AMYeyARNilP0+8y7MvuXod1n
+	dky+EHEmW3tP/C3aMXVUkRGQ9HH60o25UanEoKQPLpEsJizTlV478UYjODWWK++Ex0z+
+	wjof/490q92m6C6/2UMCyiHPpfeDDjLrfc2gIuGjoGAcFHzGFCLHhIpsdwpv7DHYp0mb
+	xuMa569thOvUhem6PtiDr3wmFCUaJlL/oSCr28pMcvnAe0nOqXJnUbRqbzxBug1K697N
+	j4+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Y01mHckQgZ3l7rTxfGi4Mqt1NCUbZVFFVXFzQsgRXjs=;
-	b=LRlJYbUvDXdV16W8q5EjVH4fPp1qeSDKt6BafDP2G8JTuhQsk7S/2opWBihUB+vyyB
-	h5sIt06KE4lvAl/SwOKOrlmQkCz3oxUZ+DVcCmXSCqaRYuk9sYXgPImu6UxjAfEK5GbO
-	bvU7IgTBP6Kge5Kf28AIQcsmtIiT7N/dqCS1IfonzTazrsBLs7dhV2no/5wgAW6la7VO
-	z/RVPIQCbtF95aDmOuJiz/giGHuLGBpzxEmGWV74i7A81k6RCAFlS9OtDY8Yo/TSYfUz
-	6fopWS6LqmkutJQF5TWVgFUE609gdWepnRP6jg3S7tIvK61IIqFYGbPINa4oac/u+d9E
-	96tQ==
-X-Gm-Message-State: APjAAAUD29X0xZNJ3m7L1NwQO+HZ/E/e1xovwi3YatMqz9tDhA1dS9At
-	oM9DNYjUZiBtfj9ylJKiM/npIpTZHKk=
-X-Google-Smtp-Source: APXvYqxJltO4OqxJ3g8xi5IOnR4QirMmrk3NcbCtoDrra4wkuFkpdY0eD6OchzzfclTPjk052tv8Jw==
-X-Received: by 2002:a5d:6748:: with SMTP id l8mr38680313wrw.188.1576598423687; 
-	Tue, 17 Dec 2019 08:00:23 -0800 (PST)
-Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id v62sm3451864wmg.3.2019.12.17.08.00.22
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Dec 2019 08:00:23 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=kShiUhV/I/dDrLp3d9NJl4Mg+Jz4QTelE1O3+NcjDto=;
+	b=Tor7vjDNKFl4SRvY7G3xBk9UPY8jtNp/Tj9iHn+QyL8bPyZ/S/wOdbakr4oH5G4Kpx
+	o7JV5f2RlY7ZYcx5lRDsij5dA9b+v7TpAcRf4ZJmj/ZtBYMTkx/Whfokhlzn0GSlf/h/
+	t3NOpCF3ZOwU959oqhL3V/2CqkPREveshmCUfTCU1SqLJsQzk9GAbBfjCDtinwD/z/JV
+	n7m85EvFtCjKqAHGzvcXi/zkjjqrH+3e3afSVYr3XgnXRiL6ArjS08PZkfS4mUiP+HeV
+	aBY6SugvRzZJfE6oH0fkgKNXEQ+q5dB+ySWLscnrO9GFf+R6nO3wIPT4ECUT85aoYEi6
+	zkcA==
+X-Gm-Message-State: APjAAAUiF5VzVU5rcYdjqjMe2dCfHRPLj0LtoJSbHntzFjiAbQzRdoUr
+	UirDiFYBjAjRUA6cJNNX2XW9bxm8xA9gzCDTjfQ=
+X-Google-Smtp-Source: APXvYqwUUt709Fc3REVIFcTpJdorImZUD+22G6gKli7tJGV1YYPFzW4lOiWgReo3bk3M8gCxLTXHxNLmeg27VA4kVZs=
+X-Received: by 2002:a05:6102:d1:: with SMTP id
+	u17mr3229673vsp.23.1576598567794; 
+	Tue, 17 Dec 2019 08:02:47 -0800 (PST)
+MIME-Version: 1.0
+References: <20191212181436.1322-1-alex.kanavin@gmail.com>
+	<20191212181436.1322-3-alex.kanavin@gmail.com>
+	<b4e0b39cda58583411b3e6c05cb0566053e6cdb1.camel@linuxfoundation.org>
+	<CANNYZj9tf5c9_XOn1P-tTXSSHjKUSp6QMfsNYX_swJAp+h7Krg@mail.gmail.com>
+In-Reply-To: <CANNYZj9tf5c9_XOn1P-tTXSSHjKUSp6QMfsNYX_swJAp+h7Krg@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Dec 2019 17:00:12 +0100
-Message-Id: <20191217160012.42152-5-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20191217160012.42152-1-alex.kanavin@gmail.com>
-References: <20191217160012.42152-1-alex.kanavin@gmail.com>
-Subject: [PATCH 5/5] systemtap: fix builds with newer gettext
+Date: Tue, 17 Dec 2019 17:02:36 +0100
+Message-ID: <CANNYZj-mywh64iuGoUPVkMTJm8ka4m4a6UYVY3cOd2+hVvU62A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 03/30] gettext: update to 0.20.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,61 +57,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2019 16:00:23 -0000
+X-List-Received-Date: Tue, 17 Dec 2019 16:02:47 -0000
+Content-Type: multipart/alternative; boundary="0000000000009640990599e87598"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...-LINGUAS-drop-the-polish-translation.patch | 27 +++++++++++++++++++
- .../systemtap/systemtap_git.inc               |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-po-LINGUAS-drop-the-polish-translation.patch
+--0000000000009640990599e87598
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-po-LINGUAS-drop-the-polish-translation.patch b/meta/recipes-kernel/systemtap/systemtap/0001-po-LINGUAS-drop-the-polish-translation.patch
-new file mode 100644
-index 00000000000..b2114abc379
---- /dev/null
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-po-LINGUAS-drop-the-polish-translation.patch
-@@ -0,0 +1,27 @@
-+From b9ba80a22bd4ac3438ad38819cbe550ec9e8a3f8 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Mon, 16 Dec 2019 13:59:47 +0100
-+Subject: [PATCH] po/LINGUAS: drop the polish translation
-+
-+There are no actual translated strings, and newer gettext (0.20)
-+fails in this case.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ po/LINGUAS | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/po/LINGUAS b/po/LINGUAS
-+index 6f927b706..aa01eb56e 100644
-+--- a/po/LINGUAS
-++++ b/po/LINGUAS
-+@@ -1,5 +1,4 @@
-+ en
-+-pl
-+ fr
-+ cs
-+ 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 116e83fe0ff..85c204ed238 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -7,6 +7,7 @@ SRC_URI = "git://sourceware.org/git/systemtap.git \
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
-            file://0001-Install-python-modules-to-correct-library-dir.patch \
-            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
-+           file://0001-po-LINGUAS-drop-the-polish-translation.patch \
-            "
- 
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips).*-linux'
--- 
-2.17.1
+On Mon, 16 Dec 2019 at 14:25, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
+>
+> In an effort to try and get to the bottom of which patches cause which
+>> failures I ran the gettext updates pieces by themselves (patches 2-5).
+>>
+>> systemtap fails:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1354
+>>
+>> the main a-full build in case there are other issues:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/580
+>>
+>> I know there is a fix for the check-layer/mingw pieces in master-next
+>> of meta-mingw, just forgot to set that branch.
+>>
+>
+> Thanks, there are also failures in meta-gpl2, for which I will also make
+> patches.
+> Systemtap issue is now fixed.
+>
 
+I have now sent the meta-gplv2 patches to yocto@ and the patchset for
+gettext+systemtap here.
+
+Alex
+
+--0000000000009640990599e87598
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 16 Dec 2019 at 14:25, Alexander K=
+anavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com=
+</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex"><div dir=3D"ltr"><br><div class=3D"gmail_quote">=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">
+In an effort to try and get to the bottom of which patches cause which<br>
+failures I ran the gettext updates pieces by themselves (patches 2-5).<br>
+<br>
+systemtap fails:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/50/build=
+s/1354" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/50/builds/1354</a><br>
+<br>
+the main a-full build in case there are other issues:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/83/build=
+s/580" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
+t.org/typhoon/#/builders/83/builds/580</a><br>
+<br>
+I know there is a fix for the check-layer/mingw pieces in master-next<br>
+of meta-mingw, just forgot to set that branch.<br></blockquote><div><br></d=
+iv><div>Thanks, there are also failures in meta-gpl2, for which I will also=
+ make patches. <br></div><div>Systemtap issue is now fixed.</div></div></di=
+v></blockquote><div><br></div><div>I have now sent the meta-gplv2 patches t=
+o yocto@ and the patchset for gettext+systemtap here.</div><div><br></div><=
+div>Alex<br></div></div></div>
+
+--0000000000009640990599e87598--
