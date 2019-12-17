@@ -1,43 +1,52 @@
-Return-Path: <mac@mcrowe.com>
-X-Greylist: delayed 450 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 17 Dec 2019 08:10:06 UTC
-Received: from avasout04.plus.net (avasout04.plus.net [212.159.14.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CBA77FE3F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id E02637EDF1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 08:10:06 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id h7oQiYxsN4Al0h7oRiG8Ho; Tue, 17 Dec 2019 08:02:36 +0000
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=GY1pYjfL c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=pxVhFHJ0LMsA:10 a=Q4-j1AaZAAAA:8 a=-An2I_7KAAAA:8
-	a=OrnB6H8c38Rv8jb_wfAA:9
-	a=YiJXXBSSIdIA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=Sq34B_EcNBM9_nrAYB9S:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com; 
-	s=20191005;
-	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject
-	:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
-	In-Reply-To:References; bh=2dtnczYTFLcn9/1JC0u65s+fU7zoyx5sLvnGApEUoZM=;
-	b=RA
-	IaMNe3Qcgp5Yaox6xOPlsnihjwlMDt8MxS2iNNTIQwu5FnfvCRkV8j0dbiC8+t1KDmlNIM1PklkmM
-	jXYHYBNM53uTfZs6mDyEw5NR22sq/NfWlS2TCLV7L6o2OCl/KTzBq8EBtAw9ZO4f1R43mgXUgweQS
-	xmIPmgYe1Ix4q/YQx7CRXxB3p7oAdQebISSMj722aINE1wRd+iO5JTpKPMZY170j0Xvt8HSSe/ftZ
-	r0tE6CepofDXYesjYOIIfnL3ZvpwFeA/PI70MM37U3H/jPiQz+f4GEqHJItLiNRvxGqY/+xMnMwpi
-	EuRzCN+TaVKhoCLV+47Py/t3gAFuvYjw==;
-Received: from mac by deneb with local (Exim 4.92)
-	(envelope-from <mac@mcrowe.com>)
-	id 1ih7oO-00051K-OS; Tue, 17 Dec 2019 08:02:32 +0000
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Dec 2019 08:02:25 +0000
-Message-Id: <20191217080225.897186-1-mac@mcrowe.com>
-X-Mailer: git-send-email 2.24.0
+	Tue, 17 Dec 2019 08:51:46 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id m24so2034786wmc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Dec 2019 00:51:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=+jSY7cN2QYAuPOvLW2zk5vANMuAEl4U2WEJ/zeJxI2o=;
+	b=fp+DSn5T4XAvQqu0LQ5CB1BX8/foEskj5VM4x/GScGfVfknof6HlRkneVb5DRSXaqO
+	GdE6pKA6iO3PrI8+SHYSxTeYt8Sps65KFVGAEcDwZRWvHsNP8xAbQSZRsIlGSbLc2iyD
+	q+oOW2tkvKDelqtZkEs602VP/mOSc28V2CtNQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=+jSY7cN2QYAuPOvLW2zk5vANMuAEl4U2WEJ/zeJxI2o=;
+	b=pbRTpoStIH0WJd3N1p78deq+SnTKK1UvCW4ayPdlo+fNFKo+FoMXOTjXlk/4KCkraR
+	MB2B8mXdL2fYdtV2P3DZJou7KzzC/ZvlaAC9DIewAfseA/kVeYodYvO/1qTra7n3cc7g
+	aly1e/25iBqlZRPCinl3LfUDedF0mN3Fy9LcczOouYhd3amki/Fp+XN5aUCriP0HGQXL
+	p/8bTwESp6kycONraBD05TTdJ3uyP23OD7uK3Jd0r/NQyXylo4WSlpA/h1sNfT8lqhY7
+	wlW7UPd+5nbz0RKipK1iWHw9YowLhq34Z14h0sj2yX+wCZDmsd+IOYxN2L+8EHqYGv2w
+	We4w==
+X-Gm-Message-State: APjAAAWTJzV2weGh7VlHSr9e9gx8r5dSTTzJUAWtBqVCJr8di4FArNuA
+	02ub8AL9W0YgLSFjSboVW5zCag==
+X-Google-Smtp-Source: APXvYqwM+PkrvPFry2A03ZA5D/xi+qqZQNSkNUDPKVznfwgHBgrG/mvaJiCUrq84vLo5EtOdl3ij0A==
+X-Received: by 2002:a1c:7d92:: with SMTP id y140mr3734032wmc.145.1576572707433;
+	Tue, 17 Dec 2019 00:51:47 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	s82sm2296142wms.28.2019.12.17.00.51.46
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 17 Dec 2019 00:51:46 -0800 (PST)
+Message-ID: <f61025197cf0939a1f769d595fb9df70e599f237.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 17 Dec 2019 08:51:45 +0000
+In-Reply-To: <20191212181436.1322-8-alex.kanavin@gmail.com>
+References: <20191212181436.1322-1-alex.kanavin@gmail.com>
+	<20191212181436.1322-8-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-X-CMAE-Envelope: MS4wfGLUATPXCOYJpQuQy198a33RlJDad5a271DTAcmVHP2em0wX7ZMQ8d6JFzoGQ4BmN4DObN9og7IOiaZJD7L8RsaXF2WZv1tE1xoFLAmYQdhQa83pSli2
-	9iSrxk1ty9AEvWuVBlcEqOWxqlcN7QVF4fmk09/vNjmlQZa0Qdz6O2sq
-Cc: Mike Crowe <mac@mcrowe.com>
-Subject: [PATCH] multilib.conf: Ensure that RECIPE_SYSROOT is unchanged for native
+Subject: Re: [PATCH 08/30] shadow: update 4.6 -> 4.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,92 +59,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2019 08:10:06 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 17 Dec 2019 08:51:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Ensure that RECIPE_SYSROOT is the same for -native recipes whether
-multilib.conf is included or not.
+On Thu, 2019-12-12 at 19:14 +0100, Alexander Kanavin wrote:
+> Drop two backports.
+> 
+> Remove 0001-useradd.c-create-parent-directories-when-necessary.patch
+> as upstream has addressed the issue:
+> https://github.com/shadow-maint/shadow/commit/b3b6d9d77c1d18b98670b97157777bb74092cd69
+> 
+> Rebase the rest of the paches.
+> 
+> Add a patch to remove the check for validity of login shells
+> which does not work in our environment.
 
-Without this change task signatures for -native recipes change when
-switching between MACHINEs that require multilib.conf and those that
-don't.
+This upgrade causes this failure:
 
-This fix was one of the ones suggested by Khem Raj in
-http://lists.openembedded.org/pipermail/openembedded-core/2019-December/290303.html
+https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/1346
 
-Add test_sstate_multilib_or_not_native_samesigs test case to
-sstatetests.py to ensure that this stays fixed.
+ERROR: core-image-sato-1.0-r0 do_rootfs: [log_check] core-image-sato:
+found 16 error messages in the logfile:
+[log_check] pwconv: Failed to flush the sssd cache.
+[log_check] pwconv: Failed to flush the sssd cache.
+[log_check] grpconv: Failed to flush the sssd cache.
+[log_check] grpconv: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
+[log_check] groupadd: Failed to flush the sssd cache.
+[log_check] groupadd: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
+[log_check] useradd: Failed to flush the sssd cache.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
----
- meta/conf/multilib.conf                     |  1 +
- meta/lib/oeqa/selftest/cases/sstatetests.py | 40 +++++++++++++++++++++
- 2 files changed, 41 insertions(+)
 
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index cfed3fbbd0..58f2ac5c86 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -9,6 +9,7 @@ MULTILIBS ??= "multilib:lib32"
- STAGING_DIR_HOST = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
- STAGING_DIR_TARGET = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
- RECIPE_SYSROOT = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
-+RECIPE_SYSROOT_class-native = "${WORKDIR}/recipe-sysroot"
- 
- INHERIT += "multilib_global"
- 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 6757a0ec68..9adb511960 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -446,6 +446,46 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
-         self.assertCountEqual(files1, files2)
- 
- 
-+    def test_sstate_multilib_or_not_native_samesigs(self):
-+        """The sstate checksums of two native recipes (and their dependencies)
-+        where the target is using multilib in one but not the other
-+        should be the same. We use the qemux86copy machine to test
-+        this.
-+        """
-+
-+        self.write_config("""
-+TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
-+TCLIBCAPPEND = \"\"
-+MACHINE = \"qemux86\"
-+require conf/multilib.conf
-+MULTILIBS = "multilib:lib32"
-+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
-+""")
-+        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
-+        bitbake("binutils-native  -S none")
-+        self.write_config("""
-+TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
-+TCLIBCAPPEND = \"\"
-+MACHINE = \"qemux86copy\"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
-+""")
-+        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
-+        bitbake("binutils-native -S none")
-+
-+        def get_files(d):
-+            f = []
-+            for root, dirs, files in os.walk(d):
-+                for name in files:
-+                    f.append(os.path.join(root, name))
-+            return f
-+        files1 = get_files(self.topdir + "/tmp-sstatesamehash/stamps")
-+        files2 = get_files(self.topdir + "/tmp-sstatesamehash2/stamps")
-+        files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash") for x in files2]
-+        self.maxDiff = None
-+        self.assertCountEqual(files1, files2)
-+
-+
-     def test_sstate_noop_samesigs(self):
-         """
-         The sstate checksums of two builds with these variables changed or
--- 
-2.24.0
+Cheers,
+
+Richard
 
 
