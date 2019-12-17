@@ -1,31 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id AC82B7FD3D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 47E047FD44
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 15:57:10 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Dec 2019 07:57:12 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,326,1571727600"; d="scan'208";a="221787577"
-Received: from kdobros-mobl1.ger.corp.intel.com (HELO blackadder.local)
-	([10.252.33.194])
-	by fmsmga001.fm.intel.com with ESMTP; 17 Dec 2019 07:57:11 -0800
-To: Daisuke Yamane <yamane07ynct@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <1575988313-2868-1-git-send-email-yamane07ynct@gmail.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <6f603eda-0c10-5cc1-ddeb-c1f23da9596a@intel.com>
-Date: Tue, 17 Dec 2019 15:57:10 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
-	Gecko/20100101 Thunderbird/60.9.1
-MIME-Version: 1.0
-In-Reply-To: <1575988313-2868-1-git-send-email-yamane07ynct@gmail.com>
-Subject: Re: [PATCH] u-boot: Move B from u-boot.inc to u-boot-common.inc
+	Tue, 17 Dec 2019 16:00:21 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id p17so3777710wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 17 Dec 2019 08:00:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=fW08CZ6H42yYyPzH6elpLs1ChcahlbRV1hb8XGE3trc=;
+	b=hJLrdeEChp67OBIdZ/rQM155wOPoK/Lodp/EknqFVO4sV95z8xaVBG1aaNAIcO8AGu
+	YzjmZCM68YsuGD4J0M2hm0ULVLSUrcwwGqzIgOK2/klkcowIwEWmr53vrpd5pPkyBK0C
+	/ueRDu8JCoEol0OUn7KEL2giqCpJdndpzvRn8Gga0Rp+fhfb7/bXpzWFMe+6yFC4BOak
+	hvy1EFGpISQFqzxMxdSskrj/Mv63wilHYQFSigwtchXvC6Z4ibtgdfFzkPBasQpNUJO6
+	Ul8JrS7dTDRWzqsXQGtaeE/wYbCgvIls1FEMPUjIkWgEE7MoD6Fm7E1ceoPNW5UI3P90
+	Ux8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=fW08CZ6H42yYyPzH6elpLs1ChcahlbRV1hb8XGE3trc=;
+	b=ODRq7iBOgQpt+rK1P8vv7UALViDlUTeSaKYU2FDj0weSMxskrCvmMKsqArxO2dQ/9q
+	Bq1Mw6xL3xHAvM5zpQQQjWc0K8ucIB7drLCl1283A1pKNGrFmjS5tTSKH7wiKnmEBd5n
+	2cWj7ReOkhw+6mHf9cf7rVBHKQoDTbpxsz23Ob+rxGen1MOvbflX+h8YcaFCS+ZBl3QR
+	poWrXdPrZHDi+5YEJWQIVMyUNc9SwmGwckWhyzfsWguP8S/xGwr452tyJ+WR7bFQUNKp
+	qf2TFJoe6cXjCnqT3lE9Wp7w42Q6SKAXDZw/TDtwTOzYRUxWMSES5WCfk1FNXfu+BVeY
+	Q3nA==
+X-Gm-Message-State: APjAAAXzcQXWyOh/VmLu5V/uAFI1iKwOhmEDWe10RHcxFdH8/lnHXi4C
+	5FQ/T+5eZbrK7m94/cw14kRybDbqxus=
+X-Google-Smtp-Source: APXvYqzuKY1oiCBT65euWXMMwH1anh7mxEUQWNN/OQEv9aR8grObbHKb9oPc0jTY3VBXvYZnw4e8TQ==
+X-Received: by 2002:a7b:c7d4:: with SMTP id z20mr6780469wmk.42.1576598421715; 
+	Tue, 17 Dec 2019 08:00:21 -0800 (PST)
+Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
+	by smtp.gmail.com with ESMTPSA id v62sm3451864wmg.3.2019.12.17.08.00.20
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 17 Dec 2019 08:00:21 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Dec 2019 17:00:10 +0100
+Message-Id: <20191217160012.42152-3-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20191217160012.42152-1-alex.kanavin@gmail.com>
+References: <20191217160012.42152-1-alex.kanavin@gmail.com>
+Subject: [PATCH 3/5] psmisc: revert to default autopoint exclusion
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,30 +56,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2019 15:57:12 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Dec 2019 16:00:21 -0000
 
-On 10/12/2019 14:31, Daisuke Yamane wrote:
-> Use the same value of B between u-boot and u-boot-fw-utils.
-> This patch also enable the out-of-tree builds of u-boot-fw-utils actually.
+Otherwise, builds break with latest gettext.
 
-Breaks the build here:
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-extended/psmisc/psmisc.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-u-boot-fw-utils:
+diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
+index 594a10cf222..a75b04702c3 100644
+--- a/meta/recipes-extended/psmisc/psmisc.inc
++++ b/meta/recipes-extended/psmisc/psmisc.inc
+@@ -19,7 +19,6 @@ inherit autotools gettext
+ # Upstream has a custom autogen.sh which invokes po/update-potfiles as they 
+ # don't ship a po/POTFILES.in (which is silly).  Without that file gettext 
+ # doesn't believe po/ is a gettext directory and won't generate po/Makefile.
+-EXTRA_AUTORECONF_remove = "--exclude=autopoint"
+ do_configure_prepend() {
+     ( cd ${S} && po/update-potfiles )
+ }
+-- 
+2.17.1
 
-   cp 
-/home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/qemux86_64-poky-linux/u-boot-fw-utils/1_2020.01~rc3-r0/git/include/version.h 
-tools/version.h
-cp: cannot create regular file 'tools/version.h': No such file or directory
-
-
-u-boot-tools:
-
-  DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 [...] sandbox_defconfig
-| make: *** No rule to make target 'sandbox_defconfig'.  Stop.
-
-Ross
 
