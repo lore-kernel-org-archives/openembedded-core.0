@@ -1,53 +1,51 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
-	[209.85.216.51])
-	by mail.openembedded.org (Postfix) with ESMTP id A371E7FE2B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F0477F7B1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 01:41:19 +0000 (UTC)
-Received: by mail-pj1-f51.google.com with SMTP id n96so3823374pjc.3
+	Tue, 17 Dec 2019 03:47:15 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id c13so5449892pls.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2019 17:41:21 -0800 (PST)
+	Mon, 16 Dec 2019 19:47:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version:thread-index
-	:content-language;
-	bh=A2xKgBT+u784SS4lWHpUsR7H9BtVZk+adZEXJVIS8hI=;
-	b=sd+tKCWm/k9EjNbsn0FM5oCZIEpSYH4Lau1xyOHN+zu/I1nGEhQG0SFDiFUFVBVODF
-	tzc3ToGQEacjNTdMfjnKFMGoxZWvuK38S/cTqoBem7jKAfr7e2dhTo0b4fhfOlXdm/io
-	VlbtRNNg8MP/LDB3vR1J87X21HDzLoPyA4SfcC+4zHTmv8drXgAW38hvvQrdc5X7ka5E
-	k8qLWrelJ8o0mtGgm2XG5EqIh4BGKHiNUy6d683YaDOrvFcFUs+tPudGC3FZ4XPuK7zu
-	ZYOdCrsUicbJ5V48Vs3XzXuu7h2dM8p303o0Z8H36o609/IkMUBQoLj6XI35Wzj0bWyu
-	1vBQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=l7O96n81c6iSeD0bQqEoYYI1zIdsEFIfhg9P7hyvLd0=;
+	b=XVbYN0YwM94OtlGOiwAQSuy6OrwyoaYxMxVm+H+f4BNKG8eKdnyfrWVnJ4T30BcZxF
+	pp0n/+rT+eq+gAdUYFcwEoD0FHXLxQRo0ewMGpoUfuXGpR32XOAxRUYlgIwvYYcNvtSg
+	G6BYCwTaqnysRWI3AeQAJSV0vC3GU+HYRHHzVmftb4URX7IcXjsef6wcGs81CAW/Pmfr
+	HON+jeL0JlYinF8zEj3qNDomhCmoh2tGfJ4YCVhPei0ak2T9w2DE4H4yByAMJmeLix3q
+	FlrZ+SRVyLaH9a7z6a0l/hZUtaGgYzLVq4LNehXTN0GYTi4lNVA+9osb6CEvWc3+H6n+
+	OxsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:thread-index:content-language;
-	bh=A2xKgBT+u784SS4lWHpUsR7H9BtVZk+adZEXJVIS8hI=;
-	b=WMhlSskdqYKQehB0o2PEE0rPvGQf8n16vz/yg3RcWt0VqtI5bavO+m/+OeB6mdkp1N
-	mkRJtZCb197cJ3gNmp5gl8ZiOemPfQottlKpXtatJDAageNtKbSn7nVTypoIcSsPFDtB
-	LuGQgpaThhrORD4Z1a4DmDcCcyPg4zYUEKb6NwJdW8a3/+DrJDRMfuXAVOU9vOnWvCue
-	b9iP9RjiQ76dNNbS7Wm5PtP6QZAmMjRWYTuTUSsNrIu0FJBwBrw7Lefh6h7yuiih79VH
-	kzDT48DrrniGHcFbFt7zfzyjF/hJkj/ijGJLFQW/2EJIzhgnM7tPp1CniTtWkxE69nll
-	/G2A==
-X-Gm-Message-State: APjAAAUGE0Gr0AevY0DNaMFJX3S37b5aTxgVr6olaf8Ej6mDzcLwKbpN
-	/MYPHTP3EsELhOoG4TEkUKPibzPw
-X-Google-Smtp-Source: APXvYqw+Dt9UerTaX9VkLBpRHvuTAHrWvSLPpUV5iN60ps+ijkl4l4Ofhslwq0LDkb4iM1TF33Xn0g==
-X-Received: by 2002:a17:90b:90e:: with SMTP id
-	bo14mr3075293pjb.17.1576546880522; 
-	Mon, 16 Dec 2019 17:41:20 -0800 (PST)
-Received: from DESKTOP2AADOIF (c-71-59-136-149.hsd1.or.comcast.net.
-	[71.59.136.149]) by smtp.gmail.com with ESMTPSA id
-	w11sm23206715pgs.60.2019.12.16.17.41.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 16 Dec 2019 17:41:19 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 16 Dec 2019 17:41:19 -0800
-Message-ID: <f54e01d5b47b$14dde080$3e99a180$@gmail.com>
+	:content-transfer-encoding;
+	bh=l7O96n81c6iSeD0bQqEoYYI1zIdsEFIfhg9P7hyvLd0=;
+	b=r8tHTVYlXa+lciFA/5YNYOO76/gP0uTWq3nPMBXWawy5DIPJgaNpFgOBmBnTirdCA4
+	ishwql3mp+o8DXvICihvLxKDVqKW58G4vLMRh35GmgmSH4nyeQUMZ/8ec4VM/VJNa/dZ
+	YqM2QHpG8ozJm2BJCVvVJSgzRL217Uh/WGtIzZ+4RkWC857PrMZdXbJgH1kn1g1u+n/y
+	rmx+ysTm7n1FPTBaq19h0Ge8dk4cgPB+p2wbK10scLwLrtPp/VRdsWcjdZw5/jWk9aCi
+	RX9EF1VdQ3o8HTHBuEeMx0wN916+VvgFe0HeQcx2ylyIkOlnqgYjTKxph5thmKa7/fjw
+	g/2w==
+X-Gm-Message-State: APjAAAWDXnqvKWvgSZfYTsSi9aRiiS3CbnpWevWJATSktJjEtpHKizqe
+	L2ZIeZ4rw9EpsbzdNLYE2A91qcWKnFM=
+X-Google-Smtp-Source: APXvYqwsURDHmxx4QtJnRzNaaPQfGa6SyKFECa4Qr9hGUUIDJb5HqmQovxbwTJr0gC8K9A+yGXacGg==
+X-Received: by 2002:a17:90a:d353:: with SMTP id
+	i19mr3568805pjx.43.1576554436018; 
+	Mon, 16 Dec 2019 19:47:16 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2ebb])
+	by smtp.gmail.com with ESMTPSA id
+	g19sm23881860pfh.134.2019.12.16.19.47.15
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 16 Dec 2019 19:47:15 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 16 Dec 2019 19:47:07 -0800
+Message-Id: <20191217034707.3234733-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQFsZc+eSWC0eA6OhoPPCaUWyQLdhQ==
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+Subject: [PATCH] systemd-bootchart: Add mips64 tuples
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,234 +58,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2019 01:41:19 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_F54F_01D5B438.06BB8AE0"
-Content-Language: en-us
+X-List-Received-Date: Tue, 17 Dec 2019 03:47:15 -0000
+Content-Transfer-Encoding: 8bit
 
-------=_NextPart_000_F54F_01D5B438.06BB8AE0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../systemd-bootchart/mips64.patch            | 35 +++++++++++++++++++
+ .../systemd-bootchart_233.bb                  |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-devtools/systemd-bootchart/systemd-bootchart/mips64.patch
 
-All,
-
+diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/mips64.patch b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/mips64.patch
+new file mode 100644
+index 0000000000..6206bc4b44
+--- /dev/null
++++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart/mips64.patch
+@@ -0,0 +1,35 @@
++Recognise mips64 n32/n64
++
++These are supported in systemd now a days
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/caf49b95b3a6efe9455078098c729d83b08e5206]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
++--- a/src/architecture.h
+++++ b/src/architecture.h
++@@ -127,13 +127,22 @@ int uname_architecture(void);
++ #  define native_architecture() ARCHITECTURE_SPARC
++ #  define LIB_ARCH_TUPLE "sparc-linux-gnu"
++ #  define PROC_CPUINFO_MODEL "cpu"
++-#elif defined(__mips64__)
+++#elif defined(__mips64) && defined(__LP64__)
++ #  if __BYTE_ORDER == __BIG_ENDIAN
++ #    define native_architecture() ARCHITECTURE_MIPS64
++-#    error "Missing LIB_ARCH_TUPLE for MIPS64"
+++#    define LIB_ARCH_TUPLE "mips64-linux-gnuabi64"
++ #  else
++ #    define native_architecture() ARCHITECTURE_MIPS64_LE
++-#    error "Missing LIB_ARCH_TUPLE for MIPS64_LE"
+++#    define LIB_ARCH_TUPLE "mips64el-linux-gnuabi64"
+++#  endif
+++#  define PROC_CPUINFO_MODEL "cpu model"
+++#elif defined(__mips64)
+++#  if __BYTE_ORDER == __BIG_ENDIAN
+++#    define native_architecture() ARCHITECTURE_MIPS64
+++#    define LIB_ARCH_TUPLE "mips64-linux-gnuabin32"
+++#  else
+++#    define native_architecture() ARCHITECTURE_MIPS64_LE
+++#    define LIB_ARCH_TUPLE "mips64el-linux-gnuabin32"
++ #  endif
++ #  define PROC_CPUINFO_MODEL "cpu model"
++ #elif defined(__mips__)
+diff --git a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb
+index 960edc75e6..a7a1f0ff1a 100644
+--- a/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb
++++ b/meta/recipes-devtools/systemd-bootchart/systemd-bootchart_233.bb
+@@ -4,6 +4,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
+ SRC_URI = "git://github.com/systemd/systemd-bootchart.git;protocol=https \
+            file://0001-architecture-Recognise-RISCV-32-RISCV-64.patch \
++           file://mips64.patch \
+ "
  
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
-
- 
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 298
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
-being in "3.1" and then "3.2".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Project Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
+ SRC_URI_append_libc-musl = " \
+-- 
+2.24.1
 
 
-------=_NextPart_000_F54F_01D5B438.06BB8AE0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_0238_01D5AE6F.43B2C590";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
-starting to try and collect up and classify bugs which a newcomer to the =
-project would be able to work on in a way which means people can find =
-them. They're being listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
-><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 298 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
-mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
-comer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Project Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_F54F_01D5B438.06BB8AE0--
