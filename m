@@ -1,50 +1,50 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
-	[209.85.166.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 55DCB7D066
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+	[209.85.216.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E03416C23A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 20:36:45 +0000 (UTC)
-Received: by mail-io1-f41.google.com with SMTP id c16so12604224ioo.8
+	Tue, 17 Dec 2019 20:56:33 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id r67so473458pjb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 12:36:46 -0800 (PST)
+	Tue, 17 Dec 2019 12:56:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=Nkkno5L7/w8dG+r+0phLLmJPlLu1pRZSOjs13G/n6x4=;
-	b=Cgbp1cTCVMoP6UV0XU5l+g9wjB8Zs0A/e9BxUyJTGigc+w0P8U/NvpWkhZFcCfXZq2
-	QcNiID1cM2YCvBwlybew3r3S60C3qThokv0mTGs2O90SHN2UPFP9r6obAGQQ+59lBfX0
-	2NbXe7rwj2vUVO/k5wemIHpsdrrltR7Dc+c/JTXqe40oxYeynqse0aCJFs7UzQVOkuDK
-	1xeKgfhReqbHwf1yS8DR4NstMSfudCFGCNCDlKViL5jU1dFPwu9+fdcfZa6SQ0tiCdJ4
-	+iyF4P5g34AR1WCEtmuLe+RE2cNgBBz0cMWMur8FWLWpXlNfF1cZjMPgJNLSZ+mpp5mY
-	Qb8Q==
+	bh=F69/nhktNxp0xdSZjj/1eeppxzf7Hr/A/yoQEvM5APE=;
+	b=sXIiYd/j9Ae/3k2vTJa8g3OKNxU2JWWuND4jt71B9peCbh+66AJs83MqdHBDTgqEn+
+	WSW3KxOWcfn2F1543zEliFQvqKu1+M7o6UI7pbkKUc8G+7is6rW3IKfilmOsR1vNONOO
+	MT6W8IdKgcE3WY1YEFwU2FxbdS3gKdIGC5pOLeQKW7Fx8L1ijlEaxqkJ/eBdnkb3lfSr
+	DcVR6e/BsHndWbdSBYglCa+8Nf8ZNTcwQ/aGbVmJLKfZw2IBLZKaOhLUuOWPmPPLbXLu
+	n4/RhXoT7unAeFWTkhZWwiW+eOtwEnV2NkuWBX3C01Dck3ae4EndACVCUvrny6L6YEhy
+	YVLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=Nkkno5L7/w8dG+r+0phLLmJPlLu1pRZSOjs13G/n6x4=;
-	b=bT7dLBrGBDcldbrj0B4MUGe7/BI5DyHqp62Brp94/Bc21OZDcaB25VASM2VwbqYRs3
-	4M59/HX3q5ylo9NF07b4RfnBl4VbpGUGOeVsi6JTnBfo9+hX30EnZ2ep3iOuyGSS//8C
-	yHWGhmc+xU0crV2ajPgaQAg1gmzYXenTNsYoi/vYolFc6iVKqmbBMqNFi6R46cyTGI1X
-	q8mSVhMArsWhhVu4inDVRC1VaP6YBEpnkUMWKEtUwot233B0e9n4kXrw3LfMCbh6blDm
-	NrFg25EZy5FfJPcIqkZKar+Pz3636swfV2ApqEG8aPMjvyXFU+vxL8BbFUXwclqD3H0+
-	wEug==
-X-Gm-Message-State: APjAAAWpqVu4Qr/FzrGnnntq6OFJEbYv4D6UrNrqT2GwYPVAxFcj0MAJ
-	8E8w0MPhecfUYXD0FmPtXzKlQPcbDgM=
-X-Google-Smtp-Source: APXvYqwy6DcixMK9iMUx3vKijUXnhW+uRPJjpnun38gxovzsJYt/vN50xZfCKP8oiePkNuE//BpHMA==
-X-Received: by 2002:a5d:964e:: with SMTP id d14mr2911293ios.193.1576615006019; 
-	Tue, 17 Dec 2019 12:36:46 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id 71sm7179585ilv.19.2019.12.17.12.36.45
+	bh=F69/nhktNxp0xdSZjj/1eeppxzf7Hr/A/yoQEvM5APE=;
+	b=BvNQ37jjwjgZOiP+9KWKCyCNZxfr2d91GU960m0Y2W3yAFAzwvuICR6cTjDJagtT2W
+	l06J0VZmSy9f0iX+pU5Afp861bx1/ratuFsj8ziLslxAjcb+Ri8Qugb3uNSi+jivwTL6
+	ECIXO9MocQuQKYiJyR4C6eWZlr3nn0kO1whLAobRfmIY00XeYiYBcgjnzGB9ldRmPNe0
+	GNGPBCLBTr01Ti55uYPxb4ycX6SNhUkquvdKkCVWRaT5JPHw5TSplIcubxIo5HZqFoCT
+	Gys/KP9TLxOW26/E3NW4zqJwhHNOzUEo83XoxPppnNK3IlNZ3zYWzF7s20L5p7FjF6FJ
+	Lplg==
+X-Gm-Message-State: APjAAAUZzJvGuIJaWJ13lFfS4d0VEKksPILlGwh0rfs98iJIcAsiTcMg
+	wwjJGFuHWcmwVug0ozcI4qbX9AG85sQ=
+X-Google-Smtp-Source: APXvYqzEaYMm5gzt8YdUx4Kp0x0ED7lqC65twZQLetAmXP0uHyjHOcN6sF+kZnjcLBlLBXQHTdmKpw==
+X-Received: by 2002:a17:90a:508:: with SMTP id h8mr8594227pjh.91.1576616194395;
+	Tue, 17 Dec 2019 12:56:34 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2ebb])
+	by smtp.gmail.com with ESMTPSA id
+	a28sm2583880pfh.119.2019.12.17.12.56.33
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Dec 2019 12:36:45 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	Tue, 17 Dec 2019 12:56:33 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 17 Dec 2019 14:36:23 -0600
-Message-Id: <20191217203623.2509417-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.23.0
+Date: Tue, 17 Dec 2019 12:56:23 -0800
+Message-Id: <20191217205623.2475798-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Subject: [PATCH] oeqa: reproducible: Test core-image-sato and core-image-full-cmdline
+Subject: [PATCH] goarch: Dont use -fno-PIE on mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2019 20:36:45 -0000
+X-List-Received-Date: Tue, 17 Dec 2019 20:56:34 -0000
 Content-Transfer-Encoding: 8bit
 
-Adds core-image-sato and core-image-full-cmdline to the list of images
-that the reproducible build test builds.
+This was added with
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+98b24e9268 goarch.bbclass: set SECURITY_CFLAGS for mips64
+
+to overcome a problem that was inherent in go linker which has been now
+fixed in golang compiler upstream
+
+https://github.com/golang/go/issues/20243
+https://github.com/golang/go/commit/39c07ce9e5311c94880789f19f2f8b49bf1b5241
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Kai Kang <kai.kang@windriver.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/goarch.bbclass | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index a9110565a94..db538a4f891 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -78,7 +78,7 @@ def compare_file(reference, test, diffutils_sysroot):
+diff --git a/meta/classes/goarch.bbclass b/meta/classes/goarch.bbclass
+index 1147b6d233..33d1a13acb 100644
+--- a/meta/classes/goarch.bbclass
++++ b/meta/classes/goarch.bbclass
+@@ -53,7 +53,6 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
+ ARM_INSTRUCTION_SET_armv6 = "arm"
  
- class ReproducibleTests(OESelftestTestCase):
-     package_classes = ['deb', 'ipk']
--    images = ['core-image-minimal']
-+    images = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline']
-     save_results = False
+ TUNE_CCARGS_remove = "-march=mips32r2"
+-SECURITY_CFLAGS_mipsarch = "${SECURITY_NOPIE_CFLAGS}"
+ SECURITY_NOPIE_CFLAGS ??= ""
  
-     def setUpLocal(self):
+ # go can't be built with ccache:
 -- 
-2.23.0
+2.24.1
 
 
