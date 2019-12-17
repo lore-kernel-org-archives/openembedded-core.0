@@ -1,52 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E02637EDF1
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 885DA6C193
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 08:51:46 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id m24so2034786wmc.3
+	Tue, 17 Dec 2019 08:53:42 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c14so10356225wrn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 00:51:48 -0800 (PST)
+	Tue, 17 Dec 2019 00:53:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=+jSY7cN2QYAuPOvLW2zk5vANMuAEl4U2WEJ/zeJxI2o=;
-	b=fp+DSn5T4XAvQqu0LQ5CB1BX8/foEskj5VM4x/GScGfVfknof6HlRkneVb5DRSXaqO
-	GdE6pKA6iO3PrI8+SHYSxTeYt8Sps65KFVGAEcDwZRWvHsNP8xAbQSZRsIlGSbLc2iyD
-	q+oOW2tkvKDelqtZkEs602VP/mOSc28V2CtNQ=
+	bh=2PHOoNCC98NciahxcKIcmysWHM9GeSr57Sqgms7gCk8=;
+	b=Dwvw8aBBB94sFd5UoY6NP0GsPGZIC4vbgSQqSCAPmDUy8hGS1bRD25e1uUfS2zevS9
+	UMWkq/GnijGeqiREziAtM324PSaMgtgBlawVNc0WTYj/zMxYrTCD35m+9woALdcsJwUP
+	uO95WSCkVUeLU8y7pBDFsIizD6lVq0vBcZsVE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=+jSY7cN2QYAuPOvLW2zk5vANMuAEl4U2WEJ/zeJxI2o=;
-	b=pbRTpoStIH0WJd3N1p78deq+SnTKK1UvCW4ayPdlo+fNFKo+FoMXOTjXlk/4KCkraR
-	MB2B8mXdL2fYdtV2P3DZJou7KzzC/ZvlaAC9DIewAfseA/kVeYodYvO/1qTra7n3cc7g
-	aly1e/25iBqlZRPCinl3LfUDedF0mN3Fy9LcczOouYhd3amki/Fp+XN5aUCriP0HGQXL
-	p/8bTwESp6kycONraBD05TTdJ3uyP23OD7uK3Jd0r/NQyXylo4WSlpA/h1sNfT8lqhY7
-	wlW7UPd+5nbz0RKipK1iWHw9YowLhq34Z14h0sj2yX+wCZDmsd+IOYxN2L+8EHqYGv2w
-	We4w==
-X-Gm-Message-State: APjAAAWTJzV2weGh7VlHSr9e9gx8r5dSTTzJUAWtBqVCJr8di4FArNuA
-	02ub8AL9W0YgLSFjSboVW5zCag==
-X-Google-Smtp-Source: APXvYqwM+PkrvPFry2A03ZA5D/xi+qqZQNSkNUDPKVznfwgHBgrG/mvaJiCUrq84vLo5EtOdl3ij0A==
-X-Received: by 2002:a1c:7d92:: with SMTP id y140mr3734032wmc.145.1576572707433;
-	Tue, 17 Dec 2019 00:51:47 -0800 (PST)
+	bh=2PHOoNCC98NciahxcKIcmysWHM9GeSr57Sqgms7gCk8=;
+	b=MW0Q/+gLY+9Tjotx5Fz3G9dxhsJYNE3GNImp1+Ump57jSGr8cZg3rU9TsMEBf1qcJl
+	3RLdzSAmABil5stcE3g2+Mhy6DBUnj4w4kmKCkcFcTWSELO0ixIQC27AFoStUwEYXQlm
+	/4Pq9aizBEw3o8EE7B2c1NFqO8/Fsy6RCHs1sVOmAIC5kkujVmWEyYopahQc6WVOIFa5
+	juqejUlKQOKnGTPEKVVEdu9PniDLKYnlMSNYr8udsEvqzVN6QDKOEYbP0eH+BW5LmXoB
+	cecqTUob3NQ16Fu7alFQ40vizOy9iBuLCx/NEct56+wqdettrPMghWrpyqqOk7MQpicB
+	ScWA==
+X-Gm-Message-State: APjAAAXa2wsKugv+BVlTXANF1p73Pu0M9eRkdXJMJwM54UlVh+tDPA2w
+	oyWN1xNYVrJbJYBOI6W3wVYcrQ==
+X-Google-Smtp-Source: APXvYqyMtXsdqwmR0h5ui9U7qZWJnrvI5KMWQ+cQYhitVBkt9WAtYJYxPzaZUwtcIHZ3pNxMiSlY8Q==
+X-Received: by 2002:a5d:4386:: with SMTP id i6mr35752384wrq.63.1576572823316; 
+	Tue, 17 Dec 2019 00:53:43 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	s82sm2296142wms.28.2019.12.17.00.51.46
+	by smtp.gmail.com with ESMTPSA id f17sm2216743wmc.8.2019.12.17.00.53.42
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 17 Dec 2019 00:51:46 -0800 (PST)
-Message-ID: <f61025197cf0939a1f769d595fb9df70e599f237.camel@linuxfoundation.org>
+	Tue, 17 Dec 2019 00:53:42 -0800 (PST)
+Message-ID: <72c9bb8b86bf212519cea8b444067a02cccd790d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Alexander Kanavin <alex.kanavin@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Tue, 17 Dec 2019 08:51:45 +0000
-In-Reply-To: <20191212181436.1322-8-alex.kanavin@gmail.com>
+Date: Tue, 17 Dec 2019 08:53:41 +0000
+In-Reply-To: <20191212181436.1322-10-alex.kanavin@gmail.com>
 References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-	<20191212181436.1322-8-alex.kanavin@gmail.com>
+	<20191212181436.1322-10-alex.kanavin@gmail.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH 08/30] shadow: update 4.6 -> 4.8
+Subject: Re: [PATCH 10/30] libtasn1: update to 4.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,45 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2019 08:51:47 -0000
+X-List-Received-Date: Tue, 17 Dec 2019 08:53:42 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Thu, 2019-12-12 at 19:14 +0100, Alexander Kanavin wrote:
-> Drop two backports.
+> Drop backports.
 > 
-> Remove 0001-useradd.c-create-parent-directories-when-necessary.patch
-> as upstream has addressed the issue:
-> https://github.com/shadow-maint/shadow/commit/b3b6d9d77c1d18b98670b97157777bb74092cd69
-> 
-> Rebase the rest of the paches.
-> 
-> Add a patch to remove the check for validity of login shells
-> which does not work in our environment.
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../gnutls/libtasn1/fix-gtkdoc.patch          | 38 ---------------
+> ----
+>  .../gnutls/libtasn1/fix-ldflags.patch         | 31 ---------------
+>  .../{libtasn1_4.14.bb => libtasn1_4.15.0.bb}  | 11 ++++--
+>  3 files changed, 7 insertions(+), 73 deletions(-)
+>  delete mode 100644 meta/recipes-support/gnutls/libtasn1/fix-
+> gtkdoc.patch
+>  delete mode 100644 meta/recipes-support/gnutls/libtasn1/fix-
+> ldflags.patch
+>  rename meta/recipes-support/gnutls/{libtasn1_4.14.bb =>
+> libtasn1_4.15.0.bb} (72%)
 
-This upgrade causes this failure:
+libtasn1-native fails:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/1346
+https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/153
 
-ERROR: core-image-sato-1.0-r0 do_rootfs: [log_check] core-image-sato:
-found 16 error messages in the logfile:
-[log_check] pwconv: Failed to flush the sssd cache.
-[log_check] pwconv: Failed to flush the sssd cache.
-[log_check] grpconv: Failed to flush the sssd cache.
-[log_check] grpconv: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-[log_check] groupadd: Failed to flush the sssd cache.
-[log_check] groupadd: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-[log_check] useradd: Failed to flush the sssd cache.
-
+(probably host specific, centos7)
 
 Cheers,
 
