@@ -1,75 +1,53 @@
-Return-Path: <lewis.muhlenkamp@stryker.com>
-Received: from NAM04-SN1-obe.outbound.protection.outlook.com
-	(mail-eopbgr700049.outbound.protection.outlook.com [40.107.70.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F2EF7FE02
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id A371E7FE2B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 16 Dec 2019 18:37:06 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=f8On68p4xz46g/Lbm0P7Tt1gBean0vrvijdXcwyH6OqNqHsHNvROIdb+bLpdNSuwVL1Df7yd2laPhNFjM+nn/hWr/qKcukRwh2plZNMIjo6sWqVwp9ReibOcH5IKL09kR3bnFRC3iFyRhCwjojjVF632LOzfKhR5HCWIRweGNZxeww8DJ1TJEyMmrZmFdU647+Oo0p2Eu3jZ0+XwjkU9RbmK/4J6z+0be36mByRhPP2u2ObjlySEN18xlbuyMXaI72/AizNCe52nGOoDMwj6OQ1e5QmTBEb98lNzCYYRwfVG0T45dBG8W2zaFJkfna0ZOqoAe3YxE2avKtHVN36+Vw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=+8y8q3S2Nw5QGJwncW5XNP5ImQPHPnUrLjFV6bwabfw=;
-	b=GybolXLcLAREHO90YPaAOhmab05SZP0BVddtQ5ffJQfWAbRRnRqllS6waXBJODbVY2C6aE51td7Y7O8iGm1FY4w7SbQWV5SHBzu+1eZoAqoh+FXEOsNA7eHrPTAohu+w8HKY31UJjIJyUGsa310bndiCAblJFddv+C2lP4PK975Ib3BGrwEhZyXMDJwjGp6QcjZw+sqXshqUuU28DBKwRKQd8bnBQHVbcxzMBHV4ZN7scUs+iz+LXRksFh665FwaG0RnnhlKIWUhDvOyoaPIC8Y6wjJqlH9778VCLDcU89nRpTgVHmNHvfuq+yLBqnlzdsGxBwPC/J9mjdIsvxSe+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=stryker.com;
-	dmarc=pass action=none header.from=stryker.com; 
-	dkim=pass header.d=stryker.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stryker.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=+8y8q3S2Nw5QGJwncW5XNP5ImQPHPnUrLjFV6bwabfw=;
-	b=ROCNV4sCe6lRbw45zoWyMC2KYeWoqQGfdmtUVOpCiO16LpRKgr0LJBiAdKfyqECXW1v46Ku/P9+2jP6Jvf2pmVvVxN20bR2xLQtX6rIIVbV4eBkwzivVtsZqUQTn2AV+GlDEwSepizUWm9T4wtWVuf52yiZxqcv9fodfTJBLozw=
-Received: from BL0PR01MB4307.prod.exchangelabs.com (10.167.180.160) by
-	BL0PR01MB4980.prod.exchangelabs.com (10.167.240.86) with Microsoft SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2538.15; Mon, 16 Dec 2019 18:37:06 +0000
-Received: from BL0PR01MB4307.prod.exchangelabs.com
-	([fe80::a888:7ed8:1ec6:c81f]) by BL0PR01MB4307.prod.exchangelabs.com
-	([fe80::a888:7ed8:1ec6:c81f%4]) with mapi id 15.20.2538.019;
-	Mon, 16 Dec 2019 18:37:06 +0000
-From: "Muhlenkamp, Lewis" <lewis.muhlenkamp@stryker.com>
-To: "yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
+	Tue, 17 Dec 2019 01:41:19 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id n96so3823374pjc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 16 Dec 2019 17:41:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version:thread-index
+	:content-language;
+	bh=A2xKgBT+u784SS4lWHpUsR7H9BtVZk+adZEXJVIS8hI=;
+	b=sd+tKCWm/k9EjNbsn0FM5oCZIEpSYH4Lau1xyOHN+zu/I1nGEhQG0SFDiFUFVBVODF
+	tzc3ToGQEacjNTdMfjnKFMGoxZWvuK38S/cTqoBem7jKAfr7e2dhTo0b4fhfOlXdm/io
+	VlbtRNNg8MP/LDB3vR1J87X21HDzLoPyA4SfcC+4zHTmv8drXgAW38hvvQrdc5X7ka5E
+	k8qLWrelJ8o0mtGgm2XG5EqIh4BGKHiNUy6d683YaDOrvFcFUs+tPudGC3FZ4XPuK7zu
+	ZYOdCrsUicbJ5V48Vs3XzXuu7h2dM8p303o0Z8H36o609/IkMUBQoLj6XI35Wzj0bWyu
+	1vBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:thread-index:content-language;
+	bh=A2xKgBT+u784SS4lWHpUsR7H9BtVZk+adZEXJVIS8hI=;
+	b=WMhlSskdqYKQehB0o2PEE0rPvGQf8n16vz/yg3RcWt0VqtI5bavO+m/+OeB6mdkp1N
+	mkRJtZCb197cJ3gNmp5gl8ZiOemPfQottlKpXtatJDAageNtKbSn7nVTypoIcSsPFDtB
+	LuGQgpaThhrORD4Z1a4DmDcCcyPg4zYUEKb6NwJdW8a3/+DrJDRMfuXAVOU9vOnWvCue
+	b9iP9RjiQ76dNNbS7Wm5PtP6QZAmMjRWYTuTUSsNrIu0FJBwBrw7Lefh6h7yuiih79VH
+	kzDT48DrrniGHcFbFt7zfzyjF/hJkj/ijGJLFQW/2EJIzhgnM7tPp1CniTtWkxE69nll
+	/G2A==
+X-Gm-Message-State: APjAAAUGE0Gr0AevY0DNaMFJX3S37b5aTxgVr6olaf8Ej6mDzcLwKbpN
+	/MYPHTP3EsELhOoG4TEkUKPibzPw
+X-Google-Smtp-Source: APXvYqw+Dt9UerTaX9VkLBpRHvuTAHrWvSLPpUV5iN60ps+ijkl4l4Ofhslwq0LDkb4iM1TF33Xn0g==
+X-Received: by 2002:a17:90b:90e:: with SMTP id
+	bo14mr3075293pjb.17.1576546880522; 
+	Mon, 16 Dec 2019 17:41:20 -0800 (PST)
+Received: from DESKTOP2AADOIF (c-71-59-136-149.hsd1.or.comcast.net.
+	[71.59.136.149]) by smtp.gmail.com with ESMTPSA id
+	w11sm23206715pgs.60.2019.12.16.17.41.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 16 Dec 2019 17:41:19 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: How to upgrade the kernel
-Thread-Index: AdW0PUesbFF5bZ3sQ1S7q12G9Hr/3w==
-Date: Mon, 16 Dec 2019 18:37:06 +0000
-Message-ID: <BL0PR01MB43075451F85904018A14BF738F510@BL0PR01MB4307.prod.exchangelabs.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=lewis.muhlenkamp@stryker.com; 
-x-originating-ip: [198.72.46.3]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 75e24de8-9e48-4426-9b2d-08d78256f3c6
-x-ms-traffictypediagnostic: BL0PR01MB4980:
-x-microsoft-antispam-prvs: <BL0PR01MB4980159DFFF6AF66B79BDD0F8F510@BL0PR01MB4980.prod.exchangelabs.com>
-x-ms-oob-tlc-oobclassifiers: OLM:9508;
-x-forefront-prvs: 02530BD3AA
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39860400002)(366004)(376002)(346002)(136003)(396003)(199004)(189003)(71200400001)(76116006)(86362001)(5660300002)(7696005)(2906002)(26005)(478600001)(81156014)(8676002)(81166006)(8936002)(55016002)(6506007)(64756008)(110136005)(186003)(66946007)(316002)(66446008)(66476007)(66556008)(9326002)(33656002)(52536014)(9686003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BL0PR01MB4980;
-	H:BL0PR01MB4307.prod.exchangelabs.com; FPR:; SPF:None; LANG:en;
-	PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: stryker.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: /97EHk2ux0mpilvTcpoxH9dyrYv56vHQLX9nAE79s2bbcG8h1ilpxRv4O6FUZ/GthPx0VRUsdY2TkSAxJkKCRxxf8Y5F5eUk4QO6FljQ8NO7RYAOfjGAr0XwG5R2CEeIY1V9iKrRqWaIMEFRYFGFCdqIgz2RoMNqflwnfkMGPPuawfl4Dx1LxQoJT3/9Unu/aKNpbMkoQj3c7eURqG8NgnObHr5mY52wfeZSEhupYYOsv3dWpmm1AW50GL8ZEeF6HGW3ae+hd3RPtBIrRE+1RXXco+sDg/0wm39tiBYA0aafM4Iy9BCQMQ6ZWSsvSyNKwC8WW7qYJmaeHsVFlb/B/oxO5btC8npo0100K9iKO84GAarwrOYtzp17J/WkVBdMe+6fxKgVuxTJ88hqIb8/XSWYFn1jazjVF6+qb8vEthwj+X78wuwMq7ZVL3JdXjoW
-x-ms-exchange-transport-forked: True
+Date: Mon, 16 Dec 2019 17:41:19 -0800
+Message-ID: <f54e01d5b47b$14dde080$3e99a180$@gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: stryker.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75e24de8-9e48-4426-9b2d-08d78256f3c6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Dec 2019 18:37:06.3592 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4e9dbbfb-394a-4583-8810-53f81f819e3b
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rQ8ZGuU4Mg8KuHNYO8n/sIWw9hDkv0GdUUAWZA+kjH37CqXaJEnu7lPcOiJC7F9uPe5i4BLfvYTwkI5DwdSkaAwe3g7eD8+JLgVUpr54s38=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR01MB4980
-Subject: How to upgrade the kernel
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQFsZc+eSWC0eA6OhoPPCaUWyQLdhQ==
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -82,145 +60,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 16 Dec 2019 18:37:06 -0000
-Content-Language: en-US
+X-List-Received-Date: Tue, 17 Dec 2019 01:41:19 -0000
 Content-Type: multipart/alternative;
-	boundary="_000_BL0PR01MB43075451F85904018A14BF738F510BL0PR01MB4307prod_"
+	boundary="----=_NextPart_000_F54F_01D5B438.06BB8AE0"
+Content-Language: en-us
 
---_000_BL0PR01MB43075451F85904018A14BF738F510BL0PR01MB4307prod_
-Content-Type: text/plain; charset="us-ascii"
+------=_NextPart_000_F54F_01D5B438.06BB8AE0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+All,
+
+ 
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+ 
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
+
+ 
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 298
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
+being in "3.1" and then "3.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Project Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_F54F_01D5B438.06BB8AE0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0238_01D5AE6F.43B2C590";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-I am still fairly new to Yocto and Openembedded.  I've built a custom distr=
-ibution and have a few images.  I'm now in the process of trying to determi=
-ne how to upgrade from one version to another.
-
-I created an image using Yocto 2.6.  When I install it, it installs the fol=
-lowing kernel RPMs:
-
-### Start "rpm -qa | grep kernel | grep -v kernel-module" output ###
-kernel-4.14.110+git0+bc35d5bd22_f93147df5d-r0.corei7_64_intel_common
-kernel-image-4.14.110-intel-pk-standard-4.14.110+git0+bc35d5bd22_f93147df5d=
--r0.corei7_64_intel_common
-kernel-4.14.110-intel-pk-standard-4.14.110+git0+bc35d5bd22_f93147df5d-r0.co=
-rei7_64_intel_common
-kernel-image-bzimage-4.14.110-intel-pk-standard-4.14.110+git0+bc35d5bd22_f9=
-3147df5d-r0.corei7_64_intel_common
-### End "rpm -qa | grep kernel | grep -v kernel-module" output ###
-
-
-I built a newer image using Yocto 3.0.  In the RPM repo I have the followin=
-g kernel RPMs:
-
-### Start "ls -1 /var/opt/repos/os | grep kernel | grep -v kernel-module" o=
-utput ###
-kernel-4.19.73+git0+a7cb57afb9_ca05e9cd64-r0.corei7_64_intel_common.rpm
-kernel-4.19.73-intel-pk-standard-4.19.73+git0+a7cb57afb9_ca05e9cd64-r0.core=
-i7_64_intel_common.rpm
-kernel-dev-4.19.73+git0+a7cb57afb9_ca05e9cd64-r0.corei7_64_intel_common.rpm
-kernel-image-4.19.73-intel-pk-standard-4.19.73+git0+a7cb57afb9_ca05e9cd64-r=
-0.corei7_64_intel_common.rpm
-kernel-image-bzimage-4.19.73-intel-pk-standard-4.19.73+git0+a7cb57afb9_ca05=
-e9cd64-r0.corei7_64_intel_common.rpm
-kernel-vmlinux-4.19.73+git0+a7cb57afb9_ca05e9cd64-r0.corei7_64_intel_common=
-.rpm
-systemd-kernel-install-243+0+efb536d0cb-r0.corei7_64.rpm
-### End "ls -1 /var/opt/repos/os | grep kernel | grep -v kernel-module" out=
-put ###
-
-
-When I try to do "dnf upgrade" I get the following error messages:
-
-### Start excerpt from "dnf upgrade" command ###
-Last metadata expiration check: 0:40:06 ago on Mon Dec 16 17:43:31 2019.
-Dependencies resolved.
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-Package
-     Arch                   Version                               Repositor=
-y
-                                                                           =
-Size
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-Upgrading:
-kernel
-     corei7_64_intel_common 4.19.73+git0+a7cb57afb9_ca05e9cd64-r0 OS_Repo 5=
-.6 k
-kernel-4.19.73-intel-pk-standard
-     corei7_64_intel_common 4.19.73+git0+a7cb57afb9_ca05e9cd64-r0 OS_Repo  =
-16 k
-kernel-image-4.19.73-intel-pk-standard
-     corei7_64_intel_common 4.19.73+git0+a7cb57afb9_ca05e9cd64-r0 OS_Repo 5=
-.8 k
-kernel-image-bzimage-4.19.73-intel-pk-standard
-     corei7_64_intel_common 4.19.73+git0+a7cb57afb9_ca05e9cd64-r0 OS_Repo 7=
-.8 M
-Transaction Summary
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-Install  1297 Packages
-Upgrade   666 Packages
-Skip        5 Packages
-
-Total size: 232 M
-Is this ok [y/N]: y
-Downloading Packages:
-Running transaction check
-Transaction check succeeded.
-Running transaction test
-Error: Transaction check error:
-  file /boot/bzImage from install of kernel-image-bzimage-4.19.73-intel-pk-=
-standard-4.19.73+git0+a7cb57afb9_ca05e9cd64-r0.corei7_64_intel_common confl=
-icts with file from package kernel-image-bzimage-4.14.110-intel-pk-standard=
--4.14.110+git0+bc35d5bd22_f93147df5d-r0.corei7_64_intel_common
-
-Error Summary
--------------
-### End excerpt from "dnf upgrade" command ###
-
-
-I also tried running "dnf upgrade --best --allowerasing", but got the same =
-results.
-
-Can I upgrade a system using the dnf command?  If so, how?  If not, what do=
- I need to do to allow the system to be upgraded using the dnf command?
-
-Thank you
-
-Lewis Muhlenkamp
-
-Follow this link to read our Privacy Statement<https://www.stryker.com/cont=
-ent/stryker/gb/en/legal/global-policy-statement.html/>
-
---_000_BL0PR01MB43075451F85904018A14BF738F510BL0PR01MB4307prod_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
 /* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
 @font-face
 	{font-family:"Cambria Math";
 	panose-1:2 4 5 3 5 4 6 3 2 4;}
 @font-face
 	{font-family:Calibri;
 	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
 /* Style Definitions */
 p.MsoNormal, li.MsoNormal, div.MsoNormal
 	{margin:0in;
@@ -235,13 +182,21 @@ a:visited, span.MsoHyperlinkFollowed
 	{mso-style-priority:99;
 	color:#954F72;
 	text-decoration:underline;}
-span.EmailStyle17
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle18
 	{mso-style-type:personal-compose;
 	font-family:"Calibri",sans-serif;
 	color:windowtext;}
 .MsoChpDefault
 	{mso-style-type:export-only;
-	font-family:"Calibri",sans-serif;}
+	font-size:10.0pt;}
 @page WordSection1
 	{size:8.5in 11.0in;
 	margin:1.0in 1.0in 1.0in 1.0in;}
@@ -252,148 +207,87 @@ div.WordSection1
 </xml><![endif]--><!--[if gte mso 9]><xml>
 <o:shapelayout v:ext=3D"edit">
 <o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hello,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I am still fairly new to Yocto and Openembedded.&nbs=
-p; I&#8217;ve built a custom distribution and have a few images.&nbsp; I&#8=
-217;m now in the process of trying to determine how to upgrade from one ver=
-sion to another.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I created an image using Yocto 2.6.&nbsp; When I ins=
-tall it, it installs the following kernel RPMs:<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">### Start &#8220;rpm -qa | grep kernel | grep -v ker=
-nel-module&#8221; output ###<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-4.14.110&#43;git0&#43;bc35d5bd22_f93147df5d-r=
-0.corei7_64_intel_common<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-image-4.14.110-intel-pk-standard-4.14.110&#43=
-;git0&#43;bc35d5bd22_f93147df5d-r0.corei7_64_intel_common<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-4.14.110-intel-pk-standard-4.14.110&#43;git0&=
-#43;bc35d5bd22_f93147df5d-r0.corei7_64_intel_common<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-image-bzimage-4.14.110-intel-pk-standard-4.14=
-.110&#43;git0&#43;bc35d5bd22_f93147df5d-r0.corei7_64_intel_common<o:p></o:p=
-></p>
-<p class=3D"MsoNormal">### End &#8220;rpm -qa | grep kernel | grep -v kerne=
-l-module&#8221; output ###<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I built a newer image using Yocto 3.0.&nbsp; In the =
-RPM repo I have the following kernel RPMs:<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">### Start &#8220;ls -1 /var/opt/repos/os | grep kern=
-el | grep -v kernel-module&#8221; output ###<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-4.19.73&#43;git0&#43;a7cb57afb9_ca05e9cd64-r0=
-.corei7_64_intel_common.rpm<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-4.19.73-intel-pk-standard-4.19.73&#43;git0&#4=
-3;a7cb57afb9_ca05e9cd64-r0.corei7_64_intel_common.rpm<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-dev-4.19.73&#43;git0&#43;a7cb57afb9_ca05e9cd6=
-4-r0.corei7_64_intel_common.rpm<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-image-4.19.73-intel-pk-standard-4.19.73&#43;g=
-it0&#43;a7cb57afb9_ca05e9cd64-r0.corei7_64_intel_common.rpm<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-image-bzimage-4.19.73-intel-pk-standard-4.19.=
-73&#43;git0&#43;a7cb57afb9_ca05e9cd64-r0.corei7_64_intel_common.rpm<o:p></o=
-:p></p>
-<p class=3D"MsoNormal">kernel-vmlinux-4.19.73&#43;git0&#43;a7cb57afb9_ca05e=
-9cd64-r0.corei7_64_intel_common.rpm<o:p></o:p></p>
-<p class=3D"MsoNormal">systemd-kernel-install-243&#43;0&#43;efb536d0cb-r0.c=
-orei7_64.rpm<o:p></o:p></p>
-<p class=3D"MsoNormal">### End &#8220;ls -1 /var/opt/repos/os | grep kernel=
- | grep -v kernel-module&#8221; output ###<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">When I try to do &#8220;dnf upgrade&#8221; I get the=
- following error messages:<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">### Start excerpt from &#8220;dnf upgrade&#8221; com=
-mand ###<o:p></o:p></p>
-<p class=3D"MsoNormal">Last metadata expiration check: 0:40:06 ago on Mon D=
-ec 16 17:43:31 2019.<o:p></o:p></p>
-<p class=3D"MsoNormal">Dependencies resolved.<o:p></o:p></p>
-<p class=3D"MsoNormal">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<o:p></o:p></p>
-<p class=3D"MsoNormal">Package<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; Arch&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; Version&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Repository<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
-p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; Size<o:p></o:p></p>
-<p class=3D"MsoNormal">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<o:p></o:p></p>
-<p class=3D"MsoNormal">Upgrading:<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; corei7_64_intel_common 4.19=
-.73&#43;git0&#43;a7cb57afb9_ca05e9cd64-r0 OS_Repo 5.6 k<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-4.19.73-intel-pk-standard<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; corei7_64_intel_common 4.19=
-.73&#43;git0&#43;a7cb57afb9_ca05e9cd64-r0 OS_Repo&nbsp; 16 k<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-image-4.19.73-intel-pk-standard<o:p></o:p></p=
->
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; corei7_64_intel_common 4.19=
-.73&#43;git0&#43;a7cb57afb9_ca05e9cd64-r0 OS_Repo 5.8 k<o:p></o:p></p>
-<p class=3D"MsoNormal">kernel-image-bzimage-4.19.73-intel-pk-standard<o:p><=
-/o:p></p>
-<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp; corei7_64_intel_common 4.19=
-.73&#43;git0&#43;a7cb57afb9_ca05e9cd64-r0 OS_Repo 7.8 M<o:p></o:p></p>
-<p class=3D"MsoNormal">Transaction Summary<o:p></o:p></p>
-<p class=3D"MsoNormal">=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<o:p></o:p></p>
-<p class=3D"MsoNormal">Install&nbsp; 1297 Packages<o:p></o:p></p>
-<p class=3D"MsoNormal">Upgrade&nbsp;&nbsp; 666 Packages<o:p></o:p></p>
-<p class=3D"MsoNormal">Skip&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 5 Pac=
-kages<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Total size: 232 M<o:p></o:p></p>
-<p class=3D"MsoNormal">Is this ok [y/N]: y<o:p></o:p></p>
-<p class=3D"MsoNormal">Downloading Packages:<o:p></o:p></p>
-<p class=3D"MsoNormal">Running transaction check<o:p></o:p></p>
-<p class=3D"MsoNormal">Transaction check succeeded.<o:p></o:p></p>
-<p class=3D"MsoNormal">Running transaction test<o:p></o:p></p>
-<p class=3D"MsoNormal">Error: Transaction check error:<o:p></o:p></p>
-<p class=3D"MsoNormal">&nbsp; file /boot/bzImage from install of kernel-ima=
-ge-bzimage-4.19.73-intel-pk-standard-4.19.73&#43;git0&#43;a7cb57afb9_ca05e9=
-cd64-r0.corei7_64_intel_common conflicts with file from package kernel-imag=
-e-bzimage-4.14.110-intel-pk-standard-4.14.110&#43;git0&#43;bc35d5bd22_f9314=
-7df5d-r0.corei7_64_intel_common<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Error Summary<o:p></o:p></p>
-<p class=3D"MsoNormal">-------------<o:p></o:p></p>
-<p class=3D"MsoNormal">### End excerpt from &#8220;dnf upgrade&#8221; comma=
-nd ###<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I also tried running &#8220;dnf upgrade --best --all=
-owerasing&#8221;, but got the same results.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Can I upgrade a system using the dnf command?&nbsp; =
-If so, how?&nbsp; If not, what do I need to do to allow the system to be up=
-graded using the dnf command?<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Thank you<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Lewis Muhlenkamp<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-Follow this link to read our <a href=3D"https://www.stryker.com/content/str=
-yker/gb/en/legal/global-policy-statement.html/">
-Privacy Statement</a>
-</body>
-</html>
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
+starting to try and collect up and classify bugs which a newcomer to the =
+project would be able to work on in a way which means people can find =
+them. They're being listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 298 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
+mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
+comer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Project Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
---_000_BL0PR01MB43075451F85904018A14BF738F510BL0PR01MB4307prod_--
+------=_NextPart_000_F54F_01D5B438.06BB8AE0--
