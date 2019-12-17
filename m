@@ -1,28 +1,52 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 08D636C193
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ECE57F298
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 08:56:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xBH8uDLn017784
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Tue, 17 Dec 2019 12:50:24 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id z3so3632935wru.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 17 Dec 2019 00:56:14 -0800
-Received: from [128.224.162.184] (128.224.162.184) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Tue, 17 Dec 2019 00:56:13 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <20191217080225.897186-1-mac@mcrowe.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <0cfbd853-0ad2-e010-5ee6-6277be55db9b@windriver.com>
-Date: Tue, 17 Dec 2019 16:56:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Tue, 17 Dec 2019 04:50:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lknmbuucN9RjXxBDYJdAZRWYFc1f9RSPFLyG+uVkKmY=;
+	b=nTG+S8oXR67bBzXGz6ANT8q/FgyEJ5WSm5C9LMQaRKFgy2zzV6Q3/y5fcE7YEIJFCc
+	RRHROiQSZDumPcbVwBh484DgHW/7+rFmIwDFd8FRnBTj6O4VBOCH4Qf9Bk2nLvTIpXLb
+	4GsgCVaUjBy3LRaCPP4XCJllSQ+eeM7W2VBVCdFMxo7ms73/ppmo9/ZqxkZIaj74NQAs
+	TUdRK/eDIKXS7b0bZDe3mWVa2Xg71VCkPR0hZl+B+7g/PsSWQ0Hxe8lsVmiUYaHdHeSZ
+	9C7bR4sZS9e1FdTirSzmsEi3o1DI72ytVikB/o3RTVum4AQ9smcIzr561QXjy+qIVR6q
+	Fwcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lknmbuucN9RjXxBDYJdAZRWYFc1f9RSPFLyG+uVkKmY=;
+	b=EBh7tyBEX6/VdYAp5lJtmlpRDBXwN1uSnjzChPURXsIbaELHjY5YuLatq89jijo5vU
+	Ol/xwt7ZI9UVf0/8JhTySFRrwbinJP+nqtmQ25GrRdzFiQQnUjI3dS29UqIyZFO7CJUM
+	2Au2Qq6FDYjnVHqWDawfS72NVsuSET3hwxx5q/hSMkYFm85vfvIYZcoXQOyU9c+5yca8
+	BK3B9rMfJogxl05B0dahiP7Y6XCBuyiHgRPf2GR1yZTrS1gCZhYLGyavzacUGzecpvMb
+	5IJjNEV1Y1QfpEnt7RLwaUxMysm7DL3hprnTTDA3mS7UVNLQGEfJ2lNR6KRJb9g35Zez
+	/bZw==
+X-Gm-Message-State: APjAAAXF9ETnGCPg8oYvc1SdP+TKn2pi/nrs5mUzi0nRGGj6CtEhDR/j
+	AV4zGWfZn1K3OQ/3K+1tMSFDc+dIPcY=
+X-Google-Smtp-Source: APXvYqwwtvy7pA3CZaUJpfWv9es2AqsUnt1q07FEl9rvDFJkAVTcakkccNNnhN2jGqxdy5VGKBYgzg==
+X-Received: by 2002:adf:ec83:: with SMTP id z3mr36332996wrn.133.1576587024523; 
+	Tue, 17 Dec 2019 04:50:24 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	m21sm2783149wmi.27.2019.12.17.04.50.22
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 17 Dec 2019 04:50:22 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 17 Dec 2019 12:50:20 +0000
+Message-Id: <20191217125020.25932-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20191217080225.897186-1-mac@mcrowe.com>
-X-Originating-IP: [128.224.162.184]
-Subject: Re: [PATCH] multilib.conf: Ensure that RECIPE_SYSROOT is unchanged for native
+Subject: [PATCH] chrpath: do less work
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,99 +59,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 17 Dec 2019 08:56:13 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 17 Dec 2019 12:50:24 -0000
+Content-Transfer-Encoding: 8bit
 
-On 12/17/2019 04:02 PM, Mike Crowe via Openembedded-core wrote:
-> Ensure that RECIPE_SYSROOT is the same for -native recipes whether
-> multilib.conf is included or not.
->
-> Without this change task signatures for -native recipes change when
-> switching between MACHINEs that require multilib.conf and those that
-> don't.
->
-> This fix was one of the ones suggested by Khem Raj in
-> http://lists.openembedded.org/pipermail/openembedded-core/2019-December/290303.html
->
-> Add test_sstate_multilib_or_not_native_samesigs test case to
-> sstatetests.py to ensure that this stays fixed.
->
-> Signed-off-by: Mike Crowe <mac@mcrowe.com>
-> ---
->   meta/conf/multilib.conf                     |  1 +
->   meta/lib/oeqa/selftest/cases/sstatetests.py | 40 +++++++++++++++++++++
->   2 files changed, 41 insertions(+)
->
-> diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-> index cfed3fbbd0..58f2ac5c86 100644
-> --- a/meta/conf/multilib.conf
-> +++ b/meta/conf/multilib.conf
-> @@ -9,6 +9,7 @@ MULTILIBS ??= "multilib:lib32"
->   STAGING_DIR_HOST = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
->   STAGING_DIR_TARGET = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
->   RECIPE_SYSROOT = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
-> +RECIPE_SYSROOT_class-native = "${WORKDIR}/recipe-sysroot"
+Instead of trying to change the RPATH in every file under the binary
+directories, check that the file is an ELF first.
 
-How about just removing MLPREFIX?
+This means that we don't attempt to change the RPATH on the entire
+Python standard library, for example.
 
-Regards,
-Chen Qi
+Also return early if the directory to iterate doesn't exist.
 
->   
->   INHERIT += "multilib_global"
->   
-> diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-> index 6757a0ec68..9adb511960 100644
-> --- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-> +++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-> @@ -446,6 +446,46 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
->           self.assertCountEqual(files1, files2)
->   
->   
-> +    def test_sstate_multilib_or_not_native_samesigs(self):
-> +        """The sstate checksums of two native recipes (and their dependencies)
-> +        where the target is using multilib in one but not the other
-> +        should be the same. We use the qemux86copy machine to test
-> +        this.
-> +        """
-> +
-> +        self.write_config("""
-> +TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
-> +TCLIBCAPPEND = \"\"
-> +MACHINE = \"qemux86\"
-> +require conf/multilib.conf
-> +MULTILIBS = "multilib:lib32"
-> +DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-> +BB_SIGNATURE_HANDLER = "OEBasicHash"
-> +""")
-> +        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
-> +        bitbake("binutils-native  -S none")
-> +        self.write_config("""
-> +TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
-> +TCLIBCAPPEND = \"\"
-> +MACHINE = \"qemux86copy\"
-> +BB_SIGNATURE_HANDLER = "OEBasicHash"
-> +""")
-> +        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
-> +        bitbake("binutils-native -S none")
-> +
-> +        def get_files(d):
-> +            f = []
-> +            for root, dirs, files in os.walk(d):
-> +                for name in files:
-> +                    f.append(os.path.join(root, name))
-> +            return f
-> +        files1 = get_files(self.topdir + "/tmp-sstatesamehash/stamps")
-> +        files2 = get_files(self.topdir + "/tmp-sstatesamehash2/stamps")
-> +        files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash") for x in files2]
-> +        self.maxDiff = None
-> +        self.assertCountEqual(files1, files2)
-> +
-> +
->       def test_sstate_noop_samesigs(self):
->           """
->           The sstate checksums of two builds with these variables changed or
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/chrpath.bbclass | 16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
+diff --git a/meta/classes/chrpath.bbclass b/meta/classes/chrpath.bbclass
+index 2870c10d515..67b197ec228 100644
+--- a/meta/classes/chrpath.bbclass
++++ b/meta/classes/chrpath.bbclass
+@@ -2,7 +2,13 @@ CHRPATH_BIN ?= "chrpath"
+ PREPROCESS_RELOCATE_DIRS ?= ""
+ 
+ def process_file_linux(cmd, fpath, rootdir, baseprefix, tmpdir, d, break_hardlinks = False):
+-    import subprocess as sub
++    import subprocess as sub, oe.qa
++
++    with oe.qa.ELFFile(fpath) as elf:
++        try:
++            elf.open()
++        except oe.qa.NotELFFileError:
++            return
+ 
+     p = sub.Popen([cmd, '-l', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
+     out, err = p.communicate()
+@@ -72,6 +78,10 @@ def process_file_darwin(cmd, fpath, rootdir, baseprefix, tmpdir, d, break_hardli
+         out, err = p.communicate()
+ 
+ def process_dir(rootdir, directory, d, break_hardlinks = False):
++    bb.debug(2, "Checking %s for binaries to process" % directory)
++    if not os.path.exists(directory):
++        return
++
+     import stat
+ 
+     rootdir = os.path.normpath(rootdir)
+@@ -80,10 +90,6 @@ def process_dir(rootdir, directory, d, break_hardlinks = False):
+     baseprefix = os.path.normpath(d.expand('${base_prefix}'))
+     hostos = d.getVar("HOST_OS")
+ 
+-    #bb.debug("Checking %s for binaries to process" % directory)
+-    if not os.path.exists(directory):
+-        return
+-
+     if "linux" in hostos:
+         process_file = process_file_linux
+     elif "darwin" in hostos:
+-- 
+2.20.1
 
 
