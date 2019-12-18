@@ -1,37 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 2354D6B50B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 64B217ED5C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2019 23:10:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47dW1w6jMLzLW;
-	Thu, 19 Dec 2019 00:10:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1576710613;
-	bh=znohw30t7x7qIaUyW4K6Tt0kVbGbN6/Hj3+Rk8xZ190=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qke6tRHvBmzuSktsxCrQOaQ7lvR9WF16NL0TfGOqLrS6FF+pqXXKy+a1WN1FyAMA9
-	pU+QNrdcGv9/QzBUKhV/Wwn+Dx7gL1rX48rOhYslZBphETdKIcB8U8U1L7jd5soVJm
-	Zk+0qx7XUla1PhwfTY/SC+s9Qjad8JrJcrXa6WM4dyHNjPxigw7KbrmcKrquOw8VbI
-	52CtpcPV0dQfQjYAFqEU47FlluBOaYcI3OeQ55pwXWRGgWjzmB6GOMMK4zmzTCq/DM
-	PocF/oFLYyqLhLp/2navjh9nuJ4tW37JiCeFYrGEADj0f9YXmsXIyTvmdbsH71aAcQ
-	UnMh/BfbttzZPAgibQi2t7TJ26eqFRi7ia58GQfvlV4dmsXlxaFhJB2SGQ7Nn+urbS
-	RK3hzJV6KX8Gz2Ra9mCbRnZe4lgombbZVr1Nvqg8zcx7ny7Qml8rUeHXsIhxB72Ima
-	0o3C/iWoBP4QO9HAUTk4Qv+AI5TASmPG48GFg5Z5dTNF/vMCJR2Z+Dgn4uuP+xEh/c
-	Vn4lbHkomOcHvhUCBTh3neUjPRZe4rlpidDoj38Yvzphm4D/lCC92PPURCo0LE2FpZ
-	FX+UF8AlRhodtCam4PuqPnqMdCzO0mpvRwClZ2YKeuwkd1XMcak/Gu3eotBgvXmgB6
-	jt16v7rYI2JPKEjpTfhZ7ek0=
-Date: Thu, 19 Dec 2019 01:10:10 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20191218231010.GA11130@localhost>
-References: <20191218143758.129308-1-alex.kanavin@gmail.com>
-	<20191218143758.129308-25-alex.kanavin@gmail.com>
+	Wed, 18 Dec 2019 23:39:39 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id b137so2098549pga.6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 18 Dec 2019 15:39:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3W6QpADCYFz+InbbQuY/8Hxh96Ft1SlsAQqT3PAbP+I=;
+	b=IRIcKqgqZAkfNtE1wwenbA+K+1Yj0uxCM/Qz8OPowNRGE4FTWi/R7BOMy1UjRicmW1
+	0nPs+UT7cvpBn0FHFlth9M473vgOMGn2DxfgbBmRhQ5SFfc5cmLw1y7zzS3GckcxyH6U
+	wPF9PTTB1ouVeIVcn7RgD07XHt/EeUFuD1IRu+F3kwVr5aIyljqwiGF2Ydp1IA2pJaOT
+	55CzOvxRBmz4DulvEKg2OGlrjmvDs+ht0XOmNv0uA4Y4DEGoJwFTekhNIOaUVocHyiDz
+	uKQddIX/PJuNPA/Gx71CocCXNUdFPT6kUivT2Ws0SI6EIT/iwZpnxhqvIx3weghR8cPb
+	xyJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3W6QpADCYFz+InbbQuY/8Hxh96Ft1SlsAQqT3PAbP+I=;
+	b=C0y/tR52c578MRZ8lv4eml0NXsIlCU/f1C8vT8lz0N96Qq+xuAn+WM2Jzf9/FN0eDS
+	8Jk7Ml9rOfPI9gvHT/iESgCMn3Tj11hOrnlOAbMw80+pBiMBPXnpibAE6KOE+EdyvKa5
+	LvRqttkHN6UJbYBZD0THRzyzFVYkU+Wqduxbij4aipQ8bj+4OhqWD8LadjJ3Xs1tEYft
+	IkQeyDTyEnFltjOwPBMaZ1w0ncQZr/S0VJwDo2yJQJ0zHv98RE8jwi8zPF4TAV8P7a32
+	oyF+B4QAv73yDfouTM6IIyZZwFc4WYQtjatoCztugXadqlK7EBm+VnugU5Rh07t3NNdq
+	HcWw==
+X-Gm-Message-State: APjAAAWZ7kprmIv9tLGtOppcQqhsgir4Da4Xy7TA8CJT2iraYkrm7W/O
+	dybhIrttTTIXH5uCb/E0I98BdQCd66g=
+X-Google-Smtp-Source: APXvYqzNQCLkVGMS/y5pZIKaI1KYdik2kIbL44+VL4Px9RCJEeXxfFcXM6JhlSqb1nVg7QeANsg2Cw==
+X-Received: by 2002:a63:de4a:: with SMTP id y10mr5883648pgi.367.1576712379706; 
+	Wed, 18 Dec 2019 15:39:39 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2ebb])
+	by smtp.gmail.com with ESMTPSA id o19sm7774327pjr.2.2019.12.18.15.39.38
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 18 Dec 2019 15:39:39 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 18 Dec 2019 15:39:28 -0800
+Message-Id: <20191218233928.696037-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20191218143758.129308-25-alex.kanavin@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 25/25] sysprof: move recipe to meta-oe
+Subject: [PATCH] cmake: Displace VERBOSE setting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,27 +56,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2019 23:10:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 18 Dec 2019 23:39:39 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Dec 18, 2019 at 03:37:58PM +0100, Alexander Kanavin wrote:
->...
-> --- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
-> @@ -10,7 +10,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
->  
->  inherit packagegroup
->  
-> -PROFILE_TOOLS_X = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'sysprof', '', d)}"
-> +PROFILE_TOOLS_X = ""
->  # sysprof doesn't support aarch64 and nios2
->  PROFILE_TOOLS_X_aarch64 = ""
->  PROFILE_TOOLS_X_nios2 = ""
->...
+Setting VERBOSE always, while is fine on one hand for debugging, its
+coming at an expense of creating lots and lots of logs, e.g. qtwebkit
+compile logs alone with VERBOSE is 163MB, there are many other large
+packages which use cmake e.g. WPE, webkitgtk etc which are in same range
+with out this option on, the logs reduce to 861K and also speeds up
+build a notch
 
-PROFILE_TOOLS_X is now always empty and should be removed.
+If user needs to enable this logs for targetted debugging debugging that
+could be added via
 
-cu
-Adrian
+EXTRA_OECMAKE_BUILD += "--verbose"
+
+in recipe
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/cmake.bbclass | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 8ccb1eefc7..8a44a0c216 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -181,9 +181,14 @@ cmake_do_configure() {
+ 	  -Wno-dev
+ }
+ 
++# To enable VERBOSE option to emit all kind of logs for a given recipe add following in it
++#
++# EXTRA_OECMAKE_BUILD += "--verbose"
++#
++# Then run do_compile again
+ cmake_runcmake_build() {
+-	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
+-	eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
++	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} } cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
++	eval ${DESTDIR:+DESTDIR=${DESTDIR} } cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
+ }
+ 
+ cmake_do_compile()  {
+-- 
+2.24.1
+
 
