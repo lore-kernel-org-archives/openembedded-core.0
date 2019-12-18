@@ -1,47 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
-	[209.85.222.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 79F2A7C6F7
+Return-Path: <mac@mcrowe.com>
+Received: from avasout03.plus.net (avasout03.plus.net [84.93.230.244])
+	by mail.openembedded.org (Postfix) with ESMTP id 49D197FDF5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2019 11:21:10 +0000 (UTC)
-Received: by mail-ua1-f66.google.com with SMTP id f9so497705ual.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2019 03:21:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=LiNwrRbAhdUINym5/HrX6XU00qguX0jEP7MfmPJ9PoY=;
-	b=HM2qRExlF9/w7ZnXRYhRHE2GBa+M4+rE2XPdrWm3i273ijYe2XNa+CgJVFjzKt3IBD
-	fmcWwe/lurloKJJBekCfk+B6L7iJS4s6Z9t8QBDOB50RScxpSiHdN4bhvTt4z4+LwY7h
-	+cnxhaHvHJF0N2c4GDXHp/c3Zq918jqn9U0DBs3bYAVIL5lhNanCNht5ABEXMxOonTPq
-	/RE4/meRpugl5QhAlHWrp00qZhJ1cKEl3cjANe7l8/um7gdEmz9+Bk4LEEcyk7RU7xz1
-	UUdwfL2KXF03PbNnOKRsOWO0+ZbnubLUhdXOwcdbQzgdgK5b69dQiWCFqWonHLOai1OX
-	OvnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=LiNwrRbAhdUINym5/HrX6XU00qguX0jEP7MfmPJ9PoY=;
-	b=lJYBOo19CpFjnB5aRJrep/X0bX05ifNDecCuwUqeW7vcADU3k1HacaA5P7EgmrXsKm
-	JMJrZiBuBjbMxZFpq2xnUGEfBk3Fr4ppG+RqGfOL05/gYUMDz/vbZa/ByESC4ohh87X2
-	szB1HdbKr9PclMtJXfpqFZsQNJVN33FLHG/jOzkstoLArgPaMhVvhEaZvLvcqPKcWcUB
-	DbbLozTxOcqptzfWWwJbXMnypiGIfrRsCv4Xp6d9YoMqVB/8BwuNUPlag5qxU4WuW469
-	Fdhr+8D6JZum8i0qcBojYmKjFNRxiI1INYv232cjNZOlsyaO9AJ4UpFtxcZ8qUlY2pVQ
-	Yzhw==
-X-Gm-Message-State: APjAAAUY3GtZ0R3blO9eAtMAw23zYMpukkLSvMyt8/1YXDutf6mO2RiB
-	MzANAGjta7JN9c0u/R4FrR0OH59Ij1k4m2T7peU=
-X-Google-Smtp-Source: APXvYqxLPY6BbafYevJXo3srEgomb9Jzv1vRoYEgTTKN+myWlUMGRDPyDcYFJ1OwX/aZTfonctsdGLQQbuB9HRjgh/I=
-X-Received: by 2002:ab0:94:: with SMTP id 20mr888222uaj.71.1576668071398; Wed,
-	18 Dec 2019 03:21:11 -0800 (PST)
+	Wed, 18 Dec 2019 11:43:32 +0000 (UTC)
+Received: from deneb ([80.229.24.9]) by smtp with ESMTP
+	id hXjmiu6D5KleZhXjni1ZvT; Wed, 18 Dec 2019 11:43:33 +0000
+X-Clacks-Overhead: "GNU Terry Pratchett"
+X-CM-Score: 0.00
+X-CNFS-Analysis: v=2.3 cv=GfxpYjfL c=1 sm=1 tr=0
+	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
+	a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=pxVhFHJ0LMsA:10
+	a=Q4-j1AaZAAAA:8 a=-An2I_7KAAAA:8 a=3KH0DVyGb0_r9n_7RF8A:9
+	a=CjuIK1q_8ugA:10
+	a=YiJXXBSSIdIA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=Sq34B_EcNBM9_nrAYB9S:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mcrowe.com; 
+	s=20191005;
+	h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
+	Subject:To:From:Date:Sender:Reply-To:CC:Content-Transfer-Encoding:Content-ID:
+	Content-Description; bh=o7UXOhILxJDEug9R5MCtlQ6/8NBvoYCfZFZ5TeLu248=;
+	b=Ry3he
+	TUZOQsgNCi55BwGZlmUpfK6Ikqy1mGYz7wEojwAd69tm7JeCBmEWpQ1UnshBR9EkorHPrjyLICm0e
+	Q8jU0CkbWveJvnWOc7xxEPjDxSau+DHWDjWdLfTyGYKf71S0eImHgTpek9vsajLoNSuonzYtmakDi
+	mwOmVVNZIaD3CDngCF1Q6T5K8/lDMTNnSgd9H0xHl7wCG9uOvIhcTDlc/kQ6/GXNsGID8ABzfsxeo
+	fQ+yGzK+6h8r3sZdHvNq8go6YfdorcDdN3tX0117zo6mgCoIpGqkDZMNVhAfCIV7XVKRtJgTDoPEi
+	xCqau1F+ISLW+uIKTkKJH93vygZYQ==;
+Received: from mac by deneb with local (Exim 4.92)
+	(envelope-from <mac@mcrowe.com>)
+	id 1ihXjm-00040E-IG; Wed, 18 Dec 2019 11:43:30 +0000
+Date: Wed, 18 Dec 2019 11:43:30 +0000
+From: Mike Crowe <mac@mcrowe.com>
+To: ChenQi <Qi.Chen@windriver.com>,
+	openembedded-core@lists.openembedded.org
+Message-ID: <20191218114330.GA12175@mcrowe.com>
+References: <20191217080225.897186-1-mac@mcrowe.com>
+	<0cfbd853-0ad2-e010-5ee6-6277be55db9b@windriver.com>
+	<20191217135548.GA1639@mcrowe.com>
+	<983ec762-e2ad-4127-00c4-dec513486695@windriver.com>
 MIME-Version: 1.0
-References: <20191217160012.42152-1-alex.kanavin@gmail.com>
-	<5b4bdd1facaee89ae67e41961ac3e9abb01004bb.camel@linuxfoundation.org>
-In-Reply-To: <5b4bdd1facaee89ae67e41961ac3e9abb01004bb.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 18 Dec 2019 12:20:59 +0100
-Message-ID: <CANNYZj9Qg0XCY87kgLvexaT-C91n85MviFNxniiV6xaY94045w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/5] gettext-minimal-native: update to 0.20.1
+In-Reply-To: <983ec762-e2ad-4127-00c4-dec513486695@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-CMAE-Envelope: MS4wfBP2RR0Mm6HUp54uFKTJbK/hpLdBhJNLg7uT8VLpgDW4X8TLk/5i9hhqcUeGv6tbcb0qeKWQBvplJHwW/YOkoE31SD4nzPmqrWwNL0GvZEj8Bo33qKO5
+	02itDIHXMZK85YUQp1DmilfmgVuPsVeWlSgMeRVpVr5DG1kIEAw18cSl
+Subject: Re: [PATCH] multilib.conf: Ensure that RECIPE_SYSROOT is unchanged for native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,96 +54,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2019 11:21:10 -0000
-Content-Type: multipart/alternative; boundary="000000000000530fbc0599f8a488"
+X-List-Received-Date: Wed, 18 Dec 2019 11:43:33 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
---000000000000530fbc0599f8a488
-Content-Type: text/plain; charset="UTF-8"
-
-On Wed, 18 Dec 2019 at 11:00, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Tue, 2019-12-17 at 17:00 +0100, Alexander Kanavin wrote:
-> > Rather than update a tarball, I took m4 files directly from an
-> > install of 0.20.1.
+On Wednesday 18 December 2019 at 09:19:20 +0800, ChenQi wrote:
+> On 12/17/2019 09:55 PM, Mike Crowe wrote:
+> > On Tuesday 17 December 2019 at 16:56:11 +0800, ChenQi wrote:
+> > > On 12/17/2019 04:02 PM, Mike Crowe via Openembedded-core wrote:
+> > > > Ensure that RECIPE_SYSROOT is the same for -native recipes whether
+> > > > multilib.conf is included or not.
+> > > > 
+> > > > Without this change task signatures for -native recipes change when
+> > > > switching between MACHINEs that require multilib.conf and those that
+> > > > don't.
+> > > > 
+> > > > This fix was one of the ones suggested by Khem Raj in
+> > > > http://lists.openembedded.org/pipermail/openembedded-core/2019-December/290303.html
+> > > > 
+> > > > Add test_sstate_multilib_or_not_native_samesigs test case to
+> > > > sstatetests.py to ensure that this stays fixed.
+> > > > 
+> > > > Signed-off-by: Mike Crowe <mac@mcrowe.com>
+> > > > ---
+> > > >    meta/conf/multilib.conf                     |  1 +
+> > > >    meta/lib/oeqa/selftest/cases/sstatetests.py | 40 +++++++++++++++++++++
+> > > >    2 files changed, 41 insertions(+)
+> > > > 
+> > > > diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+> > > > index cfed3fbbd0..58f2ac5c86 100644
+> > > > --- a/meta/conf/multilib.conf
+> > > > +++ b/meta/conf/multilib.conf
+> > > > @@ -9,6 +9,7 @@ MULTILIBS ??= "multilib:lib32"
+> > > >    STAGING_DIR_HOST = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+> > > >    STAGING_DIR_TARGET = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+> > > >    RECIPE_SYSROOT = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+> > > > +RECIPE_SYSROOT_class-native = "${WORKDIR}/recipe-sysroot"
+> > > How about just removing MLPREFIX?
 > >
-> > The patch is dropped as guile has long been removed from oe-core.
+> > I'm afraid that I don't understand what you are suggesting. The above
+> > change does remove MLPREFIX for -native only.
 >
-> I ran this series through the autobuilder in comparative isolation.
->
-> qemuarm failed:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/1368
->
+> I mean removing all these MLPREFIX, so that STAGING_DIR_HOST,
+> STAGING_DIR_TARGET and RECIPE_SYSROOT will all be
+> ${WORKDIR}/recipe-sysroot.
 
-This failure is due to mkfontscale proceeding to compile without doing
-do_unpack (hashequiv issue):
+The prefix is necessary for RECIPE_SYSROOT because without it a single
+recipe can't depend on multiple multilib variants of the same recipe. We do
+this because our bootloader requires both a 32-bit and a 64-bit compiler.
+When I changed RECIPE_SYSROOT to always be "${WORKDIR}/recipe-sysroot" I
+get failures like:
 
-Summary: 1 task failed:
-  virtual:native:/home/pokybuild/yocto-worker/qemuarm/build/meta/recipes-graphics/xorg-app/mkfontscale_1.2.1.bb:do_compile
+ do_prepare_recipe_sysroot: The file /usr/include/mtd/mtd-user.h is installed by both linux-libc-headers and lib32-linux-libc-headers, aborting
 
+Thanks.
 
+Mike.
 
-
-> native failure on centos7
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/97/builds/704
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/82/builds/357
->
-> nspr-native failure on aarch64
->
-
-Same here in both failures: do_compile runs without do_unpack.
-
-Alex
-
---000000000000530fbc0599f8a488
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 18 Dec 2019 at 11:00, Richard Pur=
-die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
-e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">On Tue, 2019-12-17 at 17:00=
- +0100, Alexander Kanavin wrote:<br>
-&gt; Rather than update a tarball, I took m4 files directly from an<br>
-&gt; install of 0.20.1.<br>
-&gt; <br>
-&gt; The patch is dropped as guile has long been removed from oe-core.<br>
-<br>
-I ran this series through the autobuilder in comparative isolation.<br>
-<br>
-qemuarm failed:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/53/build=
-s/1368" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/53/builds/1368</a><br></blockquote><div><br></div=
-><div>This failure is due to mkfontscale proceeding to compile without doin=
-g do_unpack (hashequiv issue):<br></div><div><pre class=3D"gmail-select-con=
-tent gmail-log"><div class=3D"gmail-logline gmail-ng-scope"><span class=3D"=
-gmail-no-wrap gmail-log_o"><span class=3D"gmail-">Summary: 1 task failed:</=
-span></span></div><div class=3D"gmail-logline gmail-ng-scope"><span class=
-=3D"gmail-no-wrap gmail-log_o"><span class=3D"gmail-">  virtual:native:/hom=
-e/pokybuild/yocto-worker/qemuarm/build/meta/recipes-graphics/xorg-app/mkfon=
-tscale_1.2.1.bb:do_compile</span></span></div><div class=3D"gmail-logline g=
-mail-ng-scope"><span class=3D"gmail-no-wrap gmail-log_o"><span class=3D"gma=
-il-"><br></span></span></div><div class=3D"gmail-logline gmail-ng-scope"><s=
-pan class=3D"gmail-no-wrap gmail-log_o"><span class=3D"gmail-"><br></span><=
-/span></div></pre></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
-native failure on centos7<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/97/build=
-s/704" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
-t.org/typhoon/#/builders/97/builds/704</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/82/build=
-s/357" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
-t.org/typhoon/#/builders/82/builds/357</a><br>
-<br>
-nspr-native failure on aarch64<br></blockquote><div><br></div><div>Same her=
-e in both failures: do_compile runs without do_unpack.</div><div><br></div>=
-<div>Alex<br></div></div></div>
-
---000000000000530fbc0599f8a488--
