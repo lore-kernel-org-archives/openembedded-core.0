@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A99497FFA5
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 8778B7FF98
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2019 14:38:23 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id j42so2520486wrj.12
+	Wed, 18 Dec 2019 14:38:24 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id c14so2549400wrn.7
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 18 Dec 2019 06:38:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=lblRdSqBFh55WeMufalNMo9UTBF0q35i4CqY9CvKHE8=;
-	b=IliMEBYSr0W52G7hqe2w4KYpTxSc6R2e/sPpSCDwNTazKHyTw47v5N9yFCQuG5VFq5
-	YVzvFdmbhMpr9S15Sou74JKaM73iIUlAOfEeM7YFyuu3fYgd+QyGIxaWB2DMAwT9Kl9p
-	nGnFUE4b0yQJm+VoLMdnRRykrutSAL9sOinAMwf+dXU1IjhTAv5FN0FsLVVzaCndpkKd
-	tSZkxN679uhxvD7zKjSUpAYhyGxNQYTqvWQX+B3IVMZRRwK8C9eaRTUsKibkz5B27ZM8
-	Uzkm+PLNZFtSFxhVUBjUVhNYnb6NEGkZc/6NNVq2wWCqtXgSllD0GSb09Y8Pli+1NLaY
-	p0yQ==
+	bh=CpFdtsQf/u01hvU1s2QrS0AtTP5QP/aDZcjpqJK9RTo=;
+	b=idY9rBsy9lcXMf++3YUQlTFQ2ws7ms7aDY6i0GMxJ35M/5D1yOouzOw1/DzWarJjOj
+	+rDl/QoK9BIsMOfEdWInbfkEF60HhRKzP17WJJGvKAlx21mesj4WuMJNIvxlb5+lKYT/
+	JduLJ+5VfDnlVBpPEolqd6MJpF0kbX2oz/0LIfDJMA3Jx61E57I31HSfJT8fNMwk60gi
+	C44fbF0nH1fFeGKw9e7BEGEVqlR0o+FTt+jQzX2JbbChfMYS4yQyLDSgF12GB8t1aeA2
+	HuMl4rXfJI5lLHZcE/IwmwRbW1ifVblD42T2OG+yqsg59P9HTzwcW2sThzWZKoeNmhTw
+	pxfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=lblRdSqBFh55WeMufalNMo9UTBF0q35i4CqY9CvKHE8=;
-	b=ToqSuNQ1rn98JQ9f30ZfP+JCYUgxpFBfbPeyOJCDGLgiRL1Hi8LjMBtMUdY+fovKdB
-	Hq8YdAE6WckvZpkNrkzShZC7UmBALIodMFQyZ2gHDThfPIxpcQCUSTwxWYciu6TQrBQR
-	j6Srug1VA9anbkUzydbrb3wq1fWHW1HWZYUrjOn1GkEpdeuYcId6+PStCK4cySYtGRg6
-	nwYszcdoG6sEAGb1eNYXDuU8wimab/rTNhSkTBK+aN/Ki2XLYJt37v/grnpr9idMo09I
-	Y7cP9aPlR5dCM3ImaPtwJoZG89LmFSPKjASH+XRpoQN++wIIkKm7vRAtdxWYKTQI/4lf
-	yocw==
-X-Gm-Message-State: APjAAAUyW2yj7s2Ry0dn1/9roypaDG1LNipH7KTztlpvZXqrEGjRhg2m
-	eSBGltRSB3UpZac2SUXJlXvGGG357tM=
-X-Google-Smtp-Source: APXvYqyjDAreDuuG86/QoIp7ANir/9yie8Or3KtYu+MBD/hGddoofIrM1oQzUjNcyRAAspK0xbswOQ==
-X-Received: by 2002:adf:82f3:: with SMTP id 106mr3372524wrc.69.1576679904105; 
+	bh=CpFdtsQf/u01hvU1s2QrS0AtTP5QP/aDZcjpqJK9RTo=;
+	b=dZ/VrVQ61Q839A2ES+IY30yE71WMRN/7sw+ahhCqIdsWAUXzH+ADQWp+1sMYY2nhQg
+	OVHUMUADKSvZ2lxm85VWqlOjTSFK02YTI5MH0CgSbfDwKVSxrNL1nTndtYPgx++iRuME
+	ZeirK83WBblmALJGtQmJNGf9soNIB0CdDif3zh+n0+cgUo058OKT93JHslDFkNLATU+y
+	RN5KEUENd7ZIFpuM+R6FIWRYdOrYPRKIu0IZiV3QO7M9SlUS1kPGjj8N51amF4WRf/Hg
+	nk6tmRnBaj8Yo9Rp/+nFE5w4DxkoU5JovT/4beVFDUyaNiIVbaCzdqriNJ97teNUDUZg
+	PBTw==
+X-Gm-Message-State: APjAAAUYZX3HnRK3dJhpJlASPWngM9h1q4jnvRKzishL7RDrazvTamLG
+	2Fd2jtIe53+DQwl6U6JGg3YeG4Ct1r8=
+X-Google-Smtp-Source: APXvYqyUkh9ZZE07jvKJMaQFJh6tV0t+c7vW+sH1UzaR8MVmQ/hP/oQ2q2NX4m8tXl97JAZPGpkKCw==
+X-Received: by 2002:adf:f88c:: with SMTP id u12mr3404164wrp.323.1576679904851; 
 	Wed, 18 Dec 2019 06:38:24 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	d10sm2747313wrw.64.2019.12.18.06.38.23
+	d10sm2747313wrw.64.2019.12.18.06.38.24
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Dec 2019 06:38:23 -0800 (PST)
+	Wed, 18 Dec 2019 06:38:24 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Dec 2019 15:37:57 +0100
-Message-Id: <20191218143758.129308-24-alex.kanavin@gmail.com>
+Date: Wed, 18 Dec 2019 15:37:58 +0100
+Message-Id: <20191218143758.129308-25-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191218143758.129308-1-alex.kanavin@gmail.com>
 References: <20191218143758.129308-1-alex.kanavin@gmail.com>
-Subject: [PATCH 24/25] libnss-dns: update to 0.14.1
+Subject: [PATCH 25/25] sysprof: move recipe to meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,63 +57,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2019 14:38:24 -0000
+X-List-Received-Date: Wed, 18 Dec 2019 14:38:25 -0000
 
-Change SRC_URI to the new location, drop no longer
-supported/unneeded options.
+Latest version (3.34) of sysprof have a hard dependency on polkit,
+which in turn requires mozjs, which pulls in a number of other
+meta-oe packages including python2. This makes it difficult
+to keep sysprof in oe-core, so for the time being it is moved to
+meta-oe.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...nss-mdns_0.10.bb => libnss-mdns_0.14.1.bb} | 20 ++++++-------------
- 1 file changed, 6 insertions(+), 14 deletions(-)
- rename meta/recipes-connectivity/libnss-mdns/{libnss-mdns_0.10.bb => libnss-mdns_0.14.1.bb} (54%)
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ .../packagegroup-core-tools-profile.bb        |  2 +-
+ ...thing-in-help-as-it-requires-itstool.patch | 27 ----------------
+ .../files/define-NT_GNU_BUILD_ID.patch        | 22 -------------
+ meta/recipes-kernel/sysprof/sysprof_3.32.0.bb | 32 -------------------
+ 5 files changed, 1 insertion(+), 83 deletions(-)
+ delete mode 100644 meta/recipes-kernel/sysprof/files/0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch
+ delete mode 100644 meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
+ delete mode 100644 meta/recipes-kernel/sysprof/sysprof_3.32.0.bb
 
-diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb
-similarity index 54%
-rename from meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-rename to meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb
-index 953505971a7..5e4460045b9 100644
---- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-+++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.14.1.bb
-@@ -1,32 +1,24 @@
- SUMMARY = "Name Service Switch module for Multicast DNS (zeroconf) name resolution"
--HOMEPAGE = "http://0pointer.de/lennart/projects/nss-mdns/"
-+HOMEPAGE = "https://github.com/lathiat/nss-mdns"
- SECTION = "libs"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 79404dfbdb7..c9c7a8be555 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -656,7 +656,6 @@ RECIPE_MAINTAINER_pn-swig = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-sysfsutils = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-sysklogd = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-syslinux = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-sysprof = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-sysstat = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-systemd = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-systemd-boot = "Chen Qi <Qi.Chen@windriver.com>"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+index 3fd423c592e..984c2fac92c 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-profile.bb
+@@ -10,7 +10,7 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
  
- LICENSE = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
+ inherit packagegroup
  
- DEPENDS = "avahi"
--PR = "r7"
- 
--SRC_URI = "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-${PV}.tar.gz \
-+SRC_URI = "git://github.com/lathiat/nss-mdns \
-            "
- 
--SRC_URI[md5sum] = "03938f17646efbb50aa70ba5f99f51d7"
--SRC_URI[sha256sum] = "1e683c2e7c3921814706d62fbbd3e9cbf493a75fa00255e0e715508d8134fa6d"
-+SRCREV = "41c9c5e78f287ed4b41ac438c1873fa71bfa70ae"
- 
--S = "${WORKDIR}/nss-mdns-${PV}"
-+S = "${WORKDIR}/git"
- 
--localstatedir = "/"
+-PROFILE_TOOLS_X = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'sysprof', '', d)}"
++PROFILE_TOOLS_X = ""
+ # sysprof doesn't support aarch64 and nios2
+ PROFILE_TOOLS_X_aarch64 = ""
+ PROFILE_TOOLS_X_nios2 = ""
+diff --git a/meta/recipes-kernel/sysprof/files/0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch b/meta/recipes-kernel/sysprof/files/0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch
+deleted file mode 100644
+index ade51cf864f..00000000000
+--- a/meta/recipes-kernel/sysprof/files/0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From d332b480257aa98b63d39c3c94896a111536f937 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 23 Aug 2017 18:38:26 +0300
+-Subject: [PATCH 2/2] Do not build anything in help/ as it requires itstool.
 -
--inherit autotools
-+inherit autotools pkgconfig
- 
- COMPATIBLE_HOST_libc-musl = 'null'
- 
--EXTRA_OECONF = "--libdir=${base_libdir} --disable-lynx --enable-avahi"
+-Upstream-Status: Inappropriate [oe-core specific]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 -
--# suppress warning, but don't bother with autonamer
--LEAD_SONAME = "libnss_mdns.so"
--DEBIANNAME_${PN} = "libnss-mdns"
-+EXTRA_OECONF = "--libdir=${base_libdir}"
- 
- RDEPENDS_${PN} = "avahi-daemon"
- 
+----
+- meson.build | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/meson.build b/meson.build
+-index 3986273..ae2f65e 100644
+---- a/meson.build
+-+++ b/meson.build
+-@@ -164,7 +164,6 @@ subdir('tools')
+- subdir('tests')
+- 
+- subdir('data')
+--subdir('help')
+- subdir('po')
+- 
+- meson.add_install_script('build-aux/meson/post_install.sh')
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch b/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
+deleted file mode 100644
+index f75ddad43a1..00000000000
+--- a/meta/recipes-kernel/sysprof/files/define-NT_GNU_BUILD_ID.patch
++++ /dev/null
+@@ -1,22 +0,0 @@
+-On uclibc elf.h does not have GNU extentions but we need this define
+-so we define it locally if its not getting it from elf.h
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+-Upstream-Status: Pending
+-
+-Index: git/elfparser.h
+-===================================================================
+---- git.orig/lib/util/elfparser.h	2011-07-16 18:57:41.000000000 -0700
+-+++ git/lib/util/elfparser.h	2011-07-16 20:28:54.733829895 -0700
+-@@ -17,6 +17,10 @@
+-  */
+- #include <glib.h>
+- 
+-+#ifndef NT_GNU_BUILD_ID
+-+#define NT_GNU_BUILD_ID 3
+-+#endif
+-+
+- typedef struct ElfSym ElfSym;
+- typedef struct ElfParser ElfParser;
+- 
+diff --git a/meta/recipes-kernel/sysprof/sysprof_3.32.0.bb b/meta/recipes-kernel/sysprof/sysprof_3.32.0.bb
+deleted file mode 100644
+index b92933806cf..00000000000
+--- a/meta/recipes-kernel/sysprof/sysprof_3.32.0.bb
++++ /dev/null
+@@ -1,32 +0,0 @@
+-SUMMARY = "System-wide Performance Profiler for Linux"
+-HOMEPAGE = "http://www.sysprof.com"
+-LICENSE = "GPLv3+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://src/sp-application.c;endline=17;md5=40e55577ef122c88fe20052acda64875"
+-
+-GNOMEBASEBUILDCLASS = "meson"
+-inherit gnomebase gettext systemd upstream-version-is-even gsettings
+-
+-DEPENDS = "glib-2.0 libxml2-native glib-2.0-native"
+-
+-SRC_URI[archive.md5sum] = "d1fa9ad216419d722770ca36713ad3af"
+-SRC_URI[archive.sha256sum] = "fc22a69e468701c5ec9036e960c6273afa1ed6a89df1f889fed49417add5554d"
+-SRC_URI += " \
+-           file://define-NT_GNU_BUILD_ID.patch \
+-           file://0001-Do-not-build-anything-in-help-as-it-requires-itstool.patch \
+-           "
+-
+-PACKAGECONFIG ?= "${@bb.utils.contains_any('DISTRO_FEATURES', '${GTK3DISTROFEATURES}', 'gtk', '', d)}"
+-PACKAGECONFIG[gtk] = "-Denable_gtk=true,-Denable_gtk=false,gtk+3"
+-PACKAGECONFIG[sysprofd] = "-Dwith_sysprofd=bundled,-Dwith_sysprofd=none,polkit"
+-
+-SOLIBS = ".so"
+-FILES_SOLIBSDEV = ""
+-
+-SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains('PACKAGECONFIG', 'sysprofd', 'sysprof2.service', '', d)}"
+-
+-FILES_${PN} += " \
+-               ${datadir}/dbus-1/system-services \
+-               ${datadir}/dbus-1/system.d \
+-               ${datadir}/metainfo \
+-               "
 -- 
 2.17.1
 
