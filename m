@@ -1,50 +1,51 @@
 Return-Path: <yamane07ynct@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A7337FB3E
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
+	[209.85.216.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 386E97FB3E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2019 08:42:52 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id w62so822147pfw.8
+	Wed, 18 Dec 2019 08:42:54 +0000 (UTC)
+Received: by mail-pj1-f54.google.com with SMTP id w23so554685pjd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2019 00:42:53 -0800 (PST)
+	Wed, 18 Dec 2019 00:42:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=e3lLE4U8JgGYN5vwb3nqBBEn6HS6qBXMNNq30YZg14o=;
-	b=Wnq0f2eMWVsqAqvP2HITrNZY7YRgMgtsRclMf2urfLDsQ4Udq7PGDKe3XfNs7H71ce
-	+189h6DN0DFLXbZWjQ4nfopal2rrPDq07DQB4pXNSfItkQLtShLpyw9dhfr5KF8u/Giq
-	nTmOkfYluD2B5XJ7xyoUwLxh2G9KCZyzcMNO9oJhYAb1nI9u/+RNCdL9Uuu1ymJrbZb2
-	Hdbw/4zd3c4D8L1iyL3tZ3e6oG40Yp9gXP1uclrxiCPy5o01+eq6Uk31Y7FKdBTimx1d
-	n5pUZ1X7P4lDjo4K4xeCQmg0xwIuYLqwaPa+yHOw9mKJ31Yn/UtNqGSzUPVEPa+02j8X
-	+d3Q==
+	bh=uU79ZyFgnfTE16fskDvluN7JzmuiCYIRBaSm87lzxPA=;
+	b=Q/MvFYnh4raGnAPYYyZ4BGTZNxttHZzJjs8dgodlO5C2agtYuafBRaUuSwVWWl83aC
+	MlrxhzrnX8mEQS1ElsQG4LlcFcInhxlzmHaACSjpWvqYhTBVNLvzzRAzVsF1cpg2zgCa
+	dAWF2oWn8EhsAHo0uEK0AAYkZqFWH+i24B+5/UAkleSSCrnZ0Unp6aDQ1COwP69Zu9xx
+	3AgQcseznSed7X/302EdkPkq2mZtEAOeU+dA4788sX1X494IyyGCFc/62qN6lIvkRuOn
+	clGN8GH5HZt07tZjk/bdEGrM/FQUu8RBEKoePI5hYQYh3KZLn/a/ytY6lzTqpNfdDVUW
+	cP8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=e3lLE4U8JgGYN5vwb3nqBBEn6HS6qBXMNNq30YZg14o=;
-	b=kkg5WWH5Vntbv9/7Zhqa6axM4xpu0De10V7OptQHyV9emZWPNXVv9cmvD3Ft4XpY5I
-	3X2PzheymgWus8tnX56x7udJV3yUtjAykLgYm7t/IX1rYpPHyCV+tRQYcIbS4p4joJ43
-	760N9cDOre+mom4lhn1CEVTJVvYJhaGhWj6oYZyawrr3Gqh1C1Bjz+1Pdbrxltsp6OI4
-	BpwIieIqIAtK7YUQ2YmCI6dM1ciuOVZRNjaVcerZ+Ex9LvrUFoFT9rS3RT9U3f4eYsH3
-	EJQG1qapVk9MnZxk/pqMp2fHnOvah8i+V58A6IIft1hwqtCG2XCJHEehqsY7aDnlo29P
-	M2eQ==
-X-Gm-Message-State: APjAAAXjRz3fFUiwmQcBW0a+v9LZ20MiWm+0J7PrLTCo1yM/CusqdsMf
-	Um006e+iJS98tAhXOFJzYv8RtVw5
-X-Google-Smtp-Source: APXvYqzrpyJq1S3MRnSvd7HzQGsCIqGF2mdlRv4gx28r8BbcPDN5AxTl3l2OaICcMdwMKAVHLjyOOw==
-X-Received: by 2002:a63:2fc4:: with SMTP id v187mr1718164pgv.55.1576658573257; 
-	Wed, 18 Dec 2019 00:42:53 -0800 (PST)
+	bh=uU79ZyFgnfTE16fskDvluN7JzmuiCYIRBaSm87lzxPA=;
+	b=SOOepX89BuzPUAcLcRxrCvI8tDtYyhzXM0i7vzNhC9ATYsB6chNri8WN5KqCgq1zXi
+	RmFBWC3VxZf+1kl0E1xtJF0nQKj64aRvSM/iUfBWdhbOSKO74JhK+2VgB8hBXMw5NyoU
+	hOUUTVZBLjIELZfxF6m+ComxuzTW1AzFI5mWdyloW0CtBXgIKb1NKyr7l8T8rWRolVot
+	k0cY5+ktYK0Rdsu6ZnH2BZcVfGRJT0/2NFZLkpgLNAxBPHrFTZouqTkWlIoaprRN2MSv
+	WekvhPS1CupjdTZZZbnq1Foj+Wz3WeITGhfcQl54Whg6WBmMssxjTV7DvvMJ4e3yaDhZ
+	IOcw==
+X-Gm-Message-State: APjAAAUT3e5ZXI9l6+VUdSvD4QTqquTL0bKeMSeEhXj7ZE7l5ZetUs9k
+	7rEh9dAsmwvRNP7Qulfp3PnNvz3R
+X-Google-Smtp-Source: APXvYqz5+rQMaXQ+Wjcne8NlVeVRAEPdiRtJc1ikADpJHfFEdGZ6tTPmHkipQQsdbjyytPH154K1zw==
+X-Received: by 2002:a17:90a:804a:: with SMTP id
+	e10mr1445082pjw.41.1576658575283; 
+	Wed, 18 Dec 2019 00:42:55 -0800 (PST)
 Received: from localhost.localdomain (softbank060117076056.bbtec.net.
 	[60.117.76.56]) by smtp.gmail.com with ESMTPSA id
-	a12sm1988889pga.11.2019.12.18.00.42.52
+	a12sm1988889pga.11.2019.12.18.00.42.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 18 Dec 2019 00:42:52 -0800 (PST)
+	Wed, 18 Dec 2019 00:42:54 -0800 (PST)
 From: Daisuke Yamane <yamane07ynct@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Dec 2019 08:42:44 +0000
-Message-Id: <1576658565-16680-2-git-send-email-yamane07ynct@gmail.com>
+Date: Wed, 18 Dec 2019 08:42:45 +0000
+Message-Id: <1576658565-16680-3-git-send-email-yamane07ynct@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1576658565-16680-1-git-send-email-yamane07ynct@gmail.com>
 References: <1576658565-16680-1-git-send-email-yamane07ynct@gmail.com>
-Subject: [PATCH v2 2/3] u-boot-tools: Add capability of building from out-of-tree
+Subject: [PATCH v2 3/3] u-boot: Move B from u-boot.inc to u-boot-common.inc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2019 08:42:52 -0000
+X-List-Received-Date: Wed, 18 Dec 2019 08:42:54 -0000
 
-This patch also helps to build with EXTERNALSRC.
+Use the same value of B between u-boot, u-boot-fw-utils and u-boot-tools.
+This patch also enable the out-of-tree builds of u-boot-fw-utils and
+u-boot-tools actually.
 
 Signed-off-by: Daisuke Yamane <yamane07ynct@gmail.com>
 ---
- meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-bsp/u-boot/u-boot-common.inc | 1 +
+ meta/recipes-bsp/u-boot/u-boot.inc        | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
-index bede984..414ee33 100644
---- a/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
-+++ b/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
-@@ -25,14 +25,14 @@ SED_CONFIG_EFI_armeb = ''
- SED_CONFIG_EFI_aarch64 = ''
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index a0f9c41..48402e4 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -21,3 +21,4 @@ SRC_URI = "git://git.denx.de/u-boot.git \
+           "
  
- do_compile () {
--	oe_runmake sandbox_defconfig
-+	oe_runmake -C ${S} sandbox_defconfig O=${B}
+ S = "${WORKDIR}/git"
++B = "${WORKDIR}/build"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 55d8b47..ec77762 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -1,8 +1,6 @@
+ SUMMARY = "Universal Boot Loader for embedded devices"
+ PROVIDES = "virtual/bootloader"
  
- 	# Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
- 	# generating it requires bin2header tool, which for target build
- 	# is built with target tools and thus cannot be executed on host.
--	sed -i -e "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" ${SED_CONFIG_EFI} .config
-+	sed -i -e "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" ${SED_CONFIG_EFI} ${B}/.config
+-B = "${WORKDIR}/build"
+-
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
  
--	oe_runmake cross_tools NO_SDL=1
-+	oe_runmake -C ${S} cross_tools NO_SDL=1 O=${B}
- }
- 
- do_install () {
+ DEPENDS += "kern-tools-native"
 -- 
 2.7.4
 
