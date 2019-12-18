@@ -1,26 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 25DB07FEC9
+	by mail.openembedded.org (Postfix) with ESMTP id 3011890A93
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2019 03:21:10 +0000 (UTC)
+	Wed, 18 Dec 2019 03:21:11 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Dec 2019 19:21:11 -0800
-X-IronPort-AV: E=Sophos;i="5.69,327,1571727600"; d="scan'208";a="205701763"
+	17 Dec 2019 19:21:12 -0800
+X-IronPort-AV: E=Sophos;i="5.69,327,1571727600"; d="scan'208";a="205701767"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.17.193])
 	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	17 Dec 2019 19:21:10 -0800
+	17 Dec 2019 19:21:11 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Dec 2019 11:20:55 +0800
-Message-Id: <3202d1aed01e7bb620a0a862eac3ac4e7151ee54.1576638856.git.anuj.mittal@intel.com>
+Date: Wed, 18 Dec 2019 11:20:56 +0800
+Message-Id: <2e40289582c3223776d7658bac6595669b8dc2c9.1576638856.git.anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <cover.1576638856.git.anuj.mittal@intel.com>
 References: <cover.1576638856.git.anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [zeus][PATCH 7/9] qemu-helper-native/systemtap-native: Ensure sysroots are populated with dependencies
+Subject: [zeus][PATCH 8/9] systemd-systemctl: Fix handling of aliased targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,55 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2019 03:21:10 -0000
+X-List-Received-Date: Wed, 18 Dec 2019 03:21:11 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Slavic Brutalik <no@good.com>
 
-As Alex Kanavin found, dependencies aren't always populated, particularly
-with the hash equivalence server enabled locally:
+The script scans for services, parses them and makes sure those targets are still
+there. The exists file check fails if the target is an alias, such as default.target
+so add an additional test.
 
-'bitbake core-image-minimal' with gtk+ disabled.
-can confirm with: $ tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-x86_64 -display gtk
-qemu-system-x86_64: Display 'gtk' is not available.
-Enable gtk in local.conf with: PACKAGECONFIG_append_pn-qemu-system-native = " gtk+"
-'bitbake core-image-minimal', without deleting tmp/
-$ tmp/work/x86_64-linux/qemu-helper-native/1.0-r1/recipe-sysroot-native/usr/bin/qemu-system-x86_64 -display gtk
-qemu-system-x86_64: Display 'gtk' is not available.
+[YOCTO #13685]
 
-This change ensures the dependencies are correctly handled as the full
-sysroot is always depended upon even if things come from sstate.
+(From OE-Core rev: 10bdbf033e51c97f6408c9114d480372135a2c2e)
 
-(From OE-Core rev: d40853b10dd9f01d6a8dd4edcb941cfa8a544922)
-
+Signed-off-by: Werner Grift <sky.captin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/cross.bbclass  | 1 +
- meta/classes/native.bbclass | 1 +
- 2 files changed, 2 insertions(+)
+ meta/recipes-core/systemd/systemd-systemctl/systemctl | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cross.bbclass b/meta/classes/cross.bbclass
-index f832561daf..6dcddd6f2e 100644
---- a/meta/classes/cross.bbclass
-+++ b/meta/classes/cross.bbclass
-@@ -97,3 +97,4 @@ python do_addto_recipe_sysroot () {
-     bb.build.exec_func("extend_recipe_sysroot", d)
- }
- addtask addto_recipe_sysroot after do_populate_sysroot
-+do_addto_recipe_sysroot[deptask] = "do_populate_sysroot"
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index d5b6f6af8b..3a4f572552 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -186,6 +186,7 @@ python do_addto_recipe_sysroot () {
-     bb.build.exec_func("extend_recipe_sysroot", d)
- }
- addtask addto_recipe_sysroot after do_populate_sysroot
-+do_addto_recipe_sysroot[deptask] = "do_populate_sysroot"
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index ebac863739..990de1ab39 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -172,7 +172,7 @@ class SystemdUnit():
+     def _path_for_unit(self, unit):
+         for location in locations:
+             path = self.root / location / "system" / unit
+-            if path.exists():
++            if path.exists() or path.is_symlink():
+                 return path
  
- inherit nopackages
- 
+         raise SystemdUnitNotFoundError(self.root, unit)
 -- 
 2.21.0
 
