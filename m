@@ -1,52 +1,18 @@
-Return-Path: <nick83ola@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D305F7FD69
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 14:54:11 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id d139so7236129wmd.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 06:54:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=6GE95Nowgv2j0PnQ//R4G6yRfb7bBKg6V0cy5Fqg6KE=;
-	b=sD94J79qELc3pFc3gklM5hb0fiZYaD06M2eYpf/Zrgugxp0T4GbW0z8hcanx5XVkzf
-	cdg0gc1VZA4iZe74Obxwypl3iIAWD4GXwgaQ3UydCJTWIlYON+Aedr6ST26CxWYH/jyY
-	H5GUf1/M4XkaM4vMo8YtWyA8Nf/J28pdHYAJEl5XW7OV5YfgAgDbGmtbA/rZRbYx4FNp
-	957rv29W4S9IgcwJWoyjaWMmWmrWYrWGWhaXZsuv/Few/KJux/maygxczSKak8H4JBRz
-	6Y8enFRs7YFE8fuPiVWzNPxZ14ANp/Fpqv987eNsWFIsU+zHRfxEetb6VwHaQCR0xLKv
-	F8jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=6GE95Nowgv2j0PnQ//R4G6yRfb7bBKg6V0cy5Fqg6KE=;
-	b=EC1Wa+2/KtMvZML6a1f5nFHQMIfk6rux5LG0nTQZ0v2+TXTkHpDDDN4HD9vg7DuvoX
-	0xhXbgb8u1PNKJBe/heBrMUI5nKKVdvcNMsSxz6iPKjYVZv8eCqQIyzlI4Oi+KGqrkVh
-	CZMaEIwQB8iMhOhL9PgczIrZekrqBs86yu1yujPYDHGa/tZripHW00R0p3rht5bXpQt1
-	W8CRnaCadK+RvR1kWgiZJwrilXL+cZSZgScRhwPi8cXT6Ia6+RUzd1nEJvjKml3xG7B7
-	5wEhSCiVUodECLwlbd7/7X0TjCZ8EkY7c7KIHVpuh8xFtA6sjTXgUpmKpL7FkY/sLJhK
-	JvJg==
-X-Gm-Message-State: APjAAAUz06iiwrnBY6zN1BibUoIxboDQPZL1qPd15jEH7kjTbhnTNvpe
-	jZJ01lbXr/FvC/7kgvz9MjB5vU3+6F4=
-X-Google-Smtp-Source: APXvYqyPSw5yCOlQTo9P+ZfgNlio7KhGzuS8+Sxp7xW7p5Uf2a17zEK4GUCH/Dh3d9UtNWWFfoublA==
-X-Received: by 2002:a1c:1b15:: with SMTP id b21mr9811921wmb.17.1576767251861; 
-	Thu, 19 Dec 2019 06:54:11 -0800 (PST)
-Received: from nick-bbestie.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	u13sm6378445wmd.36.2019.12.19.06.54.10
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Dec 2019 06:54:11 -0800 (PST)
-From: Nicola Lunghi <nick83ola@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Dec 2019 14:53:23 +0000
-Message-Id: <20191219145322.31083-2-nick83ola@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20191219145322.31083-1-nick83ola@gmail.com>
-References: <20191219145322.31083-1-nick83ola@gmail.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AA6E7FCDB;
+	Thu, 19 Dec 2019 15:02:21 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] bitbake: fetch2/wget: checkstatus: use the same arguments as parent
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: nick83ola <nick83ola@gmail.com>
+Date: Thu, 19 Dec 2019 15:02:23 -0000
+Message-ID: <20191219150223.2274.9981@do>
+References: <20191219145322.31083-1-nick83ola@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20191219145322.31083-1-nick83ola@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImJpdGJha2U6IGZldGNoMi93Z2V0OiBjaGVja3N0YS4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,63 +25,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Dec 2019 14:54:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 19 Dec 2019 15:02:21 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-the commit:
-  312f1a5e741: bitbake: fetchption: attempt checkstatus again if it fails
+== Series Details ==
 
-was introducing an extra parameter to the checkstatus function, overriding
-the parent.
+Series: "bitbake: fetch2/wget: checksta..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/21688/
+State : failure
 
-Avoid that and remove recursion as is not needed.
-Also introduce a small delay between the two requests.
+== Summary ==
 
-Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists [test_target_mailing_list] 
+  Suggested fix    Send the series again to the correct mailing list (ML)
+  Suggested ML     bitbake-devel@lists.openembedded.org [http://git.openembedded.org/bitbake/]
+  Patch's path:    bitbake/lib/bb/fetch2/wget.py
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at d6c62cc030)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- bitbake/lib/bb/fetch2/wget.py | 21 ++++++++++++++++-----
- 1 file changed, 16 insertions(+), 5 deletions(-)
-
-diff --git a/bitbake/lib/bb/fetch2/wget.py b/bitbake/lib/bb/fetch2/wget.py
-index 180fe9aacd..9c0defb6d2 100644
---- a/bitbake/lib/bb/fetch2/wget.py
-+++ b/bitbake/lib/bb/fetch2/wget.py
-@@ -201,7 +201,7 @@ class Wget(FetchMethod):
- 
-         return True
- 
--    def checkstatus(self, fetch, ud, d, try_again=True):
-+    def checkstatus(self, fetch, ud, d):
-         class HTTPConnectionCache(http.client.HTTPConnection):
-             if fetch.connection_cache:
-                 def connect(self):
-@@ -404,10 +404,21 @@ class Wget(FetchMethod):
-                 pass
-             return True
-         except urllib.error.URLError as e:
--            logger.debug(2, "checkstatus() urlopen failed: %s" % e)
--        if try_again:
--            logger.debug(2, "checkstatus: trying again")
--            return self.checkstatus(fetch, ud, d, False)
-+            logger.debug(2, "checkstatus() urlopen failed: %s", e)
-+
-+        # Some services such as SourceForge seem to struggle to keep up under
-+        # load, with the result that over half of the autobuilder checkuri
-+        # runs fail with sourceforge.net "connection timed out". Attempt to
-+        # mitigate this by re-attempting once the network operation on failure.
-+        import time
-+        time.sleep(0.2)
-+        logger.debug(2, "checkstatus: trying again")
-+        try:
-+            with opener.open(r) as response:
-+                pass
-+            return True
-+        except urllib.error.URLError as e:
-+            logger.debug(2, "checkstatus() urlopen failed for the second time: %s", e)
-         return False
- 
-     def _parse_path(self, regex, s):
--- 
-2.20.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
