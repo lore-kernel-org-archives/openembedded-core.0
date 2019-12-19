@@ -1,51 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
-	[209.85.221.195])
-	by mail.openembedded.org (Postfix) with ESMTP id BB0DB7FD71
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D2827FD74
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 21:07:06 +0000 (UTC)
-Received: by mail-vk1-f195.google.com with SMTP id b129so2038192vka.4
+	Thu, 19 Dec 2019 21:19:00 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id cy15so6285667edb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 13:07:08 -0800 (PST)
+	Thu, 19 Dec 2019 13:19:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hgjef4S/+EZAzy3FBIh4FHCx5ArHZoi9G+bQOYEXlmE=;
-	b=D5ar4E7WqtAMtgRSoGv03Sx7UDwGhwFxbTFmPw5FB+1H5dWTh9h5+inf2ie6tpPHXT
-	DVWoOA83+vKOmg5h72gQ8Ht/Bg3BIMsINaN+5RWL8oNUONhkBF0moSpHNXJYfDW2Ou+2
-	6Ibk7L/3iN8rnNF5qPjLucEVly48kGV5AsquR/vT4l1uJmxAq1Rfmn/47+R6frE/JA6C
-	uAGN3C6p9QoH37Sywn4/V+UR15+EbwKoGw0sKM3Ltn6xt8i1omViFohI5pzFwd/9Lvvj
-	fTKPvf1WsP1nqBtijrk3vHob9l6RsREc4FkyvxyrdW4jqm/ZA3zsNMrQ8U2sjUdpQ3xm
-	yr7w==
+	:cc; bh=y9VPKCXECAkz6uoPRcozOFBKlnN5Te37qjX/whDwjVI=;
+	b=gQOaFdEI2DylNhZEEQLjVgmfgcgQ/bkA+MH0kKLLnhSnwSZEVTuh2+iHaXzbiX6qh6
+	LKVGsotxqoqBPo5QL5fBNgIGThaAntfMGtmT14quDF3/GP0CdWzy+yKnfR8+dy9SIEuS
+	Ryb4wy6YAV6YHkBHB3q+7f3l30uGC7fiv4TPxY776/UMOBE8prJYbzZfoNhXEvH8wG7W
+	fgNlFQp3QWKFy5Dn7mJdBLcFH0lHHQTvLyTFa12Oo4cBWrTd23HiQh86PFb+WliSsIJg
+	+DPXKPTKdGKAYeQ5jVhT9dhpSf79aqJZn0ZIoQQjvp9dab311U+SrMWlwZszlbtNzRz2
+	ORKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=hgjef4S/+EZAzy3FBIh4FHCx5ArHZoi9G+bQOYEXlmE=;
-	b=PWoZEmKTjF7HPu+zT7EtcpNU9gLcIYEY1YaKLHmhfC9FmDO3pz4KxKfkTEE3/LFdI2
-	awQzDQZEI/juKEhwgMdyEOV88wgwM+/ezDj+pvc4PvmgvEP5oSozU5Q+z5P/R4nIZIER
-	cGBg3KdonHrz1Lqp8DVxyk9ODPGlv68rqjAMCMbJDP43kIY1A3vY+/y+kDqh/O/st467
-	0bPYlsLYtj65fCiRkN+wWAzCckO6Sn+h8vnOMBNTmRcXqGoglhBBDHgDMVKv7wv7z3/D
-	fRrkAUonLj4f5cgmslYR87KZvKP7ZfkKEaQ7b5Y6WrjyhMmbG7Y1rfDX++euIs4wS7xV
-	Amug==
-X-Gm-Message-State: APjAAAV1y8Z5c4H1M7uDC4JYOC6jqWyry8eiASZ83+RRt3YmIpAc1eFe
-	HMrCNZkZ9mNw8M9AmxIY/yu7aozZWWAw5nNZ0bA=
-X-Google-Smtp-Source: APXvYqygfZPUv0n9vkRdtNk95Fee/OiH44Ml9J6LxQFOs1S7CY1Mmc1Yswsk5lWkNjWNeDwF4bvtTHTBUs7WIwsFkfA=
-X-Received: by 2002:a05:6122:2b6:: with SMTP id
-	22mr7371038vkq.49.1576789627688; 
-	Thu, 19 Dec 2019 13:07:07 -0800 (PST)
+	bh=y9VPKCXECAkz6uoPRcozOFBKlnN5Te37qjX/whDwjVI=;
+	b=ZJ3wEhcHNqin3G07Uqi8hoUzDVmbXVWawej5EqvyzUO5qgZwCiteRcqHl473IpNys3
+	zsvU9Jw8cLXRdUMhfbDbmhggFkV+I7/Ive0z0oaWJIsba6ppo6MKC+9kLkn86xK1rulC
+	VqtYoVOiODJHY1vRK4gaLYOjrAuVvWVNwN5CHm/zD1A5L5KZ6J+IJ/JvAQFk5Xy1JNa6
+	qrlszoepSTWRCimm9dQa0mq9v7JS+mvja9xq+NNJZMg94qrGwqLerGxswaLqpulS7uLw
+	7Jhg47WB2F9oLFfecmn8JB1/SZ3NTCl8jduUcoY0d5wOeKMT1ZnxIOahhZEKLVNsZoxl
+	3TFA==
+X-Gm-Message-State: APjAAAXIPJVG2yamTya7WqETqtQUl+jbZ9gnDN+VeUESp42ybOMJR/HG
+	XhmHooI4m2y2tb1MXUV+g22IujZyHLA8RwjIOTqCrSgMmN8=
+X-Google-Smtp-Source: APXvYqwQGV/lz1ICD7q0+IC7Lp22hfw5tk2OQH+YF/TOC0QT6vLznGkB/ma6VSr72eDoehPhzNHYFhmv/C3cKAy+kP8=
+X-Received: by 2002:a17:906:64cf:: with SMTP id
+	p15mr11969732ejn.259.1576790340873; 
+	Thu, 19 Dec 2019 13:19:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20191218143758.129308-1-alex.kanavin@gmail.com>
-	<20191218143758.129308-12-alex.kanavin@gmail.com>
-	<8c5d060d-c77e-d6ef-cd41-672724245cb6@intel.com>
-	<1d5a83ad-7b87-9c13-0c10-c05fb52ea539@intel.com>
-	<CANNYZj8PXt_yqtusUTxO-gVs=tzBHa2bj2H-H40_ur-kkGB1dQ@mail.gmail.com>
-In-Reply-To: <CANNYZj8PXt_yqtusUTxO-gVs=tzBHa2bj2H-H40_ur-kkGB1dQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 19 Dec 2019 22:06:56 +0100
-Message-ID: <CANNYZj_1R5V3zyT1-URfhhN4yXg7XcG51i-xRSqWJFgrhdfjvA@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 12/25] acl/attr: update to latest upstream releases
+References: <20191219183759.3122153-1-JPEWhacker@gmail.com>
+	<CADkTA4OMM33MdUyup93ga3HGY96WHJtSvLRLWw=YtQSejQ=0gQ@mail.gmail.com>
+	<9365317d-d1d5-33f9-6769-14bf8af5a7a4@gmail.com>
+	<CADkTA4OBW-n0ki0HsbS1xrSX9ehDawboieMCxOMeyEhH_2=mMw@mail.gmail.com>
+	<CAJdd5GZF4HT_UOkYdOMVGMtp2z_A5bCeWW3bEG9+aU6RgeDyQw@mail.gmail.com>
+In-Reply-To: <CAJdd5GZF4HT_UOkYdOMVGMtp2z_A5bCeWW3bEG9+aU6RgeDyQw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 19 Dec 2019 16:18:49 -0500
+Message-ID: <CADkTA4N_P0B+GrwUumub+dFCM3mDEb5NMSb-JpUJN+7zK9n28Q@mail.gmail.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] classes/kernel-yocto: Apply patches from BSP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,55 +59,158 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Dec 2019 21:07:08 -0000
-Content-Type: multipart/alternative; boundary="000000000000a4dc85059a14f125"
-
---000000000000a4dc85059a14f125
+X-List-Received-Date: Thu, 19 Dec 2019 21:19:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 19 Dec 2019 at 22:01, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> On Thu, 19 Dec 2019 at 21:56, Ross Burton <ross.burton@intel.com> wrote:
+On Thu, Dec 19, 2019 at 3:32 PM Joshua Watt <jpewhacker@gmail.com> wrote:
 >
->> > I don't think this was intentional?
->>
->> A more idiomatic way of handling this, although it would break
->> dependencies, would be to inherit bin_package.
->>
+> On Thu, Dec 19, 2019 at 1:30 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> >
+> > On Thu, Dec 19, 2019 at 1:53 PM Joshua Watt <jpewhacker@gmail.com> wrote:
+> > >
+> > >
+> > > On 12/19/19 12:45 PM, Bruce Ashfield wrote:
+> > > > On Thu, Dec 19, 2019 at 1:38 PM Joshua Watt <jpewhacker@gmail.com> wrote:
+> > > >> 0f698dfd1c8 ("kernel-yocto: streamline patch, configuration and audit
+> > > >> phases") appears to have inadvertently broken support for BSP .scc files
+> > > >> to provide patches for the kernel. Restore this behavior by adding
+> > > >> $bsp_definition to the list of files processed for patches.
+> > > >> Additionally, the logic can be simplified now that the same elements are
+> > > >> used for both configuration fragments and patches
+> > > > Unfortunately no, we can't do this.
+> > > >
+> > > > It would reapply all the patches that are already integrated into the
+> > > > tree, and that distinction is the key part of that change.
+> > > >
+> > > > What exactly are you trying to do ? Define a userspace BSP ? If so,
+> > > > there are examples of this and I can dig them up and send them along.
+> > >
+> > > We have a lot of boards running different SoCs (each with a different
+> > > vendor provided kernel) and we are trying to keep our sanity managing
+> > > all of the by using a metadata repo. So for example, we have a recipe
+> > > that pulls in vendor A's kernel directly from the upstream source, then
+> > > our local metadata repo which provides the scc files we need to
+> > > configure that repo. Inevitably, we end up needing to patch these
+> > > kernels, so I was hoping that we could provide the patches in the
+> > > metadata repo and add them to the BSP .scc file, but that wasn't working.
+> > >
+> >
+> > Right! It does make sense to keep the configs and patches together in
+> > that meta data repo.
+> >
+> > So you have your own kmeta repo, and that's where the BSP definitions
+> > that are being searched and found. Are those definitions completely
+> > standalone, or are they including some of the common yocto ktype
+> > definitions ? (It makes a difference to how they can be included).
 >
-> Yeah, the packaging was hidden under all the build hacks so I didn't spot
-> it. Let's do the inherit, library dependencies should be automatically
-> updated via shlibs.
+> I think they are standalone (e.g. they don't include any of the ktype files).
 >
+>
+> >
+> > I explained the details of the behaviour in an email on Oct 9th, with
+> > the title: "[yocto] Kernel patches pulled from BSP definition file are
+> > not applied.", so I won't repeat that long description here .. except
+> > to say that it is working as intended (but that doesn't mean it is set
+> > in stone .. see below ..). And yes, there are doc updates that need to
+> > happen for this to more clearly explain the design and options.
+> >
+> > That being said, there are a couple of things that can be done, and
+> > one that works right now:
+> >
+> > - The BSP definition SCC needs to be on the SRC_URI itself (as I
+> > describe in that other email), if your kernel recipe's have different
+> > names, that's doable. If they are under a common recipe, that of
+> > course would be harder (but you could use a variable for the MACHINE
+> > and have it work that way).
+>
+> Does that mean the BSP scc files need to be moved from our metadata
+> repo to live alongside the recipe, or is there some special sauce that
+> allows the scc to be specified in SRC_URI, but pulled from our kmeta
+> repo?
 
-*lib*_package :)
+At the moment, yes.  Since you need to specify it in SRC_URI where the
+fetcher can find it (obviously :D), which implies that it isn't in
+that separate kernel meta repository.
 
-Actually, that'd be many recipes to fix (attr -> attr-bin), so it's best to
-put the two lines back.
+What, if anything, do you currently have on your SRC_URI ? Just the
+kernel repo and your kernel meta data repo ?
 
---000000000000a4dc85059a14f125
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Let me see if I can come up with a simple way (probably patch) to avoid that.
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 19 Dec 2019 at 22:01, Alexander K=
-anavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com=
-</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gm=
-ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
-204,204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">On Thu, 19 Dec=
- 2019 at 21:56, Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" ta=
-rget=3D"_blank">ross.burton@intel.com</a>&gt; wrote:<br></div><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
- 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; I don&=
-#39;t think this was intentional?<br>
-<br>
-A more idiomatic way of handling this, although it would break <br>
-dependencies, would be to inherit bin_package.<br></blockquote><div><br></d=
-iv><div>Yeah, the packaging was hidden under all the build hacks so I didn&=
-#39;t spot it. Let&#39;s do the inherit, library dependencies should be aut=
-omatically updated via shlibs.</div></div></div></blockquote><div><br></div=
-><div>*lib*_package :)<br></div><div><br></div><div>Actually, that&#39;d be=
- many recipes to fix (attr -&gt; attr-bin), so it&#39;s best to put the two=
- lines back. <br></div></div></div>
+Bruce
 
---000000000000a4dc85059a14f125--
+>
+> >
+> > That's the one that works now.
+> >
+> > A second option would be if I inject some logic to differentiate an
+> > integrated BSP versus one that requires patching. That's a slippery
+> > slope back into the complex logic that used to be in place, but I can
+> > think of a few viable ways to do it.
+> >
+> > Definitely a use case we can support, it'll just take some tweaking.
+> >
+> > Cheers,
+> >
+> > Bruce
+> >
+> >
+> > Bruce
+> >
+> >
+> >
+> >
+> >
+> > >
+> > > >
+> > > > Bruce
+> > > >
+> > > >> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > > >> ---
+> > > >>   meta/classes/kernel-yocto.bbclass | 7 ++-----
+> > > >>   1 file changed, 2 insertions(+), 5 deletions(-)
+> > > >>
+> > > >> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> > > >> index ed9bcfa57c..08c02a8f50 100644
+> > > >> --- a/meta/classes/kernel-yocto.bbclass
+> > > >> +++ b/meta/classes/kernel-yocto.bbclass
+> > > >> @@ -193,12 +193,9 @@ do_kernel_metadata() {
+> > > >>                  if [ $? -ne 0 ]; then
+> > > >>                          bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+> > > >>                  fi
+> > > >> -       fi
+> > > >>
+> > > >> -       # run2: only generate patches for elements that have been passed on the SRC_URI
+> > > >> -       elements="`echo -n ${sccs} ${patches} ${KERNEL_FEATURES}`"
+> > > >> -       if [ -n "${elements}" ]; then
+> > > >> -               scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${sccs} ${patches} ${KERNEL_FEATURES}
+> > > >> +               # run2: generate patches
+> > > >> +               scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
+> > > >>                  if [ $? -ne 0 ]; then
+> > > >>                          bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+> > > >>                  fi
+> > > >> --
+> > > >> 2.23.0
+> > > >>
+> > > >> --
+> > > >> _______________________________________________
+> > > >> Openembedded-core mailing list
+> > > >> Openembedded-core@lists.openembedded.org
+> > > >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > > >
+> > > >
+> >
+> >
+> >
+> > --
+> > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > thee at its end
+> > - "Use the force Harry" - Gandalf, Star Trek II
+
+
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
