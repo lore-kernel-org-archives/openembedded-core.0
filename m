@@ -1,18 +1,31 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 828517C6F7;
-	Thu, 19 Dec 2019 11:32:18 +0000 (UTC)
+Return-Path: <ross.burton@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id A49987FDE4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Dec 2019 11:36:54 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Dec 2019 03:36:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,331,1571727600"; d="scan'208";a="218149963"
+Received: from brzodkie-mobl.ger.corp.intel.com (HELO blackadder.local)
+	([10.249.32.172])
+	by orsmga006.jf.intel.com with ESMTP; 19 Dec 2019 03:36:54 -0800
+To: openembedded-core@lists.openembedded.org
+References: <20191219051543.20185-1-alistair@alistair23.me>
+	<20191219051543.20185-2-alistair@alistair23.me>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <42acb127-07f7-8457-2f20-d8ce4c82e264@intel.com>
+Date: Thu, 19 Dec 2019 11:36:54 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:60.0)
+	Gecko/20100101 Thunderbird/60.9.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: shohei.maruyama@cybertrust.co.jp
-Date: Thu, 19 Dec 2019 11:32:19 -0000
-Message-ID: <20191219113219.2276.42710@do>
-References: <20191219111758.22827-1-shohei.maruyama@cybertrust.co.jp>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20191219111758.22827-1-shohei.maruyama@cybertrust.co.jp>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcWVtdTogQWRkIFBLR0NPTkZJRyBmb3IgZ2x1c3RlcmZz?=
+In-Reply-To: <20191219051543.20185-2-alistair@alistair23.me>
+Subject: Re: [PATCH v2 2/2] mesa: Upgrade to 19.3.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +38,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Dec 2019 11:32:18 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Thu, 19 Dec 2019 11:36:54 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+On 19/12/2019 05:15, Alistair Francis wrote:
+> Upgrade mesa to 19.3 and refresh the patches.
+> 
+> As MESA_EGL_NO_X11_HEADERS was renamed to EGL_NO_X11 in [1] we are going
+> to change the do_install and add a patch to libepoxy to use the new
+> define.
 
-Series: qemu: Add PKGCONFIG for glusterfs
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/21682/
-State : failure
+I just remembered last night that a Mesa .0 release isn't intended for use:
 
-== Summary ==
+"Mesa 19.3.0 is released. This is a new development release. See the 
+release notes for mor information about this release."
 
+19.3.1 was just released, we should ship that and change the version 
+checking regex to skip .0 releases.
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at d6c62cc030)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Ross
 
