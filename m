@@ -1,45 +1,55 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D1B377FDD3
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CAD7F7FD6B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 18:46:49 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id 203so5048701lfa.12
+	Thu, 19 Dec 2019 18:53:03 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id z12so5722524iln.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 10:46:51 -0800 (PST)
+	Thu, 19 Dec 2019 10:53:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Un2DExlu6wNEEGKOYEtfyESqND13js9bVuieId6+jEk=;
-	b=ULKB0J5dtlvYt3qa/+tRy2vVZzQ06PycFCG7vU24FVJWP/lu1DfgOfH1EUWpiJwXiZ
-	vak40Xljae9Z991DGzDMXxAV1VbSoIGpyMnE0hknt6WT0IdwWxsEjKNOlQcs1QCP1sVc
-	GGUWSBZezkktcOizneJ46cgdjqAHwgbV59KmQgzW8opcAC9eVADcn11PkLn9xT0XTaOk
-	RoLKkomrmrcAhPsSQbIc2ENxzbitHbxhZTjXfKoiByGP2y/RtWGXla2p94JA2NVLu2QR
-	tpju8GEom08MqHfJw1TRRF54hNXZpcWzvZnlTdU3MV+eqLiIgs66tpf1X1uB4JtTbpDq
-	zDjw==
+	h=from:subject:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=7vdp+b8epEdtTIgyqs2Tf+VGd4o70Ja3Mx1MU+wIyK4=;
+	b=tAcVabAEMSfUycpObe1/CsJjX+9adXEIe5DbJpC/HfRxFv+IqcLT+pIfl6YxmOZi7R
+	UZQ9rK8a1/uy5L8nVVyLtlGfYQbnex39RrRZ8kkOuGgDyS8Mqwdne8jO8Ib8inpDBnML
+	k81OKYOjEl8SA+wehVHy203QEuShp59ZXh+YAAoU+XeSPy68vXp39xOOKyUJimHhLj3G
+	lj+gWezdNa6+VY/b6Xc6WEN4uX8bf1VLdhnl7dbHfDI0JnK4IqNPgrQgucgsrUa4Mn33
+	lhwATDzLXrigmgUeFllHB+Ffi0waoiwm5eiWgNTfS0Oi9VPWCzg4GUisZa7cVTOIBR2G
+	KLIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Un2DExlu6wNEEGKOYEtfyESqND13js9bVuieId6+jEk=;
-	b=QfuV9nS2rIg+hv60DmNmgY/Z4BcieA7QZJ3Oyrlt596J4vILeeKGlDrIR490L0uixS
-	q18y9ifn7GQGXbLkI4sAdw03cfona33hCcvAjMrJukFIaHaDB5vS371hjGuAKOCtJTUC
-	2vKSf1h/8hSNWFSjpjCFXT4bznpUVpvhss2fcBoSdiUjs+X5W6g38us5AfQgcsfuhSyN
-	6cdYRGQ09aaT5//QRcnuSS7SLQB/ohS0VsAh2XtX5Kt3Zya2qsQqPxyB9u1pIFZtjaGf
-	949PRFdj9mmEdDcE1MDXrgH1XQuJ/i+lPvDjL++ij5rIzp95gDgJ6qWpnqHkNiu/VVTu
-	7ngg==
-X-Gm-Message-State: APjAAAUSFSntaSuQipxXvCt/3zWOKX7PDy9tnfigiFBVYOEQe6TOwgTW
-	UQSaQbGJ1kq9EILQHYTeOMReTxAmJIkwdbldUGw=
-X-Google-Smtp-Source: APXvYqySr9GVw1rwfOAyGc9l0BmTNhOIqNTIzbJ22j9ScYOnbPv8e0Tw3jMhnsYBaUDx60YaFYT4A3BYIyDnxP6GMsY=
-X-Received: by 2002:ac2:57cc:: with SMTP id k12mr6694988lfo.36.1576781210361; 
-	Thu, 19 Dec 2019 10:46:50 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=7vdp+b8epEdtTIgyqs2Tf+VGd4o70Ja3Mx1MU+wIyK4=;
+	b=hwkBfbIveKMkauFj8F0PmEeFBbwO+prSFlivBGOO8ka9Ffnfo7/iDVRNj/2Yg/kdyn
+	WYS/PBdSUtCesSLjkY61IA1EUoI3UTrU1BxlXwAJ8Cn3b/lNIFVUL+TggnDqa32IDDrP
+	y4hDVNwmJzpHkIq+KGhAYmkBBIfwzQLg1OVHhCb/z7D/73yCvqfFIeJ3AnnXpPJUEtFE
+	Ln+XTvwdZt+7TJ4MdhOzfa6/wRq0k19+DsyRaz/NicOdMUiLxg/XBt1uqHlVOlkF2C5L
+	ISagqFLY1e+h8JdtaLnjdWVJ+vkzLujoj8mumDtKqzUuvFdFA5DJ/nluCJhUbe/OAVLy
+	SUWA==
+X-Gm-Message-State: APjAAAW3SW67MBrKcTfaVwYhH2VqjgYmO7dIPjtjypbSFS9usEfJAqAg
+	/HEF5reRLivwrUUXO07tIE4zR92mMiA=
+X-Google-Smtp-Source: APXvYqzlqmVEdKoh8Om+yzh0XUtNi6N8iRZmDLRaijayEt5AvgwjE9Kti8xPzMdPdCdLKkagHNIomQ==
+X-Received: by 2002:a92:af08:: with SMTP id n8mr8237743ili.217.1576781584701; 
+	Thu, 19 Dec 2019 10:53:04 -0800 (PST)
+Received: from [10.30.196.43] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	j88sm2863540ilf.83.2019.12.19.10.53.03
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Thu, 19 Dec 2019 10:53:04 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 References: <20191219183759.3122153-1-JPEWhacker@gmail.com>
 	<CADkTA4OMM33MdUyup93ga3HGY96WHJtSvLRLWw=YtQSejQ=0gQ@mail.gmail.com>
+Message-ID: <9365317d-d1d5-33f9-6769-14bf8af5a7a4@gmail.com>
+Date: Thu, 19 Dec 2019 12:53:03 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.2.2
+MIME-Version: 1.0
 In-Reply-To: <CADkTA4OMM33MdUyup93ga3HGY96WHJtSvLRLWw=YtQSejQ=0gQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 19 Dec 2019 13:46:39 -0500
-Message-ID: <CADkTA4PzLqCKrY1Aa4xqwxh_4YW096Om0GybkQ84+EkiEcLvyw@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] classes/kernel-yocto: Apply patches from BSP
@@ -55,80 +65,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Dec 2019 18:46:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 19 Dec 2019 18:53:05 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Thu, Dec 19, 2019 at 1:45 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
+
+On 12/19/19 12:45 PM, Bruce Ashfield wrote:
 > On Thu, Dec 19, 2019 at 1:38 PM Joshua Watt <jpewhacker@gmail.com> wrote:
-> >
-> > 0f698dfd1c8 ("kernel-yocto: streamline patch, configuration and audit
-> > phases") appears to have inadvertently broken support for BSP .scc files
-> > to provide patches for the kernel. Restore this behavior by adding
-> > $bsp_definition to the list of files processed for patches.
-> > Additionally, the logic can be simplified now that the same elements are
-> > used for both configuration fragments and patches
->
+>> 0f698dfd1c8 ("kernel-yocto: streamline patch, configuration and audit
+>> phases") appears to have inadvertently broken support for BSP .scc files
+>> to provide patches for the kernel. Restore this behavior by adding
+>> $bsp_definition to the list of files processed for patches.
+>> Additionally, the logic can be simplified now that the same elements are
+>> used for both configuration fragments and patches
 > Unfortunately no, we can't do this.
 >
 > It would reapply all the patches that are already integrated into the
 > tree, and that distinction is the key part of that change.
 >
 > What exactly are you trying to do ? Define a userspace BSP ? If so,
-
-s/userspace/recipespace/
-
-Bruce
-
 > there are examples of this and I can dig them up and send them along.
+
+We have a lot of boards running different SoCs (each with a different 
+vendor provided kernel) and we are trying to keep our sanity managing 
+all of the by using a metadata repo. So for example, we have a recipe 
+that pulls in vendor A's kernel directly from the upstream source, then 
+our local metadata repo which provides the scc files we need to 
+configure that repo. Inevitably, we end up needing to patch these 
+kernels, so I was hoping that we could provide the patches in the 
+metadata repo and add them to the BSP .scc file, but that wasn't working.
+
+
 >
 > Bruce
 >
-> >
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >  meta/classes/kernel-yocto.bbclass | 7 ++-----
-> >  1 file changed, 2 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> > index ed9bcfa57c..08c02a8f50 100644
-> > --- a/meta/classes/kernel-yocto.bbclass
-> > +++ b/meta/classes/kernel-yocto.bbclass
-> > @@ -193,12 +193,9 @@ do_kernel_metadata() {
-> >                 if [ $? -ne 0 ]; then
-> >                         bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
-> >                 fi
-> > -       fi
-> >
-> > -       # run2: only generate patches for elements that have been passed on the SRC_URI
-> > -       elements="`echo -n ${sccs} ${patches} ${KERNEL_FEATURES}`"
-> > -       if [ -n "${elements}" ]; then
-> > -               scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${sccs} ${patches} ${KERNEL_FEATURES}
-> > +               # run2: generate patches
-> > +               scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
-> >                 if [ $? -ne 0 ]; then
-> >                         bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
-> >                 fi
-> > --
-> > 2.23.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>> ---
+>>   meta/classes/kernel-yocto.bbclass | 7 ++-----
+>>   1 file changed, 2 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+>> index ed9bcfa57c..08c02a8f50 100644
+>> --- a/meta/classes/kernel-yocto.bbclass
+>> +++ b/meta/classes/kernel-yocto.bbclass
+>> @@ -193,12 +193,9 @@ do_kernel_metadata() {
+>>                  if [ $? -ne 0 ]; then
+>>                          bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+>>                  fi
+>> -       fi
+>>
+>> -       # run2: only generate patches for elements that have been passed on the SRC_URI
+>> -       elements="`echo -n ${sccs} ${patches} ${KERNEL_FEATURES}`"
+>> -       if [ -n "${elements}" ]; then
+>> -               scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${sccs} ${patches} ${KERNEL_FEATURES}
+>> +               # run2: generate patches
+>> +               scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
+>>                  if [ $? -ne 0 ]; then
+>>                          bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+>>                  fi
+>> --
+>> 2.23.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 >
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
