@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B93B7FC2F
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DB4F7FDDC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 13:23:11 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id b6so6001712wrq.0
+	Thu, 19 Dec 2019 13:23:13 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id z3so5983991wru.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 05:23:13 -0800 (PST)
+	Thu, 19 Dec 2019 05:23:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Q/7VFwiZiqxE/eNpyRF7l/He+ut2YCeJeAwUUCtTZ4k=;
-	b=RXgwv4/8wBiO26jS0R0qAWor21GI75oogZKdOa24XzglwVWDHlexTEwvIXpWg5GH6W
-	JwMCnYisYUhqWKfhYET7HR7aAXCf30CGLcrAl81wiSh4dRcYmpHDvalqCn46g7SSIM/J
-	5TPgr7xADbKvW7Vc+BEUWgD6H9sFq+AsMsXWrUShvinD4uCq1lgm0bqUqozJGhrSZ3LZ
-	405a9f5OI1OCOZskMDb4dKTnsivSJ27kYizd+nRMu5HCGVdvXzHn0wrjzResSkFvz3xX
-	K8Oo51DdHHeljpQuGR0bOePL/ySytM/K0E3uvgK8njNOO0w8McGVmmnibbXgT72Wrzxi
-	C99w==
+	bh=zMWj92+13FqYf+b4Nhbzy8GzVTzX9MEDfXOxBK1/eY4=;
+	b=nVlUc7O1jTWdnJ3EBPwE20AzixdjfASzaMhiaOCx5U+v89lb26nFkt1oD02F7UrIqK
+	OVceoWcfZu9w8Pqbpd7UeuffyON7012KeYW67o90maPS1j0OfyHJsR6exQK6Cge2Ew4l
+	YNASUAso9V381+KYm3Iz5k0tUDVDRNpUDWVEopraGSHTG3sPlFHY+xrh7qaR53OZ+VVu
+	+9eTd4ZNIsuvWlKIKQDLKjL8Xef9Pi6f22L9+IpG9xem2gfKmFmk/C/wNpH5RLLaOSlk
+	TrJspMWBmfogcMvHrFw4MdVtgSwEXeEBt5WqrSSeiV9TFwe512IragvpPB53JaCiKJHQ
+	hH/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Q/7VFwiZiqxE/eNpyRF7l/He+ut2YCeJeAwUUCtTZ4k=;
-	b=cAnOor+kU9PB1fiUkOWmJ+asFkEpfT/g9yXtc7vlKO/rkJuriRlwn5VZswbPY4UaKz
-	VZWhimVFwVl6GyX0WD4P6L3xcMVAUEx8qKCCY9aEDIZCqJdt9EryETTX+758t5bhb3yQ
-	0h7zuuYoeHSFhKmiBI3zf0mCznBt2tstC9OOr2zrZsFZclbU/HlzqY8k+0EzFS9DKFBl
-	3QnfeC7PUVw04360GoWKtxTz/mhW0N2BoY0zIxJLlloNcgHCxpJpRuHf6TGhszYf16Qj
-	/zMCugTgBP1aW1nv5dLLoc43nofr2VkU9AyDBi4HFGRacMTHdp6bRoam7txSfCIQ11wb
-	q3gg==
-X-Gm-Message-State: APjAAAVyFIjtVXUdT8ybfFdQpu9hZjpvf3mvGzQWWChYYRGOTOPQQuY+
-	NIGP4WB5TYuPhDyBINEebg6TjAJaggI=
-X-Google-Smtp-Source: APXvYqxIymnPeOQJLZgFlgnbMfTqQLupuIKU2+itmUa+eRx1wKcb3+V0j34T/xEG2+3XsMGgFU5NzA==
-X-Received: by 2002:a5d:630c:: with SMTP id i12mr9338039wru.350.1576761792074; 
-	Thu, 19 Dec 2019 05:23:12 -0800 (PST)
+	bh=zMWj92+13FqYf+b4Nhbzy8GzVTzX9MEDfXOxBK1/eY4=;
+	b=LG7us7uKbhzI5q8uGJdwJjyACPw/scwMMBS3xz8RvCEZ+H3XQ00+GMS9MuBXUITkGE
+	UYSsy2VFw6TCnZwkG3r1ugdBBbS8BTpCGVx0VA3E9cUdgi3rkfa1ZnXeObSadwJMYNO8
+	7utLBDrwFi8hmI/VUGeII2xNugLKd/vbM5gMadFX60XKD9dOziQR9g3A7a+uHuQ5L6R/
+	Lo4RszPSM/XKoqXYUHO94Yvpswfe4d+boZLcAjuw1InPHgvWWoUm5oj9P9jjXCpfi6O+
+	1i4/dWHJpulg9U9BKCowCKd4JI5yzlXIRQw8KqE3Aeyfuaar7GaDHMqUsz+VOf1wvtc3
+	fvKA==
+X-Gm-Message-State: APjAAAX4nSf4ijvg52P2kQcwcDxRaa6nQ5zq26qmp8jS2/nF73w5O7tx
+	3E57VyyBhqWTkRwUvU9e5tz7KaVM11I=
+X-Google-Smtp-Source: APXvYqxb7gljyePvf7Q18PEwqpdYQ9pD/f7a7XEDa3npbfLbpgrJ3csA9bymMujhOxlj6kzUeKhnAA==
+X-Received: by 2002:adf:f382:: with SMTP id m2mr9443859wro.163.1576761794015; 
+	Thu, 19 Dec 2019 05:23:14 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id f17sm6182584wmc.8.2019.12.19.05.23.09
+	by smtp.gmail.com with ESMTPSA id f17sm6182584wmc.8.2019.12.19.05.23.12
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Dec 2019 05:23:09 -0800 (PST)
+	Thu, 19 Dec 2019 05:23:13 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Dec 2019 14:22:48 +0100
-Message-Id: <20191219132301.80034-3-alex.kanavin@gmail.com>
+Date: Thu, 19 Dec 2019 14:22:49 +0100
+Message-Id: <20191219132301.80034-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191219132301.80034-1-alex.kanavin@gmail.com>
 References: <20191219132301.80034-1-alex.kanavin@gmail.com>
-Subject: [PATCH 03/16] ovmf: update to 201911
+Subject: [PATCH 04/16] meson: update 0.52.0 -> 0.52.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,274 +56,286 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Dec 2019 13:23:12 -0000
-
-Remove unused patch.
+X-List-Received-Date: Thu, 19 Dec 2019 13:23:14 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...vmf-update-path-to-native-BaseTools.patch} | 11 ++++---
- ...le-adjust-to-build-in-under-bitbake.patch} | 17 +++++-----
- ... => 0003-ovmf-enable-long-path-file.patch} | 18 +++++++---
- ...patch => 0004-ovmf-Update-to-latest.patch} | 26 +++++++++++----
- ...frCompile-increase-path-length-limit.patch | 33 -------------------
- meta/recipes-core/ovmf/ovmf_git.bb            | 12 +++----
- 6 files changed, 54 insertions(+), 63 deletions(-)
- rename meta/recipes-core/ovmf/ovmf/{0002-ovmf-update-path-to-native-BaseTools.patch => 0001-ovmf-update-path-to-native-BaseTools.patch} (84%)
- rename meta/recipes-core/ovmf/ovmf/{0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch => 0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch} (75%)
- rename meta/recipes-core/ovmf/ovmf/{0004-ovmf-enable-long-path-file.patch => 0003-ovmf-enable-long-path-file.patch} (54%)
- rename meta/recipes-core/ovmf/ovmf/{no-stack-protector-all-archs.patch => 0004-ovmf-Update-to-latest.patch} (82%)
- delete mode 100644 meta/recipes-core/ovmf/ovmf/VfrCompile-increase-path-length-limit.patch
+ meta/recipes-devtools/meson/meson.inc         |  5 +-
+ .../0001-Make-CPU-family-warnings-fatal.patch | 10 +-
+ ...pport-building-allarch-recipes-again.patch |  4 +-
+ .../meson/meson/0003-native_bindir.patch      | 26 ++---
+ ...e971bd320f3df15c1ee74f54858e6792b183.patch | 95 -------------------
+ .../{meson_0.52.0.bb => meson_0.52.1.bb}      |  1 +
+ ...on_0.52.0.bb => nativesdk-meson_0.52.1.bb} |  0
+ 7 files changed, 23 insertions(+), 118 deletions(-)
+ delete mode 100644 meta/recipes-devtools/meson/meson/dbc9e971bd320f3df15c1ee74f54858e6792b183.patch
+ rename meta/recipes-devtools/meson/{meson_0.52.0.bb => meson_0.52.1.bb} (97%)
+ rename meta/recipes-devtools/meson/{nativesdk-meson_0.52.0.bb => nativesdk-meson_0.52.1.bb} (100%)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.patch
-similarity index 84%
-rename from meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch
-rename to meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.patch
-index 94ae5d4496e..6ecb23b29f4 100644
---- a/meta/recipes-core/ovmf/ovmf/0002-ovmf-update-path-to-native-BaseTools.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools.patch
-@@ -1,7 +1,7 @@
--From 9e632e3f9edd09632cc877dff6ea57608f979aab Mon Sep 17 00:00:00 2001
-+From 0a8362cfb9f00870d70687475665b131dd82c947 Mon Sep 17 00:00:00 2001
- From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
- Date: Thu, 9 Jun 2016 02:23:01 -0700
--Subject: [PATCH] ovmf: update path to native BaseTools
-+Subject: [PATCH 1/5] ovmf: update path to native BaseTools
+diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+index 84bcc8409de..881a14c7f0a 100644
+--- a/meta/recipes-devtools/meson/meson.inc
++++ b/meta/recipes-devtools/meson/meson.inc
+@@ -16,10 +16,9 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+            file://cross-prop-default.patch \
+            file://0001-mesonbuild-environment.py-check-environment-for-vari.patch \
+            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
+-           file://dbc9e971bd320f3df15c1ee74f54858e6792b183.patch \
+            "
+-SRC_URI[sha256sum] = "d60f75f0dedcc4fd249dbc7519d6f3ce6df490033d276ef1cf27453ef4938d32"
+-SRC_URI[md5sum] = "7ea7772414dda8ae11072244bf7ba991"
++SRC_URI[sha256sum] = "0c277472e49950a5537e3de3e60c57b80dbf425788470a1a8ed27446128fc035"
++SRC_URI[md5sum] = "a5f0c99567d772508f649a28ded7f8ad"
  
- BaseTools is a set of utilities to build EDK-based firmware. These utilities
- are used during the build process. Thus, they need to be built natively.
-@@ -11,15 +11,16 @@ with the appropriate location before building.
+ SRC_URI_append_class-native = " \
+     file://0001-Make-CPU-family-warnings-fatal.patch \
+diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+index fc55dcacf6d..d4264cee526 100644
+--- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
++++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+@@ -1,4 +1,4 @@
+-From c07d29b715209cd5d75b142a00a540d45b00c36d Mon Sep 17 00:00:00 2001
++From cd980c763f11cfd928255346cc7e86f24add985e Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 3 Jul 2018 13:59:09 +0100
+ Subject: [PATCH] Make CPU family warnings fatal
+@@ -12,10 +12,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  2 files changed, 2 insertions(+), 4 deletions(-)
  
- Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
- Upstream-Status: Pending
-+
- ---
-  OvmfPkg/build.sh | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/OvmfPkg/build.sh b/OvmfPkg/build.sh
--index eb5eb73..9058fca 100755
-+index 91b1442ade..1858dae31a 100755
- --- a/OvmfPkg/build.sh
- +++ b/OvmfPkg/build.sh
--@@ -30,7 +30,7 @@ then
-+@@ -24,7 +24,7 @@ then
-  # this assumes svn pulls have the same root dir
-  #  export EDK_TOOLS_PATH=`pwd`/../BaseTools
-  # This version is for the tools source in edk2
-@@ -29,5 +30,5 @@ index eb5eb73..9058fca 100755
-    source edksetup.sh BaseTools
-  else
- -- 
--2.8.1
-+2.17.1
- 
-diff --git a/meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
-similarity index 75%
-rename from meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
-rename to meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
-index 070b0ac5a61..f37ed018abd 100644
---- a/meta/recipes-core/ovmf/ovmf/0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch
-@@ -1,25 +1,26 @@
--From 2320650c6d381b914fe91b2dedaa5870279a8bcf Mon Sep 17 00:00:00 2001
-+From a8bceaec1b16fffbf6810df05503d8ae9092b735 Mon Sep 17 00:00:00 2001
- From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
- Date: Fri, 26 Jul 2019 17:34:26 -0400
--Subject: [PATCH] BaseTools: makefile: adjust to build in under bitbake
-+Subject: [PATCH 2/5] BaseTools: makefile: adjust to build in under bitbake
- 
- Prepend the build flags with those of bitbake. This is to build
- using the bitbake native sysroot include and library directories.
- 
- Signed-off-by: Ricardo Neri <ricardo.neri@linux.intel.com>
- Upstream-Status: Pending
-+
- ---
-  BaseTools/Source/C/Makefiles/header.makefile | 10 +++++-----
-  1 file changed, 5 insertions(+), 5 deletions(-)
- 
--Index: git/BaseTools/Source/C/Makefiles/header.makefile
--===================================================================
----- git.orig/BaseTools/Source/C/Makefiles/header.makefile
--+++ git/BaseTools/Source/C/Makefiles/header.makefile
-+diff --git a/BaseTools/Source/C/Makefiles/header.makefile b/BaseTools/Source/C/Makefiles/header.makefile
-+index 4e9b36d98b..eb03ee33fa 100644
-+--- a/BaseTools/Source/C/Makefiles/header.makefile
-++++ b/BaseTools/Source/C/Makefiles/header.makefile
- @@ -62,23 +62,23 @@ $(error Bad HOST_ARCH)
-  endif
+ diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+-index a59cd89..17de654 100644
++index 29d7422..5fb00a4 100644
+ --- a/mesonbuild/envconfig.py
+ +++ b/mesonbuild/envconfig.py
+-@@ -186,7 +186,7 @@ class MachineInfo:
++@@ -190,7 +190,7 @@ class MachineInfo:
   
-- INCLUDE = $(TOOL_INCLUDE) -I $(MAKEROOT) -I $(MAKEROOT)/Include/Common -I $(MAKEROOT)/Include/ -I $(MAKEROOT)/Include/IndustryStandard -I $(MAKEROOT)/Common/ -I .. -I . $(ARCH_INCLUDE) 
-+ INCLUDE = $(TOOL_INCLUDE) -I $(MAKEROOT) -I $(MAKEROOT)/Include/Common -I $(MAKEROOT)/Include/ -I $(MAKEROOT)/Include/IndustryStandard -I $(MAKEROOT)/Common/ -I .. -I . $(ARCH_INCLUDE)
- -BUILD_CPPFLAGS = $(INCLUDE)
- +BUILD_CPPFLAGS += $(INCLUDE)
+          cpu_family = literal['cpu_family']
+          if cpu_family not in known_cpu_families:
+@@ -25,10 +25,10 @@ index a59cd89..17de654 100644
+          endian = literal['endian']
+          if endian not in ('little', 'big'):
+ diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+-index 3704921..f1988f2 100644
++index a9bc2b8..b91c8da 100644
+ --- a/mesonbuild/environment.py
+ +++ b/mesonbuild/environment.py
+-@@ -251,9 +251,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
++@@ -348,9 +348,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+          trial = 'parisc'
   
-@@ -46,5 +47,5 @@ Index: git/BaseTools/Source/C/Makefiles/header.makefile
-  ifeq ($(HOST_ARCH), IA32)
-  #
- -- 
--2.20.1
-+2.17.1
+      if trial not in known_cpu_families:
+diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+index b8837d77b64..c8c7b298de3 100644
+--- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
++++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+@@ -1,4 +1,4 @@
+-From 263fc0e26e1fd92e25fa3ef93f4a549dcebc5887 Mon Sep 17 00:00:00 2001
++From 4d223562c3e510e0dd62b608d184604e2cab6198 Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Thu, 26 Jul 2018 16:32:49 +0200
+ Subject: [PATCH] Support building allarch recipes again
+@@ -13,7 +13,7 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+  1 file changed, 1 insertion(+)
  
-diff --git a/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch b/meta/recipes-core/ovmf/ovmf/0003-ovmf-enable-long-path-file.patch
-similarity index 54%
-rename from meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
-rename to meta/recipes-core/ovmf/ovmf/0003-ovmf-enable-long-path-file.patch
-index d954fbe3140..ab1e7db31f5 100644
---- a/meta/recipes-core/ovmf/ovmf/0004-ovmf-enable-long-path-file.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0003-ovmf-enable-long-path-file.patch
-@@ -1,18 +1,28 @@
--From 032fc6b1f7691bd537fd2a6bd13821fcf3c45e64 Mon Sep 17 00:00:00 2001
-+From 60a5f953f747e1e9e05a40157b651cba8ea57b91 Mon Sep 17 00:00:00 2001
- From: Dengke Du <dengke.du@windriver.com>
- Date: Mon, 11 Sep 2017 02:21:55 -0400
--Subject: [PATCH] ovmf: enable long path file
-+Subject: [PATCH 3/5] ovmf: enable long path file
+ diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+-index 17de654..2d2deef 100644
++index 5fb00a4..f5702ba 100644
+ --- a/mesonbuild/envconfig.py
+ +++ b/mesonbuild/envconfig.py
+ @@ -36,6 +36,7 @@ _T = typing.TypeVar('_T')
+diff --git a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+index 76cc4931d63..14a9a136664 100644
+--- a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
++++ b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+@@ -1,4 +1,4 @@
+-From 4a1d676522d6b56cbe9a45c3b040afaa27d37f78 Mon Sep 17 00:00:00 2001
++From baf7b94fec5a31b2d0cb162e43dbd28cc019f38e Mon Sep 17 00:00:00 2001
+ From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+ Date: Wed, 15 Nov 2017 15:05:01 +0100
+ Subject: [PATCH] native_bindir
+@@ -22,10 +22,10 @@ Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+  2 files changed, 14 insertions(+), 11 deletions(-)
  
- Upstream-Status: Pending
- Signed-off-by: Dengke Du <dengke.du@windriver.com>
-+
- ---
-  BaseTools/Source/C/Common/CommonLib.h | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/BaseTools/Source/C/Common/CommonLib.h b/BaseTools/Source/C/Common/CommonLib.h
--index 2041b89e2d..8116aa2e35 100644
-+index e1cce985f7..d67d03c70c 100644
- --- a/BaseTools/Source/C/Common/CommonLib.h
- +++ b/BaseTools/Source/C/Common/CommonLib.h
--@@ -22 +22 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-+@@ -14,7 +14,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
-+ #include <assert.h>
-+ #define PRINTED_GUID_BUFFER_SIZE  37  // including null-termination
-+ 
- -#define MAX_LONG_FILE_PATH 500
- +#define MAX_LONG_FILE_PATH 1023
-+ 
-+ #define MAX_UINT64 ((UINT64)0xFFFFFFFFFFFFFFFFULL)
-+ #define MAX_UINT32 ((UINT32)0xFFFFFFFF)
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch b/meta/recipes-core/ovmf/ovmf/0004-ovmf-Update-to-latest.patch
-similarity index 82%
-rename from meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch
-rename to meta/recipes-core/ovmf/ovmf/0004-ovmf-Update-to-latest.patch
-index 1b65348e844..c10a39d95d4 100644
---- a/meta/recipes-core/ovmf/ovmf/no-stack-protector-all-archs.patch
-+++ b/meta/recipes-core/ovmf/ovmf/0004-ovmf-Update-to-latest.patch
-@@ -1,15 +1,24 @@
--Author: Steve Langasek <steve.langasek@ubuntu.com>
-+From 94eff316b31b4d0348af28c77be5c00bc09fe8e7 Mon Sep 17 00:00:00 2001
-+From: Steve Langasek <steve.langasek@ubuntu.com>
-+Date: Sat, 10 Jun 2017 01:39:36 -0700
-+Subject: [PATCH 4/5] ovmf: Update to latest
-+
- Description: pass -fno-stack-protector to all GCC toolchains
-  The upstream build rules inexplicably pass -fno-stack-protector only
-  when building for i386 and amd64.  Add this essential argument to the
-  generic rules for gcc 4.4 and later.
- Last-Updated: 2016-04-12
- Upstream-Status: Pending
--Index: git/BaseTools/Conf/tools_def.template
--===================================================================
----- git.orig/BaseTools/Conf/tools_def.template
--+++ git/BaseTools/Conf/tools_def.template
--@@ -1736,10 +1736,10 @@ DEFINE GCC_X64_RC_FLAGS            = -I binary -O elf64-x86-64        -B i386
-+
-+---
-+ BaseTools/Conf/tools_def.template | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
-+
-+diff --git a/BaseTools/Conf/tools_def.template b/BaseTools/Conf/tools_def.template
-+index ca0b122dbb..b0066c2ab8 100755
-+--- a/BaseTools/Conf/tools_def.template
-++++ b/BaseTools/Conf/tools_def.template
-+@@ -1941,10 +1941,10 @@ DEFINE GCC_X64_RC_FLAGS            = -I binary -O elf64-x86-64        -B i386
-  DEFINE GCC_ARM_RC_FLAGS            = -I binary -O elf32-littlearm     -B arm     --rename-section .data=.hii
-  DEFINE GCC_AARCH64_RC_FLAGS        = -I binary -O elf64-littleaarch64 -B aarch64 --rename-section .data=.hii
+ diff --git a/mesonbuild/dependencies/base.py b/mesonbuild/dependencies/base.py
+-index 3c55a56..eb52fd1 100644
++index 35f0175..b39cba6 100644
+ --- a/mesonbuild/dependencies/base.py
+ +++ b/mesonbuild/dependencies/base.py
+-@@ -185,7 +185,7 @@ class Dependency:
++@@ -184,7 +184,7 @@ class Dependency:
+      def get_exe_args(self, compiler):
+          return []
   
-@@ -23,7 +32,7 @@ Index: git/BaseTools/Conf/tools_def.template
-  DEFINE GCC48_IA32_X64_ASLDLINK_FLAGS = DEF(GCC48_IA32_X64_DLINK_COMMON) -Wl,--entry,ReferenceAcpiTable -u ReferenceAcpiTable
-  DEFINE GCC48_IA32_X64_DLINK_FLAGS    = DEF(GCC48_IA32_X64_DLINK_COMMON) -Wl,--entry,$(IMAGE_ENTRY_POINT) -u $(IMAGE_ENTRY_POINT) -Wl,-Map,$(DEST_DIR_DEBUG)/$(BASE_NAME).map,--whole-archive
-  DEFINE GCC48_IA32_DLINK2_FLAGS       = -Wl,--defsym=PECOFF_HEADER_SIZE=0x220 DEF(GCC_DLINK2_FLAGS_COMMON)
--@@ -1748,7 +1748,7 @@ DEFINE GCC48_X64_DLINK2_FLAGS        = -Wl,--defsym=PECOFF_HEADER_SIZE=0x228 DEF
-+@@ -1953,7 +1953,7 @@ DEFINE GCC48_X64_DLINK2_FLAGS        = -Wl,--defsym=PECOFF_HEADER_SIZE=0x228 DEF
-  DEFINE GCC48_ASM_FLAGS               = DEF(GCC_ASM_FLAGS)
-  DEFINE GCC48_ARM_ASM_FLAGS           = $(ARCHASM_FLAGS) $(PLATFORM_FLAGS) DEF(GCC_ASM_FLAGS) -mlittle-endian
-  DEFINE GCC48_AARCH64_ASM_FLAGS       = $(ARCHASM_FLAGS) $(PLATFORM_FLAGS) DEF(GCC_ASM_FLAGS) -mlittle-endian
-@@ -32,3 +41,6 @@ Index: git/BaseTools/Conf/tools_def.template
-  DEFINE GCC48_ARM_CC_XIPFLAGS         = DEF(GCC_ARM_CC_XIPFLAGS)
-  DEFINE GCC48_AARCH64_CC_FLAGS        = $(ARCHCC_FLAGS) $(PLATFORM_FLAGS) -mcmodel=large DEF(GCC_AARCH64_CC_FLAGS)
-  DEFINE GCC48_AARCH64_CC_XIPFLAGS     = DEF(GCC_AARCH64_CC_XIPFLAGS)
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-core/ovmf/ovmf/VfrCompile-increase-path-length-limit.patch b/meta/recipes-core/ovmf/ovmf/VfrCompile-increase-path-length-limit.patch
+@@ -34,7 +34,7 @@ index 3c55a56..eb52fd1 100644
+          raise DependencyException('{!r} is not a pkgconfig dependency'.format(self.name))
+  
+      def get_configtool_variable(self, variable_name):
+-@@ -248,7 +248,7 @@ class InternalDependency(Dependency):
++@@ -247,7 +247,7 @@ class InternalDependency(Dependency):
+          self.sources = sources
+          self.ext_deps = ext_deps
+  
+@@ -54,11 +54,11 @@ index 3c55a56..eb52fd1 100644
+ +            cmd = [self.pkgbin.get_command()[0] + "-native"] + args
+ +        else:
+ +            cmd = self.pkgbin.get_command() + args
+-         p, out = Popen_safe(cmd, env=env)[0:2]
+-         rc, out = p.returncode, out.strip()
++         p, out, err = Popen_safe(cmd, env=env)
++         rc, out, err = p.returncode, out.strip(), err.strip()
+          call = ' '.join(cmd)
+          mlog.debug("Called `{}` -> {}\n{}".format(call, rc, out))
+-         return rc, out
++         return rc, out, err
+  
+ -    def _call_pkgbin(self, args, env=None):
+ +    def _call_pkgbin(self, args, env=None, use_native=False):
+@@ -74,21 +74,21 @@ index 3c55a56..eb52fd1 100644
+          return cache[(self.pkgbin, targs, fenv)]
+  
+      def _convert_mingw_paths(self, args):
+-@@ -926,7 +929,7 @@ class PkgConfigDependency(ExternalDependency):
+-             mlog.warning('Could not determine complete list of dependencies for %s' % self.name)
+-         self.link_args, self.raw_link_args = self._search_libs(out, out_raw, out_all)
++@@ -885,7 +888,7 @@ class PkgConfigDependency(ExternalDependency):
++                                       (self.name, out_raw))
++         self.link_args, self.raw_link_args = self._search_libs(out, out_raw)
+  
+ -    def get_pkgconfig_variable(self, variable_name, kwargs):
+ +    def get_pkgconfig_variable(self, variable_name, kwargs, use_native=False):
+          options = ['--variable=' + variable_name, self.name]
+  
+          if 'define_variable' in kwargs:
+-@@ -939,7 +942,7 @@ class PkgConfigDependency(ExternalDependency):
++@@ -898,7 +901,7 @@ class PkgConfigDependency(ExternalDependency):
+  
+              options = ['--define-variable=' + '='.join(definition)] + options
+  
+--        ret, out = self._call_pkgbin(options)
+-+        ret, out = self._call_pkgbin(options, use_native=use_native)
++-        ret, out, err = self._call_pkgbin(options)
+++        ret, out, err = self._call_pkgbin(options, use_native=use_native)
+          variable = ''
+          if ret != 0:
+              if self.required:
+diff --git a/meta/recipes-devtools/meson/meson/dbc9e971bd320f3df15c1ee74f54858e6792b183.patch b/meta/recipes-devtools/meson/meson/dbc9e971bd320f3df15c1ee74f54858e6792b183.patch
 deleted file mode 100644
-index bb12d8beba6..00000000000
---- a/meta/recipes-core/ovmf/ovmf/VfrCompile-increase-path-length-limit.patch
+index 7ea8a133e6a..00000000000
+--- a/meta/recipes-devtools/meson/meson/dbc9e971bd320f3df15c1ee74f54858e6792b183.patch
 +++ /dev/null
-@@ -1,33 +0,0 @@
--From c7722d10c7bcf6be0adcf54abb1d406599dd7914 Mon Sep 17 00:00:00 2001
--From: Patrick Ohly <patrick.ohly@intel.com>
--Date: Fri, 24 Feb 2017 01:40:02 +0100
--Subject: [PATCH] VfrCompile: increase path length limit
+@@ -1,95 +0,0 @@
+-From dbc9e971bd320f3df15c1ee74f54858e6792b183 Mon Sep 17 00:00:00 2001
+-From: Xavier Claessens <xavier.claessens@collabora.com>
+-Date: Fri, 11 Oct 2019 11:01:22 -0400
+-Subject: [PATCH] Remove duplicated object files in static libraries
 -
--The VfrCompile tool has a hard-coded maximum length for path names
--which turned out to be too small by around 20 characters in the Yocto
--autobuilder setup. Increasing the maximum by a factor of 4 is
--relatively easy and makes the problem less likely.
+-When a static library link_whole to a bunch of other static libraries,
+-we have to extract all their objects recursively. But that could
+-introduce duplicated objects. ar is dumb enough to allow this without
+-error, but once the resulting static library is linked into an
+-executable or shared library, the linker will complain about duplicated
+-symbols.
 -
--Upstream-Status: Inappropriate [configuration]
+-Upstream-Status: Backport
+-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 -
--Signed-off-by: Patrick Ohly <patrick.ohly@intel.com>
 ----
-- BaseTools/Source/C/VfrCompile/EfiVfr.h | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- mesonbuild/backend/backends.py                 |  3 ++-
+- test cases/unit/69 static link/lib/func17.c    |  4 ++++
+- test cases/unit/69 static link/lib/func18.c    |  6 ++++++
+- test cases/unit/69 static link/lib/func19.c    |  7 +++++++
+- test cases/unit/69 static link/lib/meson.build | 12 ++++++++++++
+- 5 files changed, 31 insertions(+), 1 deletion(-)
+- create mode 100644 test cases/unit/69 static link/lib/func17.c
+- create mode 100644 test cases/unit/69 static link/lib/func18.c
+- create mode 100644 test cases/unit/69 static link/lib/func19.c
 -
--diff --git a/BaseTools/Source/C/VfrCompile/EfiVfr.h b/BaseTools/Source/C/VfrCompile/EfiVfr.h
--index d187902..9ad4a7b 100644
----- a/BaseTools/Source/C/VfrCompile/EfiVfr.h
--+++ b/BaseTools/Source/C/VfrCompile/EfiVfr.h
--@@ -19,7 +19,7 @@ WITHOUT WARRANTIES OR REPRESENTATIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED.
-- #include "Common/UefiInternalFormRepresentation.h"
-- #include "Common/MdeModuleHii.h"
+-diff --git a/mesonbuild/backend/backends.py b/mesonbuild/backend/backends.py
+-index 947be1cbef..e54809657f 100644
+---- a/mesonbuild/backend/backends.py
+-+++ b/mesonbuild/backend/backends.py
+-@@ -281,7 +281,8 @@ def relpath(self, todir, fromdir):
+-                                os.path.join('dummyprefixdir', fromdir))
 - 
---#define MAX_PATH                 255
--+#define MAX_PATH                 1023
-- #define MAX_VFR_LINE_LEN         4096
+-     def flatten_object_list(self, target, proj_dir_to_build_root=''):
+--        return self._flatten_object_list(target, target.get_objects(), proj_dir_to_build_root)
+-+        obj_list = self._flatten_object_list(target, target.get_objects(), proj_dir_to_build_root)
+-+        return list(dict.fromkeys(obj_list))
 - 
-- #define EFI_IFR_MAX_LENGTH       0xFF
---- 
--2.1.4
--
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index ff2b2a530ad..9667fa0c862 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -13,14 +13,14 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG[secureboot] = ",,,"
+-     def _flatten_object_list(self, target, objects, proj_dir_to_build_root):
+-         obj_list = []
+-diff --git a/test cases/unit/69 static link/lib/func17.c b/test cases/unit/69 static link/lib/func17.c
+-new file mode 100644
+-index 0000000000..d1d8ec498c
+---- /dev/null
+-+++ b/test cases/unit/69 static link/lib/func17.c	
+-@@ -0,0 +1,4 @@
+-+int func17()
+-+{
+-+  return 1;
+-+}
+-diff --git a/test cases/unit/69 static link/lib/func18.c b/test cases/unit/69 static link/lib/func18.c
+-new file mode 100644
+-index 0000000000..c149085ba4
+---- /dev/null
+-+++ b/test cases/unit/69 static link/lib/func18.c	
+-@@ -0,0 +1,6 @@
+-+int func17();
+-+
+-+int func18()
+-+{
+-+  return func17() + 1;
+-+}
+-diff --git a/test cases/unit/69 static link/lib/func19.c b/test cases/unit/69 static link/lib/func19.c
+-new file mode 100644
+-index 0000000000..69120e4bf8
+---- /dev/null
+-+++ b/test cases/unit/69 static link/lib/func19.c	
+-@@ -0,0 +1,7 @@
+-+int func17();
+-+int func18();
+-+
+-+int func19()
+-+{
+-+  return func17() + func18();
+-+}
+-diff --git a/test cases/unit/69 static link/lib/meson.build b/test cases/unit/69 static link/lib/meson.build
+-index 5f04aab6a1..8f95fc4546 100644
+---- a/test cases/unit/69 static link/lib/meson.build	
+-+++ b/test cases/unit/69 static link/lib/meson.build	
+-@@ -66,3 +66,15 @@ libfunc15 = static_library('func15', 'func15.c',
+- libfunc16 = static_library('func16', 'func16.c',
+-   link_with : libfunc15,
+-   install : true)
+-+
+-+# Verify func17.c.o gets included only once into libfunc19, otherwise
+-+# func19-shared would failed with duplicated symbol.
+-+libfunc17 = static_library('func17', 'func17.c',
+-+  install : false)
+-+libfunc18 = static_library('func18', 'func18.c',
+-+  link_with : libfunc17,
+-+  install : false)
+-+libfunc19 = static_library('func19', 'func19.c',
+-+  link_whole : [libfunc17, libfunc18],
+-+  install : false)
+-+shared_library('func19-shared', link_whole : [libfunc19])
+diff --git a/meta/recipes-devtools/meson/meson_0.52.0.bb b/meta/recipes-devtools/meson/meson_0.52.1.bb
+similarity index 97%
+rename from meta/recipes-devtools/meson/meson_0.52.0.bb
+rename to meta/recipes-devtools/meson/meson_0.52.1.bb
+index 897fa148d94..de9b905c12b 100644
+--- a/meta/recipes-devtools/meson/meson_0.52.0.bb
++++ b/meta/recipes-devtools/meson/meson_0.52.1.bb
+@@ -1,3 +1,4 @@
+ include meson.inc
  
- SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=git \
--	file://0002-ovmf-update-path-to-native-BaseTools.patch \
--	file://0003-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
--	file://0004-ovmf-enable-long-path-file.patch \
--	file://no-stack-protector-all-archs.patch \
-+           file://0001-ovmf-update-path-to-native-BaseTools.patch \
-+           file://0002-BaseTools-makefile-adjust-to-build-in-under-bitbake.patch \
-+           file://0003-ovmf-enable-long-path-file.patch \
-+           file://0004-ovmf-Update-to-latest.patch \
-         "
- 
--PV = "edk2-stable201905"
--SRCREV="20d2e5a125e34fc8501026613a71549b2a1a3e54"
-+PV = "edk2-stable201911"
-+SRCREV = "bd85bf54c268204c7a698a96f3ccd96cd77952cd"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>edk2-stable.*)"
- 
- inherit deploy
+ BBCLASSEXTEND = "native"
++
+diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.52.0.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.52.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/meson/nativesdk-meson_0.52.0.bb
+rename to meta/recipes-devtools/meson/nativesdk-meson_0.52.1.bb
 -- 
 2.17.1
 
