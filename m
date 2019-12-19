@@ -1,50 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E350F7FD7A
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 77A0F7FD73
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 17:57:45 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id l127so3696539pfl.1
+	Thu, 19 Dec 2019 18:38:22 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id k24so6799380ioc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 09:57:47 -0800 (PST)
+	Thu, 19 Dec 2019 10:38:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=SKubNXSG3dtc87MI0E1cHQ53Dximp/vpYRxUQZIec9M=;
-	b=bPIrxxfEar5V86zhofXlGOataE5R0GVmRgN1MoMRBqLp4H1hhQNjxe/NQgQVgM/tzQ
-	VeYSA7CJK0iNS83rtZnMYrB0lRkysOF38iiyWdZbZrPo/oZ1FLf9cXObtWHBJeN0CwUL
-	wy2opEhrpJIsKd4jKYzd7JbKXtv/iUO46Z1RIzGGoQ+5hDxEBtZMdPjZPDw21Kt4HyD6
-	Eh0W22GHWPtWHGN+s3ejYd12pzxJgSoyKlwN0+8jcXArZllEV9fOEwU0pfkJxzzSotqW
-	zHxjrrw7NvxI4vv0IQ5TkvotdKLjEpJ5tIXuJ9Q43Y0l6G+6X1zdzl3++BtEtRh0+w6E
-	oCUQ==
+	bh=J1uXXXDXbgpobzUZ+/7FOF5zu1MI9P2YUHN7nHtVS7Q=;
+	b=STjtTtVN6fkxnCaD5ZbP+Uvc2GGmdW5+AoHHANScVgsvk4EWdDiRiYBl3/aKkivBsU
+	jwTxVmbIFJu15ba535S0wHkQXBawMltqqHvw0lMY6jEpGMB3Mq3Worim+5ES/q4wA5Nc
+	71UR48evKbxDCdefa0p9ZoIDHHgdPeaBtb/zdE4QRoeBhKcU5yog2Xgxg3P6B1DEytiH
+	pgwW4XO/Muy5yOu2PJV7Mx/CXt7rjHKmUv0tw2cp2PJleZjHRLr+leuX48KwFAYKc2Kw
+	1OeSpK6YCF4diOeYpGiAH93StEXsXMpxm0ItHgpfz/qTRIfuqRXiy/Q6EIdKT9AouHaK
+	oqPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=SKubNXSG3dtc87MI0E1cHQ53Dximp/vpYRxUQZIec9M=;
-	b=bk3U+V8GtLt6w2IWHw+SleUabQpLQttA77Q7EBZji67egwMbIpe8Ey5GAUHRVDpI+A
-	db7CmgydYFsasC4rWEX7w6o+lfJ4VN4Ve96QG7pahgdGFIg+rvp5Uq9HFRDfJE8AynBA
-	LXqH/Cnl7cFPxfCOEJ7NpXa4f6IVfw0XpCsTUjruD5vkigoIzKLFAs6L+0be+aZrxQ2v
-	h6+AJ3LKJ3wF0bzoJAI1JXmLqOqh6sVo1eWUeVYEQygZ49+CbpmCjgTqRYproRGfiWlt
-	qZJDkw0f2t8PPU7JXK8dAmsZp/Tu64p1cWF+H1WmVrVLZz/FXmRiD/MfeqQRT9ihmziO
-	WlnA==
-X-Gm-Message-State: APjAAAUo2x9N0Sb1AoqksbREl/Puh/LerUDw7BOXVVK2yclcz3JGX49S
-	OSb2pt/GTYnoLQspSgbRHewrbqR0+2k=
-X-Google-Smtp-Source: APXvYqzl8n8GhSUgzvopKkD3gtOWxRpsjrwlGhtsqBbqFYTysQ/I2155N4Aw0zHqbwF1uw/E/I+HWQ==
-X-Received: by 2002:a63:2142:: with SMTP id s2mr10256680pgm.54.1576778266239; 
-	Thu, 19 Dec 2019 09:57:46 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::4b])
+	bh=J1uXXXDXbgpobzUZ+/7FOF5zu1MI9P2YUHN7nHtVS7Q=;
+	b=dRdfTP51OsRFbnh21bzgl/Z1TVS7gpaneDXLs0vjpZ5kFR14gWIbDGycpiK28fr/We
+	sfcfwM9cbKXUNhGvPXYpnNQRwgzueugiofjjyio1/CozkiFJHccf4bWYvZdUfe3sdL0e
+	YdJNHt+XrHFIp7fTr2INf8qC9s7KgUVTUbXgt+n82HnjrRAkHzuuHtZBAEhqvYC/ehBB
+	9ihSSQ3mgSTfi/CCoou0QrrIC9F342vqbEOCcHwEtZcAKBWjc1Xi7axeqZrGUco/a518
+	9MiT7Vqi07Jg9zuTRaN2Lv0Jor51lI5y9g20+cTMKust6dNdjgBLS5RbGKPyk8q+F89H
+	OJTA==
+X-Gm-Message-State: APjAAAX3pytwDU18i6z8izJ/aqCm6fqL9qgwJjf/phJxL4ezi8SQ3JiF
+	8B9TkkM/AlTEr5ayD+3SHDLs2H17iwM=
+X-Google-Smtp-Source: APXvYqzzdu1zgEmCT6gCdfKPn+9X818Gn+EgKJCCsVzi2EDWN5bXxBU9NEovgA2jHX1BmamubQnNeg==
+X-Received: by 2002:a6b:7616:: with SMTP id g22mr7221990iom.192.1576780703183; 
+	Thu, 19 Dec 2019 10:38:23 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	x18sm9193565pfr.26.2019.12.19.09.57.44
+	l83sm2878055ild.34.2019.12.19.10.38.22
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 19 Dec 2019 09:57:45 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Thu, 19 Dec 2019 10:38:22 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 19 Dec 2019 09:57:36 -0800
-Message-Id: <20191219175736.1324263-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.1
+Date: Thu, 19 Dec 2019 12:37:59 -0600
+Message-Id: <20191219183759.3122153-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH V2] cmake: Add a knob for cmake VERBOSE settings
+Cc: bruce.ashfield@windriver.com
+Subject: [PATCH] classes/kernel-yocto: Apply patches from BSP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,59 +59,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Dec 2019 17:57:46 -0000
+X-List-Received-Date: Thu, 19 Dec 2019 18:38:22 -0000
 Content-Transfer-Encoding: 8bit
 
-Setting VERBOSE always, while is fine on one hand for debugging, its
-coming at an expense of creating lots and lots of logs, e.g. qtwebkit
-compile logs alone with VERBOSE is 163MB, there are many other large
-packages which use cmake e.g. WPE, webkitgtk etc which are in same range
-with out this option on, the logs reduce to 861K and also speeds up
-build a notch
+0f698dfd1c8 ("kernel-yocto: streamline patch, configuration and audit
+phases") appears to have inadvertently broken support for BSP .scc files
+to provide patches for the kernel. Restore this behavior by adding
+$bsp_definition to the list of files processed for patches.
+Additionally, the logic can be simplified now that the same elements are
+used for both configuration fragments and patches
 
-If user needs to disable these logs for a recipe or globally
-
-CMAKE_VERBOSE = ""
-
-in recipe or in global metadata e.g. local.conf
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@intel.com>
-Cc: Andre McCurdy <armccurdy@gmail.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
-v2: Make a knob for verbose option and keep the defaults as such
+ meta/classes/kernel-yocto.bbclass | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
- meta/classes/cmake.bbclass | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 8ccb1eefc7..14796ac053 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -181,9 +181,20 @@ cmake_do_configure() {
- 	  -Wno-dev
- }
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index ed9bcfa57c..08c02a8f50 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -193,12 +193,9 @@ do_kernel_metadata() {
+ 		if [ $? -ne 0 ]; then
+ 			bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+ 		fi
+-	fi
  
-+# To disable verbose cmake logs for a given recipe or globally config metadata e.g. local.conf
-+# add following
-+#
-+# CMAKE_VERBOSE = ""
-+#
-+
-+CMAKE_VERBOSE ??= "-v"
-+
-+EXTRA_OECMAKE_BUILD_append = " ${CMAKE_VERBOSE}"
-+
-+# Then run do_compile again
- cmake_runcmake_build() {
--	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
--	eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
-+	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} } cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
-+	eval ${DESTDIR:+DESTDIR=${DESTDIR} } cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
- }
- 
- cmake_do_compile()  {
+-	# run2: only generate patches for elements that have been passed on the SRC_URI
+-	elements="`echo -n ${sccs} ${patches} ${KERNEL_FEATURES}`"
+-	if [ -n "${elements}" ]; then
+-		scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${sccs} ${patches} ${KERNEL_FEATURES}
++		# run2: generate patches
++		scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
+ 		if [ $? -ne 0 ]; then
+ 			bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+ 		fi
 -- 
-2.24.1
+2.23.0
 
 
