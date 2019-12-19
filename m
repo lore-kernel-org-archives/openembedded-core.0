@@ -1,40 +1,43 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E6437FE10
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D8BF7FDB6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 06:16:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47dhV965mwzQ3;
-	Thu, 19 Dec 2019 07:16:49 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1576736210;
-	bh=BzBfBcBcanAp9c1GT0LdslaxYYE9CfobvGcEMnQsb5w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZZ89mHN/gF4R3E4+GdgsDxmpt+8r6r8NHnTO2PU4xj6m++87xBkZn1N7E3OZpmXVB
-	/j94QlXHq1pE+ESDPs7v87llK97ckeDXtFKQMm8B7UWaQOgoOvAw/6F5xXw2SwuRQ+
-	fE8YAzV/6td7TG+uCy9jibSqRTf3gEWUdeoAzVHXxKKQpRemE9y+8/OcpzU6fJsbYY
-	kng+JaNkJwTF8Hu4P8UkA5MwiyOxCme78JZijEu/Vn48xBqoiszMIgw0ckbUpqBc9n
-	Wts5ASaol6q37i7RiYsEdgQCz1JH7SEWj3hoJ+8RmXfhww/JDhqIM3IVScRrWU6ild
-	zhiardUO8EC3YlewzsQDPNuuSJ4DOXJ36HL6b070JgTY4PWRJapPV5KmHvP/ul+YLo
-	4Kc1lDRJSz38xkdkgcyXD9TtHs75Lfy/ofFHIJE8rSHWd5OMSQtfY9Z20tHt3C9a1i
-	vP4XuOGTP5BzpPlnjEeXStfroKxci1Cy+DRa5aAraRw1y0o7vEJ8UFX37y/9b2mat8
-	+0pf+IehYs7Ddgq3yCNP5T8bZotzS0djrW1FIAuxwF6Xw/0cvKuhzk7j3tCZXwQWYf
-	T7GSombbLO6YMYNRaQTPSc7s+LaSmauSGeljpce53gSZxqkdga7Tk8qyUKat7G/J2a
-	DKQ2CB1bgaK0fWHm+FvVouFc=
-Date: Thu, 19 Dec 2019 08:16:47 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Message-ID: <20191219061647.GB24309@localhost>
-References: <cover.1576733575.git.anuj.mittal@intel.com>
-	<509b450af8d1e4c25ded53db18524d669ecd834e.1576733575.git.anuj.mittal@intel.com>
-	<20191219060153.GA24309@localhost>
-	<dbe34e0d561707fdc40350bab67685f8bf7d2da9.camel@intel.com>
+	Thu, 19 Dec 2019 08:52:52 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a5so4571830wmb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 19 Dec 2019 00:52:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=J8rkrX3QxXT6piPsLHZoTPiPSE/Ue2K2k9AxrrWKL+M=;
+	b=q85pBaPtS8TGG/1frNlPKJcLD8+O0Lhph6JV+AIbmCZU0sW+X4htZoLnRy3QPPTdYW
+	P6ldjDuVwF5OrJj1A9fMeGcIv92s7saEsdBZlEEVYJ4QvFr4sSStOPZqsfhM8tHkTSm+
+	fyNDyKPINcbbemYpI6CC91+72GNyDC22yWTjsqakQFaSk+ki+bFqBp6j+ot2XEL1AHzI
+	H6ljLjBCacVGYpkj0L/nCoDWdWH72EneEWGR8eS6phqVP2RaKgyBwWSJDuRzwhlJkl/i
+	YMWyRPbg7MR6XwAZkCOHoP28w5Q2KLgIujiC1Eb1cBp0whqZxtSoBg7RFYpmZ4vIj42g
+	P7qw==
+X-Gm-Message-State: APjAAAVV4XwSdGX+jn47Gl7PgLaMVqIXYGvJKXqUjoUhgI7W8hwnUjwA
+	J7vPSDFNmGUupn4uFFW09Q9VMG9O
+X-Google-Smtp-Source: APXvYqwHILdXiEY1qJdD7JUFiH2HXSs1ajZqsu/6qHFljfUzwU/ICP+tdk9Jv7LvgdFrRqfzy95JPA==
+X-Received: by 2002:a05:600c:2488:: with SMTP id
+	8mr8485182wms.152.1576745573414; 
+	Thu, 19 Dec 2019 00:52:53 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id t81sm5802122wmg.6.2019.12.19.00.52.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 19 Dec 2019 00:52:52 -0800 (PST)
+Message-ID: <679f8a273b8e113fadace659a84c35b1338ddbff.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 19 Dec 2019 08:52:50 +0000
+In-Reply-To: <20191218233928.696037-1-raj.khem@gmail.com>
+References: <20191218233928.696037-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-In-Reply-To: <dbe34e0d561707fdc40350bab67685f8bf7d2da9.camel@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/7] libtasn1: upgrade 4.14 -> 4.15.0
+Subject: Re: [PATCH] cmake: Displace VERBOSE setting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,36 +50,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 19 Dec 2019 06:16:50 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 19 Dec 2019 08:52:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Dec 19, 2019 at 06:09:40AM +0000, Mittal, Anuj wrote:
-> On Thu, 2019-12-19 at 08:01 +0200, Adrian Bunk wrote:
-> > On Thu, Dec 19, 2019 at 01:41:08PM +0800, Anuj Mittal wrote:
-> > > Remove backported patches and explicitly pass -std=gnu99 to native
-> > > CFLAGS
-> > > to make sure build passes on older and still supported OSes like
-> > > CentOS 7.
-> > > ...
-> > 
-> > -std=gnu99 is default with the ancient gcc on CentOS 7,
-> > you could pass -std=gnu11 to bring it to the same standard
-> > as current gcc.
-> > 
+Hi Khem,
+
+On Wed, 2019-12-18 at 15:39 -0800, Khem Raj wrote:
+> Setting VERBOSE always, while is fine on one hand for debugging, its
+> coming at an expense of creating lots and lots of logs, e.g. qtwebkit
+> compile logs alone with VERBOSE is 163MB, there are many other large
+> packages which use cmake e.g. WPE, webkitgtk etc which are in same range
+> with out this option on, the logs reduce to 861K and also speeds up
+> build a notch
 > 
-> info gcc for gcc 4.8.5 says:
+> If user needs to enable this logs for targetted debugging debugging that
+> could be added via
 > 
-> The default, if no C language dialect options are
-> given, is '-std=gnu90';
->...
-
-Sorry you are correct, I got the versions mixed up.
-
-> Thanks,
+> EXTRA_OECMAKE_BUILD += "--verbose"
 > 
-> Anuj
+> in recipe
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Ross Burton <ross.burton@intel.com>
 
-cu
-Adrian
+I don't agree with the reasoning to always disable this by default. - it's
+way too useful in general. I can't count the number of times it was enough
+to look at the log.do_compile to figure out something is wrong.
+
+Now you have to recompile everything with this merged, and something that
+took 5 minutes to debug becomes an arduous task.
+
+If the Webkit build is too verbose, you should make that specific recipe
+less verbose. E.g. you could always set
+EXTRA_OECMAKE_BUILD, and just clear
+it out in the webkit recipe.
+
+Otherwise, based on the same reasoning, you should disable all logs, not just
+cmake logs: kernel, make output in general, bitbake logs. They all take up space.
+
+Seriously, those logs are useful, keeping in mind that often logs are
+collected on build-machines, and having easy access is a huge time-saver.
+
+
+Cheers,
+Andre'
+
+
+
+> ---
+>  meta/classes/cmake.bbclass | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+> index 8ccb1eefc7..8a44a0c216 100644
+> --- a/meta/classes/cmake.bbclass
+> +++ b/meta/classes/cmake.bbclass
+> @@ -181,9 +181,14 @@ cmake_do_configure() {
+>  	  -Wno-dev
+>  }
+>  
+> +# To enable VERBOSE option to emit all kind of logs for a given recipe add following in it
+> +#
+> +# EXTRA_OECMAKE_BUILD += "--verbose"
+> +#
+> +# Then run do_compile again
+>  cmake_runcmake_build() {
+> -	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
+> -	eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
+> +	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} } cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
+> +	eval ${DESTDIR:+DESTDIR=${DESTDIR} } cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
+>  }
+>  
+>  cmake_do_compile()  {
+> -- 
+> 2.24.1
+> 
+
 
