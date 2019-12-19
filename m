@@ -1,49 +1,59 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 64B217ED5C
+Return-Path: <alistair@alistair23.me>
+X-Greylist: delayed 310 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 19 Dec 2019 05:20:56 UTC
+Received: from wnew4-smtp.messagingengine.com (wnew4-smtp.messagingengine.com
+	[64.147.123.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 656E77FDC2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2019 23:39:39 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id b137so2098549pga.6
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 18 Dec 2019 15:39:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 19 Dec 2019 05:20:56 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+	by mailnew.west.internal (Postfix) with ESMTP id 40028486;
+	Thu, 19 Dec 2019 00:15:47 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+	by compute7.internal (MEProxy); Thu, 19 Dec 2019 00:15:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
 	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3W6QpADCYFz+InbbQuY/8Hxh96Ft1SlsAQqT3PAbP+I=;
-	b=IRIcKqgqZAkfNtE1wwenbA+K+1Yj0uxCM/Qz8OPowNRGE4FTWi/R7BOMy1UjRicmW1
-	0nPs+UT7cvpBn0FHFlth9M473vgOMGn2DxfgbBmRhQ5SFfc5cmLw1y7zzS3GckcxyH6U
-	wPF9PTTB1ouVeIVcn7RgD07XHt/EeUFuD1IRu+F3kwVr5aIyljqwiGF2Ydp1IA2pJaOT
-	55CzOvxRBmz4DulvEKg2OGlrjmvDs+ht0XOmNv0uA4Y4DEGoJwFTekhNIOaUVocHyiDz
-	uKQddIX/PJuNPA/Gx71CocCXNUdFPT6kUivT2Ws0SI6EIT/iwZpnxhqvIx3weghR8cPb
-	xyJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3W6QpADCYFz+InbbQuY/8Hxh96Ft1SlsAQqT3PAbP+I=;
-	b=C0y/tR52c578MRZ8lv4eml0NXsIlCU/f1C8vT8lz0N96Qq+xuAn+WM2Jzf9/FN0eDS
-	8Jk7Ml9rOfPI9gvHT/iESgCMn3Tj11hOrnlOAbMw80+pBiMBPXnpibAE6KOE+EdyvKa5
-	LvRqttkHN6UJbYBZD0THRzyzFVYkU+Wqduxbij4aipQ8bj+4OhqWD8LadjJ3Xs1tEYft
-	IkQeyDTyEnFltjOwPBMaZ1w0ncQZr/S0VJwDo2yJQJ0zHv98RE8jwi8zPF4TAV8P7a32
-	oyF+B4QAv73yDfouTM6IIyZZwFc4WYQtjatoCztugXadqlK7EBm+VnugU5Rh07t3NNdq
-	HcWw==
-X-Gm-Message-State: APjAAAWZ7kprmIv9tLGtOppcQqhsgir4Da4Xy7TA8CJT2iraYkrm7W/O
-	dybhIrttTTIXH5uCb/E0I98BdQCd66g=
-X-Google-Smtp-Source: APXvYqzNQCLkVGMS/y5pZIKaI1KYdik2kIbL44+VL4Px9RCJEeXxfFcXM6JhlSqb1nVg7QeANsg2Cw==
-X-Received: by 2002:a63:de4a:: with SMTP id y10mr5883648pgi.367.1576712379706; 
-	Wed, 18 Dec 2019 15:39:39 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2ebb])
-	by smtp.gmail.com with ESMTPSA id o19sm7774327pjr.2.2019.12.18.15.39.38
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 18 Dec 2019 15:39:39 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	:content-transfer-encoding; s=fm2; bh=7lmiruq56SaniZX4S3LLChstVr
+	1OGcWpOXEIG13OFeI=; b=xkTQ2Ircz7wFccn2/a4wkSArYI0oO6Ni7Tta9dQ0H3
+	8QY8tzFdoAm5G4nvv37oMXOShS4VIkhze0jI6hYjlXv/76pHi5XEvVOfGHgSVBG7
+	Pql5+3HgDTKHmprcj3KocvAurIWOcWslOcnffglWTSQz+/lY0NEEGDIjTx3kchWI
+	MIQGaqdZYEAfpN40rMgrA36hdI7/nlnV1oI7dZg5vow2INIXJmjvufCrP77XxlEI
+	H4Y1Cco9ogGNNywT26ZZ2MedLG+QTCfkcM76yVtTLr81v82m39KT7RHU5F22VpET
+	zFyJY7ZXwisU+VmiUdyVYWUcMfH7nxf6wd6X1FhRmnOA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7lmiruq56SaniZX4S
+	3LLChstVr1OGcWpOXEIG13OFeI=; b=OPPFf4LGFYSOojSj06WK2XtqB4XUChDo1
+	rbDBwtcqd5OnlVd7OyaRG150fAXuULDeGQVEloZhlV3E+bxucFLFhEwM3QA1KClY
+	Ju2EhdxEnibIWiojIezTJCB0qwy74bEw0Bvd0iXQTSZqmAhXQJNjPF/2FexjGKk8
+	HWLp/MohJCCq9kAc+ddxL0FU6XTIKg7CB3Nwd4EGvrhKwnQoieBTls6NU/oSQjXd
+	XY4hjtrBkpSg1J/lNzpPzD26ae76AhhiEpWNWlzRLx1TKp+vDhNr5x2ePYBXy5gC
+	0R6w7TNMkMquXk8pCY1rw538wISyuYH5AQuGP+5yQl/BgNdxRBiKQ==
+X-ME-Sender: <xms:ggf7XdW0qorUS11f4FVHLrHG7V3ceYKiiosBfvxzRRc8uDFFFCaYdw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddutddgjeelucetufdoteggodetrfdotf
+	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+	uceurghilhhouhhtmecufedttdenucgovehorghsthgrlhdqhfeguddvqddtvdculdduhe
+	dtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehlihhs
+	thgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmh
+	gvqeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeejfedrleefrdekgedr
+	vddtkeenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhishhtrg
+	hirhdvfedrmhgvnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:ggf7XSzrwPtsMigb_lcxdi8d_jZq7xN8bVUsHjvdTyyeoBLoMq8Zfg>
+	<xmx:ggf7XaSntVl-Jh_6zOY0UCMpILg-KzcsqaoNgXZYKLyP3yWLwR3dzg>
+	<xmx:ggf7XWgJ6azoFG_AHqcdpQFJtl8ZW36vgPQmN-HX8Z4n04JYK0A-dg>
+	<xmx:ggf7XX_uynpIA6XmzeVkZduswhzjsIpW5dsbzpSNjwBZ22Ln_HVHjvkAmyI>
+Received: from alistair-xps-14z.alistair23.me
+	(c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 25FC38005A;
+	Thu, 19 Dec 2019 00:15:46 -0500 (EST)
+From: Alistair Francis <alistair@alistair23.me>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 18 Dec 2019 15:39:28 -0800
-Message-Id: <20191218233928.696037-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.1
+Date: Wed, 18 Dec 2019 21:15:42 -0800
+Message-Id: <20191219051543.20185-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Subject: [PATCH] cmake: Displace VERBOSE setting
+Subject: [PATCH v2 1/2] libepoxy: Update to 1.5.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,51 +66,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 18 Dec 2019 23:39:39 -0000
+X-List-Received-Date: Thu, 19 Dec 2019 05:20:56 -0000
 Content-Transfer-Encoding: 8bit
 
-Setting VERBOSE always, while is fine on one hand for debugging, its
-coming at an expense of creating lots and lots of logs, e.g. qtwebkit
-compile logs alone with VERBOSE is 163MB, there are many other large
-packages which use cmake e.g. WPE, webkitgtk etc which are in same range
-with out this option on, the logs reduce to 861K and also speeds up
-build a notch
-
-If user needs to enable this logs for targetted debugging debugging that
-could be added via
-
-EXTRA_OECMAKE_BUILD += "--verbose"
-
-in recipe
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
 ---
- meta/classes/cmake.bbclass | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ .../libepoxy/{libepoxy_1.5.3.bb => libepoxy_1.5.4.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/libepoxy/{libepoxy_1.5.3.bb => libepoxy_1.5.4.bb} (91%)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index 8ccb1eefc7..8a44a0c216 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -181,9 +181,14 @@ cmake_do_configure() {
- 	  -Wno-dev
- }
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb
+similarity index 91%
+rename from meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+rename to meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb
+index 71a2c91353..4caf672369 100644
+--- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
++++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
  
-+# To enable VERBOSE option to emit all kind of logs for a given recipe add following in it
-+#
-+# EXTRA_OECMAKE_BUILD += "--verbose"
-+#
-+# Then run do_compile again
- cmake_runcmake_build() {
--	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
--	eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
-+	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} } cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
-+	eval ${DESTDIR:+DESTDIR=${DESTDIR} } cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
- }
+ SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
+            "
+-SRC_URI[md5sum] = "e2845de8d2782b2d31c01ae8d7cd4cbb"
+-SRC_URI[sha256sum] = "002958c5528321edd53440235d3c44e71b5b1e09b9177e8daf677450b6c4433d"
++SRC_URI[md5sum] = "00f47ad447321f9dc59f85bc1c9d0467"
++SRC_URI[sha256sum] = "0bd2cc681dfeffdef739cb29913f8c3caa47a88a451fd2bc6e606c02997289d2"
+ UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
  
- cmake_do_compile()  {
+ inherit meson pkgconfig features_check
 -- 
-2.24.1
+2.24.0
 
 
