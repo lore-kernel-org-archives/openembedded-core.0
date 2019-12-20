@@ -1,43 +1,52 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D4B17F47E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id AE3B67FCBA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 16:37:55 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id g17so10030505wro.2
+	Fri, 20 Dec 2019 17:15:16 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id p17so10004056wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 08:37:56 -0800 (PST)
+	Fri, 20 Dec 2019 09:15:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=coTMf/v+3cFSczdU+0UgqQjT9WqGu1g6TV4p5cDZY3I=;
+	b=QYfbLN9l5gmbl0H1CzuT5pJhuG/Z1KLyp8ERwgBtFr2EldBJfoWLFvMp/IbKllX9j8
+	tP0BRY7TPVa9bcWNj2wi4EXbRPbnvL//tRVr/3qTTFSjMH11OPnvXsmb+4CaKRh3JxQC
+	KFp/DCwU6znOrcWcvYAPLgCVZ2a48IE8F3Glhm0+lYe9zMCuq6L4BiI8l1ymhouCXFDk
+	9HZyu2duk2UaQFadEIMY0Tu+7faYYMG7ZqS038NluKLqSrFpBgO6SAj8iJPpF3iPZrOh
+	gGkYU4F72O1dI0n2kMq7T2E/Uz+lzrcfT2+M5jQ/nYyYsImkE1LA2ZhT4fC/8Xp0JDsS
+	Zi2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=194cACuXqebDsHnM9dn7aO9DU0Dnd+z831c+s5kYhkA=;
-	b=TBHToFe4S+IstIp+jMpyFSKrj6ZMlvycfHX5syxd1H7IcGMcqLobgW+GXIAkpRAJBu
-	I/53GxhjEhLLuX8Cq0TpvAfyZt5vmd0GcjXgT5eh0jEMxe9VqWYEZ0SI8fpZ5aboSSpm
-	Q95hTZ21GOvpP1BjLkB8p3axAkg1wuxAFPBAwLhr45Lm63lJ5F/VqVeH5cshy+yoNcJI
-	nntdNDevq/oaXuDtQIqsFQV6n1nsdVYiPQkj7UWl4GzmueER3E8MX4aj33liz1gh+N/+
-	xWt/QiNrl5QghD7+pycPteQO5VZGSe9iSWSz5TM4Gg0QZ20aDt/qkrwQt575jyXUmcm2
-	IOXQ==
-X-Gm-Message-State: APjAAAUWvlx0qr4KdlGZs/U29bv5v4vnwgofeetpAeiEmDt3kG/mffFO
-	uwJDAo6NYoWw+Y0Y71pOhO7vmTaj
-X-Google-Smtp-Source: APXvYqyPnhGuaaHvTEF8VcPjMdRTUi5MF9p/JWVUKlWQZ7pAehaDqAV4OKILX+CdeA/uilqJm0w0mg==
-X-Received: by 2002:a5d:6ac2:: with SMTP id u2mr16633132wrw.233.1576859875824; 
-	Fri, 20 Dec 2019 08:37:55 -0800 (PST)
-Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	l3sm10142375wrt.29.2019.12.20.08.37.55
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=coTMf/v+3cFSczdU+0UgqQjT9WqGu1g6TV4p5cDZY3I=;
+	b=L4QrV6QnIXvVaFpljZWXr992J8eqlxATYz4XujyYNFq72ibj3L8BRuxCkSWr8IyHyf
+	Muo5YVeaRTSain8ETTvJdARXqtuM5COdvUVZk9Eu2wqm1c8R4wGq3q4eqq1Wh3WoRO91
+	TmYD5bAkLVNN+7BIfKZTBQm09FJuMn3AJkY2wcb5Y6RlRUtqIFngf18vS1t0lec1SELI
+	EksneH9J+zaJRzE3qK7wdIukKnS4pN5PS5ouHQOgT/WNezT8WJ9TjpQD1LfHcGXLriDi
+	9JCTQmwb8n1cZ9JCKeMf05r8ItNcmmjCHn4GAHD+ar2KktzvKLT1h+etUZ2zdb7zwfkX
+	SyTQ==
+X-Gm-Message-State: APjAAAVPuP/uYTCgfMwVcdlMY91ZB4YVPpLhqFcpjPrKz4AnNKP5Mhm9
+	xZi89wUOQaAYaHiyh+BNL4AjDxtwYao=
+X-Google-Smtp-Source: APXvYqxbj1BAmFdz6cN6tANTwj6PQOyuz8nB1Qe2OHPognuW70NauI6D8DGspYbRreTMCrAmiKZ73Q==
+X-Received: by 2002:a1c:1bc3:: with SMTP id b186mr17607482wmb.79.1576862116868;
+	Fri, 20 Dec 2019 09:15:16 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id p18sm2487469wmg.4.2019.12.20.09.15.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 20 Dec 2019 08:37:55 -0800 (PST)
-From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
+	Fri, 20 Dec 2019 09:15:15 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2019 16:37:54 +0000
-Message-Id: <20191220163754.37125-1-git@andred.net>
-X-Mailer: git-send-email 2.23.0.rc1
-In-Reply-To: <20191220162335.36069-1-git@andred.net>
-References: <20191220162335.36069-1-git@andred.net>
+Date: Fri, 20 Dec 2019 17:15:13 +0000
+Message-Id: <20191220171513.1140-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH v2] oeqa/runtime/ptest: fix detection of failed tests
+Subject: [PATCH] meson: map the system property in the cross file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,69 +59,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 16:37:55 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Fri, 20 Dec 2019 17:15:17 -0000
 Content-Transfer-Encoding: 8bit
 
-Since commit d6065f136f6d ("oeqa/logparser: Various misc cleanups"),
-7b17274c30c6 in poky, the ptest OEQA is unable to detect failures
-in any of the test results.
+We can't just use HOST_OS, as in meta-mingw SDKs that is 'mingw32' but Meson
+expects 'windows'.
 
-The reason is that the test result string changed from 'fail' to
-'FAILED', because the original mapping has been removed as part of
-that commit, but the code in here is still trying to match against
-the old string, resulting in no matches, i.e. everything is treated
-as successful, even if it shouldn't be.
-
-Update the OEQA ptest test to actually work again and report
-failure if there was a failure.
-
-Note that the ptest test is marked as @expectedfail, so even though
-this test now again starts to fail, the overall OEQA test result is
-not affected - but at least the overall OEQA test summary reflects
-the correct status again.
-
-In other words:
-    RESULTS:
-    RESULTS - ping.PingTest.test_ping: PASSED (0.26s)
-    RESULTS - ptest.PtestRunnerTest.test_ptestrunner: PASSED (4.05s)
-    RESULTS - ssh.SSHTest.test_ssh: PASSED (0.60s)
-    SUMMARY:
-    image-debug () - Ran 3 tests in 4.937s
-correctly changes to:
-    AssertionError: Failed ptests:
-    {'dummytest': ['check_True_is_True', 'test_basic']}
-
-    RESULTS:
-    RESULTS - ping.PingTest.test_ping: PASSED (0.24s)
-    RESULTS - ssh.SSHTest.test_ssh: PASSED (0.56s)
-    RESULTS - ptest.PtestRunnerTest.test_ptestrunner: EXPECTEDFAIL (4.13s)
-    SUMMARY:
-    image-debug () - Ran 3 tests in 4.937s
-instead and we see a summary of the ptest subtests that failed.
-
-Signed-off-by: André Draszik <git@andred.net>
-
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
-v2: update last sentence in commit message
----
- meta/lib/oeqa/runtime/cases/ptest.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/meson.bbclass | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index d8d1e1b344..aef79f62a9 100644
---- a/meta/lib/oeqa/runtime/cases/ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -68,7 +68,7 @@ class PtestRunnerTest(OERuntimeTestCase):
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index e1a13bbbf74..9e7ce42a701 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -62,6 +62,16 @@ def meson_cpu_family(var, d):
+     else:
+         return arch
  
-         failed_tests = {}
-         for section in results:
--            failed_testcases = [ "_".join(test.translate(trans).split()) for test in results[section] if results[section][test] == 'fail' ]
-+            failed_testcases = [ "_".join(test.translate(trans).split()) for test in results[section] if results[section][test] == 'FAILED' ]
-             if failed_testcases:
-                 failed_tests[section] = failed_testcases
++# Map our OS values to what Meson expects:
++# https://mesonbuild.com/Reference-tables.html#operating-system-names
++def meson_operating_system(var, d):
++    import re
++    os = d.getVar(var)
++    if "mingw" in os:
++        return "windows"
++    else:
++        return os
++
+ def meson_endian(prefix, d):
+     arch, os = d.getVar(prefix + "_ARCH"), d.getVar(prefix + "_OS")
+     sitedata = siteinfo_data_for_machine(arch, os, d)
+@@ -97,13 +107,13 @@ cpp_link_args = ${@meson_array('LDFLAGS', d)}
+ gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
  
+ [host_machine]
+-system = '${HOST_OS}'
++system = '${@meson_operating_system('HOST_OS', d)}'
+ cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
+ cpu = '${HOST_ARCH}'
+ endian = '${@meson_endian('HOST', d)}'
+ 
+ [target_machine]
+-system = '${TARGET_OS}'
++system = '${@meson_operating_system('TARGET_OS', d)}'
+ cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
+ cpu = '${TARGET_ARCH}'
+ endian = '${@meson_endian('TARGET', d)}'
 -- 
-2.23.0.rc1
+2.20.1
 
 
