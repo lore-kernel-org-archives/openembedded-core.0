@@ -1,49 +1,55 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f52.google.com (mail-vs1-f52.google.com
-	[209.85.217.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 793647FDD3
+Return-Path: <fdk17@ftml.net>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+	[64.147.123.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 03D857F47E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 12:12:59 +0000 (UTC)
-Received: by mail-vs1-f52.google.com with SMTP id v12so5898499vsv.5
+	Fri, 20 Dec 2019 13:02:00 +0000 (UTC)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+	by mailout.west.internal (Postfix) with ESMTP id 09CEF715
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 04:13:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dL5UILRH+hGHgaFVD0IamdwtVbnQtHTqq7XRQB7d4kY=;
-	b=i8ojxUz4iNl/WmZVW0TrGyz/spBt+Jy18rBDWLoYAqlt2zo16MW8twh6Weq0iQHH/X
-	RYGdOgwkKjGU5XJimH+zceEvZNQfzX5UIIZsqV0Bs578YXT5n9Jftt789gz7H7CGWoqj
-	cKTFWi4KeAAcGL+CDccv7whMc52YBRng2qSRpBdvbuqLKG9teV7RRjH1XR6/iw/ToPVa
-	rER6YIZLYfsMSW7kWdfOpGkPgaJiIgd+oaXKMePZyP5EjkY+vhPxMoO1KTRA9TlZjRdb
-	94m85aq4xc5xl2KcI69s1shcplZhrWCkji65WsnJNVKC4fcVGUvGoT7mFsdz5Qf4M2hC
-	6Iag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=dL5UILRH+hGHgaFVD0IamdwtVbnQtHTqq7XRQB7d4kY=;
-	b=a0z170PZzJztfWoBPArb0Lkak1dE8bNoCb7JJycIaA9sezpLMBxjXtRHeQMuQH3tda
-	tVqYJFp1U2Yf+dYDCMkmFdzC4Sk4azRfBpMoGFbTCNhVUeO8HbkQwU8+l9FGu6AOATrS
-	df+uCTm9XRkaNYcyn5RE78G30SjgmFaExhKiqYMQC3F603lTTj4wNBNCZzpK7KtswP2l
-	vVGnm2f+N6ANjMb7nmo3oP1u2TpG6qxxkM5htb4Y9VYDt5AybEVp5z/tDidPM8pXAzbC
-	CJEJNNilb8fWOSB0o4J4qJcBlD5EgsP2UJVQu5f2RCvVhf9t8gsCBwQJJ+1RvAnygR7H
-	nc1Q==
-X-Gm-Message-State: APjAAAWDR/n3dyPqRRIkDvVWLjEGiJffzxRlB1JFRJPalotHg5drK8DJ
-	JWSQCNCy9VF8Jejj7Q7aPC6wzXbS552qVqGAR1o=
-X-Google-Smtp-Source: APXvYqx17TAjtCcWV6+EK8S00LYOpJxU3A69+ylLVRsyyenM+jLaEZ0mg09qZGsDNgRPru3bOB2beIN7AV7KikFrfAM=
-X-Received: by 2002:a05:6102:405:: with SMTP id
-	d5mr8125042vsq.94.1576843980291; 
-	Fri, 20 Dec 2019 04:13:00 -0800 (PST)
-MIME-Version: 1.0
-References: <20191218143758.129308-1-alex.kanavin@gmail.com>
-	<20191218143758.129308-20-alex.kanavin@gmail.com>
-	<ca5b077a-b7a5-f443-fdee-0951eb29b35b@intel.com>
-In-Reply-To: <ca5b077a-b7a5-f443-fdee-0951eb29b35b@intel.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 20 Dec 2019 13:12:48 +0100
-Message-ID: <CANNYZj_t7V8h2-7Zve5XV8jJuH0DF1hXo4TPcB8aJbqa3Rw_pg@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 20/25] ltp: update to 20190930
+	Fri, 20 Dec 2019 08:02:01 -0500 (EST)
+Received: from imap7 ([10.202.2.57])
+	by compute6.internal (MEProxy); Fri, 20 Dec 2019 08:02:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ftml.net; h=
+	mime-version:message-id:date:from:to:subject:content-type; s=
+	fm2; bh=YCUb1z8RpY5tN33e5LdTseWTKZmN4BBp5Upri6RX4eo=; b=S49hwCpf
+	ba5iSL3UOwUEMH9ownAlYuhI1vVlUY5mYXMgnjQCaFqK1x2xoSyBCAHtYDlm92r0
+	mQ/XhXRfcTEAhXCEqiMc9WiLZSCTgQXwLVynmfHO21I1BN4V7oUGxXAXZZIbMQuo
+	3Xv49gqRyXsZxOkKrqD9jheV99L4Bgd6mW0zVpl/FBTWnErvhNZ2tgGGV/JvGIbW
+	20nzxfqTqXYi2WW8MecbCDN6wB1wO2ZkLYUUPNjmjSx2IidDJQB3VUN7ier3CwOP
+	RMwz4B2JlPgRipOKXnIgmCBjrDk/xhKzFO4RwRLognV1ZhJ88gL+1SrAfeKw6RJZ
+	/Zq5RMfp8FZXbQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-type:date:from:message-id
+	:mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; bh=YCUb1z8RpY5tN33e5LdTseWTKZmN4
+	BBp5Upri6RX4eo=; b=xDAw4whvGxcmQlIc8GVgtD7F6P8HuMDbeEqTDO898hkWL
+	gI5GttcM6ffOhvSz64ofxfMVDVPy6yHBciFaD6nyE64cgtm0e8y4TMqd7fg0cnrJ
+	SAPZmzY+aEq4hC3gU5H+wkRVeHbrmEQ1VnzzSwJ4gTk/ks/ZWAYCtag8FIeaJd1+
+	y9Pk9N10djrmhEKhPLRF8eicx7caGDo8NHK1Xoy+FnvW4xKLlsOLr2GCaibljjuf
+	8ryyEbBCqdKTMVtEnUqpmqdmjvgvvAnSvVwnDenM2AaLQSM79QMMlDFS0x08ugHi
+	Dl8YdCv3MKC92EO3/HtgYGp+gtS770f0W/cXErOaw==
+X-ME-Sender: <xms:Scb8XTDJmevafa1Zccw3-PZzHvLLoF0ghD5zspmTyOBDonU-Ssduyg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddufedggeehucetufdoteggodetrfdotf
+	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+	uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfffhffvufgtsehttdertd
+	erredtnecuhfhrohhmpehfughkudejuceofhgukhdujeesfhhtmhhlrdhnvghtqeenucfr
+	rghrrghmpehmrghilhhfrhhomhepfhgukhdujeesfhhtmhhlrdhnvghtnecuvehluhhsth
+	gvrhfuihiivgeptd
+X-ME-Proxy: <xmx:Scb8Xdy-oDQy3dvwNklRLNyFukL_GOoZdKFIHX7PtGrKlrkSLGudmg>
+	<xmx:Scb8XZnYZVB0EgQCRmE8n8akv5YnR34R4YelUKT0C7xqaJOqR-rsfA>
+	<xmx:Scb8XaG4ASYRfmGjm1RU4RfGZdSOkiylMbBfMdiu7vBPK2cReDEJBw>
+	<xmx:Scb8XS5yk8Ghxc0fAF-_IlMKd35CXdJyo2dbFsuOXirbskY3EeSpww>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 560521801C3; Fri, 20 Dec 2019 08:02:01 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.7-694-gd5bab98-fmstable-20191218v1
+Mime-Version: 1.0
+Message-Id: <15ff3b91-1597-453a-bf6b-53884da94884@www.fastmail.com>
+Date: Fri, 20 Dec 2019 08:01:00 -0500
+From: fdk17 <fdk17@ftml.net>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] mesa: Allow building the virgl driver to be configurable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,67 +62,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 12:12:59 -0000
-Content-Type: multipart/alternative; boundary="0000000000004fc297059a219954"
+X-List-Received-Date: Fri, 20 Dec 2019 13:02:01 -0000
+Content-Type: text/plain
 
---0000000000004fc297059a219954
-Content-Type: text/plain; charset="UTF-8"
+From 1085177146db3db7f156a951191e756fca28e863 Mon Sep 17 00:00:00 2001
+From: Fred Baksik <fred.baksik@mrcy.com>
+Date: Thu, 19 Dec 2019 14:16:56 -0500
+Subject: [PATCH] mesa: Allow building the virgl driver to be configurable
 
-Thanks, will send a followup patch.
+If a .bbappend file sets GALLIUMDRIVERS then virgl is always being
+appended to the list of drivers to be built. Make virgl an optional
+component.
 
-Alex
+Signed-off-by: Fred Baksik <fred.baksik@mrcy.com>
+---
+ meta/recipes-graphics/mesa/mesa.inc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-On Fri, 20 Dec 2019 at 12:02, Ross Burton <ross.burton@intel.com> wrote:
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 9ad9f2e370..87f167c507 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -67,7 +67,7 @@ EXTRA_OEMESON = " \
+ "
+ 
+ PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium virgl', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
+                    elf-tls \
+@@ -132,10 +132,11 @@ GALLIUMDRIVERS_LLVM33_ENABLED = "${@oe.utils.version_less_or_equal('MESA_LLVM_RE
+ GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
+ 
+ PACKAGECONFIG[r600] = ""
++PACKAGECONFIG[virgl] = ""
+ 
+ GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
+ GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'r600', ',r600', '', d)}"
+-GALLIUMDRIVERS_append = ",virgl"
++GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
+ 
+ PACKAGECONFIG[gallium] = "-Dgallium-drivers=${GALLIUMDRIVERS}, -Dgallium-drivers=''"
+ PACKAGECONFIG[gallium-llvm] = "-Dllvm=true -Dshared-llvm=true, -Dllvm=false, llvm${MESA_LLVM_RELEASE} llvm-native \
+-- 
+2.17.1
 
-> http://errors.yoctoproject.org/Errors/Details/299060/:
->
-> TOPDIR/tmp/work/core2-64-poky-linux-musl/ltp/20190930-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/9.2.0/ld:
->
-> /tmp/ccGG6bI5.o: in function `main':
-> /usr/src/debug/ltp/20190930-r0/git/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_getprioceiling/../../../conformance/interfaces/pthread_mutexattr_getprioceiling/1-2.c:57:
->
-> undefined reference to `pthread_mutexattr_getprioceiling'
-> TOPDIR/tmp/work/core2-64-poky-linux-musl/ltp/20190930-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/9.2.0/ld:
->
-> /usr/src/debug/ltp/20190930-r0/git/testcases/open_posix_testsuite/conformance/interfaces/pthread_mutexattr_getprioceiling/../../../conformance/interfaces/pthread_mutexattr_getprioceiling/1-2.c:51:
->
-> undefined reference to `pthread_mutexattr_setprioceiling'
-> collect2: error: ld returned 1 exit status
->
-> Ross
->
-
---0000000000004fc297059a219954
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Thanks, will send a followup patch.</div><div><br></d=
-iv><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr"=
- class=3D"gmail_attr">On Fri, 20 Dec 2019 at 12:02, Ross Burton &lt;<a href=
-=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br><=
-/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
-rder-left:1px solid rgb(204,204,204);padding-left:1ex"><a href=3D"http://er=
-rors.yoctoproject.org/Errors/Details/299060/" rel=3D"noreferrer" target=3D"=
-_blank">http://errors.yoctoproject.org/Errors/Details/299060/</a>:<br>
-<br>
-TOPDIR/tmp/work/core2-64-poky-linux-musl/ltp/20190930-r0/recipe-sysroot-nat=
-ive/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc=
-/x86_64-poky-linux-musl/9.2.0/ld: <br>
-/tmp/ccGG6bI5.o: in function `main&#39;:<br>
-/usr/src/debug/ltp/20190930-r0/git/testcases/open_posix_testsuite/conforman=
-ce/interfaces/pthread_mutexattr_getprioceiling/../../../conformance/interfa=
-ces/pthread_mutexattr_getprioceiling/1-2.c:57: <br>
-undefined reference to `pthread_mutexattr_getprioceiling&#39;<br>
-TOPDIR/tmp/work/core2-64-poky-linux-musl/ltp/20190930-r0/recipe-sysroot-nat=
-ive/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc=
-/x86_64-poky-linux-musl/9.2.0/ld: <br>
-/usr/src/debug/ltp/20190930-r0/git/testcases/open_posix_testsuite/conforman=
-ce/interfaces/pthread_mutexattr_getprioceiling/../../../conformance/interfa=
-ces/pthread_mutexattr_getprioceiling/1-2.c:51: <br>
-undefined reference to `pthread_mutexattr_setprioceiling&#39;<br>
-collect2: error: ld returned 1 exit status<br>
-<br>
-Ross<br>
-</blockquote></div>
-
---0000000000004fc297059a219954--
