@@ -1,33 +1,27 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 346957FE6E
+Return-Path: <robert.joslyn@redrectangle.org>
+X-Greylist: delayed 8844 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 20 Dec 2019 06:23:17 UTC
+Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
+	by mail.openembedded.org (Postfix) with ESMTP id AC64C7FD8B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 04:51:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47fGXw1jZ5z6W
+	Fri, 20 Dec 2019 06:23:17 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
+	by mslow2.mail.gandi.net (Postfix) with ESMTP id 1B4D73A3083
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 05:51:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1576817472;
-	bh=jHV7HZwg4JxPtj8Zt3NR7n7P5VYidnAijCttjh8lLJg=;
-	h=From:To:Subject:Date:From;
-	b=ohh0RNN0YYoN5uNuzwk7vcm2Em77gV/pkKmNqndMAUyFwwirhqKx95pGeHaRnouZB
-	OT7XSDjOTNUXq8wBWu8hqRY/O2PVmOcq10VZVpqO/JnJrEpjNZa4wV8bpEGyEOIlRr
-	yoFrVR6FDmfjzhSkQ0JWZUANBJCYuamM4odrVYGZ3WGeviP1Z5sPbmFW7qS9sbhtAb
-	wwxw3v2094sA0F9FE+QBdFdCUdf/VGKujh0MZ7osjvOeTRvgaC9PrtHwWIFhBrTA8U
-	6LgOcvnNTI5j9+8FvqxgJFkXSoyEUdUdSm66qTM6KpVdEW4Z3UFDbQJkPqK2YT1f5Z
-	szIYpYpXEtDzOIOnWrZNz44s5IOrsIDaHi3GaI2OPljjDXCAx1+Gr2Gi8h/dACyYjq
-	LAp2nfjJLjbTy+dgFca1/aJ4OIh+9QYsHT/Hdkl+5mp9saVXqSEsgN5Qvr6UxYFvwL
-	yxN2uOj1W6USgrY7PfGjFQ8uP+vBCy5Q+NWl/3+msnVHnFDWR70VrVYLcLtpZg/Mkg
-	m2sfs/4xKqVLgeL2y4ThBYtNwvFq2xW/o5jt7YlJ6meEbXYS4k37ngSGaR3QIh9jxE
-	+hzqFVZBsTPOs5dn5J0wl2RQ2Mlz6cWxOygpD7Fxj+MPk+Dk5Zkdm8SBR81D22Im3f
-	/fcQ5lGOIXPrEGZbgXPIkwas=
-From: Adrian Bunk <bunk@stusta.de>
+	Fri, 20 Dec 2019 03:55:54 +0000 (UTC)
+X-Originating-IP: 173.197.191.182
+Received: from hebe.localdomain (rrcs-173-197-191-182.west.biz.rr.com
+	[173.197.191.182])
+	(Authenticated sender: robert.joslyn@redrectangle.org)
+	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id CF2C41C0008;
+	Fri, 20 Dec 2019 03:55:51 +0000 (UTC)
+From: Robert Joslyn <robert.joslyn@redrectangle.org>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2019 06:51:11 +0200
-Message-Id: <20191220045111.12387-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] python3: Upgrade 3.7.5 -> 3.7.6
+Date: Thu, 19 Dec 2019 19:55:24 -0800
+Message-Id: <20191220035524.2800396-1-robert.joslyn@redrectangle.org>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Subject: [PATCH] ell: Update to 0.27
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,33 +34,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 04:51:14 -0000
+X-List-Received-Date: Fri, 20 Dec 2019 06:23:18 -0000
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+- Fix issue with data overflow and multiple PEMs.
+- Fix issue with handling DHCP lease expiration.
+
+Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
 ---
- .../python/{python3_3.7.5.bb => python3_3.7.6.bb}             | 4 ++--
+ meta/recipes-core/ell/{ell_0.26.bb => ell_0.27.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.7.6.bb} (99%)
+ rename meta/recipes-core/ell/{ell_0.26.bb => ell_0.27.bb} (83%)
 
-diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
-similarity index 99%
-rename from meta/recipes-devtools/python/python3_3.7.5.bb
-rename to meta/recipes-devtools/python/python3_3.7.6.bb
-index 57eaaea5e7..bd23da87d6 100644
---- a/meta/recipes-devtools/python/python3_3.7.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.6.bb
-@@ -39,8 +39,8 @@ SRC_URI_append_class-nativesdk = " \
-            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
-            "
+diff --git a/meta/recipes-core/ell/ell_0.26.bb b/meta/recipes-core/ell/ell_0.27.bb
+similarity index 83%
+rename from meta/recipes-core/ell/ell_0.26.bb
+rename to meta/recipes-core/ell/ell_0.27.bb
+index f1f252ce4f..503f1e22a3 100644
+--- a/meta/recipes-core/ell/ell_0.26.bb
++++ b/meta/recipes-core/ell/ell_0.27.bb
+@@ -14,8 +14,8 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
  
--SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
--SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
-+SRC_URI[md5sum] = "c08fbee72ad5c2c95b0f4e44bf6fd72c"
-+SRC_URI[sha256sum] = "55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f"
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "4660e25541071e933a2bb02ef2f94e7d"
+-SRC_URI[sha256sum] = "7855b4b8f271ba6ee67d87d0965b975a9a8dbeaa616665ca2248afa3b5fcbc77"
++SRC_URI[md5sum] = "e090d6a910a43c2a32114ba1cdc9f1f2"
++SRC_URI[sha256sum] = "afc5441d6f6ece512a188b1e6aeabd7153de4f38989c897a2197ae50fc46da96"
  
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
 -- 
-2.17.1
+2.24.1
 
 
