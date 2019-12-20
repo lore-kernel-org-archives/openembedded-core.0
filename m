@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 9218D7FD0B
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BC4A7FD2F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 16:23:58 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id g17so9987017wro.2
+	Fri, 20 Dec 2019 16:23:59 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id p17so9841466wma.1
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 20 Dec 2019 08:24:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6cLKrBERoo9oLFG3jSUY2Aw1Ag58h5KS7Ajcgk4Z8Rg=;
-	b=HDpTB4fRC55j7BkoAkIGvlz/H/E/46wTgmv/s9v8s2pd9m+IoyBxbk3NDjmZ5njsQG
-	v7sf9pJ6xEvbOAAYCMT9Coxjv0RPyQZxI2M73WVf+rWPozRQX7BO2cMvRg7z9OXAGR9/
-	B3CKAn/TAtJ9ioa2MjOCU0lQ/f1bi/5N7HBHn4ERJ5HVVTgeuDQy+ilhWapv9C7wQ8AA
-	7s9XuBtO0J8Kc0GZNMCPPLDRuKOEcPJ9UqXERzt7SBkA5d7xi5dFpnCqpQBu0szehKjy
-	0ZkYY37XaMZlZAX7UjuuxqW3KAZEdNATC+fUomvE0Gvu5R8RFJ5uKGxN9Ig+Ab9sCnwl
-	t5Iw==
+	bh=XYde8BatjhbAxtpC8+4B93Gj2NRlKYn2aTdpnBa/dQg=;
+	b=PXnldYrqU5d6IyB512WdDxS1S8oprySC6UKFT+SSfogc+7ncg5q+mSifmD3P7OFYOW
+	MIjyCUg2FqAwAQkF81821MpQR3uy9EAtrT+PejG+e9fkzpJi5gol9pCBFEVbWs8VkYfC
+	J/dDvjlhSs3d4ayKSF1P6gquIPjziF7tbMWLbd+uvn4LqVCH9s7fzRzt56xXBTJTCzOf
+	LPYcOHNlTaZh6Lo6dve4YlFqYi4N9e7qj+/kR8zBtd9HKnCH9W9Pk4y/cG7tck+xzL/Z
+	fkwcQ9CzQch82TZm9SY3f8ZMhOt8RyefxFgK2v/weK2aWCE/J8spQOvOMBy5T9y1AnBj
+	ucqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=6cLKrBERoo9oLFG3jSUY2Aw1Ag58h5KS7Ajcgk4Z8Rg=;
-	b=iV8YeWYjr3rTXIsNDu26i/y5HNkKT73kf8LAWj+ExsSzLoUZrFXYVPjC05dcnLt0AI
-	QAk7bOTLjt1JhqJRwC2L4ZiwVv72x/uD1eQRADqqpCz/0IMLxK5sca+yEFoh0RCPD/3T
-	g1R4C8B6BN7IW7Z3zmLYwWU+X/xyuA4mwW93dwzN0YHBTU1jk+vArcfeGdZuvngWP7ID
-	DPwzsIdB0L32PrSdaTT5WDU7uTzOPTe83r1FMiOD38iBt9fvSt3P4ivRIVxZhHtqnXEc
-	PrsFLoGzOjseRDCE87Ie+K29P7gGMa0LWdKAuROVYPw/wNJtNXtBTzqYOeanE/JNqVu0
-	S7+Q==
-X-Gm-Message-State: APjAAAXYrk90hiEYDoYJ0urERbdQyaLYrNVNUeiphM8LM9AyI+1pEPy9
-	vXj4CnLURtnuVx1JQ1FuGiPFeRZ+n5o=
-X-Google-Smtp-Source: APXvYqxTfmHoLQq8GToZnmxns/kBkL5MqQGKBIQ/S5h4txtpuLWyps+AOoYBh6R3wscjYW0Y1ytz9Q==
-X-Received: by 2002:adf:f20b:: with SMTP id p11mr15606625wro.195.1576859039128;
+	bh=XYde8BatjhbAxtpC8+4B93Gj2NRlKYn2aTdpnBa/dQg=;
+	b=OJ22VP9evaUiCQgiLA0HUotmbop2NbsLnAFkGdn0V0d3LcHdPdQbeVKGlomU2Bj/e6
+	XYuSVH26lNI5C/0h+WfPNRwb5ms7B51/+cbbrbN7G2g57U9VOdMsdm5UNlCIiv/4QA6U
+	07ipS+Znj/ABvfAT0EZeq7IJAZS8IDcl/86ZX9FuF/bYAHECZRMzbkVAFf6Fq5Mh+rKj
+	Pk5ilz+WhUwBfHCXtiay+DXD7k3RKUWW55ktFNEB6UBtXEa8we0213UfqL+D2vGUdaNZ
+	4lZaz3f9Nl6JUAWB5xU0kXvjuEUEEfReWXoSk+Nsr8OFvzgz4WHuphoevv7oNW3ZhJ8g
+	pbIg==
+X-Gm-Message-State: APjAAAWvNzcgttZI3ftvzFT8+ko8F4WNgxuao0FKGgRvWeLCGFmjtV6s
+	OFloxHIZB0wnDGOtiZvCPWgqqzvwJik=
+X-Google-Smtp-Source: APXvYqzRqgRnXQ/k9hWlAfQI9kmMRAIn3oUyAC7/vVPIZxyydvf7Dcf5YFik+oDlK1eUnILx0NEOwg==
+X-Received: by 2002:a05:600c:20c7:: with SMTP id
+	y7mr17912934wmm.21.1576859039962; 
 	Fri, 20 Dec 2019 08:23:59 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	w17sm10436356wrt.89.2019.12.20.08.23.58
+	w17sm10436356wrt.89.2019.12.20.08.23.59
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 20 Dec 2019 08:23:58 -0800 (PST)
+	Fri, 20 Dec 2019 08:23:59 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2019 17:23:44 +0100
-Message-Id: <20191220162351.94498-4-alex.kanavin@gmail.com>
+Date: Fri, 20 Dec 2019 17:23:45 +0100
+Message-Id: <20191220162351.94498-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191220162351.94498-1-alex.kanavin@gmail.com>
 References: <20191220162351.94498-1-alex.kanavin@gmail.com>
-Subject: [PATCH 04/11] core-image-testmaster: use Python 3
+Subject: [PATCH 05/11] ptest-packagelists: drop python 2.x
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,26 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 16:23:59 -0000
+X-List-Received-Date: Fri, 20 Dec 2019 16:24:00 -0000
+
+With python 2.x reaching EOL and leaving oe-core soon, there is no need to keep
+it in ptest lists.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/images/core-image-testmaster.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/distro/include/ptest-packagelists.inc | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-extended/images/core-image-testmaster.bb b/meta/recipes-extended/images/core-image-testmaster.bb
-index 78295c5f0a3..0faf18f5a4e 100644
---- a/meta/recipes-extended/images/core-image-testmaster.bb
-+++ b/meta/recipes-extended/images/core-image-testmaster.bb
-@@ -8,7 +8,7 @@ inherit core-image
- # normal linux utilities not busybox ones
- IMAGE_INSTALL += "\
-     bash coreutils util-linux tar gzip bzip2 kmod \
--    python-modules python-misc \
-+    python3-modules python3-misc \
-     e2fsprogs e2fsprogs-mke2fs parted \
-     "
- # we need a particular initramfs for live images
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index bb4724cf528..26b8db5b607 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -70,7 +70,6 @@ PTESTS_SLOW = "\
+     openssh-ptest \
+     openssl-ptest \
+     perl-ptest \
+-    python-ptest \
+     python3-ptest \
+     strace-ptest \
+     tcl-ptest \
 -- 
 2.17.1
 
