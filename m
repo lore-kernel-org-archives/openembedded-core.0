@@ -1,55 +1,51 @@
-Return-Path: <fdk17@ftml.net>
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
-	[64.147.123.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 03D857F47E
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id ABCD27F2A1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 13:02:00 +0000 (UTC)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-	by mailout.west.internal (Postfix) with ESMTP id 09CEF715
+	Fri, 20 Dec 2019 13:10:22 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id u14so6007950vsu.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 08:02:01 -0500 (EST)
-Received: from imap7 ([10.202.2.57])
-	by compute6.internal (MEProxy); Fri, 20 Dec 2019 08:02:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ftml.net; h=
-	mime-version:message-id:date:from:to:subject:content-type; s=
-	fm2; bh=YCUb1z8RpY5tN33e5LdTseWTKZmN4BBp5Upri6RX4eo=; b=S49hwCpf
-	ba5iSL3UOwUEMH9ownAlYuhI1vVlUY5mYXMgnjQCaFqK1x2xoSyBCAHtYDlm92r0
-	mQ/XhXRfcTEAhXCEqiMc9WiLZSCTgQXwLVynmfHO21I1BN4V7oUGxXAXZZIbMQuo
-	3Xv49gqRyXsZxOkKrqD9jheV99L4Bgd6mW0zVpl/FBTWnErvhNZ2tgGGV/JvGIbW
-	20nzxfqTqXYi2WW8MecbCDN6wB1wO2ZkLYUUPNjmjSx2IidDJQB3VUN7ier3CwOP
-	RMwz4B2JlPgRipOKXnIgmCBjrDk/xhKzFO4RwRLognV1ZhJ88gL+1SrAfeKw6RJZ
-	/Zq5RMfp8FZXbQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-type:date:from:message-id
-	:mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; bh=YCUb1z8RpY5tN33e5LdTseWTKZmN4
-	BBp5Upri6RX4eo=; b=xDAw4whvGxcmQlIc8GVgtD7F6P8HuMDbeEqTDO898hkWL
-	gI5GttcM6ffOhvSz64ofxfMVDVPy6yHBciFaD6nyE64cgtm0e8y4TMqd7fg0cnrJ
-	SAPZmzY+aEq4hC3gU5H+wkRVeHbrmEQ1VnzzSwJ4gTk/ks/ZWAYCtag8FIeaJd1+
-	y9Pk9N10djrmhEKhPLRF8eicx7caGDo8NHK1Xoy+FnvW4xKLlsOLr2GCaibljjuf
-	8ryyEbBCqdKTMVtEnUqpmqdmjvgvvAnSvVwnDenM2AaLQSM79QMMlDFS0x08ugHi
-	Dl8YdCv3MKC92EO3/HtgYGp+gtS770f0W/cXErOaw==
-X-ME-Sender: <xms:Scb8XTDJmevafa1Zccw3-PZzHvLLoF0ghD5zspmTyOBDonU-Ssduyg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddufedggeehucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfffhffvufgtsehttdertd
-	erredtnecuhfhrohhmpehfughkudejuceofhgukhdujeesfhhtmhhlrdhnvghtqeenucfr
-	rghrrghmpehmrghilhhfrhhomhepfhgukhdujeesfhhtmhhlrdhnvghtnecuvehluhhsth
-	gvrhfuihiivgeptd
-X-ME-Proxy: <xmx:Scb8Xdy-oDQy3dvwNklRLNyFukL_GOoZdKFIHX7PtGrKlrkSLGudmg>
-	<xmx:Scb8XZnYZVB0EgQCRmE8n8akv5YnR34R4YelUKT0C7xqaJOqR-rsfA>
-	<xmx:Scb8XaG4ASYRfmGjm1RU4RfGZdSOkiylMbBfMdiu7vBPK2cReDEJBw>
-	<xmx:Scb8XS5yk8Ghxc0fAF-_IlMKd35CXdJyo2dbFsuOXirbskY3EeSpww>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 560521801C3; Fri, 20 Dec 2019 08:02:01 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-694-gd5bab98-fmstable-20191218v1
-Mime-Version: 1.0
-Message-Id: <15ff3b91-1597-453a-bf6b-53884da94884@www.fastmail.com>
-Date: Fri, 20 Dec 2019 08:01:00 -0500
-From: fdk17 <fdk17@ftml.net>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] mesa: Allow building the virgl driver to be configurable
+	Fri, 20 Dec 2019 05:10:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=9FYA7Zirk0yir3DGXtXFTZq2m4V2cHkGvE+U6Snr4LE=;
+	b=sWAwPNbTqoDe9hzhSvf/zrKXgbhYESgm2dbQ/swRt7f3nWRlQ31Pg6JEC4t1w3TEn9
+	7daLc9MWTGJ0xxOCaDGnXnn3Fs0Q6ToV5RXzN6TnIeyGOqG2MGrSya9MTSTfSZipbH3t
+	wBMyFWoqbTP4UI4wM4G74zJjnGuGTvb/2aGzdN9ncCE/vWyUHUd4ypyCHBayo0DtFHdm
+	twbL43wpRa7yLtK974V0ICLt+BCZBY8J1GwYATbiTVvURjmrNWm1a4qc014u31B0GZCR
+	0ZHQ0HkCmT42LuHX9UYmB57tOnYYRmcsKV0+QQ/OQ2KmbLuzd9osVnVyuiQ+gmjPA0QL
+	4t2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9FYA7Zirk0yir3DGXtXFTZq2m4V2cHkGvE+U6Snr4LE=;
+	b=Q4mQ92BtqdWJUR+dZxAx1Cqmea8/GqSjfLJqJgL6L06hn8EPe0E8i9iYj7c+9Crn/u
+	ni3M7DmIJYRSrc1SHLbyPgpH42xEUWPR0WeoxfZuJyzZtL8bGU/7oRGSH4ouP8ben1PG
+	YINQa94PV+AXWxj0Qv6QEQwD85jj2XqJBzYzzX53+0YyAwR7LW9w7nYHzS0mI+ffzF5E
+	j8TVglaj5pbcxNMzJPoiQ47Q+WX6EE1ATh3JrFdLgsPCEmUF3D6W4BTagcgpGJUVYwNu
+	OgRLdSX6MD1e93nNXClLUsuhXJH+rU0dSptidTfdmewsKdcngx/WWnua8rPn3pG7xwcC
+	OMQg==
+X-Gm-Message-State: APjAAAUfPysll/5un8zFcfJqWS0gqiGh1Tm9MrBrodpUa9QNhmqe7ySj
+	HBZoXTMavwsZzCW1dmEFqT9K88fYSHoYK0Daj8M=
+X-Google-Smtp-Source: APXvYqzi80bl8edyhOBYHesHJG2Pfy1OoMYbK3VxwBT0QDpgaTMnp5DIOCX4qtrJQTj4F1zMY4BCUMpR1xYBIYDffCk=
+X-Received: by 2002:a67:314e:: with SMTP id x75mr2864313vsx.35.1576847423496; 
+	Fri, 20 Dec 2019 05:10:23 -0800 (PST)
+MIME-Version: 1.0
+References: <20191212181436.1322-1-alex.kanavin@gmail.com>
+	<20191212181436.1322-3-alex.kanavin@gmail.com>
+	<b4e0b39cda58583411b3e6c05cb0566053e6cdb1.camel@linuxfoundation.org>
+	<CANNYZj9tf5c9_XOn1P-tTXSSHjKUSp6QMfsNYX_swJAp+h7Krg@mail.gmail.com>
+	<CANNYZj-mywh64iuGoUPVkMTJm8ka4m4a6UYVY3cOd2+hVvU62A@mail.gmail.com>
+	<CAMKF1sojJ_biZa2cN6iJP_HFk-U5snWi3pojfyv1LKR1jNP22Q@mail.gmail.com>
+In-Reply-To: <CAMKF1sojJ_biZa2cN6iJP_HFk-U5snWi3pojfyv1LKR1jNP22Q@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 20 Dec 2019 14:10:11 +0100
+Message-ID: <CANNYZj9H7kj6x+GsUc5q23tBGz+Jh7YJz79V44wC-rUD0Q3Dew@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 03/30] gettext: update to 0.20.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,49 +58,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 13:02:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 20 Dec 2019 13:10:22 -0000
+Content-Type: multipart/alternative; boundary="0000000000008ae5e9059a22662f"
 
-From 1085177146db3db7f156a951191e756fca28e863 Mon Sep 17 00:00:00 2001
-From: Fred Baksik <fred.baksik@mrcy.com>
-Date: Thu, 19 Dec 2019 14:16:56 -0500
-Subject: [PATCH] mesa: Allow building the virgl driver to be configurable
+--0000000000008ae5e9059a22662f
+Content-Type: text/plain; charset="UTF-8"
 
-If a .bbappend file sets GALLIUMDRIVERS then virgl is always being
-appended to the list of drivers to be built. Make virgl an optional
-component.
+hddtemp is dead upstream and hasn't seen an upstream update in 14 years, so
+prime candidate for removal.
 
-Signed-off-by: Fred Baksik <fred.baksik@mrcy.com>
----
- meta/recipes-graphics/mesa/mesa.inc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+gtkperf is similarly ancient, and gtk2 only.
 
-diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-index 9ad9f2e370..87f167c507 100644
---- a/meta/recipes-graphics/mesa/mesa.inc
-+++ b/meta/recipes-graphics/mesa/mesa.inc
-@@ -67,7 +67,7 @@ EXTRA_OEMESON = " \
- "
- 
- PACKAGECONFIG_class-target ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland vulkan', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl egl gles gbm dri gallium virgl', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'x11 dri3', '', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 vulkan', 'dri3', '', d)} \
-                    elf-tls \
-@@ -132,10 +132,11 @@ GALLIUMDRIVERS_LLVM33_ENABLED = "${@oe.utils.version_less_or_equal('MESA_LLVM_RE
- GALLIUMDRIVERS_LLVM = "r300,svga,nouveau${@',${GALLIUMDRIVERS_LLVM33}' if ${GALLIUMDRIVERS_LLVM33_ENABLED} else ''}"
- 
- PACKAGECONFIG[r600] = ""
-+PACKAGECONFIG[virgl] = ""
- 
- GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'gallium-llvm', ',${GALLIUMDRIVERS_LLVM}', '', d)}"
- GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'r600', ',r600', '', d)}"
--GALLIUMDRIVERS_append = ",virgl"
-+GALLIUMDRIVERS_append = "${@bb.utils.contains('PACKAGECONFIG', 'virgl', ',virgl', '', d)}"
- 
- PACKAGECONFIG[gallium] = "-Dgallium-drivers=${GALLIUMDRIVERS}, -Dgallium-drivers=''"
- PACKAGECONFIG[gallium-llvm] = "-Dllvm=true -Dshared-llvm=true, -Dllvm=false, llvm${MESA_LLVM_RELEASE} llvm-native \
--- 
-2.17.1
+netcat is just as ancient, and superseded by netcat-openbsd.
 
+A patch for the other three (sharutils/indent/enscript) is now on the
+oe-devel list.
+
+Alex
+
+On Fri, 20 Dec 2019 at 09:18, Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Tue, Dec 17, 2019 at 8:02 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+> >
+> > On Mon, 16 Dec 2019 at 14:25, Alexander Kanavin <alex.kanavin@gmail.com>
+> wrote:
+> >>
+> >>
+> >>> In an effort to try and get to the bottom of which patches cause which
+> >>> failures I ran the gettext updates pieces by themselves (patches 2-5).
+> >>>
+> >>> systemtap fails:
+> >>>
+> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1354
+> >>>
+> >>> the main a-full build in case there are other issues:
+> >>>
+> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/580
+> >>>
+> >>> I know there is a fix for the check-layer/mingw pieces in master-next
+> >>> of meta-mingw, just forgot to set that branch.
+> >>
+> >>
+> >> Thanks, there are also failures in meta-gpl2, for which I will also
+> make patches.
+> >> Systemtap issue is now fixed.
+> >
+> >
+> > I have now sent the meta-gplv2 patches to yocto@ and the patchset for
+> gettext+systemtap here.
+> >
+> > Alex
+>
+> few meta-oe failures with poky/master-next
+>
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/173/steps/8/logs/step1b
+>
+
+--0000000000008ae5e9059a22662f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>hddtemp is dead upstream and hasn&#39;t seen an upstr=
+eam update in 14 years, so prime candidate for removal.</div><div><br></div=
+><div>gtkperf is similarly ancient, and gtk2 only.</div><div><br></div><div=
+>netcat is just as ancient, and superseded by netcat-openbsd.</div><div><br=
+></div><div>A patch for the other three (sharutils/indent/enscript) is now =
+on the oe-devel list.</div><div><br></div><div>Alex<br></div></div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 20 Dec=
+ 2019 at 09:18, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
+"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
+04,204,204);padding-left:1ex">On Tue, Dec 17, 2019 at 8:02 AM Alexander Kan=
+avin<br>
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
+n@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Mon, 16 Dec 2019 at 14:25, Alexander Kanavin &lt;<a href=3D"mailto:=
+alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wr=
+ote:<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt;&gt; In an effort to try and get to the bottom of which patches cau=
+se which<br>
+&gt;&gt;&gt; failures I ran the gettext updates pieces by themselves (patch=
+es 2-5).<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; systemtap fails:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/buil=
+ders/50/builds/1354" rel=3D"noreferrer" target=3D"_blank">https://autobuild=
+er.yoctoproject.org/typhoon/#/builders/50/builds/1354</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; the main a-full build in case there are other issues:<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/buil=
+ders/83/builds/580" rel=3D"noreferrer" target=3D"_blank">https://autobuilde=
+r.yoctoproject.org/typhoon/#/builders/83/builds/580</a><br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; I know there is a fix for the check-layer/mingw pieces in mast=
+er-next<br>
+&gt;&gt;&gt; of meta-mingw, just forgot to set that branch.<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Thanks, there are also failures in meta-gpl2, for which I will als=
+o make patches.<br>
+&gt;&gt; Systemtap issue is now fixed.<br>
+&gt;<br>
+&gt;<br>
+&gt; I have now sent the meta-gplv2 patches to yocto@ and the patchset for =
+gettext+systemtap here.<br>
+&gt;<br>
+&gt; Alex<br>
+<br>
+few meta-oe failures with poky/master-next<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/88/build=
+s/173/steps/8/logs/step1b" rel=3D"noreferrer" target=3D"_blank">https://aut=
+obuilder.yoctoproject.org/typhoon/#/builders/88/builds/173/steps/8/logs/ste=
+p1b</a><br>
+</blockquote></div>
+
+--0000000000008ae5e9059a22662f--
