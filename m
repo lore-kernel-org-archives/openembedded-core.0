@@ -1,51 +1,54 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
-	[209.85.217.65])
-	by mail.openembedded.org (Postfix) with ESMTP id ABCD27F2A1
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E3087F80F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 13:10:22 +0000 (UTC)
-Received: by mail-vs1-f65.google.com with SMTP id u14so6007950vsu.3
+	Fri, 20 Dec 2019 15:07:54 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id g17so9743832wro.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 05:10:24 -0800 (PST)
+	Fri, 20 Dec 2019 07:07:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9FYA7Zirk0yir3DGXtXFTZq2m4V2cHkGvE+U6Snr4LE=;
-	b=sWAwPNbTqoDe9hzhSvf/zrKXgbhYESgm2dbQ/swRt7f3nWRlQ31Pg6JEC4t1w3TEn9
-	7daLc9MWTGJ0xxOCaDGnXnn3Fs0Q6ToV5RXzN6TnIeyGOqG2MGrSya9MTSTfSZipbH3t
-	wBMyFWoqbTP4UI4wM4G74zJjnGuGTvb/2aGzdN9ncCE/vWyUHUd4ypyCHBayo0DtFHdm
-	twbL43wpRa7yLtK974V0ICLt+BCZBY8J1GwYATbiTVvURjmrNWm1a4qc014u31B0GZCR
-	0ZHQ0HkCmT42LuHX9UYmB57tOnYYRmcsKV0+QQ/OQ2KmbLuzd9osVnVyuiQ+gmjPA0QL
-	4t2A==
+	:cc; bh=n49m4WLEMvMXP9mUIRGH+QnwwobVObR9ElwQRYz6Glk=;
+	b=coLgZJPgPKd06RrtfsI/9NEwa3NdMwTaQSzmailjq+WlPRFDKlTLEaUcWOxpYvI6FK
+	6O8lsIm8HuZZIwkaneaaAp5JR9so8cFV/EVPRAcYBFuavFbJQwArbZeKP4mpMk0kxgzI
+	YRgL3pfyOnib5iGXa4BQwyY9wtqAwUZ7UCZ/PI8Wud9Rnn2G5KaNELAtW7+I3sDAGaXl
+	i3yIio7wM32VWd0lzSknAewxBaHV/2IXEEaNpfPj73YEGsJwbqjMF1qSyCegJPnqX97k
+	KHO/GaaaSeFlS5UBA254M0MOBD+7PqO++Wd4nz7vq7sy3i8tcFUMFcWsLN9m/zvxq1T/
+	735Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=9FYA7Zirk0yir3DGXtXFTZq2m4V2cHkGvE+U6Snr4LE=;
-	b=Q4mQ92BtqdWJUR+dZxAx1Cqmea8/GqSjfLJqJgL6L06hn8EPe0E8i9iYj7c+9Crn/u
-	ni3M7DmIJYRSrc1SHLbyPgpH42xEUWPR0WeoxfZuJyzZtL8bGU/7oRGSH4ouP8ben1PG
-	YINQa94PV+AXWxj0Qv6QEQwD85jj2XqJBzYzzX53+0YyAwR7LW9w7nYHzS0mI+ffzF5E
-	j8TVglaj5pbcxNMzJPoiQ47Q+WX6EE1ATh3JrFdLgsPCEmUF3D6W4BTagcgpGJUVYwNu
-	OgRLdSX6MD1e93nNXClLUsuhXJH+rU0dSptidTfdmewsKdcngx/WWnua8rPn3pG7xwcC
-	OMQg==
-X-Gm-Message-State: APjAAAUfPysll/5un8zFcfJqWS0gqiGh1Tm9MrBrodpUa9QNhmqe7ySj
-	HBZoXTMavwsZzCW1dmEFqT9K88fYSHoYK0Daj8M=
-X-Google-Smtp-Source: APXvYqzi80bl8edyhOBYHesHJG2Pfy1OoMYbK3VxwBT0QDpgaTMnp5DIOCX4qtrJQTj4F1zMY4BCUMpR1xYBIYDffCk=
-X-Received: by 2002:a67:314e:: with SMTP id x75mr2864313vsx.35.1576847423496; 
-	Fri, 20 Dec 2019 05:10:23 -0800 (PST)
+	bh=n49m4WLEMvMXP9mUIRGH+QnwwobVObR9ElwQRYz6Glk=;
+	b=mjI4Wwdx5NDLwNnpXOTUAz4QHL/oEmDSLzW9HUujmyLQOZG8UmY5qmmoBCF3PtOABp
+	SWCjys/vVQhRogS0f9xbCV0v9VoPk5ypvEzMUJ8bB6AvHLIW8r+ydXcqqapmEyiRKvJZ
+	Gk8EvUW0lDQHP+64FMk17e24PdWRlK8vJ96NV0dgzClhDQnu9g8GsIX3uB5CqN6pr7YG
+	K3b+YL9EcWl0p1CNeFvrVsR7Bcw6xooOzDf9C8TGO9epN/Ccub8XvpcSguzKsEg2WwVn
+	C7uh2CQV7LST7UjzSjnvl0Z/RJQOh770nbs0P6yIhmA54xMHDOVdgaOKjNzS7iI9nh0/
+	zvWw==
+X-Gm-Message-State: APjAAAW1b+W0uUU5fCH1jXiyaXcMssWePPvCjZKO8TXE0iA6xetJZaj5
+	0i9cCulyrxo7WrAK6twr2XUiDR0DEnHTSvKuutI=
+X-Google-Smtp-Source: APXvYqy8G950rc2CObxaklalVQ6iM7fkSdP/p9Wm/pc6VHaI3GGE8dL4wBKredofv+9dAxz+k7CEXRaLvZD2vNIEenY=
+X-Received: by 2002:adf:d4ca:: with SMTP id w10mr14918439wrk.53.1576854474712; 
+	Fri, 20 Dec 2019 07:07:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20191212181436.1322-1-alex.kanavin@gmail.com>
-	<20191212181436.1322-3-alex.kanavin@gmail.com>
-	<b4e0b39cda58583411b3e6c05cb0566053e6cdb1.camel@linuxfoundation.org>
-	<CANNYZj9tf5c9_XOn1P-tTXSSHjKUSp6QMfsNYX_swJAp+h7Krg@mail.gmail.com>
-	<CANNYZj-mywh64iuGoUPVkMTJm8ka4m4a6UYVY3cOd2+hVvU62A@mail.gmail.com>
-	<CAMKF1sojJ_biZa2cN6iJP_HFk-U5snWi3pojfyv1LKR1jNP22Q@mail.gmail.com>
-In-Reply-To: <CAMKF1sojJ_biZa2cN6iJP_HFk-U5snWi3pojfyv1LKR1jNP22Q@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 20 Dec 2019 14:10:11 +0100
-Message-ID: <CANNYZj9H7kj6x+GsUc5q23tBGz+Jh7YJz79V44wC-rUD0Q3Dew@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/30] gettext: update to 0.20.1
+References: <20191219183759.3122153-1-JPEWhacker@gmail.com>
+	<CADkTA4OMM33MdUyup93ga3HGY96WHJtSvLRLWw=YtQSejQ=0gQ@mail.gmail.com>
+	<9365317d-d1d5-33f9-6769-14bf8af5a7a4@gmail.com>
+	<CADkTA4OBW-n0ki0HsbS1xrSX9ehDawboieMCxOMeyEhH_2=mMw@mail.gmail.com>
+	<CAJdd5GZF4HT_UOkYdOMVGMtp2z_A5bCeWW3bEG9+aU6RgeDyQw@mail.gmail.com>
+	<CADkTA4N_P0B+GrwUumub+dFCM3mDEb5NMSb-JpUJN+7zK9n28Q@mail.gmail.com>
+	<969ab908-f227-7e8c-2467-3e1ac72d98da@gmail.com>
+	<CADkTA4PZMTpYXVn8opms9Z08qSJxmmwPLmU1YehnGsgk-x4Q2g@mail.gmail.com>
+In-Reply-To: <CADkTA4PZMTpYXVn8opms9Z08qSJxmmwPLmU1YehnGsgk-x4Q2g@mail.gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 20 Dec 2019 09:07:43 -0600
+Message-ID: <CAJdd5GYYN73JpeqU9y5B=8K2sdvJd40L2cGNMs3WanHE_OEvqw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] classes/kernel-yocto: Apply patches from BSP
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,126 +61,179 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 13:10:22 -0000
-Content-Type: multipart/alternative; boundary="0000000000008ae5e9059a22662f"
-
---0000000000008ae5e9059a22662f
+X-List-Received-Date: Fri, 20 Dec 2019 15:07:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-hddtemp is dead upstream and hasn't seen an upstream update in 14 years, so
-prime candidate for removal.
-
-gtkperf is similarly ancient, and gtk2 only.
-
-netcat is just as ancient, and superseded by netcat-openbsd.
-
-A patch for the other three (sharutils/indent/enscript) is now on the
-oe-devel list.
-
-Alex
-
-On Fri, 20 Dec 2019 at 09:18, Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Tue, Dec 17, 2019 at 8:02 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > On Mon, 16 Dec 2019 at 14:25, Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
-> >>
-> >>
-> >>> In an effort to try and get to the bottom of which patches cause which
-> >>> failures I ran the gettext updates pieces by themselves (patches 2-5).
-> >>>
-> >>> systemtap fails:
-> >>>
-> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1354
-> >>>
-> >>> the main a-full build in case there are other issues:
-> >>>
-> >>> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/580
-> >>>
-> >>> I know there is a fix for the check-layer/mingw pieces in master-next
-> >>> of meta-mingw, just forgot to set that branch.
-> >>
-> >>
-> >> Thanks, there are also failures in meta-gpl2, for which I will also
-> make patches.
-> >> Systemtap issue is now fixed.
+On Thu, Dec 19, 2019 at 4:14 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+>
+> On Thu, Dec 19, 2019 at 4:53 PM Joshua Watt <jpewhacker@gmail.com> wrote:
 > >
 > >
-> > I have now sent the meta-gplv2 patches to yocto@ and the patchset for
-> gettext+systemtap here.
+> > On 12/19/19 3:18 PM, Bruce Ashfield wrote:
+> > > On Thu, Dec 19, 2019 at 3:32 PM Joshua Watt <jpewhacker@gmail.com> wrote:
+> > >> On Thu, Dec 19, 2019 at 1:30 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+> > >>> On Thu, Dec 19, 2019 at 1:53 PM Joshua Watt <jpewhacker@gmail.com> wrote:
+> > >>>>
+> > >>>> On 12/19/19 12:45 PM, Bruce Ashfield wrote:
+> > >>>>> On Thu, Dec 19, 2019 at 1:38 PM Joshua Watt <jpewhacker@gmail.com> wrote:
+> > >>>>>> 0f698dfd1c8 ("kernel-yocto: streamline patch, configuration and audit
+> > >>>>>> phases") appears to have inadvertently broken support for BSP .scc files
+> > >>>>>> to provide patches for the kernel. Restore this behavior by adding
+> > >>>>>> $bsp_definition to the list of files processed for patches.
+> > >>>>>> Additionally, the logic can be simplified now that the same elements are
+> > >>>>>> used for both configuration fragments and patches
+> > >>>>> Unfortunately no, we can't do this.
+> > >>>>>
+> > >>>>> It would reapply all the patches that are already integrated into the
+> > >>>>> tree, and that distinction is the key part of that change.
+> > >>>>>
+> > >>>>> What exactly are you trying to do ? Define a userspace BSP ? If so,
+> > >>>>> there are examples of this and I can dig them up and send them along.
+> > >>>> We have a lot of boards running different SoCs (each with a different
+> > >>>> vendor provided kernel) and we are trying to keep our sanity managing
+> > >>>> all of the by using a metadata repo. So for example, we have a recipe
+> > >>>> that pulls in vendor A's kernel directly from the upstream source, then
+> > >>>> our local metadata repo which provides the scc files we need to
+> > >>>> configure that repo. Inevitably, we end up needing to patch these
+> > >>>> kernels, so I was hoping that we could provide the patches in the
+> > >>>> metadata repo and add them to the BSP .scc file, but that wasn't working.
+> > >>>>
+> > >>> Right! It does make sense to keep the configs and patches together in
+> > >>> that meta data repo.
+> > >>>
+> > >>> So you have your own kmeta repo, and that's where the BSP definitions
+> > >>> that are being searched and found. Are those definitions completely
+> > >>> standalone, or are they including some of the common yocto ktype
+> > >>> definitions ? (It makes a difference to how they can be included).
+> > >> I think they are standalone (e.g. they don't include any of the ktype files).
+> > >>
+> > >>
+> > >>> I explained the details of the behaviour in an email on Oct 9th, with
+> > >>> the title: "[yocto] Kernel patches pulled from BSP definition file are
+> > >>> not applied.", so I won't repeat that long description here .. except
+> > >>> to say that it is working as intended (but that doesn't mean it is set
+> > >>> in stone .. see below ..). And yes, there are doc updates that need to
+> > >>> happen for this to more clearly explain the design and options.
+> > >>>
+> > >>> That being said, there are a couple of things that can be done, and
+> > >>> one that works right now:
+> > >>>
+> > >>> - The BSP definition SCC needs to be on the SRC_URI itself (as I
+> > >>> describe in that other email), if your kernel recipe's have different
+> > >>> names, that's doable. If they are under a common recipe, that of
+> > >>> course would be harder (but you could use a variable for the MACHINE
+> > >>> and have it work that way).
+> > >> Does that mean the BSP scc files need to be moved from our metadata
+> > >> repo to live alongside the recipe, or is there some special sauce that
+> > >> allows the scc to be specified in SRC_URI, but pulled from our kmeta
+> > >> repo?
+> > > At the moment, yes.  Since you need to specify it in SRC_URI where the
+> > > fetcher can find it (obviously :D), which implies that it isn't in
+> > > that separate kernel meta repository.
+> > >
+> > > What, if anything, do you currently have on your SRC_URI ? Just the
+> > > kernel repo and your kernel meta data repo ?
 > >
-> > Alex
+> > Yes, that is all we have.
+> >
+> > >
+> > > Let me see if I can come up with a simple way (probably patch) to avoid that.
+> >
+> > That would be great! Thanks.
+> >
 >
-> few meta-oe failures with poky/master-next
+> Attached is my proposed solution. Hopefully the commit log is detailed
+> enough to explain what I'm trying to do :D
 >
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/173/steps/8/logs/step1b
->
+> I've only tested that it doesn't break a standard BSP build, so let me
+> know if this solves your use case, and I'll run some additional tests
+> and send it to the list.
 
---0000000000008ae5e9059a22662f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I had to make one minor fix to your patch (the assignment of the sccs
+variable needs the spaces around the "=" removed to be valid shell
+code), but other than that your patch works great for me and does
+exactly what I want.
 
-<div dir=3D"ltr"><div>hddtemp is dead upstream and hasn&#39;t seen an upstr=
-eam update in 14 years, so prime candidate for removal.</div><div><br></div=
-><div>gtkperf is similarly ancient, and gtk2 only.</div><div><br></div><div=
->netcat is just as ancient, and superseded by netcat-openbsd.</div><div><br=
-></div><div>A patch for the other three (sharutils/indent/enscript) is now =
-on the oe-devel list.</div><div><br></div><div>Alex<br></div></div><br><div=
- class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, 20 Dec=
- 2019 at 09:18, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D=
-"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(2=
-04,204,204);padding-left:1ex">On Tue, Dec 17, 2019 at 8:02 AM Alexander Kan=
-avin<br>
-&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
-n@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; On Mon, 16 Dec 2019 at 14:25, Alexander Kanavin &lt;<a href=3D"mailto:=
-alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wr=
-ote:<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt;&gt; In an effort to try and get to the bottom of which patches cau=
-se which<br>
-&gt;&gt;&gt; failures I ran the gettext updates pieces by themselves (patch=
-es 2-5).<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; systemtap fails:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/buil=
-ders/50/builds/1354" rel=3D"noreferrer" target=3D"_blank">https://autobuild=
-er.yoctoproject.org/typhoon/#/builders/50/builds/1354</a><br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; the main a-full build in case there are other issues:<br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/buil=
-ders/83/builds/580" rel=3D"noreferrer" target=3D"_blank">https://autobuilde=
-r.yoctoproject.org/typhoon/#/builders/83/builds/580</a><br>
-&gt;&gt;&gt;<br>
-&gt;&gt;&gt; I know there is a fix for the check-layer/mingw pieces in mast=
-er-next<br>
-&gt;&gt;&gt; of meta-mingw, just forgot to set that branch.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; Thanks, there are also failures in meta-gpl2, for which I will als=
-o make patches.<br>
-&gt;&gt; Systemtap issue is now fixed.<br>
-&gt;<br>
-&gt;<br>
-&gt; I have now sent the meta-gplv2 patches to yocto@ and the patchset for =
-gettext+systemtap here.<br>
-&gt;<br>
-&gt; Alex<br>
-<br>
-few meta-oe failures with poky/master-next<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/88/build=
-s/173/steps/8/logs/step1b" rel=3D"noreferrer" target=3D"_blank">https://aut=
-obuilder.yoctoproject.org/typhoon/#/builders/88/builds/173/steps/8/logs/ste=
-p1b</a><br>
-</blockquote></div>
+Thanks!
 
---0000000000008ae5e9059a22662f--
+>
+> Bruce
+>
+> > >
+> > > Bruce
+> > >
+> > >>> That's the one that works now.
+> > >>>
+> > >>> A second option would be if I inject some logic to differentiate an
+> > >>> integrated BSP versus one that requires patching. That's a slippery
+> > >>> slope back into the complex logic that used to be in place, but I can
+> > >>> think of a few viable ways to do it.
+> > >>>
+> > >>> Definitely a use case we can support, it'll just take some tweaking.
+> > >>>
+> > >>> Cheers,
+> > >>>
+> > >>> Bruce
+> > >>>
+> > >>>
+> > >>> Bruce
+> > >>>
+> > >>>
+> > >>>
+> > >>>
+> > >>>
+> > >>>>> Bruce
+> > >>>>>
+> > >>>>>> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > >>>>>> ---
+> > >>>>>>    meta/classes/kernel-yocto.bbclass | 7 ++-----
+> > >>>>>>    1 file changed, 2 insertions(+), 5 deletions(-)
+> > >>>>>>
+> > >>>>>> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+> > >>>>>> index ed9bcfa57c..08c02a8f50 100644
+> > >>>>>> --- a/meta/classes/kernel-yocto.bbclass
+> > >>>>>> +++ b/meta/classes/kernel-yocto.bbclass
+> > >>>>>> @@ -193,12 +193,9 @@ do_kernel_metadata() {
+> > >>>>>>                   if [ $? -ne 0 ]; then
+> > >>>>>>                           bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+> > >>>>>>                   fi
+> > >>>>>> -       fi
+> > >>>>>>
+> > >>>>>> -       # run2: only generate patches for elements that have been passed on the SRC_URI
+> > >>>>>> -       elements="`echo -n ${sccs} ${patches} ${KERNEL_FEATURES}`"
+> > >>>>>> -       if [ -n "${elements}" ]; then
+> > >>>>>> -               scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${sccs} ${patches} ${KERNEL_FEATURES}
+> > >>>>>> +               # run2: generate patches
+> > >>>>>> +               scc --force -o ${S}/${meta_dir}:patch --cmds patch ${includes} ${bsp_definition} ${sccs} ${patches} ${KERNEL_FEATURES}
+> > >>>>>>                   if [ $? -ne 0 ]; then
+> > >>>>>>                           bbfatal_log "Could not generate configuration queue for ${KMACHINE}."
+> > >>>>>>                   fi
+> > >>>>>> --
+> > >>>>>> 2.23.0
+> > >>>>>>
+> > >>>>>> --
+> > >>>>>> _______________________________________________
+> > >>>>>> Openembedded-core mailing list
+> > >>>>>> Openembedded-core@lists.openembedded.org
+> > >>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> > >>>>>
+> > >>>
+> > >>>
+> > >>> --
+> > >>> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > >>> thee at its end
+> > >>> - "Use the force Harry" - Gandalf, Star Trek II
+> > >
+> > >
+> > > --
+> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
+> > > thee at its end
+> > > - "Use the force Harry" - Gandalf, Star Trek II
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+
