@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 768C97FD0C
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B52F7FD0C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 16:24:01 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id p17so9841551wma.1
+	Fri, 20 Dec 2019 16:24:02 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id c9so9979614wrw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 08:24:02 -0800 (PST)
+	Fri, 20 Dec 2019 08:24:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=C8Hu+I0soygNlI7rs48RqSCkUwdmotvVFEiq6Cv6QMo=;
-	b=Mp1uodOl5QBgy30kjFORceszjpVQYm9EAgz7tYOTpk0Aj7b+VDPzoolA04btI4omPf
-	O+FafYlvQTRStKOmbHF/HWSV6gA2/j7SxFMt70iFNhNhv2CzqGfO54fNrR6Qox9qoDNY
-	7rx/iSYZBv+W0BkD3OyjiUbabcejHPdTwGoDPL/9zgdmYjBk38BsJF0gyD68k2fN6Dxm
-	KWrEZHLOXt0VjyKu4iVsScVDaIJ2LH03EI+3DgWdQUCrAP8Tu+9f/cdOaTQgK7bZveec
-	jJAb07O3CtW2a2lVf9iJNitZW2Rq8xHDrpLJWp6BR3+U97eQ94BJheeDlHf3m8P5S/6p
-	8P3w==
+	bh=UFQyrsW6Y/BZ0NvNpeYDgagluYivXlQtBMEk7SmUo/E=;
+	b=Kp/dQ7CxwFQqVww1qyzMMthqhBZ+JrJIIjALhEsjqqgFqij5NOR4BQF8bDLBeNp1rm
+	kqSBvtDr1UnBzKTcEOEdZlbdlwNceHNsieBYSctbxRTos2YT/KfCAt/6F0QQeaeoIt/j
+	a6H0BzgL5KUpdHCSRwlStWkDmbKvkvwifjMHo044+VSWvDKTULBxmRIdl9UVXTx/hLJj
+	hdj7SKX7WJNERQwnzA29rvL5uiPjH6d66iCJMqjJSvSCBb4fakAFRREbViyy4rcGKWYx
+	hpdl361P9ZGNkQyX2kOQc3LNpGwh+lTe5tvpnFi6gRASBEyU7Oyn1a1tyw0cWeYbyTJf
+	XEoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=C8Hu+I0soygNlI7rs48RqSCkUwdmotvVFEiq6Cv6QMo=;
-	b=nHDbnURa0OV2TxUiTegbktIcltAgjX2SBFxoYxpBi9GDRZF2hhNUIT6XR+qHEODgDS
-	o1j3pFUPNu5w718qiwd5P6WyVcl399QyxWmB9H8+15gSfvpw75vvew/cj2LJcF6g1V1I
-	9s7EJIUkZWYpiQGsNHKmXtb3c8urNerkQrjta/oUZNFxz0roXzNF5jvu0SY94ocHjcpW
-	vvaGb2vAI7ftzglcrfWm11UPqL2qSfJnKcGf1DxvX+nKuPUzVYYGqBYkJxHPauP9q7/H
-	nw+bVD/BMfvHdWDjytiwj06+GjAgcKI10b9jWBAnA+fPqYerKckhg3D6a/SDphWZTjJh
-	jZ/g==
-X-Gm-Message-State: APjAAAVPt4v2OteQju+gjSRNJSt7xa6K2GUnPGTU+Kvc2oZWzLD/tQh7
-	rGrLiwBQg2eVBHV7VwhdR7FunwqRa+o=
-X-Google-Smtp-Source: APXvYqyYWAZcDI6ye1XmNVXYGq/kkA+SK3EUJxyChPvRa3aMayIR7BBajtq8IMrn2ZPcGUGTWq+wlA==
-X-Received: by 2002:a05:600c:141:: with SMTP id
-	w1mr16978220wmm.61.1576859040855; 
-	Fri, 20 Dec 2019 08:24:00 -0800 (PST)
+	bh=UFQyrsW6Y/BZ0NvNpeYDgagluYivXlQtBMEk7SmUo/E=;
+	b=gGl/7c5IGtITStnNB2LmFoDgpccYdJSNMFYF4d3wgVXmrkg4ymUdz2FHGdr6UhRd1c
+	t44JwyOzi9jw+PAd65w9TbGE3gqQO5ef8ntTpl10wowJ6vKACw/lb0iC8k6Uts9+YIbh
+	cweNidETkjsEBhRZnJHm7IzIym4qZt4LeeHD3YnCpAzBHd3mzvTBrhNzAZccf9qNqPAl
+	CNn0z4pf42dwbyleAg5nBVaR0wvuEU2DhDJ0qF0hkwWxBGBqkuCezC5ZRr+iM/viTfMX
+	g5/vELHV+r8Ua8kiTcdiSYvCeDptiXTXPx39zj1bDKlA5WFqIirNvjBXHIobPOUm+OhD
+	MEAw==
+X-Gm-Message-State: APjAAAVNVS2WEmJXX47rMxFf8k37w3SuikfgnlQY0ZkIQB0ZUY0Js3cW
+	5u07Myc7CZNFS4c6woCtuiVmYTKU5JA=
+X-Google-Smtp-Source: APXvYqwBP1KsLAqjsjHCBPuWaAUSlFgcJglT9aNo0U+WOxhRkfjSggN5z2GOW/3ErlsVlVfPB+1Vag==
+X-Received: by 2002:adf:d184:: with SMTP id v4mr16126550wrc.76.1576859042844; 
+	Fri, 20 Dec 2019 08:24:02 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	w17sm10436356wrt.89.2019.12.20.08.24.00
+	w17sm10436356wrt.89.2019.12.20.08.24.01
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 20 Dec 2019 08:24:00 -0800 (PST)
+	Fri, 20 Dec 2019 08:24:02 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2019 17:23:46 +0100
-Message-Id: <20191220162351.94498-6-alex.kanavin@gmail.com>
+Date: Fri, 20 Dec 2019 17:23:48 +0100
+Message-Id: <20191220162351.94498-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191220162351.94498-1-alex.kanavin@gmail.com>
 References: <20191220162351.94498-1-alex.kanavin@gmail.com>
-Subject: [PATCH 06/11] ltp: fix build with musl
+Subject: [PATCH 08/11] prelink: upgrade to latest revision (in the cross_prelink branch)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,103 +57,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 16:24:01 -0000
+X-List-Received-Date: Fri, 20 Dec 2019 16:24:02 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../ltp/0001-Add-more-musl-exclusions.patch   | 70 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190930.bb     |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+ ...check-info-resolvetls-before-use-its.patch | 51 -------------------
+ meta/recipes-devtools/prelink/prelink_git.bb  |  5 +-
+ 2 files changed, 2 insertions(+), 54 deletions(-)
+ delete mode 100644 meta/recipes-devtools/prelink/prelink/0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch b/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
-new file mode 100644
-index 00000000000..d3af31f34a2
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
-@@ -0,0 +1,70 @@
-+From 788c47ceef7f115ab7f7aa17f918e58795f4e6c7 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 20 Dec 2019 13:06:05 +0100
-+Subject: [PATCH] Add more musl exclusions
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ testcases/kernel/syscalls/accept4/Makefile      | 4 ++++
-+ testcases/kernel/syscalls/fanotify/Makefile     | 6 ++++++
-+ testcases/kernel/syscalls/setxattr/Makefile     | 4 ++++
-+ testcases/kernel/syscalls/timer_create/Makefile | 4 ++++
-+ 4 files changed, 18 insertions(+)
-+
-+diff --git a/testcases/kernel/syscalls/accept4/Makefile b/testcases/kernel/syscalls/accept4/Makefile
-+index 504042e11..94db06266 100644
-+--- a/testcases/kernel/syscalls/accept4/Makefile
-++++ b/testcases/kernel/syscalls/accept4/Makefile
-+@@ -20,4 +20,8 @@ top_srcdir		?= ../../../..
-+ 
-+ include $(top_srcdir)/include/mk/testcases.mk
-+ 
-++ifeq ($(LIBC),musl)
-++FILTER_OUT_MAKE_TARGETS        := accept4_01
-++endif
-++
-+ include $(top_srcdir)/include/mk/generic_leaf_target.mk
-+diff --git a/testcases/kernel/syscalls/fanotify/Makefile b/testcases/kernel/syscalls/fanotify/Makefile
-+index 5d01b4825..0263a6e20 100644
-+--- a/testcases/kernel/syscalls/fanotify/Makefile
-++++ b/testcases/kernel/syscalls/fanotify/Makefile
-+@@ -20,4 +20,10 @@ top_srcdir		?= ../../../..
-+ fanotify11: CFLAGS+=-pthread
-+ include $(top_srcdir)/include/mk/testcases.mk
-+ 
-++ifeq ($(LIBC),musl)
-++FILTER_OUT_MAKE_TARGETS        := fanotify13 fanotify15
-++endif
-++
-+ include $(top_srcdir)/include/mk/generic_leaf_target.mk
-++
-++
-+diff --git a/testcases/kernel/syscalls/setxattr/Makefile b/testcases/kernel/syscalls/setxattr/Makefile
-+index 72544c13e..7f20b2780 100644
-+--- a/testcases/kernel/syscalls/setxattr/Makefile
-++++ b/testcases/kernel/syscalls/setxattr/Makefile
-+@@ -20,4 +20,8 @@ top_srcdir		?= ../../../..
-+ 
-+ include $(top_srcdir)/include/mk/testcases.mk
-+ 
-++ifeq ($(LIBC),musl)
-++FILTER_OUT_MAKE_TARGETS        := setxattr03
-++endif
-++
-+ include $(top_srcdir)/include/mk/generic_leaf_target.mk
-+diff --git a/testcases/kernel/syscalls/timer_create/Makefile b/testcases/kernel/syscalls/timer_create/Makefile
-+index 8de247075..eb240f432 100644
-+--- a/testcases/kernel/syscalls/timer_create/Makefile
-++++ b/testcases/kernel/syscalls/timer_create/Makefile
-+@@ -20,6 +20,10 @@ top_srcdir		?= ../../../..
-+ 
-+ include $(top_srcdir)/include/mk/testcases.mk
-+ 
-++ifeq ($(LIBC),musl)
-++FILTER_OUT_MAKE_TARGETS        := timer_create01 timer_create03
-++endif
-++
-+ CPPFLAGS		+= -D_GNU_SOURCE -I$(abs_srcdir)/../include
-+ 
-+ LDLIBS			+= -lpthread -lrt
-diff --git a/meta/recipes-extended/ltp/ltp_20190930.bb b/meta/recipes-extended/ltp/ltp_20190930.bb
-index 9a436a52303..e56bb575d29 100644
---- a/meta/recipes-extended/ltp/ltp_20190930.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190930.bb
-@@ -40,6 +40,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-            file://0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch \
-            file://0001-testcases-fix-an-absent-format-string-issue.patch \
-+           file://0001-Add-more-musl-exclusions.patch \
-            "
+diff --git a/meta/recipes-devtools/prelink/prelink/0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch b/meta/recipes-devtools/prelink/prelink/0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch
+deleted file mode 100644
+index b1688243afe..00000000000
+--- a/meta/recipes-devtools/prelink/prelink/0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch
++++ /dev/null
+@@ -1,51 +0,0 @@
+-From 2136969e3e196b9cf7f4788340efa4b1d9b39565 Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Thu, 11 Oct 2018 10:05:52 +0800
+-Subject: [PATCH] src/arch-mips.c: check info->resolvetls before use its member
+-
+-The info->resolvetls might be NULL according to src/prelink.c:
+-[snip]
+- /* Dynamic linker does not depend on any other library,
+-    all symbols resolve to themselves with the exception
+-    of SHN_UNDEF symbols which resolve to 0.  */
+-if (info->symtab[r_sym].st_shndx == SHN_UNDEF)
+-  {
+-    info->resolveent = NULL;
+-    info->resolvetls = NULL;
+-[snip]
+-
+-So we must check it before use its members, otherwise, there might be
+-Segmentation fault error.
+-
+-Fixed:
+-MACHINE = "qemumips"
+-IMAGE_INSTALL_append = " qemu"
+-$ bitbake core-image-minimal
+-[snip]
+-| /path/to/qemumips-poky-linux/core-image-minimal/1.0-r0/temp/run.prelink_image.1000: line 111:  1010 Segmentation fault      (core dumped)
+-[snip]
+-
+-Upstream-Status: Submitted [https://lists.yoctoproject.org/pipermail/yocto/2018-October/042812.html]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- src/arch-mips.c | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/arch-mips.c b/src/arch-mips.c
+-index ccb1834..02c608f 100644
+---- a/src/arch-mips.c
+-+++ b/src/arch-mips.c
+-@@ -567,7 +567,8 @@ mips_prelink_reloc (struct prelink_info *info, GElf_Addr r_offset,
+-       if (dso->ehdr.e_type == ET_EXEC)
+- 	{
+- 	  value = info->resolve (info, r_sym, r_type);
+--	  value += info->resolvetls->offset - TLS_TP_OFFSET;
+-+	  if (info->resolvetls != NULL)
+-+	    value += info->resolvetls->offset - TLS_TP_OFFSET;
+- 	  if (r_type == R_MIPS_TLS_TPREL32)
+- 	    mips_prelink_32bit_reloc (dso, rela, value);
+- 	  else
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-devtools/prelink/prelink_git.bb b/meta/recipes-devtools/prelink/prelink_git.bb
+index f0946de2cc1..674f815dbfc 100644
+--- a/meta/recipes-devtools/prelink/prelink_git.bb
++++ b/meta/recipes-devtools/prelink/prelink_git.bb
+@@ -9,7 +9,7 @@ and executables, so that far fewer relocations need to be resolved at \
+ runtime and thus programs come up faster."
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c93c0550bd3173f4504b2cbd8991e50b"
+-SRCREV = "a853a5d715d84eec93aa68e8f2df26b7d860f5b2"
++SRCREV = "f9975537dbfd9ade0fc813bd5cf5fcbe41753a37"
+ PV = "1.0+git${SRCPV}"
  
- S = "${WORKDIR}/git"
+ #
+@@ -32,8 +32,7 @@ SRC_URI = "git://git.yoctoproject.org/prelink-cross.git;branch=cross_prelink_sta
+            file://prelink.cron.daily \
+            file://prelink.default \
+            file://macros.prelink \
+-           file://0001-src-arch-mips.c-check-info-resolvetls-before-use-its.patch \
+-"
++           "
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+ # error: error.h: No such file or directory
 -- 
 2.17.1
 
