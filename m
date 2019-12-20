@@ -1,56 +1,59 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A2C2F7FD1A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D0187FD2F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 18:06:04 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id q9so9840733wmj.5
+	Fri, 20 Dec 2019 18:19:18 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id c13so4445713pls.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 10:06:06 -0800 (PST)
+	Fri, 20 Dec 2019 10:19:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=jn9n+cMujo3HLldWfjU1Ed2yAHFVik5wAPe6jtc+Hks=;
-	b=f08Va5FmduGh7JwFn2IWnj7hnp7ycG9zNtqbCWW1VFkcubXgmKu7tmH9HgOeuYYz/M
-	l+nUGszh+ZFZFq+DpFEbEnPQPdLDlppS0PAdxgMF9E036k/bNk92Ths+5xYgh+RO4M7m
-	WULVKicuMEdJnNNLXVdnqCjEBC52yVXTb1G5HSe8Qefojq85dEPXn5UMSSMcxR2BZLwJ
-	XvtffXGh9fM97jmeI3sJ/1+ogP6T/69juy0eouV6NUb1vVjpNfBSqndf3WDZpVh3cMBB
-	QzK+9bXo6NlXU2+QNj1qlj2IArJLCylzG5o/TeK4ohPMRZaDRId0ijtcE2kgIfvcf4vO
-	b9cQ==
+	h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:references
+	:organization:user-agent:mime-version:content-transfer-encoding;
+	bh=hTDU19EQfTdY0NEx7P0q05IiN1o6zrpMyUBSaKUe7Nw=;
+	b=M8tQyeLNRMx2NWVTI5VAnhdsGvGSrOaDmlI5geWhLDUA+wG+zoDfqbHf3GIOVNwvbi
+	tLdm4O1j/lX3V7Dtz6btEqTyKJCOEWKk2D8xk2KCkqDONQ8uVqNxNpdhTubBPN0jK+3h
+	Bx39ROMolc4tH3ldIyQE17EdaTOlqDC0gJKd7Be8bC/IV952LVgbPsOwt3wfVn3E9SXa
+	8xoZf9vsTtc+TN8Xt/MK+UJHHwFe62YMB71iOpy662UBQl0t/vLIghfLTy/jh2VMfJfO
+	N8Oz328FvitMTf1iKbzWWTo7ZQObgw+MRI7wWvTopmgGV17sljSfw5pnNJ1Acvc9N5L7
+	vrUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=jn9n+cMujo3HLldWfjU1Ed2yAHFVik5wAPe6jtc+Hks=;
-	b=tw60/YB0qyRU9wJfsbsxn7gZ5ATNrGXBeemGD3cdS8CLP2zbzQyuN828P8XV30aGI3
-	BHYzVhIyaEPq1LyG4R/oXLTparOECYugUW5+C60nvVkpsFGuat/dQfX0UZS7tvgNKqbc
-	8o/sy6rXTeWxiQCYxxECRaI5+aLTFEpijvuO0+3jFKQy92vnjQnA3kQ1FgYPV+CBHFrD
-	8vktYBhTv1FCsK5th/1ic4CFq3gWCiX6iTh+UMpRIN92sOo7wYyqPfZA/c8JL8o3WOgc
-	SZ2HPp7Un6dI81W5MDGC5yERHruidpXUYJL0ktbLVNEPKAvQf0QXDBj20+FI+1QtMjUD
-	sdTA==
-X-Gm-Message-State: APjAAAXC4dGwqWhYzGDQeyRNIkPeHjCLJOkj9jfHmco5v1CnfcZLM/VU
-	br2AyYGR9u8cF0IVrJnLsCSvYeX8
-X-Google-Smtp-Source: APXvYqxTx24y4PYVTIGifw5QuYiAXfGbHPi3oPYeeSCfQFVLz98elfRr6ahbB1mu8xvMMZyOWNfsRg==
-X-Received: by 2002:a05:600c:2c7:: with SMTP id
-	7mr17071809wmn.87.1576865165190; 
-	Fri, 20 Dec 2019 10:06:05 -0800 (PST)
-Received: from ?IPv6:2a01:598:b106:ffe1:4dcb:e786:23df:72bf?
-	([2a01:598:b106:ffe1:4dcb:e786:23df:72bf])
+	h=x-gm-message-state:message-id:subject:from:reply-to:to:cc:date
+	:in-reply-to:references:organization:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=hTDU19EQfTdY0NEx7P0q05IiN1o6zrpMyUBSaKUe7Nw=;
+	b=PBiAVIbBTDHn6ak448GL8CUSSJM2OjkRccoq0aKpbf4lkYiEIeidNwq/tY48fpvuBR
+	C9mawb/ZCPzthqemNX4Vs9BcKFtF4NYXzWS4m5hVEfTuZWaojdKpOV7LuLitljxXXrOz
+	93M5SmcJWXTV2IRxXRewrYKJVkK27LFup5cKNKdKP33v6Zv9PWIBGaHEBYsmus+BbEW/
+	Kp//nrj5CKVDVFmJmVYA8AX/h/5r7WLljiAFniyB8xP4otDHHee4Z0u+kZXBxIxPEyCY
+	4hnE02ya88QyVJBvqSEgkVkaJK7ia2PabgTzP4Hevqm+UlDgBMJraW67Ux92r3aunLpu
+	UN2A==
+X-Gm-Message-State: APjAAAUDEjn/Q9/o8PoLu8yHmn42SF4EBXKRO/SipzfGocZajMXrI2LZ
+	7EpSJwE9DFPWEpFH5sQ6btM=
+X-Google-Smtp-Source: APXvYqwmM1ovMAjg8nTKaX0ciMlDrkk8SEbFJtT4Rnt4/8mAGbIOwqYNCX+omnKAN2o11r3yj3qBKg==
+X-Received: by 2002:a17:902:d907:: with SMTP id
+	c7mr16671124plz.40.1576865958992; 
+	Fri, 20 Dec 2019 10:19:18 -0800 (PST)
+Received: from apollo ([2601:646:9200:4e0::36e9])
 	by smtp.gmail.com with ESMTPSA id
-	a1sm10381399wmj.40.2019.12.20.10.06.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 20 Dec 2019 10:06:04 -0800 (PST)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16G102)
-In-Reply-To: <bf8452d4e9f63bc463f676ff9b48ca1d573ef7d0.camel@gmail.com>
-Date: Fri, 20 Dec 2019 19:06:03 +0100
-Message-Id: <B03D51F9-00D1-4D8A-8A21-3CF357D9DACA@gmail.com>
+	g67sm9616872pfb.66.2019.12.20.10.19.18
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 20 Dec 2019 10:19:18 -0800 (PST)
+Message-ID: <695a949b5a88272afff1d61d06a8cfc04221a62c.camel@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Reply-To: raj.khem@gmail.com
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 20 Dec 2019 10:19:17 -0800
+In-Reply-To: <B03D51F9-00D1-4D8A-8A21-3CF357D9DACA@gmail.com>
 References: <20191218143758.129308-1-alex.kanavin@gmail.com>
 	<20191218143758.129308-7-alex.kanavin@gmail.com>
 	<3cd13d50-b437-2438-582a-4c149711a966@intel.com>
 	<bf8452d4e9f63bc463f676ff9b48ca1d573ef7d0.camel@gmail.com>
-To: raj.khem@gmail.com
+	<B03D51F9-00D1-4D8A-8A21-3CF357D9DACA@gmail.com>
+Organization: HIMVIS LLC
+User-Agent: Evolution 3.34.2 
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 07/25] nss: update to 3.48
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -65,52 +68,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 18:06:04 -0000
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 20 Dec 2019 18:19:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-My problem with this kind of fixing is that I have to do it blindly, and it m=
-ay or may not uncover further issues on the AB. I=E2=80=99d much rather just=
- drop Centris 7 and have ppl who actually use it fix the issues they see as t=
-hey push the master revision ahead in their development process.
+On Fri, 2019-12-20 at 19:06 +0100, Alexander Kanavin wrote:
+> My problem with this kind of fixing is that I have to do it blindly,
+> and it may or may not uncover further issues on the AB. I’d much
+> rather just drop Centris 7 and have ppl who actually use it fix the
+> issues they see as they push the master revision ahead in their
+> development process.
+> 
 
-Alex
+I understand your point, and all of us do not have all kinds of hosts
+AB will through patches at and discover problems, this is breadth of
+testing and is good IMO. I am not sure if AB can expose the builders
+for debugging such issues, since that would be best and second best
+would be cook a patch and let AB validate it.
 
-> On 20 Dec 2019, at 18.44, Khem Raj <raj.khem@gmail.com> wrote:
->=20
->> On Fri, 2019-12-20 at 11:00 +0000, Ross Burton wrote:
->> Breaks on Centos 7:
->>=20
->> nsinstall.c: In function =E2=80=98main=E2=80=99:
->> nsinstall.c:201:5: warning: implicit declaration of function
->> =E2=80=98getopt=E2=80=99=20
->> [-Wimplicit-function-declaration]
->>      while ((opt =3D getopt(argc, argv, "C:DdlL:Rm:o:g:t")) !=3D EOF) {
->>      ^
->> nsinstall.c:203:20: error: =E2=80=98optarg=E2=80=99 undeclared (first use=
- in this
->> function)
->>     case 'C': cwd =3D optarg; break;
->>                     ^
->> nsinstall.c:203:20: note: each undeclared identifier is reported
->> only=20
->> once for each function it appears in
->> nsinstall.c:225:13: error: =E2=80=98optind=E2=80=99 undeclared (first use=
- in this
->> function)
->>      argc -=3D optind;
->>              ^
->>=20
->=20
-> another C99 issue I guess perhaps  #include <getopt.h> in nsinstall.c
-> will fix it.
->=20
->> Ross
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> Alex
+> 
+> > On 20 Dec 2019, at 18.44, Khem Raj <raj.khem@gmail.com> wrote:
+> > 
+> > > On Fri, 2019-12-20 at 11:00 +0000, Ross Burton wrote:
+> > > Breaks on Centos 7:
+> > > 
+> > > nsinstall.c: In function ‘main’:
+> > > nsinstall.c:201:5: warning: implicit declaration of function
+> > > ‘getopt’ 
+> > > [-Wimplicit-function-declaration]
+> > >      while ((opt = getopt(argc, argv, "C:DdlL:Rm:o:g:t")) != EOF)
+> > > {
+> > >      ^
+> > > nsinstall.c:203:20: error: ‘optarg’ undeclared (first use in this
+> > > function)
+> > >     case 'C': cwd = optarg; break;
+> > >                     ^
+> > > nsinstall.c:203:20: note: each undeclared identifier is reported
+> > > only 
+> > > once for each function it appears in
+> > > nsinstall.c:225:13: error: ‘optind’ undeclared (first use in this
+> > > function)
+> > >      argc -= optind;
+> > >              ^
+> > > 
+> > 
+> > another C99 issue I guess perhaps  #include <getopt.h> in
+> > nsinstall.c
+> > will fix it.
+> > 
+> > > Ross
+> > 
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
