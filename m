@@ -1,51 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 342DE7FD30
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C5EE7FCEF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 16:24:04 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id t2so9999350wrr.1
+	Fri, 20 Dec 2019 16:24:05 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id d139so9839464wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 08:24:05 -0800 (PST)
+	Fri, 20 Dec 2019 08:24:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=IZZE+AoUGrDxnFlSwaAQ1Z0Y9rXP0/eoR/HNCDwEUJc=;
-	b=tdTVc83or0yBsGQ/bzV2YcLG8WgMXKA1KK+CoF7WTdvA1Cwf79G6v572h1tQbydKtu
-	TnI5iAVV6OISh+wEeqI1/3lR14+Wt7QepPVryFCg8kVN90SO8oYiWCHnn9ReK/s8RP8R
-	gGP9k3kM4cmvG//xDDeUYP4o16r/vr9L+WvAgXzgv2k20FnS0AKpyLQBZeUHTifSVSU2
-	LGY+5kkzk1H9kx3/ijO1QpeR7hqUfNnUQN2fTiJL2ILo/G1lSF7Zde3ku5wCbfjuJa5E
-	l0IEN0rqCUevwZwqwCxt8kGWoVxTg2pO2xkQh8kRih8QXWpbdPo4kMNjC8oTdw/3fVJa
-	prHw==
+	bh=Q9m3brsyKrUwviyC0J2lgXynCyUWACqTFdo25TuMBDw=;
+	b=vhbmjTAW5TriocbGVn4V7zHosUSdoEe9gX+kUC8IWZrziRP2II98l8FibY3Nz2Q5lD
+	w0FULmkL0ple9KI00asUDFZfKz9EXajTKp7gLIuzJ2Bw3O0yuEXxxgCJ30UCzhtYH7CX
+	AeuvxRxSMdenBTuSaqZCCTLqPqci9xkVh2mJDptRyT/qRxIsah8w04lejZza+4K6Rak8
+	+7lP6VAZoYUQnJLQsCA6Ri4/t8hwrFSH6M3ZmTelRZ0qH4n4fQuX5Bl2kFOen6KRNyyq
+	F6+C8LuGJXSkcUbjyN9qukG4BQAN1jYiKDJSisTqv/fqNvrJE3sFD0lbojhbTouCWbLq
+	X49Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=IZZE+AoUGrDxnFlSwaAQ1Z0Y9rXP0/eoR/HNCDwEUJc=;
-	b=QK3xqSOd2O5iQRKlZgbJ0Le+R4C9umJ9YJEPGh9j4VOK1gtkXcF3B/ABHpV3bltTTu
-	gR07RpAHCz+Xe0i9yP2mZF3GkmQ6yxH/yvIxqBSMJlp50Ds96fpsBvBxiAy0wO42URJK
-	/+0tun8wfNL7O7tlDEz3FMxs5rdGw4fFXcYrSj4gWbFsFcv3Prh/9g9J1f0HY4i0oUlB
-	5JLCyMe/d/ighCAHN9nTf+E7fCQBc0o/n5G7rz4O6vX5B+5mA7nDzrjamn4Egv/tv7Hy
-	o955dm7KyJgyJh4p78K4wtxsPx3wjxM2A7y88obfu8DjzWhKIHchx6NNJ0LzBcCVIsC7
-	IiLQ==
-X-Gm-Message-State: APjAAAWHW8pYEKw07qa8JNYHkyJDyfg6P1b39anTSshuHi+EKvBZ/cOV
-	8EI4AviuAW8WE3on/Gd71YDCL46xeYw=
-X-Google-Smtp-Source: APXvYqyD9mpga9W8TToIgNrVEzcw6lRNyPOkyg1i+h14SMqkwYJdEHM14YWOWDwOH0T4nhWu46p3Bw==
-X-Received: by 2002:a05:6000:1052:: with SMTP id
-	c18mr16077262wrx.268.1576859044598; 
-	Fri, 20 Dec 2019 08:24:04 -0800 (PST)
+	bh=Q9m3brsyKrUwviyC0J2lgXynCyUWACqTFdo25TuMBDw=;
+	b=q9HmujCF9lGWscCS4gy9uLoy7jkMFeaJ0m/diuoQKj4bG17lbLKaR7plj6GwMCsZQ5
+	IdDTgsDNko3giA3ECxANwG9hJA7wWEUP1BFQ/42dSoS2XX9O8bPPUqQ7JD4h3+FXiicC
+	AS2tKFCGpHC3BcqI7qoieYrOuKMafQd/MlwOaWDZvh+MX/FxE9KEcsVr1lKajFOhV9bz
+	V6hAhvacmg4y3FbEDafyhS114ZtNCqFXcvZl10d/iaw78vei86m3mgVfNSPjeitU8M66
+	N5bWmF5HwJBYVEK8FeliXJ/ve04TwnPhqY2tHXgMLrgSTXWxDKgUGo0D5VBLZl1IKkDM
+	0fBA==
+X-Gm-Message-State: APjAAAX6D46pTlJqPmPGrSrAMYKf4qRS7vsIOau59HWwIwHIasEUGklc
+	Kn1/N7KsELLYIHpsUieTurrjTHBgQjY=
+X-Google-Smtp-Source: APXvYqwbFAM4rBaE3/6Jh8Dkjxl6NwZYpFM0vXNEZfJlECQVhh4J9YthOO1Mk6MaY2zdEr41t7dQeA==
+X-Received: by 2002:a05:600c:224d:: with SMTP id
+	a13mr17244882wmm.70.1576859045558; 
+	Fri, 20 Dec 2019 08:24:05 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	w17sm10436356wrt.89.2019.12.20.08.24.03
+	w17sm10436356wrt.89.2019.12.20.08.24.04
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Fri, 20 Dec 2019 08:24:04 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2019 17:23:50 +0100
-Message-Id: <20191220162351.94498-10-alex.kanavin@gmail.com>
+Date: Fri, 20 Dec 2019 17:23:51 +0100
+Message-Id: <20191220162351.94498-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20191220162351.94498-1-alex.kanavin@gmail.com>
 References: <20191220162351.94498-1-alex.kanavin@gmail.com>
-Subject: [PATCH 10/11] libcap: update to 2.28
+Subject: [PATCH 11/11] kexec-tools: update to 2.0.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,73 +58,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 16:24:04 -0000
+X-List-Received-Date: Fri, 20 Dec 2019 16:24:05 -0000
+
+Add a patch that restores missing declarations for 32 bit x86 builds.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-tests-do-not-run-target-executables.patch | 32 +++++++++++++++++++
- .../libcap/{libcap_2.27.bb => libcap_2.28.bb} |  5 +--
- 2 files changed, 35 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
- rename meta/recipes-support/libcap/{libcap_2.27.bb => libcap_2.28.bb} (90%)
+ ...xec-un-break-the-build-on-32-bit-x86.patch | 42 +++++++++++++++++++
+ ...-tools_2.0.19.bb => kexec-tools_2.0.20.bb} | 27 ++++++------
+ 2 files changed, 56 insertions(+), 13 deletions(-)
+ create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0007-kexec-un-break-the-build-on-32-bit-x86.patch
+ rename meta/recipes-kernel/kexec/{kexec-tools_2.0.19.bb => kexec-tools_2.0.20.bb} (78%)
 
-diff --git a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0007-kexec-un-break-the-build-on-32-bit-x86.patch b/meta/recipes-kernel/kexec/kexec-tools/0007-kexec-un-break-the-build-on-32-bit-x86.patch
 new file mode 100644
-index 00000000000..d6b2ad6f4f8
+index 00000000000..b91608e52b5
 --- /dev/null
-+++ b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-@@ -0,0 +1,32 @@
-+From 05c5f9515d6b26ed0e1eeff72ed618ca6e42c1ba Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-kernel/kexec/kexec-tools/0007-kexec-un-break-the-build-on-32-bit-x86.patch
+@@ -0,0 +1,42 @@
++From d294c5039753a36506949ba5dc782a4c0b307b74 Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 20 Dec 2019 16:54:05 +0100
-+Subject: [PATCH] tests: do not run target executables
++Date: Fri, 20 Dec 2019 17:21:08 +0100
++Subject: [PATCH] kexec: un-break the build on 32 bit x86
 +
-+Upstream-Status: Inappropriate [oe-core specific]
++Upstream-Status: Pending
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ tests/Makefile | 3 ---
-+ 1 file changed, 3 deletions(-)
++ kexec/arch/i386/Makefile    | 1 +
++ kexec/arch/i386/kexec-x86.h | 4 ++++
++ 2 files changed, 5 insertions(+)
 +
-+diff --git a/tests/Makefile b/tests/Makefile
-+index b16bdcd..2cb510f 100644
-+--- a/tests/Makefile
-++++ b/tests/Makefile
-+@@ -10,8 +10,6 @@ all: run_psx_test run_libcap_psx_test
-+ install: all
++diff --git a/kexec/arch/i386/Makefile b/kexec/arch/i386/Makefile
++index 105cefd..25df57a 100644
++--- a/kexec/arch/i386/Makefile
+++++ b/kexec/arch/i386/Makefile
++@@ -11,6 +11,7 @@ i386_KEXEC_SRCS += kexec/arch/i386/kexec-beoboot-x86.c
++ i386_KEXEC_SRCS += kexec/arch/i386/kexec-nbi.c
++ i386_KEXEC_SRCS += kexec/arch/i386/x86-linux-setup.c
++ i386_KEXEC_SRCS += kexec/arch/i386/crashdump-x86.c
+++i386_KEXEC_SRCS += kexec/arch/i386/kexec-mb2-x86.c
 + 
-+ run_psx_test: psx_test psx_test_wrap
-+-	./psx_test
-+-	./psx_test_wrap
++ dist += kexec/arch/i386/Makefile $(i386_KEXEC_SRCS)			\
++ 	kexec/arch/i386/crashdump-x86.h					\
++diff --git a/kexec/arch/i386/kexec-x86.h b/kexec/arch/i386/kexec-x86.h
++index 1b58c3b..d6b10c0 100644
++--- a/kexec/arch/i386/kexec-x86.h
+++++ b/kexec/arch/i386/kexec-x86.h
++@@ -56,9 +56,13 @@ struct arch_options_t {
++ };
 + 
-+ psx_test: psx_test.c
-+ 	$(CC) $(CFLAGS) $(IPATH) -DNOWRAP $< -o $@ $(LIBPSXLIB)
-+@@ -20,7 +18,6 @@ psx_test_wrap: psx_test.c
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBPSXLIB) -Wl,-wrap,pthread_create
++ int multiboot_x86_probe(const char *buf, off_t len);
+++int multiboot2_x86_probe(const char *buf, off_t len);
++ int multiboot_x86_load(int argc, char **argv, const char *buf, off_t len,
++ 	struct kexec_info *info);
+++int multiboot2_x86_load(int argc, char **argv, const char *buf, off_t len,
+++	struct kexec_info *info);
++ void multiboot_x86_usage(void);
+++void multiboot2_x86_usage(void);
 + 
-+ run_libcap_psx_test: libcap_psx_test
-+-	./libcap_psx_test
-+ 
-+ libcap_psx_test: libcap_psx_test.c
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create --static
-diff --git a/meta/recipes-support/libcap/libcap_2.27.bb b/meta/recipes-support/libcap/libcap_2.28.bb
-similarity index 90%
-rename from meta/recipes-support/libcap/libcap_2.27.bb
-rename to meta/recipes-support/libcap/libcap_2.28.bb
-index 3f64ff76364..781309692e9 100644
---- a/meta/recipes-support/libcap/libcap_2.27.bb
-+++ b/meta/recipes-support/libcap/libcap_2.28.bb
-@@ -9,9 +9,10 @@ DEPENDS = "hostperl-runtime-native gperf-native"
++ int elf_x86_probe(const char *buf, off_t len);
++ int elf_x86_load(int argc, char **argv, const char *buf, off_t len,
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
+similarity index 78%
+rename from meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+rename to meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
+index c3f74359f13..871b36440ff 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.20.bb
+@@ -10,19 +10,20 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a \
+ DEPENDS = "zlib xz"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
-+           file://0002-tests-do-not-run-target-executables.patch \
-            "
--SRC_URI[md5sum] = "2e8f9fab32eb5ccb37969fe317fd17aa"
--SRC_URI[sha256sum] = "dac1792d0118bee6aae6ba7fb93ff1602c6a9bda812fd63916eee1435b9c486a"
-+SRC_URI[md5sum] = "4066ddca53fb7e146f98372c8e43afc4"
-+SRC_URI[sha256sum] = "c0e70c3bcce288ada2bfe8d748e816b601590495312222e92e307cf18d6a38aa"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz \
+-    file://kdump \
+-    file://kdump.conf \
+-    file://kdump.service \
+-    file://0001-powerpc-change-the-memory-size-limit.patch \
+-    file://0002-purgatory-Pass-r-directly-to-linker.patch \
+-    file://0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
+-    file://0004-x86_64-Add-support-to-build-kexec-tools-with-x32-ABI.patch \
+-    file://0005-Disable-PIE-during-link.patch \
+-    file://0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch \
+-"
+-
+-SRC_URI[md5sum] = "052458f0a35c2a3b0d2302caa3318e9f"
+-SRC_URI[sha256sum] = "913c8dee918e5855a4ba60d609371390978144b4c8d15d6446ca0057b7bc5e58"
++           file://kdump \
++           file://kdump.conf \
++           file://kdump.service \
++           file://0001-powerpc-change-the-memory-size-limit.patch \
++           file://0002-purgatory-Pass-r-directly-to-linker.patch \
++           file://0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
++           file://0004-x86_64-Add-support-to-build-kexec-tools-with-x32-ABI.patch \
++           file://0005-Disable-PIE-during-link.patch \
++           file://0006-kexec-arm-undefine-__NR_kexec_file_load-for-arm.patch \
++           file://0007-kexec-un-break-the-build-on-32-bit-x86.patch \
++           "
++
++SRC_URI[md5sum] = "46724b67f32501c5d3e778161347cad9"
++SRC_URI[sha256sum] = "cb16d79818e0c9de3bb3e33ede5677c34a1d28c646379c7ab44e0faa3eb57a16"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
+ inherit autotools update-rc.d systemd
  
 -- 
 2.17.1
