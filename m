@@ -1,48 +1,33 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 85BC77FE71
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 346957FE6E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 04:16:12 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id r14so5954830lfm.5
+	Fri, 20 Dec 2019 04:51:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47fGXw1jZ5z6W
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 19 Dec 2019 20:16:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pZq+Q+enCKsk61ijmEpZDVQUfOxzOijPsL37aaFOzEI=;
-	b=j0TKfLo2d7vII+XH6X9w8v9o3X8P2rOdYZuX22I3X9/9cErJzC21GKY6jR0qa4ktaN
-	xEfmtXVxSErMWCzVG9WGoIRO5LFH3is/aetFnaW9Ul3MUbyO7g5XbK7mOX9mQ/3C8Wys
-	m+f/Ump87JzLy0GtRxfnTkxWgP7X216ai/oLABZmOtAzVGg4kQVtGGIRZ4qez8OsdTL6
-	z9wqw0IBz6n23xixhNz0vlwoDQ5gJkKBfP2B1xgeuRa0AR5Wl1dk/hle40CwfEaBGR+H
-	5EsBu//ohj6RiF0wbBTXT5669MybmMPrdnAc7ZnfnrXvBJ92U4f/Kz4XipDjrnk3CSmj
-	Y64w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pZq+Q+enCKsk61ijmEpZDVQUfOxzOijPsL37aaFOzEI=;
-	b=AaHKYrWdoX5n+t1pFRMhGo604cW5B8d7scvW6BXEHLNXz2kkd/in9uQjNI+ZaZLr/q
-	i5nbQcJ8MjTmn1FACSdis8oh+mkfJIcts4XBT4RMg+6Hi9+DHSZroBXdP5thWmTGPS78
-	TCvnPb6sBRKfXgqE5am+5x1vSP1g6p4Jpi2AVPHwUeSeHc/BIoyh6QAI7fc1YS2ZPlLh
-	mUAXbyU6544ebiu/vgdUI0EmJW5yr5LGqFPsvwEc7EW6B/KN3mo0uo6QpOCiHQiiAHbB
-	nMTNEELOcgYBH5iudjRDz3WM1U349BWuxVkixiabBEBQeUNJHoOt5M2sQZZscOVWWbO+
-	WAUg==
-X-Gm-Message-State: APjAAAVHlj5kQhJdeg55ZWeyxw0Lw7fmr3piQ/5LmiE1fGajPwjBYCV1
-	mXGT8sAesQqptLaKx7g7791+pGub66v29RbxSsk=
-X-Google-Smtp-Source: APXvYqz+0ysC8FXzR+6ISy2R9NIr6nf1fQYq2+RrC8q/6G1n47MdYPX2JYUDJxeRUHlurUBaNqE6JFWp+T9b323Z1yA=
-X-Received: by 2002:a19:2389:: with SMTP id j131mr7286024lfj.86.1576815373092; 
-	Thu, 19 Dec 2019 20:16:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20191219051543.20185-1-alistair@alistair23.me>
-	<20191219051543.20185-2-alistair@alistair23.me>
-	<42acb127-07f7-8457-2f20-d8ce4c82e264@intel.com>
-In-Reply-To: <42acb127-07f7-8457-2f20-d8ce4c82e264@intel.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 19 Dec 2019 20:15:46 -0800
-Message-ID: <CAKmqyKN-icfQniTBfaG7-V6C+7CL+u9EpqNwQw2U6pTkkkKzSQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/2] mesa: Upgrade to 19.3.0
+	Fri, 20 Dec 2019 05:51:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1576817472;
+	bh=jHV7HZwg4JxPtj8Zt3NR7n7P5VYidnAijCttjh8lLJg=;
+	h=From:To:Subject:Date:From;
+	b=ohh0RNN0YYoN5uNuzwk7vcm2Em77gV/pkKmNqndMAUyFwwirhqKx95pGeHaRnouZB
+	OT7XSDjOTNUXq8wBWu8hqRY/O2PVmOcq10VZVpqO/JnJrEpjNZa4wV8bpEGyEOIlRr
+	yoFrVR6FDmfjzhSkQ0JWZUANBJCYuamM4odrVYGZ3WGeviP1Z5sPbmFW7qS9sbhtAb
+	wwxw3v2094sA0F9FE+QBdFdCUdf/VGKujh0MZ7osjvOeTRvgaC9PrtHwWIFhBrTA8U
+	6LgOcvnNTI5j9+8FvqxgJFkXSoyEUdUdSm66qTM6KpVdEW4Z3UFDbQJkPqK2YT1f5Z
+	szIYpYpXEtDzOIOnWrZNz44s5IOrsIDaHi3GaI2OPljjDXCAx1+Gr2Gi8h/dACyYjq
+	LAp2nfjJLjbTy+dgFca1/aJ4OIh+9QYsHT/Hdkl+5mp9saVXqSEsgN5Qvr6UxYFvwL
+	yxN2uOj1W6USgrY7PfGjFQ8uP+vBCy5Q+NWl/3+msnVHnFDWR70VrVYLcLtpZg/Mkg
+	m2sfs/4xKqVLgeL2y4ThBYtNwvFq2xW/o5jt7YlJ6meEbXYS4k37ngSGaR3QIh9jxE
+	+hzqFVZBsTPOs5dn5J0wl2RQ2Mlz6cWxOygpD7Fxj+MPk+Dk5Zkdm8SBR81D22Im3f
+	/fcQ5lGOIXPrEGZbgXPIkwas=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Dec 2019 06:51:11 +0200
+Message-Id: <20191220045111.12387-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] python3: Upgrade 3.7.5 -> 3.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,35 +40,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 20 Dec 2019 04:16:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 20 Dec 2019 04:51:14 -0000
 
-On Thu, Dec 19, 2019 at 3:36 AM Ross Burton <ross.burton@intel.com> wrote:
->
-> On 19/12/2019 05:15, Alistair Francis wrote:
-> > Upgrade mesa to 19.3 and refresh the patches.
-> >
-> > As MESA_EGL_NO_X11_HEADERS was renamed to EGL_NO_X11 in [1] we are going
-> > to change the do_install and add a patch to libepoxy to use the new
-> > define.
->
-> I just remembered last night that a Mesa .0 release isn't intended for use:
->
-> "Mesa 19.3.0 is released. This is a new development release. See the
-> release notes for mor information about this release."
->
-> 19.3.1 was just released, we should ship that and change the version
-> checking regex to skip .0 releases.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ .../python/{python3_3.7.5.bb => python3_3.7.6.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.7.6.bb} (99%)
 
-Done! I just sent the v3 patches.
+diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
+similarity index 99%
+rename from meta/recipes-devtools/python/python3_3.7.5.bb
+rename to meta/recipes-devtools/python/python3_3.7.6.bb
+index 57eaaea5e7..bd23da87d6 100644
+--- a/meta/recipes-devtools/python/python3_3.7.5.bb
++++ b/meta/recipes-devtools/python/python3_3.7.6.bb
+@@ -39,8 +39,8 @@ SRC_URI_append_class-nativesdk = " \
+            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
+            "
+ 
+-SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
+-SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
++SRC_URI[md5sum] = "c08fbee72ad5c2c95b0f4e44bf6fd72c"
++SRC_URI[sha256sum] = "55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+-- 
+2.17.1
 
-Alistair
-
->
-> Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
