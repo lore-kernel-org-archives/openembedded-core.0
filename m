@@ -1,24 +1,57 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DE4CA7F7B4
+Return-Path: <alistair@alistair23.me>
+Received: from new2-smtp.messagingengine.com (new2-smtp.messagingengine.com
+	[66.111.4.224])
+	by mail.openembedded.org (Postfix) with ESMTP id 78D1F7FC2C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Dec 2019 06:19:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xBL6JbI6013360
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 20 Dec 2019 22:19:37 -0800 (PST)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Fri, 20 Dec 2019 22:19:36 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <ross.burton@intel.com>
-Date: Sat, 21 Dec 2019 14:19:35 +0800
-Message-ID: <1576909175-6910-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Sat, 21 Dec 2019 06:36:54 +0000 (UTC)
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+	by mailnew.nyi.internal (Postfix) with ESMTP id 1A6B033F2;
+	Sat, 21 Dec 2019 01:36:52 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+	by compute7.internal (MEProxy); Sat, 21 Dec 2019 01:36:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alistair23.me;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding; s=fm2; bh=7lmiruq56SaniZX4S3LLChstVr
+	1OGcWpOXEIG13OFeI=; b=NE9iVBa8t/sSarYjj9asqvzEGUSxCAI2dn3s7Bh5tO
+	Y8o2YFWOkXEx0282U1PeRG/ml4jD1+X77nKCdNWQQcEdKTguDWTyzEmrqRR+aaI9
+	FX+VINnVYbzrBwziJIbuIGU4/DsnWfgpPGi9trBoEZl2aReiDcDZf0cWFRv+QpwV
+	2NNsNfzDVw9jW/YCUE9Ut62pcOWFM4nXzK5cXpccE10xYil4PGEgZdVAZEucPzGb
+	nr6Kdu6OF97ai0tpVt/lJgavLv99dGL8rslCtR+ZYRn1TRGMGUYuU7YYbOd1gJAp
+	Axxa3ptzhC0Fp52s6jdqUVEane0w2SV/ECt9xa5fKxLw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7lmiruq56SaniZX4S
+	3LLChstVr1OGcWpOXEIG13OFeI=; b=UYa61Ir5vA00gZS6hfaKWtV7Gdjsyqmd5
+	B8cMXPq0ItPZivGEEusSzkG1CC4qOx+xZkAkUcrRqXREN7qLcUYDEjY+oQ1vTMA7
+	T2/Zig9iJyk1F9il5XNXIMZy1yM/aAP1B6DAV+oVER8deIHVw0IqwnRnbYlKXrxR
+	xlAY+JUsax+Wh+IiTSVfVjr33UqZrhRRILkRb2Rqorur+oQo/oXRaR1jmPLZ0DlL
+	Y2Ew62l1svLo5C3rIKIOd5Oj6DLbCun+remV4c/szzDsEInfZ+k6Lzb9/4OcaTNg
+	Dzs2mWL+8Boj3JZyrf0VSoKAn4KWeR0vLEZTCzPiKxAsfEWeia32w==
+X-ME-Sender: <xms:g739XQK-O5pkV8SqimnREdLd_M_Nuw6mIQd-XfYbuUo9kcY__zZzSQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvddugedgledvucetufdoteggodetrfdotf
+	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+	uceurghilhhouhhtmecufedttdenucgovehorghsthgrlhdqhfeguddvqddtvdculdduhe
+	dtmdenucfjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehlihhs
+	thgrihhrucfhrhgrnhgtihhsuceorghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmh
+	gvqeenucffohhmrghinhepghhithhhuhgsrdgtohhmnecukfhppeejfedrleefrdekgedr
+	vddtkeenucfrrghrrghmpehmrghilhhfrhhomheprghlihhsthgrihhrsegrlhhishhtrg
+	hirhdvfedrmhgvnecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:g739XZci6yGa9ya0IhiIRjeRpP0BbhjakBGR8vdbm5aA2YDtVidrOg>
+	<xmx:g739XX8z2-2dUsi-U294npOA6mA0IqGNvArxDqxnXXaxqukZN0w_kg>
+	<xmx:g739Xeol3WCdYnNy4wi1Q_da9fIOGfdvgya8Uet3fpYpt2_6IgwcSw>
+	<xmx:hL39XbbVoH3UAjZXt-H52aU-jtjm8_yJyvNlnsgggvP6LO3maPnn9A>
+Received: from alistair-xps-14z.alistair23.me
+	(c-73-93-84-208.hsd1.ca.comcast.net [73.93.84.208])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 2DE568005C;
+	Sat, 21 Dec 2019 01:36:51 -0500 (EST)
+From: Alistair Francis <alistair@alistair23.me>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 20 Dec 2019 22:36:47 -0800
+Message-Id: <20191221063648.24227-1-alistair@alistair23.me>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] perl/tcl: fix /usr/share/man/man3/Thread.3 conflicts
+Subject: [PATCH v4 1/2] libepoxy: Update to 1.5.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,72 +64,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Dec 2019 06:19:43 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 21 Dec 2019 06:36:55 -0000
+Content-Transfer-Encoding: 8bit
 
-While installing perl-doc and tcl-doc to image, there is a file conflicts
-at do_rootfs
-...
-|file /usr/share/man/man3/Thread.3 conflicts between attempted installs of
-perl-doc-5.30.1-r0.core2_64 and tcl-doc-8.6.10-r0.core2_64
-...
-
-Use update-alternatives to fix
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
 ---
- meta/recipes-devtools/perl/perl_5.30.1.bb | 6 +++++-
- meta/recipes-devtools/tcltk/tcl_8.6.10.bb | 5 ++++-
- 2 files changed, 9 insertions(+), 2 deletions(-)
+ .../libepoxy/{libepoxy_1.5.3.bb => libepoxy_1.5.4.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/libepoxy/{libepoxy_1.5.3.bb => libepoxy_1.5.4.bb} (91%)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index 9b1f1af..6e0b200 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -32,7 +32,7 @@ SRC_URI[perl-cross.sha256sum] = "edce0b0c2f725e2db3f203d6d8e9f3f7161256f5d159055
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb
+similarity index 91%
+rename from meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+rename to meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb
+index 71a2c91353..4caf672369 100644
+--- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
++++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.4.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=58ef4c80d401e07bd9ee8b6b58cf464b"
  
- S = "${WORKDIR}/perl-${PV}"
+ SRC_URI = "https://github.com/anholt/${BPN}/releases/download/${PV}/${BP}.tar.xz \
+            "
+-SRC_URI[md5sum] = "e2845de8d2782b2d31c01ae8d7cd4cbb"
+-SRC_URI[sha256sum] = "002958c5528321edd53440235d3c44e71b5b1e09b9177e8daf677450b6c4433d"
++SRC_URI[md5sum] = "00f47ad447321f9dc59f85bc1c9d0467"
++SRC_URI[sha256sum] = "0bd2cc681dfeffdef739cb29913f8c3caa47a88a451fd2bc6e606c02997289d2"
+ UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
  
--inherit upstream-version-is-even
-+inherit upstream-version-is-even update-alternatives
- 
- DEPENDS += "zlib virtual/crypt"
- 
-@@ -240,6 +240,10 @@ FILES_${PN}-module-cpan += "${libdir}/perl5/${PV}/CPAN \
-                           "
- FILES_${PN}-module-unicore += "${libdir}/perl5/${PV}/unicore"
- 
-+ALTERNATIVE_PRIORITY = "40"
-+ALTERNATIVE_${PN}-doc = "Thread.3"
-+ALTERNATIVE_LINK_NAME[Thread.3] = "${mandir}/man3/Thread.3"
-+
- # Create a perl-modules package recommending all the other perl
- # packages (actually the non modules packages and not created too)
- ALLOW_EMPTY_${PN}-modules = "1"
-diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.10.bb b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-index 284f20e..aedd96b 100644
---- a/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-+++ b/meta/recipes-devtools/tcltk/tcl_8.6.10.bb
-@@ -34,7 +34,7 @@ S = "${WORKDIR}/${BPN}${PV}/unix"
- 
- VER = "${PV}"
- 
--inherit autotools ptest binconfig
-+inherit autotools ptest binconfig update-alternatives
- 
- EXTRA_OECONF = "--enable-threads --disable-rpath --libdir=${libdir}"
- 
-@@ -65,6 +65,9 @@ FILES_tcl-lib = "${libdir}/libtcl8.6.so.*"
- FILES_${PN} += "${libdir}/tcl${VER} ${libdir}/tcl8.6 ${libdir}/tcl8"
- FILES_${PN}-dev += "${libdir}/tclConfig.sh ${libdir}/tclooConfig.sh"
- 
-+ALTERNATIVE_${PN}-doc = "Thread.3"
-+ALTERNATIVE_LINK_NAME[Thread.3] = "${mandir}/man3/Thread.3"
-+
- # isn't getting picked up by shlibs code
- RDEPENDS_${PN} += "tcl-lib"
- RDEPENDS_${PN}_class-native = ""
+ inherit meson pkgconfig features_check
 -- 
-2.7.4
+2.24.0
 
 
