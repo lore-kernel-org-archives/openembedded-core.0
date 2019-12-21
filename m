@@ -1,53 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C6E897FD3A
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+	[209.85.216.41])
+	by mail.openembedded.org (Postfix) with ESMTP id AFD727FC10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 21 Dec 2019 00:15:23 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id x17so4795485pln.1
+	Sat, 21 Dec 2019 00:15:24 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id bg7so4337088pjb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 20 Dec 2019 16:15:25 -0800 (PST)
+	Fri, 20 Dec 2019 16:15:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=6NNHeqLa3slz23Ly9y3mCzqLipV4Ksf7xe0I0ZH7+FE=;
-	b=XYzBBq6inlQ33nf/9w8HJwtwiO+4koCo6ida/5iu55yfLMLKqiuM5E07Fb8HenDo0V
-	5s/U+EB8NARUmoBFE2VkHrWGhTNc3tSyJMZWpzxh7SKV61s8zaYP/d0tTHXTq+h8CPc7
-	vDkNHDH805xSHmLAjTyL5vuzwGAVhYcYMNIU/iXmdnUjkO6nNiVo5nGHLirtLNLjJtg2
-	hMXAKbEqV30qvcczS+dRaeatWMTjCkhvtOuiBDZXdwdrpkWBUvtc0mYaRZVeR1zMiY1W
-	Nk/MGDYL3KlgV4m9zdtKKiiI53+O4tx6XfJ7toS48inlVNcZV4tQCr4QcDQWFBWBhkfJ
-	EQXQ==
+	bh=0Y5vhabqW7djdwHdjCEPXH1majAzei6DlaJNMt3R/PY=;
+	b=mDxjmVOokL3eISgXK6e4kZ2LQnvWRgCUfDLhgjZ1IvbHGrwpopd0rtLMGcfsC1z8Cr
+	2tIKNCYzyHvHAzNjpZqDM3khRaEOyqxjQwt5wnpQaKlN3YPunLzgDmLHDJHtc2rwWFNQ
+	cD93vLccHmKBgmUdiaWsmZYPNESplIWzvuy2Os6xpSNyktuyw8WmH3J0vFJJKRIWTSrI
+	3nTJvVSOOAI+InMv1e5R6OjRfj6EATvdnyjOJ97lv7DHYnqF8Bp9cMqOdVMJ6IAbt2dg
+	TocW1sCQ9xJHCCxUvTLWQinpEtlRMkRZhFY0ktFGUxuMLwaDMdpFPWqKjOlGLM49EV5M
+	fcIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=6NNHeqLa3slz23Ly9y3mCzqLipV4Ksf7xe0I0ZH7+FE=;
-	b=hRXljrsKloq1g/sikYzB1baWcoNL0bKf86mSgmNNg92krhdCBalIglhixwpodAiNmq
-	a/QzaTIqAQWg8TBfNuFdUxcTSiahuOApFapQ6yDRX92el35lz9fEWb/+XEnn2Qz/eRHh
-	cSKNH9KNauTBSWTxfiLjGix5JkDANldILEa83w99LcQITj3A/c1hHaya33KbXtOltFwT
-	pPzzOAEZhyYN9cQusQ8wRuW1zDleswyLNu8i9AJCgmnQeJJEs0e7WBu+yi0n58JQFO73
-	zIvfNjJIjvWoEQ9Ufl/vWy3lHLOXq0yqxFRn/FGmZqOack2gnsnbb1JN9/u2nf/iWFgB
-	zFhA==
-X-Gm-Message-State: APjAAAU5emGN4gp+z7SK0LzztSwOGrJeQ2Y4EvHFohQWyM3BgqHrq/p8
-	QWEGNw/obZNCaeuxxEpv+Qt0PT9jbDg=
-X-Google-Smtp-Source: APXvYqyYn0TmuIWxMyNmxpt0Dp+8xLoSZ65XPHo9L4SbxQPn4O6f72DqdZ8sVWUED38oxsP0rsn1Vg==
-X-Received: by 2002:a17:902:8f96:: with SMTP id
-	z22mr17602674plo.11.1576887324332; 
-	Fri, 20 Dec 2019 16:15:24 -0800 (PST)
+	bh=0Y5vhabqW7djdwHdjCEPXH1majAzei6DlaJNMt3R/PY=;
+	b=uTlTRgGT8F4pyb4XnlNMQjE8W+HlnNoEaqzsto+4UxZ/1Dh5BCeOEReTX5ASjJsFpF
+	rsdttz1ndL1LrGqjpZKzCWPBG+zrBQj1NEUqrykaBHsadCorFeUjaUjQ5I6ZRrryT35I
+	7tFfFMZXuInoEjQqWcKBeHvtfXBOTpqSp5R5ZghCglnKzBek5G9BEhZlwyKyx6wGfWR+
+	xwUi2kNb4SLb5alKiKoKnonvPEPby9qmaDFSWJW+YrePAUqmoVYyXUzyxbXtiSEfF2fH
+	gVOUh7Fhc1qLLJsCNViTJTHx8sGnzGoWaEt0sQR1/a7spHH7iyVXPVMcG9aB5ixUs/gW
+	CC/Q==
+X-Gm-Message-State: APjAAAUugh8BGyAyHzGn9C5fqOODQbNfKIOz49gtcAWvr8XrM3N6JCb4
+	C1aVBzTFs3z3uQbml3wS3ymJCytOiSI=
+X-Google-Smtp-Source: APXvYqz13IlTM6cCO7RHZhibW+DFhQFqSHik+6584Schlw+7d3uoQoVACMbkwvC8ggpAtYnHxkWhdw==
+X-Received: by 2002:a17:90a:1992:: with SMTP id
+	18mr19577421pji.46.1576887325103; 
+	Fri, 20 Dec 2019 16:15:25 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::36e9])
 	by smtp.gmail.com with ESMTPSA id
-	65sm15001784pfu.140.2019.12.20.16.15.23
+	65sm15001784pfu.140.2019.12.20.16.15.24
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Fri, 20 Dec 2019 16:15:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 20 Dec 2019 16:14:58 -0800
-Message-Id: <20191221001459.1630195-2-raj.khem@gmail.com>
+Date: Fri, 20 Dec 2019 16:14:59 -0800
+Message-Id: <20191221001459.1630195-3-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191221001459.1630195-1-raj.khem@gmail.com>
 References: <20191221001459.1630195-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] powerpc, powerpc64: Append little-endianness to tune arch
+Subject: [PATCH 3/3] tune-power9: Add power9 tunings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,45 +60,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 21 Dec 2019 00:15:23 -0000
+X-List-Received-Date: Sat, 21 Dec 2019 00:15:24 -0000
 Content-Transfer-Encoding: 8bit
 
-This helps in constructing right arch for target tuple name for
-Little-endian ppc
+Add Little/big Endian, 32bit/64bit
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/machine/include/powerpc/arch-powerpc.inc   | 3 ++-
- meta/conf/machine/include/powerpc/arch-powerpc64.inc | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+ meta/conf/machine/include/tune-power9.inc | 35 +++++++++++++++++++++++
+ 1 file changed, 35 insertions(+)
+ create mode 100644 meta/conf/machine/include/tune-power9.inc
 
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc.inc b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-index 8c0c943044..ef18e9ac8b 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc.inc
-@@ -15,7 +15,8 @@ TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "bigendian", " -mbig-endia
- 
- TUNEVALID[m32] = "Power ELF32 standard ABI"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'm32', ' -m32', '', d)}"
--TUNE_ARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'm32', 'powerpc', '', d)}"
-+TUNE_ARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'm32', 'powerpc${ENDIAN_SFX}', '', d)}"
-+ENDIAN_SFX = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', '', 'le', d)}"
- 
- TUNEVALID[fpu-hard] = "Use hardware FPU."
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'fpu-hard', ' -mhard-float', '', d)}"
-diff --git a/meta/conf/machine/include/powerpc/arch-powerpc64.inc b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-index 4bc5983087..cf5c3ef8e6 100644
---- a/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-+++ b/meta/conf/machine/include/powerpc/arch-powerpc64.inc
-@@ -5,7 +5,7 @@ require conf/machine/include/powerpc/arch-powerpc.inc
- TUNEVALID[m64] = "Power ELF64 standard ABI"
- TUNECONFLICTS[m64] = "m32 nf"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'm64', ' -m64', '', d)}"
--TUNE_ARCH .= "${@bb.utils.contains('TUNE_FEATURES', [ 'm64' ], 'powerpc64', '', d)}"
-+TUNE_ARCH .= "${@bb.utils.contains('TUNE_FEATURES', [ 'm64' ], 'powerpc64${ENDIAN_SFX}', '', d)}"
- 
- # musl only supports elfv2 ABI for ppc64
- TUNE_CCARGS .= "${@['', ' -mabi=elfv2']['libc-musl' in d.getVar('OVERRIDES').split(':')]}"
+diff --git a/meta/conf/machine/include/tune-power9.inc b/meta/conf/machine/include/tune-power9.inc
+new file mode 100644
+index 0000000000..81d6e8e9bf
+--- /dev/null
++++ b/meta/conf/machine/include/tune-power9.inc
+@@ -0,0 +1,35 @@
++DEFAULTTUNE ?= "ppc64p9le"
++
++require conf/machine/include/powerpc/arch-powerpc64.inc
++
++TUNEVALID[power9] = "Enable IBM Power9 specific processor optimizations"
++TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'power9', ' -mcpu=power9', '', d)}"
++
++AVAILTUNES += "ppcp9 ppc64p9 ppcp9le ppc64p9le"
++
++TUNE_FEATURES_tune-ppcp9 = "m32 fpu-hard power9 altivec bigendian"
++BASE_LIB_tune-ppcp9 = "lib"
++TUNE_PKGARCH_tune-ppcp9 = "ppcp9"
++PACKAGE_EXTRA_ARCHS_tune-ppcp9 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc} ppcp9"
++
++TUNE_FEATURES_tune-ppc64p9 = "m64 fpu-hard power9 altivec bigendian"
++BASE_LIB_tune-ppc64p9 = "lib64"
++TUNE_PKGARCH_tune-ppc64p9 = "ppc64p9"
++PACKAGE_EXTRA_ARCHS_tune-ppc64p9 = "${PACKAGE_EXTRA_ARCHS_tune-powerpc64} ppc64p9"
++
++TUNE_FEATURES_tune-ppcp9le = "m32 fpu-hard power9 altivec"
++BASE_LIB_tune-ppcp9le = "lib"
++TUNE_PKGARCH_tune-ppcp9le = "ppcp9le"
++PACKAGE_EXTRA_ARCHS_tune-ppcp9le = "${PACKAGE_EXTRA_ARCHS_tune-powerpcle} ppcp9le"
++
++TUNE_FEATURES_tune-ppc64p9le = "m64 fpu-hard power9 altivec"
++BASE_LIB_tune-ppc64p9le = "lib64"
++TUNE_PKGARCH_tune-ppc64p9le = "ppc64p9le"
++PACKAGE_EXTRA_ARCHS_tune-ppc64p9le = "${PACKAGE_EXTRA_ARCHS_tune-powerpc64le} ppc64p9le"
++
++# glibc configure options to get power9 specific library
++GLIBC_EXTRA_OECONF_powerpc64 += "${@bb.utils.contains('TUNE_FEATURES', 'power9', '--with-cpu=power9', '', d)}"
++GLIBC_EXTRA_OECONF_powerpc += "${@bb.utils.contains('TUNE_FEATURES', 'power9', '--with-cpu=power9', '', d)}"
++
++# QEMU usermode fails with invalid instruction error
++MACHINE_FEATURES_BACKFILL_CONSIDERED_append = "${@bb.utils.contains('TUNE_FEATURES', 'power9', ' qemu-usermode', '', d)}"
 -- 
 2.24.1
 
