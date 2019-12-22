@@ -1,51 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 3695C7FAAE
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 407CD7F96B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 16:22:39 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id c9so14130589wrw.8
+	Sun, 22 Dec 2019 17:04:55 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id c26so13341487eds.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 08:22:40 -0800 (PST)
+	Sun, 22 Dec 2019 09:04:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=WhcoCm02WvNHsH+bB7M1Y2w8Phft7cxy9Fe87yMslaU=;
-	b=uU9iF20TgKOvvEHs44TUB6uMT0bjp+JrRyfouXDtjfDqGjc91QcA1ULJdN/wnbkRbk
-	6ZPNvOaa8iGSNB678CNtUaKD5yjs2vtr5MnFh2J3z6L5jJQYDcLW1WPQyrZSNUzwceV0
-	fqwrYZQJd4mI0AQ+wY3K2fNSHlxl1ukX/4fsD8sOCY+15ELWY8UhpVywGDEsa4X29rHc
-	VB5qiDnchgwKtAfWsA6odpvRmtlAPzuJqijmRbVeo/EDP0fRH/c4v5YzhF5SMaYhaSAr
-	YKgTZSlC53CvKwiOvpQ2wZ6arm1PphfpPMOOv7rtGobF8qnDveAAFvTql+kCecav6rJX
-	gBIA==
+	:cc; bh=mOwKjfiLY043gXBJ4vt+dpXXgFVXZkZgxrQGqilgRx4=;
+	b=jDwC8GJj3Ubtd6B4v3yfMj7c5VbuvJzqHz1jQ9qbBYWUl+ZuWAZAcLsuT+CltG+jmx
+	81mQWtTpUk2pd3Re5ilRKuZyyLPO94z20ljSI0oNAHlC+y3ChheY4dSVBTJoUe0wSE+I
+	WpDkeDiDYRetmNnuoaZNkBhjdFznHH5l6akGxxx5ItsKjf3j+qOyJdNF0F5cwtizu1ZK
+	S5PszTwr7+ucMSH74TdMH/dW/v2BWVM0uq5FtHJrU1qEAXm1JvznYuqdwfR75kKnZr0R
+	vTRc36hqzixcvfOcQvAsBoWUZSFFlUvnMEC6D4bDCpEgKeJUeAkXfFtSVNRql9km9ROb
+	wDvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=WhcoCm02WvNHsH+bB7M1Y2w8Phft7cxy9Fe87yMslaU=;
-	b=MHlxWwLeQP9naqVn5jpwSmoIt7UeOgzrg2sNAZ9qQ0CQU+DUOFwb3r0CaGZhMMC+Wd
-	gwak3WSe/lKDzQJbmGXAcqezZCThAWjyt2gmAHB+SpUTvgIToyYs17ZC7/hQSJ1rtgyf
-	oOUeLZ0qjwS91UU8UMLxc5PIVBxWDaVOzOy2gmXhm/wBXVuOHm/y3N9ZLLvd3YcOvTM+
-	lGQQWblH72VfXy5antTNxAq9N+1duLk6vOHBlmC6H5m/y6ZrEylZTJfXwzaC7izkiuMj
-	iCgTP21YmkjWBm7CJmaIyUMqFwuAwCl6Bg+2HjFkt1xxSDj7g6wcEh2o74/MgBcXyREv
-	0Vnw==
-X-Gm-Message-State: APjAAAXuIZLfhEnqRXB7wcgs6yDyzL9+KgQqhLt4nyVPXSiKY5HW3zwy
-	3pYq8/C9dB73aOFwFX7XaNntQxHvy96BzjfNv5I=
-X-Google-Smtp-Source: APXvYqxW7rjFwnPzQQbVAtnjep4CV9Juf6tfONWzLbZwu6pWs4VyM7Rj3m8nyJu5psQLrF9KielEGDHd7yms1oOaDlc=
-X-Received: by 2002:adf:d4ca:: with SMTP id w10mr24512508wrk.53.1577031760155; 
-	Sun, 22 Dec 2019 08:22:40 -0800 (PST)
+	bh=mOwKjfiLY043gXBJ4vt+dpXXgFVXZkZgxrQGqilgRx4=;
+	b=BGN275DAojKz2lpn1dsHXS60I1q2peVu5r6RgNKTeFnXWi3UgbX5m6qv58BsLPgcXg
+	tJRUyTl6sbdqvYYF6gao9obNN0JmqVBQD/COQ+/AzlsPG2Z4ODTOCzUj/kzggphs7ShI
+	N2vxi7VvuvvYAeKQdvjn8dvYaiN/oNRh2SE4+743b+23ZnmO8cuFLu1z1XkbVNIXp7PI
+	8WdJbwk2f9KjmOhZXOmNJ3o+x3lRfv/NmnAoHSSaMTTzhGfoBdi11IlOvllON0ao0o8P
+	PN0I8gqeakvI9ajVucHnf8hPYRlfVYMYOcH/wZzYyYIbuX5cscpiB0H8/UU5xDaIgaLa
+	YjGg==
+X-Gm-Message-State: APjAAAU017g0JNRWmugwOJCkFA3gNaUQgjqH1zXCYUPMPhDNqgbQqObl
+	/Gb0lTWofbke1ybycjkCQLsE2dbUpwIxcz+SZ1E=
+X-Google-Smtp-Source: APXvYqzyqKOnjAiUWleh2wZgPfjRYTRY/Jjb3W8cPIztwcOA3ugQosmVGoPeeVXLA/SBa3PZP1o6TSG5B+LgOk5CCgw=
+X-Received: by 2002:a05:6402:1659:: with SMTP id
+	s25mr28112463edx.219.1577034295770; 
+	Sun, 22 Dec 2019 09:04:55 -0800 (PST)
 MIME-Version: 1.0
-References: <ce6615e19c75117b5d4458334af60107fba830a6.camel@linuxfoundation.org>
-	<f92e77c992efa93542732e335a99177b5903a11f.camel@linuxfoundation.org>
-	<a73ba44d3f16704691971ebfede683de21b2e65d.camel@linuxfoundation.org>
-	<CAJdd5GYZydn+kxHw3jP9AuJWWv60nxYwFPYWtrSGi1-q4NJNiQ@mail.gmail.com>
-	<cd4a5e26597d3b09392d76edfeb018ea38a368ff.camel@linuxfoundation.org>
-	<CAJdd5Ga=vrNMe6hW+SGrJaP=FAQhZBjqa14gXJ3qoQxzOBaaew@mail.gmail.com>
-In-Reply-To: <CAJdd5Ga=vrNMe6hW+SGrJaP=FAQhZBjqa14gXJ3qoQxzOBaaew@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Sun, 22 Dec 2019 10:22:28 -0600
-Message-ID: <CAJdd5Gbbmv45-q0G1FSDgfNLNQG+xHArorf=F=-wZtdOPU85xA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Debug from failing hashequiv builds - server side problem?
+References: <20191222040549.286151-1-raj.khem@gmail.com>
+	<20191222040549.286151-4-raj.khem@gmail.com>
+In-Reply-To: <20191222040549.286151-4-raj.khem@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sun, 22 Dec 2019 12:04:41 -0500
+Message-ID: <CADkTA4Of55K6p5QwTv01gTA6YF2MeGFSK6_9RYcHtSdSaCyZzA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] linux-yocto: Fix build with gcc10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,240 +56,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Dec 2019 16:22:40 -0000
-Content-Type: multipart/alternative; boundary="000000000000dd1a4c059a4d51d4"
-
---000000000000dd1a4c059a4d51d4
+X-List-Received-Date: Sun, 22 Dec 2019 17:04:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sun, Dec 22, 2019, 10:17 AM Joshua Watt <jpewhacker@gmail.com> wrote:
+On Sat, Dec 21, 2019 at 11:06 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
 
+Thanks Khem!
+
+As usual, please don't merge this patch directly, I'll apply it for
+linux-yocto* and linux-yocto-dev so we have full coverage on the
+reference kernels.
+
+I can send SRCREV bumps tonight, once I've done some quick build tests.
+
+Bruce
+
+> ---
+>  ...sed-64-Define-__force_order-only-whe.patch | 42 +++++++++++++++++++
+>  meta/recipes-kernel/linux/linux-yocto_5.2.bb  |  2 +
+>  2 files changed, 44 insertions(+)
+>  create mode 100644 meta/recipes-kernel/linux/files/0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch
 >
+> diff --git a/meta/recipes-kernel/linux/files/0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch b/meta/recipes-kernel/linux/files/0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch
+> new file mode 100644
+> index 0000000000..bd48de6dd9
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/files/0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch
+> @@ -0,0 +1,42 @@
+> +From 199caf12cdbe24796dc31fbd4fe5729ba2acf659 Mon Sep 17 00:00:00 2001
+> +From: Khem Raj <raj.khem@gmail.com>
+> +Date: Fri, 20 Dec 2019 17:42:02 -0800
+> +Subject: [PATCH] x86/boot/compressed/64: Define __force_order only when
+> + CONFIG_RANDOMIZE_BASE is unset
+> +
+> +kaslr_64.c also defines the same variable, however when both files are
+> +included into final link, linker complains about multiple definition of
+> +`__force_order' which is coming from kaslr_64.o and pgtable_64.o, its
+> +possible that kaslr_64.o is disabled via CONFIG_RANDOMIZE_BASE config
+> +option, therefore define it conditionally only when
+> +CONFIG_RANDOMIZE_BASE is not set
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+> +Cc: Kees Cook <keescook@chromium.org>
+> +Cc: "H. Peter Anvin" <hpa@zytor.com>
+> +Cc: Ingo Molnar <mingo@redhat.com>
+> +Cc: Thomas Gleixner <tglx@linutronix.de>
+> +Cc: x86-ml <x86@kernel.org>
+> +Cc: Arnd Bergmann <arnd@arndb.de>
+> +---
+> + arch/x86/boot/compressed/pgtable_64.c | 2 ++
+> + 1 file changed, 2 insertions(+)
+> +
+> +diff --git a/arch/x86/boot/compressed/pgtable_64.c b/arch/x86/boot/compressed/pgtable_64.c
+> +index c8862696a47b..077d19268b0b 100644
+> +--- a/arch/x86/boot/compressed/pgtable_64.c
+> ++++ b/arch/x86/boot/compressed/pgtable_64.c
+> +@@ -12,7 +12,9 @@
+> +  * It is not referenced from the code, but GCC < 5 with -fPIE would fail
+> +  * due to an undefined symbol. Define it to make these ancient GCCs work.
+> +  */
+> ++#ifndef CONFIG_RANDOMIZE_BASE
+> + unsigned long __force_order;
+> ++#endif
+> +
+> + #define BIOS_START_MIN                0x20000U        /* 128K, less than this is insane */
+> + #define BIOS_START_MAX                0x9f000U        /* 640K, absolute maximum */
+> +--
+> +2.24.1
+> +
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.2.bb b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+> index ff0f547399..5af0924808 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+> @@ -29,6 +29,8 @@ SRCREV_meta ?= "bd0762cd138f1624b5a5f8669cfa3ac2b71cb87b"
+>  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
 >
-> On Sun, Dec 22, 2019, 10:09 AM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
+> +SRC_URI += "file://0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch"
+> +
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+>  LINUX_VERSION ?= "5.2.20"
 >
->> On Sun, 2019-12-22 at 10:00 -0600, Joshua Watt wrote:
->> > On Sun, Dec 22, 2019, 6:49 AM Richard Purdie <
->> > richard.purdie@linuxfoundation.org> wrote:
->> > > On Sun, 2019-12-22 at 12:08 +0000, Richard Purdie wrote:
->> > >
->> > > At query time in a clean build, the hashserver cannot know which of
->> > > the two output hashes it needs to return the value for.
->> >
->> > In the case of multiple taskhashes mapping to different output
->> > hashes, the server is supposed to simply return the oldest unihash.
->> > If it's not doing that, there might be a bug.
->>
->>
->> The problem here is a single taskhash mapping to two different outputs.
->>
->> m4-native:do_populate_sysroot (on aarch64)
->> m4-native:do_populate_sysroot (on x86-64)
->>
->> When we query based on the input hash we'll get the first built.
->>
->> We then rebuild as its not in sstate and can match a previous task
->> output, we then get a new hash.
->>
->> If we start a new build with no cache, we lookup the input hash and get
->> the first built task of the wrong arch again.
->>
->> > > I can think of two possible options:
->> > >
->> > > a) When we report after running a task, we check if that input hash
->> > > already has a value and then reuse it for the output hash mapping.
->> >
->> > I don't quite follow this one, can you be a little more precise with
->> > what hashes you are referring to (e.g. taskhash, unihash, outhash)?
->>
->> We lookup a taskhash, get unihash A but its not in sstate (wrong arch).
->> We build this thing, send the outhash, currently we get unihash B.
->>
->> I'm saying we map that outhash to unihash A since the server already
->> has an entry for it.
->>
->> > > b) We start adding some kind of suffix to the reported hashes for
->> > > native output which is used within the hash equiv server but not
->> > > sstate.
->>
->> I was thinking about this further and I had a slightly evil idea. What
->> if we set the method to XXX:<native arch>"? (where XXX is the current
->> value).
->>
->> This would namespace the two native arches separately and I think then
->> avoid the problems?
->>
->> > Just for clarification, this is because "native" can either be x86_64
->> > or aarch64 but the actual arch (HOST_ARCH ?) isn't part of the
->> > taskhash calculation?
->>
->> Correct.
->>
->> > This sounds related to the gcc-cross issues we had with the eSDK.
->>
->> The previous problem was on the boundary between cross/native and
->> target. This is a pure native (or cross) issue.
->>
->> > Is there a reason that the host arch isn't part of the taskhash?
->>
->> Yes. Should the target output depend upon which arch it was built on?
->> (answer, no it shouldn't so the native hashes have to match).
->>
->> > I think it might be possible to report additional inputs in the
->> > hashes reported to the server. The server doesn't really care if it's
->> > the exact taskhash, as long as the client is consistent. Perhaps that
->> > would help with the gcc-cross issue as well?
->>
->> It won't help the other native/cross to target boundary mapping issue.
->>
->> See above, I'm wondering if we could abuse the method field to make
->> this work? Certainly we could test that...
->>
->
-> That seems reasonable for a quick test. The method is supposed to be the
-> output hash calculation method, so my first instinct would be that it is
-> better in the long run to add another field e.g. "class" or something.
+> --
+> 2.24.1
 >
 
-Perhaps based on ${NATIVELSBSTRING} like sstate.bbclass path? That has nice
-congruency with sstate file paths, which I like
 
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
->
->> Cheers,
->>
->> Richard
->>
->>
->>
-
---000000000000dd1a4c059a4d51d4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Sun, Dec 22, 2019, 10:17 AM Joshua Watt &lt;<a href=
-=3D"mailto:jpewhacker@gmail.com">jpewhacker@gmail.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div dir=3D"auto"><div><br><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Dec 22, 2019=
-, 10:09 AM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundat=
-ion.org" target=3D"_blank" rel=3D"noreferrer">richard.purdie@linuxfoundatio=
-n.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, 2019-1=
-2-22 at 10:00 -0600, Joshua Watt wrote:<br>
-&gt; On Sun, Dec 22, 2019, 6:49 AM Richard Purdie &lt;<br>
-&gt; <a href=3D"mailto:richard.purdie@linuxfoundation.org" rel=3D"noreferre=
-r noreferrer" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt; =
-wrote:<br>
-&gt; &gt; On Sun, 2019-12-22 at 12:08 +0000, Richard Purdie wrote:<br>
-&gt; &gt; <br>
-&gt; &gt; At query time in a clean build, the hashserver cannot know which =
-of<br>
-&gt; &gt; the two output hashes it needs to return the value for.<br>
-&gt; <br>
-&gt; In the case of multiple taskhashes mapping to different output<br>
-&gt; hashes, the server is supposed to simply return the oldest unihash.<br=
->
-&gt; If it&#39;s not doing that, there might be a bug.<br>
-<br>
-<br>
-The problem here is a single taskhash mapping to two different outputs.<br>
-<br>
-m4-native:do_populate_sysroot (on aarch64)<br>
-m4-native:do_populate_sysroot (on x86-64)<br>
-<br>
-When we query based on the input hash we&#39;ll get the first built.<br>
-<br>
-We then rebuild as its not in sstate and can match a previous task<br>
-output, we then get a new hash.<br>
-<br>
-If we start a new build with no cache, we lookup the input hash and get<br>
-the first built task of the wrong arch again.<br>
-<br>
-&gt; &gt; I can think of two possible options:<br>
-&gt; &gt; <br>
-&gt; &gt; a) When we report after running a task, we check if that input ha=
-sh<br>
-&gt; &gt; already has a value and then reuse it for the output hash mapping=
-.<br>
-&gt; <br>
-&gt; I don&#39;t quite follow this one, can you be a little more precise wi=
-th<br>
-&gt; what hashes you are referring to (e.g. taskhash, unihash, outhash)?<br=
->
-<br>
-We lookup a taskhash, get unihash A but its not in sstate (wrong arch).<br>
-We build this thing, send the outhash, currently we get unihash B.<br>
-<br>
-I&#39;m saying we map that outhash to unihash A since the server already<br=
->
-has an entry for it.<br>
-<br>
-&gt; &gt; b) We start adding some kind of suffix to the reported hashes for=
-<br>
-&gt; &gt; native output which is used within the hash equiv server but not<=
-br>
-&gt; &gt; sstate.<br>
-<br>
-I was thinking about this further and I had a slightly evil idea. What<br>
-if we set the method to XXX:&lt;native arch&gt;&quot;? (where XXX is the cu=
-rrent<br>
-value).<br>
-<br>
-This would namespace the two native arches separately and I think then<br>
-avoid the problems?<br>
-<br>
-&gt; Just for clarification, this is because &quot;native&quot; can either =
-be x86_64<br>
-&gt; or aarch64 but the actual arch (HOST_ARCH ?) isn&#39;t part of the<br>
-&gt; taskhash calculation?<br>
-<br>
-Correct.<br>
-<br>
-&gt; This sounds related to the gcc-cross issues we had with the eSDK.<br>
-<br>
-The previous problem was on the boundary between cross/native and<br>
-target. This is a pure native (or cross) issue.<br>
-<br>
-&gt; Is there a reason that the host arch isn&#39;t part of the taskhash?<b=
-r>
-<br>
-Yes. Should the target output depend upon which arch it was built on?<br>
-(answer, no it shouldn&#39;t so the native hashes have to match).<br>
-<br>
-&gt; I think it might be possible to report additional inputs in the<br>
-&gt; hashes reported to the server. The server doesn&#39;t really care if i=
-t&#39;s<br>
-&gt; the exact taskhash, as long as the client is consistent. Perhaps that<=
-br>
-&gt; would help with the gcc-cross issue as well?<br>
-<br>
-It won&#39;t help the other native/cross to target boundary mapping issue.<=
-br>
-<br>
-See above, I&#39;m wondering if we could abuse the method field to make<br>
-this work? Certainly we could test that...<br></blockquote></div></div><div=
- dir=3D"auto"><br></div><div dir=3D"auto">That seems reasonable for a quick=
- test. The method is supposed to be the output hash calculation method, so =
-my first instinct would be that it is better in the long run to add another=
- field e.g. &quot;class&quot; or something.</div></div></blockquote></div><=
-/div><div dir=3D"auto"><br></div><div dir=3D"auto">Perhaps based on ${NATIV=
-ELSBSTRING} like sstate.bbclass path? That has nice congruency with sstate =
-file paths, which I like</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
-><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><div dir=3D"auto=
-"><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote">=
-<blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1p=
-x #ccc solid;padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-</blockquote></div></div></div>
-</blockquote></div></div></div>
-
---000000000000dd1a4c059a4d51d4--
