@@ -1,54 +1,103 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 979A07FB43
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 87A127F7B5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 16:09:29 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id f129so13851596wmf.2
+	Sun, 22 Dec 2019 16:15:31 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id x7so7571801pgl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 08:09:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=zf4grwxplmJ+yp0FkCC17lY2ZbmcbyMZ4ihQc3mbJM0=;
-	b=ejunsvNeHeGns8QjVof6oXdXTk91KbnNsDsLiY8kx5LKru9Gc5akublF3qD9nXSiwA
-	wBX3UZg61GHwPWHzSEG/wQAgZ5XDBMnQxxGKP48HrXHZF1h8gJ0blYUa5wIJEm1P+PIF
-	o4iz3m40Lf5NGSzZXvzJao4UEzCFJ91HLIb1c=
+	Sun, 22 Dec 2019 08:15:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=ipkXYfKGaHoQKmR9OvPFFoTmK91Or8dKQyi/ON2obMI=;
+	b=S8ZpZ5x2TG2eAtCwLo+k9giCZ5v3OUib8Vhp5TsVnKk09VfU0256BEZbNOQd5qLZpB
+	BcoWHp0cTjxDj1+ynpIXQpUeXnXwuSfjJwJI1mhTxk5mtd0ByvNlAysErdWSiFVOs+tA
+	VtVqD9WS6oGJUmDXhRkxk3N6cwdihLglGEw56T9jr5gAwsDZyaeJMm3VUfNXh7PDx/F6
+	I0Pg8ZU4HqIeir6NI0Y7XwpOLeSWaVYGMfK/eaa5qgj+2QQ7MiqijMAX176hlvJRlTKn
+	ZolDdzpgtfjt2ByuUepcSDXolFDNnn9u8g7YVOuiDPnmRdqzi5qcj8rW93EeYBB4qGkl
+	Sx9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=zf4grwxplmJ+yp0FkCC17lY2ZbmcbyMZ4ihQc3mbJM0=;
-	b=Upe7L48J6j2hBRNFmwPICTokcdB8TnOYt6Q6Az/OVZt445VwgBkJMXK3ZjHDqdBnM9
-	8BnTpqSd0Qqd0PO84VX8sp/8kOq2xiXOKvicjSZpZ0ipSGt6Hkld8pSf38qFjHml+fje
-	1RVj4qoWJoNBLCThdXFWSqPWQvICqk1AsxZod13hp1sdmKvSMVzYut/HbuAXKEbOU0gK
-	7epD9O2RsH0aVJ3Z6THx+nV0DxhySqpW2iit+wBiWN7B7sFMW+jyca37AIwGRWyNn5W9
-	q9N0ck4hWKyRfN4DwKV14w+kEN2EX9PD8xflf8hXeHlUY1XxR1v4JN7TJ85a4pdKr2GE
-	COcg==
-X-Gm-Message-State: APjAAAX4VtTn1o3nFLeDwEXRY+uB24brcFs1J4LBOfWJvwPYhka4r5cL
-	6X9Dndk0plK1kF8/sJuYEPJBFA==
-X-Google-Smtp-Source: APXvYqyEmEtI0eUv7Qdzcy5rT7QxJJacleI1IdPF1lcqTBn6qfxE2PkC2vJTqvJcYJ6zc+UZG2NUuQ==
-X-Received: by 2002:a7b:c759:: with SMTP id w25mr28418250wmk.15.1577030970110; 
-	Sun, 22 Dec 2019 08:09:30 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=ipkXYfKGaHoQKmR9OvPFFoTmK91Or8dKQyi/ON2obMI=;
+	b=oq5n1aFuPAz/d4K/GIJ4HMNeQ71DsjLG98su7NjnEazM2carT++WnYmrat+WH7XvmH
+	TGIbISFhrO9UX7CrBgdwJKpOv6Mi78MToTTpMshrfIX87XAMuS7utq+Ch2P/KmcREx52
+	+WunCwEWfL7QPUk37oRqe1esbe99Rz6MaK7/+9hzMDLrmBqXCNtBOVR0w1Ymc+1w95ke
+	sKu8rqeHzoMlnVokCyejCbf4u//vfq/1IqM0XXydniQWS+Lzce/QdE0+tFzbpezb2/Pm
+	ghf2jLh1kMoE9AMIdflsF3cq8CUA0t2Rl+SkLZtQLqCJKC7jSguye0PqiF+h+bxGCZaM
+	7jUA==
+X-Gm-Message-State: APjAAAV6nHqU4bWTnQPoBEuUXSmpaUthPMcXnrMPNuQQHsYiMV5o3k1n
+	WchsVdHXZ5yCDB3bcQvcnVA30wAjABM=
+X-Google-Smtp-Source: APXvYqyxrxJwNqhgs6WkJklhvYtiSSexBzaCByEDdM8ilAORHK/iNs/2NeEh4i4EpqGzq0tMAuIAwQ==
+X-Received: by 2002:a65:66c4:: with SMTP id c4mr27070318pgw.429.1577031332287; 
+	Sun, 22 Dec 2019 08:15:32 -0800 (PST)
+Received: from ?IPv6:2601:202:4180:a5c0:6c98:6c:25c3:7121?
+	([2601:202:4180:a5c0:6c98:6c:25c3:7121])
 	by smtp.gmail.com with ESMTPSA id
-	p17sm17258609wmk.30.2019.12.22.08.09.28
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 22 Dec 2019 08:09:29 -0800 (PST)
-Message-ID: <cd4a5e26597d3b09392d76edfeb018ea38a368ff.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Date: Sun, 22 Dec 2019 16:09:27 +0000
-In-Reply-To: <CAJdd5GYZydn+kxHw3jP9AuJWWv60nxYwFPYWtrSGi1-q4NJNiQ@mail.gmail.com>
-References: <ce6615e19c75117b5d4458334af60107fba830a6.camel@linuxfoundation.org>
-	<f92e77c992efa93542732e335a99177b5903a11f.camel@linuxfoundation.org>
-	<a73ba44d3f16704691971ebfede683de21b2e65d.camel@linuxfoundation.org>
-	<CAJdd5GYZydn+kxHw3jP9AuJWWv60nxYwFPYWtrSGi1-q4NJNiQ@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	c19sm21862895pfc.144.2019.12.22.08.15.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 22 Dec 2019 08:15:31 -0800 (PST)
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20191205222617.31872-1-pkj@axis.com>
+	<67f9adf18b174290bd5fc91b8aa00c66@XBOX03.axis.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <8803b6ee-3c95-331f-a34f-bd8ddca0ee32@gmail.com>
+Date: Sun, 22 Dec 2019 08:15:30 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Debug from failing hashequiv builds - server side problem?
+In-Reply-To: <67f9adf18b174290bd5fc91b8aa00c66@XBOX03.axis.com>
+Subject: Re: [master][zeus][PATCH] cairo: Adapt license for cairo-dbg and cairo-src based on contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,90 +110,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Dec 2019 16:09:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 22 Dec 2019 16:15:31 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-
-On Sun, 2019-12-22 at 10:00 -0600, Joshua Watt wrote:
-> On Sun, Dec 22, 2019, 6:49 AM Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > On Sun, 2019-12-22 at 12:08 +0000, Richard Purdie wrote:
-> > 
-> > At query time in a clean build, the hashserver cannot know which of
-> > the two output hashes it needs to return the value for.
-> 
-> In the case of multiple taskhashes mapping to different output
-> hashes, the server is supposed to simply return the oldest unihash.
-> If it's not doing that, there might be a bug.
+Content-Language: en-US
 
 
-The problem here is a single taskhash mapping to two different outputs.
 
-m4-native:do_populate_sysroot (on aarch64)
-m4-native:do_populate_sysroot (on x86-64)
+On 12/22/19 5:00 AM, Peter Kjellerstedt wrote:
+> *ping*
+for master or zeus or both?
 
-When we query based on the input hash we'll get the first built.
-
-We then rebuild as its not in sstate and can match a previous task
-output, we then get a new hash.
-
-If we start a new build with no cache, we lookup the input hash and get
-the first built task of the wrong arch again.
-
-> > I can think of two possible options:
-> > 
-> > a) When we report after running a task, we check if that input hash
-> > already has a value and then reuse it for the output hash mapping.
-> 
-> I don't quite follow this one, can you be a little more precise with
-> what hashes you are referring to (e.g. taskhash, unihash, outhash)?
-
-We lookup a taskhash, get unihash A but its not in sstate (wrong arch).
-We build this thing, send the outhash, currently we get unihash B.
-
-I'm saying we map that outhash to unihash A since the server already
-has an entry for it.
-
-> > b) We start adding some kind of suffix to the reported hashes for
-> > native output which is used within the hash equiv server but not
-> > sstate.
-
-I was thinking about this further and I had a slightly evil idea. What
-if we set the method to XXX:<native arch>"? (where XXX is the current
-value).
-
-This would namespace the two native arches separately and I think then
-avoid the problems?
-
-> Just for clarification, this is because "native" can either be x86_64
-> or aarch64 but the actual arch (HOST_ARCH ?) isn't part of the
-> taskhash calculation?
-
-Correct.
-
-> This sounds related to the gcc-cross issues we had with the eSDK.
-
-The previous problem was on the boundary between cross/native and
-target. This is a pure native (or cross) issue.
-
-> Is there a reason that the host arch isn't part of the taskhash?
-
-Yes. Should the target output depend upon which arch it was built on?
-(answer, no it shouldn't so the native hashes have to match).
-
-> I think it might be possible to report additional inputs in the
-> hashes reported to the server. The server doesn't really care if it's
-> the exact taskhash, as long as the client is consistent. Perhaps that
-> would help with the gcc-cross issue as well?
-
-It won't help the other native/cross to target boundary mapping issue.
-
-See above, I'm wondering if we could abuse the method field to make
-this work? Certainly we could test that...
-
-Cheers,
-
-Richard
-
+- armin
+>
+> //Peter
+>
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-
+>> bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+>> Sent: den 5 december 2019 23:26
+>> To: openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [master][zeus][PATCH] cairo: Adapt license for cairo-
+>> dbg and cairo-src based on contents
+>>
+>> Introduce a PACKAGECONFIG "trace" to disable cairo-trace (the only
+>> part of the code licensed as GPL-3.0, and which is normally packaged
+>> separately in cairo-perf-utils). By disabling this, we can adapt the
+>> licenses for cairo-dbg and cairo-src so that they do not include
+>> "GPLv3+" when trace is disabled and thus they can be used also when,
+>> e.g., GPL-3.0 is blacklisted in INCOMPATIBLE_LICENSE.
+>>
+>> The "trace" PACKAGECONFIG is enabled by default for backwards
+>> compatibility.
+>>
+>> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+>> ---
+>>  meta/recipes-graphics/cairo/cairo_1.16.0.bb | 8 +++++++-
+>>  1 file changed, 7 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-
+>> graphics/cairo/cairo_1.16.0.bb
+>> index e3de3f6164..36a7b3c180 100644
+>> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+>> +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+>> @@ -17,6 +17,10 @@ LICENSE_${PN}-doc = "MPL-1.1 | LGPLv2.1"
+>>  LICENSE_${PN}-gobject = "MPL-1.1 | LGPLv2.1"
+>>  LICENSE_${PN}-script-interpreter = "MPL-1.1 | LGPLv2.1"
+>>  LICENSE_${PN}-perf-utils = "GPLv3+"
+>> +# Adapt the licenses for cairo-dbg and cairo-src depending on whether
+>> +# cairo-trace is being built.
+>> +LICENSE_${PN}-dbg = "(MPL-1.1 |
+>> LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '',
+>> d)}"
+>> +LICENSE_${PN}-src = "(MPL-1.1 |
+>> LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '',
+>> d)}"
+>>
+>>  LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+>>
+>> @@ -40,7 +44,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+>>
+>>  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}
+>> \
+>>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11
+>> xcb', '', d)} \
+>> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
+>> 'opengl', '', d)}"
+>> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
+>> 'opengl', '', d)} \
+>> +                   trace"
+>>
+>>  PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-
+>> xlib,${X11DEPENDS}"
+>>  PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+>> @@ -49,6 +54,7 @@ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--
+>> disable-valgrind,valgrind"
+>>  PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
+>>  PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-
+>> glesv2,virtual/libgles2"
+>>  PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
+>> +PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+>>
+>>  EXTRA_OECONF += " \
+>>      ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-
+>> point', '', d)} \
+>> --
+>> 2.21.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
