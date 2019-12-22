@@ -1,103 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 87A127F7B5
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A30B7E986
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 16:15:31 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id x7so7571801pgl.11
+	Sun, 22 Dec 2019 16:17:28 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id y11so14118060wrt.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 08:15:33 -0800 (PST)
+	Sun, 22 Dec 2019 08:17:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=ipkXYfKGaHoQKmR9OvPFFoTmK91Or8dKQyi/ON2obMI=;
-	b=S8ZpZ5x2TG2eAtCwLo+k9giCZ5v3OUib8Vhp5TsVnKk09VfU0256BEZbNOQd5qLZpB
-	BcoWHp0cTjxDj1+ynpIXQpUeXnXwuSfjJwJI1mhTxk5mtd0ByvNlAysErdWSiFVOs+tA
-	VtVqD9WS6oGJUmDXhRkxk3N6cwdihLglGEw56T9jr5gAwsDZyaeJMm3VUfNXh7PDx/F6
-	I0Pg8ZU4HqIeir6NI0Y7XwpOLeSWaVYGMfK/eaa5qgj+2QQ7MiqijMAX176hlvJRlTKn
-	ZolDdzpgtfjt2ByuUepcSDXolFDNnn9u8g7YVOuiDPnmRdqzi5qcj8rW93EeYBB4qGkl
-	Sx9A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=75RQBicZCIpLxbP+fUMi1SX0k8nlBWPkoaVzLTEw2c0=;
+	b=Ve9Y7/KFISAqqwMYqPPrUctMbR8KlTrU/46uMGbYEmOF8FM+ojUFNJx/+8wGcRYlmN
+	6GPoYkNlIzoG1OG+tnXQzOwzZRTNWpJD4oud4Ci6dZCv3JFOCW5/bxBAGThUTcXORqz6
+	IcYD+Oe5bT4tAY8HvYghXNeU0Jz+PobdKSMSDp4bR8J4OZvv4PgRWIKoKAv3QUGErSL+
+	YX2Za7UVdhTT5lW2Hf1R+oGnjZAoub0UsC5bTvupIdd2YmucDFpq8uUClsg9EK1ciMLi
+	Izz9WLU66LYw/LqAfl6+yhoYtEC1aJ2aXnDRk1g2d7qABRFs7ESMO2ePhHi0auY+6LT9
+	dIPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=ipkXYfKGaHoQKmR9OvPFFoTmK91Or8dKQyi/ON2obMI=;
-	b=oq5n1aFuPAz/d4K/GIJ4HMNeQ71DsjLG98su7NjnEazM2carT++WnYmrat+WH7XvmH
-	TGIbISFhrO9UX7CrBgdwJKpOv6Mi78MToTTpMshrfIX87XAMuS7utq+Ch2P/KmcREx52
-	+WunCwEWfL7QPUk37oRqe1esbe99Rz6MaK7/+9hzMDLrmBqXCNtBOVR0w1Ymc+1w95ke
-	sKu8rqeHzoMlnVokCyejCbf4u//vfq/1IqM0XXydniQWS+Lzce/QdE0+tFzbpezb2/Pm
-	ghf2jLh1kMoE9AMIdflsF3cq8CUA0t2Rl+SkLZtQLqCJKC7jSguye0PqiF+h+bxGCZaM
-	7jUA==
-X-Gm-Message-State: APjAAAV6nHqU4bWTnQPoBEuUXSmpaUthPMcXnrMPNuQQHsYiMV5o3k1n
-	WchsVdHXZ5yCDB3bcQvcnVA30wAjABM=
-X-Google-Smtp-Source: APXvYqyxrxJwNqhgs6WkJklhvYtiSSexBzaCByEDdM8ilAORHK/iNs/2NeEh4i4EpqGzq0tMAuIAwQ==
-X-Received: by 2002:a65:66c4:: with SMTP id c4mr27070318pgw.429.1577031332287; 
-	Sun, 22 Dec 2019 08:15:32 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:6c98:6c:25c3:7121?
-	([2601:202:4180:a5c0:6c98:6c:25c3:7121])
-	by smtp.gmail.com with ESMTPSA id
-	c19sm21862895pfc.144.2019.12.22.08.15.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 22 Dec 2019 08:15:31 -0800 (PST)
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20191205222617.31872-1-pkj@axis.com>
-	<67f9adf18b174290bd5fc91b8aa00c66@XBOX03.axis.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <8803b6ee-3c95-331f-a34f-bd8ddca0ee32@gmail.com>
-Date: Sun, 22 Dec 2019 08:15:30 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=75RQBicZCIpLxbP+fUMi1SX0k8nlBWPkoaVzLTEw2c0=;
+	b=jKzTZ3s+oV2C/7Mwoy3iudri0mPFWAW3vJ+JhJXPpSi8ky8ykajQys/r3RkTlTyLbM
+	J0XjgB+cjaZeCp0lB5orK3oTaWzdAKRqim56Ng+qn6VcVjj+sjt/nuW84WPoLczoXE9I
+	1SVKYUDOgWJlmxjxwFtbqU7+wuXAyYBwvEY8iwWGzqg3psj3Xpzjd+5UzgN/nbrYn9mb
+	Qrl+8e8PX+rTpgwFlXh9cTSWlKDOSqYXdYSfDPfIEGhJAPMpqckbcMH9tb2/Ukw1YB6Q
+	mnReBOO7hqyZCtpK28ZjwjBaUmM67fNDQ1RE76O6cr7UY0+wokEBYFmkIENrDDyi8rEx
+	79EA==
+X-Gm-Message-State: APjAAAWSk/7Vn6BDV914kcQzM8zpGOULXZ1QO7GlHL1NdFoqrOTxftXL
+	nF3/YEkpeZpgvtTMYTljF7LhC7I6iOqXpolFk2c=
+X-Google-Smtp-Source: APXvYqx2fjv+aiotgSbRAclPQ4Jw2OGnUDMrG+AO5hohqQvDYzj/SPOo3gJTcYh+RCRMscdKv+uJFusDi6yJfuWec/s=
+X-Received: by 2002:a5d:67c7:: with SMTP id n7mr25750990wrw.319.1577031449055; 
+	Sun, 22 Dec 2019 08:17:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <67f9adf18b174290bd5fc91b8aa00c66@XBOX03.axis.com>
-Subject: Re: [master][zeus][PATCH] cairo: Adapt license for cairo-dbg and cairo-src based on contents
+References: <ce6615e19c75117b5d4458334af60107fba830a6.camel@linuxfoundation.org>
+	<f92e77c992efa93542732e335a99177b5903a11f.camel@linuxfoundation.org>
+	<a73ba44d3f16704691971ebfede683de21b2e65d.camel@linuxfoundation.org>
+	<CAJdd5GYZydn+kxHw3jP9AuJWWv60nxYwFPYWtrSGi1-q4NJNiQ@mail.gmail.com>
+	<cd4a5e26597d3b09392d76edfeb018ea38a368ff.camel@linuxfoundation.org>
+In-Reply-To: <cd4a5e26597d3b09392d76edfeb018ea38a368ff.camel@linuxfoundation.org>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Sun, 22 Dec 2019 10:17:17 -0600
+Message-ID: <CAJdd5Ga=vrNMe6hW+SGrJaP=FAQhZBjqa14gXJ3qoQxzOBaaew@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Debug from failing hashequiv builds - server side problem?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -110,97 +57,219 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Dec 2019 16:15:31 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sun, 22 Dec 2019 16:17:28 -0000
+Content-Type: multipart/alternative; boundary="000000000000521715059a4d3fdb"
 
+--000000000000521715059a4d3fdb
+Content-Type: text/plain; charset="UTF-8"
 
+On Sun, Dec 22, 2019, 10:09 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-On 12/22/19 5:00 AM, Peter Kjellerstedt wrote:
-> *ping*
-for master or zeus or both?
-
-- armin
+> On Sun, 2019-12-22 at 10:00 -0600, Joshua Watt wrote:
+> > On Sun, Dec 22, 2019, 6:49 AM Richard Purdie <
+> > richard.purdie@linuxfoundation.org> wrote:
+> > > On Sun, 2019-12-22 at 12:08 +0000, Richard Purdie wrote:
+> > >
+> > > At query time in a clean build, the hashserver cannot know which of
+> > > the two output hashes it needs to return the value for.
+> >
+> > In the case of multiple taskhashes mapping to different output
+> > hashes, the server is supposed to simply return the oldest unihash.
+> > If it's not doing that, there might be a bug.
 >
-> //Peter
 >
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-
->> bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
->> Sent: den 5 december 2019 23:26
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [master][zeus][PATCH] cairo: Adapt license for cairo-
->> dbg and cairo-src based on contents
->>
->> Introduce a PACKAGECONFIG "trace" to disable cairo-trace (the only
->> part of the code licensed as GPL-3.0, and which is normally packaged
->> separately in cairo-perf-utils). By disabling this, we can adapt the
->> licenses for cairo-dbg and cairo-src so that they do not include
->> "GPLv3+" when trace is disabled and thus they can be used also when,
->> e.g., GPL-3.0 is blacklisted in INCOMPATIBLE_LICENSE.
->>
->> The "trace" PACKAGECONFIG is enabled by default for backwards
->> compatibility.
->>
->> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
->> ---
->>  meta/recipes-graphics/cairo/cairo_1.16.0.bb | 8 +++++++-
->>  1 file changed, 7 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-
->> graphics/cairo/cairo_1.16.0.bb
->> index e3de3f6164..36a7b3c180 100644
->> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
->> +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
->> @@ -17,6 +17,10 @@ LICENSE_${PN}-doc = "MPL-1.1 | LGPLv2.1"
->>  LICENSE_${PN}-gobject = "MPL-1.1 | LGPLv2.1"
->>  LICENSE_${PN}-script-interpreter = "MPL-1.1 | LGPLv2.1"
->>  LICENSE_${PN}-perf-utils = "GPLv3+"
->> +# Adapt the licenses for cairo-dbg and cairo-src depending on whether
->> +# cairo-trace is being built.
->> +LICENSE_${PN}-dbg = "(MPL-1.1 |
->> LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '',
->> d)}"
->> +LICENSE_${PN}-src = "(MPL-1.1 |
->> LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '',
->> d)}"
->>
->>  LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
->>
->> @@ -40,7 +44,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
->>
->>  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}
->> \
->>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11
->> xcb', '', d)} \
->> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
->> 'opengl', '', d)}"
->> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
->> 'opengl', '', d)} \
->> +                   trace"
->>
->>  PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-
->> xlib,${X11DEPENDS}"
->>  PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
->> @@ -49,6 +54,7 @@ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--
->> disable-valgrind,valgrind"
->>  PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
->>  PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-
->> glesv2,virtual/libgles2"
->>  PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
->> +PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
->>
->>  EXTRA_OECONF += " \
->>      ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-
->> point', '', d)} \
->> --
->> 2.21.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> The problem here is a single taskhash mapping to two different outputs.
+>
+> m4-native:do_populate_sysroot (on aarch64)
+> m4-native:do_populate_sysroot (on x86-64)
+>
+> When we query based on the input hash we'll get the first built.
+>
+> We then rebuild as its not in sstate and can match a previous task
+> output, we then get a new hash.
+>
+> If we start a new build with no cache, we lookup the input hash and get
+> the first built task of the wrong arch again.
+>
+> > > I can think of two possible options:
+> > >
+> > > a) When we report after running a task, we check if that input hash
+> > > already has a value and then reuse it for the output hash mapping.
+> >
+> > I don't quite follow this one, can you be a little more precise with
+> > what hashes you are referring to (e.g. taskhash, unihash, outhash)?
+>
+> We lookup a taskhash, get unihash A but its not in sstate (wrong arch).
+> We build this thing, send the outhash, currently we get unihash B.
+>
+> I'm saying we map that outhash to unihash A since the server already
+> has an entry for it.
+>
+> > > b) We start adding some kind of suffix to the reported hashes for
+> > > native output which is used within the hash equiv server but not
+> > > sstate.
+>
+> I was thinking about this further and I had a slightly evil idea. What
+> if we set the method to XXX:<native arch>"? (where XXX is the current
+> value).
+>
+> This would namespace the two native arches separately and I think then
+> avoid the problems?
+>
+> > Just for clarification, this is because "native" can either be x86_64
+> > or aarch64 but the actual arch (HOST_ARCH ?) isn't part of the
+> > taskhash calculation?
+>
+> Correct.
+>
+> > This sounds related to the gcc-cross issues we had with the eSDK.
+>
+> The previous problem was on the boundary between cross/native and
+> target. This is a pure native (or cross) issue.
+>
+> > Is there a reason that the host arch isn't part of the taskhash?
+>
+> Yes. Should the target output depend upon which arch it was built on?
+> (answer, no it shouldn't so the native hashes have to match).
+>
+> > I think it might be possible to report additional inputs in the
+> > hashes reported to the server. The server doesn't really care if it's
+> > the exact taskhash, as long as the client is consistent. Perhaps that
+> > would help with the gcc-cross issue as well?
+>
+> It won't help the other native/cross to target boundary mapping issue.
+>
+> See above, I'm wondering if we could abuse the method field to make
+> this work? Certainly we could test that...
+>
+
+That seems reasonable for a quick test. The method is supposed to be the
+output hash calculation method, so my first instinct would be that it is
+better in the long run to add another field e.g. "class" or something.
 
 
+> Cheers,
+>
+> Richard
+>
+>
+>
+
+--000000000000521715059a4d3fdb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Sun, Dec 22, 2019, 10:09 AM Richard Purdie &lt;<a h=
+ref=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfound=
+ation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Sun, =
+2019-12-22 at 10:00 -0600, Joshua Watt wrote:<br>
+&gt; On Sun, Dec 22, 2019, 6:49 AM Richard Purdie &lt;<br>
+&gt; <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank=
+" rel=3D"noreferrer">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; &gt; On Sun, 2019-12-22 at 12:08 +0000, Richard Purdie wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; At query time in a clean build, the hashserver cannot know which =
+of<br>
+&gt; &gt; the two output hashes it needs to return the value for.<br>
+&gt; <br>
+&gt; In the case of multiple taskhashes mapping to different output<br>
+&gt; hashes, the server is supposed to simply return the oldest unihash.<br=
+>
+&gt; If it&#39;s not doing that, there might be a bug.<br>
+<br>
+<br>
+The problem here is a single taskhash mapping to two different outputs.<br>
+<br>
+m4-native:do_populate_sysroot (on aarch64)<br>
+m4-native:do_populate_sysroot (on x86-64)<br>
+<br>
+When we query based on the input hash we&#39;ll get the first built.<br>
+<br>
+We then rebuild as its not in sstate and can match a previous task<br>
+output, we then get a new hash.<br>
+<br>
+If we start a new build with no cache, we lookup the input hash and get<br>
+the first built task of the wrong arch again.<br>
+<br>
+&gt; &gt; I can think of two possible options:<br>
+&gt; &gt; <br>
+&gt; &gt; a) When we report after running a task, we check if that input ha=
+sh<br>
+&gt; &gt; already has a value and then reuse it for the output hash mapping=
+.<br>
+&gt; <br>
+&gt; I don&#39;t quite follow this one, can you be a little more precise wi=
+th<br>
+&gt; what hashes you are referring to (e.g. taskhash, unihash, outhash)?<br=
+>
+<br>
+We lookup a taskhash, get unihash A but its not in sstate (wrong arch).<br>
+We build this thing, send the outhash, currently we get unihash B.<br>
+<br>
+I&#39;m saying we map that outhash to unihash A since the server already<br=
+>
+has an entry for it.<br>
+<br>
+&gt; &gt; b) We start adding some kind of suffix to the reported hashes for=
+<br>
+&gt; &gt; native output which is used within the hash equiv server but not<=
+br>
+&gt; &gt; sstate.<br>
+<br>
+I was thinking about this further and I had a slightly evil idea. What<br>
+if we set the method to XXX:&lt;native arch&gt;&quot;? (where XXX is the cu=
+rrent<br>
+value).<br>
+<br>
+This would namespace the two native arches separately and I think then<br>
+avoid the problems?<br>
+<br>
+&gt; Just for clarification, this is because &quot;native&quot; can either =
+be x86_64<br>
+&gt; or aarch64 but the actual arch (HOST_ARCH ?) isn&#39;t part of the<br>
+&gt; taskhash calculation?<br>
+<br>
+Correct.<br>
+<br>
+&gt; This sounds related to the gcc-cross issues we had with the eSDK.<br>
+<br>
+The previous problem was on the boundary between cross/native and<br>
+target. This is a pure native (or cross) issue.<br>
+<br>
+&gt; Is there a reason that the host arch isn&#39;t part of the taskhash?<b=
+r>
+<br>
+Yes. Should the target output depend upon which arch it was built on?<br>
+(answer, no it shouldn&#39;t so the native hashes have to match).<br>
+<br>
+&gt; I think it might be possible to report additional inputs in the<br>
+&gt; hashes reported to the server. The server doesn&#39;t really care if i=
+t&#39;s<br>
+&gt; the exact taskhash, as long as the client is consistent. Perhaps that<=
+br>
+&gt; would help with the gcc-cross issue as well?<br>
+<br>
+It won&#39;t help the other native/cross to target boundary mapping issue.<=
+br>
+<br>
+See above, I&#39;m wondering if we could abuse the method field to make<br>
+this work? Certainly we could test that...<br></blockquote></div></div><div=
+ dir=3D"auto"><br></div><div dir=3D"auto">That seems reasonable for a quick=
+ test. The method is supposed to be the output hash calculation method, so =
+my first instinct would be that it is better in the long run to add another=
+ field e.g. &quot;class&quot; or something.</div><div dir=3D"auto"><br></di=
+v><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+</blockquote></div></div></div>
+
+--000000000000521715059a4d3fdb--
