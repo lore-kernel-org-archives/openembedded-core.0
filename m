@@ -1,49 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com
-	[209.85.217.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 23CA07FA2E
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id BE6FC7FAC4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 13:21:14 +0000 (UTC)
-Received: by mail-vs1-f54.google.com with SMTP id x18so9100507vsq.4
+	Sun, 22 Dec 2019 16:00:36 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id q10so14078577wrm.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 05:21:16 -0800 (PST)
+	Sun, 22 Dec 2019 08:00:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YeG11FoF7HwMyAp62DDKY+39kPpWx/Zh8MIyIOjTB64=;
-	b=Qj9Fa0085m8z0Y9gZk5YtD/QS48iUqPU9Nf15Vn0qFEKGlGbcE+oxSdWYW+fflCPn6
-	jqfWqKncPdLbdKlr+DB0/fHNqTXQojc8z0r/lEqqAAbm9MKUk+Sh2H3zixjGOTiI8LPK
-	2YQQwnLm7Cb9tbRIWrOgqKFJYFCKNE38R/lDrQoWkFPS/soIy0odyGvFF9kXNoHBSunB
-	QnHbep2Z/90OKXWpoEPO5spm5BRZUYC7TkcFGm+AVrJFA6zCnDe3N/f/Ol+qmBUz6uD+
-	ZwOnbDv8GuhYBmkbK6U+r56YGiaHtGLj5yIq44g4ow69g81AcfLtDPjwahndo45uId3M
-	eaEA==
+	:cc; bh=4Q48yA0FJLJVUvIPnV7mCCogNd/U4yUoX0WaJjJTsLA=;
+	b=VxDckZiGDO1ELBePS0w6oLVLkvQ711K2JMoStFAXxPp6mn4LvAhcR4zi6Mhkdis90Y
+	LeudpP/NXVb2Fvdjsey09c9mv52y50ZaHR8xwZQwHj3yPWraJNRV7ld3ugCPcuoTOOxv
+	HnEq0CPWzFIJVsbk/wOS7Tbeml1kjGU1/hk9zU4blNlUX/HkVyMmhDPirT4ruQ/3CWRG
+	bEvQ//Ek3PlHtlMDyyAuc+YEn20iudVM2WngVJJi4aYEbdF+E/AhaL6Vh2LV1CGLj/y8
+	MA2sjP76Hd2CNywJqEf29nEYyAOUyGVmgSAu/vug0Lp47Jdww0P/nDtBIMXrmJ01107Q
+	pBdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=YeG11FoF7HwMyAp62DDKY+39kPpWx/Zh8MIyIOjTB64=;
-	b=Tvea9afDawMZl8eqwkYUeud0EKoeB46izGIeL7HYclhxtOwUWr2AIC/f6dUgpPyHRa
-	L9TqB+WtIPEBbSb9qWKRtdmfKbujknGYqyVtlyB6pRXbjjHojNYwR0l3RMCoYgLPJXF3
-	DIszqoprd/fCNmYTBI1cYzpUQFbAfPcssikKt1xi/OHuAT5X/eArgnFzc+2+hNxiTTDZ
-	+4YBzl3EHYI+NoNWzSySqoq1ELfZsZJUstwMOtL3X6vvrGvWe4X907Z6APcKJ5jDWDde
-	mTNvnHdLu63L6H9KB/dGgfTof92h3yUeJZOozyvQpzGaQpkT53JTv1TXa4XribJ4iD0S
-	G/4w==
-X-Gm-Message-State: APjAAAVFkqUcdJFNgaEXF64t1zeARhbDjhKCs3JvI0hXo4hNdlZAedqJ
-	bBmOcL9Ib5oZDEta5FKzP5e4RycN3vl4pezO35I68g==
-X-Google-Smtp-Source: APXvYqzLDSmlwvxBFZh7/7NW9+MLgO5lxOpeXQIerXtvZAN1Og0Ud3JoWpAIuJk1fu7P5HjQ8unW7h2n5fnKHrYMcdM=
-X-Received: by 2002:a05:6102:3213:: with SMTP id
-	r19mr564877vsf.83.1577020875841; 
-	Sun, 22 Dec 2019 05:21:15 -0800 (PST)
+	bh=4Q48yA0FJLJVUvIPnV7mCCogNd/U4yUoX0WaJjJTsLA=;
+	b=WzDl7xB03zbwRiN4Ivyetfuc89Z+dXmYM7GywXAUraaEMHUQM63U3A0W2h8EtXBRW4
+	DhMp8o8DBtbl7hN36ZXNJrJEdocqCzsk0Ato+sms5cAF0M/BohtW1s9fneP42ZN2l4cx
+	DHZMZZFfKMH10KXFc63I6RzxPpLR+k1NDlW/7t0i0QEKXuaiMY1p3RS/raIBOjDW3caJ
+	i3ALX8lNINFveRP34AZjpeswWuoceWqFeeLiynx8p1XvOo9Sbp/q4Nj4gHA3MoORWWsI
+	Jy5UuaD9nQVsEXuFMk6hOovhLwG0CLqs74KKleOlAK6tdzPMpE3la0Rg8DyJ1fA0cILV
+	b84g==
+X-Gm-Message-State: APjAAAUTeoto50S3WhSl/yBZ1rdm90V4fC+/KDAk6EOOEJpG9sXnj5rZ
+	Oqe0GvsRQNOUUWOtHCvKa7ec1bI7n9q1SwtB60Oj9A==
+X-Google-Smtp-Source: APXvYqyAJQMISjH0GBtk0mtOrFJY7HziWJ6JKLUjc7Q4CHqbG9cJUX/lnx6XCcIxaqDist7JgHRpCWIZfrOjQW1fA8M=
+X-Received: by 2002:a5d:6802:: with SMTP id w2mr25370257wru.353.1577030437283; 
+	Sun, 22 Dec 2019 08:00:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20191205222617.31872-1-pkj@axis.com>
-	<67f9adf18b174290bd5fc91b8aa00c66@XBOX03.axis.com>
-In-Reply-To: <67f9adf18b174290bd5fc91b8aa00c66@XBOX03.axis.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 22 Dec 2019 14:21:04 +0100
-Message-ID: <CANNYZj_Pw5DmSu-P-qQJ0jKBFsDKBvMAVvU9_qTx+Ugw859Qeg@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [master][zeus][PATCH] cairo: Adapt license for cairo-dbg and cairo-src based on contents
+References: <ce6615e19c75117b5d4458334af60107fba830a6.camel@linuxfoundation.org>
+	<f92e77c992efa93542732e335a99177b5903a11f.camel@linuxfoundation.org>
+	<a73ba44d3f16704691971ebfede683de21b2e65d.camel@linuxfoundation.org>
+In-Reply-To: <a73ba44d3f16704691971ebfede683de21b2e65d.camel@linuxfoundation.org>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Sun, 22 Dec 2019 10:00:25 -0600
+Message-ID: <CAJdd5GYZydn+kxHw3jP9AuJWWv60nxYwFPYWtrSGi1-q4NJNiQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Debug from failing hashequiv builds - server side problem?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,257 +55,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Dec 2019 13:21:15 -0000
-Content-Type: multipart/alternative; boundary="0000000000001ba5b0059a4ac957"
+X-List-Received-Date: Sun, 22 Dec 2019 16:00:37 -0000
+Content-Type: multipart/alternative; boundary="00000000000003aa56059a4d034f"
 
---0000000000001ba5b0059a4ac957
+--00000000000003aa56059a4d034f
 Content-Type: text/plain; charset="UTF-8"
 
--dbg and -src packages are unlikely to be shipped to customers. How about
-either whitelisting them globally, or setting INCOMPABIBLE_LICENSE per
-image?
+On Sun, Dec 22, 2019, 6:49 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-What the patch does with LICENSE-dbg/src feels hack-ish to be honest; also
-there are other recipes with a similar layout which would also need similar
-fixups.
-
-Alex
-
-On Sun, 22 Dec 2019 at 14:01, Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
-
-> *ping*
+> On Sun, 2019-12-22 at 12:08 +0000, Richard Purdie wrote:
+> > On Sun, 2019-12-22 at 10:54 +0000, Richard Purdie wrote:
+> > > I did a little digging on the weird hash equiv failure. I've
+> > > attached two logs, one is the simplified console output, the other
+> > > is the reams of debug.
 >
-> //Peter
+> I did a bit more thinking about this. These hashes represent m4-native.
 >
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org
-> <openembedded-core-
-> > bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > Sent: den 5 december 2019 23:26
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [master][zeus][PATCH] cairo: Adapt license for cairo-
-> > dbg and cairo-src based on contents
-> >
-> > Introduce a PACKAGECONFIG "trace" to disable cairo-trace (the only
-> > part of the code licensed as GPL-3.0, and which is normally packaged
-> > separately in cairo-perf-utils). By disabling this, we can adapt the
-> > licenses for cairo-dbg and cairo-src so that they do not include
-> > "GPLv3+" when trace is disabled and thus they can be used also when,
-> > e.g., GPL-3.0 is blacklisted in INCOMPATIBLE_LICENSE.
-> >
-> > The "trace" PACKAGECONFIG is enabled by default for backwards
-> > compatibility.
-> >
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > ---
-> >  meta/recipes-graphics/cairo/cairo_1.16.0.bb | 8 +++++++-
-> >  1 file changed, 7 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-
-> > graphics/cairo/cairo_1.16.0.bb
-> > index e3de3f6164..36a7b3c180 100644
-> > --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> > +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-> > @@ -17,6 +17,10 @@ LICENSE_${PN}-doc = "MPL-1.1 | LGPLv2.1"
-> >  LICENSE_${PN}-gobject = "MPL-1.1 | LGPLv2.1"
-> >  LICENSE_${PN}-script-interpreter = "MPL-1.1 | LGPLv2.1"
-> >  LICENSE_${PN}-perf-utils = "GPLv3+"
-> > +# Adapt the licenses for cairo-dbg and cairo-src depending on whether
-> > +# cairo-trace is being built.
-> > +LICENSE_${PN}-dbg = "(MPL-1.1 |
-> > LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '',
-> > d)}"
-> > +LICENSE_${PN}-src = "(MPL-1.1 |
-> > LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '',
-> > d)}"
-> >
-> >  LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
-> >
-> > @@ -40,7 +44,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
-> >
-> >  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)}
-> > \
-> >                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11
-> > xcb', '', d)} \
-> > -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
-> > 'opengl', '', d)}"
-> > +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
-> > 'opengl', '', d)} \
-> > +                   trace"
-> >
-> >  PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-
-> > xlib,${X11DEPENDS}"
-> >  PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
-> > @@ -49,6 +54,7 @@ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--
-> > disable-valgrind,valgrind"
-> >  PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
-> >  PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-
-> > glesv2,virtual/libgles2"
-> >  PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
-> > +PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
-> >
-> >  EXTRA_OECONF += " \
-> >      ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-
-> > point', '', d)} \
-> > --
-> > 2.21.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> We do have a problem that a given input hash for m4-native can
+> represent two different output states depending on the architecture it
+> was built on.
+>
+> For the same input hash, the output hash of these two things will never
+> match. Nor will there ever be present sstate for them to trigger the
+> report equiv mechanism.
+>
+> At query time in a clean build, the hashserver cannot know which of the
+> two output hashes it needs to return the value for.
 >
 
---0000000000001ba5b0059a4ac957
+In the case of multiple taskhashes mapping to different output hashes, the
+server is supposed to simply return the oldest unihash. If it's not doing
+that, there might be a bug.
+
+
+> I can think of two possible options:
+>
+> a) When we report after running a task, we check if that input hash
+> already has a value and then reuse it for the output hash mapping.
+>
+
+I don't quite follow this one, can you be a little more precise with what
+hashes you are referring to (e.g. taskhash, unihash, outhash)?
+
+
+
+
+> b) We start adding some kind of suffix to the reported hashes for
+> native output which is used within the hash equiv server but not
+> sstate.
+>
+
+Just for clarification, this is because "native" can either be x86_64 or
+aarch64 but the actual arch (HOST_ARCH ?) isn't part of the taskhash
+calculation?
+
+This sounds related to the gcc-cross issues we had with the eSDK.
+
+Is there a reason that the host arch isn't part of the taskhash?
+
+I think it might be possible to report additional inputs in the hashes
+reported to the server. The server doesn't really care if it's the exact
+taskhash, as long as the client is consistent. Perhaps that would help with
+the gcc-cross issue as well?
+
+
+
+> I freely admit this needs much more thought...
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+--00000000000003aa56059a4d034f
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>-dbg and -src packages are unlikely to be shipped to =
-customers. How about either whitelisting them globally, or setting INCOMPAB=
-IBLE_LICENSE per image?</div><div><br></div><div>What the patch does with L=
-ICENSE-dbg/src feels hack-ish to be honest; also there are other recipes wi=
-th a similar layout which would also need similar fixups.<br></div><div><br=
-></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Sun, 22 Dec 2019 at 14:01, Peter Kjellerstedt =
-&lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis.=
-com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">*ping*<br>
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Sun, Dec 22, 2019, 6:49 AM Richard Purdie &lt;<a hr=
+ef=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank" rel=3D"n=
+oreferrer">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #cc=
+c solid;padding-left:1ex">On Sun, 2019-12-22 at 12:08 +0000, Richard Purdie=
+ wrote:<br>
+&gt; On Sun, 2019-12-22 at 10:54 +0000, Richard Purdie wrote:<br>
+&gt; &gt; I did a little digging on the weird hash equiv failure. I&#39;ve<=
+br>
+&gt; &gt; attached two logs, one is the simplified console output, the othe=
+r<br>
+&gt; &gt; is the reams of debug.<br>
 <br>
-//Peter<br>
+I did a bit more thinking about this. These hashes represent m4-native.<br>
 <br>
-&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
-rg" target=3D"_blank">openembedded-core-bounces@lists.openembedded.org</a> =
-&lt;openembedded-core-<br>
-&gt; <a href=3D"mailto:bounces@lists.openembedded.org" target=3D"_blank">bo=
-unces@lists.openembedded.org</a>&gt; On Behalf Of Peter Kjellerstedt<br>
-&gt; Sent: den 5 december 2019 23:26<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Subject: [OE-core] [master][zeus][PATCH] cairo: Adapt license for cair=
-o-<br>
-&gt; dbg and cairo-src based on contents<br>
-&gt; <br>
-&gt; Introduce a PACKAGECONFIG &quot;trace&quot; to disable cairo-trace (th=
-e only<br>
-&gt; part of the code licensed as GPL-3.0, and which is normally packaged<b=
-r>
-&gt; separately in cairo-perf-utils). By disabling this, we can adapt the<b=
-r>
-&gt; licenses for cairo-dbg and cairo-src so that they do not include<br>
-&gt; &quot;GPLv3+&quot; when trace is disabled and thus they can be used al=
-so when,<br>
-&gt; e.g., GPL-3.0 is blacklisted in INCOMPATIBLE_LICENSE.<br>
-&gt; <br>
-&gt; The &quot;trace&quot; PACKAGECONFIG is enabled by default for backward=
-s<br>
-&gt; compatibility.<br>
-&gt; <br>
-&gt; Signed-off-by: Peter Kjellerstedt &lt;<a href=3D"mailto:peter.kjellers=
-tedt@axis.com" target=3D"_blank">peter.kjellerstedt@axis.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a> | 8 +++++++-<br>
-&gt;=C2=A0 1 file changed, 7 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.=
-0.bb" rel=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a> b/meta/recip=
-es-<br>
-&gt; graphics/cairo/<a href=3D"http://cairo_1.16.0.bb" rel=3D"noreferrer" t=
-arget=3D"_blank">cairo_1.16.0.bb</a><br>
-&gt; index e3de3f6164..36a7b3c180 100644<br>
-&gt; --- a/meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a><br>
-&gt; +++ b/meta/recipes-graphics/cairo/<a href=3D"http://cairo_1.16.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">cairo_1.16.0.bb</a><br>
-&gt; @@ -17,6 +17,10 @@ LICENSE_${PN}-doc =3D &quot;MPL-1.1 | LGPLv2.1&quot=
-;<br>
-&gt;=C2=A0 LICENSE_${PN}-gobject =3D &quot;MPL-1.1 | LGPLv2.1&quot;<br>
-&gt;=C2=A0 LICENSE_${PN}-script-interpreter =3D &quot;MPL-1.1 | LGPLv2.1&qu=
-ot;<br>
-&gt;=C2=A0 LICENSE_${PN}-perf-utils =3D &quot;GPLv3+&quot;<br>
-&gt; +# Adapt the licenses for cairo-dbg and cairo-src depending on whether=
+We do have a problem that a given input hash for m4-native can<br>
+represent two different output states depending on the architecture it<br>
+was built on.<br>
 <br>
-&gt; +# cairo-trace is being built.<br>
-&gt; +LICENSE_${PN}-dbg =3D &quot;(MPL-1.1 |<br>
-&gt; LGPLv2.1)${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;trace&#39;=
-, &#39; &amp; GPLv3+&#39;, &#39;&#39;,<br>
-&gt; d)}&quot;<br>
-&gt; +LICENSE_${PN}-src =3D &quot;(MPL-1.1 |<br>
-&gt; LGPLv2.1)${@bb.utils.contains(&#39;PACKAGECONFIG&#39;, &#39;trace&#39;=
-, &#39; &amp; GPLv3+&#39;, &#39;&#39;,<br>
-&gt; d)}&quot;<br>
-&gt; <br>
-&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3De73e999e0c72b5ac=
-9012424fa157ad77&quot;<br>
-&gt; <br>
-&gt; @@ -40,7 +44,8 @@ X11DEPENDS =3D &quot;virtual/libx11 libsm libxrender=
- libxext&quot;<br>
-&gt; <br>
-&gt;=C2=A0 PACKAGECONFIG ??=3D &quot;${@bb.utils.filter(&#39;DISTRO_FEATURE=
-S&#39;, &#39;directfb&#39;, d)}<br>
-&gt; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x11&#39;, &#39;x=
-11<br>
-&gt; xcb&#39;, &#39;&#39;, d)} \<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x11 opengl&#39;,<br>
-&gt; &#39;opengl&#39;, &#39;&#39;, d)}&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-${@bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;x11 opengl&#39;,<br>
-&gt; &#39;opengl&#39;, &#39;&#39;, d)} \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-trace&quot;<br>
-&gt; <br>
-&gt;=C2=A0 PACKAGECONFIG[x11] =3D &quot;--with-x=3Dyes -enable-xlib,--with-=
-x=3Dno --disable-<br>
-&gt; xlib,${X11DEPENDS}&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[xcb] =3D &quot;--enable-xcb,--disable-xcb,libxcb&q=
-uot;<br>
-&gt; @@ -49,6 +54,7 @@ PACKAGECONFIG[valgrind] =3D &quot;--enable-valgrind=
-=3Dyes,--<br>
-&gt; disable-valgrind,valgrind&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[egl] =3D &quot;--enable-egl=3Dyes,--disable-egl,vi=
-rtual/egl&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[glesv2] =3D &quot;--enable-glesv2,--disable-<br>
-&gt; glesv2,virtual/libgles2&quot;<br>
-&gt;=C2=A0 PACKAGECONFIG[opengl] =3D &quot;--enable-gl,--disable-gl,virtual=
-/libgl&quot;<br>
-&gt; +PACKAGECONFIG[trace] =3D &quot;--enable-trace,--disable-trace&quot;<b=
-r>
-&gt; <br>
-&gt;=C2=A0 EXTRA_OECONF +=3D &quot; \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ${@bb.utils.contains(&#39;TARGET_FPU&#39;, &#39;so=
-ft&#39;, &#39;--disable-some-floating-<br>
-&gt; point&#39;, &#39;&#39;, d)} \<br>
-&gt; --<br>
-&gt; 2.21.0<br>
-&gt; <br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+For the same input hash, the output hash of these two things will never<br>
+match. Nor will there ever be present sstate for them to trigger the<br>
+report equiv mechanism.<br>
+<br>
+At query time in a clean build, the hashserver cannot know which of the<br>
+two output hashes it needs to return the value for.<br></blockquote></div><=
+/div><div dir=3D"auto"><br></div><div dir=3D"auto">In the case of multiple =
+taskhashes mapping to different output hashes, the server is supposed to si=
+mply return the oldest unihash. If it&#39;s not doing that, there might be =
+a bug.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gma=
+il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex">
+<br>
+I can think of two possible options:<br>
+<br>
+a) When we report after running a task, we check if that input hash<br>
+already has a value and then reuse it for the output hash mapping.<br></blo=
+ckquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">I don&#39=
+;t quite follow this one, can you be a little more precise with what hashes=
+ you are referring to (e.g. taskhash, unihash, outhash)?</div><div dir=3D"a=
+uto"><br></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div=
+ dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" =
+style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+b) We start adding some kind of suffix to the reported hashes for<br>
+native output which is used within the hash equiv server but not<br>
+sstate.<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D=
+"auto">Just for clarification, this is because &quot;native&quot; can eithe=
+r be x86_64 or aarch64 but the actual arch (HOST_ARCH ?) isn&#39;t part of =
+the taskhash calculation?</div><div dir=3D"auto"><br></div><div dir=3D"auto=
+">This sounds related to the gcc-cross issues we had with the eSDK.</div><d=
+iv dir=3D"auto"><br></div><div dir=3D"auto">Is there a reason that the host=
+ arch isn&#39;t part of the taskhash?</div><div dir=3D"auto"><br></div><div=
+ dir=3D"auto">I think it might be possible to report additional inputs in t=
+he hashes reported to the server. The server doesn&#39;t really care if it&=
+#39;s the exact taskhash, as long as the client is consistent. Perhaps that=
+ would help with the gcc-cross issue as well?</div><div dir=3D"auto"><br></=
+div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quote=
+"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">
+<br>
+I freely admit this needs much more thought...<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div></div>
 
---0000000000001ba5b0059a4ac957--
+--00000000000003aa56059a4d034f--
