@@ -1,52 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AB207F93B
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AD767FA42
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 12:49:16 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id d73so13274904wmd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 04:49:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=mojlfLyqxNi9fq6aMkXRDC+yVILu2WFEaxzm/+LXGok=;
-	b=RB3cNfusGFYpziA9QoNjTK/HCyyrukvkzeP9GgG5CbHYPr0z8pXDRryO7EOqZlt12n
-	C2A5xY0Qia1cnMxNFovi6cdAHs3XbhjLRJgsGRXOoawBmXlQHGDZkFmPcGn17z/egVJ7
-	IHJxHqKpw+cQJJBS/7+XKs0CT4cE31ihj65jY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=mojlfLyqxNi9fq6aMkXRDC+yVILu2WFEaxzm/+LXGok=;
-	b=kF7nv4rkB76h2fSXjCIOzl0j27pgKYLYQ9spi9abFvW6wzkQXZ5mqvR0U0tXz39vJj
-	WYWuJV0F8/ML8nWnu4wV+vqeqMqQNey2mCSpsKmphlZQ14+zrb42uzCesWrVtwZmURq+
-	+wBbd0wBYrTqPs0zFxnyPVLWKtF7ZNJ50MZwvztV6bac+d7QBSiW0j2O7SAC6yZwk5pj
-	qX3nHJQ6daxNGIGTMfLXKnB2fzuXTi6YTfmxD4KYV8kobcBYlLZbczmZZxVkrzp+sc9a
-	cvS+yAt8a69vPnw8MwwNoGuO/syeO43n+zVv/KLgw1ExAwNVFkc746eJz9zX9C6M0AZT
-	sDag==
-X-Gm-Message-State: APjAAAWSp5TnawJWz1Nn2XmmMu5V2uRdqof/DkXp/CBjD0EwGWN6lKUo
-	jngxMB+eXhwBqZzOUGaIctSfiw==
-X-Google-Smtp-Source: APXvYqxDBSwlqlmLBSZzsmFReixlN0S7sZ0YcuVat7vzismcNTFKbJDkiubHRR5XdPOXJR6n/95jWQ==
-X-Received: by 2002:a7b:ce8b:: with SMTP id q11mr8937190wmj.100.1577018956761; 
-	Sun, 22 Dec 2019 04:49:16 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x1sm16474148wru.50.2019.12.22.04.49.15
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 22 Dec 2019 04:49:15 -0800 (PST)
-Message-ID: <a73ba44d3f16704691971ebfede683de21b2e65d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Date: Sun, 22 Dec 2019 12:49:14 +0000
-In-Reply-To: <f92e77c992efa93542732e335a99177b5903a11f.camel@linuxfoundation.org>
-References: <ce6615e19c75117b5d4458334af60107fba830a6.camel@linuxfoundation.org>
-	<f92e77c992efa93542732e335a99177b5903a11f.camel@linuxfoundation.org>
-User-Agent: Evolution 3.34.1-2 
+	Sun, 22 Dec 2019 13:00:50 +0000 (UTC)
+IronPort-SDR: 0nSNTRliVHKnAWMCDGvF2aQyr8gQkauXEGuhLk3c1Cl4ZzeJTxbUxIZYoaGtkwec8JZ705/I8Q
+	xfBm5rdShDSMAqsGjHKgBpcCNx2W3mYrgC7JFjuEuewjnPBO1doXodnClVkO6t5nG84FB5PzCn
+	dekzuDv98ohwxDxo0w4KJCcTuVB2S6keO8bu8rVtVADl09ucUWIHtOO80BTn1Pv3JmoQynteg9
+	mW9hDojK3OLN5b0/bhZGuBFuNUwpSMGVgjAV9PxHO46k8MMG/UTApq8qpXeaLtjM3GvDfVUdoq
+	eNA=
+X-IronPort-AV: E=Sophos;i="5.69,343,1571695200"; 
+   d="scan'208";a="3724734"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [master][zeus][PATCH] cairo: Adapt license for
+	cairo-dbg	and cairo-src based on contents
+Thread-Index: AQHVq7uC0kop8/hq/kG3JA3Bp1z6uKfGOCTA
+Date: Sun, 22 Dec 2019 13:00:51 +0000
+Message-ID: <67f9adf18b174290bd5fc91b8aa00c66@XBOX03.axis.com>
+References: <20191205222617.31872-1-pkj@axis.com>
+In-Reply-To: <20191205222617.31872-1-pkj@axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Debug from failing hashequiv builds - server side problem?
+Subject: Re: [master][zeus][PATCH] cairo: Adapt license for cairo-dbg	and cairo-src based on contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +39,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Dec 2019 12:49:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 22 Dec 2019 13:00:52 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 2019-12-22 at 12:08 +0000, Richard Purdie wrote:
-> On Sun, 2019-12-22 at 10:54 +0000, Richard Purdie wrote:
-> > I did a little digging on the weird hash equiv failure. I've
-> > attached two logs, one is the simplified console output, the other
-> > is the reams of debug.
+*ping*
 
-I did a bit more thinking about this. These hashes represent m4-native.
+//Peter
 
-We do have a problem that a given input hash for m4-native can
-represent two different output states depending on the architecture it
-was built on.
-
-For the same input hash, the output hash of these two things will never
-match. Nor will there ever be present sstate for them to trigger the
-report equiv mechanism.
-
-At query time in a clean build, the hashserver cannot know which of the
-two output hashes it needs to return the value for.
-
-I can think of two possible options:
-
-a) When we report after running a task, we check if that input hash
-already has a value and then reuse it for the output hash mapping.
-
-b) We start adding some kind of suffix to the reported hashes for
-native output which is used within the hash equiv server but not
-sstate.
-
-I freely admit this needs much more thought...
-
-Cheers,
-
-Richard
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 5 december 2019 23:26
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [master][zeus][PATCH] cairo: Adapt license for cairo-
+> dbg and cairo-src based on contents
+>=20
+> Introduce a PACKAGECONFIG "trace" to disable cairo-trace (the only
+> part of the code licensed as GPL-3.0, and which is normally packaged
+> separately in cairo-perf-utils). By disabling this, we can adapt the
+> licenses for cairo-dbg and cairo-src so that they do not include
+> "GPLv3+" when trace is disabled and thus they can be used also when,
+> e.g., GPL-3.0 is blacklisted in INCOMPATIBLE_LICENSE.
+>=20
+> The "trace" PACKAGECONFIG is enabled by default for backwards
+> compatibility.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/recipes-graphics/cairo/cairo_1.16.0.bb | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-
+> graphics/cairo/cairo_1.16.0.bb
+> index e3de3f6164..36a7b3c180 100644
+> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> @@ -17,6 +17,10 @@ LICENSE_${PN}-doc =3D "MPL-1.1 | LGPLv2.1"
+>  LICENSE_${PN}-gobject =3D "MPL-1.1 | LGPLv2.1"
+>  LICENSE_${PN}-script-interpreter =3D "MPL-1.1 | LGPLv2.1"
+>  LICENSE_${PN}-perf-utils =3D "GPLv3+"
+> +# Adapt the licenses for cairo-dbg and cairo-src depending on whether
+> +# cairo-trace is being built.
+> +LICENSE_${PN}-dbg =3D "(MPL-1.1 |
+> LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '',
+> d)}"
+> +LICENSE_${PN}-src =3D "(MPL-1.1 |
+> LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '',
+> d)}"
+>=20
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3De73e999e0c72b5ac9012424fa157a=
+d77"
+>=20
+> @@ -40,7 +44,8 @@ X11DEPENDS =3D "virtual/libx11 libsm libxrender libxext=
+"
+>=20
+>  PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d=
+)}
+> \
+>                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11
+> xcb', '', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
+> 'opengl', '', d)}"
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl',
+> 'opengl', '', d)} \
+> +                   trace"
+>=20
+>  PACKAGECONFIG[x11] =3D "--with-x=3Dyes -enable-xlib,--with-x=3Dno --disa=
+ble-
+> xlib,${X11DEPENDS}"
+>  PACKAGECONFIG[xcb] =3D "--enable-xcb,--disable-xcb,libxcb"
+> @@ -49,6 +54,7 @@ PACKAGECONFIG[valgrind] =3D "--enable-valgrind=3Dyes,--
+> disable-valgrind,valgrind"
+>  PACKAGECONFIG[egl] =3D "--enable-egl=3Dyes,--disable-egl,virtual/egl"
+>  PACKAGECONFIG[glesv2] =3D "--enable-glesv2,--disable-
+> glesv2,virtual/libgles2"
+>  PACKAGECONFIG[opengl] =3D "--enable-gl,--disable-gl,virtual/libgl"
+> +PACKAGECONFIG[trace] =3D "--enable-trace,--disable-trace"
+>=20
+>  EXTRA_OECONF +=3D " \
+>      ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-
+> point', '', d)} \
+> --
+> 2.21.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
