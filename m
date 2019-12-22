@@ -1,50 +1,57 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E1C57F2C0
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 598867FD57
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 17:37:49 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id bx28so13364676edb.11
+	Sun, 22 Dec 2019 21:25:13 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q6so14651794wro.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 22 Dec 2019 09:37:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MmfHx2y5J0yZRS8Xa0iRpTo7IdAF22xvRapiqsxUXKY=;
-	b=UWxRJyBytUYrxH0kvmjB0d6fHBgT9MwnqK7ZYoSGqwgJrU4PmE22n8H3YOjMZt7QBV
-	Tttp2zcEUl8D6r9f/gJ5NS2yRribningkQqw6Hx6sTXIj55S7SSdVDN3ixc/5Ru/EJyH
-	6o0WKyBuO97kXBw/4rB+az2zNnpjfxF8QyhkV+6tUXx7pfQVRFGPhIVJjjmDdt9WqRcR
-	scE9u+jcNcX3S1Rl/x4IsbDkCOTvbSkDNAGKN6gSJZMTYBsicUEKadk+TE4rWIuEIr5G
-	ZoXbAFRTimvv5yK03rM5IjkdzfpeYdLC1iI+2DNkmam5PDIqIcXFHeYe7gKjsmc6yaaU
-	FQPg==
+	Sun, 22 Dec 2019 13:25:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=c+BzQcB2qEVGid+S5xclHwcfON6GVVgJROlPtY6NcCU=;
+	b=Q0TsIkaI7RQ3ALonQF2bKH/rPPaVMKPWqxAE3iHR3MMwA4+aHBF/TtuEETpdf3Kx0v
+	pMaqh0eNrgzA7HBQLwhmYXmIOT77EXZGfZCA+5pkHVmlA84+m5H1/qy+xk4EKvrNk9+4
+	PxUWAGeBTNbMBvB+pWNatRuN7PNKQ/LBEF+lA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=MmfHx2y5J0yZRS8Xa0iRpTo7IdAF22xvRapiqsxUXKY=;
-	b=oD+zpygrSHIF4pbntTzrwptDlbqdLYlL2CdfhscnErRX6hCMduQro6y3wUKjW2ijbn
-	1KuGvC1fT9P6bH/wVWXg2kzb4IXxB4Rd2tN3Aok4MvUO2iwh9hHlH4XxD0xaPNB1y1SW
-	ZiJw3nSwWa7YkmRP7HdecwVOfZgoGjUzBcZRKfJRCfSLdkcvhz1dRFXiGFFmtF5H6e8c
-	zpMJAovJyM4+jLRdyu850OuOOluWstL8qG2HspdVXVl68xY+vvbvOclis3o6YalnXvEh
-	JtZPrSHojY94/4pi/r1TooHmkpJETsDOwHCNAceiJajSi2dQNw5cKX70bDxoQv7PVQBE
-	kacA==
-X-Gm-Message-State: APjAAAXlJhrHTJJDby04emliaj/7R02YbXGQAcp655zYwgZqCVOkTHSE
-	stgTMaRx6SUHdxMv7YXVMo96NwT6YN2nS93yEGQ=
-X-Google-Smtp-Source: APXvYqwXBlsFe07hOWE63tmTCpNBncZunBLQegYSC+LjtSdj9Sr2wthXqGCBRIfwRTG8655731biGQxiXHzibML/hNM=
-X-Received: by 2002:a05:6402:1659:: with SMTP id
-	s25mr28257801edx.219.1577036269742; 
-	Sun, 22 Dec 2019 09:37:49 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=c+BzQcB2qEVGid+S5xclHwcfON6GVVgJROlPtY6NcCU=;
+	b=oJ+CfX3+YVgF+RSd4yxnskhDUx1jn6a+LajfvRqamyBKSHnp2k+08aKwiUW5uE7luV
+	L2BkcGif85E8siTczrl+foDQ7XJkrRDEKCPV+pgheUZQwFxyf21W/Zxnid6AwN/iYZCh
+	LKug+5yWhGFZyyNoUkts4DOsPO7mui//c0ysfawNTdq/40s/pnX/MR/vF/lh7GdbLZUI
+	4V4jMwHPWk/tPF99dvCR+nf0aBLQ1w+4XhxQLicvhQqLxVerMzJbfVdTwifFo/9alnwr
+	kTqTBMd4W3rq48TAA5KJxa6ui677aeAW8m7CXduMMyrqBZSvKvfavtFHf1eM4iFuSApf
+	l97Q==
+X-Gm-Message-State: APjAAAVChOeb3LEFwZ5raI4WNU06Bz0GHjHjq0NiuJ8qknyKLijejp9x
+	f7RuC+sOExm4zMtH5f2mktYSGw==
+X-Google-Smtp-Source: APXvYqy6dV7qeYRn9dstwNR6axZlW1ZJd9DQDupXyeIvbmRHBnKFpMsnOvLiAnHrO0BYJBDTwlf3+g==
+X-Received: by 2002:adf:ff84:: with SMTP id j4mr28818159wrr.27.1577049914044; 
+	Sun, 22 Dec 2019 13:25:14 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	n16sm18476468wro.88.2019.12.22.13.25.12
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 22 Dec 2019 13:25:13 -0800 (PST)
+Message-ID: <a9bc7048e2f7dd45a6fd6e7730c8143573646ac7.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>
+Date: Sun, 22 Dec 2019 21:25:10 +0000
+In-Reply-To: <CAJdd5Gbbmv45-q0G1FSDgfNLNQG+xHArorf=F=-wZtdOPU85xA@mail.gmail.com>
+References: <ce6615e19c75117b5d4458334af60107fba830a6.camel@linuxfoundation.org>
+	<f92e77c992efa93542732e335a99177b5903a11f.camel@linuxfoundation.org>
+	<a73ba44d3f16704691971ebfede683de21b2e65d.camel@linuxfoundation.org>
+	<CAJdd5GYZydn+kxHw3jP9AuJWWv60nxYwFPYWtrSGi1-q4NJNiQ@mail.gmail.com>
+	<cd4a5e26597d3b09392d76edfeb018ea38a368ff.camel@linuxfoundation.org>
+	<CAJdd5Ga=vrNMe6hW+SGrJaP=FAQhZBjqa14gXJ3qoQxzOBaaew@mail.gmail.com>
+	<CAJdd5Gbbmv45-q0G1FSDgfNLNQG+xHArorf=F=-wZtdOPU85xA@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20191222040549.286151-1-raj.khem@gmail.com>
-	<20191222040549.286151-4-raj.khem@gmail.com>
-	<CADkTA4Of55K6p5QwTv01gTA6YF2MeGFSK6_9RYcHtSdSaCyZzA@mail.gmail.com>
-In-Reply-To: <CADkTA4Of55K6p5QwTv01gTA6YF2MeGFSK6_9RYcHtSdSaCyZzA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Sun, 22 Dec 2019 12:37:37 -0500
-Message-ID: <CADkTA4P40td8aTZnyKJjKnUtcmRVrpp8=Yud20p4A+sjHoLGCw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] linux-yocto: Fix build with gcc10
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Debug from failing hashequiv builds - server side problem?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,118 +64,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 22 Dec 2019 17:37:49 -0000
+X-List-Received-Date: Sun, 22 Dec 2019 21:25:13 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sun, Dec 22, 2019 at 12:04 PM Bruce Ashfield
-<bruce.ashfield@gmail.com> wrote:
->
-> On Sat, Dec 21, 2019 at 11:06 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> Thanks Khem!
->
-> As usual, please don't merge this patch directly, I'll apply it for
-> linux-yocto* and linux-yocto-dev so we have full coverage on the
-> reference kernels.
+On Sun, 2019-12-22 at 10:22 -0600, Joshua Watt wrote:
+> On Sun, Dec 22, 2019, 10:17 AM Joshua Watt <jpewhacker@gmail.com>
+> wrote:
+> > 
+> > On Sun, Dec 22, 2019, 10:09 AM Richard Purdie <
+> > richard.purdie@linuxfoundation.org> wrote:
+> > > On Sun, 2019-12-22 at 10:00 -0600, Joshua Watt wrote:
+> > > It won't help the other native/cross to target boundary mapping
+> > > issue.
+> > > 
+> > > See above, I'm wondering if we could abuse the method field to
+> > > make
+> > > this work? Certainly we could test that...
+> > 
+> > That seems reasonable for a quick test. The method is supposed to
+> > be the output hash calculation method, so my first instinct would
+> > be that it is better in the long run to add another field e.g.
+> > "class" or something.
+> 
+> Perhaps based on ${NATIVELSBSTRING} like sstate.bbclass path? That
+> has nice congruency with sstate file paths, which I like
 
-FYI: The integrated patch is here:
+If only that were the right thing.
 
-http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-next
+We need:
 
-My other -stable bumps are still pending, so I'm waiting for them to
-merge, so I can send the patch (since it needs those SRCREV bumps).
+    if bb.data.inherits_class('native', d):
+        d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH', False))
+    elif bb.data.inherits_class('cross', d):
+        d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}_${TARGET_ARCH}"))
 
-Bruce
+i.e. SSTATE_PKGARCH but only for native/cross.
 
->
-> I can send SRCREV bumps tonight, once I've done some quick build tests.
->
-> Bruce
->
-> > ---
-> >  ...sed-64-Define-__force_order-only-whe.patch | 42 +++++++++++++++++++
-> >  meta/recipes-kernel/linux/linux-yocto_5.2.bb  |  2 +
-> >  2 files changed, 44 insertions(+)
-> >  create mode 100644 meta/recipes-kernel/linux/files/0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch
-> >
-> > diff --git a/meta/recipes-kernel/linux/files/0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch b/meta/recipes-kernel/linux/files/0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch
-> > new file mode 100644
-> > index 0000000000..bd48de6dd9
-> > --- /dev/null
-> > +++ b/meta/recipes-kernel/linux/files/0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch
-> > @@ -0,0 +1,42 @@
-> > +From 199caf12cdbe24796dc31fbd4fe5729ba2acf659 Mon Sep 17 00:00:00 2001
-> > +From: Khem Raj <raj.khem@gmail.com>
-> > +Date: Fri, 20 Dec 2019 17:42:02 -0800
-> > +Subject: [PATCH] x86/boot/compressed/64: Define __force_order only when
-> > + CONFIG_RANDOMIZE_BASE is unset
-> > +
-> > +kaslr_64.c also defines the same variable, however when both files are
-> > +included into final link, linker complains about multiple definition of
-> > +`__force_order' which is coming from kaslr_64.o and pgtable_64.o, its
-> > +possible that kaslr_64.o is disabled via CONFIG_RANDOMIZE_BASE config
-> > +option, therefore define it conditionally only when
-> > +CONFIG_RANDOMIZE_BASE is not set
-> > +
-> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > +Cc: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
-> > +Cc: Kees Cook <keescook@chromium.org>
-> > +Cc: "H. Peter Anvin" <hpa@zytor.com>
-> > +Cc: Ingo Molnar <mingo@redhat.com>
-> > +Cc: Thomas Gleixner <tglx@linutronix.de>
-> > +Cc: x86-ml <x86@kernel.org>
-> > +Cc: Arnd Bergmann <arnd@arndb.de>
-> > +---
-> > + arch/x86/boot/compressed/pgtable_64.c | 2 ++
-> > + 1 file changed, 2 insertions(+)
-> > +
-> > +diff --git a/arch/x86/boot/compressed/pgtable_64.c b/arch/x86/boot/compressed/pgtable_64.c
-> > +index c8862696a47b..077d19268b0b 100644
-> > +--- a/arch/x86/boot/compressed/pgtable_64.c
-> > ++++ b/arch/x86/boot/compressed/pgtable_64.c
-> > +@@ -12,7 +12,9 @@
-> > +  * It is not referenced from the code, but GCC < 5 with -fPIE would fail
-> > +  * due to an undefined symbol. Define it to make these ancient GCCs work.
-> > +  */
-> > ++#ifndef CONFIG_RANDOMIZE_BASE
-> > + unsigned long __force_order;
-> > ++#endif
-> > +
-> > + #define BIOS_START_MIN                0x20000U        /* 128K, less than this is insane */
-> > + #define BIOS_START_MAX                0x9f000U        /* 640K, absolute maximum */
-> > +--
-> > +2.24.1
-> > +
-> > diff --git a/meta/recipes-kernel/linux/linux-yocto_5.2.bb b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
-> > index ff0f547399..5af0924808 100644
-> > --- a/meta/recipes-kernel/linux/linux-yocto_5.2.bb
-> > +++ b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
-> > @@ -29,6 +29,8 @@ SRCREV_meta ?= "bd0762cd138f1624b5a5f8669cfa3ac2b71cb87b"
-> >  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-> >             git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
-> >
-> > +SRC_URI += "file://0001-x86-boot-compressed-64-Define-__force_order-only-whe.patch"
-> > +
-> >  LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-> >  LINUX_VERSION ?= "5.2.20"
-> >
-> > --
-> > 2.24.1
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+Cheers,
 
+Richard
 
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
