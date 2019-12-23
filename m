@@ -1,35 +1,24 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id B96F77F7CD
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CB3E66D666
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2019 07:59:12 +0000 (UTC)
-IronPort-SDR: dCU7sdZUgbiNF+wDO7RckNKw9FNqWbz1bcZ9CfTTPkNsq0dozf8W7TqzNrhD9nq9Q3Kniru2ul
-	NysOibWxXRCE/IAXibUfyQ7J0KIoH3I9Q5Wtq7DjLfxNdQ0xbXLwwy8lZPxZcRIKKFHDp/GQ7q
-	AcnG8CfSASiLeNWzW+UJRqMBbnv5cf4vyl6fnRPeBxwhqdF1ymYLoQcoUm4d/2pZgEYTeKvK0i
-	wH+jP3SG+xn9toh+T6P03zhK5XVX8JARi0HOyb/FyeTJWLeCZN1+IpZBcQ21d1hKBb9Nf5iNG1
-	gaE=
-X-IronPort-AV: E=Sophos;i="5.69,346,1571695200"; 
-   d="scan'208";a="3848147"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: akuster808 <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [master][zeus][PATCH] cairo: Adapt license for
-	cairo-dbg and cairo-src based on contents
-Thread-Index: AQHVuOMNxQ+7cifuxkqtnMRmpP0KIafHWsvQ
-Date: Mon, 23 Dec 2019 07:59:13 +0000
-Message-ID: <1b03cda756804d7ea323cd56028b4c7b@XBOX03.axis.com>
-References: <20191205222617.31872-1-pkj@axis.com>
-	<67f9adf18b174290bd5fc91b8aa00c66@XBOX03.axis.com>
-	<8803b6ee-3c95-331f-a34f-bd8ddca0ee32@gmail.com>
-In-Reply-To: <8803b6ee-3c95-331f-a34f-bd8ddca0ee32@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Mon, 23 Dec 2019 09:23:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id xBN9NhJx021985
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 23 Dec 2019 01:23:43 -0800 (PST)
+Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 23 Dec 2019 01:23:42 -0800
+From: Robert Yang <liezhi.yang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 23 Dec 2019 17:24:52 +0800
+Message-ID: <cover.1577092987.git.liezhi.yang@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: Re: [master][zeus][PATCH] cairo: Adapt license for cairo-dbg and cairo-src based on contents
+Subject: [PATCH 0/1] pseudo: Make realpath() remove trailing slashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,84 +31,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 23 Dec 2019 07:59:13 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 23 Dec 2019 09:23:42 -0000
+Content-Type: text/plain
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBha3VzdGVyODA4IDxha3VzdGVy
-ODA4QGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDIyIGRlY2VtYmVyIDIwMTkgMTc6MTYNCj4gVG86
-IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgb3BlbmVt
-YmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbbWFzdGVyXVt6ZXVzXVtQQVRDSF0gY2Fpcm86IEFkYXB0IGxpY2Vuc2UgZm9yDQo+
-IGNhaXJvLWRiZyBhbmQgY2Fpcm8tc3JjIGJhc2VkIG9uIGNvbnRlbnRzDQo+IA0KPiBPbiAxMi8y
-Mi8xOSA1OjAwIEFNLCBQZXRlciBLamVsbGVyc3RlZHQgd3JvdGU6DQo+ID4gKnBpbmcqDQo+IA0K
-PiBmb3IgbWFzdGVyIG9yIHpldXMgb3IgYm90aD8NCg0KV2VsbCwgZmlyc3QgaGFuZCBmb3IgbWFz
-dGVyLCBhcyBJIGV4cGVjdGVkIFpldXMgd291bGQgZm9sbG93IGlmIGl0IA0Kd2FzIGFjY2VwdGVk
-IHRoZXJlLiBIb3dldmVyLCBzZWUgc2VwYXJhdGUgbWFpbHMgZnJvbSBBbGV4YW5kZXIgYW5kIG1l
-IA0KcmVnYXJkaW5nIGl0cyBhY2NlcHRhbmNlIGZvciBtYXN0ZXIuDQoNCj4gLSBhcm1pbg0KPiAN
-Cj4gPiAvL1BldGVyDQoNCi8vUGV0ZXINCg0KPiA+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
-LQ0KPiA+PiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcgPG9wZW5lbWJlZGRlZC0NCj4gY29yZS0NCj4gPj4gYm91bmNlc0BsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnPiBPbiBCZWhhbGYgT2YgUGV0ZXIgS2plbGxlcnN0ZWR0DQo+ID4+IFNlbnQ6IGRl
-biA1IGRlY2VtYmVyIDIwMTkgMjM6MjYNCj4gPj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcNCj4gPj4gU3ViamVjdDogW09FLWNvcmVdIFttYXN0ZXJdW3pldXNd
-W1BBVENIXSBjYWlybzogQWRhcHQgbGljZW5zZSBmb3INCj4gY2Fpcm8tDQo+ID4+IGRiZyBhbmQg
-Y2Fpcm8tc3JjIGJhc2VkIG9uIGNvbnRlbnRzDQo+ID4+DQo+ID4+IEludHJvZHVjZSBhIFBBQ0tB
-R0VDT05GSUcgInRyYWNlIiB0byBkaXNhYmxlIGNhaXJvLXRyYWNlICh0aGUgb25seQ0KPiA+PiBw
-YXJ0IG9mIHRoZSBjb2RlIGxpY2Vuc2VkIGFzIEdQTC0zLjAsIGFuZCB3aGljaCBpcyBub3JtYWxs
-eSBwYWNrYWdlZA0KPiA+PiBzZXBhcmF0ZWx5IGluIGNhaXJvLXBlcmYtdXRpbHMpLiBCeSBkaXNh
-YmxpbmcgdGhpcywgd2UgY2FuIGFkYXB0IHRoZQ0KPiA+PiBsaWNlbnNlcyBmb3IgY2Fpcm8tZGJn
-IGFuZCBjYWlyby1zcmMgc28gdGhhdCB0aGV5IGRvIG5vdCBpbmNsdWRlDQo+ID4+ICJHUEx2Mysi
-IHdoZW4gdHJhY2UgaXMgZGlzYWJsZWQgYW5kIHRodXMgdGhleSBjYW4gYmUgdXNlZCBhbHNvIHdo
-ZW4sDQo+ID4+IGUuZy4sIEdQTC0zLjAgaXMgYmxhY2tsaXN0ZWQgaW4gSU5DT01QQVRJQkxFX0xJ
-Q0VOU0UuDQo+ID4+DQo+ID4+IFRoZSAidHJhY2UiIFBBQ0tBR0VDT05GSUcgaXMgZW5hYmxlZCBi
-eSBkZWZhdWx0IGZvciBiYWNrd2FyZHMNCj4gPj4gY29tcGF0aWJpbGl0eS4NCj4gPj4NCj4gPj4g
-U2lnbmVkLW9mZi1ieTogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
-cy5jb20+DQo+ID4+IC0tLQ0KPiA+PiAgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2NhaXJvL2NhaXJv
-XzEuMTYuMC5iYiB8IDggKysrKysrKy0NCj4gPj4gIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlv
-bnMoKyksIDEgZGVsZXRpb24oLSkNCj4gPj4NCj4gPj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1ncmFwaGljcy9jYWlyby9jYWlyb18xLjE2LjAuYmINCj4gYi9tZXRhL3JlY2lwZXMtDQo+ID4+
-IGdyYXBoaWNzL2NhaXJvL2NhaXJvXzEuMTYuMC5iYg0KPiA+PiBpbmRleCBlM2RlM2Y2MTY0Li4z
-NmE3YjNjMTgwIDEwMDY0NA0KPiA+PiAtLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvY2Fpcm8v
-Y2Fpcm9fMS4xNi4wLmJiDQo+ID4+ICsrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9jYWlyby9j
-YWlyb18xLjE2LjAuYmINCj4gPj4gQEAgLTE3LDYgKzE3LDEwIEBAIExJQ0VOU0VfJHtQTn0tZG9j
-ID0gIk1QTC0xLjEgfCBMR1BMdjIuMSINCj4gPj4gIExJQ0VOU0VfJHtQTn0tZ29iamVjdCA9ICJN
-UEwtMS4xIHwgTEdQTHYyLjEiDQo+ID4+ICBMSUNFTlNFXyR7UE59LXNjcmlwdC1pbnRlcnByZXRl
-ciA9ICJNUEwtMS4xIHwgTEdQTHYyLjEiDQo+ID4+ICBMSUNFTlNFXyR7UE59LXBlcmYtdXRpbHMg
-PSAiR1BMdjMrIg0KPiA+PiArIyBBZGFwdCB0aGUgbGljZW5zZXMgZm9yIGNhaXJvLWRiZyBhbmQg
-Y2Fpcm8tc3JjIGRlcGVuZGluZyBvbiB3aGV0aGVyDQo+ID4+ICsjIGNhaXJvLXRyYWNlIGlzIGJl
-aW5nIGJ1aWx0Lg0KPiA+PiArTElDRU5TRV8ke1BOfS1kYmcgPSAiKE1QTC0xLjEgfA0KPiA+PiBM
-R1BMdjIuMSkke0BiYi51dGlscy5jb250YWlucygnUEFDS0FHRUNPTkZJRycsICd0cmFjZScsICcg
-JiBHUEx2MysnLA0KPiAnJywNCj4gPj4gZCl9Ig0KPiA+PiArTElDRU5TRV8ke1BOfS1zcmMgPSAi
-KE1QTC0xLjEgfA0KPiA+PiBMR1BMdjIuMSkke0BiYi51dGlscy5jb250YWlucygnUEFDS0FHRUNP
-TkZJRycsICd0cmFjZScsICcgJiBHUEx2MysnLA0KPiAnJywNCj4gPj4gZCl9Ig0KPiA+Pg0KPiA+
-PiAgTElDX0ZJTEVTX0NIS1NVTSA9DQo+ICJmaWxlOi8vQ09QWUlORzttZDU9ZTczZTk5OWUwYzcy
-YjVhYzkwMTI0MjRmYTE1N2FkNzciDQo+ID4+DQo+ID4+IEBAIC00MCw3ICs0NCw4IEBAIFgxMURF
-UEVORFMgPSAidmlydHVhbC9saWJ4MTEgbGlic20gbGlieHJlbmRlcg0KPiBsaWJ4ZXh0Ig0KPiA+
-Pg0KPiA+PiAgUEFDS0FHRUNPTkZJRyA/Pz0gIiR7QGJiLnV0aWxzLmZpbHRlcignRElTVFJPX0ZF
-QVRVUkVTJywgJ2RpcmVjdGZiJywNCj4gZCl9DQo+ID4+IFwNCj4gPj4gICAgICAgICAgICAgICAg
-ICAgICAke0BiYi51dGlscy5jb250YWlucygnRElTVFJPX0ZFQVRVUkVTJywgJ3gxMScsICd4MTEN
-Cj4gPj4geGNiJywgJycsIGQpfSBcDQo+ID4+IC0gICAgICAgICAgICAgICAgICAgJHtAYmIudXRp
-bHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICd4MTENCj4gb3BlbmdsJywNCj4gPj4gJ29w
-ZW5nbCcsICcnLCBkKX0iDQo+ID4+ICsgICAgICAgICAgICAgICAgICAgJHtAYmIudXRpbHMuY29u
-dGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICd4MTENCj4gb3BlbmdsJywNCj4gPj4gJ29wZW5nbCcs
-ICcnLCBkKX0gXA0KPiA+PiArICAgICAgICAgICAgICAgICAgIHRyYWNlIg0KPiA+Pg0KPiA+PiAg
-UEFDS0FHRUNPTkZJR1t4MTFdID0gIi0td2l0aC14PXllcyAtZW5hYmxlLXhsaWIsLS13aXRoLXg9
-bm8gLS1kaXNhYmxlLQ0KPiA+PiB4bGliLCR7WDExREVQRU5EU30iDQo+ID4+ICBQQUNLQUdFQ09O
-RklHW3hjYl0gPSAiLS1lbmFibGUteGNiLC0tZGlzYWJsZS14Y2IsbGlieGNiIg0KPiA+PiBAQCAt
-NDksNiArNTQsNyBAQCBQQUNLQUdFQ09ORklHW3ZhbGdyaW5kXSA9ICItLWVuYWJsZS12YWxncmlu
-ZD15ZXMsLS0NCj4gPj4gZGlzYWJsZS12YWxncmluZCx2YWxncmluZCINCj4gPj4gIFBBQ0tBR0VD
-T05GSUdbZWdsXSA9ICItLWVuYWJsZS1lZ2w9eWVzLC0tZGlzYWJsZS1lZ2wsdmlydHVhbC9lZ2wi
-DQo+ID4+ICBQQUNLQUdFQ09ORklHW2dsZXN2Ml0gPSAiLS1lbmFibGUtZ2xlc3YyLC0tZGlzYWJs
-ZS0NCj4gPj4gZ2xlc3YyLHZpcnR1YWwvbGliZ2xlczIiDQo+ID4+ICBQQUNLQUdFQ09ORklHW29w
-ZW5nbF0gPSAiLS1lbmFibGUtZ2wsLS1kaXNhYmxlLWdsLHZpcnR1YWwvbGliZ2wiDQo+ID4+ICtQ
-QUNLQUdFQ09ORklHW3RyYWNlXSA9ICItLWVuYWJsZS10cmFjZSwtLWRpc2FibGUtdHJhY2UiDQo+
-ID4+DQo+ID4+ICBFWFRSQV9PRUNPTkYgKz0gIiBcDQo+ID4+ICAgICAgJHtAYmIudXRpbHMuY29u
-dGFpbnMoJ1RBUkdFVF9GUFUnLCAnc29mdCcsICctLWRpc2FibGUtc29tZS0NCj4gZmxvYXRpbmct
-DQo+ID4+IHBvaW50JywgJycsIGQpfSBcDQo+ID4+IC0tDQo+ID4+IDIuMjEuMA0KPiA+Pg0KPiA+
-PiAtLQ0KPiA+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xw0KPiA+PiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gPj4gT3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+PiBodHRwOi8vbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoNCg==
+The following changes since commit d6c62cc0305ab082e990041da104fedb5798e0e4:
+
+  oeqa: reproducible: Test core-image-sato and core-image-full-cmdline (2019-12-18 10:17:49 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/pseudo
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/pseudo
+
+Robert Yang (1):
+  pseudo: Make realpath() remove trailing slashes
+
+ .../0001-realpath.c-Remove-trailing-slashes.patch  | 57 ++++++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb         |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+
+-- 
+2.7.4
+
 
