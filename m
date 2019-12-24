@@ -1,27 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BA95A7CBE3
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C78857F899
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Dec 2019 02:27:24 +0000 (UTC)
+	Tue, 24 Dec 2019 06:21:44 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xBO2RPWS029702
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xBO6LKnd004941
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2019 18:27:25 -0800 (PST)
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
+	Mon, 23 Dec 2019 22:21:35 -0800
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 23 Dec 2019 18:27:24 -0800
+	Mon, 23 Dec 2019 22:21:09 -0800
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <20191210093535.26762-1-kai.kang@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <a5f442fb-a3dc-b9bb-1a78-8d14ed777dcb@windriver.com>
-Date: Tue, 24 Dec 2019 10:27:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+Date: Mon, 23 Dec 2019 22:21:09 -0800
+Message-ID: <20191224062109.61957-1-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-In-Reply-To: <20191210093535.26762-1-kai.kang@windriver.com>
-Subject: Re: [PATCH 1/2] base.bbclass: extend PACKAGECONFIG for conflict package configs
+Subject: [V3][PATCH] inetutils: Fix the rcp couldn't copy subdirectory issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,76 +31,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Dec 2019 02:27:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 24 Dec 2019 06:21:44 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain
 
-On 2019/12/10 下午5:35, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->
-> There are mutually exclusive PACKAGECONFIGs in recipes. Though it
-> declares that package configs are exclusive, it can't prevent users to
-> set them at same time. Extend PACKAGECONFIG to support specifying
-> conflicted package configs.
+Since snprintf doesn't support the same src and dst address, it will get
+the wrong result.
+In the sink second recursive call env, the argv and the namebuf will point
+the same address, after free operation for namebuf.
+Overall the last change for this is wrong, now we just move the memory free
+to the end of the sink function, so that we can correct the value and fix
+the memory leak issue.
 
-Ping.
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
+---
+ ...e-rcp-couldn-t-copy-subdirectory-iss.patch | 90 +++++++++++++++++++
+ .../inetutils/inetutils_1.9.4.bb              |  1 +
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch
 
-
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->   meta/classes/base.bbclass | 20 +++++++++++++++++---
->   1 file changed, 17 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-> index 31457f9f12..ef3afdf964 100644
-> --- a/meta/classes/base.bbclass
-> +++ b/meta/classes/base.bbclass
-> @@ -390,7 +390,7 @@ python () {
->       # These take the form:
->       #
->       # PACKAGECONFIG ??= "<default options>"
-> -    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends,foo_runtime_recommends"
-> +    # PACKAGECONFIG[foo] = "--enable-foo,--disable-foo,foo_depends,foo_runtime_depends,foo_runtime_recommends,foo_conflict_packageconfig"
->       pkgconfigflags = d.getVarFlags("PACKAGECONFIG") or {}
->       if pkgconfigflags:
->           pkgconfig = (d.getVar('PACKAGECONFIG') or "").split()
-> @@ -437,8 +437,8 @@ python () {
->           for flag, flagval in sorted(pkgconfigflags.items()):
->               items = flagval.split(",")
->               num = len(items)
-> -            if num > 5:
-> -                bb.error("%s: PACKAGECONFIG[%s] Only enable,disable,depend,rdepend,rrecommend can be specified!"
-> +            if num > 6:
-> +                bb.error("%s: PACKAGECONFIG[%s] Only enable,disable,depend,rdepend,rrecommend,conflict_packageconfig can be specified!"
->                       % (d.getVar('PN'), flag))
->   
->               if flag in pkgconfig:
-> @@ -452,6 +452,20 @@ python () {
->                       extraconf.append(items[0])
->               elif num >= 2 and items[1]:
->                       extraconf.append(items[1])
-> +
-> +            if num >= 6 and items[5]:
-> +                conflicts = set(items[5].split())
-> +                invalid = conflicts.difference(set(pkgconfigflags.keys()))
-> +                if invalid:
-> +                    bb.error("%s: PACKAGECONFIG[%s] Invalid conflict package config%s '%s' specified."
-> +                        % (d.getVar('PN'), flag, 's' if len(invalid) > 1 else '', ' '.join(invalid)))
-> +
-> +                if flag in pkgconfig:
-> +                    intersec = conflicts.intersection(set(pkgconfig))
-> +                    if intersec:
-> +                        bb.fatal("%s: PACKAGECONFIG[%s] Conflict package config%s '%s' set in PACKAGECONFIG."
-> +                            % (d.getVar('PN'), flag, 's' if len(intersec) > 1 else '', ' '.join(intersec)))
-> +
->           appendVar('DEPENDS', extradeps)
->           appendVar('RDEPENDS_${PN}', extrardeps)
->           appendVar('RRECOMMENDS_${PN}', extrarrecs)
-
-
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch b/meta/recipes-connectivity/inetutils/inetutils/0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch
+new file mode 100644
+index 0000000000..e90781998a
+--- /dev/null
++++ b/meta/recipes-connectivity/inetutils/inetutils/0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch
+@@ -0,0 +1,90 @@
++The namebuf will get the same allocation address as the one before
++free operation, at the same time because of the recursive call for
++sink function, the targ and namebuf point the same address, then it
++cause the namebuf will get the wrong value with the snprintf function.
++Since the snprintf function doesn't like the strcpy function which
++can overwrite the destination.
++eg:
++ char tmp[20] = "test";
++ snprintf(tmp,20,"%s%s",tmp,"yes");
++The result of tmp -> yes. It will cause the wrong value.
++
++The sink function flow is as follows:
++ >sink(int argc, char*argv[])
++ >{
++ > ...
++ > targ = *argv;
++ > static char *namebuf = NULL;
++ > free (namebuf);
++ > namebuf = malloc (need);
++ > snprintf (namebuf, cursize, "%s%s%s", targ, *targ ? "/" : "", cp);
++ > np = namebuf;
++ > vect[0] = np;
++ > sink (1, vect);
++ > ...
++ >}
++
++At the same time, we couldn't add the condition(need > corsize),
++the same snprintf issue still exists. for example:
++#ls rccopy/*/*
++rccopy/fold1/1  rccopy/fold2/2  rccopy/fold3/3
++
++Since the cursize static variable is still the old value after copying the
++rccopy/fold1/1, when it copys the directory rccopy/fold2 during recursive,
++the value of need < cursize, the namebuf still use the old vlaue without being
++allocated the new space, the incorrect namebuf value issue is still here.
++
++We move the memory free to the end of this fucntion.
++
++Upstream-Status: Submitted
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++Index: inetutils-1.9.4/src/rcp.c
++===================================================================
++--- inetutils-1.9.4.orig/src/rcp.c
+++++ inetutils-1.9.4/src/rcp.c
++@@ -881,6 +881,7 @@ sink (int argc, char *argv[])
++   int setimes, targisdir, wrerrno;
++   char ch, *cp, *np, *targ, *vect[1], buf[BUFSIZ];
++   const char *why;
+++  static char *namebuf = NULL;
++ 
++ #define atime	tv[0]
++ #define mtime	tv[1]
++@@ -988,25 +989,14 @@ sink (int argc, char *argv[])
++ 	SCREWUP ("size not delimited");
++       if (targisdir)
++ 	{
++-	  static char *namebuf = NULL;
++-	  static size_t cursize = 0;
++ 	  size_t need;
++ 
++ 	  need = strlen (targ) + strlen (cp) + 250;
++-	  if (need > cursize)
+++	  if (!(namebuf = malloc (need)));
++ 	    {
++-	      free (namebuf);
++-	      namebuf = malloc (need);
++-	      if (namebuf)
++-		cursize = need;
++-	      else
++-		{
++-		  run_err ("%s", strerror (errno));
++-		  cursize = 0;
++-		  continue;
++-		}
+++	      run_err ("%s", strerror (errno));
++ 	    }
++-	  snprintf (namebuf, cursize, "%s%s%s", targ, *targ ? "/" : "", cp);
+++	  snprintf (namebuf, need, "%s%s%s", targ, *targ ? "/" : "", cp);
++ 	  np = namebuf;
++ 	}
++       else
++@@ -1163,6 +1153,8 @@ sink (int argc, char *argv[])
++ 	  break;
++ 	}
++     }
+++    if (namebuf)
+++      free(namebuf);
++ screwup:
++   run_err ("protocol error: %s", why);
++   exit (EXIT_FAILURE);
+diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
+index 684fbe09e1..bc944131fa 100644
+--- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
++++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
+@@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
+            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
+            file://0001-rcp-fix-to-work-with-large-files.patch \
+            file://fix-buffer-fortify-tfpt.patch \
++           file://0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch \
+ "
+ 
+ SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
 -- 
-Kai Kang
+2.23.0
 
 
