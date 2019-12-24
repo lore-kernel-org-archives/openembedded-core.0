@@ -1,26 +1,56 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 111F77F85F
+Return-Path: <prvs=2541d1ea5=alistair.francis@wdc.com>
+X-Greylist: delayed 600 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 24 Dec 2019 22:57:35 UTC
+Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C67A7F29F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 24 Dec 2019 07:20:32 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id xBO7K8mR006558
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 23 Dec 2019 23:20:24 -0800
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 23 Dec 2019 23:20:19 -0800
-From: Robert Yang <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 24 Dec 2019 15:21:09 +0800
-Message-ID: <b763cef4b8957d8140800d46391150599ef56c55.1577171808.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1577171808.git.liezhi.yang@windriver.com>
-References: <cover.1577171808.git.liezhi.yang@windriver.com>
+	Tue, 24 Dec 2019 22:57:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1577228274; x=1608764274;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=EABwofgdqZs8+ZCMAP+WS5MoPKKq0RpqfkRkyrXkQx0=;
+	b=TSf/QvPInSB1846DuTeS0VnZwOsq+rOKey8yHjJXO+VttPXMFQJgg9K7
+	BNQJTJFdk0gzpfkaS+RLKT+kEoQCa4AUpM8QkJJPHe0jrN5QC0E9EP6S2
+	BRXOrhgsm7i48/AAbxPcjHjXvUar9jZraL8c9MiiUXolM+LK/XtnXphTJ
+	YoJpi0tDTogXj8F1Ze/Jj9rE0BUbgoaxi/JZ7bTrw4D/aFIAjhstQ53hN
+	uk919v1qRPyqfqJLKoevqz0TDRl0bzRK84keyksUYqNutne67SNsAkhRz
+	zieiwhvhNAvRCm7d57+QsC2c6eVbTBqGSKsNDW4ttcUHgP7KnuJgZtzxR Q==;
+IronPort-SDR: 4JUiRc7KCV91O9nXzuDCJlxhFQnI8flQKktmg3OKlD1jr/vyqEp16RPgzIW3OzyrVqvAjW2DlB
+	WlLXKJhwQ9GTkdksQVC1bnUKjQ9KVrMma/rkhQGHDXEm4OwM9pSQo3BF7pe6urT3yGOfds1ur/
+	3I8HVMbOcn41/4HJ4XXP5Pe794RGFgRi0nljD73/7+5CjHtkxfXCKiineLGcRNZMXneIs7gwtZ
+	5uQYJWr/wYW9EqMf8QYKzmBmwKPJfklHiSg1iX47vCoTllMWh30Lzpk7DImMlZMEW7b5GQE76j
+	tGI=
+X-IronPort-AV: E=Sophos;i="5.69,353,1571673600"; d="scan'208";a="227740920"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 25 Dec 2019 06:47:51 +0800
+IronPort-SDR: XXQwpRVNtPcUo4ol+2sHl9e064kS234+si1Oczq5LUfgH29iqg5JSr1jmHpBD+2sfjT1lwodpn
+	ZKFnGSBVV4KXlsP7ODuCrneiZKkKu5+FGNnRo2wkgTUuUL7k5EJlxG2jwglP7vgvWihhTdeLc2
+	kpmcgbcG9HsekRIlJWUDnKGqZ1VWi1tYpoceZ9PJqQBZKy3xfIw92ya5DtYbbWvEk9REpy6wot
+	BZZxY2iO7qm1KjwfL1Z0wRs1Js4RHV5solZowNZzYaKZi3oMeTUHeNmGwmdBLS7Ac8nZ0+ZtCJ
+	vE+aQ58avmbg6sbUQiLZtrIz
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	24 Dec 2019 14:41:49 -0800
+IronPort-SDR: gfiGLbMKVpJuvE7Er/z3OQcfHOllSNcpg5gOzcXVQXJc6HPUHR0l4FcEtBKE62DQ0zR3Icdhe0
+	uGd2EOfzsbA9rU1Q48DIZrZycBeak6Vn+23osS+Cvw5/Cnb/H0nDuuVhA5YtaH9sP/nqi0L+tf
+	p++Yj5RrqeEM6r3NYmkVrtazyEIu7gpUTc0uLan45p+DDZvFUEZvfz0So2VP2DovXVkv4vbfJn
+	0iqnz3kT7rOSW/8ur6Q2+YpVxK4FUcBejolCASEJaHhpvcEkRkDqJ4y2ERXul09LNV4i9vz211
+	AXk=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.158.235])
+	by uls-op-cesaip01.wdc.com with ESMTP; 24 Dec 2019 14:47:36 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 24 Dec 2019 14:41:35 -0800
+Message-Id: <20191224224135.20121-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.24.0
 MIME-Version: 1.0
-Subject: [PATCH v2 1/1] pseudo: Make realpath() remove trailing slashes
+Cc: sateesh0457@gmail.com
+Subject: [PATCH] u-boot: Update to v2020.01-rc5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,115 +63,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 24 Dec 2019 07:20:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 24 Dec 2019 22:57:36 -0000
+Content-Transfer-Encoding: 8bit
 
-Linux system's realpath() remove trailing slashes, but pseudo's doesn't, need
-make them identical.
-
-E.g., the following code (rel.c) prints '/tmp' with system's realpath, but
-pseudo's realpath prints '/tmp/':
-
-    #include <stdio.h>
-    #include <limits.h>
-    #include <stdlib.h>
-
-    int main() {
-        char out[PATH_MAX];
-        printf("%s\n", realpath("/tmp/", out));
-        return 0;
-    }
-
-$ bitbake base-passwd -cdevshell # For pseudo env
-$ gcc rel.c
-$ ./a.out
-/tmp/ (but should be /tmp)
-
-This patch fixes the problem.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- .../0001-realpath.c-Remove-trailing-slashes.patch  | 57 ++++++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb         |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+ meta/recipes-bsp/u-boot/u-boot-common.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch b/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
-new file mode 100644
-index 0000000..17829ef
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
-@@ -0,0 +1,57 @@
-+From 86c9a5610e3333ad6aaadb1ac1e8b5a2c948d119 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Mon, 25 Nov 2019 18:46:45 +0800
-+Subject: [PATCH] realpath.c: Remove trailing slashes
-+
-+Linux system's realpath() remove trailing slashes, but pseudo's doesn't, need
-+make them identical.
-+
-+E.g., the following code (rel.c) prints '/tmp' with system's realpath, but
-+pseudo's realpath prints '/tmp/':
-+
-+    #include <stdio.h>
-+    #include <limits.h>
-+    #include <stdlib.h>
-+
-+    int main() {
-+        char out[PATH_MAX];
-+        printf("%s\n", realpath("/tmp/", out));
-+        return 0;
-+    }
-+
-+$ bitbake base-passwd -cdevshell # For pseudo env
-+$ gcc rel.c
-+$ ./a.out
-+/tmp/ (but should be /tmp)
-+
-+This patch fixes the problem.
-+
-+Upstream-Status: Submitted [https://lists.yoctoproject.org/g/poky/message/11879]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ ports/unix/guts/realpath.c |    9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
-+
-+diff --git a/ports/unix/guts/realpath.c b/ports/unix/guts/realpath.c
-+--- a/ports/unix/guts/realpath.c
-++++ b/ports/unix/guts/realpath.c
-+@@ -14,7 +14,14 @@
-+ 		errno = ENAMETOOLONG;
-+ 		return NULL;
-+ 	}
-+-	if ((len = strlen(rname)) >= pseudo_sys_path_max()) {
-++		len = strlen(rname);
-++		char *ep = rname + len - 1;
-++		while (ep > rname && *ep == '/') {
-++			--len;
-++			*(ep--) = '\0';
-++		}
-++
-++		if (len >= pseudo_sys_path_max()) {
-+ 		errno = ENAMETOOLONG;
-+ 		return NULL;
-+ 	}
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 1f2df4a..7c75293 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -8,6 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
-            file://toomanyfiles.patch \
-            file://0001-maketables-wrappers-use-Python-3.patch \
-            file://0001-Add-statx.patch \
-+           file://0001-realpath.c-Remove-trailing-slashes.patch \
-            "
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index a0f9c41469..4799948bb1 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -11,11 +11,11 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
+ PE = "1"
  
- SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
+ # Drop this line when updating to 2020.01 final
+-PV = "2020.01~rc3"
++PV = "2020.01~rc5"
+ 
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+-SRCREV = "d4a31e8ee5592072d8d5208b3e950cba2d89b6bd"
++SRCREV = "ef7c2af65966a57c98d3c47e6c2fe1ce2103b7f6"
+ 
+ SRC_URI = "git://git.denx.de/u-boot.git \
+           "
 -- 
-2.7.4
+2.24.0
 
 
