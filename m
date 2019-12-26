@@ -1,25 +1,23 @@
 Return-Path: <naveen.kumar.saini@intel.com>
-X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 26 Dec 2019 06:21:12 UTC
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id B017A71CBD
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CB2D7D6C2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Dec 2019 06:21:12 +0000 (UTC)
+	Thu, 26 Dec 2019 07:43:38 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Dec 2019 22:14:07 -0800
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Dec 2019 23:43:39 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,358,1571727600"; d="scan'208";a="220178437"
+X-IronPort-AV: E=Sophos;i="5.69,358,1571727600"; d="scan'208";a="208010809"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga003.jf.intel.com with ESMTP; 25 Dec 2019 22:14:06 -0800
+	by orsmga007.jf.intel.com with ESMTP; 25 Dec 2019 23:43:38 -0800
 From: Naveen Saini <naveen.kumar.saini@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Dec 2019 14:14:02 +0800
-Message-Id: <1577340842-56047-1-git-send-email-naveen.kumar.saini@intel.com>
+Date: Thu, 26 Dec 2019 15:43:34 +0800
+Message-Id: <1577346215-70009-1-git-send-email-naveen.kumar.saini@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] libva: upgrade 2.5.0 -> 2.6.0
+Subject: [PATCH v2 1/2] libva: upgrade 2.5.0 -> 2.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,25 +30,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Dec 2019 06:21:12 -0000
+X-List-Received-Date: Thu, 26 Dec 2019 07:43:39 -0000
 
 Release details can be found here:
 https://github.com/intel/libva/releases/tag/2.6.0
 
+Also switched to meson.
+
 Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
 ---
- meta/recipes-graphics/libva/{libva_2.5.0.bb => libva_2.6.0.bb} | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/libva/{libva_2.5.0.bb => libva_2.6.0.bb} (88%)
+ .../libva/{libva_2.5.0.bb => libva_2.6.0.bb}              | 15 ++++++---------
+ 1 file changed, 6 insertions(+), 9 deletions(-)
+ rename meta/recipes-graphics/libva/{libva_2.5.0.bb => libva_2.6.0.bb} (73%)
 
 diff --git a/meta/recipes-graphics/libva/libva_2.5.0.bb b/meta/recipes-graphics/libva/libva_2.6.0.bb
-similarity index 88%
+similarity index 73%
 rename from meta/recipes-graphics/libva/libva_2.5.0.bb
 rename to meta/recipes-graphics/libva/libva_2.6.0.bb
-index 73e2e01..52908bb 100644
+index 73e2e01..d14e191 100644
 --- a/meta/recipes-graphics/libva/libva_2.5.0.bb
 +++ b/meta/recipes-graphics/libva/libva_2.6.0.bb
-@@ -17,10 +17,9 @@ SECTION = "x11"
+@@ -17,24 +17,21 @@ SECTION = "x11"
  LICENSE = "MIT"
  LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
  
@@ -63,6 +63,23 @@ index 73e2e01..52908bb 100644
 +S = "${WORKDIR}/git"
  
  UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
+ 
+ DEPENDS = "libdrm virtual/mesa"
+ 
+-inherit autotools pkgconfig features_check
++inherit meson pkgconfig features_check
+ 
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+-EXTRA_OECONF = "ac_cv_prog_WAYLAND_SCANNER=wayland-scanner"
+-
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
+-PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxext libxfixes"
+-PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland-native wayland"
++PACKAGECONFIG[x11] = "-Dwith_x11=yes, -Dwith_x11=no,virtual/libx11 libxext libxfixes"
++PACKAGECONFIG[wayland] = "-Dwith_wayland=yes, -Dwith_wayland=no,wayland-native wayland"
+ 
+ PACKAGES =+ "${PN}-x11 ${PN}-glx ${PN}-wayland"
  
 -- 
 2.7.4
