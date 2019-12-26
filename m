@@ -1,24 +1,23 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 203847C127
+Return-Path: <naveen.kumar.saini@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 0652D7D71B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Dec 2019 02:10:54 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id xBQ2Audc028576
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 25 Dec 2019 18:10:56 -0800 (PST)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Wed, 25 Dec 2019 18:10:55 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 26 Dec 2019 10:10:54 +0800
-Message-ID: <1577326254-239399-1-git-send-email-changqing.li@windriver.com>
+	Thu, 26 Dec 2019 06:14:17 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	25 Dec 2019 22:14:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,358,1571727600"; d="scan'208";a="417949440"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga005.fm.intel.com with ESMTP; 25 Dec 2019 22:14:18 -0800
+From: Naveen Saini <naveen.kumar.saini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 26 Dec 2019 14:14:15 +0800
+Message-Id: <1577340855-56106-1-git-send-email-naveen.kumar.saini@intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] syslogkd: fix parallel compile failed problem
+Subject: [PATCH 2/2] libva-utils: upgrade 2.5.0 -> 2.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,87 +30,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Dec 2019 02:10:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 26 Dec 2019 06:14:18 -0000
 
-From: Changqing Li <changqing.li@windriver.com>
+Release details can be found here:
+https://github.com/intel/libva-utils/releases/tag/2.6.0
 
-Parallel compile maybe failed with error:
-error: ../lib/strlcat.o: No such file or directory
-Makefile:619: recipe for target 'syslogd' failed
+Removed the patch which is not required anymore
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
 ---
- ...arallel-build-problem-reported-by-Gentoo-.patch | 47 ++++++++++++++++++++++
- meta/recipes-extended/sysklogd/sysklogd.inc        |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-extended/sysklogd/files/0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch
+ .../libva/{libva-utils_2.5.0.bb => libva-utils_2.6.0.bb}         | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/libva/{libva-utils_2.5.0.bb => libva-utils_2.6.0.bb} (78%)
 
-diff --git a/meta/recipes-extended/sysklogd/files/0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch b/meta/recipes-extended/sysklogd/files/0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch
-new file mode 100644
-index 0000000..bf43fc6
---- /dev/null
-+++ b/meta/recipes-extended/sysklogd/files/0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch
-@@ -0,0 +1,47 @@
-+From 50c66de8a9b64d6fa71329ea7d4fe981f3b4ef23 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Thu, 26 Dec 2019 10:03:35 +0800
-+Subject: [PATCH] Fix nasty parallel build problem reported by Gentoo and
-+ Westermo
-+
-+Independently of each other both the Gentoo project and Westermo found
-+an issue with massively parallel builds on monster-core-machines.  At
-+Westermo there are 40 core Xeon monsters that stumble when building
-+sysklogd.
-+
-+The Gentoo bug report is here:
-+
-+    https://bugs.gentoo.org/701894
-+
-+The problem stems from strlcat.c and strlcpy.c being used for both
-+the libcompat convenience library built for libsyslog and als for
-+syslogd when the system does not have either of the APIs in libc,
-+i.e. most Linux systems with GLIBC or musl libc.
-+
-+I can either rewrite the Makefile.am files to handle dependencies
-+better, or we just disable parallel build like this patch. There's
-+too few source files to gain anything from parallel build anyway.
-+
-+Signed-off-by: Joachim Nilsson <troglobit@gmail.com>
-+
-+Upstream-Status: Backport [https://github.com/troglobit/sysklogd/commit/9cf1f97cef04fed81c2407f7207795d7592ccb96]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ Makefile.am | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/Makefile.am b/Makefile.am
-+index c4cc80f..d7a7dd5 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -46,3 +46,6 @@ release: distcheck
-+ # Workaround for systemd unit file duing distcheck
-+ DISTCHECK_CONFIGURE_FLAGS = --with-systemd=$$dc_install_base/$(systemd) --with-klogd
-+ 
-++# Disable parallel build in top Makefile, we might otherwise get a very
-++# # bizarre build problem with strlcpy.o in libcompat and for syslogd.
-++.NOTPARALLEL:
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
-index 07edf40..774d23b 100644
---- a/meta/recipes-extended/sysklogd/sysklogd.inc
-+++ b/meta/recipes-extended/sysklogd/sysklogd.inc
-@@ -16,6 +16,7 @@ inherit update-rc.d update-alternatives systemd autotools
- SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
-            file://0001-Remove-__BEGIN_DECLS-__END_DECLS.patch \
-            file://0002-include-sys-types.h-for-off_t.patch \
-+           file://0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch \
-            file://sysklogd \
-            "
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-graphics/libva/libva-utils_2.5.0.bb b/meta/recipes-graphics/libva/libva-utils_2.6.0.bb
+similarity index 78%
+rename from meta/recipes-graphics/libva/libva-utils_2.5.0.bb
+rename to meta/recipes-graphics/libva/libva-utils_2.6.0.bb
+index f68d0cf..638e3c5 100644
+--- a/meta/recipes-graphics/libva/libva-utils_2.5.0.bb
++++ b/meta/recipes-graphics/libva/libva-utils_2.6.0.bb
+@@ -14,12 +14,9 @@ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
+ 
+-SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2 \
+-           file://0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch \
+-           "
+-
+-SRC_URI[md5sum] = "c1fada26c286654859eff33b2562cb79"
+-SRC_URI[sha256sum] = "9238c9d5110d60f935683390b8383fdac3507346384cd5f117a23c6db1d72a17"
++SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.6-branch"
++SRCREV = "8ea1eba433dcbceb0e5dcb54b8e3f984987f7a17"
++S = "${WORKDIR}/git"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/intel/libva-utils/releases"
+ 
 -- 
 2.7.4
 
