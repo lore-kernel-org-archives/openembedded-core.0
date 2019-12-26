@@ -1,23 +1,25 @@
 Return-Path: <naveen.kumar.saini@intel.com>
 Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CB2D7D6C2
+	by mail.openembedded.org (Postfix) with ESMTP id 6D6CE7DB50
 	for <openembedded-core@lists.openembedded.org>;
 	Thu, 26 Dec 2019 07:43:38 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
 	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Dec 2019 23:43:39 -0800
+	25 Dec 2019 23:43:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,358,1571727600"; d="scan'208";a="208010809"
+X-IronPort-AV: E=Sophos;i="5.69,358,1571727600"; d="scan'208";a="208010810"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga007.jf.intel.com with ESMTP; 25 Dec 2019 23:43:38 -0800
+	by orsmga007.jf.intel.com with ESMTP; 25 Dec 2019 23:43:39 -0800
 From: Naveen Saini <naveen.kumar.saini@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Dec 2019 15:43:34 +0800
-Message-Id: <1577346215-70009-1-git-send-email-naveen.kumar.saini@intel.com>
+Date: Thu, 26 Dec 2019 15:43:35 +0800
+Message-Id: <1577346215-70009-2-git-send-email-naveen.kumar.saini@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v2 1/2] libva: upgrade 2.5.0 -> 2.6.0
+In-Reply-To: <1577346215-70009-1-git-send-email-naveen.kumar.saini@intel.com>
+References: <1577346215-70009-1-git-send-email-naveen.kumar.saini@intel.com>
+Subject: [PATCH v2 2/2] libva-utils: upgrade 2.5.0 -> 2.6.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,54 +35,96 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Thu, 26 Dec 2019 07:43:39 -0000
 
 Release details can be found here:
-https://github.com/intel/libva/releases/tag/2.6.0
+https://github.com/intel/libva-utils/releases/tag/2.6.0
 
+Removed the patch which is not required anymore.
 Also switched to meson.
 
 Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
 ---
- .../libva/{libva_2.5.0.bb => libva_2.6.0.bb}              | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
- rename meta/recipes-graphics/libva/{libva_2.5.0.bb => libva_2.6.0.bb} (73%)
+ ...fcsample-only-when-X11-backend-is-enabled.patch | 35 ----------------------
+ .../{libva-utils_2.5.0.bb => libva-utils_2.6.0.bb} | 15 ++++------
+ 2 files changed, 6 insertions(+), 44 deletions(-)
+ delete mode 100644 meta/recipes-graphics/libva/libva-utils/0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch
+ rename meta/recipes-graphics/libva/{libva-utils_2.5.0.bb => libva-utils_2.6.0.bb} (63%)
 
-diff --git a/meta/recipes-graphics/libva/libva_2.5.0.bb b/meta/recipes-graphics/libva/libva_2.6.0.bb
-similarity index 73%
-rename from meta/recipes-graphics/libva/libva_2.5.0.bb
-rename to meta/recipes-graphics/libva/libva_2.6.0.bb
-index 73e2e01..d14e191 100644
---- a/meta/recipes-graphics/libva/libva_2.5.0.bb
-+++ b/meta/recipes-graphics/libva/libva_2.6.0.bb
-@@ -17,24 +17,21 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
- 
--SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2"
+diff --git a/meta/recipes-graphics/libva/libva-utils/0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch b/meta/recipes-graphics/libva/libva-utils/0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch
+deleted file mode 100644
+index 01fb719..0000000
+--- a/meta/recipes-graphics/libva/libva-utils/0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 8fc14e4bc81885b80c3072e549c2e6f59533d7ef Mon Sep 17 00:00:00 2001
+-From: Anuj Mittal <anuj.mittal@intel.com>
+-Date: Fri, 8 Feb 2019 11:45:55 +0800
+-Subject: [PATCH] Build sfcsample only when X11 backend is enabled
 -
--SRC_URI[md5sum] = "3688212fb7a87947070f3729e91ff7cf"
--SRC_URI[sha256sum] = "3aa89cd369a506ac4dbe5de7c0ef5da4f3d220bf986403f02fa1f6f702af6878"
-+SRC_URI = "git://github.com/intel/libva.git;branch=v2.6-branch"
-+SRCREV = "5f693d9e603e0e83928cec67c30b6ac902d7aa85"
+-See: https://github.com/intel/libva-utils/pull/149, and
+-https://github.com/intel/libva-utils/issues/150
+-
+-Upstream-Status: Submitted
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- Makefile.am | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index d28175a..e294e25 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -24,10 +24,11 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
+- 
+- AUTOMAKE_OPTIONS = foreign
+- 
+--SUBDIRS = common decode encode vainfo videoprocess vendor/intel vendor/intel/sfcsample
+-+SUBDIRS = common decode encode vainfo videoprocess vendor/intel
+- 
+- if USE_X11
+- SUBDIRS += putsurface
+-+SUBDIRS += vendor/intel/sfcsample
+- else
+- if USE_WAYLAND
+- SUBDIRS += putsurface
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-graphics/libva/libva-utils_2.5.0.bb b/meta/recipes-graphics/libva/libva-utils_2.6.0.bb
+similarity index 63%
+rename from meta/recipes-graphics/libva/libva-utils_2.5.0.bb
+rename to meta/recipes-graphics/libva/libva-utils_2.6.0.bb
+index f68d0cf..0037fdf 100644
+--- a/meta/recipes-graphics/libva/libva-utils_2.5.0.bb
++++ b/meta/recipes-graphics/libva/libva-utils_2.6.0.bb
+@@ -14,22 +14,19 @@ SECTION = "x11"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
+ 
+-SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2 \
+-           file://0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch \
+-           "
+-
+-SRC_URI[md5sum] = "c1fada26c286654859eff33b2562cb79"
+-SRC_URI[sha256sum] = "9238c9d5110d60f935683390b8383fdac3507346384cd5f117a23c6db1d72a17"
++SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.6-branch"
++SRCREV = "8ea1eba433dcbceb0e5dcb54b8e3f984987f7a17"
 +S = "${WORKDIR}/git"
  
- UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
+ UPSTREAM_CHECK_URI = "https://github.com/intel/libva-utils/releases"
  
- DEPENDS = "libdrm virtual/mesa"
+ DEPENDS = "libva"
  
 -inherit autotools pkgconfig features_check
 +inherit meson pkgconfig features_check
  
+ # depends on libva which requires opengl
  REQUIRED_DISTRO_FEATURES = "opengl"
  
--EXTRA_OECONF = "ac_cv_prog_WAYLAND_SCANNER=wayland-scanner"
--
  PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
 -PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxext libxfixes"
 -PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland-native wayland"
-+PACKAGECONFIG[x11] = "-Dwith_x11=yes, -Dwith_x11=no,virtual/libx11 libxext libxfixes"
-+PACKAGECONFIG[wayland] = "-Dwith_wayland=yes, -Dwith_wayland=no,wayland-native wayland"
- 
- PACKAGES =+ "${PN}-x11 ${PN}-glx ${PN}-wayland"
- 
++PACKAGECONFIG[x11] = "-Dx11=true, -Dx11=false,virtual/libx11 libxext libxfixes"
++PACKAGECONFIG[wayland] = "-Dwayland=true, -Dwayland=false,wayland-native wayland"
 -- 
 2.7.4
 
