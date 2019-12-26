@@ -1,25 +1,49 @@
-Return-Path: <naveen.kumar.saini@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D6CE7DB50
+Return-Path: <gomonovych@gmail.com>
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 14A8D7D2FD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 26 Dec 2019 07:43:38 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	25 Dec 2019 23:43:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,358,1571727600"; d="scan'208";a="208010810"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga007.jf.intel.com with ESMTP; 25 Dec 2019 23:43:39 -0800
-From: Naveen Saini <naveen.kumar.saini@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Dec 2019 15:43:35 +0800
-Message-Id: <1577346215-70009-2-git-send-email-naveen.kumar.saini@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1577346215-70009-1-git-send-email-naveen.kumar.saini@intel.com>
-References: <1577346215-70009-1-git-send-email-naveen.kumar.saini@intel.com>
-Subject: [PATCH v2 2/2] libva-utils: upgrade 2.5.0 -> 2.6.0
+	Thu, 26 Dec 2019 11:24:31 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id i23so18328151lfo.7
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 26 Dec 2019 03:24:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=BxoupZSMRE2DTDjIRAiiuu/ngeO3LqFT1wbUZB1u1O0=;
+	b=cvqUoi+l9KsF8YLPZV8hZQTNVJpOh15qUPLjIe4qqRy18MhAhmbOkfhGmxTQ0XhUnS
+	HeYjFCMztgkR4bVZvZ2zoPElaDrF/Qho0ZW0bJwkSl+5BdGCZUV6D2RyZXQyseVswP+K
+	2zLwfp1Jz6XA5xfeCBadD3jtmi1a2d1RbWqi9Lzh4vpTjxxCDUi0rPmt6hbO62INfENc
+	vZO/bCaLdvCyo+B0+nb1+bJYrs8/yEFG/vjHIbxpu8PvdvQJDZ7a8raWpbGX4qEsfjnW
+	GCXT3z12N/W1DK5I+moMeE+becm6Q0u7tPMxa7R5Q9401idpKLHJYlTXseBIDmF1Ny/z
+	9DOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=BxoupZSMRE2DTDjIRAiiuu/ngeO3LqFT1wbUZB1u1O0=;
+	b=qAvSR/7eFXRJw/+HJAaU7Sw753sPGOFF6GImM6kgLWmX5Q9JoB5WSbX5V+RAytpY3C
+	9bq8+pS7qFMfcaW4Q1ePsDTywdkRm2wNP7jXrFlWW70jLUCe2Aa5nfDoKddtMFNbXRD8
+	ZLJLUi8qcUsqjzogTghUHXTP4aCx4klomxXeNDoJoPA2nM2lf3vKmw5/CxT5iIvPG7xB
+	dgairf53z4ztRsNi8nvKartOGsJ3kds0wk6F+ZMCUxrzZMhix4AckdzgDydtdrB7pEL+
+	Qr4ZT8piSo5TmdBAeFP3Zr6sUfjtYlDAn8wo9PZ9yXDSCWy+nOxJo8yPNi6UNCYCJwlF
+	Vefw==
+X-Gm-Message-State: APjAAAVmVlX/bhn5NAHo5mHGrn+SuvRLMCHC7J8pk+B0joBJ3DGvacK+
+	gJrKPHFmL3hYDsJtbBhr4oVL0BsJDmV6sw==
+X-Google-Smtp-Source: APXvYqy/XHFSpSZiHPHa642fbilgs9NkD8T9Xf3MWf/eplr9+K+fNUoZU9viV1eZXP2D63vNKWiVbw==
+X-Received: by 2002:ac2:599c:: with SMTP id w28mr26869616lfn.78.1577359472258; 
+	Thu, 26 Dec 2019 03:24:32 -0800 (PST)
+Received: from kbp1-lhp-A00636.cisco.com ([195.238.92.77])
+	by smtp.gmail.com with ESMTPSA id
+	a19sm12128205ljb.103.2019.12.26.03.24.31
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 26 Dec 2019 03:24:31 -0800 (PST)
+From: Vasyl Gomonovych <gomonovych@gmail.com>
+To: openembedded-core@lists.openembedded.org, zhe.he@windriver.com,
+	ross.burton@intel.com, andrea.adami@gmail.com
+Date: Thu, 26 Dec 2019 13:24:25 +0200
+Message-Id: <20191226112427.9759-1-gomonovych@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: linux-kernel@vger.kernel.org
+Subject: [PATCH] kernel: Make symbol link to vmlinux.64 in boot directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,100 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 26 Dec 2019 07:43:39 -0000
+X-List-Received-Date: Thu, 26 Dec 2019 11:24:32 -0000
 
-Release details can be found here:
-https://github.com/intel/libva-utils/releases/tag/2.6.0
-
-Removed the patch which is not required anymore.
-Also switched to meson.
-
-Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+Some mips 64 bit platforms use vmlinux.64 image name
+Make a symbol link to vmlinux.64 in arch/mips/boot/
 ---
- ...fcsample-only-when-X11-backend-is-enabled.patch | 35 ----------------------
- .../{libva-utils_2.5.0.bb => libva-utils_2.6.0.bb} | 15 ++++------
- 2 files changed, 6 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-graphics/libva/libva-utils/0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch
- rename meta/recipes-graphics/libva/{libva-utils_2.5.0.bb => libva-utils_2.6.0.bb} (63%)
+ meta/classes/kernel.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-graphics/libva/libva-utils/0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch b/meta/recipes-graphics/libva/libva-utils/0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch
-deleted file mode 100644
-index 01fb719..0000000
---- a/meta/recipes-graphics/libva/libva-utils/0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 8fc14e4bc81885b80c3072e549c2e6f59533d7ef Mon Sep 17 00:00:00 2001
--From: Anuj Mittal <anuj.mittal@intel.com>
--Date: Fri, 8 Feb 2019 11:45:55 +0800
--Subject: [PATCH] Build sfcsample only when X11 backend is enabled
--
--See: https://github.com/intel/libva-utils/pull/149, and
--https://github.com/intel/libva-utils/issues/150
--
--Upstream-Status: Submitted
--
--Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-----
-- Makefile.am | 3 ++-
-- 1 file changed, 2 insertions(+), 1 deletion(-)
--
--diff --git a/Makefile.am b/Makefile.am
--index d28175a..e294e25 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -24,10 +24,11 @@ ACLOCAL_AMFLAGS = -I m4 ${ACLOCAL_FLAGS}
-- 
-- AUTOMAKE_OPTIONS = foreign
-- 
---SUBDIRS = common decode encode vainfo videoprocess vendor/intel vendor/intel/sfcsample
--+SUBDIRS = common decode encode vainfo videoprocess vendor/intel
-- 
-- if USE_X11
-- SUBDIRS += putsurface
--+SUBDIRS += vendor/intel/sfcsample
-- else
-- if USE_WAYLAND
-- SUBDIRS += putsurface
---- 
--2.17.1
--
-diff --git a/meta/recipes-graphics/libva/libva-utils_2.5.0.bb b/meta/recipes-graphics/libva/libva-utils_2.6.0.bb
-similarity index 63%
-rename from meta/recipes-graphics/libva/libva-utils_2.5.0.bb
-rename to meta/recipes-graphics/libva/libva-utils_2.6.0.bb
-index f68d0cf..0037fdf 100644
---- a/meta/recipes-graphics/libva/libva-utils_2.5.0.bb
-+++ b/meta/recipes-graphics/libva/libva-utils_2.6.0.bb
-@@ -14,22 +14,19 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b148fc8adf19dc9aec17cf9cd29a9a5e"
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index ebcb79a528..750988f4e5 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -613,6 +613,9 @@ do_kernel_link_images() {
+ 	if [ -f ../../../vmlinuz.bin ]; then
+ 		ln -sf ../../../vmlinuz.bin
+ 	fi
++	if [ -f ../../../vmlinux.64 ]; then
++		ln -sf ../../../vmlinux.64
++	fi
+ }
+ addtask kernel_link_images after do_compile before do_strip
  
--SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2 \
--           file://0001-Build-sfcsample-only-when-X11-backend-is-enabled.patch \
--           "
--
--SRC_URI[md5sum] = "c1fada26c286654859eff33b2562cb79"
--SRC_URI[sha256sum] = "9238c9d5110d60f935683390b8383fdac3507346384cd5f117a23c6db1d72a17"
-+SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.6-branch"
-+SRCREV = "8ea1eba433dcbceb0e5dcb54b8e3f984987f7a17"
-+S = "${WORKDIR}/git"
- 
- UPSTREAM_CHECK_URI = "https://github.com/intel/libva-utils/releases"
- 
- DEPENDS = "libva"
- 
--inherit autotools pkgconfig features_check
-+inherit meson pkgconfig features_check
- 
- # depends on libva which requires opengl
- REQUIRED_DISTRO_FEATURES = "opengl"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
--PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxext libxfixes"
--PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland-native wayland"
-+PACKAGECONFIG[x11] = "-Dx11=true, -Dx11=false,virtual/libx11 libxext libxfixes"
-+PACKAGECONFIG[wayland] = "-Dwayland=true, -Dwayland=false,wayland-native wayland"
 -- 
-2.7.4
+2.17.1
 
 
