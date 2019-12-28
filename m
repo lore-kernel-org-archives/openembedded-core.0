@@ -1,53 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C6EDC6C3A9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id DCFA0603FE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Dec 2019 19:55:56 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id y17so27076781wrh.5
+	Sat, 28 Dec 2019 07:56:16 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id k197so15524774pga.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 27 Dec 2019 11:55:58 -0800 (PST)
+	Fri, 27 Dec 2019 23:56:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xYU3yldih3jEqpTOEjX3Gb8/ch/d3MhgZmkSQvnNSj4=;
-	b=E2Cy3DGJSFlzTAz+jRSsO0KnhC4GP3NeU5C6RVEcNDUbEH1oGbcrkcTYihD4QBSq3h
-	NTeT7yFVpX+l2D4of8DhVuXD/bqZpeM+RB7eZFSDpe+pyRBZ/T9fJCQ7o2RJ4YIySvou
-	QmVIQWsisYo0/pA02lkuwmP8vyiDTJlxd4W0pjNsRT8VtGITvcxzllnrZOiUaX9kfkya
-	EjpKVgZioD1J63RUbb/MCqxhEVWrc2YZ+vwDTAo1+JL+BDXu8hRbyWppFXeGDwNDChqI
-	P3oFvXdrNaTtPq5NSj++jZRJjRjoG2uHyqSKtyhkFNIGywJkHQpcd+Rcam9joZD7VnuO
-	T9LA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pLtJIx/NXnjmii9g/ty8czlKc3qLXQ/cWRTQ5kL8QNE=;
+	b=pAW7FgU1t9n/6UU8sYRebV61Qnf0mzu3qSgQAvg2LqTOHFpQD4NoUSdaqIfb7zKZj2
+	MgVC7sEv22yuOAcXP7lvJTTAMlHgIyt56WUwnOk4gfP4IxUcxHj18MmLhfzXfoUDrgAK
+	vSTPzVNeVBRg0ci0VC5O6F6GUFbjVvb86yIT/QjtFYUqSU8uu4XSFABssfhqUy3vFHQs
+	3QuEGHH4o05RNnacmgPg/XgVuGReD/s0ufHB7UxtMliPNA2H044qlhO0sfaXoNfutgqg
+	St9UikIbzPCYMXSfOnyj6MyLUIuZ9B8Wu1hv218T1lP+F1GvZJAoKhxGKewoUziypRcY
+	SAAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xYU3yldih3jEqpTOEjX3Gb8/ch/d3MhgZmkSQvnNSj4=;
-	b=IxvBP+GrzKmqUwj5WriixtHgFHbMPP4NKudkMxpncg5B75Nz3Glb+BhGOkwiFZ6smA
-	GVxtbzMPYbYr34ccsjrstmNdpm8W9u1tjFbaU6FWSbQf8OjRwvoxQ4jh1vBgcVBaTDIX
-	fPB1GHCqZgySeNB1Zvk5KtdgaNYrlKsxO49ef0zPZGLbPw9BCkCuqPGQvgajLej1M5A1
-	9jr8w2vAuKApn7LB0ojsur/gb+IPFTQQkkivdW5qL6LGiII7EPBes9YXOjbNBQmsxAyS
-	gasqMvOqMv6ci6+IdWLkkooI3s5qRykkpHo6Rj53/eFofCABXP+36pvS39q0jXxwrAj8
-	iGgw==
-X-Gm-Message-State: APjAAAUnOlBNmK66cpC7kGQ4gGGW3PmFlMDKEemBw9EMBp+/Vs9x8v7k
-	ewjDcYPVCEhQH8BOv6VFBRagm/i8A5p/gBh9cGI=
-X-Google-Smtp-Source: APXvYqy76/unk5jmyJSIsvkbnjXzf8cQNHc6NbUffT4HgQM2cwZ1YqVD7rSXrwa/veWRAhWgu9iCSDTb21o0BA0M5LE=
-X-Received: by 2002:a5d:6652:: with SMTP id f18mr53888798wrw.246.1577476557227;
-	Fri, 27 Dec 2019 11:55:57 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pLtJIx/NXnjmii9g/ty8czlKc3qLXQ/cWRTQ5kL8QNE=;
+	b=lAZR9esYzEmaDWegEE9FKUmgqKV6p2x1BeMVWM0SUQqJAtQWoT0VUvYbRS7JX2w6Qt
+	apiSMG+ub9qbTucGfZZ6YbcsFy5onH3YrHSd3pNSZ86tXkbzHhlN6nUiy1kHpb+XfRqk
+	C5CczIGA5rar95/0C6PHklK5956wbzuzGomjHLNFcWEirDnvG+DUNVMX8gnz4HcnmZ5E
+	7MvgxdN+4uGbYb6dL8a624kEmxMnvRe5VN7rZ3YOFGZQs5hD/J/yifjdfT4ACFEoOXXd
+	UYtYe8YXXaqMN8HKYi3b4Je4l9Z4cnSer2ykWp/PMqCpbo+XjDtjEhd94bkN7kp5/zb1
+	kSEg==
+X-Gm-Message-State: APjAAAU90hv+kB12vDAdHZlr2oy56MUGggscFSPD3qgokVYTQ/KO+Db6
+	rpUY0pzLk4xIWdyLbT9bLy40tG7zQF8=
+X-Google-Smtp-Source: APXvYqykCsRUpAGIM9diHueZokfewDX75wvkhUApmHesyXB/Ckd8DW0UHDRYKb81MsohmFy+xVnZ0g==
+X-Received: by 2002:a63:b141:: with SMTP id g1mr61391830pgp.168.1577519777059; 
+	Fri, 27 Dec 2019 23:56:17 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2f83])
+	by smtp.gmail.com with ESMTPSA id j7sm43752635pgn.0.2019.12.27.23.56.16
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 27 Dec 2019 23:56:16 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Dec 2019 23:56:08 -0800
+Message-Id: <20191228075608.47905-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <ce6615e19c75117b5d4458334af60107fba830a6.camel@linuxfoundation.org>
-	<f92e77c992efa93542732e335a99177b5903a11f.camel@linuxfoundation.org>
-	<a73ba44d3f16704691971ebfede683de21b2e65d.camel@linuxfoundation.org>
-	<CAJdd5GYZydn+kxHw3jP9AuJWWv60nxYwFPYWtrSGi1-q4NJNiQ@mail.gmail.com>
-	<cd4a5e26597d3b09392d76edfeb018ea38a368ff.camel@linuxfoundation.org>
-	<CAJdd5Ga=vrNMe6hW+SGrJaP=FAQhZBjqa14gXJ3qoQxzOBaaew@mail.gmail.com>
-	<CAJdd5Gbbmv45-q0G1FSDgfNLNQG+xHArorf=F=-wZtdOPU85xA@mail.gmail.com>
-	<a9bc7048e2f7dd45a6fd6e7730c8143573646ac7.camel@linuxfoundation.org>
-In-Reply-To: <a9bc7048e2f7dd45a6fd6e7730c8143573646ac7.camel@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 27 Dec 2019 13:55:46 -0600
-Message-ID: <CAJdd5GYUDegdRO7kR_PcM8oO4BoEbhxunYfm7qanGBnW-eBTjw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Debug from failing hashequiv builds - server side problem?
+Subject: [PATCH V3] cmake: Add a knob for cmake VERBOSE settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,103 +56,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 27 Dec 2019 19:55:57 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 28 Dec 2019 07:56:17 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sun, Dec 22, 2019 at 3:25 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sun, 2019-12-22 at 10:22 -0600, Joshua Watt wrote:
-> > On Sun, Dec 22, 2019, 10:17 AM Joshua Watt <jpewhacker@gmail.com>
-> > wrote:
-> > >
-> > > On Sun, Dec 22, 2019, 10:09 AM Richard Purdie <
-> > > richard.purdie@linuxfoundation.org> wrote:
-> > > > On Sun, 2019-12-22 at 10:00 -0600, Joshua Watt wrote:
-> > > > It won't help the other native/cross to target boundary mapping
-> > > > issue.
-> > > >
-> > > > See above, I'm wondering if we could abuse the method field to
-> > > > make
-> > > > this work? Certainly we could test that...
-> > >
-> > > That seems reasonable for a quick test. The method is supposed to
-> > > be the output hash calculation method, so my first instinct would
-> > > be that it is better in the long run to add another field e.g.
-> > > "class" or something.
-> >
-> > Perhaps based on ${NATIVELSBSTRING} like sstate.bbclass path? That
-> > has nice congruency with sstate file paths, which I like
->
-> If only that were the right thing.
->
-> We need:
->
->     if bb.data.inherits_class('native', d):
->         d.setVar('SSTATE_PKGARCH', d.getVar('BUILD_ARCH', False))
->     elif bb.data.inherits_class('cross', d):
->         d.setVar('SSTATE_PKGARCH', d.expand("${BUILD_ARCH}_${TARGET_ARCH}"))
->
-> i.e. SSTATE_PKGARCH but only for native/cross.
+Setting VERBOSE always, while is fine on one hand for debugging, its
+coming at an expense of creating lots and lots of logs, e.g. qtwebkit
+compile logs alone with VERBOSE is 163MB, there are many other large
+packages which use cmake e.g. WPE, webkitgtk etc which are in same range
+with out this option on, the logs reduce to 861K and also speeds up
+build a notch
 
-Ok, so I've had a little bit of time to think about this.
+If user needs to disable these logs for a recipe or globally
 
-From a more theoretical standpoint, I think that hash equivalence only
-works if all of the possible variables that can impact the output hash
-are present in the taskhash. Otherwise, you can end up in cases
-described above where the same taskhash results in diverging output
-hashes that will never converge back together (in this case because
-the build host arch differs). For most target recipes this should
-already be true because we certainly want to rebuild the recipe if any
-of the inputs that could possibly affect the output change. One of the
-great parts about hash equivalence is that it sort dynamically and
-automatically figures out if these changes don't actually change
-anything and accounts for it so we don't have to manually figure out
-which variables for which recipes could be whitelisted (not that we
-would embark on that madness!).
+CMAKE_VERBOSE = ""
 
-However, for some recipes (e.g. native and cross), the taskhash is
-incomplete in this case because we don't actually care about the
-specific binary output from these recipes; we actually care about the
-behaviour of these recipes when they are run (e.g. we don't care if
-gcc-cross running on x86_64 or aarch is the exact same binary as long
-as it produces the exact same cross compiled target binary in both
-cases). Hash equivalence sort of falls down a little bit here because
-there is no sane way to hash the "behaviour" of a native or cross
-recipe. If there were we could set the output hash algorithm for
-native and cross recipes to "OEOminiscentBehaviourHash" and all would
-be well :) In lieu of that, the next best thing is to make sure that
-the inputs we give to the hash equivalence server are the full set
-that affect the output hash, just like we do for target builds. This
-works because we do expect that on a given build host arch, the output
-should be the same from build to build.
+in recipe or in global metadata e.g. local.conf
 
-So, the real question is how do we make sure that the inputs to the
-hash equivalence server are all the ones that affect the output hash?
-I think there are a few options:
- 1) Make up yet another hash (yahash) that is equivalent to the
-taskhash + the hash of variables "unwhitelisted" for the purpose of
-hash equivalence. Instead of dealing with taskhashes, the hash
-equivalence deals with yahashes
- 2) Just like #1, except that the yahash is only the unwhitelisted
-variables and hash equivalence uses both the taskhash and the yahash
-for lookups.
- 3) Implement some sort of "namespace" field in the hash equivalence
-tables that is used to filter out entries appropriately (basically,
-the solution proposed by Richard).
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Ross Burton <ross.burton@intel.com>
+Cc: Andre McCurdy <armccurdy@gmail.com>
+---
+v2: Make a knob for verbose option and keep the defaults as such
+v3: Use environment variable instead of using -v option, it does not
+    work for all recipes e.g. fluentbit
 
-I don't really have a strong opinion either way.... #3 seems much
-easier, but the thing that worries me is if we are going to find other
-variables that should be unwhitelisted and do #1 or #2 anyway.
+ meta/classes/cmake.bbclass | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
 
-As stated, I think that one of the advantages of hash equivalence is
-that we can be a little more aggressive with what we "unwhitelist" and
-let the hash equivalence process itself figure out if variable
-actually makes a difference in the output.
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index 8ccb1eefc7..11ffb0d33f 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -181,9 +181,18 @@ cmake_do_configure() {
+ 	  -Wno-dev
+ }
+ 
++# To disable verbose cmake logs for a given recipe or globally config metadata e.g. local.conf
++# add following
++#
++# CMAKE_VERBOSE = ""
++#
++
++CMAKE_VERBOSE ??= "VERBOSE=1"
++
++# Then run do_compile again
+ cmake_runcmake_build() {
+-	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
+-	eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
++	bbnote ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
++	eval ${DESTDIR:+DESTDIR=${DESTDIR} }${CMAKE_VERBOSE} cmake --build '${B}' "$@" -- ${EXTRA_OECMAKE_BUILD}
+ }
+ 
+ cmake_do_compile()  {
+-- 
+2.24.1
 
->
-> Cheers,
->
-> Richard
->
 
