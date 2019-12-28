@@ -1,50 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D67277DD6A
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 55F0960234
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Dec 2019 15:48:06 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p17so10700818wmb.0
+	Sat, 28 Dec 2019 23:40:16 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c14so29565144wrn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 28 Dec 2019 07:48:08 -0800 (PST)
+	Sat, 28 Dec 2019 15:40:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=itjLtOvHzJfjRT3mGI45wE4rHJlpwrIXKJa1cbA5jAk=;
-	b=ChCsjXrbiOtnkCgmM94dL8gSbxBZ64+RjE2L2oMsljqWAWL+4xxmIbDPvMrHDzUqsw
-	/xuJ71sbGaZDMZDHiTZ2nB6dVavmIbhuvF9ZVRnUr6WyY+rn1zo/5UFPtzg+wm8Hw4Zd
-	aN3zR/CNVmjG7m2W+Uld7Nteitk38osLclnDg=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=0NiomNNj9X90MQdrgUTRN36Ug9sbbbbPxfSt2BMSWlY=;
+	b=Jk26x720enxXRpzwuvnIuHLQ8VezDsX41r4Gn1WLwj/ccHhBN/J2i5w4T+tiRHddT4
+	AIppZEEFD8ctwiRY7Q4j4nPsac+65roXGYYElkvl1VtgKZdMcvwVrvVPZ3nijTPZNsKC
+	Xg6kPh67rtsSJy6NkrDQyjp5vV//B3hOTURKY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=itjLtOvHzJfjRT3mGI45wE4rHJlpwrIXKJa1cbA5jAk=;
-	b=bTj/jmqTIex4A521jxceRW72/yiZROAuLcZVDJTvIcUFzjBKcmKSuPYWn4fhJ0LNhB
-	73QCVTd2S0trgTWo2C198hntGHNlBSTB8Pyy0wmE6/LFwE3hksDly6sTthX+m6BtgXvL
-	cKQE4ODm/mFZFYHCj63fYCSRA9ehy4D6qbQtuZBfYjnPS76Mt2XdxpUbzkitTZ63YtZj
-	Sb7h/QNm2wDYehUJzM94v6fpV98P4cBCegOTUY/eCtWT0RQ7SU2pireWgM2PChXnOlU2
-	PyUp6u8mrdY3rN48qlI/0+V7mn8PnIQICbAhytE0983d7/qISOW74aYUXopmwpamIrjd
-	0u/Q==
-X-Gm-Message-State: APjAAAW3IJ+ZFl3i/n3DY5BxmwEympXyORkc/3DzmHgF0XLhp0eQhdre
-	0Uo8tFOSk1hR63+dIrlXJyaDPQ==
-X-Google-Smtp-Source: APXvYqxc31dHxyKY/C3wEsg0nL/wcNfJcN7k0KO0+0xR4hkhDCUHQuIDVbvAfwUfn2CHDW0SzoCrzA==
-X-Received: by 2002:a1c:a504:: with SMTP id o4mr24820975wme.131.1577548087439; 
-	Sat, 28 Dec 2019 07:48:07 -0800 (PST)
+	bh=0NiomNNj9X90MQdrgUTRN36Ug9sbbbbPxfSt2BMSWlY=;
+	b=tZy0Lls+7IdeVLdHUOE1EwzDma0itQAIjq40FyUTwxzAA3haQROkj7iLQRlC0KAFCP
+	Ae2jtinBBfrGcXMe51vNzt+Q/1mFP31hrF07MF7GSHBFeyFfqAcFYitjtZCq7bTbduU4
+	9u1T33xafOHt98PnhI2xLZYbAwnai9jT/S4jTe0cER8iAWFJrU+3QkVGYqv2VKR3RiKB
+	W9PlXtuJSdkHggSc7D58FCIkCMuMsr1FIr0S1ctXKgkqMU6RGVRobHp4OzYOfE80xqss
+	XoqKnIxcK4uB6oQudQLwUsx92jjbIYvRkz0ppulvirM+pRwNQvw1v0LJKrvQ0orSKW6o
+	L42Q==
+X-Gm-Message-State: APjAAAXTeysxM9wmr06JkxEbDMtic9sm7INoq/9jAXt+mcQAbFubvJnB
+	2NJIk1KKRpYDKuhpyyDIYFjsYA==
+X-Google-Smtp-Source: APXvYqxImSpPtC3P/6ccb5ixkw0n+GtVWv9SAXqC8ELHfWRRI8JODvoEL9GMy/fyNo/X1T+uEyWjYg==
+X-Received: by 2002:a5d:608a:: with SMTP id w10mr54405775wrt.136.1577576416993;
+	Sat, 28 Dec 2019 15:40:16 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	x10sm38831302wrp.58.2019.12.28.07.48.06
+	m3sm39409552wrs.53.2019.12.28.15.40.15
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 28 Dec 2019 07:48:06 -0800 (PST)
-Message-ID: <f7a15691a81d776f755e0aecb0a5a3b53e3ef07a.camel@linuxfoundation.org>
+	Sat, 28 Dec 2019 15:40:16 -0800 (PST)
+Message-ID: <d484a5d2af60732c5b7367760d98b1803efa760f.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: kai.kang@windriver.com, openembedded-core@lists.openembedded.org
-Date: Sat, 28 Dec 2019 15:48:05 +0000
-In-Reply-To: <20191227082705.29041-1-kai.kang@windriver.com>
-References: <20191227082705.29041-1-kai.kang@windriver.com>
+To: Masahiro Yamada <masahiroy@kernel.org>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 28 Dec 2019 23:40:15 +0000
+In-Reply-To: <20191222075951.20275-1-masahiroy@kernel.org>
+References: <20191222075951.20275-1-masahiroy@kernel.org>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH] dummy-sdk-package: append RREPLACES with DUMMYPROVIDES
+Subject: Re: [PATCH] bitbake.conf: fix suspicious comparison with ('' or 'custom')
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 28 Dec 2019 15:48:07 -0000
+X-List-Received-Date: Sat, 28 Dec 2019 23:40:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-12-27 at 16:27 +0800, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
+On Sun, 2019-12-22 at 16:59 +0900, Masahiro Yamada wrote:
+> I am not sure what is intended by the code:
 > 
-> When multilib is enabled and installs lib32-perl to image, such as
-> set
+>     d.getVar('TARGET_OS', d, 1) == ('' or 'custom')
 > 
->   IMAGE_INSTALL_append = " lib32-perl"
+> This is equivalent to:
 > 
-> it fails to run task populate_sdk of images:
+>     d.getVar('TARGET_OS', d, 1) == 'custom'
 > 
-> > Problem: package target-sdk-provides-dummy-1.0-
-> > r0.sdk_provides_dummy_target
-> >   conflicts with lib32-perl provided by lib32-perl-5.30.1-r0.i586
+> If the intended behavior is to take the second element of the array
+> when TARGET_OS is empty or 'custom', the correct code would be:
 > 
-> Append ${DUMMYPROVIDES} rather than ${DUMMYPROVIDES_PACKAGES} to
-> variable RREPLACES that variable DUMMYPROVIDES contains multilib
-> variants of the packages.
+>     d.getVar('TARGET_OS', d, 1) == '' or
+>     d.getVar('TARGET_OS', d, 1) == 'custom'
 > 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> Or, more simply:
+> 
+>     d.getVar('TARGET_OS', d, 1) in ('', 'custom')
+> 
+> I guess this is probably the intended behavior.
+> 
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 > ---
->  meta/recipes-core/meta/dummy-sdk-package.inc | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc
-> b/meta/recipes-core/meta/dummy-sdk-package.inc
-> index 61afab1d76..91466a36e9 100644
-> --- a/meta/recipes-core/meta/dummy-sdk-package.inc
-> +++ b/meta/recipes-core/meta/dummy-sdk-package.inc
-> @@ -25,6 +25,6 @@ python populate_packages_prepend() {
->      p = d.getVar("PN")
->      d.appendVar("RPROVIDES_%s" % p, "${DUMMYPROVIDES}")
->      d.appendVar("RCONFLICTS_%s" % p, "${DUMMYPROVIDES}")
-> -    d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES_PACKAGES}")
-> +    d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES}")
->  }
 
-This reverts 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=63ad134e3d029accf67e1ba8880f59c7704cb505
-?
-
-I believe that is needed for the rpm upgrade which is pending.
+Thanks for spotting this. Given this doesn't seem useful, I'm going to
+test a patch going one step further and removing all this indirection.
+I can't what use it has...
 
 Cheers,
 
