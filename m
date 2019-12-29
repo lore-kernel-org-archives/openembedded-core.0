@@ -1,47 +1,50 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C4FB7D718
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BD657F7B1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 16:26:57 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id j42so30679240wrj.12
+	Sun, 29 Dec 2019 17:18:50 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id d16so30796039wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 08:26:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=W1rgiTcL1AF8IQ/KjHd+TIty8LGAcggh4b5Be/HLq8g=;
-	b=U0gp2Jq3VrFqQKpmEIcnqeR+0S0xXH0G9SWJbbGDQBnFPXVmfsQA+M+TdVdI4HIMwP
-	53Ij6Wb8BlstQ2igHhSg9cSWZEwsbk4G8CJ+ZBxub99k7yWbRq2WFf604WWqrUy8VQSU
-	1QAc3RYnzU8R4uy6bgxRBWIYIZzoaWKUH59q9HlR8vV8zK9QWtSQ2MYonCC3ergM/Oc6
-	ywD660t2kGWJ/0F2sB8D2xmSByCvd3mWnoGhPRdGKM6AbhATpi64VmXNg0XxBqt2TFqx
-	/02GAtEft4SF4RkBEN5JkAj27M2cyYpOxHV3J+hzibJh0Eq9aV/lPre1iAlyyFM6RtH7
-	mITA==
+	Sun, 29 Dec 2019 09:18:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=BG3TzspEG5I6ehusNX/PC78p7n2BNbWCSUViLzbvwqU=;
+	b=OW6xtimcw+W3YLjmrTK82qRyUJhx8vU2nuMfbcfclwf4TlTY+/2hfnIkvDitUSBK8k
+	cpx2/PWS0XGjc49KWh4JZxXl7vNSk9LUFm7MGC0tVw4TjPSzD6kac065znWXjY3xC6mH
+	EYqxhUUEVlg3+A+4vxLQVkqw+bCR5l54Cao04=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=W1rgiTcL1AF8IQ/KjHd+TIty8LGAcggh4b5Be/HLq8g=;
-	b=mKbg9Cf/i++zUkEzVJFVXo6GEyJ6mQ5n0kVYdMHUGWqIIZLzWy5T0eo6JwzycXteWg
-	djvCJyVuZyrLtciluBWQIe1XehgmPipieIqhBL0vv7N5JXwao4zvjSmthUcwIpAe+lDP
-	U2SqQdqivISEqd6IRPbnREy3VYMdLOvbnzoeR073ZEgD1+5hhigccGvnMs8rXYfjIzJo
-	syrewtfjmK35gV/aNPxqephbrzVu/qiNIRhY+rskeMJ1U9RKoP6z1XLiLvqiOzMPsAKi
-	wr58HiL8j55nsTbDeYkOMJ0NKRkwlnndZUlxrWKlcWJ9tUBhu+sKKLcMKb7lU1ALhbVb
-	Ngag==
-X-Gm-Message-State: APjAAAUgzpohKZPiAJnblkzh6Z2qdsi6XgjbQMHjVm5buNiOAKyR1JTF
-	mvB1Ao4qboWgLZcFd/EcjC4+N0iQ
-X-Google-Smtp-Source: APXvYqzrJMnfz2/oeYjLg2GFDoW657GLh6btvBOifqsELe6j8iv8AfzDURv41A9mpshG+1BBJyo4wQ==
-X-Received: by 2002:a5d:44cd:: with SMTP id z13mr62182872wrr.104.1577636818560;
-	Sun, 29 Dec 2019 08:26:58 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	v83sm17938011wmg.16.2019.12.29.08.26.57
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=BG3TzspEG5I6ehusNX/PC78p7n2BNbWCSUViLzbvwqU=;
+	b=WBzNeXK6g9y5Yv7+uMbdn7grGj3tHXhqRSVME+yekarH6O7yqXc+VnISqc1XTWtzMd
+	L5OM6SopWM7QjMOtHYVNbuRk6RSSmGzQhouxSKGldlAcMIgYvFZQEtq7r6zi7cqA16BF
+	J4JbXrcw7JQy7oZ3TuS8DSrV8L5qno1Fg/IsjOMNvy0LeBDzS//a44ixAlLXY+BnopJ5
+	mCCDcSLIdDpTyLjmUZv+fNm9dqjmY6piXZZRZyLMe2bBp2cG7N4C2QZbAgNvA9MYYOxT
+	2YGQKcJXY7xc4LO1BX/O2rk14gh6AJRIiXotJbyKEcS3FAiTjkds1Qp2Le1nFM2/j6jn
+	8EUg==
+X-Gm-Message-State: APjAAAVqFvDReM3SnISyv70Sh9eO3vox8/ancGSCE/YgZwGg+3svK/sL
+	6Wu2OJPirDsP4jaDB6mMEgV3MZ6AhzM=
+X-Google-Smtp-Source: APXvYqxEHzWCFo3URYYGEc21Y86QSBJN5vUyOrPvALynQUlBjh8t/mdi0ngjyo5WoTQcub0NAS4bUA==
+X-Received: by 2002:adf:eb0a:: with SMTP id s10mr65180709wrn.320.1577639930835;
+	Sun, 29 Dec 2019 09:18:50 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 18sm17624980wmf.1.2019.12.29.09.18.49
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 29 Dec 2019 08:26:58 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Dec 2019 16:26:55 +0000
-Message-Id: <20191229162655.111198-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] linuxloader: Correct loader for glibc on armhf
+	Sun, 29 Dec 2019 09:18:50 -0800 (PST)
+Message-ID: <157a380729b0bea497ea3a03c3bb006692292a95.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 29 Dec 2019 17:18:49 +0000
+In-Reply-To: <20191220162351.94498-1-alex.kanavin@gmail.com>
+References: <20191220162351.94498-1-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH 01/11] elfutils: upgrade 0.177 -> 0.178
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Dec 2019 16:26:58 -0000
+X-List-Received-Date: Sun, 29 Dec 2019 17:18:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fix the naming of the loader on armhf to match what glibc expects:
+On Fri, 2019-12-20 at 17:23 +0100, Alexander Kanavin wrote:
+> Remove 0007-Fix-control-path-where-we-have-str-as-uninitialized-
+> .patch
+> as issue fixed upstream.
+> 
+> Rebase other patches.
+> 
+> Adjust ptests, pass rate is now 100% again:
+> 
+> ======================
+> All 206 tests passed
+> (6 tests were not run)
+> ======================
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 
-  #define GLIBC_DYNAMIC_LINKER_SOFT_FLOAT SYSTEMLIBS_DIR "ld-linux.so.3"
-  #define GLIBC_DYNAMIC_LINKER_HARD_FLOAT SYSTEMLIBS_DIR "ld-linux-armhf.so.3"
+I'm guessing a bit but I think somehow this is breaking rpm on musl:
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1395
 
- meta/classes/linuxloader.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+(the libdebuginfod.so reference which is new in this version of
+elfutils)
 
-diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
-index c0fbf2683634..e2876cec7aad 100644
---- a/meta/classes/linuxloader.bbclass
-+++ b/meta/classes/linuxloader.bbclass
-@@ -41,7 +41,7 @@ def get_glibc_loader(d):
-     elif re.search("i.86", targetarch):
-         dynamic_loader = "${base_libdir}/ld-linux.so.2"
-     elif targetarch == "arm":
--        dynamic_loader = "${base_libdir}/ld-linux.so.3"
-+        dynamic_loader = "${base_libdir}/ld-linux${@['-armhf', ''][d.getVar('TARGET_FPU') == 'soft']}.so.3"
-     elif targetarch.startswith("aarch64"):
-         dynamic_loader = "${base_libdir}/ld-linux-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
-     elif targetarch.startswith("riscv64"):
--- 
-2.17.1
+Cheers,
+
+Richard
 
 
