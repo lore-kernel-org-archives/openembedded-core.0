@@ -1,52 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E7F67F877
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+	[209.85.214.169])
+	by mail.openembedded.org (Postfix) with ESMTP id EEFCA7F888
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 29 Dec 2019 18:44:39 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id z16so17277445pfk.0
+Received: by mail-pl1-f169.google.com with SMTP id g6so13818720plt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 10:44:40 -0800 (PST)
+	Sun, 29 Dec 2019 10:44:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=lJaaA7Gsw9xCvhY+EVmXh7jp+Ku3APhPo3k5znWzGRU=;
-	b=lZOkVkj6OmoLglRYL48XC1TjRhd1EU6CX5Oat15I8yhaiWLwA2sUA1FqWNWvkxwtwn
-	qDrNjyPaeLVblR3r2AkQPSd7yzyCJXbDXktS0De2EY7MUArtL6vjOHEhacyL7z1NJQ7f
-	KqPsSaxhA/frKNNOt7lYGDRWW3OKpuwhSSpRO1rzGLOee4TzjAX88ULtWVZdFv/UCuY6
-	bd7lxW/qs3XDsxlPTn5RLTO3Akf2VBM7+ZeDZjWaVILoPs3Froeqkjdk0z226pQjPsfs
-	SMRBtIOmlOw/hi1Iyn5BiYSn5b43/Y6RFjCaovUvYOMLk8RhYLaMDMQKXMmJf6nWBQmm
-	ztyA==
+	bh=pFpcqFStI5VNUZYnZDY19UudTzIxDkdYnUbKkU8IRNU=;
+	b=RKi9ivNKJn4ACbNKyOXs4+68sMZ2fmdXeLCvgabuzfiSf5kL/1DMCCfwxt+YPHZYnQ
+	+uBGPgXeoRoWcCAUY5bJWxxG7cgiN81Y4G+glmW5eQhmQ4szpx0glXcBfx1rqX1c7O8Q
+	smnuFa5GzZEHmEwQvd/ZlrJH+89kYyNn0FFh0l5sMrO0g64A4uQRFKlmiVwKN9unv202
+	Fmbs/VXEwcnFe8tbzCsHndEAz2CUWr3x649E8M5W4To5c14syGVTOvIgI23kfKyIsCiW
+	uUXvWin7eljFyo8HZ+b6AdoL2ve5UBmqzfyZfUlM/AkvoJW/ujglEf+pr+s2oETOyJhe
+	4TMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=lJaaA7Gsw9xCvhY+EVmXh7jp+Ku3APhPo3k5znWzGRU=;
-	b=RIm/GOI/4lSMlK5WcWvN1UC3vxzEbUedY5XN2aRgnLHju2sldLKsWxw+lYPRZEuCTJ
-	u3yeJeGZRcxErdJ6iqubGLhHYdrZErTCVaq+zTHy3zCJXbW4rkc6Xz+QJERccmyEz4kP
-	ZTEdVqCF5vWfSMpp4jCs1EzHoWzHN9I8EXUAJz+yNbq00uDMCw3pK/yaSwTotk6oTOE+
-	cWhaG+Z+eQJ8vIAJSI9kTEh5vyozDiJHalGTlLIhlUjNE0eQfRIiUtV23++dpHX7iwvJ
-	5oDSLS8gGn5YPREu82Jvaln0Ltc/oXppMqQrVUoeUxydzYA9H5p0ZASuXQtzUVmNZ1z1
-	953Q==
-X-Gm-Message-State: APjAAAUujpxVfOfmBZImDLAiR5q/AlnWgTR397+8cfrLgCLVnkd0hnJe
-	9aofRS3guWeSQfNtcCx7Ul3micTRYDY=
-X-Google-Smtp-Source: APXvYqw5jfYt89c+shPGvZBwxZUBG4vASQKJMUVG474jbYcEG9jPhOUNpQoWbFnPTlexOP7udYw/Xg==
-X-Received: by 2002:a65:420d:: with SMTP id c13mr69182187pgq.101.1577645079938;
-	Sun, 29 Dec 2019 10:44:39 -0800 (PST)
+	bh=pFpcqFStI5VNUZYnZDY19UudTzIxDkdYnUbKkU8IRNU=;
+	b=E8hiEGhxRIOwTsVjMkSCNR1H+I4emmUIjM68cVGIuBYJAq4MT9Ba1dXzHUW6ULN9M0
+	0tbbeqk0hs03ggFrftYygAQWE3ILgVivf5DazIIAJ7Lvxh2tktQrQ02JcwoNn+dbF0+u
+	CtXihgT2L7Mh+d5axBrEBYehhyxEeZAMvSKwpBaiQpke8ztR7z7m/u8Ukzk5Ncs+8Ckl
+	g8jLSDURY0pOKVgBebP3T+toqs5X4ekmhRr+RhI9ZPiuA5w7bLBpskxNU+zHnB1xeqsf
+	OLIUywok5DcgOSh02QDTED4jLHZEpoxevXANgglkkdM6d8Guv6rBfRnjuPpU7oWVIPIQ
+	N/uA==
+X-Gm-Message-State: APjAAAWtVvm5rJglvyij6kSyv115U2j9niRwvPkzyk5h89F1Nv+qBpsA
+	H8NVby0P1WYhnVkMFq/57QVg/kmt6Vk=
+X-Google-Smtp-Source: APXvYqyFveDMvUPJMpXrwHL8JlXdKhECHHNiWlb17CSom/84JkMxHO5PpCzjtihCpLji17JLkikJ8A==
+X-Received: by 2002:a17:90a:da01:: with SMTP id
+	e1mr41902504pjv.29.1577645080674; 
+	Sun, 29 Dec 2019 10:44:40 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2f83])
 	by smtp.gmail.com with ESMTPSA id
-	bo19sm21257085pjb.25.2019.12.29.10.44.39
+	bo19sm21257085pjb.25.2019.12.29.10.44.40
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 29 Dec 2019 10:44:39 -0800 (PST)
+	Sun, 29 Dec 2019 10:44:40 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Dec 2019 10:44:10 -0800
-Message-Id: <20191229184415.19514-14-raj.khem@gmail.com>
+Date: Sun, 29 Dec 2019 10:44:11 -0800
+Message-Id: <20191229184415.19514-15-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20191229184415.19514-1-raj.khem@gmail.com>
 References: <20191229184415.19514-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 14/19] valgrind: Fix build with -fno-common
+Subject: [PATCH 15/19] libdnf: Include mising <stdexcept>
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,53 +60,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Dec 2019 18:44:39 -0000
+X-List-Received-Date: Sun, 29 Dec 2019 18:44:40 -0000
 Content-Transfer-Encoding: 8bit
+
+This header is needed for runtime_error element
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../valgrind/valgrind/s390x_vec_op_t.patch    | 19 +++++++++++++++++++
- .../valgrind/valgrind_3.15.0.bb               |  1 +
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
+ ...-include-stdexcept-for-runtime_error.patch | 65 +++++++++++++++++++
+ meta/recipes-devtools/libdnf/libdnf_0.28.1.bb |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-include-stdexcept-for-runtime_error.patch
 
-diff --git a/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch b/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-include-stdexcept-for-runtime_error.patch b/meta/recipes-devtools/libdnf/libdnf/0001-include-stdexcept-for-runtime_error.patch
 new file mode 100644
-index 0000000000..eea671da0a
+index 0000000000..cedf539243
 --- /dev/null
-+++ b/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
-@@ -0,0 +1,19 @@
-+s390x_vec_op_t is not needed anywhere, only elements of enum are accessed
-+removing it ensures that valgrind can be built with -fno-common option
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-include-stdexcept-for-runtime_error.patch
+@@ -0,0 +1,65 @@
++From 5f8eee5040d7074710cd542fc50f7a40918321fc Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 23 Dec 2019 14:30:22 -0800
++Subject: [PATCH] include <stdexcept> for runtime_error
 +
 +Fixes
-+ld: ../../VEX/libvex-amd64-linux.a(libvex_amd64_linux_a-guest_s390_helpers.o):/usr/src/debug/valgrind/3.15.0-r0/build/VEX/../../valgrind-3.15.0/VEX/priv/guest_s390_defs.h:289: multiple definition of `s390x_vec_op_t'; ../../VEX/libvexmultiarch-amd64-linux.a(libvexmultiarch_amd64_linux_a-multiarch_main_main.o):/usr/src/debug/valgrind/3.15.0-r0/build/VEX/../../valgrind-3.15.0/VEX/priv/guest_s390_defs.h:289: first defined here
 +
-+Upstream-Status: Pending
++error: class 'libdnf::ModulePackageContainer::Exception' does not have any field named 'runtime_error'
++         explicit Exception(const std::string &what) : runtime_error(what) {}
++                                                       ^~~~~~~~~~~~~
++
++Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/867]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+--- a/VEX/priv/guest_s390_defs.h
-++++ b/VEX/priv/guest_s390_defs.h
-+@@ -286,7 +286,7 @@ enum {
-+    S390_VEC_OP_VFCHE = 18,
-+    S390_VEC_OP_VFTCI = 19,
-+    S390_VEC_OP_LAST = 20 // supposed to be the last element in enum
-+-} s390x_vec_op_t;
-++};
++---
++ libdnf/goal/Goal.hpp                     | 1 +
++ libdnf/module/ModulePackageContainer.hpp | 1 +
++ libdnf/repo/solvable/Dependency.cpp      | 3 ++-
++ 3 files changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/libdnf/goal/Goal.hpp b/libdnf/goal/Goal.hpp
++index f33dfa24..7b8d822c 100644
++--- a/libdnf/goal/Goal.hpp
+++++ b/libdnf/goal/Goal.hpp
++@@ -22,6 +22,7 @@
++ #define __GOAL_HPP
 + 
-+ /* Arguments of s390x_dirtyhelper_vec_op(...) which are packed into one
-+    ULong variable.
-diff --git a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-index 63f972945d..aedaab27b3 100644
---- a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-+++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-@@ -40,6 +40,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-            file://0001-valgrind-filter_xml_frames-do-not-filter-usr.patch \
-            file://0002-valgrind-adjust-std_list-expected-output.patch \
-            file://0001-adjust-path-filter-for-2-memcheck-tests.patch \
-+           file://s390x_vec_op_t.patch \
++ #include <memory>
+++#include <stdexcept>
++ 
++ #include "../dnf-types.h"
++ #include "../hy-goal.h"
++diff --git a/libdnf/module/ModulePackageContainer.hpp b/libdnf/module/ModulePackageContainer.hpp
++index 1f815fda..37a8832d 100644
++--- a/libdnf/module/ModulePackageContainer.hpp
+++++ b/libdnf/module/ModulePackageContainer.hpp
++@@ -30,6 +30,7 @@
++ #include <string>
++ #include <vector>
++ #include <set>
+++#include <stdexcept>
++ 
++ //class ModulePackageContainer;
++ //typedef std::shared_ptr<ModulePackageContainer> ModulePackageContainerPtr;
++diff --git a/libdnf/repo/solvable/Dependency.cpp b/libdnf/repo/solvable/Dependency.cpp
++index 6682b729..0fc8b5cd 100644
++--- a/libdnf/repo/solvable/Dependency.cpp
+++++ b/libdnf/repo/solvable/Dependency.cpp
++@@ -18,6 +18,7 @@
++  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
++  */
++ 
+++#include <stdexcept>
++ #include "Dependency.hpp"
++ #include "libdnf/utils/utils.hpp"
++ #include "libdnf/repo/DependencySplitter.hpp"
++@@ -106,4 +107,4 @@ Dependency::getReldepId(DnfSack *sack, const char * reldepStr)
++     }
++ }
++ 
++-}
++\ No newline at end of file
+++}
++-- 
++2.24.1
++
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+index 3f11e0231f..882c435b32 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+@@ -7,6 +7,7 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf \
+            file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch \
+            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
+            file://0001-Add-WITH_TESTS-option.patch \
++           file://0001-include-stdexcept-for-runtime_error.patch \
             "
- SRC_URI[md5sum] = "46e5fbdcbc3502a5976a317a0860a975"
- SRC_URI[sha256sum] = "417c7a9da8f60dd05698b3a7bc6002e4ef996f14c13f0ff96679a16873e78ab1"
+ 
+ SRCREV = "751f89045b80d58c0d05800f74357cf78cdf7e77"
 -- 
 2.24.1
 
