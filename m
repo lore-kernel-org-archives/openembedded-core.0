@@ -1,52 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 680D47F491
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 59A4D7C426
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 09:23:48 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id z3so30215107wru.3
+	Sun, 29 Dec 2019 09:31:49 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id b19so11764322wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 01:23:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=VBGDo26FA91iaWvyNcA7XY8Nw/4GfrByXuZQ2GCrLhc=;
-	b=OI+9tRLswNkMmzqvIdjED9VrsRthY+C8bfDnltFFJrSyj9prpbbp5J1J+tVPR1Rhlr
-	JPFfSyX2uuzZ5tkPdgDAd+yhWjvqvBtHL7a9dzlbnuk/ajI+MLw7CyBDIGZSsHcTqEG0
-	63h3tD8TDk5t+tOK6pyspfuc/GkywEkO6bWRU=
+	Sun, 29 Dec 2019 01:31:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=p5t2UMkvDo10H95xtgOiFEveoZ6flJkqaJj3uY0hKHU=;
+	b=o4UvLY1K23Hcg/nk0p8v9zX3eiXRuN7caR1zqNkMOOvJKP10z1ize9KOt19Ret4wvy
+	ECVtF7iGKLOc4g7+Y20jHgpqWIDqUHNvwg/8u0f8Ebgx/nXslZmB9FtIhVaf2yFrTmJ4
+	aKHr4VYUXeaRnLKtJ8F8DXdxsRRzxgIz12oFWXsDb1b9FnOPv78mtT2Vzk44mnDd2/jS
+	/cBmHc54BWOHKk/b7HiomHTxC1mNwGiOEgww0zecPG1ocI93/8KV9YypSbx32aoD7TZg
+	lHXTkqK8lfD47hKU7AyAlE5mIxSO03ys/mVcZHoUb9mKy4D6TyHzUGlD0SuwuKKKLFj0
+	4ncw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=VBGDo26FA91iaWvyNcA7XY8Nw/4GfrByXuZQ2GCrLhc=;
-	b=VOXArBcGirhz3rlYp6ppTSBp+7l9wZ2xhtQ0PJeaDBxiU+AFSJSmBZudNhZqlqg4cc
-	V0udJyi0a+qyREEz7NIunqJzzLsNx9jo2VQa+Gf1GMvU4AAo9r6m1xn7ntJdb0ZRJPjG
-	eelwsSm3F0RF1g0qm/Jh/oMFrl78MxEJ3D+g4iO/sqBnpVhqtG30qyJx4RpVTEDuW8xj
-	mBh7A9gH5ROYt5F4hzowFq4JZDPr/gkQITVALmalqfhL79z1rqp3iZ5kLfPBczRBHoAw
-	mwbROEf5tHd14R6CsuGOlVpVNm6s+H8DqNgEMDHnunLVLhCEliSPyv0U2Zi7A0QHitrB
-	oLjg==
-X-Gm-Message-State: APjAAAVGjiUDdlxobQqwdCxcZVo0UftxnVSKo1u8tvc0e6ANPqlgyJAl
-	m+wy1S9sKr3D73l0hfBj5ILHtgHzIT8=
-X-Google-Smtp-Source: APXvYqw6y1D/B3/scBHZ/HyQ+LK/2ZGdyX0CljFDpf9f5O2kCg0u4xgOZsTDZHwyw3TsG5f30eJTww==
-X-Received: by 2002:a5d:5487:: with SMTP id h7mr58146422wrv.18.1577611429041; 
-	Sun, 29 Dec 2019 01:23:49 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x6sm16905280wmi.44.2019.12.29.01.23.48
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=p5t2UMkvDo10H95xtgOiFEveoZ6flJkqaJj3uY0hKHU=;
+	b=b9MDmPvjUK/TVcKqZMP2gozBPnAKtNrJ/pHbAY0T0wHDg2CoGOSK57bOWZVZFO+ssc
+	hemEumPiACPpAUsTSkvktKJjGzI+KJ3i6x42DEK9S79v99ra02Z4QhQWiULpOZ0yUf5J
+	D1JtkQjNnfFUlSld0Lf1vrR9SwVBp/w8DPpI4YjxcNFrupsJ9ZYI9s0aCT1kR/ulS1VF
+	O2XiJl+Lkrae50nkKJYw74DrKPALqOVS2kJvyB7Khr+1Of4YRTTlv4KDHUR8Jo4K+pPq
+	VDgyrCwK4SjXB8bOYOW/ebi4Dr33+9GiHyqdxTZXyDHok8pLB2MGfhz9KgGe7cTx5+Dx
+	LIBw==
+X-Gm-Message-State: APjAAAVZ9MOH+sl8k60t2478g5NzofWvc3CoCE9Qu3e2yL7zvw24ZOAL
+	IzsgYv+i2j91JQs4mQdvTNKBy/ZM
+X-Google-Smtp-Source: APXvYqxsmCKSDs3DDpzb4UdIuRHfLNnThGaI5IdxByITvruRCRis4UlBz9D6aAWVNhq+7Awo65Dodw==
+X-Received: by 2002:a7b:cb91:: with SMTP id m17mr28385148wmi.146.1577611909821;
+	Sun, 29 Dec 2019 01:31:49 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	x1sm40557301wru.50.2019.12.29.01.31.48
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 29 Dec 2019 01:23:48 -0800 (PST)
-Message-ID: <8c9256ff3e84ac5d8e9acb0f8e7a9bf60baf9dbc.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alistair Francis <alistair.francis@wdc.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sun, 29 Dec 2019 09:23:47 +0000
-In-Reply-To: <20191224224135.20121-1-alistair.francis@wdc.com>
-References: <20191224224135.20121-1-alistair.francis@wdc.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Cc: Tom Rini <trini@konsulko.com>, sateesh0457@gmail.com
-Subject: Re: [PATCH] u-boot: Update to v2020.01-rc5
+	Sun, 29 Dec 2019 01:31:49 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 29 Dec 2019 09:31:46 +0000
+Message-Id: <20191229093146.40360-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] lib/oe/qa: handle missing data attribute in __exit__
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,43 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Dec 2019 09:23:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 29 Dec 2019 09:31:50 -0000
 
-On Tue, 2019-12-24 at 14:41 -0800, Alistair Francis wrote:
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot-common.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc
-> b/meta/recipes-bsp/u-boot/u-boot-common.inc
-> index a0f9c41469..4799948bb1 100644
-> --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-> +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-> @@ -11,11 +11,11 @@ LIC_FILES_CHKSUM = "
-> file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
->  PE = "1"
->  
->  # Drop this line when updating to 2020.01 final
-> -PV = "2020.01~rc3"
-> +PV = "2020.01~rc5"
->  
->  # We use the revision in order to avoid having to fetch it from the
->  # repo during parse
-> -SRCREV = "d4a31e8ee5592072d8d5208b3e950cba2d89b6bd"
-> +SRCREV = "ef7c2af65966a57c98d3c47e6c2fe1ce2103b7f6"
->  
->  SRC_URI = "git://git.denx.de/u-boot.git \
+If mmap fails in open, we don't have a data attribute so when we execute
+as a context manager the call to self.data.close needs to handle the
+missing attribute:
 
-Seems to break on musl:
+  File: '/home/akiernan/nanohub/build/../poky/meta/classes/chrpath.bbclass', lineno: 11, function: process_file_linux
+       0007:    with oe.qa.ELFFile(fpath) as elf:
+       0008:        try:
+       0009:            elf.open()
+       0010:        except oe.qa.NotELFFileError:
+   *** 0011:            return
+       0012:
+       0013:    p = sub.Popen([cmd, '-l', fpath],stdout=sub.PIPE,stderr=sub.PIPE)
+       0014:    out, err = p.communicate()
+       0015:    # If returned successfully, process stdout for results
+  File: '/home/akiernan/nanohub/build/../poky/meta/lib/oe/qa.py', lineno: 50, function: __exit__
+       0046:    def __enter__(self):
+       0047:        return self
+       0048:
+       0049:    def __exit__(self, exc_type, exc_value, traceback):
+   *** 0050:        self.data.close()
+       0051:
+       0052:    def open(self):
+       0053:        with open(self.name, "rb") as f:
+       0054:            try:
+  Exception: AttributeError: 'ELFFile' object has no attribute 'data'
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1392
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1396
+Fixes: 7785c41d0b95 ("chrpath: do less work")
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-Cheers,
+ meta/lib/oe/qa.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/lib/oe/qa.py b/meta/lib/oe/qa.py
+index 21066c4dc3b3..d85206f155f0 100644
+--- a/meta/lib/oe/qa.py
++++ b/meta/lib/oe/qa.py
+@@ -47,7 +47,11 @@ class ELFFile:
+         return self
+ 
+     def __exit__(self, exc_type, exc_value, traceback):
+-        self.data.close()
++        try:
++            self.data.close()
++        except AttributeError:
++            # If we failed to mmap in open then the data attribute won't exist
++            pass
+ 
+     def open(self):
+         with open(self.name, "rb") as f:
+-- 
+2.17.1
 
 
