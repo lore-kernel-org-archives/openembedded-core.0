@@ -1,53 +1,18 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
-	[209.85.216.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 14F077F88B
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 18:44:43 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id l35so7210603pje.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 10:44:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=kAhcOfSt51/ahjEQBHTbPIw4lzfhmFqgnOlNBWGRvEw=;
-	b=s7H25p6ZUGUh8kpiHgjR/uUERI5njosnQBx+Z5stsW9K/34GfTp2jcYxtzzlXEAR2x
-	MslYaiW23TsWwe7D9cGfF7x2ZGRMAoNv6+O378b0B6gb5DzGJr4AsLL7rft4FMOTYlL7
-	TFUQNYuFURXIIFvEjWZiieweO4i+QPJYB0HIo/JFBI2sul+HXZYTFkjKuNLLRWOKjYJR
-	oriUHFFzYG3rKbk2RzQvP/npLsaOmvZgd3pRq0Lp4q+dgmNFnQxZkksc/hNiq2fTT1Dp
-	kuuweWM9NDPGSmQpnFLgcwVqyp2o2FkVfUJzuXJGheTuIC6eggj068t6c7zuj9N8cIaU
-	ACow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=kAhcOfSt51/ahjEQBHTbPIw4lzfhmFqgnOlNBWGRvEw=;
-	b=pCeI9+TgvEi8srL8aCQ7J2G4Xh/3FkYDjQ6lOq7V9iQ8GADbWFTl61nuTOEicxTXw5
-	3KIvGTw1Bmzp2wvBMCYtmitfY64YA7z8afysKjpAtvmroVmZ2qYqK2TVNmFlUTekJcid
-	ezm1/wp2KxP1jIq3H4iRisgFvGYxf+vv0LcEUMZvXEnZism8ZhUCsR+2slNWov9jcwGm
-	4LFfHrPApf2cpBxY7NJ6qKOhFPZNcl6WxIS/zfbMsgM8IQs5fr5C6QLR4/9MXjhqGiDh
-	vPED8dmXyQO9hTsSu41V9yKcW3nkXu07Gk0KSJb7kZFUAQJh0PaUEsNwBH82KpwSeEIB
-	+sTg==
-X-Gm-Message-State: APjAAAWjUGpkhfRLOJlyn3OBKX2U3x/BkMNBkJhWR++Oklk036m+NqOP
-	QzheSORgxhQE0cNTgLyVD7aKLYTA8U4=
-X-Google-Smtp-Source: APXvYqxC12BWCvYmPNa8BWmQPiHJAX65EBMKf+SUu37as1TmvK06kHcsc4c4qSrpuhdI/9bqU7dhdA==
-X-Received: by 2002:a17:90a:2808:: with SMTP id
-	e8mr40935531pjd.63.1577645083842; 
-	Sun, 29 Dec 2019 10:44:43 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2f83])
-	by smtp.gmail.com with ESMTPSA id
-	bo19sm21257085pjb.25.2019.12.29.10.44.42
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 29 Dec 2019 10:44:43 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 29 Dec 2019 10:44:15 -0800
-Message-Id: <20191229184415.19514-19-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20191229184415.19514-1-raj.khem@gmail.com>
-References: <20191229184415.19514-1-raj.khem@gmail.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E6A817F8A9;
+	Sun, 29 Dec 2019 19:02:01 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 19/19] pango: Disable Wimplicit-fallthrough as error
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 29 Dec 2019 19:02:03 -0000
+Message-ID: <20191229190203.2273.47107@do>
+References: <20191229184415.19514-1-raj.khem@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20191229184415.19514-1-raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInV0aWwtbGludXg6IFVzZSBQQ1JFIGZvciBoYXJkbC4uLiIgYW5kIDE4IG1vcmU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,33 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Dec 2019 18:44:43 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 29 Dec 2019 19:02:02 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Clang is quite a lot more stricter and ends up finding more cases,
-these are code format warnings so its safer to disable them here.
+== Series Details ==
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Series: "util-linux: Use PCRE for hardl..." and 18 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/21788/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-core/systemd/systemd/0022-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-graphics/pango/pango_1.44.7.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-graphics/pango/pango_1.44.7.bb b/meta/recipes-graphics/pango/pango_1.44.7.bb
-index afb56a6cde..0ee8abcc09 100644
---- a/meta/recipes-graphics/pango/pango_1.44.7.bb
-+++ b/meta/recipes-graphics/pango/pango_1.44.7.bb
-@@ -32,6 +32,10 @@ PACKAGECONFIG[thai] = ",,libthai"
- GTKDOC_MESON_OPTION = "gtk_doc"
- GIR_MESON_OPTION = 'introspection'
- 
-+do_configure_prepend_toolchain-clang() {
-+    sed -i -e "/Werror=implicit-fallthrough/d" ${S}/meson.build
-+}
-+
- LEAD_SONAME = "libpango-1.0*"
- 
- FILES_${PN} = "${bindir}/* ${libdir}/libpango*${SOLIBS}"
--- 
-2.24.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
