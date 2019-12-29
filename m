@@ -1,54 +1,47 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yw1-f67.google.com (mail-yw1-f67.google.com
-	[209.85.161.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FF307D65D
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C4FB7D718
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 13:46:23 +0000 (UTC)
-Received: by mail-yw1-f67.google.com with SMTP id 192so13166510ywy.0
+	Sun, 29 Dec 2019 16:26:57 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id j42so30679240wrj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 05:46:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=VtzkFRPxkMFE34sp2aKrBfxRgW2vvKFLPifAX6gDx/E=;
-	b=rs7ytU15/HURCQnaN2lawfgGwfa5S3fT48yF3wIVRnz+3v8k9uHIOQp8p1zIgDnvxl
-	PSwIwh0om00Jhzy59KlKam5KGe6M2BgOYGDIV24A2Wi/eb7gJ4cCDUomVdRTRIoqM5i5
-	0pAabAGCMK9L0DdS36GOeqDL+qzvEb6XNqHJo=
+	Sun, 29 Dec 2019 08:26:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=W1rgiTcL1AF8IQ/KjHd+TIty8LGAcggh4b5Be/HLq8g=;
+	b=U0gp2Jq3VrFqQKpmEIcnqeR+0S0xXH0G9SWJbbGDQBnFPXVmfsQA+M+TdVdI4HIMwP
+	53Ij6Wb8BlstQ2igHhSg9cSWZEwsbk4G8CJ+ZBxub99k7yWbRq2WFf604WWqrUy8VQSU
+	1QAc3RYnzU8R4uy6bgxRBWIYIZzoaWKUH59q9HlR8vV8zK9QWtSQ2MYonCC3ergM/Oc6
+	ywD660t2kGWJ/0F2sB8D2xmSByCvd3mWnoGhPRdGKM6AbhATpi64VmXNg0XxBqt2TFqx
+	/02GAtEft4SF4RkBEN5JkAj27M2cyYpOxHV3J+hzibJh0Eq9aV/lPre1iAlyyFM6RtH7
+	mITA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=VtzkFRPxkMFE34sp2aKrBfxRgW2vvKFLPifAX6gDx/E=;
-	b=fzFdS2E3nxEQhhT+xsp94XWNPe/spsi3Jn+MgLniGPOUj8fykRww/qp7mNpC36yDr6
-	36U2wNIH4+uK2VTW0+mt0I1fMcinh36FUk4OQ0KaqXrY7V/m+zGLAJat4dsnOwMY967E
-	Xbr253U8Xc6ZVtvFtjYG3Vgi41s4D99MAERftNCGeya0B7ydfKDYmEcGCH0YDSeu8kF7
-	ysIr2WP4EQatI25WNYbQTQne2JFF0zWXDOCq/aAyxrItCXMPmo0l2s08rT6TDZ+wbzJ5
-	fcf+EDkgfc4SEFgEQLJsSVOxHyocFUi7vCV6aSNfoe391BTm1zAFGfIyujhBhvEKZa7V
-	IXKw==
-X-Gm-Message-State: APjAAAVyKIgGOTWBxY8dXD6AlM+KDcxWpB3LuRGqOKZUVlTpAdwWztqT
-	gSb0JC+N5EbjAkXwksNVyEH2Nw==
-X-Google-Smtp-Source: APXvYqzOW1MHlWQ1eL20uuxVSnBhygZhIt/WOvRCyTLUSAhMeSqMc3Okyc2IBlcF867F3eLN7OuGag==
-X-Received: by 2002:a0d:e253:: with SMTP id l80mr44797085ywe.144.1577627184002;
-	Sun, 29 Dec 2019 05:46:24 -0800 (PST)
-Received: from bill-the-cat
-	(2606-a000-1401-86dd-158d-4c58-50b2-1cad.inf6.spectrum.com.
-	[2606:a000:1401:86dd:158d:4c58:50b2:1cad])
-	by smtp.gmail.com with ESMTPSA id
-	l20sm16458818ywa.108.2019.12.29.05.46.22
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sun, 29 Dec 2019 05:46:23 -0800 (PST)
-Date: Sun, 29 Dec 2019 08:46:20 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20191229134620.GW18106@bill-the-cat>
-References: <20191224224135.20121-1-alistair.francis@wdc.com>
-	<8c9256ff3e84ac5d8e9acb0f8e7a9bf60baf9dbc.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <8c9256ff3e84ac5d8e9acb0f8e7a9bf60baf9dbc.camel@linuxfoundation.org>
-X-Clacks-Overhead: GNU Terry Pratchett
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: sateesh0457@gmail.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] u-boot: Update to v2020.01-rc5
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=W1rgiTcL1AF8IQ/KjHd+TIty8LGAcggh4b5Be/HLq8g=;
+	b=mKbg9Cf/i++zUkEzVJFVXo6GEyJ6mQ5n0kVYdMHUGWqIIZLzWy5T0eo6JwzycXteWg
+	djvCJyVuZyrLtciluBWQIe1XehgmPipieIqhBL0vv7N5JXwao4zvjSmthUcwIpAe+lDP
+	U2SqQdqivISEqd6IRPbnREy3VYMdLOvbnzoeR073ZEgD1+5hhigccGvnMs8rXYfjIzJo
+	syrewtfjmK35gV/aNPxqephbrzVu/qiNIRhY+rskeMJ1U9RKoP6z1XLiLvqiOzMPsAKi
+	wr58HiL8j55nsTbDeYkOMJ0NKRkwlnndZUlxrWKlcWJ9tUBhu+sKKLcMKb7lU1ALhbVb
+	Ngag==
+X-Gm-Message-State: APjAAAUgzpohKZPiAJnblkzh6Z2qdsi6XgjbQMHjVm5buNiOAKyR1JTF
+	mvB1Ao4qboWgLZcFd/EcjC4+N0iQ
+X-Google-Smtp-Source: APXvYqzrJMnfz2/oeYjLg2GFDoW657GLh6btvBOifqsELe6j8iv8AfzDURv41A9mpshG+1BBJyo4wQ==
+X-Received: by 2002:a5d:44cd:: with SMTP id z13mr62182872wrr.104.1577636818560;
+	Sun, 29 Dec 2019 08:26:58 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	v83sm17938011wmg.16.2019.12.29.08.26.57
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 29 Dec 2019 08:26:58 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 29 Dec 2019 16:26:55 +0000
+Message-Id: <20191229162655.111198-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] linuxloader: Correct loader for glibc on armhf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,76 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 29 Dec 2019 13:46:23 -0000
-X-Groupsio-MsgNum: 132919
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Lez9QO3Seu3ycz0M"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 29 Dec 2019 16:26:58 -0000
 
---Lez9QO3Seu3ycz0M
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix the naming of the loader on armhf to match what glibc expects:
 
-On Sun, Dec 29, 2019 at 09:23:47AM +0000, Richard Purdie wrote:
-> On Tue, 2019-12-24 at 14:41 -0800, Alistair Francis wrote:
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  meta/recipes-bsp/u-boot/u-boot-common.inc | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc
-> > b/meta/recipes-bsp/u-boot/u-boot-common.inc
-> > index a0f9c41469..4799948bb1 100644
-> > --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-> > +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-> > @@ -11,11 +11,11 @@ LIC_FILES_CHKSUM =3D "
-> > file://Licenses/README;md5=3D30503fd321432fc713238f582193b78e"
-> >  PE =3D "1"
-> > =20
-> >  # Drop this line when updating to 2020.01 final
-> > -PV =3D "2020.01~rc3"
-> > +PV =3D "2020.01~rc5"
-> > =20
-> >  # We use the revision in order to avoid having to fetch it from the
-> >  # repo during parse
-> > -SRCREV =3D "d4a31e8ee5592072d8d5208b3e950cba2d89b6bd"
-> > +SRCREV =3D "ef7c2af65966a57c98d3c47e6c2fe1ce2103b7f6"
-> > =20
-> >  SRC_URI =3D "git://git.denx.de/u-boot.git \
->=20
-> Seems to break on musl:
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1392
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1396
+  #define GLIBC_DYNAMIC_LINKER_SOFT_FLOAT SYSTEMLIBS_DIR "ld-linux.so.3"
+  #define GLIBC_DYNAMIC_LINKER_HARD_FLOAT SYSTEMLIBS_DIR "ld-linux-armhf.so.3"
 
-Looks like the Gentoo folks hit this as well:
-http://patchwork.ozlabs.org/patch/1211367/
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-Can someone review/ack that please if that's the best way (rather than
-reworking include/u-boot/crc.h) to deal with the problem?  Thanks!
+ meta/classes/linuxloader.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---=20
-Tom
+diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
+index c0fbf2683634..e2876cec7aad 100644
+--- a/meta/classes/linuxloader.bbclass
++++ b/meta/classes/linuxloader.bbclass
+@@ -41,7 +41,7 @@ def get_glibc_loader(d):
+     elif re.search("i.86", targetarch):
+         dynamic_loader = "${base_libdir}/ld-linux.so.2"
+     elif targetarch == "arm":
+-        dynamic_loader = "${base_libdir}/ld-linux.so.3"
++        dynamic_loader = "${base_libdir}/ld-linux${@['-armhf', ''][d.getVar('TARGET_FPU') == 'soft']}.so.3"
+     elif targetarch.startswith("aarch64"):
+         dynamic_loader = "${base_libdir}/ld-linux-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
+     elif targetarch.startswith("riscv64"):
+-- 
+2.17.1
 
---Lez9QO3Seu3ycz0M
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6HLbQJwaaH776GM2h/n2NdMddlIFAl4IrikACgkQh/n2NdMd
-dlKePQ//XQKOceU73m49zmNTcAMlWrX3CdnoDHmEOWI9smzjJf1l4cyYjDuPGDyt
-lhkVu7CratakS9qH/V8aJFbIXFRKiiq9QRYrFj1wJo7ElY97/uM0uyjnMjny5eZM
-ZzBGWrn7zMJx28LkvtKzuqKP9BWzqwDcie9y7kQy9aSxNLxrJLqeiZxtHEOOhPxr
-3t+KqQpnCYkSEMy0hS9cJ9RGoWZ21jW6CBXPORIRHGdsBSUR+YI7U+nVLmb8WLb1
-2rgtZm9RtVhogtYQ70QoaEqeRrdHMLSuDUCf3j2HeZxoUIZFalKSVJReDyfPcUtM
-3eGO5mpVovTnNqnC7uZmrNHQiAMwcDt8sIMmPt68GwgVGNBGWtZE8aK8vDqdcA5B
-9WkJrAYk63GSvkVc3s1Xw3HRmzDVLikdi6ypjVAyEraN+ITvWYsAJ4cE8jqvyk9V
-Rzbte571NJQdsIPBcSNaAf/xV0cYNdZMbLUe4D72g75myElZbcSTdpHym3Qw600z
-b6mI9EP6NP/IUw7/Wqra5QQVsMbmhkPJLh1Sexqsl0HBOWLeTefwJ5utiuogVUmO
-Z8tyTBr0Uyg13Dss8MuJY0t7imRT7UWxZ6H6746B2tYk8xBf6PacojZwl94BJ8lX
-nsJ2x4W6lryonDq9OSRs/6min8+5FxN27YcByl4OKYGNHbLdyL0=
-=9dVD
------END PGP SIGNATURE-----
-
---Lez9QO3Seu3ycz0M--
