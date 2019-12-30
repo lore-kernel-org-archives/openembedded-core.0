@@ -1,52 +1,50 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com
-	[209.85.166.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B16497F945
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8692A7F94F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2019 20:59:52 +0000 (UTC)
-Received: by mail-io1-f50.google.com with SMTP id v18so32493642iol.2
+	Mon, 30 Dec 2019 21:10:08 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id q127so18591569pga.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2019 12:59:54 -0800 (PST)
+	Mon, 30 Dec 2019 13:10:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=l4G3r1SvScHnOrs6UhjjPtZ6aiyejlC7RwnRfdR5FtI=;
-	b=YvmVDYq9wdzub2ejGGF/+gvecPpC4nLrQwSS6XdfQC6tQsAXHF6M7duMA8QV0fdzqW
-	VH7eYiRXmao4Twg0pGFkR/ixOPsYGAfMhu8itJsdzYAFy3zce7Dz+rnJ85590jlwoySo
-	3edc/rMmzaHt/a63C+aEsHaIecR1ZQRJV39VocLvFXIrHj8OqyBuF+mK22/eMWZzKQ8S
-	7IzLDlDyfcEE5c1AqjBY5ZOinDsrsUOGEWyGLsu9PEgiHLGjxW6Y6cfo4Gw7UIInlcTQ
-	jYdEHn2HbVyzhecM1VZ9yYpqeE7U++qLHY3E7NhR320+2fAvC/JaSKNgnqvYfE+fnFcH
-	TQRw==
+	bh=1TAcePrFLHYXWx00aB0ltnePs7Lo9NisDxlMGVcf8ak=;
+	b=u7vmB74JFXbH3/nuAfx+KO9OzteywCpKTrLbCzOYTsd24++HZOkRDSF5t1/cUPRJ5d
+	T4BfbySpGgIo21pP9z3t0y8ZolG/UvxytE6kIIPtqGr+ztZHKWW14AUhBBva9y3Tqdi0
+	FR+py3QzWVpK9S2uVrVlcJ3C5JszkZtMnWxG0cCeSeDwnDYtpLXvYwVUhTg2t2fMhXCd
+	tRWeLzIBmIOGOXULOzUo600u0G6q1F+dx2oTLZ6Has8Z25ymufDEN8vXRuN1Yhlqxyvp
+	ukiwT+U3wYqzBdRqI6h+Gq+axJrzoNs3HJTXHMXN5s6eu/YAdzl+xRjmQUFYiTwxWIpp
+	KwHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=l4G3r1SvScHnOrs6UhjjPtZ6aiyejlC7RwnRfdR5FtI=;
-	b=jOW2PTUsEhcmuAViEJemIbRciA+IJOwcGdCrmpu0HvOIPHpNZYJa7S0dQVOazcRTsY
-	BQ9pIEoJgnchXhTDZjvXlhdTQl1wM6hmvoPaU1mpurxzrkQaLUA1sRwQ6zzikwnjGMO3
-	rk6tNqPP/+8I6bokAeRNl98qp/hxuCq5qfPfSisMa2PJCJip744KEELz35p/x4oxVxi8
-	kUkh0ouc5iMlaHG2blknFyF5LXkyWQd3HC5JQsDrO441oaPYNAl78SYCJGiNVJRCOwHI
-	TuLw9YeDuKOt26h4WIea3lpy/A8snCoBDYAbLIICrNUnsKA06d3p5P6QRXUVKZKCoJXg
-	fLhg==
-X-Gm-Message-State: APjAAAWFOsNAhBoSWGXoDCF9N2k4jKPBvDsfC4kzue6OKxQwCA9OpeC7
-	CFeHk1m/ihLpfhkZkWzhkDjjqabX
-X-Google-Smtp-Source: APXvYqxtVDHTPl9NGhPUfzHptmo3u4nkrs9Deivw3bzlakhaoXY4AtdwFSEs1zSms6GCTtqeZNvIew==
-X-Received: by 2002:a02:778d:: with SMTP id
-	g135mr55654989jac.115.1577739593601; 
-	Mon, 30 Dec 2019 12:59:53 -0800 (PST)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	bh=1TAcePrFLHYXWx00aB0ltnePs7Lo9NisDxlMGVcf8ak=;
+	b=knYHoCOxqlEXMzedOnm3qtXmnrm+ZdWeVKMiYvJNHg/COiMKTpZtsSe90YkMwdjt0H
+	BrPv2PAqnTc/azNxR7tIfL1Z2x1X7ns8OWpi/PkDYSCC79voyXvl65LtWtv4le+w6EAR
+	EvYtbhzbs/lUJUBadgeQibzWMP0GgNJ/noesG2oST21qF1aOB3Z8mN7XjatKqlcVHuF3
+	fvPQrUaygaBpHJb1FJJzZ56QBM7P5H95+qZuoo4QCBt5jU7uYx2jSO/WK3kvERIcv1EO
+	Sgb7IbiCD/NyvVnEgnv0UjDPMauCAyIB7xJMGPtKpB+z0+cE2KaooXy5PyNCBxv5zwXq
+	txeQ==
+X-Gm-Message-State: APjAAAWgM5I/S//M6+2oCODRJeMahslrw2Uyo/xGLYsRV8Uddjx5P6Gq
+	Myv28Bak/CDPCkStjgT4HRoPLeAhEqM=
+X-Google-Smtp-Source: APXvYqxpX4V1ZjYVwZBW7FbIcCRP7DiRLsZnuNzvNJA/vAHB7CIUnNJoAu42pvIV3wT7bF3zFhc5ag==
+X-Received: by 2002:a62:1883:: with SMTP id 125mr71971207pfy.166.1577740209294;
+	Mon, 30 Dec 2019 13:10:09 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2f83])
 	by smtp.gmail.com with ESMTPSA id
-	l16sm11887014ioj.70.2019.12.30.12.59.52
+	f23sm48727174pgj.76.2019.12.30.13.10.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 30 Dec 2019 12:59:53 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	Mon, 30 Dec 2019 13:10:08 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Dec 2019 14:59:50 -0600
-Message-Id: <20191230205950.1878233-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.23.0
+Date: Mon, 30 Dec 2019 13:10:03 -0800
+Message-Id: <20191230211003.2625107-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Subject: [PATCH] runqemu: Add multiconfig support
+Subject: [PATCH] lttng-ust: Turn examples into a packageconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,97 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2019 20:59:52 -0000
+X-List-Received-Date: Mon, 30 Dec 2019 21:10:09 -0000
 Content-Transfer-Encoding: 8bit
 
-Users may want to run qemu against a specific multiconfig instead of the
-base configuration, so give them the ability to specify which config
-should be used with the MULTICONFIG environment variable.
+examples are unbuildable in some cases, see [1]
+this helps in making them optional via the newly addded
+configure option in 2.11 release
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+[1] https://bugs.lttng.org/issues/1132
+[2] https://patchwork.ozlabs.org/patch/832106/
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- scripts/runqemu | 34 +++++++++++++++++++++++-----------
- 1 file changed, 23 insertions(+), 11 deletions(-)
+ meta/recipes-kernel/lttng/lttng-ust_2.11.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index ef454d67ff..b6fca041ae 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -135,6 +135,7 @@ class BaseConfig(object):
-                         'DEPLOY_DIR_IMAGE',
-                         'OE_TMPDIR',
-                         'OECORE_NATIVE_SYSROOT',
-+                        'MULTICONFIG',
-                         )
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.11.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.11.0.bb
+index 6d7c05e65e..0e03a31652 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.11.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.11.0.bb
+@@ -36,6 +36,7 @@ SRC_URI[sha256sum] = "683280cfe5e12021e64c32cef9eeb0128f1f23dec32ba28adb5a2074be
  
-         self.qemu_opt = ''
-@@ -401,9 +402,7 @@ class BaseConfig(object):
-             self.set("MACHINE", arg)
-             return
+ CVE_PRODUCT = "ust"
  
--        cmd = 'MACHINE=%s bitbake -e' % arg
--        logger.info('Running %s...' % cmd)
--        self.bitbake_e = subprocess.check_output(cmd, shell=True).decode('utf-8')
-+        self.bitbake_e = self.run_bitbake_env(arg)
-         # bitbake -e doesn't report invalid MACHINE as an error, so
-         # let's check DEPLOY_DIR_IMAGE to make sure that it is a valid
-         # MACHINE.
-@@ -1410,10 +1409,7 @@ class BaseConfig(object):
- 
-         self.cleaned = True
- 
--    def load_bitbake_env(self, mach=None):
--        if self.bitbake_e:
--            return
--
-+    def run_bitbake_env(self, mach=None):
-         bitbake = shutil.which('bitbake')
-         if not bitbake:
-             return
-@@ -1421,14 +1417,24 @@ class BaseConfig(object):
-         if not mach:
-             mach = self.get('MACHINE')
- 
-+        multiconfig = self.get('MULTICONFIG')
-+        if multiconfig:
-+            multiconfig = "mc:%s" % multiconfig
-+
-         if mach:
--            cmd = 'MACHINE=%s bitbake -e' % mach
-+            cmd = 'MACHINE=%s bitbake -e %s' % (mach, multiconfig)
-         else:
--            cmd = 'bitbake -e'
-+            cmd = 'bitbake -e %s' % multiconfig
- 
-         logger.info('Running %s...' % cmd)
-+        return subprocess.check_output(cmd, shell=True).decode('utf-8')
-+
-+    def load_bitbake_env(self, mach=None):
-+        if self.bitbake_e:
-+            return
-+
-         try:
--            self.bitbake_e = subprocess.check_output(cmd, shell=True).decode('utf-8')
-+            self.bitbake_e = self.run_bitbake_env(mach=mach)
-         except subprocess.CalledProcessError as err:
-             self.bitbake_e = ''
-             logger.warning("Couldn't run 'bitbake -e' to gather environment information:\n%s" % err.output.decode('utf-8'))
-@@ -1443,7 +1449,13 @@ class BaseConfig(object):
-         if result and os.path.exists(result):
-             return result
- 
--        cmd = ('bitbake', 'qemu-helper-native', '-e')
-+        cmd = ['bitbake', '-e']
-+        multiconfig = self.get('MULTICONFIG')
-+        if multiconfig:
-+            cmd.append('mc:%s:qemu-helper-native' % multiconfig)
-+        else:
-+            cmd.append('qemu-helper-native')
-+
-         logger.info('Running %s...' % str(cmd))
-         out = subprocess.check_output(cmd).decode('utf-8')
++PACKAGECONFIG[examples] = "--enable-examples, --disable-examples,"
+ PACKAGECONFIG[manpages] = "--enable-man-pages, --disable-man-pages, asciidoc-native xmlto-native libxslt-native"
+ PACKAGECONFIG[python3-agent] = "--enable-python-agent ${PYTHON_OPTION}, --disable-python-agent, python3, python3"
  
 -- 
-2.23.0
+2.24.1
 
 
