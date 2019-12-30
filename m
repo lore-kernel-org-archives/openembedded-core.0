@@ -1,50 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
-	[209.85.216.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E8197F265
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+	[209.85.210.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AB55731B1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2019 19:42:39 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id l35so193103pje.3
+	Mon, 30 Dec 2019 20:05:03 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id p14so18722283pfn.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2019 11:42:40 -0800 (PST)
+	Mon, 30 Dec 2019 12:05:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=j4eDPjiEY4ece+lulP9J+uIMSE+L6CdX5mOlRP3j8zU=;
-	b=pCV3uuyHIgQggkfkVoDJVeQMH9avVrfTAG53pqWitPkwv26yKQQKskQXPioXuJlNBw
-	Aa9F7tbpkvA/5YIJkI991O/IlcSR1c1VheywYctXVxdVwej7tnx+kjj7m/garif9a7Di
-	Z9K5yj93D0p7ntEjR/rB8S5DHLzFIpz5E7b56rzgnS1GJWK3EFCjzo9fCyT6xu+Zs6Hp
-	AqMOturT8MzSnnz76qiMQqrGjFqGH3uuE4Mu+MzO6/a3ufjt22SCLQBLHXljUT8uIjTS
-	lQfLAfEMXqOQtlctC2ARmA49Nu+jylb1yzuoBRsqkV5axAR7Tx7QWtkMTpTNShhUZxlu
-	e0OQ==
+	h=from:to:cc:subject:date:message-id:mime-version:thread-index
+	:content-language;
+	bh=WocQWhq7TaptLX8QUvosE0CY7ICCgkpzrOaDLMJwUZ0=;
+	b=Bw6CfmpGsc2JCGrickhbmbgpvFWM/59FdsuuznhRM4oit4gGwifXm2rnFRb/0lT1IP
+	SAcem6kbAQtbMdlQ/iY1qbLHcDcfPypLX11kzZXJvABs/wbekGNxuD+8iQSEd66NjLCc
+	GV6bTIR4QKMnz7xjnkCbOF0J3F2MM5w9AOkwOP7avGgKAUW3FOkst3+uu9k8m0Tx6pea
+	wfO/CFuHb37MnGNiYJRXzr9fhuEmySqv5E2cO2/KpdqPc7R8y4ABgPv6FzmeETHJZb08
+	EyhD4ri0mNdXU7loYb99+Ww/t2fG3zi05ba0M5iuNwQ0PRn1ZkEJdufEgP43UCOH2lf9
+	jLQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=j4eDPjiEY4ece+lulP9J+uIMSE+L6CdX5mOlRP3j8zU=;
-	b=NzhT7okedJmkEMwBCi0yyyz01KWwWABSiMjAhIA/l80VKm7UbIqQ10+/0UCqvnkng1
-	QqgqLIaoveG1zYHeidfP7gHcEt3G1xEbZPEsN2cWxCWTI0KfbA3UZoqsUf2z6v81yvBr
-	QAovFJpgs8t19h7mRWHO18Bz5ZwzE6F23b6zoqVrMN/pPzPM1zBX+gtVl1TTQU2AIhnr
-	DBXk87z+SuXSZsJ8I160gB2kD038n3b15j2IYIV6T7aexnCfWJwEQlvzLf4PKtWqoM1o
-	7KenxcFeFRZrVHEi6uSkscMmCIBgQB2pu3LF2Skqv4u8stdxGqv3FjNTXy/xdJNVvDi3
-	ZPiA==
-X-Gm-Message-State: APjAAAXK/z+Z1XT0KlX8rfBvcWx/WQs2EJZrOxUGYAt8xJox3/ZZscym
-	fVXnsUW15Z3iNtrtYvGE0I0Fd7oZMbo=
-X-Google-Smtp-Source: APXvYqxmruOcmGGpX9On0jcvxixmhGm83q+S2SCP2qMfdPY4kgsm6hUg1x0IzsJD/Wbw4BbwpR5KIQ==
-X-Received: by 2002:a17:902:b711:: with SMTP id
-	d17mr42414941pls.162.1577734959864; 
-	Mon, 30 Dec 2019 11:42:39 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::2f83])
-	by smtp.gmail.com with ESMTPSA id j6sm311536pjv.10.2019.12.30.11.42.39
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 30 Dec 2019 11:42:39 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 30 Dec 2019 11:42:35 -0800
-Message-Id: <20191230194235.1424120-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.1
+	:thread-index:content-language;
+	bh=WocQWhq7TaptLX8QUvosE0CY7ICCgkpzrOaDLMJwUZ0=;
+	b=Q0MWKR7qXVS+UifUa2gcsqR/0w83a2bFEjTjmswSoti2vwQTaO4+dahMsZNmVlXYG7
+	rwCIamhBDIEE9HIdc6Fj2o+KavA/XKNkCKw5nRq1YRMMhME4P3aT2sSKJVv+1jm/4XBH
+	8GJF+cyGvHDOzEucWhNRV28RNRl795koZPoUEcrE2krz2IK9EdO3sliKJiM0PEz37zag
+	SY54x7fZq1oAtwrz+5X2wFiVeM8O5F842uvln8G8qHpOXAuvVHWQYY3xNdx0V7MVz4cb
+	9cecGiaTdj6k3Dbr8AZ7fX6Yp8HETSYvimQG/51eyUFhreBjX6e53hwLh9yjpdKO5PV8
+	OPKA==
+X-Gm-Message-State: APjAAAXHipvZr2FDOf7Pg2vNU3VTZmsTGsVwLaqNXDJIOj9dTaan9t8p
+	xFNCLlHyCSmhOCfcB3PEzLw6gjI5
+X-Google-Smtp-Source: APXvYqwpd07G9hf5kq7gje2Gr4KpDJj+J8jOMs4IIM1yRELGPtyZM+6ON1FPcA1vDnRPyy5ri2Z/Ng==
+X-Received: by 2002:aa7:9af1:: with SMTP id y17mr73269518pfp.21.1577736304136; 
+	Mon, 30 Dec 2019 12:05:04 -0800 (PST)
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+	by smtp.gmail.com with ESMTPSA id
+	a1sm39284437pfo.68.2019.12.30.12.05.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 30 Dec 2019 12:05:03 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 30 Dec 2019 12:05:03 -0800
+Message-ID: <070c01d5bf4c$6cacc7a0$460656e0$@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] nfs-utils: Drop unneeded patches, cmdline option overrides
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJK4CWcphHCymBVMqbl6g76mBcZeA==
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,158 +59,234 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2019 19:42:39 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 30 Dec 2019 20:05:03 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_070D_01D5BF09.5E8A23E0"
+Content-Language: en-us
 
-Ensure that it can build with clang as well on the way
+------=_NextPart_000_070D_01D5BF09.5E8A23E0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...-Do-not-fatalize-Wmissing-prototypes.patch | 40 ------------
- .../nfs-utils/nfs-utils/clang-warnings.patch  | 61 +++++++++++++++++++
- .../nfs-utils/nfs-utils_2.4.2.bb              |  5 +-
- 3 files changed, 62 insertions(+), 44 deletions(-)
- delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch
- create mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
+All,
 
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch
-deleted file mode 100644
-index d14f0789ff..0000000000
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils/0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 66471fbf7106917da7a1536b18a0a77d07479779 Mon Sep 17 00:00:00 2001
--From: Mingli Yu <Mingli.Yu@windriver.com>
--Date: Mon, 17 Dec 2018 15:29:47 +0800
--Subject: [PATCH] configure.ac: Do not fatalize -Wmissing-prototypes
--
--There comes below error when run "make -C tests/nsm_client nsm_client"
--| nlm_sm_inter_svc.c:20:1: error: no previous prototype for 'nlm_sm_prog_3' [-Werror=missing-prototypes]
--
--It is because rpcgen doesn't generate -Wmissing-prototypes
--free code for nlm_sm_inter_svc.c with below logic
--in tests/nsm_client/Makefile.am
--[snip]
--GENFILES_SVC    = nlm_sm_inter_svc.c
--[snip]
--$(GENFILES_SVC): %_svc.c: %.x $(RPCGEN)
--        test -f $@ && rm -rf $@ || true
--        $(RPCGEN) -m -o $@ $<
--
--So add the logic not to fatalize -Wmissing-prototypes.
--
--Upstream-Status: Submitted[https://marc.info/?l=linux-nfs&m=154503260323936&w=2]
--
--Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 50002b4..aebff01 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -582,7 +582,7 @@ my_am_cflags="\
--  -Wall \
--  -Wextra \
--  $rpcgen_cflags \
--- -Werror=missing-prototypes \
--+ -Wmissing-prototypes \
--  -Werror=missing-declarations \
--  -Werror=format=2 \
--  -Werror=undef \
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
-new file mode 100644
-index 0000000000..20400fef67
---- /dev/null
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils/clang-warnings.patch
-@@ -0,0 +1,61 @@
-+Detect warning options during configure
-+
-+Certain options maybe compiler specific therefore its better
-+to detect them before use.
-+
-+nfs_error copies the format string and appends newline to it
-+but compiler can forget that it was format string since its not
-+same fmt string that was passed. Ignore the warning
-+
-+Wdiscarded-qualifiers is gcc specific and this is no longer needed
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -599,7 +599,6 @@ my_am_cflags="\
-+  -Werror=parentheses \
-+  -Werror=aggregate-return \
-+  -Werror=unused-result \
-+- -Wno-cast-function-type \
-+  -fno-strict-aliasing \
-+ "
-+ 
-+@@ -619,9 +618,10 @@ CHECK_CCSUPPORT([-Werror=format-overflow
-+ CHECK_CCSUPPORT([-Werror=int-conversion], [flg2])
-+ CHECK_CCSUPPORT([-Werror=incompatible-pointer-types], [flg3])
-+ CHECK_CCSUPPORT([-Werror=misleading-indentation], [flg4])
-++CHECK_CCSUPPORT([-Wno-cast-function-type], [flg5])
-+ AX_GCC_FUNC_ATTRIBUTE([format])
-+ 
-+-AC_SUBST([AM_CFLAGS], ["$my_am_cflags $flg1 $flg2 $flg3 $flg4"])
-++AC_SUBST([AM_CFLAGS], ["$my_am_cflags $flg1 $flg2 $flg3 $flg4 $flg5"])
-+ 
-+ # Make sure that $ACLOCAL_FLAGS are used during a rebuild
-+ AC_SUBST([ACLOCAL_AMFLAGS], ["-I $ac_macro_dir \$(ACLOCAL_FLAGS)"])
-+--- a/support/nfs/xcommon.c
-++++ b/support/nfs/xcommon.c
-+@@ -98,7 +98,10 @@ nfs_error (const char *fmt, ...) {
-+ 
-+      fmt2 = xstrconcat2 (fmt, "\n");
-+      va_start (args, fmt);
-++#pragma GCC diagnostic push
-++#pragma GCC diagnostic ignored "-Wformat-nonliteral"
-+      vfprintf (stderr, fmt2, args);
-++#pragma GCC diagnostic pop
-+      va_end (args);
-+      free (fmt2);
-+ }
-+--- a/utils/mount/stropts.c
-++++ b/utils/mount/stropts.c
-+@@ -1094,9 +1094,7 @@ static int nfsmount_fg(struct nfsmount_i
-+ 		if (nfs_try_mount(mi))
-+ 			return EX_SUCCESS;
-+ 
-+-#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
-+ 		if (errno == EBUSY && is_mountpoint(mi->node)) {
-+-#pragma GCC diagnostic warning "-Wdiscarded-qualifiers"
-+ 			/*
-+ 			 * EBUSY can happen when mounting a filesystem that
-+ 			 * is already mounted or when the context= are
-diff --git a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb
-index df3070bd8b..6647d3428b 100644
---- a/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb
-+++ b/meta/recipes-connectivity/nfs-utils/nfs-utils_2.4.2.bb
-@@ -31,9 +31,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/nfs-utils/${PV}/nfs-utils-${PV}.tar.x
-            file://0001-cacheio-use-intmax_t-for-formatted-IO.patch \
-            file://0001-Makefile.am-fix-undefined-function-for-libnsm.a.patch \
-            file://0001-Don-t-build-tools-with-CC_FOR_BUILD.patch \
-+           file://clang-warnings.patch \
-            "
--SRC_URI_append_libc-glibc = " file://0001-configure.ac-Do-not-fatalize-Wmissing-prototypes.patch"
--
- SRC_URI[md5sum] = "d427c6b3014e9a04e8498f0598b1c1b9"
- SRC_URI[sha256sum] = "4464737a03d5f73ded2ffefe19d5543ed7b1d6c541985d8acaafdc8025aa1038"
  
-@@ -62,8 +61,6 @@ EXTRA_OECONF = "--with-statduser=rpcuser \
-                 --with-statdpath=/var/lib/nfs/statd \
-                "
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
  
--CFLAGS += "-Wno-error=format-overflow"
--
- PACKAGECONFIG ??= "tcp-wrappers \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
- "
--- 
-2.24.1
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
+
+ 
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 301
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
+being in "3.1" and then "3.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Project Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
 
 
+------=_NextPart_000_070D_01D5BF09.5E8A23E0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0348_01D5B98C.EC41E880";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
+starting to try and collect up and classify bugs which a newcomer to the =
+project would be able to work on in a way which means people can find =
+them. They're being listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 301 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
+mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
+comer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Project Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+
+------=_NextPart_000_070D_01D5BF09.5E8A23E0--
