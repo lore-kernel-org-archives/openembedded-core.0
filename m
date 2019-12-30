@@ -1,54 +1,80 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B8E57F87C
+Return-Path: <MANJUKUM@xilinx.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+	(mail-dm6nam12on2072.outbound.protection.outlook.com [40.107.243.72])
+	by mail.openembedded.org (Postfix) with ESMTP id D55CE7F8B5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2019 03:07:27 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id q20so28869928qtp.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 29 Dec 2019 19:07:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=+gHBA0LCpaHkYdUzCQqGDhI+unIyo0IWvV+AR80dUBc=;
-	b=OMjT1L5S5CVIeFoSajPqUNGkjpSofzqIzCPDLEkUquXCRtA359neXGdZTJCak7BscI
-	UVZwrPR9AIh0T1o6n+j05HQD+fBRRu6EbL/mF9NoaXyKEO1Kpe2Ar9lLghAvGk6XegCH
-	1Vkj11v8lVt0Ki3Eg6Tc3Lgf9IQppuQn0LvvA+09ucKfGD5s1HKyMA31rYgFOsbAth0Y
-	wDvEQWT2oYngq55J9YOjd+grzkB3JuicrhoSXfHZN8WdrzWxNq1K6vrnhzmjrl+nctEA
-	Y3zfG+wQGzuMPl02QpeckR922z2q0vqH/M/kMz00L7F4TBL7UDLY33pE69tQ4JiDxXzY
-	/S4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=+gHBA0LCpaHkYdUzCQqGDhI+unIyo0IWvV+AR80dUBc=;
-	b=EqILcDwC8b0aAQ3HKEQw4ucmPcjFSEgDMY69wByoRmS+2HLfY7Q5nGH/KzD3RLRNqM
-	Ymw0fwh2IlMB9Gmkb8NNFkHKIHQt1c5l2TQVOCzygS0IWhSCdKUWR2L6ucnYJBj59lbp
-	43LkCrZXbYosj3rN9F802k+39LXki+FWR+9hGZ1SHfkRPtUZQsv7agVJQEx53MMfAnXb
-	Wqq3TlA9n+JiatcoUR3YSchU6EUrSumJf1wmoV8bTDvDjm5GIXoSTzO99WfzHLsCAtAk
-	mg9wdX2aXAW1QjzxpjWxDDQk6RkgSalHmM0/7v7JWSZBv8yoUVSDbl1ilJH5Ef71W/wG
-	pH0w==
-X-Gm-Message-State: APjAAAX+V+EExdX+zG47wSaV4YnogHDwEyKa9skO4/Z8bESPTtJ0VZNV
-	bZhbj2VIT1BgSoaW/82lKC8=
-X-Google-Smtp-Source: APXvYqzH8COYxsTRG5fi1LpmtvwZqgGc1sTShG3AoQY0ydvYuDZz9hF+oWnxrvtaWcuZJVnb3jy5Mw==
-X-Received: by 2002:ac8:3108:: with SMTP id g8mr46453966qtb.30.1577675248054; 
-	Sun, 29 Dec 2019 19:07:28 -0800 (PST)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.113.11.95]) by smtp.gmail.com with ESMTPSA id
-	z141sm12036800qkb.63.2019.12.29.19.07.26
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 29 Dec 2019 19:07:27 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Sun, 29 Dec 2019 22:07:21 -0500
-Message-Id: <1daf2a43222f583d903f01b21097e392560616f9.1577674956.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1577674956.git.bruce.ashfield@gmail.com>
-References: <cover.1577674956.git.bruce.ashfield@gmail.com>
+	Mon, 30 Dec 2019 03:21:08 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=QsdUu9ntRG7McCDpQBWfdD/pDyqH1C1KjPhUTZHMqaUZ/AWUZieX8iewDtAb0NXvtD/p+JOec+CZdWmCqqSQCbXEDotWFjLStWsgtVOMDXrbP4lnWdZdixlpXCk6uCElrnoz9d8aZkTZCLp9NQn2dO/Hse++QMNAOR5fCLeMygJg1uy1LqE+r9xwg0/OsyzPhwpajK+wk6/VCQOpQUNoJbphLXZt6wCLxkwn5MRAQB+Nsv1EDnVKNLwqZYlassewVZscB8WcdPfTx5yaSTkXRtcvaE9sxrWtq6KGTpSMtvLM/IeTmKtvd1zuZ3ZLMLLedm2qFZ5+Bgc3xNcCmNxEag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=uBEJ/ZXVvEGP2rMUS8XxZ+zXjr3OkS3SHb12QdU38ko=;
+	b=C/GFxLMm17o4bT+wifJqw7HCiSMNH30a5/OohutrQSqsRwKeDNAfXuAZx/WfVj6omxNf1wK7e41gmk5wd73MEdyvGBFQz80dATsDxpLILboFFMbfKUHhVuubJTS9AoejbMRxpFCIvFwcAbz4gcqQAofxjmtzZUm8N9W5b+JP31el7Vfj6qs0jy7qLRMt3Lg7htxaqBKG5vqICyRoK4qurdSrsYbtfHSC/dERiDfAKK5GprLG5zSEBO0chtXB8dG8k4e8jsYmsesalxsI0XetwoZfaY5R3pAmyCysC8Dha0HF7gBbElgB6hFsAjzvFhO6i5rUHZ1oDtO9elD701bg5A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+	dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=uBEJ/ZXVvEGP2rMUS8XxZ+zXjr3OkS3SHb12QdU38ko=;
+	b=P79Zr+534jGYGrkCWzuXNhdlKOwezryDmYNSiNOU5zIX6KGnQQLjd+ONl7T59LeTAg1+aUJsjFNoyXvpVgwsT5FH0Awd/81nTa31SgCGLWCwe7rl4XuRW2eCsWp3DhcXRokk+ufv18GJywh6udNcnie6McVqRcFoo4gS92c57BI=
+Received: from BYAPR02MB6005.namprd02.prod.outlook.com (20.179.62.146) by
+	BYAPR02MB4966.namprd02.prod.outlook.com (52.135.235.12) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2581.11; Mon, 30 Dec 2019 03:21:07 +0000
+Received: from BYAPR02MB6005.namprd02.prod.outlook.com
+	([fe80::1899:3979:6040:ab99]) by
+	BYAPR02MB6005.namprd02.prod.outlook.com
+	([fe80::1899:3979:6040:ab99%4]) with mapi id 15.20.2581.007;
+	Mon, 30 Dec 2019 03:21:07 +0000
+From: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
+To: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core][PATCH] feature-microblaze-versions.inc: Update MB to
+	v11.0
+Thread-Index: AQHVuWAxCWmFeiN53EeMzsFrH0qe2KfSDYtQ
+Date: Mon, 30 Dec 2019 03:21:07 +0000
+Message-ID: <BYAPR02MB6005C78C740A07E0942846FFB9270@BYAPR02MB6005.namprd02.prod.outlook.com>
+References: <1577085080-11425-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+In-Reply-To: <1577085080-11425-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=MANJUKUM@xilinx.com; 
+x-originating-ip: [124.123.107.177]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 70a3d072-f3ce-4748-600c-08d78cd74f97
+x-ms-traffictypediagnostic: BYAPR02MB4966:|BYAPR02MB4966:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB496692DE4EA82A3C2AE0E453B9270@BYAPR02MB4966.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:989;
+x-forefront-prvs: 0267E514F9
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(4636009)(376002)(346002)(136003)(39850400004)(396003)(366004)(199004)(189003)(13464003)(2906002)(33656002)(8936002)(26005)(15650500001)(6506007)(71200400001)(53546011)(110136005)(52536014)(81156014)(86362001)(8676002)(316002)(81166006)(478600001)(66446008)(7696005)(66946007)(9686003)(55016002)(66556008)(66476007)(76116006)(64756008)(5660300002)(186003);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB4966;
+	H:BYAPR02MB6005.namprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: NzqidsZncU/icMbKLweg6gl0VmHbW0IWrJCe0jcEI8OojJQRAQu58kMTi3kEgjwyquoEZlNUrSqdrUF/2K4fD9NW64hkaQrEV/Pput+NyLA5IXdDCgDLHjPuIzo7PtvVNo+PJEd9tMBxyk4vwSkhworEQl+oW3pq8PwWveG0i7WjqGW+/hgkb5UAptwoyPrwook2u1a7bbJZ8Atw3hd6tDk5wVg904+oqsa0bb+dslAUVgkKP1wAtdUoGr5v+MJNrIMul1nDTifVm1x3eQN3H6bqsOSBILJSiBtKM59ps7hp8LWPRSyUEb8/zbA6At0NE8RhGvVmN2zliphXCvMyR0Cfb3L8fw7TJY4IxHlPiZDusVWHWX8Cx5yFRrELXJhJUHI13QC151jrRZsNk3wvAHWs39n0XB6U0bXNWA1DgGkikKa69ks1u5nhZGRiiLbHEvcsroYrUlMN7FbOzRmbuOflE0oK3JRhuFkRk3HKZ50nQqdhD+HLQY0F/91KUcfX
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] kernel-yocto: allow external (aka non-integrated) BSPs to supply patches
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70a3d072-f3ce-4748-600c-08d78cd74f97
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Dec 2019 03:21:07.6033 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: GUMZzKqf3UHAwoSln2LGd3rCju0aL4EBT8WAGpJUU8QtHtSJclzvLccyhN5r2tznNsu9hATldQxOqRpvUpxOEQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4966
+Subject: Re: [PATCH] feature-microblaze-versions.inc: Update MB to v11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,74 +87,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2019 03:07:27 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 30 Dec 2019 03:21:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-By default, only explicitly specified .scc files or patches are applied
-to a BSP as part of the patching phase. This allows the reference BSPs
-to be integrated into a kernel tree, and use the same meta data for tree
-generation and for runtime building. It also greatly simplies the
-processing of kernel meta data.
 
-That being said, if an external (and fully standalone) kmeta repository
-is used, it very well may contain both patches and configuration. To
-allow the BSP definition to supply patches and config, we introduce a
-new kernel meta data definition:
+> -----Original Message-----
+> From: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+> Sent: Sunday, December 22, 2019 11:11 PM
+> To: openembedded-core@lists.openembedded.org
+> Cc: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
+> Subject: [OE-core][PATCH] feature-microblaze-versions.inc: Update MB to v=
+11.0
+>=20
+> Update the Microblaze to v11.0
+>=20
 
-  define KMETA_EXTERNAL_BSP t
+Ping
 
-This can be set in any .scc file that wants to specify both patches
-and configuration.
-
-If specifying this per-BSP is not desired, a secondary variable is
-used:
-
-  KMETA_EXTERNAL_BSPS
-
-When that is set in a bbappend, any located BSP definitions will be used
-for both patches and configuration.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/classes/kernel-yocto.bbclass | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
-
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index ed9bcfa57c..87c681f1c3 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -182,6 +182,14 @@ do_kernel_metadata() {
- 		if [ $? -ne 0 ]; then
- 			bbfatal_log "Could not locate BSP definition for ${KMACHINE}/${LINUX_KERNEL_TYPE} and no defconfig was provided"
- 		fi
-+
-+		# if the bsp definition has "define KMETA_EXTERNAL_BSP t",
-+		# then we need to set a flag that will instruct the next
-+		# steps to use the BSP as both configuration and patches.
-+		grep -q KMETA_EXTERNAL_BSP $bsp_definition
-+		if [ $? -eq 0 ]; then
-+		    KMETA_EXTERNAL_BSPS="t"
-+		fi
- 	fi
- 	meta_dir=$(kgit --meta)
- 
-@@ -195,6 +203,13 @@ do_kernel_metadata() {
- 		fi
- 	fi
- 
-+	# if KMETA_EXTERNAL_BSPS has been set, or it has been detected from
-+	# the bsp definition, then we inject the bsp_definition into the
-+	# patch phase below.  we'll piggy back on the sccs variable.
-+	if [ -n "${KMETA_EXTERNAL_BSPS}" ]; then
-+		sccs="${bsp_definition} ${sccs}"
-+	fi
-+
- 	# run2: only generate patches for elements that have been passed on the SRC_URI
- 	elements="`echo -n ${sccs} ${patches} ${KERNEL_FEATURES}`"
- 	if [ -n "${elements}" ]; then
--- 
-2.19.1
+> Signed-off-by: Manjukumar Matha <manjukumar.harthikote-
+> matha@xilinx.com>
+> ---
+>  meta/conf/machine/include/microblaze/feature-microblaze-versions.inc | 2=
+ ++
+>  1 file changed, 2 insertions(+)
+>=20
+> diff --git a/meta/conf/machine/include/microblaze/feature-microblaze-
+> versions.inc b/meta/conf/machine/include/microblaze/feature-microblaze-
+> versions.inc
+> index 955674f..3221e2a 100644
+> --- a/meta/conf/machine/include/microblaze/feature-microblaze-versions.in=
+c
+> +++ b/meta/conf/machine/include/microblaze/feature-microblaze-versions.in=
+c
+> @@ -44,6 +44,7 @@ TUNEVALID[v9.4]  =3D "MicroBlaze version 9.4"
+>  TUNEVALID[v9.5]  =3D "MicroBlaze version 9.5"
+>  TUNEVALID[v9.6]  =3D "MicroBlaze version 9.6"
+>  TUNEVALID[v10.0] =3D "MicroBlaze version 10.0"
+> +TUNEVALID[v11.0] =3D "MicroBlaze version 11.0"
+>=20
+>  # Version conflict matrix
+>  TUNECONFLICTS[v8.00] =3D ""
+> @@ -60,6 +61,7 @@ TUNECONFLICTS[v9.4]  =3D "v8.00 v8.10 v8.20 v8.30 v8.40
+> v8.50 v9.0 v9.1 v9.2 v9.3"
+>  TUNECONFLICTS[v9.5]  =3D "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 =
+v9.2
+> v9.3 v9.4"
+>  TUNECONFLICTS[v9.6]  =3D "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 =
+v9.2
+> v9.3 v9.4 v9.5"
+>  TUNECONFLICTS[v10.0] =3D "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 =
+v9.2
+> v9.3 v9.4 v9.5 v9.6"
+> +TUNECONFLICTS[v11.0] =3D "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 =
+v9.2
+> v9.3 v9.4 v9.5 v9.6 v10.0"
+>=20
+>  # Version flags
+>  TUNE_CCARGS +=3D "-mcpu=3D${@microblaze_current_version(d, True)}"
+> --
+> 2.7.4
 
 
