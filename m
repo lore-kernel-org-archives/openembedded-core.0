@@ -1,49 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 70BA27FB0A
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 21F6C7FA23
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2019 11:19:03 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id c14so34921316wrn.7
+	Tue, 31 Dec 2019 14:18:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47nGcD6H15zTB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2019 03:19:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=JwljHBVuwUCISs4oqhXy8k2Re+p9v1aVU63OIY+Je0I=;
-	b=AWWyTA30SslSCt5gXpD+kuxwuk2qZ4RcOVCCcRzfkiGdxNOXLbkbXe8KIvZWjpVI4J
-	KEQmb739O0F9qhfSopo6QTvQPySUkdJ2cerbxvCbE5IBTNWzDXlfL4IJusgyIGf7ZC82
-	AMq9uOPjGkVsBs2GA/IATAoOHnp1keB+rw37U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=JwljHBVuwUCISs4oqhXy8k2Re+p9v1aVU63OIY+Je0I=;
-	b=pS3Q7VWRTpb+D70hW3A74m5Q/vt2N8sfOU//SWEGtDLEaoV6pBGkkoaozEnm383mdR
-	uoUTQRuY3k+o5teHQIPX33dHqeBCXQXBKwHTsDWyvCVNMUxfNixGhrPci4PC7cV2TK/O
-	zmQF8oWMMNZ7HYEuExwWDYoDIJvt4PoC9OvNNG9hstOV1TlSYV6YuI9RbMdjDYIvfpXk
-	ojqfBJZPTGOlhQVymMiM6V4jOlckuvMQEx9Fjkibf5Nhcil6V+HvsAeooIBkvRSr414w
-	AXMbKk0+4R3LpMVt8fNHEoxjsL1CbBghBxZDjnWOnlvbusLcPGCPEXmd80yHnIHdvqP2
-	CQ9A==
-X-Gm-Message-State: APjAAAUXOP6JGZnZiCBjQJpwYpaYi+AdOK0EQDZ0v/hKmZkd6Fw/iEr4
-	oE0mhtbVn+TqDvGI8HnURTzxtg==
-X-Google-Smtp-Source: APXvYqyvKDjT0SudXlKkfZbWdm6YTZvNeT3Z/xo8uZt284S9bgKzknWUseZfWR4hFvmFW3z8ZM5rMg==
-X-Received: by 2002:a5d:6349:: with SMTP id b9mr74841875wrw.346.1577791144128; 
-	Tue, 31 Dec 2019 03:19:04 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id k8sm48305322wrl.3.2019.12.31.03.19.03
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 31 Dec 2019 03:19:03 -0800 (PST)
-Message-ID: <b609105543ebd272e0f72086f69634daf71ef620.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 31 Dec 2019 11:19:02 +0000
-In-Reply-To: <20191230194235.1424120-1-raj.khem@gmail.com>
-References: <20191230194235.1424120-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH] nfs-utils: Drop unneeded patches, cmdline option overrides
+	Tue, 31 Dec 2019 15:18:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1577801901;
+	bh=DSdAHmAJVsy0VnJQf0cw2/GB7EPVCSimIQqhKemgR4Y=;
+	h=From:To:Subject:Date:From;
+	b=SQ+J8VLi6/5LgOkvrlfUleezOoupuaBGpN3UadTKI4gvro0AzhYioaKzBOUnF0hvA
+	jKbCVmoumCMzqWBoPIBu4/uuHafYtpy7OTKu3FflDOfHqpqGZ2lbupyljchKS7TGNY
+	CIHwjb64WV8bHXMic9kmxrkOujtax3ubjUjGO1BRhycaX+ECiwKEl+W5c+4O4gkVn9
+	jLEKbKtFsEf1sYb6Dvkz1tYFR9bWv+uZrv6CzTH4LZU8zMwiiU+YpsfAOk3eoFk07J
+	+bLYO6RsGPut1wc+V868JRINNsfIoMj/JDGoeDFuUHY4vpzRITKVZEt3kq9AIsBHOw
+	GYdaWsqoWJ8C35hLG0+MlIej8CIIoP7to0UISTel4KonVsvChb+koxEKiAoiiSVRpT
+	cagY/+9KzK37pWcsZtG8iNsbtXI0rrdN6ekywodKZST2kC0P/k02rw2mI8KHtM/eGL
+	0vlaaYp4SHKyENVXIa4Tl6vClioyt8OFo4sFibm4+VJa1fNESPueB9rrAjtPD+fAUd
+	/MDU1aVL/FPqayZ7UGoBaHrbZ31VwiyC4NV25j/I9MMit87LEZRAz8ikJgRzvTzjGL
+	T2eAQaM6HnuuH/tAln2WxUlXxyboUGODrNmiHuKv83GMHyhmgYHdWUnoLizzm8OiN1
+	P0os1VaIFsqFi52xY+O2ax/Y=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 31 Dec 2019 16:18:19 +0200
+Message-Id: <20191231141819.5037-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [zeus][PATCH] systemd: Upgrade 243 -> 243.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,18 +40,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Dec 2019 11:19:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Dec 2019 14:18:23 -0000
 
-On Mon, 2019-12-30 at 11:42 -0800, Khem Raj wrote:
-> Ensure that it can build with clang as well on the way
+Bugfix-only changes on the 243 stable branch.
 
-The commit needs to say why the patches are unneeded, its not clear to
-me even after I looked.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../systemd/{systemd-boot_243.bb => systemd-boot_243.2.bb}    | 0
+ .../systemd/{systemd-conf_243.bb => systemd-conf_243.2.bb}    | 0
+ meta/recipes-core/systemd/systemd.inc                         | 4 +---
+ .../recipes-core/systemd/{systemd_243.bb => systemd_243.2.bb} | 0
+ 4 files changed, 1 insertion(+), 3 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_243.bb => systemd-boot_243.2.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-conf_243.bb => systemd-conf_243.2.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_243.bb => systemd_243.2.bb} (100%)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/systemd/systemd-boot_243.bb b/meta/recipes-core/systemd/systemd-boot_243.2.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_243.bb
+rename to meta/recipes-core/systemd/systemd-boot_243.2.bb
+diff --git a/meta/recipes-core/systemd/systemd-conf_243.bb b/meta/recipes-core/systemd/systemd-conf_243.2.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-conf_243.bb
+rename to meta/recipes-core/systemd/systemd-conf_243.2.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 7f3a59c208..18f17d28ac 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,10 +14,8 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "efb536d0cbe2e58f80e501d19999928c75e08f6a"
++SRCREV = "fab6f010ac6c3bc93a10868de722d7c8c3622eb9"
+ SRCBRANCH = "v243-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ 
+ S = "${WORKDIR}/git"
+-
+-PV_append = "+${SRCPV}"
+diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.2.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd_243.bb
+rename to meta/recipes-core/systemd/systemd_243.2.bb
+-- 
+2.17.1
 
 
