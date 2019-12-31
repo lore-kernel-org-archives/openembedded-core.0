@@ -1,54 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 737D26D470
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id F3E8C7F9AD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2019 23:30:29 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id y17so34004305wrh.5
+	Tue, 31 Dec 2019 00:44:53 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id a6so501501pjh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 30 Dec 2019 15:30:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=8e0eu64G9nmpmL6Xu7F4LEqBapASodZF+9pDEOBlHbE=;
-	b=MrFzskQncyZiCKZD5mHAgrvpW4TSf1yiKk4Se3KfG1VUaugWzxH8s8RQHlvMSLnHX7
-	paWC2yDwuI8YYtIEErdekHUGRoLFkCyWWHeHvkG1/tpidKr5mW3mMVN5wuR2IYQX6IfG
-	AD/Dpn1Odaw/+iLSOs1iqGMF7PnbqluQM6wHo=
+	Mon, 30 Dec 2019 16:44:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pIZ4um5rPa6FoTGXnmSyC5dTd2WZNCUk+DXuLYb/RaI=;
+	b=kPLypyEhQNJkUSUxPSPIcSNkftXA8YzzoqMv+KAQy/oaDFhYYuP3Y32B7yCplf0kVj
+	dnIIpX7C0YprcXFkxiFPCQwwXf2xaub3YlMKf+yGkgxks6uQXKDMKmkHrvv82AcRbawq
+	FGwzYsahF/kz721v8M7sCVIhyvfdzOg3ihHUQavQEq2Dlui3PsA7r9DDGafJAntcISc8
+	0bVsPNJmbMPkE6S/pi0yOFWvyAoG3aSdDj9ViWuQmVSbNTLZTP5+jS1zP+zla5af/DyT
+	1j5y7cqpFKK31DcRuUpp1rOS6Xxk0q1/F1hAf8b+uPkwf/s65WV73iVS3s/Cl4MDZZCr
+	koNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=8e0eu64G9nmpmL6Xu7F4LEqBapASodZF+9pDEOBlHbE=;
-	b=k7YUaVvoEiYbr5s4zb556f16KpBtxruz6MPWKmpb04csdNZS83nMRFj49VIDqhec7z
-	FW0qqKcCAZtK0sbcHZTEyEc6t9aJag/VUI7s618e8uZQzQH5ZyFiGMhAz3NE1JMeKwCQ
-	j5BFPIQ6vHhd02Jeg1I/18vDOvcorala9rEJnoBezXojJkJkDH3DI3aig9AWwf7d15iR
-	p6TUQ9Stm+A+Ba4YB+LAfve0W5z2zagshwxRmf5YCB1Mh5k8vyk5wpvB2MOmMu0qRBgT
-	hS1PHsbFYchHPKp34jIqrwwcov6kgmzZGtDcf5iLLOJlMkoCvZh4wJeURAP7M7jluaCy
-	v9PA==
-X-Gm-Message-State: APjAAAWgCD4IbNAqjnmEooSohyualowcOKjsNyw/O6jjF9d3Y84AFFCj
-	KCsiOqDnccX9gdRJS3ui85hmQg==
-X-Google-Smtp-Source: APXvYqy/m6GpbPykrsBCrXIy/fG18DzXCmi6S1G6RBzTMCZW9/irt5ReTGH7xfUK/cOjJkQSBthd8Q==
-X-Received: by 2002:adf:f1d0:: with SMTP id z16mr66909888wro.209.1577748629773;
-	Mon, 30 Dec 2019 15:30:29 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pIZ4um5rPa6FoTGXnmSyC5dTd2WZNCUk+DXuLYb/RaI=;
+	b=hlsXi0CkRtG2vO1BE/8sMteHQ6B3KCLs0NysCqagqic5IIer8VGc9QsLjnWmY2HeMr
+	dq7dkLUmmhtaounuCxWzVaVogUARMOYRXTAOYnPjhmDIJgmeXtnqzux6+DCq7k1lJjyl
+	eg4T4kkzIOzIbrtz/tkqdFR/utcA+5aOi3ASUkdKSDp/HemCIdJ/qr6mS3tnzaTmAlE4
+	XHGFXqTFWvWNGSiXivHoh9Eaho2RyoaonrkD24O2qN/aRcLhJs01Zi9uA0MOrF3IWdQW
+	FYRdc5flrEEIecPwccjHhSbdQemVWnbi4LiZjcDMS+FIJWIPK5iMrx+l2fV66zNtBKUn
+	3nag==
+X-Gm-Message-State: APjAAAX1bQsNW1vNR6xDHa5KFWdQHbbCj4gy8U7dMjc5bxWvUVkbk0q7
+	mfbE0n9P5YooeyVusXZP/r4khpwhFmo=
+X-Google-Smtp-Source: APXvYqzW1bvV5WYC6naeOWnBr7OyuuGCrz3G1rliLek6uKRPCjvhPW3xo8v7gwPLoipyAL4GIyP+dw==
+X-Received: by 2002:a17:90a:8043:: with SMTP id
+	e3mr2661488pjw.24.1577753094392; 
+	Mon, 30 Dec 2019 16:44:54 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::fa4b])
 	by smtp.gmail.com with ESMTPSA id
-	n8sm47903281wrx.42.2019.12.30.15.30.28
+	z130sm49806277pgz.6.2019.12.30.16.44.53
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 30 Dec 2019 15:30:29 -0800 (PST)
-Message-ID: <fcdc35cf67cbe53ca794ad3fa75547999d0b3746.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 30 Dec 2019 23:30:28 +0000
-In-Reply-To: <CAMKF1socNxx-eYHAQ=7Jeftqg4mGTzTUY-7K6ZkxdteH+-waiQ@mail.gmail.com>
-References: <20191230084739.19193-1-richard.purdie@linuxfoundation.org>
-	<20191230084739.19193-2-richard.purdie@linuxfoundation.org>
-	<CAMKF1socNxx-eYHAQ=7Jeftqg4mGTzTUY-7K6ZkxdteH+-waiQ@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Mon, 30 Dec 2019 16:44:53 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 30 Dec 2019 16:44:48 -0800
+Message-Id: <20191231004448.3140350-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] bitbake.conf: Simplify TARGET_SYS/SDK_SYS
+Subject: [PATCH V2] util-linux: Use PCRE for hardlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,45 +58,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 30 Dec 2019 23:30:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 31 Dec 2019 00:44:54 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2019-12-30 at 14:10 -0800, Khem Raj wrote:
-> On Mon, Dec 30, 2019 at 12:48 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > As pointed out by Masahiro Yamada <masahiroy@kernel.org>, ('' or
-> > 'custom')
-> > equates to "custom" and this code seems unecesaarily complicated
-> > and unused.
-> > 
-> > It was likely intended to supress the value if XXX_OS was set to ''
-> > but the
-> > code doesn't actually do that. Simplify it as we shouldn't have
-> > this indirection
-> > if we don't need it, its horrible.
-> > 
-> 
-> introduced here in oe classic
-> https://git.openembedded.org/openembedded/commit/?id=e485a5d542a24109c8ab97e58916359efc0cd044
-> 
-> and fixed here
-> https://git.openembedded.org/openembedded/commit/?id=ff02b94de71
-> 
-> downstreamed into poky
-> https://git.openembedded.org/openembedded-core/commit/?id=5ad6d9a94a0
-> 
-> I think oe-core missed the second commit. perhaps it seems that it
-> was created out of poky lineage rather than oe classic.
-> 
-> maybe porting the second commit above would be better option here.
+Use PCRE, this enables using posix extended Regexps on cmdline
 
-Maybe, except that nobody has complained in 8 years. The expression is
-horrible so I'd prefer to drop it if we don't need it. If needed
-someone can override the variable anyway...
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Document the pcre2 pkgconfig usage
 
-Cheers,
+ meta/recipes-core/util-linux/util-linux.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-Richard
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 1fa82363b1..179cb3dac5 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -106,6 +106,11 @@ EXTRA_OECONF_append_class-target = " --enable-setpriv"
+ EXTRA_OECONF_append_class-native = " --without-cap-ng --disable-setpriv"
+ EXTRA_OECONF_append_class-nativesdk = " --without-cap-ng --disable-setpriv"
+ 
++# enable pcre2 for native/nativesdk to match host distros
++# this helps to keep same expectations when using the SDK or
++# build host versions during development
++#
++PACKAGECONFIG ?= "pcre2"
+ PACKAGECONFIG_class-target ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
+ # inherit manpages requires this to be present, however util-linux does not have 
+ # configuration options, and installs manpages always
+@@ -117,6 +122,8 @@ PACKAGECONFIG[systemd] = "--with-systemd --with-systemdsystemunitdir=${systemd_s
+ PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-python --disable-pylibmount,python3"
+ # Readline support
+ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
++# PCRE support in hardlink
++PACKAGECONFIG[pcre2] = ",,libpcre2"
+ 
+ EXTRA_OEMAKE = "ARCH=${TARGET_ARCH} CPU= CPUOPT= 'OPT=${CFLAGS}'"
+ 
+-- 
+2.24.1
 
 
