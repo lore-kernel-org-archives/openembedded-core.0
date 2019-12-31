@@ -1,54 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BE25C7F832
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B85D7FB1F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2019 10:34:32 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id c9so34846266wrw.8
+	Tue, 31 Dec 2019 11:14:33 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id u2so1637635wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2019 02:34:34 -0800 (PST)
+	Tue, 31 Dec 2019 03:14:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=8ToGsVxB2VVHHj/BZZFPX1PFBWdxZfEsgiD4mKPXxQI=;
-	b=E9/N9Vw+5lia7hzyg07XRRD39uDW4OOI7k4/5jMjAxTzmlaMfr13ZX4EQ+xseh26BX
-	fM6r+3IKR5i1yAT4gFISq/i/N37T1xy1Zin7WI1uNQZKecSd6/pZz3B4iZjalQP3oW3O
-	iE6jIZIOaTXZkc/beL4nA+SdGjQJbxteMfQbY=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=e9b323iohis3aQBZF1+YAnSH4UVD6MBwT8HI7vWhdco=;
+	b=K7vJFcLK6/AF6y5W0An3n8Wm4gJW0e0B78qbJ2N/MgvXX06MGE6FuRlJ+m+9tQbWQY
+	4RGV9dwN36oYbAjS1CT9a/K7z0KjLyrygfnKi7E6XUJACvLqq8i7d+5QUec9NTRowOwF
+	T7THhJVAjrvLVU1OUv+wbZDcPV3Ld26OehmPk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=8ToGsVxB2VVHHj/BZZFPX1PFBWdxZfEsgiD4mKPXxQI=;
-	b=AU7MRm5hOazZfoqAMK8g047gngJgyZcwRmYo1YooY63wYiZFW0jCOoL61VpeES+Diw
-	/ZcisGWZf3y1C55cIuK1cATSWZcitsr2GwwHMNb/nIK5f3MlScN6JjL+ufVdkLVhmH+S
-	Y3X3U38gywhIccp6dNQMweFdeRZqezJ3gIJ/zAHBwJ3jV56T9eGUJctBj74fPvT9Wzlw
-	2tMX4jC1FHO5DgFWdpYG3SJK0QUEKGn/r+bom11FTw9fdtjxgyycQZCiIlnXF4NfYTQt
-	dhOzqZg1T6o0BFF6RQkCexrWi6fVf0bMdRvEg9LRfQkJljNjCiwWzSz+TAyYbNTwnWaF
-	rIaw==
-X-Gm-Message-State: APjAAAXeZPFlz7I2PDF9kvzN7oMTZwvKUxv8A5Q/xXLZ2PE/MxiSt2gr
-	BMT4sGCtqCnOYTwf+IW4qe2ZsA==
-X-Google-Smtp-Source: APXvYqwYtxwlnvKa2Xhi1ohj4usOyePr8mi3237JmY1njtCbrCXidAHlFmWkg9IBjaKHsEaqY3DpIQ==
-X-Received: by 2002:adf:f581:: with SMTP id f1mr73224268wro.264.1577788473271; 
-	Tue, 31 Dec 2019 02:34:33 -0800 (PST)
+	bh=e9b323iohis3aQBZF1+YAnSH4UVD6MBwT8HI7vWhdco=;
+	b=Cx2BxeU7kAerP8I3cAfbcBVXakIF+BPKIWgY16upQJwz6kVmRpyZLX8eZJ4SNQasMz
+	muDs7DTcrSYk00+XQgyGsBYxKWJbQgZfVpBL4tUUzZwPoLRNDx4E7AWCMMBolUMz4bHg
+	qnWFAVx4xxD/SQ3aIn1nrmg6b1STx55wTTuxQ4lDl60ZMHac1nhXqYqWI/j/fRdh3T32
+	vDtVCGgO5MBTE9aZsatufwDT5aKNBDtWAclaKdxeCiQfFFm55D/InrpKf4iKC1D0VSIg
+	BPMREMM7FuEUY2QNy4/6LtArAamsb5alN3ppJ9fEZhHvDAfo0ihI99P/6RuwmufEMtHf
+	7i+w==
+X-Gm-Message-State: APjAAAVdNJ61Nc+A+VTGtDRn30hzUVMEhNweO+cDQ5CcDcRUkFmicAnn
+	nXQMBEIGs1EkYAcHP9i6W3tC3w==
+X-Google-Smtp-Source: APXvYqwICXf7SEypeofT8Qzl24uhUNADkvzekv2rt0kl2XWRSx4Vxi3ckG0yiXumdGZ4dopCnE7eqw==
+X-Received: by 2002:a7b:cb91:: with SMTP id m17mr3826526wmi.146.1577790874758; 
+	Tue, 31 Dec 2019 03:14:34 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t5sm48032269wrr.35.2019.12.31.02.34.32
+	by smtp.gmail.com with ESMTPSA id p18sm2272064wmb.8.2019.12.31.03.14.33
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 31 Dec 2019 02:34:32 -0800 (PST)
-Message-ID: <d0b515f861f8475b8b7df9d9dbf81f98f48a0ec8.camel@linuxfoundation.org>
+	Tue, 31 Dec 2019 03:14:34 -0800 (PST)
+Message-ID: <9e6b11194ab1d59e6a1eac574471cbf2a041aa31.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Armin Kuster
-	(akuster808@gmail.com)" <akuster808@gmail.com>
-Date: Tue, 31 Dec 2019 10:34:31 +0000
-In-Reply-To: <386084749a3a5974ea192ebd8714446fcee7fdc9.camel@intel.com>
-References: <cover.1576638856.git.anuj.mittal@intel.com>
-	<386084749a3a5974ea192ebd8714446fcee7fdc9.camel@intel.com>
+To: Alistair Francis <alistair23@gmail.com>, Alistair Francis
+	<alistair@alistair23.me>
+Date: Tue, 31 Dec 2019 11:14:32 +0000
+In-Reply-To: <CAKmqyKN=9HZ78bGpsOumv9vDiWOsz59eUiNgBfH2ns+bhY1qUA@mail.gmail.com>
+References: <20191221063648.24227-1-alistair@alistair23.me>
+	<20191221063648.24227-2-alistair@alistair23.me>
+	<CAKmqyKN=9HZ78bGpsOumv9vDiWOsz59eUiNgBfH2ns+bhY1qUA@mail.gmail.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [zeus][PATCH 0/9] zeus -next review
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v4 2/2] mesa: Upgrade to 19.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,64 +60,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Dec 2019 10:34:33 -0000
+X-List-Received-Date: Tue, 31 Dec 2019 11:14:34 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-12-31 at 01:26 +0000, Mittal, Anuj wrote:
-> Hi Richard,
+On Mon, 2019-12-30 at 17:05 -0800, Alistair Francis wrote:
+> On Fri, Dec 20, 2019 at 10:36 PM Alistair Francis
+> <alistair@alistair23.me> wrote:
+> > Upgrade mesa to 19.3 and refresh the patches.
+> > 
+> > As MESA_EGL_NO_X11_HEADERS was renamed to EGL_NO_X11 in [1] we are
+> > going
+> > to change the do_install and add a patch to libepoxy to use the new
+> > define.
+> > 
+> > 1: 
+> > https://gitlab.freedesktop.org/mesa/mesa/commit/6202a13b71e18dc31ba7e2f4ea915b67eacc1ddb
+> > 
+> > Signed-off-by: Alistair Francis <alistair@alistair23.me>
 > 
-> On Wed, 2019-12-18 at 11:20 +0800, Anuj Mittal wrote:
-> > The following changes since commit
-> > 9c0c8e51dd345dd1b6ba240b027d24a18f55757c:
-> > 
-> >   YP 3.0.1 Docs: Fixed manual revision tables. (2019-12-16 23:32:39
-> > +0000)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   git://push.yoctoproject.org/poky-contrib anujm/zeus
-> > 
-> > Adrian Bunk (2):
-> >   openssl: Whitelist CVE-2019-0190
-> >   python/python3: Whitelist CVE-2019-18348
-> > 
-> > Anuj Mittal (3):
-> >   git: upgrade 2.23.0 -> 2.23.1
-> >   openssl: fix CVE-2019-1551
-> >   sysstat: fix CVE-2019-19725
-> > 
-> > Khem Raj (1):
-> >   nss: Backport clang build fix
-> > 
-> > Quanyang Wang (1):
-> >   lttng-modules: fix NULL pointer deference error when testing
-> >     rpc_task_running
-> > 
-> > Richard Purdie (1):
-> >   qemu-helper-native/systemtap-native: Ensure sysroots are
-> > populated
-> >     with dependencies
-> > 
-> > Slavic Brutalik (1):
-> >   systemd-systemctl: Fix handling of aliased targets
-> > 
-> 
-> Can you please merge these changes in zeus?
+> Ping!
 
-
-Sorry, I'm getting confused between the differing processes you and
-Armin are using.
-
-Armin switched over to using oe-core contrib based trees and also says
-which testing patches have had in the commit header when something is
-ready for merge. I was therefore assuming this was a public review
-series rather than a merge.
-
-We really need to standardise and document this.
+Sorry, the delay is that the patch is non-trivial and doesn't apply
+cleanly. I think I have it ready to test in -next now.
 
 Cheers,
 
-Richrd
+Richard
 
 
