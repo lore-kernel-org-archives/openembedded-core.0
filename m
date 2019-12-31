@@ -1,36 +1,44 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id AA8B67FA20
+Return-Path: <n.merinov@inango-systems.com>
+X-Greylist: delayed 313 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 31 Dec 2019 08:39:58 UTC
+Received: from mail.inango-sw.com (mail.inango-systems.com [178.238.230.57])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DD537F8C1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2019 07:32:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47n5bV1lHQzRj
+	Tue, 31 Dec 2019 08:39:58 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.inango-sw.com (Postfix) with ESMTP id 7690E1080794
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2019 08:32:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1577777526;
-	bh=R2pe45EcJmynR1so6vwpO7RL5IPhhDNJYiNto5NdqRU=;
-	h=Date:From:To:Subject:References:In-Reply-To:From;
-	b=StVvPxKa3OFLCgRgKhEMAZEiufZqeJQoMg511UK5tiE2cXFqtVsX383I9oqey5pkg
-	rn89j8tDX8aTig2XZXw2qGolAEyxu3HwNOi8K7Bb6oxhzOV7JtmX3p8jIrgDbZ1k19
-	y4JYWVyXCSG4baJZ5EktbKO4Ql5XNU/V8IiZa8R2+Ujc4iK2vtIpA8DPn6ODKxtAf0
-	7Hr3vNpwx0FWNUfcC0LpqKcqTOEY44Q2LzyirBnEja2PpYj1lIkpUQW61gH9Ei+Vjr
-	SpACzKUWg9z5XuprDE+MsLFaPD1upBzMEWTKs7CsNqqO9zHp6YaZfoK1g399+xI9Zm
-	9szVBRHqRhCEkUcSFU8L6EHWbLPx650rYuicJ3W/Ee95DVOOaaznrneXpINzt+0+BV
-	/WD6rN5IMyrR+H2tqiwJAenaF/B1xicaogk29NWVhGObQlStQ1VOq1on/LU7WNTDF9
-	kOnx6W4n0PERBWD3UrhVQqZCin254XeQhSGNLwSJeh/VScby+o9huAz0xcN/Z+bt7q
-	SNcnOX47cCb6T1gg3k0y7wYqPiifmyfbyHtUFp4qiSTGJ7oR7sR6ZKPfq08lbEnoJL
-	VKAS4pX3no2TSiqcRWm0hUepLD9x0p52YWNK0wNxzpAD8M5GEuyyCi3rw6qycO002h
-	mGFVvyaP8hO1HnW9FUNaVHJ4=
-Date: Tue, 31 Dec 2019 09:32:04 +0200
-From: Adrian Bunk <bunk@stusta.de>
+	Tue, 31 Dec 2019 10:34:46 +0200 (IST)
+Received: from mail.inango-sw.com ([127.0.0.1])
+	by localhost (mail.inango-sw.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id lQEYnne1sG0T; Tue, 31 Dec 2019 10:34:45 +0200 (IST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.inango-sw.com (Postfix) with ESMTP id 90E361080791;
+	Tue, 31 Dec 2019 10:34:45 +0200 (IST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.inango-sw.com 90E361080791
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=inango-systems.com;
+	s=45A440E0-D841-11E8-B985-5FCC721607E0; t=1577781285;
+	bh=agHzJjljgqVc5CmkGnIY3PUbL4sV4dFKVgNCrBgZT1w=;
+	h=From:To:Date:Message-Id;
+	b=G6lFpPlYLqCnQKx1ldfAemRDBfbpo7JaIJ4KJyIRkyaok2uFAy+Ud3Bqqz6h1raU1
+	eJNEHLr8pBRr/WIlhwbMkrQhSMvZuRVUN+qrr1IpWxiP6MX4UnjOlTOcE8qm+PJAdl
+	j3jc8Po2IpupVzNKR3LWlTesaYpdX7itlMhMAQSlD2RFHfp0VLJ2yOQ8I0evYu66Py
+	eiCPxMt06NWJHFTs56wODxnsfwhlgDT74kjf9JhoPQEJgCaEMr9eOUwzqCWaMsFhc3
+	a65q4ibgYVrCfOtc6ENrBQmVzsUTi0AeOBzJGtBaYxYAxaCle0mzB6eTkwhiqGfUvn
+	3lklGi7aENN/A==
+X-Virus-Scanned: amavisd-new at inango-sw.com
+Received: from mail.inango-sw.com ([127.0.0.1])
+	by localhost (mail.inango-sw.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id n0AcZDzvdtxh; Tue, 31 Dec 2019 10:34:45 +0200 (IST)
+Received: from nmerinov.inango.loc (unknown [194.60.247.123])
+	by mail.inango-sw.com (Postfix) with ESMTPSA id 25694108023B;
+	Tue, 31 Dec 2019 10:34:45 +0200 (IST)
+From: Nikolai Merinov <n.merinov@inango-systems.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20191231073204.GA934@localhost>
-References: <20191220045111.12387-1-bunk@stusta.de>
-MIME-Version: 1.0
-In-Reply-To: <20191220045111.12387-1-bunk@stusta.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Subject: Re: [PATCH] python3: Upgrade 3.7.5 -> 3.7.6
+Date: Tue, 31 Dec 2019 13:33:15 +0500
+Message-Id: <20191231083315.19828-1-n.merinov@inango-systems.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] sanity: allow to compile from root in user namespaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,52 +51,155 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Dec 2019 07:32:08 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 31 Dec 2019 08:39:58 -0000
 
-ping
+New rootless container subsystems rely on the "user namespaces"
+Linux feature. In order to create a container from a regular user the
+user uid and subuids mapped to the uid space inside of container.
 
-This should not conflict with a later upgrade to 3.8,
-and exposure in master would in any case give further
-testing before backporting to zeus+warrior.
+There are different default configurations used for different
+container subsystems:
 
-Thanks
-Adrian
+ 1. Rootless Docker[1] maps the user ID to 0, the subuids to range
+    starting from 1.
+ 2. Rootless RunC[2] from OCI by default maps the user ID to 0 and
+    ignores the subuids.
+ 3. LXC[3] maps the subuids to range from 0. UID not participates
+    in the mapping.
 
+The LXC variant does not allow to work on same files simultaneusly
+inside and outside of a container. Variant suggested by other
+container susbsystems assumes that files owned by user should be
+owned by root in a container environment.
 
-On Fri, Dec 20, 2019 at 06:51:11AM +0200, Adrian Bunk wrote:
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->  .../python/{python3_3.7.5.bb => python3_3.7.6.bb}             | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.7.6.bb} (99%)
-> 
-> diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
-> similarity index 99%
-> rename from meta/recipes-devtools/python/python3_3.7.5.bb
-> rename to meta/recipes-devtools/python/python3_3.7.6.bb
-> index 57eaaea5e7..bd23da87d6 100644
-> --- a/meta/recipes-devtools/python/python3_3.7.5.bb
-> +++ b/meta/recipes-devtools/python/python3_3.7.6.bb
-> @@ -39,8 +39,8 @@ SRC_URI_append_class-nativesdk = " \
->             file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
->             "
->  
-> -SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
-> -SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
-> +SRC_URI[md5sum] = "c08fbee72ad5c2c95b0f4e44bf6fd72c"
-> +SRC_URI[sha256sum] = "55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f"
->  
->  # exclude pre-releases for both python 2.x and 3.x
->  UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
-> -- 
-> 2.17.1
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+In order to simplify Yocto compilation in such rootless containers I
+want to allow to start the bitbake from root user in user namespace
+and allow software compilation from root user in the described
+configuration. Additionally I want to provide minimal dockerfile
+suitable for the core-image-sato image compilation.
+
+--
+[1] https://docs.docker.com/engine/security/rootless/
+[2] https://github.com/opencontainers/runc#rootless-containers
+[3] https://linuxcontainers.org/lxc/getting-started/#creating-unprivileged-containers-as-a-user
+---
+ meta/classes/insane.bbclass                   |  4 ++--
+ meta/classes/sanity.bbclass                   | 10 +++++++-
+ meta/recipes-core/coreutils/coreutils_8.31.bb |  1 +
+ scripts/docker/Dockerfile                     | 19 +++++++++++++++
+ scripts/docker/oe-rootless-docker             | 24 +++++++++++++++++++
+ 5 files changed, 55 insertions(+), 3 deletions(-)
+ create mode 100644 scripts/docker/Dockerfile
+ create mode 100755 scripts/docker/oe-rootless-docker
+
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 0564f9c2a4..3599ce3e6a 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -876,12 +876,12 @@ def package_qa_check_host_user(path, name, d, elf, messages):
+             raise
+     else:
+         check_uid = int(d.getVar('HOST_USER_UID'))
+-        if stat.st_uid == check_uid:
++        if check_uid != 0 and stat.st_uid == check_uid:
+             package_qa_add_message(messages, "host-user-contaminated", "%s: %s is owned by uid %d, which is the same as the user running bitbake. This may be due to host contamination" % (pn, package_qa_clean_path(path, d, name), check_uid))
+             return False
+ 
+         check_gid = int(d.getVar('HOST_USER_GID'))
+-        if stat.st_gid == check_gid:
++        if check_gid != 0 and stat.st_gid == check_gid:
+             package_qa_add_message(messages, "host-user-contaminated", "%s: %s is owned by gid %d, which is the same as the user running bitbake. This may be due to host contamination" % (pn, package_qa_clean_path(path, d, name), check_gid))
+             return False
+     return True
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 63ab6cf3df..a1eba62589 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -742,7 +742,15 @@ def check_sanity_everybuild(status, d):
+     # it makes sense to always run them.
+ 
+     if 0 == os.getuid():
+-        raise_sanity_error("Do not use Bitbake as root.", d)
++        userns = False
++        with open("/proc/self/uid_map") as f:
++            for line in f:
++                fields = line.split()
++                if fields[0] == "0" and fields[1] != "0":
++                    userns = True
++                    break
++        if not userns:
++            raise_sanity_error("Do not use Bitbake as root.", d)
+ 
+     # Check the Python version, we now have a minimum of Python 3.4
+     import sys
+diff --git a/meta/recipes-core/coreutils/coreutils_8.31.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+index 57b2c1bdba..2f8009331a 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.31.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+@@ -28,6 +28,7 @@ SRC_URI[sha256sum] = "ff7a9c918edce6b4f4b2725e3f9b37b0c4d193531cac49a48b56c4d0d3
+ EXTRA_OECONF_class-native = "--without-gmp"
+ EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
+ EXTRA_OECONF_class-nativesdk = "--enable-install-program=arch,hostname"
++EXTRA_OECONF_append = " FORCE_UNSAFE_CONFIGURE=1"
+ 
+ # acl and xattr are not default features
+ #
+diff --git a/scripts/docker/Dockerfile b/scripts/docker/Dockerfile
+new file mode 100644
+index 0000000000..4a143d6aa1
+--- /dev/null
++++ b/scripts/docker/Dockerfile
+@@ -0,0 +1,19 @@
++FROM ubuntu:18.04
++
++RUN DEBIAN_FRONTEND=noninteractive apt-get -y update --fix-missing
++
++# Configure locale for Python3
++RUN DEBIAN_FRONTEND=noninteractive apt-get -y install locales ; \
++    DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales && \
++        locale-gen en_US.UTF-8 && \
++        update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
++
++ENV LANG=en_US.UTF-8
++ENV LC_ALL=en_US.UTF-8
++
++# Install Yocto native dependencies
++RUN DEBIAN_FRONTEND=noninteractive apt-get -y install \
++        wget git-core diffstat unzip texinfo gcc-multilib \
++        build-essential chrpath socat cpio python python3 python3-pip python3-pexpect \
++        xz-utils debianutils iputils-ping python3-git python3-jinja2 libegl1-mesa libsdl1.2-dev \
++        pylint3 xterm gawk
+diff --git a/scripts/docker/oe-rootless-docker b/scripts/docker/oe-rootless-docker
+new file mode 100755
+index 0000000000..1efcc82280
+--- /dev/null
++++ b/scripts/docker/oe-rootless-docker
+@@ -0,0 +1,24 @@
++#!/bin/sh
++
++usage () {
++CMD=$(basename $0)
++cat <<EOF
++Usage: $CMD [docker-build|docker-run]
++  docker-build  Build Dockerfile locally
++  docker-run    Run rootless docker image suitable for image compilation
++EOF
++}
++
++if ! [ -n "${DOCKER_HOST}" -a "$(stat -c '%U' "${DOCKER_HOST#*://}" 2>/dev/null)" = "$(whoami)" ] ; then
++	echo "Install rootless docker according to the https://docs.docker.com/engine/security/rootless/"
++	exit 1
++fi
++
++if [ "$1" = "docker-build" ]; then
++	docker build -t poky-docker $(dirname $(readlink -f $0))
++elif [ "$1" = "docker-run" ]; then
++	docker run -ti -v ${HOME}:${HOME} -v ${PWD}:${PWD} --workdir ${PWD} -e HOME poky-docker
++else
++	usage
++	exit 0
++fi
+-- 
+2.17.1
 
 
