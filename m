@@ -1,36 +1,36 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E7127FA1D
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id AA8B67FA20
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 31 Dec 2019 01:26:21 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Dec 2019 17:26:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,377,1571727600"; d="scan'208";a="269783739"
-Received: from pgsmsx108.gar.corp.intel.com ([10.221.44.103])
-	by FMSMGA003.fm.intel.com with ESMTP; 30 Dec 2019 17:26:21 -0800
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.61]) by
-	PGSMSX108.gar.corp.intel.com ([169.254.8.26]) with mapi id
-	14.03.0439.000; Tue, 31 Dec 2019 09:26:21 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [zeus][PATCH 0/9] zeus -next review
-Thread-Index: AQHVtVJOgywIEYY/jkOfuLc94VSkYafTAdsA
-Date: Tue, 31 Dec 2019 01:26:20 +0000
-Message-ID: <386084749a3a5974ea192ebd8714446fcee7fdc9.camel@intel.com>
-References: <cover.1576638856.git.anuj.mittal@intel.com>
-In-Reply-To: <cover.1576638856.git.anuj.mittal@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.16.254]
+	Tue, 31 Dec 2019 07:32:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47n5bV1lHQzRj
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 31 Dec 2019 08:32:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1577777526;
+	bh=R2pe45EcJmynR1so6vwpO7RL5IPhhDNJYiNto5NdqRU=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=StVvPxKa3OFLCgRgKhEMAZEiufZqeJQoMg511UK5tiE2cXFqtVsX383I9oqey5pkg
+	rn89j8tDX8aTig2XZXw2qGolAEyxu3HwNOi8K7Bb6oxhzOV7JtmX3p8jIrgDbZ1k19
+	y4JYWVyXCSG4baJZ5EktbKO4Ql5XNU/V8IiZa8R2+Ujc4iK2vtIpA8DPn6ODKxtAf0
+	7Hr3vNpwx0FWNUfcC0LpqKcqTOEY44Q2LzyirBnEja2PpYj1lIkpUQW61gH9Ei+Vjr
+	SpACzKUWg9z5XuprDE+MsLFaPD1upBzMEWTKs7CsNqqO9zHp6YaZfoK1g399+xI9Zm
+	9szVBRHqRhCEkUcSFU8L6EHWbLPx650rYuicJ3W/Ee95DVOOaaznrneXpINzt+0+BV
+	/WD6rN5IMyrR+H2tqiwJAenaF/B1xicaogk29NWVhGObQlStQ1VOq1on/LU7WNTDF9
+	kOnx6W4n0PERBWD3UrhVQqZCin254XeQhSGNLwSJeh/VScby+o9huAz0xcN/Z+bt7q
+	SNcnOX47cCb6T1gg3k0y7wYqPiifmyfbyHtUFp4qiSTGJ7oR7sR6ZKPfq08lbEnoJL
+	VKAS4pX3no2TSiqcRWm0hUepLD9x0p52YWNK0wNxzpAD8M5GEuyyCi3rw6qycO002h
+	mGFVvyaP8hO1HnW9FUNaVHJ4=
+Date: Tue, 31 Dec 2019 09:32:04 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20191231073204.GA934@localhost>
+References: <20191220045111.12387-1-bunk@stusta.de>
 MIME-Version: 1.0
-Subject: Re: [zeus][PATCH 0/9] zeus -next review
+In-Reply-To: <20191220045111.12387-1-bunk@stusta.de>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Subject: Re: [PATCH] python3: Upgrade 3.7.5 -> 3.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,29 +43,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 31 Dec 2019 01:26:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <66FB269BD5F2F74699B6F4A3D90F2E89@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 31 Dec 2019 07:32:08 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-SGkgUmljaGFyZCwNCg0KT24gV2VkLCAyMDE5LTEyLTE4IGF0IDExOjIwICswODAwLCBBbnVqIE1p
-dHRhbCB3cm90ZToNCj4gVGhlIGZvbGxvd2luZyBjaGFuZ2VzIHNpbmNlIGNvbW1pdA0KPiA5YzBj
-OGU1MWRkMzQ1ZGQxYjZiYTI0MGIwMjdkMjRhMThmNTU3NTdjOg0KPiANCj4gICBZUCAzLjAuMSBE
-b2NzOiBGaXhlZCBtYW51YWwgcmV2aXNpb24gdGFibGVzLiAoMjAxOS0xMi0xNiAyMzozMjozOQ0K
-PiArMDAwMCkNCj4gDQo+IGFyZSBhdmFpbGFibGUgaW4gdGhlIEdpdCByZXBvc2l0b3J5IGF0Og0K
-PiANCj4gICBnaXQ6Ly9wdXNoLnlvY3RvcHJvamVjdC5vcmcvcG9reS1jb250cmliIGFudWptL3pl
-dXMNCj4gDQo+IEFkcmlhbiBCdW5rICgyKToNCj4gICBvcGVuc3NsOiBXaGl0ZWxpc3QgQ1ZFLTIw
-MTktMDE5MA0KPiAgIHB5dGhvbi9weXRob24zOiBXaGl0ZWxpc3QgQ1ZFLTIwMTktMTgzNDgNCj4g
-DQo+IEFudWogTWl0dGFsICgzKToNCj4gICBnaXQ6IHVwZ3JhZGUgMi4yMy4wIC0+IDIuMjMuMQ0K
-PiAgIG9wZW5zc2w6IGZpeCBDVkUtMjAxOS0xNTUxDQo+ICAgc3lzc3RhdDogZml4IENWRS0yMDE5
-LTE5NzI1DQo+IA0KPiBLaGVtIFJhaiAoMSk6DQo+ICAgbnNzOiBCYWNrcG9ydCBjbGFuZyBidWls
-ZCBmaXgNCj4gDQo+IFF1YW55YW5nIFdhbmcgKDEpOg0KPiAgIGx0dG5nLW1vZHVsZXM6IGZpeCBO
-VUxMIHBvaW50ZXIgZGVmZXJlbmNlIGVycm9yIHdoZW4gdGVzdGluZw0KPiAgICAgcnBjX3Rhc2tf
-cnVubmluZw0KPiANCj4gUmljaGFyZCBQdXJkaWUgKDEpOg0KPiAgIHFlbXUtaGVscGVyLW5hdGl2
-ZS9zeXN0ZW10YXAtbmF0aXZlOiBFbnN1cmUgc3lzcm9vdHMgYXJlIHBvcHVsYXRlZA0KPiAgICAg
-d2l0aCBkZXBlbmRlbmNpZXMNCj4gDQo+IFNsYXZpYyBCcnV0YWxpayAoMSk6DQo+ICAgc3lzdGVt
-ZC1zeXN0ZW1jdGw6IEZpeCBoYW5kbGluZyBvZiBhbGlhc2VkIHRhcmdldHMNCj4gDQoNCkNhbiB5
-b3UgcGxlYXNlIG1lcmdlIHRoZXNlIGNoYW5nZXMgaW4gemV1cz8NCg0KVGhhbmtzLA0KDQpBbnVq
-DQo=
+ping
+
+This should not conflict with a later upgrade to 3.8,
+and exposure in master would in any case give further
+testing before backporting to zeus+warrior.
+
+Thanks
+Adrian
+
+
+On Fri, Dec 20, 2019 at 06:51:11AM +0200, Adrian Bunk wrote:
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>  .../python/{python3_3.7.5.bb => python3_3.7.6.bb}             | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.7.6.bb} (99%)
+> 
+> diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
+> similarity index 99%
+> rename from meta/recipes-devtools/python/python3_3.7.5.bb
+> rename to meta/recipes-devtools/python/python3_3.7.6.bb
+> index 57eaaea5e7..bd23da87d6 100644
+> --- a/meta/recipes-devtools/python/python3_3.7.5.bb
+> +++ b/meta/recipes-devtools/python/python3_3.7.6.bb
+> @@ -39,8 +39,8 @@ SRC_URI_append_class-nativesdk = " \
+>             file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
+>             "
+>  
+> -SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
+> -SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
+> +SRC_URI[md5sum] = "c08fbee72ad5c2c95b0f4e44bf6fd72c"
+> +SRC_URI[sha256sum] = "55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f"
+>  
+>  # exclude pre-releases for both python 2.x and 3.x
+>  UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+> -- 
+> 2.17.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
 
