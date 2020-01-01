@@ -1,18 +1,49 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8894F7F8C8;
-	Wed,  1 Jan 2020 04:02:08 +0000 (UTC)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B63337FACA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 Jan 2020 11:05:46 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id w15so24196624wru.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 Jan 2020 03:05:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8n1lcF9Iq3jCE8Y5tT0Ylkq08zAJZX19qWu8QMyrh5k=;
+	b=X6Jbb8WQ0Xa1zr61IWbqkJtNlRYSphncvuoE7Yrt4YnQlwFbOwejPaFe4Dk85ak344
+	SKGMHR2H27rzoLEoL6Cq226RdaEiE6Zxfvgx0rxBltwzSiuiCL9ixspedjTz8aj9P0tY
+	zJVI6o73wwUHMSDJHD5MjDbrvcl+qcllWQxfI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=8n1lcF9Iq3jCE8Y5tT0Ylkq08zAJZX19qWu8QMyrh5k=;
+	b=trRrz0OafPttidJSvKVbL4cZW/hyoGXouw+jVQB9POlrbV29Bv9R4szf8U1xDf8T/x
+	Nz0lPljQP1f7w3HZsxuTLo2bwiPiVGkiZj6AvxN5VHUyXjIEHXkcfEURqEL79TnKkD+S
+	+qyYw8OM4mlpBtWufAvY06DtF5CJjt6loGMJ3ynql/7PPXGEcA7hFVyR1Cydbh1C/WGq
+	uShNt27tmnbg97JGSvvTFR0oln5R1NRSe0wJpW6g5uFNH7HVhraw5KFHI+X1SRuBw0Vd
+	UmPh7cPgqxEOiUtMBNQoTrzmg2hi/5b6+20SxlZWoU/qXbg662xyD9bWtIvABlWKyjQK
+	mkWA==
+X-Gm-Message-State: APjAAAWHXEYJ53BbRsASb/IaZjvNQqhD6zQsL/iwPgpwmOZ12isbL825
+	7a5top1vJgtV4dClJyFL8/vyfucaEpU=
+X-Google-Smtp-Source: APXvYqw4cz+KiQ5Dh8np2kB6QJSNq2V58o+RRExv9ggEo+nOjs4lijsnrzMElShjreNBujkqWNRZFw==
+X-Received: by 2002:a5d:6703:: with SMTP id o3mr33741879wru.235.1577876747243; 
+	Wed, 01 Jan 2020 03:05:47 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o129sm5245534wmb.1.2020.01.01.03.05.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 01 Jan 2020 03:05:46 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 Jan 2020 11:05:44 +0000
+Message-Id: <20200101110545.12635-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 01 Jan 2020 04:02:10 -0000
-Message-ID: <20200101040210.2274.96927@do>
-References: <20200101034759.8085-1-raj.khem@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200101034759.8085-1-raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2V0dGV4dDogQmFja3BvcnQgcGF0Y2ggdG8gZml4IHBvIGZpbGVzIHdpdGhvdXQgdHJhbnNsYXRpb25z?=
+Subject: [PATCH 1/2] sstatesig: Test cross/native hashserv method extension
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +56,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jan 2020 04:02:08 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 Jan 2020 11:05:47 -0000
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+We can have one taskhash which represents multiple native/cross sstate objects
+since they're stored by BUILD_ARCH or possibly host distro (or host gcc version).
+We need to put these into separate namespaces on hashserv since their outhashes
+will never match and we need deterministic lookups for the different namespaces.
 
-Series: gettext: Backport patch to fix po files without translations
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/21811/
-State : failure
+Use this extramethod option to handle this. This fixes several problematic
+failures on the autobuilder.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at df107f3a14)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/lib/oe/sstatesig.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 7cecb59d8e8..ca3c6dfeaa1 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -103,6 +103,7 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+         self.unlockedrecipes = (data.getVar("SIGGEN_UNLOCKED_RECIPES") or
+                                 "").split()
+         self.unlockedrecipes = { k: "" for k in self.unlockedrecipes }
++        self.buildarch = data.getVar('BUILD_ARCH')
+         pass
+ 
+     def tasks_resolved(self, virtmap, virtpnmap, dataCache):
+@@ -140,6 +141,14 @@ class SignatureGeneratorOEBasicHashMixIn(object):
+         self.dump_lockedsigs(sigfile)
+         return super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigs(dataCache, options)
+ 
++    def prep_taskhash(self, tid, deps, dataCache):
++        super().prep_taskhash(tid, deps, dataCache)
++        if hasattr(self, "extramethod"):
++            (_, _, _, fn) = bb.runqueue.split_tid_mcfn(tid)
++            inherits = " ".join(dataCache.inherits[fn])    
++            if inherits.find("/native.bbclass") != -1 or inherits.find("/cross.bbclass") != -1:
++                self.extramethod[tid] = ":" + self.buildarch
++
+     def get_taskhash(self, tid, deps, dataCache):
+         if tid in self.lockedhashes:
+             if self.lockedhashes[tid]:
+-- 
+2.20.1
 
 
