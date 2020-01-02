@@ -1,33 +1,28 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id AFC3B7F7DD
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 20C507F88D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jan 2020 18:51:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47p0cN5WqGzQr
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 Jan 2020 19:51:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1577904661;
-	bh=QiriymHGXXFviekXn8j6+0jOvFM59vQWR+sy+7KaH/8=;
-	h=From:To:Subject:Date:From;
-	b=o6TM05FgVwldHc0Xj2fitSwppotHZUnfOjN0Hb+7OL+oHdvSiO5SD/pX7e9Ng+bLa
-	YyYAuYdJ/mnlOVZxNfhHAL/qx2E7zpSbYerPW+fiMR+Xot5GWR2+pcNBMZNvz5WCJb
-	FctlARKaVdomW00t5k0bG4IDcxh5FwrzWFteFd8ICKr5TXPvXdELpvDGFGhEbg1N3Q
-	UP2BjM87OXztIL7fC4hUTHAMPZsNn2yxL165arvszwBg08eR7c6ZPevIUbvjZAazda
-	9pseerXpEu0tYhogG5mgzjQZlN+zy/HAydu5cUfBpZRpbtmoEBrQGUIbZBjHLrUsJp
-	FeeR/yYQoc0ilIeLYRUKGLx2j2TpD3HU681k2s51aYlXD8+M32mUUKILRxxGVykc1w
-	tiX4byMzfhaU0JX8oAKxdP27Z8shCkNQDwkZnRCtwFWCLYdtRkkpK9XNRnMNL/SVKo
-	2/648C/OWeXlYAf3YIfvLryCcJG1L11WBY2CwayZYXtfgjJIFqFvupAZH0ZK/mhpeV
-	ZASmVylsZVlgLFqE2CQqlOqMaxNY0JAqYUynaIYVs5CxMggtA1whh6odbTzO1Gr5LZ
-	3wHXLJ4LVcFMdAvH9WDFNsUXntYW2/LoNsVpwRs9HZMWypVytIRwsM7wuEgfNaBB0C
-	JhSD0nJ2zjMUrvb9LnndDwTQ=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 Jan 2020 20:50:59 +0200
-Message-Id: <20200101185059.8139-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v4] python/python3: Whitelist CVE-2019-18348
+	Thu,  2 Jan 2020 10:18:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 002AI7Lm015773
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 2 Jan 2020 02:18:07 -0800 (PST)
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 2 Jan 2020 02:18:06 -0800
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20191127164003.115980-1-alex.kanavin@gmail.com>
+	<20191127164003.115980-6-alex.kanavin@gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <81f2806c-4107-2ce5-2c0f-4bdd28438fb1@windriver.com>
+Date: Thu, 2 Jan 2020 18:17:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.2.2
+MIME-Version: 1.0
+In-Reply-To: <20191127164003.115980-6-alex.kanavin@gmail.com>
+Subject: Re: [PATCH 06/14] dummy-sdk-package.inc: do not include files into RREPLACES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,46 +35,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 Jan 2020 18:51:02 -0000
+X-List-Received-Date: Thu, 02 Jan 2020 10:18:12 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-This is not exploitable when glibc has CVE-2016-10739 fixed,
-which is fixed in the upstream version since warrior.
+On 2019/11/28 上午12:39, Alexander Kanavin wrote:
+> rpm 4.15 no longer allows it, which makes sense.
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-devtools/python/python.inc       | 3 +++
- meta/recipes-devtools/python/python3_3.7.6.bb | 3 +++
- 2 files changed, 6 insertions(+)
+Hi Alex,
 
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index 110ec315d9..19a2f3e743 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -29,6 +29,9 @@ CVE_CHECK_WHITELIST += "CVE-2017-18207"
- # of Python that cannot really be altered at this point."
- CVE_CHECK_WHITELIST += "CVE-2015-5652"
- 
-+# This is not exploitable when glibc has CVE-2016-10739 fixed.
-+CVE_CHECK_WHITELIST += "CVE-2019-18348"
-+
- PYTHON_MAJMIN = "2.7"
- 
- inherit autotools pkgconfig
-diff --git a/meta/recipes-devtools/python/python3_3.7.6.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
-index e3d14fe45f..4849cd59ba 100644
---- a/meta/recipes-devtools/python/python3_3.7.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.6.bb
-@@ -47,6 +47,9 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
- 
- CVE_PRODUCT = "python"
- 
-+# This is not exploitable when glibc has CVE-2016-10739 fixed.
-+CVE_CHECK_WHITELIST += "CVE-2019-18348"
-+
- PYTHON_MAJMIN = "3.7"
- PYTHON_BINABI = "${PYTHON_MAJMIN}m"
- 
+I tried this patch with rpm 4.15 and it fails to run task populate_sdk 
+when multilib is enabled and lib32-perl is installed.
+
+IMAGE_INSTALL_append = " lib32-perl "
+
+It fails with:
+
+No module defaults found
+--> Starting dependency resolution
+--> Finished dependency resolution
+Error:
+  Problem: package 
+target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target conflicts 
+with lib32-perl provided by lib32-perl-5.30.1-r0.i586
+   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
+conflicts with lib32-perl-module-strict provided by 
+lib32-perl-5.30.1-r0.i586
+   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
+conflicts with lib32-perl-module-warnings provided by 
+lib32-perl-5.30.1-r0.i586
+   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
+conflicts with lib32-perl-module-vars provided by lib32-perl-5.30.1-r0.i586
+   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
+conflicts with lib32-perl-module-config provided by 
+lib32-perl-5.30.1-r0.i586
+   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
+conflicts with lib32-perl-module-warnings-register provided by 
+lib32-perl-5.30.1-r0.i586
+   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
+conflicts with /usr/bin/perl provided by lib32-perl-5.30.1-r0.i586
+   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
+conflicts with libperl.so.5 provided by lib32-perl-5.30.1-r0.i586
+   - conflicting requests
+(try to add '--allowerasing' to command line to replace conflicting 
+packages or '--skip-broken' to skip uninstallable packages or '--nobest' 
+to use not only best candidate packages)
+
+Any suggestion about it, please?
+
+Regards,
+Kai
+
+
+> ---
+>   meta/recipes-core/meta/dummy-sdk-package.inc | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/recipes-core/meta/dummy-sdk-package.inc
+> index 4d653706b13..58b0482eca5 100644
+> --- a/meta/recipes-core/meta/dummy-sdk-package.inc
+> +++ b/meta/recipes-core/meta/dummy-sdk-package.inc
+> @@ -16,11 +16,12 @@ python() {
+>   ALLOW_EMPTY_${PN} = "1"
+>   
+>   PR[vardeps] += "DUMMYPROVIDES"
+> +PR[vardeps] += "DUMMYPROVIDES_PACKAGES"
+>   
+>   python populate_packages_prepend() {
+>       p = d.getVar("PN")
+>       d.appendVar("RPROVIDES_%s" % p, "${DUMMYPROVIDES}")
+>       d.appendVar("RCONFLICTS_%s" % p, "${DUMMYPROVIDES}")
+> -    d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES}")
+> +    d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES_PACKAGES}")
+>   }
+>   
+
+
 -- 
-2.17.1
+Kai Kang
 
 
