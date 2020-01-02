@@ -1,28 +1,27 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 20C507F88D
+Return-Path: <zhengjunling@huawei.com>
+X-Greylist: delayed 916 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 02 Jan 2020 11:09:25 UTC
+Received: from huawei.com (szxga07-in.huawei.com [45.249.212.35])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D9E37FC42
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 Jan 2020 10:18:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 002AI7Lm015773
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Thu, 2 Jan 2020 02:18:07 -0800 (PST)
-Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Thu, 2 Jan 2020 02:18:06 -0800
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20191127164003.115980-1-alex.kanavin@gmail.com>
-	<20191127164003.115980-6-alex.kanavin@gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <81f2806c-4107-2ce5-2c0f-4bdd28438fb1@windriver.com>
-Date: Thu, 2 Jan 2020 18:17:16 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	Thu,  2 Jan 2020 11:09:25 +0000 (UTC)
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+	by Forcepoint Email with ESMTP id A5618AA3C54B1F5689FF
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  2 Jan 2020 18:54:08 +0800 (CST)
+Received: from HULK-Android.huawei.com (10.113.189.218) by
+	DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server
+	id 14.3.439.0; Thu, 2 Jan 2020 18:54:01 +0800
+From: Junling Zheng <zhengjunling@huawei.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 2 Jan 2020 18:53:53 +0800
+Message-ID: <20200102105353.633-1-zhengjunling@huawei.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20191127164003.115980-6-alex.kanavin@gmail.com>
-Subject: Re: [PATCH 06/14] dummy-sdk-package.inc: do not include files into RREPLACES
+X-Originating-IP: [10.113.189.218]
+X-CFilter-Loop: Reflected
+Cc: wangnan0@huawei.com
+Subject: [PATCH] security_flags: Remove stack protector flags from LDFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,86 +34,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 Jan 2020 10:18:12 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 02 Jan 2020 11:09:26 -0000
+Content-Type: text/plain
 
-On 2019/11/28 上午12:39, Alexander Kanavin wrote:
-> rpm 4.15 no longer allows it, which makes sense.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+The stack protector flag is a compile option, not a link option, so
+remove it from LDFLAGS.
 
-Hi Alex,
+Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
+---
+ meta/conf/distro/include/security_flags.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I tried this patch with rpm 4.15 and it fails to run task populate_sdk 
-when multilib is enabled and lib32-perl is installed.
-
-IMAGE_INSTALL_append = " lib32-perl "
-
-It fails with:
-
-No module defaults found
---> Starting dependency resolution
---> Finished dependency resolution
-Error:
-  Problem: package 
-target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target conflicts 
-with lib32-perl provided by lib32-perl-5.30.1-r0.i586
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-conflicts with lib32-perl-module-strict provided by 
-lib32-perl-5.30.1-r0.i586
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-conflicts with lib32-perl-module-warnings provided by 
-lib32-perl-5.30.1-r0.i586
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-conflicts with lib32-perl-module-vars provided by lib32-perl-5.30.1-r0.i586
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-conflicts with lib32-perl-module-config provided by 
-lib32-perl-5.30.1-r0.i586
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-conflicts with lib32-perl-module-warnings-register provided by 
-lib32-perl-5.30.1-r0.i586
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-conflicts with /usr/bin/perl provided by lib32-perl-5.30.1-r0.i586
-   - package target-sdk-provides-dummy-1.0-r0.sdk_provides_dummy_target 
-conflicts with libperl.so.5 provided by lib32-perl-5.30.1-r0.i586
-   - conflicting requests
-(try to add '--allowerasing' to command line to replace conflicting 
-packages or '--skip-broken' to skip uninstallable packages or '--nobest' 
-to use not only best candidate packages)
-
-Any suggestion about it, please?
-
-Regards,
-Kai
-
-
-> ---
->   meta/recipes-core/meta/dummy-sdk-package.inc | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/meta/dummy-sdk-package.inc b/meta/recipes-core/meta/dummy-sdk-package.inc
-> index 4d653706b13..58b0482eca5 100644
-> --- a/meta/recipes-core/meta/dummy-sdk-package.inc
-> +++ b/meta/recipes-core/meta/dummy-sdk-package.inc
-> @@ -16,11 +16,12 @@ python() {
->   ALLOW_EMPTY_${PN} = "1"
->   
->   PR[vardeps] += "DUMMYPROVIDES"
-> +PR[vardeps] += "DUMMYPROVIDES_PACKAGES"
->   
->   python populate_packages_prepend() {
->       p = d.getVar("PN")
->       d.appendVar("RPROVIDES_%s" % p, "${DUMMYPROVIDES}")
->       d.appendVar("RCONFLICTS_%s" % p, "${DUMMYPROVIDES}")
-> -    d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES}")
-> +    d.appendVar("RREPLACES_%s" % p, "${DUMMYPROVIDES_PACKAGES}")
->   }
->   
-
-
+diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
+index aaf04e9e59..5b79340be9 100644
+--- a/meta/conf/distro/include/security_flags.inc
++++ b/meta/conf/distro/include/security_flags.inc
+@@ -26,8 +26,8 @@ SECURITY_STACK_PROTECTOR ?= "-fstack-protector-strong"
+ SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+ SECURITY_NO_PIE_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
+ 
+-SECURITY_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro,-z,now"
+-SECURITY_X_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro"
++SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
++SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
+ 
+ # powerpc does not get on with pie for reasons not looked into as yet
+ GCCPIE_powerpc = ""
 -- 
-Kai Kang
+2.17.1
 
 
