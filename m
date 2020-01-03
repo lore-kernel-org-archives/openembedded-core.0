@@ -1,25 +1,50 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BFD37F942
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id C9EC37E71B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jan 2020 05:59:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0035x5Kv028402
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Fri,  3 Jan 2020 07:21:13 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id r11so23067012pgf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 2 Jan 2020 21:59:06 -0800 (PST)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Thu, 2 Jan 2020 21:58:52 -0800
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 3 Jan 2020 13:58:12 +0800
-Message-ID: <1578031092-239570-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Thu, 02 Jan 2020 23:21:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=B22PYKljbBOg9de/kgD3XkWyZDeQkwvfaTIw+UqlUbs=;
+	b=S+tcwhr8nMI+dEJakUr2FiPKOzLPhUPHITvw3F8GMc8U5e4ojqp+egZNWceWSPYaSo
+	b1zOXebL0WfccUht0Fr+8uI0Xd3MJw9ySpz29AWPGYI3KtLaCH2z/IGihTmWF9PPvgcS
+	S+HIGUrGEBSkQ+Vs/tAb3oKjTpPyhcuqgY6UWxZGGSSzUt33HK0OQyPlPwIWuqC/9Xw7
+	0RY+qhKQkC6xQZ4ZtButYWB5o+d0/FxTGyUF51d7GnK+rNemqdU3nLg82HAbrwRGSvu4
+	49ye/+iHUwf5wnSUGBCVdbHFCzpigfeG2RrbBzgxC/ASQ1R6r2eZTyWvjkYLf7kbGrBi
+	MXRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=B22PYKljbBOg9de/kgD3XkWyZDeQkwvfaTIw+UqlUbs=;
+	b=Oc7tNBh6pBLbZ7O27myZw2SXsf8YKIKbn0cUVuWvAW5C7PA38486R7pdctDqQVm1If
+	MHDhF4wynij7GfbRRTMJ/QQ1UeEsNlfzKMFzSl+vbxRym0cvaUOG03SlPqOg1DtlEOl/
+	kJf73XvYVjPRxXuaw/s0KMvLBEIpxxMwi+3VZTsh+r7PLUahTpjGZqh/qNK5EGQVNhyc
+	86k8je0RAprRdihaGljsyhy0EvRLPiTqnbuMXJPxC50eCxwaZB5i+kQcq1WsSlZemSOg
+	bquuzXVagRvdKhIEqXMOjHziSjO4srx+5MpQ9XA+wD5vWATeZHOYSa9F31s5oA/kO6rB
+	zyKQ==
+X-Gm-Message-State: APjAAAWaGXzGcd7LDQ2kgKJYnB6eplz4QX4UV0sZ9hreRfgcKWEMEOkx
+	hUkGOdQUXm7WH6ONaXNqJTWanQSmdcc=
+X-Google-Smtp-Source: APXvYqyh/LP+aWTIJTDh1F9a7sNGGUfisecPK8wGMFiDgXn5h+YylyVkLAqDGCoWgrfh3lGPku/8sA==
+X-Received: by 2002:a63:1b54:: with SMTP id b20mr93761589pgm.312.1578036074347;
+	Thu, 02 Jan 2020 23:21:14 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::fa4b])
+	by smtp.gmail.com with ESMTPSA id
+	y128sm64430512pfg.17.2020.01.02.23.21.13
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 02 Jan 2020 23:21:13 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  2 Jan 2020 23:21:07 -0800
+Message-Id: <cover.1578035913.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH] shadow: Security Advisory - shadow - CVE-2019-19882
+Subject: [PATCH 0/3] Upgrade musl to 1.1.24+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,94 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jan 2020 05:59:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 03 Jan 2020 07:21:13 -0000
+Content-Transfer-Encoding: 8bit
 
-Backport patch from <https://github.com/shadow-maint/shadow/pull/199/
-commits/66b7bc0dcfda12d7f58eba993bd02872cae1d713> to solve
-CVE-2019-19882.
+Build it out of tree
+Enable 64bit time_t on 32bit arches
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
----
- .../shadow/files/CVE-2019-19882.patch              | 55 ++++++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc            |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-extended/shadow/files/CVE-2019-19882.patch
+The following changes since commit 3e108b70176dee3495f3afcea1c0c87cccf2a379:
 
-diff --git a/meta/recipes-extended/shadow/files/CVE-2019-19882.patch b/meta/recipes-extended/shadow/files/CVE-2019-19882.patch
-new file mode 100644
-index 0000000..894d867
---- /dev/null
-+++ b/meta/recipes-extended/shadow/files/CVE-2019-19882.patch
-@@ -0,0 +1,55 @@
-+From 66b7bc0dcfda12d7f58eba993bd02872cae1d713 Mon Sep 17 00:00:00 2001
-+From: Dave Reisner <dreisner@archlinux.org>
-+Date: Mon, 16 Dec 2019 14:11:23 -0500
-+Subject: [PATCH] Don't auto-enable ACCT_TOOLS_SETUID if PAM is detected
-+
-+Here's a sad story:
-+
-+* 70971457 is merged into shadow, allowing newgidmap/newuidmap to be
-+installed with file caps rather than setuid.
-+* https://bugs.archlinux.org/task/63248 is filed to take advantage of
-+this.
-+* The arch maintainer of the 'shadow' package notices that this doesn't
-+work, and submits a pull request to fix this in shadow.
-+* edf7547ad5 is merged, fixing the post install hooks.
-+
-+The problem here is that distros have been building shadow with PAM for
-+O(years), but the install hooks have silently failed due to the
-+combination of the directory mismatch (suidubins vs suidsbins) and later
-+success with setuid'ing newgidmap/newuidmap.
-+
-+With the install hooks fixed, those of us (Arch[1] and Gentoo[2] so far)
-+who never built shadow explicitly with --enable-account-tools-setuid are
-+now getting setuid account tools, and don't have PAM configuration
-+suitable for use with setuid account management tools.
-+
-+It's entirely unclear to me why you'd want this, but I assume there's
-+some reason out there for it existing. Regardless, setuid binaries are
-+dangerous and shouldn't be enabled by default without good reason.
-+
-+[1] https://bugs.archlinux.org/task/64836
-+[2] https://bugs.gentoo.org/702252
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-19882
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index e3ed3b43..d6e2bfbd 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -226,7 +226,7 @@ AC_ARG_ENABLE(account-tools-setuid,
-+ 	   *) AC_MSG_ERROR(bad value ${enableval} for --enable-account-tools-setuid)
-+ 	   ;;
-+ 	 esac],
-+-	[enable_acct_tools_setuid="maybe"]
-++	[enable_acct_tools_setuid="no"]
-+ )
-+ 
-+ AC_ARG_ENABLE(utmpx,
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 267d232..3bfa39e 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -13,6 +13,7 @@ SRC_URI = "https://github.com/shadow-maint/shadow/releases/download/${PV}/${BP}.
-            file://shadow-4.1.3-dots-in-usernames.patch \
-            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://shadow-relaxed-usernames.patch \
-+           file://CVE-2019-19882.patch \
-            "
- 
- SRC_URI_append_class-target = " \
+  bitbake: cache: Lower debug level for wold build messages (2020-01-02 16:43:01 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib kraj/misc
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kraj/misc
+
+Khem Raj (3):
+  musl: Upgrade beyond 1.24
+  musl: Build outside of source tree
+  tclibc-musl: Add -D__USE_TIME_BITS64 to c/c++ flags
+
+ meta/conf/distro/include/tclibc-musl.inc      |  1 +
+ meta/recipes-core/musl/musl.inc               |  4 +-
+ .../0001-riscv-Define-sigcontext-again.patch  | 48 -------------------
+ meta/recipes-core/musl/musl_git.bb            |  5 +-
+ 4 files changed, 6 insertions(+), 52 deletions(-)
+ delete mode 100644 meta/recipes-core/musl/musl/0001-riscv-Define-sigcontext-again.patch
+
 -- 
-1.9.1
+2.24.1
 
 
