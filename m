@@ -1,50 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B6B197E08B
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C8F887F98A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jan 2020 18:04:37 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id l24so23757594pgk.2
+	Fri,  3 Jan 2020 18:09:28 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id z7so43137288wrl.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 Jan 2020 10:04:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
+	Fri, 03 Jan 2020 10:09:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=hFVriihO1fn4ztYigjP1Ix/df6BEezx7ZUtyoS/Z8hg=;
-	b=bwtwN/uCAzQUFM691RanOihXgno0gKqcQj/LMFQ0P0JSNzkB/9xBiPcdvd950GEOtQ
-	/KyCZLHokg/kOicHM2ydqEkGEe4hi/t9h89/6vogbeGLTxD+/FA0LCBjJ/9yG6Xhtqnb
-	GdJsodJ7gpjAXctnZODhXyZcxVPAQKxZoovEJDlCojBYEd1J6NUb4YS8U7geLc+6hfrJ
-	02hQH0ePAEukQKvHeA6adCg2YEH4ul2+xfJWHqPRJ6AaMOvUVPe/uuVg17pPbvt6x2qQ
-	PnyKKU60quSIV1yhag8IlrfS7YJ6cCyyNvLT2ALIIoeR94JmofnwYDLInlmFaHa8ZyTW
-	nfZw==
+	bh=Rio6CIQQBHhM/22TIYLxEL4Ipp/iInzFCqY2LUflVP0=;
+	b=zlq7hUqbPtmzuCAdj8bske/rb5hXyB9Stc6qUfJdZ2nx5qP8ybeao9NbooZPzhTXf5
+	/ocFXtja6JxzDBIxyVokjxzGKgSZkIBl6mZbGr4ktUvRg6LvL8l3orWqDubZCO+AJdY2
+	JVM6vuT81RtdFzjit0BYgwEbss5LhOi/0rXryjwoW+VYlcbk8ut0hP5VQnQZggYPgb6O
+	T4su695aNDHJ+qBW4dcb6voKgZacyaQzg+n8ONDuMegiNoawXormgYqoTNKUYzVTCPlu
+	B2ZAZbRWOCSiZuzjij/yf7szH3VWaGV8pjqeLgniPyktM/xU5bq0Tv9w7n3FIz5Ji68u
+	4ijg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=hFVriihO1fn4ztYigjP1Ix/df6BEezx7ZUtyoS/Z8hg=;
-	b=Wt+0L5V4BfSWwWOJBvLGgTrSRmXdRHXAoKfNF2jZCGYvPNpttIH1/I68lNdlIEhprT
-	ZM/6VS1UPX1HOtYDYerx5Od8ydXSg70AqCTKIphmcJn//q7r29pOCOxF2qOMcG9x7gyO
-	8kdt2ZtRJlWy92TZ7ZuMkjv63jYDHZ/sOP/mgSDqgeD3TUWQej7xDivtorx1auZZP7DW
-	S64rvL3bG/l4j7x1QeI7bDSgHFk8GppqFXzAU4iD/m23Y3s2JiDb8Sjf/7ajqkx4nLGW
-	dbNXQKV1hDjECIU6DCKmzwf8Dkl6NnQnX/uo1GJrMTMJ5yZy0aIQmHGsYrvRR2OS3WPr
-	o81A==
-X-Gm-Message-State: APjAAAUp9i7lln2r/K+C6bCYO+HiwM/PT4cfoyYK4FzeA8CtsCv75xT9
-	2Eh46PWkB8BsYie7BeQdF+Z/+ZzZmNQ=
-X-Google-Smtp-Source: APXvYqwP3crPxkB0XfHU87U5XFU7/g6qs2fBWNJZfR3k9tLfKtoFRzDhZzyMiCeYpa77pFpQr4sNjA==
-X-Received: by 2002:a63:1953:: with SMTP id 19mr95963833pgz.157.1578074678263; 
-	Fri, 03 Jan 2020 10:04:38 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::fa4b])
-	by smtp.gmail.com with ESMTPSA id
-	y203sm48790881pfb.65.2020.01.03.10.04.37
+	bh=Rio6CIQQBHhM/22TIYLxEL4Ipp/iInzFCqY2LUflVP0=;
+	b=QzZSRL4uIebaf5wb+gPcYWcyUS1hJdaMHfOFPVosHUMmCwuLtedfRrn8y0a5MRvSGz
+	pPrdptQVCWfWBlCeKyMQPwtm+UYWIaFRs89tpyw6eAwyxv9GaTWAnrFXBL1PcBSDRRR/
+	vTGaWFCI5GrEBTxHNvBjps0/h3VbxnvzdYZzUvhzfcF+8/EeM3W9reQWsOy+LhKy3SFZ
+	14Ia2Ot1SumSH6hHYIe7NZoLg2i1x0eiw0prKcakauSFhZyMmJuObk1ll/SP09g+HEv4
+	Cee0ZUZWALh041045H2TtLJUI7hYsCOMGWPdg3Jd1yY2ZdxblPEZgYpfbeHh8btTWl2t
+	h/oA==
+X-Gm-Message-State: APjAAAW8/j0VlqinjiCarwnYn1e15UDoUdNVC/qo1orqnFD7sbYP8ni9
+	SJA+9/AktBHnpger2TH04t/VKNWeYcs=
+X-Google-Smtp-Source: APXvYqxiodtGLuIIV4Ugt39FUfzjcmIFbIRBzp/Dt/odCgv5A766q/60N465jQ8af6Lq29dbfiYAZg==
+X-Received: by 2002:adf:fa12:: with SMTP id m18mr85827395wrr.309.1578074968680;
+	Fri, 03 Jan 2020 10:09:28 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	o7sm12625104wmh.11.2020.01.03.10.09.26
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 03 Jan 2020 10:04:37 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Fri, 03 Jan 2020 10:09:27 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 Jan 2020 10:04:34 -0800
-Message-Id: <20200103180434.3248837-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.1
+Date: Fri,  3 Jan 2020 18:09:14 +0000
+Message-Id: <20200103180914.13278-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH v2] musl: Build outside of source tree
+Subject: [PATCH] meson.bbclass: warn if cross property defaults are used
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +59,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jan 2020 18:04:37 -0000
+X-List-Received-Date: Fri, 03 Jan 2020 18:09:30 -0000
 Content-Transfer-Encoding: 8bit
 
-musl does not use cmake/autotools etc. but plane old makefile basded
-build system, which means it does not get B defined to be outside S
-therefore define B explicitly to be outside S
+The Meson idiom for checks which require running code on the target
+(which isn't possible in cross compilation) is to use a cross property,
+which the user can set in the cross file:
 
-Ensure that B is clean before configure task is run
+if cc_can_run
+  rres = cc.run(test_foo_code)
+  have_foo = rres.compiled() and rres.returncode() == 0
+else
+  have_foo = meson.get_cross_property('have_foo', false)
+endif
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+The default value may be overly conservative so we should review every
+property and explicitly set them as apppropriate.  oe-core 669ddaf added
+a log message when the default value is used, so look for this message
+and emit a warning that the user will see.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
-v2: Add B to cleandirs
+ meta/classes/meson.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
- meta/recipes-core/musl/musl.inc | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
-index 9aea2c39c8..bdce412162 100644
---- a/meta/recipes-core/musl/musl.inc
-+++ b/meta/recipes-core/musl/musl.inc
-@@ -25,3 +25,7 @@ MIPS_INSTRUCTION_SET = "mips"
- ARM_INSTRUCTION_SET_armv5 = "arm"
- ARM_INSTRUCTION_SET_armv4 = "arm"
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 71f9de1a570..6a3c0c55e30 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -158,6 +158,15 @@ meson_do_configure_prepend_class-native() {
+     export PKG_CONFIG="pkg-config-native"
+ }
  
-+# Enable out of tree build
-+B = "${WORKDIR}/build"
++python meson_do_qa_configure() {
++    import re
++    warn_re = re.compile(r"^WARNING: Cross property (.+) is using default value (.+)$", re.MULTILINE)
++    log = open(d.expand("${B}/meson-logs/meson-log.txt")).read()
++    for (prop, value) in warn_re.findall(log):
++        bb.warn("Meson cross property %s used without explicit assignment, defaulting to %s" % (prop, value))
++}
++do_configure[postfuncs] += "meson_do_qa_configure"
 +
-+do_configure[cleandirs] = "${B}"
+ do_compile[progress] = "outof:^\[(\d+)/(\d+)\]\s+"
+ meson_do_compile() {
+     ninja -v ${PARALLEL_MAKE}
 -- 
-2.24.1
+2.20.1
 
 
