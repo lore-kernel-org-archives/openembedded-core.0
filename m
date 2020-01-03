@@ -1,53 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
-	[209.85.216.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A2F877FAA5
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id E68A07FBAC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 Jan 2020 07:21:28 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id s7so4391842pjc.0
+	Fri,  3 Jan 2020 08:32:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.69,390,1571673600"; d="scan'208";a="81266736"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 03 Jan 2020 16:32:30 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 21DFC406AB15
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 Jan 2020 23:21:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=ZVwbOQhCFJsl10fRd+43xTxiriuPogGC90Kd+A+2VKc=;
-	b=ZIifVbAbg7xHEEJ2HFbj50b+Il92Afkg3VlUANtgqiX2mWcMJpHDMaUKevIkN42qlM
-	HbG1MPlJDvF3XTjBCrqgzPugyc+3MZO2UMCbn8Z/QtQLBZbJ6u/eSVyhDeklVezsRUlb
-	YRGxuOXX9XlPW/CtDCAKhTr94YmHtTHfVZmfOkcd8UXI5QR5/dBoG2zFq3s+pTOgIi9k
-	NC9k6QZ0y5HveKiXLRUpDrw/gxO7bKFDGX55nVePZAiZpp1g41fg3Ee7NlWwMbxfoRLE
-	Fsc5CTwXo03Zknhqg/sxbTA8vwhzPmsmzsHmmbnSWRNLpFC2ONCeY7pAZbxqy8djF101
-	66eQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=ZVwbOQhCFJsl10fRd+43xTxiriuPogGC90Kd+A+2VKc=;
-	b=IAQYmtPRNAbcY/CoGZB0IHHg7zULFNaAEfH6zxHj3SCOuyDsDIdgaTdIDMgzUQBQtP
-	V/V4ppwFhXp7pyV05QQCtIV+JMNtT+jFma+zRE2rNySi4/W1/3jykEqfo+RrEGmqC3wV
-	CziN3zEMYt7DhNUfdFzb9a6O5g+S0lOFXEMjzvZ9sUtXBeHuFCE5k55o5EQQO1pRPBUE
-	D5v5ima9k4CQzLEqWTXdGK4vZqAoMjn9VxL2AdvxyC6m613+LHEg/V3xXpeEDH4WasA4
-	7yjKMTA9jj35rlEO+MWc8HmcWgmDT5IWGiWH6n+ZRQ32TYZJKYBkWQs+tKr4uSMH9tCR
-	Mj5w==
-X-Gm-Message-State: APjAAAWBJ6bEvE38SBqGulYHLgQPxEbE9jzwsrwpQpFYcRUigJnV4nis
-	+wZWZfYtwU1FwBPLBmGrjv2DAtniYkw=
-X-Google-Smtp-Source: APXvYqw0dHPuWYDJzdO+j0zI6m0xBCBKlzuGOa+Gf3HeGT5nZKMn2BkcMW+s3VohsgfLQMRT13Oq1A==
-X-Received: by 2002:a17:90a:a88d:: with SMTP id
-	h13mr23947171pjq.55.1578036089520; 
-	Thu, 02 Jan 2020 23:21:29 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::fa4b])
-	by smtp.gmail.com with ESMTPSA id
-	i66sm35163470pfg.85.2020.01.02.23.21.28
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 02 Jan 2020 23:21:29 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 Jan 2020 23:21:22 -0800
-Message-Id: <5c6e77fa2c33e38254395b6f315bd78b62c5c695.1578035913.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <cover.1578035913.git.raj.khem@gmail.com>
-References: <cover.1578035913.git.raj.khem@gmail.com>
+	Fri,  3 Jan 2020 16:23:29 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Fri, 3 Jan 2020 16:32:25 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Fri, 3 Jan 2020 16:32:27 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 3 Jan 2020 05:01:16 -0800
+Message-ID: <1578056478-94580-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH 2/3] musl: Build outside of source tree
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: 21DFC406AB15.A3832
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] rng-tools: upgrade 6.8 -> 6.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,29 +40,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 Jan 2020 07:21:29 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 03 Jan 2020 08:32:30 -0000
+Content-Type: text/plain
 
-musl does not use cmake/autotools etc. but plane old makefile basded
-build system, which means it does not get B defined to be outside S
-therefore define B explicitly to be outside S
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- meta/recipes-core/musl/musl.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ .../rng-tools/{rng-tools_6.8.bb => rng-tools_6.9.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/rng-tools/{rng-tools_6.8.bb => rng-tools_6.9.bb} (97%)
 
-diff --git a/meta/recipes-core/musl/musl.inc b/meta/recipes-core/musl/musl.inc
-index 9aea2c39c8..e5cc869cb9 100644
---- a/meta/recipes-core/musl/musl.inc
-+++ b/meta/recipes-core/musl/musl.inc
-@@ -25,3 +25,5 @@ MIPS_INSTRUCTION_SET = "mips"
- ARM_INSTRUCTION_SET_armv5 = "arm"
- ARM_INSTRUCTION_SET_armv4 = "arm"
+diff --git a/meta/recipes-support/rng-tools/rng-tools_6.8.bb b/meta/recipes-support/rng-tools/rng-tools_6.9.bb
+similarity index 97%
+rename from meta/recipes-support/rng-tools/rng-tools_6.8.bb
+rename to meta/recipes-support/rng-tools/rng-tools_6.9.bb
+index 83a48a4ec3..913342c315 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_6.8.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_6.9.bb
+@@ -14,7 +14,7 @@ SRC_URI = "\
+     file://default \
+     file://rngd.service \
+ "
+-SRCREV = "eb5e34c7fb05594760f99d863fbe0401fe297b93"
++SRCREV = "4a865797a69dd38c64a86aa32884ecc9ba7b4d08"
  
-+# Enable out of tree build
-+B = "${WORKDIR}/build"
+ S = "${WORKDIR}/git"
+ 
 -- 
-2.24.1
+2.17.1
+
+
 
 
