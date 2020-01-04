@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 557A37F844
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 659A77F844
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Jan 2020 16:26:34 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id b9so24792642pgk.12
+	Sat,  4 Jan 2020 16:26:35 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id x8so24800620pgk.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Jan 2020 08:26:35 -0800 (PST)
+	Sat, 04 Jan 2020 08:26:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=semGvceRmDuX7FntPOWH59mK7Gl9kwubptYYf2tvmJc=;
-	b=gxxPoITgQGfnX0NV8xbrcENNw+mLwjITTH1uzoYAiMCfd8hv+wKHKm1CtOdCDukK5l
-	5qGz5ECr3ATKX/9wLm1gR/KQp7EW9G0ilsSL6jQYiV4+48Kf2OhALQdxDePW43y9QMW0
-	wjgmeH38DoPQTn4i0VsLkEQ4on7nTpCpaAH+HrWIakhwFPGS9m6vnPoqsTvVZRaAW/CJ
-	y3kq2MLuL9VCvbxBsRg3QWWg85hiIJQguwj3wmo/P/EQISyxNLmATzeWs/O8jJwn2fiw
-	hR9mO18aC7Vl/M0RXD/+uY/5v7LJwJb7YH8oBCeroFdYT8MX/QSb8x19mGIFPo8DGwng
-	xWXA==
+	bh=FGdQ06L+8AO2jYEi6Yk2DLFJAG/84Bb46vaODV8E2mc=;
+	b=vNVT8zFHrpLeRv5lI2CUjzI8O3Lfo/hVb1NiYaERz2zvON9Vv5BWevZw7vOcpiP+4l
+	9Zs5sPgRUWRwGUjOKxLNFGKvOKQz6wlcRSKiIKqpFFG+N7UhJwbBdWHr73SfqdVdGunr
+	EJd2DOZ4z0DV7b/IxMoHGAbH1wyJgzIU3MmUlf7E5HIIlJWfDl7jBNDf8IQPRa4PZAXF
+	nRSmvYvOkV7oDnNzlrt/9IRfe5Obh41RyUdGKe7xuKqaA8I4t12NKTntL77mIp3jxK4q
+	c7386Ots6hrul/5ot1Jl6/u396WhSbAEB9DJsCyOhvw9OYnUPMKFAa9ONQ2y4hzlT/yN
+	z6fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=semGvceRmDuX7FntPOWH59mK7Gl9kwubptYYf2tvmJc=;
-	b=R7951BhqyKJgnE0D4cNDl9hRWrp9kU5T1Wn4Emqzg9Dnk9HHInMYeGBRZIyMmBbI4R
-	Z42dcEJdkRec4K7JV0CiP0P27/YRmcnOq9kvfKVRvCVnbNY6HVEeSJMqTuyJCB3h3g5h
-	0AjqaoNIMG7qqpZoJDSYXNQIxeT0YpmHpQdeLedjIlwPOjRDB7CwrI71dvxKOKh4Ndif
-	JzJ5liDByaOwwVUTm4NVuiHC6MEjIvn9vTBIXIIYJyMr0aVNr3pE+5I7OD6l2qjBzFMI
-	IagyaTpDRbKPqKbC2ucMVGC+6ocA3bidiwQ8EpdtPc4OWYeNunoofthqygIa5b69XbfP
-	1KZg==
-X-Gm-Message-State: APjAAAX4pI8RnfS96sjnRL+E4b8F87irpkNBLpwZmfhtyMEtRv8h2fvK
-	JlRu3Jhl7BbXRZjg35l3F0Pttb+TxSU=
-X-Google-Smtp-Source: APXvYqx4uxMXR3+Yb16LKSJ2g1WkXv/KoJd6Olm0Dz2jFUI3qzPSRyQltb7p1AID0JGBHEO4u3jg1A==
-X-Received: by 2002:a63:3409:: with SMTP id b9mr102435911pga.320.1578155195286;
-	Sat, 04 Jan 2020 08:26:35 -0800 (PST)
+	bh=FGdQ06L+8AO2jYEi6Yk2DLFJAG/84Bb46vaODV8E2mc=;
+	b=pilZALcNsa/L1wL/YYz7DGqwPzZjcKUrGl4gBfFJi1kVUBY5N6l+Znipa09MS/JWv3
+	9r90IYo1RVzrV6C0O61OqGXRSXRK0pqgPz1jpELtpWIlHbioghB8ukl+7HDYr2aAVeJe
+	xAfK1xao1kGZ7HYuuI4ua+p+9OvBKIuYJqzt1WPj4MJp2hBVdWuAH76dlZumn8l/rivp
+	CARXzD9HL2xcvq/snkvZrGz8Ujw1xU0DgJLxEB12IMxDxlMvkT1p/qBtkHC8uTGGyHX5
+	fdDxSLtONcN7kyP4I2v8FBkL/YUzp54JDKhcm04BX40xfAVMP5FN1jsUXyCSFgq0xqcF
+	t18A==
+X-Gm-Message-State: APjAAAWTez3pkDxmgaOcoC6fCWU3wngvhDokynz5kECF3Gu8kdKHmpy2
+	G2mZMyVxsgeYH38j9Zam+dWX0OqlQHg=
+X-Google-Smtp-Source: APXvYqykpkTonFY8S97+YXkfzxSwf6HxsM0lhFa0LkgicXF+jpAyIBQ1LVm63erx/6qFC03s2D5+DA==
+X-Received: by 2002:a62:7711:: with SMTP id s17mr99653210pfc.157.1578155196350;
+	Sat, 04 Jan 2020 08:26:36 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e812:6764:3882:fa62])
 	by smtp.gmail.com with ESMTPSA id
-	u23sm71589976pfm.29.2020.01.04.08.26.34
+	u23sm71589976pfm.29.2020.01.04.08.26.35
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 04 Jan 2020 08:26:34 -0800 (PST)
+	Sat, 04 Jan 2020 08:26:35 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Jan 2020 08:26:05 -0800
-Message-Id: <df689f9fc4a76491f9611b94287f3f17d146ba1c.1578155074.git.akuster808@gmail.com>
+Date: Sat,  4 Jan 2020 08:26:06 -0800
+Message-Id: <537b6578673f39deebd69ad1d171546bef967cee.1578155074.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578155074.git.akuster808@gmail.com>
 References: <cover.1578155074.git.akuster808@gmail.com>
-Subject: [zeus 24/29] python3: RDEPEND on libgcc
+Subject: [zeus 25/29] python3: Update to apply libgcc fix to libpython, glibc only
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,49 +59,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Jan 2020 16:26:34 -0000
+X-List-Received-Date: Sat, 04 Jan 2020 16:26:35 -0000
 
-From: Joshua Watt <jpewhacker@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-=help>
-List-Subscribe:
- <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
- <mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-Content-Type: text/plain; charset="us-ascii"
-Sender: openembedded-core-bounces@lists.openembedded.org
-Errors-To: openembedded-core-bounces@lists.openembedded.org
-X-Virus-Scanned: clamav-milter 0.101.4 at dan
-X-Virus-Status: Clean
-X-Evolution-Source: 1525863794.3857.16@hex
-Content-Transfer-Encoding: 8bit
+Update to account for review feedback on list.
 
-Python uses features of glibc that require it to dynamically load (i.e.
-dlopen()) libgcc_s at runtime. However, since this isn't a link time
-dependency, it doesn't get picked up automatically by bitbake so
-manually add it to RDEPENDS.
-
-There is an outstanding bug in Python to make it explicitly link against
-libgcc at link time which would remove the need for this. See:
-https://bugs.python.org/issue37395
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit df107f3a149b1e88d9f869e7ff87950ccf5aaee0)
+(cherry picked from commit ec788594f3f6a47687c6eb321437f2d2b58b1518)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/python/python3_3.7.6.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/python/python3_3.7.6.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/python/python3_3.7.6.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
-index d3706cdf64..407c5a2bd9 100644
+index 407c5a2bd9..b33b7028d4 100644
 --- a/meta/recipes-devtools/python/python3_3.7.6.bb
 +++ b/meta/recipes-devtools/python/python3_3.7.6.bb
-@@ -322,6 +322,8 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MA
- PACKAGES += "${PN}-man"
+@@ -323,7 +323,7 @@ PACKAGES += "${PN}-man"
  FILES_${PN}-man = "${datadir}/man"
  
-+# See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
-+RDEPENDS_${PN} = "libgcc"
+ # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
+-RDEPENDS_${PN} = "libgcc"
++RDEPENDS_libpython3_append_libc-glibc = " libgcc"
  RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
  RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
  RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
