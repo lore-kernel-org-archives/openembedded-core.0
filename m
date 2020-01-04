@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 371377F844
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 183D17F896
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Jan 2020 16:26:29 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id z124so24787468pgb.13
+	Sat,  4 Jan 2020 16:26:30 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id b22so20156668pls.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Jan 2020 08:26:30 -0800 (PST)
+	Sat, 04 Jan 2020 08:26:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=nQFkLkdHl+K9cWMVMcPlK1H3uCfChL4hAzv3tsOC7QU=;
-	b=M8F0QGF4FXdY2dMWe1JtIy4w5ZeUEBSHxIe6SmqVUNxCtf/yO75O5T3q/RnjdzEifL
-	RGZ4qoh0EFalcVuX7q6+NOs5R6f0NHJaDvWzZgyp3CBWX2ONjCgBEEkNMenvUdhaHTqt
-	jUB5CwJ7f9FHbffNwUQKxwzgUqEWhJG8KKweYjWyP7p8F+g0WQl+5GVraJgLW3PU4S6I
-	3X4aIbQRar2qIPLwLCk88QIOpoS33Tuo1l6XAz75b8PZMKeYY3pqXdc12ad02oqIb3kr
-	uLLIbm2sowwzTGOmj2xxSJclNCZFowRwFkTV+ypV48pcAYuPwSAlIWCzK1QnN8BOGO9Q
-	2cvw==
+	bh=BsDBnP893xYrOqhxaJ/9kWLbXkFhz5YGzFpX1B1PC50=;
+	b=E7OnarMa1pv7y40VWFrKCyvbe7Vbm6C/KJvushWqiwG0NgPJmjR3vIVnodpX7GJ0g3
+	VqgmfJ0M+QxXFd+f8oBvdjgmMyRyU7VWppCR7bq/SkKhaE9880vFzmmghSrwp4Ghm39l
+	sgvXA1UzyDOxHJu25U+iTRXrqkipgY02xr/Olta8EL/jSsvUeaO8p33xl1Qrxqb++Ag8
+	B5Igvzu8rv3sm+BYdrOXhpBsZSFXRGh8ES4Tfcu9E4/BZInMUwwfL1TdBqRzLkmOY0Uh
+	Fl8OViP5D3Uk9It2BxwkScgJdh0eQq5z0iaL6lHTA1E3n0rQdCJVUK+xC9nBieWKoJyu
+	YcjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=nQFkLkdHl+K9cWMVMcPlK1H3uCfChL4hAzv3tsOC7QU=;
-	b=PIbwNGpx0/C+zLnANzFUkylSsuTXqJnMZNtJg5jWPSG0Fbl3oXggPACSoRTTwIu9qs
-	aCbVQWGQa7vjSG2pN5WOZOr/I68r5NC8qEl6rpFWr6LD1acXOGVKPgGI/L6XvA92Y75Y
-	5q1lNB4gsuUJK/CJ/dIFFoOmNUKavBu92xkSG+skJ0RiU3dKrIfUU2m1KQYfgNHB+j3q
-	qaFaznUPNTMHQKbODbH7JxAw6HxlT2tVK2op/FxGLFDntVJU/j0MLDVlirePhdeSq1RA
-	SRrSweTYxNvzV63W3WNw18XhoraaST3nTRbxjsDBuHLrmhGiETJwjLPZZfOhmdY5+hFP
-	5/gQ==
-X-Gm-Message-State: APjAAAXss/c4SZZhAicJWjIf+XXBr69Rs+Y4fa/p4RUCcsvvG83iAxlH
-	kyGSg5vPj/GMccU7RfeAeS3RtvZhbFg=
-X-Google-Smtp-Source: APXvYqwnmdr0Bj/2HYumlBXmCyJKOt8+MWPwO9WdHLM3MeTF9r5Zdh2VRjQYTWMoImuI7Ctocb+/HA==
-X-Received: by 2002:a63:a357:: with SMTP id
-	v23mr103065982pgn.223.1578155189892; 
-	Sat, 04 Jan 2020 08:26:29 -0800 (PST)
+	bh=BsDBnP893xYrOqhxaJ/9kWLbXkFhz5YGzFpX1B1PC50=;
+	b=SPpN410NPOBK8n1PCskjvbHT53y6cSVH+HqivOCt7kkWsBcwiPbIZeHf3Ze2p0k5en
+	yt0TxyJ5HkmQoD3/KDO/q4hnC/l83xPBibNAsem/0XvlRCXx2hyGzISGsuwR+MiKdLBW
+	d9bR2LvqXv7xFJNKtCjs1VgO2nZVAZ3zpX0JgowjBwS0ViLYzpAbGGAK44SHhQ5Fq1T9
+	lduDqL/oofc658jLfVWqPAcQh1S6cTchgDzdEt7qSdlxc54nZxHt52qbAAhKoR2I/kHX
+	yv1SVffNwShL0Ntt/edetU1TwS5m7JzRFloz0JJ+kH63wYdZo+KUySyvCmHA2bDjt0hw
+	N28g==
+X-Gm-Message-State: APjAAAUZlRX/iQGkZ4klNQpl5ItMeNOSQ76pm8KrR5tmya/W/vR32fNj
+	cYf6LUZT7OZUmSQEAl7BDnbi+laSXl0=
+X-Google-Smtp-Source: APXvYqzr8SbZ4M9e6L+w0EZe51o6iyWMyRkeoJw51DYKDZIV6/071D4c90/TuucRytSQYd0fHyjchA==
+X-Received: by 2002:a17:90a:fc82:: with SMTP id
+	ci2mr33041654pjb.13.1578155191134; 
+	Sat, 04 Jan 2020 08:26:31 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e812:6764:3882:fa62])
 	by smtp.gmail.com with ESMTPSA id
-	u23sm71589976pfm.29.2020.01.04.08.26.29
+	u23sm71589976pfm.29.2020.01.04.08.26.30
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 04 Jan 2020 08:26:29 -0800 (PST)
+	Sat, 04 Jan 2020 08:26:30 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Jan 2020 08:25:59 -0800
-Message-Id: <0c3e39f33c57fd3a024bccbd90e1ee5066342ae0.1578155074.git.akuster808@gmail.com>
+Date: Sat,  4 Jan 2020 08:26:00 -0800
+Message-Id: <810634c25b11834c4af1da62458ce78eaf8a559e.1578155074.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578155074.git.akuster808@gmail.com>
 References: <cover.1578155074.git.akuster808@gmail.com>
-Subject: [zeus 18/29] liberror-perl: update 0.17027 -> 0.17028
+Subject: [zeus 19/29] podfix: class to remove Pod::Man versions from manpages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,52 +60,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Jan 2020 16:26:29 -0000
+X-List-Received-Date: Sat, 04 Jan 2020 16:26:30 -0000
 
-From: Tim Orling <timothy.t.orling@linux.intel.com>
+From: Ross Burton <ross.burton@intel.com>
 
-HOMEPAGE change from bitbucket to github
+Manpages generated by Pod::Man contain the version number, which isn't
+reproducible if we're using the host Perl to generate manpage.
 
-Upstream release notes:
-  - Moved the VCS repo to https://github.com/shlomif/perl-error.pm
-  - No other significant changes.
+One option is to always depend on perl-native when generating manpages
+but this is a heavy dependency, so instead strip out the versions in
+do_install().
 
-Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 488680f45fbe28e32391e2a1a66ab350706abe93)
+(cherry picked from commit 18d8e5ac689d6eb6098f68ac785f43e9d5f5938a)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../{liberror-perl_0.17027.bb => liberror-perl_0.17028.bb}  | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/perl/{liberror-perl_0.17027.bb => liberror-perl_0.17028.bb} (85%)
+ meta/classes/podfix.bbclass | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+ create mode 100644 meta/classes/podfix.bbclass
 
-diff --git a/meta/recipes-devtools/perl/liberror-perl_0.17027.bb b/meta/recipes-devtools/perl/liberror-perl_0.17028.bb
-similarity index 85%
-rename from meta/recipes-devtools/perl/liberror-perl_0.17027.bb
-rename to meta/recipes-devtools/perl/liberror-perl_0.17028.bb
-index cf1f6d685f..8c6bbcba94 100644
---- a/meta/recipes-devtools/perl/liberror-perl_0.17027.bb
-+++ b/meta/recipes-devtools/perl/liberror-perl_0.17028.bb
-@@ -3,7 +3,7 @@ DESCRIPTION = "The Error package provides two interfaces. Firstly \
- Error provides a procedural interface to exception handling. \
- Secondly Error is a base class for errors/exceptions that can \
- either be thrown, for subsequent catch, or can simply be recorded."
--HOMEPAGE = "https://bitbucket.org/shlomif/perl-error.pm"
-+HOMEPAGE = "https://github.com/shlomif/perl-error.pm"
- SECTION = "libs"
- LICENSE = "Artistic-1.0 | GPL-1.0+"
- 
-@@ -32,8 +32,8 @@ RDEPENDS_${PN}-ptest += " \
- 
- SRC_URI = "http://cpan.metacpan.org/authors/id/S/SH/SHLOMIF/Error-${PV}.tar.gz"
- 
--SRC_URI[md5sum] = "4ef9b2890fb144d804527ba32573dd56"
--SRC_URI[sha256sum] = "07b2ac8275dfa04144745a6c1900a596280f862b97d22bab0c5ce02682ebd3be"
-+SRC_URI[md5sum] = "ec3522c60a43a368f19c0f89e2205cb1"
-+SRC_URI[sha256sum] = "3ad85c5e58b31c8903006298424a51bba39f1840e324f5ae612eabc8b935e960"
- 
- S = "${WORKDIR}/Error-${PV}"
- 
+diff --git a/meta/classes/podfix.bbclass b/meta/classes/podfix.bbclass
+new file mode 100644
+index 0000000000..54fff6a0a2
+--- /dev/null
++++ b/meta/classes/podfix.bbclass
+@@ -0,0 +1,32 @@
++python pod_strip_version() {
++    import re
++
++    def opener(filename, mode):
++        if filename.endswith(".gz"):
++            import gzip
++            return gzip.open(filename, mode)
++        elif filename.endswith(".bz2"):
++            import bz2
++            return bz2.open(filename, mode)
++        else:
++            return open(filename, mode)
++
++    bad_re = re.compile(rb"Automatically generated by Pod::Man( [0-9]+.+)")
++
++    for root, dirs, files in os.walk(d.expand("${D}${mandir}")):
++        for filename in files:
++            filename = os.path.join(root, filename)
++            with opener(filename, "rb") as manfile:
++                manpage = manfile.read()
++                m = bad_re.search(manpage)
++                if not m:
++                    continue
++
++            bb.note("podfix: stripping version from %s" % filename)
++            os.unlink(filename)
++            with opener(filename, "wb") as manfile:
++                manfile.write(manpage[:m.start(1)])
++                manfile.write(manpage[m.end(1):])
++}
++
++do_install[postfuncs] += "pod_strip_version"
 -- 
 2.17.1
 
