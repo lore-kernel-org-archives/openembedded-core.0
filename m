@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
-	[209.85.210.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 81B237F8A9
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 557A37F844
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Jan 2020 16:26:33 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id q8so24910634pfh.7
+	Sat,  4 Jan 2020 16:26:34 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id b9so24792642pgk.12
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 04 Jan 2020 08:26:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ueoAB/paKcs58RcwjsHu3YO3LLAazDrlmC1WJxcuo8s=;
-	b=ZpewffaooOlOgYhWct80IOB41ciJPDs7D5AuzEfUCt5wwCrJNxQNAY0fjE5BlUmwxn
-	F1gi4Z38rXIADJYzTnJifvcXECT9fZBtXY5EWO9lm8HX1WhSyCNdlmt1KO54XLu4c69p
-	+6nG6SXb+tToMXZ/ZxstQTIJPpr8JEjuw6I/BmRQlN6vsTistzjR+ETRXr5TVLmB3/K0
-	1Bc5F4Y5OQ5t0xM3sOJc4DQ7ODebtousZMxNn+kviwbYBiWXOjCMecvzcQU57K2DBWgU
-	brNfl83BBZqjY1caWqSkWzqwW1LUfiMdLhyaxAOQUFID7d/KxQSegxPtYWKX8wkjgwtH
-	jDZA==
+	bh=semGvceRmDuX7FntPOWH59mK7Gl9kwubptYYf2tvmJc=;
+	b=gxxPoITgQGfnX0NV8xbrcENNw+mLwjITTH1uzoYAiMCfd8hv+wKHKm1CtOdCDukK5l
+	5qGz5ECr3ATKX/9wLm1gR/KQp7EW9G0ilsSL6jQYiV4+48Kf2OhALQdxDePW43y9QMW0
+	wjgmeH38DoPQTn4i0VsLkEQ4on7nTpCpaAH+HrWIakhwFPGS9m6vnPoqsTvVZRaAW/CJ
+	y3kq2MLuL9VCvbxBsRg3QWWg85hiIJQguwj3wmo/P/EQISyxNLmATzeWs/O8jJwn2fiw
+	hR9mO18aC7Vl/M0RXD/+uY/5v7LJwJb7YH8oBCeroFdYT8MX/QSb8x19mGIFPo8DGwng
+	xWXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=ueoAB/paKcs58RcwjsHu3YO3LLAazDrlmC1WJxcuo8s=;
-	b=ug3TZzSLR8s7Jajh0SsuNK/K7IhfwQXmAgRfuQGvsqkBpiGjvenTd1A3P7Ds15YEAa
-	PAZPCY3iv26iaSlElKcU7zkK+ApbaCr/vgEqFZt12kVJZfKYh/+aslCoSW/d0UmUkkWv
-	TO2BLhu6bwnALo7EssDUWNTgWhv/WPttWbU4IZWWD/zkhidfs4gv5v2hr7NHxLLE1imn
-	mZC4MAFK3MlOAiVQC4LRFJSt5dTrNcXTDKsj0WV+j2aP3F+ZF+vL+ISfDJzVZ9cUaB3I
-	hmn7378B80POxPM4e24I2Q70G5JeASxrhRjX+laS2HrKEt3T6+EhV1J/beIgoOlByn2t
-	pymA==
-X-Gm-Message-State: APjAAAUAWAfATFmxmxEE+dtiqVgVm4GCN0s8A4CvVWUQofCYLZ0d2TYg
-	p+j/PlQ2Y/zz/RdJPfNeptQ6rgIi/sk=
-X-Google-Smtp-Source: APXvYqy63jJrC2BF0if+4amjAcNC0jvSMdKGOsZLeZIZlgAre+uY6M9J5kqh+iSNbhOZ+uInPdxkSA==
-X-Received: by 2002:a62:7fcd:: with SMTP id
-	a196mr96501981pfd.208.1578155194528; 
-	Sat, 04 Jan 2020 08:26:34 -0800 (PST)
+	bh=semGvceRmDuX7FntPOWH59mK7Gl9kwubptYYf2tvmJc=;
+	b=R7951BhqyKJgnE0D4cNDl9hRWrp9kU5T1Wn4Emqzg9Dnk9HHInMYeGBRZIyMmBbI4R
+	Z42dcEJdkRec4K7JV0CiP0P27/YRmcnOq9kvfKVRvCVnbNY6HVEeSJMqTuyJCB3h3g5h
+	0AjqaoNIMG7qqpZoJDSYXNQIxeT0YpmHpQdeLedjIlwPOjRDB7CwrI71dvxKOKh4Ndif
+	JzJ5liDByaOwwVUTm4NVuiHC6MEjIvn9vTBIXIIYJyMr0aVNr3pE+5I7OD6l2qjBzFMI
+	IagyaTpDRbKPqKbC2ucMVGC+6ocA3bidiwQ8EpdtPc4OWYeNunoofthqygIa5b69XbfP
+	1KZg==
+X-Gm-Message-State: APjAAAX4pI8RnfS96sjnRL+E4b8F87irpkNBLpwZmfhtyMEtRv8h2fvK
+	JlRu3Jhl7BbXRZjg35l3F0Pttb+TxSU=
+X-Google-Smtp-Source: APXvYqx4uxMXR3+Yb16LKSJ2g1WkXv/KoJd6Olm0Dz2jFUI3qzPSRyQltb7p1AID0JGBHEO4u3jg1A==
+X-Received: by 2002:a63:3409:: with SMTP id b9mr102435911pga.320.1578155195286;
+	Sat, 04 Jan 2020 08:26:35 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e812:6764:3882:fa62])
 	by smtp.gmail.com with ESMTPSA id
-	u23sm71589976pfm.29.2020.01.04.08.26.33
+	u23sm71589976pfm.29.2020.01.04.08.26.34
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Sat, 04 Jan 2020 08:26:34 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Jan 2020 08:26:04 -0800
-Message-Id: <a8eba8a57045c2a2d69e3399e9a86ed15aaab3fd.1578155074.git.akuster808@gmail.com>
+Date: Sat,  4 Jan 2020 08:26:05 -0800
+Message-Id: <df689f9fc4a76491f9611b94287f3f17d146ba1c.1578155074.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578155074.git.akuster808@gmail.com>
 References: <cover.1578155074.git.akuster808@gmail.com>
-Subject: [zeus 23/29] python3: Upgrade 3.7.5 -> 3.7.6
+Subject: [zeus 24/29] python3: RDEPEND on libgcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +59,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 Jan 2020 16:26:33 -0000
+X-List-Received-Date: Sat, 04 Jan 2020 16:26:34 -0000
 
-From: Adrian Bunk <bunk@stusta.de>
+From: Joshua Watt <jpewhacker@gmail.com>
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+=help>
+List-Subscribe:
+ <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
+ <mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
+Content-Type: text/plain; charset="us-ascii"
+Sender: openembedded-core-bounces@lists.openembedded.org
+Errors-To: openembedded-core-bounces@lists.openembedded.org
+X-Virus-Scanned: clamav-milter 0.101.4 at dan
+X-Virus-Status: Clean
+X-Evolution-Source: 1525863794.3857.16@hex
+Content-Transfer-Encoding: 8bit
+
+Python uses features of glibc that require it to dynamically load (i.e.
+dlopen()) libgcc_s at runtime. However, since this isn't a link time
+dependency, it doesn't get picked up automatically by bitbake so
+manually add it to RDEPENDS.
+
+There is an outstanding bug in Python to make it explicitly link against
+libgcc at link time which would remove the need for this. See:
+https://bugs.python.org/issue37395
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit aee9beb12226abf7a195b8ee801ea488920b2fdb)
-[Bug fix only update]
+(cherry picked from commit df107f3a149b1e88d9f869e7ff87950ccf5aaee0)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../python/{python3_3.7.5.bb => python3_3.7.6.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.7.6.bb} (98%)
+ meta/recipes-devtools/python/python3_3.7.6.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
-similarity index 98%
-rename from meta/recipes-devtools/python/python3_3.7.5.bb
-rename to meta/recipes-devtools/python/python3_3.7.6.bb
-index f6a1fc76e3..d3706cdf64 100644
---- a/meta/recipes-devtools/python/python3_3.7.5.bb
+diff --git a/meta/recipes-devtools/python/python3_3.7.6.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
+index d3706cdf64..407c5a2bd9 100644
+--- a/meta/recipes-devtools/python/python3_3.7.6.bb
 +++ b/meta/recipes-devtools/python/python3_3.7.6.bb
-@@ -38,8 +38,8 @@ SRC_URI_append_class-nativesdk = " \
-            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
-            "
+@@ -322,6 +322,8 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MA
+ PACKAGES += "${PN}-man"
+ FILES_${PN}-man = "${datadir}/man"
  
--SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
--SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
-+SRC_URI[md5sum] = "c08fbee72ad5c2c95b0f4e44bf6fd72c"
-+SRC_URI[sha256sum] = "55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f"
- 
- # exclude pre-releases for both python 2.x and 3.x
- UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
++# See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
++RDEPENDS_${PN} = "libgcc"
+ RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
+ RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
+ RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
 -- 
 2.17.1
 
