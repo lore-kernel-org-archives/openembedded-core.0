@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
-	[209.85.214.180])
-	by mail.openembedded.org (Postfix) with ESMTP id D65B47D1E9
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 9738E7F870
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 Jan 2020 16:26:13 +0000 (UTC)
-Received: by mail-pl1-f180.google.com with SMTP id y8so20149156pll.13
+	Sat,  4 Jan 2020 16:26:14 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id r11so24827167pgf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 Jan 2020 08:26:15 -0800 (PST)
+	Sat, 04 Jan 2020 08:26:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=74rCtwQtiSnwIRYp71g7mA1/bolwhrIDKcQq2jHNBn4=;
-	b=d5iVjP5PumGtRngFaPgLHrwnrTVWRJHH/ZigcSmdX+bJml4Bk4dOKs2rVJF/IK62Tf
-	pLwlJknE3b284O6AeCkMPLpefPRDLXzGoW+z0uNkptfLHJSDHSCMiwW/86j5E6GV9r4v
-	GFuAN+1Kob5NIKsXUpgW/64H7WgHpwaFlXcIkrckzYQxFatLbjWR2P+ZgT+XDHWJU8q1
-	Z70y2ASHoWoO+0yss1Cz/pixtEewPj9ayEK5BhxSeMJJtM7WVnktl0X57t6SlMmvhfAr
-	lNhKfo6x+LZrDu/6UTxd8PiagwioLmfGgK0sGUbIV/dtGLAbXvyzcIfr9tmWvwE1kAlh
-	ak8Q==
+	bh=VqqkZHlHSMK+IaEEv7GVcK4F/1rzQ0J37YM+6hpxjug=;
+	b=rLXJP/HCoibR+r7FG33B+lUiQsDb9bYixbslyatXkvoxodsR5+acwvdUUDiEFua4xQ
+	GFdpMq3R897KVSPaSVEibms8UiwUTYzxDShh3O6JaQqOdagONXA8gA01VgVAuzx1KhKY
+	XmPonaGCqRbFMj0TxHi9q0/CcHcZdONxv/bevuo52XQq/PKUALMGTm7z6NzmhLn3CGRw
+	rhWdECDC4U2ZBVfmlLcrm2q0Z8gobVs4ykIzM8S/ENqKtxMhioF0ch1oAqBIN4NXDGjU
+	FYzmfwhpOlgvNsfcuIKhw4cp1QhN4g29LhWcmH7kTgsDoPOUyv3Ee95HJCJ071GhPr3h
+	8o3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=74rCtwQtiSnwIRYp71g7mA1/bolwhrIDKcQq2jHNBn4=;
-	b=cOAWj4KVFOkefYvJV94KepVTlB6gM8fDJn4Dp7KY1FZjCHcfcqWzgl+zaINwCrkR+P
-	y9nyeNy68mtSL38cB7fjL98+lb6c7kHzS6klWLp2qfLjtH9XFDLC2jTFNwlOzdzqAow8
-	zpF0Rbi1cTUhImkm5yovZWL/usHOUMKm3LTroqGzOFp//AwmVu6jyZnPGfMZFp/ZBGy3
-	m0IAo0bzTA35p0mhmfHJt+mAgnC8JvHH67p7fKtVPh01HZe8pmlUiBVLfFddbVzS8FlS
-	FKMpv5XjgFZTgdYGm9CegEFbEEX9Y3tAKul4vG8QGvN5rWyeDB7+bCYvq7gWnydPTKl1
-	oQmA==
-X-Gm-Message-State: APjAAAUaQ4JOmhV1mMsxFa6ZQ1Zi+hyD/KftMjfSIiGBnC2H0463blsi
-	A0XGs70mASw/BHjlnFBrXyqNWFxrjrM=
-X-Google-Smtp-Source: APXvYqwLjlXKnxfZqXj10Su9/xRqLxufmPRajEK5kbthr59/MsXizhnqxmn+8ieb3f3UAwGEXUcuUw==
-X-Received: by 2002:a17:90a:ac0e:: with SMTP id
-	o14mr34351241pjq.11.1578155174839; 
-	Sat, 04 Jan 2020 08:26:14 -0800 (PST)
+	bh=VqqkZHlHSMK+IaEEv7GVcK4F/1rzQ0J37YM+6hpxjug=;
+	b=sR5EBclfwWGszj5GBU2q1yfgAjnn/XPPMI0telwhuD/uXT8i9cUCGhk33v491BIKfW
+	RCElFIqNC/CJt6egMLJN+jDg8WY8m+IzmuLzrCRjd1MnHdwtfAIormh9sv03a5hZ35Yw
+	04DQSY95axyLTK3dVBJ7cpNAt19i6KDQE8yhV+79mWx/hd4bK0nj6g/gPO1t1R/Qobp7
+	SK2MkxSTrdOCjSTD8BljR8+Daf5SNFc7zn1oH2U+bYfiM7AxkSuRoJVt0GYNqCc4jVmg
+	nafGafua8NNJFWVxb6Ye6zBhBrNYtnQE8VY+IWlvIobiJG2kWw/Xpie5VzwPfszgbFJ5
+	Corg==
+X-Gm-Message-State: APjAAAUih7qAlKSC4Y51nk67gO8k+hFI/g7BLeNny+dbi45ud55Kpo0G
+	EML8iyUshaX59hW/DsLPXBUwEI1dnns=
+X-Google-Smtp-Source: APXvYqxW2XVXlww+HQfS3PnYAUNBqbafOUqM0nQPz1x53LzPOWBL+hL5zWtM5YKqDnGqN8UmQzSKPA==
+X-Received: by 2002:a63:5243:: with SMTP id s3mr99097229pgl.449.1578155175549; 
+	Sat, 04 Jan 2020 08:26:15 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e812:6764:3882:fa62])
 	by smtp.gmail.com with ESMTPSA id
-	u23sm71589976pfm.29.2020.01.04.08.26.13
+	u23sm71589976pfm.29.2020.01.04.08.26.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 04 Jan 2020 08:26:14 -0800 (PST)
+	Sat, 04 Jan 2020 08:26:15 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 Jan 2020 08:25:42 -0800
-Message-Id: <a67bd96de2b253c1d4c3bd82120f28dee06a4bf6.1578155074.git.akuster808@gmail.com>
+Date: Sat,  4 Jan 2020 08:25:43 -0800
+Message-Id: <fe454e9c7837a903ffcff4c6f8a25070a0f0af82.1578155074.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578155074.git.akuster808@gmail.com>
 References: <cover.1578155074.git.akuster808@gmail.com>
-Subject: [zeus 01/29] sstate: Add ability to hide summary output for sstate
+Subject: [zeus 02/29] sstate: Stop overwriting SSTATE_PKG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,58 +63,59 @@ X-List-Received-Date: Sat, 04 Jan 2020 16:26:14 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Its confusing to keep seeing sstate summary messages when hash equivalency is
-active. This adds an option to control it. A default value is given which
-maintains compatibility with different bitbake versions.
+Its rather antisocial to overwrite SSTATE_PKG with an expanded form for the variable
+and it stops the value of BB_UNIHASH being changed when the package is written out.
+
+Instead of expanding the variable, append to it instead to avoid this rather
+hard to figure out behaviour and allow the siggen code to behave as expected.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 038004866ff6650bcff7bb1bde36de6c0f451d29)
+(cherry picked from commit 62eca02024b4c44d618ab9bcf87a3166c886dadb)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/sstate.bbclass | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ meta/classes/sstate.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index b47b9c23bf..64808f8e10 100644
+index 64808f8e10..eb1ecd6822 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -818,7 +818,7 @@ sstate_unpack_package () {
+@@ -318,7 +318,8 @@ def sstate_installpkg(ss, d):
  
- BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
+     sstateinst = d.expand("${WORKDIR}/sstate-install-%s/" % ss['task'])
+     sstatefetch = d.getVar('SSTATE_PKGNAME') + '_' + ss['task'] + ".tgz"
+-    sstatepkg = d.getVar('SSTATE_PKG') + '_' + ss['task'] + ".tgz"
++    d.appendVar('SSTATE_PKG', '_'+ ss['task'] + ".tgz")
++    sstatepkg = d.getVar('SSTATE_PKG')
  
--def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, **kwargs):
-+def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
-     found = set()
-     missed = set()
-     extension = ".tgz"
-@@ -951,16 +951,17 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, **kwargs):
-             evdata['found'].append((bb.runqueue.fn_from_tid(tid), bb.runqueue.taskname_from_tid(tid), gethash(tid), sstatefile ) )
-         bb.event.fire(bb.event.MetadataEvent("MissedSstate", evdata), d)
+     if not os.path.exists(sstatepkg):
+         pstaging_fetch(sstatefetch, d)
+@@ -330,7 +331,6 @@ def sstate_installpkg(ss, d):
+     sstate_clean(ss, d)
  
--    # Print some summary statistics about the current task completion and how much sstate
--    # reuse there was. Avoid divide by zero errors.
--    total = len(sq_data['hash'])
--    complete = 0
--    if currentcount:
--        complete = (len(found) + currentcount) / (total + currentcount) * 100
--    match = 0
--    if total:
--        match = len(found) / total * 100
--    bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(found), len(missed), currentcount, match, complete))
-+    if summary:
-+        # Print some summary statistics about the current task completion and how much sstate
-+        # reuse there was. Avoid divide by zero errors.
-+        total = len(sq_data['hash'])
-+        complete = 0
-+        if currentcount:
-+            complete = (len(found) + currentcount) / (total + currentcount) * 100
-+        match = 0
-+        if total:
-+            match = len(found) / total * 100
-+        bb.plain("Sstate summary: Wanted %d Found %d Missed %d Current %d (%d%% match, %d%% complete)" % (total, len(found), len(missed), currentcount, match, complete))
+     d.setVar('SSTATE_INSTDIR', sstateinst)
+-    d.setVar('SSTATE_PKG', sstatepkg)
  
-     if hasattr(bb.parse.siggen, "checkhashes"):
-         bb.parse.siggen.checkhashes(sq_data, missed, found, d)
+     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
+         signer = get_signer(d, 'local')
+@@ -612,7 +612,8 @@ def sstate_package(ss, d):
+     tmpdir = d.getVar('TMPDIR')
+ 
+     sstatebuild = d.expand("${WORKDIR}/sstate-build-%s/" % ss['task'])
+-    sstatepkg = d.getVar('SSTATE_PKG') + '_'+ ss['task'] + ".tgz"
++    d.appendVar('SSTATE_PKG', '_'+ ss['task'] + ".tgz")
++    sstatepkg = d.getVar('SSTATE_PKG')
+     bb.utils.remove(sstatebuild, recurse=True)
+     bb.utils.mkdirhier(sstatebuild)
+     bb.utils.mkdirhier(os.path.dirname(sstatepkg))
+@@ -648,7 +649,6 @@ def sstate_package(ss, d):
+         os.rename(plain, pdir)
+ 
+     d.setVar('SSTATE_BUILDDIR', sstatebuild)
+-    d.setVar('SSTATE_PKG', sstatepkg)
+     d.setVar('SSTATE_INSTDIR', sstatebuild)
+ 
+     if d.getVar('SSTATE_SKIP_CREATION') == '1':
 -- 
 2.17.1
 
