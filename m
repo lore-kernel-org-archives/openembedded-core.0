@@ -1,49 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id DEFBC7F89C
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F05D67F943
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 13:15:19 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id j42so49511824wrj.12
+	Mon,  6 Jan 2020 13:15:22 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id b6so49605616wrq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Jan 2020 05:15:21 -0800 (PST)
+	Mon, 06 Jan 2020 05:15:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=edXvzyV0LMZ16lhzmz1EVkBFXt0ml4/iguBVofg5vqQ=;
-	b=OQ0Kvqhle2XEBt+INX0XeBiiP619sRPYFG0djLgoK56eGpeM64uczb0+vkjENPlKzu
-	G7khjV1zxXngUrZXjTReiOOJuHImkVyvi/VYAn2l6woglfUJhNNsQ7lvYp5vOzTU09D8
-	herDS1oD0vyqR0bE+86vqrz1OfJfnrH81fXl0=
+	bh=X9mLV7MER2NEqqmI1IbwWP5bNFiCoaUmxp6RvQ43M2E=;
+	b=CbOxPU3r64lL+qmpG7DWdt+8zxd1brzkh8asOIXbqozmYCSwU2wAAPty0e2qN8RUi9
+	Z0a2AsrD9d0Ggpzj6hI1VkDAZYp8o51ZduwyHsFkGfMBprZ7N05P268VXJAG964mKnB3
+	VjmJF7C9DAuO5xtnGq9bH715IT+cASjNzJQiM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=edXvzyV0LMZ16lhzmz1EVkBFXt0ml4/iguBVofg5vqQ=;
-	b=Ik1OWE3C11Intbk8cRufDEdOSjWBzNwMlIbbQD+2QOHS0qqpkA/9al0jP4dRqrVHgd
-	TTl/SjfFTmxX8+J3kubN/KEndgpFF1jsfY5CcZhDIGnOCb2+IQAK65LdPovcyNH1k9aY
-	KJNsu4nVSGfLF5FYLjb3tKPx4CjoYBZhvlexPsTt+oSLvocJ0hxn4UvxZg93IzRE2iTs
-	+loo1+EQlzSGKAItBo3uxnKsiSkDOXjrQjTbxUKVDzAs7anvf1xA2AULTFxbKUh933n3
-	ZDZ6g2W07MHOsSk8oMz0p0aZnqj2HBONXMwDOZWMVVzOKCk2LPWvjNmnhqobPwpx17fQ
-	z1Yw==
-X-Gm-Message-State: APjAAAUA6Oryz5Vbs40ecrLcjby+70r3MCWSxouwniEVVdpggyKeNypp
-	3fAc8DRskNCnPBQFtQKalx/n9W7RKkk=
-X-Google-Smtp-Source: APXvYqy11eO22Br5oUdeTlGe6EMCTmDpPKDUxWf08dywRuVOyMoEKDeqIBT0DjwJvWS0yVlBq+8qNg==
-X-Received: by 2002:adf:9b83:: with SMTP id d3mr102504287wrc.54.1578316520210; 
-	Mon, 06 Jan 2020 05:15:20 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=X9mLV7MER2NEqqmI1IbwWP5bNFiCoaUmxp6RvQ43M2E=;
+	b=fNHj2KWCUjPshIRI0wMA8iK5D1bymHCO0Ikz4i2IMQiQ2QgYXMrSG4IeqzOVtosleO
+	A5wMxOVaw7m8BeGjpj0KIGfVbWVcXjItF8TDMLEaiXfjYUuZpXY8zPLfYtOsFHNnCi9o
+	ja82S8e89vtBVHfFZl1WsOSlDfzL/hAhKfKchHlV5Wk0IcK3xf7xt2dHpgWvBTS8Y3uq
+	Zp7RqALb7yM9TB/FXaAsthTS7WXe85N2CEze+lpggA7DvGepm5vwT3aCFRjm45D6rZxL
+	3mbdXgvWedF/5v8lrgDWdhrT6Hip6M6UlaL9546CuBwSB5Wcvb591We8aymjSyGdlS+Z
+	5BDg==
+X-Gm-Message-State: APjAAAXFAmm9QvoBk19b9b7rf3aBj+zlFeqvcf791Wgj/tRicu2POs22
+	F7EeDMYXVmM0D/8oBW+GBMTngt09SAo=
+X-Google-Smtp-Source: APXvYqxqcUlSzEehFPzATnkO82Ol5tDnoD3LknXOCX4hDY4eL+XAInPW9V/p+C+9umhGYc9ZOE1V7Q==
+X-Received: by 2002:adf:f311:: with SMTP id i17mr102780448wro.81.1578316522903;
+	Mon, 06 Jan 2020 05:15:22 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	o15sm73629570wra.83.2020.01.06.05.15.17
+	o15sm73629570wra.83.2020.01.06.05.15.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 06 Jan 2020 05:15:19 -0800 (PST)
+	Mon, 06 Jan 2020 05:15:22 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jan 2020 13:15:15 +0000
-Message-Id: <20200106131516.6507-1-richard.purdie@linuxfoundation.org>
+Date: Mon,  6 Jan 2020 13:15:16 +0000
+Message-Id: <20200106131516.6507-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200106131516.6507-1-richard.purdie@linuxfoundation.org>
+References: <20200106131516.6507-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] sstate: Avoid races over rewritten siginfo files
+Subject: [PATCH 2/2] scripts/gen-lockedsig-cache: Only look at new format sstate objects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2020 13:15:20 -0000
+X-List-Received-Date: Mon, 06 Jan 2020 13:15:23 -0000
 Content-Transfer-Encoding: 8bit
 
-Try and avoid errors like:
-
-Exception: bb.process.ExecutionError: Execution of 'build/tmp/work/x86_64-linux/libxslt-native/1.1.34-r0/temp/run.sstate_unpack_package.12343' failed with exit code 1:
-touch: setting times of 'build/sstate_devtool/80/4d/sstate:libxslt-native::1.1.34:r0::3:804d33f3f8d032b01ae92207669dd0a8f95a84917d563d122a77df19e786d73c_populate_lic.tgz.siginfo': Stale file handle
-WARNING: exit code 1 from a shell command.
-
-by not overwriting existing files.
+We can have sstate directories which are mixtures of old and new layout entries.
+Only use the new format ones since these are the only ones bitbake itself will
+look at.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/sstate.bbclass | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ scripts/gen-lockedsig-cache | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 241dace6d9a..356fe7ec180 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -686,7 +686,11 @@ def sstate_package(ss, d):
-         bb.build.exec_func(f, d, (sstatebuild,))
+diff --git a/scripts/gen-lockedsig-cache b/scripts/gen-lockedsig-cache
+index 6a7d2859104..cd8f9a4356d 100755
+--- a/scripts/gen-lockedsig-cache
++++ b/scripts/gen-lockedsig-cache
+@@ -80,13 +80,10 @@ for s in sigs:
+     prefix = s[:2]
+     prefix2 = s[2:4]
+     if prefix not in sstate_content_cache:
+-        sstate_content_cache[prefix] = build_sha_cache(prefix)
++        sstate_content_cache[prefix] = {}
+     if prefix2 not in sstate_content_cache[prefix]:
+         sstate_content_cache[prefix][prefix2] = build_sha_cache(prefix + "/" + prefix2)
  
-     # SSTATE_PKG may have been changed by sstate_report_unihash
--    bb.siggen.dump_this_task(d.getVar('SSTATE_PKG') + ".siginfo", d)
-+    siginfo = d.getVar('SSTATE_PKG') + ".siginfo"
-+    if not os.path.exists(siginfo):
-+        bb.siggen.dump_this_task(siginfo, d)
-+    else:
-+        os.utime(siginfo, None)
- 
-     return
- 
-@@ -1110,8 +1114,11 @@ python sstate_eventhandler() {
-             d.setVar("SSTATE_PKGSPEC", "${SSTATE_SWSPEC}")
-             d.setVar("SSTATE_EXTRAPATH", "")
-         d.setVar("SSTATE_CURRTASK", taskname)
--        sstatepkg = d.getVar('SSTATE_PKG')
--        bb.siggen.dump_this_task(sstatepkg + ".siginfo", d)
-+        siginfo = d.getVar('SSTATE_PKG') + ".siginfo"
-+        if not os.path.exists(siginfo):
-+            bb.siggen.dump_this_task(siginfo, d)
-+        else:
-+            os.utime(siginfo, None)
- }
- 
- SSTATE_PRUNE_OBSOLETEWORKDIR ?= "1"
+-    if s in sstate_content_cache[prefix]:
+-        for f in sstate_content_cache[prefix][s]:
+-            files.add(f)
+     if s in sstate_content_cache[prefix][prefix2]:
+         for f in sstate_content_cache[prefix][prefix2][s]:
+             files.add(f)
 -- 
 2.20.1
 
