@@ -1,29 +1,53 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D9F37F8A0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B7F76BE2D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 12:32:57 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 006CWJ6P030869
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 6 Jan 2020 04:32:29 -0800
-Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Mon, 6 Jan 2020 04:32:08 -0800
-To: Ross Burton <ross.burton@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1578311007-154786-1-git-send-email-zhe.he@windriver.com>
-	<4cec857f-1816-2514-2905-dd111f6c1600@intel.com>
-From: He Zhe <zhe.he@windriver.com>
-Message-ID: <a6c99210-1be3-a20e-0049-6fc5304f8658@windriver.com>
-Date: Mon, 6 Jan 2020 20:32:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	Mon,  6 Jan 2020 12:47:29 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p17so15145599wmb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 Jan 2020 04:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Bs8ZNseYCBXO496kHAg/Sng+aHcvyXfgIEfnpecXS9w=;
+	b=lARtzUZ4da647yxRflehPPse7TDLb3ZNL2gJfzq4C4lBAkU6MecEgjG64s75qQo+rW
+	mR3fJvJPWBlCW6PE/srz8QtDOZ3hcSH/7U5DzmupPY4aCXJPb1lD6JUIIlzL3Kmmms3Z
+	B6/WDXdhlvNtjeDT87jHC3w1oC35FfLvPD5eRx8lC6vRV5J7+w0xn6afig2NWAbKqsmQ
+	vUdYcQHKrFVig39eEHoFwszQWCZAgDf25AcctCuH7zxFJwb45BZgJtHmr4V3ZzTD2HkC
+	emUClx3XO0zwSyGl86eLfb2dRfChG1fbx08jS7DuytuDuuFwzAmudIiJlNUzPrwDy93x
+	idUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Bs8ZNseYCBXO496kHAg/Sng+aHcvyXfgIEfnpecXS9w=;
+	b=GChM78cTqCnaxAeKUduDo3EgNjYUWcfAJxT2GfCTkc8/GhgjWQpxwI+vyJhGmWG3WT
+	i/AJ94AwYwN53mWyG0fUuQfVX903g/30LLmQoelfJdWYRnhzQDPmS0Cv4/bNMrnVvs3E
+	OJyVv89EbxT72h21XdIOdremHoDUpTBHicYzIg0wtRy9KqgB6NzsRIC09QoYcctT7VYk
+	ewA5DTodFYYhfWyMZ+8lZmwYWnlYHuNbDxv/ehqWV5IavLoKWR383xPeeE8233135ltv
+	uysewIBHGw1OUww6tmhxRD3JtG0908uBpvE46tlNr2SMI21dypVLwVrmM6TbnL7TGWWC
+	aBLw==
+X-Gm-Message-State: APjAAAVLl3QxtpKm2aWsU/o3D2sCqskHqOqvKrH7UKtooXLJ8LExbrQW
+	Y0TlEwWlXQj1ABFn37OiY4g4p4iSHXI=
+X-Google-Smtp-Source: APXvYqyzktQN4hCGfcwYYJAeJ6w+F64kDrMmcrOqhcF8HnewYhWejWKwZZPBYi7PgS1mzHJ+P7md+Q==
+X-Received: by 2002:a05:600c:220e:: with SMTP id
+	z14mr34405680wml.114.1578314849969; 
+	Mon, 06 Jan 2020 04:47:29 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	z8sm71033810wrq.22.2020.01.06.04.47.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 06 Jan 2020 04:47:28 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 Jan 2020 12:47:26 +0000
+Message-Id: <20200106124726.3292-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <4cec857f-1816-2514-2905-dd111f6c1600@intel.com>
-X-Originating-IP: [128.224.162.175]
-Subject: Re: [PATCH v2] ltp: nm01: Remove prefix zeros of the addresses output by nm before comparing
+Subject: [PATCH] glib: set missing cross property
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,19 +60,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2020 12:32:58 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 06 Jan 2020 12:47:30 -0000
+Content-Transfer-Encoding: 8bit
 
-I saw that thread stop a few days ago. This was just merged in ltp about 10 hours ago and should not be in that patch.
+GLib 2.60 onwards checks for /proc/self/cmdline instead of assuming that
+it exists on Linux (because Cygwin also has it).  As this is a runtime
+test it doesn't execute in cross builds so defaults to false, but under
+Linux this should be true.
 
-Regards,
-Zhe
+Restore the previous behaviour and silence the warning by setting the
+cross property appropriately.
 
-On 1/6/20 7:51 PM, Ross Burton wrote:
-> We've a patch queued to upgrade to 20190930, is this fix included in that release or does this patch need to be rebased?
->
-> Ross
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross b/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
+index b5df4007275..5246c776014 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
++++ b/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
+@@ -4,6 +4,7 @@ have_c99_snprintf = true
+ have_unix98_printf = true
+ va_val_copy = true
+ growing_stack = false
++have_proc_self_cmdline = true
+ 
+ [binaries]
+ env = "/usr/bin/env"
+-- 
+2.20.1
 
 
