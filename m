@@ -1,24 +1,30 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A75D7F89D
+Return-Path: <ross.burton@intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id A60397F82D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 11:43:33 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 006BhYJM020192
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jan 2020 03:43:34 -0800 (PST)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 6 Jan 2020 03:43:28 -0800
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 6 Jan 2020 19:43:27 +0800
-Message-ID: <1578311007-154786-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon,  6 Jan 2020 11:51:12 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 Jan 2020 03:51:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,402,1571727600"; d="scan'208";a="302858752"
+Received: from hongy-mobl1.ger.corp.intel.com (HELO rburton-mac01.local)
+	([10.252.50.70])
+	by orsmga001.jf.intel.com with ESMTP; 06 Jan 2020 03:51:12 -0800
+To: zhe.he@windriver.com, openembedded-core@lists.openembedded.org
+References: <1578311007-154786-1-git-send-email-zhe.he@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <4cec857f-1816-2514-2905-dd111f6c1600@intel.com>
+Date: Mon, 6 Jan 2020 11:51:11 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.3.1
 MIME-Version: 1.0
-Subject: [PATCH v2] ltp: nm01: Remove prefix zeros of the addresses output by nm before comparing
+In-Reply-To: <1578311007-154786-1-git-send-email-zhe.he@windriver.com>
+Subject: Re: [PATCH v2] ltp: nm01: Remove prefix zeros of the addresses output by nm before comparing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,88 +37,13 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2020 11:43:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 06 Jan 2020 11:51:12 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-From: He Zhe <zhe.he@windriver.com>
+We've a patch queued to upgrade to 20190930, is this fix included in 
+that release or does this patch need to be rebased?
 
-The latest nm v2.33.1 outputs symbols addresses without prefix zeros
-for "nm -f posix", which causes the following error.
-nm01 5 TFAIL: Got wrong format with -f bsd
-
-Backport a patch to fix it.
-
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
-v2: Add ltp prefix to the patch title
-
- ...-prefix-zeros-of-the-addresses-output-by-.patch | 43 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190517.bb          |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch
-
-diff --git a/meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch b/meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch
-new file mode 100644
-index 0000000..502ea69
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch
-@@ -0,0 +1,43 @@
-+From 59cb0dd9f8e65b2d398fcaf4d163cbc8e1d0ae45 Mon Sep 17 00:00:00 2001
-+From: He Zhe <zhe.he@windriver.com>
-+Date: Tue, 31 Dec 2019 15:02:48 +0800
-+Subject: [PATCH] nm01: Remove prefix zeros of the addresses output by nm
-+ before comparing
-+
-+The latest nm v2.33.1 outputs symbols addresses without prefix zeros
-+for "nm -f posix", which causes the following error.
-+nm01 5 TFAIL: Got wrong format with -f bsd
-+
-+Let's remove the prefix zeros before comparing.
-+
-+Upstream-Status: Backport [http://lists.linux.it/pipermail/ltp/2020-January/014884.html]
-+
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+Reviewed-by: Li Wang <liwang@redhat.com>
-+Reviewed-by: Petr Vorel <pvorel@suse.cz>
-+Tested-by: Petr Vorel <pvorel@suse.cz>
-+---
-+ testcases/commands/nm/nm01 | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/testcases/commands/nm/nm01 b/testcases/commands/nm/nm01
-+index 30c41bd..fd9d3d9 100755
-+--- a/testcases/commands/nm/nm01
-++++ b/testcases/commands/nm/nm01
-+@@ -84,8 +84,11 @@ test5()
-+ 	EXPECT_PASS $NM -f bsd $TST_DATAROOT/f1 \> nm_bsd.out
-+ 	EXPECT_PASS $NM -f posix $TST_DATAROOT/f1 \> nm_posix.out
-+ 
-+-	ROD awk '{print $3 $2 $1}' nm_bsd.out \> nm1.out
-+-	ROD awk '{print $1 $2 $3}' nm_posix.out \> nm2.out
-++	ROD awk '{print gensub(/\y(0+)([0-9a-fA-F]+)\y/, "\\2", "g")}' nm_bsd.out \> trimmed_nm_bsd.out
-++	ROD awk '{print gensub(/\y(0+)([0-9a-fA-F]+)\y/, "\\2", "g")}' nm_posix.out \> trimmed_nm_posix.out
-++
-++	ROD awk '{print $3 $2 $1}' trimmed_nm_bsd.out \> nm1.out
-++	ROD awk '{print $1 $2 $3}' trimmed_nm_posix.out \> nm2.out
-+ 
-+ 	if diff nm1.out nm2.out > /dev/null; then
-+ 		tst_res TPASS "Got BSD format with -f bsd"
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190517.bb
-index 60f749b..f70687f 100644
---- a/meta/recipes-extended/ltp/ltp_20190517.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190517.bb
-@@ -51,6 +51,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch \
-            file://0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch \
-            file://0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch \
-+           file://0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch \
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.7.4
-
+Ross
 
