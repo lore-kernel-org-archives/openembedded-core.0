@@ -1,24 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D99B67F266
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A40F7F266
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 08:24:55 +0000 (UTC)
+	Mon,  6 Jan 2020 08:24:56 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0068Oumn027061
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0068Ow8e015545
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jan 2020 00:24:57 -0800 (PST)
+	Mon, 6 Jan 2020 00:24:58 -0800 (PST)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 6 Jan 2020 00:24:55 -0800
+	14.3.468.0; Mon, 6 Jan 2020 00:24:57 -0800
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 6 Jan 2020 16:26:16 +0800
-Message-ID: <cover.1578299099.git.liezhi.yang@windriver.com>
+Date: Mon, 6 Jan 2020 16:26:17 +0800
+Message-ID: <893cf00cc129d1f61f1b535b74874496e76cd7e1.1578299099.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1578299099.git.liezhi.yang@windriver.com>
+References: <cover.1578299099.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] gnupg: Read GNUPG_BINDIR from environment variables for nativesdk
+Subject: [PATCH 1/1] gnupg: Read GNUPG_BINDIR from environment variables for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,21 +36,58 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Mon, 06 Jan 2020 08:24:57 -0000
 Content-Type: text/plain
 
-The following changes since commit 53cf1241fa4721ba89955146099749d05c5d7171:
+There is already a relocate.patch for native which is used for reading
+GNUPG_BINDIR from environment variables, now also enable it for nativesdk.
+Otherwise, command like the following one doesn't work for nativesdk:
 
-  musl: Ensure that B is clean before configure task is run (2020-01-06 00:24:16 +0000)
+$ gpg-connect-agent --homedir ../keys/ reloadagent /bye
+gpg-connect-agent: no running gpg-agent - starting '/opt/path/to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/gpg-agent'
+gpg-connect-agent: failed to start agent '/opt/path/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/gpg-agent': No such file or directory
 
-are available in the git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib rbt/gnupg
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=rbt/gnupg
-
-Robert Yang (1):
-  gnupg: Read GNUPG_BINDIR from environment variables for nativesdk
-
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+---
  meta/recipes-support/gnupg/gnupg_2.2.17.bb | 20 ++++++++++++++------
  1 file changed, 14 insertions(+), 6 deletions(-)
 
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.17.bb b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
+index bb8885f..60a8515 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.17.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
+@@ -15,9 +15,10 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0003-dirmngr-uses-libgpg-error.patch \
+            file://0004-autogen.sh-fix-find-version-for-beta-checking.patch \
+            file://0001-Woverride-init-is-not-needed-with-gcc-9.patch \
++           file://relocate.patch \
+            "
+-SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
+-                                file://relocate.patch"
++
++SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch"
+ 
+ SRC_URI[md5sum] = "1ba2d9b70c377f8e967742064c27a19c"
+ SRC_URI[sha256sum] = "afa262868e39b651a2db4c071fba90415154243e83a830ca00516f9a807fd514"
+@@ -60,10 +61,17 @@ do_install_append() {
+ }
+ 
+ do_install_append_class-native() {
+-	create_wrapper ${D}${bindir}/gpg2 GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
+-	create_wrapper ${D}${bindir}/gpgconf GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
+-	create_wrapper ${D}${bindir}/gpg-agent GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
+-	create_wrapper ${D}${bindir}/gpg-connect-agent GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
++	create_wrappers ${STAGING_BINDIR_NATIVE}
++}
++
++do_install_append_class-nativesdk() {
++	create_wrappers ${SDKPATHNATIVE}${bindir_nativesdk}
++}
++
++create_wrappers() {
++	for i in gpg2 gpgconf gpg-agent gpg-connect-agent; do
++		create_wrapper ${D}${bindir}/$i GNUPG_BINDIR=$1
++	done
+ }
+ 
+ PACKAGECONFIG ??= "gnutls"
 -- 
 2.7.4
 
