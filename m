@@ -1,31 +1,23 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 75E207CDE4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 11:25:24 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 Jan 2020 03:25:25 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,402,1571727600"; d="scan'208";a="210759956"
-Received: from hongy-mobl1.ger.corp.intel.com (HELO rburton-mac01.local)
-	([10.252.50.70])
-	by orsmga007.jf.intel.com with ESMTP; 06 Jan 2020 03:25:23 -0800
-To: openembedded-core@lists.openembedded.org
-References: <20191229184415.19514-1-raj.khem@gmail.com>
-	<20191229184415.19514-2-raj.khem@gmail.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <5d240df6-2d13-ed5e-ae9b-fbf2c45d5e66@intel.com>
-Date: Mon, 6 Jan 2020 11:25:22 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.3.1
-MIME-Version: 1.0
-In-Reply-To: <20191229184415.19514-2-raj.khem@gmail.com>
-Subject: Re: [PATCH 02/19] systemd: Fix time_t size assumptions
+Return-Path: <ayaka@soulik.info>
+X-Greylist: delayed 576 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 06 Jan 2020 11:31:46 UTC
+Received: from kozue.soulik.info (kozue.soulik.info [108.61.200.231])
+	by mail.openembedded.org (Postfix) with ESMTP id 3DAC37CDE4
+	for <openembedded-core@openembedded.org>;
+	Mon,  6 Jan 2020 11:31:46 +0000 (UTC)
+Received: from [192.168.10.83] (unknown [112.10.171.7])
+	by kozue.soulik.info (Postfix) with ESMTPSA id 799471012AA;
+	Mon,  6 Jan 2020 20:22:18 +0900 (JST)
+Mime-Version: 1.0 (1.0)
+From: ayaka <ayaka@soulik.info>
+X-Mailer: iPad Mail (16D57)
+In-Reply-To: <1578308259-3821-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+Date: Mon, 6 Jan 2020 19:22:02 +0800
+Message-Id: <2A135E9E-4D02-4850-9EFE-E1CB999AF096@soulik.info>
+References: <1578308259-3821-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+To: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
+Cc: openembedded-core@openembedded.org
+Subject: Re: [zeus] tune-cortexa72-cortexa53: Add tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,38 +30,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2020 11:25:24 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 06 Jan 2020 11:31:47 -0000
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On 29/12/2019 18:43, Khem Raj wrote:
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+
+> On Jan 6, 2020, at 6:57 PM, Manjukumar Matha <manjukumar.harthikote-math=
+a@xilinx.com> wrote:
+>=20
+> From: Joshua Watt <jpewhacker@gmail.com>
+>=20
+> Adds tunes for Cortex-A72 Cortex-A53 big.LITTLE SoCs (with and without
+> crypto extensions), e.g. Rockchip RK3399
+I wonder whether adding an extra script to handle those big little tunes w=
+ould be better or there would be endless combines for them
+>=20
+> (From OE-Core rev: 78a555b324c30b2970eaa046c5d86de7980e678a)
+>=20
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->   ...ead-of-TIME_T_MAX-for-timerfd_settim.patch | 31 +++++++++++++++++++
->   meta/recipes-core/systemd/systemd_243.2.bb    |  1 +
->   2 files changed, 32 insertions(+)
->   create mode 100644 meta/recipes-core/systemd/systemd/0022-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch
-> 
-> diff --git a/meta/recipes-core/systemd/systemd/0022-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch b/meta/recipes-core/systemd/systemd/0022-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch
+> .../machine/include/tune-cortexa72-cortexa53.inc   | 23 ++++++++++++++++=
+++++++
+> 1 file changed, 23 insertions(+)
+> create mode 100644 meta/conf/machine/include/tune-cortexa72-cortexa53.in=
+c
+>=20
+> diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/me=
+ta/conf/machine/include/tune-cortexa72-cortexa53.inc
 > new file mode 100644
-> index 0000000000..76a1c7364d
+> index 0000000..0d43531
 > --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0022-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch
-> @@ -0,0 +1,31 @@
-> +From 6bcf562bd1e541c7aa46923d9a14201c7f785261 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Mon, 16 Dec 2019 12:49:07 -0800
-> +Subject: [PATCH] Use INT_MAX instead of TIME_T_MAX for timerfd_settime timeout
+> +++ b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+> @@ -0,0 +1,23 @@
+> +DEFAULTTUNE ?=3D "cortexa72-cortexa53"
 > +
-> +kernel prior to 64bit time_t support might not entertain such large
-> +timeout therefore reduce it to INT_MAX which would set timer expiration
-> +event after 68 years of uptime, should be good for all practical
-> +purposes
+> +require conf/machine/include/arm/arch-armv8a.inc
 > +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +TUNEVALID[cortexa72-cortexa53] =3D "Enable big.LITTLE Cortex-A72.Cortex=
+-A53 specific processor optimizations"
+> +
+> +TUNECONFLICTS[aarch64] =3D "armv4 armv5 armv6 armv7 armv7a"
+> +
+> +MACHINEOVERRIDES =3D. "${@bb.utils.contains("TUNE_FEATURES", "cortexa72=
+-cortexa53", "cortexa72-cortexa53:", "" ,d)}"
+> +
+> +TUNE_CCARGS .=3D "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-cort=
+exa53", " -mtune=3Dcortex-a72.cortex-a53", "", d)}"
+> +
+> +# cortexa72.cortexa53 implies crc support
+> +AVAILTUNES +=3D "cortexa72-cortexa53 cortexa72-cortexa53-crypto"
+> +ARMPKGARCH_tune-cortexa72-cortexa53                  =3D "cortexa72-cor=
+texa53"
+> +ARMPKGARCH_tune-cortexa72-cortexa53-crypto           =3D "cortexa72-cor=
+texa53"
+> +TUNE_FEATURES_tune-cortexa72-cortexa53               =3D "${TUNE_FEATUR=
+ES_tune-armv8a-crc}"
+> +TUNE_FEATURES_tune-cortexa72-cortexa53-crypto        =3D "${TUNE_FEATUR=
+ES_tune-armv8a-crc-crypto}"
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53         =3D "${PACKAGE_EXT=
+RA_ARCHS_tune-armv8a-crc}        cortexa72-cortexa53"
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto  =3D "${PACKAGE_EXT=
+RA_ARCHS_tune-armv8a-crc-crypto} cortexa72-cortexa53 cortexa72-cortexa53-cr=
+ypto"
+> +BASE_LIB_tune-cortexa72-cortexa53                    =3D "lib64"
+> +BASE_LIB_tune-cortexa72-cortexa53-crypto             =3D "lib64"
+> +
+> --=20
+> 2.7.4
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Missing Upstream-Status.  Have you send or discussed this upstream?
-
-Ross
 
