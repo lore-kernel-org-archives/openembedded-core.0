@@ -1,51 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id C29177FD79
+Return-Path: <jatedev@gmail.com>
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com
+	[209.85.208.181])
+	by mail.openembedded.org (Postfix) with ESMTP id BF46D7FCB0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 17:33:01 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id z14so38855894qkg.9
+	Mon,  6 Jan 2020 21:09:58 +0000 (UTC)
+Received: by mail-lj1-f181.google.com with SMTP id j1so45003009lja.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Jan 2020 09:33:03 -0800 (PST)
+	Mon, 06 Jan 2020 13:09:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=9QmE7UcERfyWGTI5Fv9BD3EfAitwR0ClpGfhtaXpO8Y=;
-	b=V2X+nrf+7gv0BerXG0nH3r9kKujM6ak9KtvqvQtVYFUB9QCkGGTsFOxUKzE4yq+ddQ
-	5zWmqQMU2bqyi65IV6rWppmAdaahq7zU0pwq6bx6peu/1Tjl72lG+G62iTWRdJW04Dte
-	1Yi7gtFDe+aomI9uYMGb/1pwBl7eIeyECEjuWugzi32K1wsNL2S/yU7o8kqSPx4jhyAm
-	ni2fshovOL3VbTBpvAs9DDqY/NsaAMQLA96GoY9RlryQZDCT4S+unVgF8EFiBcLNWhFk
-	kR8gQLfbEhVTZ9YLG8zqNMeZdad4NO0XWQiuMhC/yR2T8v+8tt3YFVRTmy9cVQKAafkW
-	nYgQ==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=FROVry7lQjw5jap7fopmm0OdgTUhGHkVG0PSEgFiCRw=;
+	b=hHU4Uq48n5aNe3wI6naiqRRvnHBWJIwNffuGt1mGk952Yo44oImAOIuFX0GdVa3vTk
+	sdEKvNqJ4viSj/90BEukhDpLCTrZJDefVTxwGK4IR4lPX8u6Vm1YCqmuEgM2El0DmtoI
+	VM//yoDlGppqMpevQAHYW/Wgx6en8zQmu71vbJWbSzbFf5CqKxg3k4gWErGm9NtV4EqP
+	IfuBNf0k90HfSp562YhdxyBwcb4ayjyzA9GuhAS17VpE2oOcvtKBRfqoOMiGpfZmhWL+
+	dO8V1HwISj6KDIc94EgufHl+xGBkGHrQ+OqKkGhAgzGN1Apu690k+Y3RPaEy5ZN4hhk2
+	G2Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=9QmE7UcERfyWGTI5Fv9BD3EfAitwR0ClpGfhtaXpO8Y=;
-	b=S5IEEV3q04fBfY1hkolK2SGByfiQD2/k+YYzOY5t0ZwSHVfht76hN4y85Hr7vDiyFc
-	9hmZ9yAutqa67Q2nqP41z1fvOOFz7zxep54tiL5GLj5VFgCK7i38wFAFUsNbZ119MNBo
-	0fP57r/UsH2BT4H7xe0jWV15s8b+XonNELdJ6EoC6lN5lVGL7VVO/M37/kJvQ4Hm/IT8
-	kbJKYYtvk5qxEDl3Z+Ek+ka/3ePFhuu66SkNKq4lZxyXDC889q+4R7kUmoNBw+kCPWnR
-	LKHHhObUCDGeBs3EskSLoTYcQCUHpexzhLhSyNW4Ha/WzUhQ7kguVZWstgwSlWMbdDtA
-	Jf9Q==
-X-Gm-Message-State: APjAAAUdR3aeA5+dsPbC5KqV02pbAHyAFk51r9sbRc9a1VTbwC7qKGE+
-	u/C0mGRA5+YeXmv1eH0adR2xnCijB6i20rNiC5OYNYyD++A=
-X-Google-Smtp-Source: APXvYqwP8lsSgORIGj7UeoU21UtFOs9fcT1njSDJ7XQC4hhI+iKq8AFcakfxXqKgoiBANa1KQTCgaA8N4pan8KUALjI=
-X-Received: by 2002:a37:a3c7:: with SMTP id
-	m190mr84241538qke.212.1578331982523; 
-	Mon, 06 Jan 2020 09:33:02 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=FROVry7lQjw5jap7fopmm0OdgTUhGHkVG0PSEgFiCRw=;
+	b=nTJBg4ComfIbodT+SykpYhOK41FOQF5HOoe4M2itn6aO2N2DVvr1IpvK7Uufuwdh8s
+	bTneMxIv/ALzwv3JqnMRS++6DZ/PxJFW6vrpBjWRydjgfggv7FR+pqDoEtYXOYgKy2gq
+	6xrJi/txy7RDPxhSqomIUjkAQvjhOS1gHejbia0MPCF5HP9vN6K/7q/3TBet0UtiMHL3
+	tyaf2g5qumEWluVeIZ1TNklAMuq4PAc71ygrk6RgP9PFMK4i6MqmO7subPuss2VgL7Pd
+	FXr8tcOhHlyBRc8ccA7Uighf6+1OoT95nxvq64ovAN+wMOi0Jt777cT0FcusbgiW2qbc
+	CCQg==
+X-Gm-Message-State: APjAAAVbphUXcTL+cbb5MqdDtFOw7ZNBS8fSMTZTT4Ils0c7uTJXGFHe
+	lYE/Vd0sAJsi6vLEpkffF4uxJ2cRzeIBv6QMIlGgWkkb
+X-Google-Smtp-Source: APXvYqxFEq9T63iNlq8yuNbHqmozBBDRzrwaR0/4OTmRms8B9FiEngOpaU/5t+apXpkH3Eb/IzSXECA5LmQqcSXbNSA=
+X-Received: by 2002:a2e:9942:: with SMTP id r2mr62895178ljj.182.1578344998894; 
+	Mon, 06 Jan 2020 13:09:58 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1578035913.git.raj.khem@gmail.com>
-	<f8e251c9d729cabcb7f9eb0ee536c6a894e58e87.1578035913.git.raj.khem@gmail.com>
-	<68f893a224c39ed4778f1d35b6e38ac06faca346.camel@andred.net>
-In-Reply-To: <68f893a224c39ed4778f1d35b6e38ac06faca346.camel@andred.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 6 Jan 2020 09:32:35 -0800
-Message-ID: <CAMKF1srDeOU9zFNwZ387WOWkxGLHXKm5Co1brZUxy+qqurofbA@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] tclibc-musl: Add -D__USE_TIME_BITS64 to c/c++ flags
+From: Jate Sujjavanich <jatedev@gmail.com>
+Date: Mon, 6 Jan 2020 16:09:47 -0500
+Message-ID: <CAPphmgaUr6H0WEpZvWcCcHy4X3frzCscRERALhKZdRGXPMu7+g@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] zip: Add patch fixing zipnote segfault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,67 +49,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2020 17:33:03 -0000
+X-List-Received-Date: Mon, 06 Jan 2020 21:09:59 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 6, 2020 at 9:08 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
->
-> On Thu, 2020-01-02 at 23:21 -0800, Khem Raj wrote:
-> > This is needed for 64bit time_t support on 32bit architectures
-> > see [1]
-> >
-> > [1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/=
-commit?id=3D152194fe9c3f
->
-> As per the above, __USE_TIME_BITS64 is a glibc-internal macro, to be defi=
-ned (by glibc),
-> when the application requestion 64 bit time_t via #define _TIME_BITS 64
->
-> Is the behaviour different on musl? Should this patch instead set _TIME_B=
-ITS?
->
-For musl we wont need it since it is now the default.
-this has now been defined in musl itself lately [1], so we don't need
-to add this define externally anymore This was not the case when the
-patchset was done.
+This patch has been applied in several Linux distributions
 
-I will test out a patch to remove it with latest musl and see if it
-all works ok.
+Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+---
+ .../zip/zip-3.0/zipnote-crashes-with-segfault.patch  | 20 ++++++++++++++++++++
+ meta/recipes-extended/zip/zip_3.0.bb                 |  1 +
+ 2 files changed, 21 insertions(+)
+ create mode 100644
+meta/recipes-extended/zip/zip-3.0/zipnote-crashes-with-segfault.patch
 
-[1] https://git.musl-libc.org/cgit/musl/commit/?id=3Df12bd8e05c8bb2c3e2b91d=
-635887ec424ef8fbd9
+diff --git a/meta/recipes-extended/zip/zip-3.0/zipnote-crashes-with-segfault.patch
+b/meta/recipes-extended/zip/zip-3.0/zipnote-crashes-with-segfault.patch
+new file mode 100644
+index 0000000..aa10add
+--- /dev/null
++++ b/meta/recipes-extended/zip/zip-3.0/zipnote-crashes-with-segfault.patch
+@@ -0,0 +1,20 @@
++Close the correct file descriptor
++
++https://bugs.archlinux.org/task/47713
++
++Upstream-Status: Pending
++
++diff --git a/zipnote.c b/zipnote.c
++index 5e02cb6..996f012 100644
++--- a/zipnote.c
+++++ b/zipnote.c
++@@ -661,7 +661,7 @@ char **argv;            /* command line tokens */
++     if ((r = zipcopy(z)) != ZE_OK)
++       ziperr(r, "was copying an entry");
++   }
++-  fclose(x);
+++  fclose(in_file);
++
++   /* Write central directory and end of central directory with new comments */
++   if ((c = zftello(y)) == (zoff_t)-1)    /* get start of central */
++
+diff --git a/meta/recipes-extended/zip/zip_3.0.bb
+b/meta/recipes-extended/zip/zip_3.0.bb
+index a2cd771..c00a932 100644
+--- a/meta/recipes-extended/zip/zip_3.0.bb
++++ b/meta/recipes-extended/zip/zip_3.0.bb
+@@ -12,6 +12,7 @@ S = "${WORKDIR}/zip30"
+ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.gz
+\
+            file://fix-security-format.patch \
+            file://10-remove-build-date.patch \
++           file://zipnote-crashes-with-segfault.patch \
+            "
+ UPSTREAM_VERSION_UNKNOWN = "1"
 
-> Cheers,
-> Andre'
->
->
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/conf/distro/include/tclibc-musl.inc | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/meta/conf/distro/include/tclibc-musl.inc b/meta/conf/distr=
-o/include/tclibc-musl.inc
-> > index 8badbbb40a..22f8214ba3 100644
-> > --- a/meta/conf/distro/include/tclibc-musl.inc
-> > +++ b/meta/conf/distro/include/tclibc-musl.inc
-> > @@ -18,6 +18,7 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "ldconfig"
-> >  #USE_NLS ?=3D "no"
-> >
-> >  CXXFLAGS +=3D "-fvisibility-inlines-hidden"
-> > +TARGET_CC_ARCH +=3D "-D__USE_TIME_BITS64"
-> >
-> >  IMAGE_LINGUAS =3D ""
-> >
-> > --
-> > 2.24.1
-> >
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+2.7.4
 
