@@ -1,51 +1,51 @@
 Return-Path: <tanuk@iki.fi>
 Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
 	[66.111.4.27])
-	by mail.openembedded.org (Postfix) with ESMTP id 7442C7F8AE
+	by mail.openembedded.org (Postfix) with ESMTP id 7ED9F7F8A1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 09:18:15 +0000 (UTC)
+	Mon,  6 Jan 2020 09:18:17 +0000 (UTC)
 Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id C348821F83
+	by mailout.nyi.internal (Postfix) with ESMTP id CB83821C1C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 04:18:16 -0500 (EST)
+	Mon,  6 Jan 2020 04:18:18 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-	by compute5.internal (MEProxy); Mon, 06 Jan 2020 04:18:16 -0500
+	by compute5.internal (MEProxy); Mon, 06 Jan 2020 04:18:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=content-transfer-encoding:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to
 	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; bh=UCm2mlijfviV7Z6kFqFEsuVVKLm7EGi4/0aGlP11nQM=; b=dAKON1rb
-	GsvSgis82oKtR1TBYiiCpeaRrbeVKnNrWbKUMCqyzmQ5heYs0Gz1UpUdUcBASX2T
-	TnKG3wx6T2wc9gUHOd6gqi1XEprgT/A9hpfMgOHZvIqIwtKZM/niqqteVrbtTPTf
-	k77MvBtEU+zF5efmWhS2w2kGrjxILO++AaUN+80LlYsXsxGb9vrhOv1+/AzwtnTm
-	aQxZdc9rfj7eLBF/Qlbr9nfJIQGtl2ATMMcVOBVkAlFn7vcLbEtSvtHhNenzPwEo
-	v+UzY3e8uhrmAZHDkYh2eKLdMX1RafUlnYvXhjq+zqqCm62MF2DqJDSiVaKabkKt
-	U4mv4uPazEAo1g==
-X-ME-Sender: <xms:WPsSXp-Q027X0MsfdvzWdU_2n4h2exe22t9OMGztthj1qaD0Si0oTQ>
+	fm1; bh=eZw8PwTK7/yCYsl1tTQ2Pr8CUuB2wuG2eWDKHIp4bjk=; b=WtTARPtp
+	r6liAYop4g5+MfSvJFesn+uX5wK4yZBE5nrzZ3A6GBd+GqnKSs7dnlFFu0Hv8AVY
+	uQiHcRMliFE1NJtO7akY0Sygx3UetcdmRbHRGaaH5Rp9KMbb06NMoqLECzzgh6MG
+	i85eXqL7q9AWBJVqPMag2dMZ5m/jFCGkGd5q1dmTjIEO2ZLEqP9qzgbtBy10vx05
+	b8EEkY7dxJkZGVZeDG/RxQo1e+wvMf95vBtBHsJGKIyVnaQdiGh0weE9D0nNERLN
+	FFfL41LxjV3k7aPOHttoXkYDKRVmkQx1pM6136MkEWncmsYTPd6k3BvnlOUkMYfF
+	TuqZPk8/YyDC7Q==
+X-ME-Sender: <xms:WvsSXjw3_CLGey8qTfo_6XSmMIJM6_sAvJsRZEl53XfEjfieL4MBcQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdehtddgtdefucetufdoteggodetrfdotf
 	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
 	uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
 	dtredttdenucfhrhhomhepvfgrnhhuucfmrghskhhinhgvnhcuoehtrghnuhhksehikhhi
 	rdhfiheqnecuffhomhgrihhnpegrlhhsrgdqphhrohhjvggtthdrohhrghenucfkphepud
 	eliedrvdeggedrudeluddrjeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpehtrghnuhhk
-	sehikhhirdhfihenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:WPsSXl5-CTut4Aowl2ENwX9eItbjX63MizhzXb57-NO44guIMh7GwQ>
-	<xmx:WPsSXikEtjZGEXSsjbQDIAaNOsVGRBv7Ii_P1n5HEcZtrxQpj_LHtQ>
-	<xmx:WPsSXoEhgZkAg34LXxSv4KZstzkN7zXfYmZM-cgtxxsisNqpMFc2RQ>
-	<xmx:WPsSXkC3N1_sOjfY4jvO0tCGaNS-kZ2nxBQi49K5UbDoK2ipkB0Viw>
+	sehikhhirdhfihenucevlhhushhtvghrufhiiigvpeef
+X-ME-Proxy: <xmx:WvsSXtFX_HfWvSNG_45ODUaRfSMvwkeJtX0P_VKP_BX-7hQMeiXatQ>
+	<xmx:WvsSXvFTaJ6eTa3xWehdn9dduI3xXIBiClGFQKWgtwDTU632sfYw9w>
+	<xmx:WvsSXusNJFbgMtDOWtoHpuhwcMY12WTXFaBa8IysK3VGeBvO8lcK1A>
+	<xmx:WvsSXuLidNs8g8srPLDAkFFnh0kRCktpPNrqEBCykIRncNqp4ecEBQ>
 Received: from localhost.localdomain (unknown [196.244.191.74])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 2DE4230602DB
+	by mail.messagingengine.com (Postfix) with ESMTPA id 37B7E30607B4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 04:18:16 -0500 (EST)
+	Mon,  6 Jan 2020 04:18:17 -0500 (EST)
 From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jan 2020 11:18:04 +0200
-Message-Id: <20200106091806.49129-4-tanuk@iki.fi>
+Date: Mon,  6 Jan 2020 11:18:05 +0200
+Message-Id: <20200106091806.49129-5-tanuk@iki.fi>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200106091806.49129-1-tanuk@iki.fi>
 References: <20200106091806.49129-1-tanuk@iki.fi>
 MIME-Version: 1.0
-Subject: [PATCH v2 3/5] alsa-topology-conf: new recipe, version 1.2.1
+Subject: [PATCH v2 4/5] alsa-utils: 1.1.9 -> 1.2.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,73 +58,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2020 09:18:15 -0000
+X-List-Received-Date: Mon, 06 Jan 2020 09:18:17 -0000
 Content-Transfer-Encoding: 8bit
 
-The topology configuration files were moved from the alsa-lib repository
-to a new alsa-topology-conf repository. The move was accompanied by
-a license change from LGPL2.1 to BSD-3-Clause.
+I moved the ALLOW_EMPTY line next to the line that sets FILES to "".
+That makes it easier to see that the package is not only allowed to be
+empty, but forced to be empty.
 
 Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../alsa/alsa-lib_1.2.1.2.bb                  |  1 +
- .../alsa/alsa-topology-conf_1.2.1.bb          | 22 +++++++++++++++++++
- 3 files changed, 24 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.1.bb
+ ...-utils-scripts_1.1.9.bb => alsa-utils-scripts_1.2.1.bb} | 0
+ .../alsa/{alsa-utils_1.1.9.bb => alsa-utils_1.2.1.bb}      | 7 +++----
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.9.bb => alsa-utils-scripts_1.2.1.bb} (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.9.bb => alsa-utils_1.2.1.bb} (97%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index c9fb373f52..3c07804ce0 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -35,6 +35,7 @@ RECIPE_MAINTAINER_pn-alsa-lib = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-alsa-plugins = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-alsa-state = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-alsa-tools = "Tanu Kaskinen <tanuk@iki.fi>"
-+RECIPE_MAINTAINER_pn-alsa-topology-conf = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-alsa-ucm-conf = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-alsa-utils = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-alsa-utils-scripts = "Tanu Kaskinen <tanuk@iki.fi>"
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-index 7bc78b8523..e2bc61fbe9 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-@@ -34,6 +34,7 @@ FILES_alsa-conf = "${datadir}/alsa/"
- FILES_libatopology = "${libdir}/libatopology.so.*"
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.9.bb b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.1.bb
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.9.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.2.1.bb
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.9.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb
+similarity index 97%
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.1.9.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb
+index c443d3594d..9144af628a 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.9.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.2.1.bb
+@@ -21,8 +21,8 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
  
- RDEPENDS_${PN}_class-target = "alsa-conf alsa-ucm-conf"
-+RDEPENDS_libatopology_class-target = "alsa-topology-conf"
+ # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
+ SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "5ed21c3e296c06046cc986e732f625f6"
+-SRC_URI[sha256sum] = "5ddf2cbddb4bd1a4a2a6492a09c25898b08c3ad64893c3655be14194cf0a213a"
++SRC_URI[md5sum] = "c4628bae7632937eac2de4cf2a3de82e"
++SRC_URI[sha256sum] = "0b110ba71ef41d3009db1bc4dcae0cf79efb99cb5426fa19d0312470560a2c0d"
  
- # upgrade path
- RPROVIDES_${PN} = "libasound"
-diff --git a/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.1.bb b/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.1.bb
-new file mode 100644
-index 0000000000..add1f309ec
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-topology-conf_1.2.1.bb
-@@ -0,0 +1,22 @@
-+SUMMARY = "ALSA topology configuration files"
-+HOMEPAGE = "https://alsa-project.org"
-+BUGTRACKER = "https://alsa-project.org/wiki/Bug_Tracking"
-+LICENSE = "BSD-3-Clause"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
-+
-+# The tarball doesn't have any toplevel directory. The subdir option tells
-+# Bitbake to unpack the archive to the correct place.
-+SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2;subdir=${BP}"
-+SRC_URI[md5sum] = "7fdf5fff3f1e0603456e719f6033e922"
-+SRC_URI[sha256sum] = "354a43f4031c98bef1349ac722d83b2603ef439f81a1ab1eba8814c28243a9b2"
-+
-+inherit allarch
-+
-+do_install() {
-+        install -d ${D}/usr/share/alsa
-+        cp -r ${S}/topology ${D}/usr/share/alsa
-+}
-+
-+PACKAGES = "${PN}"
-+
-+FILES_${PN} = "*"
+ # On build machines with python-docutils (not python3-docutils !!) installed
+ # rst2man (not rst2man.py) is detected and compile fails with
+@@ -56,6 +56,7 @@ PACKAGES += "${ALSA_UTILS_PKGS}"
+ RDEPENDS_${PN} += "${ALSA_UTILS_PKGS}"
+ 
+ FILES_${PN} = ""
++ALLOW_EMPTY_alsa-utils = "1"
+ FILES_alsa-utils-alsabat     = "${bindir}/alsabat"
+ FILES_alsa-utils-alsatplg    = "${bindir}/alsatplg"
+ FILES_alsa-utils-aplay       = "${bindir}/aplay ${bindir}/arecord ${bindir}/axfer"
+@@ -88,8 +89,6 @@ SUMMARY_alsa-utils-alsaucm      = "ALSA Use Case Manager"
+ 
+ RRECOMMENDS_alsa-utils-alsactl = "alsa-states"
+ 
+-ALLOW_EMPTY_alsa-utils = "1"
+-
+ do_install() {
+ 	autotools_do_install
+ 
 -- 
 2.20.1
 
