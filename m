@@ -1,52 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 47BE77F820
+Return-Path: <Li.Zhou@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A06160273
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 00:43:59 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id p17so13726535wma.1
+	Mon,  6 Jan 2020 06:04:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 00664Baj004195
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 Jan 2020 16:44:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=kixhN4P+8zHHBhqxfjGvqaDIOlI4+COq4UeX+D5PWx0=;
-	b=Rcg2ngNF7gswOPniyyCXzjE5cz0P1Ns3iSMbvii2p6Wx5G6zqr251F2yWGs9R5MrYO
-	O5mBdiS0ytEoT3NDMEHS+PMCKTHQQUURMAwBQgqn8B4MbMH1V17OlROs4yMuAuRxkqkR
-	ACPcab78kMM2ZS53mlVogkeBIP82wp3pucpDU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=kixhN4P+8zHHBhqxfjGvqaDIOlI4+COq4UeX+D5PWx0=;
-	b=dmvw8Hf/kHIR6X8eHvBQDDvKroLbzlLzGwjhtvzxXyPPyAv3w4Xjy74go2NaQQgdxo
-	h2NfkFsscUUU9To6ERMOwAPmOsy5hXCpR6h5W/EMFTpCUlM8pHXeE+UpVyCzCZZyTWSm
-	RR6hcz6s9xSTnnLHjWt0pRKGgb5JBe4Pc1x/tt73IKMCXv6jUimNpBg+bx23jEWX5DU0
-	d4wUAmSdpwKJNq25ry/a0IbePYBteU2BqkpnW+Ch/Trj5bcf24iKWzt8KJ5SbANlqLQT
-	+Tc6cj9w03D2Z3I5RJeHN5HYlyHwur2D7oCYA+8Xh6Yv8YRlLgxhdAflr/6jEDhHDdrj
-	sJPA==
-X-Gm-Message-State: APjAAAXsVb1ArfpXyCBbVXT6fy9f9+y37n2cZoqq84qiKjHFv3kU4Q01
-	I+RAG5zWT5AL632LoIdMXmJxJaYwGSs=
-X-Google-Smtp-Source: APXvYqyoxvNaBXl+fSo028Es76IKOaGvfgfKXOc0Kc+HNkaunmAV6ARpmymcvMHbXOEWbk/B25NJlA==
-X-Received: by 2002:a1c:9d8b:: with SMTP id g133mr30310816wme.27.1578271440075;
-	Sun, 05 Jan 2020 16:44:00 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	p17sm21227738wmk.30.2020.01.05.16.43.59
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 05 Jan 2020 16:43:59 -0800 (PST)
-Message-ID: <113ad12f2f746054692ed3843a9b359793d470bd.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 06 Jan 2020 00:43:57 +0000
-In-Reply-To: <c5060a41-8348-37c7-7293-47a534182995@gmail.com>
-References: <20200106000650.26105-1-richard.purdie@linuxfoundation.org>
-	<c5060a41-8348-37c7-7293-47a534182995@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Sun, 5 Jan 2020 22:04:11 -0800 (PST)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Sun, 5 Jan 2020 22:04:10 -0800
+From: Li Zhou <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 6 Jan 2020 14:03:17 +0800
+Message-ID: <1578290597-8588-2-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1578290597-8588-1-git-send-email-li.zhou@windriver.com>
+References: <1578290597-8588-1-git-send-email-li.zhou@windriver.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] sstate: Add extra directory level
+X-Originating-IP: [128.224.153.75]
+Subject: [PATCH 2/2] python3: Do not hardcode "lib" for distutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,42 +34,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2020 00:44:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 06 Jan 2020 06:04:10 -0000
+Content-Type: text/plain
 
-On Sun, 2020-01-05 at 16:41 -0800, akuster808 wrote:
-> On 1/5/20 4:06 PM, Richard Purdie wrote:
-> > We're having speed issues on the autobuilder due to the numbers of
-> > files in sstate
-> > directories. We previously split these by the first two characters
-> > of the hash.
-> > This change extends this to split by the next two characters as
-> > well, creating
-> > more layers of directories.
-> > 
-> > This should signifiantly speed up eSDK builds on the autobuilder as
-> > the current
-> > sstate layout simply isn't scaling there but addresses a general
-> > complaint.
-> > 
-> > gen-lockedsig-cache needed to be updated for the new split level
-> > sstateI.
-> 
-> I assume zeus worthy?
+Get the sys.lib from python3 itself and do not use
+ hardcoded value of 'lib' for distutils.
 
-I think we need to discuss that. It is a fairly significant change in
-behaviour.
+Solve the error below that occurs when run "python3 setup.py install"
+on lib64 multilib platform:
+[Errno 2] No such file or directory: '/usr/lib/python3.7/site-packages/test-easy-install-1828.write-test'
 
-Options are:
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+---
+ ...python3-Do-not-hardcode-lib-for-distutils.patch | 42 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.7.6.bb      |  1 +
+ 2 files changed, 43 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-python3-Do-not-hardcode-lib-for-distutils.patch
 
-a) none of these
-b) only this first change
-c) all of them if we want to fix the 255 char sstate filename limit
-issue
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/python/python3/0001-python3-Do-not-hardcode-lib-for-distutils.patch b/meta/recipes-devtools/python/python3/0001-python3-Do-not-hardcode-lib-for-distutils.patch
+new file mode 100644
+index 0000000..9cab2ad
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-python3-Do-not-hardcode-lib-for-distutils.patch
+@@ -0,0 +1,42 @@
++From 9dd978f044b9ada446fa827be01bbc34057ebfcf Mon Sep 17 00:00:00 2001
++From: Li Zhou <li.zhou@windriver.com>
++Date: Thu, 2 Jan 2020 13:29:17 +0800
++Subject: [PATCH] python3: Do not hardcode "lib" for distutils
++
++Get the sys.lib from python3 itself and do not use
++ hardcoded value of 'lib' for distutils.
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++Signed-off-by: Li Zhou <li.zhou@windriver.com>
++---
++ Lib/distutils/command/install.py | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/Lib/distutils/command/install.py b/Lib/distutils/command/install.py
++index 0258d3d..352fd8f 100644
++--- a/Lib/distutils/command/install.py
+++++ b/Lib/distutils/command/install.py
++@@ -19,6 +19,8 @@ from site import USER_BASE
++ from site import USER_SITE
++ HAS_USER_SITE = True
++ 
+++libname = sys.lib
+++
++ WINDOWS_SCHEME = {
++     'purelib': '$base/Lib/site-packages',
++     'platlib': '$base/Lib/site-packages',
++@@ -29,8 +31,8 @@ WINDOWS_SCHEME = {
++ 
++ INSTALL_SCHEMES = {
++     'unix_prefix': {
++-        'purelib': '$base/lib/python$py_version_short/site-packages',
++-        'platlib': '$platbase/lib/python$py_version_short/site-packages',
+++        'purelib': '$platbase/'+libname+'/python$py_version_short/site-packages',
+++        'platlib': '$platbase/'+libname+'/python$py_version_short/site-packages',
++         'headers': '$base/include/python$py_version_short$abiflags/$dist_name',
++         'scripts': '$base/bin',
++         'data'   : '$base',
++-- 
++1.9.1
++
+diff --git a/meta/recipes-devtools/python/python3_3.7.6.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
+index ae2f105..618245e 100644
+--- a/meta/recipes-devtools/python/python3_3.7.6.bb
++++ b/meta/recipes-devtools/python/python3_3.7.6.bb
+@@ -30,6 +30,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-test_locale.py-correct-the-test-output-format.patch \
+            file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
+            file://0001-configure.ac-fix-LIBPL.patch \
++           file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
+            "
+ 
+ SRC_URI_append_class-native = " \
+-- 
+1.9.1
 
 
