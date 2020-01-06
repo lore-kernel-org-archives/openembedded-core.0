@@ -1,51 +1,52 @@
-Return-Path: <tanuk@iki.fi>
-Received: from out3-smtp.messagingengine.com (out3-smtp.messagingengine.com
-	[66.111.4.27])
-	by mail.openembedded.org (Postfix) with ESMTP id D8D307F8A1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 08BAE7F939
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 09:18:18 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id 3243021FFD
+	Mon,  6 Jan 2020 09:34:14 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id c9so48864884wrw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 04:18:20 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-	by compute5.internal (MEProxy); Mon, 06 Jan 2020 04:18:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-transfer-encoding:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to
-	:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm1; bh=HiobdLxZ3bmp8NB2bkHgqJKB0EecJthCGzBzt8qkVZ4=; b=X1MXDsJN
-	3IPe1X42xewMvVtpYTzHChhon9Td2KPwqJTqyhYoqkbcU2Lj21QTPqJQLN0F124t
-	iJZywR/MDJlnjBu80PYG7Yc99LkCwhw8A2BKfzIzEPLjUAMPoVzfID7Snm3wk4IB
-	x2zyoa0d6JLpfrwm8SO8pCovlIklxOxZvNzxIogH1rJiirm8f5JReu9jgyHIM9bv
-	14/0Q9226LUaxUtPw7Y0Sx+8Pa41ZYhrxcubMZZ+lKFd8hFZJFw5SevPNUt/rmuw
-	kBzbHeBKLOOZMd3Dm9/BgOENn4kbv/v6e/OjswG4f2RVGJyYJ0xdXvm2RqdqsJxK
-	nTCy5V3sjTTY6w==
-X-ME-Sender: <xms:XPsSXsBpaxf0VT5sdjAk8cu06BhtUhaFQhz8AS1AQXqOgH1Mw4Q3mA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdehtddgtdefucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
-	dtredttdenucfhrhhomhepvfgrnhhuucfmrghskhhinhgvnhcuoehtrghnuhhksehikhhi
-	rdhfiheqnecuffhomhgrihhnpegrlhhsrgdqphhrohhjvggtthdrohhrghenucfkphepud
-	eliedrvdeggedrudeluddrjeegnecurfgrrhgrmhepmhgrihhlfhhrohhmpehtrghnuhhk
-	sehikhhirdhfihenucevlhhushhtvghrufhiiigvpeef
-X-ME-Proxy: <xmx:XPsSXnLKDG6usl6U8dfX4iYM0Jmd71aDUC9TyG9KA19XWD8OVQu2JA>
-	<xmx:XPsSXnBxUc1ElaGyakli2L82Jl06txiFmPQyR9gSWTlmx1HADj-xxA>
-	<xmx:XPsSXssHoxqSW07JZYPYnIE_NIQWXyLvxY91BW2PEL2hCfW8n9wKag>
-	<xmx:XPsSXos9wEFP1VzLCYsp9-50IxVnRalV-P3EyAGPmx7ldunOVM3mtw>
-Received: from localhost.localdomain (unknown [196.244.191.74])
-	by mail.messagingengine.com (Postfix) with ESMTPA id A681A3060774
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 Jan 2020 04:18:19 -0500 (EST)
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jan 2020 11:18:06 +0200
-Message-Id: <20200106091806.49129-6-tanuk@iki.fi>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200106091806.49129-1-tanuk@iki.fi>
-References: <20200106091806.49129-1-tanuk@iki.fi>
+	Mon, 06 Jan 2020 01:34:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=TBTNVvOL/QAHpF++GovfY6FmHjgIj9568n7yvrSNiPM=;
+	b=d/58tS3sv34Rk+ZbMksPM2LtcPzMHcdDl1iuiRc3xDenXfI/btJst/uJmj4RpeUSPx
+	o/RRdXzDtVY2kXNXDojz0u0MfKsQCc/1aowZWkUkagPuMY7uTRLQh+aJGmCKvXiBQ6Ny
+	EFAqX1pi6ODPLBbChIXzjlInPZYPEy7h/rS40=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=TBTNVvOL/QAHpF++GovfY6FmHjgIj9568n7yvrSNiPM=;
+	b=ujtd9z4c8gBCoIoAD5VwREcVCu+cug4fvr5+i65ykyN136sag/ieEeGYlTl2F2bZv1
+	0dMo1UJ8CXrzef9M0kdJBcthK4FxFdPHzOo3a1pVa5aiAj7lo1phJ6ABoV+Anx56m53k
+	eCAFvtwGoEdfj2fWa0XPpEekefpZRg1vqC9GuKWAjy42ERANKwbe6QISL10fErkR5mDw
+	F1M6tp6Vrd5fZOH/yezl5MTG1O/bwYkSTKnFj8pZCI7JqAJg6Zlpbzps2Qmoiz8Mtn7q
+	gYomTv1e/ek2cZ+Wrs7Amzdf8slsSq5jWndBMZmpAg2WGbAKc6qF3xdlXrY/KKRapxza
+	fHvA==
+X-Gm-Message-State: APjAAAU751D3XMV45j+ujNaUJslVhicVijUiCzDHQfR1Z4PV9cpuf9Yn
+	AsVKiDsKU502zmJRp5ePk69deg==
+X-Google-Smtp-Source: APXvYqwMod42X4uyvvH0L6bkcs95WF4K/uCS4QW4GqgO9O78uLS3gl3Eu+w7QAoU4JRYEw4iUTwH2Q==
+X-Received: by 2002:a5d:608a:: with SMTP id w10mr96018444wrt.136.1578303255777;
+	Mon, 06 Jan 2020 01:34:15 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y20sm21917182wmi.25.2020.01.06.01.34.14
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 06 Jan 2020 01:34:14 -0800 (PST)
+Message-ID: <670633f2ce674dbc50222743d42ff7735e5d0e3c.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 06 Jan 2020 09:34:13 +0000
+In-Reply-To: <893cf00cc129d1f61f1b535b74874496e76cd7e1.1578299099.git.liezhi.yang@windriver.com>
+References: <cover.1578299099.git.liezhi.yang@windriver.com>
+	<893cf00cc129d1f61f1b535b74874496e76cd7e1.1578299099.git.liezhi.yang@windriver.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: [PATCH v2 5/5] alsa-plugins: 1.1.9 -> 1.2.1
+Subject: Re: [PATCH 1/1] gnupg: Read GNUPG_BINDIR from environment variables for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +59,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2020 09:18:19 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 06 Jan 2020 09:34:15 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
----
- .../alsa/{alsa-plugins_1.1.9.bb => alsa-plugins_1.2.1.bb}     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.9.bb => alsa-plugins_1.2.1.bb} (98%)
+On Mon, 2020-01-06 at 16:26 +0800, Robert Yang wrote:
+> There is already a relocate.patch for native which is used for
+> reading
+> GNUPG_BINDIR from environment variables, now also enable it for
+> nativesdk.
+> Otherwise, command like the following one doesn't work for nativesdk:
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.9.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb
-similarity index 98%
-rename from meta/recipes-multimedia/alsa/alsa-plugins_1.1.9.bb
-rename to meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb
-index b94fc5cee3..9882e12763 100644
---- a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.9.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.2.1.bb
-@@ -21,8 +21,8 @@ LIC_FILES_CHKSUM = "\
- "
- 
- SRC_URI = "https://www.alsa-project.org/files/pub/plugins/${BP}.tar.bz2"
--SRC_URI[md5sum] = "e0caffbd849c51ed81751378f56cb563"
--SRC_URI[sha256sum] = "161772303da521abbbf1d91f63b470c4791392d5728f2192a42d71292078f907"
-+SRC_URI[md5sum] = "5b11cd3ec92e5f9190ec378565b529e8"
-+SRC_URI[sha256sum] = "4d94de7ad41734b8604a652521200bb6554fcf0c2c00fdbd302b1710d76548da"
- 
- DEPENDS += "alsa-lib"
- 
--- 
-2.20.1
+This is a misleading commit message as its also enabled on target in
+this patch. Do we need/want this enabled on target?
+
+Cheers,
+
+Richard
+
 
 
