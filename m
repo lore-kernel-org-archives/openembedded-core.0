@@ -1,48 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
-	[209.85.210.169])
-	by mail.openembedded.org (Postfix) with ESMTP id C4F6E7FCD0
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
+	[209.85.216.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 726F17FCD0
 	for <openembedded-core@openembedded.org>;
-	Mon,  6 Jan 2020 16:40:56 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id z16so27212595pfk.0
+	Mon,  6 Jan 2020 16:41:16 +0000 (UTC)
+Received: by mail-pj1-f52.google.com with SMTP id n59so7993067pjb.1
 	for <openembedded-core@openembedded.org>;
-	Mon, 06 Jan 2020 08:40:58 -0800 (PST)
+	Mon, 06 Jan 2020 08:41:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:autocrypt:message-id:date:user-agent
 	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=jZwrPcs2dpC/hRy+yajrIz1NqaFK2oiZXQJ/Wxxy3pU=;
-	b=EVFxk1w6NOgE8ueyMx4ZDTZuifvEJmp81jW+cfH7xoqO1kMjTCE54GuHwXMYBf8kZn
-	9x3T1Uu7cqiCYr+MEZ9gaD9rTc8+WJVYNHqe/C38HSaeTw2/FT9YWm35dfEtvRErYL9V
-	eMmcKlAEfm0XdYQLzxpyBnIKMs1oAmf0PAb5DKucQeY0tme+QG5MjbltxMTd75d6aIps
-	aMu0AyAy2eGORc155qrV5j1TEbZgPDnDp8MTn6RPnXRwa+CdYv2obODsmlIlPkjhL2CW
-	lSn3baUjK9L04n9UtI211g8j6hjQa8bul9k7jhO12YG2KX/+bAiXG0BzcRZl+wJUlL2x
-	ryzA==
+	bh=1s2et5BKuu9fYuTSGAe9ezLh366eGzouz4YSg7B3JjY=;
+	b=nOBSus4kHrrubnOb8AWcD9THnNK2I2JgwW/bqTugeyGad00PQM9UfaXcOa13XDQxPs
+	siVbhYF+pJrtrDIROFwfCTc+/w8RhFtpa0dKw4q0b1l+j7v6AvjWGdJRso5Vl15Z1cJu
+	RRohn/angZsT7yun7VOruilwzXqJNRwFgV4CL3n5FeGt/6iH/yn+rSY5UUUztqgHk4oB
+	ek7BXxdGkZ60UYE/J5tKlJOe2AqlsWWAnJGl1hq/Nrmas66qoUG1mMAnT+YJ1Sg+ztOn
+	hcX2+7lu5XiQeEfYIx7Nx1uEyCdlZPwTKcFGDYw4GBKKhkO3TSps8pptZV4C3HiAWaZb
+	FHzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
 	:date:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=jZwrPcs2dpC/hRy+yajrIz1NqaFK2oiZXQJ/Wxxy3pU=;
-	b=oChTeD6DFycj7QelOsoBVqgreHRj2I3D3O6IMDSfIgMeD3sC6unYcWK0keX7eSAbkn
-	2TOAN+WF4U/HpZYa5Osd3kVSNyAIMTnpXq2ogQYTXUHP+GmQX5vITucCCRpAj+gVqohl
-	Nat7M7OjURKmurzhtXrIvufUUk8Qh5e2NimUPFgeoaA7kXlOE7JjEsIdVWt9cW0+IxW/
-	V2EuPy9a4N48/MggiYt4n57mGXU6CR25vt1FhB4EKSnOjtLL4PF16gIpfwtf+5Nm3a7G
-	zoS2XCeODROsbhCo3nqO6a9ZSHXmvcwUMql8SLXXPvm9M7txk9nr6Qn/XncXHannPngQ
-	QAWw==
-X-Gm-Message-State: APjAAAV3MeK5udkMiwdi2YBevbTOl2CMMl8TCxkIMkPW5GfN+QG8jINZ
-	zplx4DDYiMicm/P0hkmVWMK4LOnZ
-X-Google-Smtp-Source: APXvYqyZdmcoNhVr976vHpeLTn8t0Sl+gZ6i0LdLsQ2qK2OfM5N7F5tDP0pkx0YEAZ3MhIUS6Zinqg==
-X-Received: by 2002:a62:ddd0:: with SMTP id w199mr107743846pff.1.1578328857373;
-	Mon, 06 Jan 2020 08:40:57 -0800 (PST)
+	bh=1s2et5BKuu9fYuTSGAe9ezLh366eGzouz4YSg7B3JjY=;
+	b=OLKvE2ZyT1m09UiN8L3lxpn+8tFE6DHPwDiygFXJJMXOpaPAL9Uf5fKmo626uZ5a18
+	wCkaLJ87+AUP3ecqZJZOeXDs7GK2/ATH5qNqGjqM3HyWs43DkQ2W4dHFqJFb6O4TBqrr
+	sW89gfZNWvDdkq16CqQWM+uid2nDk7IkAjefdlG13zyctpqYc54wbm0rUqd+n29qSDME
+	8UmkVZkvRUKcUzSB0B4qBVUbtyzC7g4L1QQNTv+g5h1SV0xB5lMzWh19MP24TvTgT9+C
+	lnei3ULqX4Ox9IcKARbBj+Sr2ot+g1Q4mIHbK2jFmOUxzf/mwV9JQ5jR2nPfCZivnLob
+	s3SQ==
+X-Gm-Message-State: APjAAAUAcoWMgBUIU1F/V8qt8OLF9lu5RWI0TEvEvbBd7YW6afwCE9PA
+	sGAclyDnG29X1lF9PwGBWV9f7v4O
+X-Google-Smtp-Source: APXvYqyrqx2IqweWqMVXYJo5D+lgy/cxuzgvWwb5bw2GjMIifEq1R82SJtpZjFwkrexZ9ICCYSvzPQ==
+X-Received: by 2002:a17:902:b40a:: with SMTP id
+	x10mr88925548plr.64.1578328877398; 
+	Mon, 06 Jan 2020 08:41:17 -0800 (PST)
 Received: from ?IPv6:2601:202:4180:a5c0:6832:e19c:36b9:d5e?
 	([2601:202:4180:a5c0:6832:e19c:36b9:d5e])
 	by smtp.gmail.com with ESMTPSA id
-	j28sm73021146pgb.36.2020.01.06.08.40.56
+	m6sm24968084pjn.21.2020.01.06.08.41.16
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 06 Jan 2020 08:40:56 -0800 (PST)
+	Mon, 06 Jan 2020 08:41:16 -0800 (PST)
 To: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>,
 	openembedded-core@openembedded.org
-References: <1578308090-3504-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+References: <1578308259-3821-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
 From: akuster808 <akuster808@gmail.com>
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
@@ -87,13 +88,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <fe6eaed4-d38a-fb88-dd6b-724e38eb7a33@gmail.com>
-Date: Mon, 6 Jan 2020 08:40:55 -0800
+Message-ID: <67fe9737-2da4-e608-0781-9c650711e393@gmail.com>
+Date: Mon, 6 Jan 2020 08:41:15 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.2.2
 MIME-Version: 1.0
-In-Reply-To: <1578308090-3504-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-Subject: Re: [zeus] feature-microblaze-versions.inc: Update MB to v11.0
+In-Reply-To: <1578308259-3821-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+Subject: Re: [zeus] tune-cortexa72-cortexa53: Add tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -106,48 +107,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 Jan 2020 16:40:56 -0000
+X-List-Received-Date: Mon, 06 Jan 2020 16:41:16 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 1/6/20 2:54 AM, Manjukumar Matha wrote:
-> Update the Microblaze to v11.0
+On 1/6/20 2:57 AM, Manjukumar Matha wrote:
+> From: Joshua Watt <jpewhacker@gmail.com>
 >
-> (From OE-Core rev: 0cd48fe0feb248c451841f6ad42777460ac81c7e)
->
-> Signed-off-by: Manjukumar Matha <manjukumar.harthikote-matha@xilinx.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
+> Adds tunes for Cortex-A72 Cortex-A53 big.LITTLE SoCs (with and without
+> crypto extensions), e.g. Rockchip RK3399
 
 Adding something new fails outside the acceptable changes for a stable
 release per current guidelines.
-
-- armin
->  meta/conf/machine/include/microblaze/feature-microblaze-versions.inc | 2 ++
->  1 file changed, 2 insertions(+)
+-Armin
 >
-> diff --git a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
-> index 955674f..3221e2a 100644
-> --- a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
-> +++ b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
-> @@ -44,6 +44,7 @@ TUNEVALID[v9.4]  = "MicroBlaze version 9.4"
->  TUNEVALID[v9.5]  = "MicroBlaze version 9.5"
->  TUNEVALID[v9.6]  = "MicroBlaze version 9.6"
->  TUNEVALID[v10.0] = "MicroBlaze version 10.0"
-> +TUNEVALID[v11.0] = "MicroBlaze version 11.0"
->  
->  # Version conflict matrix
->  TUNECONFLICTS[v8.00] = ""
-> @@ -60,6 +61,7 @@ TUNECONFLICTS[v9.4]  = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3"
->  TUNECONFLICTS[v9.5]  = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3 v9.4"
->  TUNECONFLICTS[v9.6]  = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3 v9.4 v9.5"
->  TUNECONFLICTS[v10.0] = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3 v9.4 v9.5 v9.6"
-> +TUNECONFLICTS[v11.0] = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3 v9.4 v9.5 v9.6 v10.0"
->  
->  # Version flags
->  TUNE_CCARGS += "-mcpu=${@microblaze_current_version(d, True)}"
+> (From OE-Core rev: 78a555b324c30b2970eaa046c5d86de7980e678a)
+>
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  .../machine/include/tune-cortexa72-cortexa53.inc   | 23 ++++++++++++++++++++++
+>  1 file changed, 23 insertions(+)
+>  create mode 100644 meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+>
+> diff --git a/meta/conf/machine/include/tune-cortexa72-cortexa53.inc b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+> new file mode 100644
+> index 0000000..0d43531
+> --- /dev/null
+> +++ b/meta/conf/machine/include/tune-cortexa72-cortexa53.inc
+> @@ -0,0 +1,23 @@
+> +DEFAULTTUNE ?= "cortexa72-cortexa53"
+> +
+> +require conf/machine/include/arm/arch-armv8a.inc
+> +
+> +TUNEVALID[cortexa72-cortexa53] = "Enable big.LITTLE Cortex-A72.Cortex-A53 specific processor optimizations"
+> +
+> +TUNECONFLICTS[aarch64] = "armv4 armv5 armv6 armv7 armv7a"
+> +
+> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-cortexa53", "cortexa72-cortexa53:", "" ,d)}"
+> +
+> +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "cortexa72-cortexa53", " -mtune=cortex-a72.cortex-a53", "", d)}"
+> +
+> +# cortexa72.cortexa53 implies crc support
+> +AVAILTUNES += "cortexa72-cortexa53 cortexa72-cortexa53-crypto"
+> +ARMPKGARCH_tune-cortexa72-cortexa53                  = "cortexa72-cortexa53"
+> +ARMPKGARCH_tune-cortexa72-cortexa53-crypto           = "cortexa72-cortexa53"
+> +TUNE_FEATURES_tune-cortexa72-cortexa53               = "${TUNE_FEATURES_tune-armv8a-crc}"
+> +TUNE_FEATURES_tune-cortexa72-cortexa53-crypto        = "${TUNE_FEATURES_tune-armv8a-crc-crypto}"
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53         = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc}        cortexa72-cortexa53"
+> +PACKAGE_EXTRA_ARCHS_tune-cortexa72-cortexa53-crypto  = "${PACKAGE_EXTRA_ARCHS_tune-armv8a-crc-crypto} cortexa72-cortexa53 cortexa72-cortexa53-crypto"
+> +BASE_LIB_tune-cortexa72-cortexa53                    = "lib64"
+> +BASE_LIB_tune-cortexa72-cortexa53-crypto             = "lib64"
+> +
 
 
