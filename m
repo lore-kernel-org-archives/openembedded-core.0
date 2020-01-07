@@ -1,51 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id DC3057F61C
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 820227FDE8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2020 03:13:26 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id n59so8609196pjb.1
+	Tue,  7 Jan 2020 03:13:27 +0000 (UTC)
+Received: by mail-pl1-f176.google.com with SMTP id p9so22615260plk.9
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 06 Jan 2020 19:13:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
 	bh=ZyhJnB6POkY8lvZLMl7wNI4JwH25H3WGs9BXtkYmUiw=;
-	b=VIr+2PLJxiKTPXaJXmMzTjmpyLxKHCGJY1hoItWQt0CUCzA4wKoFN/pTtnzVvi6szd
-	OwH65KAsOfRSXdXziF8JESQFS1gIi/oRN0HZOuxXg/IxAJcOVwXt6CZZEf0utGT56TXM
-	gdMAE2SnSl6YsiqhlN/iWIfCDF4WvCaQBA/PWBJksRfqn357pYAG1K4XrLzlF0fG4q+r
-	2pQ3RSTQ/pXv5rh5eIef9vR3l+b/1PML46xwUnarYZRs6ykawNOwgeSfEB98e8i7PVlh
-	ekZVly4+Ufbt70x2po9NregcZZmsoXBXyLITKaqjvuYwiwfXFGPrnpqtKGGvB6IUW4mE
-	542w==
+	b=QmbswIwpr6vNxPI53EWPbzFwp8o1NaUF3ZCNt9u0QKx09tHg1MWuI2NpYQgEtxEOh0
+	qjy6zCBTJr/SA47v2YWx4YZajI+uaLaXIYiLpYfo0Pt8IFWE1GiN6S+kUwW0Zz/jTuF/
+	zemZoR/u6zK2ixnRwJ/8OWWQII1LdgITtNAhWSpQC7CbUVwa19gBx2o8xuIxJ2BkdGnK
+	4NYWSXOmCJqzHJ6at7mtbSXWvf41QkWI0mwmR93Qm1NX0KsHmqHeEuzgC3WUjqc2uGzo
+	3Cmx6nFFv0DV4LYcGEBRJCbfX7z4aAq2El4+FtmGm+Z0MfONitMnGb0ddQ+9JiNt6VPn
+	tHfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
 	bh=ZyhJnB6POkY8lvZLMl7wNI4JwH25H3WGs9BXtkYmUiw=;
-	b=hMP9AuJDfgHndDBLuVgQQk/aiLMumFmTHim0qrOdjPwJA+L3HzEB56h0UpHlBAOp6V
-	8VgJjk97B2AvYK1QFNjs9TZKVWveawFOHwytbMgEDnwxM6mMbpc3vjL84/SmKjd93YIf
-	23naVXdPnfBlywUScSL8r9+OBdY8lUbBzoYKLoV6tc3dqIyK+CbWePpKOno1PVipTsz8
-	I1q/3Nb1r/ShWLGm8UGTaOcJm9wg3drt8Kac5tJNPMq7RcPmMTaAgeX2g9Z/1Ccr/Km0
-	Z/jhCca3wdZWqoYFEdKtpQdFm6WWkSQiVxVNGL0Zh3Hl3zGvnKhhJGwPUxkjEFLUJv3R
-	X/Qg==
-X-Gm-Message-State: APjAAAVewPDH01SunKFZD4SokZzPpGUcADuYLBjDi4uc/lDVwmWzu0KZ
-	QBalLSqhKZqc779/id2t0dCHIBAFz2k=
-X-Google-Smtp-Source: APXvYqy8PbBLwO5ZCeAKiZQDa7IvwzAE+7KHXRY6PM6GWMpxjHuQ5xSG5tZ3UbD+DEC4JtO87hSFGg==
-X-Received: by 2002:a17:90a:ac02:: with SMTP id
-	o2mr46998444pjq.93.1578366807463; 
-	Mon, 06 Jan 2020 19:13:27 -0800 (PST)
+	b=fUq7TEz9XAaTw8U2bLqnkVEaZS925+M2hqOxkG0vHZmURzCA/8xEK6JCimqaV429l3
+	gnjmkbID70O48x1QUCcjk1q8T5JfsYtFU8y6e79ptzzSTty+tWraZBEKJ7AffkrJ3D/T
+	DC+h4CYzlT6g/hK2HdMd9dsCLbBi2sqs2BJnxUSdVkw81Woy2e/gqQrW6T3oVN3oqGJe
+	4MklKBuge6tN4P8d4iHPXTtUwkTZxtKTQD1UrdudJFFK7ZUYTPFKD+BpRIThaWSmeni6
+	3VEJWn0syMeuUVbp8NGI1f/dwobRhlYFb0N1GCTpWlVYqj4SSugrV+3t9qm2IXwlK0f3
+	vdYQ==
+X-Gm-Message-State: APjAAAXHkKZ3phs7jrA/m80Eh/fsA36QHi7D2DdzK7/uSsXeUp31nP+U
+	k7aA7QSmxJIBQxFszZyhmbfMn8qs1Sc=
+X-Google-Smtp-Source: APXvYqzSCkQ9fVMUWqVMkMJoRmzIJjark0F5a67lkMdUx6nAl7vrehVdhviGkHSmAvil64NXtHUiXQ==
+X-Received: by 2002:a17:902:744b:: with SMTP id
+	e11mr54433296plt.247.1578366808140; 
+	Mon, 06 Jan 2020 19:13:28 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::9bd6])
 	by smtp.gmail.com with ESMTPSA id
-	e19sm26048839pjr.10.2020.01.06.19.13.26
+	e19sm26048839pjr.10.2020.01.06.19.13.27
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 06 Jan 2020 19:13:26 -0800 (PST)
+	Mon, 06 Jan 2020 19:13:27 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jan 2020 19:13:22 -0800
-Message-Id: <20200107031323.2068045-1-raj.khem@gmail.com>
+Date: Mon,  6 Jan 2020 19:13:23 -0800
+Message-Id: <20200107031323.2068045-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.24.1
+In-Reply-To: <20200107031323.2068045-1-raj.khem@gmail.com>
+References: <20200107031323.2068045-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] opensbi: Use -ffree-standing compiler options
+Subject: [PATCH] opensbi: Use -ffreestanding compiler options
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
