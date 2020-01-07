@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D8547FDC7
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 9247C7FDD7
 	for <openembedded-core@openembedded.org>;
-	Tue,  7 Jan 2020 02:35:01 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id a33so27755334pgm.5
+	Tue,  7 Jan 2020 02:35:02 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id 195so26970093pfw.11
 	for <openembedded-core@openembedded.org>;
-	Mon, 06 Jan 2020 18:35:03 -0800 (PST)
+	Mon, 06 Jan 2020 18:35:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=FGdQ06L+8AO2jYEi6Yk2DLFJAG/84Bb46vaODV8E2mc=;
-	b=f19owfhUJOD+nD75oQYy37i6087bOoNiaRInk8mUYXli5LKGLwMvlkXuLkz1zDSaIu
-	/0E5xTRrEjdQwc3c/kIgqI/T32vbn2UAHLx+oOHEpBKQ7RpYIEt4o1EH0lPLnkAf/E2f
-	PrOUJLrwawJeCItzUQWKbU8rAdcM9cL74eR8H2uiMlQjD4yqiGYkZ4dQSw6zcMjCVnMt
-	rSTjKpftO4cT6IA6c+FUHa+6y85SIJbPcC1Rvx3ju2sIqDG6Nr6hQdwA4IOVQyZsbc/A
-	DbD6/9sd6liKZFAyRwYWT2tqard3n+aANEwkisv6RBuTD/u2kF3j4dnxeE+wUZ/Yqsx0
-	QYzA==
+	bh=DKyCmoyaKhp1vlq9xulHdsr8Nfai2oFDqoaeUjwQjyc=;
+	b=E6F6Vy70JVFybxOsflMH/4VKze+V8qWVvNUtMnzrFXTZkd78ML9QbZ94JLiiCiVNIP
+	ETtNyZXn04pBQIv19TIXdqBetV/ldWN0IMDGR8ZqzUrsRd4o1EDkIjtUwEqXQ+QmZfCU
+	S5dGwd2bBfB4W5+DUtAV9HMlrK5bQmn9IXj/r8+kuRhlXh9LVg6H9/hqIDnDFLr+0shz
+	l3KcS03BiejnOxITYSVMSToQhkieCmWp22lzs/xh+cVv7E3h/zWYtK319VL/ytAKKsv5
+	87dseOiUEPgZScwEljP9WocQviu86aOofBipzscZ26ncNnPgclxsuqeqoAcKqZpV77Sd
+	Fg+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=FGdQ06L+8AO2jYEi6Yk2DLFJAG/84Bb46vaODV8E2mc=;
-	b=VX1XdkKztyfUE2sgE3siPisil15Jb1/I031lD+PTd/+mlbSY2F3jU/j7qNRVvLtZru
-	veI3JJzMO9Xe8DJJVaNbx9EDcRyx9MJ88IpMSWfiViwUfQ4Nyil9VTIvcSnjy1NzJV83
-	YM7dTf3dTA+xQv/GpaGUIcHqgThU9Z52Ah7aVOR82geuEf93kcs99eEW4poIaX2InC7H
-	YRY6k1wmsfwSOJnH4GdcyOdq8cN3MWTjTS0ulztgndk0Da0qG7oiLMGnTeX2h62BknP6
-	MxtlOUTUd1D+3VBPAOK16/qZkPFRET7uIoP4mSf0TDemDLU9n1HMODYJX3RjyKcFuPvg
-	3+gA==
-X-Gm-Message-State: APjAAAXkXBkF7X6qi/Dk2CiDyt7qblnfpI0CYoA1wpQ5WJ6cAXw0hzGQ
-	c6w2bEuBF8T+eTV7nVPDD2Wlm5bw
-X-Google-Smtp-Source: APXvYqyJnjT9da7pHZ590wc6FZAUEQmQJLYICPUO+I2SCh0SFJpVLNfMsKlWQC6wdaf9TVmNFhiQhg==
-X-Received: by 2002:a62:e40e:: with SMTP id
-	r14mr111457942pfh.115.1578364502622; 
-	Mon, 06 Jan 2020 18:35:02 -0800 (PST)
+	bh=DKyCmoyaKhp1vlq9xulHdsr8Nfai2oFDqoaeUjwQjyc=;
+	b=gMqnkI73bGIVKTjhtuF7TlbyNrhTJkPyLOKYr04bnSD+wTJKjBj4km3SjkkkrzOOFX
+	zO4Yyp2JseVpRzK0aIjjOIQGMKexWQUIZ2KAgofMTxEU0JmHIdX1m/89+9hDVK7jyDwF
+	FGDXqWlyMvxVgC9Zl+dEE4mLJ7wwe/zMkIy/pDF0P+Hg00QJRZEL7BlfS4Od8HaQfIfn
+	QimPHRwPxv7DQ6l6ITlbfjLduHGEGBHOZgb7FyEXL1bwq7b+sUs73EdFwDcy2ERar9be
+	IUCvApP1Us6Zy/AfMpo+oRoQ0IByF/OQp+v/kI69xZwQrqorh0+MBLK64CF88cNJzgQ8
+	gJiw==
+X-Gm-Message-State: APjAAAUzyyx2/1ylNlhfMdpFpKhD+1pF0pkMx1dJfo/nDutlURd04+wS
+	0XlaSTQG52hHF7X5lW5TXrREz5Qx
+X-Google-Smtp-Source: APXvYqxXn6J9wcLA98YFkM8+rg+24xPfsWPTfx0w0ClfA+K1AesiKsrFG83ZGTenvowrvxGrev6QfA==
+X-Received: by 2002:aa7:95a3:: with SMTP id a3mr115370176pfk.193.1578364503612;
+	Mon, 06 Jan 2020 18:35:03 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:6832:e19c:36b9:d5e])
 	by smtp.gmail.com with ESMTPSA id
-	d23sm77806193pfo.176.2020.01.06.18.35.01
+	d23sm77806193pfo.176.2020.01.06.18.35.02
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 06 Jan 2020 18:35:02 -0800 (PST)
+	Mon, 06 Jan 2020 18:35:03 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon,  6 Jan 2020 18:34:30 -0800
-Message-Id: <537b6578673f39deebd69ad1d171546bef967cee.1578364301.git.akuster808@gmail.com>
+Date: Mon,  6 Jan 2020 18:34:31 -0800
+Message-Id: <8a25a3ecc4a4220c996ab91fb986598de7d1e917.1578364301.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578364301.git.akuster808@gmail.com>
 References: <cover.1578364301.git.akuster808@gmail.com>
-Subject: [zeus 25/28] python3: Update to apply libgcc fix to libpython, glibc only
+Subject: [zeus 26/28] valgrind: Fix build with -fno-common
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +59,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2020 02:35:01 -0000
+X-List-Received-Date: Tue, 07 Jan 2020 02:35:02 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
 
-Update to account for review feedback on list.
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ec788594f3f6a47687c6eb321437f2d2b58b1518)
+(cherry picked from commit 14f14eccf176539493fbfe710b66704feb7710da)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/python/python3_3.7.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../valgrind/valgrind/s390x_vec_op_t.patch    | 19 +++++++++++++++++++
+ .../valgrind/valgrind_3.15.0.bb               |  1 +
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.7.6.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
-index 407c5a2bd9..b33b7028d4 100644
---- a/meta/recipes-devtools/python/python3_3.7.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.6.bb
-@@ -323,7 +323,7 @@ PACKAGES += "${PN}-man"
- FILES_${PN}-man = "${datadir}/man"
- 
- # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
--RDEPENDS_${PN} = "libgcc"
-+RDEPENDS_libpython3_append_libc-glibc = " libgcc"
- RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
- RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
+diff --git a/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch b/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
+new file mode 100644
+index 0000000000..eea671da0a
+--- /dev/null
++++ b/meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
+@@ -0,0 +1,19 @@
++s390x_vec_op_t is not needed anywhere, only elements of enum are accessed
++removing it ensures that valgrind can be built with -fno-common option
++
++Fixes
++ld: ../../VEX/libvex-amd64-linux.a(libvex_amd64_linux_a-guest_s390_helpers.o):/usr/src/debug/valgrind/3.15.0-r0/build/VEX/../../valgrind-3.15.0/VEX/priv/guest_s390_defs.h:289: multiple definition of `s390x_vec_op_t'; ../../VEX/libvexmultiarch-amd64-linux.a(libvexmultiarch_amd64_linux_a-multiarch_main_main.o):/usr/src/debug/valgrind/3.15.0-r0/build/VEX/../../valgrind-3.15.0/VEX/priv/guest_s390_defs.h:289: first defined here
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++--- a/VEX/priv/guest_s390_defs.h
+++++ b/VEX/priv/guest_s390_defs.h
++@@ -286,7 +286,7 @@ enum {
++    S390_VEC_OP_VFCHE = 18,
++    S390_VEC_OP_VFTCI = 19,
++    S390_VEC_OP_LAST = 20 // supposed to be the last element in enum
++-} s390x_vec_op_t;
+++};
++ 
++ /* Arguments of s390x_dirtyhelper_vec_op(...) which are packed into one
++    ULong variable.
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+index 63f972945d..aedaab27b3 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+@@ -40,6 +40,7 @@ SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+            file://0001-valgrind-filter_xml_frames-do-not-filter-usr.patch \
+            file://0002-valgrind-adjust-std_list-expected-output.patch \
+            file://0001-adjust-path-filter-for-2-memcheck-tests.patch \
++           file://s390x_vec_op_t.patch \
+            "
+ SRC_URI[md5sum] = "46e5fbdcbc3502a5976a317a0860a975"
+ SRC_URI[sha256sum] = "417c7a9da8f60dd05698b3a7bc6002e4ef996f14c13f0ff96679a16873e78ab1"
 -- 
 2.17.1
 
