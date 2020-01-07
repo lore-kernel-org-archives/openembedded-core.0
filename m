@@ -1,49 +1,47 @@
-Return-Path: <jatedev@gmail.com>
-Received: from mail-yw1-f50.google.com (mail-yw1-f50.google.com
-	[209.85.161.50])
-	by mail.openembedded.org (Postfix) with ESMTP id EEC567FDB0
+Return-Path: <tanuk@iki.fi>
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com
+	[66.111.4.25])
+	by mail.openembedded.org (Postfix) with ESMTP id DFE157FD71
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2020 03:36:12 +0000 (UTC)
-Received: by mail-yw1-f50.google.com with SMTP id 192so22883245ywy.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 Jan 2020 19:36:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Kq4jv7/DuN7SdYjRQBb+5Ox9oNhAgSrl+lBSIq/yd9E=;
-	b=jdv8ARvcNQAEj85ncLq4Y5m3hdvmo9P4stdHvwpPQJ/fLRbUqyLfa5M1uRYBoUH8Rz
-	mm6ALZbJnPcCv9G9IBUvN8K2gUtTdb8cUawv+1Aii9ptwOuAK3GxLi7kctfgn4vEbodl
-	agVMfoUkwFKkvkBAktaeyTQB9Os14usrYWssz98i39WnxhEfv9olOTIdbowa5A4j9kgW
-	+TwMeOUptUHOwbEAL/eU/dLEXQ6O5yG7xnqYprjwirnsH0uCaRcKFo6Os6RGbHi+rbAj
-	MRtFG6IGnL7Xr+NJJiF06zNkTFcxjkbFRer3XFzsyu4tPLssDbqeRGFlEfEdGZsm1xSV
-	D+xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Kq4jv7/DuN7SdYjRQBb+5Ox9oNhAgSrl+lBSIq/yd9E=;
-	b=Atvg4VNdpbbvcxtwritq83zI+pGeJ46sshUk4pXfI4w0rRYXH3Z+EfeVv9O6TJy4XJ
-	V3+QD44mE5rqruUraNJl5mRqtvrDj2tIQVoDstqIy7RQvHlt+xRvR1rb6neE+WpPR4nz
-	hrH3dwNTfFgAtAsecmzqKUgrjFRKN7wb4ma6IxKKKrT5oz7/z3/HE68u44hXDBKej71S
-	AmX1d/0dXsIv8/M5Tcc84R1zhUT4gKS4Nh8k6FvCDb/BBMpXtk6Dh44obXFsLzzzHhQn
-	xUgF2pj4APCwjSyuGnK/vH6z0sLSui1YFz7zzv0M7IkkoMdUr85lIvtvPH8ZaoUJo9uf
-	X/Kw==
-X-Gm-Message-State: APjAAAWYDbHBPo1D9mBGagB86SPs7xbuM5KF/HiZGVGX5b9uV6wc1MFR
-	UH1IL5hL3rg7v6TFqfunrPiX4kAr
-X-Google-Smtp-Source: APXvYqw3S0ZIJEeMuvyeQdHwjQNi24nyI3BCFEuX4gDqszSj9oWlhqG4ioMdOhgj9FiQMa0Fd+Zydg==
-X-Received: by 2002:a0d:d693:: with SMTP id
-	y141mr74973184ywd.169.1578368173224; 
-	Mon, 06 Jan 2020 19:36:13 -0800 (PST)
-Received: from Jates-MBP.hsd1.fl.comcast.net
-	(c-69-254-209-160.hsd1.fl.comcast.net. [69.254.209.160])
-	by smtp.gmail.com with ESMTPSA id
-	y206sm29945065ywa.102.2020.01.06.19.36.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 06 Jan 2020 19:36:12 -0800 (PST)
-From: Jate Sujjavanich <jatedev@gmail.com>
+	Tue,  7 Jan 2020 07:20:19 +0000 (UTC)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.nyi.internal (Postfix) with ESMTP id 0EB832218B;
+	Tue,  7 Jan 2020 02:20:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+	by compute5.internal (MEProxy); Tue, 07 Jan 2020 02:20:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:date:from
+	:message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=zYG8IPGv4dZ8K7fcN
+	YHcMtxUtn1UVKoTqvZA6lPEcgY=; b=o0PX+Cu/QMyoBxFFhPotDyFu8psRQwpZS
+	1NbgkVyU6XbWfyeZp6Qp76aWvCevYveI+awRdHtN7+6vGnQYr+ESsBy/EQhYcc+h
+	Zj/csRZ/Sh1c5sftrJNfjiAIyW9WydbUz0tge6wMlAlKt9jBKlTLF+d3E9OQIBOJ
+	hINerXocrLr2aCLgIhwnGI048fFPghvJOX1CFf748MNSUX9k2tda0jNmTTvoS/jv
+	+/5W83zvV65DxatBtPdUEI+qwQEAoVli6VPaoR+81s3SSjtLwlq6Y2MLy1G9HmSl
+	T9HpLPT8hmTKlbEl6mTLJSvLkfUxybQangk7rjXW1Sd/bUnsWMT6A==
+X-ME-Sender: <xms:MjEUXgHhuvPLx_pFmAEyF7MEMYYBPiYGva4-Z30Y6qM0QXGQOwQ4tA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdehuddguddtjecutefuodetggdotefrod
+	ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+	necuuegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertd
+	ertddtnecuhfhrohhmpefvrghnuhcumfgrshhkihhnvghnuceothgrnhhukhesihhkihdr
+	fhhiqeenucffohhmrghinhepgihiphhhrdhorhhgpdhgmhgrnhgvrdhorhhgnecukfhppe
+	duleeirddvgeegrdduledurdejgeenucfrrghrrghmpehmrghilhhfrhhomhepthgrnhhu
+	khesihhkihdrfhhinecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:MjEUXu4SWKtYiK0IKEuz98Sf51HSr4v26Im0TEs934AT_uu5XWiu3w>
+	<xmx:MjEUXjtrOwHaqXqfgVSTqpfH-m-ZrgX2TC6HfZ7oDNiPZibjyHzZXA>
+	<xmx:MjEUXi_ojcz-ThsKq8PEVjbWxG0ZTn7Wlt1x5XXWuDIhHSMn5QrNww>
+	<xmx:MzEUXtF1HHMS0yJB-VfdF0l7HrQ2Natc_oF9y1jf3Je5deSuMtzzHw>
+Received: from localhost.localdomain (unknown [196.244.191.74])
+	by mail.messagingengine.com (Postfix) with ESMTPA id B97E180062;
+	Tue,  7 Jan 2020 02:20:17 -0500 (EST)
+From: Tanu Kaskinen <tanuk@iki.fi>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 Jan 2020 22:36:10 -0500
-Message-Id: <20200107033610.95939-1-jatedev@gmail.com>
-X-Mailer: git-send-email 2.17.2 (Apple Git-113)
-Subject: [PATCH v6] zip: Add patch fixing zipnote segfault
+Date: Tue,  7 Jan 2020 09:20:14 +0200
+Message-Id: <20200107072014.5221-1-tanuk@iki.fi>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Cc: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+Subject: [PATCH] speexdsp: 1.2rc3 -> 1.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,58 +54,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2020 03:36:13 -0000
+X-List-Received-Date: Tue, 07 Jan 2020 07:20:20 -0000
+Content-Transfer-Encoding: 8bit
 
-This patch has been applied in several Linux distributions
+Removed backported patch
+0001-Don-t-rely-on-HAVE_STDINT_H-et-al.-being-defined.patch
 
-Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
+Enabling NEON on aarch64 doesn't break the build any more.
+
+Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
 ---
- .../zipnote-crashes-with-segfault.patch       | 22 +++++++++++++++++++
- meta/recipes-extended/zip/zip_3.0.bb          |  1 +
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/zipnote-crashes-with-segfault.patch
+ ...n-HAVE_STDINT_H-et-al.-being-defined.patch | 63 -------------------
+ .../{speexdsp_1.2rc3.bb => speexdsp_1.2.0.bb} | 20 +-----
+ 2 files changed, 3 insertions(+), 80 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/speex/speexdsp/0001-Don-t-rely-on-HAVE_STDINT_H-et-al.-being-defined.patch
+ rename meta/recipes-multimedia/speex/{speexdsp_1.2rc3.bb => speexdsp_1.2.0.bb} (51%)
 
-diff --git a/meta/recipes-extended/zip/zip-3.0/zipnote-crashes-with-segfault.patch b/meta/recipes-extended/zip/zip-3.0/zipnote-crashes-with-segfault.patch
-new file mode 100644
-index 0000000000..ce6caff83e
---- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/zipnote-crashes-with-segfault.patch
-@@ -0,0 +1,22 @@
-+Close the correct file descriptor
-+
-+https://bugs.archlinux.org/task/47713
-+
-+Signed-off-by: Jate Sujjavanich <jatedev@gmail.com>
-+
-+Upstream-Status: Inappropriate [no upstream]
-+
-+diff --git a/zipnote.c b/zipnote.c
-+index 5e02cb6..996f012 100644
-+--- a/zipnote.c
-++++ b/zipnote.c
-+@@ -661,7 +661,7 @@ char **argv;            /* command line tokens */
-+     if ((r = zipcopy(z)) != ZE_OK)
-+       ziperr(r, "was copying an entry");
-+   }
-+-  fclose(x);
-++  fclose(in_file);
-+ 
-+   /* Write central directory and end of central directory with new comments */
-+   if ((c = zftello(y)) == (zoff_t)-1)    /* get start of central */
-+   
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index a2cd7717ca..c00a932763 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -12,6 +12,7 @@ S = "${WORKDIR}/zip30"
- SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.gz \
-            file://fix-security-format.patch \
-            file://10-remove-build-date.patch \
-+           file://zipnote-crashes-with-segfault.patch \
-            "
- UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/recipes-multimedia/speex/speexdsp/0001-Don-t-rely-on-HAVE_STDINT_H-et-al.-being-defined.patch b/meta/recipes-multimedia/speex/speexdsp/0001-Don-t-rely-on-HAVE_STDINT_H-et-al.-being-defined.patch
+deleted file mode 100644
+index c7067daaa0..0000000000
+--- a/meta/recipes-multimedia/speex/speexdsp/0001-Don-t-rely-on-HAVE_STDINT_H-et-al.-being-defined.patch
++++ /dev/null
+@@ -1,63 +0,0 @@
+-From c73370ceafd138becee8ca3c688ba75756830bfe Mon Sep 17 00:00:00 2001
+-From: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+-Date: Sun, 5 Jul 2015 17:48:16 +0300
+-Subject: [PATCH] Don't rely on HAVE_STDINT_H et al. being defined
+-
+-Not everyone who includes speexdsp_config_types.h will have a test
+-which defines those, and if we've chosen to use the stdint types at
+-configure time then we know exactly which header(s) are available, so
+-just choose the best one then and generate the header to use it.
+-
+-This patch, including the above text, is copied from a commit in the
+-speex repository[1]. The original commit for speex was made by Ron
+-<ron@debian.org>.
+-
+-[1] https://git.xiph.org/?p=speex.git;a=commitdiff;h=774c87d6cb7dd8dabdd17677fc6da753ecf4aa87
+-
+-Upstream-Status: Backport
+-
+-Signed-off-by: Tanu Kaskinen <tanu.kaskinen@linux.intel.com>
+----
+- configure.ac                             | 6 ++++++
+- include/speex/speexdsp_config_types.h.in | 8 +-------
+- 2 files changed, 7 insertions(+), 7 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 2cd2d1e..1de0c23 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -334,6 +334,12 @@ AC_SUBST([USIZE16])
+- AC_SUBST([SIZE32])
+- AC_SUBST([USIZE32])
+- 
+-+AS_IF([test "$ac_cv_header_stdint_h" = "yes"],    [INCLUDE_STDINT="#include <stdint.h>"],
+-+      [test "$ac_cv_header_inttypes_h" = "yes"],  [INCLUDE_STDINT="#include <inttypes.h>"],
+-+      [test "$ac_cv_header_sys_types_h" = "yes"], [INCLUDE_STDINT="#include <sys/types.h>"])
+-+
+-+AC_SUBST([INCLUDE_STDINT])
+-+
+- AC_CONFIG_FILES([
+-            Makefile libspeexdsp/Makefile doc/Makefile SpeexDSP.spec
+-            include/Makefile include/speex/Makefile speexdsp.pc
+-diff --git a/include/speex/speexdsp_config_types.h.in b/include/speex/speexdsp_config_types.h.in
+-index 02b82fd..5ea7b55 100644
+---- a/include/speex/speexdsp_config_types.h.in
+-+++ b/include/speex/speexdsp_config_types.h.in
+-@@ -1,13 +1,7 @@
+- #ifndef __SPEEX_TYPES_H__
+- #define __SPEEX_TYPES_H__
+- 
+--#if defined HAVE_STDINT_H
+--#  include <stdint.h>
+--#elif defined HAVE_INTTYPES_H
+--#  include <inttypes.h>
+--#elif defined HAVE_SYS_TYPES_H
+--#  include <sys/types.h>
+--#endif
+-+@INCLUDE_STDINT@
+- 
+- typedef @SIZE16@ spx_int16_t;
+- typedef @USIZE16@ spx_uint16_t;
+--- 
+-1.9.3
+-
+diff --git a/meta/recipes-multimedia/speex/speexdsp_1.2rc3.bb b/meta/recipes-multimedia/speex/speexdsp_1.2.0.bb
+similarity index 51%
+rename from meta/recipes-multimedia/speex/speexdsp_1.2rc3.bb
+rename to meta/recipes-multimedia/speex/speexdsp_1.2.0.bb
+index 03c949be22..2f934ebe3a 100644
+--- a/meta/recipes-multimedia/speex/speexdsp_1.2rc3.bb
++++ b/meta/recipes-multimedia/speex/speexdsp_1.2.0.bb
+@@ -5,11 +5,10 @@ SECTION = "libs"
+ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=314649d8ba9dd7045dfb6683f298d0a8"
  
+-SRC_URI = "http://downloads.xiph.org/releases/speex/speexdsp-${PV}.tar.gz \
+-           file://0001-Don-t-rely-on-HAVE_STDINT_H-et-al.-being-defined.patch"
++SRC_URI = "http://downloads.xiph.org/releases/speex/speexdsp-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "70d9d31184f7eb761192fd1ef0b73333"
+-SRC_URI[sha256sum] = "4ae688600039f5d224bdf2e222d2fbde65608447e4c2f681585e4dca6df692f1"
++SRC_URI[md5sum] = "b722df341576dc185d897131321008fc"
++SRC_URI[sha256sum] = "682042fc6f9bee6294ec453f470dadc26c6ff29b9c9e9ad2ffc1f4312fd64771"
+ 
+ inherit autotools pkgconfig
+ 
+@@ -18,19 +17,6 @@ EXTRA_OECONF = "\
+         ${@bb.utils.contains('TARGET_FPU', 'soft', '--enable-fixed-point --disable-float-api', '', d)} \
+ "
+ 
+-# Workaround for a build failure when building with MACHINE=qemuarm64. I think
+-# aarch64 is supposed to support NEON just fine, but building for qemuarm64
+-# fails in NEON code:
+-#
+-# .../speexdsp-1.2rc3/libspeexdsp/resample_neon.h:148:5: error: impossible constraint in 'asm'
+-#      asm volatile ("  cmp %[len], #0\n"
+-#      ^
+-#
+-# I sent an email about the issue to speex-dev. At the time of writing there
+-# are no responses yet:
+-# http://thread.gmane.org/gmane.comp.audio.compression.speex.devel/7360
+-EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '--disable-neon', '', d)}"
+-
+ # speexdsp was split off from speex in 1.2rc2. Older versions of speex can't
+ # be installed together with speexdsp, since they contain overlapping files.
+ RCONFLICTS_${PN} = "speex (< 1.2rc2)"
 -- 
-2.17.2 (Apple Git-113)
+2.20.1
 
 
