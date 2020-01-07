@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id E06EF7C4DB
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E1F267D2E5
 	for <openembedded-core@openembedded.org>;
-	Tue,  7 Jan 2020 02:34:41 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id a6so21848186plm.3
+	Tue,  7 Jan 2020 02:34:42 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id az3so22562249plb.11
 	for <openembedded-core@openembedded.org>;
-	Mon, 06 Jan 2020 18:34:43 -0800 (PST)
+	Mon, 06 Jan 2020 18:34:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=59XBNay+BGeZPnlZpE3sKlMbnpSWt9q3hoWV3MTOfZA=;
-	b=Ot7Pdvd1Z4u7yKFYl7upUetkGxwsG8VOqV5kGRk1Xx9oVzg2g6eEtVOULpOMhTQoML
-	7CORdyopCwhyVdrn6zRCZc+ponSH8Njd+R4Af5vlJiSj8JSt77fVRR9OUMG+IKx4aqgD
-	SjbPPZSZrrJ66w8R1K0MmjzCNEDzzfliRkHMWW4sEGBlYYchHGMrWpb2Tigfok4P6rAO
-	SIySRqitFi4GreDW2w3wGkqhjmvAYayiTN+R7DU1KQwt4MWmn6Q6IAykHVYP1gDyn/D8
-	hJ3nDPxeFkRNMwFnNvYbEvmVe90ZPDKxs7LPDgsM4HZ/ZKyWCiQBvkExVS547Y8HNrXH
-	k+cg==
+	bh=q2rRXwGkv+8Zubgohigs5Exc0Nxhya7VJ1Oc7Z4LrtA=;
+	b=ZOPo+2qh6X/ZwzkHdn76ZimE84kU2ptuN3Cl7WPqRpE7BiRGXj1XdI6ykAvleywVo4
+	wD5r4s2UsC4KCpN8XpMOetqksKD862KQJDaSoL3ktD2vjw1+joJsMy7bXbCnEe2S039X
+	JTdTo9L7znr//bVy+ywnateGQRiZ4VKNlOvs7f+2MnMfBRfmS2DitPu3eYCTzfYJ8hV9
+	Eh4uTptRkNiQge6shn4LzXtpAhiUmWf8QzmVNCrpWf3IJapEhpxlqiL7klyJasAPb6EX
+	rVGrxPdr+8SmCQL6/De69V81Gw/5X/3Rj/vGzdTrVUoxjstF8b5NNhWx12+bG1AdBJot
+	xbvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=59XBNay+BGeZPnlZpE3sKlMbnpSWt9q3hoWV3MTOfZA=;
-	b=mYqwlqvw0MVoUzSIZAESAKY0v9pkhOH+5ykLEVaKrxbJTnJoG+M/kTve0M2DVmh1nM
-	VVJ7nw8Rk5PSyWxWXCgJsyO6lrZrFFkwKFTr9NGelKJa2eab49OPSym+lvgPcALU1Bmw
-	OHc+BVEw6wAJDdGuwZfYhZPDC6G3CVSlvht7mjSopXJJTklI/prz7MYlAYq34/YJVVYW
-	hmVYmhzC3vIb3agSBJjk41U/Qgw8Mrd7A2wsXeYHN5oWZK2S4xlEhUU+2oPkptcJbbb4
-	4EM+ta74ht1dw9k2ZiRKzF2KsziF+3zOVfWlMBOeYUHinVEZiMHKi2mmzYMTcez6cF7h
-	o33Q==
-X-Gm-Message-State: APjAAAWd2UR10JQqkHjxo2MrUrsZ2XSmk2vvTu5wsbjXecUeb27z3tER
-	O4pgy8h/lZ51arY8FEWAdjPTtp7o
-X-Google-Smtp-Source: APXvYqyhDAm0dBsQVW0jVavz74xRYsGOHer0n41WIVykvNazC0LdNRUlgf+s9FjFH7wNNOj5dgrFhA==
-X-Received: by 2002:a17:90a:8912:: with SMTP id
-	u18mr46130662pjn.21.1578364482811; 
-	Mon, 06 Jan 2020 18:34:42 -0800 (PST)
+	bh=q2rRXwGkv+8Zubgohigs5Exc0Nxhya7VJ1Oc7Z4LrtA=;
+	b=lm8DC5woJFPDAdXKRBiTVI+d6tTG0u8LX1gxs/ex0SJwptOY9l4Kcc2vbtCy+46dOS
+	JfxmBN0JTVnYp77k67HDOeMm77MKrbbVNAU3ZWsZq7E8V8LlfLRDRu8ld99vUrnYmmD2
+	2s6xj0BR4Ko40jD4/gCu2USz7pyueN9ZnFJLC/rXINTXIgBDqAwBB1AjQ5b7WNNh0Dm2
+	0CAESrzkXU5WxxUbBbP9dORTdAU3NiV523pEDSoaKQo2agLFW/adAZzYqaUnCVV3xvA7
+	mCBiRdjw9qrsjhrjB+I/x6DglgE8qJbnMN4b9KgUrbWKPag3BIGt2GMCoBYVp8Avop2Y
+	UVHA==
+X-Gm-Message-State: APjAAAUQMVSkZVDNBJV/v+nYEGeloqvujprrB6cyFHi4kCkakNJi66fx
+	tHeNOYpQCartKRom3Rks/uq3SJNF
+X-Google-Smtp-Source: APXvYqyNDOqIG5udpvOLLo0yqpljlfFMOvv1UgdvkpaB0N4XCNcteo0F6E/DEvOD9l9suMGjiMZ9xQ==
+X-Received: by 2002:a17:90a:c697:: with SMTP id
+	n23mr44904680pjt.37.1578364483817; 
+	Mon, 06 Jan 2020 18:34:43 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:6832:e19c:36b9:d5e])
 	by smtp.gmail.com with ESMTPSA id
-	d23sm77806193pfo.176.2020.01.06.18.34.41
+	d23sm77806193pfo.176.2020.01.06.18.34.42
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 06 Jan 2020 18:34:42 -0800 (PST)
+	Mon, 06 Jan 2020 18:34:43 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon,  6 Jan 2020 18:34:09 -0800
-Message-Id: <7ce42a30a7508e8fcb496ba05cf6967dc04a988e.1578364301.git.akuster808@gmail.com>
+Date: Mon,  6 Jan 2020 18:34:10 -0800
+Message-Id: <c5f285f83ea1e322d5124847904adf488d3e790a.1578364301.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578364301.git.akuster808@gmail.com>
 References: <cover.1578364301.git.akuster808@gmail.com>
-Subject: [zeus 04/28] sstate: Ensure target sstate directory exists if unihash changes
+Subject: [zeus 05/28] sstate: Ensure mkdir happens before mktemp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +60,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2020 02:34:42 -0000
+X-List-Received-Date: Tue, 07 Jan 2020 02:34:43 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The previous patches meant the mkdir might no longer match the final target
-directory. Fix this.
+This avoids a directory not present error.
+
+Fix a comment typo whilst here.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0af4dae84099e8632a9ea6a4afdbea2f232bb170)
+(cherry picked from commit 1360d8d7d99b70a80c8cdbc1fc6d9e6752483139)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/sstate.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/sstate.bbclass | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index a46dd2e210..79ae392116 100644
+index 79ae392116..b5267f00be 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -613,10 +613,8 @@ def sstate_package(ss, d):
- 
-     sstatebuild = d.expand("${WORKDIR}/sstate-build-%s/" % ss['task'])
-     d.appendVar('SSTATE_PKG', '_'+ ss['task'] + ".tgz")
--    sstatepkg = d.getVar('SSTATE_PKG')
-     bb.utils.remove(sstatebuild, recurse=True)
-     bb.utils.mkdirhier(sstatebuild)
--    bb.utils.mkdirhier(os.path.dirname(sstatepkg))
-     for state in ss['dirs']:
-         if not os.path.exists(state[1]):
-             continue
-@@ -756,6 +754,8 @@ sstate_create_package () {
+@@ -747,14 +747,13 @@ sstate_task_postfunc[dirs] = "${WORKDIR}"
+ # set as SSTATE_BUILDDIR. Will be run from within SSTATE_BUILDDIR.
+ #
+ sstate_create_package () {
+-	TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
+-
+-	# Exit earlu if it already exists
++	# Exit early if it already exists
+ 	if [ -e ${SSTATE_PKG} ]; then
  		return
  	fi
  
-+        mkdir -p `dirname ${SSTATE_PKG}`
-+
+         mkdir -p `dirname ${SSTATE_PKG}`
++	TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
+ 
          # Use pigz if available
          OPT="-czS"
-         if [ -x "$(command -v pigz)" ]; then
 -- 
 2.17.1
 
