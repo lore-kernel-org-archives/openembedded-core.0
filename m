@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
-	[209.85.215.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 487577C4DB
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
+	[209.85.210.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B3E97FDDD
 	for <openembedded-core@openembedded.org>;
-	Tue,  7 Jan 2020 02:34:58 +0000 (UTC)
-Received: by mail-pg1-f176.google.com with SMTP id k25so27745299pgt.7
+	Tue,  7 Jan 2020 02:34:59 +0000 (UTC)
+Received: by mail-pf1-f178.google.com with SMTP id q10so27827470pfs.6
 	for <openembedded-core@openembedded.org>;
-	Mon, 06 Jan 2020 18:34:59 -0800 (PST)
+	Mon, 06 Jan 2020 18:35:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=mRk2a3oQtX4sJK+5lOOe462/0JYSVf3VN3quqGx26WE=;
-	b=AFPGR+PJDNo0VLG0vJW5OVnYAHeP5EaGQoGF/QPkbMptguAXy+a6sFJU7mOCl1BNLO
-	0dmWrMRFGR9QH0CO272QWWFzgzjji274/B827XA+W5fK8Bou03I6os+jnqrFsLjr7NFY
-	OBmCaW/u0U/+lzslZj2KlwZY+5fFpNoNl0BA5HptKnwC4aK9wvJlc+DueDLyqlTXi75A
-	hV3FTNGTI25KE6ZaN8XHQWaTz+LIGLK510Q+Fv0a6J3VsdnW0wm5QtHWnY2WQD2DsFiy
-	TvgMm7yEg9ypnnG0pb+38I7rbt4TGSet2HKDJqXoEeUxvwZgV+ojGJbrayeldeJz5TWx
-	5ayQ==
+	bh=YeCuKOQqqGt2K/1E47d/Xmh0Oob/TEOsR3gP6DeBWyU=;
+	b=DAcy5hYA31o4YOO3qvt/7PMoGr181i691h86sPiWcxDN+2Po1PNKDeFfS8fK95wz8w
+	TdGDzK55HmjZAXHGgRALf2xfPQL/X6JDRxQhJb/bCfr5apVFHeuxUj3LPqh+SesVFi8j
+	Dd4nmq4WhdEJ0nOglOqMJ6xBmi3Q7OY9WEhghZIFlXRX4nZX3xJJX51dnih2bqwUTIdI
+	uIMwzRzVc0vUo5pqPU0wnbMaNhL1kkaRr5aDe/WtqPMZ2nl18GPRt8IAs1qgKyTQV57M
+	QPeH6lzRcqHS51cs4pGCbvK/y18ki5qrIyTi10COIp4MHBkfEukj+LGME9xm5NYyN0X2
+	9TrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=mRk2a3oQtX4sJK+5lOOe462/0JYSVf3VN3quqGx26WE=;
-	b=CtXgF8RRud7ziQGJM09JBln7nMXCk1RX4i3i5iPgsn2MUvJNcTk2aBlE+aoZNn8glu
-	c/WPewK7utLiAfWH5cNMnqt6VCppqE46C55PDhUReCiQnVJhUygQfBj6a+wpeJHi8qtl
-	43s3mFqmiCJNApvNO5dHmfdh+7NzO8InLOgVSgohHDB+4jwoYGDsdMS29YvfEDQU0oQX
-	nPIhBMRxz/eCq4eLw1TvwVXvEbCcULl41E3trpiqutBxgJ66r30w6lFEBGgODRDkLrYi
-	CQlqwAUzeJ1TKnj5xV362usWt/DumzkqwwztkK2QUbiv0h98DLopS4dVuGEdzKPs2Kdm
-	V0qA==
-X-Gm-Message-State: APjAAAXsXtdJgKLRKJTu9Opbsz//3HjFOrnGerFZJ+rYW/0/dhfTlRab
-	YVXo2pie+JU2gLDYEOJrBFpRBCmJ
-X-Google-Smtp-Source: APXvYqzGqgyccha2mDE1/EYjT7RQIEPZ+moGOVapK+zYS8d2KyommJbsQf/Ya3rqLR0o8HssZmU6Ig==
-X-Received: by 2002:a63:d041:: with SMTP id s1mr115552543pgi.363.1578364499157;
-	Mon, 06 Jan 2020 18:34:59 -0800 (PST)
+	bh=YeCuKOQqqGt2K/1E47d/Xmh0Oob/TEOsR3gP6DeBWyU=;
+	b=cA6hYf6G6jacuaMkJ/MnObVdGcfS/XCK0haWwiVu1pcTWdAnS0gIVDEuLNJrFXp2WA
+	qmSeesq1ZRwXSU74C47j864P/o3eLPP/L9QWHyTy8b1KepuB8uTvJahkobZPJEpwlvPJ
+	oIPvvCs4uPTpefPid6ycDmpL8qfdEiVktpvAcj281/U9/gshrW0HxTLiVPkQ/npRUoLk
+	c50/ig3WEeD2KO2QVsbUF/WxriPRx5dYA6XD8DdbS6mEBHUMeV+JF43Su6RPH2suk/kp
+	ZgTZpDXG+nj3+08HHJTDNAWygNWHCzdAolH1g6nmQrKIRYF1K7uESyCDp4dKA3Oy4yR9
+	Ru0A==
+X-Gm-Message-State: APjAAAVxAlaxwrydUcW44xbYwpPSpsBlGFT01qqyK2QBL655YGIOQIK2
+	KVK1/94E6VQ5cjdvEaSdE2mD4Yxz
+X-Google-Smtp-Source: APXvYqz8lyD6vabrfCNvdOSdnxSMcyaxJeb3mPq6c0HBCfzcjl5khoC8Xz4mravNROIo7R4g0jkGGg==
+X-Received: by 2002:a62:f94d:: with SMTP id g13mr65127271pfm.60.1578364500070; 
+	Mon, 06 Jan 2020 18:35:00 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:6832:e19c:36b9:d5e])
 	by smtp.gmail.com with ESMTPSA id
-	d23sm77806193pfo.176.2020.01.06.18.34.58
+	d23sm77806193pfo.176.2020.01.06.18.34.59
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 06 Jan 2020 18:34:58 -0800 (PST)
+	Mon, 06 Jan 2020 18:34:59 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon,  6 Jan 2020 18:34:26 -0800
-Message-Id: <ad2622b515f30e88977720e60c343cef126575cc.1578364301.git.akuster808@gmail.com>
+Date: Mon,  6 Jan 2020 18:34:27 -0800
+Message-Id: <c7f552dcf378016f81d98c911bf68bae80922fe7.1578364301.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578364301.git.akuster808@gmail.com>
 References: <cover.1578364301.git.akuster808@gmail.com>
-Subject: [zeus 21/28] podfix: only alter normal files
+Subject: [zeus 22/28] systemd: Upgrade 243 -> 243.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +59,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2020 02:34:58 -0000
+X-List-Received-Date: Tue, 07 Jan 2020 02:34:59 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Adrian Bunk <bunk@stusta.de>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Bugfix-only changes on the 243 stable branch.
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 23d38b2ad6f7a39e5c1ffd092322942474935c33)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/podfix.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ .../systemd/{systemd-boot_243.bb => systemd-boot_243.2.bb}    | 0
+ .../systemd/{systemd-conf_243.bb => systemd-conf_243.2.bb}    | 0
+ meta/recipes-core/systemd/systemd.inc                         | 4 +---
+ .../recipes-core/systemd/{systemd_243.bb => systemd_243.2.bb} | 0
+ 4 files changed, 1 insertion(+), 3 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot_243.bb => systemd-boot_243.2.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-conf_243.bb => systemd-conf_243.2.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_243.bb => systemd_243.2.bb} (100%)
 
-diff --git a/meta/classes/podfix.bbclass b/meta/classes/podfix.bbclass
-index 54fff6a0a2..cc8210a27e 100644
---- a/meta/classes/podfix.bbclass
-+++ b/meta/classes/podfix.bbclass
-@@ -16,6 +16,9 @@ python pod_strip_version() {
-     for root, dirs, files in os.walk(d.expand("${D}${mandir}")):
-         for filename in files:
-             filename = os.path.join(root, filename)
-+            if not os.path.isfile(filename):
-+                continue
-+
-             with opener(filename, "rb") as manfile:
-                 manpage = manfile.read()
-                 m = bad_re.search(manpage)
+diff --git a/meta/recipes-core/systemd/systemd-boot_243.bb b/meta/recipes-core/systemd/systemd-boot_243.2.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_243.bb
+rename to meta/recipes-core/systemd/systemd-boot_243.2.bb
+diff --git a/meta/recipes-core/systemd/systemd-conf_243.bb b/meta/recipes-core/systemd/systemd-conf_243.2.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-conf_243.bb
+rename to meta/recipes-core/systemd/systemd-conf_243.2.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 7f3a59c208..18f17d28ac 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,10 +14,8 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "efb536d0cbe2e58f80e501d19999928c75e08f6a"
++SRCREV = "fab6f010ac6c3bc93a10868de722d7c8c3622eb9"
+ SRCBRANCH = "v243-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ 
+ S = "${WORKDIR}/git"
+-
+-PV_append = "+${SRCPV}"
+diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.2.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd_243.bb
+rename to meta/recipes-core/systemd/systemd_243.2.bb
 -- 
 2.17.1
 
