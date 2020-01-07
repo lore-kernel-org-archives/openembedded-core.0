@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
-	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id A47CA7D2E5
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BFED57C4DB
 	for <openembedded-core@openembedded.org>;
-	Tue,  7 Jan 2020 02:34:43 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id s7so8574227pjc.0
+	Tue,  7 Jan 2020 02:34:44 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id y8so22561058pll.13
 	for <openembedded-core@openembedded.org>;
-	Mon, 06 Jan 2020 18:34:45 -0800 (PST)
+	Mon, 06 Jan 2020 18:34:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=wjgETM9Qo70ivINr3sPLd2UuPbQ5e19V876EDRAa/iQ=;
-	b=I+1qSYJMCDifgsiZQk0QKWoyp7rtvaS2I9wDe1/BLGTUZ/W1zMtuCKrcsA/xfSwxHu
-	yG8uIY+mWsYlEFmIP+HlYyWb78gpYGpnHKq1ndH5O9FQbeiW+cFmKJ4b4yjAMYkmm4H1
-	f7VESC5C4Hv/EKRBvd3nEcC13d9gykoyZ1ZiSfK5k1HNeTk/AEqRXOOv8cvbi1q4YYSn
-	/yhYp928TupsEOaE2t58ZVvW6s6BclONvgI4sxaYiZB8ebVz2fwNzG6XzaViohnDtOWi
-	1J5QvQ746o25Vo8LpWEjI5dkSfF45k4iDis4DCx8Xfh61A4Vjhdqp2nkoevnMerR6H0w
-	VUIg==
+	bh=ZmfRYLvOydSTm6iYo+j94QE3ibrVN22nuFjBYJYEYBs=;
+	b=YFYUq03nbi/08YuXjsm4xxcK0Ok5tcM0CZUoacREJY/tKlLq0ny0essgoOtj5vEAnN
+	bXje64f/UMZEybVT9TPl0v0RdhjqJdVOl06IIkktBpyfXSLbQJGnefbWBn6vsrhcUy7T
+	vbXPwG9lb8uneOwEJFY9X7QQKzkNKmn8/vV4mDKTuy4lA6BcDqk38WG+qYC/9L2ebafw
+	Ilvr6CzftD+wYRbGqb362hzN+A++mr/XRnBhBKmZpvkkRLkSvTIrfxwxWpF8tJS5VmAg
+	k6wLR47J60vU/pMYV/ObibmpQG6y+NiY5zM6s31lETIebqnssTAqCQxNSZ/seFb0TwfV
+	TYRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=wjgETM9Qo70ivINr3sPLd2UuPbQ5e19V876EDRAa/iQ=;
-	b=YmxAMmMRVGDbBpuoJYn0rkLrF3kCEpyWT3bPGOBB3mOflku60jh25xdNRMTvNv2LCm
-	WMguqKeOhD0xUZNk5vsUW43bRa81/W4Y8qigVewxvXIfqVghBX9qCG/lmW38py19MBC3
-	H7+1GDtfT2wSwjZHZlz/VZMF3m5wg60N4xhH8sjw1IdidDlfaC5FUCwsFKMpqAIBevoY
-	SexS/5XHM+Y4SmAnpHjyOiVyqM/H2HFhYQ8H0X4eGLsowlFgN0E0oN6IVHnZe8xvrwqt
-	sTpv9DyaDgKLqxcmWjy4FPXv0sZoZ0NqRX1MM29W4I7FnfHXD/z/VGsS3IRi/8y0vQel
-	/T6w==
-X-Gm-Message-State: APjAAAWSoj0WOhuqgG/4gdQUEgsuh6sFWnu5JCckQHNSB0jh9jA189mx
-	k0UuyH/VWIu2yZHXG+/BS/abvhsZ
-X-Google-Smtp-Source: APXvYqz/y9tN+Jzn2vqRZVm4jIw2SuQM8JNG1cbRo5OIzMj0VfleudveN5KAb+/Cxi1P+Uiivi+owg==
-X-Received: by 2002:a17:90a:f496:: with SMTP id
-	bx22mr47073270pjb.101.1578364484572; 
-	Mon, 06 Jan 2020 18:34:44 -0800 (PST)
+	bh=ZmfRYLvOydSTm6iYo+j94QE3ibrVN22nuFjBYJYEYBs=;
+	b=GHhV7pxk2NZ+ELViRW2+yKJVlJ9/33GlHaKxpiwUpXpKD0XGbUMCZ9fdaFHuVH9xG3
+	SLjw+TggYW/cEMmXvY/YjVRQCA5+JRin9B5wVDOJEwk/xYrRQ4UjIjzWGTvza0a2J2+J
+	P3Xup6tj4NMz2XQRmF7sxJtQRVSubUWIOkSAZUCFsH5RvafCrIv/OFe1ekfWdLySfS1k
+	x84vF/UFaG/dWJLuh3f8QM4vopiVVrNzGxWHaHy4moO3Z/NknDcTsEjSYdwJ7qUAVr6e
+	13J1yQwrLDdfu3jVbGYRTEjydZ1t2NWmpnc3eFZ6bR7pn16e4HLc6bk3TUcaudbFggrb
+	YyHQ==
+X-Gm-Message-State: APjAAAUfK6o4lqO5AZhKFzBu2MBJu/3Ky1RcKRJLdGZFLW9H1wDHkYgJ
+	9DSllBqykGw3TcPt4wYYxvElL0V5
+X-Google-Smtp-Source: APXvYqwoiJZ0YlCcBtmg0/JicPwQDw/YOx0tXn7wezp7prxhTSWWbeYtysQG81fnbOR9YExdHL0abg==
+X-Received: by 2002:a17:90a:db49:: with SMTP id
+	u9mr45153305pjx.13.1578364485599; 
+	Mon, 06 Jan 2020 18:34:45 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:6832:e19c:36b9:d5e])
 	by smtp.gmail.com with ESMTPSA id
-	d23sm77806193pfo.176.2020.01.06.18.34.43
+	d23sm77806193pfo.176.2020.01.06.18.34.44
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 06 Jan 2020 18:34:44 -0800 (PST)
+	Mon, 06 Jan 2020 18:34:45 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon,  6 Jan 2020 18:34:11 -0800
-Message-Id: <a15c05fa17bcce345ce254f02c0d6dcd97f60cb8.1578364301.git.akuster808@gmail.com>
+Date: Mon,  6 Jan 2020 18:34:12 -0800
+Message-Id: <1cc43cd87f603651e451087d50662cd694030c01.1578364301.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578364301.git.akuster808@gmail.com>
 References: <cover.1578364301.git.akuster808@gmail.com>
-Subject: [zeus 06/28] sstate.bbclass: Fix for consistent whitespace
+Subject: [zeus 07/28] linux-yocto/5.2: update to v5.2.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +60,111 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2020 02:34:43 -0000
+X-List-Received-Date: Tue, 07 Jan 2020 02:34:44 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e874d067ace03774132ba3030a898678057c1304)
+Updating linux-yocto/5.2 to the latest korg -stable release that comprises
+the following commits:
+
+    e91ef5bcdeda Linux 5.2.21
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+(cherry picked from commit 1f51f1505cdeec5cc464bbbc14f5514d7440a426)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/sstate.bbclass | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ .../linux/linux-yocto-rt_5.2.bb               |  6 ++---
+ .../linux/linux-yocto-tiny_5.2.bb             |  8 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.2.bb  | 22 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index b5267f00be..c0329cd5d1 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -752,14 +752,14 @@ sstate_create_package () {
- 		return
- 	fi
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+index 423331e19a..83b44a8c4d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.2.bb
+@@ -11,13 +11,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
--        mkdir -p `dirname ${SSTATE_PKG}`
-+	mkdir -p `dirname ${SSTATE_PKG}`
- 	TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
+-SRCREV_machine ?= "55e3ee387b073d8d609e8899859561340d8b6911"
+-SRCREV_meta ?= "bd0762cd138f1624b5a5f8669cfa3ac2b71cb87b"
++SRCREV_machine ?= "ab16819b1520191e73213bc0cd7a7433349efcca"
++SRCREV_meta ?= "57c5933eb4c46ddaeee331717360e68380724126"
  
--        # Use pigz if available
--        OPT="-czS"
--        if [ -x "$(command -v pigz)" ]; then
--            OPT="-I pigz -cS"
--        fi
-+	# Use pigz if available
-+	OPT="-czS"
-+	if [ -x "$(command -v pigz)" ]; then
-+		OPT="-I pigz -cS"
-+	fi
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
  
- 	# Need to handle empty directories
- 	if [ "$(ls -A)" ]; then
+-LINUX_VERSION ?= "5.2.20"
++LINUX_VERSION ?= "5.2.21"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+index f7239d0229..7ece6e0dce 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.2.bb
+@@ -6,7 +6,7 @@ KCONFIG_MODE = "--allnoconfig"
+ 
+ require recipes-kernel/linux/linux-yocto.inc
+ 
+-LINUX_VERSION ?= "5.2.20"
++LINUX_VERSION ?= "5.2.21"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "501d680535903acc00808c36f2cc07f2dc725adc"
+-SRCREV_machine ?= "dd25a04fc5e2e4549fc9b86157a01e0c72b53b03"
+-SRCREV_meta ?= "bd0762cd138f1624b5a5f8669cfa3ac2b71cb87b"
++SRCREV_machine_qemuarm ?= "1c68baaea976d9e28b5f2b445a90afb4865994c8"
++SRCREV_machine ?= "30ecfd434ced3ee254e669b8af061cd1ab8155e7"
++SRCREV_meta ?= "57c5933eb4c46ddaeee331717360e68380724126"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.2.bb b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+index 8f75f67c39..c7f601769f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.2.bb
+@@ -12,16 +12,16 @@ KBRANCH_qemux86  ?= "v5.2/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.2/standard/base"
+ KBRANCH_qemumips64 ?= "v5.2/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "fcbe51dfa0a763a07e4cd66204d6c0ba054663ce"
+-SRCREV_machine_qemuarm64 ?= "dd25a04fc5e2e4549fc9b86157a01e0c72b53b03"
+-SRCREV_machine_qemumips ?= "9cad7bb8bcd3686f580a3363847ee9c9e86928b1"
+-SRCREV_machine_qemuppc ?= "dd25a04fc5e2e4549fc9b86157a01e0c72b53b03"
+-SRCREV_machine_qemuriscv64 ?= "dd25a04fc5e2e4549fc9b86157a01e0c72b53b03"
+-SRCREV_machine_qemux86 ?= "dd25a04fc5e2e4549fc9b86157a01e0c72b53b03"
+-SRCREV_machine_qemux86-64 ?= "dd25a04fc5e2e4549fc9b86157a01e0c72b53b03"
+-SRCREV_machine_qemumips64 ?= "dc2be1a546e937374590ce3858b717489ded2c21"
+-SRCREV_machine ?= "dd25a04fc5e2e4549fc9b86157a01e0c72b53b03"
+-SRCREV_meta ?= "bd0762cd138f1624b5a5f8669cfa3ac2b71cb87b"
++SRCREV_machine_qemuarm ?= "fcd7089abefcf3025b6a49baa0604fb7215886ce"
++SRCREV_machine_qemuarm64 ?= "30ecfd434ced3ee254e669b8af061cd1ab8155e7"
++SRCREV_machine_qemumips ?= "30bbc3b38f5caa851d01b37ab1cdd2dae75e9592"
++SRCREV_machine_qemuppc ?= "30ecfd434ced3ee254e669b8af061cd1ab8155e7"
++SRCREV_machine_qemuriscv64 ?= "30ecfd434ced3ee254e669b8af061cd1ab8155e7"
++SRCREV_machine_qemux86 ?= "30ecfd434ced3ee254e669b8af061cd1ab8155e7"
++SRCREV_machine_qemux86-64 ?= "30ecfd434ced3ee254e669b8af061cd1ab8155e7"
++SRCREV_machine_qemumips64 ?= "4dab38a25c5b32491b23cd95eca75a68f02b3339"
++SRCREV_machine ?= "30ecfd434ced3ee254e669b8af061cd1ab8155e7"
++SRCREV_meta ?= "57c5933eb4c46ddaeee331717360e68380724126"
+ 
+ # remap qemuarm to qemuarma15 for the 5.2 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.2;destsuffix=${KMETA}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+-LINUX_VERSION ?= "5.2.20"
++LINUX_VERSION ?= "5.2.21"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+ DEPENDS += "openssl-native util-linux-native"
 -- 
 2.17.1
 
