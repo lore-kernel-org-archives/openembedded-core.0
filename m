@@ -1,27 +1,53 @@
-Return-Path: <Zhixiong.Chi@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id ECAC37FD01
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2020 01:56:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0071uZoD028172
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 6 Jan 2020 17:56:36 -0800 (PST)
-Received: from [128.224.162.237] (128.224.162.237) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 6 Jan 2020 17:56:35 -0800
-To: <openembedded-core@lists.openembedded.org>
-References: <20191224063514.64645-1-zhixiong.chi@windriver.com>
-From: Zhixiong Chi <zhixiong.chi@windriver.com>
-Message-ID: <a937e61d-6757-7027-97e5-960c170820ad@windriver.com>
-Date: Tue, 7 Jan 2020 09:57:22 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.0
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
+	[209.85.216.49])
+	by mail.openembedded.org (Postfix) with ESMTP id CAF6F6D6F5
+	for <openembedded-core@openembedded.org>;
+	Tue,  7 Jan 2020 02:34:37 +0000 (UTC)
+Received: by mail-pj1-f49.google.com with SMTP id kx11so8344145pjb.4
+	for <openembedded-core@openembedded.org>;
+	Mon, 06 Jan 2020 18:34:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yCPoJ4pCcgJ50chu4yAWzqO41B2TTi0bGqa2QJDUlaQ=;
+	b=m/enws832tSrMKnJdRJt7P9BEJI5uYXjkL5DLXS2cVHtOMpo0ci7XBhxcKnI/nmwDu
+	MSY8b8Mgljx03myr3UsYAGHIj0yGvLFIfyYHFSmKqoz0vnBqdjX8spVzd1oZ0sRI0TkV
+	8jN3UhH1fOtZjXztlHIa4BKWARRn7Uoqr7Hrhn0CW/n+yazPt+w4/fnCIjWkcBY4bQRk
+	3D3y/EcssvhzOrslG5OKef+4msnzV2EPX3VaY79s8gESePXLJ/zv+XchLYPO/i81RDtg
+	WzG3OpFTISDB4HlKIwYp6eziNboplSz4WQCrBDmzfjpqSmaoVE+YBZ9woQWqPm5lUSkq
+	bbCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yCPoJ4pCcgJ50chu4yAWzqO41B2TTi0bGqa2QJDUlaQ=;
+	b=OXoYAOu3pHxurkXuHZxpUeCWBMGvUFP8M06E/NZzWqqNZ9MwEOD5Ld+oQ0cDfq2HGe
+	175qwrdN9RKcRusxTSaZ1txYHuweC3Q1HHmAS2NW1aWlUOc3qaJb2KdJQqx2w/KNXROS
+	TGQgeHpFtCYZnvrehXCSyO/ovx4okPsg3mIfKaMHrviSeBwOZ8J1F7cxu7+kkusVW39u
+	4j9MaH9nB3gK1niVFuBiDr9jxDUt6orrlaYxOOjqWndHDausKjxOBz47eq7KiogWWHuF
+	9ok+Amd3dy6UjEcn/gY96kYM8XFNohaV44yJs9gGzUmqVgSOBHhH3myLOOk2Ha95dDPz
+	GORw==
+X-Gm-Message-State: APjAAAUxcZdC1ijEkvyGKlvpo/6mpw77TkjP4MDAtMljYTbB/8Pep9bX
+	qBkw//9lm30FcKFMEJn9V5nFF2Oi
+X-Google-Smtp-Source: APXvYqwMt/FhUcMiIsXxeo6+s4riKyicBaMsACI1xF9Agsr1MeoSIqcOF2HVJX3mBMan1MbK0girig==
+X-Received: by 2002:a17:902:7603:: with SMTP id
+	k3mr58910337pll.93.1578364478511; 
+	Mon, 06 Jan 2020 18:34:38 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:6832:e19c:36b9:d5e])
+	by smtp.gmail.com with ESMTPSA id
+	d23sm77806193pfo.176.2020.01.06.18.34.36
+	for <openembedded-core@openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 06 Jan 2020 18:34:37 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@openembedded.org
+Date: Mon,  6 Jan 2020 18:34:05 -0800
+Message-Id: <cover.1578364301.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20191224063514.64645-1-zhixiong.chi@windriver.com>
-Subject: Re: [V4][PATCH] inetutils: Fix the rcp couldn't copy subdirectory issue
+Subject: [zeus 00/28] Pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,150 +60,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2020 01:56:35 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Tue, 07 Jan 2020 02:34:38 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-Ping...
-
-I sent this patch to the inetutils upstream mail list several days ago 
-but no response so far.
-
-So will it be merged next steps for oe-core?
-
-Thanks.
+Please consider these changes for zeus update.
+Passed A-full.
 
 
-On 2019年12月24日 14:35, Zhixiong Chi wrote:
-> Since snprintf doesn't support the same src and dst address, it will get
-> the wrong result.
-> In the sink second recursive call env, the argv and the namebuf will point
-> the same address, after free operation for namebuf.
-> Overall the last change for this is wrong, now we just move the memory free
-> to the end of the sink function, so that we can correct the value and fix
-> the memory leak issue.
->
-> Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> ---
->   ...e-rcp-couldn-t-copy-subdirectory-iss.patch | 90 +++++++++++++++++++
->   .../inetutils/inetutils_1.9.4.bb              |  1 +
->   2 files changed, 91 insertions(+)
->   create mode 100644 meta/recipes-connectivity/inetutils/inetutils/0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch
->
-> diff --git a/meta/recipes-connectivity/inetutils/inetutils/0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch b/meta/recipes-connectivity/inetutils/inetutils/0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch
-> new file mode 100644
-> index 0000000000..e90781998a
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/inetutils/inetutils/0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch
-> @@ -0,0 +1,90 @@
-> +The namebuf will get the same allocation address as the one before
-> +free operation, at the same time because of the recursive call for
-> +sink function, the targ and namebuf point the same address, then it
-> +cause the namebuf will get the wrong value with the snprintf function.
-> +Since the snprintf function doesn't like the strcpy function which
-> +can overwrite the destination.
-> +eg:
-> + char tmp[20] = "test";
-> + snprintf(tmp,20,"%s%s",tmp,"yes");
-> +The result of tmp -> yes. It will cause the wrong value.
-> +
-> +The sink function flow is as follows:
-> + >sink(int argc, char*argv[])
-> + >{
-> + > ...
-> + > targ = *argv;
-> + > static char *namebuf = NULL;
-> + > free (namebuf);
-> + > namebuf = malloc (need);
-> + > snprintf (namebuf, cursize, "%s%s%s", targ, *targ ? "/" : "", cp);
-> + > np = namebuf;
-> + > vect[0] = np;
-> + > sink (1, vect);
-> + > ...
-> + >}
-> +
-> +At the same time, we couldn't add the condition(need > corsize),
-> +the same snprintf issue still exists. for example:
-> +#ls rccopy/*/*
-> +rccopy/fold1/1  rccopy/fold2/2  rccopy/fold3/3
-> +
-> +Since the cursize static variable is still the old value after copying the
-> +rccopy/fold1/1, when it copys the directory rccopy/fold2 during recursive,
-> +the value of need < cursize, the namebuf still use the old vlaue without being
-> +allocated the new space, the incorrect namebuf value issue is still here.
-> +
-> +We move the memory free to the end of this fucntion.
-> +
-> +Upstream-Status: Submitted [commit-inetutils@gnu.org]
-> +Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
-> +Index: inetutils-1.9.4/src/rcp.c
-> +===================================================================
-> +--- inetutils-1.9.4.orig/src/rcp.c
-> ++++ inetutils-1.9.4/src/rcp.c
-> +@@ -881,6 +881,7 @@ sink (int argc, char *argv[])
-> +   int setimes, targisdir, wrerrno;
-> +   char ch, *cp, *np, *targ, *vect[1], buf[BUFSIZ];
-> +   const char *why;
-> ++  static char *namebuf = NULL;
-> +
-> + #define atime	tv[0]
-> + #define mtime	tv[1]
-> +@@ -988,25 +989,14 @@ sink (int argc, char *argv[])
-> + 	SCREWUP ("size not delimited");
-> +       if (targisdir)
-> + 	{
-> +-	  static char *namebuf = NULL;
-> +-	  static size_t cursize = 0;
-> + 	  size_t need;
-> +
-> + 	  need = strlen (targ) + strlen (cp) + 250;
-> +-	  if (need > cursize)
-> ++	  if (!(namebuf = malloc (need)));
-> + 	    {
-> +-	      free (namebuf);
-> +-	      namebuf = malloc (need);
-> +-	      if (namebuf)
-> +-		cursize = need;
-> +-	      else
-> +-		{
-> +-		  run_err ("%s", strerror (errno));
-> +-		  cursize = 0;
-> +-		  continue;
-> +-		}
-> ++	      run_err ("%s", strerror (errno));
-> + 	    }
-> +-	  snprintf (namebuf, cursize, "%s%s%s", targ, *targ ? "/" : "", cp);
-> ++	  snprintf (namebuf, need, "%s%s%s", targ, *targ ? "/" : "", cp);
-> + 	  np = namebuf;
-> + 	}
-> +       else
-> +@@ -1163,6 +1153,8 @@ sink (int argc, char *argv[])
-> + 	  break;
-> + 	}
-> +     }
-> ++    if (namebuf)
-> ++      free(namebuf);
-> + screwup:
-> +   run_err ("protocol error: %s", why);
-> +   exit (EXIT_FAILURE);
-> diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> index 684fbe09e1..bc944131fa 100644
-> --- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> +++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
-> @@ -23,6 +23,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
->              file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
->              file://0001-rcp-fix-to-work-with-large-files.patch \
->              file://fix-buffer-fortify-tfpt.patch \
-> +           file://0001-inetutils-Fix-the-rcp-couldn-t-copy-subdirectory-iss.patch \
->   "
->   
->   SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
+The following changes since commit 754d0ae5a960056468cdf50e5965a4c22515f8f9:
+
+  lttng-modules: fix NULL pointer deference error when testing rpc_task_running (2019-12-31 10:36:32 +0000)
+
+are available in the Git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/zeus-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/zeus-next
+
+Adrian Bunk (2):
+  systemd: Upgrade 243 -> 243.2
+  python3: Upgrade 3.7.5 -> 3.7.6
+
+Bruce Ashfield (11):
+  linux-yocto/5.2: update to v5.2.21
+  linux-yocto/5.2: update to v5.2.22
+  linux-yocto/5.2: update to v5.2.23
+  linux-yocto/4.19: update to v4.19.84
+  linux-yocto/5.2: update to v5.2.24
+  linux-yocto/4.19: update to v4.19.87
+  linux-yocto/5.2: update to v5.2.25
+  linux-yocto/5.2: update to v5.2.26
+  linux-yocto/5.2: update to v5.2.27
+  linux-yocto/4.19/5.2/-dev: fix gcc10 build
+  linux-yocto/5.2: update to v5.2.28
+
+Joshua Watt (1):
+  python3: RDEPEND on libgcc
+
+Khem Raj (1):
+  valgrind: Fix build with -fno-common
+
+Martin Jansa (1):
+  sstate.bbclass: Fix for consistent whitespace
+
+Richard Purdie (6):
+  sstate: Add ability to hide summary output for sstate
+  sstate: Stop overwriting SSTATE_PKG
+  sstate: Ensure SSTATE_PKG is reloaded when handling siginfo
+  sstate: Ensure target sstate directory exists if unihash changes
+  sstate: Ensure mkdir happens before mktemp
+  python3: Update to apply libgcc fix to libpython, glibc only
+
+Robert Yang (1):
+  pseudo: Make realpath() remove trailing slashes
+
+Ross Burton (3):
+  podfix: class to remove Pod::Man versions from manpages
+  reproducible_build_simple: inherit podfix
+  podfix: only alter normal files
+
+Tim Orling (1):
+  liberror-perl: update 0.17027 -> 0.17028
+
+Yanfei Xu (1):
+  libsdl2: fix failure appeared in bitbake libsdl2-native
+
+ meta/classes/podfix.bbclass                   | 35 ++++++++++++
+ .../classes/reproducible_build_simple.bbclass |  1 +
+ meta/classes/sstate.bbclass                   | 51 +++++++++--------
+ ...temd-boot_243.bb => systemd-boot_243.2.bb} |  0
+ ...temd-conf_243.bb => systemd-conf_243.2.bb} |  0
+ meta/recipes-core/systemd/systemd.inc         |  4 +-
+ .../{systemd_243.bb => systemd_243.2.bb}      |  0
+ ...rl_0.17027.bb => liberror-perl_0.17028.bb} |  6 +-
+ ...1-realpath.c-Remove-trailing-slashes.patch | 57 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ .../{python3_3.7.5.bb => python3_3.7.6.bb}    |  6 +-
+ .../valgrind/valgrind/s390x_vec_op_t.patch    | 19 +++++++
+ .../valgrind/valgrind_3.15.0.bb               |  1 +
+ .../libsdl2/libsdl2_2.0.10.bb                 |  1 +
+ .../linux/linux-yocto-rt_4.19.bb              |  6 +-
+ .../linux/linux-yocto-rt_5.2.bb               |  6 +-
+ .../linux/linux-yocto-tiny_4.19.bb            |  8 +--
+ .../linux/linux-yocto-tiny_5.2.bb             |  8 +--
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb | 20 +++----
+ meta/recipes-kernel/linux/linux-yocto_5.2.bb  | 22 +++----
+ 20 files changed, 184 insertions(+), 68 deletions(-)
+ create mode 100644 meta/classes/podfix.bbclass
+ rename meta/recipes-core/systemd/{systemd-boot_243.bb => systemd-boot_243.2.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-conf_243.bb => systemd-conf_243.2.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_243.bb => systemd_243.2.bb} (100%)
+ rename meta/recipes-devtools/perl/{liberror-perl_0.17027.bb => liberror-perl_0.17028.bb} (85%)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+ rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.7.6.bb} (98%)
+ create mode 100644 meta/recipes-devtools/valgrind/valgrind/s390x_vec_op_t.patch
 
 -- 
----------------------
-Thanks,
-Zhixiong Chi
-Tel: +86-10-8477-7036
+2.17.1
 
 
