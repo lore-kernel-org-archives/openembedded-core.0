@@ -1,26 +1,28 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 77BE17FC9A
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 900C07FC9A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2020 22:10:45 +0000 (UTC)
-IronPort-SDR: 6M99gWqxOeYhtHh8oJjxr4tBrA8S9qiSp7ly1obS1/yEfwWQtVXXtRhGeewefs8Iu0cfhvdv91
-	4hHrmYuIXgoPUJZXBJuWxiXbDRYm6bwQB6TDNLEHZ+c0OSRdcWIF7TKL1zqTwVny9+l0ISLGhK
-	4a4ag4pyJVbEZWcCU7CKfBUjTJe8QIcQaYMK3VoZ4tpTiK/ikxszt0RKk/cRoM50wi0bB/WXKo
-	K7UGTdR9NztPxAWpHySg2Flb7OwbP0NuWmI86n41yV05fQ4FgeiYrteIBihklfs6fWvr1d+yG+
-	tns=
+	Tue,  7 Jan 2020 22:10:46 +0000 (UTC)
+IronPort-SDR: mwiLTr4gSAVGf5yhrnpRX7EFn9sGUoYvEQ9Wp6WGIfXKLVjFeeKN7x5c9dEoGuXy1KO/tDsF2S
+	Tl2U5qpYvfy8/j8NNGNQv+w8qyY+uBCYjPTiWQay4nBpfX8f/ostd3LSlYbr85KPvUOJyKwN2a
+	fRLPJjL+cmIvG1Qqpjz0I0d1Yx7Px0+3U/224CX1HJyR/8Znn+Dogj/45TH6ogpBuv9WBzIDvT
+	u5lYBsO3JLrFWKWw6uBPGN61vofgnESQxHRlNqjvcZp0AzUax+BMOa807WezQnaRiOXHYMc7H+
+	I60=
 X-IronPort-AV: E=Sophos;i="5.69,407,1571695200"; 
-   d="scan'208";a="4156492"
+   d="scan'208";a="4034964"
 X-Axis-User: NO
 X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jan 2020 23:10:42 +0100
-Message-Id: <20200107221043.18575-1-pkj@axis.com>
+Date: Tue,  7 Jan 2020 23:10:43 +0100
+Message-Id: <20200107221043.18575-2-pkj@axis.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200107221043.18575-1-pkj@axis.com>
+References: <20200107221043.18575-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [master][zeus][warrior][PATCH 1/2] sanity.bbclass: Move sanity_info from conf to cache
+Subject: [master][zeus][warrior][PATCH 2/2] populate_sdk_ext.bbclass: No longer needed to clean away conf/sanity_info
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,48 +35,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2020 22:10:45 -0000
+X-List-Received-Date: Tue, 07 Jan 2020 22:10:47 -0000
 Content-Transfer-Encoding: 8bit
 
-Since this file is written during recipe parsing, having it in the
-${BUILDDIR}/conf directory, which is covered by an inotify watcher,
-will trigger a re-parse the next time bitbake is run and the resident
-bitbake server is enabled. This causes the sanity_info file to be
-updated again, which triggers a new parse the next time bitbake is run
-ad infinitum. Moving it to ${BUILDDIR}/cache should avoid this.
+Since the sanity_info file has moved from the conf directory to the
+cache directory, there is no longer any need to clean it away
+explicitly in clean_esdk_builddir() since the whole cache directory is
+already cleaned away anyway.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/classes/sanity.bbclass     | 2 +-
- meta/lib/oeqa/buildperf/base.py | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/populate_sdk_ext.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 63ab6cf3df..5c2f8f9d75 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -929,7 +929,7 @@ def check_sanity(sanity_data):
-     last_tmpdir = ""
-     last_sstate_dir = ""
-     last_nativelsbstr = ""
--    sanityverfile = sanity_data.expand("${TOPDIR}/conf/sanity_info")
-+    sanityverfile = sanity_data.expand("${TOPDIR}/cache/sanity_info")
-     if os.path.exists(sanityverfile):
-         with open(sanityverfile, 'r') as f:
-             for line in f:
-diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
-index 3b2fed549f..5f1805d86c 100644
---- a/meta/lib/oeqa/buildperf/base.py
-+++ b/meta/lib/oeqa/buildperf/base.py
-@@ -462,7 +462,7 @@ class BuildPerfTestCase(unittest.TestCase):
-     def rm_tmp(self):
-         """Cleanup temporary/intermediate files and directories"""
-         log.debug("Removing temporary and cache files")
--        for name in ['bitbake.lock', 'conf/sanity_info',
-+        for name in ['bitbake.lock', 'cache/sanity_info',
-                      self.bb_vars['TMPDIR']]:
-             oe.path.remove(name, recurse=True)
- 
+diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
+index af6e1b6e6a..9511e553f5 100644
+--- a/meta/classes/populate_sdk_ext.bbclass
++++ b/meta/classes/populate_sdk_ext.bbclass
+@@ -124,7 +124,7 @@ SDK_TITLE_task-populate-sdk-ext = "${@d.getVar('DISTRO_NAME') or d.getVar('DISTR
+ def clean_esdk_builddir(d, sdkbasepath):
+     """Clean up traces of the fake build for create_filtered_tasklist()"""
+     import shutil
+-    cleanpaths = 'cache conf/sanity_info tmp'.split()
++    cleanpaths = ['cache', 'tmp']
+     for pth in cleanpaths:
+         fullpth = os.path.join(sdkbasepath, pth)
+         if os.path.isdir(fullpth):
 -- 
 2.21.1
 
