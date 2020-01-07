@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E1F267D2E5
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A47CA7D2E5
 	for <openembedded-core@openembedded.org>;
-	Tue,  7 Jan 2020 02:34:42 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id az3so22562249plb.11
+	Tue,  7 Jan 2020 02:34:43 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id s7so8574227pjc.0
 	for <openembedded-core@openembedded.org>;
-	Mon, 06 Jan 2020 18:34:44 -0800 (PST)
+	Mon, 06 Jan 2020 18:34:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=q2rRXwGkv+8Zubgohigs5Exc0Nxhya7VJ1Oc7Z4LrtA=;
-	b=ZOPo+2qh6X/ZwzkHdn76ZimE84kU2ptuN3Cl7WPqRpE7BiRGXj1XdI6ykAvleywVo4
-	wD5r4s2UsC4KCpN8XpMOetqksKD862KQJDaSoL3ktD2vjw1+joJsMy7bXbCnEe2S039X
-	JTdTo9L7znr//bVy+ywnateGQRiZ4VKNlOvs7f+2MnMfBRfmS2DitPu3eYCTzfYJ8hV9
-	Eh4uTptRkNiQge6shn4LzXtpAhiUmWf8QzmVNCrpWf3IJapEhpxlqiL7klyJasAPb6EX
-	rVGrxPdr+8SmCQL6/De69V81Gw/5X/3Rj/vGzdTrVUoxjstF8b5NNhWx12+bG1AdBJot
-	xbvA==
+	bh=wjgETM9Qo70ivINr3sPLd2UuPbQ5e19V876EDRAa/iQ=;
+	b=I+1qSYJMCDifgsiZQk0QKWoyp7rtvaS2I9wDe1/BLGTUZ/W1zMtuCKrcsA/xfSwxHu
+	yG8uIY+mWsYlEFmIP+HlYyWb78gpYGpnHKq1ndH5O9FQbeiW+cFmKJ4b4yjAMYkmm4H1
+	f7VESC5C4Hv/EKRBvd3nEcC13d9gykoyZ1ZiSfK5k1HNeTk/AEqRXOOv8cvbi1q4YYSn
+	/yhYp928TupsEOaE2t58ZVvW6s6BclONvgI4sxaYiZB8ebVz2fwNzG6XzaViohnDtOWi
+	1J5QvQ746o25Vo8LpWEjI5dkSfF45k4iDis4DCx8Xfh61A4Vjhdqp2nkoevnMerR6H0w
+	VUIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=q2rRXwGkv+8Zubgohigs5Exc0Nxhya7VJ1Oc7Z4LrtA=;
-	b=lm8DC5woJFPDAdXKRBiTVI+d6tTG0u8LX1gxs/ex0SJwptOY9l4Kcc2vbtCy+46dOS
-	JfxmBN0JTVnYp77k67HDOeMm77MKrbbVNAU3ZWsZq7E8V8LlfLRDRu8ld99vUrnYmmD2
-	2s6xj0BR4Ko40jD4/gCu2USz7pyueN9ZnFJLC/rXINTXIgBDqAwBB1AjQ5b7WNNh0Dm2
-	0CAESrzkXU5WxxUbBbP9dORTdAU3NiV523pEDSoaKQo2agLFW/adAZzYqaUnCVV3xvA7
-	mCBiRdjw9qrsjhrjB+I/x6DglgE8qJbnMN4b9KgUrbWKPag3BIGt2GMCoBYVp8Avop2Y
-	UVHA==
-X-Gm-Message-State: APjAAAUQMVSkZVDNBJV/v+nYEGeloqvujprrB6cyFHi4kCkakNJi66fx
-	tHeNOYpQCartKRom3Rks/uq3SJNF
-X-Google-Smtp-Source: APXvYqyNDOqIG5udpvOLLo0yqpljlfFMOvv1UgdvkpaB0N4XCNcteo0F6E/DEvOD9l9suMGjiMZ9xQ==
-X-Received: by 2002:a17:90a:c697:: with SMTP id
-	n23mr44904680pjt.37.1578364483817; 
-	Mon, 06 Jan 2020 18:34:43 -0800 (PST)
+	bh=wjgETM9Qo70ivINr3sPLd2UuPbQ5e19V876EDRAa/iQ=;
+	b=YmxAMmMRVGDbBpuoJYn0rkLrF3kCEpyWT3bPGOBB3mOflku60jh25xdNRMTvNv2LCm
+	WMguqKeOhD0xUZNk5vsUW43bRa81/W4Y8qigVewxvXIfqVghBX9qCG/lmW38py19MBC3
+	H7+1GDtfT2wSwjZHZlz/VZMF3m5wg60N4xhH8sjw1IdidDlfaC5FUCwsFKMpqAIBevoY
+	SexS/5XHM+Y4SmAnpHjyOiVyqM/H2HFhYQ8H0X4eGLsowlFgN0E0oN6IVHnZe8xvrwqt
+	sTpv9DyaDgKLqxcmWjy4FPXv0sZoZ0NqRX1MM29W4I7FnfHXD/z/VGsS3IRi/8y0vQel
+	/T6w==
+X-Gm-Message-State: APjAAAWSoj0WOhuqgG/4gdQUEgsuh6sFWnu5JCckQHNSB0jh9jA189mx
+	k0UuyH/VWIu2yZHXG+/BS/abvhsZ
+X-Google-Smtp-Source: APXvYqz/y9tN+Jzn2vqRZVm4jIw2SuQM8JNG1cbRo5OIzMj0VfleudveN5KAb+/Cxi1P+Uiivi+owg==
+X-Received: by 2002:a17:90a:f496:: with SMTP id
+	bx22mr47073270pjb.101.1578364484572; 
+	Mon, 06 Jan 2020 18:34:44 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:6832:e19c:36b9:d5e])
 	by smtp.gmail.com with ESMTPSA id
-	d23sm77806193pfo.176.2020.01.06.18.34.42
+	d23sm77806193pfo.176.2020.01.06.18.34.43
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 06 Jan 2020 18:34:43 -0800 (PST)
+	Mon, 06 Jan 2020 18:34:44 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon,  6 Jan 2020 18:34:10 -0800
-Message-Id: <c5f285f83ea1e322d5124847904adf488d3e790a.1578364301.git.akuster808@gmail.com>
+Date: Mon,  6 Jan 2020 18:34:11 -0800
+Message-Id: <a15c05fa17bcce345ce254f02c0d6dcd97f60cb8.1578364301.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578364301.git.akuster808@gmail.com>
 References: <cover.1578364301.git.akuster808@gmail.com>
-Subject: [zeus 05/28] sstate: Ensure mkdir happens before mktemp
+Subject: [zeus 06/28] sstate.bbclass: Fix for consistent whitespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,40 +62,41 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 Jan 2020 02:34:43 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-This avoids a directory not present error.
-
-Fix a comment typo whilst here.
-
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1360d8d7d99b70a80c8cdbc1fc6d9e6752483139)
+(cherry picked from commit e874d067ace03774132ba3030a898678057c1304)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/sstate.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/classes/sstate.bbclass | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 79ae392116..b5267f00be 100644
+index b5267f00be..c0329cd5d1 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -747,14 +747,13 @@ sstate_task_postfunc[dirs] = "${WORKDIR}"
- # set as SSTATE_BUILDDIR. Will be run from within SSTATE_BUILDDIR.
- #
- sstate_create_package () {
--	TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
--
--	# Exit earlu if it already exists
-+	# Exit early if it already exists
- 	if [ -e ${SSTATE_PKG} ]; then
+@@ -752,14 +752,14 @@ sstate_create_package () {
  		return
  	fi
  
-         mkdir -p `dirname ${SSTATE_PKG}`
-+	TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
+-        mkdir -p `dirname ${SSTATE_PKG}`
++	mkdir -p `dirname ${SSTATE_PKG}`
+ 	TFILE=`mktemp ${SSTATE_PKG}.XXXXXXXX`
  
-         # Use pigz if available
-         OPT="-czS"
+-        # Use pigz if available
+-        OPT="-czS"
+-        if [ -x "$(command -v pigz)" ]; then
+-            OPT="-I pigz -cS"
+-        fi
++	# Use pigz if available
++	OPT="-czS"
++	if [ -x "$(command -v pigz)" ]; then
++		OPT="-I pigz -cS"
++	fi
+ 
+ 	# Need to handle empty directories
+ 	if [ "$(ls -A)" ]; then
 -- 
 2.17.1
 
