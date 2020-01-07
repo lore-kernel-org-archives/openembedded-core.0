@@ -1,28 +1,43 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 900C07FC9A
+Return-Path: <avirupbanerjee@gmail.com>
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com
+	[209.85.219.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 101217FAAA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 Jan 2020 22:10:46 +0000 (UTC)
-IronPort-SDR: mwiLTr4gSAVGf5yhrnpRX7EFn9sGUoYvEQ9Wp6WGIfXKLVjFeeKN7x5c9dEoGuXy1KO/tDsF2S
-	Tl2U5qpYvfy8/j8NNGNQv+w8qyY+uBCYjPTiWQay4nBpfX8f/ostd3LSlYbr85KPvUOJyKwN2a
-	fRLPJjL+cmIvG1Qqpjz0I0d1Yx7Px0+3U/224CX1HJyR/8Znn+Dogj/45TH6ogpBuv9WBzIDvT
-	u5lYBsO3JLrFWKWw6uBPGN61vofgnESQxHRlNqjvcZp0AzUax+BMOa807WezQnaRiOXHYMc7H+
-	I60=
-X-IronPort-AV: E=Sophos;i="5.69,407,1571695200"; 
-   d="scan'208";a="4034964"
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bes.se.axis.com
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 Jan 2020 23:10:43 +0100
-Message-Id: <20200107221043.18575-2-pkj@axis.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200107221043.18575-1-pkj@axis.com>
-References: <20200107221043.18575-1-pkj@axis.com>
+	Tue,  7 Jan 2020 23:59:08 +0000 (UTC)
+Received: by mail-qv1-f50.google.com with SMTP id u10so690195qvi.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 Jan 2020 15:59:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=5XZUP3zIlPngGVss0zIxAHDm0yUZiUFALtorbhaWyf8=;
+	b=C1Rq272bRgdo2klAt6q6UUYI2Swcq/pjwvIxUJW8G7A0piXiSDNd8u3rAEn8FdkcDg
+	TnfH1DiXsXynI42EQtTbuYOJ7LIoT8BBMoQz0dKY9HbDUt6OHLkTuNViOzTJCZGy7KfZ
+	dvjslHWYirwDaSAjjHNRoN2TzQ2iyqriS6GTLaUu0rOdajwBaX1sgwi3rh1ENujZi3yf
+	mAtQy4+tHT1K9kZ8d1lsA54CMIon4BvjCqT6O50/numFqc6enPlKvfGeQBcSqsJxxSWc
+	veiEHLcyRYXDpkChHUyARMgcy5xLP/iwshPZAT1F1EDo9DdXD8uoh+T6QpDP6SrocXrP
+	qTGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=5XZUP3zIlPngGVss0zIxAHDm0yUZiUFALtorbhaWyf8=;
+	b=OTKo9PN4Jo82s5hxsTbw1HBIRJmW0m/bTKQZacrJC4bLTqWGCQb/88BkYzUxO/LYBp
+	p0yhGhtAUvPNR889e7VY8/FicBD1ySHTBzjHvu2QpxFWdNIbvZ/9BOeq2IeJo3mJt/U6
+	W/LW3ZclvYICyPdbjOFVHYn6kT2Bzen+o0QoXES/3YGClgkLCyWWpxUt3Mi3yXedj5cC
+	yQOF3eNF+tKhP8529Lzhiiyt8ohVqKgu3YE6mQNUyF/lZ8bNbFlMcIt2kK8XBfEkaweh
+	TGNZ3C0q2BDWWrcbarEb9ZXDX+yrS+/y2Jz8bTKsYG0lcT4gH0P6ggkWoWVjOjSs1gWB
+	obcA==
+X-Gm-Message-State: APjAAAWfyJLXGJWHlsman/qJv4LQ5k45XoPFycXAh0+/pgYmFmC90qKl
+	X4AcNJUV8Hb56IjxEkr+kzXSrq4ZDv0mAxmGLMKlTQ==
+X-Google-Smtp-Source: APXvYqwpGYv9gRlILiknaWWWuyAj02OmPirAfZaH0Y/zDnVBMt5rVAUaMJpBDALAT/5H8bxdF1jdTaSERVkGDpVi3mw=
+X-Received: by 2002:a05:6214:1907:: with SMTP id
+	er7mr1793654qvb.199.1578441548896; 
+	Tue, 07 Jan 2020 15:59:08 -0800 (PST)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [master][zeus][warrior][PATCH 2/2] populate_sdk_ext.bbclass: No longer needed to clean away conf/sanity_info
+From: avirup banerjee <avirupbanerjee@gmail.com>
+Date: Tue, 7 Jan 2020 15:58:58 -0800
+Message-ID: <CABX72JsdeVnq+VfV7ONRZvVT1FMt3kn2Bfr5p5EhVW=h=wy7=w@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: How to include coccinelle for linux-backports natively and not from hosttools.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,33 +50,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 Jan 2020 22:10:47 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 Jan 2020 23:59:09 -0000
+Content-Type: multipart/alternative; boundary="000000000000d21e8f059b958f11"
 
-Since the sanity_info file has moved from the conf directory to the
-cache directory, there is no longer any need to clean it away
-explicitly in clean_esdk_builddir() since the whole cache directory is
-already cleaned away anyway.
+--000000000000d21e8f059b958f11
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/populate_sdk_ext.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Hi
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index af6e1b6e6a..9511e553f5 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -124,7 +124,7 @@ SDK_TITLE_task-populate-sdk-ext = "${@d.getVar('DISTRO_NAME') or d.getVar('DISTR
- def clean_esdk_builddir(d, sdkbasepath):
-     """Clean up traces of the fake build for create_filtered_tasklist()"""
-     import shutil
--    cleanpaths = 'cache conf/sanity_info tmp'.split()
-+    cleanpaths = ['cache', 'tmp']
-     for pth in cleanpaths:
-         fullpth = os.path.join(sdkbasepath, pth)
-         if os.path.isdir(fullpth):
+I am building coccinelle as native. Was expecting linux-backports to pick
+it up natively instead from /tmp/hosttools. However I see backports always
+picks it up from the host. If I remove it from /tmp/hostools the
+linux-backports compilation fails with the error "You have unfulfilled
+binary requirements". and asks to install spatch on host.
+
+my linux-backports recipe DEPENDS on coccinelle-native.
+
+*-Avi*
 -- 
-2.21.1
 
 
+
+
+*Avirup BanerjeeUnion CityCalifornia 94587Mob : +19256834651*
+
+--000000000000d21e8f059b958f11
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><div style=3D"font-size:1rem;color:rgb(49,49,49);word-spacing:1px" dir=
+=3D"auto">Hi=C2=A0<br></div><div style=3D"color:rgb(49,49,49);word-spacing:=
+1px" dir=3D"auto"><br></div><div style=3D"font-size:1rem;color:rgb(49,49,49=
+);word-spacing:1px" dir=3D"auto">I am building coccinelle as native. Was ex=
+pecting linux-backports to pick it up natively instead from /tmp/hosttools.=
+ However I see backports always picks it up from the host. If I remove it f=
+rom /tmp/hostools the linux-backports compilation fails with the error &quo=
+t;You have unfulfilled binary requirements&quot;. and asks to install spatc=
+h on host.</div><div style=3D"color:rgb(49,49,49);word-spacing:1px" dir=3D"=
+auto"><br></div><div style=3D"font-size:1rem;color:rgb(49,49,49);word-spaci=
+ng:1px" dir=3D"auto">my linux-backports recipe DEPENDS on coccinelle-native=
+.<br></div><div style=3D"color:rgb(49,49,49);word-spacing:1px" dir=3D"auto"=
+><br></div><div style=3D"color:rgb(49,49,49);word-spacing:1px" dir=3D"auto"=
+><font color=3D"#660000"><i style=3D"font-size:1rem">-Avi</i></font></div>
+</div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartmail=3D"g=
+mail_signature"><div dir=3D"ltr"><div><p style=3D"text-align:left"><em><fon=
+t color=3D"#660000">Avirup Banerjee<br>Union City<br>California 94587<br>Mo=
+b : +19256834651</font></em></p></div></div></div>
+
+--000000000000d21e8f059b958f11--
