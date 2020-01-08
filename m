@@ -1,18 +1,36 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D9117FECF;
-	Wed,  8 Jan 2020 13:32:18 +0000 (UTC)
+Return-Path: <prvs=269e48055=Richard.Leitner@skidata.com>
+Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
+	by mail.openembedded.org (Postfix) with ESMTP id A1EC17F968
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 Jan 2020 13:54:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+	t=1578491658; x=1610027658;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=nWjO2IE/aQ+KM2vZQ+A/l6wsIRtgB1BsLNufpH5ITiw=;
+	b=hxNFQ9c/utBFr2Y+rfRh4XUs2sj8Dy7nLydUFgfXKW7ULbOLFrZ7miLK
+	R6tgD9/rvezzU9leq7Rp3vdK2eFCcKkAwvp2ftys6CYtYEF6ncGxMy3wE
+	NAf2bGf2VMXntjc7GOkcCW5S1wmFGphK6+krfvrAl6oaigiPobkmTY2sG
+	kIk99lIdHkjk/u1yV7Q0BwjEbJDqS/3c7p1y3Wfc4vklxFOu34N3XIg5A
+	5vCjGbp8SK9nWaD2bAMw6XDFRbq8X12hwo7qkQUw69eI3n/jki1qVnvSL
+	ydkQ9yvNDtNpaSHuRB2xfhKjiZujkXExNhCaamsrrYmBtA2XrxKU3Sw0F A==;
+IronPort-SDR: UaPyVBQTqhax6AoZWNMpjhK3WX5nq0PGuh0DVN21TdBhhl85eNjC4IAJ9icfkLNgBe3MCkvzBZ
+	hiPOBm1NgKbeoHmLHKYHCOnO0v8VLFlxB9+gxw74K09Fu1K2MNP7sHwmLmeMCxoN7SGRZNEtSO
+	LlhZr5eqdCcnXowPW7algwSQy1oudFLbPuCkV3tw+PmtHoI1mHO+T/lX5rXXSu8N/Sn/RzVJtW
+	TbN+/9MWmTnfkns/+yC7ghC8YcQIuE8TOn4YNCarGZb94SIWVOCQY4Be5y1EP4FCV7XGwdMUSe
+	tVE=
+X-IronPort-AV: E=Sophos;i="5.69,410,1571695200"; d="scan'208";a="21903713"
+From: Richard Leitner <richard.leitner@skidata.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 Jan 2020 14:54:04 +0100
+Message-ID: <20200108135404.153669-1-richard.leitner@skidata.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 08 Jan 2020 13:32:19 -0000
-Message-ID: <20200108133219.2274.17791@do>
-References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200108132759.95603-1-alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInJwbTogdXBncmFkZSB0byA0LjE1LjEuLi4iIGFuZCAyNyBtb3Jl?=
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex4srv.skidata.net (192.168.111.82) To
+	sdex5srv.skidata.net (192.168.111.83)
+Subject: [PATCH] gstreamer1.0-plugins-bad: Add packageconfig for vdpau acceleration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,48 +43,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 13:32:18 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jan 2020 13:54:18 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
+libvdpau support was added to meta-oe by commit bf1de4db2 ("libvdpau:
+Add recipe") in 2016. Therefore add a packageconfig for the
+corresponding gstreamer plugin.
 
-Series: "rpm: upgrade to 4.15.1..." and 27 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/21922/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 4359a398af)
-
-* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
-  Suggested fix    Fix Upstream-Status format in 0001-tests-autopoint-3-unset-MAKEFLAGS.patch
-  Current          Upstream-Status: Inapppropriate [oe-core specific]
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb              | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
+index ed3efab29f..85568b414a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
+@@ -75,6 +75,7 @@ PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
+ PACKAGECONFIG[tinyalsa]        = "--enable-tinyalsa,--disable-tinyalsa,tinyalsa"
+ PACKAGECONFIG[ttml]            = "--enable-ttml,--disable-ttml,libxml2 pango cairo"
+ PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
++PACKAGECONFIG[vdpau]           = "--enable-vdpau,--disable-vdpau,libvdpau"
+ PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
+ PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
+ PACKAGECONFIG[vulkan]          = "--enable-vulkan,--disable-vulkan,vulkan-loader"
+@@ -88,7 +89,7 @@ PACKAGECONFIG[zbar]            = "--enable-zbar,--disable-zbar,zbar"
+ #   openni2 winks direct3d directsound winscreencap apple_media iqa
+ #   android_media avc bs2b chromaprint dts fdkaac gme gsm kate ladspa
+ #   lv2 mpeg2enc mplex musepack nvenc ofa opensles soundtouch
+-#   spandsp teletextdec vdpau wasapi wpe x265
++#   spandsp teletextdec wasapi wpe x265
+ 
+ EXTRA_OECONF += " \
+     --enable-decklink \
+@@ -125,7 +126,6 @@ EXTRA_OECONF += " \
+     --disable-spandsp \
+     --disable-srt \
+     --disable-teletextdec \
+-    --disable-vdpau \
+     --disable-wasapi \
+     --disable-wildmidi \
+     --disable-winks \
+-- 
+2.24.1
 
 
