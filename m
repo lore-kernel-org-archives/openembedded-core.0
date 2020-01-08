@@ -1,49 +1,95 @@
-Return-Path: <pbarker@konsulko.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 46C6A7FC92
+Return-Path: <pascal.huerst@gmail.com>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A7087E718
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 11:25:51 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id p17so2105475wma.1
+	Wed,  8 Jan 2020 12:10:08 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id b19so2219303wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2020 03:25:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=5P/U0Z4Qbw64iVJ0eB1vBoIbqD9GlGCmL3JHLXbit3E=;
-	b=pd+YxyYwen0e7bcpGEPHBCY/FyCmf/30/sqOJL5IqXhGCoPaFzrJM7CGfoHXzzCuXm
-	+dpbFPeVZ9I1SuL70VeG8/1szPwdJPcPMDB3xQtn98dQJJOp7mXVs3DyPXpu1MkyPZ57
-	gD2SklNJXZwoYE23omlgiiG5mIJrkC7CQ9nKU=
+	Wed, 08 Jan 2020 04:10:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=to:from:autocrypt:cc:subject:message-id:date:user-agent
+	:mime-version:content-language:content-transfer-encoding;
+	bh=jS0Dy0jSz5Y4tSME3XR3Gfl8AOPumZLGfQQljyCVPyQ=;
+	b=BH1pPJue9WEPhQbDurL7uOmSNIdz9dUFjnOBilErRhzk95YfIaY+2jfqX0oKuYY+fg
+	nJ5d9XzJv4jivBxJN4tk8wS5rfMVDLq6V9UDFZN3Ys7JPgZs/hIZ0feLWgzw9f8ot9Dk
+	TrR1z0p0NSbxWNkQzTx+s3Uk5aHLZ3FgFF1r4uy3i19rJp/e24BQHjkCtXqsR3XE+F3P
+	Ny7zHb7mWdJ45J+360arIQ8DrZPAgBI2QBxOXI1HqqVsiQvNgoIaXJOLr5gssNnGN4rM
+	iudY4Grebz9R7lytBFYI3lzz2wCaMDVAgKyfo5aVX2RQDjG38qqdPxuLUj8U0iL6HVze
+	0oMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=5P/U0Z4Qbw64iVJ0eB1vBoIbqD9GlGCmL3JHLXbit3E=;
-	b=jNoZxr5EPabJOUtytHlH4QEeNFR9zR7WwcCLEhBNmDm+Fyi5W7681J+QJu+qdwPakZ
-	HOwpWJ1U0KCpzlS/7AC02cLecjqSMI1VYNhHt8ODQdNlgj+N8pt+1osSdGjenccpL3vq
-	MnVaCHPOum4ctrZS+b+5CRejLx7DMIccvuQhguUAexvOXutF0jx5qs6MeIKqMtW+VxNP
-	8RfnuPgX0kYv+iTTi21VbiwIc3G5t13oeSm+RLuXJmzS1qLK1hhW373FYF6tIr9pQxb8
-	gH8ICxTzvi7DZlNvMWLpFqpnbJWaVUDQ3v5bUn7UZ7yZhXN7rmxBvp/iY0AnEAyoo9y3
-	Rlrw==
-X-Gm-Message-State: APjAAAXMhoggaWSrBYh59cyRM9NvrwrqekCluGN8SfzLAcEOGjL9evFM
-	Vkp+cmDmDf8H4B02/6f1+L6fDchT2YeeUFkF
-X-Google-Smtp-Source: APXvYqxNvcYl6P/lUBsYnFvIhJXqGQDwFozKGjLHieruhXCj0Mz7n8soe5Tt9oDmSv4IO4oJtnkDXw==
-X-Received: by 2002:a1c:ddc5:: with SMTP id u188mr3112683wmg.83.1578482751790; 
-	Wed, 08 Jan 2020 03:25:51 -0800 (PST)
-Received: from arch0.home.b5net.uk ([213.48.11.149])
-	by smtp.gmail.com with ESMTPSA id
-	g21sm3978213wrb.48.2020.01.08.03.25.51
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 03:25:51 -0800 (PST)
-From: Paul Barker <pbarker@konsulko.com>
+	h=x-gm-message-state:to:from:autocrypt:cc:subject:message-id:date
+	:user-agent:mime-version:content-language:content-transfer-encoding;
+	bh=jS0Dy0jSz5Y4tSME3XR3Gfl8AOPumZLGfQQljyCVPyQ=;
+	b=bemsV1hKXaoD4OeTNgFhA7YKruxkQ9akSGTaJJiBtBvMbA5zMiXeBe46oI/bfv/cKp
+	46udmWxDKptT18fwp56xN92CPIzFqEagKHGLqLe6LL3tdwT2HwxjRiBNFRF5fw7fCMHz
+	iNuZXkN29SkzC5bohYqboxGLjxwxcEryxpRlosKRL4yE1ohOvJNVFrLizRx7aRIarcES
+	vF7y2jdhQ4cw3gZMDvHlQB3uOnqEyBm/FUX3hiOBe6d1ibO77z10bXADX/H/5sOwnB25
+	IWJloJRhTLguIpi/xGqAPmaBcQCE1IBRoc2mOtVCHIkyeoK4sZfTuJkk9ESswQzPXov0
+	8F1Q==
+X-Gm-Message-State: APjAAAXofgJ3TOa0q1+u7hCt0NDbdJ/gFl/sLkh6te731r45afvlbFN3
+	okP4bB1yGUWY2FR/u63/jYz4ZW0+
+X-Google-Smtp-Source: APXvYqxshBYfseznd/cgZW8dHfc4W5j4iFXdIlbk6B1OxmulgOl5fVPROgdXRBNFRCx14Z78Vj6lEw==
+X-Received: by 2002:a7b:c759:: with SMTP id w25mr3690082wmk.15.1578485409229; 
+	Wed, 08 Jan 2020 04:10:09 -0800 (PST)
+Received: from [10.10.222.52] ([194.162.236.226])
+	by smtp.googlemail.com with ESMTPSA id
+	p15sm3367155wma.40.2020.01.08.04.10.08
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 08 Jan 2020 04:10:08 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jan 2020 11:25:46 +0000
-Message-Id: <20200108112546.8571-2-pbarker@konsulko.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200108112546.8571-1-pbarker@konsulko.com>
-References: <20200108112546.8571-1-pbarker@konsulko.com>
+From: Pascal Huerst <pascal.huerst@gmail.com>
+Autocrypt: addr=pascal.huerst@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <baf60d23-56e5-72a2-f7f7-adb10c29a5f9@gmail.com>
+Date: Wed, 8 Jan 2020 13:10:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.3.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] wic: Add --include-path argument
+Cc: Rich Persaud <persaur@gmail.com>
+Subject: Looking for a way to build latest tagged releases in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,195 +102,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 11:25:52 -0000
+X-List-Received-Date: Wed, 08 Jan 2020 12:10:09 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-This option adds the contents of the given path to a partition built
-with the rootfs source plugin. The path is relative to the directory in
-which wic is running not the rootfs itself so use of an absolute path
-is recommended. This option is most useful when multiple copies of the
-rootfs are added to an image and it is required to add extra content to
-only one of these copies. This option only has an effect with the
-rootfs source plugin.
+Hey everyone!
 
-Signed-off-by: Paul Barker <pbarker@konsulko.com>
----
- meta/lib/oeqa/selftest/cases/wic.py      | 73 ++++++++++++++++++------
- scripts/lib/wic/help.py                  | 10 ++++
- scripts/lib/wic/ksparser.py              |  1 +
- scripts/lib/wic/partition.py             |  1 +
- scripts/lib/wic/plugins/source/rootfs.py |  7 ++-
- 5 files changed, 72 insertions(+), 20 deletions(-)
+I'm looking for a way in yocto to build tagged releases or actually to
+build the newest tagged release from repositories.
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 3c5be2f501..46cd98b193 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -44,6 +44,24 @@ def only_for_arch(archs, image='core-image-minimal'):
-         return wrapped_f
-     return wrapper
- 
-+def extract_files(debugfs_output):
-+    """
-+    extract file names from the output of debugfs -R 'ls -p',
-+    which looks like this:
-+
-+     /2/040755/0/0/.//\n
-+     /2/040755/0/0/..//\n
-+     /11/040700/0/0/lost+found^M//\n
-+     /12/040755/1002/1002/run//\n
-+     /13/040755/1002/1002/sys//\n
-+     /14/040755/1002/1002/bin//\n
-+     /80/040755/1002/1002/var//\n
-+     /92/040755/1002/1002/tmp//\n
-+    """
-+    # NOTE the occasional ^M in file names
-+    return [line.split('/')[5].strip() for line in \
-+            debugfs_output.strip().split('/\n')]
-+
- 
- class WicTestCase(OESelftestTestCase):
-     """Wic test class."""
-@@ -393,24 +411,6 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-                 runCmd("dd if=%s of=%s skip=%d count=%d" %
-                                            (wicimg, part_file, start, length))
- 
--            def extract_files(debugfs_output):
--                """
--                extract file names from the output of debugfs -R 'ls -p',
--                which looks like this:
--
--                 /2/040755/0/0/.//\n
--                 /2/040755/0/0/..//\n
--                 /11/040700/0/0/lost+found^M//\n
--                 /12/040755/1002/1002/run//\n
--                 /13/040755/1002/1002/sys//\n
--                 /14/040755/1002/1002/bin//\n
--                 /80/040755/1002/1002/var//\n
--                 /92/040755/1002/1002/tmp//\n
--                """
--                # NOTE the occasional ^M in file names
--                return [line.split('/')[5].strip() for line in \
--                        debugfs_output.strip().split('/\n')]
--
-             # Test partition 1, should contain the normal root directories, except
-             # /usr.
-             res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % \
-@@ -451,6 +451,43 @@ part /etc --source rootfs --ondisk mmcblk0 --fstype=ext4 --exclude-path bin/ --r
-         finally:
-             os.environ['PATH'] = oldpath
- 
-+    def test_include_path(self):
-+        """Test --include-path wks option."""
-+
-+        oldpath = os.environ['PATH']
-+        os.environ['PATH'] = get_bb_var("PATH", "wic-tools")
-+
-+        try:
-+            include_path = os.path.join(self.resultdir, 'test-include')
-+            os.makedirs(include_path)
-+            with open(os.path.join(include_path, 'test-file'), 'w') as t:
-+                t.write("test\n")
-+            wks_file = os.path.join(include_path, 'temp.wks')
-+            with open(wks_file, 'w') as wks:
-+                rootfs_dir = get_bb_var('IMAGE_ROOTFS', 'core-image-minimal')
-+                wks.write("""
-+part /part1 --source rootfs --ondisk mmcblk0 --fstype=ext4
-+part /part2 --source rootfs --ondisk mmcblk0 --fstype=ext4 --include-path %s"""
-+                          % (include_path))
-+            runCmd("wic create %s -e core-image-minimal -o %s" \
-+                                       % (wks_file, self.resultdir))
-+
-+            part1 = glob(os.path.join(self.resultdir, 'temp-*.direct.p1'))[0]
-+            part2 = glob(os.path.join(self.resultdir, 'temp-*.direct.p2'))[0]
-+
-+            # Test partition 1, should not contain 'test-file'
-+            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part1))
-+            files = extract_files(res.output)
-+            self.assertNotIn('test-file', files)
-+
-+            # Test partition 2, should not contain 'test-file'
-+            res = runCmd("debugfs -R 'ls -p' %s 2>/dev/null" % (part2))
-+            files = extract_files(res.output)
-+            self.assertIn('test-file', files)
-+
-+        finally:
-+            os.environ['PATH'] = oldpath
-+
-     def test_exclude_path_errors(self):
-         """Test --exclude-path wks option error handling."""
-         wks_file = 'temp.wks'
-diff --git a/scripts/lib/wic/help.py b/scripts/lib/wic/help.py
-index 29c4e436d8..4d342fcf05 100644
---- a/scripts/lib/wic/help.py
-+++ b/scripts/lib/wic/help.py
-@@ -969,6 +969,16 @@ DESCRIPTION
-                          is omitted, not the directory itself. This option only
-                          has an effect with the rootfs source plugin.
- 
-+         --include-path: This option is specific to wic. It adds the contents
-+                         of the given path to the resulting image. The path is
-+                         relative to the directory in which wic is running not
-+                         the rootfs itself so use of an absolute path is
-+                         recommended. This option is most useful when multiple
-+                         copies of the rootfs are added to an image and it is
-+                         required to add extra content to only one of these
-+                         copies. This option only has an effect with the rootfs
-+                         source plugin.
-+
-          --extra-space: This option is specific to wic. It adds extra
-                         space after the space filled by the content
-                         of the partition. The final size can go
-diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
-index 6a643ba3af..707a2e8019 100644
---- a/scripts/lib/wic/ksparser.py
-+++ b/scripts/lib/wic/ksparser.py
-@@ -137,6 +137,7 @@ class KickStart():
-         part.add_argument('--active', action='store_true')
-         part.add_argument('--align', type=int)
-         part.add_argument('--exclude-path', nargs='+')
-+        part.add_argument('--include-path', nargs='+')
-         part.add_argument("--extra-space", type=sizetype)
-         part.add_argument('--fsoptions', dest='fsopts')
-         part.add_argument('--fstype', default='vfat',
-diff --git a/scripts/lib/wic/partition.py b/scripts/lib/wic/partition.py
-index d809408e1a..2d95f78439 100644
---- a/scripts/lib/wic/partition.py
-+++ b/scripts/lib/wic/partition.py
-@@ -30,6 +30,7 @@ class Partition():
-         self.device = None
-         self.extra_space = args.extra_space
-         self.exclude_path = args.exclude_path
-+        self.include_path = args.include_path
-         self.fsopts = args.fsopts
-         self.fstype = args.fstype
-         self.label = args.label
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index e26e95b991..705aeb5563 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -71,7 +71,7 @@ class RootfsPlugin(SourcePlugin):
- 
-         new_rootfs = None
-         # Handle excluded paths.
--        if part.exclude_path is not None:
-+        if part.exclude_path or part.include_path:
-             # We need a new rootfs directory we can delete files from. Copy to
-             # workdir.
-             new_rootfs = os.path.realpath(os.path.join(cr_workdir, "rootfs%d" % part.lineno))
-@@ -81,7 +81,10 @@ class RootfsPlugin(SourcePlugin):
- 
-             copyhardlinktree(part.rootfs_dir, new_rootfs)
- 
--            for orig_path in part.exclude_path:
-+            for path in part.include_path or []:
-+                copyhardlinktree(path, new_rootfs)
-+
-+            for orig_path in part.exclude_path or []:
-                 path = orig_path
-                 if os.path.isabs(path):
-                     logger.error("Must be relative: --exclude-path=%s" % orig_path)
--- 
-2.24.1
+There is a way to specify a branch or a tag in a recipe, but no way to
+always clone the newest tagged release, that I'm aware of. I submitted a
+patch to bitbake's mailing list with a proposal [1], that would use
+bitbake's `latest_versionstring()`, to always find, fetch and build the
+latest tagged release. Unfortunately there wasn't much of a reaction on
+that proposal, so I'm taking a step back, collecting ideas on how this
+could be achieved properly.
 
+Please share your ideas...
+
+Thanks!
+Pascal
+
+[1]
+http://lists.openembedded.org/pipermail/bitbake-devel/2019-December/020618.html
 
