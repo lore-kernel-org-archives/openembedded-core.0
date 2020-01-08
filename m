@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CC6ED7FE50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id AA2427FED6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 13:28:33 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id w5so1247326wmi.1
+	Wed,  8 Jan 2020 13:28:34 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id c14so3367762wrn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2020 05:28:35 -0800 (PST)
+	Wed, 08 Jan 2020 05:28:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=rHyLarM0kjD8aXBn07SzcTeerJbzikz1dS+Q547qcsU=;
-	b=rlXq8Uv3WzBIeFcz1PEJqTKcJmq9Xnza5awL3p7D8MtpGzXeYphHQoAUvLepsj+bcW
-	gzkXKV+QKXV5O6JdnMx1fNRjAuK2at8ItM5Py76AslUJhfO1wEDfvnsxyLzA4mGGknq6
-	EJj9PmXxCqcJghUSoF/ZTTo2EUPIubqICL3EZvfrSLhB96LdTPMO0Yw6mEHZSByY4ifE
-	rEAAY8VfdVSgP2RTuIOL05oWKDUE0Pthk3sAKK//Mp+qWwHYZ2BuyhnVZM6h3WZfHBn2
-	NJPG1+eTOJ9l+3hAh8YsvonD31ElLEOZ1Qml7E4fFRQJMVKPuMhDE3d7eXWADfA4BGev
-	QFeQ==
+	bh=XaCQndSV/aj44NAW6+xQuhaVgVKPgS8z4PTUA8cpAjg=;
+	b=SCQY970x+RBUN6d3GBauKIG1HQhHjbImFbVYahQ9r2+WEWzzszcbo+/OCWz6rBfi3e
+	Rkax1Vz7u8EFef8KSs0EWBGM2ueygqdg7bMi5SdAyJ2n1ieKl/tCgQUmi9fByDEGTpHY
+	n5WPDszTtWBxInkJUY2ZaVPkIQQhLJSi3g3HM+0HugE+0u4ov1XdPnErlS+/oAv/Nsqw
+	NxQBiZXI80CYVjP5vgUIm0dETzaWZMKmDYf9fQoV1CA0R2wmOjMIiVpM+8qe6UDkjJuN
+	kNne71ZOzxhn6tYFG1aZuUlwjYJPQqOGk07uG4Fppe5iTrgChR47Gpfqk/wPg2tYmNWh
+	2FSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=rHyLarM0kjD8aXBn07SzcTeerJbzikz1dS+Q547qcsU=;
-	b=YXDu+fglcLiRCknLxWglaXAGN5AR4Jv+6iH6JZN7aHz528H9cuM/Un8XJ2RBwM8HcN
-	U94tDWxxjH/ndqMVZAplEgU8NB7wyopIh12NYx+sZ3WZcE4BWtY6+OkDkN3YQ6Nuo+o2
-	tsrndm8LJ5tM18DsBPJwFnHeigqhE1CP+33zE1Vs381MzxnN76rPZl8fWlSLRQ7Z6KST
-	nhMQH2VozO+7k1pWmKEGE4kpyUEbvhcP7Ezr4L/Sdx1OkXULYW77Nf7mlFsnsSaGW73H
-	VKCAtAfK9+Z5zbt1/Uzsaf/O6NtDsBDrb/QtjM42YEMuH0eCD13k0c0R3z8jX/LCUk+p
-	04yA==
-X-Gm-Message-State: APjAAAUY7ThJCRbjeQrfl8nYTITrczcTxdaOIPBW1wIuDY3ZSlfKwO7m
-	ZM/FsUUB2itSYJbTofJEX54ixr29SPA=
-X-Google-Smtp-Source: APXvYqw4qbWyWWtcXI9XrSNnvapzKhcF3YQMaA0+odejIWS5lcONbgDh4uGpqtMKfA9sdkjggxjBPw==
-X-Received: by 2002:a1c:6404:: with SMTP id y4mr3948840wmb.143.1578490114352; 
-	Wed, 08 Jan 2020 05:28:34 -0800 (PST)
+	bh=XaCQndSV/aj44NAW6+xQuhaVgVKPgS8z4PTUA8cpAjg=;
+	b=P9bUzGOnZLNk6x6tz1MkxzqxG06WUIwuw5ofeLd8BoGwLdnNOZMIMD7f0NK2jzcbCC
+	EGIW5NDjOno/Jt3S+NGOf9O5KHOv+SrqZ/36rCvYihccqqGZhiw9qDVNPt5T6tqyY7bt
+	mj8t5UDUF90A9x1qduWdaVAHFWgVBXfNaFjJbA7KtLGIC8ZMfHtJPRpl5uEbOrlszZ0T
+	aQNwZBHy7z/sBL/7/1YXhlOiMoCiZ6Y4ceIEH7FGQOQg3aFdUiaQrkqb1CBq3Z2311Uk
+	E320W8i6syhTgr6c6pdqILbfDqLCYJiSxmSqo3lwyoOuYyEyD8NxP/49bo3a2ri16tEt
+	3BKA==
+X-Gm-Message-State: APjAAAXM5M4/Dl2gfUGEvdJNR9rLpVV2qtARU2AGAmb50dS+HB9pmymC
+	6k9h7pG7L22uB7X1J0c189SvLsvpBs4=
+X-Google-Smtp-Source: APXvYqyYQt0/2SXW9zXl8F6Ykph6BU5rD9WP5bHnDR6jAdUNp+YUCivy9yuyWrA8wL9NvabcH5Zdrg==
+X-Received: by 2002:a05:6000:1288:: with SMTP id
+	f8mr4634795wrx.66.1578490115229; 
+	Wed, 08 Jan 2020 05:28:35 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	x10sm4607028wrp.58.2020.01.08.05.28.33
+	x10sm4607028wrp.58.2020.01.08.05.28.34
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 05:28:33 -0800 (PST)
+	Wed, 08 Jan 2020 05:28:34 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jan 2020 14:27:58 +0100
-Message-Id: <20200108132759.95603-27-alex.kanavin@gmail.com>
+Date: Wed,  8 Jan 2020 14:27:59 +0100
+Message-Id: <20200108132759.95603-28-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200108132759.95603-1-alex.kanavin@gmail.com>
 References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-Subject: [PATCH 27/28] perl: install typemap and other extutils metadata as part of perl-core
+Subject: [PATCH 28/28] libmodule-build-perl: fix ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +58,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 13:28:34 -0000
+X-List-Received-Date: Wed, 08 Jan 2020 13:28:35 -0000
 
-Modules actually make use of these files, so they belong in perl-core
-other than perl-doc (the immediate failure was ptests for
-libmodule-build-perl failing).
+Particularly remove a broken detection of skipped tests
+(which was marking tests that actually passed), and install
+additional artefacts needed for testing.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/perl/perl_5.30.1.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/perl/libmodule-build-perl/run-ptest | 2 --
+ meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb | 3 +++
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index d5318fb949b..66707e7f9d8 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -207,6 +207,9 @@ FILES_${PN} = "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} ${libdir}/
-                ${libdir}/perl5/${PV}/warnings \
-                ${libdir}/perl5/${PV}/vars.pm \
-                ${libdir}/perl5/site_perl \
-+               ${libdir}/perl5/${PV}/ExtUtils/MANIFEST.SKIP \
-+               ${libdir}/perl5/${PV}/ExtUtils/xsubpp \
-+               ${libdir}/perl5/${PV}/ExtUtils/typemap \
-                "
- RPROVIDES_${PN} += "perl-module-strict perl-module-vars perl-module-config perl-module-warnings \
-                     perl-module-warnings-register"
-@@ -217,9 +220,6 @@ FILES_${PN}-dev_append = " ${libdir}/perl5/${PV}/*/CORE"
+diff --git a/meta/recipes-devtools/perl/libmodule-build-perl/run-ptest b/meta/recipes-devtools/perl/libmodule-build-perl/run-ptest
+index 0d63d1513bc..d802781f9e6 100644
+--- a/meta/recipes-devtools/perl/libmodule-build-perl/run-ptest
++++ b/meta/recipes-devtools/perl/libmodule-build-perl/run-ptest
+@@ -6,8 +6,6 @@ for case in `find t -type f -name '*.t'`; do
+     cat $case.output
+     if [ $ret -ne 0 ]; then
+         echo "FAIL: ${case%.t}"
+-    elif grep -i 'SKIP' $case.output; then
+-        echo "SKIP: ${case%.t}"
+     else
+         echo "PASS: ${case%.t}"
+     fi
+diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb
+index f759f862fb2..e3ba40d96c5 100644
+--- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb
++++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4229.bb
+@@ -36,7 +36,10 @@ do_patch[postfuncs] += "do_patch_module_build"
+ do_install_ptest() {
+ 	cp -r ${B}/inc ${D}${PTEST_PATH}
+ 	cp -r ${B}/blib ${D}${PTEST_PATH}
++	cp -r ${B}/_build ${D}${PTEST_PATH}
++	cp -r ${B}/lib ${D}${PTEST_PATH}
+ 	chown -R root:root ${D}${PTEST_PATH}
++	sed -i -e "s,'perl' => .*,'perl' => '/usr/bin/perl'\,,g" ${D}${PTEST_PATH}/_build/build_params
+ }
  
- FILES_${PN}-doc_append = " ${libdir}/perl5/${PV}/Unicode/Collate/*.txt \
-                            ${libdir}/perl5/${PV}/*/.packlist \
--                           ${libdir}/perl5/${PV}/ExtUtils/MANIFEST.SKIP \
--                           ${libdir}/perl5/${PV}/ExtUtils/xsubpp \
--                           ${libdir}/perl5/${PV}/ExtUtils/typemap \
-                            ${libdir}/perl5/${PV}/Encode/encode.h \
-                          "
- PACKAGES += "${PN}-misc"
+ RDEPENDS_${PN} += " \
 -- 
 2.17.1
 
