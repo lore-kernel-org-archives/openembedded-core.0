@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 413397FE96
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E1BB7FEC8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 13:28:25 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id y11so3378626wrt.6
+	Wed,  8 Jan 2020 13:28:26 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id c9so3351969wrw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2020 05:28:26 -0800 (PST)
+	Wed, 08 Jan 2020 05:28:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=GxQwIN1tlnM5f2q0H47bW2rp66UcLJLukwvWk93oA1M=;
-	b=CFZfg874B/7ySQz5suvx2PwtLLyyobXV1pGRBGHo9mdcA0GApCGt+fqhk72aVmo+G6
-	JsWGZyMjRMShEnrok5QhcyV/l4PppVVJPUUm6AW/nqdzoGq+4TKwO+FnDuIfM62qv+wF
-	KjAW0Gh5J3y71lNIhcppXmKy4kbZzBstB+owD6YUglMBtijI+3G/PPB6U3+Ylc8onySy
-	j8vHrUUWo/FB91l+5nLKTVUs8XD1BU+6hg50nkaa4cO4J7KZlU6Yr+L5HGw/NoRGekq4
-	ZKS6MfJwSbusuQ5/tDnjSwZsMLozwOjI9OgtcrIMbDBkIoLyP88ASRkqJOYYWOrKUxE9
-	SKeg==
+	bh=UQjIa1gmPZdpzElSnCIdEezbuNMpzSnLj4NNRB0syt8=;
+	b=NPB+xm5HgPWrhWC5CkgSAPdd46OpShS7x8oX5tjPW5Umfk/QxFVDYhG/387bX8U0zE
+	hw9DEa5yqxCz03sXPwhlwHHWhlF8TduikjnBa9bD6mcx2aqy55pFPa78JLzDYtzKVxn2
+	vU/AAVeI7JdMHVDK5bv6TWFr+Sc+MseUUCkds4aTj+ihzOQimlmfqJ3wvCJBbNj+Mkkh
+	CKI212PyVSfuwx3lNPj4JO4mmTkkIHpg1a9ESiQUvJnYaDcJTYE6o03Lw5Z10MD1kfQC
+	RQ1LLAKWEIH/7btObnKFg49kckLsdf8f5xs/P6MMHM3vjUev/w9AQQwJKKwFotADQm0v
+	Zamw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=GxQwIN1tlnM5f2q0H47bW2rp66UcLJLukwvWk93oA1M=;
-	b=Yf+x7Ez04S2HanBUgoWpCpmSqkHf3dB8Q7WjI0whoOexK6ND5MYq2fapjWH4ChbIu+
-	XDJdmCP+SUIL7uVpTum/+f8mwYswaGsCQ6LYNrTONB6ez8IBllP38/dgZ7f2iMQ7iQlm
-	35WCdJtWhd0f9UV74SiI/VWZwfAsBVqzUrOa+8YrF3zcYCihmzw/i9v2M35b7OeweSTg
-	H1UzYQZ5IMrs4FknKowYN+jIoYvJ0Asy+U2jiktrHD8eEfYX+Gs2tji8sx0vlNGNntIf
-	zrSnuX8H5nUO3XPktpCM2b2WCSiqOdn8+Lb0O8VhAFwI0Q7geTLuGgHWGsKM4S20yVxT
-	YtEg==
-X-Gm-Message-State: APjAAAUVTpPZIl+i0z03j//1Sr/xKduxFfCIUkzinhLNL2nNSmYHKZQp
-	gRlgmy6297pAbbMv87gATs5fq4BaaX0=
-X-Google-Smtp-Source: APXvYqwbH2F8k7tuf7O+NQIYQ7FqLq6lduY33olbHX8VmfYrdBvgLSVNmytAP9Q0MDYM08gnRc/YTg==
-X-Received: by 2002:adf:f80c:: with SMTP id s12mr4564142wrp.1.1578490105807;
-	Wed, 08 Jan 2020 05:28:25 -0800 (PST)
+	bh=UQjIa1gmPZdpzElSnCIdEezbuNMpzSnLj4NNRB0syt8=;
+	b=WT+77uMZ0efuB0sC0C+UlgkI7UVAMrQnH9EVU/oc2+pX5xPlLVRyO7Lng4fcZSTvHo
+	Cev1wJocidjvrXbb1XQxecdk3JD+gMLwhRBoTGcWq3d8fjL49LLRIPmGOuZQGDCqj/2O
+	LzDvfrcyhfbJUIOdIr922F2Ia1MteE/BV9XQJxOhgkzPm0xWKfomtwz5xfghzt5Y7dou
+	uZhpdW/ELBt0TSE0SPcRyq75jFxOmGx9sahXIyfXNedgvfs6hpdQi9T0YgbiSbGNRl6U
+	fYxWpGeOe8Kp7qv2Wm6TtjMB92XxfvprilmjFY2Nj7P3fwHdHxFiKdaPe1DD4ksBNP73
+	5/yw==
+X-Gm-Message-State: APjAAAWYaVSBHnz7yTkxmAapNrLy5wjTclRQYkoFX/BVCILBfz7GfvAV
+	4Y/QG91jUKwFxynZ5iCGXmLD9KsPbeA=
+X-Google-Smtp-Source: APXvYqy0AmzJFsWIoZNvrBuDRW1pR4l34AKd/EUMvDmyVh0OQWrx2DOSsflPUI7HdgQSpPeAeymF0Q==
+X-Received: by 2002:adf:ebc3:: with SMTP id v3mr4539181wrn.280.1578490107195; 
+	Wed, 08 Jan 2020 05:28:27 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	x10sm4607028wrp.58.2020.01.08.05.28.24
+	x10sm4607028wrp.58.2020.01.08.05.28.25
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 05:28:25 -0800 (PST)
+	Wed, 08 Jan 2020 05:28:26 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jan 2020 14:27:50 +0100
-Message-Id: <20200108132759.95603-19-alex.kanavin@gmail.com>
+Date: Wed,  8 Jan 2020 14:27:51 +0100
+Message-Id: <20200108132759.95603-20-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200108132759.95603-1-alex.kanavin@gmail.com>
 References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-Subject: [PATCH 19/28] staging.bbclass: correctly exclude ptest directories
+Subject: [PATCH 20/28] ptest: report ptests that couldn't be run at all
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 13:28:25 -0000
+X-List-Received-Date: Wed, 08 Jan 2020 13:28:27 -0000
 
-They were not excluded when multilib variants were being built.
+Currently if a ptest does not produce PASS or FAIL, but simply
+errors out, this is not caught or reported; I think some ptests
+may have silently regressed due to this.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/staging.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/cases/ptest.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 7e108950f5f..4dd2ed01010 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -32,7 +32,7 @@ SYSROOT_DIRS_BLACKLIST = " \
-     ${datadir}/gtk-doc/html \
-     ${datadir}/locale \
-     ${datadir}/pixmaps \
--    ${libdir}/${PN}/ptest \
-+    ${libdir}/${BPN}/ptest \
- "
+diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
+index aef79f62a98..eb284df439b 100644
+--- a/meta/lib/oeqa/runtime/cases/ptest.py
++++ b/meta/lib/oeqa/runtime/cases/ptest.py
+@@ -67,6 +67,11 @@ class PtestRunnerTest(OERuntimeTestCase):
+                 extras[testname] = {'status': result}
  
- sysroot_stage_dir() {
+         failed_tests = {}
++
++        for section in sections:
++            if 'exitcode' in sections[section].keys():
++                failed_tests[section] = sections[section]["log"]
++
+         for section in results:
+             failed_testcases = [ "_".join(test.translate(trans).split()) for test in results[section] if results[section][test] == 'FAILED' ]
+             if failed_testcases:
 -- 
 2.17.1
 
