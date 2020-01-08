@@ -1,31 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id E5E6A7FF09
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DD3AD7FA47
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 14:11:06 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Jan 2020 06:11:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; d="scan'208";a="271834929"
-Received: from lipu-mobl.ger.corp.intel.com (HELO rburton-mac01.local)
-	([10.252.50.168])
-	by FMSMGA003.fm.intel.com with ESMTP; 08 Jan 2020 06:11:07 -0800
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	openembedded-core@lists.openembedded.org
-References: <20200108034455.10101-1-pkj@axis.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <f861edee-bfef-6ed7-eafd-e4bae0facd0b@intel.com>
-Date: Wed, 8 Jan 2020 14:11:06 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.3.1
+	Wed,  8 Jan 2020 14:47:27 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c9so3641815wrw.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jan 2020 06:47:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=oSFDO1RlekySRZZnDd8z/vu6acVYN+29u+uCnjWcpj8=;
+	b=Pq9X+zaljEYbGEwOc5q59KAT+Fsx5xfP9fx8nk1VhoupXK0hOem0gOeUUpFzlM1WPs
+	lITt85eAptWQSieWdkFQkIbEOriz2zwx/udOOFjlM5k1IBfmkJo2jRkXhPOt7O1jAgt+
+	GJvo9Bc+m64nsaolYuVL8D8Vi2rYstQMRh3hw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=oSFDO1RlekySRZZnDd8z/vu6acVYN+29u+uCnjWcpj8=;
+	b=RsphCGWVJlywXSaw7ZrtmLoEAbkNlDz+pRC1jdWtPErFtVSr9JCYVI5f8USC0IG6ek
+	WAMLIsOAEaTQLtmWmAtT+ZxxUx9tLyuxbmaFIlmNrQXWq0uikroXO1spbTA+YlJ18R8b
+	aKEoTJ0n5d/8EbcVOqSU0rkI2lRAvqMl/eDUHSs+B8hHAvrn+aoxDQ5iiAkycWF7TKWF
+	9unoRl6QRaEYIikV2lvv8BYvyncUfditBANaN7yYUzkI0r2Ie8dLiK08+tHUit7Mb7Sh
+	nXuygrmNg6j7WtXO2SjsxTWAooocpQ60+njPxk7JrCEJWmn7PM2pPhbrEs2jmELLv6X3
+	YM/g==
+X-Gm-Message-State: APjAAAUpoWlzaq7cYDY9CGS5agBBoSS63sctL4JjCFdMA5aHx2WDod4p
+	CCHgtwOHnMrgczW2tLQA1x05Yg==
+X-Google-Smtp-Source: APXvYqxzWvv1j122UH7tzRRbCX+sMpuu4soo7eK9PkDx1U/n55Mn5UYNoHdgNx0JVKrJOfUdVu4iDQ==
+X-Received: by 2002:adf:bc4f:: with SMTP id a15mr5038207wrh.160.1578494848486; 
+	Wed, 08 Jan 2020 06:47:28 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id f1sm4817216wrp.93.2020.01.08.06.47.27
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 08 Jan 2020 06:47:27 -0800 (PST)
+Message-ID: <0fa2ddf5f8c860dd796addeaa3252db8dc009373.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Yi Zhao <yi.zhao@windriver.com>
+Date: Wed, 08 Jan 2020 14:47:26 +0000
+In-Reply-To: <CANNYZj90XtZ2Oi2q1u0UU9Z=+o711YQ2T0=URCxK_MdwsT_4RA@mail.gmail.com>
+References: <20200108065117.4556-1-yi.zhao@windriver.com>
+	<CANNYZj90XtZ2Oi2q1u0UU9Z=+o711YQ2T0=URCxK_MdwsT_4RA@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <20200108034455.10101-1-pkj@axis.com>
-Subject: Re: [PATCH 1/7] oe-pkgdata-browser: Rename from pkgdataui.py
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] maintainers.inc: cleanup entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,15 +58,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 14:11:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
+X-List-Received-Date: Wed, 08 Jan 2020 14:47:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 08/01/2020 03:44, Peter Kjellerstedt wrote:
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+On Wed, 2020-01-08 at 12:17 +0100, Alexander Kanavin wrote:
+> Just a note: there is an oe-selftest for this which you can use to
+> verify that all recipes still have a maintainer listed:
+> 
+> oe-selftest -r distrodata.Distrodata.test_maintainers
 
-Thanks for this series, a good slew of small improvements!
+Perhaps we should extend it to check for recipes which have a
+maintainer but no recipe? :)
 
-Ross
+Cheers,
+
+Richard
+
 
