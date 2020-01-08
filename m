@@ -1,28 +1,34 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 31FC57FC36
+	by mail.openembedded.org (Postfix) with ESMTP id 3DE0E7FC7D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 03:45:09 +0000 (UTC)
-IronPort-SDR: zXgFEtAWC7nndldvLh8rMRhqxp/3l35PYp1gcbHWjP2yxpS70v586p99GpAn05oKdUOhOOYLUB
-	li3+1BYgI8IYEz7EI2fWmFIG3FL3X0SzHKX8Ik8mdHbaNI7569WqKoF3gOQqprlIpkqT5sIAv4
-	NwaBNIfPfPCJVv9hlTEpiJZK/+hjiiI5mGLGd0AwR0vqwYOPuFvgJswp2e1j+CvuV1vtjDV1nw
-	htgM/n1SO1c/igKwTNfWz75q9W6v2x0K4rkvbCDN5nXo68BAHnDJj/ymkpc/+BOHlgf/vtCD3b
-	pv0=
-X-IronPort-AV: E=Sophos;i="5.69,408,1571695200"; d="scan'208,217";a="4160260"
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+	Wed,  8 Jan 2020 03:53:37 +0000 (UTC)
+IronPort-SDR: xNbKNAOobo1Orb9ZerVo99pxAhooYCcB2eWttuQZ4gSpqXFhv7ZtWZp8KFa6Tt9Iwnstkwy+pa
+	lNe60l8+ooe14mMOp83TOqP1D2lsUfcMFOlbo/ThDGEKCNtZ23QsaLas0n5f9m4MOB1lR1sqtv
+	/7i2DVCvV+hK/zH6zs65B/grQI/HVmxBkZeb+aemErK4ADwzaXcmla0LmhBpuHSCwI9D+qNX00
+	ySxWzxS96TDwslOUhk1ucfurN6hSLi605pm8nxDoOYR0uCrRuJHR9c62rTq6HGk97KAwQQ+IqE
+	itc=
+X-IronPort-AV: E=Sophos;i="5.69,408,1571695200"; 
+   d="scan'208";a="4160327"
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org,
-	Ross Burton <ross.burton@intel.com>
-Date: Wed,  8 Jan 2020 04:44:52 +0100
-Message-Id: <20200108034455.10101-4-pkj@axis.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200108034455.10101-1-pkj@axis.com>
-References: <20200108034455.10101-1-pkj@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, akuster808
+	<akuster808@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/4] sstate: Add extra directory level
+Thread-Index: AQHVxCVGtNcdMDJaHUqpvJ6T3punKqfcuxGAgAAAooCAA2jVoA==
+Date: Wed, 8 Jan 2020 03:53:38 +0000
+Message-ID: <ac49c796242049d3bf402eda182d58b4@XBOX03.axis.com>
+References: <20200106000650.26105-1-richard.purdie@linuxfoundation.org>
+	<c5060a41-8348-37c7-7293-47a534182995@gmail.com>
+	<113ad12f2f746054692ed3843a9b359793d470bd.camel@linuxfoundation.org>
+In-Reply-To: <113ad12f2f746054692ed3843a9b359793d470bd.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH 4/7] oe-pkgdata-browser: Show file sizes in a human readable format
+Subject: Re: [PATCH 1/4] sstate: Add extra directory level
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,50 +41,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 03:45:10 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 Jan 2020 03:53:38 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Just like the package sizes already are shown.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Richard Purdie
+> Sent: den 6 januari 2020 01:44
+> To: akuster808 <akuster808@gmail.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH 1/4] sstate: Add extra directory level
+>=20
+> On Sun, 2020-01-05 at 16:41 -0800, akuster808 wrote:
+> > On 1/5/20 4:06 PM, Richard Purdie wrote:
+> > > We're having speed issues on the autobuilder due to the numbers of
+> > > files in sstate
+> > > directories. We previously split these by the first two characters
+> > > of the hash.
+> > > This change extends this to split by the next two characters as
+> > > well, creating
+> > > more layers of directories.
+> > >
+> > > This should signifiantly speed up eSDK builds on the autobuilder as
+> > > the current
+> > > sstate layout simply isn't scaling there but addresses a general
+> > > complaint.
+> > >
+> > > gen-lockedsig-cache needed to be updated for the new split level
+> > > sstateI.
+> >
+> > I assume zeus worthy?
+>=20
+> I think we need to discuss that. It is a fairly significant change in
+> behaviour.
+>=20
+> Options are:
+>=20
+> a) none of these
+> b) only this first change
+> c) all of them if we want to fix the 255 char sstate filename limit
+> issue
+>=20
+> Cheers,
+>=20
+> Richard
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- scripts/oe-pkgdata-browser       | 2 ++
- scripts/oe-pkgdata-browser.glade | 4 ++--
- 2 files changed, 4 insertions(+), 2 deletions(-)
+I would like to see at least the first patch being backported. You are=20
+not alone with huge sstate-cache directories...=20
 
-diff --git a/scripts/oe-pkgdata-browser b/scripts/oe-pkgdata-browser
-index 36b5e798fa..57e56f66ee 100755
---- a/scripts/oe-pkgdata-browser
-+++ b/scripts/oe-pkgdata-browser
-@@ -133,6 +133,8 @@ class PkgUi():
- 
-         self.file_store = builder.get_object("file_store")
-         self.file_store.set_sort_column_id(FileColumns.Filename, Gtk.SortType.ASCENDING)
-+        builder.get_object("file_size_column").set_cell_data_func(builder.get_object("file_size_cell"), lambda column, cell, model, iter, data: cell.set_property("text", human_size(model[iter][FileColumns.Size])))
-+
-         self.files_view = builder.get_object("files_scrollview")
-         self.files_label = builder.get_object("files_label")
- 
-diff --git a/scripts/oe-pkgdata-browser.glade b/scripts/oe-pkgdata-browser.glade
-index 04e987b975..a6aae60bdd 100644
---- a/scripts/oe-pkgdata-browser.glade
-+++ b/scripts/oe-pkgdata-browser.glade
-@@ -289,12 +289,12 @@
-                               </object>
-                             </child>
-                             <child>
--                              <object class="GtkTreeViewColumn" id="treeviewcolumn4">
-+                              <object class="GtkTreeViewColumn" id="file_size_column">
-                                 <property name="title" translatable="yes">Size</property>
-                                 <property name="sort_indicator">True</property>
-                                 <property name="sort_column_id">1</property>
-                                 <child>
--                                  <object class="GtkCellRendererText" id="cellrenderertext4"/>
-+                                  <object class="GtkCellRendererText" id="file_size_cell"/>
-                                   <attributes>
-                                     <attribute name="text">1</attribute>
-                                   </attributes>
--- 
-2.21.1
+We have not had the problems solved by the other three patches so for=20
+us at least, they are not required. And they do seem somewhat invasive.
+
+//Peter
 
 
