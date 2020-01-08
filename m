@@ -1,53 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 370C67FEE0
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com
+	[209.85.166.178])
+	by mail.openembedded.org (Postfix) with ESMTP id E99A67FE04
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 17:19:39 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id m24so3341863wmc.3
+	Wed,  8 Jan 2020 19:48:12 +0000 (UTC)
+Received: by mail-il1-f178.google.com with SMTP id v69so3662526ili.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2020 09:19:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
+	Wed, 08 Jan 2020 11:48:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=qvbTfZAOewJwa71bvZfhbbwDQ73gGR9b3rx7ZEWkQhU=;
-	b=zZqEoJQ7hY65rBrGgGtUG62ytVRVjA4l2ILP84mq1y/9K952HMucUTQZt4BKz5v0Bj
-	uF1R5pgWZuT8PvwYlcFVhg9h/R6wCHo5R90fPy/3JYr8rRsIjmm/PkA+KsM3WihwiiyZ
-	b/QAiul4MiyqUu/hdBa6QZLQ9K36AalG+MCUS+BeL4HyOkJrqlCzltE9WbP2QaIeVK4M
-	6FSehAOy82OgWI4eqINj4dbDolEjflgmo3XDIfCNqPZT4U9S6qeoGZvzb2vh/AVPnviU
-	9f/J4SWNurEwcpXdjBKu+whR17VXtDPQ60YiPXO65S9JiSvf6MIBNEuy94CgnwKAcQap
-	i/Ng==
+	bh=bO1iDd/Id3aqThSe1u7V6ARJnItoEdWgNc3KIxqvpfI=;
+	b=sg4orSdKjN9klalEDA71z/WBFegzpS6KVOR7cXTt1y/+rZANt13EjIkEGoLCPzcdys
+	G+uQ83Eif0d1s6sFGsWkHZnjg1DeOqTvdIBUrI4WIneSzVxLwGeTqMEyiRfx/bmto9Rz
+	s4RGopJQEYqkF0Osc+poiBgxaPt+XP+2SUjSRpkFtAmjSJUtPnj+qB0zmnAB10YWGaZI
+	Hu6e71f7slNtN7yLZFRo9XtCxpr6qypgwDRIXw6UWa6mqfP4usgCh4esbDaDNzxjoH1w
+	wdRe4eFaydbAWKUPss7XLNjuCS597TPfc0dASktLWcD5PmDVn7tT+tOQFLLkZj8WsHbN
+	vkNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=qvbTfZAOewJwa71bvZfhbbwDQ73gGR9b3rx7ZEWkQhU=;
-	b=QZeEv9NeKoc46UJm7Mzg50zUGvgQFbDfBCseKUIebBESBaxSC+zUqNZ/4rGDqSizCy
-	p0DidbVfbR7eikhICqpZ8Ni8osxAGb7qm3sxCKKZKvijEPwVA1twI6MwAtzvqPXZaYXm
-	SZLimWnqygvTOx2dFYb14VZgCLPKPRCX/J+fVyY9PfBZM3dfHzfp8XylH23vUkTKc5J3
-	NhUo8rNVUd4TMrHYQVYiuUFDvn//D4Nc86Km9zfwlNrpecTpgjdZPoG3pyRQYXJPtd2h
-	7NJdF4N3DjyGVRnAHeDwudO7j9SbPOj5iE6P248xiYtb0i+KzKHEc/Uaj7JqQFlx3xPQ
-	e/+w==
-X-Gm-Message-State: APjAAAUiG0HTtD2DBg6nTNmTdiohsgWAlNksrqCC7v5rNpK+Ix1ODitz
-	SePi9U3aP8R4hBJfyZy5iHbfVjz1hPs=
-X-Google-Smtp-Source: APXvYqyfRqoVJrxDXO+xqZJDP4wkk9qEZcoU54ucGRx1YuRvivyKeSz0Ok+MBTVMTvrfsEjL8ED81Q==
-X-Received: by 2002:a05:600c:214f:: with SMTP id
-	v15mr5164477wml.110.1578503980389; 
-	Wed, 08 Jan 2020 09:19:40 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id x6sm4398685wmi.44.2020.01.08.09.19.38
-	for <openembedded-core@lists.openembedded.org>
+	bh=bO1iDd/Id3aqThSe1u7V6ARJnItoEdWgNc3KIxqvpfI=;
+	b=ikWOO6x1Fxwmo677L/RLcnlWaO0JQLtrXNiA6bO0LPMfZIsDF2+OjV8lzMmATxQb/N
+	yl1zX1Z5Cr5vwpnF7u5X7NwZPf/6J37eB52N1mi3SHXw1Ezv9qGYd2O7PCJzo5/wlWVZ
+	L8dTE70C3G+LZfVTS9JdwfHGF/hpqGH7sUDmP0XD+siiFY/h5iH8hfs1Xv/BfiL26cW6
+	WOuMVH5b5SifWLS4X8itV2qtOdpi2p8l1Tr6xnVdTpu5R6qCpW3d6PuM33bxYKAeYAP3
+	qcYVqOy/STqvkIqLStmqYfUbJe0VFyDYuZsz9Ztc0ALtx7EDUbFNXd2DFuTN2VLJBmdu
+	5gPQ==
+X-Gm-Message-State: APjAAAWlVKiRkD2ZY3O9b1lWK2Jq63fBn5BmjpTm3VMGCUGS98ugaTt7
+	qIlzRQTIA24CYBpTKC+8BpBM+qxZ
+X-Google-Smtp-Source: APXvYqwj0DF0UBCKHsRjh+18tk8j+YApzUxqtl+DNquW5VdhZxjkzt7aznV+gfX6ZBHmNti9zCOoiQ==
+X-Received: by 2002:a92:5845:: with SMTP id m66mr5397195ilb.257.1578512893543; 
+	Wed, 08 Jan 2020 11:48:13 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id e65sm1254348ilg.2.2020.01.08.11.48.12
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 09:19:38 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 08 Jan 2020 11:48:12 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jan 2020 17:19:36 +0000
-Message-Id: <20200108171936.14052-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+Date: Wed,  8 Jan 2020 13:48:07 -0600
+Message-Id: <20200108194807.2748386-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Subject: [PATCH] glib: support target/os/libc-specific Meson cross files
+Subject: [PATCH] runqemu: Add network bridge support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,156 +57,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 17:19:40 -0000
+X-List-Received-Date: Wed, 08 Jan 2020 19:48:13 -0000
 Content-Transfer-Encoding: 8bit
 
-Build systems have a common problem that some tests can only be done by
-executing a piece of test code (compared to just compiling or linking test
-code).  In a cross-compilation the execution of this code isn't possible and the
-Meson solution to this is to allow 'cross properties' to be specified in the
-cross files.
+Qemu supports attaching the virtual machine to an existing network
+bridge interface via the qemu-bridge-helper program (as long as the
+system is correctly configured to give the user permissions). Add
+support for runqemu to do this also via the "bridge=<INTERFACE>"
+argument. Note that for this to work correctly, the host
+qemu-bridge-helper must be used, not the one that might have been built
+by qemu-native. In order for qemu to correctly find this program, a
+qemu-oe-bridge-helper program has been added to qemu-helper-native, and
+runqemu will use this helper as the bridge helper. The helper will look
+for the host qemu-bridge-helper first by looking in the
+QEMU_BRIDGE_HELPER environment variable, then by search common paths
+where the helper is installed.
 
-GLib has a number of these, for example determining the direction the stack
-grows, whether /proc/self/cmdline exists, or the behaviour of snprintf().
-Previously we'd passed values for these to the Glib build for target builds, but
-this misses out nativesdk builds (which are also cross-compiled) and the fact
-that some of these values are specific to the platform, some are specific to the
-host OS, and some are specific to the libc implementation.
-
-This problem has already been solved for autotools with the siteinfo class,
-which turns the target platform/OS/libc variables into filenames (such as common
-common-linux common-glibc).  We can look for these in FILESDIR and use them as
-cross files.
-
-Assuming that there are no problems with this appoach it can be moved into
-meson.bbclass so that all Meson recipes can use it for their cross files.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../glib-2.0/glib-2.0/meson.cross.d/common    |  3 +++
- .../common-glibc}                             |  5 ----
- .../glib-2.0/meson.cross.d/common-linux       |  5 ++++
- .../glib-2.0/meson.cross.d/common-mingw       |  6 +++++
- .../glib-2.0/meson.cross.d/common-musl        |  6 +++++
- meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb | 26 ++++++++++++++++++-
- meta/recipes-core/glib-2.0/glib.inc           |  1 -
- 7 files changed, 45 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common
- rename meta/recipes-core/glib-2.0/glib-2.0/{glib-meson.cross => meson.cross.d/common-glibc} (56%)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linux
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-mingw
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-musl
+ .../qemu/qemu-helper-native_1.0.bb            |  7 +++++-
+ .../qemu/qemu-helper/qemu-oe-bridge-helper    | 25 +++++++++++++++++++
+ scripts/runqemu                               | 13 ++++++++--
+ 3 files changed, 42 insertions(+), 3 deletions(-)
+ create mode 100755 meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common
-new file mode 100644
-index 00000000000..0d7c5fa3f8c
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common
-@@ -0,0 +1,3 @@
-+[properties]
-+# On all known supported architectures the stack grows down
-+growing_stack = false
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-glibc
-similarity index 56%
-rename from meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
-rename to meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-glibc
-index 5246c776014..c4648f58c78 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/glib-meson.cross
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-glibc
-@@ -3,8 +3,3 @@ have_c99_vsnprintf = true
- have_c99_snprintf = true
- have_unix98_printf = true
- va_val_copy = true
--growing_stack = false
--have_proc_self_cmdline = true
--
--[binaries]
--env = "/usr/bin/env"
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linux b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linux
-new file mode 100644
-index 00000000000..83596e0efbb
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-linux
-@@ -0,0 +1,5 @@
-+[properties]
-+have_proc_self_cmdline = true
-+
-+[binaries]
-+env = "/usr/bin/env"
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-mingw b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-mingw
-new file mode 100644
-index 00000000000..75f911ba1ed
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-mingw
-@@ -0,0 +1,6 @@
-+[properties]
-+have_c99_vsnprintf = false
-+have_c99_snprintf = false
-+have_unix98_printf = false
-+va_val_copy = true
-+have_proc_self_cmdline = false
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-musl b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-musl
-new file mode 100644
-index 00000000000..3049e5116ec
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/meson.cross.d/common-musl
-@@ -0,0 +1,6 @@
-+[properties]
-+have_c99_vsnprintf = true
-+have_c99_snprintf = true
-+have_unix98_printf = true
-+va_val_copy = true
-+have_strlcpy = true
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-index 7bf8648cade..953fba501a7 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
-@@ -18,7 +18,31 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            "
+diff --git a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+index 372eebd8864..2fc07669dd4 100644
+--- a/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
++++ b/meta/recipes-devtools/qemu/qemu-helper-native_1.0.bb
+@@ -5,7 +5,10 @@ PR = "r1"
  
- SRC_URI_append_class-native = " file://relocate-modules.patch"
--SRC_URI_append_class-target = " file://glib-meson.cross"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/tunctl.c;endline=4;md5=ff3a09996bc5fff6bc5d4e0b4c28f999"
  
- SRC_URI[md5sum] = "d52234ecba128932bed90bbc3553bfe5"
- SRC_URI[sha256sum] = "4c84030d77fa9712135dfa8036ad663925655ae95b1d19399b6200e869925bbc"
-+
-+# Find any meson cross files in FILESPATH that are relevant for the current
-+# build (using siteinfo) and add them to EXTRA_OEMESON.
-+inherit siteinfo
-+def find_meson_cross_files(d):
-+    if bb.data.inherits_class('native', d):
-+        return ""
-+
-+    import collections
-+    sitedata = siteinfo_data(d)
-+    # filename -> found
-+    files = collections.OrderedDict()
-+    for path in d.getVar("FILESPATH").split(":"):
-+        for element in sitedata:
-+            filename = os.path.join(path, "meson.cross.d", element)
-+            files[filename] = os.path.exists(filename)
-+
-+    items = ["--cross-file=" + k for k,v in files.items() if v]
-+    d.appendVar("EXTRA_OEMESON", " " + " ".join(items))
-+    items = ["%s:%s" % (k, "True" if v else "False") for k,v in files.items()]
-+    d.appendVarFlag("do_configure", "file-checksums", " " + " ".join(items))
-+
-+python () {
-+    find_meson_cross_files(d)
-+}
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index e811b42d773..f4aff297e57 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -49,7 +49,6 @@ PACKAGECONFIG[libelf] = ",,elfutils"
- PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false,dbus"
+-SRC_URI = "file://tunctl.c"
++SRC_URI = "\
++    file://tunctl.c \
++    file://qemu-oe-bridge-helper \
++    "
  
- EXTRA_OEMESON = "-Ddtrace=false -Dfam=false -Dsystemtap=false -Dselinux=disabled"
--EXTRA_OEMESON_append_class-target = " --cross-file ${WORKDIR}/glib-meson.cross"
+ S = "${WORKDIR}"
  
- do_configure_prepend() {
- 	sed -i -e '1s,#!.*,#!${USRBINPATH}/env python3,' ${S}/gio/gdbus-2.0/codegen/gdbus-codegen.in
+@@ -18,6 +21,8 @@ do_compile() {
+ do_install() {
+ 	install -d ${D}${bindir}
+ 	install tunctl ${D}${bindir}/
++
++    install -m 755 ${WORKDIR}/qemu-oe-bridge-helper ${D}${bindir}/
+ }
+ 
+ DEPENDS += "qemu-system-native"
+diff --git a/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
+new file mode 100755
+index 00000000000..f057d4eef09
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu-helper/qemu-oe-bridge-helper
+@@ -0,0 +1,25 @@
++#! /bin/sh
++# Copyright 2020 Garmin Ltd. or its subsidiaries
++#
++# SPDX-License-Identifier: GPL-2.0
++#
++# Attempts to find and exec the host qemu-bridge-helper program
++
++# If the QEMU_BRIDGE_HELPER variable is set by the user, exec it.
++if [ -n "$QEMU_BRIDGE_HELPER" ]; then
++    exec "$QEMU_BRIDGE_HELPER" "$@"
++fi
++
++# Search common paths for the helper program
++BN="qemu-bridge-helper"
++PATHS="/usr/libexec/ /usr/lib/qemu/"
++
++for p in $PATHS; do
++    if [ -e "$p/$BN" ]; then
++        exec "$p/$BN" "$@"
++    fi
++done
++
++echo "$BN not found!" > /dev/stderr
++exit 1
++
+diff --git a/scripts/runqemu b/scripts/runqemu
+index c324982e8a8..dd0aa4b28f7 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -165,6 +165,7 @@ class BaseConfig(object):
+         self.kvm_enabled = False
+         self.vhost_enabled = False
+         self.slirp_enabled = False
++        self.net_bridge = None
+         self.nfs_instance = 0
+         self.nfs_running = False
+         self.serialconsole = False
+@@ -485,6 +486,8 @@ class BaseConfig(object):
+                 self.vhost_enabled = True
+             elif arg == 'slirp':
+                 self.slirp_enabled = True
++            elif arg.startswith('bridge='):
++                self.net_bridge = '%s' % arg[len('bridge='):]
+             elif arg == 'snapshot':
+                 self.snapshot = True
+             elif arg == 'publicvnc':
+@@ -802,7 +805,7 @@ class BaseConfig(object):
+     def check_and_set(self):
+         """Check configs sanity and set when needed"""
+         self.validate_paths()
+-        if not self.slirp_enabled:
++        if not self.slirp_enabled and not self.net_bridge:
+             check_tun()
+         # Check audio
+         if self.audio_enabled:
+@@ -1020,6 +1023,10 @@ class BaseConfig(object):
+ 
+         self.nfs_running = True
+ 
++    def setup_net_bridge(self):
++        self.set('NETWORK_CMD', '-netdev bridge,br=%s,id=net0,helper=%s -device virtio-net-pci,netdev=net0 ' % (
++            self.net_bridge, os.path.join(self.bindir_native, 'qemu-oe-bridge-helper')))
++
+     def setup_slirp(self):
+         """Setup user networking"""
+ 
+@@ -1161,7 +1168,9 @@ class BaseConfig(object):
+         if sys.stdin.isatty():
+             self.saved_stty = subprocess.check_output(("stty", "-g")).decode('utf-8').strip()
+         self.network_device = self.get('QB_NETWORK_DEVICE') or self.network_device
+-        if self.slirp_enabled:
++        if self.net_bridge:
++            self.setup_net_bridge()
++        elif self.slirp_enabled:
+             self.setup_slirp()
+         else:
+             self.setup_tap()
 -- 
-2.20.1
+2.24.1
 
 
