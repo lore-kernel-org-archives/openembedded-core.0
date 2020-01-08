@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 906657FED5
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BFD17FEBE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 13:28:27 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id q9so2459672wmj.5
+	Wed,  8 Jan 2020 13:28:28 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id w5so1247183wmi.1
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 08 Jan 2020 05:28:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=CM1UAg6zXdZH4ABxT/ozAgfCo0lq8rmb1BQozpeIX6M=;
-	b=g/UlSKjAKnalW6KuM1AwpZyKqTh00YduxGAIFGCI/0fS8LM6nGOMD9/B28y6oFW/hF
-	ol1NNpZSTvDAuPJt2MdzUtyPUWYSRNJkv+1SU+s1OACOp7gxAdqKEwat2HYR7Ux2zDpB
-	3RVrebiIpgrGqJgMg6rompj3nRssfV3jumXWncWq0WkDwEJ2ps/JsAmFfl+UxPKIk7sD
-	QvPNoydaVEnxT8SnRa1KoKDEwzx3F+xxguX4XItKAqAEQnd6aFiNuhTTu8aVNg4I/8YX
-	GesKYPtgBlslh0++bAXQPCTj3vww+2+aus8wEhiothd3Ceeg6Xl/ByY7j5xUIcQ82nwg
-	2ywg==
+	bh=mvwpNdoCsNDhUa5Gg4yMiU7wxIYixq5RXDH0EamNoMg=;
+	b=dYNNf1tWEfSY2wqyreb3INnuVnhMnrvVQKOvfDiNslnP0MCaOGwvUwZYsdy61wqCLK
+	zyjRb8oqsmWsP78T81kLYo0P2m/Ry9jHulkXCeGXZARp1De2t+RZ4wiZknFBJXys8U+P
+	/YT3ekiAv0Wd5X19Y3LJQPeTCjPg9X6VcTBEo43B6H9tfPmrrl2Y4cPlEnQiOprLWuNe
+	yEkMZP+bLxJDe+P18yi1oktLZ8xShTnJidYni/QrTwWUoMJOu/eiwpwXjTcYGgPTdOp1
+	Xw9nvH0cKZzTB/yHHFOlA4ysYbSKvGHiH1vpBVB0p71WQkfY+s1GliOIkCvNt1I1BdJz
+	4ZjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=CM1UAg6zXdZH4ABxT/ozAgfCo0lq8rmb1BQozpeIX6M=;
-	b=fBEqfhkEWYzb2A1zlqzBTmIXNgst3Ycoibz9Edgk8kWkjJ0opWkN3mUH5nI7QCo6XU
-	bMTPRitRr6cCcmpnKJroLVy/liI6NHh7fIH6wB7JPVziwHA1/QVe6VvgQRpq58/4miFy
-	Ll01PJ3tQEfcbFc/G/dDqlaaxRwFjIcVlqt3nA8OjLVXNrw+Rn36Gyq3LMgqXY9cFhXT
-	7GJuY4AMsxS1qkHKGgHct0VuyKZMmFDHhmA3rn2Qw+ifsoSqw1HnRBq6A+q2NMAWLuk8
-	YJ6PWzXotec9Js6u1FsRnh1UEh6tJhEBv+X/wWDUPhqoo3JqDntsbYgAAVhuDAF38PJc
-	SkYw==
-X-Gm-Message-State: APjAAAWrxhYmQEc6I//uIqn8WDho9dTof5spg112nyg5XDsNWIL+NAi2
-	i/wkIP7XCzNUiNa4rkviiLQQwpnvg3c=
-X-Google-Smtp-Source: APXvYqyZyN13JTSGvNkx5SbBmOZTgY4L+rCPbJrNzfosif6N7kDQAkr8HbYx1GUnsasZmwa7sOv6VQ==
-X-Received: by 2002:a1c:67c3:: with SMTP id b186mr3835100wmc.36.1578490108274; 
-	Wed, 08 Jan 2020 05:28:28 -0800 (PST)
+	bh=mvwpNdoCsNDhUa5Gg4yMiU7wxIYixq5RXDH0EamNoMg=;
+	b=tL8/hgaNGe7ZS3FOzfGTBJwjJ1PVYrQ5wNMbXn4Hf3m9jSe2cEILe0xap4+Pxt2iwP
+	MzIWpOnXujcPk/kiqcpdyQnvyIg7mjVA0pnmrxnrA2TbCsOwuKG2M1MMgjOALwpOeIwI
+	lhxpcGgWhfd91mxHC89EGSJKMqDS9AqfqgQnvpzcbw9OabwDR6QU4kmzjQl06RDQFYm4
+	C9JohTucCwaJ6sWo9vlkNSB7CnIYT6hln1kBWPaaNJSQAk5wLSgFqGog2tJMDzYpviu3
+	MeCaE6CQoNbIf5Jf4EI8YX2Qsyj/NWyOS91EuEBvN8GwLZ0pRKk2WcxvnXanu0B+z4f0
+	k0Lg==
+X-Gm-Message-State: APjAAAUeBLQMLzawEkcG5QEWjHEQA68CqhuC7RDJrUa4WcE/Z3zcl/2c
+	Gf6NCOnT3Vr0NFooIju/0ToVsTV9Lh8=
+X-Google-Smtp-Source: APXvYqxO/rbcIesl80RgWULgIT8M1zeQp4S8dIc8S8NXpkpoxcuLet+hujUKtn90afgeVzVes4gFYg==
+X-Received: by 2002:a1c:f008:: with SMTP id a8mr3855685wmb.81.1578490109024;
+	Wed, 08 Jan 2020 05:28:29 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	x10sm4607028wrp.58.2020.01.08.05.28.27
+	x10sm4607028wrp.58.2020.01.08.05.28.28
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 05:28:27 -0800 (PST)
+	Wed, 08 Jan 2020 05:28:28 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 Jan 2020 14:27:52 +0100
-Message-Id: <20200108132759.95603-21-alex.kanavin@gmail.com>
+Date: Wed,  8 Jan 2020 14:27:53 +0100
+Message-Id: <20200108132759.95603-22-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200108132759.95603-1-alex.kanavin@gmail.com>
 References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-Subject: [PATCH 21/28] ptest-packagelists.inc: add a couple of missed ptests
+Subject: [PATCH 22/28] gzip: do not pull in perl-ptest for gzip-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 13:28:27 -0000
+X-List-Received-Date: Wed, 08 Jan 2020 13:28:29 -0000
 
-Also remove mdadm-ptest as it is already included in the slow list.
+This significantly adds to the ptest execution time and isn't
+needed, as all tests pass anyway.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/distro/include/ptest-packagelists.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-extended/gzip/gzip_1.10.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 26b8db5b607..bc4aaf6a4ca 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -53,8 +53,9 @@ PTESTS_FAST = "\
- #PTESTS_PROBLEMS = "\
- #    qemu-ptest \ # Doesn't run any tests?
- #    ruby-ptest \ # Timeout
--#    mdadm-ptest \ # Timeout
- #    clutter-1.0-ptest \ # Doesn't build due to depends on cogl-1.0
-+#    lz4-ptest \ # Needs a rewrite
-+#    rt-tests-ptest \ # Needs to be checked whether it runs at all
- #"
+diff --git a/meta/recipes-extended/gzip/gzip_1.10.bb b/meta/recipes-extended/gzip/gzip_1.10.bb
+index 50dad7bf58c..9778e687e1a 100644
+--- a/meta/recipes-extended/gzip/gzip_1.10.bb
++++ b/meta/recipes-extended/gzip/gzip_1.10.bb
+@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
  
- PTESTS_SLOW = "\
+ PROVIDES_append_class-native = " gzip-replacement-native"
+ 
+-RDEPENDS_${PN}-ptest += "make perl perl-ptest grep diffutils"
++RDEPENDS_${PN}-ptest += "make perl grep diffutils"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
 -- 
 2.17.1
 
