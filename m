@@ -1,36 +1,39 @@
-Return-Path: <prvs=269e48055=Richard.Leitner@skidata.com>
-Received: from mail1.skidata.com (mail1.skidata.com [91.230.2.99])
-	by mail.openembedded.org (Postfix) with ESMTP id A1EC17F968
+Return-Path: <paul.barker@konsulko.com>
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+	[209.85.210.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A88147FF0D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 13:54:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-	t=1578491658; x=1610027658;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=nWjO2IE/aQ+KM2vZQ+A/l6wsIRtgB1BsLNufpH5ITiw=;
-	b=hxNFQ9c/utBFr2Y+rfRh4XUs2sj8Dy7nLydUFgfXKW7ULbOLFrZ7miLK
-	R6tgD9/rvezzU9leq7Rp3vdK2eFCcKkAwvp2ftys6CYtYEF6ncGxMy3wE
-	NAf2bGf2VMXntjc7GOkcCW5S1wmFGphK6+krfvrAl6oaigiPobkmTY2sG
-	kIk99lIdHkjk/u1yV7Q0BwjEbJDqS/3c7p1y3Wfc4vklxFOu34N3XIg5A
-	5vCjGbp8SK9nWaD2bAMw6XDFRbq8X12hwo7qkQUw69eI3n/jki1qVnvSL
-	ydkQ9yvNDtNpaSHuRB2xfhKjiZujkXExNhCaamsrrYmBtA2XrxKU3Sw0F A==;
-IronPort-SDR: UaPyVBQTqhax6AoZWNMpjhK3WX5nq0PGuh0DVN21TdBhhl85eNjC4IAJ9icfkLNgBe3MCkvzBZ
-	hiPOBm1NgKbeoHmLHKYHCOnO0v8VLFlxB9+gxw74K09Fu1K2MNP7sHwmLmeMCxoN7SGRZNEtSO
-	LlhZr5eqdCcnXowPW7algwSQy1oudFLbPuCkV3tw+PmtHoI1mHO+T/lX5rXXSu8N/Sn/RzVJtW
-	TbN+/9MWmTnfkns/+yC7ghC8YcQIuE8TOn4YNCarGZb94SIWVOCQY4Be5y1EP4FCV7XGwdMUSe
-	tVE=
-X-IronPort-AV: E=Sophos;i="5.69,410,1571695200"; d="scan'208";a="21903713"
-From: Richard Leitner <richard.leitner@skidata.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 Jan 2020 14:54:04 +0100
-Message-ID: <20200108135404.153669-1-richard.leitner@skidata.com>
-X-Mailer: git-send-email 2.24.1
+	Wed,  8 Jan 2020 14:03:02 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id a15so3688957otf.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jan 2020 06:03:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=xAdz4m9SmQDPtyrqWNFCqAau84xtRhudCQV5GMwK97M=;
+	b=d9zcj6XsHgY6yrcdgcCZJyKhl3uTjhAVecUbAzBLvNfdeawoAOcqj2/twZFzBvm+ha
+	8Y89vQxCHSQlE75G9+PTr2bMxdwfMcnfuovZmYuKnpVbqJxkPN35nj1ulBmIx5IiYYlF
+	s1C1oIRTSUprGqaILv55AtHu9RjUY0+8reLa4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=xAdz4m9SmQDPtyrqWNFCqAau84xtRhudCQV5GMwK97M=;
+	b=Stv+eI+FKhviQJh34y3UIuxTmMNe2QuXoD5l5sqlZtgV37e3PTQO7oIA08ABDrl5RQ
+	0zcNfFyFHmaahOQtKOVDGlPtSXs6hTPY2T0ioAuDIYXgnMFWQhpZSNaDq+0RhIo6hB1t
+	DfdOmM0vhDI99DE5IKbqVRhV9L9kxdVG4qy3wttbMO8eMuJEJaCVH04ULmseB+8xSvbf
+	TlKY+5wGwgd/LbvjazdKk+mKXRsIEWsXvrZy5qJ5Z4QJV9z3hFajtWebSqSc8XZVnQwI
+	IqXzZNwi6xLgUC5WgzcXn/03JuVdCaojM1UVqG3IiqaL1u04bG+uFoSxC9d5MzxmJgsA
+	XdkQ==
+X-Gm-Message-State: APjAAAVsR4ugxaN2ApPGsltMilVww7iD8IJ84Ku2t+zqF0S4DM1d0EG+
+	141UT0dWsG6IWAY2SFNApH+/feHTcu/peJ8HJ+Cd23Dgx9gFI6Km
+X-Google-Smtp-Source: APXvYqw0RjOSeB+t7kXdCB0OQepdxdGYfnhKF6cdVJQKjwf2+2kHC8YFvargsye4HtygnoTvKRtuGjA/Z2wGSPt0M78=
+X-Received: by 2002:a9d:470a:: with SMTP id a10mr4373006otf.370.1578492183360; 
+	Wed, 08 Jan 2020 06:03:03 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [192.168.111.252]
-X-ClientProxiedBy: sdex4srv.skidata.net (192.168.111.82) To
-	sdex5srv.skidata.net (192.168.111.83)
-Subject: [PATCH] gstreamer1.0-plugins-bad: Add packageconfig for vdpau acceleration
+From: Paul Barker <pbarker@konsulko.com>
+Date: Wed, 8 Jan 2020 14:02:53 +0000
+Message-ID: <CAM9ZRVvru2LaypQk337KMmT1DsxRAuA4-9peU21PSMRf2o43Hg@mail.gmail.com>
+To: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: OpenEmbedded at FOSDEM 2020: Request for volunteers and demos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,49 +46,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 13:54:18 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 Jan 2020 14:03:02 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-libvdpau support was added to meta-oe by commit bf1de4db2 ("libvdpau:
-Add recipe") in 2016. Therefore add a packageconfig for the
-corresponding gstreamer plugin.
+Hey folks,
 
-Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
----
- .../gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb              | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+We've got a stand for OpenEmbedded at FOSDEM 2020
+(https://fosdem.org/2020/stands/). For anyone who hasn't been to
+FOSDEM before, it's the Free and Open Source Developers' European
+Meeting at ULB in Brussels, Belgium on Feb 1st and 2nd. FOSDEM is free
+to attend conference with dozens of stands, hundreds of talks and
+thousands of attendees. I highly recommend coming along if you're able
+to!
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-index ed3efab29f..85568b414a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-@@ -75,6 +75,7 @@ PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
- PACKAGECONFIG[tinyalsa]        = "--enable-tinyalsa,--disable-tinyalsa,tinyalsa"
- PACKAGECONFIG[ttml]            = "--enable-ttml,--disable-ttml,libxml2 pango cairo"
- PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
-+PACKAGECONFIG[vdpau]           = "--enable-vdpau,--disable-vdpau,libvdpau"
- PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
- PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
- PACKAGECONFIG[vulkan]          = "--enable-vulkan,--disable-vulkan,vulkan-loader"
-@@ -88,7 +89,7 @@ PACKAGECONFIG[zbar]            = "--enable-zbar,--disable-zbar,zbar"
- #   openni2 winks direct3d directsound winscreencap apple_media iqa
- #   android_media avc bs2b chromaprint dts fdkaac gme gsm kate ladspa
- #   lv2 mpeg2enc mplex musepack nvenc ofa opensles soundtouch
--#   spandsp teletextdec vdpau wasapi wpe x265
-+#   spandsp teletextdec wasapi wpe x265
- 
- EXTRA_OECONF += " \
-     --enable-decklink \
-@@ -125,7 +126,6 @@ EXTRA_OECONF += " \
-     --disable-spandsp \
-     --disable-srt \
-     --disable-teletextdec \
--    --disable-vdpau \
-     --disable-wasapi \
-     --disable-wildmidi \
-     --disable-winks \
--- 
-2.24.1
+I'll be able to look after the stand for most of the weekend but will
+need some assistance and some cover so that I can take breaks when
+needed. I'm looking for volunteers to help with the following:
+* Setup from 09:00 on Saturday morning.
+* Running the stand and discussing the project with attendees from
+10:00 to 17:00 Saturday and Sunday.
+* Tidy up from 17:00 on Sunday.
 
+I'm also looking for demos that can show off the project. I'll have my
+laptop with me to show toaster, the layer index, how builds work, etc
+but I won't be bringing any hardware devices as I'm travelling on
+after FOSDEM. We'll need a couple of hardware demos to show off the
+project well. The table is 180x80 cm.
+
+If anyone can print up some flyers with info about the project that
+would also be excellent.
+
+Thanks,
+Paul
 
