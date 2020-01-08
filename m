@@ -1,39 +1,31 @@
-Return-Path: <paul.barker@konsulko.com>
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
-	[209.85.210.45])
-	by mail.openembedded.org (Postfix) with ESMTP id A88147FF0D
+Return-Path: <ross.burton@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id E5E6A7FF09
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 14:03:02 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id a15so3688957otf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2020 06:03:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=xAdz4m9SmQDPtyrqWNFCqAau84xtRhudCQV5GMwK97M=;
-	b=d9zcj6XsHgY6yrcdgcCZJyKhl3uTjhAVecUbAzBLvNfdeawoAOcqj2/twZFzBvm+ha
-	8Y89vQxCHSQlE75G9+PTr2bMxdwfMcnfuovZmYuKnpVbqJxkPN35nj1ulBmIx5IiYYlF
-	s1C1oIRTSUprGqaILv55AtHu9RjUY0+8reLa4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=xAdz4m9SmQDPtyrqWNFCqAau84xtRhudCQV5GMwK97M=;
-	b=Stv+eI+FKhviQJh34y3UIuxTmMNe2QuXoD5l5sqlZtgV37e3PTQO7oIA08ABDrl5RQ
-	0zcNfFyFHmaahOQtKOVDGlPtSXs6hTPY2T0ioAuDIYXgnMFWQhpZSNaDq+0RhIo6hB1t
-	DfdOmM0vhDI99DE5IKbqVRhV9L9kxdVG4qy3wttbMO8eMuJEJaCVH04ULmseB+8xSvbf
-	TlKY+5wGwgd/LbvjazdKk+mKXRsIEWsXvrZy5qJ5Z4QJV9z3hFajtWebSqSc8XZVnQwI
-	IqXzZNwi6xLgUC5WgzcXn/03JuVdCaojM1UVqG3IiqaL1u04bG+uFoSxC9d5MzxmJgsA
-	XdkQ==
-X-Gm-Message-State: APjAAAVsR4ugxaN2ApPGsltMilVww7iD8IJ84Ku2t+zqF0S4DM1d0EG+
-	141UT0dWsG6IWAY2SFNApH+/feHTcu/peJ8HJ+Cd23Dgx9gFI6Km
-X-Google-Smtp-Source: APXvYqw0RjOSeB+t7kXdCB0OQepdxdGYfnhKF6cdVJQKjwf2+2kHC8YFvargsye4HtygnoTvKRtuGjA/Z2wGSPt0M78=
-X-Received: by 2002:a9d:470a:: with SMTP id a10mr4373006otf.370.1578492183360; 
-	Wed, 08 Jan 2020 06:03:03 -0800 (PST)
+	Wed,  8 Jan 2020 14:11:06 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Jan 2020 06:11:07 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,410,1571727600"; d="scan'208";a="271834929"
+Received: from lipu-mobl.ger.corp.intel.com (HELO rburton-mac01.local)
+	([10.252.50.168])
+	by FMSMGA003.fm.intel.com with ESMTP; 08 Jan 2020 06:11:07 -0800
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	openembedded-core@lists.openembedded.org
+References: <20200108034455.10101-1-pkj@axis.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <f861edee-bfef-6ed7-eafd-e4bae0facd0b@intel.com>
+Date: Wed, 8 Jan 2020 14:11:06 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.3.1
 MIME-Version: 1.0
-From: Paul Barker <pbarker@konsulko.com>
-Date: Wed, 8 Jan 2020 14:02:53 +0000
-Message-ID: <CAM9ZRVvru2LaypQk337KMmT1DsxRAuA4-9peU21PSMRf2o43Hg@mail.gmail.com>
-To: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: OpenEmbedded at FOSDEM 2020: Request for volunteers and demos
+In-Reply-To: <20200108034455.10101-1-pkj@axis.com>
+Subject: Re: [PATCH 1/7] oe-pkgdata-browser: Rename from pkgdataui.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,36 +38,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 14:03:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 08 Jan 2020 14:11:07 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Hey folks,
+On 08/01/2020 03:44, Peter Kjellerstedt wrote:
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-We've got a stand for OpenEmbedded at FOSDEM 2020
-(https://fosdem.org/2020/stands/). For anyone who hasn't been to
-FOSDEM before, it's the Free and Open Source Developers' European
-Meeting at ULB in Brussels, Belgium on Feb 1st and 2nd. FOSDEM is free
-to attend conference with dozens of stands, hundreds of talks and
-thousands of attendees. I highly recommend coming along if you're able
-to!
+Thanks for this series, a good slew of small improvements!
 
-I'll be able to look after the stand for most of the weekend but will
-need some assistance and some cover so that I can take breaks when
-needed. I'm looking for volunteers to help with the following:
-* Setup from 09:00 on Saturday morning.
-* Running the stand and discussing the project with attendees from
-10:00 to 17:00 Saturday and Sunday.
-* Tidy up from 17:00 on Sunday.
-
-I'm also looking for demos that can show off the project. I'll have my
-laptop with me to show toaster, the layer index, how builds work, etc
-but I won't be bringing any hardware devices as I'm travelling on
-after FOSDEM. We'll need a couple of hardware demos to show off the
-project well. The table is 180x80 cm.
-
-If anyone can print up some flyers with info about the project that
-would also be excellent.
-
-Thanks,
-Paul
+Ross
 
