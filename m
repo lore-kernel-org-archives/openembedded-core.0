@@ -1,29 +1,28 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 39E867FC39
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DD857FC36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 03:45:07 +0000 (UTC)
-IronPort-SDR: ma/b4GlmOWeblPfyxKh7GQ0Zb+Xn5J1E33K4gRXtRS+aiJJznICic2pAsGVpHYYWpFBtEbsvHS
-	gD+bnmonX1HzMtre0ngfICCpJ+VWIXGKssVR49S9iiwx403r+0rEqUCpZGeivcwjCWD+URDiku
-	sAXe+NTgCK9jT6EmTQP9sADxZ3DJu4g77pNtE/z6k70KhhioSli7Fk8+eM6kQXqVNXnH2gWO9f
-	AoLLgOSA7m+kx4RR/g/alLfuM9P5WfWgWZydvERnlfopY5+Yza1XCW38Xn31PL9MBKiTECSEXB
-	3+A=
-X-IronPort-AV: E=Sophos;i="5.69,408,1571695200"; 
-   d="scan'208";a="4160255"
+	Wed,  8 Jan 2020 03:45:08 +0000 (UTC)
+IronPort-SDR: jkT3UZqL7ttLx8jUFo/cAsv5aHM0ov4KTbLhsdptj2EPaKp2uimVDG3klb1xk8vR0r+DuqZhsb
+	nfSPdHLT2uPt1ZJADOe0TrXt3rGaMaS3zYjcoRCTQL6SRWjO7KPOyevvvAIX7dqLbpB1MP1oDt
+	I3W2dLgOUlguH/ZUyb2EkY4WuJY5EnQTAW1nkX0H0CVWrYQ6PNzCmXRk0MOoeUCdYrGCELa1xE
+	5XIyYxO2tAAfWRn47xocyznTUzm3G9DgGBoCW/NV3FSdZAVLIKHMjuDPo513Zee4Ubps87+Jy7
+	BkQ=
+X-IronPort-AV: E=Sophos;i="5.69,408,1571695200"; d="scan'208,217";a="4038284"
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org,
 	Ross Burton <ross.burton@intel.com>
-Date: Wed,  8 Jan 2020 04:44:54 +0100
-Message-Id: <20200108034455.10101-6-pkj@axis.com>
+Date: Wed,  8 Jan 2020 04:44:55 +0100
+Message-Id: <20200108034455.10101-7-pkj@axis.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200108034455.10101-1-pkj@axis.com>
 References: <20200108034455.10101-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCH 6/7] oe-pkgdata-browser: Select a matching package when a recipe is selected
+Subject: [PATCH 7/7] oe-pkgdata-browser: Make the window 1200x900 by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,42 +35,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 03:45:08 -0000
+X-List-Received-Date: Wed, 08 Jan 2020 03:45:09 -0000
 Content-Transfer-Encoding: 8bit
-
-When a recipe is selected, automatically select the package that
-matches the recipe name (if it exists), otherwise select the first
-package.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- scripts/oe-pkgdata-browser | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ scripts/oe-pkgdata-browser.glade | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/oe-pkgdata-browser b/scripts/oe-pkgdata-browser
-index 75d889271b..8d223185a4 100755
---- a/scripts/oe-pkgdata-browser
-+++ b/scripts/oe-pkgdata-browser
-@@ -176,12 +176,18 @@ class PkgUi():
-             return
- 
-         recipe = model[it][RecipeColumns.Recipe]
--        for package in packages_in_recipe(self.pkgdata, recipe):
-+        packages = packages_in_recipe(self.pkgdata, recipe)
-+        for package in packages:
-             # TODO also show PKG after debian-renaming?
-             data = load_runtime_package(self.pkgdata, package)
-             # TODO stash data to avoid reading in on_package_changed
-             self.package_iters[package] = self.package_store.append([package, int(data["PKGSIZE"])])
- 
-+        package = recipe if recipe in packages else sorted(packages)[0]
-+        path = self.package_store.get_path(self.package_iters[package])
-+        self.package_view.set_cursor(path)
-+        self.package_view.scroll_to_cell(path)
-+
-     def on_package_changed(self, selection):
-         self.label.set_text("")
-         self.file_store.clear()
+diff --git a/scripts/oe-pkgdata-browser.glade b/scripts/oe-pkgdata-browser.glade
+index a6aae60bdd..0d06c825ff 100644
+--- a/scripts/oe-pkgdata-browser.glade
++++ b/scripts/oe-pkgdata-browser.glade
+@@ -35,6 +35,8 @@
+   <object class="GtkWindow" id="window">
+     <property name="can_focus">False</property>
+     <property name="title" translatable="yes">Package Data Browser</property>
++    <property name="default_width">1200</property>
++    <property name="default_height">900</property>
+     <property name="icon_name">accessories-dictionary</property>
+     <property name="has_resize_grip">True</property>
+     <child>
+@@ -69,7 +71,7 @@
+           <object class="GtkPaned" id="paned1">
+             <property name="visible">True</property>
+             <property name="can_focus">True</property>
+-            <property name="position">200</property>
++            <property name="position">400</property>
+             <property name="position_set">True</property>
+             <child>
+               <object class="GtkScrolledWindow" id="scrolledwindow1">
+@@ -112,7 +114,7 @@
+               <object class="GtkPaned" id="paned2">
+                 <property name="visible">True</property>
+                 <property name="can_focus">True</property>
+-                <property name="position">200</property>
++                <property name="position">400</property>
+                 <property name="position_set">True</property>
+                 <child>
+                   <object class="GtkScrolledWindow" id="scrolledwindow2">
 -- 
 2.21.1
 
