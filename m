@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 34A4C7FE4A
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D40F37FE59
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 21:22:11 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id m24so495052wmc.3
+	Wed,  8 Jan 2020 21:23:21 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id g17so5031727wro.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2020 13:22:12 -0800 (PST)
+	Wed, 08 Jan 2020 13:23:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=kt+kGhPY7eZbs2jmyO6EPPraGHsedOaLNtWgiwxoPYI=;
-	b=fXzKU7r6xl8OUUBnTiQzuzn/4e06BpoX3V5X7pYHU1TJuEPWKzERH+/J0nYXEVhRzn
-	vfvmik0+DjMdu8/nnbfZHubRy+MeXc6BePYcPtVujox2cuoKmlXFgYhxGvGHOha46/75
-	qd6JAWHr6EUjEXaN6yRqT84oYR6vd5Zk3lA8g=
+	bh=rSAzFgSNDcHeV2jnv9Yz6y9PE1BDqqe5igO3+Avduz4=;
+	b=FOU6UQFUOe1QL+TxrdNYDef5TSNw+gwxi6KHs838uTSA3NUS2d0rubKV6kgZELIizV
+	8BqWFyxSROn7gJ4vPQ99fgeD47jGE9PX790QF3V0rPs01D/V+JpALvBJWhTYD44wjcxV
+	b2UXgJjLhUCleruXAy8MSBbbPFM/YITymgB2w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=kt+kGhPY7eZbs2jmyO6EPPraGHsedOaLNtWgiwxoPYI=;
-	b=nEtAExra4LItebZ9Ec+x0GnX+A8MmBWayJtHPHFe1BORbO4unZ0hLYpS54QUCdivRl
-	6JgOSNpdJchd5PsMT5SnueEc2Wt6O4SvSd6v05KUMcZN4CslXjdP4YyXBTW5+05DDuyL
-	7KT6N0mb23mqQ5mOlkodh16yNVg2TXIfsmQyJvA+rxOfRt9yKx57vpJsAT/O3ydCFe4U
-	ftSdELm40dDmEr4nGYOtge9Pd3sF7uWwZlwlACe10LA4oe2OR1+scFMmbbHLKhR/P0I+
-	7e5ES8QKZNG7biAeamVYx+P1q4PJASW9jbxAVP77BJQx+OyqwK3E5NxJ91fW0FcEU4Dp
-	nrmQ==
-X-Gm-Message-State: APjAAAXDzjoEKZ85UgkIGrQGn6pdujsH1b6nMiUwAO9nnY0HgwOlui0A
-	QH+OrN+4+Bg+JsncFbAp6QZNYQ==
-X-Google-Smtp-Source: APXvYqwMx2I8ZOCNW8kjONVTvgZ0I8bYbIfAltuwBgRkSBrB1DYtWumfPDj4M04YoRxIErnkwnLtVg==
-X-Received: by 2002:a1c:b4c3:: with SMTP id d186mr679644wmf.140.1578518531863; 
-	Wed, 08 Jan 2020 13:22:11 -0800 (PST)
+	bh=rSAzFgSNDcHeV2jnv9Yz6y9PE1BDqqe5igO3+Avduz4=;
+	b=dHnV0kIuVs3pfVKO5CTgZAvPe5EHDfjPTpFT62jXXlzue0IrdpWykN2ADmS1e560To
+	NQPgBZtmt6JDWYVtDebthReOPQ3IyzQYyjnEjdsMsjh49pVqcONSyXWXsl/V6ZiKwbkP
+	yQ0AK6CS1iatO663iDKToqHiZUXT9+H3OC5h38u8X7G7OTUF9XrhK7mbAcdkqDHjWkVf
+	C3TcEdd3AuhlqrNX2pKWHnTZvS2lrrcUVbMzZC3uoN94nbgFMplG62X2RXR7pEMAHFmJ
+	eX7xZqjtpf2Y5CAgSW3AXG9jfCmEgl1Cjwi/coi+5bK6iyjYbCUYLTWjzvJzGKzDob9W
+	1F1A==
+X-Gm-Message-State: APjAAAUiLqwpxTzh/FxnN2Jg1Xrqn12ebRzX6UOodUQSgt2lKCclMVr5
+	u6qf9fiPC8IvX3KWpAMkMOaBh8oTp7s=
+X-Google-Smtp-Source: APXvYqz614EGiqTpN28uwcBGpttoIj2BeUBOBEQg+KBb52YKsePuqjRaUgNzZoAakhlj9qcipses+Q==
+X-Received: by 2002:a05:6000:149:: with SMTP id
+	r9mr6873345wrx.147.1578518602650; 
+	Wed, 08 Jan 2020 13:23:22 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id r5sm5532866wrt.43.2020.01.08.13.22.11
+	by smtp.gmail.com with ESMTPSA id 2sm5474745wrq.31.2020.01.08.13.23.21
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 13:22:11 -0800 (PST)
-Message-ID: <2fc677f1e980e80cd75d8b2e3c926556be06a8ef.camel@linuxfoundation.org>
+	Wed, 08 Jan 2020 13:23:22 -0800 (PST)
+Message-ID: <15ea8a58c140419c32f08e4ab6148677bb23e920.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Alexander Kanavin <alex.kanavin@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Wed, 08 Jan 2020 21:22:10 +0000
-In-Reply-To: <20200108132759.95603-14-alex.kanavin@gmail.com>
+Date: Wed, 08 Jan 2020 21:23:21 +0000
+In-Reply-To: <20200108132759.95603-11-alex.kanavin@gmail.com>
 References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-	<20200108132759.95603-14-alex.kanavin@gmail.com>
+	<20200108132759.95603-11-alex.kanavin@gmail.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH 14/28] libcap: update to 2.30
+Subject: Re: [PATCH 11/28] ifupdown: update 0.8.22 -> 0.8.35
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,25 +59,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 21:22:11 -0000
+X-List-Received-Date: Wed, 08 Jan 2020 21:23:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
 On Wed, 2020-01-08 at 14:27 +0100, Alexander Kanavin wrote:
+> Remove inet-6-.defn-fix-inverted-checks-for-loopback.patch as
+> it is difficult to rebase and not clear if still necessary.
+> 
 > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 > ---
->  ...-tests-do-not-run-target-executables.patch | 33
-> +++++++++++++++++++
->  .../libcap/{libcap_2.27.bb => libcap_2.30.bb} |  5 +--
->  2 files changed, 36 insertions(+), 2 deletions(-)
->  create mode 100644 meta/recipes-support/libcap/files/0002-tests-do-
-> not-run-target-executables.patch
->  rename meta/recipes-support/libcap/{libcap_2.27.bb =>
-> libcap_2.30.bb} (90%)
+>  ...efn-fix-inverted-checks-for-loopback.patch | 403 ----------------
+> --
+>  ...{ifupdown_0.8.22.bb => ifupdown_0.8.35.bb} |  11 +-
+>  2 files changed, 5 insertions(+), 409 deletions(-)
+>  delete mode 100644 meta/recipes-core/ifupdown/files/inet-6-.defn-
+> fix-inverted-checks-for-loopback.patch
+>  rename meta/recipes-core/ifupdown/{ifupdown_0.8.22.bb =>
+> ifupdown_0.8.35.bb} (83%)
 
-I think this causes iputils to fail to build:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/104/builds/331
+http://errors.yoctoproject.org/Errors/Details/305656/
 
 Cheers,
 
