@@ -1,54 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BF107EC95
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com
+	[209.85.167.45])
+	by mail.openembedded.org (Postfix) with ESMTP id DF64C7F7DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 14:56:35 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id c14so3690975wrn.7
+	Wed,  8 Jan 2020 15:39:07 +0000 (UTC)
+Received: by mail-lf1-f45.google.com with SMTP id 203so2751454lfa.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2020 06:56:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=fut4qfFfs3+STHpnLiJxPPALQuLn2RfJyqDoVpzrvhg=;
-	b=ek0VzXrLOm7+5MxK3OdOEGW2nW1grqr+anlbMaGhfY8W490oHaMfTkJ+MoxC+Kyvqp
-	V6vJnpjS0QnHmuBg0kYR6fQ6Nqc7qncM73BiDD2lkrgoAqaI3/MDyQEokWzUMosOrqBc
-	FKnuWtP7FOd3cjFdVTaglRNl/k3K6taBNxQEs=
+	Wed, 08 Jan 2020 07:39:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=X40RQoBL2hqT7EUP4ERuLB8RrrNYS3qXXLsBE6wKKBg=;
+	b=iJH/gHqRlMpX1pdeedy0v7iwfz+sC9Z86n0OKwduy+C0eJc552sKXLiPay5PDVdyg8
+	o9pPlDjYMWX4aD4DBrhsSeBpVBXAtIebb0504oGUzSkqZ2cJRiAcpMTCZxPjBfg9u3GR
+	rBwfL67OVGl5J/KUNiTSddc+UFp+HlmYkePnv1PvSrKVXJIfRQlMF3nq20svuUyuAEZI
+	6hqIgYGI/GHmQAW81AUJY9dGwbD6OW00Y/Q9s5Upzg9kIRVqUEqFMvbe13zpWQemTGH/
+	D1+LDTNMokM6/e3NYnz2wbLuRZ6ZLHGNdO4DPou5X3+yV0GNHV8D6n+LAQ4IdHfd9XBW
+	Zr4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=fut4qfFfs3+STHpnLiJxPPALQuLn2RfJyqDoVpzrvhg=;
-	b=jG4QbKnOJW65mBfw/w5tORa+bVWNgkPQJ9mgmWC73bNDthfyuYEVQFrxZkrv1q+PqN
-	BnrGFARS4QOe4krx0GD8rnklUqzhKgSMCvoHpzCjvJo/DqFpwk2pqpNej+C2KULkt1iQ
-	dLmeaUg863FCPZru8K+Vb0vZ1P6XPfhNKVkhpb4mioTkrhVXVx3yzQGNskIllwgihenD
-	TjTbdeCNIz2gOiUQQamfGtSv186Alxsc8i6oNfbivCNEiF8+fVVleJMSDJFUwYI3o6zb
-	h/i3/7nAcu0wVSvPTrMFARAu3fG7j7OLfUI3PZiw2sJwW+XUYe96fzE2zJKtm8rCDJ9o
-	/v3g==
-X-Gm-Message-State: APjAAAVmdo1agGWOhjU51KaHj1IeMHena+S/9ehYVklHGP6hrU22cCwg
-	Kn6aZ6UnGJy/OrotGBYgxdyxMg==
-X-Google-Smtp-Source: APXvYqyn1dvJ/0QBWk7F0rQm1AWGBufU7N3SmtniU3k7AsC7Gg62ZplzN9WdTb/w7Gb3ucFSwQ0/Kg==
-X-Received: by 2002:a5d:6144:: with SMTP id y4mr5101460wrt.367.1578495396006; 
-	Wed, 08 Jan 2020 06:56:36 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w17sm4581210wrt.89.2020.01.08.06.56.34
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 06:56:34 -0800 (PST)
-Message-ID: <876e766eb70a446d43442d50556184dc41408e06.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 08 Jan 2020 14:56:33 +0000
-In-Reply-To: <CANNYZj_5W1GsfjBNr+A64m42pvA6w2hK18SwzAxedUpHBYsimA@mail.gmail.com>
-References: <20200108065117.4556-1-yi.zhao@windriver.com>
-	<CANNYZj90XtZ2Oi2q1u0UU9Z=+o711YQ2T0=URCxK_MdwsT_4RA@mail.gmail.com>
-	<0fa2ddf5f8c860dd796addeaa3252db8dc009373.camel@linuxfoundation.org>
-	<CANNYZj_5W1GsfjBNr+A64m42pvA6w2hK18SwzAxedUpHBYsimA@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=X40RQoBL2hqT7EUP4ERuLB8RrrNYS3qXXLsBE6wKKBg=;
+	b=mHxf4aRbG9Su+rFvx13yZYOw8OYpRHIaS0FX9cjx4ASyNCh1VI+ftFov3gnSqbqtQm
+	xVmcKYH84lSU12mrm/79FCyVOYcBqxPwODTGI4hkTYzmYcA5LlITkNChhg+Bl8phaEIf
+	9GoI68j1RwSZKe8pIsoNjmLZKFFkQQZ9cPrsjYs9dlpeUUA9rCoMRsriEr4CCgJqBGbT
+	6+02Gg31wfuqz3KCmNcM1YjF4oNAQb9rEaPqDnrMGpK2oN6T14xTrzpJ3X/EenyRKpoQ
+	rbbs6XPAWYmZOHjNGk8i+OcRGJCnS96acCx0D6D/+CW6oElinVmVmCcuuxp7tPAbBRyf
+	xtEw==
+X-Gm-Message-State: APjAAAVmtPqib1C1KCFgVSWlQkiadKJD2Y8q7ZlnCY1nbarTbBoeUHE3
+	xwfrNo6RbJt8kBMOcbz6bpwmvTR6C3ylHQtS8UtCTrlvMKw=
+X-Google-Smtp-Source: APXvYqwKEI0Anju0sfad6vxb3/m/8UbpCt2K/u8N90RyX33BwHTgPIKxch3v9PRxe+JoneNiCzNDtN1Vn03UGvAbABk=
+X-Received: by 2002:a19:f514:: with SMTP id j20mr2939591lfb.31.1578497948217; 
+	Wed, 08 Jan 2020 07:39:08 -0800 (PST)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] maintainers.inc: cleanup entries
+From: nick83ola <nick83ola@gmail.com>
+Date: Wed, 8 Jan 2020 15:38:56 +0000
+Message-ID: <CABPh3UPHV8GYZRxXBGXUQLvCqxJShvhU262xOQdEiH0kTPTSug@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Scott Rifenbark <srifenbark@gmail.com>
+Subject: Update layer compatibility to Dunfell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,32 +52,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 14:56:35 -0000
+X-List-Received-Date: Wed, 08 Jan 2020 15:39:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-01-08 at 15:54 +0100, Alexander Kanavin wrote:
-> On Wed, 8 Jan 2020 at 15:47, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > On Wed, 2020-01-08 at 12:17 +0100, Alexander Kanavin wrote:
-> > > Just a note: there is an oe-selftest for this which you can use
-> > to
-> > > verify that all recipes still have a maintainer listed:
-> > > 
-> > > oe-selftest -r distrodata.Distrodata.test_maintainers
-> > 
-> > Perhaps we should extend it to check for recipes which have a
-> > maintainer but no recipe? :)
-> 
-> But how to do that? I know how to iterate over existing recipes, but
-> I don't know how to iterate over entries in maintainers.inc, and then
-> check whether a recipe exists.
+Hi,
+is it time to update the layer compatibility for meta* to dunfell?
 
-Python for loop over d.keys() and k.startswith(XXX). Not recommended
-for speed but quite capable for something like this.
+Especially because after change
 
-Cheers,
+    commit 9702544b3e75d761d86cae7e8b36f3f2625b68ce
+    Author: Denys Dmytriyenko <denys@ti.com>
+    Date:   Thu Nov 14 19:40:07 2019 -0500
 
-Richard
+    distro_features_check: expand with MACHINE_FEATURES and COMBINED_FEATURES,
+    rename
 
+a lot of recipes start throwing warnings.
+
+The change
+
+    commit 98e34b71ef54fdada2fdc199905f8f2dfae7e933
+    Author: Scott Rifenbark <srifenbark@gmail.com>
+    Date:   Wed Dec 11 13:02:24 2019 -0800
+    poky.ent: Updated variables for YP 3.1
+
+already changed the release name
+
+Thanks
+Nicola Lunghi
 
