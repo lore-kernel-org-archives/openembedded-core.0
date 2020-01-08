@@ -1,46 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
-	[209.85.221.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BF247EC95
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BF107EC95
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 14:55:01 +0000 (UTC)
-Received: by mail-vk1-f194.google.com with SMTP id d17so1028076vke.5
+	Wed,  8 Jan 2020 14:56:35 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c14so3690975wrn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 Jan 2020 06:55:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JgJwDLzT+a3U48j1yw+7UPTokfP+NFMMjNwn46wDclQ=;
-	b=ALHwdxvQUrarOOQPyyrIPB1MTJdZfpcgkuYKyreVWAjAsUVpwq/2BwfF3YoJCpBPYK
-	PYEZw6x2ApttpsvpxLMyCd51/y4SKw57fP3PycRlbMfIo+L187zTnO2QHNZbNcQHk2vA
-	If8yFi6h/TNnqwU+wUJLkY8eIb/Gowsuagkgk9PL2duxVeCmDp0EJja8ZYm45LXuVRxq
-	+pKXFo5lkf+lStGzFYuXx9IsDZUUvxL95/tc9Jm2xw+LHV5B389CW6za0caTrJK/Jqf3
-	tELq6hjVO5eytOw8AJU8zvd4WDbyAB8XF+1pu+ZN5ZV4nFsLl6u/zq4nX5B9uQ4HWMHE
-	ZOwQ==
+	Wed, 08 Jan 2020 06:56:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=fut4qfFfs3+STHpnLiJxPPALQuLn2RfJyqDoVpzrvhg=;
+	b=ek0VzXrLOm7+5MxK3OdOEGW2nW1grqr+anlbMaGhfY8W490oHaMfTkJ+MoxC+Kyvqp
+	V6vJnpjS0QnHmuBg0kYR6fQ6Nqc7qncM73BiDD2lkrgoAqaI3/MDyQEokWzUMosOrqBc
+	FKnuWtP7FOd3cjFdVTaglRNl/k3K6taBNxQEs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JgJwDLzT+a3U48j1yw+7UPTokfP+NFMMjNwn46wDclQ=;
-	b=p4FIXTAWi5LVKg5GLA1thpSIAs1F5SHUC4GGGdrU9D6ucOHNJgEyC/uoozoCR61YZs
-	uNg+w7gSSUrvCTNkDvUO9OiZ5zSHcrvtfRFk8Eps6dOot3waK+Cn//6Ovcjy6Cv6Nl/h
-	ytymQ6zEkGRyUQ92UgCeMxInIXCs9NHkLJFy3d8o0F4kjN/PkUceVbL8XVo2UfgkyIaY
-	VHRo+ofAM6P6LNupFmXFRhkenV09EO2u+fHmy+cdLC+rR74SdsF9OlR4wChIYsshFHGs
-	RiOP2V5WCEIrfLm22MP1pMl8xFbyQPl+LRetWdvesOxp7oSAOZs0CNAI6k6yoM898CQt
-	0lhw==
-X-Gm-Message-State: APjAAAU0i7ztI6ZTrI/3dXAWtfLIjRIagnbkzENx0d/LlQ1lrsrhiI5i
-	X8im5BeRYiwvXTO99kl9NTfheTDyHsyOiez3pH05+4444I8=
-X-Google-Smtp-Source: APXvYqxoSEOJ3kX6XwGO3H2Lra4S+8TQF6fGnsAXkEZb3InTjhaD+PWDmP1eHwGM6vfCY/KUTrEpCMo0bwcniu4Ru7M=
-X-Received: by 2002:ac5:cdcd:: with SMTP id u13mr3194232vkn.0.1578495302567;
-	Wed, 08 Jan 2020 06:55:02 -0800 (PST)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=fut4qfFfs3+STHpnLiJxPPALQuLn2RfJyqDoVpzrvhg=;
+	b=jG4QbKnOJW65mBfw/w5tORa+bVWNgkPQJ9mgmWC73bNDthfyuYEVQFrxZkrv1q+PqN
+	BnrGFARS4QOe4krx0GD8rnklUqzhKgSMCvoHpzCjvJo/DqFpwk2pqpNej+C2KULkt1iQ
+	dLmeaUg863FCPZru8K+Vb0vZ1P6XPfhNKVkhpb4mioTkrhVXVx3yzQGNskIllwgihenD
+	TjTbdeCNIz2gOiUQQamfGtSv186Alxsc8i6oNfbivCNEiF8+fVVleJMSDJFUwYI3o6zb
+	h/i3/7nAcu0wVSvPTrMFARAu3fG7j7OLfUI3PZiw2sJwW+XUYe96fzE2zJKtm8rCDJ9o
+	/v3g==
+X-Gm-Message-State: APjAAAVmdo1agGWOhjU51KaHj1IeMHena+S/9ehYVklHGP6hrU22cCwg
+	Kn6aZ6UnGJy/OrotGBYgxdyxMg==
+X-Google-Smtp-Source: APXvYqyn1dvJ/0QBWk7F0rQm1AWGBufU7N3SmtniU3k7AsC7Gg62ZplzN9WdTb/w7Gb3ucFSwQ0/Kg==
+X-Received: by 2002:a5d:6144:: with SMTP id y4mr5101460wrt.367.1578495396006; 
+	Wed, 08 Jan 2020 06:56:36 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	w17sm4581210wrt.89.2020.01.08.06.56.34
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 08 Jan 2020 06:56:34 -0800 (PST)
+Message-ID: <876e766eb70a446d43442d50556184dc41408e06.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 08 Jan 2020 14:56:33 +0000
+In-Reply-To: <CANNYZj_5W1GsfjBNr+A64m42pvA6w2hK18SwzAxedUpHBYsimA@mail.gmail.com>
 References: <20200108065117.4556-1-yi.zhao@windriver.com>
 	<CANNYZj90XtZ2Oi2q1u0UU9Z=+o711YQ2T0=URCxK_MdwsT_4RA@mail.gmail.com>
 	<0fa2ddf5f8c860dd796addeaa3252db8dc009373.camel@linuxfoundation.org>
-In-Reply-To: <0fa2ddf5f8c860dd796addeaa3252db8dc009373.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 8 Jan 2020 15:54:51 +0100
-Message-ID: <CANNYZj_5W1GsfjBNr+A64m42pvA6w2hK18SwzAxedUpHBYsimA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CANNYZj_5W1GsfjBNr+A64m42pvA6w2hK18SwzAxedUpHBYsimA@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] maintainers.inc: cleanup entries
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,51 +61,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 14:55:02 -0000
-Content-Type: multipart/alternative; boundary="000000000000ca08ec059ba21375"
-
---000000000000ca08ec059ba21375
+X-List-Received-Date: Wed, 08 Jan 2020 14:56:35 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, 8 Jan 2020 at 15:47, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Wed, 2020-01-08 at 15:54 +0100, Alexander Kanavin wrote:
+> On Wed, 8 Jan 2020 at 15:47, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > On Wed, 2020-01-08 at 12:17 +0100, Alexander Kanavin wrote:
+> > > Just a note: there is an oe-selftest for this which you can use
+> > to
+> > > verify that all recipes still have a maintainer listed:
+> > > 
+> > > oe-selftest -r distrodata.Distrodata.test_maintainers
+> > 
+> > Perhaps we should extend it to check for recipes which have a
+> > maintainer but no recipe? :)
+> 
+> But how to do that? I know how to iterate over existing recipes, but
+> I don't know how to iterate over entries in maintainers.inc, and then
+> check whether a recipe exists.
 
-> On Wed, 2020-01-08 at 12:17 +0100, Alexander Kanavin wrote:
-> > Just a note: there is an oe-selftest for this which you can use to
-> > verify that all recipes still have a maintainer listed:
-> >
-> > oe-selftest -r distrodata.Distrodata.test_maintainers
->
-> Perhaps we should extend it to check for recipes which have a
-> maintainer but no recipe? :)
->
+Python for loop over d.keys() and k.startswith(XXX). Not recommended
+for speed but quite capable for something like this.
 
-But how to do that? I know how to iterate over existing recipes, but I
-don't know how to iterate over entries in maintainers.inc, and then check
-whether a recipe exists.
+Cheers,
 
-Alex
+Richard
 
---000000000000ca08ec059ba21375
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 8 Jan 2020 at 15:47, Richard Purd=
-ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
-@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">On Wed, 2020-01-08 at 12:17 =
-+0100, Alexander Kanavin wrote:<br>
-&gt; Just a note: there is an oe-selftest for this which you can use to<br>
-&gt; verify that all recipes still have a maintainer listed:<br>
-&gt; <br>
-&gt; oe-selftest -r distrodata.Distrodata.test_maintainers<br>
-<br>
-Perhaps we should extend it to check for recipes which have a<br>
-maintainer but no recipe? :)<br></blockquote><div><br></div><div><div>But h=
-ow to do that? I know how to iterate over existing recipes,=20
-but I don&#39;t know how to iterate over entries in maintainers.inc, and=20
-then check whether a recipe exists.</div><div><br></div><div>Alex<br></div>=
-=C2=A0</div></div></div>
-
---000000000000ca08ec059ba21375--
