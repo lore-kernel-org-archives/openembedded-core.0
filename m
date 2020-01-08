@@ -1,28 +1,34 @@
-Return-Path: <zhengjunling@huawei.com>
-Received: from huawei.com (szxga04-in.huawei.com [45.249.212.190])
-	by mail.openembedded.org (Postfix) with ESMTP id 577587FCDF
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id B2C967FA13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 02:15:35 +0000 (UTC)
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id 9B3819115B48FE7D35EB
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 10:15:34 +0800 (CST)
-Received: from [127.0.0.1] (10.111.155.88) by DGGEMS413-HUB.china.huawei.com
-	(10.3.19.213) with Microsoft SMTP Server id 14.3.439.0; Wed, 8 Jan 2020
-	10:15:26 +0800
-To: <openembedded-core@lists.openembedded.org>
-References: <20200102105353.633-1-zhengjunling@huawei.com>
-From: Junling Zheng <zhengjunling@huawei.com>
-Message-ID: <7259933d-48a6-19e8-f5a2-6d7981d655a1@huawei.com>
-Date: Wed, 8 Jan 2020 10:15:25 +0800
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.2.1
+	Wed,  8 Jan 2020 03:25:20 +0000 (UTC)
+IronPort-SDR: NkkeM0Gllgh5yvL2TBM17doVX8YixM3UjolePPKDRF1ThPovfm16fpw3r4VqItf83fjEnl20pA
+	hqamLr0bjj86nS/yceXkHLkomXqWvj4KbUvPse5Y+zYjrxkhfNpupQguj3K80qB2CGbFe1wWqn
+	vTX3QOOfmrQ2oujI+spQJtlaBcS/6OpgR3qSA7/w6Vpr+E7hfchfYc7oMqAk3TgMOPexkxrbTV
+	Z7Mb7HNDc+Fd7k8qiD50DYRoz8K60pi0lfYsaMPu6s03PZ2wIhIjsVkc6BoI0R9LF8IZ+SZ1QE
+	Vwg=
+X-IronPort-AV: E=Sophos;i="5.69,408,1571695200"; 
+   d="scan'208";a="4160071"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Ross Burton <ross.burton@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] scripts: add pkgdataui
+Thread-Index: AQHVr1KUVUawII5ZdUaxZUFJesR8/qfR/BPggAW1DgCACECc4A==
+Date: Wed, 8 Jan 2020 03:25:20 +0000
+Message-ID: <cf9574734d6245bd812cadbf78a6b4dd@XBOX03.axis.com>
+References: <20191210120817.8374-1-ross.burton@intel.com>
+	<a5e91d5ad9674452b9c9d3309884e7d3@XBOX03.axis.com>
+	<3c836a6a-995a-3b6f-c957-d07427ac8356@intel.com>
+In-Reply-To: <3c836a6a-995a-3b6f-c957-d07427ac8356@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <20200102105353.633-1-zhengjunling@huawei.com>
-X-Originating-IP: [10.111.155.88]
-X-CFilter-Loop: Reflected
-Cc: wangnan0@huawei.com
-Subject: Re: [PATCH] security_flags: Remove stack protector flags from LDFLAGS
+Subject: Re: [PATCH] scripts: add pkgdataui
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,37 +41,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 Jan 2020 02:15:35 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 Jan 2020 03:25:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Ping...
-
-On 2020/1/2 18:53, Junling Zheng wrote:
-> The stack protector flag is a compile option, not a link option, so
-> remove it from LDFLAGS.
-> 
-> Signed-off-by: Junling Zheng <zhengjunling@huawei.com>
-> ---
->  meta/conf/distro/include/security_flags.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/conf/distro/include/security_flags.inc b/meta/conf/distro/include/security_flags.inc
-> index aaf04e9e59..5b79340be9 100644
-> --- a/meta/conf/distro/include/security_flags.inc
-> +++ b/meta/conf/distro/include/security_flags.inc
-> @@ -26,8 +26,8 @@ SECURITY_STACK_PROTECTOR ?= "-fstack-protector-strong"
->  SECURITY_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${SECURITY_PIE_CFLAGS} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
->  SECURITY_NO_PIE_CFLAGS ?= "${SECURITY_STACK_PROTECTOR} ${lcl_maybe_fortify} ${SECURITY_STRINGFORMAT}"
->  
-> -SECURITY_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro,-z,now"
-> -SECURITY_X_LDFLAGS ?= "${SECURITY_STACK_PROTECTOR} -Wl,-z,relro"
-> +SECURITY_LDFLAGS ?= "-Wl,-z,relro,-z,now"
-> +SECURITY_X_LDFLAGS ?= "-Wl,-z,relro"
->  
->  # powerpc does not get on with pie for reasons not looked into as yet
->  GCCPIE_powerpc = ""
-> 
-
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5i
+dXJ0b25AaW50ZWwuY29tPg0KPiBTZW50OiBkZW4gMiBqYW51YXJpIDIwMjAgMTg6MTYNCj4gVG86
+IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgb3BlbmVt
+YmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtP
+RS1jb3JlXSBbUEFUQ0hdIHNjcmlwdHM6IGFkZCBwa2dkYXRhdWkNCj4gDQo+IE9uIDMwLzEyLzIw
+MTkgMDE6MTYsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPj4gcGtnZGF0YXVpIGlzIGEg
+UHl0aG9uIDMvR09iamVjdCBJbnRyb3NwZWN0aW9uL0dUSysgMyB0b29sIHRvIGJyb3dzZSB0aGUg
+cGtnZGF0YQ0KPiA+DQo+ID4gV291bGQgaXQgbWFrZSBzZW5zZSB0byByZW5hbWUgaXQgdG8gb2Ut
+cGtnZGF0YS1icm93c2VyIChiYXNlZCBvbiB0aGUgdGl0bGUgaXQNCj4gPiBnaXZlcyBpdHNlbGYs
+IGFuZCB0aGUgZXhpc3Rpbmcgb2UtcGtnYWRhdGEtdXRpbCB0b29sKT8NCj4gDQo+IE1ha2VzIHNl
+bnNlLg0KDQpJIGhhdmUgYSBwYXRjaCBzZXQgdGhhdCBjaGFuZ2VzIHRoaXMsIGFuZCBtYWtlcyBz
+b21lIG90aGVyIA0KaW1wcm92ZW1lbnRzLiBJJ2xsIHNlbmQgaXQgbmV4dC4NCg0KPiA+IEkgZ2V0
+IHRoZSBmb2xsb3dpbmcgZXJyb3JzIHdoZW4gSSBydW4gaXQgKHRob3VnaCB0aGUgR1VJIGNvbWVz
+IHVwIGFuZCBzZWVtcw0KPiA+IHRvIHdvcmspOg0KPiA+DQo+ID4gbGliR0wgZXJyb3I6IE5vIG1h
+dGNoaW5nIGZiQ29uZmlncyBvciB2aXN1YWxzIGZvdW5kDQo+ID4gbGliR0wgZXJyb3I6IGZhaWxl
+ZCB0byBsb2FkIGRyaXZlcjogc3dyYXN0DQo+IA0KPiBUaGF0J3MgeW91ciBob3N0IHN5c3RlbSBH
+VEsrL01lc2EsIG5vdCBwa2dkYXRhdWkuDQoNCkhtbSwgb2suIEl0IHNlZW1zIHRvIHJ1biB3aXRo
+b3V0IHRob3NlIGVycm9ycyBub3cgdGhhdCBJIHRyaWVkIA0KYWdhaW4sIHNvIEkgZ3Vlc3MgaXQg
+d2FzIGp1c3Qgc29tZXRoaW5nIHRlbXBvcmFyeS4NCg0KPiA+PiAgIHNjcmlwdHMvcGtnZGF0YXVp
+LmdsYWRlIHwgMzM1DQo+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysN
+Cj4gPg0KPiA+IENhbiB0aGUgLmdsYWRlIGZpbGUgYmUgcHV0IHNvbWV3aGVyZSBlbHNlIHRoYW4g
+aW4gdGhlIHNjcmlwdHMgZGlyZWN0b3J5Pw0KPiA+IEJlY2F1c2UgYXMgaXQgaXMgbm93LCBpdCBz
+aG93cyB1cCB3aGVuIHVzaW5nIHRhYiBjb21wbGV0aW9uICh3aXRoIHpzaCkuDQo+IA0KPiBXaHkg
+aXMgenNoIHNob3dpbmcgaXQ/IEl0J3Mgbm90IGV4ZWN1dGFibGUsIGFuZCBhIGdsYWRlIGZpbGUg
+c2hvdWxkbid0DQo+IGJlIHJhbiBieSBhbnl0aGluZy4NCg0KSSBoYXZlIG5vIGlkZWEuIEFueXdh
+eSwgaWYgdGhlIHNjcmlwdCBpcyByZW5hbWVkIHRvIGEgbmFtZSB3aXRob3V0IHRoZSANCi5weSBz
+dWZmaXgsIGl0IHNob3VsZG4ndCBtYXR0ZXIgYW55bW9yZSBzaW5jZSB0aGUgcmVhbCBzY3JpcHQg
+d2lsbCB0aGVuIA0KYmUgc2hvd24gYmVmb3JlIHRoZSAuZ2xhZGUgZmlsZS4NCg0KPiBSb3NzDQoN
+Ci8vUGV0ZXINCg0K
 
