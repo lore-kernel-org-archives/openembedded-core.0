@@ -1,29 +1,29 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BB0D7FC39
+	by mail.openembedded.org (Postfix) with ESMTP id 66B6B7FC36
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 Jan 2020 03:45:08 +0000 (UTC)
-IronPort-SDR: sQD/hn3xKUIZcfC4JtdngGiA6kfPYB9/jUA7UvU9hzmmJBQqiyszQQN7vpq3ZFwgunkbw6Ovnb
-	9w4BxMbXOuJKVmBtdq8RbxeErA617DpTSA7Q4CribcN3GORg51ElSKyuEgrK0j3uYNu3RK5pHG
-	2Sp6iPK6wkcSXydl2MFmy8QGK3aQmwcoSwdoE0hgXnxu8N7WphQJJBfRf5t2iVyIoxGGSjgoPv
-	+7lvFIpy4YbscDAPEw9Iq/FO3+oAHEUtYXMx2IzwE187HTv6U5kVSpm//2fNrU7HrifozR1LKE
-	8GY=
+	Wed,  8 Jan 2020 03:45:09 +0000 (UTC)
+IronPort-SDR: V5TtBqPu7KewYdEaN0q7ZBdaxLs+uS6uQGdHHYYQ+dx4lPL+2vs4NeG3FHpshJf6tt4dKTrQPn
+	Tm9IEXBUByVz/foC7OQyEQenDpVNbgFyzewFV/WruE4Zg9viMhcUoNguFbZQG1Qph09oThiacZ
+	wN9C2scBWAjNK2WaIJhze+oeGLEGDqdSi0FpMHr1zLkLzJ3rZFkOr7nIyKJfiKQPa2NaaMuCII
+	Xb8xYtMh/o63BYm/nEIMJ2EL0Ukpd1LZV9eP6bKi2GOvhDoma3whsKSOY9bGkZjLzf3D6m+7Rx
+	VQc=
 X-IronPort-AV: E=Sophos;i="5.69,408,1571695200"; 
-   d="scan'208";a="4160256"
+   d="scan'208";a="4160257"
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org,
 	Ross Burton <ross.burton@intel.com>
-Date: Wed,  8 Jan 2020 04:44:50 +0100
-Message-Id: <20200108034455.10101-2-pkj@axis.com>
+Date: Wed,  8 Jan 2020 04:44:53 +0100
+Message-Id: <20200108034455.10101-5-pkj@axis.com>
 X-Mailer: git-send-email 2.21.1
 In-Reply-To: <20200108034455.10101-1-pkj@axis.com>
 References: <20200108034455.10101-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCH 2/7] oe-pkgdata-browser: Clean the package view properly
+Subject: [PATCH 5/7] oe-pkgdata-browser: Avoid an extra space for dependencies without version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,35 +39,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 08 Jan 2020 03:45:09 -0000
 Content-Transfer-Encoding: 8bit
 
-Not all widgets were hidden when no package was selected.
-
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- scripts/oe-pkgdata-browser | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/oe-pkgdata-browser | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/oe-pkgdata-browser b/scripts/oe-pkgdata-browser
-index 09544fff82..21e319481e 100755
+index 57e56f66ee..75d889271b 100755
 --- a/scripts/oe-pkgdata-browser
 +++ b/scripts/oe-pkgdata-browser
-@@ -186,6 +186,9 @@ class PkgUi():
-         self.depends_label.hide()
-         self.recommends_label.hide()
-         self.suggests_label.hide()
-+        self.provides_label.hide()
-+        self.files_view.hide()
-+        self.files_label.hide()
- 
-         (model, it) = selection.get_selected()
-         if it is None:
-@@ -205,6 +208,7 @@ class PkgUi():
-         else:
-             self.files_view.hide()
-             self.files_label.set_text("This package has no files.")
-+        self.files_label.show()
- 
-         def update_deps(field, prefix, label, clickable=True):
-             if field in data:
+@@ -217,9 +217,9 @@ class PkgUi():
+                 l = []
+                 for name, version in bb.utils.explode_dep_versions2(data[field]).items():
+                     if clickable:
+-                        l.append("<a href='package:{0}'>{0}</a> {1}".format(name, " ".join(version)))
++                        l.append("<a href='package:{0}'>{0}</a> {1}".format(name, " ".join(version)).strip())
+                     else:
+-                        l.append("{0} {1}".format(name, " ".join(version)))
++                        l.append("{0} {1}".format(name, " ".join(version)).strip())
+                 label.set_markup(prefix + ", ".join(l))
+                 label.show()
+             else:
 -- 
 2.21.1
 
