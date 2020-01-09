@@ -1,52 +1,51 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
-	[209.85.216.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CD3DC7FEA3
-	for <openembedded-core@openembedded.org>;
-	Thu,  9 Jan 2020 04:50:20 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id j11so587680pjs.1
-	for <openembedded-core@openembedded.org>;
-	Wed, 08 Jan 2020 20:50:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=xxmiV56/BRUneh9WVNygqi7T8BpL0aQIYM8yzVaS64o=;
-	b=EkAGFmtU4t07QUM16BXjWBnrOoHbaC1HKkWuNbTozasi6klvFzmsEIOKcFd9sA8rwR
-	6q1xDK0d3c5v5R42n2Dkij0a+v684AGQNArjAkJ40X5gzabmgUHcsTUbiL3nwva503bG
-	0F3aYRkndxE3Z1RZs0WLHf2aJUQ8xysLN0EO9pGNaDJ+lsqRi6WIoMqB7UT6w3GZopzf
-	PcnJn1y0eeot6T9cA2G1iDPav8fk0gk2XkvDArtjDwc6f4juXq4oHGMcS5IOPTsk5qik
-	f5guRqUm2LtsBeFjwQvBqNCxALCiqW/kH91jh3PtUv3ivBD1mANscMLejira3AVzBbvf
-	sV5g==
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E9AE7FC3E
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  9 Jan 2020 09:15:31 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id p17so1961644wma.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jan 2020 01:15:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=SLjWmJTXgxN0J4149J2zOnFgWVWTu07LXW4YpkirnzI=;
+	b=QJVg+fRPsVlmqdD7J0DIcx7pdGhO4AqeMO86zhJ9tRXMBOcj4wOKu/GiblPW1IKg1t
+	Qo/R0XKN8EJj2cPwdTJOKWQd2JCIujK2GeCQzxiqxoRjzBGRXVKERMIFXuID5pcpbCM6
+	E9YqwdrVy11/wEaCsTbTKX58HDgfdkEeTKsd8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=xxmiV56/BRUneh9WVNygqi7T8BpL0aQIYM8yzVaS64o=;
-	b=fF2sRuft3KFk49XHgbvfrhb3FNY1hEqVTuPXfWYjbvUa0n8l7eoFShCsVLjR7k6PUu
-	nkmydnHdWdBp7E51O5+eLIM+OCFJ/lwv7jpY10uRg8oXPaNooErofwgeo9OGhGaJzZji
-	OFVoFI8HF6/B3/q7hrragMUt08UICoCK90cQcdwglxT4fCR+hzuS7h6HlEKq+Pwz+FTV
-	G76wKowiLt+ryX0hSv95bkJKLwohhky/jbMyPmVn8QAMBMCPHFf4fIzfNltMQUqKcYZV
-	z/6hdAdqWaTKV6F80zPuftw1VbVm3EGvTcpcfAz3DXyNj3UpBphWme8QxT4RdfEZNpay
-	dV3w==
-X-Gm-Message-State: APjAAAXHWLNK8ozzSH8G9rnG6efiIAqbut/WfGgt4sm4agZHMJHHBT+4
-	suCA/DdDBVFJayJdHtjTqozi3yGZ
-X-Google-Smtp-Source: APXvYqzU6N1M6Emi0JByHURk0A6cemHu3Bli52oeuaf/HyBFqd3CW5EdkS6ScTNTVkH3bYp76dHV3g==
-X-Received: by 2002:a17:902:bd41:: with SMTP id
-	b1mr9771150plx.82.1578545421402; 
-	Wed, 08 Jan 2020 20:50:21 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:304b:2b9c:bcb7:ff1a])
-	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.50.20
-	for <openembedded-core@openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=SLjWmJTXgxN0J4149J2zOnFgWVWTu07LXW4YpkirnzI=;
+	b=GVgVdyLno5mSg7uzeMMg9XVhKQDxbd8/d8NR05GF/WUVtM+sQVynIfXepyx/wrYq9E
+	aCnxgtGUMba8KhPHMaF5pIvS9Q89BTod+Jps0ltg+4Wbz9JECp4uepgDSyD3g0vm3FZp
+	uF/JQTXXtyy2j3ReQLyqCWSA7lvmkkfvjVPjz3Hn5GkFz0g/+XT1rtR/ZNCwXHfItlv0
+	AUmTQYo/IeKtPer80Q6T2PP7hUyYayMMlvPdzfJGdKcRgeaAM6AjroC2hQyht8ZOa6ye
+	G459geDCtecRVPjALeFgG8nzmXnCnBWSpaPIVO44AWZYXIvpnLd/LM4FLRdTKsU9APWH
+	QwQA==
+X-Gm-Message-State: APjAAAUGG88kYqDLpAxJPOivRqDWmrozIuxNaU2rvBRSpNC5OzxwuVVo
+	WuBX9sLOaKZF4q7wwc6GJxBv8vsTIgU=
+X-Google-Smtp-Source: APXvYqxXIk0092iOYb2y7PiQYzYQWkaNZzq45vw1V0S/NkrA2hf+XjHwwKs8yiJHQ5A/sescZGegGA==
+X-Received: by 2002:a7b:c759:: with SMTP id w25mr3710414wmk.15.1578561332593; 
+	Thu, 09 Jan 2020 01:15:32 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id m7sm7500481wrr.40.2020.01.09.01.15.31
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 20:50:20 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@openembedded.org
-Date: Wed,  8 Jan 2020 20:49:47 -0800
-Message-Id: <f9739e0f58f5d8a5dc01fdb0efaa778af4edd671.1578544698.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1578544698.git.akuster808@gmail.com>
-References: <cover.1578544698.git.akuster808@gmail.com>
-Subject: [zeus 28/28] kernel: Make symbol link to vmlinux.64 in boot directory
+	Thu, 09 Jan 2020 01:15:31 -0800 (PST)
+Message-ID: <1ff9bc906b285fb4dae3bd47f048f46a0c49b9ac.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 09 Jan 2020 09:15:30 +0000
+In-Reply-To: <20200108132759.95603-9-alex.kanavin@gmail.com>
+References: <20200108132759.95603-1-alex.kanavin@gmail.com>
+	<20200108132759.95603-9-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH 09/28] ltp: update to 20190930
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +58,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 04:50:21 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 09:15:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Vasyl Gomonovych <gomonovych@gmail.com>
+On Wed, 2020-01-08 at 14:27 +0100, Alexander Kanavin wrote:
+> Drop a big pile of backports.
+> 
+> Add a patch to address absent string formatting error.
+> 
+> Additional fixing of builds with musl.
 
-Some mips 64 bit platforms use vmlinux.64 image name
-Make a symbol link to vmlinux.64 in arch/mips/boot/
+https://autobuilder.yoctoproject.org/typhoon/#/builders/95/builds/444
+https://autobuilder.yoctoproject.org/typhoon/#/builders/96/builds/379
 
-Signed-off-by: Vasyl Gomonovych <gomonovych@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 70626b52e5e61c80018e9f1f85bc169d0434b986)
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/classes/kernel.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+Cheers,
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index ebcb79a528..750988f4e5 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -613,6 +613,9 @@ do_kernel_link_images() {
- 	if [ -f ../../../vmlinuz.bin ]; then
- 		ln -sf ../../../vmlinuz.bin
- 	fi
-+	if [ -f ../../../vmlinux.64 ]; then
-+		ln -sf ../../../vmlinux.64
-+	fi
- }
- addtask kernel_link_images after do_compile before do_strip
- 
--- 
-2.17.1
+Richard
 
 
