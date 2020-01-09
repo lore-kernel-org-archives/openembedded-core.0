@@ -1,51 +1,46 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 32CFA7FD6C
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2159F7FAB7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 18:37:58 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id s64so3610372pgb.9
+	Thu,  9 Jan 2020 19:28:04 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id a5so4256947wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2020 10:37:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=d47G6svrho47FXPnD124QyybBxGnlfFuSG/uiqmGQTw=;
-	b=NgRHw4q2zsuSieY8y8KgHFUxpwuzDBVi+Y/B7D9UP284UI8Vxu78JCGwGfIUZjrj6z
-	CN5fch/sWh2uvefz1EiMhN2eSgPTt7cdM372RLasCBAOjSum7xEnrTkCckHmeDRU0n/0
-	a2PNVNFcw/I68+5Ncn7HTb/2kIBDIgKyXSIuXVEUTUGucABEOjgDHoKSOodVdlw8hHth
-	3UF5VByPXQoUvPTUOVuwmH5+sBrkiN1MvNv09Av+IwBtayRkDtYB2nUmRaDw+UMx5w7Q
-	PydlRbYkGq4bnPV/S8kqKnBjk7j7C+Mkr5RjwvvUFuQpnEbzqJCrOWcFaDozFtwjup/n
-	pf2A==
+	Thu, 09 Jan 2020 11:28:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=d47G6svrho47FXPnD124QyybBxGnlfFuSG/uiqmGQTw=;
-	b=YycqGFKPDcZyLSRXL5xJAvAVCMMaFcl2EzzoIW1+XQoOUwupM6rNK+kjvIB8b3FQYV
-	0n5lXRf2ol5dwgCnjlpi25D4tMD9/Petcy0ey5zdOP/iRCpC1S3Lq8Fr+zxWliKiTMdU
-	iBC1pLSjQwRYNCrPuty3J3n8anWJCVFFBeEog1B7RtL4IzvnIHm9fZOykJrFi7XUkkG/
-	ofx1Kwu78nqw3w5iZqU5SB4N26MA+wkxHoLRr2U/MqKSp59xnQA5UgnfrxHsOB3AUy3T
-	d3dR8KqEc65rHHKVz0RCGvZn5l95P6jTEPImie0diSdTrgAuTsC8jV9PjNxxL+pgyhhA
-	F/Tw==
-X-Gm-Message-State: APjAAAXRUNZEc6Phv4MhN16mrb2XzVjiQSP6mw24dosPORuRH237pCqd
-	04SjXzWk7kgSXnoFBtLqHM+4Jxls44c=
-X-Google-Smtp-Source: APXvYqyBv6h+cD6DHx32CJ0d8dXuz42g2eIxKk11I5CB8l8JT0Rsc+BBxJVmJCMkQw1uIfrGZ4pVFA==
-X-Received: by 2002:a65:48cb:: with SMTP id o11mr12905920pgs.313.1578595078783;
-	Thu, 09 Jan 2020 10:37:58 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::6f71])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=e//L453DZ2+Ea0IMxUayniJ1Pr92Y1hqOqGWIOmkFTg=;
+	b=p4SRqzqY4kFEwQRC1n3qYHv2PvsDOn3G/yyowqwtNC1lOUALVisRJrNg+vUf6BGEZQ
+	qlVqXSjgHVPFycxy+Yj6GlqZkXlyNGOcidc50jkgwnS0BIsNXcxgg8Eyw1EvPyL8VcHf
+	gJwlMTwMqg3JY3orO4Qm7Nqh2pjZCi+dFNL5o9nSpWenxjwkJ4B1lQfvJ3B52D6I0eur
+	xA3bp2e0EXMhpdnox9nWfjL1B6wFxjvaSfEW58snRNhtxv/1sYItlC35ZMH+GUuG1nog
+	Iv2651JyH2f+yjOcr1f6g/byqsNCqnOJo9hOuv7P6GSKp5cDoAeGo0/12kBazGRTNPh2
+	QnZw==
+X-Gm-Message-State: APjAAAX3XV60YbCTjBEFigI2NbtkacR7QBCMsJ6uOP95yItNq/HlrZME
+	gmqBwyGWl78ZFuN0pFLfMq/oWAqp
+X-Google-Smtp-Source: APXvYqz8MgYHoxroyRWbi2tqlNE9n+56/lUGVgS14HCdcxoN/BgcjEWRa6k77YJEXbC1mbzhQURHSg==
+X-Received: by 2002:a7b:c114:: with SMTP id w20mr6617865wmi.151.1578598084601; 
+	Thu, 09 Jan 2020 11:28:04 -0800 (PST)
+Received: from tfsielt31850.fritz.box ([79.97.20.138])
 	by smtp.gmail.com with ESMTPSA id
-	x4sm8742249pff.143.2020.01.09.10.37.57
+	a184sm4076714wmf.29.2020.01.09.11.28.03
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 09 Jan 2020 10:37:57 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jan 2020 10:37:53 -0800
-Message-Id: <20200109183753.2696071-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.1
+	Thu, 09 Jan 2020 11:28:03 -0800 (PST)
+Message-ID: <8f8e989f2e630df2fcbee68f1ea18034549e069d.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 09 Jan 2020 19:28:02 +0000
+In-Reply-To: <CANNYZj-=HOtgRiTh9xcnt9Q7c+gcm-Le26dfJeY0f3+Pt2HQsQ@mail.gmail.com>
+References: <20200108132759.95603-1-alex.kanavin@gmail.com>
+	<20200108132759.95603-5-alex.kanavin@gmail.com>
+	<492572ea126b424def780911c58230941842dd91.camel@linuxfoundation.org>
+	<CANNYZj-=HOtgRiTh9xcnt9Q7c+gcm-Le26dfJeY0f3+Pt2HQsQ@mail.gmail.com>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Cc: Marek Vasut <marex@denx.de>
-Subject: [PATCH] weston-init: Let weston run without pam on distros without pam
+Subject: Re: [PATCH 05/28] python3: update to 3.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,89 +53,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 18:37:58 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 09 Jan 2020 19:28:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-When pam is not part of distro, user specific XDG_* environment
-variables are not available since PAMName=login is in-effective and as a
-result weston can not start because it direly needs XDG_RUNTIME_DIR
-defined, therefore launching weston directly in systemd service will not
-work, therefore call the helper script weston-start, which is also used
-with sysvinit
+On Thu, 2020-01-09 at 16:31 +0100, Alexander Kanavin wrote:
+> On Thu, 9 Jan 2020 at 00:02, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> > On Wed, 2020-01-08 at 14:27 +0100, Alexander Kanavin wrote:
+> > > Drop backports, rebase other patches.
+> > > 
+> > > One patch I wasn't able to rebase as upstream code changed too much:
+> > > 0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch
+> > > Please determine if it is still needed, produce a new version,
+> > > and work with upstream to get it merged.
+> > > 
+> > > 0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+> > > is removed as the use case (allowing python 2 and 3 to coexist
+> > > in SDKs) is no longer relevant with Python 2.x reaching end of line
+> > > and upstream has refactored the code making a rebase difficult.
+> > > If needed, please re-add the patch to py2, rather than py3.
+> > > 
+> > > Python 3.8 no longer adds "m" to "3.8" in paths, so adjust the
+> > > recipes
+> > > and classes accordingly.
+> > > 
+> > > The manifest for the 3.8.0 version is updated; particularly pkgutil
+> > > module is now packaged in -core (as other things in core need it);
+> > > this also necessitates allowing empty -pkgutil package to avoid
+> > > breakage across layers.
+> > 
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/1442
+> 
+> This is a weird one, and I can't reproduce it locally. Hints?
+> 
+> File: '/home/pokybuild/yocto-worker/beaglebone/build/meta/lib/oe/sstatesig.py', lineno: 544, function: process
+>      0540:                else:
+>      0541:                    add_perm(stat.S_IXOTH, 'x')
+>      0542:
+>      0543:                if include_owners:
+>  *** 0544:                    update_hash(" %10s" % pwd.getpwuid(s.st_uid).pw_name)
+>      0545:                    update_hash(" %10s" % grp.getgrgid(s.st_gid).gr_name)
+>      0546:
+>      0547:                update_hash(" ")
+>      0548:                if stat.S_ISBLK(s.st_mode) or stat.S_ISCHR(s.st_mode):
+> Exception: KeyError: 'getpwuid(): uid not found: 6000'
 
-extend enabling fbdev backend fallback to all qemu machines
+I believe this typically means that the file is owned by the user running bitbake.
 
-Reported-by: Marek Vasut <marex@denx.de>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../{qemux86-64 => qemuall}/weston.ini        |  0
- .../wayland/weston-init/qemux86/weston.ini    |  2 --
- .../wayland/weston-init/weston@.service       | 34 ++++---------------
- 3 files changed, 6 insertions(+), 30 deletions(-)
- rename meta/recipes-graphics/wayland/weston-init/{qemux86-64 => qemuall}/weston.ini (100%)
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini
+It could be useful to add the file in question to the exception trace, for easier
+debug / fixing.
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/qemux86-64/weston.ini b/meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini
-similarity index 100%
-rename from meta/recipes-graphics/wayland/weston-init/qemux86-64/weston.ini
-rename to meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini
-diff --git a/meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini b/meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini
-deleted file mode 100644
-index 17ebd7fdab..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/qemux86/weston.ini
-+++ /dev/null
-@@ -1,2 +0,0 @@
--[core]
--backend=fbdev-backend.so
-diff --git a/meta/recipes-graphics/wayland/weston-init/weston@.service b/meta/recipes-graphics/wayland/weston-init/weston@.service
-index 9ecf2ab069..39e193014a 100644
---- a/meta/recipes-graphics/wayland/weston-init/weston@.service
-+++ b/meta/recipes-graphics/wayland/weston-init/weston@.service
-@@ -1,37 +1,15 @@
- [Unit]
--Description=Weston Wayland Compositor (on tty7)
-+Description=Weston Wayland Compositor
- RequiresMountsFor=/run
--Conflicts=getty@tty7.service plymouth-quit.service
--After=systemd-user-sessions.service getty@tty7.service plymouth-quit-wait.service
-+Conflicts=plymouth-quit.service
-+After=systemd-user-sessions.service plymouth-quit-wait.service
- 
- [Service]
- User=%i
--PermissionsStartOnly=true
--
--# Log us in via PAM so we get our XDG & co. environment and
--# are treated as logged in so we can use the tty:
- PAMName=login
--
--# Grab tty7
--UtmpIdentifier=tty7
--TTYPath=/dev/tty7
--TTYReset=yes
--TTYVHangup=yes
--TTYVTDisallocate=yes
--
--# stderr to journal so our logging doesn't get thrown into /dev/null
--StandardOutput=tty
--StandardInput=tty
--StandardError=journal
--
- EnvironmentFile=-/etc/default/weston
--
--# Weston does not successfully change VT, nor does systemd place us on
--# the VT it just activated for us. Switch manually:
--ExecStartPre=/usr/bin/chvt 7
--ExecStart=/usr/bin/weston --log=${XDG_RUNTIME_DIR}/weston.log $OPTARGS
--
-+StandardError=journal
-+PermissionsStartOnly=true
- IgnoreSIGPIPE=no
- 
--#[Install]
--#Alias=multi-user.target.wants/weston.service
-+ExecStart=/usr/bin/weston-start -v -e -- $OPTARGS
--- 
-2.24.1
+This will happen if
+* files were installed outside do_install() in a different task
+  that is not running under pseudo (fakeroot), or alternatively:
+* cp without --no-preserve=ownership
+* tar without --no-same-owner
+* cpio without --no-preserve-owner
+
+
+HTH,
+A.
+
 
 
