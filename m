@@ -1,49 +1,48 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A41D17F79C
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com
+	[209.85.166.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 36AF77E63A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 20:43:28 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id k24so8660617ioc.4
+	Thu,  9 Jan 2020 20:44:55 +0000 (UTC)
+Received: by mail-io1-f48.google.com with SMTP id i11so8582782ioi.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2020 12:43:30 -0800 (PST)
+	Thu, 09 Jan 2020 12:44:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=qNHoJu4PTOULl9TsZn06UodnYp45yJjX+8MGDnJJ35k=;
-	b=Lat54buh2TqA/cJuGED/nhc8xbfJFsp+Ym+1RshaK/S0LYtiGTzAZHz0vLYclLEh9Z
-	9u3jABkg8wr9BDy2CO7TKcTS7LTQHhOQ6Mk+w60qxLKZNNTyRQy73Ia/2Pz+Y/HULnPS
-	ba4q/kmYEIfY7NQXURX6NBzLM39qTQJndtMP7gSwmh2KPh0PISnfR0nRDdKAN8d/FnMz
-	aD5kruzJQfZOqOWaI5aC3sr+yU8jYwHUJNiLqqqu25ErygesHhst5mAtxixRoqlEqyIi
-	B+3Ks8EtlDiqLuIKWvEaIrinmHyT2nSlB048KjHQH9h56JQxTgrkeSGwl2a/0aSTsxuH
-	WKOA==
+	:cc; bh=p8GqrXh/g4Z5kL0ErLcDVCkOqSSpkravBgpYGM2XQPU=;
+	b=qn1ycLfOIgPa3qLHXPGSHtesBcVApGq+0+PW+lY/oyyrRe0SbudOQ4qOoOItRMguB0
+	kshXb4Byn2YWIAzId8pAG9KSIjDdYCiNUXSpYWuGKNK3SEs5c6BPEe1SfAdbJpyuceVl
+	r88x303FlhaTp+hySnlVTAwsJXduYADeV29yewXGpojYoLRxUXnrfyYzZOGMXgLLZ5ty
+	xG3z97vFxE2tzBuFeEhV1TfSR1sxK/eWDNZb6QkrxzKs4pqFDGD9UPz0qwKyZnjkkJHT
+	ftoJHLkdTSQhxgM2hHdKKuM7CD4JkpVpjYNVeVjnKbYWQOkYcUJypwXAYd2oqRwznNE1
+	pMOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=qNHoJu4PTOULl9TsZn06UodnYp45yJjX+8MGDnJJ35k=;
-	b=fgc6KiHhhkUaF49NPnOKuJDLvILw7uB+OZBm88Tz3PyXrbt7AxIRrDDY0iwfESh5fY
-	ci+Nm2cMELu/WKhbzHqj1oXPEZiIse6XnmMsITnwHgTKGDqz6q3DU5rDvoZbp9VmHyvQ
-	mBpvGK+m5wJXg/+ch+gdGPcFwT5ZJ4Sh59EqRVX8+X4xXtd0/k88a7kpcf4OJ6Jw/Zy6
-	lAC0XRE6kxKefYfpwqoxvuoVv5O0OGit9cOmjaHApCsLPhbGlZK+BpwqqQzqMebBEtAg
-	yVL5FTDh7hdsqH2lKhLQ4rt8L+nuYRZId886Xxgk40iloa3eIYl1knG2e5JG3MGN/fan
-	eGNQ==
-X-Gm-Message-State: APjAAAUJ2AiVianf4ESH+VCUlduCiVMDUfzblGwPRN4fDWdPoLv9qB+k
-	rmqneXpsopjw13x9h7UYCR3TlD+d3inOTAr7+n0=
-X-Google-Smtp-Source: APXvYqyinYvcgAAQK6rTuGWp/VE0/nKpCr/ASwrptTCK8J5TpYaFyQ2UkX+uY5Bryqz+sdRQnqdaNRpBIDyh4Povbec=
-X-Received: by 2002:a5d:9ecc:: with SMTP id a12mr9593574ioe.267.1578602609763; 
-	Thu, 09 Jan 2020 12:43:29 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=p8GqrXh/g4Z5kL0ErLcDVCkOqSSpkravBgpYGM2XQPU=;
+	b=RC78qL4X3Nfz/g39d2Z03FkCk2b20VW8Z4CSvOTO/QbKBk6if2lj/J2azb5RjTK2S9
+	Y11nXnZ95gfWnHFshzqzNkq8jfvnfyQbIYvE+zL9xtgpSVYEDQ2FARZBXIhr+cwRWtP5
+	yPv7LcfQ7dn6FY2+MH79mXf07xzW8YI4jV7nJnZMvZFTWuzZjVGa1XJ+yuPQq/bBM3zW
+	2plwhufekqnBsZHlsUy39j5QvAqb6g+UdsokR7Xg2dQyNPxwd8qA2tOMsbd0Zp5+DYnR
+	w08IgXnrgHGvkoL+nX3YQozWPAkePmljtEVJEgBzYi0ZwbxzMAVXEpnvVJppVqlYbnuN
+	zYFQ==
+X-Gm-Message-State: APjAAAU/KQUwd4ZLmPnXj1PF/JMpflSzeDjRe3ec8hquai50Jk3wz57z
+	w5htJXNyoj4sgIzL4z2PWxshpCZ1rH4T5k+RJwQ=
+X-Google-Smtp-Source: APXvYqyI/Ss5+ObE99rpttq0TMk0CKx1dMD9F2QbREi7uyT58Nxl0ebMbUtoWwzd8TivIkQsHJLTRLehWcIvxaZrqRM=
+X-Received: by 2002:a6b:740c:: with SMTP id s12mr9847961iog.108.1578602696664; 
+	Thu, 09 Jan 2020 12:44:56 -0800 (PST)
 MIME-Version: 1.0
 References: <20200109202623.28936-1-schnitzeltony@gmail.com>
-	<20200109202623.28936-4-schnitzeltony@gmail.com>
-	<CANNYZj_h_e2JKm6FV__b1+HNg6H20ewMtn+Qvdpy1YJHSXUPKw@mail.gmail.com>
-In-Reply-To: <CANNYZj_h_e2JKm6FV__b1+HNg6H20ewMtn+Qvdpy1YJHSXUPKw@mail.gmail.com>
+	<20200109202623.28936-2-schnitzeltony@gmail.com>
+	<CANNYZj_ZS77tDpmBO-_AaYb6KYEQTi-B=AV8snywaOa-KrPLVA@mail.gmail.com>
+In-Reply-To: <CANNYZj_ZS77tDpmBO-_AaYb6KYEQTi-B=AV8snywaOa-KrPLVA@mail.gmail.com>
 From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 9 Jan 2020 21:43:18 +0100
-Message-ID: <CALbNGRT1VYbmDus-mApMcWn+w5wGEbNkVU7dzmnhpR=Pq=Jj=A@mail.gmail.com>
+Date: Thu, 9 Jan 2020 21:44:45 +0100
+Message-ID: <CALbNGRSMELu18v7UyqHiaYQGkFqcsdP+Hx_HS1FbqMSzvua2dQ@mail.gmail.com>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 03/11] shared-mime-info: upgrade 1.10 -> 1.15
+Subject: Re: [PATCH 01/11] itstool: add from meta-oe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +55,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 20:43:28 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 20:44:57 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 9, 2020 at 9:34 PM Alexander Kanavin <alex.kanavin@gmail.com> w=
-rote:
+On Thu, Jan 9, 2020 at 9:35 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
 >
-> On Thu, 9 Jan 2020 at 21:27, Andreas M=C3=BCller <schnitzeltony@gmail.com=
-> wrote:
->>
->> -SRC_URI =3D "http://freedesktop.org/~hadess/shared-mime-info-${PV}.tar.=
-xz"
->> +SRC_URI =3D "https://gitlab.freedesktop.org/xdg/shared-mime-info/upload=
-s/b27eb88e4155d8fccb8bb3cd12025d5b/${BPN}-${PV}.tar.xz"
->> +SRC_URI[md5sum] =3D "5215f3d679a817de97eb8b0b911e9393"
->> +SRC_URI[sha256sum] =3D "f482b027437c99e53b81037a9843fccd549243fd52145d0=
-16e9c7174a4f5db90"
->
->
-> The changing hash in the URI will make automated upgrades impossible unfo=
-rtunately. How about building from git repo?
+> This also needs a maintainers.inc entry.
 >
 > Alex
-OK - V2 will come shortly
+Shall I add me - or who would like to?
 
 Andreas
 
