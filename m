@@ -1,71 +1,53 @@
-Return-Path: <sbabic@denx.de>
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 760E57FD95
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 01C2D7FE01
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 09:31:34 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 47tgqB0hmVz1rD9c;
-	Thu,  9 Jan 2020 10:31:34 +0100 (CET)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 47tgqB0LLmz1qr2H;
-	Thu,  9 Jan 2020 10:31:34 +0100 (CET)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id RHItVV-8iZV6; Thu,  9 Jan 2020 10:31:32 +0100 (CET)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
-	[88.217.136.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPS;
-	Thu,  9 Jan 2020 10:31:32 +0100 (CET)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id B98F7454050B;
-	Thu,  9 Jan 2020 10:31:32 +0100 (CET)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([127.0.0.1])
-	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id lcRfwjRPnRop; Thu,  9 Jan 2020 10:31:29 +0100 (CET)
-Received: from [192.168.178.132] (papero.fritz.box [192.168.178.132])
-	by babic.homelinux.org (Postfix) with ESMTP id 5AD5F454033B;
-	Thu,  9 Jan 2020 10:31:29 +0100 (CET)
-To: ChenQi <Qi.Chen@windriver.com>, Stefano Babic <sbabic@denx.de>,
+	Thu,  9 Jan 2020 10:51:56 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id b19so2366687wmj.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jan 2020 02:51:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=45CFMparynwk+ypHnRt2KxnLcKuc0l80Xv9XVqGoS80=;
+	b=hcWZlvpwPXVQjliqgb20RguPGxCM47jbUtAtcb9wYZ1IPzFfWReoQfGaxzraqd7sYG
+	qu4GJktjVcfg5zbpfIRS1PwuVKGZ9JhZw5ww7D8ya78kldDlbKD7OZqpamMtYmEXlE5y
+	uR+LUjRab04DRPrEFrERtJy2aChfrDSP0iD7Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=45CFMparynwk+ypHnRt2KxnLcKuc0l80Xv9XVqGoS80=;
+	b=Cg8ozyQ2WAKUhqckngXqQhKRDitxI2VXg8hi2Bo7MpsWIhIPPdG9alj4FgONLO2ktZ
+	atOQxbCUeymo2W3R+j1dHAn56nQ1ssnk1rV3GJX+7ZzpP8N+iJwYGmA9JOOa1AmzzsQG
+	GphidikniklN1ErNHA4/SwGvvx44ijeIOwDhq9hOkZX1Kh34L9N8/NdK97uR9iT8wwNL
+	TwUErGeXQiKJzUyR3pGJE0dz6Su3GNDrwcKHRX7il3EBzu5KRRvKxnN4HlK2oqx85fUs
+	XBCEwFD6TwHzmLDrpYjaEvWTnpxd7M771Lw5A+Le7xt4Yi7WIc9oTqwovOX494Dek+mW
+	TVdA==
+X-Gm-Message-State: APjAAAXdQs+kFj4T+d6ag38Qt/Wev1h1DcBJHvLhlSjVV9Gi1jNYUkZW
+	xnZp9MoxEQLHnPVKepVzG2RXYQ==
+X-Google-Smtp-Source: APXvYqxOPiBCGDftiAfW74RLAFlCKV+/CNQZ2QwZqBdWy3TkFuB6omujKoe8EuPxNmhbcVHjrX9DpQ==
+X-Received: by 2002:a05:600c:22d3:: with SMTP id
+	19mr4182410wmg.20.1578567117611; 
+	Thu, 09 Jan 2020 02:51:57 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v83sm2492682wmg.16.2020.01.09.02.51.56
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 09 Jan 2020 02:51:56 -0800 (PST)
+Message-ID: <f9a33ecd524bae8ad83d1c1b94f7908ea7258712.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Pascal Huerst <pascal.huerst@gmail.com>, 
 	openembedded-core@lists.openembedded.org
-References: <20200103123322.8396-1-sbabic@denx.de>
-	<33870edb-953c-0b64-d7b9-884a53395749@windriver.com>
-From: Stefano Babic <sbabic@denx.de>
-Autocrypt: addr=sbabic@denx.de; prefer-encrypt=mutual; keydata=
-	xsDiBEfdB5IRBADkpYcnh2BoAkGD5p186ysEkWlcp5DU07m7BKzvkEMRhFjeFUOU0klKNmh0
-	ZM6rKpYpAYPYBm9YahMyqvj9DmLrZ4yfJ5MssvW9SRETmHpva+h1rN+DzmEcwrqZmLG1JWGy
-	LA5ruJaFSzxJHBoROoog1NDMbNDB8A9F7VKrePfkVwCgmODpW/uh2IuMYLVidzDeuvo7alED
-	/iV8rwU7C+eBcKy2htuDsEmsqlkBxIDM7IO6h5XxdyqbZOYizuBP3Ksb6xK54weEaB5aQs7S
-	8N9Soi0p1Xh0LMWj6PBCzTC4LF+OCGEMBPc6bBHNzivChgztJlUMioCDSVpOXB/QpBaK302G
-	yP5WdmcB1Jn6neq/YRlxHN38MV2yA/46jnzeUotL9LliVZKA/ql4GmyWg2Ae1BUiCqEJQNwl
-	knGJOmIS4uABLArB5HjsfDU5hA9FORaNGCIiZlezBkZ3JXA2uQMQhfgqBXrZt4j1fcw9I7E+
-	7IZ2kSCeTPZFLd5FiGQPDOm3Z9eHrpK6pmBGMeBG0pDgUEbN9awyLNBLj80eU3RlZmFubyBC
-	YWJpYyA8c2JhYmljQGRlbnguZGU+wmMEExECACMCGwMGCwkIBwMCBBUCCAMEFgIDAQIeAQIX
-	gAUCT9deSgIZAQAKCRD09WXkmmjvppF1AKCRl8d49K4yxWzdBVRTTWG55cyo/gCfRD1RAttl
-	R1ofs2wGLHNtXousyL3OwU0ER90HmBAIAIFfX4bKnOmCyB3nPh+jbXZuBSMZTuyDEnguRxl5
-	N8Q0ayofQwucCBjXYv65sQ9Rq6FNhEnWqUZBu8A5CwvSakOFOGNC5ta/8VxVRLh0Z0ZTgEep
-	SKiPonJyacCbmgWDECdVrKowV7QB9be3Wu67uAZ74rPw2Kd7f0FKnL3djvVRMaBWFIpyQ6SE
-	bGOCJjhRQ5L1pIM1Soko+reU7eO+1g6IBw6YkFJisdQE6fzTwaSqUKPPsQLz/W03invQltOb
-	Eg7ZwtFs0DFonr1DMm57ksiEhW6SN1wylRO/JzRYG1Qe7u1EVln6iV3ilBvbbfkyRssk4/0e
-	kicpSnQknA72YOMAAwYH+QGpAiQ4hAMHrp1bUrtyGXYdeQpYufIZAM4etOnBy/G+e1nfu6y+
-	jH4SN9sVK7bwBBAbhEJqkqR5LVsFIRapThJQOWB11rQxLpwkBU9wao/pRM+o95ujGo32WUzf
-	wWrzWrkTDy7vMCZuUOLVi4n1GZlUAwpG4rzb6UxPC6GWymkVWGgXp1NC58og5i3Y+rKT7+Xi
-	XT2BtvC6PDepoH4JhD+9OkHQO6UfTxPSmtgNbTgtl6L6tj+bm5dOHgkPJFMkEiG8qhUZYQzb
-	bYz37orRbA72M2bxK76e9QKn0mVu+d/YCd8wRcvvJbGsozpzcxPvD5Wy5RNJCES8McPtAseU
-	tMfCSQQYEQIACQUCR90HmAIbDAAKCRD09WXkmmjvpv+3AJ9RakBsH1j0X/Kxp6t2lf0VUfS2
-	qACfZ+J6ktk8PKNuyHf0J/I0mbCrhV4=
-Message-ID: <1a30e3ce-0931-57f2-130d-17c24372ef50@denx.de>
-Date: Thu, 9 Jan 2020 10:31:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+Date: Thu, 09 Jan 2020 10:51:55 +0000
+In-Reply-To: <baf60d23-56e5-72a2-f7f7-adb10c29a5f9@gmail.com>
+References: <baf60d23-56e5-72a2-f7f7-adb10c29a5f9@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <33870edb-953c-0b64-d7b9-884a53395749@windriver.com>
-Subject: Re: [PATCH V4] u-boot-fw-utils: Add support for libubootenv
+Cc: Rich Persaud <persaur@gmail.com>
+Subject: Re: Looking for a way to build latest tagged releases in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -78,122 +60,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 09:31:34 -0000
-Content-Type: text/plain; charset=windows-1252
-Content-Language: de-DE
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 09 Jan 2020 10:51:57 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Hi Chen,
-
-On 09/01/20 02:29, ChenQi wrote:
-> Resend as previous email forgets to add Stefano.
+On Wed, 2020-01-08 at 13:10 +0100, Pascal Huerst wrote:
+> I'm looking for a way in yocto to build tagged releases or actually
+> to build the newest tagged release from repositories.
 > 
-> In case of multilib, the do_package fails with
+> There is a way to specify a branch or a tag in a recipe, but no way
+> to always clone the newest tagged release, that I'm aware of. I
+> submitted a patch to bitbake's mailing list with a proposal [1], that
+> would use bitbake's `latest_versionstring()`, to always find, fetch
+> and build the latest tagged release. Unfortunately there wasn't much
+> of a reaction on that proposal, so I'm taking a step back, collecting
+> ideas on how this could be achieved properly.
 > 
-> ERROR: libubootenv-0.2-r0 do_package: QA Issue: libubootenv:
-> Files/directories were installed but not shipped in any package:
->   /usr/lib/libubootenv.so
->   /usr/lib/libubootenv.so.0.2
-> 
+> Please share your ideas...
 
-Thanks for reporting this - I will take care of the error in next days.
+I did look at and think a bit about your patch. The trouble for me (as
+the bitbake maintainer) is that:
 
-Regards,
-Stefano
+a) it isn't clear/obvious from the variable name what it does (or even 
+   from the code)
+b) it adds yet more options to the fetcher which increases the test 
+   matrix and possible ways things can break
+c) the test doesn't actually test it does what its supposed to (no 
+   check is made on which output is downloaded for a given revision)
 
-> Regards,
-> Chen Qi
-> 
-> On 01/03/2020 08:33 PM, Stefano Babic wrote:
->> libubootenv is a replacement for u-boot-fw-utils. It is
->> hardware-independent and provides fw_printenv and fw_setenv tools that
->> are full compatible with the ones provided by U-Boot. A library is
->> provided to access the environment from an own application.
->> License is LGPL-2.1 and this allow to link the library to proprietary
->> code. The user of the tools should install the configuration file
->> "fw_env.config", as he is already used to with u-boot-fw-utils. The
->> configuration file is compatible with u-boot-fw-utils.
->> A full discussion about issues on current u-boot-fw-utils can be read on
->> U-Boot's ML at:
->>
->> http://u-boot.10912.n7.nabble.com/SWUpdate-U-Boot-environment-library-dependency-tt340530.html#none
->>
->>
->> Signed-off-by: Stefano Babic <sbabic@denx.de>
->> ---
->> Changes since V3:
->>     - Update maintainers.inc (R. Purdie)
->>     - Add link to U-Boot's ML in commit message (R. Purdie)
->> Changes since V2:
->>     - drop .inc file (R. Burton)
->> Changes since V1:
->>     - drop PACKAGE_ARCH (M. Jansa)
->>
->>   meta/conf/distro/include/maintainers.inc   |  1 +
->>   meta/recipes-bsp/u-boot/libubootenv_0.2.bb | 26 ++++++++++++++++++++++
->>   2 files changed, 27 insertions(+)
->>   create mode 100644 meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->>
->> diff --git a/meta/conf/distro/include/maintainers.inc
->> b/meta/conf/distro/include/maintainers.inc
->> index 39eee9475c..09453e7343 100644
->> --- a/meta/conf/distro/include/maintainers.inc
->> +++ b/meta/conf/distro/include/maintainers.inc
->> @@ -398,6 +398,7 @@ RECIPE_MAINTAINER_pn-libunwind = "Bruce Ashfield
->> <bruce.ashfield@gmail.com>"
->>   RECIPE_MAINTAINER_pn-liburcu = "Alexander Kanavin
->> <alex.kanavin@gmail.com>"
->>   RECIPE_MAINTAINER_pn-liburi-perl = "Tim Orling
->> <timothy.t.orling@linux.intel.com>"
->>   RECIPE_MAINTAINER_pn-libusb1 = "Anuj Mittal <anuj.mittal@intel.com>"
->> +RECIPE_MAINTAINER_pn-libubootenv = "Stefano Babic <sbabic@denx.de>"
->>   RECIPE_MAINTAINER_pn-libva = "Anuj Mittal <anuj.mittal@intel.com>"
->>   RECIPE_MAINTAINER_pn-libva-utils = "Anuj Mittal
->> <anuj.mittal@intel.com>"
->>   RECIPE_MAINTAINER_pn-libvorbis = "Tanu Kaskinen <tanuk@iki.fi>"
->> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->> b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->> new file mode 100644
->> index 0000000000..23230d132e
->> --- /dev/null
->> +++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
->> @@ -0,0 +1,26 @@
->> +SUMMARY = "U-Boot libraries and tools to access environment"
->> +DEPENDS += "mtd-utils"
->> +
->> +DESCRIPTION = "This package contains tools and libraries to read \
->> +and modify U-Boot environment. \
->> +It provides a hardware-independent replacement for fw_printenv/setenv
->> utilities \
->> +provided by U-Boot"
->> +
->> +HOMEPAGE = "https://github.com/sbabic/libubootenv"
->> +LICENSE = "LGPL-2.1"
->> +LIC_FILES_CHKSUM =
->> "file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b364516c"
->> +SECTION = "libs"
->> +
->> +SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https"
->> +SRCREV = "bf6ff631c0e38cede67268ceb8bf1383b5f8848e"
->> +
->> +S = "${WORKDIR}/git"
->> +
->> +inherit cmake
->> +
->> +EXTRA_OECMAKE = "-DCMAKE_BUILD_TYPE=Release"
->> +
->> +PROVIDES += "u-boot-fw-utils"
->> +RPROVIDES_${PN} += "u-boot-fw-utils"
->> +
->> +BBCLASSEXTEND = "native"
-> 
-> 
+Some of these can be fixed, some are much harder and I can't decide if
+supporting this kind of edge case is going to be an overall good thing
+for the project or not. I don't want to give you false hope by fixing
+c) only to say "no".
+
+Add in Khem's valid concerns about reproducibility and it makes it a
+tough one even to give feedback on.
+
+If we have a ton of users saying "yes we really need this", that would
+help but I haven't seen that as yet...
+
+Cheers,
+
+Richard
 
 
--- 
-=====================================================================
-DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
-HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
-Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
-=====================================================================
 
