@@ -1,54 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
-	[209.85.221.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 22A507FEA3
+Return-Path: <anibal.limon@linaro.org>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 87B2F7FE1A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 14:47:34 +0000 (UTC)
-Received: by mail-vk1-f193.google.com with SMTP id p191so2015769vkf.8
+	Thu,  9 Jan 2020 14:51:51 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id u14so4375503vsu.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2020 06:47:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 09 Jan 2020 06:51:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+HUljrtgAYjEnrUFEudHFC26crlPg48FGU2O4I7ogQI=;
-	b=tnEZ9XPXYOzahdp9cpuxLP+BGAFeixwKRxPUAipBn+UDaGAsQqRAOmfnhBYVYMLeNM
-	9tLmT3jLQRGn96TjD3kJjYv8Zi+sLmiVkORAS4OIqbgn6lXamrM9fbrorAV8ATnns3xv
-	D1RkCtoI/Q4Jqn4iLhtNilLvvjEvibZV7ex7slP+Gf7WZmtY5epteskgBBmi+6UfQ8H6
-	H+7oJYEVmkCTMH3FbH7U+EfjY+V+xuDlPTnn41S9AaIJbUhI7bWO6uRJzsn8H5Uvzo0U
-	ThUjtlXxYZykO1Y/rVYRUdTpKFAVI2ypp6LvZY1ErahwXgTozY9suwUWQLRja+Ii2PUq
-	KiJQ==
+	:cc; bh=IOFyCVgIYXiNb37PkQ0Trw209NlTl9bSzmU8b+cHG4s=;
+	b=RtW6wfynOKqZ/IRxGeg/l9dpVlyxwsDEg+aVSEJxZLQZi3VZS6h53ORnooZEWnwcvp
+	Zc52ebBB0cdF/q2Q/lhGckMWGC7oN9TTF2jduk23eI2OYs+NDrpgT/qGgklr6l87e4n0
+	OMM3RsUq1NMlNBcPDRIV23dKn6jMMh+rrEDmnCOJrfStHTJLJUOox2DjN/OsgGTXPgXa
+	w32uUD9YWBrX7vKIFgxnY3c464r1IlfZyN/CnpERhL2GnrfBif++43mpsoyeji+97XLr
+	j6EB5RAg09pr5tnZXXpmKgViaF6tbwKfJTCcjwCm9N22tNvN8K1XHwIpfsAcGbDb9wHq
+	wfvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=+HUljrtgAYjEnrUFEudHFC26crlPg48FGU2O4I7ogQI=;
-	b=CRsILWK4WDz2LakL+6Z++73G3Mn5XXHDQyDAAX+4VpsEITR3NkEzvjbP5EHy7Bl0z3
-	0S1IuehtdIczTQjC/0kTSdLX0NPP1o5cfPP+Uh32unzvRrzjXijx2ibG9+g911gGyQk2
-	GmwVAxbXaEh+N9EsqNox16WNogyK2t9vP3wCBTtfbinY48XqQQmZ/mG431k//HG7upBw
-	zu0dIpfAs3YBWIQC+0eeDkXNyxH2p1FKL/eFeiSqaikyTpjrd4H9rPaSoq+F7HFQti4m
-	S4CjMWiXX2yCfQMKsV/KwBgIM2juXkv6VIP12lAxnez97KPW/iuRqvyEokaQ8WYjqwBD
-	UGzQ==
-X-Gm-Message-State: APjAAAUHvUGgJaC+eeMLshf8nkvhoOeL1CgX9wJ8DVdxQyfKscOftC9u
-	k1mxM+ODNS4829h3oOERfm8njRG2qqi4IuoRgVg=
-X-Google-Smtp-Source: APXvYqwAcHqkUl3mo1M4nuXOaB0kwG+Xzg+Olpu+TMuPbeB48yrUo6z/qzWHPyDeA5mQyKKTu46gE/oxKj8Z/h7LvYQ=
-X-Received: by 2002:a05:6122:2b6:: with SMTP id
-	22mr6916437vkq.49.1578581255077; 
-	Thu, 09 Jan 2020 06:47:35 -0800 (PST)
+	bh=IOFyCVgIYXiNb37PkQ0Trw209NlTl9bSzmU8b+cHG4s=;
+	b=UIVj28p2zSgW9nGT8w0myRZuM3feg2tJOW1MS6zU1aficTtBQf4NX4GM05M6XPPNv0
+	F3QAn6NajL8Yl0km81qLwhx9vxQaIsl5iLfvfqhL4TtjLfHJF8+u6ltYdFMj8O+p17Xi
+	XDmAjPpi6B4cAlRbliEo9VZy8Rf4E2Mmhsy+ZDVwbgJQyHG38Ebs/v82UGfIl7On6iIz
+	+aA8bAFIhthzfQY46zjOq0ux+O2UXP7wfp/7XoQdgiyPqwxJYZDO4SVjmQ+KLBu2nhiN
+	3NzOOlUTcz791Kdfmm8xUSbQFWRb/XhZUc/jcoA2g3YJ3vG/dKOt9OJlxYMYcIAEdwQG
+	MDlA==
+X-Gm-Message-State: APjAAAUE1Q55dsS9sgITvwfc9q226BoFYQs9Numn/2aS5H+wm0qxLoqi
+	Hxm0GYVfqjpwquHPiEjlTU102at6zZ/iV5EnXPF4hw==
+X-Google-Smtp-Source: APXvYqw5fAaWlQcHg8qwqXXQqJZ/G60H81/YQ4VS98ErTUSVUsKRvc1zXesiLYbQs7c+s7R2QeLbxbz7T1YQwvbK0x8=
+X-Received: by 2002:a67:c204:: with SMTP id i4mr1120710vsj.118.1578581512421; 
+	Thu, 09 Jan 2020 06:51:52 -0800 (PST)
 MIME-Version: 1.0
-References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-	<20200108132759.95603-11-alex.kanavin@gmail.com>
-	<15ea8a58c140419c32f08e4ab6148677bb23e920.camel@linuxfoundation.org>
-	<CANNYZj_52vBnUoR=XL0-vVPs7-h3=vH0QoO9f_wBVo+8FiijhA@mail.gmail.com>
-	<CANNYZj8Tr3N-kp1b47w8LimQOWOyWVzqLyq1ip6eS4juf5VXFQ@mail.gmail.com>
-	<e1cd09d3f326c30da7ecf41e951105f3a92af64f.camel@linuxfoundation.org>
-	<CANNYZj-26WfDZ3fdp1WgptphLYxrhA6H780rDQReGk3fP+x5og@mail.gmail.com>
-	<20200109144454.GB31026@bill-the-cat>
-In-Reply-To: <20200109144454.GB31026@bill-the-cat>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 9 Jan 2020 15:47:24 +0100
-Message-ID: <CANNYZj_rB4cPnGTqoO4MX1iwj2N0a6bhP3jvxCwOuO9mfMRSLA@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
+References: <20200109014307.37924-1-anibal.limon@linaro.org>
+	<CANNYZj97iX9P1LFajY1GjQQ2JjEYP4EppaCM8YpHnt=QJ2TNcA@mail.gmail.com>
+In-Reply-To: <CANNYZj97iX9P1LFajY1GjQQ2JjEYP4EppaCM8YpHnt=QJ2TNcA@mail.gmail.com>
+From: Anibal Limon <anibal.limon@linaro.org>
+Date: Thu, 9 Jan 2020 08:51:41 -0600
+Message-ID: <CA+_Aqisqk-UdMMQAUKNkWvf0k1pMf98rH_JWQ4wZTdh7Z=X9Qw@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/28] ifupdown: update 0.8.22 -> 0.8.35
+Subject: Re: [PATCH] meta/classes/menson.bbclass: Add python3 dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,37 +54,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 14:47:34 -0000
-Content-Type: multipart/alternative; boundary="000000000000f5432c059bb61623"
+X-List-Received-Date: Thu, 09 Jan 2020 14:51:51 -0000
+Content-Type: multipart/alternative; boundary="0000000000004c1ebe059bb6262e"
 
---000000000000f5432c059bb61623
+--0000000000004c1ebe059bb6262e
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 9 Jan 2020 at 15:44, Tom Rini <trini@konsulko.com> wrote:
+On Thu, 9 Jan 2020 at 05:23, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-> The problem here would have been caught with systemd-free and
-> busybox-free being a check in lib/oeqa/selftest/cases/imagefeatures.py
-> yes?
+> On Thu, 9 Jan 2020 at 02:43, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.=
+org> wrote:
+>
+>> -DEPENDS_append =3D " meson-native ninja-native"
+>> +DEPENDS_append =3D " meson-native ninja-native python3"
+>>
+>
+> Apologies, but I cannot accept this. Not all meson-based components even
+> ask for python, and this adds a non-trivial (built time wise) target
+> dependency to them all. There is also the potential to create circular
+> dependencies some time in the future if something required by target pyth=
+on
+> switches over to meson.
+>
+> I suggest you rather patch meson itself, so that the python probe
+> implemented there does not import a target module.
 >
 
-Yes, and you'd also need to do -c testimage on the image to make sure it
-boots and has the network up and working.
+This issue comes from python3native.bbclass when use python target library
+and include dirs and set _sysconfigdata too.
 
-Alex
+...
+export PYTHON_LIBRARY=3D"${STAGING_LIBDIR}/lib${PYTHON_DIR}${PYTHON_ABI}.so=
+"
+export PYTHON_INCLUDE_DIR=3D"${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}"
 
---000000000000f5432c059bb61623
+export _PYTHON_SYSCONFIGDATA_NAME=3D"_sysconfigdata"
+...
+
+Menson python module uses it to get python interpreter information to build
+[1], I agree that not all recipes uses menson + python but it is
+a single point to patch.
+
+I understand the implications of build time being increase so the other
+option is to add the dependency only on waffle.
+
+Comments?
+
+Regards,
+Anibal
+
+[1]
+https://github.com/mesonbuild/meson/blob/master/mesonbuild/modules/python.p=
+y#L262
+
+
+>
+> Alex
+>
+
+--0000000000004c1ebe059bb6262e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 9 Jan 2020 at 15:44, Tom Rini &lt=
-;<a href=3D"mailto:trini@konsulko.com">trini@konsulko.com</a>&gt; wrote:<br=
-></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 9 Jan 2020 at 05:23, Alexande=
+r Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.=
+com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><div dir=3D"ltr"><div dir=3D"ltr">On Thu, 9 Jan 2020 at 02:43, An=C3=ADb=
+al Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org" target=3D"_bla=
+nk">anibal.limon@linaro.org</a>&gt; wrote:<br></div><div class=3D"gmail_quo=
+te"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
+der-left:1px solid rgb(204,204,204);padding-left:1ex">-DEPENDS_append =3D &=
+quot; meson-native ninja-native&quot;<br>
++DEPENDS_append =3D &quot; meson-native ninja-native python3&quot;<br></blo=
+ckquote><div><br></div><div>Apologies, but I cannot accept this. Not all me=
+son-based components even ask for python, and this adds a non-trivial (buil=
+t time wise) target dependency to them all. There is also the potential to =
+create circular dependencies some time in the future if something required =
+by target python switches over to meson.</div><div><br></div><div>I suggest=
+ you rather patch meson itself, so that the python probe implemented there =
+does not import a target module.</div></div></div></blockquote><div><br></d=
+iv><div><div>This issue comes from python3native.bbclass when use python ta=
+rget library and include dirs and set _sysconfigdata too.=C2=A0</div><div><=
+br></div><div>...</div><div>export PYTHON_LIBRARY=3D&quot;${STAGING_LIBDIR}=
+/lib${PYTHON_DIR}${PYTHON_ABI}.so&quot;<br>export PYTHON_INCLUDE_DIR=3D&quo=
+t;${STAGING_INCDIR}/${PYTHON_DIR}${PYTHON_ABI}&quot;<br><br>export _PYTHON_=
+SYSCONFIGDATA_NAME=3D&quot;_sysconfigdata&quot;<br></div><div>...=C2=A0</di=
+v><div><br></div><div>Menson python module uses it to get python interprete=
+r=C2=A0information to build [1], I agree that not all recipes uses menson +=
+ python but it is</div><div>a single point to patch.</div><div><br></div><d=
+iv>I understand the implications of build time being increase so the other =
+option is to add the dependency only on waffle.</div><div><br></div><div>Co=
+mments?</div><div><br></div><div>Regards,<br></div><div>Anibal</div><div><b=
+r></div><div><div>[1]=C2=A0<a href=3D"https://github.com/mesonbuild/meson/b=
+lob/master/mesonbuild/modules/python.py#L262" target=3D"_blank">https://git=
+hub.com/mesonbuild/meson/blob/master/mesonbuild/modules/python.py#L262</a><=
+/div></div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
 =3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">The problem here would have been caught with systemd-free and<br=
->
-busybox-free being a check in lib/oeqa/selftest/cases/imagefeatures.py<br>
-yes?<br></blockquote><div><br></div><div>Yes, and you&#39;d also need to do=
- -c testimage on the image to make sure it boots and has the network up and=
- working.</div><div><br></div><div>Alex<br></div></div></div>
+-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div><br></div><div>=
+Alex<br></div></div></div>
+</blockquote></div></div>
 
---000000000000f5432c059bb61623--
+--0000000000004c1ebe059bb6262e--
