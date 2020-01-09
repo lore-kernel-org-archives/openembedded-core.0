@@ -1,51 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A917B7FEA6
+Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
+	[209.85.216.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FFBC7FE6D
 	for <openembedded-core@openembedded.org>;
-	Thu,  9 Jan 2020 04:50:18 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id q8so2733530pfh.7
+	Thu,  9 Jan 2020 04:50:19 +0000 (UTC)
+Received: by mail-pj1-f66.google.com with SMTP id a6so586873pjh.2
 	for <openembedded-core@openembedded.org>;
-	Wed, 08 Jan 2020 20:50:20 -0800 (PST)
+	Wed, 08 Jan 2020 20:50:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=AegaRsgTbCLT2n/Bs+elhV1NVNoEsKXgGRSU1A3YZZM=;
-	b=YwXg0vETJcrWdAVg9QmrKmmi4gZjnYR8MiGAzvvOMMKZ5uvPNkjA1dJcaZNhzVDt5L
-	4RRPSfpFmhoGCBHvaSRgVnHHvrQm6fDoMZp0RrCBASUbZTL7+BJFyv8ieeudybnr1nag
-	lNsS/itee9HGxpCazp21gRoLZLmHtvpxvbwo+ndvst7cFCje9JCAH2i0aFHMXcwP4NjX
-	xEoNdClt1SDXq1r9r8Ji3RsdSEkGQD40W/rxVEwpulBjeLbPA+1rQrkw3irDWTvPgt1M
-	SFtizLbAHg/Wx+8O4q14zer/SXAnikaSa8p+zoYpc21Gi0oHddxprrqguiMmIM5rLzPp
-	Rmag==
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=GkAvNFN178Kc+Rv/jY/v22nz66x611i5esvLgxDKFgc=;
+	b=l9HZAhQU0mH3mXd93/ZB9yzAIH+54aEsNrfllcaP7S3N3G12QrFaEXSDrlEmwc5zPz
+	trxxY7QtuZ1Yt0xeKBa/F5grjpCuegN7lYGWBkjRIdnTKpak7QUpUURj1doUOj1ed4J9
+	Ni45FWzWQ+C0FbHWsx+T9YcY9CR8UgkyW3aGgRt/BPMidYGrA1+/DtR8QxANDdu93COK
+	uHnes1LvsE8IL79pAknBzoM6a0RJaU9u9pPh1Z5JzNcKgCAAJuPNPO+FoNktG1GB4G5m
+	Y0V5uyXaevRDeHtN8DiPQXQdvTQaNihgwxq0RuQT5Sv7hQY2/6jHV2JM3dK7b/9LX/FF
+	cCQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=AegaRsgTbCLT2n/Bs+elhV1NVNoEsKXgGRSU1A3YZZM=;
-	b=gMmnfkrjfP3tgNSdNlXirYc6HyFl1jyEW1uryCDG+9SU+X4BcLdOxUq1ShKezZg9l+
-	yJiOi1IP54G3F+wHZ92hIrI2B2uAria0I+hah785t48VS1VLE9XdRbh5MNMGjEZLhKnW
-	A0zch2/ACC+iHbBVfEk3fiHGFIWYNikIqjOSjA4q1b3J2jLYofGVjDzOxKdS3RpOXJnN
-	6VfvT5fOcjMIvVMlfF5h7ZEi1pvQIoRkvvvdG/WzXMF+X0sGG+kItOSZlCBPDrPqDUvC
-	wekGyPYptLNL992TLNLcT6FmxXKlYV8RThLAUAGJe6UHJCa1WeIsOfvgbn3EybbicYOz
-	wSNA==
-X-Gm-Message-State: APjAAAUtn4odr316ChhVPUGaqj62R1y1gXeDdizUJjytRf/OYdnsdmf8
-	TIjdhdnTT50qpPvIr7jIR3XWq+61
-X-Google-Smtp-Source: APXvYqy7RP+GQKymEHFfDXG+ly3CNKKFebTxAUBDPMdg00A9PDnbWOHhaKNUu2yIrETddMd4UewMOQ==
-X-Received: by 2002:a63:214f:: with SMTP id s15mr9660634pgm.238.1578545419641; 
-	Wed, 08 Jan 2020 20:50:19 -0800 (PST)
+	:references:mime-version:content-transfer-encoding;
+	bh=GkAvNFN178Kc+Rv/jY/v22nz66x611i5esvLgxDKFgc=;
+	b=gOja00yDoGKZYUZs9sI1suijKLAWkOexcJXLyZ3OYk6KImxPc+f1OCOnGz19mJOsR1
+	TooHyKRI6fpUDsbXts6cfJwHhsXkRnYnJpj38Mtqi6ZiLKQEYcOhTZwfu0slr/y0tWaP
+	WtYmbfyeOaY7OBb3XZmV0AHNU4KDAh+CBiigAL++Nxq9FkIuvOF9KtgLd0qoicuIqkJw
+	q+DQKWpv4AxkMfj+G92IYKtIwcB2W1d4/nI9F7mpqVrWLYu7vdi5qaaBMlrZKxpIe0OS
+	P4iW3cCJ66e8RqjfZ1oCa7lTabewV9oa4FZBLFFwDQnOlawKMIGjsifaRpyBHzXErd72
+	nvRQ==
+X-Gm-Message-State: APjAAAUrM/sw0RIY7y+gjYXRZFmkUFr1rMGWQJqaoO8bxbrUMIkkmeyJ
+	YH8BoQ4tYpUtBsebtuUSbG88Ubg4
+X-Google-Smtp-Source: APXvYqx1wCBWhiAuljZsvJ1BojP8oCSIpcJKL5FuvVHv7RnuVcjaqXPrhupyHPIv23KpQPXR9zhfGw==
+X-Received: by 2002:a17:902:694c:: with SMTP id
+	k12mr9333868plt.329.1578545420580; 
+	Wed, 08 Jan 2020 20:50:20 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:304b:2b9c:bcb7:ff1a])
-	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.50.18
+	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.50.19
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 20:50:19 -0800 (PST)
+	Wed, 08 Jan 2020 20:50:20 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Wed,  8 Jan 2020 20:49:45 -0800
-Message-Id: <c251e753486dae9b460df315a6d19d6c81098ecb.1578544698.git.akuster808@gmail.com>
+Date: Wed,  8 Jan 2020 20:49:46 -0800
+Message-Id: <f48ab4268746a2780ee0fdc84e5c39afe593ade7.1578544698.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578544698.git.akuster808@gmail.com>
 References: <cover.1578544698.git.akuster808@gmail.com>
-Subject: [zeus 26/28] pseudo: Make realpath() remove trailing slashes
+MIME-Version: 1.0
+Subject: [zeus 27/28] libsdl2: fix failure appeared in bitbake libsdl2-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,118 +61,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 04:50:19 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 04:50:21 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Yanfei Xu <yanfei.xu@windriver.com>
 
-Linux system's realpath() remove trailing slashes, but pseudo's doesn't, need
-make them identical.
+When you bitbake libsdl2-native and your host had installed fcitx
+or ibus, it may cause you bitbake failed in do_compile.
 
-E.g., the following code (rel.c) prints '/tmp' with system's realpath, but
-pseudo's realpath prints '/tmp/':
+Disable fcitx and ibus check with EXTRA_OECONF in bb file.
 
-    #include <stdio.h>
-    #include <limits.h>
-    #include <stdlib.h>
+-------------snip---------------------
+  CC     build/SDL_sysfilesystem.lo
+  CC     build/SDL_syshaptic.lo
+  CC     build/SDL_systimer.lo
+/poky/build/tmp/work/x86_64-linux/libsdl2-native/2.0.10-r0/SDL2-2.0.10/src/core/linux/SDL_fcitx.c:52:5:
+error: unknown type name ‘SDL_DBusContext’
+     SDL_DBusContext *dbus;
+     ^~~~~~~~~~~~~~~
+/poky/build/tmp/work/x86_64-linux/libsdl2-native/2.0.10-r0/SDL2-2.0.10/src/core/linux/SDL_fcitx.c:121:8:
+error: unknown type name ‘DBusHandlerResult’
+ static DBusHandlerResult
+        ^~~~~~~~~~~~~~~~~
+/poky/build/tmp/work/x86_64-linux/libsdl2-native/2.0.10-r0/SDL2-2.0.10/src/core/linux/SDL_fcitx.c:122:20:
+error: unknown type name ‘DBusConnection’;
+------------snip----------------------
 
-    int main() {
-        char out[PATH_MAX];
-        printf("%s\n", realpath("/tmp/", out));
-        return 0;
-    }
-
-$ bitbake base-passwd -cdevshell # For pseudo env
-$ gcc rel.c
-$ ./a.out
-/tmp/ (but should be /tmp)
-
-This patch fixes the problem.
-
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Yanfei Xu <yanfei.xu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 319bbf66e03377adf2db7efa93ef578e3460eb38)
+
+(cherry picked from commit eb286172e413e9d6449dc13ccec1b78c04481eb5)
+
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- ...1-realpath.c-Remove-trailing-slashes.patch | 57 +++++++++++++++++++
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch b/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
-new file mode 100644
-index 0000000000..17829ef3ac
---- /dev/null
-+++ b/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
-@@ -0,0 +1,57 @@
-+From 86c9a5610e3333ad6aaadb1ac1e8b5a2c948d119 Mon Sep 17 00:00:00 2001
-+From: Robert Yang <liezhi.yang@windriver.com>
-+Date: Mon, 25 Nov 2019 18:46:45 +0800
-+Subject: [PATCH] realpath.c: Remove trailing slashes
-+
-+Linux system's realpath() remove trailing slashes, but pseudo's doesn't, need
-+make them identical.
-+
-+E.g., the following code (rel.c) prints '/tmp' with system's realpath, but
-+pseudo's realpath prints '/tmp/':
-+
-+    #include <stdio.h>
-+    #include <limits.h>
-+    #include <stdlib.h>
-+
-+    int main() {
-+        char out[PATH_MAX];
-+        printf("%s\n", realpath("/tmp/", out));
-+        return 0;
-+    }
-+
-+$ bitbake base-passwd -cdevshell # For pseudo env
-+$ gcc rel.c
-+$ ./a.out
-+/tmp/ (but should be /tmp)
-+
-+This patch fixes the problem.
-+
-+Upstream-Status: Submitted [https://lists.yoctoproject.org/g/poky/message/11879]
-+
-+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ ports/unix/guts/realpath.c |    9 ++++++++-
-+ 1 file changed, 8 insertions(+), 1 deletion(-)
-+
-+diff --git a/ports/unix/guts/realpath.c b/ports/unix/guts/realpath.c
-+--- a/ports/unix/guts/realpath.c
-++++ b/ports/unix/guts/realpath.c
-+@@ -14,7 +14,14 @@
-+ 		errno = ENAMETOOLONG;
-+ 		return NULL;
-+ 	}
-+-	if ((len = strlen(rname)) >= pseudo_sys_path_max()) {
-++		len = strlen(rname);
-++		char *ep = rname + len - 1;
-++		while (ep > rname && *ep == '/') {
-++			--len;
-++			*(ep--) = '\0';
-++		}
-++
-++		if (len >= pseudo_sys_path_max()) {
-+ 		errno = ENAMETOOLONG;
-+ 		return NULL;
-+ 	}
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 1f2df4a427..7c75293ef1 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -8,6 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
-            file://toomanyfiles.patch \
-            file://0001-maketables-wrappers-use-Python-3.patch \
-            file://0001-Add-statx.patch \
-+           file://0001-realpath.c-Remove-trailing-slashes.patch \
-            "
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
+index ab514f0533..ed87cd71c3 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.10.bb
+@@ -36,6 +36,7 @@ EXTRA_OECONF = "--disable-oss --disable-esd --disable-arts \
+                 --enable-sdl-dlopen \
+                 --disable-rpath \
+                 --disable-sndio \
++                --disable-fcitx --disable-ibus \
+                 "
  
- SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
+ # opengl packageconfig factored out to make it easy for distros
 -- 
 2.17.1
 
