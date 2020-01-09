@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com
-	[209.85.216.54])
-	by mail.openembedded.org (Postfix) with ESMTP id DE4777FE5C
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+	[209.85.216.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D1027FE67
 	for <openembedded-core@openembedded.org>;
-	Thu,  9 Jan 2020 04:49:52 +0000 (UTC)
-Received: by mail-pj1-f54.google.com with SMTP id a6so586359pjh.2
+	Thu,  9 Jan 2020 04:49:53 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id l35so581601pje.3
 	for <openembedded-core@openembedded.org>;
-	Wed, 08 Jan 2020 20:49:54 -0800 (PST)
+	Wed, 08 Jan 2020 20:49:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=VqqkZHlHSMK+IaEEv7GVcK4F/1rzQ0J37YM+6hpxjug=;
-	b=au9/KNIwgbWqvuAGQFcwMhGFVxDn1LMO09+nr0oCkE4+VmykGtkBvEtJKIM7KUOgWB
-	c0Uk+EKTVE/NKuem5nj1yaW/9jhA073FG1/MQZFMmZKezRc0vDBJmWI0pDnO3QYlG4R8
-	Vw9P9NSaE9r7vfG4+IC88v4m/pA29cxRs2tnQzk1znAZ+UYERg97INKsX7gOhjrvzASR
-	PmCjWb0uoEtb8sdne9Gxe5ETdc08DHLZ/euhBaqwJIM1XOEu2PaOTUrjimUG3zlt85Fq
-	Hj5fT6WaZfDveQJ+MPORyixR1uDdMFZhk6WwBHWpzA7ocZU2wMe1FoboGL1WW0/2nI6j
-	KpYA==
+	bh=Tr12qhqvTwQPnbCjJgfZx6Tacie7gSEkdxuS3/dTXrQ=;
+	b=dkhQH41qbR278q5W6uOrekgHlRj0PH758w8tgDO2b72whtJuLa+pzwQEcPAA8alUWq
+	wh32irtGy3oT8uu7Xa50naBFVPImzBzjhxcNn5yfQ6YtoBAJiJE6uIkPzKl8zhu5T5Rq
+	2oz0xU1hQvxkNUJ/OIJE0gVKFNGwJH01SIkisvn/MMlUSVPws4oFsEbJdqhirAiNXu7v
+	mkvCApQsBnWeOmAApT5Yssr857f/YjRVYroDKzdteyu3+r4GybmtArbxuYGdcmQedcoQ
+	hFDkjOr92pUOyv+2CXU+9eM+MAsiMu69/SjlMYLVJnnNmuQ/zgTq88IlRjmnHv+oABV3
+	SS0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=VqqkZHlHSMK+IaEEv7GVcK4F/1rzQ0J37YM+6hpxjug=;
-	b=BHbC73CGuF36WOo9D6ppJJlxg1x3UN4FMmWAS1CRBfq/BBSW0r0r1myyfjatG654xl
-	zzVeTsK/y8eKJBnz3K/zxf9frtj6th6Um4ez7NsgYtCldKUdG3i1LuORE3kpULhqWIKd
-	FpEqqujTw+EwskkaKaiivMt1p2aQdxPfrqudjK4VCnOX1SUUu42Q4Latr7eckn9FX/En
-	PVFXCPU14iKDrSf+SHWhrnbp16t0tE2H6ttDKnMNtG6cg5kxMiaBlLjZz2s2uB2/C8Qj
-	uRG4QxCLCijjDGhcSMPZ9PFpx4nJcSPeMfq6DYJqKx4hCOkb0Bn0SpFcr1naEswOCwTl
-	PzUA==
-X-Gm-Message-State: APjAAAUmo8rZOpv3Bljm0YyJIgKAUOuDAb+UyV9npjNA5tYF4w84QcjC
-	AEALZLQ/wBHYaGQrBgg3LdS2clGw
-X-Google-Smtp-Source: APXvYqxSrgBOh2E1T0WMfQWOK3G2jqHOSIdLGSc0Yz0nOEd0inOleF5377H7SE76UFP9dsXCWKgOPQ==
-X-Received: by 2002:a17:902:9a08:: with SMTP id
-	v8mr9693873plp.134.1578545393867; 
-	Wed, 08 Jan 2020 20:49:53 -0800 (PST)
+	bh=Tr12qhqvTwQPnbCjJgfZx6Tacie7gSEkdxuS3/dTXrQ=;
+	b=Y6HETU5f04K2LmMUMqO6xH5ytJYbJ3dv+Uh/QkKjaXZOFfHTSNU5o4pJaLf1r9q/+Q
+	W9fBs3da9E1YePVxlQeke0G8RWX4oe1qPwPo8k8sDWXP2Ir6B+DWCwSHlVG/2+f2Xnx+
+	5d6WistlpOtSWMHKNPrBiveMPQeLASSYsYuLGMiu/zpGYucMOf7CBkS5pouYnpiDayMX
+	nxQYHfc0iF3+zKu5t1bf/XdZS7yGh39CBp4E9uEkionWBhp+gutqAUjTsh1DNEdhTLRo
+	hvBr+5+0QxX35Mx9N1+Awzu5b/tdPur5QaTcPPChk/QQyUO1/JpS4tsUVPIF+5HxXOFD
+	l6Rw==
+X-Gm-Message-State: APjAAAXtqFTADumD6z3uMNAOp5/+EY7rCPto7gBTCl1qQnWZGn9m1/8r
+	P3qPUE5RyUaV4NDN9hWFhNGdnsR+
+X-Google-Smtp-Source: APXvYqxvmHvM3jnoEtT76B+U0tm1OCPXJ+dspC3xN+zaG3sm0xjaudROQTIDN2HsQH0CTDZ5BTpQ1Q==
+X-Received: by 2002:a17:902:ac88:: with SMTP id
+	h8mr9465348plr.131.1578545394890; 
+	Wed, 08 Jan 2020 20:49:54 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:304b:2b9c:bcb7:ff1a])
-	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.49.53
+	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.49.54
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 20:49:53 -0800 (PST)
+	Wed, 08 Jan 2020 20:49:54 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Wed,  8 Jan 2020 20:49:21 -0800
-Message-Id: <fe454e9c7837a903ffcff4c6f8a25070a0f0af82.1578544698.git.akuster808@gmail.com>
+Date: Wed,  8 Jan 2020 20:49:22 -0800
+Message-Id: <bfed8be91525478ecdf6b64e6308958b3271c8cc.1578544698.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578544698.git.akuster808@gmail.com>
 References: <cover.1578544698.git.akuster808@gmail.com>
-Subject: [zeus 02/28] sstate: Stop overwriting SSTATE_PKG
+Subject: [zeus 03/28] sstate: Ensure SSTATE_PKG is reloaded when handling siginfo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,63 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 04:49:53 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 04:49:54 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Its rather antisocial to overwrite SSTATE_PKG with an expanded form for the variable
-and it stops the value of BB_UNIHASH being changed when the package is written out.
-
-Instead of expanding the variable, append to it instead to avoid this rather
-hard to figure out behaviour and allow the siggen code to behave as expected.
+STATE_PKG may have been changed by sstate_report_unihash so don't
+cache the variable's value.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 62eca02024b4c44d618ab9bcf87a3166c886dadb)
+(cherry picked from commit be29a25400c4ea285ab3f588c5831f00ba5d4f63)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/sstate.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/classes/sstate.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 64808f8e10..eb1ecd6822 100644
+index eb1ecd6822..a46dd2e210 100644
 --- a/meta/classes/sstate.bbclass
 +++ b/meta/classes/sstate.bbclass
-@@ -318,7 +318,8 @@ def sstate_installpkg(ss, d):
+@@ -664,7 +664,8 @@ def sstate_package(ss, d):
+         # All hooks should run in SSTATE_BUILDDIR.
+         bb.build.exec_func(f, d, (sstatebuild,))
  
-     sstateinst = d.expand("${WORKDIR}/sstate-install-%s/" % ss['task'])
-     sstatefetch = d.getVar('SSTATE_PKGNAME') + '_' + ss['task'] + ".tgz"
--    sstatepkg = d.getVar('SSTATE_PKG') + '_' + ss['task'] + ".tgz"
-+    d.appendVar('SSTATE_PKG', '_'+ ss['task'] + ".tgz")
-+    sstatepkg = d.getVar('SSTATE_PKG')
+-    bb.siggen.dump_this_task(sstatepkg + ".siginfo", d)
++    # SSTATE_PKG may have been changed by sstate_report_unihash
++    bb.siggen.dump_this_task(d.getVar('SSTATE_PKG') + ".siginfo", d)
  
-     if not os.path.exists(sstatepkg):
-         pstaging_fetch(sstatefetch, d)
-@@ -330,7 +331,6 @@ def sstate_installpkg(ss, d):
-     sstate_clean(ss, d)
+     return
  
-     d.setVar('SSTATE_INSTDIR', sstateinst)
--    d.setVar('SSTATE_PKG', sstatepkg)
- 
-     if bb.utils.to_boolean(d.getVar("SSTATE_VERIFY_SIG"), False):
-         signer = get_signer(d, 'local')
-@@ -612,7 +612,8 @@ def sstate_package(ss, d):
-     tmpdir = d.getVar('TMPDIR')
- 
-     sstatebuild = d.expand("${WORKDIR}/sstate-build-%s/" % ss['task'])
--    sstatepkg = d.getVar('SSTATE_PKG') + '_'+ ss['task'] + ".tgz"
-+    d.appendVar('SSTATE_PKG', '_'+ ss['task'] + ".tgz")
-+    sstatepkg = d.getVar('SSTATE_PKG')
-     bb.utils.remove(sstatebuild, recurse=True)
-     bb.utils.mkdirhier(sstatebuild)
-     bb.utils.mkdirhier(os.path.dirname(sstatepkg))
-@@ -648,7 +649,6 @@ def sstate_package(ss, d):
-         os.rename(plain, pdir)
- 
-     d.setVar('SSTATE_BUILDDIR', sstatebuild)
--    d.setVar('SSTATE_PKG', sstatepkg)
-     d.setVar('SSTATE_INSTDIR', sstatebuild)
- 
-     if d.getVar('SSTATE_SKIP_CREATION') == '1':
 -- 
 2.17.1
 
