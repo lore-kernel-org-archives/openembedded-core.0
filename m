@@ -1,55 +1,55 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E65E7FD96
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+	[209.85.128.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 607817FDFC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 20:26:38 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id p17so4302586wmb.0
+	Thu,  9 Jan 2020 20:26:39 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id q9so4408207wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2020 12:26:39 -0800 (PST)
+	Thu, 09 Jan 2020 12:26:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=nNif5kzkOLQ04/D/O1N+c078N3FG6ur4b4lqRr1eyCk=;
-	b=Pg3vaAOCaSWR8JawD9Sn2bDgGxBvaop5T9OMuItK7M8qBMrJdWRqwdc8E9MkIUjFAK
-	ZkRjqal/cDmp/qYQowCGDIecggmw8tyi570NRecim9SwPKF02iRqHMOfdk6QvDk4VqCO
-	Cnhdfj5MenR/QrSBATBzNsun0XxXstJXAyICfclAsgHFCNmh7YgLgAO+w9FSnM+dKy7i
-	reLo7bd32yzEFl7S+bMQ9vqcYp90xdKTx1UF5mJ+yxW23g4XbLgWtg8Dym2/Wc751Fgd
-	z8Hs0LezHxDWkwskgIqOFD7a8wYkCGTwOwuo4zhar0vVCqOtY12j1/hfFCfG1J+qTrB3
-	lSCA==
+	bh=109Edj2iz6iWnF7gDCQolbN8B+O2ourpOwYc6/tUYlY=;
+	b=EHgCI6MjWxWt8dg6E+30KKi7GXB04Fg4sv6vJfPjXcWat40/NH0JGV0pOeVpXY5etu
+	hoLZ5mN3ZORy9A3FDubkuwNlxafmgJcDOqWOgpo7Rf1wWb5w9ZBASV6kGeHWRegU9A9I
+	XzH43WnjCpkI8xBwaii4cG5Ce+/LHcDFYBcAWNHkKroegVSRBnfFoHTVYYSdEChHT4Qy
+	9et/NO/kpu6do73usOjhyVdy6VbTKXNNh+lZbQWu23FCIQ6t4+s3rx8ZRo0Msj+bKjZS
+	a7qTcHcvVSyK7JZszj+95Dk4lOzQI2eTFbhDyxNpFs9nrLYJHFEUvR2WE9IZUHRN8mCA
+	CjhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=nNif5kzkOLQ04/D/O1N+c078N3FG6ur4b4lqRr1eyCk=;
-	b=tDsWP/b5L+zvhJUAj4uItEMU9tiD1tNWenad7y6OrjJZXxNd2M+NqbEDncQFxqnbPt
-	BO+/PzQrcPHrgOP6XvKoW4O5Oo/oAN9I9c+VgdeV9Qlv3GXXKK4kkE8DZFJc2N+yY+2x
-	BS/ul2pVUMiYMt386j6vyWkUt7RahmrhlIouhlm9Pcz+tMD+We8U6EP8dlVvYo6yeuG5
-	LhUxG/ZQukhUF7YxscQpN0zc0hEIVRwaL56gSpRPkZKuFgvwaDcnPrEauwkNc7tvyAZz
-	pi5FQSay5a9KOdPaIlad1/c77v9vHl2jyzGhFK+CcPkYMbduIoDQ2vI7bF+21/I/MvPG
-	+vFg==
-X-Gm-Message-State: APjAAAVMLUfeK0jKOZ0bEjsK36XZal+yWvg4CKjIlkI9S6gNIqne5wl6
-	mUNPZZrIkJjk7l8nloA9LqVwx1G+0IU=
-X-Google-Smtp-Source: APXvYqzmR0HLuEjGICVFGGYJOMOVH7XX1B1lDYxefWs9VlkTkg4cetkwkNbmyKnZOnsZv7CzKAG0kA==
-X-Received: by 2002:a05:600c:298:: with SMTP id
-	24mr6453207wmk.141.1578601598985; 
-	Thu, 09 Jan 2020 12:26:38 -0800 (PST)
+	bh=109Edj2iz6iWnF7gDCQolbN8B+O2ourpOwYc6/tUYlY=;
+	b=GSLqbOkdPupVih3ya54bc7QCq3KmKJ0fxM4mG42psxr8DwxOO+9xgbntJYqsS8XBDW
+	RTfhLmxvjuKAHOcq8+j+zDlL3bVqLAInUrYCbpAYFC65YyrYDdnUqsIwu5lfOpUB6soU
+	xO5n307hdWyNnZLSKLWLbu+VbxlOELaaAYrshZ4Uy7/XIsrXd7AmWDfjkJsNvcAyFcGA
+	J6yUM18pm38TFVFMMKDMCVoKAa6miLtbUBp7N2m942r/d3VEiYfhAZspEbuE6Xi3kISj
+	6u8Q/U4RWM+t6YprDzc4btu0NbrBn6oKcfxHOAKemQnbkSsdhGFPziUZs/wx9fNnBemW
+	1bzg==
+X-Gm-Message-State: APjAAAU7meSjZFB+GBATFugHk00wX0bvlc0HfWv/zgspfqWjrbtyJwXB
+	J8wMaWD3eUq3rSNEHVE/xYKAi3/mgcY=
+X-Google-Smtp-Source: APXvYqyCpvtUnCGXy/EmU0yZcB3GfgHDuOkM7N2BxJHzNYSL2wKj+5divp+x8KTkIakuBR5BHPKbIA==
+X-Received: by 2002:a05:600c:2207:: with SMTP id
+	z7mr6549179wml.138.1578601599884; 
+	Thu, 09 Jan 2020 12:26:39 -0800 (PST)
 Received: from superandy.speedport.ip
 	(p200300F07F0446528B12EBEBA10192C2.dip0.t-ipconnect.de.
 	[2003:f0:7f04:4652:8b12:ebeb:a101:92c2])
-	by smtp.gmail.com with ESMTPSA id z6sm9149986wrw.36.2020.01.09.12.26.38
+	by smtp.gmail.com with ESMTPSA id z6sm9149986wrw.36.2020.01.09.12.26.39
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 09 Jan 2020 12:26:38 -0800 (PST)
+	Thu, 09 Jan 2020 12:26:39 -0800 (PST)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jan 2020 21:26:18 +0100
-Message-Id: <20200109202623.28936-7-schnitzeltony@gmail.com>
+Date: Thu,  9 Jan 2020 21:26:19 +0100
+Message-Id: <20200109202623.28936-8-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200109202623.28936-1-schnitzeltony@gmail.com>
 References: <20200109202623.28936-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/11] insane.bbclass: introduce a warning for mime missing in inherit
+Subject: [PATCH 07/11] shared-mime-info: add mime to inherit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,50 +62,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 20:26:38 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 20:26:39 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-* looking through layers it looks that usage of mime.bbclass is somewhat
-  orphaned
-* now that update-mime-database is called once only at image creation time,
-  costs of mime.bbclass are limited
+shared-mime-info-data: is the base for mime database
 
 Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- meta/classes/insane.bbclass | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/recipes-support/shared-mime-info/shared-mime-info_1.15.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index f856cf6a2b..442e9e5113 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -28,6 +28,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             pn-overrides infodir build-deps src-uri-bad \
-             unknown-configure-option symlink-to-sysroot multilib \
-             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
-+            mime \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -185,6 +186,17 @@ def package_qa_check_staticdev(path, name, d, elf, messages):
-         package_qa_add_message(messages, "staticdev", "non -staticdev package contains static .a library: %s path '%s'" % \
-                  (name, package_qa_clean_path(path,d)))
+diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_1.15.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_1.15.bb
+index 163e74f362..633722125a 100644
+--- a/meta/recipes-support/shared-mime-info/shared-mime-info_1.15.bb
++++ b/meta/recipes-support/shared-mime-info/shared-mime-info_1.15.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gitlab.freedesktop.org/xdg/shared-mime-info/uploads/b27eb88e4
+ SRC_URI[md5sum] = "5215f3d679a817de97eb8b0b911e9393"
+ SRC_URI[sha256sum] = "f482b027437c99e53b81037a9843fccd549243fd52145d016e9c7174a4f5db90"
  
-+QAPATHTEST[mime] = "package_qa_check_mime"
-+def package_qa_check_mime(path, name, d, elf, messages):
-+    """
-+    Check if package installs mime types to to /usr/share/mime/packages
-+    while no inheriting mime.bbclass
-+    """
-+
-+    if d.getVar("mimedir") + "/packages" in path and path.endswith('.xml') and not bb.data.inherits_class("mime", d):
-+        package_qa_add_message(messages, "mime", "package contains mime types but does not inhert mime.bbclass: %s path '%s'" % \
-+                 (name, package_qa_clean_path(path,d)))
-+
- def package_qa_check_libdir(d):
-     """
-     Check for wrong library installation paths. For instance, catch
+-inherit autotools pkgconfig gettext python3native
++inherit autotools pkgconfig gettext python3native mime
+ 
+ EXTRA_OECONF = "--disable-update-mimedb"
+ 
 -- 
 2.21.0
 
