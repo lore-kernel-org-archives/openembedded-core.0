@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
-	[209.85.210.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 417247FE92
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id DC43B7FE95
 	for <openembedded-core@openembedded.org>;
 	Thu,  9 Jan 2020 04:50:13 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id x185so2738662pfc.5
+Received: by mail-pg1-f169.google.com with SMTP id q127so2602246pga.4
 	for <openembedded-core@openembedded.org>;
-	Wed, 08 Jan 2020 20:50:14 -0800 (PST)
+	Wed, 08 Jan 2020 20:50:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=j1zQy3N/aKB07eXNIb7TfqE2gNTIT2AHseKItqLruz8=;
-	b=opwwdu25LjVihfm770Y6+UaddR2HY4f4HHM7Wk+sW5O1Xlv1xxCK+M2hr4aLSPEPa/
-	CPXXMvq0UH6HBgEEhEqLz/489VegHCNAHcsh5ubJEjPYw66p0n+aZH8TtWpOTz1vx1xs
-	UC8eupRLoLdUcI9e/4rUJh+1AG4VeWVCsEiKKsDeoiE164/MnwyKHwpwkd/LDHndTie8
-	1z7YJkzdk0HMefa6MeNIZSyWv7rUblGt7AoHdY/1mJ+cEELiGlGNNvpeiEPNVX1XjoXw
-	zXOwsKC7eUniRG4c0ZQ6p0dlVvOcMZnHrziCf6uM/mlZefYqdiPjHENDIhMkOBBpATTs
-	7KMA==
+	bh=mRk2a3oQtX4sJK+5lOOe462/0JYSVf3VN3quqGx26WE=;
+	b=pvNKUVoYUm33yLw2ICJUWsPRZaRBRjGEwJhhxxNs10chQCZtLG890lH8kl4JzkDm5K
+	WcSIXi+xn7H6ssAcASbuOypSs+2YrETmWVL4Qb9mN45GyguFRW/zG+2qz8CnAjIvdO7M
+	lxTaRn96gpArPkm0hipaotREJzJ1fUJLWC64eJnHHdnoAbvv3htBjLVreNpb05SghJnk
+	HdtwLVA3pVVahEmKooUPfWa0dtfh19JLrAQY1O1M1D0IJw1mHQrt8Q1N0hnp2X/KXdqx
+	TonOnhOnWH+H0UN1Ra1Up0fI6XK1d3nHmaloEHSqqkVPoVmvA1arXW8nS9FdMM47SSuT
+	6FNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=j1zQy3N/aKB07eXNIb7TfqE2gNTIT2AHseKItqLruz8=;
-	b=mHHGfMedkko3NOo3WMfx/ONm6XA7wMC+x50REtAOIzKWyo1I4AjeqHoDlNddn34uSz
-	DiVolb+4B7fqAIG6KwFXtMgUvdQMILm9fsvzadkqnsL/sVGSCRJOtls4ek0117HrmAOc
-	Em7d/5QR4FfzQJA07EoMlFeT9args6oETNOr5cZPA1Y7D2TaRF+X00tVUGMbiYDUXOxX
-	gV5B+8DtWOHj4TnW0SgXWfKeHdBFE4e+QSRSla8jaV3NGvJvU9KhrrNTUk0Dvo+obS8N
-	egCyaEo9LdKz6FdY+AkfCHpdP8KLhmbL4COz9JCI7TWqgxZlCnjq/6+Szwf9RqixWCFs
-	EnNA==
-X-Gm-Message-State: APjAAAWBD3Q3BVCo6aYgfm/c/WKRQi1rGAoMrkOYZ9f3qHRdY6iZSm/C
-	2qyMnhVOHh53C4g5Wx3306gjNDwt
-X-Google-Smtp-Source: APXvYqwrMjfB9TQ/o1n2jq20akVW5oV9FIgfuC7BC+aqQR8bG8nW1LrYeh9NWC+UFJN4n9NtwVAyow==
-X-Received: by 2002:a63:5062:: with SMTP id q34mr9094435pgl.378.1578545414121; 
+	bh=mRk2a3oQtX4sJK+5lOOe462/0JYSVf3VN3quqGx26WE=;
+	b=lbLTV/SV3RX01OCiI1ZwIO93jqXW73hW0uOQA23QeLSLy4weF69Czo1oqth7mZUkuK
+	MLwKhignyHlvRROItVack9nvZVzfAyGoP24Ds9MkRyl7jv07MIV9OiwwyS8hDU37/LJt
+	ijqIfTfpAaoZVtUvOAEqWgdIpJmPPLQ1FUyNKMM4tMk82DZaajUdu5HUbn6rZwp2AZUR
+	xBfmOEgxFXDA9D3GImEw9dsG7ucc3GrVKI4+I6oNPPHxVFySUL5yoFhR+fsRYfzRh74I
+	qe0HQxr8Z3offL5KUootAjm1Z/KDmoesTYyZyFVioBQTUkgNlkprKTrlv6iCh6AVHOhe
+	PaZg==
+X-Gm-Message-State: APjAAAXj1ivD6TyVNhv6wOtbsQmulcTD/f9A2UmcIiyTUVrD56Q+zhJX
+	LAqgfCG7MU+gcCk4v+eNLbZ1YnTA
+X-Google-Smtp-Source: APXvYqwtY9/3zD0c9KwG1L7CEdt/zGXLoO5g9xX4MsAl0cFXhqUwTvJ9ONuhkOarxuHMnAikcnYIJA==
+X-Received: by 2002:aa7:9087:: with SMTP id i7mr9147379pfa.235.1578545414956; 
 	Wed, 08 Jan 2020 20:50:14 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:304b:2b9c:bcb7:ff1a])
-	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.50.13
+	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.50.14
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 20:50:13 -0800 (PST)
+	Wed, 08 Jan 2020 20:50:14 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Wed,  8 Jan 2020 20:49:39 -0800
-Message-Id: <3534f17752eccdd62eac8809d7842e9d25fa770a.1578544698.git.akuster808@gmail.com>
+Date: Wed,  8 Jan 2020 20:49:40 -0800
+Message-Id: <dcbaf2a7a444f07ab516833f4ed4a2322828bddd.1578544698.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578544698.git.akuster808@gmail.com>
 References: <cover.1578544698.git.akuster808@gmail.com>
-Subject: [zeus 20/28] reproducible_build_simple: inherit podfix
+Subject: [zeus 21/28] podfix: only alter normal files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 04:50:13 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 04:50:14 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-When doing reproducible builds inherit podfix to remove the possibility
-of differing Perl versions causing manpages to change.
-
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5dc43edab4787906f2c9f51e51bf78d1dc966286)
+(cherry picked from commit 23d38b2ad6f7a39e5c1ffd092322942474935c33)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/reproducible_build_simple.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/podfix.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/reproducible_build_simple.bbclass b/meta/classes/reproducible_build_simple.bbclass
-index 8a60deef3d..d0842f0f90 100644
---- a/meta/classes/reproducible_build_simple.bbclass
-+++ b/meta/classes/reproducible_build_simple.bbclass
-@@ -8,3 +8,4 @@ export SOURCE_DATE_EPOCH ??= "1520598896"
- 
- REPRODUCIBLE_TIMESTAMP_ROOTFS ??= "1520598896"
- 
-+inherit podfix
+diff --git a/meta/classes/podfix.bbclass b/meta/classes/podfix.bbclass
+index 54fff6a0a2..cc8210a27e 100644
+--- a/meta/classes/podfix.bbclass
++++ b/meta/classes/podfix.bbclass
+@@ -16,6 +16,9 @@ python pod_strip_version() {
+     for root, dirs, files in os.walk(d.expand("${D}${mandir}")):
+         for filename in files:
+             filename = os.path.join(root, filename)
++            if not os.path.isfile(filename):
++                continue
++
+             with opener(filename, "rb") as manfile:
+                 manpage = manfile.read()
+                 m = bad_re.search(manpage)
 -- 
 2.17.1
 
