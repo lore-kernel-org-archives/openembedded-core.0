@@ -1,54 +1,54 @@
 Return-Path: <schnitzeltony@gmail.com>
 Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
 	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AC647FE02
+	by mail.openembedded.org (Postfix) with ESMTP id 19E7A7FDE8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 20:26:41 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id u2so4279542wmc.3
+	Thu,  9 Jan 2020 20:26:42 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id 20so4267908wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2020 12:26:42 -0800 (PST)
+	Thu, 09 Jan 2020 12:26:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=VKBIs340bYIDQ4QN+JUUg8CV7+VJBTcerx7K+PhokAE=;
-	b=YNXQRNKKPAO0fMI8R44dmZvhEDVtmGDn2ntiEwXxAPWEUMN2mxzRksFdNH1GzCp5Y7
-	tCiepGkk5Rc6RiZk7NVzSBifqQUYFu5qVf7fkq7M5A3534hkQcQLsYsG0DBa0a2X6RJ6
-	ogSuH30Qu/2ZeY6hjKkB6WSxyTT+HkFUliS8GptGzmA5W7xyrLvOyQFTbj34S1A71vP7
-	RBiIhaLW+0yjR0A7YyBPZwB1LIu8HKCMvFUYRzvGaEZx7HGm9lL56Wfs8NVauj/LcSaD
-	02xJLakgP6OE0GaFJuU1xHhgOBjjRuyQTndsOPn42WSHlBno5ChTA1GS4knmxnamDFx/
-	AWZA==
+	bh=ctsK01/s5pOWfvbT4fIwb52Bb/UT1KouJ6xjSnlusvk=;
+	b=LPWF986wu0w9xeujxm2X53Wr7KlbJmLvCE+OdtVkSzllfggWjjCQaC8TaWtX8sGBHu
+	s+hqbllCg158wKHZDbhB8gyEIToZtHSCSC1HQPI8Vs2WzctJ38EqYYCeLz14Afy3c0A5
+	zs8UYZkSPVTHovGQ7PyhJwT7juqvEuxZWpgkQ2IAK7WKSy/OYUMVo8x9Y3EHT6JtkTuc
+	AmF3W6fhUjl657+PlZhbnVPWm4HgA3mK3T2KFwhFJkTZv1UpNeg+UlK2ulgixJ/X7Ub/
+	qYQzsMjvEDTGCDld689mKfv+jOrSHUFr+/gaGYUOMxlwQUY+weOmdnzaHZztpUtjvnzy
+	uY0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=VKBIs340bYIDQ4QN+JUUg8CV7+VJBTcerx7K+PhokAE=;
-	b=a7X/zOWPXtYZyxpmo/NaXouAxt8ksx5dqdbIakc+IX9RGFFrxpObEgI3vog5I5A/IW
-	p3sWd8qcUihh1eb0nQ5VFUjNrbp2cIFZXsnWO+qs+vD8oEVUacjvH58NkBM2T+ypfrDh
-	Mi7KIM8uPqP2ebDcSt9RYqiH0pFf5fRw9koY69MQZDvYjn60tJZ6Vc3nLlgOh2e+zVtU
-	IfrLczqNPqam+PJyHNwCITjTqIDNUxzd6QJlrRfN3bT5t8wKUCMaI6ZwXUCzrUq0g4ep
-	SEvwwPOSLQsnQVoBxX/tb64Dm57U8MCu/GNZtU+R+fURGtr7SZhz+TWYbB5mcgoHJKxM
-	vEQg==
-X-Gm-Message-State: APjAAAU7WQTsUJg5dmDUccWRjN4fodeBAgU8barSaq3Hzd+2QJRiBti7
-	WZkoYQp1b4OPxIk0Wi2xxYHa/L0UVa4=
-X-Google-Smtp-Source: APXvYqzBQ+1sxTpLukvllvm43zKRdiGdM5wXLBYS3D3uAsjiljizauJO/YzRR3DvY831PpuoojUbmg==
-X-Received: by 2002:a1c:740b:: with SMTP id p11mr7174326wmc.78.1578601601766; 
-	Thu, 09 Jan 2020 12:26:41 -0800 (PST)
+	bh=ctsK01/s5pOWfvbT4fIwb52Bb/UT1KouJ6xjSnlusvk=;
+	b=QqlrWcDz3YftUoWv2kH4rRIs+XBkK8QlsAqhiPFgoa051bW/MhCBz0cX5OR+yeOodZ
+	wr4Ahx6jlXEn6rySbfwsiGDh6pjWYDeWnr2Hb2mdszcb0YbRnQMP+xSE8iesndnw+2i7
+	TxAS5cum+B6mVI4Wmz3x3KrWW6l7mzRxQc0DxPFeLn0/xtbQ9T3by5okOgUEDxKn5UMK
+	W4RjrnS7TZ/hojO2uyJ1LXJU32OlsoE7Jo3ZyYQOPUp7v2/SAAm8cTzd5Vr74ZesA3k0
+	2cQ8j94JTVnUdhoOsptg/gpN9WXrJQy2xf83K4JK55JuBCotO4ftTsr6G59WuCikoaCq
+	qxxA==
+X-Gm-Message-State: APjAAAVIdRWrIL/+K6SbeWM/bNszTMmv6VwOuKv63HwU99fDwNqyLOM8
+	n4DpPaOUPPibGJ1cHXtKjFTPUYZLtbo=
+X-Google-Smtp-Source: APXvYqxDTV7JxNKPT1lmqPtCECdy+fiTfHZZ71ZpjLVYRLloXIOP/1mOEooGgbC9Hlm8zXOZF06PtA==
+X-Received: by 2002:a7b:cfc9:: with SMTP id f9mr7064279wmm.1.1578601602677;
+	Thu, 09 Jan 2020 12:26:42 -0800 (PST)
 Received: from superandy.speedport.ip
 	(p200300F07F0446528B12EBEBA10192C2.dip0.t-ipconnect.de.
 	[2003:f0:7f04:4652:8b12:ebeb:a101:92c2])
-	by smtp.gmail.com with ESMTPSA id z6sm9149986wrw.36.2020.01.09.12.26.40
+	by smtp.gmail.com with ESMTPSA id z6sm9149986wrw.36.2020.01.09.12.26.41
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 09 Jan 2020 12:26:41 -0800 (PST)
+	Thu, 09 Jan 2020 12:26:42 -0800 (PST)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 Jan 2020 21:26:21 +0100
-Message-Id: <20200109202623.28936-10-schnitzeltony@gmail.com>
+Date: Thu,  9 Jan 2020 21:26:22 +0100
+Message-Id: <20200109202623.28936-11-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20200109202623.28936-1-schnitzeltony@gmail.com>
 References: <20200109202623.28936-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 09/11] mime-xdg.bbclass: initial add
+Subject: [PATCH 10/11] insane.bbclass: Spawn warning for missing mime-xdg in inherit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,106 +61,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 20:26:41 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 20:26:42 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-When opening files by file-browsers on fresh images, user has to choose the
-application to open from the pool af ALL known applications even those not
-designed to open the file selected. By inheriting this classs in recipes the
-assosiations in /usr/share/applications/mimeinfo.cache are build by calling
-update-desktop-database.
+If a package signals that it can open mime-types but does not inharit mime-xdg,
+a warning is created.
 
 Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- meta/classes/mime-xdg.bbclass                 | 62 +++++++++++++++++++
- .../update_desktop_database                   |  8 +++
- 2 files changed, 70 insertions(+)
- create mode 100644 meta/classes/mime-xdg.bbclass
- create mode 100644 scripts/postinst-intercepts/update_desktop_database
+ meta/classes/insane.bbclass | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/mime-xdg.bbclass b/meta/classes/mime-xdg.bbclass
-new file mode 100644
-index 0000000000..07194ce037
---- /dev/null
-+++ b/meta/classes/mime-xdg.bbclass
-@@ -0,0 +1,62 @@
-+#
-+# This class creates mime <-> application associations based on entry 
-+# 'MimeType' in *.desktop files
-+#
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 442e9e5113..4ca39f22ff 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -28,7 +28,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             pn-overrides infodir build-deps src-uri-bad \
+             unknown-configure-option symlink-to-sysroot multilib \
+             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
+-            mime \
++            mime mime-xdg \
+             "
+ ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
+             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
+@@ -197,6 +197,24 @@ def package_qa_check_mime(path, name, d, elf, messages):
+         package_qa_add_message(messages, "mime", "package contains mime types but does not inhert mime.bbclass: %s path '%s'" % \
+                  (name, package_qa_clean_path(path,d)))
+ 
++QAPATHTEST[mime-xdg] = "package_qa_check_mime_xdg"
++def package_qa_check_mime_xdg(path, name, d, elf, messages):
++    """
++    Check if package installs desktop file containing MimeType and requires
++    mime-types.bbclass to create /usr/share/applications/mimeinfo.cache
++    """
 +
-+DEPENDS += "desktop-file-utils"
-+PACKAGE_WRITE_DEPS += "desktop-file-utils-native"
++    if d.getVar("desktopdir") in path and path.endswith('.desktop') and not bb.data.inherits_class("mime-xdg", d):
++        mime_type_found = False
++        with open(path, 'r') as f:
++            for line in f.read().split('\n'):
++                if 'MimeType' in line:
++                    mime_type_found = True
++                    break;
++        if mime_type_found:
++            package_qa_add_message(messages, "mime-xdg", "package contains desktop file with key 'MimeType' but does not inhert mime-xdg.bbclass: %s path '%s'" % \
++                    (name, package_qa_clean_path(path,d)))
 +
-+mime_xdg_postinst() {
-+if [ "x$D" != "x" ]; then
-+	$INTERCEPT_DIR/postinst_intercept update_desktop_database ${PKG} \
-+		mlprefix=${MLPREFIX} \
-+		desktop_dir=${desktopdir}
-+else
-+	update-desktop-database $D${desktopdir}
-+fi
-+}
-+
-+mime_xdg_postrm() {
-+if [ "x$D" != "x" ]; then
-+	$INTERCEPT_DIR/postinst_intercept update_desktop_database ${PKG} \
-+		mlprefix=${MLPREFIX} \
-+		desktop_dir=${desktopdir}
-+else
-+	update-desktop-database $D${desktopdir}
-+fi
-+}
-+
-+python populate_packages_append () {
-+    import re
-+    packages = d.getVar('PACKAGES').split()
-+    pkgdest =  d.getVar('PKGDEST')
-+    desktop_base = d.getVar('desktopdir')
-+
-+    for pkg in packages:
-+        desktop_dir = '%s/%s%s' % (pkgdest, pkg, desktop_base)
-+        desktops_with_mime_found = False
-+        if os.path.exists(desktop_dir):
-+            for df in os.listdir(desktop_dir):
-+                if df.endswith('.desktop'):
-+                    with open(desktop_dir + '/'+ df, 'r') as f:
-+                        for line in f.read().split('\n'):
-+                            if 'MimeType' in line:
-+                                desktops_with_mime_found = True
-+                                break;
-+                if desktops_with_mime_found:
-+                    break
-+        if desktops_with_mime_found:
-+            bb.note("adding mime-xdg postinst and postrm scripts to %s" % pkg)
-+            postinst = d.getVar('pkg_postinst_%s' % pkg)
-+            if not postinst:
-+                postinst = '#!/bin/sh\n'
-+            postinst += d.getVar('mime_xdg_postinst')
-+            d.setVar('pkg_postinst_%s' % pkg, postinst)
-+            postrm = d.getVar('pkg_postrm_%s' % pkg)
-+            if not postrm:
-+                postrm = '#!/bin/sh\n'
-+            postrm += d.getVar('mime_xdg_postrm')
-+            d.setVar('pkg_postrm_%s' % pkg, postrm)
-+            bb.note("adding desktop-file-utils dependency to %s" % pkg)
-+            d.appendVar('RDEPENDS_' + pkg, " " + d.getVar('MLPREFIX')+"desktop-file-utils")
-+}
-diff --git a/scripts/postinst-intercepts/update_desktop_database b/scripts/postinst-intercepts/update_desktop_database
-new file mode 100644
-index 0000000000..8903b496f3
---- /dev/null
-+++ b/scripts/postinst-intercepts/update_desktop_database
-@@ -0,0 +1,8 @@
-+#!/bin/sh
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+# Post-install intercept for mime-xdg.bbclass
-+
-+update-desktop-database $D${desktop_dir}
-+
+ def package_qa_check_libdir(d):
+     """
+     Check for wrong library installation paths. For instance, catch
 -- 
 2.21.0
 
