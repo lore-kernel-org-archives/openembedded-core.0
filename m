@@ -1,53 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 588D47FE3C
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FC227FDEC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 12:08:58 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id d16so7093590wre.10
+	Thu,  9 Jan 2020 12:26:51 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id y1so5056375lfb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2020 04:08:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=Iuy45zo/cIpwVhXcbC/XHfRO1AnyCysVVoCK5UUlOms=;
-	b=OwK5Fz2gW6GmqBzeraTUhTzm+wLKUnK8R7cL5eUmssrNy/Lxza7xXoFd+uy8oyEY1I
-	XnTHg1RTum7f9BbPHjeMTyoDTPTJV6ZVJ+FuSDDDuEBjt6Y64Vt7n8mg27zlqWayGVSt
-	8vLsJNMAFKOX9eREAIFX9fovx45tsdLggJNBE=
+	Thu, 09 Jan 2020 04:26:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=FznnqTzihSWns96pYpEma4CD/iCBwPoCdJZhWEeXGVU=;
+	b=X0PxyBUPRlSQv+CCyCItsrdUYgGGxCUGQ3kBDDMq6qP0S7LOvXePRLqAgjJ73c1g/A
+	pOLvXp5RzswAPNEXrALtOgTImYIgQvnLmQPNWtdTufHn99QIB8S4ayY1hBEY9aBzpJ5G
+	cPITYRRP7ploDphPETgMCVV+Ro6o21i6xMFxUOzK5oInt5i5o/YF6SidCWfDJwxEXAC5
+	e3RY5dw5TN/6jt8sfjH5oUs8YZSK2UZqFQtuZ1pZ/T64/aK6vPYpd+RTba9aHMcOeARi
+	DOh7ydOgta5ckNcFhOjLqFGgMtyoDPRRs5yVX70sLj4T2pVA6u18x1PIduacZUwI1S7n
+	ZXnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Iuy45zo/cIpwVhXcbC/XHfRO1AnyCysVVoCK5UUlOms=;
-	b=KXv3/Oqup/3RyS7t4wfXudm67ykB91w4Kt+vPlrnfVA0wFMIB27SVlAxcYoWgOjYtR
-	RjhNqjw4t5/5Ez3ZC1yFMjjwQqM6fBcXbqffqrjaV7xDufM3QBixLQHLEvVCf22V45g0
-	J3wH63GbdBZ59BJ1RjvaBAqyYE9hLxtapbQweeFAvxKvRIvXmC4qQWV4AqsQzYgrTg41
-	b3tm85SEyaoI1zbSfH9JU8HYrYnPuP2SudkvEgN62wAutj9+mfuEvrD7tCqD5ZNPYDQE
-	J5Pci5Z4oyE8yWj972ERDPuuMv0E4vLEpLlPnmOgvfyK+Qkq2/7PfmbowybuJnQhrLs7
-	q7Eg==
-X-Gm-Message-State: APjAAAV8mcOZXMwHj0My1sxX47nDqlem2E0hyKNw9Mo+j8YKolHTQVzJ
-	3PUHghPhEUu5WY1qFWMupLeXWw==
-X-Google-Smtp-Source: APXvYqwwabkwJY9QtPIwIQ3VADaYJifTOnvJ3vLha02dCwRw4ld7GIWiEAdo0LcVg8HJ3ZyfcmM7Bw==
-X-Received: by 2002:adf:b605:: with SMTP id f5mr10235098wre.383.1578571738830; 
-	Thu, 09 Jan 2020 04:08:58 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id x7sm7451347wrq.41.2020.01.09.04.08.57
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 09 Jan 2020 04:08:57 -0800 (PST)
-Message-ID: <a9e23045b333589e58bb1e771a508bd39a347dc6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Pascal Huerst <pascal.huerst@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 09 Jan 2020 12:08:56 +0000
-In-Reply-To: <d7dbdb87-d763-2ae0-923f-d293d6c24d27@gmail.com>
-References: <baf60d23-56e5-72a2-f7f7-adb10c29a5f9@gmail.com>
-	<f9a33ecd524bae8ad83d1c1b94f7908ea7258712.camel@linuxfoundation.org>
-	<d7dbdb87-d763-2ae0-923f-d293d6c24d27@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=FznnqTzihSWns96pYpEma4CD/iCBwPoCdJZhWEeXGVU=;
+	b=IPXkWKakjHFgUF+PykUOqD51MGbT2ePq+2qqx7ew7pMSfJROr9EVss/Swa5yx48h9j
+	Enq056TgUyLNtA4Ftjpgst/gfB6L+D2yFleXB2SWm4A51ZSaVCsyuhWPJa58FEZx1KAF
+	Uv7e8EoIEErnxtlqt4jeIjw5JVCbivNoGCE21Y2u205tM+4cOFFmiv9/6lNIHquEaSML
+	CljW56CsYwlbM7OAvVulZYQNHZbk05CaVOhSauADVWBY576a2iGSbFH/k5Vf+0fJD7s4
+	VlNjt3gHSEpS1aDJj2R/LIhkXODrwKNDOLR6V6vJC6/ed3gCQX0DU4UmDVBX8qQzzlk+
+	61eA==
+X-Gm-Message-State: APjAAAXU5YaQIK3TD8t6u9QWz7hue2u0kX1J2h3fue055JMkTNMJwg4+
+	To7ItIB8reRvOdCCMsQOIegBT5uIqxjMOsGKOZ0=
+X-Google-Smtp-Source: APXvYqwpbWGyeBjF0k8EjvEIXu/OHNHZgA6HKe0WU+bKAkX4e4iFbjxk/4YDcs+dgz20R23A6VXy0CGoTmuzdx/RZzg=
+X-Received: by 2002:a19:784:: with SMTP id 126mr5906775lfh.191.1578572812103; 
+	Thu, 09 Jan 2020 04:26:52 -0800 (PST)
 MIME-Version: 1.0
-Cc: Rich Persaud <persaur@gmail.com>
-Subject: Re: Looking for a way to build latest tagged releases in recipes
+References: <cover.1504036763.git.pkj@axis.com>
+	<CAJ86T=VajsxSGRakyVVmTZcEWwwLaVZxKpcsE+ZU75bGrsUkbQ@mail.gmail.com>
+	<70b15633357a418095d460b943d3e994@XBOX02.axis.com>
+	<1504043397.2175.19.camel@linuxfoundation.org>
+	<5ba32c0773d848ef8e6afb117a72abb0@XBOX02.axis.com>
+	<CA+chaQeak4gD3C=jgxE-gg=9yf+g=4sgcHqP3ooMVRMJsbtO5w@mail.gmail.com>
+	<CA+chaQdRJQ8i+a2Ko3_D7Gp=yAJvA5M5wCmZstMykip-x-FYbg@mail.gmail.com>
+In-Reply-To: <CA+chaQdRJQ8i+a2Ko3_D7Gp=yAJvA5M5wCmZstMykip-x-FYbg@mail.gmail.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Thu, 9 Jan 2020 13:26:35 +0100
+Message-ID: <CAPybu_248oLQ=9_8J=Owna+_AnJH9AE0bUsUfn4W=0bFywzwJA@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/2] Avoid build failures due to setscene errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,59 +61,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 12:08:58 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 12:26:52 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 2020-01-09 at 12:59 +0100, Pascal Huerst wrote:
-> On 09/01/2020 11:51, Richard Purdie wrote> I did look at and think a bit
-> about your patch. The trouble for me (as
-> > the bitbake maintainer) is that:
-> > 
-> > a) it isn't clear/obvious from the variable name what it does (or even 
-> >    from the code)
-> > b) it adds yet more options to the fetcher which increases the test 
-> >    matrix and possible ways things can break
-> > c) the test doesn't actually test it does what its supposed to (no 
-> >    check is made on which output is downloaded for a given revision)
-> 
-> I certainly wouldn't insist on the name and considered it a proposal,
-> but you're right, it's not obvious at all. As for test-ability, I can
-> relate to your concerns and understand that you don't want to maintain a
-> corner-case like this - Which leads me to the conclusion that we should
-> probably rethink our internal concept for release builds...
-> 
-> > Some of these can be fixed, some are much harder and I can't decide if
-> > supporting this kind of edge case is going to be an overall good thing
-> > for the project or not. I don't want to give you false hope by fixing
-> > c) only to say "no".
-> 
-> Understandable.
-> 
-> > Add in Khem's valid concerns about reproducibility and it makes it a
-> > tough one even to give feedback on.
-> > 
-> > If we have a ton of users saying "yes we really need this", that would
-> > help but I haven't seen that as yet...
-> 
-> Fair enough.
-> 
-> Thanks for your thoughts!
+Hi
 
-FWIW I do want to see the system used to do things like this. I've kind
-of envisaged you'd do it "up front" though. For example it should be
-trivial for a script to use tinfoil, iterate through and generate an
-include file of the revisions you want, using the fetcher calls.
+I am also hitting this wall. Any reason why the original patches could
+not be merged?
 
-Yes, its slightly more annoying to generate the config, then build it
-but if it stops the core becoming unmaintainable with corner cases,
-that could be the right decision.
+On Fri, Nov 29, 2019 at 5:49 PM Martin Jansa <martin.jansa@gmail.com> wrote=
+:
+>
+> On Wed, Aug 30, 2017 at 9:54 AM Martin Jansa <martin.jansa@gmail.com> wro=
+te:
+>>
+>> I agree with this patchset and it would be OK with IGNORE_SETSCENE_ERROR=
+S conditional as well.
+>>
+>> We're also sometimes seeing these errors, sometime anticipated when clea=
+ning shared sstate-cache on NFS server sometimes unexpected when NFS or net=
+work goes down for a minute and for some builds it happens between sstate_c=
+heckhashes()  and using the sstate.
+>>
+>> We normally stop all jenkins builds, until the cleanup is complete (ther=
+e is jenkins job doing the cleanup, so it puts jenkins into stop mode, wait=
+s for all current jobs to finish which can take hours, then performs the cl=
+eanup and cancels the stop mode), but we cannot stop hundreds of developers=
+ using the same sstate-cache in local builds (especially when we cannot rea=
+lly know when exactly the job will have free jenkins to perform the cleanup=
+) - luckily in local builds it doesn't hurt so bad, because the developers =
+are more likely to ignore the error as long as the image was created, but i=
+n jenkins builds when bitbake returns error we cannot easily distinguish th=
+is case of "RP is intentionally warning us that something went wrong with s=
+state, but everything was built correctly in the end" and "something failed=
+ in the build and we weren't able to recover from that, maybe even the imag=
+e wasn't created" - so we don't trigger the follow up actions like announci=
+ng new official builds or parsing release notes or automated testing.
+>>
+>> Yes we could add more logic to these CI jobs, to grep the logs to decide=
+ if this error was the only one which caused the bitbake to return error co=
+de and ignore the returned error in such case, but simple variable is easie=
+r to maintain (even for the cost of forking bitbake and oe-core) and will w=
+ork for local builds as well.
+>
+>
+>  I was using these 2 changes in my fork of oe-core and bitbake since they=
+ were sent to the list, but today after getting a bunch of errors like this=
+ from build which unfortunately wasn't using my forks and few questions abo=
+ut why these errors aren't ignored from fellow developers I've finally foun=
+d time to improve our CI jobs to deal with this and ignore the bitbake retu=
+rn code if it's reporting failure only because of these setscene fetcher fa=
+ilures.
+>
+> If someone needs similar work around for bitbake behavior, here is what I=
+ did:
+> https://github.com/webOS-ports/jenkins-jobs/pull/12
+> yes, it's ugly, but it seems to work and is a bit better than forking oe-=
+core and bitbake just because of this issue.
+>
+> Regards,
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-If you do something like that it would be great to share it so others
-can see what you did and be able to build off it...
 
-Cheers,
 
-Richard
-
+--=20
+Ricardo Ribalda
 
