@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
-	[209.85.215.177])
-	by mail.openembedded.org (Postfix) with ESMTP id A164C7FE65
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A917B7FEA6
 	for <openembedded-core@openembedded.org>;
-	Thu,  9 Jan 2020 04:50:17 +0000 (UTC)
-Received: by mail-pg1-f177.google.com with SMTP id k197so2586707pga.10
+	Thu,  9 Jan 2020 04:50:18 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id q8so2733530pfh.7
 	for <openembedded-core@openembedded.org>;
-	Wed, 08 Jan 2020 20:50:19 -0800 (PST)
+	Wed, 08 Jan 2020 20:50:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=FGdQ06L+8AO2jYEi6Yk2DLFJAG/84Bb46vaODV8E2mc=;
-	b=TKAwaoQ4TiHA0isv3AGX1Yhp3LxSVUNdxBkKC2gICqZCCeFmw34Ktnorge91fYT9GF
-	9MMUXdhsLaHOBVdyX7Msy7LfrHCLbD36tDU4MgFr4tkkiMIR2at2cg5UKIxvfshIi7uy
-	+q/9nABSxWhG6p9w2d3gPlwM+K2/xxf8ouSh9tsj+M/lYOGl+WgUcUXoydd/L6zPoAo0
-	ZyjUhB5hIsi4d+dzdwjQWGgg7olecqjCbrckkkwLjje2tjIRrX9Fbs0OvgUvopzpFnNN
-	g94Cd8h11PeOUR5bP3nhv87PPIvOs4NGc4+AUkI0FSeLT8B8vI5lCpKYGhQydi9bvIrk
-	rYPA==
+	bh=AegaRsgTbCLT2n/Bs+elhV1NVNoEsKXgGRSU1A3YZZM=;
+	b=YwXg0vETJcrWdAVg9QmrKmmi4gZjnYR8MiGAzvvOMMKZ5uvPNkjA1dJcaZNhzVDt5L
+	4RRPSfpFmhoGCBHvaSRgVnHHvrQm6fDoMZp0RrCBASUbZTL7+BJFyv8ieeudybnr1nag
+	lNsS/itee9HGxpCazp21gRoLZLmHtvpxvbwo+ndvst7cFCje9JCAH2i0aFHMXcwP4NjX
+	xEoNdClt1SDXq1r9r8Ji3RsdSEkGQD40W/rxVEwpulBjeLbPA+1rQrkw3irDWTvPgt1M
+	SFtizLbAHg/Wx+8O4q14zer/SXAnikaSa8p+zoYpc21Gi0oHddxprrqguiMmIM5rLzPp
+	Rmag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=FGdQ06L+8AO2jYEi6Yk2DLFJAG/84Bb46vaODV8E2mc=;
-	b=IaXGtZCLBQ5NZaQLY1ZB/Telinz89e/Nml0x9VFkGJ8gBDYuFz6EnKh/gDqG0dJHfA
-	+3D7lbnyeyFSaVT0uz5+HNv+6QTMDr+/hesKaWavRls7PrN93n/hoM2pPAvefrhidoOE
-	V2h30nl9yBZx5EDi/P9I9/J46//LSf6szcxs7ILznbE8bHvTN6mMSJonF93uj7DN6W46
-	Hu5x2gg37cR0/VOajiuZsl0qxPcjvwiHKoZMR26sCWFVWVepwbTbQGYWa+2EXy41kogz
-	WqCJomATNa11ELRAj+Qf1YjwsVkD/TlvbwQhEKVl+D++H2WxApYRqru2MHgfcdjcSTnW
-	bqYw==
-X-Gm-Message-State: APjAAAXfjkOAoLNvM20tuJG4JA1kpT4xqUF9Q3YqUwqYicHZzGKvKSXN
-	YzXxhi6Om/a8AbN5KvBp9fXyMqRD
-X-Google-Smtp-Source: APXvYqypSt8ZW9BV6A3S9r6Xglgfbt63aQe04CQkJZhL1gJPHTwkk4mIzvcfppNKHsFq1DBRPqgFhw==
-X-Received: by 2002:a63:6f0a:: with SMTP id k10mr9296149pgc.113.1578545418630; 
-	Wed, 08 Jan 2020 20:50:18 -0800 (PST)
+	bh=AegaRsgTbCLT2n/Bs+elhV1NVNoEsKXgGRSU1A3YZZM=;
+	b=gMmnfkrjfP3tgNSdNlXirYc6HyFl1jyEW1uryCDG+9SU+X4BcLdOxUq1ShKezZg9l+
+	yJiOi1IP54G3F+wHZ92hIrI2B2uAria0I+hah785t48VS1VLE9XdRbh5MNMGjEZLhKnW
+	A0zch2/ACC+iHbBVfEk3fiHGFIWYNikIqjOSjA4q1b3J2jLYofGVjDzOxKdS3RpOXJnN
+	6VfvT5fOcjMIvVMlfF5h7ZEi1pvQIoRkvvvdG/WzXMF+X0sGG+kItOSZlCBPDrPqDUvC
+	wekGyPYptLNL992TLNLcT6FmxXKlYV8RThLAUAGJe6UHJCa1WeIsOfvgbn3EybbicYOz
+	wSNA==
+X-Gm-Message-State: APjAAAUtn4odr316ChhVPUGaqj62R1y1gXeDdizUJjytRf/OYdnsdmf8
+	TIjdhdnTT50qpPvIr7jIR3XWq+61
+X-Google-Smtp-Source: APXvYqy7RP+GQKymEHFfDXG+ly3CNKKFebTxAUBDPMdg00A9PDnbWOHhaKNUu2yIrETddMd4UewMOQ==
+X-Received: by 2002:a63:214f:: with SMTP id s15mr9660634pgm.238.1578545419641; 
+	Wed, 08 Jan 2020 20:50:19 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:304b:2b9c:bcb7:ff1a])
-	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.50.17
+	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.50.18
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 20:50:18 -0800 (PST)
+	Wed, 08 Jan 2020 20:50:19 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Wed,  8 Jan 2020 20:49:44 -0800
-Message-Id: <9a2748db44c4382bbba81a5a9b96c998f0fab983.1578544698.git.akuster808@gmail.com>
+Date: Wed,  8 Jan 2020 20:49:45 -0800
+Message-Id: <c251e753486dae9b460df315a6d19d6c81098ecb.1578544698.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578544698.git.akuster808@gmail.com>
 References: <cover.1578544698.git.akuster808@gmail.com>
-Subject: [zeus 25/28] python3: Update to apply libgcc fix to libpython, glibc only
+Subject: [zeus 26/28] pseudo: Make realpath() remove trailing slashes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,32 +58,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 04:50:17 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 04:50:19 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Update to account for review feedback on list.
+Linux system's realpath() remove trailing slashes, but pseudo's doesn't, need
+make them identical.
 
+E.g., the following code (rel.c) prints '/tmp' with system's realpath, but
+pseudo's realpath prints '/tmp/':
+
+    #include <stdio.h>
+    #include <limits.h>
+    #include <stdlib.h>
+
+    int main() {
+        char out[PATH_MAX];
+        printf("%s\n", realpath("/tmp/", out));
+        return 0;
+    }
+
+$ bitbake base-passwd -cdevshell # For pseudo env
+$ gcc rel.c
+$ ./a.out
+/tmp/ (but should be /tmp)
+
+This patch fixes the problem.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit ec788594f3f6a47687c6eb321437f2d2b58b1518)
+(cherry picked from commit 319bbf66e03377adf2db7efa93ef578e3460eb38)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/python/python3_3.7.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...1-realpath.c-Remove-trailing-slashes.patch | 57 +++++++++++++++++++
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.7.6.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
-index 407c5a2bd9..b33b7028d4 100644
---- a/meta/recipes-devtools/python/python3_3.7.6.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.6.bb
-@@ -323,7 +323,7 @@ PACKAGES += "${PN}-man"
- FILES_${PN}-man = "${datadir}/man"
+diff --git a/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch b/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+new file mode 100644
+index 0000000000..17829ef3ac
+--- /dev/null
++++ b/meta/recipes-devtools/pseudo/files/0001-realpath.c-Remove-trailing-slashes.patch
+@@ -0,0 +1,57 @@
++From 86c9a5610e3333ad6aaadb1ac1e8b5a2c948d119 Mon Sep 17 00:00:00 2001
++From: Robert Yang <liezhi.yang@windriver.com>
++Date: Mon, 25 Nov 2019 18:46:45 +0800
++Subject: [PATCH] realpath.c: Remove trailing slashes
++
++Linux system's realpath() remove trailing slashes, but pseudo's doesn't, need
++make them identical.
++
++E.g., the following code (rel.c) prints '/tmp' with system's realpath, but
++pseudo's realpath prints '/tmp/':
++
++    #include <stdio.h>
++    #include <limits.h>
++    #include <stdlib.h>
++
++    int main() {
++        char out[PATH_MAX];
++        printf("%s\n", realpath("/tmp/", out));
++        return 0;
++    }
++
++$ bitbake base-passwd -cdevshell # For pseudo env
++$ gcc rel.c
++$ ./a.out
++/tmp/ (but should be /tmp)
++
++This patch fixes the problem.
++
++Upstream-Status: Submitted [https://lists.yoctoproject.org/g/poky/message/11879]
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++---
++ ports/unix/guts/realpath.c |    9 ++++++++-
++ 1 file changed, 8 insertions(+), 1 deletion(-)
++
++diff --git a/ports/unix/guts/realpath.c b/ports/unix/guts/realpath.c
++--- a/ports/unix/guts/realpath.c
+++++ b/ports/unix/guts/realpath.c
++@@ -14,7 +14,14 @@
++ 		errno = ENAMETOOLONG;
++ 		return NULL;
++ 	}
++-	if ((len = strlen(rname)) >= pseudo_sys_path_max()) {
+++		len = strlen(rname);
+++		char *ep = rname + len - 1;
+++		while (ep > rname && *ep == '/') {
+++			--len;
+++			*(ep--) = '\0';
+++		}
+++
+++		if (len >= pseudo_sys_path_max()) {
++ 		errno = ENAMETOOLONG;
++ 		return NULL;
++ 	}
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 1f2df4a427..7c75293ef1 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -8,6 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
+            file://toomanyfiles.patch \
+            file://0001-maketables-wrappers-use-Python-3.patch \
+            file://0001-Add-statx.patch \
++           file://0001-realpath.c-Remove-trailing-slashes.patch \
+            "
  
- # See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
--RDEPENDS_${PN} = "libgcc"
-+RDEPENDS_libpython3_append_libc-glibc = " libgcc"
- RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
- RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
+ SRCREV = "060058bb29f70b244e685b3c704eb0641b736f73"
 -- 
 2.17.1
 
