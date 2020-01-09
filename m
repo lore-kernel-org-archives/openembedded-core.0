@@ -1,40 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 122DF7FE5D
+Return-Path: <maxim.uvarov@linaro.org>
+Received: from mail-yw1-f68.google.com (mail-yw1-f68.google.com
+	[209.85.161.68])
+	by mail.openembedded.org (Postfix) with ESMTP id BC80B7FE81
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 11:46:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47tkpQ57xhz1n;
-	Thu,  9 Jan 2020 12:46:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1578570367;
-	bh=cMSujyDWTqCXwDOF4e8VZlCQbYv83ldCnu9joHbuA28=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=osvb1RBQM+CsjiGiYbHh9+OPQue4uUjS4RvRWGOqRYMg1266mUmYR/H2yJk2Mytti
-	YbIe99BZvTQdpEBLdjl1xBux/T6JGvEk5EDEGMVBItp5/wMO3mG4f/3CoRncjBf9Yv
-	X8gMfluegX8z+MGzCFDSkpXyf6BfeXa6nZtrFfHCoS4fWyLKv5oMTbH0cPAYGe/QxD
-	2/mCZPN2ekHW1W0xmsaa49uqxGL0LXDF590ufJ4X/9CcPxNbUYLmYLmueQ6RJQj/dx
-	/zt0g9SUGOoSFZqSDscYQMTMlr9aPueLd3clD3fBzcijQE1l3mNH9itMmYu+jjcthS
-	MDU5xCYZW7UBZp52Y2LjW593gLTe7aiYRf0D/203lrbaKQMqpJQbzwh9nUe0EfYE7U
-	eoDKDJvduhP++wbOMXDtlhD8MqYHMA2S8e77JPdr8yVnLjMhVeWemhwI2YMQtDsVio
-	y8oyijzgIN9sNphD89S/9rofrkGVgS7tRLEKrfkCbg9vSeWkjiDH6UK1ejOnrNbiPi
-	fpT/krda7v3f1SRIGp+x4GQ32I4bCEXToBc4SP1ddCyPI31u8e+N2VkDVSexDji/5W
-	DeXTvbRAAEGMKaC9EPtT4mV6N+daE4jxXMlXBXIJkosmkt/qHVd6Zbftvv0jsZTmt2
-	93R04UXrgKBSBxkicA1W47xw=
-Date: Thu, 9 Jan 2020 13:46:04 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20200109114604.GA29022@localhost>
-References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-	<20200108132759.95603-14-alex.kanavin@gmail.com>
-	<2fc677f1e980e80cd75d8b2e3c926556be06a8ef.camel@linuxfoundation.org>
-	<CAMKF1sp2+x5P0368UKgZr6DuFPy-0k1=fR3tnUwSwFdmyiWHqg@mail.gmail.com>
+	Thu,  9 Jan 2020 11:47:57 +0000 (UTC)
+Received: by mail-yw1-f68.google.com with SMTP id u139so2538437ywf.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 Jan 2020 03:47:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=xFWULlcplddCeG9xPUUsq8r9CJcXZJQ4dUzZntBLe9I=;
+	b=RXdRLuIsR88UUNQjXdMtO1797lAWEEO3pcbxj8qojqI/su+AzTprEJkgXjFfhJd/8D
+	c2trmLnyxKE1dh0CD/taJIRxbh+BszwEyWIh/ShqZqxTy3JFaZsxssyCgOPEjYp/JGFN
+	ZlcMCwhnlLuMFnjMf8r8hsmClBo52B3xZugQ+ZG5tG5rpQThHWrrcOspw6Tg+0J+JQCM
+	nkv71fs7vm3nGEeydA3d8uHo9vMY+BGc7FuPiC4WTsWXPQtX/2JCHD/v4KRwD0e27CUA
+	NXI8IrYavpimD2RBDHue4YaJyRRTR5haerTBNNCSRX5EuZZp0J93cLzYz50haeb5rYeX
+	7qEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=xFWULlcplddCeG9xPUUsq8r9CJcXZJQ4dUzZntBLe9I=;
+	b=gawzCbaQ57EHOnOpJnmJzxIBifLqnxowhiVNS0WUmWPdZmUwPcXniD6u1C5Zt3ElTV
+	8FuORutneF3CqQURBMqSvMjd6GCqwChLBJ1bO1VoonTnpmGAAiSCiIqRDQbNlmwnxEJZ
+	wv+ne39UdUBc9+BSP1D9UCuV4Q8eXQBFh8DvBJRh+w87iyBe51+bA5c9M5WxhbvzTqQu
+	baIWc+B789JkbevkYE3cLBnxL7ny+XIm8novW9jSrf6Yw+tOrYv4ylL6BiR717u48K4Y
+	oBW+2y4aCoABB17YO5tNPzlCt/1o2YjVCZxJy0GGu+g7y0A34zMYu66plozn+dMS6swx
+	AiXg==
+X-Gm-Message-State: APjAAAV7Quu7WxkHFnSYUFtAhTiNBg6oUtrpJ7Vq9Mw1iGH7BxKBUllZ
+	sqL4wO5onkc+O2jG5OajYigOCwCVC4IIkQtKDeMhkEAy4T4=
+X-Google-Smtp-Source: APXvYqwIqwxk8qW9y7Q9QVQ/uxDL8IvqxgjG0ftIDswkRBbNPflDVmxYEBb9DIWwNSBZqutrjB/Lo2Zyusvn0jzU4j0=
+X-Received: by 2002:a81:1c15:: with SMTP id c21mr7640320ywc.408.1578570478644; 
+	Thu, 09 Jan 2020 03:47:58 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sp2+x5P0368UKgZr6DuFPy-0k1=fR3tnUwSwFdmyiWHqg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 14/28] libcap: update to 2.30
+References: <20200104200703.6758-1-maxim.uvarov@linaro.org>
+	<8b3eab92db8c79d69bff5eee95f1b9498bc96d65.camel@linuxfoundation.org>
+In-Reply-To: <8b3eab92db8c79d69bff5eee95f1b9498bc96d65.camel@linuxfoundation.org>
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+Date: Thu, 9 Jan 2020 14:47:47 +0300
+Message-ID: <CAD8XO3YiX7Xj8z7s0AzDeAcR530RrCOixYjw+myd0Nim90pv7A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: add UEFI kernel as UEFI stub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,35 +54,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 11:46:09 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 09 Jan 2020 11:47:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 08, 2020 at 05:31:45PM -0800, Khem Raj wrote:
-> On Wed, Jan 8, 2020 at 1:22 PM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
+On Sun, 5 Jan 2020 at 17:52, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sat, 2020-01-04 at 23:07 +0300, Maxim Uvarov wrote:
+> > Linux kernel can be compiled as UEFI stub and loaded directly
+> > with UEFI firmware without grub or other UEFI shell.
 > >
-> > On Wed, 2020-01-08 at 14:27 +0100, Alexander Kanavin wrote:
-> > > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > ---
-> > >  ...-tests-do-not-run-target-executables.patch | 33
-> > > +++++++++++++++++++
-> > >  .../libcap/{libcap_2.27.bb => libcap_2.30.bb} |  5 +--
-> > >  2 files changed, 36 insertions(+), 2 deletions(-)
-> > >  create mode 100644 meta/recipes-support/libcap/files/0002-tests-do-
-> > > not-run-target-executables.patch
-> > >  rename meta/recipes-support/libcap/{libcap_2.27.bb =>
-> > > libcap_2.30.bb} (90%)
+> > Tested with wic file:
+> > bootloader  --ptable gpt --timeout=0  --append="rootwait"
+> > part /boot --source bootimg-efi --sourceparams="loader=kernel" \
+> >  --ondisk sda  --fstype=vfat --label bootfs \
+> >   --active --align 1024 --use-uuid
+> > part / --source rootfs --fstype=ext4 --label rootfs \
+> >   --align 1024 --exclude-path boot/ --use-label
+> > The same wic file for armv7, armv8 and x86_64.
 > >
-> > I think this causes iputils to fail to build:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/104/builds/331
-> 
-> also
-> https://errors.yoctoproject.org/Errors/Details/305696/
+> > Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+> > ---
+> >  scripts/lib/wic/plugins/source/bootimg-efi.py | 27
+> > +++++++++++++++++++
+> >  1 file changed, 27 insertions(+)
+>
+> wic has fairly complete tests, do we need to add a test for the new
+> functionality?
+>
+> ("oe-selftest -r wic")
+>
+> Cheers,
+>
+> Richard
+>
+I'm currently looking to zeus branch and it looks like test uses this file:
+openembedded-core/meta-selftest/./recipes-test/images/wic-image-minimal.wks
 
-https://github.com/iputils/iputils/issues/246
+I think it will be good to add test for --source bootimg-efi
+--sourceparams="loader=kernel".
+Do you want to change wic-image-minimal.wks? Or just put this file to
+openembedded-core/meta-selftest/wic/
+directory and somehow it will be tested?
 
-cu
-Adrian
+Maxim.
 
