@@ -1,53 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id BEE2D7FD62
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-il1-f193.google.com (mail-il1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A03DA7FEAE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 14:36:18 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id b4so4290967vsa.12
+	Thu,  9 Jan 2020 14:43:11 +0000 (UTC)
+Received: by mail-il1-f193.google.com with SMTP id c4so5894040ilo.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2020 06:36:19 -0800 (PST)
+	Thu, 09 Jan 2020 06:43:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=FRWNqiYOQPg5KTASK3uzg3KUaH4OzmywPYDlDFFP/Us=;
-	b=Cp1sq9i81Q6VhnGslnYNUfV0KafMW2c0uTq9VsQiM1S4vEz7u5zindGGIyJIdTZKN0
-	SNLxXT0r3amoJ2Nc4spOdmWqzwN7Q+2VoeFhjjrd2o5HcuThE9nELAxHemjJwre8yfa5
-	w3IRuvln2NBXHDlcZlLPjoEgfumvFC1IyZXKmUsLXnAmm0iMkabNhgSkZhlEy30HaQWt
-	AK3V8OMPlMThN7dnbKzQdGqvGg4hdL0GHL1J05M4PxyITXVo+G7tCIsJgb+twtoWy4b8
-	CuFVDRJ/cUaCWZOK2z+lp8jhc+qkGDKIafPUywks2TmTZjImlx/rfM3yislMV4VnAWJr
-	WndA==
+	:cc; bh=CQZNO9DXBvp45eytghKYFThsvjVv2UF+C5LmoW3iH24=;
+	b=uqdQRiadD5Ovd/30iFkRwHI/+zKWcRu48kN2P07qVKDZDgaay6k++1ZfHVi25f24A6
+	BzeG1l+GVYGGFBhtb5MNKUfCBRchydxT21dhU7E1YEDhY1uV9gU5RlFSDhFS3R/5KEe6
+	lAGP3XvDbTG2F+4dWBwOsBrLrMmXPnBMLAfONtNJI6RA+2F0hsVqqT3HkrgbOl7TbtHn
+	/6qr0Cw6HgrMib135G2jhVpkuVoS9XZeBB7MD/EFNtCXQXNrzGvcNmU1Zl/5bJCWRIpC
+	RkApRDzU0ZEkrYaBxfCMFSTRybpnRhfWQY6USJnU6JTqP8jQc6e+PnvKAF5RVfG2Dfqg
+	jcrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=FRWNqiYOQPg5KTASK3uzg3KUaH4OzmywPYDlDFFP/Us=;
-	b=ik0iUCp5YoOFMYCa75JT750LPwEKuWnP7VygjkKE27nm91S40GysFG88YzFUtr2H1y
-	pDxepFdj2ldlFg6Z7H7edTrCY4/UMT/mGqjJCM0+scdLxuTNlQbiFHhfC/5BIrw4fQOG
-	uAjT8TRGzhLSRImMsDNxn9H9c8vg2qcxttTMLPQSZKa2sCpeYvJwsCEQYv9G0iDQ8jJf
-	5TgujNicY08SaCP3ZTMiDTUI+mcIiC2tHnVjKPuMW0f9srP4trOpbKW/RJnPwGDtuSjV
-	UVd2VqIX3w5TgpZd0+fVNo6wfiMYbV2pBKDew0D9Q179y5c0UvSNXlcl/QlRUaaGsw3t
-	XZfg==
-X-Gm-Message-State: APjAAAXZTirnmk/5vbhMJMC3vZ08LhMCRP3yW3l1v2OZLzUSjlHk/89I
-	wx/GFqb5/jRRM3EX8cLHGgK9tcO8MxaoWX4l+ho=
-X-Google-Smtp-Source: APXvYqypWso89L8UVNn43nQKfyjn23OFZgkx+eRO9ZtIhe7hIviIeKHB9/rp5LptTmKn184bhfFzkHjTc4b6czZ6GyA=
-X-Received: by 2002:a05:6102:52e:: with SMTP id
-	m14mr5937647vsa.25.1578580579322; 
-	Thu, 09 Jan 2020 06:36:19 -0800 (PST)
+	bh=CQZNO9DXBvp45eytghKYFThsvjVv2UF+C5LmoW3iH24=;
+	b=g5XN28xw+c0mq1BNH6FOF1K6d2bK4G1UNeIEyJkDCbWXlOY8yynsef1AL0yWvOWyVC
+	ouYZUceKgZdFSKS2/x+PDp9+M5NicDQJ/o0q/4yPuA9q+K4JgPY7cJKkRNVr7t1Y3A86
+	gbhtwDBWuc6FT9mBaRp2Ojr1EYb6K4/xMulcCPmoy9lsSx3rdr4VNsEAEXPzncThFvqQ
+	EaVBZlEGsn/DiPOeHXj5rUXQzcW0/CQS8cW4VyC1wfrg7DxjXAgy0b31XMvk//hAsS5A
+	figCBoT/F2LWkMzwfauXkzSNYpPlO6eaFMFLqCsjT9oaoODAGaTLDZ31ni/mY9P2dp+2
+	tUng==
+X-Gm-Message-State: APjAAAUn8c5j+RNWV/1+FnGLOTLyHBCbEYNoOM9r9AAoIINueMmeXGaW
+	5SSYQt3Rvo/ZH68LXA2zP3cNv8jM623innX+X4Y=
+X-Google-Smtp-Source: APXvYqxLdGnDp882GPwzKKBilGQM+v3gUrPlkLbT5BeKiMqi/PLu8xfFp7jP9NheUS7GqoQf95GkOqEqL2qOn/hiJoY=
+X-Received: by 2002:a92:af08:: with SMTP id n8mr8739343ili.217.1578580992606; 
+	Thu, 09 Jan 2020 06:43:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-	<20200108132759.95603-11-alex.kanavin@gmail.com>
-	<15ea8a58c140419c32f08e4ab6148677bb23e920.camel@linuxfoundation.org>
-	<CANNYZj_52vBnUoR=XL0-vVPs7-h3=vH0QoO9f_wBVo+8FiijhA@mail.gmail.com>
-	<CANNYZj8Tr3N-kp1b47w8LimQOWOyWVzqLyq1ip6eS4juf5VXFQ@mail.gmail.com>
-	<e1cd09d3f326c30da7ecf41e951105f3a92af64f.camel@linuxfoundation.org>
-In-Reply-To: <e1cd09d3f326c30da7ecf41e951105f3a92af64f.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 9 Jan 2020 15:36:08 +0100
-Message-ID: <CANNYZj-26WfDZ3fdp1WgptphLYxrhA6H780rDQReGk3fP+x5og@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Tom Rini <trini@konsulko.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/28] ifupdown: update 0.8.22 -> 0.8.35
+References: <20191219221748.27079-1-alex.kiernan@gmail.com>
+	<CAO5Uq5SE6S+f6Xfctp-CGHd7+4j3J66YnxzL7J+QepbV-EKLdQ@mail.gmail.com>
+	<c6225d2a-6f86-0c23-004b-3920432f2ae4@intel.com>
+In-Reply-To: <c6225d2a-6f86-0c23-004b-3920432f2ae4@intel.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Thu, 9 Jan 2020 14:43:01 +0000
+Message-ID: <CAO5Uq5TUB3JzvqCduXEtE3m6MN1d0gyZZup9V71J2ocu4tH+mg@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] manpages.bbclass: Fix rootfs host corruption
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 14:36:18 -0000
-Content-Type: multipart/alternative; boundary="000000000000ae0f64059bb5ee97"
-
---000000000000ae0f64059bb5ee97
+X-List-Received-Date: Thu, 09 Jan 2020 14:43:11 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 9 Jan 2020 at 14:55, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
+On Thu, Jan 9, 2020 at 1:36 PM Ross Burton <ross.burton@intel.com> wrote:
 >
-> That may be but I think this is an oversight, not an intention and we
-> should support busybox-free images...
+> On 09/01/2020 02:30, Alex Kiernan wrote:
+> > On Thu, Dec 19, 2019 at 10:17 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> >>
+> >> When running mandb we end up with files owned by the build user, correct
+> >> this. Also pick up non-default locales and relocate their index.db files
+> >> to /var/cache.
+> >>
+> >> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> >> ---
+> >
+> > Ping?
+>
+> I never saw this on the list can you repost please?
 >
 
-Right, I'll fix the build, but the implementation of runtime testing is up
-to people who need this kind of feature.
+Sure - it's the companion to the one I think you'd started to look at
+("Enable rootfs_check_host_user_contaminated"); I was fixing up
+manpages leakage, but you found some of the font stuff leaking host
+users into the image.
 
-Alex
+--
+Alex Kiernan
 
---000000000000ae0f64059bb5ee97
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 9 Jan 2020 at 14:55, Richard Purd=
-ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
-@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex"><br>
-That may be but I think this is an oversight, not an intention and we<br>
-should support busybox-free images...<br></blockquote><div><br></div><div>R=
-ight, I&#39;ll fix the build, but the implementation of runtime testing is =
-up to people who need this kind of feature.</div><div><br></div><div>Alex<b=
-r></div></div></div>
-
---000000000000ae0f64059bb5ee97--
