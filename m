@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id EA2F87FE5D
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+	[209.85.210.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C9A167FE9A
 	for <openembedded-core@openembedded.org>;
-	Thu,  9 Jan 2020 04:50:14 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id k3so2602844pgc.3
+	Thu,  9 Jan 2020 04:50:15 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id q10so2740344pfs.6
 	for <openembedded-core@openembedded.org>;
-	Wed, 08 Jan 2020 20:50:16 -0800 (PST)
+	Wed, 08 Jan 2020 20:50:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=YeCuKOQqqGt2K/1E47d/Xmh0Oob/TEOsR3gP6DeBWyU=;
-	b=DmNmAg954aCr+frXiEFRDlNYybFlyG0kP9BYHqhXbAvRJ+yaa71XanLmUGHlyvDsEi
-	GR9OpxwASdigSRoKa3ng3l7zHNSnrPQPRThtkTb1AoPsIiN+BftVhslW4tTRUIYjwPPh
-	buqSBTAjvGDjXz1EeC7jmnoSzWz/OAT9Fi3tIi2zSl68SIZdVFFlKBBZxUC4aYE++sh3
-	/REwPgnhjWyusRnsGu2cQNzzIvRUAIT2ldVRhbG+pZ9lI588LrIWvEna4Pn9FxtQ/K+f
-	dfFTAw/Ry3rNJKIChb9SiaPqdFAH012yffnXMnpbwx3OhiUdkl9JuKsjJSh3jKnJoRqT
-	CDKA==
+	bh=ueoAB/paKcs58RcwjsHu3YO3LLAazDrlmC1WJxcuo8s=;
+	b=DmpJJIV+ctUTTrz4GqNK6oFMcep2Ae1oxN0C5mZ2uSdLrzIus5A2Fc+1fArKWuOvMy
+	26BdmdF3Y0svfAVaCV9tMOr6NloUvWKK0OB3cDmABt4ZAMD4TU4vblJD/bQVlpkdKnsW
+	oerOeOypcKRnbARjkG0PZpW7gqPppLJoV3F+HZxRF65fJ3A8HHP8+/cbGhWI4s8YiIM2
+	l680tL4GxoN2JW4CsxhpH844I10d3q8S5FUinDcTO544nyeokxIw/Gjv9iHPw3xGhLRM
+	9C7IbGM1E+ut4KU4fHZBZ6bjeNIdfJWV666sBXWfrSJduIj4+rTG1C1c2quSi6ldgE6B
+	j34Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=YeCuKOQqqGt2K/1E47d/Xmh0Oob/TEOsR3gP6DeBWyU=;
-	b=ru2lw4NoGe13y5IGY5A5j6+bNjscaqDJYoq4wfhTgCm+qCgTzGQP3DBlNAv2tVHKFP
-	ZdFE6LJeg8lFg6beWUXDNhHt0PAccPzRH4nmvjcXs1ENVNpVCaY30AzAMkc0QQfuzA8s
-	Iz9vDV8pmEpcC1uRAb4tPqumQkg5UgF75133Af9mCbOPavDtfKdRppXgoQjXnVXtt0aR
-	PucovJl096BPAUiyUJQ4Tb9cndAFvkhwiSPDHjysyA43cw0fPIFR1GwXQsQZGPcJ5fOW
-	KN21dWY6sWViiYvPUcbqRslWCtso1bs7gFSsRLEKuo9p0W49serXmkra7Xop+C3JeSjF
-	j/sQ==
-X-Gm-Message-State: APjAAAXJrVuGZQ/aTPO1bzy/6xvOz4K+lkJz57v91HY+fK6tfAHAu9Kc
-	v1Zrez9Ck7ccKud+SJuqrd5LoUzq
-X-Google-Smtp-Source: APXvYqyjNgcvpnX6Q/170TuMkPFWlEtSp3U3ajp1BeRnEvzuyEonKgADKRmT1UZRsKm9tgSgXczW1Q==
-X-Received: by 2002:aa7:982d:: with SMTP id q13mr9354161pfl.152.1578545415939; 
-	Wed, 08 Jan 2020 20:50:15 -0800 (PST)
+	bh=ueoAB/paKcs58RcwjsHu3YO3LLAazDrlmC1WJxcuo8s=;
+	b=Zjp9RAPeYF6+QIi0HT+/7T9rcV3bM4QZLLgdsp3Gd4op9/K/QV0PwwF7vMOe3Itak5
+	WSljJxfQ/hX9VxwOuyxNAr7B9bPdO1Sog/cBt6EomG2JalkchiXqsZHGn/+Cj7N43B9D
+	O0DfPliKyl536Ebbzi8q7ltY/ukZVUtMgWtNGOJAbRiyPWTqFxJRf762AnCXRSL+X22/
+	KCxJ6FdgbsQbG2EzcrhLvSo718C924J5f8FU163p/KO7A34CPzrSAxIrdEUCdDowC/Ur
+	m86HmyE/UVxUdmpRDvWxy4fxwv3Tq4d8AblwbXoNgifsnT4bmXeBsVIibQiONUSpv/Ip
+	mJ3w==
+X-Gm-Message-State: APjAAAXydf/PLDMjM++H1n1J9HYNsnkoFkgCLNWmMJAL/VrMqIDgJYEr
+	vh5fVMXbSHpwW3uHcZAkwbM19c/C
+X-Google-Smtp-Source: APXvYqz52UbpmXNvCN1Pvans9P8zxnlLZc6QjQyYd+l1tfKScdrLf5R74wMUce1pXlg/OVtailRYNQ==
+X-Received: by 2002:a62:3086:: with SMTP id w128mr8926199pfw.58.1578545416883; 
+	Wed, 08 Jan 2020 20:50:16 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:304b:2b9c:bcb7:ff1a])
-	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.50.15
+	by smtp.gmail.com with ESMTPSA id l9sm5018427pgh.34.2020.01.08.20.50.16
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 08 Jan 2020 20:50:15 -0800 (PST)
+	Wed, 08 Jan 2020 20:50:16 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Wed,  8 Jan 2020 20:49:41 -0800
-Message-Id: <fd1aa49d8a25767953e8b1beb91001d5e115f781.1578544698.git.akuster808@gmail.com>
+Date: Wed,  8 Jan 2020 20:49:42 -0800
+Message-Id: <b8926f3898fbf6828b908d741ab3b450adb85643.1578544698.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578544698.git.akuster808@gmail.com>
 References: <cover.1578544698.git.akuster808@gmail.com>
-Subject: [zeus 22/28] systemd: Upgrade 243 -> 243.2
+Subject: [zeus 23/28] python3: Upgrade 3.7.5 -> 3.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,53 +58,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 04:50:15 -0000
+X-List-Received-Date: Thu, 09 Jan 2020 04:50:16 -0000
 
 From: Adrian Bunk <bunk@stusta.de>
 
-Bugfix-only changes on the 243 stable branch.
-
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit aee9beb12226abf7a195b8ee801ea488920b2fdb)
+[Bug fix only update]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../systemd/{systemd-boot_243.bb => systemd-boot_243.2.bb}    | 0
- .../systemd/{systemd-conf_243.bb => systemd-conf_243.2.bb}    | 0
- meta/recipes-core/systemd/systemd.inc                         | 4 +---
- .../recipes-core/systemd/{systemd_243.bb => systemd_243.2.bb} | 0
- 4 files changed, 1 insertion(+), 3 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot_243.bb => systemd-boot_243.2.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-conf_243.bb => systemd-conf_243.2.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_243.bb => systemd_243.2.bb} (100%)
+ .../python/{python3_3.7.5.bb => python3_3.7.6.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.7.6.bb} (98%)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot_243.bb b/meta/recipes-core/systemd/systemd-boot_243.2.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_243.bb
-rename to meta/recipes-core/systemd/systemd-boot_243.2.bb
-diff --git a/meta/recipes-core/systemd/systemd-conf_243.bb b/meta/recipes-core/systemd/systemd-conf_243.2.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-conf_243.bb
-rename to meta/recipes-core/systemd/systemd-conf_243.2.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 7f3a59c208..18f17d28ac 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -14,10 +14,8 @@ LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.7.5.bb
+rename to meta/recipes-devtools/python/python3_3.7.6.bb
+index f6a1fc76e3..d3706cdf64 100644
+--- a/meta/recipes-devtools/python/python3_3.7.5.bb
++++ b/meta/recipes-devtools/python/python3_3.7.6.bb
+@@ -38,8 +38,8 @@ SRC_URI_append_class-nativesdk = " \
+            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
+            "
  
--SRCREV = "efb536d0cbe2e58f80e501d19999928c75e08f6a"
-+SRCREV = "fab6f010ac6c3bc93a10868de722d7c8c3622eb9"
- SRCBRANCH = "v243-stable"
- SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+-SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
+-SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
++SRC_URI[md5sum] = "c08fbee72ad5c2c95b0f4e44bf6fd72c"
++SRC_URI[sha256sum] = "55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f"
  
- S = "${WORKDIR}/git"
--
--PV_append = "+${SRCPV}"
-diff --git a/meta/recipes-core/systemd/systemd_243.bb b/meta/recipes-core/systemd/systemd_243.2.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd_243.bb
-rename to meta/recipes-core/systemd/systemd_243.2.bb
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.17.1
 
