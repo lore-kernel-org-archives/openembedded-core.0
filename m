@@ -1,49 +1,58 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f45.google.com (mail-vs1-f45.google.com
-	[209.85.217.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B751E7FE48
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 758517FEF4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 21:36:07 +0000 (UTC)
-Received: by mail-vs1-f45.google.com with SMTP id u14so5223341vsu.3
+	Thu,  9 Jan 2020 22:14:34 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q6so9070435wro.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2020 13:36:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7pqhvD3Fy6XeHeVDGLWN37BYSzowkqdRK+tuTuPP2us=;
-	b=pakU2PWB73Ezk272rxMCdtHDAEieszwmFSMJvGi+k76CncW98PzsK7M74Ud/yHoFiG
-	ZqJ2vt1BiS2g1E/PFVfAGrDXnPD4lSpdRnOOkwFl169qib59+aj7g48vturnAU4qAa36
-	fH4aBfLGY5I3JNr6jxVs1Tq3O+t9HynYp+G2mkSnBa7Gj1wsCOdw0LJzsLoK3Fz7XnoB
-	CwWTR0x6xN4eXslcVaPuv9lkKiPCEeG3QTSJlobRWn41SJCASe4CPm41JJUCV4QscYiq
-	xWWtZ8Brab709iKf4NSTVxX0PuiGzOcCmnAjrzMB3xEbEbdj2r8sOFbdZQb6I09+hcrc
-	Izvw==
+	Thu, 09 Jan 2020 14:14:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=vQRWTN6ybxMO0YWGzkKnJGXxFmBiHwnd8J7oYuRv+DE=;
+	b=GuzF77X7U54rVGtcVO/6KrUn5iWKhZPm1JIUHliG08mKPitoJyqJ/Da0VvsviLeukW
+	crNQqYZ7UNAJhdDbIUrXt/rfB3RS+F7Y8KRfykzYByuNekkHh1HhRWKY22uK35Qc8vUR
+	RuIElmSENeagRLIUVI61miRpgPnR09xx4Ae+g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7pqhvD3Fy6XeHeVDGLWN37BYSzowkqdRK+tuTuPP2us=;
-	b=VmAaZOiQ0aHBqbkNvPXDjrgdLNg37o2ZIbjE1WlEYwZjbd/8MEbvQm3l+h5H6hsV/g
-	MWqq3e4QILGKBdKwyvoydU2/SXDAPIwr9nniWsOgvunLtZjs4Rfr7o7KLHEEZDqcqVp3
-	Qh1M/nDlINKFRJU94zOM/BPJ24S9BaYVqLVpnJqLzcmlw9VqdOsgOkttHF5SRgku83HE
-	Uw9tN7GrxXvYVVjbzrUfmsE4hN3th/X3BPQMjbCpLELCRlYgk/8frsEy1/9XT4FcSoD4
-	p+Z31c0/KlKie7jqN3q5vvrf20FLjlXHFxCKPyil3UguY0IsvAq5310tYQ8AVvJm6UTD
-	TtYA==
-X-Gm-Message-State: APjAAAXVbx17pupr8VOqqaypXkxeNhsNN4d9JVs5m1cyS6M4m+8yhpLx
-	o2lGLIFN+xJ74Kef19nczYsarBZyoOt19wygutQ=
-X-Google-Smtp-Source: APXvYqyETl4I9mKyP90B2wYVsWwKgLo89prrx/iIDOPdCWJTgJfeRAjPf0c8qdqgYM8nLAtdhLfdxKvcNPXeH+SDcLI=
-X-Received: by 2002:a67:3187:: with SMTP id x129mr7687340vsx.23.1578605768464; 
-	Thu, 09 Jan 2020 13:36:08 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=vQRWTN6ybxMO0YWGzkKnJGXxFmBiHwnd8J7oYuRv+DE=;
+	b=Na0O1P3NEzBFRY7uJK6p5uEdmQHJObP3EKunUjcFqIv5dyBYZZTxzEAzSL5CRbueSN
+	L84Ll1foNJrq3yHmeri85K6r37yaTEpX154x+/mXsQJy+WbektdhCId8h97eQl9WUnF/
+	kJ4bHGteqkO+ZKSpfTVk+2/4+/b1nKpPrRCf+sKDYSoDYUryTLfSaZ4PbpjwFCowffof
+	QNQA36h2VrHcQ8qFospqVoXJz9LoSuuZrjQD4hvSBKroGhR+Y1R9JQrmWebY62b9AsGj
+	4LCHs5SEYzr51vLNDc7SfZ7ovKwkwQRpLG7i7JHARgq8Mf6kiTZY7ivPcYPHleEYIkZ+
+	4YhQ==
+X-Gm-Message-State: APjAAAWoip2DtnesltkbxZxQPnypT76IdhbwCBTXboE5heKvUCsQE9+q
+	QmZ3MINjr3GOrA5jDM5clmIU0Q==
+X-Google-Smtp-Source: APXvYqzcbdiSzOuH9c5IlJhAKXtYDBjaTDyl3TPfk8pTHc+Gh0d+6OtVp77KoYj/XMbF6OhuVkzOwA==
+X-Received: by 2002:adf:ee82:: with SMTP id b2mr26055wro.194.1578608075203;
+	Thu, 09 Jan 2020 14:14:35 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y139sm4625893wmd.24.2020.01.09.14.14.34
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 09 Jan 2020 14:14:34 -0800 (PST)
+Message-ID: <bdc3d78fb086561f839d8a6a41d2ed336ef5a793.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, =?ISO-8859-1?Q?Andr=E9?=
+	Draszik <git@andred.net>
+Date: Thu, 09 Jan 2020 22:14:33 +0000
+In-Reply-To: <CANNYZj96gxDZnxLKzEZUy+qehNQirO87hrUeKOR9KCrPmnWsOQ@mail.gmail.com>
+References: <20200108132759.95603-1-alex.kanavin@gmail.com>
+	<20200108132759.95603-5-alex.kanavin@gmail.com>
+	<492572ea126b424def780911c58230941842dd91.camel@linuxfoundation.org>
+	<CANNYZj-=HOtgRiTh9xcnt9Q7c+gcm-Le26dfJeY0f3+Pt2HQsQ@mail.gmail.com>
+	<8f8e989f2e630df2fcbee68f1ea18034549e069d.camel@andred.net>
+	<b264b9d4f20106585d8a3daa6da6652f6ec90873.camel@andred.net>
+	<CANNYZj96gxDZnxLKzEZUy+qehNQirO87hrUeKOR9KCrPmnWsOQ@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20200109202623.28936-1-schnitzeltony@gmail.com>
-	<20200109202623.28936-2-schnitzeltony@gmail.com>
-	<CANNYZj_ZS77tDpmBO-_AaYb6KYEQTi-B=AV8snywaOa-KrPLVA@mail.gmail.com>
-	<CALbNGRSMELu18v7UyqHiaYQGkFqcsdP+Hx_HS1FbqMSzvua2dQ@mail.gmail.com>
-In-Reply-To: <CALbNGRSMELu18v7UyqHiaYQGkFqcsdP+Hx_HS1FbqMSzvua2dQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 9 Jan 2020 22:35:57 +0100
-Message-ID: <CANNYZj_UYwaUGD0pj+5WK3vVMMa3tv8eRqhcwbFP0fOOhtH4ZQ@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 01/11] itstool: add from meta-oe
+Subject: Re: [PATCH 05/28] python3: update to 3.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,50 +65,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 21:36:08 -0000
-Content-Type: multipart/alternative; boundary="00000000000011dc01059bbbccc7"
-
---00000000000011dc01059bbbccc7
+X-List-Received-Date: Thu, 09 Jan 2020 22:14:34 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Adding yourself is fine :)
+On Thu, 2020-01-09 at 20:49 +0100, Alexander Kanavin wrote:
+> The problem is, I couldn't reproduce this locally at all. Random
+> glitch?
 
-Alex
+No, its happened on multiple workers and there should be a pattern, we
+just don't understand it yet :(. I don't have ideas right now although
+the build user is 1000 on many machines, 6000 is a minority.
 
-On Thu, 9 Jan 2020 at 21:44, Andreas M=C3=BCller <schnitzeltony@gmail.com> =
-wrote:
+Cheers,
 
-> On Thu, Jan 9, 2020 at 9:35 PM Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
-> >
-> > This also needs a maintainers.inc entry.
-> >
-> > Alex
-> Shall I add me - or who would like to?
->
-> Andreas
->
+Richard
 
---00000000000011dc01059bbbccc7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Adding yourself is fine :)</div><div><br></div><div>A=
-lex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
-"gmail_attr">On Thu, 9 Jan 2020 at 21:44, Andreas M=C3=BCller &lt;<a href=
-=3D"mailto:schnitzeltony@gmail.com">schnitzeltony@gmail.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, Jan 9, 2=
-020 at 9:35 PM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.c=
-om" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; This also needs a maintainers.inc entry.<br>
-&gt;<br>
-&gt; Alex<br>
-Shall I add me - or who would like to?<br>
-<br>
-Andreas<br>
-</blockquote></div>
-
---00000000000011dc01059bbbccc7--
