@@ -1,58 +1,47 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id CFECF7FEB3
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A86507FEA3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 14:44:56 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id z76so6185099qka.2
+	Thu,  9 Jan 2020 14:46:11 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id q10so7632942wrm.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 Jan 2020 06:44:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=uIka7jE4/SkDXbatxKaDFFwxFSgWHaPMo+STCOt5hn8=;
-	b=ETWvtIsLT2ZRnURxgRAN7h55/EnTdls/6cjzi7xcCCEvGL4C/KWfZk0EjH0ybxcXnj
-	dZirG3wIKdntE1NCF7oMGStGl6shRCCSjTvNiI5/Y3EFXOy9aiupbO5PTZ+ScYY8dOvY
-	Vt4r4jzxZCuY0dJy7KwdTtQM1Bxd+ykb4Hg6Y=
+	Thu, 09 Jan 2020 06:46:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=BZlQJFzGdptwamoJKQU5evYuZi0UEKT4HAaW/qelxYQ=;
+	b=tarP7HidTtIdZtrd9tbWN02kI4ZsKPMpIyvJQYitSWhEWLuLdBicSr0WAbaTTlzPKn
+	0PryD1kPSl5hPKfOmS0yrTtqhzW7EH1zb60tFIo5ff9+3wz1pavaVEgT2o/7fBCTeZMv
+	oSUnkHJU4vtMD+q6kdnIgLRhHnUeWsMhFjC5rHa2jcWy+EQnQZSBePAPdqSR4owWPxUF
+	8OtedL7i7hoIkQOvVFZvFnM15MsqSvex2zFgru8lQsNqNbe+Ji2SdRdXjxovykeBpQY9
+	zwiX0MAwZCpJtQeAbhCwbn8AOKktu7SHx28YrkQvYbFtLsLnZbcD6xFYV9tD7fnE+dyT
+	+fVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=uIka7jE4/SkDXbatxKaDFFwxFSgWHaPMo+STCOt5hn8=;
-	b=JfEq7hd3nX7mlS6ZRjt1JjjEgIkXACrnBprj8Vt1a6lzMvBPQO74fi8lTjmMe/rc19
-	Ky9tQnc3cDOZz977yUWFz0UyJMCQ5kz5IvBIbeBE+zLPasHtYHBaFGHJfFRX/Ehtbmz2
-	4IgrBXTg9P92zpW2B5WiF72Dzov9hIkC3UhB+eQywJCQF97TrjdmkhHi85Cm2EfXUxZi
-	AXu4JQbyM3Wmws2jTjHvtRD4IYJFO0Joxs5ty6bsGNty2dt5QYMbipnAyOy0D3dPbLKw
-	PvLVPPpHCOdt7++dIGY9UH3+197zoOLq+YfNQZb0hqYjad6HnsiTiL9rD5BaxrHO1xLk
-	P0bg==
-X-Gm-Message-State: APjAAAVozHEL68j3lGRJUsf9xo02XVCjzYKG5qSnzg2EWvCouy0Zj8Ng
-	XosaPyZGSdvQHGZGBg2THiQ4Mg==
-X-Google-Smtp-Source: APXvYqwfhnEfiVxbkh602tmKFZr3aQeLt8q4vZKnuNA0WZRE4+E7V+WmK9j2cYB5bRnYiWtvnWpmtg==
-X-Received: by 2002:a05:620a:6b6:: with SMTP id
-	i22mr9363154qkh.301.1578581097671; 
-	Thu, 09 Jan 2020 06:44:57 -0800 (PST)
-Received: from bill-the-cat (cpe-65-184-142-8.ec.res.rr.com. [65.184.142.8])
-	by smtp.gmail.com with ESMTPSA id
-	x19sm3364845qtm.47.2020.01.09.06.44.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 Jan 2020 06:44:56 -0800 (PST)
-Date: Thu, 9 Jan 2020 09:44:54 -0500
-From: Tom Rini <trini@konsulko.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20200109144454.GB31026@bill-the-cat>
-References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-	<20200108132759.95603-11-alex.kanavin@gmail.com>
-	<15ea8a58c140419c32f08e4ab6148677bb23e920.camel@linuxfoundation.org>
-	<CANNYZj_52vBnUoR=XL0-vVPs7-h3=vH0QoO9f_wBVo+8FiijhA@mail.gmail.com>
-	<CANNYZj8Tr3N-kp1b47w8LimQOWOyWVzqLyq1ip6eS4juf5VXFQ@mail.gmail.com>
-	<e1cd09d3f326c30da7ecf41e951105f3a92af64f.camel@linuxfoundation.org>
-	<CANNYZj-26WfDZ3fdp1WgptphLYxrhA6H780rDQReGk3fP+x5og@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj-26WfDZ3fdp1WgptphLYxrhA6H780rDQReGk3fP+x5og@mail.gmail.com>
-X-Clacks-Overhead: GNU Terry Pratchett
-User-Agent: Mutt/1.9.4 (2018-02-28)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/28] ifupdown: update 0.8.22 -> 0.8.35
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=BZlQJFzGdptwamoJKQU5evYuZi0UEKT4HAaW/qelxYQ=;
+	b=JpVMjM8xgoQooCB8H9F9VohJ9NQKitoa29205WEEfneVBPnEZr0gEzSB18bDlVFN/S
+	R3tkHQ00YtvyUdCV10SEubirwDhLuCOb23L9edDcoAxkMXJPb/XAD72+mFpP6FKTl9Xr
+	tjQNrW198yvgZhITTMqQ9w2vPuQoV+sG3Fr2TKoLL04FKWwy4ucBEJeBtixyrHJlhTc5
+	VDfx1tT+SPeV0WIbMaFigBfDqcSgPAUy5+bu5hsriGYKTqkBKk2vJU5Lh/emYyZd78qL
+	l5Y+K8FSrlCkbuuULQKyBKDqTrmXm/Zo3EgOaj6lVm3xParBYg4bhbfIwXwc94Mqm0v7
+	GWHw==
+X-Gm-Message-State: APjAAAUHPe624PBhNd66u1CY7LdSMR2kkjQBNqP7XnDmK9oG04TG/oXE
+	HcNizv4rsnO/wxXSGBICIuyaiT0H
+X-Google-Smtp-Source: APXvYqzLh0aSDcbmY3LL5DipeaQnwyMczbxVG8vk0HfV7nm4frmM07GEPsLuBMolFxHmaD7DL1qITQ==
+X-Received: by 2002:a5d:640d:: with SMTP id z13mr11476951wru.181.1578581172180;
+	Thu, 09 Jan 2020 06:46:12 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	f16sm8341064wrm.65.2020.01.09.06.46.11
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 09 Jan 2020 06:46:11 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 Jan 2020 14:45:59 +0000
+Message-Id: <20200109144559.35181-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [RESEND PATCH] manpages.bbclass: Fix rootfs host corruption
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,54 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 14:44:57 -0000
-X-Groupsio-MsgNum: 133299
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="yAnL4aV/QzGiAmsL"
-Content-Disposition: inline
+X-List-Received-Date: Thu, 09 Jan 2020 14:46:12 -0000
 
---yAnL4aV/QzGiAmsL
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+When running mandb we end up with files owned by the build user, correct
+this. Also pick up non-default locales and relocate their index.db files
+to /var/cache.
 
-On Thu, Jan 09, 2020 at 03:36:08PM +0100, Alexander Kanavin wrote:
-> On Thu, 9 Jan 2020 at 14:55, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
->=20
-> >
-> > That may be but I think this is an oversight, not an intention and we
-> > should support busybox-free images...
-> >
->=20
-> Right, I'll fix the build, but the implementation of runtime testing is up
-> to people who need this kind of feature.
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-The problem here would have been caught with systemd-free and
-busybox-free being a check in lib/oeqa/selftest/cases/imagefeatures.py
-yes?
+ meta/classes/manpages.bbclass | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
---=20
-Tom
+diff --git a/meta/classes/manpages.bbclass b/meta/classes/manpages.bbclass
+index 50c254763e89..1e66780646ea 100644
+--- a/meta/classes/manpages.bbclass
++++ b/meta/classes/manpages.bbclass
+@@ -18,8 +18,15 @@ pkg_postinst_append_${MAN_PKG} () {
+ 		if test -n "$D"; then
+ 			if ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'true','false', d)}; then
+ 				sed "s:\(\s\)/:\1$D/:g" $D${sysconfdir}/man_db.conf | ${@qemu_run_binary(d, '$D', '${bindir}/mandb')} -C - -u -q $D${mandir}
++				chown -R root:root $D${mandir}
+ 				mkdir -p $D${localstatedir}/cache/man
+-				mv $D${mandir}/index.db $D${localstatedir}/cache/man
++				cd $D${mandir}
++				find . -name index.db | while read index; do
++					mkdir -p $D${localstatedir}/cache/man/$(dirname ${index})
++					mv ${index} $D${localstatedir}/cache/man/${index}
++					chown man:man $D${localstatedir}/cache/man/${index}
++				done
++				cd -
+ 			else
+ 				$INTERCEPT_DIR/postinst_intercept delay_to_first_boot ${PKG} mlprefix=${MLPREFIX}
+ 			fi
+-- 
+2.17.1
 
---yAnL4aV/QzGiAmsL
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE6HLbQJwaaH776GM2h/n2NdMddlIFAl4XPGMACgkQh/n2NdMd
-dlJ7hQ/9GvrJQa/B2Ska5jb05TrekvZy5cUT68TpA5qkkHtJpnPV2S03MQWCiFMY
-98wwR/e+R0qzfEhgzh6VNskBJx6kufDZI0PVZrsuZo5eWkm2OiEyx9YIcZLkBDxo
-iXa+3ypY2u1MkW+vI+DtTgQnROglOeO9W5R3wTS0TsPqe6NeZDVXD6rX2x6gm7vh
-sKF+vYpbLQ/n7OOOyOTG5SE2d7exSBLUbWDIt3ssUWvzCXgIbwvkJ3yP4aU/owR4
-M1BiqqgDFby6jUMgwPCpU4xoWTBaAFW97seEOXVeTdUA6E0XXekRc13nA9mnw33P
-Gk6+YBjCFe8mf8YQQ/aY8IHbUWtG4IFXeBlpysZXYnr+s3/djycLvUxhEREAhG9B
-NRdV37hZjWAoLOoYczOcQJ1siZavCOD1Dwmf/GwBC/RhLy7Q2u178GHpWxfnTCuQ
-I5XSlHeW5jeKhWjhtFbF7qQZ68EGm8+txVoKSY1ejK9Rhi/gyGamkp+wIpiHOuw8
-C4LwA+7sC+tmZ1Ube2tpCiBaXyt9bzPGdi0/dRWiBQTGb0sCwZV8uITnEi6B0cGS
-d/STNobu99ktsiQpcRFXHToD5JK+XQKM05LaWMs8uVbdAZF5HSXZViy2v+HOSI78
-aKwD8Ifm7nBuBDE9Diwhu8YFH0Hz/azZmwkRts8q93jOEKAss+Y=
-=TeKy
------END PGP SIGNATURE-----
-
---yAnL4aV/QzGiAmsL--
