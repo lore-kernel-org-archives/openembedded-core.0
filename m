@@ -1,30 +1,47 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 155B07FE94
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com
+	[209.85.222.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 803337FEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 Jan 2020 03:11:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0093BIcI000461
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 8 Jan 2020 19:11:18 -0800 (PST)
-Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Wed, 8 Jan 2020 19:11:17 -0800
-From: He Zhe <zhe.he@windriver.com>
-To: Ross Burton <ross.burton@intel.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1578311007-154786-1-git-send-email-zhe.he@windriver.com>
-	<4cec857f-1816-2514-2905-dd111f6c1600@intel.com>
-	<a6c99210-1be3-a20e-0049-6fc5304f8658@windriver.com>
-Message-ID: <57b4bf3d-d355-f409-778c-6cf778e4ad5c@windriver.com>
-Date: Thu, 9 Jan 2020 11:11:11 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	Thu,  9 Jan 2020 03:52:46 +0000 (UTC)
+Received: by mail-qk1-f173.google.com with SMTP id a203so4817942qkc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 Jan 2020 19:52:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=CfuRHHMCvCX7CBPmZnSRheC24CWxGQIxq4szEd1G+QA=;
+	b=fIuvvs01s4qc7KtPyJ6UP24n3gPF//yKMA1BS9Y7Ryja3tzLN02R7XLH/+kL5S30kQ
+	OvAK0neP0mOE2FqLDws1fQMM0p7h78uYCqSwRwuh9mH+okGJDYvy8vt5QB8XCam1Ontc
+	qROsdFhCFQEJuLuL2J+s8VZD8EVfZr4yC57KQVO9oteawuYOiKi2Go8N2bpJIGtU+HZs
+	aAJKKxBiGNSi4EGUFhwVoXpLaG5KvahnMoJY30A18i3DFY9j3aLOMxKXipQVLNmsX5hV
+	rJ7N0fHaaGYcnFwv+In4AI4UknDQcvrVE/yTumFqqVscWGUGtCnNOHOqZhZ2plVtMlws
+	SNEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=CfuRHHMCvCX7CBPmZnSRheC24CWxGQIxq4szEd1G+QA=;
+	b=WJikhn1d5/6upk3YUNPw4PACdjBxbswvEmh4Hwx2/SATxzabuNVho2iQt+/Dfs9it3
+	vpCDp/PiPy8zy3Q4aIh9TgbFA9N8ozBhWL6AQBa8QIRdPqBMPXSM/aGzxwB51USO0Crl
+	RF0TxpT7lgbO7WXLaDCsVZjXbePZL7AL5GeRbwxjvWKT0j/jy+Ch+T/NbwvIYrwncfHq
+	pSwAidnW0QFbAebTqjdOXKk2xwRAdONJmrSDUXmiVa9O7VtgZO/rmbIzX/D6sthNJr5T
+	YwkGTkK0Ok0Vej4K0ehv782s/hYbtr3bVvMjOyWHaiHy/Yw1QkY7vDspAGI65aWW3Psd
+	qPUQ==
+X-Gm-Message-State: APjAAAXUFho1LfWOA0D66zoq5aPPCM0YvaZX5Cv25ZBIPneSn4yuWr0U
+	cJTwS0H/F0ikRzobW5RkpuKaPLy1fpE+lsLojgQ=
+X-Google-Smtp-Source: APXvYqwlNSl5tFnml5qCznu97dUJvtqHAhG2UUCBqCKTklKom92h3txKo+Con8ZWG7Nz1Wbbp03WfXA2pH+WKBWyEOg=
+X-Received: by 2002:ae9:ef50:: with SMTP id d77mr7427374qkg.71.1578541967090; 
+	Wed, 08 Jan 2020 19:52:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <a6c99210-1be3-a20e-0049-6fc5304f8658@windriver.com>
-X-Originating-IP: [128.224.162.175]
-Subject: Re: [PATCH v2] ltp: nm01: Remove prefix zeros of the addresses output by nm before comparing
+References: <CABPh3UPHV8GYZRxXBGXUQLvCqxJShvhU262xOQdEiH0kTPTSug@mail.gmail.com>
+In-Reply-To: <CABPh3UPHV8GYZRxXBGXUQLvCqxJShvhU262xOQdEiH0kTPTSug@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 8 Jan 2020 19:52:20 -0800
+Message-ID: <CAMKF1so1aHVVnSnOpqk_Sd1GjM92oR3bo788ANyOxxEuFQkujw@mail.gmail.com>
+To: nick83ola <nick83ola@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Update layer compatibility to Dunfell
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,27 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 Jan 2020 03:11:22 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 09 Jan 2020 03:52:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Ross,
-
-It seems that the upgrading of ltp is not moving on. And this patch is not included in ltp 20190930. Could we get this merged first?
-
-Thanks,
-Zhe
-
-On 1/6/20 8:32 PM, He Zhe wrote:
-> I saw that thread stop a few days ago. This was just merged in ltp about 10 hours ago and should not be in that patch.
+On Wed, Jan 8, 2020 at 7:39 AM nick83ola <nick83ola@gmail.com> wrote:
 >
-> Regards,
-> Zhe
+> Hi,
+> is it time to update the layer compatibility for meta* to dunfell?
 >
-> On 1/6/20 7:51 PM, Ross Burton wrote:
->> We've a patch queued to upgrade to 20190930, is this fix included in that release or does this patch need to be rebased?
->>
->> Ross
+> Especially because after change
+>
+>     commit 9702544b3e75d761d86cae7e8b36f3f2625b68ce
+>     Author: Denys Dmytriyenko <denys@ti.com>
+>     Date:   Thu Nov 14 19:40:07 2019 -0500
+>
+>     distro_features_check: expand with MACHINE_FEATURES and COMBINED_FEATURES,
+>     rename
+>
 
+perhaps not yet, many layers provide single branch that works with
+multiple prior releases
+and this would break that, it has to break at a certain time but I
+think close to release is the right
+time perhaps.
+
+> a lot of recipes start throwing warnings.
+>
+> The change
+>
+>     commit 98e34b71ef54fdada2fdc199905f8f2dfae7e933
+>     Author: Scott Rifenbark <srifenbark@gmail.com>
+>     Date:   Wed Dec 11 13:02:24 2019 -0800
+>     poky.ent: Updated variables for YP 3.1
+>
+> already changed the release name
+>
+> Thanks
+> Nicola Lunghi
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
