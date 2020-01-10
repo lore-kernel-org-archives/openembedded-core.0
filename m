@@ -1,48 +1,34 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
-	[209.85.219.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 049267FF4D
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id CE6637FE1D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 18:47:04 +0000 (UTC)
-Received: by mail-qv1-f54.google.com with SMTP id t6so1205029qvs.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 10:47:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=Z1hNtDi+G+YtHde+cxR4FDXRM+Su7rd0JsytuR3LvR0=;
-	b=sdo2Qg5qYQSZU33JLkZtSFHQNxZ32p+QQqe19M/hzUYbFKkwAebRCBUibPZdbWljSa
-	WPwZOlo8WTYM1iA10MizJp3ZC4Yphs+6eqeIUdULu4rfZEDpJ7tJsoJ6ffA0+56gF2c2
-	6XaQaCZr682tgypdB4NH0r126J5O14XIbrmivBXMAGDjROKmColkCyn86MV4UqcFHniY
-	3VmRrlKNpcUyEK5iPcaxDdXqe7FFAA65nOU8hx+Zy9FX6hvKdjjfCAcbeF0Cc1yGWWjz
-	CU3bcgsUShsIYS4ZTz0IpTnDsJrI7nOzZE4pBNY8ukSB8UP+iSec2Z0Hm0QGJxMuC4ZX
-	pxGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Z1hNtDi+G+YtHde+cxR4FDXRM+Su7rd0JsytuR3LvR0=;
-	b=UuikFv0RztkfQInRMUEVn5v7UKO4u0G39WO7+9sQLWcLpju8tHyKruRiLCS7+0X7DR
-	aZx3k3AMOPByj09o7uSsftlPlk5w8EcmpsJkrdJc4mC2aizowzAHC295c+fD96EOBIth
-	fGxKegiL9v0RJ9ySuOfvRS/5RlQdnj2rZThz+IPcMKE2xzf4KVOPgFv68N6IQmdrfQ6a
-	4+e9b6tyBE5HFdT1P/7EYcMoacJ7384dqXseQUz6ghWgu48mPkqU7C2ERO60MCIeqdvR
-	fXYI/Eu7oonwSrcJc6jAUw8fspN/wG6rJ9dPImyBUw0/MPMnA3CgESkbOjwCi0MkRKxm
-	z/uw==
-X-Gm-Message-State: APjAAAW9h8OXsh7lUem0/oiuQWbYiLgExwtzLfazu5Iuwur/0L99e0aw
-	8oILf7KINV0llmo9tlGZh8z5m9q3bRn6MtnKEbiu2XGM
-X-Google-Smtp-Source: APXvYqyRK4DhTfoytjxjeCOFf4dD5Su6MBpjN09GuEJ5Z+apj1pSiypXBKtjwbWxLIekFaGTqDkacY5XBIEDuM0YgB0=
-X-Received: by 2002:ad4:4389:: with SMTP id s9mr18701qvr.99.1578682025395;
-	Fri, 10 Jan 2020 10:47:05 -0800 (PST)
-MIME-Version: 1.0
-References: <20200110165302.27426-1-git@andred.net>
-In-Reply-To: <20200110165302.27426-1-git@andred.net>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 10 Jan 2020 10:46:39 -0800
-Message-ID: <CAMKF1srewTnyB9w_gpWNyEv-wy8V+YFQKBPUgD+eH7a9BsA=3w@mail.gmail.com>
-To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: Patches and discussions about the oe-core layer
+	Fri, 10 Jan 2020 21:58:30 +0000 (UTC)
+IronPort-SDR: dQmModqwyVJc3hVffe8FOBiMIV9cTPvGuiALdgC+rzR8qEAUXofobAtPoCH3+nQJ1l1RLraEaS
+	OC0jL/lCdnTOXq0D8e0lviUZdOEkZcvfRvG3a1p5txy6fqF2xnNEhrCBK4OV9wfV5/HVSAhe+B
+	r3HWztE5vhOudJ8nYfZVI4vB1pRa5zrozpMmXTUBSwOY+Spv4l4ZXNkXU7Mrba5FgQgYBhChcN
+	pZRzB/s62MJ4rTZya0izi7O6RixMUTLIg9/NVRZTtucnrld03T8OcR22SY7O5NGBH8guukGE9v
+	l5k=
+X-IronPort-AV: E=Sophos;i="5.69,418,1571695200"; 
+   d="scan'208";a="4321477"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Joshua Watt <jpewhacker@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/16] site updates (autotools / coreutils)
+Thread-Topic: [OE-core] [master][zeus][PATCH] cairo: Adapt license for
+	cairo-dbg and cairo-src based on contents
+Thread-Index: AQHVx8nbrXEylWRxaku8qF5RX5EpcKfkcRRw
+Date: Fri, 10 Jan 2020 21:58:27 +0000
+Message-ID: <9ebc0390e45449a0a9f9d8859e9a9f5d@XBOX03.axis.com>
+References: <20191205222617.31872-1-pkj@axis.com>
+	<df22f3c3-1f02-4ea6-3881-8ecca3ee655b@gmail.com>
+In-Reply-To: <df22f3c3-1f02-4ea6-3881-8ecca3ee655b@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Subject: Re: [master][zeus][PATCH] cairo: Adapt license for cairo-dbg and cairo-src based on contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,40 +41,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2020 18:47:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 10 Jan 2020 21:58:31 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Jan 10, 2020 at 8:53 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
->
-> Hi,
->
-> For the following updates, I have run the autotools tests
-> (m4 macros) on the target on an up-to-date musl (32bit arm)
-> system, as well as taken the results from my host machine
-> for glibc (64bit, glibc 2.29)
->
-> These help to prevent coreutils from compiling lots of
-> useless wrappers, as many of the tests are testing long
-> fixed bugs that are not relevant anymore, since in most
-> cases the m4 macros assume the worst when cross-compiling.
->
-
-These changes are really good, looking at them it occurred to me that
-we might have
-to mention that what we assume in terms of Glibc and musl versions. So
-external toolchain
-providers and users can take notice.  Perhaps in the documentation or
-some such place.
-Otherwise this patchset looks fine to me
-
-> Cheers,
-> Andr=C3=A9
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKb3NodWEgV2F0dCA8anBld2hh
+Y2tlckBnbWFpbC5jb20+DQo+IFNlbnQ6IGRlbiAxMCBqYW51YXJpIDIwMjAgMTY6MjMNCj4gVG86
+IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgb3BlbmVt
+YmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtP
+RS1jb3JlXSBbbWFzdGVyXVt6ZXVzXVtQQVRDSF0gY2Fpcm86IEFkYXB0IGxpY2Vuc2UgZm9yDQo+
+IGNhaXJvLWRiZyBhbmQgY2Fpcm8tc3JjIGJhc2VkIG9uIGNvbnRlbnRzDQo+IA0KPiBPbiAxMi81
+LzE5IDQ6MjYgUE0sIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiBJbnRyb2R1Y2UgYSBQ
+QUNLQUdFQ09ORklHICJ0cmFjZSIgdG8gZGlzYWJsZSBjYWlyby10cmFjZSAodGhlIG9ubHkNCj4g
+PiBwYXJ0IG9mIHRoZSBjb2RlIGxpY2Vuc2VkIGFzIEdQTC0zLjAsIGFuZCB3aGljaCBpcyBub3Jt
+YWxseSBwYWNrYWdlZA0KPiA+IHNlcGFyYXRlbHkgaW4gY2Fpcm8tcGVyZi11dGlscykuIEJ5IGRp
+c2FibGluZyB0aGlzLCB3ZSBjYW4gYWRhcHQgdGhlDQo+ID4gbGljZW5zZXMgZm9yIGNhaXJvLWRi
+ZyBhbmQgY2Fpcm8tc3JjIHNvIHRoYXQgdGhleSBkbyBub3QgaW5jbHVkZQ0KPiA+ICJHUEx2Mysi
+IHdoZW4gdHJhY2UgaXMgZGlzYWJsZWQgYW5kIHRodXMgdGhleSBjYW4gYmUgdXNlZCBhbHNvIHdo
+ZW4sDQo+ID4gZS5nLiwgR1BMLTMuMCBpcyBibGFja2xpc3RlZCBpbiBJTkNPTVBBVElCTEVfTElD
+RU5TRS4NCj4gDQo+IFRoYW5rcyBmb3IgdGhpcywgaXQgZml4ZXMgYSBidWlsZCBlcnJvciBJIHdh
+cyBleHBlcmllbmNpbmcuIEhvd2V2ZXIsDQoNCk91dCBvZiBjdXJpb3NpdHksIGhvdyBjYW4gaXQg
+Zml4IGEgYnVpbGQgZmFpbHVyZT8NCg0KPiB3aGVuIEkgYXBwbHkgdGhpcyBwYXRjaCBsb2NhbGx5
+IGZvciB0ZXN0aW5nLCBJIGdldCBRQSBlcnJvcnMgc2F5aW5nIHRoYXQNCj4gdGhlICIvdXNyL2Jp
+biIgYW5kICIvdXNyL2xpYi9jYWlybyIgZGlyZWN0b3JpZXMgYXJlbid0IHBhcnQgb2YgYW55DQo+
+IHBhY2thZ2UuIEl0IGxvb2tzIGxpa2UgdGhlc2UgZGlyZWN0b3JpZXMgYXJlIGVtcHR5IHdoZW4g
+dHJhY2UgaXMNCj4gZGlzYWJsZWQgYW5kIHNob3VsZCBiZSByZW1vdmVkIGluIGRvX2luc3RhbGwg
+Pw0KDQpPaywgdGhhdCdzIGVtYmFycmFzc2luZy4gQXBwYXJlbnRseSBJIGhhZCAtLWRpc2FibGUt
+c2NyaXB0IGluIA0KRVhUUkFfT0VDT05GIChmcm9tIGEgbG9jYWwgYmJhcHBlbmQgd2UgaGF2ZSkg
+d2hlbiBJIHRlc3RlZCB3aXRob3V0IA0KInRyYWNlIiBpbiBQQUNLQUdFQ09ORklHLCBhbmQgYXBw
+YXJlbnRseSB0aGF0IGNhdXNlcyBjYWlyby1zcGhpbnggDQpub3QgdG8gYmUgYnVpbHQgYW5kIHRo
+dXMgdGhlIC91c3IvYmluIGFuZCAvdXNyL2xpYi9jYWlybyBkaXJlY3RvcmllcyANCmFyZSBuZXZl
+ciBjcmVhdGVkLg0KDQpJJ2xsIHNlbmQgYW4gdXBkYXRlZCBwYXRjaC4NCg0KLy9QZXRlcg0KDQo=
 
