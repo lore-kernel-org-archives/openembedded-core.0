@@ -1,44 +1,44 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A3737FD08
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FE117FFBF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 16:53:18 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id t14so2683060wmi.5
+	Fri, 10 Jan 2020 16:53:19 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id j42so2435151wrj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 08:53:19 -0800 (PST)
+	Fri, 10 Jan 2020 08:53:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=1lTEUTPwdzUvd0sWBMLrczTO1vlfNOVK0qdEOAu5KS8=;
-	b=YfGF1tg7A/1w+VWLu+rSwiy9PFM43iuprD+fVY+3ImR9iXQ8tjjiOldzZcqq7LF73q
-	5tCrA9FTOfQ4c/YWmjrFPHVlQgeLFqUdWmtyXestDnlFiUlDHik9YjT+Nkr6QZ9aBjPH
-	mpUscOB6WbhUIDoYp6mHxAXYZcP/Ae26ImXrpt9lctxmFAArzQ3kWYae2wzmG28dctrs
-	y4VAJ5Nkdmag41hyBsc3DZx0aT80yZcOtVJbc+QZgvZ02g+ZSjvoUa4PLQU6pisuQ1xa
-	n+4Se4MoG7kocrDVveLjctJcSD6gcb+KEg6JiWNhbx/qABnf6OvWIQdMl5Y1WoFuJHay
-	Lenw==
-X-Gm-Message-State: APjAAAUFhO2YU8EP+z5eRJ9HT/vjrksnuE8CSGyIW8H0utP/n9AuG54w
-	Q77tZglgne8OUlxuW0Nuw7dyJ4dD
-X-Google-Smtp-Source: APXvYqyYYqnL+cljErrCGYyTlyOixuiIY2zFNxs/qqe+EnhP0Y47/mHKqA5f1ghHJtvnx4U3wzNEvg==
-X-Received: by 2002:a05:600c:22d3:: with SMTP id
-	19mr5497210wmg.20.1578675198789; 
-	Fri, 10 Jan 2020 08:53:18 -0800 (PST)
+	bh=DxVFyPuBPDgzw9StjzfqHYYGQGyqLJYM5QXcoPqEA6c=;
+	b=Da7m0Ghq+m3h9AjqU83LLxIm/b2qHI68pAbC4g65sXAOA3k5vZdv0TBXUkKFkmem9V
+	b83bdT6kY7B4xKReuYRXYSVCE3ECHCHmxp+Y5FdIy4/wAXaOH5DILT+HaoC4vsS0ESTC
+	1UmyTPk+QtZmYXyRuvHMEehwcqzuxzIHVzlv61j4vCe1W8lDSnE8XY7ctl9YnKFLN+ad
+	biWYMg4Ocw9lFWseLqUEDl5kneCd68N75/HtiD5Raijlg5sNmTJkGGU6F33XkFYCQeR3
+	tH+3ZRDnD7omSOcAcF+NJ4ef9uoVU5lQkpdP1g8m/8iZYudCsH9AFWPLGijAwXhyYveF
+	IJEQ==
+X-Gm-Message-State: APjAAAU3dF+EDcbrEK7Utz7Hx9jm1XvkkxAe1vaCIlg+4ij8Yx6/xTTE
+	IaUYqAVigXd6urpjbNyYMOe4Rogp
+X-Google-Smtp-Source: APXvYqwwzayudzeI7Pq/DD8h9/KhPTrlR3bHnn3BKLpGSKGLuW81SHzMq/ry+xZWoHj5Xr893WiQcA==
+X-Received: by 2002:a05:6000:12c9:: with SMTP id
+	l9mr4731171wrx.304.1578675199786; 
+	Fri, 10 Jan 2020 08:53:19 -0800 (PST)
 Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	c195sm3010137wmd.45.2020.01.10.08.53.17
+	c195sm3010137wmd.45.2020.01.10.08.53.18
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 10 Jan 2020 08:53:18 -0800 (PST)
+	Fri, 10 Jan 2020 08:53:19 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jan 2020 16:52:55 +0000
-Message-Id: <20200110165302.27426-10-git@andred.net>
+Date: Fri, 10 Jan 2020 16:52:56 +0000
+Message-Id: <20200110165302.27426-11-git@andred.net>
 X-Mailer: git-send-email 2.23.0.rc1
 In-Reply-To: <20200110165302.27426-1-git@andred.net>
 References: <20200110165302.27426-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 09/16] site: musl and glibc have working getgroups()
+Subject: [PATCH 10/16] site: linux supports NULL in utime()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,51 +51,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2020 16:53:18 -0000
+X-List-Received-Date: Fri, 10 Jan 2020 16:53:19 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-recent coreutils (gnulib) assume yes when cross-compiling
-for gnu (glibc), but don't know about musl.
-For coherence, just set the result to yes for both.
-
-Note that the old coreutils (from meta-gplv2) doesn't
-assume anything and instead that recipe hard-codes to yes.
-So behaviour with yocto when using meta-gplv2 is actually
-better than when using the latest version (when using musl).
-
-This patch rectifies this shortcoming.
+to set the file to the current time
 
 Signed-off-by: André Draszik <git@andred.net>
 ---
- meta/site/common-glibc | 1 +
- meta/site/common-musl  | 1 +
- 2 files changed, 2 insertions(+)
+ meta/site/common-linux | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index 82a70b0f3f..496b8a4bcb 100644
---- a/meta/site/common-glibc
-+++ b/meta/site/common-glibc
-@@ -32,6 +32,7 @@ fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
- gl_cv_func_getcwd_abort_bug=${gl_cv_func_getcwd_abort_bug=no}
- gl_cv_func_getcwd_null=${gl_cv_func_getcwd_null=yes}
- gl_cv_func_getcwd_path_max=${gl_cv_func_getcwd_path_max=yes}
-+ac_cv_func_getgroups_works=${ac_cv_func_getgroups_works=yes}
- gl_cv_func_working_mkstemp=${gl_cv_func_working_mkstemp=yes}
+diff --git a/meta/site/common-linux b/meta/site/common-linux
+index fcabdbd54a..2ef5238799 100644
+--- a/meta/site/common-linux
++++ b/meta/site/common-linux
+@@ -48,6 +48,7 @@ hw_cv_func_vsnprintf_c99=${hw_cv_func_vsnprintf_c99=yes}
  
- # glib
-diff --git a/meta/site/common-musl b/meta/site/common-musl
-index 2785c66a5c..ec068ff673 100644
---- a/meta/site/common-musl
-+++ b/meta/site/common-musl
-@@ -37,6 +37,7 @@ fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
- gl_cv_func_getcwd_abort_bug=${gl_cv_func_getcwd_abort_bug=no}
- gl_cv_func_getcwd_null=${gl_cv_func_getcwd_null=yes}
- gl_cv_func_getcwd_path_max=${gl_cv_func_getcwd_path_max='no, but it is partly working'}
-+ac_cv_func_getgroups_works=${ac_cv_func_getgroups_works=yes}
- gl_cv_func_gettimeofday_clobber=${gl_cv_func_gettimeofday_clobber=no}
- gl_cv_func_tzset_clobber=${gl_cv_func_tzset_clobber=no}
- gl_cv_func_gettimeofday_posix_signature=${gl_cv_func_gettimeofday_posix_signature=yes}
+ # coreutils
+ ac_cv_func_chown_works=${ac_cv_func_chown_works=yes}
++ac_cv_func_utime_null=${ac_cv_func_utime_null=yes}
+ gl_cv_func_fstatat_zero_flag=${gl_cv_func_fstatat_zero_flag=yes}
+ gl_cv_func_unlink_busy_text=${gl_cv_func_unlink_busy_text=yes}
+ gl_cv_have_proc_uptime=${gl_cv_have_proc_uptime=yes}
 -- 
 2.23.0.rc1
 
