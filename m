@@ -1,34 +1,57 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 590A07FF5F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
+	[209.85.221.194])
+	by mail.openembedded.org (Postfix) with ESMTP id D7D427F7E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 15:07:28 +0000 (UTC)
-IronPort-SDR: PkPpxbTvqaNFvlPfMqiWpWxnsTEa5jpxPcnrGxGGzupsXF56JrZYz5GCS9NdSGsTxeBmD7sGuk
-	m95eWMqkhGoZ3uBDtAHp2WAj4k6AD67QOpORqGNUp2LdVq1sKwwYpO4Kl//xBsFIYX5GrmfLmy
-	XazqLjUqhS3bb2fqU5lr6Yn3RiG2O41Zy90STLJjL36BQWGnz2UC22SH9TwbeG6vh+V45HH5aK
-	BftL5AAvitI0RTIGzoPyHvfbQZKLA7+Bl3ar9bdsiXAJIxk8k8y50PP/IhXr69q+XtTZuxF5Vn
-	jNs=
-X-IronPort-AV: E=Sophos;i="5.69,417,1571695200"; 
-   d="scan'208";a="4192198"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: =?utf-8?B?QW5kcmVhcyBNw7xsbGVy?= <schnitzeltony@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 06/11] insane.bbclass: introduce a warning for
-	mime missing in inherit
-Thread-Index: AQHVxys2swJohO4gck+AACduuG7Xx6fkAKag
-Date: Fri, 10 Jan 2020 15:07:29 +0000
-Message-ID: <f306166e975e4b639c6bbc0259d18cbd@XBOX03.axis.com>
-References: <20200109202623.28936-1-schnitzeltony@gmail.com>
-	<20200109202623.28936-7-schnitzeltony@gmail.com>
-In-Reply-To: <20200109202623.28936-7-schnitzeltony@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Fri, 10 Jan 2020 15:13:05 +0000 (UTC)
+Received: by mail-vk1-f194.google.com with SMTP id i78so689695vke.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jan 2020 07:13:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=S3KcDxyeOYcwbkYmRrYRd4WKXGghmH4OvAYZ1LNPYIk=;
+	b=bUZtJrTxYWsza4vg78yRyALuydCJVu6nEXHT56qnKtbrrb4xX42qvVRCGpBBPgk9mL
+	eRrVe0guDfGQXRgHnW4iuoDKaeUHiwM7+6Owk5RVsHy4m77kl0KsIuJfc17FTwAXOWbf
+	W2yBgwFgry5zeOBAjLuKdem421a0IE6XwBLydBgfr9Yn6piV+d+ek7lP/ToYWwPUIitl
+	JpStNSG0dQ7KriZbneoXxLdEdlpXWDbSDVgBXH9faeXD/6+W8IApsA69DFJYFkiW9qVN
+	UR6M6krQIgrgDe7064YaUYJgWe6lQcntay90UCtN2I4z62ZjTvc6zKP1SrPyF0TNrcTy
+	c+SA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=S3KcDxyeOYcwbkYmRrYRd4WKXGghmH4OvAYZ1LNPYIk=;
+	b=NW1Yd7CQfmApbw0nqRN7JtzyJDTBNvqQqYjQVZk9Qxhl9fV6VGiSYnsG+Z9xV6TFWL
+	yyfRV4sRRFhk1hybpy1iKZZcS6TIZ3tA3zSUrCLwYxE2bzsXyhI8MN2+j4KQVAhBNpl+
+	IrkQRoYEbAaw0H5bgPtNm/kJn5c8S8i5lllYN56i7GcESiSEv9XWnYZRQZYMt6vxpzOX
+	3WtJHidlx6Z6wGZz/2/Fq7PQAmW98XjnsPIJ8zobKKLrxQ2N9uilb06NazuWG0rNgUPa
+	tGC/5gtivt2+QlPnghIEj/hqGEtiD09UACjPiGVEB8EuS5Ph8qfrliFjqNxSrVuO8bkp
+	wRHw==
+X-Gm-Message-State: APjAAAUy2UvakBYTxT9o9Sif0F7Vmfd+MheV3RPO4uidgWgozxJT1OA0
+	dOJDgoITmxsEC2CKcqHD9GcyVJkZe+S3nKnu9Wt00dYR
+X-Google-Smtp-Source: APXvYqzHLTMiwWxHpRyWGus231MSj/ZZQD+zcLCEErbUT2aiTkHawUC+TlVEUJOqfkeT8RmAIYZq1EYcod8AW6+XN5o=
+X-Received: by 2002:ac5:cdcd:: with SMTP id u13mr2488154vkn.0.1578669186477;
+	Fri, 10 Jan 2020 07:13:06 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH 06/11] insane.bbclass: introduce a warning for	mime missing in inherit
+References: <CANNYZj_52vBnUoR=XL0-vVPs7-h3=vH0QoO9f_wBVo+8FiijhA@mail.gmail.com>
+	<CANNYZj8Tr3N-kp1b47w8LimQOWOyWVzqLyq1ip6eS4juf5VXFQ@mail.gmail.com>
+	<e1cd09d3f326c30da7ecf41e951105f3a92af64f.camel@linuxfoundation.org>
+	<CANNYZj-26WfDZ3fdp1WgptphLYxrhA6H780rDQReGk3fP+x5og@mail.gmail.com>
+	<20200109144454.GB31026@bill-the-cat>
+	<CANNYZj_rB4cPnGTqoO4MX1iwj2N0a6bhP3jvxCwOuO9mfMRSLA@mail.gmail.com>
+	<20200109150148.GC31026@bill-the-cat>
+	<CANNYZj-UjHc=f-yvfGXhqRH_4AKKzrAdgaX1i_jpzDSAEFfnRQ@mail.gmail.com>
+	<20200109155506.GD31026@bill-the-cat>
+	<CANNYZj_wZx-FCrLmsoBvRF8eP8JPxMHFd2TjMgbD_BjkHsNjJQ@mail.gmail.com>
+	<20200110150040.GA29928@localhost>
+In-Reply-To: <20200110150040.GA29928@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 10 Jan 2020 16:12:54 +0100
+Message-ID: <CANNYZj8Rq_+W+x6HaJ2FperopxQ066nqVgaUY35PUVXz=xw8Lg@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Tom Rini <trini@konsulko.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 11/28] ifupdown: update 0.8.22 -> 0.8.35
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,53 +64,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2020 15:07:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 10 Jan 2020 15:13:06 -0000
+Content-Type: multipart/alternative; boundary="00000000000013f2d4059bca9027"
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
-b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlLQ0KPiBib3Vu
-Y2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBBbmRyZWFzIE3DvGxsZXIN
-Cj4gU2VudDogZGVuIDkgamFudWFyaSAyMDIwIDIxOjI2DQo+IFRvOiBvcGVuZW1iZWRkZWQtY29y
-ZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFtPRS1jb3JlXSBbUEFUQ0ggMDYv
-MTFdIGluc2FuZS5iYmNsYXNzOiBpbnRyb2R1Y2UgYSB3YXJuaW5nIGZvcg0KPiBtaW1lIG1pc3Np
-bmcgaW4gaW5oZXJpdA0KPiANCj4gKiBsb29raW5nIHRocm91Z2ggbGF5ZXJzIGl0IGxvb2tzIHRo
-YXQgdXNhZ2Ugb2YgbWltZS5iYmNsYXNzIGlzIHNvbWV3aGF0DQo+ICAgb3JwaGFuZWQNCj4gKiBu
-b3cgdGhhdCB1cGRhdGUtbWltZS1kYXRhYmFzZSBpcyBjYWxsZWQgb25jZSBvbmx5IGF0IGltYWdl
-IGNyZWF0aW9uIHRpbWUsDQo+ICAgY29zdHMgb2YgbWltZS5iYmNsYXNzIGFyZSBsaW1pdGVkDQo+
-IA0KPiBTaWduZWQtb2ZmLWJ5OiBBbmRyZWFzIE3DvGxsZXIgPHNjaG5pdHplbHRvbnlAZ21haWwu
-Y29tPg0KPiAtLS0NCj4gIG1ldGEvY2xhc3Nlcy9pbnNhbmUuYmJjbGFzcyB8IDEyICsrKysrKysr
-KysrKw0KPiAgMSBmaWxlIGNoYW5nZWQsIDEyIGluc2VydGlvbnMoKykNCj4gDQo+IGRpZmYgLS1n
-aXQgYS9tZXRhL2NsYXNzZXMvaW5zYW5lLmJiY2xhc3MgYi9tZXRhL2NsYXNzZXMvaW5zYW5lLmJi
-Y2xhc3MNCj4gaW5kZXggZjg1NmNmNmEyYi4uNDQyZTllNTExMyAxMDA2NDQNCj4gLS0tIGEvbWV0
-YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzDQo+ICsrKyBiL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJj
-bGFzcw0KPiBAQCAtMjgsNiArMjgsNyBAQCBXQVJOX1FBID89ICJsZGZsYWdzIHVzZWxlc3MtcnBh
-dGhzIHJwYXRocyBzdGF0aWNkZXYgbGliZGlyIHhvcmctZHJpdmVyLWFiaSBcDQo+ICAgICAgICAg
-ICAgICBwbi1vdmVycmlkZXMgaW5mb2RpciBidWlsZC1kZXBzIHNyYy11cmktYmFkIFwNCj4gICAg
-ICAgICAgICAgIHVua25vd24tY29uZmlndXJlLW9wdGlvbiBzeW1saW5rLXRvLXN5c3Jvb3QgbXVs
-dGlsaWIgXA0KPiAgICAgICAgICAgICAgaW52YWxpZC1wYWNrYWdlY29uZmlnIGhvc3QtdXNlci1j
-b250YW1pbmF0ZWQgdXBwZXJjYXNlLXBuIHBhdGNoLWZ1enogXA0KPiArICAgICAgICAgICAgbWlt
-ZSBcDQo+ICAgICAgICAgICAgICAiDQo+ICBFUlJPUl9RQSA/PSAiZGV2LXNvIGRlYnVnLWRlcHMg
-ZGV2LWRlcHMgZGVidWctZmlsZXMgYXJjaCBwa2djb25maWcgbGEgXA0KPiAgICAgICAgICAgICAg
-cGVybXMgZGVwLWNtcCBwa2d2YXJjaGVjayBwZXJtLWNvbmZpZyBwZXJtLWxpbmUgcGVybS1saW5r
-IFwNCj4gQEAgLTE4NSw2ICsxODYsMTcgQEAgZGVmIHBhY2thZ2VfcWFfY2hlY2tfc3RhdGljZGV2
-KHBhdGgsIG5hbWUsIGQsIGVsZiwgbWVzc2FnZXMpOg0KPiAgICAgICAgICBwYWNrYWdlX3FhX2Fk
-ZF9tZXNzYWdlKG1lc3NhZ2VzLCAic3RhdGljZGV2IiwgIm5vbiAtc3RhdGljZGV2IHBhY2thZ2Ug
-Y29udGFpbnMgc3RhdGljIC5hIGxpYnJhcnk6ICVzIHBhdGggJyVzJyIgJSBcDQo+ICAgICAgICAg
-ICAgICAgICAgIChuYW1lLCBwYWNrYWdlX3FhX2NsZWFuX3BhdGgocGF0aCxkKSkpDQo+IA0KPiAr
-UUFQQVRIVEVTVFttaW1lXSA9ICJwYWNrYWdlX3FhX2NoZWNrX21pbWUiDQo+ICtkZWYgcGFja2Fn
-ZV9xYV9jaGVja19taW1lKHBhdGgsIG5hbWUsIGQsIGVsZiwgbWVzc2FnZXMpOg0KPiArICAgICIi
-Ig0KPiArICAgIENoZWNrIGlmIHBhY2thZ2UgaW5zdGFsbHMgbWltZSB0eXBlcyB0byB0byAvdXNy
-L3NoYXJlL21pbWUvcGFja2FnZXMNCg0KQ2hhbmdlICJ0byB0byIgdG8gInRvIi4NCg0KPiArICAg
-IHdoaWxlIG5vIGluaGVyaXRpbmcgbWltZS5iYmNsYXNzDQo+ICsgICAgIiIiDQo+ICsNCj4gKyAg
-ICBpZiBkLmdldFZhcigibWltZWRpciIpICsgIi9wYWNrYWdlcyIgaW4gcGF0aCBhbmQgcGF0aC5l
-bmRzd2l0aCgnLnhtbCcpIGFuZCBub3QgYmIuZGF0YS5pbmhlcml0c19jbGFzcygibWltZSIsIGQp
-Og0KPiArICAgICAgICBwYWNrYWdlX3FhX2FkZF9tZXNzYWdlKG1lc3NhZ2VzLCAibWltZSIsICJw
-YWNrYWdlIGNvbnRhaW5zIG1pbWUgdHlwZXMgYnV0IGRvZXMgbm90IGluaGVydCBtaW1lLmJiY2xh
-c3M6ICVzIHBhdGggJyVzJyIgJSBcDQo+ICsgICAgICAgICAgICAgICAgIChuYW1lLCBwYWNrYWdl
-X3FhX2NsZWFuX3BhdGgocGF0aCxkKSkpDQo+ICsNCj4gIGRlZiBwYWNrYWdlX3FhX2NoZWNrX2xp
-YmRpcihkKToNCj4gICAgICAiIiINCj4gICAgICBDaGVjayBmb3Igd3JvbmcgbGlicmFyeSBpbnN0
-YWxsYXRpb24gcGF0aHMuIEZvciBpbnN0YW5jZSwgY2F0Y2gNCj4gLS0NCj4gMi4yMS4wDQoNCi8v
-UGV0ZXINCg0K
+--00000000000013f2d4059bca9027
+Content-Type: text/plain; charset="UTF-8"
 
+On Fri, 10 Jan 2020 at 16:00, Adrian Bunk <bunk@stusta.de> wrote:
+
+> Is musl runtime tested at all?
+>
+> ifupdown is one of these recipes where a musl build error was "fixed"
+> with a patch that makes something do the wrong thing at runtime when
+> using musl.
+>
+
+musl runtime is tested, just not with ifupdown, it's replaced by busybox in
+all of the testing scenarios.
+
+Alex
+
+--00000000000013f2d4059bca9027
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 10 Jan 2020 at 16:00, Adrian Bunk=
+ &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
+iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">Is musl runtime tested at all?<br>
+<br>
+ifupdown is one of these recipes where a musl build error was &quot;fixed&q=
+uot; <br>
+with a patch that makes something do the wrong thing at runtime when<br>
+using musl.<br></blockquote><div><br></div><div>musl runtime is tested, jus=
+t not with ifupdown, it&#39;s replaced by busybox in all of the testing sce=
+narios.</div><div><br></div><div>Alex<br></div></div></div>
+
+--00000000000013f2d4059bca9027--
