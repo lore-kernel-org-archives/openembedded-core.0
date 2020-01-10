@@ -1,57 +1,55 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
-	[209.85.221.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D7D427F7E4
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B2B1B7FCEF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 15:13:05 +0000 (UTC)
-Received: by mail-vk1-f194.google.com with SMTP id i78so689695vke.0
+	Fri, 10 Jan 2020 15:23:01 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id v3so2478724ioj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 07:13:07 -0800 (PST)
+	Fri, 10 Jan 2020 07:23:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=S3KcDxyeOYcwbkYmRrYRd4WKXGghmH4OvAYZ1LNPYIk=;
-	b=bUZtJrTxYWsza4vg78yRyALuydCJVu6nEXHT56qnKtbrrb4xX42qvVRCGpBBPgk9mL
-	eRrVe0guDfGQXRgHnW4iuoDKaeUHiwM7+6Owk5RVsHy4m77kl0KsIuJfc17FTwAXOWbf
-	W2yBgwFgry5zeOBAjLuKdem421a0IE6XwBLydBgfr9Yn6piV+d+ek7lP/ToYWwPUIitl
-	JpStNSG0dQ7KriZbneoXxLdEdlpXWDbSDVgBXH9faeXD/6+W8IApsA69DFJYFkiW9qVN
-	UR6M6krQIgrgDe7064YaUYJgWe6lQcntay90UCtN2I4z62ZjTvc6zKP1SrPyF0TNrcTy
-	c+SA==
+	h=from:subject:to:references:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=JLXE1DMtriIddyg4CDJzwJDyCf7u1b+pDmEQOK2QkXI=;
+	b=WK95PVEsEACy2iADAd1Lr1JepZUhDTjT32d5nhckMYR537zgWrRno7AM+BJwuO+KTD
+	KDD9Yx5sDSCoDT6gWT3xDtxH6rUaJbabdhqJeA63+nbdvzG4Jk+uFMAIXGP77T/CBg9d
+	aAbSqUqnGABq4Vm6ZK9i5ovpoIt8iPI3AiUmDVvjpw1ehMdggAitcaoihILELeaxGFjr
+	BlexgI1aqgNthgffdFk4liFAmNBmDIHaQ1cQ7rA7LVRiCKRmXBWCYFHCRVma4rJ0NcVg
+	oVxPH4ThqmeLvD358hOd6bflUrwsm4ZNtorixLUr+utkneP1He4vJ2x+jHhttCq2NTCa
+	HviQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=S3KcDxyeOYcwbkYmRrYRd4WKXGghmH4OvAYZ1LNPYIk=;
-	b=NW1Yd7CQfmApbw0nqRN7JtzyJDTBNvqQqYjQVZk9Qxhl9fV6VGiSYnsG+Z9xV6TFWL
-	yyfRV4sRRFhk1hybpy1iKZZcS6TIZ3tA3zSUrCLwYxE2bzsXyhI8MN2+j4KQVAhBNpl+
-	IrkQRoYEbAaw0H5bgPtNm/kJn5c8S8i5lllYN56i7GcESiSEv9XWnYZRQZYMt6vxpzOX
-	3WtJHidlx6Z6wGZz/2/Fq7PQAmW98XjnsPIJ8zobKKLrxQ2N9uilb06NazuWG0rNgUPa
-	tGC/5gtivt2+QlPnghIEj/hqGEtiD09UACjPiGVEB8EuS5Ph8qfrliFjqNxSrVuO8bkp
-	wRHw==
-X-Gm-Message-State: APjAAAUy2UvakBYTxT9o9Sif0F7Vmfd+MheV3RPO4uidgWgozxJT1OA0
-	dOJDgoITmxsEC2CKcqHD9GcyVJkZe+S3nKnu9Wt00dYR
-X-Google-Smtp-Source: APXvYqzHLTMiwWxHpRyWGus231MSj/ZZQD+zcLCEErbUT2aiTkHawUC+TlVEUJOqfkeT8RmAIYZq1EYcod8AW6+XN5o=
-X-Received: by 2002:ac5:cdcd:: with SMTP id u13mr2488154vkn.0.1578669186477;
-	Fri, 10 Jan 2020 07:13:06 -0800 (PST)
+	h=x-gm-message-state:from:subject:to:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=JLXE1DMtriIddyg4CDJzwJDyCf7u1b+pDmEQOK2QkXI=;
+	b=fT23LMUPK/8DgC4pAejHyQybcdnE5rhq8oESFFhZoHeF3AkQDSJu5pZ83iGmihkQfn
+	+nBu1qemCe48jHus6irFi0N3fAhCxAfjvGwXTOPk+PFu/v0szIRVmaXc/QnIS21+Zohe
+	i4W3FM8YDev6UpC6aZcTXKHeU8UlEesus70CajyTMrTjvz1ODGEh+RsfIjz3ADvJPvGt
+	rVipnUjuS951ZN2jyfEcepduabKGnERSPrgB+Sqw93ULWgns9sSj0N2JaTKOJDZd3lmj
+	/TfZcbxuIBoqwSt8nGoofbgE7CFp4p58AGSGQtgmQ0MsST8/RrLoo9ofFPXIapo38hH2
+	Z6lA==
+X-Gm-Message-State: APjAAAWrYUZHPjKHTGAKJh6mCCS31kh1wLwTrP/SGKcCstUBVBwzyoDm
+	JsfDdeEBcKOyW/yl9gySztBriasb
+X-Google-Smtp-Source: APXvYqxN0GJbuMoh/6uHoLIgZyx1VodY23/Z9RZdeZSu18ISooMg2yo5d418+ngoXtLGoUmeFEelfg==
+X-Received: by 2002:a6b:dd02:: with SMTP id f2mr2900658ioc.304.1578669782168; 
+	Fri, 10 Jan 2020 07:23:02 -0800 (PST)
+Received: from [10.30.196.43] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id n17sm754410ile.68.2020.01.10.07.23.01
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 10 Jan 2020 07:23:01 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	openembedded-core@lists.openembedded.org
+References: <20191205222617.31872-1-pkj@axis.com>
+Message-ID: <df22f3c3-1f02-4ea6-3881-8ecca3ee655b@gmail.com>
+Date: Fri, 10 Jan 2020 09:23:00 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.3.1
 MIME-Version: 1.0
-References: <CANNYZj_52vBnUoR=XL0-vVPs7-h3=vH0QoO9f_wBVo+8FiijhA@mail.gmail.com>
-	<CANNYZj8Tr3N-kp1b47w8LimQOWOyWVzqLyq1ip6eS4juf5VXFQ@mail.gmail.com>
-	<e1cd09d3f326c30da7ecf41e951105f3a92af64f.camel@linuxfoundation.org>
-	<CANNYZj-26WfDZ3fdp1WgptphLYxrhA6H780rDQReGk3fP+x5og@mail.gmail.com>
-	<20200109144454.GB31026@bill-the-cat>
-	<CANNYZj_rB4cPnGTqoO4MX1iwj2N0a6bhP3jvxCwOuO9mfMRSLA@mail.gmail.com>
-	<20200109150148.GC31026@bill-the-cat>
-	<CANNYZj-UjHc=f-yvfGXhqRH_4AKKzrAdgaX1i_jpzDSAEFfnRQ@mail.gmail.com>
-	<20200109155506.GD31026@bill-the-cat>
-	<CANNYZj_wZx-FCrLmsoBvRF8eP8JPxMHFd2TjMgbD_BjkHsNjJQ@mail.gmail.com>
-	<20200110150040.GA29928@localhost>
-In-Reply-To: <20200110150040.GA29928@localhost>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 10 Jan 2020 16:12:54 +0100
-Message-ID: <CANNYZj8Rq_+W+x6HaJ2FperopxQ066nqVgaUY35PUVXz=xw8Lg@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Tom Rini <trini@konsulko.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/28] ifupdown: update 0.8.22 -> 0.8.35
+In-Reply-To: <20191205222617.31872-1-pkj@axis.com>
+Subject: Re: [master][zeus][PATCH] cairo: Adapt license for cairo-dbg and cairo-src based on contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,41 +62,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2020 15:13:06 -0000
-Content-Type: multipart/alternative; boundary="00000000000013f2d4059bca9027"
+X-List-Received-Date: Fri, 10 Jan 2020 15:23:01 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---00000000000013f2d4059bca9027
-Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 10 Jan 2020 at 16:00, Adrian Bunk <bunk@stusta.de> wrote:
+On 12/5/19 4:26 PM, Peter Kjellerstedt wrote:
+> Introduce a PACKAGECONFIG "trace" to disable cairo-trace (the only
+> part of the code licensed as GPL-3.0, and which is normally packaged
+> separately in cairo-perf-utils). By disabling this, we can adapt the
+> licenses for cairo-dbg and cairo-src so that they do not include
+> "GPLv3+" when trace is disabled and thus they can be used also when,
+> e.g., GPL-3.0 is blacklisted in INCOMPATIBLE_LICENSE.
 
-> Is musl runtime tested at all?
+Thanks for this, it fixes a build error I was experiencing. However, 
+when I apply this patch locally for testing, I get QA errors saying that 
+the "/usr/bin" and "/usr/lib/cairo" directories aren't part of any 
+package. It looks like these directories are empty when trace is 
+disabled and should be removed in do_install ?
+
+
 >
-> ifupdown is one of these recipes where a musl build error was "fixed"
-> with a patch that makes something do the wrong thing at runtime when
-> using musl.
+> The "trace" PACKAGECONFIG is enabled by default for backwards
+> compatibility.
 >
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>   meta/recipes-graphics/cairo/cairo_1.16.0.bb | 8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> index e3de3f6164..36a7b3c180 100644
+> --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+> @@ -17,6 +17,10 @@ LICENSE_${PN}-doc = "MPL-1.1 | LGPLv2.1"
+>   LICENSE_${PN}-gobject = "MPL-1.1 | LGPLv2.1"
+>   LICENSE_${PN}-script-interpreter = "MPL-1.1 | LGPLv2.1"
+>   LICENSE_${PN}-perf-utils = "GPLv3+"
+> +# Adapt the licenses for cairo-dbg and cairo-src depending on whether
+> +# cairo-trace is being built.
+> +LICENSE_${PN}-dbg = "(MPL-1.1 | LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '', d)}"
+> +LICENSE_${PN}-src = "(MPL-1.1 | LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '', d)}"
+>   
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+>   
+> @@ -40,7 +44,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+>   
+>   PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+>                      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+> -                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)}"
+> +                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
+> +                   trace"
+>   
+>   PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+>   PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+> @@ -49,6 +54,7 @@ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
+>   PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
+>   PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
+>   PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
+> +PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+>   
+>   EXTRA_OECONF += " \
+>       ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
 
-musl runtime is tested, just not with ifupdown, it's replaced by busybox in
-all of the testing scenarios.
-
-Alex
-
---00000000000013f2d4059bca9027
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 10 Jan 2020 at 16:00, Adrian Bunk=
- &lt;<a href=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></d=
-iv><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"ma=
-rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
-1ex">Is musl runtime tested at all?<br>
-<br>
-ifupdown is one of these recipes where a musl build error was &quot;fixed&q=
-uot; <br>
-with a patch that makes something do the wrong thing at runtime when<br>
-using musl.<br></blockquote><div><br></div><div>musl runtime is tested, jus=
-t not with ifupdown, it&#39;s replaced by busybox in all of the testing sce=
-narios.</div><div><br></div><div>Alex<br></div></div></div>
-
---00000000000013f2d4059bca9027--
