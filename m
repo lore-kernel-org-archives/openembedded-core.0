@@ -1,33 +1,57 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id CE6637FE1D
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
+	[209.85.166.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 55D2D7FFE3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 21:58:30 +0000 (UTC)
-IronPort-SDR: dQmModqwyVJc3hVffe8FOBiMIV9cTPvGuiALdgC+rzR8qEAUXofobAtPoCH3+nQJ1l1RLraEaS
-	OC0jL/lCdnTOXq0D8e0lviUZdOEkZcvfRvG3a1p5txy6fqF2xnNEhrCBK4OV9wfV5/HVSAhe+B
-	r3HWztE5vhOudJ8nYfZVI4vB1pRa5zrozpMmXTUBSwOY+Spv4l4ZXNkXU7Mrba5FgQgYBhChcN
-	pZRzB/s62MJ4rTZya0izi7O6RixMUTLIg9/NVRZTtucnrld03T8OcR22SY7O5NGBH8guukGE9v
-	l5k=
-X-IronPort-AV: E=Sophos;i="5.69,418,1571695200"; 
-   d="scan'208";a="4321477"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Joshua Watt <jpewhacker@gmail.com>,
+	Fri, 10 Jan 2020 22:02:20 +0000 (UTC)
+Received: by mail-il1-f176.google.com with SMTP id c4so2987033ilo.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 Jan 2020 14:02:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:subject:to:references:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=Nd7rrNJx4S1rEqV9kaE7XOo1JLLzwqccvug+GHkF3WA=;
+	b=rmEiKJLr67ui7/luwmXpt/czW+RfPPqGAWc6BVaN9DBYMD3hkOxinZcMCnJeT244Sd
+	fGLHOECfs9QM2a37o+rZQxoLYHPPTMaDoY9opfhlz5mlI/x1ss/wi2y+MdS8OspMsmkp
+	956PpFVLY/qUmOXt1DsCZ8IaoXqSOcRQjer6/F8SQ4kIVyVvdZ/oJzZGXDqGJiqFsMcI
+	Mrbt/3bN/FTLh+lxNj2Ofa+c5NBheK3yEDlkcAKUPuVAm85fcUjSqkKxv+vLLpeUgyG8
+	iXQqA1NxBbgV5b4KflvudXu+7dmjyqxKK+xTAucxnyI9dmtM9bsfCXR3HNvhhtUOwG5t
+	4YOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:subject:to:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=Nd7rrNJx4S1rEqV9kaE7XOo1JLLzwqccvug+GHkF3WA=;
+	b=AeXnKwWLE4mOhr7ZMxgnWq2t+mWNg/9Y9RoJrozE+8iTIThFEuhNWyTtjfNnSZ3GyA
+	psippAReiRH7xqrTwApogkhVhlVjHijl5y7UALGtVLZt96Z7Dc2FCpUaNzfuf6g8JBSY
+	K5mnzGBGiRTvGooXiImc3bIXaRq5A00nc6PT1E+wjGtuAn4G73iY0KYvoYKHAsvHK4Gc
+	2+6l2GJmlaJhEOLrDEGfzMHhW5bWdS4CYUA/oogU6zEhEynUgL31gNUab/ZOeL6ldiQM
+	H8333pvFR89byUcQlu4PN+kX+k8Uo/DM63DtUFN5I+8d6wYInHN8XX5z8GQtduSKPSVN
+	HnSg==
+X-Gm-Message-State: APjAAAUZeo3vJweDy0WXUNFb2zd94ZVVSNle9+0JIBw613EDVP+ykQSV
+	lB/W3E8zU2WiFwdN56R2DfJKvCN4
+X-Google-Smtp-Source: APXvYqxjoLhvkKS3DkWH6y2fzV4k4BLSNEK0+9v1oCs8PHRTP9BD6x3FA6HmJmcSGcvLvWlQhSEs0A==
+X-Received: by 2002:a92:3a4b:: with SMTP id h72mr4731976ila.292.1578693740982; 
+	Fri, 10 Jan 2020 14:02:20 -0800 (PST)
+Received: from [10.30.196.43] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id n5sm1068475ili.28.2020.01.10.14.02.20
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 10 Jan 2020 14:02:20 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [master][zeus][PATCH] cairo: Adapt license for
-	cairo-dbg and cairo-src based on contents
-Thread-Index: AQHVx8nbrXEylWRxaku8qF5RX5EpcKfkcRRw
-Date: Fri, 10 Jan 2020 21:58:27 +0000
-Message-ID: <9ebc0390e45449a0a9f9d8859e9a9f5d@XBOX03.axis.com>
 References: <20191205222617.31872-1-pkj@axis.com>
 	<df22f3c3-1f02-4ea6-3881-8ecca3ee655b@gmail.com>
-In-Reply-To: <df22f3c3-1f02-4ea6-3881-8ecca3ee655b@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	<9ebc0390e45449a0a9f9d8859e9a9f5d@XBOX03.axis.com>
+Message-ID: <7ad2ef47-ddde-a281-013f-48205010a3e8@gmail.com>
+Date: Fri, 10 Jan 2020 16:02:19 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.3.1
 MIME-Version: 1.0
+In-Reply-To: <9ebc0390e45449a0a9f9d8859e9a9f5d@XBOX03.axis.com>
 Subject: Re: [master][zeus][PATCH] cairo: Adapt license for cairo-dbg and cairo-src based on contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -41,36 +65,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2020 21:58:31 -0000
+X-List-Received-Date: Fri, 10 Jan 2020 22:02:20 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBKb3NodWEgV2F0dCA8anBld2hh
-Y2tlckBnbWFpbC5jb20+DQo+IFNlbnQ6IGRlbiAxMCBqYW51YXJpIDIwMjAgMTY6MjMNCj4gVG86
-IFBldGVyIEtqZWxsZXJzdGVkdCA8cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPjsgb3BlbmVt
-YmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtP
-RS1jb3JlXSBbbWFzdGVyXVt6ZXVzXVtQQVRDSF0gY2Fpcm86IEFkYXB0IGxpY2Vuc2UgZm9yDQo+
-IGNhaXJvLWRiZyBhbmQgY2Fpcm8tc3JjIGJhc2VkIG9uIGNvbnRlbnRzDQo+IA0KPiBPbiAxMi81
-LzE5IDQ6MjYgUE0sIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiBJbnRyb2R1Y2UgYSBQ
-QUNLQUdFQ09ORklHICJ0cmFjZSIgdG8gZGlzYWJsZSBjYWlyby10cmFjZSAodGhlIG9ubHkNCj4g
-PiBwYXJ0IG9mIHRoZSBjb2RlIGxpY2Vuc2VkIGFzIEdQTC0zLjAsIGFuZCB3aGljaCBpcyBub3Jt
-YWxseSBwYWNrYWdlZA0KPiA+IHNlcGFyYXRlbHkgaW4gY2Fpcm8tcGVyZi11dGlscykuIEJ5IGRp
-c2FibGluZyB0aGlzLCB3ZSBjYW4gYWRhcHQgdGhlDQo+ID4gbGljZW5zZXMgZm9yIGNhaXJvLWRi
-ZyBhbmQgY2Fpcm8tc3JjIHNvIHRoYXQgdGhleSBkbyBub3QgaW5jbHVkZQ0KPiA+ICJHUEx2Mysi
-IHdoZW4gdHJhY2UgaXMgZGlzYWJsZWQgYW5kIHRodXMgdGhleSBjYW4gYmUgdXNlZCBhbHNvIHdo
-ZW4sDQo+ID4gZS5nLiwgR1BMLTMuMCBpcyBibGFja2xpc3RlZCBpbiBJTkNPTVBBVElCTEVfTElD
-RU5TRS4NCj4gDQo+IFRoYW5rcyBmb3IgdGhpcywgaXQgZml4ZXMgYSBidWlsZCBlcnJvciBJIHdh
-cyBleHBlcmllbmNpbmcuIEhvd2V2ZXIsDQoNCk91dCBvZiBjdXJpb3NpdHksIGhvdyBjYW4gaXQg
-Zml4IGEgYnVpbGQgZmFpbHVyZT8NCg0KPiB3aGVuIEkgYXBwbHkgdGhpcyBwYXRjaCBsb2NhbGx5
-IGZvciB0ZXN0aW5nLCBJIGdldCBRQSBlcnJvcnMgc2F5aW5nIHRoYXQNCj4gdGhlICIvdXNyL2Jp
-biIgYW5kICIvdXNyL2xpYi9jYWlybyIgZGlyZWN0b3JpZXMgYXJlbid0IHBhcnQgb2YgYW55DQo+
-IHBhY2thZ2UuIEl0IGxvb2tzIGxpa2UgdGhlc2UgZGlyZWN0b3JpZXMgYXJlIGVtcHR5IHdoZW4g
-dHJhY2UgaXMNCj4gZGlzYWJsZWQgYW5kIHNob3VsZCBiZSByZW1vdmVkIGluIGRvX2luc3RhbGwg
-Pw0KDQpPaywgdGhhdCdzIGVtYmFycmFzc2luZy4gQXBwYXJlbnRseSBJIGhhZCAtLWRpc2FibGUt
-c2NyaXB0IGluIA0KRVhUUkFfT0VDT05GIChmcm9tIGEgbG9jYWwgYmJhcHBlbmQgd2UgaGF2ZSkg
-d2hlbiBJIHRlc3RlZCB3aXRob3V0IA0KInRyYWNlIiBpbiBQQUNLQUdFQ09ORklHLCBhbmQgYXBw
-YXJlbnRseSB0aGF0IGNhdXNlcyBjYWlyby1zcGhpbnggDQpub3QgdG8gYmUgYnVpbHQgYW5kIHRo
-dXMgdGhlIC91c3IvYmluIGFuZCAvdXNyL2xpYi9jYWlybyBkaXJlY3RvcmllcyANCmFyZSBuZXZl
-ciBjcmVhdGVkLg0KDQpJJ2xsIHNlbmQgYW4gdXBkYXRlZCBwYXRjaC4NCg0KLy9QZXRlcg0KDQo=
+
+On 1/10/20 3:58 PM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: Joshua Watt <jpewhacker@gmail.com>
+>> Sent: den 10 januari 2020 16:23
+>> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+>> core@lists.openembedded.org
+>> Subject: Re: [OE-core] [master][zeus][PATCH] cairo: Adapt license for
+>> cairo-dbg and cairo-src based on contents
+>>
+>> On 12/5/19 4:26 PM, Peter Kjellerstedt wrote:
+>>> Introduce a PACKAGECONFIG "trace" to disable cairo-trace (the only
+>>> part of the code licensed as GPL-3.0, and which is normally packaged
+>>> separately in cairo-perf-utils). By disabling this, we can adapt the
+>>> licenses for cairo-dbg and cairo-src so that they do not include
+>>> "GPLv3+" when trace is disabled and thus they can be used also when,
+>>> e.g., GPL-3.0 is blacklisted in INCOMPATIBLE_LICENSE.
+>> Thanks for this, it fixes a build error I was experiencing. However,
+> Out of curiosity, how can it fix a build failure?
+
+As you pointed out in the commit message, it allows image construction 
+when INCOMPATIBLE_LICENSE contains "GPL-3.0" :)
+
+>
+>> when I apply this patch locally for testing, I get QA errors saying that
+>> the "/usr/bin" and "/usr/lib/cairo" directories aren't part of any
+>> package. It looks like these directories are empty when trace is
+>> disabled and should be removed in do_install ?
+> Ok, that's embarrassing. Apparently I had --disable-script in
+> EXTRA_OECONF (from a local bbappend we have) when I tested without
+> "trace" in PACKAGECONFIG, and apparently that causes cairo-sphinx
+> not to be built and thus the /usr/bin and /usr/lib/cairo directories
+> are never created.
+>
+> I'll send an updated patch.
+>
+> //Peter
+>
 
