@@ -1,51 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CB7B7FD69
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com
+	[209.85.219.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 049267FF4D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 17:29:45 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id k25so1300091pgt.7
+	Fri, 10 Jan 2020 18:47:04 +0000 (UTC)
+Received: by mail-qv1-f54.google.com with SMTP id t6so1205029qvs.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 09:29:47 -0800 (PST)
+	Fri, 10 Jan 2020 10:47:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=5FJG1boMyGTjfcMWA7jez9ns8uxsKKHiZW6Gu9eHaJM=;
-	b=BMeqZk/x0/91FE7BZembFLsgJYMsGkA/42dG/GLKrsQwmwbNGLuzRllkldIFngOyLs
-	pYiVcaSHB1Am8Zz9efU9p4KVLQd5q1PggVhF2ngR6EmvsCp0yriquJN4AROqMwggjKhJ
-	HXh9BQwG+ZMxiOh0AU9EGJ6M8bfWortx56p1cN5szx4gaJTLODeH8rE3EtDWfIJGrWri
-	RJAO5F2E3W7uc4vGFmByTraR3CxLFf+2CaJFjZeDbSrdw0l0eRTpwAZedv5tDmn44xL1
-	NXSCW6yc2lRK61219jmZlIviQn/Q30LKqCaieQ/QIxl95v8U63HirsA2eEslxjmzryMl
-	cfkg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Z1hNtDi+G+YtHde+cxR4FDXRM+Su7rd0JsytuR3LvR0=;
+	b=sdo2Qg5qYQSZU33JLkZtSFHQNxZ32p+QQqe19M/hzUYbFKkwAebRCBUibPZdbWljSa
+	WPwZOlo8WTYM1iA10MizJp3ZC4Yphs+6eqeIUdULu4rfZEDpJ7tJsoJ6ffA0+56gF2c2
+	6XaQaCZr682tgypdB4NH0r126J5O14XIbrmivBXMAGDjROKmColkCyn86MV4UqcFHniY
+	3VmRrlKNpcUyEK5iPcaxDdXqe7FFAA65nOU8hx+Zy9FX6hvKdjjfCAcbeF0Cc1yGWWjz
+	CU3bcgsUShsIYS4ZTz0IpTnDsJrI7nOzZE4pBNY8ukSB8UP+iSec2Z0Hm0QGJxMuC4ZX
+	pxGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=5FJG1boMyGTjfcMWA7jez9ns8uxsKKHiZW6Gu9eHaJM=;
-	b=Uzg7ydIzpLMhy7wQqvQ4IAPBB2xhvIPq3CzEINzhGl3brShgr0X5+wYYd6JaQbPWt2
-	6DjwWMlnRBtlSQVD6t86Kw+DWUY14M4QRHjhBxEoX6ivvq9Zd+J6SmaCz/gWmbRTBzgr
-	rgJMxl8mje3h0DETOPtcTM1PoDmIn8S5O3cvlM5zIuQ9Ec4AnTOE/jTEYpSJOJlfSET5
-	HdG2i6M42Fm9hU3BNKfgMOWnih7il3TLA+ijTs/Hwbi870W0GA2l61Ia4IP17gm3dZq0
-	IWs/98xHr0jLsBY1JIu3s90j3xuCKvd10y0H9E0fGC5XnVHnFZNP8kys0XPCcPXvBAne
-	Kswg==
-X-Gm-Message-State: APjAAAWISBByUiQfzqVOkQ+XhyGgHbtz8EPPKf2hzHGC2mDxk1LgkkbJ
-	TWfHJLdr6PZV3QToGJHX89OHt9URae8=
-X-Google-Smtp-Source: APXvYqzhEu2Pcn+SGF77EtGo/mm2k/fL56NYQ8HW99B6ciwo3cP1HVNN9GnC9rUV4U7VqLXXBk+XkA==
-X-Received: by 2002:aa7:9633:: with SMTP id r19mr5523495pfg.90.1578677386871; 
-	Fri, 10 Jan 2020 09:29:46 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::6f71])
-	by smtp.gmail.com with ESMTPSA id 2sm3506119pjh.19.2020.01.10.09.29.46
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 10 Jan 2020 09:29:46 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jan 2020 09:29:38 -0800
-Message-Id: <20200110172938.3060002-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200110172938.3060002-1-raj.khem@gmail.com>
-References: <20200110172938.3060002-1-raj.khem@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Z1hNtDi+G+YtHde+cxR4FDXRM+Su7rd0JsytuR3LvR0=;
+	b=UuikFv0RztkfQInRMUEVn5v7UKO4u0G39WO7+9sQLWcLpju8tHyKruRiLCS7+0X7DR
+	aZx3k3AMOPByj09o7uSsftlPlk5w8EcmpsJkrdJc4mC2aizowzAHC295c+fD96EOBIth
+	fGxKegiL9v0RJ9ySuOfvRS/5RlQdnj2rZThz+IPcMKE2xzf4KVOPgFv68N6IQmdrfQ6a
+	4+e9b6tyBE5HFdT1P/7EYcMoacJ7384dqXseQUz6ghWgu48mPkqU7C2ERO60MCIeqdvR
+	fXYI/Eu7oonwSrcJc6jAUw8fspN/wG6rJ9dPImyBUw0/MPMnA3CgESkbOjwCi0MkRKxm
+	z/uw==
+X-Gm-Message-State: APjAAAW9h8OXsh7lUem0/oiuQWbYiLgExwtzLfazu5Iuwur/0L99e0aw
+	8oILf7KINV0llmo9tlGZh8z5m9q3bRn6MtnKEbiu2XGM
+X-Google-Smtp-Source: APXvYqyRK4DhTfoytjxjeCOFf4dD5Su6MBpjN09GuEJ5Z+apj1pSiypXBKtjwbWxLIekFaGTqDkacY5XBIEDuM0YgB0=
+X-Received: by 2002:ad4:4389:: with SMTP id s9mr18701qvr.99.1578682025395;
+	Fri, 10 Jan 2020 10:47:05 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] busybox: Update inittab
+References: <20200110165302.27426-1-git@andred.net>
+In-Reply-To: <20200110165302.27426-1-git@andred.net>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 10 Jan 2020 10:46:39 -0800
+Message-ID: <CAMKF1srewTnyB9w_gpWNyEv-wy8V+YFQKBPUgD+eH7a9BsA=3w@mail.gmail.com>
+To: =?UTF-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/16] site updates (autotools / coreutils)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2020 17:29:46 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 10 Jan 2020 18:47:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add stdin/stdout/stderr symlinks in case when not using hotplug
-Disable ctrl+alt+del, not used much
-Mount swap if defined
+On Fri, Jan 10, 2020 at 8:53 AM Andr=C3=A9 Draszik <git@andred.net> wrote:
+>
+> Hi,
+>
+> For the following updates, I have run the autotools tests
+> (m4 macros) on the target on an up-to-date musl (32bit arm)
+> system, as well as taken the results from my host machine
+> for glibc (64bit, glibc 2.29)
+>
+> These help to prevent coreutils from compiling lots of
+> useless wrappers, as many of the tests are testing long
+> fixed bugs that are not relevant anymore, since in most
+> cases the m4 macros assume the worst when cross-compiling.
+>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/busybox/files/inittab | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+These changes are really good, looking at them it occurred to me that
+we might have
+to mention that what we assume in terms of Glibc and musl versions. So
+external toolchain
+providers and users can take notice.  Perhaps in the documentation or
+some such place.
+Otherwise this patchset looks fine to me
 
-diff --git a/meta/recipes-core/busybox/files/inittab b/meta/recipes-core/busybox/files/inittab
-index 2bc831c7c6..e8ec2ab68e 100644
---- a/meta/recipes-core/busybox/files/inittab
-+++ b/meta/recipes-core/busybox/files/inittab
-@@ -8,11 +8,17 @@
- ::sysinit:/bin/mkdir -p /dev/pts
- ::sysinit:/bin/mount -t devpts devpts /dev/pts
- ::sysinit:/bin/mount -a
--
-+::sysinit:/sbin/swapon -a
-+null::sysinit:/bin/ln -sf /proc/self/fd /dev/fd
-+null::sysinit:/bin/ln -sf /proc/self/fd/0 /dev/stdin
-+null::sysinit:/bin/ln -sf /proc/self/fd/1 /dev/stdout
-+null::sysinit:/bin/ln -sf /proc/self/fd/2 /dev/stderr
-+# set hostname
-+null::sysinit:/bin/busybox hostname -F /etc/hostname
- ::sysinit:/etc/init.d/rcS
- 
- # Stuff to do before rebooting
--::ctrlaltdel:/sbin/reboot
-+#::ctrlaltdel:/sbin/reboot
- ::shutdown:/etc/init.d/rcK
- ::shutdown:/sbin/swapoff -a
- ::shutdown:/bin/umount -a -r
-@@ -20,5 +26,3 @@
- # Stuff to do when restarting the init process
- ::restart:/sbin/init
- 
--# set hostname
--null::sysinit:/bin/busybox hostname -F /etc/hostname
--- 
-2.24.1
-
+> Cheers,
+> Andr=C3=A9
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
