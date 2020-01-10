@@ -1,44 +1,43 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id ADC377FFB1
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
+	[209.85.128.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 809B77FFAB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 16:53:11 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id j42so2434760wrj.12
+	Fri, 10 Jan 2020 16:53:12 +0000 (UTC)
+Received: by mail-wm1-f45.google.com with SMTP id p17so2706228wma.1
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Jan 2020 08:53:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=k5AqPo1w7ni4q0YAoAcpyuKGbKJmb9xg+ESvrtkSh+s=;
-	b=MsvMPz9a1CBu64y6ZWaUJaX7r2ZZuQw7zHdDogwjS1s1n10acePnTmn18UM9Y0L4iD
-	19fBRnbP44p9utx9sTybjNS4nqDo+/JqCljAoX0KG+vlYHUwmZ9UYdWSHPxe6MkdaI18
-	+3d338wqkQGgb30LEk/iW2OIDHSuhoNgc1Ai+OtuEej3AY535U8oS/FGv1oWFsF+O5EG
-	F6dPhLhANEsvkz/YMhgzc2qmSvehZ9oCeG8xWoMr5PYrAikfOVK3BGhkQHMP/CqSDpTw
-	hl+ISvg1KwAmetqDAvo1O8hEKqI1QQKxbdFCFBXRtmC9FBQ1HpmpRPQ1xw2zyquNgIw3
-	HyNw==
-X-Gm-Message-State: APjAAAWynZMfX2yoR19Qo8ulgin0MvE0yaElT+xPV+LFtwsPSUOGjm0q
-	4BwB+ZcG6sT7KJueFKBc+/8bUJIm
-X-Google-Smtp-Source: APXvYqxMcW8Cc7NNzE0nDp4AaI7qAKrVbSfKYvdpGOH2FfdQRDeNr4LLdm9Vj0kWLwYA02T2xp+KPw==
-X-Received: by 2002:a05:6000:12c9:: with SMTP id
-	l9mr4730675wrx.304.1578675192104; 
-	Fri, 10 Jan 2020 08:53:12 -0800 (PST)
+	bh=nWEvMb31zZprItTBNRZdPGtI6hZQqsdX5y3MKqiMOEU=;
+	b=m1+oZCqLuap1qanTXg15l32xgZujQ+OemyihnvFoDfeBKeM2By7nhEJmSIlWWPb77V
+	vXF6LC/z6DOSG+7eM+/e1qXyHLNLHtuWyfvzEW12R3zfKDrYA239VZuFO1hPS8MVH3Fs
+	Hu3UYdtBWJv7mhdCHbk0FrJ6/mmNyGHkv600r2Va6o2aNBwpS3Zzy0s+NxAcFo0MxkSN
+	8+fXZTeE1UnV+Eh9UlGHWWM36FqqZV9t1CKYfN5nXYY/so0Z5cAgTZDPjDOAz6g4VL1m
+	i/J83rssvjTgLxE9j2Ise1qej9qnbtra6HV4eoDfvllldiKhsFXu5cj1WdvV+dk8GpiY
+	7k7A==
+X-Gm-Message-State: APjAAAW0TsSq8EJlwqX4MZdDkVn9aEl2zCIJ6aoRKhEtoxqn4RwbB1p9
+	RY/5bp364yivubvrLlVZVoNa8EBi
+X-Google-Smtp-Source: APXvYqxdQ8sEl9Z8ciuuZ2OEbNaLJiQ/VgVe/V54rAukV9+QLPppqqkfZDo9kRHQDnDYfW1IFoeMJQ==
+X-Received: by 2002:a7b:cf01:: with SMTP id l1mr5143121wmg.86.1578675193097;
+	Fri, 10 Jan 2020 08:53:13 -0800 (PST)
 Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	c195sm3010137wmd.45.2020.01.10.08.53.11
+	c195sm3010137wmd.45.2020.01.10.08.53.12
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 10 Jan 2020 08:53:11 -0800 (PST)
+	Fri, 10 Jan 2020 08:53:12 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jan 2020 16:52:49 +0000
-Message-Id: <20200110165302.27426-4-git@andred.net>
+Date: Fri, 10 Jan 2020 16:52:50 +0000
+Message-Id: <20200110165302.27426-5-git@andred.net>
 X-Mailer: git-send-email 2.23.0.rc1
 In-Reply-To: <20200110165302.27426-1-git@andred.net>
 References: <20200110165302.27426-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 03/16] site: musl and glibc have working mkstemp()
+Subject: [PATCH 04/16] site: musl and glibc have glibc compatible calloc()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,8 +54,8 @@ X-List-Received-Date: Fri, 10 Jan 2020 16:53:12 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-their mkstemp() passes all tests from the gnulib m4 macro
-gl_FUNC_MKSTEMP.
+calloc (N, S) returns non-NULL when N*S is zero,
+and returns NULL when N*S overflows.
 
 Signed-off-by: André Draszik <git@andred.net>
 ---
@@ -65,29 +64,27 @@ Signed-off-by: André Draszik <git@andred.net>
  2 files changed, 2 insertions(+)
 
 diff --git a/meta/site/common-glibc b/meta/site/common-glibc
-index 1443f8e528..0bcaea2732 100644
+index 0bcaea2732..baab03c588 100644
 --- a/meta/site/common-glibc
 +++ b/meta/site/common-glibc
-@@ -28,6 +28,7 @@ ac_cv_func_mmap_fixed_mapped=${ac_cv_func_mmap_fixed_mapped=yes}
- 
- # coreutils
- fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
-+gl_cv_func_working_mkstemp=${gl_cv_func_working_mkstemp=yes}
- 
- # glib
- glib_cv_strlcpy=${glib_cv_strlcpy=no}
+@@ -1,5 +1,6 @@
+ # general
+ ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=yes}
++ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
+ ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
+ ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+ ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
 diff --git a/meta/site/common-musl b/meta/site/common-musl
-index 024b6ba1e5..bbf2f9c72b 100644
+index bbf2f9c72b..d8ff44327f 100644
 --- a/meta/site/common-musl
 +++ b/meta/site/common-musl
-@@ -36,6 +36,7 @@ fu_cv_sys_stat_statfs2_bsize=${fu_cv_sys_stat_statfs2_bsize=yes}
- gl_cv_func_gettimeofday_clobber=${gl_cv_func_gettimeofday_clobber=no}
- gl_cv_func_tzset_clobber=${gl_cv_func_tzset_clobber=no}
- gl_cv_func_gettimeofday_posix_signature=${gl_cv_func_gettimeofday_posix_signature=yes}
-+gl_cv_func_working_mkstemp=${gl_cv_func_working_mkstemp=yes}
- ac_cv_func_posix_spawn=${ac_cv_func_posix_spawn=yes}
- ac_cv_func_posix_spawn_works=${ac_cv_func_posix_spawn_works=yes}
- 
+@@ -1,5 +1,6 @@
+ # general
+ ac_cv_have_decl_sys_siglist=${ac_cv_have_decl_sys_siglist=no}
++ac_cv_func_calloc_0_nonnull=${ac_cv_func_calloc_0_nonnull=yes}
+ ac_cv_func_realloc_works=${ac_cv_func_realloc_works=yes}
+ ac_cv_func_realloc_0_nonnull=${ac_cv_func_realloc_0_nonnull=yes}
+ ac_cv_func_malloc_works=${ac_cv_func_malloc_works=yes}
 -- 
 2.23.0.rc1
 
