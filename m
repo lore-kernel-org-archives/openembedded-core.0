@@ -1,43 +1,43 @@
 Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BF797FFA3
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 060EB7FFA3
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 Jan 2020 16:53:24 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id p17so2707522wmb.0
+Received: by mail-wm1-f68.google.com with SMTP id q9so2728836wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 Jan 2020 08:53:25 -0800 (PST)
+	Fri, 10 Jan 2020 08:53:26 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=qaknlkFBTk7DvEIrqh3yf4TIwzzVv1v8VW8K8zWW+tI=;
-	b=TmFA//xKsqofpun5NcaamAI/yhrTGImGCZvcY14yDX2Aqzy1Ym+E+hI7b6bGeAnHUY
-	3e/FEDxKQXna/PsbeDkgsjJ1bp+xo8GbAoBs456bKjUsS/txRN3Rjdiocl8oBCxX9b+z
-	PxKqyeii0pBmKPu10X+UFu3c9GwysV/MfDeleb8X7oLjejqlHDt23sbGRj+AzuDIGrc9
-	ySENlRBB7Wh8YpfE+vA45o/SgsRF6f+CJ6w2vO8xNLO2oWyIEe93OykN50L521uVF7qW
-	SO1uRoKTfqyQZJ2HIA88ejBC6OOiBmBmxCXvJt04lv47hjBaF6ar7nYBYeaRjQ4caO25
-	FCqg==
-X-Gm-Message-State: APjAAAXUF5Vwr88nqhdEahkGqvXpcCeQPhTXnHjHf5qk8B3ZjmunUoER
-	ZYzi3ae4xF7THXGHO9S/MCr2aFei
-X-Google-Smtp-Source: APXvYqwTSnkFTHBdnXPoG0KqFIFTU70/y+yk7o3tlzaHRaxuEFxd4T8lTpkDRgfloxl5Ui1S1y6Ouw==
-X-Received: by 2002:a1c:730d:: with SMTP id d13mr5270564wmb.126.1578675204684; 
-	Fri, 10 Jan 2020 08:53:24 -0800 (PST)
+	bh=XyLDyVPLz5XUzzbIhf6xu6jT7rsDddqORm/T4joZ6Dw=;
+	b=HzDDwaoTDUDjG67EeC62qBhi/KrnG16H20QKNJZtbxHRcb6Hzi/hkbSv3dssZpT95/
+	mvIgldGR/WoI3ivH8umzshSltt9DAxn0it5VtrI2awNd+9Vg04GI3jARh39uioEwemQd
+	gPUU3mDDBgOHglc0Bg2JPlJ7AjM2H02qSAPCbzoB113N6gjPwDONfCQBU+2hGPxA9mR2
+	YBMafeHThjRkvj2d66yQKahiyHDMkX4TGwB6a2LG/EdKYUKjGmTL8oseHIGRwkRAdLeq
+	nEbrq7HHyyVpwmhqwTHpouAgC8TTsagMqb7FiixBxu374sSI/lz7P3qJ5uR0LM6+IrPm
+	LWYw==
+X-Gm-Message-State: APjAAAVqcM8/wPrp5bX7oomPLGmXcAamt99Y3tmeW/9OWYJ2sbM0Ibbq
+	PdaXBwQ8ITGqkc029AmDNU+SkX6+
+X-Google-Smtp-Source: APXvYqx5W6d/r+oDnvhGGus4VpjJoJdMJ/zJdu+J3ETzFx/qhpg9X/yLxVtixeoPoMk/nU7YHFMrHw==
+X-Received: by 2002:a1c:61c1:: with SMTP id v184mr5296234wmb.160.1578675205592;
+	Fri, 10 Jan 2020 08:53:25 -0800 (PST)
 Received: from 1aq-andre.garage.tyco.com ([77.107.218.170])
 	by smtp.gmail.com with ESMTPSA id
-	c195sm3010137wmd.45.2020.01.10.08.53.23
+	c195sm3010137wmd.45.2020.01.10.08.53.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 10 Jan 2020 08:53:23 -0800 (PST)
+	Fri, 10 Jan 2020 08:53:24 -0800 (PST)
 From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <git@andred.net>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 Jan 2020 16:52:59 +0000
-Message-Id: <20200110165302.27426-14-git@andred.net>
+Date: Fri, 10 Jan 2020 16:53:00 +0000
+Message-Id: <20200110165302.27426-15-git@andred.net>
 X-Mailer: git-send-email 2.23.0.rc1
 In-Reply-To: <20200110165302.27426-1-git@andred.net>
 References: <20200110165302.27426-1-git@andred.net>
 MIME-Version: 1.0
-Subject: [PATCH 13/16] site: on linux, link(2) doesn't follow symlinks
+Subject: [PATCH 14/16] site: set nanosleep() behaviour for glibc / musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,29 +50,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 Jan 2020 16:53:24 -0000
+X-List-Received-Date: Fri, 10 Jan 2020 16:53:25 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-(but gnulib / coreutils assumes yes when cross-compiling)
+As per coreutils' (gnulib's) autotools test, nanosleep()
+misbehaves on glibc (2.29), and works fine on musl.
+
+During cross-compile, recent coreutils assume brokenness
+when compiling for linux, which pessimises musl.
+
+Set the correct result for musl, and for coherency reasons,
+also specify the result for glibc.
 
 Signed-off-by: André Draszik <git@andred.net>
 ---
- meta/site/common-linux | 1 +
- 1 file changed, 1 insertion(+)
+ meta/site/common-glibc | 1 +
+ meta/site/common-musl  | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/meta/site/common-linux b/meta/site/common-linux
-index 720a1204a5..1c1fdafbb0 100644
---- a/meta/site/common-linux
-+++ b/meta/site/common-linux
-@@ -50,6 +50,7 @@ hw_cv_func_vsnprintf_c99=${hw_cv_func_vsnprintf_c99=yes}
- ac_cv_func_chown_works=${ac_cv_func_chown_works=yes}
- ac_cv_func_utime_null=${ac_cv_func_utime_null=yes}
- gl_cv_func_fstatat_zero_flag=${gl_cv_func_fstatat_zero_flag=yes}
-+gl_cv_func_link_follows_symlink=${gl_cv_func_link_follows_symlink=no}
- gl_cv_func_unlink_busy_text=${gl_cv_func_unlink_busy_text=yes}
- gl_cv_have_proc_uptime=${gl_cv_have_proc_uptime=yes}
- gl_cv_pipes_are_fifos=${gl_cv_pipes_are_fifos='yes (1)'}
+diff --git a/meta/site/common-glibc b/meta/site/common-glibc
+index ca55d48e72..1a28a271ff 100644
+--- a/meta/site/common-glibc
++++ b/meta/site/common-glibc
+@@ -33,6 +33,7 @@ gl_cv_func_getcwd_abort_bug=${gl_cv_func_getcwd_abort_bug=no}
+ gl_cv_func_getcwd_null=${gl_cv_func_getcwd_null=yes}
+ gl_cv_func_getcwd_path_max=${gl_cv_func_getcwd_path_max=yes}
+ ac_cv_func_getgroups_works=${ac_cv_func_getgroups_works=yes}
++gl_cv_func_nanosleep=${gl_cv_func_nanosleep='no (mishandles large arguments)'}
+ gl_cv_func_working_mkstemp=${gl_cv_func_working_mkstemp=yes}
+ gl_cv_func_working_utimes=${gl_cv_func_working_utimes=yes}
+ 
+diff --git a/meta/site/common-musl b/meta/site/common-musl
+index 1e7efbc311..386991d2c4 100644
+--- a/meta/site/common-musl
++++ b/meta/site/common-musl
+@@ -39,6 +39,7 @@ gl_cv_func_getcwd_null=${gl_cv_func_getcwd_null=yes}
+ gl_cv_func_getcwd_path_max=${gl_cv_func_getcwd_path_max='no, but it is partly working'}
+ ac_cv_func_getgroups_works=${ac_cv_func_getgroups_works=yes}
+ gl_cv_func_gettimeofday_clobber=${gl_cv_func_gettimeofday_clobber=no}
++gl_cv_func_nanosleep=${gl_cv_func_nanosleep=yes}
+ gl_cv_func_tzset_clobber=${gl_cv_func_tzset_clobber=no}
+ gl_cv_func_gettimeofday_posix_signature=${gl_cv_func_gettimeofday_posix_signature=yes}
+ gl_cv_func_working_mkstemp=${gl_cv_func_working_mkstemp=yes}
 -- 
 2.23.0.rc1
 
