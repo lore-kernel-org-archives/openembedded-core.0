@@ -1,33 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F7F47FF04
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D2927FFBE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2020 03:32:22 +0000 (UTC)
-IronPort-SDR: S7TFGV480FunEFKNCjOh+BIptNqRnzqUKgLnMEDVNRiYnUAY5FieR0WDH2+7x3Eqay7RGbY3HR
-	UYDId+jXHefluMm6JPN0CrTIWLNGep46Hi+nKgv2pZ0KExZ5HJM2SjPPAVuS43D/zMhKFEwYXb
-	fln25unbDd6EAfZ0zdGhlfg76IvWFhgN0bK5gz2V97B+0H6GHHVsdUaf9SXX6x28/STi3woiC3
-	FdTBq4hSSoFj46/hxQUX3IbadpZk44b2/5lCLZcPLuv4oKDsZtshVhR+1HmTUJvcYzyw3XOorC
-	cWY=
-X-IronPort-AV: E=Sophos;i="5.69,419,1571695200"; 
-   d="scan'208";a="4204991"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [master][zeus][PATCH] toaster.bbclass: Correct
-	pkgdatadir	path in toaster_package_dumpdata()
-Thread-Index: AQHVr788StpW5q4b/kmfm5MeBIEBvafGMEaQgB7PjQA=
-Date: Sat, 11 Jan 2020 03:32:23 +0000
-Message-ID: <6452910c3cb64d55a7bda972f467c828@XBOX03.axis.com>
-References: <20191211010609.4295-1-pkj@axis.com>
-	<aa0b9ef432a44643a82dd82e72cc4f45@XBOX03.axis.com>
-In-Reply-To: <aa0b9ef432a44643a82dd82e72cc4f45@XBOX03.axis.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Sat, 11 Jan 2020 09:16:37 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id p17so4439137wmb.0
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Jan 2020 01:16:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=+IvRJi/T4iH9ulCjO3rr2+YDKrtf0Tkhdvtb+SKJH7o=;
+	b=XDDOsMIJE6ANls+ME41DTFE76uCKx6St0f/V2NQgfYpV8hTmpBjCRoJd6sjg7n4KUz
+	hyNxEqx/cinIXxn5QJ5BZDSI6EwM/jQ3y4GaAFQpxGw9XfyyyW1Weth9iXpAFCk57Zcx
+	TautgckF1xmsVtD79zD7Ut+B8xkSU6D+iYZuI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=+IvRJi/T4iH9ulCjO3rr2+YDKrtf0Tkhdvtb+SKJH7o=;
+	b=EX6QeWI9mavmZhGkuYFzxjwOpSaZUQiRnXKDVUaAj2N0j1pykkkDVfmxLd7BHNVw0q
+	bxMXT46s9NCd0fUY646an3kQ0fD17OrovIl6LE8pFwOPEgmwSJZaAh/vstqRc7/K+kRg
+	AHXZ8aKv75/4FS85TllfIle0A863mnAtDHlzDHhhZKkbEmrQWpopWDvjlP9zYtnYSTrE
+	x4opWrZo6GEa0IWSND83BvAEZAaVGNJnPq9FkOLQiIiiPuUlb0rv9d5ceXwRdd/EcD+e
+	Ya4+jRTI7O54yVeD5yrv/x6QUqV1N8AxwptbxErTOxi1gFbeSa15BGTfJ/PkjLU3wGKp
+	4Lwg==
+X-Gm-Message-State: APjAAAVprzN2trKLceBBBR9TQAQJ2XXaZfPuPI+EJ99HLMZUyZ9vtT7S
+	246K8wt+MtCrztkU36v1Fniy1w==
+X-Google-Smtp-Source: APXvYqzxKUfaLQZbYd9C9vOFqEe+tJHffp9Vx/qjmgRbtYunQaibOUUq0OMAX5iAvfM+ogzsrt++tA==
+X-Received: by 2002:a05:600c:409:: with SMTP id
+	q9mr9078766wmb.19.1578734197087; 
+	Sat, 11 Jan 2020 01:16:37 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	k11sm5402224wmc.20.2020.01.11.01.16.35
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 11 Jan 2020 01:16:36 -0800 (PST)
+Message-ID: <b5b04e547e8c4816109af537260e5cbdb86e3c0d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 11 Jan 2020 09:16:35 +0000
+In-Reply-To: <20200110172938.3060002-1-raj.khem@gmail.com>
+References: <20200110172938.3060002-1-raj.khem@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [master][zeus][PATCH] toaster.bbclass: Correct pkgdatadir	path in toaster_package_dumpdata()
+Subject: Re: [PATCH 1/2] qemuboot-mips: Enable VGA device
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,140 +58,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2020 03:32:23 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 11 Jan 2020 09:16:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-*ping*
+On Fri, 2020-01-10 at 09:29 -0800, Khem Raj wrote:
+> This helps in booting weston images ( core-image-weston ) with fbdev
+> backend, without this westons initialization of fbdev backend fails
+> because it does not get correct frame buffer settings and exits
+> pre-maturely
+> 
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/conf/machine/include/qemuboot-mips.inc | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
+> index 978820a2e0..52cb28a5d2 100644
+> --- a/meta/conf/machine/include/qemuboot-mips.inc
+> +++ b/meta/conf/machine/include/qemuboot-mips.inc
+> @@ -5,3 +5,8 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyS0 console=tty"
+>  QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
+>  # Add the 'virtio-rng-pci' device otherwise the guest may run out of entropy
+>  QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+> +
+> +# For graphics to work we need to define the VGA device as well as the necessary USB devices
+> +QB_OPT_APPEND = "-show-cursor -device VGA,edid=on"
+> +QB_OPT_APPEND += "-device qemu-xhci -device usb-tablet -device usb-kbd"
+> +
 
-//Peter
+The change is probably good but it causes consistent failures in out
+testimage runs for mips and mips64:
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> Sent: den 22 december 2019 14:02
-> To: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [master][zeus][PATCH] toaster.bbclass: Correct
-> pkgdatadir path in toaster_package_dumpdata()
->=20
-> *ping*
->=20
-> //Peter
->=20
-> > -----Original Message-----
-> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-
-> > bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
-> > Sent: den 11 december 2019 02:06
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [master][zeus][PATCH] toaster.bbclass: Correct
-> > pkgdatadir path in toaster_package_dumpdata()
-> >
-> > In commit 692b2046 (package: Fix race between do_package and
-> > do_packagedata), the path used for do_packagedata[sstate-inputdirs]
-> > was changed from "${PKGDESTWORK}" to "${WORKDIR}/pkgdata-pdata-input".
-> > This commit adapts the path used for pkgdatadir in
-> > toaster_package_dumpdata() accordingly to avoid setscene errors like:
-> >
-> >   ERROR: libgcc-9.2.0-r0 do_packagedata_setscene: Error executing a
-> >   python function in exec_python_func() autogenerated:
-> >
-> >   The stack trace of python calls that resulted in this
-> >   exception/failure was:
-> >   File: 'exec_python_func() autogenerated', lineno: 2, function:
-> >   <module>
-> >        0001:
-> >    *** 0002:toaster_package_dumpdata(d)
-> >        0003:
-> >   File: 'meta/classes/toaster.bbclass', lineno: 130, function:
-> >   toaster_package_dumpdata
-> >        0126:    lpkgdata =3D {}
-> >        0127:    datadir =3D os.path.join(pkgdatadir, 'runtime')
-> >        0128:
-> >        0129:    # scan and send data for each generated package
-> >    *** 0130:    for datafile in os.listdir(datadir):
-> >        0131:        if not datafile.endswith('.packaged'):
-> >        0132:            lpkgdata =3D _toaster_load_pkgdatafile(datadir,
-> >        0133:            # Fire an event containing the pkg data
-> >        0134:            bb.event.fire(bb.event.MetadataEvent(
-> >   Exception: FileNotFoundError: [Errno 2] No such file or directory:
-> >   'tmp/work/mips32r2el-nf-poky-linux/libgcc/9.2.0-r0/pkgdata/runtime'
-> >
-> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> > ---
-> >  meta/classes/toaster.bbclass | 15 +++++++++++----
-> >  1 file changed, 11 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclas=
-s
-> > index 6cef0b8f6e..6a65ecb957 100644
-> > --- a/meta/classes/toaster.bbclass
-> > +++ b/meta/classes/toaster.bbclass
-> > @@ -113,7 +113,7 @@ def _toaster_load_pkgdatafile(dirpath, filepath):
-> >                  pass    # ignore lines without valid key: value pairs
-> >      return pkgdata
-> >
-> > -python toaster_package_dumpdata() {
-> > +def _toaster_dumpdata(pkgdatadir, d):
-> >      """
-> >      Dumps the data about the packages created by a recipe
-> >      """
-> > @@ -122,7 +122,6 @@ python toaster_package_dumpdata() {
-> >      if not d.getVar('PACKAGES'):
-> >          return
-> >
-> > -    pkgdatadir =3D d.getVar('PKGDESTWORK')
-> >      lpkgdata =3D {}
-> >      datadir =3D os.path.join(pkgdatadir, 'runtime')
-> >
-> > @@ -132,6 +131,14 @@ python toaster_package_dumpdata() {
-> >              lpkgdata =3D _toaster_load_pkgdatafile(datadir, datafile)
-> >              # Fire an event containing the pkg data
-> >              bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo",
-> > lpkgdata), d)
-> > +
-> > +python toaster_package_dumpdata() {
-> > +    _toaster_dumpdata(d.getVar('PKGDESTWORK'), d)
-> > +}
-> > +
-> > +python toaster_packagedata_dumpdata() {
-> > +    # This path needs to match do_packagedata[sstate-inputdirs]
-> > +    _toaster_dumpdata(os.path.join(d.getVar('WORKDIR'), 'pkgdata-pdata=
--
-> > input'), d)
-> >  }
-> >
-> >  # 2. Dump output image files information
-> > @@ -366,8 +373,8 @@ toaster_buildhistory_dump[eventmask] =3D
-> > "bb.event.BuildCompleted"
-> >  addhandler toaster_artifacts
-> >  toaster_artifacts[eventmask] =3D "bb.runqueue.runQueueTaskSkipped
-> > bb.runqueue.runQueueTaskCompleted"
-> >
-> > -do_packagedata_setscene[postfuncs] +=3D "toaster_package_dumpdata "
-> > -do_packagedata_setscene[vardepsexclude] +=3D "toaster_package_dumpdata=
- "
-> > +do_packagedata_setscene[postfuncs] +=3D "toaster_packagedata_dumpdata =
-"
-> > +do_packagedata_setscene[vardepsexclude] +=3D
-> "toaster_packagedata_dumpdata
-> > "
-> >
-> >  do_package[postfuncs] +=3D "toaster_package_dumpdata "
-> >  do_package[vardepsexclude] +=3D "toaster_package_dumpdata "
-> > --
-> > 2.21.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1429
+https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/196
+https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1431
+
+all due to errors appearing in the logs.
+
+Cheers,
+
+Richard
+
 
