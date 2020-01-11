@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 546547EC64;
-	Sat, 11 Jan 2020 11:02:23 +0000 (UTC)
-MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sat, 11 Jan 2020 11:02:24 -0000
-Message-ID: <20200111110224.2277.45598@do>
-References: <20200111104736.31797-1-richard.purdie@linuxfoundation.org>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200111104736.31797-1-richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm1ldGEtZXh0c2RrLXRvb2xjaGFpbjogTWFyayBhcy4uLiIgYW5kIDEgbW9yZQ==?=
+Return-Path: <pjtexier@koncepto.io>
+X-Greylist: delayed 443 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 11 Jan 2020 13:46:36 UTC
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 901997F80A
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Jan 2020 13:46:36 +0000 (UTC)
+Received: from menoah.home (apoitiers-653-1-564-131.w109-222.abo.wanadoo.fr
+	[109.222.141.131])
+	by koncepto.io (Postfix) with ESMTPSA id B0FB660174;
+	Sat, 11 Jan 2020 14:39:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1578749952;
+	bh=djZXSzikZP1lRcIr4rDU4caB/ptujpH41wleCPH/b0g=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Ez9AkMmZLYk8/3QcHVQnDSKXEsvK7IBSKCD6Fuo2+hg35EWenrlFBn65iPbJ+i3xA
+	Sq+o+Mphc6GqUWQBfVuKNUy00x0yYB176SZoXJfMwz0NWM8LS51Ep0ZdiNrXTj6ayU
+	vbYx2//DRahAvqenIZPbS5juMfJQhe7qgM/URKXze86LY07oRM3+zK0f68XgD5oGdv
+	YMzCVefUYRlB4fvRyo4FErwURckpeky3jcA6tkVNIU15GMl9tptFDlKn05g++9toA/
+	7EoOls+AmmaKymIW5XokbBrx+HXUN/BekI8ZZXZPK+SXYHgf+HWx3ZPRCVooDLi/g6
+	dUYWuLPzT/n1A==
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 11 Jan 2020 14:39:05 +0100
+Message-Id: <1578749945-16783-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] curl: upgrade 7.67.0 -> 7.68.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +37,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2020 11:02:23 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 11 Jan 2020 13:46:36 -0000
 
-== Series Details ==
+See full changelog https://curl.haxx.se/changes.html#7_68_0
 
-Series: "meta-extsdk-toolchain: Mark as..." and 1 more
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/21963/
-State : failure
+The hash of the license is updated because the copyright year was
+updated in COPYING file:
 
-== Summary ==
+-Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many
++Copyright (c) 1996 - 2020, Daniel Stenberg, <daniel@haxx.se>, and many
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 65d38cc1ce)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-support/curl/{curl_7.67.0.bb => curl_7.68.0.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/curl/{curl_7.67.0.bb => curl_7.68.0.bb} (93%)
+
+diff --git a/meta/recipes-support/curl/curl_7.67.0.bb b/meta/recipes-support/curl/curl_7.68.0.bb
+similarity index 93%
+rename from meta/recipes-support/curl/curl_7.67.0.bb
+rename to meta/recipes-support/curl/curl_7.68.0.bb
+index e08e08e..0a1547c 100644
+--- a/meta/recipes-support/curl/curl_7.67.0.bb
++++ b/meta/recipes-support/curl/curl_7.68.0.bb
+@@ -3,14 +3,14 @@ HOMEPAGE = "http://curl.haxx.se/"
+ BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
+ SECTION = "console/network"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=be5d9e1419c4363f4b32037a2d3b7ffa"
++LIC_FILES_CHKSUM = "file://COPYING;md5=2e9fb35867314fe31c6a4977ef7dd531"
+ 
+ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://0001-replace-krb5-config-with-pkg-config.patch \
+ "
+ 
+-SRC_URI[md5sum] = "7be288f6fd5b7b5e402ef3b36a461a24"
+-SRC_URI[sha256sum] = "dd5f6956821a548bf4b44f067a530ce9445cc8094fd3e7e3fc7854815858586c"
++SRC_URI[md5sum] = "40d6784bd1a86e079d63cc668ba9bd8f"
++SRC_URI[sha256sum] = "207f54917dd6a2dc733065ccf18d61bb5bebeaceb5df49cd9445483e8623eeb9"
+ 
+ CVE_PRODUCT = "curl libcurl"
+ inherit autotools pkgconfig binconfig multilib_header
+-- 
+2.7.4
 
 
