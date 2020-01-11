@@ -1,30 +1,36 @@
-Return-Path: <pjtexier@koncepto.io>
-X-Greylist: delayed 443 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 11 Jan 2020 13:46:36 UTC
-Received: from koncepto.io (koncepto.io [195.154.119.111])
-	by mail.openembedded.org (Postfix) with ESMTP id 901997F80A
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C99117FCDB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2020 13:46:36 +0000 (UTC)
-Received: from menoah.home (apoitiers-653-1-564-131.w109-222.abo.wanadoo.fr
-	[109.222.141.131])
-	by koncepto.io (Postfix) with ESMTPSA id B0FB660174;
-	Sat, 11 Jan 2020 14:39:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
-	s=default; t=1578749952;
-	bh=djZXSzikZP1lRcIr4rDU4caB/ptujpH41wleCPH/b0g=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Ez9AkMmZLYk8/3QcHVQnDSKXEsvK7IBSKCD6Fuo2+hg35EWenrlFBn65iPbJ+i3xA
-	Sq+o+Mphc6GqUWQBfVuKNUy00x0yYB176SZoXJfMwz0NWM8LS51Ep0ZdiNrXTj6ayU
-	vbYx2//DRahAvqenIZPbS5juMfJQhe7qgM/URKXze86LY07oRM3+zK0f68XgD5oGdv
-	YMzCVefUYRlB4fvRyo4FErwURckpeky3jcA6tkVNIU15GMl9tptFDlKn05g++9toA/
-	7EoOls+AmmaKymIW5XokbBrx+HXUN/BekI8ZZXZPK+SXYHgf+HWx3ZPRCVooDLi/g6
-	dUYWuLPzT/n1A==
-From: Pierre-Jean Texier <pjtexier@koncepto.io>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 11 Jan 2020 14:39:05 +0100
-Message-Id: <1578749945-16783-1-git-send-email-pjtexier@koncepto.io>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] curl: upgrade 7.67.0 -> 7.68.0
+	Sat, 11 Jan 2020 14:10:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47w1vz4HYmz4q;
+	Sat, 11 Jan 2020 15:10:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1578751823;
+	bh=TWnmuFwOk1lhTtHJ15OB7BKBO4JX8Hs3pvmgNS7aBoc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WycIsO6IArjiaS8HJXhPrGLxfc1nchz1kTUkfU8IeDV303BcrqPKS4B14CyGoYZq+
+	yAxpPlHjJjEFfpJwLZhVyPC4EeIn+PnRqmLQLxPAOje5Y4up8XZ2UcM0YiI4MXNrvE
+	4p5PT+UZ+XYIGH6ZSrLJXP8tTVooOXuLuQvEvcNY3swNGYWLtXDs9T10Uq5ei4M2cQ
+	X+5QIpbHmpMF5o7sjQFNC2heBFl6WNC/bJLBdIMhztV8pf0pbcyLx27ueQbPM6CX3U
+	bmuE00DyfLyGcWXeGLv4OJvoAMRHb2QlXJNEtzefU0SyVGmGp464pfpsaIZoZY/xot
+	57wUqp9VZfaSsWRO8+qabOi25SUIU1heIvTDP/RdAy2IMeEHqRQx6d6CvR7MbM932w
+	DmhBsQFik+Yqiok1E7yZQN5DjgEGUNb4/uidovEpmUXsp2nYImyVJ8KjAfBYNytVwK
+	8oChqBo8PHyCaloHRTxxd3AsDn0muYgVFPzYmog2v+sylYDOscnCbHB/DX6OefqWAx
+	5KZNtUkrf47dLzlm3uz+qurvamJ54N3BJr9UVz8h0QigcpAfYv8mPFidlT96EaVWCO
+	ogz7vMoorEqaHJwBZ89Eo1pUViR6iNALxc2jx+i8GU3uJt69pwurLfkPX7unxG/upF
+	KjuhBwd/mzNYzTdjFCUuRV2Y=
+Date: Sat, 11 Jan 2020 16:10:21 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20200111141021.GA21350@localhost>
+References: <20200110165302.27426-1-git@andred.net>
+MIME-Version: 1.0
+In-Reply-To: <20200110165302.27426-1-git@andred.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 00/16] site updates (autotools / coreutils)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,48 +43,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2020 13:46:36 -0000
+X-List-Received-Date: Sat, 11 Jan 2020 14:10:24 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-See full changelog https://curl.haxx.se/changes.html#7_68_0
+Are these values not part of what is being checked for rebuilds?
 
-The hash of the license is updated because the copyright year was
-updated in COPYING file:
+I was surprised that after the latest pull on master including these
+changes nothing was rebuilt (except perl due to an unrelated commit).
 
--Copyright (c) 1996 - 2019, Daniel Stenberg, <daniel@haxx.se>, and many
-+Copyright (c) 1996 - 2020, Daniel Stenberg, <daniel@haxx.se>, and many
-
-Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
----
- meta/recipes-support/curl/{curl_7.67.0.bb => curl_7.68.0.bb} | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/curl/{curl_7.67.0.bb => curl_7.68.0.bb} (93%)
-
-diff --git a/meta/recipes-support/curl/curl_7.67.0.bb b/meta/recipes-support/curl/curl_7.68.0.bb
-similarity index 93%
-rename from meta/recipes-support/curl/curl_7.67.0.bb
-rename to meta/recipes-support/curl/curl_7.68.0.bb
-index e08e08e..0a1547c 100644
---- a/meta/recipes-support/curl/curl_7.67.0.bb
-+++ b/meta/recipes-support/curl/curl_7.68.0.bb
-@@ -3,14 +3,14 @@ HOMEPAGE = "http://curl.haxx.se/"
- BUGTRACKER = "http://curl.haxx.se/mail/list.cgi?list=curl-tracker"
- SECTION = "console/network"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://COPYING;md5=be5d9e1419c4363f4b32037a2d3b7ffa"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=2e9fb35867314fe31c6a4977ef7dd531"
- 
- SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://0001-replace-krb5-config-with-pkg-config.patch \
- "
- 
--SRC_URI[md5sum] = "7be288f6fd5b7b5e402ef3b36a461a24"
--SRC_URI[sha256sum] = "dd5f6956821a548bf4b44f067a530ce9445cc8094fd3e7e3fc7854815858586c"
-+SRC_URI[md5sum] = "40d6784bd1a86e079d63cc668ba9bd8f"
-+SRC_URI[sha256sum] = "207f54917dd6a2dc733065ccf18d61bb5bebeaceb5df49cd9445483e8623eeb9"
- 
- CVE_PRODUCT = "curl libcurl"
- inherit autotools pkgconfig binconfig multilib_header
--- 
-2.7.4
-
+cu
+Adrian
 
