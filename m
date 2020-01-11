@@ -1,22 +1,22 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 79EE97FFE0
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 3227E7FFC1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2020 03:19:41 +0000 (UTC)
-IronPort-SDR: PRHneqJWFyY/zzKjANpRIEHgNcLw4c+eawkL7AyIPlHqZ1sheh3rRHs4WXcPi7Fc+AWCJUE/8n
-	7GBPPKoNf9GntNp5oymWPBkz5FnkEMVCwbetWyrTNglCyzCGIp1a65Ua2FTqmFSAO9bquVQMsF
-	H+vW9mgN3rop/WvNBz/sFQV4Kz7zdIPHgoFUXCqtzNQzbMEgm+kuM4gYBLCFAarrs4aoAUqigJ
-	J1f7ONuLe9MjZDKZkcyqitiL/j4PMvFi04AW9rjf4cFozxlTvlDL7lN7KSvLrKB/bIYr5BSpe6
-	jUc=
+	Sat, 11 Jan 2020 03:28:51 +0000 (UTC)
+IronPort-SDR: M0S2r3QZ4KmHXIxiYvDLyNamPs59YyW8V0DKkOg1javjRFUvEA9DWBGQg99vUi+eKjZjXfkFnq
+	qce0MvBHwRXXqkPwnUtptaqgsOs/etClde9Kyzbg0jMW7XV64v3wU2Gt/dS1Um76tSaio4F8U9
+	i4/0LqZGyHNvRCrsTBUGNBW5XprtQbCCaOlYZrYtz+ULZ3zSJN/tzTuMJisfH+9Rw71pn8b51C
+	e5vvP/lpgcuJ5ukVvRBleWOM0wvk23L7GSLPebEgapyVuAOa9I2MbapCCvHO175OXvOIWCLXKn
+	7pM=
 X-IronPort-AV: E=Sophos;i="5.69,419,1571695200"; 
-   d="scan'208";a="4323930"
+   d="scan'208";a="4204973"
 From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 11 Jan 2020 04:19:39 +0100
-Message-ID: <20200111031940.24296-1-pkj@axis.com>
+Date: Sat, 11 Jan 2020 04:28:43 +0100
+Message-ID: <20200111032843.26745-1-pkj@axis.com>
 X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Subject: [master][zeus][PATCHv3 1/2] cairo: Add a PACKAGECONFIG "trace" to disable cairo-trace
+Subject: [master][zeus][PATCH] sstate.bbclass: Only show sstate mirror progress bar for >= 100 objects
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,57 +29,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2020 03:19:43 -0000
+X-List-Received-Date: Sat, 11 Jan 2020 03:28:52 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-cairo-trace is the only part of cairo that is licensed as GPL-3.0, and
-is normally packaged separately in cairo-perf-utils.
-
-The "trace" PACKAGECONFIG is enabled by default for backwards
-compatibility.
+With the introduction of the hash equivalence server, the progress bar
+for "Checking sstate mirror object availability" is shown
+repeatedly. Most of the times the number of objects scanned is very
+low and the progress bar completes almost immediately. To avoid all
+these unnecessary progress bars, set the minimum number of objects to
+100 before the progress bar is shown.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
 
-PATCHv3: Split in two patches, one that adds the "trace" PACKAGECONFIG,
-and one that adapts the licenses for cairo-dbg and cairo-src if "trace"
-is disabled.
+The minimum limit of 100 objects is of course quite arbitrarily
+chosen, but it seems to do the job for me.
 
- meta/recipes-graphics/cairo/cairo_1.16.0.bb | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ meta/classes/sstate.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index e3de3f6164..b772c2ece2 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -40,7 +40,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index 356fe7ec18..c089a3fe94 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -930,9 +930,11 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+                 missed.add(tid)
+                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
+                 pass
+-            bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
++            if len(tasklist) >= min_tasks:
++                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
  
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
--                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)}"
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
-+                   trace"
+         tasklist = []
++        min_tasks = 100
+         for tid in sq_data['hash']:
+             if tid in found:
+                 continue
+@@ -941,8 +943,9 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+             tasklist.append((tid, sstatefile))
  
- PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
- PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
-@@ -49,6 +50,7 @@ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
- PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
- PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
- PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
-+PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+         if tasklist:
+-            msg = "Checking sstate mirror object availability"
+-            bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
++            if len(tasklist) >= min_tasks:
++                msg = "Checking sstate mirror object availability"
++                bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
  
- EXTRA_OECONF += " \
-     ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
-@@ -66,6 +68,8 @@ do_install_append () {
- 	rm -rf ${D}${libdir}/cairo/cairo-sphinx*
- 	rm -rf ${D}${libdir}/cairo/.debug/cairo-fdr*
- 	rm -rf ${D}${libdir}/cairo/.debug/cairo-sphinx*
-+	rmdir -p --ignore-fail-on-non-empty ${D}${bindir}
-+	rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
- }
+             import multiprocessing
+             nproc = min(multiprocessing.cpu_count(), len(tasklist))
+@@ -956,7 +959,8 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
+             pool.wait_completion()
+             bb.event.disable_threadlock()
  
- PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
+-            bb.event.fire(bb.event.ProcessFinished(msg), d)
++            if len(tasklist) >= min_tasks:
++                bb.event.fire(bb.event.ProcessFinished(msg), d)
+ 
+     # Likely checking an individual task hash again for multiconfig sharing of sstate tasks so skip reporting
+     if len(sq_data['hash']) == 1:
 -- 
 2.21.1
 
