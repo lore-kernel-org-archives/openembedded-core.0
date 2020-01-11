@@ -1,50 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 825C77F962
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 50AC27F962
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2020 10:47:37 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id 20so4564158wmj.4
+	Sat, 11 Jan 2020 10:47:38 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id d139so6115973wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2020 02:47:38 -0800 (PST)
+	Sat, 11 Jan 2020 02:47:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=tNubP81MP+U/nB1Rgvp9j6lwSw8iPTKe4NC4n4HFem8=;
-	b=ZmsJPf+SjELgmT4q8Zf4KFLmuvdNvgCylp+AxVv+hg7WkfT+eix6rL6BfCkvv2lD4U
-	1ETYFnfqfyZh0QnTtOIUcStwdYGrnpb23w4DMpNQQl6eh+KUNqr4jVtTVWHQZVNDiiXI
-	28ZEB7dn9L/0kWaowFnfayJCAMkVZkG63Z+94=
+	bh=yn0WutylgZvej/YPy9oTofvfn9iZg8kXo23BxC/r0d8=;
+	b=Hi9Pge7Q6zsPyNP7q2Fk0KUFF2T7cfAeYRKhLD3wPh/ezd4NdL64bqRYNWq+LIaJct
+	MoV3vEK16mbPkTs1YuICie9GW8BPWEstMPydox5s2R1bYefPevECqHBVz+wBiGwJjJGW
+	fsUtHh2FcrunJ5edprgY37rjEZeB5kvUa5X7g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=tNubP81MP+U/nB1Rgvp9j6lwSw8iPTKe4NC4n4HFem8=;
-	b=KlgMVE+2CSED0by7uLzfxBrQjpLWa4NSugJKCm5caiWHcljHPT+XhT6Kw3By6Xatwd
-	SPK8B1Pn+APk0W14AanX56xJA9nWo4z+js5u0A5ysMT1HyZAEKOA+tYj7Sk3Si1JjSBb
-	Gp/HDBsVuez5yYC4Au1TPFBVVcyRr/49OOHvsAG63tOXOOF8RGHGaCiQMrSZCSNemtJW
-	puroYJjVGqxZqED74ZU7eXmT4BWT7akpytaCeLbDc0kh8rBF+wnH7w1S323O8U3tj28P
-	U/yFWOGxP9H7FUVeJ74/Um4t9IbuE4sIyFHzn+aEwhFlkA5MlCFKFEoBCoE5qtiHhm0g
-	gYEA==
-X-Gm-Message-State: APjAAAV7Rb1m6DgCNaxw1GScFuqdpBCp/sCTo6cMhfbPJH7oVoRIjKC6
-	mPEzkMAguB2bWAYqttkdfjPesuUu3Rw=
-X-Google-Smtp-Source: APXvYqy2CUwWTb7JkuIua1LyHq1xfnMXfn5TtD098aasc5dZbyP7reSDx9kE6mUKGF080rAiC54Qng==
-X-Received: by 2002:a05:600c:20c7:: with SMTP id
-	y7mr9731208wmm.21.1578739657838; 
-	Sat, 11 Jan 2020 02:47:37 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=yn0WutylgZvej/YPy9oTofvfn9iZg8kXo23BxC/r0d8=;
+	b=YYXMrKQT7cJa7IEOt5HZ5iFZ7otiH3N9ewKBdJa0BJCbdGq+nFlDipmVbQqGoF4VCc
+	cVu5hI8gDG6eGL+HkKUgPfdn/NQ+WwblQr+UlAvC3sP0yIRDj4Me60CE/xFdYO5kZibx
+	tEgAAtaUM+EGlS09uUgAXz/+hXeLqSUwNaRMfe5D6KZQ7eQxDKp3SJaVprYODeOmVZ5U
+	QYurXofOaUGxNeH/T0UVo7HbS8eWH7YHu0n+P2WKwF2bFtNYZljxcAhQ9Nem/fWmPxBM
+	+DAjznYF/EVQitq8HlltZDorJLIfIQZLeWTnkfoN7N0Ruxl/I3Wy+vF+iL4rc/AwEg9N
+	uGcg==
+X-Gm-Message-State: APjAAAWEOLU1rl79COspw8hNogMhLYVlboPC36K8bSYatP+3Mj0qveeL
+	dMevKBXXwu4p1ffGpXzEJ1Qs1nDOpC4=
+X-Google-Smtp-Source: APXvYqyZ0znnj243Ndafru4O8MHGf0cx0Dk/8qRAtX2v/JJyOC+pKv1TWjMZeeyGCX06c2jN7yKvZg==
+X-Received: by 2002:a1c:3187:: with SMTP id x129mr9592502wmx.91.1578739658719; 
+	Sat, 11 Jan 2020 02:47:38 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
 	k11sm5657807wmc.20.2020.01.11.02.47.37
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 11 Jan 2020 02:47:37 -0800 (PST)
+	Sat, 11 Jan 2020 02:47:38 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 11 Jan 2020 10:47:35 +0000
-Message-Id: <20200111104736.31797-1-richard.purdie@linuxfoundation.org>
+Date: Sat, 11 Jan 2020 10:47:36 +0000
+Message-Id: <20200111104736.31797-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200111104736.31797-1-richard.purdie@linuxfoundation.org>
+References: <20200111104736.31797-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] meta-extsdk-toolchain: Mark as nostamp
+Subject: [PATCH 2/2] glib-2.0: Fix hardcoded paths in checksums
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2020 10:47:37 -0000
+X-List-Received-Date: Sat, 11 Jan 2020 10:47:38 -0000
 Content-Transfer-Encoding: 8bit
 
-This recipe needs to generate the latest hashes. With unihash we may not
-rebuild as previous dependencies may be marked as equivalent.
-
-eSDK which uses this is nostamp already, mark this task as nostamp also
-for the same reason.
+The expansion by this function, recently added by the meson site handling code
+was causing hardcoded paths to become embedded in the tash hashes. Avoid this
+(and hence avoid eSDK failures which exposed this).
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/meta/meta-extsdk-toolchain.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/meta-extsdk-toolchain.bb b/meta/recipes-core/meta/meta-extsdk-toolchain.bb
-index 235d6ecc0f4..0df681ac738 100644
---- a/meta/recipes-core/meta/meta-extsdk-toolchain.bb
-+++ b/meta/recipes-core/meta/meta-extsdk-toolchain.bb
-@@ -16,6 +16,9 @@ addtask do_locked_sigs after do_populate_sysroot
- SSTATETASKS += "do_locked_sigs"
- do_locked_sigs[sstate-inputdirs] = "${LOCKED_SIGS_INDIR}"
- do_locked_sigs[sstate-outputdirs] = "${STAGING_DIR}/${PACKAGE_ARCH}/${PN}/locked-sigs"
-+# If a taskhash changes we need to use the latest hash changes. With unihash we may not rebuild.
-+# eSDK which uses this is nostamp anyway
-+do_locked_sigs[nostamp] = "1"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
+index 953fba501a7..5e71c81cca1 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.62.4.bb
+@@ -29,6 +29,7 @@ def find_meson_cross_files(d):
+     if bb.data.inherits_class('native', d):
+         return ""
  
- python do_locked_sigs() {
-     import oe.copy_buildsystem
++    corebase = d.getVar("COREBASE")
+     import collections
+     sitedata = siteinfo_data(d)
+     # filename -> found
+@@ -36,7 +37,7 @@ def find_meson_cross_files(d):
+     for path in d.getVar("FILESPATH").split(":"):
+         for element in sitedata:
+             filename = os.path.join(path, "meson.cross.d", element)
+-            files[filename] = os.path.exists(filename)
++            files[filename.replace(corebase, "${COREBASE}")] = os.path.exists(filename)
+ 
+     items = ["--cross-file=" + k for k,v in files.items() if v]
+     d.appendVar("EXTRA_OEMESON", " " + " ".join(items))
 -- 
 2.20.1
 
