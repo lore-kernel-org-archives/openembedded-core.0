@@ -1,28 +1,34 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FE497FFC3
-	for <openembedded-core@openembedded.org>;
-	Sat, 11 Jan 2020 01:47:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 00B1larv000814
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 10 Jan 2020 17:47:36 -0800 (PST)
-Received: from [172.25.44.8] (172.25.44.8) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 10 Jan 2020 17:47:35 -0800
-To: Armin Kuster <akuster808@gmail.com>, <openembedded-core@openembedded.org>
-References: <cover.1578544698.git.akuster808@gmail.com>
-	<e6c4017727008ac2f665e843d59d53b584f3f1b3.1578544698.git.akuster808@gmail.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <682de25c-1484-196c-e9d3-e454f1306542@windriver.com>
-Date: Fri, 10 Jan 2020 20:47:35 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B1CE7FFC1
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Jan 2020 03:19:02 +0000 (UTC)
+IronPort-SDR: iy2pfm461iFG6/LmTqzmHdVKBT3xhwpAausej95udVh6Z9EAiapWXBD4KiOp8kuK7YlW1AAiel
+	TS7FXA/aTq6e+FAawY2VJn8vlXjOkARB34XzLLtSDOinBLDuC/fcINwj4lcsJCphX/m8XU/kEh
+	0u+FLn4td3d6y8hxizkKsd4lTaS+MNLjnCmGQf2lVe0i6mRMzbSJsurNiUFSD3I/pPlIWvhQ3T
+	/HKNSFKkHRUwoMMOPnFwvIOnvD5PrkL+989enWcxJTScv++lhm+pbHeNjgc52uzwHvkTmKSchB
+	5O0=
+X-IronPort-AV: E=Sophos;i="5.69,419,1571695200"; 
+   d="scan'208";a="4204942"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Ross Burton <ross.burton@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [master][zeus][PATCHv2] cairo: Adapt license for
+	cairo-dbg and cairo-src based on contents
+Thread-Index: AQHVyA2g1oGtkaa+PEqcdgCNl8CCMqfkyvng
+Date: Sat, 11 Jan 2020 03:19:02 +0000
+Message-ID: <01cc92ebbe524f1cae23acb05e4a5d07@XBOX03.axis.com>
+References: <20200110220306.13780-1-pkj@axis.com>
+	<fabf0714-f1be-16a9-6b47-b065f0f7eaed@intel.com>
+In-Reply-To: <fabf0714-f1be-16a9-6b47-b065f0f7eaed@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <e6c4017727008ac2f665e843d59d53b584f3f1b3.1578544698.git.akuster808@gmail.com>
-X-Originating-IP: [172.25.44.8]
-Subject: Re: [zeus 24/28] python3: RDEPEND on libgcc
+Subject: Re: [master][zeus][PATCHv2] cairo: Adapt license for cairo-dbg and cairo-src based on contents
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,66 +41,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2020 01:47:41 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 11 Jan 2020 03:19:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On 1/8/20 11:49 PM, Armin Kuster wrote:
-> From: Joshua Watt <jpewhacker@gmail.com>
-> 
-> =help>
-> List-Subscribe:
->   <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
->   <mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-> Content-Type: text/plain; charset="us-ascii"
-> Sender: openembedded-core-bounces@lists.openembedded.org
-> Errors-To: openembedded-core-bounces@lists.openembedded.org
-> X-Virus-Scanned: clamav-milter 0.101.4 at dan
-> X-Virus-Status: Clean
-> X-Evolution-Source: 1525863794.3857.16@hex
-> Content-Transfer-Encoding: 8bit
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Ross Burton
+> Sent: den 11 januari 2020 00:28
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [master][zeus][PATCHv2] cairo: Adapt license for
+> cairo-dbg and cairo-src based on contents
+>=20
+> On 10/01/2020 22:03, Peter Kjellerstedt wrote:
+> > Introduce a PACKAGECONFIG "trace" to disable cairo-trace (the only
+> > part of the code licensed as GPL-3.0, and which is normally packaged
+> > separately in cairo-perf-utils). By disabling this, we can adapt the
+> > licenses for cairo-dbg and cairo-src so that they do not include
+> > "GPLv3+" when trace is disabled and thus they can be used also when,
+> > e.g., GPL-3.0 is blacklisted in INCOMPATIBLE_LICENSE.
+>=20
+> The shortlog makes no mention of trace at all.  Can this be split into
+> two commits, one for trace and one for the license mangling.
 
-A copy/paste error or something inserted extra text.
-Please remove it up before merging.
+I will split it in two patches.
 
-../Randy
+> The license mangling is quite ugly but I'm not sure if there's a better
+> solution...
+>=20
+> Ross
 
-> 
-> Python uses features of glibc that require it to dynamically load (i.e.
-> dlopen()) libgcc_s at runtime. However, since this isn't a link time
-> dependency, it doesn't get picked up automatically by bitbake so
-> manually add it to RDEPENDS.
-> 
-> There is an outstanding bug in Python to make it explicitly link against
-> libgcc at link time which would remove the need for this. See:
-> https://bugs.python.org/issue37395
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit df107f3a149b1e88d9f869e7ff87950ccf5aaee0)
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> ---
->   meta/recipes-devtools/python/python3_3.7.6.bb | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/python/python3_3.7.6.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
-> index d3706cdf64..407c5a2bd9 100644
-> --- a/meta/recipes-devtools/python/python3_3.7.6.bb
-> +++ b/meta/recipes-devtools/python/python3_3.7.6.bb
-> @@ -322,6 +322,8 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MA
->   PACKAGES += "${PN}-man"
->   FILES_${PN}-man = "${datadir}/man"
->   
-> +# See https://bugs.python.org/issue18748 and https://bugs.python.org/issue37395
-> +RDEPENDS_${PN} = "libgcc"
->   RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
->   RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-tr-tr.iso-8859-9"
->   RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk tk-lib', '', d)}"
-> 
+//Peter
 
-
--- 
-# Randy MacLeod
-# Wind River Linux
 
