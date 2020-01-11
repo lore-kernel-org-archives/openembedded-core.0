@@ -1,22 +1,33 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 3227E7FFC1
+	by mail.openembedded.org (Postfix) with ESMTP id 1F7F47FF04
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2020 03:28:51 +0000 (UTC)
-IronPort-SDR: M0S2r3QZ4KmHXIxiYvDLyNamPs59YyW8V0DKkOg1javjRFUvEA9DWBGQg99vUi+eKjZjXfkFnq
-	qce0MvBHwRXXqkPwnUtptaqgsOs/etClde9Kyzbg0jMW7XV64v3wU2Gt/dS1Um76tSaio4F8U9
-	i4/0LqZGyHNvRCrsTBUGNBW5XprtQbCCaOlYZrYtz+ULZ3zSJN/tzTuMJisfH+9Rw71pn8b51C
-	e5vvP/lpgcuJ5ukVvRBleWOM0wvk23L7GSLPebEgapyVuAOa9I2MbapCCvHO175OXvOIWCLXKn
-	7pM=
+	Sat, 11 Jan 2020 03:32:22 +0000 (UTC)
+IronPort-SDR: S7TFGV480FunEFKNCjOh+BIptNqRnzqUKgLnMEDVNRiYnUAY5FieR0WDH2+7x3Eqay7RGbY3HR
+	UYDId+jXHefluMm6JPN0CrTIWLNGep46Hi+nKgv2pZ0KExZ5HJM2SjPPAVuS43D/zMhKFEwYXb
+	fln25unbDd6EAfZ0zdGhlfg76IvWFhgN0bK5gz2V97B+0H6GHHVsdUaf9SXX6x28/STi3woiC3
+	FdTBq4hSSoFj46/hxQUX3IbadpZk44b2/5lCLZcPLuv4oKDsZtshVhR+1HmTUJvcYzyw3XOorC
+	cWY=
 X-IronPort-AV: E=Sophos;i="5.69,419,1571695200"; 
-   d="scan'208";a="4204973"
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 11 Jan 2020 04:28:43 +0100
-Message-ID: <20200111032843.26745-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.1
+   d="scan'208";a="4204991"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [master][zeus][PATCH] toaster.bbclass: Correct
+	pkgdatadir	path in toaster_package_dumpdata()
+Thread-Index: AQHVr788StpW5q4b/kmfm5MeBIEBvafGMEaQgB7PjQA=
+Date: Sat, 11 Jan 2020 03:32:23 +0000
+Message-ID: <6452910c3cb64d55a7bda972f467c828@XBOX03.axis.com>
+References: <20191211010609.4295-1-pkj@axis.com>
+	<aa0b9ef432a44643a82dd82e72cc4f45@XBOX03.axis.com>
+In-Reply-To: <aa0b9ef432a44643a82dd82e72cc4f45@XBOX03.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [master][zeus][PATCH] sstate.bbclass: Only show sstate mirror progress bar for >= 100 objects
+Subject: Re: [master][zeus][PATCH] toaster.bbclass: Correct pkgdatadir	path in toaster_package_dumpdata()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,66 +40,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2020 03:28:52 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Sat, 11 Jan 2020 03:32:23 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-With the introduction of the hash equivalence server, the progress bar
-for "Checking sstate mirror object availability" is shown
-repeatedly. Most of the times the number of objects scanned is very
-low and the progress bar completes almost immediately. To avoid all
-these unnecessary progress bars, set the minimum number of objects to
-100 before the progress bar is shown.
+*ping*
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
+//Peter
 
-The minimum limit of 100 objects is of course quite arbitrarily
-chosen, but it seems to do the job for me.
-
- meta/classes/sstate.bbclass | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-index 356fe7ec18..c089a3fe94 100644
---- a/meta/classes/sstate.bbclass
-+++ b/meta/classes/sstate.bbclass
-@@ -930,9 +930,11 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-                 missed.add(tid)
-                 bb.debug(2, "SState: Unsuccessful fetch test for %s" % srcuri)
-                 pass
--            bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
-+            if len(tasklist) >= min_tasks:
-+                bb.event.fire(bb.event.ProcessProgress(msg, len(tasklist) - thread_worker.tasks.qsize()), d)
- 
-         tasklist = []
-+        min_tasks = 100
-         for tid in sq_data['hash']:
-             if tid in found:
-                 continue
-@@ -941,8 +943,9 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             tasklist.append((tid, sstatefile))
- 
-         if tasklist:
--            msg = "Checking sstate mirror object availability"
--            bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
-+            if len(tasklist) >= min_tasks:
-+                msg = "Checking sstate mirror object availability"
-+                bb.event.fire(bb.event.ProcessStarted(msg, len(tasklist)), d)
- 
-             import multiprocessing
-             nproc = min(multiprocessing.cpu_count(), len(tasklist))
-@@ -956,7 +959,8 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-             pool.wait_completion()
-             bb.event.disable_threadlock()
- 
--            bb.event.fire(bb.event.ProcessFinished(msg), d)
-+            if len(tasklist) >= min_tasks:
-+                bb.event.fire(bb.event.ProcessFinished(msg), d)
- 
-     # Likely checking an individual task hash again for multiconfig sharing of sstate tasks so skip reporting
-     if len(sq_data['hash']) == 1:
--- 
-2.21.1
-
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 22 december 2019 14:02
+> To: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [master][zeus][PATCH] toaster.bbclass: Correct
+> pkgdatadir path in toaster_package_dumpdata()
+>=20
+> *ping*
+>=20
+> //Peter
+>=20
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-
+> > bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> > Sent: den 11 december 2019 02:06
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [master][zeus][PATCH] toaster.bbclass: Correct
+> > pkgdatadir path in toaster_package_dumpdata()
+> >
+> > In commit 692b2046 (package: Fix race between do_package and
+> > do_packagedata), the path used for do_packagedata[sstate-inputdirs]
+> > was changed from "${PKGDESTWORK}" to "${WORKDIR}/pkgdata-pdata-input".
+> > This commit adapts the path used for pkgdatadir in
+> > toaster_package_dumpdata() accordingly to avoid setscene errors like:
+> >
+> >   ERROR: libgcc-9.2.0-r0 do_packagedata_setscene: Error executing a
+> >   python function in exec_python_func() autogenerated:
+> >
+> >   The stack trace of python calls that resulted in this
+> >   exception/failure was:
+> >   File: 'exec_python_func() autogenerated', lineno: 2, function:
+> >   <module>
+> >        0001:
+> >    *** 0002:toaster_package_dumpdata(d)
+> >        0003:
+> >   File: 'meta/classes/toaster.bbclass', lineno: 130, function:
+> >   toaster_package_dumpdata
+> >        0126:    lpkgdata =3D {}
+> >        0127:    datadir =3D os.path.join(pkgdatadir, 'runtime')
+> >        0128:
+> >        0129:    # scan and send data for each generated package
+> >    *** 0130:    for datafile in os.listdir(datadir):
+> >        0131:        if not datafile.endswith('.packaged'):
+> >        0132:            lpkgdata =3D _toaster_load_pkgdatafile(datadir,
+> >        0133:            # Fire an event containing the pkg data
+> >        0134:            bb.event.fire(bb.event.MetadataEvent(
+> >   Exception: FileNotFoundError: [Errno 2] No such file or directory:
+> >   'tmp/work/mips32r2el-nf-poky-linux/libgcc/9.2.0-r0/pkgdata/runtime'
+> >
+> > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > ---
+> >  meta/classes/toaster.bbclass | 15 +++++++++++----
+> >  1 file changed, 11 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclas=
+s
+> > index 6cef0b8f6e..6a65ecb957 100644
+> > --- a/meta/classes/toaster.bbclass
+> > +++ b/meta/classes/toaster.bbclass
+> > @@ -113,7 +113,7 @@ def _toaster_load_pkgdatafile(dirpath, filepath):
+> >                  pass    # ignore lines without valid key: value pairs
+> >      return pkgdata
+> >
+> > -python toaster_package_dumpdata() {
+> > +def _toaster_dumpdata(pkgdatadir, d):
+> >      """
+> >      Dumps the data about the packages created by a recipe
+> >      """
+> > @@ -122,7 +122,6 @@ python toaster_package_dumpdata() {
+> >      if not d.getVar('PACKAGES'):
+> >          return
+> >
+> > -    pkgdatadir =3D d.getVar('PKGDESTWORK')
+> >      lpkgdata =3D {}
+> >      datadir =3D os.path.join(pkgdatadir, 'runtime')
+> >
+> > @@ -132,6 +131,14 @@ python toaster_package_dumpdata() {
+> >              lpkgdata =3D _toaster_load_pkgdatafile(datadir, datafile)
+> >              # Fire an event containing the pkg data
+> >              bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo",
+> > lpkgdata), d)
+> > +
+> > +python toaster_package_dumpdata() {
+> > +    _toaster_dumpdata(d.getVar('PKGDESTWORK'), d)
+> > +}
+> > +
+> > +python toaster_packagedata_dumpdata() {
+> > +    # This path needs to match do_packagedata[sstate-inputdirs]
+> > +    _toaster_dumpdata(os.path.join(d.getVar('WORKDIR'), 'pkgdata-pdata=
+-
+> > input'), d)
+> >  }
+> >
+> >  # 2. Dump output image files information
+> > @@ -366,8 +373,8 @@ toaster_buildhistory_dump[eventmask] =3D
+> > "bb.event.BuildCompleted"
+> >  addhandler toaster_artifacts
+> >  toaster_artifacts[eventmask] =3D "bb.runqueue.runQueueTaskSkipped
+> > bb.runqueue.runQueueTaskCompleted"
+> >
+> > -do_packagedata_setscene[postfuncs] +=3D "toaster_package_dumpdata "
+> > -do_packagedata_setscene[vardepsexclude] +=3D "toaster_package_dumpdata=
+ "
+> > +do_packagedata_setscene[postfuncs] +=3D "toaster_packagedata_dumpdata =
+"
+> > +do_packagedata_setscene[vardepsexclude] +=3D
+> "toaster_packagedata_dumpdata
+> > "
+> >
+> >  do_package[postfuncs] +=3D "toaster_package_dumpdata "
+> >  do_package[vardepsexclude] +=3D "toaster_package_dumpdata "
+> > --
+> > 2.21.0
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
