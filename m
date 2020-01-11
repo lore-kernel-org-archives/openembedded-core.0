@@ -1,34 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C99117FCDB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A5E6B7FD93
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2020 14:10:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47w1vz4HYmz4q;
-	Sat, 11 Jan 2020 15:10:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1578751823;
-	bh=TWnmuFwOk1lhTtHJ15OB7BKBO4JX8Hs3pvmgNS7aBoc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WycIsO6IArjiaS8HJXhPrGLxfc1nchz1kTUkfU8IeDV303BcrqPKS4B14CyGoYZq+
-	yAxpPlHjJjEFfpJwLZhVyPC4EeIn+PnRqmLQLxPAOje5Y4up8XZ2UcM0YiI4MXNrvE
-	4p5PT+UZ+XYIGH6ZSrLJXP8tTVooOXuLuQvEvcNY3swNGYWLtXDs9T10Uq5ei4M2cQ
-	X+5QIpbHmpMF5o7sjQFNC2heBFl6WNC/bJLBdIMhztV8pf0pbcyLx27ueQbPM6CX3U
-	bmuE00DyfLyGcWXeGLv4OJvoAMRHb2QlXJNEtzefU0SyVGmGp464pfpsaIZoZY/xot
-	57wUqp9VZfaSsWRO8+qabOi25SUIU1heIvTDP/RdAy2IMeEHqRQx6d6CvR7MbM932w
-	DmhBsQFik+Yqiok1E7yZQN5DjgEGUNb4/uidovEpmUXsp2nYImyVJ8KjAfBYNytVwK
-	8oChqBo8PHyCaloHRTxxd3AsDn0muYgVFPzYmog2v+sylYDOscnCbHB/DX6OefqWAx
-	5KZNtUkrf47dLzlm3uz+qurvamJ54N3BJr9UVz8h0QigcpAfYv8mPFidlT96EaVWCO
-	ogz7vMoorEqaHJwBZ89Eo1pUViR6iNALxc2jx+i8GU3uJt69pwurLfkPX7unxG/upF
-	KjuhBwd/mzNYzTdjFCUuRV2Y=
-Date: Sat, 11 Jan 2020 16:10:21 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20200111141021.GA21350@localhost>
+	Sat, 11 Jan 2020 14:32:37 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id m24so4923299wmc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 11 Jan 2020 06:32:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=q+Y4vCK8E0cMLkV0uAz107jXBdJkttNBID9vwQS+swY=;
+	b=bPRsTTR7Ca457r/zS0xKukL1kEFZTc3Wvgq9i/xk3b5T5Dq7QEGNuGp7rE8Su9Hs1d
+	Z6xuT/T3oNjc6rjaP/GEJb4r0B0LNqameAPOKriF5WPLzSpj3T5L9ZsFkuUxkFqa6FpO
+	dGdTMO3wTXseUiHUr8CRew8pxjrz4Ec/FBC8A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=q+Y4vCK8E0cMLkV0uAz107jXBdJkttNBID9vwQS+swY=;
+	b=MEAFIf0xyPfGakrEAXs6Hui9HtIl6+Zkqsqlg+FendCQJ/fJrp1GLrbUOuoK3/9Wxs
+	uQKZUzQ30iIkW9vWrPQA0DprGsL66+cr1dRpqo/blqz3N1fSEPlxj8746SDdVzezeu3M
+	WFPpjvYtKkBiTkTJ9uI5zvWPVQfVa5FXMxKhhvCPkqquz5zhZC/AeS5bJfLo+UID3SRf
+	UZfhc4aXjZjhq57Ul+J2+bf9ykmoQeWslQBw16Add1lqrVECEZiW3JbWe4wph39XIhfD
+	QqqjdxyT/OFjqpVUO/lqrAKOrRSbeqcQd70+5FBaP/FCaITIFMohD5nK/vYl3c3wutGH
+	BIrw==
+X-Gm-Message-State: APjAAAUQB0nuy9FkbZbZHM78h45rWgCWenV2CU/s46plKQo8GPqTDZQZ
+	EpYZrXPQahvARdVIRxs75ud0yvgJSpE=
+X-Google-Smtp-Source: APXvYqyCbMBBr3AvTFRfV4O3ee/+NxcyK+tmDNybnPTLgYwKQd37cCaBPNjyWDgvmvDgLJK13oOwvg==
+X-Received: by 2002:a7b:c935:: with SMTP id h21mr10172734wml.173.1578753158339;
+	Sat, 11 Jan 2020 06:32:38 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	k13sm6589162wrx.59.2020.01.11.06.32.37
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 11 Jan 2020 06:32:37 -0800 (PST)
+Message-ID: <754f919ba3bd33ec8c3debfb7e2f993a28ef3aa3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Sat, 11 Jan 2020 14:32:35 +0000
+In-Reply-To: <20200111141021.GA21350@localhost>
 References: <20200110165302.27426-1-git@andred.net>
+	<20200111141021.GA21350@localhost>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <20200110165302.27426-1-git@andred.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 00/16] site updates (autotools / coreutils)
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -43,15 +59,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2020 14:10:24 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 11 Jan 2020 14:32:37 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Are these values not part of what is being checked for rebuilds?
+On Sat, 2020-01-11 at 16:10 +0200, Adrian Bunk wrote:
+> Are these values not part of what is being checked for rebuilds?
+> 
+> I was surprised that after the latest pull on master including these
+> changes nothing was rebuilt (except perl due to an unrelated commit).
 
-I was surprised that after the latest pull on master including these
-changes nothing was rebuilt (except perl due to an unrelated commit).
+Already ahead of you, its a bug:
 
-cu
-Adrian
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13729
+
+Cheers,
+
+Richard
+
 
