@@ -1,24 +1,22 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 6412B7FFE0
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 79EE97FFE0
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 11 Jan 2020 03:19:41 +0000 (UTC)
-IronPort-SDR: A4b3xUNq4NWt8VP4u5ZowJEhCpxytXu5/I/0mv/ZIT19vOmZzRasv82kHSqSkbOuxnUu2ud74S
-	4tOKEpIZGlGkaBe0Q4EoBu8OAEOv8gOXYYGxaFY+IO2idJlCfX3D2vawYSA4PMWv2jn4sIPEQB
-	FpSKasUZNpmL1XrrQcQ/lOQL1EtYjUESEflTvujd6aOgML1Znh/J35XRLvlyeyuQhGhHuCucNX
-	lnxdEoHe8ZJ99QDFXniG3GXVtL4I/XkHG6NSNNOfMDir9b2eO7P+Uex8GVw824jHdE3buNlQ6w
-	dPQ=
+IronPort-SDR: PRHneqJWFyY/zzKjANpRIEHgNcLw4c+eawkL7AyIPlHqZ1sheh3rRHs4WXcPi7Fc+AWCJUE/8n
+	7GBPPKoNf9GntNp5oymWPBkz5FnkEMVCwbetWyrTNglCyzCGIp1a65Ua2FTqmFSAO9bquVQMsF
+	H+vW9mgN3rop/WvNBz/sFQV4Kz7zdIPHgoFUXCqtzNQzbMEgm+kuM4gYBLCFAarrs4aoAUqigJ
+	J1f7ONuLe9MjZDKZkcyqitiL/j4PMvFi04AW9rjf4cFozxlTvlDL7lN7KSvLrKB/bIYr5BSpe6
+	jUc=
 X-IronPort-AV: E=Sophos;i="5.69,419,1571695200"; 
-   d="scan'208";a="4204945"
+   d="scan'208";a="4323930"
 From: Peter Kjellerstedt <pkj@axis.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 11 Jan 2020 04:19:40 +0100
-Message-ID: <20200111031940.24296-2-pkj@axis.com>
+Date: Sat, 11 Jan 2020 04:19:39 +0100
+Message-ID: <20200111031940.24296-1-pkj@axis.com>
 X-Mailer: git-send-email 2.21.1
-In-Reply-To: <20200111031940.24296-1-pkj@axis.com>
-References: <20200111031940.24296-1-pkj@axis.com>
 MIME-Version: 1.0
-Subject: [master][zeus][PATCHv3 2/2] cairo: Adapt license for cairo-dbg and cairo-src based on contents
+Subject: [master][zeus][PATCHv3 1/2] cairo: Add a PACKAGECONFIG "trace" to disable cairo-trace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,15 +29,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 Jan 2020 03:19:41 -0000
+X-List-Received-Date: Sat, 11 Jan 2020 03:19:43 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-If the "trace" PACKAGECONFIG is removed to disable cairo-trace (the
-only part of the code licensed as GPL-3.0), we can adapt the licenses
-for cairo-dbg and cairo-src so that they do not include "GPLv3+" and
-thus they can be used also when, e.g., GPL-3.0 is blacklisted in
-INCOMPATIBLE_LICENSE.
+cairo-trace is the only part of cairo that is licensed as GPL-3.0, and
+is normally packaged separately in cairo-perf-utils.
+
+The "trace" PACKAGECONFIG is enabled by default for backwards
+compatibility.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
@@ -48,24 +46,40 @@ PATCHv3: Split in two patches, one that adds the "trace" PACKAGECONFIG,
 and one that adapts the licenses for cairo-dbg and cairo-src if "trace"
 is disabled.
 
- meta/recipes-graphics/cairo/cairo_1.16.0.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index b772c2ece2..d5820166b1 100644
+index e3de3f6164..b772c2ece2 100644
 --- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
 +++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -17,6 +17,10 @@ LICENSE_${PN}-doc = "MPL-1.1 | LGPLv2.1"
- LICENSE_${PN}-gobject = "MPL-1.1 | LGPLv2.1"
- LICENSE_${PN}-script-interpreter = "MPL-1.1 | LGPLv2.1"
- LICENSE_${PN}-perf-utils = "GPLv3+"
-+# Adapt the licenses for cairo-dbg and cairo-src depending on whether
-+# cairo-trace is being built.
-+LICENSE_${PN}-dbg = "(MPL-1.1 | LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '', d)}"
-+LICENSE_${PN}-src = "(MPL-1.1 | LGPLv2.1)${@bb.utils.contains('PACKAGECONFIG', 'trace', ' & GPLv3+', '', d)}"
+@@ -40,7 +40,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+-                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)}"
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)} \
++                   trace"
  
+ PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+ PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+@@ -49,6 +50,7 @@ PACKAGECONFIG[valgrind] = "--enable-valgrind=yes,--disable-valgrind,valgrind"
+ PACKAGECONFIG[egl] = "--enable-egl=yes,--disable-egl,virtual/egl"
+ PACKAGECONFIG[glesv2] = "--enable-glesv2,--disable-glesv2,virtual/libgles2"
+ PACKAGECONFIG[opengl] = "--enable-gl,--disable-gl,virtual/libgl"
++PACKAGECONFIG[trace] = "--enable-trace,--disable-trace"
+ 
+ EXTRA_OECONF += " \
+     ${@bb.utils.contains('TARGET_FPU', 'soft', '--disable-some-floating-point', '', d)} \
+@@ -66,6 +68,8 @@ do_install_append () {
+ 	rm -rf ${D}${libdir}/cairo/cairo-sphinx*
+ 	rm -rf ${D}${libdir}/cairo/.debug/cairo-fdr*
+ 	rm -rf ${D}${libdir}/cairo/.debug/cairo-sphinx*
++	rmdir -p --ignore-fail-on-non-empty ${D}${bindir}
++	rmdir -p --ignore-fail-on-non-empty ${D}${libdir}/cairo
+ }
+ 
+ PACKAGES =+ "cairo-gobject cairo-script-interpreter cairo-perf-utils"
 -- 
 2.21.1
 
