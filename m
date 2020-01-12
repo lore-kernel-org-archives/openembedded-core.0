@@ -1,48 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 65B5C71B99
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 9982971B99
 	for <openembedded-core@openembedded.org>;
-	Sun, 12 Jan 2020 06:14:58 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id b137so3091832pga.6
+	Sun, 12 Jan 2020 06:14:59 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id a33so3093822pgm.5
 	for <openembedded-core@openembedded.org>;
-	Sat, 11 Jan 2020 22:14:59 -0800 (PST)
+	Sat, 11 Jan 2020 22:15:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=XliIPniO84ZtBu0Uwrcerz8+txIen9T5LsodVx6IZTM=;
-	b=bD9PngCIt3qDyRvvMqs9jtSE/8pawHhDdxyl0+0/XDR//PL9h03CqS4JJrMGolG7RV
-	WX4iL5F9xNTgculFr6QwZcWb355XfEsfWgsCRedzGLWkjkI0uSndv3xseEGR5t1DyUmG
-	LEnNzdc6uXmUwHdVoIqrXdLAKwXFfG8eCpB5QWc9cp3jwxu7aVEPH4ldT9iCbWFQ7Pcq
-	GgmiV5BWz3mAr4IaRstUmK6AsOIczNfea+tW6YaV3cCyZOS1Ea6nhLbrL5b77yUv4G60
-	m1+E3aFkv6q/v0qDy6noBNcLbSbVJpOwRml5AzKP1SgmVvH4OgJ1IHBuSn3+ytWkfpfr
-	mh/w==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=eR2ft08DeiTl24R83rzvxRaio6Hyt0t+pPTAj7elHuk=;
+	b=YZ9SXkgEjFHnyzdOWhoS54KTP42EDhGfg3N142KQ4jbX2B/BucowZRwsBPS+3QpV7y
+	8uOfsU+U9AQNjyOsF4+dmLVHL6oObc+OEzx4echRxLX5KY9Dk9Cq87L9pfhhnRMS4GB8
+	K7IXmoJvIAxqi3DohuKzZEF2OCF+YfRjmypIy7vCqyYF9XiwuggZ4L14c9j+ZlYeuyph
+	/+xyHg3B2vxp/S0Kx5ljaT2jQCLd8U+/q/FPYVvdp2I8CURQKO1OppmEPL/hgIY0SiFJ
+	UNrsmtXZtOFyWd1dp09rdAH2v0FfTXgYjyo1HYHyWHr7ntirD7NrDRVJQBJYkcLFyQgW
+	NbyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=XliIPniO84ZtBu0Uwrcerz8+txIen9T5LsodVx6IZTM=;
-	b=FJlucvFORwjAVPBUzy9y5xGGCzLw1qLgWrjRfowkviYaEa0cHsx+C6jXKQTA/ywdgl
-	stRnxtBURKKPPX9KroWiL3M89a6PlIWvsJcokKiHH3N/C80d5jQ8N+XuKnMCeC+AK23q
-	fFgd6UUX4J3fvOkO63/AhP0bdB1dxa3uZP7nJqyqbrb+uZZtKeaR/Puhduke86j8c7s8
-	1okgRQzxyCHEwRkSlEw8do2di7jV+h4DgsFsdtTPrXdIVIvUcRJOXLJgDW6vsurqwOkC
-	PRywoLhjobeu3gynl1drSUIjYoO/dgJew7mU1FnABfv9gsXF/8Z3+sQrA5w/QKp3Oy4O
-	QAyQ==
-X-Gm-Message-State: APjAAAXghCDQWf7C5YUPu3GPn2AWDPATUBjLjamCQhENJ2jXFhPfWX2a
-	5BwsTPSjdnePHcTB6mqAxaEq+QGC
-X-Google-Smtp-Source: APXvYqwNOaFjC3ahXeUTrPjHTFHcdtwhpFTIG+wvrCSQ96wW3ir95re1JsRS4avRKzLrVsUAfgwQmw==
-X-Received: by 2002:a63:360a:: with SMTP id d10mr14341553pga.366.1578809699129;
-	Sat, 11 Jan 2020 22:14:59 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=eR2ft08DeiTl24R83rzvxRaio6Hyt0t+pPTAj7elHuk=;
+	b=Q7e0CbwIx8lMVGkHEt5/Rb0tJEyjQy7wQ2i0+kDtK/bPyEsC07gBQiYx0dJ8CWUpqC
+	2lyxolBwU7oL2HMS6HSF4qcTbJ0zG+uzuS8Gm3qGHtUOMVDbdHl+kC1ySinOWYZzoJWw
+	NZ0a6i3RWyr5XN/Y1EHLUwEk643dKvujc2awQB1IvCQsjd1tM0EE1omuAFBvqY5VUzyo
+	Uku7CwImrhgmN2mLgrHZW4VzEoK3nSXXcAgnAHNjFrhYBV7r92Jbf38PWRgo7oTnNHTg
+	HfC6kJrZvA6/3uLGTnB3A6yITzmzMT634/HLnDf+6YCX/8S0x9Z8X6kTjVM2eiGtc1rB
+	ZWiw==
+X-Gm-Message-State: APjAAAW87wW/GUd80kS9CmU9N/FlxVYL8qWCjqkX5eNEtAM3JDi5IzWt
+	vYWcjN9wAe+ZWOL16g7T/dqs4PlM
+X-Google-Smtp-Source: APXvYqwwqF0RryAF9oEP0v5MEa5brfx4Ex9STw4l+jl4XYb2fiwkIi6kKOiVOSFLc0jxBu3y4m+rLw==
+X-Received: by 2002:a63:3f82:: with SMTP id
+	m124mr14718723pga.431.1578809700712; 
+	Sat, 11 Jan 2020 22:15:00 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:3849:7200:d754:59fc])
-	by smtp.gmail.com with ESMTPSA id g8sm8978559pfh.43.2020.01.11.22.14.58
+	by smtp.gmail.com with ESMTPSA id g8sm8978559pfh.43.2020.01.11.22.14.59
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 11 Jan 2020 22:14:58 -0800 (PST)
+	Sat, 11 Jan 2020 22:14:59 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sat, 11 Jan 2020 22:14:54 -0800
-Message-Id: <20200112061457.10741-1-akuster808@gmail.com>
+Date: Sat, 11 Jan 2020 22:14:55 -0800
+Message-Id: <20200112061457.10741-2-akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [warrir][PATCH 1/4] popt: fix SRC_URI
+In-Reply-To: <20200112061457.10741-1-akuster808@gmail.com>
+References: <20200112061457.10741-1-akuster808@gmail.com>
+Subject: [warrir][PATCH 2/4] sudo: correct SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jan 2020 06:14:58 -0000
+X-List-Received-Date: Sun, 12 Jan 2020 06:15:00 -0000
 
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-rpm5.org has been down for about a year now. Use linuxfromscratch.org
-as an alternative reliable source instead.
+The old URI returns 404, and has an invalid TLS certificate.
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d9224014da9a512b1b8837e4e7a736d465c97be3)
+(cherry picked from commit 73ff6aba0a53ffc3ee0a5859a3ad4c8021be4de0)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-support/popt/popt_1.16.bb | 2 +-
+ meta/recipes-extended/sudo/sudo_1.8.27.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
-index 478288f9bf..27e49c2ca2 100644
---- a/meta/recipes-support/popt/popt_1.16.bb
-+++ b/meta/recipes-support/popt/popt_1.16.bb
-@@ -8,7 +8,7 @@ PR = "r3"
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.27.bb b/meta/recipes-extended/sudo/sudo_1.8.27.bb
+index 7460a5bfed..bbca8395b9 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.27.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.27.bb
+@@ -1,6 +1,6 @@
+ require sudo.inc
  
- DEPENDS = "virtual/libiconv"
- 
--SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
-+SRC_URI = "http://anduin.linuxfromscratch.org/BLFS/popt/popt-${PV}.tar.gz \
-            file://pkgconfig_fix.patch \
-            file://popt_fix_for_automake-1.12.patch \
-            file://disable_tests.patch \
+-SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
++SRC_URI = "http://www.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
+            file://0001-Include-sys-types.h-for-id_t-definition.patch \
+            file://CVE-2019-14287-1.patch \
 -- 
 2.17.1
 
