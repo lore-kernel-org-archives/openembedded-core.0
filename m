@@ -1,47 +1,47 @@
 Return-Path: <crg7475@mailbox.org>
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 33C9B7F8A6
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 746D77FD9E
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 12 Jan 2020 14:00:20 +0000 (UTC)
 Received: from smtp1.mailbox.org (smtp1.mailbox.org
 	[IPv6:2001:67c:2050:105:465:1:1:0])
 	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 47wddx1ChvzQlB7
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 47wddw6wktzQlDQ
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2020 15:00:21 +0100 (CET)
+	Sun, 12 Jan 2020 15:00:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
 	references:in-reply-to:message-id:date:date:subject:subject:from
-	:from:received; s=mail20150812; t=1578837617; bh=hACMRTcaInwiQoj
-	M6lAJBjJcwlvTTnEsgrCdLiGbjdU=; b=g59LqAoUPdG5nKTpF2GyU3vm2Wchgtt
-	6XlKYDw4lgY5I4lfIo6NK5KsNyB+iFrrxjB6MOdS5BxchQfUl3Z5mW8jFXkvXFoN
-	GuhyQgVccb1EjIdOgStzofWKVgFKIiQfp4KSOrSAtcRWqPtLF7PAvWCGDRomtEXf
-	SITzeJg/t8S5iOS+h7Pen1zdzWwxGjMaB36ZqXDZ8t73vui+KIY5QqxK6jfd/N0Z
-	F2GnLYGk/RQjkeKTo/8cjuz33v5t6jTEyImgmCK2JyNri06KzbgJPM3XGoedwAI3
-	YohdNux48pd2WgTe9NOSno7vEK2/XsD2JGJKK5ICjuAb0L1fvImYzpQ==
+	:from:received; s=mail20150812; t=1578837619; bh=/yUMbNr5csaHiAX
+	aUP70RE0Vg/+Fj1rdPBprDBs1Oc8=; b=s2g6DGyjSfHht14mHMimrO+Biwwc5U6
+	JLY+TPweLAlKzgBHwIFtYCqQ03IPcqcrfCWT0+V7DvoxWQeTIyF+TJlNd860GQDi
+	Hn6HWGJ9bUPEm97gIohpQLETLvSUpJbpkUdMY/K6h/5m8hFGhpkswmhY01E3ZDFQ
+	hjW8Xhl86M8dLhRg0naMfLYC5/NiNwzGecAoIbP0tXiccv1GHWxobT7/kq45miJy
+	6pys0lyla5sHY4utm49hhrqbOQrmG6Rc9ihTZRTodbjUqpM0NmJSmGf4Artq3t3X
+	1BJbZzpl36ojJBlvq9A6VD5g9W36w0q0hJ5qqnN/qMhlJIzK/CZ8+2Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
 	s=mail20150812; t=1578837620;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:in-reply-to:in-reply-to:references:references;
-	bh=HQbKn2HDUnQ1CFH9hEFO9o2n3e8Y/xvQ4cMiX4OI0+M=;
-	b=pufaQstFpVULUaUfHA5rFKpgYqEBBf3oCN281Q/hKH4Rd5AyEV3NfMEHHIyRedqDDA4zkv
-	oKicwZDYDxSDQKG+9lzbfjdOCNM2LT3q79z7sbvyvBPP9w7cPsqJWCGxGM/HcZKGwnREdU
-	qncTBkyGzDx5VnKa+OCDDrV2OBE5Qhn8g9UPTyrE/6uI8VL/Pl8oUabQiZzRuZ8UbQHEX3
-	ok1Tfd+/dH0WK3r+lqgwUtqoyIplD41LZXTj+ncZWZytiYx01hNmX6qu4g8a/3X/B9t3cv
-	A7v59Bu2Bylhe92kQIhiFp8kKDOF228vcDobsBwfNLtQj0wE+Y8eIAlIqqns6g==
+	bh=2ohAWeelLd31a0zKL9xgJFeo0ORH5bDfBfUirNiaeCM=;
+	b=ep2sZ521UR41KQSGw8mFDiqQ4JaJxuZCUK1dEFo82BJFbOX34Y4drRz9Nhn/6DNv7Ge3am
+	AEBxcni2CvjUO1p4z9SSzEnIwo3ugw/5VmjRTi1ZeOrEyZRCOHhQItFZMLwOkcrOX7kdmE
+	CtYy+Yo6y6MD4Z11IoYDauK+faNsooNIetATdFaKfYjEQS9JLgjpDO0UizfMwbIZHjz5CG
+	6PACguwwUWTSZjzFRVyCQppKh4P3et1bT/Fwvxly7UFHasYvUkkVAExALdNlqMLN74NRzr
+	vDzu5WxLceY9J6q2i2PE8Qew+mrZexAdZvWtHXF89hvDD8+ZK8zald8IFVxhug==
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp1.mailbox.org ([80.241.60.240])
-	by spamfilter03.heinlein-hosting.de (spamfilter03.heinlein-hosting.de
-	[80.241.56.117]) (amavisd-new, port 10030) with ESMTP id jdlRo6gOBBp2
+	by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de
+	[80.241.56.116]) (amavisd-new, port 10030) with ESMTP id PdB36l96xYvZ
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2020 15:00:17 +0100 (CET)
+	Sun, 12 Jan 2020 15:00:19 +0100 (CET)
 From: Carlos Rafael Giani <crg7475@mailbox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Jan 2020 14:59:47 +0100
-Message-Id: <20200112135954.23868-5-crg7475@mailbox.org>
+Date: Sun, 12 Jan 2020 14:59:54 +0100
+Message-Id: <20200112135954.23868-12-crg7475@mailbox.org>
 In-Reply-To: <20200112135954.23868-1-crg7475@mailbox.org>
 References: <20200112135954.23868-1-crg7475@mailbox.org>
-Subject: [PATCH 05/12] gstreamer1.0-plugins-bad: Transition to meson based builds
+Subject: [PATCH 12/12] gstreamer: Remove unused common files and patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,390 +54,320 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jan 2020 14:00:21 -0000
+X-List-Received-Date: Sun, 12 Jan 2020 14:00:22 -0000
 
-* Removed autotools/M4 related patch
-  0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch.
+gst-plugins-package.inc gstreamer1.0-plugins.inc got replaced by
+gstreamer1.0-plugins-packaging.inc and gstreamer1.0-plugins-common.inc,
+respectively.
 
-* configure-allow-to-disable-libssh2.patch got replaced by the
-  -Dcurl-ssh2 option.
-
-* 0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch is a
-  fix for GIR support in the meson.build file.
-
-* New "closedcaption" packageconfigs added.
-
-* Removed "flite" packageconfig since flite-alsa was removed from
-  meta-openembedded due it being old and abandoned.
-
-* gettext handling now part of gstreamer1.0-plugins-common.inc.
+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ---
- ...even-when-cross-compiling-if-introsp.patch |  36 +++
- .../configure-allow-to-disable-libssh2.patch  |  61 -----
- .../gstreamer1.0-plugins-bad_1.16.1.bb        | 209 +++++++++---------
- 3 files changed, 141 insertions(+), 165 deletions(-)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/configure-allow-to-disable-libssh2.patch
+ ...-prefix-pkgconfig-paths-with-PKG_CON.patch | 40 -----------
+ .../files/add-a-target-to-compile-tests.patch | 69 -------------------
+ .../gstreamer/files/gtk-doc-tweaks.patch      | 47 -------------
+ .../gstreamer/files/run-ptest                 |  3 -
+ .../gstreamer/gst-plugins-package.inc         | 56 ---------------
+ .../gstreamer/gstreamer1.0-plugins.inc        | 41 -----------
+ 6 files changed, 256 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/files/0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch
+ delete mode 100644 meta/recipes-multimedia/gstreamer/files/run-ptest
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
-new file mode 100644
-index 0000000000..1321852023
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
-@@ -0,0 +1,36 @@
-+From 97a4d0cd7de8cfbf983acc7e37ba2f8fb73c3e19 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
-+Date: Fri, 18 Oct 2019 00:39:12 +0100
-+Subject: [PATCH 1/2] meson: build gir even when cross-compiling if
-+ introspection was enabled explicitly
-+
-+This can be made to work in certain circumstances when
-+cross-compiling, so default to not building g-i stuff
-+when cross-compiling, but allow it if introspection was
-+enabled explicitly via -Dintrospection=enabled.
-+
-+See gstreamer/gstreamer#454 and gstreamer/gstreamer#381.
-+
-+Upstream-Status: Backport [97a4d0cd7de8cfbf983acc7e37ba2f8fb73c3e19]
-+
-+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
-+---
-+ meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 67aeeb4d0..7b3314bd9 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -411,7 +411,7 @@ python3 = import('python').find_installation()
-+ 
-+ gir = find_program('g-ir-scanner', required : get_option('introspection'))
-+ gnome = import('gnome')
-+-build_gir = gir.found() and not meson.is_cross_build()
-++build_gir = gir.found() and (not meson.is_cross_build() or get_option('introspection').enabled())
-+ gir_init_section = [ '--add-init-section=extern void gst_init(gint*,gchar**);' + \
-+     'g_setenv("GST_REGISTRY_1.0", "@0@", TRUE);'.format(meson.current_build_dir() + '/gir_empty_registry.reg') + \
-+     'g_setenv("GST_PLUGIN_PATH_1_0", "", TRUE);' + \
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/configure-allow-to-disable-libssh2.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/configure-allow-to-disable-libssh2.patch
+diff --git a/meta/recipes-multimedia/gstreamer/files/0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch b/meta/recipes-multimedia/gstreamer/files/0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch
 deleted file mode 100644
-index 25861b6b9d..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/configure-allow-to-disable-libssh2.patch
+index 1b7f115083..0000000000
+--- a/meta/recipes-multimedia/gstreamer/files/0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch
 +++ /dev/null
-@@ -1,61 +0,0 @@
--From f59c5269f92d59a5296cbfeeb682d42095cd88ad Mon Sep 17 00:00:00 2001
--From: Wenzong Fan <wenzong.fan@windriver.com>
--Date: Thu, 18 Sep 2014 02:24:07 -0400
--Subject: [PATCH] gstreamer1.0-plugins-bad: allow to disable libssh2
+@@ -1,40 +0,0 @@
+-From 2b0436f9a07773fae8c74df902d7024e8bfc3512 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 24 Nov 2015 16:46:27 +0200
+-Subject: [PATCH] introspection.m4: prefix pkgconfig paths with
+- PKG_CONFIG_SYSROOT_DIR
 -
--libssh2 is automatically linked to if present, this undetermined
--dependency may cause build errors like:
+-We can't use our tweaked introspection.m4 from gobject-introspection tarball
+-because gstreamer also defines INTROSPECTION_INIT in its introspection.m4, which
+-is later supplied to g-ir-scanner.
 -
--  .../x86_64-poky-linux/4.9.0/ld: cannot find -lssh2
+-Upstream-Status: Pending [review on oe-core list]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 -
--libssh2 isn't an oe-core recipe, so allow to disable it from
--configure.
--
--Upstream-Status: Pending
--
--Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
 ----
-- configure.ac |   23 +++++++++++++++++------
-- 1 file changed, 17 insertions(+), 6 deletions(-)
+- common/m4/introspection.m4 | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
 -
--Index: gst-plugins-bad-1.12.3/configure.ac
--===================================================================
----- gst-plugins-bad-1.12.3.orig/configure.ac
--+++ gst-plugins-bad-1.12.3/configure.ac
--@@ -1202,6 +1202,15 @@ AG_GST_CHECK_FEATURE(CHROMAPRINT, [chrom
-- ])
+-diff --git a/common/m4/introspection.m4 b/common/m4/introspection.m4
+-index 162be57..933f979 100644
+---- a/common/m4/introspection.m4
+-+++ b/common/m4/introspection.m4
+-@@ -54,14 +54,14 @@ m4_define([_GOBJECT_INTROSPECTION_CHECK_INTERNAL],
+-     INTROSPECTION_GIRDIR=
+-     INTROSPECTION_TYPELIBDIR=
+-     if test "x$found_introspection" = "xyes"; then
+--       INTROSPECTION_SCANNER=`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
+--       INTROSPECTION_COMPILER=`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
+--       INTROSPECTION_GENERATE=`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
+-+       INTROSPECTION_SCANNER=$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=g_ir_scanner gobject-introspection-1.0`
+-+       INTROSPECTION_COMPILER=$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=g_ir_compiler gobject-introspection-1.0`
+-+       INTROSPECTION_GENERATE=$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=g_ir_generate gobject-introspection-1.0`
+-        INTROSPECTION_GIRDIR=`$PKG_CONFIG --variable=girdir gobject-introspection-1.0`
+-        INTROSPECTION_TYPELIBDIR="$($PKG_CONFIG --variable=typelibdir gobject-introspection-1.0)"
+-        INTROSPECTION_CFLAGS=`$PKG_CONFIG --cflags gobject-introspection-1.0`
+-        INTROSPECTION_LIBS=`$PKG_CONFIG --libs gobject-introspection-1.0`
+--       INTROSPECTION_MAKEFILE=`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
+-+       INTROSPECTION_MAKEFILE=$PKG_CONFIG_SYSROOT_DIR`$PKG_CONFIG --variable=datadir gobject-introspection-1.0`/gobject-introspection-1.0/Makefile.introspection
+-        INTROSPECTION_INIT="extern void gst_init(gint*,gchar**); gst_init(NULL,NULL);"
+-     fi
+-     AC_SUBST(INTROSPECTION_SCANNER)
+diff --git a/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch b/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
+deleted file mode 100644
+index d02d869410..0000000000
+--- a/meta/recipes-multimedia/gstreamer/files/add-a-target-to-compile-tests.patch
++++ /dev/null
+@@ -1,69 +0,0 @@
+-From d61414bc17cf2df019510c2908048c4cabf5cf09 Mon Sep 17 00:00:00 2001
+-From: Anuj Mittal <anuj.mittal@intel.com>
+-Date: Tue, 27 Feb 2018 09:27:01 +0800
+-Subject: [PATCH] add targets for test installation
+-
+-Targets to make sure tests can be installed and then run on
+-the target.
+-
+-Upstream-Status: Inappropriate [specific to oe setup]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+-
+----
+- tests/check/Makefile.am | 27 ++++++++++++++++++++-------
+- 1 file changed, 20 insertions(+), 7 deletions(-)
+-
+-diff --git a/tests/check/Makefile.am b/tests/check/Makefile.am
+-index 13b916d..a66786d 100644
+---- a/tests/check/Makefile.am
+-+++ b/tests/check/Makefile.am
+-@@ -8,11 +8,7 @@ REGISTRY_ENVIRONMENT = \
+- 	GST_REGISTRY=$(CHECK_REGISTRY)
 - 
-- dnl *** Curl ***
--+AC_ARG_ENABLE([libssh2],
--+     [  --enable-libssh2		enable LIBSSH2 support @<:@default=auto@:>@],
--+     [case "${enableval}" in
--+       yes)  NEED_SSH2=yes ;;
--+       no)   NEED_SSH2=no ;;
--+       auto) NEED_SSH2=auto ;;
--+       *) AC_MSG_ERROR([bad value ${enableval} for --enable-libssh2]) ;;
--+     esac],[NEED_SSH2=auto])
+- AM_TESTS_ENVIRONMENT += \
+--        GST_STATE_IGNORE_ELEMENTS="$(STATE_IGNORE_ELEMENTS)"	\
+--        $(REGISTRY_ENVIRONMENT)					\
+--        GST_PLUGIN_SCANNER_1_0=$(top_builddir)/libs/gst/helpers/gst-plugin-scanner \
+--        GST_PLUGIN_SYSTEM_PATH_1_0=					\
+--        GST_PLUGIN_PATH_1_0=$(top_builddir)/plugins
+-+        GST_STATE_IGNORE_ELEMENTS="$(STATE_IGNORE_ELEMENTS)"
+- 
+- plugindir = $(libdir)/gstreamer-@GST_API_VERSION@
+- 
+-@@ -178,6 +174,23 @@ noinst_PROGRAMS =
+- 
+- TESTS = $(check_PROGRAMS)
+- 
+-+install-ptest: $(TESTS)
+-+	@$(INSTALL) -d $(DESTDIR)
+-+	@for dir in `find -maxdepth 1 -type d`; do \
+-+		if [ -x $$dir/.libs ]; then \
+-+			$(INSTALL) -d $(DESTDIR)/$$dir; \
+-+			$(INSTALL_PROGRAM) $$dir/.libs/* $(DESTDIR)/$$dir/; \
+-+		fi \
+-+	done
 -+
-- translit(dnm, m, l) AM_CONDITIONAL(USE_CURL, true)
-- AG_GST_CHECK_FEATURE(CURL, [Curl plugin], curl, [
--   PKG_CHECK_MODULES(CURL, libcurl >= 7.35.0, [
--@@ -1224,12 +1233,14 @@ AG_GST_CHECK_FEATURE(CURL, [Curl plugin]
--   ])
--   AC_SUBST(CURL_CFLAGS)
--   AC_SUBST(CURL_LIBS)
---  PKG_CHECK_MODULES(SSH2, libssh2 >= 1.4.3, [
---    HAVE_SSH2="yes"
---    AC_DEFINE(HAVE_SSH2, 1, [Define if libssh2 is available])
---  ], [
---    HAVE_SSH2="no"
---  ])
--+  if test "x$NEED_SSH2" != "xno"; then
--+    PKG_CHECK_MODULES(SSH2, libssh2 >= 1.4.3, [
--+      HAVE_SSH2="yes"
--+      AC_DEFINE(HAVE_SSH2, 1, [Define if libssh2 is available])
--+    ], [
--+      HAVE_SSH2="no"
--+    ])
--+  fi
--   AM_CONDITIONAL(USE_SSH2, test "x$HAVE_SSH2" = "xyes")
--   AC_SUBST(SSH2_CFLAGS)
--   AC_SUBST(SSH2_LIBS)
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-index ed3efab29f..56ae7a179e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-@@ -1,12 +1,11 @@
--require gstreamer1.0-plugins.inc
-+require gstreamer1.0-plugins-common.inc
- 
- SRC_URI = " \
-     https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-${PV}.tar.xz \
--    file://configure-allow-to-disable-libssh2.patch \
-+    file://0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
-     file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
-     file://avoid-including-sys-poll.h-directly.patch \
-     file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
--    file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
- "
- SRC_URI[md5sum] = "24d4d30ecc67d5cbc77c0475bcea1210"
- SRC_URI[sha256sum] = "56481c95339b8985af13bac19b18bc8da7118c2a7d9440ed70e7dcd799c2adb5"
-@@ -19,7 +18,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
- 
- DEPENDS += "gstreamer1.0-plugins-base"
- 
--inherit gettext gobject-introspection
-+inherit gobject-introspection
- 
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-@@ -27,112 +26,114 @@ PACKAGECONFIG ??= " \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'directfb vulkan', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'gl', '', d)} \
--    bz2 curl dash dtls hls rsvg sbc smoothstreaming sndfile ttml uvch264 webp \
-+    bz2 closedcaption curl dash dtls hls rsvg sbc smoothstreaming sndfile \
-+    ttml uvch264 webp \
- "
- 
-+PACKAGECONFIG[assrender]       = "-Dassrender=enabled,-Dassrender=disabled,libass"
-+PACKAGECONFIG[bluez]           = "-Dbluez=enabled,-Dbluez=disabled,bluez5"
-+PACKAGECONFIG[bz2]             = "-Dbz2=enabled,-Dbz2=disabled,bzip2"
-+PACKAGECONFIG[closedcaption]   = "-Dclosedcaption=enabled,-Dclosedcaption=disabled,pango cairo"
-+PACKAGECONFIG[curl]            = "-Dcurl=enabled,-Dcurl=disabled,curl"
-+PACKAGECONFIG[dash]            = "-Ddash=enabled,-Ddash=disabled,libxml2"
-+PACKAGECONFIG[dc1394]          = "-Ddc1394=enabled,-Ddc1394=disabled,libdc1394"
-+PACKAGECONFIG[directfb]        = "-Ddirectfb=enabled,-Ddirectfb=disabled,directfb"
-+PACKAGECONFIG[dtls]            = "-Ddtls=enabled,-Ddtls=disabled,openssl"
-+PACKAGECONFIG[faac]            = "-Dfaac=enabled,-Dfaac=disabled,faac"
-+PACKAGECONFIG[faad]            = "-Dfaad=enabled,-Dfaad=disabled,faad2"
-+PACKAGECONFIG[fluidsynth]      = "-Dfluidsynth=enabled,-Dfluidsynth=disabled,fluidsynth"
-+PACKAGECONFIG[hls]             = "-Dhls=enabled -Dhls-crypto=nettle,-Dhls=disabled,nettle"
- # the gl packageconfig enables OpenGL elements that haven't been ported
- # to -base yet. They depend on the gstgl library in -base, so we do
- # not add GL dependencies here, since these are taken care of in -base.
+-+runtests:
+-+	@for b in $(TESTS); do \
+-+		if [ -x $$b ]; then \
+-+			$(AM_TESTS_ENVIRONMENT) $(SHELL) test-driver --test-name "$$b" \
+-+			--log-file $$b.log --trs-file $$b.trs $$b; \
+-+		fi \
+-+	done
+-+
+- noinst_HEADERS = \
+- 	gst/capslist.h \
+- 	gst/struct_arm.h \
+-@@ -221,9 +234,9 @@ gst_gstprintf_LDADD = \
+- 	$(LDADD)
+- 
+- elements_fdsrc_CFLAGS=$(GST_OBJ_CFLAGS) $(AM_CFLAGS) \
+--	-DTESTFILE=\"$(top_srcdir)/configure.ac\"
+-+	-DTESTFILE=\"Makefile\"
+- elements_filesrc_CFLAGS=$(GST_OBJ_CFLAGS) $(AM_CFLAGS) \
+--	-DTESTFILE=\"$(top_srcdir)/configure.ac\"
+-+	-DTESTFILE=\"Makefile\"
+- 
+- libs_controller_LDADD = \
+- 	$(top_builddir)/libs/gst/controller/libgstcontroller-@GST_API_VERSION@.la \
+diff --git a/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch b/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch
+deleted file mode 100644
+index d86c78d793..0000000000
+--- a/meta/recipes-multimedia/gstreamer/files/gtk-doc-tweaks.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-From 7018ca1c4bf26c8317e7fcd2e7e4e648195f42ca Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Wed, 20 Dec 2017 13:03:03 +0000
+-Subject: [PATCH] gstreamer: use a patch instead of sed to fix gtk-doc
 -
--PACKAGECONFIG[assrender]       = "--enable-assrender,--disable-assrender,libass"
--PACKAGECONFIG[bluez]           = "--enable-bluez,--disable-bluez,bluez5"
--PACKAGECONFIG[bz2]             = "--enable-bz2,--disable-bz2,bzip2"
--PACKAGECONFIG[curl]            = "--enable-curl,--disable-curl,curl"
--PACKAGECONFIG[dash]            = "--enable-dash,--disable-dash,libxml2"
--PACKAGECONFIG[dc1394]          = "--enable-dc1394,--disable-dc1394,libdc1394"
--PACKAGECONFIG[directfb]        = "--enable-directfb,--disable-directfb,directfb"
--PACKAGECONFIG[dtls]            = "--enable-dtls,--disable-dtls,openssl"
--PACKAGECONFIG[faac]            = "--enable-faac,--disable-faac,faac"
--PACKAGECONFIG[faad]            = "--enable-faad,--disable-faad,faad2"
--PACKAGECONFIG[flite]           = "--enable-flite,--disable-flite,flite-alsa"
--PACKAGECONFIG[fluidsynth]      = "--enable-fluidsynth,--disable-fluidsynth,fluidsynth"
--PACKAGECONFIG[hls]             = "--enable-hls --with-hls-crypto=nettle,--disable-hls,nettle"
--PACKAGECONFIG[gl]              = "--enable-gl,--disable-gl,"
--PACKAGECONFIG[kms]             = "--enable-kms,--disable-kms,libdrm"
--PACKAGECONFIG[libde265]        = "--enable-libde265,--disable-libde265,libde265"
--PACKAGECONFIG[libmms]          = "--enable-libmms,--disable-libmms,libmms"
--PACKAGECONFIG[libssh2]         = "--enable-libssh2,--disable-libssh2,libssh2"
--PACKAGECONFIG[lcms2]           = "--enable-lcms2,--disable-lcms2,lcms"
--PACKAGECONFIG[modplug]         = "--enable-modplug,--disable-modplug,libmodplug"
--PACKAGECONFIG[msdk]            = "--enable-msdk,--disable-msdk,intel-mediasdk"
--PACKAGECONFIG[neon]            = "--enable-neon,--disable-neon,neon"
--PACKAGECONFIG[openal]          = "--enable-openal,--disable-openal,openal-soft"
--PACKAGECONFIG[opencv]          = "--enable-opencv,--disable-opencv,opencv"
--PACKAGECONFIG[openh264]        = "--enable-openh264,--disable-openh264,openh264"
--PACKAGECONFIG[openjpeg]        = "--enable-openjpeg,--disable-openjpeg,openjpeg"
--PACKAGECONFIG[openmpt]         = "--enable-openmpt,--disable-openmpt,libopenmpt"
-+PACKAGECONFIG[gl]              = "-Dgl=enabled,-Dgl=disabled,"
-+PACKAGECONFIG[kms]             = "-Dkms=enabled,-Dkms=disabled,libdrm"
-+PACKAGECONFIG[libde265]        = "-Dlibde265=enabled,-Dlibde265=disabled,libde265"
-+PACKAGECONFIG[libmms]          = "-Dlibmms=enabled,-Dlibmms=disabled,libmms"
-+PACKAGECONFIG[libssh2]         = "-Dcurl-ssh2=enabled,-Dcurl-ssh2=disabled,libssh2"
-+PACKAGECONFIG[lcms2]           = "-Dcolormanagement=enabled,-Dcolormanagement=disabled,lcms"
-+PACKAGECONFIG[modplug]         = "-Dmodplug=enabled,-Dmodplug=disabled,libmodplug"
-+PACKAGECONFIG[msdk]            = "-Dmsdk=enabled,-Dmsdk=disabled,intel-mediasdk"
-+PACKAGECONFIG[neon]            = "-Dneon=enabled,-Dneon=disabled,neon"
-+PACKAGECONFIG[openal]          = "-Dopenal=enabled,-Dopenal=disabled,openal-soft"
-+PACKAGECONFIG[opencv]          = "-Dopencv=enabled,-Dopencv=disabled,opencv"
-+PACKAGECONFIG[openh264]        = "-Dopenh264=enabled,-Dopenh264=disabled,openh264"
-+PACKAGECONFIG[openjpeg]        = "-Dopenjpeg=enabled,-Dopenjpeg=disabled,openjpeg"
-+PACKAGECONFIG[openmpt]         = "-Dopenmpt=enabled,-Dopenmpt=disabled,libopenmpt"
- # the opus encoder/decoder elements are now in the -base package,
- # but the opus parser remains in -bad
--PACKAGECONFIG[opusparse]       = "--enable-opus,--disable-opus,libopus"
--PACKAGECONFIG[resindvd]        = "--enable-resindvd,--disable-resindvd,libdvdread libdvdnav"
--PACKAGECONFIG[rsvg]            = "--enable-rsvg,--disable-rsvg,librsvg"
--PACKAGECONFIG[rtmp]            = "--enable-rtmp,--disable-rtmp,rtmpdump"
--PACKAGECONFIG[sbc]             = "--enable-sbc,--disable-sbc,sbc"
--PACKAGECONFIG[sctp]            = "--enable-sctp,--disable-sctp,usrsctp"
--PACKAGECONFIG[smoothstreaming] = "--enable-smoothstreaming,--disable-smoothstreaming,libxml2"
--PACKAGECONFIG[sndfile]         = "--enable-sndfile,--disable-sndfile,libsndfile1"
--PACKAGECONFIG[srtp]            = "--enable-srtp,--disable-srtp,libsrtp"
--PACKAGECONFIG[tinyalsa]        = "--enable-tinyalsa,--disable-tinyalsa,tinyalsa"
--PACKAGECONFIG[ttml]            = "--enable-ttml,--disable-ttml,libxml2 pango cairo"
--PACKAGECONFIG[uvch264]         = "--enable-uvch264,--disable-uvch264,libusb1 libgudev"
--PACKAGECONFIG[voaacenc]        = "--enable-voaacenc,--disable-voaacenc,vo-aacenc"
--PACKAGECONFIG[voamrwbenc]      = "--enable-voamrwbenc,--disable-voamrwbenc,vo-amrwbenc"
--PACKAGECONFIG[vulkan]          = "--enable-vulkan,--disable-vulkan,vulkan-loader"
--PACKAGECONFIG[wayland]         = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols libdrm"
--PACKAGECONFIG[webp]            = "--enable-webp,--disable-webp,libwebp"
--PACKAGECONFIG[webrtc]          = "--enable-webrtc,--disable-webrtc,libnice"
--PACKAGECONFIG[webrtcdsp]       = "--enable-webrtcdsp,--disable-webrtcdsp,webrtc-audio-processing"
--PACKAGECONFIG[zbar]            = "--enable-zbar,--disable-zbar,zbar"
-+PACKAGECONFIG[opusparse]       = "-Dopus=enabled,-Dopus=disabled,libopus"
-+PACKAGECONFIG[resindvd]        = "-Dresindvd=enabled,-Dresindvd=disabled,libdvdread libdvdnav"
-+PACKAGECONFIG[rsvg]            = "-Drsvg=enabled,-Drsvg=disabled,librsvg"
-+PACKAGECONFIG[rtmp]            = "-Drtmp=enabled,-Drtmp=disabled,rtmpdump"
-+PACKAGECONFIG[sbc]             = "-Dsbc=enabled,-Dsbc=disabled,sbc"
-+PACKAGECONFIG[sctp]            = "-Dsctp=enabled,-Dsctp=disabled,usrsctp"
-+PACKAGECONFIG[smoothstreaming] = "-Dsmoothstreaming=enabled,-Dsmoothstreaming=disabled,libxml2"
-+PACKAGECONFIG[sndfile]         = "-Dsndfile=enabled,-Dsndfile=disabled,libsndfile1"
-+PACKAGECONFIG[srtp]            = "-Dsrtp=enabled,-Dsrtp=disabled,libsrtp"
-+PACKAGECONFIG[tinyalsa]        = "-Dtinyalsa=enabled,-Dtinyalsa=disabled,tinyalsa"
-+PACKAGECONFIG[ttml]            = "-Dttml=enabled,-Dttml=disabled,libxml2 pango cairo"
-+PACKAGECONFIG[uvch264]         = "-Duvch264=enabled,-Duvch264=disabled,libusb1 libgudev"
-+PACKAGECONFIG[voaacenc]        = "-Dvoaacenc=enabled,-Dvoaacenc=disabled,vo-aacenc"
-+PACKAGECONFIG[voamrwbenc]      = "-Dvoamrwbenc=enabled,-Dvoamrwbenc=disabled,vo-amrwbenc"
-+PACKAGECONFIG[vulkan]          = "-Dvulkan=enabled,-Dvulkan=disabled,vulkan-loader"
-+PACKAGECONFIG[wayland]         = "-Dwayland=enabled,-Dwayland=disabled,wayland-native wayland wayland-protocols libdrm"
-+PACKAGECONFIG[webp]            = "-Dwebp=enabled,-Dwebp=disabled,libwebp"
-+PACKAGECONFIG[webrtc]          = "-Dwebrtc=enabled,-Dwebrtc=disabled,libnice"
-+PACKAGECONFIG[webrtcdsp]       = "-Dwebrtcdsp=enabled,-Dwebrtcdsp=disabled,webrtc-audio-processing"
-+PACKAGECONFIG[zbar]            = "-Dzbar=enabled,-Dzbar=disabled,zbar"
- 
--# these plugins have no corresponding library in OE-core or meta-openembedded:
--#   openni2 winks direct3d directsound winscreencap apple_media iqa
--#   android_media avc bs2b chromaprint dts fdkaac gme gsm kate ladspa
--#   lv2 mpeg2enc mplex musepack nvenc ofa opensles soundtouch
--#   spandsp teletextdec vdpau wasapi wpe x265
-+# these plugins currently have no corresponding library in OE-core or meta-openembedded:
-+#   aom androidmedia applemedia bs2b chromaprint d3dvideosink
-+#   directsound dts fdkaac gme gsm iq kate ladspa lv2 mpeg2enc
-+#   mplex musepack nvdec nvenc ofa openexr openni2 opensles
-+#   soundtouch spandsp srt teletext vdpau wasapi wildmidi winks
-+#   winscreencap wpe x265
- 
--EXTRA_OECONF += " \
--    --enable-decklink \
--    --enable-dvb \
--    --enable-fbdev \
--    --enable-ipcpipeline \
--    --enable-netsim \
--    --enable-shm \
--    --disable-android_media \
--    --disable-aom \
--    --disable-apple_media \
--    --disable-avc \
--    --disable-bs2b \
--    --disable-chromaprint \
--    --disable-direct3d \
--    --disable-directsound \
--    --disable-dts \
--    --disable-fdk_aac \
--    --disable-gme \
--    --disable-gsm \
--    --disable-iqa \
--    --disable-kate \
--    --disable-ladspa \
--    --disable-lv2 \
--    --disable-mpeg2enc \
--    --disable-mplex \
--    --disable-musepack \
--    --disable-nvenc \
--    --disable-ofa \
--    --disable-openexr \
--    --disable-openni2 \
--    --disable-opensles \
--    --disable-soundtouch \
--    --disable-spandsp \
--    --disable-srt \
--    --disable-teletextdec \
--    --disable-vdpau \
--    --disable-wasapi \
--    --disable-wildmidi \
--    --disable-winks \
--    --disable-winscreencap \
--    --disable-wpe \
--    --disable-x265 \
--    ${@bb.utils.contains("TUNE_FEATURES", "mx32", "--disable-yadif", "", d)} \
-+EXTRA_OEMESON += " \
-+    -Ddecklink=enabled \
-+    -Ddvb=enabled \
-+    -Dfbdev=enabled \
-+    -Dipcpipeline=enabled \
-+    -Dnetsim=enabled \
-+    -Dshm=enabled \
-+    -Daom=disabled \
-+    -Dandroidmedia=disabled \
-+    -Dapplemedia=disabled \
-+    -Dbs2b=disabled \
-+    -Dchromaprint=disabled \
-+    -Dd3dvideosink=disabled \
-+    -Ddirectsound=disabled \
-+    -Ddts=disabled \
-+    -Dfdkaac=disabled \
-+    -Dflite=disabled \
-+    -Dgme=disabled \
-+    -Dgsm=disabled \
-+    -Diqa=disabled \
-+    -Dkate=disabled \
-+    -Dladspa=disabled \
-+    -Dlv2=disabled \
-+    -Dmpeg2enc=disabled \
-+    -Dmplex=disabled \
-+    -Dmusepack=disabled \
-+    -Dnvdec=disabled \
-+    -Dnvenc=disabled \
-+    -Dofa=disabled \
-+    -Dopenexr=disabled \
-+    -Dopenni2=disabled \
-+    -Dopensles=disabled \
-+    -Dsoundtouch=disabled \
-+    -Dspandsp=disabled \
-+    -Dsrt=disabled \
-+    -Dteletext=disabled \
-+    -Dvdpau=disabled \
-+    -Dwasapi=disabled \
-+    -Dwildmidi=disabled \
-+    -Dwinks=disabled \
-+    -Dwinscreencap=disabled \
-+    -Dwpe=disabled \
-+    -Dx265=disabled \
-+    ${@bb.utils.contains("TUNE_FEATURES", "mx32", "-Dyadif=disabled", "", d)} \
- "
- 
- export OPENCV_PREFIX = "${STAGING_DIR_TARGET}${prefix}"
-@@ -140,6 +141,6 @@ export OPENCV_PREFIX = "${STAGING_DIR_TARGET}${prefix}"
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
- 
--FILES_${PN}-freeverb += "${datadir}/gstreamer-${LIBV}/presets/GstFreeverb.prs"
--FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/${LIBV}/opencv*"
--FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-${LIBV}/presets/GstVoAmrwbEnc.prs"
-+FILES_${PN}-freeverb += "${datadir}/gstreamer-1.0/presets/GstFreeverb.prs"
-+FILES_${PN}-opencv += "${datadir}/gst-plugins-bad/1.0/opencv*"
-+FILES_${PN}-voamrwbenc += "${datadir}/gstreamer-1.0/presets/GstVoAmrwbEnc.prs"
+-Patch the gtk-doc makefiles so that the qemu wrapper is used to run transient
+-binaries instead of libtool wrapper or running them directly.
+-
+-Also substitute a bogus plugin scanner, as trying to run the real one is causing
+-issues during build on x86_64.
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+----
+- common/gtk-doc.mak | 5 +++--
+- 1 file changed, 3 insertions(+), 2 deletions(-)
+-
+-diff --git a/common/gtk-doc.mak b/common/gtk-doc.mak
+-index 3f83491..e5cb0d1 100644
+---- a/common/gtk-doc.mak
+-+++ b/common/gtk-doc.mak
+-@@ -6,11 +6,11 @@
+- if GTK_DOC_USE_LIBTOOL
+- GTKDOC_CC = $(LIBTOOL) --tag=CC --mode=compile $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+- GTKDOC_LD = $(LIBTOOL) --tag=CC --mode=link $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+--GTKDOC_RUN = $(LIBTOOL) --mode=execute
+-+GTKDOC_RUN = $(top_builddir)/gtkdoc-qemuwrapper
+- else
+- GTKDOC_CC = $(CC) $(INCLUDES) $(GTKDOC_DEPS_CFLAGS) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+- GTKDOC_LD = $(CC) $(GTKDOC_DEPS_LIBS) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS)
+--GTKDOC_RUN =
+-+GTKDOC_RUN = $(top_builddir)/gtkdoc-qemuwrapper
+- endif
+- 
+- # We set GPATH here; this gives us semantics for GNU make
+-@@ -101,6 +101,7 @@ scan-build.stamp: $(HFILE_GLOB) $(CFILE_GLOB)
+- 	    GST_PLUGIN_PATH_1_0=					\
+- 	    GST_REGISTRY_1_0=doc-registry.xml				\
+- 	    $(GTKDOC_EXTRA_ENVIRONMENT)					\
+-+	    GST_PLUGIN_SCANNER_1_0="$(top_builddir)/libs/gst/helpers/gst-plugin-scanner-dummy" \
+- 	    CC="$(GTKDOC_CC)" LD="$(GTKDOC_LD)" RUN="$(GTKDOC_RUN)"	\
+- 	    CFLAGS="$(GTKDOC_CFLAGS) $(CFLAGS)"				\
+- 	    LDFLAGS="$(GTKDOC_LIBS) $(LDFLAGS)"				\
+--- 
+-2.15.1
+-
+diff --git a/meta/recipes-multimedia/gstreamer/files/run-ptest b/meta/recipes-multimedia/gstreamer/files/run-ptest
+deleted file mode 100644
+index 473d0b67a7..0000000000
+--- a/meta/recipes-multimedia/gstreamer/files/run-ptest
++++ /dev/null
+@@ -1,3 +0,0 @@
+-#!/bin/sh
+-
+-make -k runtests
+diff --git a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc b/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
+deleted file mode 100644
+index 6781e98c31..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gst-plugins-package.inc
++++ /dev/null
+@@ -1,56 +0,0 @@
+-PACKAGESPLITFUNCS_prepend = " split_gstreamer10_packages "
+-PACKAGESPLITFUNCS_append = " set_metapkg_rdepends "
+-
+-python split_gstreamer10_packages () {
+-    gst_libdir = d.expand('${libdir}/gstreamer-${LIBV}')
+-    postinst = d.getVar('plugin_postinst')
+-    glibdir = d.getVar('libdir')
+-
+-    do_split_packages(d, glibdir, r'^lib(.*)\.so\.*', 'lib%s', 'gstreamer %s library', extra_depends='', allow_links=True)
+-    do_split_packages(d, gst_libdir, r'libgst(.*)\.so$', d.expand('${PN}-%s'), 'GStreamer plugin for %s', postinst=postinst, extra_depends='')
+-    do_split_packages(d, glibdir+'/girepository-1.0', r'Gst(.*)-1.0\.typelib$', d.expand('${PN}-%s-typelib'), 'GStreamer typelib file for %s', postinst=postinst, extra_depends='')
+-    do_split_packages(d, gst_libdir, r'libgst(.*)\.la$', d.expand('${PN}-%s-dev'), 'GStreamer plugin for %s (development files)', extra_depends='${PN}-dev')
+-    do_split_packages(d, gst_libdir, r'libgst(.*)\.a$', d.expand('${PN}-%s-staticdev'), 'GStreamer plugin for %s (static development files)', extra_depends='${PN}-staticdev')
+-}
+-
+-python set_metapkg_rdepends () {
+-    import os
+-    import oe.utils
+-
+-    pn = d.getVar('PN')
+-    metapkg =  pn + '-meta'
+-    d.setVar('ALLOW_EMPTY_' + metapkg, "1")
+-    d.setVar('FILES_' + metapkg, "")
+-    blacklist = [ pn, pn + '-meta' ]
+-    metapkg_rdepends = []
+-    pkgdest = d.getVar('PKGDEST')
+-    for pkg in oe.utils.packages_filter_out_system(d):
+-        if pkg not in blacklist and pkg not in metapkg_rdepends:
+-            # See if the package is empty by looking at the contents of its PKGDEST subdirectory. 
+-            # If this subdirectory is empty, then the package is.
+-            # Empty packages do not get added to the meta package's RDEPENDS
+-            pkgdir = os.path.join(pkgdest, pkg)
+-            if os.path.exists(pkgdir):
+-                dir_contents = os.listdir(pkgdir) or []
+-            else:
+-                dir_contents = []
+-            is_empty = len(dir_contents) == 0
+-            if not is_empty:
+-                metapkg_rdepends.append(pkg)
+-    d.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends))
+-    d.setVar('DESCRIPTION_' + metapkg, pn + ' meta package')
+-}
+-
+-# each plugin-dev depends on PN-dev, plugin-staticdev on PN-staticdev
+-# so we need them even when empty (like in gst-plugins-good case)
+-ALLOW_EMPTY_${PN} = "1"
+-ALLOW_EMPTY_${PN}-dev = "1"
+-ALLOW_EMPTY_${PN}-staticdev = "1"
+-
+-PACKAGES += "${PN}-apps ${PN}-meta ${PN}-glib"
+-
+-FILES_${PN} = ""
+-FILES_${PN}-apps = "${bindir}"
+-FILES_${PN}-glib = "${datadir}/glib-2.0"
+-
+-RRECOMMENDS_${PN} += "${PN}-meta"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+deleted file mode 100644
+index bc24b05fec..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
++++ /dev/null
+@@ -1,41 +0,0 @@
+-SUMMARY = "Plugins for the GStreamer multimedia framework 1.x"
+-HOMEPAGE = "http://gstreamer.freedesktop.org/"
+-BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
+-SECTION = "multimedia"
+-
+-DEPENDS = "gstreamer1.0 glib-2.0-native"
+-
+-SRC_URI_append = " file://gtk-doc-tweaks.patch"
+-
+-inherit autotools pkgconfig upstream-version-is-even gtk-doc
+-
+-acpaths = "-I ${S}/common/m4 -I ${S}/m4"
+-
+-LIBV = "1.0"
+-require gst-plugins-package.inc
+-
+-# Orc enables runtime JIT compilation of data processing routines from Orc
+-# bytecode to SIMD instructions for various architectures (currently SSE, MMX,
+-# MIPS, Altivec and NEON are supported).
+-
+-GSTREAMER_ORC ?= "orc"
+-
+-PACKAGECONFIG[debug] = "--enable-debug,--disable-debug"
+-PACKAGECONFIG[orc] = "--enable-orc,--disable-orc,orc orc-native"
+-PACKAGECONFIG[valgrind] = "--enable-valgrind,--disable-valgrind,valgrind"
+-
+-export ORCC = "${STAGING_DIR_NATIVE}${bindir}/orcc"
+-
+-EXTRA_OECONF = " \
+-    --disable-examples \
+-"
+-
+-delete_pkg_m4_file() {
+-	# This m4 file is out of date and is missing PKG_CONFIG_SYSROOT_PATH tweaks which we need for introspection
+-	rm "${S}/common/m4/pkg.m4" || true
+-	rm -f "${S}/common/m4/gtk-doc.m4"
+-}
+-
+-do_configure[prefuncs] += " delete_pkg_m4_file"
+-
+-PACKAGES_DYNAMIC = "^${PN}-.*"
 -- 
 2.17.1
 
