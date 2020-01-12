@@ -1,52 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A56106D666
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B9B3372EB7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2020 14:45:32 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id q9so6876286wmj.5
+	Sun, 12 Jan 2020 16:24:01 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id 5so7017206qtz.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2020 06:45:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=mDCoczSydMObwXCQu7r1WE5ZDt9d00b1HLEMvrKbnQg=;
-	b=h2e1W+7o7vJnDrE5d+TLyCUP+kxnj+Uehepw+n77DYkqMIwZq9JW3/+pAUf1ItLuD4
-	VpyS+AEHOvCofUZ5boXycjf7lx3derQqiorvUJ1Qk7vb6y7GwAEZJStVryv2CPICDPS6
-	/HGx0pwRTERe9d7YLawEb9/O9w6KBVgj2StrA=
+	Sun, 12 Jan 2020 08:24:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=OJTmLzbgwfMlVL8Y1xv1Xnrzhp6RzHotwGQ2QWOSrHg=;
+	b=MHFFZW1yoLA269OHF1UVgIGh0P+4k1MNi5PgyGn/1yBDcrQuBxYflJikVJWZa8jC/g
+	VQycQ3+Z3p4vL0lRH/ihPqbFHkJsgg7uB8d93CbgV1FybodLK7QznrAcf9lFzUM+yOnT
+	oqfyOuFctTcwgJNaJh4uegQmOiiU4MaE+Pa38kX7arq4J8cFCwANa/cqJaNlm4ATGLyn
+	lOcQTn3igg+1FT7ugOUAs6hFg1af1QFJeQ5cKckG9vzMJXNm6ZX04fXxJ57FG/wRixaj
+	OVOzS8cP5L4S2KoXpd4G+tGFlwcqsMpH6NWNYgU7AHOPcYcc0E7hQqm6e7ldOScje+jB
+	weFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=mDCoczSydMObwXCQu7r1WE5ZDt9d00b1HLEMvrKbnQg=;
-	b=C/RAGskiztKXnaIoS2BS+erG4JLE8UiRx3IJPmFBj8efLmfV5aj09/nlluRnMb6fzt
-	K9Sjktj6d+JAdw4YV7gL5N072WBOgXfWTU03qvhRXtaTn2hMskXGzflYlvD+B11qBq32
-	oqvcM1gTVwGlvpAwLVprlk2XOvCV0jw4G6XAjC/U1u3W6c95PIS8ThdrSGgtmk7WEF4e
-	mtWBNjIPayssKPSKcKYVtXiXSu4P6oKscjyRukt838TyIQA9CL5rK3Osxl/idcB5JlS6
-	d2WTD3FeNa9niEydIA7tCIqknZO2+rbHmzE2VKqgvziZWxjN4w4T9UiaR1euvIAPO+QQ
-	Rsjg==
-X-Gm-Message-State: APjAAAXcRKkJHiSinTVcWMUWhv+b2gn3uB30plE0KMeaXHlCG2g4sK5j
-	ZoZJ0jRRRjn9Ux/E7ko9viAHwY3gJEw=
-X-Google-Smtp-Source: APXvYqyM8tMVtRv6zORw5LxqAfWMNg1T3Nx2G8K7GFeZ0M1fg0OLju5TrRfLEj8t3aFvhryqF5A3PQ==
-X-Received: by 2002:a05:600c:298:: with SMTP id
-	24mr14764806wmk.141.1578840333148; 
-	Sun, 12 Jan 2020 06:45:33 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	q14sm10808553wmj.14.2020.01.12.06.45.32
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 12 Jan 2020 06:45:32 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Jan 2020 14:45:30 +0000
-Message-Id: <20200112144530.29417-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200112144530.29417-1-richard.purdie@linuxfoundation.org>
-References: <20200112144530.29417-1-richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=OJTmLzbgwfMlVL8Y1xv1Xnrzhp6RzHotwGQ2QWOSrHg=;
+	b=smQJYCBK/Q0JU+9dKHfhWTWuwxdmBW1qkromibwRAnAVKNz1vBk4nnAT+k+KD9XAGP
+	5DZ4uSoNUFeav6bMf36zHBzyeOUaA5FfP8gE2RjPeb5ukvC9uvERdTCZA74adnq1NEmo
+	oPMQIpd/kJcmn48Kcd58lpb0BFhPUUMsk+pVNrqa1lSy4oBWRoS3J7GK/Uq89I0ipRla
+	DUTS9p89SH10eqIw1rxzn/UXF5do3Zf0pE3fS5hHbfNPidChkj6v4W0R+AJkrMLF60eO
+	lo6yghDZL3Fv/5ttO3cjivl4sMsgDJ1Dx2oKwiWX3O0xdW1bcdLPO2wu0B+fO8R8VpZO
+	xzxg==
+X-Gm-Message-State: APjAAAWUBh3paz4jdhLsf+slkfZ15Qd3yqX1SqmzmfNXU3+lY7VnwlMQ
+	3LOFDts25F8Q1h/YIL+WGNdSJ7soXxbD4wVbG9f1Az3f
+X-Google-Smtp-Source: APXvYqzFawvMKJRDhUV9DBQWpmMflX2Yun0w1z2cwnA+yvgbo/Ku/WayUedCDDfydcgKhEF/r9kqkqCv0jTWiaHPPOI=
+X-Received: by 2002:ac8:544f:: with SMTP id d15mr6967479qtq.53.1578846242518; 
+	Sun, 12 Jan 2020 08:24:02 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] scripts/oe-build-perf-report: Avoid buildstats warning
+References: <20200112144530.29417-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200112144530.29417-1-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sun, 12 Jan 2020 08:23:35 -0800
+Message-ID: <CAMKF1sqKaAoyuM5sPXXjRAAz8UK+TaN4qedk7w1OX4OAZqgGOw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] sstate: Improve move into place op and touch file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,71 +54,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jan 2020 14:45:32 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 12 Jan 2020 16:24:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-When a comparision branch is set we see warnings. If two branches are used,
-look for buildstats information from both to avoid this kind of warning:
+On Sun, Jan 12, 2020 at 7:42 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Depending on the kernel and coreutils cersion, mv operations test for existence
 
-INFO: Parsing buildstats from 'refs/notes/buildstats/perf-centos7.yoctoproject.org/master-next/qemux86'
-WARNING: Buildstats not found for perf-centos7.yoctoproject.org/master/qemux86/56808-g08220028e52992dcba667fc97bf3afe8be1949fb/0
-WARNING: Buildstats not found for perf-centos7.yoctoproject.org/master/qemux86/56808-g08220028e52992dcba667fc97bf3afe8be1949fb/1
-INFO: Buildstats were missing for some test runs, please run 'git fetch origin refs/notes/buildstats/perf-centos7.yoctoproject.org/master-next/qemux86:refs/notes/buildstats/perf-centos7.yoctoproject.org/master-next/qemux86' and try again
-
-(the warning is due to stats being looked for in both branches, choose
-the other branch and different warnings would be shown)
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/oe-build-perf-report | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
-
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index 21bde7e1561..e781f4f03ff 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -372,7 +372,7 @@ def print_html_report(data, id_comp, buildstats):
-                                chart_opts=chart_opts))
- 
- 
--def get_buildstats(repo, notes_ref, revs, outdir=None):
-+def get_buildstats(repo, notes_ref, notes_ref2, revs, outdir=None):
-     """Get the buildstats from git notes"""
-     full_ref = 'refs/notes/' + notes_ref
-     if not repo.rev_parse(full_ref):
-@@ -391,8 +391,13 @@ def get_buildstats(repo, notes_ref, revs, outdir=None):
-         for tag in rev.tags:
-             log.debug('    %s', tag)
-             try:
--                bs_all = json.loads(repo.run_cmd(['notes', '--ref', notes_ref,
--                                                  'show', tag + '^0']))
-+                try:
-+                    bs_all = json.loads(repo.run_cmd(['notes', '--ref', notes_ref, 'show', tag + '^0']))
-+                except GitError:
-+                    if notes_ref2:
-+                        bs_all = json.loads(repo.run_cmd(['notes', '--ref', notes_ref2, 'show', tag + '^0']))
-+                    else:
-+                        raise
-             except GitError:
-                 log.warning("Buildstats not found for %s", tag)
-                 bs_all = {}
-@@ -589,9 +594,12 @@ def main(argv=None):
-     buildstats = None
-     if args.dump_buildstats or args.html:
-         outdir = 'oe-build-perf-buildstats' if args.dump_buildstats else None
--        notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch,
--                                                 args.machine)
--        buildstats = get_buildstats(repo, notes_ref, [rev_l, rev_r], outdir)
-+        notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch, args.machine)
-+        notes_ref2 = None
-+        if args.branch2:
-+            notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch2, args.machine)
-+            notes_ref2 = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch, args.machine)
-+        buildstats = get_buildstats(repo, notes_ref, notes_ref2, [rev_l, rev_r], outdir)
- 
-     # Print report
-     if not args.html:
--- 
-2.20.1
-
+typo version -> version
+> of files and can potentially race. It also leads to the file always changing which
+> leads to potential problems if using and NFS share and there are other readers.
+>
+> Using ln instead means we don't overwrite the file if it already exists meaning
+> other readers aren't disrupted and should work more reliably on NFS which is used
+> for sstate on the autobuilder.
+>
+> Since we're not overwriting files, touch the file to show activity as would have
+> been done it it were reused from sstate.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/sstate.bbclass | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+> index 356fe7ec180..b4ffffcd98b 100644
+> --- a/meta/classes/sstate.bbclass
+> +++ b/meta/classes/sstate.bbclass
+> @@ -776,6 +776,7 @@ sstate_task_postfunc[dirs] = "${WORKDIR}"
+>  sstate_create_package () {
+>         # Exit early if it already exists
+>         if [ -e ${SSTATE_PKG} ]; then
+> +               touch ${SSTATE_PKG}
+>                 return
+>         fi
+>
+> @@ -803,10 +804,13 @@ sstate_create_package () {
+>         chmod 0664 $TFILE
+>         # Skip if it was already created by some other process
+>         if [ ! -e ${SSTATE_PKG} ]; then
+> -               mv -f $TFILE ${SSTATE_PKG}
+> +               # Move into place using ln to attempt an atomic op.
+> +               # Abort if it already exists
+> +               ln $TFILE ${SSTATE_PKG} && rm $TFILE
+>         else
+>                 rm $TFILE
+>         fi
+> +       touch ${SSTATE_PKG}
+>  }
+>
+>  python sstate_sign_package () {
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
