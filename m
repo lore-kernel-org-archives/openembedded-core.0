@@ -1,52 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com
-	[209.85.214.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A2777FDAD
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id AD3B87F8B6
 	for <openembedded-core@openembedded.org>;
-	Sun, 12 Jan 2020 06:15:01 +0000 (UTC)
-Received: by mail-pl1-f171.google.com with SMTP id g9so322059plq.1
+	Sun, 12 Jan 2020 06:36:34 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id k25so3105207pgt.7
 	for <openembedded-core@openembedded.org>;
-	Sat, 11 Jan 2020 22:15:03 -0800 (PST)
+	Sat, 11 Jan 2020 22:36:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=1uv0pRZRRzGkLeLmRBRVSgzmq0HSvsM34XHFcu2bJOg=;
-	b=eQB6Lg0H16pfxC6zVkAKFUosRJCI970/nOheL54XfcWFRbfT7ck1ClTIrRp2duS06t
-	XL9h9l5PjVHaAnbWPRc4GGZEhgawRTtZqfOdXhERfTeE5IJYyXlkoGyI1DgeRLKk41q2
-	RY5NO0suIkrfQJ6Krw2aXXqlL7v9z/a94/1u/2gagRlv803jYKdFW9gXga91aBxqu1xk
-	jClDX/BGVzuzAwk3pkT8mzl9v8zyoC38CtWyDSZPTcEcuT8AXhR0qodA46ehZ4EAI34+
-	9k28VIQtWGGEnSrD3xErJPFn/I/SOQJ8f0m/kJ0oF7iAauq5atlCW0gXndAoiUX3zJcK
-	xGeg==
+	h=from:to:cc:subject:date:message-id;
+	bh=XliIPniO84ZtBu0Uwrcerz8+txIen9T5LsodVx6IZTM=;
+	b=JoiaS+FDIGyXpCr7v9yzj4bz3I7hACZSKvz7OtEvKjAYX3YKeocqN9iJF6R2LOcCVv
+	PyYy4QH5pUFJ/YdcVZ3fFtAk/9wc9BL70mNH7HAyKGPvMEjpG8Pw7eC5J5LNilqPVIAQ
+	qGUn2FK48yPYSSS2/Onx3JUMk8o1RhehstgSVwl795UQm+dL6UuUglZNuaPDE9ayCviE
+	TzOxv/YKzkLrdfYWTQ9RyJMQo33GDPMwhIfS97UUCpHs/gecluzasraoqq9aKTpCjQuT
+	EgymCG3NG+cAd8hjHjljvZBTA6oo62J9fdL0q2pDLiA28uAQUx2wGil7ppq3SPkeumJ3
+	ntOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=1uv0pRZRRzGkLeLmRBRVSgzmq0HSvsM34XHFcu2bJOg=;
-	b=uckkFaT1l09bUEp0fB7FAPYG38JTj2H2bIzqFVvxvqFuu2lEUjnT5tCbN4Ar5W3u3v
-	PvsvTG2vgXq0UPMwp1p7nvQ9MlcwqDg/2Kup5XgM8LSwKewqNnRyRbwJ499DwjPNE/5/
-	ewbUxmwBYNxl3M/Y7m97J9/RxQzR3HwUqGNS+TzJfubpxbCrcSBhSx0I7y9lZBff5Kjh
-	xczlHplzhayVJwxhBPiqgnOWZsll3CRfHuw2PsnOdw/jZawVqcJZRgSFpVCPij0teLKC
-	s5Zv7xh0J0SeKRphF83HVQ4RQgDTZmcEJ0r0MFSaiRejXZmw/+mur8Bi8Q/pxPU1/qtl
-	EnRQ==
-X-Gm-Message-State: APjAAAX5o5slq0uYlG/Di08/EzZ0THiABghILb8TTg8OpGh4iQEzAKFG
-	geiYY9KUUnEAkltBGS9o5Cp/5JUv
-X-Google-Smtp-Source: APXvYqwEEaizLux1rvjeCqkU3He7XRDFFlUVF6ibTb+ytfBV4lBEjhgGPbUTuMJT4rgwsixdmO4fTw==
-X-Received: by 2002:a17:902:fe90:: with SMTP id
-	x16mr7713160plm.31.1578809702565; 
-	Sat, 11 Jan 2020 22:15:02 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XliIPniO84ZtBu0Uwrcerz8+txIen9T5LsodVx6IZTM=;
+	b=QKh44bDUH3o2Jy+1NCznoQzZ8A7s+IEPnRuTST5ia85PezSZKhzcOEdwY0rdKQcuk6
+	heWE4I0jX+OSAHaza7Zw5nXoyKqCSi6cp5BvIiGVVzQ4t4M0OCrURNK34+/Ci2fiNCZV
+	RZ3fgtEItm6asyr8FluvFICDzTfp1+Tp8GptY6C+o4ROpo5Ok3rm9a6+GSroftSTVNX7
+	hsCTFthK88O8eWRghyF53uBUPuFwrpMiFn9yDLpXwliKOtWK6e2slLfESrx7A5+WjK6x
+	49EZXaACpz3D0RFQEXTooa55aPS+qrUbJ9qo2Ie82OItThpdw8zycSqLEaJ+GSLhcRn2
+	Tjbw==
+X-Gm-Message-State: APjAAAX53WB3v/Krre2NvUdGEoGZU0rXxj3whwijfpGKOzcN7sgY/nm+
+	pMKsKcRCpXT3LGF2dj+kV+RZFhyL
+X-Google-Smtp-Source: APXvYqxes25jSjr8KPIYqfOZpjRCx4ifcR4xZmF96EzyiG8QFQ+9w7Mp7SpOJaJ6QEs9a/tEjxgYoA==
+X-Received: by 2002:a63:1101:: with SMTP id g1mr14350596pgl.435.1578810995515; 
+	Sat, 11 Jan 2020 22:36:35 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:3849:7200:d754:59fc])
-	by smtp.gmail.com with ESMTPSA id g8sm8978559pfh.43.2020.01.11.22.15.01
-	for <openembedded-core@openembedded.org>
+	by smtp.gmail.com with ESMTPSA id
+	136sm8437493pgg.74.2020.01.11.22.36.34
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 11 Jan 2020 22:15:02 -0800 (PST)
+	Sat, 11 Jan 2020 22:36:34 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sat, 11 Jan 2020 22:14:57 -0800
-Message-Id: <20200112061457.10741-4-akuster808@gmail.com>
+Date: Sat, 11 Jan 2020 22:36:30 -0800
+Message-Id: <20200112063633.11144-1-akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200112061457.10741-1-akuster808@gmail.com>
-References: <20200112061457.10741-1-akuster808@gmail.com>
-Subject: [warrir][PATCH 4/4] stress: update SRC_URI
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [warror][PATCH 1/4] popt: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,29 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jan 2020 06:15:01 -0000
+X-List-Received-Date: Sun, 12 Jan 2020 06:36:34 -0000
 
-Fixes:
-WARNING: stress-1.0.4-r0 do_fetch: Failed to fetch URL http://people.seas.harvard.edu/~apw/stress/stress-1.0.4.tar.gz, attempting MIRRORS if available
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 
+rpm5.org has been down for about a year now. Use linuxfromscratch.org
+as an alternative reliable source instead.
+
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d9224014da9a512b1b8837e4e7a736d465c97be3)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/stress/stress_1.0.4.bb | 2 +-
+ meta/recipes-support/popt/popt_1.16.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/stress/stress_1.0.4.bb b/meta/recipes-extended/stress/stress_1.0.4.bb
-index e9179d3e19..42046d5bf4 100644
---- a/meta/recipes-extended/stress/stress_1.0.4.bb
-+++ b/meta/recipes-extended/stress/stress_1.0.4.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://people.seas.harvard.edu/~apw/stress/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
+index 478288f9bf..27e49c2ca2 100644
+--- a/meta/recipes-support/popt/popt_1.16.bb
++++ b/meta/recipes-support/popt/popt_1.16.bb
+@@ -8,7 +8,7 @@ PR = "r3"
  
--SRC_URI = "http://people.seas.harvard.edu/~apw/${BPN}/${BP}.tar.gz \
-+SRC_URI = "https://fossies.org/linux/privat/${BP}.tar.gz \
-            file://texinfo.patch \
-            "
+ DEPENDS = "virtual/libiconv"
  
+-SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
++SRC_URI = "http://anduin.linuxfromscratch.org/BLFS/popt/popt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            file://popt_fix_for_automake-1.12.patch \
+            file://disable_tests.patch \
 -- 
 2.17.1
 
