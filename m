@@ -1,46 +1,47 @@
 Return-Path: <crg7475@mailbox.org>
 Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	by mail.openembedded.org (Postfix) with ESMTP id B2F917FA15
+	by mail.openembedded.org (Postfix) with ESMTP id EC83E7F941
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 12 Jan 2020 14:00:18 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+	[IPv6:2001:67c:2050:105:465:1:1:0])
 	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47wddv1xs5zKmTQ
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47wddv5TjwzKmfT
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 12 Jan 2020 15:00:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
 	references:in-reply-to:message-id:date:date:subject:subject:from
-	:from:received; s=mail20150812; t=1578837617; bh=9yKw03qweR4c2J9
-	kxcyveK/0SysTop3hHIfRx1njPNA=; b=K2LJMYxN73nr7AoMdohiAp4Wc4tnSjR
-	4Un7RMXyyHYwA8fz1svXRFtWCYAHrclsBPYOczcRY+EIKqW3RVInb90dQmCd5uZb
-	wEmYZWAZS3yxnbq27ehWCGhLlAtXPiIqlRZh/zHwU0AL+zPKMqVyGNC1K+k0hhPt
-	FA1KGnIP/ASE9S7yamQWkzj8CV8LCoJ2aIpmbeAz3oqGytEG79gjLDbJRYpmp3Uw
-	Ug0XBhikO0RO8AkZAQIu0k1pqDhhdKNVTeweAGIgCyY55hVGh/VDb9jIfXY2o2K6
-	5RbTHYftVLMxNe2+3jQTA5LfdhL/+Q50GY8qQVyxsxC4rbGPFdSfkug==
+	:from:received; s=mail20150812; t=1578837618; bh=NqmWB+mmS+e40Sx
+	wAXa2aahs9cL5nPgxu0RiEWyT5BI=; b=EpSKvdv8Rhzd1o2hytZSAq5iusLjWOq
+	x1Bfnu/t6U/bvj0yjw1qfaXifdgpqkS6bAJBaRMtJYvTz4GsKC1wJ21p8UlQvVd7
+	gk233+j2bYEvh2iZc5XFrzEMaKm8Fe7IdwkT7BkHHWNEM9Ev7U+nKVZ+HPdv0iJo
+	rAyQNZd353Ah38jfD6xsUUcCtS0DbTxhV3ged+wvzVDoIoAkGVQm3dUmpbVMtPFE
+	WL+RU+NdLGYLQFbV8InDUxtuIrCT1NoN6+XIS94bgVTwEMS3V2inJT2ho0WCN8+G
+	WD75FUS79XXG+KuXDGDH0UQUoHOYQzWiuDzzeOBh+tFig2qXcDyFeSg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
 	s=mail20150812; t=1578837619;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	to:to:cc:in-reply-to:in-reply-to:references:references;
-	bh=SOUu1GvB3/kgszykjzlUgsPev2dXyO6HlJdlWIBXQY8=;
-	b=WbdjUT+0Kd2ZPo/XCumr35iWeTdC36/uycZ7OsYrix87vAiVUIeZleZhk0SFRs4JTK+UBe
-	6MIUfsW+snSTB9vJsVyuaeiJmmCBesQphgIzFle7HvAc0o4+uO6rSVyx4AN1ZLBmUf+jPu
-	gQ2WpdJG+ACXFsui2Oc0uJbWxDq5xp/6GQ77s8wMIx3G2TRv0jOvXkuoHr+ZKyeyh8ZIHS
-	6Mns0FS1Y173wgKgZY/zTBBmTR4BpaVrvW5Y1Wg2lcyCNl1zCMiT73sE85xjaQ6JZmKl1a
-	gxIVbyfYIG/DGzg1cW2ZLEBw3E4PYgHmeefUqjNFnAMCbRo4fduxQtJUKEX8bw==
+	bh=wt8S9S2VDj7/TwvWnu5RH46C+v7e+nXSBFgleo0NnGc=;
+	b=uM76q0iLM1H8j6wem4RtJWKupIqRXfVTpafMBIS03fbMRTkjn67hWXFYGBdrDDVli93QLj
+	LWq8wd0ypyXEHxomm9VpNmJAgPz4ptkEP3iv4hEejn4tbVr1oKt5hNOg0RtIe3eNtj6KT1
+	Rogzlw+DR3jgnoExeIng5oP3mP9IzmZrtcmJCkwT3G/hevHjCMm9xsmFoJPPHkvyLqUVmj
+	NrFT4lPjJh8fQ53pPMQL8G8SUQTVcl+AYAtq3nIyejTnR+WpSp+yJL0XxnCDrQLHfDdLdm
+	BDCR/uFmFLZh+qmk5bnesej+Dmh09NBwjxMmVWkM43AOWUt/WbtYI6uGY4RfKg==
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp1.mailbox.org ([80.241.60.240])
-	by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de
-	[80.241.56.115]) (amavisd-new, port 10030) with ESMTP id ayw43Zlqt6rF
+	by spamfilter04.heinlein-hosting.de (spamfilter04.heinlein-hosting.de
+	[80.241.56.122]) (amavisd-new, port 10030) with ESMTP id roygs701ucqe
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2020 15:00:17 +0100 (CET)
+	Sun, 12 Jan 2020 15:00:18 +0100 (CET)
 From: Carlos Rafael Giani <crg7475@mailbox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 12 Jan 2020 14:59:46 +0100
-Message-Id: <20200112135954.23868-4-crg7475@mailbox.org>
+Date: Sun, 12 Jan 2020 14:59:50 +0100
+Message-Id: <20200112135954.23868-8-crg7475@mailbox.org>
 In-Reply-To: <20200112135954.23868-1-crg7475@mailbox.org>
 References: <20200112135954.23868-1-crg7475@mailbox.org>
-Subject: [PATCH 04/12] gstreamer1.0-plugins-good: Transition to meson based builds
+Subject: [PATCH 08/12] gstreamer1.0-vaapi: Transition to meson based builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,135 +57,112 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sun, 12 Jan 2020 14:00:19 -0000
 
 * Removed autotools/M4 related patch
-  0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch.
-
-* gtk-doc support is handled here, not in gstreamer1.0-plugins-common.inc,
-    since unlike with autotools, only some plugin set packages use gtk-doc.
-
-* zlib is no longer optional, and glib anyway depends on zlib, therefore
-    it gets added to the DEPENDS list.
-
-* gettext handling now part of gstreamer1.0-plugins-common.inc.
+  0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch.
 
 Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ---
- .../gstreamer1.0-plugins-good_1.16.1.bb       | 79 +++++++++----------
- 1 file changed, 38 insertions(+), 41 deletions(-)
+ ...le.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch | 33 -------------------
+ .../gstreamer/gstreamer1.0-vaapi_1.16.1.bb    | 26 ++++++++++-----
+ 2 files changed, 17 insertions(+), 42 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-index 0fa7b86ffe..a6eb9986dd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-@@ -1,8 +1,7 @@
--require gstreamer1.0-plugins.inc
-+require gstreamer1.0-plugins-common.inc
- 
- SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz \
--            file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-             "
- 
- SRC_URI[md5sum] = "515987ee763256840a11bd8ea098f2bf"
-@@ -15,42 +14,41 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a6f89e2100d9b6cdffcea4f398e37343 \
-                     file://common/coverage/coverage-report.pl;beginline=2;endline=17;md5=a4e1830fce078028c8f0974161272607 \
-                     file://gst/replaygain/rganalysis.c;beginline=1;endline=23;md5=b60ebefd5b2f5a8e0cab6bfee391a5fe"
- 
--DEPENDS += "gstreamer1.0-plugins-base libcap"
-+DEPENDS += "gstreamer1.0-plugins-base libcap zlib"
- RPROVIDES_${PN}-pulseaudio += "${PN}-pulse"
- RPROVIDES_${PN}-soup += "${PN}-souphttpsrc"
- 
--inherit gettext
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch
+deleted file mode 100644
+index d7b8984953..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 5403a89e6a7ac72a23e0221075c0c19b5f85a021 Mon Sep 17 00:00:00 2001
+-From: Fabio Berton <fabio.berton@ossystems.com.br>
+-Date: Wed, 13 Jun 2018 09:09:25 -0300
+-Subject: [PATCH] gst/vaapi/Makefile.am: Add EGL_CFLAGS to libgstvaapi CFLAGS
+-Organization: O.S. Systems Software LTDA.
 -
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'pulseaudio x11', d)} \
--    bz2 cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 zlib \
-+    bz2 cairo flac gdk-pixbuf gudev jpeg lame libpng mpg123 soup speex taglib v4l2 \
- "
+-We need this to pass correctly EGL CFLAGS when building with EGL support.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+----
+- gst/vaapi/Makefile.am | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/gst/vaapi/Makefile.am b/gst/vaapi/Makefile.am
+-index b299ac98..d6cab71f 100644
+---- a/gst/vaapi/Makefile.am
+-+++ b/gst/vaapi/Makefile.am
+-@@ -24,6 +24,10 @@ libgstvaapi_LIBS += $(top_builddir)/gst-libs/gst/vaapi/libgstvaapi-glx.la
+- endif
+- 
+- if USE_EGL
+-+libgstvaapi_CFLAGS += \
+-+	$(EGL_CFLAGS)	\
+-+	$(NULL)
+-+
+- libgstvaapi_LIBS += $(top_builddir)/gst-libs/gst/vaapi/libgstvaapi-egl.la
+- endif
+- 
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb
+index b8c2126d9b..a78807cc19 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.1.bb
+@@ -9,7 +9,6 @@ LICENSE = "LGPLv2.1+"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
  
- X11DEPENDS = "virtual/libx11 libsm libxrender libxfixes libxdamage"
-+X11ENABLEOPTS = "-Dximagesrc=enabled -Dximagesrc-xshm=enabled -Dximagesrc-xfixes=enabled -Dximagesrc-xdamage=enabled"
-+X11DISABLEOPTS = "-Dximagesrc=disabled -Dximagesrc-xshm=disabled -Dximagesrc-xfixes=disabled -Dximagesrc-xdamage=disabled"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
+-           file://0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch \
+            file://0001-vaapsink-downgrade-to-marginal.patch \
+            "
  
--PACKAGECONFIG[bz2]        = "--enable-bz2,--disable-bz2,bzip2"
--PACKAGECONFIG[cairo]      = "--enable-cairo,--disable-cairo,cairo"
--PACKAGECONFIG[dv1394]     = "--enable-dv1394,--disable-dv1394,libiec61883 libavc1394 libraw1394"
--PACKAGECONFIG[flac]       = "--enable-flac,--disable-flac,flac"
--PACKAGECONFIG[gdk-pixbuf] = "--enable-gdk_pixbuf,--disable-gdk_pixbuf,gdk-pixbuf"
--PACKAGECONFIG[gtk]        = "--enable-gtk3,--disable-gtk3,gtk+3"
--PACKAGECONFIG[gudev]      = "--with-gudev,--without-gudev,libgudev"
--PACKAGECONFIG[jack]       = "--enable-jack,--disable-jack,jack"
--PACKAGECONFIG[jpeg]       = "--enable-jpeg,--disable-jpeg,jpeg"
--PACKAGECONFIG[lame]       = "--enable-lame,--disable-lame,lame"
--PACKAGECONFIG[libpng]     = "--enable-libpng,--disable-libpng,libpng"
--PACKAGECONFIG[libv4l2]    = "--with-libv4l2,--without-libv4l2,v4l-utils"
--PACKAGECONFIG[mpg123]     = "--enable-mpg123,--disable-mpg123,mpg123"
--PACKAGECONFIG[pulseaudio] = "--enable-pulse,--disable-pulse,pulseaudio"
--PACKAGECONFIG[soup]       = "--enable-soup,--disable-soup,libsoup-2.4"
--PACKAGECONFIG[speex]      = "--enable-speex,--disable-speex,speex"
--PACKAGECONFIG[taglib]     = "--enable-taglib,--disable-taglib,taglib"
--PACKAGECONFIG[v4l2]       = "--enable-gst_v4l2 --enable-v4l2-probe,--disable-gst_v4l2"
--PACKAGECONFIG[vpx]        = "--enable-vpx,--disable-vpx,libvpx"
--PACKAGECONFIG[wavpack]    = "--enable-wavpack,--disable-wavpack,wavpack"
--PACKAGECONFIG[x11]        = "--enable-x,--disable-x,${X11DEPENDS}"
--PACKAGECONFIG[zlib]       = "--enable-zlib,--disable-zlib,zlib"
-+PACKAGECONFIG[bz2]        = "-Dbz2=enabled,-Dbz2=disabled,bzip2"
-+PACKAGECONFIG[cairo]      = "-Dcairo=enabled,-Dcairo=disabled,cairo"
-+PACKAGECONFIG[dv1394]     = "-Ddv1394=enabled,-Ddv1394=disabled,libiec61883 libavc1394 libraw1394"
-+PACKAGECONFIG[flac]       = "-Dflac=enabled,-Dflac=disabled,flac"
-+PACKAGECONFIG[gdk-pixbuf] = "-Dgdk-pixbuf=enabled,-Dgdk-pixbuf=disabled,gdk-pixbuf"
-+PACKAGECONFIG[gtk]        = "-Dgtk3=enabled,-Dgtk3=disabled,gtk+3"
-+PACKAGECONFIG[gudev]      = "-Dv4l2-gudev=enabled,-Dv4l2-gudev=disabled,libgudev"
-+PACKAGECONFIG[jack]       = "-Djack=enabled,-Djack=disabled,jack"
-+PACKAGECONFIG[jpeg]       = "-Djpeg=enabled,-Djpeg=disabled,jpeg"
-+PACKAGECONFIG[lame]       = "-Dlame=enabled,-Dlame=disabled,lame"
-+PACKAGECONFIG[libpng]     = "-Dpng=enabled,-Dpng=disabled,libpng"
-+PACKAGECONFIG[libv4l2]    = "-Dv4l2-libv4l2=enabled,-Dv4l2-libv4l2=disabled,v4l-utils"
-+PACKAGECONFIG[mpg123]     = "-Dmpg123=enabled,-Dmpg123=disabled,mpg123"
-+PACKAGECONFIG[pulseaudio] = "-Dpulse=enabled,-Dpulse=disabled,pulseaudio"
-+PACKAGECONFIG[soup]       = "-Dsoup=enabled,-Dsoup=disabled,libsoup-2.4"
-+PACKAGECONFIG[speex]      = "-Dspeex=enabled,-Dspeex=disabled,speex"
-+PACKAGECONFIG[taglib]     = "-Dtaglib=enabled,-Dtaglib=disabled,taglib"
-+PACKAGECONFIG[v4l2]       = "-Dv4l2=enabled -Dv4l2-probe=true,-Dv4l2=disabled -Dv4l2-probe=false"
-+PACKAGECONFIG[vpx]        = "-Dvpx=enabled,-Dvpx=disabled,libvpx"
-+PACKAGECONFIG[wavpack]    = "-Dwavpack=enabled,-Dwavpack=disabled,wavpack"
-+PACKAGECONFIG[x11]        = "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DEPENDS}"
+@@ -19,10 +18,18 @@ SRC_URI[sha256sum] = "cb570f6f1e78cb364fbe3c4fb8751824ee9db0c942ba61b62380b9b5ab
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
  
- # qt5 support is disabled, because it is not present in OE core, and requires more work than
- # just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
-@@ -58,19 +56,18 @@ PACKAGECONFIG[zlib]       = "--enable-zlib,--disable-zlib,zlib"
- # in a gstreamer1.0-plugins-good bbappend).
+-inherit autotools pkgconfig gtk-doc features_check upstream-version-is-even
++inherit meson pkgconfig gtk-doc features_check upstream-version-is-even
  
- EXTRA_OECONF += " \
--    --enable-oss \
--    --disable-aalib \
--    --disable-aalibtest \
--    --disable-directsound \
--    --disable-libcaca \
--    --disable-libdv \
--    --disable-oss4 \
--    --disable-osx_audio \
--    --disable-osx_video \
--    --disable-qt \
--    --disable-shout2 \
--    --disable-twolame \
--    --disable-waveform \
-+    -Daalib=disabled \
-+    -Ddirectsound=disabled \
-+    -Ddv=disabled \
-+    -Dlibcaca=disabled \
-+    -Doss=enabled \
-+    -Doss4=disabled \
-+    -Dosxaudio=disabled \
-+    -Dosxvideo=disabled \
-+    -Dqt=disabled \
-+    -Dshout2=disabled \
-+    -Dtwolame=disabled \
-+    -Dwaveform=disabled \
- "
+ REQUIRED_DISTRO_FEATURES ?= "opengl"
  
- FILES_${PN}-equalizer += "${datadir}/gstreamer-1.0/presets/*.prs"
++EXTRA_OEMESON += " \
++    -Dexamples=disabled \
++"
++
++GTKDOC_MESON_OPTION = "gtk_doc"
++GTKDOC_MESON_ENABLE_FLAG = "enabled"
++GTKDOC_MESON_DISABLE_FLAG = "disabled"
++
+ PACKAGES =+ "${PN}-tests"
+ 
+ # OpenGL packageconfig factored out to make it easy for distros
+@@ -33,17 +40,18 @@ PACKAGECONFIG_GL ?= "${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'glx'
+                         bb.utils.contains('DISTRO_FEATURES',     'opengl', 'egl', \
+                                                                        '', d), d)}"
+ 
+-PACKAGECONFIG ??= "drm \
++PACKAGECONFIG ??= "drm encoders \
+                    ${PACKAGECONFIG_GL} \
+                    ${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)}"
+ 
+-PACKAGECONFIG[drm] = "--enable-drm,--disable-drm,udev libdrm"
+-PACKAGECONFIG[egl] = "--enable-egl,--disable-egl,virtual/egl"
+-PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,virtual/libgl"
+-PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols"
+-PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxrandr libxrender"
++PACKAGECONFIG[drm] = "-Dwith_drm=yes,-Dwith_drm=no,udev libdrm"
++PACKAGECONFIG[egl] = "-Dwith_egl=yes,-Dwith_egl=no,virtual/egl"
++PACKAGECONFIG[encoders] = "-Dwith_encoders=yes,-Dwith_encoders=no"
++PACKAGECONFIG[glx] = "-Dwith_glx=yes,-Dwith_glx=no,virtual/libgl"
++PACKAGECONFIG[wayland] = "-Dwith_wayland=yes,-Dwith_wayland=no,wayland-native wayland wayland-protocols"
++PACKAGECONFIG[x11] = "-Dwith_x11=yes,-Dwith_x11=no,virtual/libx11 libxrandr libxrender"
+ 
+ FILES_${PN} += "${libdir}/gstreamer-*/*.so"
+ FILES_${PN}-dbg += "${libdir}/gstreamer-*/.debug"
+-FILES_${PN}-dev += "${libdir}/gstreamer-*/*.la ${libdir}/gstreamer-*/*.a"
++FILES_${PN}-dev += "${libdir}/gstreamer-*/*.a"
+ FILES_${PN}-tests = "${bindir}/*"
 -- 
 2.17.1
 
