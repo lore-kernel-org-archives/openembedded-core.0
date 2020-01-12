@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 9982971B99
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id CB68671B99
 	for <openembedded-core@openembedded.org>;
-	Sun, 12 Jan 2020 06:14:59 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id a33so3093822pgm.5
+	Sun, 12 Jan 2020 06:15:00 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id d5so2755335pjz.5
 	for <openembedded-core@openembedded.org>;
-	Sat, 11 Jan 2020 22:15:01 -0800 (PST)
+	Sat, 11 Jan 2020 22:15:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eR2ft08DeiTl24R83rzvxRaio6Hyt0t+pPTAj7elHuk=;
-	b=YZ9SXkgEjFHnyzdOWhoS54KTP42EDhGfg3N142KQ4jbX2B/BucowZRwsBPS+3QpV7y
-	8uOfsU+U9AQNjyOsF4+dmLVHL6oObc+OEzx4echRxLX5KY9Dk9Cq87L9pfhhnRMS4GB8
-	K7IXmoJvIAxqi3DohuKzZEF2OCF+YfRjmypIy7vCqyYF9XiwuggZ4L14c9j+ZlYeuyph
-	/+xyHg3B2vxp/S0Kx5ljaT2jQCLd8U+/q/FPYVvdp2I8CURQKO1OppmEPL/hgIY0SiFJ
-	UNrsmtXZtOFyWd1dp09rdAH2v0FfTXgYjyo1HYHyWHr7ntirD7NrDRVJQBJYkcLFyQgW
-	NbyQ==
+	bh=VfJ2gSZ07RiZFgZLAiLGHm+gAKb7lDM/1Thz/mBkeGY=;
+	b=XihDWqMZwbKwaOOMtpko2PsomGEZPItLXk1XA5XeINJkBcvvBGB2LhPj54exMv9I2/
+	q2YYCBYHpM8N4zMRA/MXSlwqYxbQAZJdX44gvt+kKhRteAoC7as4FASqm7nEErIKi2ZM
+	WUsRpo8/G7Ga38qZH2fFWk//TLNxdbTjkvpEDDHdyY05NeOjfaq7ExcdIx0shxHgRdQp
+	PHWpD5jsUE7X9ty+ZAv+KKFq3QlRCWBdlhMAOh5hU6CNxY8UqSRmvCcMG24J2KdD414c
+	zjf4844IlmrgJZPYnOrO2w/cdBejmyiytnrsoamfEZ6k5hqOTBJH7IbbqbsqTvdyHA8Y
+	B9Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=eR2ft08DeiTl24R83rzvxRaio6Hyt0t+pPTAj7elHuk=;
-	b=Q7e0CbwIx8lMVGkHEt5/Rb0tJEyjQy7wQ2i0+kDtK/bPyEsC07gBQiYx0dJ8CWUpqC
-	2lyxolBwU7oL2HMS6HSF4qcTbJ0zG+uzuS8Gm3qGHtUOMVDbdHl+kC1ySinOWYZzoJWw
-	NZ0a6i3RWyr5XN/Y1EHLUwEk643dKvujc2awQB1IvCQsjd1tM0EE1omuAFBvqY5VUzyo
-	Uku7CwImrhgmN2mLgrHZW4VzEoK3nSXXcAgnAHNjFrhYBV7r92Jbf38PWRgo7oTnNHTg
-	HfC6kJrZvA6/3uLGTnB3A6yITzmzMT634/HLnDf+6YCX/8S0x9Z8X6kTjVM2eiGtc1rB
-	ZWiw==
-X-Gm-Message-State: APjAAAW87wW/GUd80kS9CmU9N/FlxVYL8qWCjqkX5eNEtAM3JDi5IzWt
-	vYWcjN9wAe+ZWOL16g7T/dqs4PlM
-X-Google-Smtp-Source: APXvYqwwqF0RryAF9oEP0v5MEa5brfx4Ex9STw4l+jl4XYb2fiwkIi6kKOiVOSFLc0jxBu3y4m+rLw==
-X-Received: by 2002:a63:3f82:: with SMTP id
-	m124mr14718723pga.431.1578809700712; 
-	Sat, 11 Jan 2020 22:15:00 -0800 (PST)
+	bh=VfJ2gSZ07RiZFgZLAiLGHm+gAKb7lDM/1Thz/mBkeGY=;
+	b=tdeL0KbGBRVj77kJa6hwRPo88yQnunBephLLnUQi/mz8DOu2fkw0crwI2yjHo1/XT0
+	am46KedOSVlYm2vJZOYnPm2enGJF9APqth+u3S8kr04o2TxGYAeZHBpaQ4D4fUR/Y6K6
+	A4VURUKH/NlAEJ0gywWOq/vQL2wWDzqgqON6i2iXm31uwgsAVdZo+u++JW+tSSxzqUgI
+	WSZ+hOith63dEd8Cfdxylv+Q6bwI6Mo5DZQhcPkJSwMPYkHioHA6uinDQOpNAiy0QHQO
+	DErXB5mSt0s/BdrvTquky4EHUFuli9PYmZU04VH6DwIslrPB8fdLVuGVGNYsQtOSVWBU
+	K/OQ==
+X-Gm-Message-State: APjAAAUTEd7KY+ryAXGpzdrk1+Lj8HvKLsriNtBE0hSQWXaaPuUPj6qS
+	qKRcRraLhGzggN6mF8n+3VzCSEca
+X-Google-Smtp-Source: APXvYqwlwXPAyeSt66j67RBvUsVmT5jX0NxjfjZSLONa4cNNoo6PxmDK2QioRTxq5XSs5HAAdfGjfg==
+X-Received: by 2002:a17:90a:cc02:: with SMTP id
+	b2mr15306291pju.137.1578809701822; 
+	Sat, 11 Jan 2020 22:15:01 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:3849:7200:d754:59fc])
-	by smtp.gmail.com with ESMTPSA id g8sm8978559pfh.43.2020.01.11.22.14.59
+	by smtp.gmail.com with ESMTPSA id g8sm8978559pfh.43.2020.01.11.22.15.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 11 Jan 2020 22:14:59 -0800 (PST)
+	Sat, 11 Jan 2020 22:15:01 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sat, 11 Jan 2020 22:14:55 -0800
-Message-Id: <20200112061457.10741-2-akuster808@gmail.com>
+Date: Sat, 11 Jan 2020 22:14:56 -0800
+Message-Id: <20200112061457.10741-3-akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200112061457.10741-1-akuster808@gmail.com>
 References: <20200112061457.10741-1-akuster808@gmail.com>
-Subject: [warrir][PATCH 2/4] sudo: correct SRC_URI
+Cc: Ferry Toth <ftoth@exalondelft.nl>
+Subject: [warrir][PATCH 3/4] sudo: Fix fetching sources
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,27 +61,29 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 12 Jan 2020 06:15:00 -0000
 
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+From: Ferry Toth <ftoth@exalondelft.nl>
 
-The old URI returns 404, and has an invalid TLS certificate.
+It looks like https://www.sudo.ws/download.html changed certificate
+and directory structure. This breaks fetching sources.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 73ff6aba0a53ffc3ee0a5859a3ad4c8021be4de0)
+Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+(cherry picked from commit f02e9f46ce54fed3c7ddfad7d1003a2fb7ba3a67)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
  meta/recipes-extended/sudo/sudo_1.8.27.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-extended/sudo/sudo_1.8.27.bb b/meta/recipes-extended/sudo/sudo_1.8.27.bb
-index 7460a5bfed..bbca8395b9 100644
+index bbca8395b9..43c27bf37f 100644
 --- a/meta/recipes-extended/sudo/sudo_1.8.27.bb
 +++ b/meta/recipes-extended/sudo/sudo_1.8.27.bb
 @@ -1,6 +1,6 @@
  require sudo.inc
  
--SRC_URI = "http://ftp.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
-+SRC_URI = "http://www.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
+-SRC_URI = "http://www.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
++SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
             ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
             file://0001-Include-sys-types.h-for-id_t-definition.patch \
             file://CVE-2019-14287-1.patch \
