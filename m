@@ -1,50 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
-	[209.85.219.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A1A077FD12
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2020 04:51:22 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id x1so2674816qvr.8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 Jan 2020 20:51:23 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 65B5C71B99
+	for <openembedded-core@openembedded.org>;
+	Sun, 12 Jan 2020 06:14:58 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id b137so3091832pga.6
+	for <openembedded-core@openembedded.org>;
+	Sat, 11 Jan 2020 22:14:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JITjGOS7DPBNdihMufgaBEhVS4Xpl5yQ9Vw4o5PMoGg=;
-	b=btHKqghCYQ5+GffC4QpQzm/HwnYwuedhIA906yduIKApH8GvEy81G2bC3x7uza4yyt
-	BVPWYMOvgydaO8EMkHPEpr0KHL9pUKvDC0NBZ1T7Jet8Yx/lkqTpVHLgOI0RwXBStrRG
-	5dgrBnrM8nJFQtNyJsc7pn4pOM+kGi6ewpz8oNryQc4Ye99aSypiux+naWR61kjBShRF
-	oYVd2iVBCyVzY72fB4z/8/I2+deH4itMAS8f7Dh6pIbHsLquGMQfhrTYBjX1zxbR7Gq6
-	3XSMcHG/xZorCEcs5sBpSzqRdhyIgVb0H9qw+T40hmX9OBDRFZzOQx6s9hjpLJMq38DE
-	zqTg==
+	h=from:to:cc:subject:date:message-id;
+	bh=XliIPniO84ZtBu0Uwrcerz8+txIen9T5LsodVx6IZTM=;
+	b=bD9PngCIt3qDyRvvMqs9jtSE/8pawHhDdxyl0+0/XDR//PL9h03CqS4JJrMGolG7RV
+	WX4iL5F9xNTgculFr6QwZcWb355XfEsfWgsCRedzGLWkjkI0uSndv3xseEGR5t1DyUmG
+	LEnNzdc6uXmUwHdVoIqrXdLAKwXFfG8eCpB5QWc9cp3jwxu7aVEPH4ldT9iCbWFQ7Pcq
+	GgmiV5BWz3mAr4IaRstUmK6AsOIczNfea+tW6YaV3cCyZOS1Ea6nhLbrL5b77yUv4G60
+	m1+E3aFkv6q/v0qDy6noBNcLbSbVJpOwRml5AzKP1SgmVvH4OgJ1IHBuSn3+ytWkfpfr
+	mh/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JITjGOS7DPBNdihMufgaBEhVS4Xpl5yQ9Vw4o5PMoGg=;
-	b=ULfTTJJukOQG7/966owqHXlZIcYxatVAPpi9Od/ze0v3PhxLb1zOzbezVJYRUZb5Ro
-	rwahMM4ih2iXBsM5abMD5kgmxRvtuiRzEAsvE89FQhJRXf1VndHfACoM0kEL4niEAB+s
-	+5/mFteHkwBx8RPaeqC9KJJY6LSSPJAVS4e3wU3giWC6hyzZfohqAwXpvwMDOyEUiAiK
-	KsKALXkut69746tldHb4e7Aa5/hKVU1KdBXe5JMvUM4DR+lT8mD4xXicwo2hHFAqs4QT
-	wJxEukA6vZFinovzw8yVVrBjByuK89avfyolmwmAnyJGL81p0QC/bcCrzLTZPqt1KTw3
-	W4yQ==
-X-Gm-Message-State: APjAAAUobxTrkxUxY+wTD+tNo3IkoBpQUylfQY+dol9ryTd0tsHlovbw
-	wRRgk2T1/+JD6dKyNQibqnGgaI5S1KpREC3WgyezC+ni
-X-Google-Smtp-Source: APXvYqw44kQXH8GLAimSMZvwleCFrllOk6t2NXMgYTr8VVKXLaE3f2T+CL1m9o8umjBrKR7EizEaApz3rZx3eoR54Cc=
-X-Received: by 2002:ad4:478b:: with SMTP id z11mr6187605qvy.185.1578804683028; 
-	Sat, 11 Jan 2020 20:51:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20200110172938.3060002-1-raj.khem@gmail.com>
-	<b5b04e547e8c4816109af537260e5cbdb86e3c0d.camel@linuxfoundation.org>
-	<CAMKF1srd9c8+yQO640y2rDFG=z17-9yAfsozYv7QPHMq44GprQ@mail.gmail.com>
-	<31d38c3225adc5bd463669b92b9b168fa7610be4.camel@linuxfoundation.org>
-In-Reply-To: <31d38c3225adc5bd463669b92b9b168fa7610be4.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 11 Jan 2020 20:50:55 -0800
-Message-ID: <CAMKF1sr_Ckw7XS-P7Nz4Vpb+-bMrMsiqHZi_Bo9J7JjNxdGEUQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] qemuboot-mips: Enable VGA device
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XliIPniO84ZtBu0Uwrcerz8+txIen9T5LsodVx6IZTM=;
+	b=FJlucvFORwjAVPBUzy9y5xGGCzLw1qLgWrjRfowkviYaEa0cHsx+C6jXKQTA/ywdgl
+	stRnxtBURKKPPX9KroWiL3M89a6PlIWvsJcokKiHH3N/C80d5jQ8N+XuKnMCeC+AK23q
+	fFgd6UUX4J3fvOkO63/AhP0bdB1dxa3uZP7nJqyqbrb+uZZtKeaR/Puhduke86j8c7s8
+	1okgRQzxyCHEwRkSlEw8do2di7jV+h4DgsFsdtTPrXdIVIvUcRJOXLJgDW6vsurqwOkC
+	PRywoLhjobeu3gynl1drSUIjYoO/dgJew7mU1FnABfv9gsXF/8Z3+sQrA5w/QKp3Oy4O
+	QAyQ==
+X-Gm-Message-State: APjAAAXghCDQWf7C5YUPu3GPn2AWDPATUBjLjamCQhENJ2jXFhPfWX2a
+	5BwsTPSjdnePHcTB6mqAxaEq+QGC
+X-Google-Smtp-Source: APXvYqwNOaFjC3ahXeUTrPjHTFHcdtwhpFTIG+wvrCSQ96wW3ir95re1JsRS4avRKzLrVsUAfgwQmw==
+X-Received: by 2002:a63:360a:: with SMTP id d10mr14341553pga.366.1578809699129;
+	Sat, 11 Jan 2020 22:14:59 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4180:a5c0:3849:7200:d754:59fc])
+	by smtp.gmail.com with ESMTPSA id g8sm8978559pfh.43.2020.01.11.22.14.58
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 11 Jan 2020 22:14:58 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@openembedded.org
+Date: Sat, 11 Jan 2020 22:14:54 -0800
+Message-Id: <20200112061457.10741-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [warrir][PATCH 1/4] popt: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,69 +55,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jan 2020 04:51:22 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 12 Jan 2020 06:14:58 -0000
 
-OK I can reproduce atleast couple of them
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 
-On Sat, Jan 11, 2020 at 3:44 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sat, 2020-01-11 at 12:25 -0800, Khem Raj wrote:
-> >
-> >
-> > On Sat, Jan 11, 2020 at 1:16 AM Richard Purdie <
-> > richard.purdie@linuxfoundation.org> wrote:
-> > > On Fri, 2020-01-10 at 09:29 -0800, Khem Raj wrote:
-> > > > This helps in booting weston images ( core-image-weston ) with
-> > > fbdev
-> > > > backend, without this westons initialization of fbdev backend
-> > > fails
-> > > > because it does not get correct frame buffer settings and exits
-> > > > pre-maturely
-> > > >
-> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > > > ---
-> > > >  meta/conf/machine/include/qemuboot-mips.inc | 5 +++++
-> > > >  1 file changed, 5 insertions(+)
-> > > >
-> > > > diff --git a/meta/conf/machine/include/qemuboot-mips.inc
-> > > b/meta/conf/machine/include/qemuboot-mips.inc
-> > > > index 978820a2e0..52cb28a5d2 100644
-> > > > --- a/meta/conf/machine/include/qemuboot-mips.inc
-> > > > +++ b/meta/conf/machine/include/qemuboot-mips.inc
-> > > > @@ -5,3 +5,8 @@ QB_KERNEL_CMDLINE_APPEND = "console=ttyS0
-> > > console=tty"
-> > > >  QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
-> > > >  # Add the 'virtio-rng-pci' device otherwise the guest may run
-> > > out of entropy
-> > > >  QB_OPT_APPEND += "-object rng-
-> > > random,filename=/dev/urandom,id=rng0 -device virtio-rng-
-> > > pci,rng=rng0"
-> > > > +
-> > > > +# For graphics to work we need to define the VGA device as well
-> > > as the necessary USB devices
-> > > > +QB_OPT_APPEND = "-show-cursor -device VGA,edid=on"
-> > > > +QB_OPT_APPEND += "-device qemu-xhci -device usb-tablet -device
-> > > usb-kbd"
-> > > > +
-> > >
-> > > The change is probably good but it causes consistent failures in
-> > > out
-> > > testimage runs for mips and mips64:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1429
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/196
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1431
-> > >
-> > > all due to errors appearing in the logs.
-> >
-> > Is it due to glibc 2.31 that we were discussing or a separate issue
->
-> Separate, there are two issues.
->
-> Cheers,
->
-> Richard
->
+rpm5.org has been down for about a year now. Use linuxfromscratch.org
+as an alternative reliable source instead.
+
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d9224014da9a512b1b8837e4e7a736d465c97be3)
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-support/popt/popt_1.16.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
+index 478288f9bf..27e49c2ca2 100644
+--- a/meta/recipes-support/popt/popt_1.16.bb
++++ b/meta/recipes-support/popt/popt_1.16.bb
+@@ -8,7 +8,7 @@ PR = "r3"
+ 
+ DEPENDS = "virtual/libiconv"
+ 
+-SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
++SRC_URI = "http://anduin.linuxfromscratch.org/BLFS/popt/popt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            file://popt_fix_for_automake-1.12.patch \
+            file://disable_tests.patch \
+-- 
+2.17.1
+
 
