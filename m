@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id B54937F872;
-	Sun, 12 Jan 2020 07:02:27 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id B1D6F7F872;
+	Sun, 12 Jan 2020 07:02:28 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Armin Kuster <akuster808@gmail.com>
-Date: Sun, 12 Jan 2020 07:02:29 -0000
-Message-ID: <20200112070229.2276.88272@do>
-References: <20200112061457.10741-1-akuster808@gmail.com>
+Date: Sun, 12 Jan 2020 07:02:30 -0000
+Message-ID: <20200112070230.2274.70597@do>
+References: <20200112063633.11144-1-akuster808@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200112061457.10741-1-akuster808@gmail.com>
+In-Reply-To: <20200112063633.11144-1-akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt3YXJyaXJdIHBvcHQ6IGZpeCBTUkNfVVJJLi4uIiBhbmQgMyBtb3Jl?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt3YXJyb3JdIHBvcHQ6IGZpeCBTUkNfVVJJLi4uIiBhbmQgMyBtb3Jl?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 Jan 2020 07:02:27 -0000
+X-List-Received-Date: Sun, 12 Jan 2020 07:02:28 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "[warrir] popt: fix SRC_URI..." and 3 more
+Series: "[warror] popt: fix SRC_URI..." and 3 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/21971/
+URL   : https://patchwork.openembedded.org/series/21972/
 State : failure
 
 == Summary ==
