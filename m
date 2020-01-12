@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
-	[209.85.215.171])
-	by mail.openembedded.org (Postfix) with ESMTP id C640A7FDAA
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+	[209.85.210.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C26B7F8B6
 	for <openembedded-core@openembedded.org>;
-	Sun, 12 Jan 2020 06:36:36 +0000 (UTC)
-Received: by mail-pg1-f171.google.com with SMTP id l24so3114516pgk.2
+	Sun, 12 Jan 2020 06:36:37 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id 2so3249298pfg.12
 	for <openembedded-core@openembedded.org>;
 	Sat, 11 Jan 2020 22:36:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=VfJ2gSZ07RiZFgZLAiLGHm+gAKb7lDM/1Thz/mBkeGY=;
-	b=bK8e7/zhTbKoIw45SNKE+5y+8dRo1u0e/KanC/2xzutVLTfydGjwp2W3qb17FNgBJI
-	9iLUd60sYoNEXbIDKrYwsyK4RM9BZaKH3ND1W5hDKGIwDUEbgHfORKf/jSHLR6ZB9l1o
-	NyRBH/SokKPpghAUnTuUzwt6MRgya0lNQTLgCDDBpU83FL14sgjH1XvTeCx3QYBIDLVF
-	VVAQyNQjr86jJX5Cy7KPG1qsZ5eYweA1kNPjHzJVseTVw67xJb9qIM9CngOrQaKX6X4+
-	DQujUymL68tFjANtSvKcHLmYYdKK8QqKqtvPAWOnIpnCH7bEz1fbu9inPrup4bXWtq4n
-	6s4g==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=1uv0pRZRRzGkLeLmRBRVSgzmq0HSvsM34XHFcu2bJOg=;
+	b=lpRAl2p82TKwEs5PK0hzcGx27glFAPXskugL1tnPv9TWhBo5drkZYWH9N2u2GOYwi6
+	WwpN1RlV4ED8Jrv0k3/Rln0FozBW9B27AcfM4NytGdGzHFDAZsIEx8JRQTY+tQ2X4OFz
+	esuqzceK0K8+DVdWBIq1gHpkgUwVnC9LSu1mD9U9ARnBBxyxDcdIrZxCRZhPSxlBCg0t
+	QAYIaL9BCDAxcWQmJQ5bFHoVpEoaFf9Gtol7PG4WTBW9avaw04uQOJnHzWgB1F/CpHrv
+	0TZzBD0+Lr4Jc8PIs5sz/dJudJUhJtHIyJCbzZTVmx89Z99wnsAfpMTacFfpOq7auCxC
+	d3Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=VfJ2gSZ07RiZFgZLAiLGHm+gAKb7lDM/1Thz/mBkeGY=;
-	b=DniNdRRkOLAnY58PgtYvWz3dhs1ckcUF8rGuODspHsDYgb8lISQgCiKDZAkof+T8kY
-	qrY+iU/ftbSh8kGEc+rAI8OKOdLoo8xE0sCI/QBWO4GICqMBHvSK/tKn4ACKVjqaL6r4
-	5UBC2V/EQay+bnrMAgXgVXgm2ckfOWMWp/zHP1VbuRsdWU6eYkLNueYl8ACvzJygx2qw
-	LFYTrbZ21YV+zrH6ly3eYUjyu48srjWuR06ku5/fJr5kMHJ0BZuul7d4Yms+pdtwKDUF
-	sgbmpxLqjxy5qvAGhQzRvt15CjsN/qKYbUTsVfJE9ei38s3+F4CIEwV+rMAz28WUHbga
-	YYhw==
-X-Gm-Message-State: APjAAAV5aZh8SLBL4adXZSRqgxS8q7dwQd1rTpHNlmSSggU60A/lQlFl
-	r1IrNXCWrZnBvI0NlwUFIkYISfUG
-X-Google-Smtp-Source: APXvYqyYxCK0m1m0oI0FPZp8GuCzIzE0NQil8jMQVDrUv2e96DfWa/bvwqyX4pnYsifcKSBPu1X0Tw==
-X-Received: by 2002:aa7:968d:: with SMTP id f13mr13435572pfk.67.1578810997749; 
-	Sat, 11 Jan 2020 22:36:37 -0800 (PST)
+	bh=1uv0pRZRRzGkLeLmRBRVSgzmq0HSvsM34XHFcu2bJOg=;
+	b=RdwtTKYfdBjwcyjRmLhruHO5NS9n8AkrY5v6tW5eArLcWiBBEegCtlMbO/ln4y0Vr6
+	OMn9uHjvU9Dvwk4wbkSn0lcChsJ0uVHLnno4TAweiM6/lUkCn6yKEavTWRupZJGkRNQT
+	1LThEQIKQaB7hKRoMo+hlLFMSUIsaYhDJ5y0dbluKKQQXgOq3Bm3+2SAkug8HQSsmrwh
+	msrRnR2e+2E9xHM4vV+hL7xPTB3HJKUaI6iWz6v1XR/yV6r4tPegMGlIgrbKjI7Z0hZP
+	CM4LsUeGhJlG4EpMtJLo/FHJ+Qoq7K/15goGb8gk7lGgfWJHGOt4zHGk0Cw5lZwbksHn
+	8XCw==
+X-Gm-Message-State: APjAAAX0Xo8V2SVUNYuLIDhk8JTOUmrqGIIIuY0ss7eAGd6YBoaIu1Ky
+	PCNbikh9jO2XjVn3qBRripHGf8AN
+X-Google-Smtp-Source: APXvYqyJNLRapnVlCp6CcXkCZHHyI6i48IrIdcLezUPX1bJpJYOz4AqAFX4rEQ/1BrfdBBc91xbCBQ==
+X-Received: by 2002:a62:3086:: with SMTP id w128mr13485530pfw.58.1578810998477;
+	Sat, 11 Jan 2020 22:36:38 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:3849:7200:d754:59fc])
 	by smtp.gmail.com with ESMTPSA id
-	136sm8437493pgg.74.2020.01.11.22.36.36
+	136sm8437493pgg.74.2020.01.11.22.36.37
+	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 11 Jan 2020 22:36:37 -0800 (PST)
+	Sat, 11 Jan 2020 22:36:38 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sat, 11 Jan 2020 22:36:32 -0800
-Message-Id: <20200112063633.11144-3-akuster808@gmail.com>
+Date: Sat, 11 Jan 2020 22:36:33 -0800
+Message-Id: <20200112063633.11144-4-akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200112063633.11144-1-akuster808@gmail.com>
 References: <20200112063633.11144-1-akuster808@gmail.com>
-Cc: Ferry Toth <ftoth@exalondelft.nl>
-Subject: [warror][PATCH 3/4] sudo: Fix fetching sources
+Subject: [warror][PATCH 4/4] stress: update SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,32 +61,27 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 12 Jan 2020 06:36:37 -0000
 
-From: Ferry Toth <ftoth@exalondelft.nl>
+Fixes:
+WARNING: stress-1.0.4-r0 do_fetch: Failed to fetch URL http://people.seas.harvard.edu/~apw/stress/stress-1.0.4.tar.gz, attempting MIRRORS if available
 
-It looks like https://www.sudo.ws/download.html changed certificate
-and directory structure. This breaks fetching sources.
-
-Signed-off-by: Ferry Toth <ftoth@exalondelft.nl>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
-(cherry picked from commit f02e9f46ce54fed3c7ddfad7d1003a2fb7ba3a67)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/sudo/sudo_1.8.27.bb | 2 +-
+ meta/recipes-extended/stress/stress_1.0.4.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.27.bb b/meta/recipes-extended/sudo/sudo_1.8.27.bb
-index bbca8395b9..43c27bf37f 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.27.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.27.bb
-@@ -1,6 +1,6 @@
- require sudo.inc
+diff --git a/meta/recipes-extended/stress/stress_1.0.4.bb b/meta/recipes-extended/stress/stress_1.0.4.bb
+index e9179d3e19..42046d5bf4 100644
+--- a/meta/recipes-extended/stress/stress_1.0.4.bb
++++ b/meta/recipes-extended/stress/stress_1.0.4.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "http://people.seas.harvard.edu/~apw/stress/"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
--SRC_URI = "http://www.sudo.ws/sudo/dist/sudo-${PV}.tar.gz \
-+SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)} \
-            file://0001-Include-sys-types.h-for-id_t-definition.patch \
-            file://CVE-2019-14287-1.patch \
+-SRC_URI = "http://people.seas.harvard.edu/~apw/${BPN}/${BP}.tar.gz \
++SRC_URI = "https://fossies.org/linux/privat/${BP}.tar.gz \
+            file://texinfo.patch \
+            "
+ 
 -- 
 2.17.1
 
