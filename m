@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id CAF427FCBB
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
+	[209.85.214.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B6B507FCA8
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 15:30:42 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id bg7so4417596pjb.5
+	Mon, 13 Jan 2020 15:30:43 +0000 (UTC)
+Received: by mail-pl1-f174.google.com with SMTP id az3so3935686plb.11
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 07:30:44 -0800 (PST)
+	Mon, 13 Jan 2020 07:30:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=anN+W5XKY2+0W/FOiGyuTlgkMT33YAgdbNPFpteW0ew=;
-	b=SZBuEMQXOBIZ1kx+brrOhwHqc8fAXaMy+qko9uoud05551tw8Fv0x0/HAWvJ/dDo3Y
-	jCka25KY+Uo1sZwIA8NKLxJrRIKdxZA1j0MpX3jX1g44xiJ/Zr6hr+PrksUuMK71FkRu
-	n45FKlx2YkWVjUr6K+HB/8Kw+NflIPfHnEnBdzY52noHpmS+ic6Wbr5z1F20SNe2cRJE
-	YPlQore2CQdFOg5X2u2t38Q8+lb8cqfl/pYNzpTo6va7RBhcHRD800xTLmWiRt8DRxfE
-	EOIq0LGiZdZmFdYTvVewgjDHT0LZcKID+tD2w3AqydhfbyKvBYCYRX1SEEyWTuYw4UhG
-	d2OA==
+	bh=cvs32w7sfHeJ8iQayPAIR0wu1Wg0DxGXf0vMxGJtZqk=;
+	b=nTs9QKWQconsrjetOUwwcUmoz1/39eR5PY0Tj63SL0be3HMYF2/O3d2CuwqZ2+paBP
+	J6zQ0V1IwPRG9rO1sT6ERwsXAGyoQyJTCPTrKY57tHr7ch1zB7QCPkIyLlr8kTniDDEf
+	ks4NBD+23UdWbj+q4Lka1RAn/7rEkCshzUq1QlMaPOGsWKyPIhIIjoHJLTeoWaWH7ArL
+	1K/gqEQo2cFVhsqGqsi/9TKp9+Gu60mE8axOrn5SiLobdKDPP8pBZiIWH16l4UZBPvjB
+	ElSqruNrYq7JGeTEKLJLL2hEUVQtkIvrvxPvbLBYyGUsTnw6/n7LDuVXx9GD4NErDWDZ
+	2Bog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=anN+W5XKY2+0W/FOiGyuTlgkMT33YAgdbNPFpteW0ew=;
-	b=r+XcJU55Pi3i2i8WJJSalfqcaTMJigXHPGVRAURtkxey/Rw7eiONiUulSHhyp+3U56
-	rygv88ctw3l1I2e7O4K+xpoRVSluSfmbRCpvDb47EhppWdNjZL62lWMi/Gw/GNYXbYf4
-	BkBEtDzQ0HUAZUFdLt17nj1wm9xHkbT4yoAMp5Zr4Dj45v4rVlUMz0Ygq8KEpIV071tb
-	IMk2qNeoz1ShWxZarh+oqAM6v1Drf4gNhj7pYJ7YdfD3iYyY8/xBjeQOJDFPnXbGWjHs
-	LozFPoMGjCgbbnBGRGyNypqRmazcuM5GqgYmwZKI/XHyD8VRN7sqWaZGanDhhPHg6Jro
-	JoDQ==
-X-Gm-Message-State: APjAAAVEcmDc1NIjnzm9ykNcPK2Wm2OFCfNW1rb6SuDrWzESL6rKBLOa
-	5QieXKgYv8PuOAaBzr+rSozMLTX3
-X-Google-Smtp-Source: APXvYqxBVRBgr8032jWFd7ym/YlTcIZuY3FwC0Kn5QgU99C+nm69izXjDbZL85PUphhMMKGb8pmhCw==
-X-Received: by 2002:a17:902:b614:: with SMTP id
-	b20mr20530654pls.20.1578929443781; 
-	Mon, 13 Jan 2020 07:30:43 -0800 (PST)
+	bh=cvs32w7sfHeJ8iQayPAIR0wu1Wg0DxGXf0vMxGJtZqk=;
+	b=YoOnSb8pHqeZkThZgUPccpCtdv+lQTP0xRG/sqpBdw3QI4AAcL5N6QD0jwsDrA+8XB
+	ZotAr4hWmRzyuOgzJDI7pj+fxnSmiidKK3h2nEOQpCIFjzvUpbQ1Ny1LOjg8jVEjd7FJ
+	wCAEzrTel9m/cRA9u9sUDmi9Z3ulPw9pxOTr5/WyyHMzhkd926lg1UDzhIH3+GLxsX04
+	38JiOAlxpz8+Yo11RlUI8ByBBtybWlCrs1QwfNocIlIGKWB1K+kCzWdW1c7dyLaRlH2c
+	N5R2TYHgfU+EIVdwbGo2I5LBgVQ+dcP2bfX876m56096+L0v92ZhvGHY+DFvEGGvmhJ7
+	3dZQ==
+X-Gm-Message-State: APjAAAX0JSCcA3BtaXxS5mft7EyXTJ+vUMfNNqIRNn9WRiho6G5vtKS0
+	tA/i2KES4dVIWQfJFrMau8M3EEkJ
+X-Google-Smtp-Source: APXvYqw61GVHhxWTaNVAR4nDz5ktPkc+KV8222rx3A0mgFM9obfAGk5jQ1QBc7zHkX3KmjJt2GJYBw==
+X-Received: by 2002:a17:902:7046:: with SMTP id
+	h6mr13830329plt.231.1578929444706; 
+	Mon, 13 Jan 2020 07:30:44 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:2dcb:8dcc:2050:e41d])
 	by smtp.gmail.com with ESMTPSA id
-	q8sm14167646pgg.92.2020.01.13.07.30.41
+	q8sm14167646pgg.92.2020.01.13.07.30.43
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 13 Jan 2020 07:30:43 -0800 (PST)
+	Mon, 13 Jan 2020 07:30:44 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon, 13 Jan 2020 07:30:09 -0800
-Message-Id: <5fbf5eead50ab5a8cbacf277ddfff2eeca26f738.1578929268.git.akuster808@gmail.com>
+Date: Mon, 13 Jan 2020 07:30:10 -0800
+Message-Id: <afc529aa689daed18af29ecc64f3dae1fcbdc282.1578929268.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578929268.git.akuster808@gmail.com>
 References: <cover.1578929268.git.akuster808@gmail.com>
 Cc: akuster808@gnail.com
-Subject: [warrior 10/28] webkitgtk: set CVE_PRODUCT
+Subject: [warrior 11/28] procps: whitelist CVE-2018-1121
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 15:30:43 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 15:30:44 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+This CVE is about race conditions in 'ps' which make it unsuitable for security
+audits.  As these race conditions are unavoidable ps shouldn't be used for
+security auditing, so this isn't a valid CVE.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.22.7.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/procps/procps_3.3.15.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.22.7.bb b/meta/recipes-sato/webkit/webkitgtk_2.22.7.bb
-index 301bf10cea..26e673cbcb 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.22.7.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.22.7.bb
-@@ -30,6 +30,8 @@ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check u
+diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipes-extended/procps/procps_3.3.15.bb
+index 9756db0e7b..a20917b223 100644
+--- a/meta/recipes-extended/procps/procps_3.3.15.bb
++++ b/meta/recipes-extended/procps/procps_3.3.15.bb
+@@ -64,3 +64,6 @@ python __anonymous() {
+         d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_sbindir'), prog))
+ }
  
- REQUIRED_DISTRO_FEATURES = "x11 opengl"
- 
-+CVE_PRODUCT = "webkitgtk webkitgtk\+"
-+
- DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
-            gtk+3 gstreamer1.0 gstreamer1.0-plugins-base flex-native gperf-native sqlite3 \
- 	   pango icu bison-native gawk intltool-native libwebp \
++# 'ps' isn't suitable for use as a security tool so whitelist this CVE.
++# https://bugzilla.redhat.com/show_bug.cgi?id=1575473#c3
++CVE_CHECK_WHITELIST += "CVE-2018-1121"
 -- 
 2.17.1
 
