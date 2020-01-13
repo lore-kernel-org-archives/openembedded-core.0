@@ -1,52 +1,54 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 952587FD42
-	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 15:31:05 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id q127so4870216pga.4
-	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 07:31:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1uv0pRZRRzGkLeLmRBRVSgzmq0HSvsM34XHFcu2bJOg=;
-	b=MajX5pWZ9fQM7s+8LHbJDyKhHOQ9n+JAgf7Q17RTDp1EadeglusqRhjk4l0ycdN7TJ
-	gr9AQGxJl4G1wZcysLyMiDAj/Hsuh0uAP6gyyzd6XBGZdFlRHIYhsGtrfvSeMr54CFiI
-	KEgC5Wn4wMHWHjE3rFxtDPvsK19DiglLdKS6toITCizv7fmoyJd0n9NsaXd2EFYf/AXS
-	DsD7CTlGgxqqbndfD13gzHq5c/5HFcGUj01pQjfIXLOlwlSgcWcWJ920SlM0jHyWy0xl
-	xzlCzm8SzoB4kqDidohdQJrxwNuHMr+wc9Twavv6w8OTbCojJbtr3JC9mzjsWOYwVZWv
-	O4gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=1uv0pRZRRzGkLeLmRBRVSgzmq0HSvsM34XHFcu2bJOg=;
-	b=SYGjN2UfZQj1I7DzXy2BAsGKugXOX0bdkvYNAR8PG6Xh1/IA1wPos9sc4ycH34T/cg
-	ERO5KtGL1/+Y/xUtuOurOTBnLMlfwtW4kO9YHB7uNEMsiqxLaawiQtN36ThtQTJChYEE
-	cYUTaNhh+lHH2CNos/xtYA7XGJN9fpz8wXmGM1bxpHEywxuge5/rBW4wRO8fTY3JoDes
-	T2VURU6eTvnXzI6whRx7fCrYyqmDq/NcGfrOprVEYCuzAxh87H265iRbKpI/jde9O5mW
-	o/WGLJGWISJFBe2UQFH2EaLWDEjODaQjrh1ORknW5P1raMFFTUcWzcSlriNb/AaMqDei
-	Vaow==
-X-Gm-Message-State: APjAAAWKTTKt5lJ76B6hzfBimxJ/WoBXLz/tQy1uKG2uBWplwI1roZHc
-	Qy90ee/5rm055SQt5d0PUcMDxmB0
-X-Google-Smtp-Source: APXvYqzzK58KkQi+j2WBg5W0fnn6d9JJ5VWuJ+6S/ArDTECGvXPofSv+d5fMZZi4t9+9dP4b0Zf3Rw==
-X-Received: by 2002:a63:7045:: with SMTP id a5mr21929270pgn.49.1578929466393; 
-	Mon, 13 Jan 2020 07:31:06 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:a5c0:2dcb:8dcc:2050:e41d])
-	by smtp.gmail.com with ESMTPSA id
-	q8sm14167646pgg.92.2020.01.13.07.31.04
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 13 Jan 2020 07:31:05 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@openembedded.org
-Date: Mon, 13 Jan 2020 07:30:27 -0800
-Message-Id: <279c4da2e5f46dccfeff0c898c2205940be9e174.1578929268.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1578929268.git.akuster808@gmail.com>
-References: <cover.1578929268.git.akuster808@gmail.com>
-Cc: akuster808@gnail.com
-Subject: [warrior 28/28] stress: update SRC_URI
+Return-Path: <crg7475@mailbox.org>
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	by mail.openembedded.org (Postfix) with ESMTP id 53DA87FC9D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jan 2020 15:38:04 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+	[IPv6:2001:67c:2050:105:465:1:1:0])
+	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 47xHmD5nS4zKmZj;
+	Mon, 13 Jan 2020 16:38:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+	content-language:content-transfer-encoding:content-type
+	:content-type:in-reply-to:mime-version:date:date:message-id:from
+	:from:references:subject:subject:received; s=mail20150812; t=
+	1578929878; bh=Wy0cuULxY9izcVVk1siVha2op+AMZ8nH8KEGkE6+7b0=; b=M
+	HsOaAeNsk9IVcSypo/a/AhkkzYxt7pez3WIvM8oP+BHKTQXlbKuQVK412/+8UEIu
+	2eW54npAi2bfKRle9AqctDviD0bcig2A/FhlhS30WnQ51jQmFlV2xiLBpDPYzMwK
+	UczfES6nrrumm9QMbK0qYUBHgYIBzY5kozUOxL8HdYYyObjcabL49WbxqOv8muU/
+	EgYZTAQ+YSH2HpOTpPxY7zhd5sX+ysLaHlMJElbEQVXqf19Fj3oA7T0RtsCw+6D5
+	fp3fHFp/pKGP19DGghbgLQH70bzqchW9xTkz75H5vfR0IPAcfmYwEqcHi2nXN/+W
+	lBCf/3oQC57RxgdYCmw7w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+	s=mail20150812; t=1578929882;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=p9sKKtlg/1pgpFfl+YykwCRXy7ksUQxSfj46hpoXq6k=;
+	b=waOa3ZsjBEigiEhhpsHjYQYL+/jNcdxYuHIwBVy82EB4cediw0WyQn4cOzZPny4AYeE5t0
+	DQorA12f/mo4waBkx4gET9Gb3HfwWMQGDxplV9JI/ozEjrHoRicRHWKKyWCO2S+sYqFvaA
+	s7n1rMIUWy5FxqpddxUK1vbsSwNxu16J0r+4B2TXU291aq7GLUqqdEz6zLva84OA96abc3
+	XtPSi+lfeLaZuBMJCMrZri/Kgm/+YyorvvODjD9Wi5nyN8dGMjxJk5jvuR8IV0qkdYpsPv
+	qzFYfGYzLgAnagROgMLsFna5rrwOFqSSl4hiiWhIjc2OAyyeFwus/nYZuQem9w==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+	by spamfilter01.heinlein-hosting.de (spamfilter01.heinlein-hosting.de
+	[80.241.56.115]) (amavisd-new, port 10030)
+	with ESMTP id livR8sgYZ5Fr; Mon, 13 Jan 2020 16:37:58 +0100 (CET)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20200112135954.23868-1-crg7475@mailbox.org>
+	<725d92f91a56183e4166e633c0443fad44f6c5ba.camel@linuxfoundation.org>
+	<a7a27af5-86c6-de19-d426-d8e62f2e8497@mailbox.org>
+	<10f99a93a316115216d4e63d2b34a84dfc9e6925.camel@linuxfoundation.org>
+From: Carlos Rafael Giani <crg7475@mailbox.org>
+Message-ID: <a2b0cd22-c849-2bc4-9032-485ad4d51108@mailbox.org>
+Date: Mon, 13 Jan 2020 16:37:57 +0100
+MIME-Version: 1.0
+In-Reply-To: <10f99a93a316115216d4e63d2b34a84dfc9e6925.camel@linuxfoundation.org>
+Subject: Re: [PATCH 01/12] gstreamer: Add common .inc files for meson based recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +61,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 15:31:05 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 15:38:04 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Fixes:
-WARNING: stress-1.0.4-r0 do_fetch: Failed to fetch URL http://people.seas.harvard.edu/~apw/stress/stress-1.0.4.tar.gz, attempting MIRRORS if available
+Except that there is no such package. Also, even if I build GStreamer 
+from scratch with all optional packageconfigs disabled, I do not get 
+this error, nor do I get any warnings about potentially missing 
+dependencies. So, I don't know what is going on here..
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-extended/stress/stress_1.0.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-extended/stress/stress_1.0.4.bb b/meta/recipes-extended/stress/stress_1.0.4.bb
-index e9179d3e19..42046d5bf4 100644
---- a/meta/recipes-extended/stress/stress_1.0.4.bb
-+++ b/meta/recipes-extended/stress/stress_1.0.4.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://people.seas.harvard.edu/~apw/stress/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "http://people.seas.harvard.edu/~apw/${BPN}/${BP}.tar.gz \
-+SRC_URI = "https://fossies.org/linux/privat/${BP}.tar.gz \
-            file://texinfo.patch \
-            "
- 
--- 
-2.17.1
-
+On 13.01.20 13:59, Richard Purdie wrote:
+> On Mon, 2020-01-13 at 13:55 +0100, Carlos Rafael Giani wrote:
+>> Nope. This is an odd one. Are you sure there isn't a problem with
+>> the
+>> setup itself? In step2c, I see:
+>>
+>>   > ERROR: core-image-sato-1.0-r0 do_testsdk: The toolchain
+>> /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-
+>> glibc/deploy/sdk/oecore-i686-armv7vet2hf-neon-toolchain-
+>> nodistro.0.sh
+>> is not built. Build it before running the tests: 'bitbake <image> -c
+>> populate_sdk' .
+> 2c fails as earlier stepd didn't build. I think the real issue is
+> step1b which says:
+>
+> | Compiler for C supports arguments -Wdeclaration-after-statement: YES
+> | Found pkg-config: /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native/usr/bin/pkg-config (0.29.2)
+> | Run-time dependency x11 found: YES 1.6.9
+> | Run-time dependency glib-2.0 found: YES 2.62.4
+> | Run-time dependency gobject-2.0 found: YES 2.62.4
+> | Run-time dependency gio-2.0 found: YES 2.62.4
+> | Run-time dependency gio-unix-2.0 found: YES 2.62.4
+> | Run-time dependency gmodule-no-export-2.0 found: YES 2.62.4
+> | Dependency gdk-pixbuf-2.0 skipped: feature examples disabled
+> | Dependency gtk+-3.0 skipped: feature examples disabled
+> | Dependency gtk+-x11-3.0 skipped: feature examples disabled
+> | Run-time dependency gstreamer-1.0 found: YES 1.16.1
+> | Run-time dependency gstreamer-base-1.0 found: YES 1.16.1
+> | Run-time dependency gstreamer-net-1.0 found: YES 1.16.1
+> | Found CMake: NO
+> | Run-time dependency gstreamer-check-1.0 found: NO (tried pkgconfig and cmake)
+> | Looking for a fallback subproject for the dependency gstreamer-check-1.0
+> | Subproject directory not found and gstreamer.wrap file not found
+> | Subproject  subprojects/gstreamer is buildable: NO (disabling)
+> | Dependency gstreamer-check-1.0 from subproject subprojects/gstreamer found: NO
+> |
+> | meson.build:309:0: ERROR: Could not find dependency gst_controller_dep in subproject gstreamer
+> |
+> | A full log can be found at /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/build/meson-logs/meson-log.txt
+> | WARNING: /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/temp/run.do_configure.46093:1 exit 1 from 'exit 1'
+> |
+> NOTE: recipe gstreamer1.0-plugins-base-1.16.1-r0: task do_configure: Failed
+>
+> | Compiler for C supports arguments -Wdeclaration-after-statement: YES
+> | Found pkg-config: /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native/usr/bin/pkg-config (0.29.2)
+> | Run-time dependency x11 found: YES 1.6.9
+> | Run-time dependency glib-2.0 found: YES 2.62.4
+> | Run-time dependency gobject-2.0 found: YES 2.62.4
+> | Run-time dependency gio-2.0 found: YES 2.62.4
+> | Run-time dependency gio-unix-2.0 found: YES 2.62.4
+> | Run-time dependency gmodule-no-export-2.0 found: YES 2.62.4
+> | Dependency gdk-pixbuf-2.0 skipped: feature examples disabled
+> | Dependency gtk+-3.0 skipped: feature examples disabled
+> | Dependency gtk+-x11-3.0 skipped: feature examples disabled
+> | Run-time dependency gstreamer-1.0 found: YES 1.16.1
+> | Run-time dependency gstreamer-base-1.0 found: YES 1.16.1
+> | Run-time dependency gstreamer-net-1.0 found: YES 1.16.1
+> | Found CMake: NO
+> | Run-time dependency gstreamer-check-1.0 found: NO (tried pkgconfig and cmake)
+> | Looking for a fallback subproject for the dependency gstreamer-check-1.0
+> | Subproject directory not found and gstreamer.wrap file not found
+> | Subproject  subprojects/gstreamer is buildable: NO (disabling)
+> | Dependency gstreamer-check-1.0 from subproject subprojects/gstreamer found: NO
+> |
+> | meson.build:309:0: ERROR: Could not find dependency gst_controller_dep in subproject gstreamer
+> |
+> | A full log can be found at /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/build/meson-logs/meson-log.txt
+> | WARNING: /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/temp/run.do_configure.46093:1 exit 1 from 'exit 1'
+> |
+> NOTE: recipe gstreamer1.0-plugins-base-1.16.1-r0: task do_configure: Failed
+>
+> missing a check dependency?
+>
+> Cheers,
+>
+> Richard
+>
+>
 
