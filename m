@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 0445F7FD25
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id C0BCE7FD08
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 15:30:59 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id x7so4854385pgl.11
+	Mon, 13 Jan 2020 15:31:01 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id ay11so3961300plb.0
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 07:31:01 -0800 (PST)
+	Mon, 13 Jan 2020 07:31:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=NSt20zg8g3JXLLNErnQ8uhgUYZDyEK/VWUKdsnXFH2I=;
-	b=VALmI7p58j0C8vR28AStYUEWRoNzOhzcYkQnrcAriirfkpbP6QdBqbTzBkQ0j48QEe
-	ti23x9bm6qL3r4+31pePh0dDh6plHVKBWPFgIw3uy/QAdmPcPRKFkBm2QShhdJNSQbBc
-	GOdT4n93DMAHOvqlNMerkC5x3QOzu5A3QDFRH0/ftjYH6YSdBzLx0F51sLgFxdIddUsV
-	HOT2hVhJidPm6tSgbfc2BpNqPPOOtlySCAlIMeprXPcTJRbXqcj/Hcps6UGwMd2QHURo
-	gIA4hcHURkLORPb+XMDoM1BEPprwYZ2YuM72hmZtsQGfnM72P2/YYPUig8Vi1smhaH1c
-	HVrw==
+	bh=XliIPniO84ZtBu0Uwrcerz8+txIen9T5LsodVx6IZTM=;
+	b=Zaya5KBZlFfK2RHtsoA4GPtLrh19nGHKdJsmjv2tjhmbKkyGGYmstIaIZ9Qv8H2KUj
+	RnAuBxYDBs+vdglyOGOxjR+oMSq3KMLe+pCu1BJVoJS4RCtXoYRVvSZ0GrpwpKvdrb02
+	kF3UBiY0shIp00MqPMKkNAamMhnoFZOkPAJwu34R+bG6cgclWrEY2nNXDPiFCpwicu6o
+	Sx3q+2rFQJHZ3SIIZxBh6ZXSa+OdCbmb3t+i2pDXSQseSd0ZBD/bVaqMHIG6aHVI3TzJ
+	MEj0waHbffVTHFo+Lz52OYpaE32or0XnbhyHBmqrtyZkNqrldCZIpXdLtm4ke2yaTAxd
+	Z4XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=NSt20zg8g3JXLLNErnQ8uhgUYZDyEK/VWUKdsnXFH2I=;
-	b=KFK7MNl3aCqZ8c9czB0XgYTr7rQrgYNiIKPRgI6yvELURnIU/7NsRfUYuKuL4KuQ69
-	KDoP3pSurDL89yFq/rmaAxC6GUhOyGbs88VYHOEICVfno8TgfsV5WVLpy/5iyT3D/1xM
-	GeIp6MzVX+Gu+zmY8CXYKBJHjZd+Wv7BI7SOqhwtA897HpNrRJ7O6ltxaoNEasTxQAM4
-	N1sddj5AIUNbzqIGjCsSFSVeoPX1a+5SxkgUNw+/s9NHvH+hd6Y+Es05RJ8d9qx9PZ9q
-	ZqPxQB5gvrgJyN//Zye9pUxqQjkpaYC/PLxyG0noEayvruVA7kON/cv2UN13thqhpmsD
-	vEwA==
-X-Gm-Message-State: APjAAAVUK72LoNLIqz13j7Dkh6i4IDWJeYC91OgiPvoZEvKjUfHCqwM7
-	MYHoKbI1cv+jGQZM5TMDcIfl/y+d
-X-Google-Smtp-Source: APXvYqwUtahyRuWzLFfRa7QWjdA4gPgyIuNkZVdxUE2RXdgMqXF00/p6Y38lBPHj3fIMT4n1mJdC5w==
-X-Received: by 2002:a63:4e06:: with SMTP id c6mr21019839pgb.187.1578929460974; 
-	Mon, 13 Jan 2020 07:31:00 -0800 (PST)
+	bh=XliIPniO84ZtBu0Uwrcerz8+txIen9T5LsodVx6IZTM=;
+	b=ZJQqPoVg1eeQn6fT+okyE5TNKqAIIWEZwruBtAZPnTJijxEiNBRCHTTBYMA0xWK9fN
+	x2eTQsYTpSXGD1Uywt2H+eT/RWOX0gvGKahNOaBBoVD8HQUTk8k8qzTd1FJpUmKmH92t
+	41VrjCURy3tSdGEzSe3RTIQU5jA8re8hYOIXYzUIMP43mh+T4X2u8JyNRYGqXwZ/1kEP
+	4NzYSR+jA25QwLK/BFAuqmqkNyIr6e8DczLpZmiEDuyueWU+9RCwsn/zoyNGyUKbDkZ1
+	TzVDa1eTUZJzZzm8KH30XOh/IVixou/QFeM0sKhyES0BqDkq6MKRkTa/RfuP00sMomvu
+	4WWQ==
+X-Gm-Message-State: APjAAAVKJnL6RsGrdCybpkwRLXYQ717vsu8KnKLDtjITb41hb8QTi4v4
+	ZzabiSQjI+abFkgJlWXPgCrFVGji
+X-Google-Smtp-Source: APXvYqyNDz+JPXsaTy8MHM/AzjZqKaR3OUWZx2L644978vTXe7dUsTUzrPB+V6sGhxrd0JVzbHWjCQ==
+X-Received: by 2002:a17:90a:e2d4:: with SMTP id
+	fr20mr23598943pjb.85.1578929462628; 
+	Mon, 13 Jan 2020 07:31:02 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:2dcb:8dcc:2050:e41d])
 	by smtp.gmail.com with ESMTPSA id
-	q8sm14167646pgg.92.2020.01.13.07.31.00
+	q8sm14167646pgg.92.2020.01.13.07.31.01
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 13 Jan 2020 07:31:00 -0800 (PST)
+	Mon, 13 Jan 2020 07:31:01 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon, 13 Jan 2020 07:30:23 -0800
-Message-Id: <72c22b8791707480c380f49305c6d394578b2a4b.1578929268.git.akuster808@gmail.com>
+Date: Mon, 13 Jan 2020 07:30:24 -0800
+Message-Id: <2e2fb4e9db2e328dcb771951feb7f7ab5c0c4dd6.1578929268.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578929268.git.akuster808@gmail.com>
 References: <cover.1578929268.git.akuster808@gmail.com>
 Cc: akuster808@gnail.com
-Subject: [warrior 24/28] cve-check: Switch to NVD CVE JSON feed version 1.1
+Subject: [warrior 25/28] popt: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,73 +60,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 15:31:00 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 15:31:02 -0000
 
-From: Niko Mauno <niko.mauno@iki.fi>
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 
-Switch to recently released version 1.1 of NVD CVE JSON feed, as in
-https://nvd.nist.gov/General/News/JSON-1-1-Vulnerability-Feed-Release
-it is mentioned that
+rpm5.org has been down for about a year now. Use linuxfromscratch.org
+as an alternative reliable source instead.
 
-  Due to changes required to support CVSS v3.1 scoring, the JSON
-  vulnerability feeds must be modified. This will require the consumers
-  of this data to update their internal processes. We will be providing
-  the JSON 1.1 schema on the data feeds page and the information below
-  to prepare for this transition.
-  ...
-  The JSON 1.1 data feeds will be available on September 9th, 2019. At
-  that time the current JSON 1.0 data feeds will no longer available.
-
-This change was tested briefly by issuing 'bitbake core-image-minimal'
-with 'cve-check.bbclass' inherited via local.conf, and then comparing
-the content between the resulting two
-'DEPLOY_DIR_IMAGE/core-image-minimal-qemux86.cve' files, which did not
-seem to contain any other change, except total of 167 entries like
-
-  CVSS v3 BASE SCORE: 0.0
-
-were replaced with similar 'CVSS v3 BASE SCORE:' entries which had
-scores that were greater than '0.0' (up to '9.8').
-
-(From OE-Core rev: cc20e4d8ff2f3aa52a2658404af9a0ff358cc323)
-
-Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c92b8804d6e59b2707332859957f0e6a46db0a73)
+(cherry picked from commit d9224014da9a512b1b8837e4e7a736d465c97be3)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/cve-check.bbclass                 | 2 +-
- meta/recipes-core/meta/cve-update-db-native.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/popt/popt_1.16.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 19ed5548b3..01b3637469 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -26,7 +26,7 @@ CVE_PRODUCT ??= "${BPN}"
- CVE_VERSION ??= "${PV}"
+diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
+index 478288f9bf..27e49c2ca2 100644
+--- a/meta/recipes-support/popt/popt_1.16.bb
++++ b/meta/recipes-support/popt/popt_1.16.bb
+@@ -8,7 +8,7 @@ PR = "r3"
  
- CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
--CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.0.db"
-+CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.1.db"
+ DEPENDS = "virtual/libiconv"
  
- CVE_CHECK_LOG ?= "${T}/cve.log"
- CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
-diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
-index db1d69a28e..575254af40 100644
---- a/meta/recipes-core/meta/cve-update-db-native.bb
-+++ b/meta/recipes-core/meta/cve-update-db-native.bb
-@@ -27,7 +27,7 @@ python do_populate_cve_db() {
- 
-     bb.utils.export_proxies(d)
- 
--    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
-+    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
-     YEAR_START = 2002
- 
-     db_file = d.getVar("CVE_CHECK_DB_FILE")
+-SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
++SRC_URI = "http://anduin.linuxfromscratch.org/BLFS/popt/popt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            file://popt_fix_for_automake-1.12.patch \
+            file://disable_tests.patch \
 -- 
 2.17.1
 
