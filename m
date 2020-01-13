@@ -1,52 +1,55 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 91AC37D19E
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 516927FCE2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 12:39:28 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id g17so8401439wro.2
+	Mon, 13 Jan 2020 12:39:29 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id f129so9461088wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 04:39:29 -0800 (PST)
+	Mon, 13 Jan 2020 04:39:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=zPQ2kZ/QUwOiLbtQywzSVocCUvYtsX/ieRiZC7bYyhM=;
-	b=Nl+YdgVjvBEe3TfM7ZeyQnTvUCuP0359LDVtcn/JlI51zUBRFPAOA4o0WwCPc1USAt
-	lKYa8iTOkIlnf+ic7itZ+eEjtSi1mQxeQQt8pxz/4tR90+sbTRlFI43jLuKyt96ZIgYF
-	4+R6JvjC1ADCm19oVyXLle007h6F5L4R9/L4sgLP2KC45YDFTr4PsITNGhTSOPxvgscr
-	rcpEOT3HUY9DbOO+2PUkbtknRRSafUQm+qsOJyCm2ccq9rTgdtiYq3+IRTtfuAbhBmcs
-	CD3ALzyN2nFAwoAJyiqvFrQ92JN2wz9XodXIOBF/gD1GjJzQOrHb2cbTmzBFQ4DnCg6O
-	6q8g==
+	bh=O1/yz7zO47DudDQllwyqTCLXR0jLFfx8bOgF2C8GmTQ=;
+	b=RaAhgWXRS871dRQWRG/6CXqPe26guUGSwH/7R6xWX6ogH+sdm5HYiYF+lQ22XeL23R
+	z3wDzj9nX0NmVwPxfyz1I9fb8hWEUsEyyzq3MpXW5PdQ+VVqfiGj1sqhFb8lOQlO/jV7
+	yq52jcuiAKEwBinFckDHkFVMxVDW3C7dKu5RKQZRpwYSS4FijfhxTxAqyhVgNtz7GZvS
+	fVKQsuc3vaRIOpXWwvrRN3s0wDC2WF3cpgf0l5C0V+lQ5FgzZsSe0Q24WVMInsySmZ8X
+	LHfFIsGL/KiQ/KAvr87/Juxv3Tg+jPVMhuBLDqVmOVrtx6de2BUg9lA4n65HvHwDQ6+x
+	W+aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zPQ2kZ/QUwOiLbtQywzSVocCUvYtsX/ieRiZC7bYyhM=;
-	b=MQGLruHrS92f+kZgbkA2EGWqpjqMTXOQ4iN27rMdkXUQINBk890lny8kX1xVuy0p5z
-	hXKwwX7iIXNQNA0C1b8Uja9aq6CMbLI782OgSnYiF+MvpU7+qFhLDMSK5hjQfTzvqS7N
-	lEi3e9aWlN6MZrjBrSwpVcdLwI1iwLHGRfZUxJ5T6XupsgyHwgNDpiNjI9IMz7iYDi/3
-	6x3RHh1k1txfogpWaV334VxsG9reEjI973UtBFhnWBnlJl19W+5UPboPYbKCdx5mtqVB
-	owdUahsWtXfxBiL07yNHzwaOGLJLIwnBy/d75fJNTQcIaljdnHiebAYxcRXkAGoJlBnI
-	XFzw==
-X-Gm-Message-State: APjAAAXJlF51EzZ+qpQj5mk46R5UxrWq9QqNcgGaoAxS7F/rRY43an7f
-	SCPUpbmtQeic3Z8L9NL/oMFa6HphWOI=
-X-Google-Smtp-Source: APXvYqz592RzalRzInSZ+F21iLy2xnlKI5HSL+MJ5ewZkBdOEOX7KnJwDfnal4FZkxHv8k0U/zmKtQ==
-X-Received: by 2002:adf:d4ca:: with SMTP id w10mr17399699wrk.53.1578919168989; 
-	Mon, 13 Jan 2020 04:39:28 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=O1/yz7zO47DudDQllwyqTCLXR0jLFfx8bOgF2C8GmTQ=;
+	b=ClpQmkn6VxxbYlm2kz3bQHJ2PEB/0gqtpnmTTw7x/U5L0U2RmXsmI0yPU/SWlg3nmj
+	TBPtBdb8wTq/LKOSiqvnZ5r5UREbSCVm/An84mSRn7GLSMgjf2zdbYJ+2lMDxjZZwkfv
+	6M8Ak7W8KFR6IXJIUyq6lXJwwgxrkCl3qD7aBS8oK7gFl+wFi9wmfSiAXj/8/60I1QQ1
+	wp3ZrMWDX0467nVVBSFVo5CZfhfzfcIC0hWv9HARB6rHTHi1/S+gYXr+aEOfu3p7t+Bq
+	DIT5oZWh1CGSaTnIldxOm+whblBUr908eBVfMpwN2ssr0q9EIfYaLCw461tRifq05Qp3
+	qdWw==
+X-Gm-Message-State: APjAAAXz10K8IQyDmfmr7nbUI2d/4ukii6eZNr/HhQDBSu20m0MNQY+g
+	8TZpLBdUjU3Indv0svh8sqyKN2EorQM=
+X-Google-Smtp-Source: APXvYqxmysl7ryGHS9ibIBrRa019TSKGIccn0zzzB/XFmogVXgkRbHYwc+AoE74tAgRmWIepK02EJw==
+X-Received: by 2002:a05:600c:54b:: with SMTP id
+	k11mr19603357wmc.63.1578919169755; 
+	Mon, 13 Jan 2020 04:39:29 -0800 (PST)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	r6sm15254299wrq.92.2020.01.13.04.39.27
+	r6sm15254299wrq.92.2020.01.13.04.39.29
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 13 Jan 2020 04:39:27 -0800 (PST)
+	Mon, 13 Jan 2020 04:39:29 -0800 (PST)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jan 2020 12:39:23 +0000
-Message-Id: <20200113123924.27277-1-ross.burton@intel.com>
+Date: Mon, 13 Jan 2020 12:39:24 +0000
+Message-Id: <20200113123924.27277-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200113123924.27277-1-ross.burton@intel.com>
+References: <20200113123924.27277-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] systemd: add missing Upstream-Status
+Subject: [PATCH 2/2] gettext: fix typo in Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,26 +62,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 12:39:28 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 12:39:29 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- ...22-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch | 1 +
- 1 file changed, 1 insertion(+)
+ .../gettext-0.20.1/0001-tests-autopoint-3-unset-MAKEFLAGS.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/0022-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch b/meta/recipes-core/systemd/systemd/0022-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch
-index 76a1c7364d4..8d97374cb75 100644
---- a/meta/recipes-core/systemd/systemd/0022-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch
-+++ b/meta/recipes-core/systemd/systemd/0022-Use-INT_MAX-instead-of-TIME_T_MAX-for-timerfd_settim.patch
-@@ -9,6 +9,7 @@ event after 68 years of uptime, should be good for all practical
- purposes
+diff --git a/meta/recipes-core/gettext/gettext-0.20.1/0001-tests-autopoint-3-unset-MAKEFLAGS.patch b/meta/recipes-core/gettext/gettext-0.20.1/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
+index 96e5bf380fa..b0bc6b97a63 100644
+--- a/meta/recipes-core/gettext/gettext-0.20.1/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
++++ b/meta/recipes-core/gettext/gettext-0.20.1/0001-tests-autopoint-3-unset-MAKEFLAGS.patch
+@@ -6,7 +6,7 @@ Subject: [PATCH] tests/autopoint-3: unset MAKEFLAGS
+ This is needed when running ptests, as the MAKEFLAGS value (set up by run-ptest)
+ is messing up the test.
  
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+Upstream-Status: Pending
+-Upstream-Status: Inapppropriate [oe-core specific]
++Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
  ---
-  src/basic/time-util.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+  gettext-tools/tests/autopoint-3 | 1 +
 -- 
 2.20.1
 
