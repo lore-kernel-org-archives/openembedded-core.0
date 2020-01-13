@@ -1,41 +1,45 @@
-Return-Path: <paul.barker@konsulko.com>
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
-	[209.85.167.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 121487FCEF
+Return-Path: <maxim.uvarov@linaro.org>
+Received: from mail-yw1-f52.google.com (mail-yw1-f52.google.com
+	[209.85.161.52])
+	by mail.openembedded.org (Postfix) with ESMTP id B56297FCE9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 13:31:10 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id l136so8235404oig.1
+	Mon, 13 Jan 2020 13:57:40 +0000 (UTC)
+Received: by mail-yw1-f52.google.com with SMTP id u139so6034965ywf.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 05:31:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	Mon, 13 Jan 2020 05:57:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=4N8ptbBjKmh4vUDUEkXk2BpAtYJCpRY0V+ooMt/p5e0=;
-	b=qWiZQkOC6qA3KhIA/fr9iRC0Ymv0lyAvPj80+hqRUdcTP4txqHRVNOelt0q8j9VJ5f
-	DIUDFdmWhyCWF0e4JgJ0pdypxM0QJF3lhHGji1mhX9XPQtDtUALLmgp+SjAMBn5lB3YU
-	Yut08mQCqkx7P1IqzvR/Zr1TXsiK5N6lFItUo=
+	:cc; bh=a1gbqauph6oFInvL+tkKUOgC7dTzr8zJEJcjzvuhv4I=;
+	b=YEzJfSC41eJfGQXo1D8FX7aB7NqodDaAI6JgZVzbW1IfFE22I8qE0zgPRQICmsvgyS
+	D9YLJFpvA4jbf5AF3uTn5eWL0LJoQnRaXIZfrXkEObzkrcVmI1KZFhZ3wLTy71VJVyG6
+	fhwXiIkQWSXhoBTw/jg7XosPPZDALcb7YDUQLtzxXdzawYOLhVJnYfXkeAaFec8WteVc
+	c83nct3yiVGYF8HpOcGvUpV/oSp2AV23rQ0s8V00wgkNrFRIgXrRCzX5F+O2sXlJCK67
+	1b9lFgHOAA2j1eDYqfrYgNYiojY6qCPO110lH7fZ2aK3+238sbWD72pppAfOhFWn39uY
+	x0uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=4N8ptbBjKmh4vUDUEkXk2BpAtYJCpRY0V+ooMt/p5e0=;
-	b=XHa3sA0iPRr+jmaQqUCoAEQS4ivr2SzZX98Na2avQG7qIhxNNXFHUEZMdo2+47Tcye
-	FupRqN9j9bDbyahg4NMGUgmGf5VGDOWIoeSJY4MOQaAD9uxKuLN2WPHxonaDXITYRXH2
-	7XNd7oEP4VolXn8RwgrmdxRefRyG9P5gjOag816Q4aSH3Z/VzVvR40Gh1Re9UutBLlGf
-	usOggQG7YBOK91JG3VLko1rVgpqx5g6/BaLOOTzzvDjKyfdK6vSEgzMGsi0MOv8nCCzA
-	sm+0C/iSdhLeaO9lkb6AUQ5cWqwK/BmgNOMwrPqRM4So0yCHW0fZR8i4+wbXfOgnH+JX
-	kUaQ==
-X-Gm-Message-State: APjAAAVAgUlhXxD8v2GAq1GmIKDrlcacMoj64NubpJKhOZo+sRoLlXdm
-	D9psjGdo4Pceuxe2qBeTWKLEQF9Dj5WctuMRScYDTA==
-X-Google-Smtp-Source: APXvYqxIKK2j9/B3NoiP3fYWoT6/9o8nte5ETDSn/qzcwyrcEX/roVVx0EexqmcXklwjwKJabHcUw4DMjPyaxAWsYY4=
-X-Received: by 2002:a54:4e8d:: with SMTP id c13mr12708883oiy.27.1578922272023; 
-	Mon, 13 Jan 2020 05:31:12 -0800 (PST)
+	bh=a1gbqauph6oFInvL+tkKUOgC7dTzr8zJEJcjzvuhv4I=;
+	b=kZwqHGlFXTVzmDeqMKW/gOmUvJlOiZHD228nv5T39KLTbG0zCMeZSrPdY2/Kelu7iB
+	/zoHXCnZoabTCZ6EswzN85CNYF5/tgJZgbzer1FUl6YaFKu3XphJ4lyW2ObpFFIte08E
+	i03n5CfX4cgR2yGG03otySfCOFTQFp2qeRVhKHTPITI0F0gKpbtnK7m1t9BKelNwu9yx
+	ZEK7QKwRiIXDVqd8Rn3xwqRS9mm1V5OIGdndjOZWkYtERu8fmffJxeL/q+tHjtoujkhV
+	4AXdemgoUgW3U/CoGYFrJEm7bYl8VD0d8A6ZjNWrdrWxxwYt4jHwXGluRBDQVV/OTf06
+	d5Sg==
+X-Gm-Message-State: APjAAAXU4A0zT6U7MjtfGIAW2ME/ky7K/DkrXDdBxWrpCV7K5EtCMpfu
+	p/+Xf1GVbly5zFtbLIdYNQLoxtBefTPKdy9xQKQ4gNHOz7U=
+X-Google-Smtp-Source: APXvYqzYhY9ZbJorCKOGCeK73r+os+NUtM0IN3liM80ZeiIXmnGhIDUg4mpZFJHFm0Qvmks7cbEOtvT+xN4Sbohdb50=
+X-Received: by 2002:a81:89c4:: with SMTP id z187mr13627829ywf.83.1578923861592;
+	Mon, 13 Jan 2020 05:57:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20200113130827.7409-1-maxim.uvarov@linaro.org>
-In-Reply-To: <20200113130827.7409-1-maxim.uvarov@linaro.org>
-From: Paul Barker <pbarker@konsulko.com>
-Date: Mon, 13 Jan 2020 13:31:02 +0000
-Message-ID: <CAM9ZRVt00houpaZaKirGYgu1w_WRm1yqoio_G-wAgdyyGwuAAg@mail.gmail.com>
-To: Maxim Uvarov <maxim.uvarov@linaro.org>
+	<CAM9ZRVt00houpaZaKirGYgu1w_WRm1yqoio_G-wAgdyyGwuAAg@mail.gmail.com>
+In-Reply-To: <CAM9ZRVt00houpaZaKirGYgu1w_WRm1yqoio_G-wAgdyyGwuAAg@mail.gmail.com>
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+Date: Mon, 13 Jan 2020 16:57:30 +0300
+Message-ID: <CAD8XO3a66v27ohEbrjEC=+XanfD1Fo_zXXo9TaFYSr+C+9+jDQ@mail.gmail.com>
+To: Paul Barker <pbarker@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCHv2] wic: fix images build in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -50,19 +54,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 13:31:11 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 13:57:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 13 Jan 2020 at 13:08, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+On Mon, 13 Jan 2020 at 16:31, Paul Barker <pbarker@konsulko.com> wrote:
 >
-> OE wic plugins create temporary file with the index of the line
-> tmp file name. This causes race in case several builds run in time.
-> Add more entropy as timestamp to remove this race.
+> On Mon, 13 Jan 2020 at 13:08, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+> >
+> > OE wic plugins create temporary file with the index of the line
+> > tmp file name. This causes race in case several builds run in time.
+> > Add more entropy as timestamp to remove this race.
+>
+> How would two wic images to be built in parallel with the same work
+> directory? To my understanding an image recipe only supports building
+> a single wic image.
+>
+> Thanks,
+> Paul
 
-How would two wic images to be built in parallel with the same work
-directory? To my understanding an image recipe only supports building
-a single wic image.
+bitbake image1 image2 image3
+all images build .wics and use about the same files, like firmware.
+Issue is similar to that:
+https://www.yoctoproject.org/pipermail/yocto/2018-June/041373.html
 
-Thanks,
-Paul
+Maxim.
 
