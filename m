@@ -1,47 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
-	[209.85.217.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E09D07FC1A
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id F3B097F491
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 21:20:11 +0000 (UTC)
-Received: by mail-vs1-f65.google.com with SMTP id s16so6830303vsc.10
+	Mon, 13 Jan 2020 21:21:38 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id w1so11803352ljh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 13:20:13 -0800 (PST)
+	Mon, 13 Jan 2020 13:21:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HuPv7A/MNtXrVamuwh/wGehB6xurozb/qCCOrOlZI8c=;
-	b=J1ghiIrrUyyGc9n2uXY/MrpYJMlS5DJlwh7TaJ8Vu2B5Yl+04dtPXOIAKQWfswczsc
-	fibdxH1VBMWcOm/D5UrcQGF+TTOoTEryIotrM+ms+ZPshVIIra9K/lChK+CtT+ksVvrI
-	/wEwinFgiD4Orxqa69ebqYZlhcu00Iv4PgovT36t93lYuW0DQWBj0yuM7z2SYwZNweKq
-	ZKvVb4iBQCEWIg0A4m4+sShmL7X5K+kmIoXQXl3Y9zn3DZt4R86guaothPYFSMBFAZ8z
-	Jq7jYOvWH8KLImibBrwWwawgnz7uHcF3sONA+GkkLxmRAkSrdcWs7aA+YcG0O2p0IJJS
-	P1qg==
+	h=from:to:cc:subject:date:message-id;
+	bh=N2zcdrlswN2S3r4GlhhRP8aXX0dPVtDfGP6W7bvVFTc=;
+	b=vJkiizEJdSBhmfNpvpGLcGRhmIJKJ2R4/7iNBsAUlJ295kTWkb0B4HcYBwMeA6RR97
+	Knp1/+r1nv1VPiO4ByOu3aSXHnQk5wnxfHUHzR2RqHja5IdsUiZo/EGJp1seNHgGydgq
+	p+hnQJpDi/agPjAPOXlqz+yAMqCbCaTm/HhhWe28ss+GMZUFMhVDDLpvnXvhotIYcjSo
+	q//4s5y7B8iuyi+l7E3U/NLLwGwYFvzfpgYYI9RdRQZDwM7VGFQ7deSmXUu/SlvhT02K
+	NtIV+Z4W+h1sZx1IhQgLTxU7YfCYYlFE9tEAlfGH5+s/GU3BigRvM0ul0uKBqTf85UGw
+	eChA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=HuPv7A/MNtXrVamuwh/wGehB6xurozb/qCCOrOlZI8c=;
-	b=VRfSpxhrTiQ8x0VyQuF8Y5oRhTugE+XDKhtsmc801Z9GTX/SdyaKj43oNY9ozQqWKx
-	wu8cP+sShDW4uk7c4CNbS849mCp/4aas9wfaIgvvnIStDnWhEEHWV714zdRUHsHfuHfi
-	led+/UW5/GS0/f1062cQzQNAfQejAzhF/1VkuVfr+mBu0qpi6tIIeEWwjnXyRWKzCWHx
-	2xGgHm3dcWHijfsB5EJuQD0hb0qFo0CPOeYzh254YTku4E7tvv6A/Y/YuuoZufeoF13y
-	o7LwdVSy4sWIQFq0O3RX58V1wga/yJVLtnBaAbaxFOJ7FFA4otz1yUAyYpO/E2644XXP
-	CKDQ==
-X-Gm-Message-State: APjAAAWQVXCbkTf67ljlaq7hVprSPeAoOgbmaGqVWZekb8ivBbiaxpQN
-	iDAzcHLy61GB7bkOoz1PCd/hn4iGlT4hFO8s0mYntg==
-X-Google-Smtp-Source: APXvYqwObnCoy9/hd8Zrs5Gw88pEY4IDZpCwPcIIWafDt3ON1Ltup7NRDIdsT7JjGOAKse9g3J4pM1+7YKPnFqLgGQU=
-X-Received: by 2002:a67:3187:: with SMTP id x129mr8316473vsx.23.1578950412718; 
-	Mon, 13 Jan 2020 13:20:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20200113211005.14693-1-maxime.roussinbelanger@gmail.com>
-In-Reply-To: <20200113211005.14693-1-maxime.roussinbelanger@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 13 Jan 2020 22:20:01 +0100
-Message-ID: <CANNYZj-2ZLcTC7j=SGTY5O6h-Z2FNRZnkNgzQcWNedSDnPBZUA@mail.gmail.com>
-To: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?=
-	<maxime.roussinbelanger@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta: gdk-pixbuf: add man packageconfig
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=N2zcdrlswN2S3r4GlhhRP8aXX0dPVtDfGP6W7bvVFTc=;
+	b=SKnonUg2kF8aCZV2RdIjvh4AXsWh/6N12bNjlpEhLYL0TpKtM8yYaMY+trO+uSJwg/
+	iAUQG/Uesz/BkLVhXSnz/QmqyBbCbLqrAbxxpAJB/VvZYzjMEMUAngiv3qj00lgasxc+
+	Bxx+mUfFkUIrTYEiybFz70ps7QCfMUudu3WQKvn1sOSJaL+sk0dccdx4IT7FGEhVkprd
+	OCxC1IHmydKh8vQOCBFkW7mG/gvcThzNY0f59vF4152ciyXpnQgV/AAGcQLOjU+77jwC
+	xnnemsXPdzlRvWSR6Wrvum0WtRIXT2RjYPJzRBR4yF+eiA0T2oekXJIvTRtmz6JUgLtE
+	gxCw==
+X-Gm-Message-State: APjAAAVnxBgRNaonL+zYeJ3T/kQ539Zy6AeBGIBxnfqzYSNn5bUF/n3x
+	GJfuXX7Y69E7BrR8aROVg/Nd+/eLrH8=
+X-Google-Smtp-Source: APXvYqyo2Ac7f3HkfWCTgB5Jig7z2VvatWrInyQGu4P8c1D6UvT5Vf/hR73ToJlhYxxZRyGrutplFQ==
+X-Received: by 2002:a2e:808a:: with SMTP id i10mr12296058ljg.151.1578950499363;
+	Mon, 13 Jan 2020 13:21:39 -0800 (PST)
+Received: from peterliu-Precision-7530.lan
+	(c-75fd72d5.022-417-73746f13.bbcust.telenor.se. [213.114.253.117])
+	by smtp.gmail.com with ESMTPSA id
+	g15sm6451338ljl.10.2020.01.13.13.21.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Mon, 13 Jan 2020 13:21:38 -0800 (PST)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Jan 2020 22:21:31 +0100
+Message-Id: <1578950491-6819-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] kernel-fitimage: avoid duplicated items in KERNEL_IMAGETYPE_FOR_MAKE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,138 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 21:20:12 -0000
-Content-Type: multipart/alternative; boundary="00000000000077d8da059c0c0aa2"
+X-List-Received-Date: Mon, 13 Jan 2020 21:21:39 -0000
 
---00000000000077d8da059c0c0aa2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Ming Liu <liu.ming50@gmail.com>
 
-The correct way to configure this is to inherit manpages class, and name
-the option 'manpages' as well.
+When replacementtype is already in KERNEL_IMAGETYPE_FOR_MAKE, we do not
+have to replace fitImage with it again, that will lead to duplicated
+items in KERNEL_IMAGETYPE_FOR_MAKE.
 
-Alex
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/kernel-fitimage.bbclass | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-On Mon, 13 Jan 2020 at 22:10, Maxime Roussin-B=C3=A9langer <
-maxime.roussinbelanger@gmail.com> wrote:
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index ec18a3d..acdd679 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -25,8 +25,12 @@ python __anonymous () {
+         # to kernel.bbclass . We have to override it, since we pack zImage
+         # (at least for now) into the fitImage .
+         typeformake = d.getVar("KERNEL_IMAGETYPE_FOR_MAKE") or ""
+-        if 'fitImage' in typeformake.split():
+-            d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', replacementtype))
++        typeformakelist = typeformake.split()
++        if 'fitImage' in typeformakelist:
++            if replacementtype in typeformakelist:
++                d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', ''))
++            else:
++                d.setVar('KERNEL_IMAGETYPE_FOR_MAKE', typeformake.replace('fitImage', replacementtype))
+ 
+         image = d.getVar('INITRAMFS_IMAGE')
+         if image:
+-- 
+2.7.4
 
-> The current default for the meson configuration is to build
-> the man. It will only do it if it finds the xsltproc binary
-> and man option (default: on).
->
-> Adding the packageconfig make sure that xsltproc will be
-> found in the correct path (recipe-sysroot-native) and that
-> the docbook can be used.
->
-> The docbook is needed because xsltproc is used with the
-> --nonet option, which prevents the uses of the internet to
-> fetch DFD's.
->
-> This recipe has been working for probably everyone with the
-> current configuration, however if for some reason xsltproc
-> can be found inside PATH, meson will use it.
->
-> Signed-off-by: Maxime Roussin-B=C3=A9langer <maxime.roussinbelanger@gmail=
-.com>
-> ---
->  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-> index 699c4ecd0b..f6cc25cd8c 100644
-> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-> @@ -53,6 +53,7 @@ PACKAGECONFIG[png] =3D "-Dpng=3Dtrue,-Dpng=3Dfalse,libp=
-ng"
->  PACKAGECONFIG[jpeg] =3D "-Djpeg=3Dtrue,-Djpeg=3Dfalse,jpeg"
->  PACKAGECONFIG[tiff] =3D "-Dtiff=3Dtrue,-Dtiff=3Dfalse,tiff"
->  PACKAGECONFIG[jpeg2000] =3D "-Djasper=3Dtrue,-Djasper=3Dfalse,jasper"
-> +PACKAGECONFIG[man] =3D "-Dman=3Dtrue,-Dman=3Dfalse,libxslt-native
-> docbook-xsl-stylesheets-native,"
->
->  PACKAGECONFIG[x11] =3D "-Dx11=3Dtrue,-Dx11=3Dfalse,virtual/libx11"
->
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---00000000000077d8da059c0c0aa2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>The correct way to configure this is to inherit manpa=
-ges class, and name the option &#39;manpages&#39; as well.</div><div><br></=
-div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Mon, 13 Jan 2020 at 22:10, Maxime Roussin-B=C3=A9=
-langer &lt;<a href=3D"mailto:maxime.roussinbelanger@gmail.com">maxime.rouss=
-inbelanger@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
-);padding-left:1ex">The current default for the meson configuration is to b=
-uild<br>
-the man. It will only do it if it finds the xsltproc binary<br>
-and man option (default: on).<br>
-<br>
-Adding the packageconfig make sure that xsltproc will be<br>
-found in the correct path (recipe-sysroot-native) and that<br>
-the docbook can be used.<br>
-<br>
-The docbook is needed because xsltproc is used with the<br>
---nonet option, which prevents the uses of the internet to<br>
-fetch DFD&#39;s.<br>
-<br>
-This recipe has been working for probably everyone with the<br>
-current configuration, however if for some reason xsltproc<br>
-can be found inside PATH, meson will use it.<br>
-<br>
-Signed-off-by: Maxime Roussin-B=C3=A9langer &lt;<a href=3D"mailto:maxime.ro=
-ussinbelanger@gmail.com" target=3D"_blank">maxime.roussinbelanger@gmail.com=
-</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a> | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.4=
-0.0.bb" rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a> b/met=
-a/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0.bb" rel=3D"n=
-oreferrer" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a><br>
-index 699c4ecd0b..f6cc25cd8c 100644<br>
---- a/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a><br>
-+++ b/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0.bb"=
- rel=3D"noreferrer" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a><br>
-@@ -53,6 +53,7 @@ PACKAGECONFIG[png] =3D &quot;-Dpng=3Dtrue,-Dpng=3Dfalse,l=
-ibpng&quot;<br>
-=C2=A0PACKAGECONFIG[jpeg] =3D &quot;-Djpeg=3Dtrue,-Djpeg=3Dfalse,jpeg&quot;=
-<br>
-=C2=A0PACKAGECONFIG[tiff] =3D &quot;-Dtiff=3Dtrue,-Dtiff=3Dfalse,tiff&quot;=
-<br>
-=C2=A0PACKAGECONFIG[jpeg2000] =3D &quot;-Djasper=3Dtrue,-Djasper=3Dfalse,ja=
-sper&quot;<br>
-+PACKAGECONFIG[man] =3D &quot;-Dman=3Dtrue,-Dman=3Dfalse,libxslt-native doc=
-book-xsl-stylesheets-native,&quot;<br>
-<br>
-=C2=A0PACKAGECONFIG[x11] =3D &quot;-Dx11=3Dtrue,-Dx11=3Dfalse,virtual/libx1=
-1&quot;<br>
-<br>
--- <br>
-2.20.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---00000000000077d8da059c0c0aa2--
