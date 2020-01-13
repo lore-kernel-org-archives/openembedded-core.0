@@ -1,83 +1,47 @@
-Return-Path: <chris.laplante@agilent.com>
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
-	(mail-dm6nam11on2052.outbound.protection.outlook.com [40.107.223.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 444EE7FCBA
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
+	[209.85.217.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8175D7FC56
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 16:23:03 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=RDTEAS3p/sThAFyTYElnrctS6KeniMV6q36LJdp9HOIcVg1qIPGUpgZBsKT4OZPr3PFmuGxGESUc8ZHeuysyoOl8f7cnQcBNpzXSSMxsBfRjcYooNc7leYhE3ETb1bZ81gA8kk0mincq+XqIpk/00Ags+5pC+v9DrxpoFNrpKpm7qQLXtUBW+VaCgEXWJt66ziELehouyuMB6CIacbfQ6t/x0EDrmzr6YjAG2DO04uxh+oDper6dV5DuWuxscsUVG260iEVKBcbGrNySfoCmEApTxDFVkqYgtHoDOdJv924826eLY7e1on/9QpwSv7tcQRB5ySHP/fmxrd17Dy81Xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=dazwk6YDdHsD1wQVDu54b8fQY5lIZsYP3rIGWcnsQlA=;
-	b=DqNVAy50p5FEqlLFybhL2lumKjS906qq5db57JxSJ8W3Eaq4xjvoLVg7Qq2NxeabbaqUOWddpM50MfnrQvLI+F0e79RvlXNG0VwpQP3WxAT4OUbjpokF6kAtbuOWLii8oSqt5OZ052nPpXJM93oPh/mVtIbO2gfJzO/IAvGV02RVDC4y0j+mcfygsATH6rHVuBQIr2quXYOtkhLZAb3Wz6PU179WCNlfSHR7IH30oQM2kWnXECttFA8VSh1h1BSqA1DsR793CnZlqv1QopQKdFBAEEwAXt+/5QCsSKYy7scCXs6u6vSjaLgZ1aVT9jjHAYlAsaaZGn8uJBhF0vml5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=agilent.com;
-	dmarc=pass action=none header.from=agilent.com; 
-	dkim=pass header.d=agilent.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector2;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=dazwk6YDdHsD1wQVDu54b8fQY5lIZsYP3rIGWcnsQlA=;
-	b=KZlZyLuYg3RM0KG4jskMZJbojzPAsrmpsV2wxqf67DXjPsBAaAwGX56Zc8WlsgxqDUBrip3Ae3lIlyX0YG8vgLM1q5mdC4clq9WTTRJGOoMJP2ogBU+EHbUeFyfimpybrXd0n37eRGag7qMCeZPySsKPihjZfHuNGNxpxdEHQxw=
-Received: from CY4PR12MB1653.namprd12.prod.outlook.com (10.172.71.137) by
-	CY4PR12MB1173.namprd12.prod.outlook.com (10.168.169.20) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2623.10; Mon, 13 Jan 2020 16:23:02 +0000
-Received: from CY4PR12MB1653.namprd12.prod.outlook.com
-	([fe80::3c16:3c42:ee9f:b486]) by
-	CY4PR12MB1653.namprd12.prod.outlook.com
-	([fe80::3c16:3c42:ee9f:b486%9]) with mapi id 15.20.2623.015;
-	Mon, 13 Jan 2020 16:23:02 +0000
-From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Pascal Huerst
-	<pascal.huerst@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] Looking for a way to build latest tagged releases in
-	recipes
-Thread-Index: AQHVxtrVLP5ZK3dnBEaFuu03GmqUsqfiOsqAgAACogCAADZ9MA==
-Date: Mon, 13 Jan 2020 16:23:02 +0000
-Message-ID: <CY4PR12MB1653B76238099F8FD42B7F228B350@CY4PR12MB1653.namprd12.prod.outlook.com>
-References: <baf60d23-56e5-72a2-f7f7-adb10c29a5f9@gmail.com>
-	<f9a33ecd524bae8ad83d1c1b94f7908ea7258712.camel@linuxfoundation.org>
-	<d7dbdb87-d763-2ae0-923f-d293d6c24d27@gmail.com>
-	<a9e23045b333589e58bb1e771a508bd39a347dc6.camel@linuxfoundation.org>
-In-Reply-To: <a9e23045b333589e58bb1e771a508bd39a347dc6.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chris.laplante@agilent.com; 
-x-originating-ip: [4.16.127.92]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 82d74d8d-24ac-4dc0-4a49-08d79844dd01
-x-ms-traffictypediagnostic: CY4PR12MB1173:
-x-microsoft-antispam-prvs: <CY4PR12MB1173D1CD7B1E0DA2D9D5CE438B350@CY4PR12MB1173.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 028166BF91
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(136003)(376002)(366004)(346002)(396003)(39860400002)(189003)(52254002)(29502001)(199004)(8676002)(81156014)(110136005)(8936002)(81166006)(316002)(4326008)(33656002)(52536014)(2906002)(86362001)(26005)(7696005)(5660300002)(71200400001)(9686003)(66446008)(66556008)(64756008)(66476007)(76116006)(66946007)(6506007)(478600001)(55016002)(186003)(43043002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1173;
-	H:CY4PR12MB1653.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: agilent.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: Lj9GzxbG27BHj0Seb7hNNK2gUYImkX46Pbm9k6v5OeUplMWEOiA1XrVOhjS0Adn2HbVkI7GoG1uws77zj0xLWBjcjdY+YN3zBUQAbg4M6jYQHfqbfSxc9J0rVGTEZGf0M1+Hhx3asGPtcYVCYlGtXgnp6CgZ3F2Q7jZHdn+bEV2ufCAcSR3k57RMN1ibtj7DByRXkTmhExADWvHSO1RyKdYrIU6eTnMU71PxgCNRQaXauXVp0NMWaERPEiQ5aBkE0np1SQyeWcfTYMgKNIdKTjVXrDcLTg9xTQ8VvFt/r97Xf8/SMEOhteg7Yk7SYnB7ehv1B6ONoOSpqk4VStNnru63HaJxPEJib1mxtNS+t3HXeuD61IVbzRG/LvOGSGyGOu6gsBw+pmOmtDYBDrWkgTpVXHtALAQ6ACk0YexANoczf78A4pDPwKZTO59pgkQqpWfoWZ02fMPET5B8AAdDM5WpE+J2gNNzc1RvusZjnoh7QZ9tmEV/u+FD4CrXDwEHAcG/HF7EubISbBLT9m+VevoKzZDAQ2CxW9VdMxdviWE=
-x-ms-exchange-transport-forked: True
+	Mon, 13 Jan 2020 17:37:54 +0000 (UTC)
+Received: by mail-vs1-f51.google.com with SMTP id s16so6357324vsc.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jan 2020 09:37:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=XGkJzgtCDpu8YhA6B+pSxFyICG9r/wWFvdLIBy5aiMc=;
+	b=iDS9jFGHegI8PbXzxw+bL/p+w/E2ryvDtwkyvEQUh9gzXd50yw2KW16M/77QA2mrqe
+	3b+3I31bxZU21iQfsa9XVk8z9viAAlYLqcKVZEw39x/c8XraeSEUDkXmcwNBmTzqD0sU
+	Fx7wFy5G7GC3T7m/U0dUeHGTbWK29UFB6dQDkQD1LjsnftdmWUGjwgd5sp0lwzmigeUq
+	CfOdYLoNe9Ek+IZrTBWlNL7l0WMcxBwPWeWGECRcntkWgKTxZSd7+kq60anEywT36qAo
+	/W3xgemvy+zSto8zA1N+ZSaa66n7i24YJNw/mBoErQ2Bt5c1FwqT5fMMZ7klXjunKabn
+	JdKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=XGkJzgtCDpu8YhA6B+pSxFyICG9r/wWFvdLIBy5aiMc=;
+	b=bj8dWgX9lEIUXkoVpuGmRtB4ZpPgwIAZ+29f0HLxs7j4liCWqEAFtF6raOC5wYzoHd
+	KfSEn+BdYVDwOP0qsEf9Y4dChv3Ls17ijq8f7iV/j4JKxYA0Wa8FzRQTveCerSxMwCXv
+	JGfPDRhGPxqDVW4+EF8CxWyHnMK8nu4yADMmnGEg/XZIUkoU/cfs6gFYFnjLZL3FancF
+	QUDFIQ5a9LIYnHqmILtl6jzrmg7hCGq21v/3h4RlJhPj4OE1yhs/+8GzxuBqOwheFYw9
+	Bu8vRoxhmK/UWip9JFlr0I7YlGn5dvBdCIuVBb42L8+yLStosqc9miaobA4GMS1R80ey
+	jp3A==
+X-Gm-Message-State: APjAAAVoN/qWE4OZATNy8UCs5M4jVBj/H08o0aMQNegU0PLtQ57HVm3u
+	wJXRJa3cJlniVjVoaYk9Csmu1dvfyIsFiarKSTU=
+X-Google-Smtp-Source: APXvYqzkvJ1Y88hHha5XomRstLerkUl1MVIPw7BE2FOTqku9lrb7Uux0/C0sQB0NuftSQYisqt10mqew9H04DE3pG3M=
+X-Received: by 2002:a05:6102:52e:: with SMTP id
+	m14mr9237049vsa.25.1578937075392; 
+	Mon, 13 Jan 2020 09:37:55 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 82d74d8d-24ac-4dc0-4a49-08d79844dd01
-X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Jan 2020 16:23:02.7612 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /vcWjhIMfOuJFb8vO4XLF4eB5AGdn/ssUazRF5uJMizOCAXMp/VFcVFVzk6ClhJDqKRyj0X/k7RefXdawvCwxsnIwti14Ox2mH6JKXJznnA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1173
-Cc: Rich Persaud <persaur@gmail.com>
-Subject: Re: Looking for a way to build latest tagged releases in recipes
+References: <20200112135954.23868-1-crg7475@mailbox.org>
+In-Reply-To: <20200112135954.23868-1-crg7475@mailbox.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 13 Jan 2020 18:37:44 +0100
+Message-ID: <CANNYZj_g0Tj29PB8W_pU6ic1giYT9r+8k6-nCXZxrMUFTD88MQ@mail.gmail.com>
+To: Carlos Rafael Giani <crg7475@mailbox.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 01/12] gstreamer: Add common .inc files for meson based recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -90,99 +54,488 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 16:23:04 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Mon, 13 Jan 2020 17:37:54 -0000
+Content-Type: multipart/alternative; boundary="0000000000008063f8059c08efc6"
+
+--0000000000008063f8059c08efc6
+Content-Type: text/plain; charset="UTF-8"
+
+ ${GST_TEST_SUITE_NAME} is not actually defined anywhere? I believe this
+has the undesired effect of running all installed test suites rather than
+just gstreamer, including glib and others.
+
+
+Alex
+
+On Sun, 12 Jan 2020 at 15:31, Carlos Rafael Giani <crg7475@mailbox.org>
+wrote:
+
+> * gstreamer1.0-plugins-common.inc
+>   The old gstreamer1.0-plugins.inc file, adapted for meson
+> * gstreamer1.0-plugins-packaging.inc
+>   The old gst-plugins-package.inc file, adapted for meson
+> * gstreamer1.0-ptest.inc
+>   Common code for meson based PTest support; autogenerates the run-ptest
+>   file and is designed to use the gnome-desktop-testing suite runner
+>   (which is why the .inc files inherits from ptest-gnome)
+>
+> Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+> ---
+>  .../gstreamer/gstreamer1.0-plugins-common.inc | 47 +++++++++++++
+>  .../gstreamer1.0-plugins-packaging.inc        | 70 +++++++++++++++++++
+>  .../gstreamer/gstreamer1.0-ptest.inc          | 21 ++++++
+>  3 files changed, 138 insertions(+)
+>  create mode 100644
+> meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+>  create mode 100644
+> meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
+>  create mode 100644
+> meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
+>
+> diff --git
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+> new file mode 100644
+> index 0000000000..ccf55500a9
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+> @@ -0,0 +1,47 @@
+> +# This .inc file contains the common setup for the gstreamer1.0-plugins-*
+> +# plugin set recipes.
+> +
+> +# SUMMARY is set in the actual .bb recipes
+> +HOMEPAGE = "https://gstreamer.freedesktop.org/"
+> +BUGTRACKER = "https://bugzilla.gnome.org/enter_bug.cgi?product=Gstreamer"
+> +SECTION = "multimedia"
+> +
+> +DEPENDS = "gstreamer1.0 glib-2.0-native"
+> +
+> +inherit gettext meson pkgconfig upstream-version-is-even
+> +
+> +require gstreamer1.0-plugins-packaging.inc
+> +
+> +# Orc enables runtime JIT compilation of data processing routines from Orc
+> +# bytecode to SIMD instructions for various architectures (currently SSE,
+> MMX,
+> +# MIPS, Altivec and NEON are supported).
+> +# This value is used in the PACKAGECONFIG values for each plugin set
+> recipe.
+> +# By modifying it, Orc can be enabled/disabled in all of these recipes at
+> once.
+> +GSTREAMER_ORC ?= "orc"
+> +
+> +PACKAGECONFIG[orc] = "-Dorc=enabled,-Dorc=disabled,orc orc-native"
+> +
+> +# TODO: put this in a gettext.bbclass patch (with variables to allow for
+> +# configuring the option name and the enabled/disabled values).
+> +def gettext_oemeson(d):
+> +    if d.getVar('USE_NLS') == 'no':
+> +        return '-Dnls=disabled'
+> +    # Remove the NLS bits if USE_NLS is no or INHIBIT_DEFAULT_DEPS is set
+> +    if d.getVar('INHIBIT_DEFAULT_DEPS') and not oe.utils.inherits(d,
+> 'cross-canadian'):
+> +        return '-Dnls=disabled'
+> +    return '-Dnls=enabled'
+> +
+> +# Not all plugin sets contain examples, so the -Dexamples
+> +# option needs to be added conditionally.
+> +GST_PLUGIN_SET_HAS_EXAMPLES ?= "1"
+> +
+> +EXTRA_OEMESON += " \
+> +    ${@bb.utils.contains('GST_PLUGIN_SET_HAS_EXAMPLES', '1',
+> '-Dexamples=disabled', '', d)} \
+> +    ${@gettext_oemeson(d)} \
+> +"
+> +
+> +GIR_MESON_ENABLE_FLAG = "enabled"
+> +GIR_MESON_DISABLE_FLAG = "disabled"
+> +
+> +# Dynamically generate packages for all enabled plugins
+> +PACKAGES_DYNAMIC = "^${PN}-.*"
+> diff --git
+> a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
+> new file mode 100644
+> index 0000000000..9a7a1b6afe
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
+> @@ -0,0 +1,70 @@
+> +# This .inc file contains functionality for automatically splitting
+> +# built plugins into individual packages for each plugin. A -meta
+> +# package is also set up that has no files of its own, but contains
+> +# the names of all plugin packages in its RDEPENDS list.
+> +#
+> +# This is mainly used by the gstreamer1.0-plugins-* plugin set recipes,
+> +# but can be used in any recipe that produces GStreamer plugins.
+> +
+> +PACKAGESPLITFUNCS_prepend = " split_gstreamer10_packages "
+> +PACKAGESPLITFUNCS_append = " set_gstreamer10_metapkg_rdepends "
+> +
+> +python split_gstreamer10_packages () {
+> +    gst_libdir = d.expand('${libdir}/gstreamer-1.0')
+> +    postinst = d.getVar('plugin_postinst')
+> +    glibdir = d.getVar('libdir')
+> +
+> +    # GStreamer libraries
+> +    do_split_packages(d, glibdir, r'^lib(.*)\.so\.*', 'lib%s', 'GStreamer
+> 1.0 %s library', extra_depends='', allow_links=True)
+> +    # GStreamer plugin shared objects
+> +    do_split_packages(d, gst_libdir, r'libgst(.*)\.so$',
+> d.expand('${PN}-%s'), 'GStreamer 1.0 plugin for %s', postinst=postinst,
+> extra_depends='')
+> +    # GObject introspection files for GStreamer plugins
+> +    do_split_packages(d, glibdir+'/girepository-1.0',
+> r'Gst(.*)-1.0\.typelib$', d.expand('${PN}-%s-typelib'), 'GStreamer 1.0
+> typelib file for %s', postinst=postinst, extra_depends='')
+> +    # Static GStreamer libraries for development
+> +    do_split_packages(d, gst_libdir, r'libgst(.*)\.a$',
+> d.expand('${PN}-%s-staticdev'), 'GStreamer 1.0 plugin for %s (static
+> development files)', extra_depends='${PN}-staticdev')
+> +}
+> +
+> +python set_gstreamer10_metapkg_rdepends () {
+> +    import os
+> +    import oe.utils
+> +
+> +    # Go through all generated packages (excluding the main package and
+> +    # the -meta package itself) and add them to the -meta package as
+> RDEPENDS.
+> +
+> +    pn = d.getVar('PN')
+> +    metapkg =  pn + '-meta'
+> +    d.setVar('ALLOW_EMPTY_' + metapkg, "1")
+> +    d.setVar('FILES_' + metapkg, "")
+> +    blacklist = [ pn, pn + '-meta' ]
+> +    metapkg_rdepends = []
+> +    pkgdest = d.getVar('PKGDEST')
+> +    for pkg in oe.utils.packages_filter_out_system(d):
+> +        if pkg not in blacklist and pkg not in metapkg_rdepends:
+> +            # See if the package is empty by looking at the contents of
+> its PKGDEST subdirectory.
+> +            # If this subdirectory is empty, then the package is.
+> +            # Empty packages do not get added to the meta package's
+> RDEPENDS
+> +            pkgdir = os.path.join(pkgdest, pkg)
+> +            if os.path.exists(pkgdir):
+> +                dir_contents = os.listdir(pkgdir) or []
+> +            else:
+> +                dir_contents = []
+> +            is_empty = len(dir_contents) == 0
+> +            if not is_empty:
+> +                metapkg_rdepends.append(pkg)
+> +    d.setVar('RDEPENDS_' + metapkg, ' '.join(metapkg_rdepends))
+> +    d.setVar('DESCRIPTION_' + metapkg, pn + ' meta package')
+> +}
+> +
+> +# each plugin-dev depends on PN-dev, plugin-staticdev on PN-staticdev
+> +# so we need them even when empty (like in gst-plugins-good case)
+> +ALLOW_EMPTY_${PN} = "1"
+> +ALLOW_EMPTY_${PN}-dev = "1"
+> +ALLOW_EMPTY_${PN}-staticdev = "1"
+> +
+> +PACKAGES += "${PN}-apps ${PN}-meta ${PN}-glib"
+> +
+> +FILES_${PN} = ""
+> +FILES_${PN}-apps = "${bindir}"
+> +FILES_${PN}-glib = "${datadir}/glib-2.0"
+> +
+> +RRECOMMENDS_${PN} += "${PN}-meta"
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
+> b/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
+> new file mode 100644
+> index 0000000000..74368c4cd8
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
+> @@ -0,0 +1,21 @@
+> +inherit ptest-gnome
+> +
+> +TEST_FILES_PATH = "${datadir}/installed-tests/gstreamer-1.0/test-files"
+> +RUN_PTEST_FILE = "${D}${PTEST_PATH}/run-ptest"
+> +
+> +EXTRA_OEMESON += "-Dtest-files-path=${TEST_FILES_PATH}"
+> +
+> +# Using do_install_ptest_base instead of do_install_ptest, since
+> +# the default do_install_ptest_base is hardcoded to expect Makefiles.
+> +do_install_ptest_base() {
+> +    # Generate run-ptest file
+> +    echo "#!/usr/bin/env sh" > "${RUN_PTEST_FILE}"
+> +    echo "gnome-desktop-testing-runner ${GST_TEST_SUITE_NAME}" >>
+> "${RUN_PTEST_FILE}"
+> +    chmod 0755 "${RUN_PTEST_FILE}"
+> +
+> +    # Install additional files required by tests
+> +    if [ -d "${S}/tests/files" ] ; then
+> +        install -d "${D}/${TEST_FILES_PATH}"
+> +        install -m 0644 "${S}/tests/files"/* "${D}/${TEST_FILES_PATH}"
+> +    fi
+> +}
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--0000000000008063f8059c08efc6
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+<div dir=3D"ltr"><div> ${<span class=3D"gmail-il">GST_TEST_SUITE_NAME</span=
+>} is not actually defined anywhere? I believe this has the undesired effec=
+t of running all installed test suites rather than just gstreamer, includin=
+g glib and others.</div><div><br></div><div><br></div><div>Alex<br></div></=
+div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Sun, 12 Jan 2020 at 15:31, Carlos Rafael Giani &lt;<a href=3D"mailto:crg74=
+75@mailbox.org">crg7475@mailbox.org</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">* gstreamer1.0-plugins-common.inc<br>
+=C2=A0 The old gstreamer1.0-plugins.inc file, adapted for meson<br>
+* gstreamer1.0-plugins-packaging.inc<br>
+=C2=A0 The old gst-plugins-package.inc file, adapted for meson<br>
+* gstreamer1.0-ptest.inc<br>
+=C2=A0 Common code for meson based PTest support; autogenerates the run-pte=
+st<br>
+=C2=A0 file and is designed to use the gnome-desktop-testing suite runner<b=
+r>
+=C2=A0 (which is why the .inc files inherits from ptest-gnome)<br>
+<br>
+Signed-off-by: Carlos Rafael Giani &lt;<a href=3D"mailto:crg7475@mailbox.or=
+g" target=3D"_blank">crg7475@mailbox.org</a>&gt;<br>
+---<br>
+=C2=A0.../gstreamer/gstreamer1.0-plugins-common.inc | 47 +++++++++++++<br>
+=C2=A0.../gstreamer1.0-plugins-packaging.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 7=
+0 +++++++++++++++++++<br>
+=C2=A0.../gstreamer/gstreamer1.0-ptest.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 | 21 ++++++<br>
+=C2=A03 files changed, 138 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plu=
+gins-common.inc<br>
+=C2=A0create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plu=
+gins-packaging.inc<br>
+=C2=A0create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-pte=
+st.inc<br>
+<br>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.=
+inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc<br>
+new file mode 100644<br>
+index 0000000000..ccf55500a9<br>
+--- /dev/null<br>
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc<br>
+@@ -0,0 +1,47 @@<br>
++# This .inc file contains the common setup for the gstreamer1.0-plugins-*<=
+br>
++# plugin set recipes.<br>
++<br>
++# SUMMARY is set in the actual .bb recipes<br>
++HOMEPAGE =3D &quot;<a href=3D"https://gstreamer.freedesktop.org/" rel=3D"n=
+oreferrer" target=3D"_blank">https://gstreamer.freedesktop.org/</a>&quot;<b=
+r>
++BUGTRACKER =3D &quot;<a href=3D"https://bugzilla.gnome.org/enter_bug.cgi?p=
+roduct=3DGstreamer" rel=3D"noreferrer" target=3D"_blank">https://bugzilla.g=
+nome.org/enter_bug.cgi?product=3DGstreamer</a>&quot;<br>
++SECTION =3D &quot;multimedia&quot;<br>
++<br>
++DEPENDS =3D &quot;gstreamer1.0 glib-2.0-native&quot;<br>
++<br>
++inherit gettext meson pkgconfig upstream-version-is-even<br>
++<br>
++require gstreamer1.0-plugins-packaging.inc<br>
++<br>
++# Orc enables runtime JIT compilation of data processing routines from Orc=
+<br>
++# bytecode to SIMD instructions for various architectures (currently SSE, =
+MMX,<br>
++# MIPS, Altivec and NEON are supported).<br>
++# This value is used in the PACKAGECONFIG values for each plugin set recip=
+e.<br>
++# By modifying it, Orc can be enabled/disabled in all of these recipes at =
+once.<br>
++GSTREAMER_ORC ?=3D &quot;orc&quot;<br>
++<br>
++PACKAGECONFIG[orc] =3D &quot;-Dorc=3Denabled,-Dorc=3Ddisabled,orc orc-nati=
+ve&quot;<br>
++<br>
++# TODO: put this in a gettext.bbclass patch (with variables to allow for<b=
+r>
++# configuring the option name and the enabled/disabled values).<br>
++def gettext_oemeson(d):<br>
++=C2=A0 =C2=A0 if d.getVar(&#39;USE_NLS&#39;) =3D=3D &#39;no&#39;:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;-Dnls=3Ddisabled&#39;<br>
++=C2=A0 =C2=A0 # Remove the NLS bits if USE_NLS is no or INHIBIT_DEFAULT_DE=
+PS is set<br>
++=C2=A0 =C2=A0 if d.getVar(&#39;INHIBIT_DEFAULT_DEPS&#39;) and not oe.utils=
+.inherits(d, &#39;cross-canadian&#39;):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;-Dnls=3Ddisabled&#39;<br>
++=C2=A0 =C2=A0 return &#39;-Dnls=3Denabled&#39;<br>
++<br>
++# Not all plugin sets contain examples, so the -Dexamples<br>
++# option needs to be added conditionally.<br>
++GST_PLUGIN_SET_HAS_EXAMPLES ?=3D &quot;1&quot;<br>
++<br>
++EXTRA_OEMESON +=3D &quot; \<br>
++=C2=A0 =C2=A0 ${@bb.utils.contains(&#39;GST_PLUGIN_SET_HAS_EXAMPLES&#39;, =
+&#39;1&#39;, &#39;-Dexamples=3Ddisabled&#39;, &#39;&#39;, d)} \<br>
++=C2=A0 =C2=A0 ${@gettext_oemeson(d)} \<br>
++&quot;<br>
++<br>
++GIR_MESON_ENABLE_FLAG =3D &quot;enabled&quot;<br>
++GIR_MESON_DISABLE_FLAG =3D &quot;disabled&quot;<br>
++<br>
++# Dynamically generate packages for all enabled plugins<br>
++PACKAGES_DYNAMIC =3D &quot;^${PN}-.*&quot;<br>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packagi=
+ng.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.i=
+nc<br>
+new file mode 100644<br>
+index 0000000000..9a7a1b6afe<br>
+--- /dev/null<br>
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc<=
+br>
+@@ -0,0 +1,70 @@<br>
++# This .inc file contains functionality for automatically splitting<br>
++# built plugins into individual packages for each plugin. A -meta<br>
++# package is also set up that has no files of its own, but contains<br>
++# the names of all plugin packages in its RDEPENDS list.<br>
++#<br>
++# This is mainly used by the gstreamer1.0-plugins-* plugin set recipes,<br=
+>
++# but can be used in any recipe that produces GStreamer plugins.<br>
++<br>
++PACKAGESPLITFUNCS_prepend =3D &quot; split_gstreamer10_packages &quot;<br>
++PACKAGESPLITFUNCS_append =3D &quot; set_gstreamer10_metapkg_rdepends &quot=
+;<br>
++<br>
++python split_gstreamer10_packages () {<br>
++=C2=A0 =C2=A0 gst_libdir =3D d.expand(&#39;${libdir}/gstreamer-1.0&#39;)<b=
+r>
++=C2=A0 =C2=A0 postinst =3D d.getVar(&#39;plugin_postinst&#39;)<br>
++=C2=A0 =C2=A0 glibdir =3D d.getVar(&#39;libdir&#39;)<br>
++<br>
++=C2=A0 =C2=A0 # GStreamer libraries<br>
++=C2=A0 =C2=A0 do_split_packages(d, glibdir, r&#39;^lib(.*)\.so\.*&#39;, &#=
+39;lib%s&#39;, &#39;GStreamer 1.0 %s library&#39;, extra_depends=3D&#39;&#3=
+9;, allow_links=3DTrue)<br>
++=C2=A0 =C2=A0 # GStreamer plugin shared objects<br>
++=C2=A0 =C2=A0 do_split_packages(d, gst_libdir, r&#39;libgst(.*)\.so$&#39;,=
+ d.expand(&#39;${PN}-%s&#39;), &#39;GStreamer 1.0 plugin for %s&#39;, posti=
+nst=3Dpostinst, extra_depends=3D&#39;&#39;)<br>
++=C2=A0 =C2=A0 # GObject introspection files for GStreamer plugins<br>
++=C2=A0 =C2=A0 do_split_packages(d, glibdir+&#39;/girepository-1.0&#39;, r&=
+#39;Gst(.*)-1.0\.typelib$&#39;, d.expand(&#39;${PN}-%s-typelib&#39;), &#39;=
+GStreamer 1.0 typelib file for %s&#39;, postinst=3Dpostinst, extra_depends=
+=3D&#39;&#39;)<br>
++=C2=A0 =C2=A0 # Static GStreamer libraries for development<br>
++=C2=A0 =C2=A0 do_split_packages(d, gst_libdir, r&#39;libgst(.*)\.a$&#39;, =
+d.expand(&#39;${PN}-%s-staticdev&#39;), &#39;GStreamer 1.0 plugin for %s (s=
+tatic development files)&#39;, extra_depends=3D&#39;${PN}-staticdev&#39;)<b=
+r>
++}<br>
++<br>
++python set_gstreamer10_metapkg_rdepends () {<br>
++=C2=A0 =C2=A0 import os<br>
++=C2=A0 =C2=A0 import oe.utils<br>
++<br>
++=C2=A0 =C2=A0 # Go through all generated packages (excluding the main pack=
+age and<br>
++=C2=A0 =C2=A0 # the -meta package itself) and add them to the -meta packag=
+e as RDEPENDS.<br>
++<br>
++=C2=A0 =C2=A0 pn =3D d.getVar(&#39;PN&#39;)<br>
++=C2=A0 =C2=A0 metapkg =3D=C2=A0 pn + &#39;-meta&#39;<br>
++=C2=A0 =C2=A0 d.setVar(&#39;ALLOW_EMPTY_&#39; + metapkg, &quot;1&quot;)<br=
+>
++=C2=A0 =C2=A0 d.setVar(&#39;FILES_&#39; + metapkg, &quot;&quot;)<br>
++=C2=A0 =C2=A0 blacklist =3D [ pn, pn + &#39;-meta&#39; ]<br>
++=C2=A0 =C2=A0 metapkg_rdepends =3D []<br>
++=C2=A0 =C2=A0 pkgdest =3D d.getVar(&#39;PKGDEST&#39;)<br>
++=C2=A0 =C2=A0 for pkg in oe.utils.packages_filter_out_system(d):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if pkg not in blacklist and pkg not in metapkg=
+_rdepends:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # See if the package is empty by=
+ looking at the contents of its PKGDEST subdirectory.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # If this subdirectory is empty,=
+ then the package is.<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Empty packages do not get adde=
+d to the meta package&#39;s RDEPENDS<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pkgdir =3D os.path.join(pkgdest,=
+ pkg)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if os.path.exists(pkgdir):<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dir_contents =3D o=
+s.listdir(pkgdir) or []<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 else:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 dir_contents =3D [=
+]<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 is_empty =3D len(dir_contents) =
+=3D=3D 0<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if not is_empty:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 metapkg_rdepends.a=
+ppend(pkg)<br>
++=C2=A0 =C2=A0 d.setVar(&#39;RDEPENDS_&#39; + metapkg, &#39; &#39;.join(met=
+apkg_rdepends))<br>
++=C2=A0 =C2=A0 d.setVar(&#39;DESCRIPTION_&#39; + metapkg, pn + &#39; meta p=
+ackage&#39;)<br>
++}<br>
++<br>
++# each plugin-dev depends on PN-dev, plugin-staticdev on PN-staticdev<br>
++# so we need them even when empty (like in gst-plugins-good case)<br>
++ALLOW_EMPTY_${PN} =3D &quot;1&quot;<br>
++ALLOW_EMPTY_${PN}-dev =3D &quot;1&quot;<br>
++ALLOW_EMPTY_${PN}-staticdev =3D &quot;1&quot;<br>
++<br>
++PACKAGES +=3D &quot;${PN}-apps ${PN}-meta ${PN}-glib&quot;<br>
++<br>
++FILES_${PN} =3D &quot;&quot;<br>
++FILES_${PN}-apps =3D &quot;${bindir}&quot;<br>
++FILES_${PN}-glib =3D &quot;${datadir}/glib-2.0&quot;<br>
++<br>
++RRECOMMENDS_${PN} +=3D &quot;${PN}-meta&quot;<br>
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc b/met=
+a/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc<br>
+new file mode 100644<br>
+index 0000000000..74368c4cd8<br>
+--- /dev/null<br>
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc<br>
+@@ -0,0 +1,21 @@<br>
++inherit ptest-gnome<br>
++<br>
++TEST_FILES_PATH =3D &quot;${datadir}/installed-tests/gstreamer-1.0/test-fi=
+les&quot;<br>
++RUN_PTEST_FILE =3D &quot;${D}${PTEST_PATH}/run-ptest&quot;<br>
++<br>
++EXTRA_OEMESON +=3D &quot;-Dtest-files-path=3D${TEST_FILES_PATH}&quot;<br>
++<br>
++# Using do_install_ptest_base instead of do_install_ptest, since<br>
++# the default do_install_ptest_base is hardcoded to expect Makefiles.<br>
++do_install_ptest_base() {<br>
++=C2=A0 =C2=A0 # Generate run-ptest file<br>
++=C2=A0 =C2=A0 echo &quot;#!/usr/bin/env sh&quot; &gt; &quot;${RUN_PTEST_FI=
+LE}&quot;<br>
++=C2=A0 =C2=A0 echo &quot;gnome-desktop-testing-runner ${GST_TEST_SUITE_NAM=
+E}&quot; &gt;&gt; &quot;${RUN_PTEST_FILE}&quot;<br>
++=C2=A0 =C2=A0 chmod 0755 &quot;${RUN_PTEST_FILE}&quot;<br>
++<br>
++=C2=A0 =C2=A0 # Install additional files required by tests<br>
++=C2=A0 =C2=A0 if [ -d &quot;${S}/tests/files&quot; ] ; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d &quot;${D}/${TEST_FILES_PATH}&quot;=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -m 0644 &quot;${S}/tests/files&quot;/*=
+ &quot;${D}/${TEST_FILES_PATH}&quot;<br>
++=C2=A0 =C2=A0 fi<br>
++}<br>
+-- <br>
+2.17.1<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-> FWIW I do want to see the system used to do things like this. I've kind
-> of envisaged you'd do it "up front" though. For example it should be
-> trivial for a script to use tinfoil, iterate through and generate an
-> include file of the revisions you want, using the fetcher calls.
->=20
-> Yes, its slightly more annoying to generate the config, then build it
-> but if it stops the core becoming unmaintainable with corner cases,
-> that could be the right decision.
->=20
-> If you do something like that it would be great to share it so others
-> can see what you did and be able to build off it...
-
-This is actually something I've been working on and thinking about a lot fo=
-r the past year and a half. Our application layer has probably 30 or so rec=
-ipes that use AUTOREV. For the purposes of reproducible builds, we need to =
-generate similar output to what buildhistory-collect-srcrevs generates, e.g=
-.=20
-
-	SRCREV_pn-my_daemon =3D "githash"=20
-
-I've gone back and forth and re-implemented the code to do so a half dozen =
-times. Chronologically, these are the fundamental strategies I've attempted=
-:
-
-1. Simply in terms of buildhistory-collect-srcrevs.=20
-	Pros: dead simple
-	Cons: requires that you actually build stuff first; requires buildhistory =
-to be enabled
-2. As a bbclass, injecting a task between do_fetch and do_unpack ("do_captu=
-re_srcrevs")
-	Pros: can be invoked without actually building stuff, e.g. bitbake my-imag=
-e --runall=3Ddo_capture_srcrevs
-	Cons: adds yet another task to the recipe; a little ugly since you either =
-need to INHERIT the class, or individually inherit it in recipes=20
-3. As a separate tinfoil script (as you suggest) which I run before the act=
-ual bitbake.=20
-	Pros: decoupled from the actual build
-	Cons: since it's decoupled, it's slower - each recipe needs to be parsed
-4. Hacking the srcrev cache (inside fetch2) to log all information necessar=
-y to generate the SRCREV overrides, paired with a script that reads the cac=
-he and does it
-	Pros: Equally suitable for the "config-then-build" workflow ("bitbake --pa=
-rse-only && generate_overrides.py >> local.conf && bitbake image") or the "=
-build-then-config" workflow ("bitbake image && generate_overrides.py > over=
-rides.conf")
-	Cons: Invasive, required large changes to fetch2/__init__.py and some smal=
-ler changes to fetch2/git.py
-
-In the current incarnation (#4), I also go a step further and, in cases whe=
-re a SRC_URI has a parameterized branch, I generate BRANCH override lines a=
-s well. For example, if I see:
-
-	MY_BRANCH ??=3D "master"
-	SRC_URI =3D "git://git.oe.handhelds.org/git/vip.git;tag=3Dversion-1; branc=
-h=3D${MY_BRANCH}"=20
-
-I generate this line along with the corresponding SRCREV override:
-
-	MY_BRANCH_pn-recipe =3D "master"
-
-The algorithm for detecting the branch variable in the SRC_URI entry is as =
-a little complicated, and not super relevant at this moment, but I want to =
-get it off my chest :). The code first tries to find a parameterized branch=
- by using a regex to find stuff like "branch=3D${VAR}". If that fails, it c=
-ould be because the branch is expressed as something more complicated like =
-this:
-
-	BRANCH_RELEASE_NUMBER ??=3D "1.0"
-	SRC_URI =3D "git://git.oe.handhelds.org/git/vip.git;tag=3Dversion-1; branc=
-h=3Drelease-${BRANCH_RELEASE_NUMBER}"
-
-In that case, I fall back on a breadth-first search on all the variables th=
-at SRC_URI references (recursively) to find the "deepest" one that controls=
- the branch. I wrote this in terms of d.expandWithRefs, and can detail it f=
-urther if people are interested. Basically, I didn't want to enforce a part=
-icular convention on the name of the branch variable. You'd think BRANCH wo=
-uld cover it, but the kernel recipes also have KMETA and stuff like that.=20
-
-I realize the branch stuff as currently implemented is maybe too opinionate=
-d (and a bit dangerous) for inclusion in bitbake. But I digress.=20
-
-I'm very interested in discussing the SRCREV (and perhaps BRANCH) stuff fur=
-ther with anyone interested. I would love to see some strategy for doing th=
-is make its way into bitbake or poky, so I can stop reimplementing it and s=
-econd guessing myself :).
-
-Thanks,
-Chris
-
+--0000000000008063f8059c08efc6--
