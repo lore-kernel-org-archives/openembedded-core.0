@@ -1,61 +1,49 @@
-Return-Path: <paul@betafive.co.uk>
-X-Greylist: delayed 841 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 13 Jan 2020 14:11:02 UTC
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
-	[64.147.123.24])
-	by mail.openembedded.org (Postfix) with ESMTP id A6A187FCDA
+Return-Path: <maxim.uvarov@linaro.org>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 40C3F7FCDA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 14:11:02 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 451844F5;
-	Mon, 13 Jan 2020 08:57:00 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
-	by compute1.internal (MEProxy); Mon, 13 Jan 2020 08:57:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=mime-version:message-id:in-reply-to:references:date:from:to
-	:subject:content-type; s=fm3; bh=4VCukDoaJxfkyJ+YJmy4QkW+R6PDRdw
-	vER6OxyH31+c=; b=C+lPnMhP+8Ra3RksWWeGSOIIFyabOvBKj4H5UsQSbbLhAVz
-	ZCZJLyvQE124+5A9cAwhcgJEhsoo2eyJSvCue33oac5MSM6/C0kbprKdX29hOGpS
-	QSfeeRFgZyNfmcVti6eD+ZWi6K7VkuRwWHvK7PlKNadKGHnPJJ5sIIy6h0OHWw5G
-	8vxN7Sn/ny05HzJo6h3i3HQNx5ZYzIBa6iRUdskkRV+/SAlW4V1rfsIh3xriIkad
-	WUgLbEfotbmzLWYiuRQ1k3061OX9yB9OJmnHVz8rtVecP0T/YZQdfIArOJmsWvzJ
-	B8nG/kllksXR4NXFdDrww5dlApyl4YP28XZC1rA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4VCukD
-	oaJxfkyJ+YJmy4QkW+R6PDRdwvER6OxyH31+c=; b=lQWfCGu/hN4WpVGSUszTe8
-	JLRPPGnBe/WR3ke1SpDPDzkEwm53sb/a7bxmiOT30JTwAqic8/Nv/h2isRVyjuXY
-	n4qZd2thirwYyNXgMyD2uKiUWxeJEv5WB1FOuX9op7ieUJE+P0oDdRHe5KoTSiXY
-	tZzvBAqS7B6TYQfejzikBtgCs4ZblT1ZmwwEGKzOU6yaaLca/NsRnb6O/YIpbSTA
-	sAszetXVaQ40IyVPZpmawWpn0Ryp/BIDC9Owp5TAiMPlhoBuFj7/qp+HLk7Z32bI
-	PZ6gCP9V+laQP+Y+VlozBlCTna8dA79g0jKcWfBP/Rl3TQsWkC+7J41rTiASIzOQ
-	==
-X-ME-Sender: <xms:K3ccXik_5noWSXNZtu2nyAun2VVU3DX2qd7DGa2xQxngy5IsVNoOJA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedufedrvdejtddgheejucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-	cujfgurhepofgfggfkjghffffhvffutgesthdtredtreertdenucfhrhhomhepfdfrrghu
-	lhcuuegrrhhkvghrfdcuoehprghulhessggvthgrfhhivhgvrdgtohdruhhkqeenucfrrg
-	hrrghmpehmrghilhhfrhhomhepphgruhhlsegsvghtrghfihhvvgdrtghordhukhenucev
-	lhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:K3ccXuGvuJmV0gyw4pJkQ9A8Z-LE70JwbB2wPjaPKmyYzhxkMQZH6g>
-	<xmx:K3ccXrr1vWTMjSWzm7YqpowwZC084PCyJWZXFcB0BIntz5xp4-prpA>
-	<xmx:K3ccXq7FHXI5s2ngLDhnXECdQp2pSPtBQLK7-Qnw8BpMYn_YCHzjKw>
-	<xmx:K3ccXhy5elLuP5iPEbnpJFFYdbC5oHQCE1VcpCmxeyokRVhBfvefbQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 8D928E00A2; Mon, 13 Jan 2020 08:56:59 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.7-754-g09d1619-fmstable-20200113v1
-Mime-Version: 1.0
-Message-Id: <1f1224ce-2bd6-4895-8c6a-8c113ca14e81@www.fastmail.com>
-In-Reply-To: <20200104200703.6758-1-maxim.uvarov@linaro.org>
-References: <20200104200703.6758-1-maxim.uvarov@linaro.org>
-Date: Mon, 13 Jan 2020 13:56:41 +0000
-From: "Paul Barker" <paul@betafive.co.uk>
-To: "Maxim Uvarov" <maxim.uvarov@linaro.org>,
-	"OE Core" <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wic: add UEFI kernel as UEFI stub
+	Mon, 13 Jan 2020 14:12:05 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id n11so9910631iom.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 Jan 2020 06:12:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wbCX/vANrRS9qbHw/jhJnT/bjzLSuaVYRl/kKh0JnoA=;
+	b=ngmzmnmAD8gnur3rShQZX4OwVBqYWAlpZi7yizHs87T7blcAHcN+AXxJjim3fI7qy+
+	mN13uuLra1B2j99CxOlnfR32+GWTljxXuPnifz4vVPKzhb8srOwSfbvlTjRRyHv4tVbJ
+	nLi+TiQlf59i1axXDqa86ZV6D/vDxXuVt7cNNtOOvsbFN5Yo2f8om/wGMfsZnnQlvgPc
+	LwkglRO+xlnDYOIP+PXKJl7HKMOqjXqOjJi+/OIK/PZzm1YmuLJ3vP86Zrn6+cWMOyyf
+	h01OVQnizhnjDtyf+52TuToDJJK4SNma5Y63Uu+oboNOHnyJ7MAfxRmFhpHEMcMbEGUq
+	DhrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wbCX/vANrRS9qbHw/jhJnT/bjzLSuaVYRl/kKh0JnoA=;
+	b=ubpdwW7HVmbvQEtxajLMT9W8A3kZLkuc8e0lApRH7s2oVFHyC3cS+XROS5AxXe/7PP
+	t6odCSJtGSVfyp6OUNq6Uhx7/vfgLHBdXJxYjt63epnBn7tvOb0pfLlHiYH1vXYFTuva
+	wDch5xO3wIZrvjwIxxwWkoi+HisgkBWb7M9HW8q87vHT0Mfj08qH1Jt6Tf01bm/Iclog
+	2iIamU4IJ64QbNWHamnpmbjBQ7+P4IbIjKLMvVgFJTovTiaCL1MMSOIaWJwiQW3MgocD
+	ikkD7LId4iaH08pWOVGPpJ/8PUIhtWpHuoZ+W8SKMiCTd0C7UOK3YPaeSZGcYGLXgmF6
+	/bUg==
+X-Gm-Message-State: APjAAAV7tqGv3PmzRV7kW+k9Ve8AIgCyx6cp/VIeE5nt7ojSjwvs4LVt
+	MtTITtQNjFWKVCyygcgHcBC6GCqXItf8iWIPDixgryR+
+X-Google-Smtp-Source: APXvYqwbCEfBYOWG8WiHWqO4AunnN16CEpaMpnn0ACz1r+ucJkJDlGb88LVCat30oqOFM7cChXX33ZsMWLfUNJF8sD0=
+X-Received: by 2002:a02:c773:: with SMTP id k19mr14035160jao.61.1578924726244; 
+	Mon, 13 Jan 2020 06:12:06 -0800 (PST)
+MIME-Version: 1.0
+References: <20200113130827.7409-1-maxim.uvarov@linaro.org>
+	<CAM9ZRVt00houpaZaKirGYgu1w_WRm1yqoio_G-wAgdyyGwuAAg@mail.gmail.com>
+	<CAD8XO3a66v27ohEbrjEC=+XanfD1Fo_zXXo9TaFYSr+C+9+jDQ@mail.gmail.com>
+	<CAM9ZRVut=Wu37sJ5A8fi3be-Bm3vWYepK4Sp2x=r7Et0xoy3WA@mail.gmail.com>
+In-Reply-To: <CAM9ZRVut=Wu37sJ5A8fi3be-Bm3vWYepK4Sp2x=r7Et0xoy3WA@mail.gmail.com>
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+Date: Mon, 13 Jan 2020 17:11:55 +0300
+Message-ID: <CAD8XO3bz8S2S5LzNpJgNuOrQB__LqdWNt2-k0rn8+sdxG3UcLA@mail.gmail.com>
+To: Paul Barker <pbarker@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCHv2] wic: fix images build in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,115 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 14:11:02 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 Jan 2020 14:12:05 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 4 Jan 2020, at 20:07, Maxim Uvarov wrote:
-> Linux kernel can be compiled as UEFI stub and loaded directly
-> with UEFI firmware without grub or other UEFI shell.
-> 
-> Tested with wic file:
-> bootloader  --ptable gpt --timeout=0  --append="rootwait"
-> part /boot --source bootimg-efi --sourceparams="loader=kernel" \
->  --ondisk sda  --fstype=vfat --label bootfs \
->   --active --align 1024 --use-uuid
-> part / --source rootfs --fstype=ext4 --label rootfs \
->   --align 1024 --exclude-path boot/ --use-label
-> The same wic file for armv7, armv8 and x86_64.
-> 
-> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
-> ---
->  scripts/lib/wic/plugins/source/bootimg-efi.py | 27 +++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py 
-> b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> index 2cfdc10ecd..a39d852f6a 100644
-> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> @@ -13,6 +13,7 @@
->  import logging
->  import os
->  import shutil
-> +import re
->  
->  from wic import WicError
->  from wic.engine import get_custom_config
-> @@ -204,6 +205,8 @@ class BootimgEFIPlugin(SourcePlugin):
->                  cls.do_configure_grubefi(hdddir, creator, cr_workdir, 
-> source_params)
->              elif source_params['loader'] == 'systemd-boot':
->                  cls.do_configure_systemdboot(hdddir, creator, 
-> cr_workdir, source_params)
-> +            elif source_params['loader'] == 'kernel':
-> +                return
->              else:
->                  raise WicError("unrecognized bootimg-efi loader: %s" % 
-> source_params['loader'])
->          except KeyError:
-> @@ -243,6 +246,7 @@ class BootimgEFIPlugin(SourcePlugin):
->              if source_params['loader'] == 'grub-efi':
->                  shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" % 
-> cr_workdir,
->                                  "%s/grub.cfg" % cr_workdir)
-> +
->                  for mod in [x for x in os.listdir(kernel_dir) if 
-> x.startswith("grub-efi-")]:
->                      cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, 
-> mod, hdddir, mod[9:])
->                      exec_cmd(cp_cmd, True)
-> @@ -252,6 +256,29 @@ class BootimgEFIPlugin(SourcePlugin):
->                  for mod in [x for x in os.listdir(kernel_dir) if 
-> x.startswith("systemd-")]:
->                      cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, 
-> mod, hdddir, mod[8:])
->                      exec_cmd(cp_cmd, True)
-> +            elif source_params['loader'] == 'kernel':
+On Mon, 13 Jan 2020 at 17:00, Paul Barker <pbarker@konsulko.com> wrote:
+>
+> On Mon, 13 Jan 2020 at 13:57, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+> >
+> > On Mon, 13 Jan 2020 at 16:31, Paul Barker <pbarker@konsulko.com> wrote:
+> > >
+> > > On Mon, 13 Jan 2020 at 13:08, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+> > > >
+> > > > OE wic plugins create temporary file with the index of the line
+> > > > tmp file name. This causes race in case several builds run in time.
+> > > > Add more entropy as timestamp to remove this race.
+> > >
+> > > How would two wic images to be built in parallel with the same work
+> > > directory? To my understanding an image recipe only supports building
+> > > a single wic image.
+> > >
+> > > Thanks,
+> > > Paul
+> >
+> > bitbake image1 image2 image3
+> > all images build .wics and use about the same files, like firmware.
+> > Issue is similar to that:
+> > https://www.yoctoproject.org/pipermail/yocto/2018-June/041373.html
+>
+> Each image has its own work directory though.
+>
+> I'll take a look in more detail later today or tomorrow, if wic is
+> writing temporary files outside of the work directory then that's a
+> bug and should be fixed.
 
-How about "uefi-stub" instead of just "kernel" here so it's more explicit?
+Thanks. I saw bug in rawcopy plugin. All other places were patched due
+to the same code.  I guess then for rawcopy temp files are in
+DEST_IMAGE_DIR (which is common) instead of WORKDIR.
 
-> +                kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-> +                if not kernel:
-> +                    raise WicError("Empty KERNEL_IMAGETYPE %s\n" % 
-> target)
-> +                target = get_bitbake_var("TARGET_SYS")
-> +                if not target:
-> +                    raise WicError("Unknown arch (TARGET_SYS) %s\n" % 
-> target)
-> +
-> +                if re.match("x86_64", target):
-> +                    kernel_efi_image = "bootx64.efi"
-> +                elif re.match('i.86', target):
-> +                    kernel_efi_image = "bootia32.efi"
-> +                elif re.match('aarch64', target):
-> +                    kernel_efi_image = "bootaa64.efi"
-> +                elif re.match('arm', target):
-> +                    kernel_efi_image = "bootarm.efi"
-> +                else:
-> +                    raise WicError("kernel efi is incompatible with 
-> target %s" % target)
-
-Perhaps call this "UEFI stub kernel" instead of just "kernel efi" to make things clearer.
-
-> +
-> +                for mod in [x for x in os.listdir(kernel_dir) if 
-> x.startswith(kernel)]:
-> +                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, 
-> mod, hdddir, kernel_efi_image)
-> +                    WicError("cp_cmd = %s" % cp_cmd);
-
-What's this WicError created here for?
-
-> +                    exec_cmd(cp_cmd, True)
-
-Wouldn't this result in the destination file being overwritten each time through this loop? I guess you're just copying from the grub-efi implementation above though.
-
->              else:
->                  raise WicError("unrecognized bootimg-efi loader: %s" %
->                                 source_params['loader'])
-> -- 
-> 2.17.1
-
--- 
-Paul Barker
+Maxim.
 
