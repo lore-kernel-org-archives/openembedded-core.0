@@ -1,54 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D9E17FCD5
+Return-Path: <maxim.uvarov@linaro.org>
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
+	[209.85.167.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E62F7FC1F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 19:52:24 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id z16so5380369pfk.0
+	Mon, 13 Jan 2020 20:14:42 +0000 (UTC)
+Received: by mail-lf1-f47.google.com with SMTP id v201so7868390lfa.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 11:52:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:content-transfer-encoding:in-reply-to;
-	bh=sspzxTN5r+X7rTj2nv1kjJV8y8+N576tSf10HQR4aTo=;
-	b=cOQREkiPEj+kvNtajpRlr9X8SE+UzS7gqnOb3yZ12KdTk7uf/waePj7Am/Y5OaWdTt
-	Su428PUbn8WWLNbEEXr1ONzBarCOS9bBywYHLrjTfQxzMvmvmc2RUENXpsS0OjIPjDSD
-	eEZV6H9qAMemqEli7dYD/V6wMnLZI4310dSkGwgT8/uyegUVoHmJ4wblIpD53tnlbNlY
-	BSKLwFnxcDNqVkxXp7yAGZEJSXHBn+PMs39jiETbaid6o1EqKZzUcFBzeIA2goFb7a2i
-	PptM0bi8AqxIhP7VE+mJ9IwrdpEa76CErWBuOxSc7rToTCSEegiXHiHbh2HYTrygDrIF
-	GBxQ==
+	Mon, 13 Jan 2020 12:14:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=JBTNLqK/FE6gyDsfcvKAvjISJ27jIzbXGKQ7LF14/OU=;
+	b=VqO7ZkI2iJ9GZtCh+rd55zS1+jlRGCU+9trxnAXKMeEf7mK4nJRJzJ7PD2VfyX88Fh
+	iAy6hGDfU+RmJGFFcGac8BGZWkPWAoSk1wQwuzqZeekkV+FwAUd+tu7Ym1SSX0PiE1uI
+	6PR72Ozd3N+/We4EbKSkzHAtU4f6oBEzT0vECMgPlVQ75gCJvVuWUfUE7S1SIzUM+THN
+	1W/FiwEHkuPGXPii1gVm56vx6JdXSetFjL0nyZ95IjDDUYiLa91xQxEGGLSxUrK5apAx
+	AIdQCFCcthpAqgfFnGm/UMoua2aQocyaONAta9aRlw7DTWB82F5j48VOJXrXBX1xbeDO
+	1qyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=sspzxTN5r+X7rTj2nv1kjJV8y8+N576tSf10HQR4aTo=;
-	b=oja/eJnXmO7MKvqhciXBFOYkCgh64+uRUwhGgPdKhkw1B4SBPqBUwOV8VMQtN1mWM/
-	FpZ+uZPjTeaSRJ2BpD+AU/I+uy+h+3vgMPCNZcgMToL7H83F4qCGFK5xhogzLJZ4TJiO
-	+jEZ4+zxFELevawh5+zZx35abaYp5VEEowagQT+QJIRl3HDxTNWSHe1CXtO87I1l+BJX
-	VZ/b/1rIP158dqg+oOj5F4OYd/Kzg11gypMMrpV9+UTmKPt4pollIpSN20IsdffounGj
-	GGmHqNfh9TAqApXfpa39azNc4FYd1U+eZV26Ci27C0ghScvnARBBGEBjcX1/SrU1Eexp
-	SbyQ==
-X-Gm-Message-State: APjAAAXC79jkh4VrQ7rw2WF4rUYGnd9araTFoRYEs8Quj2zeQE8VFDnf
-	Rw50jC0JoceVstdRkVCqm0s=
-X-Google-Smtp-Source: APXvYqzLtAZxIlRyfsJAkWeLa+n1QDw+Az0mzRZ1G0f0a6LXjGGQs1+OY0INRhpfcndQVC/5CxFMDg==
-X-Received: by 2002:a62:1552:: with SMTP id 79mr21034281pfv.156.1578945145110; 
-	Mon, 13 Jan 2020 11:52:25 -0800 (PST)
-Received: from apollo.localdomain ([2601:646:9200:4e0::e77a])
-	by smtp.gmail.com with ESMTPSA id
-	z6sm15126016pfa.155.2020.01.13.11.52.24
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=JBTNLqK/FE6gyDsfcvKAvjISJ27jIzbXGKQ7LF14/OU=;
+	b=cCsEIHjCHsdoEFFr7cnc4RrUc8OX5oc45/+J/zX00ADh6XJFxeQsJ3kNc9DzpRCd+Z
+	vH9+ZS8f7XB6X/WSzHBEI+xdkxxdNN37JQYbspxpxoNj6mUkh/eqaQYIO8xBpyMLS+Eo
+	nM9cc1UDK+Fn2MDwI0jEn2jSlxCMu3RgDyCtasvwDaVZhGUGojCnzL3SwSTO7FGm/mj5
+	NFiEO692zWUvUfgTej/XYRcejwQgyS3xF5S36Mruj8WXH3MR2DNVN87BQx6cOt2t3vKS
+	q2ycazuqvn/61/Qv8GBECJYVKgez2paF99qF7vutdl2siK1V0CHCJ1eEWIegWu4PebBu
+	EgBg==
+X-Gm-Message-State: APjAAAWGSrCedlbJgOAsBDr0Aag36/GEVRfuO9XWoJseul3/fc6HgE2J
+	tnMpblUdUOh+tjxQf7Tgvfg8M4IBSu0=
+X-Google-Smtp-Source: APXvYqztMRPdLGsyJknhBqFb4w7y8RTnzITioOxudC55V76XB7qjDrYyUix/Nhv1hcJbnnX/u6CbAQ==
+X-Received: by 2002:ac2:4a89:: with SMTP id l9mr11093773lfp.121.1578946482521; 
+	Mon, 13 Jan 2020 12:14:42 -0800 (PST)
+Received: from localhost.localdomain (128-68-30-100.broadband.corbina.ru.
+	[128.68.30.100]) by smtp.gmail.com with ESMTPSA id
+	o10sm6255029lfn.20.2020.01.13.12.14.41
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 13 Jan 2020 11:52:24 -0800 (PST)
-Date: Mon, 13 Jan 2020 11:52:23 -0800
-From: Khem Raj <raj.khem@gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20200113195223.vofhf7lamvwws4gj@apollo.localdomain>
-References: <20200112135954.23868-1-crg7475@mailbox.org>
-	<725d92f91a56183e4166e633c0443fad44f6c5ba.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <725d92f91a56183e4166e633c0443fad44f6c5ba.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 01/12] gstreamer: Add common .inc files for meson based recipes
+	Mon, 13 Jan 2020 12:14:41 -0800 (PST)
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 Jan 2020 23:14:38 +0300
+Message-Id: <20200113201438.4640-1-maxim.uvarov@linaro.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCHv2] wic: add UEFI kernel as UEFI stub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,55 +54,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 19:52:24 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 13 Jan 2020 20:14:42 -0000
 
-On Mon, Jan 13, 2020 at 12:18:32PM +0000, Richard Purdie wrote:
-> On Sun, 2020-01-12 at 14:59 +0100, Carlos Rafael Giani wrote:
-> > * gstreamer1.0-plugins-common.inc
-> >   The old gstreamer1.0-plugins.inc file, adapted for meson
-> > * gstreamer1.0-plugins-packaging.inc
-> >   The old gst-plugins-package.inc file, adapted for meson
-> > * gstreamer1.0-ptest.inc
-> >   Common code for meson based PTest support; autogenerates the run-ptest
-> >   file and is designed to use the gnome-desktop-testing suite runner
-> >   (which is why the .inc files inherits from ptest-gnome)
-> > 
-> > Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
-> > ---
-> >  .../gstreamer/gstreamer1.0-plugins-common.inc | 47 +++++++++++++
-> >  .../gstreamer1.0-plugins-packaging.inc        | 70 +++++++++++++++++++
-> >  .../gstreamer/gstreamer1.0-ptest.inc          | 21 ++++++
-> >  3 files changed, 138 insertions(+)
-> >  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
-> >  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-packaging.inc
-> >  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
-> 
-> Thanks for this, I know its not an easy patch set to sort out!
-> 
-> I ran it on the autobuilder for testing since there was bandwidth
-> available and there was one issue:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/1455
-> 
-> which was in a plain OE-Core + bitbake build (no poky, so nodistro).
-> 
-> Any idea what is wrong there?
+Linux kernel can be compiled as UEFI stub and loaded directly
+with UEFI firmware without grub or other UEFI shell.
 
-gcc: fatal error: cannot execute ‘cc1obj’: execvp: No such file or directory
+Tested with wic file:
+bootloader  --ptable gpt --timeout=0  --append="rootwait"
+part /boot --source bootimg-efi --sourceparams="loader=uefi-kernel" \
+ --ondisk sda  --fstype=vfat --label bootfs \
+  --active --align 1024 --use-uuid
+part / --source rootfs --fstype=ext4 --label rootfs \
+  --align 1024 --exclude-path boot/ --use-label
+The same wic file for armv7, armv8 and x86_64.
 
-seems it needs objC ?
+Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+---
+ v2: - use loader=uefi-kernel.
+     - remove missed from debug WicError().
+     - correct error message.
 
-> 
-> Cheers,
-> 
-> Richard
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 2cfdc10ecd..8d47ea55eb 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -13,6 +13,7 @@
+ import logging
+ import os
+ import shutil
++import re
+ 
+ from wic import WicError
+ from wic.engine import get_custom_config
+@@ -204,6 +205,8 @@ class BootimgEFIPlugin(SourcePlugin):
+                 cls.do_configure_grubefi(hdddir, creator, cr_workdir, source_params)
+             elif source_params['loader'] == 'systemd-boot':
+                 cls.do_configure_systemdboot(hdddir, creator, cr_workdir, source_params)
++            elif source_params['loader'] == 'uefi-kernel':
++                return
+             else:
+                 raise WicError("unrecognized bootimg-efi loader: %s" % source_params['loader'])
+         except KeyError:
+@@ -252,6 +255,28 @@ class BootimgEFIPlugin(SourcePlugin):
+                 for mod in [x for x in os.listdir(kernel_dir) if x.startswith("systemd-")]:
+                     cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, mod[8:])
+                     exec_cmd(cp_cmd, True)
++            elif source_params['loader'] == 'uefi-kernel':
++                kernel = get_bitbake_var("KERNEL_IMAGETYPE")
++                if not kernel:
++                    raise WicError("Empty KERNEL_IMAGETYPE %s\n" % target)
++                target = get_bitbake_var("TARGET_SYS")
++                if not target:
++                    raise WicError("Unknown arch (TARGET_SYS) %s\n" % target)
++
++                if re.match("x86_64", target):
++                    kernel_efi_image = "bootx64.efi"
++                elif re.match('i.86', target):
++                    kernel_efi_image = "bootia32.efi"
++                elif re.match('aarch64', target):
++                    kernel_efi_image = "bootaa64.efi"
++                elif re.match('arm', target):
++                    kernel_efi_image = "bootarm.efi"
++                else:
++                    raise WicError("UEFI stub kernel is incompatible with target %s" % target)
++
++                for mod in [x for x in os.listdir(kernel_dir) if x.startswith(kernel)]:
++                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir, mod, hdddir, kernel_efi_image)
++                    exec_cmd(cp_cmd, True)
+             else:
+                 raise WicError("unrecognized bootimg-efi loader: %s" %
+                                source_params['loader'])
+-- 
+2.17.1
+
 
