@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CAE17FC51
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 23D2D7FC99
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 15:30:31 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id d5so4296145pjz.5
+	Mon, 13 Jan 2020 15:30:33 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id q127so4869506pga.4
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 07:30:33 -0800 (PST)
+	Mon, 13 Jan 2020 07:30:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=PgxQqI9tu4k4Kt9E5aB9v2ur7JJAUyVAlPGBBxXrLhw=;
-	b=UrTqIygb2gPq3ccK9GtcWQDleL10OSecIMtkhYie1QbiaYWlijwvWfHDAm2cxTLgUn
-	NMC86jEFDbZ+1CmlYYhDNMnY3Q9ID6BOPMHrbQ2o7XyYogJCYHw6DyIhTtPhnyO6KLtw
-	x3ca3nHmGwL3Yl6HaII0LBRjdWfBbbTkd77v0PA3J8FgjUP6JhGooMb5Gg4Dg6EWh4Py
-	LKouv1RQBjyZFs2t6PkTduUnt932h0JW06Flf2cLITvxojKyit6mJWTifVuXooC4VfyG
-	uvXQogyt+u7z+BpZvaubW/XEgsmu2l72DB88Jcn7/3KlJOpLX5je9RktSqEB7oDaXmP6
-	H1zg==
+	bh=DswTZMG0O3HD0qfYq8CkAickAUsQj7AnioaNq+mgASo=;
+	b=dIi6y2e5s5tNU+39z2I1b7euKh3YW30TJVbGhcAI4KLlUtJkiQ6Qphu0cy/Vbm2/Z6
+	w3T55KPfyPbgCSCZ/AYWF6L1KXOBsWliiXo3eUUVKB3jb8/MAA6tnVzw/mPVLINlSmNE
+	6Oucditqe1Zt68WgBmIrllqzuxaqXgMp3YpSqFGIP/LOQB/lIsvbANO09unKcTUAVqx0
+	6cG7NQfdBla/Mm0/1+Brfv+Bq4kVQexiM2m9JjjB68ZymA8KLTW6CbseJq1YJBQhJ7dG
+	D9fOu0d0Py5wVaT0g3bZRq6I2wQDevjjJPr4cF0ZBa0M4wTbP8EAA02aqd7ONGQI6WEF
+	VItg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=PgxQqI9tu4k4Kt9E5aB9v2ur7JJAUyVAlPGBBxXrLhw=;
-	b=Q9ZKX5OXH5Me8Usv4dwnnbDfpjQgDRTCIwn5/iLFaf9Pa/kb35rJKvYRmSgEVGG3OT
-	AmGIlRTcuwQRkzE7SnDamzjOK7WJ81DXoKxs3ht3BkwmZPFCy7woakwOPCOlionWCfXt
-	aIyckl+cA/q4bELpGFX2d9jOpmyBU9/Za5nxmXB9c+Ai1+YJ41XFJTpCnZf1CoxCLdOh
-	jcaYoW8LDTbvQZmzRploIDeiEsQXFHIVVouo9+0LS8trb2J3MYay59IPBtRUjTZN9Fnk
-	8olPeXBy0jsWszWVEa4ANTbw8BmQvJxtMLCJkwyDE6KEiSpO4zG2g9wAAPg4IqQZf79G
-	WlBg==
-X-Gm-Message-State: APjAAAVnnQsku7125rPWH4hQPISeDjA/6CKLAmaPy9BKuzYdaU33FgPl
-	clg0BKwHfY4PJp/z15YFA/Wp02X1
-X-Google-Smtp-Source: APXvYqwH2lKBYabCM46mMZy8rLLUoIyVS8O3EfgpcLsqcF9fKGs4nQYSF6fsfGSs0GsRdCQ/3bzyGg==
-X-Received: by 2002:a17:90a:d783:: with SMTP id
-	z3mr22072416pju.3.1578929432449; 
-	Mon, 13 Jan 2020 07:30:32 -0800 (PST)
+	bh=DswTZMG0O3HD0qfYq8CkAickAUsQj7AnioaNq+mgASo=;
+	b=rowWkAZV3ir8+QcKJrp1Xz642g0O0eSTfD9KYPeetz34j/4UpcgBlBNUBJt5vUyg88
+	VP5gsAZzMA9ufa7dmiyvCscASS4nDU6AmhSMSWViB4VDEKYltiHYOLA3hXIwW/AQtSmT
+	elEsHSvZCn130icyAO1dXv10ColyhSt8h3y2RtPo001SoC5unDQN4zensCQ6Rfd1w//d
+	xe4mn7eRSR66aokBQGMEvl5WTYVvtBndhPNF4hFzZTeYyL/eHU/NGXVi1FXLGQn86iI1
+	IsY/9K0F7gmbxd8xfJULDcM89/TeDLTDWIINB77vOPXOebACVxodqgibp9h2BVaStpeR
+	i5hA==
+X-Gm-Message-State: APjAAAWjE1Had8YhRf5XUw7a8KmH3R8OkQ2NTZr1QtIiAjblxHwIwnTW
+	NGvaKYJ7RLttnvygGZgyupGKrpwu
+X-Google-Smtp-Source: APXvYqzXnd6fExVQ0gtY2aU1U0i2uLS/zv4n84mfuRYHi3HNvgvxmsGXIOWdXGvUV/y/G1fapVD3DA==
+X-Received: by 2002:a63:4850:: with SMTP id x16mr22100492pgk.334.1578929433522;
+	Mon, 13 Jan 2020 07:30:33 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:2dcb:8dcc:2050:e41d])
 	by smtp.gmail.com with ESMTPSA id
-	q8sm14167646pgg.92.2020.01.13.07.30.31
+	q8sm14167646pgg.92.2020.01.13.07.30.32
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Mon, 13 Jan 2020 07:30:32 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon, 13 Jan 2020 07:30:00 -0800
-Message-Id: <925482bef72e80622e904ce437c5ebe8e78be338.1578929268.git.akuster808@gmail.com>
+Date: Mon, 13 Jan 2020 07:30:01 -0800
+Message-Id: <e128bd76ae9f4b30948e6b8fc68f4374e03c7bec.1578929268.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578929268.git.akuster808@gmail.com>
 References: <cover.1578929268.git.akuster808@gmail.com>
 Cc: akuster808@gnail.com
-Subject: [warrior 01/28] openssl: set CVE vendor to openssl
+Subject: [warrior 02/28] flex: set CVE_PRODUCT to include vendor
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,30 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 15:30:31 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 15:30:33 -0000
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+From: Ross Burton <ross.burton@intel.com>
 
-Differentiate it from openssl gem for Ruby.
+There are many projects called Flex and they have CVEs, so also set the vendor
+to remove these false positives.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1b.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/flex/flex_2.6.0.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-index 9e36df807c..13e6ad4db7 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-@@ -204,3 +204,5 @@ RREPLACES_openssl-conf = "openssl10-conf"
- RCONFLICTS_openssl-conf = "openssl10-conf"
- 
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
+index b477cd8c7f..12ce0cb461 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.0.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
+@@ -68,3 +68,6 @@ do_install_ptest() {
+ 	    -e 's/^builddir = \(.*\)/builddir = ./' -e 's/^top_builddir = \(.*\)/top_builddir = ./' \
+ 	    -i ${D}${PTEST_PATH}/Makefile
+ }
 +
-+CVE_PRODUCT = "openssl:openssl"
++# Not Apache Flex, or Adobe Flex, or IBM Flex.
++CVE_PRODUCT = "flex_project:flex"
 -- 
 2.17.1
 
