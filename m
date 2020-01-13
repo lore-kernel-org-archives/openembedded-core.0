@@ -1,49 +1,53 @@
-Return-Path: <maxim.uvarov@linaro.org>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 40C3F7FCDA
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
+	[209.85.221.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 461F87FCDA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 14:12:05 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id n11so9910631iom.9
+	Mon, 13 Jan 2020 14:15:12 +0000 (UTC)
+Received: by mail-vk1-f195.google.com with SMTP id t129so2564978vkg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 06:12:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Mon, 13 Jan 2020 06:15:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wbCX/vANrRS9qbHw/jhJnT/bjzLSuaVYRl/kKh0JnoA=;
-	b=ngmzmnmAD8gnur3rShQZX4OwVBqYWAlpZi7yizHs87T7blcAHcN+AXxJjim3fI7qy+
-	mN13uuLra1B2j99CxOlnfR32+GWTljxXuPnifz4vVPKzhb8srOwSfbvlTjRRyHv4tVbJ
-	nLi+TiQlf59i1axXDqa86ZV6D/vDxXuVt7cNNtOOvsbFN5Yo2f8om/wGMfsZnnQlvgPc
-	LwkglRO+xlnDYOIP+PXKJl7HKMOqjXqOjJi+/OIK/PZzm1YmuLJ3vP86Zrn6+cWMOyyf
-	h01OVQnizhnjDtyf+52TuToDJJK4SNma5Y63Uu+oboNOHnyJ7MAfxRmFhpHEMcMbEGUq
-	DhrA==
+	:cc; bh=C1UvxVAtGxBNI7GbNp7mqDDAPVWvyA0oOwyISSmJZB4=;
+	b=EQLdewOffmQIvNj9BMBAFOyZnEaZLePycM682BmJjRfc+NNCK2EZJafN/OB/I+S/9q
+	tYqX7k2I+XbWMCtjdl/wx9Lt+0SlrkFRQTu/XFFYixCTuqiBbyXH2ShCbzNH+mDm+H4j
+	pPSeUjTZ9481YFPwdpzPuZffnGS47j4qAY6gB2dPuSUC4X/12zfCrctShGXlOUp5cDS5
+	sJqtzvgL9of27HZ1ezfU9VMG0CmdbJIX/oU++kGmpfmsU6++SvQi8LPKBF1ZvlPydSwI
+	NeYTI61bKCHwNyx2ltwVC+K22u1xDNXmMG6V6PahcU/iTQ1jraPMsbaPgwRuytkTydSq
+	Vv6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=wbCX/vANrRS9qbHw/jhJnT/bjzLSuaVYRl/kKh0JnoA=;
-	b=ubpdwW7HVmbvQEtxajLMT9W8A3kZLkuc8e0lApRH7s2oVFHyC3cS+XROS5AxXe/7PP
-	t6odCSJtGSVfyp6OUNq6Uhx7/vfgLHBdXJxYjt63epnBn7tvOb0pfLlHiYH1vXYFTuva
-	wDch5xO3wIZrvjwIxxwWkoi+HisgkBWb7M9HW8q87vHT0Mfj08qH1Jt6Tf01bm/Iclog
-	2iIamU4IJ64QbNWHamnpmbjBQ7+P4IbIjKLMvVgFJTovTiaCL1MMSOIaWJwiQW3MgocD
-	ikkD7LId4iaH08pWOVGPpJ/8PUIhtWpHuoZ+W8SKMiCTd0C7UOK3YPaeSZGcYGLXgmF6
-	/bUg==
-X-Gm-Message-State: APjAAAV7tqGv3PmzRV7kW+k9Ve8AIgCyx6cp/VIeE5nt7ojSjwvs4LVt
-	MtTITtQNjFWKVCyygcgHcBC6GCqXItf8iWIPDixgryR+
-X-Google-Smtp-Source: APXvYqwbCEfBYOWG8WiHWqO4AunnN16CEpaMpnn0ACz1r+ucJkJDlGb88LVCat30oqOFM7cChXX33ZsMWLfUNJF8sD0=
-X-Received: by 2002:a02:c773:: with SMTP id k19mr14035160jao.61.1578924726244; 
-	Mon, 13 Jan 2020 06:12:06 -0800 (PST)
+	bh=C1UvxVAtGxBNI7GbNp7mqDDAPVWvyA0oOwyISSmJZB4=;
+	b=aNZrXIPZfUcYJFUOJz/jj6/Ck9i1t+ts1Ky3p8rMIMMTpxCimaGLrBNdMloFY1L2Fp
+	p7HYBlk6xf4KkPuBxQNhHpIt4S3OT63y3s8xXavX8Y4SV2+tOyK/n0CBI5QTKVdaHAYz
+	aA/YSQCqp0yYbo+EjtmbSktrrUJuwIJNowaw1+BK1+NBCd/PT+jyXHn+Q4TOKtvKGR7T
+	Sdrg7jvYhLXMOA7Ab6sMDxG5UCA6j/PSD2e4Y5Fexqa57mgP6x441bQ4DxkOZeufh7Bz
+	XFWYJ1LDV0KJbTi5uj0UjgnQgK7MVPf6xP1WGOr57DaGTVyF24ueYifjkB8iEgWdVNwR
+	116A==
+X-Gm-Message-State: APjAAAVpGWMjZyWp6o/gIHSDMNWtEp9KEAUWKWfZL4zPwPkNesBQLu2Z
+	b3EZ1sj05JRsUY6gV4vHA/qDSAhRr8zFBoy398ZiLg==
+X-Google-Smtp-Source: APXvYqxvhMYy22T1PSfucsQ01p48JraCHDjD+hT67a5sJ33IBlCUfyldZRZrwuI/QDIbJXFkgIymSNypSLXAeE9XLdc=
+X-Received: by 2002:a1f:fe45:: with SMTP id l66mr10659596vki.9.1578924913018; 
+	Mon, 13 Jan 2020 06:15:13 -0800 (PST)
 MIME-Version: 1.0
-References: <20200113130827.7409-1-maxim.uvarov@linaro.org>
-	<CAM9ZRVt00houpaZaKirGYgu1w_WRm1yqoio_G-wAgdyyGwuAAg@mail.gmail.com>
-	<CAD8XO3a66v27ohEbrjEC=+XanfD1Fo_zXXo9TaFYSr+C+9+jDQ@mail.gmail.com>
-	<CAM9ZRVut=Wu37sJ5A8fi3be-Bm3vWYepK4Sp2x=r7Et0xoy3WA@mail.gmail.com>
-In-Reply-To: <CAM9ZRVut=Wu37sJ5A8fi3be-Bm3vWYepK4Sp2x=r7Et0xoy3WA@mail.gmail.com>
-From: Maxim Uvarov <maxim.uvarov@linaro.org>
-Date: Mon, 13 Jan 2020 17:11:55 +0300
-Message-ID: <CAD8XO3bz8S2S5LzNpJgNuOrQB__LqdWNt2-k0rn8+sdxG3UcLA@mail.gmail.com>
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] wic: fix images build in parallel
+References: <20200108132759.95603-1-alex.kanavin@gmail.com>
+	<20200108132759.95603-5-alex.kanavin@gmail.com>
+	<492572ea126b424def780911c58230941842dd91.camel@linuxfoundation.org>
+	<CANNYZj-=HOtgRiTh9xcnt9Q7c+gcm-Le26dfJeY0f3+Pt2HQsQ@mail.gmail.com>
+	<8f8e989f2e630df2fcbee68f1ea18034549e069d.camel@andred.net>
+	<b264b9d4f20106585d8a3daa6da6652f6ec90873.camel@andred.net>
+	<CANNYZj96gxDZnxLKzEZUy+qehNQirO87hrUeKOR9KCrPmnWsOQ@mail.gmail.com>
+	<bdc3d78fb086561f839d8a6a41d2ed336ef5a793.camel@linuxfoundation.org>
+In-Reply-To: <bdc3d78fb086561f839d8a6a41d2ed336ef5a793.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 13 Jan 2020 15:15:02 +0100
+Message-ID: <CANNYZj-MWCDrwtWDgb5YYUSAY0oxMjKvnA3B=K-b151+mQ51oQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/28] python3: update to 3.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +60,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 14:12:05 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 14:15:12 -0000
+Content-Type: multipart/alternative; boundary="000000000000914e1f059c061a90"
+
+--000000000000914e1f059c061a90
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 13 Jan 2020 at 17:00, Paul Barker <pbarker@konsulko.com> wrote:
->
-> On Mon, 13 Jan 2020 at 13:57, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
-> >
-> > On Mon, 13 Jan 2020 at 16:31, Paul Barker <pbarker@konsulko.com> wrote:
-> > >
-> > > On Mon, 13 Jan 2020 at 13:08, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
-> > > >
-> > > > OE wic plugins create temporary file with the index of the line
-> > > > tmp file name. This causes race in case several builds run in time.
-> > > > Add more entropy as timestamp to remove this race.
-> > >
-> > > How would two wic images to be built in parallel with the same work
-> > > directory? To my understanding an image recipe only supports building
-> > > a single wic image.
-> > >
-> > > Thanks,
-> > > Paul
-> >
-> > bitbake image1 image2 image3
-> > all images build .wics and use about the same files, like firmware.
-> > Issue is similar to that:
-> > https://www.yoctoproject.org/pipermail/yocto/2018-June/041373.html
->
-> Each image has its own work directory though.
->
-> I'll take a look in more detail later today or tomorrow, if wic is
-> writing temporary files outside of the work directory then that's a
-> bug and should be fixed.
+On Thu, 9 Jan 2020 at 23:14, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Thanks. I saw bug in rawcopy plugin. All other places were patched due
-to the same code.  I guess then for rawcopy temp files are in
-DEST_IMAGE_DIR (which is common) instead of WORKDIR.
+> On Thu, 2020-01-09 at 20:49 +0100, Alexander Kanavin wrote:
+> > The problem is, I couldn't reproduce this locally at all. Random
+> > glitch?
+>
+> No, its happened on multiple workers and there should be a pattern, we
+> just don't understand it yet :(. I don't have ideas right now although
+> the build user is 1000 on many machines, 6000 is a minority.
+>
 
-Maxim.
+I guess we'll have to save the build folder on next failure and inspect
+that.
 
+Alex
+
+--000000000000914e1f059c061a90
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 9 Jan 2020 at 23:14, Richard Purd=
+ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie=
+@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">On Thu, 2020-01-09 at 20:49 =
++0100, Alexander Kanavin wrote:<br>
+&gt; The problem is, I couldn&#39;t reproduce this locally at all. Random<b=
+r>
+&gt; glitch?<br>
+<br>
+No, its happened on multiple workers and there should be a pattern, we<br>
+just don&#39;t understand it yet :(. I don&#39;t have ideas right now altho=
+ugh<br>
+the build user is 1000 on many machines, 6000 is a minority.<br></blockquot=
+e><div><br></div><div>I guess we&#39;ll have to save the build folder on ne=
+xt failure and inspect that.</div><div><br></div><div>Alex<br></div></div><=
+/div>
+
+--000000000000914e1f059c061a90--
