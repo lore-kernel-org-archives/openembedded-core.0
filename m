@@ -1,52 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 161277FCE2
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
+	[209.85.222.176])
+	by mail.openembedded.org (Postfix) with ESMTP id E709B7FCE2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 04:41:24 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id 5so8084455qtz.1
+	Mon, 13 Jan 2020 04:41:25 +0000 (UTC)
+Received: by mail-qk1-f176.google.com with SMTP id x1so7366623qkl.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2020 20:41:26 -0800 (PST)
+	Sun, 12 Jan 2020 20:41:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lUJeZ3Hj/Njultp9PsUxOY3UFBUdu1WoWdem8fTPyW0=;
-	b=jRcDnJYc/oEaMbKWnXdfP8Q7ik2qXaPMtNenw7/P+WpptMDnhMqX8jleHjxaejoHcQ
-	XQHRSPahlZTlu4skfG8AhQpgCQPem5SqhKRm9Jxnqg1HCD3XB4HB9KLAyW7lO8E7QMDN
-	iYOJiO7btCj2cicH9aWHdW2bRJKFdvT/XB/t78N94Kp024f5KRBapof9peP1NLi5MWdj
-	PUYzT/CRapTKDlJBACCNnkip0uA6tr6iwWOeWk52ixqy+ajBZ8PJdk5iuuamexbq0IHk
-	iOcWyp3feJkQJtJvxG83cTLScEvgbYEr/UANUhmDo+94UvYU2dkNT0yHieGZlebN2rU+
-	BUKg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=UUNCOp6pA1mHxIPglAtl+DdNpaCNTViFdkfaAj4ADDU=;
+	b=btngvJcEMmxDyV4zvfqUKp4S2CSNheyuJ9NGIaUkpfvNlbFQSB3fg5plISPPmiIOfO
+	PJ+XqCBhMklm14wAXp78zk+dvK9mx2KhDwhJ6790wNZ358IQhdVGRhnXHxVxRTLkDemf
+	2X0mfYGJ0Takhr1cUKOxxDuyVra50o3mP/52EeL+QRubsfHrxUnndNN/JcZGDHHEwelA
+	XzttgY8PSnBfZVW1ORfs2vUaZ82LEwjLktXXP2QXcjhEUW9bcE6Nn7hGyQp2usC3rFdV
+	5hg/AGNzh8bdQkOxuypbXs0okfCmMpWIQmCj+1zxmf5rBlrZ9s5caluIPet6UchNV91I
+	6fOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lUJeZ3Hj/Njultp9PsUxOY3UFBUdu1WoWdem8fTPyW0=;
-	b=Atr+BBP5C/n8TvMBCeSzWwDmedgxpZJrK1goXDpn76ZbgBKujJZHSLHTTY8KotIK7u
-	hHm6n0AXtQXNMZuaW7cNVb4Dw0R8q0k9sZeL12n92VsY20OKK9Vc3upu+1j12qOlx5il
-	x5iF7XkLSFA37pjdGv2cALvFuQpVQWh/TXGNpEXfhI3ejF/PtTHhpycKGfgC8GBEFjfd
-	1aJiZFo/rw1fR9NIHhod4D1dutsORPlsuT/JUPytqmB2N7YF/G/RHERYg6bt2jT6nm8w
-	Avt40Qvgj814onim3di8jcTf2EQHgdTW3DzQNxk7bWs1h6o63nMqoOwBs4TbWrV3lbZZ
-	oyHA==
-X-Gm-Message-State: APjAAAXL8N0G3KS1SnqWDSjiLJCVnAOLRZt29oEISWv3XjDtTxrmXijM
-	1MRXqR8EAuwaE3zlmTFXtiM=
-X-Google-Smtp-Source: APXvYqwEAi0sbgyLqWy8CQY+amMVAgF74COdP+9xp2DCtXuQysPOX81GBB7dNS1r562s2VbtXxvsQg==
-X-Received: by 2002:ac8:2ffa:: with SMTP id m55mr8781315qta.189.1578890485877; 
-	Sun, 12 Jan 2020 20:41:25 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=UUNCOp6pA1mHxIPglAtl+DdNpaCNTViFdkfaAj4ADDU=;
+	b=qZsEzdi7hOS5IACBjAFZgvqUgPpsXVXQCafEC6xOCLgCFRJWs1g7ZUD0n5wwNAR7r1
+	KpQX1c19YB5BGzdX3ojh94NN8UILJAPd8S1MGZ2nBF3vJq8uzV6cX2XoDXX/iyWWZfW6
+	WCmyxs2CDXIVas7gCFtm77aauBTKhH+zVv2PBk3uolNBdubw7rpSlOS2CS4bojqtG+3j
+	640oO5DnYGH59x2wWfdegAy6eCiWHmVqzst94z9v9T20ybql83G3Lz109bXx6+4NB8Hb
+	1ywNYvnCqye5GM6O//52r+EPmec7oqLnW81SaAEEobTRJa8kHs6Cl7/wP37u8QdO4PB4
+	YP2g==
+X-Gm-Message-State: APjAAAU8KTOCiKo+Fs+CEKNrqgZyOXJQ6G2ztjeFVlG7TebkDhJSscwm
+	d1Nx44msB4M+6TscMOOdVBw=
+X-Google-Smtp-Source: APXvYqw+W/9vhGVctRvHwQzH3mPijRd4bWOpsKeCFL/QX7C1YA9xss0LTE2/to841l7wXvxcYX0ABA==
+X-Received: by 2002:ae9:edc8:: with SMTP id c191mr13213843qkg.78.1578890486861;
+	Sun, 12 Jan 2020 20:41:26 -0800 (PST)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.113.11.95]) by smtp.gmail.com with ESMTPSA id
-	s20sm4472974qkg.131.2020.01.12.20.41.24
+	s20sm4472974qkg.131.2020.01.12.20.41.25
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 12 Jan 2020 20:41:25 -0800 (PST)
+	Sun, 12 Jan 2020 20:41:26 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Sun, 12 Jan 2020 23:41:21 -0500
-Message-Id: <cover.1578890313.git.bruce.ashfield@gmail.com>
+Date: Sun, 12 Jan 2020 23:41:22 -0500
+Message-Id: <303908f84e3481cefdd86753cfc9cadbddc08a7c.1578890313.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <cover.1578890313.git.bruce.ashfield@gmail.com>
+References: <cover.1578890313.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] linux-yocto: v5.4 and v5.5 -prep
+Subject: [PATCH 1/2] linux-yocto-dev: bump to v5-5-rcX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,41 +61,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 04:41:25 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 04:41:26 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Hi all,
-
-As part of the v5.4 LTS reference kernel work, and v5.5 prep I ran into
-a perf build failure with v5.5+.
-
-Rather than sit on the issues that I find with v5.4 and v5.5, I'll send
-patches as I go along. With these tweaks, I'm building and booting
-v5.5 on linux-yocto-dev.
-
-Cheers,
-
-Bruce
-
-The following changes since commit 4e85a7a0ccf20a005df7349cabe75faa49fe05b7:
-
-  poky: Switch to post release name/version (2020-01-07 12:43:28 +0000)
-
-are available in the Git repository at:
-
-  git://git.pokylinux.org/poky-contrib zedd/kernel
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-
-Bruce Ashfield (2):
-  linux-yocto-dev: bump to v5-5-rcX
-  perf: fix build for v5.5+
-
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
  meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
- meta/recipes-kernel/perf/perf.bb             | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 3b5c9ddc59..afda84936a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
+ SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+ 
+-LINUX_VERSION ?= "5.4-rc+"
++LINUX_VERSION ?= "5.5-rc+"
+ LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
 -- 
 2.19.1
 
