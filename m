@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 53C567FCA4
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+	[209.85.210.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F99B7FCA6
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 15:30:39 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id g6so3950226plp.6
+	Mon, 13 Jan 2020 15:30:41 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id 195so5021622pfw.11
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 07:30:40 -0800 (PST)
+	Mon, 13 Jan 2020 07:30:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Ihb2qAySksjavllcldgEzYH/OXog0fr4LTqKcMfp8EI=;
-	b=ubpRfxneZ96J0zI+M3J1fxU0Mibknib2cxZltgBV0yKyauLYZ+L6WIPYPKby2OirwX
-	z9IewRPzi9h5D36WCW1SRIuOuXoT/+iQBci/xd62fv4vFLfDH+sJAUg6AL2MZ2NWac2Z
-	op7smQcSBMIPlYtViSztHiJDsn+Ghbbc416qurFjBgBSKVrWSy6BR+nbF7+Mp2IOrf3e
-	oQ6TFXHLjSfKAAv5e4Dut5AmXpHYbrM9/TUDPHRaYuK4+89B5fKXRBqwBqpow8YkeVUS
-	aqkux9B76RakG3yVOuoVlRCLICKWZxS/hg8nK1B8m0dBAOSUfNplIVp0hjKYse6lxZK/
-	eXIA==
+	bh=sMr7JLmUkgSgNr+DoauJEtLlBp4nZcZeJuVSbAy3nQ8=;
+	b=BKbTlUj78Q2EPELqQtalc45Z5zE9WnA5JPOsxh2lp2JGsnv2YMuktrR20YhokHSDuj
+	AC5Thbgqc9HuhPWGZQ4kXBxFiQ4RZuurnxCX1bBq5jucArWBzQfmzvpHC3VRSYeSN+ZW
+	8ZCb9pQomacdlii04R4oRKdW0D509pU0ZNxAu7CpTV5ttYz28j96I9+OsMzeD7dkLpXO
+	+6Cb+ZvXOszP41fB9C+qqSoFy8nWOCFhGrxOf8ANqmmgmQV+BIvcLckYkVwnidI7kDMx
+	t9ajR+H42fCGin56En7byzSxnaRYoQ1tL48wkBpyc+0KK8zUnbtuHhfF4oU12ad77q6w
+	zsGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Ihb2qAySksjavllcldgEzYH/OXog0fr4LTqKcMfp8EI=;
-	b=V/Ro2glxB1WjesLIKnmeY+XRAtEnuHLPZpvtbECcHXxIFX37+ccjHqO2K46LjKGmrV
-	CHa2HzQPc0onQZui6qj+Rsksu1nAR6dk9lF01TzSNMKLx7n0ZuKIFpC/zADWMD9j3YtR
-	Krd6DJFNeMExa4C1RUqOVk5xupr9grbH+jCmaSs30IYkUSBkts5l1WL1LKCpGtvQGXZV
-	fgaaeUEnGGU0+u3mW0Xrm9clmKn34+ldHKnOAna5qA/cVCjH0QJhQvdakIHH6WJRasn7
-	bLA2cevjY9W8s6fvubUuTyBpyrknI3P+XSeN/ZkE0aJzW4/B0ZeusYimw19e69PZSy1c
-	Shuw==
-X-Gm-Message-State: APjAAAXq0WkVvIKctzN5ZET+h0dutcVOEg/7MiBX10VTDT0v5ib5MrBn
-	4Xz4WiRHjDlIjWN7VGdErMzsm43d
-X-Google-Smtp-Source: APXvYqx2tzJIc2T68TSx1uTouVML3KHwZIa/V9zJy3bR800X7bS8docaCIVkj0+Gq2zwzFk43nhz4Q==
-X-Received: by 2002:a17:902:8a8d:: with SMTP id
-	p13mr13833329plo.296.1578929440322; 
-	Mon, 13 Jan 2020 07:30:40 -0800 (PST)
+	bh=sMr7JLmUkgSgNr+DoauJEtLlBp4nZcZeJuVSbAy3nQ8=;
+	b=qBW9aUXA8BlRBhbebgt4JgX/nkR1S2ntMPGh07Dby6hOHaYsyMTTX9cfxLIvR0K8wt
+	fJlZlVDl9mFnL5YeJhjbTNkP49eRZ1nB3zaIdHQzynZ1sF+JzCPYov5TY6oshSuB2nhm
+	uy2dspATksYixcFG7viik+xGStxwvK3KLnJ6UuXlGft7cwLdJkNuPChXeDEEAis/JkoA
+	9nw+IdN4jivHWOpI/BrP5vCS1YYClvAqYd874QiFX9ZQNlnHHzz+1RBxJw2W8oLee278
+	F//Wi+U1wD3YXtW4VTf7+0EVQ6lmwc73pNUWVrOhnoZlGnCZbq+6LeHy/ci9MSxkgmW/
+	ZWtw==
+X-Gm-Message-State: APjAAAUDz2BLxz/SGLTCZnlfWNWpjvgDTQpm+Bc41gml33rXVQymjHum
+	fkxf8QesvTlVYyPw4kSgqbCdKpVX
+X-Google-Smtp-Source: APXvYqznZzCInXpiqYDCh+IXfQwNPuRANWyvFrTjQwkbtIMdhkr8vF4CGc/lCugLeXnOSqbyFY+dOA==
+X-Received: by 2002:a63:5b59:: with SMTP id l25mr21861186pgm.382.1578929441669;
+	Mon, 13 Jan 2020 07:30:41 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:2dcb:8dcc:2050:e41d])
 	by smtp.gmail.com with ESMTPSA id
-	q8sm14167646pgg.92.2020.01.13.07.30.39
+	q8sm14167646pgg.92.2020.01.13.07.30.40
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 13 Jan 2020 07:30:39 -0800 (PST)
+	Mon, 13 Jan 2020 07:30:40 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon, 13 Jan 2020 07:30:07 -0800
-Message-Id: <ab5cc4a6119527e48299d7d6b7fac440c4b9bb6c.1578929268.git.akuster808@gmail.com>
+Date: Mon, 13 Jan 2020 07:30:08 -0800
+Message-Id: <583990fc583a96dbf0655bff1630b2ebe199021d.1578929268.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578929268.git.akuster808@gmail.com>
 References: <cover.1578929268.git.akuster808@gmail.com>
 Cc: akuster808@gnail.com
-Subject: [warrior 08/28] libxfont2: set CVE_PRODUCT
+Subject: [warrior 09/28] libsndfile1: whitelist CVE-2018-13419
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,28 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 15:30:39 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 15:30:41 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Ross Burton <ross.burton@intel.com>
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+This is a memory leak that nobody else can replicate and has been rejected by
+upstream.
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
-index 2b72d6750c..6994d79e89 100644
---- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
-@@ -20,3 +20,5 @@ SRC_URI[sha256sum] = "0e8ab7fd737ccdfe87e1f02b55f221f0bd4503a1c5f28be4ed6a54586b
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+index 77393db847..6044bf09c7 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.28.bb
+@@ -38,3 +38,6 @@ do_configure_prepend_arm() {
+ 	export ac_cv_sys_file_offset_bits=64
+ }
  
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
-+
-+CVE_PRODUCT = "libxfont libxfont2"
++# This can't be replicated and is just a memory leak.
++# https://github.com/erikd/libsndfile/issues/398
++CVE_CHECK_WHITELIST += "CVE-2018-13419"
 -- 
 2.17.1
 
