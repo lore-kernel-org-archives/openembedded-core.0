@@ -1,47 +1,49 @@
-Return-Path: <maxim.uvarov@linaro.org>
-Received: from mail-yw1-f67.google.com (mail-yw1-f67.google.com
-	[209.85.161.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A75CF7F93A
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 15:23:12 +0000 (UTC)
-Received: by mail-yw1-f67.google.com with SMTP id u139so6273643ywf.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 07:23:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=L70BoU/j2qncrbSUxT4UDJeVyGqglQXSQ/p4JVubdTA=;
-	b=F2+iYHVwb3tac1SWj+s7x4R3PYa9+WSZ2/s75ROMKbmSh0fcNSszdJEph3fujnwBKW
-	XUN0X7NYCkhWAxa1EKCNNVNo4wbJMrCzYpYENI7dRzwlWwXb5F6Z9UmkyhGi7tMqCLCh
-	EoOvJKcOlMKeRnevM3Ei2bMn/Gi+UC+zej6IG/ohqL3rH1Xy3KMx46VE/qrQDK5UtsMB
-	PmD9wsByEvh0jdQCBCK041bg4H225KlxN5n3SHnGzjmuxP8LLa8P42Blvu4vg72nZF25
-	5BiVVjHi0YSd6EuYiKeUSnyMBrZdip0uzMan3hwkoRn322Tnyy+LYvjrIMn3VGbo0RDZ
-	cm9A==
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id B8F957FC51
+	for <openembedded-core@openembedded.org>;
+	Mon, 13 Jan 2020 15:30:30 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id k25so4861181pgt.7
+	for <openembedded-core@openembedded.org>;
+	Mon, 13 Jan 2020 07:30:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=fyFa7zpzbSJfkxZ50ndN3UEu6tJq57by9EkxjkMhoNs=;
+	b=TJiu87/WwK9Rkg9lxr9RBoCU5DQWC8XiyJ5fC+DvWaj0S7iUkIGWhbzRR/dow+81ED
+	OU80vSb+8tpF+Ha+bPvyPNK8+EuN/HMx+cTSlxKAN6NveDy35sUj9JnxfT0Pe59i/POO
+	HnSmh0Qrbb9FqXcAJ1tYIqzn8zyKnCtMlEdUWwXn7N0TfVQ1pDdlIHpr0waR9qe6XlAY
+	J7TRlYxsFzXk7Xfdx0lQ67f4TG98yYk51lRFLva7ko0qjofhlyzE+9mr8HLPBkMIT8/t
+	m4uwfD/lvG7D3pX+HJu8mdvuaX2laBhmCLUbM1sCffIfn1MYk5/bE+fKgUBB9jQKeixH
+	VfgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=L70BoU/j2qncrbSUxT4UDJeVyGqglQXSQ/p4JVubdTA=;
-	b=qS4wn/7Mp9vpQ+sMDjUQRkcU9hGXHs/a1K9dM0XQdXQgaszzRlI5bSwth+hSA7QxIR
-	2TnaOJ8AkcxfCKEAcEhss5MOqev8JMbKOl51Cu6pxgfSjpzzAov7dmqeT8H6s2FwgNpR
-	1MalyJcJWKsblZBZTkAzNQVUxGpzJVnfEmfKDxmhOjd07x5JsCJE2+JS7s4tkaYFOTfs
-	Zr2c3mBAbyUWc3GueSPAlIMhahswqpFjSX66BsPu2ABgdDnYYqsFO44C66vkKbMggLHQ
-	kgaBYz0EP4795WTDPrPMR8oVcv2wp4zfVCLT7hXCCIkSjI5CgjJiS/hRoXgfF9A6aWvG
-	GyIg==
-X-Gm-Message-State: APjAAAWk365nzkCcwCPK/FFdTkElUD2H7Kp3qI3CWwqzjOvEu5JSe/LD
-	Py8q7lRnTMU7T7gSmq7SZrPo+vt7xCufrQ9YeuZr4+6a57U=
-X-Google-Smtp-Source: APXvYqxyXYmXkLMBYaeFztY8D+JBymq3P8dYijAEEYaKQ8u9w/DPqMkNNCZ2U5LVDsBOSGIKkpKzu3YjwHLSlv7mQws=
-X-Received: by 2002:a81:1c15:: with SMTP id c21mr10041475ywc.408.1578928993461;
-	Mon, 13 Jan 2020 07:23:13 -0800 (PST)
-MIME-Version: 1.0
-References: <20200104200703.6758-1-maxim.uvarov@linaro.org>
-	<1f1224ce-2bd6-4895-8c6a-8c113ca14e81@www.fastmail.com>
-In-Reply-To: <1f1224ce-2bd6-4895-8c6a-8c113ca14e81@www.fastmail.com>
-From: Maxim Uvarov <maxim.uvarov@linaro.org>
-Date: Mon, 13 Jan 2020 18:23:02 +0300
-Message-ID: <CAD8XO3brWPLcF4FaEXJ3_BXhAArfRH49L4LiUjukxEfjxfd5=A@mail.gmail.com>
-To: Paul Barker <paul@betafive.co.uk>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] wic: add UEFI kernel as UEFI stub
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=fyFa7zpzbSJfkxZ50ndN3UEu6tJq57by9EkxjkMhoNs=;
+	b=GVVKBvg0xSN4T/6EAj5/+xWpjncDfm1BPMVsrb9eY33mvf8Mx9AlGPXYlhM5dJOBiV
+	9daYnq/P+rdQ8tVre9qoJF6YnClPswxxssJIJvx/bOJgD1Qodoc4lbV9Ss3PTHJvF6ML
+	GdioCBiKBuXweX2+EDhuZFHD0/VvwEuHToJqwIA/Rnl8T7sNKoPddfcKO+fCO5DguwIg
+	MeboZo9dhl7PMpBcN8PSh9lBKoYeCPlmrhMICKkll1959snEoEvWb2vt1p+P1bcntHi6
+	MQ0dr3O9IA4CjIDJNev6bZyjwkmnZOGPYSkxaUoo8VzjB73mQj4bUZUtzC1aRAyCBh0M
+	jV3g==
+X-Gm-Message-State: APjAAAVxUFmfm4XvrMLk0G0Sb0Cy0pZX/hqINySrjYfeePZ/U12wqUP4
+	OvUUeTsV0XaKmjQ4YPUiYrpzMZqJ
+X-Google-Smtp-Source: APXvYqz2TPTRBpxz/pGKZ1VmcC1fcAN8NKzHTweObXe5x1CMwxMWqHBhBOg0v4BQCAMqUkLSZ9MOmg==
+X-Received: by 2002:a63:2355:: with SMTP id u21mr20960601pgm.179.1578929431634;
+	Mon, 13 Jan 2020 07:30:31 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4180:a5c0:2dcb:8dcc:2050:e41d])
+	by smtp.gmail.com with ESMTPSA id
+	q8sm14167646pgg.92.2020.01.13.07.30.30
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 13 Jan 2020 07:30:31 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@openembedded.org
+Date: Mon, 13 Jan 2020 07:29:59 -0800
+Message-Id: <cover.1578929268.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Cc: akuster808@gnail.com
+Subject: [warrior 00/28] Patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,133 +56,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 15:23:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 13 Jan 2020 15:30:30 -0000
 
-On Mon, 13 Jan 2020 at 16:57, Paul Barker <paul@betafive.co.uk> wrote:
->
-> On Sat, 4 Jan 2020, at 20:07, Maxim Uvarov wrote:
-> > Linux kernel can be compiled as UEFI stub and loaded directly
-> > with UEFI firmware without grub or other UEFI shell.
-> >
-> > Tested with wic file:
-> > bootloader  --ptable gpt --timeout=0  --append="rootwait"
-> > part /boot --source bootimg-efi --sourceparams="loader=kernel" \
-> >  --ondisk sda  --fstype=vfat --label bootfs \
-> >   --active --align 1024 --use-uuid
-> > part / --source rootfs --fstype=ext4 --label rootfs \
-> >   --align 1024 --exclude-path boot/ --use-label
-> > The same wic file for armv7, armv8 and x86_64.
-> >
-> > Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
-> > ---
-> >  scripts/lib/wic/plugins/source/bootimg-efi.py | 27 +++++++++++++++++++
-> >  1 file changed, 27 insertions(+)
-> >
-> > diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> > b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> > index 2cfdc10ecd..a39d852f6a 100644
-> > --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-> > +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-> > @@ -13,6 +13,7 @@
-> >  import logging
-> >  import os
-> >  import shutil
-> > +import re
-> >
-> >  from wic import WicError
-> >  from wic.engine import get_custom_config
-> > @@ -204,6 +205,8 @@ class BootimgEFIPlugin(SourcePlugin):
-> >                  cls.do_configure_grubefi(hdddir, creator, cr_workdir,
-> > source_params)
-> >              elif source_params['loader'] == 'systemd-boot':
-> >                  cls.do_configure_systemdboot(hdddir, creator,
-> > cr_workdir, source_params)
-> > +            elif source_params['loader'] == 'kernel':
-> > +                return
-> >              else:
-> >                  raise WicError("unrecognized bootimg-efi loader: %s" %
-> > source_params['loader'])
-> >          except KeyError:
-> > @@ -243,6 +246,7 @@ class BootimgEFIPlugin(SourcePlugin):
-> >              if source_params['loader'] == 'grub-efi':
-> >                  shutil.copyfile("%s/hdd/boot/EFI/BOOT/grub.cfg" %
-> > cr_workdir,
-> >                                  "%s/grub.cfg" % cr_workdir)
-> > +
-> >                  for mod in [x for x in os.listdir(kernel_dir) if
-> > x.startswith("grub-efi-")]:
-> >                      cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir,
-> > mod, hdddir, mod[9:])
-> >                      exec_cmd(cp_cmd, True)
-> > @@ -252,6 +256,29 @@ class BootimgEFIPlugin(SourcePlugin):
-> >                  for mod in [x for x in os.listdir(kernel_dir) if
-> > x.startswith("systemd-")]:
-> >                      cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir,
-> > mod, hdddir, mod[8:])
-> >                      exec_cmd(cp_cmd, True)
-> > +            elif source_params['loader'] == 'kernel':
->
-> How about "uefi-stub" instead of just "kernel" here so it's more explicit?
->
+Please have review comments back by Wednesday
 
-It's the same file were other uefi stubs are defined (grub and
-systemd), so I named kernel uefi stub as kernel.
+The following changes since commit 7009d823a0799ce7132bd77329b273a476718c8c:
 
-> > +                kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-> > +                if not kernel:
-> > +                    raise WicError("Empty KERNEL_IMAGETYPE %s\n" %
-> > target)
-> > +                target = get_bitbake_var("TARGET_SYS")
-> > +                if not target:
-> > +                    raise WicError("Unknown arch (TARGET_SYS) %s\n" %
-> > target)
-> > +
-> > +                if re.match("x86_64", target):
-> > +                    kernel_efi_image = "bootx64.efi"
-> > +                elif re.match('i.86', target):
-> > +                    kernel_efi_image = "bootia32.efi"
-> > +                elif re.match('aarch64', target):
-> > +                    kernel_efi_image = "bootaa64.efi"
-> > +                elif re.match('arm', target):
-> > +                    kernel_efi_image = "bootarm.efi"
-> > +                else:
-> > +                    raise WicError("kernel efi is incompatible with
-> > target %s" % target)
->
-> Perhaps call this "UEFI stub kernel" instead of just "kernel efi" to make things clearer.
->
+  python: update to 2.7.17 (2019-11-23 21:01:39 -0800)
 
-Ok.
+are available in the Git repository at:
 
-> > +
-> > +                for mod in [x for x in os.listdir(kernel_dir) if
-> > x.startswith(kernel)]:
-> > +                    cp_cmd = "cp %s/%s %s/EFI/BOOT/%s" % (kernel_dir,
-> > mod, hdddir, kernel_efi_image)
-> > +                    WicError("cp_cmd = %s" % cp_cmd);
->
-> What's this WicError created here for?
->
+  git://git.openembedded.org/openembedded-core-contrib stable/warrior-nut
+  http://cgit.openembedded.org//log/?h=stable/warrior-nut
 
-Good catch. Debug print. Will send v2.
+Alexander Kanavin (1):
+  sudo: correct SRC_URI
 
-> > +                    exec_cmd(cp_cmd, True)
->
-> Wouldn't this result in the destination file being overwritten each time through this loop? I guess you're just copying from the grub-efi implementation above though.
->
+Anuj Mittal (1):
+  openssl: set CVE vendor to openssl
 
-It's expected that there are no other uefi stubs and I just copy
-kernel to /EFI/BOOT/bootxxx.efi.
+Armin Kuster (1):
+  stress: update SRC_URI
 
-Maxim.
+Chen Qi (2):
+  libxfont2: set CVE_PRODUCT
+  webkitgtk: set CVE_PRODUCT
 
-> >              else:
-> >                  raise WicError("unrecognized bootimg-efi loader: %s" %
-> >                                 source_params['loader'])
-> > --
-> > 2.17.1
->
-> --
-> Paul Barker
+Ferry Toth (1):
+  sudo: Fix fetching sources
+
+Khem Raj (1):
+  sdk: Install nativesdk locales for all TCLIBC variants
+
+Niko Mauno (1):
+  cve-check: Switch to NVD CVE JSON feed version 1.1
+
+Oleksandr Kravchuk (1):
+  popt: fix SRC_URI
+
+Ross Burton (18):
+  flex: set CVE_PRODUCT to include vendor
+  git: set CVE vendor to git-scm
+  subversion: set CVE vendor to Apache
+  ed: set CVE vendor to avoid false positives
+  boost: set CVE vendor to Boost
+  libpam: set CVE_PRODUCT
+  libsndfile1: whitelist CVE-2018-13419
+  procps: whitelist CVE-2018-1121
+  cve-check: ensure all known CVEs are in the report
+  cve-check: failure to parse versions should be more visible
+  cve-check: we don't actually need to unpack to check
+  cve-update-db-native: don't refresh more than once an hour
+  cve-update-db-native: don't hardcode the database name
+  cve-update-db-native: add an index on the CVE ID column
+  cve-update-db-native: clean up proxy handling
+  cve-check: rewrite look to fix false negatives
+  cve-check: neaten get_cve_info
+  cve-check: fetch CVE data once at a time instead of in a single call
+
+Zang Ruochen (1):
+  libpcap: upgrade 1.9.0 -> 1.9.1
+
+ meta/classes/cve-check.bbclass                | 105 +++++++++---------
+ meta/lib/oe/sdk.py                            |   4 -
+ ...-add-missing-limits.h-for-musl-syste.patch |  29 -----
+ .../{libpcap_1.9.0.bb => libpcap_1.9.1.bb}    |   5 +-
+ .../openssl/openssl_1.1.1b.bb                 |   2 +
+ .../recipes-core/meta/cve-update-db-native.bb |  46 +++-----
+ meta/recipes-devtools/flex/flex_2.6.0.bb      |   3 +
+ meta/recipes-devtools/git/git.inc             |   2 +
+ .../subversion/subversion_1.11.1.bb           |   2 +
+ meta/recipes-extended/ed/ed_1.15.bb           |   2 +
+ meta/recipes-extended/pam/libpam_1.3.0.bb     |   2 +
+ meta/recipes-extended/procps/procps_3.3.15.bb |   3 +
+ meta/recipes-extended/stress/stress_1.0.4.bb  |   2 +-
+ meta/recipes-extended/sudo/sudo_1.8.27.bb     |   2 +-
+ .../xorg-lib/libxfont2_2.0.3.bb               |   2 +
+ .../libsndfile/libsndfile1_1.0.28.bb          |   3 +
+ meta/recipes-sato/webkit/webkitgtk_2.22.7.bb  |   2 +
+ meta/recipes-support/boost/boost.inc          |   2 +
+ meta/recipes-support/popt/popt_1.16.bb        |   2 +-
+ 19 files changed, 101 insertions(+), 119 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
+ rename meta/recipes-connectivity/libpcap/{libpcap_1.9.0.bb => libpcap_1.9.1.bb} (88%)
+
+-- 
+2.17.1
+
 
