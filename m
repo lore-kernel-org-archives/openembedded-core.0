@@ -1,45 +1,39 @@
-Return-Path: <paul.barker@konsulko.com>
-Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com
-	[209.85.167.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 81D8F7FCE9
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 22A577FCEF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 14:00:42 +0000 (UTC)
-Received: by mail-oi1-f170.google.com with SMTP id 18so8277474oin.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 06:00:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2pa8z00TYWvRbPcwsLwGSTq2vilOZAE7cnK2onJ30h4=;
-	b=q5/vWZBhGdxR8J7bc8ntpr8n3+WUkeqBryuovPzjwUd7y5ACveUez3jtk/BBk66ya5
-	Rcdk8Ath+NSYTFA7BEvKtukWlL6iEMLskNF1rWtZWMRf4EB742TQXpB1zrV/YRWNFHoI
-	f9P74O5Fw73EFXjT3eYjb+Qt4ZBA2V5Xs2Fbk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=2pa8z00TYWvRbPcwsLwGSTq2vilOZAE7cnK2onJ30h4=;
-	b=d7ICM5w9aRBHeXinRgmP6zDmKuRVTUsNT2OE304bUw8S0/1/k63AucTYtsUtt6Io8f
-	qJB0QN2SDQ0BvqGe9OdzagaY4XG5XcmJRjttew/W5C5IOD/oUEbQEO9rW7iYkO/q1MAL
-	PNPHfzAomyfvXdVwXgW4upjjr7an2Ujp5WxZwM1IJUCm59HjPOdFh6uGglWdaIfalqNo
-	wJTG6CdMqCErEgRIKlaXLD4iw0PGI6rXhqqNwgnkWLxURkhvZml9VpEAERx5eypD/TiY
-	b/XE47DAfA6pk5BHSDh+ypypIhp13dwihKLZ/X1D2lpfpi2/EYzx93LaLCX8UI0ymgSk
-	LExg==
-X-Gm-Message-State: APjAAAXkxtO+n3pVky6vYHQ9vPLx6vHw2ZFAOcpfBBDS31Tvkr5A5v+Z
-	19yFakkTyviPGMWNuBvmn1ci3VxlUtMGZ2zl4IuNNw==
-X-Google-Smtp-Source: APXvYqySKEpTYZ9FsyPSXQw961i+Adv1Rr7TplJS85QyxnveTo04dIVg2EIYsovlmkBvGdwOGnTPVBgt0kwcDV3c8q0=
-X-Received: by 2002:a54:4e8d:: with SMTP id c13mr12797377oiy.27.1578924043518; 
-	Mon, 13 Jan 2020 06:00:43 -0800 (PST)
+	Mon, 13 Jan 2020 14:10:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47xFq64fFdz3w;
+	Mon, 13 Jan 2020 15:10:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1578924627;
+	bh=2RatBxM1gZbzPqlcvVfHfoZ4++WUWUsBHjkFH1VmcAY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=inVcr5cWACKo2ehUcFC1QFJLW5ukaZ+lR7SDWv/xellWVsZc25ZvKDbmLS2eUT3JF
+	pYWWkbeoTdrcMKBnDIw0+8rK25oTPNmrYlt8AoJu+s0QDkBJu/5K/pmiA3J+F4q2jW
+	uptJNVc+gRfVYzOlF1PYBRWd9z4gkFjPUMYaSXBMKkihq7HRilJ5d+SPik+llplqtV
+	0AGmu75ID/C1h5NToY08M07O9zOv6PgzwIAO1B7AroePJYqtdNoZHEhlpRRj4q73n9
+	vAnotEZ1d2Qy6WhY5JNO0IhvVHsZI9ajoFCfsKMB/Jm7tk0reB9ilZZTErqyZqiTk7
+	wccoKuHDZWSarTZiiBIrVAW/q6v2JgBFaECc0zG81ur9+YOm5nXAd6rBITKNdlQiiZ
+	8VwD34jSwkOyRtod8T/qT0Sx00TsNjRlVo8lBnOEMxpWgvIEvYu/ZWHWQZ24/6PGNj
+	7RYXKJyGbiOGkA1lzQuQ8UPzlI09LR2KqPMr6oxbALRqoSmlXOUapwbD0dw7l4oHkS
+	dAHi4yvKo+JzH+jQ9QnqXmIlL3GpjIUGFj7SSGw4kEmQuYosGRS9FH3l1OkHRxCG4W
+	orfb3dlpgTHh8Nv8vzBRymT+vxtV/u3OBWRKaTgSU1xkDgqoq9AsjQOw2RxM4XYpTr
+	9f5pVlY7TUJvGGIhL1XZCd7o=
+Date: Mon, 13 Jan 2020 16:10:24 +0200
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200113141024.GA21890@localhost>
+References: <20200112135954.23868-1-crg7475@mailbox.org>
+	<20200112135954.23868-4-crg7475@mailbox.org>
+	<CAMKF1sr_1aR_JZdxfxwO1TzE81E6W9YU_d_08+=DBX=KcniYHA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20200113130827.7409-1-maxim.uvarov@linaro.org>
-	<CAM9ZRVt00houpaZaKirGYgu1w_WRm1yqoio_G-wAgdyyGwuAAg@mail.gmail.com>
-	<CAD8XO3a66v27ohEbrjEC=+XanfD1Fo_zXXo9TaFYSr+C+9+jDQ@mail.gmail.com>
-In-Reply-To: <CAD8XO3a66v27ohEbrjEC=+XanfD1Fo_zXXo9TaFYSr+C+9+jDQ@mail.gmail.com>
-From: Paul Barker <pbarker@konsulko.com>
-Date: Mon, 13 Jan 2020 14:00:33 +0000
-Message-ID: <CAM9ZRVut=Wu37sJ5A8fi3be-Bm3vWYepK4Sp2x=r7Et0xoy3WA@mail.gmail.com>
-To: Maxim Uvarov <maxim.uvarov@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCHv2] wic: fix images build in parallel
+In-Reply-To: <CAMKF1sr_1aR_JZdxfxwO1TzE81E6W9YU_d_08+=DBX=KcniYHA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 04/12] gstreamer1.0-plugins-good: Transition to meson based builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,34 +46,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 14:00:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 13 Jan 2020 14:10:29 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Mon, 13 Jan 2020 at 13:57, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
->
-> On Mon, 13 Jan 2020 at 16:31, Paul Barker <pbarker@konsulko.com> wrote:
-> >
-> > On Mon, 13 Jan 2020 at 13:08, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
-> > >
-> > > OE wic plugins create temporary file with the index of the line
-> > > tmp file name. This causes race in case several builds run in time.
-> > > Add more entropy as timestamp to remove this race.
-> >
-> > How would two wic images to be built in parallel with the same work
-> > directory? To my understanding an image recipe only supports building
-> > a single wic image.
-> >
-> > Thanks,
-> > Paul
->
-> bitbake image1 image2 image3
-> all images build .wics and use about the same files, like firmware.
-> Issue is similar to that:
-> https://www.yoctoproject.org/pipermail/yocto/2018-June/041373.html
+On Sun, Jan 12, 2020 at 04:52:24PM -0800, Khem Raj wrote:
+> On Sun, Jan 12, 2020 at 6:33 AM Carlos Rafael Giani <crg7475@mailbox.org> wrote:
+>...
+> >  # qt5 support is disabled, because it is not present in OE core, and requires more work than
+> >  # just adding a packageconfig (it requires access to moc, uic, rcc, and qmake paths).
+>...
+> > -    --disable-qt \
+> 
+> Dont disable it explicitly, meta-qt5 will has a packageconfig for it.
+>...
 
-Each image has its own work directory though.
+You are commenting on the previous removed code,
+qt5 support unconditionally disabled is invariant here.
 
-I'll take a look in more detail later today or tomorrow, if wic is
-writing temporary files outside of the work directory then that's a
-bug and should be fixed.
+cu
+Adrian
 
