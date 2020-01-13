@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com
-	[209.85.222.176])
-	by mail.openembedded.org (Postfix) with ESMTP id E709B7FCE2
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 286567FCE5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 04:41:25 +0000 (UTC)
-Received: by mail-qk1-f176.google.com with SMTP id x1so7366623qkl.12
+	Mon, 13 Jan 2020 04:41:27 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id n15so8059620qtp.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 Jan 2020 20:41:27 -0800 (PST)
+	Sun, 12 Jan 2020 20:41:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=UUNCOp6pA1mHxIPglAtl+DdNpaCNTViFdkfaAj4ADDU=;
-	b=btngvJcEMmxDyV4zvfqUKp4S2CSNheyuJ9NGIaUkpfvNlbFQSB3fg5plISPPmiIOfO
-	PJ+XqCBhMklm14wAXp78zk+dvK9mx2KhDwhJ6790wNZ358IQhdVGRhnXHxVxRTLkDemf
-	2X0mfYGJ0Takhr1cUKOxxDuyVra50o3mP/52EeL+QRubsfHrxUnndNN/JcZGDHHEwelA
-	XzttgY8PSnBfZVW1ORfs2vUaZ82LEwjLktXXP2QXcjhEUW9bcE6Nn7hGyQp2usC3rFdV
-	5hg/AGNzh8bdQkOxuypbXs0okfCmMpWIQmCj+1zxmf5rBlrZ9s5caluIPet6UchNV91I
-	6fOw==
+	bh=4mbsXe2aqctHaCrZ8+ip7p1xaL4XkaZRbqMVscYHJ4I=;
+	b=Hmgb2xvcpavVbyn36TLfE1+42TGpNyUzfv4Wfl0wNrds5MUNieuGsHuOMgQ8zOWNBF
+	aQ5XFAWkjugNK8qgMtOBxWEqW68M5xQLSgCsNbsdp8Wh+HRJ7oiFGNldXkuA1jKKcMrm
+	caccblwIbzCU37xf6nHzScBpY/lhz/oy3DIhqocqRjytvQ5pujWRWrePasiTSihwFyiq
+	Ihw1h849og+ViQY4jg3I2s5lNXiLJ+82zlOBwFiAJrwCRbzTVYm2CJm38kSkwQlTKEfY
+	ZJcEzenhOkEwFAKGoNgaOdS77lkIvupraWGH4g0h3JEFngNUtNBVNu7qMzn3ViUIItTH
+	0lEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=UUNCOp6pA1mHxIPglAtl+DdNpaCNTViFdkfaAj4ADDU=;
-	b=qZsEzdi7hOS5IACBjAFZgvqUgPpsXVXQCafEC6xOCLgCFRJWs1g7ZUD0n5wwNAR7r1
-	KpQX1c19YB5BGzdX3ojh94NN8UILJAPd8S1MGZ2nBF3vJq8uzV6cX2XoDXX/iyWWZfW6
-	WCmyxs2CDXIVas7gCFtm77aauBTKhH+zVv2PBk3uolNBdubw7rpSlOS2CS4bojqtG+3j
-	640oO5DnYGH59x2wWfdegAy6eCiWHmVqzst94z9v9T20ybql83G3Lz109bXx6+4NB8Hb
-	1ywNYvnCqye5GM6O//52r+EPmec7oqLnW81SaAEEobTRJa8kHs6Cl7/wP37u8QdO4PB4
-	YP2g==
-X-Gm-Message-State: APjAAAU8KTOCiKo+Fs+CEKNrqgZyOXJQ6G2ztjeFVlG7TebkDhJSscwm
-	d1Nx44msB4M+6TscMOOdVBw=
-X-Google-Smtp-Source: APXvYqw+W/9vhGVctRvHwQzH3mPijRd4bWOpsKeCFL/QX7C1YA9xss0LTE2/to841l7wXvxcYX0ABA==
-X-Received: by 2002:ae9:edc8:: with SMTP id c191mr13213843qkg.78.1578890486861;
-	Sun, 12 Jan 2020 20:41:26 -0800 (PST)
+	bh=4mbsXe2aqctHaCrZ8+ip7p1xaL4XkaZRbqMVscYHJ4I=;
+	b=XD4jQJvlxME/6+CHjhY4oMjK1a0ftwg74dTzfZ2ZDPTZ8RQ/FFdTRxw9gbvPgBdohU
+	/6OHEpNFQEo9vJK6pFQcd2saFJctcr1qZ2BBqSQyu6qP/refdwr/8DBRVAJ1eRXjjKZj
+	N5ZTuJkhI6C24fQLSnPgKLNSwgY7uuRSql7k2QHFIquq2ZqHXWOYa91+Gix5uC+Rh8NC
+	S1T77Qz3nNsrQr3J1rIl616jRVP6n6aOiW63IbdEEsCfEJgruO9PJlm9vW0mpNVPA3ug
+	7rrQLL8dC+Kp5L94kwjvP752insCQpATIlePq8Uf1H++u53svCKYE6DuS09Rg4V5tRVt
+	LZiw==
+X-Gm-Message-State: APjAAAVqtHCJGwPGyHz+5ce6lxn2jj0hoF0mz5fxmmTjBk909/jVhTyA
+	jFlGOUTos8TmsWiJSR7X7TwtIfHTnuI=
+X-Google-Smtp-Source: APXvYqxswS7J3Q6jCX3i6fFIUVNUlwPvX2JsnMAH67u2SRq2VvWJLs3JLvnaFqcXpZgiepj42BfpXw==
+X-Received: by 2002:ac8:65da:: with SMTP id t26mr12577420qto.5.1578890488243; 
+	Sun, 12 Jan 2020 20:41:28 -0800 (PST)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.113.11.95]) by smtp.gmail.com with ESMTPSA id
-	s20sm4472974qkg.131.2020.01.12.20.41.25
+	s20sm4472974qkg.131.2020.01.12.20.41.26
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 12 Jan 2020 20:41:26 -0800 (PST)
+	Sun, 12 Jan 2020 20:41:27 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Sun, 12 Jan 2020 23:41:22 -0500
-Message-Id: <303908f84e3481cefdd86753cfc9cadbddc08a7c.1578890313.git.bruce.ashfield@gmail.com>
+Date: Sun, 12 Jan 2020 23:41:23 -0500
+Message-Id: <1ade4ffec10f27bd13af1e46c56c0f6d82d6ce16.1578890313.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1578890313.git.bruce.ashfield@gmail.com>
 References: <cover.1578890313.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-yocto-dev: bump to v5-5-rcX
+Subject: [PATCH 2/2] perf: fix build for v5.5+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,29 +61,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 04:41:26 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 04:41:28 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
+In kernel 5.5+ there are python3 scripts that explicitly use
+/usr/bin/python3 as the interpreter. That will find the host
+python and produce undefined results.
+
+We add that interpreter path to our substitutions to ensure
+that our sysroot variant is used.
+
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-dev.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/perf/perf.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-index 3b5c9ddc59..afda84936a 100644
---- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-@@ -30,7 +30,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto-dev.git;branch=${KBRANCH};name
- SRCREV_machine ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
- SRCREV_meta ?= '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel", "linux-yocto-dev", "${AUTOREV}", "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 5f0ba7c180..840f3008b5 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -241,6 +241,7 @@ do_configure_prepend () {
+         sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
+         sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
+         sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
++        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
+     done
  
--LINUX_VERSION ?= "5.4-rc+"
-+LINUX_VERSION ?= "5.5-rc+"
- LINUX_VERSION_EXTENSION ?= "-yoctodev-${LINUX_KERNEL_TYPE}"
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
+     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
 -- 
 2.19.1
 
