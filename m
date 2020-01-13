@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 1213E7FD25
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 0445F7FD25
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 15:30:58 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id q10so5034644pfs.6
+	Mon, 13 Jan 2020 15:30:59 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id x7so4854385pgl.11
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 07:31:00 -0800 (PST)
+	Mon, 13 Jan 2020 07:31:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=gxXju7FHcV6HZ9f4Ik3KCyjSDfLoiNM3yYPrnhht+J8=;
-	b=Gbxcqi4MhKTBCVXyK6iL/dhmI37v9mtKTZ5Db/hcQHVTqH4QxoMpPgK4iMgSENM2TM
-	lfgdrsSkQsurI4tlFnsO+YmRGTBATxxfNT0GbUz8qe/1nS34t9hqmdGYjydRaNFb4f5k
-	6mKP+KzgXRw1Ah+vapIg9cXJMX+cETdwqJ2wXWNUhIt1tMK9WLGDprUWsL41EI+dfkdp
-	3UNuct1gFh/GHzJco9IYYEiRzCGyQcxKP3UO4bsI8JCCjKGzv1E5uDqU2q/5G5NmW5B2
-	UMv1i1WvsQ4yYiXI8O/PTTmLF7APCV6v0SUSmgz+A/w1I+Ygunn1t8Kg3469wMEQLXAc
-	j3vg==
+	bh=NSt20zg8g3JXLLNErnQ8uhgUYZDyEK/VWUKdsnXFH2I=;
+	b=VALmI7p58j0C8vR28AStYUEWRoNzOhzcYkQnrcAriirfkpbP6QdBqbTzBkQ0j48QEe
+	ti23x9bm6qL3r4+31pePh0dDh6plHVKBWPFgIw3uy/QAdmPcPRKFkBm2QShhdJNSQbBc
+	GOdT4n93DMAHOvqlNMerkC5x3QOzu5A3QDFRH0/ftjYH6YSdBzLx0F51sLgFxdIddUsV
+	HOT2hVhJidPm6tSgbfc2BpNqPPOOtlySCAlIMeprXPcTJRbXqcj/Hcps6UGwMd2QHURo
+	gIA4hcHURkLORPb+XMDoM1BEPprwYZ2YuM72hmZtsQGfnM72P2/YYPUig8Vi1smhaH1c
+	HVrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=gxXju7FHcV6HZ9f4Ik3KCyjSDfLoiNM3yYPrnhht+J8=;
-	b=YgZ1cvP8QryweGadgzhHU0hRkiIVZIbUQdeuG5ODGowUWW/hZmwNwg99w+Oyp248dg
-	CMs+zy/I07u/MZSj0qwGg0O9DtJ67CgiuYwEXV3bnBOuRcPcV2TnPti3VUN6//0sTzBk
-	0SVjgM8CH+7UFMMAXcctPV1ZKay1fgdHQtpaZT2eIX629BhYkhOCsVMv6wzjZa512TrN
-	SMW1fYp7be4c8ir+HOEKCjJtvItlLbCVT8yP/knleGK3nN18TgrkEY2DOI9NHw41jRFf
-	uWkRN91aQQt1sFVunALKv62wquJxhDzoHcGEJJeC7z/VjBStJxmF94nateADP9adiaJq
-	qD7w==
-X-Gm-Message-State: APjAAAXvulIEB7JJjtxT+XBCmhOfQvU+lpzp0M+3F7jCAtWZq6XpA+a2
-	q9h9hHgEOaSYL8yMpUN9pVWYxKKA
-X-Google-Smtp-Source: APXvYqy59Z3yELDj+MGh28jwxIJIk64m9Jzax0PKH4Mdz4QTOPrQe1LGIEtqFugnhnwbMRkbvULPlw==
-X-Received: by 2002:a65:4587:: with SMTP id o7mr21021339pgq.303.1578929459929; 
-	Mon, 13 Jan 2020 07:30:59 -0800 (PST)
+	bh=NSt20zg8g3JXLLNErnQ8uhgUYZDyEK/VWUKdsnXFH2I=;
+	b=KFK7MNl3aCqZ8c9czB0XgYTr7rQrgYNiIKPRgI6yvELURnIU/7NsRfUYuKuL4KuQ69
+	KDoP3pSurDL89yFq/rmaAxC6GUhOyGbs88VYHOEICVfno8TgfsV5WVLpy/5iyT3D/1xM
+	GeIp6MzVX+Gu+zmY8CXYKBJHjZd+Wv7BI7SOqhwtA897HpNrRJ7O6ltxaoNEasTxQAM4
+	N1sddj5AIUNbzqIGjCsSFSVeoPX1a+5SxkgUNw+/s9NHvH+hd6Y+Es05RJ8d9qx9PZ9q
+	ZqPxQB5gvrgJyN//Zye9pUxqQjkpaYC/PLxyG0noEayvruVA7kON/cv2UN13thqhpmsD
+	vEwA==
+X-Gm-Message-State: APjAAAVUK72LoNLIqz13j7Dkh6i4IDWJeYC91OgiPvoZEvKjUfHCqwM7
+	MYHoKbI1cv+jGQZM5TMDcIfl/y+d
+X-Google-Smtp-Source: APXvYqwUtahyRuWzLFfRa7QWjdA4gPgyIuNkZVdxUE2RXdgMqXF00/p6Y38lBPHj3fIMT4n1mJdC5w==
+X-Received: by 2002:a63:4e06:: with SMTP id c6mr21019839pgb.187.1578929460974; 
+	Mon, 13 Jan 2020 07:31:00 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:2dcb:8dcc:2050:e41d])
 	by smtp.gmail.com with ESMTPSA id
-	q8sm14167646pgg.92.2020.01.13.07.30.58
+	q8sm14167646pgg.92.2020.01.13.07.31.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 13 Jan 2020 07:30:59 -0800 (PST)
+	Mon, 13 Jan 2020 07:31:00 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon, 13 Jan 2020 07:30:22 -0800
-Message-Id: <0f5b748a5b7fec41bac16bbc1346230e86bb99e3.1578929268.git.akuster808@gmail.com>
+Date: Mon, 13 Jan 2020 07:30:23 -0800
+Message-Id: <72c22b8791707480c380f49305c6d394578b2a4b.1578929268.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578929268.git.akuster808@gmail.com>
 References: <cover.1578929268.git.akuster808@gmail.com>
 Cc: akuster808@gnail.com
-Subject: [warrior 23/28] cve-check: fetch CVE data once at a time instead of in a single call
+Subject: [warrior 24/28] cve-check: Switch to NVD CVE JSON feed version 1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,61 +59,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 15:30:59 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 15:31:00 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Niko Mauno <niko.mauno@iki.fi>
 
-This code used to construct a single SQL statement that fetched the NVD data for
-every CVE requested.  For recipes such as the kernel where there are over 2000
-CVEs to report this can hit the variable count limit and the query fails with
-"sqlite3.OperationalError: too many SQL variables".  The default limit is 999
-variables, but some distributions such as Debian set the default to 250000.
+Switch to recently released version 1.1 of NVD CVE JSON feed, as in
+https://nvd.nist.gov/General/News/JSON-1-1-Vulnerability-Feed-Release
+it is mentioned that
 
-As the NVD table has an index on the ID column, whilst requesting the data
-CVE-by-CVE is five times slower when working with 2000 CVEs the absolute time
-different is insignificant: 0.05s verses 0.01s on my machine.
+  Due to changes required to support CVSS v3.1 scoring, the JSON
+  vulnerability feeds must be modified. This will require the consumers
+  of this data to update their internal processes. We will be providing
+  the JSON 1.1 schema on the data feeds page and the information below
+  to prepare for this transition.
+  ...
+  The JSON 1.1 data feeds will be available on September 9th, 2019. At
+  that time the current JSON 1.0 data feeds will no longer available.
 
-(From OE-Core rev: 53d0cc1e9b7190fa66d7ff1c59518f91b0128d99)
+This change was tested briefly by issuing 'bitbake core-image-minimal'
+with 'cve-check.bbclass' inherited via local.conf, and then comparing
+the content between the resulting two
+'DEPLOY_DIR_IMAGE/core-image-minimal-qemux86.cve' files, which did not
+seem to contain any other change, except total of 167 entries like
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+  CVSS v3 BASE SCORE: 0.0
+
+were replaced with similar 'CVSS v3 BASE SCORE:' entries which had
+scores that were greater than '0.0' (up to '9.8').
+
+(From OE-Core rev: cc20e4d8ff2f3aa52a2658404af9a0ff358cc323)
+
+Signed-off-by: Niko Mauno <niko.mauno@iki.fi>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit c92b8804d6e59b2707332859957f0e6a46db0a73)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/cve-check.bbclass | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ meta/classes/cve-check.bbclass                 | 2 +-
+ meta/recipes-core/meta/cve-update-db-native.bb | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index e95716d9de..19ed5548b3 100644
+index 19ed5548b3..01b3637469 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -267,17 +267,17 @@ def get_cve_info(d, cves):
+@@ -26,7 +26,7 @@ CVE_PRODUCT ??= "${BPN}"
+ CVE_VERSION ??= "${PV}"
  
-     cve_data = {}
-     conn = sqlite3.connect(d.getVar("CVE_CHECK_DB_FILE"))
--    placeholders = ",".join("?" * len(cves))
--    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholders
--    for row in conn.execute(query, tuple(cves)):
--        cve_data[row[0]] = {}
--        cve_data[row[0]]["summary"] = row[1]
--        cve_data[row[0]]["scorev2"] = row[2]
--        cve_data[row[0]]["scorev3"] = row[3]
--        cve_data[row[0]]["modified"] = row[4]
--        cve_data[row[0]]["vector"] = row[5]
--    conn.close()
+ CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
+-CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.0.db"
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_1.1.db"
  
-+    for cve in cves:
-+        for row in conn.execute("SELECT * FROM NVD WHERE ID IS ?", (cve,)):
-+            cve_data[row[0]] = {}
-+            cve_data[row[0]]["summary"] = row[1]
-+            cve_data[row[0]]["scorev2"] = row[2]
-+            cve_data[row[0]]["scorev3"] = row[3]
-+            cve_data[row[0]]["modified"] = row[4]
-+            cve_data[row[0]]["vector"] = row[5]
-+
-+    conn.close()
-     return cve_data
+ CVE_CHECK_LOG ?= "${T}/cve.log"
+ CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
+diff --git a/meta/recipes-core/meta/cve-update-db-native.bb b/meta/recipes-core/meta/cve-update-db-native.bb
+index db1d69a28e..575254af40 100644
+--- a/meta/recipes-core/meta/cve-update-db-native.bb
++++ b/meta/recipes-core/meta/cve-update-db-native.bb
+@@ -27,7 +27,7 @@ python do_populate_cve_db() {
  
- def cve_write_data(d, patched, unpatched, cve_data):
+     bb.utils.export_proxies(d)
+ 
+-    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
++    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-"
+     YEAR_START = 2002
+ 
+     db_file = d.getVar("CVE_CHECK_DB_FILE")
 -- 
 2.17.1
 
