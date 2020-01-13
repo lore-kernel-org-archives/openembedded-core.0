@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id B6B507FCA8
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 09DA47FCEA
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 15:30:43 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id az3so3935686plb.11
+	Mon, 13 Jan 2020 15:30:45 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id s64so4857446pgb.9
 	for <openembedded-core@openembedded.org>;
-	Mon, 13 Jan 2020 07:30:45 -0800 (PST)
+	Mon, 13 Jan 2020 07:30:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=cvs32w7sfHeJ8iQayPAIR0wu1Wg0DxGXf0vMxGJtZqk=;
-	b=nTs9QKWQconsrjetOUwwcUmoz1/39eR5PY0Tj63SL0be3HMYF2/O3d2CuwqZ2+paBP
-	J6zQ0V1IwPRG9rO1sT6ERwsXAGyoQyJTCPTrKY57tHr7ch1zB7QCPkIyLlr8kTniDDEf
-	ks4NBD+23UdWbj+q4Lka1RAn/7rEkCshzUq1QlMaPOGsWKyPIhIIjoHJLTeoWaWH7ArL
-	1K/gqEQo2cFVhsqGqsi/9TKp9+Gu60mE8axOrn5SiLobdKDPP8pBZiIWH16l4UZBPvjB
-	ElSqruNrYq7JGeTEKLJLL2hEUVQtkIvrvxPvbLBYyGUsTnw6/n7LDuVXx9GD4NErDWDZ
-	2Bog==
+	bh=79PEM5FVkphXRcBWiXOSZz2204CnX5jEOn+Csh6cXFU=;
+	b=OKgKNCB9+tQz4rUQWlnKMbOQZiO41XkrKnjcfkGd+DbwM9NbgXhM9stINIMzRPxldM
+	XBRpKssCJxmJ8WLQ11sVrjsFTzGvuJcGi+Al9CXA+Ssrg1KUWAc02sp/oQsd/qe6DZs2
+	upcklP/kFHN91EdDy/iFpv4nNO07x62i2PTcf8aE4QGWwYe+4VpDfOGM81oRVw4xEAGx
+	IiaUh5fuDlzP1/Sy1GKkszB1cEpuMGCxzaPCS9+akjpupIjgsQi92tflNww6KWJP3ww4
+	OVluzVFihqiKXCQxr3kNzaZgTGXdXj4Fy3Xl6wrXWKWtSWBECmsU+vlOtBmyIF5pZXW8
+	GOqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=cvs32w7sfHeJ8iQayPAIR0wu1Wg0DxGXf0vMxGJtZqk=;
-	b=YoOnSb8pHqeZkThZgUPccpCtdv+lQTP0xRG/sqpBdw3QI4AAcL5N6QD0jwsDrA+8XB
-	ZotAr4hWmRzyuOgzJDI7pj+fxnSmiidKK3h2nEOQpCIFjzvUpbQ1Ny1LOjg8jVEjd7FJ
-	wCAEzrTel9m/cRA9u9sUDmi9Z3ulPw9pxOTr5/WyyHMzhkd926lg1UDzhIH3+GLxsX04
-	38JiOAlxpz8+Yo11RlUI8ByBBtybWlCrs1QwfNocIlIGKWB1K+kCzWdW1c7dyLaRlH2c
-	N5R2TYHgfU+EIVdwbGo2I5LBgVQ+dcP2bfX876m56096+L0v92ZhvGHY+DFvEGGvmhJ7
-	3dZQ==
-X-Gm-Message-State: APjAAAX0JSCcA3BtaXxS5mft7EyXTJ+vUMfNNqIRNn9WRiho6G5vtKS0
-	tA/i2KES4dVIWQfJFrMau8M3EEkJ
-X-Google-Smtp-Source: APXvYqw61GVHhxWTaNVAR4nDz5ktPkc+KV8222rx3A0mgFM9obfAGk5jQ1QBc7zHkX3KmjJt2GJYBw==
-X-Received: by 2002:a17:902:7046:: with SMTP id
-	h6mr13830329plt.231.1578929444706; 
-	Mon, 13 Jan 2020 07:30:44 -0800 (PST)
+	bh=79PEM5FVkphXRcBWiXOSZz2204CnX5jEOn+Csh6cXFU=;
+	b=W4xWdE3LyASzO8v8/d9p60KRykIzgxyEb0tF9Cr/HO13DA5FtOPxQa8jR+mN6cUsMp
+	045tuObm018a0HZjjt86k2XTXRYJNYyNszKyeNngzfClVaO1LF2U+R5XTmokvWKqrzUh
+	urb8BvxApXxpr+393s/0IxAoYePI518UQIId37055TnUWMiWNP3qktvzZlb2LiyxHz9P
+	TdIovWADAH4OWW/I7lfT/1s4LsTDb6JIjC2JRPacimW+zUqg8cGfEYIh7E+5gITml4mE
+	lDuBUir5RYyTdz00cR0zIhpk+OAtkWNMVP+qizynalOUNoLX1kCk5WV17xPouRcFSWqv
+	m4gg==
+X-Gm-Message-State: APjAAAV0i6aEWljXdu+MLFtYzjdj6+Ka8sumEHIewLRDKjuAnqadyY80
+	OKmSt3BT3G056cADOVvGOMOBi15K
+X-Google-Smtp-Source: APXvYqxX4HU9FrAgevD3LbuMnxGLWdntD/w+sG2XGme6MNUVQUk9/CEVoVAshaj3d3Mry1cye9MamA==
+X-Received: by 2002:a63:4664:: with SMTP id v36mr21053476pgk.147.1578929446094;
+	Mon, 13 Jan 2020 07:30:46 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0:2dcb:8dcc:2050:e41d])
 	by smtp.gmail.com with ESMTPSA id
-	q8sm14167646pgg.92.2020.01.13.07.30.43
+	q8sm14167646pgg.92.2020.01.13.07.30.44
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 13 Jan 2020 07:30:44 -0800 (PST)
+	Mon, 13 Jan 2020 07:30:45 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon, 13 Jan 2020 07:30:10 -0800
-Message-Id: <afc529aa689daed18af29ecc64f3dae1fcbdc282.1578929268.git.akuster808@gmail.com>
+Date: Mon, 13 Jan 2020 07:30:11 -0800
+Message-Id: <d0e3d1f9437b2e2c6284d9fad51bb11ebe72a46c.1578929268.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1578929268.git.akuster808@gmail.com>
 References: <cover.1578929268.git.akuster808@gmail.com>
 Cc: akuster808@gnail.com
-Subject: [warrior 11/28] procps: whitelist CVE-2018-1121
+Subject: [warrior 12/28] libpcap: upgrade 1.9.0 -> 1.9.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,33 +59,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 15:30:44 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 15:30:46 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 
-This CVE is about race conditions in 'ps' which make it unsuitable for security
-audits.  As these race conditions are unavoidable ps shouldn't be used for
-security auditing, so this isn't a valid CVE.
+-libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
+ Removed since this is included in 1.9.1.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[CVE-2018-16301 CVE-2019-15161 CVE-2019-15162 CVE-2019-15163 CVE-2019-15164 CVE-2019-15165]
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/procps/procps_3.3.15.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ ...-add-missing-limits.h-for-musl-syste.patch | 29 -------------------
+ .../{libpcap_1.9.0.bb => libpcap_1.9.1.bb}    |  5 ++--
+ 2 files changed, 2 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
+ rename meta/recipes-connectivity/libpcap/{libpcap_1.9.0.bb => libpcap_1.9.1.bb} (88%)
 
-diff --git a/meta/recipes-extended/procps/procps_3.3.15.bb b/meta/recipes-extended/procps/procps_3.3.15.bb
-index 9756db0e7b..a20917b223 100644
---- a/meta/recipes-extended/procps/procps_3.3.15.bb
-+++ b/meta/recipes-extended/procps/procps_3.3.15.bb
-@@ -64,3 +64,6 @@ python __anonymous() {
-         d.setVarFlag('ALTERNATIVE_LINK_NAME', prog, '%s/%s' % (d.getVar('base_sbindir'), prog))
- }
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch b/meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
+deleted file mode 100644
+index 01773834c7..0000000000
+--- a/meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-From aafa3512b7b742f5e66a5543e41974cc5e7eebfa Mon Sep 17 00:00:00 2001
+-From: maxice8 <thinkabit.ukim@gmail.com>
+-Date: Sun, 22 Jul 2018 18:54:17 -0300
+-Subject: [PATCH] pcap-usb-linux.c: add missing limits.h for musl systems.
+-
+-fix compilation on musl libc systems like Void Linux and Alpine.
+-
+-Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/d557c98a16dc254aaff03762b694fe624e180bea]
+-
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- pcap-usb-linux.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/pcap-usb-linux.c b/pcap-usb-linux.c
+-index 6f8adf65..b92c05ea 100644
+---- a/pcap-usb-linux.c
+-+++ b/pcap-usb-linux.c
+-@@ -50,6 +50,7 @@
+- #include <stdlib.h>
+- #include <unistd.h>
+- #include <fcntl.h>
+-+#include <limits.h>
+- #include <string.h>
+- #include <dirent.h>
+- #include <byteswap.h>
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb b/meta/recipes-connectivity/libpcap/libpcap_1.9.1.bb
+similarity index 88%
+rename from meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb
+rename to meta/recipes-connectivity/libpcap/libpcap_1.9.1.bb
+index 78361561e6..a0f66ac0fa 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.9.0.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.9.1.bb
+@@ -11,10 +11,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=5eb289217c160e2920d2e35bddc36453 \
+ DEPENDS = "flex-native bison-native"
  
-+# 'ps' isn't suitable for use as a security tool so whitelist this CVE.
-+# https://bugzilla.redhat.com/show_bug.cgi?id=1575473#c3
-+CVE_CHECK_WHITELIST += "CVE-2018-1121"
+ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.gz \
+-           file://0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch \
+            "
+-SRC_URI[md5sum] = "dffd65cb14406ab9841f421732eb0f33"
+-SRC_URI[sha256sum] = "2edb88808e5913fdaa8e9c1fcaf272e19b2485338742b5074b9fe44d68f37019"
++SRC_URI[md5sum] = "21af603d9a591c7d96a6457021d84e6c"
++SRC_URI[sha256sum] = "635237637c5b619bcceba91900666b64d56ecb7be63f298f601ec786ce087094"
+ 
+ inherit autotools binconfig-disabled pkgconfig bluetooth
+ 
 -- 
 2.17.1
 
