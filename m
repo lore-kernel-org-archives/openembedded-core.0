@@ -1,47 +1,48 @@
 Return-Path: <maxim.uvarov@linaro.org>
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
-	[209.85.208.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 28D8C7FCA8
+Received: from mail-yw1-f66.google.com (mail-yw1-f66.google.com
+	[209.85.161.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 20D8B7FCE3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 13:08:30 +0000 (UTC)
-Received: by mail-lj1-f177.google.com with SMTP id j26so9943220ljc.12
+	Mon, 13 Jan 2020 13:14:19 +0000 (UTC)
+Received: by mail-yw1-f66.google.com with SMTP id i190so5960598ywc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 05:08:32 -0800 (PST)
+	Mon, 13 Jan 2020 05:14:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=5bZ3VumH9j+UcX/+yztg1puOqugtjkBZEpCZvFykK98=;
-	b=ELx4H5A2cCT0xyEeBTHhdO91XBiL4L6XUWUV7jBMwRL8VmfZbFiKm0wMg7iZWwniJb
-	uQkS63Xv8NIdxDVAB/vRspwQGCDmBvlB8KnbbqlTa/nzO7N4SXXla1ELgM5hKodUuhw7
-	4DWAq8l4d4bYEmTTUghPBnzHA6bdB31MEX+8pkRGpYa5iBC0vmCaVGEdgFH+Y6PIiBND
-	pNg/Vl+ka5wq5kgxfzdsLEjcneko5W7DoHJZO7zUP6eZgp5Qhp4NTV9yKBvVKfvcvjNI
-	VEy4DM0ZI2EKqcNqwTgELHhuDbZPoT32o1ahsczwEmZ385FJ2+gtqhlq4NKbwDKR+RkY
-	hgEA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=9egG1fSqWo3ZQnrqx25VXkuU75cgAp1DYyZpTxSdHm4=;
+	b=PndcBgufyIoX2yzkkQo/vcjMd1TxhTfOrogm3jRvwXCYhmqDYPiHW+IYyguaQCCg4I
+	h/9OvlKHvSvWxmNEpKwNleNP5QPBynbgVTJQ2gGZebxuX9YDfo8Ud/8g3VADYh5Nzyr0
+	eKXd5wENV0F8Pj2WRXTwBkyouJLbZcSRHemsCTt6DkrI8JMzsZBpgMVg7PIjOC1j2qQ4
+	917j+3rlXvGFzLjIkM13uEXI+fl10Q2NET2QRX+NKBPgujWs0p7aW/VfJ5EwmAmiSOIm
+	UwPMWTY/zNAKRsfsN/tVhY2wYAh3bIr2uCLhU1WkyHXfUbpRRr1GTAJThRJ8Yskekr/U
+	jbyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=5bZ3VumH9j+UcX/+yztg1puOqugtjkBZEpCZvFykK98=;
-	b=Ln6gFLcmecdaPE6nv8TYB5QZIEU+mS68K4a61FixcbFH8o+u8CTGk2ZLEByP8H/GCe
-	SscYtVHzmAoCRhvYUoUSNdQqZx8tvMHHHVnPihuph3LJgREio33Lp8nb/7zKz92BdE92
-	f8BvyuuFPYUxCiChcaQk8EcftfHnUcEh/vpxSGBPALMFBz/GKHDOb72DF/OhS2QhGHmH
-	u3CggFrC+N6PspCQOeGocKa38GIGCKZvAwcMj05vuw/ulc3pXZu0ou7UM0M+8G4zGe27
-	a6blhx9hT6gE7u784t9utdYT3zBgqi0pp5nseWjnQ1foF7aWxcOkkenZW5qY+FYkb9Qx
-	Pa8Q==
-X-Gm-Message-State: APjAAAVUeeyTqe/8wH6KvYiTgqlVWUYad4P5AGIbUN59z04KbOizGkpO
-	cJPl+nn0tWbKd3ryb1yswS2D6oiiggk=
-X-Google-Smtp-Source: APXvYqwBswokyB4ucT6cJiES+jBjzaTPt3x/x7ss63J9tgXdBvlmgrQ/tL+gOwKDcrH1PqRBU1jGiw==
-X-Received: by 2002:a2e:8745:: with SMTP id q5mr10037900ljj.208.1578920911245; 
-	Mon, 13 Jan 2020 05:08:31 -0800 (PST)
-Received: from maximlap.d-systems.local ([185.75.190.112])
-	by smtp.gmail.com with ESMTPSA id
-	c12sm5612548lfp.58.2020.01.13.05.08.30
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 13 Jan 2020 05:08:30 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9egG1fSqWo3ZQnrqx25VXkuU75cgAp1DYyZpTxSdHm4=;
+	b=Yokc5fzaIbfcY9UUXnGYUGLC01ZpWNeVvl45AoMSWN9W1WggszVbhC54bCJwmX3Yfb
+	WOfYy7wqjLPYkbckV0aZ1CG/zcDUAL6pLzsV6gY9YXGMgNRPJDPClsvh6oSSZTPqfgAq
+	/tNj8gaguOuSEId+k2iuV5skwubbqQ40ARZLwKjA3MYc91gNTnJauzx/dSVS76yoqWA3
+	RZd12vPDcMwQ/lIu7OkhlXKO20FjkEbdkUV8LNanstILnODnygI+cq3RpsiwwaDK91N0
+	qpGy/G+p2yzBwKf3LwiYbQgOoC4WLKx06VgAjaE2Na95bwQ8duoQmiRJygE8y8h/jxLA
+	Fn1Q==
+X-Gm-Message-State: APjAAAXY6KHQ9ri37YCDDePlDvi/7JmALL3SZYc2k8lpaGWYIbW5bEUK
+	/eJkcKhPn8dZYQqn+y3Ae8PDfVnRhPojz3lthTVGqQ==
+X-Google-Smtp-Source: APXvYqy3optccEdz0wbM+IPTn+gAmNK0LF9XBglI4o4KgYZAihv9ylzybtOrEpbKnQ/ocoyZERopfqt/kZi164yd4mU=
+X-Received: by 2002:a81:9e02:: with SMTP id m2mr13179695ywj.292.1578921259964; 
+	Mon, 13 Jan 2020 05:14:19 -0800 (PST)
+MIME-Version: 1.0
+References: <20200104200703.6758-1-maxim.uvarov@linaro.org>
+	<8b3eab92db8c79d69bff5eee95f1b9498bc96d65.camel@linuxfoundation.org>
+	<CAD8XO3YiX7Xj8z7s0AzDeAcR530RrCOixYjw+myd0Nim90pv7A@mail.gmail.com>
+In-Reply-To: <CAD8XO3YiX7Xj8z7s0AzDeAcR530RrCOixYjw+myd0Nim90pv7A@mail.gmail.com>
 From: Maxim Uvarov <maxim.uvarov@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 Jan 2020 16:08:27 +0300
-Message-Id: <20200113130827.7409-1-maxim.uvarov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCHv2] wic: fix images build in parallel
+Date: Mon, 13 Jan 2020 16:14:09 +0300
+Message-ID: <CAD8XO3Z2X6m7EnCbAxhJDsoc-GuFfNUbfvP19WRhp9ow0qEQTg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: add UEFI kernel as UEFI stub
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,117 +55,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 Jan 2020 13:08:31 -0000
+X-List-Received-Date: Mon, 13 Jan 2020 13:14:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-OE wic plugins create temporary file with the index of the line
-tmp file name. This causes race in case several builds run in time.
-Add more entropy as timestamp to remove this race.
+Can this patch be applied without embedded test?
 
-Suggested-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
----
- v2: shortlog change to match template.
-
- scripts/lib/wic/plugins/source/bootimg-partition.py | 5 +++--
- scripts/lib/wic/plugins/source/bootimg-pcbios.py    | 3 ++-
- scripts/lib/wic/plugins/source/rawcopy.py           | 3 ++-
- scripts/lib/wic/plugins/source/rootfs.py            | 3 ++-
- 4 files changed, 9 insertions(+), 5 deletions(-)
-
-diff --git a/scripts/lib/wic/plugins/source/bootimg-partition.py b/scripts/lib/wic/plugins/source/bootimg-partition.py
-index 138986a71e..b6cea1096a 100644
---- a/scripts/lib/wic/plugins/source/bootimg-partition.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-partition.py
-@@ -13,6 +13,7 @@
- import logging
- import os
- import re
-+import time
- 
- from glob import glob
- 
-@@ -38,7 +39,7 @@ class BootimgPartitionPlugin(SourcePlugin):
-         """
-         Called before do_prepare_partition(), create u-boot specific boot config
-         """
--        hdddir = "%s/boot.%d" % (cr_workdir, part.lineno)
-+        hdddir = "%s/boot.%d" % (cr_workdir, part.lineno, time.time())
-         install_cmd = "install -d %s" % hdddir
-         exec_cmd(install_cmd)
- 
-@@ -171,7 +172,7 @@ class BootimgPartitionPlugin(SourcePlugin):
-         - sets up a vfat partition
-         - copies all files listed in IMAGE_BOOT_FILES variable
-         """
--        hdddir = "%s/boot.%d" % (cr_workdir, part.lineno)
-+        hdddir = "%s/boot.%d_%s" % (cr_workdir, part.lineno, time.time())
- 
-         if not kernel_dir:
-             kernel_dir = get_bitbake_var("DEPLOY_DIR_IMAGE")
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index f2639e7004..8ac73c2067 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -13,6 +13,7 @@
- import logging
- import os
- import re
-+import time
- 
- from wic import WicError
- from wic.engine import get_custom_config
-@@ -184,7 +185,7 @@ class BootimgPcbiosPlugin(SourcePlugin):
-                      extra_blocks, part.mountpoint, blocks)
- 
-         # dosfs image, created by mkdosfs
--        bootimg = "%s/boot%s.img" % (cr_workdir, part.lineno)
-+        bootimg = "%s/boot%s_%s.img" % (cr_workdir, part.lineno, time.time())
- 
-         dosfs_cmd = "mkdosfs -n boot -i %s -S 512 -C %s %d" % \
-                     (part.fsuuid, bootimg, blocks)
-diff --git a/scripts/lib/wic/plugins/source/rawcopy.py b/scripts/lib/wic/plugins/source/rawcopy.py
-index 82970ce51b..9ada3d39c9 100644
---- a/scripts/lib/wic/plugins/source/rawcopy.py
-+++ b/scripts/lib/wic/plugins/source/rawcopy.py
-@@ -4,6 +4,7 @@
- 
- import logging
- import os
-+import time
- 
- from wic import WicError
- from wic.pluginbase import SourcePlugin
-@@ -57,7 +58,7 @@ class RawCopyPlugin(SourcePlugin):
-             raise WicError("No file specified")
- 
-         src = os.path.join(kernel_dir, source_params['file'])
--        dst = os.path.join(cr_workdir, "%s.%s" % (source_params['file'], part.lineno))
-+        dst = os.path.join(cr_workdir, "%s.%s_%s" % (source_params['file'], part.lineno, time.time()))
- 
-         if not os.path.exists(os.path.dirname(dst)):
-             os.makedirs(os.path.dirname(dst))
-diff --git a/scripts/lib/wic/plugins/source/rootfs.py b/scripts/lib/wic/plugins/source/rootfs.py
-index 705aeb5563..37ebee89ea 100644
---- a/scripts/lib/wic/plugins/source/rootfs.py
-+++ b/scripts/lib/wic/plugins/source/rootfs.py
-@@ -15,6 +15,7 @@ import logging
- import os
- import shutil
- import sys
-+import time
- 
- from oe.path import copyhardlinktree
- 
-@@ -74,7 +75,7 @@ class RootfsPlugin(SourcePlugin):
-         if part.exclude_path or part.include_path:
-             # We need a new rootfs directory we can delete files from. Copy to
-             # workdir.
--            new_rootfs = os.path.realpath(os.path.join(cr_workdir, "rootfs%d" % part.lineno))
-+            new_rootfs = os.path.realpath(os.path.join(cr_workdir, "rootfs%d_%s" % (part.lineno, time.time())))
- 
-             if os.path.lexists(new_rootfs):
-                 shutil.rmtree(os.path.join(new_rootfs))
--- 
-2.17.1
-
+On Thu, 9 Jan 2020 at 14:47, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+>
+> On Sun, 5 Jan 2020 at 17:52, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Sat, 2020-01-04 at 23:07 +0300, Maxim Uvarov wrote:
+> > > Linux kernel can be compiled as UEFI stub and loaded directly
+> > > with UEFI firmware without grub or other UEFI shell.
+> > >
+> > > Tested with wic file:
+> > > bootloader  --ptable gpt --timeout=0  --append="rootwait"
+> > > part /boot --source bootimg-efi --sourceparams="loader=kernel" \
+> > >  --ondisk sda  --fstype=vfat --label bootfs \
+> > >   --active --align 1024 --use-uuid
+> > > part / --source rootfs --fstype=ext4 --label rootfs \
+> > >   --align 1024 --exclude-path boot/ --use-label
+> > > The same wic file for armv7, armv8 and x86_64.
+> > >
+> > > Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+> > > ---
+> > >  scripts/lib/wic/plugins/source/bootimg-efi.py | 27
+> > > +++++++++++++++++++
+> > >  1 file changed, 27 insertions(+)
+> >
+> > wic has fairly complete tests, do we need to add a test for the new
+> > functionality?
+> >
+> > ("oe-selftest -r wic")
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> I'm currently looking to zeus branch and it looks like test uses this file:
+> openembedded-core/meta-selftest/./recipes-test/images/wic-image-minimal.wks
+>
+> I think it will be good to add test for --source bootimg-efi
+> --sourceparams="loader=kernel".
+> Do you want to change wic-image-minimal.wks? Or just put this file to
+> openembedded-core/meta-selftest/wic/
+> directory and somehow it will be tested?
+>
+> Maxim.
 
