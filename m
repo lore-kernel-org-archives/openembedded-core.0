@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
-	[209.85.128.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 959CB7FACA
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 284537FBC1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 14:00:19 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id p17so13873837wmb.0
+	Tue, 14 Jan 2020 14:00:20 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id d139so2390848wmd.0
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 Jan 2020 06:00:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Z4ajSqk9CjlAP2XbX2de1z2BY5lRV6lzNm8Iret+53k=;
-	b=al1EQlEhUkCH8JI1BwcZjZqbIy2uFCMUWWdFyfSvnNr1OB/PCphNRkYT2LXE+RK0e+
-	k9VGp18dK2JYcJqEYlPXGZ/g9QCUbE8k9fRJEmdtsSoe0EeyJ5tB+RAx6fTs6UomYbe1
-	F+T2CsVlHHYbrW5cJNWOUftVwzWY3eLUWH+E+4mI30FP/YqwJviB4Yz1DSfniY2Lsc2/
-	IdsHUz0gbHKqBeAVfI4OlQ8Mpm3C7e8a2Eni89DfkfbRuFvPEvszIl7xnFdtzib2oeaa
-	1GcTCLN2dEjVpNXIgckH9LsfpCtypmKa/CX4v7+J/HUt+jUasCwVJlDg1AsFuAwIzO+o
-	lsBA==
+	bh=6gHhWGijO6jKxvUrCYdy33AUsFmChw5mOHE3s9wrRLE=;
+	b=cFzkjfUXpBYLG0rk/1WPgMvBSsp5BrzqRu8KM5fXt+RS1xH9CeKkvtmpW1Del/aUSH
+	MsmeSEareFD9cgCow1Isd+FtFoLBEBRxOhLV+d2VEPZdBygx3AxOierGDunpJT20RPvd
+	YDSi5/hR7JF9th+fsw6z0kHBnwNfdkcElDHxFOPZshnAltWHI6LG71Li93Z8Gs3rwC+P
+	IBsJLUKbFhfu8xD40DVYUPOxEfqpoVAdq0RVhjEzY8Fcd2o8fywmxHuiDtMSj63curQ0
+	XUWz1xv3MBVLlT6ylv0yIkPklsZe8xg6eg9k2G7PPISVBNjuHnXTnPNI+wov66lNhG1I
+	BjKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Z4ajSqk9CjlAP2XbX2de1z2BY5lRV6lzNm8Iret+53k=;
-	b=EQfPP4PQhTxFxuWw0xjwaEsOEY2i63HhGQ3EBt+ZkuQ+qOUW2EFUu2DRqHEvZ8cuk+
-	ak6emPmJicjC53G1BbhlpyUrIBT8PRBlfC/yNxdPNWUeoC//GZqs4me1LCFHB9EVhwgU
-	1ZYG5t5wmbGC+xe+GjNO4vT9J54nc8NJHQSW63btDOX7jzTP7T+9WrkF2FjZzJY4RkTV
-	9RNe5hhsCBXHBfbizR+hHAgzNDSnlWjOnGXFg5q5+noMz8uE7ZvjnA8pY64C8GxvLt5B
-	r7X3XwkOQAWIVkAvrtYnH55sWdEPzW0dxqBUVARRgcXZMLpX9so0B2EKxoAIrH2raa8s
-	mzNA==
-X-Gm-Message-State: APjAAAX2S+tvPNNtu9J521ZBQDQsfGCqnMOeE7zf7nYGBnP1UaMMQx43
-	2ODqE5m5eZd9Iier/NiADEHaEysu
-X-Google-Smtp-Source: APXvYqxSaBOVhx4ojd78K0daFBYbtjSht+FvAEF4RVQGf7DG+OWjBBG1hSsVTAeYpfzHyV/2eMrc2A==
-X-Received: by 2002:a7b:c084:: with SMTP id r4mr25898875wmh.99.1579010417758; 
-	Tue, 14 Jan 2020 06:00:17 -0800 (PST)
+	bh=6gHhWGijO6jKxvUrCYdy33AUsFmChw5mOHE3s9wrRLE=;
+	b=ncJ3rlfJmIMXrDt1CMW3BCJ27M7AEU6BhCHjfTuY50xdh9hdescWSSLEBbmoYnP8O4
+	ZioaTjrMPqZp4mqYDdz7N34FzyWexxrL+0RgLmAZEF4gEbY52cGoUTEObTBdxbbPR4Q+
+	Yx51udRXrt34sbfY03evZugZ7mY+nzksL7V+eRILAGYERK8ZxzdwPKW3Q3uIh171bNki
+	YViRYm/jDy5qS/RH6Z5lHD85Lf15pEH1x5QLXRaFf0jakhXpfANdNbgrg2Hy/XHych1G
+	udZCrVoauqcMGUhPh9oqhAEgT1aOKbND3ce+egWNEQ8tFF2OttfFi0fW1Lf+LQ17GTPz
+	8g3A==
+X-Gm-Message-State: APjAAAWAXueabV8c3xc5Wa/oY/ldAYvnDPZ9aJqtLzA4VNsVnGa8YkzU
+	pM2D/161UNhORWTml3FG5Z6+5j8g
+X-Google-Smtp-Source: APXvYqzb8ZHs4OBIThAfOKldHbuUyKPuNH5ZFZbWxf0OczQpPOLsjOwpVK0FS8nnpIUtb7WI06MX4A==
+X-Received: by 2002:a05:600c:2215:: with SMTP id
+	z21mr27991835wml.55.1579010419950; 
+	Tue, 14 Jan 2020 06:00:19 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	r62sm20147333wma.32.2020.01.14.06.00.16
+	r62sm20147333wma.32.2020.01.14.06.00.18
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 06:00:17 -0800 (PST)
+	Tue, 14 Jan 2020 06:00:19 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 14:59:53 +0100
-Message-Id: <20200114140007.36622-6-alex.kanavin@gmail.com>
+Date: Tue, 14 Jan 2020 14:59:55 +0100
+Message-Id: <20200114140007.36622-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200114140007.36622-1-alex.kanavin@gmail.com>
 References: <20200114140007.36622-1-alex.kanavin@gmail.com>
-Subject: [PATCH 06/20] acl/attr: update to latest upstream releases
+Subject: [PATCH 08/20] ltp: update to 20190930
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,2338 +60,1317 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 Jan 2020 14:00:20 -0000
 
-The latest release use standard autotools, so drop all
-the build system related hacks and patches.
+Drop a big pile of backports.
 
-Ptests have been rewritten, with 100% pass rate for both.
+Add a patch to address absent string formatting error.
+
+Additional fixing of builds with musl.
+
+timers group has been merged upstream into syscalls.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../0001-test-patch-out-failing-bits.patch    |  63 ++
- ...dcode-the-build-path-into-a-helper-l.patch |  24 +
- ...file-libacl-should-depend-on-include.patch |  51 --
- ...-order-of-expected-output-of-getfacl.patch | 198 ------
- meta/recipes-support/attr/acl/configure.ac    |  49 --
- meta/recipes-support/attr/acl/run-ptest       |  60 +-
- .../acl/test-fix-directory-permissions.patch  |  37 -
- .../test-fix-insufficient-quoting-of.patch    | 100 ---
- ...-SELinux-machines-for-root-testcases.patch |  84 ---
- meta/recipes-support/attr/acl_2.2.52.bb       |  52 --
- meta/recipes-support/attr/acl_2.2.53.bb       |  74 ++
- meta/recipes-support/attr/attr.inc            |  48 +-
- .../0001-Use-stdint-types-consistently.patch  |  69 --
- .../attr/attr/attr-Missing-configure.ac.patch |  63 --
- .../attr/attr/dont-use-decl-macros.patch      |  56 --
- meta/recipes-support/attr/attr/run-ptest      |   3 +
- meta/recipes-support/attr/attr_2.4.47.bb      |  15 -
- meta/recipes-support/attr/attr_2.4.48.bb      |   6 +
- meta/recipes-support/attr/ea-acl.inc          |  52 --
- ...option-to-enable-disable-static-libr.patch |  70 --
- ...e-attr.5-man-page-moved-to-man-pages.patch | 240 -------
- .../Remove-the-section-2-man-pages.patch      | 666 ------------------
- .../attr/files/relative-libdir.patch          |  25 -
- meta/recipes-support/attr/files/run-ptest     |   5 -
- 24 files changed, 205 insertions(+), 1905 deletions(-)
- create mode 100644 meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch
- create mode 100644 meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch
- delete mode 100644 meta/recipes-support/attr/acl/Makefile-libacl-should-depend-on-include.patch
- delete mode 100644 meta/recipes-support/attr/acl/acl-fix-the-order-of-expected-output-of-getfacl.patch
- delete mode 100644 meta/recipes-support/attr/acl/configure.ac
- delete mode 100644 meta/recipes-support/attr/acl/test-fix-directory-permissions.patch
- delete mode 100644 meta/recipes-support/attr/acl/test-fix-insufficient-quoting-of.patch
- delete mode 100644 meta/recipes-support/attr/acl/test-fixups-on-SELinux-machines-for-root-testcases.patch
- delete mode 100644 meta/recipes-support/attr/acl_2.2.52.bb
- create mode 100644 meta/recipes-support/attr/acl_2.2.53.bb
- delete mode 100644 meta/recipes-support/attr/attr/0001-Use-stdint-types-consistently.patch
- delete mode 100644 meta/recipes-support/attr/attr/attr-Missing-configure.ac.patch
- delete mode 100644 meta/recipes-support/attr/attr/dont-use-decl-macros.patch
- create mode 100644 meta/recipes-support/attr/attr/run-ptest
- delete mode 100644 meta/recipes-support/attr/attr_2.4.47.bb
- create mode 100644 meta/recipes-support/attr/attr_2.4.48.bb
- delete mode 100644 meta/recipes-support/attr/ea-acl.inc
- delete mode 100644 meta/recipes-support/attr/files/0001-Added-configure-option-to-enable-disable-static-libr.patch
- delete mode 100644 meta/recipes-support/attr/files/Remove-the-attr.5-man-page-moved-to-man-pages.patch
- delete mode 100644 meta/recipes-support/attr/files/Remove-the-section-2-man-pages.patch
- delete mode 100644 meta/recipes-support/attr/files/relative-libdir.patch
- delete mode 100644 meta/recipes-support/attr/files/run-ptest
+ meta/lib/oeqa/runtime/cases/ltp.py            |   2 +-
+ ...me-check-for-getdents-getdents64-API.patch |  72 --------
+ .../ltp/0001-Add-more-musl-exclusions.patch   |  70 ++++++++
+ ...option-to-select-libc-implementation.patch |  27 ++-
+ ...-17052-Avoid-unsafe-exits-in-threads.patch |  64 -------
+ ...meltdown.c-Fix-kernel-symbol-finding.patch |  81 ---------
+ ...y-update-for-mm-fix-false-positive-O.patch |  57 -------
+ ...medwait01-Fix-wrong-sigset-length-fo.patch |  46 -----
+ ...3-wait-for-defunct-tid-to-get-detach.patch |  75 --------
+ ...es-fix-an-absent-format-string-issue.patch |  24 +++
+ ...thon3-everywhere-to-run-python-scrip.patch | 161 ------------------
+ ...x-EFAULT-in-32bit-compatibility-mode.patch |  36 ----
+ ...k-for-RES_USE_INET6-during-configure.patch |  68 --------
+ ...BC_PREREQ-is-defined-before-using-it.patch |  27 ++-
+ ...se-hardcoded-index-0-for-SHM_STAT-te.patch |  82 ---------
+ ...11-direct_io-diotest4-drop-MAP_FIXED.patch |  56 ------
+ ...st-a-bit-of-code-to-compatiable-with.patch |  64 -------
+ .../ltp/{ltp_20190517.bb => ltp_20190930.bb}  |  16 +-
+ 18 files changed, 123 insertions(+), 905 deletions(-)
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0011-direct_io-diotest4-drop-MAP_FIXED.patch
+ delete mode 100644 meta/recipes-extended/ltp/ltp/0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
+ rename meta/recipes-extended/ltp/{ltp_20190517.bb => ltp_20190930.bb} (84%)
 
-diff --git a/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch b/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch
-new file mode 100644
-index 00000000000..ba2ffee5d27
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/0001-test-patch-out-failing-bits.patch
-@@ -0,0 +1,63 @@
-+From 9e08219e0e99ee2589cf35fa8d52cef3515accce Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 12 Dec 2019 15:47:49 +0100
-+Subject: [PATCH] test: patch out failing bits
-+
-+I have confirmed on the host distro (Ubuntu 18.04) that they
-+fail as well; upstream probably haven't noticed because the
-+test is only executed under sudo.
-+
-+Upstream-Status: Inappropriate [disabling tests instead of fixing them properly]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ test/root/permissions.test | 13 -------------
-+ 1 file changed, 13 deletions(-)
-+
-+diff --git a/test/root/permissions.test b/test/root/permissions.test
-+index 8f8f825..21e8a95 100644
-+--- a/test/root/permissions.test
-++++ b/test/root/permissions.test
-+@@ -50,10 +50,6 @@ User daemon is a member in the owning group, which has only read access.
-+ Verify this.
-+ 
-+ 	$ su daemon
-+-	$ cat f
-+-	> root
-+-	> bin
-+-
-+ 	$ echo daemon >> f
-+ 	>~ .*f: Permission denied$
-+ 
-+@@ -146,8 +142,6 @@ the owning group, he should still have no write access.
-+ 	$ setfacl -x g:daemon f
-+ 
-+ 	$ su daemon
-+-	$ echo daemon4 >> f
-+-	>~ .*f: Permission denied$
-+ 
-+ 
-+ Change the owning group. The other permissions should now grant user
-+@@ -158,12 +152,6 @@ daemon write access.
-+ 
-+ 	$ su daemon
-+ 	$ echo daemon5 >> f
-+-	$ cat f
-+-	> root
-+-	> bin
-+-	> daemon
-+-	> daemon2
-+-	> daemon5
-+ 
-+ 
-+ Verify that permissions in separate matching ACL entries do not
-+@@ -173,7 +161,6 @@ accumulate.
-+ 	$ setfacl -m g:bin:r,g:daemon:w f
-+ 
-+ 	$ su daemon
-+-	$ : < f
-+ 	$ : > f
-+ 	$ : <> f
-+ 	>~ .*f: Permission denied$
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch b/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch
-new file mode 100644
-index 00000000000..57ef0bb728c
---- /dev/null
-+++ b/meta/recipes-support/attr/acl/0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch
-@@ -0,0 +1,24 @@
-+From 39d332a8801de5d9ef09dacb3dba85c208b7b2ad Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Thu, 12 Dec 2019 13:45:52 +0100
-+Subject: [PATCH] tests: do not hardcode the build path into a helper library
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ test/Makemodule.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/test/Makemodule.am b/test/Makemodule.am
-+index 17d4927..015de7f 100644
-+--- a/test/Makemodule.am
-++++ b/test/Makemodule.am
-+@@ -30,7 +30,7 @@ EXTRA_DIST += \
-+ check_LTLIBRARIES = libtestlookup.la
-+ 
-+ libtestlookup_la_SOURCES = test/test_passwd.c test/test_group.c
-+-libtestlookup_la_CFLAGS = -DBASEDIR=\"$(abs_srcdir)\"
-++libtestlookup_la_CFLAGS = -DBASEDIR=\"/tmp/acl-ptest\"
-+ libtestlookup_la_LDFLAGS = -rpath $(abs_builddir)
-+ 
-+ AM_TESTS_ENVIRONMENT = PATH="$(abs_top_builddir):$$PATH";
-diff --git a/meta/recipes-support/attr/acl/Makefile-libacl-should-depend-on-include.patch b/meta/recipes-support/attr/acl/Makefile-libacl-should-depend-on-include.patch
+diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
+index 30548640bcd..b8b73004355 100644
+--- a/meta/lib/oeqa/runtime/cases/ltp.py
++++ b/meta/lib/oeqa/runtime/cases/ltp.py
+@@ -57,7 +57,7 @@ class LtpTestBase(OERuntimeTestCase):
+ 
+ class LtpTest(LtpTestBase):
+ 
+-    ltp_groups = ["math", "syscalls", "dio", "io", "mm", "ipc", "sched", "nptl", "pty", "containers", "controllers", "filecaps", "cap_bounds", "fcntl-locktests", "connectors","timers", "commands", "net.ipv6_lib", "input","fs_perms_simple"]
++    ltp_groups = ["math", "syscalls", "dio", "io", "mm", "ipc", "sched", "nptl", "pty", "containers", "controllers", "filecaps", "cap_bounds", "fcntl-locktests", "connectors", "commands", "net.ipv6_lib", "input","fs_perms_simple"]
+ 
+     ltp_fs = ["fs", "fsx", "fs_bind", "fs_ext4"]
+     # skip kernel cpuhotplug
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch b/meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch
 deleted file mode 100644
-index 4c7cba3b88d..00000000000
---- a/meta/recipes-support/attr/acl/Makefile-libacl-should-depend-on-include.patch
+index bfceadb190d..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-Add-configure-time-check-for-getdents-getdents64-API.patch
 +++ /dev/null
-@@ -1,51 +0,0 @@
--From d82457ce5ca7455e336da5e244d95f90e52aaef8 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Tue, 18 Apr 2017 01:17:26 -0700
--Subject: [PATCH] Makefile: libacl should depend on include
+@@ -1,72 +0,0 @@
+-From 404dfeb4faef213b0450f173b60cd7080edec349 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 26 Jul 2019 10:32:29 -0700
+-Subject: [PATCH 1/2] Add configure time check for getdents/getdents64 APIs
 -
--Fixed race issue:
-- In file included from acl_copy_entry.c:22:0:
-- libacl.h:19:21: fatal error: sys/acl.h: No such file or directory
--  #include <sys/acl.h>
+-glibc 2.30 has added wrapper for getdents64 this will help in detecting
+-right condition to use fallback
 -
--[snip]
+-Check for getdents API as well while here
 -
-- compilation terminated.
-- acl_get_file.c:27:24: fatal error: acl/libacl.h: No such file or directory
--  #include <acl/libacl.h>
--                         ^
--
--The acl.h is in "include" directory, and include/Makefile creates
--symlink "sys" and "acl" poinst to current dirctory:
--$ ls include/ -l
--acl -> .
--sys -> .
--
--So if "libacl" target runs before "include", the error would happen
--since no "acl" or "sys" directory.
--
--Let libacl depend on include can fix the problem.
--
--Upstream-Status: Pending
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- Makefile | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Makefile b/Makefile
--index dce32d3..8a79379 100644
----- a/Makefile
--+++ b/Makefile
--@@ -48,7 +48,7 @@ else
-- endif
-- 
-- # tool/lib dependencies
---libacl: libmisc
--+libacl: include libmisc
-- getfacl setfacl chacl: libacl
-- 
-- ifeq ($(HAVE_BUILDDEFS), yes)
---- 
--2.10.2
--
-diff --git a/meta/recipes-support/attr/acl/acl-fix-the-order-of-expected-output-of-getfacl.patch b/meta/recipes-support/attr/acl/acl-fix-the-order-of-expected-output-of-getfacl.patch
-deleted file mode 100644
-index cf765fdbb89..00000000000
---- a/meta/recipes-support/attr/acl/acl-fix-the-order-of-expected-output-of-getfacl.patch
-+++ /dev/null
-@@ -1,198 +0,0 @@
--acl: fix the order of expected output of getfacl
--
--The result of getfacl is sorted by user id.
--In Centos or RHEL, bin user id is 1 and daemon user id is 2.
--But in our image, bin user id is 2 and daemon user id is 1.
--The patch fixes this issue to make ptest pass.
--
--Upstream-Status: Inappropriate [embedded specific]
--
--Signed-off-by: Chong Lu <Chong.Lu@windriver.com>
-----
-- test/misc.test |   38 +++++++++++++++++++-------------------
-- 1 file changed, 19 insertions(+), 19 deletions(-)
--
--diff --git a/test/misc.test b/test/misc.test
--index 6e98053..53ae5b0 100644
----- a/test/misc.test
--+++ b/test/misc.test
--@@ -79,8 +79,8 @@ Multiple users
-- 
-- 	$ getfacl --omit-header f
-- 	> user::rw-
---	> user:bin:rw-
-- 	> user:daemon:r--
--+	> user:bin:rw-
-- 	> group::r--
-- 	> mask::rw-
-- 	> other::r--
--@@ -94,8 +94,8 @@ Multiple groups
-- 
-- 	$ getfacl --omit-header f
-- 	> user::rw-
---	> user:bin:rw-
-- 	> user:daemon:r--
--+	> user:bin:rw-
-- 	> group::r--
-- 	> group:daemon:r--
-- 	> group:users:rw-
--@@ -111,8 +111,8 @@ Remove one group
-- 
-- 	$ getfacl --omit-header f
-- 	> user::rw-
---	> user:bin:rw-
-- 	> user:daemon:r--
--+	> user:bin:rw-
-- 	> group::r--
-- 	> group:daemon:r--
-- 	> mask::rw-
--@@ -146,8 +146,8 @@ Default ACL
-- 
-- 	$ getfacl --omit-header d
-- 	> user::rwx
---	> user:bin:rwx
-- 	> user:daemon:rw-
--+	> user:bin:rwx
-- 	> group::r-x
-- 	> mask::rwx
-- 	> other::---
--@@ -236,16 +236,16 @@ Add some users and groups
-- 
-- 	$ getfacl --omit-header d/d
-- 	> user::rwx
---	> user:bin:rwx	#effective:r-x
-- 	> user:daemon:r-x
--+	> user:bin:rwx	#effective:r-x
-- 	> group::r-x
-- 	> group:daemon:rwx	#effective:r-x
-- 	> group:users:r-x
-- 	> mask::r-x
-- 	> other::---
-- 	> default:user::rwx
---	> default:user:bin:rwx	#effective:r-x
-- 	> default:user:daemon:r-x
--+	> default:user:bin:rwx	#effective:r-x
-- 	> default:group::r-x
-- 	> default:mask::r-x
-- 	> default:other::---
--@@ -262,16 +262,16 @@ Symlink in directory with default ACL?
-- 
-- 	$ getfacl --omit-header d/l
-- 	> user::rwx
---	> user:bin:rwx	#effective:r-x
-- 	> user:daemon:r-x
--+	> user:bin:rwx	#effective:r-x
-- 	> group::r-x
-- 	> group:daemon:rwx	#effective:r-x
-- 	> group:users:r-x
-- 	> mask::r-x
-- 	> other::---
-- 	> default:user::rwx
---	> default:user:bin:rwx	#effective:r-x
-- 	> default:user:daemon:r-x
--+	> default:user:bin:rwx	#effective:r-x
-- 	> default:group::r-x
-- 	> default:mask::r-x
-- 	> default:other::---
--@@ -287,16 +287,16 @@ Does mask manipulation work?
-- 
-- 	$ getfacl --omit-header d/d
-- 	> user::rwx
---	> user:bin:r-x
-- 	> user:daemon:r-x
--+	> user:bin:r-x
-- 	> group::r-x
-- 	> group:daemon:r-x
-- 	> group:users:r-x
-- 	> mask::r-x
-- 	> other::---
-- 	> default:user::rwx
---	> default:user:bin:rwx	#effective:r-x
-- 	> default:user:daemon:r-x
--+	> default:user:bin:rwx	#effective:r-x
-- 	> default:group::r-x
-- 	> default:mask::r-x
-- 	> default:other::---
--@@ -308,16 +308,16 @@ Does mask manipulation work?
-- 
-- 	$ getfacl --omit-header d/d
-- 	> user::rwx
---	> user:bin:r-x
-- 	> user:daemon:r-x
--+	> user:bin:r-x
-- 	> group::r-x
-- 	> group:daemon:r-x
-- 	> group:users:r-x
-- 	> mask::r-x
-- 	> other::---
-- 	> default:user::rwx
---	> default:user:bin:rwx
-- 	> default:user:daemon:r-x
--+	> default:user:bin:rwx
-- 	> default:group::r-x
-- 	> default:mask::rwx
-- 	> default:other::---
--@@ -333,8 +333,8 @@ Remove the default ACL
-- 
-- 	$ getfacl --omit-header d
-- 	> user::rwx
---	> user:bin:rwx
-- 	> user:daemon:rw-
--+	> user:bin:rwx
-- 	> group::r-x
-- 	> mask::rwx
-- 	> other::---
--@@ -373,14 +373,14 @@ Now, chmod should change the group_obj entry
-- 
-- 	$ getfacl --omit-header d
-- 	> user::rwx
---	> user:bin:r-x
-- 	> user:daemon:rwx
--+	> user:bin:r-x
-- 	> group::rwx
-- 	> mask::rwx
-- 	> other::r-x
-- 	> default:user::rwx
---	> default:user:bin:r-x
-- 	> default:user:daemon:rwx
--+	> default:user:bin:r-x
-- 	> default:group::rwx
-- 	> default:mask::rwx
-- 	> default:other::r-x
--@@ -392,14 +392,14 @@ Now, chmod should change the group_obj entry
-- 
-- 	$ getfacl --omit-header d
-- 	> user::rwx
---	> user:bin:r-x
-- 	> user:daemon:rwx	#effective:r-x
--+	> user:bin:r-x
-- 	> group::rwx	#effective:r-x
-- 	> mask::r-x
-- 	> other::---
-- 	> default:user::rwx
---	> default:user:bin:r-x
-- 	> default:user:daemon:rwx
--+	> default:user:bin:r-x
-- 	> default:group::rwx
-- 	> default:mask::rwx
-- 	> default:other::r-x
--@@ -411,14 +411,14 @@ Now, chmod should change the group_obj entry
-- 
-- 	$ getfacl --omit-header d
-- 	> user::rwx
---	> user:bin:r-x
-- 	> user:daemon:rwx	#effective:r-x
--+	> user:bin:r-x
-- 	> group::rwx	#effective:r-x
-- 	> mask::r-x
-- 	> other::---
-- 	> default:user::rwx
---	> default:user:bin:r-x
-- 	> default:user:daemon:rwx
--+	> default:user:bin:r-x
-- 	> default:group::rwx
-- 	> default:mask::rwx
-- 	> default:other::r-x
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-support/attr/acl/configure.ac b/meta/recipes-support/attr/acl/configure.ac
-deleted file mode 100644
-index 7af2e8d886e..00000000000
---- a/meta/recipes-support/attr/acl/configure.ac
-+++ /dev/null
-@@ -1,49 +0,0 @@
--# Copyright (C) 2009  Andreas Gruenbacher <agruen@suse.de>
--#
--# This program is free software: you can redistribute it and/or modify it
--# under the terms of the GNU General Public License as published by
--# the Free Software Foundation, either version 2 of the License, or
--# (at your option) any later version.
--#
--# This program is distributed in the hope that it will be useful,
--# but WITHOUT ANY WARRANTY; without even the implied warranty of
--# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--# GNU General Public License for more details.
--#
--# You should have received a copy of the GNU General Public License
--# along with this program.  If not, see <http://www.gnu.org/licenses/>.
--#
--AC_INIT(include/acl.h)
--AC_CONFIG_AUX_DIR([.])
--AC_CONFIG_MACRO_DIR([m4])
--AC_CONFIG_HEADER(include/config.h)
--AC_PREFIX_DEFAULT(/usr)
--
--AC_PROG_LIBTOOL
--
--AC_ARG_ENABLE(shared,
--[ --enable-shared=[yes/no] Enable use of shared libraries [default=yes]],,
--	enable_shared=yes)
--AC_SUBST(enable_shared)
--
--AC_ARG_ENABLE(gettext,
--[ --enable-gettext=[yes/no] Enable alternate language support [default=yes]],,
--	enable_gettext=yes)
--AC_SUBST(enable_gettext)
--
--AC_ARG_ENABLE(lib64,
--[ --enable-lib64=[yes/no] Enable lib64 support [default=no]],,
--	enable_lib64=no)
--AC_SUBST(enable_lib64)
--
--AC_PACKAGE_GLOBALS(acl)
--AC_PACKAGE_UTILITIES(acl)
--AC_PACKAGE_NEED_ATTR_XATTR_H
--AC_PACKAGE_NEED_ATTR_ERROR_H
--AC_MULTILIB($enable_lib64)
--AC_PACKAGE_NEED_GETXATTR_LIBATTR
--AC_MANUAL_FORMAT
--
--AC_FUNC_GCC_VISIBILITY
--
--AC_OUTPUT(include/builddefs)
-diff --git a/meta/recipes-support/attr/acl/run-ptest b/meta/recipes-support/attr/acl/run-ptest
-index a56946d8e6f..43128233654 100644
---- a/meta/recipes-support/attr/acl/run-ptest
-+++ b/meta/recipes-support/attr/acl/run-ptest
-@@ -4,61 +4,7 @@
- 
- #umask 077
- 
--EXT3_IMAGE=ext3.img
--EXT3_MOUNT_POINT=/mnt/ext3
-+mkdir -p /tmp/acl-ptest/test
-+cp test/test.* /tmp/acl-ptest/test
- 
--trap 'rm -f ${EXT3_IMAGE}' EXIT
--
--dd if=/dev/zero of=${EXT3_IMAGE} bs=1M count=1
--if [ "$?" -eq 0 ]; then
--	echo "PASS: dump ext3.img"
--else
--	echo "FAIL: dump ext3.img"
--	exit 1
--fi
--
--mkfs.ext3 -F ${EXT3_IMAGE}
--if [ "$?" -eq 0 ]; then
--	echo "PASS: mkfs.ext3 -F ext3.img"
--else
--	echo "FAIL: mkfs.ext3 -F ext3.img"
--	exit 1
--fi
--
--if [ -d $EXT3_MOUNT_POINT ]; then
--	echo "mount point exist"
--else
--	mkdir -p $EXT3_MOUNT_POINT
--fi
--
--
--mount -o loop,rw,acl  ${EXT3_IMAGE} $EXT3_MOUNT_POINT
--if [ "$?" -eq 0 ]; then
--	echo "PASS: mount ext3.img"
--else
--	echo "FAIL: mount ext3.img"
--	exit 1
--fi
--
--cp -rf ./test/ $EXT3_MOUNT_POINT
--
--cd $EXT3_MOUNT_POINT/test/
--
--if	sed -e 's!^bin:x:2:$!bin:x:2:daemon!' < /etc/group > gtmp
--then	if	cp /etc/group group.orig;
--	then	cp gtmp /etc/group
--		make  -k tests root-tests | sed \
--			-e 's|^\[.*\] \(.*\) -- ok$|PASS: \1|' \
--	  		-e 's|^\[.*\] \(.*\) -- failed|FAIL: \1|'
--		cp group.orig /etc/group
--	else	echo "FAIL: couldn't save original group file."
--		exit 1
--	fi
--else	echo "FAIL: couldn't create modified group file."
--	exit 1
--fi
--
--cd -
--umount $EXT3_MOUNT_POINT
--rm -rf $EXT3_MOUNT_POINT
--rm $EXT3_IMAGE
-+make test-suite.log
-diff --git a/meta/recipes-support/attr/acl/test-fix-directory-permissions.patch b/meta/recipes-support/attr/acl/test-fix-directory-permissions.patch
-deleted file mode 100644
-index e64990ad5b9..00000000000
---- a/meta/recipes-support/attr/acl/test-fix-directory-permissions.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 311589fedf196168382d8f0db303ab328bcf9d83 Mon Sep 17 00:00:00 2001
--From: Peter Seebach <peter.seebach@windriver.com>
--Date: Wed, 11 May 2016 15:16:06 -0500
--Subject: [PATCH] acl.inc, run-ptest: improve ptest functionality on limited
--
--commit c45bae84817a70fef6c2b661a07a492a0d23ae85
--
--    Fix permissions on temporary directory
--
--    The temporary directory's permissions have to allow other users to
--    view the directory. A default umask of 022 is common, but not mandatory,
--    and secure systems may have more restrictive defaults.
--
--    Signed-off-by: Peter Seebach <peter.seebach@windriver.com>
--
--Upstream-Status: Backport [ http://git.savannah.gnu.org/cgit/acl.git/commit/?id=c6772a958800de064482634f77c20a0faafc5af6 ]
--
--Signed-off-by: Dengke Du <dengke.du@windriver.com>
-----
-- test/root/permissions.test | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/test/root/permissions.test b/test/root/permissions.test
--index 42615f5..098b52a 100644
----- a/test/root/permissions.test
--+++ b/test/root/permissions.test
--@@ -16,6 +16,7 @@ Cry immediately if we are not running as root.
-- First, set up a temporary directory and create a regular file with
-- defined permissions.
-- 
--+	$ umask 022
-- 	$ mkdir d
-- 	$ cd d
-- 	$ umask 027
---- 
--2.8.1
--
-diff --git a/meta/recipes-support/attr/acl/test-fix-insufficient-quoting-of.patch b/meta/recipes-support/attr/acl/test-fix-insufficient-quoting-of.patch
-deleted file mode 100644
-index f392465b58e..00000000000
---- a/meta/recipes-support/attr/acl/test-fix-insufficient-quoting-of.patch
-+++ /dev/null
-@@ -1,100 +0,0 @@
--From e98ce8acf84d12ea67a3ac76bf63c6d87d9af86d Mon Sep 17 00:00:00 2001
--From: Kamil Dudka <kdudka@redhat.com>
--Date: Mon, 20 May 2013 16:38:06 +0200
--Subject: [PATCH] test: fix insufficient quoting of '\'
--
--This is a follow-up to 7f2c91b8369242a8dbc2b304a5b71b2a85f5b855, which
--caused sbits-restore.test to fail in the following way in case SELinux
--was disabled:
--
--*** sbits-restore.test ***
--[3] $ umask 022 -- ok
--[4] $ mkdir d -- ok
--[5] $ touch d/g -- ok
--[6] $ touch d/u -- ok
--[7] $ chmod u+s d/u -- ok
--[8] $ chmod g+s d/g -- ok
--[9] $ chmod +t d -- ok
--[10] $ getfacl -R d > d.acl -- ok
--[11] $ rm -R d -- ok
--[12] $ mkdir d -- ok
--[13] $ touch d/g -- ok
--[14] $ touch d/u -- ok
--[15] $ setfacl --restore d.acl -- ok
--[16] $ ls -dl d | awk '{print $1}' | sed 's/.$//g' -- failed
--drwxr-xr-                             != drwxr-xr-t
--[18] $ ls -dl d/u | awk '{print $1}' | sed 's/.$//g' -- failed
---rwSr--r-                             != -rwSr--r--
--[20] $ ls -dl d/g | awk '{print $1}' | sed 's/.$//g' -- failed
---rw-r-Sr-                             != -rw-r-Sr--
--[22] $ rm -Rf d -- ok
--17 commands (14 passed, 3 failed)
--
--Upstream-Status: Backport
--http://git.savannah.gnu.org/cgit/acl.git/commit/?id=e98ce8acf84d12ea67a3ac76bf63c6d87d9af86d
--
--Signed-off-by: Kamil Dudka <kdudka@redhat.com>
--Signed-off-by: He Zhe <zhe.he@windriver.com>
--
--Index: acl-2.2.52/test/cp.test
--===================================================================
----- acl-2.2.52.orig/test/cp.test
--+++ acl-2.2.52/test/cp.test
--@@ -9,7 +9,7 @@ The cp utility should only copy ACLs if
-- 	> -rw-rw-r--+
-- 	
-- 	$ cp f g
---	$ ls -l g | awk -- '{ print $1 }' | sed 's/\.$//g'
--+	$ ls -l g | awk -- '{ print $1 }' | sed 's/\\.$//g'
-- 	> -rw-r--r--
-- 	
-- 	$ rm g
--Index: acl-2.2.52/test/misc.test
--===================================================================
----- acl-2.2.52.orig/test/misc.test
--+++ acl-2.2.52/test/misc.test
--@@ -254,7 +254,7 @@ Add some users and groups
-- Symlink in directory with default ACL?
-- 	 
-- 	$ ln -s d d/l
---	$ ls -dl d/l | awk '{print $1}' | sed 's/\.$//g'
--+	$ ls -dl d/l | awk '{print $1}' | sed 's/\\.$//g'
-- 	> lrwxrwxrwx
-- 
-- 	$ ls -dl -L d/l | awk '{print $1}'
--@@ -343,7 +343,7 @@ Remove the default ACL
-- Reset to base entries
-- 	 
-- 	$ setfacl -b d
---	$ ls -dl d | awk '{print $1}' | sed 's/\.$//g'
--+	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//g'
-- 	> drwxr-x---
-- 
-- 	$ getfacl --omit-header d
--@@ -355,7 +355,7 @@ Reset to base entries
-- Now, chmod should change the group_obj entry
-- 	 
-- 	$ chmod 775 d
---	$ ls -dl d | awk '{print $1}' | sed 's/\.$//g'
--+	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//g'
-- 	> drwxrwxr-x
-- 	
-- 	$ getfacl --omit-header d
--Index: acl-2.2.52/test/sbits-restore.test
--===================================================================
----- acl-2.2.52.orig/test/sbits-restore.test
--+++ acl-2.2.52/test/sbits-restore.test
--@@ -13,10 +13,10 @@ Ensure setting of SUID/SGID/sticky via -
-- 	$ touch d/g
-- 	$ touch d/u
-- 	$ setfacl --restore d.acl
---	$ ls -dl d | awk '{print $1}' | sed 's/\.$//g'
--+	$ ls -dl d | awk '{print $1}' | sed 's/\\.$//g'
-- 	> drwxr-xr-t
---	$ ls -dl d/u | awk '{print $1}' | sed 's/\.$//g'
--+	$ ls -dl d/u | awk '{print $1}' | sed 's/\\.$//g'
-- 	> -rwSr--r--
---	$ ls -dl d/g | awk '{print $1}' | sed 's/\.$//g'
--+	$ ls -dl d/g | awk '{print $1}' | sed 's/\\.$//g'
-- 	> -rw-r-Sr--
-- 	$ rm -Rf d
-diff --git a/meta/recipes-support/attr/acl/test-fixups-on-SELinux-machines-for-root-testcases.patch b/meta/recipes-support/attr/acl/test-fixups-on-SELinux-machines-for-root-testcases.patch
-deleted file mode 100644
-index 8cc11a63e12..00000000000
---- a/meta/recipes-support/attr/acl/test-fixups-on-SELinux-machines-for-root-testcases.patch
-+++ /dev/null
-@@ -1,84 +0,0 @@
--From d2f49ee6fe4850b8dda5b08676b36201d3c43710 Mon Sep 17 00:00:00 2001
--From: He Zhe <zhe.he@windriver.com>
--Date: Wed, 2 Mar 2016 15:46:57 +0800
--Subject: [PATCH] test: fixups on SELinux machines for root testcases
--
--ls adds a '.' at the end of the permission field list on SELinux
--machines, filter this out so root tests work on SELinux machines.
--
--Upstream-Status: Accepted
--http://git.savannah.gnu.org/cgit/acl.git/commit/?id=26a87d36f80d5e98bccb5878834d9e69dadfe3e9
--
--Signed-off-by: He Zhe <zhe.he@windriver.com>
-----
-- test/root/permissions.test | 8 ++++----
-- test/root/restore.test     | 2 +-
-- test/root/setfacl.test     | 2 +-
-- 3 files changed, 6 insertions(+), 6 deletions(-)
--
--diff --git a/test/root/permissions.test b/test/root/permissions.test
--index 9b9e3de..665339a 100644
----- a/test/root/permissions.test
--+++ b/test/root/permissions.test
--@@ -19,7 +19,7 @@ defined permissions.
-- 	$ cd d
-- 	$ umask 027
-- 	$ touch f
---	$ ls -l f | awk -- '{ print $1, $3, $4 }'
--+	$ ls -l f | awk -- '{ print $1, $3, $4 }' | sed 's/\\.//g'
-- 	> -rw-r----- root root
--
--
--@@ -39,7 +39,7 @@ Now, change the ownership of the file to bin:bin and verify that this
-- gives user bin write access.
--
-- 	$ chown bin:bin f
---	$ ls -l f | awk -- '{ print $1, $3, $4 }'
--+	$ ls -l f | awk -- '{ print $1, $3, $4 }' | sed 's/\\.//g'
-- 	> -rw-r----- bin bin
-- 	$ su bin
-- 	$ echo bin >> f
--@@ -256,12 +256,12 @@ directories if the file has an ACL and only CAP_FOWNER would grant them.
-- 	$ mkdir -m 600 x
-- 	$ chown daemon:daemon x
-- 	$ echo j > x/j
---	$ ls -l x/j | awk -- '{ print $1, $3, $4 }'
--+	$ ls -l x/j | awk -- '{ print $1, $3, $4 }' | sed 's/\\.//g'
-- 	> -rw-r----- root root
--
-- 	$ setfacl -m u:daemon:r x
--
---	$ ls -l x/j | awk -- '{ print $1, $3, $4 }'
--+	$ ls -l x/j | awk -- '{ print $1, $3, $4 }' | sed 's/\\.//g'
-- 	> -rw-r----- root root
-- 	(With the bug this gives: `ls: x/j: Permission denied'.)
--
--diff --git a/test/root/restore.test b/test/root/restore.test
--index 63a9d01..c85097c 100644
----- a/test/root/restore.test
--+++ b/test/root/restore.test
--@@ -21,7 +21,7 @@ Cry immediately if we are not running as root.
-- 	$ chown bin passwd
-- 	$ chmod u+s passwd
-- 	$ setfacl --restore passwd.acl
---	$ ls -dl passwd | awk '{print $1 " " $3 " " $4}'
--+	$ ls -dl passwd | awk '{print $1 " " $3 " " $4}' | sed 's/\\.//g'
-- 	> -rwsr-xr-x root root
--
-- 	$ rm passwd passwd.acl
--diff --git a/test/root/setfacl.test b/test/root/setfacl.test
--index a46a9f4..7efbad7 100644
----- a/test/root/setfacl.test
--+++ b/test/root/setfacl.test
--@@ -12,7 +12,7 @@ Cry immediately if we are not running as root.
-- 	$ sg bin
-- 	$ umask 027
-- 	$ touch g
---	$ ls -dl g | awk '{print $1}'
--+	$ ls -dl g | awk '{print $1}' | sed 's/\\.//g'
-- 	> -rw-r-----
--
-- 	$ setfacl -m m:- g
----
--1.9.1
--
-diff --git a/meta/recipes-support/attr/acl_2.2.52.bb b/meta/recipes-support/attr/acl_2.2.52.bb
-deleted file mode 100644
-index 6bc77d868d5..00000000000
---- a/meta/recipes-support/attr/acl_2.2.52.bb
-+++ /dev/null
-@@ -1,52 +0,0 @@
--SUMMARY = "Utilities for managing POSIX Access Control Lists"
--HOMEPAGE = "http://savannah.nongnu.org/projects/acl/"
--SECTION = "libs"
--
--LICENSE = "LGPLv2.1+ & GPLv2+"
--LICENSE_${PN} = "GPLv2+"
--LICENSE_lib${BPN} = "LGPLv2.1+"
--LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
--                    file://doc/COPYING.LGPL;md5=9e9a206917f8af112da634ce3ab41764"
--
--DEPENDS = "attr"
--
--SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.src.tar.gz \
--           file://configure.ac;subdir=${BP} \
--           file://run-ptest \
--           file://acl-fix-the-order-of-expected-output-of-getfacl.patch \
--           file://test-fix-insufficient-quoting-of.patch \
--           file://test-fixups-on-SELinux-machines-for-root-testcases.patch \
--           file://test-fix-directory-permissions.patch \
--           file://Makefile-libacl-should-depend-on-include.patch \
--"
--
--SRC_URI[md5sum] = "a61415312426e9c2212bd7dc7929abda"
--SRC_URI[sha256sum] = "179074bb0580c06c4b4137be4c5a92a701583277967acdb5546043c7874e0d23"
--
--require ea-acl.inc
--
--# avoid RPATH hardcode to staging dir
--do_configure_append() {
--	sed -i ${S}/config.status -e s,^\\\(hardcode_into_libs=\\\).*$,\\1\'no\',
--	${S}/config.status
--}
--
--# libdir should point to .la
--do_install_append() {
--	sed -i ${D}${libdir}/libacl.la -e \
--	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
--}
--
--inherit ptest
--
--PTEST_BUILD_HOST_FILES = "builddefs"
--PTEST_BUILD_HOST_PATTERN = "^RPM"
--do_install_ptest() {
--	tar -c --exclude=nfs test/ | ( cd ${D}${PTEST_PATH} && tar -xf - )
--	install -d ${D}${PTEST_PATH}/include
--	install -m 644 ${S}/include/builddefs ${S}/include/buildmacros ${S}/include/buildrules ${D}${PTEST_PATH}/include/
--}
--
--RDEPENDS_${PN}-ptest = "acl bash coreutils perl perl-module-filehandle perl-module-getopt-std perl-module-posix shadow"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/attr/acl_2.2.53.bb b/meta/recipes-support/attr/acl_2.2.53.bb
-new file mode 100644
-index 00000000000..5bb50f77f76
---- /dev/null
-+++ b/meta/recipes-support/attr/acl_2.2.53.bb
-@@ -0,0 +1,74 @@
-+SUMMARY = "Utilities for managing POSIX Access Control Lists"
-+HOMEPAGE = "http://savannah.nongnu.org/projects/acl/"
-+SECTION = "libs"
-+
-+LICENSE = "LGPLv2.1+ & GPLv2+"
-+LICENSE_${PN} = "GPLv2+"
-+LICENSE_lib${BPN} = "LGPLv2.1+"
-+LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
-+                    file://doc/COPYING.LGPL;md5=9e9a206917f8af112da634ce3ab41764"
-+
-+DEPENDS = "attr"
-+
-+SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
-+           file://run-ptest \
-+           file://0001-tests-do-not-hardcode-the-build-path-into-a-helper-l.patch \
-+           file://0001-test-patch-out-failing-bits.patch \
-+           "
-+
-+SRC_URI[md5sum] = "007aabf1dbb550bcddde52a244cd1070"
-+SRC_URI[sha256sum] = "06be9865c6f418d851ff4494e12406568353b891ffe1f596b34693c387af26c7"
-+
-+inherit autotools gettext ptest
-+
-+PACKAGES =+ "lib${BPN}"
-+
-+FILES_lib${BPN} = "${libdir}/lib*${SOLIBS}"
-+
-+PTEST_BUILD_HOST_FILES = "builddefs"
-+PTEST_BUILD_HOST_PATTERN = "^RPM"
-+
-+do_compile_ptest() {
-+        oe_runmake libtestlookup.la
-+}
-+
-+do_install_ptest() {
-+	cp -rf ${S}/test/ ${D}${PTEST_PATH}
-+	cp -rf ${S}/build-aux/ ${D}${PTEST_PATH}
-+        mkdir -p ${D}${PTEST_PATH}/.libs
-+	cp -rf ${B}/.libs/libtestlookup* ${D}${PTEST_PATH}/.libs
-+        cp ${B}/Makefile ${D}${PTEST_PATH}
-+
-+        sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
-+            -e 's|${DEBUG_PREFIX_MAP}||g' \
-+            -e 's:${HOSTTOOLS_DIR}/::g' \
-+            -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-+            -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
-+            -i ${D}${PTEST_PATH}/Makefile
-+
-+        sed -i "s|^srcdir =.*|srcdir = \.|g" ${D}${PTEST_PATH}/Makefile
-+        sed -i "s|^abs_srcdir =.*|abs_srcdir = \.|g" ${D}${PTEST_PATH}/Makefile
-+        sed -i "s|^abs_top_srcdir =.*|abs_top_srcdir = \.\.|g" ${D}${PTEST_PATH}/Makefile
-+        sed -i "s|^Makefile:.*|Makefile:|g" ${D}${PTEST_PATH}/Makefile
-+
-+        rm ${D}${PTEST_PATH}/.libs/libtestlookup.lai
-+}
-+
-+RDEPENDS_${PN}-ptest = "acl \
-+                        bash \
-+                        coreutils \
-+                        perl \
-+                        perl-module-filehandle \
-+                        perl-module-getopt-std \
-+                        perl-module-posix \
-+                        shadow \
-+                        make \
-+                        gawk \
-+                        e2fsprogs-mke2fs \
-+                        perl-module-cwd \
-+                        perl-module-file-basename \
-+                        perl-module-file-path \
-+                        perl-module-file-spec \
-+                       "
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
-index 3503d66b9e1..f13a83a7b4f 100644
---- a/meta/recipes-support/attr/attr.inc
-+++ b/meta/recipes-support/attr/attr.inc
-@@ -8,22 +8,18 @@ LICENSE = "LGPLv2.1+ & GPLv2+"
- LICENSE_${PN} = "GPLv2+"
- LICENSE_lib${BPN} = "LGPLv2.1+"
- LIC_FILES_CHKSUM = "file://doc/COPYING;md5=2d0aa14b3fce4694e4f615e30186335f \
--                    file://attr/attr.c;endline=17;md5=be0403261f0847e5f43ed5b08d19593c \
-+                    file://tools/attr.c;endline=17;md5=be0403261f0847e5f43ed5b08d19593c \
-                     file://libattr/libattr.c;endline=17;md5=7970f77049f8fa1199fff62a7ab724fb"
- 
--SRC_URI = "${SAVANNAH_GNU_MIRROR}/attr/${BP}.src.tar.gz \
-+SRC_URI = "${SAVANNAH_GNU_MIRROR}/attr/${BP}.tar.gz \
-            file://run-ptest \
- "
- 
--require ea-acl.inc
-+inherit ptest update-alternatives autotools gettext
- 
--# libdir should point to .la
--do_install_append() {
--	sed -i ${D}${libdir}/libattr.la -e \
--	    s,^libdir=\'${base_libdir}\'$,libdir=\'${libdir}\',
--}
-+PACKAGES =+ "lib${BPN}"
- 
--inherit ptest update-alternatives
-+FILES_lib${BPN} = "${libdir}/lib*${SOLIBS}"
- 
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_${PN} = "setfattr"
-@@ -33,14 +29,34 @@ PTEST_BUILD_HOST_FILES = "builddefs"
- PTEST_BUILD_HOST_PATTERN = "^RPM"
- 
- do_install_ptest() {
--	tar -c --exclude=ext test/ | ( cd ${D}${PTEST_PATH} && tar -xf - )
--	mkdir ${D}${PTEST_PATH}/include
--	for i in builddefs buildmacros buildrules; \
--	  do cp ${S}/include/$i ${D}${PTEST_PATH}/include/; \
--	done
--	sed -e 's|; @echo|; echo|' -i ${D}${PTEST_PATH}/test/Makefile
-+        cp ${B}/Makefile ${D}${PTEST_PATH}
-+        sed -e 's,--sysroot=${STAGING_DIR_TARGET},,g' \
-+            -e 's|${DEBUG_PREFIX_MAP}||g' \
-+            -e 's:${HOSTTOOLS_DIR}/::g' \
-+            -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
-+            -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
-+            -i ${D}${PTEST_PATH}/Makefile
-+
-+        sed -i "s|^srcdir =.*|srcdir = \.|g" ${D}${PTEST_PATH}/Makefile
-+        sed -i "s|^abs_srcdir =.*|abs_srcdir = \.|g" ${D}${PTEST_PATH}/Makefile
-+        sed -i "s|^abs_top_srcdir =.*|abs_top_srcdir = \.\.|g" ${D}${PTEST_PATH}/Makefile
-+        sed -i "s|^Makefile:.*|Makefile:|g" ${D}${PTEST_PATH}/Makefile
-+	cp -rf ${S}/build-aux/ ${D}${PTEST_PATH}
-+	cp -rf ${S}/test/ ${D}${PTEST_PATH}
- }
- 
--RDEPENDS_${PN}-ptest = "attr coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix make perl"
-+RDEPENDS_${PN}-ptest = "attr \
-+                        coreutils \
-+                        perl-module-filehandle \
-+                        perl-module-getopt-std \
-+                        perl-module-posix \
-+                        make \
-+                        perl \
-+                        gawk \
-+                        perl-module-cwd \
-+                        perl-module-file-basename \
-+                        perl-module-file-path \
-+                        perl-module-file-spec \
-+                        "
- 
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/attr/attr/0001-Use-stdint-types-consistently.patch b/meta/recipes-support/attr/attr/0001-Use-stdint-types-consistently.patch
-deleted file mode 100644
-index dcd6507bcc5..00000000000
---- a/meta/recipes-support/attr/attr/0001-Use-stdint-types-consistently.patch
-+++ /dev/null
-@@ -1,69 +0,0 @@
--From 37a27b6fd09ecb37097b85e5db74e4f77b80fe0a Mon Sep 17 00:00:00 2001
--From: Felix Janda <felix.janda@posteo.de>
--Date: Tue, 12 Jan 2016 22:20:33 +0100
--Subject: [PATCH] Use stdint types consistently
--
-----
--Upstream-Status: Backport
+-Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-July/012954.html]
 -Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-- include/attributes.h | 6 ++++--
-- man/man3/attr_list.3 | 8 ++++----
-- 2 files changed, 8 insertions(+), 6 deletions(-)
--
--Index: attr-2.4.47/include/attributes.h
--===================================================================
----- attr-2.4.47.orig/include/attributes.h
--+++ attr-2.4.47/include/attributes.h
--@@ -22,6 +22,7 @@
-- extern "C" {
-- #endif
-- 
--+#include <stdint.h>
-- /*
--  *	An almost-IRIX-compatible extended attributes API
--  *	(the IRIX attribute "list" operation is missing, added ATTR_SECURE).
--@@ -69,7 +70,7 @@ typedef struct attrlist {
--  * al_offset[i] entry points to.
--  */
-- typedef struct attrlist_ent {	/* data from attr_list() */
---	u_int32_t	a_valuelen;	/* number bytes in value of attr */
--+	uint32_t	a_valuelen;	/* number bytes in value of attr */
-- 	char		a_name[1];	/* attr name (NULL terminated) */
-- } attrlist_ent_t;
-- 
--@@ -90,7 +91,7 @@ typedef struct attrlist_ent {	/* data fr
--  * operation on a cursor is to bzero() it.
--  */
-- typedef struct attrlist_cursor {
---	u_int32_t	opaque[4];	/* an opaque cookie */
--+	uint32_t	opaque[4];	/* an opaque cookie */
-- } attrlist_cursor_t;
-- 
-- /*
--Index: attr-2.4.47/man/man3/attr_list.3
--===================================================================
----- attr-2.4.47.orig/man/man3/attr_list.3
--+++ attr-2.4.47/man/man3/attr_list.3
--@@ -72,9 +72,9 @@ The contents of an \f4attrlist_t\fP stru
-- .nf
-- .ft 4
-- .ta 9n 22n
---__int32_t al_count; /\(** number of entries in attrlist \(**/
---__int32_t al_more; /\(** T/F: more attrs (do syscall again) \(**/
---__int32_t al_offset[1]; /\(** byte offsets of attrs [var-sized] \(**/
--+int32_t al_count; /\(** number of entries in attrlist \(**/
--+int32_t al_more; /\(** T/F: more attrs (do syscall again) \(**/
--+int32_t al_offset[1]; /\(** byte offsets of attrs [var-sized] \(**/
-- .ft 1
-- .fi
-- .RE
--@@ -113,7 +113,7 @@ include the following members:
-- .nf
-- .ft 4
-- .ta 9n 22n
---u_int32_t a_valuelen; /\(** number bytes in value of attr \(**/
--+uint32_t a_valuelen; /\(** number bytes in value of attr \(**/
-- char a_name[]; /\(** attr name (NULL terminated) \(**/
-- .ft 1
-- .fi
-diff --git a/meta/recipes-support/attr/attr/attr-Missing-configure.ac.patch b/meta/recipes-support/attr/attr/attr-Missing-configure.ac.patch
-deleted file mode 100644
-index 20fcc3cee7b..00000000000
---- a/meta/recipes-support/attr/attr/attr-Missing-configure.ac.patch
-+++ /dev/null
-@@ -1,63 +0,0 @@
--Subject: [PATCH] attr: Missing configure.ac
--
--Upstream-Status: Backport [Upstream released tarball missing this file]
--Signed-off-by: Nathan Rossi <nathan.rossi@xilinx.com>
 ----
-- configure.ac |   48 ++++++++++++++++++++++++++++++++++++++++++++++++
-- 1 file changed, 48 insertions(+)
-- create mode 100644 configure.ac
+- configure.ac                                  | 2 ++
+- testcases/kernel/syscalls/getdents/getdents.h | 8 ++++++--
+- 2 files changed, 8 insertions(+), 2 deletions(-)
 -
--diff --git a/configure.ac b/configure.ac
--new file mode 100644
--index 0000000..b966d0e
----- /dev/null
--+++ b/configure.ac
--@@ -0,0 +1,48 @@
--+# Copyright (C) 2009  Andreas Gruenbacher <agruen@suse.de>
--+#
--+# This program is free software: you can redistribute it and/or modify it
--+# under the terms of the GNU General Public License as published by
--+# the Free Software Foundation, either version 2 of the License, or
--+# (at your option) any later version.
--+#
--+# This program is distributed in the hope that it will be useful,
--+# but WITHOUT ANY WARRANTY; without even the implied warranty of
--+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
--+# GNU General Public License for more details.
--+#
--+# You should have received a copy of the GNU General Public License
--+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
--+#
--+AC_INIT(include/attributes.h)
--+AC_CONFIG_AUX_DIR([.])
--+AC_CONFIG_MACRO_DIR([m4])
--+AC_CONFIG_HEADER(include/config.h)
--+AC_PREFIX_DEFAULT(/usr)
--+
--+AC_PROG_LIBTOOL
--+
--+AC_ARG_ENABLE(shared,
--+[ --enable-shared=[yes/no] Enable use of shared libraries [default=yes]],,
--+	enable_shared=yes)
--+AC_SUBST(enable_shared)
--+
--+AC_ARG_ENABLE(gettext,
--+[ --enable-gettext=[yes/no] Enable alternate language support [default=yes]],,
--+	enable_gettext=yes)
--+AC_SUBST(enable_gettext)
--+
--+AC_ARG_ENABLE(lib64,
--+[ --enable-lib64=[yes/no] Enable lib64 support [default=no]],,
--+	enable_lib64=no)
--+AC_SUBST(enable_lib64)
--+
--+AC_PACKAGE_GLOBALS(attr)
--+AC_PACKAGE_UTILITIES(attr)
--+AC_MANUAL_FORMAT
--+AC_MULTILIB($enable_lib64)
--+
--+AC_C_CONST
--+AC_TYPE_MODE_T
--+AC_FUNC_ALLOCA
--+
--+AC_OUTPUT(include/builddefs)
-diff --git a/meta/recipes-support/attr/attr/dont-use-decl-macros.patch b/meta/recipes-support/attr/attr/dont-use-decl-macros.patch
-deleted file mode 100644
-index 9d4b8929e89..00000000000
---- a/meta/recipes-support/attr/attr/dont-use-decl-macros.patch
-+++ /dev/null
-@@ -1,56 +0,0 @@
--Use extern "C" instead of __BEGIN_DECL/__END_DECL macros
--these macros are defined in sys/cdefs.h for glibc and this header is not available on all libc
--
--anyway they defined like below
--
--#ifdef __cplusplus
--# define __BEGIN_DECLS extern "C" {
--# define __END_DECLS }
--#else
--# define __BEGIN_DECLS /* empty */
--# define __END_DECLS /* empty */
--#endif
--
--__THROW macro is also not available on musl, defined thusly
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Index: attr-2.4.47/include/xattr.h
--===================================================================
----- attr-2.4.47.orig/include/xattr.h	2014-04-02 00:01:30.252091280 -0700
--+++ attr-2.4.47/include/xattr.h	2014-04-02 00:12:57.985428099 -0700
--@@ -30,8 +30,20 @@
-- #define XATTR_CREATE  0x1       /* set value, fail if attr already exists */
-- #define XATTR_REPLACE 0x2       /* set value, fail if attr does not exist */
-- 
---
---__BEGIN_DECLS
--+#ifndef __THROW
--+# ifndef __GNUC_PREREQ
--+#  define __GNUC_PREREQ(maj, min) (0)
--+# endif
--+# if defined __cplusplus && __GNUC_PREREQ (2,8)
--+#  define __THROW       throw ()
--+# else
--+#  define __THROW
--+# endif
--+#endif
--+
--+#ifdef __cplusplus
--+extern "C" {
--+#endif
-- 
-- extern int setxattr (const char *__path, const char *__name,
-- 		      const void *__value, size_t __size, int __flags) __THROW;
--@@ -58,6 +70,8 @@
-- extern int lremovexattr (const char *__path, const char *__name) __THROW;
-- extern int fremovexattr (int __filedes,   const char *__name) __THROW;
-- 
---__END_DECLS
--+#ifdef __cplusplus
--+}
--+#endif
-- 
-- #endif	/* __XATTR_H__ */
-diff --git a/meta/recipes-support/attr/attr/run-ptest b/meta/recipes-support/attr/attr/run-ptest
-new file mode 100644
-index 00000000000..f64244f2393
---- /dev/null
-+++ b/meta/recipes-support/attr/attr/run-ptest
-@@ -0,0 +1,3 @@
-+#!/bin/sh
-+
-+make test-suite.log
-diff --git a/meta/recipes-support/attr/attr_2.4.47.bb b/meta/recipes-support/attr/attr_2.4.47.bb
-deleted file mode 100644
-index fc88bef830b..00000000000
---- a/meta/recipes-support/attr/attr_2.4.47.bb
-+++ /dev/null
-@@ -1,15 +0,0 @@
--require attr.inc
--
--# configure.ac was missing from the release tarball. This should be fixed in
--# future releases of attr, remove this when updating the recipe.
--SRC_URI += "file://attr-Missing-configure.ac.patch \
--            file://dont-use-decl-macros.patch \
--            file://Remove-the-section-2-man-pages.patch \
--            file://Remove-the-attr.5-man-page-moved-to-man-pages.patch \
--            file://0001-Use-stdint-types-consistently.patch \
--           "
--
--SRC_URI[md5sum] = "84f58dec00b60f2dc8fd1c9709291cc7"
--SRC_URI[sha256sum] = "25772f653ac5b2e3ceeb89df50e4688891e21f723c460636548971652af0a859"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/attr/attr_2.4.48.bb b/meta/recipes-support/attr/attr_2.4.48.bb
-new file mode 100644
-index 00000000000..530d4e48833
---- /dev/null
-+++ b/meta/recipes-support/attr/attr_2.4.48.bb
-@@ -0,0 +1,6 @@
-+require attr.inc
-+
-+SRC_URI[md5sum] = "bc1e5cb5c96d99b24886f1f527d3bb3d"
-+SRC_URI[sha256sum] = "5ead72b358ec709ed00bbf7a9eaef1654baad937c001c044fe8b74c57f5324e7"
-+
-+BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-support/attr/ea-acl.inc b/meta/recipes-support/attr/ea-acl.inc
-deleted file mode 100644
-index 9336ffc9389..00000000000
---- a/meta/recipes-support/attr/ea-acl.inc
-+++ /dev/null
-@@ -1,52 +0,0 @@
--# this build system is mostly shared by attr and acl
--
--SRC_URI += "file://relative-libdir.patch;striplevel=0 \
--           "
--# This patch should be applied after '(attr\|acl)-Missing-configure.ac.patch' 
--SRC_URI_append = " file://0001-Added-configure-option-to-enable-disable-static-libr.patch"
--
--inherit autotools-brokensep gettext
--
--# When upstream is using automake properly, this can be removed
--CLEANBROKEN = "1"
--
--# the package comes with a custom config.h.in, it cannot be
--# overwritten by autoheader
--EXTRA_AUTORECONF += "--exclude=autoheader"
--EXTRA_OECONF = "INSTALL_USER=root INSTALL_GROUP=root"
--EXTRA_OECONF_append_class-native = " --enable-gettext=no"
--EXTRA_OECONF_append_class-target = "${@['', ' --disable-gettext '][(d.getVar('USE_NLS') == 'no')]}"
--
--EXTRA_OEMAKE = "PKG_LIB_DIR=${base_libdir} PKG_DEVLIB_DIR=${libdir}"
--
--do_install () {
--	oe_runmake install install-lib install-dev DIST_ROOT="${D}" ZIP="gzip -n"
--}
--
--do_install_append_class-native () {
--	if test "${libdir}" = "${base_libdir}" ; then
--		return
--	fi
--	librelpath=${@os.path.relpath(d.getVar('libdir'), d.getVar('base_libdir'))}
--	baselibrelpath=${@os.path.relpath(d.getVar('base_libdir'), d.getVar('libdir'))}
--
--	# Remove bad symlinks & create the correct symlinks
--	if test -L ${D}${libdir}/lib${BPN}.so ; then
--		rm -rf ${D}${libdir}/lib${BPN}.so
--		ln -sf $baselibrelpath/lib${BPN}.so ${D}${libdir}/lib${BPN}.so
--	fi
--	if test -L ${D}${base_libdir}/lib${BPN}.a ; then
--		rm -rf ${D}${base_libdir}/lib${BPN}.a
--		ln -sf $librelpath/lib${BPN}.a ${D}${base_libdir}/lib${BPN}.a
--	fi
--	if test -L  ${D}${base_libdir}/lib${BPN}.la ; then
--		rm -rf ${D}${base_libdir}/lib${BPN}.la
--		ln -sf $librelpath/lib${BPN}.la ${D}${base_libdir}/lib${BPN}.la
--	fi
--}
--
--PACKAGES =+ "lib${BPN}"
--
--FILES_lib${BPN} = "${base_libdir}/lib*${SOLIBS}"
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-support/attr/files/0001-Added-configure-option-to-enable-disable-static-libr.patch b/meta/recipes-support/attr/files/0001-Added-configure-option-to-enable-disable-static-libr.patch
-deleted file mode 100644
-index 1c1159f2c90..00000000000
---- a/meta/recipes-support/attr/files/0001-Added-configure-option-to-enable-disable-static-libr.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--From 01256c61ba126449c46dd4ab5d5e145488b981fa Mon Sep 17 00:00:00 2001
--From: Amarnath Valluri <amarnath.valluri@intel.com>
--Date: Mon, 23 Jan 2017 13:25:13 +0200
--Subject: [PATCH] Added configure option to enable/disable static library
--
--Create static library archive only in case of --enable-static.
--
--Upstream-Status: Pending
--
--Signed-off-by: Amarnath Valluri <amarnath.valluri@intel.com>
-----
-- configure.ac         | 6 ++++++
-- include/builddefs.in | 1 +
-- include/buildmacros  | 3 +++
-- 3 files changed, 10 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index b966d0e..e48268b 100644
 ---- a/configure.ac
 -+++ b/configure.ac
--@@ -26,6 +26,12 @@ AC_ARG_ENABLE(shared,
-- 	enable_shared=yes)
-- AC_SUBST(enable_shared)
+-@@ -65,6 +65,8 @@ AC_CHECK_FUNCS([ \
+-     fallocate \
+-     fchownat \
+-     fstatat \
+-+    getdents \
+-+    getdents64 \
+-     kcmp \
+-     mkdirat \
+-     mknodat \
+---- a/testcases/kernel/syscalls/getdents/getdents.h
+-+++ b/testcases/kernel/syscalls/getdents/getdents.h
+-@@ -23,7 +23,7 @@
+- #include <stdint.h>
+- #include "test.h"
+- #include "lapi/syscalls.h"
+--
+-+#include "config.h"
+- /*
+-  * See fs/compat.c struct compat_linux_dirent
+-  */
+-@@ -34,12 +34,17 @@ struct linux_dirent {
+- 	char            d_name[];
+- };
 - 
--+AC_ARG_ENABLE(static,
--+[ --enable-static=[yes/no] Enable use of static libraries [default=yes]],,
--+	enable_static=yes)
--+AC_SUBST(enable_static)
+-+#if HAVE_GETDENTS
+-+#include <unistd.h>
+-+#else
+- static inline int
+- getdents(unsigned int fd, struct linux_dirent *dirp, unsigned int size)
+- {
+- 	return ltp_syscall(__NR_getdents, fd, dirp, size);
+- }
+- 
+-+#endif /* HAVE_GETDENTS */
 -+
--+
-- AC_ARG_ENABLE(gettext,
-- [ --enable-gettext=[yes/no] Enable alternate language support [default=yes]],,
-- 	enable_gettext=yes)
--diff --git a/include/builddefs.in b/include/builddefs.in
--index d9931db..3b3dbd2 100644
----- a/include/builddefs.in
--+++ b/include/builddefs.in
--@@ -71,6 +71,7 @@ RPMBUILD	= @rpmbuild@
-- RPM_VERSION	= @rpm_version@
+- struct linux_dirent64 {
+- 	uint64_t	d_ino;
+- 	int64_t		d_off;
+-@@ -48,10 +53,13 @@ struct linux_dirent64 {
+- 	char		d_name[];
+- };
 - 
-- ENABLE_SHARED	= @enable_shared@
--+ENABLE_STATIC 	= @enable_static@
-- ENABLE_GETTEXT	= @enable_gettext@
-- 
-- HAVE_ZIPPED_MANPAGES = @have_zipped_manpages@
--diff --git a/include/buildmacros b/include/buildmacros
--index 39fa7e2..b0f25c5 100644
----- a/include/buildmacros
--+++ b/include/buildmacros
--@@ -80,6 +80,7 @@ endif
-- # /usr/lib.
-- ifeq ($(ENABLE_SHARED),yes)
-- INSTALL_LTLIB_DEV = \
--+	set -x; \
-- 	cd $(TOPDIR)/$(LIBNAME)/.libs; \
-- 	../$(INSTALL) -m 755 -d $(PKG_DEVLIB_DIR); \
-- 	../$(INSTALL) -m 644 -T old_lib $(LIBNAME).lai $(PKG_DEVLIB_DIR); \
--@@ -88,7 +89,9 @@ INSTALL_LTLIB_DEV = \
-- 	../$(INSTALL) -T so_base $(LIBNAME).lai $(PKG_LIB_DIR); \
-- 	if test "x$(PKG_DEVLIB_DIR)" != "x$(PKG_LIB_DIR)" ; then \
-- 	rel_lib_prefix=$$(echo $(PKG_LIB_DIR) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
--+	if test "$(ENABLE_STATIC)" = "yes" ; then \
-- 	../$(INSTALL) -S $$rel_lib_prefix$(PKG_DEVLIB_DIR)/$(LIBNAME).a $(PKG_LIB_DIR)/$(LIBNAME).a; \
--+	fi ;\
-- 	../$(INSTALL) -S $$rel_lib_prefix$(PKG_DEVLIB_DIR)/$(LIBNAME).la $(PKG_LIB_DIR)/$(LIBNAME).la; \
-- 	rel_devlib_prefix=$$(echo $(PKG_DEVLIB_DIR) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
-- 	../$(INSTALL) -S $$rel_devlib_prefix$(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so; \
+-+#if HAVE_GETDENTS64
+-+#include <unistd.h>
+-+#else
+- static inline int
+- getdents64(unsigned int fd, struct linux_dirent64 *dirp64, unsigned int size)
+- {
+- 	return ltp_syscall(__NR_getdents64, fd, dirp64, size);
+- }
+--
+-+#endif /* HAVE_GETDENTS64 */
+- #endif /* GETDENTS_H */
+diff --git a/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch b/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+new file mode 100644
+index 00000000000..d3af31f34a2
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-Add-more-musl-exclusions.patch
+@@ -0,0 +1,70 @@
++From 788c47ceef7f115ab7f7aa17f918e58795f4e6c7 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Fri, 20 Dec 2019 13:06:05 +0100
++Subject: [PATCH] Add more musl exclusions
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ testcases/kernel/syscalls/accept4/Makefile      | 4 ++++
++ testcases/kernel/syscalls/fanotify/Makefile     | 6 ++++++
++ testcases/kernel/syscalls/setxattr/Makefile     | 4 ++++
++ testcases/kernel/syscalls/timer_create/Makefile | 4 ++++
++ 4 files changed, 18 insertions(+)
++
++diff --git a/testcases/kernel/syscalls/accept4/Makefile b/testcases/kernel/syscalls/accept4/Makefile
++index 504042e11..94db06266 100644
++--- a/testcases/kernel/syscalls/accept4/Makefile
+++++ b/testcases/kernel/syscalls/accept4/Makefile
++@@ -20,4 +20,8 @@ top_srcdir		?= ../../../..
++ 
++ include $(top_srcdir)/include/mk/testcases.mk
++ 
+++ifeq ($(LIBC),musl)
+++FILTER_OUT_MAKE_TARGETS        := accept4_01
+++endif
+++
++ include $(top_srcdir)/include/mk/generic_leaf_target.mk
++diff --git a/testcases/kernel/syscalls/fanotify/Makefile b/testcases/kernel/syscalls/fanotify/Makefile
++index 5d01b4825..0263a6e20 100644
++--- a/testcases/kernel/syscalls/fanotify/Makefile
+++++ b/testcases/kernel/syscalls/fanotify/Makefile
++@@ -20,4 +20,10 @@ top_srcdir		?= ../../../..
++ fanotify11: CFLAGS+=-pthread
++ include $(top_srcdir)/include/mk/testcases.mk
++ 
+++ifeq ($(LIBC),musl)
+++FILTER_OUT_MAKE_TARGETS        := fanotify13 fanotify15
+++endif
+++
++ include $(top_srcdir)/include/mk/generic_leaf_target.mk
+++
+++
++diff --git a/testcases/kernel/syscalls/setxattr/Makefile b/testcases/kernel/syscalls/setxattr/Makefile
++index 72544c13e..7f20b2780 100644
++--- a/testcases/kernel/syscalls/setxattr/Makefile
+++++ b/testcases/kernel/syscalls/setxattr/Makefile
++@@ -20,4 +20,8 @@ top_srcdir		?= ../../../..
++ 
++ include $(top_srcdir)/include/mk/testcases.mk
++ 
+++ifeq ($(LIBC),musl)
+++FILTER_OUT_MAKE_TARGETS        := setxattr03
+++endif
+++
++ include $(top_srcdir)/include/mk/generic_leaf_target.mk
++diff --git a/testcases/kernel/syscalls/timer_create/Makefile b/testcases/kernel/syscalls/timer_create/Makefile
++index 8de247075..eb240f432 100644
++--- a/testcases/kernel/syscalls/timer_create/Makefile
+++++ b/testcases/kernel/syscalls/timer_create/Makefile
++@@ -20,6 +20,10 @@ top_srcdir		?= ../../../..
++ 
++ include $(top_srcdir)/include/mk/testcases.mk
++ 
+++ifeq ($(LIBC),musl)
+++FILTER_OUT_MAKE_TARGETS        := timer_create01 timer_create03
+++endif
+++
++ CPPFLAGS		+= -D_GNU_SOURCE -I$(abs_srcdir)/../include
++ 
++ LDLIBS			+= -lpthread -lrt
+diff --git a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch b/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
+index b5c25c56a57..1705abcf196 100644
+--- a/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
++++ b/meta/recipes-extended/ltp/ltp/0001-build-Add-option-to-select-libc-implementation.patch
+@@ -1,4 +1,4 @@
+-From ec282980e6eee96f5b74aba464141f86049263e6 Mon Sep 17 00:00:00 2001
++From 62c3481c73a2414d7a5f0a70808bfc9a06195bd9 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 7 Jan 2016 18:19:03 +0000
+ Subject: [PATCH] build: Add option to select libc implementation
+@@ -12,6 +12,7 @@ Disable tests specifically not building _yet_ on musl based systems
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
++
+ ---
+  Makefile                                    | 5 +++++
+  testcases/kernel/Makefile                   | 5 ++++-
+@@ -24,7 +25,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  8 files changed, 35 insertions(+), 2 deletions(-)
+ 
+ diff --git a/Makefile b/Makefile
+-index 768ca46..e9d679a 100644
++index 768ca4606..e9d679a71 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -41,6 +41,11 @@ vpath %.mk		$(top_srcdir)/mk:$(top_srcdir)/mk/include
+@@ -40,18 +41,19 @@ index 768ca46..e9d679a 100644
+  # COMMON_TARGETS:	Targets which exist in all, clean, and install.
+  # INSTALL_TARGETS:	Targets which exist in clean and install (contains
+ diff --git a/testcases/kernel/Makefile b/testcases/kernel/Makefile
+-index 39d79c7..24a57d9 100644
++index 3319b3163..94ea362c8 100644
+ --- a/testcases/kernel/Makefile
+ +++ b/testcases/kernel/Makefile
+-@@ -49,12 +49,15 @@ SUBDIRS			+= connectors \
++@@ -49,13 +49,16 @@ SUBDIRS			+= connectors \
+  			   logging \
+  			   mem \
+  			   numa \
+ -			   pty \
+  			   sched \
+  			   security \
+- 			   timers \
++ 			   sound \
+  			   tracing \
++ 			   uevents \
+  
+ +ifneq ($(LIBC),musl)
+ +SUBDIRS			+= pty
+@@ -61,7 +63,7 @@ index 39d79c7..24a57d9 100644
+  SUBDIRS			+= power_management
+  endif
+ diff --git a/testcases/kernel/sched/Makefile b/testcases/kernel/sched/Makefile
+-index 6a57d79..74bb933 100644
++index 6a57d79ee..74bb93370 100644
+ --- a/testcases/kernel/sched/Makefile
+ +++ b/testcases/kernel/sched/Makefile
+ @@ -23,5 +23,7 @@
+@@ -74,7 +76,7 @@ index 6a57d79..74bb933 100644
+ +endif
+  include $(top_srcdir)/include/mk/generic_trunk_target.mk
+ diff --git a/testcases/kernel/syscalls/Makefile b/testcases/kernel/syscalls/Makefile
+-index 45a00cf..d1becd0 100644
++index 45a00cf7d..d1becd054 100644
+ --- a/testcases/kernel/syscalls/Makefile
+ +++ b/testcases/kernel/syscalls/Makefile
+ @@ -28,6 +28,11 @@ ifeq ($(UCLINUX),1)
+@@ -90,7 +92,7 @@ index 45a00cf..d1becd0 100644
+  ifeq ($(UCLIBC),1)
+  FILTER_OUT_DIRS	+= profil
+ diff --git a/testcases/network/nfsv4/acl/Makefile b/testcases/network/nfsv4/acl/Makefile
+-index 8c55a6b..f7cda62 100644
++index 8c55a6bbd..f7cda621d 100644
+ --- a/testcases/network/nfsv4/acl/Makefile
+ +++ b/testcases/network/nfsv4/acl/Makefile
+ @@ -26,4 +26,8 @@ include $(top_srcdir)/include/mk/env_pre.mk
+@@ -103,7 +105,7 @@ index 8c55a6b..f7cda62 100644
+ +
+  include $(top_srcdir)/include/mk/generic_leaf_target.mk
+ diff --git a/testcases/network/rpc/basic_tests/Makefile b/testcases/network/rpc/basic_tests/Makefile
+-index 66e9d56..ea8eb8a 100644
++index 66e9d5675..ea8eb8a98 100644
+ --- a/testcases/network/rpc/basic_tests/Makefile
+ +++ b/testcases/network/rpc/basic_tests/Makefile
+ @@ -23,4 +23,9 @@
+@@ -117,7 +119,7 @@ index 66e9d56..ea8eb8a 100644
+ +
+  include $(top_srcdir)/include/mk/generic_trunk_target.mk
+ diff --git a/testcases/realtime/func/pi-tests/Makefile b/testcases/realtime/func/pi-tests/Makefile
+-index 68616a7..748754b 100644
++index 68616a711..748754bb4 100644
+ --- a/testcases/realtime/func/pi-tests/Makefile
+ +++ b/testcases/realtime/func/pi-tests/Makefile
+ @@ -27,5 +27,9 @@ include $(top_srcdir)/include/mk/env_pre.mk
+@@ -131,7 +133,7 @@ index 68616a7..748754b 100644
+  
+  include $(top_srcdir)/include/mk/generic_leaf_target.mk
+ diff --git a/testcases/realtime/stress/pi-tests/Makefile b/testcases/realtime/stress/pi-tests/Makefile
+-index 1881f75..266e0b8 100644
++index 1881f7565..266e0b815 100644
+ --- a/testcases/realtime/stress/pi-tests/Makefile
+ +++ b/testcases/realtime/stress/pi-tests/Makefile
+ @@ -24,4 +24,9 @@ top_srcdir		?= ../../../..
+@@ -144,6 +146,3 @@ index 1881f75..266e0b8 100644
+ +endif
+ +
+  include $(top_srcdir)/include/mk/generic_leaf_target.mk
 --- 
 -2.7.4
 -
-diff --git a/meta/recipes-support/attr/files/Remove-the-attr.5-man-page-moved-to-man-pages.patch b/meta/recipes-support/attr/files/Remove-the-attr.5-man-page-moved-to-man-pages.patch
+diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch b/meta/recipes-extended/ltp/ltp/0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch
 deleted file mode 100644
-index d5ab83d7c68..00000000000
---- a/meta/recipes-support/attr/files/Remove-the-attr.5-man-page-moved-to-man-pages.patch
+index cc40081300c..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch
 +++ /dev/null
-@@ -1,240 +0,0 @@
--From 6047c8522b91235ad1e835f44f5e36472d9d49b2 Mon Sep 17 00:00:00 2001
--From: Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
--Date: Wed, 22 Apr 2015 11:46:59 +0200
--Subject: [PATCH 2/2] Remove the attr.5 man page (moved to man-pages)
+@@ -1,64 +0,0 @@
+-From e3a8502d0a4f8a44ddd02ca4b2efc097133fb9f7 Mon Sep 17 00:00:00 2001
+-From: Mathias Fiedler <mathias.fiedler@aox-tech.de>
+-Date: Fri, 23 Aug 2019 12:46:48 +0200
+-Subject: [PATCH] cve-2017-17052: Avoid unsafe exits in threads
 -
--Commit dce9b4448c7f2b22bd206cd068fb05cb2f3255b9 from
--https://git.savannah.nongnu.org/git/attr.git
+-According to manpage exit(3) calling exit is not thread-safe.
+-And with glibc 2.28 (and probably also with glibc >=2.27) sometimes
+-child processes created in fork_thread can get stuck on process exit in
+-glibc's __run_exit_handlers trying to acquire some lock which was in
+-locked state while the fork was created. This can happen when exit is
+-called in mmap_thread concurrently to the fork.
+-While the main process will still return with PASSED some of its
+-children are left behind.
 -
--The attr.5 page is part of the extended attribute system call documentation,
--which has been moved into the man-pages package. Move the attr.5 page there
--as well.
+-Comparing the source code with the original program as described in the
+-commit 2b7e8665b4ff51c034c55df3cff76518d1a9ee3a of linux kernel >=4.13
+-the exits in mmap_thread and fork_thread should not be necessary to
+-trigger the original bug.
+-
+-Therefore those exit calls are removed. The mmap_thread and fork_thread
+-should still exit when their corresponding main thread in do_test_fork
+-calls exit_group. The remaining exit in do_test_fork will be called in
+-the main thread without any concurrent thread in the same process.
+-
+-Signed-off-by: Mathias Fiedler <mathias.fiedler@aox-tech.de>
+-Acked-by: Cyril Hrubis <chrubis@suse.cz>
+-Acked-by: Jan Stancek <jstancek@redhat.com>
 -
 -Upstream-Status: Backport
+-[https://github.com/linux-test-project/ltp/commit/9f0b452c1af4bcb54da35711eb3fa77334a350b4]
 -
--[MA: updated to apply directly to v2.4.47]
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+-CVE: CVE-2017-17052
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
 ----
-- man/Makefile      |   2 +-
-- man/man5/Makefile |  35 -------------
-- man/man5/attr.5   | 153 ------------------------------------------------------
-- 3 files changed, 1 insertion(+), 189 deletions(-)
-- delete mode 100644 man/man5/Makefile
-- delete mode 100644 man/man5/attr.5
+- testcases/cve/cve-2017-17052.c | 5 -----
+- 1 file changed, 5 deletions(-)
 -
--diff --git a/man/Makefile b/man/Makefile
--index 755daed..9301f09 100644
----- a/man/Makefile
--+++ b/man/Makefile
--@@ -19,7 +19,7 @@
-- TOPDIR = ..
-- include $(TOPDIR)/include/builddefs
+-diff --git a/testcases/cve/cve-2017-17052.c b/testcases/cve/cve-2017-17052.c
+-index d7da7e919..18cd2a6d7 100644
+---- a/testcases/cve/cve-2017-17052.c
+-+++ b/testcases/cve/cve-2017-17052.c
+-@@ -58,8 +58,6 @@ static void *mmap_thread(void *arg)
+- 	for (;;) {
+- 		SAFE_MMAP(NULL, 0x1000000, PROT_READ,
+- 				MAP_POPULATE|MAP_ANONYMOUS|MAP_PRIVATE, -1, 0);
+--		if (*do_exit)
+--			exit(0);
+- 	}
 - 
---SUBDIRS = man1 man3 man5
--+SUBDIRS = man1 man3
+- 	return arg;
+-@@ -67,9 +65,6 @@ static void *mmap_thread(void *arg)
 - 
-- default : $(SUBDIRS)
+- static void *fork_thread(void *arg)
+- {
+--	if (*do_exit)
+--		exit(0);
+--
+- 	usleep(rand() % 10000);
+- 	SAFE_FORK();
 - 
--diff --git a/man/man5/Makefile b/man/man5/Makefile
--deleted file mode 100644
--index 6b70d3d..0000000
----- a/man/man5/Makefile
--+++ /dev/null
--@@ -1,35 +0,0 @@
---#
---# Copyright (c) 2000, 2002 Silicon Graphics, Inc.  All Rights Reserved.
---# Copyright (C) 2009  Andreas Gruenbacher <agruen@suse.de>
---#
---# This program is free software: you can redistribute it and/or modify it
---# under the terms of the GNU General Public License as published by
---# the Free Software Foundation, either version 2 of the License, or
---# (at your option) any later version.
---#
---# This program is distributed in the hope that it will be useful,
---# but WITHOUT ANY WARRANTY; without even the implied warranty of
---# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---# GNU General Public License for more details.
---#
---# You should have received a copy of the GNU General Public License
---# along with this program.  If not, see <http://www.gnu.org/licenses/>.
---#
---
---TOPDIR = ../..
---include $(TOPDIR)/include/builddefs
---
---MAN_SECTION	= 5
---
---MAN_PAGES	= $(shell echo *.$(MAN_SECTION))
---MAN_DEST	= $(PKG_MAN_DIR)/man$(MAN_SECTION)
---LSRCFILES	= $(MAN_PAGES)
---
---default : $(MAN_PAGES)
---
---include $(BUILDRULES)
---
---install : default
---	$(INSTALL) -m 755 -d $(MAN_DEST)
---	$(INSTALL_MAN)
---install-dev install-lib:
--diff --git a/man/man5/attr.5 b/man/man5/attr.5
--deleted file mode 100644
--index a02757d..0000000
----- a/man/man5/attr.5
--+++ /dev/null
--@@ -1,153 +0,0 @@
---.\" Extended attributes manual page
---.\"
---.\" Copyright (C) 2000, 2002, 2007  Andreas Gruenbacher <agruen@suse.de>
---.\" Copyright (C) 2001, 2002, 2004, 2007 Silicon Graphics, Inc.
---.\" All rights reserved.
---.\"
---.\" This is free documentation; you can redistribute it and/or
---.\" modify it under the terms of the GNU General Public License as
---.\" published by the Free Software Foundation; either version 2 of
---.\" the License, or (at your option) any later version.
---.\"
---.\" The GNU General Public License's references to "object code"
---.\" and "executables" are to be interpreted as the output of any
---.\" document formatting or typesetting system, including
---.\" intermediate and printed output.
---.\"
---.\" This manual is distributed in the hope that it will be useful,
---.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
---.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---.\" GNU General Public License for more details.
---.\"
---.\" You should have received a copy of the GNU General Public
---.\" License along with this manual.  If not, see
---.\" <http://www.gnu.org/licenses/>.
---.\"
---.TH ATTR 5
---.SH NAME
---attr - Extended attributes
---.SH DESCRIPTION
---Extended attributes are name:value pairs associated permanently with
---files and directories, similar to the environment strings associated
---with a process.
---An attribute may be defined or undefined.
---If it is defined, its value may be empty or non-empty.
---.PP
---Extended attributes are extensions to the normal attributes which are
---associated with all inodes in the system (i.e. the
---.BR stat (2)
---data).
---They are often used to provide additional functionality
---to a filesystem \- for example, additional security features such as
---Access Control Lists (ACLs) may be implemented using extended attributes.
---.PP
---Users with search access to a file or directory may retrieve a list of
---attribute names defined for that file or directory.
---.PP
---Extended attributes are accessed as atomic objects.
---Reading retrieves the whole value of an attribute and stores it in a buffer.
---Writing replaces any previous value with the new value.
---.PP
---Space consumed for extended attributes is counted towards the disk quotas
---of the file owner and file group.
---.PP
---Currently, support for extended attributes is implemented on Linux by the
---ext2, ext3, ext4, XFS, JFS and reiserfs filesystems.
---.SH EXTENDED ATTRIBUTE NAMESPACES
---Attribute names are zero-terminated strings.
---The attribute name is always specified in the fully qualified
---.IR namespace.attribute
---form, eg.
---.IR user.mime_type ,
---.IR trusted.md5sum ,
---.IR system.posix_acl_access ,
---or
---.IR security.selinux .
---.PP
---The namespace mechanism is used to define different classes of extended
---attributes.
---These different classes exist for several reasons, e.g. the permissions
---and capabilities required for manipulating extended attributes of one
---namespace may differ to another.
---.PP
---Currently the
---.IR security ,
---.IR system ,
---.IR trusted ,
---and
---.IR user
---extended attribute classes are defined as described below. Additional
---classes may be added in the future.
---.SS Extended security attributes
---The security attribute namespace is used by kernel security modules,
---such as Security Enhanced Linux.  
---Read and write access permissions to security attributes depend on the
---policy implemented for each security attribute by the security module.
---When no security module is loaded, all processes have read access to
---extended security attributes, and write access is limited to processes
---that have the CAP_SYS_ADMIN capability.
---.SS Extended system attributes
---Extended system attributes are used by the kernel to store system
---objects such as Access Control Lists and Capabilities.  Read and write
---access permissions to system attributes depend on the policy implemented
---for each system attribute implemented by filesystems in the kernel.
---.SS Trusted extended attributes
---Trusted extended attributes are visible and accessible only to processes that
---have the CAP_SYS_ADMIN capability (the super user usually has this
---capability).
---Attributes in this class are used to implement mechanisms in user
---space (i.e., outside the kernel) which keep information in extended attributes
---to which ordinary processes should not have access.
---.SS Extended user attributes
---Extended user attributes may be assigned to files and directories for
---storing arbitrary additional information such as the mime type,
---character set or encoding of a file. The access permissions for user
---attributes are defined by the file permission bits.
---.PP
---The file permission bits of regular files and directories are
---interpreted differently from the file permission bits of special files
---and symbolic links. For regular files and directories the file
---permission bits define access to the file's contents, while for device special
---files they define access to the device described by the special file.
---The file permissions of symbolic links are not used in access
---checks. These differences would allow users to consume filesystem resources in
---a way not controllable by disk quotas for group or world writable special files and directories.
---.PP
---For this reason, extended user attributes are only allowed for regular files and directories, and access to extended user attributes is restricted to the
---owner and to users with appropriate capabilities for directories with the
---sticky bit set (see the
---.BR chmod (1)
---manual page for an explanation of Sticky Directories).
---.SH FILESYSTEM DIFFERENCES
---The kernel and the filesystem may place limits on the maximum number
---and size of extended attributes that can be associated with a file.
---Some file systems, such as ext2/3 and reiserfs, require the filesystem
---to be mounted with the
---.B user_xattr
---mount option in order for extended user attributes to be used.
---.PP
---In the current ext2, ext3 and ext4 filesystem implementations, each
---extended attribute must fit on a single filesystem block (1024, 2048
---or 4096 bytes, depending on the block size specified when the
---filesystem was created).
---.PP
---In the XFS and reiserfs filesystem implementations, there is no
---practical limit on the number or size of extended attributes
---associated with a file, and the algorithms used to store extended
---attribute information on disk are scalable.
---.PP
---In the JFS filesystem implementation, names can be up to 255 bytes and
---values up to 65,535 bytes.
---.SH ADDITIONAL NOTES
---Since the filesystems on which extended attributes are stored might also
---be used on architectures with a different byte order and machine word
---size, care should be taken to store attribute values in an architecture
---independent format.
---.SH AUTHORS
---Andreas Gruenbacher,
---.RI < a.gruenbacher@bestbits.at >
---and the SGI XFS development team,
---.RI < linux-xfs@oss.sgi.com >.
---.SH SEE ALSO
---getfattr(1),
---setfattr(1).
 --- 
--2.7.4
+-2.17.1
 -
-diff --git a/meta/recipes-support/attr/files/Remove-the-section-2-man-pages.patch b/meta/recipes-support/attr/files/Remove-the-section-2-man-pages.patch
+diff --git a/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch b/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
 deleted file mode 100644
-index 044c5a037c8..00000000000
---- a/meta/recipes-support/attr/files/Remove-the-section-2-man-pages.patch
+index 94f6f5a15a6..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch
 +++ /dev/null
-@@ -1,666 +0,0 @@
--From b972600a26f3a930e53e2fce2625266a5d29813e Mon Sep 17 00:00:00 2001
--From: Andreas Gruenbacher <andreas.gruenbacher@gmail.com>
--Date: Tue, 14 Apr 2015 23:53:11 +0200
--Subject: [PATCH 1/2] Remove the section 2 man pages
+@@ -1,81 +0,0 @@
+-From fbeda82f440a0098be42dd668cbc47212a86ab48 Mon Sep 17 00:00:00 2001
+-From: He Zhe <zhe.he@windriver.com>
+-Date: Wed, 21 Aug 2019 16:27:24 +0800
+-Subject: [PATCH] cve/meltdown.c: Fix kernel symbol finding
 -
--Commit 8d1263bca95722d66a6f8e83450f49d0956ea534 from upstream
--https://git.savannah.nongnu.org/git/attr.git/
+-meltdown case fails as below.
+-safe_file_ops.c:219: BROK: Expected 3 conversions got 2 at meltdown.c:272
 -
--The section 2 man pages have long since been added to the man-pages package
--which documents all system calls; they were disabled in attr by default since
--January 2014.  Get rid of them here.
+-find_kernel_symbol is defined to try twice with each of /proc/kallsyms and
+-/boot/System.map-%s. Currently if the symbol is not found in /proc/kallsyms,
+-when kernel option CONFIG_KALLSYMS_ALL is disabled, it would stop the case
+-immediately due to SAFE_FILE_LINES_SCANF.
+-
+-This patch turns to use FILE_LINES_SCANF to give find_kernel_symbol second
+-chance.
+-
+-[jstancek] Fix also condition introduced in 7709d2ae92ea, even if
+-           /proc/kallsyms is disabled, we still want to try System.map.
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+-Signed-off-by: Jan Stancek <jstancek@redhat.com>
 -
 -Upstream-Status: Backport
+-[https://github.com/linux-test-project/ltp/commit/c2049b5c874bc071f8185bffb5fd7dcb042d9ec8]
 -
--[MA: modified to apply directly to v2.4.47]
--Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+-Remove the hunk for upstream 7709d2ae92ea ("cve/meltdown.c: abort the test if kallsyms was not enabled")
+-that has been covered by this patch.
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
 ----
-- man/Makefile           |   2 +-
-- man/man2/Makefile      |  35 -----------
-- man/man2/getxattr.2    | 143 --------------------------------------------
-- man/man2/listxattr.2   | 158 -------------------------------------------------
-- man/man2/removexattr.2 | 111 ----------------------------------
-- man/man2/setxattr.2    | 143 --------------------------------------------
-- 6 files changed, 1 insertion(+), 591 deletions(-)
-- delete mode 100644 man/man2/Makefile
-- delete mode 100644 man/man2/getxattr.2
-- delete mode 100644 man/man2/listxattr.2
-- delete mode 100644 man/man2/removexattr.2
-- delete mode 100644 man/man2/setxattr.2
+- testcases/cve/meltdown.c | 13 ++++++++++---
+- 1 file changed, 10 insertions(+), 3 deletions(-)
 -
--diff --git a/man/Makefile b/man/Makefile
--index 9535426..755daed 100644
----- a/man/Makefile
--+++ b/man/Makefile
--@@ -19,7 +19,7 @@
-- TOPDIR = ..
-- include $(TOPDIR)/include/builddefs
+-diff --git a/testcases/cve/meltdown.c b/testcases/cve/meltdown.c
+-index a53ea9b..22651a6 100644
+---- a/testcases/cve/meltdown.c
+-+++ b/testcases/cve/meltdown.c
+-@@ -267,9 +267,15 @@ find_symbol_in_file(const char *filename, const char *symname)
+- 	int ret, read;
+- 	char fmt[strlen(symname) + 64];
 - 
---SUBDIRS = man1 man2 man3 man5
--+SUBDIRS = man1 man3 man5
+-+	tst_res(TINFO, "Looking for %s in %s", symname, filename);
+-+	if (access(filename, F_OK) == -1) {
+-+		tst_res(TINFO, "%s not available", filename);
+-+		return 0;
+-+	}
+-+
+- 	sprintf(fmt, "%%lx %%c %s%%c", symname);
 - 
-- default : $(SUBDIRS)
+--	ret = SAFE_FILE_LINES_SCANF(filename, fmt, &addr, &type, &read);
+-+	ret = FILE_LINES_SCANF(filename, fmt, &addr, &type, &read);
+- 	if (ret)
+- 		return 0;
 - 
--diff --git a/man/man2/Makefile b/man/man2/Makefile
--deleted file mode 100644
--index d77309d..0000000
----- a/man/man2/Makefile
--+++ /dev/null
--@@ -1,35 +0,0 @@
---#
---# Copyright (c) 2000-2002 Silicon Graphics, Inc.  All Rights Reserved.
---# Copyright (C) 2009  Andreas Gruenbacher <agruen@suse.de>
---#
---# This program is free software: you can redistribute it and/or modify it
---# under the terms of the GNU General Public License as published by
---# the Free Software Foundation, either version 2 of the License, or
---# (at your option) any later version.
---#
---# This program is distributed in the hope that it will be useful,
---# but WITHOUT ANY WARRANTY; without even the implied warranty of
---# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---# GNU General Public License for more details.
---#
---# You should have received a copy of the GNU General Public License
---# along with this program.  If not, see <http://www.gnu.org/licenses/>.
---#
---
---TOPDIR = ../..
---include $(TOPDIR)/include/builddefs
---
---MAN_SECTION	= 2
---
---MAN_PAGES	= $(shell echo *.$(MAN_SECTION))
---MAN_DEST	= $(PKG_MAN_DIR)/man$(MAN_SECTION)
---LSRCFILES	= $(MAN_PAGES)
---
---default install : $(MAN_PAGES)
---
---include $(BUILDRULES)
---
---install-dev : default
---	$(INSTALL) -m 755 -d $(MAN_DEST)
---	$(INSTALL_MAN)
---install-lib:
--diff --git a/man/man2/getxattr.2 b/man/man2/getxattr.2
--deleted file mode 100644
--index 405ad89..0000000
----- a/man/man2/getxattr.2
--+++ /dev/null
--@@ -1,143 +0,0 @@
---.\"
---.\" Extended attributes system calls manual pages
---.\"
---.\" (C) Andreas Gruenbacher, February 2001
---.\" (C) Silicon Graphics Inc, September 2001
---.\"
---.\" This is free documentation; you can redistribute it and/or
---.\" modify it under the terms of the GNU General Public License as
---.\" published by the Free Software Foundation; either version 2 of
---.\" the License, or (at your option) any later version.
---.\"
---.\" The GNU General Public License's references to "object code"
---.\" and "executables" are to be interpreted as the output of any
---.\" document formatting or typesetting system, including
---.\" intermediate and printed output.
---.\"
---.\" This manual is distributed in the hope that it will be useful,
---.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
---.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---.\" GNU General Public License for more details.
---.\"
---.\" You should have received a copy of the GNU General Public
---.\" License along with this manual.  If not, see
---.\" <http://www.gnu.org/licenses/>.
---.\"
---.TH GETXATTR 2 "Extended Attributes" "Dec 2001" "System calls"
---.SH NAME
---getxattr, lgetxattr, fgetxattr \- retrieve an extended attribute value
---.SH SYNOPSIS
---.fam C
---.nf
---.B #include <sys/types.h>
---.B #include <attr/xattr.h>
---.sp
---.BI "ssize_t getxattr (const char\ *" path ", const char\ *" name ",
---.BI "\t\t\t\t void\ *" value ", size_t " size );
---.BI "ssize_t lgetxattr (const char\ *" path ", const char\ *" name ",
---.BI "\t\t\t\t void\ *" value ", size_t " size );
---.BI "ssize_t fgetxattr (int " filedes ", const char\ *" name ",
---.BI "\t\t\t\t void\ *" value ", size_t " size );
---.fi
---.fam T
---.SH DESCRIPTION
---Extended attributes are
---.IR name :\c
---.I value
---pairs associated with inodes (files, directories, symlinks, etc).
---They are extensions to the normal attributes which are associated
---with all inodes in the system (i.e. the
---.BR stat (2)
---data).
---A complete overview of extended attributes concepts can be found in
---.BR attr (5).
---.PP
---.B getxattr
---retrieves the
---.I value
---of the extended attribute identified by
---.I name
---and associated with the given
---.I path
---in the filesystem.
---The length of the attribute
---.I value
---is returned.
---.PP
---.B lgetxattr
---is identical to 
---.BR getxattr ,
---except in the case of a symbolic link, where the link itself is
---interrogated, not the file that it refers to.
---.PP
---.B fgetxattr
---is identical to
---.BR getxattr ,
---only the open file pointed to by
---.I filedes
---(as returned by
---.BR open (2))
---is interrogated in place of
---.IR path .
---.PP
---An extended attribute
---.I name
---is a simple NULL-terminated string.
---The name includes a namespace prefix \- there may be several, disjoint
---namespaces associated with an individual inode.
---The value of an extended attribute is a chunk of arbitrary textual or
---binary data of specified length.
---.PP
---An empty buffer of
---.I size
---zero can be passed into these calls to return the current size of the
---named extended attribute, which can be used to estimate the size of a
---buffer which is sufficiently large to hold the value associated with
---the extended attribute.
---.PP
---The interface is designed to allow guessing of initial buffer
---sizes, and to enlarge buffers when the return value indicates
---that the buffer provided was too small.
---.SH RETURN VALUE
---On success, a positive number is returned indicating the size of the
---extended attribute value.
---On failure, \-1 is returned and
---.I errno
---is set appropriately.
---.PP
---If the named attribute does not exist, or the process has no access to
---this attribute,
---.I errno
---is set to ENOATTR.
---.PP
---If the
---.I size
---of the
---.I value
---buffer is too small to hold the result,
---.I errno
---is set to ERANGE.
---.PP
---If extended attributes are not supported by the filesystem, or are disabled,
---.I errno
---is set to ENOTSUP.
---.PP
---The errors documented for the
---.BR stat (2)
---system call are also applicable here.
---.SH AUTHORS
---Andreas Gruenbacher,
---.RI < a.gruenbacher@bestbits.at >
---and the SGI XFS development team,
---.RI < linux-xfs@oss.sgi.com >.
---Please send any bug reports or comments to these addresses.
---.SH SEE ALSO
---.BR getfattr (1),
---.BR setfattr (1),
---.BR open (2),
---.BR stat (2),
---.BR setxattr (2),
---.BR listxattr (2),
---.BR removexattr (2),
---and
---.BR attr (5).
--diff --git a/man/man2/listxattr.2 b/man/man2/listxattr.2
--deleted file mode 100644
--index 8b4371c..0000000
----- a/man/man2/listxattr.2
--+++ /dev/null
--@@ -1,158 +0,0 @@
---.\"
---.\" Extended attributes system calls manual pages
---.\"
---.\" (C) Andreas Gruenbacher, February 2001
---.\" (C) Silicon Graphics Inc, September 2001
---.\"
---.\" This is free documentation; you can redistribute it and/or
---.\" modify it under the terms of the GNU General Public License as
---.\" published by the Free Software Foundation; either version 2 of
---.\" the License, or (at your option) any later version.
---.\"
---.\" The GNU General Public License's references to "object code"
---.\" and "executables" are to be interpreted as the output of any
---.\" document formatting or typesetting system, including
---.\" intermediate and printed output.
---.\"
---.\" This manual is distributed in the hope that it will be useful,
---.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
---.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---.\" GNU General Public License for more details.
---.\"
---.\" You should have received a copy of the GNU General Public
---.\" License along with this manual.  If not, see
---.\" <http://www.gnu.org/licenses/>.
---.\"
---.TH LISTXATTR 2 "Extended Attributes" "Dec 2001" "System calls"
---.SH NAME
---listxattr, llistxattr, flistxattr \- list extended attribute names
---.SH SYNOPSIS
---.fam C
---.nf
---.B #include <sys/types.h>
---.B #include <attr/xattr.h>
---.sp
---.BI "ssize_t listxattr (const char\ *" path ",
---.BI "\t\t\t\t char\ *" list ", size_t " size );
---.BI "ssize_t llistxattr (const char\ *" path ",
---.BI "\t\t\t\t char\ *" list ", size_t " size );
---.BI "ssize_t flistxattr (int " filedes ",
---.BI "\t\t\t\t char\ *" list ", size_t " size );
---.fi
---.fam T
---.SH DESCRIPTION
---Extended attributes are name:value
---pairs associated with inodes (files, directories, symlinks, etc).
---They are extensions to the normal attributes which are associated
---with all inodes in the system (i.e. the
---.BR stat (2)
---data).
---A complete overview of extended attributes concepts can be found in
---.BR attr (5).
---.PP
---.B listxattr
---retrieves the
---.I list
---of extended attribute names associated with the given
---.I path
---in the filesystem.
---The list is the set of (NULL-terminated) names, one after the other.
---Names of extended attributes to which the calling process does not
---have access may be omitted from the list.
---The length of the attribute name
---.I list
---is returned.
---.PP
---.B llistxattr
---is identical to
---.BR listxattr ,
---except in the case of a symbolic link, where the list of names of
---extended attributes associated with the link itself is retrieved,
---not the file that it refers to.
---.I list
---is a caller-allocated buffer of size
---.IR size .
---.PP
---.B flistxattr
---is identical to
---.BR listxattr ,
---only the open file pointed to by
---.I filedes
---(as returned by
---.BR open (2))
---is interrogated in place of
---.IR path .
---.PP
---A single extended attribute
---.I name
---is a simple NULL-terminated string.
---The name includes a namespace prefix \- there may be several, disjoint
---namespaces associated with an individual inode.
---.PP
---An empty buffer of
---.I size
---zero can be passed into these calls to return the current size of the
---list of extended attribute names, which can be used to estimate the
---size of a buffer which is sufficiently large to hold the list of names.
---.SH EXAMPLES
---The
---.I list
---of names is returned as an unordered array of NULL-terminated character
---strings (attribute names are separated by NULL characters), like this:
---.fam C
---.RS
---.nf
---user.name1\\0system.name1\\0user.name2\\0
---.fi
---.RE
---.fam T
---.P
---Filesystems like ext2, ext3 and XFS which implement POSIX ACLs using
---extended attributes, might return a
---.I list
---like this:
---.fam C
---.RS
---.nf
---system.posix_acl_access\\0system.posix_acl_default\\0
---.fi
---.RE
---.fam T
---.SH RETURN VALUE
---On success, a positive number is returned indicating the size of the
---extended attribute name list.
---On failure, \-1 is returned and
---.I errno
---is set appropriately.
---.PP
---If the
---.I size
---of the
---.I list
---buffer is too small to hold the result,
---.I errno
---is set to ERANGE.
---.PP
---If extended attributes are not supported by the filesystem, or are disabled,
---.I errno
---is set to ENOTSUP.
---.PP
---The errors documented for the
---.BR stat (2)
---system call are also applicable here.
---.SH AUTHORS
---Andreas Gruenbacher,
---.RI < a.gruenbacher@bestbits.at >
---and the SGI XFS development team,
---.RI < linux-xfs@oss.sgi.com >.
---Please send any bug reports or comments to these addresses.
---.SH SEE ALSO
---.BR getfattr (1),
---.BR setfattr (1),
---.BR open (2),
---.BR stat (2),
---.BR getxattr (2),
---.BR setxattr (2),
---.BR removexattr (2),
---and
---.BR attr (5).
--diff --git a/man/man2/removexattr.2 b/man/man2/removexattr.2
--deleted file mode 100644
--index 2c7d934..0000000
----- a/man/man2/removexattr.2
--+++ /dev/null
--@@ -1,111 +0,0 @@
---.\"
---.\" Extended attributes system calls manual pages
---.\"
---.\" (C) Andreas Gruenbacher, February 2001
---.\" (C) Silicon Graphics Inc, September 2001
---.\"
---.\" This is free documentation; you can redistribute it and/or
---.\" modify it under the terms of the GNU General Public License as
---.\" published by the Free Software Foundation; either version 2 of
---.\" the License, or (at your option) any later version.
---.\"
---.\" The GNU General Public License's references to "object code"
---.\" and "executables" are to be interpreted as the output of any
---.\" document formatting or typesetting system, including
---.\" intermediate and printed output.
---.\"
---.\" This manual is distributed in the hope that it will be useful,
---.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
---.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---.\" GNU General Public License for more details.
---.\"
---.\" You should have received a copy of the GNU General Public
---.\" License along with this manual.  If not, see
---.\" <http://www.gnu.org/licenses/>.
---.\"
---.TH REMOVEXATTR 2 "Extended Attributes" "Dec 2001" "System calls"
---.SH NAME
---removexattr, lremovexattr, fremovexattr \- remove an extended attribute
---.SH SYNOPSIS
---.fam C
---.nf
---.B #include <sys/types.h>
---.B #include <attr/xattr.h>
---.sp
---.BI "int removexattr (const char\ *" path ", const char\ *" name );
---.BI "int lremovexattr (const char\ *" path ", const char\ *" name );
---.BI "int fremovexattr (int " filedes ", const char\ *" name );
---.fi
---.fam T
---.SH DESCRIPTION
---Extended attributes are
---.IR name :\c
---value pairs associated with inodes (files, directories, symlinks, etc).
---They are extensions to the normal attributes which are associated
---with all inodes in the system (i.e. the
---.BR stat (2)
---data).
---A complete overview of extended attributes concepts can be found in
---.BR attr (5).
---.PP
---.B removexattr
---removes the extended attribute identified by
---.I name
---and associated with the given
---.I path
---in the filesystem.
---.PP
---.B lremovexattr
---is identical to 
---.BR removexattr ,
---except in the case of a symbolic link, where the extended attribute is
---removed from the link itself, not the file that it refers to.
---.PP
---.B fremovexattr
---is identical to
---.BR removexattr ,
---only the extended attribute is removed from the open file pointed to by
---.I filedes
---(as returned by
---.BR open (2))
---in place of
---.IR path .
---.PP
---An extended attribute name is a simple NULL-terminated string.
---The
---.I name
---includes a namespace prefix \- there may be several, disjoint
---namespaces associated with an individual inode.
---.SH RETURN VALUE
---On success, zero is returned.
---On failure, \-1 is returned and
---.I errno
---is set appropriately.
---.PP
---If the named attribute does not exist,
---.I errno
---is set to ENOATTR.
---.PP
---If extended attributes are not supported by the filesystem, or are disabled,
---.I errno
---is set to ENOTSUP.
---.PP
---The errors documented for the
---.BR stat (2)
---system call are also applicable here.
---.SH AUTHORS
---Andreas Gruenbacher,
---.RI < a.gruenbacher@bestbits.at >
---and the SGI XFS development team,
---.RI < linux-xfs@oss.sgi.com >.
---Please send any bug reports or comments to these addresses.
---.SH SEE ALSO
---.BR getfattr (1),
---.BR setfattr (1),
---.BR open (2),
---.BR stat (2),
---.BR setxattr (2),
---.BR getxattr (2),
---.BR listxattr (2),
---and
---.BR attr (5).
--diff --git a/man/man2/setxattr.2 b/man/man2/setxattr.2
--deleted file mode 100644
--index b20dc9f..0000000
----- a/man/man2/setxattr.2
--+++ /dev/null
--@@ -1,143 +0,0 @@
---.\"
---.\" Extended attributes system calls manual pages
---.\"
---.\" (C) Andreas Gruenbacher, February 2001
---.\" (C) Silicon Graphics Inc, September 2001
---.\"
---.\" This is free documentation; you can redistribute it and/or
---.\" modify it under the terms of the GNU General Public License as
---.\" published by the Free Software Foundation; either version 2 of
---.\" the License, or (at your option) any later version.
---.\"
---.\" The GNU General Public License's references to "object code"
---.\" and "executables" are to be interpreted as the output of any
---.\" document formatting or typesetting system, including
---.\" intermediate and printed output.
---.\"
---.\" This manual is distributed in the hope that it will be useful,
---.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
---.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
---.\" GNU General Public License for more details.
---.\"
---.\" You should have received a copy of the GNU General Public
---.\" License along with this manual.  If not, see
---.\" <http://www.gnu.org/licenses/>.
---.\"
---.TH SETXATTR 2 "Extended Attributes" "Dec 2001" "System calls"
---.SH NAME
---setxattr, lsetxattr, fsetxattr \- set an extended attribute value
---.SH SYNOPSIS
---.fam C
---.nf
---.B #include <sys/types.h>
---.B #include <attr/xattr.h>
---.sp
---.BI "int setxattr (const char\ *" path ", const char\ *" name ",
---.BI "\t\t\t const void\ *" value ", size_t " size ", int " flags );
---.BI "int lsetxattr (const char\ *" path ", const char\ *" name ",
---.BI "\t\t\t const void\ *" value ", size_t " size ", int " flags );
---.BI "int fsetxattr (int " filedes ", const char\ *" name ",
---.BI "\t\t\t const void\ *" value ", size_t " size ", int " flags );
---.fi
---.fam T
---.SH DESCRIPTION
---Extended attributes are
---.IR name :\c
---.I value
---pairs associated with inodes (files, directories, symlinks, etc).
---They are extensions to the normal attributes which are associated
---with all inodes in the system (i.e. the
---.BR stat (2)
---data).
---A complete overview of extended attributes concepts can be found in
---.BR attr (5).
---.PP
---.B setxattr
---sets the
---.I value
---of the extended attribute identified by
---.I name
---and associated with the given
---.I path
---in the filesystem.
---The
---.I size
---of the
---.I value
---must be specified.
---.PP
---.B lsetxattr
---is identical to 
---.BR setxattr ,
---except in the case of a symbolic link, where the extended attribute is
---set on the link itself, not the file that it refers to.
---.PP
---.B fsetxattr
---is identical to
---.BR setxattr ,
---only the extended attribute is set on the open file pointed to by
---.I filedes
---(as returned by
---.BR open (2))
---in place of
---.IR path .
---.PP
---An extended attribute name is a simple NULL-terminated string.
---The
---.I name
---includes a namespace prefix \- there may be several, disjoint
---namespaces associated with an individual inode.
---The
---.I value
---of an extended attribute is a chunk of arbitrary textual or
---binary data of specified length.
---.PP
---The
---.I flags
---parameter can be used to refine the semantics of the operation.
---XATTR_CREATE specifies a pure create, which fails if the named
---attribute exists already.
---XATTR_REPLACE specifies a pure replace operation, which fails if the
---named attribute does not already exist.
---By default (no flags), the extended attribute will be created if
---need be, or will simply replace the value if the attribute exists.
---.SH RETURN VALUE
---On success, zero is returned.
---On failure, \-1 is returned and
---.I errno
---is set appropriately.
---.PP
---If XATTR_CREATE is specified, and the attribute exists already,
---.I errno
---is set to EEXIST.
---If XATTR_REPLACE is specified, and the attribute does not exist,
---.I errno
---is set to ENOATTR.
---.PP
---If there is insufficient space remaining to store the extended attribute,
---.I errno
---is set to either ENOSPC, or EDQUOT if quota enforcement was the cause.
---.PP
---If extended attributes are not supported by the filesystem, or are disabled,
---.I errno
---is set to ENOTSUP.
---.PP
---The errors documented for the
---.BR stat (2)
---system call are also applicable here.
---.SH AUTHORS
---Andreas Gruenbacher,
---.RI < a.gruenbacher@bestbits.at >
---and the SGI XFS development team,
---.RI < linux-xfs@oss.sgi.com >.
---Please send any bug reports or comments to these addresses.
---.SH SEE ALSO
---.BR getfattr (1),
---.BR setfattr (1),
---.BR open (2),
---.BR stat (2),
---.BR getxattr (2),
---.BR listxattr (2),
---.BR removexattr (2),
---and
---.BR attr (5).
+-@@ -287,13 +293,11 @@ find_kernel_symbol(const char *name)
+- 	if (addr)
+- 		return addr;
+- 
+--	tst_res(TINFO, "not found '%s' in /proc/kallsyms", name);
+- 	if (uname(&utsname) < 0)
+- 		tst_brk(TBROK | TERRNO, "uname");
+- 
+- 	sprintf(systemmap, "/boot/System.map-%s", utsname.release);
+- 
+--	tst_res(TINFO, "looking in '%s'\n", systemmap);
+- 	addr = find_symbol_in_file(systemmap, name);
+- 	return addr;
+- }
+-@@ -308,6 +312,9 @@ static void setup(void)
+- 	saved_cmdline_addr = find_kernel_symbol("saved_command_line");
+- 	tst_res(TINFO, "&saved_command_line == 0x%lx", saved_cmdline_addr);
+- 
+-+	if (!saved_cmdline_addr)
+-+		tst_brk(TCONF, "saved_command_line not found");
+-+
+- 	spec_fd = SAFE_OPEN("/proc/cmdline", O_RDONLY);
+- 
+- 	memset(target_array, 1, sizeof(target_array));
 --- 
 -2.7.4
 -
-diff --git a/meta/recipes-support/attr/files/relative-libdir.patch b/meta/recipes-support/attr/files/relative-libdir.patch
+diff --git a/meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch b/meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch
 deleted file mode 100644
-index b72bf184d6f..00000000000
---- a/meta/recipes-support/attr/files/relative-libdir.patch
+index bed84712a15..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch
 +++ /dev/null
-@@ -1,25 +0,0 @@
+@@ -1,57 +0,0 @@
+-From d656a447893dccc310c975a239f482278550c3e0 Mon Sep 17 00:00:00 2001
+-From: Jan Stancek <jstancek@redhat.com>
+-Date: Tue, 21 May 2019 10:10:44 +0200
+-Subject: [PATCH] overcommit_memory: update for "mm: fix false-positive
+- OVERCOMMIT_GUESS failures"
+-
+-commit 8c7829b04c52 ("mm: fix false-positive OVERCOMMIT_GUESS failures")
+-changes logic of __vm_enough_memory(), simplifying it to:
+-    When in GUESS mode, catch wild allocations by comparing their request
+-    size to total amount of ram and swap in the system.
+-
+-Testcase currently allocates mem_total + swap_total, which doesn't trigger
+-new condition. Make it more extreme, but assuming free_total / 2 will PASS,
+-and 2*sum_total will FAIL.
+-
+-Signed-off-by: Jan Stancek <jstancek@redhat.com>
+-Acked-by: Cyril Hrubis <chrubis@suse.cz>
+-
+-Upstream-Status: Backport [https://github.com/linux-test-project/ltp/commit/d656a447893dccc310c975a239f482278550c3e0]
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+----
+- testcases/kernel/mem/tunable/overcommit_memory.c | 11 ++++-------
+- 1 file changed, 4 insertions(+), 7 deletions(-)
+-
+-diff --git a/testcases/kernel/mem/tunable/overcommit_memory.c b/testcases/kernel/mem/tunable/overcommit_memory.c
+-index 555298f..345764d 100644
+---- a/testcases/kernel/mem/tunable/overcommit_memory.c
+-+++ b/testcases/kernel/mem/tunable/overcommit_memory.c
+-@@ -36,11 +36,10 @@
+-  *
+-  * The program is designed to test the two tunables:
+-  *
+-- * When overcommit_memory = 0, allocatable memory can't overextends
+-- * the amount of free memory. I choose the three cases:
+-+ * When overcommit_memory = 0, allocatable memory can't overextend
+-+ * the amount of total memory:
+-  * a. less than free_total:    free_total / 2, alloc should pass.
+-- * b. greater than free_total: free_total * 2, alloc should fail.
+-- * c. equal to sum_total:      sum_tatal,      alloc should fail
+-+ * b. greater than sum_total:   sum_total * 2, alloc should fail.
+-  *
+-  * When overcommit_memory = 1, it can alloc enough much memory, I
+-  * choose the three cases:
+-@@ -164,9 +163,7 @@ static void overcommit_memory_test(void)
+- 
+- 	update_mem();
+- 	alloc_and_check(free_total / 2, EXPECT_PASS);
+--	update_mem();
+--	alloc_and_check(free_total * 2, EXPECT_FAIL);
+--	alloc_and_check(sum_total, EXPECT_FAIL);
+-+	alloc_and_check(sum_total * 2, EXPECT_FAIL);
+- 
+- 	/* start to test overcommit_memory=1 */
+- 	set_sys_tune("overcommit_memory", 1, 1);
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch b/meta/recipes-extended/ltp/ltp/0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch
+deleted file mode 100644
+index 0e56c08255e..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From a5046625eaeed2d3fba456c3ba84c6c141c2ad7c Mon Sep 17 00:00:00 2001
+-From: He Zhe <zhe.he@windriver.com>
+-Date: Thu, 29 Aug 2019 21:09:46 +0800
+-Subject: [PATCH] syscall/rt_sigtimedwait01: Fix wrong sigset length for MIPS
+-
+-rt_sigtimedwait01 fails as follow on MIPS arches
+-rt_sigtimedwait01    1  TFAIL  :  .../sigwaitinfo01.c:58: test_empty_set
+-(.../sigwaitinfo01.c: 148): Unexpected failure:
+-TEST_ERRNO=EINVAL(22): Invalid argument
+-
+-As this case purposely bypasses glibc, it should align with the size of kernel
+-definition of sigset_t which is different from other arches.
+-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/arch/mips/include/uapi/asm/signal.h#n15
+-
+-This patch turns to use _NSIG which is always right for all arches.
+-
+-Upstream-Status: Backport [a5046625eaeed2d3fba456c3ba84c6c141c2ad7c]
+-
+-Suggested-by: Jan Stancek <jstancek@redhat.com>
+-Acked-by: Jan Stancek <jstancek@redhat.com>
+-Acked-by: Cyril Hrubis <chrubis@suse.cz>
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+-Signed-off-by: Petr Vorel <pvorel@suse.cz>
+----
+- testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c | 5 ++---
+- 1 file changed, 2 insertions(+), 3 deletions(-)
+-
+-diff --git a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
+-index 5a32ce1..6a30c27 100644
+---- a/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
+-+++ b/testcases/kernel/syscalls/sigwaitinfo/sigwaitinfo01.c
+-@@ -128,9 +128,8 @@ static int my_sigtimedwait(const sigset_t * set, siginfo_t * info,
+- static int my_rt_sigtimedwait(const sigset_t * set, siginfo_t * info,
+- 			      struct timespec *timeout)
+- {
+--
+--	/* The last argument is (number_of_signals)/(bits_per_byte), which are 64 and 8, resp. */
+--	return ltp_syscall(__NR_rt_sigtimedwait, set, info, timeout, 8);
+-+	/* _NSIG is always the right number of bits of signal map for all arches */
+-+	return ltp_syscall(__NR_rt_sigtimedwait, set, info, timeout, _NSIG/8);
+- }
+- #endif
+- 
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch
+deleted file mode 100644
+index 6ea26150fbf..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From e747d0456adc080a1d31fb653bda9dc491795c80 Mon Sep 17 00:00:00 2001
+-From: Jan Stancek <jstancek@redhat.com>
+-Date: Sun, 16 Jun 2019 11:14:16 +0200
+-Subject: [PATCH] syscalls/tgkill03: wait for defunct tid to get detached
+-
+-Case where defunct tid is used has been observed to sporadically fail:
+-  tgkill03.c:96: FAIL: Defunct tid should have failed with ESRCH: SUCCESS
+-
+-glibc __pthread_timedjoin_ex() waits for CLONE_CHILD_CLEARTID to clear tid,
+-and then resumes. Kernel clears it (glibc pd->tid) at:
+-  do_exit
+-    exit_mm
+-      mm_release
+-        put_user(0, tsk->clear_child_tid);
+-
+-but kernel tid is still valid, presumably until:
+-  release_task
+-    __exit_signal
+-      __unhash_process
+-        detach_pid
+-
+-To avoid race wait until /proc/<pid>/task/<tid> disappears.
+-
+-Signed-off-by: Jan Stancek <jstancek@redhat.com>
+-Reviewed-by: Li Wang <liwang@redhat.com>
+-Acked-by: Sumit Garg <sumit.garg@linaro.org>
+-
+-Upstream-Status: Backport
+-[https://github.com/linux-test-project/ltp/commit/e747d0456adc080a1d31fb653bda9dc491795c80]
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+----
+- testcases/kernel/syscalls/tgkill/tgkill03.c | 6 +++++-
+- 1 file changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/testcases/kernel/syscalls/tgkill/tgkill03.c b/testcases/kernel/syscalls/tgkill/tgkill03.c
+-index f5bbdc5..593a217 100644
+---- a/testcases/kernel/syscalls/tgkill/tgkill03.c
+-+++ b/testcases/kernel/syscalls/tgkill/tgkill03.c
+-@@ -7,6 +7,7 @@
+- 
+- #include <pthread.h>
+- #include <pwd.h>
+-+#include <stdio.h>
+- #include <sys/types.h>
+- 
+- #include "tst_safe_pthread.h"
+-@@ -42,6 +43,7 @@ static void setup(void)
+- {
+- 	sigset_t sigusr1;
+- 	pthread_t defunct_thread;
+-+	char defunct_tid_path[PATH_MAX];
+- 
+- 	sigemptyset(&sigusr1);
+- 	sigaddset(&sigusr1, SIGUSR1);
+-@@ -55,8 +57,9 @@ static void setup(void)
+- 	TST_CHECKPOINT_WAIT(0);
+- 
+- 	SAFE_PTHREAD_CREATE(&defunct_thread, NULL, defunct_thread_func, NULL);
+--
+- 	SAFE_PTHREAD_JOIN(defunct_thread, NULL);
+-+	sprintf(defunct_tid_path, "/proc/%d/task/%d", getpid(), defunct_tid);
+-+	TST_RETRY_FN_EXP_BACKOFF(access(defunct_tid_path, R_OK), -1, 15);
+- }
+- 
+- static void cleanup(void)
+-@@ -108,4 +111,5 @@ static struct tst_test test = {
+- 	.setup = setup,
+- 	.cleanup = cleanup,
+- 	.test = run,
+-+	.timeout = 20,
+- };
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch b/meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch
+new file mode 100644
+index 00000000000..93308445098
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-testcases-fix-an-absent-format-string-issue.patch
+@@ -0,0 +1,24 @@
++From 476ce907fa18042cdde0a244ba9a46cd895ce76c Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Thu, 12 Dec 2019 17:56:02 +0100
++Subject: [PATCH] testcases: fix an absent format string issue
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ .../kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c     | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c b/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c
++index 27dbc6626..19d943d06 100644
++--- a/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c
+++++ b/testcases/kernel/syscalls/pidfd_send_signal/pidfd_send_signal03.c
++@@ -59,7 +59,7 @@ static void verify_pidfd_send_signal(void)
++ 
++ 		/* Manipulate PID for next process */
++ 		sprintf(pid_str, "%d", pid - 1);
++-		SAFE_FILE_PRINTF(last_pid_file, pid_str);
+++		SAFE_FILE_PRINTF(last_pid_file, "%s", pid_str);
++ 
++ 		new_pid = SAFE_FORK();
++ 		if (new_pid == 0) {
+diff --git a/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch b/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
+deleted file mode 100644
+index f4f87f38ab7..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-testcases-use-python3-everywhere-to-run-python-scrip.patch
++++ /dev/null
+@@ -1,161 +0,0 @@
+-From 0463d793566772a606255957915f99d166d5740c Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 28 Aug 2019 18:30:23 +0200
+-Subject: [PATCH] testcases: use python3 everywhere to run python scripts
+-
+-The scripts themselves have #!/usr/bin/python3 in them,
+-so I trust they are already py3-compatible.
+-
 -Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- testcases/kernel/power_management/runpwtests05.sh  |  2 +-
+- .../power_management/runpwtests_exclusive01.sh     |  2 +-
+- .../power_management/runpwtests_exclusive02.sh     |  2 +-
+- .../power_management/runpwtests_exclusive03.sh     |  2 +-
+- .../power_management/runpwtests_exclusive04.sh     |  2 +-
+- .../power_management/runpwtests_exclusive05.sh     |  2 +-
+- testcases/network/nfsv4/acl/runtest                | 14 +++++++-------
+- testcases/realtime/func/pi-tests/run_auto.sh       |  6 +++---
+- 8 files changed, 16 insertions(+), 16 deletions(-)
 -
--use relative path in symbolic links, or it fails in staging
--sed expression from udev
--
--7/29/2010 - created by Qing He <qing.he@intel.com>
--
--diff -u include.orig/buildmacros include/buildmacros
----- include.orig/buildmacros	2010-07-29 17:39:48.000000000 +0800
--+++ include/buildmacros	2010-07-29 18:20:34.000000000 +0800
--@@ -88,9 +88,11 @@
-- 	../$(INSTALL) -m 755 -d $(PKG_LIB_DIR); \
-- 	../$(INSTALL) -T so_base $(LIBNAME).lai $(PKG_LIB_DIR); \
-- 	if test "x$(PKG_DEVLIB_DIR)" != "x$(PKG_LIB_DIR)" ; then \
---	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).a $(PKG_LIB_DIR)/$(LIBNAME).a; \
---	../$(INSTALL) -S $(PKG_DEVLIB_DIR)/$(LIBNAME).la $(PKG_LIB_DIR)/$(LIBNAME).la; \
---	../$(INSTALL) -S $(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so; \
--+	rel_lib_prefix=$$(echo $(PKG_LIB_DIR) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
--+	../$(INSTALL) -S $$rel_lib_prefix$(PKG_DEVLIB_DIR)/$(LIBNAME).a $(PKG_LIB_DIR)/$(LIBNAME).a; \
--+	../$(INSTALL) -S $$rel_lib_prefix$(PKG_DEVLIB_DIR)/$(LIBNAME).la $(PKG_LIB_DIR)/$(LIBNAME).la; \
--+	rel_devlib_prefix=$$(echo $(PKG_DEVLIB_DIR) | sed 's,\(^/\|\)[^/][^/]*,..,g'); \
--+	../$(INSTALL) -S $$rel_devlib_prefix$(PKG_LIB_DIR)/$(LIBNAME).so $(PKG_DEVLIB_DIR)/$(LIBNAME).so; \
-- 	fi
-- else
-- INSTALL_LTLIB_DEV = $(INSTALL_LTLIB_STATIC)
-diff --git a/meta/recipes-support/attr/files/run-ptest b/meta/recipes-support/attr/files/run-ptest
+-diff --git a/testcases/kernel/power_management/runpwtests05.sh b/testcases/kernel/power_management/runpwtests05.sh
+-index 8a7d0f6e0..43e234d01 100755
+---- a/testcases/kernel/power_management/runpwtests05.sh
+-+++ b/testcases/kernel/power_management/runpwtests05.sh
+-@@ -35,7 +35,7 @@ else
+- 	max_sched_smt=1
+- fi
+- 
+--tst_test_cmds python
+-+tst_test_cmds python3
+- 
+- if ! grep sched_debug -qw /proc/cmdline ; then
+- 	tst_brkm TCONF "Kernel cmdline parameter 'sched_debug' needed," \
+-diff --git a/testcases/kernel/power_management/runpwtests_exclusive01.sh b/testcases/kernel/power_management/runpwtests_exclusive01.sh
+-index ec78319e2..9fefcbf6e 100755
+---- a/testcases/kernel/power_management/runpwtests_exclusive01.sh
+-+++ b/testcases/kernel/power_management/runpwtests_exclusive01.sh
+-@@ -35,7 +35,7 @@ else
+- 	max_sched_smt=1
+- fi
+- 
+--tst_test_cmds python
+-+tst_test_cmds python3
+- 
+- hyper_threaded=$(is_hyper_threaded)
+- multi_socket=$(is_multi_socket)
+-diff --git a/testcases/kernel/power_management/runpwtests_exclusive02.sh b/testcases/kernel/power_management/runpwtests_exclusive02.sh
+-index e107fce35..2cd0ecb05 100755
+---- a/testcases/kernel/power_management/runpwtests_exclusive02.sh
+-+++ b/testcases/kernel/power_management/runpwtests_exclusive02.sh
+-@@ -33,7 +33,7 @@ else
+- 	max_sched_smt=1
+- fi
+- 
+--tst_test_cmds python
+-+tst_test_cmds python3
+- 
+- hyper_threaded=$(is_hyper_threaded)
+- multi_socket=$(is_multi_socket)
+-diff --git a/testcases/kernel/power_management/runpwtests_exclusive03.sh b/testcases/kernel/power_management/runpwtests_exclusive03.sh
+-index 490344bb3..ab3a5d11d 100755
+---- a/testcases/kernel/power_management/runpwtests_exclusive03.sh
+-+++ b/testcases/kernel/power_management/runpwtests_exclusive03.sh
+-@@ -35,7 +35,7 @@ else
+- 	max_sched_smt=1
+- fi
+- 
+--tst_test_cmds python
+-+tst_test_cmds python3
+- 
+- hyper_threaded=$(is_hyper_threaded)
+- multi_socket=$(is_multi_socket)
+-diff --git a/testcases/kernel/power_management/runpwtests_exclusive04.sh b/testcases/kernel/power_management/runpwtests_exclusive04.sh
+-index 978ca02ae..438ef603f 100755
+---- a/testcases/kernel/power_management/runpwtests_exclusive04.sh
+-+++ b/testcases/kernel/power_management/runpwtests_exclusive04.sh
+-@@ -27,7 +27,7 @@ export TST_TOTAL=2
+- # Checking test environment
+- check_kervel_arch
+- 
+--tst_test_cmds python
+-+tst_test_cmds python3
+- 
+- hyper_threaded=$(is_hyper_threaded)
+- multi_socket=$(is_multi_socket)
+-diff --git a/testcases/kernel/power_management/runpwtests_exclusive05.sh b/testcases/kernel/power_management/runpwtests_exclusive05.sh
+-index a0dad5834..3a9afdbf2 100755
+---- a/testcases/kernel/power_management/runpwtests_exclusive05.sh
+-+++ b/testcases/kernel/power_management/runpwtests_exclusive05.sh
+-@@ -35,7 +35,7 @@ else
+- 	max_sched_smt=1
+- fi
+- 
+--tst_test_cmds python
+-+tst_test_cmds python3
+- 
+- hyper_threaded=$(is_hyper_threaded)
+- multi_socket=$(is_multi_socket)
+-diff --git a/testcases/network/nfsv4/acl/runtest b/testcases/network/nfsv4/acl/runtest
+-index d2e1b4c49..a859e85bc 100755
+---- a/testcases/network/nfsv4/acl/runtest
+-+++ b/testcases/network/nfsv4/acl/runtest
+-@@ -22,7 +22,7 @@ do
+- done
+- 
+- #  creation of users on the remote machine (removed only at the end of the tests)
+--rsh -n $REMOTEHOST python $PWD/create_users.py -u 50 -g 50
+-+rsh -n $REMOTEHOST python3 $PWD/create_users.py -u 50 -g 50
+- 
+- echo "Starting ACL testing"
+- 
+-@@ -51,19 +51,19 @@ echo "Basic tests finished"
+- 
+- echo "LONG ACL TEST"
+- echo "creating necessary users and groups"
+--python create_users.py -u 50 -g 50
+-+python3 create_users.py -u 50 -g 50
+- echo "creating necessary users and groups on the remote host"
+- mkdir $NFSMNTDIR/lacl-testdir
+--python test_long_acl.py -l $MAXLENGTH -p $NFSMNTDIR/lacl-testdir
+-+python3 test_long_acl.py -l $MAXLENGTH -p $NFSMNTDIR/lacl-testdir
+- rm -rf $NFSMNTDIR/lacl-testdir
+- echo "Long ACL test OK with $MAXLENGTH entries"
+- echo "ACL STRESSING TEST"
+--python setacl_stress.py -n 100 -u $USER_NB -g $GRP_NB -f $FILE_NB -p $NFSMNTDIR
+-+python3 setacl_stress.py -n 100 -u $USER_NB -g $GRP_NB -f $FILE_NB -p $NFSMNTDIR
+- 
+- # remove local an remote users
+--python cleanusers.py
+--python cleangroups.py
+--rsh -n $REMOTEHOST python $PWD/cleanusers.py
+-+python3 cleanusers.py
+-+python3 cleangroups.py
+-+rsh -n $REMOTEHOST python3 $PWD/cleanusers.py
+- 
+- echo "Test OK"
+- 
+-diff --git a/testcases/realtime/func/pi-tests/run_auto.sh b/testcases/realtime/func/pi-tests/run_auto.sh
+-index d13026049..277988568 100755
+---- a/testcases/realtime/func/pi-tests/run_auto.sh
+-+++ b/testcases/realtime/func/pi-tests/run_auto.sh
+-@@ -15,15 +15,15 @@ $SCRIPTS_DIR/run_c_files.sh $profile testpi-0
+- 
+- export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-1.log"
+- $SCRIPTS_DIR/run_c_files.sh $profile testpi-1
+--PYTHONPATH=../../  python parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
+-+PYTHONPATH=../../  python3 parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
+- 
+- export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-2.log"
+- $SCRIPTS_DIR/run_c_files.sh $profile testpi-2
+--PYTHONPATH=../../  python parse-testpi2.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
+-+PYTHONPATH=../../  python3 parse-testpi2.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
+- 
+- export LOG_FILE="$LOG_DIR/$LOG_FORMAT-testpi-4.log"
+- $SCRIPTS_DIR/run_c_files.sh $profile testpi-4
+--PYTHONPATH=../../  python parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
+-+PYTHONPATH=../../  python3 parse-testpi1.py $LOG_FILE 2>&1 | tee -a $LOG_FILE
+- 
+- 
+- export LOG_FILE=""
+diff --git a/meta/recipes-extended/ltp/ltp/0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch b/meta/recipes-extended/ltp/ltp/0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch
 deleted file mode 100644
-index a6c6867f2d9..00000000000
---- a/meta/recipes-support/attr/files/run-ptest
+index c936b788fe1..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch
 +++ /dev/null
-@@ -1,5 +0,0 @@
--#!/bin/sh
+@@ -1,36 +0,0 @@
+-From 156776a3e29491b363fdc9811912e1298655d060 Mon Sep 17 00:00:00 2001
+-From: Steven Price <steven.price@arm.com>
+-Date: Fri, 19 Jul 2019 13:48:17 +0100
+-Subject: [PATCH] ustat02: Fix EFAULT in 32bit compatibility mode
 -
--make -C test -k tests root-tests |sed \
-- -e 's|^\[.*\] \(.*\) -- ok$|PASS: \1|' \
-- -e 's|^\[.*\] \(.*\) -- failed|FAIL: \1|'
+-The size of dev_t is larger than 32 bits which causes the dev argument
+-to be passed incorrectly. On Arm this means that the EFAULT test case
+-actually returns EINVAL because the device number isn't recognised.
+-
+-Signed-off-by: Steven Price <steven.price@arm.com>
+-Acked-by: Li Wang <liwang@redhat.com>
+-
+-Upstream-Status: Backport
+-[https://github.com/linux-test-project/ltp/commit/156776a3e29491b363fdc9811912e1298655d060]
+-
+-Signed-off-by: He Zhe <zhe.he@windriver.com>
+----
+- testcases/kernel/syscalls/ustat/ustat02.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/testcases/kernel/syscalls/ustat/ustat02.c b/testcases/kernel/syscalls/ustat/ustat02.c
+-index 9bbe4f3..1a0e9e0 100644
+---- a/testcases/kernel/syscalls/ustat/ustat02.c
+-+++ b/testcases/kernel/syscalls/ustat/ustat02.c
+-@@ -36,7 +36,7 @@ int TST_TOTAL = ARRAY_SIZE(tc);
+- 
+- void run(unsigned int test)
+- {
+--	TEST(tst_syscall(__NR_ustat, *tc[test].dev, tc[test].buf));
+-+	TEST(tst_syscall(__NR_ustat, (unsigned int)*tc[test].dev, tc[test].buf));
+- 
+- 	if ((TST_RET == -1) && (TST_ERR == tc[test].exp_errno))
+- 		tst_res(TPASS | TTERRNO, "ustat(2) expected failure");
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch b/meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch
+deleted file mode 100644
+index 12e47eb2b61..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0002-check-for-RES_USE_INET6-during-configure.patch
++++ /dev/null
+@@ -1,68 +0,0 @@
+-From 7bc134545b7beb09717a60541530c20a1a5740d3 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Fri, 26 Jul 2019 10:55:28 -0700
+-Subject: [PATCH 2/2] check for RES_USE_INET6 during configure
+-
+-glibc 2.30 has remove RES_USE_INET6 define which has been on its way out
+-since 2.26 release, this check ensures that we detect it before using it
+-
+-Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-July/012955.html]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- configure.ac                                        | 13 +++++++++++++
+- testcases/network/multicast/mc_gethost/mc_gethost.c |  6 ++++++
+- 2 files changed, 19 insertions(+)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 2255b5c181..ed7acccb01 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -91,6 +91,19 @@ AC_CHECK_FUNCS([ \
+-     vmsplice \
+- ])
+- 
+-+#check defines
+-+AC_MSG_CHECKING([for RES_USE_INET6])
+-+AC_COMPILE_IFELSE( [AC_LANG_PROGRAM([[#include <resolv.h>]],
+-+  [[char dummy[RES_USE_INET6];]])],
+-+  [
+-+    AC_MSG_RESULT([yes])
+-+    AC_DEFINE_UNQUOTED([HAVE_RES_USE_INET6], 1, [Define to 1 if you have the RES_USE_INET6 macro.])
+-+  ],
+-+  [
+-+    AC_MSG_RESULT([no])
+-+    AC_DEFINE_UNQUOTED([HAVE_RES_USE_INET6], 0, [Define to 1 if you have the RES_USE_INET6 macro.])
+-+  ]
+-+)
+- # Tools knobs
+- 
+- # Expect
+-diff --git a/testcases/network/multicast/mc_gethost/mc_gethost.c b/testcases/network/multicast/mc_gethost/mc_gethost.c
+-index 9cc15d086b..d1cae5441a 100644
+---- a/testcases/network/multicast/mc_gethost/mc_gethost.c
+-+++ b/testcases/network/multicast/mc_gethost/mc_gethost.c
+-@@ -17,6 +17,8 @@
+- #include <string.h>
+- #include <stdlib.h>
+- 
+-+#include "config.h"
+-+
+- #ifndef LOG_PERROR
+- #define LOG_PERROR 0
+- #endif
+-@@ -50,8 +52,12 @@ usage:
+- 		argv++, argc--;
+- 	}
+- 	if (argc >= 1 && !strcmp(*argv, "-6")) {
+-+#if HAVE_RES_USE_INET6
+- 		af = AF_INET6, size = IN6ADDRSZ;
+- 		_res.options |= RES_USE_INET6;
+-+#else
+-+		af = AF_INET, size = INADDRSZ;
+-+#endif
+- 		argv++, argc--;
+- 	}
+- 	if (argc >= 1 && !strcmp(*argv, "-f")) {
+--- 
+-2.22.0
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch b/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+index c0f69ecf5fc..df3e8831f54 100644
+--- a/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
++++ b/meta/recipes-extended/ltp/ltp/0003-Check-if-__GLIBC_PREREQ-is-defined-before-using-it.patch
+@@ -1,4 +1,4 @@
+-From 29ce9fdab3bd34e69d73b5b890795559c06553f7 Mon Sep 17 00:00:00 2001
++From 1ce47a6ed811fd78ed04ea2f82e6321c6bca57b6 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 7 Jan 2016 19:40:08 +0000
+ Subject: [PATCH] Check if __GLIBC_PREREQ is defined before using it
+@@ -10,16 +10,17 @@ Upstream-Status: Pending
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++
+ ---
+  testcases/kernel/syscalls/accept4/accept4_01.c | 7 +++++++
+  1 file changed, 7 insertions(+)
+ 
+ diff --git a/testcases/kernel/syscalls/accept4/accept4_01.c b/testcases/kernel/syscalls/accept4/accept4_01.c
+-index dd289cf..76aa969 100644
++index 29e18f27d..07444a46f 100644
+ --- a/testcases/kernel/syscalls/accept4/accept4_01.c
+ +++ b/testcases/kernel/syscalls/accept4/accept4_01.c
+ @@ -38,6 +38,7 @@
+- static struct sockaddr_in conn_addr;
++ static struct sockaddr_in *conn_addr, *accept_addr;
+  static int listening_fd;
+  
+ +#if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+@@ -34,25 +35,21 @@ index dd289cf..76aa969 100644
+  
+  static int create_listening_socket(void)
+  {
+-@@ -115,6 +117,7 @@ static void verify_accept4(unsigned int nr)
+- 	SAFE_CONNECT(connfd, (struct sockaddr *)&conn_addr, sizeof(conn_addr));
+- 	addrlen = sizeof(claddr);
++@@ -114,12 +116,17 @@ static void verify_accept4(unsigned int nr)
++ 	SAFE_CONNECT(connfd, (struct sockaddr *)conn_addr, sizeof(*conn_addr));
++ 	addrlen = sizeof(*accept_addr);
+  
+ +#if defined(__GLIBC__) && defined(__GLIBC_PREREQ)
+  #if !(__GLIBC_PREREQ(2, 10))
+- 	TEST(accept4_01(listening_fd, (struct sockaddr *)&claddr, &addrlen,
++ 	TEST(accept4_01(listening_fd, (struct sockaddr *)accept_addr, &addrlen,
+  				tcase->cloexec | tcase->nonblock));
+-@@ -122,6 +125,10 @@ static void verify_accept4(unsigned int nr)
+- 	TEST(accept4(listening_fd, (struct sockaddr *)&claddr, &addrlen,
++ #else
++ 	TEST(accept4(listening_fd, (struct sockaddr *)accept_addr, &addrlen,
+  				tcase->cloexec | tcase->nonblock));
+- #endif
+++#endif
+ +#else
+ +	TEST(accept4(listening_fd, (struct sockaddr *)&claddr, &addrlen,
+ +				tcase->cloexec | tcase->nonblock));
+-+#endif
++ #endif
+  	if (TST_RET == -1) {
+  		if (TST_ERR == ENOSYS)
+- 			tst_brk(TCONF, "syscall __NR_accept4 not supported");
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch b/meta/recipes-extended/ltp/ltp/0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
+deleted file mode 100644
+index 8704e5ffe8a..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
++++ /dev/null
+@@ -1,82 +0,0 @@
+-From 794933b38354a2612cf2c471f11798b306f35315 Mon Sep 17 00:00:00 2001
+-From: Jan Stancek <jstancek@redhat.com>
+-Date: Mon, 20 May 2019 20:47:20 +0200
+-Subject: [PATCH] shmctl01: don't use hardcoded index == 0 for SHM_STAT test
+-
+-Test fails on SHM_STAT testcase:
+-   shmctl01    5  TFAIL  :  shmctl01.c:173: shmctl01 call failed
+-                            errno = 22 : Invalid argument
+-   shmctl(0, SHM_STAT, 0x601060)           = -EINVAL
+-
+-since following commit:
+-   commit 99db46ea292780cd978d56932d9445b1e8bdafe8
+-   Author: Manfred Spraul <manfred@colorfullife.com>
+-   Date:   Tue May 14 15:46:36 2019 -0700
+-     ipc: do cyclic id allocation for the ipc object.
+-
+-Don't rely on index 0 being always available, but instead
+-use (maximum) index returned by SHM_INFO.
+-
+-Signed-off-by: Jan Stancek <jstancek@redhat.com>
+-Reviewed-by: Petr Vorel <pvorel@suse.cz>
+-Acked-by: Cyril Hrubis <chrubis@suse.cz>
+-
+-Upstream-Status: Backport
+-[https://github.com/linux-test-project/ltp/commit/db0a43d9388be2c347a8306751bbe6bec086d062]
+-
+-Signed-off-by: Hongzhi Song <hongzhi.song@windriver.com>
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- testcases/kernel/syscalls/ipc/shmctl/shmctl01.c | 21 ++++++++++++++++++---
+- 1 file changed, 18 insertions(+), 3 deletions(-)
+-
+-diff --git a/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c b/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c
+-index 1b46977..52bf23a 100644
+---- a/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c
+-+++ b/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c
+-@@ -79,6 +79,7 @@ static void func_info(int ret);
+- 
+- /* Check routine for SHM_STAT */
+- static void func_sstat(int ret);
+-+static void func_sstat_setup(void);
+- 
+- /* Check routine for SHM_LOCK */
+- static void func_lock(int ret);
+-@@ -110,7 +111,7 @@ static struct test_case_t {
+- #endif
+- 	{&shm_id_1, IPC_SET, &buf, func_set, set_setup},
+- 	{&shm_id_1, IPC_INFO, (struct shmid_ds *) &info, func_info, NULL},
+--	{&shm_index, SHM_STAT, &buf, func_sstat, NULL},
+-+	{&shm_index, SHM_STAT, &buf, func_sstat, func_sstat_setup},
+- 	{&shm_id_1, SHM_LOCK, NULL, func_lock, NULL},
+- 	{&shm_id_1, SHM_UNLOCK, NULL, func_unlock, NULL},
+- 	{&shm_id_1, IPC_RMID, NULL, func_rmid, NULL},
+-@@ -407,9 +408,23 @@ static void func_info(int ret)
+- static void func_sstat(int ret)
+- {
+- 	if (ret >= 0)
+--		tst_resm(TPASS, "get correct shared memory id");
+-+		tst_resm(TPASS, "get correct shared memory id for index: %d",
+-+			shm_index);
+- 	else
+--		tst_resm(TFAIL, "shared memory id is incorrect");
+-+		tst_resm(TFAIL, "shared memory id is incorrect, index: %d",
+-+			shm_index);
+-+}
+-+
+-+static void func_sstat_setup(void)
+-+{
+-+	struct shm_info tmp;
+-+	int ret;
+-+
+-+	ret = shmctl(shm_id_1, SHM_INFO, (void *)&tmp);
+-+	if (ret < 0)
+-+		tst_resm(TFAIL|TERRNO, "shmctl(SHM_INFO)");
+-+	else
+-+		shm_index = ret;
+- }
+- 
+- static void func_lock(int ret)
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0011-direct_io-diotest4-drop-MAP_FIXED.patch b/meta/recipes-extended/ltp/ltp/0011-direct_io-diotest4-drop-MAP_FIXED.patch
+deleted file mode 100644
+index 9cd188f6567..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0011-direct_io-diotest4-drop-MAP_FIXED.patch
++++ /dev/null
+@@ -1,56 +0,0 @@
+-From f210d7e19b721041f31b7f258a169f89dc850303 Mon Sep 17 00:00:00 2001
+-From: Jan Stancek <jstancek@redhat.com>
+-Date: Thu, 4 Jul 2019 16:45:23 +0200
+-Subject: [PATCH] direct_io/diotest4: drop MAP_FIXED
+-
+-Hongzhi reports that this test is failing on mips64 with 5.1+:
+-  diotest4 10 TBROK : diotest4.c:368: can't mmap file: Invalid argument
+-  diotest4 11 TBROK : diotest4.c:368: Remaining cases broken
+-I could reproduce it on emulated 5kc-malta, running 5.2.0-rc7.
+-
+-Test is trying to map into area immediately following heap as MAP_SHARED,
+-but it used wrong alignment (fixed by 'lapi/mmap.h: include config.h').
+-
+-Usage of MAP_FIXED seems unnecessary, so drop that too and let the kernel
+-pick an address.
+-
+-Reported-by: Hongzhi.Song <hongzhi.song@windriver.com>
+-Signed-off-by: Jan Stancek <jstancek@redhat.com>
+-Acked-by: Cyril Hrubis <chrubis@suse.cz>
+-
+-Upstream-Status: Backport
+-[https://github.com/linux-test-project/ltp/commit/f5444eeeabf252b8884b9465d277b6af853819e3]
+-
+-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+----
+- testcases/kernel/io/direct_io/diotest4.c | 8 ++------
+- 1 file changed, 2 insertions(+), 6 deletions(-)
+-
+-diff --git a/testcases/kernel/io/direct_io/diotest4.c b/testcases/kernel/io/direct_io/diotest4.c
+-index e4616e4..bf200cd 100644
+---- a/testcases/kernel/io/direct_io/diotest4.c
+-+++ b/testcases/kernel/io/direct_io/diotest4.c
+-@@ -352,18 +352,14 @@ int main(int argc, char *argv[])
+- 	total++;
+- 
+- 	/* Test-10: read, write to a mmaped file */
+--	shm_base = (char *)(((long)sbrk(0) + (shmsz - 1)) & ~(shmsz - 1));
+--	if (shm_base == NULL) {
+--		tst_brkm(TBROK, cleanup, "sbrk failed: %s", strerror(errno));
+--	}
+- 	offset = 4096;
+- 	count = bufsize;
+- 	if ((fd = open(filename, O_DIRECT | O_RDWR)) < 0) {
+- 		tst_brkm(TBROK, cleanup, "can't open %s: %s",
+- 			 filename, strerror(errno));
+- 	}
+--	shm_base = mmap(shm_base, 0x100000, PROT_READ | PROT_WRITE,
+--			MAP_SHARED | MAP_FIXED, fd, 0);
+-+	shm_base = mmap(0, 0x100000, PROT_READ | PROT_WRITE,
+-+			MAP_SHARED, fd, 0);
+- 	if (shm_base == (caddr_t) - 1) {
+- 		tst_brkm(TBROK, cleanup, "can't mmap file: %s",
+- 			 strerror(errno));
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp/0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch b/meta/recipes-extended/ltp/ltp/0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
+deleted file mode 100644
+index aecbc80e9b5..00000000000
+--- a/meta/recipes-extended/ltp/ltp/0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch
++++ /dev/null
+@@ -1,64 +0,0 @@
+-From 4ac747c1f7ff8e2ec2567d6672822e95a9b56e55 Mon Sep 17 00:00:00 2001
+-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+-Date: Mon, 15 Jul 2019 03:39:06 -0400
+-Subject: [PATCH] getrlimit03: adjust a bit of code to compatiable with mips32
+-
+-Error info:
+-getrlimit03.c:104: FAIL: __NR_prlimit64(0) had rlim_cur =
+-ffffffffffffffff but __NR_getrlimit(0) had rlim_cur = 7fffffff
+-
+-According to kernel code: [arch/mips/include/uapi/asm/resource.h]
+-RLIM_INFINITY is set to 0x7fffffffUL instead of ULONG_MAX on mips32.
+-
+- /*
+- * SuS says limits have to be unsigned.
+- * Which makes a ton more sense anyway,
+- * but we keep the old value on MIPS32,
+- * for compatibility:
+- */
+- #ifndef __mips64
+- # define RLIM_INFINITY      0x7fffffffUL
+- #endif
+-
+-Adding conditional statement about mips to fix this.
+-
+-Signed-off-by: Jan Stancek <jstancek@redhat.com>
+-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+-
+-Upstream-Status: Backport
+-[https://github.com/linux-test-project/ltp/commit/7a3bca63cd7f059d490b6274f0fdf3247be93fde]
+-
+-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+----
+- testcases/kernel/syscalls/getrlimit/getrlimit03.c | 8 +++++++-
+- 1 file changed, 7 insertions(+), 1 deletion(-)
+-
+-diff --git a/testcases/kernel/syscalls/getrlimit/getrlimit03.c b/testcases/kernel/syscalls/getrlimit/getrlimit03.c
+-index e4d56c4..319bc49 100644
+---- a/testcases/kernel/syscalls/getrlimit/getrlimit03.c
+-+++ b/testcases/kernel/syscalls/getrlimit/getrlimit03.c
+-@@ -26,6 +26,7 @@
+- 
+- #include "tst_test.h"
+- #include "lapi/syscalls.h"
+-+#include "lapi/abisize.h"
+- 
+- /**
+-  * Linux provides an "old" getrlimit syscall handler that uses signed long,
+-@@ -61,7 +62,12 @@ struct rlimit_ulong {
+- 	unsigned long rlim_cur;
+- 	unsigned long rlim_max;
+- };
+--const unsigned long RLIM_INFINITY_UL = ULONG_MAX;
+-+
+-+#if defined(__mips__) && defined(TST_ABI32)
+-+	const unsigned long RLIM_INFINITY_UL = 0x7fffffffUL;
+-+#else
+-+	const unsigned long RLIM_INFINITY_UL = ULONG_MAX;
+-+#endif
+- 
+- static int getrlimit_ulong(int resource, struct rlimit_ulong *rlim)
+- {
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/ltp/ltp_20190517.bb b/meta/recipes-extended/ltp/ltp_20190930.bb
+similarity index 84%
+rename from meta/recipes-extended/ltp/ltp_20190517.bb
+rename to meta/recipes-extended/ltp/ltp_20190930.bb
+index 60f749b4c01..e56bb575d29 100644
+--- a/meta/recipes-extended/ltp/ltp_20190517.bb
++++ b/meta/recipes-extended/ltp/ltp_20190930.bb
+@@ -27,7 +27,7 @@ CFLAGS_append_x86-64 = " -fomit-frame-pointer"
+ 
+ CFLAGS_append_powerpc64 = " -D__SANE_USERSPACE_TYPES__"
+ CFLAGS_append_mipsarchn64 = " -D__SANE_USERSPACE_TYPES__"
+-SRCREV = "ac33ef87f0b9dc56533026435be3ea8c67ce86d2"
++SRCREV = "c9707b465a08397569920b676345474f44327200"
+ 
+ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0001-build-Add-option-to-select-libc-implementation.patch \
+@@ -38,19 +38,9 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0007-Fix-test_proc_kill-hanging.patch \
+            file://0008-testcases-network-nfsv4-acl-acl1.c-Security-fix-on-s.patch \
+            file://0009-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
+-           file://0010-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch \
+-           file://0011-direct_io-diotest4-drop-MAP_FIXED.patch \
+-           file://0012-getrlimit03-adjust-a-bit-of-code-to-compatiable-with.patch \
+-           file://0001-Add-configure-time-check-for-getdents-getdents64-API.patch \
+-           file://0002-check-for-RES_USE_INET6-during-configure.patch \
+-           file://0001-syscalls-tgkill03-wait-for-defunct-tid-to-get-detach.patch \
+-           file://0001-ustat02-Fix-EFAULT-in-32bit-compatibility-mode.patch \
+-           file://0001-cve-meltdown.c-Fix-kernel-symbol-finding.patch \
+-           file://0001-testcases-use-python3-everywhere-to-run-python-scrip.patch \
+-           file://0001-syscall-rt_sigtimedwait01-Fix-wrong-sigset-length-fo.patch \
+-           file://0001-cve-2017-17052-Avoid-unsafe-exits-in-threads.patch \
+-           file://0001-overcommit_memory-update-for-mm-fix-false-positive-O.patch \
+            file://0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch \
++           file://0001-testcases-fix-an-absent-format-string-issue.patch \
++           file://0001-Add-more-musl-exclusions.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
 -- 
 2.17.1
 
