@@ -1,28 +1,18 @@
-Return-Path: <pespin@sysmocom.de>
-Received: from mail.sysmocom.de (mail.sysmocom.de [144.76.43.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 90AE07F98F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 13:18:18 +0000 (UTC)
-Received: from public-mail (mail.sysmocom.de [144.76.43.93])
-	by mail.sysmocom.de (Postfix) with ESMTP id D2BF0510D0F
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 13:18:18 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at sysmocom.de
-Received: from mail.sysmocom.de ([144.76.43.93])
-	by public-mail (mail.sysmocom.de [144.76.43.93]) (amavisd-new,
-	port 10024)
-	with ESMTP id wLfQaPwHi4az; Tue, 14 Jan 2020 13:18:08 +0000 (UTC)
-Received: from localhost.localdomain (unknown [93.176.188.146])
-	by mail.sysmocom.de (Postfix) with ESMTPSA id C3A8D510D04;
-	Tue, 14 Jan 2020 13:18:07 +0000 (UTC)
-From: Pau Espin Pedrol <pespin@sysmocom.de>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 14:17:58 +0100
-Message-Id: <20200114131758.9938-1-pespin@sysmocom.de>
-X-Mailer: git-send-email 2.24.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 519847FA23;
+	Tue, 14 Jan 2020 13:32:16 +0000 (UTC)
 MIME-Version: 1.0
-Cc: Pau Espin Pedrol <pespin@sysmocom.de>
-Subject: [PATCH] site: Remove sctp related configs
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Pau Espin Pedrol <pespin@sysmocom.de>
+Date: Tue, 14 Jan 2020 13:32:17 -0000
+Message-ID: <20200114133217.2277.95310@do>
+References: <20200114131758.9938-1-pespin@sysmocom.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200114131758.9938-1-pespin@sysmocom.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2l0ZTogUmVtb3ZlIHNjdHAgcmVsYXRlZCBjb25maWdz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,108 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 13:18:18 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 14 Jan 2020 13:32:16 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-They are preventing autotools from checking netinet/sctp.h existence
-successfuly which in turn makes configure.ac files with lines similar to
-this to fail, even if DEPENDS="lksctp-tools" and netinet/sctp.h is
-clearly available under recipe-sysroot/:
-AC_CHECK_HEADERS(netinet/sctp.h,,AC_MSG_ERROR(netinet/sctp.h not found))
+== Series Details ==
 
-This is the case for new libosmo-netif versionsi (meta-telephony branch
-laforge/nightly), which expects netinet/sctp.h to be available if default
-flag --enable-libsctp is used.
+Series: site: Remove sctp related configs
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22003/
+State : failure
 
-Without this patch, do_configure will fail unless following line is used
-in the recipe:
-CACHED_CONFIGUREVARS += "${@bb.utils.contains('PACKAGECONFIG', 'libsctp', 'ac_cv_header_netinet_sctp_h=yes', '',d)}"
+== Summary ==
 
-So removing ac_cv_header_netinet_sctp_h would be enough, but I couldn't
-find any good information on why the other 2 variables were set in site
-config files, hence no good reason to keep them.
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            site: Remove sctp related configs
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/site/arm-common      | 3 ---
- meta/site/ix86-common     | 3 ---
- meta/site/nios2-linux     | 3 ---
- meta/site/powerpc32-linux | 4 ----
- meta/site/sh-common       | 4 ----
- 5 files changed, 17 deletions(-)
-
-diff --git a/meta/site/arm-common b/meta/site/arm-common
-index 198c98c6a7..8c37f3fc24 100644
---- a/meta/site/arm-common
-+++ b/meta/site/arm-common
-@@ -4,9 +4,6 @@ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_sl
- ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
- ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
- ac_cv_func_stat_ignores_trailing_slash=${ac_cv_func_stat_ignores_trailing_slash=no}
--ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
--ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
--ac_cv_sctp=${ac_cv_sctp=no}
- 
- # bash
- ac_cv_c_long_double=${ac_cv_c_long_double=yes}
-diff --git a/meta/site/ix86-common b/meta/site/ix86-common
-index c5e354c073..a2384372db 100644
---- a/meta/site/ix86-common
-+++ b/meta/site/ix86-common
-@@ -27,10 +27,7 @@ ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
- ac_cv_func_stat_ignores_trailing_slash=${ac_cv_func_stat_ignores_trailing_slash=no}
- ac_cv_va_val_copy=${ac_cv_va_val_copy=yes}
- 
--ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
--ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
- ac_cv_linux_vers=${ac_cv_linux_vers=2}
--ac_cv_sctp=${ac_cv_sctp=no}
- 
- ac_cv_path_ESD_CONFIG=no
- lf_cv_sane_realloc=yes
-diff --git a/meta/site/nios2-linux b/meta/site/nios2-linux
-index 67a3fc8a75..8ac198a0cd 100644
---- a/meta/site/nios2-linux
-+++ b/meta/site/nios2-linux
-@@ -2,9 +2,6 @@ ac_cv_func_lstat_dereferences_slashed_symlink=${ac_cv_func_lstat_dereferences_sl
- ac_cv_func_lstat_empty_string_bug=${ac_cv_func_lstat_empty_string_bug=no}
- ac_cv_func_stat_empty_string_bug=${ac_cv_func_stat_empty_string_bug=no}
- ac_cv_func_stat_ignores_trailing_slash=${ac_cv_func_stat_ignores_trailing_slash=no}
--ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
--ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
--ac_cv_sctp=${ac_cv_sctp=no}
- 
- # apache
- ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
-diff --git a/meta/site/powerpc32-linux b/meta/site/powerpc32-linux
-index f37e915cb3..172a06cc46 100644
---- a/meta/site/powerpc32-linux
-+++ b/meta/site/powerpc32-linux
-@@ -39,10 +39,6 @@ cookie_io_functions_use_off64_t=${cookie_io_functions_use_off64_t=yes}
- # apache
- ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
- 
--ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
--ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
--ac_cv_sctp=${ac_cv_sctp=no}
--
- # ssh
- ac_cv_have_space_d_name_in_struct_dirent=${ac_cv_dirent_have_space_d_name=yes}
- ac_cv_have_broken_snprintf=${ac_cv_have_broken_snprintf=no}
-diff --git a/meta/site/sh-common b/meta/site/sh-common
-index 97c96934d7..6bda1c237c 100644
---- a/meta/site/sh-common
-+++ b/meta/site/sh-common
-@@ -31,10 +31,6 @@ ac_cv_time_r_type=${ac_cv_time_r_type=POSIX}
- # apache
- ac_cv_sizeof_ssize_t=${ac_cv_sizeof_ssize_t=4}
- 
--ac_cv_header_netinet_sctp_h=${ac_cv_header_netinet_sctp_h=no}
--ac_cv_header_netinet_sctp_uio_h=${ac_cv_header_netinet_sctp_uio_h=no}
--ac_cv_sctp=${ac_cv_sctp=no}
--
- # ssh
- ac_cv_have_space_d_name_in_struct_dirent=${ac_cv_dirent_have_space_d_name=yes}
- ac_cv_have_broken_snprintf=${ac_cv_have_broken_snprintf=no}
--- 
-2.24.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
