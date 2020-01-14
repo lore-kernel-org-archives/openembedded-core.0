@@ -1,47 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1210B7FBAC
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 14FA17FBEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 15:49:44 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id y17so12680825wrh.5
+	Tue, 14 Jan 2020 15:49:45 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id z7so12616016wrl.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 07:49:46 -0800 (PST)
+	Tue, 14 Jan 2020 07:49:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=jnWfv0GtXZjpsWzqoZBc56X3bAfdQLrOzbeE8Vt1bhA=;
-	b=dVW2R3QXLGKZaw0R1o2kKBcS73evY/N9yTFGZcIEBihJiPBORXKdCcugJ0gzenfQJv
-	aVeBxuvxA0whaqrXE0oRZqEcZL6c9vnjkRZ0f5eUEvXkDvQfoefaSQ0VFDJr/ALDTL15
-	4CvUj7LA28cDFveIgDpBCYqU7FL1tn0UX4Ov+/dfmiTys1kXGWRqQX8lnzgiutwjBPs6
-	C/CrIkfLrp384l0DUIFlfeNm7jw53Ro4G5Bu6IkV7TwasGoYIZ3tmVcU+C5WZHrtcRPi
-	xPKzoi5lQgKho+OqQdSF1uxdLNFV3o3f0T9ylOW8rUuN1GrnS66VSseBSRaga6ZpIsmx
-	lK6g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=P40EEB1gZAODuYcEuiQcAxY0LYLVLKSGEe35WTDswNE=;
+	b=cGhPIPic7+3j0CFvJuMussr9TcM0ZNrEj4CVoRrjOshLTBL3gXhjKaoHzg+lOhelBS
+	O7CLsYiiEz7qyMWygbtpY0xcI6sLxlpHrOaZgpr6maButgN/3NjEHLiNfJavZmAaku85
+	qK+0texv4398BVGJV76INFmUDAczQLRv0+sqrQNqDo46SlGYdaeUgHgfMD9AMKfi4Ddq
+	wkZmzhD7IIpJ7yp/CFtrWu31d6kSDTwp0ZdslE9bbb2jKOx7XZqeVyNby1QKm8Lo8fTQ
+	lin9TJfSXrhuKlvOBGTvAuBTG28g4Fm1JND/sOqv8yVbZFCiTlDZZccX3Ej/rQGjCghA
+	Oo7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jnWfv0GtXZjpsWzqoZBc56X3bAfdQLrOzbeE8Vt1bhA=;
-	b=lVsx9/reR0tO9qtJUcBZGyxauanPfz/P/88ZiH8hsr1/wlwNcUzYPkWuXrcbpnXmrH
-	H93aYgYUtio/BVu/Lzv4S4fbG0ZuJB6ioG12uCrzaWU+B1OgtSHbB1l485VmXXLt8hz+
-	Gnzdsdjib/84zmgm7pEw7ZavxxTajW1I6U/DkNOEUhNBj5IjY9zqxB7qDPxUyEC+1O7x
-	ULaJMrjkEskNkQBJ1XlEeUKK8GcvvUJ6zvH1g5HHPXRP8GPtd1H92ObnHtEYeP/n0SVQ
-	xB2o4dfd3eQ7cRq2gBJskScCtM4cy+yRTKTcdzx0NyO/1YxeR1jAub26Y6EI/DcZhxow
-	m0eg==
-X-Gm-Message-State: APjAAAVsIseN/ffp+sSEN06J5KW/4FzLUy88VSAZmucfvU9Nmwn9Z1Cr
-	VGq1My+36fY/c4elBGQSFK8o7nfY
-X-Google-Smtp-Source: APXvYqyrPuRGynzaVJoHqBZ8bMheXFcVr1OuQVsfpEjW+ieaBA90gWyzRIEQDmyGQww3TeqEf9OITw==
-X-Received: by 2002:a5d:67c7:: with SMTP id n7mr25685155wrw.319.1579016985483; 
-	Tue, 14 Jan 2020 07:49:45 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=P40EEB1gZAODuYcEuiQcAxY0LYLVLKSGEe35WTDswNE=;
+	b=K+5huruUMVNMhHhsI1OVryWtwYI7FwmLfyN7yEI5VK83c7kVkldbBMbzScZsmWX3/m
+	goLHKcahBXSLR83mZ8RDoO+AaT8F2ByHMuzLdRgYViRLJSkCSWJ03YMCPv7oN4f9UC/D
+	bb1EpBIcQOS7Q9tGSpJ8LKMn+wbd8wBj6XZq3BUMjbGPVMQ+eRlYQzGN7mINVPtse1Jb
+	5UIzoJCJIk6lGCch9JZYnT+nf29srgfcoiUrs1kDOzjvyYO8W6rcO+yn/Rb9cB47kIRi
+	Ylezy+t1KinpFoy6O6qJ2uumJru78ipl/GvMS0aquEDBAD2GrVjO0AEaF1PncgBuOsyH
+	QTKA==
+X-Gm-Message-State: APjAAAWNnhRvRijNYOrenKiayZFqahnEGwicoMHrIpUaqTUmE+iIpTYd
+	lY6/JTKdyl84NeYsCSHCKBsnm1UP
+X-Google-Smtp-Source: APXvYqwzQClGFUlML8U76ikEB3sUReu4n9u2d4f3iD3jD1wqCwGbX/tt1tHd4q6d+Cc+6YXeDcRkJA==
+X-Received: by 2002:a05:6000:11c9:: with SMTP id
+	i9mr25243612wrx.164.1579016986469; 
+	Tue, 14 Jan 2020 07:49:46 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	f17sm19240311wmc.8.2020.01.14.07.49.44
+	f17sm19240311wmc.8.2020.01.14.07.49.45
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 07:49:44 -0800 (PST)
+	Tue, 14 Jan 2020 07:49:46 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 16:49:36 +0100
-Message-Id: <20200114154937.78532-1-alex.kanavin@gmail.com>
+Date: Tue, 14 Jan 2020 16:49:37 +0100
+Message-Id: <20200114154937.78532-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] gstreamer1.0: decouple check and tests options
+In-Reply-To: <20200114154937.78532-1-alex.kanavin@gmail.com>
+References: <20200114154937.78532-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/2] gstreamer1.0: set the name of the test suite for ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 15:49:45 -0000
+X-List-Received-Date: Tue, 14 Jan 2020 15:49:46 -0000
 
-Some plugins such as gstreamer1.0-plugins-base refuse to build if
-check is not enabled (which was the case when ptests were disabled).
+Otherwise gnome-desktop-testing-runner starts testing everything
+unrelated as well (e.g. glib).
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-index dc3e8ffafde..c6fbd398d91 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-@@ -26,11 +26,13 @@ SRC_URI[md5sum] = "c505fb818b36988daaa846e9e63eabe8"
- SRC_URI[sha256sum] = "02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af0639d46f1cf4377d"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
+index 74368c4cd87..b6980670410 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-ptest.inc
+@@ -5,6 +5,8 @@ RUN_PTEST_FILE = "${D}${PTEST_PATH}/run-ptest"
  
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-+                   check \
-                    tools"
+ EXTRA_OEMESON += "-Dtest-files-path=${TEST_FILES_PATH}"
  
- PACKAGECONFIG[debug] = "-Dgst_debug=true,-Dgst_debug=false"
- PACKAGECONFIG[tracer-hooks] = "-Dtracer_hooks=true,-Dtracer_hooks=false"
--PACKAGECONFIG[tests] = "-Dcheck=enabled -Dtests=enabled -Dinstalled-tests=true,-Dcheck=disabled -Dtests=disabled -Dinstalled-tests=false"
-+PACKAGECONFIG[check] = "-Dcheck=enabled,-Dcheck=disabled"
-+PACKAGECONFIG[tests] = "-Dtests=enabled -Dinstalled-tests=true,-Dtests=disabled -Dinstalled-tests=false"
- PACKAGECONFIG[valgrind] = "-Dvalgrind=enabled,-Dvalgrind=disabled,valgrind,"
- PACKAGECONFIG[unwind] = "-Dlibunwind=enabled,-Dlibunwind=disabled,libunwind"
- PACKAGECONFIG[dw] = "-Dlibdw=enabled,-Dlibdw=disabled,elfutils"
++GST_TEST_SUITE_NAME ?= "gstreamer-1.0"
++
+ # Using do_install_ptest_base instead of do_install_ptest, since
+ # the default do_install_ptest_base is hardcoded to expect Makefiles.
+ do_install_ptest_base() {
 -- 
 2.17.1
 
