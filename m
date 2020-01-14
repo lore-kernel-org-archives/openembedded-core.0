@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
 Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
 	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 258E37FC4F
+	by mail.openembedded.org (Postfix) with ESMTP id 1A9D07FC4F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 14:00:30 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id w5so2379748wmi.1
+	Tue, 14 Jan 2020 14:00:31 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id p17so13872281wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 06:00:31 -0800 (PST)
+	Tue, 14 Jan 2020 06:00:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=IV0kpl2AQPhTDRp9frzWs8gIwFBb7YOGPOdg5hcSBao=;
-	b=OHDjoCR1JO3qMqE71ZZ3CFc+/RB3U4wFgXyuEpSvGQMmQYo3lrUC/DybXQOl5a8hl6
-	vWJ2KfM5YfqNcRPPmJzJVfvsIuwG2YIbed2EbKnDDzUeBw1KMQtirVS0zH9HHIPF7Ctp
-	4xUdP7f8tPZNj2mI0+1OLoL4pt9PHqYytKxlW6NllTYx9XyZ7HUKuGX/WxNmhDTLDgsU
-	i/el9T76m7kWC8t19TLECdkRR25wryzhq+BHPnHPBfUrWdtEGcV+Pe26x7+0EmJBam67
-	mMjtywU8uM177K+4tH8R4J7xJI6bvY+cohlSmiqBtmX2xOQxaRdXK71w+ygkOFjGpCuc
-	QKHg==
+	bh=OWJaJjxtWuPc/OQMUH+Y+hCYco3lLxuih2YMqUGECoU=;
+	b=ov0WIhX/tni0WoHpEgBhoIzO/frOcXs6nHBdKLLE1YGM37O3k2zdFBiePtrOw081CP
+	QOqyqAwvFYXsMISyJcBvMmBHNQVOucxRHznlroKlKf72Vz1zBvaj/e/jdzO+DpWdb4tx
+	y0/X1jCWJ941WIykkHJvGKcmAT7DKjEEl/gCG7kJNzRit/V4CYtnlATch1Q+FiduEhAf
+	oWf3cL2YBViT6aGaJ+Wwjxdqyw32+fcG4fX9JF890t7+ZgGDcrXNeWXd9vEdq/G0hvVm
+	p4Bksh3yFt6pmgfVnoI7vJ7HAy+HpgZu+vstt8SnzW52Lo5EtVMeNxU1EkzrHtndXEgd
+	Zvqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=IV0kpl2AQPhTDRp9frzWs8gIwFBb7YOGPOdg5hcSBao=;
-	b=gvcUuHeriCITyfcPj+8HjdcJr2HlGablaXroDMxg+o6ZqAY4zmKLAmyMV3VLx2jfQR
-	tGM/gAZFboxN+xINSIFJ1TgBV7yoiCTTVYQyzZV01nbV7mgHezgcVH/oVv+4CL3V+Tfg
-	EarzjobqYGhytFpvEotx3OFslAf0Yv+bqC3QFVgbhlas90K5PETtuVwII/6Z8NSU9AgQ
-	IKW2v5viDOvivBzpExjG2NI/M9Q4eoHBoexdwH1DEatDm4nGheX7PU4e8QVhRTebBIcP
-	jwYbmserWYdhMsnWLcWcYlHE1rXm0vQDjG7M2NHwbsriCbjOOjyJyTXVNGNDqNO+zqwt
-	aFOA==
-X-Gm-Message-State: APjAAAXdh9ej2KJN3FGDMiJj1LT83JdBuZf+EHpCeYpRZeNq7lvle2m2
-	IMH3fpoaPdvF+ZWPN8Q8osYNJJaT
-X-Google-Smtp-Source: APXvYqy5CBeWMpzQkslnrko9i9KMyoiCcWhNWrOqRU27rjzzINkInLFKGPgKPe0sAGoS/6VAmRGu7Q==
-X-Received: by 2002:a7b:cb0d:: with SMTP id u13mr28408667wmj.31.1579010430546; 
-	Tue, 14 Jan 2020 06:00:30 -0800 (PST)
+	bh=OWJaJjxtWuPc/OQMUH+Y+hCYco3lLxuih2YMqUGECoU=;
+	b=XuPhs5O1F+5ZmYXpz/M8V5FCs7i99BnUkcDstEuxi9rHTF03PuB6AAgubr+pc28uNE
+	113P5i4c3FPHObT183XcLwpmzcecqVM7l/ySxZFDa7PNotcBQk6FXaDuJy8qZLDVWmpu
+	1W++t9+3G2j52RODkNbct78dS5MHgcNY8xA83H04pm9dOU3WvxGeB17UT2IoM4mfTv8a
+	6WTeNVjxwfLKoJtIQUKan2grlT8YwW9U479D9D08JOBNtTp3L/ecmXJtofX2XPYVgrBZ
+	MJ/5kdfvhGEu0s05eewudowuA7mZUWetgwTOBk6B3+v/X65INkyggazVvEzTN/b6TZQO
+	l7eg==
+X-Gm-Message-State: APjAAAW2KCfOfqQ64MBWr+j1yYQdX+HJvgqFkcR+8FY0NAIjgAtDpJRY
+	KQj5kggdzkKkT46p7OpsJzuHhKCS
+X-Google-Smtp-Source: APXvYqwMqaal/0ERImJ33eO4APQ1PkW7stBmzT+0gF5Ag5w2MAE1jeZPcT44s+fWBadXIBZXARc4ww==
+X-Received: by 2002:a1c:5a0a:: with SMTP id o10mr26496934wmb.114.1579010431651;
+	Tue, 14 Jan 2020 06:00:31 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	r62sm20147333wma.32.2020.01.14.06.00.29
+	r62sm20147333wma.32.2020.01.14.06.00.30
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 06:00:30 -0800 (PST)
+	Tue, 14 Jan 2020 06:00:31 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 15:00:06 +0100
-Message-Id: <20200114140007.36622-19-alex.kanavin@gmail.com>
+Date: Tue, 14 Jan 2020 15:00:07 +0100
+Message-Id: <20200114140007.36622-20-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200114140007.36622-1-alex.kanavin@gmail.com>
 References: <20200114140007.36622-1-alex.kanavin@gmail.com>
-Subject: [PATCH 19/20] strace: fix failing ptests
+Subject: [PATCH 20/20] valgrind: partially fix ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +57,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 14:00:30 -0000
+X-List-Received-Date: Tue, 14 Jan 2020 14:00:31 -0000
 
-1. They need to be run under regular user.
-2. Some tests genuinely need more time than 30 seconds
-3. The Makefile patch erroneously introduced a test-breaking change.
+Unfortunately the ptests assume that $S=$B, and also require
+the presence of original source code.
+
+There are still some failures left which require additional investigation.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/strace/strace/Makefile-ptest.patch | 2 +-
- meta/recipes-devtools/strace/strace/run-ptest            | 7 +++++--
- 2 files changed, 6 insertions(+), 3 deletions(-)
+ meta/recipes-devtools/valgrind/valgrind_3.15.0.bb | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-index 2437d1fb6d0..1f01ef79f25 100644
---- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-+++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-@@ -42,6 +42,6 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
- +	done
- +	for file in $(EXTRA_DIST); do \
- +		install $(srcdir)/$$file $(DESTDIR)/$(TESTDIR); \
--+		sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
-++		#sed -i -e 's/$${srcdir=.}/./g' $(DESTDIR)/$(TESTDIR)/$$file; \
- +	done
- +	for i in net scm_rights-fd rt_sigaction; do sed -i -e 's/$$srcdir/./g' $(DESTDIR)/$(TESTDIR)/$$i.test; done
-diff --git a/meta/recipes-devtools/strace/strace/run-ptest b/meta/recipes-devtools/strace/strace/run-ptest
-index 2fed984e901..4660207220b 100755
---- a/meta/recipes-devtools/strace/strace/run-ptest
-+++ b/meta/recipes-devtools/strace/strace/run-ptest
-@@ -1,3 +1,6 @@
- #!/bin/sh
--export TIMEOUT_DURATION=30
--make -B -C tests -k test-suite.log
-+export TIMEOUT_DURATION=120
-+chown nobody tests
-+chown nobody tests/*
-+chown nobody ../ptest
-+su nobody -c "make -B -C tests -k test-suite.log"
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+index aedaab27b33..6a3834cfdc6 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+@@ -64,7 +64,8 @@ COMPATIBLE_HOST_linux-gnun32 = 'null'
+ # Disable for powerpc64 with musl
+ COMPATIBLE_HOST_libc-musl_powerpc64 = 'null'
+ 
+-inherit autotools ptest multilib_header
++# brokenseip is unfortunately required by ptests to pass
++inherit autotools-brokensep ptest multilib_header
+ 
+ EXTRA_OECONF = "--enable-tls --without-mpicc"
+ EXTRA_OECONF += "${@['--enable-only32bit','--enable-only64bit'][d.getVar('SITEINFO_BITS') != '32']}"
+@@ -116,7 +117,7 @@ RDEPENDS_${PN}-ptest += " bash coreutils file \
+    gdb libgomp \
+    perl \
+    perl-module-getopt-long perl-module-file-basename perl-module-file-glob \
+-   procps sed ${PN}-dbg"
++   procps sed ${PN}-dbg ${PN}-src"
+ RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
+ 
+ # One of the tests contains a bogus interpreter path on purpose.
 -- 
 2.17.1
 
