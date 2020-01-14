@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B9BA7FA29
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A2BE7FA29
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 Jan 2020 14:00:22 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id z3so12282784wru.3
+Received: by mail-wm1-f66.google.com with SMTP id p17so13874064wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 06:00:23 -0800 (PST)
+	Tue, 14 Jan 2020 06:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=kqBiNlw8DdIfs5IYkoKE0CKWuHsI7nr1QMYk3U/2Bo0=;
-	b=sSoSYyck4HsLIswWwpI8pDSXBwYyqlqXmxrAZTrfGa9enPfpW2sE0hDpGIBrWgf0gg
-	mez8pAv4qKWTTIdYpA2Nn9Y3ljRlDpdrHGxpnF6NXrs9wl41F9bRw76ErsmQtUjmT4zg
-	ZqmUdx4RbSR5YmP8dzIiLi8KQWkcvBvLENze6CYJCkeblCRD12MjiHuutyzxQQ6MGI+l
-	FuqAawNwK+z80cID679wQwrqjGziDegQDGB5Okqd9LiIOYXByxivcyX1oog4Xh6JPpmJ
-	9BlS7qodTvY/xQJVzoaKq+BJE68+rzIGr2nRAjVmzLGEIjo7BX5Io2b6NJvseJ4MNgop
-	SDHg==
+	bh=Ukb2YLdv0sKxiiagkW1doC4vQVqmeBq2nllO3mR2VSc=;
+	b=F91qJbhBU7+zAVazR2toFZOkcRTV8lrYorEtUuHKyWkIUeKxI0PLFaO5ZuBfi8y0uB
+	raNLinTfCX7n0paSJCzpZmw+xdkBAiRMr/g0pmEqqaMCCIV5cU5wxBQJQ+gFfgdURd5d
+	246BPTGmMJNsDnBUX+vyA5or4/yTuXq7X2kp8Ei1MKXqHA3/D1AuljEK6qhMSLt1PyiF
+	m6VCx1capr3dz1U2MrfacaJzC2JTx+cXvK+STW54btibHaJlEYS0Ho7t84SoK9jQK/rI
+	34XcmEkorf5T/T3NIJFWp47nW/EsKHbv7gRcTVawAXYRlSdImtqdnzlq6P/rm09cBBte
+	Xc2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=kqBiNlw8DdIfs5IYkoKE0CKWuHsI7nr1QMYk3U/2Bo0=;
-	b=JyIrlR0MI3fHAxNylK5zr//E9WNe0nSVAWPcEfALGotDpPbbKfVOhKpZCDpPV69KQY
-	eE04O8JfI4VMSf7OoVY+EDA6r7cAciJwNW+6yvfqSNo4Q+Gao4T+0fHkim1YceQaDNXu
-	UkuE9mMIn3ntHfwaKwnH9315GCo5EDapsQHXg9p5PLZPebDjuTwpOf+gZZ9j1aT9KUDS
-	lOt23/2D2Ns/KDZEGFHcnQyzoSbY6dXD8b6j5XfhvzqfHxJ5t0kt/K1Xbr0GL+QSTnC7
-	I4pazUpxRDVT9LWR/q+Fz1ZkZbAfJqTc14KTlDwzgpiSCxEhYyftkIay7L8RGOM7YU9L
-	/kzA==
-X-Gm-Message-State: APjAAAWi+dsTO5fjyeLCcNQG4esFFohnGW9iNju770HqOAWb+mnguEVr
-	t2iOfpF7+4gLR3ch0mrjub6DnggE
-X-Google-Smtp-Source: APXvYqzN6+7WUDdFplDJy7rp82ojN9ekIE++sWLiy0uhPE0SBgWHjtFsliRvBtWDSOzH29ehirK7rw==
-X-Received: by 2002:a5d:6692:: with SMTP id l18mr26724127wru.382.1579010422709;
-	Tue, 14 Jan 2020 06:00:22 -0800 (PST)
+	bh=Ukb2YLdv0sKxiiagkW1doC4vQVqmeBq2nllO3mR2VSc=;
+	b=BR2PVc/jiKuGCUWnk7Ton0aGlvsaVEEIIX288rf8nJFYXkeUlUE2b7/KxWo8W23MZW
+	LoeYMWx69mV79/5eINUjMiuncxVMtcyjCt0YaDoDFQePibKUTNw2UQsnxZ1iQxJxIFip
+	Pmb0mwuN0CtxHzQXWPWbnhPyryqhCoAyxPitiKSSuDd6ZbToyKTZpuGloqT5WSvL+QUP
+	fUTYfgr0L9RZVFqAKHCQbWOFGR5vh0HdxK8EmOkEMbJJrtjohQ1FJem33cVDq878U9hW
+	mbzV8K+kTV7fIoy58bwNmLnX+ai6A+bsvV0cwr2Ix+yuiEp+dc+0mzFLF4M4Hil3WnUw
+	LOGQ==
+X-Gm-Message-State: APjAAAU3jdp6xUCINe8aSfLAJwRoa+9TqtmP/hoOhkZd8nYyVEFUg+Q5
+	qanOk2WVMQ/niGe96c2sdhHYQRRk
+X-Google-Smtp-Source: APXvYqwArYCCfiiqbaTb24m8MBPyCuN66xCT0HPdBaE88KYg2BGkdqExIWpYgwIfbYPT58A3ox66pw==
+X-Received: by 2002:a05:600c:2150:: with SMTP id
+	v16mr25266889wml.156.1579010423594; 
+	Tue, 14 Jan 2020 06:00:23 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	r62sm20147333wma.32.2020.01.14.06.00.21
+	r62sm20147333wma.32.2020.01.14.06.00.22
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 06:00:22 -0800 (PST)
+	Tue, 14 Jan 2020 06:00:23 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 14:59:58 +0100
-Message-Id: <20200114140007.36622-11-alex.kanavin@gmail.com>
+Date: Tue, 14 Jan 2020 14:59:59 +0100
+Message-Id: <20200114140007.36622-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200114140007.36622-1-alex.kanavin@gmail.com>
 References: <20200114140007.36622-1-alex.kanavin@gmail.com>
-Subject: [PATCH 11/20] libcap: update to 2.31
+Subject: [PATCH 12/20] busybox: fix failing ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,75 +58,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 14:00:22 -0000
+X-List-Received-Date: Tue, 14 Jan 2020 14:00:23 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-tests-do-not-run-target-executables.patch | 33 +++++++++++++++++++
- .../libcap/{libcap_2.27.bb => libcap_2.31.bb} |  5 +--
- 2 files changed, 36 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
- rename meta/recipes-support/libcap/{libcap_2.27.bb => libcap_2.31.bb} (90%)
+ meta/recipes-core/busybox/busybox.inc     | 2 ++
+ meta/recipes-core/busybox/files/run-ptest | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-new file mode 100644
-index 00000000000..26d108c209e
---- /dev/null
-+++ b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-@@ -0,0 +1,33 @@
-+From 6309554225e05e76167eda4e0df383fb3d1a62c3 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 20 Dec 2019 16:54:05 +0100
-+Subject: [PATCH] tests: do not run target executables
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+---
-+ tests/Makefile | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/tests/Makefile b/tests/Makefile
-+index 95e4ca6..7162cf0 100644
-+--- a/tests/Makefile
-++++ b/tests/Makefile
-+@@ -19,8 +19,6 @@ sudotest: test
-+ install: all
-+ 
-+ run_psx_test: psx_test psx_test_wrap
-+-	./psx_test
-+-	./psx_test_wrap
-+ 
-+ psx_test: psx_test.c $(DEPS)
-+ 	$(CC) $(CFLAGS) $(IPATH) -DNOWRAP $< -o $@ $(LIBPSXLIB)
-+@@ -29,7 +27,6 @@ psx_test_wrap: psx_test.c $(DEPS)
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBPSXLIB) -Wl,-wrap,pthread_create
-+ 
-+ run_libcap_psx_test: libcap_psx_test
-+-	./libcap_psx_test
-+ 
-+ libcap_psx_test: libcap_psx_test.c $(DEPS)
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create --static
-diff --git a/meta/recipes-support/libcap/libcap_2.27.bb b/meta/recipes-support/libcap/libcap_2.31.bb
-similarity index 90%
-rename from meta/recipes-support/libcap/libcap_2.27.bb
-rename to meta/recipes-support/libcap/libcap_2.31.bb
-index 3f64ff76364..be31c5a9964 100644
---- a/meta/recipes-support/libcap/libcap_2.27.bb
-+++ b/meta/recipes-support/libcap/libcap_2.31.bb
-@@ -9,9 +9,10 @@ DEPENDS = "hostperl-runtime-native gperf-native"
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index bf6ddae7d19..391e4fd1639 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -354,6 +354,8 @@ PTEST_BINDIR = "1"
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
-+           file://0002-tests-do-not-run-target-executables.patch \
-            "
--SRC_URI[md5sum] = "2e8f9fab32eb5ccb37969fe317fd17aa"
--SRC_URI[sha256sum] = "dac1792d0118bee6aae6ba7fb93ff1602c6a9bda812fd63916eee1435b9c486a"
-+SRC_URI[md5sum] = "52120c05dc797b01f5a7ae70f4335e96"
-+SRC_URI[sha256sum] = "c6088de41e1c97fa8047e2e7de0e4ee0cd13e6cc16538022230ae76727a87c46"
+ do_install_ptest () {
+ 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
++        # These access the internet which is not guaranteed to work on machines running the tests
++        rm -rf ${D}${PTEST_PATH}/testsuite/wget
+ 	cp ${B}/.config      ${D}${PTEST_PATH}/
+ 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
+ }
+diff --git a/meta/recipes-core/busybox/files/run-ptest b/meta/recipes-core/busybox/files/run-ptest
+index b19e5b5343f..76873c9de20 100644
+--- a/meta/recipes-core/busybox/files/run-ptest
++++ b/meta/recipes-core/busybox/files/run-ptest
+@@ -6,4 +6,4 @@ export PATH=$bindir/bin:$PATH
+ export SKIP_KNOWN_BUGS=1
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
- 
+ cd testsuite || exit 1
+-./runtest -v | sed -r 's/^(SKIPPED|UNTESTED):/SKIP:/'
++LANG=C.UTF-8 ./runtest -v | sed -r 's/^(SKIPPED|UNTESTED):/SKIP:/'
 -- 
 2.17.1
 
