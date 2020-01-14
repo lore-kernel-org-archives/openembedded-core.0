@@ -1,53 +1,54 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
-	[209.85.221.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 68BCB7FC0C
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 894EC7FC1F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 09:12:42 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id g17so11334002wro.2
+	Tue, 14 Jan 2020 09:12:43 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id f129so12779637wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 01:12:43 -0800 (PST)
+	Tue, 14 Jan 2020 01:12:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=KBE/F5l/l0Z4EPmXGLnHaMcASFVZaus4z/htCJPG1W8=;
-	b=gyTnUKC7utwJnOB1wiIfh26IhnzzizNVfHoiOvC03hx88KQ8AsVHpfsisRBWgw4Tzh
-	9NenBG06MMjBseZiOGcqPdkPlS/1Hvjc7qXQRQ90vXTRAJOXQs+UFHG/gKMr9uLg/a51
-	ZM4jfTz9f1XC/PF+o6VOjnaqAYNC7Qzyp9YkqAN2lxFhDKcvCi1AqqwcLBBx2S3noI15
-	v+TqQTRLa9jvmRSW6V3bI54ji56J34se1jf1TE6fYySi4ZLWDT7gNUEq/diGqJUYkXNI
-	C1+EYLoIye8ZRtchmq1a11F0ol1QjrbWj7K3hnVpAQ8Cuv3iOHwFJ8fPbw/Nh90v4KL0
-	jBbg==
+	bh=mWgmQtp6f7k7uIWkZZXDVbvMiYTs+ouVwjsqu3bB0JQ=;
+	b=Vl2wa5c4pj1s86tizqhAG2JcuGwhkoO4pOt+E2DCZhIjUVgV/pO92Oko40SLo4QzSC
+	LsHXcjvXrqiphXt9CUPaiF9g2NA0q0BhFQ1/p3Hun4eQrDAgtAeq/dhwEuyIMG/J4cRi
+	IJ92v7Y3H0GZY01der5DgaTN797kif3MjzzNG+fK4CvnoUqTyfNYAlS8RGyU++9zLgkF
+	Asi+3DRlP8zoOqsTmiZN8xHE+UzwiUgE7pZo3SYer+VprwBOvbNkPedMGBOpzH5dmyCA
+	KnQlQBvvXG5iB/R/oJjDBF4HVfRBnr/oyAO7z0Hyrk48OVyg7i8+8BTxenrF1mCzUaHw
+	nd7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=KBE/F5l/l0Z4EPmXGLnHaMcASFVZaus4z/htCJPG1W8=;
-	b=tzwzOcBf7Mkr1vsZex4G0TzMNrLozEP0FbKoHqe0T/7weRkU3Vu1C/teZYLhXrzq3A
-	WOxgOzW8+EZZuYWKnw5lrqf69ol/n9ivKV5WCjcWFuEK7wznH0lCmd1JqNNEA+pRexQH
-	+7MYP2PzeIBYfvnySdoC93N4Hl4JeMnlHZQfOqluAmT4pJJU3KKXya61CvLP/G3vHFOq
-	wMaUDWzNQxMBFOzdtkRYCl0BMoOwyKyErsKhDjikI6lddljm6j91wAWRZk59a5+XZ0k2
-	OmQdgmt3uqmiQlh2h+FdAZXJjasxr5NTon4/60lb51cNekCGSogTT493AL88efrviE1i
-	AflQ==
-X-Gm-Message-State: APjAAAWhAfHHl7UdiKm0sJ7Q3lFiwSw97eM8f9ciuHCWyvSG/hKbpbNu
-	T2b3IeX49jsLI9jWiY9mGjDNGknxESw=
-X-Google-Smtp-Source: APXvYqxy+wxQAwo4PLm5m7DJpF7pP/6NexFyBBYKmqjETEIsOEAI4kCmy6FlFVvpB6nltOz/2aknEA==
-X-Received: by 2002:adf:f484:: with SMTP id l4mr23691112wro.207.1578993162997; 
-	Tue, 14 Jan 2020 01:12:42 -0800 (PST)
-Received: from localhost ([109.238.218.228])
-	by smtp.gmail.com with ESMTPSA id 5sm19091544wrh.5.2020.01.14.01.12.42
+	bh=mWgmQtp6f7k7uIWkZZXDVbvMiYTs+ouVwjsqu3bB0JQ=;
+	b=MzH9BtFD/ktkAPElzpGNTEL6YZF+AJ0h9pCvFC9BzC8yyVevo7IFVo2BP+GjL30d5N
+	LQwK4HKcJ729Use7ambk3YX8I1gV9zmYSwEvRHmS8MQUcYZdG6BeIR3obpqLIzB/lesS
+	lQ5F+gDai2TQngFv2ohny01gitL8jiz97NImCPESDJl97y3gjb0t3lLp0HHxfXMjrWkA
+	3kO5sLbPS/cLA+uwxRKcfp0SppREfH3CdnLEiaJpBlZnnnnZpLp1858INqw7KGDTgMH3
+	wIeW/n2mxA2HW+aEIQrXDnUuNCcqn0EUuvIXSSbU4DWAbjvtbvbm/0Wp9tdJYuDDcJtX
+	gbGA==
+X-Gm-Message-State: APjAAAUGMMKiP3qajQ4Vo/6MHwN+d1Fe3jPZdnNnoeWKezaoVgcesywN
+	f4ZWG8SaI1AdqmL3IMb9YK9vObq6r38=
+X-Google-Smtp-Source: APXvYqxe4PyjA6FkdTiiVq2f5R+QVsNq1ue7FscfuxHVbTiIvT3vC+HlLu8WDQAA95U2+Nl6oCbnOQ==
+X-Received: by 2002:a05:600c:54b:: with SMTP id
+	k11mr25217686wmc.63.1578993164081; 
+	Tue, 14 Jan 2020 01:12:44 -0800 (PST)
+Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
+	o129sm17806160wmb.1.2020.01.14.01.12.43
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 01:12:42 -0800 (PST)
+	Tue, 14 Jan 2020 01:12:43 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 10:12:25 +0100
-Message-Id: <6dcec5ad86b29313b2956f35cbdb1bd3315e9b48.1578993027.git.Martin.Jansa@gmail.com>
+Date: Tue, 14 Jan 2020 10:12:26 +0100
+Message-Id: <97301bd6ecfeefc3ec9e4a8d9da4de1635c8bcc2.1578993027.git.Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <cover.1578993027.git.Martin.Jansa@gmail.com>
 References: <cover.1578993027.git.Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCHv5 6/8] *-artifact-names: include version only in the artifact links
+Subject: [PATCHv5 7/8] *-initramfs: don't use .rootfs IMAGE_NAME_SUFFIX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,75 +61,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 09:12:42 -0000
+X-List-Received-Date: Tue, 14 Jan 2020 09:12:43 -0000
 Content-Transfer-Encoding: 8bit
 
-* drop ${PKGE}-${PKGV}-${PR} from kernel artifacts names (this is the
-  latest build) and add it only in hardlinks created in do_deploy_links
-  so that we can use PKGR there again (because these links are generally
-  used only by human operators and they don't have their own TASKHASH or
-  the IMAGE_VERSION_SUFFIX might be set to some release name which they
-  do understand
+* fixes the issue when image-live.bbclass expects the image
+  ending with just INITRAMFS_FSTYPES:
+  image-live.bbclass:INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.${INITRAMFS_FSTYPES}"
+  while by default it now was with .rootfs suffix:
+  -rw-r--r-- 2 bitbake bitbake 1.5K Oct 25 16:12 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs.env
+  -rw-r--r-- 4 bitbake bitbake  11M Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.cpio.gz
+  -rw-r--r-- 4 bitbake bitbake 1.2K Oct 25 16:11 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.manifest
+  -rw-r--r-- 4 bitbake bitbake 1.3K Oct 25 16:12 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.qemuboot.conf
+  -rw-r--r-- 4 bitbake bitbake 196K Oct 25 16:11 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.testdata.json
+  -rw-r--r-- 4 bitbake bitbake 118M Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.wic
+  -rw-r--r-- 4 bitbake bitbake 3.1K Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64-1.0-r0-20191025154349.wic.bmap
+  -rw-r--r-- 4 bitbake bitbake 1.3K Oct 25 16:12 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.qemuboot.conf
+  -rw-r--r-- 4 bitbake bitbake  11M Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.rootfs.cpio.gz
+  -rw-r--r-- 4 bitbake bitbake 1.2K Oct 25 16:11 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.rootfs.manifest
+  -rw-r--r-- 4 bitbake bitbake 118M Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.rootfs.wic
+  -rw-r--r-- 4 bitbake bitbake 3.1K Oct 25 16:13 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.rootfs.wic.bmap
+  -rw-r--r-- 4 bitbake bitbake 196K Oct 25 16:11 /OE/build/oe-core/tmp/deploy/images/genericx86-64/core-image-minimal-initramfs-genericx86-64.testdata.json
 
-* this allows to drop package_get_auto_pr from kernel do_deploy as well,
-  leaving only 2 EXTENDPRAUTO bumps for each kernel build (do_package
-  and do_deploy_links, unfortunatelly these will still have different
-  value, so if you're looking for the exact kernel image in deploy
-  directory based on kernel image package version seen on the device the
-  EXTENDPRAUTO part of PR will be different).
-
-[YOCTO #12937]
+  initramfs images aren't normally used for rootfs, so just set
+  the suffix to empty, people using different artifact names might
+  still need to set INITRD_LIVE (e.g. when their images don't end
+  with "-${MACHINE}" as well)
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/image-artifact-names.bbclass  | 2 +-
- meta/classes/kernel-artifact-names.bbclass | 7 +------
- meta/classes/kernel.bbclass                | 1 -
- 3 files changed, 2 insertions(+), 8 deletions(-)
+ meta/recipes-core/images/core-image-minimal-initramfs.bb        | 1 +
+ meta/recipes-core/images/core-image-tiny-initramfs.bb           | 1 +
+ meta/recipes-extended/images/core-image-testmaster-initramfs.bb | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/meta/classes/image-artifact-names.bbclass b/meta/classes/image-artifact-names.bbclass
-index d5ba035f5a..b23cef22ca 100644
---- a/meta/classes/image-artifact-names.bbclass
-+++ b/meta/classes/image-artifact-names.bbclass
-@@ -3,7 +3,7 @@
- ##################################################################
+diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+index 7df8ab1ebd..055db7b4a9 100644
+--- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
++++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
+@@ -17,6 +17,7 @@ PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-
+ IMAGE_FEATURES = ""
  
- IMAGE_BASENAME = "${PN}"
--IMAGE_VERSION_SUFFIX = "-${DATETIME}"
-+IMAGE_VERSION_SUFFIX = "${PKGE}-${PKGV}-${PKGR}-${DATETIME}"
- IMAGE_VERSION_SUFFIX[vardepsexclude] += "DATETIME"
- IMAGE_NAME = "${IMAGE_BASENAME}-${MACHINE}"
- IMAGE_LINK_NAME = "${IMAGE_NAME}${IMAGE_VERSION_SUFFIX}"
-diff --git a/meta/classes/kernel-artifact-names.bbclass b/meta/classes/kernel-artifact-names.bbclass
-index 41ef6e884d..92e08297cc 100644
---- a/meta/classes/kernel-artifact-names.bbclass
-+++ b/meta/classes/kernel-artifact-names.bbclass
-@@ -6,12 +6,7 @@
+ export IMAGE_BASENAME = "${MLPREFIX}core-image-minimal-initramfs"
++IMAGE_NAME_SUFFIX ?= ""
+ IMAGE_LINGUAS = ""
  
- inherit image-artifact-names
+ LICENSE = "MIT"
+diff --git a/meta/recipes-core/images/core-image-tiny-initramfs.bb b/meta/recipes-core/images/core-image-tiny-initramfs.bb
+index 0eca6d9944..5849900742 100644
+--- a/meta/recipes-core/images/core-image-tiny-initramfs.bb
++++ b/meta/recipes-core/images/core-image-tiny-initramfs.bb
+@@ -13,6 +13,7 @@ PACKAGE_INSTALL = "initramfs-live-boot-tiny packagegroup-core-boot dropbear ${VI
+ IMAGE_FEATURES = ""
  
--# Intentionally use PR instead of PKGR, because EXTENDPRAUTO included
--# in PKGR will have different value for do_install/do_deploy/do_deploy_links
--# tasks with different TASKHASH, causing multiple EXTENDPRAUTO increments for
--# each kernel build and more importantly preventing do_deploy_links to
--# reference artifacts created do_deploy task
--KERNEL_ARTIFACT_NAME ?= "${PKGE}-${PKGV}-${PR}-${MACHINE}"
-+KERNEL_ARTIFACT_NAME ?= "${MACHINE}"
- KERNEL_ARTIFACT_LINK_NAME ?= "${KERNEL_ARTIFACT_NAME}${IMAGE_VERSION_SUFFIX}"
+ export IMAGE_BASENAME = "core-image-tiny-initramfs"
++IMAGE_NAME_SUFFIX ?= ""
+ IMAGE_LINGUAS = ""
  
- KERNEL_IMAGE_NAME ?= "${KERNEL_ARTIFACT_NAME}"
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 249704b6f8..ebe5378301 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -705,7 +705,6 @@ kernel_do_deploy() {
- }
- do_deploy[cleandirs] = "${DEPLOYDIR}"
- do_deploy[dirs] = "${DEPLOYDIR} ${B}"
--do_deploy[prefuncs] += "package_get_auto_pr"
+ LICENSE = "MIT"
+diff --git a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
+index 09a6d16042..1a2e0af27b 100644
+--- a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
++++ b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
+@@ -8,6 +8,7 @@ PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install-testfs initramfs-l
+ IMAGE_FEATURES = ""
  
- addtask deploy after do_populate_sysroot do_packagedata
+ export IMAGE_BASENAME = "core-image-testmaster-initramfs"
++IMAGE_NAME_SUFFIX ?= ""
+ IMAGE_LINGUAS = ""
  
+ LICENSE = "MIT"
 -- 
 2.20.1
 
