@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
 Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
 	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 66D7A7FA1A
+	by mail.openembedded.org (Postfix) with ESMTP id E70647FAAA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 14:00:14 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id 20so13834081wmj.4
+	Tue, 14 Jan 2020 14:00:15 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p9so13924773wmc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 06:00:15 -0800 (PST)
+	Tue, 14 Jan 2020 06:00:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=SryW1a59cDvUQnrm4RXslsRJ8+cVb6Mdq/yUyJp/Si0=;
-	b=pOucbhfYQGtmkV4kaMGgX/g/1m3zyFnFTEagUvXe8TykE12W/U+2LO2a82/hg8c3k8
-	3+lbaqrRlgYVxof8DBmhmKQqz5O5pGYxAMbz2gwLK6qu0R1ogtyCbYvL2/7FZxNT7O7Q
-	nUmC+ADuImXqAayntSwuF2VU/9o3PxvLQcwn4H6GKqUjgbhgz18EeHsuUI0v1bzDtQab
-	uDsrIN2jf0gMRSWv2N5JWM/ujaB3bB1C+lzS2Wk3H4WdTwZ/UfeWKpadYl0HzWYQos0g
-	zKR3PDKm5Cn+zmbooA678EcLp9N3+aw84AM8mQUoHTmIdovdRTvsaK+L3+UgLQ1V4nOq
-	zBiw==
+	bh=gUMDnvZ7ANpadkqRxJicSoy/NrRdYTMJED7+eCOIrwQ=;
+	b=pGpyYr+RzvQzXCa70IRNRXlYRjdaodUUp047k7+T838EaVf7QMC4n83PDgHhQ7+ckl
+	jVF9PIpZU3tM8O+dwkAMAxGLhmMlzkeaLHPoZzjYb9mszlXsw07SNCudd7pTnNbrZu0t
+	Tu3pgcJ3kdW79lgl+gM/MCjFvB2HpL0jGIVz7dFJu0ISM2SqdpXQ0NJQUycDJ8rVdNrr
+	Z08oyfpggSKXjPFMRooC04Hytey6vpeW4wpeDMj4W1qkV2RITK4jRorY6foGpP1k5zUW
+	3vfwqbyD+139jT5cYldr7w0cgk7kO/RqbP8nnCvVLJWXyI8mn9ENfS2/v92FGAHp3mcL
+	R4kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=SryW1a59cDvUQnrm4RXslsRJ8+cVb6Mdq/yUyJp/Si0=;
-	b=n0jz3FSkMheSerjAT2iOqz7Wh9Qah9oOsQXw1AOVTvhjKwCO6DbqFVC9os2Osu9AFU
-	mOsVQ1wjC9sFdKY6DN5CqBQD/tZa7j+ZJpwsI+OqILYtZLrun0FDyv5r/Oc5QFVFlEHW
-	KGThOr74onv3PBvGlv83yONLJbbgVKT1scx867R81s47+XmJrgD7GRGIPn4ZSrY3ptKk
-	5IFo+Fb3YoVImr9aM9FWAv7UTY4pz8YfAMlWufi6gPDxaC8KSwaqsRuKMMuG3PQvGXGd
-	vdMWmRpe/o81ly21UnBmN6dvCoEUI95aA9iq3J9XvUju4+WZkuek5cb4//+3YMODV8lh
-	z9BA==
-X-Gm-Message-State: APjAAAVZGNEz7wzGDP1GQT+LOe2CWioZoIrVgbsHvp3c+qP35ESh5MT/
-	xF04E9Fcau/9LPQvxyszoRW0xA7u
-X-Google-Smtp-Source: APXvYqyEhKaEeLn+Di0OlMcXnCQjNav8kgCewVGYBWm91k31nCOWZOvI2uvT3FZ1TaRXwCwdQKnqOQ==
-X-Received: by 2002:a05:600c:2c44:: with SMTP id
-	r4mr26334315wmg.140.1579010414638; 
-	Tue, 14 Jan 2020 06:00:14 -0800 (PST)
+	bh=gUMDnvZ7ANpadkqRxJicSoy/NrRdYTMJED7+eCOIrwQ=;
+	b=dF8dm0vqvJx2l3qXWz1981+AOeATK58cr3aaKaUbU19RTvhA05DQgZMQHRoTGcLavO
+	CjTkxpHAcjW0J3vVUoflvefnVd6vHJq2Qwns+h50NbiFXHSdJTTbbNpxqN49LFG6yvpV
+	ouI6cVXLwE9P1ZVYUDcy7Uwdv0y0KNCIhUjY+qhN6cXULT4lbcrZO8AOVTdpIEfSk1St
+	O64ne24dP9KKwrLSHf+RfbKqhFBosGb68QqWjm/w5VUlujpkQDCc7nlVTyPqOjCDYlT4
+	wTOCRSykQMth10HNYc0ckweyMneCRGlQjdIA2LlfL3DuKeQPxPLVFbomHUaud69xgKod
+	c+RQ==
+X-Gm-Message-State: APjAAAV4SSzdBWu+DU9mZbOW2I+KMlvj/7RsyvCvA1ds2KU76C33G+IU
+	nx4C7dta/DCqQNlDhzv7RxKf6bHI
+X-Google-Smtp-Source: APXvYqwh+m/VGUUz+pMLJrxl/idr0Sr4VZaRpBV7MCdt3t38FjQaTup16ms3ZtZOwMFQETp+OGF1Og==
+X-Received: by 2002:a1c:dc08:: with SMTP id t8mr28182579wmg.139.1579010416447; 
+	Tue, 14 Jan 2020 06:00:16 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	r62sm20147333wma.32.2020.01.14.06.00.13
+	r62sm20147333wma.32.2020.01.14.06.00.15
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 06:00:14 -0800 (PST)
+	Tue, 14 Jan 2020 06:00:16 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 14:59:50 +0100
-Message-Id: <20200114140007.36622-3-alex.kanavin@gmail.com>
+Date: Tue, 14 Jan 2020 14:59:52 +0100
+Message-Id: <20200114140007.36622-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200114140007.36622-1-alex.kanavin@gmail.com>
 References: <20200114140007.36622-1-alex.kanavin@gmail.com>
-Subject: [PATCH 03/20] nss: update to 3.49.1
+Subject: [PATCH 05/20] gstreamer1.0-python: add a patch to fix python 3.8 builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,197 +57,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 14:00:14 -0000
-
-Drop a backport, and a patch that causes build errors with
-the new version.
-
-Add a patch to make ARM HW crypto optional; upstream for some
-reason does not allow disabling it.
+X-List-Received-Date: Tue, 14 Jan 2020 14:00:16 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...ppc64-inline-assembler-for-clang-r-j.patch | 35 ------------------
- ...figure-option-to-disable-ARM-HW-cryp.patch | 35 ++++++++++++++++++
- .../nss/nss/nss-fix-nsinstall-build.patch     | 36 -------------------
- .../nss/{nss_3.45.bb => nss_3.49.1.bb}        | 12 ++++---
- 4 files changed, 43 insertions(+), 75 deletions(-)
- delete mode 100644 meta/recipes-support/nss/nss/0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch
- create mode 100644 meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-disable-ARM-HW-cryp.patch
- delete mode 100644 meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
- rename meta/recipes-support/nss/{nss_3.45.bb => nss_3.49.1.bb} (94%)
+ ...son.build-fix-builds-with-python-3.8.patch | 24 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0-python_1.16.1.bb   |  4 +++-
+ 2 files changed, 27 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
 
-diff --git a/meta/recipes-support/nss/nss/0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch b/meta/recipes-support/nss/nss/0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch
-deleted file mode 100644
-index 59e44e68418..00000000000
---- a/meta/recipes-support/nss/nss/0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch
-+++ /dev/null
-@@ -1,35 +0,0 @@
--From 6b351dbb049b3b3ab6c0d51aa3c1c7fb3c9df80c Mon Sep 17 00:00:00 2001
--From: =?UTF-8?q?Dan=20Hor=C3=A1k?= <dan@danny.cz>
--Date: Mon, 22 Jul 2019 11:07:41 -0700
--Subject: [PATCH] Bug 1493916 - Fix ppc64 inline assembler for clang r=jcj
-- Seems clang's inline assembler doesn't want registers to be prefixed with
-- "r", while gcc accepts both - r0 and 0 for GPR0.
--
--tested with clang 6.0 and gcc 8.1
--
----HG--
--extra : amend_source : 87e09bb59c78bdb25b9573b9f29511e10b9db6fa
--extra : histedit_source : 9b3fad70ac2851bf7de14d42c34db4a5fba41710
--
--Upstream-Status: Backport [https://github.com/nss-dev/nss/commit/671d89b6c4a6f41707bb044534751098e2e3f211]
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- nss/lib/freebl/mpi/mpcpucache.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/nss/lib/freebl/mpi/mpcpucache.c b/nss/lib/freebl/mpi/mpcpucache.c
--index 336b4cc..2ad291f 100644
----- a/nss/lib/freebl/mpi/mpcpucache.c
--+++ b/nss/lib/freebl/mpi/mpcpucache.c
--@@ -727,7 +727,7 @@ static inline void
-- dcbzl(char *array)
-- {
--     register char *a asm("r2") = array;
---    __asm__ __volatile__("dcbzl %0,r0"
--+    __asm__ __volatile__("dcbzl %0,0"
--                          : "=r"(a)
--                          : "0"(a));
-- }
---- 
--2.24.0
--
-diff --git a/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-disable-ARM-HW-cryp.patch b/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-disable-ARM-HW-cryp.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
 new file mode 100644
-index 00000000000..fe29d198820
+index 00000000000..053108ad50b
 --- /dev/null
-+++ b/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-disable-ARM-HW-cryp.patch
-@@ -0,0 +1,35 @@
-+From 5595e9651aca39af945931c73eb524a0f8bd130d Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python/0001-meson.build-fix-builds-with-python-3.8.patch
+@@ -0,0 +1,24 @@
++From 61cfd1b49dc82baf14bb36d88b6c5be7b8c3d23a Mon Sep 17 00:00:00 2001
 +From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 18 Dec 2019 12:29:50 +0100
-+Subject: [PATCH] freebl: add a configure option to disable ARM HW crypto
++Date: Mon, 2 Dec 2019 18:16:41 +0100
++Subject: [PATCH] meson.build: fix builds with python 3.8
 +
-+Not all current hardware supports it, particularly anything
-+prior to armv8 does not.
-+
-+Upstream-Status: Pending
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/gstreamer/gst-python/merge_requests/14]
 +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 +---
-+ nss/lib/freebl/Makefile | 3 +++
-+ 1 file changed, 3 insertions(+)
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/nss/lib/freebl/Makefile b/nss/lib/freebl/Makefile
-+index 06506f0..a8b015d 100644
-+--- a/nss/lib/freebl/Makefile
-++++ b/nss/lib/freebl/Makefile
-+@@ -125,6 +125,8 @@ else
-+         DEFINES += -DNSS_X86
-+ endif
-+ endif
-++
-++ifdef NSS_USE_ARM_HW_CRYPTO
-+ ifeq ($(CPU_ARCH),aarch64)
-+     DEFINES += -DUSE_HW_AES
-+     EXTRA_SRCS += aes-armv8.c gcm-aarch64.c
-+@@ -145,6 +147,7 @@ ifeq ($(CPU_ARCH),arm)
-+         endif
-+     endif
-+ endif
-++endif
++diff --git a/meson.build b/meson.build
++index 1da81d5..3e0db38 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -24,7 +24,7 @@ pygobject_dep = dependency('pygobject-3.0', fallback: ['pygobject', 'pygobject_d
 + 
-+ ifeq ($(OS_TARGET),OSF1)
-+     DEFINES += -DMP_ASSEMBLY_MULTIPLY -DMP_NO_MP_WORD
-diff --git a/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch b/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
-deleted file mode 100644
-index 181c69adb04..00000000000
---- a/meta/recipes-support/nss/nss/nss-fix-nsinstall-build.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--Fix nss multilib build on openSUSE 11.x 32bit
--
--While building lib64-nss on openSUSE 11.x 32bit, the nsinstall will
--fail with error:
--
--* nsinstall.c:1:0: sorry, unimplemented: 64-bit mode not compiled
--
--It caused by the '-m64' option which passed to host gcc.
--
--The nsinstall was built first while nss starting to build, it only runs
--on host to install built files, it doesn't need any cross-compling or
--multilib build options. Just clean the ARCHFLAG and LDFLAGS to fix this
--error.
--
--Upstream-Status: Pending
--
--Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
--===================================================
--Index: nss-3.24/nss/coreconf/nsinstall/Makefile
--===================================================================
----- nss-3.24.orig/nss/coreconf/nsinstall/Makefile
--+++ nss-3.24/nss/coreconf/nsinstall/Makefile
--@@ -18,6 +18,13 @@ INTERNAL_TOOLS  = 1
-- 
-- include $(DEPTH)/coreconf/config.mk
-- 
--+# nsinstall is unfit for cross-compiling/multilib-build since it was
--+# always run on local host to install built files. This change intends
--+# to clean the '-m64' from ARCHFLAG and LDFLAGS.
--+ARCHFLAG =
--+LDFLAGS =
--+CFLAGS =
--+
-- ifeq (,$(filter-out OS2 WIN%,$(OS_TARGET)))
-- PROGRAM		=
-- else
-diff --git a/meta/recipes-support/nss/nss_3.45.bb b/meta/recipes-support/nss/nss_3.49.1.bb
-similarity index 94%
-rename from meta/recipes-support/nss/nss_3.45.bb
-rename to meta/recipes-support/nss/nss_3.49.1.bb
-index c8005a5b3a5..b27080f5aef 100644
---- a/meta/recipes-support/nss/nss_3.45.bb
-+++ b/meta/recipes-support/nss/nss_3.49.1.bb
-@@ -25,17 +25,16 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
-            file://0001-nss-fix-support-cross-compiling.patch \
-            file://nss-no-rpath-for-cross-compiling.patch \
-            file://nss-fix-incorrect-shebang-of-perl.patch \
--           file://nss-fix-nsinstall-build.patch \
-            file://disable-Wvarargs-with-clang.patch \
-            file://pqg.c-ULL_addend.patch \
--           file://0001-Bug-1493916-Fix-ppc64-inline-assembler-for-clang-r-j.patch \
-            file://blank-cert9.db \
-            file://blank-key4.db \
-            file://system-pkcs11.txt \
-+           file://0001-freebl-add-a-configure-option-to-disable-ARM-HW-cryp.patch \
-            "
++ pymod = import('python')
++ python = pymod.find_installation(get_option('python'))
++-python_dep = python.dependency(required : true)
+++python_dep = dependency('python3-embed', required : true)
++ 
++ python_abi_flags = python.get_variable('ABIFLAGS', '')
++ pylib_loc = get_option('libpython-dir')
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
+index b770ec060e1..0382360ec26 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.16.1.bb
+@@ -5,7 +5,9 @@ SECTION = "multimedia"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
--SRC_URI[md5sum] = "f1752d7223ee9d910d551e57264bafa8"
--SRC_URI[sha256sum] = "112f05223d1fde902c170966bfc6f011b24a838be16969b110ecf2bb7bc24e8b"
-+SRC_URI[md5sum] = "6b92ac02dcf9e9e44df5390f6814c157"
-+SRC_URI[sha256sum] = "d9aa42e49e02bb0dc0a2f164604cfc718e11a2a06ddb266cd676376ac21b026e"
+-SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
++SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
++           file://0001-meson.build-fix-builds-with-python-3.8.patch \
++           "
+ SRC_URI[md5sum] = "499645fbd1790c5845c02a3998dccc1b"
+ SRC_URI[sha256sum] = "b469c8955126f41b8ce0bf689b7029f182cd305f422b3a8df35b780bd8347489"
  
- UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
- UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
-@@ -47,6 +46,9 @@ TDS = "${S}/tentative-dist-staging"
- 
- TARGET_CC_ARCH += "${LDFLAGS}"
- 
-+# Needed on Centos 7, as nss auto-detection fails there due to non-standard uname output
-+CFLAGS_append_class-native = " -DLINUX -Dlinux"
-+
- do_configure_prepend_libc-musl () {
-     sed -i -e '/-DHAVE_SYS_CDEFS_H/d' ${S}/nss/lib/dbm/config/config.mk
- }
-@@ -81,6 +83,8 @@ do_compile() {
-     export NSS_USE_SYSTEM_SQLITE=1
-     export NSS_ENABLE_ECC=1
- 
-+    ${@bb.utils.contains("TUNE_FEATURES", "crypto", "export NSS_USE_ARM_HW_CRYPTO=1", "", d)}
-+
-     export OS_RELEASE=3.4
-     export OS_TARGET=Linux
-     export OS_ARCH=Linux
 -- 
 2.17.1
 
