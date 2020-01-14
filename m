@@ -1,59 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
-	[209.85.214.175])
-	by mail.openembedded.org (Postfix) with ESMTP id DBE797F953
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D47957F489
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 04:03:27 +0000 (UTC)
-Received: by mail-pl1-f175.google.com with SMTP id g6so4696734plt.2
+	Tue, 14 Jan 2020 05:56:32 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 00E5uXM9007182
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 Jan 2020 20:03:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=2h79UnAKD8hwqrzfX2I9wI3H1qoMReRl9omP83PeY8k=;
-	b=jvKowj1qHDRqbfwBhGjgiI1sFXOfRH1gxGV9QBJlb/9tDzc9QDwhcN+cMOsu1pzmYd
-	NOub6g4M6a2Q6GE0RAtw37F+zkJwwMs0zZCcAOsIOsKcAjQ4dVFLmiIecY7u4sDfwPKu
-	iKyIZMGNIKsZTAGsLqAZ68ZwzoxKZy1ipvqKx5hedGNo3/fMfTQ64UefTawnRFj28IzG
-	f5pokzoPCGcS8tONQNxKLEbxe1NJGmFocZlIOSbhtOxYPHf5IJLl7jZJfzDkMMjrblL9
-	oZ+iT1fV1kx6Z/aXism2iwLHpKmicGXXWV+qbCjdtE8ay/83A1OsNn3Fc+MEaYHxnpTP
-	YL2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=2h79UnAKD8hwqrzfX2I9wI3H1qoMReRl9omP83PeY8k=;
-	b=mi3UKABIOcPKQZRLP6if7JU73VNbNx6FfRbaoTXRhzx38iwEA+bWzBDAfoWnR154Al
-	JCyyBLqYZUNetLtfX4PM1P0W6l1JDvTaAY2AnnN7rsnevtccfX9WVhbQAH0ziNmuAdyv
-	QXk/4GzskdeVRIcdAbiEULq9e+z+IS7xib/wQd0ucuVC9WtUh4VMPonI4RauLj4uis/9
-	/5Fq7n6wVh9ATvELpOk2a9mFipnbVqyTPcya6O5NLKxWCdJppx+Heeb4h1GQKiSOALYk
-	+pN9BkrF9mBnDTzVoze/tDcEpkwxZY+4Yu+KzK2UvoArHqOVzzX70GTEccbIcvjNZePl
-	70EA==
-X-Gm-Message-State: APjAAAVGRbyLKD1Jq0vefly4dwZQhRuz3vCNk+ib9Gs72fTLVR8O84bq
-	B1pt342M5lRa78TcGqqwoAiZp3u6dCw=
-X-Google-Smtp-Source: APXvYqx6A3niE/1Piz0VzKd6tv7On/5q4oXLPTveZfcAe6F3SJD/q4WKU4wVmaSlIeAezKUsmkW4Cg==
-X-Received: by 2002:a17:902:864a:: with SMTP id
-	y10mr2353049plt.2.1578974608592; 
-	Mon, 13 Jan 2020 20:03:28 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:c8c8:687f:1d3e:adde?
-	([2601:646:9200:4e0:c8c8:687f:1d3e:adde])
-	by smtp.gmail.com with ESMTPSA id
-	d27sm14899980pgm.53.2020.01.13.20.03.27
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 13 Jan 2020 20:03:28 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <20200114034013.3421903-1-raj.khem@gmail.com>
-	<20200114040225.2275.1919@do>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <a06491c0-098e-c59a-3b49-755d85e10c51@gmail.com>
-Date: Mon, 13 Jan 2020 20:03:27 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.4.1
+	Mon, 13 Jan 2020 21:56:33 -0800 (PST)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 13 Jan 2020 21:56:32 -0800
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 14 Jan 2020 13:56:09 +0800
+Message-ID: <20200114055609.4115-2-Qi.Chen@windriver.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200114055609.4115-1-Qi.Chen@windriver.com>
+References: <20200114055609.4115-1-Qi.Chen@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20200114040225.2275.1919@do>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGdzdHJlYW1lcjEuMDogRW5hYmxlIGRlYnVnIGluIGJ1aWxkcw==?=
+Subject: [PATCH 2/2] libubootenv: do not use hardcoded lib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,49 +33,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 04:03:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Jan 2020 05:56:33 -0000
+Content-Type: text/plain
 
-On 1/13/20 8:02 PM, Patchwork wrote:
-> == Series Details ==
-> 
-> Series: gstreamer1.0: Enable debug in builds
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/21994/
-> State : failure
->
+Avoid using hardcoded lib to fix the following error.
 
-this applies on top of master-next, tool is confused a bit here.
+  ERROR: libubootenv-0.2-r0 do_package: QA Issue: libubootenv: Files/directories were installed but not shipped in any package:
+    /usr/lib/libubootenv.so
+    /usr/lib/libubootenv.so.0.2
 
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ ...keLists.txt-do-not-use-hardcoded-lib.patch | 28 +++++++++++++++++++
+ meta/recipes-bsp/u-boot/libubootenv_0.2.bb    |  3 +-
+ 2 files changed, 30 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/u-boot/libubootenv/0001-CMakeLists.txt-do-not-use-hardcoded-lib.patch
 
-> == Summary ==
-> 
-> 
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
-> 
-> 
-> 
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->    Suggested fix    Rebase your series on top of targeted branch
->    Targeted branch  master (currently at b6d4150f9c)
-> 
-> 
-> 
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
-> 
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> 
+diff --git a/meta/recipes-bsp/u-boot/libubootenv/0001-CMakeLists.txt-do-not-use-hardcoded-lib.patch b/meta/recipes-bsp/u-boot/libubootenv/0001-CMakeLists.txt-do-not-use-hardcoded-lib.patch
+new file mode 100644
+index 0000000000..6d68fd6add
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/libubootenv/0001-CMakeLists.txt-do-not-use-hardcoded-lib.patch
+@@ -0,0 +1,28 @@
++From e350e181b16c99c7d1c5a81c8255a315898c94dd Mon Sep 17 00:00:00 2001
++From: Chen Qi <Qi.Chen@windriver.com>
++Date: Mon, 13 Jan 2020 21:49:36 -0800
++Subject: [PATCH] CMakeLists.txt: do not use hardcoded lib
++
++Upstream-Status: Pending
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ src/CMakeLists.txt | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
++index 051732b..d4134b7 100644
++--- a/src/CMakeLists.txt
+++++ b/src/CMakeLists.txt
++@@ -19,7 +19,7 @@ add_executable(fw_setenv fw_setenv.c)
++ target_link_libraries(fw_printenv ubootenv z)
++ target_link_libraries(fw_setenv ubootenv z)
++ 
++-install (TARGETS ubootenv DESTINATION lib)
+++install (TARGETS ubootenv DESTINATION ${CMAKE_INSTALL_LIBDIR})
++ install (FILES libuboot.h DESTINATION include)
++ install (TARGETS fw_printenv DESTINATION bin)
++ install (TARGETS fw_setenv DESTINATION bin)
++-- 
++2.21.0
++
+diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+index 23230d132e..31bdaf3ded 100644
+--- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
++++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+@@ -11,7 +11,8 @@ LICENSE = "LGPL-2.1"
+ LIC_FILES_CHKSUM = "file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b364516c"
+ SECTION = "libs"
+ 
+-SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https"
++SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https \
++           file://0001-CMakeLists.txt-do-not-use-hardcoded-lib.patch"
+ SRCREV = "bf6ff631c0e38cede67268ceb8bf1383b5f8848e"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.17.1
 
 
