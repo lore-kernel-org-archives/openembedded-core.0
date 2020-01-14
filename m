@@ -1,52 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 153827FBDD
+Return-Path: <anibal.limon@linaro.org>
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+	[209.85.167.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 91F2D7FBD7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 16:05:58 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id j42so12682376wrj.12
+	Tue, 14 Jan 2020 16:20:25 +0000 (UTC)
+Received: by mail-oi1-f193.google.com with SMTP id p125so12319827oif.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 08:06:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
+	Tue, 14 Jan 2020 08:20:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=dK1j7TjpEhTEqLWdDNvTi5EuqjOdU4Altyob8Ob142E=;
-	b=qpwmT5g3fTVxg0I7uHYbT0pQh/YFW3RuyHv04kEOL9zwyTF140ujTsy6UVid+DJagM
-	ZH1UXaXHYDMKviWYAL31pE3UBkey94AaixPEokL1C9mgHG5rLeBpzuiDUIVOwZIVYtDU
-	y8BHnj48RR4Jsv53t8/rRXSlMvOVW+20wfF1zbSIi8R+ylhJXHPncRcEsCWNt0MdlqTW
-	ecoSGbsFW1AD7VcclsS9fS6p7J3fdxVSpi/3KGUh+ZM6938102Enen/TmO5rEJoTDj7H
-	tAvKCu4dy5qb+v4IxF/lyGRxzVi/KFi61o+yRu6IYeEZmDiNTBvq3NnF37ouc+IuUs7M
-	1vxQ==
+	bh=t3xOnK4hDVzMoGbRF4yOeopVLp2HInIp6tUy7Bn7oUo=;
+	b=Jd+RxE2suB5WbUtoaQzAeo9JVCSxntm+uHhWVHPpBMZ7E/6yK+JOGXYAEkjMN505qF
+	xw7upkHEI1twlPY5485idpEemA0S0cVxUkHR/P83vCao1rOY6TQKpzkVQnuD3Vq+toCv
+	crhuUScM+GNGkbKbOOBssOnlVOElYRW6EWbB5kzcK8CzWAbNPXk2HYeAc85Q/zbARkx9
+	SmUxv/TapxlkfHtfzejLP/4DjnvqMnQloyNIHYnj/fBArdhOgGn5aF5HRpn3JbcsGOz1
+	qltVgck/CIEhNDPUkFmaXagLZZt58HaEfGFh0RugGIr2G4u3q6CRXIwviQa+WUDKFzne
+	2m3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=dK1j7TjpEhTEqLWdDNvTi5EuqjOdU4Altyob8Ob142E=;
-	b=KkQUNIHTao2E9p3ooKzDkEJD7VSIZF9IDhTbCSEP5ijXRyonUIMBQS7hS3vHdttxWW
-	bvG2mTg96HCIGW/VNh6urJGVKm1rsj1aWGn1AGpNPV59HabotEgwFoXDnXwpoXyLgySy
-	qObb5iY2r/2UNDbkc5OM/B4fyMz9/IGZsIV+736NZeS4vG6goV3qOURWL/cRZAtIWY1n
-	pfM4fSOR/67+LkV0Amb2PeM2UBpXsC2Muoa30yc8tdQEVcwdkKVELZ2L2Lr2D0qmimHC
-	AshcR1UOwa9ZH2x3CKrIGRANQsFI+Y1yUp2CYXH91gDfF9H4DivUX+wQtD4wI2/6F0ae
-	T23g==
-X-Gm-Message-State: APjAAAWm78S0HB+Q+zLf6ElagzegPpHX4WWRo0cDIenrNQjNXXaridrr
-	JMe4+faJrnMoQz471fra5zDDfMAb55s=
-X-Google-Smtp-Source: APXvYqzPtVlwpTdkM4Iy09llfN0VCgXkxy/ipY7wv97vZIFj+c61hOQ6UOFIIeSsoEu14Oa968K89g==
-X-Received: by 2002:a5d:65cf:: with SMTP id e15mr26344016wrw.126.1579017958907;
-	Tue, 14 Jan 2020 08:05:58 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	z83sm19856366wmg.2.2020.01.14.08.05.56
-	for <openembedded-core@lists.openembedded.org>
+	bh=t3xOnK4hDVzMoGbRF4yOeopVLp2HInIp6tUy7Bn7oUo=;
+	b=gSVh+YjlkKci6yj2P5kXoSd1iHInDlWdiB4d8WUspqHoKLCVAcHAT5t7AcMDLdr5am
+	3RDBltUUx2JHN3o+0UzWgYUizHUTWgDaLmMbozjXqMEZkSME8tNXurPlsRsLjYwmb8iS
+	o9PjPK+ugkscsYPIHZfcwfsdO5pyXHBpNOof4aH2JVXMUMbXiJ0FCT5MUhLflL93BmEZ
+	1VTkV8oE1IZjYBsvo8ycVKajdlCZJbWHWlPvowCkYQn6RVGet/9Ld7sWeS3d7fZQB92Q
+	FXOc4KVX/j0zAyOcUVsQNdXSwZIMuQWBLltlJRqxlMUvXJnpKvfRDGt16wMMhB8lTwrL
+	kY7A==
+X-Gm-Message-State: APjAAAXVS+5e+EyAQGgZwMvXgeeekrfx/n0q0SS3vmovG+GAHrZ8laY+
+	SDr/Sgc/TXzjEsqa5kXEkiPhDUhsrY0=
+X-Google-Smtp-Source: APXvYqwyWZRAxWQ+PZzxzmosMMEQ9nn5Ngt+d0+YpFffrMK/lF8vYb4Qfy46pTL1lIqaRvko6zvl/g==
+X-Received: by 2002:aca:1204:: with SMTP id 4mr17530271ois.143.1579018826032; 
+	Tue, 14 Jan 2020 08:20:26 -0800 (PST)
+Received: from blackbox.rga.ip ([2806:109f:4:fe82:908a:c7ff:fe6a:e9f5])
+	by smtp.gmail.com with ESMTPSA id i6sm4686059oie.12.2020.01.14.08.20.25
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 08:05:57 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Tue, 14 Jan 2020 08:20:25 -0800 (PST)
+From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 16:05:52 +0000
-Message-Id: <20200114160552.5170-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+Date: Tue, 14 Jan 2020 10:20:23 -0600
+Message-Id: <20200114162023.71342-1-anibal.limon@linaro.org>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Subject: [PATCH] sqlite: fix numerous CVEs
+Subject: [PATCHv2] meta/recipes-graphics/waffle: Add python3 dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,436 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 16:05:59 -0000
+X-List-Received-Date: Tue, 14 Jan 2020 16:20:25 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix the following CVEs:
+The python3native.bbclass set PYTHON_{LIBRARY, INCLUDE_DIR} pointing to
+python target build, a patch was add to use target _sysconfigdata too [1]
+but is not available without python3 dependency.
 
-- CVE-2019-19244
-- CVE-2019-19880
-- CVE-2019-19923
-- CVE-2019-19924
-- CVE-2019-19925
-- CVE-2019-19926
-- CVE-2019-19959
-- CVE-2019-20218
+Fixes waffle build when trying to find _sysconfigdata module,
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+...
+| Program python3 found: YES (/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3)
+|
+| meson.build:36:0: ERROR: <ExternalProgram 'python3' -> ['/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3']> is not a valid python or it is missing setuptools
+|
+| A full log can be found at /home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/build/meson-logs/meson-log.txt
+| WARNING: exit code 1 from a shell command.
+...
+
+[1] http://git.openembedded.org/openembedded-core/commit/?id=02714c105426b0d687620913c1a7401b386428b6
+
+Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- .../sqlite/sqlite3/CVE-2019-19244.patch       | 33 ++++++++++
- .../sqlite/sqlite3/CVE-2019-19880.patch       | 33 ++++++++++
- .../sqlite/sqlite3/CVE-2019-19923.patch       | 50 ++++++++++++++
- .../sqlite/sqlite3/CVE-2019-19924.patch       | 65 +++++++++++++++++++
- .../sqlite/sqlite3/CVE-2019-19925.patch       | 33 ++++++++++
- .../sqlite/sqlite3/CVE-2019-19926.patch       | 31 +++++++++
- .../sqlite/sqlite3/CVE-2019-19959.patch       | 46 +++++++++++++
- .../sqlite/sqlite3/CVE-2019-20218.patch       | 31 +++++++++
- meta/recipes-support/sqlite/sqlite3_3.30.1.bb | 14 +++-
- 9 files changed, 335 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19880.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch
+ meta/recipes-graphics/waffle/waffle_1.6.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch
-new file mode 100644
-index 00000000000..3f70979accb
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19244.patch
-@@ -0,0 +1,33 @@
-+CVE: CVE-2019-19244
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 0f690d4ae5ffe656762fdbb7f36cc4c2dcbb2d9d Mon Sep 17 00:00:00 2001
-+From: dan <dan@noemail.net>
-+Date: Fri, 22 Nov 2019 10:14:01 +0000
-+Subject: [PATCH] Fix a crash that could occur if a sub-select that uses both
-+ DISTINCT and window functions also used an ORDER BY that is the same as its
-+ select list.
-+
-+Amalgamation version of the patch:
-+FossilOrigin-Name: bcdd66c1691955c697f3d756c2b035acfe98f6aad72e90b0021bab6e9023b3ba
-+---
-+ sqlite3.c | 5 +++--
-+ sqlite3.h | 2 +-
-+ 2 files changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 8fd740b..db1c649 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -131679,6 +131679,7 @@ SQLITE_PRIVATE int sqlite3Select(
-+   */
-+   if( (p->selFlags & (SF_Distinct|SF_Aggregate))==SF_Distinct 
-+    && sqlite3ExprListCompare(sSort.pOrderBy, pEList, -1)==0
-++   && p->pWin==0
-+   ){
-+     p->selFlags &= ~SF_Distinct;
-+     pGroupBy = p->pGroupBy = sqlite3ExprListDup(db, pEList, 0);
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19880.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19880.patch
-new file mode 100644
-index 00000000000..ca5c31c57b9
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19880.patch
-@@ -0,0 +1,33 @@
-+CVE: CVE-2019-19880
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 3622d20ad10dfac9586d4423547ed960cbc66fcf Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Wed, 18 Dec 2019 00:05:50 +0000
-+Subject: [PATCH] When processing constant integer values in ORDER BY clauses
-+ of window definitions (see check-in [7e4 ---
-+
-+---
-+ sqlite3.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index db1c649..a83b3d2 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -147584,9 +147584,11 @@ static ExprList *exprListAppendList(
-+     int nInit = pList ? pList->nExpr : 0;
-+     for(i=0; i<pAppend->nExpr; i++){
-+       Expr *pDup = sqlite3ExprDup(pParse->db, pAppend->a[i].pExpr, 0);
-++      assert( pDup==0 || !ExprHasProperty(pDup, EP_MemToken) );
-+       if( bIntToNull && pDup && pDup->op==TK_INTEGER ){
-+         pDup->op = TK_NULL;
-+         pDup->flags &= ~(EP_IntValue|EP_IsTrue|EP_IsFalse);
-++        pDup->u.zToken = 0;
-+       }
-+       pList = sqlite3ExprListAppend(pParse, pList, pDup);
-+       if( pList ) pList->a[nInit+i].sortFlags = pAppend->a[i].sortFlags;
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch
-new file mode 100644
-index 00000000000..b1b866b250a
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19923.patch
-@@ -0,0 +1,50 @@
-+CVE: CVE-2019-19923
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From b64463719dc53bde98b0ce3930b10a32560c3a02 Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Wed, 18 Dec 2019 20:51:58 +0000
-+Subject: [PATCH] Continue to back away from the LEFT JOIN optimization of
-+ check-in [41c27bc0ff1d3135] by disallowing query flattening if the outer
-+ query is DISTINCT.  Without this fix, if an index scan is run on the table
-+ within the view on the right-hand side of the LEFT JOIN, stale result
-+ registers might be accessed yielding incorrect results, and/or an
-+ OP_IfNullRow opcode might be invoked on the un-opened table, resulting in a
-+ NULL-pointer dereference.  This problem was found by the Yongheng and Rui
-+ fuzzer.
-+
-+FossilOrigin-Name: 862974312edf00e9d1068115d1a39b7235b7db68b6d86b81d38a12f025a4748e
-+---
-+ sqlite3.c | 10 +++++++---
-+ 1 file changed, 7 insertions(+), 3 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index d29da07..5bc06c8 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -129216,6 +129216,7 @@ static void substSelect(
-+ **        (3b) the FROM clause of the subquery may not contain a virtual
-+ **             table and
-+ **        (3c) the outer query may not be an aggregate.
-++**        (3d) the outer query may not be DISTINCT.
-+ **
-+ **   (4)  The subquery can not be DISTINCT.
-+ **
-+@@ -129412,8 +129413,11 @@ static int flattenSubquery(
-+   */
-+   if( (pSubitem->fg.jointype & JT_OUTER)!=0 ){
-+     isLeftJoin = 1;
-+-    if( pSubSrc->nSrc>1 || isAgg || IsVirtual(pSubSrc->a[0].pTab) ){
-+-      /*  (3a)             (3c)     (3b) */
-++    if( pSubSrc->nSrc>1                   /* (3a) */
-++     || isAgg                             /* (3b) */
-++     || IsVirtual(pSubSrc->a[0].pTab)     /* (3c) */
-++     || (p->selFlags & SF_Distinct)!=0    /* (3d) */
-++    ){
-+       return 0;
-+     }
-+   }
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch
-new file mode 100644
-index 00000000000..80d5edbb0ce
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19924.patch
-@@ -0,0 +1,65 @@
-+CVE: CVE-2019-19924
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 854fe21e8a987f84da81f6bb9e90abc5355c6621 Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Thu, 19 Dec 2019 20:37:32 +0000
-+Subject: [PATCH] When an error occurs while rewriting the parser tree for
-+ window functions in the sqlite3WindowRewrite() routine, make sure that
-+ pParse->nErr is set, and make sure that this shuts down any subsequent code
-+ generation that might depend on the transformations that were implemented. 
-+ This fixes a problem discovered by the Yongheng and Rui fuzzer.
-+
-+Amalgamation format of backported patch
-+FossilOrigin-Name: e2bddcd4c55ba3cbe0130332679ff4b048630d0ced9a8899982edb5a3569ba7f
-+---
-+ sqlite3.c | 16 +++++++++++-----
-+ sqlite3.h |  2 +-
-+ 2 files changed, 12 insertions(+), 6 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 408ec4c..857c28e 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -77798,7 +77798,8 @@ SQLITE_PRIVATE void sqlite3VdbeSetP4KeyInfo(Parse *pParse, Index *pIdx){
-+ */
-+ static void vdbeVComment(Vdbe *p, const char *zFormat, va_list ap){
-+   assert( p->nOp>0 || p->aOp==0 );
-+-  assert( p->aOp==0 || p->aOp[p->nOp-1].zComment==0 || p->db->mallocFailed );
-++  assert( p->aOp==0 || p->aOp[p->nOp-1].zComment==0 || p->db->mallocFailed
-++          || p->pParse->nErr>0 );
-+   if( p->nOp ){
-+     assert( p->aOp );
-+     sqlite3DbFree(p->db, p->aOp[p->nOp-1].zComment);
-+@@ -97872,6 +97873,7 @@ static int codeCompare(
-+   int addr;
-+   CollSeq *p4;
-+ 
-++  if( pParse->nErr ) return 0;
-+   p4 = sqlite3BinaryCompareCollSeq(pParse, pLeft, pRight);
-+   p5 = binaryCompareP5(pLeft, pRight, jumpIfNull);
-+   addr = sqlite3VdbeAddOp4(pParse->pVdbe, opcode, in2, dest, in1,
-+@@ -147627,7 +147629,7 @@ SQLITE_PRIVATE int sqlite3WindowRewrite(Parse *pParse, Select *p){
-+ 
-+     pTab = sqlite3DbMallocZero(db, sizeof(Table));
-+     if( pTab==0 ){
-+-      return SQLITE_NOMEM;
-++      return sqlite3ErrorToParser(db, SQLITE_NOMEM);
-+     }
-+ 
-+     p->pSrc = 0;
-+@@ -147731,6 +147733,10 @@ SQLITE_PRIVATE int sqlite3WindowRewrite(Parse *pParse, Select *p){
-+     sqlite3DbFree(db, pTab);
-+   }
-+ 
-++  if( rc && pParse->nErr==0 ){
-++    assert( pParse->db->mallocFailed );
-++    return sqlite3ErrorToParser(pParse->db, SQLITE_NOMEM);
-++  }
-+   return rc;
-+ }
-+ 
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch
-new file mode 100644
-index 00000000000..ffc2c6afffa
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19925.patch
-@@ -0,0 +1,33 @@
-+CVE: CVE-2019-19925
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From e92580434d2cdca228649d32f76167492de4f512 Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Thu, 19 Dec 2019 15:15:40 +0000
-+Subject: [PATCH] Fix the zipfile extension so that INSERT works even if the
-+ pathname of the file being inserted is a NULL.  Bug discovered by the
-+ Yongheng and Rui fuzzer.
-+
-+FossilOrigin-Name: a80f84b511231204658304226de3e075a55afc2e3f39ac063716f7a57f585c06
-+---
-+ shell.c   | 1 +
-+ sqlite3.c | 4 ++--
-+ sqlite3.h | 2 +-
-+ 3 files changed, 4 insertions(+), 3 deletions(-)
-+
-+diff --git a/shell.c b/shell.c
-+index 053180c..404a8d4 100644
-+--- a/shell.c
-++++ b/shell.c
-+@@ -5827,6 +5827,7 @@ static int zipfileUpdate(
-+ 
-+     if( rc==SQLITE_OK ){
-+       zPath = (const char*)sqlite3_value_text(apVal[2]);
-++      if( zPath==0 ) zPath = "";
-+       nPath = (int)strlen(zPath);
-+       mTime = zipfileGetTime(apVal[4]);
-+     }
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch
-new file mode 100644
-index 00000000000..92bc7908bcb
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19926.patch
-@@ -0,0 +1,31 @@
-+CVE: CVE-2019-19926
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 4165b1e1e0001165ace9051a70f938099505eadc Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Thu, 19 Dec 2019 22:08:19 +0000
-+Subject: [PATCH] Continuation of [e2bddcd4c55ba3cb]: Add another spot where it
-+ is necessary to abort early due to prior errors in sqlite3WindowRewrite().
-+
-+FossilOrigin-Name: cba2a2a44cdf138a629109bb0ad088ed4ef67fc66bed3e0373554681a39615d2
-+---
-+ sqlite3.c | 7 ++++---
-+ sqlite3.h | 2 +-
-+ 2 files changed, 5 insertions(+), 4 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 857c28e..19a474d 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -128427,6 +128427,7 @@ static int multiSelect(
-+     }
-+   #endif
-+   }
-++  if( pParse->nErr ) goto multi_select_end;
-+   
-+   /* Compute collating sequences used by 
-+   ** temporary tables needed to implement the compound select.
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch
-new file mode 100644
-index 00000000000..cba8ec9d301
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-19959.patch
-@@ -0,0 +1,46 @@
-+CVE: CVE-2019-19959
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From f83f7e8141ee7cbbf7f2dc8985279a7372b259b6 Mon Sep 17 00:00:00 2001
-+From: "D. Richard Hipp" <drh@hwaci.com>
-+Date: Mon, 23 Dec 2019 21:04:33 +0000
-+Subject: [PATCH] Fix the zipfile() function in the zipfile extension so that
-+ it is able to deal with goofy filenames that contain embedded zeros.
-+
-+FossilOrigin-Name: cc0fb00a128fd0773db5ff7891f7aa577a3671d570166d2cbb30df922344adcf
-+---
-+ shell.c   | 4 ++--
-+ sqlite3.c | 4 ++--
-+ sqlite3.h | 2 +-
-+ 3 files changed, 5 insertions(+), 5 deletions(-)
-+
-+diff --git a/shell.c b/shell.c
-+index 404a8d4..48065e9 100644
-+--- a/shell.c
-++++ b/shell.c
-+@@ -5841,7 +5841,7 @@ static int zipfileUpdate(
-+         zFree = sqlite3_mprintf("%s/", zPath);
-+         if( zFree==0 ){ rc = SQLITE_NOMEM; }
-+         zPath = (const char*)zFree;
-+-        nPath++;
-++        nPath = (int)strlen(zPath);
-+       }
-+     }
-+ 
-+@@ -6242,11 +6242,11 @@ void zipfileStep(sqlite3_context *pCtx, int nVal, sqlite3_value **apVal){
-+   }else{
-+     if( zName[nName-1]!='/' ){
-+       zName = zFree = sqlite3_mprintf("%s/", zName);
-+-      nName++;
-+       if( zName==0 ){
-+         rc = SQLITE_NOMEM;
-+         goto zipfile_step_out;
-+       }
-++      nName = (int)strlen(zName);
-+     }else{
-+       while( nName>1 && zName[nName-2]=='/' ) nName--;
-+     }
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch
-new file mode 100644
-index 00000000000..fb6cd6df2d7
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2019-20218.patch
-@@ -0,0 +1,31 @@
-+CVE: CVE-2019-20218
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From 6bbd76d34f29f61483791231f2ce579dcadab8a5 Mon Sep 17 00:00:00 2001
-+From: Dan Kennedy <danielk1977@gmail.com>
-+Date: Fri, 27 Dec 2019 20:54:42 +0000
-+Subject: [PATCH] Do not attempt to unwind the WITH stack in the Parse object
-+ following an error. This fixes a separate case to [de6e6d68].
-+
-+FossilOrigin-Name: d29edef93451cc67a5d69c1cce1b1832d9ca8fff1f600afdd51338b74d077b92
-+---
-+ sqlite3.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 5bc06c8..408ec4c 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -130570,7 +130570,7 @@ static int selectExpander(Walker *pWalker, Select *p){
-+ 
-+   /* Process NATURAL keywords, and ON and USING clauses of joins.
-+   */
-+-  if( db->mallocFailed || sqliteProcessJoin(pParse, p) ){
-++  if( pParse->nErr || db->mallocFailed || sqliteProcessJoin(pParse, p) ){
-+     return WRC_Abort;
-+   }
-+ 
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.30.1.bb b/meta/recipes-support/sqlite/sqlite3_3.30.1.bb
-index f18eeb19ede..e055aca2053 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.30.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.30.1.bb
-@@ -3,6 +3,18 @@ require sqlite3.inc
- LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-graphics/waffle/waffle_1.6.0.bb b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+index 52cb1df899..a620295978 100644
+--- a/meta/recipes-graphics/waffle/waffle_1.6.0.bb
++++ b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+@@ -11,6 +11,8 @@ UPSTREAM_CHECK_URI = "http://www.waffle-gl.org/releases.html"
  
--SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz"
-+SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+           file://CVE-2019-19244.patch \
-+           file://CVE-2019-19880.patch \
-+           file://CVE-2019-19923.patch \
-+           file://CVE-2019-19924.patch \
-+           file://CVE-2019-19925.patch \
-+           file://CVE-2019-19926.patch \
-+           file://CVE-2019-19959.patch \
-+           file://CVE-2019-20218.patch \
-+           "
- SRC_URI[md5sum] = "51252dc6bc9094ba11ab151ba650ff3c"
- SRC_URI[sha256sum] = "8c5a50db089bd2a1b08dbc5b00d2027602ca7ff238ba7658fabca454d4298e60"
+ inherit meson features_check lib_package bash-completion
+ 
++DEPENDS_append = " python3"
 +
-+# -19242 is only an issue in specific development branch commits
-+CVE_CHECK_WHITELIST += "CVE-2019-19242"
+ # This should be overridden per-machine to reflect the capabilities of the GL
+ # stack.
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'glx x11-egl', '', d)} \
 -- 
-2.20.1
+2.24.1
 
 
