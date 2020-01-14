@@ -1,52 +1,49 @@
-Return-Path: <stevenrwalter@gmail.com>
-Received: from mail-yw1-f68.google.com (mail-yw1-f68.google.com
-	[209.85.161.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 24D127FA23
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 313F17FA18
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 22:16:10 +0000 (UTC)
-Received: by mail-yw1-f68.google.com with SMTP id z7so10141408ywd.4
+	Tue, 14 Jan 2020 22:18:55 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id v12so9290499vsv.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 14:16:11 -0800 (PST)
+	Tue, 14 Jan 2020 14:18:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zVweJmcHUh9uqx++0sommMaHC69fNZ4y1kU86DSj9Kg=;
-	b=YmvB0eiVetQklVtIlagy0gqKSwhkNwQeT2MnmkbG58A9rWsKpkERiV/eaxgs6Ig4gI
-	QoYGlJONOZyrji+gdK5dt0/9WIRxrbQSSjulEV/OeTgc7rc9+gfMe5uZnG9n3uKuib3T
-	oKDgundfN4O7pNfbrczatQRewm9phQgAYxF3N/welCkP5qdtbeRaWLaWbcmL9Ya9IgCn
-	rFo4BOGqpMSUAvwQaGtL1uidmz4U5n6Jse0Khn2/aTl6X2N0T+OjdxNeNk285NmrAkwR
-	DD5ko0yfJxWAd9s3/jMekLrZoOWZri13SzvRSoBpgEPL2k8cILfubXSrr8sRU+fURYa0
-	L11A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=TZVDVoMk+SFtciZALYKVQS04xsuHxtyfsuH6+WWesaY=;
+	b=UvpNwYc+HLOwOYFlSb/nz5yZBiGRheiYVFNIEkNISEzwI6xloZxpHbrCF+Xf6L9P4k
+	IS7c90MRWNbWnTFBbAa3ivoUUP7ZItvJ39c9bxuYO8Dd1ZpOIzTjnDb0b5LxkjgpTQBb
+	ugLKxLIt1j3o9vPbLOiDxFQJSwrk48XNdmDhpIPlPsBIupTh92w0QshOXrc691Qn7+oG
+	hvmvE173+5yWFROwBKRQ0CR026Y9n7NZBJFfhfegLHW9XgFXwmb0wXPQBOevOQ5NW5vC
+	qJWySQEnLqMz5BKdsLDnoq4CfzhBhc9HJ3Zqq/U7RLBEHzul2WDz7Ykl11T5m5fxcnkv
+	oBHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zVweJmcHUh9uqx++0sommMaHC69fNZ4y1kU86DSj9Kg=;
-	b=XHGIU1sXFvj6UelrrDnnrjDOOlkoy5BBP3mIAVBuMGcmaf36k0lkSlZoYVeS4W3YSN
-	TZqY6S32rVEWqb1OrDM5SXmd266QZg7qsazpg24N5dGAcxo7Wi3zUa4+QuQdin/Ia8up
-	YBjYDMRMirdWgHG3aj4ff4XZnYRTsMV9JzL5GIJMdJYw8Iv7OJn5YW7GsGL6BO5aUdYv
-	UUPR1qA/zcIvd46AfL/nnJYdznhofw+Sr5T4rhnFr0yeVtEsTo8VeXlnAFMzTeNe8XeV
-	jtqxOVMg4V/5Tkrd2qzqXSvNc3i9mf00aNMdcq4CxeEVsR/cAsTOQNDmP7dCGytwriID
-	g4FA==
-X-Gm-Message-State: APjAAAXwYfWCF7S6f6pwtsqbIdhuSsR1YwnDW5rycJluQawj+GkiqxXt
-	bknvyUjVxjDQSYK0Vm21lqrFYTpJzM8=
-X-Google-Smtp-Source: APXvYqxOnfkY1wrRQp/qO5rgbwjV4Hja+LX21HJIUMAFIBvNsQRAp553AWM323zVNjtOYPjal93o5Q==
-X-Received: by 2002:a81:3c90:: with SMTP id
-	j138mr16002779ywa.319.1579040170940; 
-	Tue, 14 Jan 2020 14:16:10 -0800 (PST)
-Received: from brock.localdomain ([2605:a000:1707:25a:1de4:eabf:e8ce:977a])
-	by smtp.gmail.com with ESMTPSA id
-	n142sm7310999ywd.26.2020.01.14.14.16.10
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 14:16:10 -0800 (PST)
-From: Steven Walter <stevenrwalter@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 17:16:01 -0500
-Message-Id: <20200114221601.5707-1-stevenrwalter@gmail.com>
-X-Mailer: git-send-email 2.24.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=TZVDVoMk+SFtciZALYKVQS04xsuHxtyfsuH6+WWesaY=;
+	b=Bhm6TPcSEtUEcQhgn7d5EZmBsHUN0zVel6i0/dI2SNml4l0yOqjlPgxmk8Loh5s3ka
+	sYQ+u4/v5MhFE70oHM2i0fhccT9SzhuqpHqqZma1cGudTxhmDNKZ7T25QzGmjMotjXeU
+	Cb2SRz3pSEtSC4tZqdYjEo9AnX/06KI0CIfrb+MQYHMEiw25JJlSm9l4iWp/LP8aYvO1
+	s7jHKGREA9g5vqiPWxxhFhIzMHeX66LeKjGl1Le19WaJNt8vPsjc3DZJtQk1Cm+fb2Vf
+	oePig9VHgrjDubv5oB6UAuuB4Q6JU95rbb++chjlOrRlTnDmolc4GoUCxziDuDHyu3tO
+	7EMA==
+X-Gm-Message-State: APjAAAV6+RMEUZUlMlKHnWm9SWfK+fFYnZUkeHv9mdI6/hY8LaT+yPm4
+	1/eDMLcplNG9z4bcaT6tE4dyCc/Q5/tSTz6qLGvwo93ekr0=
+X-Google-Smtp-Source: APXvYqyhVsxQi8dlooAJiJzHVMcIv5ia6iMIV5WtSjdtFDR3KVxSCjqAvKkhRLQkOcdFAmzO35dRFFNyEtt62gtpHm4=
+X-Received: by 2002:a05:6102:405:: with SMTP id
+	d5mr2551551vsq.94.1579040336035; 
+	Tue, 14 Jan 2020 14:18:56 -0800 (PST)
 MIME-Version: 1.0
-Cc: Steven Walter <stevenrwalter@gmail.com>
-Subject: [PATCH 2/2] Allow original $GPG_AGENT_INFO into do_fetch
+References: <20200114193010.92629-1-Oleg.Polyakov@windriver.com>
+	<13AD08C4-930D-479F-81E7-3B6405C3BD94@gmail.com>
+	<e0a7cf43-7d0b-5318-22de-9009d702061f@windriver.com>
+In-Reply-To: <e0a7cf43-7d0b-5318-22de-9009d702061f@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 14 Jan 2020 23:18:44 +0100
+Message-ID: <CANNYZj83UugdN=aNFncqFRF304YxBtYLgd6b4bP-Na_bLvMvwA@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] vim: update from 8.1.1518 to 8.2.0110
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,49 +56,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 22:16:10 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 14 Jan 2020 22:18:55 -0000
+Content-Type: multipart/alternative; boundary="00000000000050c7a3059c20fa65"
 
-subversion 1.9 uses gpg to encrypt authentication details that are
-stored in ~/.subversion.  This means that GPG_AGENT_INFO needs to be
-available when svn is run by do_fetch, or else svn will not be able to
-authenticate to the remote server.  Treat GPG_AGENT_INFO like
-SSH_AUTH_SOCK, including it in the fetch environment and BB_ENV_EXTRAWHITE
+--00000000000050c7a3059c20fa65
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Steven Walter <stevenrwalter@gmail.com>
----
- meta/conf/bitbake.conf       | 2 +-
- scripts/oe-buildenv-internal | 3 ++-
- 2 files changed, 3 insertions(+), 2 deletions(-)
+On Tue, 14 Jan 2020 at 21:10, Randy MacLeod <randy.macleod@windriver.com>
+wrote:
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index e75bbcece0..3b083d9103 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -878,7 +878,7 @@ BB_HASHCONFIG_WHITELIST ?= "${BB_HASHBASE_WHITELIST} DATE TIME SSH_AGENT_PID \
-     PARALLEL_MAKE BB_NUMBER_THREADS BB_ORIGENV BB_INVALIDCONF BBINCLUDED \
-     GIT_PROXY_COMMAND ALL_PROXY all_proxy NO_PROXY no_proxy FTP_PROXY ftp_proxy \
-     HTTP_PROXY http_proxy HTTPS_PROXY https_proxy SOCKS5_USER SOCKS5_PASSWD \
--    BB_SETSCENE_ENFORCE BB_CMDLINE BB_SERVER_TIMEOUT"
-+    BB_SETSCENE_ENFORCE BB_CMDLINE BB_SERVER_TIMEOUT GPG_AGENT_INFO"
- BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
-     lockfiles type vardepsexclude vardeps vardepvalue vardepvalueexclude \
-     file-checksums python func task export unexport noexec nostamp dirs cleandirs \
-diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
-index c17cf4da71..3e0cd642b5 100755
---- a/scripts/oe-buildenv-internal
-+++ b/scripts/oe-buildenv-internal
-@@ -106,7 +106,8 @@ BB_ENV_EXTRAWHITE_OE="MACHINE DISTRO TCMODE TCLIBC HTTP_PROXY http_proxy \
- HTTPS_PROXY https_proxy FTP_PROXY ftp_proxy FTPS_PROXY ftps_proxy ALL_PROXY \
- all_proxy NO_PROXY no_proxy SSH_AGENT_PID SSH_AUTH_SOCK BB_SRCREV_POLICY \
- SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_MAKE GIT_PROXY_COMMAND \
--SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR BBPATH_EXTRA BB_SETSCENE_ENFORCE"
-+SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR BBPATH_EXTRA BB_SETSCENE_ENFORCE \
-+GPG_AGENT_INFO"
- 
- BB_ENV_EXTRAWHITE="$(echo $BB_ENV_EXTRAWHITE $BB_ENV_EXTRAWHITE_OE | tr ' ' '\n' | LC_ALL=C sort --unique | tr '\n' ' ')"
- 
--- 
-2.24.1
+> Oleg is getting started using Yocto so I'll reply on his behalf since
+> I asked him to update vim as his first commit.
+>
+> I'm not sure what you mean by 8.2. Are you talking about calling the
+> recipe:
+>     vim_8.2.bb
+> instead of vim_8.2.0110.bb?
+>
+> Vim tags on a daily or more frequent basis. Are you saying that we
+> should keep the
+> same SRCREV for 8.2.0110 but use a different name?
+>
+> I looked at:
+>     git log v8.2.0000..v8.2.0118
+> and all the commits seem to fix bugs so I prefer to take this tested
+> v8.2.0110
+> update and update vim every month or two so that we get the latest fixes.
+>
 
+Vim adds a tag for every single commit they make, fixes or not, so this
+approach would in effect be updating to random development snapshots. I
+would rather have a more conservative update strategy, and update to the
+original 8.2 release. If you look at the homepage, 8.2 is the version they
+announced as the new release: https://www.vim.org/
 
+That's also what 'devtool latest-version vim' should currently report and
+'devtool upgrade' upgrade to: I purposely cut off the point releases and
+left only the major.minor part there.
+
+Alex
+
+--00000000000050c7a3059c20fa65
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 14 Jan 2020 at 21:10, Randy MacLe=
+od &lt;<a href=3D"mailto:randy.macleod@windriver.com">randy.macleod@windriv=
+er.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">Oleg is getting started using Yocto so I&#=
+39;ll reply on his behalf since<br>
+I asked him to update vim as his first commit.<br>
+<br>
+I&#39;m not sure what you mean by 8.2. Are you talking about calling the re=
+cipe:<br>
+=C2=A0=C2=A0=C2=A0 <a href=3D"http://vim_8.2.bb" rel=3D"noreferrer" target=
+=3D"_blank">vim_8.2.bb</a><br>
+instead of <a href=3D"http://vim_8.2.0110.bb" rel=3D"noreferrer" target=3D"=
+_blank">vim_8.2.0110.bb</a>?<br>
+<br>
+Vim tags on a daily or more frequent basis. Are you saying that we <br>
+should keep the<br>
+same SRCREV for 8.2.0110 but use a different name?<br>
+<br>
+I looked at:<br>
+=C2=A0=C2=A0=C2=A0 git log v8.2.0000..v8.2.0118<br>
+and all the commits seem to fix bugs so I prefer to take this tested <br>
+v8.2.0110<br>
+update and update vim every month or two so that we get the latest fixes.<b=
+r></blockquote><div><br></div><div>Vim adds a tag for every single commit t=
+hey make, fixes or not, so this approach would in effect be updating to ran=
+dom development snapshots. I would rather have a more conservative update s=
+trategy, and update to the original 8.2 release. If you look at the homepag=
+e, 8.2 is the version they announced as the new release: <a href=3D"https:/=
+/www.vim.org/">https://www.vim.org/</a></div><div><br></div><div>That&#39;s=
+ also what &#39;devtool latest-version vim&#39; should currently report and=
+ &#39;devtool upgrade&#39; upgrade to: I purposely cut off the point releas=
+es and left only the major.minor part there.<br></div><div><br></div><div>A=
+lex<br></div></div></div>
+
+--00000000000050c7a3059c20fa65--
