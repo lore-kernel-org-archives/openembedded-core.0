@@ -1,49 +1,46 @@
-Return-Path: <anibal.limon@linaro.org>
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
-	[209.85.167.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 91F2D7FBD7
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com
+	[209.85.217.53])
+	by mail.openembedded.org (Postfix) with ESMTP id BEEA27FC1B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 16:20:25 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id p125so12319827oif.10
+	Tue, 14 Jan 2020 16:24:24 +0000 (UTC)
+Received: by mail-vs1-f53.google.com with SMTP id x123so8605655vsc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 08:20:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=t3xOnK4hDVzMoGbRF4yOeopVLp2HInIp6tUy7Bn7oUo=;
-	b=Jd+RxE2suB5WbUtoaQzAeo9JVCSxntm+uHhWVHPpBMZ7E/6yK+JOGXYAEkjMN505qF
-	xw7upkHEI1twlPY5485idpEemA0S0cVxUkHR/P83vCao1rOY6TQKpzkVQnuD3Vq+toCv
-	crhuUScM+GNGkbKbOOBssOnlVOElYRW6EWbB5kzcK8CzWAbNPXk2HYeAc85Q/zbARkx9
-	SmUxv/TapxlkfHtfzejLP/4DjnvqMnQloyNIHYnj/fBArdhOgGn5aF5HRpn3JbcsGOz1
-	qltVgck/CIEhNDPUkFmaXagLZZt58HaEfGFh0RugGIr2G4u3q6CRXIwviQa+WUDKFzne
-	2m3A==
+	Tue, 14 Jan 2020 08:24:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=+0OxDEF7fEx0KWqj5BA09AWYMgQXjVRX6oNdSKRQ2Pk=;
+	b=oWFdv6OOY1vnDAbKglpIAtANGB7BA/cL6kIgg4tCrJfsBKNAEB0Zg1QBY07JyFnjZK
+	R+A+L3NmCwnZ7pKkjUUiV8IJrt5jiQ45RPcTwQAFnkUoPtlAsUoBjyEY2C4jCD4dhH8f
+	n/YLUuXlGugQlVGh7HulAQf2FDVre/ydhRyye5imgp4+W7ejRMH6UpUIQa4E0oOE/Z1c
+	9+OVdvboexTwJZ0nS3dYHX3aAVUq4k991s0aTwCxpthBzOQrxULPIBXLzVG+i/8FdxHK
+	jd5iCIfpORUbNRnMmZRpMaW3fEf8vN7I4mWUL8yIsVyI0QeaYwRzBg8xQb3HKqSRt5zF
+	aChw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=t3xOnK4hDVzMoGbRF4yOeopVLp2HInIp6tUy7Bn7oUo=;
-	b=gSVh+YjlkKci6yj2P5kXoSd1iHInDlWdiB4d8WUspqHoKLCVAcHAT5t7AcMDLdr5am
-	3RDBltUUx2JHN3o+0UzWgYUizHUTWgDaLmMbozjXqMEZkSME8tNXurPlsRsLjYwmb8iS
-	o9PjPK+ugkscsYPIHZfcwfsdO5pyXHBpNOof4aH2JVXMUMbXiJ0FCT5MUhLflL93BmEZ
-	1VTkV8oE1IZjYBsvo8ycVKajdlCZJbWHWlPvowCkYQn6RVGet/9Ld7sWeS3d7fZQB92Q
-	FXOc4KVX/j0zAyOcUVsQNdXSwZIMuQWBLltlJRqxlMUvXJnpKvfRDGt16wMMhB8lTwrL
-	kY7A==
-X-Gm-Message-State: APjAAAXVS+5e+EyAQGgZwMvXgeeekrfx/n0q0SS3vmovG+GAHrZ8laY+
-	SDr/Sgc/TXzjEsqa5kXEkiPhDUhsrY0=
-X-Google-Smtp-Source: APXvYqwyWZRAxWQ+PZzxzmosMMEQ9nn5Ngt+d0+YpFffrMK/lF8vYb4Qfy46pTL1lIqaRvko6zvl/g==
-X-Received: by 2002:aca:1204:: with SMTP id 4mr17530271ois.143.1579018826032; 
-	Tue, 14 Jan 2020 08:20:26 -0800 (PST)
-Received: from blackbox.rga.ip ([2806:109f:4:fe82:908a:c7ff:fe6a:e9f5])
-	by smtp.gmail.com with ESMTPSA id i6sm4686059oie.12.2020.01.14.08.20.25
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 08:20:25 -0800 (PST)
-From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 Jan 2020 10:20:23 -0600
-Message-Id: <20200114162023.71342-1-anibal.limon@linaro.org>
-X-Mailer: git-send-email 2.24.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=+0OxDEF7fEx0KWqj5BA09AWYMgQXjVRX6oNdSKRQ2Pk=;
+	b=JRDvH+JqS1TEdwyz83iKPw7xM5yykrTAz5yHSiff4eiP98C+tn2PVmHx+nkQMHHjAl
+	QroKl9I9OCj6leLkXVxBIoxJ0aABPfwZLUkTw1wT7aA2TzdhG3pfpwFSl06o558xq737
+	TLs55LtB8rP9wO0Hvol8yVwDfon5+Nc6+ibF83uurv2DHHgEVG9/IRhMuf/xd1I90sQG
+	lGu6bmHyBbyqrFaHZPkIlfPcAEplE9T/LKAoTxh1vQKOkqBYnrU6JIavKadc56TYKy9Y
+	j+oNYFkGBevWUJk/PZTY0Zt6Rr+imHcWAFpPaGulqbx70Mtg7rD4apA+H92FNb989aqm
+	Yfjw==
+X-Gm-Message-State: APjAAAXhbeHlXP/l07jqj0DU+6QA9rna2U85Xbup/Uo4nBj0/rvNLhbX
+	yCbAkSCvT+FnbRrfKtkhakjYo0Pi4MJOFm68I/E=
+X-Google-Smtp-Source: APXvYqwl/RfN+HYMnIc6edRcv8+ObuSjWS8BaAUaGdh1jdCbL9x9JTT/qqPTkJ5zWYptEvmyvXX+RUipEVFD0GRQoog=
+X-Received: by 2002:a67:3187:: with SMTP id x129mr1853331vsx.23.1579019065389; 
+	Tue, 14 Jan 2020 08:24:25 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCHv2] meta/recipes-graphics/waffle: Add python3 dependency
+References: <20200114162023.71342-1-anibal.limon@linaro.org>
+In-Reply-To: <20200114162023.71342-1-anibal.limon@linaro.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 14 Jan 2020 17:24:12 +0100
+Message-ID: <CANNYZj9O4o+mCrAnUVwF2R-8=wtO=CLJ1SzdhhHT5eb3f3sZoQ@mail.gmail.com>
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] meta/recipes-graphics/waffle: Add python3 dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,46 +53,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 16:20:25 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 14 Jan 2020 16:24:24 -0000
+Content-Type: multipart/alternative; boundary="0000000000007c73f8059c1c063e"
 
-The python3native.bbclass set PYTHON_{LIBRARY, INCLUDE_DIR} pointing to
-python target build, a patch was add to use target _sysconfigdata too [1]
-but is not available without python3 dependency.
+--0000000000007c73f8059c1c063e
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fixes waffle build when trying to find _sysconfigdata module,
+This failure is not seen on the autobuilder. Is it something that happens
+only under specific condition, and so should the dependency be conditional
+to that?
 
-...
-| Program python3 found: YES (/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3)
-|
-| meson.build:36:0: ERROR: <ExternalProgram 'python3' -> ['/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-native/python3']> is not a valid python or it is missing setuptools
-|
-| A full log can be found at /home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/build/meson-logs/meson-log.txt
-| WARNING: exit code 1 from a shell command.
-...
+Alex
 
-[1] http://git.openembedded.org/openembedded-core/commit/?id=02714c105426b0d687620913c1a7401b386428b6
+On Tue, 14 Jan 2020 at 17:20, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.o=
+rg> wrote:
 
-Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
----
- meta/recipes-graphics/waffle/waffle_1.6.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+> The python3native.bbclass set PYTHON_{LIBRARY, INCLUDE_DIR} pointing to
+> python target build, a patch was add to use target _sysconfigdata too [1]
+> but is not available without python3 dependency.
+>
+> Fixes waffle build when trying to find _sysconfigdata module,
+>
+> ...
+> | Program python3 found: YES
+> (/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aa=
+rch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-na=
+tive/python3)
+> |
+> | meson.build:36:0: ERROR: <ExternalProgram 'python3' ->
+> ['/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/a=
+arch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-n=
+ative/python3']>
+> is not a valid python or it is missing setuptools
+> |
+> | A full log can be found at
+> /home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aar=
+ch64-linaro-linux/waffle/1.6.0-r0/build/meson-logs/meson-log.txt
+> | WARNING: exit code 1 from a shell command.
+> ...
+>
+> [1]
+> http://git.openembedded.org/openembedded-core/commit/?id=3D02714c105426b0=
+d687620913c1a7401b386428b6
+>
+> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
+> ---
+>  meta/recipes-graphics/waffle/waffle_1.6.0.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+> b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+> index 52cb1df899..a620295978 100644
+> --- a/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+> +++ b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+> @@ -11,6 +11,8 @@ UPSTREAM_CHECK_URI =3D "
+> http://www.waffle-gl.org/releases.html"
+>
+>  inherit meson features_check lib_package bash-completion
+>
+> +DEPENDS_append =3D " python3"
+> +
+>  # This should be overridden per-machine to reflect the capabilities of
+> the GL
+>  # stack.
+>  PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'glx
+> x11-egl', '', d)} \
+> --
+> 2.24.1
+>
+>
 
-diff --git a/meta/recipes-graphics/waffle/waffle_1.6.0.bb b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
-index 52cb1df899..a620295978 100644
---- a/meta/recipes-graphics/waffle/waffle_1.6.0.bb
-+++ b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
-@@ -11,6 +11,8 @@ UPSTREAM_CHECK_URI = "http://www.waffle-gl.org/releases.html"
- 
- inherit meson features_check lib_package bash-completion
- 
-+DEPENDS_append = " python3"
-+
- # This should be overridden per-machine to reflect the capabilities of the GL
- # stack.
- PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'glx x11-egl', '', d)} \
--- 
-2.24.1
+--0000000000007c73f8059c1c063e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>This failure is not seen on the autobuilder. Is it so=
+mething that happens only under specific condition, and so should the depen=
+dency be conditional to that?</div><div><br></div><div>Alex<br></div></div>=
+<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue=
+, 14 Jan 2020 at 17:20, An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal=
+.limon@linaro.org">anibal.limon@linaro.org</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
+ solid rgb(204,204,204);padding-left:1ex">The python3native.bbclass set PYT=
+HON_{LIBRARY, INCLUDE_DIR} pointing to<br>
+python target build, a patch was add to use target _sysconfigdata too [1]<b=
+r>
+but is not available without python3 dependency.<br>
+<br>
+Fixes waffle build when trying to find _sysconfigdata module,<br>
+<br>
+...<br>
+| Program python3 found: YES (/home/anibal.limon/linaro/oe-rpb-master/build=
+-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroo=
+t-native/usr/bin/python3-native/python3)<br>
+|<br>
+| meson.build:36:0: ERROR: &lt;ExternalProgram &#39;python3&#39; -&gt; [&#3=
+9;/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aar=
+ch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-nat=
+ive/python3&#39;]&gt; is not a valid python or it is missing setuptools<br>
+|<br>
+| A full log can be found at /home/anibal.limon/linaro/oe-rpb-master/build-=
+410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/build/meson-lo=
+gs/meson-log.txt<br>
+| WARNING: exit code 1 from a shell command.<br>
+...<br>
+<br>
+[1] <a href=3D"http://git.openembedded.org/openembedded-core/commit/?id=3D0=
+2714c105426b0d687620913c1a7401b386428b6" rel=3D"noreferrer" target=3D"_blan=
+k">http://git.openembedded.org/openembedded-core/commit/?id=3D02714c105426b=
+0d687620913c1a7401b386428b6</a><br>
+<br>
+Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
+naro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/waffle/<a href=3D"http://waffle_1.6.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">waffle_1.6.0.bb</a> | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-graphics/waffle/<a href=3D"http://waffle_1.6.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">waffle_1.6.0.bb</a> b/meta/recipes-g=
+raphics/waffle/<a href=3D"http://waffle_1.6.0.bb" rel=3D"noreferrer" target=
+=3D"_blank">waffle_1.6.0.bb</a><br>
+index 52cb1df899..a620295978 100644<br>
+--- a/meta/recipes-graphics/waffle/<a href=3D"http://waffle_1.6.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">waffle_1.6.0.bb</a><br>
++++ b/meta/recipes-graphics/waffle/<a href=3D"http://waffle_1.6.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">waffle_1.6.0.bb</a><br>
+@@ -11,6 +11,8 @@ UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://www.waffle=
+-gl.org/releases.html" rel=3D"noreferrer" target=3D"_blank">http://www.waff=
+le-gl.org/releases.html</a>&quot;<br>
+<br>
+=C2=A0inherit meson features_check lib_package bash-completion<br>
+<br>
++DEPENDS_append =3D &quot; python3&quot;<br>
++<br>
+=C2=A0# This should be overridden per-machine to reflect the capabilities o=
+f the GL<br>
+=C2=A0# stack.<br>
+=C2=A0PACKAGECONFIG ??=3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#=
+39;, &#39;x11&#39;, &#39;glx x11-egl&#39;, &#39;&#39;, d)} \<br>
+-- <br>
+2.24.1<br>
+<br>
+</blockquote></div>
 
+--0000000000007c73f8059c1c063e--
