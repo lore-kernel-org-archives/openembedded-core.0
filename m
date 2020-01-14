@@ -1,61 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 49F7C7F7E9
+Return-Path: <crg7475@mailbox.org>
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 456437FC08
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 18:37:33 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id d73so15022961wmd.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 10:37:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=S3LhRMtgJs5rZvEV7G9B+emOybx8C/p6F/2VR7+KPag=;
-	b=iXiFSwa2HKLwdWA3Y7AJVdK4nxg1HIvJmXhtWIIwUtwN5Eys+ei/fPpt/CaHVFj6u1
-	epIgPWIfeqRzNP70h/kYan4h+QvKyLp59ioOZtRqBSoxLjeJnDsvta5c5cMGs02azz2/
-	Onc9UPLlpTzKsnYG/qVGv9+meXNdO2uiht8qs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=S3LhRMtgJs5rZvEV7G9B+emOybx8C/p6F/2VR7+KPag=;
-	b=ih/ZHeYmsUcKbfCPUSN0XwRsndVq2Jky7d3nzNuzW5X5vrqoOEuC30DUgLvVeXKC6I
-	lqTCZzTfJmr2H/yH0T9m7yFs1z5ik+teTFZMXW4zEJD5B+eJnY4695Uq+doHSnvJnqpx
-	NjXY1tfAugkIf5BbcubcjGjMsdAv2yCBqaJ3GvW4w525lwqeiB/oXrbr13u5uum9YkRQ
-	DdlFAJ2mGH81tAeafNmnu2caQIBLlesLtCAHjhdeaO22WOkgT5+eTLzlfvDw7c4hGAHo
-	WIZ/dhnY6PJkhPhRgR88UdTYcVKQ4LZz1SX917Zd/+4WJPvbHGrUHiqG0DZz4Dc43Du4
-	rC7w==
-X-Gm-Message-State: APjAAAWcoZAWNZzQeYJ8DgurMPMdSvXNNWl9KW93epuBtcVnVqKrgCCH
-	TOjSf0A6EuNERyFbMZViCuKqNw==
-X-Google-Smtp-Source: APXvYqzpEQcDTgPXoB0HOz8GmT7U+AJ3Tego4fjgBR87gz11uQL1amKRMIHYJEC4Fpg9XcQe2omhEg==
-X-Received: by 2002:a7b:cb97:: with SMTP id m23mr28202488wmi.37.1579027053902; 
-	Tue, 14 Jan 2020 10:37:33 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	s1sm19614713wmc.23.2020.01.14.10.37.32
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 10:37:33 -0800 (PST)
-Message-ID: <f0c8a17ce2765737f45f6b4b07910cb27d59b1b8.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 14 Jan 2020 18:37:56 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 47xzjJ55T1zQlDQ;
+	Tue, 14 Jan 2020 19:37:56 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+	content-language:content-type:content-type:in-reply-to
+	:mime-version:date:date:message-id:from:from:references:subject
+	:subject:received; s=mail20150812; t=1579027072; bh=hiPf1jJgR7FP
+	d48bcMC1lSqAlx2dwY7G9f5lloQfZpM=; b=uemAseP4v9+NA6WZNUG5Za5nRUZy
+	Obo//Ccc7l0kburDhZV85/UpDcy7ee0j3MvdKfWYm2To/7tcFPa3RA6+ai01ScOe
+	BvrihySCKTbv8CZMkrjO2ESw0GYrY5mlRXX69SbaPyI0EXO+CAq6ocaOQ2DJM0fw
+	/9ROudOVxoIfeuonGf47S19lXDeHmq4Rp++UmXUexoBxraWPII1GAj5Fb2SaR8so
+	DuklzHHw53XUFarzqPeAAf2qKqIU0ghVNINc+FPW+gla+Hk1hxTyXwd/h9hG1tHq
+	1eReOvmntl4mcLr2ZoLwcxVDe3X3C9lwIP8Y/SbY8aqDo5JpR4XG0a7FQg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+	s=mail20150812; t=1579027074;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	in-reply-to:in-reply-to:references:references;
+	bh=qS0quMOlL7MQEvDI9zcyZQZMec98lnkokRu9imgym10=;
+	b=Q28Bx6z04kF0CfZ0m5oSzoNnW4Qwn9teEKQAXWO1iJ36iAMiLZdvNbkvHMD7/FOKmrDupi
+	ugpspprqYMHKqsNfz22OGKzMXBbMt/270Iv0F6HJ1js3xAIw7kDDxcfuvKJGHX9jyIybiH
+	W1vrd9onyQ9DPrMgAOlYu/vFsz4htPdJT7n32b1c0RbvAtYCtFoAOnJ+0jbDRiPtohOUna
+	1k+u3eGHL6pcz8IW0kIdtG8cbS3DfJUfXME6jgCstUzS86F+K0TJI+roJyhvkriRBkUKHg
+	uOJQCiAVMQMTbSi5qSjikSmOXp5S72wquykKrpCp4H6M/6JXY0X5SLjEK63NqQ==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+	by gerste.heinlein-support.de (gerste.heinlein-support.de
+	[91.198.250.173]) (amavisd-new, port 10030)
+	with ESMTP id tOfhtJxz9npT; Tue, 14 Jan 2020 19:37:52 +0100 (CET)
 To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 14 Jan 2020 18:37:31 +0000
-In-Reply-To: <CANNYZj8JaWrOctDzoG7gXxWUa4TZUBSLo-S-8Xk=xSzin_egMw@mail.gmail.com>
-References: <20200108132759.95603-1-alex.kanavin@gmail.com>
-	<20200108132759.95603-5-alex.kanavin@gmail.com>
-	<492572ea126b424def780911c58230941842dd91.camel@linuxfoundation.org>
-	<CANNYZj-=HOtgRiTh9xcnt9Q7c+gcm-Le26dfJeY0f3+Pt2HQsQ@mail.gmail.com>
-	<8f8e989f2e630df2fcbee68f1ea18034549e069d.camel@andred.net>
-	<b264b9d4f20106585d8a3daa6da6652f6ec90873.camel@andred.net>
-	<CANNYZj96gxDZnxLKzEZUy+qehNQirO87hrUeKOR9KCrPmnWsOQ@mail.gmail.com>
-	<bdc3d78fb086561f839d8a6a41d2ed336ef5a793.camel@linuxfoundation.org>
-	<CANNYZj-MWCDrwtWDgb5YYUSAY0oxMjKvnA3B=K-b151+mQ51oQ@mail.gmail.com>
-	<9ebe5e019aa41e1c79cae9f0657b044687701759.camel@linuxfoundation.org>
-	<CANNYZj8JaWrOctDzoG7gXxWUa4TZUBSLo-S-8Xk=xSzin_egMw@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+References: <20200112135954.23868-1-crg7475@mailbox.org>
+	<725d92f91a56183e4166e633c0443fad44f6c5ba.camel@linuxfoundation.org>
+	<a7a27af5-86c6-de19-d426-d8e62f2e8497@mailbox.org>
+	<10f99a93a316115216d4e63d2b34a84dfc9e6925.camel@linuxfoundation.org>
+	<a2b0cd22-c849-2bc4-9032-485ad4d51108@mailbox.org>
+	<CANNYZj9teCJ8-B_Zq51zKzCC+mHK5f0CseRm4LDymT9Ci5JBwQ@mail.gmail.com>
+	<CANNYZj-Vd2E76rvAbxw8xNeyQa-SWy_zwomCOcSSKViCYdATDw@mail.gmail.com>
+From: Carlos Rafael Giani <crg7475@mailbox.org>
+Message-ID: <91334112-4d52-8f7e-d656-8989cc462b93@mailbox.org>
+Date: Tue, 14 Jan 2020 19:37:51 +0100
 MIME-Version: 1.0
+In-Reply-To: <CANNYZj-Vd2E76rvAbxw8xNeyQa-SWy_zwomCOcSSKViCYdATDw@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/28] python3: update to 3.8.1
+Subject: Re: [PATCH 01/12] gstreamer: Add common .inc files for meson based recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,46 +61,402 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 Jan 2020 18:37:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 Jan 2020 18:37:56 -0000
+Content-Type: multipart/alternative;
+	boundary="------------5884E9447F6976A78A856A80"
+Content-Language: en-US
 
-On Tue, 2020-01-14 at 13:19 +0100, Alexander Kanavin wrote:
-> On Tue, 14 Jan 2020 at 11:23, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > For extra data I reran this on a builder where it failed. This time
-> > it
-> > worked out ok. I can think of two different things we could try:
-> > 
-> > a) Add some debug to the code so that when a unknown user error
-> > occurs,
-> > it triggers a mention of the filename with the issue
-> > 
-> > b) Potentially try turning off any parallel install code for
-> > python.
-> > I'm starting to wonder if that is racing somehow over file
-> > ownership.
-> > Making it single thread may make the issue appear (or it may
-> > disappear).
-> 
-> I tried setting PARALLEL_MAKEINST to "", and it didn't make any
-> difference (python is using standard autotools). I guess we'll have
-> to catch the build directory when it happens again somehow.
+--------------5884E9447F6976A78A856A80
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-The autobuilder failed with this again, I went in and the first bit of
-debugging I added was to say which file its failing on. Answer was:
+Nice find! But, there is still one issue Khem found, regarding errors in 
+meta-multimedia plugins: https://errors.yoctoproject.org/Errors/Build/96752/
 
-WARNING: python3-3.8.1-r0 do_package: ./package/usr/libx32/python3.8/__pycache__/_bootlocale.cpython-38.opt-2.pyc
+This, and the discussion about the qt5 packageconfig, means to me that a 
+v2 set is warranted. What do you think?
 
-so for some reason the ownership of the pyc file (or files) is suspect.
+On 14.01.20 16:51, Alexander Kanavin wrote:
+> I just sent a patch for this, and for the ptest issue. Should be good 
+> to merge now!
+>
+> Alex
+>
+> On Mon, 13 Jan 2020 at 19:01, Alexander Kanavin 
+> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
+>
+>     I have reproduced this just now. You need to set up a special
+>     'nodistro' configuration like this:
+>
+>     bblayers.conf:
+>     BBLAYERS ?= " \
+>       /home/alexander/development/poky/meta \
+>     "
+>     (and no other layers)
+>
+>     local.conf:
+>
+>     MACHINE ??= "qemuarm"
+>     DISTRO ?= "nodistro"
+>     INHERIT += 'uninative'
+>     require conf/distro/include/yocto-uninative.inc
+>     ... (dl_dir, sstate etc)
+>
+>     and build gstreamer1.0-plugins-base.
+>
+>     Alex
+>
+>
+>     On Mon, 13 Jan 2020 at 16:38, Carlos Rafael Giani
+>     <crg7475@mailbox.org <mailto:crg7475@mailbox.org>> wrote:
+>
+>         Except that there is no such package. Also, even if I build
+>         GStreamer
+>         from scratch with all optional packageconfigs disabled, I do
+>         not get
+>         this error, nor do I get any warnings about potentially missing
+>         dependencies. So, I don't know what is going on here..
+>
+>         On 13.01.20 13:59, Richard Purdie wrote:
+>         > On Mon, 2020-01-13 at 13:55 +0100, Carlos Rafael Giani wrote:
+>         >> Nope. This is an odd one. Are you sure there isn't a
+>         problem with
+>         >> the
+>         >> setup itself? In step2c, I see:
+>         >>
+>         >>   > ERROR: core-image-sato-1.0-r0 do_testsdk: The toolchain
+>         >> /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-
+>         >> glibc/deploy/sdk/oecore-i686-armv7vet2hf-neon-toolchain-
+>         >> nodistro.0.sh <http://nodistro.0.sh>
+>         >> is not built. Build it before running the tests: 'bitbake
+>         <image> -c
+>         >> populate_sdk' .
+>         > 2c fails as earlier stepd didn't build. I think the real
+>         issue is
+>         > step1b which says:
+>         >
+>         > | Compiler for C supports arguments
+>         -Wdeclaration-after-statement: YES
+>         > | Found pkg-config:
+>         /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native/usr/bin/pkg-config
+>         (0.29.2)
+>         > | Run-time dependency x11 found: YES 1.6.9
+>         > | Run-time dependency glib-2.0 found: YES 2.62.4
+>         > | Run-time dependency gobject-2.0 found: YES 2.62.4
+>         > | Run-time dependency gio-2.0 found: YES 2.62.4
+>         > | Run-time dependency gio-unix-2.0 found: YES 2.62.4
+>         > | Run-time dependency gmodule-no-export-2.0 found: YES 2.62.4
+>         > | Dependency gdk-pixbuf-2.0 skipped: feature examples disabled
+>         > | Dependency gtk+-3.0 skipped: feature examples disabled
+>         > | Dependency gtk+-x11-3.0 skipped: feature examples disabled
+>         > | Run-time dependency gstreamer-1.0 found: YES 1.16.1
+>         > | Run-time dependency gstreamer-base-1.0 found: YES 1.16.1
+>         > | Run-time dependency gstreamer-net-1.0 found: YES 1.16.1
+>         > | Found CMake: NO
+>         > | Run-time dependency gstreamer-check-1.0 found: NO (tried
+>         pkgconfig and cmake)
+>         > | Looking for a fallback subproject for the dependency
+>         gstreamer-check-1.0
+>         > | Subproject directory not found and gstreamer.wrap file not
+>         found
+>         > | Subproject  subprojects/gstreamer is buildable: NO (disabling)
+>         > | Dependency gstreamer-check-1.0 from subproject
+>         subprojects/gstreamer found: NO
+>         > |
+>         > | meson.build:309:0: ERROR: Could not find dependency
+>         gst_controller_dep in subproject gstreamer
+>         > |
+>         > | A full log can be found at
+>         /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/build/meson-logs/meson-log.txt
+>         > | WARNING:
+>         /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/temp/run.do_configure.46093:1
+>         exit 1 from 'exit 1'
+>         > |
+>         > NOTE: recipe gstreamer1.0-plugins-base-1.16.1-r0: task
+>         do_configure: Failed
+>         >
+>         > | Compiler for C supports arguments
+>         -Wdeclaration-after-statement: YES
+>         > | Found pkg-config:
+>         /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native/usr/bin/pkg-config
+>         (0.29.2)
+>         > | Run-time dependency x11 found: YES 1.6.9
+>         > | Run-time dependency glib-2.0 found: YES 2.62.4
+>         > | Run-time dependency gobject-2.0 found: YES 2.62.4
+>         > | Run-time dependency gio-2.0 found: YES 2.62.4
+>         > | Run-time dependency gio-unix-2.0 found: YES 2.62.4
+>         > | Run-time dependency gmodule-no-export-2.0 found: YES 2.62.4
+>         > | Dependency gdk-pixbuf-2.0 skipped: feature examples disabled
+>         > | Dependency gtk+-3.0 skipped: feature examples disabled
+>         > | Dependency gtk+-x11-3.0 skipped: feature examples disabled
+>         > | Run-time dependency gstreamer-1.0 found: YES 1.16.1
+>         > | Run-time dependency gstreamer-base-1.0 found: YES 1.16.1
+>         > | Run-time dependency gstreamer-net-1.0 found: YES 1.16.1
+>         > | Found CMake: NO
+>         > | Run-time dependency gstreamer-check-1.0 found: NO (tried
+>         pkgconfig and cmake)
+>         > | Looking for a fallback subproject for the dependency
+>         gstreamer-check-1.0
+>         > | Subproject directory not found and gstreamer.wrap file not
+>         found
+>         > | Subproject  subprojects/gstreamer is buildable: NO (disabling)
+>         > | Dependency gstreamer-check-1.0 from subproject
+>         subprojects/gstreamer found: NO
+>         > |
+>         > | meson.build:309:0: ERROR: Could not find dependency
+>         gst_controller_dep in subproject gstreamer
+>         > |
+>         > | A full log can be found at
+>         /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/build/meson-logs/meson-log.txt
+>         > | WARNING:
+>         /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/temp/run.do_configure.46093:1
+>         exit 1 from 'exit 1'
+>         > |
+>         > NOTE: recipe gstreamer1.0-plugins-base-1.16.1-r0: task
+>         do_configure: Failed
+>         >
+>         > missing a check dependency?
+>         >
+>         > Cheers,
+>         >
+>         > Richard
+>         >
+>         >
+>         -- 
+>         _______________________________________________
+>         Openembedded-core mailing list
+>         Openembedded-core@lists.openembedded.org
+>         <mailto:Openembedded-core@lists.openembedded.org>
+>         http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-I did a quick inspection of the pseudo database and its only this one
-file. That leads me to suspect its a race in how its being
-generated/owned...
+--------------5884E9447F6976A78A856A80
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Cheers,
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p>Nice find! But, there is still one issue Khem found, regarding
+      errors in meta-multimedia plugins:
+      <a class="moz-txt-link-freetext" href="https://errors.yoctoproject.org/Errors/Build/96752/">https://errors.yoctoproject.org/Errors/Build/96752/</a></p>
+    <p>This, and the discussion about the qt5 packageconfig, means to me
+      that a v2 set is warranted. What do you think?<br>
+    </p>
+    <div class="moz-cite-prefix">On 14.01.20 16:51, Alexander Kanavin
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CANNYZj-Vd2E76rvAbxw8xNeyQa-SWy_zwomCOcSSKViCYdATDw@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div>I just sent a patch for this, and for the ptest issue.
+          Should be good to merge now!<br>
+        </div>
+        <div><br>
+        </div>
+        <div>Alex<br>
+        </div>
+      </div>
+      <br>
+      <div class="gmail_quote">
+        <div dir="ltr" class="gmail_attr">On Mon, 13 Jan 2020 at 19:01,
+          Alexander Kanavin &lt;<a href="mailto:alex.kanavin@gmail.com"
+            moz-do-not-send="true">alex.kanavin@gmail.com</a>&gt; wrote:<br>
+        </div>
+        <blockquote class="gmail_quote" style="margin:0px 0px 0px
+          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+          <div dir="ltr">
+            <div>I have reproduced this just now. You need to set up a
+              special 'nodistro' configuration like this:</div>
+            <div><br>
+            </div>
+            <div>bblayers.conf:</div>
+            <div>BBLAYERS ?= " \<br>
+                /home/alexander/development/poky/meta \<br>
+            </div>
+            <div>"</div>
+            <div>(and no other layers)</div>
+            <div><br>
+            </div>
+            <div>local.conf:</div>
+            <div><br>
+            </div>
+            <div>MACHINE ??= "qemuarm"<br>
+              DISTRO ?= "nodistro"<br>
+            </div>
+            <div>INHERIT += 'uninative'<br>
+              require conf/distro/include/yocto-uninative.inc</div>
+            <div>... (dl_dir, sstate etc)<br>
+            </div>
+            <div><br>
+            </div>
+            <div>and build gstreamer1.0-plugins-base.</div>
+            <div><br>
+            </div>
+            <div>Alex<br>
+            </div>
+            <div><br>
+            </div>
+          </div>
+          <br>
+          <div class="gmail_quote">
+            <div dir="ltr" class="gmail_attr">On Mon, 13 Jan 2020 at
+              16:38, Carlos Rafael Giani &lt;<a
+                href="mailto:crg7475@mailbox.org" target="_blank"
+                moz-do-not-send="true">crg7475@mailbox.org</a>&gt;
+              wrote:<br>
+            </div>
+            <blockquote class="gmail_quote" style="margin:0px 0px 0px
+              0.8ex;border-left:1px solid
+              rgb(204,204,204);padding-left:1ex">Except that there is no
+              such package. Also, even if I build GStreamer <br>
+              from scratch with all optional packageconfigs disabled, I
+              do not get <br>
+              this error, nor do I get any warnings about potentially
+              missing <br>
+              dependencies. So, I don't know what is going on here..<br>
+              <br>
+              On 13.01.20 13:59, Richard Purdie wrote:<br>
+              &gt; On Mon, 2020-01-13 at 13:55 +0100, Carlos Rafael
+              Giani wrote:<br>
+              &gt;&gt; Nope. This is an odd one. Are you sure there
+              isn't a problem with<br>
+              &gt;&gt; the<br>
+              &gt;&gt; setup itself? In step2c, I see:<br>
+              &gt;&gt;<br>
+              &gt;&gt;   &gt; ERROR: core-image-sato-1.0-r0 do_testsdk:
+              The toolchain<br>
+              &gt;&gt;
+              /home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-<br>
+              &gt;&gt;
+              glibc/deploy/sdk/oecore-i686-armv7vet2hf-neon-toolchain-<br>
+              &gt;&gt; <a href="http://nodistro.0.sh" rel="noreferrer"
+                target="_blank" moz-do-not-send="true">nodistro.0.sh</a><br>
+              &gt;&gt; is not built. Build it before running the tests:
+              'bitbake &lt;image&gt; -c<br>
+              &gt;&gt; populate_sdk' .<br>
+              &gt; 2c fails as earlier stepd didn't build. I think the
+              real issue is<br>
+              &gt; step1b which says:<br>
+              &gt;<br>
+              &gt; | Compiler for C supports arguments
+              -Wdeclaration-after-statement: YES<br>
+              &gt; | Found pkg-config:
+/home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native/usr/bin/pkg-config
+              (0.29.2)<br>
+              &gt; | Run-time dependency x11 found: YES 1.6.9<br>
+              &gt; | Run-time dependency glib-2.0 found: YES 2.62.4<br>
+              &gt; | Run-time dependency gobject-2.0 found: YES 2.62.4<br>
+              &gt; | Run-time dependency gio-2.0 found: YES 2.62.4<br>
+              &gt; | Run-time dependency gio-unix-2.0 found: YES 2.62.4<br>
+              &gt; | Run-time dependency gmodule-no-export-2.0 found:
+              YES 2.62.4<br>
+              &gt; | Dependency gdk-pixbuf-2.0 skipped: feature examples
+              disabled<br>
+              &gt; | Dependency gtk+-3.0 skipped: feature examples
+              disabled<br>
+              &gt; | Dependency gtk+-x11-3.0 skipped: feature examples
+              disabled<br>
+              &gt; | Run-time dependency gstreamer-1.0 found: YES 1.16.1<br>
+              &gt; | Run-time dependency gstreamer-base-1.0 found: YES
+              1.16.1<br>
+              &gt; | Run-time dependency gstreamer-net-1.0 found: YES
+              1.16.1<br>
+              &gt; | Found CMake: NO<br>
+              &gt; | Run-time dependency gstreamer-check-1.0 found: NO
+              (tried pkgconfig and cmake)<br>
+              &gt; | Looking for a fallback subproject for the
+              dependency gstreamer-check-1.0<br>
+              &gt; | Subproject directory not found and gstreamer.wrap
+              file not found<br>
+              &gt; | Subproject  subprojects/gstreamer is buildable: NO
+              (disabling)<br>
+              &gt; | Dependency gstreamer-check-1.0 from subproject
+              subprojects/gstreamer found: NO<br>
+              &gt; |<br>
+              &gt; | meson.build:309:0: ERROR: Could not find dependency
+              gst_controller_dep in subproject gstreamer<br>
+              &gt; |<br>
+              &gt; | A full log can be found at
+/home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/build/meson-logs/meson-log.txt<br>
+              &gt; | WARNING:
+/home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/temp/run.do_configure.46093:1
+              exit 1 from 'exit 1'<br>
+              &gt; |<br>
+              &gt; NOTE: recipe gstreamer1.0-plugins-base-1.16.1-r0:
+              task do_configure: Failed<br>
+              &gt;<br>
+              &gt; | Compiler for C supports arguments
+              -Wdeclaration-after-statement: YES<br>
+              &gt; | Found pkg-config:
+/home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native/usr/bin/pkg-config
+              (0.29.2)<br>
+              &gt; | Run-time dependency x11 found: YES 1.6.9<br>
+              &gt; | Run-time dependency glib-2.0 found: YES 2.62.4<br>
+              &gt; | Run-time dependency gobject-2.0 found: YES 2.62.4<br>
+              &gt; | Run-time dependency gio-2.0 found: YES 2.62.4<br>
+              &gt; | Run-time dependency gio-unix-2.0 found: YES 2.62.4<br>
+              &gt; | Run-time dependency gmodule-no-export-2.0 found:
+              YES 2.62.4<br>
+              &gt; | Dependency gdk-pixbuf-2.0 skipped: feature examples
+              disabled<br>
+              &gt; | Dependency gtk+-3.0 skipped: feature examples
+              disabled<br>
+              &gt; | Dependency gtk+-x11-3.0 skipped: feature examples
+              disabled<br>
+              &gt; | Run-time dependency gstreamer-1.0 found: YES 1.16.1<br>
+              &gt; | Run-time dependency gstreamer-base-1.0 found: YES
+              1.16.1<br>
+              &gt; | Run-time dependency gstreamer-net-1.0 found: YES
+              1.16.1<br>
+              &gt; | Found CMake: NO<br>
+              &gt; | Run-time dependency gstreamer-check-1.0 found: NO
+              (tried pkgconfig and cmake)<br>
+              &gt; | Looking for a fallback subproject for the
+              dependency gstreamer-check-1.0<br>
+              &gt; | Subproject directory not found and gstreamer.wrap
+              file not found<br>
+              &gt; | Subproject  subprojects/gstreamer is buildable: NO
+              (disabling)<br>
+              &gt; | Dependency gstreamer-check-1.0 from subproject
+              subprojects/gstreamer found: NO<br>
+              &gt; |<br>
+              &gt; | meson.build:309:0: ERROR: Could not find dependency
+              gst_controller_dep in subproject gstreamer<br>
+              &gt; |<br>
+              &gt; | A full log can be found at
+/home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/build/meson-logs/meson-log.txt<br>
+              &gt; | WARNING:
+/home/pokybuild/yocto-worker/qemuarm-oecore/build/build/tmp-glibc/work/armv7vet2hf-neon-oe-linux-gnueabi/gstreamer1.0-plugins-base/1.16.1-r0/temp/run.do_configure.46093:1
+              exit 1 from 'exit 1'<br>
+              &gt; |<br>
+              &gt; NOTE: recipe gstreamer1.0-plugins-base-1.16.1-r0:
+              task do_configure: Failed<br>
+              &gt;<br>
+              &gt; missing a check dependency?<br>
+              &gt;<br>
+              &gt; Cheers,<br>
+              &gt;<br>
+              &gt; Richard<br>
+              &gt;<br>
+              &gt;<br>
+              -- <br>
+              _______________________________________________<br>
+              Openembedded-core mailing list<br>
+              <a href="mailto:Openembedded-core@lists.openembedded.org"
+                target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
+              <a
+                href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+                rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+            </blockquote>
+          </div>
+        </blockquote>
+      </div>
+    </blockquote>
+  </body>
+</html>
 
-Richard
-
-
-
+--------------5884E9447F6976A78A856A80--
