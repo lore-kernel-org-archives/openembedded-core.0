@@ -1,45 +1,35 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
-	[209.85.208.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 350697D185
+Return-Path: <ross.burton@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 3C6EF7E553
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 13:04:48 +0000 (UTC)
-Received: by mail-lj1-f174.google.com with SMTP id h23so18466743ljc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 05:04:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=awertEJFngnEVmvzuFAUF9e7cgQOTPiqiSwbphloQkw=;
-	b=gMMJvOJBoG7Zmk2NI9ip+hSFN5AU9KlaqeFO2JdydJCNg/EOhe9KnIHAZX9fKVtimh
-	U5X9jBB/upQ2wH3IymksOOsc+EaGrro9wbpwbgz/5jRhNpjKEtZiyKnqWgfkavxWWiM5
-	4ABtEmB+37M0YNjURKN9AGKEw++BQMNG/sWyd5e6Jem+AVr+P4xTXp60y8Nky5g+h7YB
-	W305x4XNv4i32qSee6ap5Y6V/cUAsK5fZhw9coXvp85qv1Bj3QHwFupIsP06UVeNE6mA
-	n8U0uJj6Y+nZ+O2J46EL3HVyskNf0Bj3+pchLBz+6i9udL5SYR8iULldKpD/QQwqCF8v
-	AMZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=awertEJFngnEVmvzuFAUF9e7cgQOTPiqiSwbphloQkw=;
-	b=AQOXtEgHsiADnDo2myVbM/NCTldquyxF1vNn1yzpcDJQggO42hx2m4qkRv49/gAYAj
-	GrtIUtS8JjtnzHiJzLnOnyVi5+y5UAWQqS/AKqVSRVICxNeHO3SGqXDMRFez+kJmLTVq
-	643SjO6jTSc9F1ZYUc25vnaQI9FEp0khkzYY06kuqX7pm9hBa+19OTfDCMyJl2YRsc5M
-	nPPtwrAIRW3nvw0uTYxmTV0/0JWeYbFV9YRFqBXKhvTJRB4Jno54kPvubvJLgzEy+7OP
-	KOxF85kI0VM39phCC92oTJKgS+XCySFnI0nDnxQoCPX3lKY55txtzNWd8mSia7jRzv/s
-	pKlA==
-X-Gm-Message-State: APjAAAUbujXPoIPzVoTE+RI8CHDpdJrlBsCPw/WV05tRNONRGZI4yFi3
-	IIyqXKVaZG+HL4OKg+qCQ6m9rf+LruIQ/Jg15dNSXPAnkn4=
-X-Google-Smtp-Source: APXvYqzwObsIJxoHqLLgv1kwty5UQyncLe4u+RyDuYbxMOz2GfaYF+DSJMNBA5K12QYIHmtgVz+YTz6ClvTg5hLFo+o=
-X-Received: by 2002:a05:651c:1049:: with SMTP id
-	x9mr1746125ljm.233.1579093488397; 
-	Wed, 15 Jan 2020 05:04:48 -0800 (PST)
+	Wed, 15 Jan 2020 13:20:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Jan 2020 05:20:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,322,1574150400"; d="scan'208";a="372933972"
+Received: from jmmarti7-mobl1.amr.corp.intel.com (HELO rburton-mac01.local)
+	([10.252.51.74])
+	by orsmga004.jf.intel.com with ESMTP; 15 Jan 2020 05:20:16 -0800
+To: =?UTF-8?Q?Maxime_Roussin-B=c3=a9langer?=
+	<maxime.roussinbelanger@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20200113211005.14693-1-maxime.roussinbelanger@gmail.com>
+	<CANNYZj-2ZLcTC7j=SGTY5O6h-Z2FNRZnkNgzQcWNedSDnPBZUA@mail.gmail.com>
+	<CAE=T-s6n8LLsucxfy3kioMqaAvG5gQenwNpsGqW55Gf8a_3NVQ@mail.gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <61d616d4-25fb-c779-9e28-acbce0d54370@intel.com>
+Date: Wed, 15 Jan 2020 13:20:16 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.4.1
 MIME-Version: 1.0
-From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-Date: Wed, 15 Jan 2020 14:04:32 +0100
-Message-ID: <CAPybu_1C1cqd6qyV_NEMewiYZ2aG-91yDUGzCVwmAKsX7NFwgw@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>,
-	Jan Lorenzen <jl@newtec.dk>, 
-	tom.zanussi@linux.intel.com, ed.bartosh@linux.intel.com
-Subject: Best practices: Multiple images on one partition.
+In-Reply-To: <CAE=T-s6n8LLsucxfy3kioMqaAvG5gQenwNpsGqW55Gf8a_3NVQ@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] meta: gdk-pixbuf: add man packageconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,46 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 13:04:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 15 Jan 2020 13:20:17 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-Hello
+On 15/01/2020 01:25, Maxime Roussin-Bélanger wrote:
+> I have modified the recipe to use manpages, but it is impossible to run 
+> a build from master, because
+> of my python3 pyenv setup. I had to add
+> 
+> +DEPENDS = "python3-native"
+> 
+> to ca-certificates, without it was impossible to go through the 
+> do_configure step. It was using the python3
+> from my system instead of the one provided by yocto? I am a bit lost here.
+> 
+> What do you think? Should it have python3-native? There is a fairly 
+> recent patch
+> to use python3 `file://0001-certdata2pem.py-use-python3.patch`
 
-I am trying to figure out the best way to achieve this. I have a
-system with a host and a target. The target netboots form the host and
-have a different package architecture.
+We assume that the host has a Python 3, which is fair as Bitbake needs 
+Python 3.  The ca-certificates recipe should be able to use the same 
+Python 3 interpretter, which was found during a search of $PATH and 
+linked in tmp/hosttools/python3.
 
-Usually I was solving this with one partition per image/machine,
-combined using a .wks file like:
+If your host Py setup is complicated, then the hosttools is where to 
+look for a fix.
 
-part /export --source rootfs --rootfs-dir=target-image  --fstype=ext4
---label export --align 1024 --use-uuid --fsoptions defaults,ro
---extra-space 400M
-part / --source rootfs --fstype=ext4 --label rootfs --align 1024
---use-uuid --fsoptions defaults,ro --extra-space 400M
-
-and then calling wic file after generating both images. ("wic create....")
-
-This works fine, but now I need to combine both partitions into one.
-The reason is that the partition needs to play nice with the current
-OTA upgrade system.
-
-What would be the best way to do this?
-
-1) Implement a new wic plugin, called something like muli-rootfs,
-where I can specify multiple rootfs and in which directory to unpack
-them
-
-2) Implement a .bb file that combines the two images in one.
-
-do_install() {
-    tar -mzxf $HOST/host-image.tar.gz  -C ${D}/
-    tar -mzxf $HOST/target-image.tar.gz  -C ${D}/export
-}
-
-3) Another way that I am not aware :)
-
-Thanks!
---
-Ricardo Ribalda
+Ross
 
