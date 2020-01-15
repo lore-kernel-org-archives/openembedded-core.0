@@ -1,34 +1,36 @@
 Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 40FE47F91B
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id C1F947FA44
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 02:49:20 +0000 (UTC)
-IronPort-SDR: YeFUkrpnKXHhaM4ZPAy1zPa3Ug0zrdLC1LqZsSsL8DaREiLMUd5arLegfPMHOdynSglUQNQOrV
-	U8cUxigNojW4C4egJvhOtHfwVIzUyVEsHlIolGJTKg/ItWQEXGrIQH/ko2aShOzybIXpt1cUCg
-	0hgQx7703Et0M1Rigmg80n1hLwCxo9IsS6hfzRgAzlXHbMoti+wcPog14TUaS1JJ0ny6j8WnzF
-	J/WZ0Ta8l7k3MktD4glBHQyPQoL1a1PW35T5bf0kb2POR3jsmuMzFZMDKlGiG6QK1zKJd77DlO
-	K5A=
+	Wed, 15 Jan 2020 03:37:57 +0000 (UTC)
+IronPort-SDR: yIxUY8xDtDqPnAVTTYxNGm6Wrg/JJpnyyMtOnaUVIfIRaaP7N8jUllr5jxYEkTcwbQSbQ+OAOF
+	GksoC7rMpMy0tpURB9k6neVPk5eb2g9+t7nsZTBElmtBZ5bwERAJyvkAb0fyjlya9FwvE17sFo
+	7WmHvo+LgrI/h2hP+MFuNkvwJk6a8lWL9YvkdRvrayllPnI1dUpUG4rouu8WzVkuDse7L0UbNu
+	bVG8z9PbliszQ3PEbuYLSTUytoX0ufU/9nN+aPEesRuhHT0JlqifMkbclsfKG+o20X1iUfvl36
+	Aws=
 X-IronPort-AV: E=Sophos;i="5.70,321,1574118000"; 
-   d="scan'208";a="4419730"
+   d="scan'208";a="4298919"
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Carlos Rafael Giani <crg7475@mailbox.org>,
+To: akuster808 <akuster808@gmail.com>,
 	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 02/12] gstreamer1.0: Transition to meson based
-	builds
-Thread-Index: AQHVyVWFsVdRwGr6ukGXEDiBBJGz0afq/wWA
-Date: Wed, 15 Jan 2020 02:49:21 +0000
-Message-ID: <5f643784a4c74504a4e5339f3a0eef51@XBOX03.axis.com>
-References: <20200112135954.23868-1-crg7475@mailbox.org>
-	<20200112135954.23868-2-crg7475@mailbox.org>
-In-Reply-To: <20200112135954.23868-2-crg7475@mailbox.org>
+Thread-Topic: [OE-core] [master][zeus][PATCH] toaster.bbclass: Correct
+	pkgdatadir path in toaster_package_dumpdata()
+Thread-Index: AQHVyL1ITL+X5NVnCk6RSZQIeCkP4qfrDwVQ
+Date: Wed, 15 Jan 2020 03:37:57 +0000
+Message-ID: <da2d8c0f814149f1b5d517a952eb0f2d@XBOX03.axis.com>
+References: <20191211010609.4295-1-pkj@axis.com>
+	<aa0b9ef432a44643a82dd82e72cc4f45@XBOX03.axis.com>
+	<6452910c3cb64d55a7bda972f467c828@XBOX03.axis.com>
+	<3bdf3df9-eaee-2de5-0b55-9c329c83c6c2@gmail.com>
+In-Reply-To: <3bdf3df9-eaee-2de5-0b55-9c329c83c6c2@gmail.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: Re: [PATCH 02/12] gstreamer1.0: Transition to meson based	builds
+Subject: Re: [master][zeus][PATCH] toaster.bbclass: Correct pkgdatadir path in toaster_package_dumpdata()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,156 +43,128 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 02:49:21 -0000
+X-List-Received-Date: Wed, 15 Jan 2020 03:37:58 -0000
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Carlos Rafael Giani
-> Sent: den 12 januari 2020 15:00
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 02/12] gstreamer1.0: Transition to meson based
-> builds
->=20
-> * Moved 0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
->   from files/ to gstreamer1.0/ since it is gstreamer1.0 recipe specific.
->=20
-> * Removed M4 specific patches:
->   - 0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch
->   - gtk-doc-tweaks.patch
->   - add-a-target-to-compile-tests.patch
->=20
-> * Added patches:
->   - 0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
->     Backport for enabling GIR support in meson based cross compilation
->   - 0002-meson-Add-valgrind-feature.patch
->     Make valgrind support configurable to be able to control it through
->     a "valgrind" packageconfig
->   - 0003-meson-Add-option-for-installed-tests.patch
->     Add support for installable tests and for generating .test and shell
->     scripts which can be used with the gnome-desktop-testing suite runner
->=20
-> * PTest support:
->   By default, GStreamer does not allow for installing tests, and requires
->   meson to run its unit tests. The 0003 patch fixes this by installing
->   the binaries themselves and by generating accompanying .test and shell
->   scripts. The scripts set up the required environment files and then
->   call the test binaries. The .test file list the shell scripts as
->   Exec=3D command line.
->=20
-> Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
-> ---
->  ...der.c-when-env-var-is-set-do-not-fal.patch |   0
->  ...even-when-cross-compiling-if-introsp.patch |  36 +++
->  .../0003-meson-Add-valgrind-feature.patch     |  74 +++++
->  ...meson-Add-option-for-installed-tests.patch | 257 ++++++++++++++++++
->  .../gstreamer/gstreamer1.0_1.16.1.bb          |  93 +++----
->  5 files changed, 404 insertions(+), 56 deletions(-)
->  rename meta/recipes-multimedia/gstreamer/{files =3D> gstreamer1.0}/0001-
-> gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch (100%)
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-
-> meson-build-gir-even-when-cross-compiling-if-introsp.patch
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-
-> meson-Add-valgrind-feature.patch
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-
-> meson-Add-option-for-installed-tests.patch
-
-[cut]
-
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb b/m=
-eta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-> index ff92f63bac..dc3e8ffafd 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
-> @@ -8,11 +8,7 @@ LICENSE =3D "LGPLv2+"
->=20
->  DEPENDS =3D "glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-n=
-ative"
->=20
-> -inherit autotools pkgconfig gettext upstream-version-is-even gobject-int=
-rospection gtk-doc ptest
-> -
-> -# This way common/m4/introspection.m4 will come first
-> -# (it has a custom INTROSPECTION_INIT macro, and so must be used instead=
- of our common introspection.m4 file)
-> -acpaths =3D "-I ${S}/common/m4 -I ${S}/m4"
-> +inherit meson pkgconfig gettext upstream-version-is-even gobject-introsp=
-ection gtk-doc
->=20
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6762ed442b3822387a51c92d928ea=
-d0d \
->=20
-> file://gst/gst.h;beginline=3D1;endline=3D21;md5=3De059138481205ee2c6fc1c0=
-79c016d0d"
-> @@ -21,71 +17,56 @@ S =3D "${WORKDIR}/gstreamer-${PV}"
->=20
->  SRC_URI =3D " \
->      https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.=
-xz \
-> -    file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.pat=
-ch \
-> -    file://gtk-doc-tweaks.patch \
->      file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.pat=
-ch \
-> -    file://add-a-target-to-compile-tests.patch \
-> -    file://run-ptest \
-> +    file://0002-meson-build-gir-even-when-cross-compiling-if-introsp.pat=
-ch \
-> +    file://0003-meson-Add-valgrind-feature.patch \
-> +    file://0004-meson-Add-option-for-installed-tests.patch \
->  "
->  SRC_URI[md5sum] =3D "c505fb818b36988daaa846e9e63eabe8"
->  SRC_URI[sha256sum] =3D "02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af=
-0639d46f1cf4377d"
->=20
->  PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests',=
- '', d)} \
-> -                   "
-> -
-> -PACKAGECONFIG[debug] =3D "--enable-debug,--disable-debug"
-> -PACKAGECONFIG[tests] =3D "--enable-tests,--disable-tests"
-> -PACKAGECONFIG[valgrind] =3D "--enable-valgrind,--disable-valgrind,valgri=
-nd,"
-> -PACKAGECONFIG[gst-tracer-hooks] =3D "--enable-gst-tracer-hooks,--disable=
--gst-tracer-hooks,"
-> -PACKAGECONFIG[unwind] =3D "--with-unwind,--without-unwind,libunwind"
-> -PACKAGECONFIG[dw] =3D "--with-dw,--without-dw,elfutils"
-> -
-> -EXTRA_OECONF =3D " \
-> -    --disable-examples \
-> +                   tools"
-> +
-> +PACKAGECONFIG[debug] =3D "-Dgst_debug=3Dtrue,-Dgst_debug=3Dfalse"
-
-To avoid confusion, you might want to call that PACKAGECONFIG=20
-"gst-debug" instead since -Dgst_debug=3Dtrue corresponds to the old=20
---enable-gst-debug, not --enable-debug (for which there does not=20
-seem to be a corresponding new Meson option).
-
-I find it interesting though that there does not seem to have ever=20
-been a PACKAGECONFIG for --enable-gst-debug, which means it used=20
-to default to being enabled. (We have always disabled it for our=20
-production code due to the performance overhead added by having=20
-the GStreamer debug system enabled.)
-
-> +PACKAGECONFIG[tracer-hooks] =3D "-Dtracer_hooks=3Dtrue,-Dtracer_hooks=3D=
-false"
-> +PACKAGECONFIG[tests] =3D "-Dcheck=3Denabled -Dtests=3Denabled -Dinstalle=
-d-tests=3Dtrue,-Dcheck=3Ddisabled -Dtests=3Ddisabled -Dinstalled-tests=3Dfa=
-lse"
-> +PACKAGECONFIG[valgrind] =3D "-Dvalgrind=3Denabled,-Dvalgrind=3Ddisabled,=
-valgrind,"
-> +PACKAGECONFIG[unwind] =3D "-Dlibunwind=3Denabled,-Dlibunwind=3Ddisabled,=
-libunwind"
-> +PACKAGECONFIG[dw] =3D "-Dlibdw=3Denabled,-Dlibdw=3Ddisabled,elfutils"
-> +PACKAGECONFIG[bash-completion] =3D "-Dbash-completion=3Denabled,-Dbash-c=
-ompletion=3Ddisabled,bash-completion"
-> +PACKAGECONFIG[tools] =3D "-Dtools=3Denabled,-Dtools=3Ddisabled"
-> +
-
-//Peter
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBha3VzdGVyODA4IDxha3VzdGVy
+ODA4QGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDExIGphbnVhcmkgMjAyMCAyMToyNg0KPiBUbzog
+UGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyBvcGVuZW1i
+ZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09F
+LWNvcmVdIFttYXN0ZXJdW3pldXNdW1BBVENIXSB0b2FzdGVyLmJiY2xhc3M6IENvcnJlY3QNCj4g
+cGtnZGF0YWRpciBwYXRoIGluIHRvYXN0ZXJfcGFja2FnZV9kdW1wZGF0YSgpDQo+IA0KPiBPbiAx
+LzEwLzIwIDc6MzIgUE0sIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiAqcGluZyoNCj4g
+Tm93IHRoYXQgaXRzIGluIG1hc3RlciwNCj4gDQo+IEkgd2lsbCBxdWV1ZSBpdCB1cCBmb3IgemV1
+cy4NCg0KUGxlYXNlIGRvLiANCg0KSSB3b3VsZCBsaWtlIHRoZXNlIGNvbW1pdHMgdG8gYmUgY2hl
+cnJ5LXBpY2tlZCBmcm9tIG1hc3RlciBvZiANCmJpdGJha2UgdG8gdGhlIDEuNDQgYnJhbmNoOg0K
+DQo1NmI1ZWM0YzJiIGtub3R0eTogSGlkZSB0aGUgZm9vdGVyIGlmIGEgcHJvY2VzcyBwcm9ncmVz
+cyBiYXIgaXMgc2hvd24NCjFlOTZkZjI2MGUgY29va2VyOiBLZWVwIHRyYWNrIG9mIHdhdGNoZWQg
+ZmlsZXMgdXNpbmcgYSBzZXQgaW5zdGVhZCBvZiBhIGxpc3QNCg0KQW5kIHRoZSBmb2xsb3dpbmcg
+dG8gYmUgY2hlcnJ5LXBpY2tlZCBmcm9tIG1hc3RlciBvZiANCm9wZW5lbWJlZGRlZC1jb3JlIHRv
+IHRoZSB6ZXVzIGJyYW5jaDoNCg0KNWEwZjZmNjMxYiB0b2FzdGVyLmJiY2xhc3M6IENvcnJlY3Qg
+cGtnZGF0YWRpciBwYXRoIGluIHRvYXN0ZXJfcGFja2FnZV9kdW1wZGF0YSgpDQo0MGMzMDk5MGUx
+IHBvcHVsYXRlX3Nka19leHQuYmJjbGFzczogTm8gbG9uZ2VyIG5lZWRlZCB0byBjbGVhbiBhd2F5
+IGNvbmYvc2FuaXR5X2luZm8NCmY5ODEwM2I1NDggc2FuaXR5LmJiY2xhc3M6IE1vdmUgc2FuaXR5
+X2luZm8gZnJvbSBjb25mIHRvIGNhY2hlDQo2NGRhYWYyOWUyIGxpY2Vuc2VzLmNvbmY6IFJlbW92
+ZSB0aGUgU1JDX0RJU1RSSUJVVEVfTElDRU5TRVMgdmFyaWFibGUNCjhjOWVmNTg3ZmUgbGljZW5z
+ZS5iYmNsYXNzOiBJbnRyb2R1Y2UgQVZBSUxBQkxFX0xJQ0VOU0VTIHRoYXQgbGlzdHMgYWxsIGxp
+Y2Vuc2VzDQoNClRoZXkgc2hvdWxkIGFsbCBjaGVycnktcGljayBjbGVhbmx5IHRvIHRoZWlyIHJl
+c3BlY3RpdmUgdGFyZ2V0IA0KYnJhbmNoLg0KDQo+IC0gYXJtaW4NCg0KLy9QZXRlcg0KDQo+ID4g
+Ly9QZXRlcg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206
+IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVt
+YmVkZGVkLQ0KPiBjb3JlLQ0KPiA+PiBib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9u
+IEJlaGFsZiBPZiBQZXRlciBLamVsbGVyc3RlZHQNCj4gPj4gU2VudDogZGVuIDIyIGRlY2VtYmVy
+IDIwMTkgMTQ6MDINCj4gPj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcNCj4gPj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbbWFzdGVyXVt6ZXVzXVtQQVRDSF0g
+dG9hc3Rlci5iYmNsYXNzOiBDb3JyZWN0DQo+ID4+IHBrZ2RhdGFkaXIgcGF0aCBpbiB0b2FzdGVy
+X3BhY2thZ2VfZHVtcGRhdGEoKQ0KPiA+Pg0KPiA+PiAqcGluZyoNCj4gPj4NCj4gPj4gLy9QZXRl
+cg0KPiA+Pg0KPiA+Pj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4+IEZyb206IG9w
+ZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVk
+ZGVkLQ0KPiA+PiBjb3JlLQ0KPiA+Pj4gYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBP
+biBCZWhhbGYgT2YgUGV0ZXIgS2plbGxlcnN0ZWR0DQo+ID4+PiBTZW50OiBkZW4gMTEgZGVjZW1i
+ZXIgMjAxOSAwMjowNg0KPiA+Pj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcNCj4gPj4+IFN1YmplY3Q6IFtPRS1jb3JlXSBbbWFzdGVyXVt6ZXVzXVtQQVRDSF0g
+dG9hc3Rlci5iYmNsYXNzOiBDb3JyZWN0DQo+ID4+PiBwa2dkYXRhZGlyIHBhdGggaW4gdG9hc3Rl
+cl9wYWNrYWdlX2R1bXBkYXRhKCkNCj4gPj4+DQo+ID4+PiBJbiBjb21taXQgNjkyYjIwNDYgKHBh
+Y2thZ2U6IEZpeCByYWNlIGJldHdlZW4gZG9fcGFja2FnZSBhbmQNCj4gPj4+IGRvX3BhY2thZ2Vk
+YXRhKSwgdGhlIHBhdGggdXNlZCBmb3IgZG9fcGFja2FnZWRhdGFbc3N0YXRlLWlucHV0ZGlyc10N
+Cj4gPj4+IHdhcyBjaGFuZ2VkIGZyb20gIiR7UEtHREVTVFdPUkt9IiB0byAiJHtXT1JLRElSfS9w
+a2dkYXRhLXBkYXRhLWlucHV0Ii4NCj4gPj4+IFRoaXMgY29tbWl0IGFkYXB0cyB0aGUgcGF0aCB1
+c2VkIGZvciBwa2dkYXRhZGlyIGluDQo+ID4+PiB0b2FzdGVyX3BhY2thZ2VfZHVtcGRhdGEoKSBh
+Y2NvcmRpbmdseSB0byBhdm9pZCBzZXRzY2VuZSBlcnJvcnMgbGlrZToNCj4gPj4+DQo+ID4+PiAg
+IEVSUk9SOiBsaWJnY2MtOS4yLjAtcjAgZG9fcGFja2FnZWRhdGFfc2V0c2NlbmU6IEVycm9yIGV4
+ZWN1dGluZyBhDQo+ID4+PiAgIHB5dGhvbiBmdW5jdGlvbiBpbiBleGVjX3B5dGhvbl9mdW5jKCkg
+YXV0b2dlbmVyYXRlZDoNCj4gPj4+DQo+ID4+PiAgIFRoZSBzdGFjayB0cmFjZSBvZiBweXRob24g
+Y2FsbHMgdGhhdCByZXN1bHRlZCBpbiB0aGlzDQo+ID4+PiAgIGV4Y2VwdGlvbi9mYWlsdXJlIHdh
+czoNCj4gPj4+ICAgRmlsZTogJ2V4ZWNfcHl0aG9uX2Z1bmMoKSBhdXRvZ2VuZXJhdGVkJywgbGlu
+ZW5vOiAyLCBmdW5jdGlvbjoNCj4gPj4+ICAgPG1vZHVsZT4NCj4gPj4+ICAgICAgICAwMDAxOg0K
+PiA+Pj4gICAgKioqIDAwMDI6dG9hc3Rlcl9wYWNrYWdlX2R1bXBkYXRhKGQpDQo+ID4+PiAgICAg
+ICAgMDAwMzoNCj4gPj4+ICAgRmlsZTogJ21ldGEvY2xhc3Nlcy90b2FzdGVyLmJiY2xhc3MnLCBs
+aW5lbm86IDEzMCwgZnVuY3Rpb246DQo+ID4+PiAgIHRvYXN0ZXJfcGFja2FnZV9kdW1wZGF0YQ0K
+PiA+Pj4gICAgICAgIDAxMjY6ICAgIGxwa2dkYXRhID0ge30NCj4gPj4+ICAgICAgICAwMTI3OiAg
+ICBkYXRhZGlyID0gb3MucGF0aC5qb2luKHBrZ2RhdGFkaXIsICdydW50aW1lJykNCj4gPj4+ICAg
+ICAgICAwMTI4Og0KPiA+Pj4gICAgICAgIDAxMjk6ICAgICMgc2NhbiBhbmQgc2VuZCBkYXRhIGZv
+ciBlYWNoIGdlbmVyYXRlZCBwYWNrYWdlDQo+ID4+PiAgICAqKiogMDEzMDogICAgZm9yIGRhdGFm
+aWxlIGluIG9zLmxpc3RkaXIoZGF0YWRpcik6DQo+ID4+PiAgICAgICAgMDEzMTogICAgICAgIGlm
+IG5vdCBkYXRhZmlsZS5lbmRzd2l0aCgnLnBhY2thZ2VkJyk6DQo+ID4+PiAgICAgICAgMDEzMjog
+ICAgICAgICAgICBscGtnZGF0YSA9IF90b2FzdGVyX2xvYWRfcGtnZGF0YWZpbGUoZGF0YWRpciwN
+Cj4gPj4+ICAgICAgICAwMTMzOiAgICAgICAgICAgICMgRmlyZSBhbiBldmVudCBjb250YWluaW5n
+IHRoZSBwa2cgZGF0YQ0KPiA+Pj4gICAgICAgIDAxMzQ6ICAgICAgICAgICAgYmIuZXZlbnQuZmly
+ZShiYi5ldmVudC5NZXRhZGF0YUV2ZW50KA0KPiA+Pj4gICBFeGNlcHRpb246IEZpbGVOb3RGb3Vu
+ZEVycm9yOiBbRXJybm8gMl0gTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeToNCj4gPj4+ICAgJ3Rt
+cC93b3JrL21pcHMzMnIyZWwtbmYtcG9reS1saW51eC9saWJnY2MvOS4yLjAtcjAvcGtnZGF0YS9y
+dW50aW1lJw0KPiA+Pj4NCj4gPj4+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8
+cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+Pj4gLS0tDQo+ID4+PiAgbWV0YS9jbGFz
+c2VzL3RvYXN0ZXIuYmJjbGFzcyB8IDE1ICsrKysrKysrKysrLS0tLQ0KPiA+Pj4gIDEgZmlsZSBj
+aGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPiA+Pj4NCj4gPj4+IGRp
+ZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvdG9hc3Rlci5iYmNsYXNzDQo+IGIvbWV0YS9jbGFzc2Vz
+L3RvYXN0ZXIuYmJjbGFzcw0KPiA+Pj4gaW5kZXggNmNlZjBiOGY2ZS4uNmE2NWVjYjk1NyAxMDA2
+NDQNCj4gPj4+IC0tLSBhL21ldGEvY2xhc3Nlcy90b2FzdGVyLmJiY2xhc3MNCj4gPj4+ICsrKyBi
+L21ldGEvY2xhc3Nlcy90b2FzdGVyLmJiY2xhc3MNCj4gPj4+IEBAIC0xMTMsNyArMTEzLDcgQEAg
+ZGVmIF90b2FzdGVyX2xvYWRfcGtnZGF0YWZpbGUoZGlycGF0aCwgZmlsZXBhdGgpOg0KPiA+Pj4g
+ICAgICAgICAgICAgICAgICBwYXNzICAgICMgaWdub3JlIGxpbmVzIHdpdGhvdXQgdmFsaWQga2V5
+OiB2YWx1ZSBwYWlycw0KPiA+Pj4gICAgICByZXR1cm4gcGtnZGF0YQ0KPiA+Pj4NCj4gPj4+IC1w
+eXRob24gdG9hc3Rlcl9wYWNrYWdlX2R1bXBkYXRhKCkgew0KPiA+Pj4gK2RlZiBfdG9hc3Rlcl9k
+dW1wZGF0YShwa2dkYXRhZGlyLCBkKToNCj4gPj4+ICAgICAgIiIiDQo+ID4+PiAgICAgIER1bXBz
+IHRoZSBkYXRhIGFib3V0IHRoZSBwYWNrYWdlcyBjcmVhdGVkIGJ5IGEgcmVjaXBlDQo+ID4+PiAg
+ICAgICIiIg0KPiA+Pj4gQEAgLTEyMiw3ICsxMjIsNiBAQCBweXRob24gdG9hc3Rlcl9wYWNrYWdl
+X2R1bXBkYXRhKCkgew0KPiA+Pj4gICAgICBpZiBub3QgZC5nZXRWYXIoJ1BBQ0tBR0VTJyk6DQo+
+ID4+PiAgICAgICAgICByZXR1cm4NCj4gPj4+DQo+ID4+PiAtICAgIHBrZ2RhdGFkaXIgPSBkLmdl
+dFZhcignUEtHREVTVFdPUksnKQ0KPiA+Pj4gICAgICBscGtnZGF0YSA9IHt9DQo+ID4+PiAgICAg
+IGRhdGFkaXIgPSBvcy5wYXRoLmpvaW4ocGtnZGF0YWRpciwgJ3J1bnRpbWUnKQ0KPiA+Pj4NCj4g
+Pj4+IEBAIC0xMzIsNiArMTMxLDE0IEBAIHB5dGhvbiB0b2FzdGVyX3BhY2thZ2VfZHVtcGRhdGEo
+KSB7DQo+ID4+PiAgICAgICAgICAgICAgbHBrZ2RhdGEgPSBfdG9hc3Rlcl9sb2FkX3BrZ2RhdGFm
+aWxlKGRhdGFkaXIsIGRhdGFmaWxlKQ0KPiA+Pj4gICAgICAgICAgICAgICMgRmlyZSBhbiBldmVu
+dCBjb250YWluaW5nIHRoZSBwa2cgZGF0YQ0KPiA+Pj4gICAgICAgICAgICAgIGJiLmV2ZW50LmZp
+cmUoYmIuZXZlbnQuTWV0YWRhdGFFdmVudCgiU2luZ2xlUGFja2FnZUluZm8iLA0KPiA+Pj4gbHBr
+Z2RhdGEpLCBkKQ0KPiA+Pj4gKw0KPiA+Pj4gK3B5dGhvbiB0b2FzdGVyX3BhY2thZ2VfZHVtcGRh
+dGEoKSB7DQo+ID4+PiArICAgIF90b2FzdGVyX2R1bXBkYXRhKGQuZ2V0VmFyKCdQS0dERVNUV09S
+SycpLCBkKQ0KPiA+Pj4gK30NCj4gPj4+ICsNCj4gPj4+ICtweXRob24gdG9hc3Rlcl9wYWNrYWdl
+ZGF0YV9kdW1wZGF0YSgpIHsNCj4gPj4+ICsgICAgIyBUaGlzIHBhdGggbmVlZHMgdG8gbWF0Y2gg
+ZG9fcGFja2FnZWRhdGFbc3N0YXRlLWlucHV0ZGlyc10NCj4gPj4+ICsgICAgX3RvYXN0ZXJfZHVt
+cGRhdGEob3MucGF0aC5qb2luKGQuZ2V0VmFyKCdXT1JLRElSJyksICdwa2dkYXRhLQ0KPiBwZGF0
+YS0NCj4gPj4+IGlucHV0JyksIGQpDQo+ID4+PiAgfQ0KPiA+Pj4NCj4gPj4+ICAjIDIuIER1bXAg
+b3V0cHV0IGltYWdlIGZpbGVzIGluZm9ybWF0aW9uDQo+ID4+PiBAQCAtMzY2LDggKzM3Myw4IEBA
+IHRvYXN0ZXJfYnVpbGRoaXN0b3J5X2R1bXBbZXZlbnRtYXNrXSA9DQo+ID4+PiAiYmIuZXZlbnQu
+QnVpbGRDb21wbGV0ZWQiDQo+ID4+PiAgYWRkaGFuZGxlciB0b2FzdGVyX2FydGlmYWN0cw0KPiA+
+Pj4gIHRvYXN0ZXJfYXJ0aWZhY3RzW2V2ZW50bWFza10gPSAiYmIucnVucXVldWUucnVuUXVldWVU
+YXNrU2tpcHBlZA0KPiA+Pj4gYmIucnVucXVldWUucnVuUXVldWVUYXNrQ29tcGxldGVkIg0KPiA+
+Pj4NCj4gPj4+IC1kb19wYWNrYWdlZGF0YV9zZXRzY2VuZVtwb3N0ZnVuY3NdICs9ICJ0b2FzdGVy
+X3BhY2thZ2VfZHVtcGRhdGEgIg0KPiA+Pj4gLWRvX3BhY2thZ2VkYXRhX3NldHNjZW5lW3ZhcmRl
+cHNleGNsdWRlXSArPSAidG9hc3Rlcl9wYWNrYWdlX2R1bXBkYXRhDQo+ICINCj4gPj4+ICtkb19w
+YWNrYWdlZGF0YV9zZXRzY2VuZVtwb3N0ZnVuY3NdICs9ICJ0b2FzdGVyX3BhY2thZ2VkYXRhX2R1
+bXBkYXRhICINCj4gPj4+ICtkb19wYWNrYWdlZGF0YV9zZXRzY2VuZVt2YXJkZXBzZXhjbHVkZV0g
+Kz0NCj4gPj4gInRvYXN0ZXJfcGFja2FnZWRhdGFfZHVtcGRhdGENCj4gPj4+ICINCj4gPj4+DQo+
+ID4+PiAgZG9fcGFja2FnZVtwb3N0ZnVuY3NdICs9ICJ0b2FzdGVyX3BhY2thZ2VfZHVtcGRhdGEg
+Ig0KPiA+Pj4gIGRvX3BhY2thZ2VbdmFyZGVwc2V4Y2x1ZGVdICs9ICJ0b2FzdGVyX3BhY2thZ2Vf
+ZHVtcGRhdGEgIg0KPiA+Pj4gLS0NCj4gPj4+IDIuMjEuMA0KPiA+Pj4NCj4gPj4+IC0tDQo+ID4+
+PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+Pj4g
+T3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4+PiBPcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4+PiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQo+ID4+IC0tDQo+ID4+IF9fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4+IE9wZW5lbWJl
+ZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiA+PiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQo+ID4+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4v
+bGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg0K
 
