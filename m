@@ -1,47 +1,50 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 89A827FA2B
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
+	[209.85.217.48])
+	by mail.openembedded.org (Postfix) with ESMTP id A4C907BEDF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 07:25:13 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id y17so14668277wrh.5
+	Wed, 15 Jan 2020 08:14:16 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id x18so9946763vsq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 23:25:14 -0800 (PST)
+	Wed, 15 Jan 2020 00:14:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=LOfuo7PqZtdBsn9W6O+PEWYrssVAUPgRoD16kBEAOX8=;
-	b=N2zVJC6SjTOiI4w9PLK/i8Z9YLqGdbfxh7w0v+1XfzzKxMLxFZwf18kHO46DLrD7EV
-	48FV93rfT5aZcZlVqF8KnEh+oqUYRs7vcrthwFBLj7UcqIKVVTazq2Qvq8aLv5xMeDQn
-	+rJAkWnqsriSi2OZn25l8byn0CpnEQSNaL1bBKhyxnVKqLbqVVPOxNJBqZKOjJtmrBuO
-	+f+G+ahXzZ8M2gUUIa9/5lHgW+7/SvhXDnfAiJ2TmmzEr3XurP7oSvDIY80A/xfkJoO0
-	DX/XxPbqzCx25pFn4HmWuVnx8vchQvGmW2mGhJX6y4zYO4toVC6hMZ7u5itCuW5/PgFZ
-	poCA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=+AOmlQc9yDZodtFVkSlpiGqmOH1bxxvVMB7y/sfjV7c=;
+	b=hEbz2IzxsuS0/ryDyb0mtDL3re1idkBHIwv0vI6mFXDytB3JG5ena76yV8AKqWBVMO
+	8RBURzI/3FGgFfgTuITf8CAh/rDTfHKhuuay9ytxFHpGDnqgCMFIUyGxfRpAFtfKhdgG
+	2rq2P+55YbJ5ATPf8SkWFuLXZGu3ejsMBbCnQoojvUNe7AQEU5zWKQsRz/PHdaIB9GrB
+	VvZoH68eowvwtNqSiSt5EtpzeFYhF+fZp9x0uZZdGtY2qLYiyPeZ3Mt5P3+XQRQlHhZb
+	OW0JCfIAKe7bxnbFxjTMlHeeCbsf27O1DKzfK7d5lfduk6jyN1lj1P/39MjX2ILn47Gj
+	s7dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=LOfuo7PqZtdBsn9W6O+PEWYrssVAUPgRoD16kBEAOX8=;
-	b=WHLFWRDSUes+sI5fy3HMz8ukJI/ZLjaCpzdEnZ1t408n6M9Hjpo1CgKB4Uu6XTyXvl
-	T7Rx3gLIfxlafM5/gDmxklmdmGAs6GptMnu4l0ymyCMkrLSGzhnnBWkC1Q8/ymVhBzAd
-	qJgT2d6fdy5Ejpv4HdwEgU0mvAZDMR29UjE0Job575Y3owj1XbPC7jZZxe7q8Imd8Ldi
-	4nO4szUgolg/g4GfjH2CFOwXrAGuzS14iOjqMZrwDYQSynxMzUU3/rO0sUPk8aqMELIB
-	VF8aJs4jIaFwBfuhA6Rtm0jxTdBvrWA1hSUiIQdD02fosINEPOpLoKpgH7L2K4QTSsoc
-	iBdw==
-X-Gm-Message-State: APjAAAXTdHpowbFzl1zuXWT47IqaWzvJ2H6hoXg6Up4DzelbkfCDtFD+
-	C2yBXov5C/ZmnBgBGzspUuv5OOug
-X-Google-Smtp-Source: APXvYqwgcFtcdXUysYSx7U2l+PMMGYjOb2fJHO4I7Yvz4H+dBCbezgnrm7PgjUnQm0gmlQ52TFiYjw==
-X-Received: by 2002:adf:f802:: with SMTP id s2mr29878632wrp.201.1579073113794; 
-	Tue, 14 Jan 2020 23:25:13 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	s19sm21199596wmj.33.2020.01.14.23.25.12
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 14 Jan 2020 23:25:13 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jan 2020 07:25:11 +0000
-Message-Id: <20200115072511.105367-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] rootfs-postcommands: Remove spaces before ; in -ROOTFS_..._COMMAND
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=+AOmlQc9yDZodtFVkSlpiGqmOH1bxxvVMB7y/sfjV7c=;
+	b=s3MXW3ZEynlB9AFDjMA11T32MM8Cc+uA0YZ42SnT5ZjD1D4xuykdckJKtaT1VKaou+
+	rwRC5kFsGEZuiM0Vbb39nd2ZJXdObWG66Lx4bWKxDunyryTIl56oMQNRKIPDeDXEENfF
+	BUxCHOjkXIK3L2qsukT8JsVTFJ7yuRDOop2O11UYL0yesvzZAWA5LNyJf0fiemv51pMC
+	RTuvcwQS33gr3XfvMu1FFryRBmEYVpEAQbvDhQrrkeYO8vthwrbjgAbzTLPTpfG7Fn+q
+	4cHEugvgBdY6RjvuG37/x7qm6QDYlpRgckLDh+NQdLufPqzjgkotAonemzOXuo04gs59
+	a66g==
+X-Gm-Message-State: APjAAAVZuRi+d1cbCU3hgDESfa5DLYOtWHmk6CGjgRwINFP8jzQ1q1kt
+	c0IBsByAWxf+ZjEG0mhMagGgbwDgdqx2+SH+lvY=
+X-Google-Smtp-Source: APXvYqxZPmoV2WZzoGuQ0jwm8AWcoFv4CtRiLV8BsLDuDVgbVzOOK7ZoD1UgEeUUGKiRJJZug+RB5zX6jZD6uDbHBxs=
+X-Received: by 2002:a67:3187:: with SMTP id x129mr3800612vsx.23.1579076057447; 
+	Wed, 15 Jan 2020 00:14:17 -0800 (PST)
+MIME-Version: 1.0
+References: <20200114193010.92629-1-Oleg.Polyakov@windriver.com>
+	<13AD08C4-930D-479F-81E7-3B6405C3BD94@gmail.com>
+	<e0a7cf43-7d0b-5318-22de-9009d702061f@windriver.com>
+	<CANNYZj83UugdN=aNFncqFRF304YxBtYLgd6b4bP-Na_bLvMvwA@mail.gmail.com>
+	<700a9b55-e817-64ad-ac01-843a125ec8f7@windriver.com>
+In-Reply-To: <700a9b55-e817-64ad-ac01-843a125ec8f7@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 Jan 2020 09:14:06 +0100
+Message-ID: <CANNYZj8YZoGziWZapPWaO67T3Sf_5-arEM4sfQnD3knd2X5Dew@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] vim: update from 8.1.1518 to 8.2.0110
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,65 +57,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 07:25:14 -0000
+X-List-Received-Date: Wed, 15 Jan 2020 08:14:16 -0000
+Content-Type: multipart/alternative; boundary="0000000000007a409d059c294bfc"
 
-With spaces in ROOTFS_POSTPROCESS_COMMAND attempts to remove elements
-using ROOTFS_POSTPROCESS_COMMAND_remove causes parse failures of the
-form:
+--0000000000007a409d059c294bfc
+Content-Type: text/plain; charset="UTF-8"
 
-  bb.pysh.sherrors.ShellSyntaxError: LexToken(COMMA,';',0,0)
-  followed by:
-    LexToken(TOKEN,'write_image_test_data',0,0)
-    LexToken(COMMA,';',0,0)
-    LexToken(TOKEN,'set_systemd_default_target',0,0)
-    LexToken(COMMA,';',0,0)
-    LexToken(TOKEN,'systemd_create_users',0,0)
+On Tue, 14 Jan 2020 at 23:37, Randy MacLeod <randy.macleod@windriver.com>
+wrote:
 
-Removing the spaces between the function name and semicolon allows the
-list to parse correctly.
+> That's also what 'devtool latest-version vim' should currently report and
+> 'devtool upgrade' upgrade to: I purposely cut off the point releases and
+> left only the major.minor part there.
+>
+> Right. This will also give Oleg an excuse to try 'devtool upgrade' to
+> compare manually upgrading. :)
+>
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+Thanks, that is of course appreciated. Run 'devtool check-upgrade-status'
+to get an overview of what needs updating, maybe you can help Oleg to pick
+the easier updates from that list.
 
- meta/classes/rootfs-postcommands.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Alex
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 2c0f16cebd4c..fdc63bb64d55 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -1,6 +1,6 @@
- 
- # Zap the root password if debug-tweaks feature is not enabled
--ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
-+ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password; ",d)}'
- 
- # Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
-@@ -12,7 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'deb
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
- 
- # Create /etc/timestamp during image construction to give a reasonably sane default time setting
--ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
-+ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
- 
- # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
-@@ -26,11 +26,11 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only
- APPEND_append = '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", " ro", "", d)}'
- 
- # Generates test data file with data store variables expanded in json format
--ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
-+ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data; "
- 
- # Write manifest
- IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
--ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
-+ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest; "
- # Set default postinst log file
- POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
- # Set default target for systemd images
--- 
-2.17.1
+--0000000000007a409d059c294bfc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 14 Jan 2020 at 23:37, Randy MacLe=
+od &lt;<a href=3D"mailto:randy.macleod@windriver.com">randy.macleod@windriv=
+er.com</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+ =20
+   =20
+ =20
+  <div>That&#39;s also what &#39;devtool latest-version vim&#39; should
+            currently report and &#39;devtool upgrade&#39; upgrade to: I
+            purposely cut off the point releases and left only the
+            major.minor part there.<br>
+          <blockquote type=3D"cite"><div dir=3D"ltr"><div class=3D"gmail_qu=
+ote">
+        </div>
+      </div>
+    </blockquote>
+    <p>Right. This will also give Oleg an excuse to try &#39;devtool
+      upgrade&#39; to compare manually upgrading. :)</p></div></blockquote>=
+<div><br></div><div>Thanks, that is of course appreciated. Run &#39;devtool=
+ check-upgrade-status&#39; to get an overview of what needs updating, maybe=
+ you can help Oleg to pick the easier updates from that list.</div><div><br=
+></div><div>Alex<br></div></div></div>
 
+--0000000000007a409d059c294bfc--
