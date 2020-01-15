@@ -1,36 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
-	by mail.openembedded.org (Postfix) with ESMTP id C1F947FA44
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 89A827FA2B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 03:37:57 +0000 (UTC)
-IronPort-SDR: yIxUY8xDtDqPnAVTTYxNGm6Wrg/JJpnyyMtOnaUVIfIRaaP7N8jUllr5jxYEkTcwbQSbQ+OAOF
-	GksoC7rMpMy0tpURB9k6neVPk5eb2g9+t7nsZTBElmtBZ5bwERAJyvkAb0fyjlya9FwvE17sFo
-	7WmHvo+LgrI/h2hP+MFuNkvwJk6a8lWL9YvkdRvrayllPnI1dUpUG4rouu8WzVkuDse7L0UbNu
-	bVG8z9PbliszQ3PEbuYLSTUytoX0ufU/9nN+aPEesRuhHT0JlqifMkbclsfKG+o20X1iUfvl36
-	Aws=
-X-IronPort-AV: E=Sophos;i="5.70,321,1574118000"; 
-   d="scan'208";a="4298919"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: akuster808 <akuster808@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [master][zeus][PATCH] toaster.bbclass: Correct
-	pkgdatadir path in toaster_package_dumpdata()
-Thread-Index: AQHVyL1ITL+X5NVnCk6RSZQIeCkP4qfrDwVQ
-Date: Wed, 15 Jan 2020 03:37:57 +0000
-Message-ID: <da2d8c0f814149f1b5d517a952eb0f2d@XBOX03.axis.com>
-References: <20191211010609.4295-1-pkj@axis.com>
-	<aa0b9ef432a44643a82dd82e72cc4f45@XBOX03.axis.com>
-	<6452910c3cb64d55a7bda972f467c828@XBOX03.axis.com>
-	<3bdf3df9-eaee-2de5-0b55-9c329c83c6c2@gmail.com>
-In-Reply-To: <3bdf3df9-eaee-2de5-0b55-9c329c83c6c2@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-Subject: Re: [master][zeus][PATCH] toaster.bbclass: Correct pkgdatadir path in toaster_package_dumpdata()
+	Wed, 15 Jan 2020 07:25:13 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id y17so14668277wrh.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 Jan 2020 23:25:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=LOfuo7PqZtdBsn9W6O+PEWYrssVAUPgRoD16kBEAOX8=;
+	b=N2zVJC6SjTOiI4w9PLK/i8Z9YLqGdbfxh7w0v+1XfzzKxMLxFZwf18kHO46DLrD7EV
+	48FV93rfT5aZcZlVqF8KnEh+oqUYRs7vcrthwFBLj7UcqIKVVTazq2Qvq8aLv5xMeDQn
+	+rJAkWnqsriSi2OZn25l8byn0CpnEQSNaL1bBKhyxnVKqLbqVVPOxNJBqZKOjJtmrBuO
+	+f+G+ahXzZ8M2gUUIa9/5lHgW+7/SvhXDnfAiJ2TmmzEr3XurP7oSvDIY80A/xfkJoO0
+	DX/XxPbqzCx25pFn4HmWuVnx8vchQvGmW2mGhJX6y4zYO4toVC6hMZ7u5itCuW5/PgFZ
+	poCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=LOfuo7PqZtdBsn9W6O+PEWYrssVAUPgRoD16kBEAOX8=;
+	b=WHLFWRDSUes+sI5fy3HMz8ukJI/ZLjaCpzdEnZ1t408n6M9Hjpo1CgKB4Uu6XTyXvl
+	T7Rx3gLIfxlafM5/gDmxklmdmGAs6GptMnu4l0ymyCMkrLSGzhnnBWkC1Q8/ymVhBzAd
+	qJgT2d6fdy5Ejpv4HdwEgU0mvAZDMR29UjE0Job575Y3owj1XbPC7jZZxe7q8Imd8Ldi
+	4nO4szUgolg/g4GfjH2CFOwXrAGuzS14iOjqMZrwDYQSynxMzUU3/rO0sUPk8aqMELIB
+	VF8aJs4jIaFwBfuhA6Rtm0jxTdBvrWA1hSUiIQdD02fosINEPOpLoKpgH7L2K4QTSsoc
+	iBdw==
+X-Gm-Message-State: APjAAAXTdHpowbFzl1zuXWT47IqaWzvJ2H6hoXg6Up4DzelbkfCDtFD+
+	C2yBXov5C/ZmnBgBGzspUuv5OOug
+X-Google-Smtp-Source: APXvYqwgcFtcdXUysYSx7U2l+PMMGYjOb2fJHO4I7Yvz4H+dBCbezgnrm7PgjUnQm0gmlQ52TFiYjw==
+X-Received: by 2002:adf:f802:: with SMTP id s2mr29878632wrp.201.1579073113794; 
+	Tue, 14 Jan 2020 23:25:13 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	s19sm21199596wmj.33.2020.01.14.23.25.12
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 14 Jan 2020 23:25:13 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2020 07:25:11 +0000
+Message-Id: <20200115072511.105367-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] rootfs-postcommands: Remove spaces before ; in -ROOTFS_..._COMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,128 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 03:37:58 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 15 Jan 2020 07:25:14 -0000
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBha3VzdGVyODA4IDxha3VzdGVy
-ODA4QGdtYWlsLmNvbT4NCj4gU2VudDogZGVuIDExIGphbnVhcmkgMjAyMCAyMToyNg0KPiBUbzog
-UGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhpcy5jb20+OyBvcGVuZW1i
-ZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBTdWJqZWN0OiBSZTogW09F
-LWNvcmVdIFttYXN0ZXJdW3pldXNdW1BBVENIXSB0b2FzdGVyLmJiY2xhc3M6IENvcnJlY3QNCj4g
-cGtnZGF0YWRpciBwYXRoIGluIHRvYXN0ZXJfcGFja2FnZV9kdW1wZGF0YSgpDQo+IA0KPiBPbiAx
-LzEwLzIwIDc6MzIgUE0sIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiAqcGluZyoNCj4g
-Tm93IHRoYXQgaXRzIGluIG1hc3RlciwNCj4gDQo+IEkgd2lsbCBxdWV1ZSBpdCB1cCBmb3IgemV1
-cy4NCg0KUGxlYXNlIGRvLiANCg0KSSB3b3VsZCBsaWtlIHRoZXNlIGNvbW1pdHMgdG8gYmUgY2hl
-cnJ5LXBpY2tlZCBmcm9tIG1hc3RlciBvZiANCmJpdGJha2UgdG8gdGhlIDEuNDQgYnJhbmNoOg0K
-DQo1NmI1ZWM0YzJiIGtub3R0eTogSGlkZSB0aGUgZm9vdGVyIGlmIGEgcHJvY2VzcyBwcm9ncmVz
-cyBiYXIgaXMgc2hvd24NCjFlOTZkZjI2MGUgY29va2VyOiBLZWVwIHRyYWNrIG9mIHdhdGNoZWQg
-ZmlsZXMgdXNpbmcgYSBzZXQgaW5zdGVhZCBvZiBhIGxpc3QNCg0KQW5kIHRoZSBmb2xsb3dpbmcg
-dG8gYmUgY2hlcnJ5LXBpY2tlZCBmcm9tIG1hc3RlciBvZiANCm9wZW5lbWJlZGRlZC1jb3JlIHRv
-IHRoZSB6ZXVzIGJyYW5jaDoNCg0KNWEwZjZmNjMxYiB0b2FzdGVyLmJiY2xhc3M6IENvcnJlY3Qg
-cGtnZGF0YWRpciBwYXRoIGluIHRvYXN0ZXJfcGFja2FnZV9kdW1wZGF0YSgpDQo0MGMzMDk5MGUx
-IHBvcHVsYXRlX3Nka19leHQuYmJjbGFzczogTm8gbG9uZ2VyIG5lZWRlZCB0byBjbGVhbiBhd2F5
-IGNvbmYvc2FuaXR5X2luZm8NCmY5ODEwM2I1NDggc2FuaXR5LmJiY2xhc3M6IE1vdmUgc2FuaXR5
-X2luZm8gZnJvbSBjb25mIHRvIGNhY2hlDQo2NGRhYWYyOWUyIGxpY2Vuc2VzLmNvbmY6IFJlbW92
-ZSB0aGUgU1JDX0RJU1RSSUJVVEVfTElDRU5TRVMgdmFyaWFibGUNCjhjOWVmNTg3ZmUgbGljZW5z
-ZS5iYmNsYXNzOiBJbnRyb2R1Y2UgQVZBSUxBQkxFX0xJQ0VOU0VTIHRoYXQgbGlzdHMgYWxsIGxp
-Y2Vuc2VzDQoNClRoZXkgc2hvdWxkIGFsbCBjaGVycnktcGljayBjbGVhbmx5IHRvIHRoZWlyIHJl
-c3BlY3RpdmUgdGFyZ2V0IA0KYnJhbmNoLg0KDQo+IC0gYXJtaW4NCg0KLy9QZXRlcg0KDQo+ID4g
-Ly9QZXRlcg0KPiA+DQo+ID4+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+ID4+IEZyb206
-IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVt
-YmVkZGVkLQ0KPiBjb3JlLQ0KPiA+PiBib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+IE9u
-IEJlaGFsZiBPZiBQZXRlciBLamVsbGVyc3RlZHQNCj4gPj4gU2VudDogZGVuIDIyIGRlY2VtYmVy
-IDIwMTkgMTQ6MDINCj4gPj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRl
-ZC5vcmcNCj4gPj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbbWFzdGVyXVt6ZXVzXVtQQVRDSF0g
-dG9hc3Rlci5iYmNsYXNzOiBDb3JyZWN0DQo+ID4+IHBrZ2RhdGFkaXIgcGF0aCBpbiB0b2FzdGVy
-X3BhY2thZ2VfZHVtcGRhdGEoKQ0KPiA+Pg0KPiA+PiAqcGluZyoNCj4gPj4NCj4gPj4gLy9QZXRl
-cg0KPiA+Pg0KPiA+Pj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPj4+IEZyb206IG9w
-ZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVk
-ZGVkLQ0KPiA+PiBjb3JlLQ0KPiA+Pj4gYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBP
-biBCZWhhbGYgT2YgUGV0ZXIgS2plbGxlcnN0ZWR0DQo+ID4+PiBTZW50OiBkZW4gMTEgZGVjZW1i
-ZXIgMjAxOSAwMjowNg0KPiA+Pj4gVG86IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
-ZGRlZC5vcmcNCj4gPj4+IFN1YmplY3Q6IFtPRS1jb3JlXSBbbWFzdGVyXVt6ZXVzXVtQQVRDSF0g
-dG9hc3Rlci5iYmNsYXNzOiBDb3JyZWN0DQo+ID4+PiBwa2dkYXRhZGlyIHBhdGggaW4gdG9hc3Rl
-cl9wYWNrYWdlX2R1bXBkYXRhKCkNCj4gPj4+DQo+ID4+PiBJbiBjb21taXQgNjkyYjIwNDYgKHBh
-Y2thZ2U6IEZpeCByYWNlIGJldHdlZW4gZG9fcGFja2FnZSBhbmQNCj4gPj4+IGRvX3BhY2thZ2Vk
-YXRhKSwgdGhlIHBhdGggdXNlZCBmb3IgZG9fcGFja2FnZWRhdGFbc3N0YXRlLWlucHV0ZGlyc10N
-Cj4gPj4+IHdhcyBjaGFuZ2VkIGZyb20gIiR7UEtHREVTVFdPUkt9IiB0byAiJHtXT1JLRElSfS9w
-a2dkYXRhLXBkYXRhLWlucHV0Ii4NCj4gPj4+IFRoaXMgY29tbWl0IGFkYXB0cyB0aGUgcGF0aCB1
-c2VkIGZvciBwa2dkYXRhZGlyIGluDQo+ID4+PiB0b2FzdGVyX3BhY2thZ2VfZHVtcGRhdGEoKSBh
-Y2NvcmRpbmdseSB0byBhdm9pZCBzZXRzY2VuZSBlcnJvcnMgbGlrZToNCj4gPj4+DQo+ID4+PiAg
-IEVSUk9SOiBsaWJnY2MtOS4yLjAtcjAgZG9fcGFja2FnZWRhdGFfc2V0c2NlbmU6IEVycm9yIGV4
-ZWN1dGluZyBhDQo+ID4+PiAgIHB5dGhvbiBmdW5jdGlvbiBpbiBleGVjX3B5dGhvbl9mdW5jKCkg
-YXV0b2dlbmVyYXRlZDoNCj4gPj4+DQo+ID4+PiAgIFRoZSBzdGFjayB0cmFjZSBvZiBweXRob24g
-Y2FsbHMgdGhhdCByZXN1bHRlZCBpbiB0aGlzDQo+ID4+PiAgIGV4Y2VwdGlvbi9mYWlsdXJlIHdh
-czoNCj4gPj4+ICAgRmlsZTogJ2V4ZWNfcHl0aG9uX2Z1bmMoKSBhdXRvZ2VuZXJhdGVkJywgbGlu
-ZW5vOiAyLCBmdW5jdGlvbjoNCj4gPj4+ICAgPG1vZHVsZT4NCj4gPj4+ICAgICAgICAwMDAxOg0K
-PiA+Pj4gICAgKioqIDAwMDI6dG9hc3Rlcl9wYWNrYWdlX2R1bXBkYXRhKGQpDQo+ID4+PiAgICAg
-ICAgMDAwMzoNCj4gPj4+ICAgRmlsZTogJ21ldGEvY2xhc3Nlcy90b2FzdGVyLmJiY2xhc3MnLCBs
-aW5lbm86IDEzMCwgZnVuY3Rpb246DQo+ID4+PiAgIHRvYXN0ZXJfcGFja2FnZV9kdW1wZGF0YQ0K
-PiA+Pj4gICAgICAgIDAxMjY6ICAgIGxwa2dkYXRhID0ge30NCj4gPj4+ICAgICAgICAwMTI3OiAg
-ICBkYXRhZGlyID0gb3MucGF0aC5qb2luKHBrZ2RhdGFkaXIsICdydW50aW1lJykNCj4gPj4+ICAg
-ICAgICAwMTI4Og0KPiA+Pj4gICAgICAgIDAxMjk6ICAgICMgc2NhbiBhbmQgc2VuZCBkYXRhIGZv
-ciBlYWNoIGdlbmVyYXRlZCBwYWNrYWdlDQo+ID4+PiAgICAqKiogMDEzMDogICAgZm9yIGRhdGFm
-aWxlIGluIG9zLmxpc3RkaXIoZGF0YWRpcik6DQo+ID4+PiAgICAgICAgMDEzMTogICAgICAgIGlm
-IG5vdCBkYXRhZmlsZS5lbmRzd2l0aCgnLnBhY2thZ2VkJyk6DQo+ID4+PiAgICAgICAgMDEzMjog
-ICAgICAgICAgICBscGtnZGF0YSA9IF90b2FzdGVyX2xvYWRfcGtnZGF0YWZpbGUoZGF0YWRpciwN
-Cj4gPj4+ICAgICAgICAwMTMzOiAgICAgICAgICAgICMgRmlyZSBhbiBldmVudCBjb250YWluaW5n
-IHRoZSBwa2cgZGF0YQ0KPiA+Pj4gICAgICAgIDAxMzQ6ICAgICAgICAgICAgYmIuZXZlbnQuZmly
-ZShiYi5ldmVudC5NZXRhZGF0YUV2ZW50KA0KPiA+Pj4gICBFeGNlcHRpb246IEZpbGVOb3RGb3Vu
-ZEVycm9yOiBbRXJybm8gMl0gTm8gc3VjaCBmaWxlIG9yIGRpcmVjdG9yeToNCj4gPj4+ICAgJ3Rt
-cC93b3JrL21pcHMzMnIyZWwtbmYtcG9reS1saW51eC9saWJnY2MvOS4yLjAtcjAvcGtnZGF0YS9y
-dW50aW1lJw0KPiA+Pj4NCj4gPj4+IFNpZ25lZC1vZmYtYnk6IFBldGVyIEtqZWxsZXJzdGVkdCA8
-cGV0ZXIua2plbGxlcnN0ZWR0QGF4aXMuY29tPg0KPiA+Pj4gLS0tDQo+ID4+PiAgbWV0YS9jbGFz
-c2VzL3RvYXN0ZXIuYmJjbGFzcyB8IDE1ICsrKysrKysrKysrLS0tLQ0KPiA+Pj4gIDEgZmlsZSBj
-aGFuZ2VkLCAxMSBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQ0KPiA+Pj4NCj4gPj4+IGRp
-ZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvdG9hc3Rlci5iYmNsYXNzDQo+IGIvbWV0YS9jbGFzc2Vz
-L3RvYXN0ZXIuYmJjbGFzcw0KPiA+Pj4gaW5kZXggNmNlZjBiOGY2ZS4uNmE2NWVjYjk1NyAxMDA2
-NDQNCj4gPj4+IC0tLSBhL21ldGEvY2xhc3Nlcy90b2FzdGVyLmJiY2xhc3MNCj4gPj4+ICsrKyBi
-L21ldGEvY2xhc3Nlcy90b2FzdGVyLmJiY2xhc3MNCj4gPj4+IEBAIC0xMTMsNyArMTEzLDcgQEAg
-ZGVmIF90b2FzdGVyX2xvYWRfcGtnZGF0YWZpbGUoZGlycGF0aCwgZmlsZXBhdGgpOg0KPiA+Pj4g
-ICAgICAgICAgICAgICAgICBwYXNzICAgICMgaWdub3JlIGxpbmVzIHdpdGhvdXQgdmFsaWQga2V5
-OiB2YWx1ZSBwYWlycw0KPiA+Pj4gICAgICByZXR1cm4gcGtnZGF0YQ0KPiA+Pj4NCj4gPj4+IC1w
-eXRob24gdG9hc3Rlcl9wYWNrYWdlX2R1bXBkYXRhKCkgew0KPiA+Pj4gK2RlZiBfdG9hc3Rlcl9k
-dW1wZGF0YShwa2dkYXRhZGlyLCBkKToNCj4gPj4+ICAgICAgIiIiDQo+ID4+PiAgICAgIER1bXBz
-IHRoZSBkYXRhIGFib3V0IHRoZSBwYWNrYWdlcyBjcmVhdGVkIGJ5IGEgcmVjaXBlDQo+ID4+PiAg
-ICAgICIiIg0KPiA+Pj4gQEAgLTEyMiw3ICsxMjIsNiBAQCBweXRob24gdG9hc3Rlcl9wYWNrYWdl
-X2R1bXBkYXRhKCkgew0KPiA+Pj4gICAgICBpZiBub3QgZC5nZXRWYXIoJ1BBQ0tBR0VTJyk6DQo+
-ID4+PiAgICAgICAgICByZXR1cm4NCj4gPj4+DQo+ID4+PiAtICAgIHBrZ2RhdGFkaXIgPSBkLmdl
-dFZhcignUEtHREVTVFdPUksnKQ0KPiA+Pj4gICAgICBscGtnZGF0YSA9IHt9DQo+ID4+PiAgICAg
-IGRhdGFkaXIgPSBvcy5wYXRoLmpvaW4ocGtnZGF0YWRpciwgJ3J1bnRpbWUnKQ0KPiA+Pj4NCj4g
-Pj4+IEBAIC0xMzIsNiArMTMxLDE0IEBAIHB5dGhvbiB0b2FzdGVyX3BhY2thZ2VfZHVtcGRhdGEo
-KSB7DQo+ID4+PiAgICAgICAgICAgICAgbHBrZ2RhdGEgPSBfdG9hc3Rlcl9sb2FkX3BrZ2RhdGFm
-aWxlKGRhdGFkaXIsIGRhdGFmaWxlKQ0KPiA+Pj4gICAgICAgICAgICAgICMgRmlyZSBhbiBldmVu
-dCBjb250YWluaW5nIHRoZSBwa2cgZGF0YQ0KPiA+Pj4gICAgICAgICAgICAgIGJiLmV2ZW50LmZp
-cmUoYmIuZXZlbnQuTWV0YWRhdGFFdmVudCgiU2luZ2xlUGFja2FnZUluZm8iLA0KPiA+Pj4gbHBr
-Z2RhdGEpLCBkKQ0KPiA+Pj4gKw0KPiA+Pj4gK3B5dGhvbiB0b2FzdGVyX3BhY2thZ2VfZHVtcGRh
-dGEoKSB7DQo+ID4+PiArICAgIF90b2FzdGVyX2R1bXBkYXRhKGQuZ2V0VmFyKCdQS0dERVNUV09S
-SycpLCBkKQ0KPiA+Pj4gK30NCj4gPj4+ICsNCj4gPj4+ICtweXRob24gdG9hc3Rlcl9wYWNrYWdl
-ZGF0YV9kdW1wZGF0YSgpIHsNCj4gPj4+ICsgICAgIyBUaGlzIHBhdGggbmVlZHMgdG8gbWF0Y2gg
-ZG9fcGFja2FnZWRhdGFbc3N0YXRlLWlucHV0ZGlyc10NCj4gPj4+ICsgICAgX3RvYXN0ZXJfZHVt
-cGRhdGEob3MucGF0aC5qb2luKGQuZ2V0VmFyKCdXT1JLRElSJyksICdwa2dkYXRhLQ0KPiBwZGF0
-YS0NCj4gPj4+IGlucHV0JyksIGQpDQo+ID4+PiAgfQ0KPiA+Pj4NCj4gPj4+ICAjIDIuIER1bXAg
-b3V0cHV0IGltYWdlIGZpbGVzIGluZm9ybWF0aW9uDQo+ID4+PiBAQCAtMzY2LDggKzM3Myw4IEBA
-IHRvYXN0ZXJfYnVpbGRoaXN0b3J5X2R1bXBbZXZlbnRtYXNrXSA9DQo+ID4+PiAiYmIuZXZlbnQu
-QnVpbGRDb21wbGV0ZWQiDQo+ID4+PiAgYWRkaGFuZGxlciB0b2FzdGVyX2FydGlmYWN0cw0KPiA+
-Pj4gIHRvYXN0ZXJfYXJ0aWZhY3RzW2V2ZW50bWFza10gPSAiYmIucnVucXVldWUucnVuUXVldWVU
-YXNrU2tpcHBlZA0KPiA+Pj4gYmIucnVucXVldWUucnVuUXVldWVUYXNrQ29tcGxldGVkIg0KPiA+
-Pj4NCj4gPj4+IC1kb19wYWNrYWdlZGF0YV9zZXRzY2VuZVtwb3N0ZnVuY3NdICs9ICJ0b2FzdGVy
-X3BhY2thZ2VfZHVtcGRhdGEgIg0KPiA+Pj4gLWRvX3BhY2thZ2VkYXRhX3NldHNjZW5lW3ZhcmRl
-cHNleGNsdWRlXSArPSAidG9hc3Rlcl9wYWNrYWdlX2R1bXBkYXRhDQo+ICINCj4gPj4+ICtkb19w
-YWNrYWdlZGF0YV9zZXRzY2VuZVtwb3N0ZnVuY3NdICs9ICJ0b2FzdGVyX3BhY2thZ2VkYXRhX2R1
-bXBkYXRhICINCj4gPj4+ICtkb19wYWNrYWdlZGF0YV9zZXRzY2VuZVt2YXJkZXBzZXhjbHVkZV0g
-Kz0NCj4gPj4gInRvYXN0ZXJfcGFja2FnZWRhdGFfZHVtcGRhdGENCj4gPj4+ICINCj4gPj4+DQo+
-ID4+PiAgZG9fcGFja2FnZVtwb3N0ZnVuY3NdICs9ICJ0b2FzdGVyX3BhY2thZ2VfZHVtcGRhdGEg
-Ig0KPiA+Pj4gIGRvX3BhY2thZ2VbdmFyZGVwc2V4Y2x1ZGVdICs9ICJ0b2FzdGVyX3BhY2thZ2Vf
-ZHVtcGRhdGEgIg0KPiA+Pj4gLS0NCj4gPj4+IDIuMjEuMA0KPiA+Pj4NCj4gPj4+IC0tDQo+ID4+
-PiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiA+Pj4g
-T3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4+PiBPcGVuZW1iZWRkZWQtY29yZUBs
-aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4+PiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQo+ID4+IC0tDQo+ID4+IF9fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4+IE9wZW5lbWJl
-ZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiA+PiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnDQo+ID4+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4v
-bGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCg0K
+With spaces in ROOTFS_POSTPROCESS_COMMAND attempts to remove elements
+using ROOTFS_POSTPROCESS_COMMAND_remove causes parse failures of the
+form:
+
+  bb.pysh.sherrors.ShellSyntaxError: LexToken(COMMA,';',0,0)
+  followed by:
+    LexToken(TOKEN,'write_image_test_data',0,0)
+    LexToken(COMMA,';',0,0)
+    LexToken(TOKEN,'set_systemd_default_target',0,0)
+    LexToken(COMMA,';',0,0)
+    LexToken(TOKEN,'systemd_create_users',0,0)
+
+Removing the spaces between the function name and semicolon allows the
+list to parse correctly.
+
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+
+ meta/classes/rootfs-postcommands.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index 2c0f16cebd4c..fdc63bb64d55 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -1,6 +1,6 @@
+ 
+ # Zap the root password if debug-tweaks feature is not enabled
+-ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password; ",d)}'
+ 
+ # Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
+@@ -12,7 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'deb
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
+ 
+ # Create /etc/timestamp during image construction to give a reasonably sane default time setting
+-ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
++ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
+ 
+ # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
+@@ -26,11 +26,11 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only
+ APPEND_append = '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", " ro", "", d)}'
+ 
+ # Generates test data file with data store variables expanded in json format
+-ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
++ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data; "
+ 
+ # Write manifest
+ IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
+-ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
++ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest; "
+ # Set default postinst log file
+ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+ # Set default target for systemd images
+-- 
+2.17.1
+
 
