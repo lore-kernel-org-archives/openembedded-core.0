@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C50A7FA23;
-	Wed, 15 Jan 2020 16:02:38 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 3FF0C7FA1E;
+	Wed, 15 Jan 2020 16:02:39 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: anatol.oe@belski.net
-Date: Wed, 15 Jan 2020 16:02:39 -0000
-Message-ID: <20200115160239.2275.55720@do>
-References: <1579103359-31455-1-git-send-email-Saloni.Jain@kpit.com>
+Date: Wed, 15 Jan 2020 16:02:40 -0000
+Message-ID: <20200115160240.2275.2465@do>
+References: <1579103456-31723-1-git-send-email-Saloni.Jain@kpit.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1579103359-31455-1-git-send-email-Saloni.Jain@kpit.com>
+In-Reply-To: <1579103456-31723-1-git-send-email-Saloni.Jain@kpit.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnppcDI6IEZpeCBDVkUtMjAxOS0xMjkwMCAocmV2NSk=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnppcDI6IEZpeCBDVkUtMjAxOS0xMjkwMCAocmV2Nik=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 16:02:38 -0000
+X-List-Received-Date: Wed, 15 Jan 2020 16:02:39 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: bzip2: Fix CVE-2019-12900 (rev5)
-Revision: 5
+Series: bzip2: Fix CVE-2019-12900 (rev6)
+Revision: 6
 URL   : https://patchwork.openembedded.org/series/18434/
 State : failure
 
@@ -45,7 +45,7 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [poky,sumo] bzip2: Fix CVE-2019-12900
+* Patch            [poky,zeus] bzip2: Fix CVE-2019-12900
  Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
   Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
 
