@@ -1,35 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C6EF7E553
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AF2BB6BCA9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 13:20:16 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Jan 2020 05:20:18 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,322,1574150400"; d="scan'208";a="372933972"
-Received: from jmmarti7-mobl1.amr.corp.intel.com (HELO rburton-mac01.local)
-	([10.252.51.74])
-	by orsmga004.jf.intel.com with ESMTP; 15 Jan 2020 05:20:16 -0800
-To: =?UTF-8?Q?Maxime_Roussin-B=c3=a9langer?=
-	<maxime.roussinbelanger@gmail.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20200113211005.14693-1-maxime.roussinbelanger@gmail.com>
-	<CANNYZj-2ZLcTC7j=SGTY5O6h-Z2FNRZnkNgzQcWNedSDnPBZUA@mail.gmail.com>
-	<CAE=T-s6n8LLsucxfy3kioMqaAvG5gQenwNpsGqW55Gf8a_3NVQ@mail.gmail.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <61d616d4-25fb-c779-9e28-acbce0d54370@intel.com>
-Date: Wed, 15 Jan 2020 13:20:16 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.4.1
+	Wed, 15 Jan 2020 13:39:38 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id w15so15801600wru.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 Jan 2020 05:39:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Bev6Ej/yqNLJWeWadEWmYpIOMcDqsduIziNrMJqaI3M=;
+	b=U125I9iIRPEvPs46GymZMAMPjQ2XF2tZOKK2pintvwBAgECaldRdGx0TvNywPk0Zed
+	YblHzuiYlcI7jkk2zOsmkFAFtsSTzyS+vnruss4jswFK/H41Xc7oDbvQelriKS4puVwH
+	lRpxHHC2tlBtWI6FRkKL1h9fgrQML2pqzp+Is=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Bev6Ej/yqNLJWeWadEWmYpIOMcDqsduIziNrMJqaI3M=;
+	b=W0A9/vG+Wsaf75zxQ25Jjx49Yzwq8lUZMgmkrMSf1G7KMapmmFLUs/jVSIjkkPVeQu
+	LSAS/NxXKPVrhp+Hozq6uGqn4zf8mrbT65sjwBBbIl2EVw8MDAgMEldBS0kIU3e6fGQi
+	HjiIrE+QS2Ar+Yt5BNnDH1o6vxqBS0I7Z5OQMoKKpb1dnoVZShb6cI5ktftkZ7/SDQbx
+	WUtkjn2atSwfMh+4jWy0/PtQNme7gfEaQ6PLEDLRrhE6qz7Gyo2g3iM5zdcDupIwLhs2
+	XBZ8tZ3cUK7pgMA9VgOfmv73v/YXh5mTQcJf+z2c9CRpPz1DjUUxkJR2poTR4oozOGY9
+	ZcKw==
+X-Gm-Message-State: APjAAAX0fp7ihghs1Bz/vA3AVtmBgBdiEYdoQ4+Qup7ZykQ3rerv7DEz
+	/8JIwtHZsZk4yBIlPp7Spjj2hw==
+X-Google-Smtp-Source: APXvYqzhC2ys6b4MklzPzRg6UfhIiLCalA2TvTg2DZGJ14d5yl80kopgl+k5Sln6+TXFwphFaCV/uA==
+X-Received: by 2002:adf:f847:: with SMTP id d7mr32164664wrq.35.1579095579749; 
+	Wed, 15 Jan 2020 05:39:39 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	f16sm24406984wrm.65.2020.01.15.05.39.38
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 15 Jan 2020 05:39:39 -0800 (PST)
+Message-ID: <c9874f81da364cbd03aab137c901359e7aa3fdd7.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2020 13:39:37 +0000
+In-Reply-To: <20200114140007.36622-4-alex.kanavin@gmail.com>
+References: <20200114140007.36622-1-alex.kanavin@gmail.com>
+	<20200114140007.36622-4-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <CAE=T-s6n8LLsucxfy3kioMqaAvG5gQenwNpsGqW55Gf8a_3NVQ@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] meta: gdk-pixbuf: add man packageconfig
+Subject: Re: [PATCH 04/20] python3: update to 3.8.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 13:20:17 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 15 Jan 2020 13:39:40 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On 15/01/2020 01:25, Maxime Roussin-Bélanger wrote:
-> I have modified the recipe to use manpages, but it is impossible to run 
-> a build from master, because
-> of my python3 pyenv setup. I had to add
+On Tue, 2020-01-14 at 14:59 +0100, Alexander Kanavin wrote:
+> Drop backports, rebase other patches.
 > 
-> +DEPENDS = "python3-native"
+> 0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+> is removed as the use case (allowing python 2 and 3 to coexist
+> in SDKs) is no longer relevant with Python 2.x reaching end of line
+> and upstream has refactored the code making a rebase difficult.
+> If needed, please re-add the patch to py2, rather than py3.
 > 
-> to ca-certificates, without it was impossible to go through the 
-> do_configure step. It was using the python3
-> from my system instead of the one provided by yocto? I am a bit lost here.
+> Python 3.8 no longer adds "m" to "3.8" in paths, so adjust the
+> recipes
+> and classes accordingly.
 > 
-> What do you think? Should it have python3-native? There is a fairly 
-> recent patch
-> to use python3 `file://0001-certdata2pem.py-use-python3.patch`
+> The manifest for the 3.8.0 version is updated; particularly pkgutil
+> module is now packaged in -core (as other things in core need it);
+> this also necessitates allowing empty -pkgutil package to avoid
+> breakage across layers.
 
-We assume that the host has a Python 3, which is fair as Bitbake needs 
-Python 3.  The ca-certificates recipe should be able to use the same 
-Python 3 interpretter, which was found during a search of $PATH and 
-linked in tmp/hosttools/python3.
+I added a chown to do_install to hack around the other issue and see if
+there was anything else:
 
-If your host Py setup is complicated, then the hosttools is where to 
-look for a fix.
+Looks like there is a reproducibility issue in python3-tests:
 
-Ross
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/614
+
+Cheers,
+
+Richard
+
 
