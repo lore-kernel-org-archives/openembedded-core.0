@@ -1,48 +1,34 @@
-Return-Path: <maxime.roussinbelanger@gmail.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 42BE57D3B7
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id 40FE47F91B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 01:25:59 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id h8so16080572iob.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 Jan 2020 17:26:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=NfjOO9zrMrs5Y2CxEj6trP5YicSXLw/vXVNe3gJhUqI=;
-	b=qDbb8FuofAdE77bU+X2hXhjS8PdX9MtZWIW3/Lj28k4UVmeUVvf4RsHkbf6tFSl9il
-	ycKC0St0X8ozwDedkwG7CzVBHFa1G/ZEBr04bPQ962IWDsmlQIAa6hSFcHqjaG3kyeCm
-	I+rWpzoCt7PSMJ8YRWvEE1eej2nh7Bd5w0cvzobt1AROm442F+56Ob7QkhvzckjgOmqk
-	miFlyfZUX3f2jj5McC3RgxLI9nG3ED09iVFSn31A+mWAbCoBIFLm8IeK547fwlMLSk2h
-	CXP5kvB9VAY7uQnwC6sJ3x3hP9E0xXZn4GRBYoVe0weLG1ayoisVxHI7qxok6IP60v5N
-	f0IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=NfjOO9zrMrs5Y2CxEj6trP5YicSXLw/vXVNe3gJhUqI=;
-	b=Mc9vib2C4fj/+QYl9Wu5igGW2TUkolBg8AkK0c10cilA6byBwOesHGy7f8no48vyQj
-	X31ouldBqtQ4tYGFmE/PMA3y5ViLkVzZNSl+H8twpDOLqQ4OaZ437/BUERn3N+af9Q48
-	AC7AUIVjVlw/3DKA6vyQ//6Dv9MPD+SsZN/vh01VDKBc4vjS0DcnqFhruFZd3Tuv9SZD
-	tYtJwBGjFUrH3akTjQ+1GOXP1aXiIbQiGac9NcdZ41v9GjiaUMLvLp3aRImZNiPR0cEl
-	ODC9DM9M7QONKEq8DDYRGTnsN38u+jTgEEF2s30JjdyydH6tjvKcqO8OvOhNLucM6vvu
-	yUkg==
-X-Gm-Message-State: APjAAAWZJVKnlL69nZsdvUp1lRxk2tP5oxhHr+dfEsZ/haDZiRemuaVF
-	mxsGsHdXFee/hI0mVZjbQ2kxY522yWrtNaJnLg8=
-X-Google-Smtp-Source: APXvYqwmSa7miyNjybZ3tW5mRzpdYlZIkQb9fDAam5UKzBEjAWiqEWB7xV0jtC78ZA3y+ppjBoU1MKx9+HSgE0AI4zo=
-X-Received: by 2002:a02:b808:: with SMTP id o8mr22556882jam.104.1579051560804; 
-	Tue, 14 Jan 2020 17:26:00 -0800 (PST)
+	Wed, 15 Jan 2020 02:49:20 +0000 (UTC)
+IronPort-SDR: YeFUkrpnKXHhaM4ZPAy1zPa3Ug0zrdLC1LqZsSsL8DaREiLMUd5arLegfPMHOdynSglUQNQOrV
+	U8cUxigNojW4C4egJvhOtHfwVIzUyVEsHlIolGJTKg/ItWQEXGrIQH/ko2aShOzybIXpt1cUCg
+	0hgQx7703Et0M1Rigmg80n1hLwCxo9IsS6hfzRgAzlXHbMoti+wcPog14TUaS1JJ0ny6j8WnzF
+	J/WZ0Ta8l7k3MktD4glBHQyPQoL1a1PW35T5bf0kb2POR3jsmuMzFZMDKlGiG6QK1zKJd77DlO
+	K5A=
+X-IronPort-AV: E=Sophos;i="5.70,321,1574118000"; 
+   d="scan'208";a="4419730"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Carlos Rafael Giani <crg7475@mailbox.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 02/12] gstreamer1.0: Transition to meson based
+	builds
+Thread-Index: AQHVyVWFsVdRwGr6ukGXEDiBBJGz0afq/wWA
+Date: Wed, 15 Jan 2020 02:49:21 +0000
+Message-ID: <5f643784a4c74504a4e5339f3a0eef51@XBOX03.axis.com>
+References: <20200112135954.23868-1-crg7475@mailbox.org>
+	<20200112135954.23868-2-crg7475@mailbox.org>
+In-Reply-To: <20200112135954.23868-2-crg7475@mailbox.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20200113211005.14693-1-maxime.roussinbelanger@gmail.com>
-	<CANNYZj-2ZLcTC7j=SGTY5O6h-Z2FNRZnkNgzQcWNedSDnPBZUA@mail.gmail.com>
-In-Reply-To: <CANNYZj-2ZLcTC7j=SGTY5O6h-Z2FNRZnkNgzQcWNedSDnPBZUA@mail.gmail.com>
-From: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?=
-	<maxime.roussinbelanger@gmail.com>
-Date: Tue, 14 Jan 2020 20:25:35 -0500
-Message-ID: <CAE=T-s6n8LLsucxfy3kioMqaAvG5gQenwNpsGqW55Gf8a_3NVQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] meta: gdk-pixbuf: add man packageconfig
+Subject: Re: [PATCH 02/12] gstreamer1.0: Transition to meson based	builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,142 +41,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 01:26:00 -0000
-Content-Type: multipart/alternative; boundary="0000000000005d245e059c2397a0"
-
---0000000000005d245e059c2397a0
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 15 Jan 2020 02:49:21 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-I have modified the recipe to use manpages, but it is impossible to run a
-build from master, because
-of my python3 pyenv setup. I had to add
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Carlos Rafael Giani
+> Sent: den 12 januari 2020 15:00
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 02/12] gstreamer1.0: Transition to meson based
+> builds
+>=20
+> * Moved 0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch
+>   from files/ to gstreamer1.0/ since it is gstreamer1.0 recipe specific.
+>=20
+> * Removed M4 specific patches:
+>   - 0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch
+>   - gtk-doc-tweaks.patch
+>   - add-a-target-to-compile-tests.patch
+>=20
+> * Added patches:
+>   - 0001-meson-build-gir-even-when-cross-compiling-if-introsp.patch
+>     Backport for enabling GIR support in meson based cross compilation
+>   - 0002-meson-Add-valgrind-feature.patch
+>     Make valgrind support configurable to be able to control it through
+>     a "valgrind" packageconfig
+>   - 0003-meson-Add-option-for-installed-tests.patch
+>     Add support for installable tests and for generating .test and shell
+>     scripts which can be used with the gnome-desktop-testing suite runner
+>=20
+> * PTest support:
+>   By default, GStreamer does not allow for installing tests, and requires
+>   meson to run its unit tests. The 0003 patch fixes this by installing
+>   the binaries themselves and by generating accompanying .test and shell
+>   scripts. The scripts set up the required environment files and then
+>   call the test binaries. The .test file list the shell scripts as
+>   Exec=3D command line.
+>=20
+> Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+> ---
+>  ...der.c-when-env-var-is-set-do-not-fal.patch |   0
+>  ...even-when-cross-compiling-if-introsp.patch |  36 +++
+>  .../0003-meson-Add-valgrind-feature.patch     |  74 +++++
+>  ...meson-Add-option-for-installed-tests.patch | 257 ++++++++++++++++++
+>  .../gstreamer/gstreamer1.0_1.16.1.bb          |  93 +++----
+>  5 files changed, 404 insertions(+), 56 deletions(-)
+>  rename meta/recipes-multimedia/gstreamer/{files =3D> gstreamer1.0}/0001-
+> gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch (100%)
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-
+> meson-build-gir-even-when-cross-compiling-if-introsp.patch
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-
+> meson-Add-valgrind-feature.patch
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-
+> meson-Add-option-for-installed-tests.patch
 
-+DEPENDS =3D "python3-native"
+[cut]
 
-to ca-certificates, without it was impossible to go through the
-do_configure step. It was using the python3
-from my system instead of the one provided by yocto? I am a bit lost here.
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb b/m=
+eta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+> index ff92f63bac..dc3e8ffafd 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+> @@ -8,11 +8,7 @@ LICENSE =3D "LGPLv2+"
+>=20
+>  DEPENDS =3D "glib-2.0 glib-2.0-native libcap libxml2 bison-native flex-n=
+ative"
+>=20
+> -inherit autotools pkgconfig gettext upstream-version-is-even gobject-int=
+rospection gtk-doc ptest
+> -
+> -# This way common/m4/introspection.m4 will come first
+> -# (it has a custom INTROSPECTION_INIT macro, and so must be used instead=
+ of our common introspection.m4 file)
+> -acpaths =3D "-I ${S}/common/m4 -I ${S}/m4"
+> +inherit meson pkgconfig gettext upstream-version-is-even gobject-introsp=
+ection gtk-doc
+>=20
+>  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6762ed442b3822387a51c92d928ea=
+d0d \
+>=20
+> file://gst/gst.h;beginline=3D1;endline=3D21;md5=3De059138481205ee2c6fc1c0=
+79c016d0d"
+> @@ -21,71 +17,56 @@ S =3D "${WORKDIR}/gstreamer-${PV}"
+>=20
+>  SRC_URI =3D " \
+>      https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.=
+xz \
+> -    file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.pat=
+ch \
+> -    file://gtk-doc-tweaks.patch \
+>      file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.pat=
+ch \
+> -    file://add-a-target-to-compile-tests.patch \
+> -    file://run-ptest \
+> +    file://0002-meson-build-gir-even-when-cross-compiling-if-introsp.pat=
+ch \
+> +    file://0003-meson-Add-valgrind-feature.patch \
+> +    file://0004-meson-Add-option-for-installed-tests.patch \
+>  "
+>  SRC_URI[md5sum] =3D "c505fb818b36988daaa846e9e63eabe8"
+>  SRC_URI[sha256sum] =3D "02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af=
+0639d46f1cf4377d"
+>=20
+>  PACKAGECONFIG ??=3D "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests',=
+ '', d)} \
+> -                   "
+> -
+> -PACKAGECONFIG[debug] =3D "--enable-debug,--disable-debug"
+> -PACKAGECONFIG[tests] =3D "--enable-tests,--disable-tests"
+> -PACKAGECONFIG[valgrind] =3D "--enable-valgrind,--disable-valgrind,valgri=
+nd,"
+> -PACKAGECONFIG[gst-tracer-hooks] =3D "--enable-gst-tracer-hooks,--disable=
+-gst-tracer-hooks,"
+> -PACKAGECONFIG[unwind] =3D "--with-unwind,--without-unwind,libunwind"
+> -PACKAGECONFIG[dw] =3D "--with-dw,--without-dw,elfutils"
+> -
+> -EXTRA_OECONF =3D " \
+> -    --disable-examples \
+> +                   tools"
+> +
+> +PACKAGECONFIG[debug] =3D "-Dgst_debug=3Dtrue,-Dgst_debug=3Dfalse"
 
-What do you think? Should it have python3-native? There is a fairly recent
-patch
-to use python3 `file://0001-certdata2pem.py-use-python3.patch`
+To avoid confusion, you might want to call that PACKAGECONFIG=20
+"gst-debug" instead since -Dgst_debug=3Dtrue corresponds to the old=20
+--enable-gst-debug, not --enable-debug (for which there does not=20
+seem to be a corresponding new Meson option).
 
-Thanks,
-Max.
+I find it interesting though that there does not seem to have ever=20
+been a PACKAGECONFIG for --enable-gst-debug, which means it used=20
+to default to being enabled. (We have always disabled it for our=20
+production code due to the performance overhead added by having=20
+the GStreamer debug system enabled.)
 
-On Mon, Jan 13, 2020 at 4:20 PM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
->
-> The correct way to configure this is to inherit manpages class, and name
-the option 'manpages' as well.
->
-> Alex
->
-> On Mon, 13 Jan 2020 at 22:10, Maxime Roussin-B=C3=A9langer <
-maxime.roussinbelanger@gmail.com> wrote:
->>
->> The current default for the meson configuration is to build
->> the man. It will only do it if it finds the xsltproc binary
->> and man option (default: on).
->>
->> Adding the packageconfig make sure that xsltproc will be
->> found in the correct path (recipe-sysroot-native) and that
->> the docbook can be used.
->>
->> The docbook is needed because xsltproc is used with the
->> --nonet option, which prevents the uses of the internet to
->> fetch DFD's.
->>
->> This recipe has been working for probably everyone with the
->> current configuration, however if for some reason xsltproc
->> can be found inside PATH, meson will use it.
->>
->> Signed-off-by: Maxime Roussin-B=C3=A9langer <maxime.roussinbelanger@gmai=
-l.com>
->> ---
->>  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
->> index 699c4ecd0b..f6cc25cd8c 100644
->> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
->> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
->> @@ -53,6 +53,7 @@ PACKAGECONFIG[png] =3D "-Dpng=3Dtrue,-Dpng=3Dfalse,lib=
-png"
->>  PACKAGECONFIG[jpeg] =3D "-Djpeg=3Dtrue,-Djpeg=3Dfalse,jpeg"
->>  PACKAGECONFIG[tiff] =3D "-Dtiff=3Dtrue,-Dtiff=3Dfalse,tiff"
->>  PACKAGECONFIG[jpeg2000] =3D "-Djasper=3Dtrue,-Djasper=3Dfalse,jasper"
->> +PACKAGECONFIG[man] =3D "-Dman=3Dtrue,-Dman=3Dfalse,libxslt-native
-docbook-xsl-stylesheets-native,"
->>
->>  PACKAGECONFIG[x11] =3D "-Dx11=3Dtrue,-Dx11=3Dfalse,virtual/libx11"
->>
->> --
->> 2.20.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> +PACKAGECONFIG[tracer-hooks] =3D "-Dtracer_hooks=3Dtrue,-Dtracer_hooks=3D=
+false"
+> +PACKAGECONFIG[tests] =3D "-Dcheck=3Denabled -Dtests=3Denabled -Dinstalle=
+d-tests=3Dtrue,-Dcheck=3Ddisabled -Dtests=3Ddisabled -Dinstalled-tests=3Dfa=
+lse"
+> +PACKAGECONFIG[valgrind] =3D "-Dvalgrind=3Denabled,-Dvalgrind=3Ddisabled,=
+valgrind,"
+> +PACKAGECONFIG[unwind] =3D "-Dlibunwind=3Denabled,-Dlibunwind=3Ddisabled,=
+libunwind"
+> +PACKAGECONFIG[dw] =3D "-Dlibdw=3Denabled,-Dlibdw=3Ddisabled,elfutils"
+> +PACKAGECONFIG[bash-completion] =3D "-Dbash-completion=3Denabled,-Dbash-c=
+ompletion=3Ddisabled,bash-completion"
+> +PACKAGECONFIG[tools] =3D "-Dtools=3Denabled,-Dtools=3Ddisabled"
+> +
 
---0000000000005d245e059c2397a0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+//Peter
 
-<div dir=3D"ltr">I have modified the recipe to use manpages, but it is impo=
-ssible to run a build from master, because<div>of my python3 pyenv setup. I=
- had to add</div><div><br></div><div>+DEPENDS =3D &quot;python3-native&quot=
-;</div><div><br></div><div>to ca-certificates, without it was impossible to=
- go through the do_configure step. It was using the python3</div><div>from =
-my system instead of the one provided by yocto? I am a bit lost here.</div>=
-<div><br></div><div>What do you think? Should it have python3-native? There=
- is a fairly recent patch</div><div>to use python3 `file://0001-certdata2pe=
-m.py-use-python3.patch`</div><div><br></div><div>Thanks,</div><div>Max.</di=
-v><div><br>On Mon, Jan 13, 2020 at 4:20 PM Alexander Kanavin &lt;<a href=3D=
-"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br>&g=
-t;<br>&gt; The correct way to configure this is to inherit manpages class, =
-and name the option &#39;manpages&#39; as well.<br>&gt;<br>&gt; Alex<br>&gt=
-;<br>&gt; On Mon, 13 Jan 2020 at 22:10, Maxime Roussin-B=C3=A9langer &lt;<a=
- href=3D"mailto:maxime.roussinbelanger@gmail.com">maxime.roussinbelanger@gm=
-ail.com</a>&gt; wrote:<br>&gt;&gt;<br>&gt;&gt; The current default for the =
-meson configuration is to build<br>&gt;&gt; the man. It will only do it if =
-it finds the xsltproc binary<br>&gt;&gt; and man option (default: on).<br>&=
-gt;&gt;<br>&gt;&gt; Adding the packageconfig make sure that xsltproc will b=
-e<br>&gt;&gt; found in the correct path (recipe-sysroot-native) and that<br=
->&gt;&gt; the docbook can be used.<br>&gt;&gt;<br>&gt;&gt; The docbook is n=
-eeded because xsltproc is used with the<br>&gt;&gt; --nonet option, which p=
-revents the uses of the internet to<br>&gt;&gt; fetch DFD&#39;s.<br>&gt;&gt=
-;<br>&gt;&gt; This recipe has been working for probably everyone with the<b=
-r>&gt;&gt; current configuration, however if for some reason xsltproc<br>&g=
-t;&gt; can be found inside PATH, meson will use it.<br>&gt;&gt;<br>&gt;&gt;=
- Signed-off-by: Maxime Roussin-B=C3=A9langer &lt;<a href=3D"mailto:maxime.r=
-oussinbelanger@gmail.com">maxime.roussinbelanger@gmail.com</a>&gt;<br>&gt;&=
-gt; ---<br>&gt;&gt; =C2=A0meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://g=
-dk-pixbuf_2.40.0.bb">gdk-pixbuf_2.40.0.bb</a> | 1 +<br>&gt;&gt; =C2=A01 fil=
-e changed, 1 insertion(+)<br>&gt;&gt;<br>&gt;&gt; diff --git a/meta/recipes=
--gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0.bb">gdk-pixbuf_2.40.0=
-.bb</a> b/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0=
-.bb">gdk-pixbuf_2.40.0.bb</a><br>&gt;&gt; index 699c4ecd0b..f6cc25cd8c 1006=
-44<br>&gt;&gt; --- a/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pi=
-xbuf_2.40.0.bb">gdk-pixbuf_2.40.0.bb</a><br>&gt;&gt; +++ b/meta/recipes-gno=
-me/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0.bb">gdk-pixbuf_2.40.0.bb<=
-/a><br>&gt;&gt; @@ -53,6 +53,7 @@ PACKAGECONFIG[png] =3D &quot;-Dpng=3Dtrue=
-,-Dpng=3Dfalse,libpng&quot;<br>&gt;&gt; =C2=A0PACKAGECONFIG[jpeg] =3D &quot=
-;-Djpeg=3Dtrue,-Djpeg=3Dfalse,jpeg&quot;<br>&gt;&gt; =C2=A0PACKAGECONFIG[ti=
-ff] =3D &quot;-Dtiff=3Dtrue,-Dtiff=3Dfalse,tiff&quot;<br>&gt;&gt; =C2=A0PAC=
-KAGECONFIG[jpeg2000] =3D &quot;-Djasper=3Dtrue,-Djasper=3Dfalse,jasper&quot=
-;<br>&gt;&gt; +PACKAGECONFIG[man] =3D &quot;-Dman=3Dtrue,-Dman=3Dfalse,libx=
-slt-native docbook-xsl-stylesheets-native,&quot;<br>&gt;&gt;<br>&gt;&gt; =
-=C2=A0PACKAGECONFIG[x11] =3D &quot;-Dx11=3Dtrue,-Dx11=3Dfalse,virtual/libx1=
-1&quot;<br>&gt;&gt;<br>&gt;&gt; --<br>&gt;&gt; 2.20.1<br>&gt;&gt;<br>&gt;&g=
-t; --<br>&gt;&gt; _______________________________________________<br>&gt;&g=
-t; Openembedded-core mailing list<br>&gt;&gt; <a href=3D"mailto:Openembedde=
-d-core@lists.openembedded.org">Openembedded-core@lists.openembedded.org</a>=
-<br>&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/open=
-embedded-core">http://lists.openembedded.org/mailman/listinfo/openembedded-=
-core</a></div></div>
 
---0000000000005d245e059c2397a0--
