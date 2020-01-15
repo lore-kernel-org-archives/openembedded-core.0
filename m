@@ -1,53 +1,53 @@
 Return-Path: <Saloni.Jain@kpit.com>
 Received: from IND01-BO1-obe.outbound.protection.outlook.com
-	(mail-eopbgr1390071.outbound.protection.outlook.com [40.107.139.71])
-	by mail.openembedded.org (Postfix) with ESMTP id 758BD7F9A6
+	(mail-eopbgr1390081.outbound.protection.outlook.com [40.107.139.81])
+	by mail.openembedded.org (Postfix) with ESMTP id 58DB97F9A6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 15:49:49 +0000 (UTC)
+	Wed, 15 Jan 2020 15:51:07 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=Dsyq7l6R8nkjeVfa4jXDvs9Rd3Hb7ZcsPUEi2zXT/uIbMgR0U0bR2abXWOgpDqgWJC5WnmBuWB0mz+t0vb8xOEiLv4wahPlWUYuKjBjNbLkRqTqgN8ePawuEkgsyu9MzYlmi48RYmFgpMKZYEsOI6cBi0ZGUvi9DLa9NSZ8PQ3rY5jgj06LE/6QGv711Qz2g76vf5B3l7TMLOk22+appTnh6sOa+wJ3p8UpTy5k9mNlv00O7i+z/hHABBweYJOHqhpYCC6xm+LNaKmDnfjQy+0lRayubcj0sEueGTs3AP7+LWpylksyIq7FQ6L+/eXixRLqcxmw3/e8XUlHoDKqk7A==
+	b=Qm9NLiomDydlkeF+xvkcDARMhoeJiMB9dsEswNqKOxQ2h3TV5Y6irEP6tNIa2Vf1/v9cMKn822ZaSQ2wMOuYJ7qp/vUgUSUlyTH52gsvWZdlIfZ316Il0K6XeTJDelglApXEb2z3xiJi3FtoPxfaLRgT/24FOnFkNwhC0b3TQCNhbJmzEnxWMISUsaZzH86115IuO32XeyQYAMewMeXUMPysTN3j9JcYd8hKpaj8n1l0CzamrrbzwT9lKBY2Lie7i/TNXgOuYwK+f4uLawXX0KJW+y0Kx1XGb8yu9jYfNwaefFbGELsTWFbh5tVTOD8g1ek7YeClDQOevUOxONi/ZQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
 	s=arcselector9901;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=hbWqS5v38EQh4j6CxE10xNEf7iuMlXb4VnNLTcGdl80=;
-	b=SvNTOFZ/k+/cNWGOYcTM7BO+NCsqEbOxaHQlBt2q92qvv0bZyMLP5g6yFwnjZkmjz2hoZ8I2qlrc6m0wDQiq+rTbr44gpL7ZsYzwNsk9P61bhZXi6hFMz0Mxsc78VKXFFouia/Ln0qZ35F6t1NReWLzg+ey3V0+uSwNOOTjc79FdKaSOaHVBM/Dnj7+Pco4LkgvywxCJp2MbMARu+80rv29l3sjnA2AJF7Hx43ZhT2UadGNEaqBVhyt2E6kYaslX63z7a464fSLJheGIJjlHzM5bHTww6FrOSPvMnHaXdZ+yUdP3MiIhxhZZue+ks0e8/Gd6Eo788EJAjM8/fMvU7w==
+	bh=ogKnTiMkocj/NsswAVmBjkUAxjtEfHn+xnYcHFx0C1k=;
+	b=LHWb7ckq+b26X5EYDGhNOQ6OSkX2niZ2t1eA43F3o9mbZIwQu7k7tNEQX14OgfleUu5bbVDuKAhXW+rW3+ESszUWUzwNwRVAa0ualYCLqCkN6Zmk/ItbgHvRgaj6k5IAUKGS9Ufd/hBuvIfEGmbzrOOV+v6aSK9XXRtheAItx/lLmcFIctN6TmLzKa1MQElJQ8vzDp8WAJ4KEKyc7OBr9pWC9KiGWIJl0knvLQxFWSWGUlGuW7gdIW6s9+bHhMqu6TkofUkK1YwacBb9rZO/wY2kWGOtLUP98p/FLEndaI6GLao81V7sWpDbZoyI89pfI87y52YGSpwraB9f7t/7eg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 	smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
 	dkim=pass header.d=kpit.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1; 
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=hbWqS5v38EQh4j6CxE10xNEf7iuMlXb4VnNLTcGdl80=;
-	b=xSV7P9YnB+pGWrarVZ0lwC3gGbbZTQCD6C1XTFT4AluBveoIe6m4gu/9m7bDxqL0rBhPISXd4md0vVQlUmUsEIHRgDWx9rZwYiwBeiMUufFeYWIgc7v/2FdKrmTTul1DgCrr96V4tDDpmtnNOYp8mbj1R8qt7YHaaZRe1OErfy8=
+	bh=ogKnTiMkocj/NsswAVmBjkUAxjtEfHn+xnYcHFx0C1k=;
+	b=Q4mtB4pBwPiZMNgsqNYffu4M2o184OfM5xX/V5NjbGCoE00+PaA8USb3u5C0LB5myr8wgtMNwoCDlD8qWS3uEsS6mI45rvuswnmxoAgiMZhThDxnEo/8U2st15GaH3DPFhSXzacWTMs5tO7PnHOOkX6qQj+uNIqeKTsajZUQLE8=
 Received: from MAXPR01MB2271.INDPRD01.PROD.OUTLOOK.COM (52.134.152.22) by
 	MAXPR01MB2222.INDPRD01.PROD.OUTLOOK.COM (52.134.155.22) with Microsoft
 	SMTP
 	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2623.9; Wed, 15 Jan 2020 15:49:47 +0000
+	15.20.2623.9; Wed, 15 Jan 2020 15:51:06 +0000
 Received: from MAXPR01MB2271.INDPRD01.PROD.OUTLOOK.COM
 	([fe80::7d91:96c5:dd37:1d5e]) by
 	MAXPR01MB2271.INDPRD01.PROD.OUTLOOK.COM
 	([fe80::7d91:96c5:dd37:1d5e%5]) with mapi id 15.20.2623.017;
-	Wed, 15 Jan 2020 15:49:47 +0000
+	Wed, 15 Jan 2020 15:51:05 +0000
 Received: from localhost.localdomain (2409:4042:2385:977f:51d8:58ac:a1fe:adc5)
-	by PN1PR0101CA0010.INDPRD01.PROD.OUTLOOK.COM
-	(2603:1096:c00:e::20) with Microsoft SMTP Server
+	by BM1PR0101CA0059.INDPRD01.PROD.OUTLOOK.COM
+	(2603:1096:b00:19::21) with Microsoft SMTP Server
 	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256)
 	id 15.20.2644.18 via Frontend Transport;
-	Wed, 15 Jan 2020 15:49:46 +0000
+	Wed, 15 Jan 2020 15:51:04 +0000
 From: Saloni Jain <Saloni.Jain@kpit.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>, "raj.khem@gmail.com"
 	<raj.khem@gmail.com>
-Thread-Topic: [poky][sumo][PATCH] bzip2: Fix CVE-2019-12900
-Thread-Index: AQHVy7tpptgrcZtIR0aXP7lopE/U5w==
-Date: Wed, 15 Jan 2020 15:49:47 +0000
-Message-ID: <1579103359-31455-1-git-send-email-Saloni.Jain@kpit.com>
+Thread-Topic: [poky][zeus][PATCH] bzip2: Fix CVE-2019-12900
+Thread-Index: AQHVy7uYUABs8BjSnk2eRQVIZ92eSw==
+Date: Wed, 15 Jan 2020 15:51:05 +0000
+Message-ID: <1579103456-31723-1-git-send-email-Saloni.Jain@kpit.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [2409:4042:2385:977f:51d8:58ac:a1fe:adc5]
-x-clientproxiedby: PN1PR0101CA0010.INDPRD01.PROD.OUTLOOK.COM
-	(2603:1096:c00:e::20) To MAXPR01MB2271.INDPRD01.PROD.OUTLOOK.COM
+x-clientproxiedby: BM1PR0101CA0059.INDPRD01.PROD.OUTLOOK.COM
+	(2603:1096:b00:19::21) To MAXPR01MB2271.INDPRD01.PROD.OUTLOOK.COM
 	(2603:1096:a00:4c::22)
 authentication-results: spf=none (sender IP is )
 	smtp.mailfrom=Saloni.Jain@kpit.com; 
@@ -55,10 +55,10 @@ x-ms-exchange-messagesentrepresentingtype: 1
 x-mailer: git-send-email 2.7.4
 x-ms-publictraffictype: Email
 x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: b686870e-6a93-480b-a9d5-08d799d28c2f
+x-ms-office365-filtering-correlation-id: 134bdf1f-cfc6-44df-14a0-08d799d2bade
 x-ms-traffictypediagnostic: MAXPR01MB2222:|MAXPR01MB2222:
 x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MAXPR01MB222245D909B111178588561487370@MAXPR01MB2222.INDPRD01.PROD.OUTLOOK.COM>
+x-microsoft-antispam-prvs: <MAXPR01MB2222AF0F23163D82B42E2ED987370@MAXPR01MB2222.INDPRD01.PROD.OUTLOOK.COM>
 x-ms-oob-tlc-oobclassifiers: OLM:229;
 x-forefront-prvs: 02830F0362
 x-forefront-antispam-report: SFV:NSPM;
@@ -70,18 +70,18 @@ received-spf: None (protection.outlook.com: kpit.com does not designate
 	permitted sender hosts)
 x-ms-exchange-senderadcheck: 1
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: HISwUwPgQ0BBwkyC6T+e/DkYsjY+odkhP5jpCBek2zfwSkG5Ev9kA8kIGz5l/S5jIW24EEiI/FuX0Tjl5j4giJc8Bz5W8+iAxNXg3cUO92ltJCag1tGw5hhR0+ZDWkbdh8cBNj4RdlS79zTQ3Cwxab/nENnLw6zNUBoWtgietnN03eVwSJkXEgi7PdSxkt+Jpem3cVYgKVQzkqTro2zGL7yPI2ID4qDQ3FRPfPK/U02+Md8TSphmjrRQH9AZJProLmDbEaSPZOTj8BUo1eLr5F8UxB9ppdL2eqdYk/eiMSb7c90GVphjSJPUqHTpo1be05SD/PBqLWtLWeAKpd6+IUJdoYY66Jz/gjzkmGqxFb04Jih70+yBp+5RTraEuGlc4spFuiyJ4S62KP9cN2WP38m1ZeT2Iq100KgNmgW7ssxhUhmzMNobjlm2FT2bdGlrXjaZoxGEtWb2DcfXDX7uhZ7QH9P4TV5q1jPMRqQ99/d5R7uu0mUwoO/2e46jTileHmaMKjPQjfEjKNfipZVMPqa2ZVaoKsa7fcUyFEmtzTM=
+x-microsoft-antispam-message-info: bF2d0su1lk0XgrqwDZmRACrNSzAjTSPwjB0UI49QsPDmHLdz6c9gkqRVARbzeDZnjvqfo/u3BFLuq33Us9zqUVIZ6AsVsE7Y33sT8JyRRNPOKKSlNuHYWw0ySZ7F8hJupx6xEqAb3tiqDsahOIA773zqFagPQ0moYDWEh6NxvH5ywcrjTAHQB/7z/EanWu14/3KAckpfIp0pPUE9kQQSeNt/vuROJwXUsv1sWE6yrOCTShfi/FLosp4cN57GOeLaf7Gu3Bluqyz9yJN61v8WiM1PoBmccDWYqAbBWLdofnd15T9wKH2KpoJxbKoieFH0cv6Ya8WoBMdChJXVa2oAaG7oy6jwSAlD+wxj+TDF553CkQQW7LnhZLBNVpasA0U3nJ9vYUCO4hyJcWl9wOrLvMJ9RHtiyicxRHxU30Wn4zQ5+SHIyvOu8XiwA0gEu3F8q1zE6d/XjcIX3gSKp2qRq5ZeNUDhovrBBkt5peC/27Oyz951t1Zbhw3Uj6ZBO9mBur3uxLrlZIQl9zi2qr6MaKxMetlW4XLaliBhO3oASuE=
 MIME-Version: 1.0
 X-OriginatorOrg: kpit.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b686870e-6a93-480b-a9d5-08d799d28c2f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2020 15:49:47.3728 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 134bdf1f-cfc6-44df-14a0-08d799d2bade
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Jan 2020 15:51:05.6910 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: FxIj8jdaC31f2KMGz8U4xzfCUNJAbYc+QNc+k9VgK0PKH5nupIE6WW7Ai0x6jWqeaAmO9nsQMpYK1v8d4zejzw==
+X-MS-Exchange-CrossTenant-userprincipalname: +To6TNW2/OTvjDFIPFS4u0GOhl3F5xvTKjLi843litqhmkqZrLr7yWtxIKtrsc8LrjsjzJa06K9tzRElexqqxg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAXPR01MB2222
 Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>, Sana Kazi <Sana.Kazi@kpit.com>
-Subject: [poky][sumo][PATCH] bzip2: Fix CVE-2019-12900
+Subject: [poky][zeus][PATCH] bzip2: Fix CVE-2019-12900
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -94,7 +94,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 15:49:50 -0000
+X-List-Received-Date: Wed, 15 Jan 2020 15:51:07 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
@@ -110,8 +110,7 @@ Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
 ---
  .../bzip2/bzip2-1.0.6/CVE-2019-12900.patch         | 34 ++++++++++++++++++=
 ++++
- meta/recipes-extended/bzip2/bzip2_1.0.6.bb         |  2 ++
- 2 files changed, 36 insertions(+)
+ 1 file changed, 34 insertions(+)
  create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.=
 patch
 
@@ -159,28 +158,6 @@ _ERROR);
 +          while (True) {
 +--
 +2.22.0
-diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-exte=
-nded/bzip2/bzip2_1.0.6.bb
-index acbf80a..688e177 100644
---- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-+++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
-@@ -8,12 +8,14 @@ LICENSE =3D "bzip2"
- LIC_FILES_CHKSUM =3D "file://LICENSE;beginline=3D8;endline=3D37;md5=3D40d9=
-d1eb05736d1bfc86cfdd9106e6b2"
- PR =3D "r5"
-
-+FILESEXTRAPATHS_prepend :=3D "${THISDIR}/bzip2-1.0.6:"
- SRC_URI =3D "http://downloads.yoctoproject.org/mirror/sources/${BP}.tar.gz=
- \
-            file://fix-bunzip2-qt-returns-0-for-corrupt-archives.patch \
-            file://configure.ac;subdir=3D${BP} \
-            file://Makefile.am;subdir=3D${BP} \
-            file://run-ptest \
-            file://CVE-2016-3189.patch \
-+           file://CVE-2019-12900.patch \
-            "
-
- SRC_URI[md5sum] =3D "00b516f4704d4a7cb50a1d97e6e8e15b"
 --
 2.7.4
 
