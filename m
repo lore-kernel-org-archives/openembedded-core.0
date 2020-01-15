@@ -1,52 +1,45 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id AF2BB6BCA9
+Return-Path: <paul.barker@konsulko.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 583797FA13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 13:39:38 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id w15so15801600wru.4
+	Wed, 15 Jan 2020 13:53:01 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id q81so577104oig.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 05:39:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=Bev6Ej/yqNLJWeWadEWmYpIOMcDqsduIziNrMJqaI3M=;
-	b=U125I9iIRPEvPs46GymZMAMPjQ2XF2tZOKK2pintvwBAgECaldRdGx0TvNywPk0Zed
-	YblHzuiYlcI7jkk2zOsmkFAFtsSTzyS+vnruss4jswFK/H41Xc7oDbvQelriKS4puVwH
-	lRpxHHC2tlBtWI6FRkKL1h9fgrQML2pqzp+Is=
+	Wed, 15 Jan 2020 05:53:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=EBATqjIBNdIMOO2aOy4NiKA4S4DvA5QMWIcmFgoobPA=;
+	b=Knx2n4uoXD6zmLW+N1C/RyXm28Yi8sNovuQRpQoWd2SKzq7G42XRHEbTwn6jWf8TNm
+	dRPgMgfso30aCRMBdEz/kiWhU8JaTXg3WaO3qg1op3IVR3msxjUCVYdArMYF17FBh1m3
+	z8f39NdnQnNXsNVSHePFjFQntnhQfwdespzQ4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Bev6Ej/yqNLJWeWadEWmYpIOMcDqsduIziNrMJqaI3M=;
-	b=W0A9/vG+Wsaf75zxQ25Jjx49Yzwq8lUZMgmkrMSf1G7KMapmmFLUs/jVSIjkkPVeQu
-	LSAS/NxXKPVrhp+Hozq6uGqn4zf8mrbT65sjwBBbIl2EVw8MDAgMEldBS0kIU3e6fGQi
-	HjiIrE+QS2Ar+Yt5BNnDH1o6vxqBS0I7Z5OQMoKKpb1dnoVZShb6cI5ktftkZ7/SDQbx
-	WUtkjn2atSwfMh+4jWy0/PtQNme7gfEaQ6PLEDLRrhE6qz7Gyo2g3iM5zdcDupIwLhs2
-	XBZ8tZ3cUK7pgMA9VgOfmv73v/YXh5mTQcJf+z2c9CRpPz1DjUUxkJR2poTR4oozOGY9
-	ZcKw==
-X-Gm-Message-State: APjAAAX0fp7ihghs1Bz/vA3AVtmBgBdiEYdoQ4+Qup7ZykQ3rerv7DEz
-	/8JIwtHZsZk4yBIlPp7Spjj2hw==
-X-Google-Smtp-Source: APXvYqzhC2ys6b4MklzPzRg6UfhIiLCalA2TvTg2DZGJ14d5yl80kopgl+k5Sln6+TXFwphFaCV/uA==
-X-Received: by 2002:adf:f847:: with SMTP id d7mr32164664wrq.35.1579095579749; 
-	Wed, 15 Jan 2020 05:39:39 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	f16sm24406984wrm.65.2020.01.15.05.39.38
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 15 Jan 2020 05:39:39 -0800 (PST)
-Message-ID: <c9874f81da364cbd03aab137c901359e7aa3fdd7.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 15 Jan 2020 13:39:37 +0000
-In-Reply-To: <20200114140007.36622-4-alex.kanavin@gmail.com>
-References: <20200114140007.36622-1-alex.kanavin@gmail.com>
-	<20200114140007.36622-4-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=EBATqjIBNdIMOO2aOy4NiKA4S4DvA5QMWIcmFgoobPA=;
+	b=KqbHi8V0sEL9shVCRuW6jrQF36glDg2nqDXGk8M0UzTn/gLlQZbJIPrEx9OjC/GnRI
+	cFMf6GgN0I5lWjEEhI2jwLs+U4fjJKJffB0ztcZPNYiXaFpzgcvfBMhCbY4lg60IEugA
+	WdkCiaTkV/QDyRhuL9tEpZSrFfplSmxPjpm5uN0qjXa3lIcmQu4dVkt1n5GMeBR8Jewu
+	RKl8z6EBYOneOLkjJC9p9n+f4GpfhUhAgMPaHouffGWHjuLpDb+zcjR5vuNbYyxz3HB9
+	r2xdx7mnF4P04OGTmcvuTL3SOs0ViZcHrJJRfP2X0mhm4XX/JSP+0CxZBuNiXyzAh+2g
+	oSGw==
+X-Gm-Message-State: APjAAAXqQkZTMLa34qrA0GTedQxN93fzd9qb1B97fyQc69MVUfW8BsWa
+	8dUQJ2yLbWjx8K4wPpGupDRilrKZpzia/dGisOX2gg==
+X-Google-Smtp-Source: APXvYqz/20xCYlLwVkndjBpKFrYupk2uNwePoUquhhr4MymeOPUN2wNU8G9MGnasRYG+cNnfsIZlcHbZIS+veMAAo90=
+X-Received: by 2002:aca:d985:: with SMTP id
+	q127mr20076488oig.132.1579096382240; 
+	Wed, 15 Jan 2020 05:53:02 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH 04/20] python3: update to 3.8.1
+References: <CAPybu_1C1cqd6qyV_NEMewiYZ2aG-91yDUGzCVwmAKsX7NFwgw@mail.gmail.com>
+In-Reply-To: <CAPybu_1C1cqd6qyV_NEMewiYZ2aG-91yDUGzCVwmAKsX7NFwgw@mail.gmail.com>
+From: Paul Barker <pbarker@konsulko.com>
+Date: Wed, 15 Jan 2020 13:52:51 +0000
+Message-ID: <CAM9ZRVsJUJRzsN=cH_y6R2c94tD=DeH91Jp36BOECq6Br_FK8A@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Cc: Jan Lorenzen <jl@newtec.dk>, ed.bartosh@linux.intel.com,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Best practices: Multiple images on one partition.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +52,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 13:39:40 -0000
+X-List-Received-Date: Wed, 15 Jan 2020 13:53:01 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-01-14 at 14:59 +0100, Alexander Kanavin wrote:
-> Drop backports, rebase other patches.
-> 
-> 0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-> is removed as the use case (allowing python 2 and 3 to coexist
-> in SDKs) is no longer relevant with Python 2.x reaching end of line
-> and upstream has refactored the code making a rebase difficult.
-> If needed, please re-add the patch to py2, rather than py3.
-> 
-> Python 3.8 no longer adds "m" to "3.8" in paths, so adjust the
-> recipes
-> and classes accordingly.
-> 
-> The manifest for the 3.8.0 version is updated; particularly pkgutil
-> module is now packaged in -core (as other things in core need it);
-> this also necessitates allowing empty -pkgutil package to avoid
-> breakage across layers.
+On Wed, 15 Jan 2020 at 13:05, Ricardo Ribalda Delgado
+<ricardo.ribalda@gmail.com> wrote:
+>
+> Hello
+>
+> I am trying to figure out the best way to achieve this. I have a
+> system with a host and a target. The target netboots form the host and
+> have a different package architecture.
+>
+> Usually I was solving this with one partition per image/machine,
+> combined using a .wks file like:
+>
+> part /export --source rootfs --rootfs-dir=target-image  --fstype=ext4
+> --label export --align 1024 --use-uuid --fsoptions defaults,ro
+> --extra-space 400M
+> part / --source rootfs --fstype=ext4 --label rootfs --align 1024
+> --use-uuid --fsoptions defaults,ro --extra-space 400M
+>
+> and then calling wic file after generating both images. ("wic create....")
+>
+> This works fine, but now I need to combine both partitions into one.
+> The reason is that the partition needs to play nice with the current
+> OTA upgrade system.
+>
+> What would be the best way to do this?
+>
+> 1) Implement a new wic plugin, called something like muli-rootfs,
+> where I can specify multiple rootfs and in which directory to unpack
+> them
+>
+> 2) Implement a .bb file that combines the two images in one.
+>
+> do_install() {
+>     tar -mzxf $HOST/host-image.tar.gz  -C ${D}/
+>     tar -mzxf $HOST/target-image.tar.gz  -C ${D}/export
+> }
+>
+> 3) Another way that I am not aware :)
 
-I added a chown to do_install to hack around the other issue and see if
-there was anything else:
+I've recently added the `--include-path` option to wic on master which
+may be helpful here:
+https://git.openembedded.org/openembedded-core/commit/?id=d4cd27a9837426e809190548a83c6c7c76505114.
+My use case was multiple rootfs copies on different partitions, with
+extra files added to just one copy of the rootfs. But it may also be
+useful for this case.
 
-Looks like there is a reproducibility issue in python3-tests:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/614
-
-Cheers,
-
-Richard
-
+Thanks,
+Paul
 
