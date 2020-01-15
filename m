@@ -1,49 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f195.google.com (mail-vk1-f195.google.com
-	[209.85.221.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B8BFE6BCA9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 01A7B7FA41
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 08:15:44 +0000 (UTC)
-Received: by mail-vk1-f195.google.com with SMTP id o187so4452695vka.2
+	Wed, 15 Jan 2020 10:08:03 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id q10so15110730wrm.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 Jan 2020 00:15:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=132DunKoWIwxkAWXT5AkGYvlZ6bwpHlb3WHfzpSeS8c=;
-	b=hUMhY+FtZhDRV3SRhKFDcgFhr0PpSLA1Qp8OnfCec3UoS0yTjxo+6x/eMO7vTJf42g
-	NqU8dQY0mE6B9yb0xahWMUwvWL9rOT25a/vjVg9L+6fttZPJGcdToTSTUBtdP2jx4W6p
-	4PUyM+p04tAFPXu0l5QvEfBUAODJ9zoCJ9yZX3wBa+cnzOGhFcKagc9ejhF6RQ3MbFrv
-	AvomYGIqDQiw961dY/MHvBTK3IT5IvlXMsNWCmoFoSk9/3XzeAiolEjlRgzjPxm3G0Au
-	ot1WkTopVvXQN56HfsXmSeyQe+mpMOUEuQrVcHsVW6HBpQ8m9rum8qHkzBn2nf1AMzfa
-	9WeA==
+	Wed, 15 Jan 2020 02:08:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=o80JVxACM1+g6eDWI2TZMJbtCN/HM2pZoJgE19HBzRQ=;
+	b=atPz18DOhKtmGp+YMsCO8r50zYWD+RTXfvQvbdaLXZO8ajZxCUXTk+OclPmuHKGjhn
+	ALtWpiJJ9RoSEnQN6t1rINCO9VlaF0VKybv5AxEj/WOxdt659tX2xyqRxLG8OCTz5a/J
+	DwtM9/IpB///fw5hIA5T+P3K/zIwcwV1hkfeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=132DunKoWIwxkAWXT5AkGYvlZ6bwpHlb3WHfzpSeS8c=;
-	b=CnHIWDchAJS0b5iZIw+8ylGDdDRWWR8zVn6U4Ki1+lXKQfrnj71xCfT4B6CqwMLYQN
-	bdl3QA2LnESWHntDWxtIxn6M3r65QYqamYnw6Utl4aOfGdRLGYmgKrMfWQhDb1F8LFMi
-	ehgpFTLX7NNM9zHvSdLvZZaEJEb55zHe+Rf0wGeyOa4KOlzwLDeQK0Yg1VlStfeyo+jA
-	Dw/6gITfxR9PwsgDVmFxx9VqawZddaf2OTGseNrC30ILeH/MGqJ7zS2VO+22YaNkj1Ae
-	ykXNdJf7N1MPPfDANqA+6Sy6EHMi+JKBVYUF6+Ib72yhYvX7XIBjKy3N+DMhurLY+Gcz
-	Si4g==
-X-Gm-Message-State: APjAAAXR3+nIEmXjb+TNipwUWLdMCu2TmufEbYLr6ZsZxgotcQ01oUl4
-	L/KJBkGw6I+rTjw7BFBlAUNWR6i5/I6HGDb/cJ4=
-X-Google-Smtp-Source: APXvYqzjJKX+XyFFzoQUWNVWiuUuxO+UrTlorLeD4DAvrf2C2srQtwMKgXtVsjiDAHZ05uhBTcwv13KF0+ojE7XWCwk=
-X-Received: by 2002:a1f:7cc2:: with SMTP id x185mr13640222vkc.1.1579076144354; 
-	Wed, 15 Jan 2020 00:15:44 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=o80JVxACM1+g6eDWI2TZMJbtCN/HM2pZoJgE19HBzRQ=;
+	b=Ykkbev0l+OUmUaHJ8jZS67/UAllvIE4AkqZiLCGic2qcAGnpYgF9JRWIzndcei0nNE
+	duGMPZXy4GuemEJcURUrNiSruuVVAv452/WZDFTG3aCjda9KFJB+14DI2Rye4iqetfwC
+	eOeJysKa0aMdgxdN9AhVmIv8UrMVNGm4fRd12MNNbtczM+I53+J2LhNpi6jDrPgJAl6H
+	DxzZtHGooPE4BNQF1zjz9fjDUVgUMEZPmQKn3cOXuYgL+cN/ZQ7PxXx+AYGGNjpNwy/i
+	hzC55CvApBmXo9U6AgCoMuTECb9ZKg2ZNZMp5aPuVffWSZOxkHZnpa2VX51342Dp4DYO
+	quiA==
+X-Gm-Message-State: APjAAAV6nMu5PniMPKmAWDE1qGb8b21/iSSJOiDZHfZ2dUfodh2zse9Z
+	hZAyx02Io0pUsLknNuFSLGqnHg==
+X-Google-Smtp-Source: APXvYqwUcmbX7VnCAIVvPciKZ6d9puqJm03yWjLgRLAdEtF56MwKxUP1aawtHw8jn9CRyQ227aHDWQ==
+X-Received: by 2002:a05:6000:1044:: with SMTP id
+	c4mr31037752wrx.204.1579082884480; 
+	Wed, 15 Jan 2020 02:08:04 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	g21sm22313897wmh.17.2020.01.15.02.08.03
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 15 Jan 2020 02:08:03 -0800 (PST)
+Message-ID: <f9bb7d730e2b52931abb910f8154c1840c065a28.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2020 10:08:02 +0000
+In-Reply-To: <cover.1578993027.git.Martin.Jansa@gmail.com>
+References: <cover.1578993027.git.Martin.Jansa@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20200113211005.14693-1-maxime.roussinbelanger@gmail.com>
-	<CANNYZj-2ZLcTC7j=SGTY5O6h-Z2FNRZnkNgzQcWNedSDnPBZUA@mail.gmail.com>
-	<CAE=T-s6n8LLsucxfy3kioMqaAvG5gQenwNpsGqW55Gf8a_3NVQ@mail.gmail.com>
-In-Reply-To: <CAE=T-s6n8LLsucxfy3kioMqaAvG5gQenwNpsGqW55Gf8a_3NVQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 15 Jan 2020 09:15:33 +0100
-Message-ID: <CANNYZj_FwUCjUnwOYDUPdJdceU423+SbsR5hGC+ngxcfQ0CKmA@mail.gmail.com>
-To: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?=
-	<maxime.roussinbelanger@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta: gdk-pixbuf: add man packageconfig
+Subject: Re: [PATCHv5 0/6] YOCTO #12937 - Consistent naming scheme for deployed artifacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,166 +59,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 Jan 2020 08:15:45 -0000
-Content-Type: multipart/alternative; boundary="000000000000a85902059c295038"
-
---000000000000a85902059c295038
+X-List-Received-Date: Wed, 15 Jan 2020 10:08:04 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-I don't know: I am not seeing the issue locally, and it doesn't happen on
-the autobuilder, so it's difficult to give a useful answer.
+On Tue, 2020-01-14 at 10:12 +0100, Martin Jansa wrote:
+> The following changes since commit
+> b6d4150f9c74f25a4022a3fa0bd489a8e85deb77:
+> 
+>   gettext: fix typo in Upstream-Status (2020-01-13 13:07:32 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   git://git.openembedded.org/openembedded-core-contrib
+> jansa/artifacts
+>   
+> http://cgit.openembedded.org/openembedded-core-contrib/log/?h=jansa/artifacts
+> 
+> Martin Jansa (8):
+>   image-artifact-names: introduce new bbclass and move some variables
+>     into it
+>   bitbake.conf, kernel*.bbclass: include IMAGE_VERSION_SUFFIX only in
+>     the _LINK_NAME variables and change it to hard link
+>   kernel-artifact-names.bbclass: use PR instead of PKGR in
+>     KERNEL_ARTIFACT_NAME
+>   kernel.bbclass: imageType without {}
+>   kernel.bbclass: drop unnecessary package_get_auto_pr for do_install
+>   *-artifact-names: include version only in the artifact links
+>   *-initramfs: don't use .rootfs IMAGE_NAME_SUFFIX
+>   images: respect IMAGE_NAME_SUFFIX also for *-testdata.json and
+>     *-qemuboot.conf files
 
-Alex
+Unfortunately this triggered a lot of failures in testing:
 
-On Wed, 15 Jan 2020 at 02:26, Maxime Roussin-B=C3=A9langer <
-maxime.roussinbelanger@gmail.com> wrote:
+selftest:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/612
+https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/615
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/621
+https://autobuilder.yoctoproject.org/typhoon/#/builders/87/builds/611
+qa-extras:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/69/builds/1451
+qa-extras2:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/1482
+qemuarm:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/1451
+qemuarm64:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/1444
+qemumips:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1444
+qemumips64:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1446
+qemuppc:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/1436
+qemux86:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/1444
+qemux86-64:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/73/builds/1448
 
-> I have modified the recipe to use manpages, but it is impossible to run a
-> build from master, because
-> of my python3 pyenv setup. I had to add
->
-> +DEPENDS =3D "python3-native"
->
-> to ca-certificates, without it was impossible to go through the
-> do_configure step. It was using the python3
-> from my system instead of the one provided by yocto? I am a bit lost here=
-.
->
-> What do you think? Should it have python3-native? There is a fairly recen=
-t
-> patch
-> to use python3 `file://0001-certdata2pem.py-use-python3.patch`
->
-> Thanks,
-> Max.
->
-> On Mon, Jan 13, 2020 at 4:20 PM Alexander Kanavin <alex.kanavin@gmail.com=
->
-> wrote:
-> >
-> > The correct way to configure this is to inherit manpages class, and nam=
-e
-> the option 'manpages' as well.
-> >
-> > Alex
-> >
-> > On Mon, 13 Jan 2020 at 22:10, Maxime Roussin-B=C3=A9langer <
-> maxime.roussinbelanger@gmail.com> wrote:
-> >>
-> >> The current default for the meson configuration is to build
-> >> the man. It will only do it if it finds the xsltproc binary
-> >> and man option (default: on).
-> >>
-> >> Adding the packageconfig make sure that xsltproc will be
-> >> found in the correct path (recipe-sysroot-native) and that
-> >> the docbook can be used.
-> >>
-> >> The docbook is needed because xsltproc is used with the
-> >> --nonet option, which prevents the uses of the internet to
-> >> fetch DFD's.
-> >>
-> >> This recipe has been working for probably everyone with the
-> >> current configuration, however if for some reason xsltproc
-> >> can be found inside PATH, meson will use it.
-> >>
-> >> Signed-off-by: Maxime Roussin-B=C3=A9langer <
-> maxime.roussinbelanger@gmail.com>
-> >> ---
-> >>  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb | 1 +
-> >>  1 file changed, 1 insertion(+)
-> >>
-> >> diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-> b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-> >> index 699c4ecd0b..f6cc25cd8c 100644
-> >> --- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-> >> +++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.40.0.bb
-> >> @@ -53,6 +53,7 @@ PACKAGECONFIG[png] =3D "-Dpng=3Dtrue,-Dpng=3Dfalse,l=
-ibpng"
-> >>  PACKAGECONFIG[jpeg] =3D "-Djpeg=3Dtrue,-Djpeg=3Dfalse,jpeg"
-> >>  PACKAGECONFIG[tiff] =3D "-Dtiff=3Dtrue,-Dtiff=3Dfalse,tiff"
-> >>  PACKAGECONFIG[jpeg2000] =3D "-Djasper=3Dtrue,-Djasper=3Dfalse,jasper"
-> >> +PACKAGECONFIG[man] =3D "-Dman=3Dtrue,-Dman=3Dfalse,libxslt-native
-> docbook-xsl-stylesheets-native,"
-> >>
-> >>  PACKAGECONFIG[x11] =3D "-Dx11=3Dtrue,-Dx11=3Dfalse,virtual/libx11"
-> >>
-> >> --
-> >> 2.20.1
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+A lot of errors but possibly only from a smaller number of root causes,
+the selftest and step3d failures look like specific patterns.
 
---000000000000a85902059c295038
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr"><div>I don&#39;t know: I am not seeing the issue locally, =
-and it doesn&#39;t happen on the autobuilder, so it&#39;s difficult to give=
- a useful answer.</div><div><br></div><div>Alex<br></div></div><br><div cla=
-ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 15 Jan 202=
-0 at 02:26, Maxime Roussin-B=C3=A9langer &lt;<a href=3D"mailto:maxime.rouss=
-inbelanger@gmail.com">maxime.roussinbelanger@gmail.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bor=
-der-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">I ha=
-ve modified the recipe to use manpages, but it is impossible to run a build=
- from master, because<div>of my python3 pyenv setup. I had to add</div><div=
-><br></div><div>+DEPENDS =3D &quot;python3-native&quot;</div><div><br></div=
-><div>to ca-certificates, without it was impossible to go through the do_co=
-nfigure step. It was using the python3</div><div>from my system instead of =
-the one provided by yocto? I am a bit lost here.</div><div><br></div><div>W=
-hat do you think? Should it have python3-native? There is a fairly recent p=
-atch</div><div>to use python3 `file://0001-certdata2pem.py-use-python3.patc=
-h`</div><div><br></div><div>Thanks,</div><div>Max.</div><div><br>On Mon, Ja=
-n 13, 2020 at 4:20 PM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@=
-gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br>&gt;<=
-br>&gt; The correct way to configure this is to inherit manpages class, and=
- name the option &#39;manpages&#39; as well.<br>&gt;<br>&gt; Alex<br>&gt;<b=
-r>&gt; On Mon, 13 Jan 2020 at 22:10, Maxime Roussin-B=C3=A9langer &lt;<a hr=
-ef=3D"mailto:maxime.roussinbelanger@gmail.com" target=3D"_blank">maxime.rou=
-ssinbelanger@gmail.com</a>&gt; wrote:<br>&gt;&gt;<br>&gt;&gt; The current d=
-efault for the meson configuration is to build<br>&gt;&gt; the man. It will=
- only do it if it finds the xsltproc binary<br>&gt;&gt; and man option (def=
-ault: on).<br>&gt;&gt;<br>&gt;&gt; Adding the packageconfig make sure that =
-xsltproc will be<br>&gt;&gt; found in the correct path (recipe-sysroot-nati=
-ve) and that<br>&gt;&gt; the docbook can be used.<br>&gt;&gt;<br>&gt;&gt; T=
-he docbook is needed because xsltproc is used with the<br>&gt;&gt; --nonet =
-option, which prevents the uses of the internet to<br>&gt;&gt; fetch DFD&#3=
-9;s.<br>&gt;&gt;<br>&gt;&gt; This recipe has been working for probably ever=
-yone with the<br>&gt;&gt; current configuration, however if for some reason=
- xsltproc<br>&gt;&gt; can be found inside PATH, meson will use it.<br>&gt;&=
-gt;<br>&gt;&gt; Signed-off-by: Maxime Roussin-B=C3=A9langer &lt;<a href=3D"=
-mailto:maxime.roussinbelanger@gmail.com" target=3D"_blank">maxime.roussinbe=
-langer@gmail.com</a>&gt;<br>&gt;&gt; ---<br>&gt;&gt; =C2=A0meta/recipes-gno=
-me/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0.bb" target=3D"_blank">gdk=
--pixbuf_2.40.0.bb</a> | 1 +<br>&gt;&gt; =C2=A01 file changed, 1 insertion(+=
-)<br>&gt;&gt;<br>&gt;&gt; diff --git a/meta/recipes-gnome/gdk-pixbuf/<a hre=
-f=3D"http://gdk-pixbuf_2.40.0.bb" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a=
-> b/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.40.0.bb" t=
-arget=3D"_blank">gdk-pixbuf_2.40.0.bb</a><br>&gt;&gt; index 699c4ecd0b..f6c=
-c25cd8c 100644<br>&gt;&gt; --- a/meta/recipes-gnome/gdk-pixbuf/<a href=3D"h=
-ttp://gdk-pixbuf_2.40.0.bb" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a><br>&=
-gt;&gt; +++ b/meta/recipes-gnome/gdk-pixbuf/<a href=3D"http://gdk-pixbuf_2.=
-40.0.bb" target=3D"_blank">gdk-pixbuf_2.40.0.bb</a><br>&gt;&gt; @@ -53,6 +5=
-3,7 @@ PACKAGECONFIG[png] =3D &quot;-Dpng=3Dtrue,-Dpng=3Dfalse,libpng&quot;=
-<br>&gt;&gt; =C2=A0PACKAGECONFIG[jpeg] =3D &quot;-Djpeg=3Dtrue,-Djpeg=3Dfal=
-se,jpeg&quot;<br>&gt;&gt; =C2=A0PACKAGECONFIG[tiff] =3D &quot;-Dtiff=3Dtrue=
-,-Dtiff=3Dfalse,tiff&quot;<br>&gt;&gt; =C2=A0PACKAGECONFIG[jpeg2000] =3D &q=
-uot;-Djasper=3Dtrue,-Djasper=3Dfalse,jasper&quot;<br>&gt;&gt; +PACKAGECONFI=
-G[man] =3D &quot;-Dman=3Dtrue,-Dman=3Dfalse,libxslt-native docbook-xsl-styl=
-esheets-native,&quot;<br>&gt;&gt;<br>&gt;&gt; =C2=A0PACKAGECONFIG[x11] =3D =
-&quot;-Dx11=3Dtrue,-Dx11=3Dfalse,virtual/libx11&quot;<br>&gt;&gt;<br>&gt;&g=
-t; --<br>&gt;&gt; 2.20.1<br>&gt;&gt;<br>&gt;&gt; --<br>&gt;&gt; ___________=
-____________________________________<br>&gt;&gt; Openembedded-core mailing =
-list<br>&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org=
-" target=3D"_blank">Openembedded-core@lists.openembedded.org</a><br>&gt;&gt=
-; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-co=
-re" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openem=
-bedded-core</a></div></div>
-</blockquote></div>
+Richard
 
---000000000000a85902059c295038--
+
