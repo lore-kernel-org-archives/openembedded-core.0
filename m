@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
-	[209.85.210.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 80B067FA13
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6CC4A7F959
 	for <openembedded-core@openembedded.org>;
-	Thu, 16 Jan 2020 15:21:08 +0000 (UTC)
-Received: by mail-pf1-f179.google.com with SMTP id x184so10369222pfb.3
+	Thu, 16 Jan 2020 15:21:09 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id z124so10021648pgb.13
 	for <openembedded-core@openembedded.org>;
 	Thu, 16 Jan 2020 07:21:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=2uaDPMBdjlrAHQ+UQCtps/KbKX9QWFlXtELbjDA3WcY=;
-	b=NtzXG7KDsJs+5hwJ3VBL/hX9IBEfKPl9nkOyfBX/PGU6xxf0jo6i842hDFWRmGFX3I
-	86q+VabA8YASDLZiAqgqz/MC5tqJ7Ld6CSTzI6YuV1fw10U6Tw7n2oIyzvozYwj9k23K
-	VYxVjXrM6n6MgLUHeGTbjhQ4BVwLlRfdTLyvPu/C/asdTNjq3OCl6kkVTWz4EyQqce+o
-	5QfMARfDKBSN5WYrhfQ1SvwIS4CDUJ6wwSaanRSid8t3hYPm9Kbo0tDwhTO9QedCbpdP
-	tk/KXZOveusYI27HUsmiFwlh/vf19Q/tJo/er+xULPcxhM8v2lT7qLYNvUGoR0cOfvG1
-	peOQ==
+	bh=gxXju7FHcV6HZ9f4Ik3KCyjSDfLoiNM3yYPrnhht+J8=;
+	b=DJmhA7A6jannkQftiDc0LbBLcGtNvQj1Cso/6Eeeqri4XdIlzxMZw0T1Kyuv0BFKAV
+	oayyQnx8VByISiqgmP+mEd95cKTxX15EuwPwve91AoP+a5q+S4hLqdmGO6q9Q/ZQC1Ir
+	XeLkDJTMQWYfE7xun1iZcowwxEIKZeQWwGhnJlFfNbmCgwjysZL+4b/FSi0m8YQxV/tW
+	cz3+7DB/dExOYBrqAvs5hQLMhTl5BI93gXExszPi2EH95udZDV+LcU24und4hPqffth4
+	uhwWoLA+YtqIumMI1rUclT4hA5K7Sobx1NEa3dyxRhTAT3Zc0+iN6KBBMiYZHFhgHUtt
+	Al5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=2uaDPMBdjlrAHQ+UQCtps/KbKX9QWFlXtELbjDA3WcY=;
-	b=SqWHYysJntAqMD76CQvtciKyjp2Sk/8+hwkbINgHw+ibLV4miMQ0V6UJUQpn108dkd
-	pdqHLL23M9lheDu0R6+UEGnL8Pg09Wslc+ycGb+EgOgJk7NgYoq+h28oCeV0k9RBvdzP
-	GdGrdP4yDEk0F7fMGfGq6bHIvV2OGip9g2YxHEEBN4+O309wsRH2EzGrqRl7vvJIX+Bu
-	qYlyMGnqt49kJuPBUtL1IC+XFzKGN+XLiSz1H0OjRyOKdaI155kuKYBp4eT77BMIjc5t
-	gj+nSWis3YMM4M4ft6zWk4zs0FOGXH3vw8ybBnQ9DRsnAjUrZZm7snM5wLVswyhNkgem
-	esAA==
-X-Gm-Message-State: APjAAAX++GxKmz8XMVladzAtk0b49ySCrqL6pi1k30fSea131+4NuqQk
-	tS4+BgHBI9zXnkOKRb6TJykYAvmm
-X-Google-Smtp-Source: APXvYqy1e09y0BktOzvtqdhmkPwHl5hQmVzEU7acRIeWwyo2bGXWqTKCLaOIl6vPz4Yldxyi13cb8w==
-X-Received: by 2002:a65:4381:: with SMTP id m1mr40594882pgp.68.1579188069500; 
-	Thu, 16 Jan 2020 07:21:09 -0800 (PST)
+	bh=gxXju7FHcV6HZ9f4Ik3KCyjSDfLoiNM3yYPrnhht+J8=;
+	b=oG3FqHgJIAH0x5GVIymeqdTKzo5n15uKF2krK2BJFhHtGWnZ2O8CLMC111guBUIJL6
+	644BJYyr4+bgo1WxMoVhq83W/M26qJWitZkg/7kniL22ftpUIRVYcoaOHE71kaz7fF0i
+	fSuQ2SpAuGCL5lSea04rz9iNTfFBRZoZ2yqSUoBRrVehLZhZasDZiyBEZVDkxfN+dAcV
+	Lgw9U8LmbUcO2sNBTtF0PSiefSPkMahM/BJf9bYO4DpS2ze8v8H88Jtp1JD4jXchUWjT
+	5MBHx5vbbdW2+62PHYmwzcx2oRz+b4p2wTfcAD71bTe+0HK0nEagGeIo9EbQ7EHSmTYf
+	aj3g==
+X-Gm-Message-State: APjAAAX/kY3qAQPSpxQdxGCdRrtRZQkbJs/ZeJ54CPrVW4Xw12IYicZA
+	VIQzuUcL48LXO/kstWDgUOzhwjp1
+X-Google-Smtp-Source: APXvYqwJx5I/BozCd+xxpR9Ef+aG5imk7jKDOljtz/0vspTX939sEMkXnrEKU4paz20zqbmvZ90L6Q==
+X-Received: by 2002:a63:a707:: with SMTP id d7mr38657162pgf.93.1579188070402; 
+	Thu, 16 Jan 2020 07:21:10 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e8a7:159f:54e9:3f07])
 	by smtp.gmail.com with ESMTPSA id
-	n26sm26282377pgd.46.2020.01.16.07.21.08
+	n26sm26282377pgd.46.2020.01.16.07.21.09
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Thu, 16 Jan 2020 07:21:09 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Thu, 16 Jan 2020 07:20:35 -0800
-Message-Id: <0ec6843bec3e817c3bc62d04adea5fd385307b32.1579187957.git.akuster808@gmail.com>
+Date: Thu, 16 Jan 2020 07:20:36 -0800
+Message-Id: <0f5b748a5b7fec41bac16bbc1346230e86bb99e3.1579187957.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1579187957.git.akuster808@gmail.com>
 References: <cover.1579187957.git.akuster808@gmail.com>
-Subject: [warrior 26/32] cve-check: neaten get_cve_info
+Subject: [warrior 27/32] cve-check: fetch CVE data once at a time instead of in a single call
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,50 +63,57 @@ X-List-Received-Date: Thu, 16 Jan 2020 15:21:09 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-Remove obsolete Python 2 code, and use convenience methods for neatness.
+This code used to construct a single SQL statement that fetched the NVD data for
+every CVE requested.  For recipes such as the kernel where there are over 2000
+CVEs to report this can hit the variable count limit and the query fails with
+"sqlite3.OperationalError: too many SQL variables".  The default limit is 999
+variables, but some distributions such as Debian set the default to 250000.
 
-(From OE-Core rev: f19253cc9e70c974a8e21a142086c13d7cde04ff)
+As the NVD table has an index on the ID column, whilst requesting the data
+CVE-by-CVE is five times slower when working with 2000 CVEs the absolute time
+different is insignificant: 0.05s verses 0.01s on my machine.
+
+(From OE-Core rev: 53d0cc1e9b7190fa66d7ff1c59518f91b0128d99)
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/cve-check.bbclass | 18 +++++-------------
- 1 file changed, 5 insertions(+), 13 deletions(-)
+ meta/classes/cve-check.bbclass | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index c1cbdbde7b..e95716d9de 100644
+index e95716d9de..19ed5548b3 100644
 --- a/meta/classes/cve-check.bbclass
 +++ b/meta/classes/cve-check.bbclass
-@@ -261,23 +261,15 @@ def check_cves(d, patched_cves):
- def get_cve_info(d, cves):
-     """
-     Get CVE information from the database.
--
--    Unfortunately the only way to get CVE info is set the output to
--    html (hard to parse) or query directly the database.
-     """
- 
--    try:
--        import sqlite3
--    except ImportError:
--        from pysqlite2 import dbapi2 as sqlite3
-+    import sqlite3
+@@ -267,17 +267,17 @@ def get_cve_info(d, cves):
  
      cve_data = {}
--    db_file = d.getVar("CVE_CHECK_DB_FILE")
--    placeholder = ",".join("?" * len(cves))
--    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholder
--    conn = sqlite3.connect(db_file)
--    cur = conn.cursor()
--    for row in cur.execute(query, tuple(cves)):
-+    conn = sqlite3.connect(d.getVar("CVE_CHECK_DB_FILE"))
-+    placeholders = ",".join("?" * len(cves))
-+    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholders
-+    for row in conn.execute(query, tuple(cves)):
-         cve_data[row[0]] = {}
-         cve_data[row[0]]["summary"] = row[1]
-         cve_data[row[0]]["scorev2"] = row[2]
+     conn = sqlite3.connect(d.getVar("CVE_CHECK_DB_FILE"))
+-    placeholders = ",".join("?" * len(cves))
+-    query = "SELECT * FROM NVD WHERE id IN (%s)" % placeholders
+-    for row in conn.execute(query, tuple(cves)):
+-        cve_data[row[0]] = {}
+-        cve_data[row[0]]["summary"] = row[1]
+-        cve_data[row[0]]["scorev2"] = row[2]
+-        cve_data[row[0]]["scorev3"] = row[3]
+-        cve_data[row[0]]["modified"] = row[4]
+-        cve_data[row[0]]["vector"] = row[5]
+-    conn.close()
+ 
++    for cve in cves:
++        for row in conn.execute("SELECT * FROM NVD WHERE ID IS ?", (cve,)):
++            cve_data[row[0]] = {}
++            cve_data[row[0]]["summary"] = row[1]
++            cve_data[row[0]]["scorev2"] = row[2]
++            cve_data[row[0]]["scorev3"] = row[3]
++            cve_data[row[0]]["modified"] = row[4]
++            cve_data[row[0]]["vector"] = row[5]
++
++    conn.close()
+     return cve_data
+ 
+ def cve_write_data(d, patched, unpatched, cve_data):
 -- 
 2.17.1
 
