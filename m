@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
-	[209.85.216.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 40B947F8AD
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+	[209.85.216.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 66B357F8B5
 	for <openembedded-core@openembedded.org>;
-	Thu, 16 Jan 2020 15:20:50 +0000 (UTC)
-Received: by mail-pj1-f53.google.com with SMTP id r67so1665340pjb.0
+	Thu, 16 Jan 2020 15:20:51 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id l35so1735909pje.3
 	for <openembedded-core@openembedded.org>;
-	Thu, 16 Jan 2020 07:20:51 -0800 (PST)
+	Thu, 16 Jan 2020 07:20:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=DswTZMG0O3HD0qfYq8CkAickAUsQj7AnioaNq+mgASo=;
-	b=OQWCSOSPUVyh/Pl2FPZaH0CLd4eD2jZQE4OLEd7UHc5XvCuvcsaebOCVaUgOqwMjxZ
-	dpqfjOme6zjg+M/QzW7dgSP+6ycTbdM01cWz2Rqed11NO8BL0yopf19kk7QrcAFw+BLp
-	0myf0sugXDeV4tGDJlUVRmu3gWOFKDm7cj6uFgVEBKqXs/Mg9J7se/F+djjOMx29hQZw
-	KhGPUkjGZTpR7XaTIXvyl7lYK5s4Sb+v/FgUqYWexxUjbTZ+zSA/ysBE0RXE4c7Xa7Lq
-	02iZ9PcF5GJyqGKpHlncsvoFysg8XvPeOBXzev8/EWiEbnX0cC0NYBoY2e+EMNgiTxCT
-	saZw==
+	bh=TeSd9MG3lXjqBiroTUuzIsGLpnt66kOHFEtKmGv91x8=;
+	b=leIW3dssut5McSMb9js7phARerNm0NRJb452igQc5ezTsXJECHgvQIrYg+XbW/dKaZ
+	W+4WI8DGp91YtJYGUTKov3R3XyOpmNCZ9DxAnMD5wVXyNUfkfwTEJO/gEUDs9ot5iztA
+	8dfXO/DyMJ5TQMUddNDlaZXxSQh89wymMHoo/Q1rJ/citSiEnvf3U9If+OyY3LDhw6rM
+	vklNdtYw4EvNID0uMAlLWB7I+ycYjRgqPEL0Q0q0WEY1CuDYqOE9iJUXo8yqBD8JS08h
+	lvYxGaiBSfNoXobUmqYaChQR4cXiuBwb/F9pL87Kc6F6dbSe28gtBkS9nQoczuYSl7r2
+	BB7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=DswTZMG0O3HD0qfYq8CkAickAUsQj7AnioaNq+mgASo=;
-	b=HkXxPxbMKpBqT3xVLgETpQhWIhwjQKrZjWMVbft8k6E07Hcihus1jn6IR0B9q8q/t/
-	l4tRcoovnF/6uxTWP7DyAnfoZsDD2vlewEwLbjsqRFEy5LQxneAg3+Vy3yBi0XRB0cFh
-	gSBWdTqMxpK0jklfHKr0wH7X5Wv22q0omyVdXNS8ocEzmA8PgDXZ1UeBQTB8JN1hyPN5
-	+i8M6z/ooK0OgS9HUKg2Qlg3vmyxfll40S0FYgMQ2sjS5+DyMQJkEuu9Iv6rWto5TS3b
-	EA4SzdZ/bPd0zV0NORYzjVijfffEgeEgYTEyMm36RcLJ4tzdz4+gJhR+68pzrzB2jhJi
-	NTzw==
-X-Gm-Message-State: APjAAAWPrXmssWZ3A8YSjc7pk1TjzeWGY6NzXezToJe2MIheD2lJQFWT
-	eFSrKLyFEMCuRgNDovnRE9HvQpAS
-X-Google-Smtp-Source: APXvYqzSpF+speLNJ6cldUms9xH3emeSvhy6Bxr2nEhpD0v/W57r9MaxwB6P/97QRG1LjEqzwoE82Q==
-X-Received: by 2002:a17:902:9882:: with SMTP id
-	s2mr38910826plp.156.1579188051187; 
-	Thu, 16 Jan 2020 07:20:51 -0800 (PST)
+	bh=TeSd9MG3lXjqBiroTUuzIsGLpnt66kOHFEtKmGv91x8=;
+	b=hUeBn0Ka3eVerSMUJ4hHMN0N9pJ7txdDGof+8EEBjfYQ7eMfw1RNWnqUSdOqa68Ykx
+	ikJEhqFCen035R0WW1wEI24lpUy3fB+Gqv+GJ0SGNuK/VUkqVDcgB9izCom0uParo40i
+	2WKvfKqQfuijUB+Xim2qljK6kCP3SPiSfxjwiMabSiCl6UxKc7GtfDnFR4zfsNBz4fO5
+	47CEuAQSNDtX5+hFmavg8YEzeVNhX7Ua8No6AmQcd5wLH/uVT7nQ98qi2c4SEOHIaejv
+	aXtB2PsSMXE4TIyQgC13QxfYw7FCiiEHucDzQ03wVX9epvA/fmFdLJf1VvnFAB2N0peO
+	zEhg==
+X-Gm-Message-State: APjAAAU7iOmnhnKntuKLJiBf2jbAznOJyiXXf1Y0Gsuo8KilipKDvxpR
+	eezBPtLco4JT/v0zZgt2zPwdxMbI
+X-Google-Smtp-Source: APXvYqyPpvHnQ6u6fUI1T1a9sfjm5TpxQnjBLuMXzSjVXQFVvrOmvULKsXhNM9T7I2Rto1XN8REbtA==
+X-Received: by 2002:a17:902:8bc9:: with SMTP id
+	r9mr37933076plo.48.1579188052362; 
+	Thu, 16 Jan 2020 07:20:52 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e8a7:159f:54e9:3f07])
 	by smtp.gmail.com with ESMTPSA id
-	n26sm26282377pgd.46.2020.01.16.07.20.50
+	n26sm26282377pgd.46.2020.01.16.07.20.51
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 16 Jan 2020 07:20:50 -0800 (PST)
+	Thu, 16 Jan 2020 07:20:51 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Thu, 16 Jan 2020 07:20:15 -0800
-Message-Id: <e128bd76ae9f4b30948e6b8fc68f4374e03c7bec.1579187957.git.akuster808@gmail.com>
+Date: Thu, 16 Jan 2020 07:20:16 -0800
+Message-Id: <44d4dda6db56107d7ce900730b370a2ec81d9c30.1579187957.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1579187957.git.akuster808@gmail.com>
 References: <cover.1579187957.git.akuster808@gmail.com>
-Subject: [warrior 06/32] flex: set CVE_PRODUCT to include vendor
+Subject: [warrior 07/32] git: set CVE vendor to git-scm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2020 15:20:50 -0000
+X-List-Received-Date: Thu, 16 Jan 2020 15:20:51 -0000
 
 From: Ross Burton <ross.burton@intel.com>
 
-There are many projects called Flex and they have CVEs, so also set the vendor
-to remove these false positives.
+There's a Jenkins plugin for Git.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/flex/flex_2.6.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/git/git.inc | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
-index b477cd8c7f..12ce0cb461 100644
---- a/meta/recipes-devtools/flex/flex_2.6.0.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
-@@ -68,3 +68,6 @@ do_install_ptest() {
- 	    -e 's/^builddir = \(.*\)/builddir = ./' -e 's/^top_builddir = \(.*\)/top_builddir = ./' \
- 	    -i ${D}${PTEST_PATH}/Makefile
- }
+diff --git a/meta/recipes-devtools/git/git.inc b/meta/recipes-devtools/git/git.inc
+index 26a22ac1e8..6e137432f0 100644
+--- a/meta/recipes-devtools/git/git.inc
++++ b/meta/recipes-devtools/git/git.inc
+@@ -13,6 +13,8 @@ S = "${WORKDIR}/git-${PV}"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7c0d7ef03a7eb04ce795b0f60e68e7e1"
+ 
++CVE_PRODUCT = "git-scm:git"
 +
-+# Not Apache Flex, or Adobe Flex, or IBM Flex.
-+CVE_PRODUCT = "flex_project:flex"
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[cvsserver] = ""
+ PACKAGECONFIG[svn] = ""
 -- 
 2.17.1
 
