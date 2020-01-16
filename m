@@ -1,50 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
-	[209.85.216.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A4FAA7F874
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BAA07F896
 	for <openembedded-core@openembedded.org>;
-	Thu, 16 Jan 2020 15:20:43 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id kx11so1662970pjb.4
+	Thu, 16 Jan 2020 15:20:46 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id k3so10049894pgc.3
 	for <openembedded-core@openembedded.org>;
-	Thu, 16 Jan 2020 07:20:45 -0800 (PST)
+	Thu, 16 Jan 2020 07:20:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=eL22k9B3F6nHF0XS8JINlYRtacgsy46WUkkGPrLGMMU=;
-	b=EeIQWZ0+mT1OMEhRCB/KPi4wpIrw7PhxcWjdxMOYuOkCOWti4kvTXg1pTRo4AvhRuE
-	OLBGWcWEcKfwALlg7GDpQ2WFaN93xI03CP5B0/f4jt7lBNEwSFm3M4Nxi8NH5nMiKFTL
-	3hEN+0mEMdRZDx5MESOeQd6hjZCiw8MbX6Tk87eJL1af7ftMIL3mffhtbF8Anzdb+dLt
-	BJGYiHOSeZ3I92C6uz+AwMAPoMglAwi8QD5UXyeqEl54zePVvnIXqI9p1FcxZdDW3iMI
-	dQgz29k77tLrGvqAR9QUwJe3bL53CwwbCHkYQ24IAWL8X83JMEZC0IisbhTsKq0i3+T8
-	zang==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=SFn3D7P08y8SBnwEx8Mz/wElUkCCfs1muFTgRkSCDp4=;
+	b=kqmPjp423DarH8EHV6Qc+CPMLRif0oNqU2uMysANdtfFAKyLU8Xm9f+qPm/yrbqMNB
+	FlZkXDonBUCQ8z5gM4LrSyeBeCaQ5ql+xlh3Fr1JEx1K5Korch/IkjXE1cHFG5z/LpL7
+	qgAr9oJVO0Ia7CPySoDzS+k9XuuL40EcZqWt70UPnt2FhM18qXcJZmtOiHhERlgXtKHp
+	dF4lXAe5JlrnzVXKpkjyNrc5l6xYr1DNJZeZU6enfdHC15xZ3BeCuEMyGKC6CUrW+EZ3
+	jgVc82lyIU4AkAsRj8+FKsOyIJZpfLozqr//bYZ0PvDRzseRpnZGN2Bvw2+svdd7ah7D
+	+/+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=eL22k9B3F6nHF0XS8JINlYRtacgsy46WUkkGPrLGMMU=;
-	b=J8DVy+NaOiFdcxdJ1grIKF3jxzMXYbOYD4uzRX5Xg0UydR160iSDcrSbk2a3Rv+dkO
-	dJjkzR2dNzAwXqhAQMVuDahQwk/TX9JBfKde9Voe+7seEdOg15D+XePSHSfZdjcJHyIm
-	k/oGygxDzyxi8D7GhIsb07GDcHrDP7tOYOJQuOBei4QGfXekb77UvHQ8kk3BMlYgXnVd
-	yLkoZIE/peIPCsyr31zlw2wOclLQIsLNmN050UZR1akCsKOZzaJfZM2Fa651aDPc4kIS
-	bmJaxz68ceUlwIJw8qMl6UkiNn235fJz+EOQxhb9XXljlCDEQc2p4+USRgwirmqjfwPc
-	wstA==
-X-Gm-Message-State: APjAAAVzTUxjTQoNZG73KtMUixDOECuti+WN1nErhSHqcBldhU1gDsRW
-	UmUDWt00gNedmm2jbvy3w32cvTce
-X-Google-Smtp-Source: APXvYqyYt7cNeB2PJHGNsZrCGdf/Jw4bqxLc16WAXQk9YePcLZJBgb2o38rAzqWjcB96FwLbVX5jww==
-X-Received: by 2002:a17:90a:fa07:: with SMTP id
-	cm7mr7316538pjb.119.1579188044511; 
-	Thu, 16 Jan 2020 07:20:44 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=SFn3D7P08y8SBnwEx8Mz/wElUkCCfs1muFTgRkSCDp4=;
+	b=MgMcoPaDf0IObjn03yKMKZ9CH8JctapvZUzHp5BqpyyoPABrKUJ06OcF8gHAazmA1d
+	2gh/NkAKS2VSCco4k0+2CR4A0bw3ocLBI0hzYnDuh2laQAlLPoJYijHuHV3XR/Q63LsU
+	n5aas5vz/XZOk2d4JjFHMHWoKR/BcTBDvyVoL0oVLqlT0K0GeEm4LXDFR9odefAhdP2C
+	9U/kl++TpetQnJ6QwF7XdpS+Mv2LSP6zU6aCdiphtxXImJrf9OMqrRJ5eoJFykQ3T+pr
+	kL8sZu2x5InASJttlDNegbvxkUmCVlFNLtWhs7yL3yTTK2rZQagka37L0y5xqwYdC/W+
+	PQfw==
+X-Gm-Message-State: APjAAAXME1l46ofhZRHySXRO6jVut0hHtfA3mAT02G2dOdzfx1OGOBnq
+	Eoqu/lS6FkMfPNnJxDZD22fC5kE5
+X-Google-Smtp-Source: APXvYqxx15B90c1e7hpv8zYKtcCFck6QbP4F4c8It8xVJHqaKMZ4hoQHiZLBIzAdG3+1zri9TXnhPw==
+X-Received: by 2002:a63:6e0e:: with SMTP id j14mr39016561pgc.361.1579188046814;
+	Thu, 16 Jan 2020 07:20:46 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e8a7:159f:54e9:3f07])
 	by smtp.gmail.com with ESMTPSA id
-	n26sm26282377pgd.46.2020.01.16.07.20.43
+	n26sm26282377pgd.46.2020.01.16.07.20.45
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 16 Jan 2020 07:20:43 -0800 (PST)
+	Thu, 16 Jan 2020 07:20:46 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Thu, 16 Jan 2020 07:20:09 -0800
-Message-Id: <cover.1579187957.git.akuster808@gmail.com>
+Date: Thu, 16 Jan 2020 07:20:11 -0800
+Message-Id: <27fea8ea1da28bb3163b5d503e6d16948c50f2ae.1579187957.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior 00/32] Pull request
+In-Reply-To: <cover.1579187957.git.akuster808@gmail.com>
+References: <cover.1579187957.git.akuster808@gmail.com>
+Subject: [warrior 02/32] python: fix CVE-2019-16935
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,135 +59,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2020 15:20:43 -0000
+X-List-Received-Date: Thu, 16 Jan 2020 15:20:46 -0000
 
-Please consider this series for the next warrior release.
+From: Chen Qi <Qi.Chen@windriver.com>
 
-The following changes since commit 0a1b1e88b936177344392e185fbd077622d88b3e:
+(From OE-Core rev: 1a7593bcdaf8a8cf15259aee8a0e2686247f2987)
 
-  file: fix CVE-2019-18218 (2019-11-11 20:49:54 -0800)
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ ...cape-the-server-title-of-DocXMLRPCSe.patch | 101 ++++++++++++++++++
+ meta/recipes-devtools/python/python_2.7.16.bb |   1 +
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/warrior-next
-  http://cgit.openembedded.org//log/?h=stable/warrior-next
-
-Alexander Kanavin (2):
-  python: update to 2.7.17
-  sudo: correct SRC_URI
-
-Anuj Mittal (2):
-  python: fix CVE-2018-20852
-  openssl: set CVE vendor to openssl
-
-Armin Kuster (1):
-  stress: update SRC_URI
-
-Chen Qi (3):
-  python: fix CVE-2019-16935
-  libxfont2: set CVE_PRODUCT
-  webkitgtk: set CVE_PRODUCT
-
-Ferry Toth (1):
-  sudo: Fix fetching sources
-
-Kai Kang (1):
-  bind: fix CVE-2019-6471 and CVE-2018-5743
-
-Khem Raj (1):
-  sdk: Install nativesdk locales for all TCLIBC variants
-
-Niko Mauno (1):
-  cve-check: Switch to NVD CVE JSON feed version 1.1
-
-Oleksandr Kravchuk (1):
-  popt: fix SRC_URI
-
-Ross Burton (18):
-  flex: set CVE_PRODUCT to include vendor
-  git: set CVE vendor to git-scm
-  subversion: set CVE vendor to Apache
-  ed: set CVE vendor to avoid false positives
-  boost: set CVE vendor to Boost
-  libpam: set CVE_PRODUCT
-  libsndfile1: whitelist CVE-2018-13419
-  procps: whitelist CVE-2018-1121
-  cve-check: ensure all known CVEs are in the report
-  cve-check: failure to parse versions should be more visible
-  cve-check: we don't actually need to unpack to check
-  cve-update-db-native: don't refresh more than once an hour
-  cve-update-db-native: don't hardcode the database name
-  cve-update-db-native: add an index on the CVE ID column
-  cve-update-db-native: clean up proxy handling
-  cve-check: rewrite look to fix false negatives
-  cve-check: neaten get_cve_info
-  cve-check: fetch CVE data once at a time instead of in a single call
-
-Zang Ruochen (1):
-  libpcap: upgrade 1.9.0 -> 1.9.1
-
- meta/classes/cve-check.bbclass                | 105 +-
- meta/lib/oe/sdk.py                            |   4 -
- .../bind/0001-bind-fix-CVE-2019-6471.patch    |  64 ++
- ...01-fix-enforcement-of-tcp-clients-v1.patch |  60 ++
- ...p-clients-could-still-be-exceeded-v2.patch | 670 +++++++++++++
- ...rence-counter-for-pipeline-groups-v3.patch | 278 ++++++
- ...accounting-and-client-mortality-chec.patch | 512 ++++++++++
- ...a-and-pipeline-refs-allow-special-ca.patch | 911 ++++++++++++++++++
- ...allowance-for-tcp-clients-interfaces.patch |  80 ++
- ...perations-in-bin-named-client.c-with.patch | 140 +++
- .../bind/bind_9.11.5-P4.bb                    |   8 +
- ...-add-missing-limits.h-for-musl-syste.patch |  29 -
- .../{libpcap_1.9.0.bb => libpcap_1.9.1.bb}    |   5 +-
- .../openssl/openssl_1.1.1b.bb                 |   2 +
- .../recipes-core/meta/cve-update-db-native.bb |  46 +-
- meta/recipes-devtools/flex/flex_2.6.0.bb      |   3 +
- meta/recipes-devtools/git/git.inc             |   2 +
- ...-fix-one-do_populate_sysroot-warning.patch |  25 +-
- ...tive_2.7.16.bb => python-native_2.7.17.bb} |   2 +-
- meta/recipes-devtools/python/python.inc       |   9 +-
- ...nt-parse-domains-containing-GH-13079.patch |  90 --
- ...Resolve-intermediate-staging-issues.patch} |  53 +-
- .../python/python/CVE-2019-9740.patch         | 215 -----
- .../python/bpo-35907-cve-2019-9948-fix.patch  |  55 --
- .../python/bpo-35907-cve-2019-9948.patch      |  55 --
- .../python/bpo-36216-cve-2019-9636-fix.patch  |  28 -
- .../python/bpo-36216-cve-2019-9636.patch      | 111 ---
- .../python/bpo-36742-cve-2019-10160.patch     |  81 --
- .../{python_2.7.16.bb => python_2.7.17.bb}    |   2 -
- .../subversion/subversion_1.11.1.bb           |   2 +
- meta/recipes-extended/ed/ed_1.15.bb           |   2 +
- meta/recipes-extended/pam/libpam_1.3.0.bb     |   2 +
- meta/recipes-extended/procps/procps_3.3.15.bb |   3 +
- meta/recipes-extended/stress/stress_1.0.4.bb  |   2 +-
- meta/recipes-extended/sudo/sudo_1.8.27.bb     |   2 +-
- .../xorg-lib/libxfont2_2.0.3.bb               |   2 +
- .../libsndfile/libsndfile1_1.0.28.bb          |   3 +
- meta/recipes-sato/webkit/webkitgtk_2.22.7.bb  |   2 +
- meta/recipes-support/boost/boost.inc          |   2 +
- meta/recipes-support/popt/popt_1.16.bb        |   2 +-
- 40 files changed, 2873 insertions(+), 796 deletions(-)
- create mode 100644 meta/recipes-connectivity/bind/bind/0001-bind-fix-CVE-2019-6471.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0001-fix-enforcement-of-tcp-clients-v1.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0002-tcp-clients-could-still-be-exceeded-v2.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0003-use-reference-counter-for-pipeline-groups-v3.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0004-better-tcpquota-accounting-and-client-mortality-chec.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0005-refactor-tcpquota-and-pipeline-refs-allow-special-ca.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0006-restore-allowance-for-tcp-clients-interfaces.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/0007-Replace-atomic-operations-in-bin-named-client.c-with.patch
- delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-pcap-usb-linux.c-add-missing-limits.h-for-musl-syste.patch
- rename meta/recipes-connectivity/libpcap/{libpcap_1.9.0.bb => libpcap_1.9.1.bb} (88%)
- rename meta/recipes-devtools/python/{python-native_2.7.16.bb => python-native_2.7.17.bb} (97%)
- delete mode 100644 meta/recipes-devtools/python/python/0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch
- rename meta/recipes-devtools/python/python/{builddir.patch => 0001-python-Resolve-intermediate-staging-issues.patch} (58%)
- delete mode 100644 meta/recipes-devtools/python/python/CVE-2019-9740.patch
- delete mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
- delete mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
- delete mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
- delete mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
- delete mode 100644 meta/recipes-devtools/python/python/bpo-36742-cve-2019-10160.patch
- rename meta/recipes-devtools/python/{python_2.7.16.bb => python_2.7.17.bb} (98%)
-
+diff --git a/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
+new file mode 100644
+index 0000000000..3025cf7bc8
+--- /dev/null
++++ b/meta/recipes-devtools/python/python/0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch
+@@ -0,0 +1,101 @@
++From b161c89c8bd66fe928192e21364678c8e9b8fcc0 Mon Sep 17 00:00:00 2001
++From: Dong-hee Na <donghee.na92@gmail.com>
++Date: Tue, 1 Oct 2019 19:58:01 +0900
++Subject: [PATCH] [2.7] bpo-38243: Escape the server title of DocXMLRPCServer
++ (GH-16447)
++
++Escape the server title of DocXMLRPCServer.DocXMLRPCServer
++when rendering the document page as HTML.
++
++CVE: CVE-2019-16935
++
++Upstream-Status: Backport [https://github.com/python/cpython/pull/16447/commits/b41cde823d026f2adc21ef14b1c2e92b1006de06]
++
++Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++---
++ Lib/DocXMLRPCServer.py                        | 13 +++++++++++-
++ Lib/test/test_docxmlrpc.py                    | 20 +++++++++++++++++++
++ .../2019-09-25-13-21-09.bpo-38243.1pfz24.rst  |  3 +++
++ 3 files changed, 35 insertions(+), 1 deletion(-)
++ create mode 100644 Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
++
++diff --git a/Lib/DocXMLRPCServer.py b/Lib/DocXMLRPCServer.py
++index 4064ec2e48..90b037dd35 100644
++--- a/Lib/DocXMLRPCServer.py
+++++ b/Lib/DocXMLRPCServer.py
++@@ -20,6 +20,16 @@ from SimpleXMLRPCServer import (SimpleXMLRPCServer,
++             CGIXMLRPCRequestHandler,
++             resolve_dotted_attribute)
++ 
+++
+++def _html_escape_quote(s):
+++    s = s.replace("&", "&amp;") # Must be done first!
+++    s = s.replace("<", "&lt;")
+++    s = s.replace(">", "&gt;")
+++    s = s.replace('"', "&quot;")
+++    s = s.replace('\'', "&#x27;")
+++    return s
+++
+++
++ class ServerHTMLDoc(pydoc.HTMLDoc):
++     """Class used to generate pydoc HTML document for a server"""
++ 
++@@ -210,7 +220,8 @@ class XMLRPCDocGenerator:
++                                 methods
++                             )
++ 
++-        return documenter.page(self.server_title, documentation)
+++        title = _html_escape_quote(self.server_title)
+++        return documenter.page(title, documentation)
++ 
++ class DocXMLRPCRequestHandler(SimpleXMLRPCRequestHandler):
++     """XML-RPC and documentation request handler class.
++diff --git a/Lib/test/test_docxmlrpc.py b/Lib/test/test_docxmlrpc.py
++index 4dff4159e2..c45b892b8b 100644
++--- a/Lib/test/test_docxmlrpc.py
+++++ b/Lib/test/test_docxmlrpc.py
++@@ -1,5 +1,6 @@
++ from DocXMLRPCServer import DocXMLRPCServer
++ import httplib
+++import re
++ import sys
++ from test import test_support
++ threading = test_support.import_module('threading')
++@@ -176,6 +177,25 @@ class DocXMLRPCHTTPGETServer(unittest.TestCase):
++         self.assertIn("""Try&nbsp;self.<strong>add</strong>,&nbsp;too.""",
++                       response.read())
++ 
+++    def test_server_title_escape(self):
+++        """Test that the server title and documentation
+++        are escaped for HTML.
+++        """
+++        self.serv.set_server_title('test_title<script>')
+++        self.serv.set_server_documentation('test_documentation<script>')
+++        self.assertEqual('test_title<script>', self.serv.server_title)
+++        self.assertEqual('test_documentation<script>',
+++                self.serv.server_documentation)
+++
+++        generated = self.serv.generate_html_documentation()
+++        title = re.search(r'<title>(.+?)</title>', generated).group()
+++        documentation = re.search(r'<p><tt>(.+?)</tt></p>', generated).group()
+++        self.assertEqual('<title>Python: test_title&lt;script&gt;</title>',
+++                title)
+++        self.assertEqual('<p><tt>test_documentation&lt;script&gt;</tt></p>',
+++                documentation)
+++
+++
++ def test_main():
++     test_support.run_unittest(DocXMLRPCHTTPGETServer)
++ 
++diff --git a/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
++new file mode 100644
++index 0000000000..8f02baed9e
++--- /dev/null
+++++ b/Misc/NEWS.d/next/Security/2019-09-25-13-21-09.bpo-38243.1pfz24.rst
++@@ -0,0 +1,3 @@
+++Escape the server title of :class:`DocXMLRPCServer.DocXMLRPCServer`
+++when rendering the document page as HTML.
+++(Contributed by Dong-hee Na in :issue:`38243`.)
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
+index 1c7c58199f..8cae22a1e2 100644
+--- a/meta/recipes-devtools/python/python_2.7.16.bb
++++ b/meta/recipes-devtools/python/python_2.7.16.bb
+@@ -32,6 +32,7 @@ SRC_URI += " \
+            file://0001-python2-use-cc_basename-to-replace-CC-for-checking-c.patch \
+            file://0001-2.7-bpo-34155-Dont-parse-domains-containing-GH-13079.patch \
+            file://bpo-36742-cve-2019-10160.patch \
++           file://0001-2.7-bpo-38243-Escape-the-server-title-of-DocXMLRPCSe.patch \
+ "
+ 
+ S = "${WORKDIR}/Python-${PV}"
 -- 
 2.17.1
 
