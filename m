@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id F06837F87C
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
+	[209.85.216.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 01A207F8D0
 	for <openembedded-core@openembedded.org>;
-	Thu, 16 Jan 2020 15:20:54 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id ay11so8460037plb.0
+	Thu, 16 Jan 2020 15:20:55 +0000 (UTC)
+Received: by mail-pj1-f45.google.com with SMTP id kx11so1663271pjb.4
 	for <openembedded-core@openembedded.org>;
-	Thu, 16 Jan 2020 07:20:56 -0800 (PST)
+	Thu, 16 Jan 2020 07:20:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=MbC+28CJ0R4ktw15sXcSXlIpCNhQQSSUJI+kIrgcdoI=;
-	b=K34j7E7ndEF2t1y1FxalmYmBLHC6NQUai41/bSmJaMs8ThXIbSJCDQAHZVVJZ9WXG0
-	aZBSalMyV+gCzLMd37GdcQi9nS7XQ87SRb1pz4eGwgQdScPO+iHCTJ1VZ0KPx9r0MaV9
-	rBFkbAvYvoqp05CvI3XTFwpd8L4SrPoqHptAlbKYrvKaDFOX7ZiMGn9b89a+BDOCW0C6
-	iK+K764dy6EMVWP9+dpiSur75ia4y4+1/C8lgo9OBIYfiHLdyDiXkLQje3BeazJyjtIK
-	KVU8RWgQGZqvEgX7VZSiqimH1m8Duh70uJU9y3sqCaWU5gHR8GntIvJ6mkqJ51bIMTFa
-	MI+w==
+	bh=Ihb2qAySksjavllcldgEzYH/OXog0fr4LTqKcMfp8EI=;
+	b=fIIT+zH/PrnfYtpacpXqcnQCRHYWQCIysf76Y+0xPXnoCeveC3ZHZ4dVAOzNv0/px6
+	Ezh3MJ2AhHAXRqJ2m2lreCn/Z7ELz8/EN0aZcoqjL1ycbKvoxsX1oI9KazUHktVcYp9m
+	6eLFNeWwIQ9E8C1MIg5ft9eofYVv+5kbOOfUku5iHBBn17gvaQef37ZTA7VEjCADQR0y
+	4PwcF/dTrhe6qiDmhG35tKZlQAUaPbcKaA5Euf2ejKlGuk5vgS3GV0S1OlSNt9mRqMm9
+	y9bWPijqy9bPrPZKM5PDOOtV7mNTBlUxLkC2eNhzuGFYCIgTYKC1VqTa/PdVIHZOpvLg
+	wjrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=MbC+28CJ0R4ktw15sXcSXlIpCNhQQSSUJI+kIrgcdoI=;
-	b=FTKkRgFK5zNXZ0TB7JlHtHY4r5Cd17IcZFT248baWSFKKp0+tuYDd5OPElYDqIpZZq
-	pcUpN/htZwLuA03pSGqO0TTvFepqjzOcWdPvFeDnMhhIOu/A65zK1ODQtarXeJas4fql
-	TSF+0DbmzhGNvNlgnFRhYhEhFhhPMXu3MOB56b8HN31+a7XsuCNjNq6plwYNLnd5D56j
-	pi9D/+APRIXnSrh24BiJo3la+tBNvGKv8U3tUA+8NI6aZx0WkEVdpqOJlzk9oMJ8Lo34
-	h7PNVA1JTXJiF482vXFaWoQg596YSSYvwDAHGYIQUljkljJFSRCwNbIZ7WqTZ6TM/lzj
-	q9wg==
-X-Gm-Message-State: APjAAAUEvBkgmNP0xOlp9Y/EhoLIP7O6yoFH/ABHRKkDgd4Qwh8Pq3Ha
-	gdOH7AfVSvGxDPapCdIdbmy301Mz
-X-Google-Smtp-Source: APXvYqxhEUor4JFgd+eVgck3TBPTmdg+yrf8Hxhj/ZrBzyqYYyprNFgswbUmlTOvOF7eE58mm6LFEQ==
-X-Received: by 2002:a17:902:b40b:: with SMTP id
-	x11mr21722280plr.268.1579188055927; 
-	Thu, 16 Jan 2020 07:20:55 -0800 (PST)
+	bh=Ihb2qAySksjavllcldgEzYH/OXog0fr4LTqKcMfp8EI=;
+	b=mGUk++VMP+ojZCJpT8xd/PbqH3cHJT+kdfd15UWMkep25uCQVXR5J7YcwOL9jotPc8
+	5ffDTsIwrNX9zMlUfRKk05FGi2OTLs3Bgsrv4w723lG6F67A31RljG54tnl5kJoYHOhD
+	suK8nMZtjIiEzVUqQTfzzYMGVinMuPrVffz3zebnG9+irK8kHVANmpIUTyltnDAo6WE3
+	oOppgPzfXuIL81b58NRMGw0QRBIPyFCKkKdxdy/cfM9shCVjqtzuNVlOiCg2w4PJpGzi
+	psRyqepCd6pwfNj86x0a3j2/VOLBaFclMVl/j1XbQkEMsiXhVC3kPVX4RZpro64rmidk
+	yJAQ==
+X-Gm-Message-State: APjAAAViCafpNQOwXCoKtrTAF9fkfuzuMQbkAt6WuXsQnbRWyDN8p8FH
+	xRZ8+KuXzZtnuriV7GCYIAn0GOKa
+X-Google-Smtp-Source: APXvYqxumRthHg91mBnRC3yg2LACjzaHVa5GEdLT+WqRKu4gvBPOwa/VCsA2r//9xFlq51zzqJlFiw==
+X-Received: by 2002:a17:902:bf03:: with SMTP id
+	bi3mr14527160plb.119.1579188056997; 
+	Thu, 16 Jan 2020 07:20:56 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:e8a7:159f:54e9:3f07])
 	by smtp.gmail.com with ESMTPSA id
-	n26sm26282377pgd.46.2020.01.16.07.20.55
+	n26sm26282377pgd.46.2020.01.16.07.20.56
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 16 Jan 2020 07:20:55 -0800 (PST)
+	Thu, 16 Jan 2020 07:20:56 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Thu, 16 Jan 2020 07:20:20 -0800
-Message-Id: <c214c6c7c0f011c933da8b271630fd6833d84685.1579187957.git.akuster808@gmail.com>
+Date: Thu, 16 Jan 2020 07:20:21 -0800
+Message-Id: <ab5cc4a6119527e48299d7d6b7fac440c4b9bb6c.1579187957.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1579187957.git.akuster808@gmail.com>
 References: <cover.1579187957.git.akuster808@gmail.com>
-Subject: [warrior 11/32] libpam: set CVE_PRODUCT
+Subject: [warrior 12/32] libxfont2: set CVE_PRODUCT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,28 +60,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2020 15:20:55 -0000
+X-List-Received-Date: Thu, 16 Jan 2020 15:20:56 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/pam/libpam_1.3.0.bb | 2 ++
+ meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/pam/libpam_1.3.0.bb b/meta/recipes-extended/pam/libpam_1.3.0.bb
-index c124e3bb02..ad6ac4b701 100644
---- a/meta/recipes-extended/pam/libpam_1.3.0.bb
-+++ b/meta/recipes-extended/pam/libpam_1.3.0.bb
-@@ -164,3 +164,5 @@ CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-password"
- CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-session-noninteractive"
- CONFFILES_${PN}-runtime += "${sysconfdir}/pam.d/common-account"
- CONFFILES_${PN}-runtime += "${sysconfdir}/security/limits.conf"
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
+index 2b72d6750c..6994d79e89 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.3.bb
+@@ -20,3 +20,5 @@ SRC_URI[sha256sum] = "0e8ab7fd737ccdfe87e1f02b55f221f0bd4503a1c5f28be4ed6a54586b
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
 +
-+CVE_PRODUCT = "linux-pam"
++CVE_PRODUCT = "libxfont libxfont2"
 -- 
 2.17.1
 
