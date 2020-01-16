@@ -1,35 +1,48 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A73DE7F37E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0909C7C410
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2020 14:42:45 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 Jan 2020 06:42:46 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,326,1574150400"; d="scan'208";a="305869870"
-Received: from jmmarti7-mobl1.amr.corp.intel.com (HELO rburton-mac01.local)
-	([10.252.51.74])
-	by orsmga001.jf.intel.com with ESMTP; 16 Jan 2020 06:42:45 -0800
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Carlos Rafael Giani <crg7475@mailbox.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20200112135954.23868-1-crg7475@mailbox.org>
-	<20200112135954.23868-2-crg7475@mailbox.org>
-	<5f643784a4c74504a4e5339f3a0eef51@XBOX03.axis.com>
-From: Ross Burton <ross.burton@intel.com>
-Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
-	Swindon SN3 1RJ
-Message-ID: <4aadd9d1-e2aa-3517-693f-34ff8c9d277e@intel.com>
-Date: Thu, 16 Jan 2020 14:42:44 +0000
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.4.1
+	Thu, 16 Jan 2020 15:17:45 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id 5so19145744qtz.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jan 2020 07:17:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Cmy66hlr6w5r4DFzCmCZBsFikNfEYpT0u0fx4KcaBFs=;
+	b=B48WRsgbgyMOC5iSEqSDZhUygjmW8xIxo6Oe/Wmm7Q1svtIe1ZJLQAzuJZziQYKtp0
+	/R0WtFME4WbJidHr0LbKQmXfeMiz9PoLGt56LKRRnKMvlSvWi3fXsf5RjCZQn9ZxduEi
+	URuZFZ8bfTV+ZagfTscFpHKN8hJok4lscICt2gqG4rXQAcngADFMIh6eTGfHo4Zq4LQd
+	ZiEj16Gk2Wjc7RiVIxRzOS/YZWw5KgRjSTvDnK7LFdNJpHRz+RJBc2d1vmsmhKUN2dfV
+	8n9rifsgAV+z72N4ncftBstbo2fWCz7NEYZ7wguHovZZiZvVfxZ1mkzH+2k9vUYGwGsJ
+	nYFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Cmy66hlr6w5r4DFzCmCZBsFikNfEYpT0u0fx4KcaBFs=;
+	b=WLJWb15KxTvx2u3vEaBGOpqiY+bKKLReVmvgXKn0z/AL2q7PYmz9twA1436V1zWamM
+	k4QNhJn/EHwrY94Th38MCswJwz8cXluzbFVwem3Rp+H7//KczuZbQR45wm+l5/52L1VI
+	LFmLkxaLUReZqolHmt6fbwlvJ0pEYsTDBN0HZpS5e0CwEGymQTqRC+mQTaAdxI1yY9Vv
+	Z9tfmSsFRHtIi6wfeEEqzgO0qV0sbwHsc30mqeAgFIjmcEdRXKwbBMNKYhkGDxgVKinM
+	YhrHLnp8mJDBAqqc+341P0tVNrP9WqRM6jtFoUKRHMf8HDhew8VOpkE7FI0G41hImODu
+	hoZw==
+X-Gm-Message-State: APjAAAUn5uh4jRKk+qAPbyeEbZr2KEMDiU6mCcfu2XjXgSK+gURyrp0F
+	OJdKuXevJEaCnsKt4U2IQHc7OzMaBG5le2FiVAEF7ZdKR8E=
+X-Google-Smtp-Source: APXvYqxvYqDcSLQecSUahpdecX584e1+5WpylY87oq1bqTerAPgXxteqXuAJPxvdtE0HiiBkYAW2cDEsjD6P3cl2GJc=
+X-Received: by 2002:ac8:4657:: with SMTP id f23mr2895770qto.378.1579187866449; 
+	Thu, 16 Jan 2020 07:17:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <5f643784a4c74504a4e5339f3a0eef51@XBOX03.axis.com>
-Subject: Re: [PATCH 02/12] gstreamer1.0: Transition to meson based builds
+References: <20200116044609.3902260-1-raj.khem@gmail.com>
+	<20200116131330.GA2546@localhost>
+In-Reply-To: <20200116131330.GA2546@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 16 Jan 2020 07:17:20 -0800
+Message-ID: <CAMKF1spz1u9sPwQK2wyyQBUeLJ611XXYwUWHUfK6TZXcFNXJ=Q@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gettext: Fix overloadable error with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,19 +55,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2020 14:42:45 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 Jan 2020 15:17:46 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Changes to packages/core2-64-poky-linux/gstreamer1.0 (sysroot):
-   /usr/share/bash-completion/helpers/gst was removed
-   /usr/share/bash-completion/helpers was removed
-   /usr/share/bash-completion/completions/gst-launch-1.0 was removed
-   /usr/share/bash-completion/completions was removed
+On Thu, Jan 16, 2020 at 5:13 AM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Wed, Jan 15, 2020 at 08:46:09PM -0800, Khem Raj wrote:
+> > Clang detects that getcwd is being re-declared and signatures don't
+> > match, simple solution is to let clang use overloadable attribute
+> >...
+> > +Fixes
+> > +dcigettext.c:147:7: error: redeclaration of 'getcwd' must have the 'overloadable' attribute
+> >...
+> > +-char *getcwd ();
+> >...
+>
+> Looks like a bug in clang to me, and should be fixed there.
+>
+> The code does not tell anything regarding the parameters,
+> but clang seems to misinterpret it as "no parameters".
+>
+its conflicting with declaration from glibc system headers
 
-Bash completion was on by default previously.  Also there's a class to 
-package it neatly.
+usr/include/unistd.h:extern char *getcwd (char *__buf, size_t __size)
+__THROW __wur;
 
-Ross
+> cu
+> Adrian
 
