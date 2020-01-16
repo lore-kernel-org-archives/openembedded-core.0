@@ -1,53 +1,56 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
-	[209.85.216.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BCAB7FA47
-	for <openembedded-core@openembedded.org>;
-	Thu, 16 Jan 2020 15:21:14 +0000 (UTC)
-Received: by mail-pj1-f42.google.com with SMTP id n59so1739064pjb.1
-	for <openembedded-core@openembedded.org>;
-	Thu, 16 Jan 2020 07:21:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=1uv0pRZRRzGkLeLmRBRVSgzmq0HSvsM34XHFcu2bJOg=;
-	b=uD+e/b0pQ3pYOKaNmlkD7Kz2HysC5MCyQ5k/3UxWMaSdIKo0Bxs4LPQS6xlJebZFMe
-	EWT7RRqZeLn6fblQ0w1c/nKAMQBfOcatS6S6hH/dQ235LSemf5xlZ2O3/PEnGeG3RZeF
-	DAlHpkMcfFoDaEKX7+qtV7eDdZjjJcnVN7AWWxttTVqmoz0ThlaiLJiePMtiAunQfETK
-	Z9W0+PrtoitDkjesV7oGMYXFRO77cA3JpGUrquEaNdak6VZsqbFcTTcNyuv2xiiJXFab
-	LHqggPpiyNTEooDlJtkMEXCVR5yzxDaF9dHTOCNiznNaiqa41EPCL6HFzJrSkCrHlZFR
-	a1AA==
+Return-Path: <trini@konsulko.com>
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
+	[209.85.219.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 03DD37F88D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jan 2020 17:02:50 +0000 (UTC)
+Received: by mail-qv1-f67.google.com with SMTP id u1so9355922qvk.13
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 16 Jan 2020 09:02:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=VZjc4XcqvPfkUGWGX4PaIhx1zKQKw7frI9Ej5yW/ieY=;
+	b=WML/ocSKkj5M+AhTa48eWu7zbm0jM3F1JYpUqM0bAESbdb6GQixiWbSOC/5GTSLhKe
+	gZNEYpMH3QPognG27GxNfP43cSBCwwz7gcuJh0LMwNqgKgcDp5ELlXYUndT7HjSQpRao
+	Hbd2hS0lBumUFcANNotEhwx/ncp13R4OUmYcc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=1uv0pRZRRzGkLeLmRBRVSgzmq0HSvsM34XHFcu2bJOg=;
-	b=jfGIqaEOC+GP5TITxG71JPNIyPchbdHWCj4EkRjo8NJhVbAM7A+28rldldNIjlVz2g
-	cWhPodeCJPaywac/ljnlLhZyhE7diXWUhicQ6SyP1994K3Uu5TFm0wxt0DiFyNhJKNkG
-	9k216CbMYsXCvZCnCLNzLqmLLzA0wCaJsPBvAcNci0qLGiWBSZ+3TgsWVpiVUCGi8716
-	+x6iYThMBigeUzT0DOZkm5Q96cJWSlOWm1AHc86f9eN3Vxv4uvUTHRaYtHpijXl953eU
-	23rrwtbNMvCCUtuCSgcAPT85+VokRrd5yjQ7gN8RGnNu4xULUggTuO62knxC2s2StBSU
-	FnIg==
-X-Gm-Message-State: APjAAAU2784VGgSc4/WxFlKyYTFrbPaQaIJS/qoOE7q9zL1YOtcVAqO2
-	AFyBl7VO2dLJrlhmpvjjTz83rTrQ
-X-Google-Smtp-Source: APXvYqxLztz6FTXw0wN7hedqqLPKUPqpOz4myGbvV2ScipymgTVxPDC4NpRtuE0fq+1Pxa3eegnW5g==
-X-Received: by 2002:a17:902:247:: with SMTP id
-	65mr38557609plc.108.1579188075365; 
-	Thu, 16 Jan 2020 07:21:15 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:e8a7:159f:54e9:3f07])
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=VZjc4XcqvPfkUGWGX4PaIhx1zKQKw7frI9Ej5yW/ieY=;
+	b=uP8FvZ977FT0f9XsRwFSh7I5TJiTUGzyiGG8QFdOxm9ar1PgTEfEl9QxE2TMZrl47z
+	xCxcRewLF5jamKriHTj74vV5SK4zdyhLBuW5XbSeUKtM/qRpT8jCoJOcopQCGcVYZS8N
+	/r2XaxEwi69T+1sMy6Vevicwh3XKqesWqQNBKPJL0bxbMZsNhFkvTmSjZgxm2UXm7tK1
+	TILeu70xEkWthQvBHAjcDMyIr2Zsv7qISmOdFPCWmqcKXix7Mv7k58ko6JfxeWk2GfIK
+	JUkAVja0dbaJh7tZsX+tyvdp9SxAlMD2M31/mHMRkE0eh5u8sEIKw7vzj2uB6+GNdkFe
+	h1SQ==
+X-Gm-Message-State: APjAAAUav+5D8l1d6xIoRzMUcoIYCsdQuRfiYUB+mNSpmal9fV1q7awg
+	hywQnk1LEuu0GlVq6FdQk33+SQ==
+X-Google-Smtp-Source: APXvYqw7H7cG1/u2S6VMTnIRdPwHEkXYbRHSmxeleahneBYlSY+8mFrLM+Zk+F8cngzFUl7RDR4vSQ==
+X-Received: by 2002:a0c:cdc7:: with SMTP id a7mr3476263qvn.75.1579194171768;
+	Thu, 16 Jan 2020 09:02:51 -0800 (PST)
+Received: from bill-the-cat
+	(2606-a000-1401-86dd-28f6-45e7-c5cf-fecd.inf6.spectrum.com.
+	[2606:a000:1401:86dd:28f6:45e7:c5cf:fecd])
 	by smtp.gmail.com with ESMTPSA id
-	n26sm26282377pgd.46.2020.01.16.07.21.14
-	for <openembedded-core@openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 16 Jan 2020 07:21:14 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@openembedded.org
-Date: Thu, 16 Jan 2020 07:20:41 -0800
-Message-Id: <279c4da2e5f46dccfeff0c898c2205940be9e174.1579187957.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1579187957.git.akuster808@gmail.com>
-References: <cover.1579187957.git.akuster808@gmail.com>
-Subject: [warrior 32/32] stress: update SRC_URI
+	11sm10361139qko.76.2020.01.16.09.02.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 16 Jan 2020 09:02:50 -0800 (PST)
+Date: Thu, 16 Jan 2020 12:02:48 -0500
+From: Tom Rini <trini@konsulko.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20200116170248.GI8732@bill-the-cat>
+References: <20200114193010.92629-1-Oleg.Polyakov@windriver.com>
+	<13AD08C4-930D-479F-81E7-3B6405C3BD94@gmail.com>
+	<e0a7cf43-7d0b-5318-22de-9009d702061f@windriver.com>
+	<CANNYZj83UugdN=aNFncqFRF304YxBtYLgd6b4bP-Na_bLvMvwA@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj83UugdN=aNFncqFRF304YxBtYLgd6b4bP-Na_bLvMvwA@mail.gmail.com>
+X-Clacks-Overhead: GNU Terry Pratchett
+User-Agent: Mutt/1.9.4 (2018-02-28)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] vim: update from 8.1.1518 to 8.2.0110
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,30 +63,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2020 15:21:14 -0000
+X-List-Received-Date: Thu, 16 Jan 2020 17:02:51 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Fixes:
-WARNING: stress-1.0.4-r0 do_fetch: Failed to fetch URL http://people.seas.harvard.edu/~apw/stress/stress-1.0.4.tar.gz, attempting MIRRORS if available
+On Tue, Jan 14, 2020 at 11:18:44PM +0100, Alexander Kanavin wrote:
+> On Tue, 14 Jan 2020 at 21:10, Randy MacLeod <randy.macleod@windriver.com>
+> wrote:
+> 
+> > Oleg is getting started using Yocto so I'll reply on his behalf since
+> > I asked him to update vim as his first commit.
+> >
+> > I'm not sure what you mean by 8.2. Are you talking about calling the
+> > recipe:
+> >     vim_8.2.bb
+> > instead of vim_8.2.0110.bb?
+> >
+> > Vim tags on a daily or more frequent basis. Are you saying that we
+> > should keep the
+> > same SRCREV for 8.2.0110 but use a different name?
+> >
+> > I looked at:
+> >     git log v8.2.0000..v8.2.0118
+> > and all the commits seem to fix bugs so I prefer to take this tested
+> > v8.2.0110
+> > update and update vim every month or two so that we get the latest fixes.
+> >
+> 
+> Vim adds a tag for every single commit they make, fixes or not, so this
+> approach would in effect be updating to random development snapshots. I
+> would rather have a more conservative update strategy, and update to the
+> original 8.2 release. If you look at the homepage, 8.2 is the version they
+> announced as the new release: https://www.vim.org/
+> 
+> That's also what 'devtool latest-version vim' should currently report and
+> 'devtool upgrade' upgrade to: I purposely cut off the point releases and
+> left only the major.minor part there.
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/recipes-extended/stress/stress_1.0.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+What we had talked about before was trying to follow (more or less)
+updating to versions that one of the desktop distros had chosen, to
+avoid the fact that yes, every commit to vim is a new version number
+thus making it hard to know what's an important/good release but also
+still getting bug fixes and so forth.
 
-diff --git a/meta/recipes-extended/stress/stress_1.0.4.bb b/meta/recipes-extended/stress/stress_1.0.4.bb
-index e9179d3e19..42046d5bf4 100644
---- a/meta/recipes-extended/stress/stress_1.0.4.bb
-+++ b/meta/recipes-extended/stress/stress_1.0.4.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "http://people.seas.harvard.edu/~apw/stress/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
--SRC_URI = "http://people.seas.harvard.edu/~apw/${BPN}/${BP}.tar.gz \
-+SRC_URI = "https://fossies.org/linux/privat/${BP}.tar.gz \
-            file://texinfo.patch \
-            "
- 
 -- 
-2.17.1
-
+Tom
 
