@@ -1,48 +1,50 @@
-Return-Path: <masahiroy@kernel.org>
-Received: from condef-07.nifty.com (condef-07.nifty.com [202.248.20.72])
-	by mail.openembedded.org (Postfix) with ESMTP id E29C87F877
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id EF9867F8D0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2020 02:18:33 +0000 (UTC)
-Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-07.nifty.com
-	with ESMTP id 00G2C1p3006201
+	Thu, 16 Jan 2020 04:46:09 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id q127so9259433pga.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2020 11:12:01 +0900
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com
-	[209.85.217.44]) (authenticated)
-	by conssluserg-04.nifty.com with ESMTP id 00G2BZsm014943;
-	Thu, 16 Jan 2020 11:11:36 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 00G2BZsm014943
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-	s=dec2015msa; t=1579140696;
-	bh=/4nbUBCzZ+zsdxmPNzTbs4dZMXyaNNA+iR0LQZG7yyY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=yfo9cqwY2ok/9+hIJUl60g3/WCQQ4AIF3jBU0Po4RrBncJCOb9ssYN4MpwTmfIErP
-	slgHLTr2obBkOJmjO8BDdlyaVkLXi64M+LpZ7gOFytTr+TLWFMWafzUF10sZu8dNss
-	fLj5wWB45v9w5bVoK3gtwp8HTRJEUn+a8ld7hSn3+66He0EcblSQ0d8LTNFimJT6KX
-	m8TZ3JjgAsdprr+ACphmXGeBlE6PpTgK4OtkcNjM7aY7EzTGSE5wARJY5BZCLC6L1h
-	hT23aDk/CGukXvEzV/omXVnLjafKm5WPEehRcUc6nAchLaJ2EMIWdbdwpujUmQxzcS
-	zljOGwrrDDGVg==
-X-Nifty-SrcIP: [209.85.217.44]
-Received: by mail-vs1-f44.google.com with SMTP id s16so11714381vsc.10;
-	Wed, 15 Jan 2020 18:11:36 -0800 (PST)
-X-Gm-Message-State: APjAAAXQZWZK4CC1VTg6AYBMBTXcVrbajo0OwwsAlb9H57zC7pOuK/hJ
-	vDCsO9Jn3gJ+O8HuXg7wW76jnoeQ7hjtoBR8wVg=
-X-Google-Smtp-Source: APXvYqxS5y386w5DB4fjS9dgAUZJi0ShgEr0qfDkkSxamBivHX0l6uSaOpdGMwnmaMOgw4kvTmHziciO7Ln5OZDbkZ8=
-X-Received: by 2002:a05:6102:48b:: with SMTP id
-	n11mr101784vsa.181.1579140695384; 
-	Wed, 15 Jan 2020 18:11:35 -0800 (PST)
+	Wed, 15 Jan 2020 20:46:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BUXjZpiNeRfLynGzyFxjAxQO/hlOBCYVaLqKe1IwO9o=;
+	b=QebOOOrwuEe9FWf4yZQZl1J4Hion7sPfFLSBTgOC7Rde5z6NbIWEuJcPtehdiB5YjZ
+	mAr3v1A+jIowiBr848alJOm3zF1JFsWzYKqbKz7ubkweTXtP/D2rkBrfFdpqY7kbIfaF
+	NpWSm187t8k7kG8btNzcPA2xxrGd/G98xEnsfNF+5Cppd9GnDEs2yptJhXalCYwOmCin
+	27gmwkHEdh6Sb0ejzgW1C+0embZOQn0tzEv4FiGqY+5cUNSS8DFRXj8IR0cHTG4D7Qv8
+	hv2OX4PHgG/k5PsmCnKrOzWID9ZuqsyNTuV1uy6rEJ67tEWdci0S/B81qVgNGiRBqIja
+	3PgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BUXjZpiNeRfLynGzyFxjAxQO/hlOBCYVaLqKe1IwO9o=;
+	b=Zi+BZKYgN4Z6Sv4F+JKqyzWsk2ut99w1JEG4hArGKpCxyWPnZllMflvsHNDjeu6FAp
+	8WV9+JtVLrqYLp8svBDXw5+hPbAQhMY3q+E0TFuKjujRq2TgyN3VXn93w1sWgxNUWISO
+	wqgX8b0ybBzvheDnOyvnw+D5DLQZKnX43p3DbvxQWqoRCGDvDK2+nUUqp+HEh90gTGP/
+	N+k5FgtnEkxA1sfE1A0bQ5qr11XOwdK21+suuhs6VMVq6GIurz3XzMdOO7gV0yJTgwsu
+	GepU/CXPdVr57j1OHMPhWXwktYbKvLcylP3O0BjNJ/bt9J/2yusvdFrnIiQSbu2cDQmk
+	OlSQ==
+X-Gm-Message-State: APjAAAUMRtbRtqUiuWSF6v2Qhbu9JxV/FVpsFVoIJ4i7iWzJmUrfg3iF
+	HYVxkCIxeN2hkd3yfyUa//ERTugEYhg=
+X-Google-Smtp-Source: APXvYqz52ZMvzy+kSl4kY1Md07OkJY+59PSy/aP+/YzeJgIXlUIIspfzDgJ1A849mFQ2H1ZdO/i1yA==
+X-Received: by 2002:a65:6216:: with SMTP id d22mr37025995pgv.437.1579149970639;
+	Wed, 15 Jan 2020 20:46:10 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::e77a])
+	by smtp.gmail.com with ESMTPSA id
+	z11sm24500299pfk.96.2020.01.15.20.46.10
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 15 Jan 2020 20:46:10 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 15 Jan 2020 20:46:09 -0800
+Message-Id: <20200116044609.3902260-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <CAK7LNATpVF28nWZ1NsOhe7btPs5Gu7eAjsFjz9AuYncLu+EUyg@mail.gmail.com>
-	<7825085b36a17ad9010339af39d4647f866786cd.camel@linuxfoundation.org>
-In-Reply-To: <7825085b36a17ad9010339af39d4647f866786cd.camel@linuxfoundation.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Thu, 16 Jan 2020 11:10:59 +0900
-X-Gmail-Original-Message-ID: <CAK7LNARQkLVykdxsY1RgcXNDP8zzLb+uSXkAsqdHo722iUEmyw@mail.gmail.com>
-Message-ID: <CAK7LNARQkLVykdxsY1RgcXNDP8zzLb+uSXkAsqdHo722iUEmyw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: bitbake-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: Question about the behavior and intent of recrdeptask
+Subject: [PATCH] gettext: Fix overloadable error with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,50 +57,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 Jan 2020 02:18:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 16 Jan 2020 04:46:10 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jan 8, 2020 at 5:45 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2020-01-08 at 12:14 +0900, Masahiro Yamada wrote:
-> > So, the concept of  "recursive dependency" sounds
-> > somewhat odd to me.
-> >
-> > I guess I am missing important use-cases.
-> > I'd like to know the reason why we need recrdeptask.
->
-> FWIW your description sounds right. We need this flag for several
-> reasons. Firstly, it models the behaviour older bitbake had before we
-> switched to the full task model so it was partly there for
-> compatibility.
->
-> Secondly, it does serve a purpose. For example, if you do "bitbake
-> core-image-sato" and have PACKAGE_CLASSES = "ipk deb rpm".
->
-> In this case the user expects debs, rpms and ipks to all be generated
-> (the do_package_write_{ipk|deb|rpm} tasks) to be run for all recipes
-> involved in core-image-sato.
->
-> Since we only build the rootfs for ipk, the debs and rpms wouldn't bet
-> triggered unless we have the do_build[recrdepends] on do_build.
->
-> If you really wanted the other behaviour you would run "bitbake core-
-> image-sato -c image_complete" as in that sense the build task is
-> otherwise pointless.
->
-> It is a weird dependency though, I agree.
+Clang detects that getcwd is being re-declared and signatures don't
+match, simple solution is to let clang use overloadable attribute
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ .../gettext/gettext-0.20.1/overloadable.patch | 22 +++++++++++++++++++
+ meta/recipes-core/gettext/gettext_0.20.1.bb   |  1 +
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-core/gettext/gettext-0.20.1/overloadable.patch
 
-Thanks for the reply.
-I see do_package_write_* works based on recrdeptask.
-
-I do not like this complicated feature honestly,
-but I am not skilled enough to propose any alternative
-solution, so I will live with it.
-
-
+diff --git a/meta/recipes-core/gettext/gettext-0.20.1/overloadable.patch b/meta/recipes-core/gettext/gettext-0.20.1/overloadable.patch
+new file mode 100644
+index 0000000000..1b41cb464e
+--- /dev/null
++++ b/meta/recipes-core/gettext/gettext-0.20.1/overloadable.patch
+@@ -0,0 +1,22 @@
++Use overloadable attribute to aid clang
++
++Fixes
++dcigettext.c:147:7: error: redeclaration of 'getcwd' must have the 'overloadable' attribute
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++--- a/gettext-runtime/intl/dcigettext.c
+++++ b/gettext-runtime/intl/dcigettext.c
++@@ -144,7 +144,11 @@ char *getwd ();
++ #  if VMS
++ #   define getcwd(buf, max) (getcwd) (buf, max, 0)
++ #  else
++-char *getcwd ();
+++char 
+++#ifdef __clang__
+++__attribute__((overloadable))
+++#endif
+++*getcwd ();
++ #  endif
++ # endif
++ # ifndef HAVE_STPCPY
+diff --git a/meta/recipes-core/gettext/gettext_0.20.1.bb b/meta/recipes-core/gettext/gettext_0.20.1.bb
+index 09628bc4a3..3b576f45e9 100644
+--- a/meta/recipes-core/gettext/gettext_0.20.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.20.1.bb
+@@ -25,6 +25,7 @@ SRC_URI = "${GNU_MIRROR}/gettext/gettext-${PV}.tar.gz \
+            file://serial-tests-config.patch \
+            file://0001-msgmerge-Fix-behaviour-of-for-msgfmt-on-PO-files-wit.patch \
+            file://0001-tests-autopoint-3-unset-MAKEFLAGS.patch \
++           file://overloadable.patch \
+            "
+ 
+ SRC_URI[md5sum] = "bb5b0c0caa028105f3ca1905ddc306e2"
 -- 
-Best Regards
-Masahiro Yamada
+2.25.0
+
 
