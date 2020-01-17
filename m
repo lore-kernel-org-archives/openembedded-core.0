@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 5EABE7FC02;
-	Fri, 17 Jan 2020 17:34:52 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id ABB4A7FBFE;
+	Fri, 17 Jan 2020 17:34:56 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Adrian Bunk <bunk@stusta.de>
-Date: Fri, 17 Jan 2020 17:34:53 -0000
-Message-ID: <20200117173453.2273.25606@do>
-References: <20200117170423.2990-1-bunk@stusta.de>
+Date: Fri, 17 Jan 2020 17:34:58 -0000
+Message-ID: <20200117173458.2273.80600@do>
+References: <20200117171436.17131-3-bunk@stusta.de>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200117170423.2990-1-bunk@stusta.de>
+In-Reply-To: <20200117171436.17131-3-bunk@stusta.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uOiBXaGl0ZWxpc3QgQ1ZFLTIwMTctMTc1MjIgQ1ZFLTIwMTctMTgyMDcgQ1ZFLTIwMTUtNTY1MiAocmV2Nik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmludXRpbHM6IGZpeCBDVkUtMjAxOS0xNzQ1MQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 17:34:52 -0000
+X-List-Received-Date: Fri, 17 Jan 2020 17:34:56 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: python: Whitelist CVE-2017-17522 CVE-2017-18207 CVE-2015-5652 (rev6)
-Revision: 6
-URL   : https://patchwork.openembedded.org/series/21468/
+Series: binutils: fix CVE-2019-17451
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22087/
 State : failure
 
 == Summary ==
