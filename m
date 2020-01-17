@@ -1,47 +1,24 @@
-Return-Path: <sumit.garg@linaro.org>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C8877FA47
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 49F617FA29
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 06:59:37 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 62so4855354pfu.11
+	Fri, 17 Jan 2020 07:09:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 00H795fC014617
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 Jan 2020 22:59:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=1umpX1Ea2/DVrDtNejQoAZWiCXKZFj0lTxlV/OqJzho=;
-	b=UVMWgjpP2zbI909a5n57xc7tkHa+aESu5dhu3FHw8DH0n6nEPtBe9JXJ1zunb9uei0
-	zu//kHrZonrUqmjoqcjeaY40N6JjGQM6oOMlA0oKqAkGZoTaaZ7VhJzoHm+JxEiuJiKJ
-	ILisgbHVo6mV1U2Ze7t6FweAZ1qW/Y0FiyuDP+xnb7XAp1sDsL4uUbBs8C75sSWtm9TW
-	WdMDC1Q9+CPydZbmC8snlKXg2JBIUkzLzkaOo1mglBr2XpHDOmHdcCaNlb7ANRjBhdVk
-	b/L9P3zdBE+jrvZvixV4E4vmqFhQiKnFtfpk5LDskiPGMMtS09htsBU0ShUO2uHwI+cQ
-	RkOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1umpX1Ea2/DVrDtNejQoAZWiCXKZFj0lTxlV/OqJzho=;
-	b=kP1Vzr+GH8hdPRUDQdw2DPwBbdc+Jf9J83MvnMhUKmTXNqGLSTz90ret/5xxxMbXd7
-	rnTkX9auYYbPmv7AaTOyQc7JuGpMkBs+hSTQpHkKVf2dHR7FbVD5OQYF2GPyaZLvk96G
-	aEXLH5Kmqt+At0Bp4IiSfXm0t0pG1b8UDz2nZIxnOavV+xq8yCcAhjRiZPXhA4Chg6Lw
-	cHzZLrYqKpYrqFP+CP9ejpEyAHPA4diuksFfrje5nTrmX4nVkL/1y4AZUEypzl8hXx2A
-	LkJ8DjvitjW/z0Wd7fI4IsG1xjFdripqxw2bNPq5qAmQuBU4vqYVTw0EWR/oBdNFubcm
-	b5bQ==
-X-Gm-Message-State: APjAAAWFqug/KyZ5lxLponSiwLLRLmhpABM1ygFa9jqLGVA1YLfJipsi
-	5bL+YK8ZNMEbgKWJ+51npLX/ZmwKBgA=
-X-Google-Smtp-Source: APXvYqzlZ6Vdgb6s17THqEbawbBcAfs0hiPheEvFjMZIcwY/IngBXPX5lfk86Z6YgTzukp/wF2f6GQ==
-X-Received: by 2002:a65:488f:: with SMTP id n15mr45959810pgs.61.1579244377452; 
-	Thu, 16 Jan 2020 22:59:37 -0800 (PST)
-Received: from localhost.localdomain ([117.252.69.227])
-	by smtp.gmail.com with ESMTPSA id
-	m15sm26501261pgi.91.2020.01.16.22.59.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 Jan 2020 22:59:36 -0800 (PST)
-From: Sumit Garg <sumit.garg@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2020 12:29:14 +0530
-Message-Id: <1579244354-13596-1-git-send-email-sumit.garg@linaro.org>
+	Thu, 16 Jan 2020 23:09:06 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 16 Jan 2020 23:09:05 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 17 Jan 2020 15:09:04 +0800
+Message-ID: <1579244944-404720-1-git-send-email-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] core: recipes: fix some native tools dependencies
+MIME-Version: 1.0
+Subject: [PATCH] sysklogd: fix parallel build problem
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,60 +31,226 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 06:59:37 -0000
+X-List-Received-Date: Fri, 17 Jan 2020 07:09:05 -0000
+Content-Type: text/plain
 
-Some native tools dependency issues were seen while building with
-external GCC tool-set rather than source GCC tool-set. While building
-with source tool-set these dependencies were implicitly met which is not
-the case with external tool-set. So explicitly state these native tools
-dependencies.
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+Parallel compile maybe failed with error:
+error: ../lib/strlcat.o: No such file or directory
+Makefile:619: recipe for target 'syslogd' failed
+
+remove previous patch, and backport lastest fix
+for this problem
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/classes/autotools.bbclass                     | 2 +-
- meta/recipes-extended/man-db/man-db_2.9.0.bb       | 2 +-
- meta/recipes-graphics/xorg-app/xorg-app-common.inc | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ ...pat-to-simplify-build-deps-and-really-fix.patch | 127 +++++++++++++++++++++
+ ...arallel-build-problem-reported-by-Gentoo-.patch |  47 --------
+ meta/recipes-extended/sysklogd/sysklogd.inc        |   2 +-
+ 3 files changed, 128 insertions(+), 48 deletions(-)
+ create mode 100644 meta/recipes-extended/sysklogd/files/0001-Drop-libcompat-to-simplify-build-deps-and-really-fix.patch
+ delete mode 100644 meta/recipes-extended/sysklogd/files/0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 3d22ad0..4c71be2 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -10,7 +10,7 @@ def autotools_dep_prepend(d):
-     deps += 'autoconf-native automake-native '
- 
-     if not pn in ['libtool', 'libtool-native'] and not pn.endswith("libtool-cross"):
--        deps += 'libtool-native '
-+        deps += 'libtool-native xz-native '
-         if not bb.data.inherits_class('native', d) \
-                         and not bb.data.inherits_class('nativesdk', d) \
-                         and not bb.data.inherits_class('cross', d) \
-diff --git a/meta/recipes-extended/man-db/man-db_2.9.0.bb b/meta/recipes-extended/man-db/man-db_2.9.0.bb
-index 5b017e8..3cbb0de 100644
---- a/meta/recipes-extended/man-db/man-db_2.9.0.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.9.0.bb
-@@ -10,7 +10,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
- SRC_URI[md5sum] = "897576a19ecbef376a916485608cd790"
- SRC_URI[sha256sum] = "5d4aacd9e8876d6a3203a889860c3524c293c38f04111a3350deab8a6cd3e261"
- 
--DEPENDS = "libpipeline gdbm groff-native base-passwd"
-+DEPENDS = "libpipeline gdbm groff-native base-passwd flex-native"
- RDEPENDS_${PN} += "base-passwd"
- 
- # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
-diff --git a/meta/recipes-graphics/xorg-app/xorg-app-common.inc b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-index 101b3df..2938da0 100644
---- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-+++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-@@ -3,7 +3,7 @@ HOMEPAGE = "http://www.x.org/"
- BUGTRACKER = "https://bugs.freedesktop.org"
- SECTION = "x11/apps"
- LICENSE = "MIT-X"
--DEPENDS = "util-macros-native virtual/libx11"
-+DEPENDS = "util-macros-native virtual/libx11 gettext-native"
- 
- # depends on virtual/libx11
- REQUIRED_DISTRO_FEATURES = "x11"
+diff --git a/meta/recipes-extended/sysklogd/files/0001-Drop-libcompat-to-simplify-build-deps-and-really-fix.patch b/meta/recipes-extended/sysklogd/files/0001-Drop-libcompat-to-simplify-build-deps-and-really-fix.patch
+new file mode 100644
+index 0000000..9ba7ecc
+--- /dev/null
++++ b/meta/recipes-extended/sysklogd/files/0001-Drop-libcompat-to-simplify-build-deps-and-really-fix.patch
+@@ -0,0 +1,127 @@
++From 84d70e63fc105e3713943ed8c0bdd4e31a698226 Mon Sep 17
++00:00:00 2001 From: Joachim Nilsson <troglobit@gmail.com> Date: Thu, 16 Jan
++2020 22:16:51 +0100 Subject: [PATCH] Drop libcompat to simplify build deps
++and really fix
++
++The original idea with libcompat was to keep as few objects as
++possible for linking with libsyslog.  That in turn to prevent
++a user of libsyslog from suddenly also getting strong binding
++to symbols like strlcpy() from libsyslog, rather than their C
++library of choice.
++
++However, this caused strlcpy.c to be built as both .o and .lo
++files, which in turn caused really bizarre build problems due
++to bad DAG dependency.
++
++This patch drops libcompat and instead marks all replacement APIs
++as weak symbols, which a C library can override.
++
++Signed-off-by: Joachim Nilsson <troglobit@gmail.com>
++
++Upstream-Status: Backport
++[https://github.com/troglobit/sysklogd/commit/84d70e63fc105e3713943ed8c0bdd4e31a698226]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ lib/pidfile.c   |  8 +++++++-
++ lib/utimensat.c | 10 ++++++++--
++ src/Makefile.am |  7 +------
++ 3 files changed, 16 insertions(+), 9 deletions(-)
++
++diff --git a/lib/pidfile.c b/lib/pidfile.c
++index 81f2315..25b1c04 100644
++--- a/lib/pidfile.c
+++++ b/lib/pidfile.c
++@@ -31,6 +31,9 @@
++  * POSSIBILITY OF SUCH DAMAGE.
++  */
++ 
+++#include <config.h>
+++#ifndef HAVE_PIDFILE
+++
++ #define _GNU_SOURCE		/* Needed with GLIBC to get asprintf() */
++ #include <sys/stat.h>		/* utimensat() */
++ #include <sys/time.h>		/* utimensat() on *BSD */
++@@ -54,7 +57,7 @@ const  char *__pidfile_path = RUNSTATEDIR;
++ const  char *__pidfile_name = NULL;
++ 
++ int
++-pidfile(const char *basename)
+++__pidfile(const char *basename)
++ {
++ 	int save_errno;
++ 	int atexit_already;
++@@ -127,6 +130,9 @@ pidfile(const char *basename)
++ 	return (0);
++ }
++ 
+++weak_alias(__pidfile, pidfile);
+++#endif /* HAVE_PIDFILE */
+++
++ static void
++ pidfile_cleanup(void)
++ {
++diff --git a/lib/utimensat.c b/lib/utimensat.c
++index edf7e10..b68ce0e 100644
++--- a/lib/utimensat.c
+++++ b/lib/utimensat.c
++@@ -15,7 +15,8 @@
++  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
++  */
++ 
++-#include "config.h"
+++#include <config.h>
+++#ifndef HAVE_UTIMENSAT
++ 
++ #include <errno.h>
++ #ifdef HAVE_FCNTL_H
++@@ -23,7 +24,8 @@
++ #endif
++ #include <sys/time.h>		/* lutimes(), utimes(), utimensat() */
++ 
++-int utimensat(int dirfd, const char *pathname, const struct timespec ts[2], int flags)
+++int
+++__utimensat(int dirfd, const char *pathname, const struct timespec ts[2], int flags)
++ {
++ 	int ret = -1;
++ 	struct timeval tv[2];
++@@ -45,3 +47,7 @@ int utimensat(int dirfd, const char *pathname, const struct timespec ts[2], int
++ 
++ 	return ret;
++ }
+++
+++weak_alias(__utimensat, utimensat);
+++
+++#endif /* HAVE_UTIMENSAT */
++diff --git a/src/Makefile.am b/src/Makefile.am
++index 6e2a51c..1db88d3 100644
++--- a/src/Makefile.am
+++++ b/src/Makefile.am
++@@ -19,7 +19,6 @@
++ bin_PROGRAMS          =
++ sbin_PROGRAMS         = syslogd
++ lib_LTLIBRARIES       = libsyslog.la
++-noinst_LTLIBRARIES    = libcompat.la
++ 
++ if ENABLE_KLOGD
++ sbin_PROGRAMS        += klogd
++@@ -48,10 +47,6 @@ logger_CPPFLAGS       = $(AM_CPPFLAGS) -D_XOPEN_SOURCE=600
++ logger_LDADD          = $(LIBS) $(LIBOBJS)
++ logger_LDADD         += libsyslog.la
++ 
++-# Convenience library for libsyslog instead of linking with $(LTLIBOBJS),
++-# which would pull in pidfile() and other (strong) symbols as well.
++-libcompat_la_SOURCES  = ../lib/strlcpy.c ../lib/strlcat.c
++-
++ pkgconfigdir          = $(libdir)/pkgconfig
++ pkgincludedir         = $(includedir)/syslog
++ pkgconfig_DATA        = libsyslog.pc
++@@ -59,4 +54,4 @@ pkginclude_HEADERS    = syslog.h
++ libsyslog_la_SOURCES  = syslog.c syslog.h compat.h
++ libsyslog_la_CPPFLAGS = $(AM_CPPFLAGS) -D_XOPEN_SOURCE=600
++ libsyslog_la_LDFLAGS  = $(AM_LDFLAGS) -version-info 0:0:0
++-libsyslog_la_LIBADD   = libcompat.la
+++libsyslog_la_LIBADD   = $(LTLIBOJBS)
++-- 
++2.7.4
++
+diff --git a/meta/recipes-extended/sysklogd/files/0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch b/meta/recipes-extended/sysklogd/files/0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch
+deleted file mode 100644
+index bf43fc6..0000000
+--- a/meta/recipes-extended/sysklogd/files/0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch
++++ /dev/null
+@@ -1,47 +0,0 @@
+-From 50c66de8a9b64d6fa71329ea7d4fe981f3b4ef23 Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Thu, 26 Dec 2019 10:03:35 +0800
+-Subject: [PATCH] Fix nasty parallel build problem reported by Gentoo and
+- Westermo
+-
+-Independently of each other both the Gentoo project and Westermo found
+-an issue with massively parallel builds on monster-core-machines.  At
+-Westermo there are 40 core Xeon monsters that stumble when building
+-sysklogd.
+-
+-The Gentoo bug report is here:
+-
+-    https://bugs.gentoo.org/701894
+-
+-The problem stems from strlcat.c and strlcpy.c being used for both
+-the libcompat convenience library built for libsyslog and als for
+-syslogd when the system does not have either of the APIs in libc,
+-i.e. most Linux systems with GLIBC or musl libc.
+-
+-I can either rewrite the Makefile.am files to handle dependencies
+-better, or we just disable parallel build like this patch. There's
+-too few source files to gain anything from parallel build anyway.
+-
+-Signed-off-by: Joachim Nilsson <troglobit@gmail.com>
+-
+-Upstream-Status: Backport [https://github.com/troglobit/sysklogd/commit/9cf1f97cef04fed81c2407f7207795d7592ccb96]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- Makefile.am | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index c4cc80f..d7a7dd5 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -46,3 +46,6 @@ release: distcheck
+- # Workaround for systemd unit file duing distcheck
+- DISTCHECK_CONFIGURE_FLAGS = --with-systemd=$$dc_install_base/$(systemd) --with-klogd
+- 
+-+# Disable parallel build in top Makefile, we might otherwise get a very
+-+# # bizarre build problem with strlcpy.o in libcompat and for syslogd.
+-+.NOTPARALLEL:
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/sysklogd/sysklogd.inc b/meta/recipes-extended/sysklogd/sysklogd.inc
+index 774d23b..8618c9f 100644
+--- a/meta/recipes-extended/sysklogd/sysklogd.inc
++++ b/meta/recipes-extended/sysklogd/sysklogd.inc
+@@ -16,7 +16,7 @@ inherit update-rc.d update-alternatives systemd autotools
+ SRC_URI = "git://github.com/troglobit/sysklogd.git;nobranch=1 \
+            file://0001-Remove-__BEGIN_DECLS-__END_DECLS.patch \
+            file://0002-include-sys-types.h-for-off_t.patch \
+-           file://0001-Fix-nasty-parallel-build-problem-reported-by-Gentoo-.patch \
++           file://0001-Drop-libcompat-to-simplify-build-deps-and-really-fix.patch \
+            file://sysklogd \
+            "
+ S = "${WORKDIR}/git"
 -- 
 2.7.4
 
