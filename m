@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BFDA7FBF4
+	by mail.openembedded.org (Postfix) with ESMTP id E72747FBF4
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jan 2020 17:14:40 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znjs4g6vz5d
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znjt07k7z3w
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jan 2020 18:14:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1579281281;
-	bh=85dTwuI3n8J+zuPIUiY0tLUHjz18PBJ+ctp66N8/yRM=;
+	s=default; t=1579281282;
+	bh=ID3jUDWmBqfiGR3GGO2/2dca/byibbqBSCcziQcgmN0=;
 	h=From:To:Subject:Date:From;
-	b=iB+hqlndoFjxfVZZTLnW4Y23D7i9rS2sHk0B+cFMNdzqUmdg+nVvbWso1nDwrMg76
-	U8pX8c1dSz5Qm/WvlCujw3+c8KDAVtxMHwKjgTHKEb6xdtBvlGrs78Vz9MRGWQtgyk
-	ZBV74ZzKIoHVlWAV7bVJRw+Bc5acqAhxUEkWV4u+1hNCBF3+fK5fkJxHkNbGj/Bz3W
-	ScsQKF5/N8M96tDb2MTLFVIkvohN2PAuS+gms2FqpLz1t2D76kyZVeuqOdEudI07w8
-	DtQmLePsxRpWGwlaIjx+qfQuh20QD+rIpvhchQiFW07moM4ienjPatO8xDouPaY/3U
-	o1GKW/2mo1XtKZ0m4Yh5379rSlkJ8r7FDXQjGzXU+f+77yvkPGg6gHqJTSYrpMD0sE
-	B/Ms53Yrr7DtPvRyrs5o7feO0Awdbh0u3jtz4JQciuv+7RT82vkhhSnC2MFR3Sdr0O
-	/Y3BZ7IhGpUoAApIuASyVAo1Sh2bKJKDzTxNKW0rTEzhzzr2pU2Giq15aSHAqimSBv
-	yz+FbIr6hbfG06PMclVXaz1Gpa5bjkdvYM5zThUcCpJDHfaD2Gc6qo0Agar/SBZ9Tn
-	uDWVOMPwWJvcqiOYnCqnrtYbJeOQrE0iHFlelKhRa0TvHssuO/8p3bwbMYrlnsAt4X
-	YXe3lYLY688C8ifP0jfMr1Do=
+	b=inGmgWUq2ZEafJCBUiH+fY2RzM1Zwpg43K25+jbITTPmJsEau4MstvGTAQK49jsJI
+	TYwhhiwgLuftJmTvRbFZNo7TxDzPIOqGHmYjwCqxJ9EeCal9ekpIG8WJYSokNyLetg
+	m/7vb3KQshRH+1JE2dKcHPD+3/SK79P3euXDpHdYpziPfakyKbFL/2Jp2dAlqR1dm8
+	GLgAnlQYIZuFlb4s0meo6d6/N9p9KU25eiSJNj41XUo8KhLESD1E6wXgGTLfq1Yyeh
+	cZkst/vv1wqF85uitEQbMET50ugjRghNS2iZhWTM31azIbUQUi2Kq76EkQhWCFER+o
+	KTSx5nos9/dIscRe47gUL8OIyi1C4/OEon0VvlMDlgXpVJgW8nrlXG4iaLDSCLGu/h
+	S8/eebJ69Y3P5MsEgPJLEjNdb+i9EcnkSAbi96J0az+GFjCtHFmvP0iGwHn5fzfDre
+	6uuBrYHJsQkFGH/i1G3QLrIWzuS2d4UfEMAWPjSilokhTbO+uIfMe8c1D0uCHeHgfp
+	c+jdq4FmUhOP5Qg95/r71dMOuu+zzOOnrPTQlYEIkJKZKlcn1HHXG+6PyKrGxG3mWU
+	H7Jt8g4GSsQVA1DpMtcFDKQqIIzbrTZZZzI+BJoRyaP6xELI40APqM0UDYIJqQS5mk
+	dnihQ5a97uXBl5mleFxC04zI=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2020 19:14:32 +0200
-Message-Id: <20200117171436.17131-12-bunk@stusta.de>
+Date: Fri, 17 Jan 2020 19:14:33 +0200
+Message-Id: <20200117171436.17131-13-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] go: fix CVE-2019-17596
+Subject: [warrior][PATCH] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,82 +40,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 17:14:40 -0000
+X-List-Received-Date: Fri, 17 Jan 2020 17:14:41 -0000
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Mattias Hansson <mattias.hansson@axis.com>
 
-https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73
+do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
+However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
+which sometimes causes a build error when building a recipe that adds
+groups.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+This issue only occurs when executing do_prepare_recipe_sysroot for a
+recipe that adds groups before finishing a task that depends on pseudo
+for a recipe that doesn't add groups.
+
+Signed-off-by: Mattias Hansson <mattihn@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-devtools/go/go-1.12.inc          |  1 +
- .../go/go-1.12/0010-fix-CVE-2019-17596.patch  | 42 +++++++++++++++++++
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+ meta/classes/base.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
-index ed14b175e6..6aecaad75d 100644
---- a/meta/recipes-devtools/go/go-1.12.inc
-+++ b/meta/recipes-devtools/go/go-1.12.inc
-@@ -17,6 +17,7 @@ SRC_URI += "\
-     file://0007-cmd-go-make-GOROOT-precious-by-default.patch \
-     file://0008-use-GOBUILDMODE-to-set-buildmode.patch \
-     file://0001-release-branch.go1.12-security-net-textproto-don-t-n.patch \
-+    file://0010-fix-CVE-2019-17596.patch \
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
- 
-diff --git a/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
-new file mode 100644
-index 0000000000..134cfab737
---- /dev/null
-+++ b/meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
-@@ -0,0 +1,42 @@
-+From f1783e1ce44a86c000a7c380a57a805c89c3efbe Mon Sep 17 00:00:00 2001
-+From: Katie Hockman <katie@golang.org>
-+Date: Mon, 14 Oct 2019 16:42:21 -0400
-+Subject: [PATCH] crypto/dsa: prevent bad public keys from causing panic
-+
-+dsa.Verify might currently use a nil s inverse in a
-+multiplication if the public key contains a non-prime Q,
-+causing a panic. Change this to check that the mod
-+inverse exists before using it.
-+
-+Fixes CVE-2019-17596
-+
-+Change-Id: I94d5f3cc38f1b5d52d38dcb1d253c71b7fd1cae7
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/572809
-+Reviewed-by: Filippo Valsorda <valsorda@google.com>
-+(cherry picked from commit 9119dfb0511326d4485b248b83d4fde19c95d0f7)
-+Reviewed-on: https://team-review.git.corp.google.com/c/golang/go-private/+/575232
-+
-+CVE: CVE-2019-17596
-+Upstream-Status: Backport [https://github.com/golang/go/commit/2017d88dbc096381d4f348d2fb08bfb3c2b7ed73]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ src/crypto/dsa/dsa.go | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/crypto/dsa/dsa.go b/src/crypto/dsa/dsa.go
-+index 575314b..2fc4f1f 100644
-+--- a/src/crypto/dsa/dsa.go
-++++ b/src/crypto/dsa/dsa.go
-+@@ -279,6 +279,9 @@ func Verify(pub *PublicKey, hash []byte, r, s *big.Int) bool {
-+ 	}
-+ 
-+ 	w := new(big.Int).ModInverse(s, pub.Q)
-++	if w == nil {
-++		return false
-++	}
-+ 
-+ 	n := pub.Q.BitLen()
-+ 	if n&7 != 0 {
-+-- 
-+2.23.0
-+
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 1636c6ef93..d6f566a413 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -476,6 +476,7 @@ python () {
+     # If we're building a target package we need to use fakeroot (pseudo)
+     # in order to capture permissions, owners, groups and special files
+     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
++        d.appendVarFlag('do_prepare_recipe_sysroot', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
+         d.setVarFlag('do_unpack', 'umask', '022')
+         d.setVarFlag('do_configure', 'umask', '022')
+         d.setVarFlag('do_compile', 'umask', '022')
 -- 
 2.17.1
 
