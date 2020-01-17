@@ -1,33 +1,18 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 204E17FA15
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 17:14:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znjv1JsQz5d
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 18:14:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1579281283;
-	bh=rBUiNuraM9otQUuxLL0Bnni3KvTPGdxktJPhmIOh1YA=;
-	h=From:To:Subject:Date:From;
-	b=E6daCnUtzk7kLAqGv2TgdfGK9PLceU6Wyb3YYaNMfWK0qufJzY+2kVTZZxmA12CCJ
-	5N2+uIat3UVCGmE7lfHukYYMrVeVc9MyB1fUwbt5YCBTYWrnAEbm1J5U4OO30GLW2B
-	FjVw9GMDv7gB1ThOaZngwqHt3EWMpYog7BUrqYioRxu39JkTQJxPwRZPPjtbiZaSPA
-	a1HrWEi3k3KVArdXoOMc2l2UIEb4+YXTSy12tJ2ZjgsgdItqB4zTOuAzG9WjGtrTO/
-	+vEnTUx3K7/mfzPHwWStPB+F0yGRPgy8XmHwq7SJBSyMecamZqDrCCKNGEMChaBR+U
-	xzKoTZpv9jbA6RHDrLibqHIxBlbJHRdShJS2yNjMvyF4pn4XQxwloi0iV1VAKE1QZm
-	3Az1DOSe/JtKHer1rmTs5w0lAZ9eKLQKW/4Q1r9Tcb5Pbvw4X4gLun5R666/9jeYEr
-	0Fo+LqEcsdYBr3KUWtAQ7WUkBOapzQPwyBUPEKUxjEPTIpyzBCklaYjUj/PaPdBwB6
-	+7Fkh/lPPgmZ1lW7SpjavgJ3vc+DRQJORaN7czJm3t+GDZV95UlFkv+Ah9NgvN9GNl
-	GnZZJPEBE8s0N9Gh3SznwQGSKmxtCYYrzqwjgoGaFmnxJRUBgfhlNllnJ2k/kGODca
-	/tWhoPmhXMH41nyDZlrMRHdU=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2020 19:14:36 +0200
-Message-Id: <20200117171436.17131-16-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] iputils: Whitelist CVE-2000-1213 CVE-2000-1214
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FEF77F6D9;
+	Fri, 17 Jan 2020 17:34:50 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Fri, 17 Jan 2020 17:34:51 -0000
+Message-ID: <20200117173451.2274.61534@do>
+References: <20200117170423.2990-1-bunk@stusta.de>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200117170423.2990-1-bunk@stusta.de>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uOiBXaGl0ZWxpc3QgQ1ZFLTIwMTctMTc1MjIgQ1ZFLTIwMTctMTgyMDcgQ1ZFLTIwMTUtNTY1MiAocmV2NCk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,31 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 17:14:42 -0000
+X-List-Received-Date: Fri, 17 Jan 2020 17:34:50 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+== Series Details ==
+
+Series: python: Whitelist CVE-2017-17522 CVE-2017-18207 CVE-2015-5652 (rev4)
+Revision: 4
+URL   : https://patchwork.openembedded.org/series/21468/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  warrior (currently at 279c4da2e5)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-extended/iputils/iputils_s20180629.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-extended/iputils/iputils_s20180629.bb b/meta/recipes-extended/iputils/iputils_s20180629.bb
-index eff44be1bd..5d11ced96d 100644
---- a/meta/recipes-extended/iputils/iputils_s20180629.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20180629.bb
-@@ -21,6 +21,10 @@ S = "${WORKDIR}/git"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
- 
-+# Fixed in 2000-10-10, but the versioning of iputils
-+# breaks the version order.
-+CVE_CHECK_WHITELIST += "CVE-2000-1213 CVE-2000-1214"
-+
- EXTRA_OEMAKE = "-e MAKEFLAGS="
- 
- PACKAGECONFIG ??= ""
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
