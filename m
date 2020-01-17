@@ -1,60 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CD4BA7FBEB
+Return-Path: <maxim.uvarov@linaro.org>
+Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
+	[209.85.219.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A50ED7FC1C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 18:58:07 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id k3so12103273pgc.3
+	Fri, 17 Jan 2020 21:26:51 +0000 (UTC)
+Received: by mail-yb1-f194.google.com with SMTP id k128so6791203ybc.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 10:58:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=PNfFxg7x6VJjFnwsD4dd4UZc3vo+VFQWndCZ49h2Mg8=;
-	b=Fr62D1y5gZUj7wRqakbyHC/zjODC4GwdN+49bj9lXGZifxj9x+UAFfsEFm/B6uRnKU
-	mSseCFn77ngBaGJSQKDdZye9KI2xMyVV1CtXtiwinkCMnByGWW1NoQYuHQbrjz2ri6dw
-	K2l3i+Oh1t3LCFHByYl2Jvr0/50WccNoJezBuPrnxmG4SaRij6dYXHGxhU6CAIR/Q0Rm
-	F34IPTom9gM35GsxviM25wgnXQuf4QZW1Cs4ytQeBKaKtkYFn6lDc5kB2ZTC5yUobeFm
-	V4IeG3J4zviJW6i2FbnCDIonz1oE0POwYe3dbinFEpkOYp4ncyO5dnaHIQjJjR78rcj8
-	D7DA==
+	Fri, 17 Jan 2020 13:26:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=6VU+zddjSDeZ8YOflwj7x9LnzxpxiRTp1TOllaSdLfo=;
+	b=lsJet6Ij1sX88/oF+FgZgqpOA9X/m6BQkJvYSMyS2A1SuhpoBiKpjKOPnz6zLF4XuD
+	2yMhb0xYnLh82TkS4oeZIeGPeD46gARC2T++7aEhYYxLRRih4SmB66LLexv9xAzXhDkL
+	Xq6IfU0Int0JPqaBuEiI4xyrTSrs41BUHYuxkeHFUQCz1DUfb9RBsni8N40dDFa6gQUu
+	uKVTI910ffCK6EaxHB3FkhZPHF5g/1buBRKFW/1reOMCp4cCs/EFcX8U1/jmjf+r70vW
+	/7yjwnLBG5fesOfE/K9GTBox+VuJuKp2i7SBQxyMDo7zrCw+jjV4+GVSaBSfvspRWlka
+	MnuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=PNfFxg7x6VJjFnwsD4dd4UZc3vo+VFQWndCZ49h2Mg8=;
-	b=D3W/LMeQKWA+G0gI0hvyfkrt8t7M1XMCBQpmziZRLF8pau/nzgOykk4Md1fi/lCXB8
-	UXvGDAtMPMeOgOY7NThgSYf4vph/M7xnPkZDw0I2FoMt0WDu4TdMaQ2ceCDjn3e9eAVY
-	QxvRIZo7IjSZUxkuWCptR9ysoaKdv+isZmUR6WokjXq2Qum6+oy+cqiBVPr5vNdH9wHD
-	t6LAS3clQfKO3gA2EhAyxcgvRwsYSNhZKhkIxiouTmed1T9yQOqcoPVcOd3Fzdr6J3+p
-	+4SoWiScjkG2iu1Fhlp3kINEjF0L5bFWUQHC1P4ftMu+puSqcOstE+V60Z8D/K/WgaFm
-	Qepw==
-X-Gm-Message-State: APjAAAX6bqpn6eryDfTNbS0c4veN5cZnQ9s6j/WxnKJSe7ZZOb6jWkhi
-	yUAd5W7PfP+Q3esQr5MdaZw=
-X-Google-Smtp-Source: APXvYqzxwRzJDS6/Tb668flOA7UqEmfXy5r6NZCILW9lOkBNsCWcEBS/LrWYT79u5FHpuZVduUD7ag==
-X-Received: by 2002:a63:2e07:: with SMTP id u7mr46465027pgu.295.1579287488750; 
-	Fri, 17 Jan 2020 10:58:08 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:6d1f:200c:159c:4a81?
-	([2601:646:9200:4e0:6d1f:200c:159c:4a81])
-	by smtp.gmail.com with ESMTPSA id j8sm77019pjb.4.2020.01.17.10.58.07
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 17 Jan 2020 10:58:08 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <886f1102228414559c078203bcde660cfc807d2f.camel@linuxfoundation.org>
-	<f0bf0f91-b6a0-f22b-37a4-8d72daf8a2cd@gmail.com>
-	<3e7abb573ad9f471089adc7e78dc94c0f640220a.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <b3218744-4246-1301-0ea8-0281855f5dbc@gmail.com>
-Date: Fri, 17 Jan 2020 10:58:07 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.4.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=6VU+zddjSDeZ8YOflwj7x9LnzxpxiRTp1TOllaSdLfo=;
+	b=gDBLMumVb3Z5Cngcws34uq/XXndovjQTOAymUb/j7W4QRFzSWhTEqPeGy0wxyVYyqw
+	vM6A12fQM5wviFjFGhHRaa8JvtOldPCUDCNEHqmrhRk/QuAxGGN4CdxrZOzMYmgT/deu
+	KTIGOXp9QWwZfvNXnJgONQqLJkEFO5IHh21Kx37OUlbiqqe4gaLi32ktthPA6OAm2+pQ
+	EKLhjgjDNhJ9YNupQaT07DhPXeIRrQOrqJ3zQZjEMJ1Rj5MHYIo1a7QqFnubLo+79YGd
+	55KR6VM6Mh2P1h1XslcZ1LFFcuwM5EisDM7hvvfRbIkUxlzmoa15OLTBQczz+yQkxen6
+	lVRw==
+X-Gm-Message-State: APjAAAVCcQFeVq0d1kDBVykL2lU+U1B+ezTENEcuwKEJospdkHcP5rOP
+	QlXATZkFUaLjK54tau8ztF0dlMOZ9wq90SuF7zIDJA==
+X-Google-Smtp-Source: APXvYqzQGzdNTA8v1jQUY/XqYl/aus4mFwhVzbFv81625boq8hmS5WIDK+JII+7RezHj90rlympjzO98AwGli/vWNgI=
+X-Received: by 2002:a25:3481:: with SMTP id b123mr33562227yba.16.1579296412475;
+	Fri, 17 Jan 2020 13:26:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <3e7abb573ad9f471089adc7e78dc94c0f640220a.camel@linuxfoundation.org>
-Cc: "Orling, Timothy T" <timothy.t.orling@intel.com>
-Subject: Re: Building older releases on modern distros (and vice versa)
+References: <20200113130827.7409-1-maxim.uvarov@linaro.org>
+	<CAM9ZRVt00houpaZaKirGYgu1w_WRm1yqoio_G-wAgdyyGwuAAg@mail.gmail.com>
+	<CAD8XO3a66v27ohEbrjEC=+XanfD1Fo_zXXo9TaFYSr+C+9+jDQ@mail.gmail.com>
+	<CAM9ZRVut=Wu37sJ5A8fi3be-Bm3vWYepK4Sp2x=r7Et0xoy3WA@mail.gmail.com>
+	<CAD8XO3bz8S2S5LzNpJgNuOrQB__LqdWNt2-k0rn8+sdxG3UcLA@mail.gmail.com>
+	<CAM9ZRVvqkd_eqnkuCsqRGwQceoiwN-XO_xWLZaN4KwTQfeNnRA@mail.gmail.com>
+	<CAD8XO3aeDxrACL9Tf1ng4cR7AiUCQuqz+fjhyPKdonqZQq8Gvg@mail.gmail.com>
+	<CAM9ZRVsqxRzsndf3MDkGLHnzxDRv3aF+P8McMq96W11rDAF5_g@mail.gmail.com>
+	<CAM9ZRVs6axWKQENqLCA2Pr=nusuyia8jNEic+HPLN5zKyhR1OQ@mail.gmail.com>
+	<CAD8XO3ay-B71BNHQLtkj7WhZDe5s6vhpV79aZfjmsRYGJZZNxA@mail.gmail.com>
+In-Reply-To: <CAD8XO3ay-B71BNHQLtkj7WhZDe5s6vhpV79aZfjmsRYGJZZNxA@mail.gmail.com>
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+Date: Sat, 18 Jan 2020 00:26:41 +0300
+Message-ID: <CAD8XO3ZfZbFUZKbwD7-gpUqCEX_Aw=4Y6sQbHWK__Gmau6DzOA@mail.gmail.com>
+To: Paul Barker <pbarker@konsulko.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] wic: fix images build in parallel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,77 +62,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 18:58:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 Jan 2020 21:26:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 1/17/20 10:57 AM, Richard Purdie wrote:
-> On Fri, 2020-01-17 at 10:39 -0800, Khem Raj wrote:
->> On 1/17/20 9:59 AM, Richard Purdie wrote:
->>> We've been discussing how we could:
->>>
->>> a) build old releases on newer distros
->>>
->>> as well as
->>>
->>> b) how we could build new releases on old distros.
->>>
->>> Our proposed answer has been "buildtools-extended-tarball" which
->>> includes nativesdk-gcc.
->>>
->>> We need b) so we can install this on Centos7 and stop having to
->>> work
->>> around its really old compiler. In general this should improve our
->>> ability to support stable branches in general.
->>>
->>> I wanted to stress test a) a bit, partly to prove that b) could
->>> work
->>> longer term.
->>>
->>> I did this by attempting to build buildtools-extended-tarball on
->>> pyro
->>> which has a gcc v6 and then using that to build morty on an Ubuntu
->>> 18.04 system.
->>>
->>> It wasn't plain sailing, I had to:
->>>
->>> * Upgrade the uninative in pyro
->>> * Switch to xz uninative to allow latest uninative to work
->>> * Patch binutils to fix an ld.so.conf relocation issue
->>> * Add an ld.so.conf to buildtools
->>> * Add the buildtools-extended-tarall recipe
->>>
->>> Patches are in:
->>>
->>> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rpurdie/pyro
->>>
->>> (some need forward porting to master)
->>>
->>> Having got the output from the pyro build, in the morty build I
->>> added
->>> buildtools tarball to PATH before running the build. I had to
->>> disable
->>> uninative since it was going to get in the way and conflict:
->>>
->>
->> do we intend to generate extended buildtools tarballs for all
->> releases
->> if it works out well ?
-> 
-> Going forward there will be one generated as part of the release
-> process for each release, they're part of master builds already.
-> 
-> We only really need a couple of older older ones with older gccs to be
-> able to support a range of different older releases but we should look
-> to generate those.
-> 
+works.  v3 is on the way..
 
-Perhaps it will be good to have one with gcc 4.8 ( pre c++11 days )
-
-> Cheers,
-> 
-> Richard
-> 
-
+On Fri, 17 Jan 2020 at 15:39, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+>
+> On Fri, 17 Jan 2020 at 15:27, Paul Barker <pbarker@konsulko.com> wrote:
+> >
+> > On Fri, 17 Jan 2020 at 12:17, Paul Barker <pbarker@konsulko.com> wrote:
+> > >
+> > > On Fri, 17 Jan 2020 at 11:59, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+> > > >
+> > > > On Fri, 17 Jan 2020 at 13:18, Paul Barker <pbarker@konsulko.com> wrote:
+> > > > >
+> > > > > On Mon, 13 Jan 2020 at 14:12, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+> > > > > >
+> > > > > > On Mon, 13 Jan 2020 at 17:00, Paul Barker <pbarker@konsulko.com> wrote:
+> > > > > > >
+> > > > > > > On Mon, 13 Jan 2020 at 13:57, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+> > > > > > > >
+> > > > > > > > On Mon, 13 Jan 2020 at 16:31, Paul Barker <pbarker@konsulko.com> wrote:
+> > > > > > > > >
+> > > > > > > > > On Mon, 13 Jan 2020 at 13:08, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
+> > > > > > > > > >
+> > > > > > > > > > OE wic plugins create temporary file with the index of the line
+> > > > > > > > > > tmp file name. This causes race in case several builds run in time.
+> > > > > > > > > > Add more entropy as timestamp to remove this race.
+> > > > > > > > >
+> > > > > > > > > How would two wic images to be built in parallel with the same work
+> > > > > > > > > directory? To my understanding an image recipe only supports building
+> > > > > > > > > a single wic image.
+> > > > > > > > >
+> > > > > > > > > Thanks,
+> > > > > > > > > Paul
+> > > > > > > >
+> > > > > > > > bitbake image1 image2 image3
+> > > > > > > > all images build .wics and use about the same files, like firmware.
+> > > > > > > > Issue is similar to that:
+> > > > > > > > https://www.yoctoproject.org/pipermail/yocto/2018-June/041373.html
+> > > > > > >
+> > > > > > > Each image has its own work directory though.
+> > > > > > >
+> > > > > > > I'll take a look in more detail later today or tomorrow, if wic is
+> > > > > > > writing temporary files outside of the work directory then that's a
+> > > > > > > bug and should be fixed.
+> > > > > >
+> > > > > > Thanks. I saw bug in rawcopy plugin. All other places were patched due
+> > > > > > to the same code.  I guess then for rawcopy temp files are in
+> > > > > > DEST_IMAGE_DIR (which is common) instead of WORKDIR.
+> > > > >
+> > > > > I can't see how these files can possibly collide across parallel image
+> > > > > builds. In the lines you changed in your patch, cr_workdir passed in
+> > > > > as an argument set to imager.workdir (in
+> > > > > scripts/lib/wic/plugins/imager/direct.py) which is a temporary
+> > > > > directory created under options.outdir. image_types_wic.bbclass passes
+> > > > > the -o option to wic to set the outdir to something under ${WORKDIR}.
+> > > > > And different images have different WORKDIR paths. So things should be
+> > > > > safe.
+> > > > >
+> > > > > Which branch & version of poky or oe-core are you using?
+> > > > >
+> > > >
+> > > > zeus
+> > > >
+> > > > > DEST_IMAGE_DIR is not defined in openembedded-core. Are you sure
+> > > > > that's the right variable name?
+> > > > >
+> > > >
+> > > > DEPLOY_DIR_IMAGE
+> > > >
+> > > > > Could you provide full bitbake output showing the exact error message
+> > > > > when this collision happens?
+> > > >
+> > > > See traceback here:
+> > > > https://ci.linaro.org/job/ledge-oe/357/DISTRO=rpb,MACHINE=ledge-stm32mp157c-dk2,label=docker-stretch-amd64/console
+> > >
+> > > I think I'm starting to understand now. Is this the wks file?
+> > > https://github.com/Linaro/meta-ledge/blob/zeus/meta-ledge-bsp/wic/ledge-stm32mp157c-dk2-optee.wks.in
+> >
+> > Got it. Nasty little bug there!
+> >
+> > In the rawcopy source plugin, dst is set as follows:
+> >
+> >     dst = os.path.join(cr_workdir, "%s.%s" % (source_params['file'],
+> > part.lineno))
+> >
+> > If source_params['file'] is an absolute path (as it is in the wks file
+> > above), the cr_workdir prefix is not applied by os.path.join(). So
+> > instead it writes to a ".1" file next to the original image - this is
+> > outside the WORKDIR and at risk of collision.
+> >
+> > The solution is to fix dst above, maybe use
+> > os.path.basename(source_params['file']). Could you give that a try or
+> > do you want me to propose a patch?
+> >
+> Nice!
+> I can test it today. Compilation will take some time...
+>
+> Maxim.
+>
+> > Thanks,
+> > Paul
 
