@@ -1,47 +1,46 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com
-	[209.85.217.42])
-	by mail.openembedded.org (Postfix) with ESMTP id D26E37E467
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com
+	[209.85.222.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 17BC77E467
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 10:35:23 +0000 (UTC)
-Received: by mail-vs1-f42.google.com with SMTP id x123so14563232vsc.2
+	Fri, 17 Jan 2020 10:37:36 +0000 (UTC)
+Received: by mail-ua1-f49.google.com with SMTP id 59so8745017uap.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 02:35:24 -0800 (PST)
+	Fri, 17 Jan 2020 02:37:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ekv72qr7nGI4tJHcIHSljI5cJ/b93Ub7qTjfaFfrcqA=;
-	b=OQ/ysTpIjX0L5FhEPlGtV7tGTfwP1/6kIrOJC0eLmqcNnUAwN+dS9K/RWdEoNYkw3M
-	QGvwO8lQFf97m1a8+yCUqOfpo8/Ro7Eu1eF6k2Eds7OD6iSOcP1C3TtH+wrQQ9QJ9Peg
-	Y4IGM1GeTcvVRDRkRuaOGC1n+ZHKE5CxhryyO2W1CFpRgRNxSWNCbCOzSgiXDF34d2W9
-	z8QzoFt3B20V8LjS8mqXS81TsV+HzTELczZ5wRwIznYcTXyeEftNVP2Hy9IwSxQAU7Dv
-	QIssN04H9w8g5Cw0DgYviAJp2Q9cJorsUDSM3CY5v/PPWlqMEG0R05vrBYDE2T5jmdte
-	A01w==
+	:cc; bh=UFGtUO9OsWA7m74AdjScrO8vVZE2J2G+4c0cYvlz4j4=;
+	b=SNoByQDE74ZTutXUjxOL1Y10wEc7mTxTupHr3HUOCuInayEaUJF9TuIpxBmAA5pl2M
+	pNzdoKQKTG9rrnNBecPxF8sTTniXvM/+KieBYNelH5zRd0ZyewAm8ksRm2S26Vebasd0
+	7x60UIO6KL+MLisg7N948j+cgFU9blb0y9nnW2vcVqIqZBfmI4IhtIhVsJVW80b6BBhU
+	2sPOgrer/IJSvv5h92AdmtaSGiXjuUF4cFGjAvnsVMLgokNhOBPexAO2HuJ7DdlyJIRe
+	wlV/LDe5ONttHaoCGCTB82jFKTbRrof7SBgLLyMHhLKmuQmr19l3z40iFHpJ80WE+EEn
+	/INA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Ekv72qr7nGI4tJHcIHSljI5cJ/b93Ub7qTjfaFfrcqA=;
-	b=R2q3Ayzfk7KI7NzYsuYPcreVAnbxd+6sUIKRedl/W4tmkdxNP7yJ6yiSK54tBPtCOq
-	IQ+jjtbS8fDK6iHLs6jZTFE9ErLwDmFGNofFRSQ8fVRcB+zXKEr2wOzttYaLFFSBvwPr
-	zzoVhABZtJdCuW/x2FGZ15P/sM6loeee43btTAa5fVajFBRd4n3flZNibrSxA9m9ajED
-	zi9enup7w5dYVApc7lw0aC7sHkhrPSZNVfIw68lCHSLzGVfkey4YeNmwKpCnxt0YolAT
-	lDD2hL70O7hZ3AZhU71iHz4RC7h9CWRxetyraSvUVB7w17nn/jivh8DKa4b7PJenauuE
-	BSdQ==
-X-Gm-Message-State: APjAAAUKf5lhzztTpLDlBADkj4hbuJebdsHywcNAXPHxETxcno3vHznP
-	l1Jq3AAGhh0kX3o7/bCQGij0r+27hewG6Xvt43g=
-X-Google-Smtp-Source: APXvYqzLwlhmEbI0+MZSuJSGQSmJUy7ZF0X2696WP62/UCPkfzZv0IefvXxR9iXdyLWFlEDM6WJtI+OeOksr5zIYbe4=
-X-Received: by 2002:a05:6102:405:: with SMTP id
-	d5mr4314278vsq.94.1579257324475; 
-	Fri, 17 Jan 2020 02:35:24 -0800 (PST)
+	bh=UFGtUO9OsWA7m74AdjScrO8vVZE2J2G+4c0cYvlz4j4=;
+	b=LQP9JGa08aoxJnCbD7XiYvtP5mI13JecnjGBlbUx2LnTMUGrhJcusX3Pvyyfqcz46q
+	30a8F0N0TnGMH3N+YR6sIjOU5zIFfoW9+af1VC0npaKos6AR9PwK8H6DqAnd0agSQDqd
+	4UU/jlUUYERzwUPlB9Smu9+uJRy8rA0WSnnxvR5q4l8db0Wd97Xl8AK6KUxqj3Tw+9/h
+	KFQZ1m3BQwzvOWA+d+FSMG5pAfRmgnENPI7uwBtrhoPK0QclgtDy49+r+VOV5G3V8mkv
+	n6VDLA1yQPFG9YK8Ee59hcAQQ2uRl1QGU/NAejWA4qwFGYq0xi23cYcPV43FYQqzdBJQ
+	VrTQ==
+X-Gm-Message-State: APjAAAVFKcPGok59E0s0psYtytyyjJlBUpjV0+qMEB9lLzbf3Lx+kyp1
+	ryC/OXDE7SoWy3mWHK669GI39ZFBr+I+xzmErtsDTg==
+X-Google-Smtp-Source: APXvYqxEZhVNt8HBC0c6+y9XeDID/pO4PUy2PdyM8O/VYHHqIPo0x98Y3+5gf0NC/tz5yYD9W6ibFhj9j9COSwNf4wc=
+X-Received: by 2002:ab0:2006:: with SMTP id v6mr22080658uak.22.1579257457023; 
+	Fri, 17 Jan 2020 02:37:37 -0800 (PST)
 MIME-Version: 1.0
-References: <CAE2LOAym2eC+yJ9pFmGUGDaC9LjjO=RKr_TA_ON+m6GvRtW3YA@mail.gmail.com>
-In-Reply-To: <CAE2LOAym2eC+yJ9pFmGUGDaC9LjjO=RKr_TA_ON+m6GvRtW3YA@mail.gmail.com>
+References: <1579244354-13596-1-git-send-email-sumit.garg@linaro.org>
+In-Reply-To: <1579244354-13596-1-git-send-email-sumit.garg@linaro.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 17 Jan 2020 11:35:13 +0100
-Message-ID: <CANNYZj_oWBNs853PyxD+Uhy8KyL9c-bm9a7LQh=fXNATd47nWA@mail.gmail.com>
-To: Vladimir Molokov <vladimir.molokov@gmail.com>
+Date: Fri, 17 Jan 2020 11:37:26 +0100
+Message-ID: <CANNYZj-QgS9n7sNS1W0i843DqFyM6imwmZvnvQ2D=S+XAHk0Ew@mail.gmail.com>
+To: Sumit Garg <sumit.garg@linaro.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: attr dependency on linux-yocto
+Subject: Re: [PATCH] core: recipes: fix some native tools dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,86 +53,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 10:35:24 -0000
-Content-Type: multipart/alternative; boundary="000000000000d598a3059c537fbc"
+X-List-Received-Date: Fri, 17 Jan 2020 10:37:36 -0000
+Content-Type: multipart/alternative; boundary="000000000000bc1ff1059c5387dc"
 
---000000000000d598a3059c537fbc
+--000000000000bc1ff1059c5387dc
 Content-Type: text/plain; charset="UTF-8"
 
-Those are indirect dependencies; this means you can't install all of the
-packages coming from the attr recipes without also installing packages from
-linux-libc-headers and linux-yocto.
+On Fri, 17 Jan 2020 at 07:59, Sumit Garg <sumit.garg@linaro.org> wrote:
 
-Alex
-
-On Fri, 17 Jan 2020 at 00:22, Vladimir Molokov <vladimir.molokov@gmail.com>
-wrote:
-
-> Hi,
 >
-> Question about attr. I'm not familiar with it.
->
-> On a clean poky is it normal(not a bug?) to have deps such as
->
-> "attr.do_build" -> "linux-libc-headers.do_package_write_rpm"
-> "attr.do_build" -> "linux-yocto.do_deploy"
-> "attr.do_build" -> "linux-yocto.do_package_write_rpm"
->
-> How they are appear? I didn't find anything in attr which could be the
-> cause.
-> It's just a clean poky from a repo, after . oe-init-build-env and
-> bitbake -g attr.
-> Appreciate any hints.
->
-> BR,
-> Vladimir.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+> +++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+> @@ -3,7 +3,7 @@ HOMEPAGE = "http://www.x.org/"
+>  BUGTRACKER = "https://bugs.freedesktop.org"
+>  SECTION = "x11/apps"
+>  LICENSE = "MIT-X"
+> -DEPENDS = "util-macros-native virtual/libx11"
+> +DEPENDS = "util-macros-native virtual/libx11 gettext-native"
 >
 
---000000000000d598a3059c537fbc
+Would 'inherit gettext' do the trick here? Depending on full gettext is
+undesired as it is slow to build; we ship a minimal gettext to mitigate
+that.
+
+--000000000000bc1ff1059c5387dc
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Those are indirect dependencies; this means you can&#=
-39;t install all of the packages coming from the attr recipes without also =
-installing packages from linux-libc-headers and linux-yocto.</div><div><br>=
-</div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"l=
-tr" class=3D"gmail_attr">On Fri, 17 Jan 2020 at 00:22, Vladimir Molokov &lt=
-;<a href=3D"mailto:vladimir.molokov@gmail.com">vladimir.molokov@gmail.com</=
-a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0p=
-x 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Hi=
-,<br>
-<br>
-Question about attr. I&#39;m not familiar with it.<br>
-<br>
-On a clean poky is it normal(not a bug?) to have deps such as<br>
-<br>
-&quot;attr.do_build&quot; -&gt; &quot;linux-libc-headers.do_package_write_r=
-pm&quot;<br>
-&quot;attr.do_build&quot; -&gt; &quot;linux-yocto.do_deploy&quot;<br>
-&quot;attr.do_build&quot; -&gt; &quot;linux-yocto.do_package_write_rpm&quot=
-;<br>
-<br>
-How they are appear? I didn&#39;t find anything in attr which could be the =
-cause.<br>
-It&#39;s just a clean poky from a repo, after . oe-init-build-env and<br>
-bitbake -g attr.<br>
-Appreciate any hints.<br>
-<br>
-BR,<br>
-Vladimir.<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 17 Jan 2020 at 07:59, Sumit Garg =
+&lt;<a href=3D"mailto:sumit.garg@linaro.org">sumit.garg@linaro.org</a>&gt; =
+wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex"><br>
+--- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc<br>
++++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc<br>
+@@ -3,7 +3,7 @@ HOMEPAGE =3D &quot;<a href=3D"http://www.x.org/" rel=3D"nor=
+eferrer" target=3D"_blank">http://www.x.org/</a>&quot;<br>
+=C2=A0BUGTRACKER =3D &quot;<a href=3D"https://bugs.freedesktop.org" rel=3D"=
+noreferrer" target=3D"_blank">https://bugs.freedesktop.org</a>&quot;<br>
+=C2=A0SECTION =3D &quot;x11/apps&quot;<br>
+=C2=A0LICENSE =3D &quot;MIT-X&quot;<br>
+-DEPENDS =3D &quot;util-macros-native virtual/libx11&quot;<br>
++DEPENDS =3D &quot;util-macros-native virtual/libx11 gettext-native&quot;<b=
+r></blockquote><div><br></div><div>Would &#39;inherit gettext&#39; do the t=
+rick here? Depending on full gettext is undesired as it is slow to build; w=
+e ship a minimal gettext to mitigate that.<br></div></div></div>
 
---000000000000d598a3059c537fbc--
+--000000000000bc1ff1059c5387dc--
