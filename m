@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B49177FBDD
+	by mail.openembedded.org (Postfix) with ESMTP id 204E17FA15
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 17:14:41 +0000 (UTC)
+	Fri, 17 Jan 2020 17:14:42 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znjt5XFVz3w
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znjv1JsQz5d
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 18:14:42 +0100 (CET)
+	Fri, 17 Jan 2020 18:14:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1579281282;
-	bh=0Yqc5Smfw8Vn7dxEkhrqTrhmPPCyiORYHINmLUVYrfU=;
+	s=default; t=1579281283;
+	bh=rBUiNuraM9otQUuxLL0Bnni3KvTPGdxktJPhmIOh1YA=;
 	h=From:To:Subject:Date:From;
-	b=brtgqjkIQ2LNVCHGtBSNx7HS++rgdSfVJXSt7RqiacrVm+oOSyZ79VJzKxdWBNABw
-	7rpQsh9MGYJAx9+0bu0Nh086lSiq0eLqFOYWy4St/drxErSGjR4YJJ4+HuAnv2hSdY
-	Vfbz7CmRgnoDJaFIjEJU3QXvpSpRkM2oS8KnUK9PzxonzFtFOvwHXukwi3ek7uVU7y
-	Jsi/3141Un5NmPaDKT5FV2hNlEiprVg9+r0U4vcSwB92Ioah4Zc6aXQtJMzM1FUE5s
-	7TiuTg2yx74IPFZRVKvGP4rzmajfQKm0+0YOXKKinWOTHTk3x/NWfM4ggIH8yte9S5
-	cJMg6z/jQLfR9g/gOrTAwMfjAWUBO+/2lP9Kot6N+9qXARUijBA9bWDCDwUBmHks4y
-	ghml3MgFcM1mXl2jam9IIOlCXPxrvlVUT6MuVMgu1vbO/LPzVvOgVB3Pa1TpBXro7v
-	DpKYBNkAlhYLFCWL+xJ2NfQf95YBxXF2Qd78ERYOgT8oOgwuvosGRyJxczPlKbBGYp
-	zciLmR+9dLiee9qzpwjRIajlio+fQs6XC5KxdYrAbF4LapoPCOFpTsPuPr/TF6WlVs
-	LFwAnv8cXkJgPWrkreGBA2TI8609mlYMd8MhG4syM1bcaYs7p8ZjnontTbt3fostmD
-	IFVL56ny4CVbD53HPoq6WmWI=
+	b=E6daCnUtzk7kLAqGv2TgdfGK9PLceU6Wyb3YYaNMfWK0qufJzY+2kVTZZxmA12CCJ
+	5N2+uIat3UVCGmE7lfHukYYMrVeVc9MyB1fUwbt5YCBTYWrnAEbm1J5U4OO30GLW2B
+	FjVw9GMDv7gB1ThOaZngwqHt3EWMpYog7BUrqYioRxu39JkTQJxPwRZPPjtbiZaSPA
+	a1HrWEi3k3KVArdXoOMc2l2UIEb4+YXTSy12tJ2ZjgsgdItqB4zTOuAzG9WjGtrTO/
+	+vEnTUx3K7/mfzPHwWStPB+F0yGRPgy8XmHwq7SJBSyMecamZqDrCCKNGEMChaBR+U
+	xzKoTZpv9jbA6RHDrLibqHIxBlbJHRdShJS2yNjMvyF4pn4XQxwloi0iV1VAKE1QZm
+	3Az1DOSe/JtKHer1rmTs5w0lAZ9eKLQKW/4Q1r9Tcb5Pbvw4X4gLun5R666/9jeYEr
+	0Fo+LqEcsdYBr3KUWtAQ7WUkBOapzQPwyBUPEKUxjEPTIpyzBCklaYjUj/PaPdBwB6
+	+7Fkh/lPPgmZ1lW7SpjavgJ3vc+DRQJORaN7czJm3t+GDZV95UlFkv+Ah9NgvN9GNl
+	GnZZJPEBE8s0N9Gh3SznwQGSKmxtCYYrzqwjgoGaFmnxJRUBgfhlNllnJ2k/kGODca
+	/tWhoPmhXMH41nyDZlrMRHdU=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2020 19:14:35 +0200
-Message-Id: <20200117171436.17131-15-bunk@stusta.de>
+Date: Fri, 17 Jan 2020 19:14:36 +0200
+Message-Id: <20200117171436.17131-16-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] lz4: Whitelist CVE-2014-4715
+Subject: [warrior][PATCH] iputils: Whitelist CVE-2000-1213 CVE-2000-1214
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,29 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 17:14:41 -0000
+X-List-Received-Date: Fri, 17 Jan 2020 17:14:42 -0000
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-support/lz4/lz4_1.8.3.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-extended/iputils/iputils_s20180629.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-support/lz4/lz4_1.8.3.bb b/meta/recipes-support/lz4/lz4_1.8.3.bb
-index 125836f7bf..605e148d81 100644
---- a/meta/recipes-support/lz4/lz4_1.8.3.bb
-+++ b/meta/recipes-support/lz4/lz4_1.8.3.bb
-@@ -18,6 +18,9 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.*)"
+diff --git a/meta/recipes-extended/iputils/iputils_s20180629.bb b/meta/recipes-extended/iputils/iputils_s20180629.bb
+index eff44be1bd..5d11ced96d 100644
+--- a/meta/recipes-extended/iputils/iputils_s20180629.bb
++++ b/meta/recipes-extended/iputils/iputils_s20180629.bb
+@@ -21,6 +21,10 @@ S = "${WORKDIR}/git"
  
- S = "${WORKDIR}/git"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
  
-+# Fixed in r118, which is larger than the current version.
-+CVE_CHECK_WHITELIST += "CVE-2014-4715"
++# Fixed in 2000-10-10, but the versioning of iputils
++# breaks the version order.
++CVE_CHECK_WHITELIST += "CVE-2000-1213 CVE-2000-1214"
 +
- EXTRA_OEMAKE = "PREFIX=${prefix} CC='${CC}' DESTDIR=${D} LIBDIR=${libdir} INCLUDEDIR=${includedir}"
+ EXTRA_OEMAKE = "-e MAKEFLAGS="
  
- do_install() {
+ PACKAGECONFIG ??= ""
 -- 
 2.17.1
 
