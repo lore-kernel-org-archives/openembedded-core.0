@@ -1,51 +1,48 @@
-Return-Path: <maxim.uvarov@linaro.org>
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com
-	[209.85.219.174])
-	by mail.openembedded.org (Postfix) with ESMTP id A48A87FBB5
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
+	[209.85.222.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A92517D65D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 11:59:55 +0000 (UTC)
-Received: by mail-yb1-f174.google.com with SMTP id l197so4373928ybf.7
+	Fri, 17 Jan 2020 12:05:11 +0000 (UTC)
+Received: by mail-ua1-f66.google.com with SMTP id l6so8833711uap.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 03:59:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	Fri, 17 Jan 2020 04:05:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=x93DWZM7Wm7SZvbzHXd2S8z2FkQvmk8wFg4yzktVRFA=;
-	b=T3b6e/XxBp76dHUxeLUp5UbcaxKHTJPqeiLAI7itqHzq55AVaTbWWj6wrS+ZPs5T4q
-	NzL9bgeSlSHAXYh8auWiyQRIl7qYqoPUs25++zRDvsotoPnZEQwxzt0Y0YfYMGRobfhD
-	6H5alVk4O1G4eHtSqQ8j5AMF5F7YjFcamUhJrXs7HOwql58aLqGwqUWHl0rpkOrZm8m8
-	I6W3hfzAWRolrxu8OxlEZq69qcQLoQZkGzjnak/pdO67hVYBQZ7el7KCnz8axDacbWjY
-	HIqUaaOUgJ/fjdrZnnN5Cy2tPX00GKAjwiuEZ4HTO3bD+zaDCqDvYVuC9GEf549RpfEu
-	fp3g==
+	:cc; bh=0Zl2dPXU0VYRx3L3wgFJ3llgsWjHAd3tu9KY5T6Oz1w=;
+	b=MkLvHLDY99OeYM44qeNBn5MXd1+tkbsf6MYPMM2xrLxH3xa5ad8JEhXi6bFYCsXC07
+	swb1GXTVyCZ2LvIm6Hu5tNn8zGWTKW0YIAe14/kRxZVfNMue3aLHBBxSPxIGpKfscMN0
+	x3APtiSt+AUkOfVuDMNaEfZN6HMDSI8T6haGM4yGtYCuBxDNDBoq/XQA8WIIdY4NXE2y
+	cd5RpO5hZMcyeuk38KiP5hsZTmRelmnuuVCSQFffaeBZRnrpOGg5C8kQqs/WyqW9XeNU
+	6eVQu8Q2wKSdG6MoMUEwREHIPOOlTB3Bgu6BZZ0RkaY6TFRyPFWDIUZettABtzl3d1z2
+	85QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=x93DWZM7Wm7SZvbzHXd2S8z2FkQvmk8wFg4yzktVRFA=;
-	b=Vg84lNkDHCd1SK/zRFnAOoiT2sUNFI0Tn+KXcxMftMOpJ4J6nCcME/nACMR1apfSkI
-	ABRny/vZGuyhqFbLV5Y04jVYkfyxv10kUNKF8EABTii5zzA33Xrl8Wq2V5oM3zxpRaXX
-	q3cWY9XT0KywaQsxA7Op5yLsyWbTeJl0vDa3INBOVj+K8+uxrH9LmiFhPbqvhU3oPfIG
-	2S+yIUdGyxxnhSecM+Sq4A6EFjDXPA8hoYhEU/0FxIvdaAfxJ6//9o86nmql9YPCEodY
-	HV2Blb27UPA+EZbABf7FCbYrVV6zSzbhNr80KKQQUqO3k1r7vhf/J5vE1ORZDLcB4IPb
-	1ytg==
-X-Gm-Message-State: APjAAAXUTWUIhsGtp5GgISk0bYgmgsDwNsINpKKahIgNyUUSxatMNfkO
-	+BECleAgTWFPiNBVTaRAVc8RMQ2/Yqz4X+JbBd5Clw==
-X-Google-Smtp-Source: APXvYqy0eabSfjqVlZU4YKPKriJW7stm8czWS6yoLnVAMfUrhx3944yzWf3KcZU6Gj0XViDskPfnKLo0KFJMOzwXJQk=
-X-Received: by 2002:a5b:7cf:: with SMTP id t15mr19738938ybq.127.1579262396424; 
-	Fri, 17 Jan 2020 03:59:56 -0800 (PST)
+	bh=0Zl2dPXU0VYRx3L3wgFJ3llgsWjHAd3tu9KY5T6Oz1w=;
+	b=nNU5EH70+icDbAgDhsA1vgMrerocsndQZhceJffw/2QZ7ClftszmGWYBR192Zjox5V
+	qZImlyKORcu9QMsQ/u1FrOLMkiUsQf5yL98ZvJ1E/Lpk96focVWRWnLiHoZHR4LnkcKA
+	jqmyz6dLsom6l48HCSHpMGbIewQqi6nALKRLwyDYyg4MRjE0YMLd9vCDZ3JXV6Om7ST1
+	itCnf02viDbeRLtexHnDi3wDBfNJDSl0dI+wKQoC71NQb/YcUn90IBj1ZWGdPuoHmzAj
+	bFWpelkAmBDjxT692nOOq+GBGF2Er6oCyNjl1ICa5m3+WkHYnPFB0X6qMXvklUXcYbTi
+	pr/g==
+X-Gm-Message-State: APjAAAVk77V4u6vzZYhoo729cKLi+Yf5WN3EFdj+FRYLcUbaPhkbM4oo
+	Bgw5VbaIuIjQkex28twQdsF0aukq74NUkcoy010=
+X-Google-Smtp-Source: APXvYqz/BZE+SsXStIxjmmYVGhC8YcKnQJ+q4catGAJWVnKkAwZ3NMr2aaGRDmfb0ORx2jtHS8m7ZaMt6faAzS+DrDg=
+X-Received: by 2002:ab0:2006:: with SMTP id v6mr22267017uak.22.1579262712494; 
+	Fri, 17 Jan 2020 04:05:12 -0800 (PST)
 MIME-Version: 1.0
-References: <20200113130827.7409-1-maxim.uvarov@linaro.org>
-	<CAM9ZRVt00houpaZaKirGYgu1w_WRm1yqoio_G-wAgdyyGwuAAg@mail.gmail.com>
-	<CAD8XO3a66v27ohEbrjEC=+XanfD1Fo_zXXo9TaFYSr+C+9+jDQ@mail.gmail.com>
-	<CAM9ZRVut=Wu37sJ5A8fi3be-Bm3vWYepK4Sp2x=r7Et0xoy3WA@mail.gmail.com>
-	<CAD8XO3bz8S2S5LzNpJgNuOrQB__LqdWNt2-k0rn8+sdxG3UcLA@mail.gmail.com>
-	<CAM9ZRVvqkd_eqnkuCsqRGwQceoiwN-XO_xWLZaN4KwTQfeNnRA@mail.gmail.com>
-In-Reply-To: <CAM9ZRVvqkd_eqnkuCsqRGwQceoiwN-XO_xWLZaN4KwTQfeNnRA@mail.gmail.com>
-From: Maxim Uvarov <maxim.uvarov@linaro.org>
-Date: Fri, 17 Jan 2020 14:59:45 +0300
-Message-ID: <CAD8XO3aeDxrACL9Tf1ng4cR7AiUCQuqz+fjhyPKdonqZQq8Gvg@mail.gmail.com>
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] wic: fix images build in parallel
+References: <1579244354-13596-1-git-send-email-sumit.garg@linaro.org>
+	<b21d1a39c0c1e5585e72586ca806967bae37decf.camel@linuxfoundation.org>
+	<CAFA6WYOm4a8_mqyNA+zkFHPznN10SyKb4atiCtmS=qabZzyM+A@mail.gmail.com>
+In-Reply-To: <CAFA6WYOm4a8_mqyNA+zkFHPznN10SyKb4atiCtmS=qabZzyM+A@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 17 Jan 2020 13:05:01 +0100
+Message-ID: <CANNYZj9tcgw0KZeqZRQdL5etBdAEPP+S29S4YWkE94jhVQbLNw@mail.gmail.com>
+To: Sumit Garg <sumit.garg@linaro.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] core: recipes: fix some native tools dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,86 +55,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 11:59:55 -0000
+X-List-Received-Date: Fri, 17 Jan 2020 12:05:11 -0000
+Content-Type: multipart/alternative; boundary="000000000000fc3eb5059c54c021"
+
+--000000000000fc3eb5059c54c021
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 17 Jan 2020 at 13:18, Paul Barker <pbarker@konsulko.com> wrote:
+On Fri, 17 Jan 2020 at 12:55, Sumit Garg <sumit.garg@linaro.org> wrote:
+
+> But looking at this failure again it seems like "autopoint" is
+> provided by gettext rather than autotools. So yes, I think you are
+> right and "xz-native" dependency should go in
+> meta/classes/gettext.bbclass instead as follows:
 >
-> On Mon, 13 Jan 2020 at 14:12, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
-> >
-> > On Mon, 13 Jan 2020 at 17:00, Paul Barker <pbarker@konsulko.com> wrote:
-> > >
-> > > On Mon, 13 Jan 2020 at 13:57, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
-> > > >
-> > > > On Mon, 13 Jan 2020 at 16:31, Paul Barker <pbarker@konsulko.com> wrote:
-> > > > >
-> > > > > On Mon, 13 Jan 2020 at 13:08, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
-> > > > > >
-> > > > > > OE wic plugins create temporary file with the index of the line
-> > > > > > tmp file name. This causes race in case several builds run in time.
-> > > > > > Add more entropy as timestamp to remove this race.
-> > > > >
-> > > > > How would two wic images to be built in parallel with the same work
-> > > > > directory? To my understanding an image recipe only supports building
-> > > > > a single wic image.
-> > > > >
-> > > > > Thanks,
-> > > > > Paul
-> > > >
-> > > > bitbake image1 image2 image3
-> > > > all images build .wics and use about the same files, like firmware.
-> > > > Issue is similar to that:
-> > > > https://www.yoctoproject.org/pipermail/yocto/2018-June/041373.html
-> > >
-> > > Each image has its own work directory though.
-> > >
-> > > I'll take a look in more detail later today or tomorrow, if wic is
-> > > writing temporary files outside of the work directory then that's a
-> > > bug and should be fixed.
-> >
-> > Thanks. I saw bug in rawcopy plugin. All other places were patched due
-> > to the same code.  I guess then for rawcopy temp files are in
-> > DEST_IMAGE_DIR (which is common) instead of WORKDIR.
->
-> I can't see how these files can possibly collide across parallel image
-> builds. In the lines you changed in your patch, cr_workdir passed in
-> as an argument set to imager.workdir (in
-> scripts/lib/wic/plugins/imager/direct.py) which is a temporary
-> directory created under options.outdir. image_types_wic.bbclass passes
-> the -o option to wic to set the outdir to something under ${WORKDIR}.
-> And different images have different WORKDIR paths. So things should be
-> safe.
->
-> Which branch & version of poky or oe-core are you using?
+> diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass
+> index be2ef3b311..443c9c4cb0 100644
+> --- a/meta/classes/gettext.bbclass
+> +++ b/meta/classes/gettext.bbclass
+> @@ -2,8 +2,8 @@ def gettext_dependencies(d):
+>      if d.getVar('INHIBIT_DEFAULT_DEPS') and not oe.utils.inherits(d,
+> 'cross-canadian'):
+>          return ""
+>      if d.getVar('USE_NLS') == 'no':
+> -        return "gettext-minimal-native"
+> -    return "gettext-native"
+> +        return "gettext-minimal-native xz-native"
+> +    return "gettext-native xz-native"
 >
 
-zeus
+I don't believe this is right either, at least not for the master branch.
+Autopoint is specifically excluded for all autotools-based recipes; psmisc
+used to be an exception to that, but no longer is with the latest master
+branch and latest gettext.
 
-> DEST_IMAGE_DIR is not defined in openembedded-core. Are you sure
-> that's the right variable name?
+Alex
+
+--000000000000fc3eb5059c54c021
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Fri, 17 Jan 2020 at 12:55, Sumit Garg &lt;<a href=3D"mailto:sumit=
+.garg@linaro.org">sumit.garg@linaro.org</a>&gt; wrote:<br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
+lid rgb(204,204,204);padding-left:1ex">But looking at this failure again it=
+ seems like &quot;autopoint&quot; is<br>
+provided by gettext rather than autotools. So yes, I think you are<br>
+right and &quot;xz-native&quot; dependency should go in<br>
+meta/classes/gettext.bbclass instead as follows:<br>
+<br>
+diff --git a/meta/classes/gettext.bbclass b/meta/classes/gettext.bbclass<br=
 >
+index be2ef3b311..443c9c4cb0 100644<br>
+--- a/meta/classes/gettext.bbclass<br>
++++ b/meta/classes/gettext.bbclass<br>
+@@ -2,8 +2,8 @@ def gettext_dependencies(d):<br>
+=C2=A0 =C2=A0 =C2=A0if d.getVar(&#39;INHIBIT_DEFAULT_DEPS&#39;) and not oe.=
+utils.inherits(d,<br>
+&#39;cross-canadian&#39;):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return &quot;&quot;<br>
+=C2=A0 =C2=A0 =C2=A0if d.getVar(&#39;USE_NLS&#39;) =3D=3D &#39;no&#39;:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;gettext-minimal-native&quot;<br>
+-=C2=A0 =C2=A0 return &quot;gettext-native&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &quot;gettext-minimal-native xz-native&=
+quot;<br>
++=C2=A0 =C2=A0 return &quot;gettext-native xz-native&quot;<br></blockquote>=
+<div><br></div><div>I don&#39;t believe this is right either, at least not =
+for the master branch. Autopoint is specifically excluded for all autotools=
+-based recipes; psmisc used to be an exception to that, but no longer is wi=
+th the latest master branch and latest gettext.</div><div><br></div><div>Al=
+ex<br></div></div></div>
 
-DEPLOY_DIR_IMAGE
-
-> Could you provide full bitbake output showing the exact error message
-> when this collision happens?
-
-See traceback here:
-https://ci.linaro.org/job/ledge-oe/357/DISTRO=rpb,MACHINE=ledge-stm32mp157c-dk2,label=docker-stretch-amd64/console
-
->
-> And lastly if you want to look into this in more detail maybe add some
-> print statements just after each of those lines you patched to print
-> the full paths used so we can see if they step outside WORKDIR. I
-> think doing this on your side with your exact wks files that are
-> causing errors will give the most useful output.
->
-
-Is there a good way to add debug messages and see then on console,
-other then rise WicError() ?
-
-Maxim.
-
-> Thanks,
-> Paul
-
+--000000000000fc3eb5059c54c021--
