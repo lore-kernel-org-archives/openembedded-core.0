@@ -1,33 +1,35 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id DC9977FA24
+	by mail.openembedded.org (Postfix) with ESMTP id B2AAB7FA24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 16:58:21 +0000 (UTC)
+	Fri, 17 Jan 2020 16:58:22 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znM05g5lz3w
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znM24zwgzC6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 17:58:20 +0100 (CET)
+	Fri, 17 Jan 2020 17:58:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1579280300;
-	bh=AxdkNyJgvMfejfmFRsC/QpZQhqf2dJvbBZ1mQS49cM0=;
-	h=From:To:Subject:Date:From;
-	b=LJEc6Kikr6xe+1NhiTu3a5+IXB6VfiiNzGs8XKEsy1i7WwncTNnIXtTMYnUGYbTbT
-	0nmzA8SNNd23DCDKp4aDd9IFrUuF0pqhzy1OCOJ+yYhraN2sf21Zf7kCozOQsfpNMZ
-	lXXr9K614PZoTHPnnzKn+GtMgjA6jQMQ6VLTCaRH1nCY6pCM/0VhACm2648UrGTHXM
-	D3xudZUWOh0NNmrTs06jvcT9nxvYJiCW54hb4dLxkoJX9AxsrK7J1RQsyQfG7evdBX
-	4cwPK0nNXS7Lj7sBg4lka3C8VI+agvhsbxJ10nGWaceJd60ASlTamZRmSU3Rzo0Fjk
-	t9/jdVsFIx1ChaWPXFR9b7kwSWzE2kLKv8Lcm2s7Bdh1zHyHUOB1jyAf53fuihmOB4
-	rPSRKKEvCOvgvZAdBQWE+IPkdi4B0uI08mf/rmYsZQqEsRoqjctHa+NzwccjzyXCpd
-	lcWSTNhiALH6QFOfDQUtsD3v3XcvmzLcjyoNNI1At9tGi/i4hzUY3VI2Sf7NCg6gaO
-	BN52My5a4eOf+I2jYs8DL1XoqA1n7UETihK8w+MHppSA8tv4LmR6yZmQtFRY6kKgc8
-	zMs4NY4iOID0BWO5SotQ2UBj+3bPBk98MwEAO3IdktkIt14GF6usO/Ai+vjO1WOVOK
-	pSAfAtE+1RYE5+bqaMMf0nmg=
+	s=default; t=1579280302;
+	bh=2DORk+EtODobDprgW8PEBSL4BUCQEwR6FZSKdNW67hE=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=HmZ38lka1tD9eoiiNM2PEwhvw+SZol0cquYOH1ao92ilGIb3twUc521AimeIM81nW
+	JZqka1w2UgetF/VSKNfjMWT1nunmWw91DkxkdMDmm6pwcrF1XsP6X1ztmH09j0IIGC
+	IE2I9Gms3fhgu5Y0FYRAPEg/T9mqnQfWaltTcRoEiWVTAVnTUoiGPWHBEhNnuLIO/t
+	Ysgbg/YsvoIqWlICWEm9XYv3ZGZ29CkjH4Rs6kJEHgVlT9n/3QlwUjwJO4A9KXYZ0Y
+	WtABhNFMxUGYw2mranGaamNefb8A5MJOMDkBxnyplO0TAG6RyREi2SeJFjfoxkfQgv
+	C6yS859zi9YmF1f5LHn5u2A86bjHmGxhV0itoJQAChWBfKOFs0Xb4vXsw6ZphZIMAE
+	VBNDPMz1RajPOc2MVGlSddYUDZtEXwBkMIUPYbGHGgn9r3DBD27sXeW/xrS3+ActQ1
+	bVBJ8jZxaq1fnfTmXmPqZhmYQXWcGU/rXIsxZ7xSm1TyzM+3kLX8MjWedDCSiVjSW1
+	V/naNsjDuZi38Giz4X/Wxy/XZ9qLUf4s6DOm8gDmrxyqZj+8CL+/yTY1GY330zplHR
+	4jlOdJSZcEroA1YCwcdT7kzo0om4q746ddHoQxcOy2v8kQXznUexohzK0p9pKrClt5
+	BffqVH4VvXwvgvc1tLNmgLlw=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2020 18:58:13 +0200
-Message-Id: <20200117165819.2542-1-bunk@stusta.de>
+Date: Fri, 17 Jan 2020 18:58:18 +0200
+Message-Id: <20200117165819.2542-6-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] systemd: Whitelist CVE-2018-21029 CVE-2019-3843 CVE-2019-3844
+In-Reply-To: <20200117165819.2542-1-bunk@stusta.de>
+References: <20200117165819.2542-1-bunk@stusta.de>
+Subject: [warrior][PATCH] openssl: Whitelist CVE-2019-0190
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,32 +44,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 17 Jan 2020 16:58:22 -0000
 
-One does not strictly apply to 241, for the other two a fix
-was already backported to the 241 branch.
+This is only a problem with older Apache versions.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/systemd/systemd.inc | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 2b9c291959..cb41ac5b22 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -14,6 +14,13 @@ LICENSE = "GPLv2 & LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+index 0e65f333e2..af2217bd15 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+@@ -205,3 +205,7 @@ RCONFLICTS_openssl-conf = "openssl10-conf"
+ BBCLASSEXTEND = "native nativesdk"
  
-+# DNSOverTLS strict mode was added in 243
-+# https://github.com/systemd/systemd/issues/9397
-+CVE_CHECK_WHITELIST += "CVE-2018-21029"
+ CVE_PRODUCT = "openssl:openssl"
 +
-+# Commit dc903ec516cb on the 241 branch
-+CVE_CHECK_WHITELIST += "CVE-2019-3843 CVE-2019-3844"
-+
- SRCREV = "511646b8ac5c82f210b16920044465756913d238"
- SRCBRANCH = "v241-stable"
- SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
++# Only affects OpenSSL >= 1.1.1 in combination with Apache < 2.4.37
++# Apache in meta-webserver is already recent enough
++CVE_CHECK_WHITELIST += "CVE-2019-0190"
 -- 
 2.17.1
 
