@@ -1,38 +1,35 @@
-Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0400A7FBEB
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id D9A527F98F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 16:46:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 3C3A09C0481;
-	Fri, 17 Jan 2020 11:46:39 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id twBOwc7IAu9V; Fri, 17 Jan 2020 11:46:38 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 8DAA39C048B;
-	Fri, 17 Jan 2020 11:46:38 -0500 (EST)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id EcGbwIbBqT7D; Fri, 17 Jan 2020 11:46:38 -0500 (EST)
-Received: from sulaco.example.com (40.73.12.109.rev.sfr.net [109.12.73.40])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id E312E9C0482;
-	Fri, 17 Jan 2020 11:46:36 -0500 (EST)
-From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+	Fri, 17 Jan 2020 16:58:21 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znM11Ntqz8V
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 Jan 2020 17:58:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1579280301;
+	bh=UNNRl+VPBGKbDRgvoYphMl+lpxStHTt7FDTZKhNp3LE=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=cc2734S4+ROeWEdXjUr7bkxjaUVFgngWiJ3YejVuXMy4TaL/BRvriqff1Tqe8vIvd
+	fLj6L5g7OdvarSzAegqJdpP8LSW9EneG/pQ+IHZ0H1UvRoTuJ1oMRKrRhAfdt+lg0w
+	Y5YykxhNxjhf1OX8Zleaq/fFRA1iRR4dSU7ECFzNhgckJe+rZqG6J9V4HgT+3dLi80
+	0QY7KMR2z/a5kZvhi94AGrc2kNdsx3hkwHLvThfHEESGX6DON3UnrUfP7ba34KXzh0
+	cyrhPTMO0RonvfM3E71xZnlAONo44ImCOuDAeC3s3kpiQll3n9jpFH0gsywAeTGSjB
+	NesXzIlA1WIgBJc/9CG+UgIEBd6mrBymqOHPTw7Xe1oF02VlP2+qGdmXgO3fcQVvSz
+	vOaKKONr/TRKXc5qw6Y61BB6PcRPLJbuJXCmQFsfF8Euy1nsGO4fNvZYBma/8KeWs8
+	zTE1dO/epUwjKwzL0HHC48EapU6vFQqSs5Wa+8Hx1cpxa/e0dqmPIC+r9IBHvZCXzb
+	dAYReiMhHYnnx5sDDVpUrX+wJlKZ0SoyzYHxdlI++if/9PZoPO9z4nm8ljORDFICyG
+	yzWfJBa7Qvv2HveRtHSUVFn/rMluk4psahW/vwnc68JTZ6BfjC0HUgrrIW3UYtzTJf
+	QgA2x7dmdkmTkCcATPYB6dvs=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2020 17:46:09 +0100
-Message-Id: <20200117164609.28400-14-jean-marie.lemetayer@savoirfairelinux.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200117164609.28400-1-jean-marie.lemetayer@savoirfairelinux.com>
-References: <20200117164609.28400-1-jean-marie.lemetayer@savoirfairelinux.com>
-MIME-Version: 1.0
-Cc: jonaskgandersson@gmail.com, paul.eggleton@linux.intel.com, bunk@stusta.de,
-	cdelston0@gmail.com, rennes-dev@savoirfairelinux.com
-Subject: [PATCH v4 13/13] oeqa/selftest/devtool: add npm recipe build test
+Date: Fri, 17 Jan 2020 18:58:14 +0200
+Message-Id: <20200117165819.2542-2-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200117165819.2542-1-bunk@stusta.de>
+References: <20200117165819.2542-1-bunk@stusta.de>
+Subject: [warrior][PATCH] systemd: Upgrade to a more recent snapshot from the 241 branch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +42,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 16:46:38 -0000
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 17 Jan 2020 16:58:22 -0000
 
-This commit adds a devtool build test for npm recipe:
+Bugfix-only changes on the 241 stable branch,
+including a fix for a breakage with OpenSSL >= 1.1.1c.
 
- - devtool.DevtoolAddTests.test_devtool_add_npm
-
-Signed-off-by: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinu=
-x.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ meta/recipes-core/systemd/systemd.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/self=
-test/cases/devtool.py
-index 57e6662e4a..b6b14914bd 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -511,6 +511,26 @@ class DevtoolAddTests(DevtoolBase):
-         checkvars['SRC_URI'] =3D url.replace(testver, '${PV}')
-         self._test_recipe_contents(recipefile, checkvars, [])
-=20
-+    def test_devtool_add_npm(self):
-+        pn =3D 'savoirfairelinux-node-server-example'
-+        pv =3D '1.0.0'
-+        url =3D 'npm://registry.npmjs.org;name=3D@savoirfairelinux/node-=
-server-example;version=3D' + pv
-+        # Test devtool add
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake -c cleansstate %s' % pn)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */work=
-space')
-+        result =3D runCmd('devtool add \'%s\'' % url)
-+        self.assertExists(os.path.join(self.workspacedir, 'conf', 'layer=
-.conf'), 'Workspace directory not created')
-+        self.assertExists(os.path.join(self.workspacedir, 'recipes', pn,=
- '%s_%s.bb' % (pn, pv)), 'Recipe not created')
-+        self.assertExists(os.path.join(self.workspacedir, 'recipes', pn,=
- pn, 'npm-shrinkwrap.json'), 'Shrinkwrap not created')
-+        # Test devtool status
-+        result =3D runCmd('devtool status')
-+        self.assertIn(pn, result.output)
-+        # Clean up anything in the workdir/sysroot/sstate cache (have to=
- do this *after* devtool add since the recipe only exists then)
-+        bitbake('%s -c cleansstate' % pn)
-+        # Test devtool build
-+        result =3D runCmd('devtool build %s' % pn)
-+
- class DevtoolModifyTests(DevtoolBase):
-=20
-     def test_devtool_modify(self):
---=20
-2.20.1
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index cb41ac5b22..3161a6c543 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -21,7 +21,7 @@ CVE_CHECK_WHITELIST += "CVE-2018-21029"
+ # Commit dc903ec516cb on the 241 branch
+ CVE_CHECK_WHITELIST += "CVE-2019-3843 CVE-2019-3844"
+ 
+-SRCREV = "511646b8ac5c82f210b16920044465756913d238"
++SRCREV = "d1cc09a6eac5f8d62e630cc31d604095e30d2d84"
+ SRCBRANCH = "v241-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ 
+-- 
+2.17.1
 
 
