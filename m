@@ -1,33 +1,34 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BF987FB78
+	by mail.openembedded.org (Postfix) with ESMTP id 4E4E87FBBD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 17:14:37 +0000 (UTC)
+	Fri, 17 Jan 2020 17:14:38 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znjp24Bmz6m
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 47znjq0MlTz8V
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 Jan 2020 18:14:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1579281278;
-	bh=SrlwjbvtlgJ+YXJsm0Zm3vzk9UBfP1kSqVgcQn2vPA4=;
+	s=default; t=1579281279;
+	bh=PglX3lJDSrU+GIZ1KJNUdWg3GVyhrMZCIF0wR/a6rSg=;
 	h=From:To:Subject:Date:From;
-	b=e/+UZPO6/1dYfk8hitexfqRKCa+XMl1caeZ069jOinKSUOKRiq9t12ejqCPVOv9bN
-	5nJxw4J7liAAmcrrXVsi18zNhVFS+AdSzi0PT9hLpoeZGJCIqcgD+Hu8r3ih/Uf+48
-	tNjxj2ynkPuX/Rv94RUJZL8NAqhZ36QgMW9VVW5Grwc8/oXSZY0w6GbAidZ8P9IHJP
-	tRbc4CPf37RDXg7tF/DkSbkWZYMWDnbGcjkH+Hz64O9vg8fh6pZGQD6BxMfAs7K0WL
-	7rLPLzIgyVN1++02sk7yEPKHz54YykVCAOHw81SXOEQ4GAsIjZCw+5KSs9ucDFjEj8
-	0PJm6JRvhnRQsN8uqf1SfLRu0ef+0Z1MusXvJYtD+dCOZhkbBw8/d0Iz9epjwqvZlR
-	W2pFFsNvaQmcgvo6a4OAdMuTHuMv6kQ6UShS+GyW6v447iuA9/yZHhLnWuu7OdZvVQ
-	kqEIg+cUYMcYrzrDTbO//w7Vcyg+NcRhjJc+K5yaFI++9KqY9CzcEvEP3DSXu83kf3
-	HN2LV/57bivDL3RoVPTiDrYy28HO3DSBWckhPomufSRV8yavZOZz+ls8ooExHdm+/t
-	LfH2wfrndrkY0cZV3Ahl+ICp+MKjFlX1ttG7izB66K3gvkBCj9JmwOKE0iLulpO33j
-	QdRriibDv7b0tstRmB7RWVrk=
+	b=b7PvsVSkJHfYuuPErG7LSelzOvenhZzcQkhyKMVCv1k32/oIA711OTnpknKw/S1Cw
+	ZjJgTarzvjm1jebVRZ25vx1fAdHTVPuHPnoqelqHI62y/Q8tU+DOcaLlhia2VRlRcb
+	+tvm0a55CktQr6sr1rQA3IKA3/tYaNqy65eEs3C5M/Xv/0lzDSV1QApGWq9UXFYlfl
+	oDaUZgXPhR2u6/86vhBN6inJBPi94iQAOPA1O3yC7aXEelYUD3+ONzJ5sfZCdLz/CY
+	YBSY3um19Vs9lDa7kjMlESjAQDOHWgQ16cXnCUQLNX/ig8swR1mSjYsxnCL5Qcgoa7
+	DELKw/SO9cxKPn0QGz6/R0u/WztirIVxSbT+6RAl6O72+ZMD+W+K3Hb0ZeNqy/Vu3j
+	jjtxeRtWpxoqI/fwj/TO0A6Y6xgx+vWvoYDgowyG0yE+hi6GbjbFP3SimX5t3y5z3a
+	KtS3gMZe7WSLjVI+bTLF0xo9qLKVs4FlodmxuezPh6SpEs0ZlKbbLmxHmkPAF/mxia
+	95ffRga+siXVCVQH7YX/JVoFKToTio5ItQAhDKinUwkXiuHWov4VNl0EhZ3XpMJplx
+	TZxNTln8xk8gvf82H81uuM2jSJpwozsrGqTXODDdxEwypJjjfwIXw8yGZhccCYVDq1
+	JBdKZ4K/9feqXOkViwCyXgdE=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 Jan 2020 19:14:23 +0200
-Message-Id: <20200117171436.17131-3-bunk@stusta.de>
+Date: Fri, 17 Jan 2020 19:14:25 +0200
+Message-Id: <20200117171436.17131-5-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] binutils: fix CVE-2019-17451
+MIME-Version: 1.0
+Subject: [warrior][PATCH] gdb: Fix CVE-2019-1010180
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,90 +42,177 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 17 Jan 2020 17:14:38 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
+From: Vinay Kumar <vinay.m.engg@gmail.com>
 
-Backport upstream fix.
+Source: git://sourceware.org/git/binutils-gdb.git
+Tracking -- https://sourceware.org/bugzilla/show_bug.cgi?id=23657
 
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+Backported upstream commit 950b74950f6020eda38647f22e9077ac7f68ca49 to gdb-8.3.1 sources.
+
+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=950b74950f6020eda38647f22e9077ac7f68ca49]
+
+Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../binutils/binutils-2.32.inc                |  1 +
- .../binutils/binutils/CVE-2019-17451.patch    | 51 +++++++++++++++++++
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
+ meta/recipes-devtools/gdb/gdb-8.2.1.inc       |   1 +
+ .../gdb/gdb/CVE-2019-1010180.patch            | 132 ++++++++++++++++++
+ 2 files changed, 133 insertions(+)
+ create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
-index a92bfd0354..739ba70cf2 100644
---- a/meta/recipes-devtools/binutils/binutils-2.32.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
-@@ -53,6 +53,7 @@ SRC_URI = "\
-      file://CVE-2019-14250.patch \
-      file://CVE-2019-14444.patch \
-      file://CVE-2019-17450.patch \
-+     file://CVE-2019-17451.patch \
+diff --git a/meta/recipes-devtools/gdb/gdb-8.2.1.inc b/meta/recipes-devtools/gdb/gdb-8.2.1.inc
+index f28b57439c..8fa48171f4 100644
+--- a/meta/recipes-devtools/gdb/gdb-8.2.1.inc
++++ b/meta/recipes-devtools/gdb/gdb-8.2.1.inc
+@@ -19,6 +19,7 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
+            file://0001-Fix-build-with-latest-GCC-9.0-tree.patch \
+            file://CVE-2017-9778.patch \
+            file://0012-AArch64-Fix-the-gdb-build-with-musl-libc.patch \
++           file://CVE-2019-1010180.patch \
  "
- S  = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
+ SRC_URI[md5sum] = "f8b2562e830a4098dd5b5ea9e9296c70"
+ SRC_URI[sha256sum] = "0a6a432907a03c5c8eaad3c3cffd50c00a40c3a5e3c4039440624bae703f2202"
+diff --git a/meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch b/meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
 new file mode 100644
-index 0000000000..b36a532668
+index 0000000000..46b2b3a713
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
-@@ -0,0 +1,51 @@
-+From 0192438051a7e781585647d5581a2a6f62fda362 Mon Sep 17 00:00:00 2001
-+From: Alan Modra <amodra@gmail.com>
-+Date: Wed, 9 Oct 2019 10:47:13 +1030
-+Subject: [PATCH] PR25070, SEGV in function _bfd_dwarf2_find_nearest_line
++++ b/meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
+@@ -0,0 +1,132 @@
++From 950b74950f6020eda38647f22e9077ac7f68ca49 Mon Sep 17 00:00:00 2001
++From: Keith Seitz <keiths@redhat.com>
++Date: Wed, 16 Oct 2019 11:33:59 -0700
++Subject: [PATCH] DWARF reader: Reject sections with invalid sizes
 +
-+Selectively backporting fix for bfd/dwarf2.c, but not the ChangeLog
-+file. There are newer versions of binutils, but none of them contain the
-+commit fixing CVE-2019-17451, so backport it to master and zeus.
++This is another fuzzer bug, gdb/23567.  This time, the fuzzer has
++specifically altered the size of .debug_str:
 +
-+Upstream-Status: Backport
-+[https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=336bfbeb1848]
-+CVE: CVE-2019-17451
-+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
++$ eu-readelf -S objdump
++Section Headers:
++[Nr] Name                 Type         Addr             Off      Size     ES Flags Lk Inf Al
++[31] .debug_str           PROGBITS     0000000000000000 0057116d ffffffffffffffff  1 MS     0   0  1
 +
++When this file is loaded into GDB, the DWARF reader crashes attempting
++to access the string table (or it may just store a bunch of nonsense):
 +
-+Evil testcase with two debug info sections, with sizes of 2aaaabac4ec1
-+and ffffd5555453b140 result in a total size of 1.  Reading the first
-+section of course overflows the buffer and tramples on other memory.
++[gdb-8.3-6-fc30]
++$ gdb -nx -q objdump
++BFD: warning: /path/to/objdump has a corrupt section with a size (ffffffffffffffff) larger than the file size
++Reading symbols from /path/to/objdump...
++Segmentation fault (core dumped)
 +
-+	PR 25070
-+	* dwarf2.c (_bfd_dwarf2_slurp_debug_info): Catch overflow of
-+	total_size calculation.
++Nick has already committed a BFD patch to issue the warning seen above.
++
++[gdb master 6acc1a0b]
++$ gdb -BFD: warning: /path/to/objdump has a corrupt section with a size (ffffffffffffffff) larger than the file size
++Reading symbols from /path/to/objdump...
++(gdb) inf func
++All defined functions:
++
++File ./../include/dwarf2.def:
++186:	const
++
++              8 *>(.:
++                     ;'@�B);
++747:	const
++
++              8 *�(.:
++                     ;'@�B);
++701:	const
++
++              8 *�D �
++                     (.:
++                        ;'@�B);
++71:	const
++
++              8 *(.:
++                    ;'@�B);
++/* and more gibberish  */
++
++Consider read_indirect_string_at_offset_from:
++
++static const char *
++read_indirect_string_at_offset_from (struct objfile *objfile,
++                                     bfd *abfd, LONGEST str_offset,
++                                     struct dwarf2_section_info *sect,
++                                     const char *form_name,
++                                     const char *sect_name)
++{
++  dwarf2_read_section (objfile, sect);
++  if (sect->buffer == NULL)
++    error (_("%s used without %s section [in module %s]"),
++           form_name, sect_name, bfd_get_filename (abfd));
++  if (str_offset >= sect->size)
++    error (_("%s pointing outside of %s section [in module %s]"),
++           form_name, sect_name, bfd_get_filename (abfd));
++  gdb_assert (HOST_CHAR_BIT == 8);
++  if (sect->buffer[str_offset] == '\0')
++    return NULL;
++  return (const char *) (sect->buffer + str_offset);
++}
++
++With sect_size being ginormous, the code attempts to access
++sect->buffer[GINORMOUS], and depending on the layout of memory,
++GDB either stores a bunch of gibberish strings or crashes.
++
++This is an attempt to mitigate this by implementing a similar approach
++used by BFD. In our case, we simply reject the section with the invalid
++length:
++
++$ ./gdb -nx -q objdump
++BFD: warning: /path/to/objdump has a corrupt section with a size (ffffffffffffffff) larger than the file size
++Reading symbols from /path/to/objdump...
++
++warning: Discarding section .debug_str which has a section size (ffffffffffffffff) larger than the file size [in module /path/to/objdump]
++DW_FORM_strp used without .debug_str section [in module /path/to/objdump]
++(No debugging symbols found in /path/to/objdump)
++(gdb)
++
++Unfortunately, I have not found a way to regression test this, since it
++requires poking ELF section headers.
++
++gdb/ChangeLog:
++2019-10-16  Keith Seitz  <keiths@redhat.com>
++
++	PR gdb/23567
++	* dwarf2read.c (dwarf2_per_objfile::locate_sections): Discard
++	sections whose size is greater than the file size.
++
++Change-Id: I896ac3b4eb2207c54e8e05c16beab3051d9b4b2f
++
++CVE: CVE-2019-1010180
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=950b74950f6020eda38647f22e9077ac7f68ca49]
++[Removed Changelog entry]
++Signed-off-by: Vinay Kumar <vinay.m.engg@gmail.com>
 +---
-+ bfd/dwarf2.c | 11 ++++++++++-
-+ 1 file changed, 10 insertions(+), 1 deletion(-)
++ gdb/dwarf2read.c | 9 +++++++++
++ 2 files changed, 15 insertions(+)
 +
-+diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
-+index 0b4e485582..a91597b1d0 100644
-+--- a/bfd/dwarf2.c
-++++ b/bfd/dwarf2.c
-+@@ -4426,7 +4426,16 @@ _bfd_dwarf2_slurp_debug_info (bfd *abfd, bfd *debug_bfd,
-+       for (total_size = 0;
-+ 	   msec;
-+ 	   msec = find_debug_info (debug_bfd, debug_sections, msec))
-+-	total_size += msec->size;
-++	{
-++	  /* Catch PR25070 testcase overflowing size calculation here.  */
-++	  if (total_size + msec->size < total_size
-++	      || total_size + msec->size < msec->size)
-++	    {
-++	      bfd_set_error (bfd_error_no_memory);
-++	      return FALSE;
-++	    }
-++	  total_size += msec->size;
-++	}
-+ 
-+       stash->info_ptr_memory = (bfd_byte *) bfd_malloc (total_size);
-+       if (stash->info_ptr_memory == NULL)
++diff --git a/gdb/dwarf2read.c b/gdb/dwarf2read.c
++index 0443b55..a78f818 100644
++--- a/gdb/dwarf2read.c
+++++ b/gdb/dwarf2read.c
++@@ -2338,6 +2338,15 @@ dwarf2_per_objfile::locate_sections (bfd *abfd, asection *sectp,
++   if ((aflag & SEC_HAS_CONTENTS) == 0)
++     {
++     }
+++  else if (elf_section_data (sectp)->this_hdr.sh_size
+++	   > bfd_get_file_size (abfd))
+++    {
+++      bfd_size_type size = elf_section_data (sectp)->this_hdr.sh_size;
+++      warning (_("Discarding section %s which has a section size (%s"
+++		 ") larger than the file size [in module %s]"),
+++	       bfd_section_name (abfd, sectp), phex_nz (size, sizeof (size)),
+++	       bfd_get_filename (abfd));
+++    }
++   else if (section_is_p (sectp->name, &names.info))
++     {
++       this->info.s.section = sectp;
 +-- 
-+2.23.0
++2.7.4
 +
 -- 
 2.17.1
