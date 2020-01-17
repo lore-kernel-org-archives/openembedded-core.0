@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FEB97FA37;
-	Fri, 17 Jan 2020 17:03:41 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 2A6AD7FA40;
+	Fri, 17 Jan 2020 17:03:42 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Adrian Bunk <bunk@stusta.de>
-Date: Fri, 17 Jan 2020 17:03:42 -0000
-Message-ID: <20200117170342.2274.21890@do>
+Date: Fri, 17 Jan 2020 17:03:43 -0000
+Message-ID: <20200117170343.2274.3127@do>
 References: <20200117165819.2542-1-bunk@stusta.de>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20200117165819.2542-1-bunk@stusta.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogVXBncmFkZSB0byBhIG1vcmUgcmVjZW50IHNuYXBzaG90IGZyb20gdGhlIDI0MSBicmFuY2ggKHJldjYp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogVXBncmFkZSB0byBhIG1vcmUgcmVjZW50IHNuYXBzaG90IGZyb20gdGhlIDI0MSBicmFuY2ggKHJldjcp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 17:03:41 -0000
+X-List-Received-Date: Fri, 17 Jan 2020 17:03:42 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: systemd: Upgrade to a more recent snapshot from the 241 branch (rev6)
-Revision: 6
+Series: systemd: Upgrade to a more recent snapshot from the 241 branch (rev7)
+Revision: 7
 URL   : https://patchwork.openembedded.org/series/22082/
 State : failure
 
