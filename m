@@ -1,52 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
-	[209.85.214.176])
-	by mail.openembedded.org (Postfix) with ESMTP id B3E817FBCD
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+	[209.85.216.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A84C7FBCD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 19:41:23 +0000 (UTC)
-Received: by mail-pl1-f176.google.com with SMTP id s21so11327873plr.7
+	Sat, 18 Jan 2020 19:41:24 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id s7so5031918pjc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 11:41:25 -0800 (PST)
+	Sat, 18 Jan 2020 11:41:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=Y090qyfLIyKjOufwz0aqiR9w0s4eH0wN9FuYscnw5tU=;
-	b=CqAPHIJrWIVX4aS7gyKo4FWc9ZIFV5IFj46qT40hO9eRDFeaX3NTyFeOVRmwv9xok8
-	dPI4oVvfw5LPV58Drni0OoVPFetiZNXW9qc9V0eXpapV9axy5sqiLza5wWYs/xdPiH6W
-	CRz8fp7wnJLSmMmx7vf3vID5FqBBNiC6cNF1RBeTqOLp4MRIn/8QR17+RDcndEZbY8wH
-	5cRMV6kS+9nPNhlY5ISubtS1HXqJNheF44J7MCP97GU8P8Amoc0+E1u0G1F9syQfNjQo
-	ZPWxgZWy5YEFE/o//EUGPbHBHtylSPpYUU4P7wf8l10ie+fGd4B+y6CdlVXKgNWln4Nf
-	ymkg==
+	bh=WcTxryMQc3fG1dj1uTAYX9RfXyMJQINqIdpOPSnI+Ws=;
+	b=rRGrtAszos0B7rx0axWG0Ta81p/xczZpacwauj/lFUsHMBm8CJI0zBS6dmPcxb2QCh
+	FzHnYT8EIDoST/gCENvIxTWpKjuy4XlgkI4pVXKaCb1lhrM/sjEuhr+NB/6XXPJuxPhS
+	LZw0pKgRxbDvnkGBQDoFBZMuC+cInrvsaYYaExggaD0L07LVQNl7TT7tV3YN6YerbOo/
+	Ynr8E6vQnbz0/5/Ruh455cdl2oTovkBEKFO71xgFNybvslI0o3GuJtO2ul9OHTanuDj3
+	8vEEYJNuJSRShaVcf1+eRniJC+4jHj8PlJSHBHwPtoDhhbvxRCOIFhki54M9GrsVxFYm
+	rKoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Y090qyfLIyKjOufwz0aqiR9w0s4eH0wN9FuYscnw5tU=;
-	b=LK6hxizut+yQCKsAvVARWWLzBz1iIsm0aHg2Aq+6Uz4LLCTF+P/TRAdYCWxOqQ+bOk
-	aium+MrAAQ37dZ9vGcoX+VkkrEW2nLzXHWZl1Br9A8IbSg7ma1xhIeDzyCQGl60zdk/J
-	om0nJJxphgO7ksriQExfmIqYNgaL1pnbdQ1V2oUcRIv+UxyOT6Ad9L50uuzrQgM2gU1P
-	wGemU5dcvKNZCylSKGNV35QrujdFOg5dCwxchFTVvhQ+4s5l/sK4Y1hr7tJm/zQKwji1
-	vXtHHkiOh198EhpCJBUYIpVd0KquB/MFwPVA+jF9r6+C6pngPzs/V8/6n+FqtSFyC431
-	PA6w==
-X-Gm-Message-State: APjAAAVYyd5o2f7wjxFj6RyIHmRFqYm7UHnvK+VnMijmsg5aVukUIXo+
-	qwURzc1xczDEfYj21uWK7N5TjPMOU48=
-X-Google-Smtp-Source: APXvYqwfeK6KCeSq0ryz7s4GkZZ24wFQwXWILQh98dU6x0yQzATkWiM7ppexqiYlQ5ebnn5xqnDPTA==
-X-Received: by 2002:a17:90a:35e6:: with SMTP id
-	r93mr13945963pjb.44.1579376483849; 
-	Sat, 18 Jan 2020 11:41:23 -0800 (PST)
+	bh=WcTxryMQc3fG1dj1uTAYX9RfXyMJQINqIdpOPSnI+Ws=;
+	b=pOCGU8PZxu6PuMXtHRI9Q/09Qjctx/0S+Jj+rNmpR33/sd66rkxTegfVm1k6dDmQZp
+	/uwdT7ScqqsLns+mbmqo0zf77cJHYhW9lg7TA1HGrklW7p2qzCEXqf53F71bWl1Ncce3
+	Yp4taSd2vaxaee3l+62AtRdZDnOg3JmBt5LO5iUq4/BwPXC8Edky6hVrL8gkJdaIX7Au
+	nvHG7LF9Jhxq8Kig34TJfmYlOJGbKdveEgsBtRjsjdtAxl91i6UO62mOpoEwpogGPn8i
+	H32PzY1qf9FPZUDkd49OuUfTS6RSbJua0IjVymNvIsbRxhEwAzuGlQ5HKg4RueM2ZBPO
+	uJ+Q==
+X-Gm-Message-State: APjAAAWeT/UvkcPQQYufWTUC7ySQn/C75asurwOdU7DLiI9+KKQ3nC2O
+	Zige+LqibFUznFlb0BtgmvfT1FJU8Fk=
+X-Google-Smtp-Source: APXvYqy7BbXtjL+A96sNbNwMaqXB1mQ+IckF+Bw8xBnwQArV4siz3q4THtBzNeT3oi8M6TNFM2KH9w==
+X-Received: by 2002:a17:90b:8ce:: with SMTP id
+	ds14mr14012094pjb.57.1579376485726; 
+	Sat, 18 Jan 2020 11:41:25 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::cab1])
-	by smtp.gmail.com with ESMTPSA id l8sm751610pjy.24.2020.01.18.11.41.23
+	by smtp.gmail.com with ESMTPSA id l8sm751610pjy.24.2020.01.18.11.41.25
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 18 Jan 2020 11:41:23 -0800 (PST)
+	Sat, 18 Jan 2020 11:41:25 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jan 2020 11:41:18 -0800
-Message-Id: <119ac1147dbb2274069050316f5518c3bf38e11f.1579376298.git.raj.khem@gmail.com>
+Date: Sat, 18 Jan 2020 11:41:21 -0800
+Message-Id: <be3ba655a2780f767ef5f8177be679ca8be37ec1.1579376298.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1579376298.git.raj.khem@gmail.com>
 References: <cover.1579376298.git.raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] classes, conf, lib: Add support for powerpc64le
+Subject: [PATCH 4/5] tcf-agent: Add LCL_STOP_SERVICES for powerpc64 LE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,94 +59,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jan 2020 19:41:24 -0000
+X-List-Received-Date: Sat, 18 Jan 2020 19:41:25 -0000
 Content-Transfer-Encoding: 8bit
 
-LE is default for modern powerpc64, power8+
-
-PowerPC64 Little Endian Linux ABI specifies Power8 as the minimum ISA.
-The basic ABI can run on earlier versions of the 64 bit PowerPC ISA,
-but it was helpful to define a new, minimum instruction set for Linux
-distribution releases during the switch to Little Endian.
+This is same as PPC64 BE
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes/libc-package.bbclass | 1 +
- meta/classes/meson.bbclass        | 2 +-
- meta/conf/bitbake.conf            | 1 +
- meta/lib/oe/elf.py                | 2 ++
- meta/lib/oe/package_manager.py    | 1 +
- 5 files changed, 6 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes/libc-package.bbclass b/meta/classes/libc-package.bbclass
-index de816bcec1..de3b4250c7 100644
---- a/meta/classes/libc-package.bbclass
-+++ b/meta/classes/libc-package.bbclass
-@@ -248,6 +248,7 @@ python package_do_split_gconvs () {
-                 "sh4":     " --uint32-align=4 --big-endian ",    \
-                 "powerpc": " --uint32-align=4 --big-endian ",    \
-                 "powerpc64": " --uint32-align=4 --big-endian ",  \
-+                "powerpc64le": " --uint32-align=4 --little-endian ",  \
-                 "mips":    " --uint32-align=4 --big-endian ",    \
-                 "mipsisa32r6":    " --uint32-align=4 --big-endian ",    \
-                 "mips64":  " --uint32-align=4 --big-endian ",    \
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 71f9de1a57..1ef34a999c 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -45,7 +45,7 @@ def meson_cpu_family(var, d):
-     arch = d.getVar(var)
-     if arch == 'powerpc':
-         return 'ppc'
--    elif arch == 'powerpc64':
-+    elif arch == 'powerpc64' or arch == 'powerpc64le':
-         return 'ppc64'
-     elif arch == 'armeb':
-         return 'arm'
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 62b5466b71..3bbe42c2c0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -11,6 +11,7 @@ baselib = "${BASELIB}"
- baselib[vardepvalue] = "${baselib}"
- BASELIB = "lib"
- BASELIB_powerpc64 = "lib64"
-+BASELIB_powerpc64le = "lib64"
+diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+index b4bd4ca63c..e0a07a9375 100644
+--- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
++++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
+@@ -46,6 +46,7 @@ CFLAGS_append_mips = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_mips64 = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_libc-musl = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_powerpc64 = " ${LCL_STOP_SERVICES}"
++CFLAGS_append_powerpc64le = " ${LCL_STOP_SERVICES}"
+ CFLAGS_append_riscv64 = " ${LCL_STOP_SERVICES}"
  
- # Path prefixes
- export base_prefix = ""
-diff --git a/meta/lib/oe/elf.py b/meta/lib/oe/elf.py
-index 2562cea1dd..43c962c697 100644
---- a/meta/lib/oe/elf.py
-+++ b/meta/lib/oe/elf.py
-@@ -34,6 +34,7 @@ def machine_dict(d):
-                         "armeb":      (40,    97,    0,          False,         32),
-                         "powerpc":    (20,     0,    0,          False,         32),
-                         "powerpc64":  (21,     0,    0,          False,         64),
-+                        "powerpc64le":  (21,     0,    0,          True,         64),
-                         "i386":       ( 3,     0,    0,          True,          32),
-                         "i486":       ( 3,     0,    0,          True,          32),
-                         "i586":       ( 3,     0,    0,          True,          32),
-@@ -68,6 +69,7 @@ def machine_dict(d):
-                         "armeb":      (  40,    97,    0,          False,         32),
-                         "powerpc":    (  20,     0,    0,          False,         32),
-                         "powerpc64":  (  21,     0,    0,          False,         64),
-+                        "powerpc64le":  (21,     0,    0,          True,         64),
-                         "i386":       (   3,     0,    0,          True,          32),
-                         "i486":       (   3,     0,    0,          True,          32),
-                         "i586":       (   3,     0,    0,          True,          32),
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index e15e3c4a31..e96c28b46d 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -107,6 +107,7 @@ def generate_locale_archive(d, rootfs, target_arch, localedir):
-         "sh4": ["--uint32-align=4", "--big-endian"],
-         "powerpc": ["--uint32-align=4", "--big-endian"],
-         "powerpc64": ["--uint32-align=4", "--big-endian"],
-+        "powerpc64le": ["--uint32-align=4", "--little-endian"],
-         "mips": ["--uint32-align=4", "--big-endian"],
-         "mipsisa32r6": ["--uint32-align=4", "--big-endian"],
-         "mips64": ["--uint32-align=4", "--big-endian"],
+ do_install() {
 -- 
 2.25.0
 
