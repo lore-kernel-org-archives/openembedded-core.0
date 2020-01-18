@@ -1,84 +1,33 @@
-Return-Path: <alejandro@enedino.org>
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com
-	(mail-bn8nam12on2055.outbound.protection.outlook.com [40.107.237.55])
-	by mail.openembedded.org (Postfix) with ESMTP id D3DC27FAB1
+Return-Path: <auh@auh.yoctoproject.org>
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
+	[140.211.169.56])
+	by mail.openembedded.org (Postfix) with ESMTP id B536B6C226
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 21:22:52 +0000 (UTC)
-Received: from BYAPR02CA0003.namprd02.prod.outlook.com (2603:10b6:a02:ee::16)
-	by CY4PR02MB2181.namprd02.prod.outlook.com (2603:10b6:903:e::12) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.19;
-	Sat, 18 Jan 2020 21:22:51 +0000
-Received: from BL2NAM02FT038.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e46::206) by BYAPR02CA0003.outlook.office365.com
-	(2603:10b6:a02:ee::16) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2623.13 via
-	Frontend Transport; Sat, 18 Jan 2020 21:22:50 +0000
-Authentication-Results: spf=none (sender IP is 149.199.60.83)
-	smtp.mailfrom=enedino.org; lists.openembedded.org;
-	dkim=none (message not
-	signed) header.d=none;lists.openembedded.org; dmarc=none action=none
-	header.from=enedino.org;
-Received-SPF: None (protection.outlook.com: enedino.org does not designate
-	permitted sender hosts)
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BL2NAM02FT038.mail.protection.outlook.com (10.152.77.25) with Microsoft
-	SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2644.19
-	via Frontend Transport; Sat, 18 Jan 2020 21:22:50 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <alejandro@enedino.org>)
-	id 1isvYO-0001nj-O4; Sat, 18 Jan 2020 13:22:48 -0800
-Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <alejandro@enedino.org>)
-	id 1isvYJ-00030B-Jc; Sat, 18 Jan 2020 13:22:43 -0800
-Received: from xsj-pvapsmtp01 (xsj-mail.xilinx.com [149.199.38.66])
-	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	00ILMgks025239; Sat, 18 Jan 2020 13:22:43 -0800
-Received: from [172.19.2.8] (helo=xsjalejandr50.xilinx.com)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <alejandro@enedino.org>)
-	id 1isvYI-0002zr-OD; Sat, 18 Jan 2020 13:22:42 -0800
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jan 2020 13:22:40 -0800
-Message-Id: <1579382560-2540-2-git-send-email-alejandro@enedino.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1579382560-2540-1-git-send-email-alejandro@enedino.org>
-References: <1579382560-2540-1-git-send-email-alejandro@enedino.org>
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-Result: No--2.145-7.0-31-1
-X-imss-scan-details: No--2.145-7.0-31-1;No--2.145-5.0-31-1
-X-TM-AS-User-Approved-Sender: No;No
-X-TM-AS-Result-Xfilter: Match text exemption rules:No
-X-EOPAttributedMessage: 0
-X-Matching-Connectors: 132238561706955606;
-	(f9e945fa-a09a-4caa-7158-08d2eb1d8c44); ()
-X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(396003)(39850400004)(346002)(136003)(376002)(428003)(199004)(189003)(86362001)(9786002)(107886003)(26005)(70586007)(336012)(316002)(426003)(70206006)(2616005)(81166006)(81156014)(8676002)(2906002)(8936002)(498600001)(4326008)(356004)(5660300002)(6916009)(36756003);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR02MB2181; H:xsj-pvapsmtpgw01;
-	FPR:; SPF:None; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1;
+	Sat, 18 Jan 2020 22:18:29 +0000 (UTC)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 359B1E0159D; Sat, 18 Jan 2020 14:18:31 -0800 (PST)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from auh.yoctoproject.org (unknown [198.145.29.2])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 9AB29E0161C
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 Jan 2020 14:17:55 -0800 (PST)
+Received: from auh.yocto.io (localhost [127.0.0.1])
+	by auh.yoctoproject.org (Postfix) with ESMTP id 8372C440002
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 18 Jan 2020 14:17:55 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7fd84111-95e2-4861-9667-08d79c5c9294
-X-MS-TrafficTypeDiagnostic: CY4PR02MB2181:
-X-Microsoft-Antispam-PRVS: <CY4PR02MB2181910B4806A8EDDA94B8BDB8300@CY4PR02MB2181.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0286D7B531
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Vjh/EH6UUDxtP7Hgrn50fed3WjOrojXJmSz6kf9zeHZfvAIzfDHp4NCSVpESUnMPOGjGEnSn2KyL2Ad9ZwCaaB1qU4cZaqQaaaykLEGZVYZU3vnV8bXD9laWB4Y8nzgNusB2DtIxli17DRXBEI+AuV7762wRFEQJrSWHPrpvFrDJAlkYSCPZunhoUlH3bblZbL3rI/npRLDqgUzwSaLxjoXtgAy783qIEZk6jFO0QrRI/lE+EPgoF0N8Hai3GRQrHUAc8ts4BIOBMLmhD1mH5hf3/N49Dvqp2lWuiEfjbEU3Mxwa68U2XWBFXikIRlMLks7RCK5uSFRsEDai0awLdt2S4KPjML8Ahqzk7hWWzVfCzgUKq5dKXdxDNIWi1quBZi9xVLxjbaT88rMxdQaT/BuFr+yMRJSWrCet46mcrjpLidKTomPAy2wy9+TaLkbb
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2020 21:22:50.4568 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fd84111-95e2-4861-9667-08d79c5c9294
-X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;
-	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB2181
-Subject: [PATCH] newlib: Enable building libstdc++ for newlib based toolchains
+From: auh@auh.yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Message-Id: <20200118221755.8372C440002@auh.yoctoproject.org>
+Date: Sat, 18 Jan 2020 14:17:55 -0800 (PST)
+Subject: [AUH] Upgrade status: 2020-01-18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -91,72 +40,170 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jan 2020 21:22:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 18 Jan 2020 22:18:30 -0000
+Content-Type: multipart/mixed; boundary="===============5339677570410168435=="
 
-Some baremetal applications might require support from libstdc++.
+--===============5339677570410168435==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-On newlib based toolchains, libstdc++ can be built as a static
-library that applications can then link against it.
+UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
+IDE5CiAgICAgICAgc3lza2xvZ2QsIDIuMSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29t
+PgogICAgICAgIGlmdXBkb3duLCAwLjguMzUsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRl
+bC5jb20+CiAgICAgICAgcnBtLCA0LjE1LjEsIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJp
+dmVyLmNvbT4KICAgICAgICBydC10ZXN0cywgMS42LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5r
+YW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBlMmZzcHJvZ3MsIDEuNDUuNSwgUm9iZXJ0IFlhbmcg
+PGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgYWNsLCAyLjIuNTMsIENoZW4gUWkg
+PFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBhdGssIDIuMzQuMSwgQW51aiBNaXR0YWwg
+PGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBweXRob24zLCAzLjguMSwgT2xla3NhbmRy
+IEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIGxp
+YnZhLCAyMDEzMDgyNywgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAg
+ICBsdHAsIDIwMTkwOTMwLCBZaSBaaGFvIDx5aS56aGFvQHdpbmRyaXZlci5jb20+CiAgICAgICAg
+cWVtdSwgNC4yLjAsIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRp
+b24ub3JnPgogICAgICAgIGVsZnV0aWxzLCAwLjE3OCwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3
+aW5kcml2ZXIuY29tPgogICAgICAgIHN5c3RlbWQtYm9vdCwgMjQ0LjEsIENoZW4gUWkgPFFpLkNo
+ZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBidWlsZC1jb21wYXJlLCAyMDE5LjA4LjE0LW5ldy1j
+b21taXRzLWF2YWlsYWJsZSwgUGF1bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRl
+bC5jb20+CiAgICAgICAgbGliaW5wdXQsIDEuMTUuMCwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9u
+QGludGVsLmNvbT4KICAgICAgICBhdHRyLCAyLjQuNDgsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJp
+dmVyLmNvbT4KICAgICAgICBhcHQsIDEuOS41LCBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFs
+QGdtYWlsLmNvbT4KICAgICAgICBsaWJ0aXJwYywgMS4yLjUsIEFudWogTWl0dGFsIDxhbnVqLm1p
+dHRhbEBpbnRlbC5jb20+CiAgICAgICAgd2VzdG9uLCA3LjAuOTIsIERlbnlzIERteXRyaXllbmtv
+IDxkZW55c0B0aS5jb20+CiAgICAqIEZhaWxlZChkb19jb21waWxlKTogMzEKICAgICAgICBjbWFr
+ZSwgMy4xNi4yLCBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+CiAgICAgICAg
+Z3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseSwgMS4xNi4yLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0
+YWxAaW50ZWwuY29tPgogICAgICAgIHJ1YnksIDIuNy4wLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0
+b25AaW50ZWwuY29tPgogICAgICAgIGdvLCAxLjEzLjYsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
+bC5jb20+CiAgICAgICAgZ28tcnVudGltZSwgMS4xMy42LCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
+aWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2QsIDEuMTYuMiwgQW51aiBN
+aXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBtZXNhLCAxOS4zLjIsIE90YXZp
+byBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgdnVs
+a2FuLXRvb2xzLCAxLjEuMTMwLjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+
+CiAgICAgICAgcHl0aG9uMy1udW1weSwgMS4xOC4xLCBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4u
+c291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgYXQtc3BpMi1hdGssIDIuMzQu
+MSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICB2dWxrYW4tZGVt
+b3MsIGdpdC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBp
+bnRlbC5jb20+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZSwgMS4xNi4yLCBBbnVq
+IE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1vbXgs
+IDEuMTYuMiwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnaXQs
+IDIuMjUuMCwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAg
+cHl0aG9uMy1zY29ucywgMy4xLjIsIFRpbSBPcmxpbmcgPHRpbW90aHkudC5vcmxpbmdAbGludXgu
+aW50ZWwuY29tPgogICAgICAgIGdzdC12YWxpZGF0ZSwgMS4xNi4yLCBBbnVqIE1pdHRhbCA8YW51
+ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1saWJhdiwgMS4xNi4yLCBB
+bnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIG5ldGJhc2UsIDYuMCwg
+QXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBiaW5kLCA5LjExLjE0
+LCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIG1lc29uLCAwLjUz
+LjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHZ1
+bGthbi1sb2FkZXIsIDEuMi4xMzEuMCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNv
+bT4KICAgICAgICBweXRob24tc2V0dXB0b29scywgNDUuMC4wLCBPbGVrc2FuZHIgS3JhdmNodWsg
+PG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgZ3N0cmVhbWVyMS4w
+LXJ0c3Atc2VydmVyLCAxLjE2LjIsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+
+CiAgICAgICAgdS1ib290LCAyMDIwLjAxLCBNYXJlayBWYXN1dCA8bWFyZWsudmFzdXRAZ21haWwu
+Y29tPgogICAgICAgIGFjcGljYSwgMjAyMDAxMTAsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBp
+bnRlbC5jb20+CiAgICAgICAgbGliZG5mLCAwLjQzLjEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGxpYnNlY3JldCwgMC4yMC4wLCBBbGV4YW5kZXIg
+S2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICB2dWxrYW4taGVhZGVycywg
+MS4xLjEzMC4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIG5z
+cywgMy40OS4xLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGdz
+dHJlYW1lcjEuMC12YWFwaSwgMS4xNi4yLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
+Y29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZCwgMS4xNi4yLCBBbnVqIE1pdHRh
+bCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgKiBTdWNjZWVkZWQ6IDUzCiAgICAgICAgaXBy
+b3V0ZTIsIDUuNC4wLCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgog
+ICAgICAgIGJ0cmZzLXRvb2xzLCA1LjQuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZp
+bkBnbWFpbC5jb20+CiAgICAgICAgYmlzb24sIDMuNSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2
+ZXIuY29tPgogICAgICAgIGdudXBnLCAyLjIuMTksIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2lu
+ZHJpdmVyLmNvbT4KICAgICAgICBwdXp6bGVzLCAwLjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBB
+bnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHNvY2F0LCAxLjcuMy40
+LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgaXB0YWJsZXMs
+IDEuOC40LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAgICAg
+IGxpbnV4LWZpcm13YXJlLCAyMDE5MDgxNS1uZXctY29tbWl0cy1hdmFpbGFibGUsIE90YXZpbyBT
+YWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgbGlicGlw
+ZWxpbmUsIDEuNS4yLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4K
+ICAgICAgICBpdywgNS40LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29t
+PgogICAgICAgIHgyNjQsIHIyOTE3LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgQW51aiBNaXR0YWwg
+PGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBhc3NpbXAsIDUuMC4xLCBBbnVqIE1pdHRh
+bCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIG1zbXRwLCAxLjguNywgQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgbGlieHBtLCAzLjUuMTMs
+IEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgbGlianBlZy10dXJi
+bywgMi4wLjQsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgY2Nh
+Y2hlLCAzLjcuNywgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAg
+ICAgZmZtcGVnLCA0LjIuMiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
+b20+CiAgICAgICAgZ2xpYi1uZXR3b3JraW5nLCAyLjYyLjMsIEFudWogTWl0dGFsIDxhbnVqLm1p
+dHRhbEBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1kYnVzLCAxLjIuMTYsIE9sZWtzYW5kciBL
+cmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBzdWRv
+LCAxLjguMzAsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBwaWdsaXQs
+IDEuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRl
+bC5jb20+CiAgICAgICAgbGlidmEtdXRpbHMsIDIuNi4wLiwgQW51aiBNaXR0YWwgPGFudWoubWl0
+dGFsQGludGVsLmNvbT4KICAgICAgICBrbXNjdWJlLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxl
+LCBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdkBwc2V1ZG90ZXJtaW5hbC5vcmc+CiAgICAgICAgbmN1
+cnNlcywgNi4xKzIwMTkxMDE5LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+
+CiAgICAgICAgdS1ib290LXRvb2xzLCAyMDIwLjAxLCBNYXJlayBWYXN1dCA8bWFyZWsudmFzdXRA
+Z21haWwuY29tPgogICAgICAgIGF0LXNwaTItY29yZSwgMi4zNC4wLCBBbnVqIE1pdHRhbCA8YW51
+ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHZpbS10aW55LCA4LjIsIFRvbSBSaW5pIDx0cmlu
+aUBrb25zdWxrby5jb20+CiAgICAgICAgdmltLCA4LjIsIFRvbSBSaW5pIDx0cmluaUBrb25zdWxr
+by5jb20+CiAgICAgICAgcHl0aG9uMy1naXRkYiwgMi4wLjYsIE9sZWtzYW5kciBLcmF2Y2h1ayA8
+b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBsaWJlZGl0LCAyMDE5
+MTIzMS0zLjEsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgZ3N0cmVhbWVy
+MS4wLXB5dGhvbiwgMS4xNi4yLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgog
+ICAgICAgIGN1cmwsIDcuNjguMCwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4K
+ICAgICAgICBod2xhdGRldGVjdCwgMS42LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmlu
+QGdtYWlsLmNvbT4KICAgICAgICBlcGlwaGFueSwgMy4zNC4zLjEsIEFsZXhhbmRlciBLYW5hdmlu
+IDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGdyZXAsIDMuNCwgRGVueXMgRG15dHJp
+eWVua28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBsaWJ3ZWJwLCAxLjEuMCwgQWxleGFuZGVyIEth
+bmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgcHl0aG9uMy1zZXR1cHRvb2xz
+LCA0NS4wLjAsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZj
+aHVrLmNvbT4KICAgICAgICBsaWJjYXAsIDIuMzEsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVy
+LmNvbT4KICAgICAgICBzdHJlc3MtbmcsIDAuMTAuMTYsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRh
+bEBpbnRlbC5jb20+CiAgICAgICAgYXNjaWlkb2MsIDguNi4xMCwgWWkgWmhhbyA8eWkuemhhb0B3
+aW5kcml2ZXIuY29tPgogICAgICAgIHB5dGhvbjMtZ2l0LCAzLjAuNSwgT2xla3NhbmRyIEtyYXZj
+aHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIGdudS1jb25m
+aWcsIDIwMTkwNTAxLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55
+YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgbGliYXJjaGl2ZSwgMy40LjEsIE90YXZpbyBTYWx2
+YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgZXRodG9vbCwg
+NS40LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAgICAgIHB5
+dGhvbjMtc2l4LCAxLjE0LjAsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3Nh
+bmRyLWtyYXZjaHVrLmNvbT4KICAgICAgICBkbmYsIDQuMi4xOCwgQWxleGFuZGVyIEthbmF2aW4g
+PGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgeHNlcnZlci14b3JnLCAxLjIwLjcsIEFy
+bWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgY3JlYXRlcmVwby1jLCAw
+LjE1LjUsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAg
+IGZpbGUsIDUuMzgsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnc3Ry
+ZWFtZXIxLjAsIDEuMTYuMiwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAg
+ICAgICBzZWQsIDQuOCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGxp
+YnBjcmUyLCAxMC4zNCwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAg
+ICBlbGwsIDAuMjcsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWty
+YXZjaHVrLmNvbT4KCiAgICBUT1RBTDogYXR0ZW1wdGVkPTEwMyBzdWNjZWVkZWQ9NTMoNTEuNDYl
+KSBmYWlsZWQ9NTAoNDguNTQlKQoKUmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljcyBwZXIgTWFpbnRh
+aW5lcjoKCiAgICBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWw6IGF0dGVtcHRlZD0yNyBzdWNjZWVk
+ZWQ9MTAoMzcuMDQlKSBmYWlsZWQ9MTcoNjIuOTYlKQogICAgQ2hhbmdoeWVvayBCYWUgPGNoYW5n
+aHllb2suYmFlOiBhdHRlbXB0ZWQ9NCBzdWNjZWVkZWQ9NCgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAw
+JSkKICAgIEFybWluIEt1c3RlciA8YWt1c3RlcjgwODogYXR0ZW1wdGVkPTcgc3VjY2VlZGVkPTQo
+NTcuMTQlKSBmYWlsZWQ9Myg0Mi44NiUpCiAgICBDYXJsb3MgUmFmYWVsIEdpYW5pIDxkdjogYXR0
+ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBUb20gUmlu
+aSA8dHJpbmk6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0yKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAl
+KQogICAgTWFyayBIYXRsZSA8bWFyay5oYXRsZTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4w
+MCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2YWRv
+cjogYXR0ZW1wdGVkPTMgc3VjY2VlZGVkPTIoNjYuNjclKSBmYWlsZWQ9MSgzMy4zMyUpCiAgICBS
+aWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWU6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAu
+MDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgWWkgWmhhbyA8eWkuemhhbzogYXR0ZW1wdGVkPTQg
+c3VjY2VlZGVkPTMoNzUuMDAlKSBmYWlsZWQ9MSgyNS4wMCUpCiAgICBUaW0gT3JsaW5nIDx0aW1v
+dGh5LnQub3JsaW5nOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAw
+LjAwJSkKICAgIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWE6IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0z
+KDc1LjAwJSkgZmFpbGVkPTEoMjUuMDAlKQogICAgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJh
+bDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBB
+bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluOiBhdHRlbXB0ZWQ9MTMgc3VjY2VlZGVkPTko
+NjkuMjMlKSBmYWlsZWQ9NCgzMC43NyUpCiAgICBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291
+cmNlOiBhdHRlbXB0ZWQ9OSBzdWNjZWVkZWQ9Nig2Ni42NyUpIGZhaWxlZD0zKDMzLjMzJSkKICAg
+IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbjogYXR0ZW1wdGVkPTUgc3VjY2VlZGVkPTEoMjAuMDAl
+KSBmYWlsZWQ9NCg4MC4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9uOiBhdHRl
+bXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIEtoZW0gUmFq
+IDxyYWoua2hlbTogYXR0ZW1wdGVkPTMgc3VjY2VlZGVkPTEoMzMuMzMlKSBmYWlsZWQ9Mig2Ni42
+NyUpCiAgICBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXM6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0x
+KDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAlKQogICAgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoOiBh
+dHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIENoZW4g
+UWkgPFFpLkNoZW46IGF0dGVtcHRlZD03IHN1Y2NlZWRlZD0zKDQyLjg2JSkgZmFpbGVkPTQoNTcu
+MTQlKQogICAgTWFyZWsgVmFzdXQgPG1hcmVrLnZhc3V0OiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9
+MSg1MC4wMCUpIGZhaWxlZD0xKDUwLjAwJSkKICAgIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZzog
+YXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTIoNTAuMDAlKSBmYWlsZWQ9Mig1MC4wMCUpCg==
 
-Pass libsdtc++-(static)dev to LIBC_DEPENDENCIES allowing the
-library to be present for cross compilation as well as on
-sdk builds.
-
-This also requires to modify the gcc-runtime recipe to
-explictly build only libsdtc++ correctly.
-
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
----
- meta/conf/distro/include/tclibc-newlib.inc | 7 +++----
- meta/recipes-devtools/gcc/gcc-runtime.inc  | 6 ++++++
- 2 files changed, 9 insertions(+), 4 deletions(-)
-
-diff --git a/meta/conf/distro/include/tclibc-newlib.inc b/meta/conf/distro/include/tclibc-newlib.inc
-index 896c0b1..8338003 100644
---- a/meta/conf/distro/include/tclibc-newlib.inc
-+++ b/meta/conf/distro/include/tclibc-newlib.inc
-@@ -25,12 +25,11 @@ LIBC_DEPENDENCIES = "\
-     libgloss-dbg \
-     libgcc-dev \
-     libgcc-dbg \
-+    libstdc++-dev \
-+    libstdc++-staticdev \
-     "
- 
--# compilerlibs defaults to gcc-runtime, but we get runtime from libgloss
--# we set ASSUME_PROVIDED because we cant set PREFERRED_PROVIDER
--# for compilerlibs since its overridden by tcmode-default
--ASSUME_PROVIDED += "virtual/${TARGET_PREFIX}compilerlibs virtual/crypt"
-+ASSUME_PROVIDED += "virtual/crypt"
- 
- # Its useful to be able to extend newlib, but we dont provide a native variant of libgloss
- NEWLIB_EXTENDED ?=  "libgloss libgcc"
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index d3f8ae8..f035fbd 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -17,6 +17,9 @@ EXTRA_OECONF_PATHS = "\
- EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
- EXTRA_OECONF_append = " --cache-file=${B}/config.cache"
- 
-+EXTRA_OECONF_remove_libc-newlib = "--enable-symvers=gnu"
-+EXTRA_OECONF_append_libc-newlib = " --with-newlib"
-+
- # Disable ifuncs for libatomic on arm conflicts -march/-mcpu
- EXTRA_OECONF_append_arm = " libat_cv_have_ifunc=no "
- 
-@@ -33,6 +36,9 @@ RUNTIMELIBITM_riscv64 = ""
- RUNTIMELIBSSP ?= ""
- RUNTIMELIBSSP_mingw32 ?= "libssp"
- 
-+# Only build libstdc++ for newlib
-+RUNTIMETARGET_libc-newlib = "libstdc++-v3"
-+
- RUNTIMETARGET = "${RUNTIMELIBSSP} libstdc++-v3 libgomp libatomic ${RUNTIMELIBITM} \
-     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'], 'libquadmath', '', d)} \
- "
--- 
-2.7.4
-
-
+--===============5339677570410168435==--
