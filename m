@@ -1,54 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 26E807FC41
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A68A6D6DE
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 11:13:18 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id g17so24997798wro.2
+	Sat, 18 Jan 2020 16:29:26 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id z7so25435389wrl.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 03:13:20 -0800 (PST)
+	Sat, 18 Jan 2020 08:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=vOS9wOs/m4+ZdtjI6TS/OOZni1M0pwNwwwsVxkAy1m0=;
-	b=Ru2A4TJbw+G5gSdxkdvwVdP0mpoEknmg1rvKIB7QnQ4RSo5UgrF9DGJPiZZpC3Pg9k
-	Tcg2zjwyHcWI4uxMNV+ecLiIHi191Z94lyqv49g+YWImGuQDVT//uBYs9RR1qxpF0U/5
-	dfwN7E9XC3fEXPXHBsAzwGYIdhy270gIenHD8=
+	bh=PWNk3ufOmAzNjHBMNCdRMmHnpHUUoaGy4sttQsIWNZs=;
+	b=RxUezxmOi4Zq5x90dTBMvHhifY+Hm/kz9TkHKo3Aogsqnn5wcaGjDcskbRWFwr1lfK
+	5oVYS5VIFJ2uMd5+bqSoA/9hCIK+U97fjK/yc9Afx0yY0uHs4RXOIblIiTfpm9yf8uYe
+	KYmRiwO2DcOTAWqNV4Gl9+Pk8IHbSK6+Z85Dk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=vOS9wOs/m4+ZdtjI6TS/OOZni1M0pwNwwwsVxkAy1m0=;
-	b=BHMzjHAEYWHKJHYbJNE/BMqfBeaM9GYaogqQb2RDL4/h1HRmhTI23rOpFdvWHMBJUO
-	P9qrTJ/dZ2brt3VbhTT6zMYyWgrOCwVgkf77UNU6LSWhL1LXuuX7TFRv6/ktCGBBFart
-	VLqBFuql0fqP0Vd7aXRzoRj0Cu7ehY7GppT80FyMvGsMSnLho68taFLgpDV96QCwI+5a
-	8nmjg7wogZG06U+5hweNARtRFFCV2gpv6LcIRwa0pdr6PuBhoOOgh4XuTiqqhY8zzLrA
-	ZWj1mvtmimQNX8NeMnrYOwVQeVe80MuvXZkyQZ0aaWPyAU38cFu3n8mNUnraYIzobr1R
-	LZNA==
-X-Gm-Message-State: APjAAAXhE0fEyDA4lKT/cOzwx4Mm9PHyMGFj0eih9Z5VPRMmyshBrMMe
-	5ujsZmWL10TNN3xK3VHVKmRpAw==
-X-Google-Smtp-Source: APXvYqxtMstGIEaqV1j0BrT7SBITiIkACXT+rVEzlvHV/HHyydgdVyCEDf+tshbpTovSPXfj1Y9dzg==
-X-Received: by 2002:adf:a308:: with SMTP id c8mr7647691wrb.240.1579345999736; 
-	Sat, 18 Jan 2020 03:13:19 -0800 (PST)
+	bh=PWNk3ufOmAzNjHBMNCdRMmHnpHUUoaGy4sttQsIWNZs=;
+	b=qnZSi5Ag5d5nYVIAtg4exrZ0G0L52+PrrLyHb77HcPbO9eZG+/+vbn254eEjxmJFaa
+	KbmdseyQ6MKqasKf9sxIa6Nec7IXCH1JEIRGZAI3vsFyASZAbh1d4YaFBfvvwvJRV123
+	MlrHpX9fN09ScU4I0tBgFfjhytVSKiONkZgND5Jifu4BJf/d5womyUM2AgzkDDqoybnL
+	F77/Na89dJpe3uSNTUhIEoKKw574ckSqMQZXA7kChk5+Lhf9ezRTiKM95YHncex/17d0
+	PextA0N51yat1AZVRWvTTpRt7i+XciBAsbD8H5+tjTH8XcLBkCJHHDRWyQ8TRwLgdDap
+	yRtA==
+X-Gm-Message-State: APjAAAXob0JSUfkOWZB41AkzMcttmt1QslQTcJRxRUee0XJXZPA51cOi
+	aRCIMoK/Ik1PuAy737pX3Wwyzw==
+X-Google-Smtp-Source: APXvYqyF+XdsEG0H7vLXlyeXnzxNx2M19BxZttQhkvGfqm4kKNnMd5UUNKFCEU2ougq3+sZpAIkPnA==
+X-Received: by 2002:a5d:608a:: with SMTP id w10mr8774364wrt.136.1579364966904; 
+	Sat, 18 Jan 2020 08:29:26 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	s128sm14127073wme.39.2020.01.18.03.13.18
+	n187sm15108234wme.28.2020.01.18.08.29.25
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 18 Jan 2020 03:13:19 -0800 (PST)
-Message-ID: <d7933788a8f6741d3d829a5703a6860c5e8466ae.camel@linuxfoundation.org>
+	Sat, 18 Jan 2020 08:29:26 -0800 (PST)
+Message-ID: <d8c007eed391a3aa4af95f271e4e2f85d604d59d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>
-Date: Sat, 18 Jan 2020 11:13:17 +0000
-In-Reply-To: <CALbNGRSa9oFogL4xAfbbAuCPzzLQTOD0js6Znu=p1z_PUHubFw@mail.gmail.com>
-References: <20200117212908.32647-1-schnitzeltony@gmail.com>
-	<045bded79ff6636698fe2f9d2b64171fdebd61d0.camel@linuxfoundation.org>
-	<CALbNGRSa9oFogL4xAfbbAuCPzzLQTOD0js6Znu=p1z_PUHubFw@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>, openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Date: Sat, 18 Jan 2020 16:29:24 +0000
+In-Reply-To: <fce3863d-ddc4-a3f8-fd90-7e6c1c4168c6@gmail.com>
+References: <886f1102228414559c078203bcde660cfc807d2f.camel@linuxfoundation.org>
+	<fce3863d-ddc4-a3f8-fd90-7e6c1c4168c6@gmail.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][v2 00/10] Make MIME work on desktops
+Cc: "Orling, Timothy T" <timothy.t.orling@intel.com>
+Subject: Re: Building older releases on modern distros (and vice versa)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,71 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jan 2020 11:13:19 -0000
+X-List-Received-Date: Sat, 18 Jan 2020 16:29:26 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Sat, 2020-01-18 at 12:08 +0100, Andreas Müller wrote:
-> On Sat, Jan 18, 2020 at 9:40 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > > V1 -> V2:
-> > > * Shelve global path export thingy
-> > > * Add me as maintainer of itstool (let's consider 'ü' in my name
-> > > as
-> > > test case :)
-> > > * Change "to to" to "to" in commit message
-> > > * Build shared-mime-info from git to allow automated upgrades
-> > > * mime-xdg.bbclass: Be prepared for packages as libreoffice:
-> > > Desktop
-> > > files
-> > >   installed are absolut symlinks broken for us. In case other
-> > > projects do same:
-> > >   Offer asolution and guide recipe writers how to handle by
-> > > generating warnings
-> > >   with instructions how to handle.
-> > 
-> > Thanks, this looks good to me. It did generate a warning on master-
-> > next
-> > builds in many places:
-> > 
-> > WARNING: libfm-1.3.1-r0 do_package_qa: QA Issue: package contains desktop file with key 'MimeType' but does not inhert mime-xdg: libfm-gtk path '/work/armv7vet2hf-neon-oe-linux-gnueabi/libfm/1.3.1-r0/packages-split/libfm-gtk/usr/share/applications/lxshortcut.desktop' [mime-xdg]
-> > WARNING: libfm-1.3.1-r0 do_package_qa: QA Issue: package contains mime types but does not inhert mime: libfm-mime path '/work/armv7vet2hf-neon-oe-linux-gnueabi/libfm/1.3.1-r0/packages-split/libfm-mime/usr/share/mime/packages/libfm.xml' [mime]
-> Slipped through - will send a follow up
+On Fri, 2020-01-17 at 14:41 -0800, akuster808 wrote:
+> I would like to thank you and Intel for taking up this task even
+> thought
+> the community seemed to have issues with Centos7 being dropped.
+> 
+> Is there anything community can do at this point?
 
-Thanks, should be simple at least! :)
+The work isn't complete, we have a proof of concept so far. The
+remaining work:
 
-> > It also generated:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/1458
-> > 
-> > which partly is the python2 removal that was in with the test and
-> > partly this series since itstool is GPLv3 :(.
-> Is there any activity required from my side?
+* forward port the binutils patch and buildtools-tarball changes to 
+  master
+* create some mechanism in the autobuilder-helper to download and 
+  install (or init if already present) a given buildtools tarball for 
+  a given host distro before invoking builds.
+* build a set of buildtools tarballs that cover the major gcc verions 
+  we need 
+* release/publish said tarballs
+* add config to the autobuilder for the stable releases we want to 
+  build using this mechanism.
+* potentially test and debug building older releases
 
-Well, as things stand this series breaks meta-gplv2. This is currently
-tested on the autobuilder and turns it red. I'm therefore blocked on
-merging.
-
-> > I have to admit I'm not sure how reasonable it is to keep hacking the
-> > gplv2 layer to work...
-
-The question now is really whether we want to continue supporting meta-
-gplv2 with master?
-
-I don't like the layer, I think there are other approaches we're going
-to need to take going forward and the project may need to send that
-message.
-
-If someone steps up and fixes it, great, we can move forward and I'll
-defer that discussion.
-
-If nobody does, quickly, then I will need to start a discussion about
-dropping it from the core YP testing. This patch is blocked until
-something changes though :(
+Not sure who is going to do this but it isn't trivial and the work
+certainly isn't done yet.
 
 Cheers,
 
 Richard
+
 
 
 
