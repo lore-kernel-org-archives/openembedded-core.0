@@ -1,47 +1,51 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D82297CBDF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AACA6C1CA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 05:41:12 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id y17so24614305wrh.5
+	Sat, 18 Jan 2020 08:40:06 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id t14so9811319wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 21:41:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=6rzZ1cdd4vl4P5M2kWA9LylIp4fCv3mextt0qGZIno0=;
-	b=rCi3ZpXQFbjwMsommwSgzt+OVFNuZmfXNNwLiIyOIuZ6zQlYRBvlwOIrvWPhcLLwyZ
-	bjRRGJ4UP4Uz7KoOfx+Rgyf6zEJnQ4wUNnbCHT4KmPJLeE6uqOkmfI0YW7bQOlxnpcs4
-	naz9iuJ+llVq6P6tUNaLmbcBPB208ye1bQQRjEQ3KcvpAbCl6TB/qP342WTbnukpH4LL
-	hxy3t5RpQSknmmREVhlE2fqQ9wvLrLLfNthXWKDgtZg4jg8/RhQ3FTu91Dqx9HCwPigh
-	MVQsECXU3sgvEbByTmHIfbfezgYPekENmo8Va1m+ZyZLRPoDIvnndCq8ESQkGqywWm4X
-	1E4w==
+	Sat, 18 Jan 2020 00:40:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=rrCvINmoIXl9cSli1I7jXL+ozWBc8mDs8KBpWF/P6Z4=;
+	b=M+7lL6eeIcsDtZ1Iqz8W4ONO57V8O0Oo4jjswXXqhnlyMK4kgq/MXk3QaoQl/r9bKH
+	FJjwlMtoDBUfKppIXcWtN+5umiFNGWm8+3/9GQo0W/+kyzqH4lkaEebNFypP8IP4RgbF
+	ONda62cxoH4SGE9MhTlTX/G+FJmIEdZCXVQt4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6rzZ1cdd4vl4P5M2kWA9LylIp4fCv3mextt0qGZIno0=;
-	b=RITxbKFKx6QQ89q6cEc0IlN0bKifkTJDiBtS9MYAnQo6G4y9psX5u74mau1U0HgcM8
-	F6tf+uLLMSonDkmV1RJIFqKU8xMrnOYxip4UoEp1Oh0jHBy9qpMojizoBst55/uIlzqp
-	aAcYqhXIHGj8S1EER51JPlrLD4jc1Wk8XTd7kIytyXANKHlk4cNs9emrxIRkEFAk6BUm
-	Jq3d0oKvK6NpAXBv0xv8H4ILPFNv0m4lPDDzfcgmvHuvF7ivqR4fwxVrNBLLmqlNLUVU
-	w31mARU86Ws/ZCzCJYo8OIOzZHRuRENLqDBO9T+GaJQp+TLmczaH8BCMpT2d1itGaT0y
-	zCAg==
-X-Gm-Message-State: APjAAAVNcLubUXsVi7JssMKDm9CEky3xB28NZ/Iz90S/b9xZgEUZjjP+
-	qmjsyAgZG0eqb0wjHVRKetrokIpx
-X-Google-Smtp-Source: APXvYqyE5wHBsjFQOOtqQGQf1+tHag3cxuC/5Fz9QCmPxPys74qT41dhuKhVI3pz+WJcs+afvWdwLw==
-X-Received: by 2002:a5d:4807:: with SMTP id l7mr6910567wrq.64.1579326073007;
-	Fri, 17 Jan 2020 21:41:13 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246])
-	by smtp.gmail.com with ESMTPSA id y7sm6211754wmd.1.2020.01.17.21.41.11
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=rrCvINmoIXl9cSli1I7jXL+ozWBc8mDs8KBpWF/P6Z4=;
+	b=XNIHbOnkEDN/A8JYLrqqe6gn6d6DrazSpwCdVVxpfrDC0/+uj6w3ZvlJYuCGRakr+j
+	ZPffIMabMOyMH5cjOzwbk/dKIKTkpNG3t6yMxBXhlQUyetEcmQr3P+RWVWs2wm8p+3p4
+	B60XK+jQIF7/zn1JjAN1EvsQB5XoPGvuxwxTWljtmZTXg53tMnrwGVW5IGqzBn+q0sW2
+	3TTOcHweDLPv7jKBt1QlMqyiKqTKwqV8odWRzaYiT1V33duX8skSqieGaDHEXVZoPM1W
+	H9GY6C+NIZrhN7MeXOfTBk6uirgaVGHbMqW3n8N8uqVV+5XOvhIbs8c9pozY0Bg2zkZi
+	UP5A==
+X-Gm-Message-State: APjAAAUtMUBy62lLnQ2UlTgX9Qhgkb/CZcEkH0/zuA4R4KAwuCTBzUv3
+	4zYoNpP84KuukL0wVfv1dUbaEQ==
+X-Google-Smtp-Source: APXvYqye76L2PpGatYTWT4OPctQwcDeAEkKXHRql5StuqY2vz+tNd80vmbaB/H4AXVcKZcRz+nU4Xg==
+X-Received: by 2002:a1c:730d:: with SMTP id d13mr8565184wmb.126.1579336806908; 
+	Sat, 18 Jan 2020 00:40:06 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	c2sm37798302wrp.46.2020.01.18.00.40.05
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 17 Jan 2020 21:41:12 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jan 2020 05:41:07 +0000
-Message-Id: <20200118054107.101203-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] rootfs: Make BUILDNAME a weak default in reproducible_build_simple
+	Sat, 18 Jan 2020 00:40:05 -0800 (PST)
+Message-ID: <045bded79ff6636698fe2f9d2b64171fdebd61d0.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 18 Jan 2020 08:40:04 +0000
+In-Reply-To: <20200117212908.32647-1-schnitzeltony@gmail.com>
+References: <20200117212908.32647-1-schnitzeltony@gmail.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH][v2 00/10] Make MIME work on desktops
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +58,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jan 2020 05:41:13 -0000
+X-List-Received-Date: Sat, 18 Jan 2020 08:40:06 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-11e45082ad00 ("rootfs-postcommands.bbclass: improve binary
-reproducibility") fixed binary reproducibility of /etc/version, but with
-the move to reproducibilty in all builds, setting /etc/version to
-anything other than the default fixed timestamp is tricky because
-rootfs_reproducible() runs very late.
+On Fri, 2020-01-17 at 22:28 +0100, Andreas Müller wrote:
+> On fresh images file-browsers do not know how to open files and
+> usually open a
+> dialog with ALL applications available on the machine. This is not
+> what users
+> are used to when working with linux: For just one application
+> installed per
+> Mime-Type, the application is opened automatically.
+> 
+> To get a working MIME on desktop it needs two 'databases' on target:
+> 
+> 1. Mime-Types: This is handled by mime.bbclass and creates database
+> in
+>    /usr/share/mime/mime.cache.
+> 2. Mime associations: A simple text-list of pairs Mime-Type <->
+> application
+>    in /usr/share/applications/mimeinfo.cache
+> 
+> This patch series updates/implements/enhances both parts to get
+> images work as
+> expected.
+> 
+> @Khem: This series creates many QA warnings for layers in meta-
+> openembedded and
+> a patch series fixing many was prepared [1]. Once this series get's
+> applied (or
+> you ask for it) I can send them out.
+> 
+> [1] 
+> https://github.com/schnitzeltony/meta-openembedded/tree/work-2020-01
+> 
+> V1 -> V2:
+> * Shelve global path export thingy
+> * Add me as maintainer of itstool (let's consider 'ü' in my name as
+> test case :)
+> * Change "to to" to "to" in commit message
+> * Build shared-mime-info from git to allow automated upgrades
+> * mime-xdg.bbclass: Be prepared for packages as libreoffice: Desktop
+> files
+>   installed are absolut symlinks broken for us. In case other
+> projects do same: 
+>   Offer asolution and guide recipe writers how to handle by
+> generating warnings
+>   with instructions how to handle.
 
-rootfs.py uses BUILDNAME if set for /etc/version, so introduce a weak
-default for BUILDNAME of "REPRODUCIBLE_TIMESTAMP_ROOTFS", when enabling
-reproducible builds hence allowing BUILDNAME to be overridden elsewhere.
+Thanks, this looks good to me. It did generate a warning on master-next 
+builds in many places:
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+WARNING: libfm-1.3.1-r0 do_package_qa: QA Issue: package contains desktop file with key 'MimeType' but does not inhert mime-xdg: libfm-gtk path '/work/armv7vet2hf-neon-oe-linux-gnueabi/libfm/1.3.1-r0/packages-split/libfm-gtk/usr/share/applications/lxshortcut.desktop' [mime-xdg]
+WARNING: libfm-1.3.1-r0 do_package_qa: QA Issue: package contains mime types but does not inhert mime: libfm-mime path '/work/armv7vet2hf-neon-oe-linux-gnueabi/libfm/1.3.1-r0/packages-split/libfm-mime/usr/share/mime/packages/libfm.xml' [mime]
 
- meta/classes/reproducible_build_simple.bbclass | 1 +
- meta/classes/rootfs-postcommands.bbclass       | 5 -----
- 2 files changed, 1 insertion(+), 5 deletions(-)
+It also generated:
 
-diff --git a/meta/classes/reproducible_build_simple.bbclass b/meta/classes/reproducible_build_simple.bbclass
-index d0842f0f902a..153a07607219 100644
---- a/meta/classes/reproducible_build_simple.bbclass
-+++ b/meta/classes/reproducible_build_simple.bbclass
-@@ -7,5 +7,6 @@ export PERL_HASH_SEED = "0"
- export SOURCE_DATE_EPOCH ??= "1520598896"
- 
- REPRODUCIBLE_TIMESTAMP_ROOTFS ??= "1520598896"
-+BUILDNAME ??= "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"
- 
- inherit podfix
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index fdc63bb64d55..ebf96be7e85f 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -356,11 +356,6 @@ python rootfs_log_check_recommends() {
- # Perform any additional adjustments needed to make rootf binary reproducible
- rootfs_reproducible () {
- 	if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" != "" ]; then
--		# Convert UTC into %4Y%2m%2d%2H%2M%2S
--		sformatted=`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS} +%4Y%2m%2d%2H%2M%2S`
--		echo $sformatted > ${IMAGE_ROOTFS}/etc/version
--		bbnote "rootfs_reproducible: set /etc/version to $sformatted"
--
- 		if [ -d ${IMAGE_ROOTFS}${sysconfdir}/gconf ]; then
- 			find ${IMAGE_ROOTFS}${sysconfdir}/gconf -name '%gconf.xml' -print0 | xargs -0r \
- 			sed -i -e 's@\bmtime="[0-9][0-9]*"@mtime="'${REPRODUCIBLE_TIMESTAMP_ROOTFS}'"@g'
--- 
-2.17.1
+https://autobuilder.yoctoproject.org/typhoon/#/builders/75/builds/1458
+
+which partly is the python2 removal that was in with the test and
+partly this series since itstool is GPLv3 :(.
+
+I have to admit I'm not sure how reasonable it is to keep hacking the
+gplv2 layer to work...
+
+Cheers,
+
+Richard
+
+
 
 
