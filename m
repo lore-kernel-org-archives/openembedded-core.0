@@ -1,52 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A84C7FBCD
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id A3A187FBB5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 19:41:24 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id s7so5031918pjc.0
+	Sat, 18 Jan 2020 19:41:25 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id ay11so11342515plb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 11:41:26 -0800 (PST)
+	Sat, 18 Jan 2020 11:41:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=WcTxryMQc3fG1dj1uTAYX9RfXyMJQINqIdpOPSnI+Ws=;
-	b=rRGrtAszos0B7rx0axWG0Ta81p/xczZpacwauj/lFUsHMBm8CJI0zBS6dmPcxb2QCh
-	FzHnYT8EIDoST/gCENvIxTWpKjuy4XlgkI4pVXKaCb1lhrM/sjEuhr+NB/6XXPJuxPhS
-	LZw0pKgRxbDvnkGBQDoFBZMuC+cInrvsaYYaExggaD0L07LVQNl7TT7tV3YN6YerbOo/
-	Ynr8E6vQnbz0/5/Ruh455cdl2oTovkBEKFO71xgFNybvslI0o3GuJtO2ul9OHTanuDj3
-	8vEEYJNuJSRShaVcf1+eRniJC+4jHj8PlJSHBHwPtoDhhbvxRCOIFhki54M9GrsVxFYm
-	rKoQ==
+	bh=4BuszGw2qXjCKO25tRCfp0PsCoCYbGpVG2abDOL5dkE=;
+	b=GfjXG2/phq9MnnhbuPQrePk61tsxJHi3c9MopaWeNdt3de5bTy2k0QfXHpEkzR6HuL
+	niQoxQkrQfkF4fhAu4HNJ7KYl7iFWdZllU/r81oE0t86FTpnxSbNQq6wK/VhsfMc30E0
+	hUWnq3hXw49P7rVnSyU3DCM3fgxfOMfDTEnTf5e3bAkfvu1l0iufduFC2bF/IfBaY17D
+	ss9I7PmGXujulGFCgqkzedoBx/yHdzUvZORG+0iVrWFMx9rcj1UONNDjTu+FZ+kkpmpB
+	LrxBmePYoLA9CDuugbTL8P89p57aKMTj5+eaZ9y6wGlpFjDr7RSWsiZteRYw7mLD2wAC
+	m7UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=WcTxryMQc3fG1dj1uTAYX9RfXyMJQINqIdpOPSnI+Ws=;
-	b=pOCGU8PZxu6PuMXtHRI9Q/09Qjctx/0S+Jj+rNmpR33/sd66rkxTegfVm1k6dDmQZp
-	/uwdT7ScqqsLns+mbmqo0zf77cJHYhW9lg7TA1HGrklW7p2qzCEXqf53F71bWl1Ncce3
-	Yp4taSd2vaxaee3l+62AtRdZDnOg3JmBt5LO5iUq4/BwPXC8Edky6hVrL8gkJdaIX7Au
-	nvHG7LF9Jhxq8Kig34TJfmYlOJGbKdveEgsBtRjsjdtAxl91i6UO62mOpoEwpogGPn8i
-	H32PzY1qf9FPZUDkd49OuUfTS6RSbJua0IjVymNvIsbRxhEwAzuGlQ5HKg4RueM2ZBPO
-	uJ+Q==
-X-Gm-Message-State: APjAAAWeT/UvkcPQQYufWTUC7ySQn/C75asurwOdU7DLiI9+KKQ3nC2O
-	Zige+LqibFUznFlb0BtgmvfT1FJU8Fk=
-X-Google-Smtp-Source: APXvYqy7BbXtjL+A96sNbNwMaqXB1mQ+IckF+Bw8xBnwQArV4siz3q4THtBzNeT3oi8M6TNFM2KH9w==
-X-Received: by 2002:a17:90b:8ce:: with SMTP id
-	ds14mr14012094pjb.57.1579376485726; 
-	Sat, 18 Jan 2020 11:41:25 -0800 (PST)
+	bh=4BuszGw2qXjCKO25tRCfp0PsCoCYbGpVG2abDOL5dkE=;
+	b=LSAbpJJcVQafJ05yxSt6Ns84VFmaivlqqJn65DFZI7lmxCBh6H9SM/G+BJYdOetqXv
+	Y2kOlcsF8b7d9Iy7wGiDRRqBsGz7+Wu1QLQ0uj+HG7ydOHm+85a7oDphT2roWsFnoy8a
+	ZGiVR8SM7TE+8CVBFgaQnxFVNIROy1ynexU2epAlmDjCdBAU2+tg5igm++syNXA8NvCn
+	e19p+lvARIGf1LVyilrp1JRPWQ/Vs2f5VOouZ7LcExIGt+y1HBBs4YDqYuPiTjViJv1J
+	FQL61q2t4qHjGFhodZ/h2d7O0ivmbc0Cp9X1XkOVw4JJX5GAfQglnivq/amNCiHjqcox
+	bzDg==
+X-Gm-Message-State: APjAAAVY60isCuszs5OSlF4yAClaVmCVZrqO4Eq1Y3KpmOWazNNdNUr3
+	hVhGNUgLbN97nL6Y+oNbrsMzeI5u2JU=
+X-Google-Smtp-Source: APXvYqzXVMqxyYyCpbYShVjyM7WT7VOiROzLyM/O5dOz5bMcYkpefZHGeQ+1yruihmMqGR0MKZU/1w==
+X-Received: by 2002:a17:90a:23ad:: with SMTP id
+	g42mr13593397pje.105.1579376486370; 
+	Sat, 18 Jan 2020 11:41:26 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::cab1])
 	by smtp.gmail.com with ESMTPSA id l8sm751610pjy.24.2020.01.18.11.41.25
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 18 Jan 2020 11:41:25 -0800 (PST)
+	Sat, 18 Jan 2020 11:41:26 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jan 2020 11:41:21 -0800
-Message-Id: <be3ba655a2780f767ef5f8177be679ca8be37ec1.1579376298.git.raj.khem@gmail.com>
+Date: Sat, 18 Jan 2020 11:41:22 -0800
+Message-Id: <3e88cf3c49717c5c10b266be49d72242c9fb713a.1579376298.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1579376298.git.raj.khem@gmail.com>
 References: <cover.1579376298.git.raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/5] tcf-agent: Add LCL_STOP_SERVICES for powerpc64 LE
+Subject: [PATCH 5/5] ghostscript: Add powerpc64 LE specific objarch.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,25 +62,58 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 18 Jan 2020 19:41:25 -0000
 Content-Transfer-Encoding: 8bit
 
-This is same as PPC64 BE
-
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/tcf-agent/tcf-agent_git.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../ghostscript/powerpc64le/objarch.h         | 40 +++++++++++++++++++
+ 1 file changed, 40 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-index b4bd4ca63c..e0a07a9375 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_git.bb
-@@ -46,6 +46,7 @@ CFLAGS_append_mips = " ${LCL_STOP_SERVICES}"
- CFLAGS_append_mips64 = " ${LCL_STOP_SERVICES}"
- CFLAGS_append_libc-musl = " ${LCL_STOP_SERVICES}"
- CFLAGS_append_powerpc64 = " ${LCL_STOP_SERVICES}"
-+CFLAGS_append_powerpc64le = " ${LCL_STOP_SERVICES}"
- CFLAGS_append_riscv64 = " ${LCL_STOP_SERVICES}"
- 
- do_install() {
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
+new file mode 100644
+index 0000000000..a05de29def
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
+@@ -0,0 +1,40 @@
++/* Parameters derived from machine and compiler architecture. */
++/* This file is generated mechanically by genarch.c. */
++
++	 /* ---------------- Scalar alignments ---------------- */
++
++#define ARCH_ALIGN_SHORT_MOD 2
++#define ARCH_ALIGN_INT_MOD 4
++#define ARCH_ALIGN_LONG_MOD 8
++#define ARCH_ALIGN_PTR_MOD 8
++#define ARCH_ALIGN_FLOAT_MOD 4
++#define ARCH_ALIGN_DOUBLE_MOD 8
++
++	 /* ---------------- Scalar sizes ---------------- */
++
++#define ARCH_LOG2_SIZEOF_CHAR 0
++#define ARCH_LOG2_SIZEOF_SHORT 1
++#define ARCH_LOG2_SIZEOF_INT 2
++#define ARCH_LOG2_SIZEOF_LONG 3
++#define ARCH_LOG2_SIZEOF_LONG_LONG 3
++#define ARCH_SIZEOF_GX_COLOR_INDEX 8
++#define ARCH_SIZEOF_PTR 8
++#define ARCH_SIZEOF_FLOAT 4
++#define ARCH_SIZEOF_DOUBLE 8
++#define ARCH_FLOAT_MANTISSA_BITS 24
++#define ARCH_DOUBLE_MANTISSA_BITS 53
++
++	 /* ---------------- Unsigned max values ---------------- */
++
++#define ARCH_MAX_UCHAR ((unsigned char)0xff + (unsigned char)0)
++#define ARCH_MAX_USHORT ((unsigned short)0xffff + (unsigned short)0)
++#define ARCH_MAX_UINT ((unsigned int)~0 + (unsigned int)0)
++#define ARCH_MAX_ULONG ((unsigned long)~0L + (unsigned long)0)
++
++	 /* ---------------- Miscellaneous ---------------- */
++
++#define ARCH_IS_BIG_ENDIAN 0
++#define ARCH_PTRS_ARE_SIGNED 0
++#define ARCH_FLOATS_ARE_IEEE 1
++#define ARCH_ARITH_RSHIFT 2
++#define ARCH_DIV_NEG_POS_TRUNCATES 1
 -- 
 2.25.0
 
