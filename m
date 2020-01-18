@@ -1,50 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BA5B60069
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com
+	[209.85.214.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 80FF87FBCD
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 19:41:11 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id q10so13654080pfs.6
+	Sat, 18 Jan 2020 19:41:24 +0000 (UTC)
+Received: by mail-pl1-f180.google.com with SMTP id g6so11347900plt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 11:41:12 -0800 (PST)
+	Sat, 18 Jan 2020 11:41:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4UMmu3yC+anjwnefavbQJ2otQnd1S8LIGzu+BQ6ZmJ4=;
-	b=WlMqI/hhGAyTq1MWdvBBsUfVRxb+2Op2FmENdY37KGef+Vc9YkYcK+m85lFGgxXI1v
-	FYLHrXPIhv3JL3xccvAhNHa1zl3XaWDNEVItDnoHl3wgrMv6kzFViD6IWXp46T8TAteo
-	kwc9XqmsOtyM1nWoA6YW2n92JUSN0DWfUcXk0a7Rvd53qvYtJaGuhWXxqzp/hV6uDuIV
-	/v7/D056b32739XaaKaOcwPIytPCDAKYJgSHHZBumm5McmtyW1JQeAyJ6dbnXLkVSiZj
-	iai3fkjI3yhVjryzlHoFRyta+ONeThRAIan44BY1VoLSNdG5LYVePNQ1Bxc1WG2s95Si
-	qXbw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=O4ORGJD2qzGPqQ+A3AOIfP33vbuqMWm6ceK7j1+4wU8=;
+	b=poMY3RPgxLG6dDjAxq/+eKmHMQMYKr4nwUilQ9Hyg/jiHDEx1zioPyOvNJhd9KPhTz
+	/a6bGcOBahipJoQx5Qej3lMxmkjNyO6veA0/YVp9fMmeMEpHacY1Tsl4zTDBCiLTtLUV
+	jkutGMClmfeUTPOKCbq/GXulzqPetpvoOKaFOwRRYO6q5+b4BvIrgE1vZBwl8Yb4QuAD
+	m3ykGPvTdPKLWW+mN7FwMfSHpqsglcB0CXnKFrlHobx84iK/JVwsrNaJV3HzvCY8DtZP
+	8eYk0hf0g+QZ+P1Q/NnsTGwwkNo05ob8bG5t8GT/q+yGq/vgUuvP17TcL9FdcI48qAJN
+	WIEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4UMmu3yC+anjwnefavbQJ2otQnd1S8LIGzu+BQ6ZmJ4=;
-	b=XID6IwOEBwRgcLe02Qpc+mvxWpsTSG3bimoPbhxwhhFg0TniQ1diLw0g9KFLgwhkyK
-	9x9op7Yxh9PCy/Oc64lGIEVc4gk7nu0AtujY4bVMZqS7GMHn2yOnv4sMWZFV1VeSJLQ3
-	DSfYdJAZIF9zolK43mKgkTh41lei8lz+77Oz8pKxY8h0V6C6hMRbIvC01FqeD8QNcYsb
-	m3nmNAhOhkPSP/cUQA+R6rU6R3PlTGajfoxY0GTcEzoGDrb3Ty0bYXwg066VoSUuHPNJ
-	x3SN9LQeu/AMuvHw1R/i5QjDfiUs9m3jqicldNf/5bTHMenEnjknD9x7RrE82NDZJh2y
-	+Tzw==
-X-Gm-Message-State: APjAAAW5Rl2iVDpIhMewPn+eZxRlDxCYHrTsFIx361YKszHA0kI4miwn
-	dvU42JmXkJqwyt7c6FYuFBJ3ec3qUX8=
-X-Google-Smtp-Source: APXvYqxB778jbvjca2z/HMu/k8ESgI6z0rp9cchT+PNX4u1lDH1Kl7zGGvuWxrLHrfr+jqBrLj84yQ==
-X-Received: by 2002:a63:f403:: with SMTP id g3mr52745905pgi.62.1579376471676; 
-	Sat, 18 Jan 2020 11:41:11 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=O4ORGJD2qzGPqQ+A3AOIfP33vbuqMWm6ceK7j1+4wU8=;
+	b=rfT2jn0jQZc0W+L6wByTl76UpRzdBXaU95nJzeJMtvBhpMADNE6wYwGjwj9E2FCWIP
+	42FbDRE+ft7TNtgGoIbEjUc0AVbEYjiTjg47EZYc2fxXqhWByhYnzkHoCGYck9BAH4tV
+	sgcKErSk8xFhR5A6cHoqfV3pOZ2++KFGt8EaV6exolQLTHIMETT2D+larFOqicdV9Qa7
+	0Z7eN/3iwRLP50cOB+gxgK10go1gR+cldZNA88F4JTjoyxLUUPmiwb8AglBpRShiAVcv
+	9RGuTixydaDxdBGklRZkeVMP7MMUnCRFoscXBkOPR+9Nv7ZsG27bqOP82ek5avYap/qF
+	8cgw==
+X-Gm-Message-State: APjAAAWuyhsv/Jr/RBhKSUkGmRtJDoWLNgOKCdDlRFXGn24DtN0NXi/T
+	2DNeiIqjGJ3/mJhsDUqFA+QxajEG0yI=
+X-Google-Smtp-Source: APXvYqwRKArFBooVaTqXL/C14MB8wAgXqaxNx59KL+AwpYbfqVtJFyjzS4Zlq413TEjC9TWpJjH2AQ==
+X-Received: by 2002:a17:90a:628c:: with SMTP id
+	d12mr14000155pjj.59.1579376485133; 
+	Sat, 18 Jan 2020 11:41:25 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::cab1])
-	by smtp.gmail.com with ESMTPSA id
-	a16sm31934374pgb.5.2020.01.18.11.41.10
+	by smtp.gmail.com with ESMTPSA id l8sm751610pjy.24.2020.01.18.11.41.24
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 18 Jan 2020 11:41:10 -0800 (PST)
+	Sat, 18 Jan 2020 11:41:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 Jan 2020 11:41:10 -0800
-Message-Id: <cover.1579376298.git.raj.khem@gmail.com>
+Date: Sat, 18 Jan 2020 11:41:20 -0800
+Message-Id: <7c6c1fc5d64dd35306b30e5be58d0a825d78b179.1579376298.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <cover.1579376298.git.raj.khem@gmail.com>
+References: <cover.1579376298.git.raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/5] Introduce powerpc64 LE architecture support
+Subject: [PATCH 3/5] openssl: Add powerpc64 LE support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +59,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 Jan 2020 19:41:11 -0000
+X-List-Received-Date: Sat, 18 Jan 2020 19:41:24 -0000
 Content-Transfer-Encoding: 8bit
 
-This patchset adds base support for building ppc64 in Litte-Endian mode,
-the linux-yocto changes and qemu related changes will make it buildable
-target out of box, but that is not yet made available
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-The following changes since commit ecbf203e34484731dcb6acc5e75df79cb86e55dc:
-
-  sstatesig: Improve debug output if getpwuid() fails (2020-01-16 22:33:09 +0000)
-
-are available in the Git repository at:
-
-  git://git.yoctoproject.org/poky-contrib kraj/ppc64le
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kraj/ppc64le
-
-Khem Raj (5):
-  classes,conf,lib: Add support for powerpc64le
-  gcc: Enable 32bit powerpcle at multi-arch for powerpc64le
-  openssl: Add powerpc64 LE support
-  tcf-agent: Add LCL_STOP_SERVICES for powerpc64 LE
-  ghostscript: Add powerpc64 LE specific objarch.h
-
- meta/classes/libc-package.bbclass             |  1 +
- meta/classes/meson.bbclass                    |  2 +-
- meta/conf/bitbake.conf                        |  1 +
- meta/lib/oe/elf.py                            |  2 +
- meta/lib/oe/package_manager.py                |  1 +
- .../openssl/openssl_1.1.1d.bb                 |  3 ++
- meta/recipes-devtools/gcc/gcc-common.inc      |  1 +
- .../tcf-agent/tcf-agent_git.bb                |  1 +
- .../ghostscript/powerpc64le/objarch.h         | 40 +++++++++++++++++++
- 9 files changed, 51 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/powerpc64le/objarch.h
-
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+index 458ae7daf4..7fd0f9a269 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+@@ -102,6 +102,9 @@ do_configure () {
+ 	linux-powerpc64)
+ 		target=linux-ppc64
+ 		;;
++	linux-powerpc64le)
++		target=linux-ppc64le
++		;;
+ 	linux-riscv32)
+ 		target=linux-generic32
+ 		;;
 -- 
 2.25.0
 
