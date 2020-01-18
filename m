@@ -1,100 +1,89 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 326C37FC46
+Return-Path: <chris.laplante@agilent.com>
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com
+	(mail-dm6nam12on2087.outbound.protection.outlook.com [40.107.243.87])
+	by mail.openembedded.org (Postfix) with ESMTP id A72F37FC59
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 22:41:25 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id z124so12313005pgb.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 Jan 2020 14:41:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=Z3eDBW99iTcxkehNUiEGCiHj0oyQ/a0kG6xFUp+/J+E=;
-	b=tXtGr1aV0j/+PQzT1w/Z/QQu7+oSe4JGSqpnaPG+bfgc6pWjABqyesDn/5pA5zZyUE
-	2/vSILQ77fq4bAPM2kQuRzs9fQAktnUxI49ibw1BR52DLXj2dh9K6837kY5ceKYanKEk
-	jsp1gbTc8yTlV9l3y8PUGYEFpvJgSb3vxc50zeK+UQg8BrRGD05sp/0cc2JMQ3qGfqtq
-	9/RDM+v9OTl/HR15CEN3cP0EZ1qDmWrP8jGljRM5b7q5cOCWZ7x37MAe8ij83lDH8/EP
-	EGwCWHHeB85MolDykrGZvwTaGxdfSIOVDDZr45+lM/881kFg1GlFpFr5esf/6+R7Nqfr
-	9JPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=Z3eDBW99iTcxkehNUiEGCiHj0oyQ/a0kG6xFUp+/J+E=;
-	b=t/kAbz145AF5cZkJYqdDIcIj31UuWy1PslY5D7eg8+5fgNxOULyoqGs7XrSaWxJU7x
-	LpntWeV2fYW08uMI1xZrWq7Ng6kP8f6Y61ap6HCvjuPV7H9xnHVY/LOW2C5w/A55hAjH
-	BId+3Uh18ez+X1QVv8WfY8u+qz3ZgOTM25CVrV5vl3qB0qx+YeFFRKTmVlLqetq93h1e
-	Qj+khR81v+OnI4kh8bhOF3/7rlOgy7vrfCkLsxxtKHtftwMH8z7etYrLdCjY6dTnIkqb
-	jFsZ+TAmpNzPkeVIJDMhy3cSZnjve8srfxk5l3MTnnah5VRYLlzvVOlDPBfMvNA8vBij
-	PQnQ==
-X-Gm-Message-State: APjAAAUJNQHOFgx7Y1jGysZR5+MW4vZIBezCf65u9ijlg2CmJzY+Pz+u
-	nW7X5NwGP8VF0/cboEermW4=
-X-Google-Smtp-Source: APXvYqzvDXfTwzVSZXHSfeAW1m9+d2FInWqATLhw5U1NLXrdONalPQes6wKBh0trTnzl+7qb+Y5i4g==
-X-Received: by 2002:aa7:949a:: with SMTP id z26mr5213988pfk.98.1579300886299; 
-	Fri, 17 Jan 2020 14:41:26 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:450d:e003:9142:f492?
-	([2601:202:4180:a5c0:450d:e003:9142:f492])
-	by smtp.gmail.com with ESMTPSA id
-	u1sm28945028pfn.133.2020.01.17.14.41.25
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 17 Jan 2020 14:41:25 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-References: <886f1102228414559c078203bcde660cfc807d2f.camel@linuxfoundation.org>
-From: akuster808 <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <fce3863d-ddc4-a3f8-fd90-7e6c1c4168c6@gmail.com>
-Date: Fri, 17 Jan 2020 14:41:24 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	Sat, 18 Jan 2020 01:11:25 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=BpgnQ+guTca0EVhzfD9xlKotJWsK7YEWtpOBPkusYsiM9tjLkPo1fbByEsn43L7e9fGJ0akCOwmYHjd3hDqrQOBMlLGgoa3Fa7wVw57MyYKSxkODZFOYriXfajweRi6N++khXFZtrvie+f+qQig96ctoj3lpdluVdTOjid7olZOYyeNo+MriPm+VgBjXTCmI0Bwgd09ANAa7QT05/5776CEhXR04pm+U5OzGPwfqXyVTc88mE4vgaJMTZ9e6gOukbkp/pFm2MV52LwUe57o5o6RppRN4LO+TM48rxSWVQJY7Pz/MdtYFtdFsXNHjQ8HJIyBFgoqVPyhUgz4HclbJZw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=y6MCLNOQ9JLrVa/xfMSsGJ7FXzT9UZWUhpf/EQJp0EQ=;
+	b=HNO843NPTrW49IFLheSK7EWxwv/GQRl+NjVpEELcphQOno41CqQjnYt2p3os1UXOR0JiZ/MuK5EnfJJ6keOa4UPWqBVpowAVnP2WBttnvBYOPKOwjPFWBt6PqpMtNlHdCBaHsChAMjRNHMpG2Bc3xWQrI9F4lPmw0l0iddHKSJbRAYMtIo6LLJsPsQ3zKNrB0t9LAC9RpOYwGI5cNB1lOapB2QOVnYanfaPefM7hM4/5sewoB/8Hguwao09XTfQf1D83Z39ycK2u81OiuhLo7J45E3fOhZXEsKZIZUqnJc0wIQWlXhQ3rpgKciciVGSNi89PIHD5Mdb8idax0UYTSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=agilent.com;
+	dmarc=pass action=none header.from=agilent.com; 
+	dkim=pass header.d=agilent.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+	s=selector2;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=y6MCLNOQ9JLrVa/xfMSsGJ7FXzT9UZWUhpf/EQJp0EQ=;
+	b=Wuh48YshxRz5y0YL7/xdLo0etSqzw7ROqsmDfJi+X2Na22pAHaSaLSRDlgZ+2IJU8aHBGxeHTXkeA5JAKKMQPcn3JZ32dsH6TijabIJRvQJ3+R8ao1sB/RVt383emoC5c3A06a1dMtZqnMonP42j5sI2xha3tqK1KF5ixZJQ6/4=
+Received: from CY4PR12MB1653.namprd12.prod.outlook.com (10.172.71.137) by
+	CY4PR12MB1237.namprd12.prod.outlook.com (10.168.167.136) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2644.21; Sat, 18 Jan 2020 01:11:24 +0000
+Received: from CY4PR12MB1653.namprd12.prod.outlook.com
+	([fe80::3c16:3c42:ee9f:b486]) by
+	CY4PR12MB1653.namprd12.prod.outlook.com
+	([fe80::3c16:3c42:ee9f:b486%9]) with mapi id 15.20.2644.023;
+	Sat, 18 Jan 2020 01:11:24 +0000
+From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
+To: Pascal Huerst <pascal.huerst@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] Looking for a way to build latest tagged releases in
+	recipes
+Thread-Index: AQHVxtrVLP5ZK3dnBEaFuu03GmqUsqfiOsqAgAACogCAADZ9MIAJtE3AgADWm4CAAJUykIAAMtbwgAHi/QA=
+Date: Sat, 18 Jan 2020 01:11:24 +0000
+Message-ID: <CY4PR12MB1653BEA34A6F214D78FA27138B300@CY4PR12MB1653.namprd12.prod.outlook.com>
+References: <baf60d23-56e5-72a2-f7f7-adb10c29a5f9@gmail.com>
+	<f9a33ecd524bae8ad83d1c1b94f7908ea7258712.camel@linuxfoundation.org>
+	<d7dbdb87-d763-2ae0-923f-d293d6c24d27@gmail.com>
+	<a9e23045b333589e58bb1e771a508bd39a347dc6.camel@linuxfoundation.org>
+	<CY4PR12MB1653B76238099F8FD42B7F228B350@CY4PR12MB1653.namprd12.prod.outlook.com>
+	<CY4PR12MB16537AE4F18230211893EAFB8B370@CY4PR12MB1653.namprd12.prod.outlook.com>
+	<5635f310-c6a0-1f4a-9fb9-05ac4813fdc1@gmail.com>
+	<CY4PR12MB1653056C46459CD414FA9C578B360@CY4PR12MB1653.namprd12.prod.outlook.com>
+	<CY4PR12MB165360D26B46F6A7220313238B360@CY4PR12MB1653.namprd12.prod.outlook.com>
+In-Reply-To: <CY4PR12MB165360D26B46F6A7220313238B360@CY4PR12MB1653.namprd12.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=chris.laplante@agilent.com; 
+x-originating-ip: [76.99.179.205]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 9ea2108d-e545-44c9-7def-08d79bb35677
+x-ms-traffictypediagnostic: CY4PR12MB1237:
+x-microsoft-antispam-prvs: <CY4PR12MB12372D3E5795F440572A23068B300@CY4PR12MB1237.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:7691;
+x-forefront-prvs: 0286D7B531
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(136003)(39860400002)(346002)(376002)(396003)(366004)(189003)(199004)(29502001)(8936002)(4744005)(2906002)(8676002)(55016002)(81156014)(9686003)(966005)(316002)(110136005)(478600001)(81166006)(5660300002)(26005)(71200400001)(86362001)(6506007)(76116006)(186003)(33656002)(64756008)(66476007)(4326008)(52536014)(7696005)(66556008)(66446008)(66946007)(43043002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR12MB1237;
+	H:CY4PR12MB1653.namprd12.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: agilent.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 7LkNX5Ub241mkgFuwgm4rfiBHsHStm9EMw7zQ9qF1Apo3hsI6wKvjtjG2KnBIiA5sCRAhBgNgyzsIkWz12nYWMoRrKUz76Y3ok1tPxFsRotWj0jCr474T4TpIFX0QGM2F+KN/lv3Lh6bU1g1knGORwVGtVeZPLXybbFlOS3gCs/Sjyfrmsy2muANI/9ju6DQBSqKR3TvBLIkIWxbu3yMv+73EPAPX34vXjgS1dV8qFcmAx1ZTfuhELRXxJ4tkDrBw0UgV6zSx6F2uTsXPfSv9b31mm8pr7IwK22Ufx7YuURdEBb3IzEoNkZxmewbTmv7afB0xsHP4Wtz35stMrRhUP2h3krlc9gAaRnqmnKJacy6Le3WOsGRfW/4GNXsGYPK8AEU0NCJ1OA5Qtc6xpTIcHQy2RMyhO5iQAiVb1zRhzew+QnXkWjmBu82PfKDiwG4PEx74KmjNJmyC3fmbzNWFnEGEAok8Vq+DbgR7AJ7JfstwRSxQmtaIsf/QpbQZnmOVDzLvi4+oqu/B0cKMNV1lIxZia9Vt3M7nE29DrpOrSTbDQ9H//asJqR4EhXrtGeW
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-In-Reply-To: <886f1102228414559c078203bcde660cfc807d2f.camel@linuxfoundation.org>
-Cc: "Orling, Timothy T" <timothy.t.orling@intel.com>
-Subject: Re: Building older releases on modern distros (and vice versa)
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9ea2108d-e545-44c9-7def-08d79bb35677
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Jan 2020 01:11:24.7217 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +7EpFHqX77Un8/4H8XiPRIw3BYzk0UPJr2yaZH8qVQF6ygx6JnMZ4oEbxoNVAQNTwN4A/aHYlfmJxh+bR0cvnnchigb0Wo947Z5lZ/tStVs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR12MB1237
+Cc: Rich Persaud <persaur@gmail.com>
+Subject: Re: Looking for a way to build latest tagged releases in recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,82 +96,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 Jan 2020 22:41:25 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 18 Jan 2020 01:11:25 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I would like to thank you and Intel for taking up this task even thought
-the community seemed to have issues with Centos7 being dropped.
-
-Is there anything community can do at this point?
-
-- armin
-
-On 1/17/20 9:59 AM, Richard Purdie wrote:
-> We've been discussing how we could: 
->
-> a) build old releases on newer distros
->
-> as well as 
->
-> b) how we could build new releases on old distros.
->
-> Our proposed answer has been "buildtools-extended-tarball" which
-> includes nativesdk-gcc.
->
-> We need b) so we can install this on Centos7 and stop having to work
-> around its really old compiler. In general this should improve our
-> ability to support stable branches in general.
->
-> I wanted to stress test a) a bit, partly to prove that b) could work
-> longer term.
->
-> I did this by attempting to build buildtools-extended-tarball on pyro
-> which has a gcc v6 and then using that to build morty on an Ubuntu
-> 18.04 system.
->
-> It wasn't plain sailing, I had to:
->
-> * Upgrade the uninative in pyro
-> * Switch to xz uninative to allow latest uninative to work
-> * Patch binutils to fix an ld.so.conf relocation issue
-> * Add an ld.so.conf to buildtools
-> * Add the buildtools-extended-tarall recipe
->
-> Patches are in:
->
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=rpurdie/pyro
->
-> (some need forward porting to master)
->
-> Having got the output from the pyro build, in the morty build I added
-> buildtools tarball to PATH before running the build. I had to disable
-> uninative since it was going to get in the way and conflict:
->
-> $ x86_64-buildtools-extended-nativesdk-standalone-2.3.4.sh 
->
-> Extended Build tools installer version 2.3.4
-> ============================================
-> Enter target directory for SDK (default: /opt/poky/2.3.4): ./buildtools
-> You are about to install the SDK to "/media/build1/poky-morty/buildtools". Proceed[Y/n]? 
-> Extracting SDK...............done
-> Setting it up...done
-> SDK has been successfully set up and is ready to be used.
-> Each time you wish to use the SDK in a new shell session, you need to source the environment setup script e.g.
->  $ . /media/build1/poky-morty/buildtools/environment-setup-x86_64-pokysdk-linux
->
->
-> $ .  /media/build1/poky-morty/buildtools/environment-setup-x86_64-pokysdk-linux
-> $ source oe-init-build-env
-> $ mkdir classes
-> $ touch classes/uninative.bbclas
-> $ bitbake bash
->
->
->
->
->
->
-
+PiBDcm9zcyB0aGUgZmlyc3QgVE9ETyBvZmYgdGhlIGxpc3Q6DQo+IGh0dHBzOi8vZ2lzdC5naXRo
+dWIuY29tL21vc3R0aGluZ3N3ZWIvMzllMjRiMzI5ZGU3MGMwMjEyZTViZjIxYTQzMWUxNDMvOGQx
+YTVmNTFiM2MwYmYyNjBjNzMwZWQ1NzE2ZDk4MDdjNzgzMzViOA0KPiANCj4gKEJUVyBldmVudHVh
+bGx5IEkgd2lsbCBtb3ZlIHRoaXMgdG8gcG9reS1jb250cmliOyBnaXN0IGlzIGp1c3QgbW9yZSBj
+b252ZW5pZW50IGZvciBtZSBmb3IgdGhlIHNob3J0IHRlcm0uIElmIHRoZXJlJ3MgYSBkZXNpcmUg
+Zm9yIGl0IHRvDQo+IGhhcHBlbiBzb29uZXIgbGV0IG1lIGtub3cuKQ0KDQpyZXZyZWNvcmQuYmJj
+bGFzcyBoYXMgYmVlbiBtb3ZlZCB0byB0aGUgY3BsL3JldnJlY29yZCBicmFuY2ggb2YgcG9reS1j
+b250cmliLiAgDQoNCkkgaGF2ZSBhZGRlZCB0aGUgYWJpbGl0eSB0byBjYXB0dXJlIHRoZSBicmFu
+Y2ggZm9yIGdpdCByZXBvc2l0b3JpZXMuIFBsZWFzZSBjaGVjayBpdCBvdXQuDQoNClRoYW5rcywN
+CkNocmlzDQo=
 
