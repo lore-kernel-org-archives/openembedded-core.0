@@ -1,54 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 67B8E7F8DA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 871EB7F352
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 09:34:07 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id c9so26496358wrw.8
+	Sun, 19 Jan 2020 10:06:19 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id y8so11835613pll.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 01:34:08 -0800 (PST)
+	Sun, 19 Jan 2020 02:06:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=oHAszWnmazJpiTgdjDMi+kdPlaqh5by0CRY8GANKK2c=;
-	b=KFCJkQ8SogR2bkegftVpApJFOWbby1Hihm7M83QoQucumuOaI9dtJ8R63eeuGo//UH
-	8ERxcUyz1LWKdYt22VN0ZGVPWw3up22DFonhQSh6PXhBgx0LbfLMznucV9XcbtrN09ES
-	lswCaGscUXmhNZCGRxDM4oOrk2mK1D1IFr9Me3X0QN+FwZDTVnHpxbgvxhbTM5mR7xt0
-	PEkd4VxsO2l5c24n7HcCM3+N+RRrQopfy7itp/HM9Fady4iilIX5rYc8l8YfKR9l+OkZ
-	7q44llWNpZykevjGuxsvyBCuBjpDI7QgXCnNRf9U6hOO/RnzXPDW1cDY2j2izUGq/KHz
-	q62Q==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=6irPLu1F4WkOkGl2fMNOF14vAhZGbVOTdlf+GzPzEnA=;
+	b=GvGYaiT+3i3/KwFCeqO+FdsENVQwhjMKzOJau5GFK1wvBHhX0SSec7wx/xeBxn1MAW
+	PkblLJEhLjeJgWrOZdvM/GJXZA3A/CJZXOb1CpT7MwsnURlrNzBJYm/TsTZUO6qMGl9U
+	LoG8n0kzvNbk+Pp4OR8X8CgJ8b5t95G55UYoki8/6pRlLdHn/L9S+toBd9OQuaJiifFo
+	muvB3DlfHT5sI+NrOJ4crG1StprDd5Po5DcQpGiEPn/2KPeP0aJWkG0BD97nwY+i50an
+	3OQVR96IJS20M0e6T8mTVyWZhCjHKxIf0pZIUskUG9Sa55b2JfmoN591llGxV2gkd6Nl
+	zDrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=oHAszWnmazJpiTgdjDMi+kdPlaqh5by0CRY8GANKK2c=;
-	b=lCv7zhO4UT2zGFiR33NLK1Q0uoupppu/pmJkIqamZan69S5g0+AVrr5nP1wVBo4vCu
-	An5g/KL/7QOXMorpnT34kFYBMsF+CXVNPZEnxjMmK+tCGpMJo4afhQj/iXS37Qz6hhx4
-	W+sxHVOXu7XCgxpM/SUboR4hiS2oXc9h5OoBkKRDQ8NLpNPGrj3f/E9xZB03RA9k3HFg
-	LWZUh23mTAGYS6TbX0H4MOjwiyvo0qeiPJnOBEUNJd2GdgB6SEoFtJlcahsf3/CTRfRM
-	msT5TASp7nJb/6/UEg0DAljgl5g47O+CQPxHxSql/BLVRdsc7g0BSjnSsA0DraOCyci4
-	gDRw==
-X-Gm-Message-State: APjAAAU62FVkV2BJtew91fcfz285QsZyMKM36Avr/ylLchfM3Q+TTmvT
-	oe95N97D3btIzQfqURVoronFfgv7
-X-Google-Smtp-Source: APXvYqx03rka1puTTuz3Nc5K9Bwyeq2DGJ+vMLqVdQA30+mXHbX6cspUTEHAxEFi+1+RWtd6demRXw==
-X-Received: by 2002:adf:a141:: with SMTP id r1mr11683968wrr.285.1579426447873; 
-	Sun, 19 Jan 2020 01:34:07 -0800 (PST)
-Received: from ?IPv6:2a02:2450:1011:56f:2106:2da0:d903:f689?
-	([2a02:2450:1011:56f:2106:2da0:d903:f689])
-	by smtp.gmail.com with ESMTPSA id
-	m21sm17939890wmi.27.2020.01.19.01.34.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 Jan 2020 01:34:07 -0800 (PST)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16G102)
-In-Reply-To: <1579410511-20928-1-git-send-email-wangmy@cn.fujitsu.com>
-Date: Sun, 19 Jan 2020 10:34:06 +0100
-Message-Id: <A43F3348-43D0-4506-AB0A-1D8970DFDAA2@gmail.com>
-References: <1579410511-20928-1-git-send-email-wangmy@cn.fujitsu.com>
-To: Wang Mingyu <wangmy@cn.fujitsu.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] dnf: upgrade 4.2.2 -> 4.2.18
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=6irPLu1F4WkOkGl2fMNOF14vAhZGbVOTdlf+GzPzEnA=;
+	b=I5jOruU6BtdPVihpoXaMSaArXa+OYxFOEufpGAo8wm582hyoZMQXNcDzWhZuuXR0eh
+	5rdh4kn8xdNqfjbFR/xKAp1cj4FAa/TQBLqOuVQMK1EDSMFGqsa3bBjqy/OsCg+sacxc
+	wo/ou+qz63EbCfDHq22sxTeCYJr82ucEKKDBgFUcytKy8E/rXuNBi+L+38e3vbi9h0Jy
+	VdCnhTt0eyn2SH9+zHNANLFQlYDJwwf2xcOPyrW2QLJtsCgx2ffvQ4EvYSpdbVMNq7+v
+	+JoEQsKh2qZyMDztT4ljcQFoO1GPPi7UvrK3Adla+L3O++a2MJxonvSsctjlMHqSU0yy
+	c6LQ==
+X-Gm-Message-State: APjAAAUUM22T4JFwqn9p6+eGS9WJvFXRVJJeSJhDTLDlkQtNgtjOyHNe
+	XlFVLwv5AxCI7XNs3toibAkwxNKI6bg=
+X-Google-Smtp-Source: APXvYqztF1mRNsdVzYkvIrOfoRdfrbuvbDmqMnkDjJ2pwJTIrEgfAfogVUqojZxq3Tl6yFJDgyxQCA==
+X-Received: by 2002:a17:90a:c697:: with SMTP id
+	n23mr16467754pjt.37.1579428379937; 
+	Sun, 19 Jan 2020 02:06:19 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::cab1])
+	by smtp.gmail.com with ESMTPSA id d4sm8218839pjg.19.2020.01.19.02.06.19
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 19 Jan 2020 02:06:19 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 19 Jan 2020 02:06:15 -0800
+Message-Id: <20200119100615.2057319-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.0
+MIME-Version: 1.0
+Subject: [PATCH] qemu: Enable ppc64le support for qemu-usermode
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,50 +57,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2020 09:34:07 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 19 Jan 2020 10:06:19 -0000
+Content-Transfer-Encoding: 8bit
 
-I would upgrade this in tandem with libdnf and rpm. Both are known to have i=
-ssues unfortunately.
+glibc defines minimum kernel needed to be 3.10.0 for LE ppc64
 
-Alex
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/classes/qemu.bbclass           | 3 +++
+ meta/conf/bitbake.conf              | 1 +
+ meta/recipes-devtools/qemu/qemu.inc | 2 +-
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
-> On 19 Jan 2020, at 6.08, Wang Mingyu <wangmy@cn.fujitsu.com> wrote:
->=20
-> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-> ---
-> meta/recipes-devtools/dnf/{dnf_4.2.2.bb =3D> dnf_4.2.18.bb} | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
-> rename meta/recipes-devtools/dnf/{dnf_4.2.2.bb =3D> dnf_4.2.18.bb} (98%)
->=20
-> diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtool=
-s/dnf/dnf_4.2.18.bb
-> similarity index 98%
-> rename from meta/recipes-devtools/dnf/dnf_4.2.2.bb
-> rename to meta/recipes-devtools/dnf/dnf_4.2.18.bb
-> index f38167f1ad..fd4380723e 100644
-> --- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-> +++ b/meta/recipes-devtools/dnf/dnf_4.2.18.bb
-> @@ -15,7 +15,7 @@ SRC_URI =3D "git://github.com/rpm-software-management/dn=
-f.git \
->            file://0030-Run-python-scripts-using-env.patch \
->            "
->=20
-> -SRCREV =3D "9947306a55271b8b7c9e2b6e3b7d582885b6045d"
-> +SRCREV =3D "ff1972b52007ccb701c43e3c2bf2bd2e40ac32ac"
-> UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>\d+(\.\d+)+)"
->=20
-> S =3D "${WORKDIR}/git"
-> --=20
-> 2.17.1
->=20
->=20
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
+index f5c5780125..55bdff816b 100644
+--- a/meta/classes/qemu.bbclass
++++ b/meta/classes/qemu.bbclass
+@@ -16,6 +16,8 @@ def qemu_target_binary(data):
+         target_arch = "ppc"
+     elif target_arch == "powerpc64":
+         target_arch = "ppc64"
++    elif target_arch == "powerpc64le":
++        target_arch = "ppc64le"
+ 
+     return "qemu-" + target_arch
+ 
+@@ -62,3 +64,4 @@ QEMU_EXTRAOPTIONS_ppc64e5500 = " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppce6500 = " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppc64e6500 = " -cpu e500mc"
+ QEMU_EXTRAOPTIONS_ppc7400 = " -cpu 7400"
++QEMU_EXTRAOPTIONS_powerpc64le = " -cpu POWER8"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index ce89b80ade..2da7c5849a 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -430,6 +430,7 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
+ OLDEST_KERNEL = "3.2.0"
+ OLDEST_KERNEL_aarch64 = "3.14"
+ OLDEST_KERNEL_nios2 = "3.19"
++OLDEST_KERNEL_powerpc64le = "3.10.0"
+ OLDEST_KERNEL_riscv32 = "4.15"
+ OLDEST_KERNEL_riscv64 = "4.15"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index dff5762b80..eb9f060997 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -59,7 +59,7 @@ do_install_ptest() {
+ }
+ 
+ # QEMU_TARGETS is overridable variable
+-QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc ppc64 riscv32 riscv64 sh4 x86_64"
++QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc ppc64 ppc64le riscv32 riscv64 sh4 x86_64"
+ 
+ EXTRA_OECONF = " \
+     --prefix=${prefix} \
+-- 
+2.25.0
+
 
