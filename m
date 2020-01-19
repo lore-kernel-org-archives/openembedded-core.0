@@ -1,53 +1,53 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f44.google.com (mail-io1-f44.google.com
-	[209.85.166.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 787BF7FC9F
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A7DB47FCA3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 19:00:07 +0000 (UTC)
-Received: by mail-io1-f44.google.com with SMTP id x1so31336031iop.7
+	Sun, 19 Jan 2020 19:00:08 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id n11so31355269iom.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 11:00:09 -0800 (PST)
+	Sun, 19 Jan 2020 11:00:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=s214BMBheMYHf53weE2N/OW/Of5z3U4zULWEfxpf7f8=;
-	b=OAyKqQH5MdqY9VDP71K+pudTD7vmLIMdOArhDKEtbXwHLbCr2Ia4sVd7Nl9d3Uy0ip
-	Ca5FUUmD2AAjzredfGbahAa84KRcwwl2s8v3JOYMGGVKl4Lgx5JmmCO6op3RQd4gS7Kd
-	w0HDqlMp0/CJv/ldYG4pED2XngoTNrZICF8A1pg6FqKWRyHAFuKhLBuo6ZGx0vafXSAL
-	hxkVapjvkn2rAPd+2XncUSO29zyZ6OIKd6A1qEr/vdraARTK5shdC2DReZ/iqrDX514M
-	QyVbQY4nJAxdfC9QxjGvT2S7A4wFHhQrnkqOktHdnDpS+pf5+CKecC5zu/2/o5TRmkAd
-	pb1Q==
+	bh=4/Ud70LQs2+PE2VYMdOK1CrY5JMJhzCWM+CAHkvzT+U=;
+	b=YlrvaO/Hd3ttQeplE+eGTlYcSDM/pThsmiNVc7w1u15s4gRiKnrLNFq4HFwoRArRFo
+	tRgJp8CS2Kjs6mF2/FcE/SsvUeIOikNS9t8/Oq0JsYlNZxcQQZIQZaN08giyujTnjg99
+	R4SBKyDkRHaVBRTTw/hc1Tr0flBkEcMKICALtZAEOzRKxfV5R2PZUUQWZtWWOOexryZw
+	zhoS5XufeXcc+b8mPbGWpouwPo2rh4dOqPunPs7OJdZWF+QXxez9Cu2mnikxywMqIYnl
+	H7GwnMSybHINvTEf9HHO0M3eEDPXwI0K2XsVh7m9FDtoZ4U988HCPOWzIs4L2lKjRVC5
+	I0xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=s214BMBheMYHf53weE2N/OW/Of5z3U4zULWEfxpf7f8=;
-	b=qfsbSPo/aerByllLRvs1cN8n7h0/vzV64Qe7wR8L/JSo2Y0bJUffj9zkxcaJahPSPz
-	WQcB7vB4XD34O+0CbMjcEiL+kXiSg5xf9kDXBUHz1GR1x2uN0A9BEtNQ85zFxkmx/RP+
-	Dl7yXwZnKbxAQRTGEPlLuRGNa2KIGtF/SWWW/LCaIECj2mpxh761SU6kuhbkLPc3OF3m
-	lcJPzNIe4dmRcRLYmvvPuqrEjNwvcrZHzMg+FP/faRwBTfkZlRB5Li5oU7e94nuelHDV
-	gR3u1x/82WLUWI8cEbXd02obsNQHYtRr1evQ12hIpyeylv2AQph4sE6SSSBFASvnCMr0
-	cfmg==
-X-Gm-Message-State: APjAAAU3pLWguJPRUf/2KsZg537t8eLaHW5voXgS5SwM2Htq08Rwt0By
-	NAAjcMjVuicPGj2QrXBnSy/yh9L7
-X-Google-Smtp-Source: APXvYqyDzyQrvB8YKzSEwj81MpKDwEWVWuo1cPk89N82bK+ix9drO5HWulB0jWuUQHIi6FL1XpIj4w==
-X-Received: by 2002:a6b:b504:: with SMTP id e4mr34329923iof.222.1579460408343; 
-	Sun, 19 Jan 2020 11:00:08 -0800 (PST)
+	bh=4/Ud70LQs2+PE2VYMdOK1CrY5JMJhzCWM+CAHkvzT+U=;
+	b=DHwmmqye/1Q3HUQ/L5g9f/nzpuFTcnhQwgqykBdhqVQvgfuxscpUFwD6YgXRmPraUY
+	e6DvBQ+0Gu8OlaPOwybyzog1ts6NcB+JZSQ49vF/wIRpEqA9MAhVsOwNXKhSYuBC/6I1
+	9Hq31XWRQjT30BD1bnxsZx2P8SSwAPvbpPZVnWVP+hVz1aFivyOslDb9h4MECU/1Maza
+	mUfsS+gdLaT30A4e4BTxhG1zsUksuTx4GDc+B9c1b3pbf3HTmzbT0HUCL291v1ivs/7z
+	kzb5e2feTt0IRse8WVS923qUvyWK2dZCb9LWOovSPrKYgBwtjh6E/qG2jZUaovSm0SUa
+	AenA==
+X-Gm-Message-State: APjAAAUB8EbytOirBpzkeVw7XOCglHQlmcBN7JQK2HyyyCDGMOQKDgrP
+	9kNO7zS7sUKVlN6eKNxFCtVto74D
+X-Google-Smtp-Source: APXvYqzjDHd/JVzunYZQHRMzuIGm4qqNGyX+QaLLk8xvQhs2+98Fe5K9N27QcXGD7dCS1A/aJ7weQQ==
+X-Received: by 2002:a6b:fe0f:: with SMTP id x15mr36724337ioh.219.1579460409398;
+	Sun, 19 Jan 2020 11:00:09 -0800 (PST)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	x77sm10726714ilk.34.2020.01.19.11.00.07
+	x77sm10726714ilk.34.2020.01.19.11.00.08
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 19 Jan 2020 11:00:07 -0800 (PST)
+	Sun, 19 Jan 2020 11:00:08 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jan 2020 12:59:57 -0600
-Message-Id: <20200119185959.406212-2-JPEWhacker@gmail.com>
+Date: Sun, 19 Jan 2020 12:59:58 -0600
+Message-Id: <20200119185959.406212-3-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200119185959.406212-1-JPEWhacker@gmail.com>
 References: <20200119185959.406212-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/3] oeqa: reproducible: Add flag for building from sstate
+Subject: [PATCH 2/3] oeqa: reproducible: Fix extra data reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,111 +63,44 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sun, 19 Jan 2020 19:00:08 -0000
 Content-Transfer-Encoding: 8bit
 
-Adds a flag to control if the reproducible QA test should allow building
-from sstate or not. Building from sstate may not be reproducible
-depending on how the sstate is populated.
+A typo was preventing the extra data about the reproducible build from
+being reported in the test results
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 66 +++++++++++---------
- 1 file changed, 35 insertions(+), 31 deletions(-)
+ meta/lib/oeqa/selftest/cases/reproducible.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index db538a4f891..b7484f3e10e 100644
+index b7484f3e10e..c00b92d2e90 100644
 --- a/meta/lib/oeqa/selftest/cases/reproducible.py
 +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -80,6 +80,13 @@ class ReproducibleTests(OESelftestTestCase):
-     package_classes = ['deb', 'ipk']
-     images = ['core-image-minimal', 'core-image-sato', 'core-image-full-cmdline']
-     save_results = False
-+    # This variable controls if one of the test builds is allowed to pull from
-+    # an sstate cache/mirror. The other build is always done clean as a point of
-+    # comparison.
-+    # If you know that your sstate archives are reproducible, enabling this
-+    # will test that and also make the test run faster. If your sstate is not
-+    # reproducible, disable this in your derived test class
-+    build_from_sstate = True
+@@ -95,12 +95,12 @@ class ReproducibleTests(OESelftestTestCase):
+         for v in needed_vars:
+             setattr(self, v.lower(), bb_vars[v])
  
-     def setUpLocal(self):
-         super().setUpLocal()
-@@ -127,7 +134,7 @@ class ReproducibleTests(OESelftestTestCase):
-         bb.utils.mkdirhier(os.path.dirname(dest))
-         shutil.copyfile(source, dest)
+-        self.extrasresults = {}
+-        self.extrasresults.setdefault('reproducible.rawlogs', {})['log'] = ''
+-        self.extrasresults.setdefault('reproducible', {}).setdefault('files', {})
++        self.extraresults = {}
++        self.extraresults.setdefault('reproducible.rawlogs', {})['log'] = ''
++        self.extraresults.setdefault('reproducible', {}).setdefault('files', {})
  
--    def test_reproducible_builds(self):
-+    def do_test_build(self, name, use_sstate):
-         capture_vars = ['DEPLOY_DIR_' + c.upper() for c in self.package_classes]
+     def append_to_log(self, msg):
+-        self.extrasresults['reproducible.rawlogs']['log'] += msg
++        self.extraresults['reproducible.rawlogs']['log'] += msg
  
-         if self.save_results:
-@@ -135,41 +142,38 @@ class ReproducibleTests(OESelftestTestCase):
-             os.chmod(save_dir, stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
-             self.logger.info('Non-reproducible packages will be copied to %s', save_dir)
+     def compare_packages(self, reference_dir, test_dir, diffutils_sysroot):
+         result = PackageCompareResults()
+@@ -127,7 +127,7 @@ class ReproducibleTests(OESelftestTestCase):
+         return result
  
--        # Build native utilities
--        self.write_config('')
--        bitbake("diffutils-native -c addto_recipe_sysroot")
--        diffutils_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "diffutils-native")
-+        tmpdir = os.path.join(self.topdir, name, 'tmp')
-+        if os.path.exists(tmpdir):
-+            bb.utils.remove(tmpdir, recurse=True)
+     def write_package_list(self, package_class, name, packages):
+-        self.extrasresults['reproducible']['files'].setdefault(package_class, {})[name] = [
++        self.extraresults['reproducible']['files'].setdefault(package_class, {})[name] = [
+                 {'reference': p.reference, 'test': p.test} for p in packages]
  
--        # Reproducible builds should not pull from sstate or mirrors, but
--        # sharing DL_DIR is fine
--        common_config = textwrap.dedent('''\
-+        config = textwrap.dedent('''\
-             INHERIT += "reproducible_build"
--            PACKAGE_CLASSES = "%s"
--            SSTATE_DIR = "${TMPDIR}/sstate"
--            ''') % (' '.join('package_%s' % c for c in self.package_classes))
--
--        # Perform a build.
--        reproducibleA_tmp = os.path.join(self.topdir, 'reproducibleA', 'tmp')
--        if os.path.exists(reproducibleA_tmp):
--            bb.utils.remove(reproducibleA_tmp, recurse=True)
--
--        self.write_config((textwrap.dedent('''\
--            TMPDIR = "%s"
--            ''') % reproducibleA_tmp) + common_config)
--        vars_A = get_bb_vars(capture_vars)
-+            PACKAGE_CLASSES = "{package_classes}"
-+            TMPDIR = "{tmpdir}"
-+            ''').format(package_classes=' '.join('package_%s' % c for c in self.package_classes),
-+                        tmpdir=tmpdir)
-+
-+        if not use_sstate:
-+            # This config fragment will disable using shared and the sstate
-+            # mirror, forcing a complete build from scratch
-+            config += textwrap.dedent('''\
-+                SSTATE_DIR = "${TMPDIR}/sstate"
-+                SSTATE_MIRROR = ""
-+                ''')
-+
-+        self.write_config(config)
-+        d = get_bb_vars(capture_vars)
-         bitbake(' '.join(self.images))
-+        return d
- 
--        # Perform another build.
--        reproducibleB_tmp = os.path.join(self.topdir, 'reproducibleB', 'tmp')
--        if os.path.exists(reproducibleB_tmp):
--            bb.utils.remove(reproducibleB_tmp, recurse=True)
-+    def test_reproducible_builds(self):
-+        # Build native utilities
-+        self.write_config('')
-+        bitbake("diffutils-native -c addto_recipe_sysroot")
-+        diffutils_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "diffutils-native")
- 
--        self.write_config((textwrap.dedent('''\
--            SSTATE_MIRROR = ""
--            TMPDIR = "%s"
--            ''') % reproducibleB_tmp) + common_config)
--        vars_B = get_bb_vars(capture_vars)
--        bitbake(' '.join(self.images))
-+        vars_A = self.do_test_build('reproducibleA', self.build_from_sstate)
-+        vars_B = self.do_test_build('reproducibleB', False)
- 
-         # NOTE: The temp directories from the reproducible build are purposely
-         # kept after the build so it can be diffed for debugging.
+     def copy_file(self, source, dest):
 -- 
 2.24.1
 
