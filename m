@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 91C837FBFD
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
+	[209.85.210.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 1DE077FC1B
 	for <openembedded-core@openembedded.org>;
-	Sun, 19 Jan 2020 21:37:30 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id x6so14768018pfo.10
+	Sun, 19 Jan 2020 21:37:31 +0000 (UTC)
+Received: by mail-pf1-f175.google.com with SMTP id i6so14776062pfc.1
 	for <openembedded-core@openembedded.org>;
 	Sun, 19 Jan 2020 13:37:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=lsnR4C5iJQrMejIPSnfikUVG/8MPS8uVspQA5KxnmB4=;
-	b=YR+CN2/0HUNBO5Avao5IQ0d40o29bjC7EsXW+JIM4H3tz60eA0ka4GBAaqy61bQIPu
-	dpEdmAACgOyTVAtFU69NlqKtC7Bp9q8F2DU8n3Cjv47GVO3zEL6LNIuzQZ8FMOy7VOX+
-	LKRML/5rBqDx7gAgtovkBtWD5c7WOjm+nmSAts+/i2pVYwvZPS1epBotXEfcs5tB6oiq
-	2X05IqagAQi8z1WjO5+wtu8wn3sUnuSzJpGRpjBSAkQQ+c2KNKQOTbFmdlpDpuYdKcmo
-	dFC1Lw49TK+uK7llk8HgLb1AUccfWhtmkxjIh6y9hDuaaqHZjh0bpa5Y9R3Xc/rAOoZ+
-	NaOQ==
+	bh=wYOndmW8PwdcJ3PKUOcEGaBSTPs+5MNBSP4Ch0YXVCI=;
+	b=sTqBK8+bte9Z7fssqE6r54QNsnRwRPUpw3gARHqgSCEXYZA2IbvXcYMiaRFfiILh47
+	w8HlheICoViioaTBYEYWzYe/VuTlRyy+Tc/J4UOupK525BxYcQ2F0Iw91uu9KXMTOZJv
+	nwSRauXDPeLjLVKnnohhSVSeDU2Ic7L9iziclZROY1LQTmyUpQ2Zw5JDXbAb9mSSCVxl
+	LZjYmPyBVka3Ucx4cNoZ2BefjWazoo46wclz2EXhJJnJfcVuhOOPDDxpk+266v6xQxUQ
+	hQwZF+6t6GjFftEg5MUYXARpXpxBWVu7IYqgtTN6v8VJ23MfjrqYEn6Vd5R9XYeOgROc
+	6L/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=lsnR4C5iJQrMejIPSnfikUVG/8MPS8uVspQA5KxnmB4=;
-	b=pW3vXmAT4kx1/oQU/wcvDXN08hKLwrljDEWgsfKlS30BLumL9MPrd5GZI45ubVqU6Q
-	KE01riE50sOjpEOoV4xqzb052faW4IMriiPr0f08z+BbhdUlRpHubFug4l4P7y9N9sqZ
-	okXWFNTuYTQOJzR4pHsvGO7BBoANucc/ggeQ0T5G+JXFaeN4tLCBX2mn2KZU4VoRk4Y/
-	7drPfUxO5FbQbbIcH0b3s4FcVCu9C7QAh/crLtuKJUCGvi/qaGaAHlzlRGSX1qetWkEm
-	9H7SKsMCCXyWHnWBvzE9DxL0S6gfsuDfjKu0Zx3AFySj9uEbdZsWKzYsO18bHd+rsfCo
-	Z+pg==
-X-Gm-Message-State: APjAAAVN/2i7bOlmocITmal72u4+RBG1FdJmzI39HIROIp3XveoNcB6P
-	UP4Ftai0mPt5MNzvPjGojUlhrhLO
-X-Google-Smtp-Source: APXvYqzk0/w1a384/IpFcB3CYk1MikQuYKEG78uVr5qJ4TGP3QcNlAgdx56ZD4ikj689VuFaA6AT5Q==
-X-Received: by 2002:a62:1d52:: with SMTP id d79mr14125608pfd.144.1579469851344;
-	Sun, 19 Jan 2020 13:37:31 -0800 (PST)
+	bh=wYOndmW8PwdcJ3PKUOcEGaBSTPs+5MNBSP4Ch0YXVCI=;
+	b=K+fGl5dgmvk6V6/AzTgapbxGdaJSyZwfzJMQl0+5yZzSoh7onXtPOPExt4C+lJY8PE
+	F0iKk+9y6kjYRCMa3cfsA8br1wptLt/NYiyQ6fCS+QYrGpdDY3kj3VSIPtdcCHrpTIOH
+	fR+S3zbjvHggF1k90ySVI61dXAw0HBvDXdIFl8MlG+oEOEhbfebXDirZJq0kExGfNEij
+	nGMiLK8+X2o0zWcyu+438at2hdzNJVhPzlBtrW9seTU27rCziyA5QeWt3R48tPg1gk2j
+	JQXygdmX9D92BJPj6/6Z1FToLNCTnjd8QogCvL28QBrclciidK+/s4u1KI5fhF7QKRWo
+	Pv2w==
+X-Gm-Message-State: APjAAAVcw//d4HAW8Jn5Vax9rswWQesbjU32m6pfj3KdGboU6Ry2xdJg
+	ay53Ixj0TCSVHR2iizhoZM4H42gp
+X-Google-Smtp-Source: APXvYqw4sYv48NjfNjh59uPsyhOmWgPBe7wda4rCC+JNqkVLh5KUezyZDb10RMbrYndOrU7ZmmIJtw==
+X-Received: by 2002:a62:1d4b:: with SMTP id d72mr14664129pfd.130.1579469852238;
+	Sun, 19 Jan 2020 13:37:32 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:450d:e003:9142:f492])
 	by smtp.gmail.com with ESMTPSA id
-	q15sm34912518pgi.55.2020.01.19.13.37.30
+	q15sm34912518pgi.55.2020.01.19.13.37.31
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 19 Jan 2020 13:37:30 -0800 (PST)
+	Sun, 19 Jan 2020 13:37:31 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 19 Jan 2020 13:37:23 -0800
-Message-Id: <232b2f6dabaedff087df15a7e6d431dd9f314b4c.1579469619.git.akuster808@gmail.com>
+Date: Sun, 19 Jan 2020 13:37:24 -0800
+Message-Id: <2bba0052597020ea887c84419440df11f9859283.1579469619.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1579469619.git.akuster808@gmail.com>
 References: <cover.1579469619.git.akuster808@gmail.com>
-Subject: [zeus 5/6] scripts/oe-build-perf-report: Avoid buildstats warning
+Subject: [zeus 6/6] sstatesig: Improve debug output if getpwuid() fails
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,73 +59,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2020 21:37:30 -0000
+X-List-Received-Date: Sun, 19 Jan 2020 21:37:31 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When a comparision branch is set we see warnings. If two branches are used,
-look for buildstats information from both to avoid this kind of warning:
-
-INFO: Parsing buildstats from 'refs/notes/buildstats/perf-centos7.yoctoproject.org/master-next/qemux86'
-WARNING: Buildstats not found for perf-centos7.yoctoproject.org/master/qemux86/56808-g08220028e52992dcba667fc97bf3afe8be1949fb/0
-WARNING: Buildstats not found for perf-centos7.yoctoproject.org/master/qemux86/56808-g08220028e52992dcba667fc97bf3afe8be1949fb/1
-INFO: Buildstats were missing for some test runs, please run 'git fetch origin refs/notes/buildstats/perf-centos7.yoctoproject.org/master-next/qemux86:refs/notes/buildstats/perf-centos7.yoctoproject.org/master-next/qemux86' and try again
-
-(the warning is due to stats being looked for in both branches, choose
-the other branch and different warnings would be shown)
+If getpwduid fails, we don't see which file it failed on which is key information
+to aid debugging. Print this information when exceptions are raised.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit af58c18fcd0451540dd77ee862956b2b9dee17c4)
+(cherry picked from commit 9d7a5219713af8117eda145052c6d9abdf577d8f)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/oe-build-perf-report | 20 ++++++++++++++------
- 1 file changed, 14 insertions(+), 6 deletions(-)
+ meta/lib/oe/sstatesig.py | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
-index 21bde7e156..e781f4f03f 100755
---- a/scripts/oe-build-perf-report
-+++ b/scripts/oe-build-perf-report
-@@ -372,7 +372,7 @@ def print_html_report(data, id_comp, buildstats):
-                                chart_opts=chart_opts))
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 24a221eb1a..b2316b12b8 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -521,8 +521,12 @@ def OEOuthashBasic(path, sigfile, task, d):
+                     add_perm(stat.S_IXOTH, 'x')
  
- 
--def get_buildstats(repo, notes_ref, revs, outdir=None):
-+def get_buildstats(repo, notes_ref, notes_ref2, revs, outdir=None):
-     """Get the buildstats from git notes"""
-     full_ref = 'refs/notes/' + notes_ref
-     if not repo.rev_parse(full_ref):
-@@ -391,8 +391,13 @@ def get_buildstats(repo, notes_ref, revs, outdir=None):
-         for tag in rev.tags:
-             log.debug('    %s', tag)
-             try:
--                bs_all = json.loads(repo.run_cmd(['notes', '--ref', notes_ref,
--                                                  'show', tag + '^0']))
-+                try:
-+                    bs_all = json.loads(repo.run_cmd(['notes', '--ref', notes_ref, 'show', tag + '^0']))
-+                except GitError:
-+                    if notes_ref2:
-+                        bs_all = json.loads(repo.run_cmd(['notes', '--ref', notes_ref2, 'show', tag + '^0']))
-+                    else:
+                 if include_owners:
+-                    update_hash(" %10s" % pwd.getpwuid(s.st_uid).pw_name)
+-                    update_hash(" %10s" % grp.getgrgid(s.st_gid).gr_name)
++                    try:
++                        update_hash(" %10s" % pwd.getpwuid(s.st_uid).pw_name)
++                        update_hash(" %10s" % grp.getgrgid(s.st_gid).gr_name)
++                    except KeyError:
++                        bb.warn("KeyError in %s" % path)
 +                        raise
-             except GitError:
-                 log.warning("Buildstats not found for %s", tag)
-                 bs_all = {}
-@@ -589,9 +594,12 @@ def main(argv=None):
-     buildstats = None
-     if args.dump_buildstats or args.html:
-         outdir = 'oe-build-perf-buildstats' if args.dump_buildstats else None
--        notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch,
--                                                 args.machine)
--        buildstats = get_buildstats(repo, notes_ref, [rev_l, rev_r], outdir)
-+        notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch, args.machine)
-+        notes_ref2 = None
-+        if args.branch2:
-+            notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch2, args.machine)
-+            notes_ref2 = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch, args.machine)
-+        buildstats = get_buildstats(repo, notes_ref, notes_ref2, [rev_l, rev_r], outdir)
  
-     # Print report
-     if not args.html:
+                 update_hash(" ")
+                 if stat.S_ISBLK(s.st_mode) or stat.S_ISCHR(s.st_mode):
 -- 
 2.17.1
 
