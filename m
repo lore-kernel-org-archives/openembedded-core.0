@@ -1,29 +1,24 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 770AC7FBE4
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B3F157F91B
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 05:40:34 +0000 (UTC)
+	Sun, 19 Jan 2020 07:36:35 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00J5eFOu005757
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 00J7aZ8G005415
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 Jan 2020 21:40:25 -0800
-Received: from [128.224.162.144] (128.224.162.144) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Sat, 18 Jan 2020 21:40:04 -0800
+	Sat, 18 Jan 2020 23:36:36 -0800 (PST)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Sat, 18 Jan 2020 23:36:34 -0800
+From: <zhe.he@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <1579405812-336202-1-git-send-email-mingli.yu@windriver.com>
-	<20200119053240.2276.68036@do>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5E23EC1D.2080407@windriver.com>
-Date: Sun, 19 Jan 2020 13:41:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+Date: Sun, 19 Jan 2020 15:36:33 +0800
+Message-ID: <20200119073633.3188-1-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20200119053240.2276.68036@do>
-X-Originating-IP: [128.224.162.144]
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIE9wZW4gZmlsZSB3aXRoIE9fQ0xPRVhFQyB0byBhdm9pZCBmZCBsZWFrIChyZXYzKQ==?=
+Subject: [PATCH] ltp: Fix nm01 faliure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,53 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2020 05:40:34 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 19 Jan 2020 07:36:35 -0000
+Content-Type: text/plain
 
+From: He Zhe <zhe.he@windriver.com>
 
+Backport a patch from upstream to fix the following runtime failure.
 
-On 01/19/20 13:32, Patchwork wrote:
-> == Series Details ==
->
-> Series: Open file with O_CLOEXEC to avoid fd leak (rev3)
-> Revision: 3
-> URL   : https://patchwork.openembedded.org/series/22123/
-> State : failure
->
-> == Summary ==
->
->
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
->
->
->
-> * Issue             Series does not apply on top of target branch [test_series_merge_on_head]
->    Suggested fix    Rebase your series on top of targeted branch
->    Targeted branch  master (currently at 9d7a521971)
+The latest nm v2.33.1 outputs symbols addresses without prefix zeros
+for "nm -f posix", which causes the following error.
+nm01 5 TFAIL: Got wrong format with -f bsd
 
-Have already rebased on the master branch of 
-http://git.yoctoproject.org/cgit/cgit.cgi/pseudo/, why still issue out 
-the above issue? Any hint?
+(From OE-Core rev: 59cb0dd9f8e65b2d398fcaf4d163cbc8e1d0ae45)
 
-Thanks,
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ ...ix-zeros-of-the-addresses-output-by-.patch | 41 +++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20190930.bb     |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch
 
->
->
->
-> If you believe any of these test results are incorrect, please reply to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a new
-> version of the patchset if applicable. Please ensure you add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-> [PATCH v3] -> ...).
->
-> ---
-> Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
->
->
+diff --git a/meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch b/meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch
+new file mode 100644
+index 0000000000..a98a104384
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch
+@@ -0,0 +1,41 @@
++From 59cb0dd9f8e65b2d398fcaf4d163cbc8e1d0ae45 Mon Sep 17 00:00:00 2001
++From: He Zhe <zhe.he@windriver.com>
++Date: Tue, 31 Dec 2019 15:02:48 +0800
++Subject: [PATCH] nm01: Remove prefix zeros of the addresses output by nm
++ before comparing
++
++The latest nm v2.33.1 outputs symbols addresses without prefix zeros
++for "nm -f posix", which causes the following error.
++nm01 5 TFAIL: Got wrong format with -f bsd
++
++Let's remove the prefix zeros before comparing.
++
++Signed-off-by: He Zhe <zhe.he@windriver.com>
++Reviewed-by: Li Wang <liwang@redhat.com>
++Reviewed-by: Petr Vorel <pvorel@suse.cz>
++Tested-by: Petr Vorel <pvorel@suse.cz>
++---
++ testcases/commands/nm/nm01.sh | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/testcases/commands/nm/nm01.sh b/testcases/commands/nm/nm01.sh
++index 30c41bd..fd9d3d9 100755
++--- a/testcases/commands/nm/nm01.sh
+++++ b/testcases/commands/nm/nm01.sh
++@@ -84,8 +84,11 @@ test5()
++ 	EXPECT_PASS $NM -f bsd $TST_DATAROOT/f1 \> nm_bsd.out
++ 	EXPECT_PASS $NM -f posix $TST_DATAROOT/f1 \> nm_posix.out
++ 
++-	ROD awk '{print $3 $2 $1}' nm_bsd.out \> nm1.out
++-	ROD awk '{print $1 $2 $3}' nm_posix.out \> nm2.out
+++	ROD awk '{print gensub(/\y(0+)([0-9a-fA-F]+)\y/, "\\2", "g")}' nm_bsd.out \> trimmed_nm_bsd.out
+++	ROD awk '{print gensub(/\y(0+)([0-9a-fA-F]+)\y/, "\\2", "g")}' nm_posix.out \> trimmed_nm_posix.out
+++
+++	ROD awk '{print $3 $2 $1}' trimmed_nm_bsd.out \> nm1.out
+++	ROD awk '{print $1 $2 $3}' trimmed_nm_posix.out \> nm2.out
++ 
++ 	if diff nm1.out nm2.out > /dev/null; then
++ 		tst_res TPASS "Got BSD format with -f bsd"
++-- 
++2.7.4
++
+diff --git a/meta/recipes-extended/ltp/ltp_20190930.bb b/meta/recipes-extended/ltp/ltp_20190930.bb
+index e56bb575d2..2853b1c819 100644
+--- a/meta/recipes-extended/ltp/ltp_20190930.bb
++++ b/meta/recipes-extended/ltp/ltp_20190930.bb
+@@ -41,6 +41,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0001-mkswap01.sh-Add-udevadm-trigger-before-swap-verifica.patch \
+            file://0001-testcases-fix-an-absent-format-string-issue.patch \
+            file://0001-Add-more-musl-exclusions.patch \
++           file://0001-nm01-Remove-prefix-zeros-of-the-addresses-output-by-.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.17.1
+
 
