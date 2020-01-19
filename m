@@ -1,26 +1,18 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DA6C7F8B2
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 04:12:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 00J4CEUt003854
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Sat, 18 Jan 2020 20:12:14 -0800 (PST)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Sat, 18 Jan 2020 20:12:13 -0800
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <seebs@seebs.net>
-Date: Sun, 19 Jan 2020 12:12:11 +0800
-Message-ID: <1579407131-338324-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1579405812-336202-1-git-send-email-mingli.yu@windriver.com>
-References: <1579405812-336202-1-git-send-email-mingli.yu@windriver.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 50D1C7F88A;
+	Sun, 19 Jan 2020 04:32:39 +0000 (UTC)
 MIME-Version: 1.0
-Cc: pavelmn@axis.com
-Subject: [PATCH v2] Open file with O_CLOEXEC to avoid fd leak
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: mingli.yu@windriver.com
+Date: Sun, 19 Jan 2020 04:32:40 -0000
+Message-ID: <20200119043240.2277.69955@do>
+References: <1579405812-336202-1-git-send-email-mingli.yu@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1579405812-336202-1-git-send-email-mingli.yu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgT3BlbiBmaWxlIHdpdGggT19DTE9FWEVDIHRvIGF2b2lkIGZkIGxlYWsgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,34 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2020 04:12:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sun, 19 Jan 2020 04:32:39 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Pavel Modilaynen <pavelmn@axis.com>
+== Series Details ==
 
-Use close-on-exec (O_CLOEXEC) flag when open log file to
-make sure its file descriptor is not leaked to parent
-process on fork/exec.
+Series: Open file with O_CLOEXEC to avoid fd leak (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/22123/
+State : failure
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 9d7a521971)
+
+* Patch            [v2] Open file with O_CLOEXEC to avoid fd leak
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- pseudo_util.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/pseudo_util.c b/pseudo_util.c
-index c867ed6..0ec527b 100644
---- a/pseudo_util.c
-+++ b/pseudo_util.c
-@@ -1594,7 +1594,7 @@ pseudo_logfile(char *filename, char *defname, int prefer_fd) {
- 		}
- 		free(filename);
- 	}	
--	fd = open(pseudo_path, O_WRONLY | O_APPEND | O_CREAT, 0644);
-+	fd = open(pseudo_path, O_WRONLY | O_APPEND | O_CREAT | O_CLOEXEC, 0644);
- 	if (fd == -1) {
- 		pseudo_diag("help: can't open log file %s: %s\n", pseudo_path, strerror(errno));
- 	} else {
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
