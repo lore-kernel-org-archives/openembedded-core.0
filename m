@@ -1,50 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A0EB7FBDB
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E155B7FBDB
 	for <openembedded-core@openembedded.org>;
 	Sun, 19 Jan 2020 21:37:26 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id y8so12261843pll.13
+Received: by mail-pg1-f181.google.com with SMTP id q127so14477891pga.4
 	for <openembedded-core@openembedded.org>;
-	Sun, 19 Jan 2020 13:37:27 -0800 (PST)
+	Sun, 19 Jan 2020 13:37:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=GB6hI/QX8DD9XRdpWSXNxjbc4uMhVp5R5O/0TsOnPhg=;
-	b=TQxQVULdmc+xPgQIN8yEQ68b+WPJ0np6ll5yIpW7cZpaRnLhVJfzgWMwYLLM5bCrDL
-	bXPLV76cJKcaPZHUcSD1+HkRFsWvaMhJqBo/ZxyjeMLDD+vx2t0iOl08/fdZP89w5LOR
-	7TAqdbF86YjtFzzunOwcH3xkTYX4ra9T6ko9fTJo9mhIWTjN719m3saywS/ALAL/CPym
-	I/JY5AFdbQU5jiOMOZ6n31mIxbgiSNk5in/FVZuaPea7ANGzAD+JMi9rMu3cQ65LLOHR
-	N9UdaGDDTcYHiT0YakHZqhkkDWK6wANrYqaRM5mdkv9clGV9gBm/pJNA+ixJIN6BELz+
-	9URw==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=v3Ie9asqY1Czt1lwZVfLd78S1JBCQLjx+cONRntPeTU=;
+	b=Bjqgfdbl5o+rHY4/rpCeVcY9likr1OwCnq123vh4PRxwRu6/jK9cNDPJRutrf4UZ8u
+	th/2/zmjhyr7XWrjAEyiOEV6ZhE+5Mc2+pGg4TYbxpvjgRUWZuJBjNMJWDMuHeMAFVcF
+	WGMOPi8p9cwrNzI3pGFi9wNHhdBEBKTtOSVcT1X2f5QvIiIWfq0nR6I06OgNXQTXLhCm
+	mAnaBw368ujSea/I+wuAaop0a/6YMlKIS3l0HnF95jc/OOZ5gvILzGAbdhx1R2+PDFNt
+	nc0oRq5YeHh36ni7GNckWkduAgGm1HhnmaONADure1wg8Y4icAC2fMyZaiDsyIqXlGJX
+	UaPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=GB6hI/QX8DD9XRdpWSXNxjbc4uMhVp5R5O/0TsOnPhg=;
-	b=BGp1eLFgf40YZYKKqFzzTC15aw8H+BjzVT+XHP6CnGgBbUz3ffhZVC2vQpM5bH9pfj
-	XoRAoMZ2gJBBkEujf97w4S5jZsxdPnKj3bCKwb8+EHTSjhmuUO/q7AgA1brKODMahU0W
-	x5GN4Tle7IQqd1CIxpG0ES816+WbPME7MOUOhSRjKHCVH4lF7DOeXpHfpmHP7niQdNv0
-	elXIk4SgKub/Blz0JYScVR2dImOglu2sPHT5ipu8D4zzvL9glPfKnDjrgjH0XF5mGoPC
-	RCC264P3kLbD2SldEJe6XMqJio4aClKGOH2oVu97y1wE8y0nrNllPFx0wtNnLMilCycu
-	VfGw==
-X-Gm-Message-State: APjAAAVRJAZqrZDdN0rz8foSQTf71Zs94p6m/lFyjon2kxYmds6Bqiv+
-	9DlxVFCQLDeqUN5Zz7lio5OutPyD
-X-Google-Smtp-Source: APXvYqyNgBCBy3Odk/bI4xm90pnL6nIKV4E0nPBiEeI3A1bAoY1ZYhmhqQIxmF1nRtYaLFVxbUxEig==
-X-Received: by 2002:a17:902:7b86:: with SMTP id
-	w6mr11211527pll.317.1579469847096; 
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=v3Ie9asqY1Czt1lwZVfLd78S1JBCQLjx+cONRntPeTU=;
+	b=A6RtK9r75n+si7AHo5j7ZIeu0Hg0iBTBbL5L/bmcYx/pUjgU7wAkLAGFYB4TO7caFD
+	tyALh5Y/3TIrDBD13byY0yM15qX9+DnKxHunS2MADaiuhFOefr79FM45UtfMZIY9aFmm
+	ScQduqFS/rBkQS8gjctv5X4NSreAr1k8ksPrKDQgnqjl+YuyjLgTG6gSXsWKojuhNsQ1
+	7JFOrRmELJ/pFt938BezcZw6WlVaXRfKiPPHtTNJ8KzdnC1ckz2u9AOrXuyNWwL9Esve
+	veVGSrdymhVAJBW11qGXMSvoeixcyJT0BDTTpHcSX3Yuc2I2inhGEzR4m9zD16geYKjW
+	L+wA==
+X-Gm-Message-State: APjAAAWQSTceVCgLRruaUE2fmrJ8sTt2I1tnXQdR0AsnU67h0PMyIUMl
+	tTYw4kShcrXNP0ZjrEmWfsr+fOje
+X-Google-Smtp-Source: APXvYqyq1VeD/Jz+UvbNOSTTVkyDBalXXruHmsk/qGmjZr/+4UpOYFEdrQoiZoeddmTWlNuZI2igSA==
+X-Received: by 2002:a63:de47:: with SMTP id y7mr55534326pgi.270.1579469847835; 
 	Sun, 19 Jan 2020 13:37:27 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:450d:e003:9142:f492])
 	by smtp.gmail.com with ESMTPSA id
-	q15sm34912518pgi.55.2020.01.19.13.37.26
+	q15sm34912518pgi.55.2020.01.19.13.37.27
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 19 Jan 2020 13:37:26 -0800 (PST)
+	Sun, 19 Jan 2020 13:37:27 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 19 Jan 2020 13:37:18 -0800
-Message-Id: <cover.1579469619.git.akuster808@gmail.com>
+Date: Sun, 19 Jan 2020 13:37:19 -0800
+Message-Id: <70efe880589df1dfe7d71451d62d9d8e4afd7981.1579469619.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [zeus 0/6] Patch review
+In-Reply-To: <cover.1579469619.git.akuster808@gmail.com>
+References: <cover.1579469619.git.akuster808@gmail.com>
+Subject: [zeus 1/6] linuxloader: Correct loader for glibc on armhf
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2020 21:37:26 -0000
+X-List-Received-Date: Sun, 19 Jan 2020 21:37:27 -0000
 
-Please review and provide feedback by Tuesday.
+From: Alex Kiernan <alex.kiernan@gmail.com>
 
-Passed on AB via A-full
+Fix the naming of the loader on armhf to match what glibc expects:
 
-The following changes since commit 5ed714139f91eb03871e01b68a4370784071234d:
+  #define GLIBC_DYNAMIC_LINKER_SOFT_FLOAT SYSTEMLIBS_DIR "ld-linux.so.3"
+  #define GLIBC_DYNAMIC_LINKER_HARD_FLOAT SYSTEMLIBS_DIR "ld-linux-armhf.so.3"
 
-  license.bbclass: Introduce AVAILABLE_LICENSES that lists all licenses (2020-01-15 11:58:08 +0800)
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7ad531093d620f18c04d487d79e9dad9f5a96232)
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/classes/linuxloader.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/zeus-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/zeus-nut
-
-Alex Kiernan (1):
-  linuxloader: Correct loader for glibc on armhf
-
-Kalle Lampila (1):
-  wic/filemap: If FIGETBSZ iotctl fail, failback to os.stat
-
-Mike Crowe (1):
-  multilib.conf: Ensure that RECIPE_SYSROOT is unchanged for native
-
-Richard Purdie (3):
-  sstatesig: Test cross/native hashserv method extension
-  scripts/oe-build-perf-report: Avoid buildstats warning
-  sstatesig: Improve debug output if getpwuid() fails
-
- meta/classes/linuxloader.bbclass            |  2 +-
- meta/conf/multilib.conf                     |  1 +
- meta/lib/oe/sstatesig.py                    | 17 +++++++--
- meta/lib/oeqa/selftest/cases/sstatetests.py | 40 +++++++++++++++++++++
- scripts/lib/wic/filemap.py                  |  6 ++--
- scripts/oe-build-perf-report                | 20 +++++++----
- 6 files changed, 75 insertions(+), 11 deletions(-)
-
+diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
+index c0fbf26836..e2876cec7a 100644
+--- a/meta/classes/linuxloader.bbclass
++++ b/meta/classes/linuxloader.bbclass
+@@ -41,7 +41,7 @@ def get_glibc_loader(d):
+     elif re.search("i.86", targetarch):
+         dynamic_loader = "${base_libdir}/ld-linux.so.2"
+     elif targetarch == "arm":
+-        dynamic_loader = "${base_libdir}/ld-linux.so.3"
++        dynamic_loader = "${base_libdir}/ld-linux${@['-armhf', ''][d.getVar('TARGET_FPU') == 'soft']}.so.3"
+     elif targetarch.startswith("aarch64"):
+         dynamic_loader = "${base_libdir}/ld-linux-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
+     elif targetarch.startswith("riscv64"):
 -- 
 2.17.1
 
