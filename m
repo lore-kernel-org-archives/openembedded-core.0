@@ -1,50 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EE5947FC0D
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
+	[209.85.166.45])
+	by mail.openembedded.org (Postfix) with ESMTP id AAC557F977
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 18:38:39 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id g17so27283378wro.2
+	Sun, 19 Jan 2020 19:00:06 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id n21so31342118ioo.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 10:38:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=/XszDexXKX4VwEGOY8yfpP+slka3jQYTG3ptgd+BVRM=;
-	b=Qe9gT8qsaG9UwkH9s0OzJTgxyCsULYamISEzyFZPGEVo3KrGYEoZ7fcsh9IAVtPd2Q
-	pdOado+sNSCr1AjbnwVyLLsycgNUNKMr82+NxFwEN4DyYHxdW9fWKRrVFoexoQGD975Q
-	611f4Cw9Qti1qT/lUyHT7mPqA+ZCVUQeuShqY=
+	Sun, 19 Jan 2020 11:00:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9EsPgn5jOJTYvvRG8Thm66iPnnZ2jrH/5txWb4dLa0A=;
+	b=VwrVP0B2M+InD2sIpnouWw9pLkzwc4LqFOJP8ubq0RQ9sTbra3TlccPjeNYdXUEAKQ
+	rq6NaYLINMQfn8HTuNd4BqE3mHsXpkGS88NJM/J1kKTN9lHBbTshCCc8XIOkI4UWW546
+	adr7cT8LKSBe9DpyNQky1ckIDIYmJUUK3mVHMLUyyRWc6/4WrMUTJNGGzOQ8699zqwVR
+	8dgebaRhZG5WaPxF5/licUqfvYY9BmpciOPbaNB9TSpedIQBYBl1lZSI/kJbG5yBqKxc
+	gyXQ6f6GdWz39gsvk6RGp1fFmpQMuiIFYVYO+NNL892d3b6pEALge7CD6HGvMN1MlgvW
+	KgAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=/XszDexXKX4VwEGOY8yfpP+slka3jQYTG3ptgd+BVRM=;
-	b=pwQg2QSp1NOMcS9D+jpUB0L1KbZeJoOY1Mfxsyh/nuk4X6BrPMbvmByT0J7y/59EpG
-	ZgVdUqY6TgTQNsAUUTrjxKppSSfYVluKWR/eN9SYFEmZAGlziE3Xrm1PXaHp0Xm60w5+
-	/dVXd2y9fFK/HrqRN+dqW8ZipoUseG2WDITL2fz6hxqys1PucMpxfPc/ZtuhPhQm+9xW
-	yBhd1gOyFmIjDFHw6N08L2I986YjiEC41BcN5lruj2EsakZVHbMt6x4J9nlmzh46atZT
-	rmD3xI5DpOi3SliRD1vqSTgOahF/qSGeABS32g+fGI0nbYC/WNCFTHhDemSSpAU06YA9
-	RbPw==
-X-Gm-Message-State: APjAAAUoFuuXv8qCrCVjwxIH2a7eu60/fQBEAQ7DhWQ7kJ4zaMmfzcYa
-	0u9tnX73bO9kE0hdHdbm+BeeHA==
-X-Google-Smtp-Source: APXvYqwllMr1BCj9HqiJMX/gPpmiPz+VASwkolPCXYZnMx3HbHhu8G19h2I/ZJdfa4XC0nw/TlFwrg==
-X-Received: by 2002:adf:f6c8:: with SMTP id y8mr14162471wrp.167.1579459120491; 
-	Sun, 19 Jan 2020 10:38:40 -0800 (PST)
-Received: from hex.config (5751ab90.skybroadband.com. [87.81.171.144])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9EsPgn5jOJTYvvRG8Thm66iPnnZ2jrH/5txWb4dLa0A=;
+	b=QrJ/Jn1LdPWKtxPPAzpnUdbEK7W5RiduS1tnHWhN9i3MqVtX6vViAu6j0GfPdeUws4
+	YNnvgLCzUaVZguv5tD7uroIOfm2pJM1bmzZTErBg1QV05OWp0cR3yiNo0WJWcY672i01
+	qD7vfa5Tip28wR49QdN9DZ6uYQlqWjOjo/+TKQ2kfyefvhYy/8N08x2MZJGq+lktsnUE
+	25Kn9L8pE/f21ukjvVyZh7lthTwx0BLaurwWWIbOFNFdSEbt/WbfL+7/JPPqb6jDSsC4
+	m/3lJoLFwvHJftW33PvJoSOCrK/Xo7IG774QThuYaVBwJTUQsDCwb2PXRRi5AyC50zr9
+	D03Q==
+X-Gm-Message-State: APjAAAXcAu6+12KeYibP1ri9n3hPCfQ9eIbTlgU+bbMkW/Y4JuZv+ECb
+	aDngGcSBrqBFp1dt9UeSQYT+9Kiq
+X-Google-Smtp-Source: APXvYqwHkEeKPCSQjW6xiKLxBJ6lvZqHcRx4FudtTmK31oMUHBSdN7C4F+Td0CG7WUyeXZFe6XMyqw==
+X-Received: by 2002:a5d:8cce:: with SMTP id k14mr40239591iot.294.1579460407571;
+	Sun, 19 Jan 2020 11:00:07 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	o15sm44763842wra.83.2020.01.19.10.38.39
+	x77sm10726714ilk.34.2020.01.19.11.00.06
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 19 Jan 2020 10:38:39 -0800 (PST)
-Message-ID: <f0138e477cd9e9d7f7eac4836974aaa8857ff288.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jan 2020 18:38:37 +0000
-In-Reply-To: <20200119100615.2057319-1-raj.khem@gmail.com>
-References: <20200119100615.2057319-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Sun, 19 Jan 2020 11:00:07 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 19 Jan 2020 12:59:56 -0600
+Message-Id: <20200119185959.406212-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] qemu: Enable ppc64le support for qemu-usermode
+Subject: [PATCH 0/3] selftest: reproducible: Various improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,72 +58,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2020 18:38:40 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 19 Jan 2020 19:00:07 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sun, 2020-01-19 at 02:06 -0800, Khem Raj wrote:
-> glibc defines minimum kernel needed to be 3.10.0 for LE ppc64
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/classes/qemu.bbclass           | 3 +++
->  meta/conf/bitbake.conf              | 1 +
->  meta/recipes-devtools/qemu/qemu.inc | 2 +-
->  3 files changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-> index f5c5780125..55bdff816b 100644
-> --- a/meta/classes/qemu.bbclass
-> +++ b/meta/classes/qemu.bbclass
-> @@ -16,6 +16,8 @@ def qemu_target_binary(data):
->          target_arch = "ppc"
->      elif target_arch == "powerpc64":
->          target_arch = "ppc64"
-> +    elif target_arch == "powerpc64le":
-> +        target_arch = "ppc64le"
->  
->      return "qemu-" + target_arch
->  
-> @@ -62,3 +64,4 @@ QEMU_EXTRAOPTIONS_ppc64e5500 = " -cpu e500mc"
->  QEMU_EXTRAOPTIONS_ppce6500 = " -cpu e500mc"
->  QEMU_EXTRAOPTIONS_ppc64e6500 = " -cpu e500mc"
->  QEMU_EXTRAOPTIONS_ppc7400 = " -cpu 7400"
-> +QEMU_EXTRAOPTIONS_powerpc64le = " -cpu POWER8"
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index ce89b80ade..2da7c5849a 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -430,6 +430,7 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
->  OLDEST_KERNEL = "3.2.0"
->  OLDEST_KERNEL_aarch64 = "3.14"
->  OLDEST_KERNEL_nios2 = "3.19"
-> +OLDEST_KERNEL_powerpc64le = "3.10.0"
->  OLDEST_KERNEL_riscv32 = "4.15"
->  OLDEST_KERNEL_riscv64 = "4.15"
->  
-> diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-
-> devtools/qemu/qemu.inc
-> index dff5762b80..eb9f060997 100644
-> --- a/meta/recipes-devtools/qemu/qemu.inc
-> +++ b/meta/recipes-devtools/qemu/qemu.inc
-> @@ -59,7 +59,7 @@ do_install_ptest() {
->  }
->  
->  # QEMU_TARGETS is overridable variable
-> -QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc
-> ppc64 riscv32 riscv64 sh4 x86_64"
-> +QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc
-> ppc64 ppc64le riscv32 riscv64 sh4 x86_64"
-> 
+Adds improvements and bug fixes to reproducible builds to make it easier
+to diagnose reproducibility problems.
 
+Joshua Watt (3):
+  oeqa: reproducible: Add flag for building from sstate
+  oeqa: reproducible: Fix extra data reporting
+  oeqa: reproducible: Do not strip packages
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/1482
+ meta/lib/oeqa/selftest/cases/reproducible.py | 77 +++++++++++---------
+ 1 file changed, 41 insertions(+), 36 deletions(-)
 
-(and most other builds unfortunately)
-
-Cheers,
-
-Richard
+-- 
+2.24.1
 
 
