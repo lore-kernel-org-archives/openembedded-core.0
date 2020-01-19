@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E155B7FBDB
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+	[209.85.216.50])
+	by mail.openembedded.org (Postfix) with ESMTP id A580F7FBEB
 	for <openembedded-core@openembedded.org>;
-	Sun, 19 Jan 2020 21:37:26 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id q127so14477891pga.4
+	Sun, 19 Jan 2020 21:37:27 +0000 (UTC)
+Received: by mail-pj1-f50.google.com with SMTP id bg7so6090163pjb.5
 	for <openembedded-core@openembedded.org>;
-	Sun, 19 Jan 2020 13:37:28 -0800 (PST)
+	Sun, 19 Jan 2020 13:37:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=v3Ie9asqY1Czt1lwZVfLd78S1JBCQLjx+cONRntPeTU=;
-	b=Bjqgfdbl5o+rHY4/rpCeVcY9likr1OwCnq123vh4PRxwRu6/jK9cNDPJRutrf4UZ8u
-	th/2/zmjhyr7XWrjAEyiOEV6ZhE+5Mc2+pGg4TYbxpvjgRUWZuJBjNMJWDMuHeMAFVcF
-	WGMOPi8p9cwrNzI3pGFi9wNHhdBEBKTtOSVcT1X2f5QvIiIWfq0nR6I06OgNXQTXLhCm
-	mAnaBw368ujSea/I+wuAaop0a/6YMlKIS3l0HnF95jc/OOZ5gvILzGAbdhx1R2+PDFNt
-	nc0oRq5YeHh36ni7GNckWkduAgGm1HhnmaONADure1wg8Y4icAC2fMyZaiDsyIqXlGJX
-	UaPA==
+	bh=VKTwpnv4frnlofX5Da8rF+/n+OTwRkliYxLxtbolgCU=;
+	b=Tm4s7iPWzes37jeDGk40IcxLjw/IS5TrUWx4SKzVdWtY2vjjdj19ciQ6+GjUJUJ9qd
+	DSx2K7fOZhxDpsM6/a2pCaVbajit9D2fes0CNE3+30CYAyFT/6KEqCH/D9dcZvezrM8O
+	s8xi6FryvfEuwIaVVz5P/RALQG5gS75sxt8xD8T+PlcbqM9JEoLNOiE4rOviCUMbbppP
+	YkVvRfKNYU8XxKgYB0a6GffASOC+ks+/fJyu7U9ToAS0RIku7Qe6aHCmIf38yFx3qXDQ
+	I1ZY8BwWQA6KGDfcpVCOvJ/YIFWdq4E8EZQn1IxwVLDWy0Kc+Nk1V6GBulCGV0/IvE9+
+	zpZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=v3Ie9asqY1Czt1lwZVfLd78S1JBCQLjx+cONRntPeTU=;
-	b=A6RtK9r75n+si7AHo5j7ZIeu0Hg0iBTBbL5L/bmcYx/pUjgU7wAkLAGFYB4TO7caFD
-	tyALh5Y/3TIrDBD13byY0yM15qX9+DnKxHunS2MADaiuhFOefr79FM45UtfMZIY9aFmm
-	ScQduqFS/rBkQS8gjctv5X4NSreAr1k8ksPrKDQgnqjl+YuyjLgTG6gSXsWKojuhNsQ1
-	7JFOrRmELJ/pFt938BezcZw6WlVaXRfKiPPHtTNJ8KzdnC1ckz2u9AOrXuyNWwL9Esve
-	veVGSrdymhVAJBW11qGXMSvoeixcyJT0BDTTpHcSX3Yuc2I2inhGEzR4m9zD16geYKjW
-	L+wA==
-X-Gm-Message-State: APjAAAWQSTceVCgLRruaUE2fmrJ8sTt2I1tnXQdR0AsnU67h0PMyIUMl
-	tTYw4kShcrXNP0ZjrEmWfsr+fOje
-X-Google-Smtp-Source: APXvYqyq1VeD/Jz+UvbNOSTTVkyDBalXXruHmsk/qGmjZr/+4UpOYFEdrQoiZoeddmTWlNuZI2igSA==
-X-Received: by 2002:a63:de47:: with SMTP id y7mr55534326pgi.270.1579469847835; 
-	Sun, 19 Jan 2020 13:37:27 -0800 (PST)
+	bh=VKTwpnv4frnlofX5Da8rF+/n+OTwRkliYxLxtbolgCU=;
+	b=ZJy9A/9ajOnL63Y3CS3YDVDyd8XRgB0vvKer4Vrwj+KBSs24mSflcKtbfKouKP59of
+	zNMGrWu4nlgejIPH3R/dEnv/Lm6LT8jO4STJi1Ogi6X0NKHY/4DRvBeaw9iwc4M2Yn02
+	ux1a0lUAEcPCh9qeAduOSV2TX5oqJmpEsZ5xMcs+wL8RP2zs6XfiWcHtEfKYipqU3Y/h
+	fuf2V20hDJ/o/rr1j2T72DDcpSfMch8Rv/LhREzo/OQKl1NE5vZEbVxrHG09wpERsbSX
+	EnkaABswEa4Fru6ru4StcEOG/+fDLul4DVrW9aEYj5KwPj0jlkRZvQDg8iCUp6Or/LCe
+	FNrA==
+X-Gm-Message-State: APjAAAW9XEuH/3swyJYR1HhwevcSFrqK8Vvbl+4nwcJ2yJmxU9NRkBJU
+	fXaqNc2/6Jgn+qOT73eLRU2HLRei
+X-Google-Smtp-Source: APXvYqyhCXpR4+yYTAZ8NrlmSEcn9VMDJmgCzHt8lsJ1dpryofOJEol0xtwmNqKxivWTz3MKKc+Vhg==
+X-Received: by 2002:a17:902:bf03:: with SMTP id
+	bi3mr11059848plb.119.1579469848605; 
+	Sun, 19 Jan 2020 13:37:28 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:450d:e003:9142:f492])
 	by smtp.gmail.com with ESMTPSA id
 	q15sm34912518pgi.55.2020.01.19.13.37.27
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 19 Jan 2020 13:37:27 -0800 (PST)
+	Sun, 19 Jan 2020 13:37:28 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 19 Jan 2020 13:37:19 -0800
-Message-Id: <70efe880589df1dfe7d71451d62d9d8e4afd7981.1579469619.git.akuster808@gmail.com>
+Date: Sun, 19 Jan 2020 13:37:20 -0800
+Message-Id: <c3e957409bf68e7b310e27781ac91d24cf4452bf.1579469619.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1579469619.git.akuster808@gmail.com>
 References: <cover.1579469619.git.akuster808@gmail.com>
-Subject: [zeus 1/6] linuxloader: Correct loader for glibc on armhf
+Subject: [zeus 2/6] multilib.conf: Ensure that RECIPE_SYSROOT is unchanged for native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,34 +62,93 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 19 Jan 2020 21:37:27 -0000
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+From: Mike Crowe <mac@mcrowe.com>
 
-Fix the naming of the loader on armhf to match what glibc expects:
+Ensure that RECIPE_SYSROOT is the same for -native recipes whether
+multilib.conf is included or not.
 
-  #define GLIBC_DYNAMIC_LINKER_SOFT_FLOAT SYSTEMLIBS_DIR "ld-linux.so.3"
-  #define GLIBC_DYNAMIC_LINKER_HARD_FLOAT SYSTEMLIBS_DIR "ld-linux-armhf.so.3"
+Without this change task signatures for -native recipes change when
+switching between MACHINEs that require multilib.conf and those that
+don't.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+This fix was one of the ones suggested by Khem Raj in
+http://lists.openembedded.org/pipermail/openembedded-core/2019-December/290303.html
+
+Add test_sstate_multilib_or_not_native_samesigs test case to
+sstatetests.py to ensure that this stays fixed.
+
+Signed-off-by: Mike Crowe <mac@mcrowe.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 7ad531093d620f18c04d487d79e9dad9f5a96232)
+(cherry picked from commit aa05f1ded71366b86eda7fce24d8b5395e85ada2)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/linuxloader.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/multilib.conf                     |  1 +
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 40 +++++++++++++++++++++
+ 2 files changed, 41 insertions(+)
 
-diff --git a/meta/classes/linuxloader.bbclass b/meta/classes/linuxloader.bbclass
-index c0fbf26836..e2876cec7a 100644
---- a/meta/classes/linuxloader.bbclass
-+++ b/meta/classes/linuxloader.bbclass
-@@ -41,7 +41,7 @@ def get_glibc_loader(d):
-     elif re.search("i.86", targetarch):
-         dynamic_loader = "${base_libdir}/ld-linux.so.2"
-     elif targetarch == "arm":
--        dynamic_loader = "${base_libdir}/ld-linux.so.3"
-+        dynamic_loader = "${base_libdir}/ld-linux${@['-armhf', ''][d.getVar('TARGET_FPU') == 'soft']}.so.3"
-     elif targetarch.startswith("aarch64"):
-         dynamic_loader = "${base_libdir}/ld-linux-aarch64${ARMPKGSFX_ENDIAN_64}.so.1"
-     elif targetarch.startswith("riscv64"):
+diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
+index cfed3fbbd0..58f2ac5c86 100644
+--- a/meta/conf/multilib.conf
++++ b/meta/conf/multilib.conf
+@@ -9,6 +9,7 @@ MULTILIBS ??= "multilib:lib32"
+ STAGING_DIR_HOST = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+ STAGING_DIR_TARGET = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
+ RECIPE_SYSROOT = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
++RECIPE_SYSROOT_class-native = "${WORKDIR}/recipe-sysroot"
+ 
+ INHERIT += "multilib_global"
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index 6757a0ec68..9adb511960 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -446,6 +446,46 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
+         self.assertCountEqual(files1, files2)
+ 
+ 
++    def test_sstate_multilib_or_not_native_samesigs(self):
++        """The sstate checksums of two native recipes (and their dependencies)
++        where the target is using multilib in one but not the other
++        should be the same. We use the qemux86copy machine to test
++        this.
++        """
++
++        self.write_config("""
++TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
++TCLIBCAPPEND = \"\"
++MACHINE = \"qemux86\"
++require conf/multilib.conf
++MULTILIBS = "multilib:lib32"
++DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
++""")
++        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
++        bitbake("binutils-native  -S none")
++        self.write_config("""
++TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
++TCLIBCAPPEND = \"\"
++MACHINE = \"qemux86copy\"
++BB_SIGNATURE_HANDLER = "OEBasicHash"
++""")
++        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
++        bitbake("binutils-native -S none")
++
++        def get_files(d):
++            f = []
++            for root, dirs, files in os.walk(d):
++                for name in files:
++                    f.append(os.path.join(root, name))
++            return f
++        files1 = get_files(self.topdir + "/tmp-sstatesamehash/stamps")
++        files2 = get_files(self.topdir + "/tmp-sstatesamehash2/stamps")
++        files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash") for x in files2]
++        self.maxDiff = None
++        self.assertCountEqual(files1, files2)
++
++
+     def test_sstate_noop_samesigs(self):
+         """
+         The sstate checksums of two builds with these variables changed or
 -- 
 2.17.1
 
