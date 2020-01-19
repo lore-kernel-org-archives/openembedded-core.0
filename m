@@ -1,49 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 09FA67FC13
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B9397FCC0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 13:18:48 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id u2so11989945wmc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 05:18:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9LKtvNuu2V4NbTOKrv/q/MX6yfSxHnseYn5CqlorFQM=;
-	b=OGcH9CITi/x6KbiZtIQSR3i/Mz3fUDgvmGVVGZL2Or5lQGsF2cUjEOQu0/X00J7Kac
-	GYDh0SPbbQu4pnFZ+vM4bSTlML13xC9EYUTsGk17ozcbFJ8TOMiMDY2CEJKkPTH401xv
-	Pu0YCHSWUQvmLwIbXYMwhJWKnCVjnSgYiaYwQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9LKtvNuu2V4NbTOKrv/q/MX6yfSxHnseYn5CqlorFQM=;
-	b=jG8eko2MomhttPkF2Z9EFsvkLHxIoYE6r2XI5liIUKSdcnomfv8s118VQA/FhAmve9
-	dBy2S5WSm8DthXyytwrfn1z+yOqTL+IWBV40tDKrXAd0/1exNs8InZaZ81IuSES59wWk
-	2lQuCAsptu6UK8KLalvniS/CA2FQP5RDSYM8p73kZqBheTKiDoL56fkiRJBlkd8XEs8/
-	KlO6o5FCi4uPIStCsTEUvDCzLniMp/hy/Tmg7jIhBOEwcsPFV3rrXxPo1yjAIuq+qx45
-	7yol8NUSy3c5Po2A+T3PI87py9176/YTILpNqn2RigGRImbk44FJFMD/LKx5IDSrGIe9
-	TKYA==
-X-Gm-Message-State: APjAAAUwORAssHnzs1dLroxGReTD3sNn3KRt6nAdVVLsFmguKIZNvQzg
-	L3Suhob2XwpdaKYZzMTnO7w5AE1czuM=
-X-Google-Smtp-Source: APXvYqwctsdLBC9owmt6n2DL22kv7OZbWMeZ5D1EmOR14+uign535Bog7eHhPNM69LNKCvmUJyv/yw==
-X-Received: by 2002:a1c:4907:: with SMTP id w7mr14605830wma.106.1579439928604; 
-	Sun, 19 Jan 2020 05:18:48 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g18sm17973340wmh.48.2020.01.19.05.18.47
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 19 Jan 2020 05:18:48 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jan 2020 13:18:47 +0000
-Message-Id: <20200119131847.22641-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	Sun, 19 Jan 2020 14:33:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00JEX7MB018655
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Sun, 19 Jan 2020 06:33:17 -0800
+Received: from [128.224.21.233] (128.224.21.233) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Sun, 19 Jan 2020 06:32:56 -0800
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <20200116201933.29628-1-Trevor.Gamblin@windriver.com>
+	<0f474dc25b7fb6861101254a2c4fd0301f28e167.camel@linuxfoundation.org>
+	<26c295370010ee96d0265b0be5a716aa6bc166ce.camel@linuxfoundation.org>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <c578dbb8-9f80-9a60-57d5-b01671de558f@windriver.com>
+Date: Sun, 19 Jan 2020 09:32:55 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.3.1
 MIME-Version: 1.0
-Subject: [PATCH] pcmanfm: Inherit mime-xdg
+In-Reply-To: <26c295370010ee96d0265b0be5a716aa6bc166ce.camel@linuxfoundation.org>
+Subject: Re: [PATCH] logrotate.py: improve oeqa test implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +36,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2020 13:18:48 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 19 Jan 2020 14:33:43 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Inherit the new class to avoid warnings about desktop file.
+On 1/19/20 7:15 AM, Richard Purdie wrote:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb
-index c88e1ed8d6a..7885e0abaed 100644
---- a/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb
-+++ b/meta/recipes-sato/pcmanfm/pcmanfm_1.3.1.bb
-@@ -21,7 +21,7 @@ SRC_URI[sha256sum] = "6804043b3ee3a703edde41c724946174b505fe958703eadbd7e0876ece
- 
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/pcmanfm/files/PCManFM%20%2B%20Libfm%20%28tarball%20release%29/PCManFM/"
- 
--inherit autotools pkgconfig features_check
-+inherit autotools pkgconfig features_check mime-xdg
- 
- # The startup-notification requires x11 in DISTRO_FEATURES
- REQUIRED_DISTRO_FEATURES = "x11"
--- 
-2.20.1
-
+> On Sat, 2020-01-18 at 23:16 +0000, Richard Purdie wrote:
+>> On Thu, 2020-01-16 at 15:19 -0500, Trevor Gamblin wrote:
+>>> From: Trevor Gamblin <trevor.gamblin@windriver.com>
+>>>
+>>> See bug https://bugzilla.yoctoproject.org/show_bug.cgi?id=13632
+>>>
+>>> Autobuilder tests occasionally fail, reporting that a new logfile
+>>> could not be created. While this failure did occur multiple times,
+>>> it
+>>> could not be manually reproduced. However, there are issues with
+>>> the
+>>> implementation of the logrotate.py script that can be fixed. These
+>>> changes will help make the failures clearer, should they continue
+>>> to
+>>> occur.
+>>>
+>>> Previously, the test_2_logrotate test would, after running the
+>>> logrotate tool, use "ls -al $HOME/logrotate_dir | wc -l" to count
+>>> the number of files in the rotation directory and determine if the
+>>> rotation was successful. The test to see if there are at least
+>>> three
+>>> files is problematic, because depending on the version of ls used,
+>>> it
+>>> may report the target value of 3 even when there are only hidden
+>>> files
+>>> in the directory, potentially reporting a pass for the test when it
+>>> should actually fail. An example with coreutils:
+>>>
+>>> root@qemux86-64:~# ls -al emptydir/
+>>> total 2
+>>> drwxr-xr-x 2 root root 1024 Jan 14 19:50 .
+>>> drwx------ 3 root root 1024 Jan 14 19:50 ..
+>>> root@qemux86-64:~#
+>>>
+>>> Where "total" is the number of blocks used. Compare with busybox
+>>> ls:
+>>>
+>>> root@qemux86-64:~# ls -al emptydir/
+>>> drwxr-xr-x    2 root     root          1024 Jan 14 19:54 .
+>>> drwx------    3 root     root          1024 Jan 14 19:54 ..
+>>> root@qemux86-64:~#
+>>>
+>>> Instead of using ls to verify that a certain number of files exists
+>>> in $HOME/logrotate_dir, the tests have been changed to rotate two
+>>> specific logs: the log for wtmp and a new logrotate_testfile
+>>> created
+>>> during the second test. Both tests check that the logs are
+>>> correctly
+>>> rotated into $HOME/logrotate_dir by using find and grep on the
+>>> expected filename (e.g. "wtmp" when rotated becomes "wtmp.1", so we
+>>> check to see that wtmp.1 is present in $HOME/logrotate_dir). In
+>>> addition, should the test fail, the directory listing is included
+>>> in
+>>> the log to aid debugging.
+>>>
+>>> Finally, note that while the autobuilder failures that this patch
+>>> addresses were only seen during core-image-full-cmdline tests,
+>>> these
+>>> changes were successfully tested on core-image-minimal and
+>>> core-image-sato with the manual addition of logrotate and openssh-
+>>> sshd
+>>> to the images.
+>>>
+>>> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+>> Thanks for this, I haven't looked in detail but test builds came back
+>> with:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1464
+> Also:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1467
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1471
+> (but there was a pass for the above target too:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1468)
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/1464
+> (interesting 1c and 2c failed)
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/216
+> (may be related, systemd logrotate failure)
+This is promising. I'll dig into it tonight/tomorrow.
+>
+> Cheers,
+>
+> Richard
+>
+>
 
