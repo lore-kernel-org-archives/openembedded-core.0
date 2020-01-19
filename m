@@ -1,50 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 871EB7F352
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 69E127E687
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 10:06:19 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id y8so11835613pll.13
+	Sun, 19 Jan 2020 12:15:23 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id j42so26679401wrj.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 02:06:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6irPLu1F4WkOkGl2fMNOF14vAhZGbVOTdlf+GzPzEnA=;
-	b=GvGYaiT+3i3/KwFCeqO+FdsENVQwhjMKzOJau5GFK1wvBHhX0SSec7wx/xeBxn1MAW
-	PkblLJEhLjeJgWrOZdvM/GJXZA3A/CJZXOb1CpT7MwsnURlrNzBJYm/TsTZUO6qMGl9U
-	LoG8n0kzvNbk+Pp4OR8X8CgJ8b5t95G55UYoki8/6pRlLdHn/L9S+toBd9OQuaJiifFo
-	muvB3DlfHT5sI+NrOJ4crG1StprDd5Po5DcQpGiEPn/2KPeP0aJWkG0BD97nwY+i50an
-	3OQVR96IJS20M0e6T8mTVyWZhCjHKxIf0pZIUskUG9Sa55b2JfmoN591llGxV2gkd6Nl
-	zDrg==
+	Sun, 19 Jan 2020 04:15:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=sT7GfQcP5H+z6NWHrFLSpsTTYwv/kw246bJB6zd8lUU=;
+	b=fjxq+7Dg7ysjX/oDk5ZjTfj1wGHINl4n7XyxONioWLXEgWYRqbxHk7ax2vGC347jo+
+	ZF5sSQq7PvPhj4Mt5yCj+tNETNFDSVeA+MXhLa0kwAVtEO6Y4/Bt45ghm2MzNq8/SZnT
+	PoEr4Nu2U4dvJ4vZ+DsuwH8YIeQh/3izJQnYg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6irPLu1F4WkOkGl2fMNOF14vAhZGbVOTdlf+GzPzEnA=;
-	b=I5jOruU6BtdPVihpoXaMSaArXa+OYxFOEufpGAo8wm582hyoZMQXNcDzWhZuuXR0eh
-	5rdh4kn8xdNqfjbFR/xKAp1cj4FAa/TQBLqOuVQMK1EDSMFGqsa3bBjqy/OsCg+sacxc
-	wo/ou+qz63EbCfDHq22sxTeCYJr82ucEKKDBgFUcytKy8E/rXuNBi+L+38e3vbi9h0Jy
-	VdCnhTt0eyn2SH9+zHNANLFQlYDJwwf2xcOPyrW2QLJtsCgx2ffvQ4EvYSpdbVMNq7+v
-	+JoEQsKh2qZyMDztT4ljcQFoO1GPPi7UvrK3Adla+L3O++a2MJxonvSsctjlMHqSU0yy
-	c6LQ==
-X-Gm-Message-State: APjAAAUUM22T4JFwqn9p6+eGS9WJvFXRVJJeSJhDTLDlkQtNgtjOyHNe
-	XlFVLwv5AxCI7XNs3toibAkwxNKI6bg=
-X-Google-Smtp-Source: APXvYqztF1mRNsdVzYkvIrOfoRdfrbuvbDmqMnkDjJ2pwJTIrEgfAfogVUqojZxq3Tl6yFJDgyxQCA==
-X-Received: by 2002:a17:90a:c697:: with SMTP id
-	n23mr16467754pjt.37.1579428379937; 
-	Sun, 19 Jan 2020 02:06:19 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::cab1])
-	by smtp.gmail.com with ESMTPSA id d4sm8218839pjg.19.2020.01.19.02.06.19
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=sT7GfQcP5H+z6NWHrFLSpsTTYwv/kw246bJB6zd8lUU=;
+	b=Ey04BMKZ5NzYC/XGL1ZM9i5xh4SFnp7fDWkiRHSzTUnKNGHiSFaPXFvO8WdVdZRVVC
+	YDwSm19uE7CbGieucoPm4F/VniGppjfKLAzjOfhjPH3psJNxfL5ENGod/yQhVES5t+2d
+	mEdoH4faXkJ2iVp7ESLikSR1Pz4zAf4S6QLRANXtCHtl6EV/Vc1nDJQII5LWjB45v7qR
+	/9IkebKz3rXGoo4nUotG5tjGA+6IEK8Zy2ImurZUR1CbFMDNEeDNsdMf3fDL/vArgiaj
+	mtg+KkilWFgCmQ9Vrle9roCAbGCkqI2tJ2rMIcLpyu9sxQ4ZoKC7hnW4zuVPnCvjQnN/
+	06HA==
+X-Gm-Message-State: APjAAAXc5RBvVQurc61laZRXmAb5CmHDhe2szAw1u5rY8JgzIy6by6GD
+	lx/e7bAYtoBdBD5Ip+69yTZ6t4DApjc=
+X-Google-Smtp-Source: APXvYqycFXrYYUZLc83gfVWr96nHtTaqX1m171ka3wJITxAeziIhuQ4dWUMzKZ0y8gSUjozJ86TnkQ==
+X-Received: by 2002:adf:db84:: with SMTP id u4mr13407930wri.317.1579436123848; 
+	Sun, 19 Jan 2020 04:15:23 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	h2sm45503150wrt.45.2020.01.19.04.15.22
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 19 Jan 2020 02:06:19 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 19 Jan 2020 02:06:15 -0800
-Message-Id: <20200119100615.2057319-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
+	Sun, 19 Jan 2020 04:15:23 -0800 (PST)
+Message-ID: <26c295370010ee96d0265b0be5a716aa6bc166ce.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Trevor Gamblin <Trevor.Gamblin@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sun, 19 Jan 2020 12:15:21 +0000
+In-Reply-To: <0f474dc25b7fb6861101254a2c4fd0301f28e167.camel@linuxfoundation.org>
+References: <20200116201933.29628-1-Trevor.Gamblin@windriver.com>
+	<0f474dc25b7fb6861101254a2c4fd0301f28e167.camel@linuxfoundation.org>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: [PATCH] qemu: Enable ppc64le support for qemu-usermode
+Subject: Re: [PATCH] logrotate.py: improve oeqa test implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,62 +59,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2020 10:06:19 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 19 Jan 2020 12:15:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-glibc defines minimum kernel needed to be 3.10.0 for LE ppc64
+On Sat, 2020-01-18 at 23:16 +0000, Richard Purdie wrote:
+> On Thu, 2020-01-16 at 15:19 -0500, Trevor Gamblin wrote:
+> > From: Trevor Gamblin <trevor.gamblin@windriver.com>
+> > 
+> > See bug https://bugzilla.yoctoproject.org/show_bug.cgi?id=13632
+> > 
+> > Autobuilder tests occasionally fail, reporting that a new logfile
+> > could not be created. While this failure did occur multiple times,
+> > it
+> > could not be manually reproduced. However, there are issues with
+> > the
+> > implementation of the logrotate.py script that can be fixed. These
+> > changes will help make the failures clearer, should they continue
+> > to
+> > occur.
+> > 
+> > Previously, the test_2_logrotate test would, after running the
+> > logrotate tool, use "ls -al $HOME/logrotate_dir | wc -l" to count
+> > the number of files in the rotation directory and determine if the
+> > rotation was successful. The test to see if there are at least
+> > three
+> > files is problematic, because depending on the version of ls used,
+> > it
+> > may report the target value of 3 even when there are only hidden
+> > files
+> > in the directory, potentially reporting a pass for the test when it
+> > should actually fail. An example with coreutils:
+> > 
+> > root@qemux86-64:~# ls -al emptydir/
+> > total 2
+> > drwxr-xr-x 2 root root 1024 Jan 14 19:50 .
+> > drwx------ 3 root root 1024 Jan 14 19:50 ..
+> > root@qemux86-64:~#
+> > 
+> > Where "total" is the number of blocks used. Compare with busybox
+> > ls:
+> > 
+> > root@qemux86-64:~# ls -al emptydir/
+> > drwxr-xr-x    2 root     root          1024 Jan 14 19:54 .
+> > drwx------    3 root     root          1024 Jan 14 19:54 ..
+> > root@qemux86-64:~#
+> > 
+> > Instead of using ls to verify that a certain number of files exists
+> > in $HOME/logrotate_dir, the tests have been changed to rotate two
+> > specific logs: the log for wtmp and a new logrotate_testfile
+> > created
+> > during the second test. Both tests check that the logs are
+> > correctly
+> > rotated into $HOME/logrotate_dir by using find and grep on the
+> > expected filename (e.g. "wtmp" when rotated becomes "wtmp.1", so we
+> > check to see that wtmp.1 is present in $HOME/logrotate_dir). In
+> > addition, should the test fail, the directory listing is included
+> > in
+> > the log to aid debugging.
+> > 
+> > Finally, note that while the autobuilder failures that this patch
+> > addresses were only seen during core-image-full-cmdline tests,
+> > these
+> > changes were successfully tested on core-image-minimal and
+> > core-image-sato with the manual addition of logrotate and openssh-
+> > sshd
+> > to the images.
+> > 
+> > Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+> 
+> Thanks for this, I haven't looked in detail but test builds came back
+> with:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1464
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/qemu.bbclass           | 3 +++
- meta/conf/bitbake.conf              | 1 +
- meta/recipes-devtools/qemu/qemu.inc | 2 +-
- 3 files changed, 5 insertions(+), 1 deletion(-)
+Also:
 
-diff --git a/meta/classes/qemu.bbclass b/meta/classes/qemu.bbclass
-index f5c5780125..55bdff816b 100644
---- a/meta/classes/qemu.bbclass
-+++ b/meta/classes/qemu.bbclass
-@@ -16,6 +16,8 @@ def qemu_target_binary(data):
-         target_arch = "ppc"
-     elif target_arch == "powerpc64":
-         target_arch = "ppc64"
-+    elif target_arch == "powerpc64le":
-+        target_arch = "ppc64le"
- 
-     return "qemu-" + target_arch
- 
-@@ -62,3 +64,4 @@ QEMU_EXTRAOPTIONS_ppc64e5500 = " -cpu e500mc"
- QEMU_EXTRAOPTIONS_ppce6500 = " -cpu e500mc"
- QEMU_EXTRAOPTIONS_ppc64e6500 = " -cpu e500mc"
- QEMU_EXTRAOPTIONS_ppc7400 = " -cpu 7400"
-+QEMU_EXTRAOPTIONS_powerpc64le = " -cpu POWER8"
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index ce89b80ade..2da7c5849a 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -430,6 +430,7 @@ SDKPATHNATIVE = "${SDKPATH}/sysroots/${SDK_SYS}"
- OLDEST_KERNEL = "3.2.0"
- OLDEST_KERNEL_aarch64 = "3.14"
- OLDEST_KERNEL_nios2 = "3.19"
-+OLDEST_KERNEL_powerpc64le = "3.10.0"
- OLDEST_KERNEL_riscv32 = "4.15"
- OLDEST_KERNEL_riscv64 = "4.15"
- 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index dff5762b80..eb9f060997 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -59,7 +59,7 @@ do_install_ptest() {
- }
- 
- # QEMU_TARGETS is overridable variable
--QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc ppc64 riscv32 riscv64 sh4 x86_64"
-+QEMU_TARGETS ?= "arm aarch64 i386 mips mipsel mips64 mips64el ppc ppc64 ppc64le riscv32 riscv64 sh4 x86_64"
- 
- EXTRA_OECONF = " \
-     --prefix=${prefix} \
--- 
-2.25.0
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1467
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1471
+(but there was a pass for the above target too:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1468)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/1464
+(interesting 1c and 2c failed)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/216
+(may be related, systemd logrotate failure)
+
+Cheers,
+
+Richard
+
 
 
