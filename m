@@ -1,24 +1,24 @@
 Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B9397FCC0
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 39CDD7FCA2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 Jan 2020 14:33:43 +0000 (UTC)
+	Sun, 19 Jan 2020 14:37:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00JEX7MB018655
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 00JEbfe6011674
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Sun, 19 Jan 2020 06:33:17 -0800
+	Sun, 19 Jan 2020 06:37:41 -0800 (PST)
 Received: from [128.224.21.233] (128.224.21.233) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Sun, 19 Jan 2020 06:32:56 -0800
+	Sun, 19 Jan 2020 06:37:41 -0800
 To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
 References: <20200116201933.29628-1-Trevor.Gamblin@windriver.com>
 	<0f474dc25b7fb6861101254a2c4fd0301f28e167.camel@linuxfoundation.org>
 	<26c295370010ee96d0265b0be5a716aa6bc166ce.camel@linuxfoundation.org>
 From: Trevor Gamblin <trevor.gamblin@windriver.com>
-Message-ID: <c578dbb8-9f80-9a60-57d5-b01671de558f@windriver.com>
-Date: Sun, 19 Jan 2020 09:32:55 -0500
+Message-ID: <1de3add7-255c-5c22-2fa3-abef9894ec22@windriver.com>
+Date: Sun, 19 Jan 2020 09:37:40 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.3.1
 MIME-Version: 1.0
@@ -36,7 +36,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 Jan 2020 14:33:43 -0000
+X-List-Received-Date: Sun, 19 Jan 2020 14:37:42 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
