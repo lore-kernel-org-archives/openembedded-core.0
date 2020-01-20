@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
 Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
 	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 9C3A77FCE4
+	by mail.openembedded.org (Postfix) with ESMTP id 9475B7FCAE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 17:25:38 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id t2so335035wrr.1
+	Mon, 20 Jan 2020 17:25:39 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id d16so262729wre.10
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 Jan 2020 09:25:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dcxEZjtnN/pEH2WXQcysg3xLxOAKQp2ctaFncOYKOQU=;
-	b=bceatjoSM98Gl+6kHL4nL9i/HbJ8FqQDHI5Ogt5LSGR17RLhAWXIJukigjaw5d4NW9
-	lSq8APJme3XO9ukCFl384bB7+8fAS49+UKd+fT6RHV1CO42KFbHcQWgFBqGdWrJQ6tdx
-	1yVGV+0cMhx9keAQm756ytDva6c+5+bkSmpAD/Qz+5lZctpp1qwYKnHMsnSnY8g6gvym
-	6yLmsh42D5YPt3iqMTAqi5wcmgureaqAtq7ZpZo9rrUIi0zfW5l2AUGr3S82uqom8Gnh
-	JHyMwtA567LSlkq2sQmeXgROgdrwNv9hFUDsNt4Q3hgJZmx2N7qZt2Mdt8TV6pePCnE2
-	GUbg==
+	bh=sffb2AeTDIJyWbnhpYx8e/ESv+00WYQpKadGcMzJoSg=;
+	b=Lwr1MFLzoidY/UBDv/vmSPmRyi64EU+SvdU71WY5TY7A9RmbeOfFEmbEliHhFpI37k
+	9svhOHR36H75BQluiz3cpnTa66/uwxuM0Hd+AbezITW1m2tNAgOklTMv8uE/vb29VGW7
+	7xxcffTF+YD/l0Y8Iy7y5cj3M5YEqDkyz4t5SN5FhUEtNfEfnjsPpuGKOV7OhzPI7e51
+	fNM2Iycv6XmJVmuN8T6DNFZsIMaxwqG8tej/X49JOJWQ+R9/T0+ZwhzMXzeZj/R6jL2b
+	NEA+bWoyIjteT/HSkI6o2gupaw7Tab7G1xGHEc28yENm94SGPVvk9KgmJJS07ZS2p02l
+	TcSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=dcxEZjtnN/pEH2WXQcysg3xLxOAKQp2ctaFncOYKOQU=;
-	b=SS+qIQ7hmKISyk+UMRbvxHWnXD/PbJQRBkSVCI+erOuj6HX3x3MuRyLJ4JMxArcAUM
-	W009qor3t/dsavQajYX9Xdu21jEh+xkyJg9nCeSu1xIoL6/wZFfuydMJz6SYwg0Jv4ER
-	Ap1ZaSLNrp+kbJ/AzXvGvM59O7k60XLKPuEKa7QkNyZ741tUsu8+GKTVckAsT23w+akk
-	tRBnVKNnRSasTpIsM5YfPVhcqqh30CoFqY45aay1iQmKLbXBZL1CKJoqLgJcEyB6vXWq
-	fUyLgrJdSx9Q2iEKblEI4MdTOQv4RJF5DNpRzEZ6f+rZ+KAq6lweG26IPUS+5jI7W5rD
-	83jw==
-X-Gm-Message-State: APjAAAXnIISHmnyA8DWOTBiQL8GupHfUO1hxAkN1Tc0vk9Q2EvN/B+dX
-	jlVMSfRNBnmck03mGYEzo/5E5wef
-X-Google-Smtp-Source: APXvYqwiyUEhL63mjJSYd2WSemGQL8G4fb74YEpo1AHvCoyyyMMFhFtofvWQMwjeb9eqpRqDyJYT/w==
-X-Received: by 2002:adf:dd4d:: with SMTP id u13mr584180wrm.394.1579541138857; 
-	Mon, 20 Jan 2020 09:25:38 -0800 (PST)
+	bh=sffb2AeTDIJyWbnhpYx8e/ESv+00WYQpKadGcMzJoSg=;
+	b=TTl198zXLxzfoOHGDFYJVvfByYVJk34w5BcoxHENTzxRkecvN0dJimiTpVE3DoW29V
+	6aWIKRG7cUiqjiu8MvbgVx0AVaDYd5f7p0izi/F0K+klUqbGwFKsCr7ebdDTt8Zd5xbm
+	LLY+srC5K+vXfMaQTIO+KOy5lxIvwPVSBF/efNP+OHc1qab0AhuxcbU0oqudL/xi2Em/
+	4/LIHk9eTD0gRS6ZUWxA6xYS/lzF0mQmerWDPUGVnzr2JcSivONW12e5kmBMHWfI9ZvC
+	fHuxYTxairrxn08MDSiG+H8L9s8EbrrkOue9heP/bb64UoIH0SmIn76LzN0Dunplp0RK
+	wyYA==
+X-Gm-Message-State: APjAAAX/Ph9fkkfCDp5y1igSMqeED0BAb2LVtNXU+Z54bQrYNE2+p1Br
+	DgiwiNJZhCP/HZGxbJV043/888ph
+X-Google-Smtp-Source: APXvYqxGn123Rb0zS8tR/C9Tf6YTGo1NxMIj8DSWBCYVEBXZa9/whOGsa7kn4YNd3kTBt1UZUyI7Ag==
+X-Received: by 2002:adf:ce87:: with SMTP id r7mr527756wrn.245.1579541139850;
+	Mon, 20 Jan 2020 09:25:39 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id x11sm31526wmg.46.2020.01.20.09.25.38
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 20 Jan 2020 09:25:38 -0800 (PST)
+	Mon, 20 Jan 2020 09:25:39 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2020 18:25:03 +0100
-Message-Id: <20200120172510.22648-17-alex.kanavin@gmail.com>
+Date: Mon, 20 Jan 2020 18:25:04 +0100
+Message-Id: <20200120172510.22648-18-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200120172510.22648-1-alex.kanavin@gmail.com>
 References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-Subject: [PATCH 17/24] libpipeline: upgrade 1.5.1 -> 1.5.2
+Subject: [PATCH 18/24] msmtp: upgrade 1.8.6 -> 1.8.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 17:25:39 -0000
+X-List-Received-Date: Mon, 20 Jan 2020 17:25:40 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{libpipeline_1.5.1.bb => libpipeline_1.5.2.bb}            | 4 ++--
+ .../recipes-extended/msmtp/{msmtp_1.8.6.bb => msmtp_1.8.7.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/libpipeline/{libpipeline_1.5.1.bb => libpipeline_1.5.2.bb} (78%)
+ rename meta/recipes-extended/msmtp/{msmtp_1.8.6.bb => msmtp_1.8.7.bb} (86%)
 
-diff --git a/meta/recipes-extended/libpipeline/libpipeline_1.5.1.bb b/meta/recipes-extended/libpipeline/libpipeline_1.5.2.bb
-similarity index 78%
-rename from meta/recipes-extended/libpipeline/libpipeline_1.5.1.bb
-rename to meta/recipes-extended/libpipeline/libpipeline_1.5.2.bb
-index a5802074b13..a1824616072 100644
---- a/meta/recipes-extended/libpipeline/libpipeline_1.5.1.bb
-+++ b/meta/recipes-extended/libpipeline/libpipeline_1.5.2.bb
-@@ -7,8 +7,8 @@ LICENSE = "GPLv3"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.6.bb b/meta/recipes-extended/msmtp/msmtp_1.8.7.bb
+similarity index 86%
+rename from meta/recipes-extended/msmtp/msmtp_1.8.6.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.8.7.bb
+index 809144b7837..729d0ed146b 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.6.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.7.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
  
- SRC_URI = "${SAVANNAH_GNU_MIRROR}/libpipeline/libpipeline-${PV}.tar.gz"
--SRC_URI[md5sum] = "4c8fe6cd85422baafd6e060f896c61bc"
--SRC_URI[sha256sum] = "d633706b7d845f08b42bc66ddbe845d57e726bf89298e2cee29f09577e2f902f"
-+SRC_URI[md5sum] = "169de4cc1f6f7f7d430a5bed858b2fd3"
-+SRC_URI[sha256sum] = "fd59c649c1ae9d67604d1644f116ad4d297eaa66f838e3dfab96b41e85b059fb"
+ SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[md5sum] = "adff4a9992e1b47aa5468b974550304e"
+-SRC_URI[sha256sum] = "6625f147430c65ba8527f52c4fe5d4d33552d3c0fb6d793ba7df819a3b3042e1"
++SRC_URI[md5sum] = "4cf3d000b24fc8769e9fd8ec8b3cf1fb"
++SRC_URI[sha256sum] = "9a53bcdc244ec5b1a806934ecc7746d9d09db581f587bedf597e9da2f48c51f1"
  
- inherit pkgconfig autotools
+ inherit gettext autotools update-alternatives pkgconfig
  
 -- 
 2.17.1
