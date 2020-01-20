@@ -1,43 +1,38 @@
-Return-Path: <paul.barker@konsulko.com>
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com
-	[209.85.167.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 62CCC7FA23
-	for <openembedded-core@openembedded.org>;
-	Mon, 20 Jan 2020 10:04:43 +0000 (UTC)
-Received: by mail-oi1-f180.google.com with SMTP id 13so27991975oij.13
-	for <openembedded-core@openembedded.org>;
-	Mon, 20 Jan 2020 02:04:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=K7ROMBLAF3bikQdA5mm2AVdfQTetILR8KnIyDHWemiQ=;
-	b=sbUdcqrvHIy2JcJ7gIdifMs2Q+iZnAFwTMOaulatxqcVpKyjEtBph6ZgQJBRx9r9mn
-	x+R0Qq2us942fcBP1kfEZ+sCyu4pOATMTr5Chc09Tk7xgb8R38M0qkQmDLci8jdfPkT9
-	nl2PUDjDJhfQ4ltKnqUdk6bABun8c8mAfqBaw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=K7ROMBLAF3bikQdA5mm2AVdfQTetILR8KnIyDHWemiQ=;
-	b=NBPoDpiUdfqnwOmWnRSBQADYEjfUFJmXHwGyRdBT0e397a0Vs8swK4/jv/3U0cvb4s
-	56DXTT79U4nB28Mh9Xhsz7upQy96Sgk+Y5/7niyB9qd2sDk5ai/hRQr5yt2z0pSdeL8J
-	lL9R1SHe5kLuxacqZKyAmBf0HEckccvPF2+wqcLkFLWKW5qKyR6yA1V61FQG5/fl4vWM
-	10BJimEpg3hoUkr2l+PTRcXNYKrqfEG9FKUEl8TFLJek/V1xeI+BG6gSolRXINaepykl
-	d7SsU3LDEYFoXzkxmdtzMH/fZTUMODISXJRkAGCa/f3IhrNJJ597ZAcxzPsjhhXP0kX7
-	XA/Q==
-X-Gm-Message-State: APjAAAVYelZibdI7ZUzzJsY8vfYk+LDyFyW52jkSF82o+IhrTkR5H6IB
-	t0mZ6kQVW4S5EfUq4Xpkca0un68d5hXaB2WPQZ+PL0kS8ctjk8+9
-X-Google-Smtp-Source: APXvYqx5JJqOK4t1KCGD/THBmFgvYoBCvq/OA3mVJDgWpHS2SIgRdFTCPWjFD3xOTeN0pKmXwBlePZvBnqfxbttw5Xk=
-X-Received: by 2002:aca:1b01:: with SMTP id b1mr11503570oib.6.1579514683938;
-	Mon, 20 Jan 2020 02:04:43 -0800 (PST)
+Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 0BDF37FC01
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jan 2020 10:27:16 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 181A99C01B1;
+	Mon, 20 Jan 2020 05:27:18 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id Y1emv4EWQmjc; Mon, 20 Jan 2020 05:27:17 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 91D949C01B6;
+	Mon, 20 Jan 2020 05:27:17 -0500 (EST)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id s3JYbwblnDCl; Mon, 20 Jan 2020 05:27:17 -0500 (EST)
+Received: from sulaco.example.com (40.73.12.109.rev.sfr.net [109.12.73.40])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id D10FC9C01B1;
+	Mon, 20 Jan 2020 05:27:15 -0500 (EST)
+From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Jan 2020 11:26:54 +0100
+Message-Id: <20200120102705.20916-3-jean-marie.lemetayer@savoirfairelinux.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20200120102705.20916-1-jean-marie.lemetayer@savoirfairelinux.com>
+References: <20200120102705.20916-1-jean-marie.lemetayer@savoirfairelinux.com>
 MIME-Version: 1.0
-References: <CA+4=imbzpDitOKi0_cuF4CyzMdzh-ht9HUYkrM8PbTZAc9FvgQ@mail.gmail.com>
-In-Reply-To: <CA+4=imbzpDitOKi0_cuF4CyzMdzh-ht9HUYkrM8PbTZAc9FvgQ@mail.gmail.com>
-From: Paul Barker <pbarker@konsulko.com>
-Date: Mon, 20 Jan 2020 10:04:33 +0000
-Message-ID: <CAM9ZRVsn=hPOsvMrN29pehBgA8_je6Kj+DYvTFG_doOVbJfG=A@mail.gmail.com>
-To: Yann Dirson <yann.dirson@blade-group.com>
-Cc: openembedded-core@openembedded.org
-Subject: Re: libsolv giving opkg wrong hint about dependency issue
+Cc: jonaskgandersson@gmail.com, paul.eggleton@linux.intel.com, bunk@stusta.de,
+	cdelston0@gmail.com, rennes-dev@savoirfairelinux.com
+Subject: [PATCH v5 02/13] classes/npm: restrict the build to be offline
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,16 +45,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 10:04:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 20 Jan 2020 10:27:17 -0000
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, 19 Jan 2020 at 23:00, Yann Dirson <yann.dirson@blade-group.com> wrote:
->
-> I was hit this week by opkg giving me a cryptic hint to resolve a problem:
+After the do_fetch task, every other tasks must not access the network.
+In order to ensure this point every npm command must use the offline
+configuration. In addition setting an invalid proxy is used as a safety.
 
-You may also want to forward this to the opkg development mailing
-list: http://groups.google.com/group/opkg-devel
+Signed-off-by: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinu=
+x.com>
+---
+ meta/classes/npm.bbclass | 3 +++
+ 1 file changed, 3 insertions(+)
 
-Thanks,
-Paul
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index 799b2a3829..cf2c12047e 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -44,6 +44,9 @@ NPM_BUILD =3D "${WORKDIR}/npm-build"
+ def npm_global_configs(d):
+     """Get the npm global configuration"""
+     configs =3D []
++    # Ensure no network access is done
++    configs.append(("offline", "true"))
++    configs.append(("proxy", "http://invalid"))
+     # Configure the cache directory
+     configs.append(("cache", d.getVar("NPM_CACHE")))
+     return configs
+--=20
+2.20.1
+
 
