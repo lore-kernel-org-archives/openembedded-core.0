@@ -1,63 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
-	[209.85.216.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 309CE7FCA0
+Return-Path: <maxim.uvarov@linaro.org>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BC427FCA0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 19:26:29 +0000 (UTC)
-Received: by mail-pj1-f68.google.com with SMTP id e11so210959pjt.4
+	Mon, 20 Jan 2020 19:31:40 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id z26so140696lfg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 11:26:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=T5uCn7N/5IisqZBREJu+ijR6OfO0TFjDZp9loP8uxBo=;
-	b=P3T6KdRWq6IxSzYr/4wMWkTezcjLve9/pnEwTq2hj1Zn5y1lc4k2EDqFBLX1N5/eVl
-	wkYOzYv+e0oE8g4GVU0LWEHYCPnIXbkfmooaj1P2XdYMgv0PwMkpKivJQ4XfqkNkthBg
-	oME1OfulZU7bJg1yebMQCTXfkWD7VEEouTAMNNb4pxwfyfFzSrPmUoaByp/CYmXRZNn5
-	aNk+w93yGIU2DhhGfl02k9NbdwL6Z85AasAQofu+ci9sWhun9O9cmCTx59UIilxindOK
-	ySug0jn7c6+raqQ0+wUAF1mzHAjNyWYq26tzDB8k+RCsuo6o1NI7bbaZwcEkYKhLbSqb
-	dkbw==
+	Mon, 20 Jan 2020 11:31:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=dsZgwfjUhRMFYXEu3uvnP/aZbaeRD9IYk0eFvAwIJRo=;
+	b=pS9Uageg5TH1+E0OK7U4pFCqPUsWtQ91UIgPydPQXBad+dXkob7lOzMvK+7DDhuLvt
+	Vfqx6OTwDGfLJNx6b3qV8u0Na7tR90aX0V6u7gch+epyv0seOI9PhbAJVX5e8436h/8V
+	0fmxVUFcBhp29TQvSkMlljSrBDRgObrP32NqNDlJMcqZ7iBuVqPyRtd2lwoBs4+ibLkX
+	b+HsPR5zFsl9TEe0ChuI06LQ5UrdXafQGbuZ7KC1o/43mWLhQhuVGrcLi8BgdjC6CiJW
+	up4mUywRHduWKXC6ASfLjzLz4YVpKRBWQBNgSXaSoDbEuwhXPi9n5TXTvAYBdyqBLZKm
+	YGnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=T5uCn7N/5IisqZBREJu+ijR6OfO0TFjDZp9loP8uxBo=;
-	b=kcBNsGxJ3LAyAvLa3UnGoHyVSt7SYPuKZEQbwbQaX3XVRHFVwVFLkvokhUYJT9dyr4
-	ZLmWW+3qbejzqxsaxO2sBKPt92+Oh6iBWwWQXPj62rJJ45tCb4DNPY+QHJF8BhSnJD3Y
-	+MCMVY7sQqU6tN87ltyNF+XRK94BCDhu00yuo7Q4JNyMZfdTEy0aDuEkgwzxa3wEKuuj
-	1+6+mozjFgDNhI3KlNZhFF4XCIWK9ZJEyrrJAEiZaj7fhwPIpCOu2Lnf8pleNyhCA8sN
-	n46Qat+ou3dPeSEcKSbdchRtX9179XZSPNRlvr7QJJOLs1P23gf3OLI8/EIsnl95eaZ9
-	o+0Q==
-X-Gm-Message-State: APjAAAViaboFLlam7JLPq/8qJXg9Nimp1RRFlF7Fijec0gGb8vf3jCWW
-	1PZPJipaVScQH8kR/9zn5JKGGj7ZiGs=
-X-Google-Smtp-Source: APXvYqwSsB5/+0t9IqcdtF9sfepo7eVgE3b/fm29bRms6Q8X4Dk/SKbaMeCg0YsaqQQkkk9X01XKZA==
-X-Received: by 2002:a17:902:34a:: with SMTP id
-	68mr1273633pld.250.1579548389489; 
-	Mon, 20 Jan 2020 11:26:29 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:2443:dc13:4404:96b1?
-	([2601:646:9200:4e0:2443:dc13:4404:96b1])
-	by smtp.gmail.com with ESMTPSA id d2sm247914pjv.18.2020.01.20.11.26.28
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 20 Jan 2020 11:26:28 -0800 (PST)
-To: Stefan Agner <stefan@agner.ch>,
-	Quentin Schulz <quentin.schulz@streamunlimited.com>
-References: <20180514144415.40730-1-stefan@agner.ch>
-	<20200113145729.amwegnpvnp2kb3ut@qschulz>
-	<20200120123246.o5abx73ehcoqbbim@qschulz>
-	<4e98fdb7ff73df6804e58f2f4339c816@agner.ch>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <059aa62b-1c45-50a3-5d58-40f2646247ad@gmail.com>
-Date: Mon, 20 Jan 2020 11:26:27 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <4e98fdb7ff73df6804e58f2f4339c816@agner.ch>
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: busybox: udhcpc: fix IPv6 support when using udhcpc
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=dsZgwfjUhRMFYXEu3uvnP/aZbaeRD9IYk0eFvAwIJRo=;
+	b=lm/tWqOTpV8l2KOODxLHp9OcTDYqWvSgaVnRDsWKo/ectgQfWDyIPivTRd3Gmfg73G
+	hyeHMtVaxrGtOitUQnJoI33w3wUughz3dv28rAzuL6Q41DfVJA+Jr8jdN40jJLEZPSbN
+	W84ekI5YW6+oHth8a+3krANVzwQat6vv75Ti9LKJU0s+HP98TICI4AmmTk8vRU03qv36
+	pRgImxvOtP+lkv0qkwPInwb4FzQU7BmwblfOdZcn2L7WduT/GEYfEXrfXjuXVx7y4+dT
+	81itWpLs8YovOepGD8vFF5QUyx9SZ63fvXEu7OIDTomvxm5PwZUd/bpt+KkMXoFDr3jQ
+	LaYQ==
+X-Gm-Message-State: APjAAAXAtpMRyT3jqRFndtNTAXJByKZI3zPWYynrX3mO+D0YjMo2OwiF
+	dKhC1UeitFfIcG2G31LXbbbj+Xz8fAo=
+X-Google-Smtp-Source: APXvYqz5gStxNE9P2kLMWyg5EpyFdJLsD5BX/C06kiKUeqJw0/4o1ZOKCUZmsAhO44Juvrn1o05vPg==
+X-Received: by 2002:a19:8b88:: with SMTP id n130mr148222lfd.210.1579548700860; 
+	Mon, 20 Jan 2020 11:31:40 -0800 (PST)
+Received: from localhost.localdomain (128-68-30-100.broadband.corbina.ru.
+	[128.68.30.100]) by smtp.gmail.com with ESMTPSA id
+	f11sm20790898lfa.9.2020.01.20.11.31.39
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 20 Jan 2020 11:31:40 -0800 (PST)
+From: Maxim Uvarov <maxim.uvarov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 Jan 2020 22:31:36 +0300
+Message-Id: <20200120193136.3663-1-maxim.uvarov@linaro.org>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] wic: bootimg-efi: implement --include-path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,66 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 19:26:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jan 2020 19:31:41 -0000
 
-On 1/20/20 4:57 AM, Stefan Agner wrote:
-> On 2020-01-20 13:32, Quentin Schulz wrote:
->> Hi all,
->>
->> On Mon, Jan 13, 2020 at 03:57:31PM +0100, Quentin Schulz wrote:
->>> Hi all,
->>>
->>> On Mon, May 14, 2018 at 04:44:15PM +0200, Stefan Agner wrote:
->>>> From: Stefan Agner <stefan.agner@toradex.com>
->>>>
->>>> The udhcpc script calls ip addr flush .. which flushes addresses
->>>> of any address family, including IPv6. However, busybox udhcpc is
->>>> IPv4 only and should not influence IPv6 addressing. Hence use ip
->>>> addr flush with family constrait.
->>>>
->>>> The script particularly broke IPv6 SLAAC: Typically when udhcpc
->>>> calls the script the kernel already assigned the IPv6 link-local
->>>> address. The flush removes the link-local IPv6 address again and
->>>> prohibits proper IPv6 operation such as SLAAC since neighbor
->>>> discovery protocol relies on IPv6 link-local addressing.
->>>>
->>>> Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
->>>> ---
->>>>   meta/recipes-core/busybox/files/simple.script | 2 +-
->>>>   1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
->>>> index 6ed0293525..8b5eb53633 100644
->>>> --- a/meta/recipes-core/busybox/files/simple.script
->>>> +++ b/meta/recipes-core/busybox/files/simple.script
->>>> @@ -28,7 +28,7 @@ case "$1" in
->>>>   		fi
->>>>   		if ! root_is_nfs ; then
->>>>                           if [ $have_bin_ip -eq 1 ]; then
->>>> -                                /SBIN_DIR/ip addr flush dev $interface
->>>> +                                /SBIN_DIR/ip -4 addr flush dev $interface
->>>>                                   /SBIN_DIR/ip link set dev $interface up
->>>>                           else
->>>>                                   /SBIN_DIR/ifconfig $interface 0.0.0.0
->>>
->>> Kindly pinging, happened to us as well many times.
->>>
->>
->> Kindly pinging.
-> 
-> Just checked, we still override that script in our layer, so definitely
-> would be happy if this gets merged upstream so I can get rid of our
-> custom script downstream.
-> 
+--include-path can be used for placing files on ESP,
+like dtbs.
 
-I think this is good to go got OE-core, but I was wondering if default 
-script in busybox also need this and perhaps upstream too
+Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> --
-> Stefan
-> 
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 2cfdc10ecd..fa320a50b8 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -289,6 +289,10 @@ class BootimgEFIPlugin(SourcePlugin):
+         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
+         exec_native_cmd(mcopy_cmd, native_sysroot)
+ 
++        for path in part.include_path:
++            mcopy_cmd = "mcopy -i %s -s %s/ ::/" % (bootimg, path)
++            exec_native_cmd(mcopy_cmd, native_sysroot)
++
+         chmod_cmd = "chmod 644 %s" % bootimg
+         exec_cmd(chmod_cmd)
+ 
+-- 
+2.17.1
 
 
