@@ -1,46 +1,47 @@
-Return-Path: <andrey.z@gmail.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AE8A7FC01;
-	Mon, 20 Jan 2020 16:52:07 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id b6so218154wrq.0;
-	Mon, 20 Jan 2020 08:52:08 -0800 (PST)
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
+	[209.85.166.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C6D347FC51;
+	Mon, 20 Jan 2020 17:04:07 +0000 (UTC)
+Received: by mail-il1-f182.google.com with SMTP id f5so67640ilq.5;
+	Mon, 20 Jan 2020 09:04:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=jxEP3Ol1I8gsQShctfYr/TEL7O84uZnbx1OwThIriBQ=;
-	b=r1qr1QUYurscpEjMx4sd+Qovh3wJoK3EqKXRQAQLVqxx+EngMd9xCeO7rWuAH6bvrR
-	b2sOHGlhqzLFKW4rHkDkaM3fKO2mdy2TG2vKCbUD5Kd7cyjq0MevNJ0pG8tNbYa1zkU0
-	LKJ3dOeA7JLuAaC2nVhQlQIuWkn0UfBjFg+jX6PbPa+m2/1xGbXzePP2ZcDBj1p/3brr
-	I6hVBijYdD4MEjEIrPF+JjQDdTDeKe5hIHSUubtMui17sGHkm01Xn13uRpp0qsbE1T7z
-	2+WBSplwjYbpQ3k0mMbjZuLUocEvG8kXlGF4PynRia3y160/boSi+47TfunVjGgNcXCr
-	Qh1Q==
+	:cc; bh=h56WhaeW5G+DMUumyyjX6NUchgAh9sdB4bGhnT+SiJA=;
+	b=tjOSFJp0kqR9CNwFCLHWppfoItqBlvY+U/dckl2+q2K1EV3+DqMzOUW+Mz8DlL5WtG
+	gUilVoatG3oCg9mSJW9ECstJ8GP7igOlKmZVNsoDkjgMnBVCG3DIdBZoeNFMNd5UPBVo
+	4UAfglupmtoTn2xZ0aSmiNErmp2nCZxbpuFqtSlemwiqiyz7kjddvo6+jiGPVNAiLZk7
+	jK3faX0cUSLVMIox1I/k5UhlR+W4PPY/9cZ4oo9urgnbpwFAiSOHFDyJmpuv3n0c5doT
+	Js1BUlPoZcYLi06yws2bQna+6f1rmgkGA/eukSSsPBZHNOL8fufe1UkoqQlATw+xLrm9
+	siKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=jxEP3Ol1I8gsQShctfYr/TEL7O84uZnbx1OwThIriBQ=;
-	b=EUGRddXr29SmWir8HK5D7jV6ljUgXqI3TKybWhs0ugtGmlaNSncx6ldFTVPsvbZ+b0
-	/rJyzgAC8Ko2pdtt6MQmWyl67TUljsMLSBcutA3zwwjLUU7wUXCDrSWq3xaZFWXrwawq
-	hnwFl79kCq8LCe3kEw4XI16Ut2huy75yrq8jLe8xlQhlowGb36mgHmozCmr0leM+uPey
-	UbSAW7DoQppz1J0bDXY5j4sARTtCgsDaoSBq/myGrW6q7f4IJTeKP3yCZ0efsRxbgkQ4
-	yE++u/Ic9tyZED5NgjfEafln6qQwC5n3xpmGOYsjk4xsQR0OXTPrZ9QgkiXnUS25NmaZ
-	S+DA==
-X-Gm-Message-State: APjAAAVQIoxIZWnt9+PR5gPXRZRSBOgj2Dd/El02w92H/tErZnDTigKs
-	er0WTyan0oLZY0/yu3bWQQm77t6NOGW+vcVgCDc=
-X-Google-Smtp-Source: APXvYqyAghtiGD60507eBCQZUylNLvQ7SQrzhGSzbt22L1n84qXDgtz7ed43pt9h1kUqkbAVtk1VJ168cHUeHp0mpx0=
-X-Received: by 2002:adf:fe90:: with SMTP id l16mr383368wrr.265.1579539128262; 
-	Mon, 20 Jan 2020 08:52:08 -0800 (PST)
+	bh=h56WhaeW5G+DMUumyyjX6NUchgAh9sdB4bGhnT+SiJA=;
+	b=MfRFXCqXDQUDOwPZ+UqqhpzMYQP+YiT86hhzEoes/NlkpCz7bScDcSLBFSX7OjDogx
+	ym3mphfgKMkALU4dUTp/2koW+amOPgbo13m6guqim9BXN/i7VHqALShlJs9hX63U4nIt
+	Y+mzS2blTqDTAsuqckb04yFLaegQ+THWhiqXDhiaDouPPLU7ozK+gJkS5xn8wp9tw0Sg
+	LQOtr/cxDLgMIZkGSCzz/KZpzeJkhZRbyjr5lNtGE6TijWC3rrkJLZWVp9KyOoErYKlk
+	1Kat1PscotGErhpRUh0/Zfdjq2ieftne3jJiIZpGZs1rq0qEimJP7FclA2DI+0CEV1tS
+	YSVg==
+X-Gm-Message-State: APjAAAW0A0DNWzCjx0zQhPmXfNG78CPhXvFv/ymi1uC52lWAKUCHKzjz
+	Oc5OK/EA3oDKqmoKmkOD8SDAG3FbL/94s347HK4=
+X-Google-Smtp-Source: APXvYqxnOk0woPeEbQqLSND5tI2g1MaWO0SfiULv6dG/aZ9B24510rqzB6RVNXY0IeAuDgDA7UTGSGJ44p22tIw7xhI=
+X-Received: by 2002:a92:911b:: with SMTP id t27mr48024ild.142.1579539848718;
+	Mon, 20 Jan 2020 09:04:08 -0800 (PST)
 MIME-Version: 1.0
-References: <CAMKF1sryUbCcpRxpqi4ytZJ+j+AgksfS8pxd=_O6DtWrkCx+Lg@mail.gmail.com>
-In-Reply-To: <CAMKF1sryUbCcpRxpqi4ytZJ+j+AgksfS8pxd=_O6DtWrkCx+Lg@mail.gmail.com>
-From: Andrey Zhizhikin <andrey.z@gmail.com>
-Date: Mon, 20 Jan 2020 17:51:57 +0100
-Message-ID: <CAHtQpK6cp2D3Zb2pkDgYwdKR=AX6AWnwpWEs=qqzNYQ64uL28w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: python2-less meta-openembedded build results
+References: <20200120115132.3618-1-ross.burton@intel.com>
+In-Reply-To: <20200120115132.3618-1-ross.burton@intel.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Mon, 20 Jan 2020 09:03:57 -0800
+Message-ID: <CANx9H-BBqLtyL3g9KmzyUw1ZasginK7eQzWA8AM05R_8KJqM+g@mail.gmail.com>
+To: Ross Burton <ross.burton@intel.com>
+Cc: Yocto-mailing-list <yocto@yoctoproject.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][meta-python2] python: add 2.7.17 from oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,41 +54,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 16:52:07 -0000
+X-List-Received-Date: Mon, 20 Jan 2020 17:04:08 -0000
+Content-Type: multipart/alternative; boundary="000000000000976e7f059c95473e"
+
+--000000000000976e7f059c95473e
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 20, 2020 at 4:52 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> Hi all
->
-> Recently py2 is removed from oe-core, So I did quick patches to get a
-> world build going. And
-> here are initial failures, please help out with recipes your can or
-> care for. Eventually, the remaining
-> ones we can blacklist for 3.1 release.
->
-> http://errors.yoctoproject.org/Errors/Build/97185/
->
-> I will post more arches as they become available. If you want to try
-> the same for machines/distros you can try yoe/mut for meta-oe
+First of all, a GREAT BIG THANK YOU for doing this.
 
-I've actually asked Ross about similar failures, specifically in
-[meta-openembeeded/meta-python] where there is a good mix of Pytho2
-and Python3 still present. I've started to remove those yesterday, and
-would continue with that layer further.
+ERROR: ParseError at
+/home/ttorling/Projects/meta-python2/recipes-devtools/python/
+python_2.7.17.bb:1: Could not include required file python.inc
 
+Seems like python.inc is 2.7 specific and should also move? I grepped for
+usage in poky and didn't find any.
+
+On Mon, Jan 20, 2020 at 3:51 AM Ross Burton <ross.burton@intel.com> wrote:
+
+> Python 2 ceased being maintained on the 1st January 2020.  All users of
+> Python 2 in oe-core have already been ported to Python 3, so in oe-core
+> 390f3eda Python 2 was finally removed from oe-core itself.
 >
-> https://git.openembedded.org/meta-openembedded-contrib/log/?h=yoe/mut
+> The following are added to meta-python2 in this commit:
+> - python and python-native 2.7.17
+> - python-setuptools
+> - The classes pythonnative, pythondir, distutils, setuptools
 >
-> Thank you
-> -Khem
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>  classes/distutils-base.bbclass                |    4 +
+>  classes/distutils.bbclass                     |   87 ++
+>  classes/python-dir.bbclass                    |    5 +
+>  classes/pythonnative.bbclass                  |   27 +
+>  classes/setuptools.bbclass                    |    3 +
+>
+> <snip>
+
+> --
+> 2.20.1
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
---
-Regards,
-Andrey.
+--000000000000976e7f059c95473e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>First of all, a GREAT BIG THANK YOU for doing this.</=
+div><div><br></div><div dir=3D"ltr">ERROR: ParseError at /home/ttorling/Pro=
+jects/meta-python2/recipes-devtools/python/<a href=3D"http://python_2.7.17.=
+bb:1">python_2.7.17.bb:1</a>: Could not include required file python.inc</d=
+iv><div dir=3D"ltr"><br></div><div>Seems like python.inc is 2.7 specific an=
+d should also move? I grepped for usage in poky and didn&#39;t find any.<br=
+></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
+>On Mon, Jan 20, 2020 at 3:51 AM Ross Burton &lt;<a href=3D"mailto:ross.bur=
+ton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">Python 2 ceased being maintained on the=
+ 1st January 2020.=C2=A0 All users of<br>
+Python 2 in oe-core have already been ported to Python 3, so in oe-core<br>
+390f3eda Python 2 was finally removed from oe-core itself.<br>
+<br>
+The following are added to meta-python2 in this commit:<br>
+- python and python-native 2.7.17<br>
+- python-setuptools<br>
+- The classes pythonnative, pythondir, distutils, setuptools<br>
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" tar=
+get=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+---<br>
+=C2=A0classes/distutils-base.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 4 +<br>
+=C2=A0classes/distutils.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A087 ++<br>
+=C2=A0classes/python-dir.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 5 +<br>
+=C2=A0classes/pythonnative.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A027 +<br>
+=C2=A0classes/setuptools.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 3 +<br><br></blockquote><div>&lt=
+;snip&gt; <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+-- <br>
+2.20.1<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--000000000000976e7f059c95473e--
