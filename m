@@ -1,47 +1,37 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com
-	[209.85.166.182])
-	by mail.openembedded.org (Postfix) with ESMTP id C6D347FC51;
-	Mon, 20 Jan 2020 17:04:07 +0000 (UTC)
-Received: by mail-il1-f182.google.com with SMTP id f5so67640ilq.5;
-	Mon, 20 Jan 2020 09:04:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=h56WhaeW5G+DMUumyyjX6NUchgAh9sdB4bGhnT+SiJA=;
-	b=tjOSFJp0kqR9CNwFCLHWppfoItqBlvY+U/dckl2+q2K1EV3+DqMzOUW+Mz8DlL5WtG
-	gUilVoatG3oCg9mSJW9ECstJ8GP7igOlKmZVNsoDkjgMnBVCG3DIdBZoeNFMNd5UPBVo
-	4UAfglupmtoTn2xZ0aSmiNErmp2nCZxbpuFqtSlemwiqiyz7kjddvo6+jiGPVNAiLZk7
-	jK3faX0cUSLVMIox1I/k5UhlR+W4PPY/9cZ4oo9urgnbpwFAiSOHFDyJmpuv3n0c5doT
-	Js1BUlPoZcYLi06yws2bQna+6f1rmgkGA/eukSSsPBZHNOL8fufe1UkoqQlATw+xLrm9
-	siKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=h56WhaeW5G+DMUumyyjX6NUchgAh9sdB4bGhnT+SiJA=;
-	b=MfRFXCqXDQUDOwPZ+UqqhpzMYQP+YiT86hhzEoes/NlkpCz7bScDcSLBFSX7OjDogx
-	ym3mphfgKMkALU4dUTp/2koW+amOPgbo13m6guqim9BXN/i7VHqALShlJs9hX63U4nIt
-	Y+mzS2blTqDTAsuqckb04yFLaegQ+THWhiqXDhiaDouPPLU7ozK+gJkS5xn8wp9tw0Sg
-	LQOtr/cxDLgMIZkGSCzz/KZpzeJkhZRbyjr5lNtGE6TijWC3rrkJLZWVp9KyOoErYKlk
-	1Kat1PscotGErhpRUh0/Zfdjq2ieftne3jJiIZpGZs1rq0qEimJP7FclA2DI+0CEV1tS
-	YSVg==
-X-Gm-Message-State: APjAAAW0A0DNWzCjx0zQhPmXfNG78CPhXvFv/ymi1uC52lWAKUCHKzjz
-	Oc5OK/EA3oDKqmoKmkOD8SDAG3FbL/94s347HK4=
-X-Google-Smtp-Source: APXvYqxnOk0woPeEbQqLSND5tI2g1MaWO0SfiULv6dG/aZ9B24510rqzB6RVNXY0IeAuDgDA7UTGSGJ44p22tIw7xhI=
-X-Received: by 2002:a92:911b:: with SMTP id t27mr48024ild.142.1579539848718;
-	Mon, 20 Jan 2020 09:04:08 -0800 (PST)
+Return-Path: <ross.burton@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id AD59C7FC81
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jan 2020 17:10:34 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jan 2020 09:10:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,342,1574150400"; d="scan'208";a="221492258"
+Received: from grossi-mobl.ger.corp.intel.com (HELO rburton-mac01.local)
+	([10.252.38.20])
+	by fmsmga008.fm.intel.com with ESMTP; 20 Jan 2020 09:10:34 -0800
+To: Khem Raj <raj.khem@gmail.com>, =?UTF-8?Q?Martin_Hundeb=c3=b8ll?=
+	<martin@geanix.com>
+References: <20191018112819.16210-1-ross.burton@intel.com>
+	<CAMKF1soy5adOpd49H0dTqtwu=vSRc0EPMnXFvD5uQTaJd+JCig@mail.gmail.com>
+	<1615697b554b612f329820f2b3f692011b7722ba.camel@linuxfoundation.org>
+	<9bac0b45-777c-faba-f448-d2d03c7e6fac@geanix.com>
+	<CAMKF1soa5bEfN23uPAhDCk4rfD_OGjaf2xR+m5ET9cLt+kOn0Q@mail.gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <f6cb669c-d302-c1fa-e2ed-5995b82677ed@intel.com>
+Date: Mon, 20 Jan 2020 17:10:33 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200120115132.3618-1-ross.burton@intel.com>
-In-Reply-To: <20200120115132.3618-1-ross.burton@intel.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Mon, 20 Jan 2020 09:03:57 -0800
-Message-ID: <CANx9H-BBqLtyL3g9KmzyUw1ZasginK7eQzWA8AM05R_8KJqM+g@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Yocto-mailing-list <yocto@yoctoproject.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][meta-python2] python: add 2.7.17 from oe-core
+In-Reply-To: <CAMKF1soa5bEfN23uPAhDCk4rfD_OGjaf2xR+m5ET9cLt+kOn0Q@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] file: explicitly disable seccomp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,102 +44,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 17:04:08 -0000
-Content-Type: multipart/alternative; boundary="000000000000976e7f059c95473e"
+X-List-Received-Date: Mon, 20 Jan 2020 17:10:34 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---000000000000976e7f059c95473e
-Content-Type: text/plain; charset="UTF-8"
+On 20/01/2020 15:45, Khem Raj wrote:
+> pseudo needs some love since it alters syscalls which go out of bounds
+> what is allowed by libseccomp until then pin your file version to 5.37
+> in arch till a supported distro is affected by same problem. It wont
+> be long better option is to fix pseudo
 
-First of all, a GREAT BIG THANK YOU for doing this.
+That's not quite right.  pseudo LD_PRELOADs itself into file, and makes 
+syscalls which are not whitelisted in file's seccomp configuration.
 
-ERROR: ParseError at
-/home/ttorling/Projects/meta-python2/recipes-devtools/python/
-python_2.7.17.bb:1: Could not include required file python.inc
+There's nothing pseudo can do to solve this.
 
-Seems like python.inc is 2.7 specific and should also move? I grepped for
-usage in poky and didn't find any.
+Ross
 
-On Mon, Jan 20, 2020 at 3:51 AM Ross Burton <ross.burton@intel.com> wrote:
-
-> Python 2 ceased being maintained on the 1st January 2020.  All users of
-> Python 2 in oe-core have already been ported to Python 3, so in oe-core
-> 390f3eda Python 2 was finally removed from oe-core itself.
->
-> The following are added to meta-python2 in this commit:
-> - python and python-native 2.7.17
-> - python-setuptools
-> - The classes pythonnative, pythondir, distutils, setuptools
->
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  classes/distutils-base.bbclass                |    4 +
->  classes/distutils.bbclass                     |   87 ++
->  classes/python-dir.bbclass                    |    5 +
->  classes/pythonnative.bbclass                  |   27 +
->  classes/setuptools.bbclass                    |    3 +
->
-> <snip>
-
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000976e7f059c95473e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>First of all, a GREAT BIG THANK YOU for doing this.</=
-div><div><br></div><div dir=3D"ltr">ERROR: ParseError at /home/ttorling/Pro=
-jects/meta-python2/recipes-devtools/python/<a href=3D"http://python_2.7.17.=
-bb:1">python_2.7.17.bb:1</a>: Could not include required file python.inc</d=
-iv><div dir=3D"ltr"><br></div><div>Seems like python.inc is 2.7 specific an=
-d should also move? I grepped for usage in poky and didn&#39;t find any.<br=
-></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr"=
->On Mon, Jan 20, 2020 at 3:51 AM Ross Burton &lt;<a href=3D"mailto:ross.bur=
-ton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">Python 2 ceased being maintained on the=
- 1st January 2020.=C2=A0 All users of<br>
-Python 2 in oe-core have already been ported to Python 3, so in oe-core<br>
-390f3eda Python 2 was finally removed from oe-core itself.<br>
-<br>
-The following are added to meta-python2 in this commit:<br>
-- python and python-native 2.7.17<br>
-- python-setuptools<br>
-- The classes pythonnative, pythondir, distutils, setuptools<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com" tar=
-get=3D"_blank">ross.burton@intel.com</a>&gt;<br>
----<br>
-=C2=A0classes/distutils-base.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 4 +<br>
-=C2=A0classes/distutils.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A087 ++<br>
-=C2=A0classes/python-dir.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 5 +<br>
-=C2=A0classes/pythonnative.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A027 +<br>
-=C2=A0classes/setuptools.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A0 3 +<br><br></blockquote><div>&lt=
-;snip&gt; <br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
--- <br>
-2.20.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---000000000000976e7f059c95473e--
