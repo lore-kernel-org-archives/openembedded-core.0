@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C3F17FCCB
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 637B97FD02
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 17:25:41 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id p17so156370wma.1
+	Mon, 20 Jan 2020 17:25:42 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id f129so150430wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 09:25:42 -0800 (PST)
+	Mon, 20 Jan 2020 09:25:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dO/nkFAvGO26B+ncQWnsFeY0tFYGlRP7pAj/nuxOHtw=;
-	b=lIFA+bVadk9wLsGbkOhQJtNjEFfqpZt+zuUN61mGQBGW0eNODf7fhlb8N7hSOHs0vT
-	iy23/cQencvHyNz7KKeDl2IaBeIXkcWavWwqK4oZdW/3eEjqO8n0ptDBZA0z1DSTvase
-	TECgkBZUtqdIVOVRPvRAMkZolCrXVvh0qBEL+IVI+Bn9XdJFF8nYgiLrgVtf7QTTMQM/
-	v3sKgTV2/lHaqotwAKKECWYWGTaLVipcmbBO4sKzGbG/xxtXbP6FxoLDgMcY+FfvnY8i
-	70AEsqfirESknzOMwCEmFC681GBwiJgRRxiM0UicZqcjtw+Co4IqhPJ+r080pmFtZaWU
-	T18A==
+	bh=//XThZ3bqnZReCCAggWUV97oaGRV63HFHGeqM5XZ104=;
+	b=QWQ/jvzXuU45Zz0Y5MzCE90xnPULFrATWagcB9OLUCa1QydiyukK+GAghu51uWWeZg
+	4/VZW4NHm9BsqhcXallR/oEQ2K+SytoPaVdBHE1nnDs65zW8r5I2Tq1MS0x2AMsvJ4IZ
+	Y9+kQEhMeRx3R7TsyzgyHD7CBJb8QTILPTGIaTvSZ3fdEOVrAkj6OJnjF4ksHUjBvz33
+	BTWH2LBlcE/pspYqXxsGYf+XslHvMvSjyW3wSkSTuD6p4Hf+U+btD6rnd9BWL0619obf
+	nkVOfVg19o7TpM8wktkesVbpJqtdPAVXhl1TVJ7eWS8hN2irC6D6HHA1X6ZdXEST+GEC
+	3iVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=dO/nkFAvGO26B+ncQWnsFeY0tFYGlRP7pAj/nuxOHtw=;
-	b=b/yklckXNAIcbHwUdm3ofhUW2ma1tZ0k43tteiJixsYfKF2C7XmCZVqq5Dol16B6DR
-	moVfMysds+V+736gcOK/5B81nO7AF3jpxNWU3B0Xr+VfSSFQikRi2mQE1gCgy/TxW9CS
-	uH9qi5jaknGpVyoVe4gyz53wyvWhfvoCyVSIag0IMYJDKfi4+1khp8mS0DEeuHC7LOol
-	ZadhS4rljrY1s9IQOY0PzOvUc3iYLhCRV5lcpqt/psmYNKZ6LQx59Bo4wJqOSocCfeGk
-	uF7TipNkn41+FjA/KleduBtzqwdFTj+8w2jy77qf3tDRGJAAHYHj+YOjvFMO+v6I4RkH
-	IKRg==
-X-Gm-Message-State: APjAAAW7/oUklbBFyJG5hhgtb/74tUG+l2/GLOgWtgZb/1KByuDZkGNS
-	fXQdkKl/6DQDZ4Vn6+Xa5aqBM51i
-X-Google-Smtp-Source: APXvYqwliGectgAfs/Yf+eEKmY3gbejo5hrWvRGhF9oU7QKtAzbQTmnsV0l/D/5fAMDpG61r2q5zMQ==
-X-Received: by 2002:a1c:f210:: with SMTP id s16mr348555wmc.57.1579541141785;
-	Mon, 20 Jan 2020 09:25:41 -0800 (PST)
+	bh=//XThZ3bqnZReCCAggWUV97oaGRV63HFHGeqM5XZ104=;
+	b=MuHoJ9M45jPKj9uRQrKMoavWRLKBTbQcuTQAmWVNXcAHPaebT9H0jNc4Os4r3kmE4L
+	gi4t0ZI96vEnrHFJ4kWXZpcfal3RFHZh45hQFdH6FQ7UWM2paOO2zjvbn5aWIQT3VfaZ
+	4J3r/Vc4YE/2T7USMJoqUJdUmHAMK4AVDTRrr/uAOGNGoi9ngfBE2cK6dUTLKdXs4GDz
+	K8kwGt0zBlqvy8/NQcWleY9SGOFCUPR7UcGOhjcFLqJ6jZTb852Ck6KHBjw4aqE3DfsZ
+	b833dnsFzeboh+Gy5QIS6ILoSOVLz8A/JwIemOdS1nNN3PJze9okUkJTMttA4EPcv52g
+	o0Jg==
+X-Gm-Message-State: APjAAAXHdfxDxKAG9wdnt5hWQyIQIGm3CH+QkDedUDav93XySZcAX+9D
+	Tih/iU5oKhECZRk668SsULH+W0xj
+X-Google-Smtp-Source: APXvYqzTHjXiNMgit9CN4fCjFv9G0b3Dzby5CN5njkSZZ/6hxc+Mu7vKznzCIkIUzW40tr8lIXhyKA==
+X-Received: by 2002:a1c:730d:: with SMTP id d13mr374140wmb.126.1579541142692; 
+	Mon, 20 Jan 2020 09:25:42 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id x11sm31526wmg.46.2020.01.20.09.25.40
+	by smtp.gmail.com with ESMTPSA id x11sm31526wmg.46.2020.01.20.09.25.41
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 20 Jan 2020 09:25:41 -0800 (PST)
+	Mon, 20 Jan 2020 09:25:42 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2020 18:25:06 +0100
-Message-Id: <20200120172510.22648-20-alex.kanavin@gmail.com>
+Date: Mon, 20 Jan 2020 18:25:07 +0100
+Message-Id: <20200120172510.22648-21-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200120172510.22648-1-alex.kanavin@gmail.com>
 References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-Subject: [PATCH 20/24] epiphany: upgrade 3.34.2 -> 3.34.3.1
+Subject: [PATCH 21/24] libwebp: upgrade 1.0.3 -> 1.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 17:25:41 -0000
+X-List-Received-Date: Mon, 20 Jan 2020 17:25:43 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../epiphany/{epiphany_3.34.2.bb => epiphany_3.34.3.1.bb}     | 4 ++--
+ .../webp/{libwebp_1.0.3.bb => libwebp_1.1.0.bb}               | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.34.2.bb => epiphany_3.34.3.1.bb} (85%)
+ rename meta/recipes-multimedia/webp/{libwebp_1.0.3.bb => libwebp_1.1.0.bb} (93%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.34.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.34.3.1.bb
-similarity index 85%
-rename from meta/recipes-gnome/epiphany/epiphany_3.34.2.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.34.3.1.bb
-index c6105b97066..7e1573348e2 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.34.2.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.34.3.1.bb
-@@ -14,8 +14,8 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-            "
--SRC_URI[archive.md5sum] = "ae404e3a70ff904f5a23466727f8a90a"
--SRC_URI[archive.sha256sum] = "0eaa36fc7b73a23121a23b8a7ad3c18edaf5a8a6b7cdd6d630ba5b71d946a4a1"
-+SRC_URI[archive.md5sum] = "c8010e7ef1b0fd2da1e613e17445062a"
-+SRC_URI[archive.sha256sum] = "00e479fba108f44b1830370780b98116d87fc277eb1a4eed8e229dcdf04aea6d"
+diff --git a/meta/recipes-multimedia/webp/libwebp_1.0.3.bb b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
+similarity index 93%
+rename from meta/recipes-multimedia/webp/libwebp_1.0.3.bb
+rename to meta/recipes-multimedia/webp/libwebp_1.1.0.bb
+index 5082bf03748..68e5ae2b3ce 100644
+--- a/meta/recipes-multimedia/webp/libwebp_1.0.3.bb
++++ b/meta/recipes-multimedia/webp/libwebp_1.1.0.bb
+@@ -14,8 +14,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=6e8dee932c26f2dab503abf70c96d8bb \
+                     file://PATENTS;md5=c6926d0cb07d296f886ab6e0cc5a85b7"
  
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+ SRC_URI = "http://downloads.webmproject.org/releases/webp/${BP}.tar.gz"
+-SRC_URI[md5sum] = "906ad85daaaa2eac97c8aa2dec9e8b77"
+-SRC_URI[sha256sum] = "e20a07865c8697bba00aebccc6f54912d6bc333bb4d604e6b07491c1a226b34f"
++SRC_URI[md5sum] = "7e047f2cbaf584dff7a8a7e0f8572f18"
++SRC_URI[sha256sum] = "98a052268cc4d5ece27f76572a7f50293f439c17a98e67c4ea0c7ed6f50ef043"
+ 
+ UPSTREAM_CHECK_URI = "http://downloads.webmproject.org/releases/webp/index.html"
+ 
 -- 
 2.17.1
 
