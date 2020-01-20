@@ -1,49 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C24957FCC5
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id CF5347FCAB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 17:25:34 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id q10so254215wrm.11
+	Mon, 20 Jan 2020 17:25:35 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id p17so156089wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 09:25:36 -0800 (PST)
+	Mon, 20 Jan 2020 09:25:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=pF27wiJz+Py42mJK6mmBqHduDEUkrfA3oyBzDlPIS1c=;
-	b=VhFVYULw0FQtz6pixeWadhdai0xGeCU7OA1PEtOLcLI4gLhAPPg/A3pgu2F/iB8Ut1
-	NaGo6zRMCm9xPozYrS8p4wPFGlUdjwnd0wFcLlyF9NE8kLhuoKXjzsHaLAHE3dZgDMVa
-	hCCc7CAuVcgdHuJOpdNASKYRLIttR9uKrDr2S0TakeQSio/QRmA5RSwlPPsEObFpTvvR
-	XZao7Myf9e+Nx3AmGDIV4kz4NYkKowbxFSb9jJpSc04O+wcjxU57PUaaqZ7HX4sLclX8
-	vVwXgZARBA0tWaZg0JuRxijQji0wNLZPIc5MekVrXqBwz5dXbJF2ICpe3er/28lDQUCu
-	MTpg==
+	bh=YETj59ZEJPh+TxTjdT2ayMjbq2/qgA/SjwCcG4UlHnk=;
+	b=GCwiAOLChg382yYmEyu78vsD8QdBK7E2fKjcsIVB04is6Sl5a1hpuCtpxyk8zYbLHi
+	fZpxq1Y20HZMesAJYKdBCyYn0IJj8+XpHsR2U3bPu/Y0HgneKSX7l5M0B6GQrFG+9jeU
+	FlzBZyTS/VaPuJAd2ctF53sY7etyDvbNzzxi4a8oM/Z/uOs1OIH9BE3CCm7fyfjMr8W1
+	p7nLuxDAiRC364NWfqYa1GKwc2HwIb7MjU7JAhcOSu52yiO7xFSAveanMHUCWhAPUhHB
+	VnF36hminP4tw5cnopV3SuWF72eXoucf95k3OYu2yOdCBrOXj2kX2H7/HcMPIz24+H1W
+	6v0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=pF27wiJz+Py42mJK6mmBqHduDEUkrfA3oyBzDlPIS1c=;
-	b=t+sAOZnlEz4r/f86AKcosHBNIhctAVOtah3bYy8zZ0kKc80Aqf0QETvcWyKSEF8LN1
-	qSbQgWdM4/KLgwIrqkdWuA/UHPlQLaZroK5mmG3g8Pc+O4OUdfHCZPZ/zs9WnXkmFdSn
-	iB+k9d9Mz6fPy4+CbEPZhn9TS/Nb1wCPZ0kVtQAG+zP4vjLpqYL2ijUPE6qZc72ggprD
-	gWKXDDcNu+195h8qPGCWOijOJrpXFc5fidcFLaevtP8pLwFgJsG0qmP58fzy+OwJQCyB
-	JJW1+zMVVOdsytrKu7Ch2vYU55OZ+tHiTbG2me6I/c8/QmEp4q3whlUZgbP+O1lDoOeS
-	BkbQ==
-X-Gm-Message-State: APjAAAWdJzQb5nVEZn2Kkwf6Haqkz7u8OIPHf5kuONJ6fDzf+YDG1mXU
-	65jRHYJaRW7XbJYBuxAlbhRZxKVm
-X-Google-Smtp-Source: APXvYqwokVkWq2CsagWNWRQNjB0A3sqhqQJlY4ChyW//TySW+MZsOypJz8v4a+NZt8QwQ+9Mot8jfg==
-X-Received: by 2002:adf:cd92:: with SMTP id q18mr511321wrj.261.1579541135318; 
-	Mon, 20 Jan 2020 09:25:35 -0800 (PST)
+	bh=YETj59ZEJPh+TxTjdT2ayMjbq2/qgA/SjwCcG4UlHnk=;
+	b=PId54s3sQ5u0PFFP90S29E/ZixAI6byPn2RlV0oF2xy8S0Vy9TSZ+M0/BbcgVdFnh2
+	GXQBsks3rT18yR4pVI+rrmIWeeR1PXze+BFKezrmR21UdL5pqsgMsa4/iDZ2R2JXBVaA
+	QAhbtdvKt+Ygpn8YwF7yE6MZAoU7DHUajGYy7PgqqKXDbTXmon/GWe78RmnhGT1WUB7y
+	boTZSKlzkmlDuhH9Pxy10BPVrbxNtieZZWtwOCJRh670DdbLz0+Onowl21YEPGUdfYUj
+	gfnL6MfhKMchi5UV44jUz4TMv5zw5/f8knaN3IdGaSHlYB2vmDYZlvWfKVIkqaGaI/xV
+	CkKw==
+X-Gm-Message-State: APjAAAXlcJkYfZFEafywEtb1m0VOFP/xhvZRUasQrg8VcyJSAl7CVIEI
+	8P0dzn79rKmOrKvt6YZuL8fCvYcM
+X-Google-Smtp-Source: APXvYqwvbXhzAPBJpWMw4RzkAj23ZQeSRS4hAykoJOVxTBbm3uTb0/sgaRb1nQDCiLxDxA0zJKXWsA==
+X-Received: by 2002:a05:600c:54b:: with SMTP id
+	k11mr361892wmc.63.1579541136281; 
+	Mon, 20 Jan 2020 09:25:36 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id x11sm31526wmg.46.2020.01.20.09.25.34
+	by smtp.gmail.com with ESMTPSA id x11sm31526wmg.46.2020.01.20.09.25.35
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 20 Jan 2020 09:25:34 -0800 (PST)
+	Mon, 20 Jan 2020 09:25:35 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2020 18:24:59 +0100
-Message-Id: <20200120172510.22648-13-alex.kanavin@gmail.com>
+Date: Mon, 20 Jan 2020 18:25:00 +0100
+Message-Id: <20200120172510.22648-14-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200120172510.22648-1-alex.kanavin@gmail.com>
 References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-Subject: [PATCH 13/24] parted: fix more ptests
+Subject: [PATCH 14/24] qemu.inc: add vfat to MACHINE_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 17:25:35 -0000
+X-List-Received-Date: Mon, 20 Jan 2020 17:25:36 -0000
 
-Particularly parted is getting confused by udev's automounter
-mounting things in background.
+This is beneficial for parted ptests in particular as they
+make use of vfat, and fail otherwise.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/parted/files/run-ptest | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/conf/machine/include/qemu.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/parted/files/run-ptest b/meta/recipes-extended/parted/files/run-ptest
-index b57c29400ab..f39c478ce6a 100644
---- a/meta/recipes-extended/parted/files/run-ptest
-+++ b/meta/recipes-extended/parted/files/run-ptest
-@@ -1,3 +1,5 @@
- #!/bin/sh
+diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/include/qemu.inc
+index 5050e41066e..8dedb1a42d3 100644
+--- a/meta/conf/machine/include/qemu.inc
++++ b/meta/conf/machine/include/qemu.inc
+@@ -9,7 +9,7 @@ XSERVER ?= "xserver-xorg \
+             xf86-video-fbdev \
+             "
  
-+echo /dev/sda1 >> /etc/udev/mount.blacklist.d/parted-tmp
- make -C tests test-suite.log
-+rm /etc/udev/mount.blacklist.d/parted-tmp
+-MACHINE_FEATURES = "alsa bluetooth usbgadget screen"
++MACHINE_FEATURES = "alsa bluetooth usbgadget screen vfat"
+ 
+ MACHINEOVERRIDES =. "qemuall:"
+ 
 -- 
 2.17.1
 
