@@ -1,50 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 43EA47FA27
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BB7707FA27
 	for <openembedded-core@openembedded.org>;
-	Mon, 20 Jan 2020 06:38:23 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id c9so7461412plo.1
+	Mon, 20 Jan 2020 06:38:24 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id q10so15326284pfs.6
 	for <openembedded-core@openembedded.org>;
-	Sun, 19 Jan 2020 22:38:25 -0800 (PST)
+	Sun, 19 Jan 2020 22:38:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=JksZOk50WBaCYAEtVUpi24qU0pKOLibUh7URtIKREn0=;
-	b=P27s7NNCovFjrTXKwJs22ZL02fjWfxC5LNKy2HUMlI0c3+FMYbRh/MBAAQAgIUYba2
-	PLgOPPKhrjn4liM07RjmBE0FEcUuzmWZm0o6XdUN4wY5n9HgE7C93i80TWmo8Nt+drjn
-	LNupVKhkD45eO8Imd4uqDn7jsgf5ap9tx3oJC4vSPxnkIf3ALcMBmephKn7VXg4q6R0F
-	3zGFEarFlN9oOHSFeNvxlqui0he3x35A9rqhqbDEhSjrx9o/8YZZ30MwToVLb6W9os4T
-	OSl5jekfYiLDT9dMl0NQl0SELqEML1wTh+K9X86x2oDvRUDjjhRYmeku3YEyqDbj6Kd1
-	drYA==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=wUJxDtXeKgC2jalNx1NilXLd8tFrXJ5IlLOheLOZbmI=;
+	b=EiuXCzrhvZHZVC5khWviHo/U7FpMOYjm4FamAif58p70F/eyrawFTD9dcNImKfPf7X
+	gZZs5QOkOtIHRBHPGSrlvMzAPLm7SeX/TKZnPsKXK4e0RoKK0VdLE+5WRsuAMuhQKeBw
+	aXAN/5zNFIfadIKXnh/F49RH+6l6BP9VeE6GabLSKreHqJISYbxPGKwn9VTN0ItTFX8q
+	XXAermgnc+iXwJYIki7a6jPwjMQ6uKV1O6kcyCCEfJJoK4m5EuCLGFXl1AqVFOVFZF61
+	VVPo/7XI4LUy7hFG0yPJwifSiPn7yNEHtvrH+VM5G8DOnUtqL7R3uxIrDDdNQkSi98zA
+	CEvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=JksZOk50WBaCYAEtVUpi24qU0pKOLibUh7URtIKREn0=;
-	b=UgeANjrnZU+rje/+Fs6O74v444ENRuJsixjOIvHAZFNkLgPpb9bjwizMM30YON9W2N
-	370WZz/pzblRAZ8T8+1sDZKdeEFs+3WQS0u4CTtcKRHbGaZUOJRh0ZoYFwImwK8XhYkx
-	RotooGDh6TIfjuOHJSmVhpOx2nvGSMoPLbbmBO+74AhOFJ7aQGjzh8/BHL+bdNPJqLve
-	9FuYUMUcdLdHbIKAiIjqqBDZZLD8cdzZF7WJEiomh/qV1ck1rJfbh450tWEY0/c/fiwr
-	PFwrhCKKDqCKG4F5BFMxWOb3Jg/zkMC0c0pH0+/tBijzb0cYxD4gPNpokoSylAxgHatb
-	TaSA==
-X-Gm-Message-State: APjAAAUaFV4lDWMn2ClaSYFp/huY1b23bSp1tz4mZB1B5HhjVeSqjqFh
-	IlzjIIZKun6HRLD5xdwOeEZcDG+3
-X-Google-Smtp-Source: APXvYqy0XoXJ51m5GKQf+C7vvb7AOfRPLG7L4bMzER9+vcqqKsX0WRj8fuqfCj6X6G4J9tHhE/bP/g==
-X-Received: by 2002:a17:902:8642:: with SMTP id
-	y2mr13247997plt.306.1579502304953; 
-	Sun, 19 Jan 2020 22:38:24 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=wUJxDtXeKgC2jalNx1NilXLd8tFrXJ5IlLOheLOZbmI=;
+	b=bmj64J45EC10vudrEs7iesf2OUwnS87AUBrhMT5rNIxrY9j2bYZ4pBFv5PpJyunt8Z
+	eGLfi4+UxeVPWBbu+h7qNaxxONxA3QiQOV7qq/IXSfnL49xKE/HNczdcLfntpD21J9Yy
+	9j8czKE2/gCfNenmKVgtPDyh6GMX404E2MQswzlzqZANJa9EOjm4bL6iMcLMPDb8ovgS
+	qUDvQIvwYKSUwxX2agBLW8cLCHrFiDb1lXl0IHUzUxQUPTnIMi0wORO1hC04UGMm9XQ9
+	NJYpVPuUCG2ozYVUHoS7ALntxsYYKDYi5y0pbSVy0q7pFOMh/hcOxS6QzSjh1dj+Wwgr
+	AH9w==
+X-Gm-Message-State: APjAAAXbm/90PKs99gEp42SvxNyoMeES4tmjHPYh9316Agw8Qg8ocplN
+	JVJDsEUECIk8dieG37caUpPnUOt8
+X-Google-Smtp-Source: APXvYqyiyIFfp1GXsK0bcOFAEuxzShuOMQ6tPfHRQVax7ykz6DsyFsr7Vwq+IERKHHP9yu4ND+w6WQ==
+X-Received: by 2002:aa7:9a10:: with SMTP id w16mr15507531pfj.107.1579502305699;
+	Sun, 19 Jan 2020 22:38:25 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:b5ff:6d3b:2415:6395])
 	by smtp.gmail.com with ESMTPSA id
-	p28sm36310484pgb.93.2020.01.19.22.38.24
+	p28sm36310484pgb.93.2020.01.19.22.38.25
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 19 Jan 2020 22:38:24 -0800 (PST)
+	Sun, 19 Jan 2020 22:38:25 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 19 Jan 2020 22:38:16 -0800
-Message-Id: <cover.1579502114.git.akuster808@gmail.com>
+Date: Sun, 19 Jan 2020 22:38:17 -0800
+Message-Id: <c1d881448fea0bc48aba0bc0e5b8748442572226.1579502114.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [zeus 0/5] More patches for review.
+In-Reply-To: <cover.1579502114.git.akuster808@gmail.com>
+References: <cover.1579502114.git.akuster808@gmail.com>
+Subject: [zeus 1/5] toaster.bbclass: Correct pkgdatadir path in toaster_package_dumpdata()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +61,93 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 20 Jan 2020 06:38:24 -0000
 
-Here are somemore patches that where also tested and needing review.
-Please have feedback by Tuesday.
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
+In commit 692b2046 (package: Fix race between do_package and
+do_packagedata), the path used for do_packagedata[sstate-inputdirs]
+was changed from "${PKGDESTWORK}" to "${WORKDIR}/pkgdata-pdata-input".
+This commit adapts the path used for pkgdatadir in
+toaster_package_dumpdata() accordingly to avoid setscene errors like:
 
-The following changes since commit f9739e0f58f5d8a5dc01fdb0efaa778af4edd671:
+  ERROR: libgcc-9.2.0-r0 do_packagedata_setscene: Error executing a
+  python function in exec_python_func() autogenerated:
 
-  kernel: Make symbol link to vmlinux.64 in boot directory (2020-01-08 20:33:12 -0800)
+  The stack trace of python calls that resulted in this
+  exception/failure was:
+  File: 'exec_python_func() autogenerated', lineno: 2, function:
+  <module>
+       0001:
+   *** 0002:toaster_package_dumpdata(d)
+       0003:
+  File: 'meta/classes/toaster.bbclass', lineno: 130, function:
+  toaster_package_dumpdata
+       0126:    lpkgdata = {}
+       0127:    datadir = os.path.join(pkgdatadir, 'runtime')
+       0128:
+       0129:    # scan and send data for each generated package
+   *** 0130:    for datafile in os.listdir(datadir):
+       0131:        if not datafile.endswith('.packaged'):
+       0132:            lpkgdata = _toaster_load_pkgdatafile(datadir,
+       0133:            # Fire an event containing the pkg data
+       0134:            bb.event.fire(bb.event.MetadataEvent(
+  Exception: FileNotFoundError: [Errno 2] No such file or directory:
+  'tmp/work/mips32r2el-nf-poky-linux/libgcc/9.2.0-r0/pkgdata/runtime'
 
-are available in the Git repository at:
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 5a0f6f631b86f7107aa72453b6d23f32ba39f713)
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/classes/toaster.bbclass | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
 
-  git://git.openembedded.org/openembedded-core-contrib stable/zeus-nut
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/zeus-nut
-
-Peter Kjellerstedt (5):
-  toaster.bbclass: Correct pkgdatadir path in toaster_package_dumpdata()
-  populate_sdk_ext.bbclass: No longer needed to clean away
-    conf/sanity_info
-  sanity.bbclass: Move sanity_info from conf to cache
-  licenses.conf: Remove the SRC_DISTRIBUTE_LICENSES variable
-  license.bbclass: Introduce AVAILABLE_LICENSES that lists all licenses
-
- meta/classes/license.bbclass                  | 27 ++++++++++--
- meta/classes/populate_sdk_ext.bbclass         |  2 +-
- meta/classes/sanity.bbclass                   |  2 +-
- meta/classes/toaster.bbclass                  | 15 +++++--
- meta/conf/documentation.conf                  |  1 +
- meta/conf/licenses.conf                       | 43 -------------------
- meta/lib/oeqa/buildperf/base.py               |  2 +-
- .../oeqa/selftest/cases/incompatible_lic.py   |  6 +--
- 8 files changed, 41 insertions(+), 57 deletions(-)
-
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index 6cef0b8f6e..6a65ecb957 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -113,7 +113,7 @@ def _toaster_load_pkgdatafile(dirpath, filepath):
+                 pass    # ignore lines without valid key: value pairs
+     return pkgdata
+ 
+-python toaster_package_dumpdata() {
++def _toaster_dumpdata(pkgdatadir, d):
+     """
+     Dumps the data about the packages created by a recipe
+     """
+@@ -122,7 +122,6 @@ python toaster_package_dumpdata() {
+     if not d.getVar('PACKAGES'):
+         return
+ 
+-    pkgdatadir = d.getVar('PKGDESTWORK')
+     lpkgdata = {}
+     datadir = os.path.join(pkgdatadir, 'runtime')
+ 
+@@ -132,6 +131,14 @@ python toaster_package_dumpdata() {
+             lpkgdata = _toaster_load_pkgdatafile(datadir, datafile)
+             # Fire an event containing the pkg data
+             bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo", lpkgdata), d)
++
++python toaster_package_dumpdata() {
++    _toaster_dumpdata(d.getVar('PKGDESTWORK'), d)
++}
++
++python toaster_packagedata_dumpdata() {
++    # This path needs to match do_packagedata[sstate-inputdirs]
++    _toaster_dumpdata(os.path.join(d.getVar('WORKDIR'), 'pkgdata-pdata-input'), d)
+ }
+ 
+ # 2. Dump output image files information
+@@ -366,8 +373,8 @@ toaster_buildhistory_dump[eventmask] = "bb.event.BuildCompleted"
+ addhandler toaster_artifacts
+ toaster_artifacts[eventmask] = "bb.runqueue.runQueueTaskSkipped bb.runqueue.runQueueTaskCompleted"
+ 
+-do_packagedata_setscene[postfuncs] += "toaster_package_dumpdata "
+-do_packagedata_setscene[vardepsexclude] += "toaster_package_dumpdata "
++do_packagedata_setscene[postfuncs] += "toaster_packagedata_dumpdata "
++do_packagedata_setscene[vardepsexclude] += "toaster_packagedata_dumpdata "
+ 
+ do_package[postfuncs] += "toaster_package_dumpdata "
+ do_package[vardepsexclude] += "toaster_package_dumpdata "
 -- 
 2.17.1
 
