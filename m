@@ -1,24 +1,18 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
-	by mail.openembedded.org (Postfix) with ESMTP id E229B7F7B1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 07:29:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jan 2020 23:30:00 -0800
-X-IronPort-AV: E=Sophos;i="5.70,341,1574150400"; d="scan'208";a="228283696"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.21.115])
-	by orsmga006-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jan 2020 23:29:59 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2020 15:29:50 +0800
-Message-Id: <20200120072950.22884-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.21.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E8CC47F7B1;
+	Mon, 20 Jan 2020 07:32:39 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] libva: upgrade 2.6.0 -> 2.6.1
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+Date: Mon, 20 Jan 2020 07:32:41 -0000
+Message-ID: <20200120073241.2275.28248@do>
+References: <4e7244df21e0c47712976ad72bc53aab51236724.camel@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <4e7244df21e0c47712976ad72bc53aab51236724.camel@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYmM6IGRvbid0IGlnbm9yZSBnbG9iYWwgTERGTEFHUyBzZXR0aW5ncw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 07:30:00 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 Jan 2020 07:32:40 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Also switch back to using the released tarballs.
+== Series Details ==
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Series: glibc: don't ignore global LDFLAGS settings
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22148/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 1098fdf360)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../libva/{libva_2.6.0.bb => libva_2.6.1.bb}                | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/libva/{libva_2.6.0.bb => libva_2.6.1.bb} (87%)
-
-diff --git a/meta/recipes-graphics/libva/libva_2.6.0.bb b/meta/recipes-graphics/libva/libva_2.6.1.bb
-similarity index 87%
-rename from meta/recipes-graphics/libva/libva_2.6.0.bb
-rename to meta/recipes-graphics/libva/libva_2.6.1.bb
-index d14e1911ad..92cea83bc1 100644
---- a/meta/recipes-graphics/libva/libva_2.6.0.bb
-+++ b/meta/recipes-graphics/libva/libva_2.6.1.bb
-@@ -17,9 +17,9 @@ SECTION = "x11"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=2e48940f94acb0af582e5ef03537800f"
- 
--SRC_URI = "git://github.com/intel/libva.git;branch=v2.6-branch"
--SRCREV = "5f693d9e603e0e83928cec67c30b6ac902d7aa85"
--S = "${WORKDIR}/git"
-+SRC_URI = "https://github.com/intel/${BPN}/releases/download/${PV}/${BP}.tar.bz2"
-+SRC_URI[md5sum] = "aef13eb48e01a47d1416d97462a22a11"
-+SRC_URI[sha256sum] = "6c57eb642d828af2411aa38f55dc10111e8c98976dbab8fd62e48629401eaea5"
- 
- UPSTREAM_CHECK_URI = "https://github.com/intel/libva/releases"
- 
--- 
-2.21.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
