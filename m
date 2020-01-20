@@ -1,53 +1,42 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com
-	[209.85.216.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 69DC77FCFD
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 17:52:33 +0000 (UTC)
-Received: by mail-pj1-f49.google.com with SMTP id m13so93656pjb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 09:52:34 -0800 (PST)
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
+	[209.85.166.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D91327FCF5;
+	Mon, 20 Jan 2020 18:08:35 +0000 (UTC)
+Received: by mail-il1-f176.google.com with SMTP id f10so219627ils.8;
+	Mon, 20 Jan 2020 10:08:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=JnZz4EeJoLt3IYabQz9WMAJMw16v0gyHQWk0SQyW88Y=;
-	b=ISrutmSrmg04wNd7rSj4GUTPnb2ZQ2Sn3URUsqBCwK5l0tNXcvgmya71xYIptXCVOx
-	MsEVk8uT3bB31j83hNRctdUHo4IlsdeBNg8UHJlRoQ3l+axirXFLN3ZS+azK8UlqpAkK
-	cIpRdqz2oiGVDp+pOJ9PYzAvZwbAuKHdlt+WOCezIRo9Grzmg0QqtwTJxLNLTUs4B9I6
-	cyej7VSMg/XH92dX1bcLU3bSkRjwSJDxZTAKr8/OMGFGIfbyNFzwBdpOPRTVg6tw/nZc
-	gBY/Wccu+xxogNcmGuPusdolJevYTOXtM5JzYDq5BnwOlYG+zVUvBSpvxOt/rktNGtWA
-	liZA==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=jVqSp12By0KjQYmtdE/M8a7YnTUF9XAzOG72ipXENqo=;
+	b=pzljI8vDPQR2Xfh+LUjSfDF+PST9pm8cN31CKIoq1bLJQ3jxfdwJUFRGHWigsmnKda
+	0S38xrC9n2DwF6d3lrU7eKtC+z2gj8ARq8w6w8wlCr6KXxqv3HEi8SBjIolHvVxeDaHq
+	fr7HdHV937OA/cSON9T8WtYL3wB2uOKF/yEecOtpBcwPUNo0JdkCNita+1I5Gz+t5Mtm
+	jQNW6rQIlMItpx64ztR7H7/G4/OMgyOVtMRAXtSZNF/MlAHLYvQt0Vt3B4UPYCUlELlZ
+	cCcJV3KYID1GudbncbBRW2djGidZXu5Y0IAwo/RHilpmCo7cEYseL2RG1B/gwLjHiUsS
+	AGJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=JnZz4EeJoLt3IYabQz9WMAJMw16v0gyHQWk0SQyW88Y=;
-	b=jOK9WxbZNFGhhQVyxv1gQrZ7CuqRxVwRojhzv7kX7nbhYCK0ZTPdSebeBxpms5IFFO
-	6Yzl0Y1SgfPdfN/irWTzu0R48Rd0Ao+3wxJLVDK5cIZiHeExbf4zHt3f3yRlsvjuLzVv
-	dyt5HRhp0Tw5hm8A8FNnLBH8mLVUNff08q+VYy8wMN0cQEFmngmxQF39+8hA6HzKecCs
-	z2VJ/k5vE2lh6ETl1+7azD3v2zYaUPUqkKcUI2ATjXyW9lqo7ZBj1EmKAFMCbgeKfipf
-	92+Ukepuu+/0OIuILOXAl/7sqg88X+UqUW9ZFGb037KCBwlk6afe7aLgG27CuwtXHj2r
-	oUqQ==
-X-Gm-Message-State: APjAAAW7A/fl0tC4TGdhxxdxOs4EDhwQd0s9WBjm7A3iEBkX09HOG142
-	yYmTaoKppmvnfOjlFbcUWfKWNd4/9l4=
-X-Google-Smtp-Source: APXvYqxgDwNQev7CEysVZ0YSdsDHR0AG/YrrMaXXz+UYcfbY9cqbqzKQn7km/R7KjBci/WbZEMQVGw==
-X-Received: by 2002:a17:902:59c9:: with SMTP id
-	d9mr918410plj.184.1579542754175; 
-	Mon, 20 Jan 2020 09:52:34 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::cab1])
-	by smtp.gmail.com with ESMTPSA id
-	68sm38159422pge.14.2020.01.20.09.52.32
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 20 Jan 2020 09:52:33 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2020 09:52:28 -0800
-Message-Id: <5e4e403bcde3f063d42a082b9865f293ce4fa6ba.1579542573.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <cover.1579542573.git.raj.khem@gmail.com>
-References: <cover.1579542573.git.raj.khem@gmail.com>
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=jVqSp12By0KjQYmtdE/M8a7YnTUF9XAzOG72ipXENqo=;
+	b=ChO+eOnaeop1Hmpq8kjPzq5LmyHD6odl6IfdG8Mklzy+W6vVWJonFEaqbm8T3zXHRU
+	2V2WIK0K6/XFaIPGvtLHWgeHUVq9yf7gYkJOZHJ340So3GSN1W49WT6HGXjE8kjxdQCK
+	sFxudo0nlnAdoiOTqeH0PUWN+WTSjka8YQIIWmr2jBNXlLEAEbXp6fb3QJUC1nbWWQjk
+	wKUnZz9RNFmpCGR/mDzfNXUqoETyGXEl/AMVfJ7gk9kx343GKqZly0qbVns7JWC2VIi0
+	tNhjoLmfX4zdKAoPxfcp5+Q4daWWa7GMxqBfdH2Txf8avfpxaRz00RJBLglmQToYnXMb
+	SvOA==
+X-Gm-Message-State: APjAAAWLWW4skP665NXB63VgpiyT0adCDsBIxSuji53+IvcnRyvrenZ5
+	izBe1sKHwGsGWJ2WPqAMthrNdMNIsQaX8wAR3IGZFu4g2Qc=
+X-Google-Smtp-Source: APXvYqxgPmNF1A7BtPyPAtkgrSbpI1k3zSWncJPmK+vM9aN2RV7Q2bXVzGP6bdTfiZVf9DtQo4rVgfNt6UoTCefeQ04=
+X-Received: by 2002:a92:290a:: with SMTP id l10mr250533ilg.151.1579543716724; 
+	Mon, 20 Jan 2020 10:08:36 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 3/3] tcp-wrappers: Remove redundant forward declarations
+From: Tim Orling <ticotimo@gmail.com>
+Date: Mon, 20 Jan 2020 10:08:25 -0800
+Message-ID: <CANx9H-BZLFrVCtGtWW5Wh_0mY_1oXBw-UfXsGG0LGn-qrhoMCg@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	"openembedded-devel@lists.openembedded.org"
+	<Openembedded-devel@lists.openembedded.org>
+Subject: Python 2 sunsetting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,81 +49,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 17:52:33 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 Jan 2020 18:08:36 -0000
+Content-Type: multipart/alternative; boundary="00000000000024ad3e059c962ea1"
 
-fgets is already in stdio.h, and it can confuse the compilers when using
-fortified headers, therefore remove the declarations
+--00000000000024ad3e059c962ea1
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...0001-Remove-fgets-extern-declaration.patch | 43 +++++++++++++++++++
- .../tcp-wrappers/tcp-wrappers_7.6.bb          |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Remove-fgets-extern-declaration.patch
+CPython has officially announced that there will be one more release
+(2.7.18) in April 2020 [1]. After this date all work on python2 will stop
+as far as the official community is concerned. This means no bug fixes,
+security fixes or vulnerability checks will be done by the official python
+community.
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Remove-fgets-extern-declaration.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Remove-fgets-extern-declaration.patch
-new file mode 100644
-index 0000000000..88c8d9cae7
---- /dev/null
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/0001-Remove-fgets-extern-declaration.patch
-@@ -0,0 +1,43 @@
-+From 24d10919b4bc5e37a2d80b274d2cd2ee77b03549 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 13 Jan 2020 14:25:47 -0800
-+Subject: [PATCH] Remove fgets() extern declaration
-+
-+These sources already include <stdio.h> which should bring the correct
-+declaration
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ hosts_access.c | 1 -
-+ misc.c         | 2 --
-+ 2 files changed, 3 deletions(-)
-+
-+diff --git a/hosts_access.c b/hosts_access.c
-+index 329b35e..0133e5e 100644
-+--- a/hosts_access.c
-++++ b/hosts_access.c
-+@@ -44,7 +44,6 @@ static char sccsid[] = "@(#) hosts_access.c 1.21 97/02/12 02:13:22";
-+ #include <netdb.h>
-+ #endif
-+ 
-+-extern char *fgets();
-+ extern int errno;
-+ 
-+ #ifndef	INADDR_NONE
-+diff --git a/misc.c b/misc.c
-+index 74ca319..9a5e73a 100644
-+--- a/misc.c
-++++ b/misc.c
-+@@ -18,8 +18,6 @@ static char sccsic[] = "@(#) misc.c 1.2 96/02/11 17:01:29";
-+ 
-+ #include "tcpd.h"
-+ 
-+-extern char *fgets();
-+-
-+ #ifndef	INADDR_NONE
-+ #define	INADDR_NONE	(-1)		/* XXX should be 0xffffffff */
-+ #endif
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index bd0c84c242..e903b9db14 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -49,6 +49,7 @@ SRC_URI = "http://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
-            file://0001-Fix-build-with-clang.patch \
-            file://fix_warnings.patch \
-            file://fix_warnings2.patch \
-+           file://0001-Remove-fgets-extern-declaration.patch \
-            "
- 
- SRC_URI[md5sum] = "e6fa25f71226d090f34de3f6b122fb5a"
--- 
-2.25.0
+YOU HAVE BEEN WARNED. Move away from Python 2 immediately. To continue to
+use it will put you and your organization at significant risk.
 
+To make this transition as smooth as possible, meta-python2 has been
+created [2]. But note that maintenance of that layer will be entirely up to
+the community after Q12020. I have no business nor personal need to
+continue using python2 and will therefore have no motivation to continue to
+maintain that layer. Someone else will have to step up.
 
+[1]
+http://pyfound.blogspot.com/2019/12/python-2-sunset.html?utm_source=feedburner&utm_medium=feed&utm_campaign=Feed%3A+PythonSoftwareFoundationNews+%28Python+Software+Foundation+News%29
+
+[2] https://git.openembedded.org/meta-python2/
+
+--00000000000024ad3e059c962ea1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>CPython has officially announced that there will be o=
+ne more release (2.7.18) in April 2020 [1]. After this date all work on pyt=
+hon2 will stop as far as the official community is concerned. This means no=
+ bug fixes, security fixes or vulnerability checks will be done by the offi=
+cial python community.<br></div><div><br></div><div>YOU HAVE BEEN WARNED. M=
+ove away from Python 2 immediately. To continue to use it will put you and =
+your organization at significant risk.</div><div><br></div><div>To make thi=
+s transition as=C2=A0smooth as possible, meta-python2 has been created [2].=
+ But note that maintenance of that layer will be entirely up to the communi=
+ty after Q12020. I have no business nor personal need to continue using pyt=
+hon2 and will therefore have no motivation to continue to maintain that lay=
+er. Someone else will have to step up.<br></div><div><br></div><div>[1] <a =
+href=3D"http://pyfound.blogspot.com/2019/12/python-2-sunset.html?utm_source=
+=3Dfeedburner&amp;utm_medium=3Dfeed&amp;utm_campaign=3DFeed%3A+PythonSoftwa=
+reFoundationNews+%28Python+Software+Foundation+News%29">http://pyfound.blog=
+spot.com/2019/12/python-2-sunset.html?utm_source=3Dfeedburner&amp;utm_mediu=
+m=3Dfeed&amp;utm_campaign=3DFeed%3A+PythonSoftwareFoundationNews+%28Python+=
+Software+Foundation+News%29</a></div><div><br></div><div>[2] <a href=3D"htt=
+ps://git.openembedded.org/meta-python2/">https://git.openembedded.org/meta-=
+python2/</a></div></div>
+
+--00000000000024ad3e059c962ea1--
