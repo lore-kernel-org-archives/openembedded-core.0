@@ -1,37 +1,24 @@
-Return-Path: <stefan@agner.ch>
-X-Greylist: delayed 389 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 20 Jan 2020 13:04:05 UTC
-Received: from mail.kmu-office.ch (mail.kmu-office.ch [178.209.48.109])
-	by mail.openembedded.org (Postfix) with ESMTP id 33E297FBEB
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CD327FB36
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 13:04:05 +0000 (UTC)
-Received: from webmail.kmu-office.ch (unknown [IPv6:2a02:418:6a02::a3])
-	by mail.kmu-office.ch (Postfix) with ESMTPSA id A8F285C7DB1;
-	Mon, 20 Jan 2020 13:57:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agner.ch; s=dkim;
-	t=1579525056;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	content-transfer-encoding:content-transfer-encoding:
-	in-reply-to:in-reply-to:references:references;
-	bh=+9UxhtTe8+pc6CYamQoYcTV8YRCJiBjXIToN7eW8/vg=;
-	b=fpocwZtQC1Vuh0ZOabg/+4krccaKNn6sYIGhgWSxrqrVWlikyttUh5Kenmj1hOR05/aLJ/
-	A7sskD3x+6jJtFMQlr3RC1axd1u3jJ9tKoHMUfSxQmOqEAWwXS/n/j8K0zFDkhSJO7EA8p
-	JwuwMb7lae7dxyV17XMlsAPY4bY700s=
+	Mon, 20 Jan 2020 13:27:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 00KDRifS022067
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jan 2020 05:27:44 -0800 (PST)
+Received: from yow-tgamblin-fedora1.wrs.com (128.224.56.206) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 20 Jan 2020 05:27:44 -0800
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 20 Jan 2020 08:27:43 -0500
+Message-ID: <20200120132743.2178420-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Date: Mon, 20 Jan 2020 13:57:36 +0100
-From: Stefan Agner <stefan@agner.ch>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-In-Reply-To: <20200120123246.o5abx73ehcoqbbim@qschulz>
-References: <20180514144415.40730-1-stefan@agner.ch>
-	<20200113145729.amwegnpvnp2kb3ut@qschulz>
-	<20200120123246.o5abx73ehcoqbbim@qschulz>
-User-Agent: Roundcube Webmail/1.4.1
-Message-ID: <4e98fdb7ff73df6804e58f2f4339c816@agner.ch>
-X-Sender: stefan@agner.ch
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: busybox: udhcpc: fix IPv6 support when using udhcpc
+Subject: [PATCH] bitbakery: automate build testing across all MACHINEs/LIBCs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,58 +31,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 13:04:05 -0000
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jan 2020 13:27:44 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 2020-01-20 13:32, Quentin Schulz wrote:
-> Hi all,
-> 
-> On Mon, Jan 13, 2020 at 03:57:31PM +0100, Quentin Schulz wrote:
->> Hi all,
->>
->> On Mon, May 14, 2018 at 04:44:15PM +0200, Stefan Agner wrote:
->> > From: Stefan Agner <stefan.agner@toradex.com>
->> >
->> > The udhcpc script calls ip addr flush .. which flushes addresses
->> > of any address family, including IPv6. However, busybox udhcpc is
->> > IPv4 only and should not influence IPv6 addressing. Hence use ip
->> > addr flush with family constrait.
->> >
->> > The script particularly broke IPv6 SLAAC: Typically when udhcpc
->> > calls the script the kernel already assigned the IPv6 link-local
->> > address. The flush removes the link-local IPv6 address again and
->> > prohibits proper IPv6 operation such as SLAAC since neighbor
->> > discovery protocol relies on IPv6 link-local addressing.
->> >
->> > Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
->> > ---
->> >  meta/recipes-core/busybox/files/simple.script | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
->> > index 6ed0293525..8b5eb53633 100644
->> > --- a/meta/recipes-core/busybox/files/simple.script
->> > +++ b/meta/recipes-core/busybox/files/simple.script
->> > @@ -28,7 +28,7 @@ case "$1" in
->> >  		fi
->> >  		if ! root_is_nfs ; then
->> >                          if [ $have_bin_ip -eq 1 ]; then
->> > -                                /SBIN_DIR/ip addr flush dev $interface
->> > +                                /SBIN_DIR/ip -4 addr flush dev $interface
->> >                                  /SBIN_DIR/ip link set dev $interface up
->> >                          else
->> >                                  /SBIN_DIR/ifconfig $interface 0.0.0.0
->>
->> Kindly pinging, happened to us as well many times.
->>
-> 
-> Kindly pinging.
+bitbakery simplifies the process of build testing an upgraded or
+patched recipe. It cycles through all qemu targets for glibc and musl,
+and then generates a log file in the format "<recipe>-bitbakery.log",
+containing the results of each build along with some basic system info
+(time, hostname, OS, kernel version). Additionally, it retains the
+previous run's log for comparison, renamed to <recipe>-bitbakery.log.old
+when a new set of builds is triggered.
 
-Just checked, we still override that script in our layer, so definitely
-would be happy if this gets merged upstream so I can get rid of our
-custom script downstream.
+Sample log output:
 
---
-Stefan
+BITBAKERY LOG FOR aspell
+START TIME: 2020-01-17_08:39:05
+HOSTNAME: yow-tgamblin-fedora1
+OS: Fedora 31 (Server Edition)
+KERNEL: 5.4.7-200.fc31.x86_64
+===============
+BUILD RESULTS:
+[glibc]
+FAIL: qemuarm64
+PASS: qemuarm
+PASS: qemuarmv5
+PASS: qemumips64
+PASS: qemumips
+PASS: qemuppc
+PASS: qemuriscv64
+FAIL: qemux86-64
+FAIL: qemux86
+[musl]
+PASS: qemuarm64
+PASS: qemuarm
+PASS: qemuarmv5
+PASS: qemumips64
+PASS: qemumips
+PASS: qemuppc
+PASS: qemuriscv64
+PASS: qemux86-64
+PASS: qemux86
+===============
+PASSED: 15
+FAILED: 3
+---
+ scripts/bitbakery | 47 +++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
+ create mode 100755 scripts/bitbakery
+
+diff --git a/scripts/bitbakery b/scripts/bitbakery
+new file mode 100755
+index 0000000000..cb2957a7bd
+--- /dev/null
++++ b/scripts/bitbakery
+@@ -0,0 +1,47 @@
++#!/bin/sh
++#  Copyright (c) 2020 Wind River Systems, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++
++# Get path to oe-core directory
++OE_CORE_PATH=$( cd - || exit )
++
++# Get target list and host machine information
++TARGET_LIST=$(ls "$OE_CORE_PATH"/meta/conf/machine | grep qemu | sed -e 's/\.conf//')
++LIBC_LIST="glibc musl"
++START_TIME=$(date "+%Y-%m-%d_%H:%M:%S")
++LOG_FILE="$1-bitbakery.log"
++OS_INFO=$(cat /etc/os-release | grep "PRETTY_NAME=" | awk -F "=" '{print $2}' | sed -e 's/^"//' -e 's/"$//')
++
++# Append an existing log file for this build with .old if one exists
++if [ -f "${LOG_FILE}" ]; then
++   mv "${LOG_FILE}" "${LOG_FILE}.old"
++else
++       touch "${LOG_FILE}"
++fi
++
++# Fill the log file with build and host info
++echo "BITBAKERY LOG FOR $1" >> "${LOG_FILE}"
++echo "START TIME: ${START_TIME}" >> "${LOG_FILE}"
++echo "HOSTNAME: $(uname -n)" >> "${LOG_FILE}"
++echo "OS: ${OS_INFO}" >> "${LOG_FILE}"
++echo "KERNEL: $(uname -r)" >> "${LOG_FILE}"
++echo "===============" >> "${LOG_FILE}"
++echo "BUILD RESULTS:" >> "${LOG_FILE}"
++
++for j in ${LIBC_LIST}; do
++    echo "[$j]" >> "${LOG_FILE}"
++    for i in ${TARGET_LIST}; do
++    echo "$i" "$j"; \
++        TCLIBC=$j MACHINE=$i bitbake "$1" && echo "PASS: $i" >> "${LOG_FILE}" || echo "FAIL: $i" >> "${LOG_FILE}";
++    done;
++done
++
++# Get pass/fail totals and add them to the end of the log
++PASSED=$(grep "PASS:" "${LOG_FILE}" | wc -l)
++FAILED=$(grep "FAIL:" "${LOG_FILE}" | wc -l)
++
++echo "===============" >> "${LOG_FILE}"
++echo "PASSED: ${PASSED}" >> "${LOG_FILE}"
++echo "FAILED: ${FAILED}" >> "${LOG_FILE}"
+-- 
+2.24.1
+
 
