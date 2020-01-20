@@ -1,52 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 708887FCCB
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B7C77FCF4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 18:53:30 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id e12so625101qto.2
+	Mon, 20 Jan 2020 18:55:21 +0000 (UTC)
+Received: by mail-pg1-f172.google.com with SMTP id x7so98774pgl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 10:53:31 -0800 (PST)
+	Mon, 20 Jan 2020 10:55:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=WqfAQabJmdfwu+B6Vy/o28EMVZCYdhUrkoO/XNlZZbc=;
-	b=Q2OhsEUGvWQ+vC5Dai/xjr3uAyOY3KXL6+knvV+3JnLqYCJlJ/enSwUnsTu6NK/ou0
-	uyXo+hxErQcEJKuegCAUSBSc2JoaSvy0nOJNpdG+W3bgeOAfF6OnOuiEvDDjYZ8XywFr
-	tmk0lhuPck4/iyKIqD6spAKzOmzkeA2vGuMSVq9e360r4zy2VG+Mmg4BndhAN6zhHUnk
-	itXPF1Jw1jzhnZvHXLHG8K5aOY1BPUnUncIUWdEOOeG8uA/XIQZdAQ5DcXt5/GyNh7ZG
-	hhpguw/NJW7pQnrjCRdlpegZQJpmPppB7TvJR6kGauK3SCNIPyNUhE/n0zgZB9Dx3L6h
-	09HQ==
+	h=from:to:cc:subject:date:message-id:mime-version:content-language
+	:thread-index; bh=OCHlwISIqrcNuy9Me7eSoJRkMdhBYEIjMixbMTe+MU4=;
+	b=mHs9q2urNertD4qabETyJDVrrpjlo/z2i6Adakv7IRzFcGJqkyhM2BsqKYPA51U06U
+	9I1WVOQ/5i7XZM7EH3Xi6V36qvly7C1dUhsh/qT/6kOllLUrlkmdRztD5sqMc3A2FN/o
+	7npkUqeEMABfgHMmY/LYQwbsAPjYtdVfujY68EUQZHZpRtebZJey7aGuo0CPotY5Bnb2
+	zT83YgGtIlWgjHCUHfnT5MEXb7iZQT+1A525p0mF4cLLBSzvq7GxZuj1/Z0xV3w1aRzR
+	D7SsNVkYtudZA0QOMQQwK6FTchvyaQVIKqdeLx32r/Fjn29lrW1o1m60Og2afGy0JLqh
+	NoHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=WqfAQabJmdfwu+B6Vy/o28EMVZCYdhUrkoO/XNlZZbc=;
-	b=ZU1TNhmtwsCMjcKcAh5tqoSChi8wohYnWnuQlt1fWn1UGnuSih2S3OqsRBXA57KjXv
-	XiHjkq1OQmifSLcAwbY+ckL2jknmdU1yyWVMcQcfDNsld/P6e02kwx6xqeQ5g33E26zU
-	iozZeHYCBdkhwIuN1lBJEEoDrpkpvuGXEJ437P8yi0bwX68N6bPRaj7qRsf3KFi4eUYq
-	p1n7Bmo/I5W3qssjhx38XQxLSZHsiU6zU4gL9I38fbjbPu312noM19m2GWKn50uCmNMp
-	FXtsaY9CfpQ7MT8oSbCgax9S1okboT82ywP2kwpVipyejvUnhiv8Wu6vbEACvhHElQiv
-	xQug==
-X-Gm-Message-State: APjAAAUCRDTJDQ7DuqqrREftLy7qpzA1NQ3RrnUM8hxrkDbb9pgjt5N4
-	5MoN/CCTxdtpRTfs/5/f0DOYAAiK0rQlE3mZZG8=
-X-Google-Smtp-Source: APXvYqz8sHARuFoZEiLmikLdEIUhLEqbmmIpqmriJo1zrx10bqXqQzxrIlk2ChB+Y1sQsOyg3t60uFUPqxy36awLrHg=
-X-Received: by 2002:ac8:5257:: with SMTP id y23mr798884qtn.88.1579546411022;
-	Mon, 20 Jan 2020 10:53:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20191018112819.16210-1-ross.burton@intel.com>
-	<CAMKF1soy5adOpd49H0dTqtwu=vSRc0EPMnXFvD5uQTaJd+JCig@mail.gmail.com>
-	<1615697b554b612f329820f2b3f692011b7722ba.camel@linuxfoundation.org>
-	<9bac0b45-777c-faba-f448-d2d03c7e6fac@geanix.com>
-	<CAMKF1soa5bEfN23uPAhDCk4rfD_OGjaf2xR+m5ET9cLt+kOn0Q@mail.gmail.com>
-	<f6cb669c-d302-c1fa-e2ed-5995b82677ed@intel.com>
-In-Reply-To: <f6cb669c-d302-c1fa-e2ed-5995b82677ed@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 Jan 2020 10:53:19 -0800
-Message-ID: <CAMKF1spO9BCYm4xSKUGNQW5ABy9_5Qz9CkqQGtFhiZHvsR1jxA@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-language:thread-index;
+	bh=OCHlwISIqrcNuy9Me7eSoJRkMdhBYEIjMixbMTe+MU4=;
+	b=M1nbZfaHqoKZLdxs8VcMwoX3Te19ELw46AolM2+Qe/biIle28yqOGqx3vwINFn/fFo
+	zhaEcjFfMBlb62TqsB7FwHPljKnNCDslaQw6teirRMVFiuc4s9B2crhHRnDN3I1TumQw
+	CFvJJQ1OCByMYuuL6CtRHxFE0/xPOvPOPvT9G9H9iD+hmm6ojWgfhuJdxfwNkfajTG7c
+	9aSi9yqvBHvW4049Xpr15SZX0AQa1uXYNzqVYtEsmE6QH2ffHYIf3MlkwYGnKF073fJF
+	+BgZS6A9MHeVPwyIcRyk0ZCF1rmJ5Qul+gDdKvY7pI+Qp0qUOXzuelx1mHeXVQgslVLh
+	sGOg==
+X-Gm-Message-State: APjAAAXPy9gxPfcJApwHPMVciFBanv0fddSIqWkEr1iKOXx3d+MzZM3+
+	HKnirHB/0smwRYeYV8Nen3mN6kbk
+X-Google-Smtp-Source: APXvYqy68CkhG1+jKWXhVUWaEkq9KNUrPAw/Q6ymadZU5uG1YmOUoi+z+T0Vs+KyGkTLVoZD+yRUxw==
+X-Received: by 2002:a63:5a64:: with SMTP id k36mr1123403pgm.323.1579546522530; 
+	Mon, 20 Jan 2020 10:55:22 -0800 (PST)
+Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
+	by smtp.gmail.com with ESMTPSA id
+	a26sm40529019pfo.27.2020.01.20.10.55.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 Jan 2020 10:55:22 -0800 (PST)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] file: explicitly disable seccomp
+Date: Mon, 20 Jan 2020 10:55:21 -0800
+Message-ID: <08fe01d5cfc3$2ad25f20$80771d60$@gmail.com>
+MIME-Version: 1.0
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKG7utdaaVTKxRsyoT3xlHbz7xzdw==
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,77 +58,223 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 18:53:30 -0000
-Content-Type: multipart/alternative; boundary="000000000000bc3d22059c96ce1d"
+X-List-Received-Date: Mon, 20 Jan 2020 18:55:21 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_08FF_01D5CF80.1CAFE270"
+Content-Language: en-us
 
---000000000000bc3d22059c96ce1d
-Content-Type: text/plain; charset="UTF-8"
+------=_NextPart_000_08FF_01D5CF80.1CAFE270
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+All,
+
+ 
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+ 
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
+
+ 
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 294
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
+being in "3.1" and then "3.2".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+
+------=_NextPart_000_08FF_01D5CF80.1CAFE270
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0619_01D5CA2A.AB736000";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 20, 2020 at 9:10 AM Ross Burton <ross.burton@intel.com> wrote:
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+span.EmailStyle18
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
+starting to try and collect up and classify bugs which a newcomer to the =
+project would be able to work on in a way which means people can find =
+them. They're being listed on the triage page under the appropriate =
+heading:<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>The idea is these bugs should be straight =
+forward for a person to help work on who doesn't have deep experience =
+with the project.&nbsp; If anyone can help, please take ownership of the =
+bug and send patches!&nbsp; If anyone needs help/advice there are people =
+on irc who can likely do so, or some of the more experienced =
+contributors will likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
+meets weekly and does its best to handle the bugs reported into the =
+Bugzilla. The number of people attending that meeting has fallen, as =
+have the number of people available to help fix bugs. One of the things =
+we hear users report is they don't know how to help. We (the triage =
+team) are therefore going to start reporting out the currently 294 =
+unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>We're hoping people may be able to spare =
+some time now and again to help out with these.&nbsp; Bugs are split =
+into two types, &quot;true bugs&quot; where things don't work as they =
+should and &quot;enhancements&quot; which are features we'd want to add =
+to the system.&nbsp; There are also roughly four different =
+&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
+&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
+being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
+and if a bug is something you would be able to help with either take =
+ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
+mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
+comer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
+></u></span><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
+an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-> On 20/01/2020 15:45, Khem Raj wrote:
-> > pseudo needs some love since it alters syscalls which go out of bounds
-> > what is allowed by libseccomp until then pin your file version to 5.37
-> > in arch till a supported distro is affected by same problem. It wont
-> > be long better option is to fix pseudo
->
-> That's not quite right.  pseudo LD_PRELOADs itself into file, and makes
-> syscalls which are not whitelisted in file's seccomp configuration.
->
-
-It=E2=80=99s is not different than what I was saying how it inserts itself =
-into
-process is a detail which is hidden from operating system
-
-However I think file is only one case when used along with libseccomp there
-could be more use cases if other host tools we use start using it
-
-So I wonder If we should start building own native versions of tools or
-make it part of build tools tarball
-Or perhaps just publish a self built container and not worry about what
-distros are doing underneath
-
->
-> There's nothing pseudo can do to solve this.
->
-> Ross
->
-
---000000000000bc3d22059c96ce1d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Jan 20, 2020 at 9:10 AM Ross Burton &lt;<a href=3D"=
-mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1=
-px #ccc solid;padding-left:1ex">On 20/01/2020 15:45, Khem Raj wrote:<br>
-&gt; pseudo needs some love since it alters syscalls which go out of bounds=
-<br>
-&gt; what is allowed by libseccomp until then pin your file version to 5.37=
-<br>
-&gt; in arch till a supported distro is affected by same problem. It wont<b=
-r>
-&gt; be long better option is to fix pseudo<br>
-<br>
-That&#39;s not quite right.=C2=A0 pseudo LD_PRELOADs itself into file, and =
-makes <br>
-syscalls which are not whitelisted in file&#39;s seccomp configuration.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">It=E2=80=99s is =
-not different than what I was saying how it inserts itself into process is =
-a detail which is hidden from operating system=C2=A0</div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">However I think file is only one case when use=
-d along with libseccomp there could be more use cases if other host tools w=
-e use start using it</div><div dir=3D"auto"><br></div><div dir=3D"auto">So =
-I wonder If we should start building own native versions of tools or make i=
-t part of build tools tarball=C2=A0</div><div dir=3D"auto">Or perhaps just =
-publish a self built container and not worry about what distros are doing u=
-nderneath=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
-0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-There&#39;s nothing pseudo can do to solve this.<br>
-<br>
-Ross<br>
-</blockquote></div></div>
-
---000000000000bc3d22059c96ce1d--
+------=_NextPart_000_08FF_01D5CF80.1CAFE270--
