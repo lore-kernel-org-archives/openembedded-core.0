@@ -1,52 +1,86 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
-	[209.85.210.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 283047FA27
-	for <openembedded-core@openembedded.org>;
-	Mon, 20 Jan 2020 06:38:28 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id i23so15338777pfo.2
-	for <openembedded-core@openembedded.org>;
-	Sun, 19 Jan 2020 22:38:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=o2jop5uqMxZCIKMt5XI5gxBGvPkWsbCKon+hdif4/N0=;
-	b=fosp3P1iuSj83iKsIyMUaKVaKqTOGPBs2MkzW98nRti0hrSByaE2Iwf5GP7ABgpLjX
-	hZsD5wW0/8xSPdgbMwW/HjQBTX0uFz9ebLJ3iW65EwBU++i44YStrt69Qzxynx4NROzp
-	7A5X62xDn5WzK7bvjqpAYXAC7fhxOO2lVt6jsRXjQLzCfwHFYD2e+tgZg0JGqxor2xSJ
-	5NduGbfWesmcc0Sw4fRb5SB4pP3kEvEsZG+NoEoxA8hnaiCmpbvmbfIlA4b8pCGUXBBt
-	S368vImc+eV0Pn0SyAlKuKI9eruwWTFC11N3szZ3PIMp1poxHoT3iPRsaL9cQ2FRXeMF
-	JRLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=o2jop5uqMxZCIKMt5XI5gxBGvPkWsbCKon+hdif4/N0=;
-	b=j7q2lJ3qqEmOI0G/LT6MESRXxGiyjN81r1KDIsYqGUbm85dwZ01DDoPuEE0CSQ2RS+
-	GKyRkqVP3YRds+GUKBZbulcbuk07SLbP5yUGumhch10HOhXOC2xHUz98fxjnNgcUH6pK
-	DnaSgz9NoOyQkcVYK/jDb4I+pTXqTiwzFI4aMUlJFXCQG4TJrN0RAp0RHvhmd/a6RWP2
-	aUalmu2MGnzLqDBEBHTFR+adDM4yj9s+/vg7XRcCcPen/zZFlj8C2B91qJNLLSN326vI
-	UFkfjfb/pni1rVs3jZD529E5Nozl5irnHNUKdBRBh/McmldQyuKE0qOhf1bhuiTSF2tv
-	ejbg==
-X-Gm-Message-State: APjAAAWCpTyq80GLHTSztYG90rOS8xtUfL2eJwTqIqs3tohM2W//oFCo
-	y5jXc2rP/bOlhKG7DtF7RQGsF9uO
-X-Google-Smtp-Source: APXvYqwh0cvzn0xU2qgcGGPZMrD7wafL/5p/EmRizXY2ZAmN1816gLR4zVQKQSKjsodjw49svAJrqw==
-X-Received: by 2002:a63:7311:: with SMTP id o17mr55656727pgc.29.1579502309031; 
-	Sun, 19 Jan 2020 22:38:29 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:b5ff:6d3b:2415:6395])
-	by smtp.gmail.com with ESMTPSA id
-	p28sm36310484pgb.93.2020.01.19.22.38.28
-	for <openembedded-core@openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 19 Jan 2020 22:38:28 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@openembedded.org
-Date: Sun, 19 Jan 2020 22:38:21 -0800
-Message-Id: <5ed714139f91eb03871e01b68a4370784071234d.1579502114.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1579502114.git.akuster808@gmail.com>
-References: <cover.1579502114.git.akuster808@gmail.com>
-Subject: [zeus 5/5] license.bbclass: Introduce AVAILABLE_LICENSES that lists all licenses
+Return-Path: <rasmus.villemoes@prevas.dk>
+Received: from EUR03-AM5-obe.outbound.protection.outlook.com
+	(mail-eopbgr30129.outbound.protection.outlook.com [40.107.3.129])
+	by mail.openembedded.org (Postfix) with ESMTP id 949927F89D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jan 2020 07:28:16 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=MNeAU53QGlfDwKkGF2P6zTA2i5n4wHHf4n+lcKVOXqcE8lRKEDj4Z3Tu2HJoIjY4/gifE9MTxWiDvk+GnkeuHL+I/o1NkQ1NJSDlzbZRYadJi2E4U3IOYjpq8czzEPQoe6HaLHxebpQOMAXLqAer6ZLaSjBnuw2GJ17xdfq555VzNgIULCW8RyxD9E4XgbwOZq0ZP4YHJ5dXJfHX+w16alpw50xSmKZvsIHCRhvfTMcryewW4RV/Dh9N4/Xfhw8q7WskMXQ9gXPC16cToulXt3dd0d4xvd17Dxyl8jc/T49bU9dQclqSG4biBbDOYdxRQGqntYyA8qrsI5DI3RjqxA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=ZtcWzC8mtPg4nvPJlRcD6b7jN9/cIjO5utCmY+6yZZM=;
+	b=eBw/MKd/IOjzFABtXOPQ3xF8KpB1xlKw+DlxubzKXHNE+l59M561GjHqvZwsELJUxlFxVw/YMDKm7FE2FQ6s04ayf7kmFWJmYCIKbndXAVYw8GJuJp3mPxRVccnaIaFSWftqwapWFf3zgF1QIIwrsI+2TJwYXeOsUcx34LPts52+vNz+BcaGX9KO3HHp6OJ+l8Xg/fjlk/xKsKSJkGXxJcl+SN7wOPxZdNscL05mKIMOerAKVhkInsGKiVLCNh0tzW0aeZVFGZbieXL7RlJtfgZ0Nuwz/1UhMabnxsMXJTDDvlF2WNpgkLSt0+jM99jWGJJe7hTZn6+Pz3N5/NyznA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk; 
+	dkim=pass header.d=prevas.dk; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk; s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=ZtcWzC8mtPg4nvPJlRcD6b7jN9/cIjO5utCmY+6yZZM=;
+	b=bue6vjbz1Jf3GOquiVgTp+WvxKu7AG1CHI6RVfGGSCw/zoL2iSMMxR7yy20rDRIYuxkME+Hs7l+Q5vQrth6iZug14YEUH+0ekvE4Bka8o7TBQ8f+sYg1kaDFBeB6WrrMKwItQuiatL4JpmPJJDYPvCyysXIkF+2LwxlxOyTQiQI=
+Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM (20.178.126.85) by
+	VI1PR10MB1935.EURPRD10.PROD.OUTLOOK.COM (52.134.26.160) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2644.23; Mon, 20 Jan 2020 07:28:14 +0000
+Received: from VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::8175:5aa2:2870:766d]) by
+	VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::8175:5aa2:2870:766d%6]) with mapi id 15.20.2644.026;
+	Mon, 20 Jan 2020 07:28:14 +0000
+Received: from prevas-ravi.prevas.se (81.216.59.226) by
+	HE1PR0102CA0069.eurprd01.prod.exchangelabs.com
+	(2603:10a6:7:7d::46) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384)
+	id 15.20.2644.19 via Frontend Transport;
+	Mon, 20 Jan 2020 07:28:13 +0000
+From: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] glibc: don't ignore global LDFLAGS settings
+Thread-Index: AQHVz2MtF+4MCSftZ0KGKaK8stejig==
+Date: Mon, 20 Jan 2020 07:28:14 +0000
+Message-ID: <20200120072801.16603-1-rasmus.villemoes@prevas.dk>
+References: <4e7244df21e0c47712976ad72bc53aab51236724.camel@linuxfoundation.org>
+In-Reply-To: <4e7244df21e0c47712976ad72bc53aab51236724.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0102CA0069.eurprd01.prod.exchangelabs.com
+	(2603:10a6:7:7d::46) To VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM
+	(2603:10a6:803:e1::21)
+x-mailer: git-send-email 2.23.0
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=rasmus.villemoes@prevas.dk; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [81.216.59.226]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 36a37e73-8640-43f8-3118-08d79d7a4f57
+x-ms-traffictypediagnostic: VI1PR10MB1935:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <VI1PR10MB1935CC5D1F9750B10A30D30693320@VI1PR10MB1935.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-forefront-prvs: 0288CD37D9
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(39840400004)(346002)(136003)(376002)(396003)(366004)(199004)(189003)(66446008)(36756003)(66476007)(6512007)(66556008)(64756008)(66946007)(6486002)(107886003)(54906003)(316002)(2906002)(478600001)(1076003)(86362001)(8936002)(71200400001)(52116002)(6916009)(186003)(16526019)(6506007)(8976002)(4326008)(26005)(81156014)(81166006)(5660300002)(2616005)(44832011)(956004)(8676002);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:VI1PR10MB1935;
+	H:VI1PR10MB2765.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: prevas.dk does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: sSy3I4B/Wb5gY5vnBdkUplK50bC30k2nOqMYOt//3qhlA6/eSx9+naqpNpB6mC7m/NmllAjkFNq9QEgNsdv3t+QsgS2jZhAr1D4DvPv1y5GevFvENLQ8n5NMv+TEeEYzZn+Vj8Zti+94JVpBJNgIdh9121x4ENb6B5wZPUIHzNi0WaGDnd7q1FHe2mccm1u8cNkO3WxMKXlBPy0tIIKgftTsmmfJHcayks0XsZZ0xtfjvGI9P4w3NJ/LkBNyrYCnj0vB3uOXjivqDYMmdrWHtOJuZZpLCp3vwSt4L5mfAcKNHEVvIr8PhkUovqaRGl1h/CfSy7ROQYzGjLQ0bW2r4XLzbmsbjP/51jRFvpcN+ibmMqLFw8H9XPmWWDChI/NLG+r+2vbGNHIYW9H9Rj0wfLypNZ6VVv9m5LAos0+C9ZzoxQScEj1TQu2oUfhuKOHf
+MIME-Version: 1.0
+X-OriginatorOrg: prevas.dk
+X-MS-Exchange-CrossTenant-Network-Message-Id: 36a37e73-8640-43f8-3118-08d79d7a4f57
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2020 07:28:14.2937 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d350cf71-778d-4780-88f5-071a4cb1ed61
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qVmKiRpr6No3bj2Hl9cDHkYVW8PpBh2hD2bvXBtH2pP0k8ShWUhayahHQac5ODqDrengv3r7Xjd0T9QFGVvXWyCFMMyCOyDn7jK3hBoqFl4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB1935
+Subject: [PATCH] glibc: don't ignore global LDFLAGS settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,130 +93,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 06:38:28 -0000
+X-List-Received-Date: Mon, 20 Jan 2020 07:28:17 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Two things: The -Wl,-rpath-link comment is stale (due to per-recipe
+staging), so we no longer need to set our own LDFLAGS to avoid
+-Wl,-rpath-link being in there. Second, overriding LDFLAGS should be
+done at the recipe level so "bitbake -e" can show what is going on.
+Otherwise debugging why one's global LDFLAGS tweaks are being ignored
+is needlessly painful.
 
-Previously, there was SRC_DISTRIBUTE_LICENSES, an undocumented
-variable that contained a static list of licenses. It was used by
-expand_wildcard_licenses() to expand any wildcards used in, e.g.,
-INCOMPATIBLE_LICENSE. However, since this static list of licenses has
-not been kept up-to-date, many licenses were missing, with the result
-that if one tried to use any of those licenses with a wildcard, no
-licenses would be found, effectively ignoring that they should be
-marked as incompatible.
+So pull out the LDFLAGS setting from do_compile, and change it to an
+append instead of assignment.
 
-This introduces a new (documented) variable, AVAILABLE_LICENSES, that
-is automatically updated to contain all licenses found in any
-directories specified by ${COMMON_LICENSE_DIR} and ${LICENSE_PATH},
-and uses it instead of SRC_DISTRIBUTE_LICENSES when expanding
-wildcards.
+For the benefit of future git blame: the -fuse-ld=3Dbfd setting was
+added by ac64c3b96b (glibc: always use bfd linker).
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8c9ef587fe499c612a878a1ab42092eb79b334ef)
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+Signed-off-by: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
 ---
- meta/classes/license.bbclass                  | 27 ++++++++++++++++---
- meta/conf/documentation.conf                  |  1 +
- .../oeqa/selftest/cases/incompatible_lic.py   |  6 ++---
- 3 files changed, 27 insertions(+), 7 deletions(-)
+ meta/recipes-core/glibc/glibc_2.30.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index adca881c85..b0d37b119c 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -252,7 +252,7 @@ def canonical_license(d, license):
-     """
-     Return the canonical (SPDX) form of the license if available (so GPLv3
-     becomes GPL-3.0), for the license named 'X+', return canonical form of
--    'X' if availabel and the tailing '+' (so GPLv3+ becomes GPL-3.0+), 
-+    'X' if available and the tailing '+' (so GPLv3+ becomes GPL-3.0+),
-     or the passed license if there is no canonical form.
-     """
-     lic = d.getVarFlag('SPDXLICENSEMAP', license) or ""
-@@ -262,10 +262,29 @@ def canonical_license(d, license):
-             lic += '+'
-     return lic or license
- 
-+def available_licenses(d):
-+    """
-+    Return the available licenses by searching the directories specified by
-+    COMMON_LICENSE_DIR and LICENSE_PATH.
-+    """
-+    lic_dirs = ((d.getVar('COMMON_LICENSE_DIR') or '') + ' ' +
-+                (d.getVar('LICENSE_PATH') or '')).split()
-+
-+    licenses = []
-+    for lic_dir in lic_dirs:
-+        licenses += os.listdir(lic_dir)
-+
-+    licenses = sorted(licenses)
-+    return licenses
-+
-+# Only determine the list of all available licenses once. This assumes that any
-+# additions to LICENSE_PATH have been done before this file is parsed.
-+AVAILABLE_LICENSES := "${@' '.join(available_licenses(d))}"
-+
- def expand_wildcard_licenses(d, wildcard_licenses):
-     """
--    Return actual spdx format license names if wildcard used. We expand
--    wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
-+    Return actual spdx format license names if wildcards are used. We expand
-+    wildcards from SPDXLICENSEMAP flags and AVAILABLE_LICENSES.
-     """
-     import fnmatch
-     licenses = wildcard_licenses[:]
-@@ -274,7 +293,7 @@ def expand_wildcard_licenses(d, wildcard_licenses):
-         spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
-         licenses += [d.getVarFlag('SPDXLICENSEMAP', flag) for flag in spdxflags]
- 
--    spdx_lics = (d.getVar('SRC_DISTRIBUTE_LICENSES', False) or '').split()
-+    spdx_lics = d.getVar('AVAILABLE_LICENSES').split()
-     for wld_lic in wildcard_licenses:
-         licenses += fnmatch.filter(spdx_lics, wld_lic)
- 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 550df20b0f..ce2a37e0e5 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -69,6 +69,7 @@ ASSUME_SHLIBS[doc] = "List of shlib:package[_version] mappings. Useful for lib p
- AUTHOR[doc] = "Email address used to contact the original author(s) in order to send patches and forward bugs."
- AUTO_SYSLINUXMENU[doc] = "Enables creating an automatic menu for the syslinux bootloader."
- AUTOREV[doc] = "When SRCREV is set to the value of this variable, it specifies to use the latest source revision in the repository."
-+AVAILABLE_LICENSES[doc] = "List of licenses found in the directories specified by COMMON_LICENSE_DIR and LICENSE_PATH."
- 
- #B
- 
-diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-index 8fb93af8a8..3cc5bbc35c 100644
---- a/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-+++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-@@ -12,12 +12,12 @@ class IncompatibleLicenseTests(OESelftestTestCase):
-         if error_msg not in result.output:
-             raise AssertionError(result.output)
- 
--    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
-+    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
-     # cannot be built when INCOMPATIBLE_LICENSE contains this SPDX license
-     def test_incompatible_spdx_license(self):
-         self.lic_test('incompatible-license', 'GPL-3.0', 'GPL-3.0')
- 
--    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
-+    # Verify that a package with an SPDX license (from AVAILABLE_LICENSES)
-     # cannot be built when INCOMPATIBLE_LICENSE contains an alias (in
-     # SPDXLICENSEMAP) of this SPDX license
-     def test_incompatible_alias_spdx_license(self):
-@@ -35,7 +35,7 @@ class IncompatibleLicenseTests(OESelftestTestCase):
-         self.lic_test('incompatible-license-alias', 'GPLv3', 'GPLv3')
- 
-     # Verify that a package with a non-SPDX license (neither in
--    # SRC_DISTRIBUTE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
-+    # AVAILABLE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
-     # INCOMPATIBLE_LICENSE contains this license
-     def test_incompatible_nonspdx_license(self):
-         self.lic_test('incompatible-nonspdx-license', 'FooLicense', 'FooLicense')
--- 
-2.17.1
+diff --git a/meta/recipes-core/glibc/glibc_2.30.bb b/meta/recipes-core/glib=
+c/glibc_2.30.bb
+index 7913bc2812..c6dd78ca8b 100644
+--- a/meta/recipes-core/glibc/glibc_2.30.bb
++++ b/meta/recipes-core/glibc/glibc_2.30.bb
+@@ -93,9 +93,8 @@ do_configure () {
+         CPPFLAGS=3D"" oe_runconf
+ }
+=20
++LDFLAGS +=3D "-fuse-ld=3Dbfd"
+ do_compile () {
+-	# -Wl,-rpath-link <staging>/lib in LDFLAGS can cause breakage if another =
+glibc is in staging
+-	LDFLAGS=3D"-fuse-ld=3Dbfd"
+ 	base_do_compile
+ 	echo "Adjust ldd script"
+ 	if [ -n "${RTLDLIST}" ]
+--=20
+2.23.0
 
 
