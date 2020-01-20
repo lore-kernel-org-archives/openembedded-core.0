@@ -1,33 +1,35 @@
 Return-Path: <wangmy@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CD4C60043
+	by mail.openembedded.org (Postfix) with ESMTP id BA6C17FC44
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 09:02:04 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,341,1574092800"; d="scan'208";a="82302797"
+	Mon, 20 Jan 2020 09:02:05 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,341,1574092800"; d="scan'208";a="82302798"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 20 Jan 2020 17:02:02 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id D35334CE30ED
+	by heian.cn.fujitsu.com with ESMTP; 20 Jan 2020 17:02:07 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 17ECC406AB15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 16:52:47 +0800 (CST)
+	Mon, 20 Jan 2020 16:52:54 +0800 (CST)
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Mon, 20 Jan 2020 17:01:58 +0800
+	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Mon, 20 Jan 2020 17:02:07 +0800
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 20 Jan 2020 17:02:05 +0800
+	Server (TLS) id 14.3.439.0; Mon, 20 Jan 2020 17:02:11 +0800
 From: Wang Mingyu <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Jan 2020 04:26:43 -0800
-Message-ID: <1579523214-47426-1-git-send-email-wangmy@cn.fujitsu.com>
+Date: Mon, 20 Jan 2020 04:26:45 -0800
+Message-ID: <1579523214-47426-3-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1579523214-47426-1-git-send-email-wangmy@cn.fujitsu.com>
+References: <1579523214-47426-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: D35334CE30ED.A3D36
+X-yoursite-MailScanner-ID: 17ECC406AB15.A64D6
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] ethtool: upgrade 5.3 -> 5.4
+Subject: [PATCH] gnupg: upgrade 2.2.17 -> 2.2.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,33 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 09:02:04 -0000
+X-List-Received-Date: Mon, 20 Jan 2020 09:02:06 -0000
 Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../ethtool/{ethtool_5.3.bb => ethtool_5.4.bb}                | 4 ++--
+ .../gnupg/{gnupg_2.2.17.bb => gnupg_2.2.19.bb}                | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_5.3.bb => ethtool_5.4.bb} (88%)
+ rename meta/recipes-support/gnupg/{gnupg_2.2.17.bb => gnupg_2.2.19.bb} (94%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool_5.3.bb b/meta/recipes-extended/ethtool/ethtool_5.4.bb
-similarity index 88%
-rename from meta/recipes-extended/ethtool/ethtool_5.3.bb
-rename to meta/recipes-extended/ethtool/ethtool_5.4.bb
-index 401331be39..d6eafaa8dc 100644
---- a/meta/recipes-extended/ethtool/ethtool_5.3.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_5.4.bb
-@@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
+diff --git a/meta/recipes-support/gnupg/gnupg_2.2.17.bb b/meta/recipes-support/gnupg/gnupg_2.2.19.bb
+similarity index 94%
+rename from meta/recipes-support/gnupg/gnupg_2.2.17.bb
+rename to meta/recipes-support/gnupg/gnupg_2.2.19.bb
+index bb8885f1c8..76c09ff687 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.2.17.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.2.19.bb
+@@ -19,8 +19,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+ SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
+                                 file://relocate.patch"
  
--SRC_URI[md5sum] = "63d1c835b861912ea0dfd52cf66a2da4"
--SRC_URI[sha256sum] = "cd2d8ea360431a2ea35ff61c276bcf2afee1ad901668a0b50ae9f1c5814756bd"
-+SRC_URI[md5sum] = "fbb24aa414ab9a11ff66d351b5b8493b"
-+SRC_URI[sha256sum] = "0b25a46b61bc6e26f56dcb973fc28acea159e2c32c9d6da42c0fa8d1a6339829"
+-SRC_URI[md5sum] = "1ba2d9b70c377f8e967742064c27a19c"
+-SRC_URI[sha256sum] = "afa262868e39b651a2db4c071fba90415154243e83a830ca00516f9a807fd514"
++SRC_URI[md5sum] = "cb3b373d08ba078c325299945a7f2818"
++SRC_URI[sha256sum] = "242554c0e06f3a83c420b052f750b65ead711cc3fddddb5e7274fcdbb4e9dec0"
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
- 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.17.1
 
