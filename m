@@ -1,38 +1,32 @@
-Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 435957FC03
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 10:27:38 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7DE9D9C01C9;
-	Mon, 20 Jan 2020 05:27:39 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id bEMCImwgVT2t; Mon, 20 Jan 2020 05:27:36 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 8349A9C01B9;
-	Mon, 20 Jan 2020 05:27:36 -0500 (EST)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id SOMY9NoF_nxw; Mon, 20 Jan 2020 05:27:36 -0500 (EST)
-Received: from sulaco.example.com (40.73.12.109.rev.sfr.net [109.12.73.40])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id D3BFC9C01C9;
-	Mon, 20 Jan 2020 05:27:34 -0500 (EST)
-From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2020 11:27:05 +0100
-Message-Id: <20200120102705.20916-14-jean-marie.lemetayer@savoirfairelinux.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200120102705.20916-1-jean-marie.lemetayer@savoirfairelinux.com>
-References: <20200120102705.20916-1-jean-marie.lemetayer@savoirfairelinux.com>
+Return-Path: <ross.burton@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CF317FC56;
+	Mon, 20 Jan 2020 11:24:23 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jan 2020 03:24:24 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,341,1574150400"; d="scan'208";a="228356518"
+Received: from grossi-mobl.ger.corp.intel.com (HELO rburton-mac01.local)
+	([10.252.38.20])
+	by orsmga006.jf.intel.com with ESMTP; 20 Jan 2020 03:24:23 -0800
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+References: <20200117141632.3809-1-ross.burton@intel.com>
+	<CAHtQpK57OxO8z=iBERfc52w72H19XYyygzpL4gt7QxtLHAmfbw@mail.gmail.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <c9210040-bd8f-9b1a-f870-f48d40c7d295@intel.com>
+Date: Mon, 20 Jan 2020 11:24:22 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.4.1
 MIME-Version: 1.0
-Cc: jonaskgandersson@gmail.com, paul.eggleton@linux.intel.com, bunk@stusta.de,
-	cdelston0@gmail.com, rennes-dev@savoirfairelinux.com
-Subject: [PATCH v5 13/13] oeqa/selftest/devtool: add npm recipe build test
+In-Reply-To: <CAHtQpK57OxO8z=iBERfc52w72H19XYyygzpL4gt7QxtLHAmfbw@mail.gmail.com>
+Cc: yocto@yoctoproject.org, openembedded-devel@lists.openembedded.org,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [oe] [RFC PATCH] python: remove Python 2 and all supporting classes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +39,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 10:27:38 -0000
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 20 Jan 2020 11:24:24 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-This commit adds a devtool build test for npm recipe:
+On 19/01/2020 22:23, Andrey Zhizhikin wrote:
+> I've just realized that this breaks entire
+> [meta-openembedded/meta-python]. I'm now in a process of removing
+> Python2 recipes, and just wanted to check that I'm doing the right
+> thing and this is actually intended. Or am I missing something in my
+> build config that is required to be set that Python2 gets disabled and
+> I would actually not need to eliminate those recipes (some are
+> actually dubbed by python3- versions but some are not)?
 
- - devtool.DevtoolAddTests.test_devtool_add_npm
+The python2 recipes are already copied into meta-python2, so the py2 
+recipes in meta-python should be deleted.
 
-Signed-off-by: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinu=
-x.com>
----
- meta/lib/oeqa/selftest/cases/devtool.py | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/self=
-test/cases/devtool.py
-index 57e6662e4a..e2f91bcb6c 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -511,6 +511,26 @@ class DevtoolAddTests(DevtoolBase):
-         checkvars['SRC_URI'] =3D url.replace(testver, '${PV}')
-         self._test_recipe_contents(recipefile, checkvars, [])
-=20
-+    def test_devtool_add_npm(self):
-+        pn =3D 'savoirfairelinux-node-server-example'
-+        pv =3D '1.0.0'
-+        url =3D 'npm://registry.npmjs.org;package=3D@savoirfairelinux/no=
-de-server-example;version=3D' + pv
-+        # Test devtool add
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake -c cleansstate %s' % pn)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */work=
-space')
-+        result =3D runCmd('devtool add \'%s\'' % url)
-+        self.assertExists(os.path.join(self.workspacedir, 'conf', 'layer=
-.conf'), 'Workspace directory not created')
-+        self.assertExists(os.path.join(self.workspacedir, 'recipes', pn,=
- '%s_%s.bb' % (pn, pv)), 'Recipe not created')
-+        self.assertExists(os.path.join(self.workspacedir, 'recipes', pn,=
- pn, 'npm-shrinkwrap.json'), 'Shrinkwrap not created')
-+        # Test devtool status
-+        result =3D runCmd('devtool status')
-+        self.assertIn(pn, result.output)
-+        # Clean up anything in the workdir/sysroot/sstate cache (have to=
- do this *after* devtool add since the recipe only exists then)
-+        bitbake('%s -c cleansstate' % pn)
-+        # Test devtool build
-+        result =3D runCmd('devtool build %s' % pn)
-+
- class DevtoolModifyTests(DevtoolBase):
-=20
-     def test_devtool_modify(self):
---=20
-2.20.1
+Ross
 
 
