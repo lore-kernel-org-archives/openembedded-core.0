@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C2037FCAE
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C3F17FCCB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 17:25:40 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id b19so128851wmj.4
+	Mon, 20 Jan 2020 17:25:41 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id p17so156370wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 09:25:41 -0800 (PST)
+	Mon, 20 Jan 2020 09:25:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OK+B5qZifGzTPPCyib1fn7HcTqhhzIW2mrm6oPIcvUg=;
-	b=Gnlo73XKP6Gyb+yL6VcOQvyC9uZl8yx+2xYC90ypHcqkWqqSsBfZw6p6JfwHK3YScD
-	KNCCvh7jPgRNL3zMB/8n8om2EsNknViXhhufufPqlz5+0DinDrxhz/ro44mtri0Krg9j
-	ggjzCNMpNboEwcfM31nQdrJO8Ga033DPZBkJZV7KZPg6j4JYkA99GsGhOMcxMlfDzHbK
-	3Yoo+affYADacFrB2JVer6cMPE7pmU46L0JnYRtAhM5F6tkbyM+qQqP1KyT5rIzVvqOG
-	2VCtWvSeud4ciNo3oX39i1zoIVDxH4sdMLvnYQQeeNd49kxXJ9l9a5227kFVU94Yjoua
-	sxFw==
+	bh=dO/nkFAvGO26B+ncQWnsFeY0tFYGlRP7pAj/nuxOHtw=;
+	b=lIFA+bVadk9wLsGbkOhQJtNjEFfqpZt+zuUN61mGQBGW0eNODf7fhlb8N7hSOHs0vT
+	iy23/cQencvHyNz7KKeDl2IaBeIXkcWavWwqK4oZdW/3eEjqO8n0ptDBZA0z1DSTvase
+	TECgkBZUtqdIVOVRPvRAMkZolCrXVvh0qBEL+IVI+Bn9XdJFF8nYgiLrgVtf7QTTMQM/
+	v3sKgTV2/lHaqotwAKKECWYWGTaLVipcmbBO4sKzGbG/xxtXbP6FxoLDgMcY+FfvnY8i
+	70AEsqfirESknzOMwCEmFC681GBwiJgRRxiM0UicZqcjtw+Co4IqhPJ+r080pmFtZaWU
+	T18A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=OK+B5qZifGzTPPCyib1fn7HcTqhhzIW2mrm6oPIcvUg=;
-	b=gg6h5LjYTH9pvQDAXL/CWF6Tlj249txjkWj8MOfKIgZHbi4gB870/RmPxD1r8yZCP/
-	hdDepkyX86Z9m9pEy2h7imxMnq2XWaDn0lVZhGrWb2/roZrkEod+mx/nfR7bgNbopIXF
-	u3jxxn9lA8teG1fufS3PCjV+3JvEd5Sd42OkOveT2GJnR31u8LAg6IJ9VMz5i6WMKw8b
-	YHlQqESTH4EPsPOSfmcIs28XQ2+38IvBm25iay64Y8JLSnjcVjvDTyRHxj0Je7uuCyhw
-	tzyzYbteRqK4w3XgujO5YvoSaViRq52RwS5lO/erL9/9VAMbrL9mCt8piB+Iv0KbydTR
-	wlCQ==
-X-Gm-Message-State: APjAAAVj3G/VuyOdB0PeW68bOtLdwgwt+rEualchN50kNCbjwJw9+gS6
-	6WTJY2bsN5bodO/kHsmtnWxAw8uF
-X-Google-Smtp-Source: APXvYqy3N0rvXK1cvLaMrbAzS/jtnbIep4qhtt/TDFWzONuzKUull4wLdiYXdxykIk/b6Y3jmtMxFg==
-X-Received: by 2002:a1c:4004:: with SMTP id n4mr333860wma.153.1579541140850;
-	Mon, 20 Jan 2020 09:25:40 -0800 (PST)
+	bh=dO/nkFAvGO26B+ncQWnsFeY0tFYGlRP7pAj/nuxOHtw=;
+	b=b/yklckXNAIcbHwUdm3ofhUW2ma1tZ0k43tteiJixsYfKF2C7XmCZVqq5Dol16B6DR
+	moVfMysds+V+736gcOK/5B81nO7AF3jpxNWU3B0Xr+VfSSFQikRi2mQE1gCgy/TxW9CS
+	uH9qi5jaknGpVyoVe4gyz53wyvWhfvoCyVSIag0IMYJDKfi4+1khp8mS0DEeuHC7LOol
+	ZadhS4rljrY1s9IQOY0PzOvUc3iYLhCRV5lcpqt/psmYNKZ6LQx59Bo4wJqOSocCfeGk
+	uF7TipNkn41+FjA/KleduBtzqwdFTj+8w2jy77qf3tDRGJAAHYHj+YOjvFMO+v6I4RkH
+	IKRg==
+X-Gm-Message-State: APjAAAW7/oUklbBFyJG5hhgtb/74tUG+l2/GLOgWtgZb/1KByuDZkGNS
+	fXQdkKl/6DQDZ4Vn6+Xa5aqBM51i
+X-Google-Smtp-Source: APXvYqwliGectgAfs/Yf+eEKmY3gbejo5hrWvRGhF9oU7QKtAzbQTmnsV0l/D/5fAMDpG61r2q5zMQ==
+X-Received: by 2002:a1c:f210:: with SMTP id s16mr348555wmc.57.1579541141785;
+	Mon, 20 Jan 2020 09:25:41 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id x11sm31526wmg.46.2020.01.20.09.25.39
+	by smtp.gmail.com with ESMTPSA id x11sm31526wmg.46.2020.01.20.09.25.40
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 20 Jan 2020 09:25:40 -0800 (PST)
+	Mon, 20 Jan 2020 09:25:41 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2020 18:25:05 +0100
-Message-Id: <20200120172510.22648-19-alex.kanavin@gmail.com>
+Date: Mon, 20 Jan 2020 18:25:06 +0100
+Message-Id: <20200120172510.22648-20-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200120172510.22648-1-alex.kanavin@gmail.com>
 References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-Subject: [PATCH 19/24] ffmpeg: upgrade 4.2.1 -> 4.2.2
+Subject: [PATCH 20/24] epiphany: upgrade 3.34.2 -> 3.34.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,28 +60,28 @@ X-List-Received-Date: Mon, 20 Jan 2020 17:25:41 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../ffmpeg/{ffmpeg_4.2.1.bb => ffmpeg_4.2.2.bb}               | 4 ++--
+ .../epiphany/{epiphany_3.34.2.bb => epiphany_3.34.3.1.bb}     | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.2.1.bb => ffmpeg_4.2.2.bb} (98%)
+ rename meta/recipes-gnome/epiphany/{epiphany_3.34.2.bb => epiphany_3.34.3.1.bb} (85%)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-similarity index 98%
-rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.1.bb
-rename to meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-index 5ac18ba3f1a..a3cf0c1a37c 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
-@@ -26,8 +26,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
- SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://mips64_cpu_detection.patch \
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.34.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.34.3.1.bb
+similarity index 85%
+rename from meta/recipes-gnome/epiphany/epiphany_3.34.2.bb
+rename to meta/recipes-gnome/epiphany/epiphany_3.34.3.1.bb
+index c6105b97066..7e1573348e2 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.34.2.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.34.3.1.bb
+@@ -14,8 +14,8 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
             "
--SRC_URI[md5sum] = "67da904cf9fddeeb10a1308fc0dc39de"
--SRC_URI[sha256sum] = "cec7c87e9b60d174509e263ac4011b522385fd0775292e1670ecc1180c9bb6d4"
-+SRC_URI[md5sum] = "348956fc2faa57a2f79bbb84ded9fbc3"
-+SRC_URI[sha256sum] = "cb754255ab0ee2ea5f66f8850e1bd6ad5cac1cd855d0a2f4990fb8c668b0d29c"
+-SRC_URI[archive.md5sum] = "ae404e3a70ff904f5a23466727f8a90a"
+-SRC_URI[archive.sha256sum] = "0eaa36fc7b73a23121a23b8a7ad3c18edaf5a8a6b7cdd6d630ba5b71d946a4a1"
++SRC_URI[archive.md5sum] = "c8010e7ef1b0fd2da1e613e17445062a"
++SRC_URI[archive.sha256sum] = "00e479fba108f44b1830370780b98116d87fc277eb1a4eed8e229dcdf04aea6d"
  
- # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
- ARM_INSTRUCTION_SET_armv4 = "arm"
+ FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
+ RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
 -- 
 2.17.1
 
