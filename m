@@ -1,38 +1,48 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D8107D2E5
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-il1-f179.google.com (mail-il1-f179.google.com
+	[209.85.166.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 563DE7F946
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 04:49:16 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Jan 2020 20:49:17 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,340,1574150400"; d="scan'208";a="374223196"
-Received: from pgsmsx104.gar.corp.intel.com ([10.221.44.91])
-	by orsmga004.jf.intel.com with ESMTP; 19 Jan 2020 20:49:16 -0800
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.131]) by
-	PGSMSX104.gar.corp.intel.com ([169.254.3.14]) with mapi id
-	14.03.0439.000; Mon, 20 Jan 2020 12:49:15 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "crg7475@mailbox.org"
-	<crg7475@mailbox.org>
-Thread-Topic: [OE-core] [PATCH 04/12] gstreamer1.0-plugins-good: Transition
-	to meson based builds
-Thread-Index: AQHVz0z3vdzeFSL2VkesitnrKCgRFg==
-Date: Mon, 20 Jan 2020 04:49:14 +0000
-Message-ID: <e860f308a14e924c1fa718f31de68165f1b81a11.camel@intel.com>
-References: <20200112135954.23868-1-crg7475@mailbox.org>
-	<20200112135954.23868-4-crg7475@mailbox.org>
-In-Reply-To: <20200112135954.23868-4-crg7475@mailbox.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.21.115]
+	Mon, 20 Jan 2020 05:07:18 +0000 (UTC)
+Received: by mail-il1-f179.google.com with SMTP id v69so26193501ili.10
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 Jan 2020 21:07:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=CE4W4uEr4O1QuLEItAJf2FAgjsHKe4Re/ECQLTSq0J4=;
+	b=YgyITEk0omotd1OdqtaPD50X/wNidWyv2yXk/+5cveLYN/tWOUb53UOQQMdW2oBgEc
+	/bU4i+qkMpaBl+RVzEOcGLw14VzaeXqzXtVewKexVOdGu13o78/HP4MtiHNe+9u8ompv
+	SYxsSQxFBpM1Le8JpzqzveEwLdwaHSjUBitoGjgES1jkzjsppqkf8kNXTBwf1uWQCtuQ
+	lvofFyaCXqqIFFjXZW8fj/jbtq/JuUsmw8I4sxablD32cmWSqom7XT8I5O50P9zcCrUV
+	CiLCgmQ3hI8WDEriNT53Sqq50oDz78VaEfNs/glC3xomaH0YE1hRIfkA+QJE8RxVg5KP
+	yJ+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=CE4W4uEr4O1QuLEItAJf2FAgjsHKe4Re/ECQLTSq0J4=;
+	b=HPpj3HAKoTexPjkKx/kxKHWJsYKf/P4q8W0WcYTpXbmawd/N9UKtx3hbaM8VWVjOc2
+	DdIeElKjkyoIJjyjQ/Gzqt2NZGwkNLNk51NvPnbXei3onHepCSGnvnxLPapnkwBds3EY
+	L2+shIebtnVdESFpE0qM0xfosNm3+C/CLu+n4GmzQg6a0cqAWZv6cmGdcJ3l7f+EQ+nL
+	uvo69dHjsTxVRP7dEhiv2MtsWHeQuQBA4rOMC6gCint8CfRcui3dSuy3+/Wy3obAlIy4
+	B3/BQ0JaQMEhE/zt/V8nPmFH9Yq+1BuFss7fFGPWWti+YUIRd18IN4jqGFakRrD06o/7
+	/Nsw==
+X-Gm-Message-State: APjAAAUBefn5qDdPIoYhSw6sryATbUAIP/01zxUIpSsWp4mRz+YHzKxr
+	kTEzShnrqV476+mxnD2KttnUDR2txAmwI0giYbU=
+X-Google-Smtp-Source: APXvYqz4zECEPVd94JZtGHo4prj7xl5anK0REEDCUrrNnEj25akMbqYFJfaGa1PpsMJnpY18Abt6hKWsKEMaJ6VH2hE=
+X-Received: by 2002:a92:d5cf:: with SMTP id d15mr9077681ilq.306.1579496839361; 
+	Sun, 19 Jan 2020 21:07:19 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH 04/12] gstreamer1.0-plugins-good: Transition to meson based builds
+Received: by 2002:ac0:e345:0:0:0:0:0 with HTTP; Sun, 19 Jan 2020 21:07:18
+	-0800 (PST)
+In-Reply-To: <CAA=hcWT9A0rmV1B6-Jz0H2cOcn6Sp_eaRdAyF=8=v543+GudBw@mail.gmail.com>
+References: <CAA=hcWT9A0rmV1B6-Jz0H2cOcn6Sp_eaRdAyF=8=v543+GudBw@mail.gmail.com>
+From: JH <jupiter.hce@gmail.com>
+Date: Mon, 20 Jan 2020 16:07:18 +1100
+Message-ID: <CAA=hcWTiyJbOuLOW0qoQVwHHNZUR11ouS=94ihcZY8aKkXiZoA@mail.gmail.com>
+To: Yocto discussion list <yocto@yoctoproject.org>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: WiFi network failure after updating thud to zeus
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,30 +55,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 04:49:16 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <8FDE052C4BFFCC4D9485818FA7174108@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 20 Jan 2020 05:07:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-T24gU3VuLCAyMDIwLTAxLTEyIGF0IDE0OjU5ICswMTAwLCBDYXJsb3MgUmFmYWVsIEdpYW5pIHdy
-b3RlOg0KPiAgIyBxdDUgc3VwcG9ydCBpcyBkaXNhYmxlZCwgYmVjYXVzZSBpdCBpcyBub3QgcHJl
-c2VudCBpbiBPRSBjb3JlLCBhbmQNCj4gcmVxdWlyZXMgbW9yZSB3b3JrIHRoYW4NCj4gICMganVz
-dCBhZGRpbmcgYSBwYWNrYWdlY29uZmlnIChpdCByZXF1aXJlcyBhY2Nlc3MgdG8gbW9jLCB1aWMs
-IHJjYywNCj4gYW5kIHFtYWtlIHBhdGhzKS4NCj4gQEAgLTU4LDE5ICs1NiwxOCBAQCBQQUNLQUdF
-Q09ORklHW3psaWJdICAgICAgID0gIi0tZW5hYmxlLXpsaWIsDQo+IC0tZGlzYWJsZS16bGliLHps
-aWIiDQo+ICAjIGluIGEgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZCBiYmFwcGVuZCkuDQo+ICAN
-Cj4gIEVYVFJBX09FQ09ORiArPSAiIFwNCg0KVGhpcyBzaG91bGQgaGF2ZSBiZWVuIEVYVFJBX09F
-TUVTT04uDQoNCj4gLSAgICAtLWVuYWJsZS1vc3MgXA0KPiAtICAgIC0tZGlzYWJsZS1hYWxpYiBc
-DQo+IC0gICAgLS1kaXNhYmxlLWFhbGlidGVzdCBcDQo+IC0gICAgLS1kaXNhYmxlLWRpcmVjdHNv
-dW5kIFwNCj4gLSAgICAtLWRpc2FibGUtbGliY2FjYSBcDQo+IC0gICAgLS1kaXNhYmxlLWxpYmR2
-IFwNCj4gLSAgICAtLWRpc2FibGUtb3NzNCBcDQo+IC0gICAgLS1kaXNhYmxlLW9zeF9hdWRpbyBc
-DQo+IC0gICAgLS1kaXNhYmxlLW9zeF92aWRlbyBcDQo+IC0gICAgLS1kaXNhYmxlLXF0IFwNCj4g
-LSAgICAtLWRpc2FibGUtc2hvdXQyIFwNCj4gLSAgICAtLWRpc2FibGUtdHdvbGFtZSBcDQo+IC0g
-ICAgLS1kaXNhYmxlLXdhdmVmb3JtIFwNCj4gKyAgICAtRGFhbGliPWRpc2FibGVkIFwNCj4gKyAg
-ICAtRGRpcmVjdHNvdW5kPWRpc2FibGVkIFwNCj4gKyAgICAtRGR2PWRpc2FibGVkIFwNCj4gKyAg
-ICAtRGxpYmNhY2E9ZGlzYWJsZWQgXA0KPiArICAgIC1Eb3NzPWVuYWJsZWQgXA0KPiArICAgIC1E
-b3NzND1kaXNhYmxlZCBcDQo+ICsgICAgLURvc3hhdWRpbz1kaXNhYmxlZCBcDQo+ICsgICAgLURv
-c3h2aWRlbz1kaXNhYmxlZCBcDQo+ICsgICAgLURxdD1kaXNhYmxlZCBcDQoNCmFuZCB0aGlzIHNo
-b3VsZCBiZSBxdDU/DQoNClRoYW5rcywNCg0KQW51ag0K
+Hi,
+
+I sent following message several days ago, the problem is that connman
+sent DHCP request messages but no DHCP response received, something is
+got wrong in network, could anyone advise what have been changed in
+zeus?
+
+I saw another email of eth failure after updating from thud to zeus, I
+am not clear if it is the same problem of DHCP response or not, but
+seems something is going on in zeus, appreciate your kindly advice.
+
+Thank you.
+
+Kind regards,
+
+- jh
+
+On 1/16/20, JH <jupiter.hce@gmail.com> wrote:
+> Hi,
+>
+> I was using thud version to build image to run on imx6, it was working
+> perfectly except I was told a bug in connman version 3.15, I need to
+> build connman version 3.17. I could hot use thud to build connman
+> 3.17, so I upgraded Yocto to zeus.
+>
+> After installing new image built from zeus, now I have a very weird
+> WiFi network problem, it could not get IP address from WiFi router
+> DHCP initially, after a while, the WiFi got an IP address
+> 169.254.203.142 which is not my WiFi router subnet 192.168.0.x, it
+> could not connect to the Internet either.
+>
+> My first suspicion was the new updated connman version 3.17, but when
+> replaced connman 3.17 to connman 3.15 in an old version system which
+> image was built from thud, it was no problem at all. Apparently
+> something got wrong in the image built from zeus. Has anyone aware of
+> that issue?
+>
+> Thank you.
+>
+> Kind regards,
+>
+> - jh
+>
 
