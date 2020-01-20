@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7DFDE7FCB2
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id CA88E7FCAA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 17:25:27 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id d73so147671wmd.1
+	Mon, 20 Jan 2020 17:25:28 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id b19so128348wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 09:25:28 -0800 (PST)
+	Mon, 20 Jan 2020 09:25:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=O4pwZk/fzVg3dX0vCwwh3prnADG2OZy2bVaouwsCG1I=;
-	b=p6E9LH32VOV2EPHv+UbmUM94GQnJ71YsVjib3I4IzETTZoiYj+sD/wJls4h7A7TNNd
-	shZkZn6yNjZgduejEQcFt1/CV+/dY26ck3EJuLB1w2G/b8JbArwiSBik7S52rA7NGEk4
-	uaw58htsZd+QscRdrbFEBAWewM7KkTGw1Cpg94a04Qq0kikK8LIe07qIRhnT6xbE/Us+
-	iMgN3tmFasHnrsKxyuTFDvTN5XbmhHVnt93bvPEOpGmbN7Z6h8+jUfyN/ZIu8bV1TE6V
-	XaL05GU+VYV9uq3mmxpbHO4x6eCDOs+NDVoavKfyQyBNQOFTR+sv9CjI5+2aVSrRUH9Q
-	DVmQ==
+	bh=CKJ3uoR9UNatPeECJKxvyR8hFNaxjC+bCejTuBw68RM=;
+	b=ODs8TOTxaJMYekjSlXdtKTMHNaWKkckTXs9uWJtX7NXsIwaTLb/b1d1i3QsOhlhBRO
+	4gVwKoR+TdFQWm0/Ya5LGurdqveq83RvrrO3usvF8BB5U+DVJxiced+QaQgVfZ60xGsd
+	MTHLjSIvfmj+2fkOljUljyU6Rt8Mvj6yr2tqdiFsh8t+MywGXPHIHwIfp/Yi3GCY77py
+	fOMMnp4IH6R+o/sQPTRwyJwOHOHktA7QwPesZFlx+FtCD+y/Ep6soBM8NEyF8nTLMnvm
+	Plu8CO4THjQMTMZQQjcsEskxCN1LsQm3S4NKT8pqnBD3yohPba4j5eMVAUmMRN/T1Vki
+	HZeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=O4pwZk/fzVg3dX0vCwwh3prnADG2OZy2bVaouwsCG1I=;
-	b=P0zI0AUNdzKscLfx5WkKKfx/t56/XMLc1h1S19JebgypmgarN0X5wt6k0Z01V2UJ4C
-	5QEXLQUCPFcXLVkTS+JS34qyMh8EqIYBp1WAEBXzLpYS6d/c3ozHnx1SyHs4Saw2LDT4
-	zM8yd5UiENkaHOyKckTSbF2KdiUF8i9YegXd66RjtTjK1EqwessQnR6sWf437rUlQShX
-	7yHzbsQHYKhmLFKMdaqELnEIeXgnqxZbqC1taBeYm33tgMwMsPDFmpBdgBFr2cpxKv8v
-	YgDQwP0zKMNqi7+/8qSBp6lrSZn35JkUx9F5ZqTubIZxmCsW6FaJ7M2hM91UBFrtNCLG
-	qJkw==
-X-Gm-Message-State: APjAAAU2TQp4/WR1yKNAy+y2GAEqgzGlLDXaKfFdTnXN/uB5EpFXMZ3t
-	OK4GjdFUjfR15DJwEujRos7otXus
-X-Google-Smtp-Source: APXvYqw6zxY8SMTwB1dadnystvd/rJKaCugBFNfCB/9iSUAVwTGKjEPSjgbFZDV4geDYWpMWQ7zPtA==
-X-Received: by 2002:a1c:4004:: with SMTP id n4mr333044wma.153.1579541127750;
-	Mon, 20 Jan 2020 09:25:27 -0800 (PST)
+	bh=CKJ3uoR9UNatPeECJKxvyR8hFNaxjC+bCejTuBw68RM=;
+	b=AQwGEnFDtlnggwikI9wirTAW8EAN2ybPNo7lPDJrJC2GGMQOXzspe77wHRUfzv6ULp
+	pFbVRj5izxAfBpt6IOLyV9dGLCwsRo9oEUkxwKKXNa2jkKBqEkGBgzgDURFSnIw39+C+
+	KcMGwTvMg1Nz6L1rJnn0iShUTm+AS1ySHViD/ihrAoaELSxCSO0epFx+hlOWe+/KNgt0
+	+ZpoQ9CUZGgR0MyWVoBz+vH84sX7ZQOg2MqvbyG63gCEWfnOZPtOK/m1Oc7a7W8x3I4+
+	voPB1VhrER+ayo2Hv3sBmIw94KKmGJKZChfZZAFJn7H86cRzSVMoAIKVuwcGQf/AvDqz
+	KiFA==
+X-Gm-Message-State: APjAAAUPuJKQ3Fm2+EfFsFL6URtXd+nQfxd6LI3BOyzLAwHpyhq/n2Za
+	uKPbdNd8XwhX/DPwIesExFqgS9Dg
+X-Google-Smtp-Source: APXvYqwygKzm2eOM3SJ0HaziPNilDauYgYnq5KD8FeScFx8soOmE5xX5XialmcOU4fh+idr0wOJlog==
+X-Received: by 2002:a1c:a78c:: with SMTP id q134mr391284wme.98.1579541128992; 
+	Mon, 20 Jan 2020 09:25:28 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
-	by smtp.gmail.com with ESMTPSA id x11sm31526wmg.46.2020.01.20.09.25.26
+	by smtp.gmail.com with ESMTPSA id x11sm31526wmg.46.2020.01.20.09.25.27
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 20 Jan 2020 09:25:27 -0800 (PST)
+	Mon, 20 Jan 2020 09:25:28 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2020 18:24:52 +0100
-Message-Id: <20200120172510.22648-6-alex.kanavin@gmail.com>
+Date: Mon, 20 Jan 2020 18:24:53 +0100
+Message-Id: <20200120172510.22648-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200120172510.22648-1-alex.kanavin@gmail.com>
 References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-Subject: [PATCH 06/24] libcap: update to 2.31
+Subject: [PATCH 07/24] selftest: check maintainers.inc for entries without recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,110 +56,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 17:25:28 -0000
+X-List-Received-Date: Mon, 20 Jan 2020 17:25:29 -0000
+
+Also remove a couple of entries found by the test :)
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...-tests-do-not-statically-link-a-test.patch | 26 +++++++++++++++
- ...-tests-do-not-run-target-executables.patch | 33 +++++++++++++++++++
- .../libcap/{libcap_2.27.bb => libcap_2.31.bb} |  6 ++--
- 3 files changed, 63 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
- create mode 100644 meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
- rename meta/recipes-support/libcap/{libcap_2.27.bb => libcap_2.31.bb} (87%)
+ meta/conf/distro/include/maintainers.inc   |  6 ----
+ meta/lib/oeqa/selftest/cases/distrodata.py | 34 ++++++++++++++++++++--
+ 2 files changed, 32 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-new file mode 100644
-index 00000000000..e568cc47c5f
---- /dev/null
-+++ b/meta/recipes-support/libcap/files/0001-tests-do-not-statically-link-a-test.patch
-@@ -0,0 +1,26 @@
-+From 1179b423cce8d119b42cebfb3daa77c540fdca43 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Wed, 15 Jan 2020 17:16:28 +0100
-+Subject: [PATCH] tests: do not statically link a test
-+
-+This fails on e.g. centos 7
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ tests/Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tests/Makefile b/tests/Makefile
-+index 7162cf0..6af47af 100644
-+--- a/tests/Makefile
-++++ b/tests/Makefile
-+@@ -29,7 +29,7 @@ psx_test_wrap: psx_test.c $(DEPS)
-+ run_libcap_psx_test: libcap_psx_test
-+ 
-+ libcap_psx_test: libcap_psx_test.c $(DEPS)
-+-	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create --static
-++	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create
-+ 
-+ clean:
-+ 	rm -f psx_test psx_test_wrap libcap_psx_test
-diff --git a/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-new file mode 100644
-index 00000000000..26d108c209e
---- /dev/null
-+++ b/meta/recipes-support/libcap/files/0002-tests-do-not-run-target-executables.patch
-@@ -0,0 +1,33 @@
-+From 6309554225e05e76167eda4e0df383fb3d1a62c3 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 20 Dec 2019 16:54:05 +0100
-+Subject: [PATCH] tests: do not run target executables
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
-+---
-+ tests/Makefile | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/tests/Makefile b/tests/Makefile
-+index 95e4ca6..7162cf0 100644
-+--- a/tests/Makefile
-++++ b/tests/Makefile
-+@@ -19,8 +19,6 @@ sudotest: test
-+ install: all
-+ 
-+ run_psx_test: psx_test psx_test_wrap
-+-	./psx_test
-+-	./psx_test_wrap
-+ 
-+ psx_test: psx_test.c $(DEPS)
-+ 	$(CC) $(CFLAGS) $(IPATH) -DNOWRAP $< -o $@ $(LIBPSXLIB)
-+@@ -29,7 +27,6 @@ psx_test_wrap: psx_test.c $(DEPS)
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBPSXLIB) -Wl,-wrap,pthread_create
-+ 
-+ run_libcap_psx_test: libcap_psx_test
-+-	./libcap_psx_test
-+ 
-+ libcap_psx_test: libcap_psx_test.c $(DEPS)
-+ 	$(CC) $(CFLAGS) $(IPATH) $< -o $@ $(LIBCAPLIB) $(LIBPSXLIB) -Wl,-wrap,pthread_create --static
-diff --git a/meta/recipes-support/libcap/libcap_2.27.bb b/meta/recipes-support/libcap/libcap_2.31.bb
-similarity index 87%
-rename from meta/recipes-support/libcap/libcap_2.27.bb
-rename to meta/recipes-support/libcap/libcap_2.31.bb
-index 3f64ff76364..97959c1025b 100644
---- a/meta/recipes-support/libcap/libcap_2.27.bb
-+++ b/meta/recipes-support/libcap/libcap_2.31.bb
-@@ -9,9 +9,11 @@ DEPENDS = "hostperl-runtime-native gperf-native"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index ffb6da7dae9..01afc25b939 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -183,7 +183,6 @@ RECIPE_MAINTAINER_pn-flex = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-font-alias = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-font-util = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-fontconfig = "Ross Burton <ross.burton@intel.com>"
+-RECIPE_MAINTAINER_pn-foomatic-filters = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-formfactor = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-freetype = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-fribidi = "Ross Burton <ross.burton@intel.com>"
+@@ -551,7 +550,6 @@ RECIPE_MAINTAINER_pn-pciutils = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-pcmanfm = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-perf = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER_pn-perl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+-RECIPE_MAINTAINER_pn-perl-native = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-piglit = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-pigz = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-pinentry = "Armin Kuster <akuster808@gmail.com>"
+@@ -574,9 +572,6 @@ RECIPE_MAINTAINER_pn-ptest-runner = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-pulseaudio = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-pulseaudio-client-conf-sato = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-puzzles = "Anuj Mittal <anuj.mittal@intel.com>"
+-RECIPE_MAINTAINER_pn-python = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+-RECIPE_MAINTAINER_pn-python-native = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+-RECIPE_MAINTAINER_pn-python-setuptools = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3 = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-async = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-dbus = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+@@ -586,7 +581,6 @@ RECIPE_MAINTAINER_pn-python3-git = "Oleksandr Kravchuk <open.source@oleksandr-kr
+ RECIPE_MAINTAINER_pn-python3-gitdb = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-iniparse = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-mako = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+-RECIPE_MAINTAINER_pn-python3-native = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-nose = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-numpy = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-python3-pbr = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+diff --git a/meta/lib/oeqa/selftest/cases/distrodata.py b/meta/lib/oeqa/selftest/cases/distrodata.py
+index 68ba556485e..5f7f488349a 100644
+--- a/meta/lib/oeqa/selftest/cases/distrodata.py
++++ b/meta/lib/oeqa/selftest/cases/distrodata.py
+@@ -42,8 +42,9 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
-+           file://0002-tests-do-not-run-target-executables.patch \
-+           file://0001-tests-do-not-statically-link-a-test.patch \
-            "
--SRC_URI[md5sum] = "2e8f9fab32eb5ccb37969fe317fd17aa"
--SRC_URI[sha256sum] = "dac1792d0118bee6aae6ba7fb93ff1602c6a9bda812fd63916eee1435b9c486a"
-+SRC_URI[md5sum] = "52120c05dc797b01f5a7ae70f4335e96"
-+SRC_URI[sha256sum] = "c6088de41e1c97fa8047e2e7de0e4ee0cd13e6cc16538022230ae76727a87c46"
+     def test_maintainers(self):
+         """
+-        Summary:     Test that oe-core recipes have a maintainer
++        Summary:     Test that oe-core recipes have a maintainer and entries in maintainers list have a recipe
+         Expected:    All oe-core recipes (except a few special static/testing ones) should have a maintainer listed in maintainers.inc file.
++        Expected:    All entries in maintainers list should have a recipe file that matches them
+         Product:     oe-core
+         Author:      Alexander Kanavin <alex.kanavin@gmail.com>
+         """
+@@ -54,7 +55,16 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
+                      return True
+             return False
  
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
+-        feature = 'require conf/distro/include/maintainers.inc\n'
++        def is_maintainer_exception(entry):
++            exceptions = ["systemd", "musl", "libpam", "newlib", "linux-yocto", "opensbi", "linux-dummy",
++                          "mesa-gl", "libgfortran", "volatile-binds", "libgloss", "bsd-headers",
++                          "cve-update-db-native", "libssp-nonshared", "argp-standalone", "fts"]
++            for i in exceptions:
++                 if i in entry:
++                     return True
++            return False
++
++        feature = 'require conf/distro/include/maintainers.inc\nLICENSE_FLAGS_WHITELIST += " commercial"\n'
+         self.write_config(feature)
  
+         with bb.tinfoil.Tinfoil() as tinfoil:
+@@ -62,6 +72,11 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
+ 
+             with_maintainer_list = []
+             no_maintainer_list = []
++
++            missing_recipes = []
++            recipes = []
++            prefix = "RECIPE_MAINTAINER_pn-"
++
+             # We could have used all_recipes() here, but this method will find
+             # every recipe if we ever move to setting RECIPE_MAINTAINER in recipe files
+             # instead of maintainers.inc
+@@ -71,6 +86,7 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
+                     continue
+                 rd = tinfoil.parse_recipe_file(fn, appends=False)
+                 pn = rd.getVar('PN')
++                recipes.append(pn)
+                 if is_exception(pn):
+                     continue
+                 if rd.getVar('RECIPE_MAINTAINER'):
+@@ -78,6 +94,15 @@ but their recipes claim otherwise by setting UPSTREAM_VERSION_UNKNOWN. Please re
+                 else:
+                     no_maintainer_list.append((pn, fn))
+ 
++            maintainers = tinfoil.config_data.keys()
++            for key in maintainers:
++                 if key.startswith(prefix):
++                     recipe = tinfoil.config_data.expand(key[len(prefix):])
++                     if is_maintainer_exception(recipe):
++                         continue
++                     if recipe not in recipes:
++                         missing_recipes.append(recipe)
++
+         if no_maintainer_list:
+             self.fail("""
+ The following recipes do not have a maintainer assigned to them. Please add an entry to meta/conf/distro/include/maintainers.inc file.
+@@ -87,3 +112,8 @@ The following recipes do not have a maintainer assigned to them. Please add an e
+             self.fail("""
+ The list of oe-core recipes with maintainers is empty. This may indicate that the test has regressed and needs fixing.
+ """)
++
++        if missing_recipes:
++                self.fail("""
++Unable to find recipes for the following entries in maintainers.inc:
++""" + "\n".join(['%s' % i for i in missing_recipes]))
 -- 
 2.17.1
 
