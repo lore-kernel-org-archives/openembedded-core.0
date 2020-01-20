@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 83B627FB36;
-	Mon, 20 Jan 2020 13:32:21 +0000 (UTC)
+Return-Path: <ross.burton@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 728AF7FB36
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jan 2020 13:41:43 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jan 2020 05:41:44 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,342,1574150400"; d="scan'208";a="221442802"
+Received: from grossi-mobl.ger.corp.intel.com (HELO rburton-mac01.local)
+	([10.252.38.20])
+	by fmsmga008.fm.intel.com with ESMTP; 20 Jan 2020 05:41:43 -0800
+To: openembedded-core@lists.openembedded.org
+References: <20200120130151.92546-1-martin@geanix.com>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <fd674606-4855-739c-1e8f-2b1aff68c704@intel.com>
+Date: Mon, 20 Jan 2020 13:41:43 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.4.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Trevor Gamblin <trevor.gamblin@windriver.com>
-Date: Mon, 20 Jan 2020 13:32:23 -0000
-Message-ID: <20200120133223.2274.6154@do>
-References: <20200120132743.2178420-1-trevor.gamblin@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200120132743.2178420-1-trevor.gamblin@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYml0YmFrZXJ5OiBhdXRvbWF0ZSBidWlsZCB0ZXN0aW5nIGFjcm9zcyBhbGwgTUFDSElORXMvTElCQ3M=?=
+In-Reply-To: <20200120130151.92546-1-martin@geanix.com>
+Subject: Re: [PATCH] package: disable libseccomp for find
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +37,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 13:32:21 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jan 2020 13:41:43 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 
-== Series Details ==
+On 20/01/2020 13:01, Martin Hundebøll wrote:
+> -    result = subprocess.check_output(["file", "-b", path], stderr=subprocess.STDOUT).decode("utf-8")
+> +    result = subprocess.check_output(["file", "-S", "-b", path], stderr=subprocess.STDOUT).decode("utf-8")
 
-Series: bitbakery: automate build testing across all MACHINEs/LIBCs
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/22159/
-State : failure
+$ file -S /usr/bin/file
+Usage: file [-bcCdEhikLlNnprsvzZ0] [--apple] [--extension] [--mime-encoding]
+             [--mime-type] [-e <testname>] [-F <separator>]  [-f <namefile>]
+             [-m <magicfiles>] [-P <parameter=value>] <file> ...
+        file -C [-m <magicfiles>]
+        file [--help]
 
-== Summary ==
+Only the latest release of file supports -S.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            bitbakery: automate build testing across all MACHINEs/LIBCs
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Ross
 
