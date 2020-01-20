@@ -1,35 +1,38 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 525457FBEF
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D8107D2E5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 03:27:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00K3QM8s004970
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Sun, 19 Jan 2020 19:26:38 -0800
-Received: from [128.224.162.144] (128.224.162.144) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Sun, 19 Jan 2020 19:26:18 -0800
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
-References: <1579405812-336202-1-git-send-email-mingli.yu@windriver.com>
-	<20200119053240.2276.68036@do> <5E23EC1D.2080407@windriver.com>
-	<2583767.pvHsQr8YWX@shodan> <5E250399.1000807@windriver.com>
-	<54d24332531b41c2a29671f2181f9458@XBOX03.axis.com>
-	<5E2518BC.7090306@windriver.com>
-	<f8005a9c8aae479db77809bb1132e04c@XBOX03.axis.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5E251E3F.5070703@windriver.com>
-Date: Mon, 20 Jan 2020 11:27:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Mon, 20 Jan 2020 04:49:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Jan 2020 20:49:17 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,340,1574150400"; d="scan'208";a="374223196"
+Received: from pgsmsx104.gar.corp.intel.com ([10.221.44.91])
+	by orsmga004.jf.intel.com with ESMTP; 19 Jan 2020 20:49:16 -0800
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.131]) by
+	PGSMSX104.gar.corp.intel.com ([169.254.3.14]) with mapi id
+	14.03.0439.000; Mon, 20 Jan 2020 12:49:15 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "crg7475@mailbox.org"
+	<crg7475@mailbox.org>
+Thread-Topic: [OE-core] [PATCH 04/12] gstreamer1.0-plugins-good: Transition
+	to meson based builds
+Thread-Index: AQHVz0z3vdzeFSL2VkesitnrKCgRFg==
+Date: Mon, 20 Jan 2020 04:49:14 +0000
+Message-ID: <e860f308a14e924c1fa718f31de68165f1b81a11.camel@intel.com>
+References: <20200112135954.23868-1-crg7475@mailbox.org>
+	<20200112135954.23868-4-crg7475@mailbox.org>
+In-Reply-To: <20200112135954.23868-4-crg7475@mailbox.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.21.115]
 MIME-Version: 1.0
-In-Reply-To: <f8005a9c8aae479db77809bb1132e04c@XBOX03.axis.com>
-X-Originating-IP: [128.224.162.144]
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIE9wZW4gZmlsZSB3aXRoIE9fQ0xPRVhFQyB0byBhdm9pZCBmZCBsZWFrIChyZXYzKQ==?=
+Subject: Re: [PATCH 04/12] gstreamer1.0-plugins-good: Transition to meson based builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,106 +45,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 03:27:42 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 Jan 2020 04:49:16 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <8FDE052C4BFFCC4D9485818FA7174108@intel.com>
+Content-Transfer-Encoding: base64
 
-
-
-On 01/20/20 11:15, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: Yu, Mingli <mingli.yu@windriver.com>
->> Sent: den 20 januari 2020 04:04
->> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; Paul Eggleton
->> <paul.eggleton@linux.intel.com>
->> Cc: openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] ✗ patchtest: failure for Open file with O_CLOEXEC
->> to avoid fd leak (rev3)
->>
->> On 01/20/20 10:28, Peter Kjellerstedt wrote:
->>>> -----Original Message-----
->>>> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-
->>>> bounces@lists.openembedded.org> On Behalf Of Yu, Mingli
->>>> Sent: den 20 januari 2020 02:34
->>>> To: Paul Eggleton <paul.eggleton@linux.intel.com>
->>>> Cc: openembedded-core@lists.openembedded.org
->>>> Subject: Re: [OE-core] ✗ patchtest: failure for Open file with
->> O_CLOEXEC
->>>> to avoid fd leak (rev3)
->>>>
->>>> On 01/20/20 09:29, Paul Eggleton wrote:
->>>>> Hi Mingli
->>>>>
->>>>> On Sunday, 19 January 2020 6:41:49 PM NZDT Yu, Mingli wrote:
->>>>>> On 01/19/20 13:32, Patchwork wrote:
->>>>>>> == Series Details ==
->>>>>>>
->>>>>>> Series: Open file with O_CLOEXEC to avoid fd leak (rev3)
->>>>>>> Revision: 3
->>>>>>> URL   : https://patchwork.openembedded.org/series/22123/
->>>>>>> State : failure
->>>>>>>
->>>>>>> == Summary ==
->>>>>>>
->>>>>>>
->>>>>>> Thank you for submitting this patch series to OpenEmbedded Core.
->> This
->>>> is
->>>>>>> an automated response. Several tests have been executed on the
->>>> proposed
->>>>>>> series by patchtest resulting in the following failures:
->>>>>>>
->>>>>>>
->>>>>>>
->>>>>>> * Issue             Series does not apply on top of target branch
->>>> [test_series_merge_on_head]
->>>>>>>       Suggested fix    Rebase your series on top of targeted branch
->>>>>>>       Targeted branch  master (currently at 9d7a521971)
->>>>>>
->>>>>> Have already rebased on the master branch of
->>>>>> http://git.yoctoproject.org/cgit/cgit.cgi/pseudo/, why still issue
->> out
->>>>>> the above issue? Any hint?
->>>>>
->>>>> It's assuming that patches sent to this list are for OE-Core (which
->> they
->>>>> generally are). I wasn't aware but apparently the documented place to
->>>>> send pseudo patches is this list, so I think in this case you can just
->>>>> ignore patchtest.
->>>>
->>>> Okay, many thanks Paul for your hint!
->>>>
->>>> Thanks,
->>>>
->>>>>
->>>>> Cheers,
->>>>> Paul
->>>
->>> But it is probably a good idea to include a "[pseudo]" tag in the
->> subject
->>> when sending patches related to pseudo to this list, as the expectation
->>> otherwise is that they are for OE-Core.
->>
->> Thanks Peter! And already add the "pseudo_util.c" tag in the subject in
->> the v3, please check the mail with the subject "[OE-core] [PATCH v3]
->> pseudo_util.c: Open file with O_CLOEXEC to avoid fd leak".
->
-> That is not the same. The "pseudo_util.c:" is part of the commit subject
-> and will end up in the Git repository. A "[pseudo]" tag is for anyone
-> seeing the mail (possibly including patchwork and patchtest), letting
-> them know that this commit is about pseudo, not OE-Core (similar to the
-> "[PATCH v3]" tag, which is also information about the commit).
-
-Got it! V4 is incoming.
-
-Thanks,
-
->
->> Thanks,
->>
->>> //Peter
->
-> //Peter
->
+T24gU3VuLCAyMDIwLTAxLTEyIGF0IDE0OjU5ICswMTAwLCBDYXJsb3MgUmFmYWVsIEdpYW5pIHdy
+b3RlOg0KPiAgIyBxdDUgc3VwcG9ydCBpcyBkaXNhYmxlZCwgYmVjYXVzZSBpdCBpcyBub3QgcHJl
+c2VudCBpbiBPRSBjb3JlLCBhbmQNCj4gcmVxdWlyZXMgbW9yZSB3b3JrIHRoYW4NCj4gICMganVz
+dCBhZGRpbmcgYSBwYWNrYWdlY29uZmlnIChpdCByZXF1aXJlcyBhY2Nlc3MgdG8gbW9jLCB1aWMs
+IHJjYywNCj4gYW5kIHFtYWtlIHBhdGhzKS4NCj4gQEAgLTU4LDE5ICs1NiwxOCBAQCBQQUNLQUdF
+Q09ORklHW3psaWJdICAgICAgID0gIi0tZW5hYmxlLXpsaWIsDQo+IC0tZGlzYWJsZS16bGliLHps
+aWIiDQo+ICAjIGluIGEgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZCBiYmFwcGVuZCkuDQo+ICAN
+Cj4gIEVYVFJBX09FQ09ORiArPSAiIFwNCg0KVGhpcyBzaG91bGQgaGF2ZSBiZWVuIEVYVFJBX09F
+TUVTT04uDQoNCj4gLSAgICAtLWVuYWJsZS1vc3MgXA0KPiAtICAgIC0tZGlzYWJsZS1hYWxpYiBc
+DQo+IC0gICAgLS1kaXNhYmxlLWFhbGlidGVzdCBcDQo+IC0gICAgLS1kaXNhYmxlLWRpcmVjdHNv
+dW5kIFwNCj4gLSAgICAtLWRpc2FibGUtbGliY2FjYSBcDQo+IC0gICAgLS1kaXNhYmxlLWxpYmR2
+IFwNCj4gLSAgICAtLWRpc2FibGUtb3NzNCBcDQo+IC0gICAgLS1kaXNhYmxlLW9zeF9hdWRpbyBc
+DQo+IC0gICAgLS1kaXNhYmxlLW9zeF92aWRlbyBcDQo+IC0gICAgLS1kaXNhYmxlLXF0IFwNCj4g
+LSAgICAtLWRpc2FibGUtc2hvdXQyIFwNCj4gLSAgICAtLWRpc2FibGUtdHdvbGFtZSBcDQo+IC0g
+ICAgLS1kaXNhYmxlLXdhdmVmb3JtIFwNCj4gKyAgICAtRGFhbGliPWRpc2FibGVkIFwNCj4gKyAg
+ICAtRGRpcmVjdHNvdW5kPWRpc2FibGVkIFwNCj4gKyAgICAtRGR2PWRpc2FibGVkIFwNCj4gKyAg
+ICAtRGxpYmNhY2E9ZGlzYWJsZWQgXA0KPiArICAgIC1Eb3NzPWVuYWJsZWQgXA0KPiArICAgIC1E
+b3NzND1kaXNhYmxlZCBcDQo+ICsgICAgLURvc3hhdWRpbz1kaXNhYmxlZCBcDQo+ICsgICAgLURv
+c3h2aWRlbz1kaXNhYmxlZCBcDQo+ICsgICAgLURxdD1kaXNhYmxlZCBcDQoNCmFuZCB0aGlzIHNo
+b3VsZCBiZSBxdDU/DQoNClRoYW5rcywNCg0KQW51ag0K
 
