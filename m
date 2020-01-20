@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2F1817FA44;
-	Mon, 20 Jan 2020 12:02:06 +0000 (UTC)
+Return-Path: <quentin.schulz@streamunlimited.com>
+Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
+	by mail.openembedded.org (Postfix) with ESMTP id 90FB67E31D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jan 2020 12:32:47 +0000 (UTC)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp2.bon.at (Postfix) with ESMTPSA id 481WKC6ZdPz5tlG;
+	Mon, 20 Jan 2020 13:32:47 +0100 (CET)
+Date: Mon, 20 Jan 2020 13:32:46 +0100
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+To: Stefan Agner <stefan@agner.ch>
+Message-ID: <20200120123246.o5abx73ehcoqbbim@qschulz>
+References: <20180514144415.40730-1-stefan@agner.ch>
+	<20200113145729.amwegnpvnp2kb3ut@qschulz>
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Ross Burton <ross.burton@intel.com>
-Date: Mon, 20 Jan 2020 12:02:07 -0000
-Message-ID: <20200120120207.2274.27622@do>
-References: <20200120115132.3618-1-ross.burton@intel.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20200120115132.3618-1-ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uOiBhZGQgMi43LjE3IGZyb20gb2UtY29yZQ==?=
+In-Reply-To: <20200113145729.amwegnpvnp2kb3ut@qschulz>
+User-Agent: NeoMutt/20180716
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: busybox: udhcpc: fix IPv6 support when using udhcpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,51 +30,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 12:02:06 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 Jan 2020 12:32:48 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-== Series Details ==
+Hi all,
 
-Series: python: add 2.7.17 from oe-core
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/22155/
-State : failure
+On Mon, Jan 13, 2020 at 03:57:31PM +0100, Quentin Schulz wrote:
+> Hi all,
+> 
+> On Mon, May 14, 2018 at 04:44:15PM +0200, Stefan Agner wrote:
+> > From: Stefan Agner <stefan.agner@toradex.com>
+> > 
+> > The udhcpc script calls ip addr flush .. which flushes addresses
+> > of any address family, including IPv6. However, busybox udhcpc is
+> > IPv4 only and should not influence IPv6 addressing. Hence use ip
+> > addr flush with family constrait.
+> > 
+> > The script particularly broke IPv6 SLAAC: Typically when udhcpc
+> > calls the script the kernel already assigned the IPv6 link-local
+> > address. The flush removes the link-local IPv6 address again and
+> > prohibits proper IPv6 operation such as SLAAC since neighbor
+> > discovery protocol relies on IPv6 link-local addressing.
+> > 
+> > Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
+> > ---
+> >  meta/recipes-core/busybox/files/simple.script | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-core/busybox/files/simple.script b/meta/recipes-core/busybox/files/simple.script
+> > index 6ed0293525..8b5eb53633 100644
+> > --- a/meta/recipes-core/busybox/files/simple.script
+> > +++ b/meta/recipes-core/busybox/files/simple.script
+> > @@ -28,7 +28,7 @@ case "$1" in
+> >  		fi
+> >  		if ! root_is_nfs ; then
+> >                          if [ $have_bin_ip -eq 1 ]; then
+> > -                                /SBIN_DIR/ip addr flush dev $interface
+> > +                                /SBIN_DIR/ip -4 addr flush dev $interface
+> >                                  /SBIN_DIR/ip link set dev $interface up
+> >                          else
+> >                                  /SBIN_DIR/ifconfig $interface 0.0.0.0
+> 
+> Kindly pinging, happened to us as well many times.
+> 
 
-== Summary ==
+Kindly pinging.
 
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (recipes-devtools/python/python-native/10-distutils-fix-swig-parameter.patch)
-
-* Issue             Upstream-Status is Inappropriate, but no reason was provided [test_upstream_status_presence_format] 
-  Suggested fix    Include a brief reason why 0001-python-Resolve-intermediate-staging-issues.patch is inappropriate
-  Current          Upstream-Status: Inappropriate
-  Standard format  Upstream-Status: Inappropriate [reason]
-
-* Issue             Errors in your Python code were encountered [test_pylint] 
-  Suggested fix    Correct the lines introduced by your patch
-  Output           Please, fix the listed issues:
-                   recipes-devtools/python/python/create_manifest2.py does not exist
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-
+Quentin
 
