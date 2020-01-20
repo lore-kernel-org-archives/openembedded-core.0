@@ -1,38 +1,38 @@
 Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
 Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
 	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 92F0D7FC0B
+	by mail.openembedded.org (Postfix) with ESMTP id 435957FC03
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 Jan 2020 10:27:34 +0000 (UTC)
+	Mon, 20 Jan 2020 10:27:38 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id C6E839C01B6;
-	Mon, 20 Jan 2020 05:27:35 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 7DE9D9C01C9;
+	Mon, 20 Jan 2020 05:27:39 -0500 (EST)
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10032)
-	with ESMTP id acZ99zVG-q2o; Mon, 20 Jan 2020 05:27:31 -0500 (EST)
+	with ESMTP id bEMCImwgVT2t; Mon, 20 Jan 2020 05:27:36 -0500 (EST)
 Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 563029C01B9;
-	Mon, 20 Jan 2020 05:27:31 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id 8349A9C01B9;
+	Mon, 20 Jan 2020 05:27:36 -0500 (EST)
 X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
 Received: from mail.savoirfairelinux.com ([127.0.0.1])
 	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
 	port 10026)
-	with ESMTP id ul_ain2SE65n; Mon, 20 Jan 2020 05:27:31 -0500 (EST)
+	with ESMTP id SOMY9NoF_nxw; Mon, 20 Jan 2020 05:27:36 -0500 (EST)
 Received: from sulaco.example.com (40.73.12.109.rev.sfr.net [109.12.73.40])
-	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id A9BEF9C01C2;
-	Mon, 20 Jan 2020 05:27:29 -0500 (EST)
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id D3BFC9C01C9;
+	Mon, 20 Jan 2020 05:27:34 -0500 (EST)
 From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 Jan 2020 11:27:02 +0100
-Message-Id: <20200120102705.20916-11-jean-marie.lemetayer@savoirfairelinux.com>
+Date: Mon, 20 Jan 2020 11:27:05 +0100
+Message-Id: <20200120102705.20916-14-jean-marie.lemetayer@savoirfairelinux.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200120102705.20916-1-jean-marie.lemetayer@savoirfairelinux.com>
 References: <20200120102705.20916-1-jean-marie.lemetayer@savoirfairelinux.com>
 MIME-Version: 1.0
 Cc: jonaskgandersson@gmail.com, paul.eggleton@linux.intel.com, bunk@stusta.de,
 	cdelston0@gmail.com, rennes-dev@savoirfairelinux.com
-Subject: [PATCH v5 10/13] devtool/standard: npm: update the append file
+Subject: [PATCH v5 13/13] oeqa/selftest/devtool: add npm recipe build test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,54 +45,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 Jan 2020 10:27:34 -0000
+X-List-Received-Date: Mon, 20 Jan 2020 10:27:38 -0000
 Content-Transfer-Encoding: quoted-printable
 
-When creating a recipe using devtool, a workspace is created to store
-the new recipe, the recipe source and some append files. These append
-files are used by devtool to build the recipe using externalsrc (to use
-the source which are in the workspace). They can also have some
-additional actions according to the class of the recipe.
+This commit adds a devtool build test for npm recipe:
 
-This commit updates the append file for the npm recipes. The
-devtool / externalsrc files are removed in the npm package directory
-instead of the install directory.
+ - devtool.DevtoolAddTests.test_devtool_add_npm
 
 Signed-off-by: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinu=
 x.com>
 ---
- scripts/lib/devtool/standard.py | 12 ++++--------
- 1 file changed, 4 insertions(+), 8 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standa=
-rd.py
-index f33018de3f..52efeae938 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -260,14 +260,10 @@ def add(args, config, basepath, workspace):
-                 f.write('}\n')
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/self=
+test/cases/devtool.py
+index 57e6662e4a..e2f91bcb6c 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -511,6 +511,26 @@ class DevtoolAddTests(DevtoolBase):
+         checkvars['SRC_URI'] =3D url.replace(testver, '${PV}')
+         self._test_recipe_contents(recipefile, checkvars, [])
 =20
-             if bb.data.inherits_class('npm', rd):
--                f.write('do_install_append() {\n')
--                f.write('    # Remove files added to source dir by devto=
-ol/externalsrc\n')
--                f.write('    rm -f ${NPM_INSTALLDIR}/singletask.lock\n')
--                f.write('    rm -rf ${NPM_INSTALLDIR}/.git\n')
--                f.write('    rm -rf ${NPM_INSTALLDIR}/oe-local-files\n')
--                f.write('    for symlink in ${EXTERNALSRC_SYMLINKS} ; do=
-\n')
--                f.write('        rm -f ${NPM_INSTALLDIR}/${symlink%%:*}\=
-n')
--                f.write('    done\n')
-+                f.write('python do_configure_append() {\n')
-+                f.write('    pkgdir =3D d.getVar("NPM_PACKAGE")\n')
-+                f.write('    lockfile =3D os.path.join(pkgdir, "singleta=
-sk.lock")\n')
-+                f.write('    bb.utils.remove(lockfile)\n')
-                 f.write('}\n')
++    def test_devtool_add_npm(self):
++        pn =3D 'savoirfairelinux-node-server-example'
++        pv =3D '1.0.0'
++        url =3D 'npm://registry.npmjs.org;package=3D@savoirfairelinux/no=
+de-server-example;version=3D' + pv
++        # Test devtool add
++        self.track_for_cleanup(self.workspacedir)
++        self.add_command_to_tearDown('bitbake -c cleansstate %s' % pn)
++        self.add_command_to_tearDown('bitbake-layers remove-layer */work=
+space')
++        result =3D runCmd('devtool add \'%s\'' % url)
++        self.assertExists(os.path.join(self.workspacedir, 'conf', 'layer=
+.conf'), 'Workspace directory not created')
++        self.assertExists(os.path.join(self.workspacedir, 'recipes', pn,=
+ '%s_%s.bb' % (pn, pv)), 'Recipe not created')
++        self.assertExists(os.path.join(self.workspacedir, 'recipes', pn,=
+ pn, 'npm-shrinkwrap.json'), 'Shrinkwrap not created')
++        # Test devtool status
++        result =3D runCmd('devtool status')
++        self.assertIn(pn, result.output)
++        # Clean up anything in the workdir/sysroot/sstate cache (have to=
+ do this *after* devtool add since the recipe only exists then)
++        bitbake('%s -c cleansstate' % pn)
++        # Test devtool build
++        result =3D runCmd('devtool build %s' % pn)
++
+ class DevtoolModifyTests(DevtoolBase):
 =20
-         # Check if the new layer provides recipes whose priorities have =
-been
+     def test_devtool_modify(self):
 --=20
 2.20.1
 
