@@ -1,88 +1,23 @@
-Return-Path: <danc@opengear.com>
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
-	(mail-dm6nam11on2078.outbound.protection.outlook.com [40.107.223.78])
-	by mail.openembedded.org (Postfix) with ESMTP id 1AA017FC4E
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id DA0267FD54
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 01:24:24 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=couJzOdBIMjMFgomWXHCDKX2ngeA2lpsGYtF6TVukxsiInIZUO9byTXZvjR2CrXRWJFiPmEipc9F8z9vl3g0UZ/muxTGjH7L/zTY9GLFaftqlSmd8ch+fUsrqKPUcy1YgwB82y5rDm4QpGOQnPdVMC5E+fWKswpIOJLSeELOjHMbUB7J/PuXwQ9s1Wya+fvedd2bej3YDOxRHw4SX4fbTwdrPWjpTLvw76KZwfIbfSTfTNyO8vbVswgATNCA8chuBeZTN3eDh+y/xbgz0+SXMfz/ddSFxhUToZNmIEVVND4d7yJVPrFmu9juc+t6jKxWmVJcGr/tUQMQhfme1QeT2A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=jElTHFi8AXWJwXLJwagkXW3KxOXaSnsKWYfJG3okdks=;
-	b=FcaNzbT2tMQWl6z9d1aYjku2qhM5Jqy9jVehxuTzTgXRakq/Kpt0WhYfEVBTk5QPJ7o43m2OKKS0zWv4Ff3U6mpAOr2hLu9F8tCMsKarg0lAFOPNpbDkUDEt8PBMEm/aN8qP/PiwvSq7qiEyaIhFuF6ROBgarC+1/8O14zTehjTsh5rbnRnSKBahvtZ6KjJrrCnRI8xtQpWzOOgImJQ2REkpPcYNz5krZuDmlMHA8nk7jS4hbSEeREgoqztlZDhHGx2vWS6vJU/HnmtlCKnec64PLtqfdOsA49da0jnB9c+iEoN5PeRMW9/LThvqR4SeoOmiBT0w3CSLFfnc71rXdw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
-	60.241.24.90) smtp.rcpttodomain=lists.openembedded.org
-	smtp.mailfrom=opengear.com;
-	dmarc=pass (p=none sp=none pct=100) action=none
-	header.from=opengear.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=jElTHFi8AXWJwXLJwagkXW3KxOXaSnsKWYfJG3okdks=;
-	b=A3Jq8D/KT3f504FyOQWJ0TFpjgo7Bgvt9bVKCsxxbjCP6ECZDs1NyJvydRvOJ4H9OdxfkEevLeW7oVUYxfr8jJaXhk4zN36LEtg2gfO6Z3bkjaM4PJaRx7hLUxorHujroB7x3v12o+AP1jAGkNA35WEVtEmSVpJ5bRI9tK9H3/s=
-Received: from MN2PR15CA0060.namprd15.prod.outlook.com (2603:10b6:208:237::29)
-	by BN6PR15MB1441.namprd15.prod.outlook.com (2603:10b6:404:c4::21)
-	with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.20;
-	Tue, 21 Jan 2020 01:24:23 +0000
-Received: from BN3NAM04FT033.eop-NAM04.prod.protection.outlook.com
-	(2a01:111:f400:7e4e::207) by MN2PR15CA0060.outlook.office365.com
-	(2603:10b6:208:237::29) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.18 via
-	Frontend Transport; Tue, 21 Jan 2020 01:24:23 +0000
-Authentication-Results: spf=pass (sender IP is 60.241.24.90)
-	smtp.mailfrom=opengear.com; lists.openembedded.org;
-	dkim=none (message not
-	signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
-	header.from=opengear.com;
-Received-SPF: Pass (protection.outlook.com: domain of opengear.com designates
-	60.241.24.90 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=60.241.24.90; helo=postman.bne.opengear.com;
-Received: from postman.bne.opengear.com (60.241.24.90) by
-	BN3NAM04FT033.mail.protection.outlook.com (10.152.92.165) with
-	Microsoft SMTP Server id 15.20.2644.19 via Frontend Transport;
-	Tue, 21 Jan 2020 01:24:21 +0000
-Received: from galangal.danc.bne.opengear.com (danc.bne.opengear.com
-	[192.168.254.90])
-	by postman.bne.opengear.com (Postfix) with ESMTPS id 969F7DEBA6;
-	Tue, 21 Jan 2020 11:24:20 +1000 (AEST)
-Received: by galangal.danc.bne.opengear.com (Postfix, from userid 1090)
-	id 843F842945E4; Tue, 21 Jan 2020 11:24:20 +1000 (AEST)
-From: Dan Callaghan <dan.callaghan@opengear.com>
+	Tue, 21 Jan 2020 05:26:47 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 Jan 2020 21:26:48 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,344,1574150400"; d="scan'208";a="374488821"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga004.jf.intel.com with ESMTP; 20 Jan 2020 21:26:48 -0800
+From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2020 11:24:12 +1000
-Message-Id: <20200121012412.6495-1-dan.callaghan@opengear.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20200120234818.13068-1-dan.callaghan@opengear.com>
-References: <20200120234818.13068-1-dan.callaghan@opengear.com>
-MIME-Version: 1.0
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:60.241.24.90; IPV:; CTRY:AU; EFV:NLI; SFV:NSPM;
-	SFS:(10001)(10009020)(4636009)(136003)(346002)(396003)(376002)(39850400004)(199004)(189003)(5660300002)(478600001)(26005)(186003)(336012)(966005)(6666004)(356004)(1076003)(2906002)(4326008)(316002)(42186006)(107886003)(426003)(6266002)(2616005)(44832011)(70206006)(6916009)(70586007)(36906005)(246002)(7636002)(36756003)(8676002)(8936002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR15MB1441;
-	H:postman.bne.opengear.com; FPR:; SPF:Pass; LANG:en;
-	PTR:brisbane.opengear.com; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 56e0d6f6-1743-44ad-a81d-08d79e10a52b
-X-MS-TrafficTypeDiagnostic: BN6PR15MB1441:|BN6PR15MB1441:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BN6PR15MB144115D8EAF0D05C6FAC75C0B80D0@BN6PR15MB1441.namprd15.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
-X-Forefront-PRVS: 0289B6431E
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nlKorFPE1s52NILoPmze8ToEstUOR8D5H1ug3ZRNzap0L4Nw458l67A5AtQpkO5J29IzQpT5C57xTDMn6MD1Qur5O6OURlz7J5xA2cX0zALC8qvgrKJkJSyRb8PFNIo5dVU+5s5iBwkkiP56FDMazKMDVYF5GpBb2mAyUqi6u8LA7XlPabI3lUVLBQu8nOxJ8doAhaXEjeoECTMB5B3a8YptcOjN5ITELERdsZNPiL4JELSIvk7fB0TPx9anq9NMPOr3tXnJDC8lZ9+3FQ11JYaBVBv4baHj4nYpkT6KZagRMX4o0oO1co6jFqpTpgA7H6zxtmqw8fonAYwtzsi86vRClgFeBOcAtF6wpIJHOl84yubaCK9mntEgBYwE4BdW0POWWy7dS1Dd4NE//kyU7LycZCDbElHcwI4HMhCvUMnwjuAiSbXyt/pJuoxT+L7xRJyC/opnK0AlqlqwLQ5mxdRARAFk7Ry7gpBY+V28icQfubRBcLAjd+2wO7zj5TnwaIexgzEJAe03mUbTmjLBN3CPIsdS2NDB3ZOePhay4ynyLgJZ5jI7dgE/cDV1v2g+wf8Z/z0N71GGlgwtBfxEUXlTZR4HKUhl97QuEofJUfCTPTyPKPJbrxuBZQPxMOUF
-X-OriginatorOrg: opengear.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2020 01:24:21.9443 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56e0d6f6-1743-44ad-a81d-08d79e10a52b
-X-MS-Exchange-CrossTenant-Id: a6251c26-d21f-4164-a225-1f4eaebf5f9a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a6251c26-d21f-4164-a225-1f4eaebf5f9a; Ip=[60.241.24.90];
-	Helo=[postman.bne.opengear.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR15MB1441
-Subject: [PATCH v2] gdb: add PACKAGECONFIG for xz (lzma) compression support
+Date: Tue, 21 Jan 2020 13:26:46 +0800
+Message-Id: <1579584407-14563-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] bash: include patch 8-11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -95,42 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 01:24:25 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 21 Jan 2020 05:26:48 -0000
 
-Similar to elfutils, when xz support is built into gdb it will be able
-to read xz-compressed ELF sections containing debuginfo. This is used by
-the "mini debuginfo" format:
-https://sourceware.org/gdb/onlinedocs/gdb/MiniDebugInfo.html
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-Signed-off-by: Dan Callaghan <dan.callaghan@opengear.com>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/recipes-devtools/gdb/gdb-common.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/recipes-extended/bash/bash_5.0.bb | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta/recipes-devtools/gdb/gdb-common.inc b/meta/recipes-devtools/gdb/gdb-common.inc
-index 08f615addf..878a03715c 100644
---- a/meta/recipes-devtools/gdb/gdb-common.inc
-+++ b/meta/recipes-devtools/gdb/gdb-common.inc
-@@ -21,7 +21,7 @@ EXPAT = "--with-expat --with-libexpat-prefix=${STAGING_DIR_HOST}"
+diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-extended/bash/bash_5.0.bb
+index eadc822..0c7b234 100644
+--- a/meta/recipes-extended/bash/bash_5.0.bb
++++ b/meta/recipes-extended/bash/bash_5.0.bb
+@@ -12,6 +12,10 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
+            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-005;apply=yes;striplevel=0;name=patch005 \
+            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-006;apply=yes;striplevel=0;name=patch006 \
+            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-007;apply=yes;striplevel=0;name=patch007 \
++           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-008;apply=yes;striplevel=0;name=patch008 \
++           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-009;apply=yes;striplevel=0;name=patch009 \
++           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-010;apply=yes;striplevel=0;name=patch010 \
++           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-011;apply=yes;striplevel=0;name=patch011 \
+            file://execute_cmd.patch \
+            file://mkbuiltins_have_stringize.patch \
+            file://build-tests.patch \
+@@ -38,6 +42,14 @@ SRC_URI[patch006.md5sum] = "4a8ee95adb72c3aba03d9e8c9f96ece6"
+ SRC_URI[patch006.sha256sum] = "d68529a6ff201b6ff5915318ab12fc16b8a0ebb77fda3308303fcc1e13398420"
+ SRC_URI[patch007.md5sum] = "411560d81fde2dc5b17b83c3f3b58c6f"
+ SRC_URI[patch007.sha256sum] = "17b41e7ee3673d8887dd25992417a398677533ab8827938aa41fad70df19af9b"
++SRC_URI[patch008.md5sum] = "dd7cf7a784d1838822cad8d419315991"
++SRC_URI[patch008.sha256sum] = "eec64588622a82a5029b2776e218a75a3640bef4953f09d6ee1f4199670ad7e3"
++SRC_URI[patch009.md5sum] = "c1b3e937cd6dccbb7fd772f32812a0da"
++SRC_URI[patch009.sha256sum] = "ed3ca21767303fc3de93934aa524c2e920787c506b601cc40a4897d4b094d903"
++SRC_URI[patch010.md5sum] = "19b41e73b03602d0e261c471b53e670c"
++SRC_URI[patch010.sha256sum] = "d6fbc325f0b5dc54ddbe8ee43020bced8bd589ddffea59d128db14b2e52a8a11"
++SRC_URI[patch011.md5sum] = "414339330a3634137081a97f2c8615a8"
++SRC_URI[patch011.sha256sum] = "2c4de332b91eaf797abbbd6c79709690b5cbd48b12e8dfe748096dbd7bf474ea"
  
- EXTRA_OECONF = "--disable-gdbtk --disable-x --disable-werror \
-                 --with-curses --disable-multilib --disable-sim \
--                --without-lzma --without-guile \
-+                --without-guile \
-                 ${GDBPROPREFIX} ${EXPAT} \
-                 ${@bb.utils.contains('DISTRO_FEATURES', 'multiarch', '--enable-64-bit-bfd', '', d)} \
-                 --disable-rpath \
-@@ -37,6 +37,7 @@ PACKAGECONFIG[python] = "--with-python=${WORKDIR}/python,--without-python,python
- PACKAGECONFIG[babeltrace] = "--with-babeltrace,--without-babeltrace,babeltrace"
- # ncurses is already a hard DEPENDS, but would be added here if it weren't
- PACKAGECONFIG[tui] = "--enable-tui,--disable-tui"
-+PACKAGECONFIG[xz] = "--with-lzma,--without-lzma,xz"
- 
- GDBPROPREFIX = "--program-prefix=''"
- 
+ DEBUG_OPTIMIZATION_append_armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
+ DEBUG_OPTIMIZATION_append_armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
 -- 
-2.21.0
+2.7.4
 
 
