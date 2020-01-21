@@ -1,25 +1,26 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CC9857FD82
+Return-Path: <quentin.schulz@streamunlimited.com>
+Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
+	by mail.openembedded.org (Postfix) with ESMTP id 952DC7FD82
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 08:40:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00L8dKAB017799
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Tue, 21 Jan 2020 00:39:30 -0800
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Tue, 21 Jan 2020 00:39:09 -0800
-From: <mingli.yu@windriver.com>
-To: <crg7475@mailbox.org>, <openembedded-core@lists.openembedded.org>
-Date: Tue, 21 Jan 2020 00:39:09 -0800
-Message-ID: <20200121083909.16121-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200121071906.1102-1-mingli.yu@windriver.com>
-References: <20200121071906.1102-1-mingli.yu@windriver.com>
+	Tue, 21 Jan 2020 09:23:41 +0000 (UTC)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp2.bon.at (Postfix) with ESMTPSA id 48234Z2XhDz5tlG;
+	Tue, 21 Jan 2020 10:23:42 +0100 (CET)
+Date: Tue, 21 Jan 2020 10:23:41 +0100
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200121092341.bgb2elaqey75egjp@qschulz>
+References: <20180514144415.40730-1-stefan@agner.ch>
+	<20200113145729.amwegnpvnp2kb3ut@qschulz>
+	<20200120123246.o5abx73ehcoqbbim@qschulz>
+	<4e98fdb7ff73df6804e58f2f4339c816@agner.ch>
+	<059aa62b-1c45-50a3-5d58-40f2646247ad@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH v2] gstreamer1.0-plugins-common.inc: disable orc on mips
+In-Reply-To: <059aa62b-1c45-50a3-5d58-40f2646247ad@gmail.com>
+User-Agent: NeoMutt/20180716
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: busybox: udhcpc: fix IPv6 support when using udhcpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,89 +33,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 08:40:01 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+X-List-Received-Date: Tue, 21 Jan 2020 09:23:43 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: Mingli Yu <mingli.yu@windriver.com>
+Hi Khem,
 
-After transiton to meson build for gstreamer series,
-for gstreamer1.0-plugins-base, with below two commits
-introduced:
-238080ed89 gstreamer: Remove unused common files and patches
-20614408dc gstreamer1.0-plugins-base: Transition to meson based builds
+On Mon, Jan 20, 2020 at 11:26:27AM -0800, Khem Raj wrote:
+> > Just checked, we still override that script in our layer, so definitely
+> > would be happy if this gets merged upstream so I can get rid of our
+> > custom script downstream.
+> > 
+> 
+> I think this is good to go got OE-core, but I was wondering if default
+> script in busybox also need this and perhaps upstream too
+> 
 
-With below config in local.conf
-MACHINE ??=3D "qemumips64"
-require conf/multilib.conf
-MULTILIB_GLOBAL_VARIANTS_append =3D " libn32"
-MULTILIBS ?=3D "multilib:lib32 multilib:libn32"
-DEFAULTTUNE_virtclass-multilib-lib32 ?=3D "mips"
-DEFAULTTUNE_virtclass-multilib-libn32 ?=3D "mips64-n32"
+What do you mean by "default script"?
+https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/busybox/files/default.script
+?
 
-there comes below failure:
-$ bitbake lib32-gstreamer1.0-plugins-base
-[snip]
-mips-pokymllib32-linux-gcc -meb -mabi=3D32 -mhard-float -fstack-protector-s=
-trong -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-sec=
-urity --sysroot=3D/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstreamer1=
-.0-plugins-base/1.16.1-r0/lib32-recipe-sysroot -Itests/check/7d01337@@orc_v=
-ideo@exe -Itests/check -I../gst-plugins-base-1.16.1/tests/check -I/mybuild/=
-tmp/work/mips-pokymllib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/l=
-ib32-recipe-sysroot/usr/include/orc-0.4 -fdiagnostics-color=3Dalways -pipe =
--D_FILE_OFFSET_BITS=3D64 -fvisibility=3Dhidden -fno-strict-aliasing -DG_DIS=
-ABLE_CAST_CHECKS -Wmissing-declarations -Wredundant-decls -Wundef -Wwrite-s=
-trings -Wformat -Wformat-nonliteral -Wformat-security -Winit-self -Wmissing=
--include-dirs -Waddress -Wno-multichar -Wvla -Wpointer-arith -Wmissing-prot=
-otypes -Wdeclaration-after-statement -O2 -g -feliminate-unused-debug-types =
--fmacro-prefix-map=3D/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstream=
-er1.0-plugins-base/1.16.1-r0=3D/usr/src/debug/lib32-gstreamer1.0-plugins-ba=
-se/1.16.1-r0 -fdebug-prefix-map=3D/mybuild/tmp/work/mips-pokymllib32-linux/=
-lib32-gstreamer1.0-plugins-base/1.16.1-r0=3D/usr/src/debug/lib32-gstreamer1=
-.0-plugins-base/1.16.1-r0 -fdebug-prefix-map=3D/mybuild/tmp/work/mips-pokym=
-llib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/lib32-recipe-sysroot=
-=3D -fdebug-prefix-map=3D/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gst=
-reamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native=3D -MD -MQ 'tests/ch=
-eck/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o' -MF 'tests/che=
-ck/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o.d' -o 'tests/che=
-ck/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o' -c tests/check/=
-orc_video.c
-FAILED: tests/check/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o
-{standard input}: Assembler messages:
-{standard input}:46587: Error: branch out of range
-{standard input}:46613: Error: branch out of range
-[snip]
+Upstream could benefit from it, I'd agree. Though, it is technically
+just provided as an example.
+https://git.busybox.net/busybox/tree/examples/udhcp/simple.script
 
-BTW, gstreamer1.0-plugins-good also occurs
-the same build failure as above.
+The reason why I didn't bother to send a patch to busybox before pinging
+on this patch was that we're already different from the upstream simple.script
+so it didn't make sense to me to add the Upstream-Status: pending or
+something on the patch (in some ways, since it's patching the file
+directly and not adding a patch in SRC_URI). Anyway, digressing. Do you
+want a patch to be sent to busybox ML (or PR or whatever they use)
+before taking this patch?
 
-Disable orc as workaround to fix the above issue
-
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
----
- .../gstreamer/gstreamer1.0-plugins-common.inc                | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.=
-inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
-index ccf55500a9..3896424b2d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
-@@ -18,7 +18,10 @@ require gstreamer1.0-plugins-packaging.inc
- # This value is used in the PACKAGECONFIG values for each plugin set recip=
-e.
- # By modifying it, Orc can be enabled/disabled in all of these recipes at =
-once.
- GSTREAMER_ORC ?=3D "orc"
--
-+# workaround to disable orc on mips to fix the build failure
-+# {standard input}: Assembler messages:
-+# {standard input}:46587: Error: branch out of range
-+GSTREAMER_ORC_remove_mips =3D "orc"
- PACKAGECONFIG[orc] =3D "-Dorc=3Denabled,-Dorc=3Ddisabled,orc orc-native"
-=20
- # TODO: put this in a gettext.bbclass patch (with variables to allow for
---=20
-2.23.0
-
+Quentin
 
