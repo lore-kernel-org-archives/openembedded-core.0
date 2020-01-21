@@ -1,49 +1,52 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
-	[209.85.166.170])
-	by mail.openembedded.org (Postfix) with ESMTP id CA4287FF89
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B32076B06C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 21:13:33 +0000 (UTC)
-Received: by mail-il1-f170.google.com with SMTP id s15so3539527iln.1
+	Tue, 21 Jan 2020 22:02:31 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id 21so4432962qky.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 13:13:35 -0800 (PST)
+	Tue, 21 Jan 2020 14:02:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=G827/+B6XF+yxf/GE05liIyyxNwbVES/nxWZXzotPDU=;
-	b=DhsCnSsO5tLKHKhB5i2OOGM+Ko8JJEuyvtSHcgR9FZaufDt3ZiLa2NrF4HskDhO39l
-	gMAGL6oLfS4JA/yLScJAjV90O+8DheYS1yEd/w3T7pUIUE0kkk22FeDHX3AkkUFT1p/B
-	BEq5FKctRiTN5xZUsaGvJJS/Ha1HH3Gacd5rucIzORC+0m77ESf7fYD4DXcNM8fHc8Ky
-	JOn0uki3WdkvTY15xwsTsH9Y3cI+cP4saCre8asZjTD7Hjb70m2d2+ZksOAtc/vEjWuD
-	AjFpEYikMF5xOIj/pHDT2r/V5p5gbQ5ugJi4EH0sV59EiX+pey3tXbn+dk5Cs3sfUtjY
-	6KLA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Up0d7F5KdwBfl8hJ3X4Nc5LeAIaDF4aQ/7oIwDvb2qQ=;
+	b=tQ610SRioKkNUGvo9G/dEiWzOYi9HdM9VFNLjPITANPHzfp/WkzhxiTEv5U0iycSW0
+	2kXNx/GsMq93Jd6AsR3l6gXrUxvuDFa/sMcu7cHih7iuPIOBDn7eNjI6WRub0n26Bxip
+	aixfB2UNT8HuwJoVieWAGVD73/1jvEF/XyecdJqvcAp5D3LpOUXVgknOMDpiGosHnYaG
+	PoDWpqebdaDIqN0h91VlFJdhbccZwfS9fJ9DVpPnCKry5vFqHPKZ7qus0Y0vh+tDw3aD
+	mN0EqrOuwUP7X+GRPLCTjbR0pixKc/0R0y/LLECirtF0uwpNW3/H3pK/eGcEWEa23hb6
+	0JGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=G827/+B6XF+yxf/GE05liIyyxNwbVES/nxWZXzotPDU=;
-	b=MxMOPHX25jqlzdBnfQQCdTC/bUKxC3vAJA4ysCWGSaC7DvYtm/IiBAofVhe/7BRNTF
-	wfMcnlptGKD5EMH9vt91i1grTPwJAOE85abZLWa6gEFhueKE0tKL1RMSGKP6TqY4W0me
-	PhS5yGKRLXgu7kOFPoZxxJsUuB+R+wKL3i1NbDPKM8m8Gh94PLgk3+XTPw4l/ZfrPRvN
-	R64/kqDzksl6NieYAyCMFZSZvTsMUk/BZHDBC0MiokXGZM/6q1L4WN8s5SKsjO0aLAUe
-	+wQdaRwnEyrcCI2iCq5jGjI9hXA69s9w8XUIiWBBN9A0CJELaq46qehScTrf9sBtkui9
-	8j9Q==
-X-Gm-Message-State: APjAAAVB52L8rygQRekXWqmnOcKdTitWhqb4vuZjlk2rpS7+KNxp8bjm
-	9CQN0ygwldGif0HAWLa+hyBr/09TES8Y8Vgp7N4=
-X-Google-Smtp-Source: APXvYqxvcck+tfTJAwpeBys3LAOphoqXxv9jbxfZid3o2Yqj8npNvyRwXwo6JE9wM1/lzrEc4J1VgSA9xwY/mFjXEd4=
-X-Received: by 2002:a92:d7c1:: with SMTP id g1mr5615507ilq.192.1579641214859; 
-	Tue, 21 Jan 2020 13:13:34 -0800 (PST)
+	bh=Up0d7F5KdwBfl8hJ3X4Nc5LeAIaDF4aQ/7oIwDvb2qQ=;
+	b=k6i7vb9UEdJPLMgqSKh/OpbHP0U/NvP/k9I7RtQFfZtZe1i+WG4hAyFiwCs3HG3TiI
+	nUPMjLPKd8jFLxQLK4fIHA6MndgGky8dMmaPHtk+SJwehBuwqtgqXWE+0/GHrNDsKPZ4
+	sMhu+H/zJHaGoa2FhYfHBjqWXcV6bhU7sroJOioRgNml9iNFyk42VaVzmA6IBYFQVg56
+	dED+MSzkXs7nw5ygooybrlYNXFUo79y123MpdghhSKmpROA/g6ZzA+b48Vljzs2kjdhe
+	bjL7Ln6LurNR3jOiZ6dryx3nFJnZAaM3KjKGbA+li+8TjvMKrEekUl+Jrugxv1WdK0oT
+	sAIQ==
+X-Gm-Message-State: APjAAAUymBkuIdEkgOcKq+oARIkvPnzK7R95DdCIcpVACUpR7GDiuFFy
+	MlLFM/8fdcRaYeieQJru3l2K/KO76KpfDhn91QQ=
+X-Google-Smtp-Source: APXvYqy3eCofhLntzMDjR5H72oBrmg988cvGU1PQbqpSHcpq0j+sdKvRR6Tjunb+5do7z7MoeT30YZzFWmkUn8G6TAA=
+X-Received: by 2002:a37:a3c7:: with SMTP id m190mr7025805qke.212.1579644152525;
+	Tue, 21 Jan 2020 14:02:32 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:ac0:e345:0:0:0:0:0 with HTTP; Tue, 21 Jan 2020 13:13:34
-	-0800 (PST)
-In-Reply-To: <4e3bf60b3f87b1c87a0fdb5016239414429bf499.camel@linuxfoundation.org>
-References: <CAA=hcWS5w_QTmUMZBBMpj-H+iyBcqc=6h3RoZwdpVYU7gpyaMw@mail.gmail.com>
-	<4e3bf60b3f87b1c87a0fdb5016239414429bf499.camel@linuxfoundation.org>
-From: JH <jupiter.hce@gmail.com>
-Date: Wed, 22 Jan 2020 08:13:34 +1100
-Message-ID: <CAA=hcWQN-EPQasgE5cKYmMFHE-7Pc6-c3XLBxn8CwdyFwwXK6Q@mail.gmail.com>
+References: <20200120172510.22648-1-alex.kanavin@gmail.com>
+	<20200120172510.22648-5-alex.kanavin@gmail.com>
+	<CALbNGRTcVRb7obS2g8d6fipNUervDr0ZYvJ+izLmCJH4h5QRyQ@mail.gmail.com>
+	<1ccb46bd9806f74f4c61b774754e314ca72c368c.camel@linuxfoundation.org>
+	<CAMKF1srhnkkSETdWK0Jb0V8OV-4bwpCLJ7MhJuJ9dOx5T3VzUQ@mail.gmail.com>
+	<1776d7f035ce96fa5a1b3759e83fdd6c611dca15.camel@linuxfoundation.org>
+In-Reply-To: <1776d7f035ce96fa5a1b3759e83fdd6c611dca15.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Jan 2020 14:02:21 -0800
+Message-ID: <CAMKF1sqvV4xj1p+h6Yjt08L4h9w2YfVSDqLF9J7yW7N8t2-HLA@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Could oe-core be infected by virus?
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/24] nss: update to 3.49.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,74 +59,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 21:13:33 -0000
+X-List-Received-Date: Tue, 21 Jan 2020 22:02:33 -0000
+Content-Type: multipart/alternative; boundary="000000000000953987059cad9006"
+
+--000000000000953987059cad9006
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Richard,
+On Tue, Jan 21, 2020 at 12:22 PM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Thanks for your response.
-
-On 1/21/20, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> On Tue, 2020-01-21 at 22:21 +1100, JH wrote:
->> Hi,
->>
->> I have been using thud version to build imx6 image for about a year,
->> it was all good until my last image built at Mon Dec 23 2019.
->>
->> The image was booted fine in the first and second times, then in the
->> third time, it broken, the boot could not be completed. The wired
->> thing was that image injected so many new messages, including
->> "Welcome
->> to OpenEmbedded nodistro.0!" I have never seen in previous built
->> image
->> boot. Here are new messages in booting, which were never seen in good
->> normal image booting:
->>
->> ..................
->>
->> [    0.440012] No ATAGs?
+> On Tue, 2020-01-21 at 11:35 -0800, Khem Raj wrote:
+> > This is failing on qemuarm btw
+> >
+> > http://errors.yoctoproject.org/Errors/Details/307410/
 >
-> Those messages all look fairly normal parts of system boot up so I very
-> much doubt any virus is involved.
+> That is odd as it passed testing on the autobuilder. It must be
+> something tune specific :(
 >
-> I suspect many of these have always been there but maybe directed to
-> different consoles which you weren't using.
+Thanks
 
-No, no change to consoles, but I'll double check it.
+While my builds are dealing with py2 things this seems not related but I do
+have gcc10 in my mix
+So it could be future build break I need to triage it a bit more and see
+what=E2=80=99s going on
 
-> Something has probably changed on the device with the bootloader to
-> kernel handoff and its changed the kernel boot parameters and console
-> setup. This is now printing things on the console you've not seen
-> before.
 
-I am sure I did not make any changes to bootloader on the device, no
-change to kernel, no change to console setup, the only changes were
-applications, which are nothing to do with this problem. Having said
-that, I'll double check it.
-
-> The no ATAGS may or may not be related, I don't know what your system
-> did differently.
+> Cheers,
 >
-> So if it was me, I'd be looking at how the bootloader and/or kernel
-> commandline has changed with your last update.
+> Richard
+>
+>
 
-I am not too concern about different message, but it looks like a
-different system to start Bluetooth, ALSA, can, NFS, videodev, vgaar
-which was weird, that device does not have sound, video, and
-bluetooth. But the real problem I posted here is after 2 - 3 good
-boot, the boot failed with so many errors of Failed to start udev
-Coldplug all Devices, Failed to mount FUSE Control File System, Failed
-to start Remount Root and Kernel File System, it seems it was
-completed damaged by something which I found no clue for it.
+--000000000000953987059cad9006
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Let me clarify it again, when I test the boot, I just switch it on,
-shut it down, turn it on again several times, no thing injected to the
-bootload or kernel, no thing was deleted. Has anyone seen that
-problem? Appreciate if you could explain what could cause that errors?
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Jan 21, 2020 at 12:22 PM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2020-=
+01-21 at 11:35 -0800, Khem Raj wrote:<br>
+&gt; This is failing on qemuarm btw<br>
+&gt; <br>
+&gt; <a href=3D"http://errors.yoctoproject.org/Errors/Details/307410/" rel=
+=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Det=
+ails/307410/</a><br>
+<br>
+That is odd as it passed testing on the autobuilder. It must be<br>
+something tune specific :(<br>
+</blockquote><div dir=3D"auto">Thanks</div><div dir=3D"auto"><br></div><div=
+ dir=3D"auto">While my builds are dealing with py2 things this seems not re=
+lated but I do have gcc10 in my mix</div><div dir=3D"auto">So it could be f=
+uture build break I need to triage it a bit more and see what=E2=80=99s goi=
+ng on</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+</blockquote></div></div>
 
-Thank you very much.
-
-Kind regards,
-
-- jh
-
+--000000000000953987059cad9006--
