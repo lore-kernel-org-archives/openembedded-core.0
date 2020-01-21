@@ -1,53 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D52577FE67
+Return-Path: <pjtexier@koncepto.io>
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+	by mail.openembedded.org (Postfix) with ESMTP id D59557FEE8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 18:09:19 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id w47so3401822qtk.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 10:09:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=d+BsSz3yDvCKMe/Bxsa3mOWJ8Z11kPifcx6bPAtvoZo=;
-	b=QP9eSB9fql7JGHgVGbaJwdz2pJQiN5jbi15IXkJLTnvgAfGSKLcC7f6StoThwzHZK5
-	hfaX5LZK7DEr1xJs9ypYXasdK7Cp59/DshfLotNpQhDTJc7L5h1R73aIfC9YOEC9AFmb
-	8R2wNyalLSqdcYmDGaizaa+Fuv+x/4XqE7a5q+TqKt05OPa4x8j/iVGPdjDa3Kxjc8kS
-	DWCyzdw5yOUbsd3V5g/S5ufME4Nx5JRFUuh2JFveK43W5wJVWPzkfEEaUWnTic1q7Mar
-	pvTgGUNcUZFtIKJah1verh4RivOrR1X7tHYfhDnutwW7ZcF8BHLcS4SoaD6gU19aIfu/
-	F80A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=d+BsSz3yDvCKMe/Bxsa3mOWJ8Z11kPifcx6bPAtvoZo=;
-	b=epBUhhFu1RkmjWkzU7W85MzNVUZQcn2yBUdICtTw/5Wj50njNZ4RPfdjJhCBUwFCh1
-	Ta/U64pIEvi5K3cILfnETcmjfxBLs7PwiwJG+GyWw0LJXDJh9fqhdsN7FZbD9N+wxg+a
-	avOqc+kn6sgqj3is7z9Y0lGIClIQ/S2Bth8QZ+OlASD0L5ai20qFqYOAIk6mGsgovHqP
-	ergaqfvXgxFuxCjYKSyaSQjr6c3yK03353c6nGxPHr7MYlXSm3kSOPFqwOhTCjoVV3Bj
-	5INDt4yLy8pXhDUvHFevxyhCJRa610k31lvln4t5BzsR/0nsfGN5biMSODChMAHzUXgK
-	dukw==
-X-Gm-Message-State: APjAAAXAthq4j4+CDcAWE82MoCB/TL23WFrUi93dI9XLxgjCHcLqG1f0
-	ndPAkYlUGjcYxVguJJQ/tFX1bBhxGROs05SQl5c=
-X-Google-Smtp-Source: APXvYqxIYHFhw30rIQqNsT14wkRecmucGjkQslIAGpSMicOdEcit52xwYBCZJ1hebsk5nQXEbvd5CHXInvUgJGK8Vsw=
-X-Received: by 2002:ac8:5257:: with SMTP id y23mr5802573qtn.88.1579630160415; 
-	Tue, 21 Jan 2020 10:09:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20180514144415.40730-1-stefan@agner.ch>
-	<20200113145729.amwegnpvnp2kb3ut@qschulz>
-	<20200120123246.o5abx73ehcoqbbim@qschulz>
-	<4e98fdb7ff73df6804e58f2f4339c816@agner.ch>
-	<059aa62b-1c45-50a3-5d58-40f2646247ad@gmail.com>
-	<20200121092341.bgb2elaqey75egjp@qschulz>
-In-Reply-To: <20200121092341.bgb2elaqey75egjp@qschulz>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Jan 2020 10:08:59 -0800
-Message-ID: <CAMKF1spxORPSqDJuD2RWLFNXs8pHZSDQtVgzp+xcb3w2tC3htQ@mail.gmail.com>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: Stefan Agner <stefan.agner@toradex.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: busybox: udhcpc: fix IPv6 support when using udhcpc
+	Tue, 21 Jan 2020 18:29:19 +0000 (UTC)
+Received: from menoah.home (lfbn-bor-1-1001-35.w90-120.abo.wanadoo.fr
+	[90.120.192.35]) by koncepto.io (Postfix) with ESMTPSA id 0041D60335;
+	Tue, 21 Jan 2020 19:29:18 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1579631359;
+	bh=pm+M9TQhr+UTpRvXmwv3xl+jsSN7PGT0M76Q5FAgfj4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=kRU8u6kDq2iwGZeX5n5Xgcu+WYrstAmmwGDyAaBwgrdVoqzUL9QS9kGngZmj1QaMy
+	qCjbHFqZBQYKZq4rXkz+oKRE8rNxrBGTZau93arkVuFLvFtUpo0aaxMDmSMdI8pCIZ
+	l/khJhu2+fh8aIyTrmi4PFn9WPiiIhXXn2kjbS+FPdbmq0pWaNGmoezoetmFWHJdFT
+	19qCY8EoJRAJVoDfGo47YaPPACdOyVT1SJp/0s4VpvL0aTYEI419uv2WqgSiZEngEW
+	alHxObGo/q60cFXicSZO4TLfb4/L8/i78lCqCfCZjSRSDDnilOqSJK/MYCezpeTSNO
+	krU9PK2O3dhiQ==
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jan 2020 19:28:44 +0100
+Message-Id: <1579631324-16775-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] util-linux: upgrade 2.34 -> 2.35
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,50 +34,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 18:09:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 21 Jan 2020 18:29:20 -0000
 
-On Tue, Jan 21, 2020 at 1:23 AM Quentin Schulz
-<quentin.schulz@streamunlimited.com> wrote:
->
-> Hi Khem,
->
-> On Mon, Jan 20, 2020 at 11:26:27AM -0800, Khem Raj wrote:
-> > > Just checked, we still override that script in our layer, so definitely
-> > > would be happy if this gets merged upstream so I can get rid of our
-> > > custom script downstream.
-> > >
-> >
-> > I think this is good to go got OE-core, but I was wondering if default
-> > script in busybox also need this and perhaps upstream too
-> >
->
-> What do you mean by "default script"?
-> https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/busybox/files/default.script
-> ?
+License-Update: add GPLv3 text
 
-yes.
->
-> Upstream could benefit from it, I'd agree. Though, it is technically
-> just provided as an example.
-> https://git.busybox.net/busybox/tree/examples/udhcp/simple.script
->
+Drop upstreamed patch
 
-> The reason why I didn't bother to send a patch to busybox before pinging
-> on this patch was that we're already different from the upstream simple.script
-> so it didn't make sense to me to add the Upstream-Status: pending or
-> something on the patch (in some ways, since it's patching the file
-> directly and not adding a patch in SRC_URI). Anyway, digressing. Do you
-> want a patch to be sent to busybox ML (or PR or whatever they use)
-> before taking this patch?
->
+See full changelog https://lore.kernel.org/util-linux/20200121105711.zzeeolydlivqnik7@ws.net.home/T/#u
 
-I think the problem this patch fixes is generic and somewhere the
-script OE has is also derived from
-that example, so while the patch in itself is enough for OE, it would
-be better if it was in upstream too
-perhaps one less thing to worry about when we cherry pick changes from
-upstream script in future.
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+---
+ meta/recipes-core/util-linux/util-linux.inc        |  5 +--
+ ...lsblk-force-to-print-PKNAME-for-partition.patch | 36 ----------------------
+ .../{util-linux_2.34.bb => util-linux_2.35.bb}     |  5 ++-
+ 3 files changed, 5 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
+ rename meta/recipes-core/util-linux/{util-linux_2.34.bb => util-linux_2.35.bb} (58%)
 
-> Quentin
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 179cb3d..0f8a6c2 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -6,11 +6,12 @@ disk partitioning, kernel message management, filesystem creation, and system lo
+ 
+ SECTION = "base"
+ 
+-LICENSE = "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
++LICENSE = "GPLv2+ & GPLv3+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+ 
+-LIC_FILES_CHKSUM = "file://README.licensing;md5=972a134f1e14b2b060e365df2fab0099 \
++LIC_FILES_CHKSUM = "file://README.licensing;md5=0fd5c050c6187d2bf0a4492b7f4e33da \
+                     file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://Documentation/licenses/COPYING.GPL-2.0-or-later;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
++                    file://Documentation/licenses/COPYING.GPL-3.0-or-later;md5=1ebbd3e34237af26da5dc08a4e440464 \
+                     file://Documentation/licenses/COPYING.LGPL-2.1-or-later;md5=4fbd65380cdd255951079008b364516c \
+                     file://Documentation/licenses/COPYING.BSD-3-Clause;md5=58dcd8452651fc8b07d1f65ce07ca8af \
+                     file://Documentation/licenses/COPYING.BSD-4-Clause-UC;md5=263860f8968d8bafa5392cab74285262 \
+diff --git a/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch b/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
+deleted file mode 100644
+index 5d4c148..0000000
+--- a/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-PKNAME-for-partition.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From e3bb9bfb76c17b1d05814436ced62c05c4011f48 Mon Sep 17 00:00:00 2001
+-From: Karel Zak <kzak@redhat.com>
+-Date: Thu, 27 Jun 2019 09:22:18 +0200
+-Subject: [PATCH] lsblk: force to print PKNAME for partition
+-
+-PKNAME (parent kernel device name) is based on printed tree according
+-to parent -> child relationship. The tree is optional and not printed
+-if partition specified (.e.g "lsblk -o+PKNAME /dev/sda1"), but old
+-versions print the PKNAME also in this case.
+-
+-Upstream-Status: Backport [https://github.com/karelzak/util-linux/commit/e3bb9bfb76c17b1d05814436ced62c05c4011f48]
+-
+-Addresses: https://github.com/karelzak/util-linux/issues/813
+-Signed-off-by: Karel Zak <kzak@redhat.com>
+-Signed-off-by: Liwei Song <liwei.song@windriver.com>
+----
+- misc-utils/lsblk.c | 3 +++
+- 1 file changed, 3 insertions(+)
+-
+-diff --git a/misc-utils/lsblk.c b/misc-utils/lsblk.c
+-index e95af7af0256..3ce6da730264 100644
+---- a/misc-utils/lsblk.c
+-+++ b/misc-utils/lsblk.c
+-@@ -1019,6 +1019,9 @@ static void device_to_scols(
+- 	DBG(DEV, ul_debugobj(dev, "add '%s' to scols", dev->name));
+- 	ON_DBG(DEV, if (ul_path_isopen_dirfd(dev->sysfs)) ul_debugobj(dev, " %s ---> is open!", dev->name));
+- 
+-+	if (!parent && dev->wholedisk)
+-+		parent = dev->wholedisk;
+-+
+- 	/* Do not print device more than one in --list mode */
+- 	if (!(lsblk->flags & LSBLK_TREE) && dev->is_printed)
+- 		return;
+--- 
+-2.17.1
+-
+diff --git a/meta/recipes-core/util-linux/util-linux_2.34.bb b/meta/recipes-core/util-linux/util-linux_2.35.bb
+similarity index 58%
+rename from meta/recipes-core/util-linux/util-linux_2.34.bb
+rename to meta/recipes-core/util-linux/util-linux_2.35.bb
+index e9c2d80..71f7cd1 100644
+--- a/meta/recipes-core/util-linux/util-linux_2.34.bb
++++ b/meta/recipes-core/util-linux/util-linux_2.35.bb
+@@ -7,7 +7,6 @@ SRC_URI += "file://configure-sbindir.patch \
+             file://run-ptest \
+             file://display_testname_for_subtest.patch \
+             file://avoid_parallel_tests.patch \
+-            file://0001-lsblk-force-to-print-PKNAME-for-partition.patch \
+ "
+-SRC_URI[md5sum] = "a78cbeaed9c39094b96a48ba8f891d50"
+-SRC_URI[sha256sum] = "743f9d0c7252b6db246b659c1e1ce0bd45d8d4508b4dfa427bbb4a3e9b9f62b5"
++SRC_URI[md5sum] = "479488469f057ddeed0d3ca7d6ab5f16"
++SRC_URI[sha256sum] = "b3081b560268c1ec3367e035234e91616fa7923a0afc2b1c80a2a6d8b9dfe2c9"
+-- 
+2.7.4
+
 
