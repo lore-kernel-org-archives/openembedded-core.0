@@ -1,56 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id BDD457FB78
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-il1-f170.google.com (mail-il1-f170.google.com
+	[209.85.166.170])
+	by mail.openembedded.org (Postfix) with ESMTP id CA4287FF89
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 20:22:27 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id w15so4829476wru.4
+	Tue, 21 Jan 2020 21:13:33 +0000 (UTC)
+Received: by mail-il1-f170.google.com with SMTP id s15so3539527iln.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 12:22:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=AZ2zOX/YCBhEIrWo7qiDNqmIVMzXiwxw0FfHjlLX0es=;
-	b=aZ6Y6mC8DbqBpPDsEkgmsCaiKVgQNKyk7ejrHWI9tvyDto1M9ILobjNWof+KZNsAhL
-	p3IsXE5eHoUGiLSU0vsrOHYwuDAqznfpMJblXTPsuBV+WM6wxj/O2/lQjVwbtOcg1XYq
-	rD3vGR8BWSookTu3m9nIXeCxL+U/Ku/ISO6Ss=
+	Tue, 21 Jan 2020 13:13:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=G827/+B6XF+yxf/GE05liIyyxNwbVES/nxWZXzotPDU=;
+	b=DhsCnSsO5tLKHKhB5i2OOGM+Ko8JJEuyvtSHcgR9FZaufDt3ZiLa2NrF4HskDhO39l
+	gMAGL6oLfS4JA/yLScJAjV90O+8DheYS1yEd/w3T7pUIUE0kkk22FeDHX3AkkUFT1p/B
+	BEq5FKctRiTN5xZUsaGvJJS/Ha1HH3Gacd5rucIzORC+0m77ESf7fYD4DXcNM8fHc8Ky
+	JOn0uki3WdkvTY15xwsTsH9Y3cI+cP4saCre8asZjTD7Hjb70m2d2+ZksOAtc/vEjWuD
+	AjFpEYikMF5xOIj/pHDT2r/V5p5gbQ5ugJi4EH0sV59EiX+pey3tXbn+dk5Cs3sfUtjY
+	6KLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=AZ2zOX/YCBhEIrWo7qiDNqmIVMzXiwxw0FfHjlLX0es=;
-	b=KT/AY7JolpxnmsylhlsakLIVg8w6dqGR9EJMJAm+ZXQYEvTCzdG2zOr0GkYqUAp3GT
-	4AU2aOOREiRwkhAWeeE1XzAtK9JLkhAoqwBwDYkWTr16yXfCNjrCxycypQSRPGSLqxGn
-	X64aTAl80CMi9G2PxRIGZ7JnawWXuWYx6/XFoOgOk0PJO8I+jXNLblnPEWcg5+QaeOsP
-	vcXb8UMRZdFiOw+lgK69NKOQGUpRX0eMVOroS7Vj32Af7RAMqY/EC7f7ntlYNCP9/xFc
-	CfUR29Y3BPwmZsZjT0ejcbGVX5ixTelCBDLg999ppLtpX7Fyeq0ZXqBWDgVeNDog2JFz
-	oHWw==
-X-Gm-Message-State: APjAAAW39DTTpC+3uHburDoBA3Yxu/aOfY9SfWN3fdEjomJxKtGNHL1j
-	+2wWlgtpxNVPofa/CunHFE/60w==
-X-Google-Smtp-Source: APXvYqy3Ng70QIyTknwlYoH7Rz569TupOLZCkBdrIdEpeSu2O7JVzqY44/fKdwM5KValaoCWEH265Q==
-X-Received: by 2002:a5d:5273:: with SMTP id l19mr7300315wrc.175.1579638148308; 
-	Tue, 21 Jan 2020 12:22:28 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c15sm53170110wrt.1.2020.01.21.12.22.26
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 21 Jan 2020 12:22:27 -0800 (PST)
-Message-ID: <1776d7f035ce96fa5a1b3759e83fdd6c611dca15.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Jan 2020 20:22:25 +0000
-In-Reply-To: <CAMKF1srhnkkSETdWK0Jb0V8OV-4bwpCLJ7MhJuJ9dOx5T3VzUQ@mail.gmail.com>
-References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-	<20200120172510.22648-5-alex.kanavin@gmail.com>
-	<CALbNGRTcVRb7obS2g8d6fipNUervDr0ZYvJ+izLmCJH4h5QRyQ@mail.gmail.com>
-	<1ccb46bd9806f74f4c61b774754e314ca72c368c.camel@linuxfoundation.org>
-	<CAMKF1srhnkkSETdWK0Jb0V8OV-4bwpCLJ7MhJuJ9dOx5T3VzUQ@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=G827/+B6XF+yxf/GE05liIyyxNwbVES/nxWZXzotPDU=;
+	b=MxMOPHX25jqlzdBnfQQCdTC/bUKxC3vAJA4ysCWGSaC7DvYtm/IiBAofVhe/7BRNTF
+	wfMcnlptGKD5EMH9vt91i1grTPwJAOE85abZLWa6gEFhueKE0tKL1RMSGKP6TqY4W0me
+	PhS5yGKRLXgu7kOFPoZxxJsUuB+R+wKL3i1NbDPKM8m8Gh94PLgk3+XTPw4l/ZfrPRvN
+	R64/kqDzksl6NieYAyCMFZSZvTsMUk/BZHDBC0MiokXGZM/6q1L4WN8s5SKsjO0aLAUe
+	+wQdaRwnEyrcCI2iCq5jGjI9hXA69s9w8XUIiWBBN9A0CJELaq46qehScTrf9sBtkui9
+	8j9Q==
+X-Gm-Message-State: APjAAAVB52L8rygQRekXWqmnOcKdTitWhqb4vuZjlk2rpS7+KNxp8bjm
+	9CQN0ygwldGif0HAWLa+hyBr/09TES8Y8Vgp7N4=
+X-Google-Smtp-Source: APXvYqxvcck+tfTJAwpeBys3LAOphoqXxv9jbxfZid3o2Yqj8npNvyRwXwo6JE9wM1/lzrEc4J1VgSA9xwY/mFjXEd4=
+X-Received: by 2002:a92:d7c1:: with SMTP id g1mr5615507ilq.192.1579641214859; 
+	Tue, 21 Jan 2020 13:13:34 -0800 (PST)
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/24] nss: update to 3.49.1
+Received: by 2002:ac0:e345:0:0:0:0:0 with HTTP; Tue, 21 Jan 2020 13:13:34
+	-0800 (PST)
+In-Reply-To: <4e3bf60b3f87b1c87a0fdb5016239414429bf499.camel@linuxfoundation.org>
+References: <CAA=hcWS5w_QTmUMZBBMpj-H+iyBcqc=6h3RoZwdpVYU7gpyaMw@mail.gmail.com>
+	<4e3bf60b3f87b1c87a0fdb5016239414429bf499.camel@linuxfoundation.org>
+From: JH <jupiter.hce@gmail.com>
+Date: Wed, 22 Jan 2020 08:13:34 +1100
+Message-ID: <CAA=hcWQN-EPQasgE5cKYmMFHE-7Pc6-c3XLBxn8CwdyFwwXK6Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: Could oe-core be infected by virus?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,20 +56,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 20:22:28 -0000
+X-List-Received-Date: Tue, 21 Jan 2020 21:13:33 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-01-21 at 11:35 -0800, Khem Raj wrote:
-> This is failing on qemuarm btw
-> 
-> http://errors.yoctoproject.org/Errors/Details/307410/
+Hi Richard,
 
-That is odd as it passed testing on the autobuilder. It must be
-something tune specific :(
+Thanks for your response.
 
-Cheers,
+On 1/21/20, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> On Tue, 2020-01-21 at 22:21 +1100, JH wrote:
+>> Hi,
+>>
+>> I have been using thud version to build imx6 image for about a year,
+>> it was all good until my last image built at Mon Dec 23 2019.
+>>
+>> The image was booted fine in the first and second times, then in the
+>> third time, it broken, the boot could not be completed. The wired
+>> thing was that image injected so many new messages, including
+>> "Welcome
+>> to OpenEmbedded nodistro.0!" I have never seen in previous built
+>> image
+>> boot. Here are new messages in booting, which were never seen in good
+>> normal image booting:
+>>
+>> ..................
+>>
+>> [    0.440012] No ATAGs?
+>
+> Those messages all look fairly normal parts of system boot up so I very
+> much doubt any virus is involved.
+>
+> I suspect many of these have always been there but maybe directed to
+> different consoles which you weren't using.
 
-Richard
+No, no change to consoles, but I'll double check it.
 
+> Something has probably changed on the device with the bootloader to
+> kernel handoff and its changed the kernel boot parameters and console
+> setup. This is now printing things on the console you've not seen
+> before.
+
+I am sure I did not make any changes to bootloader on the device, no
+change to kernel, no change to console setup, the only changes were
+applications, which are nothing to do with this problem. Having said
+that, I'll double check it.
+
+> The no ATAGS may or may not be related, I don't know what your system
+> did differently.
+>
+> So if it was me, I'd be looking at how the bootloader and/or kernel
+> commandline has changed with your last update.
+
+I am not too concern about different message, but it looks like a
+different system to start Bluetooth, ALSA, can, NFS, videodev, vgaar
+which was weird, that device does not have sound, video, and
+bluetooth. But the real problem I posted here is after 2 - 3 good
+boot, the boot failed with so many errors of Failed to start udev
+Coldplug all Devices, Failed to mount FUSE Control File System, Failed
+to start Remount Root and Kernel File System, it seems it was
+completed damaged by something which I found no clue for it.
+
+Let me clarify it again, when I test the boot, I just switch it on,
+shut it down, turn it on again several times, no thing injected to the
+bootload or kernel, no thing was deleted. Has anyone seen that
+problem? Appreciate if you could explain what could cause that errors?
+
+Thank you very much.
+
+Kind regards,
+
+- jh
 
