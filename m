@@ -1,52 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 42D0E7FD82
+Return-Path: <sumit.garg@linaro.org>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 43D737D084
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 08:24:33 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id a5so1951495wmb.0
+	Tue, 21 Jan 2020 08:26:39 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id c9so1028417plo.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 00:24:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=T8TXCsZPGy+cP3dSS6vW8LfArUoh/NxdmIkeLHiSs0Q=;
-	b=bY7cLKZqZXSvCGcqG5j4wRr6xVyYYmGEutH6AEAzaEvFeeqjTWPwVuRf4hNGDKscd1
-	VpxK94lcL1uA9ljvcylI55Bo5cXXHF2XtMisiVZYySF25mPAQFA8BOWaAlTvFzSDG3D7
-	0X3oPsIZFx11qJJpyp0lO4lb+0Qd306fmFLZg=
+	Tue, 21 Jan 2020 00:26:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=OPpFWsBBP5/Y19grrDj/oj4LaFzI3ApLlKLXFSlSMQQ=;
+	b=b9jbqV6nSwxuyl8qNaXQOlmS7NQqc/n1WpRMgahignZ8DmBoeKGY33seJ5Mam672wz
+	kOSuinRpHGqlwfXhVsG7Fl19G/dJxuT2Y4jLFGjMoKvuNkzfi0ZjbAnHEtOn4HcoykcL
+	qMgH9HVptdWVylP6L0T22neXM6DnyKoXeAXdeb96wRYAQ+AMUeDmGtx7Wu5qSJLTUfMf
+	ydTbf/31O0izqZVjZfeLVkotZTUExpb10h2rAiL+hue/JWBp2kcAeIYA5NcAD2sR+HuM
+	I42/T+BZsUXDqbEBrQyvXlyxHRgQqNkFCL/KtsEJ1mBPhClqhDydXx071HKxZB8LZENB
+	Kqyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=T8TXCsZPGy+cP3dSS6vW8LfArUoh/NxdmIkeLHiSs0Q=;
-	b=ROiF99vGh7Q/uMdKTRyIjVghC9CyyJRmVtCjHIGDMPfUdcqZpVNTJX8301JHBnTKpk
-	wWnjd3AW12eLz9R8uViCNQG9ruZJlRc94MzizEn+eLkHAUhXPAtTEQIcED0H+7fIOrHZ
-	mT89JpDjz2fSoCVFfB8vKTOm/TuhYP2Coo+VEETXJfccFZOd+xomH0CTT20JZZ6BQxKp
-	NTRfe6WG5tVeg/kg72x59yrNebmdc/jjKNPcBQcZXVibqzTa5UnujF6hQp2G6X6um4vK
-	BDi5NCT683+TdbBdAmag53nuLVOz7+aCNIwonr6W8IGbBvQGOG3rQuglvW66HGts5D43
-	iVjg==
-X-Gm-Message-State: APjAAAXU6ygA5yTrsWiTDoB/esKytHsvOmiApkvWp2NKaxKxmH4hHkVu
-	td8ezB+LnVnNPKuOVNRUb4CmHjF9e7w=
-X-Google-Smtp-Source: APXvYqzEFk7syfa8CCtCSlMEI1s22UFbO4gTRDvgzfR2b7maEKmuZuJPuYFSibQoMNhjZS0Vw4Qojw==
-X-Received: by 2002:a7b:cbc8:: with SMTP id n8mr3065368wmi.35.1579595074050;
-	Tue, 21 Jan 2020 00:24:34 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=OPpFWsBBP5/Y19grrDj/oj4LaFzI3ApLlKLXFSlSMQQ=;
+	b=CO9sDp+u0/LCv8KmomlbUJAtF8vL02Z30lA/xQiU0L/3VdVyuY3QIAZXTVzsB8KFs6
+	LanwsASh6LW7xLHK8RBbv07LKDrc5TDFPxw3sIU1MAGa/TPi6prlkWgTvyiyeUi8rJCr
+	EFWiKufYyp0Q+OHGXYO+QtNRMI8jje/D4t7NhZH1cUzqxITDpESWFGtBVM0Kq2Fc4x1q
+	nt0vMQjgh/GvjM6aYJxCVn4p5K9BmiCabxlZqZurAF4bgiKKQV5WhjNuBdTKoXqNXeTM
+	iy3qzWjC/4c7U5a2u4HW3AAoG7okM3yCgklsZwhQs1XCGhG3c3U6XRhaewIf4XMXTDDe
+	q3ww==
+X-Gm-Message-State: APjAAAUaZABccabYcybLydfxUaZlWnaWTvxJtu+tWt+U28d6aQ1kSFhk
+	vBGOMnc0v6T48YdzHU4NmT7mTKuukN4=
+X-Google-Smtp-Source: APXvYqyyhDj/O5IHjSelRntTkDzTOv7D4kER0VaCXzsUnHNUAnaygmFu399pNPBMoctADoUlBjon1A==
+X-Received: by 2002:a17:90a:3487:: with SMTP id
+	p7mr4123755pjb.115.1579595199909; 
+	Tue, 21 Jan 2020 00:26:39 -0800 (PST)
+Received: from localhost.localdomain ([117.252.69.227])
 	by smtp.gmail.com with ESMTPSA id
-	s8sm49944577wrt.57.2020.01.21.00.24.33
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 21 Jan 2020 00:24:33 -0800 (PST)
-Message-ID: <10e0708a02a233d7783396822faee4f7f445a76a.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2020 08:24:32 +0000
-In-Reply-To: <20200120172510.22648-24-alex.kanavin@gmail.com>
-References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-	<20200120172510.22648-24-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH 24/24] meson: update 0.52.1 -> 0.53.0
+	e1sm42444361pfl.98.2020.01.21.00.26.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 21 Jan 2020 00:26:39 -0800 (PST)
+From: Sumit Garg <sumit.garg@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jan 2020 13:56:13 +0530
+Message-Id: <1579595173-23336-1-git-send-email-sumit.garg@linaro.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [zeus][PATCH] core: recipes: fix some native tools dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,33 +55,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 08:24:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 Jan 2020 08:26:39 -0000
 
-On Mon, 2020-01-20 at 18:25 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/classes/meson.bbclass                       |  9 ++++++++-
->  meta/recipes-devtools/meson/meson.inc            |  4 ++--
->  .../0001-Make-CPU-family-warnings-fatal.patch    | 12 ++++++------
->  ...-do-not-manipulate-the-environment-when.patch | 16 ++++++++--------
->  ...-Support-building-allarch-recipes-again.patch |  6 +++---
->  .../meson/meson/0003-native_bindir.patch         | 16 ++++++++--------
->  .../meson/{meson_0.52.1.bb => meson_0.53.0.bb}   |  0
->  ...meson_0.52.1.bb => nativesdk-meson_0.53.0.bb} |  0
->  8 files changed, 35 insertions(+), 28 deletions(-)
->  rename meta/recipes-devtools/meson/{meson_0.52.1.bb => meson_0.53.0.bb} (100%)
->  rename meta/recipes-devtools/meson/{nativesdk-meson_0.52.1.bb => nativesdk-meson_0.53.0.bb} (100%)
+Some native tools dependency issues were seen while building with
+external GCC tool-set rather than source GCC tool-set. While building
+with source tool-set these dependencies were implicitly met which is not
+the case with external tool-set. So explicitly state these native tools
+dependencies.
 
-This breaks something in the SDK which then fails testing:
+Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+---
+ meta/recipes-extended/man-db/man-db_2.8.7.bb       | 2 +-
+ meta/recipes-extended/psmisc/psmisc.inc            | 2 +-
+ meta/recipes-graphics/xorg-app/xorg-app-common.inc | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/62/builds/1475
-
-(but many other similar failures).
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/man-db/man-db_2.8.7.bb b/meta/recipes-extended/man-db/man-db_2.8.7.bb
+index 083b237..0d73b03 100644
+--- a/meta/recipes-extended/man-db/man-db_2.8.7.bb
++++ b/meta/recipes-extended/man-db/man-db_2.8.7.bb
+@@ -10,7 +10,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
+ SRC_URI[md5sum] = "ec0b23c8314a1654c4d059b2c18ce43d"
+ SRC_URI[sha256sum] = "b9cd5bb996305d08bfe9e1114edc30b4c97be807093b88af8033ed1cf9beb326"
+ 
+-DEPENDS = "libpipeline gdbm groff-native base-passwd"
++DEPENDS = "libpipeline gdbm groff-native base-passwd flex-native"
+ RDEPENDS_${PN} += "base-passwd"
+ 
+ # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
+index 594a10c..6de5acb 100644
+--- a/meta/recipes-extended/psmisc/psmisc.inc
++++ b/meta/recipes-extended/psmisc/psmisc.inc
+@@ -7,7 +7,7 @@ command sends a specified signal (SIGTERM if nothing is specified) to \
+ processes identified by name.  The fuser command identifies the PIDs \
+ of processes that are using specified files or filesystems."
+ SECTION = "base"
+-DEPENDS = "ncurses virtual/libintl gettext-native"
++DEPENDS = "ncurses virtual/libintl gettext-native xz-native"
+ LICENSE = "GPLv2"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz"
+diff --git a/meta/recipes-graphics/xorg-app/xorg-app-common.inc b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+index 3529cb2..211e399 100644
+--- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
++++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+@@ -12,6 +12,6 @@ INC_PR = "r8"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.bz2"
+ 
+-inherit autotools pkgconfig distro_features_check
++inherit autotools pkgconfig distro_features_check gettext
+ 
+ FILES_${PN} += " ${libdir}/X11/${BPN} ${datadir}/X11/app-defaults/"
+-- 
+2.7.4
 
 
