@@ -1,88 +1,47 @@
-Return-Path: <danc@opengear.com>
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com
-	(mail-mw2nam10on2054.outbound.protection.outlook.com [40.107.94.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 096617FD89
+Return-Path: <anibal.limon@linaro.org>
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com
+	[209.85.217.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E15D27FD88
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 00:19:42 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=PfUaHx3efMkfDXWJIrkMAbKR2YF5AQuEKJmDqYK/T/FZ3FlqYfIIZo2IJ/QOg2r1hpsTU3hZeBTW92r8YPZoAaULh94FxOGoTwmV3y00Q8DUcAIZ/wc4b9lGh2MvpkVti9ZlcoSVqM3rpd8kuD+2H2xb0Zvt7QOuNWE518LeTFlMsqV951r3QQxXtLqUJ1np7oFv1Q6KsjOq/5U+xssZZZP8djscZ3u8Cp2naaJg+bMoLGqn4zFeCfDrcyTIFjm2RQ0ZvUg2UiLE9N6+KycvwkAIZZedfr+DWZSc0F9oA1cOJRfg6rIXBnGCHEIxbY1B3sifT4L8do85B7G08aQXpg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=eGNTq9uRBkKvT2OLDQkd8GLb2bmZgtoJra6VolXg4wg=;
-	b=nAClbnPii0pCnJ2cI0ymkGa+CUMGpZw2wN8/kJHuK5gXQrBWcgwVtyEtHdn+scS3pEC/PI899XV3D52mCNKl4VUSSllAAp13Wqe7G1/CkE0WWeNMRr8e2fPTXMcNyEbpE6ADw1lzmlsliM8mCg/0EfRsIw3VOsGxpF9ea1uoSfeyh2lCnQYGk+heuL8qvH2cEnBUjBGScpb4d3vui3XFD+yzPUweDmDgUmyABQl0l3jOivGa3ylrKUKQK7K2K4ZICf7D8PPMk8p30OXw0hiqfljgynLQzTkxmu16VmprP1QpNFx9/KGirYYZdQQT+CjHc+a186ZEMlop1Bln1AeniA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
-	60.241.24.90) smtp.rcpttodomain=linuxfoundation.org
-	smtp.mailfrom=opengear.com;
-	dmarc=pass (p=none sp=none pct=100) action=none
-	header.from=opengear.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=opengear.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=eGNTq9uRBkKvT2OLDQkd8GLb2bmZgtoJra6VolXg4wg=;
-	b=X8oooWNamd56OSz1Y9bXnj9ya3VMLLQOihPMllgNRMgDtFlj36CL3A0mNOX3NcBtPabF5Ewgp4R6csUgvI+gVW9Pg3iEp/yvg48RuwWuQhTeE+XnKT/4+49P2TtC7xVbj8u6X99oItlVucBlsUwYqiuUKPHYl44pd+QFw4yeUuU=
-Received: from DM5PR15CA0030.namprd15.prod.outlook.com (2603:10b6:4:4b::16) by
-	BYAPR15MB2822.namprd15.prod.outlook.com (2603:10b6:a03:15b::14) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.18;
-	Tue, 21 Jan 2020 00:19:42 +0000
-Received: from SN1NAM04FT006.eop-NAM04.prod.protection.outlook.com
-	(2a01:111:f400:7e4c::205) by DM5PR15CA0030.outlook.office365.com
-	(2603:10b6:4:4b::16) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2644.19 via
-	Frontend Transport; Tue, 21 Jan 2020 00:19:41 +0000
-Authentication-Results: spf=pass (sender IP is 60.241.24.90)
-	smtp.mailfrom=opengear.com; linuxfoundation.org; dkim=none (message not
-	signed) header.d=none;linuxfoundation.org; dmarc=pass action=none
-	header.from=opengear.com;
-Received-SPF: Pass (protection.outlook.com: domain of opengear.com designates
-	60.241.24.90 as permitted sender)
-	receiver=protection.outlook.com; 
-	client-ip=60.241.24.90; helo=postman.bne.opengear.com;
-Received: from postman.bne.opengear.com (60.241.24.90) by
-	SN1NAM04FT006.mail.protection.outlook.com (10.152.88.166) with
-	Microsoft SMTP Server id 15.20.2644.19 via Frontend Transport;
-	Tue, 21 Jan 2020 00:19:41 +0000
-Received: from galangal.danc.bne.opengear.com (danc.bne.opengear.com
-	[192.168.254.90])
-	by postman.bne.opengear.com (Postfix) with ESMTPS id 722B3DEBA6;
-	Tue, 21 Jan 2020 10:19:39 +1000 (AEST)
-Received: by galangal.danc.bne.opengear.com (Postfix, from userid 1090)
-	id 531C842945E4; Tue, 21 Jan 2020 10:19:39 +1000 (AEST)
-From: Dan Callaghan <dan.callaghan@opengear.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-In-reply-to: <193655c483d8c4cab252878fe9c857bd8d609187.camel@linuxfoundation.org>
-References: <20200120234818.13068-1-dan.callaghan@opengear.com>
-	<193655c483d8c4cab252878fe9c857bd8d609187.camel@linuxfoundation.org>
-Date: Tue, 21 Jan 2020 10:19:39 +1000
-Message-Id: <1579565909-sup-7035@galangal.danc.bne.opengear.com>
-User-Agent: Sup/0.22.1
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: CIP:60.241.24.90; IPV:; CTRY:AU; EFV:NLI; SFV:NSPM;
-	SFS:(10009020)(4636009)(376002)(396003)(39840400004)(346002)(136003)(189003)(199004)(70206006)(478600001)(356004)(70586007)(8676002)(6266002)(44832011)(5660300002)(7636002)(26005)(246002)(36906005)(426003)(8936002)(186003)(4326008)(4744005)(6916009)(316002)(2906002)(42186006)(336012);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR15MB2822;
-	H:postman.bne.opengear.com; FPR:; SPF:Pass; LANG:en;
-	PTR:brisbane.opengear.com; MX:1; A:1; 
+	Tue, 21 Jan 2020 00:41:45 +0000 (UTC)
+Received: by mail-vs1-f50.google.com with SMTP id u14so716345vsu.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 Jan 2020 16:41:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3VatVr+0yVE4smuqsqRm7PxwFOaAgnnnmVHZjeakJPY=;
+	b=Q+J6ZYM6bBIfws6J6k03hTXc0XO8Ye7g4bbhXSE/uiggp6mgJsWLxrXo+aIA385aCm
+	QJGNeCqNSTpSC5deFDaI8D8yFdnHKGaMeycaoK+PRvz6eVvw/UzhT7O3AjkoDPUnpbJ6
+	xepp5VgexOlLQjEB6YVKV4T8NYMrWG0iowgKNzzxIHPFZFu1HCyk8HBlj3J0rm0rYfdS
+	L7r1ggtm436AR6W0Ewpb2hDxnYqdpyvx1uyk0SHtU+K25dzhimNRbyR9f4KFRIL/caER
+	cKsQwfuYMW3tD/Mn6tFNY3xSBp8k0XeuhgRtlQFtZ3qDTerkDfTCXOI9sUYpd2Diq16M
+	SJuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3VatVr+0yVE4smuqsqRm7PxwFOaAgnnnmVHZjeakJPY=;
+	b=YRgdsi06tYyXVhQT/Ys8JrQh1p7yHsbJYZcBPnwNyAvy3IacuUFxz9W0IMqBQa//+8
+	Ja+G1NApH+piTXUWZWW9IMIDtoS+9i7Lm72LHQzfy2fuVq5GxJ16c8MoLiOGWwwsbTho
+	9ladLAo1fSHLSEiwinXszoAaFtHrFdLjWOERLNYk3nfY9AlMqLtp5luAZsq6IEoAbuUc
+	/cH5WAp61fN/a5xdXcUgNJ5j1daZbcZc+bdeTRpl6iL3N9Lt5FfXOsIZivLbIQ+b7Cg9
+	FZZ7QGJ17W87b3P4OcjBxkZ4hLkboXPtDZexq2DtENsoU9rql/cjCLFCCua5/xJNxDe8
+	TiOA==
+X-Gm-Message-State: APjAAAWU84pOjZpkRxzYtS0mEVQVgM9Hx5NkPjIkd49ATQItTpJyB7xA
+	pwmShTrnUPB9nAFfcZ/JlFXM7kKRgkB4nXocWo6B/A==
+X-Google-Smtp-Source: APXvYqywvsfcAJ5YownFp5g2R7ZuFlmjlcgDry6FxSyTo8Gkxs09ylUPABmyTXqTm7dUeOyORkXX5KVyvt7wDSmSKd4=
+X-Received: by 2002:a67:fc96:: with SMTP id x22mr1169901vsp.33.1579567306626; 
+	Mon, 20 Jan 2020 16:41:46 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6f10f70f-9cd1-4203-5357-08d79e079bf7
-X-MS-TrafficTypeDiagnostic: BYAPR15MB2822:
-X-Microsoft-Antispam-PRVS: <BYAPR15MB2822BA73DD3BC1A9D4384D31B80D0@BYAPR15MB2822.namprd15.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4125;
-X-Forefront-PRVS: 0289B6431E
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: NwKTXVbXymQqJe296k4d5ge/qaxb7IhfM5299+F8EhEdfvKJZR20qydNkLx4u4fy+U0G/Dr4lUCTDQ/7FkTpRJpyQC+Yy/Sm6OFKUG0tMT2DoFzXODDIuU1UoUT7zozWZ7EcXhq5HqxhEeg39aHOZ8cSC0kPfkTv/XX35AujQyZfSWynGjRxqk6Eix8TyCcZ1jxGVxwafKMQzi383F6GVEq2XDyE88QZQbohgw/ZFPVZHuibgyAjydK9aFV5NnqII0jdiqUWdNPhTqZ7VNFcGc/CRNNLpDFKyRq7JcxZgGhKvLO9d8RtsbkhdlVuG1innbXwphdq8sVOIdvCH5XcFl5MqoBAR171LA0NDrVdIo42kIJv17O9w81D/ZxTEjeNBCQDFWoCTyEE3vvwFptA9yxCnxXHsKh5xrj7ZWWDUsyP3AADhgQBGbZ59ijl8ltTAWejujY4LYT1P1zhb/xR7WHFuHtbSmt5ZU2bGF6blyF7cAUyYA/QvOPm6DgTnFQs3Y8vF30i5pxB8zm08GtxkA==
-X-OriginatorOrg: opengear.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2020 00:19:41.0838 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6f10f70f-9cd1-4203-5357-08d79e079bf7
-X-MS-Exchange-CrossTenant-Id: a6251c26-d21f-4164-a225-1f4eaebf5f9a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a6251c26-d21f-4164-a225-1f4eaebf5f9a; Ip=[60.241.24.90];
-	Helo=[postman.bne.opengear.com]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR15MB2822
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gdb: add PACKAGECONFIG for xz (lzma) compression support
+References: <20200114162023.71342-1-anibal.limon@linaro.org>
+	<CANNYZj9O4o+mCrAnUVwF2R-8=wtO=CLJ1SzdhhHT5eb3f3sZoQ@mail.gmail.com>
+In-Reply-To: <CANNYZj9O4o+mCrAnUVwF2R-8=wtO=CLJ1SzdhhHT5eb3f3sZoQ@mail.gmail.com>
+From: Anibal Limon <anibal.limon@linaro.org>
+Date: Mon, 20 Jan 2020 18:41:35 -0600
+Message-ID: <CA+_AqitZAmSamLitO4giYDg-tipJ8KPo_4za8Vrw7UvGGenzhQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCHv2] meta/recipes-graphics/waffle: Add python3 dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -95,19 +54,194 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 00:19:43 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 21 Jan 2020 00:41:46 -0000
+Content-Type: multipart/alternative; boundary="00000000000035f103059c9bac86"
 
-Excerpts from Richard Purdie's message of 2020-01-21 00:04:53 +00:00:
-> Is there an extra DEPENDS needed when enabling this?
+--00000000000035f103059c9bac86
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Oops, yes it should really pull in xz. I missed this because xz is 
-already a transitive dependency through something else. Will post a new 
-patch.
+I found the answer, poky adds wayland support via DISTRO_FEATURES that ends
+on python3 dependency in the waffle recipe-sysroot.
 
--- 
-Dan Callaghan <dan.callaghan@opengear.com>
-Software Engineer
-Opengear <https://opengear.com/>
+You can test removing wayland from DISTRO_FEATURES to see the failure, we
+use OE and has two distro variants X/Wayland so the builds
+fails only in X [1][2].
 
+Regards,
+Anibal
+
+[1]
+https://ci.linaro.org/job/lt-qcom-openembedded-rpb-zeus/61/DISTRO=3Drpb,MAC=
+HINE=3Ddragonboard-410c,label=3Ddocker-stretch-amd64/console
+[2]
+https://ci.linaro.org/job/lt-qcom-openembedded-rpb-zeus/61/DISTRO=3Drpb-way=
+land,MACHINE=3Ddragonboard-410c,label=3Ddocker-stretch-amd64/console
+
+
+On Tue, 14 Jan 2020 at 10:24, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> This failure is not seen on the autobuilder. Is it something that happens
+> only under specific condition, and so should the dependency be conditiona=
+l
+> to that?
+>
+> Alex
+>
+> On Tue, 14 Jan 2020 at 17:20, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro=
+.org>
+> wrote:
+>
+>> The python3native.bbclass set PYTHON_{LIBRARY, INCLUDE_DIR} pointing to
+>> python target build, a patch was add to use target _sysconfigdata too [1=
+]
+>> but is not available without python3 dependency.
+>>
+>> Fixes waffle build when trying to find _sysconfigdata module,
+>>
+>> ...
+>> | Program python3 found: YES
+>> (/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/a=
+arch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-n=
+ative/python3)
+>> |
+>> | meson.build:36:0: ERROR: <ExternalProgram 'python3' ->
+>> ['/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/=
+aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-=
+native/python3']>
+>> is not a valid python or it is missing setuptools
+>> |
+>> | A full log can be found at
+>> /home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aa=
+rch64-linaro-linux/waffle/1.6.0-r0/build/meson-logs/meson-log.txt
+>> | WARNING: exit code 1 from a shell command.
+>> ...
+>>
+>> [1]
+>> http://git.openembedded.org/openembedded-core/commit/?id=3D02714c105426b=
+0d687620913c1a7401b386428b6
+>>
+>> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
+>> ---
+>>  meta/recipes-graphics/waffle/waffle_1.6.0.bb | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+>> b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+>> index 52cb1df899..a620295978 100644
+>> --- a/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+>> +++ b/meta/recipes-graphics/waffle/waffle_1.6.0.bb
+>> @@ -11,6 +11,8 @@ UPSTREAM_CHECK_URI =3D "
+>> http://www.waffle-gl.org/releases.html"
+>>
+>>  inherit meson features_check lib_package bash-completion
+>>
+>> +DEPENDS_append =3D " python3"
+>> +
+>>  # This should be overridden per-machine to reflect the capabilities of
+>> the GL
+>>  # stack.
+>>  PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'gl=
+x
+>> x11-egl', '', d)} \
+>> --
+>> 2.24.1
+>>
+>>
+
+--00000000000035f103059c9bac86
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">I found the answer, poky adds wayland support via=C2=A0DIS=
+TRO_FEATURES that ends on python3 dependency in the waffle recipe-sysroot.<=
+div><br></div><div>You can test removing wayland from=C2=A0DISTRO_FEATURES =
+to see the failure, we use OE and has two distro variants X/Wayland so the =
+builds</div><div>fails only in X [1][2].</div><div><br></div><div>Regards,<=
+/div><div>Anibal</div><div><br></div><div>[1]=C2=A0<a href=3D"https://ci.li=
+naro.org/job/lt-qcom-openembedded-rpb-zeus/61/DISTRO=3Drpb,MACHINE=3Ddragon=
+board-410c,label=3Ddocker-stretch-amd64/console">https://ci.linaro.org/job/=
+lt-qcom-openembedded-rpb-zeus/61/DISTRO=3Drpb,MACHINE=3Ddragonboard-410c,la=
+bel=3Ddocker-stretch-amd64/console</a></div><div>[2]=C2=A0<a href=3D"https:=
+//ci.linaro.org/job/lt-qcom-openembedded-rpb-zeus/61/DISTRO=3Drpb-wayland,M=
+ACHINE=3Ddragonboard-410c,label=3Ddocker-stretch-amd64/console">https://ci.=
+linaro.org/job/lt-qcom-openembedded-rpb-zeus/61/DISTRO=3Drpb-wayland,MACHIN=
+E=3Ddragonboard-410c,label=3Ddocker-stretch-amd64/console</a></div><div><br=
+></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Tue, 14 Jan 2020 at 10:24, Alexander Kanavin &lt;<a href=3D"mailt=
+o:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>This =
+failure is not seen on the autobuilder. Is it something that happens only u=
+nder specific condition, and so should the dependency be conditional to tha=
+t?</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 14 Jan 2020 at 17:20, An=
+=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org" target=
+=3D"_blank">anibal.limon@linaro.org</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">The python3native.bbclass set PYTHON_{LI=
+BRARY, INCLUDE_DIR} pointing to<br>
+python target build, a patch was add to use target _sysconfigdata too [1]<b=
+r>
+but is not available without python3 dependency.<br>
+<br>
+Fixes waffle build when trying to find _sysconfigdata module,<br>
+<br>
+...<br>
+| Program python3 found: YES (/home/anibal.limon/linaro/oe-rpb-master/build=
+-410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroo=
+t-native/usr/bin/python3-native/python3)<br>
+|<br>
+| meson.build:36:0: ERROR: &lt;ExternalProgram &#39;python3&#39; -&gt; [&#3=
+9;/home/anibal.limon/linaro/oe-rpb-master/build-410c/tmp-rpb-glibc/work/aar=
+ch64-linaro-linux/waffle/1.6.0-r0/recipe-sysroot-native/usr/bin/python3-nat=
+ive/python3&#39;]&gt; is not a valid python or it is missing setuptools<br>
+|<br>
+| A full log can be found at /home/anibal.limon/linaro/oe-rpb-master/build-=
+410c/tmp-rpb-glibc/work/aarch64-linaro-linux/waffle/1.6.0-r0/build/meson-lo=
+gs/meson-log.txt<br>
+| WARNING: exit code 1 from a shell command.<br>
+...<br>
+<br>
+[1] <a href=3D"http://git.openembedded.org/openembedded-core/commit/?id=3D0=
+2714c105426b0d687620913c1a7401b386428b6" rel=3D"noreferrer" target=3D"_blan=
+k">http://git.openembedded.org/openembedded-core/commit/?id=3D02714c105426b=
+0d687620913c1a7401b386428b6</a><br>
+<br>
+Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
+naro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/waffle/<a href=3D"http://waffle_1.6.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">waffle_1.6.0.bb</a> | 2 ++<br>
+=C2=A01 file changed, 2 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-graphics/waffle/<a href=3D"http://waffle_1.6.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">waffle_1.6.0.bb</a> b/meta/recipes-g=
+raphics/waffle/<a href=3D"http://waffle_1.6.0.bb" rel=3D"noreferrer" target=
+=3D"_blank">waffle_1.6.0.bb</a><br>
+index 52cb1df899..a620295978 100644<br>
+--- a/meta/recipes-graphics/waffle/<a href=3D"http://waffle_1.6.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">waffle_1.6.0.bb</a><br>
++++ b/meta/recipes-graphics/waffle/<a href=3D"http://waffle_1.6.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">waffle_1.6.0.bb</a><br>
+@@ -11,6 +11,8 @@ UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://www.waffle=
+-gl.org/releases.html" rel=3D"noreferrer" target=3D"_blank">http://www.waff=
+le-gl.org/releases.html</a>&quot;<br>
+<br>
+=C2=A0inherit meson features_check lib_package bash-completion<br>
+<br>
++DEPENDS_append =3D &quot; python3&quot;<br>
++<br>
+=C2=A0# This should be overridden per-machine to reflect the capabilities o=
+f the GL<br>
+=C2=A0# stack.<br>
+=C2=A0PACKAGECONFIG ??=3D &quot;${@bb.utils.contains(&#39;DISTRO_FEATURES&#=
+39;, &#39;x11&#39;, &#39;glx x11-egl&#39;, &#39;&#39;, d)} \<br>
+-- <br>
+2.24.1<br>
+<br>
+</blockquote></div>
+</blockquote></div>
+
+--00000000000035f103059c9bac86--
