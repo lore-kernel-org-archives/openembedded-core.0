@@ -1,48 +1,49 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id DA0BB7FD34
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F08779C7C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 12:04:15 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id t17so2129146ilm.13
+	Tue, 21 Jan 2020 12:36:12 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id b6so3044488wrq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 04:04:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QfBloNDFmoiUvsCuNSuwGjAqT15fi2WlQgK2Pok1/mE=;
-	b=FlTPktvb+CoVrlE3ygsTD0bH/0EIsbMUTkZ8ZYva4Pn1RdFAqa7vRtkbTdkb1QPVdK
-	o1OjtudWmCCh+yhYcGJVNeUjnrhd2LNkehQWECUsa/SZBrerz3+Ck0hwSbc8lZK0byzf
-	Vu9NI7gvz/reixW4fZ10tRUcTRn4PbEwVVRa1h0RgThsbK667qk8rWazhzWmB8XUdrvI
-	bP80mwep9IOkumJWaf0d30DUMIHPvRyqZXc5TDLIYOThd7P7+X9CL5cdjpq1Xydi9Gma
-	fv45Y/CyEzbGOTFrPH52jDJyA7sU3v1iwmi9drseJPsG/g+KH7foA3FCtGIjg38neHNC
-	Z8Yg==
+	Tue, 21 Jan 2020 04:36:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=QRoKTa/sgv511LPJVrQLRYpoDfFvZJAIwUceGEe1yDw=;
+	b=cQhqbVWKm1ojhnDc79dWyyb9+KzY/p2dSPyLul2sym4U7eZrXuiPr05uOVOuyRnPhy
+	yOffzoYf1s52Bq8t0QOvLTt5K/cU0Yj7pjqPFH7ndIr7SSJS2Air1tgaF4bjU/SY6ugq
+	8uI39/dDR0lVl3w+wrcthhFaz9Jgp5YEAQiQM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QfBloNDFmoiUvsCuNSuwGjAqT15fi2WlQgK2Pok1/mE=;
-	b=dPzu2Hklr4QodjN7JE2l4Kkmw7eSFqGH8cm/7rHjCzlsIBXO5mBzSQf/P65RWagpvM
-	VTjdKhzi443q7T+0bJdT+gZFKjjn6qSmzhGY4jOPdGtiznKs+joJ/t8Jos+92bBdKdbA
-	VtSqU6ZfrnAY/p2K71Wb9T1rLbTFoh2mEhMF80D9dy+q6phw8F+KfHiH1C/EJnIMRTIP
-	QxOCHkJiLjvbznJGPQNjJ6HOKpcWUjbnxNcMPVqp4wNiZCNOXaDiqtOVdY+QU/cHTlWG
-	DtJDBR1h4AvHsTE1cQusghbATo4D+PRDYSooVZlcrq9XgocwZVtDjuExNSV1v47xLHh/
-	NRzQ==
-X-Gm-Message-State: APjAAAWrXVzznqu1hcTmnk9Kyngm0+tFJeIxU2HFW5K+flQnJvZD3eIZ
-	by0bKDW/hFDcl3KuRuECW+ItTdGVWpqATwLB99Q=
-X-Google-Smtp-Source: APXvYqyRYpCmAHBaN1xlMkCb1Hlad69HaT4nG0Nl2Il31ecCOs+yglTxcN8nr8EOUkndwfFxYE/hOibMDHMPjA2Vh/A=
-X-Received: by 2002:a92:3b98:: with SMTP id n24mr3526868ilh.108.1579608256809; 
-	Tue, 21 Jan 2020 04:04:16 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=QRoKTa/sgv511LPJVrQLRYpoDfFvZJAIwUceGEe1yDw=;
+	b=lD2e7wBLH/DhXXgEg2R3Yf6c8hPYlPowjwYnh/uitcO1L5/z/umWBrc9/L33os3/nR
+	2DYISM7LGhwqAQd/hCnEEMsrSDTnQVEo0Kxsro0RAhhJA8yHC8zebwyhN0FCEU5Zgp2Y
+	4LRHpRoU7N69C2m5xF/UAnvwdtCzWLLiUO2TFtmSHjsEDFKuXxUQCiXzx0nnx/179T2P
+	IOuQLI2XJEY5peqoy249Bt4qAzgwZ56iD00xg4rYOEKoHGvXY8XF6zw13D4Uc7QHqruY
+	oWF+mabY83UoBY1hRm93kr6rIbPiaQNZ9CRDSZxdYLXibwSzmacxqakhsogt8nkY2vn9
+	2wbQ==
+X-Gm-Message-State: APjAAAUiXgt75oh/1lxad4/L8G4Zc8a9eIUgE9/5W3JukuflVG0JzxD2
+	CXRCPMdlMe1wcW5IcPc9hfzgtw==
+X-Google-Smtp-Source: APXvYqy8U/6pLJnq/Bk+3Uvf2lmhQpQgPweOcK66gDtCNmau2wtQxxEdJIaDEgjwVYh8fCv9pGPBMQ==
+X-Received: by 2002:a5d:4687:: with SMTP id u7mr4856250wrq.176.1579610173133; 
+	Tue, 21 Jan 2020 04:36:13 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id n3sm49237048wrs.8.2020.01.21.04.36.11
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 21 Jan 2020 04:36:12 -0800 (PST)
+Message-ID: <4e3bf60b3f87b1c87a0fdb5016239414429bf499.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: JH <jupiter.hce@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 21 Jan 2020 12:36:11 +0000
+In-Reply-To: <CAA=hcWS5w_QTmUMZBBMpj-H+iyBcqc=6h3RoZwdpVYU7gpyaMw@mail.gmail.com>
+References: <CAA=hcWS5w_QTmUMZBBMpj-H+iyBcqc=6h3RoZwdpVYU7gpyaMw@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-	<20200120172510.22648-5-alex.kanavin@gmail.com>
-In-Reply-To: <20200120172510.22648-5-alex.kanavin@gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Tue, 21 Jan 2020 13:04:05 +0100
-Message-ID: <CALbNGRTcVRb7obS2g8d6fipNUervDr0ZYvJ+izLmCJH4h5QRyQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/24] nss: update to 3.49.1
+Subject: Re: Could oe-core be infected by virus?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,30 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 12:04:16 -0000
+X-List-Received-Date: Tue, 21 Jan 2020 12:36:12 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Jan 20, 2020 at 6:26 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Drop a backport, and a patch that causes build errors with
-> the new version.
->
-> Add a patch to make ARM HW crypto optional; upstream for some
-> reason does not allow disabling it.
-Thanks and FWIW - I tried to subscribe to their mailing list to ask if
-that was intended. To my surprise I received:
+On Tue, 2020-01-21 at 22:21 +1100, JH wrote:
+> Hi,
+> 
+> I have been using thud version to build imx6 image for about a year,
+> it was all good until my last image built at Mon Dec 23 2019.
+> 
+> The image was booted fine in the first and second times, then in the
+> third time, it broken, the boot could not be completed. The wired
+> thing was that image injected so many new messages, including
+> "Welcome
+> to OpenEmbedded nodistro.0!" I have never seen in previous built
+> image
+> boot. Here are new messages in booting, which were never seen in good
+> normal image booting:
+> 
+> ..................
+> 
+> [    0.440012] No ATAGs?
 
-| Your request to the nss-dev mailing list
-|
-|    Subscription request
-|
-| has been rejected by the list moderator.  The moderator gave the
-| following reason for rejecting your request:
-|
-| "Not an active NSS developer. Contact jc@mozilla.com to argue :)"
+Those messages all look fairly normal parts of system boot up so I very
+much doubt any virus is involved.
 
-Wow...
+I suspect many of these have always been there but maybe directed to
+different consoles which you weren't using.
 
-Andreas
+Something has probably changed on the device with the bootloader to
+kernel handoff and its changed the kernel boot parameters and console
+setup. This is now printing things on the console you've not seen
+before.
+
+The no ATAGS may or may not be related, I don't know what your system
+did differently.
+
+So if it was me, I'd be looking at how the bootloader and/or kernel
+commandline has changed with your last update.
+
+Cheers,
+
+Richard
+
 
