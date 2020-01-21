@@ -1,23 +1,18 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A4C97FD63
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 07:19:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 00L7J7vO005985
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 20 Jan 2020 23:19:08 -0800 (PST)
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
-	Mon, 20 Jan 2020 23:19:06 -0800
-From: <mingli.yu@windriver.com>
-To: <crg7475@mailbox.org>, <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 Jan 2020 23:19:06 -0800
-Message-ID: <20200121071906.1102-1-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.23.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 12E987FD6D;
+	Tue, 21 Jan 2020 07:32:29 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] gstreamer1.0-plugins-common.inc: disable orc on mips
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: mingli.yu@windriver.com
+Date: Tue, 21 Jan 2020 07:32:30 -0000
+Message-ID: <20200121073230.2275.69653@do>
+References: <20200121071906.1102-1-mingli.yu@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200121071906.1102-1-mingli.yu@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtY29tbW9uLmluYzogZGlzYWJsZSBvcmMgb24gbWlwcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,97 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 07:19:10 -0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+X-List-Received-Date: Tue, 21 Jan 2020 07:32:29 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mingli Yu <mingli.yu@windriver.com>
+== Series Details ==
 
-After transiton to meson build for gstreamer series,
-for gstreamer1.0-plugins-base, with below two commits
-introduced:
-238080ed89 gstreamer: Remove unused common files and patches
-20614408dc gstreamer1.0-plugins-base: Transition to meson based builds
+Series: gstreamer1.0-plugins-common.inc: disable orc on mips
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22184/
+State : failure
 
-With below config in local.conf
-MACHINE ??=3D "qemumips64"
-require conf/multilib.conf
-MULTILIB_GLOBAL_VARIANTS_append =3D " libn32"
-MULTILIBS ?=3D "multilib:lib32 multilib:libn32"
-DEFAULTTUNE_virtclass-multilib-lib32 ?=3D "mips"
-DEFAULTTUNE_virtclass-multilib-libn32 ?=3D "mips64-n32"
+== Summary ==
 
-there comes below failure:
-$ bitbake lib32-gstreamer1.0-plugins-base
-[snip]
-mips-pokymllib32-linux-gcc -meb -mabi=3D32 -mhard-float -fstack-protector-s=
-trong -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-sec=
-urity --sysroot=3D/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstreamer1=
-.0-plugins-base/1.16.1-r0/lib32-recipe-sysroot -Itests/check/7d01337@@orc_v=
-ideo@exe -Itests/check -I../gst-plugins-base-1.16.1/tests/check -I/mybuild/=
-tmp/work/mips-pokymllib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/l=
-ib32-recipe-sysroot/usr/include/orc-0.4 -fdiagnostics-color=3Dalways -pipe =
--D_FILE_OFFSET_BITS=3D64 -fvisibility=3Dhidden -fno-strict-aliasing -DG_DIS=
-ABLE_CAST_CHECKS -Wmissing-declarations -Wredundant-decls -Wundef -Wwrite-s=
-trings -Wformat -Wformat-nonliteral -Wformat-security -Winit-self -Wmissing=
--include-dirs -Waddress -Wno-multichar -Wvla -Wpointer-arith -Wmissing-prot=
-otypes -Wdeclaration-after-statement -O2 -g -feliminate-unused-debug-types =
--fmacro-prefix-map=3D/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstream=
-er1.0-plugins-base/1.16.1-r0=3D/usr/src/debug/lib32-gstreamer1.0-plugins-ba=
-se/1.16.1-r0 -fdebug-prefix-map=3D/mybuild/tmp/work/mips-pokymllib32-linux/=
-lib32-gstreamer1.0-plugins-base/1.16.1-r0=3D/usr/src/debug/lib32-gstreamer1=
-.0-plugins-base/1.16.1-r0 -fdebug-prefix-map=3D/mybuild/tmp/work/mips-pokym=
-llib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/lib32-recipe-sysroot=
-=3D -fdebug-prefix-map=3D/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gst=
-reamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native=3D -MD -MQ 'tests/ch=
-eck/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o' -MF 'tests/che=
-ck/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o.d' -o 'tests/che=
-ck/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o' -c tests/check/=
-orc_video.c
-FAILED: tests/check/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o
-{standard input}: Assembler messages:
-{standard input}:46587: Error: branch out of range
-{standard input}:46613: Error: branch out of range
-[snip]
 
-BTW, gstreamer1.0-plugins-good also occurs
-the same build failure as above.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Disable orc as workaround to fix the above issue
 
-Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 1098fdf360)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- .../findutils/{findutils_4.6.0.bb =3D> findutils_4.7.0.bb}     | 0
- .../gstreamer/gstreamer1.0-plugins-common.inc                | 5 ++++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
- rename meta/recipes-extended/findutils/{findutils_4.6.0.bb =3D> findutils_=
-4.7.0.bb} (100%)
-
-diff --git a/meta/recipes-extended/findutils/findutils_4.6.0.bb b/meta/reci=
-pes-extended/findutils/findutils_4.7.0.bb
-similarity index 100%
-rename from meta/recipes-extended/findutils/findutils_4.6.0.bb
-rename to meta/recipes-extended/findutils/findutils_4.7.0.bb
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.=
-inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
-index ccf55500a9..3896424b2d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
-@@ -18,7 +18,10 @@ require gstreamer1.0-plugins-packaging.inc
- # This value is used in the PACKAGECONFIG values for each plugin set recip=
-e.
- # By modifying it, Orc can be enabled/disabled in all of these recipes at =
-once.
- GSTREAMER_ORC ?=3D "orc"
--
-+# workaround to disable orc on mips to fix the build failure
-+# {standard input}: Assembler messages:
-+# {standard input}:46587: Error: branch out of range
-+GSTREAMER_ORC_remove_mips =3D "orc"
- PACKAGECONFIG[orc] =3D "-Dorc=3Denabled,-Dorc=3Ddisabled,orc orc-native"
-=20
- # TODO: put this in a gettext.bbclass patch (with variables to allow for
---=20
-2.23.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
