@@ -1,48 +1,25 @@
-Return-Path: <sumit.garg@linaro.org>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 43D737D084
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CC9857FD82
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 08:26:39 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id c9so1028417plo.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 00:26:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=OPpFWsBBP5/Y19grrDj/oj4LaFzI3ApLlKLXFSlSMQQ=;
-	b=b9jbqV6nSwxuyl8qNaXQOlmS7NQqc/n1WpRMgahignZ8DmBoeKGY33seJ5Mam672wz
-	kOSuinRpHGqlwfXhVsG7Fl19G/dJxuT2Y4jLFGjMoKvuNkzfi0ZjbAnHEtOn4HcoykcL
-	qMgH9HVptdWVylP6L0T22neXM6DnyKoXeAXdeb96wRYAQ+AMUeDmGtx7Wu5qSJLTUfMf
-	ydTbf/31O0izqZVjZfeLVkotZTUExpb10h2rAiL+hue/JWBp2kcAeIYA5NcAD2sR+HuM
-	I42/T+BZsUXDqbEBrQyvXlyxHRgQqNkFCL/KtsEJ1mBPhClqhDydXx071HKxZB8LZENB
-	Kqyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=OPpFWsBBP5/Y19grrDj/oj4LaFzI3ApLlKLXFSlSMQQ=;
-	b=CO9sDp+u0/LCv8KmomlbUJAtF8vL02Z30lA/xQiU0L/3VdVyuY3QIAZXTVzsB8KFs6
-	LanwsASh6LW7xLHK8RBbv07LKDrc5TDFPxw3sIU1MAGa/TPi6prlkWgTvyiyeUi8rJCr
-	EFWiKufYyp0Q+OHGXYO+QtNRMI8jje/D4t7NhZH1cUzqxITDpESWFGtBVM0Kq2Fc4x1q
-	nt0vMQjgh/GvjM6aYJxCVn4p5K9BmiCabxlZqZurAF4bgiKKQV5WhjNuBdTKoXqNXeTM
-	iy3qzWjC/4c7U5a2u4HW3AAoG7okM3yCgklsZwhQs1XCGhG3c3U6XRhaewIf4XMXTDDe
-	q3ww==
-X-Gm-Message-State: APjAAAUaZABccabYcybLydfxUaZlWnaWTvxJtu+tWt+U28d6aQ1kSFhk
-	vBGOMnc0v6T48YdzHU4NmT7mTKuukN4=
-X-Google-Smtp-Source: APXvYqyyhDj/O5IHjSelRntTkDzTOv7D4kER0VaCXzsUnHNUAnaygmFu399pNPBMoctADoUlBjon1A==
-X-Received: by 2002:a17:90a:3487:: with SMTP id
-	p7mr4123755pjb.115.1579595199909; 
-	Tue, 21 Jan 2020 00:26:39 -0800 (PST)
-Received: from localhost.localdomain ([117.252.69.227])
-	by smtp.gmail.com with ESMTPSA id
-	e1sm42444361pfl.98.2020.01.21.00.26.34
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 Jan 2020 00:26:39 -0800 (PST)
-From: Sumit Garg <sumit.garg@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2020 13:56:13 +0530
-Message-Id: <1579595173-23336-1-git-send-email-sumit.garg@linaro.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [zeus][PATCH] core: recipes: fix some native tools dependencies
+	Tue, 21 Jan 2020 08:40:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00L8dKAB017799
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 21 Jan 2020 00:39:30 -0800
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
+	Tue, 21 Jan 2020 00:39:09 -0800
+From: <mingli.yu@windriver.com>
+To: <crg7475@mailbox.org>, <openembedded-core@lists.openembedded.org>
+Date: Tue, 21 Jan 2020 00:39:09 -0800
+Message-ID: <20200121083909.16121-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <20200121071906.1102-1-mingli.yu@windriver.com>
+References: <20200121071906.1102-1-mingli.yu@windriver.com>
+MIME-Version: 1.0
+Subject: [PATCH v2] gstreamer1.0-plugins-common.inc: disable orc on mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,60 +32,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 08:26:39 -0000
+X-List-Received-Date: Tue, 21 Jan 2020 08:40:01 -0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Some native tools dependency issues were seen while building with
-external GCC tool-set rather than source GCC tool-set. While building
-with source tool-set these dependencies were implicitly met which is not
-the case with external tool-set. So explicitly state these native tools
-dependencies.
+From: Mingli Yu <mingli.yu@windriver.com>
 
-Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+After transiton to meson build for gstreamer series,
+for gstreamer1.0-plugins-base, with below two commits
+introduced:
+238080ed89 gstreamer: Remove unused common files and patches
+20614408dc gstreamer1.0-plugins-base: Transition to meson based builds
+
+With below config in local.conf
+MACHINE ??=3D "qemumips64"
+require conf/multilib.conf
+MULTILIB_GLOBAL_VARIANTS_append =3D " libn32"
+MULTILIBS ?=3D "multilib:lib32 multilib:libn32"
+DEFAULTTUNE_virtclass-multilib-lib32 ?=3D "mips"
+DEFAULTTUNE_virtclass-multilib-libn32 ?=3D "mips64-n32"
+
+there comes below failure:
+$ bitbake lib32-gstreamer1.0-plugins-base
+[snip]
+mips-pokymllib32-linux-gcc -meb -mabi=3D32 -mhard-float -fstack-protector-s=
+trong -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3Dformat-sec=
+urity --sysroot=3D/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstreamer1=
+.0-plugins-base/1.16.1-r0/lib32-recipe-sysroot -Itests/check/7d01337@@orc_v=
+ideo@exe -Itests/check -I../gst-plugins-base-1.16.1/tests/check -I/mybuild/=
+tmp/work/mips-pokymllib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/l=
+ib32-recipe-sysroot/usr/include/orc-0.4 -fdiagnostics-color=3Dalways -pipe =
+-D_FILE_OFFSET_BITS=3D64 -fvisibility=3Dhidden -fno-strict-aliasing -DG_DIS=
+ABLE_CAST_CHECKS -Wmissing-declarations -Wredundant-decls -Wundef -Wwrite-s=
+trings -Wformat -Wformat-nonliteral -Wformat-security -Winit-self -Wmissing=
+-include-dirs -Waddress -Wno-multichar -Wvla -Wpointer-arith -Wmissing-prot=
+otypes -Wdeclaration-after-statement -O2 -g -feliminate-unused-debug-types =
+-fmacro-prefix-map=3D/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstream=
+er1.0-plugins-base/1.16.1-r0=3D/usr/src/debug/lib32-gstreamer1.0-plugins-ba=
+se/1.16.1-r0 -fdebug-prefix-map=3D/mybuild/tmp/work/mips-pokymllib32-linux/=
+lib32-gstreamer1.0-plugins-base/1.16.1-r0=3D/usr/src/debug/lib32-gstreamer1=
+.0-plugins-base/1.16.1-r0 -fdebug-prefix-map=3D/mybuild/tmp/work/mips-pokym=
+llib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/lib32-recipe-sysroot=
+=3D -fdebug-prefix-map=3D/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gst=
+reamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native=3D -MD -MQ 'tests/ch=
+eck/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o' -MF 'tests/che=
+ck/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o.d' -o 'tests/che=
+ck/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o' -c tests/check/=
+orc_video.c
+FAILED: tests/check/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o
+{standard input}: Assembler messages:
+{standard input}:46587: Error: branch out of range
+{standard input}:46613: Error: branch out of range
+[snip]
+
+BTW, gstreamer1.0-plugins-good also occurs
+the same build failure as above.
+
+Disable orc as workaround to fix the above issue
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- meta/recipes-extended/man-db/man-db_2.8.7.bb       | 2 +-
- meta/recipes-extended/psmisc/psmisc.inc            | 2 +-
- meta/recipes-graphics/xorg-app/xorg-app-common.inc | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../gstreamer/gstreamer1.0-plugins-common.inc                | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/man-db/man-db_2.8.7.bb b/meta/recipes-extended/man-db/man-db_2.8.7.bb
-index 083b237..0d73b03 100644
---- a/meta/recipes-extended/man-db/man-db_2.8.7.bb
-+++ b/meta/recipes-extended/man-db/man-db_2.8.7.bb
-@@ -10,7 +10,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
- SRC_URI[md5sum] = "ec0b23c8314a1654c4d059b2c18ce43d"
- SRC_URI[sha256sum] = "b9cd5bb996305d08bfe9e1114edc30b4c97be807093b88af8033ed1cf9beb326"
- 
--DEPENDS = "libpipeline gdbm groff-native base-passwd"
-+DEPENDS = "libpipeline gdbm groff-native base-passwd flex-native"
- RDEPENDS_${PN} += "base-passwd"
- 
- # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
-diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
-index 594a10c..6de5acb 100644
---- a/meta/recipes-extended/psmisc/psmisc.inc
-+++ b/meta/recipes-extended/psmisc/psmisc.inc
-@@ -7,7 +7,7 @@ command sends a specified signal (SIGTERM if nothing is specified) to \
- processes identified by name.  The fuser command identifies the PIDs \
- of processes that are using specified files or filesystems."
- SECTION = "base"
--DEPENDS = "ncurses virtual/libintl gettext-native"
-+DEPENDS = "ncurses virtual/libintl gettext-native xz-native"
- LICENSE = "GPLv2"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz"
-diff --git a/meta/recipes-graphics/xorg-app/xorg-app-common.inc b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-index 3529cb2..211e399 100644
---- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-+++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
-@@ -12,6 +12,6 @@ INC_PR = "r8"
- 
- SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.bz2"
- 
--inherit autotools pkgconfig distro_features_check
-+inherit autotools pkgconfig distro_features_check gettext
- 
- FILES_${PN} += " ${libdir}/X11/${BPN} ${datadir}/X11/app-defaults/"
--- 
-2.7.4
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.=
+inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+index ccf55500a9..3896424b2d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+@@ -18,7 +18,10 @@ require gstreamer1.0-plugins-packaging.inc
+ # This value is used in the PACKAGECONFIG values for each plugin set recip=
+e.
+ # By modifying it, Orc can be enabled/disabled in all of these recipes at =
+once.
+ GSTREAMER_ORC ?=3D "orc"
+-
++# workaround to disable orc on mips to fix the build failure
++# {standard input}: Assembler messages:
++# {standard input}:46587: Error: branch out of range
++GSTREAMER_ORC_remove_mips =3D "orc"
+ PACKAGECONFIG[orc] =3D "-Dorc=3Denabled,-Dorc=3Ddisabled,orc orc-native"
+=20
+ # TODO: put this in a gettext.bbclass patch (with variables to allow for
+--=20
+2.23.0
 
 
