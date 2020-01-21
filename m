@@ -1,23 +1,25 @@
 Return-Path: <chee.yang.lee@intel.com>
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id DA0267FD54
+	by mail.openembedded.org (Postfix) with ESMTP id 6B4B97FD59
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 05:26:47 +0000 (UTC)
+	Tue, 21 Jan 2020 05:26:48 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
 	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 Jan 2020 21:26:48 -0800
+	20 Jan 2020 21:26:49 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,344,1574150400"; d="scan'208";a="374488821"
+X-IronPort-AV: E=Sophos;i="5.70,344,1574150400"; d="scan'208";a="374488824"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
 	by orsmga004.jf.intel.com with ESMTP; 20 Jan 2020 21:26:48 -0800
 From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2020 13:26:46 +0800
-Message-Id: <1579584407-14563-1-git-send-email-chee.yang.lee@intel.com>
+Date: Tue, 21 Jan 2020 13:26:47 +0800
+Message-Id: <1579584407-14563-2-git-send-email-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] bash: include patch 8-11
+In-Reply-To: <1579584407-14563-1-git-send-email-chee.yang.lee@intel.com>
+References: <1579584407-14563-1-git-send-email-chee.yang.lee@intel.com>
+Subject: [PATCH 2/2] rsync: whitelist CVE-2017-16548
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,41 +36,30 @@ X-List-Received-Date: Tue, 21 Jan 2020 05:26:48 -0000
 
 From: Lee Chee Yang <chee.yang.lee@intel.com>
 
+patch for this CVE applies to v3.1.3pre1 not for v3.1.3.
+patch already in v3.1.3.
+see
+https://git.samba.org/rsync.git/?p=rsync.git;a=commitdiff;h=47a63d90e71d3e19e0e96052bb8c6b9cb140ecc1;hp=bc112b0e7feece62ce98708092306639a8a53cce
+
 Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/recipes-extended/bash/bash_5.0.bb | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ meta/recipes-devtools/rsync/rsync_3.1.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-extended/bash/bash_5.0.bb
-index eadc822..0c7b234 100644
---- a/meta/recipes-extended/bash/bash_5.0.bb
-+++ b/meta/recipes-extended/bash/bash_5.0.bb
-@@ -12,6 +12,10 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-005;apply=yes;striplevel=0;name=patch005 \
-            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-006;apply=yes;striplevel=0;name=patch006 \
-            ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-007;apply=yes;striplevel=0;name=patch007 \
-+           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-008;apply=yes;striplevel=0;name=patch008 \
-+           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-009;apply=yes;striplevel=0;name=patch009 \
-+           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-010;apply=yes;striplevel=0;name=patch010 \
-+           ${GNU_MIRROR}/bash/bash-${PV}-patches/bash50-011;apply=yes;striplevel=0;name=patch011 \
-            file://execute_cmd.patch \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-@@ -38,6 +42,14 @@ SRC_URI[patch006.md5sum] = "4a8ee95adb72c3aba03d9e8c9f96ece6"
- SRC_URI[patch006.sha256sum] = "d68529a6ff201b6ff5915318ab12fc16b8a0ebb77fda3308303fcc1e13398420"
- SRC_URI[patch007.md5sum] = "411560d81fde2dc5b17b83c3f3b58c6f"
- SRC_URI[patch007.sha256sum] = "17b41e7ee3673d8887dd25992417a398677533ab8827938aa41fad70df19af9b"
-+SRC_URI[patch008.md5sum] = "dd7cf7a784d1838822cad8d419315991"
-+SRC_URI[patch008.sha256sum] = "eec64588622a82a5029b2776e218a75a3640bef4953f09d6ee1f4199670ad7e3"
-+SRC_URI[patch009.md5sum] = "c1b3e937cd6dccbb7fd772f32812a0da"
-+SRC_URI[patch009.sha256sum] = "ed3ca21767303fc3de93934aa524c2e920787c506b601cc40a4897d4b094d903"
-+SRC_URI[patch010.md5sum] = "19b41e73b03602d0e261c471b53e670c"
-+SRC_URI[patch010.sha256sum] = "d6fbc325f0b5dc54ddbe8ee43020bced8bd589ddffea59d128db14b2e52a8a11"
-+SRC_URI[patch011.md5sum] = "414339330a3634137081a97f2c8615a8"
-+SRC_URI[patch011.sha256sum] = "2c4de332b91eaf797abbbd6c79709690b5cbd48b12e8dfe748096dbd7bf474ea"
+diff --git a/meta/recipes-devtools/rsync/rsync_3.1.3.bb b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+index ffb1d06..152ff02 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.1.3.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+@@ -20,6 +20,9 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+ SRC_URI[md5sum] = "1581a588fde9d89f6bc6201e8129afaf"
+ SRC_URI[sha256sum] = "55cc554efec5fdaad70de921cd5a5eeb6c29a95524c715f3bbf849235b0800c0"
  
- DEBUG_OPTIMIZATION_append_armv4 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
- DEBUG_OPTIMIZATION_append_armv5 = " ${@bb.utils.contains('TUNE_CCARGS', '-mthumb', '-fomit-frame-pointer', '', d)}"
++# -16548 required for v3.1.3pre1. Already in v3.1.3.
++CVE_CHECK_WHITELIST += " CVE-2017-16548 "
++
+ inherit autotools
+ 
+ PACKAGECONFIG ??= "acl attr \
 -- 
 2.7.4
 
