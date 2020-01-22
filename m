@@ -1,33 +1,25 @@
-Return-Path: <pjtexier@koncepto.io>
-Received: from koncepto.io (koncepto.io [195.154.119.111])
-	by mail.openembedded.org (Postfix) with ESMTP id D8C63731B1
+Return-Path: <Matthew.Zeng@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B7067F3BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 18:06:51 +0000 (UTC)
-Received: from [192.168.1.17] (lfbn-bor-1-1001-35.w90-120.abo.wanadoo.fr
-	[90.120.192.35]) by koncepto.io (Postfix) with ESMTPSA id 64CBD603E0;
-	Wed, 22 Jan 2020 19:06:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
-	s=default; t=1579716408;
-	bh=y18Z9M4iqS1MEJ1S1NnNJ5fNk+Swo74T2nWmGJSHnIg=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=hwcpcPJDThRIODrO6Cw2LWGVTJ75wm6Z98AufrqmuoMDv3OZua9Iib3+OXaiFGnvx
-	fGsWy6vdetuxRJ5reGf6BpFt3gmOWWVl0+Jd3ixDUvcwlL/ON+pHAM0lOzTk89ywzJ
-	4NhaR9kpbb790f6oiPjiwlC5TGx7/eYCRyFk2w4V/sdco5GuyTuLxcLRu12jJOVfli
-	PEJhNXc1pGhafUigShjkqvIoChjJ7cI6bDMbIZ9Dl3TPJK+6JAkLdASmiuS3fTnjnk
-	pchCM2HIZ0/D8xjAo2nktY1NU9M7ANd009BhYTKmV4Gd1bjElEFIvYnsEZupa1D1AU
-	3ir7lor/8IC4w==
-To: Mikko.Rapeli@bmw.de
-References: <1579631324-16775-1-git-send-email-pjtexier@koncepto.io>
-	<20200122092837.GH34396@korppu>
-From: Pierre-Jean Texier <pjtexier@koncepto.io>
-Message-ID: <a68132ef-a36b-b517-bde0-ca2419ae15fb@koncepto.io>
-Date: Wed, 22 Jan 2020 19:06:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
+	Wed, 22 Jan 2020 18:48:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00MIlvGb005073
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 Jan 2020 10:48:08 -0800
+Received: from mzeng (128.224.141.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Wed, 22 Jan 2020 10:47:47 -0800
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: "Mingde (Matthew) Zeng" <matthew.zeng@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 Jan 2020 13:47:36 -0500
+Message-ID: <87a76fcoqf.fsf@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20200122092837.GH34396@korppu>
-Cc: peter.kjellerstedt@axis.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: upgrade 2.34 -> 2.35
+X-Originating-IP: [128.224.141.67]
+Subject: [PATCH] kbd: fix ptest libkbdfile-test08
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,25 +32,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 18:06:52 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 22 Jan 2020 18:48:17 -0000
+Content-Type: text/plain
 
-Hi Mikko,
+    `DATADIR` and `ABS_DATADIR` are compile flags defined in
+    ./kbd/tests/Makefile.am. `DATADIR` is the relative directory of
+    kbd, i.e `./kbd/ptest/tests` whereas `ABS_DATADIR` is the full
+    directory path, i.e `/usr/lib/kbd/ptest/tests`. The latter has a
+    problem when building ptests for a 64-bit image, because the tests
+    folder is located at `/usr/lib64/kbd/ptest/tests` instead.
 
-Le 22/01/2020 à 10:28, Mikko.Rapeli@bmw.de a écrit :
-> Which parts of util-linux are now licensed with GPLv3?
+    Therefore `ABS_DATADIR` is changed to `DATADIR`, also consistent
+    with what *every other* kbd test is doing.
 
-As said by Peter previously, it's only for hwclock. In fact
-since commit 7a3000f7ba548cf7d74ac77cc63fe8de228a669e ("hwclock: use 
-parse_date function ") so the version 2.30,
-hwclock is linked with parse_date.y from gnullib.
-And gnulib code is distributed with GPLv3
+    The test searches DATADIR recursively for a file named
+    `test0.map`, but it finds the wrong file at
+    `/findfile/test_0/keymaps/i386/qwerty/test0.map`, while it
+    actually needs `/findfile/test_0/keymaps/i386/qwerty/test0.map`.
 
-Regards
--- 
-Pierre-Jean Texier
-Embedded Linux Engineer
-https://koncepto.io
+    Thus appending `/i386` to `dirpath` so that `libkbdfile-test08.c`
+    finds the right test file.
+
+Signed-off-by: Matthew Zeng<Matthew.Zeng@windriver.com>
+---
+ ...append-i386-to-fix-libkbdfile-test08.patch | 44 +++++++++++++++++++
+ meta/recipes-core/kbd/kbd_2.2.0.bb            |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-core/kbd/kbd/0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch
+
+diff --git a/meta/recipes-core/kbd/kbd/0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch b/meta/recipes-core/kbd/kbd/0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch
+new file mode 100644
+index 0000000000..ec40764c1d
+--- /dev/null
++++ b/meta/recipes-core/kbd/kbd/0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch
+@@ -0,0 +1,44 @@
++From 92c0fb720cf7b9966494e5eaa1f7a4ea8e0a34d2 Mon Sep 17 00:00:00 2001
++From: "Mingde (Matthew) Zeng" <matthew.zeng@windriver.com>
++Date: Wed, 22 Jan 2020 11:02:17 -0500
++Subject: [PATCH] Use DATADIR and append i386 to fix libkbdfile-test08 ptest
++ failure
++
++Replace ABS_DATADIR with DATADIR and append i386 to dirpath.
++
++Upstream-Status: Inappropriate [OE specific]
++
++This OE specific patch applies to kbd v2.2.0 for now, the upstream
++    made drastic changes since v2.2.0 which may or may not fix this
++    issue, we will find out in future releases.
++
++Signed-off-by: Matthew Zeng<Matthew.Zeng@windriver.com>
++---
++ tests/libkbdfile-test08.c | 8 +++-----
++ 1 file changed, 3 insertions(+), 5 deletions(-)
++
++diff --git a/tests/libkbdfile-test08.c b/tests/libkbdfile-test08.c
++index bf41707..993fedc 100644
++--- a/tests/libkbdfile-test08.c
+++++ b/tests/libkbdfile-test08.c
++@@ -14,14 +14,12 @@ main(int __attribute__((unused)) argc, char **argv)
++ 	if (!fp)
++ 		kbd_error(EXIT_FAILURE, 0, "unable to create kbdfile");
++
++-	const char *const dirpath[]  = { "", DATADIR "/findfile/test_0/keymaps/**", 0 };
+++	const char *const dirpath[]  = { "", DATADIR "/findfile/test_0/keymaps/i386/**", 0 };
++ 	const char *const suffixes[] = { "", ".map", ".kmap", 0 };
++
++-	const char *expect = ABS_DATADIR "/findfile/test_0/keymaps/i386/qwerty/test0.map";
+++	const char *expect = DATADIR "/findfile/test_0/keymaps/i386/qwerty/test0.map";
++
++-	int rc = 0;
++-
++-	rc = kbdfile_find((char *)(ABS_DATADIR "/findfile/test_0/keymaps/i386/qwerty/test0"), (char **) dirpath, (char **) suffixes, fp);
+++	int rc = kbdfile_find((char *)"test0", (char **) dirpath, (char **) suffixes, fp);
++
++ 	if (rc != 0)
++ 		kbd_error(EXIT_FAILURE, 0, "unable to find file");
++--
++2.24.1
++
+diff --git a/meta/recipes-core/kbd/kbd_2.2.0.bb b/meta/recipes-core/kbd/kbd_2.2.0.bb
+index df9b0bb90b..e13cea7634 100644
+--- a/meta/recipes-core/kbd/kbd_2.2.0.bb
++++ b/meta/recipes-core/kbd/kbd_2.2.0.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+            file://run-ptest \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://set-proper-path-of-resources.patch', '', d)} \
+            file://0001-analyze.l-add-missing-string-format.patch \
++           file://0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch \
+            "
+
+ SRC_URI[md5sum] = "d1d7ae0b5fb875dc082731e09cd0c8bc"
+--
+2.24.0
 
