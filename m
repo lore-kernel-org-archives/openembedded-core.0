@@ -1,24 +1,26 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 05AA67FE47
+	by mail.openembedded.org (Postfix) with ESMTP id 6051E7FE47
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 05:46:42 +0000 (UTC)
+	Wed, 22 Jan 2020 05:46:43 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jan 2020 21:46:43 -0800
-X-IronPort-AV: E=Sophos;i="5.70,348,1574150400"; d="scan'208";a="220200327"
+	21 Jan 2020 21:46:44 -0800
+X-IronPort-AV: E=Sophos;i="5.70,348,1574150400"; d="scan'208";a="220200332"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.17.19])
 	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jan 2020 21:46:41 -0800
+	21 Jan 2020 21:46:43 -0800
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2020 13:46:32 +0800
-Message-Id: <20200122054636.10681-1-anuj.mittal@intel.com>
+Date: Wed, 22 Jan 2020 13:46:33 +0800
+Message-Id: <20200122054636.10681-2-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.21.1
+In-Reply-To: <20200122054636.10681-1-anuj.mittal@intel.com>
+References: <20200122054636.10681-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/5] stress-ng: upgrade 0.10.15 -> 0.10.16
+Subject: [PATCH 2/5] glib-networking: upgrade 2.62.2 -> 2.62.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,27 +38,27 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../stress-ng/{stress-ng_0.10.15.bb => stress-ng_0.10.16.bb}  | 4 ++--
+ .../{glib-networking_2.62.2.bb => glib-networking_2.62.3.bb}  | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/stress-ng/{stress-ng_0.10.15.bb => stress-ng_0.10.16.bb} (83%)
+ rename meta/recipes-core/glib-networking/{glib-networking_2.62.2.bb => glib-networking_2.62.3.bb} (88%)
 
-diff --git a/meta/recipes-extended/stress-ng/stress-ng_0.10.15.bb b/meta/recipes-extended/stress-ng/stress-ng_0.10.16.bb
-similarity index 83%
-rename from meta/recipes-extended/stress-ng/stress-ng_0.10.15.bb
-rename to meta/recipes-extended/stress-ng/stress-ng_0.10.16.bb
-index 5402130fda..e67b82a527 100644
---- a/meta/recipes-extended/stress-ng/stress-ng_0.10.15.bb
-+++ b/meta/recipes-extended/stress-ng/stress-ng_0.10.16.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- SRC_URI = "https://kernel.ubuntu.com/~cking/tarballs/${BPN}/${BP}.tar.xz \
-            file://0001-Do-not-preserve-ownership-when-installing-example-jo.patch \
-            "
--SRC_URI[md5sum] = "303a7276e3a9e3dd03be6cabc9e84a75"
--SRC_URI[sha256sum] = "1d0ca8a2f287e13c2d36c01e874d16d67bcb368d8d26563324c9aaf0ddb100c1"
-+SRC_URI[md5sum] = "a337cd5b1412c53c580e95ee2a9fc77b"
-+SRC_URI[sha256sum] = "eabfffcffcf53e67765181280456c204ad00214339cfdb3ee2769d58b4a7e304"
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.62.2.bb b/meta/recipes-core/glib-networking/glib-networking_2.62.3.bb
+similarity index 88%
+rename from meta/recipes-core/glib-networking/glib-networking_2.62.2.bb
+rename to meta/recipes-core/glib-networking/glib-networking_2.62.3.bb
+index 026d8701f3..e9596ce1a4 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.62.2.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.62.3.bb
+@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ SECTION = "libs"
+ DEPENDS = "glib-2.0"
  
- DEPENDS = "coreutils-native"
+-SRC_URI[archive.md5sum] = "a8b669ae54c7178848ce7a9b596a471c"
+-SRC_URI[archive.sha256sum] = "0644b8dc042bab8c9d2892aee5716513280c8773dbef43a038149f24cae15544"
++SRC_URI[archive.md5sum] = "a758ca62bd54982a798b39c744cbf783"
++SRC_URI[archive.sha256sum] = "8ca1f86f23a76b5c7640624f7d5490705c78e81375e1741c9a1c41ce7f8f7ff7"
+ 
+ PACKAGECONFIG ??= "gnutls"
  
 -- 
 2.21.1
