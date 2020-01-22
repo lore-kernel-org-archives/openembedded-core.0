@@ -1,52 +1,60 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 388387FD7A
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 91F71731B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 17:40:01 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id y17so8256860wrh.5
+	Wed, 22 Jan 2020 18:04:27 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id h8so206132iob.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 09:40:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=GVMjwk8KrbhUhzkUijbLLNG/NtQQ7AD9k+T6Ts+MA58=;
-	b=LQtxq8B+38i2VS+zeEHtip3RXDNlxbe4GY9smdsRnk/XDF4PRMVO55kaG6B2xGXdBv
-	SSrxdfMJnx6vhbw0WLCCfRbSw9IikvBnhrCA8iYmYtuegXEQENue4Kv3zNHh2xOkjQlM
-	dIuIfCBcgti+YHfYQEgIDl+AHtf8UW6vJ7SPHVs+nE5iJ6en2RPTR9mHN8UIz62QvRRO
-	vNFHpDJkBoVuH9+NHNOmfWjikOzxG8ynRnjbE33ghmv2uvp2CLgOiUd0O9QHICdZ3sot
-	cNB0bTjrfe6JlAtD9ABmDJXdmMkMF5zL77iQlrjQYPxKixd07np1yn0+Aq0e9IcwXXYY
-	nDFA==
+	Wed, 22 Jan 2020 10:04:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:subject:to:references:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=yQZkvTQozu1JW+NNQ3jSW4+UOZBZo2NQsDzzFTeH+rU=;
+	b=ocJFV6xLKf+vfmzXpwNp5G9D0Sli6vwtUu56EW4eoyx7SRC3NGfSchYDQodKg/fANR
+	48RSZVYT7rvY4Z6M5rgg8QQyx7OYw2eeVDBk6svB+R354WVmmNZA+O0OYROClsrBe6g6
+	n8//SVfkEpXNWyYIejbmOxX5XJ3J66+jexWSa74OwPRN+23hlCfDXe9b/rNcKM7cYWPy
+	SbWztbeyNdyiqgPMEKU81LpkD55rR4uBjP3amaRZFlh/If2KenLZBrcqX7rFozxwS6/s
+	fkV94U1mPj1QSoLbaRIFGPx1iznbrKKxUoOAVO8z4VihD45lAKydPflC+C2LW87EwOo0
+	BrKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=GVMjwk8KrbhUhzkUijbLLNG/NtQQ7AD9k+T6Ts+MA58=;
-	b=rjsVRWvkyOdoDEDL/j2CNFiy1TzHsLy7wf2+UP50TK9VGZdi97iFywJZmnuglxZ3qm
-	vjkPkQjCvvf5kpa6oncwW0bBZKL9ivrrcAXCxiE0aTRyJiFnKFZYyrC7YENMAt0+uVGe
-	wQtox9Jk3DPR+T8YU5ATclr18N4GmQafQhUkGBgwuWG982ItfFupyDzfMp7bPambl7qr
-	ejYCrqYZ05fXCL3fxC600rbmOeYSKLe7IXop+pdCiIPc9cpGtZba0PgnAlCt0hfj3E4K
-	xPYlBlCF9pjsHkvuTWY5mxuLUCRRTN+0Lyy+cFnhJ4Jr+WWhRjorOr+qUbTC31GQo+32
-	qamw==
-X-Gm-Message-State: APjAAAVOcAoJM0AWoGMOkz9Sx+6GzhoUNcNcxuy62lfmzRL9m20G4jXC
-	rNgYGUisz5tQd/wAIcX8/9tLoOQWdbM=
-X-Google-Smtp-Source: APXvYqzQ4/vJJNBc8aSh//NoVkzZKMrEZJ8GQp6BW1W/HjPDU/1gaO8lxqJZqNHt0i7/CxsPlg30/A==
-X-Received: by 2002:a5d:5487:: with SMTP id h7mr12353986wrv.18.1579714801583; 
-	Wed, 22 Jan 2020 09:40:01 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	b16sm4543371wmj.39.2020.01.22.09.39.59
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 22 Jan 2020 09:40:00 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2020 17:39:58 +0000
-Message-Id: <20200122173958.14881-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:from:subject:to:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=yQZkvTQozu1JW+NNQ3jSW4+UOZBZo2NQsDzzFTeH+rU=;
+	b=IwNRaJK1BlGu+lLB2Gzy6f+wvR4Nmdnz3265M2lhCDrRXcQNNCF01i6W2gj6L5knIZ
+	DB12h6TfPjOFUI6nVtu21Uc15/Rn+HJPu0ncxHTSvQKuSZXgcNrms4cCWUzE346ld9JR
+	CA2WhqPJ40/og66QX9PjzN3XylT674kIKaWmvVtzozlZ9LFzaE3ozKxwAnE/gXdD9ONc
+	d/ILvuD1x5CSFInMgco/VcB/sH0g2L5FNdH4+5QBHomPA5bXjClg69ELQRdkth+9fBC6
+	3AUvu3HXXh+KTd/SO9X0qE+Z9cU19A7dnsrBJkhlOHMK4i356BubOnys34Bxu8CfE5PG
+	CIAQ==
+X-Gm-Message-State: APjAAAV7yyMlRl7zT9PgHI0qoKK6t/qxwpWrFuY4BGRgBLZe4vAoM7hI
+	vVpsvxNgq3+aDPAY/LARhLSj5Tkmc2M=
+X-Google-Smtp-Source: APXvYqwtkz5TBMyz6VSz5efo0QYd6aKKGYP4H3iEIeC9PNmvcJxIT7lP1PBADVv0by/6L21Gjjc3zA==
+X-Received: by 2002:a6b:b594:: with SMTP id e142mr7211830iof.99.1579716267766; 
+	Wed, 22 Jan 2020 10:04:27 -0800 (PST)
+Received: from [10.30.196.43] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	l22sm14769088ilh.37.2020.01.22.10.04.26
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 22 Jan 2020 10:04:26 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20200119185959.406212-1-JPEWhacker@gmail.com>
+	<20200119185959.406212-4-JPEWhacker@gmail.com>
+	<d3f6ae17e1a4da2e9aea675d37654a1fe0b1df3d.camel@linuxfoundation.org>
+	<b1001ab8-5972-b791-b9db-9aab7fa34da0@gmail.com>
+	<e6c8ea7d5e9497e0f11da3da3babdf57660b3ebe.camel@linuxfoundation.org>
+Message-ID: <69dcf6fc-8723-18f7-eeb5-cfcafe4c0e62@gmail.com>
+Date: Wed, 22 Jan 2020 12:04:26 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.3.1
 MIME-Version: 1.0
-Subject: [PATCH] libx11: squash whitespace in generated files
+In-Reply-To: <e6c8ea7d5e9497e0f11da3da3babdf57660b3ebe.camel@linuxfoundation.org>
+Subject: Re: [PATCH 3/3] oeqa: reproducible: Do not strip packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,117 +67,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 17:40:01 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 22 Jan 2020 18:04:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-The locale data in the recipe is generated using cpp, which results in
-differing amounts of whitespace depending on what compiler is used.
-This means that the files may differ in just whitespace, which is
-sufficient for RPM's multilib code to consider them different and not
-allow lib32-libx11-locale and lib64-libx11-locale to be installed at the
-same time.
 
-[ YOCTO #13647 ]
+On 1/22/20 10:06 AM, Richard Purdie wrote:
+> On Wed, 2020-01-22 at 10:02 -0600, Joshua Watt wrote:
+>> On 1/22/20 9:53 AM, Richard Purdie wrote:
+>>> On Sun, 2020-01-19 at 12:59 -0600, Joshua Watt wrote:
+>>>> Do not strip packages when testing reproducible builds. In some cases,
+>>>> stripped data differs between builds, but then gets removed. However,
+>>>> the contents affect the generation of the GCC build-id, which then
+>>>> differs in the resulting ELF files, even though the data that caused
+>>>> this is no longer there. Inhibit stripping so that their causes can be
+>>>> evaluated.
+>>>>
+>>>> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>>>> ---
+>>>>    meta/lib/oeqa/selftest/cases/reproducible.py | 1 +
+>>>>    1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+>>>> index c00b92d2e90..34462a0b3a4 100644
+>>>> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+>>>> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+>>>> @@ -149,6 +149,7 @@ class ReproducibleTests(OESelftestTestCase):
+>>>>            config = textwrap.dedent('''\
+>>>>                INHERIT += "reproducible_build"
+>>>>                PACKAGE_CLASSES = "{package_classes}"
+>>>> +            INHIBIT_PACKAGE_STRIP = "1"
+>>>>                TMPDIR = "{tmpdir}"
+>>>>                ''').format(package_classes=' '.join('package_%s' % c for c in self.package_classes),
+>>>>                            tmpdir=tmpdir)
+>>> This generates quite the failure list:
+>>>
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./all/ca-certificates-dbg_20190110-r0_all.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./all/ca-certificates-dev_20190110-r0_all.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./all/ca-certificates-doc_20190110-r0_all.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./all/ca-certificates_20190110-r0_all.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/acl-ptest_2.2.53-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/attr-ptest_2.4.48-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/bc-doc_1.07.1-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/binutils-doc_2.33.1-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/busybox-ptest_1.31.1-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/coreutils-doc_8.31-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/e2fsprogs-doc_1.45.4-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/elfutils-ptest_0.178-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/ethtool-ptest_5.3-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/flex-ptest_2.6.4-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/gtk+3-dbg_3.24.13-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/gtk+3-src_3.24.13-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/icu-dev_64.2-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libevdev-src_1.8.0-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libgcrypt-dbg_1.8.5-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libgcrypt_1.8.5-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libgtk-3.0_3.24.13-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libidn2-dev_2.3.0-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libinput-dbg_1.14.3-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libinput10_1.14.3-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libx11-locale_1.6.9-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libxml2-ptest_2.9.10-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libxshmfence-dbg_1.3-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/libxshmfence1_1.3-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/m4-ptest_1.4.18-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/mc-doc_4.8.23-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/mc-helpers-perl_4.8.23-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/ncurses-doc_6.1+20190803-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/openssl-doc_1.1.1d-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/openssl-ptest_1.1.1d-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/opkg-utils-doc_0.4.2-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/perl-dbg_5.30.1-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/perl-dev_5.30.1-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/perl-module-config-heavy_5.30.1-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/perl-module-data-dumper_5.30.1-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/perl-ptest_5.30.1-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/perl_5.30.1-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/sudo-dbg_1.8.29-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/sudo-doc_1.8.29-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/sudo_1.8.29-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/tar-dbg_1.32-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/tar_1.32-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/tcp-wrappers-src_7.6-r10_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/time-doc_1.9-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/xserver-xorg-dbg_1.20.6-r0_amd64.deb
+>>>    /home/pokybuild/yocto-worker/oe-selftest-centos/build/build-st-12270/reproducibleB/tmp/deploy/deb/./core2-64/xserver-xorg_1.20.6-r0_amd64.deb
+>>>
+>>> (I lined wrapped it)
+>>>
+>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/629
+>> Ok, thanks. Did the offending packages get captured somewhere so I can
+>> take a look at them?
+> I've placed them here:
+>
+> https://autobuilder.yocto.io/pub/repro-fail/build-st-12270/
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../xorg-lib/files/libx11-whitespace.patch    | 56 +++++++++++++++++++
- .../xorg-lib/libx11-compose-data_1.6.8.bb     |  3 +-
- .../recipes-graphics/xorg-lib/libx11_1.6.9.bb |  3 +-
- 3 files changed, 60 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/xorg-lib/files/libx11-whitespace.patch
+OK. Thanks. I took a look at these, and FWIW, very few (if any) appear 
+to be because of the addition of INHIBIT_PACKAGE_STRIP, and are instead 
+due to actual reproducibility issues. I'm not sure why that patch caused 
+them all to show up; perhaps because it made all the do_package tasks rerun?
 
-diff --git a/meta/recipes-graphics/xorg-lib/files/libx11-whitespace.patch b/meta/recipes-graphics/xorg-lib/files/libx11-whitespace.patch
-new file mode 100644
-index 00000000000..3f971430820
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/files/libx11-whitespace.patch
-@@ -0,0 +1,56 @@
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/xorg/lib/libx11/merge_requests/33]
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+From b41469c5f08b1f3365667ff3c430b104c9b8e25f Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@intel.com>
-+Date: Wed, 22 Jan 2020 17:11:23 +0000
-+Subject: [PATCH libX11] cpprules.in: squash whitespace in generated files
-+
-+CPP is used to generate files, but as cpp reads files from the build host the
-+output has a number of blank lines at the beginning which varies depending on
-+what GCC and friends is used.
-+
-+Pathalogical example:
-+
-+ $ cpp -undef -traditional /dev/null
-+ # 1 "/dev/null"
-+ # 1 "<built-in>"
-+ # 1 "<command-line>"
-+ # 31 "<command-line>"
-+ # 1 "/usr/include/stdc-predef.h" 1 3 4
-+
-+ # 17 "/usr/include/stdc-predef.h" 3 4
-+
-+ [ 40 blank line ]
-+
-+ # 32 "<command-line>" 2
-+ # 1 "/dev/null"
-+
-+So depending on the content of stdc-predef.h and what other headers CPP will
-+load, the amount of whitespace in the generates files varies. This can result in
-+differences in reproducible environments, and file conflicts in multilib
-+environments.
-+
-+As whitespace is irrelevant to these machine-readable files, extend the sed to
-+just delete blank lines.
-+---
-+ cpprules.in | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/cpprules.in b/cpprules.in
-+index 03d6701e..ce6b3c98 100644
-+--- a/cpprules.in
-++++ b/cpprules.in
-+@@ -23,7 +23,8 @@ CPP_SED_MAGIC = $(SED) -e '/^\#  *[0-9][0-9]*  *.*$$/d' \
-+                        -e '/^[	 ]*XCOMM[^a-zA-Z0-9_]/s/XCOMM/\#/' \
-+                        -e '/^[	 ]*XHASH/s/XHASH/\#/' \
-+                        -e 's,X11_LOCALEDATADIR,$(X11_LOCALEDATADIR),g' \
-+-                       -e '/\@\@$$/s/\@\@$$/\\/'
-++                       -e '/\@\@$$/s/\@\@$$/\\/' \
-++                       -e '/^$$/d'
-+ 
-+ .pre:
-+ 	@$(MKDIR_P) $(@D)
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-index cabb84e686d..3d97ad78d2a 100644
---- a/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11-compose-data_1.6.8.bb
-@@ -14,7 +14,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=172255dee66bb0151435b2d5d709fcf7"
- SRC_URI[md5sum] = "c5fa5a86a20e3591bed6c046498d4b8f"
- SRC_URI[sha256sum] = "b289a845c189e251e0e884cc0f9269bbe97c238df3741e854ec4c17c21e473d5"
- 
--SRC_URI += "file://0001-Drop-x11-dependencies.patch"
-+SRC_URI += "file://0001-Drop-x11-dependencies.patch \
-+            file://libx11-whitespace.patch"
- 
- XORG_PN = "libX11"
- 
-diff --git a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
-index 8c2a57c6744..ff60a4240c6 100644
---- a/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
-+++ b/meta/recipes-graphics/xorg-lib/libx11_1.6.9.bb
-@@ -11,7 +11,8 @@ FILESEXTRAPATHS =. "${FILE_DIRNAME}/libx11:"
- PE = "1"
- 
- SRC_URI += "file://Fix-hanging-issue-in-_XReply.patch \
--            file://disable_tests.patch"
-+            file://disable_tests.patch \
-+            file://libx11-whitespace.patch"
- 
- SRC_URI[md5sum] = "55adbfb6d4370ecac5e70598c4e7eed2"
- SRC_URI[sha256sum] = "9cc7e8d000d6193fa5af580d50d689380b8287052270f5bb26a5fb6b58b2bed1"
--- 
-2.20.1
+>
+> which is after I fixed that code:
+>
+> http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=9f225cf966b8a96775d74f41423206d157bce2e3
+>
+> Perhaps we could make this a cofiguration parameter I could pass in and
+> make it clean up empty directories if nothing is saved. I might then be
+> able to make it "auto publish" these failures.
 
+Ya, that would be nice. Were you thinking of making them configurable in 
+the AB json config files?
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
