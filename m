@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 7863691478
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
+	[209.85.216.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 66A759145D
 	for <openembedded-core@openembedded.org>;
-	Wed, 22 Jan 2020 05:48:25 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id b22so2447441pls.12
+	Wed, 22 Jan 2020 05:48:26 +0000 (UTC)
+Received: by mail-pj1-f46.google.com with SMTP id d15so2603820pjw.1
 	for <openembedded-core@openembedded.org>;
-	Tue, 21 Jan 2020 21:48:26 -0800 (PST)
+	Tue, 21 Jan 2020 21:48:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=j86AAg2lwO05erH5r2iU/MpndcQ6k+aDJ9M/vj3jxv0=;
-	b=uHaxoMsnXxUfcuPr3vDeMBT2n6fyYOd1oSCGWLyX0Pk9TokCS85FnJrYTzQm10NIPl
-	s4LXrqCYzKMCbyU+zSShH+pHLLALUWgqIXnGpt1Esk3qqvFcooLS1NXHFuI4DgHHPTxO
-	NJlPBCardE1mBMlrxhlIk1gXj7w8rXvWXavPXmVg2w3+S8Wiyz67kWqn0LLje3xxR9Xd
-	OLYz/Hd8dPp/DfqAa1Db9//Pxy5syveizhbiBrcJCIk4z5YtFgecpBEYWbTpYlDpoOG2
-	hcvajiUvG59JzuU9UC5xjYnJ29sCVdkro6C/SpHjqQXyaIwVG78IVmX9Pdn6VhQQevCd
-	9LKA==
+	bh=lsnR4C5iJQrMejIPSnfikUVG/8MPS8uVspQA5KxnmB4=;
+	b=DXiSSxD36ADDOJ4nsh8vbkRciXvDoLvbKhyrTyxuo4bWsnaR0VXZ0vSLBnV/Nmp13k
+	KNtj+rqOaPRZPpyybchrgdgy0GYGJ+/K68IhK4uffXPo5uT/K9rZ9cEaueUvmQOEHI/v
+	pZS8qdXIzsFq7qI+ZG725A7oYxJ4x4e77NjbL5ddqaqYDuQcqHO77FGhp2jTlxG587jt
+	CwOevzDvSWb2j0Lnt7gdgs1ZOLXQVudflH9b756zzcNrjdDo9ab1QgfW0UpoVkuAQD8e
+	cK95V+qTxCe0qR5NVAYsAHKvLeY2DYqkFDawidgON3ZmYrue2gdtF8plXZGE5rhk3S9k
+	/nFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=j86AAg2lwO05erH5r2iU/MpndcQ6k+aDJ9M/vj3jxv0=;
-	b=nVwvGhIzT5FMaSeFq0OgwnxdZrrxL90jZ/wa5Q7Ee/WetqAZmcdhZKPX2AggMT9kwS
-	k6uAXfet4R1YhpOsY7DVhk7ZAByc31wqQtFKoWf3WCDGVzI6SqR5q0N+2DLHFqYdW4+N
-	SU7RDgS4RQdAoNc3nkANb6LzIkcDhf4P9N4ThPW1EZ/ME59w3W81cHJ0HBW5SVi0ojA7
-	Z4tSQoVGF8NCWQRLrj/8uuiXvOWCUpS2RGa9Xp4mxhokCCoxrsBx8XGAP0ESnEMqvNci
-	UFFJiVL6X/mwPAi3xHUkUvRnvnmzzU5ZN/Ss2nfHD8dFTNiwQxb+wMw6nFd98zxaPWFb
-	Sv0g==
-X-Gm-Message-State: APjAAAVqLWi/jT69fpyY83X8czvA/Z479A8+CeoGskkeaON89hdgDQDt
-	udSZjEsV1TL0CfDF1FpYu1wllDCg
-X-Google-Smtp-Source: APXvYqxSo1dEPgtCK6SUcLzwpJCAhnUK/zqIcDsMsAuHGEMjTZ5dcTuxuC2sjl0pj+u2j55uzVcrjg==
-X-Received: by 2002:a17:902:45:: with SMTP id 63mr9323928pla.109.1579672106505;
-	Tue, 21 Jan 2020 21:48:26 -0800 (PST)
+	bh=lsnR4C5iJQrMejIPSnfikUVG/8MPS8uVspQA5KxnmB4=;
+	b=ULkGs51Kh9b+ra8tqz1aeYVRNSnVhPfsFZeEIMzxjRL9PzF7KaQnQsvdAxWGEQbPFf
+	lSRTt4Sc2cvSv5gNM7D69fKJQsrzA/ubWF+FnhodN+RD+Rmwf+Vz/sU3V+EgwuuubrkM
+	IRR4UBvHeiRHGUXnmFFZcD1iLzHv+bGbAU3i+w6JLHTteQWp7A8GpkBLW6fVFa63i3gv
+	GbYdOfsR07CANh7q4icX2QkHHFbW4SYjLHbeoOPdlM0qO6wMb4jOdW2LIbhAwZtJcvGv
+	6RM+K6Py7yRapD7YUk9hKSbyaUlUhc8qjMAkLi7J1N5vq4HYg/6YaCy5NtywDWQoPD19
+	uYMw==
+X-Gm-Message-State: APjAAAVjPRkjdOqe26ssfXjNict7A99drENBc1flfVwPsXdqoDurtB4K
+	MseUaiCUBJqUdPklIOpDLRANF3Th
+X-Google-Smtp-Source: APXvYqz16hs4SFQRoTA65ZLYszidWqTqGii5aq9cSfX6Pt7R/EKhOx6Nf6ZsKfF+iLeBOuabZj7EyA==
+X-Received: by 2002:a17:902:a608:: with SMTP id
+	u8mr8889470plq.76.1579672107304; 
+	Tue, 21 Jan 2020 21:48:27 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:682c:76b9:6d8a:bbd2])
-	by smtp.gmail.com with ESMTPSA id p18sm1413247pjo.3.2020.01.21.21.48.25
+	by smtp.gmail.com with ESMTPSA id p18sm1413247pjo.3.2020.01.21.21.48.26
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
 	Tue, 21 Jan 2020 21:48:26 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 21 Jan 2020 21:48:14 -0800
-Message-Id: <766b57a1f9030429b546276a537fbce3a175cc25.1579672034.git.akuster808@gmail.com>
+Date: Tue, 21 Jan 2020 21:48:15 -0800
+Message-Id: <232b2f6dabaedff087df15a7e6d431dd9f314b4c.1579672034.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1579672034.git.akuster808@gmail.com>
 References: <cover.1579672034.git.akuster808@gmail.com>
-Subject: [zeus 09/11] sstatesig: Test cross/native hashserv method extension
+Subject: [zeus 10/11] scripts/oe-build-perf-report: Avoid buildstats warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,52 +59,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 05:48:25 -0000
+X-List-Received-Date: Wed, 22 Jan 2020 05:48:26 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We can have one taskhash which represents multiple native/cross sstate objects
-since they're stored by BUILD_ARCH or possibly host distro (or host gcc version).
-We need to put these into separate namespaces on hashserv since their outhashes
-will never match and we need deterministic lookups for the different namespaces.
+When a comparision branch is set we see warnings. If two branches are used,
+look for buildstats information from both to avoid this kind of warning:
 
-Use this extramethod option to handle this. This fixes several problematic
-failures on the autobuilder.
+INFO: Parsing buildstats from 'refs/notes/buildstats/perf-centos7.yoctoproject.org/master-next/qemux86'
+WARNING: Buildstats not found for perf-centos7.yoctoproject.org/master/qemux86/56808-g08220028e52992dcba667fc97bf3afe8be1949fb/0
+WARNING: Buildstats not found for perf-centos7.yoctoproject.org/master/qemux86/56808-g08220028e52992dcba667fc97bf3afe8be1949fb/1
+INFO: Buildstats were missing for some test runs, please run 'git fetch origin refs/notes/buildstats/perf-centos7.yoctoproject.org/master-next/qemux86:refs/notes/buildstats/perf-centos7.yoctoproject.org/master-next/qemux86' and try again
+
+(the warning is due to stats being looked for in both branches, choose
+the other branch and different warnings would be shown)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2a76082363d189880613765ad339718e3614049d)
+(cherry picked from commit af58c18fcd0451540dd77ee862956b2b9dee17c4)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oe/sstatesig.py | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ scripts/oe-build-perf-report | 20 ++++++++++++++------
+ 1 file changed, 14 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index c566ce5a0c..24a221eb1a 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -103,6 +103,7 @@ class SignatureGeneratorOEBasicHashMixIn(object):
-         self.unlockedrecipes = (data.getVar("SIGGEN_UNLOCKED_RECIPES") or
-                                 "").split()
-         self.unlockedrecipes = { k: "" for k in self.unlockedrecipes }
-+        self.buildarch = data.getVar('BUILD_ARCH')
-         pass
+diff --git a/scripts/oe-build-perf-report b/scripts/oe-build-perf-report
+index 21bde7e156..e781f4f03f 100755
+--- a/scripts/oe-build-perf-report
++++ b/scripts/oe-build-perf-report
+@@ -372,7 +372,7 @@ def print_html_report(data, id_comp, buildstats):
+                                chart_opts=chart_opts))
  
-     def tasks_resolved(self, virtmap, virtpnmap, dataCache):
-@@ -140,6 +141,14 @@ class SignatureGeneratorOEBasicHashMixIn(object):
-         self.dump_lockedsigs(sigfile)
-         return super(bb.siggen.SignatureGeneratorBasicHash, self).dump_sigs(dataCache, options)
  
-+    def prep_taskhash(self, tid, deps, dataCache):
-+        super().prep_taskhash(tid, deps, dataCache)
-+        if hasattr(self, "extramethod"):
-+            (_, _, _, fn) = bb.runqueue.split_tid_mcfn(tid)
-+            inherits = " ".join(dataCache.inherits[fn])    
-+            if inherits.find("/native.bbclass") != -1 or inherits.find("/cross.bbclass") != -1:
-+                self.extramethod[tid] = ":" + self.buildarch
-+
-     def get_taskhash(self, tid, deps, dataCache):
-         h = super(bb.siggen.SignatureGeneratorBasicHash, self).get_taskhash(tid, deps, dataCache)
+-def get_buildstats(repo, notes_ref, revs, outdir=None):
++def get_buildstats(repo, notes_ref, notes_ref2, revs, outdir=None):
+     """Get the buildstats from git notes"""
+     full_ref = 'refs/notes/' + notes_ref
+     if not repo.rev_parse(full_ref):
+@@ -391,8 +391,13 @@ def get_buildstats(repo, notes_ref, revs, outdir=None):
+         for tag in rev.tags:
+             log.debug('    %s', tag)
+             try:
+-                bs_all = json.loads(repo.run_cmd(['notes', '--ref', notes_ref,
+-                                                  'show', tag + '^0']))
++                try:
++                    bs_all = json.loads(repo.run_cmd(['notes', '--ref', notes_ref, 'show', tag + '^0']))
++                except GitError:
++                    if notes_ref2:
++                        bs_all = json.loads(repo.run_cmd(['notes', '--ref', notes_ref2, 'show', tag + '^0']))
++                    else:
++                        raise
+             except GitError:
+                 log.warning("Buildstats not found for %s", tag)
+                 bs_all = {}
+@@ -589,9 +594,12 @@ def main(argv=None):
+     buildstats = None
+     if args.dump_buildstats or args.html:
+         outdir = 'oe-build-perf-buildstats' if args.dump_buildstats else None
+-        notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch,
+-                                                 args.machine)
+-        buildstats = get_buildstats(repo, notes_ref, [rev_l, rev_r], outdir)
++        notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch, args.machine)
++        notes_ref2 = None
++        if args.branch2:
++            notes_ref = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch2, args.machine)
++            notes_ref2 = 'buildstats/{}/{}/{}'.format(args.hostname, args.branch, args.machine)
++        buildstats = get_buildstats(repo, notes_ref, notes_ref2, [rev_l, rev_r], outdir)
  
+     # Print report
+     if not args.html:
 -- 
 2.17.1
 
