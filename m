@@ -1,47 +1,39 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ECD27FF82
+Return-Path: <anuj.mittal@intel.com>
+X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 22 Jan 2020 07:30:45 UTC
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B8307FFAA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 07:19:37 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id d16so6044484wre.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 23:19:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=AbTnN+ImbjEWbC2W1+X3+gLXFitvr0/IVe1vTLmL6WA=;
-	b=OldWp8E19cY34lry5sMR4MZRRZ6G2yb3dua4bSUu1OJQhu1ELEjK7ZhgY3qGNIRQy2
-	3UACXhdYl+hTXlj4wmha3nxOrLvI4N4m2DNZjBepIilJvh8+XoWtFNGS5Bv5qstWzPrC
-	NnHuKXmftZ2eeLbsbsqe4NucQVEiTlsg3LqZ9J+++mpadnG+uWyPEL1pvqjxUtFFg1cT
-	PP5kUDKclkEhG56XsfktyyAP2nx0igkZCoodmAr8obaMVA1XuFxLuSoVYfJjuuVYpZUq
-	02B8vZBhhFmOsuwdkiapYrKvCXrmtcxM/apm0/9Ap4evhWrNFW69ADxz99GmRBPvKKgl
-	yYoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=AbTnN+ImbjEWbC2W1+X3+gLXFitvr0/IVe1vTLmL6WA=;
-	b=It1aBYjP/KZZqaxinuKtUBl0ObUwS8YECiscHqRcV3MgKuIRv19HskHDe60RrOXl3i
-	zLsN7B6Q7hgKlZXOA176imbUnufjW/h0Y+akbxLiGsaxYkiKymzb6+8IlZQNs65mirYG
-	odFmrvutQ2TRCX97AVUiNHpSW+cvckOCdHtmcyMOGh/HPLkHKhLJU4qLHtApe4xHu8c/
-	FkgRNN6CtnZ7A0Q0+8ZQUjOEH3HW7PETMH5pJaS+3xq3YTTTztTLOBDhV8wMGytnFyDM
-	GhWfYpM8hBP+NiYCH2CW+QaQ8YmVFJsTiESc1Z1F+9vnXJCGnVOSPo8cJ2Y5QMBTgDa8
-	8Vaw==
-X-Gm-Message-State: APjAAAXNKg4C4AbLWzznhds4a4D1GpNSMlXEfOW86LeWPDBOscn/v8xj
-	QRN5FETdh1lwcYWzsg7S8+MsI/em
-X-Google-Smtp-Source: APXvYqyB9/9o4CGdzmhH8oMxRxpJxBItQomW3VrOk1dol/5+OaOkZDz8eGY6BFXaXBu8wjxKK/yqOA==
-X-Received: by 2002:adf:b60f:: with SMTP id f15mr9824046wre.372.1579677577537; 
-	Tue, 21 Jan 2020 23:19:37 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	v3sm55513980wru.32.2020.01.21.23.19.36
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 21 Jan 2020 23:19:37 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2020 07:19:34 +0000
-Message-Id: <20200122071934.60789-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] libxcrypt: Enable static builds
+	Wed, 22 Jan 2020 07:30:45 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	21 Jan 2020 23:23:40 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,348,1574150400"; d="scan'208";a="427322672"
+Received: from pgsmsx108.gar.corp.intel.com ([10.221.44.103])
+	by fmsmga006.fm.intel.com with ESMTP; 21 Jan 2020 23:23:39 -0800
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.131]) by
+	PGSMSX108.gar.corp.intel.com ([169.254.8.76]) with mapi id
+	14.03.0439.000; Wed, 22 Jan 2020 15:23:37 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "wangmy@cn.fujitsu.com"
+	<wangmy@cn.fujitsu.com>
+Thread-Topic: [OE-core]  [PATCH] libtirpc: upgrade 1.1.4 -> 1.2.5
+Thread-Index: AQHVz3HszDcjqPypXkuzzrBJUd8TA6f1xLmA
+Date: Wed, 22 Jan 2020 07:23:37 +0000
+Message-ID: <af2e4d6e0c808505541c49d657734ee61c19a577.camel@intel.com>
+References: <1579523214-47426-1-git-send-email-wangmy@cn.fujitsu.com>
+	<1579523214-47426-10-git-send-email-wangmy@cn.fujitsu.com>
+In-Reply-To: <1579523214-47426-10-git-send-email-wangmy@cn.fujitsu.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.17.19]
+MIME-Version: 1.0
+Subject: Re: [PATCH] libtirpc: upgrade 1.1.4 -> 1.2.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +46,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 07:19:37 -0000
+X-List-Received-Date: Wed, 22 Jan 2020 07:30:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <2AED3358DC696046BF23DDF762707BC1@intel.com>
+Content-Transfer-Encoding: base64
 
-Whilst glibc builds static binaries libxcrypt doesn't, without which we
-can't build, for example, a static busybox. Enable static libraries here
-so that anyone who needs a static binary using just basic libraries has
-one fewer dependencies to track down post libxcrypt being split out of
-glibc.
-
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
-
- meta/recipes-core/libxcrypt/libxcrypt.inc | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
-index accbdd636152..e98d8084470c 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt.inc
-+++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
-@@ -32,4 +32,6 @@ CFLAGS += "-fcommon"
- API = "--disable-obsolete-api"
- EXTRA_OECONF += "${API}"
- 
-+DISABLE_STATIC = ""
-+
- BBCLASSEXTEND = "nativesdk"
--- 
-2.17.1
-
+T24gTW9uLCAyMDIwLTAxLTIwIGF0IDA0OjI2IC0wODAwLCBXYW5nIE1pbmd5dSB3cm90ZToNCj4g
+UmVmcmVzaCB0aGUgZm9sbG93aW5nIHBhdGNoOg0KPiBtdXNsLnBhdGNoDQoNCkNhbiB5b3UgcGxl
+YXNlIHJlbW92ZSB0aGlzIHBhdGNoIGVudGlyZWx5IGFuZCBiYWNrcG9ydCBhIHBhdGNoIGZyb20N
+CnVwc3RyZWFtIHRoYXQgZml4ZXMgdGhlIHJlbWFpbmluZyBpc3N1ZSBpbiB0aGlzIHBhdGNoOg0K
+DQpodHRwczovL3NvdXJjZWZvcmdlLm5ldC9wL2xpYnRpcnBjL21haWxtYW4vbWVzc2FnZS8zNjkw
+NTcxMi8NCg0KVGhhbmtzLA0KDQpBbnVqDQoNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IFdhbmcgTWlu
+Z3l1IDx3YW5nbXlAY24uZnVqaXRzdS5jb20+DQo+IC0tLQ0KPiAgbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL2xpYnRpcnBjL2xpYnRpcnBjL211c2wucGF0Y2ggICAgfCAxMSAtLS0tLS0tDQo+IC0tLS0N
+Cj4gIC4uLi9saWJ0aXJwYy97bGlidGlycGNfMS4xLjQuYmIgPT4gbGlidGlycGNfMS4yLjUuYmJ9
+IHwgIDQgKystLQ0KPiAgMiBmaWxlcyBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDEzIGRlbGV0
+aW9ucygtKQ0KPiAgcmVuYW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJwYy97bGlidGly
+cGNfMS4xLjQuYmIgPT4NCj4gbGlidGlycGNfMS4yLjUuYmJ9ICg4NiUpDQo+IA0KPiBkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBjL2xpYnRpcnBjL211c2wucGF0Y2gN
+Cj4gYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidGlycGMvbGlidGlycGMvbXVzbC5wYXRjaA0K
+PiBpbmRleCAyMWNkOWY5NTg4Li5mOWFkMzVhODUyIDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lw
+ZXMtZXh0ZW5kZWQvbGlidGlycGMvbGlidGlycGMvbXVzbC5wYXRjaA0KPiArKysgYi9tZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvbGlidGlycGMvbGlidGlycGMvbXVzbC5wYXRjaA0KPiBAQCAtNiwxNyAr
+Niw2IEBAIGJpdHMvZW5kaWFuLmggaXMgbm90IHN1cHBvc2VkIHRvIGJlIGluY2x1ZGVkDQo+IGRp
+cmVjdGx5DQo+ICBVcHN0cmVhbS1TdGF0dXM6IFBlbmRpbmcNCj4gIFNpZ25lZC1vZmYtYnk6IEto
+ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQo+ICANCj4gLS0tLSBhL3RpcnBjL3JwYy90eXBl
+cy5oDQo+IC0rKysgYi90aXJwYy9ycGMvdHlwZXMuaA0KPiAtQEAgLTY2LDcgKzY2LDcgQEAgdHlw
+ZWRlZiAgIGludDMyX3QgcnBjX2lubGluZV90Ow0KPiAtICNkZWZpbmUgbWVtX2ZyZWUocHRyLCBi
+c2l6ZSkJZnJlZShwdHIpDQo+IC0gDQo+IC0gDQo+IC0tI2lmIGRlZmluZWQgX19BUFBMRV9DQ19f
+IHx8IGRlZmluZWQgX19GcmVlQlNEX18NCj4gLSsjaWYgZGVmaW5lZCBfX0FQUExFX0NDX18gfHwg
+ZGVmaW5lZCBfX0ZyZWVCU0RfXyB8fA0KPiAhZGVmaW5lZChfX0dMSUJDX18pDQo+IC0gIyBkZWZp
+bmUgX191X2NoYXJfZGVmaW5lZA0KPiAtICMgZGVmaW5lIF9fZGFkZHJfdF9kZWZpbmVkDQo+IC0g
+I2VuZGlmDQo+ICAtLS0gYS9zcmMveGRyX2Zsb2F0LmMNCj4gICsrKyBiL3NyYy94ZHJfZmxvYXQu
+Yw0KPiAgQEAgLTgzLDcgKzgzLDcgQEAgc3RhdGljIHN0cnVjdCBzZ2xfbGltaXRzIHsNCj4gZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwY18xLjEuNC5i
+Yg0KPiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwY18xLjIuNS5iYg0K
+PiBzaW1pbGFyaXR5IGluZGV4IDg2JQ0KPiByZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvbGlidGlycGMvbGlidGlycGNfMS4xLjQuYmINCj4gcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1l
+eHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwY18xLjIuNS5iYg0KPiBpbmRleCA1M2VkNWU4MWY3Li4w
+MzU3ODdjM2Y4IDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidGlycGMv
+bGlidGlycGNfMS4xLjQuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBj
+L2xpYnRpcnBjXzEuMi41LmJiDQo+IEBAIC0xNCw4ICsxNCw4IEBAIFNSQ19VUkkgPQ0KPiAiJHtT
+T1VSQ0VGT1JHRV9NSVJST1J9LyR7QlBOfS8ke0JQfS50YXIuYnoyIFwNCj4gICAgICAgICAgICAg
+Ig0KPiAgVVBTVFJFQU1fQ0hFQ0tfVVJJID0gIg0KPiBodHRwczovL3NvdXJjZWZvcmdlLm5ldC9w
+cm9qZWN0cy9saWJ0aXJwYy9maWxlcy9saWJ0aXJwYy8iDQo+ICBVUFNUUkVBTV9DSEVDS19SRUdF
+WCA9ICIoP1A8cHZlcj5cZCsoXC5cZCspKykvIg0KPiAtU1JDX1VSSVttZDVzdW1dID0gImY1ZDJh
+NjIzZTlkZmJkODE4ZDJmM2YzYTRhODc4ZTNhIg0KPiAtU1JDX1VSSVtzaGEyNTZzdW1dID0NCj4g
+IjJjYTUyOWYwMjI5MmUxMGMxNTg1NjIyOTVhMWZmZDk1ZDJjZThhZjk3ODIwZTM1MzRmZTFiMGUz
+YWVjNzU2MWQiDQo+ICtTUkNfVVJJW21kNXN1bV0gPSAiNjg4Nzg3ZGRmZjdjNmE5MmVmMTVhZTNm
+NWRjNGRmYTEiDQo+ICtTUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiZjNiNjM1MGM3ZTljM2NkOWM1
+OGZjN2E1ZTVmOGU2YmU0NjljYzU3MWJiNWViMzFlYjk3OTBiM2U2NzUxODZjYSINCj4gIA0KPiAg
+aW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnDQo+ICANCj4gLS0gDQo+IDIuMTcuMQ0KPiANCj4g
+DQo+IA0K
 
