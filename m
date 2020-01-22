@@ -1,50 +1,54 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id E88B87FF91
+Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
+	[209.85.219.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 988DF7FE43
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 08:10:05 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id a33so3061952pgm.5
+	Wed, 22 Jan 2020 08:13:35 +0000 (UTC)
+Received: by mail-qv1-f66.google.com with SMTP id x1so2819153qvr.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 00:10:07 -0800 (PST)
+	Wed, 22 Jan 2020 00:13:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=fHTcbkclEXpssi5v5BOrwqZa8yInGQgNTgkkX5wrq5w=;
-	b=eGGHqbqpxdb8Zc7umNS8phOzrj6NFo0rsP02V3baXHLwdbJ5RG7jZGeqYwq3aGc1A3
-	W04DZMTLd4UlmXJ3LdEnApTcN8ybfsHGlNODZtvfyDux0hI4jOXixBxjduEyEbH2vms1
-	p3ldT3MEk0gi3BZq99YBmnEpDvahnWTET89cw9pczICl0yo8qCyY8r4b2T4kqIYSrBrP
-	/UfS8nN7hEW1djHVpzolaUma57c4AS1EgstmLM2eJZvWiLYZyUn9E+CqBfFsSA5AKlXO
-	tl9y29wl6G2zXSC76RSHxYyipbpAxIROxtcuOIs8ua+pDqcLwIzpnYMthAOW4yU86/Vk
-	zbSw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=d38SXwRyGh8mLImGkxu9ssNHwCxnK9qjHhHOmmels4U=;
+	b=FX3hH22ze/SsecHbQeHguRWykd1W2qNWrMepcw+M7zSop69aeSP8KiDEOnqRvVZsNl
+	apJpHoi+5wzZiNPtNGNTH+eSqK/EL8LhTSYvh6Rp7mhe8VnyEYqQIfK1Ww57sn1I1+M5
+	EeJjDjA3xr8YO6oX3TMZZB93K8+5j7OMglZ+PVAmBl4JtbCFcn0c9lEYdgaHU4nvRhlm
+	Io0/2DbtpBHU3/BpBXLfRtTTVVZANkpZEj/V+GQFixbN1q2W5s3t2xUkaPY55cd/DEme
+	CA55+jFKTjcjageIO+9NSacOdSucL6UZLYN/KFkCCF515xZ+zusZh3bJzb50GjqNMQoE
+	u0Aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=fHTcbkclEXpssi5v5BOrwqZa8yInGQgNTgkkX5wrq5w=;
-	b=P2056AnynK3CmnDl/gtqPdE+3bOnRK/9RE7wQ9rBRvcIoVG3sMhGAcWkLM+xRnnwsu
-	vcxQnaQJz6k/vOffHf9wWxh8VWOK/YMm+IzxdAONFgUXNqmle/KNAp98TUYQQvNkiWCJ
-	jOIm0MQnEkKmTHLpd/T8Rxmd05q8Ejj4OVRfpIO0GyWjvCCHUaz8ixYN9pjFoMr/b6p1
-	DGqtJdQBgrIav35UgnHv1/UUk6zqAfnp17Z/cRAC/vXfvYh82cCjGVLQ+Wx7KOZTHAiX
-	PABRV76NalcZK0jl9TI6MFriav/ahJ5gry83XT3LMzJRXc5T2M8s15J2x0XTyqYA3WAf
-	wiWA==
-X-Gm-Message-State: APjAAAWI1iNXHDMUK/Ulde5eOgN7Tb2nf5ms92PI6veulmkRUW/F4g+/
-	tqY6/YwYpqRA4p2/5mQy+a9PSdI9uSc=
-X-Google-Smtp-Source: APXvYqwbFR7VUVFYdAHNDkXWGVm1CKWQC1mtOQLSigdN1qxFXoVlh8ARSvRM8kw4J2jDfWKIaIFJqw==
-X-Received: by 2002:a63:34c2:: with SMTP id b185mr9079524pga.298.1579680606563;
-	Wed, 22 Jan 2020 00:10:06 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::cab1])
-	by smtp.gmail.com with ESMTPSA id
-	j17sm45025758pfa.28.2020.01.22.00.10.05
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 22 Jan 2020 00:10:06 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2020 00:10:02 -0800
-Message-Id: <20200122081002.694601-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=d38SXwRyGh8mLImGkxu9ssNHwCxnK9qjHhHOmmels4U=;
+	b=M88J9p7C+PhuaZ4Y5ELwe7q5V2flv4RLhS+fjn8a8ToDv6OFAG4yGdSGD5aH+2lUoL
+	4iCXPeAUiItrWf4gUvcXYn//aUOPZih2p+ng1mKVgWw8bIyhPUyq1eFXcoSCvtn3mCl5
+	f39u83xXpJenjJv3dUZbXkO9eGJ1OgKKlQabKNH9UOSL+AOFif7trNy26ng+27mpL+xw
+	qTxbD8HqtEjcmO01OVp//UjO6p0yyL1HK/ZLOCDTlBo0AXnO/CEHdE17ooV1R8E02D2q
+	sHuXWP5PmPc8lN3++Pg2CWq3Ff2UM/9nSKN9ig/u1O5MTm9TTVkEhHV0CZ0MFQFo2g2L
+	ARMQ==
+X-Gm-Message-State: APjAAAWw+zQSnjC6A4mfrZe/mKUkZpPmK2AK653iEj43x+5IUVu6euu2
+	cSLQhgLeL5Lcy0Irk2q1dwIse8pmuPZia+IsbAA=
+X-Google-Smtp-Source: APXvYqzQqTTRggsjYu+JJn9Gnjhk9+MZnoCIUpDrQ5/oRSW63ZpG3WR7fHo6vMlU95C3qBLAXh0ERTA8zrcY+B+cupI=
+X-Received: by 2002:ad4:4389:: with SMTP id s9mr8839838qvr.99.1579680816298;
+	Wed, 22 Jan 2020 00:13:36 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] nss: Pass NSS_USE_ARM_HW_CRYPTO as define in CFLAGS
+References: <20200120172510.22648-1-alex.kanavin@gmail.com>
+	<20200120172510.22648-5-alex.kanavin@gmail.com>
+	<CALbNGRTcVRb7obS2g8d6fipNUervDr0ZYvJ+izLmCJH4h5QRyQ@mail.gmail.com>
+	<1ccb46bd9806f74f4c61b774754e314ca72c368c.camel@linuxfoundation.org>
+	<CAMKF1srhnkkSETdWK0Jb0V8OV-4bwpCLJ7MhJuJ9dOx5T3VzUQ@mail.gmail.com>
+	<1776d7f035ce96fa5a1b3759e83fdd6c611dca15.camel@linuxfoundation.org>
+	<CAMKF1sqvV4xj1p+h6Yjt08L4h9w2YfVSDqLF9J7yW7N8t2-HLA@mail.gmail.com>
+In-Reply-To: <CAMKF1sqvV4xj1p+h6Yjt08L4h9w2YfVSDqLF9J7yW7N8t2-HLA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 Jan 2020 00:13:09 -0800
+Message-ID: <CAMKF1sqL5LP-h6y583ma48U=kD2-tKATf-=dSGRize3yM_73dw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/24] nss: update to 3.49.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,73 +61,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 08:10:06 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 22 Jan 2020 08:13:35 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use NSS_USE_ARM_HW_CRYPTO to detect USE_ARM_GCM, since there are
-dependent, without this we control the crypto code function inclusion in
-build but do not control the call sites, which can result in undefined
-symbols e.g.
+On Tue, Jan 21, 2020 at 2:02 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+>
+>
+> On Tue, Jan 21, 2020 at 12:22 PM Richard Purdie <richard.purdie@linuxfoun=
+dation.org> wrote:
+>>
+>> On Tue, 2020-01-21 at 11:35 -0800, Khem Raj wrote:
+>> > This is failing on qemuarm btw
+>> >
+>> > http://errors.yoctoproject.org/Errors/Details/307410/
+>>
+>> That is odd as it passed testing on the autobuilder. It must be
+>> something tune specific :(
+>
+> Thanks
+>
+> While my builds are dealing with py2 things this seems not related but I =
+do have gcc10 in my mix
+> So it could be future build break I need to triage it a bit more and see =
+what=E2=80=99s going on
+>
 
-Linux_SINGLE_SHLIB/gcm.o: in function `gcmHash_InitContext':
-/usr/src/debug/nss/3.49.1-r0/nss-3.49.1/nss/lib/freebl/gcm.c:112: undefined reference to `gcm_HashInit_hw'
+It was not a compiler issue but another issue in the patch proposed to
+disable crypto, I have not sent a patch on
+top of this one which should fix the problem and make the patch to
+disable crypto on arm disable it fully.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...figure-option-to-disable-ARM-HW-cryp.patch | 25 ++++++++++++++++---
- 1 file changed, 21 insertions(+), 4 deletions(-)
+see
+https://patchwork.openembedded.org/patch/169340/
 
-diff --git a/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-disable-ARM-HW-cryp.patch b/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-disable-ARM-HW-cryp.patch
-index fe29d19882..803c06b218 100644
---- a/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-disable-ARM-HW-cryp.patch
-+++ b/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-disable-ARM-HW-cryp.patch
-@@ -12,20 +12,19 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  nss/lib/freebl/Makefile | 3 +++
-  1 file changed, 3 insertions(+)
- 
--diff --git a/nss/lib/freebl/Makefile b/nss/lib/freebl/Makefile
--index 06506f0..a8b015d 100644
- --- a/nss/lib/freebl/Makefile
- +++ b/nss/lib/freebl/Makefile
--@@ -125,6 +125,8 @@ else
-+@@ -125,6 +125,9 @@ else
-          DEFINES += -DNSS_X86
-  endif
-  endif
- +
- +ifdef NSS_USE_ARM_HW_CRYPTO
-++    DEFINES += -DNSS_USE_ARM_HW_CRYPTO
-  ifeq ($(CPU_ARCH),aarch64)
-      DEFINES += -DUSE_HW_AES
-      EXTRA_SRCS += aes-armv8.c gcm-aarch64.c
--@@ -145,6 +147,7 @@ ifeq ($(CPU_ARCH),arm)
-+@@ -146,6 +149,7 @@ ifeq ($(CPU_ARCH),arm)
-          endif
-      endif
-  endif
-@@ -33,3 +32,21 @@ index 06506f0..a8b015d 100644
-  
-  ifeq ($(OS_TARGET),OSF1)
-      DEFINES += -DMP_ASSEMBLY_MULTIPLY -DMP_NO_MP_WORD
-+--- a/nss/lib/freebl/gcm.c
-++++ b/nss/lib/freebl/gcm.c
-+@@ -17,6 +17,7 @@
-+ 
-+ #include <limits.h>
-+ 
-++#ifdef NSS_USE_ARM_HW_CRYPTO
-+ /* old gcc doesn't support some poly64x2_t intrinsic */
-+ #if defined(__aarch64__) && defined(IS_LITTLE_ENDIAN) && \
-+     (defined(__clang__) || defined(__GNUC__) && __GNUC__ > 6)
-+@@ -28,6 +29,7 @@
-+  * that compiler uses -mfpu=neon only. */
-+ #define USE_ARM_GCM
-+ #endif
-++#endif
-+ 
-+ /* Forward declarations */
-+ SECStatus gcm_HashInit_hw(gcmHashContext *ghash);
--- 
-2.25.0
-
+>>
+>> Cheers,
+>>
+>> Richard
+>>
 
