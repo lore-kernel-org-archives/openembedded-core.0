@@ -1,24 +1,48 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id DAF8391457
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B2534914B1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 06:21:09 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jan 2020 22:21:10 -0800
-X-IronPort-AV: E=Sophos;i="5.70,348,1574150400"; d="scan'208";a="220207861"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.17.19])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 Jan 2020 22:21:09 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2020 14:21:04 +0800
-Message-Id: <20200122062104.21783-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.21.1
+	Wed, 22 Jan 2020 06:49:19 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id 21so5429515qky.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 Jan 2020 22:49:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ZbWAwzepXvjs6n51OSjTmrYjaL/e8G1KhEwN45veOws=;
+	b=Pys3cfmyNnAkIuZZuh4P+BvxnfKrWXxsqvkQ2VCLcnIRuuoaFqrxCASDU00mALt3dA
+	rbCy/GKgsHlQhmXUabpikhVKIhay3W5VNxwvrJAhYpFkit9me4JAuaRBTKxyJBUTSW7A
+	QKhZWKQeZNSyqjrfRMyrFpyZdNbHSX1jFeCBOKhQkB3HPAygBdPKlp/1zDtxrxWTb+AO
+	3Um/dWnEs9TbHCPoxEl7mBk9VI7s6g0l0PdhE7z/fYzEwFGMDlBA0SicpZth3/yhbO1K
+	ug9oL+uMO4oFFonyDkEnlLegMp+zPLFFem+y50E7MnB8R+V8xKi+n6FiJZEKSI8I9I3k
+	GSPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ZbWAwzepXvjs6n51OSjTmrYjaL/e8G1KhEwN45veOws=;
+	b=k/Eu6UYQOqfCbPBWB2eSnkHk+EKzbdr74qqzdEoa4cQlGWwV1dCA9+Juyc0/0cnvWn
+	SAyhXARhS9u9aisFYtW7PTQZtHg0MNGfOSsrRFvNpZVs7QukgWiB23j563iuya+uzgPu
+	YCoFRgxzlT7MLDwtQmj/yGn+WQINv/jhRe28EVszk9R/aS+IwQSD7gW7AgZWrOq2p+n6
+	pa+L+obS11z4cLXKyEltMuU9ZJcKFzCvRL5Mr+9Gzv+pRcIMlLjI+k3tFYMJzhWRgHgi
+	GklRwbyqPEEdetAU5JrB2iR2ODvfTg3FpE1Tggq2xzO+IPopus36vDnacghI+ylX29rn
+	5/AQ==
+X-Gm-Message-State: APjAAAXM3uvhGXlERqbPl+8tiVFQ9TUCOhCR2PIP7xkwtyFx44B8H5g0
+	Y+5blhgEwldnuymKp7JrP6ipsn4peG3luGlXtwYxgjzG
+X-Google-Smtp-Source: APXvYqyUx0PAF7gsjNXBe5I3xqdLkO403rb8WlrYUe+UvKshCD43ksXkq9plwD9VtfVAMZ5l9DI0pctuxe34KutWA7M=
+X-Received: by 2002:a37:de05:: with SMTP id h5mr8714316qkj.474.1579675760369; 
+	Tue, 21 Jan 2020 22:49:20 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] x264: upgrade to latest revision
+References: <20200122002702.166957-1-mark.hatle@kernel.crashing.org>
+	<20200122002702.166957-2-mark.hatle@kernel.crashing.org>
+In-Reply-To: <20200122002702.166957-2-mark.hatle@kernel.crashing.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 Jan 2020 22:48:54 -0800
+Message-ID: <CAMKF1sryZBqOsM=ntW1S-QujuF19Gw74Ld9evNOkeAsGp0DFSg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] libgcc.inc: Fix an issue w/ a recursive symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,80 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 06:21:10 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 22 Jan 2020 06:49:19 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../x264/x264/Fix-X32-build-by-disabling-asm.patch | 14 ++++++--------
- meta/recipes-multimedia/x264/x264_git.bb           |  4 ++--
- 2 files changed, 8 insertions(+), 10 deletions(-)
+On Tue, Jan 21, 2020 at 4:43 PM Mark Hatle
+<mark.hatle@kernel.crashing.org> wrote:
+>
+> From: Mark Hatle <mark.hatle@xilinx.com>
+>
+> If the OS is not Linux, the code could end up generating a recursive symlink.
+> This can happen because the same symlink can be created twice in a row.  If this
+> happenes, the second symlink becomes a link to itself within the directory
+> pointed to by the original link.
+>
+> In order to prevent this, verify that the destination does not already exist.
+>
 
-diff --git a/meta/recipes-multimedia/x264/x264/Fix-X32-build-by-disabling-asm.patch b/meta/recipes-multimedia/x264/x264/Fix-X32-build-by-disabling-asm.patch
-index 087a448eec..cb771fb0bf 100644
---- a/meta/recipes-multimedia/x264/x264/Fix-X32-build-by-disabling-asm.patch
-+++ b/meta/recipes-multimedia/x264/x264/Fix-X32-build-by-disabling-asm.patch
-@@ -1,4 +1,4 @@
--From 66b120079fb21ed38cab0900c63360b0a7853eaa Mon Sep 17 00:00:00 2001
-+From 7bc25f4d1aaa5186d2eff3e2326c7245fcd7e7f3 Mon Sep 17 00:00:00 2001
- From: Christopher Larson <chris_larson@mentor.com>
- Date: Tue, 13 Dec 2016 14:22:32 -0700
- Subject: [PATCH] Fix X32 build by disabling asm
-@@ -12,15 +12,16 @@ doesn't successfully build at this time, and my assembly is very rusty.
- 
- Upstream-Status: Pending
- Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-+
- ---
-  configure | 14 ++++++++++++--
-  1 file changed, 12 insertions(+), 2 deletions(-)
- 
- diff --git a/configure b/configure
--index 3109ec4..844aeae 100755
-+index 51b128d..6ea9469 100755
- --- a/configure
- +++ b/configure
--@@ -703,7 +703,13 @@ case $host_cpu in
-+@@ -754,7 +754,13 @@ case $host_cpu in
-          AS_EXT=".asm"
-          ASFLAGS="$ASFLAGS -DARCH_X86_64=1 -I\$(SRCPATH)/common/x86/"
-          stack_alignment=16
-@@ -33,9 +34,9 @@ index 3109ec4..844aeae 100755
- +            fi
- +        fi
-          if [ "$SYS" = MACOSX ]; then
--             ASFLAGS="$ASFLAGS -f macho64 -DPIC -DPREFIX"
-+             ASFLAGS="$ASFLAGS -f macho64 -DPREFIX"
-              if cc_check '' "-arch x86_64"; then
--@@ -722,7 +728,11 @@ case $host_cpu in
-+@@ -773,7 +779,11 @@ case $host_cpu in
-                  RCFLAGS="--target=pe-x86-64 $RCFLAGS"
-              fi
-          else
-@@ -48,6 +49,3 @@ index 3109ec4..844aeae 100755
-          fi
-          ;;
-      powerpc*)
---- 
--2.8.0
--
-diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
-index f22930a0ee..39429a8809 100644
---- a/meta/recipes-multimedia/x264/x264_git.bb
-+++ b/meta/recipes-multimedia/x264/x264_git.bb
-@@ -14,9 +14,9 @@ SRC_URI = "git://github.com/mirror/x264;branch=stable \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
--SRCREV = "72db437770fd1ce3961f624dd57a8e75ff65ae0b"
-+SRCREV = "1771b556ee45207f8711744ccbd5d42a3949b14c"
- 
--PV = "r2917+git${SRCPV}"
-+PV = "r2991+git${SRCPV}"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.21.1
+does this happen with ln -sf too ? if not then perhaps that will be simpler
 
+> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+> ---
+>  meta/recipes-devtools/gcc/libgcc.inc | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
+> index e008d14f36..6d48ec9809 100644
+> --- a/meta/recipes-devtools/gcc/libgcc.inc
+> +++ b/meta/recipes-devtools/gcc/libgcc.inc
+> @@ -9,14 +9,18 @@ do_install_append_class-target () {
+>                         "linux-musleabi") extra_target_os="linux-gnueabi";;
+>                         *) extra_target_os="linux";;
+>                 esac
+> -               ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
+> +               if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
+> +                       ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
+> +               fi
+>         fi
+>         if [ -n "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', 'hf', '', d)}" ]; then
+>                 case "${TARGET_OS}" in
+>                         "linux-musleabi") extra_target_os="linux-musleabihf";;
+>                         "linux-gnueabi") extra_target_os="linux-gnueabihf";;
+>                 esac
+> -               ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
+> +               if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
+> +                       ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
+> +               fi
+>         fi
+>  }
+>
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
