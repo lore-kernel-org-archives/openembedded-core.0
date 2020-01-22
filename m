@@ -1,22 +1,18 @@
 Return-Path: <mark.hatle@kernel.crashing.org>
-X-Greylist: delayed 969 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 22 Jan 2020 00:43:12 UTC
 Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 39FF97FFCA
+	by mail.openembedded.org (Postfix) with ESMTP id A61607FFCA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 00:43:12 +0000 (UTC)
+	Wed, 22 Jan 2020 00:43:13 +0000 (UTC)
 Received: from lons-builder.int.hatle.net ([192.40.192.88])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 00M0R3c2025108
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 00M0R3c1025108
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 18:27:04 -0600
+	Tue, 21 Jan 2020 18:27:03 -0600
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 Jan 2020 18:27:02 -0600
-Message-Id: <20200122002702.166957-2-mark.hatle@kernel.crashing.org>
+Date: Tue, 21 Jan 2020 18:27:01 -0600
+Message-Id: <20200122002702.166957-1-mark.hatle@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200122002702.166957-1-mark.hatle@kernel.crashing.org>
-References: <20200122002702.166957-1-mark.hatle@kernel.crashing.org>
-Subject: [PATCH 2/2] libgcc.inc: Fix an issue w/ a recursive symlink
+Subject: [PATCH 1/2] toaster.bbclass: Fix error when toaster is used to monitor a build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,46 +27,49 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 22 Jan 2020 00:43:13 -0000
 
-From: Mark Hatle <mark.hatle@xilinx.com>
+The error being corrected looks like:
 
-If the OS is not Linux, the code could end up generating a recursive symlink.
-This can happen because the same symlink can be created twice in a row.  If this
-happenes, the second symlink becomes a link to itself within the directory
-pointed to by the original link.
+File: '/home/jenkins/workspace/OEBuild/build-32/oe-core/meta/classes/toaster.bbclass', lineno: 130, function: toaster_package_dumpdata
+     0126:    lpkgdata = {}
+     0127:    datadir = os.path.join(pkgdatadir, 'runtime')
+     0128:
+     0129:    # scan and send data for each generated package
+ *** 0130:    for datafile in os.listdir(datadir):
+     0131:        if not datafile.endswith('.packaged'):
+     0132:            lpkgdata = _toaster_load_pkgdatafile(datadir, datafile)
+     0133:            # Fire an event containing the pkg data
+     0134:            bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo", lpkgdata), d)
+Exception: FileNotFoundError: [Errno 2] No such file or directory: '/home/jenkins/workspace/OEBuild/builds/build-32/tmp-glibc/work/core2-64-oe-linux/puzzles/2_0.0+gitAUTOINC+c6e0161dd4-r0/pkgdata/runtime'
 
-In order to prevent this, verify that the destination does not already exist.
+There must be a small window before the data is available, but while the monitoring is on-going.
 
-Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
- meta/recipes-devtools/gcc/libgcc.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meta/classes/toaster.bbclass | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-index e008d14f36..6d48ec9809 100644
---- a/meta/recipes-devtools/gcc/libgcc.inc
-+++ b/meta/recipes-devtools/gcc/libgcc.inc
-@@ -9,14 +9,18 @@ do_install_append_class-target () {
- 			"linux-musleabi") extra_target_os="linux-gnueabi";;
- 			*) extra_target_os="linux";;
- 		esac
--		ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-+		if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
-+			ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-+		fi
- 	fi
- 	if [ -n "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', 'hf', '', d)}" ]; then
- 		case "${TARGET_OS}" in
- 			"linux-musleabi") extra_target_os="linux-musleabihf";;
- 			"linux-gnueabi") extra_target_os="linux-gnueabihf";;
- 		esac
--		ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-+		if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
-+			ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-+		fi
- 	fi
- }
+diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+index 6a65ecb957..9518ddf7a4 100644
+--- a/meta/classes/toaster.bbclass
++++ b/meta/classes/toaster.bbclass
+@@ -126,11 +126,12 @@ def _toaster_dumpdata(pkgdatadir, d):
+     datadir = os.path.join(pkgdatadir, 'runtime')
  
+     # scan and send data for each generated package
+-    for datafile in os.listdir(datadir):
+-        if not datafile.endswith('.packaged'):
+-            lpkgdata = _toaster_load_pkgdatafile(datadir, datafile)
+-            # Fire an event containing the pkg data
+-            bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo", lpkgdata), d)
++    if os.path.exists(datadir):
++        for datafile in os.listdir(datadir):
++            if not datafile.endswith('.packaged'):
++                lpkgdata = _toaster_load_pkgdatafile(datadir, datafile)
++                # Fire an event containing the pkg data
++                bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo", lpkgdata), d)
+ 
+ python toaster_package_dumpdata() {
+     _toaster_dumpdata(d.getVar('PKGDESTWORK'), d)
 -- 
 2.17.1
 
