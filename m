@@ -1,50 +1,29 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 37F167FD83
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D4AB7FD5F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 20:28:28 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id d9so624918qte.12
+	Wed, 22 Jan 2020 21:20:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00MLJxHY009159
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 12:28:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=WrEsFt3AQy+6ZkDOZKrfec4yvMBZSY5fWtjPICtjOR4=;
-	b=SZTuwEhcJJzqbheD/GklfGtxR6IfGTcklohA/aL4gFk+0sFrPp5okcNuHqYsk+0dU3
-	3T/VCxCOsYktQhzTi4hZDowBgTmKR/+G2KLMwemJX+qFi87XBzqwNbDNEpJscJR2x2d5
-	fLITCQdoPW84jQEIrS9ZfM97sZJCb72P8W8w8jW4njIoVZxFSSFYy34tx1YcJSTUZwHt
-	EY2nEF19m0H1AQovGqmm+CUG6ECs/FEK1YGSQLLE3b4jPv5eIDpY8lhi4/dal5fXbAS6
-	8nRy/Ay/c8vhINOxAOZipTDpdT2qWDdb0nV3JZwHmrxKHHb8YDTc9opie9hdkNXOdVPY
-	xTTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=WrEsFt3AQy+6ZkDOZKrfec4yvMBZSY5fWtjPICtjOR4=;
-	b=tMFKjaBdPM1c7AStjRZwx5Tf8QndjTAkZfZQycDfz/yVG/F1LTL/AM231SrYt0OfP7
-	a+JxfwQZrPtskYgA6zXSccASzXCi5+3zDcY+ERVTaZsnJuf0I8Qb/97ZDO8YJm9c9hBG
-	MbTnYIZ6JvXsayJK1MWBDFccF8/sXtyceTPRspm3ZUHrRzAOrOn8P/dsZGOz9fZKIH5C
-	jx8UHZyQGNKOCNyfETWlNzafY6hZZJ6ha0/cxGg5N6lL+/EnkikWAMUKs8vEUxDSnBWM
-	ps0HG6Xz7W68ek8vzz5bCkR77/kp5Kwcu7gDf0hLIicJIlqVpJ9RYIQL0j15ZlIn5G/O
-	8mzA==
-X-Gm-Message-State: APjAAAUE1sJGaTE2tU07xIs+ZU0EhIGiByMsM6qFvmOOLrwFjcC5J55D
-	69gx8x+qeHeGmyyC5/PrWBnhrAabfBJ39joG7LQYTT3j
-X-Google-Smtp-Source: APXvYqwu56162rI/6GonhHhXiQWLDrmrjD2ZjA7eHtwkj+G9KiUggdVMxm89ZbHVax8/vLbX10D5F/LbG8akyN05sVs=
-X-Received: by 2002:ac8:544f:: with SMTP id d15mr12579700qtq.53.1579724908891; 
-	Wed, 22 Jan 2020 12:28:28 -0800 (PST)
-MIME-Version: 1.0
-References: <20200116044609.3902260-1-raj.khem@gmail.com>
-	<20200116131330.GA2546@localhost>
-	<CAMKF1spz1u9sPwQK2wyyQBUeLJ611XXYwUWHUfK6TZXcFNXJ=Q@mail.gmail.com>
-	<20200121163208.GA2836@localhost>
-In-Reply-To: <20200121163208.GA2836@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 Jan 2020 12:28:02 -0800
-Message-ID: <CAMKF1squtHZJDkW9Of+bmBaDEP0tsa4E_qN85_00=icDnMyYaA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
+	Wed, 22 Jan 2020 13:20:10 -0800
+Received: from [172.25.44.8] (172.25.44.8) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 22 Jan 2020 13:19:49 -0800
+To: "Mingde (Matthew) Zeng" <matthew.zeng@windriver.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gettext: Fix overloadable error with clang
+References: <87tv4n5jm4.fsf@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <1f3d52d7-c738-855c-e48c-61c0a2e64111@windriver.com>
+Date: Wed, 22 Jan 2020 16:19:47 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <87tv4n5jm4.fsf@windriver.com>
+X-Originating-IP: [172.25.44.8]
+Subject: Re: [PATCHv2] kbd: make libkbdfile-test08 ptest work for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,52 +36,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 20:28:29 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Jan 2020 21:20:19 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 21, 2020 at 8:32 AM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Thu, Jan 16, 2020 at 07:17:20AM -0800, Khem Raj wrote:
-> > On Thu, Jan 16, 2020 at 5:13 AM Adrian Bunk <bunk@stusta.de> wrote:
-> > >
-> > > On Wed, Jan 15, 2020 at 08:46:09PM -0800, Khem Raj wrote:
-> > > > Clang detects that getcwd is being re-declared and signatures don't
-> > > > match, simple solution is to let clang use overloadable attribute
-> > > >...
-> > > > +Fixes
-> > > > +dcigettext.c:147:7: error: redeclaration of 'getcwd' must have the 'overloadable' attribute
-> > > >...
-> > > > +-char *getcwd ();
-> > > >...
-> > >
-> > > Looks like a bug in clang to me, and should be fixed there.
-> > >
-> > > The code does not tell anything regarding the parameters,
-> > > but clang seems to misinterpret it as "no parameters".
-> > >
-> > its conflicting with declaration from glibc system headers
-> >...
->
-> Why did the glibc 2.31 upgrade add a not upstreamed patch from 2017 that
-> created these conflicts?
->
 
-This supports building userspace with clang better and find more
-errors when fortify sources option is on.
-this patch was already proposed to glibc and I will follow up on it.
-It definitely improves fortify when using clang
+LGTM.
 
-> The commit message does not mention that this patch was added,
-> and an OE-only patch that makes a compiler reject valid C code
-> is not good.
->
+Thanks Matthew.
+../Randy
 
-I think thats my bad as it slipped my mind with numerous rebases I did
-over the life of the glibc patchset.
-however, I think its probably best to leave it outside core for now.
-There is another patchset I will do for
-glibc 2.31 where I will drop it and perhaps house it in meta-clang.
+On 1/22/20 3:20 PM, Mingde (Matthew) Zeng wrote:
+> This patch fixes kbd ptest libkbdfile-test08 failure in 64-bit images.
+> 
+> ```sh
+> root@intel-x86-64:/usr/lib64/kbd/ptest# ./run-ptest
+> make: Entering directory '/usr/lib64/kbd/ptest/tests'
+> make[1]: Entering directory '/usr/lib64/kbd/ptest/tests'
+> PASS: libkbdfile-test01
+> PASS: libkbdfile-test02
+> PASS: libkbdfile-test03
+> PASS: libkbdfile-test04
+> PASS: libkbdfile-test05
+> PASS: libkbdfile-test06
+> PASS: libkbdfile-test07
+> FAIL: libkbdfile-test08
+> PASS: libkbdfile-test09
+> ...
+> ```
+> 
+> `DATADIR` and `ABS_DATADIR` are compile flags defined in
+> ./kbd/tests/Makefile.am. `DATADIR` is the relative directory of
+> kbd, i.e `./kbd/ptest/tests` whereas `ABS_DATADIR` is the full
+> directory path, i.e `/usr/lib/kbd/ptest/tests`. The latter has a
+> problem when building ptests for a 64-bit image, because the tests
+> folder is located at `/usr/lib64/kbd/ptest/tests` instead.
+> 
+> Therefore `ABS_DATADIR` is changed to `DATADIR`, also consistent with
+> what *every other* kbd test is doing.
+> 
+> The test searches DATADIR recursively for a file named `test0.map`,
+> but it finds the wrong file at
+>      `/findfile/test_0/keymaps/test0.map`,
+> while it actually needs
+>      `/findfile/test_0/keymaps/i386/qwerty/test0.map`.
+> 
+> Thus appending `/i386` to `dirpath` so that `libkbdfile-test08.c`
+>      finds the right test file.
+> 
+> Signed-off-by: Matthew Zeng<Matthew.Zeng@windriver.com>
+> ---
+>   ...append-i386-to-fix-libkbdfile-test08.patch | 45 +++++++++++++++++++
+>   meta/recipes-core/kbd/kbd_2.2.0.bb            |  1 +
+>   2 files changed, 46 insertions(+)
+>   create mode 100644 meta/recipes-core/kbd/kbd/0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch
+> 
+> diff --git a/meta/recipes-core/kbd/kbd/0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch b/meta/recipes-core/kbd/kbd/0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch
+> new file mode 100644
+> index 0000000000..54e4dc9034
+> --- /dev/null
+> +++ b/meta/recipes-core/kbd/kbd/0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch
+> @@ -0,0 +1,45 @@
+> +From 4c12f76f4177cfd560cf708a16774ebfadbd41a5 Mon Sep 17 00:00:00 2001
+> +From: "Mingde (Matthew) Zeng" <matthew.zeng@windriver.com>
+> +Date: Wed, 22 Jan 2020 11:02:17 -0500
+> +Subject: [PATCH] Use DATADIR and append i386 to fix libkbdfile-test08 ptest
+> + failure
+> +
+> +Replace ABS_DATADIR with DATADIR and append i386 to dirpath.
+> +
+> +Upstream-Status: Inappropriate [OE specific]
+> +
+> +This OE specific patch applies to kbd v2.2.0 for now, the upstream
+> +made drastic changes since v2.2.0, in fact they got rid of ABS_DATADIR
+> +in commit 5b6df5c along with a series of other commits which may or
+> +may not fix this issue. We will find out in future releases.
+> +
+> +Signed-off-by: Matthew Zeng<Matthew.Zeng@windriver.com>
+> +---
+> + tests/libkbdfile-test08.c | 6 +++---
+> + 1 file changed, 3 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/tests/libkbdfile-test08.c b/tests/libkbdfile-test08.c
+> +index bf41707..5e287f1 100644
+> +--- a/tests/libkbdfile-test08.c
+> ++++ b/tests/libkbdfile-test08.c
+> +@@ -14,14 +14,14 @@ main(int __attribute__((unused)) argc, char **argv)
+> + 	if (!fp)
+> + 		kbd_error(EXIT_FAILURE, 0, "unable to create kbdfile");
+> +
+> +-	const char *const dirpath[]  = { "", DATADIR "/findfile/test_0/keymaps/**", 0 };
+> ++	const char *const dirpath[]  = { "", DATADIR "/findfile/test_0/keymaps/i386/**", 0 };
+> + 	const char *const suffixes[] = { "", ".map", ".kmap", 0 };
+> +
+> +-	const char *expect = ABS_DATADIR "/findfile/test_0/keymaps/i386/qwerty/test0.map";
+> ++	const char *expect = DATADIR "/findfile/test_0/keymaps/i386/qwerty/test0.map";
+> +
+> + 	int rc = 0;
+> +
+> +-	rc = kbdfile_find((char *)(ABS_DATADIR "/findfile/test_0/keymaps/i386/qwerty/test0"), (char **) dirpath, (char **) suffixes, fp);
+> ++	rc = kbdfile_find((char *)"test0", (char **) dirpath, (char **) suffixes, fp);
+> +
+> + 	if (rc != 0)
+> + 		kbd_error(EXIT_FAILURE, 0, "unable to find file");
+> +--
+> +2.24.1
+> +
+> diff --git a/meta/recipes-core/kbd/kbd_2.2.0.bb b/meta/recipes-core/kbd/kbd_2.2.0.bb
+> index df9b0bb90b..e13cea7634 100644
+> --- a/meta/recipes-core/kbd/kbd_2.2.0.bb
+> +++ b/meta/recipes-core/kbd/kbd_2.2.0.bb
+> @@ -16,6 +16,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/${BP}.tar.xz \
+>              file://run-ptest \
+>              ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://set-proper-path-of-resources.patch', '', d)} \
+>              file://0001-analyze.l-add-missing-string-format.patch \
+> +           file://0001-Use-DATADIR-and-append-i386-to-fix-libkbdfile-test08.patch \
+>              "
+> 
+>   SRC_URI[md5sum] = "d1d7ae0b5fb875dc082731e09cd0c8bc"
+> --
+> 2.24.0
+> 
 
-> cu
-> Adrian
+
+-- 
+# Randy MacLeod
+# Wind River Linux
 
