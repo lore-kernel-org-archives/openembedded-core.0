@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id F1A0A91436
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com
+	[209.85.216.42])
+	by mail.openembedded.org (Postfix) with ESMTP id AA4E791454
 	for <openembedded-core@openembedded.org>;
-	Wed, 22 Jan 2020 05:48:19 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id ay11so2474913plb.0
+	Wed, 22 Jan 2020 05:48:20 +0000 (UTC)
+Received: by mail-pj1-f42.google.com with SMTP id u63so1696853pjb.0
 	for <openembedded-core@openembedded.org>;
-	Tue, 21 Jan 2020 21:48:21 -0800 (PST)
+	Tue, 21 Jan 2020 21:48:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=y/3KXMxDz25N3o+xXUPPFWtsrODajH0HiYbIlzT0ro0=;
-	b=IWSs0Fwba723xAGzucbZbTNdNDuQsQ6w/00Gin6N6Q2V69UgH0RDmgCkQqFLB9vX2p
-	4grbXpyUZJPkb0jbZRh1ADTB1S+Ai1UwjodloaLv7lust3j6kDhLsJEmN73MDUllGKg8
-	afrTbetSrYeya49AOphLjvOVPoxgAyLE0FtTd9oHVmDEqBDoC4gwM0Snd9Q6Xm5t0Gb9
-	OihO/pWy4yxoz1x++75/0Cp18kb2XVLqcMCUq8UQul6SVy/wH3Lyy73K4vv+Cy3lWsJu
-	uJkqNTofYyobZnkHIXGbxk/TIM8Dn8m9p8yM9QWyaKBOlMoXD/LE3oeFhP40mYt1pupG
-	VGWw==
+	bh=Yb0a9GFqgBIduL6TmqMpG81mTt/LgmddeehLudLiA/U=;
+	b=ZMbbNmAZy4k2EOP/KhcHu6QUbk5RoH3HzQJtV+O/9pOas+mAkUMEAcyXLvJE9cZ0Wk
+	fPSZ5U4pqTw29Bcksca1wG36OhrVz+7fsm5HIW2Dkx+9dfc8IS3HeG/tVdDg9wltk9di
+	iVU997els0QwwEh8hzGTkPsFMb4P8t8idjn6JDKzZB5fs3821jb0fuIBfpKjjCSAPwmY
+	oRP905I6E2iXBdkZxARr2CZ1P5Zoumu1xRRGRxki9MLvIytCionUdjOfrDIBDLVVn3Y5
+	xo/zXDILoInbmR9N0njnueSPgY/gZuveEylfd87Y2F84hhVI2slkJ3oyqOK9j/Br3k9s
+	xgqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=y/3KXMxDz25N3o+xXUPPFWtsrODajH0HiYbIlzT0ro0=;
-	b=mWwCgCORIvcsZWTT3LkKcg5q9joTOo88tW8ESyG3lcJPRwDlq1zFSKIgmkcfHqN58T
-	U/jrK6tkzgmrCaQ4Cyv9u0fa6VxWRu4uL2jTMjGVJV+7p3lvk2MAstAIpRQbz4SkPS8v
-	TI/ttA/3hlXmEtZQF/DAkvTnrm5pH4kxWoKRMzQKc6yzDcEhIBSdLbdjQQURfjfX9G0h
-	sMQ19+Si9AoLewSkko/2pS8zIrJE2eGzpX0iWG7fj96ckVS450D1dKu9sn2hYnQOkkJ3
-	UjX/c8kFhZK4JQie+q5qlphr/SNEydm45be6W23mDK94uDBdpfDPGx2wxktLlt1cMrZ6
-	9GCA==
-X-Gm-Message-State: APjAAAUXUKqR6j1PTzgi6o41woa6hWy40iSbRdGiVzZWqhXFhDBI5LWk
-	W9Rc6kvzXh5yr3cDabUAX0rtva7W
-X-Google-Smtp-Source: APXvYqxsh+36gjqxkcUnX5xqRWHHTUDHufDFjPzBN7K4qrbg0OdG3tLFX6ssivkAuvnqLlrGYW/0dg==
-X-Received: by 2002:a17:90a:2808:: with SMTP id
-	e8mr1098029pjd.63.1579672100952; 
-	Tue, 21 Jan 2020 21:48:20 -0800 (PST)
+	bh=Yb0a9GFqgBIduL6TmqMpG81mTt/LgmddeehLudLiA/U=;
+	b=sZsA2bbQpv9SGG8UACr09OH4YD8vTaiTIjHcoWYqJ5zgm7rWDAvPg8RENsieTpEaMG
+	bWG1Z1fm+kKqlBVCEP7Tecr43pX/ny4t1+Ygjr+EZLJJzRp2X12qghjQWc6Yxw/Vu4xk
+	/eWCBcnJfbpwDRdojH4KfD9JAyJYU7Q7YUaXkaInInFx8raWqLNOBlIuBLciRcGR87e0
+	L7camMvGW9cruhLCFuPo8KgGI7fHKUdkr5LteaYe0+eXgda8SrByjcCnnZoiGZmdvTO+
+	OQj61qM5ZtmI5ymgR9dmZKM2I7pIbCtLb1/lcXepiLwrY2ls8intg/p3vm1eLTSNoDZw
+	ekXg==
+X-Gm-Message-State: APjAAAWt7mSMP3MXVzo4U1YJNOWebfnleE/P3It1Xvzv1Kgg5iPooBjC
+	M2vORmlaf4lHfQK7jaHVE/k2Po0e
+X-Google-Smtp-Source: APXvYqxEa2JPRp202vzDvLQIa69NY+iMKyRHu+BwVIen8lJjlA/4PZ90OxKtf+JMDf6Uej4QNFFDrw==
+X-Received: by 2002:a17:90b:8b:: with SMTP id
+	bb11mr1144197pjb.27.1579672101641; 
+	Tue, 21 Jan 2020 21:48:21 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:682c:76b9:6d8a:bbd2])
 	by smtp.gmail.com with ESMTPSA id p18sm1413247pjo.3.2020.01.21.21.48.20
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 21 Jan 2020 21:48:20 -0800 (PST)
+	Tue, 21 Jan 2020 21:48:21 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 21 Jan 2020 21:48:07 -0800
-Message-Id: <f0ea8b49a183d9340aaf0c60ee959aa8ec3c041c.1579672034.git.akuster808@gmail.com>
+Date: Tue, 21 Jan 2020 21:48:08 -0800
+Message-Id: <f1a609e7176a37e7e5f86f0b786f7da915085f83.1579672034.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1579672034.git.akuster808@gmail.com>
 References: <cover.1579672034.git.akuster808@gmail.com>
-Subject: [zeus 02/11] populate_sdk_ext.bbclass: No longer needed to clean away conf/sanity_info
+Subject: [zeus 03/11] sanity.bbclass: Move sanity_info from conf to cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,32 +63,48 @@ X-List-Received-Date: Wed, 22 Jan 2020 05:48:20 -0000
 
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-Since the sanity_info file has moved from the conf directory to the
-cache directory, there is no longer any need to clean it away
-explicitly in clean_esdk_builddir() since the whole cache directory is
-already cleaned away anyway.
+Since this file is written during recipe parsing, having it in the
+${BUILDDIR}/conf directory, which is covered by an inotify watcher,
+will trigger a re-parse the next time bitbake is run and the resident
+bitbake server is enabled. This causes the sanity_info file to be
+updated again, which triggers a new parse the next time bitbake is run
+ad infinitum. Moving it to ${BUILDDIR}/cache should avoid this.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 40c30990e1be72130819c040fe471e2bdc0c6e7d)
+(cherry picked from commit f98103b548aa7dba6b1be6c8e02ef41858a8e85c)
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/classes/populate_sdk_ext.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/sanity.bbclass     | 2 +-
+ meta/lib/oeqa/buildperf/base.py | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/populate_sdk_ext.bbclass b/meta/classes/populate_sdk_ext.bbclass
-index 9fda1c9e78..5657af4b6a 100644
---- a/meta/classes/populate_sdk_ext.bbclass
-+++ b/meta/classes/populate_sdk_ext.bbclass
-@@ -122,7 +122,7 @@ SDK_TITLE_task-populate-sdk-ext = "${@d.getVar('DISTRO_NAME') or d.getVar('DISTR
- def clean_esdk_builddir(d, sdkbasepath):
-     """Clean up traces of the fake build for create_filtered_tasklist()"""
-     import shutil
--    cleanpaths = 'cache conf/sanity_info tmp'.split()
-+    cleanpaths = ['cache', 'tmp']
-     for pth in cleanpaths:
-         fullpth = os.path.join(sdkbasepath, pth)
-         if os.path.isdir(fullpth):
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 9d0c784032..936fe913b4 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -927,7 +927,7 @@ def check_sanity(sanity_data):
+     last_tmpdir = ""
+     last_sstate_dir = ""
+     last_nativelsbstr = ""
+-    sanityverfile = sanity_data.expand("${TOPDIR}/conf/sanity_info")
++    sanityverfile = sanity_data.expand("${TOPDIR}/cache/sanity_info")
+     if os.path.exists(sanityverfile):
+         with open(sanityverfile, 'r') as f:
+             for line in f:
+diff --git a/meta/lib/oeqa/buildperf/base.py b/meta/lib/oeqa/buildperf/base.py
+index 3b2fed549f..5f1805d86c 100644
+--- a/meta/lib/oeqa/buildperf/base.py
++++ b/meta/lib/oeqa/buildperf/base.py
+@@ -462,7 +462,7 @@ class BuildPerfTestCase(unittest.TestCase):
+     def rm_tmp(self):
+         """Cleanup temporary/intermediate files and directories"""
+         log.debug("Removing temporary and cache files")
+-        for name in ['bitbake.lock', 'conf/sanity_info',
++        for name in ['bitbake.lock', 'cache/sanity_info',
+                      self.bb_vars['TMPDIR']]:
+             oe.path.remove(name, recurse=True)
+ 
 -- 
 2.17.1
 
