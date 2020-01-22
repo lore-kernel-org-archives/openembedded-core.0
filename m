@@ -1,54 +1,26 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f66.google.com (mail-qv1-f66.google.com
-	[209.85.219.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 988DF7FE43
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A6A87FF10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 08:13:35 +0000 (UTC)
-Received: by mail-qv1-f66.google.com with SMTP id x1so2819153qvr.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 00:13:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=d38SXwRyGh8mLImGkxu9ssNHwCxnK9qjHhHOmmels4U=;
-	b=FX3hH22ze/SsecHbQeHguRWykd1W2qNWrMepcw+M7zSop69aeSP8KiDEOnqRvVZsNl
-	apJpHoi+5wzZiNPtNGNTH+eSqK/EL8LhTSYvh6Rp7mhe8VnyEYqQIfK1Ww57sn1I1+M5
-	EeJjDjA3xr8YO6oX3TMZZB93K8+5j7OMglZ+PVAmBl4JtbCFcn0c9lEYdgaHU4nvRhlm
-	Io0/2DbtpBHU3/BpBXLfRtTTVVZANkpZEj/V+GQFixbN1q2W5s3t2xUkaPY55cd/DEme
-	CA55+jFKTjcjageIO+9NSacOdSucL6UZLYN/KFkCCF515xZ+zusZh3bJzb50GjqNMQoE
-	u0Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=d38SXwRyGh8mLImGkxu9ssNHwCxnK9qjHhHOmmels4U=;
-	b=M88J9p7C+PhuaZ4Y5ELwe7q5V2flv4RLhS+fjn8a8ToDv6OFAG4yGdSGD5aH+2lUoL
-	4iCXPeAUiItrWf4gUvcXYn//aUOPZih2p+ng1mKVgWw8bIyhPUyq1eFXcoSCvtn3mCl5
-	f39u83xXpJenjJv3dUZbXkO9eGJ1OgKKlQabKNH9UOSL+AOFif7trNy26ng+27mpL+xw
-	qTxbD8HqtEjcmO01OVp//UjO6p0yyL1HK/ZLOCDTlBo0AXnO/CEHdE17ooV1R8E02D2q
-	sHuXWP5PmPc8lN3++Pg2CWq3Ff2UM/9nSKN9ig/u1O5MTm9TTVkEhHV0CZ0MFQFo2g2L
-	ARMQ==
-X-Gm-Message-State: APjAAAWw+zQSnjC6A4mfrZe/mKUkZpPmK2AK653iEj43x+5IUVu6euu2
-	cSLQhgLeL5Lcy0Irk2q1dwIse8pmuPZia+IsbAA=
-X-Google-Smtp-Source: APXvYqzQqTTRggsjYu+JJn9Gnjhk9+MZnoCIUpDrQ5/oRSW63ZpG3WR7fHo6vMlU95C3qBLAXh0ERTA8zrcY+B+cupI=
-X-Received: by 2002:ad4:4389:: with SMTP id s9mr8839838qvr.99.1579680816298;
-	Wed, 22 Jan 2020 00:13:36 -0800 (PST)
-MIME-Version: 1.0
-References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-	<20200120172510.22648-5-alex.kanavin@gmail.com>
-	<CALbNGRTcVRb7obS2g8d6fipNUervDr0ZYvJ+izLmCJH4h5QRyQ@mail.gmail.com>
-	<1ccb46bd9806f74f4c61b774754e314ca72c368c.camel@linuxfoundation.org>
-	<CAMKF1srhnkkSETdWK0Jb0V8OV-4bwpCLJ7MhJuJ9dOx5T3VzUQ@mail.gmail.com>
-	<1776d7f035ce96fa5a1b3759e83fdd6c611dca15.camel@linuxfoundation.org>
-	<CAMKF1sqvV4xj1p+h6Yjt08L4h9w2YfVSDqLF9J7yW7N8t2-HLA@mail.gmail.com>
-In-Reply-To: <CAMKF1sqvV4xj1p+h6Yjt08L4h9w2YfVSDqLF9J7yW7N8t2-HLA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 Jan 2020 00:13:09 -0800
-Message-ID: <CAMKF1sqL5LP-h6y583ma48U=kD2-tKATf-=dSGRize3yM_73dw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+	Wed, 22 Jan 2020 08:35:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 00M8ZmTn019534
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Wed, 22 Jan 2020 00:35:48 -0800 (PST)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 22 Jan 2020 00:35:47 -0800
+From: <mingli.yu@windriver.com>
+To: <crg7475@mailbox.org>, <raj.khem@gmail.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/24] nss: update to 3.49.1
+Date: Wed, 22 Jan 2020 00:35:47 -0800
+Message-ID: <20200122083547.121598-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.23.0
+In-Reply-To: <CAMKF1sr6vSk8U5pVhgnwFW8HTsA7VGKc0trS=2t7XLuoJZXcaQ@mail.gmail.com>
+References: <CAMKF1sr6vSk8U5pVhgnwFW8HTsA7VGKc0trS=2t7XLuoJZXcaQ@mail.gmail.com>
+MIME-Version: 1.0
+Subject: [PATCH v3] gstreamer1.0-plugins-common.inc: disable orc on mips
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,44 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 08:13:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 22 Jan 2020 08:35:52 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Tue, Jan 21, 2020 at 2:02 PM Khem Raj <raj.khem@gmail.com> wrote:
->
->
->
-> On Tue, Jan 21, 2020 at 12:22 PM Richard Purdie <richard.purdie@linuxfoun=
-dation.org> wrote:
->>
->> On Tue, 2020-01-21 at 11:35 -0800, Khem Raj wrote:
->> > This is failing on qemuarm btw
->> >
->> > http://errors.yoctoproject.org/Errors/Details/307410/
->>
->> That is odd as it passed testing on the autobuilder. It must be
->> something tune specific :(
->
-> Thanks
->
-> While my builds are dealing with py2 things this seems not related but I =
-do have gcc10 in my mix
-> So it could be future build break I need to triage it a bit more and see =
-what=E2=80=99s going on
->
+From: Mingli Yu <mingli.yu@windriver.com>
 
-It was not a compiler issue but another issue in the patch proposed to
-disable crypto, I have not sent a patch on
-top of this one which should fix the problem and make the patch to
-disable crypto on arm disable it fully.
+After transiton to meson build for gstreamer series,
+for gstreamer1.0-plugins-base, with below two commits
+introduced:
+238080ed89 gstreamer: Remove unused common files and patches
+20614408dc gstreamer1.0-plugins-base: Transition to meson based builds
 
-see
-https://patchwork.openembedded.org/patch/169340/
+With below config in local.conf
+MACHINE ??= "qemumips64"
+require conf/multilib.conf
+MULTILIB_GLOBAL_VARIANTS_append = " libn32"
+MULTILIBS ?= "multilib:lib32 multilib:libn32"
+DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
+DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
 
->>
->> Cheers,
->>
->> Richard
->>
+there comes below failure:
+$ bitbake lib32-gstreamer1.0-plugins-base
+[snip]
+mips-pokymllib32-linux-gcc -meb -mabi=32 -mhard-float -fstack-protector-strong -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/lib32-recipe-sysroot -Itests/check/7d01337@@orc_video@exe -Itests/check -I../gst-plugins-base-1.16.1/tests/check -I/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/lib32-recipe-sysroot/usr/include/orc-0.4 -fdiagnostics-color=always -pipe -D_FILE_OFFSET_BITS=64 -fvisibility=hidden -fno-strict-aliasing -DG_DISABLE_CAST_CHECKS -Wmissing-declarations -Wredundant-decls -Wundef -Wwrite-strings -Wformat -Wformat-nonliteral -Wformat-security -Winit-self -Wmissing-include-dirs -Waddress -Wno-multichar -Wvla -Wpointer-arith -Wmissing-prototypes -Wdeclaration-after-statement -O2 -g -feliminate-unused-debug-types -fmacro-prefix-map=/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0=/u
+ sr/src/debug/lib32-gstreamer1.0-plugins-base/1.16.1-r0 -fdebug-prefix-map=/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0=/usr/src/debug/lib32-gstreamer1.0-plugins-base/1.16.1-r0 -fdebug-prefix-map=/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/lib32-recipe-sysroot= -fdebug-prefix-map=/mybuild/tmp/work/mips-pokymllib32-linux/lib32-gstreamer1.0-plugins-base/1.16.1-r0/recipe-sysroot-native= -MD -MQ 'tests/check/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o' -MF 'tests/check/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o.d' -o 'tests/check/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o' -c tests/check/orc_video.c
+FAILED: tests/check/7d01337@@orc_video@exe/meson-generated_.._orc_video.c.o
+{standard input}: Assembler messages:
+{standard input}:46587: Error: branch out of range
+{standard input}:46613: Error: branch out of range
+[snip]
+
+BTW, gstreamer1.0-plugins-good also occurs
+the same build failure as above.
+
+Disable orc as workaround to fix the above issue
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+---
+ .../gstreamer/gstreamer1.0-plugins-common.inc                | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+index ccf55500a9..dba96e0f6e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-common.inc
+@@ -18,7 +18,10 @@ require gstreamer1.0-plugins-packaging.inc
+ # This value is used in the PACKAGECONFIG values for each plugin set recipe.
+ # By modifying it, Orc can be enabled/disabled in all of these recipes at once.
+ GSTREAMER_ORC ?= "orc"
+-
++# workaround to disable orc on mips to fix the build failure
++# {standard input}: Assembler messages:
++# {standard input}:46587: Error: branch out of range
++GSTREAMER_ORC_mips = ""
+ PACKAGECONFIG[orc] = "-Dorc=enabled,-Dorc=disabled,orc orc-native"
+ 
+ # TODO: put this in a gettext.bbclass patch (with variables to allow for
+-- 
+2.23.0
+
 
