@@ -1,48 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B2534914B1
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ECD27FF82
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 06:49:19 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id 21so5429515qky.4
+	Wed, 22 Jan 2020 07:19:37 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id d16so6044484wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 22:49:21 -0800 (PST)
+	Tue, 21 Jan 2020 23:19:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZbWAwzepXvjs6n51OSjTmrYjaL/e8G1KhEwN45veOws=;
-	b=Pys3cfmyNnAkIuZZuh4P+BvxnfKrWXxsqvkQ2VCLcnIRuuoaFqrxCASDU00mALt3dA
-	rbCy/GKgsHlQhmXUabpikhVKIhay3W5VNxwvrJAhYpFkit9me4JAuaRBTKxyJBUTSW7A
-	QKhZWKQeZNSyqjrfRMyrFpyZdNbHSX1jFeCBOKhQkB3HPAygBdPKlp/1zDtxrxWTb+AO
-	3Um/dWnEs9TbHCPoxEl7mBk9VI7s6g0l0PdhE7z/fYzEwFGMDlBA0SicpZth3/yhbO1K
-	ug9oL+uMO4oFFonyDkEnlLegMp+zPLFFem+y50E7MnB8R+V8xKi+n6FiJZEKSI8I9I3k
-	GSPQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=AbTnN+ImbjEWbC2W1+X3+gLXFitvr0/IVe1vTLmL6WA=;
+	b=OldWp8E19cY34lry5sMR4MZRRZ6G2yb3dua4bSUu1OJQhu1ELEjK7ZhgY3qGNIRQy2
+	3UACXhdYl+hTXlj4wmha3nxOrLvI4N4m2DNZjBepIilJvh8+XoWtFNGS5Bv5qstWzPrC
+	NnHuKXmftZ2eeLbsbsqe4NucQVEiTlsg3LqZ9J+++mpadnG+uWyPEL1pvqjxUtFFg1cT
+	PP5kUDKclkEhG56XsfktyyAP2nx0igkZCoodmAr8obaMVA1XuFxLuSoVYfJjuuVYpZUq
+	02B8vZBhhFmOsuwdkiapYrKvCXrmtcxM/apm0/9Ap4evhWrNFW69ADxz99GmRBPvKKgl
+	yYoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZbWAwzepXvjs6n51OSjTmrYjaL/e8G1KhEwN45veOws=;
-	b=k/Eu6UYQOqfCbPBWB2eSnkHk+EKzbdr74qqzdEoa4cQlGWwV1dCA9+Juyc0/0cnvWn
-	SAyhXARhS9u9aisFYtW7PTQZtHg0MNGfOSsrRFvNpZVs7QukgWiB23j563iuya+uzgPu
-	YCoFRgxzlT7MLDwtQmj/yGn+WQINv/jhRe28EVszk9R/aS+IwQSD7gW7AgZWrOq2p+n6
-	pa+L+obS11z4cLXKyEltMuU9ZJcKFzCvRL5Mr+9Gzv+pRcIMlLjI+k3tFYMJzhWRgHgi
-	GklRwbyqPEEdetAU5JrB2iR2ODvfTg3FpE1Tggq2xzO+IPopus36vDnacghI+ylX29rn
-	5/AQ==
-X-Gm-Message-State: APjAAAXM3uvhGXlERqbPl+8tiVFQ9TUCOhCR2PIP7xkwtyFx44B8H5g0
-	Y+5blhgEwldnuymKp7JrP6ipsn4peG3luGlXtwYxgjzG
-X-Google-Smtp-Source: APXvYqyUx0PAF7gsjNXBe5I3xqdLkO403rb8WlrYUe+UvKshCD43ksXkq9plwD9VtfVAMZ5l9DI0pctuxe34KutWA7M=
-X-Received: by 2002:a37:de05:: with SMTP id h5mr8714316qkj.474.1579675760369; 
-	Tue, 21 Jan 2020 22:49:20 -0800 (PST)
-MIME-Version: 1.0
-References: <20200122002702.166957-1-mark.hatle@kernel.crashing.org>
-	<20200122002702.166957-2-mark.hatle@kernel.crashing.org>
-In-Reply-To: <20200122002702.166957-2-mark.hatle@kernel.crashing.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Jan 2020 22:48:54 -0800
-Message-ID: <CAMKF1sryZBqOsM=ntW1S-QujuF19Gw74Ld9evNOkeAsGp0DFSg@mail.gmail.com>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] libgcc.inc: Fix an issue w/ a recursive symlink
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AbTnN+ImbjEWbC2W1+X3+gLXFitvr0/IVe1vTLmL6WA=;
+	b=It1aBYjP/KZZqaxinuKtUBl0ObUwS8YECiscHqRcV3MgKuIRv19HskHDe60RrOXl3i
+	zLsN7B6Q7hgKlZXOA176imbUnufjW/h0Y+akbxLiGsaxYkiKymzb6+8IlZQNs65mirYG
+	odFmrvutQ2TRCX97AVUiNHpSW+cvckOCdHtmcyMOGh/HPLkHKhLJU4qLHtApe4xHu8c/
+	FkgRNN6CtnZ7A0Q0+8ZQUjOEH3HW7PETMH5pJaS+3xq3YTTTztTLOBDhV8wMGytnFyDM
+	GhWfYpM8hBP+NiYCH2CW+QaQ8YmVFJsTiESc1Z1F+9vnXJCGnVOSPo8cJ2Y5QMBTgDa8
+	8Vaw==
+X-Gm-Message-State: APjAAAXNKg4C4AbLWzznhds4a4D1GpNSMlXEfOW86LeWPDBOscn/v8xj
+	QRN5FETdh1lwcYWzsg7S8+MsI/em
+X-Google-Smtp-Source: APXvYqyB9/9o4CGdzmhH8oMxRxpJxBItQomW3VrOk1dol/5+OaOkZDz8eGY6BFXaXBu8wjxKK/yqOA==
+X-Received: by 2002:adf:b60f:: with SMTP id f15mr9824046wre.372.1579677577537; 
+	Tue, 21 Jan 2020 23:19:37 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	v3sm55513980wru.32.2020.01.21.23.19.36
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 21 Jan 2020 23:19:37 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jan 2020 07:19:34 +0000
+Message-Id: <20200122071934.60789-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] libxcrypt: Enable static builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +54,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 06:49:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 Jan 2020 07:19:37 -0000
 
-On Tue, Jan 21, 2020 at 4:43 PM Mark Hatle
-<mark.hatle@kernel.crashing.org> wrote:
->
-> From: Mark Hatle <mark.hatle@xilinx.com>
->
-> If the OS is not Linux, the code could end up generating a recursive symlink.
-> This can happen because the same symlink can be created twice in a row.  If this
-> happenes, the second symlink becomes a link to itself within the directory
-> pointed to by the original link.
->
-> In order to prevent this, verify that the destination does not already exist.
->
+Whilst glibc builds static binaries libxcrypt doesn't, without which we
+can't build, for example, a static busybox. Enable static libraries here
+so that anyone who needs a static binary using just basic libraries has
+one fewer dependencies to track down post libxcrypt being split out of
+glibc.
 
-does this happen with ln -sf too ? if not then perhaps that will be simpler
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-> ---
->  meta/recipes-devtools/gcc/libgcc.inc | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-> index e008d14f36..6d48ec9809 100644
-> --- a/meta/recipes-devtools/gcc/libgcc.inc
-> +++ b/meta/recipes-devtools/gcc/libgcc.inc
-> @@ -9,14 +9,18 @@ do_install_append_class-target () {
->                         "linux-musleabi") extra_target_os="linux-gnueabi";;
->                         *) extra_target_os="linux";;
->                 esac
-> -               ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-> +               if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
-> +                       ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-> +               fi
->         fi
->         if [ -n "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', 'hf', '', d)}" ]; then
->                 case "${TARGET_OS}" in
->                         "linux-musleabi") extra_target_os="linux-musleabihf";;
->                         "linux-gnueabi") extra_target_os="linux-gnueabihf";;
->                 esac
-> -               ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-> +               if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
-> +                       ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-> +               fi
->         fi
->  }
->
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ meta/recipes-core/libxcrypt/libxcrypt.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
+index accbdd636152..e98d8084470c 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+@@ -32,4 +32,6 @@ CFLAGS += "-fcommon"
+ API = "--disable-obsolete-api"
+ EXTRA_OECONF += "${API}"
+ 
++DISABLE_STATIC = ""
++
+ BBCLASSEXTEND = "nativesdk"
+-- 
+2.17.1
+
 
