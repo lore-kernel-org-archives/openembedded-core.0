@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CF9417FF33
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C86BB7FF33
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 00:30:49 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id d16so5431516wre.10
+	Wed, 22 Jan 2020 00:30:50 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f129so5365092wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 16:30:51 -0800 (PST)
+	Tue, 21 Jan 2020 16:30:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=pEQfLp0T3RcRh9lSFc5MkxmD+PuUoPqGvOyzBiw+Thc=;
-	b=Dq58ctp2iXhhj+BPFkIDYZU5IieM7aHzAiwcZQF72pe0TdIBg+rjmvWWpRt3w3kp5m
-	t0D/7ue2BFjT7lB6inoVvXxwVZ3QLzNCoU/25UUAQX97DUtTwRjSblRjea73kSjTvi3f
-	1eHH+tlMgy3YF+tRWh1b2tphjdkr5c9Raen0o=
+	bh=8RAmRII2PzFKlIZmG7goDJ/1NacHLQt4qxRdmiblg/c=;
+	b=YPu7S2uQNpZfb9KhO84QM8eXFHkTo7p8FjS+288I33HLtfjCEzCUbtM1wz5L1vA3cG
+	NRC29GSeBrGuqJIFA/m215thZmJ5j1nBV+GXyMVxysoL0oTdsIYCRdYl1jq3KOUAz0b/
+	DWzw24+0xzz8H1oq3IRjV7jCDBuVTl+WETINE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=pEQfLp0T3RcRh9lSFc5MkxmD+PuUoPqGvOyzBiw+Thc=;
-	b=jANtnB20/kZ8zeZILorvXiYnba3ac+9IGOp3xXs0kVoA2LllInNQjqvaFNaeHLlcS3
-	Wxtda4IJH2yJsYK5JiBc8tuOPtMjRbFy0irI+4nn1c9SGN1/ZWZwgG0f9GI19+WQncCY
-	Quo2J+ckR+JI7gM5kWJa9e8NI7DqFDtNoRr+m2eVPUyZDIWL9L+Ql8MHVSOoPAuktW0s
-	6Pweqt1CkZ/bzWimkqYz7d2TcWai0di9hyY/u3bUX46NIRy6//Y+3uJnemOrMNTLqfih
-	x5Pvix/HZHY3cTLV+dhMNX2oW0Rxr9QKjQw2OCm6dXpJBocMj/uCiRKxe4jY1zxRdiyG
-	1hxg==
-X-Gm-Message-State: APjAAAXCMStEOJ4Aa40IogDa1nM0OHAIUotyMsGAOqZCVFvjBDxV7gUi
-	lit+wfVU1Ui3U0b0j4cGJnbrhLWv1Co=
-X-Google-Smtp-Source: APXvYqzRdLpdzvvu01ycLs7F0I2DWXQa4j3dXQrTy3oFViYHRWC8OPK86C5mEERzEIKB5fhVmkqvSA==
-X-Received: by 2002:adf:ef0b:: with SMTP id e11mr8108275wro.128.1579653050258; 
-	Tue, 21 Jan 2020 16:30:50 -0800 (PST)
+	bh=8RAmRII2PzFKlIZmG7goDJ/1NacHLQt4qxRdmiblg/c=;
+	b=IY+oza8v6zl5ZJB5YZsg3OvJ4qM8kOwIm1NaJxlJsFbelnE/c5Yx/z7/8WNvJRmaK8
+	MLP5n6Uz2CQOnCOcK0BxFhLPgkoXPscKJrw/0atl4KEQgVmGlvGg64u04XOhcL5+MUlf
+	FbRjpVH6oiuCDI4N5Ze8QPzfoCKNivpyJyelyZkBwgd3Sleqk9S3BXfZdQ/kLjny4CuI
+	gt+z2V/T3zYPtqbAmyBj6Uxszv+48f8+gYMeIW8mIdDcnGAUfPd1A2OkFpSEFYXzrYg/
+	XOfXWRmGzDo7f7O94uEsoRdLhEOTgwe72pxucq0iLEhWh1eCx6KE27jVOAzqfUF7ceJf
+	Sklg==
+X-Gm-Message-State: APjAAAVL2YFdSYZlSINaL93HaOfnEOgFgM9IZJE5D+/tkAUruyJx8+Ki
+	apAqLgEkrgXa0te34ffMlWtitjN5uUg=
+X-Google-Smtp-Source: APXvYqyWgtR2eq8j6lLfekpmYfZrF9Y9jTsuSauumWko9YKmaaLxhMGjJYF5L/irgB61Q+kR8rkmdw==
+X-Received: by 2002:a05:600c:224d:: with SMTP id
+	a13mr860180wmm.57.1579653051326; 
+	Tue, 21 Jan 2020 16:30:51 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	x10sm53211685wrv.60.2020.01.21.16.30.49
+	x10sm53211685wrv.60.2020.01.21.16.30.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 21 Jan 2020 16:30:49 -0800 (PST)
+	Tue, 21 Jan 2020 16:30:50 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2020 00:30:46 +0000
-Message-Id: <20200122003047.9889-2-richard.purdie@linuxfoundation.org>
+Date: Wed, 22 Jan 2020 00:30:47 +0000
+Message-Id: <20200122003047.9889-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200122003047.9889-1-richard.purdie@linuxfoundation.org>
 References: <20200122003047.9889-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] binutils: Install non-alternatives links for nativesdk
+Subject: [PATCH 3/3] buildtools-tarball: Add an ld.so.conf for nativesdk-binutils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 00:30:50 -0000
+X-List-Received-Date: Wed, 22 Jan 2020 00:30:51 -0000
 Content-Transfer-Encoding: 8bit
 
-In the SDK we need the plain symlinks and don't use alternative providers.
-When these are missing the toolchain can work incorrectly so fix this.
+We need to search our own libdirs, then fall back to the system ones as our
+customised dynamic loader will. Have ld.so.conf reflect that.
+
+This ensures that binutils finds libraries here when linking too.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/binutils/binutils_2.33.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-core/meta/buildtools-tarball.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/binutils/binutils_2.33.bb b/meta/recipes-devtools/binutils/binutils_2.33.bb
-index c2833b84473..ecdab966581 100644
---- a/meta/recipes-devtools/binutils/binutils_2.33.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.33.bb
-@@ -53,5 +53,8 @@ FILES_libbfd = "${libdir}/libbfd-*.so"
+diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
+index 9c5c2cc8d6e..95ebda7fa15 100644
+--- a/meta/recipes-core/meta/buildtools-tarball.bb
++++ b/meta/recipes-core/meta/buildtools-tarball.bb
+@@ -74,6 +74,10 @@ create_sdk_files_append () {
+ 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
+ 	echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
  
- SRC_URI_append_class-nativesdk =  "file://nativesdk-relocation.patch"
- 
-+USE_ALTERNATIVES_FOR_class-nativesdk = ""
-+FILES_${PN}_append_class-nativesdk = " ${bindir}"
-+
- BBCLASSEXTEND = "native nativesdk"
- 
++	mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
++	echo '${SDKPATHNATIVE}${libdir}
++${SDKPATHNATIVE}${base_libdir}
++include /etc/ld.so.conf' > ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/ld.so.conf
+ 	if [ "${SDKMACHINE}" = "i686" ]; then
+ 		echo 'export NO32LIBS="0"' >>$script
+ 		echo 'echo "$BB_ENV_EXTRAWHITE" | grep -q "NO32LIBS"' >>$script
 -- 
 2.20.1
 
