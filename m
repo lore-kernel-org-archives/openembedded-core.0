@@ -1,56 +1,56 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A5827FC32
+Return-Path: <prvs=283796655=Mikko.Rapeli@bmw.de>
+X-Greylist: delayed 429 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 22 Jan 2020 09:35:47 UTC
+Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com
+	[68.232.139.62])
+	by mail.openembedded.org (Postfix) with ESMTP id 668657FF37
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 09:00:42 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id t14so6272016wmi.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 01:00:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:message-id:mime-version:subject:date:in-reply-to:cc:to
-	:references; bh=cFQ6ImXIU4Xk36Kap/yE3/VT9arS/TekvMErNRa4X/Q=;
-	b=eh3zeNKwPv4og4UEkWTZnAqTrojON8gOi5xjFtmIMAmaSWk+LhxUHE0gRisKiplsQl
-	ueKET/cr2k2dPqJxZfEfVmpKzPVq7Ugszi6MQ3x9RoU6pBAKEYkWgwnHEwuTzh4WhrRV
-	8kftbCpR8edi0AmeLbZ5gUbG7pz7enYUBvg7rDxwECHIXUEgLa9TyF0gDxGkcWfWmLO1
-	MK6gKDuqP9ppJ/fdYndrqKzgwbmhVKggirvQfSuSUY3o+HJnQHPeZVtjbhJccPjVbKIB
-	OE7GIkjKl5P1b6nt3JXoU/fFunMYlhAGbY6Hz7o6xmw1XWWx9FArCE2yRYz6E4urNZGo
-	fPzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:message-id:mime-version:subject:date
-	:in-reply-to:cc:to:references;
-	bh=cFQ6ImXIU4Xk36Kap/yE3/VT9arS/TekvMErNRa4X/Q=;
-	b=LQcEcto6qHg8cHaKhp3fN5gRPuyVE7flbb/9woFAhNeehwSsdyj6vn1/el4ley8RIL
-	4Xj1o1Q7/BMpjEsD2t2W0S4NCSLfyZDVegUMDCd7i2VzisILpN7nmfOV/6u6X0s4DKkP
-	vqzumGapC7CN09PlAn2trLC0igplmvo1MJfJh7YHwcDQxWJKd0jJV1k7oieFWi8IbYTj
-	kJKvoQc/pb9N4oTanFHt5oL94qLfa2e2IrXMK23bmpMbaTL9CffvaeLtKQYup2gCb3uj
-	oyPdFgiUt0JLZBrVQK1dhOY0nLDPBVlt9qRFwR1rwaqWsKT4155PqGi9UIwBDa1OlfVC
-	I64w==
-X-Gm-Message-State: APjAAAUvd83JMF7olE5UOCOgwNcIfukFVK4khSrY+dtkJYFuzzNsvf5y
-	kPejtHguFScbLtvy/JY8KJ4=
-X-Google-Smtp-Source: APXvYqxBOAKDNJ/zACjdIs4RL8j+SrTPkv7/GvBRiNm4PRGqNFJaQ3htDDkrCnmOK5aKK8CHfxq10A==
-X-Received: by 2002:a05:600c:cd:: with SMTP id
-	u13mr1794301wmm.24.1579683643093; 
-	Wed, 22 Jan 2020 01:00:43 -0800 (PST)
-Received: from ernie.muppets.liwing.de (p5B25B970.dip0.t-ipconnect.de.
-	[91.37.185.112]) by smtp.gmail.com with ESMTPSA id
-	c195sm3379443wmd.45.2020.01.22.01.00.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 Jan 2020 01:00:42 -0800 (PST)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-Message-Id: <E48325FE-F892-4ABC-A44E-DE63582A9658@netbsd.org>
-Mime-Version: 1.0 (Mac OS X Mail 13.0 \(3608.40.2.2.4\))
-Date: Wed, 22 Jan 2020 10:00:40 +0100
-In-Reply-To: <CA+chaQeZg=ENRH4AbF1h5hkW=YBxaX-d_MHTLnYY4oGo2PJ7hw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <20200121164733.13892-1-sno@netbsd.org>
-	<CA+chaQeZg=ENRH4AbF1h5hkW=YBxaX-d_MHTLnYY4oGo2PJ7hw@mail.gmail.com>
-X-Mailer: Apple Mail (2.3608.40.2.2.4)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] make: 4.2.1 -> 4.3
+	Wed, 22 Jan 2020 09:35:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1579685749; x=1611221749;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=/vvlLfiwTyiE3pASZvFFaPl3LeOe3kvf+oFdf+Gi5u4=;
+	b=o71coTEsAEU+ihE9rkcbkXYrfxeiTzVgpSMbOaJaMPbTejqH6KQhaofy
+	qQxvYuEKN4HHcFkXQH4nY892HUQnUjYYXWwmi2Q0mKKIVNe3lIBFHmlDh
+	K1Qg8moHiBnsLoa6gsTUKfLWfV/zLUY2ByhUmxWVeXVkC05pIf1GFSFiT Q=;
+IronPort-SDR: X01ui54bh+aEcf+uIGHHHIzzx6sfPj2ClGgTmfXRTkp3LQA3hnnWQ1EB6PuwcVTjduyXrQnxBW
+	JF2LoIsCZBLbD3IXx1oxRu4k1zR12l7C1rthCJD1V029x7RvogTg3WkOqES6kEV/bJv4hePbjL
+	I2Qa1kcaPPK4ivJXlNvuBuhJYFTZSKXbt98gvlQATXb8gxZz2ox06Yd6SEt+zI8rCRJNsviwKw
+	AUm1k0i7/mAow5c00N2Yis4oZY2/S2J/rKLtiVVniHw0RLpPy/Eu5AV5pUcR1r03EuMbtsUmYJ
+	riM=
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+	esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 22 Jan 2020 10:28:37 +0100
+Received: from esabb5.muc ([160.50.100.47])  by esagw2.muc with ESMTP/TLS;
+	22 Jan 2020 10:28:38 +0100
+Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
+	([160.48.96.47])
+	by esabb5.muc with ESMTP/TLS; 22 Jan 2020 10:28:37 +0100
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10k.europe.bmw.corp
+	(160.48.96.47) with Microsoft SMTP Server (TLS;
+	Wed, 22 Jan 2020 10:28:37 +0100
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Wed, 22 Jan 2020 10:28:37 +0100
+IronPort-SDR: a0u4Zdg0so+2HWul/2+ffvdMj9CgvVXF5wJ0HJ+cLMq4HdK9KOeb5RnwUr9yYEj729EDUXAh4o
+	4DAgL7yKO4wsqPhDx3XyyvB5bjlgfrU3g=
+From: <Mikko.Rapeli@bmw.de>
+To: <pjtexier@koncepto.io>
+Thread-Topic: [OE-core] [PATCH] util-linux: upgrade 2.34 -> 2.35
+Thread-Index: AQHV0Ii/bjlrKWC76UuRS49VvcU5Jqf2WtCA
+Date: Wed, 22 Jan 2020 09:28:37 +0000
+Message-ID: <20200122092837.GH34396@korppu>
+References: <1579631324-16775-1-git-send-email-pjtexier@koncepto.io>
+In-Reply-To: <1579631324-16775-1-git-send-email-pjtexier@koncepto.io>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] util-linux: upgrade 2.34 -> 2.35
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,296 +63,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 09:00:42 -0000
-X-Groupsio-MsgNum: 134000
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_B7F5575D-0A18-4FE7-AEAC-3721DD53E068";
-	protocol="application/pgp-signature"; micalg=pgp-sha512
-
---Apple-Mail=_B7F5575D-0A18-4FE7-AEAC-3721DD53E068
+X-List-Received-Date: Wed, 22 Jan 2020 09:35:47 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <347CB2EC31F1114DB551345B2AB94111@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
 
+On Tue, Jan 21, 2020 at 07:28:44PM +0100, Pierre-Jean Texier via Openembedd=
+ed-core wrote:
+> License-Update: add GPLv3 text
 
+Which parts of util-linux are now licensed with GPLv3?
 
-> Am 21.01.2020 um 17:59 schrieb Martin Jansa <martin.jansa@gmail.com>:
->=20
-> There are also some backwards incompatible changes introduced in this =
-release.
->=20
-> Link to whole =
-announcement:https://lists.gnu.org/archive/html/bug-make/2020-01/msg00057.=
-html
+-Mikko
 
-Do you want them included in commit message?
-AFAIK hostbuild is used anyway - so this affects SDK's and I got reports =
-from
-SDK users that the kernel build is not running parallel.
-
-> On Tue, Jan 21, 2020 at 5:47 PM Jens Rehsack <sno@netbsd.org> wrote:
-> 1) Remove upstream provided patches =
-0001-glob-Do-not-assume-glibc-glob-internals.patch
->    and 0002-glob-Do-not-assume-glibc-glob-internals.patch.
+> Drop upstreamed patch
 >=20
-> 2) License has been changed to GPLv3 only
+> See full changelog https://lore.kernel.org/util-linux/20200121105711.zzee=
+olydlivqnik7@ws.net.home/T/#u
 >=20
-> 3) Important bug-fix is
->    * https://lists.gnu.org/archive/html/bug-make/2018-09/msg00006.html
->=20
-> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 > ---
->  meta/recipes-devtools/make/make.inc           |  4 +-
->  ...b-Do-not-assume-glibc-glob-internals.patch | 70 =
--------------------
->  ...b-Do-not-assume-glibc-glob-internals.patch | 38 ----------
->  meta/recipes-devtools/make/make_4.2.1.bb      | 12 ----
->  meta/recipes-devtools/make/make_4.3.bb        | 10 +++
->  5 files changed, 11 insertions(+), 123 deletions(-)
->  delete mode 100644 =
-meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-interna=
-ls.patch
->  delete mode 100644 =
-meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-interna=
-ls.patch
->  delete mode 100644 meta/recipes-devtools/make/make_4.2.1.bb
->  create mode 100644 meta/recipes-devtools/make/make_4.3.bb
+>  meta/recipes-core/util-linux/util-linux.inc        |  5 +--
+>  ...lsblk-force-to-print-PKNAME-for-partition.patch | 36 ----------------=
+------
+>  .../{util-linux_2.34.bb =3D> util-linux_2.35.bb}     |  5 ++-
+>  3 files changed, 5 insertions(+), 41 deletions(-)
+>  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-lsblk-fo=
+rce-to-print-PKNAME-for-partition.patch
+>  rename meta/recipes-core/util-linux/{util-linux_2.34.bb =3D> util-linux_=
+2.35.bb} (58%)
 >=20
-> diff --git a/meta/recipes-devtools/make/make.inc =
-b/meta/recipes-devtools/make/make.inc
-> index b8905bc6d3..4142cf23d3 100644
-> --- a/meta/recipes-devtools/make/make.inc
-> +++ b/meta/recipes-devtools/make/make.inc
-> @@ -5,9 +5,7 @@ called the makefile, which lists each of the =
-non-source files and how to compute
->  HOMEPAGE =3D "http://www.gnu.org/software/make/"
->  SECTION =3D "devel"
->=20
-> -SRC_URI =3D "${GNU_MIRROR}/make/make-${PV}.tar.bz2 \
-> -           file://0001-glob-Do-not-assume-glibc-glob-internals.patch =
-\
-> -           file://0002-glob-Do-not-assume-glibc-glob-internals.patch =
-\
-> +SRC_URI =3D "${GNU_MIRROR}/make/make-${PV}.tar.lz \
->             "
->=20
->  inherit autotools gettext pkgconfig texinfo
-> diff --git =
-a/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-inter=
-nals.patch =
-b/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-inter=
-nals.patch
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
+ore/util-linux/util-linux.inc
+> index 179cb3d..0f8a6c2 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -6,11 +6,12 @@ disk partitioning, kernel message management, filesyste=
+m creation, and system lo
+> =20
+>  SECTION =3D "base"
+> =20
+> -LICENSE =3D "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+> +LICENSE =3D "GPLv2+ & GPLv3+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
+> =20
+> -LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D972a134f1e14b2b060e3=
+65df2fab0099 \
+> +LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D0fd5c050c6187d2bf0a4=
+492b7f4e33da \
+>                      file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a426=
+3 \
+>                      file://Documentation/licenses/COPYING.GPL-2.0-or-lat=
+er;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
+> +                    file://Documentation/licenses/COPYING.GPL-3.0-or-lat=
+er;md5=3D1ebbd3e34237af26da5dc08a4e440464 \
+>                      file://Documentation/licenses/COPYING.LGPL-2.1-or-la=
+ter;md5=3D4fbd65380cdd255951079008b364516c \
+>                      file://Documentation/licenses/COPYING.BSD-3-Clause;m=
+d5=3D58dcd8452651fc8b07d1f65ce07ca8af \
+>                      file://Documentation/licenses/COPYING.BSD-4-Clause-U=
+C;md5=3D263860f8968d8bafa5392cab74285262 \
+> diff --git a/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-=
+print-PKNAME-for-partition.patch b/meta/recipes-core/util-linux/util-linux/=
+0001-lsblk-force-to-print-PKNAME-for-partition.patch
 > deleted file mode 100644
-> index 2b6e4d40c3..0000000000
-> --- =
-a/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-inter=
-nals.patch
+> index 5d4c148..0000000
+> --- a/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-P=
+KNAME-for-partition.patch
 > +++ /dev/null
-> @@ -1,70 +0,0 @@
-> -=46rom c90a7dda6c572f79b8e78da44b6ebf8704edef65 Mon Sep 17 00:00:00 =
-2001
-> -From: Paul Eggert <eggert@cs.ucla.edu>
-> -Date: Sun, 24 Sep 2017 09:12:58 -0400
-> -Subject: [PATCH 1/2] glob: Do not assume glibc glob internals.
+> @@ -1,36 +0,0 @@
+> -From e3bb9bfb76c17b1d05814436ced62c05c4011f48 Mon Sep 17 00:00:00 2001
+> -From: Karel Zak <kzak@redhat.com>
+> -Date: Thu, 27 Jun 2019 09:22:18 +0200
+> -Subject: [PATCH] lsblk: force to print PKNAME for partition
 > -
-> -It has been proposed that glibc glob start using gl_lstat,
-> -which the API allows it to do.  GNU 'make' should not get in
-> -the way of this.  See:
-> -https://sourceware.org/ml/libc-alpha/2017-09/msg00409.html
+> -PKNAME (parent kernel device name) is based on printed tree according
+> -to parent -> child relationship. The tree is optional and not printed
+> -if partition specified (.e.g "lsblk -o+PKNAME /dev/sda1"), but old
+> -versions print the PKNAME also in this case.
 > -
-> -* dir.c (local_lstat): New function, like local_stat.
-> -(dir_setup_glob): Use it to initialize gl_lstat too, as the API
-> -requires.
+> -Upstream-Status: Backport [https://github.com/karelzak/util-linux/commit=
+/e3bb9bfb76c17b1d05814436ced62c05c4011f48]
+> -
+> -Addresses: https://github.com/karelzak/util-linux/issues/813
+> -Signed-off-by: Karel Zak <kzak@redhat.com>
+> -Signed-off-by: Liwei Song <liwei.song@windriver.com>
 > ----
-> -Upstream-Status: Backport
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> - misc-utils/lsblk.c | 3 +++
+> - 1 file changed, 3 insertions(+)
 > -
-> - dir.c | 29 +++++++++++++++++++++++++++--
-> - 1 file changed, 27 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/dir.c b/dir.c
-> -index f34bbf5..12eef30 100644
-> ---- a/dir.c
-> -+++ b/dir.c
-> -@@ -1299,15 +1299,40 @@ local_stat (const char *path, struct stat =
-*buf)
-> - }
-> - #endif
-> -
-> -+/* Similarly for lstat.  */
-> -+#if !defined(lstat) && !defined(WINDOWS32) || defined(VMS)
-> -+# ifndef VMS
-> -+#  ifndef HAVE_SYS_STAT_H
-> -+int lstat (const char *path, struct stat *sbuf);
-> -+#  endif
-> -+# else
-> -+    /* We are done with the fake lstat.  Go back to the real lstat =
-*/
-> -+#   ifdef lstat
-> -+#     undef lstat
-> -+#   endif
-> -+# endif
-> -+# define local_lstat lstat
-> -+#elif defined(WINDOWS32)
-> -+/* Windows doesn't support lstat().  */
-> -+# define local_lstat local_stat
-> -+#else
-> -+static int
-> -+local_lstat (const char *path, struct stat *buf)
-> -+{
-> -+  int e;
-> -+  EINTRLOOP (e, lstat (path, buf));
-> -+  return e;
-> -+}
-> -+#endif
+> -diff --git a/misc-utils/lsblk.c b/misc-utils/lsblk.c
+> -index e95af7af0256..3ce6da730264 100644
+> ---- a/misc-utils/lsblk.c
+> -+++ b/misc-utils/lsblk.c
+> -@@ -1019,6 +1019,9 @@ static void device_to_scols(
+> - 	DBG(DEV, ul_debugobj(dev, "add '%s' to scols", dev->name));
+> - 	ON_DBG(DEV, if (ul_path_isopen_dirfd(dev->sysfs)) ul_debugobj(dev, " %=
+s ---> is open!", dev->name));
+> -=20
+> -+	if (!parent && dev->wholedisk)
+> -+		parent =3D dev->wholedisk;
 > -+
-> - void
-> - dir_setup_glob (glob_t *gl)
-> - {
-> -   gl->gl_opendir =3D open_dirstream;
-> -   gl->gl_readdir =3D read_dirstream;
-> -   gl->gl_closedir =3D free;
-> -+  gl->gl_lstat =3D local_lstat;
-> -   gl->gl_stat =3D local_stat;
-> --  /* We don't bother setting gl_lstat, since glob never calls it.
-> --     The slot is only there for compatibility with 4.4 BSD.  */
-> - }
+> - 	/* Do not print device more than one in --list mode */
+> - 	if (!(lsblk->flags & LSBLK_TREE) && dev->is_printed)
+> - 		return;
+> ---=20
+> -2.17.1
 > -
-> - void
-> ---
-> -2.16.1
-> -
-> diff --git =
-a/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-inter=
-nals.patch =
-b/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-inter=
-nals.patch
-> deleted file mode 100644
-> index d49acd9f6e..0000000000
-> --- =
-a/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-inter=
-nals.patch
-> +++ /dev/null
-> @@ -1,38 +0,0 @@
-> -=46rom 9858702dbd1e137262c06765919937660879f63c Mon Sep 17 00:00:00 =
-2001
-> -From: Paul Eggert <eggert@cs.ucla.edu>
-> -Date: Sun, 24 Sep 2017 09:12:58 -0400
-> -Subject: [PATCH 2/2] glob: Do not assume glibc glob internals.
-> -
-> -It has been proposed that glibc glob start using gl_lstat,
-> -which the API allows it to do.  GNU 'make' should not get in
-> -the way of this.  See:
-> -https://sourceware.org/ml/libc-alpha/2017-09/msg00409.html
-> -
-> -* dir.c (local_lstat): New function, like local_stat.
-> -(dir_setup_glob): Use it to initialize gl_lstat too, as the API
-> -requires.
-> ----
-> -Upstream-Status: Backport
-> -
-> - configure.ac | 3 +--
-> - 1 file changed, 1 insertion(+), 2 deletions(-)
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 64ec870..e87901c 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -399,10 +399,9 @@ AC_CACHE_CHECK([if system libc has GNU glob], =
-[make_cv_sys_gnu_glob],
-> - #include <glob.h>
-> - #include <fnmatch.h>
-> -
-> --#define GLOB_INTERFACE_VERSION 1
-> - #if !defined _LIBC && defined __GNU_LIBRARY__ && __GNU_LIBRARY__ > 1
-> - # include <gnu-versions.h>
-> --# if _GNU_GLOB_INTERFACE_VERSION =3D=3D GLOB_INTERFACE_VERSION
-> -+if _GNU_GLOB_INTERFACE_VERSION =3D=3D 1 || =
-_GNU_GLOB_INTERFACE_VERSION =3D=3D 2
-> -    gnu glob
-> - # endif
-> - #endif],
-> ---
-> -2.16.1
-> -
-> diff --git a/meta/recipes-devtools/make/make_4.2.1.bb =
-b/meta/recipes-devtools/make/make_4.2.1.bb
-> deleted file mode 100644
-> index c6e6a0cd58..0000000000
-> --- a/meta/recipes-devtools/make/make_4.2.1.bb
-> +++ /dev/null
-> @@ -1,12 +0,0 @@
-> -LICENSE =3D "GPLv3 & LGPLv2"
-> -LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae504 \
-> -                    =
-file://tests/COPYING;md5=3Dd32239bcb673463ab874e80d47fae504 \
-> -                    =
-file://glob/COPYING.LIB;md5=3D4a770b67e6be0f60da244beb2de0fce4"
-> -require make.inc
-> -
-> -EXTRA_OECONF +=3D "--without-guile"
-> -
-> -SRC_URI[md5sum] =3D "15b012617e7c44c0ed482721629577ac"
-> -SRC_URI[sha256sum] =3D =
-"d6e262bf3601b42d2b1e4ef8310029e1dcf20083c5446b4b7aa67081fdffc589"
-> -
-> -BBCLASSEXTEND =3D "native nativesdk"
-> diff --git a/meta/recipes-devtools/make/make_4.3.bb =
-b/meta/recipes-devtools/make/make_4.3.bb
-> new file mode 100644
-> index 0000000000..a3eb9d92f2
-> --- /dev/null
-> +++ b/meta/recipes-devtools/make/make_4.3.bb
-> @@ -0,0 +1,10 @@
-> +LICENSE =3D "GPLv3"
-> +LIC_FILES_CHKSUM =3D =
-"file://COPYING;md5=3Dd32239bcb673463ab874e80d47fae504"
-> +require make.inc
-> +
-> +EXTRA_OECONF +=3D "--without-guile"
-> +
-> +SRC_URI[md5sum] =3D "d5c40e7bd1e97a7404f5d3be982f479a"
-> +SRC_URI[sha256sum] =3D =
-"de1a441c4edf952521db30bfca80baae86a0ff1acd0a00402999344f04c45e82"
-> +
-> +BBCLASSEXTEND =3D "native nativesdk"
-> --
-> 2.17.1
+> diff --git a/meta/recipes-core/util-linux/util-linux_2.34.bb b/meta/recip=
+es-core/util-linux/util-linux_2.35.bb
+> similarity index 58%
+> rename from meta/recipes-core/util-linux/util-linux_2.34.bb
+> rename to meta/recipes-core/util-linux/util-linux_2.35.bb
+> index e9c2d80..71f7cd1 100644
+> --- a/meta/recipes-core/util-linux/util-linux_2.34.bb
+> +++ b/meta/recipes-core/util-linux/util-linux_2.35.bb
+> @@ -7,7 +7,6 @@ SRC_URI +=3D "file://configure-sbindir.patch \
+>              file://run-ptest \
+>              file://display_testname_for_subtest.patch \
+>              file://avoid_parallel_tests.patch \
+> -            file://0001-lsblk-force-to-print-PKNAME-for-partition.patch =
+\
+>  "
+> -SRC_URI[md5sum] =3D "a78cbeaed9c39094b96a48ba8f891d50"
+> -SRC_URI[sha256sum] =3D "743f9d0c7252b6db246b659c1e1ce0bd45d8d4508b4dfa42=
+7bbb4a3e9b9f62b5"
+> +SRC_URI[md5sum] =3D "479488469f057ddeed0d3ca7d6ab5f16"
+> +SRC_URI[sha256sum] =3D "b3081b560268c1ec3367e035234e91616fa7923a0afc2b1c=
+80a2a6d8b9dfe2c9"
+> --=20
+> 2.7.4
 >=20
-> --
+> --=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 
---
-Jens Rehsack - rehsack@gmail.com
-
-
---Apple-Mail=_B7F5575D-0A18-4FE7-AEAC-3721DD53E068
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAl4oDzgACgkQRJmWrtzl
-Cp3gxhAAoXrX6MLmnV/MhiZLdSWoB+4/J5aaGNFu/sht66OctdG3L8XCKKOt1ahf
-wddWw2Gu6xQABarybFTREt0iSJrAycuxCdvcCvqOUQNclY2H14CxmDzGW5uqFbND
-rJpB96mvu0etISMv7/Cr63RFBUJXdKfjOabmtkqLUVvTEKnOAes0ZJLPqus7+AtI
-n+Kezyk1GGLgI/b09Ex/MqAdIkTx7xd9ULxyWCFk3vza+RijGUkkdt11/WUH7VpG
-qTyR6x8XqxnFLp1rWLpT18tWovKZ4tqdp377t22M/S7ahh9rkzbjDTMKWzbkaPcw
-uo1qrpFMMgycN4OC0CrdV8cXkIjefWK8aq7nEdmx7LSUVVXyP775pcGNeIHDZie+
-WJlNbPx75CgT0Vos5ffwlWrCkHmCzP2PRHsP0VrNyaM43ELqJsPoqJ2NgqB8o5Sf
-inUKcyjegol5gH5RW/Xvsf3HX1/EIpFqAERBOs3lImYXNuYLbl2piWkgffRFH5NB
-BhfVZij8pW5TzWyPW5cBGn97T/y8aWHqFkyU4gUMO3QCWb8Ysl2bnv0x1Hxd8YQG
-n3cgcLWNYAz2f1eKUi8dBbXmAFMqfF/YrI5u72EG0cH8321G5VH6OHkLsJ4Fa4YY
-dWCgGsSiYHNgqquQEEH9vD2IfmBcqGQqaDErVHNZ3/oYkq+jZO0=
-=HzXe
------END PGP SIGNATURE-----
-
---Apple-Mail=_B7F5575D-0A18-4FE7-AEAC-3721DD53E068--
