@@ -1,56 +1,29 @@
-Return-Path: <prvs=283796655=Mikko.Rapeli@bmw.de>
-X-Greylist: delayed 429 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 22 Jan 2020 09:35:47 UTC
-Received: from esa4.bmw.c3s2.iphmx.com (esa4.bmw.c3s2.iphmx.com
-	[68.232.139.62])
-	by mail.openembedded.org (Postfix) with ESMTP id 668657FF37
+Return-Path: <quentin.schulz@streamunlimited.com>
+Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
+	by mail.openembedded.org (Postfix) with ESMTP id 23E977FF2F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 09:35:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1579685749; x=1611221749;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=/vvlLfiwTyiE3pASZvFFaPl3LeOe3kvf+oFdf+Gi5u4=;
-	b=o71coTEsAEU+ihE9rkcbkXYrfxeiTzVgpSMbOaJaMPbTejqH6KQhaofy
-	qQxvYuEKN4HHcFkXQH4nY892HUQnUjYYXWwmi2Q0mKKIVNe3lIBFHmlDh
-	K1Qg8moHiBnsLoa6gsTUKfLWfV/zLUY2ByhUmxWVeXVkC05pIf1GFSFiT Q=;
-IronPort-SDR: X01ui54bh+aEcf+uIGHHHIzzx6sfPj2ClGgTmfXRTkp3LQA3hnnWQ1EB6PuwcVTjduyXrQnxBW
-	JF2LoIsCZBLbD3IXx1oxRu4k1zR12l7C1rthCJD1V029x7RvogTg3WkOqES6kEV/bJv4hePbjL
-	I2Qa1kcaPPK4ivJXlNvuBuhJYFTZSKXbt98gvlQATXb8gxZz2ox06Yd6SEt+zI8rCRJNsviwKw
-	AUm1k0i7/mAow5c00N2Yis4oZY2/S2J/rKLtiVVniHw0RLpPy/Eu5AV5pUcR1r03EuMbtsUmYJ
-	riM=
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
-	esa4.bmw.c3s2.iphmx.com with ESMTP/TLS; 22 Jan 2020 10:28:37 +0100
-Received: from esabb5.muc ([160.50.100.47])  by esagw2.muc with ESMTP/TLS;
-	22 Jan 2020 10:28:38 +0100
-Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
-	([160.48.96.47])
-	by esabb5.muc with ESMTP/TLS; 22 Jan 2020 10:28:37 +0100
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10k.europe.bmw.corp
-	(160.48.96.47) with Microsoft SMTP Server (TLS;
-	Wed, 22 Jan 2020 10:28:37 +0100
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Wed, 22 Jan 2020 10:28:37 +0100
-IronPort-SDR: a0u4Zdg0so+2HWul/2+ffvdMj9CgvVXF5wJ0HJ+cLMq4HdK9KOeb5RnwUr9yYEj729EDUXAh4o
-	4DAgL7yKO4wsqPhDx3XyyvB5bjlgfrU3g=
-From: <Mikko.Rapeli@bmw.de>
-To: <pjtexier@koncepto.io>
-Thread-Topic: [OE-core] [PATCH] util-linux: upgrade 2.34 -> 2.35
-Thread-Index: AQHV0Ii/bjlrKWC76UuRS49VvcU5Jqf2WtCA
-Date: Wed, 22 Jan 2020 09:28:37 +0000
-Message-ID: <20200122092837.GH34396@korppu>
-References: <1579631324-16775-1-git-send-email-pjtexier@koncepto.io>
-In-Reply-To: <1579631324-16775-1-git-send-email-pjtexier@koncepto.io>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+	Wed, 22 Jan 2020 10:06:56 +0000 (UTC)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp2.bon.at (Postfix) with ESMTPSA id 482h010vX3z5tlC;
+	Wed, 22 Jan 2020 11:06:57 +0100 (CET)
+Date: Wed, 22 Jan 2020 11:06:55 +0100
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200122100655.eenl3tcnhj4kkcda@qschulz>
+References: <20180514144415.40730-1-stefan@agner.ch>
+	<20200113145729.amwegnpvnp2kb3ut@qschulz>
+	<20200120123246.o5abx73ehcoqbbim@qschulz>
+	<4e98fdb7ff73df6804e58f2f4339c816@agner.ch>
+	<059aa62b-1c45-50a3-5d58-40f2646247ad@gmail.com>
+	<20200121092341.bgb2elaqey75egjp@qschulz>
+	<CAMKF1spxORPSqDJuD2RWLFNXs8pHZSDQtVgzp+xcb3w2tC3htQ@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] util-linux: upgrade 2.34 -> 2.35
+In-Reply-To: <CAMKF1spxORPSqDJuD2RWLFNXs8pHZSDQtVgzp+xcb3w2tC3htQ@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+Cc: Stefan Agner <stefan.agner@toradex.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: busybox: udhcpc: fix IPv6 support when using udhcpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,140 +36,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 09:35:47 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <347CB2EC31F1114DB551345B2AB94111@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 22 Jan 2020 10:06:57 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, Jan 21, 2020 at 07:28:44PM +0100, Pierre-Jean Texier via Openembedd=
-ed-core wrote:
-> License-Update: add GPLv3 text
+Hi Khem,
 
-Which parts of util-linux are now licensed with GPLv3?
+On Tue, Jan 21, 2020 at 10:08:59AM -0800, Khem Raj wrote:
+> On Tue, Jan 21, 2020 at 1:23 AM Quentin Schulz
+> <quentin.schulz@streamunlimited.com> wrote:
+> >
+> > Hi Khem,
+> >
+> > On Mon, Jan 20, 2020 at 11:26:27AM -0800, Khem Raj wrote:
+> > > > Just checked, we still override that script in our layer, so definitely
+> > > > would be happy if this gets merged upstream so I can get rid of our
+> > > > custom script downstream.
+> > > >
+> > >
+> > > I think this is good to go got OE-core, but I was wondering if default
+> > > script in busybox also need this and perhaps upstream too
+> > >
+> >
+> > What do you mean by "default script"?
+> > https://git.openembedded.org/openembedded-core/tree/meta/recipes-core/busybox/files/default.script
+> > ?
+> 
+> yes.
 
--Mikko
+I'm confused then. Bear with me, I'm new to userspace so I'm sure I'm missing
+something rather obvious.
+The content of default.script is:
 
-> Drop upstreamed patch
->=20
-> See full changelog https://lore.kernel.org/util-linux/20200121105711.zzee=
-olydlivqnik7@ws.net.home/T/#u
->=20
-> Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
-> ---
->  meta/recipes-core/util-linux/util-linux.inc        |  5 +--
->  ...lsblk-force-to-print-PKNAME-for-partition.patch | 36 ----------------=
-------
->  .../{util-linux_2.34.bb =3D> util-linux_2.35.bb}     |  5 ++-
->  3 files changed, 5 insertions(+), 41 deletions(-)
->  delete mode 100644 meta/recipes-core/util-linux/util-linux/0001-lsblk-fo=
-rce-to-print-PKNAME-for-partition.patch
->  rename meta/recipes-core/util-linux/{util-linux_2.34.bb =3D> util-linux_=
-2.35.bb} (58%)
->=20
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
-ore/util-linux/util-linux.inc
-> index 179cb3d..0f8a6c2 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -6,11 +6,12 @@ disk partitioning, kernel message management, filesyste=
-m creation, and system lo
-> =20
->  SECTION =3D "base"
-> =20
-> -LICENSE =3D "GPLv2+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
-> +LICENSE =3D "GPLv2+ & GPLv3+ & LGPLv2.1+ & BSD-3-Clause & BSD-4-Clause"
-> =20
-> -LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D972a134f1e14b2b060e3=
-65df2fab0099 \
-> +LIC_FILES_CHKSUM =3D "file://README.licensing;md5=3D0fd5c050c6187d2bf0a4=
-492b7f4e33da \
->                      file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a426=
-3 \
->                      file://Documentation/licenses/COPYING.GPL-2.0-or-lat=
-er;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
-> +                    file://Documentation/licenses/COPYING.GPL-3.0-or-lat=
-er;md5=3D1ebbd3e34237af26da5dc08a4e440464 \
->                      file://Documentation/licenses/COPYING.LGPL-2.1-or-la=
-ter;md5=3D4fbd65380cdd255951079008b364516c \
->                      file://Documentation/licenses/COPYING.BSD-3-Clause;m=
-d5=3D58dcd8452651fc8b07d1f65ce07ca8af \
->                      file://Documentation/licenses/COPYING.BSD-4-Clause-U=
-C;md5=3D263860f8968d8bafa5392cab74285262 \
-> diff --git a/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-=
-print-PKNAME-for-partition.patch b/meta/recipes-core/util-linux/util-linux/=
-0001-lsblk-force-to-print-PKNAME-for-partition.patch
-> deleted file mode 100644
-> index 5d4c148..0000000
-> --- a/meta/recipes-core/util-linux/util-linux/0001-lsblk-force-to-print-P=
-KNAME-for-partition.patch
-> +++ /dev/null
-> @@ -1,36 +0,0 @@
-> -From e3bb9bfb76c17b1d05814436ced62c05c4011f48 Mon Sep 17 00:00:00 2001
-> -From: Karel Zak <kzak@redhat.com>
-> -Date: Thu, 27 Jun 2019 09:22:18 +0200
-> -Subject: [PATCH] lsblk: force to print PKNAME for partition
-> -
-> -PKNAME (parent kernel device name) is based on printed tree according
-> -to parent -> child relationship. The tree is optional and not printed
-> -if partition specified (.e.g "lsblk -o+PKNAME /dev/sda1"), but old
-> -versions print the PKNAME also in this case.
-> -
-> -Upstream-Status: Backport [https://github.com/karelzak/util-linux/commit=
-/e3bb9bfb76c17b1d05814436ced62c05c4011f48]
-> -
-> -Addresses: https://github.com/karelzak/util-linux/issues/813
-> -Signed-off-by: Karel Zak <kzak@redhat.com>
-> -Signed-off-by: Liwei Song <liwei.song@windriver.com>
-> ----
-> - misc-utils/lsblk.c | 3 +++
-> - 1 file changed, 3 insertions(+)
-> -
-> -diff --git a/misc-utils/lsblk.c b/misc-utils/lsblk.c
-> -index e95af7af0256..3ce6da730264 100644
-> ---- a/misc-utils/lsblk.c
-> -+++ b/misc-utils/lsblk.c
-> -@@ -1019,6 +1019,9 @@ static void device_to_scols(
-> - 	DBG(DEV, ul_debugobj(dev, "add '%s' to scols", dev->name));
-> - 	ON_DBG(DEV, if (ul_path_isopen_dirfd(dev->sysfs)) ul_debugobj(dev, " %=
-s ---> is open!", dev->name));
-> -=20
-> -+	if (!parent && dev->wholedisk)
-> -+		parent =3D dev->wholedisk;
-> -+
-> - 	/* Do not print device more than one in --list mode */
-> - 	if (!(lsblk->flags & LSBLK_TREE) && dev->is_printed)
-> - 		return;
-> ---=20
-> -2.17.1
-> -
-> diff --git a/meta/recipes-core/util-linux/util-linux_2.34.bb b/meta/recip=
-es-core/util-linux/util-linux_2.35.bb
-> similarity index 58%
-> rename from meta/recipes-core/util-linux/util-linux_2.34.bb
-> rename to meta/recipes-core/util-linux/util-linux_2.35.bb
-> index e9c2d80..71f7cd1 100644
-> --- a/meta/recipes-core/util-linux/util-linux_2.34.bb
-> +++ b/meta/recipes-core/util-linux/util-linux_2.35.bb
-> @@ -7,7 +7,6 @@ SRC_URI +=3D "file://configure-sbindir.patch \
->              file://run-ptest \
->              file://display_testname_for_subtest.patch \
->              file://avoid_parallel_tests.patch \
-> -            file://0001-lsblk-force-to-print-PKNAME-for-partition.patch =
-\
->  "
-> -SRC_URI[md5sum] =3D "a78cbeaed9c39094b96a48ba8f891d50"
-> -SRC_URI[sha256sum] =3D "743f9d0c7252b6db246b659c1e1ce0bd45d8d4508b4dfa42=
-7bbb4a3e9b9f62b5"
-> +SRC_URI[md5sum] =3D "479488469f057ddeed0d3ca7d6ab5f16"
-> +SRC_URI[sha256sum] =3D "b3081b560268c1ec3367e035234e91616fa7923a0afc2b1c=
-80a2a6d8b9dfe2c9"
-> --=20
-> 2.7.4
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+exec run-parts -a "$1" /etc/udhcpc.d
+
+AFAICT from a quick look at busybox.inc, the only things in that
+/etc/udhcpc.d directory are simple.script (named 50default actually) and
+default.script.
+
+What do you think should be done for that file wrt the original issue?
+
+> >
+> > Upstream could benefit from it, I'd agree. Though, it is technically
+> > just provided as an example.
+> > https://git.busybox.net/busybox/tree/examples/udhcp/simple.script
+> >
+> 
+
+@all: FYI, patch is merged:
+https://git.openembedded.org/openembedded-core/commit/meta/recipes-core/busybox/files/simple.script?id=b77541dbb2f442e51842f9d24c8745a6df2d1478
+
+> > The reason why I didn't bother to send a patch to busybox before pinging
+> > on this patch was that we're already different from the upstream simple.script
+> > so it didn't make sense to me to add the Upstream-Status: pending or
+> > something on the patch (in some ways, since it's patching the file
+> > directly and not adding a patch in SRC_URI). Anyway, digressing. Do you
+> > want a patch to be sent to busybox ML (or PR or whatever they use)
+> > before taking this patch?
+> >
+> 
+> I think the problem this patch fixes is generic and somewhere the
+> script OE has is also derived from
+> that example, so while the patch in itself is enough for OE, it would
+> be better if it was in upstream too
+> perhaps one less thing to worry about when we cherry pick changes from
+> upstream script in future.
+> 
+
+Agreed, I'll put it on my TODO-list. If I do not send an answer on this
+mail with the link to the PR or patch in the next week, anyone, please ping me.
+
+Thx,
+Quentin
 
