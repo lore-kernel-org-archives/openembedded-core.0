@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 051039146E
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
+	[209.85.215.170])
+	by mail.openembedded.org (Postfix) with ESMTP id CB24791460
 	for <openembedded-core@openembedded.org>;
-	Wed, 22 Jan 2020 05:48:23 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id d9so2451330plo.11
+	Wed, 22 Jan 2020 05:48:24 +0000 (UTC)
+Received: by mail-pg1-f170.google.com with SMTP id r11so2870894pgf.1
 	for <openembedded-core@openembedded.org>;
-	Tue, 21 Jan 2020 21:48:25 -0800 (PST)
+	Tue, 21 Jan 2020 21:48:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=VKTwpnv4frnlofX5Da8rF+/n+OTwRkliYxLxtbolgCU=;
-	b=oZEXPSaGP9a7/pX9PkE7k1dX8jnNnuzvywspe4ZJlSrd2vWlw+pK7qXF3HeHzSRsrr
-	Dz7glyRh/xjqsZCG2WJfS9rsa2wxURLpcvO55gQZoeb8YqpjzX1pJgi9BspLQB9yyzVC
-	D//4GDtVnsqsKiG0mX11yAcM0Vi6c6j3TiQt3l7qUH6FEOfpdFWIND5f+MQEu6RaBsZF
-	9OgpjOLn23ZoDVvrLqT7evBE7S8FkriwS75JCQpVY5Itx7JKkdiZTOZ9fbFFdKE4pzor
-	GdR3/LklZ2ku+6QrtPR4La+Z9fBrrxiXkAFN35mhkqug2oZ6AFgM/ynBUN7QO8vXyV52
-	DQSQ==
+	bh=+kqmPZrQoVgcvTL+Qw+8qOwvzvIdwkT1eVI09tHuBfY=;
+	b=vRKkwYgKxFPA0ey3FgtbIk37U6AaGYsbsIeh7ueZpbvA6u3j1fWjPed4DxeoAzXbVt
+	eimBpstC4ZBV9wXO1TJdobZdoD/n6mQ1VcSEa4qbnrSN+t7oq0GOC0Do0/Hj8PwzF2GD
+	FFQ7CEXNDM9zVxUOfnV4kaODHmEffNvcj08QW+aAgIOFAIKTadHZ43ZrX5cOutdZRKUD
+	sz6AltMDTwUA42D8hyT615QEvKre5J0jkpZhz2ay2Wx4Brj4L06K3Ni3BEmsnsPMaTjs
+	tbCFvvrai4kyTMj2ezPXeFpzYgWtrMCeBcwac3cwN/dCOp300DCkTTCuHTv15hyNgXpo
+	Ar3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=VKTwpnv4frnlofX5Da8rF+/n+OTwRkliYxLxtbolgCU=;
-	b=ENvD+D0htG/zi7LSDG990aO/mIC84un6L1qGH5AanUP+LTyZ3r5FjkwCOosQB7TfNb
-	ZSiEs6m8YPCq6kOM4oFv1huu4GML2mqp36+K4Bt5EF/4L02hExTKQa+MkQXRFc6g8Hq8
-	+HWwdcTeh0ogWXZYfb0XxJftxDWc7z2pMxFsUiIbOT4n0mEuua/t2d60wlrhNyz/f92f
-	lWmj5IdR3fB5sEmDAm/H+zca3nl3bbpd4ijdKdT4l8kWJaBdXX2zGSrCTJptZvULQmFV
-	KiFdP2W4EioC/roAhXM7k+epkjpC2K1l4GSUEtFxZ6UIW3lX4CK1ia+xbBQK0EjAmJ9K
-	vzyg==
-X-Gm-Message-State: APjAAAVhv6FqqXVmBQO30t3yQn6UMP9UiPwzV47XyJocoNbsGApJucQw
-	N+xcWZ3gmfHzDhoSwAEttZlk+HFW
-X-Google-Smtp-Source: APXvYqyEg5cTHD99MjV5JhGR0rRQ/ihCmATmSTlLu3kUymRBuUo9ckrX6rr4Xf1IQ2tt5l7fF9DwSw==
-X-Received: by 2002:a17:90a:3aaf:: with SMTP id
-	b44mr1149486pjc.9.1579672104822; 
-	Tue, 21 Jan 2020 21:48:24 -0800 (PST)
+	bh=+kqmPZrQoVgcvTL+Qw+8qOwvzvIdwkT1eVI09tHuBfY=;
+	b=dqt+8nOKiZWZx6gLSSzegBgYheFJ+8UlaowqGxbYz19WHzznrJdqmVhvidRwpKwpDv
+	OVTfvm2s+xXPFcQn7vNAp9VS1pDp0WLB9MOGfb0zvH7Jhjd0WJxqlYNufsVG8DcxQ7M7
+	EN6SmjEeDHRAgc/m5LdGK6CQiRffAho6bOK4ETUFDSbejlgXAKiD0oaWroVUUztFPBq9
+	6V2mJtqwFGzWGFo6BVUPMC/wPP+HL1aYLjqaJNg8/6CNLedqeiuplgb4ZNwxoFK5OUpv
+	FBjuELMLHxeNHcheHkGEghekAVXbc20Uh/e2MR62a80wp2vpSnycNyZqszzl4gSu9K1f
+	g4tQ==
+X-Gm-Message-State: APjAAAVOXy7uVwYQ/WO2Z/Xx3dvSOv+ZCR4dZMvLOxwQDnG5FvuPggKY
+	Tccbos7k6bve0ljIp2akjMvHcUN4
+X-Google-Smtp-Source: APXvYqxBYqcUFNsJxXyHTQaLlRTnYxjHICJuOykyJm0GyWWCfSoeoDmNJT5uEwOzodi3PKoJNmEh9A==
+X-Received: by 2002:a62:3892:: with SMTP id f140mr1086176pfa.190.1579672105694;
+	Tue, 21 Jan 2020 21:48:25 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:682c:76b9:6d8a:bbd2])
-	by smtp.gmail.com with ESMTPSA id p18sm1413247pjo.3.2020.01.21.21.48.23
+	by smtp.gmail.com with ESMTPSA id p18sm1413247pjo.3.2020.01.21.21.48.24
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 21 Jan 2020 21:48:24 -0800 (PST)
+	Tue, 21 Jan 2020 21:48:25 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Tue, 21 Jan 2020 21:48:12 -0800
-Message-Id: <c3e957409bf68e7b310e27781ac91d24cf4452bf.1579672034.git.akuster808@gmail.com>
+Date: Tue, 21 Jan 2020 21:48:13 -0800
+Message-Id: <996013b4e5d3cd1c054e87539ac1a8d95581a87f.1579672034.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1579672034.git.akuster808@gmail.com>
 References: <cover.1579672034.git.akuster808@gmail.com>
-Subject: [zeus 07/11] multilib.conf: Ensure that RECIPE_SYSROOT is unchanged for native
+Subject: [zeus 08/11] wic/filemap: If FIGETBSZ iotctl fail, failback to os.stat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,95 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 05:48:24 -0000
+X-List-Received-Date: Wed, 22 Jan 2020 05:48:25 -0000
 
-From: Mike Crowe <mac@mcrowe.com>
+From: Kalle Lampila <kalle.lampila@lempea.com>
 
-Ensure that RECIPE_SYSROOT is the same for -native recipes whether
-multilib.conf is included or not.
+Some file systems don't support fetching the block size (notably the
+file system Docker uses for containers), so if iotctl() fail, try to use
+failback via os.stat() to get block size.
 
-Without this change task signatures for -native recipes change when
-switching between MACHINEs that require multilib.conf and those that
-don't.
-
-This fix was one of the ones suggested by Khem Raj in
-http://lists.openembedded.org/pipermail/openembedded-core/2019-December/290303.html
-
-Add test_sstate_multilib_or_not_native_samesigs test case to
-sstatetests.py to ensure that this stays fixed.
-
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
+Signed-off-by: Kalle lampila <kalle.lampila@lempea.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit aa05f1ded71366b86eda7fce24d8b5395e85ada2)
+(cherry picked from commit e219f5175177a640dd62833082ea19adc1c13d42)
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/conf/multilib.conf                     |  1 +
- meta/lib/oeqa/selftest/cases/sstatetests.py | 40 +++++++++++++++++++++
- 2 files changed, 41 insertions(+)
+ scripts/lib/wic/filemap.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/multilib.conf b/meta/conf/multilib.conf
-index cfed3fbbd0..58f2ac5c86 100644
---- a/meta/conf/multilib.conf
-+++ b/meta/conf/multilib.conf
-@@ -9,6 +9,7 @@ MULTILIBS ??= "multilib:lib32"
- STAGING_DIR_HOST = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
- STAGING_DIR_TARGET = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
- RECIPE_SYSROOT = "${WORKDIR}/${MLPREFIX}recipe-sysroot"
-+RECIPE_SYSROOT_class-native = "${WORKDIR}/recipe-sysroot"
- 
- INHERIT += "multilib_global"
- 
-diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
-index 6757a0ec68..9adb511960 100644
---- a/meta/lib/oeqa/selftest/cases/sstatetests.py
-+++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
-@@ -446,6 +446,46 @@ BB_SIGNATURE_HANDLER = "OEBasicHash"
-         self.assertCountEqual(files1, files2)
- 
- 
-+    def test_sstate_multilib_or_not_native_samesigs(self):
-+        """The sstate checksums of two native recipes (and their dependencies)
-+        where the target is using multilib in one but not the other
-+        should be the same. We use the qemux86copy machine to test
-+        this.
-+        """
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index a3919fbcad..c53147c2f1 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -34,9 +34,11 @@ def get_block_size(file_obj):
+     # the FIGETBSZ ioctl (number 2).
+     try:
+         binary_data = fcntl.ioctl(file_obj, 2, struct.pack('I', 0))
++        bsize = struct.unpack('I', binary_data)[0]
+     except OSError:
+-        raise IOError("Unable to determine block size")
+-    bsize = struct.unpack('I', binary_data)[0]
++        bsize = None
 +
-+        self.write_config("""
-+TMPDIR = \"${TOPDIR}/tmp-sstatesamehash\"
-+TCLIBCAPPEND = \"\"
-+MACHINE = \"qemux86\"
-+require conf/multilib.conf
-+MULTILIBS = "multilib:lib32"
-+DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
-+""")
-+        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash")
-+        bitbake("binutils-native  -S none")
-+        self.write_config("""
-+TMPDIR = \"${TOPDIR}/tmp-sstatesamehash2\"
-+TCLIBCAPPEND = \"\"
-+MACHINE = \"qemux86copy\"
-+BB_SIGNATURE_HANDLER = "OEBasicHash"
-+""")
-+        self.track_for_cleanup(self.topdir + "/tmp-sstatesamehash2")
-+        bitbake("binutils-native -S none")
-+
-+        def get_files(d):
-+            f = []
-+            for root, dirs, files in os.walk(d):
-+                for name in files:
-+                    f.append(os.path.join(root, name))
-+            return f
-+        files1 = get_files(self.topdir + "/tmp-sstatesamehash/stamps")
-+        files2 = get_files(self.topdir + "/tmp-sstatesamehash2/stamps")
-+        files2 = [x.replace("tmp-sstatesamehash2", "tmp-sstatesamehash") for x in files2]
-+        self.maxDiff = None
-+        self.assertCountEqual(files1, files2)
-+
-+
-     def test_sstate_noop_samesigs(self):
-         """
-         The sstate checksums of two builds with these variables changed or
++    # If ioctl causes OSError or give bsize to zero failback to os.fstat
+     if not bsize:
+         import os
+         stat = os.fstat(file_obj.fileno())
 -- 
 2.17.1
 
