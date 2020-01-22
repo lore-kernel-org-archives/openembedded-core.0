@@ -1,52 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B32076B06C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 292937FF33
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 22:02:31 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id 21so4432962qky.4
+	Wed, 22 Jan 2020 00:30:48 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p17so5366291wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 14:02:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Up0d7F5KdwBfl8hJ3X4Nc5LeAIaDF4aQ/7oIwDvb2qQ=;
-	b=tQ610SRioKkNUGvo9G/dEiWzOYi9HdM9VFNLjPITANPHzfp/WkzhxiTEv5U0iycSW0
-	2kXNx/GsMq93Jd6AsR3l6gXrUxvuDFa/sMcu7cHih7iuPIOBDn7eNjI6WRub0n26Bxip
-	aixfB2UNT8HuwJoVieWAGVD73/1jvEF/XyecdJqvcAp5D3LpOUXVgknOMDpiGosHnYaG
-	PoDWpqebdaDIqN0h91VlFJdhbccZwfS9fJ9DVpPnCKry5vFqHPKZ7qus0Y0vh+tDw3aD
-	mN0EqrOuwUP7X+GRPLCTjbR0pixKc/0R0y/LLECirtF0uwpNW3/H3pK/eGcEWEa23hb6
-	0JGA==
+	Tue, 21 Jan 2020 16:30:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3VUXCqsu4rx7x13Rd9vFZY5LTq16FCc2V1MnRlmZcZU=;
+	b=NfdRruom/Mrq/DhYU/E8YrZ/PAYCWVrWoGZ2x9x5Xca1f+XoLtc5VLGU1eQB2Bd/dw
+	dFUkMBxD0wKeW9SchudoRp+tBUoH1p33Vt8fqL4UOIi8saxxCFI2cLFI9x5ljNxv+gNY
+	8xRwdbBLQsgUfnwrRheeUcn1YP4iyea5+Bdnw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Up0d7F5KdwBfl8hJ3X4Nc5LeAIaDF4aQ/7oIwDvb2qQ=;
-	b=k6i7vb9UEdJPLMgqSKh/OpbHP0U/NvP/k9I7RtQFfZtZe1i+WG4hAyFiwCs3HG3TiI
-	nUPMjLPKd8jFLxQLK4fIHA6MndgGky8dMmaPHtk+SJwehBuwqtgqXWE+0/GHrNDsKPZ4
-	sMhu+H/zJHaGoa2FhYfHBjqWXcV6bhU7sroJOioRgNml9iNFyk42VaVzmA6IBYFQVg56
-	dED+MSzkXs7nw5ygooybrlYNXFUo79y123MpdghhSKmpROA/g6ZzA+b48Vljzs2kjdhe
-	bjL7Ln6LurNR3jOiZ6dryx3nFJnZAaM3KjKGbA+li+8TjvMKrEekUl+Jrugxv1WdK0oT
-	sAIQ==
-X-Gm-Message-State: APjAAAUymBkuIdEkgOcKq+oARIkvPnzK7R95DdCIcpVACUpR7GDiuFFy
-	MlLFM/8fdcRaYeieQJru3l2K/KO76KpfDhn91QQ=
-X-Google-Smtp-Source: APXvYqy3eCofhLntzMDjR5H72oBrmg988cvGU1PQbqpSHcpq0j+sdKvRR6Tjunb+5do7z7MoeT30YZzFWmkUn8G6TAA=
-X-Received: by 2002:a37:a3c7:: with SMTP id m190mr7025805qke.212.1579644152525;
-	Tue, 21 Jan 2020 14:02:32 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3VUXCqsu4rx7x13Rd9vFZY5LTq16FCc2V1MnRlmZcZU=;
+	b=QOpR1XFHhmkLfyeZmpSJT23T4cMjVLoTZxUh3gd5E/xQkV8Ia0drs4NGn+Ig13DFWO
+	OwuReRbl4ljIKq2z7KSUjiudzmQNbnoqcDQ3TBvgZ8nckKNxyhuA7amvrxHHD9fwpo+S
+	oJSg93XtbBPc7ZWoWf5q89ka5D6laeNwB42356JcRFHyUKWBEBkmtnRwX5B6G4eLj5nK
+	EbFObhwJhhTYVU4Dg0O0xq/7HDQOds2SYHOPhxf462qM/H/VR5vxlE8g4wejFMNyLTtI
+	+CF4t69E3OAphsv491AOb1bOlZp9H9+a74SiIzzjFotfVdijFqdyFKNtX7uw/DA2tQOA
+	ySXg==
+X-Gm-Message-State: APjAAAUhWK7r8jdcWUKzhHjT20wfCqRw3+gw5r4uao3EwR1MhoP4R2Mw
+	HjAwKP+vU3W89HhmacziIzr42FpIoto=
+X-Google-Smtp-Source: APXvYqyN1s2F+7OuvmO5X+/8CHYEvYA1NufFMSRWFjFb77oy9iSz5V8+Nw3L8RfythIHFo6EvELZww==
+X-Received: by 2002:a1c:b456:: with SMTP id d83mr914980wmf.172.1579653049298; 
+	Tue, 21 Jan 2020 16:30:49 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	x10sm53211685wrv.60.2020.01.21.16.30.48
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 21 Jan 2020 16:30:48 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 Jan 2020 00:30:45 +0000
+Message-Id: <20200122003047.9889-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200120172510.22648-1-alex.kanavin@gmail.com>
-	<20200120172510.22648-5-alex.kanavin@gmail.com>
-	<CALbNGRTcVRb7obS2g8d6fipNUervDr0ZYvJ+izLmCJH4h5QRyQ@mail.gmail.com>
-	<1ccb46bd9806f74f4c61b774754e314ca72c368c.camel@linuxfoundation.org>
-	<CAMKF1srhnkkSETdWK0Jb0V8OV-4bwpCLJ7MhJuJ9dOx5T3VzUQ@mail.gmail.com>
-	<1776d7f035ce96fa5a1b3759e83fdd6c611dca15.camel@linuxfoundation.org>
-In-Reply-To: <1776d7f035ce96fa5a1b3759e83fdd6c611dca15.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 Jan 2020 14:02:21 -0800
-Message-ID: <CAMKF1sqvV4xj1p+h6Yjt08L4h9w2YfVSDqLF9J7yW7N8t2-HLA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/24] nss: update to 3.49.1
+Subject: [PATCH 1/3] binutils: Fix relocation of ld.so.conf in nativesdk builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,66 +56,126 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 Jan 2020 22:02:33 -0000
-Content-Type: multipart/alternative; boundary="000000000000953987059cad9006"
+X-List-Received-Date: Wed, 22 Jan 2020 00:30:49 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000953987059cad9006
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+We need binutils to look at our ld.so.conf file within the SDK to ensure
+we search the SDK's libdirs as well as those from the host system.
 
-On Tue, Jan 21, 2020 at 12:22 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+There add a patch which passes in the directory to the code using a define,
+then add it to a section we relocate in a similar way to the way we relocate
+the gcc internal paths. This ensures that ld works correctly in our buildtools
+tarball.
 
-> On Tue, 2020-01-21 at 11:35 -0800, Khem Raj wrote:
-> > This is failing on qemuarm btw
-> >
-> > http://errors.yoctoproject.org/Errors/Details/307410/
->
-> That is odd as it passed testing on the autobuilder. It must be
-> something tune specific :(
->
-Thanks
+Standard sysroot relocation doesn't work since we're not in a sysroot,
+we want to use both the host system and SDK libs.
 
-While my builds are dealing with py2 things this seems not related but I do
-have gcc10 in my mix
-So it could be future build break I need to triage it a bit more and see
-what=E2=80=99s going on
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../binutils/nativesdk-relocation.patch       | 80 +++++++++++++++++++
+ .../binutils/binutils_2.33.bb                 |  2 +
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/nativesdk-relocation.patch
+
+diff --git a/meta/recipes-devtools/binutils/binutils/nativesdk-relocation.patch b/meta/recipes-devtools/binutils/binutils/nativesdk-relocation.patch
+new file mode 100644
+index 00000000000..408f7d18b76
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/nativesdk-relocation.patch
+@@ -0,0 +1,80 @@
++We need binutils to look at our ld.so.conf file within the SDK to ensure 
++we search the SDK's libdirs as well as those from the host system.
++
++We therefore pass in the directory to the code using a define, then add
++it to a section we relocate in a similar way to the way we relocate the
++gcc internal paths. This ensures that ld works correctly in our buildtools
++tarball.
++
++Standard sysroot relocation doesn't work since we're not in a sysroot, 
++we want to use both the host system and SDK libs.
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++2020/1/17
++Upstream-Status: Inappropriate [OE specific tweak]
++
++Index: git/ld/Makefile.am
++===================================================================
++--- git.orig/ld/Makefile.am
+++++ git/ld/Makefile.am
++@@ -36,7 +36,8 @@ am__skipyacc =
++ 
++ ELF_CLFAGS=-DELF_LIST_OPTIONS=@elf_list_options@ \
++ 	   -DELF_SHLIB_LIST_OPTIONS=@elf_shlib_list_options@ \
++-	   -DELF_PLT_UNWIND_LIST_OPTIONS=@elf_plt_unwind_list_options@
+++	   -DELF_PLT_UNWIND_LIST_OPTIONS=@elf_plt_unwind_list_options@ \
+++           -DSYSCONFDIR="\"$(sysconfdir)\""
++ WARN_CFLAGS = @WARN_CFLAGS@
++ NO_WERROR = @NO_WERROR@
++ AM_CFLAGS = $(WARN_CFLAGS) $(ELF_CLFAGS)
++Index: git/ld/Makefile.in
++===================================================================
++--- git.orig/ld/Makefile.in
+++++ git/ld/Makefile.in
++@@ -546,7 +546,8 @@ am__skiplex =
++ am__skipyacc = 
++ ELF_CLFAGS = -DELF_LIST_OPTIONS=@elf_list_options@ \
++ 	   -DELF_SHLIB_LIST_OPTIONS=@elf_shlib_list_options@ \
++-	   -DELF_PLT_UNWIND_LIST_OPTIONS=@elf_plt_unwind_list_options@
+++	   -DELF_PLT_UNWIND_LIST_OPTIONS=@elf_plt_unwind_list_options@ \
+++           -DSYSCONFDIR="\"$(sysconfdir)\""
++ 
++ AM_CFLAGS = $(WARN_CFLAGS) $(ELF_CLFAGS)
++ @ENABLE_PLUGINS_FALSE@PLUGIN_C = 
++Index: git/ld/emultempl/elf32.em
++===================================================================
++--- git.orig/ld/emultempl/elf32.em
+++++ git/ld/emultempl/elf32.em
++@@ -1024,7 +1024,7 @@ gld${EMULATION_NAME}_check_ld_so_conf (c
++ 
++       info.path = NULL;
++       info.len = info.alloc = 0;
++-      tmppath = concat (ld_sysroot, "${prefix}/etc/ld.so.conf",
+++      tmppath = concat (ld_sysconfdir, "/ld.so.conf",
++ 			(const char *) NULL);
++       if (!gld${EMULATION_NAME}_parse_ld_so_conf (&info, tmppath))
++ 	{
++Index: git/ld/ldmain.c
++===================================================================
++--- git.orig/ld/ldmain.c
+++++ git/ld/ldmain.c
++@@ -68,6 +68,7 @@ char *program_name;
++ 
++ /* The prefix for system library directories.  */
++ const char *ld_sysroot;
+++char ld_sysconfdir[4096] __attribute__ ((section (".gccrelocprefix"))) = SYSCONFDIR;
++ 
++ /* The canonical representation of ld_sysroot.  */
++ char *ld_canon_sysroot;
++Index: git/ld/ldmain.h
++===================================================================
++--- git.orig/ld/ldmain.h
+++++ git/ld/ldmain.h
++@@ -23,6 +23,7 @@
++ 
++ extern char *program_name;
++ extern const char *ld_sysroot;
+++extern char ld_sysconfdir[4096];
++ extern char *ld_canon_sysroot;
++ extern int ld_canon_sysroot_len;
++ extern FILE *saved_script_handle;
+diff --git a/meta/recipes-devtools/binutils/binutils_2.33.bb b/meta/recipes-devtools/binutils/binutils_2.33.bb
+index 89315915c47..c2833b84473 100644
+--- a/meta/recipes-devtools/binutils/binutils_2.33.bb
++++ b/meta/recipes-devtools/binutils/binutils_2.33.bb
+@@ -51,5 +51,7 @@ do_install_class-native () {
+ PACKAGE_BEFORE_PN += "libbfd"
+ FILES_libbfd = "${libdir}/libbfd-*.so"
+ 
++SRC_URI_append_class-nativesdk =  "file://nativesdk-relocation.patch"
++
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.20.1
 
 
-> Cheers,
->
-> Richard
->
->
-
---000000000000953987059cad9006
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Jan 21, 2020 at 12:22 PM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2020-=
-01-21 at 11:35 -0800, Khem Raj wrote:<br>
-&gt; This is failing on qemuarm btw<br>
-&gt; <br>
-&gt; <a href=3D"http://errors.yoctoproject.org/Errors/Details/307410/" rel=
-=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Det=
-ails/307410/</a><br>
-<br>
-That is odd as it passed testing on the autobuilder. It must be<br>
-something tune specific :(<br>
-</blockquote><div dir=3D"auto">Thanks</div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">While my builds are dealing with py2 things this seems not re=
-lated but I do have gcc10 in my mix</div><div dir=3D"auto">So it could be f=
-uture build break I need to triage it a bit more and see what=E2=80=99s goi=
-ng on</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
-
---000000000000953987059cad9006--
