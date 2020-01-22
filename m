@@ -1,52 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C86BB7FF33
+Return-Path: <mark.hatle@kernel.crashing.org>
+X-Greylist: delayed 969 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 22 Jan 2020 00:43:12 UTC
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 39FF97FFCA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 00:30:50 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f129so5365092wmf.2
+	Wed, 22 Jan 2020 00:43:12 +0000 (UTC)
+Received: from lons-builder.int.hatle.net ([192.40.192.88])
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 00M0R3c2025108
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 Jan 2020 16:30:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=8RAmRII2PzFKlIZmG7goDJ/1NacHLQt4qxRdmiblg/c=;
-	b=YPu7S2uQNpZfb9KhO84QM8eXFHkTo7p8FjS+288I33HLtfjCEzCUbtM1wz5L1vA3cG
-	NRC29GSeBrGuqJIFA/m215thZmJ5j1nBV+GXyMVxysoL0oTdsIYCRdYl1jq3KOUAz0b/
-	DWzw24+0xzz8H1oq3IRjV7jCDBuVTl+WETINE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=8RAmRII2PzFKlIZmG7goDJ/1NacHLQt4qxRdmiblg/c=;
-	b=IY+oza8v6zl5ZJB5YZsg3OvJ4qM8kOwIm1NaJxlJsFbelnE/c5Yx/z7/8WNvJRmaK8
-	MLP5n6Uz2CQOnCOcK0BxFhLPgkoXPscKJrw/0atl4KEQgVmGlvGg64u04XOhcL5+MUlf
-	FbRjpVH6oiuCDI4N5Ze8QPzfoCKNivpyJyelyZkBwgd3Sleqk9S3BXfZdQ/kLjny4CuI
-	gt+z2V/T3zYPtqbAmyBj6Uxszv+48f8+gYMeIW8mIdDcnGAUfPd1A2OkFpSEFYXzrYg/
-	XOfXWRmGzDo7f7O94uEsoRdLhEOTgwe72pxucq0iLEhWh1eCx6KE27jVOAzqfUF7ceJf
-	Sklg==
-X-Gm-Message-State: APjAAAVL2YFdSYZlSINaL93HaOfnEOgFgM9IZJE5D+/tkAUruyJx8+Ki
-	apAqLgEkrgXa0te34ffMlWtitjN5uUg=
-X-Google-Smtp-Source: APXvYqyWgtR2eq8j6lLfekpmYfZrF9Y9jTsuSauumWko9YKmaaLxhMGjJYF5L/irgB61Q+kR8rkmdw==
-X-Received: by 2002:a05:600c:224d:: with SMTP id
-	a13mr860180wmm.57.1579653051326; 
-	Tue, 21 Jan 2020 16:30:51 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x10sm53211685wrv.60.2020.01.21.16.30.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 21 Jan 2020 16:30:50 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Tue, 21 Jan 2020 18:27:04 -0600
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2020 00:30:47 +0000
-Message-Id: <20200122003047.9889-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200122003047.9889-1-richard.purdie@linuxfoundation.org>
-References: <20200122003047.9889-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Subject: [PATCH 3/3] buildtools-tarball: Add an ld.so.conf for nativesdk-binutils
+Date: Tue, 21 Jan 2020 18:27:02 -0600
+Message-Id: <20200122002702.166957-2-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200122002702.166957-1-mark.hatle@kernel.crashing.org>
+References: <20200122002702.166957-1-mark.hatle@kernel.crashing.org>
+Subject: [PATCH 2/2] libgcc.inc: Fix an issue w/ a recursive symlink
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,35 +29,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 00:30:51 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 22 Jan 2020 00:43:13 -0000
 
-We need to search our own libdirs, then fall back to the system ones as our
-customised dynamic loader will. Have ld.so.conf reflect that.
+From: Mark Hatle <mark.hatle@xilinx.com>
 
-This ensures that binutils finds libraries here when linking too.
+If the OS is not Linux, the code could end up generating a recursive symlink.
+This can happen because the same symlink can be created twice in a row.  If this
+happenes, the second symlink becomes a link to itself within the directory
+pointed to by the original link.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+In order to prevent this, verify that the destination does not already exist.
+
+Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
- meta/recipes-core/meta/buildtools-tarball.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/gcc/libgcc.inc | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 9c5c2cc8d6e..95ebda7fa15 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -74,6 +74,10 @@ create_sdk_files_append () {
- 	echo 'export GIT_SSL_CAINFO="${SDKPATHNATIVE}${sysconfdir}/ssl/certs/ca-certificates.crt"' >>$script
- 	echo 'export OPENSSL_CONF="${SDKPATHNATIVE}${sysconfdir}/ssl/openssl.cnf"' >>$script
+diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
+index e008d14f36..6d48ec9809 100644
+--- a/meta/recipes-devtools/gcc/libgcc.inc
++++ b/meta/recipes-devtools/gcc/libgcc.inc
+@@ -9,14 +9,18 @@ do_install_append_class-target () {
+ 			"linux-musleabi") extra_target_os="linux-gnueabi";;
+ 			*) extra_target_os="linux";;
+ 		esac
+-		ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
++		if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
++			ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
++		fi
+ 	fi
+ 	if [ -n "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', 'hf', '', d)}" ]; then
+ 		case "${TARGET_OS}" in
+ 			"linux-musleabi") extra_target_os="linux-musleabihf";;
+ 			"linux-gnueabi") extra_target_os="linux-gnueabihf";;
+ 		esac
+-		ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
++		if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
++			ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
++		fi
+ 	fi
+ }
  
-+	mkdir -p ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/
-+	echo '${SDKPATHNATIVE}${libdir}
-+${SDKPATHNATIVE}${base_libdir}
-+include /etc/ld.so.conf' > ${SDK_OUTPUT}/${SDKPATHNATIVE}${sysconfdir}/ld.so.conf
- 	if [ "${SDKMACHINE}" = "i686" ]; then
- 		echo 'export NO32LIBS="0"' >>$script
- 		echo 'echo "$BB_ENV_EXTRAWHITE" | grep -q "NO32LIBS"' >>$script
 -- 
-2.20.1
+2.17.1
 
 
