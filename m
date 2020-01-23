@@ -1,55 +1,32 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DAEB6C4D8
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id F24427FD8F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 21:26:38 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id d16so4822782wre.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 13:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=iFnsZvhnwgmJjftXgbbCNhMLmy6pqE5SvElpTVC91WU=;
-	b=Spmfbtq1y7a9/YOAkeOzw720mTGFEHBMdOTSy63Q5Bd32vkUm9j+Mftwwq1Gdr2zt/
-	CH61sOSWUgM6CvI0uAOsGAKqnRLnLPFIWX8bDDDH0xxXq+uXeonEnaW22eE8m3rPD0Rd
-	+Ic9QDqCDhmW9TVNmnvpWmV5R0ko/n/AgQMzcJOfh07g9AuvOZf7TNdyesQdTwEvPuvo
-	4/4ETRKQfcG6MxcATnJVoHXNLmTVKsDcbuipqpgc+M0LLmxOHL9tf39dk/2uheCgs+w/
-	/jLQCKWv2bnQuYwrP+HM7JSCneLY6oyfnHs3WOgPtQfG56SSm7r9teHg5vJPBKgSKpTu
-	rCQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=iFnsZvhnwgmJjftXgbbCNhMLmy6pqE5SvElpTVC91WU=;
-	b=ZP7xWdjRDcnuTChnuKx7KGtX+BnH//1KkUry16jkJqG6HXk0uJKLUhr8JeeP0gcnZl
-	xfrCpma0fiL4Df18RscJCgw1C8s1Ledm2iP2w/Vq1swoy/iiMC1iP6mRmjZdY5hNdGLv
-	pntE+pJiBZof0/UFfKCEBthnS+JkgIQ2HWfyI2f1CPkDTA6X/Z6YlT7WmvgYie93TG8G
-	Fo1XGYrV4OdK7zfYph5yWYjxEXs7t3B7dfsDWo0OZoePFWYN6yqHkZt9r/f6e7b45yyw
-	B7SkIT7wG4nUk2ppQU5rPfG8+eyy6GmwEX5GyCACmgBfjVzIg/iP1sB+kVsCR1+WNqrV
-	detA==
-X-Gm-Message-State: APjAAAWB+A4uIFN7hAQp41FKcCENrG7oZxLHUANL1BtCjvBrtMsLfRYt
-	bXpYZaovUCEgHx7NUIjt50yWMHyX
-X-Google-Smtp-Source: APXvYqxP5u+ZquB8+OEFPJByYNsNGY/wPtyS3tWhZIXuCgoCrli+4pPdigsFy+q89MN27CDp6uQklg==
-X-Received: by 2002:adf:f103:: with SMTP id r3mr19840wro.295.1579814798497;
-	Thu, 23 Jan 2020 13:26:38 -0800 (PST)
-Received: from ?IPv6:2a02:2450:1011:56f:509b:b3fb:ea44:b29a?
-	([2a02:2450:1011:56f:509b:b3fb:ea44:b29a])
-	by smtp.gmail.com with ESMTPSA id t81sm4314420wmg.6.2020.01.23.13.26.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 Jan 2020 13:26:38 -0800 (PST)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16G102)
-In-Reply-To: <9a860272881d3c0fff6be186e63063112d37cff0.camel@andred.net>
-Date: Thu, 23 Jan 2020 22:26:37 +0100
-Message-Id: <3C715AE5-3ECB-46CA-A1A1-35A68F90500F@gmail.com>
-References: <20200123173416.112832-1-alex.kanavin@gmail.com>
-	<20200123173416.112832-3-alex.kanavin@gmail.com>
-	<9a860272881d3c0fff6be186e63063112d37cff0.camel@andred.net>
-To: =?utf-8?Q?Andr=C3=A9_Draszik?= <git@andred.net>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/5] default-distrovars.inc: add vfat to DISTRO_FEATURES
+	Thu, 23 Jan 2020 21:29:47 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id CC62E40BF7;
+	Thu, 23 Jan 2020 21:29:48 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id SidavMA_1HrE; Thu, 23 Jan 2020 21:29:48 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
+	[100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id A63D7400E8;
+	Thu, 23 Jan 2020 21:29:46 +0000 (UTC)
+Received: from gimli.denix (unknown [192.168.30.6])
+	by mail.denix.org (Postfix) with ESMTP id 5319C17437E;
+	Thu, 23 Jan 2020 16:29:46 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jan 2020 16:29:34 -0500
+Message-Id: <1579814974-2852-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH v2] arm-trusted-firmware: add upstream version 2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,68 +39,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 21:26:38 -0000
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 23 Jan 2020 21:29:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Sorry but certainly no. It=E2=80=99s already hard enough to make ptests pass=
- with just the one standard configuration tested by the autobuilder. I still=
- have a handful of components with cryptic failures left to fix, so if you c=
-an help with valgrind, mdadm or lttng failures I=E2=80=99d appreciate that.
+From: Denys Dmytriyenko <denys@ti.com>
 
-If you want parted test suite to handle things gracefully when vfat is absen=
-t, work with parted upstream to make it happen.
+Many BSPs require ARM Trusted Firmware (also known as Trusted Firmware-A).
+To avoid duplicating efforts of adding very similar recipes to BSP layers,
+add an upstream reference implementation to openembedded-core, which can be
+customized by BSPs, if needed.
 
-Alex
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+---
+v2 - add new entry to maintainers.inc
 
-> On 23 Jan 2020, at 21.15, Andr=C3=A9 Draszik <git@andred.net> wrote:
->=20
-> Hi,
->=20
->> On Thu, 2020-01-23 at 18:34 +0100, Alexander Kanavin wrote:
->> This is beneficial for parted ptests in particular, as
->> they expect vfat functionality to work.
->=20
-> Could you also update the parted ptests to skip or delete those
-> tests that depend on vfat, please? I.e. when the DISTRO_FEATURE
-> is not enabled.
->=20
-> For the benefit of those people that don't need / want vfat, but
-> still want to ensure that parted works by running the ptests.
->=20
-> Is that feasible?
->=20
->=20
-> Cheers,
-> Andre'
->=20
->>=20
->> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->> ---
->> meta/conf/distro/include/default-distrovars.inc | 2 +-
->> 1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/=
-distro/include/default-distrovars.inc
->> index 10d86cf7b17..433d4b6651d 100644
->> --- a/meta/conf/distro/include/default-distrovars.inc
->> +++ b/meta/conf/distro/include/default-distrovars.inc
->> @@ -10,7 +10,7 @@ LOCALE_UTF8_ONLY ?=3D "0"
->> LOCALE_UTF8_IS_DEFAULT ?=3D "1"
->> LOCALE_UTF8_IS_DEFAULT_class-nativesdk =3D "0"
->>=20
->> -DISTRO_FEATURES_DEFAULT ?=3D "acl alsa argp bluetooth ext2 ipv4 ipv6 lar=
-gefile pcmcia usbgadget usbhost wifi xattr nfs
->> zeroconf pci 3g nfc x11"
->> +DISTRO_FEATURES_DEFAULT ?=3D "acl alsa argp bluetooth ext2 ipv4 ipv6 lar=
-gefile pcmcia usbgadget usbhost wifi xattr nfs
->> zeroconf pci 3g nfc x11 vfat"
->> DISTRO_FEATURES ?=3D "${DISTRO_FEATURES_DEFAULT}"
->> IMAGE_FEATURES ?=3D ""
->>=20
->> --=20
->> 2.17.1
->>=20
->=20
+ meta/conf/distro/include/maintainers.inc           |  1 +
+ .../arm-trusted-firmware_2.2.bb                    | 55 ++++++++++++++++++++++
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2.2.bb
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 01afc25..2a4121b 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -45,6 +45,7 @@ RECIPE_MAINTAINER_pn-apr-util = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER_pn-apt = "Aníbal Limón <limon.anibal@gmail.com>"
+ RECIPE_MAINTAINER_pn-apt-native = "Aníbal Limón <limon.anibal@gmail.com>"
+ RECIPE_MAINTAINER_pn-argp-standalone = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER_pn-arm-trusted-firmware = "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-asciidoc = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-aspell = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-assimp = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2.2.bb b/meta/recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2.2.bb
+new file mode 100644
+index 0000000..3079a70
+--- /dev/null
++++ b/meta/recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2.2.bb
+@@ -0,0 +1,55 @@
++SUMMARY = "ARM Trusted Firmware"
++DESCRIPTION = "ARM Trusted Firmware provides a reference implementation of \
++Secure World software for ARMv8-A, including Exception Level 3 (EL3) software. \
++It provides implementations of various ARM interface standards such as the \
++Power State Coordination Interface (PSCI), Trusted Board Boot Requirements \
++(TBBR) and Secure monitor code."
++HOMEPAGE = "http://infocenter.arm.com/help/topic/com.arm.doc.dui0928e/CJHIDGJF.html"
++
++LICENSE = "BSD-3-Clause"
++LIC_FILES_CHKSUM = "file://docs/license.rst;md5=189505435dbcdcc8caa63c46fe93fa89"
++
++inherit deploy
++
++DEPENDS = "dtc-native openssl-native"
++
++PACKAGE_ARCH = "${MACHINE_ARCH}"
++
++S = "${WORKDIR}/git"
++B = "${WORKDIR}/build"
++
++BRANCH = "master"
++SRC_URI = "git://git.trustedfirmware.org/TF-A/trusted-firmware-a.git;protocol=http;branch=${BRANCH}"
++SRCREV = "a04808c16cfc126d9fe572ae7c4b5a3d39de5796"
++
++ATF_BINARY ??= "bl31"
++ATF_SUFFIX ??= "bin"
++ATF_TARGET ??= "all"
++
++CFLAGS[unexport] = "1"
++LDFLAGS[unexport] = "1"
++AS[unexport] = "1"
++LD[unexport] = "1"
++
++do_configure[noexec] = "1"
++
++EXTRA_OEMAKE = '-C ${S} BUILD_BASE=${B} DEBUG=0 CROSS_COMPILE="${TARGET_PREFIX}" \
++		PLAT="${ATF_PLATFORM}" TARGET_BOARD="${ATF_BOARD}" ${PACKAGECONFIG_CONFARGS}'
++
++do_compile() {
++	oe_runmake ${ATF_TARGET}
++}
++
++do_install() {
++	install -d ${D}/boot
++	install -m 0644 ${B}/${ATF_PLATFORM}/${ATF_BOARD}/release/${ATF_BINARY}.${ATF_SUFFIX} ${D}/boot/
++}
++
++do_deploy() {
++	install -d ${DEPLOYDIR}
++	install -m 0644 ${B}/${ATF_PLATFORM}/${ATF_BOARD}/release/${ATF_BINARY}.${ATF_SUFFIX} ${DEPLOYDIR}/
++}
++addtask deploy before do_build after do_compile
++
++FILES_${PN} = "/boot"
++SYSROOT_DIRS += "/boot"
+-- 
+2.7.4
+
 
