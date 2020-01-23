@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id BFFBF7FD94;
-	Thu, 23 Jan 2020 22:02:42 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id C608C7FD97;
+	Thu, 23 Jan 2020 22:02:43 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: danismostlikely@gmail.com
-Date: Thu, 23 Jan 2020 22:02:44 -0000
-Message-ID: <20200123220244.2276.17558@do>
+Date: Thu, 23 Jan 2020 22:02:45 -0000
+Message-ID: <20200123220245.2273.1320@do>
 References: <20200123203037.693694-1-danismostlikely@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20200123203037.693694-1-danismostlikely@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInByb2NwczogZW5hYmxlIG9wdGlvbmFsIHN5c3RlbS4uLiIgYW5kIDIgbW9yZSAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInByb2NwczogZW5hYmxlIG9wdGlvbmFsIHN5c3RlbS4uLiIgYW5kIDIgbW9yZSAocmV2Myk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 22:02:42 -0000
+X-List-Received-Date: Thu, 23 Jan 2020 22:02:44 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "procps: enable optional system..." and 2 more (rev2)
-Revision: 2
+Series: "procps: enable optional system..." and 2 more (rev3)
+Revision: 3
 URL   : https://patchwork.openembedded.org/series/22252/
 State : failure
 
@@ -44,6 +44,10 @@ an automated response. Several tests have been executed on the proposed
 series by patchtest resulting in the following failures:
 
 
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 15049c610b)
 
 * Patch            [3/3] Allow customising buildhistory tags
  Issue             Shortlog does not follow expected format [test_shortlog_format] 
