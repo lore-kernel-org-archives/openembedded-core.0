@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C608C7FD97;
-	Thu, 23 Jan 2020 22:02:43 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id C10E57FD59;
+	Thu, 23 Jan 2020 22:02:44 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: danismostlikely@gmail.com
-Date: Thu, 23 Jan 2020 22:02:45 -0000
-Message-ID: <20200123220245.2273.1320@do>
+Date: Thu, 23 Jan 2020 22:02:46 -0000
+Message-ID: <20200123220246.2276.33049@do>
 References: <20200123203037.693694-1-danismostlikely@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20200123203037.693694-1-danismostlikely@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInByb2NwczogZW5hYmxlIG9wdGlvbmFsIHN5c3RlbS4uLiIgYW5kIDIgbW9yZSAocmV2Myk=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInByb2NwczogZW5hYmxlIG9wdGlvbmFsIHN5c3RlbS4uLiIgYW5kIDIgbW9yZSAocmV2NCk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,8 +31,8 @@ Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "procps: enable optional system..." and 2 more (rev3)
-Revision: 3
+Series: "procps: enable optional system..." and 2 more (rev4)
+Revision: 4
 URL   : https://patchwork.openembedded.org/series/22252/
 State : failure
 
