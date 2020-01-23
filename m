@@ -1,49 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 629257CBDD
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vs1-f46.google.com (mail-vs1-f46.google.com
+	[209.85.217.46])
+	by mail.openembedded.org (Postfix) with ESMTP id DD5017FD7C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 18:37:42 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id x185so1935729pfc.5
+	Thu, 23 Jan 2020 19:26:09 +0000 (UTC)
+Received: by mail-vs1-f46.google.com with SMTP id k188so2522844vsc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 10:37:43 -0800 (PST)
+	Thu, 23 Jan 2020 11:26:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=sE7TSJOUYXTMzs2bctDRvRSiGd4A0vnqMEimPK4jjlk=;
-	b=C01P0+IhiP5jJfgrV+EoNL4cLzh41QDbrn7kFu/MvsNXCf/SOMoXh5QYjptC9e6sgW
-	UuAHT7IlNMXc1E5QNpnPovkQFbT/rT7/79U3OLg+od+IlMuru8kfPNA6l4Wq/oSZi1MW
-	I6iPE6WEqHChL/b/tzbusdbf0xOPP/jeWVBc2DW4FEVRjoD6SVMnCDhHkDzJkQJdPXeN
-	smkAYVJEhDcmk3LkD3veeA2bKZBISTnOiXcEU8tWlmJtQoPY7P193qX+04K6KHMykxdf
-	BTXEKy+z7mCqIPyEJLgJnIgf8tozWRqGkcT4YQDMBu+zHAcEYiJb8R2J/67YcwCROFvy
-	srIA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=fHCUtlo1ADQdXKRBpXM1hXz+Y19K0Iqf+Er3Wqa5gRg=;
+	b=b1OxKraIrRVRKGXcBOf7jAX7Qdj9PAG4/1Vu2027TmDzVPAAsV4sQ8aN7bMMoWic3S
+	OBgDkEAUiA92MRib4xfpf4z1853YTNEOcdHbIJJp8TVVhWbdco/zA3KZDyGV7n8xhRoA
+	3l7ALGVBZ+4hfcfbLec2uyROHjyKX90nrqdkBgM+3N9zZztFxb2CKgDMhsuiTNzslufC
+	BDDH9DUc+YIp/0zoJ9iNsWfsEFST6CBWrUmq2mkbR66taXDyXmqxxs+zm1yF98GEPRDp
+	Kcip3bNaRFj6NeAtFukohb9OVPdJdsFArl0tL/ne9/8DoHyexwoYYzKV/E2Pr74feiNR
+	NVbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=sE7TSJOUYXTMzs2bctDRvRSiGd4A0vnqMEimPK4jjlk=;
-	b=QEWhN5AzSNwZqNvIkmv9lHTV/mCAN9lBiHbWo3Tq5uZcJ5pKiHbpo21EUWT/a9xhBz
-	AeKRhIMqagOAQPhxDjqHrHXwR/81sm98cAzO10ZyfaerOOWuDT0uwywalb2RGltDJDnE
-	1yTfdcdqaja5Otk9/RWYt/TAEWKUq1yhYhyUkOp807a9BRvjk19Tu34Fd1Nk2OqVbudB
-	nadWk6F0Bv+lVYoFuseKKUEL7P1pOkPpGGwZpFQN4PtDSyRWf4tD5lWTPFydplczJSoD
-	TRkA/oKHAPOoeIhx7Weq3jJNgDutvwQQ09kEmmaotq3b1E5AB2CcYZ7oAnpibuNOdhzS
-	wI1A==
-X-Gm-Message-State: APjAAAVliaEllRMK3uhQeuxsipPNl0CQYVJnnMNZF9TCHI7UOhZ9yuc+
-	/MV9EiFtAsiE3BTEckTECiUyMcVhTK4=
-X-Google-Smtp-Source: APXvYqxSs8JSeF0ovyVy9zVZg8/F2ZpiAayDmEaBGzpAqvg1tjKSdcWEMrmEm6n9Gve/XKdVg911/w==
-X-Received: by 2002:a63:fc01:: with SMTP id j1mr176451pgi.220.1579804662808;
-	Thu, 23 Jan 2020 10:37:42 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::cab1])
-	by smtp.gmail.com with ESMTPSA id i11sm3744829pjg.0.2020.01.23.10.37.42
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 23 Jan 2020 10:37:42 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jan 2020 10:37:43 -0800
-Message-Id: <20200123183743.2066575-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=fHCUtlo1ADQdXKRBpXM1hXz+Y19K0Iqf+Er3Wqa5gRg=;
+	b=II+IyigHSuRtedagPLUrT6jCoRY6MbIzDnFSIMT6JI8akaWfgLrBqxez89XSCfCa4U
+	1ivkS4/x+F25Amj08lgR/9kX3nE+UZhe5CJHbLIBsi8tyzzpmGkFpmx7t28HOVuGCK3t
+	A7ms+chjayPuYoFtG/+LBghFXNu2MdSm97WZRSzKUTN+wa7cViSPyig76jOBhUBF91sL
+	+SL/njMG3P4lQWghlYjljItSl/ttCAu37tOXHbEypMLNxvZLZLypHwW2ytzPRGbehNnG
+	3WDFwhSfju7eQO24dtrrkz++RqUyPQmoo5G7/bJQKhPp9cbLX3Og3dRYYiRv5Z9mU63c
+	KGhQ==
+X-Gm-Message-State: APjAAAUUAHWIF7zF5wfjedzmE7yqIIRmEVXv4Uu3Da9HRJ+IKA8hjFBt
+	xsNySvM1n8oeblWm0giP5zF/DK+xpeRjF6xnXaDxcg==
+X-Google-Smtp-Source: APXvYqytMw10nNVFl3cyP3uX318ClO140de3COecdYm+SeL98VP0Z4pL5hVXwbB2QdZrYh985TNud0jSX5uKK7/bbr4=
+X-Received: by 2002:a67:e443:: with SMTP id n3mr7565338vsm.137.1579807570643; 
+	Thu, 23 Jan 2020 11:26:10 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] ruby: Remove __has_include and __has_include_next from preprocessed header file
+References: <670208445.2165783.1579785268358.JavaMail.zimbra@savoirfairelinux.com>
+	<fc798fd12d4a06537fd235b6247a0193d1df3022.camel@linuxfoundation.org>
+	<555772143.2167690.1579789341772.JavaMail.zimbra@savoirfairelinux.com>
+	<b1cbeea067af1e54e596425c87b55b36062bb49f.camel@linuxfoundation.org>
+	<1908740460.2169186.1579791546237.JavaMail.zimbra@savoirfairelinux.com>
+	<91c23ebb8817e8cc5e0c1644529f6d3034749e53.camel@linuxfoundation.org>
+In-Reply-To: <91c23ebb8817e8cc5e0c1644529f6d3034749e53.camel@linuxfoundation.org>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Thu, 23 Jan 2020 11:25:58 -0800
+Message-ID: <CAJ86T=X=B9n3xo+aOXhfnw8JT38z6Frk1RzT2Z6BR8hyLnAcSw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Connectivity check uris
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 18:37:42 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 23 Jan 2020 19:26:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-one of the build steps ruby has is that it generated rb_mjit_header.h
-during configure using gcc preprocessor using -dD which emits built-in
-defines as well, problem happens when this header is later included in
-subsequent compiles, where compiler errors out stating that an existing
-internal define is redefined
+On Thu, Jan 23, 2020 at 7:24 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> On Thu, 2020-01-23 at 09:59 -0500, Jean-Marie LEMETAYER wrote:
+> > On Jan 23, 2020, at 3:37 PM, Richard Purdie
+> > richard.purdie@linuxfoundation.org wrote:
+> > > On Thu, 2020-01-23 at 09:22 -0500, Jean-Marie LEMETAYER wrote:
+> > > > I understand the issue with blocked domains this is why I suggest
+> > > > the
+> > > > custom domain "connectivitycheck.openembedded.org".
+> > > >
+> > > > But I dont know if it could be an option. Can OE have a sub-
+> > > > domain
+> > > > like that? maybe using some cdn to handle the load?
+> > >
+> > > We can certainly setup domains but we can't easily get a cdn. I'd
+> > > be
+> > > worried about OE's response time too.
+> > >
+> > > > Another option will be to provide multiple URIs:
+> > > >     CONNECTIVITY_CHECK_URIS ?= " \
+> > > >         https://google.com \
+> > > >         https://www.bing.com \
+> > > >         https://www.baidu.com \
+> > > >     "
+> > >
+> > > Looking at the code, I wonder if a CONNECTIVITY_CHECK_MIRRORS,
+> > > injected
+> > > into MIRRORS internally with google as the default and baidu as the
+> > > mirror would work?
 
-| /tmp/20200123-2021083-2c601q.h:13849:9: error: "__has_include" cannot be used as a macro name
-| 13849 | #define __has_include __has_include
-|       |         ^~~~~~~~~~~~~
-| compilation terminated due to -Wfatal-errors.
-
-Since compiler already will take care of it internally we can edit it
-out from this header file
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-devtools/ruby/ruby.inc | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index ce1b02f012..d5cd329e65 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -38,3 +38,10 @@ do_configure_prepend() {
-     sed -i "s#%%TARGET_CFLAGS%%#$CFLAGS#; s#%%TARGET_LDFLAGS%%#$LDFLAGS#" ${S}/common.mk
-     rm -rf ${S}/ruby/
- }
-+
-+do_compile_prepend() {
-+    if [ -e ${B}/rb_mjit_header.h ]; then
-+        sed -i -e "/#define __has_include __has_include/d" ${B}/rb_mjit_header.h
-+        sed -i -e "/#define __has_include_next __has_include_next/d" ${B}/rb_mjit_header.h
-+    fi
-+}
--- 
-2.25.0
-
+How about checking github.com? That's probably the host that a network
+dependent build needs to access most often.
 
