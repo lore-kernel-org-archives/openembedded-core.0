@@ -1,54 +1,53 @@
 Return-Path: <danismostlikely@gmail.com>
-Received: from mail-qk1-f174.google.com (mail-qk1-f174.google.com
-	[209.85.222.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FF137FDBE
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BD3657FDC3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 20:31:08 +0000 (UTC)
-Received: by mail-qk1-f174.google.com with SMTP id 21so4850811qky.4
+	Thu, 23 Jan 2020 20:31:14 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id k40so3552887qtk.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 12:31:10 -0800 (PST)
+	Thu, 23 Jan 2020 12:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=Ea5m40il2y/mSIN4dt3Iv2UuqA0CygkWkyLKJSWONoY=;
-	b=AbaZh8CO4OwOuX2QxWMTpHbyw9REfxu/+iJIIx5WGPbNgPzTduAmLQzBxBvyEDgfxy
-	LBKFXLUrmZS9uJ4LpT/lIm4kKuYx9rx5RrrH8Nrz6RHYM7IP9tVtIAFib4W/f+B9sFtF
-	GPgN+ndVy5R2vUVNbAv6COCjaxY9ZIQWr4ATi78xNnbwX5mLc+1BNV3LX1oOXpKPmFjI
-	Xp0RNZA2l8AN0uvpu8aNzlK/Pfr/A7esUT3P6ygA2m/DL++iu0dS6OFT37k8IPyikZAJ
-	S7g2AQYHrvjOyBcBcyOcKigsEmFlV39xoGF9sXHQCpPFKjoIsSmlv8+atzLl3raMoYyx
-	DbDQ==
+	bh=C1vXqmPddkIi8taf+JB5WNo5R0FPFFlvMSJ0R2X3NZ4=;
+	b=n/ayjV3fm+yaFrNqeyj4wXi5j5NRJteRHu+nlUr1cGemVEUgqSswU60yBNAVO4WuJu
+	Fy/bPKGkqhaJda0rYu9GxEWsK7CSGYHrSBGq1dkRDSB94SeGsCzVyl5TiVwnEDoBlPf4
+	esFu6Zj0fHgskHO6uQ8v/he+SxhEmuq4MlTqJ0NYyd75Rk/7lFiqvIxmV8zzm1EAqeSG
+	nZTvUWjLcZ/Jjl7B7dBM7/OHUmOzlkt2/ZH1l/cgUWoDWNadEbtb84OotAlbySRMhC0R
+	T2dLa4Cgbf+0cXZRdXxJ3+XQYEJxYJzoOrIKy6Ok7ovqtBw9Cb94P/p4Mmt48BHIFMyy
+	8yoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Ea5m40il2y/mSIN4dt3Iv2UuqA0CygkWkyLKJSWONoY=;
-	b=jlKERGdzh2EoWRgE+D1nCQfzAX+oNqB2X3Bq9V5LNyS6yTndgwTQ2TdHG1DA70c22z
-	kxxBabDHpCeDfDjt28IAFtUPEOUUiMm4IWfKn9JZnoL4vKhW+ambhUsfQYee77HyJHiF
-	8qthtrJlKpueNlL/fQpj1v5iMcGpAXOpwbFWsp+OtA3+5fM19cljFIuzNfY4HE/B7b97
-	ipmhdf/ZRgFfPXD5oeMjbQXBpYxB0QUWgywNyQUbAkOrej4ZszVr8Gi9N0QD0zkoUiOs
-	QcHNhRf+6wMJTllr3mbCwz0Xkcwn8m6NX7akYw1rgQH0LZ7QZqVeGRL50p9Bdp6mYZmF
-	5wIg==
-X-Gm-Message-State: APjAAAWvAgf/iOTYjVureb1PGtSTDpqJ/XXPxhWERky9cKdlP4iDDln7
-	S55AOSsQPx5Mvf50lZY1LYmq5TNF
-X-Google-Smtp-Source: APXvYqxQS1QU8Y7NNlIlHpvi89IsE5iqJgfyQiDZtWSbclrhJPwJQhe/pxXAkOrT4pisBJtPODaDmA==
-X-Received: by 2002:a05:620a:16d1:: with SMTP id
-	a17mr17594575qkn.49.1579811469504; 
-	Thu, 23 Jan 2020 12:31:09 -0800 (PST)
+	bh=C1vXqmPddkIi8taf+JB5WNo5R0FPFFlvMSJ0R2X3NZ4=;
+	b=gb12q/B2/ym3RlNLK7f3Z1LGex2JokllSngQtBvbhLCtxiL49ydEg5bbDaWsGSnYCu
+	GLUkYkz5z7i5Qn63eiRB/KaJgSeJxFtigWwV7+sxxsUN8l+pGGqOf+A+BVEFcE6YMlCc
+	W8nq5YAhABwsgarcNs+MgEEfG2EpNmEz9WohwX0Q2pr5SImwSk2Z41Gf5KyN+N9uRzHU
+	Px3qx7Zbtalf8ibqKDvZv2t9luXLVJ7ssl8xEo2BXsKOJ97ZLSonKdOUHXegMqy6OUqK
+	kwr2tD//UIpPa4+6vPtc2vslPzR9AY2/fD1/mHiyfqm0h9WljhzNBjhJjdBXQOF+MczO
+	lwLA==
+X-Gm-Message-State: APjAAAV/V6iVvCd9COBCOoyoqbLc65xmvHOI+1sqJp2vEkNBTsOo+wKB
+	Hrna7jNryTfoXYczkq63XYpR0qw1
+X-Google-Smtp-Source: APXvYqz+Gm3S1MHmeFAGEjT8EMg1wRkuVwAI4n2rqGJcB8MDtwAd2YxZgtjBYD5kGjlkYKpexXdqNw==
+X-Received: by 2002:ac8:5457:: with SMTP id d23mr17288009qtq.93.1579811475200; 
+	Thu, 23 Jan 2020 12:31:15 -0800 (PST)
 Received: from mediabox.local ([2001:470:30f3:1:922b:34ff:fe5d:d4b3])
 	by smtp.gmail.com with ESMTPSA id
-	w60sm1584244qte.39.2020.01.23.12.31.07
+	w60sm1584244qte.39.2020.01.23.12.31.13
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 23 Jan 2020 12:31:08 -0800 (PST)
+	Thu, 23 Jan 2020 12:31:14 -0800 (PST)
 From: Dan McGregor <danismostlikely@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jan 2020 14:30:36 -0600
-Message-Id: <20200123203037.693694-2-danismostlikely@gmail.com>
+Date: Thu, 23 Jan 2020 14:30:37 -0600
+Message-Id: <20200123203037.693694-3-danismostlikely@gmail.com>
 X-Mailer: git-send-email 2.24.1
 In-Reply-To: <20200123203037.693694-1-danismostlikely@gmail.com>
 References: <20200123203037.693694-1-danismostlikely@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] cmake: prefer CMAKE_BUILD_PARALLEL_LEVEL
+Subject: [PATCH 3/3] Allow customising buildhistory tags
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,81 +60,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 20:31:09 -0000
+X-List-Received-Date: Thu, 23 Jan 2020 20:31:14 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Daniel McGregor <daniel.mcgregor@vecima.com>
 
-cmake 3.12 introduced this environment variable. Prefer it to passing
-PARALLEL_MAKE and PARALLEL_MAKEINST on the cmake command line, because
-it gets passed to second stage cmake invocations while command-line
-arguments do not (for example, multi-stage clang builds)
+Allow setting custom buildhistory tag prefixes. This allows multiple
+build directories to share one buildhistory git repository with multiple
+worktrees.
 
 Signed-off-by: Daniel McGregor <daniel.mcgregor@vecima.com>
 ---
- meta/classes/cmake.bbclass |  5 +++--
- meta/lib/oe/utils.py       | 11 +++++++----
- 2 files changed, 10 insertions(+), 6 deletions(-)
+ meta/classes/buildhistory.bbclass | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index a046daa6ea..d91cf20130 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -63,8 +63,9 @@ OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index affdf272d7..eb7295570d 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -40,6 +40,7 @@ BUILDHISTORY_SDK_FILES ?= "conf/local.conf conf/bblayers.conf conf/auto.conf con
+ BUILDHISTORY_COMMIT ?= "1"
+ BUILDHISTORY_COMMIT_AUTHOR ?= "buildhistory <buildhistory@${DISTRO}>"
+ BUILDHISTORY_PUSH_REPO ?= ""
++BUILDHISTORY_TAG ?= "build"
  
- EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
+ SSTATEPOSTINSTFUNCS_append = " buildhistory_emit_pkghistory"
+ # We want to avoid influencing the signatures of sstate tasks - first the function itself:
+@@ -824,9 +825,9 @@ END
+ 		if [ ! -e .git ] ; then
+ 			git init -q
+ 		else
+-			git tag -f build-minus-3 build-minus-2 > /dev/null 2>&1 || true
+-			git tag -f build-minus-2 build-minus-1 > /dev/null 2>&1 || true
+-			git tag -f build-minus-1 > /dev/null 2>&1 || true
++			git tag -f ${BUILDHISTORY_TAG}-minus-3 ${BUILDHISTORY_TAG}-minus-2 > /dev/null 2>&1 || true
++			git tag -f ${BUILDHISTORY_TAG}-minus-2 ${BUILDHISTORY_TAG}-minus-1 > /dev/null 2>&1 || true
++			git tag -f ${BUILDHISTORY_TAG}-minus-1 > /dev/null 2>&1 || true
+ 		fi
  
--EXTRA_OECMAKE_BUILD_prepend_task-compile = "${PARALLEL_MAKE} "
--EXTRA_OECMAKE_BUILD_prepend_task-install = "${PARALLEL_MAKEINST} "
-+export CMAKE_BUILD_PARALLEL_LEVEL
-+CMAKE_BUILD_PARALLEL_LEVEL_task-compile = "${@oe.utils.parallel_make(d, False)}"
-+CMAKE_BUILD_PARALLEL_LEVEL_task-install = "${@oe.utils.parallel_make(d, True)}"
- 
- OECMAKE_TARGET_COMPILE ?= "all"
- OECMAKE_TARGET_INSTALL ?= "install"
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-index 652b2be145..e350b05ddf 100644
---- a/meta/lib/oe/utils.py
-+++ b/meta/lib/oe/utils.py
-@@ -169,7 +169,7 @@ def any_distro_features(d, features, truevalue="1", falsevalue=""):
-     """
-     return bb.utils.contains_any("DISTRO_FEATURES", features, truevalue, falsevalue, d)
- 
--def parallel_make(d):
-+def parallel_make(d, makeinst=False):
-     """
-     Return the integer value for the number of parallel threads to use when
-     building, scraped out of PARALLEL_MAKE. If no parallelization option is
-@@ -177,7 +177,10 @@ def parallel_make(d):
- 
-     e.g. if PARALLEL_MAKE = "-j 10", this will return 10 as an integer.
-     """
--    pm = (d.getVar('PARALLEL_MAKE') or '').split()
-+    if makeinst:
-+        pm = (d.getVar('PARALLEL_MAKEINST') or '').split()
-+    else:
-+        pm = (d.getVar('PARALLEL_MAKE') or '').split()
-     # look for '-j' and throw other options (e.g. '-l') away
-     while pm:
-         opt = pm.pop(0)
-@@ -192,7 +195,7 @@ def parallel_make(d):
- 
-     return None
- 
--def parallel_make_argument(d, fmt, limit=None):
-+def parallel_make_argument(d, fmt, limit=None, makeinst=False):
-     """
-     Helper utility to construct a parallel make argument from the number of
-     parallel threads specified in PARALLEL_MAKE.
-@@ -205,7 +208,7 @@ def parallel_make_argument(d, fmt, limit=None):
-     e.g. if PARALLEL_MAKE = "-j 10", parallel_make_argument(d, "-n %d") will return
-     "-n 10"
-     """
--    v = parallel_make(d)
-+    v = parallel_make(d, makeinst)
-     if v:
-         if limit:
-             v = min(limit, v)
+ 		check_git_config
 -- 
 2.24.1
 
