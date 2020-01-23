@@ -1,39 +1,51 @@
-Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id BAAD47FD53
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D2F57FDBA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 14:31:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 87AC09C00B9;
-	Thu, 23 Jan 2020 09:31:41 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id ICvY-udKog1y; Thu, 23 Jan 2020 09:31:41 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 0735E9C0293;
-	Thu, 23 Jan 2020 09:31:41 -0500 (EST)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id SJBYdzd8Pvkj; Thu, 23 Jan 2020 09:31:40 -0500 (EST)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[192.168.48.237])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id DCB119C00B9;
-	Thu, 23 Jan 2020 09:31:40 -0500 (EST)
-Date: Thu, 23 Jan 2020 09:31:40 -0500 (EST)
-From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <803384912.2168243.1579789900858.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <8c30e0dd-0517-6ccb-40b9-82a9ff93f639@intel.com>
+	Thu, 23 Jan 2020 14:37:10 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id z3so3344982wru.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2020 06:37:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=IlDy88eQ/hMXtYfS5A/fT/2rHFrPMEkLD6AVSJFblFQ=;
+	b=O39LL+o4KoZ3GF77RhQKlo37q1O7yNfyWnDCl2NDS2lJRz6EbGc/UvM2QaLT196zi7
+	XG0xjRGfaJE7j6/btWmJ2+PjANPLZKXs/Co8ru9tjg8Ty3pFC2FBA7uDcmlUzAvxkL7L
+	esc4Y31MvF2ZXEjFWeHS6dXgF2MVyl8y7T5vY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=IlDy88eQ/hMXtYfS5A/fT/2rHFrPMEkLD6AVSJFblFQ=;
+	b=UReHn2ncQ77W6fr5kfrtnt8cqklXXF0vNy91r5hFnWQUqDfpP2GnZF012YJJZ8yZyo
+	USN7en3ksdp14egDc8o7U6Wiy53pxwyN9DrBHx/9lp7A5lAPOUjYjHdw6ykaz+41wfNG
+	z90hgUjhrGQFelNlMtx6dQbMZqnyHlM5pjcCVmoc+yM7PHdpVXoQV4K/97oUuZRPbxZd
+	4+TGmItudpG4F0nhA3zfqxjmfNPx6UGI72whng2dsCdmhx7Q+f0irEzO6Pex0oYUERkS
+	2qpZ5M7YAnkxfqST3LFyG62Ide94cEZvBfCf0q7o++iqAJVwW8qkAufv8FMbyCQIcC/y
+	5VAg==
+X-Gm-Message-State: APjAAAXbs5GCaf7POX1yWrzUIRrUEsinCeFckmqWvsDS6A00zz7ghW9A
+	Sf6gh5C2Fe/ukgo0B9fYbF+OE9GeTWQ=
+X-Google-Smtp-Source: APXvYqzOsHzcAH0iJkmyEwdE6HACwbBd/fjPhuFjZFEByGig8vOb0IARPiQukEi9q2AnCMmYIAr6Cw==
+X-Received: by 2002:adf:f1c6:: with SMTP id z6mr17181859wro.279.1579790231133; 
+	Thu, 23 Jan 2020 06:37:11 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b67sm3059375wmc.38.2020.01.23.06.37.10
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 23 Jan 2020 06:37:10 -0800 (PST)
+Message-ID: <b1cbeea067af1e54e596425c87b55b36062bb49f.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+Date: Thu, 23 Jan 2020 14:37:08 +0000
+In-Reply-To: <555772143.2167690.1579789341772.JavaMail.zimbra@savoirfairelinux.com>
 References: <670208445.2165783.1579785268358.JavaMail.zimbra@savoirfairelinux.com>
-	<8c30e0dd-0517-6ccb-40b9-82a9ff93f639@intel.com>
+	<fc798fd12d4a06537fd235b6247a0193d1df3022.camel@linuxfoundation.org>
+	<555772143.2167690.1579789341772.JavaMail.zimbra@savoirfairelinux.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC79 (Linux)/8.8.11_GA_3737)
-Thread-Topic: Connectivity check uris
-Thread-Index: zE5wAA5DTmDwd2C47bMpcGBjSWLwxg==
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Connectivity check uris
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -48,29 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 14:31:40 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 23 Jan 2020 14:37:10 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Jan 23, 2020, at 2:56 PM, Ross Burton ross.burton@intel.com wrote:
-> On 23/01/2020 13:14, Jean-Marie LEMETAYER wrote:
->> So "example.com" is clearly not a good domain to do connectivity checks.
->> 
->> The "openembedded.org" domain is good but have a slow response time.
->> 
->> And finally "google.com" which have all sort of speedy networking stuff is very
->> efficient.
+On Thu, 2020-01-23 at 09:22 -0500, Jean-Marie LEMETAYER wrote:
+> I understand the issue with blocked domains this is why I suggest the
+> custom domain "connectivitycheck.openembedded.org".
 > 
-> Oh my domestic ADSL in the UK I ran your script, example.com finished in
-> 1 minute with 100/100.  What internet connectivity to you have?  The
-> performance hit with the OE servers isn't ideal, and Google isn't
-> suitable as has been said.
+> But I dont know if it could be an option. Can OE have a sub-domain
+> like that? maybe using some cdn to handle the load?
 
-I have a fiber connection in france ... and the example.com server seems to be in the US.
+We can certainly setup domains but we can't easily get a cdn. I'd be
+worried about OE's response time too.
 
-But my best score is 56% :(
+> Another option will be to provide multiple URIs:
+>     CONNECTIVITY_CHECK_URIS ?= " \
+>         https://google.com \
+>         https://www.bing.com \
+>         https://www.baidu.com \
+>     "
 
+Looking at the code, I wonder if a CONNECTIVITY_CHECK_MIRRORS, injected
+into MIRRORS internally with google as the default and baidu as the
+mirror would work?
 
+Cheers,
 
+Richard
 
 
