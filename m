@@ -1,55 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id A22197FD47
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C85C7FD95
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 15:23:50 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id y11so3515577wrt.6
+	Thu, 23 Jan 2020 15:38:00 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id d16so3544411wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 07:23:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=IPPG2T1dkFQvUepF1hAEp7eqLN6B4xoxQhoSNO9RrLk=;
-	b=O+fKNlDR3rUo3hdH68FEAhWIN+gh1Rb1OZRcKQ6O6fBksNKtvEoKhL16p9rBpQYTk7
-	aRkmz7Zomp5nkftbgq4Nb6t5kmA7LSdk5pNkcDYW4qVL4GdM3/fVZrFzFitrMCIA04fj
-	3E1Is2CZ4Xal/PJuse0/PzM8BRQgt1VoEXqIQ=
+	Thu, 23 Jan 2020 07:38:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=4bkYU/cEEi704ytPg/UzW4eurD5W19U526rbLamO7WI=;
+	b=OI7FXZxTcueTEvx0bYFP0pdkultLPj9sjMI00HsmJH7HLLIa+iDk+JAEuRZIx13aUU
+	avmsiz3sN73YKqvmBU0UXcaCrCTtxF/hKCLA5+86NxNo71fd4OrDdiylEySLoeNufUuI
+	bgKsdQV3mDG7LK0qRo39C9neb3839zC3fO6uz6Jo8f4otMAKGDJykWiUjnv/WBsm8ghQ
+	TxLqHFdHuLcxa2BFDBmHj6S7YRePZK5MRylCm2Qp1QYaPvYsnrIXRNsxUlYEd5Ivy33E
+	myNTbPx7271Y+YakxOHk9KBhupziALNwRNRHTV6g/Lob6BC4plo/NjENa0O9URp/mHPR
+	APOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=IPPG2T1dkFQvUepF1hAEp7eqLN6B4xoxQhoSNO9RrLk=;
-	b=GYtvCVy0QskE4meZQSlSZ7gKoyhzCilfTb3xOLOwjjfpLR7sj9RNScZ3EzDLEW1Sqh
-	lkth5PO6y7a3KT41KYsoePVAUAyn91PdbWmrT5PUYK5JvDDMIJyH4HhXzGrFCSeoSgr9
-	07sDRzk3kETKuwU6v5W/+IiGmJsWDMoLxaK1xWBlAhXFT8Rt3/EteJBaBCo0IL4Oe1U2
-	rb3XPFgbZmMIFML0UGEd3snvJC3EGFfEDxDqbnuEPeXLuDm7Xpid+D22wDXTigA8ba+7
-	dPa9bW5mPH4CKCTMVg55ozSR0ZbaZ3PUwN7WQpwsheAVqfEqezQpjGXyVt+gw/0P3jut
-	D5RQ==
-X-Gm-Message-State: APjAAAUu6xbHmZJg+Gb3EzQaAAs8Li4EZ4o2hmymrmXjqXl6s/xp/Dv4
-	ddN5N6pyatlRAdjY0sx7woc3jTl9l+o=
-X-Google-Smtp-Source: APXvYqwCGOdnoy7EvSBfmQNJNUuYN6ncS0JBjRw7jWiG8+kkGNUxjiHltz8JCttmNyO2+4LAR3Hw+Q==
-X-Received: by 2002:adf:ebc3:: with SMTP id v3mr18614209wrn.280.1579793031224; 
-	Thu, 23 Jan 2020 07:23:51 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=4bkYU/cEEi704ytPg/UzW4eurD5W19U526rbLamO7WI=;
+	b=ui9cDcPYFwj02wAJgfzV467vtVbZCzaATvT68bnoEnilvj4Bzp242SrSaSQqJRE8hH
+	WFlSh2Ap84QCg9wWnZbzmm4+m8NX5PS8rT2j47jwa1garfEJiFW6TemFsvC43aohxWlk
+	9tBB6z0JZZPpR4nCeE5m4uWRQE5aURkLgFUi9T9mJIV2vCt2V3GkM4AomL85zSoZZBzX
+	ARv+nDX9rnwpnr5o7dcRSGKYofiDFC99sddvI8ZuMOAly6xz8aoZjmM2fBK1c4B6Jqs0
+	Yemai/E1TFX8SnPC3B+3corSfUzfo1XNumiU1Y8icz0NZt2YpKmY23eDrzj3hZiORz+c
+	HXIg==
+X-Gm-Message-State: APjAAAVdMqIfzd0Zet3+asna9NJmmI0dDEaeCx+TWzyCllvnFRYDXXkU
+	8cHlZ85gHQ5fYtOJ0hHe4KvPmYP/
+X-Google-Smtp-Source: APXvYqxBZxjB+rEfth8Sa0Xx1OSj3DDEVK9z6tE+sQ6z7NLaGsDlImfcBBUAM1DpwW1rPadqE92GrA==
+X-Received: by 2002:adf:ea0f:: with SMTP id q15mr18639925wrm.324.1579793880618;
+	Thu, 23 Jan 2020 07:38:00 -0800 (PST)
+Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	n14sm2986857wmi.26.2020.01.23.07.23.50
+	t25sm3152466wmj.19.2020.01.23.07.37.59
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 23 Jan 2020 07:23:50 -0800 (PST)
-Message-ID: <91c23ebb8817e8cc5e0c1644529f6d3034749e53.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
-Date: Thu, 23 Jan 2020 15:23:49 +0000
-In-Reply-To: <1908740460.2169186.1579791546237.JavaMail.zimbra@savoirfairelinux.com>
-References: <670208445.2165783.1579785268358.JavaMail.zimbra@savoirfairelinux.com>
-	<fc798fd12d4a06537fd235b6247a0193d1df3022.camel@linuxfoundation.org>
-	<555772143.2167690.1579789341772.JavaMail.zimbra@savoirfairelinux.com>
-	<b1cbeea067af1e54e596425c87b55b36062bb49f.camel@linuxfoundation.org>
-	<1908740460.2169186.1579791546237.JavaMail.zimbra@savoirfairelinux.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Connectivity check uris
+	Thu, 23 Jan 2020 07:38:00 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 Jan 2020 16:37:52 +0100
+Message-Id: <cover.1579793597.git.alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 0/3] virgl: enable in qemu when 'opengl' is in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,53 +55,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 15:23:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jan 2020 15:38:00 -0000
 
-On Thu, 2020-01-23 at 09:59 -0500, Jean-Marie LEMETAYER wrote:
-> On Jan 23, 2020, at 3:37 PM, Richard Purdie 
-> richard.purdie@linuxfoundation.org wrote:
-> > On Thu, 2020-01-23 at 09:22 -0500, Jean-Marie LEMETAYER wrote:
-> > > I understand the issue with blocked domains this is why I suggest
-> > > the
-> > > custom domain "connectivitycheck.openembedded.org".
-> > > 
-> > > But I dont know if it could be an option. Can OE have a sub-
-> > > domain
-> > > like that? maybe using some cdn to handle the load?
-> > 
-> > We can certainly setup domains but we can't easily get a cdn. I'd
-> > be
-> > worried about OE's response time too.
-> > 
-> > > Another option will be to provide multiple URIs:
-> > >     CONNECTIVITY_CHECK_URIS ?= " \
-> > >         https://google.com \
-> > >         https://www.bing.com \
-> > >         https://www.baidu.com \
-> > >     "
-> > 
-> > Looking at the code, I wonder if a CONNECTIVITY_CHECK_MIRRORS,
-> > injected
-> > into MIRRORS internally with google as the default and baidu as the
-> > mirror would work?
-> 
-> It should work but it will not be efficient as the tries are serially
-> executed. So someone in China should have to wait that the former
-> domains failed to be able to start the build.
+virgl is a virtualized accelerated 3D graphics support for the qemu
+guests. This patchset enables virgl in qemu, when 'opengl' is in
+DISTRO_FEATURES.
 
-I'm guessing those wouldn't resolve so it should be pretty fast? 
+This adds a few native dependencies to qemu-system-native
+(particularly, libdrm, virglrenderer and a special minimal configuration
+of mesa-native). I tested the impact on build times: it is about 30
+seconds on a 16 core machine. 'bitbake core-image-minimal' goes from
+25m26s to 25m57s.
 
-Maybe we make the configuration more obvious in local.conf?
+The following changes since commit ca3993cc4b13d4e661228cee6fb9448adfd0a4ba:
 
-> I am still thinking that the OE subdomain with CDN could be the best
-> option.
+  bitbake: tests/fetch: Allow wget upgrade tests to run against a local server (2020-01-22 15:56:39 +0000)
 
-Sure, but who is going to pay for and maintain a CDN setup?
+are available in the Git repository at:
 
-Cheers,
+  git://git.yoctoproject.org/poky-contrib akanavin/qemu-split-virgl-gtk
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=akanavin/qemu-split-virgl-gtk
 
-Richard
+Alexander Kanavin (3):
+  bitbake.conf: propagate 'opengl' DISTRO_FEATURE to native/nativesdk
+    from target
+  libsdl2: enable opengl option for native/nativesdk, subject to
+    'opengl' in DISTRO_FEATURES
+  qemu: enable virglrenderer and glx options subject to 'opengl'
+    DISTRO_FEATURE
+
+ meta/conf/bitbake.conf                         |  4 ++--
+ meta/lib/oeqa/selftest/cases/runtime_test.py   | 18 ++++++------------
+ .../qemu/qemu-system-native_4.1.0.bb           |  4 +++-
+ meta/recipes-devtools/qemu/qemu_4.1.0.bb       |  5 ++++-
+ meta/recipes-gnome/gtk+/gtk+3.inc              |  2 ++
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb    |  2 ++
+ .../libepoxy/libepoxy_1.5.4.bb                 |  2 --
+ .../recipes-graphics/libsdl2/libsdl2_2.0.10.bb |  4 ++--
+ .../virglrenderer/virglrenderer_0.8.1.bb       |  2 --
+ 9 files changed, 21 insertions(+), 22 deletions(-)
+
+-- 
+2.17.1
 
 
