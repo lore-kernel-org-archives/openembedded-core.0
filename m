@@ -1,26 +1,48 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
-	by mail.openembedded.org (Postfix) with ESMTP id 33A307FCEA
+Return-Path: <yamane07ynct@gmail.com>
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+	[209.85.216.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A9BAB7F937
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 06:27:56 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Jan 2020 22:27:58 -0800
-X-IronPort-AV: E=Sophos;i="5.70,352,1574150400"; d="scan'208";a="220564062"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.20.185])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	22 Jan 2020 22:27:56 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
+	Thu, 23 Jan 2020 10:27:16 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id a6so1008068pjh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 Jan 2020 02:27:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=ijbYAOqf/NpZyisUKMDX1ofRd1tgdpb/0K708IFV1AM=;
+	b=aQsnx/GzbKodlH4a+fLLFFxWIVHbLPzr/kMTbFL/PA4Ny1Gh0MLygGEYw6h77TSXsM
+	LC/Ln9Dfq3qKRt4DaEiupuM5MPs8uHkoVVraXIm4uY32/NQ2hk0xFl7P3DjNXwi/ysQS
+	yEuFdH3og8bPChMD1TWOoUlwf0zYuULY8eZWahnamvU+tdOLGukgEaiToBv5gA2ojxvy
+	bvv3E21+QWousO7y9ebcQMTq+J9xRNaUd4I+rjmfd7xC9QfK0cUxyag2tT0dnXrl0Gfs
+	c47eavGzVN0Q2iC1oZbp+ERK+byNGt5vED6oaBce4yaa+WiiM53Kvv2tzLWeTpmBWlV/
+	75Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=ijbYAOqf/NpZyisUKMDX1ofRd1tgdpb/0K708IFV1AM=;
+	b=RzVB3Dq2/qjeXmVz2PC5K5iHU9BMvAJTYoKHVMePuRCuTYlIbRgSMBQ09z1c3Ft4rI
+	z+rcKPh+jcqbZdGhNE+k/pScEz3Hrr8vXQcyBeAqKaG+rx6WFU/er1zLRDzi3NO2p0Se
+	PTt90AsRKAjpKB6s2n8S/2Kfo1XyoZSxyg1gXY6gpZJVAgGwT+CJasnqEd0F5aMrKBQ9
+	e6+YT35dboXnKtABnZbOPxGpFVhXD8xJVfiJhSDy+qZmffaJoFT2gmakehaL7KdIyOdr
+	cMvVbLTJAXUSveSP9x+VE/olBUOol/YKsE6ZGEfdUg3cg+odk9tcigSjSTiz3i45LdbC
+	AHDQ==
+X-Gm-Message-State: APjAAAUAA8Czv2T6eG1EfrKaJwZyKu+w2oOFc/kzIqcp4wL1gF6mh6dK
+	WgQSmNyLQabluhn/r+ewJ+upuzyc
+X-Google-Smtp-Source: APXvYqymDTg+wN15FJU47AlZR+UyeGd1GAHevFsYsAX1lHEXPSL4raL0Cmx5qZjar5n/FotVn98fuQ==
+X-Received: by 2002:a17:90a:ac0e:: with SMTP id
+	o14mr3849896pjq.11.1579775237769; 
+	Thu, 23 Jan 2020 02:27:17 -0800 (PST)
+Received: from localhost.localdomain (softbank060117076056.bbtec.net.
+	[60.117.76.56]) by smtp.gmail.com with ESMTPSA id
+	d14sm2155702pfq.117.2020.01.23.02.27.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Thu, 23 Jan 2020 02:27:17 -0800 (PST)
+From: Daisuke Yamane <yamane07ynct@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 Jan 2020 14:27:46 +0800
-Message-Id: <20200123062746.31629-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.21.1
-In-Reply-To: <CAMKF1spt9YYOJ30=Pb63ATym+HCd0mEnoWEBA=-68XabNv8C9w@mail.gmail.com>
-References: <CAMKF1spt9YYOJ30=Pb63ATym+HCd0mEnoWEBA=-68XabNv8C9w@mail.gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH v2] libtirpc: upgrade 1.1.4 -> 1.2.5
+Date: Thu, 23 Jan 2020 10:27:11 +0000
+Message-Id: <1579775232-23446-1-git-send-email-yamane07ynct@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v4 1/2] u-boot-tools: Add capability of building from out-of-tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,121 +55,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 06:27:57 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 23 Jan 2020 10:27:17 -0000
 
-Drop musl patch and backport a fix from upstream instead.
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+This patch also helps to build with EXTERNALSRC.
 ---
- ...r_float-do-not-include-bits-endian.h.patch | 34 +++++++++++++++++++
- .../libtirpc/libtirpc/musl.patch              | 30 ----------------
- .../{libtirpc_1.1.4.bb => libtirpc_1.2.5.bb}  |  6 ++--
- 3 files changed, 37 insertions(+), 33 deletions(-)
- create mode 100644 meta/recipes-extended/libtirpc/libtirpc/0001-xdr_float-do-not-include-bits-endian.h.patch
- delete mode 100644 meta/recipes-extended/libtirpc/libtirpc/musl.patch
- rename meta/recipes-extended/libtirpc/{libtirpc_1.1.4.bb => libtirpc_1.2.5.bb} (81%)
+ meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-xdr_float-do-not-include-bits-endian.h.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-xdr_float-do-not-include-bits-endian.h.patch
-new file mode 100644
-index 0000000000..3797cdf521
---- /dev/null
-+++ b/meta/recipes-extended/libtirpc/libtirpc/0001-xdr_float-do-not-include-bits-endian.h.patch
-@@ -0,0 +1,34 @@
-+From d04f4d6f0e682f16b0ce96839ab4eadade591eb1 Mon Sep 17 00:00:00 2001
-+From: Rosen Penev <rosenp@gmail.com>
-+Date: Tue, 21 Jan 2020 11:51:16 -0500
-+Subject: [PATCH] xdr_float: do not include bits/endian.h
-+
-+bits/endian.h is an internal header. endian.h should be included.
-+
-+Fixes compilation with recent musl.
-+
-+Signed-off-by: Rosen Penev <rosenp@gmail.com>
-+Signed-off-by: Steve Dickson <steved@redhat.com>
-+
-+Upstream-Status: Backport [http://git.linux-nfs.org/?p=steved/libtirpc.git;a=commit;h=d04f4d6f0e682f16b0ce96839ab4eadade591eb1]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ src/xdr_float.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/xdr_float.c b/src/xdr_float.c
-+index 26bc865..349d48f 100644
-+--- a/src/xdr_float.c
-++++ b/src/xdr_float.c
-+@@ -83,7 +83,7 @@ static struct sgl_limits {
-+ };
-+ #else
-+ 
-+-#include <bits/endian.h>
-++#include <endian.h>
-+ #define IEEEFP
-+ 
-+ #endif /* vax */
-+-- 
-+2.21.1
-+
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/musl.patch b/meta/recipes-extended/libtirpc/libtirpc/musl.patch
-deleted file mode 100644
-index 21cd9f9588..0000000000
---- a/meta/recipes-extended/libtirpc/libtirpc/musl.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Consider musl provided built-in defines
--
--Helps compile libtirpc with musl
--bits/endian.h is not supposed to be included directly
--
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
----- a/tirpc/rpc/types.h
--+++ b/tirpc/rpc/types.h
--@@ -66,7 +66,7 @@ typedef   int32_t rpc_inline_t;
-- #define mem_free(ptr, bsize)	free(ptr)
-- 
-- 
---#if defined __APPLE_CC__ || defined __FreeBSD__
--+#if defined __APPLE_CC__ || defined __FreeBSD__ || !defined(__GLIBC__)
-- # define __u_char_defined
-- # define __daddr_t_defined
-- #endif
----- a/src/xdr_float.c
--+++ b/src/xdr_float.c
--@@ -83,7 +83,7 @@ static struct sgl_limits {
-- };
-- #else
-- 
---#include <bits/endian.h>
--+#include <endian.h>
-- #define IEEEFP
-- 
-- #endif /* vax */
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb b/meta/recipes-extended/libtirpc/libtirpc_1.2.5.bb
-similarity index 81%
-rename from meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-rename to meta/recipes-extended/libtirpc/libtirpc_1.2.5.bb
-index 53ed5e81f7..fc66821ecc 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.1.4.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.2.5.bb
-@@ -10,12 +10,12 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f835cce8852481e4b2bbbdd23b5e47f3 \
- PROVIDES = "virtual/librpc"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
+index bede984..414ee33 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2020.01.bb
+@@ -25,14 +25,14 @@ SED_CONFIG_EFI_armeb = ''
+ SED_CONFIG_EFI_aarch64 = ''
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
--           file://musl.patch \
-+           file://0001-xdr_float-do-not-include-bits-endian.h.patch \
-            "
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
--SRC_URI[md5sum] = "f5d2a623e9dfbd818d2f3f3a4a878e3a"
--SRC_URI[sha256sum] = "2ca529f02292e10c158562295a1ffd95d2ce8af97820e3534fe1b0e3aec7561d"
-+SRC_URI[md5sum] = "688787ddff7c6a92ef15ae3f5dc4dfa1"
-+SRC_URI[sha256sum] = "f3b6350c7e9c3cd9c58fc7a5e5f8e6be469cc571bb5eb31eb9790b3e675186ca"
+ do_compile () {
+-	oe_runmake sandbox_defconfig
++	oe_runmake -C ${S} sandbox_defconfig O=${B}
  
- inherit autotools pkgconfig
+ 	# Disable CONFIG_CMD_LICENSE, license.h is not used by tools and
+ 	# generating it requires bin2header tool, which for target build
+ 	# is built with target tools and thus cannot be executed on host.
+-	sed -i -e "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" ${SED_CONFIG_EFI} .config
++	sed -i -e "s/CONFIG_CMD_LICENSE=.*/# CONFIG_CMD_LICENSE is not set/" ${SED_CONFIG_EFI} ${B}/.config
  
+-	oe_runmake cross_tools NO_SDL=1
++	oe_runmake -C ${S} cross_tools NO_SDL=1 O=${B}
+ }
+ 
+ do_install () {
 -- 
-2.21.1
+2.7.4
 
 
