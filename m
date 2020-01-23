@@ -1,96 +1,95 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com
-	[209.85.210.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 06B82915D8
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+	by mail.openembedded.org (Postfix) with ESMTP id AD11C915D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 05:45:42 +0000 (UTC)
-Received: by mail-pf1-f178.google.com with SMTP id w2so1003763pfd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 21:45:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:autocrypt:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=d1FjFOOcoUvLYnymgu17gPv9Sf6bfQ1nwlBdDsOTUzk=;
-	b=Mjjat75+0W7djDXq8GXvjTi1mgCzYTG2yARCzN/AVSVoMfIa3A0IyCrJCJ18hqoKkU
-	3rIKEMlwAw448aZI15EE40H3OnYXalJhu9JryN0synnXjnGJFZIkRdGCKveRAhXs8JXi
-	7rpLL+LKD/6El19M76Z+oMU9hEGiGGUIK1kf+n0E/04KP6FRSW7RYeWdSy0DuNYJfBY7
-	d4HLopBxHwBPx/PE8LEBgvss/MhXgD1ZasHtVPEmZiAvl+C+UV2s+EuVa+OjsDkfFmfi
-	DDEMZDgRWAELK+UmhwzsVC12lHuyskEgMBKaBpuXPN0l2KqfTPEnRHvoNwp3q6OKyg8/
-	qCiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
-	:date:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=d1FjFOOcoUvLYnymgu17gPv9Sf6bfQ1nwlBdDsOTUzk=;
-	b=SzgNZ6/bvSQNGMLd2dKgZLXuxA3PFroCtFen7c9A3d5XHNo8iAEtyxIa0n0BmlhP5B
-	SVfrUi1e2kpUw1wEMjxfWGSMRFOsS9QiNGXLpGWZhoNqy4OGj+WEcXIV3BF9EmIqYiZ7
-	sdIdYXRQG7K7Ri5FEvarKzO3aTezjNSR2M7g2X7oGssV9xoU/bpMmA33Ge4tqNAhIklG
-	xzg0YhltdRUAML4kpFbM5ilQApZlcXRk9eQv2hVV+ewaSYudHZFpmSPzW1h3SJG47JmA
-	Il9O5fJ+84okM/N+kdtlezGUv9LQdiabI1BokqMcjrCL2lBqpwLSGdwMsoOaxvtIiiLr
-	b8fQ==
-X-Gm-Message-State: APjAAAXOJtLhQkQEhVpzAA9sb1/Y4LhYSbscnucpoHvUDCqc2ONp92pu
-	K2qOeFFUVKmfnvzQi00ZPXFXNoPd
-X-Google-Smtp-Source: APXvYqz6WKQa07LvmQnnerxF0nh/8HRX159ciZ3fj1PCd1EzwKip5mE0779TX7haVqYbJ4xCBtkPCQ==
-X-Received: by 2002:a62:7c49:: with SMTP id x70mr5749726pfc.200.1579758343849; 
-	Wed, 22 Jan 2020 21:45:43 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:682c:76b9:6d8a:bbd2?
-	([2601:202:4180:a5c0:682c:76b9:6d8a:bbd2])
-	by smtp.gmail.com with ESMTPSA id d24sm859949pfq.75.2020.01.22.21.45.42
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 22 Jan 2020 21:45:43 -0800 (PST)
-To: chee.yang.lee@intel.com, openembedded-core@lists.openembedded.org
+	Thu, 23 Jan 2020 05:51:21 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Jan 2020 21:51:22 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,352,1574150400"; d="scan'208";a="400237085"
+Received: from orsmsx103.amr.corp.intel.com ([10.22.225.130])
+	by orsmga005.jf.intel.com with ESMTP; 22 Jan 2020 21:51:22 -0800
+Received: from orsmsx113.amr.corp.intel.com (10.22.240.9) by
+	ORSMSX103.amr.corp.intel.com (10.22.225.130) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Wed, 22 Jan 2020 21:51:22 -0800
+Received: from ORSEDG002.ED.cps.intel.com (10.7.248.5) by
+	ORSMSX113.amr.corp.intel.com (10.22.240.9) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Wed, 22 Jan 2020 21:51:21 -0800
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.175)
+	by edgegateway.intel.com (134.134.137.101) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Wed, 22 Jan 2020 21:51:21 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=I6KiYU4J7YNxR9DDvMzp75Hn1IvSQt+ojaivbHDlANBNblyxvHekuhCinTd+7VK/u7wxwGb96OpxK765tAUSI6NdGnOI5W9AT8sQQLS/Dd1wms3iRASE2GDZ3Dv0HifU28pXKY8CWEC2++S8J4JZ/KT0Jn0miqvjv4TF4GzQEQWSu37YdrskaInYTtCkdFnmygXWWONz6vMrnPvTNCcTZqppNs+08p1/yplo2m7Z26uvVuf378FWLmr31I/LmT1jmWA5PCBkWRD82QYC2//Q/jEabNoN8RgHKM8jSftQ0ExeJ0hDvkPdCVREUqXStmBElv6Ms/U+IUgIoGoR3UpakA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=3bqoJAjeSkiY8mwbhtJCzO6mjCvUz9EBzfLmdoHsvoY=;
+	b=dFEMbiwymhkAJ9sUysWubr7Ob/9vmRLWIsT/7IjF3ibJGT+Ci9Z4VbpjQ8jkan5ujw4XSU2S+CB+GE2u0/pgt2mFxyK8I5h1O+z/qnyLIglPjP7WqZbACc6Z3+2lWimr0jqNxvBnhVaYiJdNQqI4awDPJcC0xph7PXo36f0F+yKjzTuf+vr3ijXFOsaO4XiJXyyMu0M9/wM75RNs7YGDGgi4dYn0yZYfxsOXgUzlp2gdD0NSu19fsVhEyUY82126LJnx8sj9sFnXc4I5aGaFyhDKpe+Wik2k5DM/b6s5k3MG04K0AhZbApEMDG6AgZp7B8SFFUvnRSIbp3zMr+k+cQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com; 
+	dkim=pass header.d=intel.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com; 
+	s=selector2-intel-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=3bqoJAjeSkiY8mwbhtJCzO6mjCvUz9EBzfLmdoHsvoY=;
+	b=Be7o+M2vBdavld01Q69NQabbu1mNJHTOtYKw2Nud0FtbOlaQbaUiQUwGM6bP2f2Wp9jS7FAcVkK2zbVyFJus5Pey54iAh32NQ18+izzQoRKNyunoF8zQ1DTiGVMww3B31r9a8Ouhkdal5KLDv57cc//ydRPYTDqEDVtNoxf4F8k=
+Received: from BN6PR11MB3985.namprd11.prod.outlook.com (10.255.129.78) by
+	BN6PR11MB4097.namprd11.prod.outlook.com (10.255.130.33) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2644.20; Thu, 23 Jan 2020 05:51:19 +0000
+Received: from BN6PR11MB3985.namprd11.prod.outlook.com
+	([fe80::584d:cea5:1dfc:7e61]) by
+	BN6PR11MB3985.namprd11.prod.outlook.com
+	([fe80::584d:cea5:1dfc:7e61%3]) with mapi id 15.20.2644.028;
+	Thu, 23 Jan 2020 05:51:19 +0000
+From: "Lee, Chee Yang" <chee.yang.lee@intel.com>
+To: akuster808 <akuster808@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH][zeus] libxml2: Fix CVE-2019-19956
+Thread-Index: AQHV0ZNYjIdTTaCTqE6fEgoY2Eantaf3vYqAgAAAnJA=
+Date: Thu, 23 Jan 2020 05:51:18 +0000
+Message-ID: <BN6PR11MB3985206C00F0351BEEDC291AB90F0@BN6PR11MB3985.namprd11.prod.outlook.com>
 References: <1579745387-74550-1-git-send-email-chee.yang.lee@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <0455c3fb-6dd0-ec89-0c33-57bd54aedf61@gmail.com>
-Date: Wed, 22 Jan 2020 21:45:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	<0455c3fb-6dd0-ec89-0c33-57bd54aedf61@gmail.com>
+In-Reply-To: <0455c3fb-6dd0-ec89-0c33-57bd54aedf61@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-reaction: no-action
+dlp-version: 11.2.0.6
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=chee.yang.lee@intel.com; 
+x-originating-ip: [192.198.147.194]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 7e8376f7-0d0c-4f7b-edce-08d79fc844ac
+x-ms-traffictypediagnostic: BN6PR11MB4097:
+x-microsoft-antispam-prvs: <BN6PR11MB409747192C03A74BBDFB91E7B90F0@BN6PR11MB4097.namprd11.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:576;
+x-forefront-prvs: 029174C036
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(136003)(39860400002)(396003)(366004)(346002)(376002)(189003)(199004)(71200400001)(8936002)(8676002)(19627235002)(81166006)(81156014)(186003)(966005)(86362001)(26005)(110136005)(66946007)(76116006)(66446008)(64756008)(66556008)(66476007)(316002)(6506007)(53546011)(2906002)(5660300002)(52536014)(55016002)(7696005)(9686003)(33656002)(478600001);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:BN6PR11MB4097;
+	H:BN6PR11MB3985.namprd11.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: PqvjPZqh/A8TfbyO5OZEm7T2nPlW8iC1KjOd2MrLuUqYC4FimoiRC2fg+Dvh5TaOIVDgxRN7hQdr78n/2F3ldw7HO6IaaybaeSID16H7LhwhR7Wq3a8IwSs0/EtCa1IscM25T6VIV757ZWjKQnhO/F/tAieTsCprrFHGKKFuRLoXSfLidY2KjvBMgxTkmVVPYsCrZXv+irj5LQ54iIAM2d5ijiLlsho8PTN1I7V6YDvamobS9wd2iN+hzHek8GN9fMrlbRrkeojrb1xOP6EcrErGGYW4qmby9d56lSVEnPtje6uWJEizfCCGYEpl0izmdVCjdvZAEHuG9McTS5CL64KP406dbfqtDhFeX6JBVuWn8uqXajCeJEfC3GbDSYy0gnUhm8aPDpVXqbxsVy6S4LRWbH5zYqhLwyHqqwRmZ801WvRYr992rhRbhoS1cPwXlGhCj4JRc7oTsBTbaipEELhr9GYf/NBi9umxTQ/cKXFzD7zhYI4pAqQ6eAjbMI/GQsQPQnymAOdadTIQ69x9cw==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-In-Reply-To: <1579745387-74550-1-git-send-email-chee.yang.lee@intel.com>
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e8376f7-0d0c-4f7b-edce-08d79fc844ac
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2020 05:51:18.9834 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: N3u52rEl2cp9m33xed6ocHD5kegLy8bM89iGWaooDgmf1xXQnt+1onYVIIoBrlwTK9rzqtCvcNfyS5K+3Y1j2w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB4097
+X-OriginatorOrg: intel.com
 Subject: Re: [PATCH][zeus] libxml2: Fix CVE-2019-19956
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -104,87 +103,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 05:45:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 Jan 2020 05:51:21 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-
-
-On 1/22/20 6:09 PM, chee.yang.lee@intel.com wrote:
-> From: Lee Chee Yang <chee.yang.lee@intel.com>
->
-> see:
-> https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549
->
-> Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
-
-So Master is not affected? 2.9.10
-
-- armin
-> ---
->  .../libxml/libxml2/Fix-CVE-2019-19956.patch        | 40 ++++++++++++++++++++++
->  meta/recipes-core/libxml/libxml2_2.9.9.bb          |  1 +
->  2 files changed, 41 insertions(+)
->  create mode 100644 meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch
->
-> diff --git a/meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch b/meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch
-> new file mode 100644
-> index 0000000..1c2dff9
-> --- /dev/null
-> +++ b/meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch
-> @@ -0,0 +1,40 @@
-> +From 5a02583c7e683896d84878bd90641d8d9b0d0549 Mon Sep 17 00:00:00 2001
-> +From: Zhipeng Xie <xiezhipeng1@huawei.com>
-> +Date: Wed, 7 Aug 2019 17:39:17 +0800
-> +Subject: [PATCH] Fix memory leak in xmlParseBalancedChunkMemoryRecover
-> +
-> +When doc is NULL, namespace created in xmlTreeEnsureXMLDecl
-> +is bind to newDoc->oldNs, in this case, set newDoc->oldNs to
-> +NULL and free newDoc will cause a memory leak.
-> +
-> +Found with libFuzzer.
-> +
-> +Closes #82.
-> +
-> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549]
-> +CVE: CVE-2019-19956
-> +
-> +Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-> +
-> +---
-> + parser.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/parser.c b/parser.c
-> +index 1ce1ccf1..26d9f4e3 100644
-> +--- a/parser.c
-> ++++ b/parser.c
-> +@@ -13894,7 +13894,8 @@ xmlParseBalancedChunkMemoryRecover(xmlDocPtr doc, xmlSAXHandlerPtr sax,
-> +     xmlFreeParserCtxt(ctxt);
-> +     newDoc->intSubset = NULL;
-> +     newDoc->extSubset = NULL;
-> +-    newDoc->oldNs = NULL;
-> ++    if(doc != NULL)
-> ++	newDoc->oldNs = NULL;
-> +     xmlFreeDoc(newDoc);
-> + 
-> +     return(ret);
-> +-- 
-> +2.24.1
-> +
-> +
-> diff --git a/meta/recipes-core/libxml/libxml2_2.9.9.bb b/meta/recipes-core/libxml/libxml2_2.9.9.bb
-> index c38f883..c44a90b 100644
-> --- a/meta/recipes-core/libxml/libxml2_2.9.9.bb
-> +++ b/meta/recipes-core/libxml/libxml2_2.9.9.bb
-> @@ -20,6 +20,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
->             file://libxml-m4-use-pkgconfig.patch \
->             file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
->             file://fix-execution-of-ptests.patch \
-> +           file://Fix-CVE-2019-19956.patch \
->             "
->  
->  SRC_URI[libtar.md5sum] = "c04a5a0a042eaa157e8e8c9eabe76bd6"
-
+WWVzLCBwYXRjaCBhbHJlYWR5IGluIDIuOS4xMA0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
+LQ0KRnJvbTogYWt1c3RlcjgwOCA8YWt1c3RlcjgwOEBnbWFpbC5jb20+IA0KU2VudDogVGh1cnNk
+YXksIEphbnVhcnkgMjMsIDIwMjAgMTo0NiBQTQ0KVG86IExlZSwgQ2hlZSBZYW5nIDxjaGVlLnlh
+bmcubGVlQGludGVsLmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcNClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXVt6ZXVzXSBsaWJ4bWwyOiBGaXggQ1ZF
+LTIwMTktMTk5NTYNCg0KDQoNCk9uIDEvMjIvMjAgNjowOSBQTSwgY2hlZS55YW5nLmxlZUBpbnRl
+bC5jb20gd3JvdGU6DQo+IEZyb206IExlZSBDaGVlIFlhbmcgPGNoZWUueWFuZy5sZWVAaW50ZWwu
+Y29tPg0KPg0KPiBzZWU6DQo+IGh0dHBzOi8vZ2l0bGFiLmdub21lLm9yZy9HTk9NRS9saWJ4bWwy
+L2NvbW1pdC81YTAyNTgzYzdlNjgzODk2ZDg0ODc4YmQNCj4gOTA2NDFkOGQ5YjBkMDU0OQ0KPg0K
+PiBTaWduZWQtb2ZmLWJ5OiBMZWUgQ2hlZSBZYW5nIDxjaGVlLnlhbmcubGVlQGludGVsLmNvbT4N
+Cg0KU28gTWFzdGVyIGlzIG5vdCBhZmZlY3RlZD8gMi45LjEwDQoNCi0gYXJtaW4NCj4gLS0tDQo+
+ICAuLi4vbGlieG1sL2xpYnhtbDIvRml4LUNWRS0yMDE5LTE5OTU2LnBhdGNoICAgICAgICB8IDQw
+ICsrKysrKysrKysrKysrKysrKysrKysNCj4gIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4
+bWwyXzIuOS45LmJiICAgICAgICAgIHwgIDEgKw0KPiAgMiBmaWxlcyBjaGFuZ2VkLCA0MSBpbnNl
+cnRpb25zKCspDQo+ICBjcmVhdGUgbW9kZSAxMDA2NDQgDQo+IG1ldGEvcmVjaXBlcy1jb3JlL2xp
+YnhtbC9saWJ4bWwyL0ZpeC1DVkUtMjAxOS0xOTk1Ni5wYXRjaA0KPg0KPiBkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDIvRml4LUNWRS0yMDE5LTE5OTU2LnBhdGNo
+IA0KPiBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyL0ZpeC1DVkUtMjAxOS0xOTk1
+Ni5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwLi4xYzJkZmY5
+DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnht
+bDIvRml4LUNWRS0yMDE5LTE5OTU2LnBhdGNoDQo+IEBAIC0wLDAgKzEsNDAgQEANCj4gK0Zyb20g
+NWEwMjU4M2M3ZTY4Mzg5NmQ4NDg3OGJkOTA2NDFkOGQ5YjBkMDU0OSBNb24gU2VwIDE3IDAwOjAw
+OjAwIA0KPiArMjAwMQ0KPiArRnJvbTogWmhpcGVuZyBYaWUgPHhpZXpoaXBlbmcxQGh1YXdlaS5j
+b20+DQo+ICtEYXRlOiBXZWQsIDcgQXVnIDIwMTkgMTc6Mzk6MTcgKzA4MDANCj4gK1N1YmplY3Q6
+IFtQQVRDSF0gRml4IG1lbW9yeSBsZWFrIGluIA0KPiAreG1sUGFyc2VCYWxhbmNlZENodW5rTWVt
+b3J5UmVjb3Zlcg0KPiArDQo+ICtXaGVuIGRvYyBpcyBOVUxMLCBuYW1lc3BhY2UgY3JlYXRlZCBp
+biB4bWxUcmVlRW5zdXJlWE1MRGVjbCBpcyBiaW5kIA0KPiArdG8gbmV3RG9jLT5vbGROcywgaW4g
+dGhpcyBjYXNlLCBzZXQgbmV3RG9jLT5vbGROcyB0byBOVUxMIGFuZCBmcmVlIA0KPiArbmV3RG9j
+IHdpbGwgY2F1c2UgYSBtZW1vcnkgbGVhay4NCj4gKw0KPiArRm91bmQgd2l0aCBsaWJGdXp6ZXIu
+DQo+ICsNCj4gK0Nsb3NlcyAjODIuDQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQg
+DQo+ICtbaHR0cHM6Ly9naXRsYWIuZ25vbWUub3JnL0dOT01FL2xpYnhtbDIvY29tbWl0LzVhMDI1
+ODNjN2U2ODM4OTZkODQ4NzgNCj4gK2JkOTA2NDFkOGQ5YjBkMDU0OV0NCj4gK0NWRTogQ1ZFLTIw
+MTktMTk5NTYNCj4gKw0KPiArU2lnbmVkLW9mZi1ieTogQ2hlZSBZYW5nIExlZSA8Y2hlZS55YW5n
+LmxlZUBpbnRlbC5jb20+DQo+ICsNCj4gKy0tLQ0KPiArIHBhcnNlci5jIHwgMyArKy0NCj4gKyAx
+IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ICsNCj4gK2Rp
+ZmYgLS1naXQgYS9wYXJzZXIuYyBiL3BhcnNlci5jDQo+ICtpbmRleCAxY2UxY2NmMS4uMjZkOWY0
+ZTMgMTAwNjQ0DQo+ICstLS0gYS9wYXJzZXIuYw0KPiArKysrIGIvcGFyc2VyLmMNCj4gK0BAIC0x
+Mzg5NCw3ICsxMzg5NCw4IEBAIHhtbFBhcnNlQmFsYW5jZWRDaHVua01lbW9yeVJlY292ZXIoeG1s
+RG9jUHRyIGRvYywgeG1sU0FYSGFuZGxlclB0ciBzYXgsDQo+ICsgICAgIHhtbEZyZWVQYXJzZXJD
+dHh0KGN0eHQpOw0KPiArICAgICBuZXdEb2MtPmludFN1YnNldCA9IE5VTEw7DQo+ICsgICAgIG5l
+d0RvYy0+ZXh0U3Vic2V0ID0gTlVMTDsNCj4gKy0gICAgbmV3RG9jLT5vbGROcyA9IE5VTEw7DQo+
+ICsrICAgIGlmKGRvYyAhPSBOVUxMKQ0KPiArKwluZXdEb2MtPm9sZE5zID0gTlVMTDsNCj4gKyAg
+ICAgeG1sRnJlZURvYyhuZXdEb2MpOw0KPiArIA0KPiArICAgICByZXR1cm4ocmV0KTsNCj4gKy0t
+DQo+ICsyLjI0LjENCj4gKw0KPiArDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9s
+aWJ4bWwvbGlieG1sMl8yLjkuOS5iYiANCj4gYi9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGli
+eG1sMl8yLjkuOS5iYg0KPiBpbmRleCBjMzhmODgzLi5jNDRhOTBiIDEwMDY0NA0KPiAtLS0gYS9t
+ZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjkuOS5iYg0KPiArKysgYi9tZXRhL3Jl
+Y2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjkuOS5iYg0KPiBAQCAtMjAsNiArMjAsNyBAQCBT
+UkNfVVJJID0gImh0dHA6Ly93d3cueG1sc29mdC5vcmcvc291cmNlcy9saWJ4bWwyLSR7UFZ9LnRh
+ci5nejtuYW1lPWxpYnRhciBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly9saWJ4bWwtbTQtdXNlLXBr
+Z2NvbmZpZy5wYXRjaCBcDQo+ICAgICAgICAgICAgIGZpbGU6Ly8wMDAxLU1ha2UtcHRlc3QtcnVu
+LXRoZS1weXRob24tdGVzdHMtaWYtcHl0aG9uLWlzLWVuYWJsZWQucGF0Y2ggXA0KPiAgICAgICAg
+ICAgICBmaWxlOi8vZml4LWV4ZWN1dGlvbi1vZi1wdGVzdHMucGF0Y2ggXA0KPiArICAgICAgICAg
+ICBmaWxlOi8vRml4LUNWRS0yMDE5LTE5OTU2LnBhdGNoIFwNCj4gICAgICAgICAgICAgIg0KPiAg
+DQo+ICBTUkNfVVJJW2xpYnRhci5tZDVzdW1dID0gImMwNGE1YTBhMDQyZWFhMTU3ZThlOGM5ZWFi
+ZTc2YmQ2Ig0KDQo=
 
