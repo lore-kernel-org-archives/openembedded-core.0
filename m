@@ -1,49 +1,23 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
-	[209.85.166.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 146067FDBE
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DC4A7D0B1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 12:22:11 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id z8so2786995ioh.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 04:22:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=1fK60DJEZ0hOzjRlXbRXM/bcTWqpbDemkTD8QvKBdec=;
-	b=kLeT9BtS9qRKUwBrsvXkHTEXLabHYKFGJTJC2Y3ZWeEwWmW3DnV/lVo/D88lt+OZoU
-	61rJ3I8BDIKV+hyOcfH6Unu9r/SxdYGerVzIN0du7ElWU/7IxSvJyEYf9XXINtHQO45Z
-	GyQAW2rL5MufJx3nGiZLXbNug90s54zcTFz1xepcl9Gz0Klui/tv+eCVhb2/0XANxSbv
-	gRc7pcig2RszENUSxSWYEN9bP/6Kx2QcwvESOEAmbrz6NcPV6l7ZqEBWfIRFQ33stvzP
-	Xuu+skQBG4ZMh2LoAc23PnDtFoORAp7Sg5aLz0Z1T3BSAIB0J/X7R4k11ke9wGlYAbED
-	9Q3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=1fK60DJEZ0hOzjRlXbRXM/bcTWqpbDemkTD8QvKBdec=;
-	b=MrrWQojDOGkX5bEArffiyWtC2Mh8L70eevPyC+6Zu96nN0nhF3w2ZgcSq1fCOxjuWh
-	dOf0rOyDNt5If6KsQKtbCIm9fNlza1x3wPKbLhr5nbkfazNDZCeGyU/jxHocbkeU30Jw
-	kQz7d0pknbKNcwSosiC8S/F/agtt0DoFZ3z9HyLlHB1gmiPvT8NgosN9UjRYW1QPAELT
-	zxdzOrgP0iRIZcSrhc5o9Fy5ValDX9NB3ZsAQrlUrpGjyTVeAeDWis0FON1kR13Q2H7P
-	Myp9/EF2iR8gZCwMcESre0YHc3OQRS4vI9zPuUJfL93mBvnGqjlhc17DFvf36HoOZx6O
-	sX/g==
-X-Gm-Message-State: APjAAAVTLnxr4Xd+RHnGJq1Vh8YibFhQxB3TkHOcLDHCiryX6/IKKqYg
-	FTo+3x2BocXCh2BLBRM0ODYdMDEPoCA68GHzIS0=
-X-Google-Smtp-Source: APXvYqwNZ5GEVS0gsQLPEKGIAmZQPlK2riHI88W0dwxDQWUt8HpXrQATOZfYOvO+OkTh5v7Ft7fnTRsy53iE+xXNIlw=
-X-Received: by 2002:a6b:d912:: with SMTP id r18mr10425376ioc.306.1579782133148;
-	Thu, 23 Jan 2020 04:22:13 -0800 (PST)
+	Thu, 23 Jan 2020 13:12:16 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00NDBUJS000989
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 23 Jan 2020 05:11:50 -0800
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 23 Jan 2020 05:11:29 -0800
+From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Jan 2020 08:11:29 -0500
+Message-ID: <20200123131129.40546-1-Trevor.Gamblin@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Received: by 2002:ac0:e345:0:0:0:0:0 with HTTP; Thu, 23 Jan 2020 04:22:12
-	-0800 (PST)
-In-Reply-To: <c6deb6ed-c9b6-36f5-4ada-bd29bc3783ee@intel.com>
-References: <CAA=hcWS5w_QTmUMZBBMpj-H+iyBcqc=6h3RoZwdpVYU7gpyaMw@mail.gmail.com>
-	<c6deb6ed-c9b6-36f5-4ada-bd29bc3783ee@intel.com>
-From: JH <jupiter.hce@gmail.com>
-Date: Thu, 23 Jan 2020 23:22:12 +1100
-Message-ID: <CAA=hcWTj07+TQM3SmaLnCZFGzG5W0qVv1SVpRWRz2F756_irVQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Could oe-core be infected by virus?
+Subject: [PATCH v2] logrotate.py: improve oeqa test implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,71 +30,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 12:22:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 23 Jan 2020 13:12:17 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Hi Ross,
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
-On 1/23/20, Ross Burton <ross.burton@intel.com> wrote:
-> On 21/01/2020 11:21, JH wrote:
->> The wired
->> thing was that image injected so many new messages, including "Welcome
->> to OpenEmbedded nodistro.0!" I have never seen in previous built image
->> boot.
->
-> If you've never seen that before, but now you do, then the problem is
-> that you're not setting DISTRO in your build as 'nodistro' is the default.
+See bug https://bugzilla.yoctoproject.org/show_bug.cgi?id=13632
 
-I do have a DISTRO defined in local.conf, and I do have a distro file
-as follows since day one to use OE / Yocto to build the imx6 image, I
-have never changed it:
+Autobuilder tests occasionally fail, reporting that a new logfile
+could not be created. While this failure did occur multiple times, it
+could not be manually reproduced. However, there are issues with the
+implementation of the logrotate.py script that can be fixed. These
+changes will help make the failures clearer, should they continue to
+occur.
 
-$ cat build/conf/local.conf
-.......
-DISTRO = "solar"
-........
+Previously, the test_2_logrotate test would, after running the
+logrotate tool, use "ls -al $HOME/logrotate_dir | wc -l" to count
+the number of files in the rotation directory and determine if the
+rotation was successful. The test to see if there are at least three
+files is problematic, because depending on the version of ls used, it
+may report the target value of 3 even when there are only hidden files
+in the directory, potentially reporting a pass for the test when it
+should actually fail. An example with coreutils:
 
-$ cat conf/distro/solar.conf
+root@qemux86-64:~# ls -al emptydir/
+total 2
+drwxr-xr-x 2 root root 1024 Jan 14 19:50 .
+drwx------ 3 root root 1024 Jan 14 19:50 ..
+root@qemux86-64:~#
 
-#TCLIBC = "musl"
+Where "total" is the number of blocks used. Compare with busybox ls:
 
-DISTRO_FEATURES = "largefile 3g wifi usbhost systemd xattr ext2 ipv4
-${DISTRO_FEATURES_LIBC}"
+root@qemux86-64:~# ls -al emptydir/
+drwxr-xr-x    2 root     root          1024 Jan 14 19:54 .
+drwx------    3 root     root          1024 Jan 14 19:54 ..
+root@qemux86-64:~#
 
-DISTRO_FEATURES_BACKFILL_CONSIDERED = "pulseaudio sysvinit bluez5
-gobject-introspection-data"
+Instead of using ls to verify that a certain number of files exists
+in $HOME/logrotate_dir, the tests have been changed to rotate two
+specific logs: the log for wtmp and a new logrotate_testfile created
+during the second test. Both tests check that the logs are correctly
+rotated into $HOME/logrotate_dir by using find and grep on the
+expected filename (e.g. "wtmp" when rotated becomes "wtmp.1", so we
+check to see that wtmp.1 is present in $HOME/logrotate_dir). In
+addition, should the test fail, the output from logrotate -vf is
+included in the test log to aid debugging.
 
-# Drop WiSPR support from connman to drop GnuTLS dependency
-#PACKAGECONFIG_pn-connman = "systemd iptables"
-# Use OpenSSL instead of GnuTLS
-PACKAGECONFIG_pn-wpa-supplicant = "openssl"
+Finally, note that while the autobuilder failures that this patch
+addresses were only seen during core-image-full-cmdline tests, these
+changes were successfully tested on core-image-minimal and
+core-image-sato with the manual addition of logrotate and openssh-sshd
+to the images.
 
-VIRTUAL-RUNTIME_init_manager = "systemd"
-VIRTUAL-RUNTIME_initscripts = ""
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+---
+ meta/lib/oeqa/runtime/cases/logrotate.py | 59 ++++++++++++++++++------
+ 1 file changed, 44 insertions(+), 15 deletions(-)
 
-# If we don't want to build all locales we can select the ones we want here...
-# just comment this out in order to build all locales.  These are not
-# automatically installed into the image, that is selected elsewhere.
-GLIBC_GENERATE_LOCALES = "en_US.UTF-8"
+diff --git a/meta/lib/oeqa/runtime/cases/logrotate.py b/meta/lib/oeqa/runtime/cases/logrotate.py
+index bfa57c534a..6231e5203c 100644
+--- a/meta/lib/oeqa/runtime/cases/logrotate.py
++++ b/meta/lib/oeqa/runtime/cases/logrotate.py
+@@ -18,32 +18,61 @@ class LogrotateTest(OERuntimeTestCase):
+     @classmethod
+     def tearDownClass(cls):
+         cls.tc.target.run('mv -f $HOME/wtmp.oeqabak /etc/logrotate.d/wtmp && rm -rf $HOME/logrotate_dir')
++        cls.tc.target.run('rm -rf /var/log/logrotate_testfile && rm -rf /etc/logrotate.d/logrotate_testfile')
+ 
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['logrotate'])
+-    def test_1_logrotate_setup(self):
++    def test_logrotate_wtmp(self):
++
+         status, output = self.target.run('mkdir $HOME/logrotate_dir')
+         msg = 'Could not create logrotate_dir. Output: %s' % output
+         self.assertEqual(status, 0, msg = msg)
+ 
+-        cmd = ('sed -i "s#wtmp {#wtmp {\\n    olddir $HOME/logrotate_dir#"'
+-               ' /etc/logrotate.d/wtmp')
+-        status, output = self.target.run(cmd)
+-        msg = ('Could not write to logrotate.d/wtmp file. Status and output: '
+-               ' %s and %s' % (status, output))
++        status, output = self.target.run('echo "create \n olddir $HOME/logrotate_dir \n include /etc/logrotate.d/wtmp" > /tmp/logrotate-test.conf')
++        msg = ('Could not write to /tmp/logrotate-test.conf')
++        self.assertEqual(status, 0, msg = msg)
++        
++        status, output = self.target.run('echo "/var/log/logrotate_test {\\n missingok \\n monthly \\n rotate 1" > /etc/logrotate.d/logrotate_test')
++        msg = ('Could not write to /etc/logrotate.d/logrotate_test')
++        self.assertEqual(status, 0, msg = msg)
++
++        status, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test.conf')
++        msg = ('logrotate service could not be reloaded. Status and output: '
++                '%s and %s' % (status, logrotate_output))
++        self.assertEqual(status, 0, msg = msg)
++        
++        # If logrotate fails to rotate the log, view the verbose output of logrotate instead of just listing the files in olddir
++        status, output = self.target.run('find $HOME/logrotate_dir -type f | grep wtmp.1')
++        msg = ("logrotate did not successfully rotate the wtmp log. Output from logrotate -vf: \n%s" % (logrotate_output))
++        self.assertEqual(status, 0, msg = msg)
++       
++    @OETestDepends(['logrotate.LogrotateTest.test_logrotate_wtmp'])
++    def test_logrotate_newlog(self):
++        
++        status, output = self.target.run('echo "oeqa logrotate test file" > /var/log/logrotate_testfile')
++        msg = ('Could not create logrotate test file in /var/log')
++        self.assertEqual(status, 0, msg = msg)
++        
++        status, output = self.target.run('echo "/var/log/logrotate_testfile {\n missingok \n monthly \n rotate 1" > /etc/logrotate.d/logrotate_testfile')
++        msg = ('Could not write to /etc/logrotate.d/logrotate_testfile')
++        self.assertEqual(status, 0, msg = msg)
++
++        status, output = self.target.run('echo "create \n olddir $HOME/logrotate_dir \n include /etc/logrotate.d/logrotate_testfile" > /tmp/logrotate-test2.conf')
++        msg = ('Could not write to /tmp/logrotate_test2.conf')
+         self.assertEqual(status, 0, msg = msg)
+ 
+-    @OETestDepends(['logrotate.LogrotateTest.test_1_logrotate_setup'])
+-    def test_2_logrotate(self):
+-        status, output = self.target.run('echo "create \n include /etc/logrotate.d" > /tmp/logrotate-test.conf')
+-        status, output = self.target.run('logrotate -f /tmp/logrotate-test.conf')
++        status, output = self.target.run('find $HOME/logrotate_dir -type f | grep logrotate_testfile.1')
++        msg = ('A rotated log for logrotate_testfile is already present in logrotate_dir')
++        self.assertEqual(status, 1, msg = msg)
+ 
++        status, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test2.conf')
+         msg = ('logrotate service could not be reloaded. Status and output: '
+                 '%s and %s' % (status, output))
+         self.assertEqual(status, 0, msg = msg)
++        
++        # If logrotate fails to rotate the log, view the verbose output of logrotate instead of just listing the files in olddir
++        status, output = self.target.run('find $HOME/logrotate_dir -type f | grep logrotate_testfile.1')
++        msg = ('logrotate did not successfully rotate the logrotate_test log. Output from logrotate -vf: \n%s' % (logrotate_output))
++        self.assertEqual(status, 0, msg = msg)
++
+ 
+-        _, output = self.target.run('ls -la $HOME/logrotate_dir/ | wc -l')
+-        msg = ('new logfile could not be created. List of files within log '
+-               'directory: %s' % (
+-                self.target.run('ls -la $HOME/logrotate_dir')[1]))
+-        self.assertTrue(int(output)>=3, msg = msg)
+-- 
+2.24.1
 
-Are there any issues in my distro file?
-
-So my root is root@solar as well, I did not see nodistro.0 before. Let
-me further clarify it, in my build system, the source of oe-core,
-bitbake, meta-freescal and all configure files are all stored in a
-persistent local repository, it has not been changed for a year, the
-only changes are those packages downloaded from remote URLs.
-
-This is why I am very concerned, how could the boot sequence and
-messages changed dramatically where the source and configure files
-have not been changed for a year. But I am more worried that the boot
-caused error after 2 - 3 good cycles of booting. Why wasn't the boot
-broken in the first boot cycle, only broken after 2 - 3 good bootings?
-I cannot comprehend it, appreciate your explanation.
-
-Thank you very much Ross.
-
-Kind regards,
-
-- jh
 
