@@ -1,49 +1,25 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AAE47FD58
+Return-Path: <chee.yang.lee@intel.com>
+X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 23 Jan 2020 02:16:54 UTC
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 3290692031
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 22:37:01 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id j42so867009wrj.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 Jan 2020 14:37:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=umV/g/ZrpPsKyI0sKS3QjPy7alvLKnN0B+f7M3jMwo4=;
-	b=vRUx147MPUtBWsuQDT8Inw93pj8YcPXBwmezSjjERoHMd+nQjdt7wAmvPLzfRcs3DQ
-	qLpgintxnhCi2mhINkoEx8IdAio4/DcCyWnKbh9bWSO355xRXz/R1xXFAL30SYUxqqLy
-	xjKHdcYdj5svBL3EGg5wK2z/B1U4sztl2/dk+dPlf/uLW5UFBXDEhDIhFgaAS2eIxiPS
-	4H13coKTwzG7mLxVf57TMC2pRYyJGTdIQ6BGDahv9/3d6rmPSjqsOafl80xkTbBcojkz
-	y5UbAm5lYFHx4EeSwhFvobM/MEVwwLFW87fYaQEeLGVPP2av6U+hIOAO4aY6mmBPVmJm
-	Iikg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=umV/g/ZrpPsKyI0sKS3QjPy7alvLKnN0B+f7M3jMwo4=;
-	b=dTXFfr+bT4JxVZUh3lIBaTGEVeQKGvoTNHYqcBNyF977dMK9Exaw/QPHhq9HzI16Mc
-	43X3KnD03ADtWqceOe8OUFT+7klZT7wbVmrBUGNhfJvTMk8CzF7SVG+6ToEzqWRMQErC
-	YKvLL6M2NFZam2dDZtQIjgg6q+z6sZAGLZM/FuFaGzXJVFARM81AuQ7t8K1F3jwmK9PC
-	0EJtSkfYHbTVB6xXbAIBgZyGn9GDT10qSROMYWKD/J/2+RMLalBfh3Tsu5E8DQiImLLD
-	Q2UnWhXyC/0L6ad7qcyH10gvexz7VxOd9n+5lUF7WVeBvaPByIlFzUTEMuNZwlzE/FvF
-	QnsQ==
-X-Gm-Message-State: APjAAAVHQ0/4cyOJ6YXVb6vF/S+JGMPmsLLFz1edmi+WQ9SUCOQkJrHr
-	K4iy+7Xmbd1Z39rSaOrRacCaoWV2eOI=
-X-Google-Smtp-Source: APXvYqwAiN9P/HRtc4EAeme9v5fyodPSRvZ9KIny1zZN3blIIPb5ZOU9K0H0I4wm/yLGg2gP1blqKQ==
-X-Received: by 2002:adf:f847:: with SMTP id d7mr13381969wrq.35.1579732621801; 
-	Wed, 22 Jan 2020 14:37:01 -0800 (PST)
-Received: from beaker.muppets.liwing.de (p5B25B970.dip0.t-ipconnect.de.
-	[91.37.185.112])
-	by smtp.gmail.com with ESMTPSA id p5sm307634wrt.79.2020.01.22.14.37.00
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 22 Jan 2020 14:37:01 -0800 (PST)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
+	Thu, 23 Jan 2020 02:16:54 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	22 Jan 2020 18:09:49 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,352,1574150400"; d="scan'208";a="285800459"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga001.fm.intel.com with ESMTP; 22 Jan 2020 18:09:48 -0800
+From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 Jan 2020 23:36:55 +0100
-Message-Id: <20200122223655.2569-1-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH v2] make: 4.2.1 -> 4.3
+Date: Thu, 23 Jan 2020 10:09:47 +0800
+Message-Id: <1579745387-74550-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH][zeus] libxml2: Fix CVE-2019-19956
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,209 +32,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 Jan 2020 22:37:01 -0000
+X-List-Received-Date: Thu, 23 Jan 2020 02:16:55 -0000
 
-Announcement: https://lists.gnu.org/archive/html/bug-make/2020-01/msg00057.html
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-1) Remove upstream provided patches 0001-glob-Do-not-assume-glibc-glob-internals.patch
-   and 0002-glob-Do-not-assume-glibc-glob-internals.patch.
+see:
+https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549
 
-2) License has been changed to GPLv3 only
-
-3) Important bug-fix is
-   * https://lists.gnu.org/archive/html/bug-make/2018-09/msg00006.html
-
-4) Backward-incompatibilities:
-   * Number signs (#) appearing inside a macro reference or function invocation
-     no longer introduce comments and should not be escaped with backslashes
-   * Previously appending using '+=' to an empty variable would result in a value
-     starting with a space.  Now the initial space is only added if the variable
-     already contains some value.  Similarly, appending an empty string does not
-     add a trailing space.
-
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
 ---
- meta/recipes-devtools/make/make.inc           |  4 +-
- ...b-Do-not-assume-glibc-glob-internals.patch | 70 -------------------
- ...b-Do-not-assume-glibc-glob-internals.patch | 38 ----------
- meta/recipes-devtools/make/make_4.2.1.bb      | 12 ----
- meta/recipes-devtools/make/make_4.3.bb        | 10 +++
- 5 files changed, 11 insertions(+), 123 deletions(-)
- delete mode 100644 meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
- delete mode 100644 meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
- delete mode 100644 meta/recipes-devtools/make/make_4.2.1.bb
- create mode 100644 meta/recipes-devtools/make/make_4.3.bb
+ .../libxml/libxml2/Fix-CVE-2019-19956.patch        | 40 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.9.bb          |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch
 
-diff --git a/meta/recipes-devtools/make/make.inc b/meta/recipes-devtools/make/make.inc
-index b8905bc6d3..4142cf23d3 100644
---- a/meta/recipes-devtools/make/make.inc
-+++ b/meta/recipes-devtools/make/make.inc
-@@ -5,9 +5,7 @@ called the makefile, which lists each of the non-source files and how to compute
- HOMEPAGE = "http://www.gnu.org/software/make/"
- SECTION = "devel"
- 
--SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.bz2 \
--           file://0001-glob-Do-not-assume-glibc-glob-internals.patch \
--           file://0002-glob-Do-not-assume-glibc-glob-internals.patch \
-+SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.lz \
+diff --git a/meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch b/meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch
+new file mode 100644
+index 0000000..1c2dff9
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch
+@@ -0,0 +1,40 @@
++From 5a02583c7e683896d84878bd90641d8d9b0d0549 Mon Sep 17 00:00:00 2001
++From: Zhipeng Xie <xiezhipeng1@huawei.com>
++Date: Wed, 7 Aug 2019 17:39:17 +0800
++Subject: [PATCH] Fix memory leak in xmlParseBalancedChunkMemoryRecover
++
++When doc is NULL, namespace created in xmlTreeEnsureXMLDecl
++is bind to newDoc->oldNs, in this case, set newDoc->oldNs to
++NULL and free newDoc will cause a memory leak.
++
++Found with libFuzzer.
++
++Closes #82.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549]
++CVE: CVE-2019-19956
++
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ parser.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/parser.c b/parser.c
++index 1ce1ccf1..26d9f4e3 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -13894,7 +13894,8 @@ xmlParseBalancedChunkMemoryRecover(xmlDocPtr doc, xmlSAXHandlerPtr sax,
++     xmlFreeParserCtxt(ctxt);
++     newDoc->intSubset = NULL;
++     newDoc->extSubset = NULL;
++-    newDoc->oldNs = NULL;
+++    if(doc != NULL)
+++	newDoc->oldNs = NULL;
++     xmlFreeDoc(newDoc);
++ 
++     return(ret);
++-- 
++2.24.1
++
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.9.bb b/meta/recipes-core/libxml/libxml2_2.9.9.bb
+index c38f883..c44a90b 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.9.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.9.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-m4-use-pkgconfig.patch \
+            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
+            file://fix-execution-of-ptests.patch \
++           file://Fix-CVE-2019-19956.patch \
             "
  
- inherit autotools gettext pkgconfig texinfo
-diff --git a/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch b/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
-deleted file mode 100644
-index 2b6e4d40c3..0000000000
---- a/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
-+++ /dev/null
-@@ -1,70 +0,0 @@
--From c90a7dda6c572f79b8e78da44b6ebf8704edef65 Mon Sep 17 00:00:00 2001
--From: Paul Eggert <eggert@cs.ucla.edu>
--Date: Sun, 24 Sep 2017 09:12:58 -0400
--Subject: [PATCH 1/2] glob: Do not assume glibc glob internals.
--
--It has been proposed that glibc glob start using gl_lstat,
--which the API allows it to do.  GNU 'make' should not get in
--the way of this.  See:
--https://sourceware.org/ml/libc-alpha/2017-09/msg00409.html
--
--* dir.c (local_lstat): New function, like local_stat.
--(dir_setup_glob): Use it to initialize gl_lstat too, as the API
--requires.
-----
--Upstream-Status: Backport
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
-- dir.c | 29 +++++++++++++++++++++++++++--
-- 1 file changed, 27 insertions(+), 2 deletions(-)
--
--diff --git a/dir.c b/dir.c
--index f34bbf5..12eef30 100644
----- a/dir.c
--+++ b/dir.c
--@@ -1299,15 +1299,40 @@ local_stat (const char *path, struct stat *buf)
-- }
-- #endif
-- 
--+/* Similarly for lstat.  */
--+#if !defined(lstat) && !defined(WINDOWS32) || defined(VMS)
--+# ifndef VMS
--+#  ifndef HAVE_SYS_STAT_H
--+int lstat (const char *path, struct stat *sbuf);
--+#  endif
--+# else
--+    /* We are done with the fake lstat.  Go back to the real lstat */
--+#   ifdef lstat
--+#     undef lstat
--+#   endif
--+# endif
--+# define local_lstat lstat
--+#elif defined(WINDOWS32)
--+/* Windows doesn't support lstat().  */
--+# define local_lstat local_stat
--+#else
--+static int
--+local_lstat (const char *path, struct stat *buf)
--+{
--+  int e;
--+  EINTRLOOP (e, lstat (path, buf));
--+  return e;
--+}
--+#endif
--+
-- void
-- dir_setup_glob (glob_t *gl)
-- {
--   gl->gl_opendir = open_dirstream;
--   gl->gl_readdir = read_dirstream;
--   gl->gl_closedir = free;
--+  gl->gl_lstat = local_lstat;
--   gl->gl_stat = local_stat;
---  /* We don't bother setting gl_lstat, since glob never calls it.
---     The slot is only there for compatibility with 4.4 BSD.  */
-- }
-- 
-- void
---- 
--2.16.1
--
-diff --git a/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch b/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
-deleted file mode 100644
-index d49acd9f6e..0000000000
---- a/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--From 9858702dbd1e137262c06765919937660879f63c Mon Sep 17 00:00:00 2001
--From: Paul Eggert <eggert@cs.ucla.edu>
--Date: Sun, 24 Sep 2017 09:12:58 -0400
--Subject: [PATCH 2/2] glob: Do not assume glibc glob internals.
--
--It has been proposed that glibc glob start using gl_lstat,
--which the API allows it to do.  GNU 'make' should not get in
--the way of this.  See:
--https://sourceware.org/ml/libc-alpha/2017-09/msg00409.html
--
--* dir.c (local_lstat): New function, like local_stat.
--(dir_setup_glob): Use it to initialize gl_lstat too, as the API
--requires.
-----
--Upstream-Status: Backport
--
-- configure.ac | 3 +--
-- 1 file changed, 1 insertion(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 64ec870..e87901c 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -399,10 +399,9 @@ AC_CACHE_CHECK([if system libc has GNU glob], [make_cv_sys_gnu_glob],
-- #include <glob.h>
-- #include <fnmatch.h>
-- 
---#define GLOB_INTERFACE_VERSION 1
-- #if !defined _LIBC && defined __GNU_LIBRARY__ && __GNU_LIBRARY__ > 1
-- # include <gnu-versions.h>
---# if _GNU_GLOB_INTERFACE_VERSION == GLOB_INTERFACE_VERSION
--+if _GNU_GLOB_INTERFACE_VERSION == 1 || _GNU_GLOB_INTERFACE_VERSION == 2
--    gnu glob
-- # endif
-- #endif],
---- 
--2.16.1
--
-diff --git a/meta/recipes-devtools/make/make_4.2.1.bb b/meta/recipes-devtools/make/make_4.2.1.bb
-deleted file mode 100644
-index c6e6a0cd58..0000000000
---- a/meta/recipes-devtools/make/make_4.2.1.bb
-+++ /dev/null
-@@ -1,12 +0,0 @@
--LICENSE = "GPLv3 & LGPLv2"
--LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://tests/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
--                    file://glob/COPYING.LIB;md5=4a770b67e6be0f60da244beb2de0fce4"
--require make.inc
--
--EXTRA_OECONF += "--without-guile"
--
--SRC_URI[md5sum] = "15b012617e7c44c0ed482721629577ac"
--SRC_URI[sha256sum] = "d6e262bf3601b42d2b1e4ef8310029e1dcf20083c5446b4b7aa67081fdffc589"
--
--BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-devtools/make/make_4.3.bb b/meta/recipes-devtools/make/make_4.3.bb
-new file mode 100644
-index 0000000000..a3eb9d92f2
---- /dev/null
-+++ b/meta/recipes-devtools/make/make_4.3.bb
-@@ -0,0 +1,10 @@
-+LICENSE = "GPLv3"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
-+require make.inc
-+
-+EXTRA_OECONF += "--without-guile"
-+
-+SRC_URI[md5sum] = "d5c40e7bd1e97a7404f5d3be982f479a"
-+SRC_URI[sha256sum] = "de1a441c4edf952521db30bfca80baae86a0ff1acd0a00402999344f04c45e82"
-+
-+BBCLASSEXTEND = "native nativesdk"
+ SRC_URI[libtar.md5sum] = "c04a5a0a042eaa157e8e8c9eabe76bd6"
 -- 
-2.17.1
+2.7.4
 
 
