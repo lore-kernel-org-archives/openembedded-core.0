@@ -1,98 +1,57 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
-	[209.85.216.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 7566D7FD59;
-	Fri, 24 Jan 2020 16:10:58 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id bg7so1327128pjb.5;
-	Fri, 24 Jan 2020 08:11:00 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FB8E7F7C5
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jan 2020 16:24:12 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id i23so1356851pfo.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jan 2020 08:24:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:autocrypt:message-id:date:user-agent:mime-version
-	:content-transfer-encoding:content-language;
-	bh=Z2vkk8WTy8Z3hH+kZ9ZvDeaZrajyB1pak9kEyk6lmZQ=;
-	b=cYUCEAuod7VSUUccFXQBrlozVINo711BGrYq2OPtns28PoyYwEiEtAmHzbi4mmWSa3
-	z2gF+NmOldoaGsYRl5fqYlKdmd8cgO69fWoLqfvR7KyT2FLianeClizogZ9lRFvIgbzn
-	xWTDoMbYWAs7FBe+uP4ziuhVD8Wbn4peEWAoa0w+RTULp/tSZuO7DdWjNx089xcnAHem
-	p6lhp4AnhvcZZ9kiMC8s9qBWKgoXfxblxENMMWs58FaOhuSJB8dT29IWjm6SYKJXlhAk
-	GILfNMHWNPU6wVVFnW9q66IqhZZnBrgPWX0TK2fTXfGTw3ZEb8HhoMAL9BmaryxTq4IZ
-	Q+/A==
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=NBywH/mavpVBuhailG28RJUyoaJSebd7T8yZLRcXVJ8=;
+	b=FoqttJSrqy5MaS5uxPbeMH4Xsa4Bl6O1PgI3wyGX9FVanLyCnpbk8SEIK6whI2rmrv
+	oUrIPqC/IhH4CF/opFqCIPWlTxdCZVkjp34ghhqCVe2YZE/ujC5Rh/IFLtakZcxQilP4
+	L9dVabxC/c9iF6Sm7ItkodlK5TUQj+eUn7RZPPk5l9FDLVl3PuXI6OjLMksEeuxBHXzu
+	e/0y5ee0VWhKw0KGppYd/qe+7dL1LaROb125eOD+C8NPXoswfTlro2qtFAdPExx3rGTM
+	bRor/J3NuBUFHRzLHTdvh1+Io0WZi001XKifrB1iIDPZ0AgMirrHyrXkydeHUmsYig9q
+	AKXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:autocrypt:message-id:date
-	:user-agent:mime-version:content-transfer-encoding:content-language;
-	bh=Z2vkk8WTy8Z3hH+kZ9ZvDeaZrajyB1pak9kEyk6lmZQ=;
-	b=PUhSe7zSKcfbPfqqTnix4wCM99CAnQY2W+FARWFPVUr5pPia1zBhxm4BOvzqmerJ2d
-	IDee8HHHxvhIUYpwmkn/6n6HlIGo9ULoVMwJuLaks9byOmTCsSTebuJX4w6BQ8EVQQXD
-	gYmlflRhG+nRPEfAb7iULvVg1zI7f7cYwiEuIQHatigLS1AXT6MrMFb/CWxFofj5/uki
-	sipRSRBXLZw3P0BJ6x9ilEBB07YxHbVV/TajaDGFdd1WcI55Hjb+5V3mXJ0C87l5tXxd
-	mUYEpknaTpgU3wNBOR0EB6TVPwosha9uR8Sf31dTEKQHCIQsAcXoMEIQhsqA/AtzsAZJ
-	o2KA==
-X-Gm-Message-State: APjAAAV3KZRhZeDCKh/P6AmSXxK3hYA9A2qesL2hRnKUYxFPpdcL7boS
-	p7Du1ysKQIe0XgMPxDDS94qpw5Qw
-X-Google-Smtp-Source: APXvYqx3aGUyM1GF5W5foMA3Lj4AuBXZNTo41YSuB/rKWaP4W56Bea1jGz67VUSMZYAXEX3QgsSalw==
-X-Received: by 2002:a17:902:b690:: with SMTP id
-	c16mr4325632pls.320.1579882259540; 
-	Fri, 24 Jan 2020 08:10:59 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:c529:ee5d:f9be:6846?
-	([2601:202:4180:a5c0:c529:ee5d:f9be:6846])
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=NBywH/mavpVBuhailG28RJUyoaJSebd7T8yZLRcXVJ8=;
+	b=kWtduY7eNbhQzWNpDTnSjr3aZnONgnbTLgHOeHsR6d5my8Oi1628BCI0HkyruN72Tt
+	GTnTNGaJHpcasmKLczNXjFeD3MY9GN35/2Rg7VIoY7hfDBO8Gk5zXYjr32OcObZaJbnu
+	sLWPh48IzxqvcWp+9JOTXqmr3NKfu8F84cQo4cPJai+2ZwDkymXNdvmj7Fp3PR2K0koj
+	ZgbJc3/rgR22qzsgIQisfOIvKNa6nhfbscIdHRXWVuWagNUDHfmf+f9aWu24Wh1gu0oR
+	ce4KKA+knjwFGkZNYF/nS+9T07YqSJAHDDyBGv57tiNs91mTJk2LaxnmJF1+86W1mdE7
+	mmTQ==
+X-Gm-Message-State: APjAAAXpzZFNQgxoKF686f7aUtEZxPzmVVzUmERgDcps0lF8m5evs7br
+	N6DL/B3qPAvdz7WbSfejkncGBKEFf0s=
+X-Google-Smtp-Source: APXvYqw9qwyh2kGRS6lBhIn1UaHbnFcDbx7/r1iwVMjTuhDRUDzi3KVT5QHjccHJgyEdRy6072dh2w==
+X-Received: by 2002:a62:7a43:: with SMTP id v64mr3773329pfc.243.1579883053175; 
+	Fri, 24 Jan 2020 08:24:13 -0800 (PST)
+Received: from ?IPv6:2601:646:9200:4e0:5dac:ba30:48e4:cb20?
+	([2601:646:9200:4e0:5dac:ba30:48e4:cb20])
 	by smtp.gmail.com with ESMTPSA id
-	w20sm6892091pfi.86.2020.01.24.08.10.58
+	z14sm6941733pgj.43.2020.01.24.08.24.11
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 24 Jan 2020 08:10:59 -0800 (PST)
-To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	"bitbake-devel@lists.openembedded.org"
-	<bitbake-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-From: akuster808 <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
-	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
-	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
-	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
-	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
-	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
-	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
-	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
-	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
-	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABzSFha3VzdGVyODA4
-	IDxha3VzdGVyODA4QGdtYWlsLmNvbT7CwX0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
-	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
-	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
-	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
-	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
-	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
-	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
-	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
-	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
-	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
-	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
-	oRoyDxDOwU0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
-	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
-	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
-	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
-	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
-	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
-	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
-	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
-	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
-	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAHCwWUEGAEI
-	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
-	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
-	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
-	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
-	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
-	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
-	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
-	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
-	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
-	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
-	8CS2NxU=
-Message-ID: <95e2150e-8330-df7e-4a41-1e564d24400a@gmail.com>
-Date: Fri, 24 Jan 2020 08:10:57 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	Fri, 24 Jan 2020 08:24:12 -0800 (PST)
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <20200124101720.101402-1-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <f4f3c574-0f3d-2408-3060-0ed6ae1405f3@gmail.com>
+Date: Fri, 24 Jan 2020 08:24:10 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.4.1
 MIME-Version: 1.0
-Subject: Zeus /1.44 call for patches
+In-Reply-To: <20200124101720.101402-1-alex.kanavin@gmail.com>
+Subject: Re: [PATCH] meson: update 0.52.1 -> 0.53.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -105,18 +64,269 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 16:10:58 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 24 Jan 2020 16:24:12 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Apologies for cross posting.
+On 1/24/20 2:17 AM, Alexander Kanavin wrote:
+> Unset LD, and do not set ld in cross file from LD as
+> new version of meson passes that value directly
+> to -fuse-ld=... which requires one of lld, bfd, gold.
+> 
 
-The next zeus dot release is scheduled to be built on Feb 3.
+this looks ok
 
-Please submit patches or backport requests to the list(s) by Jan 30th.
-
-Regards,
-Armin
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>   meta/classes/meson.bbclass                       |  5 ++++-
+>   meta/recipes-devtools/meson/meson.inc            |  4 ++--
+>   .../0001-Make-CPU-family-warnings-fatal.patch    | 12 ++++++------
+>   ...-do-not-manipulate-the-environment-when.patch | 16 ++++++++--------
+>   ...-Support-building-allarch-recipes-again.patch |  6 +++---
+>   .../meson/meson/0003-native_bindir.patch         | 16 ++++++++--------
+>   .../meson/{meson_0.52.1.bb => meson_0.53.0.bb}   |  0
+>   ...meson_0.52.1.bb => nativesdk-meson_0.53.0.bb} |  1 -
+>   8 files changed, 31 insertions(+), 29 deletions(-)
+>   rename meta/recipes-devtools/meson/{meson_0.52.1.bb => meson_0.53.0.bb} (100%)
+>   rename meta/recipes-devtools/meson/{nativesdk-meson_0.52.1.bb => nativesdk-meson_0.53.0.bb} (99%)
+> 
+> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+> index 1ef34a999c8..04329f32b11 100644
+> --- a/meta/classes/meson.bbclass
+> +++ b/meta/classes/meson.bbclass
+> @@ -91,7 +91,6 @@ c = ${@meson_array('CC', d)}
+>   cpp = ${@meson_array('CXX', d)}
+>   ar = ${@meson_array('AR', d)}
+>   nm = ${@meson_array('NM', d)}
+> -ld = ${@meson_array('LD', d)}
+>   strip = ${@meson_array('STRIP', d)}
+>   readelf = ${@meson_array('READELF', d)}
+>   pkgconfig = 'pkg-config'
+> @@ -122,6 +121,10 @@ EOF
+>   CONFIGURE_FILES = "meson.build"
+>   
+>   meson_do_configure() {
+> +    # Meson requires this to be 'bfd, 'lld' or 'gold' from 0.53 onwards
+> +    # https://github.com/mesonbuild/meson/commit/ef9aeb188ea2bc7353e59916c18901cde90fa2b3
+> +    unset LD
+> +
+>       # Work around "Meson fails if /tmp is mounted with noexec #2972"
+>       mkdir -p "${B}/meson-private/tmp"
+>       export TMPDIR="${B}/meson-private/tmp"
+> diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
+> index 881a14c7f0a..c0ce7d338bc 100644
+> --- a/meta/recipes-devtools/meson/meson.inc
+> +++ b/meta/recipes-devtools/meson/meson.inc
+> @@ -17,8 +17,8 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
+>              file://0001-mesonbuild-environment.py-check-environment-for-vari.patch \
+>              file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
+>              "
+> -SRC_URI[sha256sum] = "0c277472e49950a5537e3de3e60c57b80dbf425788470a1a8ed27446128fc035"
+> -SRC_URI[md5sum] = "a5f0c99567d772508f649a28ded7f8ad"
+> +SRC_URI[sha256sum] = "035e75993ab6fa6c9ebf902b835c64cf397a763eb8e65c9bb6e1cc9730a9d3f6"
+> +SRC_URI[md5sum] = "3a0313d040ded973d84cbec368c2e1d3"
+>   
+>   SRC_URI_append_class-native = " \
+>       file://0001-Make-CPU-family-warnings-fatal.patch \
+> diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+> index d4264cee526..74d5b4ca66e 100644
+> --- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+> +++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
+> @@ -1,4 +1,4 @@
+> -From cd980c763f11cfd928255346cc7e86f24add985e Mon Sep 17 00:00:00 2001
+> +From 8ce7a1ddbc9b7775568a98fcd50e39a01513c902 Mon Sep 17 00:00:00 2001
+>   From: Ross Burton <ross.burton@intel.com>
+>   Date: Tue, 3 Jul 2018 13:59:09 +0100
+>   Subject: [PATCH] Make CPU family warnings fatal
+> @@ -12,10 +12,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+>    2 files changed, 2 insertions(+), 4 deletions(-)
+>   
+>   diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+> -index 29d7422..5fb00a4 100644
+> +index 0f277a7..24578ea 100644
+>   --- a/mesonbuild/envconfig.py
+>   +++ b/mesonbuild/envconfig.py
+> -@@ -190,7 +190,7 @@ class MachineInfo:
+> +@@ -192,7 +192,7 @@ class MachineInfo:
+>    
+>            cpu_family = literal['cpu_family']
+>            if cpu_family not in known_cpu_families:
+> @@ -25,15 +25,15 @@ index 29d7422..5fb00a4 100644
+>            endian = literal['endian']
+>            if endian not in ('little', 'big'):
+>   diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+> -index a9bc2b8..b91c8da 100644
+> +index dc8b14f..3aab71e 100644
+>   --- a/mesonbuild/environment.py
+>   +++ b/mesonbuild/environment.py
+> -@@ -348,9 +348,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+> +@@ -354,9 +354,7 @@ def detect_cpu_family(compilers: CompilersDict) -> str:
+>            trial = 'parisc'
+>    
+>        if trial not in known_cpu_families:
+>   -        mlog.warning('Unknown CPU family {!r}, please report this at '
+> --                     'https://github.com/mesonbuild/meson/issues/new with the'
+> +-                     'https://github.com/mesonbuild/meson/issues/new with the '
+>   -                     'output of `uname -a` and `cat /proc/cpuinfo`'.format(trial))
+>   +        raise EnvironmentException('Unknown CPU family %s, see https://wiki.yoctoproject.org/wiki/Meson/UnknownCPU for directions.' % trial)
+>    
+> diff --git a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+> index bf715d1e9f4..eb0e90dbdda 100644
+> --- a/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+> +++ b/meta/recipes-devtools/meson/meson/0001-python-module-do-not-manipulate-the-environment-when.patch
+> @@ -1,4 +1,4 @@
+> -From 3cb2c811dc6d4890342afa5b709cd30cf7b8f3ca Mon Sep 17 00:00:00 2001
+> +From 689e28c49b85311f93f39df70cbee702fc44afb6 Mon Sep 17 00:00:00 2001
+>   From: Alexander Kanavin <alex.kanavin@gmail.com>
+>   Date: Mon, 19 Nov 2018 14:24:26 +0100
+>   Subject: [PATCH] python module: do not manipulate the environment when calling
+> @@ -12,10 +12,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>    1 file changed, 12 deletions(-)
+>   
+>   diff --git a/mesonbuild/modules/python.py b/mesonbuild/modules/python.py
+> -index 9cfbd6f..3ff687a 100644
+> +index 07be318..b770603 100644
+>   --- a/mesonbuild/modules/python.py
+>   +++ b/mesonbuild/modules/python.py
+> -@@ -75,11 +75,6 @@ class PythonDependency(ExternalDependency):
+> +@@ -71,11 +71,6 @@ class PythonDependency(ExternalDependency):
+>                    old_pkg_libdir = os.environ.get('PKG_CONFIG_LIBDIR')
+>                    old_pkg_path = os.environ.get('PKG_CONFIG_PATH')
+>    
+> @@ -25,10 +25,10 @@ index 9cfbd6f..3ff687a 100644
+>   -                    os.environ['PKG_CONFIG_LIBDIR'] = pkg_libdir
+>   -
+>                    try:
+> -                     self.pkgdep = PkgConfigDependency('python-{}'.format(pkg_version), environment, kwargs)
+> -                     mlog.debug('Found "python-{}" via pkgconfig lookup in LIBPC ({})'.format(pkg_version, pkg_libdir))
+> -@@ -88,13 +83,6 @@ class PythonDependency(ExternalDependency):
+> -                     mlog.debug('"python-{}" could not be found in LIBPC ({})'.format(pkg_version, pkg_libdir))
+> +                     self.pkgdep = PkgConfigDependency(pkg_name, environment, kwargs)
+> +                     mlog.debug('Found "{}" via pkgconfig lookup in LIBPC ({})'.format(pkg_name, pkg_libdir))
+> +@@ -84,13 +79,6 @@ class PythonDependency(ExternalDependency):
+> +                     mlog.debug('"{}" could not be found in LIBPC ({})'.format(pkg_name, pkg_libdir))
+>                        mlog.debug(e)
+>    
+>   -                if old_pkg_path is not None:
+> @@ -39,5 +39,5 @@ index 9cfbd6f..3ff687a 100644
+>   -                else:
+>   -                    os.environ.pop('PKG_CONFIG_LIBDIR', None)
+>                else:
+> -                 mlog.debug('"python-{}" could not be found in LIBPC ({}), this is likely due to a relocated python installation'.format(pkg_version, pkg_libdir))
+> +                 mlog.debug('"{}" could not be found in LIBPC ({}), this is likely due to a relocated python installation'.format(pkg_name, pkg_libdir))
+>    
+> diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+> index c8c7b298de3..1529ebe9fea 100644
+> --- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+> +++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
+> @@ -1,4 +1,4 @@
+> -From 4d223562c3e510e0dd62b608d184604e2cab6198 Mon Sep 17 00:00:00 2001
+> +From cc6e47da801ce3c274485775c62784416fd22977 Mon Sep 17 00:00:00 2001
+>   From: Peter Kjellerstedt <pkj@axis.com>
+>   Date: Thu, 26 Jul 2018 16:32:49 +0200
+>   Subject: [PATCH] Support building allarch recipes again
+> @@ -13,7 +13,7 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+>    1 file changed, 1 insertion(+)
+>   
+>   diff --git a/mesonbuild/envconfig.py b/mesonbuild/envconfig.py
+> -index 5fb00a4..f5702ba 100644
+> +index 24578ea..216e71f 100644
+>   --- a/mesonbuild/envconfig.py
+>   +++ b/mesonbuild/envconfig.py
+>   @@ -36,6 +36,7 @@ _T = typing.TypeVar('_T')
+> @@ -22,5 +22,5 @@ index 5fb00a4..f5702ba 100644
+>    known_cpu_families = (
+>   +    'allarch',
+>        'aarch64',
+> +     'alpha',
+>        'arc',
+> -     'arm',
+> diff --git a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> index 14a9a136664..76c1aa9ac1c 100644
+> --- a/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> +++ b/meta/recipes-devtools/meson/meson/0003-native_bindir.patch
+> @@ -1,4 +1,4 @@
+> -From baf7b94fec5a31b2d0cb162e43dbd28cc019f38e Mon Sep 17 00:00:00 2001
+> +From af2554b9b08af973181b4e4181bd1cb936fdbb8f Mon Sep 17 00:00:00 2001
+>   From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+>   Date: Wed, 15 Nov 2017 15:05:01 +0100
+>   Subject: [PATCH] native_bindir
+> @@ -22,7 +22,7 @@ Signed-off-by: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+>    2 files changed, 14 insertions(+), 11 deletions(-)
+>   
+>   diff --git a/mesonbuild/dependencies/base.py b/mesonbuild/dependencies/base.py
+> -index 35f0175..b39cba6 100644
+> +index f17b9f2..b5c9c92 100644
+>   --- a/mesonbuild/dependencies/base.py
+>   +++ b/mesonbuild/dependencies/base.py
+>   @@ -184,7 +184,7 @@ class Dependency:
+> @@ -43,7 +43,7 @@ index 35f0175..b39cba6 100644
+>            raise DependencyException('Method "get_pkgconfig_variable()" is '
+>                                      'invalid for an internal dependency')
+>    
+> -@@ -670,15 +670,18 @@ class PkgConfigDependency(ExternalDependency):
+> +@@ -673,15 +673,18 @@ class PkgConfigDependency(ExternalDependency):
+>            return s.format(self.__class__.__name__, self.name, self.is_found,
+>                            self.version_reqs)
+>    
+> @@ -65,7 +65,7 @@ index 35f0175..b39cba6 100644
+>            # Always copy the environment since we're going to modify it
+>            # with pkg-config variables
+>            if env is None:
+> -@@ -698,7 +701,7 @@ class PkgConfigDependency(ExternalDependency):
+> +@@ -701,7 +704,7 @@ class PkgConfigDependency(ExternalDependency):
+>            targs = tuple(args)
+>            cache = PkgConfigDependency.pkgbin_cache
+>            if (self.pkgbin, targs, fenv) not in cache:
+> @@ -73,8 +73,8 @@ index 35f0175..b39cba6 100644
+>   +            cache[(self.pkgbin, targs, fenv)] = self._call_pkgbin_real(args, env, use_native)
+>            return cache[(self.pkgbin, targs, fenv)]
+>    
+> -     def _convert_mingw_paths(self, args):
+> -@@ -885,7 +888,7 @@ class PkgConfigDependency(ExternalDependency):
+> +     def _convert_mingw_paths(self, args: List[str]) -> List[str]:
+> +@@ -907,7 +910,7 @@ class PkgConfigDependency(ExternalDependency):
+>                                          (self.name, out_raw))
+>            self.link_args, self.raw_link_args = self._search_libs(out, out_raw)
+>    
+> @@ -83,7 +83,7 @@ index 35f0175..b39cba6 100644
+>            options = ['--variable=' + variable_name, self.name]
+>    
+>            if 'define_variable' in kwargs:
+> -@@ -898,7 +901,7 @@ class PkgConfigDependency(ExternalDependency):
+> +@@ -920,7 +923,7 @@ class PkgConfigDependency(ExternalDependency):
+>    
+>                options = ['--define-variable=' + '='.join(definition)] + options
+>    
+> @@ -93,7 +93,7 @@ index 35f0175..b39cba6 100644
+>            if ret != 0:
+>                if self.required:
+>   diff --git a/mesonbuild/dependencies/ui.py b/mesonbuild/dependencies/ui.py
+> -index 6d784e6..73a9e13 100644
+> +index bdcc4a7..e2de847 100644
+>   --- a/mesonbuild/dependencies/ui.py
+>   +++ b/mesonbuild/dependencies/ui.py
+>   @@ -330,7 +330,7 @@ class QtBaseDependency(ExternalDependency):
+> diff --git a/meta/recipes-devtools/meson/meson_0.52.1.bb b/meta/recipes-devtools/meson/meson_0.53.0.bb
+> similarity index 100%
+> rename from meta/recipes-devtools/meson/meson_0.52.1.bb
+> rename to meta/recipes-devtools/meson/meson_0.53.0.bb
+> diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.52.1.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.53.0.bb
+> similarity index 99%
+> rename from meta/recipes-devtools/meson/nativesdk-meson_0.52.1.bb
+> rename to meta/recipes-devtools/meson/nativesdk-meson_0.53.0.bb
+> index 1756f342ce3..67add2c25e1 100644
+> --- a/meta/recipes-devtools/meson/nativesdk-meson_0.52.1.bb
+> +++ b/meta/recipes-devtools/meson/nativesdk-meson_0.53.0.bb
+> @@ -31,7 +31,6 @@ c = @CC
+>   cpp = @CXX
+>   ar = @AR
+>   nm = @NM
+> -ld = @LD
+>   strip = @STRIP
+>   pkgconfig = 'pkg-config'
+>   
+> 
 
 
