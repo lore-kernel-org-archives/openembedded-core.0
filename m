@@ -1,51 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7716B7FD59
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+	[209.85.210.172])
+	by mail.openembedded.org (Postfix) with ESMTP id EBA977FD59
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Jan 2020 15:48:09 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id i23so1302271pfo.2
+Received: by mail-pf1-f172.google.com with SMTP id x185so1294499pfc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 07:48:10 -0800 (PST)
+	Fri, 24 Jan 2020 07:48:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wBPtCQFJLYBJLrxH0Tup7p+DB9X6ml7dTcjPHJgXj38=;
-	b=OpTUIWQoGYMZhCYaLWEIp4ToWdfeHAkMwRCz5+Mz/mnPnJhPg09/UAndNYKK1z4zDL
-	oGvK3q0QdvV0DYF6wER7fMeWx5j04AZwQxxfnL3P9TdyRndUuaXI3YpMqDlThYn5skUe
-	KwzdDq4708t4rH69xbk5/piXqZ0Ap+fQkLIfQoyyY7yHHvAVFrBi3hTHAKbRhUkcbtG+
-	BLzBbnE85q5PZHLNhTPgxD95U0kfA9slYZHljEPbV/uKxn30dnvbAeKKrzrwDef18z/3
-	jakSlJ0AFfr40NZIq6b2tEHMpRjs8j/88S4cfRZWc0v0wvUw6Bn+F35p85Vl5NzyGG/x
-	2V9A==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=j8z2stR6bv42tUVY3DFQTz/XcbNGBOGw5kcPqGRpTE4=;
+	b=G67zfZPYCMRUpI/+awJ4Q2wQBxg7oC4WFUCwznmprF/b6MZk8vhCn75uUwdFohD03b
+	cNC3KM1aj3WjVurz82Qi/VRvtZ/7oeePeJD4zTIQgF6RT1t2KDN6CIAfBTPgpE/RhsJN
+	2Z+w6ZEnGJ85l5U5tW7bhWPxaKMVpYsoUr6QxrZ/AtnW8JpaxYa+InUlAiXNaL4kUaiR
+	SIyNEoF5zOPqKFuuaX2BjKsjIlYg9WDe2lCl3swLBWZU2vxOU/ZG7rS7A47z+9Kghfmu
+	WGK6mSGNzwhU5PfcWXxmPJnQMXbweOUJueFz1gZftEFhwH+fK8cc3l6CzKPlL52RV7TU
+	jK/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wBPtCQFJLYBJLrxH0Tup7p+DB9X6ml7dTcjPHJgXj38=;
-	b=JCdw3b2k9wEisdXz6cs5kUecXR4VV2Y9GPLt6SgCvezKd00LpNFIaubdVD3WTYhNB7
-	WpGP/zpVNnbB2fXCI9dk16ItSuxlkYSOtBMTC4KJMWKDBcQM4qax23Fr80ghyMcPIx58
-	1yfFiJ3W5MPS+Lco8k1nzSrGg+AgWREORNipp6n+cMFVbtSPxEXmhcuBNQy9E2eM9gF6
-	T4opZ9eaiXf5nv2ej69g7JHwNd6vjrtsKi4XwNUxmwKYFh8L7Q/i6onTq2QuYG/uf99x
-	pu+Wp/K47ByrLUGTVvsH80nDfcSMn6qfVuuv2FIvX9LfA97+FX482GzKQDPdHGvAbLWg
-	s5Tw==
-X-Gm-Message-State: APjAAAUrScGAq9ZiPvOK7JsAYhET9l24vGrpaMY38bXHtU+EJApeUQqJ
-	Yp7B3bpLf1/yL/22kisj8k7sUgbCGPU=
-X-Google-Smtp-Source: APXvYqymlnwMZh5/7JxtHJzfFq0soXZeFLxVfxyOKSnjMTZVXd8LaJ44XLohmmUIzJBmzx+vnm5m1g==
-X-Received: by 2002:a62:b418:: with SMTP id h24mr4034471pfn.192.1579880889909; 
-	Fri, 24 Jan 2020 07:48:09 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=j8z2stR6bv42tUVY3DFQTz/XcbNGBOGw5kcPqGRpTE4=;
+	b=PhBUf0aLrN+JFcNYwOd8Di0yXdp/49TPo7MkgrNMaVx+l7nhj/CRVHp/+y4TsH1V/n
+	hQ9cHsbY5MseyimAClrUFVlfaGP1RDsOQAnMlBUKlrdmc/fW97fWmdsnRWHoQ/ht2f6G
+	VAPEVb1E4Ot9ZlcMu+qNrXs/8v8SEAdW78lH7j0LEDP+a3eHO/rARLmJzV+5RkgZuJes
+	bSrt5/Fm9dPhXAfvvw9JQjoPYT9Y0W/rwt4u6/QKJDMO2lQtx51EAE4+bzmEQb8uMQm6
+	RthXBYLJY4KGt4EV1eqL6Y3PTpa+VbmlUShSvKsXMpak0TV7qp/9LNQHP9/QgeFEgupJ
+	4dnA==
+X-Gm-Message-State: APjAAAUigQg3aZBWUL7Oa/TsP20ZZC7+5P/sGC7DoedOfv6K35tf+3Or
+	YH8H0IV3apgqy3PlH9Lg3vNvwOZ6GeU=
+X-Google-Smtp-Source: APXvYqwve/k45FEwecZfcRtgVfLt4AGTChJpX3K4azFZvF41tGP0inzrkIfnlc8TjDlfdF8cfzWKeA==
+X-Received: by 2002:a63:5d06:: with SMTP id r6mr4592203pgb.249.1579880890615; 
+	Fri, 24 Jan 2020 07:48:10 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net
 	(c-73-63-224-124.hsd1.ca.comcast.net. [73.63.224.124])
 	by smtp.gmail.com with ESMTPSA id
-	133sm6729608pfy.14.2020.01.24.07.48.09
+	133sm6729608pfy.14.2020.01.24.07.48.10
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 24 Jan 2020 07:48:09 -0800 (PST)
+	Fri, 24 Jan 2020 07:48:10 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jan 2020 07:48:05 -0800
-Message-Id: <20200124154810.1760420-1-raj.khem@gmail.com>
+Date: Fri, 24 Jan 2020 07:48:06 -0800
+Message-Id: <20200124154810.1760420-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200124154810.1760420-1-raj.khem@gmail.com>
+References: <20200124154810.1760420-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [meta-oe][PATCH 1/6] nmap: Use py3 in depends/rdepends
+Subject: [meta-oe][PATCH 2/6] libplist: Use py3 in depends
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +60,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 15:48:09 -0000
+X-List-Received-Date: Fri, 24 Jan 2020 15:48:10 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta-oe/recipes-security/nmap/nmap_7.80.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta-oe/recipes-extended/libimobiledevice/libplist_2.1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta-oe/recipes-security/nmap/nmap_7.80.bb b/meta-oe/recipes-security/nmap/nmap_7.80.bb
-index 2ac600c782..96af17efdf 100644
---- a/meta-oe/recipes-security/nmap/nmap_7.80.bb
-+++ b/meta-oe/recipes-security/nmap/nmap_7.80.bb
-@@ -28,7 +28,7 @@ PACKAGECONFIG[libz] = "--with-libz=${STAGING_LIBDIR}/.., --without-libz, zlib, z
- #disable/enable packages
- PACKAGECONFIG[nping] = ",--without-nping,"
- PACKAGECONFIG[ncat] = ",--without-ncat,"
--PACKAGECONFIG[ndiff] = ",--without-ndiff,python"
-+PACKAGECONFIG[ndiff] = ",--without-ndiff,python3"
- PACKAGECONFIG[update] = ",--without-nmap-update,"
+diff --git a/meta-oe/recipes-extended/libimobiledevice/libplist_2.1.0.bb b/meta-oe/recipes-extended/libimobiledevice/libplist_2.1.0.bb
+index 4a8d9a1df0..36659e752d 100644
+--- a/meta-oe/recipes-extended/libimobiledevice/libplist_2.1.0.bb
++++ b/meta-oe/recipes-extended/libimobiledevice/libplist_2.1.0.bb
+@@ -4,7 +4,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ebb5c50ab7cab4baeffba14977030c07 \
+                     file://COPYING.LESSER;md5=6ab17b41640564434dda85c06b7124f7"
  
- EXTRA_OECONF = "--with-libdnet=included --with-liblinear=included --without-subversion --with-liblua=included"
-@@ -49,4 +49,4 @@ do_configure() {
+-DEPENDS = "libxml2 glib-2.0 swig python"
++DEPENDS = "libxml2 glib-2.0 swig python3"
  
- FILES_${PN} += "${PYTHON_SITEPACKAGES_DIR} ${datadir}/ncat"
+ inherit autotools pkgconfig python3native
  
--RDEPENDS_${PN} = "python"
-+RDEPENDS_${PN} = "python3"
 -- 
 2.25.0
 
