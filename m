@@ -1,61 +1,59 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CB3747FDA2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 19:13:21 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id a6so1180484plm.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 11:13:23 -0800 (PST)
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 924937FD4F;
+	Fri, 24 Jan 2020 19:27:48 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id y8so1174227pll.13;
+	Fri, 24 Jan 2020 11:27:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:cc:references:from:organization:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=FKSdfssIT5O1QfsEwMe0Y2KJUYMDd/LBeMvc1r+EtVY=;
-	b=PYNrkS6OxM9n5ww90/PPvhMWtymuUUTYa9Ve9jvI+jRbHRcNyOUDUPOpTRZd/DPXbY
-	VhlE8MLsoc0x/nEtvb5MNqDGXb4W7xG8mcfc1epWfmx/p5H7vpvQBHaVAK3U+6WDUQmp
-	SP376ste6R5okxRrfgXZMEYcJgHLNwgc+VFyor36URI38J7SHy0l428Y3DMJsYMFRYVY
-	3SVPrHxbTG1r6Jso06Z3rmdk5fBvXiSuLKjNsYcEO8MxGi/CClhR0fR39hHVxZq1jsfm
-	c6LMjLvmfVWTgkJZWh6HVwyZMYQegDHkZ3UznjVpYcLp1hLFzyDj/NtPuNr8OfWHji7X
-	Helg==
+	bh=Hi4yRFdmSWpyEzmB+ac7FqvT/PeM0YyqQ5j/uGhaiJg=;
+	b=KUsZNXkEv1PTW1F7ZmhcInxvHUzEXDhX4x5VvavnyvIJtFEIYmMNUnI/Hlczp5XkSe
+	TMnbjsoQbOQob2Qp4uk36J3zmz+D75LuTWDtgYa+j/IImhkmkbJlgqHsgr6PavP7MN8s
+	V3EPiFo8U9b0I92j1iWI6OC/Iz5BiBtl5ozsgOfuursCeIcRCwvUNb6FCOrPWQKTD/eZ
+	WPOXjjiFfQvU+IwyXhF3jKdIFwlORqoHJeOiMm2/yplVdOAGMvQsZk2mntZrrzyzQ1s8
+	yo1CgLkSTNsvVuLuiCtp0wY1lvgeZFl1V92uPte9M6SfSADhr1zL+htZLPNB3xwl76WU
+	Wk2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:organization
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-language:content-transfer-encoding;
-	bh=FKSdfssIT5O1QfsEwMe0Y2KJUYMDd/LBeMvc1r+EtVY=;
-	b=OZm9J+n2HhYVmXB5Ucl9PjQjYc4bzF8cwa9HMyByvvIM287fJS7eRGCdZFOhVEZecW
-	NP7fc69J9fMMTuTgFiaVNe6f6ykUPu61I8wz25I+s4oXT4qQAMGEe/nMLPHtWaYloEqp
-	KOiRY8Imw6vnwm5nWrHTgR+bfe7N1lOdM4e9MuCKg7nmRLNU0k/KHFYUYGqLDctNpLm5
-	Ojj8skwyAUYDZ/JQ0DJ1RTLXxv+sglSdVTwUvFeSnY2SuyTFF6OkAgolAJHcMNld4zNq
-	FHD59rvBamfKGYUGPpNxMBro6jQaMRR++nL2POKGsuNjydexOuBdrySTfb2yT4asgdvA
-	jqSA==
-X-Gm-Message-State: APjAAAURVQN0RKe9dpebcRGj1oMhTHNKVp5Km5xlyJaXUr3YdJ6hQeck
-	LwnCvfV+QLDouIiIHlxvrQEr1/rHV4g=
-X-Google-Smtp-Source: APXvYqzrWN+hwxa0ffsEUhk1Cf82WTqGD2wKf/Pjm8hkYsZyDmxMN68VuSsw5x1i5w44W65EUhtjWw==
-X-Received: by 2002:a17:90a:8a96:: with SMTP id
-	x22mr721616pjn.139.1579893202117; 
-	Fri, 24 Jan 2020 11:13:22 -0800 (PST)
+	bh=Hi4yRFdmSWpyEzmB+ac7FqvT/PeM0YyqQ5j/uGhaiJg=;
+	b=qiMJOK3/uLSuvW60MShLpyNZ6XS771NOWWgSQNzUOGAj2Gy7278xALANMBOiQdW8Xz
+	ReyQbyE9DmH2nVSlbrqI9oi6v521BKlz5ijMvYO2ob3k3tHsFfUjGiUIQQ7EVYQfjUfp
+	GQLCh+zFGSjH/gJrF0j8f40j+9DlCKQt4F03nSbNuOZuvkEtrsgs3q8jykTZXWMdCa1k
+	t0xzFgc/16Tn/5ziWIjz1GiJdoCA04lYfaVZZwYXhsfWSGZkzm5DpZQHZYjWQQ6OxtLA
+	vLZEWGyzGHAfRhw8Zxx4RXx8BWduh4Mv4Tly/iQJfzf08G1ggWMlZR2yGZgnW4FsheDb
+	9+5w==
+X-Gm-Message-State: APjAAAWqxIrnQ8Sze63YhCadMtZX+4az15KIqZEsJ0wX1NlcrAfnZn2I
+	st/A0LReY+XkQGb5TvZ57Nntuq8DiUk=
+X-Google-Smtp-Source: APXvYqxLa9CcnyRck8l7G9aJtLoB3PsOhHnNbruraNN5dh8+ZRTp91UsfJLQuGV17DGw9XxyAzsTmg==
+X-Received: by 2002:a17:90a:3ae5:: with SMTP id
+	b92mr841421pjc.26.1579894068918; 
+	Fri, 24 Jan 2020 11:27:48 -0800 (PST)
 Received: from ?IPv6:2601:646:9200:4e0:5dac:ba30:48e4:cb20?
 	([2601:646:9200:4e0:5dac:ba30:48e4:cb20])
-	by smtp.gmail.com with ESMTPSA id q4sm3746433pfs.65.2020.01.24.11.13.21
+	by smtp.gmail.com with ESMTPSA id x21sm182668pfq.76.2020.01.24.11.27.47
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 24 Jan 2020 11:13:21 -0800 (PST)
-To: Christopher Larson <kergoth@gmail.com>,
-	Jason Wessel <jason.wessel@windriver.com>
-References: <20200123223449.90548-1-jason.wessel@windriver.com>
-	<CABcZANnAW-HYaJmDs8U2iwfzJSb1ig3KsVMvXuz6QjTAR6vqtw@mail.gmail.com>
+	Fri, 24 Jan 2020 11:27:47 -0800 (PST)
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+References: <CAMKF1sryUbCcpRxpqi4ytZJ+j+AgksfS8pxd=_O6DtWrkCx+Lg@mail.gmail.com>
+	<CAHtQpK6cp2D3Zb2pkDgYwdKR=AX6AWnwpWEs=qqzNYQ64uL28w@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <6027c983-71be-659e-5ca8-e203b57f528d@gmail.com>
-Date: Fri, 24 Jan 2020 11:13:20 -0800
+Message-ID: <24c2080a-8465-ee2e-484a-ff817485fbf4@gmail.com>
+Date: Fri, 24 Jan 2020 11:27:47 -0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
 	Gecko/20100101 Thunderbird/68.4.2
 MIME-Version: 1.0
-In-Reply-To: <CABcZANnAW-HYaJmDs8U2iwfzJSb1ig3KsVMvXuz6QjTAR6vqtw@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
+In-Reply-To: <CAHtQpK6cp2D3Zb2pkDgYwdKR=AX6AWnwpWEs=qqzNYQ64uL28w@mail.gmail.com>
+Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] module.bbclass: swap AR and LD order
+Subject: Re: python2-less meta-openembedded build results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,92 +66,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 19:13:21 -0000
+X-List-Received-Date: Fri, 24 Jan 2020 19:27:48 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 1/24/20 10:19 AM, Christopher Larson wrote:
-> What makefile change caused this? That behavior doesn't make much sense 
-> given how make processes its command-line arguments.
+On 1/20/20 8:51 AM, Andrey Zhizhikin wrote:
+> On Mon, Jan 20, 2020 at 4:52 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> Hi all
+>>
+>> Recently py2 is removed from oe-core, So I did quick patches to get a
+>> world build going. And
+>> here are initial failures, please help out with recipes your can or
+>> care for. Eventually, the remaining
+>> ones we can blacklist for 3.1 release.
+>>
+>> http://errors.yoctoproject.org/Errors/Build/97185/
+>>
+>> I will post more arches as they become available. If you want to try
+>> the same for machines/distros you can try yoe/mut for meta-oe
 > 
+> I've actually asked Ross about similar failures, specifically in
+> [meta-openembeeded/meta-python] where there is a good mix of Pytho2
+> and Python3 still present. I've started to remove those yesterday, and
+> would continue with that layer further.
+> 
+>>
+>> https://git.openembedded.org/meta-openembedded-contrib/log/?h=yoe/mut
+>>
 
-I agree with you here, it could be a rare check where one want to define 
-what collect progam should be used ( ld or ar )
+All these changes are now in master and its again buildable, with or 
+without meta-python2, with meta-python2, its back to where it was with 
+everything  building however, without py2 layer we have some work to do 
+so if you are interested in this here [1] is initial list of failures
+I will keep posting more as we go along.
 
-besides, recently we moved AR to be gcc-ar/llvm-ar by default in config 
-metadata, which is not going to work out of box for compiling kernel and 
-modules, so overriding it with KERNEL_AR in 
-module_do_compile/install/configure tasks is good change.
-
-> On Thu, Jan 23, 2020 at 3:34 PM Jason Wessel <jason.wessel@windriver.com 
-> <mailto:jason.wessel@windriver.com>> wrote:
-> 
->     The 5.x kernels seem to have made a change to the linker command
->     line processing.
-> 
->     When trying to build out of tree kernel modules, such as the
->     virtualbox guest additions, the following error is printed:
-> 
->     | make[1]: Entering directory
->     '/opt/build-x86-64/tmp/work/qemux86_64-poky-linux/vboxguestdrivers/6.1.2-r0/vbox_module/vboxvideo'
->     | make[3]: Entering directory
->     '/opt/build-x86-64/tmp/work-shared/qemux86-64/kernel-build-artifacts'
->     | make V= CONFIG_MODULE_SIG= CONFIG_MODULE_SIG_ALL= -C
->     /opt/build-x86-64/tmp/work/qemux86_64-poky-linux/vboxguestdrivers/6.1.2-r0/5.2.28-yocto-standard/build
->     M=/opt/build-x86-64/tmp/work/qemux86_64-poky-linux/vboxguestdrivers/6.1.2-r0/vbox_module/vboxguest
->     SRCROOT=/opt/build-x86-64/tmp/work/qemux86_64-poky-linux/vboxguestdrivers/6.1.2-r0/vbox_module/vboxguest
->     modules
->     | make[3]: Entering directory
->     '/opt/build-x86-64/tmp/work-shared/qemux86-64/kernel-build-artifacts'
->     |   LD [M] 
->     /opt/build-x86-64/tmp/work/qemux86_64-poky-linux/vboxguestdrivers/6.1.2-r0/vbox_module/vboxvideo/vboxvideo.o
->     | x86_64-poky-linux-ld.bfd: cannot find AR=x86_64-poky-linux-ar: No
->     such file or directory
-> 
->     The AR arguments passed to the make command are being processed as
->     command line arguments to the linker due to some changes in the
->     kernel's Makefile.  For now the easiest fix is to just swap the
->     arguments in the module.bbclass.
-> 
->     Signed-off-by: Jason Wessel <jason.wessel@windriver.com
->     <mailto:jason.wessel@windriver.com>>
->     ---
->       meta/classes/module.bbclass | 3 +--
->       1 file changed, 1 insertion(+), 2 deletions(-)
-> 
->     diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
->     index c0dfa35061..e1e5fdaa72 100644
->     --- a/meta/classes/module.bbclass
->     +++ b/meta/classes/module.bbclass
->     @@ -38,8 +38,7 @@ module_do_compile() {
->              unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
->              oe_runmake KERNEL_PATH=${STAGING_KERNEL_DIR}   \
->                         KERNEL_VERSION=${KERNEL_VERSION}    \
->     -                  CC="${KERNEL_CC}" LD="${KERNEL_LD}" \
->     -                  AR="${KERNEL_AR}" \
->     +                  CC="${KERNEL_CC}" AR="${KERNEL_AR}"
->     LD="${KERNEL_LD}" \
->                         O=${STAGING_KERNEL_BUILDDIR} \
->                         KBUILD_EXTRA_SYMBOLS="${KBUILD_EXTRA_SYMBOLS}" \
->                         ${MAKE_TARGETS}
->     -- 
->     2.23.0
-> 
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
-> 
-> 
-> -- 
-> Christopher Larson
-> kergoth at gmail dot com
-> Founder - BitBake, OpenEmbedded, OpenZaurus
-> Senior Software Engineer, Mentor Graphics
-> 
-
+[1] 
+https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/220/steps/8/logs/errors
 
