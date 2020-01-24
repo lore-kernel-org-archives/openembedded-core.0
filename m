@@ -1,53 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
-	[209.85.210.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F90B7FD70
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id EAFF47FD6C
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 24 Jan 2020 15:48:12 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id 4so1286741pfz.9
+Received: by mail-pg1-f173.google.com with SMTP id u131so1258108pgc.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 07:48:13 -0800 (PST)
+	Fri, 24 Jan 2020 07:48:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=UW/ED1djnbn8Y8CrDr1rSsxO1He8TEIcXpWyxeLw+Js=;
-	b=Pj0nXMQh0aH7zOo9zgIK+PM2/pRC3CSfWFmy/JytVjjuKqe0yrwkHpCFXFMI8BVKTH
-	eKkMPLWu8r+el7rNQe4K8wz5bBeRSt8Xdst1tKnChEXzUF3vP5gZ/JJj1AMmEobkGWAs
-	q2G7VgO6fyHGluGPerhGszTNmrt71i5211QNiBQLu4EF/GpLDffUYYbVzp5DtE/QZ/vt
-	ez7hqmKhFlNAr884tqmTDHxafULz8Rkn3i5TdnrZXoA7A8i78GcjZF1I20tSseVl8dFk
-	iAEQjOzK7gz/zEmLfqXewuzHQ3bHb/gt6KX+1mTswiEwT4Yz/wHtF0QXKRktgGhCW9/K
-	Dzyw==
+	bh=q0NOqvHsJn0zYcGQtzo6pPrSB6fyQScW6UAKrDIMvV8=;
+	b=MirDwXJHXYkun3kp9MYODKCm5wGN+qZH8orHYesccXmmzLVjimP8v4X1TxAX7xvUU3
+	NsIcggMIF11v0zLuO7RofdFDaAzXFYj5ZfY0hq7mKM1dSRw/8+lITAsBvoDc8PW1UWG/
+	eJY3Vav9MJGRAawHBBEt3Gd0Pwt1d/94elo7zAsGCDyoJjuEtEYRTg8BzSK5JP7Q3XUg
+	c6/khJy0E6PpUazD52V9W9eDohAn6ER6nI3UN2iZyTcfh62xaaXQ8C+YHZitizdAj3rZ
+	LtyqOfDn3MjPvWJW2t4IiJA/OuybZ9Q9dJPgGiqKbI98LnPwmYcYXjdJd9ZLb5s4itBO
+	TiMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=UW/ED1djnbn8Y8CrDr1rSsxO1He8TEIcXpWyxeLw+Js=;
-	b=Sn3LmqjKYaX8Hvss96PTSCKcPdTxmyyg4C+cLBbe1X1SmI1jcnMyVhVumDv0blk6Xj
-	aTiMszCxnOlZgbK48SQ2Wip+AxvGR44UBsm/aqzPm2LdL25ME0Sxmtro3M/PIMeVb4kK
-	yQI8QCAzEV2B+8vVZcbtuzyBf6QOZi+n02vJEih94dI4Hg09SCiTrpnO024+T8wqRyxz
-	42Jgfstd2GED9FPlIPSx3FuO6sxn3+BNUuofdQNQiWNMQCzLfchKlSQodGNKk9gCGjty
-	eCS7871SUdsn5jQMmb8y9WxYcyuBWRGW6ZadLCec2HxJlD7SnF+8kCaQh0Eu4xYx+EMl
-	xHIw==
-X-Gm-Message-State: APjAAAVUqIK2Q9ZPzZXmc1pv7AkBrHroVzTsM+I0JSMOJOGdV5XfM2bK
-	A5yiZSUJDLc/zUD6Zblnt8KHIYeVVls=
-X-Google-Smtp-Source: APXvYqwtp7c5rPC9OL1TJp4TECnTd+MTCGIgB6JeDUP7N6jWNKkwRNTuHd1OLzeH2utTr/SWe7uieA==
-X-Received: by 2002:a63:5657:: with SMTP id g23mr4605758pgm.452.1579880892933; 
-	Fri, 24 Jan 2020 07:48:12 -0800 (PST)
+	bh=q0NOqvHsJn0zYcGQtzo6pPrSB6fyQScW6UAKrDIMvV8=;
+	b=DwuDZFodWr3cC53IlFHw3y9ghU3yrLXA0g8esMnHbDQZQ2kj9aX3wal1N9WDHBu6YD
+	yxMiC+06mEAnaOZoGkKf8BASJc8BurNB1zMLCMhtou+4kks9GKbuyuS5Xhj3Aoe2rP/p
+	cUut63cJZPrhe6TkO3d8dgNAFPSoMxS2jK4XPN8XYPyKrGDGXHzJngcE8QjYzgyT00E4
+	3T2oahFcTR9PIzgRvDrlicOa9IHm0tdFmkUQbshWTb4jfS43QpVriKT8yi5Vz1EayUJy
+	fyCieHPjR9kWJWzejjICUh+MsOoXuaky9yrTn6385FMo5R50qabGOPn1jqWhXnGdrbH+
+	2nhA==
+X-Gm-Message-State: APjAAAVuoF2185mcs+w84N8QJxCvljXiMVs9bYm++PREsoTVsv632FO1
+	+ZDffTTHRfmAQTvD0PtzuQ7qus+f1is=
+X-Google-Smtp-Source: APXvYqzDy+1KJF93u5g5j9u9ui4p9Cz1ZZqSay4kYliFMdP6kjPnmrpslvnbzRjiLR65zm/Zi2uSKA==
+X-Received: by 2002:a63:d108:: with SMTP id k8mr4638092pgg.434.1579880893652; 
+	Fri, 24 Jan 2020 07:48:13 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net
 	(c-73-63-224-124.hsd1.ca.comcast.net. [73.63.224.124])
 	by smtp.gmail.com with ESMTPSA id
-	133sm6729608pfy.14.2020.01.24.07.48.12
+	133sm6729608pfy.14.2020.01.24.07.48.13
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 24 Jan 2020 07:48:12 -0800 (PST)
+	Fri, 24 Jan 2020 07:48:13 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jan 2020 07:48:09 -0800
-Message-Id: <20200124154810.1760420-5-raj.khem@gmail.com>
+Date: Fri, 24 Jan 2020 07:48:10 -0800
+Message-Id: <20200124154810.1760420-6-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200124154810.1760420-1-raj.khem@gmail.com>
 References: <20200124154810.1760420-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [meta-gnome][PATCH 5/6] gnome-menus3: Depend on py3
+Subject: [meta-oe][PATCH 6/6] konkretcmpi: Depend on python3 during build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,27 +60,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 15:48:12 -0000
+X-List-Received-Date: Fri, 24 Jan 2020 15:48:13 -0000
 Content-Transfer-Encoding: 8bit
+
+Fix packaging to match py3 module install dir
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta-gnome/recipes-gnome/gnome-menus/gnome-menus3_3.32.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta-gnome/recipes-gnome/gnome-menus/gnome-menus3_3.32.0.bb b/meta-gnome/recipes-gnome/gnome-menus/gnome-menus3_3.32.0.bb
-index 3f441d915e..24d6451969 100644
---- a/meta-gnome/recipes-gnome/gnome-menus/gnome-menus3_3.32.0.bb
-+++ b/meta-gnome/recipes-gnome/gnome-menus/gnome-menus3_3.32.0.bb
-@@ -4,7 +4,7 @@ LICENSE = "GPLv2 & LGPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://COPYING.LIB;md5=5f30f0716dfdd0d91eb439ebec522ec2"
+diff --git a/meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb b/meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb
+index f62cf6ba65..e6d5663f85 100644
+--- a/meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb
++++ b/meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb
+@@ -6,7 +6,7 @@ implementations for many of the provider operations."
+ HOMEPAGE = "https://github.com/rnovacek/konkretcmpi"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f673270bfc350d9ce1efc8724c6c1873"
+-DEPENDS_append_class-target = " swig-native sblim-cmpi-devel python"
++DEPENDS_append_class-target = " swig-native sblim-cmpi-devel python3"
+ DEPENDS_append_class-native = " cmpi-bindings-native"
  
--DEPENDS = "python libxml2 popt gtk+3 gnome-common-native"
-+DEPENDS = "python3 libxml2 popt gtk+3 gnome-common-native"
+ SRC_URI = "git://github.com/rnovacek/konkretcmpi.git \
+@@ -34,6 +34,6 @@ PACKAGES =+ "${PN}-python"
  
- inherit features_check gnomebase gettext pkgconfig gobject-introspection upstream-version-is-even
+ RPROVIDES_${PN}-dbg += "${PN}-python-dbg"
  
+-FILES_${PN}-python = "${libdir}/python2.7/site-packages/konkretmof.py* ${libdir}/python2.7/site-packages/_konkretmof.so"
++FILES_${PN}-python = "${libdir}/python*/site-packages/konkretmof.py* ${libdir}/python*/site-packages/_konkretmof.so"
+ 
+ BBCLASSEXTEND = "native"
 -- 
 2.25.0
 
