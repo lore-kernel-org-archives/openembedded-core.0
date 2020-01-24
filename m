@@ -1,66 +1,36 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id EF7107FD62
+Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
+Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
+	[208.88.110.44])
+	by mail.openembedded.org (Postfix) with ESMTP id BE1167FD82
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 17:05:10 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id w2so1418996pfd.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 09:05:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=g4MWHiAUwrcn1tYlhrtXjh8+uD+SVggdLEg3tPUsRIs=;
-	b=C+Ze7Era4Nzyui/GnVfBONc8RnkhHcv0tyaqWgk5mIcgicvNUP4/m9Nm5fffGM97QV
-	qCZhQ5Vf5is6XIfwqDw782Q5gi8dJcA3ssuAAfbpDSOppRqZEmL5Zb9GJBO74R+gt7NM
-	oWw7mKmYDoMRS6D02TdZijhCV3R4WMgx9U7Iy2lQbbiyIGnOpn9ifSxvhtRZwMDyUAw2
-	Wsmx6xUgQmP2mEXmiq6eK36pfbBtrglxYXV39DF1R+PFvh2sVZp4hJNN7SkTpWjvOZ+f
-	8krhA3f0xUzSKILHGq2q86AkxxIFl1IC1VosQql+kL5G9PowUsUvsnMDHC7LZ0dbby+5
-	sD4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=g4MWHiAUwrcn1tYlhrtXjh8+uD+SVggdLEg3tPUsRIs=;
-	b=FXunaHjrz8kd9i+682s/XvmgowY+K5aroGEw1xXS29/IMhD+pDq7NPEI92shancI7r
-	ySjAP0yCsxAy18tUPCTO9gHU8dnOMNiDedjqXT7RGbnvc6/V3Kv4NR1dHbp6bRvn6qHD
-	Apuu707pdCVhMXz7epuH2LyjZlMB0v8iNB1Jj7jDCenynbWqtnYfFcm94dWl6+jrAOty
-	lKnicWW4HjKdLR/2i30pJF57Z1wd2DlC4Xhm+9xUcucrJS7WeSMfPJN5mdj003O+bGaf
-	Aw91Z/eFvjdlQFgUypoolA3KPZWiQnrt3I1q20LQrpQfIBsmpLh9dPDJ/xweGGvxwPzt
-	O+pA==
-X-Gm-Message-State: APjAAAXAT6+9QzFC1ibOKSu8Jr4YfkvYIEwTRJf6sM1cE+CRADvzAsJ5
-	jweYBphsP9iGOwWK7/idyeriz4+BfAo=
-X-Google-Smtp-Source: APXvYqx5+V1XzlbsZ12hCW2q41SpJwlaQKa3iN7aim9tbWe2SvNjH1uRgSD9cKVQql7bjbcp0n04nQ==
-X-Received: by 2002:a63:5a23:: with SMTP id o35mr5088381pgb.4.1579885511496;
-	Fri, 24 Jan 2020 09:05:11 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:5dac:ba30:48e4:cb20?
-	([2601:646:9200:4e0:5dac:ba30:48e4:cb20])
-	by smtp.gmail.com with ESMTPSA id h3sm6880234pji.9.2020.01.24.09.05.10
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 24 Jan 2020 09:05:10 -0800 (PST)
-To: Ross Burton <ross.burton@intel.com>, Denys Dmytriyenko <denis@denix.org>, 
-	Andre McCurdy <armccurdy@gmail.com>
-References: <1579813185-1950-1-git-send-email-denis@denix.org>
-	<CADkTA4OUcmx2wFVf9NAR8D7c_3n+303YFR3gwAWv08KgT_o+ww@mail.gmail.com>
-	<6f6a74c1-948e-e6f2-303b-639a08111d64@intel.com>
-	<CAJ86T=VYsiBgrxPL-N4yy0S2FNUixxn6sfWjaaWQioFHqD=2-g@mail.gmail.com>
-	<20200123224340.GG4735@denix.org>
-	<0620f17c-53ca-7e95-1607-621507baedd8@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <51f70cda-9ddf-ea8c-e8a9-3a3f69db8167@gmail.com>
-Date: Fri, 24 Jan 2020 09:05:09 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.4.1
+	Fri, 24 Jan 2020 17:07:51 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id B90BB9C019E;
+	Fri, 24 Jan 2020 12:07:52 -0500 (EST)
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10032)
+	with ESMTP id dy3lVMHroCfc; Fri, 24 Jan 2020 12:07:51 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.savoirfairelinux.com (Postfix) with ESMTP id B664E9C027F;
+	Fri, 24 Jan 2020 12:07:51 -0500 (EST)
+X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
+Received: from mail.savoirfairelinux.com ([127.0.0.1])
+	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
+	port 10026)
+	with ESMTP id TcwyVjP8uZn4; Fri, 24 Jan 2020 12:07:51 -0500 (EST)
+Received: from sulaco.jml.bzh (91-167-182-132.subs.proxad.net [91.167.182.132])
+	by mail.savoirfairelinux.com (Postfix) with ESMTPSA id 2D6D59C019E;
+	Fri, 24 Jan 2020 12:07:50 -0500 (EST)
+From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 Jan 2020 18:07:30 +0100
+Message-Id: <20200124170743.20463-1-jean-marie.lemetayer@savoirfairelinux.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <0620f17c-53ca-7e95-1607-621507baedd8@intel.com>
-Cc: Jon Mason <jdmason@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] arm-trusted-firmware: add upstream version 2.2
+Cc: jonaskgandersson@gmail.com, paul.eggleton@linux.intel.com, bunk@stusta.de,
+	cdelston0@gmail.com, rennes-dev@savoirfairelinux.com
+Subject: [PATCH v6 00/13] NPM refactoring
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,38 +43,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 17:05:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 24 Jan 2020 17:07:53 -0000
+Content-Transfer-Encoding: quoted-printable
 
-On 1/24/20 3:42 AM, Ross Burton wrote:
-> On 23/01/2020 22:43, Denys Dmytriyenko wrote:
->>> Such as all the various cortex etc CPU tuning files?
->>
->> LOL! :) Of course, since ARM is such an inferior arch to x86. 
->> Otherwise we
->> should move everything that is not needed by qemux86 to meta-intel... 
->> JK :)
-> 
-> I almost pre-empted this comment in my reply because I knew it was 
-> coming. :)
-> 
-> Personally, not a terrible idea.  The slight difference is that 
-> meta-intel is *Intel's* BSP and we don't share stuff like 
-> firmware/drivers with AMD.
-> 
-> Ross
+Hi folks and happy new year,
 
-it will be good to find what the overlap will be, is it something that 
-BSPs can use with minimum changes, or are we providing a template that 
-will be copied over and housed in form of bbappends or bbs. I am not 
-familiar enough to assess that.
+For readability here is a link if you want the history of this patchset:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-December/2=
+90298.html
 
-Perhaps it would be good to limit this to arm compatible machines, 
-secondly, there is a point in having it in OE-Core if meta-arm is 
-limiting itself to arm provided BSPs alone. I think it will be good to 
-have a platform supported in core to be able to test it, between qemu 
-and beaglebone, I guess it is not used. Or pehaps it is and we do not 
-use it, so that change would be good to have as well.
+--- V4
+
+The patches can be found here:
+https://github.com/savoirfairelinux/openembedded-core/tree/npm-refactorin=
+g-v4
+
+ - Two fetchers are available: npm and npmsw
+
+ - The npm fetcher is used to fetch a single package from a registry.
+
+ - The npmsw fetcher is used to fetch the dependencies of a package. It u=
+ses a
+   npm shrinkwrap file to list the dependencies. The file can be edited
+   manually if some dependencies needs to be updated.
+
+ - Both fetcher are independent.
+
+   For example you can have a main package using npm:
+     SRC_URI =3D "npm://registry.url;package=3Dfoobar;version=3D1.0.0 \
+                npmsw://${THISDIR}/npm-shrinkwrap.json"
+
+   The main package can also be fetched another way without changing anyt=
+hing:
+     SRC_URI =3D "git://github.com/foo/bar.git;protocol=3Dhttps \
+                npmsw://${THISDIR}/npm-shrinkwrap.json"
+
+ - The npm class is in charge of executing the 'npm install'. This instal=
+lation
+   is executed completely offline. The package sources can be patched saf=
+ely
+   before the build.
+
+ - The npm class populates a local npm cache during the do_configure task=
+. As
+   this step can take time the support of a progress bar have been added.
+
+ - The devtool and recipetool scripts have been updated to match the new
+   fetchers and class. The licences are handled and split by dependencies=
+.
+
+ - Both fetcher, the recipe creation and the recipe build are covered by =
+tests.
+
+ - Using devtool I have successfully generated and built recipe for:
+   - My test application:
+       https://github.com/savoirfairelinux/node-server-example
+   - The angular cli which will be used to build angular applications:
+       https://cli.angular.io
+   - The mozilla iot gateway which is a big project with a lot of depende=
+ncies:
+       https://github.com/mozilla-iot/gateway
+     To build this project you have to manually add this line in the reci=
+pe:
+       DEPENDS =3D "nanomsg sqlite3 libuv"
+
+--- V5
+
+The patches can be found here:
+https://github.com/savoirfairelinux/openembedded-core/tree/npm-refactorin=
+g-v5
+
+ - As suggested by Christopher, the class now use the shlex.quote() funct=
+ion
+   to handle arguments to shell functions.
+
+--- V6
+
+The patches can be found here:
+https://github.com/savoirfairelinux/openembedded-core/tree/npm-refactorin=
+g-v6
+
+The npm class needs nodejs-native which is included in the
+meta-openembedded/meta-oe layer.
+
+recipetool have a check to ensure that nodejs-native is available and rea=
+dy to
+be used. But it cannot add the layer on its own. So to be able to run the=
+ npm
+tests on the CI the meta-openembedded/meta-oe layer have to be added. The=
+re was
+no issue before because there was no npm test before.
+
+It may be an argument to add the nodejs recipe into OE-core.
+
+Jean-Marie LEMETAYER (13):
+  classes/npm: refactor the npm class
+  classes/npm: restrict the build to be offline
+  classes/npm: use the local node headers
+  classes/npm: use the native python
+  classes/npm: force to rebuild the prebuild addons
+  devtool: npm: rename npm command line options
+  recipetool/create_npm: refactor the npm recipe creation handler
+  recipetool/create_npm: handle the licenses of the dependencies
+  lib/oe/package: remove unneeded npm_split_package_dirs function
+  devtool/standard: npm: update the append file
+  recipetool/create: npm: remove the 'noverify' url parameter
+  oeqa/selftest/recipetool: add npm recipe creation test
+  oeqa/selftest/devtool: add npm recipe build test
+
+ meta/classes/npm.bbclass                   | 363 ++++++++++++---
+ meta/lib/oe/package.py                     |  33 --
+ meta/lib/oeqa/selftest/cases/devtool.py    |  20 +
+ meta/lib/oeqa/selftest/cases/recipetool.py |  25 +
+ scripts/lib/devtool/standard.py            |  18 +-
+ scripts/lib/recipetool/create.py           |  10 +-
+ scripts/lib/recipetool/create_npm.py       | 514 +++++++++------------
+ 7 files changed, 567 insertions(+), 416 deletions(-)
+
+--
+2.20.1
+
 
