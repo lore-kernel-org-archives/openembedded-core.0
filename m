@@ -1,105 +1,23 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6026B7FC4A
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C5FCC7FCD5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 22:57:08 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id r11so2158457pgf.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 Jan 2020 14:57:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language;
-	bh=t+Q0hZVVhC6LpZe+5ACWXM4mZ4UPbU5ZWqHuKPC8d5w=;
-	b=lWKhqe5kQyGOAp9oDd9bA0G/+eV+RhdX2OEvKoHwuaUdvWA2AfZ3qFJ4I4JaKQq2dq
-	sZ0D2wsOEpgx242Cwl8jxG6PRGoDJRcPTwH1AvPiL8uXRI9BBQsrXG7K1U8wBQlj+5ai
-	Ljbh8xjqBQD7J/nB8kM0hEksTxERS5LNwV4+IfCG2z6Hs2OL34Kz70m7Oar3QbSwbXk8
-	VDaZQnNfDKJ4IdmtmeLpv6S20SRN34ZTgCZHdK+cwPbpOr7YhXnj8jci+O9dNambSO8/
-	yVMMhPVyH7cKBrRVlczCWZ6AO5isVB8d2f3IzpbEz3gbxSvDLLczgkLTo4Bcj419iN/I
-	+J+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language;
-	bh=t+Q0hZVVhC6LpZe+5ACWXM4mZ4UPbU5ZWqHuKPC8d5w=;
-	b=BFaOcMHlbvvE4VefSjSl6tuP1ildkyvu2P1CkigS9/249iwQtbIsCE99TE5qm5H3zq
-	14eOcKIcWYiJsM2sN1Ifal1fOpU2tcvEWJbpyYW21YOKLKwGizT/rdqmm4Xajsdh6U3C
-	hDaz2r55O3zQosdEbeqFk5zwbN8srhzKgYknkyoCgtaIwrAITScUnitW3kQyyFBrOkm6
-	427W/OriAyQkH9c2PPs0dKNfiTXYRPkP9RgyBb9VVgNddExZ8r0NnWYwBSp7qFDwMlJY
-	8i1XRmpc7JYMDfWlijdBGEWPTxPxcxiLJKnvH6Ypx6QnZrqEVHfkcYbhBaxhSO+9LunW
-	laLw==
-X-Gm-Message-State: APjAAAXfJl/ZvQutDqcCfidByUypbj+Km2g1X8sdmAQJmEdTwLn9/K99
-	nwM5WOdZsIrVeW1SbjZOH+Q=
-X-Google-Smtp-Source: APXvYqxD6lNkuL3SXEgX336WgeQmzO9WpX52eSV4BB7ih6PO28tI+OTC/rmLj4UwueJaSEiNkwNaeg==
-X-Received: by 2002:aa7:9145:: with SMTP id 5mr538176pfi.74.1579820229499;
-	Thu, 23 Jan 2020 14:57:09 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:682c:76b9:6d8a:bbd2?
-	([2601:202:4180:a5c0:682c:76b9:6d8a:bbd2])
-	by smtp.gmail.com with ESMTPSA id
-	b42sm3913887pjc.27.2020.01.23.14.57.08
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 23 Jan 2020 14:57:09 -0800 (PST)
-To: Ross Burton <ross.burton@intel.com>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Denys Dmytriyenko <denis@denix.org>, Jon Mason <jdmason@gmail.com>
-References: <1579813185-1950-1-git-send-email-denis@denix.org>
-	<CADkTA4OUcmx2wFVf9NAR8D7c_3n+303YFR3gwAWv08KgT_o+ww@mail.gmail.com>
-	<6f6a74c1-948e-e6f2-303b-639a08111d64@intel.com>
-From: akuster808 <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <cf40baea-61d3-7e1b-4c25-853bcda2753f@gmail.com>
-Date: Thu, 23 Jan 2020 14:57:07 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	Fri, 24 Jan 2020 01:30:15 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 00O1TdTs019747
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Thu, 23 Jan 2020 17:29:50 -0800
+Received: from yow-lpggp3.wrs.com (128.224.137.13) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Thu, 23 Jan 2020 17:29:28 -0800
+From: Trevor Gamblin <Trevor.Gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 Jan 2020 20:29:28 -0500
+Message-ID: <20200124012928.22960-1-Trevor.Gamblin@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <6f6a74c1-948e-e6f2-303b-639a08111d64@intel.com>
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] arm-trusted-firmware: add upstream version 2.2
+Subject: [PATCH v3] logrotate.py: improve oeqa test implementation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -112,151 +30,151 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 Jan 2020 22:57:08 -0000
-Content-Type: multipart/alternative;
-	boundary="------------EE09101DABFC61EDE7358042"
-Content-Language: en-US
-
---------------EE09101DABFC61EDE7358042
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-
-
-On 1/23/20 2:17 PM, Ross Burton wrote:
-> On 23/01/2020 21:43, Bruce Ashfield wrote:
->> On Thu, Jan 23, 2020 at 4:00 PM Denys Dmytriyenko <denis@denix.org>
->> wrote:
->>>
->>> From: Denys Dmytriyenko <denys@ti.com>
->>>
->>> Many BSPs require ARM Trusted Firmware (also known as Trusted
->>> Firmware-A).
->>> To avoid duplicating efforts of adding very similar recipes to BSP
->>> layers,
->>> add an upstream reference implementation to openembedded-core, which
->>> can be
->>> customized by BSPs, if needed.
->>
->> Isn't this one of the things that Jon Mason is trying to
->> standardize/support in meta-arm ?
->>
->> http://git.yoctoproject.org/cgit/cgit.cgi/meta-arm/tree/meta-arm/recip=
-es-bsp/trusted-firmware-a
->>
->>
->> What's the delta between the two ?
->
-> That was precisely my thought too.=C2=A0 meta-arm isn't exactly well kn=
-own
-> right now, but ideally it should be a central place for common pieces
-> that are specific to ARM hardware (unlike anything that is needed for
-> qemuarm itself).
-
-Per meta-arm's README:
-
-|meta-arm:
-This layer provides support for general recipes for the Arm architecture.=
-
-Anything that's not needed explicitly for BSPs, the IOTA distribution,
-or destined to be upstreamed belongs here.
-
-
-So does that package belong in meta-arm based on what Arm is trying to do=
-?
-
-- armin
-
-|
-
-
-
-
-> Ross
-
-
---------------EE09101DABFC61EDE7358042
-Content-Type: text/html; charset=utf-8
+X-List-Received-Date: Fri, 24 Jan 2020 01:30:15 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <br>
-    <br>
-    <div class="moz-cite-prefix">On 1/23/20 2:17 PM, Ross Burton wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:6f6a74c1-948e-e6f2-303b-639a08111d64@intel.com">On
-      23/01/2020 21:43, Bruce Ashfield wrote:
-      <br>
-      <blockquote type="cite">On Thu, Jan 23, 2020 at 4:00 PM Denys
-        Dmytriyenko <a class="moz-txt-link-rfc2396E" href="mailto:denis@denix.org">&lt;denis@denix.org&gt;</a> wrote:
-        <br>
-        <blockquote type="cite">
-          <br>
-          From: Denys Dmytriyenko <a class="moz-txt-link-rfc2396E" href="mailto:denys@ti.com">&lt;denys@ti.com&gt;</a>
-          <br>
-          <br>
-          Many BSPs require ARM Trusted Firmware (also known as Trusted
-          Firmware-A).
-          <br>
-          To avoid duplicating efforts of adding very similar recipes to
-          BSP layers,
-          <br>
-          add an upstream reference implementation to openembedded-core,
-          which can be
-          <br>
-          customized by BSPs, if needed.
-          <br>
-        </blockquote>
-        <br>
-        Isn't this one of the things that Jon Mason is trying to
-        <br>
-        standardize/support in meta-arm ?
-        <br>
-        <br>
-<a class="moz-txt-link-freetext" href="http://git.yoctoproject.org/cgit/cgit.cgi/meta-arm/tree/meta-arm/recipes-bsp/trusted-firmware-a">http://git.yoctoproject.org/cgit/cgit.cgi/meta-arm/tree/meta-arm/recipes-bsp/trusted-firmware-a</a>
-        <br>
-        <br>
-        What's the delta between the two ?
-        <br>
-      </blockquote>
-      <br>
-      That was precisely my thought too.  meta-arm isn't exactly well
-      known right now, but ideally it should be a central place for
-      common pieces that are specific to ARM hardware (unlike anything
-      that is needed for qemuarm itself).
-      <br>
-    </blockquote>
-    <br>
-    <font size="+1">Per meta-arm's README:<br>
-      <br>
-      <code><font size="+2">meta-arm: <br>
-          This layer provides support for general recipes for the Arm
-          architecture. <br>
-          Anything that's not needed explicitly for BSPs, the IOTA
-          distribution, or destined to be upstreamed belongs here.<br>
-          <br>
-          <br>
-          So does that package belong in meta-arm based on what Arm is
-          trying to do?<br>
-          <br>
-          - armin<br>
-        </font><br>
-      </code></font><br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <blockquote type="cite"
-      cite="mid:6f6a74c1-948e-e6f2-303b-639a08111d64@intel.com">Ross
-      <br>
-    </blockquote>
-    <br>
-  </body>
-</html>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
---------------EE09101DABFC61EDE7358042--
+See bug https://bugzilla.yoctoproject.org/show_bug.cgi?id=13632
+
+Autobuilder tests occasionally fail, reporting that a new logfile
+could not be created. While this failure did occur multiple times, it
+could not be manually reproduced. However, there are issues with the
+implementation of the logrotate.py script that can be fixed. These
+changes will help make the failures clearer, should they continue to
+occur.
+
+Previously, the test_2_logrotate test would, after running the
+logrotate tool, use "ls -al $HOME/logrotate_dir | wc -l" to count
+the number of files in the rotation directory and determine if the
+rotation was successful. The test to see if there are at least three
+files is problematic, because depending on the version of ls used, it
+may report the target value of 3 even when there are only hidden files
+in the directory, potentially reporting a pass for the test when it
+should actually fail. An example with coreutils:
+
+root@qemux86-64:~# ls -al emptydir/
+total 2
+drwxr-xr-x 2 root root 1024 Jan 14 19:50 .
+drwx------ 3 root root 1024 Jan 14 19:50 ..
+root@qemux86-64:~#
+
+Where "total" is the number of blocks used. Compare with busybox ls:
+
+root@qemux86-64:~# ls -al emptydir/
+drwxr-xr-x    2 root     root          1024 Jan 14 19:54 .
+drwx------    3 root     root          1024 Jan 14 19:54 ..
+root@qemux86-64:~#
+
+Instead of using ls to verify that a certain number of files exists
+in $HOME/logrotate_dir, the tests have been changed to rotate two
+specific logs: the log for wtmp and a new logrotate_testfile created
+during the second test. Both tests check that the logs are correctly
+rotated into $HOME/logrotate_dir by using find and grep on the
+expected filename (e.g. "wtmp" when rotated becomes "wtmp.1", so we
+check to see that wtmp.1 is present in $HOME/logrotate_dir). In
+addition, should the test fail, the output from logrotate -vf is
+included in the test log to aid debugging. It has also been seen that
+in some cases, the logrotate test fails because the /var/log/wtmp file
+is not yet present. Since the objective of the test is to check the
+logrotate functionality and not the presence of certain log files,
+test_logrotate_wtmp uses the touch command to help ensure that the
+file is present before the call to logrotate is issued.
+
+Finally, note that while the autobuilder failures that this patch
+addresses were only seen during core-image-full-cmdline tests, these
+changes were successfully tested on core-image-minimal and
+core-image-sato with the manual addition of logrotate and openssh-sshd
+to the images.
+
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+---
+ meta/lib/oeqa/runtime/cases/logrotate.py | 62 +++++++++++++++++-------
+ 1 file changed, 44 insertions(+), 18 deletions(-)
+
+diff --git a/meta/lib/oeqa/runtime/cases/logrotate.py b/meta/lib/oeqa/runtime/cases/logrotate.py
+index bfa57c534a..3938e91993 100644
+--- a/meta/lib/oeqa/runtime/cases/logrotate.py
++++ b/meta/lib/oeqa/runtime/cases/logrotate.py
+@@ -18,32 +18,58 @@ class LogrotateTest(OERuntimeTestCase):
+     @classmethod
+     def tearDownClass(cls):
+         cls.tc.target.run('mv -f $HOME/wtmp.oeqabak /etc/logrotate.d/wtmp && rm -rf $HOME/logrotate_dir')
++        cls.tc.target.run('rm -rf /var/log/logrotate_testfile && rm -rf /etc/logrotate.d/logrotate_testfile')
+ 
+     @OETestDepends(['ssh.SSHTest.test_ssh'])
+     @OEHasPackage(['logrotate'])
+-    def test_1_logrotate_setup(self):
++    def test_logrotate_wtmp(self):
++
++        # /var/log/wtmp may not always exist initially, so use touch to ensure it is present
++        status, output = self.target.run('touch /var/log/wtmp')
++        msg = ('Could not create/update /var/log/wtmp with touch')
++        self.assertEqual(status, 0, msg = msg)
++
+         status, output = self.target.run('mkdir $HOME/logrotate_dir')
+-        msg = 'Could not create logrotate_dir. Output: %s' % output
++        msg = ('Could not create logrotate_dir. Output: %s' % output)
++        self.assertEqual(status, 0, msg = msg)
++
++        status, output = self.target.run('echo "create \n olddir $HOME/logrotate_dir \n include /etc/logrotate.d/wtmp" > /tmp/logrotate-test.conf')
++        msg = ('Could not write to /tmp/logrotate-test.conf')
++        self.assertEqual(status, 0, msg = msg)
++        
++        status, output = self.target.run('echo "/var/log/logrotate_test {\\n missingok \\n monthly \\n rotate 1" > /etc/logrotate.d/logrotate_test')
++        msg = ('Could not write to /etc/logrotate.d/logrotate_test')
++        self.assertEqual(status, 0, msg = msg)
++        
++        # If logrotate fails to rotate the log, view the verbose output of logrotate to see what prevented it
++        _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test.conf')
++        status, _ = self.target.run('find $HOME/logrotate_dir -type f | grep wtmp.1')
++        msg = ("logrotate did not successfully rotate the wtmp log. Output from logrotate -vf: \n%s" % (logrotate_output))
++        self.assertEqual(status, 0, msg = msg)
++       
++    @OETestDepends(['logrotate.LogrotateTest.test_logrotate_wtmp'])
++    def test_logrotate_newlog(self):
++        
++        status, output = self.target.run('echo "oeqa logrotate test file" > /var/log/logrotate_testfile')
++        msg = ('Could not create logrotate test file in /var/log')
++        self.assertEqual(status, 0, msg = msg)
++        
++        status, output = self.target.run('echo "/var/log/logrotate_testfile {\n missingok \n monthly \n rotate 1" > /etc/logrotate.d/logrotate_testfile')
++        msg = ('Could not write to /etc/logrotate.d/logrotate_testfile')
+         self.assertEqual(status, 0, msg = msg)
+ 
+-        cmd = ('sed -i "s#wtmp {#wtmp {\\n    olddir $HOME/logrotate_dir#"'
+-               ' /etc/logrotate.d/wtmp')
+-        status, output = self.target.run(cmd)
+-        msg = ('Could not write to logrotate.d/wtmp file. Status and output: '
+-               ' %s and %s' % (status, output))
++        status, output = self.target.run('echo "create \n olddir $HOME/logrotate_dir \n include /etc/logrotate.d/logrotate_testfile" > /tmp/logrotate-test2.conf')
++        msg = ('Could not write to /tmp/logrotate_test2.conf')
+         self.assertEqual(status, 0, msg = msg)
+ 
+-    @OETestDepends(['logrotate.LogrotateTest.test_1_logrotate_setup'])
+-    def test_2_logrotate(self):
+-        status, output = self.target.run('echo "create \n include /etc/logrotate.d" > /tmp/logrotate-test.conf')
+-        status, output = self.target.run('logrotate -f /tmp/logrotate-test.conf')
++        status, output = self.target.run('find $HOME/logrotate_dir -type f | grep logrotate_testfile.1')
++        msg = ('A rotated log for logrotate_testfile is already present in logrotate_dir')
++        self.assertEqual(status, 1, msg = msg)
+ 
+-        msg = ('logrotate service could not be reloaded. Status and output: '
+-                '%s and %s' % (status, output))
++        # If logrotate fails to rotate the log, view the verbose output of logrotate instead of just listing the files in olddir
++        _, logrotate_output = self.target.run('logrotate -vf /tmp/logrotate-test2.conf')
++        status, _ = self.target.run('find $HOME/logrotate_dir -type f | grep logrotate_testfile.1')
++        msg = ('logrotate did not successfully rotate the logrotate_test log. Output from logrotate -vf: \n%s' % (logrotate_output))
+         self.assertEqual(status, 0, msg = msg)
+ 
+-        _, output = self.target.run('ls -la $HOME/logrotate_dir/ | wc -l')
+-        msg = ('new logfile could not be created. List of files within log '
+-               'directory: %s' % (
+-                self.target.run('ls -la $HOME/logrotate_dir')[1]))
+-        self.assertTrue(int(output)>=3, msg = msg)
++
+-- 
+2.24.1
+
+
