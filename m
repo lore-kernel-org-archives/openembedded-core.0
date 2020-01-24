@@ -1,53 +1,18 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
-	[209.85.215.173])
-	by mail.openembedded.org (Postfix) with ESMTP id EAFF47FD6C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 15:48:12 +0000 (UTC)
-Received: by mail-pg1-f173.google.com with SMTP id u131so1258108pgc.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 07:48:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=q0NOqvHsJn0zYcGQtzo6pPrSB6fyQScW6UAKrDIMvV8=;
-	b=MirDwXJHXYkun3kp9MYODKCm5wGN+qZH8orHYesccXmmzLVjimP8v4X1TxAX7xvUU3
-	NsIcggMIF11v0zLuO7RofdFDaAzXFYj5ZfY0hq7mKM1dSRw/8+lITAsBvoDc8PW1UWG/
-	eJY3Vav9MJGRAawHBBEt3Gd0Pwt1d/94elo7zAsGCDyoJjuEtEYRTg8BzSK5JP7Q3XUg
-	c6/khJy0E6PpUazD52V9W9eDohAn6ER6nI3UN2iZyTcfh62xaaXQ8C+YHZitizdAj3rZ
-	LtyqOfDn3MjPvWJW2t4IiJA/OuybZ9Q9dJPgGiqKbI98LnPwmYcYXjdJd9ZLb5s4itBO
-	TiMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=q0NOqvHsJn0zYcGQtzo6pPrSB6fyQScW6UAKrDIMvV8=;
-	b=DwuDZFodWr3cC53IlFHw3y9ghU3yrLXA0g8esMnHbDQZQ2kj9aX3wal1N9WDHBu6YD
-	yxMiC+06mEAnaOZoGkKf8BASJc8BurNB1zMLCMhtou+4kks9GKbuyuS5Xhj3Aoe2rP/p
-	cUut63cJZPrhe6TkO3d8dgNAFPSoMxS2jK4XPN8XYPyKrGDGXHzJngcE8QjYzgyT00E4
-	3T2oahFcTR9PIzgRvDrlicOa9IHm0tdFmkUQbshWTb4jfS43QpVriKT8yi5Vz1EayUJy
-	fyCieHPjR9kWJWzejjICUh+MsOoXuaky9yrTn6385FMo5R50qabGOPn1jqWhXnGdrbH+
-	2nhA==
-X-Gm-Message-State: APjAAAVuoF2185mcs+w84N8QJxCvljXiMVs9bYm++PREsoTVsv632FO1
-	+ZDffTTHRfmAQTvD0PtzuQ7qus+f1is=
-X-Google-Smtp-Source: APXvYqzDy+1KJF93u5g5j9u9ui4p9Cz1ZZqSay4kYliFMdP6kjPnmrpslvnbzRjiLR65zm/Zi2uSKA==
-X-Received: by 2002:a63:d108:: with SMTP id k8mr4638092pgg.434.1579880893652; 
-	Fri, 24 Jan 2020 07:48:13 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net
-	(c-73-63-224-124.hsd1.ca.comcast.net. [73.63.224.124])
-	by smtp.gmail.com with ESMTPSA id
-	133sm6729608pfy.14.2020.01.24.07.48.13
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 24 Jan 2020 07:48:13 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jan 2020 07:48:10 -0800
-Message-Id: <20200124154810.1760420-6-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200124154810.1760420-1-raj.khem@gmail.com>
-References: <20200124154810.1760420-1-raj.khem@gmail.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 83B987FD73;
+	Fri, 24 Jan 2020 16:02:49 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [meta-oe][PATCH 6/6] konkretcmpi: Depend on python3 during build
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 24 Jan 2020 16:02:51 -0000
+Message-ID: <20200124160251.2273.81342@do>
+References: <20200124154810.1760420-1-raj.khem@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200124154810.1760420-1-raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlttZXRhLW9lXSBubWFwOiBVc2UgcHkzIGluIGRlcC4uLiIgYW5kIDUgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,38 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 15:48:13 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 24 Jan 2020 16:02:49 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Fix packaging to match py3 module install dir
+== Series Details ==
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Series: "[meta-oe] nmap: Use py3 in dep..." and 5 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22272/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-oe,1/6] nmap: Use py3 in depends/rdepends
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-oe,1/6) and send the patch to the indicated list
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 15049c610b)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb b/meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb
-index f62cf6ba65..e6d5663f85 100644
---- a/meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb
-+++ b/meta-oe/recipes-extended/konkretcmpi/konkretcmpi_0.9.2.bb
-@@ -6,7 +6,7 @@ implementations for many of the provider operations."
- HOMEPAGE = "https://github.com/rnovacek/konkretcmpi"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=f673270bfc350d9ce1efc8724c6c1873"
--DEPENDS_append_class-target = " swig-native sblim-cmpi-devel python"
-+DEPENDS_append_class-target = " swig-native sblim-cmpi-devel python3"
- DEPENDS_append_class-native = " cmpi-bindings-native"
- 
- SRC_URI = "git://github.com/rnovacek/konkretcmpi.git \
-@@ -34,6 +34,6 @@ PACKAGES =+ "${PN}-python"
- 
- RPROVIDES_${PN}-dbg += "${PN}-python-dbg"
- 
--FILES_${PN}-python = "${libdir}/python2.7/site-packages/konkretmof.py* ${libdir}/python2.7/site-packages/_konkretmof.so"
-+FILES_${PN}-python = "${libdir}/python*/site-packages/konkretmof.py* ${libdir}/python*/site-packages/_konkretmof.so"
- 
- BBCLASSEXTEND = "native"
--- 
-2.25.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
