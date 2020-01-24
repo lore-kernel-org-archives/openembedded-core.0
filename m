@@ -1,25 +1,52 @@
-Return-Path: <henning.schild@siemens.com>
-X-Greylist: delayed 1134 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 24 Jan 2020 14:07:42 UTC
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A7917FD58
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 14:07:41 +0000 (UTC)
-Received: from mail2.sbs.de (mail2.sbs.de [192.129.41.66])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id 00ODmn0b030741
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Fri, 24 Jan 2020 14:48:49 +0100
-Received: from md1za8fc.ad001.siemens.net ([139.25.69.193])
-	by mail2.sbs.de (8.15.2/8.15.2) with ESMTP id 00ODmm5o018049;
-	Fri, 24 Jan 2020 14:48:48 +0100
-From: Henning Schild <henning.schild@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 Jan 2020 14:48:47 +0100
-Message-Id: <20200124134847.5052-1-henning.schild@siemens.com>
-X-Mailer: git-send-email 2.24.1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E8C0F7FD16
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jan 2020 15:04:50 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id d16so2339214wre.10
+	for <Openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jan 2020 07:04:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=BtwjUY53HUY951g48dU7Gly/UNDE8+0iBki3Z3TaItw=;
+	b=JUfH/Zxf0W32Ip8w2u12H72sxowpFzuEBJ6EfTXWKSxRURnFLg7KXKUHfYlIeJUD7b
+	UtiVpEZ7Wbm6kZS8e2AUrnQ99n4RCBr6vYEJihY97hNT27FfQCypO7F2sDPUBCFsD2Vr
+	7CNWfmNLrxIoSaxI9zstYyHilFDKIreYvpbDY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=BtwjUY53HUY951g48dU7Gly/UNDE8+0iBki3Z3TaItw=;
+	b=iWxUtATUe4uhGidnoziv7AwHBSfnr63N1kcC1AySvVDknav6x1cSm/5aEp/+UWNokF
+	AHiDcTBLR02+o4kbmPJWoASqZRZrYU+FCU8OiAiI96O4AKrI3aDXSir3M9hIYyjjzZ1l
+	614emBishYWIV3bAuyCsH4AzeGNuEhsMMiHWatUtVf8Ux6BQm7FP+l7B1hFfzm7FOg35
+	bGbX069+uLi/SjaZQFoFVX5l6KFD98XJht1tND2t6/vtn1Mh0NtlGKGWnvpoX+mt9EHE
+	1ULiBCIQiXRlSiRTDAEDu9AGdiJLvAWbz78qN1cHSge1/QQhPfcX4BfikXXMgqUPfZrN
+	hS8w==
+X-Gm-Message-State: APjAAAWiA3rxvBDzFpuEGHojkUx67bRGhGNfEMOHSoxNBCeNa75n4E8A
+	R9Ff+a+m8F0YpGtvc9PBL6G16A==
+X-Google-Smtp-Source: APXvYqyd74VS6EKWhJkTiso2Qgp14XXm7Mkf7dm3W765WvPCOTlgpENaR2wwR+hznIGl+5LyXIkZkw==
+X-Received: by 2002:adf:e3c7:: with SMTP id k7mr4834763wrm.80.1579878291518;
+	Fri, 24 Jan 2020 07:04:51 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 11sm3549999wmb.14.2020.01.24.07.04.38
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 24 Jan 2020 07:04:40 -0800 (PST)
+Message-ID: <e2eb64a553a0b7bf89a942cdf9a1c177c5145aaf.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>, 
+	"Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Date: Fri, 24 Jan 2020 15:04:36 +0000
+In-Reply-To: <CY4PR12MB165355D4A69E257FD4AB30298B0E0@CY4PR12MB1653.namprd12.prod.outlook.com>
+References: <CY4PR12MB165355D4A69E257FD4AB30298B0E0@CY4PR12MB1653.namprd12.prod.outlook.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Cc: Henning Schild <henning.schild@siemens.com>, isar-users@googlegroups.com
-Subject: [PATCH] lib/oe/path: try hardlinking instead of guessing when it might fail
+Cc: "dave_clouser@agilent.com" <dave_clouser@agilent.com>
+Subject: Re: Custom CLASSOVERRIDE and a "sub-sysroot" for JavaScript
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,69 +59,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 14:07:42 -0000
+X-List-Received-Date: Fri, 24 Jan 2020 15:04:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 
-From: Henning Schild <henning.schild@siemens.com>
+On Fri, 2020-01-24 at 14:04 +0000, chris.laplante@agilent.com wrote: 
+> There are two main goals of this code. First, it sets up dependencies
+> between -emscripten recipes. Second, it sets ‘prefix’ to be
+> ‘/usr/js/’ so that, for example, a “foo” and “foo-emscripten” recipe
+> that both install development headers won’t collide. I call this the
+> “sub-sysroot”.
+>  
+> I have a few concerns/questions:
+> [a] Is the basic premise of a custom CLASSOVERRIDE supported by
+> Yocto? Our situation seems a bit weird, because our emscripten
+> recipes are still sort of “target” recipes, so I feel a bit funny
+> completely wiping CLASSOVERRIDE.
 
-The comparison of the stat st_dev is not enough to judge whether
-hardlinking will work. One example would be where you try and hardlink
-across two bind-mounts of a directory. The st_dev will be the same and
-the operation will still fail.
+I assume this class extension only applies for target recipes?
 
-Instead of implementing a check to try and figure out hardlink support
-just try hardlinking and fall back to a copy when running into an
-exception.
+If so, why not append ":class-emscripten" to CLASSOVERRIDE rather than
+overwrite it? We support multiple overrides.
 
-Signed-off-by: Henning Schild <henning.schild@siemens.com>
----
- meta/lib/oe/path.py | 24 ++++++++++++++++++------
- 1 file changed, 18 insertions(+), 6 deletions(-)
+> [b] At the very least, I know I did something wrong, because
+> sometimes we get weird warnings like:
+>  
+> WARNING: app-emscripten-1.0+gitAUTOINC+1d1073e7c4-r0 do_compile:
+> Manifest /home/user/yocto/build/tmp/sstate-control/manifest-
+> x86_64_x86_64-nativesdk-library-emscripten.populate_sysroot not found
+> in my_mach cortexa9t2hf-neon cortexa9t2hf-vfp cortexa9hf-neon
+> cortexa9hf-vfp armv7at2hf-neon armv7ahf-neon armv7at2hf-vfp armv7ahf-
+> vfp armv6thf-vfp armv6hf-vfp armv5tehf-vfp armv5ehf-vfp armv5thf-vfp
+> armv5hf-vfp allarch x86_64_x86_64-nativesdk (variant '')?
+>  
+> ... usually followed by a build failure in “app-emscripten” because
+> “library-emscripten:do_populate_sysroot” indeed didn’t run. Related
+> to [a] or perhaps the stamp-extra-info lines?
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index fa209b9795..082972457b 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -99,7 +99,22 @@ def copyhardlinktree(src, dst):
-     if os.path.isdir(src) and not len(os.listdir(src)):
-         return
- 
--    if (os.stat(src).st_dev ==  os.stat(dst).st_dev):
-+    canhard = False
-+    testfile = None
-+    for root, dirs, files in os.walk(src):
-+        if len(files):
-+            testfile = os.path.join(root, files[0])
-+            break
-+
-+    if testfile is not None:
-+        try:
-+            os.link(testfile, os.path.join(dst, 'testfile'))
-+            os.unlink(os.path.join(dst, 'testfile'))
-+            canhard = True
-+        except Exception as e:
-+            bb.debug(2, "Hardlink test failed with " + str(e))
-+
-+    if (canhard):
-         # Need to copy directories only with tar first since cp will error if two 
-         # writers try and create a directory at the same time
-         cmd = "cd %s; find . -type d -print | tar --xattrs --xattrs-include='*' -cf - -S -C %s -p --no-recursion --files-from - | tar --xattrs --xattrs-include='*' -xhf - -C %s" % (src, src, dst)
-@@ -121,12 +136,9 @@ def copyhardlinktree(src, dst):
- def copyhardlink(src, dst):
-     """Make a hard link when possible, otherwise copy."""
- 
--    # We need to stat the destination directory as the destination file probably
--    # doesn't exist yet.
--    dstdir = os.path.dirname(dst)
--    if os.stat(src).st_dev == os.stat(dstdir).st_dev:
-+    try:
-         os.link(src, dst)
--    else:
-+    except OSError:
-         shutil.copy(src, dst)
- 
- def remove(path, recurse=True):
--- 
-2.24.1
+I'd say the stamp-extra-info lines. Why do you think you want those?
+
+> 
+> [c] Is there a better way to do the “sub-sysroot” (/usr/js)? Would
+> multilib cover this whole use case?  (2)
+
+No, it wouldn't since multilib assumes the headers are one set with two
+sets of binaries/libs. You are doing something quite similar to the
+multilib class extension though.
+
+
+Cheers,
+
+Richard
 
 
