@@ -1,55 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 95BA97FD59
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 16:03:32 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id j42so2569608wrj.12
-	for <Openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 08:03:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=clAC4zaaIICjoK5FP+0Uev3xepUG6DGNVJpjadAfJp8=;
-	b=iA344oVgmZ1pgLj3jCCdVF/spKQgSNwlD8LdJWxSfyJh2uCK+x6E83FOqJGUpPSY+n
-	TPTtHbnQbt/30CXLTrHGpuYcGQTup0L23rR3rc5tAdMRjI39yzJk5KpOFGnHrPR5zt1b
-	BD5vjEMdZlEq4k1FQKFzLA3O5eKRopu4RKs9k=
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
+	[209.85.216.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 7566D7FD59;
+	Fri, 24 Jan 2020 16:10:58 +0000 (UTC)
+Received: by mail-pj1-f41.google.com with SMTP id bg7so1327128pjb.5;
+	Fri, 24 Jan 2020 08:11:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=to:from:subject:autocrypt:message-id:date:user-agent:mime-version
+	:content-transfer-encoding:content-language;
+	bh=Z2vkk8WTy8Z3hH+kZ9ZvDeaZrajyB1pak9kEyk6lmZQ=;
+	b=cYUCEAuod7VSUUccFXQBrlozVINo711BGrYq2OPtns28PoyYwEiEtAmHzbi4mmWSa3
+	z2gF+NmOldoaGsYRl5fqYlKdmd8cgO69fWoLqfvR7KyT2FLianeClizogZ9lRFvIgbzn
+	xWTDoMbYWAs7FBe+uP4ziuhVD8Wbn4peEWAoa0w+RTULp/tSZuO7DdWjNx089xcnAHem
+	p6lhp4AnhvcZZ9kiMC8s9qBWKgoXfxblxENMMWs58FaOhuSJB8dT29IWjm6SYKJXlhAk
+	GILfNMHWNPU6wVVFnW9q66IqhZZnBrgPWX0TK2fTXfGTw3ZEb8HhoMAL9BmaryxTq4IZ
+	Q+/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=clAC4zaaIICjoK5FP+0Uev3xepUG6DGNVJpjadAfJp8=;
-	b=HKGMKEy5I1M8Z1xGpRpCXxFstMHqWu1qxiJn8K1ncuT349007yXcfUHJvkUzOE97cR
-	mjwksViiDLoaBBE3Sq1h+iQs9A/L7RNAl7op9CEnWWI73NKBNOEc/h+53einQGjZx4ul
-	KgKR21Q7S43AOiiX+n987hMnkdkEYM9sZ8y//QNpNUCCWov64QvSssURdVr+ygbJrOjj
-	VXhv/Z/OeENsaa0NY5PPqYBI4K+bnve/Br4LKo6mlb2J8PLA8jJWP2ejR6hgDbDF5IMG
-	C35ZlsyRuRRb8d3mMvd5+EsRHZJifFjQ2a0KJ4WvUPOLf6xQSTYMfVyp1rPab9cRG5MI
-	AqSg==
-X-Gm-Message-State: APjAAAXAiqHoJEbLmpmTHQo225g755+3WOy9mbOhLIawl4hVPfNvh+Lc
-	IrVaNGb9nqUMGNkbos8r8Jwapw==
-X-Google-Smtp-Source: APXvYqy8dbEpxhOlg9nnk5IAVXHWOaewMjSZG29/s9dVrcaY/bZgu/M8sIFcNOm3xgXeZ6SgDKl6kA==
-X-Received: by 2002:adf:f308:: with SMTP id i8mr5073923wro.42.1579881813217;
-	Fri, 24 Jan 2020 08:03:33 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:to:from:subject:autocrypt:message-id:date
+	:user-agent:mime-version:content-transfer-encoding:content-language;
+	bh=Z2vkk8WTy8Z3hH+kZ9ZvDeaZrajyB1pak9kEyk6lmZQ=;
+	b=PUhSe7zSKcfbPfqqTnix4wCM99CAnQY2W+FARWFPVUr5pPia1zBhxm4BOvzqmerJ2d
+	IDee8HHHxvhIUYpwmkn/6n6HlIGo9ULoVMwJuLaks9byOmTCsSTebuJX4w6BQ8EVQQXD
+	gYmlflRhG+nRPEfAb7iULvVg1zI7f7cYwiEuIQHatigLS1AXT6MrMFb/CWxFofj5/uki
+	sipRSRBXLZw3P0BJ6x9ilEBB07YxHbVV/TajaDGFdd1WcI55Hjb+5V3mXJ0C87l5tXxd
+	mUYEpknaTpgU3wNBOR0EB6TVPwosha9uR8Sf31dTEKQHCIQsAcXoMEIQhsqA/AtzsAZJ
+	o2KA==
+X-Gm-Message-State: APjAAAV3KZRhZeDCKh/P6AmSXxK3hYA9A2qesL2hRnKUYxFPpdcL7boS
+	p7Du1ysKQIe0XgMPxDDS94qpw5Qw
+X-Google-Smtp-Source: APXvYqx3aGUyM1GF5W5foMA3Lj4AuBXZNTo41YSuB/rKWaP4W56Bea1jGz67VUSMZYAXEX3QgsSalw==
+X-Received: by 2002:a17:902:b690:: with SMTP id
+	c16mr4325632pls.320.1579882259540; 
+	Fri, 24 Jan 2020 08:10:59 -0800 (PST)
+Received: from ?IPv6:2601:202:4180:a5c0:c529:ee5d:f9be:6846?
+	([2601:202:4180:a5c0:c529:ee5d:f9be:6846])
 	by smtp.gmail.com with ESMTPSA id
-	r62sm8367572wma.32.2020.01.24.08.03.31
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 24 Jan 2020 08:03:32 -0800 (PST)
-Message-ID: <49070937ed7f0ea84d7a667abd88af4c3ae6b92b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>, 
-	"Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Date: Fri, 24 Jan 2020 16:03:27 +0000
-In-Reply-To: <CY4PR12MB1653D3CA9B953DF531F2FD7B8B0E0@CY4PR12MB1653.namprd12.prod.outlook.com>
-References: <CY4PR12MB165355D4A69E257FD4AB30298B0E0@CY4PR12MB1653.namprd12.prod.outlook.com>
-	<e2eb64a553a0b7bf89a942cdf9a1c177c5145aaf.camel@linuxfoundation.org>
-	<CY4PR12MB1653D3CA9B953DF531F2FD7B8B0E0@CY4PR12MB1653.namprd12.prod.outlook.com>
-User-Agent: Evolution 3.34.1-2 
+	w20sm6892091pfi.86.2020.01.24.08.10.58
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 24 Jan 2020 08:10:59 -0800 (PST)
+To: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	"bitbake-devel@lists.openembedded.org"
+	<bitbake-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+From: akuster808 <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <95e2150e-8330-df7e-4a41-1e564d24400a@gmail.com>
+Date: Fri, 24 Jan 2020 08:10:57 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.2.2
 MIME-Version: 1.0
-Cc: "dave_clouser@agilent.com" <dave_clouser@agilent.com>
-Subject: Re: Custom CLASSOVERRIDE and a "sub-sysroot" for JavaScript
+Subject: Zeus /1.44 call for patches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,93 +105,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 16:03:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 24 Jan 2020 16:10:58 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-On Fri, 2020-01-24 at 15:26 +0000, chris.laplante@agilent.com wrote:
-> Hi Richard,
-> 
-> > > I have a few concerns/questions:
-> > > [a] Is the basic premise of a custom CLASSOVERRIDE supported by
-> > > Yocto? Our situation seems a bit weird, because our emscripten
-> > > recipes are still sort of “target” recipes, so I feel a bit funny
-> > > completely wiping CLASSOVERRIDE.
-> > 
-> > I assume this class extension only applies for target recipes?
-> > 
-> > If so, why not append ":class-emscripten" to CLASSOVERRIDE rather
-> > than
-> > overwrite it? We support multiple overrides.
-> 
-> Makes sense, I'll give it a try. 
-> 
-> > > [b] At the very least, I know I did something wrong, because
-> > > sometimes we get weird warnings like:
-> > > 
-> > > WARNING: app-emscripten-1.0+gitAUTOINC+1d1073e7c4-r0 do_compile:
-> > > Manifest /home/user/yocto/build/tmp/sstate-control/manifest-
-> > > x86_64_x86_64-nativesdk-library-emscripten.populate_sysroot not
-> > > found
-> > > in my_mach cortexa9t2hf-neon cortexa9t2hf-vfp cortexa9hf-neon
-> > > cortexa9hf-vfp armv7at2hf-neon armv7ahf-neon armv7at2hf-vfp
-> > > armv7ahf-
-> > > vfp armv6thf-vfp armv6hf-vfp armv5tehf-vfp armv5ehf-vfp armv5thf-
-> > > vfp
-> > > armv5hf-vfp allarch x86_64_x86_64-nativesdk (variant '')?
-> > > 
-> > > ... usually followed by a build failure in “app-emscripten”
-> > > because
-> > > “library-emscripten:do_populate_sysroot” indeed didn’t run.
-> > > Related
-> > > to [a] or perhaps the stamp-extra-info lines?
-> > 
-> > I'd say the stamp-extra-info lines. Why do you think you want
-> > those?
-> 
-> To be honest, I'm not completely sure. I based this class off of
-> native.bbclass and nativesdk.bbclass and they both do it. I have
-> little idea what stamp-extra-info actually does.  
+Apologies for cross posting.
 
-My suggestion is not to do that. native and to a lesser extent
-nativesdk are "special" in ways your class (being target related)
-isn't.
+The next zeus dot release is scheduled to be built on Feb 3.
 
-Basically this code is how we were able to maintain a sysroot per
-machine and pkgdata per machine.
+Please submit patches or backport requests to the list(s) by Jan 30th.
 
-The sysroot per machine is dead with recipe specific sysroots but today
-we still have pkgdata shared per machine:
-
-meta/classes/package.bbclass:do_packagedata[stamp-extra-info] = "${MACHINE_ARCH}"
-
-which means the packagedata task will rerun per machine.
-
-The nativesdk stamps only need to change per SDKMACHINE target (which
-changes SDK_ARCH so we're fine there).
-
-I'll try and remember to queue a cleanup for some bits of this as there
-is a tiny bit of dead but harmless code.
-
-Its in my queue to think about making pkgdata in WORKDIR then we could
-ditch this whole thing.
-
-> > > [c] Is there a better way to do the “sub-sysroot” (/usr/js)?
-> > > Would
-> > > multilib cover this whole use case?  (2)
-> > 
-> > No, it wouldn't since multilib assumes the headers are one set with
-> > two
-> > sets of binaries/libs. You are doing something quite similar to the
-> > multilib class extension though.
-> 
-> OK, so the basic strategy seems OK then? 
-
-I think so, but don't copy native/nativesdk! :) multlib is a better
-reference (and doesn't do this with the stamps afaik).
-
-Cheers,
-
-Richard
+Regards,
+Armin
 
 
