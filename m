@@ -1,52 +1,52 @@
 Return-Path: <jdmason@kudzu.us>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CAFEF7FDDB
+Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 69BBC7FDC3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 22:27:07 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id z193so3594327iof.1
+	Fri, 24 Jan 2020 22:30:15 +0000 (UTC)
+Received: by mail-il1-f195.google.com with SMTP id x5so2853541ila.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 14:27:09 -0800 (PST)
+	Fri, 24 Jan 2020 14:30:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Be8BTw8/rsr8G08OxalrGjLDui4Ml2qqBfmIBJVcVpg=;
-	b=EIsjN+cDTm9TrPabqjSnHUR9aaLz4XT1b9DfrHjkLNMyisPytwyon0YQG5n/fUoLnz
-	MZnxUf0XP6vKhHJ20Nmp1A2ayvONUgrMJernSycJ3bcfMg05Xu2LoljEaIym/dH6hJVF
-	ERupIBqzniZD+e5C2H2jffzV5gp5fqUPqJVh+E5RpYu6veSxuNIdrzXIrekvbJDhVz+e
-	j7nvpdrOnt9EP2rWL9o2fBWe7S2lIbA/nJjnQX0G4BnTSzl699gubFFO+T/TTU85KE+1
-	123nMSnvu5rU1h+JefH0W+hMI0t3YSLIybO0aymT5LVkqZMANFvXxkS5sSz9Ye+K+FJV
-	23IA==
+	:cc; bh=+EH568lr6Udl28Pxwud1atj6R3jOf34+B2TU1O9jaok=;
+	b=ZaZotmNK+QfifGfhmsrui8PvzDI7rTOkptsMKnEu4Yl14xCoj1EVqUtYk3gQXK3o0r
+	3ZQhl/uaylwbGZaHsSZA50gLhbrxLeHsBr1df5Zv/5MKeS3aDYy8UvQci+zfuP57ESQN
+	rhI26lK4/2G4dnoh+Oo5Mj2w4U4+IKL11MPJaWkGYgAXPFlUbPPtxCiQel5Zcj2Gdrlb
+	tMN/iGTR54zhZ9/BMu8HjFqAPxitFRKkOse8CkZVJD/sPu42vnOST8eVC3OydpFWs9YZ
+	xgTHa+iPk7330nqVYRz/Y7AbWSFqVzhsMI3GhyGe82A694Y7jkDIQZkU05AGGUaSkZQK
+	+OSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Be8BTw8/rsr8G08OxalrGjLDui4Ml2qqBfmIBJVcVpg=;
-	b=iYwKPBoxibIgzQvsScZnWsn44Q5PJ2mol340ib+SbPAMKxsvXvz+ILaYChi33cvrB7
-	qVMM7jhXAZ+Ugw4vbuoiSUu7tnYK76892lqr1H5kTYhlnqO1R/RXSWwZLiyXyOmOLPPQ
-	6DFB4lZQ1voxvqX3Wb4ywZiialgj/9kNUw/E3uLH7sUYfrQ+88Ms5suBaNR9YuoiAR3q
-	m/Ojv9ugLRlJeYaMrSGnYt3mPU1+RIv3v1/icjWe2IYRgAp0Azkl2K5AdxbAGNJxvhZk
-	wpvU7DK6biKMNRVSMRfORJz+PkiZJTHhfTnwmrcGCt/UwM6qa0QjemzN2LRCHFhb6+3e
-	AC6w==
-X-Gm-Message-State: APjAAAUkCx8aOJ0Ak+vmVPqWYzkxy8wIjeKTzoLzlWGKr2SyezY4eP8u
-	yy67r0w+vQ11Odf9RP4fDmFygThGRF0qf4jIN5rSiw==
-X-Google-Smtp-Source: APXvYqzrZHUAZkMqVRy9r6cnTv1VAeYSoaEzMTC2c91W3zMWJLQ/ghf9Y30gXPlqNbWKlhADTvdrh/lPNmxyOsYX60g=
-X-Received: by 2002:a6b:e803:: with SMTP id f3mr4152071ioh.49.1579904828790;
-	Fri, 24 Jan 2020 14:27:08 -0800 (PST)
+	bh=+EH568lr6Udl28Pxwud1atj6R3jOf34+B2TU1O9jaok=;
+	b=UMnZrAm19m28A/CF36OXwwEGEBkLYQQJvflt4l8iNFAC6MIc9jiMzn6fwnGy3RBgz+
+	JOTD4ApaQWlxyH43dKvJNPRHgwMuI6T6frCnB0RT+LeFBBp+bFNH3h/IPANVFASUOBCy
+	PUgB1Br7UHrJqgoNzBY1thnRcZ4aM9Jj6VveQdfXwfg/6JmFTXT3eLRw8RzlZ41SyGhQ
+	hgD4S/oMsrIl3A/HpH+EDNOYLH8teSCsIZCnkXqva5sBVFi+Am3pPTRi7PxUKyl6XLY3
+	3kwya5yw3iVePpBz0gEXh7sA8qy/zm+N8NKlbClK9GkRlOKuYS8deDABy+hHWTcB6lwv
+	khfw==
+X-Gm-Message-State: APjAAAVSUBZqaCHf1E34eit3Q+WAlDjj0a6BgNBAd1k+ilPr1DV7fnsJ
+	dHsRTeZXM4SlR3LpoWpc77LA11ImCXfKMALV+lQUHg==
+X-Google-Smtp-Source: APXvYqy/ljKUqD1aGGszaA4xG6Kg47eGA1V92U59xamy5Gz55sopopIcLHlwNW+6COPHVxBLpecBfcpudwF9D8eZ7ag=
+X-Received: by 2002:a92:c942:: with SMTP id i2mr4825467ilq.97.1579905016216;
+	Fri, 24 Jan 2020 14:30:16 -0800 (PST)
 MIME-Version: 1.0
 References: <1579813185-1950-1-git-send-email-denis@denix.org>
 	<CADkTA4OUcmx2wFVf9NAR8D7c_3n+303YFR3gwAWv08KgT_o+ww@mail.gmail.com>
 	<20200123220536.GE4735@denix.org>
-	<CADkTA4PCLSP1eBSLcS4iLUhok=UOzBD2BAXTnzjf5C0pXPn9ZQ@mail.gmail.com>
-In-Reply-To: <CADkTA4PCLSP1eBSLcS4iLUhok=UOzBD2BAXTnzjf5C0pXPn9ZQ@mail.gmail.com>
+	<4e8ae0a5-bf21-9f91-6e04-c1f733f14905@gmail.com>
+	<20200123221627.GF4735@denix.org>
+In-Reply-To: <20200123221627.GF4735@denix.org>
 From: Jon Mason <jdmason@kudzu.us>
-Date: Fri, 24 Jan 2020 17:26:58 -0500
-Message-ID: <CAPoiz9xRT1qffL_QGzMrR+AibTVwH7OSS+sbyPZbRGLEq+wcrw@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Jon Mason <jdmason@gmail.com>,
-	Patches and discussions about the oe-core layer
+Date: Fri, 24 Jan 2020 17:30:04 -0500
+Message-ID: <CAPoiz9wzUcQuGoA5Qc0XAZtR1L4Hox3fMqiF1MtVXtHcOemngA@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
+	Jon Mason <jdmason@gmail.com>, Denys Dmytriyenko <denys@ti.com>
 Subject: Re: [PATCH] arm-trusted-firmware: add upstream version 2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,158 +60,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 22:27:08 -0000
+X-List-Received-Date: Fri, 24 Jan 2020 22:30:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jan 23, 2020 at 5:16 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+On Thu, Jan 23, 2020 at 5:16 PM Denys Dmytriyenko <denis@denix.org> wrote:
 >
-> On Thu, Jan 23, 2020 at 5:05 PM Denys Dmytriyenko <denis@denix.org> wrote:
+> On Thu, Jan 23, 2020 at 04:10:33PM -0600, Joshua Watt wrote:
 > >
-> > On Thu, Jan 23, 2020 at 04:43:23PM -0500, Bruce Ashfield wrote:
-> > > On Thu, Jan 23, 2020 at 4:00 PM Denys Dmytriyenko <denis@denix.org> wrote:
-> > > >
-> > > > From: Denys Dmytriyenko <denys@ti.com>
-> > > >
-> > > > Many BSPs require ARM Trusted Firmware (also known as Trusted Firmware-A).
-> > > > To avoid duplicating efforts of adding very similar recipes to BSP layers,
-> > > > add an upstream reference implementation to openembedded-core, which can be
-> > > > customized by BSPs, if needed.
+> > On 1/23/20 4:05 PM, Denys Dmytriyenko wrote:
+> > >On Thu, Jan 23, 2020 at 04:43:23PM -0500, Bruce Ashfield wrote:
+> > >>On Thu, Jan 23, 2020 at 4:00 PM Denys Dmytriyenko <denis@denix.org> wrote:
+> > >>>From: Denys Dmytriyenko <denys@ti.com>
+> > >>>
+> > >>>Many BSPs require ARM Trusted Firmware (also known as Trusted Firmware-A).
+> > >>>To avoid duplicating efforts of adding very similar recipes to BSP layers,
+> > >>>add an upstream reference implementation to openembedded-core, which can be
+> > >>>customized by BSPs, if needed.
+> > >>Isn't this one of the things that Jon Mason is trying to
+> > >>standardize/support in meta-arm ?
+> > >>
+> > >>http://git.yoctoproject.org/cgit/cgit.cgi/meta-arm/tree/meta-arm/recipes-bsp/trusted-firmware-a
+> > >Ah, interesting, somehow I totally missed that one! :)
 > > >
-> > > Isn't this one of the things that Jon Mason is trying to
-> > > standardize/support in meta-arm ?
-> > >
-> > > http://git.yoctoproject.org/cgit/cgit.cgi/meta-arm/tree/meta-arm/recipes-bsp/trusted-firmware-a
+> > >What triggered this submission is that we have our own variant in meta-ti and
+> > >Joshua Watt was adding a very similar one to meta-rockchip:
+> > >https://lists.yoctoproject.org/g/yocto/topic/70054501#48116
 > >
-> > Ah, interesting, somehow I totally missed that one! :)
-> >
+> > FWIW, variants of this recipe crop up in pretty much every ARM-based
+> > BSP layer (e.g. https://github.com/alistair23/meta-pine64/blob/master/recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2.1.bb);
+> > it seems common enough that a base recipe that each BSP layer can
+> > bbappend to suite their needs seems like it would be useful?
 >
-> It hasn't been there that long, and I was talking to Jon about it at
-> the various conferences late last year, otherwise, I wouldn't have
-> known either.
+> Yes, indeed, hence we agreed to submit it to oe-core...
+>
+> And meta-arm sounds like a good idea and can be used by all those ARM-based
+> BSPs as a base, but for some reason I cannot find any announcements for that
+> new layer... Jon?
 
-Getting this meta layer and recipe took longer than I was expecting.
-So, I've been talking about it for months in anticipation of it coming
-out, but it was only properly public at the beginning of this month.
-So, not that it is, I can start badgering people to start using it
-instead of recreating the wheel.  :)
+Sorry, I was unaware that it was common practice to announce this kind
+of thing.  Also, it was very barebones for the first few weeks.  In
+fact, I still think it is minimal.  That being said, I'll send email
+to OE-devel (and/or OE-Core) announcing it properly.
 
 Thanks,
 Jon
 
 
 >
-> > What triggered this submission is that we have our own variant in meta-ti and
-> > Joshua Watt was adding a very similar one to meta-rockchip:
-> > https://lists.yoctoproject.org/g/yocto/topic/70054501#48116
-> >
-> >
-> > > What's the delta between the two ?
-> >
-> > Hmm, that one uses older 2.1 version. Other than that, I'll need to test to
-> > see if it's as adaptable and expandable as our more simplistic variants...
->
-> Sounds like a good plan.
->
-> Cheers,
->
-> Bruce
->
-> >
-> > --
-> > Denys
-> >
-> >
-> > > > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> > > > Cc: Joshua Watt <JPEWhacker@gmail.com>
-> > > > ---
-> > > >  .../arm-trusted-firmware_2.2.bb                    | 55 ++++++++++++++++++++++
-> > > >  1 file changed, 55 insertions(+)
-> > > >  create mode 100644 meta/recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2.2.bb
-> > > >
-> > > > diff --git a/meta/recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2.2.bb b/meta/recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2.2.bb
-> > > > new file mode 100644
-> > > > index 0000000..3079a70
-> > > > --- /dev/null
-> > > > +++ b/meta/recipes-bsp/arm-trusted-firmware/arm-trusted-firmware_2.2.bb
-> > > > @@ -0,0 +1,55 @@
-> > > > +SUMMARY = "ARM Trusted Firmware"
-> > > > +DESCRIPTION = "ARM Trusted Firmware provides a reference implementation of \
-> > > > +Secure World software for ARMv8-A, including Exception Level 3 (EL3) software. \
-> > > > +It provides implementations of various ARM interface standards such as the \
-> > > > +Power State Coordination Interface (PSCI), Trusted Board Boot Requirements \
-> > > > +(TBBR) and Secure monitor code."
-> > > > +HOMEPAGE = "http://infocenter.arm.com/help/topic/com.arm.doc.dui0928e/CJHIDGJF.html"
-> > > > +
-> > > > +LICENSE = "BSD-3-Clause"
-> > > > +LIC_FILES_CHKSUM = "file://docs/license.rst;md5=189505435dbcdcc8caa63c46fe93fa89"
-> > > > +
-> > > > +inherit deploy
-> > > > +
-> > > > +DEPENDS = "dtc-native openssl-native"
-> > > > +
-> > > > +PACKAGE_ARCH = "${MACHINE_ARCH}"
-> > > > +
-> > > > +S = "${WORKDIR}/git"
-> > > > +B = "${WORKDIR}/build"
-> > > > +
-> > > > +BRANCH = "master"
-> > > > +SRC_URI = "git://git.trustedfirmware.org/TF-A/trusted-firmware-a.git;protocol=http;branch=${BRANCH}"
-> > > > +SRCREV = "a04808c16cfc126d9fe572ae7c4b5a3d39de5796"
-> > > > +
-> > > > +ATF_BINARY ??= "bl31"
-> > > > +ATF_SUFFIX ??= "bin"
-> > > > +ATF_TARGET ??= "all"
-> > > > +
-> > > > +CFLAGS[unexport] = "1"
-> > > > +LDFLAGS[unexport] = "1"
-> > > > +AS[unexport] = "1"
-> > > > +LD[unexport] = "1"
-> > > > +
-> > > > +do_configure[noexec] = "1"
-> > > > +
-> > > > +EXTRA_OEMAKE = '-C ${S} BUILD_BASE=${B} DEBUG=0 CROSS_COMPILE="${TARGET_PREFIX}" \
-> > > > +               PLAT="${ATF_PLATFORM}" TARGET_BOARD="${ATF_BOARD}" ${PACKAGECONFIG_CONFARGS}'
-> > > > +
-> > > > +do_compile() {
-> > > > +       oe_runmake ${ATF_TARGET}
-> > > > +}
-> > > > +
-> > > > +do_install() {
-> > > > +       install -d ${D}/boot
-> > > > +       install -m 0644 ${B}/${ATF_PLATFORM}/${ATF_BOARD}/release/${ATF_BINARY}.${ATF_SUFFIX} ${D}/boot/
-> > > > +}
-> > > > +
-> > > > +do_deploy() {
-> > > > +       install -d ${DEPLOYDIR}
-> > > > +       install -m 0644 ${B}/${ATF_PLATFORM}/${ATF_BOARD}/release/${ATF_BINARY}.${ATF_SUFFIX} ${DEPLOYDIR}/
-> > > > +}
-> > > > +addtask deploy before do_build after do_compile
-> > > > +
-> > > > +FILES_${PN} = "/boot"
-> > > > +SYSROOT_DIRS += "/boot"
-> > > > --
-> > > > 2.7.4
-> > > >
-> > > > --
-> > > > _______________________________________________
-> > > > Openembedded-core mailing list
-> > > > Openembedded-core@lists.openembedded.org
-> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > >
-> > >
-> > >
-> > > --
-> > > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > > thee at its end
-> > > - "Use the force Harry" - Gandalf, Star Trek II
-> > >
->
->
->
 > --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
+> Denys
+>
+>
+> > >>What's the delta between the two ?
+> > >Hmm, that one uses older 2.1 version. Other than that, I'll need to test to
+> > >see if it's as adaptable and expandable as our more simplistic variants...
+> > >
+> >
 > --
 > _______________________________________________
 > Openembedded-core mailing list
