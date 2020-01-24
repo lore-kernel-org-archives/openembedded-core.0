@@ -1,59 +1,74 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 924937FD4F;
-	Fri, 24 Jan 2020 19:27:48 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id y8so1174227pll.13;
-	Fri, 24 Jan 2020 11:27:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=Hi4yRFdmSWpyEzmB+ac7FqvT/PeM0YyqQ5j/uGhaiJg=;
-	b=KUsZNXkEv1PTW1F7ZmhcInxvHUzEXDhX4x5VvavnyvIJtFEIYmMNUnI/Hlczp5XkSe
-	TMnbjsoQbOQob2Qp4uk36J3zmz+D75LuTWDtgYa+j/IImhkmkbJlgqHsgr6PavP7MN8s
-	V3EPiFo8U9b0I92j1iWI6OC/Iz5BiBtl5ozsgOfuursCeIcRCwvUNb6FCOrPWQKTD/eZ
-	WPOXjjiFfQvU+IwyXhF3jKdIFwlORqoHJeOiMm2/yplVdOAGMvQsZk2mntZrrzyzQ1s8
-	yo1CgLkSTNsvVuLuiCtp0wY1lvgeZFl1V92uPte9M6SfSADhr1zL+htZLPNB3xwl76WU
-	Wk2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=Hi4yRFdmSWpyEzmB+ac7FqvT/PeM0YyqQ5j/uGhaiJg=;
-	b=qiMJOK3/uLSuvW60MShLpyNZ6XS771NOWWgSQNzUOGAj2Gy7278xALANMBOiQdW8Xz
-	ReyQbyE9DmH2nVSlbrqI9oi6v521BKlz5ijMvYO2ob3k3tHsFfUjGiUIQQ7EVYQfjUfp
-	GQLCh+zFGSjH/gJrF0j8f40j+9DlCKQt4F03nSbNuOZuvkEtrsgs3q8jykTZXWMdCa1k
-	t0xzFgc/16Tn/5ziWIjz1GiJdoCA04lYfaVZZwYXhsfWSGZkzm5DpZQHZYjWQQ6OxtLA
-	vLZEWGyzGHAfRhw8Zxx4RXx8BWduh4Mv4Tly/iQJfzf08G1ggWMlZR2yGZgnW4FsheDb
-	9+5w==
-X-Gm-Message-State: APjAAAWqxIrnQ8Sze63YhCadMtZX+4az15KIqZEsJ0wX1NlcrAfnZn2I
-	st/A0LReY+XkQGb5TvZ57Nntuq8DiUk=
-X-Google-Smtp-Source: APXvYqxLa9CcnyRck8l7G9aJtLoB3PsOhHnNbruraNN5dh8+ZRTp91UsfJLQuGV17DGw9XxyAzsTmg==
-X-Received: by 2002:a17:90a:3ae5:: with SMTP id
-	b92mr841421pjc.26.1579894068918; 
-	Fri, 24 Jan 2020 11:27:48 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:5dac:ba30:48e4:cb20?
-	([2601:646:9200:4e0:5dac:ba30:48e4:cb20])
-	by smtp.gmail.com with ESMTPSA id x21sm182668pfq.76.2020.01.24.11.27.47
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 24 Jan 2020 11:27:47 -0800 (PST)
-To: Andrey Zhizhikin <andrey.z@gmail.com>
-References: <CAMKF1sryUbCcpRxpqi4ytZJ+j+AgksfS8pxd=_O6DtWrkCx+Lg@mail.gmail.com>
-	<CAHtQpK6cp2D3Zb2pkDgYwdKR=AX6AWnwpWEs=qqzNYQ64uL28w@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <24c2080a-8465-ee2e-484a-ff817485fbf4@gmail.com>
-Date: Fri, 24 Jan 2020 11:27:47 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.4.2
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 176CD7FD9F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 Jan 2020 21:05:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 00OL54aq028571
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Fri, 24 Jan 2020 13:05:04 -0800 (PST)
+Received: from [10.0.2.15] (172.25.59.213) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.468.0;
+	Fri, 24 Jan 2020 13:05:03 -0800
+To: Khem Raj <raj.khem@gmail.com>, Christopher Larson <kergoth@gmail.com>
+References: <20200123223449.90548-1-jason.wessel@windriver.com>
+	<CABcZANnAW-HYaJmDs8U2iwfzJSb1ig3KsVMvXuz6QjTAR6vqtw@mail.gmail.com>
+	<6027c983-71be-659e-5ca8-e203b57f528d@gmail.com>
+From: Jason Wessel <jason.wessel@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jason.wessel@windriver.com; prefer-encrypt=mutual; keydata=
+	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
+	ig4=
+Message-ID: <20fa843b-7f99-a2dd-7449-ac5ed4cca0e5@windriver.com>
+Date: Fri, 24 Jan 2020 15:05:02 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.9.0
 MIME-Version: 1.0
-In-Reply-To: <CAHtQpK6cp2D3Zb2pkDgYwdKR=AX6AWnwpWEs=qqzNYQ64uL28w@mail.gmail.com>
-Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
+In-Reply-To: <6027c983-71be-659e-5ca8-e203b57f528d@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: python2-less meta-openembedded build results
+Subject: Re: [PATCH] module.bbclass: swap AR and LD order
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,42 +81,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 19:27:48 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 24 Jan 2020 21:05:06 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 1/20/20 8:51 AM, Andrey Zhizhikin wrote:
-> On Mon, Jan 20, 2020 at 4:52 PM Khem Raj <raj.khem@gmail.com> wrote:
+On 1/24/20 1:13 PM, Khem Raj wrote:
+> On 1/24/20 10:19 AM, Christopher Larson wrote:
+>> What makefile change caused this? That behavior doesn't make much sense 
+>> given how make processes its command-line arguments.
 >>
->> Hi all
->>
->> Recently py2 is removed from oe-core, So I did quick patches to get a
->> world build going. And
->> here are initial failures, please help out with recipes your can or
->> care for. Eventually, the remaining
->> ones we can blacklist for 3.1 release.
->>
->> http://errors.yoctoproject.org/Errors/Build/97185/
->>
->> I will post more arches as they become available. If you want to try
->> the same for machines/distros you can try yoe/mut for meta-oe
 > 
-> I've actually asked Ross about similar failures, specifically in
-> [meta-openembeeded/meta-python] where there is a good mix of Pytho2
-> and Python3 still present. I've started to remove those yesterday, and
-> would continue with that layer further.
+> I agree with you here, it could be a rare check where one want to define 
+> what collect progam should be used ( ld or ar )
 > 
->>
->> https://git.openembedded.org/meta-openembedded-contrib/log/?h=yoe/mut
->>
+> besides, recently we moved AR to be gcc-ar/llvm-ar by default in config 
+> metadata, which is not going to work out of box for compiling kernel and 
+> modules, so overriding it with KERNEL_AR in 
+> module_do_compile/install/configure tasks is good change.
 
-All these changes are now in master and its again buildable, with or 
-without meta-python2, with meta-python2, its back to where it was with 
-everything  building however, without py2 layer we have some work to do 
-so if you are interested in this here [1] is initial list of failures
-I will keep posting more as we go along.
+I am not actually sure which part of kbuild is parsing the LD
+arguments.  My best guess is that it is actually all the nested
+gnumake filter calls causing the issue.  
 
-[1] 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/220/steps/8/logs/errors
+With some further experimentation I determined that a space at the end
+of the LD= is what causes it to think the next argument is part of the
+prior one.  The poky distro is defining KERNEL_LD as:
+
+% bitbake vboxguestdrivers -e |grep ^KERNEL_LD
+KERNEL_LD="x86_64-poky-linux-ld.bfd "
+
+The kbuild really doesn't like that space at the end.  You can trash out
+a host native kernel compile module build by adding the arguments:
+    LD="ld " JUNK_VAR="junk"
+
+Attempting to debug/fix kbuild doesn't seem like the right answer. 
+
+The next version of this patch looks like what is below.  Would that be ok? 
+
+
+diff --git a/meta/classes/module.bbclass b/meta/classes/module.bbclass
+index c0dfa35061..7b0a85a06d 100644
+--- a/meta/classes/module.bbclass
++++ b/meta/classes/module.bbclass
+@@ -12,6 +12,9 @@ python __anonymous () {
+         if dep.startswith("kernel-module-"):
+             extra_symbols.append("${STAGING_INCDIR}/" + dep + "/Module.symvers")
+     d.setVar('KBUILD_EXTRA_SYMBOLS', " ".join(extra_symbols))
++    d.setVar('KERNEL_CC', d.getVar('KERNEL_CC').rstrip())
++    d.setVar('KERNEL_LD', d.getVar('KERNEL_LD').rstrip())
++    d.setVar('KERNEL_AR', d.getVar('KERNEL_AR').rstrip())
+ }
+
 
