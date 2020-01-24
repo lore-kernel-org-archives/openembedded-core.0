@@ -1,39 +1,27 @@
-Return-Path: <jdmason@kudzu.us>
-Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
-	[209.85.166.173])
-	by mail.openembedded.org (Postfix) with ESMTP id BE4747FDC3
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 06A887FC06
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 22:47:54 +0000 (UTC)
-Received: by mail-il1-f173.google.com with SMTP id g12so2892836ild.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 14:47:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=vH1wRl0/PXmd5uJQA/X3tMN1gkR6IsPxufq/KPc8yqM=;
-	b=Oe7o+tdb0ItjEClrHRu+MFwj08Q1UEKUWfsA1f6NcAkshnbg1S2R+NQ1p2Ymq2pimA
-	R0KYBhxEoEFGhtTQMVEZVqPYvHwD5GoZ6ygQHH1EoJF1bu8mh9SweRHlb0eiGoYEhcZx
-	Ev6bwFOlkIkxj1COl7gaGVRWa2of/+OhsM1W7MWqCO/UL/jxRmA23ymJAp66LVaFWnA7
-	7SXiMcKH6K3hyoab83cgBiQKi5O6PtQann1b2GxuU83+UrodjI0wIJ2k2BcwsooTy9cx
-	//6GqPsS3HMI1KTagkK/mi6cPG2muAUnhoJWxBOkky/IVCpompT3g5HUqnMMH5SisXv5
-	Q04A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=vH1wRl0/PXmd5uJQA/X3tMN1gkR6IsPxufq/KPc8yqM=;
-	b=VCFBo+zAwTpCCCd902HQ0Xw7Bnw/Sh6vvVaH4Sci6aCFfkoSXPqCSw3wpvHIToFzI4
-	6/UtkA+MtCyh0i/veMX/7GoHTzhqXNzB/QHTprtehKAZf6EKMZp00Jff+dMPSE1syXHp
-	RjBDHOWWMDGJgodcY5ByLedxD13EaRD6CuEZHZXOw4qbcnbIItNWKUCcbT5WHn3pSw1D
-	wh+vgnBWaQ4m4TVsTbpfj5fl5UGFQP2l4ptjdaDxqsgnj/1+cPz2L//qupisDvC9fU2R
-	w8wOSJnNWe3046TO55IB4DvXfUFnDqWVkL66QVzWYa2t4YB4L7zXdMPTr9Ezs29Thp7K
-	598w==
-X-Gm-Message-State: APjAAAVO5PEd3wOMIVCjSmz/62m7F1eYog+eA6kPbehFVFJ8XjqZVhxQ
-	3gCOxHT0iwb7XoW0yYIt/96HCF/6HmLLmqP3HogZpg==
-X-Google-Smtp-Source: APXvYqzhUh6eG2SmfIJYbheACLeYRsSGtwiE+09i/Pl38zpNeG3gWE3ExXavHZZZ/PlHZQH82hUPdKMhgynqHRtCyL0=
-X-Received: by 2002:a92:d308:: with SMTP id x8mr5464016ila.42.1579906075835;
-	Fri, 24 Jan 2020 14:47:55 -0800 (PST)
-MIME-Version: 1.0
+	Fri, 24 Jan 2020 22:59:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id D45B840BFC;
+	Fri, 24 Jan 2020 22:59:50 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id KauRWA8T-sLv; Fri, 24 Jan 2020 22:59:50 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
+	[100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 64ED4400E8;
+	Fri, 24 Jan 2020 22:59:45 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id 22E241743AA; Fri, 24 Jan 2020 17:59:45 -0500 (EST)
+Date: Fri, 24 Jan 2020 17:59:45 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200124225945.GI4735@denix.org>
 References: <1579813185-1950-1-git-send-email-denis@denix.org>
 	<CADkTA4OUcmx2wFVf9NAR8D7c_3n+303YFR3gwAWv08KgT_o+ww@mail.gmail.com>
 	<6f6a74c1-948e-e6f2-303b-639a08111d64@intel.com>
@@ -41,11 +29,9 @@ References: <1579813185-1950-1-git-send-email-denis@denix.org>
 	<20200123224340.GG4735@denix.org>
 	<0620f17c-53ca-7e95-1607-621507baedd8@intel.com>
 	<51f70cda-9ddf-ea8c-e8a9-3a3f69db8167@gmail.com>
+MIME-Version: 1.0
 In-Reply-To: <51f70cda-9ddf-ea8c-e8a9-3a3f69db8167@gmail.com>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Fri, 24 Jan 2020 17:47:44 -0500
-Message-ID: <CAPoiz9xzydOq5wiSJi0nnGu_RT2q0zKP+jVxuc9xYm5yS5N=Hg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+User-Agent: Mutt/1.5.20 (2009-06-14)
 Cc: Jon Mason <jdmason@gmail.com>,
 	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>,
@@ -63,52 +49,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 22:47:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 24 Jan 2020 22:59:50 -0000
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 24, 2020 at 12:05 PM Khem Raj <raj.khem@gmail.com> wrote:
->
+On Fri, Jan 24, 2020 at 09:05:09AM -0800, Khem Raj wrote:
 > On 1/24/20 3:42 AM, Ross Burton wrote:
-> > On 23/01/2020 22:43, Denys Dmytriyenko wrote:
-> >>> Such as all the various cortex etc CPU tuning files?
+> >On 23/01/2020 22:43, Denys Dmytriyenko wrote:
+> >>>Such as all the various cortex etc CPU tuning files?
 > >>
-> >> LOL! :) Of course, since ARM is such an inferior arch to x86.
-> >> Otherwise we
-> >> should move everything that is not needed by qemux86 to meta-intel...
-> >> JK :)
+> >>LOL! :) Of course, since ARM is such an inferior arch to x86.
+> >>Otherwise we
+> >>should move everything that is not needed by qemux86 to
+> >>meta-intel... JK :)
 > >
-> > I almost pre-empted this comment in my reply because I knew it was
-> > coming. :)
+> >I almost pre-empted this comment in my reply because I knew it was
+> >coming. :)
 > >
-> > Personally, not a terrible idea.  The slight difference is that
-> > meta-intel is *Intel's* BSP and we don't share stuff like
-> > firmware/drivers with AMD.
+> >Personally, not a terrible idea.  The slight difference is that
+> >meta-intel is *Intel's* BSP and we don't share stuff like
+> >firmware/drivers with AMD.
 > >
-> > Ross
->
-> it will be good to find what the overlap will be, is it something that
-> BSPs can use with minimum changes, or are we providing a template that
-> will be copied over and housed in form of bbappends or bbs. I am not
-> familiar enough to assess that.
->
+> >Ross
+> 
+> it will be good to find what the overlap will be, is it something
+> that BSPs can use with minimum changes, or are we providing a
+> template that will be copied over and housed in form of bbappends or
+> bbs. I am not familiar enough to assess that.
+
+It depends how much of a specific platform support was already upstreamed 
+to ATF. For example, full TI platform support requires a more recent version 
+that 2.2 release (plus some "linkage" to OPTEE). And based on meta-rockchip 
+submission from Joshua, RK3399 requires a secondary Cortex-M toolchain to 
+build some parts. So, it seems like it would require some bbappends in BSPs.
+
+
 > Perhaps it would be good to limit this to arm compatible machines,
 > secondly, there is a point in having it in OE-Core if meta-arm is
-> limiting itself to arm provided BSPs alone. I think it will be good to
-> have a platform supported in core to be able to test it, between qemu
-> and beaglebone, I guess it is not used. Or pehaps it is and we do not
-> use it, so that change would be good to have as well.
+> limiting itself to arm provided BSPs alone. I think it will be good
+> to have a platform supported in core to be able to test it, between
+> qemu and beaglebone, I guess it is not used. Or pehaps it is and we
+> do not use it, so that change would be good to have as well.
 
-To be clear, we do not want this limited to Arm BSPs.  We want this
-used by everyone, to make this recipe as solid as possible.  Also, we
-hope it encourages everyone to contribute their TF-A source code
-"up-stream" and use the generic recipe.
+Well, beaglebone is arm32. From the Yocto Project perspective, we don't 
+have an arm64 reference platform (membership questions, etc.), which would 
+require ATF.
 
-Thanks,
-Jon
-
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+-- 
+Denys
 
