@@ -1,46 +1,46 @@
-Return-Path: <jean-marie.lemetayer@savoirfairelinux.com>
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[208.88.110.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 898067FD8C
+Return-Path: <ross.burton@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id 1069C7FD8C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 Jan 2020 11:37:59 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id E7E229C01D3;
-	Fri, 24 Jan 2020 06:37:59 -0500 (EST)
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10032)
-	with ESMTP id ps7INnCmMyuF; Fri, 24 Jan 2020 06:37:58 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 963E39C02B2;
-	Fri, 24 Jan 2020 06:37:58 -0500 (EST)
-X-Virus-Scanned: amavisd-new at mail.savoirfairelinux.com
-Received: from mail.savoirfairelinux.com ([127.0.0.1])
-	by localhost (mail.savoirfairelinux.com [127.0.0.1]) (amavisd-new,
-	port 10026)
-	with ESMTP id kfNbZmPPOpow; Fri, 24 Jan 2020 06:37:58 -0500 (EST)
-Received: from mail.savoirfairelinux.com (mail.savoirfairelinux.com
-	[192.168.48.237])
-	by mail.savoirfairelinux.com (Postfix) with ESMTP id 754759C01D3;
-	Fri, 24 Jan 2020 06:37:58 -0500 (EST)
-Date: Fri, 24 Jan 2020 06:37:57 -0500 (EST)
-From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <1903874044.2188563.1579865877638.JavaMail.zimbra@savoirfairelinux.com>
-In-Reply-To: <CAJ86T=X=B9n3xo+aOXhfnw8JT38z6Frk1RzT2Z6BR8hyLnAcSw@mail.gmail.com>
-References: <670208445.2165783.1579785268358.JavaMail.zimbra@savoirfairelinux.com>
-	<fc798fd12d4a06537fd235b6247a0193d1df3022.camel@linuxfoundation.org>
-	<555772143.2167690.1579789341772.JavaMail.zimbra@savoirfairelinux.com>
-	<b1cbeea067af1e54e596425c87b55b36062bb49f.camel@linuxfoundation.org>
-	<1908740460.2169186.1579791546237.JavaMail.zimbra@savoirfairelinux.com>
-	<91c23ebb8817e8cc5e0c1644529f6d3034749e53.camel@linuxfoundation.org>
-	<CAJ86T=X=B9n3xo+aOXhfnw8JT38z6Frk1RzT2Z6BR8hyLnAcSw@mail.gmail.com>
+	Fri, 24 Jan 2020 11:42:16 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Jan 2020 03:42:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,357,1574150400"; d="scan'208";a="220998175"
+Received: from irsmsx104.ger.corp.intel.com ([163.33.3.159])
+	by orsmga008.jf.intel.com with ESMTP; 24 Jan 2020 03:42:16 -0800
+Received: from irsmsx602.ger.corp.intel.com (163.33.146.8) by
+	IRSMSX104.ger.corp.intel.com (163.33.3.159) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Fri, 24 Jan 2020 11:42:15 +0000
+Received: from rochenix-mobl.ger.corp.intel.com (163.33.253.164) by
+	irsmsx602.ger.corp.intel.com (163.33.146.8) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+	15.1.1713.5; Fri, 24 Jan 2020 11:42:14 +0000
+To: Denys Dmytriyenko <denis@denix.org>, Andre McCurdy <armccurdy@gmail.com>
+References: <1579813185-1950-1-git-send-email-denis@denix.org>
+	<CADkTA4OUcmx2wFVf9NAR8D7c_3n+303YFR3gwAWv08KgT_o+ww@mail.gmail.com>
+	<6f6a74c1-948e-e6f2-303b-639a08111d64@intel.com>
+	<CAJ86T=VYsiBgrxPL-N4yy0S2FNUixxn6sfWjaaWQioFHqD=2-g@mail.gmail.com>
+	<20200123224340.GG4735@denix.org>
+From: Ross Burton <ross.burton@intel.com>
+Organization: Intel Corporation (UK) Ltd. - Co. Reg. #1134945 - Pipers Way,
+	Swindon SN3 1RJ
+Message-ID: <0620f17c-53ca-7e95-1607-621507baedd8@intel.com>
+Date: Fri, 24 Jan 2020 11:42:11 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.4.1
 MIME-Version: 1.0
-X-Mailer: Zimbra 8.8.11_GA_3737 (ZimbraWebClient - GC79 (Linux)/8.8.11_GA_3737)
-Thread-Topic: Connectivity check uris
-Thread-Index: /FExVqOykd57ngxquUguVM7h+TFO/w==
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Connectivity check uris
+In-Reply-To: <20200123224340.GG4735@denix.org>
+X-Originating-IP: [163.33.253.164]
+X-ClientProxiedBy: irsmsx606.ger.corp.intel.com (163.33.146.139) To
+	irsmsx602.ger.corp.intel.com (163.33.146.8)
+Cc: Jon Mason <jdmason@gmail.com>, Denys Dmytriyenko <denys@ti.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] arm-trusted-firmware: add upstream version 2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,68 +53,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 Jan 2020 11:38:00 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Fri, 24 Jan 2020 11:42:17 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
-On Jan 23, 2020, at 8:25 PM, Andre McCurdy armccurdy@gmail.com wrote:
-> On Thu, Jan 23, 2020 at 7:24 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Thu, 2020-01-23 at 09:59 -0500, Jean-Marie LEMETAYER wrote:
->> > On Jan 23, 2020, at 3:37 PM, Richard Purdie
->> > richard.purdie@linuxfoundation.org wrote:
->> > > On Thu, 2020-01-23 at 09:22 -0500, Jean-Marie LEMETAYER wrote:
->> > > > I understand the issue with blocked domains this is why I suggest
->> > > > the
->> > > > custom domain "connectivitycheck.openembedded.org".
->> > > >
->> > > > But I dont know if it could be an option. Can OE have a sub-
->> > > > domain
->> > > > like that? maybe using some cdn to handle the load?
->> > >
->> > > We can certainly setup domains but we can't easily get a cdn. I'd
->> > > be
->> > > worried about OE's response time too.
->> > >
->> > > > Another option will be to provide multiple URIs:
->> > > >     CONNECTIVITY_CHECK_URIS ?= " \
->> > > >         https://google.com \
->> > > >         https://www.bing.com \
->> > > >         https://www.baidu.com \
->> > > >     "
->> > >
->> > > Looking at the code, I wonder if a CONNECTIVITY_CHECK_MIRRORS,
->> > > injected
->> > > into MIRRORS internally with google as the default and baidu as the
->> > > mirror would work?
+On 23/01/2020 22:43, Denys Dmytriyenko wrote:
+>> Such as all the various cortex etc CPU tuning files?
 > 
-> How about checking github.com? That's probably the host that a network
-> dependent build needs to access most often.
+> LOL! :) Of course, since ARM is such an inferior arch to x86. Otherwise we
+> should move everything that is not needed by qemux86 to meta-intel... JK :)
 
-It is a good idea!
+I almost pre-empted this comment in my reply because I knew it was 
+coming. :)
 
-To go further I have created a new GitHub repository to host a simple
-index.html file using the GitHub Pages:
-https://github.com/connectivitycheck/connectivitycheck.github.io
+Personally, not a terrible idea.  The slight difference is that 
+meta-intel is *Intel's* BSP and we don't share stuff like 
+firmware/drivers with AMD.
 
-The URL of the page is here:
-https://connectivitycheck.github.io
-
-The results are good for me:
-$ time ./connectivity_check.sh https://connectivitycheck.github.io
-100 wget -qO- --timeout=1 --tries=1 https://connectivitycheck.github.io
-100 curl -s --connect-timeout 1 https://connectivitycheck.github.io
-
-real	0m17.202s
-user	0m0.944s
-sys	0m0.241s
-
-Moreover github.com seems to be accessible in china.
-(checked with: https://www.websitepulse.com/tools/china-firewall-test)
-
-Finally the same thing can be done using GitLab. This could make it
-possible to have mirrors.
-
-Best regards,
-Jean-Marie
+Ross
 
