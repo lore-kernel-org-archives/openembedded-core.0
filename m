@@ -1,51 +1,48 @@
-Return-Path: <sivakumar.bs@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A9487FD9D
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2020 08:52:46 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id s64so2392668pgb.9
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2020 00:52:47 -0800 (PST)
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+	[209.85.166.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F89A7D6C2;
+	Sat, 25 Jan 2020 09:50:05 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id i7so440871ilr.7;
+	Sat, 25 Jan 2020 01:50:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=9f8/iVDM0ZrWHvjYv9cPN6FlxJocLENqHUk6lMNWFUk=;
-	b=DD6C7zq5f6iD7WMGIPI1RzDM9dC8xhqg2954dKgXKoJf+GhzM4SNhUGzPy7Yp4DgKZ
-	Eci6+wHJtBCgRRR1uU8jOgUfKMJ0o8LoPKQE6N5QrqCQ29vXu0WRFN+JYglmnGVoTJ14
-	y9qIRv3jDUiH4CkAVWNdXtZvLp0TU3T4SBn+QdeRMu/JEgYbCOyQbgi7RX0nnFo1MO89
-	yvFL/J5+e6LK5khsFg8foqDF7lBsUZNvIQlzbhgU5Md7wq6ZV3eLTNL5g+5bjpPhWznj
-	BMxWGylBfRX8aiFCpbTfVGF4sWn8dFwMlqpkEq0HLJ7IAdWv7i81xXwpbkCmIlOvj9Wm
-	68jQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=nX+sjn3O5M1M4iqWHOpStetbtgpeTtpgh50fRRYq5E4=;
+	b=sYj8n9hTIkPMgWJnnh/Aa4mLwbwjBNR5AFQd/YDUsCvuXYufSGjXJz1U3rpCNocFtU
+	nk/g9nzLbkBNvjeLLjgMhQZKwDw4cCCdUBw7IqeI4yB9ILZFgYq/3diCHCGvfQeE8rkT
+	qKwdTrRfVeSykKsOKozCXeC9YKKj2BPejxUiSSlALmocloJQefeRzmAY4fiHc3sy5z0W
+	YYwL+IQoDUViay0ynmbYarehQjh/8OgdZO5fgQP8nAfIWqsE/uP2y0ndygQra4/5m+kF
+	NsPBmatsZCmdu5myMQdzlCyJfEPz/6acK7eP3SBV9FJzfYu5TxndlcVXPYiC8iSmcu9c
+	f2nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=9f8/iVDM0ZrWHvjYv9cPN6FlxJocLENqHUk6lMNWFUk=;
-	b=ieaFIWsRPrWwjiYm94gaukHKmHe4HqHo+Pcec5xlfOBNHyWxs1HrrCV7Ra6yx4l9Qp
-	kT1dV6ctYNarImv2LLF7hH/j6BNjdgHrwhBV5OLgMl172Z2zek58n1gDJ0lxdr5Gi8CO
-	XYUXQrkzAsmCr6WG6o5ojZvxkHp84KgNzSw65lpsuWJ5r/3fRMkWLXjye1lSESHPCHpR
-	Zhr61VWVvR/qKp0yuuJzOLC9QjEq12FCJsMAVBt4nqngfYTBl6WbwZJjyyQBfFaspu2J
-	tU+tfwScop/gAsevA4bqoXqyTsFGuuGgJUZtmjWHP3xOnXbzs9o1C14IeDVNK/McHPF4
-	uVUA==
-X-Gm-Message-State: APjAAAUi+kNCrb4fcBd/8roxiJH8b+b3NyIUL4N8jcYQsm6QCnwte/qE
-	ZE6WAMx+s2UNdb1uTAz9/bvKWqamjyI=
-X-Google-Smtp-Source: APXvYqzwe/SjDHS30IEO0D+cLL+9AMTX2UhxrrC5+sjR1Yu9+XEEenH0SV5iL52rtjF+gXokXdftWA==
-X-Received: by 2002:aa7:9d9c:: with SMTP id f28mr7198923pfq.20.1579942367108; 
-	Sat, 25 Jan 2020 00:52:47 -0800 (PST)
-Received: from devel.timesys.com ([49.205.139.80])
-	by smtp.gmail.com with ESMTPSA id
-	q25sm8677425pfg.41.2020.01.25.00.52.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 25 Jan 2020 00:52:46 -0800 (PST)
-From: Siva Balasubramanian <sivakumar.bs@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Jan 2020 14:22:40 +0530
-Message-Id: <bc6acc24336713780c7a4fa2fe29baee115db975.1579940252.git.sivakumar.bs@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1579940252.git.sivakumar.bs@gmail.com>
-References: <cover.1579940252.git.sivakumar.bs@gmail.com>
-Cc: Siva Balasubramanian <sivakumar.bs@gmail.com>
-Subject: [PATCH 1/1] sudo: update to 1.8.30
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=nX+sjn3O5M1M4iqWHOpStetbtgpeTtpgh50fRRYq5E4=;
+	b=o7WcCMacLLN2n7mPpg2InFthFJtKu4zKXN91jT2aSKdDel4A7xCEPjIcyX11CsN5Qa
+	kA4BPNJu0HjqZdIa6S6ufxiypdBhjjfTySvAoQGmBcy39mgnaQwZmAupdK8jV2RohpTg
+	3Jguj7IvMTlgPNBUGsDz48YQFCpPFXCCc6UmuWlCOOjrWTo0YN2PiSMwaSYqydsTRrm+
+	hvqqwDG/MVamM8Xm8Vspbc1RhYDC81stz0GWroa/I8QVTI7MSZeJEJ2FmpdrIBbLSSJS
+	G50kCfcN8mmJ6oikfqbzSlHpvKoORlGExh5uHGut9hlwcyXMgbQi8DJI0Aco1B83fqi+
+	nq0g==
+X-Gm-Message-State: APjAAAUIaX0S96leabcM8UrDkqeVBEHUnTQzunyzQdwJ5jximyb0Rebr
+	mIPjMgqHuKV7CpNmSYCo7AveJozKEQnc9rfQoGI=
+X-Google-Smtp-Source: APXvYqxIHsmfv/a6yxIVke71N6hH4LKAX7H4Ony7IzxpMKAHndWcrhto9hBrJitxk7XpSdl569bwWLMCPVMqbCk4OXU=
+X-Received: by 2002:a92:290a:: with SMTP id l10mr6999201ilg.151.1579945806991; 
+	Sat, 25 Jan 2020 01:50:06 -0800 (PST)
+MIME-Version: 1.0
+References: <CAMKF1sryUbCcpRxpqi4ytZJ+j+AgksfS8pxd=_O6DtWrkCx+Lg@mail.gmail.com>
+	<CAHtQpK6cp2D3Zb2pkDgYwdKR=AX6AWnwpWEs=qqzNYQ64uL28w@mail.gmail.com>
+	<24c2080a-8465-ee2e-484a-ff817485fbf4@gmail.com>
+In-Reply-To: <24c2080a-8465-ee2e-484a-ff817485fbf4@gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sat, 25 Jan 2020 01:49:56 -0800
+Message-ID: <CANx9H-DQYxz_mj-AxwjbJfm=FVbR=89rP3MjBUTY9OzoBsMF8w@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: python2-less meta-openembedded build results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +55,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jan 2020 08:52:46 -0000
+X-List-Received-Date: Sat, 25 Jan 2020 09:50:06 -0000
+Content-Type: multipart/alternative; boundary="0000000000009713dc059cf3cc6c"
 
-Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
----
- meta/recipes-extended/sudo/{sudo_1.8.29.bb => sudo_1.8.30.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.8.29.bb => sudo_1.8.30.bb} (91%)
+--0000000000009713dc059cf3cc6c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/meta/recipes-extended/sudo/sudo_1.8.29.bb b/meta/recipes-extended/sudo/sudo_1.8.30.bb
-similarity index 91%
-rename from meta/recipes-extended/sudo/sudo_1.8.29.bb
-rename to meta/recipes-extended/sudo/sudo_1.8.30.bb
-index 8da2d64..0aa9c59 100644
---- a/meta/recipes-extended/sudo/sudo_1.8.29.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.8.30.bb
-@@ -7,8 +7,8 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[md5sum] = "b28dabff9c460f115fe74de4d6a6f79d"
--SRC_URI[sha256sum] = "ce53ffac9604e23321334d8ba8ac59ded2bcf624fdb9dbde097ab2049bf29c7c"
-+SRC_URI[md5sum] = "d56cd5835b1cc9852bd76ddaaa572475"
-+SRC_URI[sha256sum] = "a35ad3ddc7465703e04190d3ff0b8d78ded9246749becf9a014dcb9c31c579e7"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
--- 
-2.7.4
+On Fri, Jan 24, 2020 at 11:28 AM Khem Raj <raj.khem@gmail.com> wrote:
+
+> On 1/20/20 8:51 AM, Andrey Zhizhikin wrote:
+> > On Mon, Jan 20, 2020 at 4:52 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >>
+> >> Hi all
+> >>
+> >> Recently py2 is removed from oe-core, So I did quick patches to get a
+> >> world build going. And
+> >> here are initial failures, please help out with recipes your can or
+> >> care for. Eventually, the remaining
+> >> ones we can blacklist for 3.1 release.
+> >>
+> >> http://errors.yoctoproject.org/Errors/Build/97185/
+> >>
+> >> I will post more arches as they become available. If you want to try
+> >> the same for machines/distros you can try yoe/mut for meta-oe
+> >
+> > I've actually asked Ross about similar failures, specifically in
+> > [meta-openembeeded/meta-python] where there is a good mix of Pytho2
+> > and Python3 still present. I've started to remove those yesterday, and
+> > would continue with that layer further.
+> >
+> >>
+> >> https://git.openembedded.org/meta-openembedded-contrib/log/?h=3Dyoe/mu=
+t
+> >>
+>
+> All these changes are now in master and its again buildable, with or
+> without meta-python2, with meta-python2, its back to where it was with
+> everything  building however, without py2 layer we have some work to do
+> so if you are interested in this here [1] is initial list of failures
+> I will keep posting more as we go along.
+>
+> [1]
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/220/ste=
+ps/8/logs/errors
 
 
+Now that I have caught up with meta-python2, I can turn some of my own-time
+attention to helping with these. Thank you, Khem, for making it easy to see
+the =E2=80=9Cpunch-list=E2=80=9D.
+
+<https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/220/step=
+s/8/logs/errors>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--0000000000009713dc059cf3cc6c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Fri, Jan 24, 2020 at 11:28 AM Khem Raj &lt;<a href=3D"ma=
+ilto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc =
+solid;padding-left:1ex">On 1/20/20 8:51 AM, Andrey Zhizhikin wrote:<br>
+&gt; On Mon, Jan 20, 2020 at 4:52 PM Khem Raj &lt;<a href=3D"mailto:raj.khe=
+m@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; Hi all<br>
+&gt;&gt;<br>
+&gt;&gt; Recently py2 is removed from oe-core, So I did quick patches to ge=
+t a<br>
+&gt;&gt; world build going. And<br>
+&gt;&gt; here are initial failures, please help out with recipes your can o=
+r<br>
+&gt;&gt; care for. Eventually, the remaining<br>
+&gt;&gt; ones we can blacklist for 3.1 release.<br>
+&gt;&gt;<br>
+&gt;&gt; <a href=3D"http://errors.yoctoproject.org/Errors/Build/97185/" rel=
+=3D"noreferrer" target=3D"_blank">http://errors.yoctoproject.org/Errors/Bui=
+ld/97185/</a><br>
+&gt;&gt;<br>
+&gt;&gt; I will post more arches as they become available. If you want to t=
+ry<br>
+&gt;&gt; the same for machines/distros you can try yoe/mut for meta-oe<br>
+&gt; <br>
+&gt; I&#39;ve actually asked Ross about similar failures, specifically in<b=
+r>
+&gt; [meta-openembeeded/meta-python] where there is a good mix of Pytho2<br=
+>
+&gt; and Python3 still present. I&#39;ve started to remove those yesterday,=
+ and<br>
+&gt; would continue with that layer further.<br>
+&gt; <br>
+&gt;&gt;<br>
+&gt;&gt; <a href=3D"https://git.openembedded.org/meta-openembedded-contrib/=
+log/?h=3Dyoe/mut" rel=3D"noreferrer" target=3D"_blank">https://git.openembe=
+dded.org/meta-openembedded-contrib/log/?h=3Dyoe/mut</a><br>
+&gt;&gt;<br>
+<br>
+All these changes are now in master and its again buildable, with or <br>
+without meta-python2, with meta-python2, its back to where it was with <br>
+everything=C2=A0 building however, without py2 layer we have some work to d=
+o <br>
+so if you are interested in this here [1] is initial list of failures<br>
+I will keep posting more as we go along.<br>
+<br>
+[1] <br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/88/build=
+s/220/steps/8/logs/errors" rel=3D"noreferrer" target=3D"_blank">https://aut=
+obuilder.yoctoproject.org/typhoon/#/builders/88/builds/220/steps/8/logs/err=
+ors</a></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Now that =
+I have caught up with meta-python2, I can turn some of my own-time attentio=
+n to helping with these. Thank you, Khem, for making it easy to see the =E2=
+=80=9Cpunch-list=E2=80=9D.</div><div dir=3D"auto"><br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex"><a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/b=
+uilders/88/builds/220/steps/8/logs/errors" rel=3D"noreferrer" target=3D"_bl=
+ank"></a><br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--0000000000009713dc059cf3cc6c--
