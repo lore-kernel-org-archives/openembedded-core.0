@@ -1,47 +1,51 @@
 Return-Path: <sivakumar.bs@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B12386C4DA
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A9487FD9D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2020 08:52:35 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 2so2304984pfg.12
+	Sat, 25 Jan 2020 08:52:46 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id s64so2392668pgb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2020 00:52:37 -0800 (PST)
+	Sat, 25 Jan 2020 00:52:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=BpY3EPzNvD0mJF4GZmTTe+hhU5yrnA306TZOkZZo8kw=;
-	b=bj8/sdkLiCnYUz+uRLMqFMRNQgQt2od1FX5OXd/sQNfeuQplok2ZNCQ3k+mB53NVc4
-	Swi9QTYuQve+v8yGN+0MqUKSILh3tRzHufP/GXkZktN3xnyyEhtgCzt+E7+vJy7RvE8U
-	9QOWBIVmZeAxhNeIvTK1VJKfuWWx1HAVT4Gq6ukjfd8OMB+OzljUNjq+ATg7V6UhCGSg
-	P8LAFRkMz/PLfV9brTrNtq2wAITZ5YsUDZT5F0R7fw6xqWTpAzyyy9CO+rR8z184TSMT
-	6rnXvMp19YjH0guhu9jw4xqKI93K4Oc3iWCANRbpj+hCffi2P1j3QL1aygutEKGKYBpf
-	GSRQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=9f8/iVDM0ZrWHvjYv9cPN6FlxJocLENqHUk6lMNWFUk=;
+	b=DD6C7zq5f6iD7WMGIPI1RzDM9dC8xhqg2954dKgXKoJf+GhzM4SNhUGzPy7Yp4DgKZ
+	Eci6+wHJtBCgRRR1uU8jOgUfKMJ0o8LoPKQE6N5QrqCQ29vXu0WRFN+JYglmnGVoTJ14
+	y9qIRv3jDUiH4CkAVWNdXtZvLp0TU3T4SBn+QdeRMu/JEgYbCOyQbgi7RX0nnFo1MO89
+	yvFL/J5+e6LK5khsFg8foqDF7lBsUZNvIQlzbhgU5Md7wq6ZV3eLTNL5g+5bjpPhWznj
+	BMxWGylBfRX8aiFCpbTfVGF4sWn8dFwMlqpkEq0HLJ7IAdWv7i81xXwpbkCmIlOvj9Wm
+	68jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=BpY3EPzNvD0mJF4GZmTTe+hhU5yrnA306TZOkZZo8kw=;
-	b=ISry80C5Hcp62ZcVpOB9EJf+ZffJgYXnIpOj0vM26x7wn9ytEnqnT71rAxu1GTxs78
-	tAd/MNDBvFIFAbEYgSYWYUzSfHafC88vnm6f9FVSxsRNs0g2ggSXqGGUrv1iIW9UMlDV
-	R6tb5k6PNQiZZevU/Flccq6N7QrUhj6Ot1HcMllLF0bJ/WVDScz8Hncpk670hG7NHZ6t
-	54Q7FZPXNo/Llz1v0AYnJfC3557ItH3VJnzt0+vU/TTzokj0d7xQbldq5gQNpc6EPFTO
-	bIZumKeFifB65zU+EDZcNmBnYJY5SzAzbP5Z7Vzt5tTXn9a97QJhHXTJtrUHO1FlK6zc
-	z/Qw==
-X-Gm-Message-State: APjAAAVvBw6yk3ibi9CpssZ1gCXvbrkF9DXdYTaRGrAHFJabxnQ8xzqV
-	AJsHwuHoYj49Rt4auikbmMaXHSAaKbY=
-X-Google-Smtp-Source: APXvYqxhzhoPTfPBHtKfzDbCaPRggw9IU2AKTTbXFybH3rhQaaCGHMLUFrxluPqT0k3SBAYAvIdO3g==
-X-Received: by 2002:a63:5512:: with SMTP id j18mr8339033pgb.189.1579942356314; 
-	Sat, 25 Jan 2020 00:52:36 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=9f8/iVDM0ZrWHvjYv9cPN6FlxJocLENqHUk6lMNWFUk=;
+	b=ieaFIWsRPrWwjiYm94gaukHKmHe4HqHo+Pcec5xlfOBNHyWxs1HrrCV7Ra6yx4l9Qp
+	kT1dV6ctYNarImv2LLF7hH/j6BNjdgHrwhBV5OLgMl172Z2zek58n1gDJ0lxdr5Gi8CO
+	XYUXQrkzAsmCr6WG6o5ojZvxkHp84KgNzSw65lpsuWJ5r/3fRMkWLXjye1lSESHPCHpR
+	Zhr61VWVvR/qKp0yuuJzOLC9QjEq12FCJsMAVBt4nqngfYTBl6WbwZJjyyQBfFaspu2J
+	tU+tfwScop/gAsevA4bqoXqyTsFGuuGgJUZtmjWHP3xOnXbzs9o1C14IeDVNK/McHPF4
+	uVUA==
+X-Gm-Message-State: APjAAAUi+kNCrb4fcBd/8roxiJH8b+b3NyIUL4N8jcYQsm6QCnwte/qE
+	ZE6WAMx+s2UNdb1uTAz9/bvKWqamjyI=
+X-Google-Smtp-Source: APXvYqzwe/SjDHS30IEO0D+cLL+9AMTX2UhxrrC5+sjR1Yu9+XEEenH0SV5iL52rtjF+gXokXdftWA==
+X-Received: by 2002:aa7:9d9c:: with SMTP id f28mr7198923pfq.20.1579942367108; 
+	Sat, 25 Jan 2020 00:52:47 -0800 (PST)
 Received: from devel.timesys.com ([49.205.139.80])
-	by smtp.gmail.com with ESMTPSA id j9sm8984743pff.6.2020.01.25.00.52.34
+	by smtp.gmail.com with ESMTPSA id
+	q25sm8677425pfg.41.2020.01.25.00.52.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 25 Jan 2020 00:52:35 -0800 (PST)
+	Sat, 25 Jan 2020 00:52:46 -0800 (PST)
 From: Siva Balasubramanian <sivakumar.bs@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Jan 2020 14:22:29 +0530
-Message-Id: <cover.1579940252.git.sivakumar.bs@gmail.com>
+Date: Sat, 25 Jan 2020 14:22:40 +0530
+Message-Id: <bc6acc24336713780c7a4fa2fe29baee115db975.1579940252.git.sivakumar.bs@gmail.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <cover.1579940252.git.sivakumar.bs@gmail.com>
+References: <cover.1579940252.git.sivakumar.bs@gmail.com>
 Cc: Siva Balasubramanian <sivakumar.bs@gmail.com>
-Subject: [PATCH 0/1] sudo: update to 1.8.30
+Subject: [PATCH 1/1] sudo: update to 1.8.30
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,24 +58,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 Jan 2020 08:52:35 -0000
+X-List-Received-Date: Sat, 25 Jan 2020 08:52:46 -0000
 
-Updated sudo to latest stable release
-The following changes since commit ca3993cc4b13d4e661228cee6fb9448adfd0a4ba:
-
-  bitbake: tests/fetch: Allow wget upgrade tests to run against a local server (2020-01-22 15:56:39 +0000)
-
-are available in the git repository at:
-
-  git://push.yoctoproject.org/poky-contrib siva/master
-
-Siva Balasubramanian (1):
-  sudo: update to 1.8.30
-
+Signed-off-by: Siva Balasubramanian <sivakumar.bs@gmail.com>
+---
  meta/recipes-extended/sudo/{sudo_1.8.29.bb => sudo_1.8.30.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
  rename meta/recipes-extended/sudo/{sudo_1.8.29.bb => sudo_1.8.30.bb} (91%)
 
+diff --git a/meta/recipes-extended/sudo/sudo_1.8.29.bb b/meta/recipes-extended/sudo/sudo_1.8.30.bb
+similarity index 91%
+rename from meta/recipes-extended/sudo/sudo_1.8.29.bb
+rename to meta/recipes-extended/sudo/sudo_1.8.30.bb
+index 8da2d64..0aa9c59 100644
+--- a/meta/recipes-extended/sudo/sudo_1.8.29.bb
++++ b/meta/recipes-extended/sudo/sudo_1.8.30.bb
+@@ -7,8 +7,8 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+ 
+ PAM_SRC_URI = "file://sudo.pam"
+ 
+-SRC_URI[md5sum] = "b28dabff9c460f115fe74de4d6a6f79d"
+-SRC_URI[sha256sum] = "ce53ffac9604e23321334d8ba8ac59ded2bcf624fdb9dbde097ab2049bf29c7c"
++SRC_URI[md5sum] = "d56cd5835b1cc9852bd76ddaaa572475"
++SRC_URI[sha256sum] = "a35ad3ddc7465703e04190d3ff0b8d78ded9246749becf9a014dcb9c31c579e7"
+ 
+ DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
+ RDEPENDS_${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.7.4
 
