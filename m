@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E7D7916B1
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
+	[209.85.210.177])
+	by mail.openembedded.org (Postfix) with ESMTP id A39B1916B7
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 16:24:57 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id w2so3760801pfd.3
+	Sun, 26 Jan 2020 16:24:58 +0000 (UTC)
+Received: by mail-pf1-f177.google.com with SMTP id i23so3754721pfo.2
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 08:24:58 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=QXKH3OecF3DPEm50WN+O4Wr3yNy5zdzzYXgDxzPHXjw=;
-	b=DAJGo1xLSd1is3i9ykKWE1NCNOK03TXKaAkXDDkpYEo9aCZ5iZun0W7EUCewUv3bLn
-	qDcxrDU7pMzBi/l9iFbI6rTBS6yW7Unu2vtMS7xdlDfv1oFBzHGoKuGpu1EESzUkVFYF
-	uxlm3SZx/OpXVmHmRIsGTZ9GMTFBet9x06ijFJ0XoxFEWOCbC1d6C9nU2zumIjvv9598
-	6uTBrcOEnXlgDcgnxLaXXY9jASLksGAq6/elz078SEFdDCVeYR6VfFUhcYZw5QlCozRC
-	thTIwcZoeavuuvDQcLSL09E4uRFSKBwK6dAtVjTz7kYt/oM7kTWLxjkhuFcx3UHCSyBy
-	XGLw==
+	bh=k4dkoc7wf2rbH8idE5u3k0QPjqo6/wXlm+O+FOk53kc=;
+	b=Ou3+43zd14pz881r5Bj7fHb6/DVsJOyeF3BjJjTWRZrbaWawm402fWbgVkw0F+2HIz
+	AqXOwQOztS+WjpvM8nstbe8pIYkJH/3biiyLRDALlQuCtqJwc74Xx+dghKzU/CtLuWNm
+	0FQufv1akbyhaTKSW/i6KKRSfzyljmWl/RgaYVyWnLBoNj1FAbUDKT5ea9Ccdu6GYasu
+	lsEUGEoGQwXB7GWwUJK2I0rogE4VZdI7c0bHy0/y6qUmYdcz5MygADbyE/ZoJc8GUMzQ
+	3Ag8Qtw6FIr7KlqUhxcUQaAPlPZOZIVUBA8ewJoeOWu1GqFaaJLFGZJeoQFLDmMjemNE
+	VcFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=QXKH3OecF3DPEm50WN+O4Wr3yNy5zdzzYXgDxzPHXjw=;
-	b=V/L8BZqK3dVIfOddgNxDtwZYaI9VG0OiNogWEhWb2SWxAo6/ceLNIPJHL0jiUHMuyo
-	M0tuDWC0HLXwubxHWzfUI4kZuUgdlAH2bcuuGal/oSH6RDcxBaImO7PuDZ3q/eSu1LWd
-	35cUF2kAg8jt8nVMPqM/V4bWW+6Ft8YQwMO/BBjmX3SDJ8CMmKMlXfzjk+D8EfDCEKsX
-	MJ8G5V6ktOd/OP4/GUFrFHMDxtS2eWeCvfymRZhtpjEeoSM/2L7pgzn02EjeQfcYUufU
-	+EQBwXyj90JiMJ0w4aOR3gNIoBdwH2nZEx4qH6y3pA5fiZx+rO+KANvhiPx66xSSIi+5
-	FdPw==
-X-Gm-Message-State: APjAAAU0wJQBBJff8hCwhPdOCJQwYVz8/8reRLrCtWqwslIPIlsf3fkj
-	XqlhXe8IWDVSx8EYR2OKGm3qcJk0
-X-Google-Smtp-Source: APXvYqziOugQlFiHgM/3dsNVOj3wqUoxscR3Y6IUOCjhJ3BcwCBX20odpgq3N6ceU7gr7oTs9mz2hQ==
-X-Received: by 2002:a63:220b:: with SMTP id i11mr14713713pgi.50.1580055898083; 
-	Sun, 26 Jan 2020 08:24:58 -0800 (PST)
+	bh=k4dkoc7wf2rbH8idE5u3k0QPjqo6/wXlm+O+FOk53kc=;
+	b=KAwK8LFzYK+XelVW1s0mooC2ipwSKD3cmNQQvmzrWsarnAh/wtiEjkGg66t8q1L+Ox
+	7cqg5FAeiytWxsON79epHJ5xQ7miHIyvWQ0xEyBE2gcOlYWsrK0SmU9fxMwb+/JplWOV
+	My0qGy0xDvBE1nmONqkUj/InLR52Nm090Oios+EN5sNag2OYYoHIaO2WYKEuftcLTloR
+	axs1xTGs9ZRsMCjgH7m8SgalrBQf6AFu+77ChmhiQKhKv0gdktspxCfy24gBndUt9YWE
+	tZuU3WMzDq23EzX/vkeEutIgZG8LVWQPOoFpoV3FOyrG1weD+ugGehUYwwo9/czOCtSL
+	ghBQ==
+X-Gm-Message-State: APjAAAUfmtQxwBaR0HlUsnm5en/M0SDMiKNoM160auxWEmiSwD461ktZ
+	1zyMOVix21QzfJt7xorA2H+XLhGi
+X-Google-Smtp-Source: APXvYqx+DvQgJJLS50yEYODWo/PUeassrgLEpsNkuqTqQw0CyyxvtxFcyp0EzQGTvxwLLqEHgqtjaQ==
+X-Received: by 2002:aa7:961b:: with SMTP id q27mr12566849pfg.23.1580055899641; 
+	Sun, 26 Jan 2020 08:24:59 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:bddb:633c:e712:cec2])
 	by smtp.gmail.com with ESMTPSA id
-	f43sm13046556pje.23.2020.01.26.08.24.57
+	f43sm13046556pje.23.2020.01.26.08.24.59
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 26 Jan 2020 08:24:57 -0800 (PST)
+	Sun, 26 Jan 2020 08:24:59 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 26 Jan 2020 08:24:26 -0800
-Message-Id: <1b69d141b73e46cc377f8566868da44dd5b1ea42.1580055797.git.akuster808@gmail.com>
+Date: Sun, 26 Jan 2020 08:24:28 -0800
+Message-Id: <262ac0c4d534b1858b81c7d69b6ff57c5d3a4559.1580055797.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1580055797.git.akuster808@gmail.com>
 References: <cover.1580055797.git.akuster808@gmail.com>
-Subject: [warrior 01/29] python: Whitelist CVE-2017-17522 CVE-2017-18207 CVE-2015-5652
+Subject: [warrior 03/29] python3: Upgrade 3.7.5 -> 3.7.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,36 +63,31 @@ X-List-Received-Date: Sun, 26 Jan 2020 16:24:58 -0000
 
 From: Adrian Bunk <bunk@stusta.de>
 
-One Windows-only CVE that cannot be fixed, and two CVEs
-where upstream agreement is that they are not vulnerabilities.
-
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/python/python.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../python/{python3_3.7.5.bb => python3_3.7.6.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.7.6.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index b093ea6f09..5d280dc63b 100644
---- a/meta/recipes-devtools/python/python.inc
-+++ b/meta/recipes-devtools/python/python.inc
-@@ -19,6 +19,16 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>2(\.\d+)+).tar"
+diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.6.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.7.5.bb
+rename to meta/recipes-devtools/python/python3_3.7.6.bb
+index c90054d45a..7a569f9ca7 100644
+--- a/meta/recipes-devtools/python/python3_3.7.5.bb
++++ b/meta/recipes-devtools/python/python3_3.7.6.bb
+@@ -38,8 +38,8 @@ SRC_URI_append_class-nativesdk = " \
+            file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
+            "
  
- CVE_PRODUCT = "python"
+-SRC_URI[md5sum] = "08ed8030b1183107c48f2092e79a87e2"
+-SRC_URI[sha256sum] = "e85a76ea9f3d6c485ec1780fca4e500725a4a7bbc63c78ebc44170de9b619d94"
++SRC_URI[md5sum] = "c08fbee72ad5c2c95b0f4e44bf6fd72c"
++SRC_URI[sha256sum] = "55a2cce72049f0794e9a11a84862e9039af9183603b78bc60d89539f82cf533f"
  
-+# Upstream agreement is that these are not security issues:
-+# https://bugs.python.org/issue32367
-+CVE_CHECK_WHITELIST += "CVE-2017-17522"
-+# https://bugs.python.org/issue32056
-+CVE_CHECK_WHITELIST += "CVE-2017-18207"
-+
-+# Windows-only, "It was determined that this is a longtime behavior
-+# of Python that cannot really be altered at this point."
-+CVE_CHECK_WHITELIST += "CVE-2015-5652"
-+
- PYTHON_MAJMIN = "2.7"
- 
- inherit autotools pkgconfig
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
 -- 
 2.17.1
 
