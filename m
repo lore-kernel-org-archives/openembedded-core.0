@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com
-	[209.85.214.177])
-	by mail.openembedded.org (Postfix) with ESMTP id EA251916C0
+Received: from mail-pj1-f68.google.com (mail-pj1-f68.google.com
+	[209.85.216.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 67DCC91697
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 16:25:04 +0000 (UTC)
-Received: by mail-pl1-f177.google.com with SMTP id p23so2853773plq.10
+	Sun, 26 Jan 2020 16:25:05 +0000 (UTC)
+Received: by mail-pj1-f68.google.com with SMTP id m4so2105422pjv.3
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 08:25:06 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=VJcgys1BEQNPimbAYP6oNGoeglmOH+wjxTwrfaV6HnA=;
-	b=mxBzPTU3nfKuxZbFCpoSahumZBtFJ/uVh9nd1Q09kJv8K0Gl5qWg9RS4aoLFaAKUXR
-	mGfetdtoWuxjUHCPH/bc89f/OFO0R6z6/MNOqiyBMgTLdOIIM3v+x/Bvu7V29fSJVY1I
-	bwoLResS4FdM4BoL0quLghZuVC/2iokth7MXVYuIv3VdB/crQguQRMNA0Z5AmuURvWE5
-	jkTmSteQ6kSVGdZuEquSHegEdTdhTEkPAX1+WHj59pH9TPWYvYim+vM05BcnRWo0SkF8
-	ZacosUMbwf5uFCH27A8IoJHTs6gQX/X2ptqOWG0+yIQEpkinNC1QhKCkJ72wkctVtwSh
-	3YUg==
+	bh=S/ZSY4c1Zu7/wI2A9XR8DUvsTmjV7c70jPFE/W6YhHU=;
+	b=NQ1C1AR4H/Usjnui7NrEahmZnJzQ/L/2WLPQpOeVXUWG3U2obOA+vzsBCb0a81yida
+	e/GbpvMU4BGmXDcyAJqvxSgz8eB71xPT1KmifloDMvBEPA0dRfNfO238WLDFRLjemPBw
+	51M9r3lRRbKUvVgRFArMsCsNW4/Q3bJwKTjv2YggXgRAQ/WMcSypdZFZCI15gA4pRunk
+	enFUmvsqS1+Tzmu7rfZg+WUzRRAG61nISl1vW7JI4Wv7QFvvYqrBhAZKXOp8A+XR0MHh
+	JA2l9AUMXrlVUD7mbc7XdqMZmafgt6dQGDeAykEQycIyv2qTKocjfFknONy39WQBa8ku
+	VQXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=VJcgys1BEQNPimbAYP6oNGoeglmOH+wjxTwrfaV6HnA=;
-	b=G74zr8ZdI2Ai8sAvJPBUV7s+lkXu/eT/wPO2qVTLNm3nlhVET9UXm/r8mKxnxworB3
-	39HyXkvqHxObZR1DZh0o6VAPj9rIMDxpvFuWaphA9EB3AvpbC3eHph0TgE7xX/WkED2y
-	Av98z8vWTuAgTnYS3XYEfc/LzrARENaOwM1sHrZDbLgXST9zyg7ZF3LSAp3+BtpAudl4
-	3TiiJI7rhaBLeBYeX6PNoAW5q4cLs267IQ7nORA+TezjdxaWo1naOKtSQGYXsIgiXvgW
-	BnRIuDC7yOrPEXgF2dWJXmH3vpkJDXtCOhlW+bfQOR9ZCLChez+ClGOT3iCE+ZlfUS+G
-	SCkQ==
-X-Gm-Message-State: APjAAAUyBRREmfr0hAR/w/P3YZxXCgVwWeILbknZaJZBewR9ugxABSwl
-	ciXxuqtj3cXqtLaGpXWq7vtTEJnf
-X-Google-Smtp-Source: APXvYqwLWKUaFdQQDph+6ND8/lkKQMh34H6T6wEK0YHdtd2mzt37diRIeRuqhLnWcm9H5Ca2GCiyQQ==
-X-Received: by 2002:a17:902:ab91:: with SMTP id
-	f17mr13739030plr.172.1580055905806; 
-	Sun, 26 Jan 2020 08:25:05 -0800 (PST)
+	bh=S/ZSY4c1Zu7/wI2A9XR8DUvsTmjV7c70jPFE/W6YhHU=;
+	b=PESrJUQhTTs5k/4gYPYkIomXW85NWUbGghSOHFrVhH8K3aIib6YBX5KRaE0Mf9efp9
+	Wmiv2NhF+P3a8R/RLByDrkfJqhFRG1HUybGigHEgshVvYJS1XaW7g8fp8cUdWtNC/wHr
+	mDnb/MBFdqtmqm+ZB46qS6mx5tTWfToM4UbdOiLmAQuRODziNVsbohtmrtzVMvKG777t
+	4KtRmfFy/X3VMtyfa/bO+2+UTSS4jTk4Zat8Zf23S6ohAlyyZt3+saRwgAch0szsC4Y2
+	YmH6eejgTu5EG3zYaYeUt/h7xwRFqxrnV7RRNjRY7oF0hoIVSmGtQgNEG2O4hDuoxE1M
+	Vq/w==
+X-Gm-Message-State: APjAAAUAqty8BkVKqDS1XWEdTawH1lwsz/VMJD1UYKTenoACgN+mTyjZ
+	gDzaXDq63FsFYmZQx8CgwdDXDt2q
+X-Google-Smtp-Source: APXvYqzbRgR8g/5csQfytHV78drawI/JuYLVz+RtGClx60oB1cKEq4UlsKNiI1oywqtJP17xsFAS0Q==
+X-Received: by 2002:a17:902:8d93:: with SMTP id
+	v19mr13911685plo.327.1580055906624; 
+	Sun, 26 Jan 2020 08:25:06 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:bddb:633c:e712:cec2])
 	by smtp.gmail.com with ESMTPSA id
 	f43sm13046556pje.23.2020.01.26.08.25.05
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 26 Jan 2020 08:25:05 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:06 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 26 Jan 2020 08:24:36 -0800
-Message-Id: <de04ec5dcf72d76f2e8274af4bcddf27cb02e544.1580055797.git.akuster808@gmail.com>
+Date: Sun, 26 Jan 2020 08:24:37 -0800
+Message-Id: <abc2d1fad91f1378be3946e35d8f8f450823599e.1580055797.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1580055797.git.akuster808@gmail.com>
 References: <cover.1580055797.git.akuster808@gmail.com>
-Subject: [warrior 11/29] glibc: fix CVE-2019-19126
+Subject: [warrior 12/29] lighttpd: Backport the CVE-2019-11072 fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,72 +60,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2020 16:25:05 -0000
+X-List-Received-Date: Sun, 26 Jan 2020 16:25:06 -0000
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+From: Adrian Bunk <bunk@stusta.de>
 
-Backport from 2.30 stable branch and drop NEWS section.
-
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../glibc/glibc/CVE-2019-19126.patch          | 32 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.29.bb         |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-19126.patch
+ ...x-abort-in-http-parseopts-fixes-2945.patch | 54 +++++++++++++++++++
+ .../lighttpd/lighttpd_1.4.53.bb               |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-core-fix-abort-in-http-parseopts-fixes-2945.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-19126.patch b/meta/recipes-core/glibc/glibc/CVE-2019-19126.patch
+diff --git a/meta/recipes-extended/lighttpd/lighttpd/0001-core-fix-abort-in-http-parseopts-fixes-2945.patch b/meta/recipes-extended/lighttpd/lighttpd/0001-core-fix-abort-in-http-parseopts-fixes-2945.patch
 new file mode 100644
-index 0000000000..aead04c485
+index 0000000000..123bb94c60
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2019-19126.patch
-@@ -0,0 +1,32 @@
-+From 37c90e117310728a4ad1eb998c0bbe7d79c4a398 Mon Sep 17 00:00:00 2001
-+From: =?utf8?q?Marcin=20Ko=C5=9Bcielnicki?= <mwk@0x04.net>
-+Date: Thu, 21 Nov 2019 00:20:15 +0100
-+Subject: [PATCH] rtld: Check __libc_enable_secure before honoring
-+ LD_PREFER_MAP_32BIT_EXEC (CVE-2019-19126) [BZ #25204]
++++ b/meta/recipes-extended/lighttpd/lighttpd/0001-core-fix-abort-in-http-parseopts-fixes-2945.patch
+@@ -0,0 +1,54 @@
++From 32120d5b8b3203fc21ccb9eafb0eaf824bb59354 Mon Sep 17 00:00:00 2001
++From: Glenn Strauss <gstrauss@gluelogic.com>
++Date: Wed, 10 Apr 2019 11:28:10 -0400
++Subject: [core] fix abort in http-parseopts (fixes #2945)
 +
-+The problem was introduced in glibc 2.23, in commit
-+b9eb92ab05204df772eb4929eccd018637c9f3e9
-+("Add Prefer_MAP_32BIT_EXEC to map executable pages with MAP_32BIT").
++fix abort in server.http-parseopts with url-path-2f-decode enabled
 +
-+(cherry picked from commit d5dfad4326fc683c813df1e37bbf5cf920591c8e)
++(thx stze)
 +
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=37c90e117310728a4ad1eb998c0bbe7d79c4a398]
-+CVE: CVE-2019-19126
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++x-ref:
++  "Security - SIGABRT during GET request handling with url-path-2f-decode enabled"
++  https://redmine.lighttpd.net/issues/2945
++
++CVE: CVE-2019-11072
++Upstream-Status: Backport
++Signed-off-by: Adrian Bunk <bunk@stusta.de>
 +---
-+diff --git a/sysdeps/unix/sysv/linux/x86_64/64/dl-librecon.h b/sysdeps/unix/sysv/linux/x86_64/64/dl-librecon.h
-+index 975cbe2..df2cdfd 100644
-+--- a/sysdeps/unix/sysv/linux/x86_64/64/dl-librecon.h
-++++ b/sysdeps/unix/sysv/linux/x86_64/64/dl-librecon.h
-+@@ -31,7 +31,8 @@
-+    environment variable, LD_PREFER_MAP_32BIT_EXEC.  */
-+ #define EXTRA_LD_ENVVARS \
-+   case 21:								  \
-+-    if (memcmp (envline, "PREFER_MAP_32BIT_EXEC", 21) == 0)		  \
-++    if (!__libc_enable_secure						  \
-++	&& memcmp (envline, "PREFER_MAP_32BIT_EXEC", 21) == 0)		  \
-+       GLRO(dl_x86_cpu_features).feature[index_arch_Prefer_MAP_32BIT_EXEC] \
-+ 	|= bit_arch_Prefer_MAP_32BIT_EXEC;				  \
-+     break;
++ src/burl.c        | 6 ++++--
++ src/t/test_burl.c | 2 ++
++ 2 files changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/src/burl.c b/src/burl.c
++index 51182628..c4b928fd 100644
++--- a/src/burl.c
+++++ b/src/burl.c
++@@ -252,8 +252,10 @@ static int burl_normalize_2F_to_slash_fix (buffer *b, int qs, int i)
++         }
++     }
++     if (qs >= 0) {
++-        memmove(s+j, s+qs, blen - qs);
++-        j += blen - qs;
+++        const int qslen = blen - qs;
+++        memmove(s+j, s+qs, (size_t)qslen);
+++        qs = j;
+++        j += qslen;
++     }
++     buffer_string_set_length(b, j);
++     return qs;
++diff --git a/src/t/test_burl.c b/src/t/test_burl.c
++index 7be9be50..f7a16815 100644
++--- a/src/t/test_burl.c
+++++ b/src/t/test_burl.c
++@@ -97,6 +97,8 @@ static void test_burl_normalize (void) {
++     flags |= HTTP_PARSEOPT_URL_NORMALIZE_PATH_2F_DECODE;
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a/b?c=/"), CONST_STR_LEN("/a/b?c=/"));
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a/b?c=%2f"), CONST_STR_LEN("/a/b?c=/"));
+++    run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("%2f?"), CONST_STR_LEN("/?"));
+++    run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/%2f?"), CONST_STR_LEN("//?"));
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a%2fb"), CONST_STR_LEN("/a/b"));
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a%2Fb"), CONST_STR_LEN("/a/b"));
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a%2fb?c=/"), CONST_STR_LEN("/a/b?c=/"));
 +-- 
-+2.9.3
-diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
-index c6b2caad42..28af4d1ba4 100644
---- a/meta/recipes-core/glibc/glibc_2.29.bb
-+++ b/meta/recipes-core/glibc/glibc_2.29.bb
-@@ -56,6 +56,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0030-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
-            file://0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch \
-            file://CVE-2019-9169.patch \
-+           file://CVE-2019-19126.patch \
- "
++2.17.1
++
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
+index a0b350f358..1259e63bfe 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
+@@ -17,6 +17,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+         file://lighttpd.conf \
+         file://lighttpd \
+         file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch \
++        file://0001-core-fix-abort-in-http-parseopts-fixes-2945.patch \
+         "
  
- S = "${WORKDIR}/git"
+ SRC_URI[md5sum] = "f93436d8d400b2b0e26ee4bcc60b9ac7"
 -- 
 2.17.1
 
