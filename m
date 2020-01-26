@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 0593A9169E
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+	[209.85.210.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E7D7916B1
 	for <openembedded-core@openembedded.org>;
 	Sun, 26 Jan 2020 16:24:57 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id x8so3908769pgk.8
+Received: by mail-pf1-f182.google.com with SMTP id w2so3760801pfd.3
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 08:24:59 -0800 (PST)
+	Sun, 26 Jan 2020 08:24:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=uwjF9oS0jqthwG1nesxeCn/B+YOHkDbdCFxPd9bf17Y=;
-	b=mw7XovEB0nfrGbYaMMrBKn+r3cr2C4griVTBAfQfcAN01SYhsx5tz213zejrHpeRgL
-	6ziNni2XgK6dknrIcuO2LqEg/z27VxsIqCQeyyntN7cu18CtitlJC28iwTznRLnPs/F2
-	4wtWtY/TZjlAS8tXxsj5hXTeWgPdPhxh66EYECUiCCLK8Ue8YBh7/OIK/FVzBFREZNBi
-	jINLKF2LetlIul+kRypPlmg2bLlu6sYlgGWUZIQ3411WXCjWmFEz3vhIYnwnfc3wZU1x
-	w7a0Z7AN6sQJpR6MUow9S1x6HouyWCOmfjybzNBfrXdwD1uiZlluptAm+Ug4kgB33wSE
-	6hNA==
+	bh=QXKH3OecF3DPEm50WN+O4Wr3yNy5zdzzYXgDxzPHXjw=;
+	b=DAJGo1xLSd1is3i9ykKWE1NCNOK03TXKaAkXDDkpYEo9aCZ5iZun0W7EUCewUv3bLn
+	qDcxrDU7pMzBi/l9iFbI6rTBS6yW7Unu2vtMS7xdlDfv1oFBzHGoKuGpu1EESzUkVFYF
+	uxlm3SZx/OpXVmHmRIsGTZ9GMTFBet9x06ijFJ0XoxFEWOCbC1d6C9nU2zumIjvv9598
+	6uTBrcOEnXlgDcgnxLaXXY9jASLksGAq6/elz078SEFdDCVeYR6VfFUhcYZw5QlCozRC
+	thTIwcZoeavuuvDQcLSL09E4uRFSKBwK6dAtVjTz7kYt/oM7kTWLxjkhuFcx3UHCSyBy
+	XGLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=uwjF9oS0jqthwG1nesxeCn/B+YOHkDbdCFxPd9bf17Y=;
-	b=izdAIz2es+8IQrdKf+/5Ar68IeKwoG1k79dw08GVyzJRzjIA2tH2fs8rDm4zDSevKY
-	+UZhs24rqGQntrYfrlnPc37CMusNsNpP9pcDLULu+XuoLYnxg7NfbUUpy7A0CMn0k4TQ
-	d1naVaPC81K3PXN7URCnmXLOdngB1HD+zWVzzC41JzybWHVBqmQig7ll0CPA6MebIWYA
-	Sywddq+OwDE+b6S1eWJsGzVUcDgf0YgCoQyLGcrsafkIXvFUJ228mU1MTnAe99Do7KIJ
-	wpDs2U4eFHkzrREt9eKFZNAzzh3Cl4GW8wWsyeAZrdLy/yz6q5UqGjf6U2QhsRvQQyKV
-	oMlw==
-X-Gm-Message-State: APjAAAUtUt9VeRLmuRqwTf6npMoTQ+IpQs7YDj+97xUweVQOYdJUbhqU
-	+DonT7pC+jc/p1hwGqkk2Yf3Om8O
-X-Google-Smtp-Source: APXvYqw6ezAcnw22jw0uvhLOSyl3soJMGlVmuXrmUpB3YxnSlTGJtFlvmDpM3pSxXvYrlYn2jdxjhg==
-X-Received: by 2002:a62:e411:: with SMTP id r17mr11873928pfh.119.1580055898911;
+	bh=QXKH3OecF3DPEm50WN+O4Wr3yNy5zdzzYXgDxzPHXjw=;
+	b=V/L8BZqK3dVIfOddgNxDtwZYaI9VG0OiNogWEhWb2SWxAo6/ceLNIPJHL0jiUHMuyo
+	M0tuDWC0HLXwubxHWzfUI4kZuUgdlAH2bcuuGal/oSH6RDcxBaImO7PuDZ3q/eSu1LWd
+	35cUF2kAg8jt8nVMPqM/V4bWW+6Ft8YQwMO/BBjmX3SDJ8CMmKMlXfzjk+D8EfDCEKsX
+	MJ8G5V6ktOd/OP4/GUFrFHMDxtS2eWeCvfymRZhtpjEeoSM/2L7pgzn02EjeQfcYUufU
+	+EQBwXyj90JiMJ0w4aOR3gNIoBdwH2nZEx4qH6y3pA5fiZx+rO+KANvhiPx66xSSIi+5
+	FdPw==
+X-Gm-Message-State: APjAAAU0wJQBBJff8hCwhPdOCJQwYVz8/8reRLrCtWqwslIPIlsf3fkj
+	XqlhXe8IWDVSx8EYR2OKGm3qcJk0
+X-Google-Smtp-Source: APXvYqziOugQlFiHgM/3dsNVOj3wqUoxscR3Y6IUOCjhJ3BcwCBX20odpgq3N6ceU7gr7oTs9mz2hQ==
+X-Received: by 2002:a63:220b:: with SMTP id i11mr14713713pgi.50.1580055898083; 
 	Sun, 26 Jan 2020 08:24:58 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:bddb:633c:e712:cec2])
 	by smtp.gmail.com with ESMTPSA id
-	f43sm13046556pje.23.2020.01.26.08.24.58
+	f43sm13046556pje.23.2020.01.26.08.24.57
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 26 Jan 2020 08:24:58 -0800 (PST)
+	Sun, 26 Jan 2020 08:24:57 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 26 Jan 2020 08:24:27 -0800
-Message-Id: <a2507600fecdf815ad80da569c5e8ad65286b812.1580055797.git.akuster808@gmail.com>
+Date: Sun, 26 Jan 2020 08:24:26 -0800
+Message-Id: <1b69d141b73e46cc377f8566868da44dd5b1ea42.1580055797.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1580055797.git.akuster808@gmail.com>
 References: <cover.1580055797.git.akuster808@gmail.com>
-Subject: [warrior 02/29] python/python3: Whitelist CVE-2019-18348
+Subject: [warrior 01/29] python: Whitelist CVE-2017-17522 CVE-2017-18207 CVE-2015-5652
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,45 +63,36 @@ X-List-Received-Date: Sun, 26 Jan 2020 16:24:58 -0000
 
 From: Adrian Bunk <bunk@stusta.de>
 
-This is not exploitable when glibc has CVE-2016-10739 fixed,
-which is fixed in the upstream version since warrior.
+One Windows-only CVE that cannot be fixed, and two CVEs
+where upstream agreement is that they are not vulnerabilities.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/python/python.inc       | 3 +++
- meta/recipes-devtools/python/python3_3.7.5.bb | 3 +++
- 2 files changed, 6 insertions(+)
+ meta/recipes-devtools/python/python.inc | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
 diff --git a/meta/recipes-devtools/python/python.inc b/meta/recipes-devtools/python/python.inc
-index 5d280dc63b..a2424a67bf 100644
+index b093ea6f09..5d280dc63b 100644
 --- a/meta/recipes-devtools/python/python.inc
 +++ b/meta/recipes-devtools/python/python.inc
-@@ -29,6 +29,9 @@ CVE_CHECK_WHITELIST += "CVE-2017-18207"
- # of Python that cannot really be altered at this point."
- CVE_CHECK_WHITELIST += "CVE-2015-5652"
+@@ -19,6 +19,16 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>2(\.\d+)+).tar"
  
-+# This is not exploitable when glibc has CVE-2016-10739 fixed.
-+CVE_CHECK_WHITELIST += "CVE-2019-18348"
+ CVE_PRODUCT = "python"
+ 
++# Upstream agreement is that these are not security issues:
++# https://bugs.python.org/issue32367
++CVE_CHECK_WHITELIST += "CVE-2017-17522"
++# https://bugs.python.org/issue32056
++CVE_CHECK_WHITELIST += "CVE-2017-18207"
++
++# Windows-only, "It was determined that this is a longtime behavior
++# of Python that cannot really be altered at this point."
++CVE_CHECK_WHITELIST += "CVE-2015-5652"
 +
  PYTHON_MAJMIN = "2.7"
  
  inherit autotools pkgconfig
-diff --git a/meta/recipes-devtools/python/python3_3.7.5.bb b/meta/recipes-devtools/python/python3_3.7.5.bb
-index c560c4a29d..c90054d45a 100644
---- a/meta/recipes-devtools/python/python3_3.7.5.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.5.bb
-@@ -46,6 +46,9 @@ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
- 
- CVE_PRODUCT = "python"
- 
-+# This is not exploitable when glibc has CVE-2016-10739 fixed.
-+CVE_CHECK_WHITELIST += "CVE-2019-18348"
-+
- PYTHON_MAJMIN = "3.7"
- PYTHON_BINABI = "${PYTHON_MAJMIN}m"
- 
 -- 
 2.17.1
 
