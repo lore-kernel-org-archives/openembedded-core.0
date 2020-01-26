@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com
-	[209.85.216.41])
-	by mail.openembedded.org (Postfix) with ESMTP id DC49A9169E
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
+	[209.85.214.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C1C09169E
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 16:25:11 +0000 (UTC)
-Received: by mail-pj1-f41.google.com with SMTP id gv17so2111541pjb.1
+	Sun, 26 Jan 2020 16:25:12 +0000 (UTC)
+Received: by mail-pl1-f179.google.com with SMTP id q13so2870227pls.1
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 08:25:13 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=tlCOGLn06jCMHCljZ8qSaiUEU0NbCDtIZiLthLQwYho=;
-	b=gKL/jZBVZgufluO/FG3rnWKIzOLNveUHsZYENGaYin8lgsfWn5/Bt9/3XNqtKyv6+9
-	J59be5yp3VSeo1HSIQGKlmJU6XgLpVsG77JKUUAkk8WNqwzi3+rDMin7A7u9Oe5RKh1d
-	31O4VqrjoaSNxvZXVOBw/DNKkJuJlVCe8YnfE3AFUzh5ymsJEWRuveJ7AlcoTpOCncc2
-	+28Z1bxxw4pBDFRQXl1Clj0SbRFsRpneJVLma33q47rwtCw/XiR7e5dWI5QO4Wrb1jx4
-	uhFs3Y1kN9UeDV+i8aAG6RaEDjtcQ+jiyn3hHC/NpaeU0jKdvJVs4IEd+KoIDW4q7HaN
-	JkNg==
+	bh=T1IzNyC4Hplo0hLEAKdaO7BB85anPQkbPnFkxyc1UTg=;
+	b=ix2QjwbJxD97Y2vpK5B0jOV0oQvrxoNipA0a4Q4oGWiZ/v6vjy+Fuw/OwNJVNqXrnJ
+	uySzp7SryK351ts5lc+Dhr40k6m6P+DxoRBcd6RZpsHu7jztQh5LnR76P0EhPT0gMNMj
+	KBEeV3eL2fCtS04MQ+c2RyOpvax6iOEmfUs+jCnpfs5M8VKS8IkiElKZyJkOpoiW6oBZ
+	E20b53WFXptXh1JigrqT1t+V6g+Esu3DVuGNwc0iWYpoxLBCamdU7UsDm+C/FMW12mEm
+	D0RUL/0d+fI6U7qnvUlO+mRMElk7cUh5LMWXoJjehkvp5csI8KXFuXkdPvaiaZALU5r3
+	1xKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=tlCOGLn06jCMHCljZ8qSaiUEU0NbCDtIZiLthLQwYho=;
-	b=fbPdEh/V4aYLJlsCdXOYpcql4naVxCYUWup1obqQxkqXGgZcGuzRHVOTKnXazEXBc/
-	c4k5pP9UmVZEzYyDUm3Nuvf9k6nWwZYCxSL8JrDfAJXBTtoUxoY+BHiMX9yKRprANUYQ
-	ramNhhRtjK3uwMLSnbTsd83mx5aca5HGhsLPuiMMJ8wfdTyRR6WHIesxu/b4KVyHGCvA
-	UiM0w8vmvd9qJ1/xcwFuV7I1OVHilua97s+G6o+AzBBoKBaTlSjfigAbJOlkM8tw/8M/
-	q+cQK8YCe8phziPwKFqefNrw5xeP238KhoUKU/OdhpqSNqT434WduJ/hCJc+3PYtUhlJ
-	HDdA==
-X-Gm-Message-State: APjAAAXLEYk832KHypT0SwqW2b7jeNVf0Xn+ojMrvrHSMQ9qeEDftJF1
-	O53Msc0pV6X3HOv/sMvj9NYX6kpq
-X-Google-Smtp-Source: APXvYqwinEF07vvCtout54JSeZQx05DmOBEhBvqtGFMkMR4VDxKxYgwo2unXTJDe57X/m2xFv8UMRg==
-X-Received: by 2002:a17:902:a616:: with SMTP id
-	u22mr13598684plq.173.1580055912881; 
-	Sun, 26 Jan 2020 08:25:12 -0800 (PST)
+	bh=T1IzNyC4Hplo0hLEAKdaO7BB85anPQkbPnFkxyc1UTg=;
+	b=NZ0XmXTx+K+aJmWzaW3eC5goHeIvHZ+k+E8whXZWSqhy3C29DuyyVEueLdsOMQJolp
+	KKrbOFZuTPzKl3LUfPY9B8aX5z6iCxTcKAXoVD2QNl7r+/DWEqFlBQFrmyldxt4hzMqn
+	WUbsDSkuoljhxzHbRAqn2J68k4NSfBuwdi3OjITg6l/sKKiTcGbB/de2DLjO4pRbQcSl
+	FuTlWvKwfyHr+bYS6uHP4ntLF+d07kQ6jTFaSLpfD77sLwLBaTwkuYSCJVYj02++SswY
+	uWeEfzRQuq8JeclljC7OaBGm3BTf7wKZGwljad0WB8IuG3RvzZ6DcSrPS9YoaEJQJ4CL
+	rs5Q==
+X-Gm-Message-State: APjAAAVcPUJY/Y6B0075+rRyMKeq7K2DdTRRNEoLcm3zcEdTcBzRlgHh
+	3h+DWDhl8qSemXlNCWW6jSt7Ig22
+X-Google-Smtp-Source: APXvYqxEcm7uo9OISAcaoWmXWGcJlYeg90Wgr3qSHD1cj3Tk3EFTFqDZjchpItgZswAc+WZA8n40KQ==
+X-Received: by 2002:a17:902:8a81:: with SMTP id
+	p1mr13629597plo.284.1580055913638; 
+	Sun, 26 Jan 2020 08:25:13 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:bddb:633c:e712:cec2])
 	by smtp.gmail.com with ESMTPSA id
-	f43sm13046556pje.23.2020.01.26.08.25.12
+	f43sm13046556pje.23.2020.01.26.08.25.13
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 26 Jan 2020 08:25:12 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:13 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 26 Jan 2020 08:24:45 -0800
-Message-Id: <7c51ca8538f228d98a4b3411a15fde83516c0419.1580055797.git.akuster808@gmail.com>
+Date: Sun, 26 Jan 2020 08:24:46 -0800
+Message-Id: <d328696acfd4967d19e32680033d9594dd00b92c.1580055797.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1580055797.git.akuster808@gmail.com>
 References: <cover.1580055797.git.akuster808@gmail.com>
-Subject: [warrior 20/29] iputils: Whitelist CVE-2000-1213 CVE-2000-1214
+Subject: [warrior 21/29] systemd: Whitelist CVE-2018-21029 CVE-2019-3843 CVE-2019-3844
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,28 +64,33 @@ X-List-Received-Date: Sun, 26 Jan 2020 16:25:12 -0000
 
 From: Adrian Bunk <bunk@stusta.de>
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-extended/iputils/iputils_s20180629.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+One does not strictly apply to 241, for the other two a fix
+was already backported to the 241 branch.
 
-diff --git a/meta/recipes-extended/iputils/iputils_s20180629.bb b/meta/recipes-extended/iputils/iputils_s20180629.bb
-index eff44be1bd..5d11ced96d 100644
---- a/meta/recipes-extended/iputils/iputils_s20180629.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20180629.bb
-@@ -21,6 +21,10 @@ S = "${WORKDIR}/git"
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-core/systemd/systemd.inc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 2b9c291959..cb41ac5b22 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,6 +14,13 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
  
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
- 
-+# Fixed in 2000-10-10, but the versioning of iputils
-+# breaks the version order.
-+CVE_CHECK_WHITELIST += "CVE-2000-1213 CVE-2000-1214"
++# DNSOverTLS strict mode was added in 243
++# https://github.com/systemd/systemd/issues/9397
++CVE_CHECK_WHITELIST += "CVE-2018-21029"
 +
- EXTRA_OEMAKE = "-e MAKEFLAGS="
- 
- PACKAGECONFIG ??= ""
++# Commit dc903ec516cb on the 241 branch
++CVE_CHECK_WHITELIST += "CVE-2019-3843 CVE-2019-3844"
++
+ SRCREV = "511646b8ac5c82f210b16920044465756913d238"
+ SRCBRANCH = "v241-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
 -- 
 2.17.1
 
