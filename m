@@ -1,54 +1,50 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C043B6C132
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jan 2020 09:36:05 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id b6so7348939wrq.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jan 2020 01:36:07 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com
+	[209.85.216.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 47F2A916B1
+	for <openembedded-core@openembedded.org>;
+	Sun, 26 Jan 2020 16:24:56 +0000 (UTC)
+Received: by mail-pj1-f53.google.com with SMTP id n96so1998782pjc.3
+	for <openembedded-core@openembedded.org>;
+	Sun, 26 Jan 2020 08:24:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=M8aCWdrak/C4T04V9VYjlHtjC+TCxKqSP5tqVPvE2g0=;
-	b=FnnV7t9Z+7xagrsewTFGZXFXCe6ddRlyEWJW5pJJgSQjPNkMVO1MWpMYRSPBKsnQcc
-	8hcvBKCrzOwAb5JbEynxM9OjVSH0NvGqKqqljnSBREhCrOmcl+zfPCnvczPV6EYwW6ZZ
-	62+XuvEx3L0c7Q23V+GgbmJyIDcl9/15/Xf67EdKxagBqMygAVT5bVrR9egt+FKg7jH1
-	/B2bsKcAImVCBvvtow+KtH/UjP4A/ZyNFP2z9St7TxnaGhKpkyoM4h3Kz1lggqKTkb2n
-	AJinH6hPRV/HrU0e+VOXdZOoHf6fyzfaf3Acsw2UycaZbJnwG2/A9TdfvXHuhMzHWLwj
-	db3A==
+	h=from:to:subject:date:message-id;
+	bh=FPug8vlGr80pvmhTOtYjoFGGKFXvOuepd0AAYyDRoJY=;
+	b=DwCfRQmwx1jwwny7iSG9zHBklQ92siyzevUUDi46fk8z2IHkjR3KBmrQESUebdewCR
+	qKQQFfuMP8KsUTsNMIh/3oeVptUFRsszOn2JXf5rKqfgZIvUM8vLW6XsH+4v0Zj5LqYg
+	tdovunwtCgOZeQaynIZ3ep7mxmzg2zs6i3987B7PsSF6uwROnipkaeVFlvmL0TQfVQJB
+	NvoBNTlflV98jpb8mD2HDm/CgC3B9o8Avw2L+u79c6Fm+8/YWr+ChGIDMWmesOTzB3Pj
+	byzgTsGv/Sf6CV3pZaHdKtcx+0csN2t9EG7g3ivBfxPUygelWAF32G9tbTq7obAe+1s6
+	Pw4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=M8aCWdrak/C4T04V9VYjlHtjC+TCxKqSP5tqVPvE2g0=;
-	b=mQRYxPJMWgelCsF8S4wD2nt0zx+1BMEVdiDbhNgnLIYRM7v3RnSgx8xbVX4gzYttUa
-	pCSyybmcYrutEFk2nd58kV52L6DMBMc0Ld+CUeYo8vBY2k1WDN+bHEN7/jHAs593Vr9V
-	eU/QkqFAPre8oN2xooQGX/MwdyW6heWfoHbDecIu8Z++hUCgOfeO2cFbE/Un6zQ/wLGK
-	5BbRZZv5rWXh9thRgIfXoSka0o4MHuSWmK3HYdw+J+puDJFcbt1k/39AfHEQ1G8/iMmj
-	IwjbSuhwmNJU/EkGst3Vfad7nL7aGiys3T5zTto3hbEbYQLebt28HgJo6xAnCvlJDm6w
-	1d0Q==
-X-Gm-Message-State: APjAAAWq6i/+p5/n4lITh8Z01D7twuPV6Gik0mg+qXWD7CpqgO1Ynt/c
-	f6iNyHKuao3GYF8ZbzqaZTs=
-X-Google-Smtp-Source: APXvYqxeDIjhUsoe/aOseTDMSNO7kRvpdPjzly8UD3fyz+wkxLvfFqghj/jj4xEXZQ/2LD940gUrcw==
-X-Received: by 2002:a5d:6a52:: with SMTP id t18mr14277002wrw.391.1580031366271;
-	Sun, 26 Jan 2020 01:36:06 -0800 (PST)
-Received: from localhost ([109.238.218.228])
-	by smtp.gmail.com with ESMTPSA id 21sm4573849wmo.8.2020.01.26.01.36.05
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=FPug8vlGr80pvmhTOtYjoFGGKFXvOuepd0AAYyDRoJY=;
+	b=SwKsCTwx1SHMWjhJNqSPcSL7/MrhdeHnX/yDzSL5zuYYFzD5v39+wzS+3hVqGUFUO3
+	nIu5ecdfx/hu0S/7sUMT3BcZ7Mq+5UiDF8hbXRzEhIWHqG0CV/Yom53eYGT4H6Z/PSh6
+	FfJUzve6RqbKMSNdumRmEfaDrc6ZOfYnQuebCYCccinxQ8x4IpvH9vBYLmbmW9NXZGTS
+	2fEJZTH0Q7S35eZp0YYDdypuq6axUn4CnAB0N6q4JCB4xoITgmoxqtjMkcaPKZAWTloA
+	Kj5VQjnxy3pDQpju49fv4arZCsgkLbGatoY7S9ai5HqCBk+EjDXG2g3UMg6Z7nRoeze6
+	Z2KQ==
+X-Gm-Message-State: APjAAAX+zZ8aM+QH1uznbEcVN6sRCat6ifjQ3S7RE3x3fD5hbIMKUGF2
+	1+ENc/VsBeHyAZa9GYRqwC39ExzF
+X-Google-Smtp-Source: APXvYqyaWrSEyglCb6k62dnWSAffxJyRi2biwE8lN0DLGciMfVFit0pZPfTZ93cjSVBw9QUVXG+B3g==
+X-Received: by 2002:a17:90a:e389:: with SMTP id
+	b9mr10000116pjz.7.1580055897274; 
+	Sun, 26 Jan 2020 08:24:57 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:bddb:633c:e712:cec2])
+	by smtp.gmail.com with ESMTPSA id
+	f43sm13046556pje.23.2020.01.26.08.24.56
+	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 26 Jan 2020 01:36:05 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Sun, 26 Jan 2020 10:36:04 +0100
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20200126093604.s4teivajlr5xlqg6@jama>
-References: <cover.1579809439.git.raj.khem@gmail.com>
-	<1fe572e7afe84276d14a22eb46b35ceadcdd91aa.1579809439.git.raj.khem@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <1fe572e7afe84276d14a22eb46b35ceadcdd91aa.1579809439.git.raj.khem@gmail.com>
-User-Agent: NeoMutt/20180716
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/4] nss: Pass NSS_USE_ARM_HW_CRYPTO as define in CFLAGS
+	Sun, 26 Jan 2020 08:24:56 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@openembedded.org
+Date: Sun, 26 Jan 2020 08:24:25 -0800
+Message-Id: <cover.1580055797.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [warrior 00/29] Merge request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,109 +57,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2020 09:36:06 -0000
-X-Groupsio-MsgNum: 134162
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="ge7dbkjzgws56bz2"
-Content-Disposition: inline
+X-List-Received-Date: Sun, 26 Jan 2020 16:24:57 -0000
 
---ge7dbkjzgws56bz2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Please consider this for warrior.
+All changes have already been posted on list
 
-On Thu, Jan 23, 2020 at 12:00:40PM -0800, Khem Raj wrote:
-> Use NSS_USE_ARM_HW_CRYPTO to detect USE_ARM_GCM, since there are
-> dependent, without this we control the crypto code function inclusion in
-> build but do not control the call sites, which can result in undefined
-> symbols e.g.
->=20
-> Linux_SINGLE_SHLIB/gcm.o: in function `gcmHash_InitContext':
-> /usr/src/debug/nss/3.49.1-r0/nss-3.49.1/nss/lib/freebl/gcm.c:112: undefin=
-ed reference to `gcm_HashInit_hw'
+The following changes since commit 279c4da2e5f46dccfeff0c898c2205940be9e174:
 
-Fixes the errors I'm seeing since nss upgrade, thanks!
+  stress: update SRC_URI (2020-01-11 19:39:37 -0800)
 
-Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
+are available in the Git repository at:
 
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  ...figure-option-to-disable-ARM-HW-cryp.patch | 25 ++++++++++++++++---
->  1 file changed, 21 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-opt=
-ion-to-disable-ARM-HW-cryp.patch b/meta/recipes-support/nss/nss/0001-freebl=
--add-a-configure-option-to-disable-ARM-HW-cryp.patch
-> index fe29d19882..803c06b218 100644
-> --- a/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-=
-disable-ARM-HW-cryp.patch
-> +++ b/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-=
-disable-ARM-HW-cryp.patch
-> @@ -12,20 +12,19 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.=
-com>
->   nss/lib/freebl/Makefile | 3 +++
->   1 file changed, 3 insertions(+)
-> =20
-> -diff --git a/nss/lib/freebl/Makefile b/nss/lib/freebl/Makefile
-> -index 06506f0..a8b015d 100644
->  --- a/nss/lib/freebl/Makefile
->  +++ b/nss/lib/freebl/Makefile
-> -@@ -125,6 +125,8 @@ else
-> +@@ -125,6 +125,9 @@ else
->           DEFINES +=3D -DNSS_X86
->   endif
->   endif
->  +
->  +ifdef NSS_USE_ARM_HW_CRYPTO
-> ++    DEFINES +=3D -DNSS_USE_ARM_HW_CRYPTO
->   ifeq ($(CPU_ARCH),aarch64)
->       DEFINES +=3D -DUSE_HW_AES
->       EXTRA_SRCS +=3D aes-armv8.c gcm-aarch64.c
-> -@@ -145,6 +147,7 @@ ifeq ($(CPU_ARCH),arm)
-> +@@ -146,6 +149,7 @@ ifeq ($(CPU_ARCH),arm)
->           endif
->       endif
->   endif
-> @@ -33,3 +32,21 @@ index 06506f0..a8b015d 100644
->  =20
->   ifeq ($(OS_TARGET),OSF1)
->       DEFINES +=3D -DMP_ASSEMBLY_MULTIPLY -DMP_NO_MP_WORD
-> +--- a/nss/lib/freebl/gcm.c
-> ++++ b/nss/lib/freebl/gcm.c
-> +@@ -17,6 +17,7 @@
-> +=20
-> + #include <limits.h>
-> +=20
-> ++#ifdef NSS_USE_ARM_HW_CRYPTO
-> + /* old gcc doesn't support some poly64x2_t intrinsic */
-> + #if defined(__aarch64__) && defined(IS_LITTLE_ENDIAN) && \
-> +     (defined(__clang__) || defined(__GNUC__) && __GNUC__ > 6)
-> +@@ -28,6 +29,7 @@
-> +  * that compiler uses -mfpu=3Dneon only. */
-> + #define USE_ARM_GCM
-> + #endif
-> ++#endif
-> +=20
-> + /* Forward declarations */
-> + SECStatus gcm_HashInit_hw(gcmHashContext *ghash);
-> --=20
-> 2.25.0
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  git://git.openembedded.org/openembedded-core-contrib stable/warrior-next
+  http://cgit.openembedded.org//log/?h=stable/warrior-next
 
---ge7dbkjzgws56bz2
-Content-Type: application/pgp-signature; name="signature.asc"
+Adrian Bunk (13):
+  python: Whitelist CVE-2017-17522 CVE-2017-18207 CVE-2015-5652
+  python/python3: Whitelist CVE-2019-18348
+  python3: Upgrade 3.7.5 -> 3.7.6
+  bind: Whitelist CVE-2019-6470
+  lighttpd: Backport the CVE-2019-11072 fix
+  glib-2.0: Backport the CVE-2019-12450 fix
+  lz4: Whitelist CVE-2014-4715
+  iputils: Whitelist CVE-2000-1213 CVE-2000-1214
+  systemd: Whitelist CVE-2018-21029 CVE-2019-3843 CVE-2019-3844
+  systemd: Upgrade to a more recent snapshot from the 241 branch
+  openssl: Upgrade 1.1.1b -> 1.1.1c
+  openssl: Upgrade 1.1.1c -> 1.1.1d
+  openssl: Whitelist CVE-2019-0190
 
------BEGIN PGP SIGNATURE-----
+Anuj Mittal (6):
+  libarchive: fix CVE-2019-19221
+  glibc: fix CVE-2019-19126
+  nasm: fix CVE-2018-19755
+  nasm: fix CVE-2019-14248
+  sysstat: fix CVE-2019-19725
+  openssl: fix CVE-2019-1551
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXi1dgwAKCRA3VSO3ZXaA
-HBwlAKCdUNbNg2y3QrM6CBIUm4LguYrsWwCfcTSe4B8WfhuwkIxaP2RfULdZGzE=
-=mR7U
------END PGP SIGNATURE-----
+Hongxu Jia (1):
+  go: fix CVE-2019-17596
 
---ge7dbkjzgws56bz2--
+Joshua Watt (1):
+  python3: RDEPEND on libgcc
+
+Khem Raj (1):
+  openssl: Enable os option for with-rand-seed as well
+
+Mattias Hansson (1):
+  base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
+
+Peter Kjellerstedt (2):
+  populate_sdk_ext.bbclass: No longer needed to clean away
+    conf/sanity_info
+  sanity.bbclass: Move sanity_info from conf to cache
+
+Ross Burton (1):
+  wpa-supplicant: fix CVE-2019-16275
+
+Trevor Gamblin (2):
+  binutils: fix CVE-2019-17450
+  binutils: fix CVE-2019-17451
+
+Vinay Kumar (1):
+  gdb: Fix CVE-2019-1010180
+
+ meta/classes/base.bbclass                     |   1 +
+ meta/classes/populate_sdk_ext.bbclass         |   2 +-
+ meta/classes/sanity.bbclass                   |   2 +-
+ meta/lib/oeqa/buildperf/base.py               |   2 +-
+ .../bind/bind_9.11.5-P4.bb                    |   4 +
+ .../openssl/openssl/CVE-2019-1543.patch       |  69 --
+ .../openssl/openssl/CVE-2019-1551.patch       | 758 ++++++++++++++++++
+ .../openssl/openssl/afalg.patch               |   6 +-
+ .../{openssl_1.1.1b.bb => openssl_1.1.1d.bb}  |  16 +-
+ ...re-management-frame-from-unexpected-.patch |  82 ++
+ .../wpa-supplicant/wpa-supplicant_2.7.bb      |   1 +
+ ...e-Limit-access-to-files-when-copying.patch |  57 ++
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb |   1 +
+ .../glibc/glibc/CVE-2019-19126.patch          |  32 +
+ meta/recipes-core/glibc/glibc_2.29.bb         |   1 +
+ meta/recipes-core/systemd/systemd.inc         |   9 +-
+ .../binutils/binutils-2.32.inc                |   2 +
+ .../binutils/binutils/CVE-2019-17450.patch    |  99 +++
+ .../binutils/binutils/CVE-2019-17451.patch    |  51 ++
+ meta/recipes-devtools/gdb/gdb-8.2.1.inc       |   1 +
+ .../gdb/gdb/CVE-2019-1010180.patch            | 132 +++
+ meta/recipes-devtools/go/go-1.12.inc          |   1 +
+ .../go/go-1.12/0010-fix-CVE-2019-17596.patch  |  42 +
+ .../nasm/nasm/CVE-2018-19755.patch            | 116 +++
+ .../nasm/nasm/CVE-2019-14248.patch            |  43 +
+ meta/recipes-devtools/nasm/nasm_2.14.02.bb    |   5 +-
+ meta/recipes-devtools/python/python.inc       |  13 +
+ .../{python3_3.7.5.bb => python3_3.7.6.bb}    |   9 +-
+ .../iputils/iputils_s20180629.bb              |   4 +
+ .../libarchive/CVE-2019-19221.patch           | 101 +++
+ .../libarchive/libarchive_3.3.3.bb            |   1 +
+ ...x-abort-in-http-parseopts-fixes-2945.patch |  54 ++
+ .../lighttpd/lighttpd_1.4.53.bb               |   1 +
+ .../sysstat/sysstat/CVE-2019-19725.patch      |  28 +
+ .../sysstat/sysstat_12.1.3.bb                 |   4 +-
+ meta/recipes-support/lz4/lz4_1.8.3.bb         |   3 +
+ 36 files changed, 1667 insertions(+), 86 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2019-1543.patch
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2019-1551.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1b.bb => openssl_1.1.1d.bb} (92%)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gfile-Limit-access-to-files-when-copying.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-19126.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-17450.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-17451.patch
+ create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
+ create mode 100644 meta/recipes-devtools/go/go-1.12/0010-fix-CVE-2019-17596.patch
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2018-19755.patch
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch
+ rename meta/recipes-devtools/python/{python3_3.7.5.bb => python3_3.7.6.bb} (97%)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2019-19221.patch
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/0001-core-fix-abort-in-http-parseopts-fixes-2945.patch
+ create mode 100644 meta/recipes-extended/sysstat/sysstat/CVE-2019-19725.patch
+
+-- 
+2.17.1
+
+
