@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
-	[209.85.215.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 77B6E9169E
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 37325916C0
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 16:25:00 +0000 (UTC)
-Received: by mail-pg1-f182.google.com with SMTP id x7so3904312pgl.11
+	Sun, 26 Jan 2020 16:25:01 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id k3so3915000pgc.3
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 08:25:01 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=EZqe0m6t38vhH6Q1U/LjKwhfh7BC4cwoJqmab9YK+lM=;
-	b=iueE3Be4QG3GEuhlilbZZbmAG8VCOSwkJqgViy8B8NB6yUYyNe8BUUtJ7WhC2bSybI
-	H/XvIX9Yc+5tuIElhxCrGTx91T3HxNAQKLZY2ouQL3zRHtXMuO+u6NtrPFTLqf1L52Zz
-	5z/amMjW4qvgKmVAixBseg5gXSQoq5J5RN4/VXTg4OtBz+tUkjdYzilfTC+kFBdnh612
-	nVgrEsUXizztqJWw6AHh8I9tDzyMhVHbHfcS8/9tEjKi7/yRoJtSg4mzfZHjHqgCakL3
-	TSlnDRfdIdJniNz56zkQ5nDT7C41NRlDB5eeFZGsF1FUOFijLrYuRU1HF/kI7iDUy/cZ
-	qpsg==
+	bh=IdfsWKnamV2IKQLb4Q+CQN5/YksJR74sz+NX92PKbeg=;
+	b=iVO02Oq46MWGPzZ3VPTXmNp6hymJxWUAiX2m1Zi0aA/dUss6Ib85p7X5cCdeptGLg+
+	Ar8tLjfvBnAdr7U/pH+ZqVV/P5f8Q7ecYl1nZDdOI5Cc9ZSZNUqLbqwWap0pq9q/gQ9P
+	JUuQTHzVs2yZeHkyL+w73sQJqXhaC+q1/YmsGh1ab+QV3OR1Kzp9VsBBCc2ELYx5Ixhm
+	aAkV1pahZ8ewTlXBG24GXa4qV3lAtYNQiks7ezDCRjtn3LcbTe/Ysv3+asNWEPZd1Gph
+	4CsaCIjZAtQ9V75TvGzno832PVnIVWtHMfB+VuAlD6R55cRzI9tJ3R5pBOxDu0hdHxAQ
+	LMiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=EZqe0m6t38vhH6Q1U/LjKwhfh7BC4cwoJqmab9YK+lM=;
-	b=mfVVjMOTMWqEfwWbENTm4Ow/RkmyeDvM3MU8eNKpxPDeEmXI40qWR97QMRYgw/7YgK
-	X5SH4kbDYvDRLuVd/YW7Ev8X/4EHMkK/YyIy7ZQqYd6n2d4AZoRQNMIvipqr1gTrQ1Sf
-	55j2O6hOaMrHxNR18QCcGyPaNC4t0ZwMSp98i77W8ogcnYzfwSbYxc5qUm85U/j1711M
-	EBw+ERVjntn949MnRhvBAk0QkhsYJXzGMbsjGGbqrgKNGsk9+Er4S7geIktD+F3Iha+S
-	KKI4ywELSDbedw4qkr/lcMSgsdbmTgG39rX7qurdvksFGm62KOsHK8fZcWXYW0lgw/jb
-	wiSg==
-X-Gm-Message-State: APjAAAVj0kUGUwC9PXTt1PKm6kBJCW5N9ykrLvd3pyc/Xj6D5ReXFih9
-	uIGz8anI4V0S9EZXkZwVnr16INit
-X-Google-Smtp-Source: APXvYqzcjMx4h2lkBeb7G1L0+6f+LRseq3mNJnYMDLuZfdr5CgEDPNsGtSNm029k9LAg+qnTKN0asw==
-X-Received: by 2002:a62:d10b:: with SMTP id z11mr2154057pfg.67.1580055901196; 
+	bh=IdfsWKnamV2IKQLb4Q+CQN5/YksJR74sz+NX92PKbeg=;
+	b=QxMsKKie9ZaiZ2QdqiU9RoSN2XvwhoFOT8IfrpEB/zgKp+oWTOC5cNGM2CsJxJlV15
+	HvdrdO1MZbrA2Qv5Q3DuUxFiMI69kXR+m3aLwH90u8yZYW+ItJfHtmD4tPxGBw78i9V7
+	8PxoOv+rMUk2yoq1toYQh0W7lwiMB23K+aLoZuignYeqnCOULnxgZNMgt6ardgTcc5hU
+	5fWKM0gATSLGfbzrIqVxVh+oADHEsiAngd2b17rqKXDLwsV7DSlcs52aXIQOpW2Kz6o+
+	GW7hhaZ53syGey7qbjtRlVdzxBKtYJ5Ig19nZc8TsSZYzXokLwW2atWwGZtE19/zJQNQ
+	e8kw==
+X-Gm-Message-State: APjAAAWpXq3ckB/onES8E7aH7yWn0oBz5IgQGSFe90qtA325yKVdKR/1
+	Lu8GbQJGfyKNjLgYqgGv+pZy4qHb
+X-Google-Smtp-Source: APXvYqzRjnyhMX5JHDLbQkQ7g+BgVUclJFE9czz58/TUyJqDwEPdYWYTw76SGakUQLFCndTn1SXZ9A==
+X-Received: by 2002:aa7:9808:: with SMTP id e8mr12748595pfl.32.1580055901988; 
 	Sun, 26 Jan 2020 08:25:01 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:bddb:633c:e712:cec2])
 	by smtp.gmail.com with ESMTPSA id
-	f43sm13046556pje.23.2020.01.26.08.25.00
+	f43sm13046556pje.23.2020.01.26.08.25.01
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 26 Jan 2020 08:25:00 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:01 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 26 Jan 2020 08:24:30 -0800
-Message-Id: <4b764c25d7396cba41c28c66a78a7a8f0ea3a5be.1580055797.git.akuster808@gmail.com>
+Date: Sun, 26 Jan 2020 08:24:31 -0800
+Message-Id: <dcd3406c79bdee46fabc2310c9e278918e26ce80.1580055797.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1580055797.git.akuster808@gmail.com>
 References: <cover.1580055797.git.akuster808@gmail.com>
-Subject: [warrior 05/29] wpa-supplicant: fix CVE-2019-16275
+Subject: [warrior 06/29] binutils: fix CVE-2019-17450
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,119 +59,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2020 16:25:00 -0000
+X-List-Received-Date: Sun, 26 Jan 2020 16:25:01 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
 
+Backport upstream fix.
+
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...re-management-frame-from-unexpected-.patch | 82 +++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.7.bb      |  1 +
- 2 files changed, 83 insertions(+)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch
+ .../binutils/binutils-2.32.inc                |  1 +
+ .../binutils/binutils/CVE-2019-17450.patch    | 99 +++++++++++++++++++
+ 2 files changed, 100 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-17450.patch
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
+index d3c52936d1..a92bfd0354 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.32.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
+@@ -52,6 +52,7 @@ SRC_URI = "\
+      file://CVE-2019-12972.patch \
+      file://CVE-2019-14250.patch \
+      file://CVE-2019-14444.patch \
++     file://CVE-2019-17450.patch \
+ "
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-17450.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-17450.patch
 new file mode 100644
-index 0000000000..7b0713cf6d
+index 0000000000..a6ce0b9a8a
 --- /dev/null
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-AP-Silently-ignore-management-frame-from-unexpected-.patch
-@@ -0,0 +1,82 @@
-+hostapd before 2.10 and wpa_supplicant before 2.10 allow an incorrect indication
-+of disconnection in certain situations because source address validation is
-+mishandled. This is a denial of service that should have been prevented by PMF
-+(aka management frame protection). The attacker must send a crafted 802.11 frame
-+from a location that is within the 802.11 communications range.
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-17450.patch
+@@ -0,0 +1,99 @@
++From 09dd135df9ebc7a4b640537e23e26a03a288a789 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Wed, 9 Oct 2019 00:07:29 +1030
++Subject: [PATCH] PR25078, stack overflow in function find_abstract_instance
 +
-+CVE: CVE-2019-16275
-+Upstream-Status: Backport
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
++Selectively backporting fix for bfd/dwarf2.c, but not the ChangeLog
++file. There are newer versions of binutils, but none of them contain the
++commit fixing CVE-2019-17450, so backport it to master and zeus.
 +
-+From 8c07fa9eda13e835f3f968b2e1c9a8be3a851ff9 Mon Sep 17 00:00:00 2001
-+From: Jouni Malinen <j@w1.fi>
-+Date: Thu, 29 Aug 2019 11:52:04 +0300
-+Subject: [PATCH] AP: Silently ignore management frame from unexpected source
-+ address
++Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=063c511bd79]
++CVE: CVE-2019-17450
++Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 +
-+Do not process any received Management frames with unexpected/invalid SA
-+so that we do not add any state for unexpected STA addresses or end up
-+sending out frames to unexpected destination. This prevents unexpected
-+sequences where an unprotected frame might end up causing the AP to send
-+out a response to another device and that other device processing the
-+unexpected response.
++	PR 25078
++	* dwarf2.c (find_abstract_instance): Delete orig_info_ptr, add
++	recur_count.  Error on recur_count reaching 100 rather than
++	info_ptr matching orig_info_ptr.  Adjust calls.
 +
-+In particular, this prevents some potential denial of service cases
-+where the unexpected response frame from the AP might result in a
-+connected station dropping its association.
-+
-+Signed-off-by: Jouni Malinen <j@w1.fi>
 +---
-+ src/ap/drv_callbacks.c | 13 +++++++++++++
-+ src/ap/ieee802_11.c    | 12 ++++++++++++
-+ 2 files changed, 25 insertions(+)
++ bfd/dwarf2.c | 35 +++++++++++++++++------------------
++ 1 file changed, 17 insertions(+), 18 deletions(-)
 +
-+diff --git a/src/ap/drv_callbacks.c b/src/ap/drv_callbacks.c
-+index 31587685fe3b..34ca379edc3d 100644
-+--- a/src/ap/drv_callbacks.c
-++++ b/src/ap/drv_callbacks.c
-+@@ -131,6 +131,19 @@ int hostapd_notif_assoc(struct hostapd_data *hapd, const u8 *addr,
-+ 			   "hostapd_notif_assoc: Skip event with no address");
-+ 		return -1;
-+ 	}
-++
-++	if (is_multicast_ether_addr(addr) ||
-++	    is_zero_ether_addr(addr) ||
-++	    os_memcmp(addr, hapd->own_addr, ETH_ALEN) == 0) {
-++		/* Do not process any frames with unexpected/invalid SA so that
-++		 * we do not add any state for unexpected STA addresses or end
-++		 * up sending out frames to unexpected destination. */
-++		wpa_printf(MSG_DEBUG, "%s: Invalid SA=" MACSTR
-++			   " in received indication - ignore this indication silently",
-++			   __func__, MAC2STR(addr));
-++		return 0;
-++	}
-++
-+ 	random_add_randomness(addr, ETH_ALEN);
++diff --git a/bfd/dwarf2.c b/bfd/dwarf2.c
++index 0b4e485582..20ec9e2e56 100644
++--- a/bfd/dwarf2.c
+++++ b/bfd/dwarf2.c
++@@ -2803,13 +2803,13 @@ lookup_symbol_in_variable_table (struct comp_unit *unit,
++ }
 + 
-+ 	hostapd_logger(hapd, addr, HOSTAPD_MODULE_IEEE80211,
-+diff --git a/src/ap/ieee802_11.c b/src/ap/ieee802_11.c
-+index c85a28db44b7..e7065372e158 100644
-+--- a/src/ap/ieee802_11.c
-++++ b/src/ap/ieee802_11.c
-+@@ -4626,6 +4626,18 @@ int ieee802_11_mgmt(struct hostapd_data *hapd, const u8 *buf, size_t len,
-+ 	fc = le_to_host16(mgmt->frame_control);
-+ 	stype = WLAN_FC_GET_STYPE(fc);
++ static bfd_boolean
++-find_abstract_instance (struct comp_unit *   unit,
++-			bfd_byte *           orig_info_ptr,
++-			struct attribute *   attr_ptr,
++-			const char **        pname,
++-			bfd_boolean *        is_linkage,
++-			char **              filename_ptr,
++-			int *                linenumber_ptr)
+++find_abstract_instance (struct comp_unit *unit,
+++			struct attribute *attr_ptr,
+++			unsigned int recur_count,
+++			const char **pname,
+++			bfd_boolean *is_linkage,
+++			char **filename_ptr,
+++			int *linenumber_ptr)
++ {
++   bfd *abfd = unit->abfd;
++   bfd_byte *info_ptr;
++@@ -2820,6 +2820,14 @@ find_abstract_instance (struct comp_unit *   unit,
++   struct attribute attr;
++   const char *name = NULL;
 + 
-++	if (is_multicast_ether_addr(mgmt->sa) ||
-++	    is_zero_ether_addr(mgmt->sa) ||
-++	    os_memcmp(mgmt->sa, hapd->own_addr, ETH_ALEN) == 0) {
-++		/* Do not process any frames with unexpected/invalid SA so that
-++		 * we do not add any state for unexpected STA addresses or end
-++		 * up sending out frames to unexpected destination. */
-++		wpa_printf(MSG_DEBUG, "MGMT: Invalid SA=" MACSTR
-++			   " in received frame - ignore this frame silently",
-++			   MAC2STR(mgmt->sa));
-++		return 0;
-++	}
+++  if (recur_count == 100)
+++    {
+++      _bfd_error_handler
+++	(_("DWARF error: abstract instance recursion detected"));
+++      bfd_set_error (bfd_error_bad_value);
+++      return FALSE;
+++    }
 ++
-+ 	if (stype == WLAN_FC_STYPE_BEACON) {
-+ 		handle_beacon(hapd, mgmt, len, fi);
-+ 		return 1;
++   /* DW_FORM_ref_addr can reference an entry in a different CU. It
++      is an offset from the .debug_info section, not the current CU.  */
++   if (attr_ptr->form == DW_FORM_ref_addr)
++@@ -2939,15 +2947,6 @@ find_abstract_instance (struct comp_unit *   unit,
++ 					 info_ptr, info_ptr_end);
++ 	      if (info_ptr == NULL)
++ 		break;
++-	      /* It doesn't ever make sense for DW_AT_specification to
++-		 refer to the same DIE.  Stop simple recursion.  */
++-	      if (info_ptr == orig_info_ptr)
++-		{
++-		  _bfd_error_handler
++-		    (_("DWARF error: abstract instance recursion detected"));
++-		  bfd_set_error (bfd_error_bad_value);
++-		  return FALSE;
++-		}
++ 	      switch (attr.name)
++ 		{
++ 		case DW_AT_name:
++@@ -2961,7 +2960,7 @@ find_abstract_instance (struct comp_unit *   unit,
++ 		    }
++ 		  break;
++ 		case DW_AT_specification:
++-		  if (!find_abstract_instance (unit, info_ptr, &attr,
+++		  if (!find_abstract_instance (unit, &attr, recur_count + 1,
++ 					       &name, is_linkage,
++ 					       filename_ptr, linenumber_ptr))
++ 		    return FALSE;
++@@ -3175,7 +3174,7 @@ scan_unit_for_symbols (struct comp_unit *unit)
++ 
++ 		case DW_AT_abstract_origin:
++ 		case DW_AT_specification:
++-		  if (!find_abstract_instance (unit, info_ptr, &attr,
+++		  if (!find_abstract_instance (unit, &attr, 0,
++ 					       &func->name,
++ 					       &func->is_linkage,
++ 					       &func->file,
 +-- 
-+2.20.1
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
-index 277bbaec63..542bbf4a9a 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
-@@ -41,6 +41,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
-            file://0014-EAP-pwd-Check-element-x-y-coordinates-explicitly.patch \
-            file://0001-EAP-pwd-server-Fix-reassembly-buffer-handling.patch \
-            file://0003-EAP-pwd-peer-Fix-reassembly-buffer-handling.patch \
-+           file://0001-AP-Silently-ignore-management-frame-from-unexpected-.patch \
-           "
- SRC_URI[md5sum] = "a68538fb62766f40f890125026c42c10"
- SRC_URI[sha256sum] = "76ea6b06b7a2ea8e6d9eb1a9166166f1656e6d48c7508914f592100c95c73074"
++2.23.0
++
 -- 
 2.17.1
 
