@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
-	[209.85.210.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 03394916B6
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com
+	[209.85.214.175])
+	by mail.openembedded.org (Postfix) with ESMTP id D2C45916B6
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 16:25:14 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id q8so3745193pfh.7
+	Sun, 26 Jan 2020 16:25:15 +0000 (UTC)
+Received: by mail-pl1-f175.google.com with SMTP id q13so2870261pls.1
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 08:25:16 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Md87sha4pvdfFawgUMUMGV5IzI7qUbT0oVAzenuO7MQ=;
-	b=AjzgKGJrJ9EXghkL27ChHshYaYzZ48YuQJ3mwi4PbGTQRpb6z+HcRlBJIAkWvGC2DE
-	rm7yBRBqIECDoG5ubCWJNSAZeqkbCJagm6b+3tS8D6zNtYqbIM6/7SROHi/2yXeQEgtF
-	mVvQWIgozuYeWkcbsHoyfd56RTxQddTWdESgL80j1khmnjmXfk2Ukl1ZiRRUXUNS3cTi
-	F0XxXIJBq2Em8w/uD3NMmeIwH4MrCQrUsumEVg2sdu71KtA+d5yNYX3icpxljbPQClyT
-	Tet4oFd26L1xhpZlbyM7xu+7hEJPRaCq6VdhLt0qsbWmgW0tcp0/vquZpbGaM4ufA8Fm
-	2lgQ==
+	bh=unLORPSnEU4AA4BDyxmjQgX3OINI8CbUm3h97pPoynw=;
+	b=ZhAhWyP2V5Bl41YydwLIIRwsa61vOgzvhM3sUuM/1PjQgNc1Gy2aafwo1H3tBc0SVk
+	Axv/Tzy/sXObXjQCHeLf/RYVRswD0V/lpFBvRKfGoGxnJybg9ExRD0cDvBv4txJ7nras
+	DtmIqsQngkuyiQBdO2XdlHf7NCZOZCiSj+QZSHqdvwF+WJn9uyq0NVNhkKFzzA6RDiYH
+	C80gHvcEvbRGsOTx0dn1QOIgulupRB5TOHEBZ8I29YPna/CvN4f5Qfxe9zALOsrR/hE0
+	7QvCR8eXAwAVAqs8Eaw8IsySE1OqEGp7gE7u8EIGHuX4hf/jR3sP/qmFEIOZIcTqcm4V
+	P+aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Md87sha4pvdfFawgUMUMGV5IzI7qUbT0oVAzenuO7MQ=;
-	b=JL6TCk8++i74rcuxatyjrnxj685cHyASlSjEvK5LarEgcwePKudAP+AuTd6M3hnCUn
-	9NlaXo3ztVyzMp5DZKW843W3AIA2zC7rDf6uWtU1OZvwTtRY1oEJGx7hMcSEEJ63z5nr
-	a2nt0OygLuZehmLMWO8pzzkOc1qTxKWl77ZwMGYBSYDT8UG37GNXFgBWO1rFrz0sqkay
-	1WrHa2nJUvqxnKYeMgdYmyj7b7dmgS3cwLHTG7eleaPOz9D2Tdnx6ZnKUPsTQY8XGCxF
-	hQkNFZllcw/V4ZQY/JgvBCOa6V6S/viJv8tgcNXun7VR2Dkwqr3KOzLrreXJk50/R6np
-	nRUA==
-X-Gm-Message-State: APjAAAXkDz4nhpfH3Tw0qQ7FbW1+R3bJ7Pme9pn8P80m4PZtXmxpGbA8
-	MdmF0xRrZL1+cCG9cfLIbs+v0zUa
-X-Google-Smtp-Source: APXvYqwOFTOjToaUcxJ2W3fDrCIQmNtIgFaVjmfBvCz0W07lEBPsxJBEFUlJ6DNd+p3LXMs4J00rBA==
-X-Received: by 2002:aa7:9296:: with SMTP id j22mr11931147pfa.201.1580055915987;
-	Sun, 26 Jan 2020 08:25:15 -0800 (PST)
+	bh=unLORPSnEU4AA4BDyxmjQgX3OINI8CbUm3h97pPoynw=;
+	b=AxkVJA8+p7J22gZPhP7czroNbwv6Mfq1XWRCSxJECdHG/O0yzsEAxDxi7/9Ldr9akk
+	6/tyBVJiBpzeou0nHv/oZY1yYlzgP/AJzqOMgErFwIKfKWGkyeWxtElxY/84sEC6DJv4
+	BjV02cZ81QrJ2XaKL1j9keHSILQmAij81HQpa1ERxzZwrpG22s+yrodJs7SGrNX7Raah
+	XrEQDmjdzYdeaarIUp5PLPZlESDVR/HJt/fUmVq15Sl/mjTAxaGWRp8Iy5BTJ/KdVQfG
+	8LwsEgZFmaYAtD3OCryjpELiYpYYei3hpQZCcoXOvKfRYHLigE4WxlMxEBmtLL1jMrGm
+	bsLw==
+X-Gm-Message-State: APjAAAXYBPq8pfCUBBxnhfuAVDVUujKqGwr8eu+tirxEC4wAvAxGyL1T
+	6XkPVUAmpGAlRSdT1KrTL3P+2W4p
+X-Google-Smtp-Source: APXvYqxXPlrHR+WbrL/ZUaRT21P8KZjC062U6iY3bhNGp/weogL7z0UZ2KhZAgHTvOY+dX9+NG1fGg==
+X-Received: by 2002:a17:902:8c94:: with SMTP id
+	t20mr13597116plo.170.1580055916725; 
+	Sun, 26 Jan 2020 08:25:16 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:bddb:633c:e712:cec2])
 	by smtp.gmail.com with ESMTPSA id
-	f43sm13046556pje.23.2020.01.26.08.25.15
+	f43sm13046556pje.23.2020.01.26.08.25.16
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 26 Jan 2020 08:25:15 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:16 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 26 Jan 2020 08:24:49 -0800
-Message-Id: <d9f1bfe681f51f4cb2ad9515454162480993aadf.1580055797.git.akuster808@gmail.com>
+Date: Sun, 26 Jan 2020 08:24:50 -0800
+Message-Id: <b9fb2913c72ec771e4da2931528f6f5425c14913.1580055797.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1580055797.git.akuster808@gmail.com>
 References: <cover.1580055797.git.akuster808@gmail.com>
-Subject: [warrior 24/29] openssl: Upgrade 1.1.1c -> 1.1.1d
+Subject: [warrior 25/29] openssl: Enable os option for with-rand-seed as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +60,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2020 16:25:15 -0000
+X-List-Received-Date: Sun, 26 Jan 2020 16:25:16 -0000
 
-From: Adrian Bunk <bunk@stusta.de>
+From: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+with openSSL 1.1.1d we start seeing errors like
+
+Error Generating Key
+139979727451584:error:2406C06E:random number generator:RAND_DRBG_instantiate:error retrieving entropy:../openssl-1.1.1d/crypto/rand/drbg_lib.c:342:
+
+when using openssl from openssl-native on build hosts, this is due to
+limiting the random seed to devrandom, to support older hosts, since the
+option allows to have a comma separated list of methods to try, we can
+try the default first and if that fails then fallback to devrandom, this
+will ensure that it keeps working with build systems which dont support
+getrandom()
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../openssl/{openssl_1.1.1c.bb => openssl_1.1.1d.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-connectivity/openssl/{openssl_1.1.1c.bb => openssl_1.1.1d.bb} (98%)
+ meta/recipes-connectivity/openssl/openssl_1.1.1d.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-similarity index 98%
-rename from meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-rename to meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-index 94f4d49724..b00624650a 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
+index b00624650a..0e65f333e2 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
 +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-@@ -22,8 +22,8 @@ SRC_URI_append_class-nativesdk = " \
-            file://environment.d-openssl.sh \
-            "
+@@ -42,10 +42,10 @@ do_configure[cleandirs] = "${B}"
+ EXTRA_OECONF_append_libc-musl = " no-async"
+ EXTRA_OECONF_append_libc-musl_powerpc64 = " no-asm"
  
--SRC_URI[md5sum] = "15e21da6efe8aa0e0768ffd8cd37a5f6"
--SRC_URI[sha256sum] = "f6fb3079ad15076154eda9413fed42877d668e7069d9b87396d0804fdb3f4c90"
-+SRC_URI[md5sum] = "3be209000dbc7e1b95bcdf47980a3baa"
-+SRC_URI[sha256sum] = "1e3a91bc1f9dfce01af26026f856e064eab4c8ee0a8f457b5ae30b40b8b711f2"
+-# This prevents openssl from using getrandom() which is not available on older glibc versions
++# adding devrandom prevents openssl from using getrandom() which is not available on older glibc versions
+ # (native versions can be built with newer glibc, but then relocated onto a system with older glibc)
+-EXTRA_OECONF_class-native = "--with-rand-seed=devrandom"
+-EXTRA_OECONF_class-nativesdk = "--with-rand-seed=devrandom"
++EXTRA_OECONF_class-native = "--with-rand-seed=os,devrandom"
++EXTRA_OECONF_class-nativesdk = "--with-rand-seed=os,devrandom"
  
- inherit lib_package multilib_header ptest
- 
+ # Relying on hardcoded built-in paths causes openssl-native to not be relocateable from sstate.
+ CFLAGS_append_class-native = " -DOPENSSLDIR=/not/builtin -DENGINESDIR=/not/builtin"
 -- 
 2.17.1
 
