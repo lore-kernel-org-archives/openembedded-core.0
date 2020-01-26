@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
-	[209.85.216.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 2455A916D5
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com
+	[209.85.214.169])
+	by mail.openembedded.org (Postfix) with ESMTP id AD0AE916BD
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 16:25:08 +0000 (UTC)
-Received: by mail-pj1-f48.google.com with SMTP id d5so1997478pjz.5
+	Sun, 26 Jan 2020 16:25:09 +0000 (UTC)
+Received: by mail-pl1-f169.google.com with SMTP id t14so2855701plr.8
 	for <openembedded-core@openembedded.org>;
-	Sun, 26 Jan 2020 08:25:09 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=qThq+kRtoE43qZGBiOn6EGUQW56xtLCDoNwKkeuqYS4=;
-	b=k0Zy9qLvrLBr6E/onWc8/IVREYrNaU+DkVUIV8cIe3GeZrVlBMsNsedC4x9jZ/lfK+
-	byU/2eSGEiR5P/8szWSvEHH3o8x8VdF1fHudhBveEJY/CFj4WW81w7Id4HZHCU2GLSxO
-	iAM/g3WsySxaTcAsBv/C8iAQQtrsReFeCmtp28Y/3xcGw3Xdhx3ukqNe61nxl9r0Fy41
-	CeOyTtCPCmtVy3zsdtwuTeJHnlHOP537EeXf92m6YWfOESDkYZS8200zwR1mk2z89Tho
-	KhxCvV1n6wS6fNe28PwowAnXc7ubL7pITbuQvx696s51K3FoJhqAvroMNizCnJoaC3Tr
-	mttg==
+	bh=ID3jUDWmBqfiGR3GGO2/2dca/byibbqBSCcziQcgmN0=;
+	b=SGg/OH97clUfAgUY3XWQgVFhgmtQMn5j2+bpw9nwgCLBl+3YVi0Tbqx2YtP07K0Phl
+	ZInP0cA/wgv0m8ZEC263050rDPYxv8848aFo0Uc34ymxGqf4usCYmAZ+h7G0TqDFqfcL
+	DdXVNWEesKymkAJznhjm456lLXsrbXaZzi1LpmOqyZqwaV8Znja1e+W31bzxshonzBGO
+	s908oAqEOjvxM0zGI9/VPyPN3woeIi0RTSo+as3Sf7Ig9eUUdcoYhCkFC4DttARbYpJR
+	oLtaz/xxAO9i+rnmdi08sPslfLwUNfV3rTVzLPmsiK/Cr8zHitnVcAZzNYplKoJQb5Ow
+	NdHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=qThq+kRtoE43qZGBiOn6EGUQW56xtLCDoNwKkeuqYS4=;
-	b=LyfjPeUFW6eqJ8bP6h26idk6B7VfcdSVc5Y8+IgfaS3WfVv76hppYWmOyEXi+OPLA5
-	OZWG1Uu181EnUv4u8kmk+pMEY3VBruvT83J4rXEVbPyCdzuNweXv9B27YUz0uLNmyqvI
-	YJ/3+kuMF9YuHyWxiHPT3lLAoTxX58cwgtwFLyPFb6xN8sBgrHlDmJ8cMUt0/tmTXuS/
-	sp5Y3a+D/zs5tuuf7q4LphHq4RBoUtUtjVzIdImYufa1qcvU9SYKf+j2o/FaYgg8zCPh
-	IbCesvKCoS26MBwAdQ8VGJ6ZoMNs2TPnkRC7vyxtAvii+DyR1XBnnTEjPi625YEnWdn5
-	qOHQ==
-X-Gm-Message-State: APjAAAWfsoo/XPhhwq0jrQuDu/L7yc5aOaSzg2xaJYJcS7BhMPCBuKYk
-	zJKkfEepLIEBkJ0siBOqb/EKcuS/
-X-Google-Smtp-Source: APXvYqyFeba+X9Ihg4vS5aZlzj5tdRyuqvwrk/IMz6I9oErUca3dVP3tmKVxv+S22CcEmiPn7jZguw==
-X-Received: by 2002:a17:902:b206:: with SMTP id
-	t6mr13947509plr.211.1580055908868; 
-	Sun, 26 Jan 2020 08:25:08 -0800 (PST)
+	bh=ID3jUDWmBqfiGR3GGO2/2dca/byibbqBSCcziQcgmN0=;
+	b=A4VIb7DqzW9buSQFCH10LzF5iuH0ZW6BiKU9YgIUx7aU7AVHcgseumH0LLe5GoPOHW
+	yDK8i6AmO7xV3GvO5WWUWlP58FYeh6FBfYMuzclwx0Cwe5wH7VwpZtcLglpZPGb4Y+Nu
+	X+UOd1WWJs/QpfyKhMAoVTbevOADmpygqUAJ2ad8uB/MW3unrNeoaaVd94AHdw7XzPvH
+	LhX2EmjyqqpHRA7HHcVmovO/c3c3SeajYNI4+/FtKJ9jyJt48Bj+G8ODCPhEC/rSOmlo
+	ZvtqbK4T5IzIcTZ3YW2iO8su3gYVZ4Dn6y7yh2oD0k6PMQNrJSQ06T0JqjLCWRXH1Mmy
+	d5iA==
+X-Gm-Message-State: APjAAAW3Vn95tIJStYDAwsu24KF58GI9LA82TqtWpoRGYJdKbrv0HIcX
+	UJM3Cdt5H3QVyh/Ut813wMM2Doue
+X-Google-Smtp-Source: APXvYqxSF8FSV9/8Y1HJU9/Qsj9NMhLMRxNZMWKP+zDDE3IGgtmGg9d5qt35QyeXgXhXOOsnrVFiog==
+X-Received: by 2002:a17:90a:8808:: with SMTP id
+	s8mr2625403pjn.119.1580055910574; 
+	Sun, 26 Jan 2020 08:25:10 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:bddb:633c:e712:cec2])
 	by smtp.gmail.com with ESMTPSA id
-	f43sm13046556pje.23.2020.01.26.08.25.08
+	f43sm13046556pje.23.2020.01.26.08.25.09
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 26 Jan 2020 08:25:08 -0800 (PST)
+	Sun, 26 Jan 2020 08:25:10 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun, 26 Jan 2020 08:24:40 -0800
-Message-Id: <49dca79c6e5f631d1f55422864ee57c86cafe1a4.1580055797.git.akuster808@gmail.com>
+Date: Sun, 26 Jan 2020 08:24:42 -0800
+Message-Id: <86f196dc077de7f3f6664e69703a96245b42ddc0.1580055797.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1580055797.git.akuster808@gmail.com>
 References: <cover.1580055797.git.akuster808@gmail.com>
-Subject: [warrior 15/29] nasm: fix CVE-2019-14248
+Subject: [warrior 17/29] base.bbclass: add dependency on pseudo from do_prepare_recipe_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,84 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2020 16:25:08 -0000
+X-List-Received-Date: Sun, 26 Jan 2020 16:25:09 -0000
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+From: Mattias Hansson <mattias.hansson@axis.com>
 
-See:
-https://bugzilla.nasm.us/show_bug.cgi?id=3392576
+do_prepare_recipe_sysroot may perform groupadd, which requires pseudo.
+However, do_prepare_recipe_sysroot does not depend on pseudo explicitly,
+which sometimes causes a build error when building a recipe that adds
+groups.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+This issue only occurs when executing do_prepare_recipe_sysroot for a
+recipe that adds groups before finishing a task that depends on pseudo
+for a recipe that doesn't add groups.
+
+Signed-off-by: Mattias Hansson <mattihn@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../nasm/nasm/CVE-2019-14248.patch            | 43 +++++++++++++++++++
- meta/recipes-devtools/nasm/nasm_2.14.02.bb    |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch
+ meta/classes/base.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch b/meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch
-new file mode 100644
-index 0000000000..d45d2cb465
---- /dev/null
-+++ b/meta/recipes-devtools/nasm/nasm/CVE-2019-14248.patch
-@@ -0,0 +1,43 @@
-+From 93d41d82963b2cfd0b24c906f5a8daf53281b559 Mon Sep 17 00:00:00 2001
-+From: "H. Peter Anvin (Intel)" <hpa@zytor.com>
-+Date: Fri, 16 Aug 2019 01:12:54 -0700
-+Subject: [PATCH] BR 3392576: don't segfault on a bad %pragma limit
-+
-+Don't segfault on a bad %pragma limit. Instead treat a NULL pointer as
-+an empty string.
-+
-+Reported-by: Ren Kimura <rkx1209dev@gmail.com>
-+Signed-off-by: H. Peter Anvin (Intel) <hpa@zytor.com>
-+
-+CVE: CVE-2019-14248
-+Upstream-Status: Backport [https://repo.or.cz/nasm.git/commit/93d41d82963b2cfd0b24c906f5a8daf53281b559]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ asm/nasm.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/asm/nasm.c b/asm/nasm.c
-+index c84d675..65116ab 100644
-+--- a/asm/nasm.c
-++++ b/asm/nasm.c
-+@@ -212,6 +212,11 @@ nasm_set_limit(const char *limit, const char *valstr)
-+     bool rn_error;
-+     int errlevel;
-+ 
-++    if (!limit)
-++        limit = "";
-++    if (!valstr)
-++        valstr = "";
-++
-+     for (i = 0; i <= LIMIT_MAX; i++) {
-+         if (!nasm_stricmp(limit, limit_info[i].name))
-+             break;
-+@@ -204,7 +209,7 @@ nasm_set_limit(const char *limit, const char *valstr)
-+             errlevel = ERR_WARNING|ERR_NOFILE|ERR_USAGE;
-+         else
-+             errlevel = ERR_WARNING|ERR_PASS1|WARN_UNKNOWN_PRAGMA;
-+-        nasm_error(errlevel, "unknown limit: `%s'", limit);
-++        nasm_error(errlevel, "invalid limit value: `%s'", valstr);
-+         return DIRR_ERROR;
-+     }
-+ 
-diff --git a/meta/recipes-devtools/nasm/nasm_2.14.02.bb b/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-index e4f964ce93..bd4ecea8b6 100644
---- a/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-+++ b/meta/recipes-devtools/nasm/nasm_2.14.02.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=90904486f8fbf1861cf42752e1a39efe"
- 
- SRC_URI = "http://www.nasm.us/pub/nasm/releasebuilds/${PV}/nasm-${PV}.tar.bz2 \
-            file://CVE-2018-19755.patch \
-+           file://CVE-2019-14248.patch \
-            "
- 
- SRC_URI[md5sum] = "3f489aa48ad2aa1f967dc5e293bbd06f"
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 1636c6ef93..d6f566a413 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -476,6 +476,7 @@ python () {
+     # If we're building a target package we need to use fakeroot (pseudo)
+     # in order to capture permissions, owners, groups and special files
+     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
++        d.appendVarFlag('do_prepare_recipe_sysroot', 'depends', ' virtual/fakeroot-native:do_populate_sysroot')
+         d.setVarFlag('do_unpack', 'umask', '022')
+         d.setVarFlag('do_configure', 'umask', '022')
+         d.setVarFlag('do_compile', 'umask', '022')
 -- 
 2.17.1
 
