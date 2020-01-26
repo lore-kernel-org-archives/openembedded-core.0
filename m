@@ -1,49 +1,54 @@
-Return-Path: <gavinli@thegavinli.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C54757F362
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C043B6C132
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 Jan 2020 05:35:38 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id x7so3423021pgl.11
+	Sun, 26 Jan 2020 09:36:05 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id b6so7348939wrq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 Jan 2020 21:35:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=thegavinli.com; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=gW6nmoeGvTdlxW1vDhNCCaYHNvKFvLWereUdvelZPXo=;
-	b=P4YcyGOblpVo1C6r1dTgkb1lqCHH8pDVxjlgqMGdcBLwveISPwX4QJuTMjTcbf88TS
-	YMcTbaAbX71GP9XhHTF/WjjKA+DA/Y6mxu9dndcK/3ee8ZVqFTkk9twyNmCDDzNbzg1r
-	f/9wIWcFBuUf8uZMIdAZbrX3UF6LGpvscR3cY=
+	Sun, 26 Jan 2020 01:36:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=M8aCWdrak/C4T04V9VYjlHtjC+TCxKqSP5tqVPvE2g0=;
+	b=FnnV7t9Z+7xagrsewTFGZXFXCe6ddRlyEWJW5pJJgSQjPNkMVO1MWpMYRSPBKsnQcc
+	8hcvBKCrzOwAb5JbEynxM9OjVSH0NvGqKqqljnSBREhCrOmcl+zfPCnvczPV6EYwW6ZZ
+	62+XuvEx3L0c7Q23V+GgbmJyIDcl9/15/Xf67EdKxagBqMygAVT5bVrR9egt+FKg7jH1
+	/B2bsKcAImVCBvvtow+KtH/UjP4A/ZyNFP2z9St7TxnaGhKpkyoM4h3Kz1lggqKTkb2n
+	AJinH6hPRV/HrU0e+VOXdZOoHf6fyzfaf3Acsw2UycaZbJnwG2/A9TdfvXHuhMzHWLwj
+	db3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=gW6nmoeGvTdlxW1vDhNCCaYHNvKFvLWereUdvelZPXo=;
-	b=MxNcqkv4jZKQio4z3LGeI/BjsrR8evdu/wBsGIBNVL19DvFSU9B+2evlPqM6oWTi7w
-	U6mZWINIBEC+LDhAGDrx2wnWcMTeKZOeLjTogeJekHOXXBLMMgHVhem1vBSBdODmI2Jr
-	0M/Ak8/4XEh3a68HviJXjRNGabZS+fWqGQb1NYkI+4vVlRR+/ea0k027jaCBVsGBIf0N
-	6tQicmKybkHKpSxtJNqUmbVP/YDTVC8ZC9TJPHrgZGc1y0T8+a1MdGm8omgOQWIc5yiL
-	BzOJfqMFMk2bTOVK6C52GFHj9TUVibV+gq8xC2Hl+8YX7VVELjwZjyIXdrbINSrNDsDk
-	kc1A==
-X-Gm-Message-State: APjAAAVYlgyia6GIFm+y6vYj2uXY7I95xAsYENy+/aHnVtrHL5dpfvm9
-	e4dvY/M/SCh9svptc/mTLT8Wmv5erWw=
-X-Google-Smtp-Source: APXvYqyonhZLAjcW5gF+HotE14dvT25ZSGga6glKogl9xhw+1bdISguiMganORAuIHUqmxFhRNovSg==
-X-Received: by 2002:a65:66d7:: with SMTP id c23mr13388643pgw.40.1580016939650; 
-	Sat, 25 Jan 2020 21:35:39 -0800 (PST)
-Received: from march.lan ([2601:647:4c01:5bf1::80])
-	by smtp.gmail.com with ESMTPSA id
-	b24sm11081801pfo.55.2020.01.25.21.35.38
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=M8aCWdrak/C4T04V9VYjlHtjC+TCxKqSP5tqVPvE2g0=;
+	b=mQRYxPJMWgelCsF8S4wD2nt0zx+1BMEVdiDbhNgnLIYRM7v3RnSgx8xbVX4gzYttUa
+	pCSyybmcYrutEFk2nd58kV52L6DMBMc0Ld+CUeYo8vBY2k1WDN+bHEN7/jHAs593Vr9V
+	eU/QkqFAPre8oN2xooQGX/MwdyW6heWfoHbDecIu8Z++hUCgOfeO2cFbE/Un6zQ/wLGK
+	5BbRZZv5rWXh9thRgIfXoSka0o4MHuSWmK3HYdw+J+puDJFcbt1k/39AfHEQ1G8/iMmj
+	IwjbSuhwmNJU/EkGst3Vfad7nL7aGiys3T5zTto3hbEbYQLebt28HgJo6xAnCvlJDm6w
+	1d0Q==
+X-Gm-Message-State: APjAAAWq6i/+p5/n4lITh8Z01D7twuPV6Gik0mg+qXWD7CpqgO1Ynt/c
+	f6iNyHKuao3GYF8ZbzqaZTs=
+X-Google-Smtp-Source: APXvYqxeDIjhUsoe/aOseTDMSNO7kRvpdPjzly8UD3fyz+wkxLvfFqghj/jj4xEXZQ/2LD940gUrcw==
+X-Received: by 2002:a5d:6a52:: with SMTP id t18mr14277002wrw.391.1580031366271;
+	Sun, 26 Jan 2020 01:36:06 -0800 (PST)
+Received: from localhost ([109.238.218.228])
+	by smtp.gmail.com with ESMTPSA id 21sm4573849wmo.8.2020.01.26.01.36.05
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 25 Jan 2020 21:35:38 -0800 (PST)
-From: gavinli@thegavinli.com
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 Jan 2020 21:35:34 -0800
-Message-Id: <20200126053534.800346-1-gavinli@thegavinli.com>
-X-Mailer: git-send-email 2.24.1
+	Sun, 26 Jan 2020 01:36:05 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Sun, 26 Jan 2020 10:36:04 +0100
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200126093604.s4teivajlr5xlqg6@jama>
+References: <cover.1579809439.git.raj.khem@gmail.com>
+	<1fe572e7afe84276d14a22eb46b35ceadcdd91aa.1579809439.git.raj.khem@gmail.com>
 MIME-Version: 1.0
-Cc: Gavin Li <gavinli@thegavinli.com>
-Subject: [PATCH] kernel-yocto: fix defconfig detection in find_sccs()
+In-Reply-To: <1fe572e7afe84276d14a22eb46b35ceadcdd91aa.1579809439.git.raj.khem@gmail.com>
+User-Agent: NeoMutt/20180716
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/4] nss: Pass NSS_USE_ARM_HW_CRYPTO as define in CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +61,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 Jan 2020 05:35:38 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 26 Jan 2020 09:36:06 -0000
+X-Groupsio-MsgNum: 134162
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="ge7dbkjzgws56bz2"
+Content-Disposition: inline
 
-From: Gavin Li <gavinli@thegavinli.com>
+--ge7dbkjzgws56bz2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The current code would cause a file like "config.bin" to added to the
-config sources list. I am sure the intention was to add any files with
-defconfig in its name and not the other way around.
+On Thu, Jan 23, 2020 at 12:00:40PM -0800, Khem Raj wrote:
+> Use NSS_USE_ARM_HW_CRYPTO to detect USE_ARM_GCM, since there are
+> dependent, without this we control the crypto code function inclusion in
+> build but do not control the call sites, which can result in undefined
+> symbols e.g.
+>=20
+> Linux_SINGLE_SHLIB/gcm.o: in function `gcmHash_InitContext':
+> /usr/src/debug/nss/3.49.1-r0/nss-3.49.1/nss/lib/freebl/gcm.c:112: undefin=
+ed reference to `gcm_HashInit_hw'
 
-Signed-off-by: Gavin Li <gavinli@thegavinli.com>
----
- meta/classes/kernel-yocto.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Fixes the errors I'm seeing since nss upgrade, thanks!
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 87c681f1c3..32b32ac291 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -31,7 +31,7 @@ def find_sccs(d):
-         base, ext = os.path.splitext(os.path.basename(s))
-         if ext and ext in [".scc", ".cfg"]:
-             sources_list.append(s)
--        elif base and base in 'defconfig':
-+        elif base and 'defconfig' in base:
-             sources_list.append(s)
- 
-     return sources_list
--- 
-2.24.1
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  ...figure-option-to-disable-ARM-HW-cryp.patch | 25 ++++++++++++++++---
+>  1 file changed, 21 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-opt=
+ion-to-disable-ARM-HW-cryp.patch b/meta/recipes-support/nss/nss/0001-freebl=
+-add-a-configure-option-to-disable-ARM-HW-cryp.patch
+> index fe29d19882..803c06b218 100644
+> --- a/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-=
+disable-ARM-HW-cryp.patch
+> +++ b/meta/recipes-support/nss/nss/0001-freebl-add-a-configure-option-to-=
+disable-ARM-HW-cryp.patch
+> @@ -12,20 +12,19 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.=
+com>
+>   nss/lib/freebl/Makefile | 3 +++
+>   1 file changed, 3 insertions(+)
+> =20
+> -diff --git a/nss/lib/freebl/Makefile b/nss/lib/freebl/Makefile
+> -index 06506f0..a8b015d 100644
+>  --- a/nss/lib/freebl/Makefile
+>  +++ b/nss/lib/freebl/Makefile
+> -@@ -125,6 +125,8 @@ else
+> +@@ -125,6 +125,9 @@ else
+>           DEFINES +=3D -DNSS_X86
+>   endif
+>   endif
+>  +
+>  +ifdef NSS_USE_ARM_HW_CRYPTO
+> ++    DEFINES +=3D -DNSS_USE_ARM_HW_CRYPTO
+>   ifeq ($(CPU_ARCH),aarch64)
+>       DEFINES +=3D -DUSE_HW_AES
+>       EXTRA_SRCS +=3D aes-armv8.c gcm-aarch64.c
+> -@@ -145,6 +147,7 @@ ifeq ($(CPU_ARCH),arm)
+> +@@ -146,6 +149,7 @@ ifeq ($(CPU_ARCH),arm)
+>           endif
+>       endif
+>   endif
+> @@ -33,3 +32,21 @@ index 06506f0..a8b015d 100644
+>  =20
+>   ifeq ($(OS_TARGET),OSF1)
+>       DEFINES +=3D -DMP_ASSEMBLY_MULTIPLY -DMP_NO_MP_WORD
+> +--- a/nss/lib/freebl/gcm.c
+> ++++ b/nss/lib/freebl/gcm.c
+> +@@ -17,6 +17,7 @@
+> +=20
+> + #include <limits.h>
+> +=20
+> ++#ifdef NSS_USE_ARM_HW_CRYPTO
+> + /* old gcc doesn't support some poly64x2_t intrinsic */
+> + #if defined(__aarch64__) && defined(IS_LITTLE_ENDIAN) && \
+> +     (defined(__clang__) || defined(__GNUC__) && __GNUC__ > 6)
+> +@@ -28,6 +29,7 @@
+> +  * that compiler uses -mfpu=3Dneon only. */
+> + #define USE_ARM_GCM
+> + #endif
+> ++#endif
+> +=20
+> + /* Forward declarations */
+> + SECStatus gcm_HashInit_hw(gcmHashContext *ghash);
+> --=20
+> 2.25.0
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+--ge7dbkjzgws56bz2
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXi1dgwAKCRA3VSO3ZXaA
+HBwlAKCdUNbNg2y3QrM6CBIUm4LguYrsWwCfcTSe4B8WfhuwkIxaP2RfULdZGzE=
+=mR7U
+-----END PGP SIGNATURE-----
+
+--ge7dbkjzgws56bz2--
