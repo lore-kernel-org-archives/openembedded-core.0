@@ -1,52 +1,52 @@
-Return-Path: <aehs29@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 08AC77FE6C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E2307FE5C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 21:28:01 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id o11so12511332ljc.6
+	Mon, 27 Jan 2020 21:46:39 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id k188so6713652vsc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 13:28:03 -0800 (PST)
+	Mon, 27 Jan 2020 13:46:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=jzACIFqGENogNIKvbObXYJ0KCxDyH+XLvUmfDel8zs4=;
+	b=be5suTyneRpRxBWw0a0+qLwiaf4bBqque+Yi2IVvWBxcg23WmYOkc9B9HhqP7Q8Z2f
+	5tw3HDxrTHYHG8qDdRiyDre2t0+HafklzWW8wtLuwr0jpoZuzhqtxQqpqm5sBBf0wBgw
+	dDjipk2rWlEKSJKP4KZkXd7S6N2dI+Hvu3CNRSn/NcMEsC0wpZpVPJ+oRaCx8JWUokUl
+	yqNogOjOWXQDiy+MdDFQ6yLefE67isT4MBrwdIulvQyJXGyMsUN2TuNZeMw//61aEpd9
+	s4/1i2MbulZ825+vVgBQTZzDkCvDLExuIs2VLfoqSSSczuKo3VApu4U7CPIrGhWApzZs
+	Anww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=a+79jX2I2+vlG/zKkvbXkTViDyMtAhHzgijl3XkXkKg=;
-	b=aNEf5iRGg0QKN79VyFCHyBWNh2UdWW2YSuw4Aen/xiyYkOaVVmV8iVPGX3Fu+odXFM
-	KfzvaLgLksWfL1jsnwtiUSQ7jpU2uFgmJhbQ3Rn7ePOkddl1Ee0RosmS2QXC7Slu71C3
-	+RIlNkxQvJCu4/uxb8S/0HN0aP5G2/p8GTUBD9avbv4zelh1vDEq14C2ebAFZumxl4Cn
-	g9nHRDxrtUvEg8WHe+T1KR1tJhzV5TZdSZ774+/0M3vCX2vodmU47ftT6RfQeg/9F9vD
-	7h5HR0NcW4Vpu8UMaEZT4tixPOuNXg2fkZ0msdZs5CJo4JSzt4Cf5eQZbGWGgubSTC2J
-	/7xw==
-X-Gm-Message-State: APjAAAXz54dhP7ixTd/R7Uvbc0OLQV3c0smu6kX98Q5mCYeaowYD6Pfd
-	BKTArMyavKum2nnFONr6iLPtNseb
-X-Google-Smtp-Source: APXvYqz3yv9pTihnBD9D/SQzr3C6rMcbF6A6o1/tRwstCEyjG7ct3SZw9HnADRmK4sDdL/oL/vGFFw==
-X-Received: by 2002:a2e:7e11:: with SMTP id z17mr7519579ljc.279.1580160482290; 
-	Mon, 27 Jan 2020 13:28:02 -0800 (PST)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com.
-	[209.85.167.53])
-	by smtp.gmail.com with ESMTPSA id a9sm8772646lfk.23.2020.01.27.13.28.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 27 Jan 2020 13:28:02 -0800 (PST)
-Received: by mail-lf1-f53.google.com with SMTP id y19so7398167lfl.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 13:28:02 -0800 (PST)
-X-Received: by 2002:ac2:5216:: with SMTP id a22mr376870lfl.18.1580160481963;
-	Mon, 27 Jan 2020 13:28:01 -0800 (PST)
+	bh=jzACIFqGENogNIKvbObXYJ0KCxDyH+XLvUmfDel8zs4=;
+	b=d+mUpJBJB0sDWtgh/z3cmeDAPXOQ2Y7zXeEuEg7ErBP3MGQD9fDPBXdmRQIrKBLJIG
+	xRwDs7qoJVS+NAzwIkYBxYNpHuDmFGaqBd4TbVMysL8reIIhKoQc1I4mxWedAWpdwhTm
+	EUPTC4psQmXLPLwn3ucTinlGh7WuHEDdcpKl2CMBfqSYENb6NsrBgnTkXeV95sd3kjl6
+	hz0mzkVHNV/XOYaIVobMGIx4kJPu4zzhfU0eO16b+zoerE4+7pSSNSKqScVIyaxb5ItN
+	YEgux6IagyG80B5hcXKz8GQplc9EkYtIKzUyctr8mA1jiQGTV8rLMNtipCombeswfCdc
+	/K6w==
+X-Gm-Message-State: APjAAAW1SxW6yJK0VZWVdIqfeaO3NjwI3UJRL8HZdpu1RcuG64eClOtT
+	41Q9EAdEfaFI2mh3NZIydzlaCcnTZbwg9OSTSG0=
+X-Google-Smtp-Source: APXvYqwQXFkRzkruc70R/v8oeas7Dx9NI0kZ58yjQlpZIDTqTw9S0dBF/z+FGfK0qWmU9Y9l9Wfswx9titeb3GixK3Y=
+X-Received: by 2002:a05:6102:2437:: with SMTP id
+	l23mr12116960vsi.23.1580161600133; 
+	Mon, 27 Jan 2020 13:46:40 -0800 (PST)
 MIME-Version: 1.0
-References: <1580119213-10641-1-git-send-email-alejandro@enedino.org>
-	<CAM9ZRVvWRcvV3MMZCwr3-Au2KKU2xJcMi=jkLDZtHKTB7822Nw@mail.gmail.com>
-	<CAHMutrbgM7To4zg=3R_BaU4PjyuW7hWcgNW0O2ZjM6TOuBNE7Q@mail.gmail.com>
-	<CAM9ZRVvA-Sz3E0yuG3VnXGNCS9KGgKNWVx6NF-2oA1hbE8S97g@mail.gmail.com>
-In-Reply-To: <CAM9ZRVvA-Sz3E0yuG3VnXGNCS9KGgKNWVx6NF-2oA1hbE8S97g@mail.gmail.com>
-From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
-Date: Mon, 27 Jan 2020 13:27:50 -0800
-X-Gmail-Original-Message-ID: <CAHMutra0X=HKYt+bCKzk_m58xP41sFsU+bPpCGat6=S-Pgc45g@mail.gmail.com>
-Message-ID: <CAHMutra0X=HKYt+bCKzk_m58xP41sFsU+bPpCGat6=S-Pgc45g@mail.gmail.com>
-To: Paul Barker <pbarker@konsulko.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] baremetal-helloworld: Create recipe for baremetal examples on QEMU
+References: <20200127141908.84922-1-alex.kanavin@gmail.com>
+	<20200127141908.84922-7-alex.kanavin@gmail.com>
+	<CAMKF1sooYU9dr5nkmgoW0cPjd3L_QJYtQBUMOpJAABTJ=mqrzA@mail.gmail.com>
+	<CANNYZj8Ak0gFwAnupcWJ9eDXP6_hV2hT0u0E4pastRMt+QanZQ@mail.gmail.com>
+	<CAMKF1sp39i6szYyZJe7gyhVyU-jJ+ABX2dboZz7DevjN5DZ5Fw@mail.gmail.com>
+In-Reply-To: <CAMKF1sp39i6szYyZJe7gyhVyU-jJ+ABX2dboZz7DevjN5DZ5Fw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 27 Jan 2020 22:46:28 +0100
+Message-ID: <CANNYZj8d7ByK_Y+=du1GSExD3Zb_kfEyWA=Ljc0fPPxaQfqiVg@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 7/9] core-image-sato-sdk-ptest: use 2G of RAM
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,286 +59,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2020 21:28:02 -0000
-Content-Type: multipart/alternative; boundary="000000000000373446059d25c84c"
+X-List-Received-Date: Mon, 27 Jan 2020 21:46:39 -0000
+Content-Type: multipart/alternative; boundary="000000000000dd2107059d260ae4"
 
---000000000000373446059d25c84c
+--000000000000dd2107059d260ae4
 Content-Type: text/plain; charset="UTF-8"
 
-Hey guys,
+This would be over-engineering; I highly doubt anyone would want to run
+this in qemu for any other architecture than those two. Without kvm or
+other HW accelerated virtualization many of those ptests will simply fail
+on timeout, and if not, they'll still be running when the heat death of the
+universe occurs.
 
-On Mon, Jan 27, 2020, 1:11 PM Paul Barker <pbarker@konsulko.com> wrote:
+Alex
 
-> On Mon, 27 Jan 2020 at 15:42, Alejandro Enedino Hernandez Samaniego
-> <alejandro@enedino.org> wrote:
+On Mon, 27 Jan 2020 at 22:02, Khem Raj <raj.khem@gmail.com> wrote:
+
+> On Mon, Jan 27, 2020 at 12:56 PM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
 > >
-> > Hey Paul,
+> > This is only used on x86_64 and arm64 by the autobuilder, so we should
+> be fine.
 > >
+>
+> OK. lets set this for those two architectures for now. The image can
+> be built beyond Autobuilders for
+> other arches as well. Perhaps this setting is a candidate for auto.conf on
+> AB
+>
+> > Alex
 > >
-> >
-> > On Mon, Jan 27, 2020, 2:09 AM Paul Barker <pbarker@konsulko.com> wrote:
+> > On Mon, 27 Jan 2020 at 21:54, Khem Raj <raj.khem@gmail.com> wrote:
 > >>
-> >> On Mon, 27 Jan 2020 at 10:00, Alejandro Enedino Hernandez Samaniego
-> >> <alejandro@enedino.org> wrote:
+> >> On Mon, Jan 27, 2020 at 6:20 AM Alexander Kanavin
+> >> <alex.kanavin@gmail.com> wrote:
 > >> >
-> >> > Create HelloWorld examples that run on several of the QEMU
-> architectures
-> >> > supported by the build system.
+> >> > Particularly, 1G wasn't enough for lttng-tools ptests as
+> >> > half of that went to /tmp, and lttng-tools needs more.
 > >> >
-> >> > This recipe can be used by anyone to understand how baremetal
-> applications
-> >> > can be built using OpenEmbedded and how the wiring to set them up
-> could be.
-> >> >
-> >> > This should also facilitate creating/extending the OE testing
-> infrastructure
-> >> > to allow baremetal applications or RTOSs to be tested in the same way
-> that
-> >> > Linux currently is.
-> >> >
-> >> > This can easily be extended to work on other MACHINES in the future.
-> >> >
-> >> > To run this example:
-> >> >
-> >> > # Source the oe environment as usual
-> >> > $ source oe-init-buildenv
-> >> >
-> >> > # Set TCLIBC to either newlib or baremetal
-> >> > $ echo "TCLIBC = \"newlib\"" >> ./conf/local.conf
-> >> >
-> >> > # Use one of the supported architectures (qemuarm64, qemuarm or
-> qemuarmv5)
-> >> > $ echo "MACHINE = \"qemuarm64\"" >> ./conf/local.conf
-> >> >
-> >> > # Build
-> >> > $ bitbake baremetal-helloworld
-> >> >
-> >> > # Launch QEMU
-> >> > $ runqemu
-> >> >
-> >> > runqemu - INFO - Running bitbake -e ...
-> >> > runqemu - INFO - Continuing with the following parameters:
-> >> > KERNEL:
-> [tmp/deploy/images/qemuarm64/baremetal-helloworld-qemuarm64.bin]
-> >> > MACHINE: [qemuarm64]
-> >> > FSTYPE: [bin]
-> >> > ROOTFS:
-> [tmp/deploy/images/qemuarm64/baremetal-helloworld-qemuarm64.bin]
-> >> > CONFFILE:
-> [tmp/deploy/images/qemuarm64/baremetal-helloworld-qemuarm64.qemuboot.conf]
-> >> >
-> >> > Hello OpenEmbedded!
-> >> >
-> >> > Signed-off-by: Alejandro Enedino Hernandez Samaniego <
-> alejandro@enedino.org>
+> >> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 > >> > ---
-> >> >  .../baremetal-examples/baremetal-helloworld_git.bb | 114
-> +++++++++++++++++++++
-> >> >  1 file changed, 114 insertions(+)
-> >> >  create mode 100644 meta/recipes-extended/baremetal-examples/
-> baremetal-helloworld_git.bb
+> >> >  meta/recipes-sato/images/core-image-sato-sdk-ptest.bb | 3 ++-
+> >> >  1 file changed, 2 insertions(+), 1 deletion(-)
 > >> >
-> >> > diff --git a/meta/recipes-extended/baremetal-examples/
-> baremetal-helloworld_git.bb b/meta/recipes-extended/baremetal-examples/
-> baremetal-helloworld_git.bb
-> >> > new file mode 100644
-> >> > index 0000000..aab48b1
-> >> > --- /dev/null
-> >> > +++ b/meta/recipes-extended/baremetal-examples/
-> baremetal-helloworld_git.bb
-> >> > @@ -0,0 +1,114 @@
-> >> > +SUMMARY = "Baremetal examples to work with the several QEMU
-> architectures supported on OpenEmbedded"
-> >> > +HOMEPAGE = "https://github.com/aehs29/baremetal-helloqemu"
-> >> > +LICENSE = "CC-BY-SA-4.0"
+> >> > diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
+> b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
+> >> > index 7490b773d2e..58c257c49fb 100644
+> >> > --- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
+> >> > +++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
+> >> > @@ -16,4 +16,5 @@ IMAGE_OVERHEAD_FACTOR = "1.0"
+> >> >  IMAGE_ROOTFS_EXTRA_SPACE = "1124288"
+> >> >
+> >> >  # ptests need more memory than standard to avoid the OOM killer
+> >> > -QB_MEM = "-m 1024"
+> >> > +# also lttng-tools needs /tmp that has at least 1G
+> >> > +QB_MEM = "-m 2048"
 > >>
-> >> I've raised https://github.com/aehs29/baremetal-helloqemu/issues/1 as
-> >> CC licenses aren't recommended for software.
+> >> perhaps we need to be cautious here and check if all qemu machines can
+> >> support 2G emulation.
 > >>
-> >>
-> >
-> > I do agree, I originally had it as MIT, although I did base this on the
-> original work of someone who made it work for the versatile architecture
-> and they licensed that with CC-BY-SA and as I was reading I have to use the
-> same license as them.
-> >
-> > I thought about it and for the Hello OpenEmbedded examples it would be
-> ok since they should serve mostly as basis for the wiring that users can
-> use to build, run and test their baremetal apps on OE, so the license
-> wouldn't affect them, but I'm open to suggestions here.
->
-> A bad license choice in a sample recipe is just going to encourage
-> others to use it though. I'd recommend reviewing
-> https://wiki.creativecommons.org/wiki/ShareAlike_compatibility:_GPLv3
-> to see if you can use GPLv3 instead if you've got CC-BY-SA inputs. You
-> could also contact the original author and ask about licensing the
-> code more cleanly.
+> >> > --
+> >> > 2.17.1
+> >> >
+> >> > --
+> >> > _______________________________________________
+> >> > Openembedded-core mailing list
+> >> > Openembedded-core@lists.openembedded.org
+> >> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-Agreed, I took a look at that already and it looks like the compatibility
-starts with CC-BY-SA 4 which didn't exist when the original code was
-written, but that's why I chose v4 because it was compatible with the older
-ones and people that use this can use GPLv3 if they want to since this is
-CC-BY-SA v4, again this wasn't my first choice either.
-
-I tried contacting the author already but it's been a while and he hasn't
-replied yet.
-
-Alejandro
-
->
-> Thanks,
-> Paul
->
-
---000000000000373446059d25c84c
+--000000000000dd2107059d260ae4
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div>Hey guys,<br><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Mon, Jan 27, 2020, 1:11 PM Paul Barker &lt=
-;<a href=3D"mailto:pbarker@konsulko.com">pbarker@konsulko.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">On Mon, 27 Jan 2020 at 15:42, Ale=
-jandro Enedino Hernandez Samaniego<br>
-&lt;<a href=3D"mailto:alejandro@enedino.org" target=3D"_blank" rel=3D"noref=
-errer">alejandro@enedino.org</a>&gt; wrote:<br>
+<div dir=3D"ltr"><div>This would be over-engineering; I highly doubt anyone=
+ would want to run this in qemu for any other architecture than those two. =
+Without kvm or other HW accelerated virtualization many of those ptests wil=
+l simply fail on timeout, and if not, they&#39;ll still be running when the=
+ heat death of the universe occurs.<br></div><div><br></div><div>Alex<br></=
+div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_at=
+tr">On Mon, 27 Jan 2020 at 22:02, Khem Raj &lt;<a href=3D"mailto:raj.khem@g=
+mail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">On Mon, Jan 27, 2020 at 12:56 PM Alexander Kana=
+vin<br>
+&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
+n@gmail.com</a>&gt; wrote:<br>
 &gt;<br>
-&gt; Hey Paul,<br>
+&gt; This is only used on x86_64 and arm64 by the autobuilder, so we should=
+ be fine.<br>
 &gt;<br>
-&gt;<br>
-&gt;<br>
-&gt; On Mon, Jan 27, 2020, 2:09 AM Paul Barker &lt;<a href=3D"mailto:pbarke=
-r@konsulko.com" target=3D"_blank" rel=3D"noreferrer">pbarker@konsulko.com</=
-a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; On Mon, 27 Jan 2020 at 10:00, Alejandro Enedino Hernandez Samanieg=
-o<br>
-&gt;&gt; &lt;<a href=3D"mailto:alejandro@enedino.org" target=3D"_blank" rel=
-=3D"noreferrer">alejandro@enedino.org</a>&gt; wrote:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Create HelloWorld examples that run on several of the QEMU ar=
-chitectures<br>
-&gt;&gt; &gt; supported by the build system.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; This recipe can be used by anyone to understand how baremetal=
- applications<br>
-&gt;&gt; &gt; can be built using OpenEmbedded and how the wiring to set the=
-m up could be.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; This should also facilitate creating/extending the OE testing=
- infrastructure<br>
-&gt;&gt; &gt; to allow baremetal applications or RTOSs to be tested in the =
-same way that<br>
-&gt;&gt; &gt; Linux currently is.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; This can easily be extended to work on other MACHINES in the =
-future.<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; To run this example:<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; # Source the oe environment as usual<br>
-&gt;&gt; &gt; $ source oe-init-buildenv<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; # Set TCLIBC to either newlib or baremetal<br>
-&gt;&gt; &gt; $ echo &quot;TCLIBC =3D \&quot;newlib\&quot;&quot; &gt;&gt; .=
-/conf/local.conf<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; # Use one of the supported architectures (qemuarm64, qemuarm =
-or qemuarmv5)<br>
-&gt;&gt; &gt; $ echo &quot;MACHINE =3D \&quot;qemuarm64\&quot;&quot; &gt;&g=
-t; ./conf/local.conf<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; # Build<br>
-&gt;&gt; &gt; $ bitbake baremetal-helloworld<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; # Launch QEMU<br>
-&gt;&gt; &gt; $ runqemu<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; runqemu - INFO - Running bitbake -e ...<br>
-&gt;&gt; &gt; runqemu - INFO - Continuing with the following parameters:<br=
->
-&gt;&gt; &gt; KERNEL: [tmp/deploy/images/qemuarm64/baremetal-helloworld-qem=
-uarm64.bin]<br>
-&gt;&gt; &gt; MACHINE: [qemuarm64]<br>
-&gt;&gt; &gt; FSTYPE: [bin]<br>
-&gt;&gt; &gt; ROOTFS: [tmp/deploy/images/qemuarm64/baremetal-helloworld-qem=
-uarm64.bin]<br>
-&gt;&gt; &gt; CONFFILE: [tmp/deploy/images/qemuarm64/baremetal-helloworld-q=
-emuarm64.qemuboot.conf]<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Hello OpenEmbedded!<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; Signed-off-by: Alejandro Enedino Hernandez Samaniego &lt;<a h=
-ref=3D"mailto:alejandro@enedino.org" target=3D"_blank" rel=3D"noreferrer">a=
-lejandro@enedino.org</a>&gt;<br>
-&gt;&gt; &gt; ---<br>
-&gt;&gt; &gt;=C2=A0 .../baremetal-examples/<a href=3D"http://baremetal-hell=
-oworld_git.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">baremetal-he=
-lloworld_git.bb</a> | 114 +++++++++++++++++++++<br>
-&gt;&gt; &gt;=C2=A0 1 file changed, 114 insertions(+)<br>
-&gt;&gt; &gt;=C2=A0 create mode 100644 meta/recipes-extended/baremetal-exam=
-ples/<a href=3D"http://baremetal-helloworld_git.bb" rel=3D"noreferrer noref=
-errer" target=3D"_blank">baremetal-helloworld_git.bb</a><br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; diff --git a/meta/recipes-extended/baremetal-examples/<a href=
-=3D"http://baremetal-helloworld_git.bb" rel=3D"noreferrer noreferrer" targe=
-t=3D"_blank">baremetal-helloworld_git.bb</a> b/meta/recipes-extended/bareme=
-tal-examples/<a href=3D"http://baremetal-helloworld_git.bb" rel=3D"noreferr=
-er noreferrer" target=3D"_blank">baremetal-helloworld_git.bb</a><br>
-&gt;&gt; &gt; new file mode 100644<br>
-&gt;&gt; &gt; index 0000000..aab48b1<br>
-&gt;&gt; &gt; --- /dev/null<br>
-&gt;&gt; &gt; +++ b/meta/recipes-extended/baremetal-examples/<a href=3D"htt=
-p://baremetal-helloworld_git.bb" rel=3D"noreferrer noreferrer" target=3D"_b=
-lank">baremetal-helloworld_git.bb</a><br>
-&gt;&gt; &gt; @@ -0,0 +1,114 @@<br>
-&gt;&gt; &gt; +SUMMARY =3D &quot;Baremetal examples to work with the severa=
-l QEMU architectures supported on OpenEmbedded&quot;<br>
-&gt;&gt; &gt; +HOMEPAGE =3D &quot;<a href=3D"https://github.com/aehs29/bare=
-metal-helloqemu" rel=3D"noreferrer noreferrer" target=3D"_blank">https://gi=
-thub.com/aehs29/baremetal-helloqemu</a>&quot;<br>
-&gt;&gt; &gt; +LICENSE =3D &quot;CC-BY-SA-4.0&quot;<br>
-&gt;&gt;<br>
-&gt;&gt; I&#39;ve raised <a href=3D"https://github.com/aehs29/baremetal-hel=
-loqemu/issues/1" rel=3D"noreferrer noreferrer" target=3D"_blank">https://gi=
-thub.com/aehs29/baremetal-helloqemu/issues/1</a> as<br>
-&gt;&gt; CC licenses aren&#39;t recommended for software.<br>
-&gt;&gt;<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; I do agree, I originally had it as MIT, although I did base this on th=
-e original work of someone who made it work for the versatile architecture =
-and they licensed that with CC-BY-SA and as I was reading I have to use the=
- same license as them.<br>
-&gt;<br>
-&gt; I thought about it and for the Hello OpenEmbedded examples it would be=
- ok since they should serve mostly as basis for the wiring that users can u=
-se to build, run and test their baremetal apps on OE, so the license wouldn=
-&#39;t affect them, but I&#39;m open to suggestions here.<br>
 <br>
-A bad license choice in a sample recipe is just going to encourage<br>
-others to use it though. I&#39;d recommend reviewing<br>
-<a href=3D"https://wiki.creativecommons.org/wiki/ShareAlike_compatibility:_=
-GPLv3" rel=3D"noreferrer noreferrer" target=3D"_blank">https://wiki.creativ=
-ecommons.org/wiki/ShareAlike_compatibility:_GPLv3</a><br>
-to see if you can use GPLv3 instead if you&#39;ve got CC-BY-SA inputs. You<=
+OK. lets set this for those two architectures for now. The image can<br>
+be built beyond Autobuilders for<br>
+other arches as well. Perhaps this setting is a candidate for auto.conf on =
+AB<br>
+<br>
+&gt; Alex<br>
+&gt;<br>
+&gt; On Mon, 27 Jan 2020 at 21:54, Khem Raj &lt;<a href=3D"mailto:raj.khem@=
+gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt;<br>
+&gt;&gt; On Mon, Jan 27, 2020 at 6:20 AM Alexander Kanavin<br>
+&gt;&gt; &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">al=
+ex.kanavin@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Particularly, 1G wasn&#39;t enough for lttng-tools ptests as<=
 br>
-could also contact the original author and ask about licensing the<br>
-code more cleanly.<br></blockquote></div></div><div dir=3D"auto"><br></div>=
-<div dir=3D"auto">Agreed, I took a look at that already and it looks like t=
-he compatibility starts with CC-BY-SA 4 which didn&#39;t exist when the ori=
-ginal code was written, but that&#39;s why I chose v4 because it was compat=
-ible with the older ones and people that use this can use GPLv3 if they wan=
-t to since this is CC-BY-SA v4, again this wasn&#39;t my first choice eithe=
-r.</div><div dir=3D"auto"><br></div><div dir=3D"auto">I tried contacting th=
-e author already but it&#39;s been a while and he hasn&#39;t replied yet.</=
-div><div dir=3D"auto"><br></div><div dir=3D"auto">Alejandro</div><div dir=
-=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Thanks,<br>
-Paul<br>
-</blockquote></div></div></div>
+&gt;&gt; &gt; half of that went to /tmp, and lttng-tools needs more.<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.k=
+anavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt;&gt; &gt; ---<br>
+&gt;&gt; &gt;=C2=A0 meta/recipes-sato/images/<a href=3D"http://core-image-s=
+ato-sdk-ptest.bb" rel=3D"noreferrer" target=3D"_blank">core-image-sato-sdk-=
+ptest.bb</a> | 3 ++-<br>
+&gt;&gt; &gt;=C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; diff --git a/meta/recipes-sato/images/<a href=3D"http://core-=
+image-sato-sdk-ptest.bb" rel=3D"noreferrer" target=3D"_blank">core-image-sa=
+to-sdk-ptest.bb</a> b/meta/recipes-sato/images/<a href=3D"http://core-image=
+-sato-sdk-ptest.bb" rel=3D"noreferrer" target=3D"_blank">core-image-sato-sd=
+k-ptest.bb</a><br>
+&gt;&gt; &gt; index 7490b773d2e..58c257c49fb 100644<br>
+&gt;&gt; &gt; --- a/meta/recipes-sato/images/<a href=3D"http://core-image-s=
+ato-sdk-ptest.bb" rel=3D"noreferrer" target=3D"_blank">core-image-sato-sdk-=
+ptest.bb</a><br>
+&gt;&gt; &gt; +++ b/meta/recipes-sato/images/<a href=3D"http://core-image-s=
+ato-sdk-ptest.bb" rel=3D"noreferrer" target=3D"_blank">core-image-sato-sdk-=
+ptest.bb</a><br>
+&gt;&gt; &gt; @@ -16,4 +16,5 @@ IMAGE_OVERHEAD_FACTOR =3D &quot;1.0&quot;<b=
+r>
+&gt;&gt; &gt;=C2=A0 IMAGE_ROOTFS_EXTRA_SPACE =3D &quot;1124288&quot;<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt;=C2=A0 # ptests need more memory than standard to avoid the OO=
+M killer<br>
+&gt;&gt; &gt; -QB_MEM =3D &quot;-m 1024&quot;<br>
+&gt;&gt; &gt; +# also lttng-tools needs /tmp that has at least 1G<br>
+&gt;&gt; &gt; +QB_MEM =3D &quot;-m 2048&quot;<br>
+&gt;&gt;<br>
+&gt;&gt; perhaps we need to be cautious here and check if all qemu machines=
+ can<br>
+&gt;&gt; support 2G emulation.<br>
+&gt;&gt;<br>
+&gt;&gt; &gt; --<br>
+&gt;&gt; &gt; 2.17.1<br>
+&gt;&gt; &gt;<br>
+&gt;&gt; &gt; --<br>
+&gt;&gt; &gt; _______________________________________________<br>
+&gt;&gt; &gt; Openembedded-core mailing list<br>
+&gt;&gt; &gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" t=
+arget=3D"_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt;&gt; &gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/ope=
+nembedded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembed=
+ded.org/mailman/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
---000000000000373446059d25c84c--
+--000000000000dd2107059d260ae4--
