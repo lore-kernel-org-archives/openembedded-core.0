@@ -1,35 +1,35 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CFCD17F8E5;
-	Mon, 27 Jan 2020 18:01:50 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id k24so11036971ioc.4;
-	Mon, 27 Jan 2020 10:01:52 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 65C7F7F61C;
+	Mon, 27 Jan 2020 18:06:09 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id d5so8115343qto.0;
+	Mon, 27 Jan 2020 10:06:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fl4++qKDvyND6N5lmwFOqSn1enFfQFM9tOGIDlNb3C0=;
-	b=klPfLgy0uO74cB00IoFzlU0oBkwLD3MjblY7Eoh8d3ezTMdk/YTc4Bgp8OvDDn6xAR
-	g4LK04FyqfoL3Fkv0cupz+zW6d7ptpTUB60Jy8jXZY7mvaRq7Wj8wh+10PoQ0jOFMyvy
-	3C/YkInXev3DNnf2FD4D9b0sTSSbQ1WuT1RlDVxv+E0bty00vzd5+sw5lRhyvqWSnEQY
-	1E9H0aWo+kEEgb4vU8nesFY4CpVu9yMPFQqZPbLx7sS3P17T/yFRMiJ1pf3y1XYtvtgD
-	bwuxFEV6rdBI5i69gZ3+LYxjO96h8PXSUHhZP4vY7apBTWg4jSUi24xPqtoFqrJOVpqd
-	VjuA==
+	:cc; bh=O+7H3LVmMZMkISpEnfGQRVH7m4+6JHwVAv83qTxYujU=;
+	b=XQZkFm2JVWCVE/SyUXndce1tRfpww9Q3wB8F05EgfVCm6lh45ZJFsJgf8P2e89RriF
+	+qFfFQsjaBa+4RwCHiR+QQfMSrDFcoZdqTbmEvuYqXIb0h3S57wA68Yt66eBhaxZM48C
+	kKdri2v6eRDpIiwzILFtZxmul/6GJZRreVODERxsxuIvzW1V65r+2ELBy2GuzBpTRqIh
+	pwSlMqBrLhGLVzvc55Lp/Raqkn7A5X6unRfYx5K1+Qksn/kflty/C/PLvw77E+Kimxtz
+	AGQ+AbxJwJr94jZL24X1pdL5i/VqC8fbkklX2GWhpk+iO9ja9/0zQEkzH4zAMkiBMhmY
+	sunQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=fl4++qKDvyND6N5lmwFOqSn1enFfQFM9tOGIDlNb3C0=;
-	b=lpgqUnulhwRGISdxbnrAHxhOh1JbevPpasBfyApV4ITS3CIdfQRj9+Gq0GPtipUM46
-	vRU5YIpAXzultE/8TglNZD5sVRNcUpPcw5TFf86eAlGcdKyRV/nsHzeVImHMggzOXOjE
-	zn1JiPz9RhbsLQK4PHKdUZUiiCrsK96ey2tf4JDS+7PjqWtkQQpvpZlLcSUYN44Nm/oC
-	TFg7O36/HvYyI/7xUDNbSc7PLaWsrhAAt3YzShVHDVg5ezLjH3uw0V8jTeL9KKa115eh
-	XN9eG20zEPxP9eq2GroaEflG+pKbS7tiULLrIXucm/xKgLASkLYTfTXKZ6H6gVkAeaD8
-	LgEA==
-X-Gm-Message-State: APjAAAWd52o36I9qggMe9rzipyT2Df1SCPILIsHssICJCiE8PbWxn8wE
-	NI5NmoVa4FKMylhmseFkJzUaxefnZSP8Scr1MSg=
-X-Google-Smtp-Source: APXvYqyqvVg8cRzNYUvYYiAyeTDDkZqPa43T5N9r/vF72T3usQs+Io+JWWDOM7ByyFjWpWtCeOBUwhPrv5j7KFrDSVE=
-X-Received: by 2002:a02:cdcb:: with SMTP id m11mr14291715jap.125.1580148111592;
-	Mon, 27 Jan 2020 10:01:51 -0800 (PST)
+	bh=O+7H3LVmMZMkISpEnfGQRVH7m4+6JHwVAv83qTxYujU=;
+	b=su0gHZZI1XiWyVkQcsNOryJe4H/kCQK/klRC1/lC6H9ykgDMGVfYwsSwwaZ0SHeqHr
+	rfrYHq4+ATSSpiOCkmyoPa87U7Panheysw65xPVsIiWaGYZICEZbidjOUg1ci9Z7R3gV
+	yhcjxNjsMn6EX2ss1ULS6xbwoK+EDBY4cJ04a/C1V33BNVKRvcmB/zRjriCnM+jTVLtj
+	W6EJC8benZYfrTxL7TvSNOMHN4/m1335IxmGbr4gp/A9kCTgBaO7r4DtI7fbDT5FjGDA
+	9ken/qfe+H9m39B04QnFyX2EJ74d8xIpX4+ve0Pl5k8kuy9f7nm35dr9gcYBVnqnzVaf
+	9tkQ==
+X-Gm-Message-State: APjAAAWaj2z4+sYxbhIe3WaTRuPV2ZCivnTk+m49+66HMN0UfcO3rg8V
+	gXBH8zDrz14AL3y2AhTSaIkMPFeVph9it2iL3prl9KHv
+X-Google-Smtp-Source: APXvYqzQzwcUImCfTdaeO1M08389Nw03XF519l8Mx5x8Mf587KbiGZ5xz99SMVAMNzCx03wVgO0Znc9omN5mD/0XD1k=
+X-Received: by 2002:ac8:1a30:: with SMTP id v45mr16499085qtj.80.1580148369836; 
+	Mon, 27 Jan 2020 10:06:09 -0800 (PST)
 MIME-Version: 1.0
 References: <CAMKF1sryUbCcpRxpqi4ytZJ+j+AgksfS8pxd=_O6DtWrkCx+Lg@mail.gmail.com>
 	<CAHtQpK6cp2D3Zb2pkDgYwdKR=AX6AWnwpWEs=qqzNYQ64uL28w@mail.gmail.com>
@@ -38,13 +38,13 @@ References: <CAMKF1sryUbCcpRxpqi4ytZJ+j+AgksfS8pxd=_O6DtWrkCx+Lg@mail.gmail.com>
 	<CAMKF1sqK8kdDdJry4+fp5bJvbUwwPo0SY8VJtpiDhY3y-e7PJg@mail.gmail.com>
 	<CAHtQpK4P3nxZPhWC0T84016toXJ5SoEnH1xuyw94jQCjXWV7Bg@mail.gmail.com>
 In-Reply-To: <CAHtQpK4P3nxZPhWC0T84016toXJ5SoEnH1xuyw94jQCjXWV7Bg@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Mon, 27 Jan 2020 19:01:39 +0100
-Message-ID: <CALbNGRQ+B-8uvbNcCS_ySkJLiZe+WhawsZK90Mr4YUN7KGmbNA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 27 Jan 2020 10:05:43 -0800
+Message-ID: <CAMKF1spddmi=Sk55Dyb_eS6m6cwa1M_bBfzyqcyn6y_RG7r6wA@mail.gmail.com>
 To: Andrey Zhizhikin <andrey.z@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Cc: openembeded-devel <Openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: python2-less meta-openembedded build results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,10 +58,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2020 18:01:51 -0000
+X-List-Received-Date: Mon, 27 Jan 2020 18:06:09 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Jan 27, 2020 at 5:54 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+On Mon, Jan 27, 2020 at 8:54 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
 >
 > On Mon, Jan 27, 2020 at 4:24 PM Khem Raj <raj.khem@gmail.com> wrote:
 > >
@@ -74,37 +74,25 @@ On Mon, Jan 27, 2020 at 5:54 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
 > - dnssec-conf: did not receive any update since 9(!) years, written
 > totally in python2. Should this be bumped up of bumped out of
 > [oe-core]?
+
+yes meta-python2 is a good place for them if they are primarily
+written in python, otherwise retire or blacklist them
+
 > - mozjs: this one pulls the most of dependencies and produces the most
 > of errors. It's version is also quite old (60.9.0esr), and there is a
 > lot of python2-only code inside. Should this one be bumped out? Latest
 > ESR version available upstream is
 > 68.4.2esr [1], dated 01/20/2020
-Problem with mozjs are
-
-* some packages ask for certain versions of mozjs. That's why distros
-have multiple versions.
-* if I am not mistaken version 68 of mozjs asks for rust/cargo which
-is (not yet) in a common layer
-
-Am working on python3 port. Current situation: Configure is almost
-done but after
-
-| updating cache ./config.cache
-
-I see no progress in log file / 100% on one CPU / memory is eaten up.
-Had a similar situation in earlier stages but fixed that by endless
-debug sessions and removing parts suggested in [1]
-
-Long story short: Haven't lost hope to come up with a working python3
-port but I cannot promise if I get there and when.
-
-[1] https://code.foxkit.us/adelie/packages/blob/f2b5773da19ab397fbe64fd32dacc383cfe4cd77/user/mozjs/python3.patch
-
-
-Andreas
 >
+
+Andreas is working on it IIRC, we have updated to latest 60.x ESR
+but perhaps 68.x might be a path if it addresses py3 migration.
+
 > For some other recipes I would send out the patch series later today.
 >
+
+thanks
+
 > [1]: https://archive.mozilla.org/pub/firefox/releases/68.4.2esr/source/
 >
 > >
@@ -165,9 +153,4 @@ Andreas
 > --
 > Regards,
 > Andrey.
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
