@@ -1,51 +1,48 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AA877FA19
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D4857FAB7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 16:56:29 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id 6so5451063pgk.0
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 08:56:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:content-language
-	:thread-index; bh=/NNbWW/bFhWSYB6ZOFSLNgqPKHVZNRGW6psoHqSWCYs=;
-	b=D67mcBjrpKmyPvQUORfFx+xm3qRmapgXY1KTEJfSfZxc544atmLzLJNHx+jGt6SoLD
-	sT0Cr1IILC2ViFPszovrIOit1gAWhxpcR/azweiRuQyqq60g8cALd6q6iuZQa8+LoTGC
-	Fj7CWq172l9cTTYRjCfWGbdcNd3C07SbNjuCbvXNr7HhrX0P2Xbi7xmvynWxmwb38y9c
-	SXmnDxf2pku/IEJRJYTZewBgxToBtJ4rmGqYi/5dEx/JinlOOY04v/uD6HFBq+s9WzMR
-	yka0qWf4gLGvttVHFM9pH3Lb+dOnI9d9askNU7LqdxIJ9eCpTakf1H3kEs6uum7w00Sa
-	fJ6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-language:thread-index;
-	bh=/NNbWW/bFhWSYB6ZOFSLNgqPKHVZNRGW6psoHqSWCYs=;
-	b=ZmgG5EOuRCr3H3rPedR3wE0d2z3Z8e1M6OqzXPoUt+O9cd+LTgXFbItd0WNVY3bBTS
-	dJNKol9TCxfoG6VHo36ZKUTrUKRmXi/Mos9/OuUupbn2DsLhB9ZOnJUYhl4+s+5Ma9Wy
-	d3rGRAYJlBUI0xXtUS3uj9PxCxBAg/+VvyX9r3oVdSuetyekm3s3Y7h8ysAeQr4Q0ygw
-	T6zdnOAOEx8IU+Htx8LtB1gNrkwosg1wUTwMyP8Kah51QVeoQ4hx/QBxO6c5USm7jTk2
-	5BJ3eMimtm7WibSXc9BR2DgHEs9zn/GsCVUZHXFhPZA0cnvRp66qVOSqdrSYyYIWOmUH
-	pl7A==
-X-Gm-Message-State: APjAAAX5e/wuZRfLVjrBxFxe/5+yCDuGhTc9ZEWVWC47IpI8jiQGuPB6
-	9tH5eO99yv6I6F6nnl5Pt5hFI0c4
-X-Google-Smtp-Source: APXvYqwqOWZMHOlJMX1GbXp8grXk3e0ytu8VV9xBSEFeAg2XrL4gZjtN8jc/PThBpDiV/CXibRAs3Q==
-X-Received: by 2002:a63:780d:: with SMTP id t13mr19389336pgc.82.1580144190888; 
-	Mon, 27 Jan 2020 08:56:30 -0800 (PST)
-Received: from skjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-	by smtp.gmail.com with ESMTPSA id
-	e2sm16448104pjs.25.2020.01.27.08.56.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 Jan 2020 08:56:30 -0800 (PST)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 27 Jan 2020 08:56:30 -0800
-Message-ID: <067a01d5d532$b9854e20$2c8fea60$@gmail.com>
+	Mon, 27 Jan 2020 16:59:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 493C02601E9;
+	Mon, 27 Jan 2020 11:59:49 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id jZG6v9wwO99K; Mon, 27 Jan 2020 11:59:48 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id C3978260803;
+	Mon, 27 Jan 2020 11:59:48 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com C3978260803
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1580144388;
+	bh=Ql7FjPzAlyB1FjsNerklgy7q37nrpOdMehc+aY5bP9M=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=qR4DOIDGziW30mUuEIKGjP4FkjKHyi8SKBb4QcEtorJtTUVybGXpVUQ9JkfpHDjq0
+	8Ehqjt1vuNS9520I7Sb8XAx5jo0W3hOJgySnuTLAIqWi06opHcaJHoQtaO/Yes/Kct
+	LpJHNwcjGWlzAgWO0Objt+4UAywE9Hg1/j24cuAgWXjRh3OZbsgOgM2LRGBrP/EWb2
+	4SqKjvOO2jE6aGKaZXL3Jol9uqMrD5bQNt7BfxQF7yubumiNk7P73dCLTsDYia0NCh
+	s6DskqSrCscTIpFlbyoX0XaJa+IOd3ppZZh3+JD1ZL70iWYt+YBRIe8QUOq35OJYg+
+	PfNajZjzLIE/Q==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id i8JkTKg-V5EO; Mon, 27 Jan 2020 11:59:48 -0500 (EST)
+Received: from joraj-alpa
+	(CPEbc4dfb40f613-CMbc4dfb40f610.cpe.net.cable.rogers.com
+	[174.118.12.38])
+	by mail.efficios.com (Postfix) with ESMTPSA id 6E512260800;
+	Mon, 27 Jan 2020 11:59:48 -0500 (EST)
+Date: Mon, 27 Jan 2020 11:59:46 -0500
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Message-ID: <20200127165946.GB819@joraj-alpa>
+References: <20200127141908.84922-1-alex.kanavin@gmail.com>
+	<20200127141908.84922-9-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQK60MFY8RnT/jjBhutfacP7OksIRw==
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+In-Reply-To: <20200127141908.84922-9-alex.kanavin@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 9/9] lttng-tools: disable tests that sporadically fail
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,223 +55,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2020 16:56:30 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_067B_01D5D4EF.AB628350"
-Content-Language: en-us
+X-List-Received-Date: Mon, 27 Jan 2020 16:59:49 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-------=_NextPart_000_067B_01D5D4EF.AB628350
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+Hi,
+On Mon, Jan 27, 2020 at 03:19:08PM +0100, Alexander Kanavin wrote:
 
-All,
+> Upstream is aware, and will investigate and fix.
 
- 
+For reference: https://bugs.lttng.org/issues/1217
 
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
+Acked-by: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
 
- 
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  ...ression-disable-the-tools-live-tests.patch | 29 +++++++++++++++++++
+>  .../lttng/lttng-tools_2.11.0.bb               |  1 +
+>  2 files changed, 30 insertions(+)
+>  create mode 100644 meta/recipes-kernel/lttng/lttng-tools/0001-tests-regression-disable-the-tools-live-tests.patch
+> 
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-regression-disable-the-tools-live-tests.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-regression-disable-the-tools-live-tests.patch
+> new file mode 100644
+> index 00000000000..a558a0993f9
+> --- /dev/null
+> +++ b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-regression-disable-the-tools-live-tests.patch
+> @@ -0,0 +1,29 @@
+> +From 5f0ef3e007ed83c1ce7ae817308e5942decc1230 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex.kanavin@gmail.com>
+> +Date: Fri, 24 Jan 2020 18:03:25 +0100
+> +Subject: [PATCH] tests/regression: disable the tools/live tests
+> +
+> +They have been found to sporadically fail; the issue has been
+> +reported upstream and they will work to investigate and fix:
+> +https://bugs.lttng.org/issues/1217
+> +
+> +Upstream-Status: Inappropriate [upstream is working on a real fix]
+> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> +---
+> + tests/regression/Makefile.am | 3 ---
+> + 1 file changed, 3 deletions(-)
+> +
+> +diff --git a/tests/regression/Makefile.am b/tests/regression/Makefile.am
+> +index 73eb9f7..92fc18f 100644
+> +--- a/tests/regression/Makefile.am
+> ++++ b/tests/regression/Makefile.am
+> +@@ -9,9 +9,6 @@ TESTS = tools/filtering/test_invalid_filter \
+> + 	tools/filtering/test_valid_filter \
+> + 	tools/streaming/test_ust \
+> + 	tools/health/test_thread_ok \
+> +-	tools/live/test_ust \
+> +-	tools/live/test_ust_tracefile_count \
+> +-	tools/live/test_lttng_ust \
+> + 	tools/tracefile-limits/test_tracefile_count \
+> + 	tools/tracefile-limits/test_tracefile_size \
+> + 	tools/exclusion/test_exclusion \
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.11.0.bb b/meta/recipes-kernel/lttng/lttng-tools_2.11.0.bb
+> index 639d4b62114..9cb896314b8 100644
+> --- a/meta/recipes-kernel/lttng/lttng-tools_2.11.0.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.11.0.bb
+> @@ -33,6 +33,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+>             file://0001-tests-do-not-strip-a-helper-library.patch \
+>             file://run-ptest \
+>             file://lttng-sessiond.service \
+> +           file://0001-tests-regression-disable-the-tools-live-tests.patch \
+>             "
+>  
+>  SRC_URI[md5sum] = "e6c23244a36e2a09783d03a362eb63cb"
+> -- 
+> 2.17.1
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
+-- 
+Jonathan Rajotte-Julien
+EfficiOS
 
- 
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
- 
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 302
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "3.1", "3.2, "3.99" and "Future", the more pressing/urgent issues
-being in "3.1" and then "3.2".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
-
-------=_NextPart_000_067B_01D5D4EF.AB628350
-Content-Type: text/html;
-	boundary="----=_NextPart_000_08FF_01D5CF80.1CAFE270";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoNormal style=3D'text-autospace:none'>All,<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>The triage team is =
-starting to try and collect up and classify bugs which a newcomer to the =
-project would be able to work on in a way which means people can find =
-them. They're being listed on the triage page under the appropriate =
-heading:<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
-><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>The idea is these bugs should be straight =
-forward for a person to help work on who doesn't have deep experience =
-with the project.&nbsp; If anyone can help, please take ownership of the =
-bug and send patches!&nbsp; If anyone needs help/advice there are people =
-on irc who can likely do so, or some of the more experienced =
-contributors will likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Also, the triage team =
-meets weekly and does its best to handle the bugs reported into the =
-Bugzilla. The number of people attending that meeting has fallen, as =
-have the number of people available to help fix bugs. One of the things =
-we hear users report is they don't know how to help. We (the triage =
-team) are therefore going to start reporting out the currently 302 =
-unassigned or newcomer bugs.<o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>We're hoping people may be able to spare =
-some time now and again to help out with these.&nbsp; Bugs are split =
-into two types, &quot;true bugs&quot; where things don't work as they =
-should and &quot;enhancements&quot; which are features we'd want to add =
-to the system.&nbsp; There are also roughly four different =
-&quot;priority&quot; classes right now, &#8220;3.1&#8221;, &#8220;3.2, =
-&quot;3.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;3.1&quot; and then &#8220;3.2&#8221;.<o:p></o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal style=3D'text-autospace:none'>Please review this link =
-and if a bug is something you would be able to help with either take =
-ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
-mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
-comer_Bugs</a><o:p></o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'text-autospace:none'>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif";color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;<u><span style=3D'color:blue'><a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a></span=
-></u></span><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p></o:p></sp=
-an></p><p class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_067B_01D5D4EF.AB628350--
