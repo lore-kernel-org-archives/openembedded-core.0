@@ -1,49 +1,51 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 60EC06BAAB
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 17:40:12 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id g1so7653710wmh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 09:40:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6zLiXUcutQg3hqWmku/NbatGjza0oveEqEX1CeuIUbc=;
-	b=U8/5NFXF4CkZ4Orv72BuDH6y/DYp4+CcSKcl+GchtKQCnjqwnGGdRY/YVATWVEU9+O
-	pawHCX+1S4iv2rVGrJMp7G4SjkF5qYsGhm9dz6zdT3wZi+yCrRRcCYy5hmyH0VC+PYF+
-	v089oUtz27PuEhlogHI0c/VbI0mL09HtY/okA=
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CFCD17F8E5;
+	Mon, 27 Jan 2020 18:01:50 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id k24so11036971ioc.4;
+	Mon, 27 Jan 2020 10:01:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=fl4++qKDvyND6N5lmwFOqSn1enFfQFM9tOGIDlNb3C0=;
+	b=klPfLgy0uO74cB00IoFzlU0oBkwLD3MjblY7Eoh8d3ezTMdk/YTc4Bgp8OvDDn6xAR
+	g4LK04FyqfoL3Fkv0cupz+zW6d7ptpTUB60Jy8jXZY7mvaRq7Wj8wh+10PoQ0jOFMyvy
+	3C/YkInXev3DNnf2FD4D9b0sTSSbQ1WuT1RlDVxv+E0bty00vzd5+sw5lRhyvqWSnEQY
+	1E9H0aWo+kEEgb4vU8nesFY4CpVu9yMPFQqZPbLx7sS3P17T/yFRMiJ1pf3y1XYtvtgD
+	bwuxFEV6rdBI5i69gZ3+LYxjO96h8PXSUHhZP4vY7apBTWg4jSUi24xPqtoFqrJOVpqd
+	VjuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6zLiXUcutQg3hqWmku/NbatGjza0oveEqEX1CeuIUbc=;
-	b=cj87ZE69C3SMFoicQC8QTrDBy4T7aR4ZZ9HdfbMMJPHuI+KLV/qgLrOsG+LCky+Mr5
-	RUa+F7LVpubqy4ggttETZ29KdQorXSf978a8WPpOpdvPTZZ1DKaHJ4mCtSl1QMbnNAGY
-	sPnX6iYrN+LPKMYHVOLO6s+xhysAB9a4MTdW/xNjKShXbVaNPkoq2g1yu/2wdv/8+6sy
-	GfaU9OfYgLrHs379ubG2ZChk17dIL1SkHzzpRImXDCclqYGoMy26/0wH4jAqqq4BjmUV
-	2GAvdgvY6e94quV5TFPeeXMUTq2FO611gECDav0VmX+zOczvc2O1sgO4Xncs+1F+tj9a
-	i+ag==
-X-Gm-Message-State: APjAAAXF1K9vFHK5FvFIuJjoxXVPHEl/aXqvdWfxMwiqXg5cbT1dQ10m
-	2oUP0J5pcTW1Ki7Vs7AI1UCuWO4ZgtI=
-X-Google-Smtp-Source: APXvYqwfRzC7vGhQocs6ohPCzhAj0lW+SXxGdTzQlRJ6getDogCu0JJmOLC4FKGXf8sD/fTtzyx3tw==
-X-Received: by 2002:a7b:c450:: with SMTP id l16mr157409wmi.31.1580146812812;
-	Mon, 27 Jan 2020 09:40:12 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c15sm21488072wrt.1.2020.01.27.09.40.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 27 Jan 2020 09:40:12 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jan 2020 17:40:11 +0000
-Message-Id: <20200127174011.16243-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=fl4++qKDvyND6N5lmwFOqSn1enFfQFM9tOGIDlNb3C0=;
+	b=lpgqUnulhwRGISdxbnrAHxhOh1JbevPpasBfyApV4ITS3CIdfQRj9+Gq0GPtipUM46
+	vRU5YIpAXzultE/8TglNZD5sVRNcUpPcw5TFf86eAlGcdKyRV/nsHzeVImHMggzOXOjE
+	zn1JiPz9RhbsLQK4PHKdUZUiiCrsK96ey2tf4JDS+7PjqWtkQQpvpZlLcSUYN44Nm/oC
+	TFg7O36/HvYyI/7xUDNbSc7PLaWsrhAAt3YzShVHDVg5ezLjH3uw0V8jTeL9KKa115eh
+	XN9eG20zEPxP9eq2GroaEflG+pKbS7tiULLrIXucm/xKgLASkLYTfTXKZ6H6gVkAeaD8
+	LgEA==
+X-Gm-Message-State: APjAAAWd52o36I9qggMe9rzipyT2Df1SCPILIsHssICJCiE8PbWxn8wE
+	NI5NmoVa4FKMylhmseFkJzUaxefnZSP8Scr1MSg=
+X-Google-Smtp-Source: APXvYqyqvVg8cRzNYUvYYiAyeTDDkZqPa43T5N9r/vF72T3usQs+Io+JWWDOM7ByyFjWpWtCeOBUwhPrv5j7KFrDSVE=
+X-Received: by 2002:a02:cdcb:: with SMTP id m11mr14291715jap.125.1580148111592;
+	Mon, 27 Jan 2020 10:01:51 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] autotools: Give in and force CONFIG_SHELL to bash
+References: <CAMKF1sryUbCcpRxpqi4ytZJ+j+AgksfS8pxd=_O6DtWrkCx+Lg@mail.gmail.com>
+	<CAHtQpK6cp2D3Zb2pkDgYwdKR=AX6AWnwpWEs=qqzNYQ64uL28w@mail.gmail.com>
+	<24c2080a-8465-ee2e-484a-ff817485fbf4@gmail.com>
+	<CAHtQpK4O1eDuq8EcNcFgLasY_PE-_WtzWYA6pOVE9NFQkBbTxg@mail.gmail.com>
+	<CAMKF1sqK8kdDdJry4+fp5bJvbUwwPo0SY8VJtpiDhY3y-e7PJg@mail.gmail.com>
+	<CAHtQpK4P3nxZPhWC0T84016toXJ5SoEnH1xuyw94jQCjXWV7Bg@mail.gmail.com>
+In-Reply-To: <CAHtQpK4P3nxZPhWC0T84016toXJ5SoEnH1xuyw94jQCjXWV7Bg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Mon, 27 Jan 2020 19:01:39 +0100
+Message-ID: <CALbNGRQ+B-8uvbNcCS_ySkJLiZe+WhawsZK90Mr4YUN7KGmbNA@mail.gmail.com>
+To: Andrey Zhizhikin <andrey.z@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	openembeded-devel <Openembedded-devel@lists.openembedded.org>
+Subject: Re: python2-less meta-openembedded build results
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +58,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2020 17:40:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 27 Jan 2020 18:01:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-At present, CONFIG_SHELL becomes /bin/sh if its bash and /bin/bash if not. This
-isn't deterministic and leads to changes in ptest packages which include Makefiles.
+On Mon, Jan 27, 2020 at 5:54 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+>
+> On Mon, Jan 27, 2020 at 4:24 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > Awesome, thanks for the help!
+>
+> No probs!
+>
+> I've actually looked into the list and would have couple of
+> components, which are sort-of "python2-only":
+> - dnssec-conf: did not receive any update since 9(!) years, written
+> totally in python2. Should this be bumped up of bumped out of
+> [oe-core]?
+> - mozjs: this one pulls the most of dependencies and produces the most
+> of errors. It's version is also quite old (60.9.0esr), and there is a
+> lot of python2-only code inside. Should this one be bumped out? Latest
+> ESR version available upstream is
+> 68.4.2esr [1], dated 01/20/2020
+Problem with mozjs are
 
-At first glance you'd think we'd hardcode to /bin/sh since most system shells are sane.
+* some packages ask for certain versions of mozjs. That's why distros
+have multiple versions.
+* if I am not mistaken version 68 of mozjs asks for rust/cargo which
+is (not yet) in a common layer
 
-Sadly the dash vs. bash leads to quoting differences in configure.
+Am working on python3 port. Current situation: Configure is almost
+done but after
 
-The bash default is probably the safest option since configure tries to find bash
-and this is what most systems would end up using.
+| updating cache ./config.cache
 
-The end result is a more consisent build environment.
+I see no progress in log file / 100% on one CPU / memory is eaten up.
+Had a similar situation in earlier stages but fixed that by endless
+debug sessions and removing parts suggested in [1]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/autotools.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Long story short: Haven't lost hope to come up with a working python3
+port but I cannot promise if I get there and when.
 
-diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-index 3d22ad02557..6c2a33ac72f 100644
---- a/meta/classes/autotools.bbclass
-+++ b/meta/classes/autotools.bbclass
-@@ -90,7 +90,7 @@ oe_runconf () {
- 	cfgscript=`python3 -c "import os; print(os.path.relpath(os.path.dirname('${CONFIGURE_SCRIPT}'), '.'))"`/$cfgscript_name
- 	if [ -x "$cfgscript" ] ; then
- 		bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
--		if ! ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
-+		if ! ${CACHED_CONFIGUREVARS} CONFIG_SHELL=/bin/bash $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
- 			bbnote "The following config.log files may provide further information."
- 			bbnote `find ${B} -ignore_readdir_race -type f -name config.log`
- 			bbfatal_log "configure failed"
--- 
-2.20.1
+[1] https://code.foxkit.us/adelie/packages/blob/f2b5773da19ab397fbe64fd32dacc383cfe4cd77/user/mozjs/python3.patch
 
+
+Andreas
+>
+> For some other recipes I would send out the patch series later today.
+>
+> [1]: https://archive.mozilla.org/pub/firefox/releases/68.4.2esr/source/
+>
+> >
+> > On Mon, Jan 27, 2020 at 2:51 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+> > >
+> > > Hello Raj,
+> > >
+> > > On Fri, Jan 24, 2020 at 8:27 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > >
+> > > > On 1/20/20 8:51 AM, Andrey Zhizhikin wrote:
+> > > > > On Mon, Jan 20, 2020 at 4:52 PM Khem Raj <raj.khem@gmail.com> wrote:
+> > > > >>
+> > > > >> Hi all
+> > > > >>
+> > > > >> Recently py2 is removed from oe-core, So I did quick patches to get a
+> > > > >> world build going. And
+> > > > >> here are initial failures, please help out with recipes your can or
+> > > > >> care for. Eventually, the remaining
+> > > > >> ones we can blacklist for 3.1 release.
+> > > > >>
+> > > > >> http://errors.yoctoproject.org/Errors/Build/97185/
+> > > > >>
+> > > > >> I will post more arches as they become available. If you want to try
+> > > > >> the same for machines/distros you can try yoe/mut for meta-oe
+> > > > >
+> > > > > I've actually asked Ross about similar failures, specifically in
+> > > > > [meta-openembeeded/meta-python] where there is a good mix of Pytho2
+> > > > > and Python3 still present. I've started to remove those yesterday, and
+> > > > > would continue with that layer further.
+> > > > >
+> > > > >>
+> > > > >> https://git.openembedded.org/meta-openembedded-contrib/log/?h=yoe/mut
+> > > > >>
+> > > >
+> > > > All these changes are now in master and its again buildable, with or
+> > > > without meta-python2, with meta-python2, its back to where it was with
+> > > > everything  building however, without py2 layer we have some work to do
+> > > > so if you are interested in this here [1] is initial list of failures
+> > > > I will keep posting more as we go along.
+> > > >
+> > >
+> > > Thanks a lot for the update! I've actually saw this in the master
+> > > before this mail and went ahead with pulling the latest - my builds
+> > > for i.MX8M series went fine.
+> > >
+> > > I'd also have a look at remaining things and try to fix some of those
+> > > as I'll progress.
+> > >
+> > > > [1]
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/88/builds/220/steps/8/logs/errors
+> > >
+> > > --
+> > > Regards,
+> > > Andrey.
+>
+>
+>
+> --
+> Regards,
+> Andrey.
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
