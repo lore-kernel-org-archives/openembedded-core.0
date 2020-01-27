@@ -1,47 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 783877F82A
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 373A77F82A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 14:19:12 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id c84so7242281wme.4
+	Mon, 27 Jan 2020 14:19:13 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id t14so7218816wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 06:19:13 -0800 (PST)
+	Mon, 27 Jan 2020 06:19:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Z7OWfpMv6T1HquNyGYq27K6BVEj9U3wrMeUVjoCDBno=;
-	b=MeMEwG1dOwBZPnMNGil8iBMvOSHpJyQk2bjef3KgIva5Wqavh5u/YBe4l5i2dBplas
-	gZVWuA1WPHb88JviOKy803fzw3fkLLsPPuU6ZWoDoCCD8KHnwz8zx4zshMPWKw0ng7SZ
-	f8BAb4Wp2U0MW28OQUlI9PRuHHKSf9B4B2gUagEKW+iXyOVbRt536kY9UwDS64Osslnz
-	g8K0lIzzfVDSUOWbJ7pCdm0n9WdsJsDb50RhtLXhX71uPoyDbbVNtIJZn1DGHSf9vf4v
-	DKNkRihtCyMVj46P2bHZb2NF8isxSbYhs9RFkQ3WjnimFj52AOLkxUtO0pOSYBfVhb/q
-	DtpA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=tWEtE+3/OG+vtM0w4TuGB41YES2W8N2gYX95DlQBfVw=;
+	b=p7XCU2LsElAafT27K4WV9je34dGGJkU2k2Avu8ILJNBmJHks1E1skjFnhtNPYGVBXu
+	fnkxQCflV67fndbDwqkdz0Rlg+amdaWBOxtX9c9cyWHnJ6P75y6XDDiIQY8NXuajnF6n
+	eZ19pOcqQj9ebSrBqCl2199CDmyPEPnRlfjVq3vZnOVfULSFZE/TyO6vr2PKxtremY+/
+	HCAeqM24otNl+Lllf+BYODqK4BeR2U2NXHXLsbMobQs1z9HJopbLTdp9g2yH1wO/OMW2
+	zIZ9rFMqAwfRYInjREZbHkwAud18yu9At31gEahw5rzH0Iyd+hY3C55oHPHCt04n72cd
+	3taw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Z7OWfpMv6T1HquNyGYq27K6BVEj9U3wrMeUVjoCDBno=;
-	b=iIj3hGo8ZwvW4kYNFEPmqs7OJGUobFXIv7w4nxyp2b9Gx/yrjvQQ0bZzzRwbwv7X5T
-	QmS267c63vD4MDRxv47oaGWVG7Uzo083C1ayTIQp43Azy29LunSSnTyf7bd/pqZZfxp8
-	9blb1QHxJ7vy0h6DxrnlAtrKMfrGGm1tXw7B4c2cVcP6ypl5dnugvUjPg8toKvr7IjDe
-	TfwS+2FslfCdk1/xzsYYJp8+5WdNQIvyYemgIys8emStEX3z95rn77OE4O41DFpF5kpz
-	9YvNIolJVCG/i9zeCQcgdqZw//P93Ktad/IhYC0wyBjINbDvn3vJb5H7M0wdnkwawKwF
-	obQA==
-X-Gm-Message-State: APjAAAUVAoiD7mLBYxNzFBn7+7ojWdZcaDcyXmEK0vUzaeRGfL+0kmfG
-	qV9DCFDlb8zSXKdhezEtnxd4g74v
-X-Google-Smtp-Source: APXvYqyvUwAwEXAbk8eTB9OIK9YRJ/VipRg5nxauh/iGbwHPBjR2szCVfPUn6BxNJlIFfMWbSOU49g==
-X-Received: by 2002:a7b:c249:: with SMTP id b9mr2578685wmj.74.1580134752925;
-	Mon, 27 Jan 2020 06:19:12 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=tWEtE+3/OG+vtM0w4TuGB41YES2W8N2gYX95DlQBfVw=;
+	b=N4YWeVrVj5/xlePr6m86Md6GXGCW9OJPmMA928hjcvafFCjEbSaF0d2wX1uSWn1Ust
+	25M9Uh+tYYj3844E9id5Wa8reRSvXDSipRsBo7ppRfUe5jLBoSoEJnHdyATu2sRTU7ZT
+	3fiNoKuYcBvOkEpQan7CYM209JEGd0WBHOnrrGZ47/iriC4BwwGVjTOxLDcK0qBHmjhc
+	3nK9JKdS4NGmsCmpvRAuqJM5HM5K5FMdj0OW4zEZW5SoSAfV3HycVcweuHxwseyFzGHu
+	+RvzWhZ3ZcJ2qD9ppGF3a806V4ILMT/npkqdJXD3Ai4kl/2VEIQBcmA2nzqeJEbFaPlK
+	3jdQ==
+X-Gm-Message-State: APjAAAUXB/ZvJ732NiHSOC9Gqar4NJjaEAXYRj3GRyLbyhDE3m7eYVyd
+	2hDSk+rk7eZSccYv39voGsHfY8rb
+X-Google-Smtp-Source: APXvYqwMxI9G4x03wMeyW9bMENQsY1w+MCkrsP8Ei0QDF23QomwseIjdhusXpChqLTG9qsuOTgaGgQ==
+X-Received: by 2002:a7b:c3d1:: with SMTP id t17mr6915518wmj.27.1580134753649; 
+	Mon, 27 Jan 2020 06:19:13 -0800 (PST)
 Received: from alexander-box.rd.corpintra.net ([141.113.66.202])
 	by smtp.gmail.com with ESMTPSA id
-	n1sm20533930wrw.52.2020.01.27.06.19.11
+	n1sm20533930wrw.52.2020.01.27.06.19.12
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 27 Jan 2020 06:19:12 -0800 (PST)
+	Mon, 27 Jan 2020 06:19:13 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 Jan 2020 15:19:00 +0100
-Message-Id: <20200127141908.84922-1-alex.kanavin@gmail.com>
+Date: Mon, 27 Jan 2020 15:19:01 +0100
+Message-Id: <20200127141908.84922-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/9] core-image-sato-sdk-ptest: do not pull in ptest-pkgs
+In-Reply-To: <20200127141908.84922-1-alex.kanavin@gmail.com>
+References: <20200127141908.84922-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/9] default-distrovars.inc: add vfat to DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,30 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2020 14:19:12 -0000
+X-List-Received-Date: Mon, 27 Jan 2020 14:19:13 -0000
 
-The lists of ptests are defined via PTESTS_FAST and PTESTS_SLOW;
-ptests-pkgs also pulls in additional items that are specifically
-excluded from those due to causing issues with ptesting.
+This is beneficial for parted ptests in particular, as
+they expect vfat functionality to work.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-sato/images/core-image-sato-sdk-ptest.bb | 2 --
- 1 file changed, 2 deletions(-)
+ meta/conf/distro/include/default-distrovars.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-index ff297fe324c..7490b773d2e 100644
---- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-+++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-@@ -3,8 +3,6 @@ require conf/distro/include/ptest-packagelists.inc
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 10d86cf7b17..433d4b6651d 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -10,7 +10,7 @@ LOCALE_UTF8_ONLY ?= "0"
+ LOCALE_UTF8_IS_DEFAULT ?= "1"
+ LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
  
- DESCRIPTION += "Also includes ptest packages."
+-DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
++DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11 vfat"
+ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+ IMAGE_FEATURES ?= ""
  
--IMAGE_FEATURES += "ptest-pkgs"
--
- PROVIDES += "core-image-sato-ptest"
- 
- # Also include ptests which may not otherwise be included in a sato image
 -- 
 2.17.1
 
