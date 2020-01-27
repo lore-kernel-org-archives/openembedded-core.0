@@ -1,45 +1,47 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
-	[209.85.221.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B37FB6C44A
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
+	[209.85.217.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 061306C4DA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 16:26:03 +0000 (UTC)
-Received: by mail-vk1-f193.google.com with SMTP id i78so2813941vke.0
+	Mon, 27 Jan 2020 16:26:56 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id g15so6037750vsf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 Jan 2020 08:26:04 -0800 (PST)
+	Mon, 27 Jan 2020 08:26:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Hib1wyxi4y26lZPWrVzCurZ6hVNZcV3yB3gq6cnv0cA=;
-	b=Pk1f/qaL/qED7hpQntxDCXIvVBD0o3uD98bJHHs5+WOZNiHK059xh2ZoAxlq0J3y9W
-	ZwL9ZoVXoj12cflD8BryfsCTSTqSQc4xgAbGwPDFiPPFB0TwTv4utVjhRrQgSa+O/KNW
-	Y+/8jbuN+tMLR0V/xnDo1jWRgKPo2YNTmBVPUQm7LrS3qJQmCuIPqMWHLEmyVCtDAB2G
-	HN6Zu6yosmbFXxPnlc4PHqX/l5L9745BBpIpqOxhON1ITtQadPLQG9ffTvSCTtllFrpT
-	VtVitl70mKdbGMkeuLaHYolgNmVS66raVxrFMuAzLOymvv+BvUb17QWA3svcfT7wROQr
-	H2Cw==
+	:cc; bh=nb9Nc5snCUDXY5iy/7YTwlRKLvjMfg1nRLz7WbvbTek=;
+	b=dAdH4isLf1WUAnP6Q0OvUfDfO57dCdnk3HhWXUz9aJs61iF6NWQSCxzlcV1LF2IE+j
+	4m90qZ+kNmzdicnkYqn1YeRPLEU+0YrHFewiwMW2F9cwXcNHhrbV/l0MntG4VwPv/uyY
+	IAF8O+6MCev9/spEvgTWJNYy6Aq+rRWURz2vq74CSAld0csqiIfng278xQKkwSvFHpTZ
+	GpHeF+Z8bEyQWdYsNoaQzrvHbn4IWsGTX7UoAzx//o0L9XoNO7T0//Yr/CRdSAUBkiuo
+	4y60NxtTjS9UySfW8PtOo1CPoYg8wLUfuBlu+ERM7fLQhRmNByDI6kHbR/mh+8y+cSjU
+	Bvjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Hib1wyxi4y26lZPWrVzCurZ6hVNZcV3yB3gq6cnv0cA=;
-	b=FkflTqPWQVRig/NC2x18WTF0oh6V12JFn4ZA+zFxK47gU49VmapZAp/PH8GQIhgmE/
-	aVNMCA8EksZ+D1Av7/nG3plBb9Rk7TQ8sy8XNyNd+BLSzC6WXzrPrhKmqnjXUUBvfu9m
-	/rqCvUgbo1isniHNVIqPvaGJyZJdxTHSjseRCXz/FEnlgLPKwvDLpaR1jRWnEER+s5mh
-	v1aHrWbCVs0h2XFCIMMgG3hsh8ADbW9Mjy0P9hHTs83VltZ0CFHN4TaZVMzX83QYTms+
-	hqkNKVxnmayUVvBmR3btr/tOhNOOgeV+boQuHXC8etDN0yvbqWPLqGY/U8jNvSyHw8PS
-	pLYQ==
-X-Gm-Message-State: APjAAAXunngEXQd2Hwof8X2wzeVHvUOMICSkKbUf13sO20qFEijsHJuu
-	J+qbuLY5Hn67nwbBH4bRL0CfkU+o4APiV9H1HH8=
-X-Google-Smtp-Source: APXvYqxEur2VlDAlO8suCjBEN7jLqak9BlsbTWnvXx70HQrUD9U9rM7iDs+//QZp4CPkSgDgSvPB5irD/jwPC2/AZk8=
-X-Received: by 2002:a1f:7dcd:: with SMTP id y196mr10783611vkc.29.1580142364197;
-	Mon, 27 Jan 2020 08:26:04 -0800 (PST)
+	bh=nb9Nc5snCUDXY5iy/7YTwlRKLvjMfg1nRLz7WbvbTek=;
+	b=CEBtFwmv2mPYeiK08hiYRQHyIw9e9ICWSldWqiU0Dja/wjPfMzybMiZ3yiT5glc/KN
+	p/FC1MXehUIjRWexwkowiwm9DL/ttuSbQu/H6I6fXZIB8WpSlF6UkvLwdz4NzDgXET1j
+	jJnV1EawAIfo6hqGfyIqXliSbp06pr5jcisjeQCAKitZQVArbwP6jCwwxCgmekjZs57v
+	f3u8WWNESSZVOkgzFhQDX2XI8w/E/NbUWmA6YFjrKKQuVth+dDrTGEi9xW3+HhSeveMN
+	D3hi0uEXFQTZ7R4OBI4Iv4PMTtZburQLpK63XWzxkhFU5mZ1Vrx1Nym3rXYQAeUT5EJt
+	UIZQ==
+X-Gm-Message-State: APjAAAV8L24fnGnR+PJv2D1ahgs4P5uvKaKCjGm4Zg899bqZbRJoZw/D
+	Sg4o41FdRSntr7VIPTaMJDQ3RWu3sf3ohVa71Ic=
+X-Google-Smtp-Source: APXvYqz2p0MViZvyb3LQbrcyzCMkFbuwb45nc8Vy5U6S/vM7CiKXW+X3+AOMEmGlmATV3KGcGGTjg9zncnqKaG+MXpI=
+X-Received: by 2002:a05:6102:52e:: with SMTP id
+	m14mr10342803vsa.25.1580142417030; 
+	Mon, 27 Jan 2020 08:26:57 -0800 (PST)
 MIME-Version: 1.0
 References: <20200127141908.84922-1-alex.kanavin@gmail.com>
 	<20200127141908.84922-8-alex.kanavin@gmail.com>
 	<9e7dbe8d-43f2-494c-02da-65f8bc6194f6@gmail.com>
-In-Reply-To: <9e7dbe8d-43f2-494c-02da-65f8bc6194f6@gmail.com>
+	<CANNYZj81UOWvO0AEbBpR3ObLSSeU6b8Z9vrK68v=vKsPAsgOZg@mail.gmail.com>
+In-Reply-To: <CANNYZj81UOWvO0AEbBpR3ObLSSeU6b8Z9vrK68v=vKsPAsgOZg@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 27 Jan 2020 17:25:53 +0100
-Message-ID: <CANNYZj81UOWvO0AEbBpR3ObLSSeU6b8Z9vrK68v=vKsPAsgOZg@mail.gmail.com>
+Date: Mon, 27 Jan 2020 17:26:45 +0100
+Message-ID: <CANNYZj8z0Z8U9gMAScDCcobM4hCQ2aeQwGU19ONpZ6_GnzPKwA@mail.gmail.com>
 To: akuster808 <akuster808@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 8/9] valgrind: fix the remaining ptest failures
@@ -55,263 +57,277 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 Jan 2020 16:26:04 -0000
-Content-Type: multipart/alternative; boundary="000000000000500b80059d2190df"
+X-List-Received-Date: Mon, 27 Jan 2020 16:26:57 -0000
+Content-Type: multipart/alternative; boundary="000000000000763f3c059d219337"
 
---000000000000500b80059d2190df
+--000000000000763f3c059d219337
 Content-Type: text/plain; charset="UTF-8"
 
-Now that ptests are actually run on the autobuilder for both x86 and arm64,
-we can look at whether anything still fails with this patchset. I tested on
-the x86 with 100% pass, but not on arm.
-
-My goal is to drop @expectedfail from ptests, because otherwise ptests keep
-regressing with nobody caring or paying attention. Better to catch and
-reject regressions when they happen I think.
+(obviously drop @expectedfail once 100% pass rate is achieved on ptests)
 
 Alex
 
-On Mon, 27 Jan 2020 at 16:53, akuster808 <akuster808@gmail.com> wrote:
+On Mon, 27 Jan 2020 at 17:25, Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
+> Now that ptests are actually run on the autobuilder for both x86 and
+> arm64, we can look at whether anything still fails with this patchset. I
+> tested on the x86 with 100% pass, but not on arm.
 >
+> My goal is to drop @expectedfail from ptests, because otherwise ptests
+> keep regressing with nobody caring or paying attention. Better to catch and
+> reject regressions when they happen I think.
 >
-> On 1/27/20 6:19 AM, Alexander Kanavin wrote:
-> > Particularly, one test is disabled as it is failing everywhere,
-> > two patches that actually cause failures are dropped and
-> > some binaries are prevented from being stripped where that is
-> > expected.
-> So this will address either
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13666  and
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13520 ?
+> Alex
 >
-> - armin
-> >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  ...eak_cmsg.stderr.exp-adjust-tmp-paths.patch | 34 +++++++++++++++++++
-> >  ...rind-adjust-std_list-expected-output.patch | 32 -----------------
-> >  ...Dereference-pthread_t-before-adding-.patch | 32 -----------------
-> >  .../valgrind/valgrind_3.15.0.bb               | 23 +++++++++++--
-> >  4 files changed, 55 insertions(+), 66 deletions(-)
-> >  create mode 100644
-> meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
-> >  delete mode 100644
-> meta/recipes-devtools/valgrind/valgrind/0002-valgrind-adjust-std_list-expected-output.patch
-> >  delete mode 100644
-> meta/recipes-devtools/valgrind/valgrind/0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch
-> >
-> > diff --git
-> a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
-> b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
-> > new file mode 100644
-> > index 00000000000..d641998d721
-> > --- /dev/null
-> > +++
-> b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
-> > @@ -0,0 +1,34 @@
-> > +From f405297d3382cd98391d02f397e2387da1f42879 Mon Sep 17 00:00:00 2001
-> > +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> > +Date: Fri, 24 Jan 2020 17:55:39 +0100
-> > +Subject: [PATCH] none/tests/fdleak_cmsg.stderr.exp: adjust /tmp paths
-> > +
-> > +In oe-core, /tmp is linked to /var/volatile/tmp and
-> > +valgrind output changes accordingly
-> > +
-> > +Upstream-Status: Inappropriate [oe-core specific]
-> > +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > +---
-> > + none/tests/fdleak_cmsg.stderr.exp | 4 ++--
-> > + 1 file changed, 2 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/none/tests/fdleak_cmsg.stderr.exp
-> b/none/tests/fdleak_cmsg.stderr.exp
-> > +index 6e5a797b9..0ede1ab18 100644
-> > +--- a/none/tests/fdleak_cmsg.stderr.exp
-> > ++++ b/none/tests/fdleak_cmsg.stderr.exp
-> > +@@ -25,10 +25,10 @@ Open file descriptor ...: /dev/null
-> > +
-> > +
-> > + FILE DESCRIPTORS: 6 open at exit.
-> > +-Open file descriptor ...: /tmp/data2
-> > ++Open file descriptor ...: ...
-> > +    ...
-> > +
-> > +-Open file descriptor ...: /tmp/data1
-> > ++Open file descriptor ...: ...
-> > +    ...
-> > +
-> > + Open AF_UNIX socket ...: <unknown>
-> > +--
-> > +2.17.1
-> > +
-> > diff --git
-> a/meta/recipes-devtools/valgrind/valgrind/0002-valgrind-adjust-std_list-expected-output.patch
-> b/meta/recipes-devtools/valgrind/valgrind/0002-valgrind-adjust-std_list-expected-output.patch
-> > deleted file mode 100644
-> > index a82972ec1b6..00000000000
-> > ---
-> a/meta/recipes-devtools/valgrind/valgrind/0002-valgrind-adjust-std_list-expected-output.patch
-> > +++ /dev/null
-> > @@ -1,32 +0,0 @@
-> > -From 6e1e9265b03cf51d09c028d657fe826d7156a783 Mon Sep 17 00:00:00 2001
-> > -From: Randy MacLeod <Randy.MacLeod@windriver.com>
-> > -Date: Mon, 13 May 2019 17:26:26 -0400
-> > -Subject: [PATCH 2/2] valgrind: adjust std_list expected output
-> > -
-> > -The run-ptest script uses a custom --yocto-ptest option
-> > -to change the summary statistics that valgrind issues
-> > -to a format that matches what ptest-runner expects.
-> > -
-> > -Only this std_list test which checks that strcpy() works
-> > -properly on Ubuntu-12.04 and later is affected by this change.
-> > -It's normal output when called with --yocto-ptest is a blank
-> > -line so adjust the expected output.
-> > -
-> > -Upstream-Status: Inappropriate [Yocto specific]
-> > -
-> > -Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> > ----
-> > - drd/tests/std_list.stderr.exp | 2 --
-> > - 1 file changed, 2 deletions(-)
-> > -
-> > -diff --git a/drd/tests/std_list.stderr.exp
-> b/drd/tests/std_list.stderr.exp
-> > -index d18786f80..8b1378917 100644
-> > ---- a/drd/tests/std_list.stderr.exp
-> > -+++ b/drd/tests/std_list.stderr.exp
-> > -@@ -1,3 +1 @@
-> > -
-> > --
-> > --ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
-> > ---
-> > -2.17.0
-> > -
-> > diff --git
-> a/meta/recipes-devtools/valgrind/valgrind/0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch
-> b/meta/recipes-devtools/valgrind/valgrind/0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch
-> > deleted file mode 100644
-> > index 05886c743dc..00000000000
-> > ---
-> a/meta/recipes-devtools/valgrind/valgrind/0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch
-> > +++ /dev/null
-> > @@ -1,32 +0,0 @@
-> > -From a6547fc17c120dbd95b852f50b0c4bdee4fedb9a Mon Sep 17 00:00:00 2001
-> > -From: Khem Raj <raj.khem@gmail.com>
-> > -Date: Sat, 10 Jun 2017 01:20:32 -0700
-> > -Subject: [PATCH 6/6] pth_detached3.c: Dereference pthread_t before
-> adding
-> > - offset to it
-> > -
-> > -Fixes
-> > -error: invalid use of undefined type 'struct __pthread'
-> > -
-> > -Upstream-Status: Pending
-> > -
-> > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ----
-> > - drd/tests/pth_detached3.c | 2 +-
-> > - 1 file changed, 1 insertion(+), 1 deletion(-)
-> > -
-> > -diff --git a/drd/tests/pth_detached3.c b/drd/tests/pth_detached3.c
-> > -index c02eef1..35d43a6 100644
-> > ---- a/drd/tests/pth_detached3.c
-> > -+++ b/drd/tests/pth_detached3.c
-> > -@@ -21,7 +21,7 @@ int main(int argc, char** argv)
-> > -   pthread_detach(thread);
-> > -
-> > -   /* Invoke pthread_detach() with an invalid thread ID. */
-> > --  pthread_detach(thread + 8);
-> > -+  pthread_detach((pthread_t*)(&thread + 8));
-> > -
-> > -   fprintf(stderr, "Finished.\n");
-> > -
-> > ---
-> > -2.13.1
-> > -
-> > diff --git a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-> b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-> > index 6a3834cfdc6..0f86aa44ca6 100644
-> > --- a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-> > +++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-> > @@ -29,7 +29,6 @@ SRC_URI = "
-> https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-> >
->  file://0003-correct-include-directive-path-for-config.h.patch \
-> >             file://0004-pth_atfork1.c-Define-error-API-for-musl.patch \
-> >
->  file://0005-tc20_verifywrap.c-Fake-__GLIBC_PREREQ-with-musl.patch \
-> > -
->  file://0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch \
-> >
->  file://0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch \
-> >             file://0002-memcheck-x86-Define-__THROW-if-not-defined.patch
-> \
-> >
->  file://0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch \
-> > @@ -38,9 +37,9 @@ SRC_URI = "
-> https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
-> >
->  file://0001-Make-local-functions-static-to-avoid-assembler-error.patch \
-> >             file://0001-Return-a-valid-exit_code-from-vg_regtest.patch \
-> >
->  file://0001-valgrind-filter_xml_frames-do-not-filter-usr.patch \
-> > -           file://0002-valgrind-adjust-std_list-expected-output.patch \
-> >             file://0001-adjust-path-filter-for-2-memcheck-tests.patch \
-> >             file://s390x_vec_op_t.patch \
-> > +
->  file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
-> >             "
-> >  SRC_URI[md5sum] = "46e5fbdcbc3502a5976a317a0860a975"
-> >  SRC_URI[sha256sum] =
-> "417c7a9da8f60dd05698b3a7bc6002e4ef996f14c13f0ff96679a16873e78ab1"
-> > @@ -205,4 +204,24 @@ do_install_ptest() {
-> >      # handle multilib
-> >      sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
-> >      sed -i s:@bindir@:${bindir}:g ${D}${PTEST_PATH}/run-ptest
-> > +
-> > +    # This test fails on the host as well, using both 3.15 and git
-> master (as of Jan 24 2020)
-> > +    # https://bugs.kde.org/show_bug.cgi?id=402833
-> > +    rm ${D}${PTEST_PATH}/memcheck/tests/overlap.vgtest
-> > +
-> > +    # As the binary isn't stripped or debug-splitted, the source file
-> isn't fetched
-> > +    # via dwarfsrcfiles either, so it needs to be installed manually.
-> > +    mkdir -p
-> ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
-> > +    install ${S}/none/tests/tls.c
-> ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
-> >  }
-> > +
-> > +# avoid stripping some generated binaries otherwise some of the tests
-> will fail
-> > +# run-strip-reloc.sh, run-strip-strmerge.sh and so on will fail
-> > +INHIBIT_PACKAGE_STRIP_FILES = "\
-> > +    ${PKGD}${PTEST_PATH}/none/tests/tls \
-> > +    ${PKGD}${PTEST_PATH}/none/tests/tls.so \
-> > +    ${PKGD}${PTEST_PATH}/none/tests/tls2.so \
-> > +    ${PKGD}${PTEST_PATH}/helgrind/tests/tc09_bad_unlock \
-> > +    ${PKGD}${PTEST_PATH}/memcheck/tests/manuel1 \
-> > +    ${PKGD}${PTEST_PATH}/drd/tests/pth_detached3 \
-> > +"
+> On Mon, 27 Jan 2020 at 16:53, akuster808 <akuster808@gmail.com> wrote:
 >
->
+>>
+>>
+>> On 1/27/20 6:19 AM, Alexander Kanavin wrote:
+>> > Particularly, one test is disabled as it is failing everywhere,
+>> > two patches that actually cause failures are dropped and
+>> > some binaries are prevented from being stripped where that is
+>> > expected.
+>> So this will address either
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13666  and
+>> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13520 ?
+>>
+>> - armin
+>> >
+>> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>> > ---
+>> >  ...eak_cmsg.stderr.exp-adjust-tmp-paths.patch | 34 +++++++++++++++++++
+>> >  ...rind-adjust-std_list-expected-output.patch | 32 -----------------
+>> >  ...Dereference-pthread_t-before-adding-.patch | 32 -----------------
+>> >  .../valgrind/valgrind_3.15.0.bb               | 23 +++++++++++--
+>> >  4 files changed, 55 insertions(+), 66 deletions(-)
+>> >  create mode 100644
+>> meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
+>> >  delete mode 100644
+>> meta/recipes-devtools/valgrind/valgrind/0002-valgrind-adjust-std_list-expected-output.patch
+>> >  delete mode 100644
+>> meta/recipes-devtools/valgrind/valgrind/0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch
+>> >
+>> > diff --git
+>> a/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
+>> b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
+>> > new file mode 100644
+>> > index 00000000000..d641998d721
+>> > --- /dev/null
+>> > +++
+>> b/meta/recipes-devtools/valgrind/valgrind/0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch
+>> > @@ -0,0 +1,34 @@
+>> > +From f405297d3382cd98391d02f397e2387da1f42879 Mon Sep 17 00:00:00 2001
+>> > +From: Alexander Kanavin <alex.kanavin@gmail.com>
+>> > +Date: Fri, 24 Jan 2020 17:55:39 +0100
+>> > +Subject: [PATCH] none/tests/fdleak_cmsg.stderr.exp: adjust /tmp paths
+>> > +
+>> > +In oe-core, /tmp is linked to /var/volatile/tmp and
+>> > +valgrind output changes accordingly
+>> > +
+>> > +Upstream-Status: Inappropriate [oe-core specific]
+>> > +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>> > +---
+>> > + none/tests/fdleak_cmsg.stderr.exp | 4 ++--
+>> > + 1 file changed, 2 insertions(+), 2 deletions(-)
+>> > +
+>> > +diff --git a/none/tests/fdleak_cmsg.stderr.exp
+>> b/none/tests/fdleak_cmsg.stderr.exp
+>> > +index 6e5a797b9..0ede1ab18 100644
+>> > +--- a/none/tests/fdleak_cmsg.stderr.exp
+>> > ++++ b/none/tests/fdleak_cmsg.stderr.exp
+>> > +@@ -25,10 +25,10 @@ Open file descriptor ...: /dev/null
+>> > +
+>> > +
+>> > + FILE DESCRIPTORS: 6 open at exit.
+>> > +-Open file descriptor ...: /tmp/data2
+>> > ++Open file descriptor ...: ...
+>> > +    ...
+>> > +
+>> > +-Open file descriptor ...: /tmp/data1
+>> > ++Open file descriptor ...: ...
+>> > +    ...
+>> > +
+>> > + Open AF_UNIX socket ...: <unknown>
+>> > +--
+>> > +2.17.1
+>> > +
+>> > diff --git
+>> a/meta/recipes-devtools/valgrind/valgrind/0002-valgrind-adjust-std_list-expected-output.patch
+>> b/meta/recipes-devtools/valgrind/valgrind/0002-valgrind-adjust-std_list-expected-output.patch
+>> > deleted file mode 100644
+>> > index a82972ec1b6..00000000000
+>> > ---
+>> a/meta/recipes-devtools/valgrind/valgrind/0002-valgrind-adjust-std_list-expected-output.patch
+>> > +++ /dev/null
+>> > @@ -1,32 +0,0 @@
+>> > -From 6e1e9265b03cf51d09c028d657fe826d7156a783 Mon Sep 17 00:00:00 2001
+>> > -From: Randy MacLeod <Randy.MacLeod@windriver.com>
+>> > -Date: Mon, 13 May 2019 17:26:26 -0400
+>> > -Subject: [PATCH 2/2] valgrind: adjust std_list expected output
+>> > -
+>> > -The run-ptest script uses a custom --yocto-ptest option
+>> > -to change the summary statistics that valgrind issues
+>> > -to a format that matches what ptest-runner expects.
+>> > -
+>> > -Only this std_list test which checks that strcpy() works
+>> > -properly on Ubuntu-12.04 and later is affected by this change.
+>> > -It's normal output when called with --yocto-ptest is a blank
+>> > -line so adjust the expected output.
+>> > -
+>> > -Upstream-Status: Inappropriate [Yocto specific]
+>> > -
+>> > -Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+>> > ----
+>> > - drd/tests/std_list.stderr.exp | 2 --
+>> > - 1 file changed, 2 deletions(-)
+>> > -
+>> > -diff --git a/drd/tests/std_list.stderr.exp
+>> b/drd/tests/std_list.stderr.exp
+>> > -index d18786f80..8b1378917 100644
+>> > ---- a/drd/tests/std_list.stderr.exp
+>> > -+++ b/drd/tests/std_list.stderr.exp
+>> > -@@ -1,3 +1 @@
+>> > -
+>> > --
+>> > --ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+>> > ---
+>> > -2.17.0
+>> > -
+>> > diff --git
+>> a/meta/recipes-devtools/valgrind/valgrind/0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch
+>> b/meta/recipes-devtools/valgrind/valgrind/0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch
+>> > deleted file mode 100644
+>> > index 05886c743dc..00000000000
+>> > ---
+>> a/meta/recipes-devtools/valgrind/valgrind/0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch
+>> > +++ /dev/null
+>> > @@ -1,32 +0,0 @@
+>> > -From a6547fc17c120dbd95b852f50b0c4bdee4fedb9a Mon Sep 17 00:00:00 2001
+>> > -From: Khem Raj <raj.khem@gmail.com>
+>> > -Date: Sat, 10 Jun 2017 01:20:32 -0700
+>> > -Subject: [PATCH 6/6] pth_detached3.c: Dereference pthread_t before
+>> adding
+>> > - offset to it
+>> > -
+>> > -Fixes
+>> > -error: invalid use of undefined type 'struct __pthread'
+>> > -
+>> > -Upstream-Status: Pending
+>> > -
+>> > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> > ----
+>> > - drd/tests/pth_detached3.c | 2 +-
+>> > - 1 file changed, 1 insertion(+), 1 deletion(-)
+>> > -
+>> > -diff --git a/drd/tests/pth_detached3.c b/drd/tests/pth_detached3.c
+>> > -index c02eef1..35d43a6 100644
+>> > ---- a/drd/tests/pth_detached3.c
+>> > -+++ b/drd/tests/pth_detached3.c
+>> > -@@ -21,7 +21,7 @@ int main(int argc, char** argv)
+>> > -   pthread_detach(thread);
+>> > -
+>> > -   /* Invoke pthread_detach() with an invalid thread ID. */
+>> > --  pthread_detach(thread + 8);
+>> > -+  pthread_detach((pthread_t*)(&thread + 8));
+>> > -
+>> > -   fprintf(stderr, "Finished.\n");
+>> > -
+>> > ---
+>> > -2.13.1
+>> > -
+>> > diff --git a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+>> b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+>> > index 6a3834cfdc6..0f86aa44ca6 100644
+>> > --- a/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+>> > +++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+>> > @@ -29,7 +29,6 @@ SRC_URI = "
+>> https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+>> >
+>>  file://0003-correct-include-directive-path-for-config.h.patch \
+>> >             file://0004-pth_atfork1.c-Define-error-API-for-musl.patch \
+>> >
+>>  file://0005-tc20_verifywrap.c-Fake-__GLIBC_PREREQ-with-musl.patch \
+>> > -
+>>  file://0006-pth_detached3.c-Dereference-pthread_t-before-adding-.patch \
+>> >
+>>  file://0001-memcheck-arm64-Define-__THROW-if-not-already-defined.patch \
+>> >
+>>  file://0002-memcheck-x86-Define-__THROW-if-not-defined.patch \
+>> >
+>>  file://0003-tests-seg_override-Replace-__modify_ldt-with-syscall.patch \
+>> > @@ -38,9 +37,9 @@ SRC_URI = "
+>> https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+>> >
+>>  file://0001-Make-local-functions-static-to-avoid-assembler-error.patch \
+>> >             file://0001-Return-a-valid-exit_code-from-vg_regtest.patch \
+>> >
+>>  file://0001-valgrind-filter_xml_frames-do-not-filter-usr.patch \
+>> > -           file://0002-valgrind-adjust-std_list-expected-output.patch \
+>> >             file://0001-adjust-path-filter-for-2-memcheck-tests.patch \
+>> >             file://s390x_vec_op_t.patch \
+>> > +
+>>  file://0001-none-tests-fdleak_cmsg.stderr.exp-adjust-tmp-paths.patch \
+>> >             "
+>> >  SRC_URI[md5sum] = "46e5fbdcbc3502a5976a317a0860a975"
+>> >  SRC_URI[sha256sum] =
+>> "417c7a9da8f60dd05698b3a7bc6002e4ef996f14c13f0ff96679a16873e78ab1"
+>> > @@ -205,4 +204,24 @@ do_install_ptest() {
+>> >      # handle multilib
+>> >      sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
+>> >      sed -i s:@bindir@:${bindir}:g ${D}${PTEST_PATH}/run-ptest
+>> > +
+>> > +    # This test fails on the host as well, using both 3.15 and git
+>> master (as of Jan 24 2020)
+>> > +    # https://bugs.kde.org/show_bug.cgi?id=402833
+>> > +    rm ${D}${PTEST_PATH}/memcheck/tests/overlap.vgtest
+>> > +
+>> > +    # As the binary isn't stripped or debug-splitted, the source file
+>> isn't fetched
+>> > +    # via dwarfsrcfiles either, so it needs to be installed manually.
+>> > +    mkdir -p
+>> ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
+>> > +    install ${S}/none/tests/tls.c
+>> ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
+>> >  }
+>> > +
+>> > +# avoid stripping some generated binaries otherwise some of the tests
+>> will fail
+>> > +# run-strip-reloc.sh, run-strip-strmerge.sh and so on will fail
+>> > +INHIBIT_PACKAGE_STRIP_FILES = "\
+>> > +    ${PKGD}${PTEST_PATH}/none/tests/tls \
+>> > +    ${PKGD}${PTEST_PATH}/none/tests/tls.so \
+>> > +    ${PKGD}${PTEST_PATH}/none/tests/tls2.so \
+>> > +    ${PKGD}${PTEST_PATH}/helgrind/tests/tc09_bad_unlock \
+>> > +    ${PKGD}${PTEST_PATH}/memcheck/tests/manuel1 \
+>> > +    ${PKGD}${PTEST_PATH}/drd/tests/pth_detached3 \
+>> > +"
+>>
+>>
 
---000000000000500b80059d2190df
+--000000000000763f3c059d219337
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Now that ptests are actually run on the autobuilder f=
-or both x86 and arm64, we can look at whether anything still fails with thi=
-s patchset. I tested on the x86 with 100% pass, but not on arm.</div><div><=
-br></div><div>My goal is to drop @expectedfail from ptests, because otherwi=
-se ptests keep regressing with nobody caring or paying attention. Better to=
- catch and reject regressions when they happen I think.<br></div><div></div=
-><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Mon, 27 Jan 2020 at 16:53, akuster808=
- &lt;<a href=3D"mailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+<div dir=3D"ltr"><div>(obviously drop @expectedfail once 100% pass rate is =
+achieved on ptests)</div><div><br></div><div>Alex<br></div></div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 27 Jan 2=
+020 at 17:25, Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.co=
+m">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><div dir=3D"ltr"><div>Now that ptests are actually=
+ run on the autobuilder for both x86 and arm64, we can look at whether anyt=
+hing still fails with this patchset. I tested on the x86 with 100% pass, bu=
+t not on arm.</div><div><br></div><div>My goal is to drop @expectedfail fro=
+m ptests, because otherwise ptests keep regressing with nobody caring or pa=
+ying attention. Better to catch and reject regressions when they happen I t=
+hink.<br></div><div></div><div><br></div><div>Alex<br></div></div><br><div =
+class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 27 Jan =
+2020 at 16:53, akuster808 &lt;<a href=3D"mailto:akuster808@gmail.com" targe=
+t=3D"_blank">akuster808@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex"><br>
 <br>
 On 1/27/20 6:19 AM, Alexander Kanavin wrote:<br>
 &gt; Particularly, one test is disabled as it is failing everywhere,<br>
@@ -576,5 +592,6 @@ r>
 &gt; +&quot;<br>
 <br>
 </blockquote></div>
+</blockquote></div>
 
---000000000000500b80059d2190df--
+--000000000000763f3c059d219337--
