@@ -1,54 +1,50 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9302E7FE5F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id B8ACC7FE46
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 11:02:16 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id a6so886144wrx.12
+	Tue, 28 Jan 2020 11:23:37 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id y17so15568665wrh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 03:02:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=VShF9EXSFX2cmHb/0cKf2n7zBGiuQzd/6BozQrkLVJQ=;
-	b=Y/2uQBSPGPsf4QbolOrvbpIl3SJ0/6PebfodLA/qYbvB6hMjNxOdT3sgTr6uwiys0E
-	owkcqMUBt7moZUpPZGPqkEtRHe13Lqx9aiVvcApfB3f9XPFV9wMQLmqJwj78XH0Fxxuv
-	VvQJ8Ld4nKDs+8KtcigaL/I7zp8rn2BR70DRbskX8g1qKOHvkU4+Y9/c/U0eaqSQNSnY
-	mJ/Gxp+ZLtZhTH/IeqPsE/o87wdQFZzrUBVilZ8VpyK//5y/DxR0jwu+oibuyCytQCSw
-	w9Jci0B19NSV+y2rRkkHxa/yw/VGFvhiv02yMX293ZWHkyjsFZVJESSKknRtS1BODJl0
-	xeQA==
+	Tue, 28 Jan 2020 03:23:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=O98BbccVz+Ch39pfIXUn9aUnO66b28MIiZtS+LXjd/A=;
+	b=PPrHzrrLJqmiHrngvK7sg9dvhYafXq6Es7sh+FadkpqwoWXbC3IKgxVTsV4q3pqKUc
+	nhq54WYc2ZvNiPNEV1hcrk243za12wOPu8aWTYP62AMzTdE0oyqe8LfZGkxAWy2PZe6C
+	KcK4tVNYvxv1iep9gOMSqPhPolJ7SzAoooN1I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=VShF9EXSFX2cmHb/0cKf2n7zBGiuQzd/6BozQrkLVJQ=;
-	b=oGov4qn0udiFD/x3p0YMDVCVHTwCn+hJCiZmPwxzPnPwLNOPRXIkLdxouaxHtRQ5a0
-	ZTD8DzMa+249tvZcmVgnTIQiCaksjcGAkZgEMvD9Z4ADarJxSDcpLZRxo0+TMJgoOYka
-	q2/wVU1wPZlQV1lkOJB0m5RbyXm0IyXR82ZjtxMqXkI6YrcZBdaSYzbPHy8u8Rh2NHQ8
-	oQB5rX0OcVibAbBjcYFb4tYYssOxNij31BnhAfdDMj80GzwbrymqfIVFqauxdXMEG+rV
-	YTAdu7/cGmtgRhXXy8SAV1W8DOCzMMSe6lYD8QKe0wQNury685yTeeTQNuBuLuQFrS95
-	TceA==
-X-Gm-Message-State: APjAAAU/9Zce7f3+BXYLDL1zyqr5j9ro+9LxX9SgVaDoyWjl+/G8gnV4
-	KMdp6WlPo0pk+ONuV0qAHogICfeK
-X-Google-Smtp-Source: APXvYqxovCZZySiRGV9sDX16rxQszlfNFcHQY1wsBDlem2olWGIp4kzdxoUExkrLTGIWTx28Azxrbg==
-X-Received: by 2002:adf:e6cb:: with SMTP id y11mr28704883wrm.345.1580209334973;
-	Tue, 28 Jan 2020 03:02:14 -0800 (PST)
-Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
-	o187sm2795685wme.36.2020.01.28.03.02.13
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=O98BbccVz+Ch39pfIXUn9aUnO66b28MIiZtS+LXjd/A=;
+	b=PavULsawuM/v+LOgnJy8HszdayX7wgRMoY2rUN5Of+C8rbE3nwr+yVYhzAmXS66Eg1
+	oJiSemqJFDSSx1l0TPudkpxbuhWGlQvs8fyDYYtPP+6gGISSLMix3+HUtVsub9b8O50K
+	Fmxd+NFT4QcdXzabCOzLx3bzrOwejByv4xGvn9jwK2bOQc+PFzDFJj0AtmhrB3uIh26B
+	sgPYDdbjzdAw8qf6wGKvBeNRiy6kSqiiSKC5ZOXIHkU/AatwCLSleb2zPEXQxPBExhCo
+	sxEgzFqxHlg7QfDNqrGcwqXOX/7PqzFouhSu7vmnuciraHoxIuglEBNX056XNF8/em8X
+	TIyg==
+X-Gm-Message-State: APjAAAWI/ZAPk2AHCF8hTgY0JAEUxoqDfy93Rxf8/+aXuu9v947qHB6O
+	IMf3qUwGb2YHppb222torCRc2g==
+X-Google-Smtp-Source: APXvYqxx3zdoZAJlDnQpKUPO3FLd3d3B6IC/pxpir05Sa5I9RPC3qU39orOhmHoKcXXsJOUZ5sDpIw==
+X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr27769058wrs.222.1580210618462;
+	Tue, 28 Jan 2020 03:23:38 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id c9sm2562333wmc.47.2020.01.28.03.23.37
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 28 Jan 2020 03:02:13 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 28 Jan 2020 12:02:13 +0100
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20200128110213.3ji3swjy2km22d7e@jama>
-References: <cover.1580066507.git.raj.khem@gmail.com>
-	<d6dd73600145030ed93604364c66b129c8d843af.1580066507.git.raj.khem@gmail.com>
+	Tue, 28 Jan 2020 03:23:37 -0800 (PST)
+Message-ID: <96b94d711272d36d7907dd7693afc3ccdc4c0fcf.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: JH <jupiter.hce@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jan 2020 11:23:36 +0000
+In-Reply-To: <CAA=hcWQNSmRKEeu=YxGAMMSNFAmKff6t4AOdcX2MUtcVSz9BKw@mail.gmail.com>
+References: <CAA=hcWS5w_QTmUMZBBMpj-H+iyBcqc=6h3RoZwdpVYU7gpyaMw@mail.gmail.com>
+	<CAA=hcWQNSmRKEeu=YxGAMMSNFAmKff6t4AOdcX2MUtcVSz9BKw@mail.gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <d6dd73600145030ed93604364c66b129c8d843af.1580066507.git.raj.khem@gmail.com>
-User-Agent: NeoMutt/20180716
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 06/13] glibc: Update to final 2.31 release
+Subject: Re: Could oe-core be infected by virus?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,54 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2020 11:02:16 -0000
-X-Groupsio-MsgNum: 134270
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="h7ormysbd4os33li"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 28 Jan 2020 11:23:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---h7ormysbd4os33li
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Tue, 2020-01-28 at 21:56 +1100, JH wrote:
+> I don't have Bluetooth, I don't need RPC, etc., yet the kernel
+> initialized all those processes I have never defined and I don't
+> need.
+> Where those things defined to let the kernel to initialize them in
+> boot process?
+> 
+> It is a small resource device, how can I get rid of those things I
+> don't need? As I said, in older version of image, I have never seen
+> those things, where are coming from?
+> 
+> Thank you.
 
-On Sun, Jan 26, 2020 at 11:27:43AM -0800, Khem Raj wrote:
-> Drop ppc 8xx clear cache optimization, which we have been carrying
-> through eglibc days, it has been redone in glibc now
->=20
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  .../glibc/cross-localedef-native_2.31.bb      |   9 +-
->  meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+Turn then off in your kernel configuration if you don't want/need them.
 
-=2E..
+Cheers,
 
-> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
-e/glibc/glibc-version.inc
-> index dca1916e80..c2cfb7e2f1 100644
-> --- a/meta/recipes-core/glibc/glibc-version.inc
-> +++ b/meta/recipes-core/glibc/glibc-version.inc
-> @@ -1,6 +1,6 @@
->  SRCBRANCH ?=3D "master"
->  PV =3D "2.30.9000"
+Richard
 
-Should this be 2.31 if the SRCREV is the final version?
 
-> -SRCREV_glibc ?=3D "def9c08c94da60bfb746644d56cffbe7a9de3477"
-> +SRCREV_glibc ?=3D "352bb99754ae7c83ff1b974f9c52244e974c9410"
->  SRCREV_localedef ?=3D "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
-> =20
->  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git"
-=2E..
-
---h7ormysbd4os33li
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXjAUtAAKCRA3VSO3ZXaA
-HDkDAJ9fFl3lRQJNnjHD+KSlo2SuKMCqoACfUPo3jEC8aiemrQes+otzgINknv4=
-=gsLW
------END PGP SIGNATURE-----
-
---h7ormysbd4os33li--
