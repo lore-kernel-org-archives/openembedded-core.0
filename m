@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 94D487FED6
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A225E7FED8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 15:16:46 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p17so2973619wma.1
+	Tue, 28 Jan 2020 15:16:47 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id z3so16472480wru.3
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 28 Jan 2020 07:16:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=rClqw/ZFoejqMRNHD9RxN3GPX2EdwfoV6nngYvU14HY=;
-	b=K60u79egBJVeV40jr44smPY0MEsNBKgMDTkgT6eArddEEbGCP12uH+vrfunC1jvO3B
-	MINolPiE8btYyMkAmNWOo9T+VbXyEwj5U0If8qbQNi189XD0Ao59Zb/FEcjWI6Pw2cXO
-	OhMTSOMur4mCvCqntyHevdtoefGckkc3ahJ/o=
+	bh=EoqpcwxdS3ZbpjZf/y5unptM0hSEP3sC8bnU8tP71ks=;
+	b=D8NO4cPr7aXrj7D3tcSa3Z/Ih7cYayNBM80BIbZVTm7Cxwh/wmfQzssssssrg2Jul4
+	aKEcfBMbhsX/3DchdW+yVqoGnG54KXUVpxSeDr92vr+GhqEAUBN1OwQ7U3Px3d5TWUDC
+	8i0kqfoNWcnYP3We0b+OPtNpDQcuWXWKQ/sa4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=rClqw/ZFoejqMRNHD9RxN3GPX2EdwfoV6nngYvU14HY=;
-	b=qfsm51Z/RWe4eqkNthHGw23c2IfYQ80P4uJB6X62RH66MmIgFsIZGTLc6pysuKwnUI
-	5dRy3hCmgqv1SG579lcxYPDWZNumAThovK9db3B/NpUTPpAs1tqelpn8Mmi/zT2RGhe0
-	dt3MKwpsEF+pi4q6TmCdRsGA1scEnG1NkrGv0cNIxqhyA3WSniqeQOVW0UXZR6Qj30Ei
-	rM1xxIIO7WmcrGzgeiruRsv6vPoTE75ToFyCrh6uqpdph5Gio2P1dsYaH0basjz+14pq
-	WeP1PqqwjWhu+WRt3ER0fMfhHnMcE/VhFLwDFfybvSzwkUrMi0XbQxMD2G99iWKuEwan
-	0oig==
-X-Gm-Message-State: APjAAAVJnzHNEx8eRb5CFe2N9sMsVoAgvxuZURoPXlJVjfHA8b/HUPMK
-	lOTwFhuwW+G2gIq7maYRdx78+d/jiMc=
-X-Google-Smtp-Source: APXvYqyr5eJ/IJoBa3TjH19zhLITUlm8GXsyphpSYmLx5DUCEg3/INBUs5OcvlgoWf5BwrCs+huqfw==
-X-Received: by 2002:a7b:caf2:: with SMTP id t18mr5819733wml.131.1580224607156; 
+	bh=EoqpcwxdS3ZbpjZf/y5unptM0hSEP3sC8bnU8tP71ks=;
+	b=Wi+4Z5Y+BnwpsitFoDnFqeWSz4zBTMfnatMhCpbSA3yNt7xr6H20ELr4VHuxYnx+/o
+	hzlJ4GiXjGfFKc0+GOZjLm3U/vCLdKQ9VPcWupHLd3AeP5COXzSDU0oss5sO+OjNUhcN
+	iEhpT2B5g6P0Tfhc7nUGQjeIEpLc7ZXPTZz7TKbEKUPd+GSywll376sLxiFBnDLOSB5y
+	YwzTTP4BALFuRFF7UDuZ1eJVUGt+hvCpmgS8HEjvf7TORxYbuuflB/ZTe4j88BoOM824
+	3TSkAhxRlorwnXYLuw5u7HwEQs7d8mdmW3GOS77IccruHtl7B0YpF3VXg/+L+jiUAfOn
+	9Bvg==
+X-Gm-Message-State: APjAAAV0uDbAtk0izjapcbl3k3BmmQL+Sa5IAOcRAbXJ0pDpIyMv7CXD
+	uIBfjpLULMu4cQZnIMvc7WMypUL04AY=
+X-Google-Smtp-Source: APXvYqza0XHh6UrxqAvaKX5O8EWVZZuuLFEqSEHZ4nJXcevetfkJXYxxI+3d/Bhg6MWMzjfDiU7Nsw==
+X-Received: by 2002:adf:fd91:: with SMTP id d17mr31193401wrr.340.1580224607987;
 	Tue, 28 Jan 2020 07:16:47 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	c15sm25711302wrt.1.2020.01.28.07.16.46
+	c15sm25711302wrt.1.2020.01.28.07.16.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 28 Jan 2020 07:16:46 -0800 (PST)
+	Tue, 28 Jan 2020 07:16:47 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jan 2020 15:16:41 +0000
-Message-Id: <20200128151643.9711-3-richard.purdie@linuxfoundation.org>
+Date: Tue, 28 Jan 2020 15:16:42 +0000
+Message-Id: <20200128151643.9711-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200128151643.9711-1-richard.purdie@linuxfoundation.org>
 References: <20200128151643.9711-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 3/5] texinfo/texinfo-dummy-native: Drop native path prefix
+Subject: [PATCH 4/5] texinfo: Only build texinfo when api-docs enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,44 +61,30 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Tue, 28 Jan 2020 15:16:48 -0000
 Content-Transfer-Encoding: 8bit
 
-Now we have recipe specific sysroots we don't need this native path
-prefix. It was breaking the crosssdk/cross-canadian cases and causing
-bugs, removing it is the simplest solution.
+Also fix the crosssdk and cross-canadian cases.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/classes/texinfo.bbclass                                  | 4 +---
- .../texinfo-dummy-native/texinfo-dummy-native.bb              | 2 --
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ meta/classes/texinfo.bbclass | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/meta/classes/texinfo.bbclass b/meta/classes/texinfo.bbclass
-index 6b0def0eac4..72091c733e5 100644
+index 72091c733e5..ba1dd4994e1 100644
 --- a/meta/classes/texinfo.bbclass
 +++ b/meta/classes/texinfo.bbclass
-@@ -10,9 +10,7 @@ TEXDEP = "texinfo-native"
+@@ -6,9 +6,11 @@
+ # Texinfo recipe, you can remove texinfo-native from ASSUME_PROVIDED and
+ # makeinfo from SANITY_REQUIRED_UTILITIES.
+ 
+-TEXDEP = "texinfo-native"
++TEXDEP = "${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'texinfo-native', 'texinfo-dummy-native', d)}"
  TEXDEP_class-native = "texinfo-dummy-native"
  TEXDEP_class-cross = "texinfo-dummy-native"
++TEXDEP_class-crosssdk = "texinfo-dummy-native"
++TEXDEP_class-cross-canadian = "texinfo-dummy-native"
  DEPENDS_append = " ${TEXDEP}"
--PATH_prepend_class-native = "${STAGING_BINDIR_NATIVE}/texinfo-dummy-native:"
--PATH_prepend_class-cross = "${STAGING_BINDIR_NATIVE}/texinfo-dummy-native:"
  
  # libtool-cross doesn't inherit cross
- TEXDEP_pn-libtool-cross = "texinfo-dummy-native"
--PATH_prepend_pn-libtool-cross = "${STAGING_BINDIR_NATIVE}/texinfo-dummy-native:"
-+
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-index 1254bc89b48..3e6dfb0f1b9 100644
---- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
-@@ -9,8 +9,6 @@ SRC_URI = "file://template.py file://COPYING"
- 
- S = "${WORKDIR}"
- 
--NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
--
- inherit native
- 
- do_install_name() {
 -- 
 2.20.1
 
