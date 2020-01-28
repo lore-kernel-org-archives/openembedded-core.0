@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D70D7FECA
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
+	[209.85.219.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E5A747FEEB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 16:06:04 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id w25so8155699qki.3
+	Tue, 28 Jan 2020 16:08:12 +0000 (UTC)
+Received: by mail-qv1-f67.google.com with SMTP id y2so2647422qvu.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 08:06:05 -0800 (PST)
+	Tue, 28 Jan 2020 08:08:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5r04TPTIIDIFQ/tzO2fDarItnEbl4FoS9L7sUH/F178=;
-	b=Y8CFnlJV75rDWjQaV2DF6PQ1H+doCBK853z+g/U2NVzwYZ7J4lmMFamP1w+gG9xM/K
-	TK59R1spNlmiqnmJ9TINvJvOA4nseIttFJJK2KEoMKm9f2Htr34oJEyrXq0TTWWNf5tc
-	gxpoq8gGHcwvt9IeyLtrbclyLaIaMLf4No7qNSwmz0RKPzSx/ic/uDYWlkCCd71V2Eaq
-	5V+2+SR/Cij7wWc2VywKD/HBDDccowfejcUfSR1geAFNmo2yQ/kmvH2HI5NJ6M7Y8mIj
-	oK5HjyB9DwOzMGIbK/roqRfiJW6SWiofiOqqvT3qgkIxEaqwUX69/f+aBhTyLOkjp2aj
-	7F8A==
+	:cc; bh=vWPr6w237F2p7sygDRUR5rnRMCs1OWneJvn7oxGby/M=;
+	b=Z3nlN69zypdaBDvlkbpfb9JQb4g8Syv5QH6hcSpJRPRcj0jgzRIzCTO+z2J0ZF4rUy
+	VJwdK18TQ5c5aNC7PJup2sPsSRxCdl+sxIu2ycQ3W+33XYmQq/wwGueJ83rBLhLvTRlV
+	iYCwVG1dywCkZoHv8UYA+/rB8W8elBh+BT1fqr+CKfKxmaYyLVjLbER25C95v9NNdTc5
+	f48G2BW0o8q7LCz6cdks/3/29QbNxHMLG0WO4hnkY+YbaeVJSjFF8tOFTjTlJ6a+TVqa
+	KizBNiQlwWMrWM3FTmj0UB/xD7LiX694omKcDnw33QRBpbJrBUWiRX8waXI59Z+V8J9c
+	BbxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=5r04TPTIIDIFQ/tzO2fDarItnEbl4FoS9L7sUH/F178=;
-	b=rjesM5KXN4/GAY+R3VHlC4/pkV7X7ECDuU4ibVgqNGEcP0/m8yHo+wRYQnluCF/bQW
-	57Z2eNuFiNxDd4LkUapPxChpifjcyOqHm6GynLe7mIyu7XmWEFmRm/fbQolcrtQ87D0l
-	sxuHL+aGW/97X3BIZzS2WbsUmoTxG8nLFLbqaPFpCfyXK3UVAES7E08YuxdWJ3niqHn9
-	6WCRVvzNTXu42Ds/im5yLnkG9MpqPqbuSB0Y/pCxNp7hxGrdgG3XNtSpLU6vkRymNXcB
-	dDI3OgX1nJ6IaPwpS+PQFbwxN4w/KU4maJdgmdBf413JgaU5gdMOkVEtg+9PfSXTQyOi
-	Ye+w==
-X-Gm-Message-State: APjAAAUrYo/pp+VLElrZ6oJy54+tnldCmyUHctVlkkyT9vuFKhlXau8J
-	GCvJgklzg14ztTVW6mazHkUExbi4r73p7nwbSxg=
-X-Google-Smtp-Source: APXvYqzvvrP3di75L0rketTgr22zOSw6yexRQ7MQHHhQfxPXDXe45S/XR48nlG9jUpPdiNNhOhM5dFUAImA8ZPYcKI8=
-X-Received: by 2002:ae9:ef50:: with SMTP id d77mr22561171qkg.71.1580227564709; 
-	Tue, 28 Jan 2020 08:06:04 -0800 (PST)
+	bh=vWPr6w237F2p7sygDRUR5rnRMCs1OWneJvn7oxGby/M=;
+	b=EP1WnwrURin6hY71GPYAdk8qUXCcGOdNThIPm0W7pL5tFNP199OXnRPRjbzZkRXI3e
+	g2auijgoXi3/CZv6rcYAmofx1vSIgyC7xFRbOGGrLl20CO+qiBAcgAX7HfLcbNmAUDQ0
+	v5r+DVeV66SZ7ch59GmgvOkB+Edj0NRmVf1tk08U/WThRaiparVR0j5NkSFMe3aD1YKN
+	6mvvC4x79zQi2ZbgVPpcoueFmpSeb8btWL411V6wJfbBqirVgkh3UMKOtNCaAAzzmpZ/
+	a9PgY5PJ4MWgIPSFLjWWCbMbVdQRPUGaqFAZs6GG/Bt0kDNjebPa3FRWZJBZZHDLcq4I
+	PRBA==
+X-Gm-Message-State: APjAAAUwYVow74MftU7fd2CohfhDPcHMBu1DKr6ENRahdMIpEXp4NAfZ
+	A6/IDuovoHVJcwlK/aaplXhRB5inkc6BIO+i5MU=
+X-Google-Smtp-Source: APXvYqzSvZY712nwUeB+C3NHS++5C+2DTkn2O7RdVM97A60qFy1iUV5jF7dTuxWTcxBTvc2l3AHilNBD4tQMSPYzbhg=
+X-Received: by 2002:ad4:478b:: with SMTP id z11mr23346749qvy.185.1580227693558;
+	Tue, 28 Jan 2020 08:08:13 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1580066507.git.raj.khem@gmail.com>
-	<d6dd73600145030ed93604364c66b129c8d843af.1580066507.git.raj.khem@gmail.com>
-	<20200128110213.3ji3swjy2km22d7e@jama>
-In-Reply-To: <20200128110213.3ji3swjy2km22d7e@jama>
+References: <20200128035850.2629175-1-raj.khem@gmail.com>
+	<A678FC67-6C95-4B81-8DC0-28446111D1CE@gmail.com>
+	<4eb4ce6425a3cc96d9500ddc54eb9e34cc4df57c.camel@linuxfoundation.org>
+In-Reply-To: <4eb4ce6425a3cc96d9500ddc54eb9e34cc4df57c.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 28 Jan 2020 08:05:53 -0800
-Message-ID: <CAMKF1srz05b3nEVD7tNautZJ5E1WEObajGXi6miukyEVOQaJLw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 28 Jan 2020 08:08:00 -0800
+Message-ID: <CAMKF1sqv=DJP040YxKWCAYWu-4YnmuA7qSm3myuGhgReYjsmRQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 06/13] glibc: Update to final 2.31 release
+Subject: Re: [PATCH v2] valgrind: Fix ptest builds on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,98 +55,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2020 16:06:04 -0000
-Content-Type: multipart/alternative; boundary="000000000000a8ad0c059d35661e"
+X-List-Received-Date: Tue, 28 Jan 2020 16:08:13 -0000
+Content-Type: multipart/alternative; boundary="00000000000056c18a059d356e77"
 
---000000000000a8ad0c059d35661e
+--00000000000056c18a059d356e77
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 28, 2020 at 3:02 AM Martin Jansa <martin.jansa@gmail.com> wrote:
+On Tue, Jan 28, 2020 at 2:07 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> On Sun, Jan 26, 2020 at 11:27:43AM -0800, Khem Raj wrote:
-> > Drop ppc 8xx clear cache optimization, which we have been carrying
-> > through eglibc days, it has been redone in glibc now
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  .../glibc/cross-localedef-native_2.31.bb      |   9 +-
-> >  meta/recipes-core/glibc/glibc-version.inc     |   2 +-
+> On Tue, 2020-01-28 at 09:09 +0100, Alexander Kanavin wrote:
+> > The reason I dropped the previous version of this is that with the
+> > patch the test failed, without the patch it passed. If you can
+> > confirm that the new version doesn=E2=80=99t regress the test I would
+> > appreciate. You can edit run-ptest prior to running it to include
+> > only the test suite with this test to make it quicker.
 >
-> ...
+> valgrind fails to build on musl without a patch:
 >
-> > diff --git a/meta/recipes-core/glibc/glibc-version.inc
-> b/meta/recipes-core/glibc/glibc-version.inc
-> > index dca1916e80..c2cfb7e2f1 100644
-> > --- a/meta/recipes-core/glibc/glibc-version.inc
-> > +++ b/meta/recipes-core/glibc/glibc-version.inc
-> > @@ -1,6 +1,6 @@
-> >  SRCBRANCH ?= "master"
-> >  PV = "2.30.9000"
->
-> Should this be 2.31 if the SRCREV is the final version?
-
-
-Yes
-
-
->
-> > -SRCREV_glibc ?= "def9c08c94da60bfb746644d56cffbe7a9de3477"
-> > +SRCREV_glibc ?= "352bb99754ae7c83ff1b974f9c52244e974c9410"
-> >  SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
-> >
-> >  GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
-> ...
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1499
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1503
 >
 
---000000000000a8ad0c059d35661e
+I have already sent a patch on top of master-next to fix this
+
+
+> Cheers,
+>
+> Richard
+>
+>
+
+--00000000000056c18a059d356e77
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Jan 28, 2020 at 3:02 AM Martin Jansa &lt;<a href=3D=
-"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br></=
-div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">On Sun, Jan 26, 2020 at 11:27:43AM -0800=
-, Khem Raj wrote:<br>
-&gt; Drop ppc 8xx clear cache optimization, which we have been carrying<br>
-&gt; through eglibc days, it has been redone in glibc now<br>
-&gt; <br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../glibc/<a href=3D"http://cross-localedef-native_2.31.bb" rel=
-=3D"noreferrer" target=3D"_blank">cross-localedef-native_2.31.bb</a>=C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 =C2=A09 +-<br>
-&gt;=C2=A0 meta/recipes-core/glibc/glibc-version.inc=C2=A0 =C2=A0 =C2=A0|=
-=C2=A0 =C2=A02 +-<br>
+=3D"gmail_attr">On Tue, Jan 28, 2020 at 2:07 AM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2020-=
+01-28 at 09:09 +0100, Alexander Kanavin wrote:<br>
+&gt; The reason I dropped the previous version of this is that with the<br>
+&gt; patch the test failed, without the patch it passed. If you can<br>
+&gt; confirm that the new version doesn=E2=80=99t regress the test I would<=
+br>
+&gt; appreciate. You can edit run-ptest prior to running it to include<br>
+&gt; only the test suite with this test to make it quicker.<br>
 <br>
-...<br>
+valgrind fails to build on musl without a patch:<br>
 <br>
-&gt; diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-=
-core/glibc/glibc-version.inc<br>
-&gt; index dca1916e80..c2cfb7e2f1 100644<br>
-&gt; --- a/meta/recipes-core/glibc/glibc-version.inc<br>
-&gt; +++ b/meta/recipes-core/glibc/glibc-version.inc<br>
-&gt; @@ -1,6 +1,6 @@<br>
-&gt;=C2=A0 SRCBRANCH ?=3D &quot;master&quot;<br>
-&gt;=C2=A0 PV =3D &quot;2.30.9000&quot;<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/64/build=
+s/1499" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/64/builds/1499</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/45/build=
+s/1503" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/45/builds/1503</a><br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I have already s=
+ent a patch on top of master-next to fix this=C2=A0</div><div dir=3D"auto">=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
+er-left:1px #ccc solid;padding-left:1ex"><br>
+Cheers,<br>
 <br>
-Should this be 2.31 if the SRCREV is the final version?</blockquote><div di=
-r=3D"auto"><br></div><div dir=3D"auto">Yes=C2=A0</div><div dir=3D"auto"><br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><br>
+Richard<br>
 <br>
-&gt; -SRCREV_glibc ?=3D &quot;def9c08c94da60bfb746644d56cffbe7a9de3477&quot=
-;<br>
-&gt; +SRCREV_glibc ?=3D &quot;352bb99754ae7c83ff1b974f9c52244e974c9410&quot=
-;<br>
-&gt;=C2=A0 SRCREV_localedef ?=3D &quot;cd9f958c4c94a638fa7b2b4e21627364f1a1=
-a655&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 GLIBC_GIT_URI ?=3D &quot;git://<a href=3D"http://sourceware.org/=
-git/glibc.git" rel=3D"noreferrer" target=3D"_blank">sourceware.org/git/glib=
-c.git</a>&quot;<br>
-...<br>
 </blockquote></div></div>
 
---000000000000a8ad0c059d35661e--
+--00000000000056c18a059d356e77--
