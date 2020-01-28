@@ -1,50 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id B8ACC7FE46
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 912B27FE78
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 11:23:37 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id y17so15568665wrh.5
+	Tue, 28 Jan 2020 12:02:17 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id f129so2237981wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 03:23:39 -0800 (PST)
+	Tue, 28 Jan 2020 04:02:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=O98BbccVz+Ch39pfIXUn9aUnO66b28MIiZtS+LXjd/A=;
-	b=PPrHzrrLJqmiHrngvK7sg9dvhYafXq6Es7sh+FadkpqwoWXbC3IKgxVTsV4q3pqKUc
-	nhq54WYc2ZvNiPNEV1hcrk243za12wOPu8aWTYP62AMzTdE0oyqe8LfZGkxAWy2PZe6C
-	KcK4tVNYvxv1iep9gOMSqPhPolJ7SzAoooN1I=
+	bh=OTjk/aTWZxYBLj0H7JnWNVMyhhyu2WztqoTejXSmdWA=;
+	b=fDLRW/KVFviRDIaS+zv/lmgwY22fu2Y6/pHDM/Tt0xSPAG6sC5JxPSYeTy4Sab3pE4
+	cs/Co6GF7CwT8tBVVCdVa/7dbApP4jwijo+N7ual+pmmrCkNQJT0QLmmww10akzWcBdL
+	bqZl8YObkNIaAgyi7+g2ks3mFKbSmuMORsiFM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=O98BbccVz+Ch39pfIXUn9aUnO66b28MIiZtS+LXjd/A=;
-	b=PavULsawuM/v+LOgnJy8HszdayX7wgRMoY2rUN5Of+C8rbE3nwr+yVYhzAmXS66Eg1
-	oJiSemqJFDSSx1l0TPudkpxbuhWGlQvs8fyDYYtPP+6gGISSLMix3+HUtVsub9b8O50K
-	Fmxd+NFT4QcdXzabCOzLx3bzrOwejByv4xGvn9jwK2bOQc+PFzDFJj0AtmhrB3uIh26B
-	sgPYDdbjzdAw8qf6wGKvBeNRiy6kSqiiSKC5ZOXIHkU/AatwCLSleb2zPEXQxPBExhCo
-	sxEgzFqxHlg7QfDNqrGcwqXOX/7PqzFouhSu7vmnuciraHoxIuglEBNX056XNF8/em8X
-	TIyg==
-X-Gm-Message-State: APjAAAWI/ZAPk2AHCF8hTgY0JAEUxoqDfy93Rxf8/+aXuu9v947qHB6O
-	IMf3qUwGb2YHppb222torCRc2g==
-X-Google-Smtp-Source: APXvYqxx3zdoZAJlDnQpKUPO3FLd3d3B6IC/pxpir05Sa5I9RPC3qU39orOhmHoKcXXsJOUZ5sDpIw==
-X-Received: by 2002:a5d:4c8c:: with SMTP id z12mr27769058wrs.222.1580210618462;
-	Tue, 28 Jan 2020 03:23:38 -0800 (PST)
+	bh=OTjk/aTWZxYBLj0H7JnWNVMyhhyu2WztqoTejXSmdWA=;
+	b=kdaui71QAwI8fQNRZO1kQ4EX+eiD48dK8Ha/lbxfFpDupurKIxJcENnGM/D/Is8bEb
+	4YkRoOOihQklI0UV6eLDz7bK2Bcj1dLg52nK8Q4H3IzUnfzWua1N+436gragarMjQ5Ut
+	u5pj5ca7CTYISgl+h5zefBkfrDhj3Nb9Rf6ilKCjhtUu8z0bqzyKOLt9aI0DXGgKemjF
+	vM7qRXXWZIZs8DsZZusyJ+9+1hRFINi+1zVb2To2HuJaLd7/k3a/d0nzSNUPTD1PVUX7
+	ZfoTpmmjb+1yBCqseONbtNT8ud6ooxw+rIQKWCE9eLNFl3CDdRzCuR5KrVA7OBKHpiin
+	BftQ==
+X-Gm-Message-State: APjAAAWLCV5V7dLdWsbB0wfTuU0h5LOzEnG6A/lr2QE+aSxyY/Mo4Jld
+	nz8foAZCdjOiAFBfeB2jLyeOdg==
+X-Google-Smtp-Source: APXvYqx+Puwh2lWMRopBMuSZg6evlK6vT6dIBn8A37cupCU2rdPprpJJvdQWQbdgWUbEdyk8ooCu2w==
+X-Received: by 2002:a05:600c:2042:: with SMTP id
+	p2mr4836352wmg.79.1580212938233; 
+	Tue, 28 Jan 2020 04:02:18 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id c9sm2562333wmc.47.2020.01.28.03.23.37
+	by smtp.gmail.com with ESMTPSA id 16sm2753430wmi.0.2020.01.28.04.02.17
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 28 Jan 2020 03:23:37 -0800 (PST)
-Message-ID: <96b94d711272d36d7907dd7693afc3ccdc4c0fcf.camel@linuxfoundation.org>
+	Tue, 28 Jan 2020 04:02:17 -0800 (PST)
+Message-ID: <15178a56a7fff6877d13b52312ffc8b898a60f3f.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: JH <jupiter.hce@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jan 2020 11:23:36 +0000
-In-Reply-To: <CAA=hcWQNSmRKEeu=YxGAMMSNFAmKff6t4AOdcX2MUtcVSz9BKw@mail.gmail.com>
-References: <CAA=hcWS5w_QTmUMZBBMpj-H+iyBcqc=6h3RoZwdpVYU7gpyaMw@mail.gmail.com>
-	<CAA=hcWQNSmRKEeu=YxGAMMSNFAmKff6t4AOdcX2MUtcVSz9BKw@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jan 2020 12:02:16 +0000
+In-Reply-To: <20200122071934.60789-1-alex.kiernan@gmail.com>
+References: <20200122071934.60789-1-alex.kiernan@gmail.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: Could oe-core be infected by virus?
+Subject: Re: [PATCH] libxcrypt: Enable static builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,24 +58,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2020 11:23:39 -0000
+X-List-Received-Date: Tue, 28 Jan 2020 12:02:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-01-28 at 21:56 +1100, JH wrote:
-> I don't have Bluetooth, I don't need RPC, etc., yet the kernel
-> initialized all those processes I have never defined and I don't
-> need.
-> Where those things defined to let the kernel to initialize them in
-> boot process?
+On Wed, 2020-01-22 at 07:19 +0000, Alex Kiernan wrote:
+> Whilst glibc builds static binaries libxcrypt doesn't, without which
+> we
+> can't build, for example, a static busybox. Enable static libraries
+> here
+> so that anyone who needs a static binary using just basic libraries
+> has
+> one fewer dependencies to track down post libxcrypt being split out
+> of
+> glibc.
 > 
-> It is a small resource device, how can I get rid of those things I
-> don't need? As I said, in older version of image, I have never seen
-> those things, where are coming from?
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
 > 
-> Thank you.
+>  meta/recipes-core/libxcrypt/libxcrypt.inc | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc
+> b/meta/recipes-core/libxcrypt/libxcrypt.inc
+> index accbdd636152..e98d8084470c 100644
+> --- a/meta/recipes-core/libxcrypt/libxcrypt.inc
+> +++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+> @@ -32,4 +32,6 @@ CFLAGS += "-fcommon"
+>  API = "--disable-obsolete-api"
+>  EXTRA_OECONF += "${API}"
+>  
+> +DISABLE_STATIC = ""
+> +
 
-Turn then off in your kernel configuration if you don't want/need them.
+My worry with this is where the line is drawn. We let glibc generate
+its static libs since turning them off turned out to be a nightmare, we
+disabled everything else we could, assuming the user would turn on what
+they need if they need it.
+
+In some ways I'd much prefer this was in some example config rather
+than building things piecemeal that most people don't use?
 
 Cheers,
 
