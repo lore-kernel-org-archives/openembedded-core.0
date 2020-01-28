@@ -1,52 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
-	[209.85.219.67])
-	by mail.openembedded.org (Postfix) with ESMTP id A3BD360273
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 71A1A9202B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 19:03:43 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id p2so6780967qvo.10
+	Tue, 28 Jan 2020 19:26:15 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id q8so7174024pfh.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 11:03:44 -0800 (PST)
+	Tue, 28 Jan 2020 11:26:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QozR75qxA2nqj+3mdjevU3c4k54maVvDKq56Vdak+wQ=;
-	b=ahOcrOxXdIk9PKLZssrhzkatxj/iifuCSNA6pn5ckXntwl9h3QIEBsBIFcLh0zOKi4
-	3ccjRuTznrdYPKKx85Q70f8Fkpl34FMgIABA0tBH4qUw0w1RM/sUaN6otPr7lOeXaDB3
-	WRXheHAmktbZjwbHTs8jl9DrRuBuC+XOMe5HK0IaAQ0BeoMR29bsy9vXN7PtZw3A/Hgm
-	dvGs0wAVJnJ71wzUAfdT1KW3tc9nUJUXGYexAhIV+/pLqFzUfN0ejh5a6PN/ZrQGOOw1
-	LDSjUG0EqbiLYS0MoCgmWfpSCFvLJooZAGRTkRGeq0iIsass+2NBc/GW6Ov1kD9cxYmK
-	XlEw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XYwGieeFWzKdu9qq1GXasVW8Gnh0nJ+TD+HZ7zpOomA=;
+	b=kpw7lFwVv+MelgbQ5CDfA4K9uEjrm8JJpdIK+z55P9o1pQFoIT1eE16YoTv1ZAeU72
+	0763M3U7n/y+9FcfNSuEXT8dxfBLquEq4YKGTTvqg0SaWEt/wD0fg9/iZaX8kCRQXIze
+	3s7yE1WL0147STCBEfCdBL5c2pu7AOSISpQwmWl9eYauldT290DlgTrCi5/qg0VM0d+4
+	uZ7QtROQw64PKsls3xdhhyW37a9UcSbZsdlP5LEEUfujNd1QWYDKyM1eRftD4CtaxTdB
+	xF5ogWTnp9RMXaaHR2+7QFb7K11Wd1tglJxoMWfJDTSqg+A1sEtcWtC5fJEjzUt1EZkp
+	69Hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QozR75qxA2nqj+3mdjevU3c4k54maVvDKq56Vdak+wQ=;
-	b=ZpgtBtajoIhzRFiNJtJkNw+2MI+UMG7Lf7+eMyiqNmm8f3woETl593QJPGew+0PfOB
-	7soA4aSHI+IZ15natdejJirr6UQUo8bklK5VHvji3GZLrFFymsNo3kXBjCwHrTIsu+fE
-	cw+LLkITNzXE5nauC8avpRv49D09K03GxKbS8zqUH5ElezFg0H7TEO2SFKEZgKJTXlqR
-	415tjBujB5aggtTDpaAcKXFnRwSb7YXxiFW/VtH9dRDb7UR3u+KR+KDyij/0gE4VOBz1
-	Woiyj8UjTMb1dRk4uvwXxwAMkb+VZJSQlDTWdW4dR8k21jkt/bicNzQAEtuJcaPRwjSo
-	3PIQ==
-X-Gm-Message-State: APjAAAUJOEtz6Qkeh5m05fFY860Cq2pidD4JxNK+x9InuqgKlwnSYVFh
-	ptsjycM9OJigPsPSqV+GaTiwsl1R50m+co11oQM=
-X-Google-Smtp-Source: APXvYqyJ81a2g7lrxhJ+Q4S9VlcFyU7WxYGL+uRDZFtiGemuN8h6l5ZbUpFnY8Qyh4OPzr4VbUbRB/917Ntg+liuuis=
-X-Received: by 2002:ad4:478b:: with SMTP id z11mr24217762qvy.185.1580238224041;
-	Tue, 28 Jan 2020 11:03:44 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1580066507.git.raj.khem@gmail.com>
-	<d6dd73600145030ed93604364c66b129c8d843af.1580066507.git.raj.khem@gmail.com>
-	<20200128110213.3ji3swjy2km22d7e@jama>
-	<CAMKF1srz05b3nEVD7tNautZJ5E1WEObajGXi6miukyEVOQaJLw@mail.gmail.com>
-	<CANNYZj-e+_y_=FbvoTALYduvi=yRy7j+VhDqHtr8nvmzkp1msA@mail.gmail.com>
-	<CAMKF1sqkSGcEFRN-2LKrYKO0WbxSxVX8i9JhgxvQSL3OTSY+aQ@mail.gmail.com>
-	<CANNYZj9bce0cVH4b+CPdG7RNnu_F=bWVGHoo9=QG_UPbo-Gvtg@mail.gmail.com>
-In-Reply-To: <CANNYZj9bce0cVH4b+CPdG7RNnu_F=bWVGHoo9=QG_UPbo-Gvtg@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XYwGieeFWzKdu9qq1GXasVW8Gnh0nJ+TD+HZ7zpOomA=;
+	b=ZyE4cZQTYIB+1VJK2fC5IBQUmL4xASOYOBl+qhue4MwCsym6aod17ASuFVS7hxAUnt
+	U5XXS/0lF4Ym9J7z5KMkkyIby6C7j0drAwV/aQQt7238aVrz9fQN647c1d5TMxW9JNiY
+	SxqjeLZFrLZuYCqIm1NyxS13SUjiwRts9paNZ1OtMYUEXGARffAoJ3Q2WB/VS+dAebq1
+	eTIyUDas8dkB8ELNL14zPAEIUX3sD51SckuwNO7PDS3URa5AeKqia2AhIMYTJichYX4t
+	tWrmVwj+eLRzbH6z5prJWaOLtc1fG0fy8kWrX25941P9F2UaWQwnUiwDq7ol79efNU4v
+	NTwA==
+X-Gm-Message-State: APjAAAV8TgG3nnbZzjfxDTPQZJI+3G+A9Fm1d+vwKFG1jHiHKNS96+2R
+	51QTQBpqyDiENXDAYcQrMjtoV1Udle8=
+X-Google-Smtp-Source: APXvYqzwB+02wJ+gwuH1GxBp3fkMAzoa0/02Lo4rFx+C21uWWpBK/EFCwvMsRdBIQ41qeZRonGFeNA==
+X-Received: by 2002:a63:d906:: with SMTP id r6mr26668529pgg.440.1580239576092; 
+	Tue, 28 Jan 2020 11:26:16 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::c362])
+	by smtp.gmail.com with ESMTPSA id
+	ep2sm1161123pjb.31.2020.01.28.11.26.15
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 28 Jan 2020 11:26:15 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 28 Jan 2020 11:03:16 -0800
-Message-ID: <CAMKF1sqpU8jJa1Qscq8coKdhy2vCi-v+xdQJ6BgJhkD7P0BM+A@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 06/13] glibc: Update to final 2.31 release
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jan 2020 11:26:14 -0800
+Message-Id: <20200128192614.635447-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.0
+MIME-Version: 1.0
+Subject: [PATCH] socklog: Disable the chkshsgr tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,82 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2020 19:03:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 28 Jan 2020 19:26:15 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 28, 2020 at 11:00 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Sure, and testing prior to actual releases is very beneficial and appreciated. I only wanted to make sure we don't tag something as 2.31 final when it's still a pre-release.
->
+Running the chkhsgr test during cross compile fails
 
-yes we wont :)
+./chkshsgr || ( cat warn-shsgr; exit 1 )
+Oops. Your getgroups() returned 0, and setgroups() failed; this means
+that I can't reliably do my shsgr test. Please either ``make'' as root
+or ``make'' while you're in one or more supplementary groups.
 
-> Alex
->
-> On Tue, 28 Jan 2020 at 19:45, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Tue, Jan 28, 2020 at 9:48 AM Alexander Kanavin
->> <alex.kanavin@gmail.com> wrote:
->> >
->> > But 2.31 hasn't yet been released or tagged?
->> >
->>
->> No, it will be released first week of February, given how much work is
->> required for upgrading
->> some of these core pieces, getting some early testing and reporting
->> any regressions and addressing
->> them while time is left in release works well for OE as well as
->> upstream components. So I usually
->> do pre-release updates for glibc and gcc for these reasons.
->>
->> > http://sourceware.org/git/?p=glibc.git
->> >
->> >
->> > Alex
->> >
->> > On Tue, 28 Jan 2020 at 17:06, Khem Raj <raj.khem@gmail.com> wrote:
->> >>
->> >>
->> >>
->> >> On Tue, Jan 28, 2020 at 3:02 AM Martin Jansa <martin.jansa@gmail.com> wrote:
->> >>>
->> >>> On Sun, Jan 26, 2020 at 11:27:43AM -0800, Khem Raj wrote:
->> >>> > Drop ppc 8xx clear cache optimization, which we have been carrying
->> >>> > through eglibc days, it has been redone in glibc now
->> >>> >
->> >>> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> >>> > ---
->> >>> >  .../glibc/cross-localedef-native_2.31.bb      |   9 +-
->> >>> >  meta/recipes-core/glibc/glibc-version.inc     |   2 +-
->> >>>
->> >>> ...
->> >>>
->> >>> > diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
->> >>> > index dca1916e80..c2cfb7e2f1 100644
->> >>> > --- a/meta/recipes-core/glibc/glibc-version.inc
->> >>> > +++ b/meta/recipes-core/glibc/glibc-version.inc
->> >>> > @@ -1,6 +1,6 @@
->> >>> >  SRCBRANCH ?= "master"
->> >>> >  PV = "2.30.9000"
->> >>>
->> >>> Should this be 2.31 if the SRCREV is the final version?
->> >>
->> >>
->> >> Yes
->> >>
->> >>>
->> >>>
->> >>> > -SRCREV_glibc ?= "def9c08c94da60bfb746644d56cffbe7a9de3477"
->> >>> > +SRCREV_glibc ?= "352bb99754ae7c83ff1b974f9c52244e974c9410"
->> >>> >  SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
->> >>> >
->> >>> >  GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
->> >>> ...
->> >>
->> >> --
->> >> _______________________________________________
->> >> Openembedded-core mailing list
->> >> Openembedded-core@lists.openembedded.org
->> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+All OE based targets have working getgroups()/setgroups()
+implementation, so its a safe assumption and therefore make the test
+to be a dummy
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/runit/socklog_2.1.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/runit/socklog_2.1.0.bb b/meta/recipes-core/runit/socklog_2.1.0.bb
+index 85c20d75a7..fc3fbd9826 100644
+--- a/meta/recipes-core/runit/socklog_2.1.0.bb
++++ b/meta/recipes-core/runit/socklog_2.1.0.bb
+@@ -19,6 +19,7 @@ do_compile() {
+ 	cd ${S}/src
+ 	echo "$CC -D_GNU_SOURCE $CFLAGS" >conf-cc
+ 	echo "$CC $LDFLAGS -Wl,-z -Wl,noexecstack" >conf-ld
++	echo "int main() { return 0; }" >${S}/src/chkshsgr.c
+ 	oe_runmake
+ }
+ 
+-- 
+2.25.0
+
 
