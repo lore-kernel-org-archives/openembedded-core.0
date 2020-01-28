@@ -1,27 +1,24 @@
 Return-Path: <mark.hatle@kernel.crashing.org>
 Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 39D8F7FEBA
+	by mail.openembedded.org (Postfix) with ESMTP id B4BEB7FF00
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 18:08:37 +0000 (UTC)
+	Tue, 28 Jan 2020 18:08:47 +0000 (UTC)
 Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
 	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 00SI8Yqi015842
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 00SI8mAG015848
 	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NO); Tue, 28 Jan 2020 12:08:35 -0600
-To: Khem Raj <raj.khem@gmail.com>
+	verify=NO) for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 Jan 2020 12:08:48 -0600
+To: openembedded-core@lists.openembedded.org
 References: <20200122002702.166957-1-mark.hatle@kernel.crashing.org>
-	<20200122002702.166957-2-mark.hatle@kernel.crashing.org>
-	<CAMKF1sryZBqOsM=ntW1S-QujuF19Gw74Ld9evNOkeAsGp0DFSg@mail.gmail.com>
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
-Message-ID: <4b908a1d-56d1-ac67-7b1d-447fa38c8063@kernel.crashing.org>
-Date: Tue, 28 Jan 2020 12:08:34 -0600
+Message-ID: <9bb466af-cfb5-8d00-6d37-dff9f450d763@kernel.crashing.org>
+Date: Tue, 28 Jan 2020 12:08:47 -0600
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
 	Gecko/20100101 Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sryZBqOsM=ntW1S-QujuF19Gw74Ld9evNOkeAsGp0DFSg@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] libgcc.inc: Fix an issue w/ a recursive symlink
+In-Reply-To: <20200122002702.166957-1-mark.hatle@kernel.crashing.org>
+Subject: Re: [PATCH 1/2] toaster.bbclass: Fix error when toaster is used to monitor a build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,71 +31,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2020 18:08:37 -0000
+X-List-Received-Date: Tue, 28 Jan 2020 18:08:47 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
+Ping.
 
-
-On 1/22/20 12:48 AM, Khem Raj wrote:
-> On Tue, Jan 21, 2020 at 4:43 PM Mark Hatle
-> <mark.hatle@kernel.crashing.org> wrote:
->>
->> From: Mark Hatle <mark.hatle@xilinx.com>
->>
->> If the OS is not Linux, the code could end up generating a recursive symlink.
->> This can happen because the same symlink can be created twice in a row.  If this
->> happenes, the second symlink becomes a link to itself within the directory
->> pointed to by the original link.
->>
->> In order to prevent this, verify that the destination does not already exist.
->>
+On 1/21/20 6:27 PM, Mark Hatle wrote:
+> The error being corrected looks like:
 > 
-> does this happen with ln -sf too ? if not then perhaps that will be simpler
-
-Yes, because the path being listed is assumed to be a directory path instead of
-a file path.
-
---Mark
-
->> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
->> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
->> ---
->>  meta/recipes-devtools/gcc/libgcc.inc | 8 ++++++--
->>  1 file changed, 6 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
->> index e008d14f36..6d48ec9809 100644
->> --- a/meta/recipes-devtools/gcc/libgcc.inc
->> +++ b/meta/recipes-devtools/gcc/libgcc.inc
->> @@ -9,14 +9,18 @@ do_install_append_class-target () {
->>                         "linux-musleabi") extra_target_os="linux-gnueabi";;
->>                         *) extra_target_os="linux";;
->>                 esac
->> -               ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
->> +               if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
->> +                       ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
->> +               fi
->>         fi
->>         if [ -n "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', 'hf', '', d)}" ]; then
->>                 case "${TARGET_OS}" in
->>                         "linux-musleabi") extra_target_os="linux-musleabihf";;
->>                         "linux-gnueabi") extra_target_os="linux-gnueabihf";;
->>                 esac
->> -               ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
->> +               if [ ! -e ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os ]; then
->> +                       ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
->> +               fi
->>         fi
->>  }
->>
->> --
->> 2.17.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> File: '/home/jenkins/workspace/OEBuild/build-32/oe-core/meta/classes/toaster.bbclass', lineno: 130, function: toaster_package_dumpdata
+>      0126:    lpkgdata = {}
+>      0127:    datadir = os.path.join(pkgdatadir, 'runtime')
+>      0128:
+>      0129:    # scan and send data for each generated package
+>  *** 0130:    for datafile in os.listdir(datadir):
+>      0131:        if not datafile.endswith('.packaged'):
+>      0132:            lpkgdata = _toaster_load_pkgdatafile(datadir, datafile)
+>      0133:            # Fire an event containing the pkg data
+>      0134:            bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo", lpkgdata), d)
+> Exception: FileNotFoundError: [Errno 2] No such file or directory: '/home/jenkins/workspace/OEBuild/builds/build-32/tmp-glibc/work/core2-64-oe-linux/puzzles/2_0.0+gitAUTOINC+c6e0161dd4-r0/pkgdata/runtime'
+> 
+> There must be a small window before the data is available, but while the monitoring is on-going.
+> 
+> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+> ---
+>  meta/classes/toaster.bbclass | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+> 
+> diff --git a/meta/classes/toaster.bbclass b/meta/classes/toaster.bbclass
+> index 6a65ecb957..9518ddf7a4 100644
+> --- a/meta/classes/toaster.bbclass
+> +++ b/meta/classes/toaster.bbclass
+> @@ -126,11 +126,12 @@ def _toaster_dumpdata(pkgdatadir, d):
+>      datadir = os.path.join(pkgdatadir, 'runtime')
+>  
+>      # scan and send data for each generated package
+> -    for datafile in os.listdir(datadir):
+> -        if not datafile.endswith('.packaged'):
+> -            lpkgdata = _toaster_load_pkgdatafile(datadir, datafile)
+> -            # Fire an event containing the pkg data
+> -            bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo", lpkgdata), d)
+> +    if os.path.exists(datadir):
+> +        for datafile in os.listdir(datadir):
+> +            if not datafile.endswith('.packaged'):
+> +                lpkgdata = _toaster_load_pkgdatafile(datadir, datafile)
+> +                # Fire an event containing the pkg data
+> +                bb.event.fire(bb.event.MetadataEvent("SinglePackageInfo", lpkgdata), d)
+>  
+>  python toaster_package_dumpdata() {
+>      _toaster_dumpdata(d.getVar('PKGDESTWORK'), d)
+> 
 
