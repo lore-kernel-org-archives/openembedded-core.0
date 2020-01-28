@@ -1,48 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
-	[209.85.219.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E5A747FEEB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 44ABC7FED8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 16:08:12 +0000 (UTC)
-Received: by mail-qv1-f67.google.com with SMTP id y2so2647422qvu.13
+	Tue, 28 Jan 2020 16:18:44 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id b6so16741339wrq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 08:08:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=vWPr6w237F2p7sygDRUR5rnRMCs1OWneJvn7oxGby/M=;
-	b=Z3nlN69zypdaBDvlkbpfb9JQb4g8Syv5QH6hcSpJRPRcj0jgzRIzCTO+z2J0ZF4rUy
-	VJwdK18TQ5c5aNC7PJup2sPsSRxCdl+sxIu2ycQ3W+33XYmQq/wwGueJ83rBLhLvTRlV
-	iYCwVG1dywCkZoHv8UYA+/rB8W8elBh+BT1fqr+CKfKxmaYyLVjLbER25C95v9NNdTc5
-	f48G2BW0o8q7LCz6cdks/3/29QbNxHMLG0WO4hnkY+YbaeVJSjFF8tOFTjTlJ6a+TVqa
-	KizBNiQlwWMrWM3FTmj0UB/xD7LiX694omKcDnw33QRBpbJrBUWiRX8waXI59Z+V8J9c
-	BbxA==
+	Tue, 28 Jan 2020 08:18:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=LRr1pAZd/GwVSUM+W+delzvOB22C7/KBNO9OZQt32j4=;
+	b=Po72AKTYJuB9u0rBiFy1m1veNct0IpGqoIiUY5r5ecKeYv2X5dx/295XI03mfkeF1X
+	kW5cQj7mjeCsv087Hosr+2OGFos6iz5zGLPw08KH9WP8aZ8WJDmmmsEn8CJSLtVlMp9n
+	9mCFbNjdy1th1LlypBVBaHqYiUkuMtYrq05Jw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=vWPr6w237F2p7sygDRUR5rnRMCs1OWneJvn7oxGby/M=;
-	b=EP1WnwrURin6hY71GPYAdk8qUXCcGOdNThIPm0W7pL5tFNP199OXnRPRjbzZkRXI3e
-	g2auijgoXi3/CZv6rcYAmofx1vSIgyC7xFRbOGGrLl20CO+qiBAcgAX7HfLcbNmAUDQ0
-	v5r+DVeV66SZ7ch59GmgvOkB+Edj0NRmVf1tk08U/WThRaiparVR0j5NkSFMe3aD1YKN
-	6mvvC4x79zQi2ZbgVPpcoueFmpSeb8btWL411V6wJfbBqirVgkh3UMKOtNCaAAzzmpZ/
-	a9PgY5PJ4MWgIPSFLjWWCbMbVdQRPUGaqFAZs6GG/Bt0kDNjebPa3FRWZJBZZHDLcq4I
-	PRBA==
-X-Gm-Message-State: APjAAAUwYVow74MftU7fd2CohfhDPcHMBu1DKr6ENRahdMIpEXp4NAfZ
-	A6/IDuovoHVJcwlK/aaplXhRB5inkc6BIO+i5MU=
-X-Google-Smtp-Source: APXvYqzSvZY712nwUeB+C3NHS++5C+2DTkn2O7RdVM97A60qFy1iUV5jF7dTuxWTcxBTvc2l3AHilNBD4tQMSPYzbhg=
-X-Received: by 2002:ad4:478b:: with SMTP id z11mr23346749qvy.185.1580227693558;
-	Tue, 28 Jan 2020 08:08:13 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=LRr1pAZd/GwVSUM+W+delzvOB22C7/KBNO9OZQt32j4=;
+	b=Zt95LNPLM0O/4XQDmlgbxSggT8jleVKI92L2JjjhJnrNzI6OzszjjAhsPhrtoTDzAJ
+	C5jlSYCoh/YGaumnGK79B4fNVg09MinpZoRuDxXBSWQ8t2eDP0ozF2Wqn33RzWlFZW8W
+	iGUBvn9+CCPANuSEIDxHm9NFFWQ0RjOCYJkNDV7W80sHCrApywBM3c9nreoykfeTANJ7
+	zFCfmw87sL7toiJD5KNYiaVc+9fLyoJXnwtjHGCmxmS8C7qNXLq+6fwHmzFFqf4cU0tl
+	wludV+2nw6LBf/PSu21PxgI54Ajl7v2TsAkFaQCfK5miqAtcYQ7I5YBRhTJ9bjmqW1LP
+	GZiA==
+X-Gm-Message-State: APjAAAWSNDyt6T/ioLmSzHAHJT3WD029PrLvS73r54CsJOF/DHCPDNdc
+	BMPk1R9+mq9lZe+G4N/1VVkDDw==
+X-Google-Smtp-Source: APXvYqzvVgQpr+v5XJM7NIqoMPKAdj7W8x9xH5/PfMGR/IJS+ePOrL4H6DwhAgAWwIE7qlVz9r6Wjw==
+X-Received: by 2002:a5d:68cf:: with SMTP id p15mr28571996wrw.31.1580228324896; 
+	Tue, 28 Jan 2020 08:18:44 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id o7sm3596563wmh.11.2020.01.28.08.18.43
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 28 Jan 2020 08:18:44 -0800 (PST)
+Message-ID: <24e752c17c6babc23b3b04cb74e8792084dc617e.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jacob Kroon <jacob.kroon@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 28 Jan 2020 16:18:42 +0000
+In-Reply-To: <a26570fa-a8ff-ed65-80a8-02b8f3067aaf@gmail.com>
+References: <20200128151643.9711-1-richard.purdie@linuxfoundation.org>
+	<a26570fa-a8ff-ed65-80a8-02b8f3067aaf@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20200128035850.2629175-1-raj.khem@gmail.com>
-	<A678FC67-6C95-4B81-8DC0-28446111D1CE@gmail.com>
-	<4eb4ce6425a3cc96d9500ddc54eb9e34cc4df57c.camel@linuxfoundation.org>
-In-Reply-To: <4eb4ce6425a3cc96d9500ddc54eb9e34cc4df57c.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 28 Jan 2020 08:08:00 -0800
-Message-ID: <CAMKF1sqv=DJP040YxKWCAYWu-4YnmuA7qSm3myuGhgReYjsmRQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] valgrind: Fix ptest builds on musl
+Subject: Re: [PATCH 1/5] bc: Use texinfo class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2020 16:08:13 -0000
-Content-Type: multipart/alternative; boundary="00000000000056c18a059d356e77"
-
---00000000000056c18a059d356e77
+X-List-Received-Date: Tue, 28 Jan 2020 16:18:44 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jan 28, 2020 at 2:07 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Tue, 2020-01-28 at 16:58 +0100, Jacob Kroon wrote:
+> On 1/28/20 4:16 PM, Richard Purdie wrote:
+> > This recipe uses makeinfo so inherit the class which can provide
+> > it.
+> > 
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> >   meta/recipes-extended/bc/bc_1.07.1.bb | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-
+> > extended/bc/bc_1.07.1.bb
+> > index 4a51302492d..61fc6486538 100644
+> > --- a/meta/recipes-extended/bc/bc_1.07.1.bb
+> > +++ b/meta/recipes-extended/bc/bc_1.07.1.bb
+> > @@ -18,7 +18,7 @@ SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
+> >   SRC_URI[md5sum] = "cda93857418655ea43590736fc3ca9fc"
+> >   SRC_URI[sha256sum] =
+> > "62adfca89b0a1c0164c2cdca59ca210c1d44c3ffc46daf9931cf4942664cb02a"
+> >   
+> > -inherit autotools texinfo update-alternatives
+> > +inherit autotools texinfo update-alternatives texinfo
+> > 
+> 
+> Looks like it already inherits texinfo ^^^
 
-> On Tue, 2020-01-28 at 09:09 +0100, Alexander Kanavin wrote:
-> > The reason I dropped the previous version of this is that with the
-> > patch the test failed, without the patch it passed. If you can
-> > confirm that the new version doesn=E2=80=99t regress the test I would
-> > appreciate. You can edit run-ptest prior to running it to include
-> > only the test suite with this test to make it quicker.
->
-> valgrind fails to build on musl without a patch:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1499
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1503
->
+Er, yes! :)
 
-I have already sent a patch on top of master-next to fix this
+The class wasn't working originally so we can just ignore this patch.
+
+Cheers,
+
+Richard
 
 
-> Cheers,
->
-> Richard
->
->
-
---00000000000056c18a059d356e77
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, Jan 28, 2020 at 2:07 AM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2020-=
-01-28 at 09:09 +0100, Alexander Kanavin wrote:<br>
-&gt; The reason I dropped the previous version of this is that with the<br>
-&gt; patch the test failed, without the patch it passed. If you can<br>
-&gt; confirm that the new version doesn=E2=80=99t regress the test I would<=
-br>
-&gt; appreciate. You can edit run-ptest prior to running it to include<br>
-&gt; only the test suite with this test to make it quicker.<br>
-<br>
-valgrind fails to build on musl without a patch:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/64/build=
-s/1499" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/64/builds/1499</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/45/build=
-s/1503" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/45/builds/1503</a><br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I have already s=
-ent a patch on top of master-next to fix this=C2=A0</div><div dir=3D"auto">=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
-
---00000000000056c18a059d356e77--
