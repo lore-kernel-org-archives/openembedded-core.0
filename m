@@ -1,50 +1,18 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 71A1A9202B
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 19:26:15 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id q8so7174024pfh.7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 11:26:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=XYwGieeFWzKdu9qq1GXasVW8Gnh0nJ+TD+HZ7zpOomA=;
-	b=kpw7lFwVv+MelgbQ5CDfA4K9uEjrm8JJpdIK+z55P9o1pQFoIT1eE16YoTv1ZAeU72
-	0763M3U7n/y+9FcfNSuEXT8dxfBLquEq4YKGTTvqg0SaWEt/wD0fg9/iZaX8kCRQXIze
-	3s7yE1WL0147STCBEfCdBL5c2pu7AOSISpQwmWl9eYauldT290DlgTrCi5/qg0VM0d+4
-	uZ7QtROQw64PKsls3xdhhyW37a9UcSbZsdlP5LEEUfujNd1QWYDKyM1eRftD4CtaxTdB
-	xF5ogWTnp9RMXaaHR2+7QFb7K11Wd1tglJxoMWfJDTSqg+A1sEtcWtC5fJEjzUt1EZkp
-	69Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=XYwGieeFWzKdu9qq1GXasVW8Gnh0nJ+TD+HZ7zpOomA=;
-	b=ZyE4cZQTYIB+1VJK2fC5IBQUmL4xASOYOBl+qhue4MwCsym6aod17ASuFVS7hxAUnt
-	U5XXS/0lF4Ym9J7z5KMkkyIby6C7j0drAwV/aQQt7238aVrz9fQN647c1d5TMxW9JNiY
-	SxqjeLZFrLZuYCqIm1NyxS13SUjiwRts9paNZ1OtMYUEXGARffAoJ3Q2WB/VS+dAebq1
-	eTIyUDas8dkB8ELNL14zPAEIUX3sD51SckuwNO7PDS3URa5AeKqia2AhIMYTJichYX4t
-	tWrmVwj+eLRzbH6z5prJWaOLtc1fG0fy8kWrX25941P9F2UaWQwnUiwDq7ol79efNU4v
-	NTwA==
-X-Gm-Message-State: APjAAAV8TgG3nnbZzjfxDTPQZJI+3G+A9Fm1d+vwKFG1jHiHKNS96+2R
-	51QTQBpqyDiENXDAYcQrMjtoV1Udle8=
-X-Google-Smtp-Source: APXvYqzwB+02wJ+gwuH1GxBp3fkMAzoa0/02Lo4rFx+C21uWWpBK/EFCwvMsRdBIQ41qeZRonGFeNA==
-X-Received: by 2002:a63:d906:: with SMTP id r6mr26668529pgg.440.1580239576092; 
-	Tue, 28 Jan 2020 11:26:16 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::c362])
-	by smtp.gmail.com with ESMTPSA id
-	ep2sm1161123pjb.31.2020.01.28.11.26.15
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 28 Jan 2020 11:26:15 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 Jan 2020 11:26:14 -0800
-Message-Id: <20200128192614.635447-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id BF97191714;
+	Tue, 28 Jan 2020 19:32:42 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] socklog: Disable the chkshsgr tests
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 28 Jan 2020 19:32:44 -0000
+Message-ID: <20200128193244.2276.62706@do>
+References: <20200128192614.635447-1-raj.khem@gmail.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200128192614.635447-1-raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc29ja2xvZzogRGlzYWJsZSB0aGUgY2hrc2hzZ3IgdGVzdHM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 Jan 2020 19:26:15 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 28 Jan 2020 19:32:43 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Running the chkhsgr test during cross compile fails
+== Series Details ==
 
-./chkshsgr || ( cat warn-shsgr; exit 1 )
-Oops. Your getgroups() returned 0, and setgroups() failed; this means
-that I can't reliably do my shsgr test. Please either ``make'' as root
-or ``make'' while you're in one or more supplementary groups.
+Series: socklog: Disable the chkshsgr tests
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22332/
+State : failure
 
-All OE based targets have working getgroups()/setgroups()
-implementation, so its a safe assumption and therefore make the test
-to be a dummy
+== Summary ==
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 9031b66c7c)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-core/runit/socklog_2.1.0.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/runit/socklog_2.1.0.bb b/meta/recipes-core/runit/socklog_2.1.0.bb
-index 85c20d75a7..fc3fbd9826 100644
---- a/meta/recipes-core/runit/socklog_2.1.0.bb
-+++ b/meta/recipes-core/runit/socklog_2.1.0.bb
-@@ -19,6 +19,7 @@ do_compile() {
- 	cd ${S}/src
- 	echo "$CC -D_GNU_SOURCE $CFLAGS" >conf-cc
- 	echo "$CC $LDFLAGS -Wl,-z -Wl,noexecstack" >conf-ld
-+	echo "int main() { return 0; }" >${S}/src/chkshsgr.c
- 	oe_runmake
- }
- 
--- 
-2.25.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
