@@ -1,48 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id CD8B360069
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
+	[209.85.208.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 6046060898
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 Jan 2020 02:28:56 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id v25so12088877qto.7
+	Thu, 30 Jan 2020 14:34:17 +0000 (UTC)
+Received: by mail-ed1-f46.google.com with SMTP id r21so4077278edq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 Jan 2020 18:28:58 -0800 (PST)
+	Thu, 30 Jan 2020 06:34:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=n6KJoQ/eOJxjNkv2hi+WKqi8y3WaQirsDNyDstUCPbg=;
-	b=dkqKC81mQ5mrchB4dWykOpE4aiHjcFDG486JFJK1TYBWRpQe9E+YEex4l0lX6Ojs5r
-	zy9GM9JmzJ9FDVD0b7ObtfkztVzV/m4DSlY3Tulz9arbLBVIEKdPGf95fjCZghEeasQi
-	L/8lNJzXWFRNoRljQt1c9FWexa7HV4bcWuMdw1Ql8en6i+QnYF10CobauaYLppXuL5dR
-	abapZgN/fRV0qP0Y3FT+AcBWx/5MTu40fr8l0QD+ylP6FnkCATBDy9o1BNRVNpicm0w4
-	oc7SlOfBdU4JsRgoCx59qWlxYiaeQGQHxv8xWGtdF/eDGPd9RWHfRl4Wm+JKOepXmYnR
-	EcsQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=bdu3eskkkJw3TuIK7mi+poW4aChettpBqhYbsNPYaU0=;
+	b=dImC+kNUkrdpWQQJQJAgAtjJVmrB1RARYdnbXaHd+/cPQwBT1XbZpWDoAOf90z1hIj
+	eVF4ra8/eFxt0xdD59UfwJm45/SC1QHuzMIao784kAwqYF+CrrjKc66qNwOuAbyieKfb
+	22g9emzCyMTotT6z/kluNQVzz+ZKaVCt6spLmsN09/rtqACyE9pCIynF6o2od7TDPghB
+	GKXPhbqv5d+EZftvwdSZQOQAZpuv9qpvrr+HVhOi098mv6NKcRniMxlNVxNKNxSywNj6
+	/B7JVuJoxhmvIAxzgPVlz4chm9G+CMeF/XO8+v2Wf6ThrW50SkrDwoWYzOwL562+crfz
+	ce1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=n6KJoQ/eOJxjNkv2hi+WKqi8y3WaQirsDNyDstUCPbg=;
-	b=RQFGIAjnE6hyU3p+W86ooFZi/JMIiMmNtoAonRQ9bV2U+mGXwT2wc8dA6HSoljJN3Q
-	0+L0aXvYH9PO4TvLIiOA7GqguUv4QKwwqAZNj7jEeSiQyO/tbXgbw4/HhWeOf+/25eGa
-	SiHVExnjiB2dDsh8rbpZH841y8Ld+AdwJTBP6P+x/qZd6fMMeeUhv0OfIXo0DYnI/XBo
-	imd7Zv2ljqFlzKZsbCFiiLyU0UB0VH5+5VcGOzWnfayI+kK7FxPjZTB/YIEDRYUnztRF
-	zNwbA3E4Jfjz36G9KklRQqkjU8UFKZ1PxSi3+Bq6HQ/ywo/1lxgpnHPhdezKbiXEokCb
-	aG7A==
-X-Gm-Message-State: APjAAAXN9JDy+9O0LuodQV1FJFXcKudJW0ksdUpf2cAY9R1TF7HlvvkZ
-	yCgdh9bMGK207ixSg0qX2BcM7M1HNCknBL1k+AWK8cE1
-X-Google-Smtp-Source: APXvYqzfvY6/q6QR6LoETPTEJpMqIxiNL9XYvPmQgh+7X2skPX/wuuaTSGZYD/j8LDJGLv/qZ7mpZ/aZTzguf5PGiZU=
-X-Received: by 2002:a05:620a:6b8:: with SMTP id
-	i24mr26381357qkh.9.1580263129096; 
-	Tue, 28 Jan 2020 17:58:49 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=bdu3eskkkJw3TuIK7mi+poW4aChettpBqhYbsNPYaU0=;
+	b=DBY/+s/CbZYdQdQlOE6kNb8gZucOg3jo5CO7nhT+UKdN4ntBUO1ydNfTy1A8eFh1U/
+	yojj/8leE8GyCBd/WGGal8lrSI/HlaDQ/mX0AxEfu+yszZkGIevfJyVpGVkEOFypymC6
+	Cu023A5qnj1MUdvjRhgoP1k7KQZN9tabs08HjewWywA3axcgH6RVbQH10a+W+Yjk8x57
+	bsWnxksPnvC5vGPal2XTPByVTfdwMpiYSO7yHuHhILemX15UZMc6kHefO+9fM1YmEYXC
+	2fS2B/3BiAD1v7cOwoDpSZqIo4Hxkba7psc5JX0daZDhPquQ6fty0dI3UbGaZFGwIzeZ
+	lgNw==
+X-Gm-Message-State: APjAAAXnYDfSVKNDALTmKJ3HDk27xXes7c+sUG4WGGPkpwzBefISZLCW
+	hienCjYHev4s0fnt+N7iqTqQBRDl
+X-Google-Smtp-Source: APXvYqyLh1lem5FpbhbluV3Ch2cumQyU4yI7iFt02W9OgeH+UreUrf+g/0LPu8tM+feePmnUwDFKQQ==
+X-Received: by 2002:a5d:52c4:: with SMTP id r4mr33859109wrv.368.1580288902687; 
+	Wed, 29 Jan 2020 01:08:22 -0800 (PST)
+Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
+	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
+	a62sm1550224wmh.33.2020.01.29.01.08.21
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 29 Jan 2020 01:08:22 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jan 2020 10:07:34 +0100
+Message-Id: <20200129090738.1398-20-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
+References: <20200129090738.1398-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-References: <cover.1580248809.git.bruce.ashfield@gmail.com>
-In-Reply-To: <cover.1580248809.git.bruce.ashfield@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 28 Jan 2020 17:58:23 -0800
-Message-ID: <CAMKF1soahdfvfsi_-27Zm3QMsr_Mp__oZ8k22gVuUZJpvn1Q-Q@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3][RFT]: kernel-yocto: v5.4 LTS kernel
+Subject: [PATCH 20/24] libarchive: upgrade 3.4.0 -> 3.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,77 +59,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 Jan 2020 02:33:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 30 Jan 2020 18:08:23 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Jan 28, 2020 at 2:14 PM <bruce.ashfield@gmail.com> wrote:
->
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> Hi all,
->
-> I just wanted to send these to the list, so everyone could see the
-> reference kernel that we are planning for the upcoming release.
->
-> I have other patches to drop 4.19, 5.2 and make this the default
-> kernel for the various reference platforms as well, but I'm not
-> sending them, since we still have two outstanding issues:
->
-> 1) mips64 init is segfaulting after / during some self tests.
->
->    https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/1520/steps/8/logs/step6c
->
-> 2) x86 musl is getting a gpf on many commands:
->
->    https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1501/steps/8/logs/step1c
->
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../libarchive/CVE-2019-19221.patch           | 101 ------------------
+ ...ibarchive_3.4.0.bb => libarchive_3.4.1.bb} |   8 +-
+ 2 files changed, 3 insertions(+), 106 deletions(-)
+ delete mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2019-19221.patch
+ rename meta/recipes-extended/libarchive/{libarchive_3.4.0.bb => libarchive_3.4.1.bb} (91%)
 
-musl now uses 64bit time_t for all 32bit platforms. So my hunch is in
-that direction. If you can point to
-an interactive reproducer that will help. I think stracing it will
-help identify the problem. all segfaults seems
-to be similar so it could just be one issue causing this all.
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2019-19221.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2019-19221.patch
+deleted file mode 100644
+index b57e87874fe..00000000000
+--- a/meta/recipes-extended/libarchive/libarchive/CVE-2019-19221.patch
++++ /dev/null
+@@ -1,101 +0,0 @@
+-From 22b1db9d46654afc6f0c28f90af8cdc84a199f41 Mon Sep 17 00:00:00 2001
+-From: Martin Matuska <martin@matuska.org>
+-Date: Thu, 21 Nov 2019 03:08:40 +0100
+-Subject: [PATCH] Bugfix and optimize archive_wstring_append_from_mbs()
+-
+-The cal to mbrtowc() or mbtowc() should read up to mbs_length
+-bytes and not wcs_length. This avoids out-of-bounds reads.
+-
+-mbrtowc() and mbtowc() return (size_t)-1 wit errno EILSEQ when
+-they encounter an invalid multibyte character and (size_t)-2 when
+-they they encounter an incomplete multibyte character. As we return
+-failure and all our callers error out it makes no sense to continue
+-parsing mbs.
+-
+-As we allocate `len` wchars at the beginning and each wchar has
+-at least one byte, there will never be need to grow the buffer,
+-so the code can be left out. On the other hand, we are always
+-allocatng more memory than we need.
+-
+-As long as wcs_length == mbs_length == len we can omit wcs_length.
+-We keep the old code commented if we decide to save memory and
+-use autoexpanding wcs_length in the future.
+-
+-Fixes #1276
+-
+-Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/22b1db9d46654afc6f0c28f90af8cdc84a199f41]
+-CVE: CVE-2019-19221
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- libarchive/archive_string.c | 28 +++++++++++++++++-----------
+- 1 file changed, 17 insertions(+), 11 deletions(-)
+-
+-diff --git a/libarchive/archive_string.c b/libarchive/archive_string.c
+-index 979a418b6..bd39c96f1 100644
+---- a/libarchive/archive_string.c
+-+++ b/libarchive/archive_string.c
+-@@ -591,7 +591,7 @@ archive_wstring_append_from_mbs(struct archive_wstring *dest,
+- 	 * No single byte will be more than one wide character,
+- 	 * so this length estimate will always be big enough.
+- 	 */
+--	size_t wcs_length = len;
+-+	// size_t wcs_length = len;
+- 	size_t mbs_length = len;
+- 	const char *mbs = p;
+- 	wchar_t *wcs;
+-@@ -600,7 +600,11 @@ archive_wstring_append_from_mbs(struct archive_wstring *dest,
+- 
+- 	memset(&shift_state, 0, sizeof(shift_state));
+- #endif
+--	if (NULL == archive_wstring_ensure(dest, dest->length + wcs_length + 1))
+-+	/*
+-+	 * As we decided to have wcs_length == mbs_length == len
+-+	 * we can use len here instead of wcs_length
+-+	 */
+-+	if (NULL == archive_wstring_ensure(dest, dest->length + len + 1))
+- 		return (-1);
+- 	wcs = dest->s + dest->length;
+- 	/*
+-@@ -609,6 +613,12 @@ archive_wstring_append_from_mbs(struct archive_wstring *dest,
+- 	 * multi bytes.
+- 	 */
+- 	while (*mbs && mbs_length > 0) {
+-+		/*
+-+		 * The buffer we allocated is always big enough.
+-+		 * Keep this code path in a comment if we decide to choose
+-+		 * smaller wcs_length in the future
+-+		 */
+-+/*
+- 		if (wcs_length == 0) {
+- 			dest->length = wcs - dest->s;
+- 			dest->s[dest->length] = L'\0';
+-@@ -618,24 +628,20 @@ archive_wstring_append_from_mbs(struct archive_wstring *dest,
+- 				return (-1);
+- 			wcs = dest->s + dest->length;
+- 		}
+-+*/
+- #if HAVE_MBRTOWC
+--		r = mbrtowc(wcs, mbs, wcs_length, &shift_state);
+-+		r = mbrtowc(wcs, mbs, mbs_length, &shift_state);
+- #else
+--		r = mbtowc(wcs, mbs, wcs_length);
+-+		r = mbtowc(wcs, mbs, mbs_length);
+- #endif
+- 		if (r == (size_t)-1 || r == (size_t)-2) {
+- 			ret_val = -1;
+--			if (errno == EILSEQ) {
+--				++mbs;
+--				--mbs_length;
+--				continue;
+--			} else
+--				break;
+-+			break;
+- 		}
+- 		if (r == 0 || r > mbs_length)
+- 			break;
+- 		wcs++;
+--		wcs_length--;
+-+		// wcs_length--;
+- 		mbs += r;
+- 		mbs_length -= r;
+- 	}
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb b/meta/recipes-extended/libarchive/libarchive_3.4.1.bb
+similarity index 91%
+rename from meta/recipes-extended/libarchive/libarchive_3.4.0.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.4.1.bb
+index 755a9c7fa40..2d33dd80ab8 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.4.0.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.4.1.bb
+@@ -31,12 +31,10 @@ PACKAGECONFIG[lz4] = "--with-lz4,--without-lz4,lz4,"
+ 
+ EXTRA_OECONF += "--enable-largefile"
+ 
+-SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+-           file://CVE-2019-19221.patch \
+-"
++SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "6046396255bd7cf6d0f6603a9bda39ac"
+-SRC_URI[sha256sum] = "8643d50ed40c759f5412a3af4e353cffbce4fdf3b5cf321cb72cacf06b2d825e"
++SRC_URI[md5sum] = "59bff5ee6216cbb76c8354f6dd6f5a5a"
++SRC_URI[sha256sum] = "fcf87f3ad8db2e4f74f32526dee62dd1fb9894782b0a503a89c9d7a70a235191"
+ 
+ inherit autotools update-alternatives pkgconfig
+ 
+-- 
+2.25.0
 
-> I've looked into both, and don't have any great ideas on how to debug
-> or fix them.
->
-> So if anyone has ideas, or wants to poke at these, feel free to follow up.
-> But as of now, we still can't merge the v5.4 kernel as the reference due
-> to these remaining problems.
->
-> Bruce
->
->
-> The following changes since commit ca3993cc4b13d4e661228cee6fb9448adfd0a4ba:
->
->   bitbake: tests/fetch: Allow wget upgrade tests to run against a local server (2020-01-22 15:56:39 +0000)
->
-> are available in the Git repository at:
->
->   git://git.pokylinux.org/poky-contrib zedd/kernel-oe
->   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
->
-> Bruce Ashfield (3):
->   linux-yocto: introduce 5.4 recipes
->   kern-tools: update Kconfiglib to latest (for 5.4+ kernel)
->   kernel-devsrc: update to v5.4+
->
->  .../kern-tools/kern-tools-native_git.bb       |  2 +-
->  meta/recipes-kernel/linux/kernel-devsrc.bb    |  8 +--
->  .../linux/linux-yocto-rt_5.4.bb               | 44 +++++++++++++++
->  .../linux/linux-yocto-tiny_5.4.bb             | 32 +++++++++++
->  meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 54 +++++++++++++++++++
->  5 files changed, 136 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.4.bb
->
-> --
-> 2.19.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
