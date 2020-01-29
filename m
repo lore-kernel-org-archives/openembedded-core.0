@@ -1,47 +1,57 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EEDA9605B8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 08C77605F9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 13:29:05 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id c84so4211674wme.4
+	Thu, 30 Jan 2020 13:35:16 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id c26so3815162eds.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 05:29:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=wBohBcGY92+UbYSCbLBOId+sCvCCVmYtzaYL+ElxAdw=;
-	b=uOm8eJ0pj4IhB/SRfCyUXvS7GzowR98W8myRd1Ix4sQnbSlDgx/RJQlLN1FMw7/AMJ
-	eRnxE5mQSk0t/mYMufOU8gx41Ybyced50mAurZlo8ytuIJFZRlauGyd8Y+t/c6pL5zaG
-	WhVKUiCQbSU3iwvvBEi6mC7xXXqMja57WbF+hvaEazJg48CQUWXT+3AC/Rdkr6dyB3k5
-	BJgcTFJwTKNYRvWL0jPdrHaDm26ONa+bod5Olo4mVt6O++tQ4bvB5bpzbQaSD8D1dSic
-	cVl1dWMn14DJySl6uRPSAkJaCZ6oJY0qo7V9ypsd19yw2QUgxbwJM1DtyWHfMUN3FTb9
-	S8cQ==
+	Thu, 30 Jan 2020 05:35:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=duaWlQvltG489XToX2FPui38lZRu2vmalYvJQdzAN+M=;
+	b=G5jGwxLSgu3U9hp0c/A0gDYQAebjBXWuFEprxl7piNHvgdsB1wRbD1haWS5kNGXnAk
+	wkIPwn7M2afu0zYKVt05j0dAibToi+Kj2m8m3VQ+Z1cS1PNXx7GIghTO/4/4lVGiEzq8
+	/k/cspq9CJlwy4F2HeoXyiKUkyRMzlQE3JQxY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=wBohBcGY92+UbYSCbLBOId+sCvCCVmYtzaYL+ElxAdw=;
-	b=El67y5QbnKUesh5jdwc1MeFSDzbXSTnIutzVzS7yk1gsEz3ArCkM78f96EiRtsnQxr
-	/b9dKkEKi1X00lAsXLDINEU3IQh2K/ahwP9bgcpfRtSed/7vNUr5wwrDlg/4KtHfXyb5
-	qcP9drZ8rB8ClyqK8IVy4RoF227E9AXhLWDP/vakRjmRAxYUz7bgsUjP9PQ5s4g3vHp+
-	QmUs2JPh6FAPB3ETAWfPpIwP7RoiWMxsB2qiHDffehViHQ9MrN09VsDujdkJiJAZ+NS3
-	UeDhfIIQSa8x0co2GjZz5A0Zac+LZ4xYp6GG5w+D4iqHVHuNqERomRfA+hC5nby/ealV
-	3Chw==
-X-Gm-Message-State: APjAAAW5RE21GQnVoCbayVai7Fl8RNYfaIoEtnJMx6+cRnWis1xvr9b5
-	IWKp4bXqwKMgTnNhQyCLo3chmu2J
-X-Google-Smtp-Source: APXvYqwu4dGp3JVKONQdwm5/0iLgKJ7dzFYhu0y+bJN9CzIRdaBlMON449/esrt5pCWEi5xZFwu3qQ==
-X-Received: by 2002:a7b:cb42:: with SMTP id v2mr3053612wmj.170.1580360089723; 
-	Wed, 29 Jan 2020 20:54:49 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	a132sm4702434wme.3.2020.01.29.20.54.48
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=duaWlQvltG489XToX2FPui38lZRu2vmalYvJQdzAN+M=;
+	b=UqL8iidROjsi4WLOpYoDWsECqizqkUoNUfIeg+mCcJr00vwEPl0RtT+sD4VM+H1a5U
+	nxdBxhFfltNWFGcVuqZjJ8IgwJDlMgfbtr28KbaoQOIzS3CBQqFhmC2y1xlr0fhmjhTQ
+	g9ICUfQdm0wj0zbw7k1INsK74/QBgnr+dqSyK61e9XAL5StFl7SPajOZntGIgTYbV1bl
+	poGZUAmQdxXGXOak8GE/fWzXZgpqgBiU+yYtYaFvlcv9CGiQycZcZ6z90oeTDeINMX6W
+	p4S7xhMoFO8qiGjjMJca6OeJqunMwK5svpR2Av59s5LClfHgrVR17CanXrtWFcKERz8s
+	LFRw==
+X-Gm-Message-State: APjAAAXsyUS/Qu7rQgScNmsdzInzdEpE91tnZ0WLuaxESuHAdaT+vMoH
+	vnc920EHjfD2qQa+J6Ub2jbEwlvohOM=
+X-Google-Smtp-Source: APXvYqy+fMjd0Ac5u/LLaWx6ZooFRez7eiLdnHhh88/cuLEXlIAQNMdRRJU1lmq+e5yPwARAv/Lqxw==
+X-Received: by 2002:adf:fc08:: with SMTP id i8mr34355505wrr.82.1580298932611; 
+	Wed, 29 Jan 2020 03:55:32 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	l15sm2530772wrv.39.2020.01.29.03.55.31
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 20:54:48 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 Jan 2020 04:54:46 +0000
-Message-Id: <20200130045446.44017-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [RESEND PATCH] rootfs-postcommands: Remove spaces before ; in -ROOTFS_..._COMMAND
+	Wed, 29 Jan 2020 03:55:31 -0800 (PST)
+Message-ID: <6b33c47868865ce3549b8698b9bed6a2d0fa06ca.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Schrempf Frieder <frieder.schrempf@kontron.de>, Tom Hochstein
+	<tom.hochstein@nxp.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "akuster808@gmail.com"
+	<akuster808@gmail.com>, "anuj.mittal@intel.com" <anuj.mittal@intel.com>
+Date: Wed, 29 Jan 2020 11:55:30 +0000
+In-Reply-To: <da035af4-d1e8-efd9-30fc-19a4f875948b@kontron.de>
+References: <20191120192419.7352-1-tom.hochstein@nxp.com>
+	<d25ed9e2-6ff8-355a-1de0-8b51aef9e2c8@kontron.de>
+	<VE1PR04MB6621F85F190F08F43967C895E2540@VE1PR04MB6621.eurprd04.prod.outlook.com>
+	<2f61a2ea-456e-0cf0-7ddf-03a0d9adf72e@kontron.de>
+	<da035af4-d1e8-efd9-30fc-19a4f875948b@kontron.de>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/2] devtool/standard.py: Allow recipe to disable menuconfig logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,65 +64,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2020 13:30:46 -0000
+X-List-Received-Date: Thu, 30 Jan 2020 13:35:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-With spaces in ROOTFS_POSTPROCESS_COMMAND attempts to remove elements
-using ROOTFS_POSTPROCESS_COMMAND_remove causes parse failures of the
-form:
+On Wed, 2020-01-29 at 08:20 +0000, Schrempf Frieder wrote:
+> On 08.01.20 09:32, Schrempf Frieder wrote:
+> > On 13.12.19 17:14, Tom Hochstein wrote:
+> > > I made a PR as well:
+> > > 
+> > > https://github.com/openembedded/openembedded-core/pull/57
+> > > 
+> > > Tom
+> > 
+> > I don't think PRs are accepted for oe-core. Your patches should be
+> > ok,
+> > if someone reviews and applies them.
+> > 
+> > Dear maintainers, could you consider to review/apply this fix for
+> > master/zeus? It fixes an annoying issue when working with devtool
+> > and
+> > u-boot.
+> 
+> Ping again.
+> 
+> Can someone please at least look at these patches or give any reason
+> why no one cares about them?
 
-  bb.pysh.sherrors.ShellSyntaxError: LexToken(COMMA,';',0,0)
-  followed by:
-    LexToken(TOKEN,'write_image_test_data',0,0)
-    LexToken(COMMA,';',0,0)
-    LexToken(TOKEN,'set_systemd_default_target',0,0)
-    LexToken(COMMA,';',0,0)
-    LexToken(TOKEN,'systemd_create_users',0,0)
+Sorry, the project is struggling with failing automated tests and
+struggling to find people able to review patches for some subject
+areas.
 
-Removing the spaces between the function name and semicolon allows the
-list to parse correctly.
+I don't know devtool very well and its hard for me to say if this is a
+good change or if there is some other way we should be fixing this.
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+Of particular concern is there is no automated testing in this area and
+devtool has good tests in general.
 
- meta/classes/rootfs-postcommands.bbclass | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+Not good answers I know, sorry :(.
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index a7f33fbf9e77..ebf96be7e85f 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -1,6 +1,6 @@
- 
- # Zap the root password if debug-tweaks feature is not enabled
--ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
-+ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password; ",d)}'
- 
- # Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
-@@ -12,7 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'deb
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
- 
- # Create /etc/timestamp during image construction to give a reasonably sane default time setting
--ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
-+ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
- 
- # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
-@@ -26,11 +26,11 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only
- APPEND_append = '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", " ro", "", d)}'
- 
- # Generates test data file with data store variables expanded in json format
--ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
-+ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data; "
- 
- # Write manifest
- IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
--ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
-+ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest; "
- # Set default postinst log file
- POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
- # Set default target for systemd images
--- 
-2.17.1
+I'll add this to -next for wider testing and see if I can find someone
+to review.
+
+Cheers,
+
+Richard
+
 
 
