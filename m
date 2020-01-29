@@ -1,53 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 29C48608CB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 430BD6027C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 15:15:17 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id b17so4688136wmb.0
+	Thu, 30 Jan 2020 13:52:08 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id n11so4038367iom.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 07:15:18 -0800 (PST)
+	Thu, 30 Jan 2020 05:52:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=IIr367E/lmZGZ7jbGQbsSwBdiTjRSa/M/hn26kaeICg=;
-	b=roLI9qslvhClF7iHUUPepQpql7wGsqeVrFZDMnNgsdJ4rU/tV76aR7i4wv9B+23W9H
-	tOCbGxTOlawniuxY+9YW4acp9hHvsnRTGJseJPvXyBflj2fQ2igsB/TBRHkC4n0p2tqk
-	ECHgUn8VWFXKhK9296s26cAXz3YyvIaR+vphpQZlCqNhiYiWzSLVsu/wBfy8ci/RQ+qp
-	8MHOmglM55n3jI41QNaako6qmFPBPjBoCEAtKrSVFHoCBRtWZu/jEyooRjUJBL3zWAjT
-	mQcvjNRbfyxnnvaDn2VnrW6d3oFkz6x1wlj9+2XVBid/5H0uf6LKRgSg/H6TrBEOLCGi
-	Rbbw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=4DlU+jvXKPYfRYqai9IXspvOotC7EsbrNKdIk2EUajw=;
+	b=Lzm0tykzPFneervmtWfzmQ0fslJmaEQUO9YKwVpjDDKr4CSfIm/vh6y1AUhgg80cYf
+	OFBxnzmu/zRgJ9I1LsHhE0GSY3X0oNPERsNXLQQucVxHqFERE5jWBvV10+zFEvc3CkCy
+	7RG23l1+jVWgVr+IHLQfG0iJBQc4ZGeiBX+11m1HKGxIWg7XWUF/XLSwjpj6Du1RN7VZ
+	gYhMApuJTUv7G1Pyi6uhIgR++ZMPiopsbQ7i85G3sbbpexEiY6yYXIFkwwEU5MmkX3AE
+	XGKPBAXiOAKPiBAa75lCBJLGN57b453hXdKu4XlJDjlv8Ab9LRycVPCWKFITwJV+NoLg
+	B/Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=IIr367E/lmZGZ7jbGQbsSwBdiTjRSa/M/hn26kaeICg=;
-	b=Tqq/oPvChL2Cm/TL4U+A6WMECrJiNB1uQZq3iv2zUWRQzBzSpyF/BLKhFnPCyft6iM
-	pRIqlo+qxXwiWo4Qy184QpReDIElRVONfO8nylBPYpwrx2PnxpYPkw8iOqOIiR0tjKJb
-	5sVjVz9iKajKlCjCg40hY2uH8fUkbi/MVShfzNI9NCYQYFmVl8W/Abn57SIgyu8qOq/N
-	W1EKeviS0N/qE6rT25Lya3gAaILGbeLa6aKXwItPW/1/UbZmTiEb+fId6qtK70Iv+00d
-	ykgiEZZDuj1uBKFYh6kO/CLF6Pj0CvQNCcMMvroSaCj22NZfGR84OqcQAVHboTPUoU9a
-	6drA==
-X-Gm-Message-State: APjAAAV9CF6GCsBFbFT5oAlVc+/fOvEPpaoPrLOCSLn5Cd6RLZ4pqoH1
-	mI6bCQAE1cn32n97LOkFFSAuz3m6
-X-Google-Smtp-Source: APXvYqwZ9rUXQf7pPghT8PQAwoIzsQxZxW2BS2wkuVNQcxMSgil3KrdOOjPznYwo9+9jXmK4F7Lp9A==
-X-Received: by 2002:a05:600c:230d:: with SMTP id
-	13mr10729387wmo.13.1580288890198; 
-	Wed, 29 Jan 2020 01:08:10 -0800 (PST)
-Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
-	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	a62sm1550224wmh.33.2020.01.29.01.08.09
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 01:08:09 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 10:07:19 +0100
-Message-Id: <20200129090738.1398-5-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
-References: <20200129090738.1398-1-alex.kanavin@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=4DlU+jvXKPYfRYqai9IXspvOotC7EsbrNKdIk2EUajw=;
+	b=uBejCsGkj15QOc67RTifngKG54nEqHmbZqzpg8WYf8jwb1YDjVnNJFd8zmSQSey6n8
+	eRoe4f8VVTldnFnNGAkj6jbU9Zm6RgW4+ZysVjkmwZeEow77YmjLe7XO0mkYHUjz3Dlt
+	ZzUjxYQf25WRpZ2OKYI2Xa5IYyTMbQeR0vX9L7olr2ooZUfZn4qJ2YOIiheMXHI5UGRf
+	ztmFNgTPnTgxCV1CfT0Sf63tHqAmifcjCUKaTfL/XN5xoNTIUt06kxkUPyX0wVuD0pya
+	gidSjzFxjWTB43DRNm+l3HXXpaA+et247VlOjBebQZFr/nZuNJsR4tLPNrMszc7vzmuh
+	pJJg==
+X-Gm-Message-State: APjAAAWiPWmTBOFZ4C1i7+bR49qHzSlCA4/fQ/yi44iVpxw0+mdpG8IC
+	zba5iAMDqWBxinrwLPfHmTURbuvCdoazVWXqyDQPeBJh
+X-Google-Smtp-Source: APXvYqyZFM2KjZISulKduwPlabIlUrpgOmKboGb6ktm3x7bBRuw+rwrbUM0IYYZ21BKoNM0oXt7C1YBsZU2SEdaqOTM=
+X-Received: by 2002:ac8:145:: with SMTP id f5mr27150624qtg.194.1580313740676; 
+	Wed, 29 Jan 2020 08:02:20 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 05/24] shared-mime-info: fix (sort of) upstream version check
+References: <20200128151643.9711-1-richard.purdie@linuxfoundation.org>
+	<20200128151643.9711-3-richard.purdie@linuxfoundation.org>
+	<CAMKF1sqYswYbOA+N80sK3sELzPPCTymDna8bgSKETCvZROi2Fw@mail.gmail.com>
+	<10d77c789a51e9fdb089b2faf983414cc17fb20b.camel@linuxfoundation.org>
+In-Reply-To: <10d77c789a51e9fdb089b2faf983414cc17fb20b.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 29 Jan 2020 08:02:09 -0800
+Message-ID: <CAMKF1sqXQR0Ot0GOyYsWPUB_1ZJKOQtzrFU0Fz9bLiMcM-SwHA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] texinfo/texinfo-dummy-native: Drop native path prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,33 +57,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 09:28:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 31 Jan 2020 09:28:13 -0000
+Content-Type: multipart/alternative; boundary="000000000000259052059d497786"
 
-Upstream is using - to separate version components which
-version checker at the moment can't deal with (i.e 1-15-1 when
-1.15.1 is meant).
+--000000000000259052059d497786
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-support/shared-mime-info/shared-mime-info_git.bb | 3 +++
- 1 file changed, 3 insertions(+)
+On Wed, Jan 29, 2020 at 4:00 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-diff --git a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
-index f0d5bc62e9e..7a060b09ad9 100644
---- a/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
-+++ b/meta/recipes-support/shared-mime-info/shared-mime-info_git.bb
-@@ -12,6 +12,9 @@ SRCREV = "829b26d85e7d89a0caee03046c3bce373f04c80a"
- PV = "1.15"
- S = "${WORKDIR}/git"
- 
-+UPSTREAM_CHECK_GITTAGREGEX = "Release-(?P<pver>(\d+(\-\d+)+))"
-+UPSTREAM_VERSION_UNKNOWN = "1"
-+
- inherit autotools pkgconfig gettext python3native mime
- 
- EXTRA_OECONF = "--disable-update-mimedb"
--- 
-2.25.0
+> On Tue, 2020-01-28 at 18:00 -0800, Khem Raj wrote:
+> > it perhaps is the reason for most of failures seen here
+> >
+> > https://errors.yoctoproject.org/Errors/Build/97736/
+> >
+> > perhaps we need to explicitly inherit gettext in these recipes ?
+>
+> These patches aren't quite working in master yet but those failures
+> look like they'd be solved with an "inherit texinfo" added to the
+> recipes.
 
 
+Right except indent package which is quite unhappy even after that but I
+have disabled documentation generation for that now
+
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+
+--000000000000259052059d497786
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, Jan 29, 2020 at 4:00 AM Richard Purdie &lt;<a href=
+=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
+on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2020-=
+01-28 at 18:00 -0800, Khem Raj wrote:<br>
+&gt; it perhaps is the reason for most of failures seen here<br>
+&gt; <br>
+&gt; <a href=3D"https://errors.yoctoproject.org/Errors/Build/97736/" rel=3D=
+"noreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/Build=
+/97736/</a><br>
+&gt; <br>
+&gt; perhaps we need to explicitly inherit gettext in these recipes ?<br>
+<br>
+These patches aren&#39;t quite working in master yet but those failures<br>
+look like they&#39;d be solved with an &quot;inherit texinfo&quot; added to=
+ the<br>
+recipes.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Right ex=
+cept indent package which is quite unhappy even after that but I have disab=
+led documentation generation for that now=C2=A0</div><div dir=3D"auto"><br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
+eft:1px #ccc solid;padding-left:1ex"><br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--000000000000259052059d497786--
