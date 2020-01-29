@@ -1,50 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 94D1660665
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 72B9860785
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 14:01:06 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id z26so2311269lfg.13
+	Thu, 30 Jan 2020 14:28:03 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id q15so3101998qki.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 06:01:07 -0800 (PST)
+	Thu, 30 Jan 2020 06:28:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=S3E8yT/G8rI3ida0FSY0VKaLSx3LskD6UYE10Qtp5D0=;
-	b=e+rfE50OPuzymYXqEqf6uMY0gYrK1SGsivn6VdShYKNthT59mT0xnBqguW9RoeRCkw
-	XfRA8GCFWw2JYO/S/qPggdmQtydmhGN5ExjYrFB71nXdYS0vlJgvX33VDq+XP1uKmcUu
-	ymvyPCdidAk9hFYP3GEP2pPNdR6Iu1LWfvQlxw4xTUyAr11lT78Cxt5HNvNOZ7uWw5M3
-	kxnebVuk+6KcVCmNg+t6iPRwtJZU1lavYRmceMzFm8g5ZEQw1T80MG+Y9LhJSlsJQnXi
-	HKpoPrIXD5g2q9VIUPRMvx3DJRIBm1+I6GMaYhDrPSMs+Qm0TIB4ApgaL1pekze+5BYx
-	CeOw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=9VacGQJDgq5wJaQlasR5kQhrYEeumjLlJ0Rt0nR6viI=;
+	b=TL1Rzgp+JWjaOq75ih6b+EFBywYAck8vaZ2YLcJ28wK7X4Btyrxf3Z9P5EEb4XzAR/
+	uAlxpVYJeQW3yPibghKfRQH53C5XLSqCIYFgAV99JQZDKp5qOWa01wBlqlSuSIO3yYGY
+	iyfVbJZRm9Wl1UpOfNNmmRn6Po3ZvHE4jjH0Sqvv8eF83nSaUDg+cgTUPkKTLwuMpXsu
+	GMI8s4Uvyd5A+KKrqfDTJTEIN63pol2hF1FW1M2rZWsHHh6pvGSLRc11Wzf0/sEXyhcP
+	QOfoKB0N8WElyYT4Z5Awj6bmsakK+b2U2G3RGwbwFMaU2C2Ed89wcSGciJyyf2by41J7
+	pPWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=S3E8yT/G8rI3ida0FSY0VKaLSx3LskD6UYE10Qtp5D0=;
-	b=G0FslPej2T2/mWiSi+h+wJvqZjZNMnAsAYTztHJ9ZJ1esc+WMDIYuE8+GUNlXwaSFK
-	SV3QeKXBIA21aj7eO8l2ghKXuMGhtEaTZoSm7b59tepxq0Lga9x7zCXxlCQBH4qIfZtj
-	n+9kP6xAod34+Q0ObJR4ZihS59cSsT4FS/QyR7QfIxzNj6f0Lq7rcrcf1NDYUVHn9JXf
-	oxD/a/PAQQy+T8wN05jOjbVwhBhUCCD5AJn1RAkPAZQ7x2k7QFcnYpiqRr/sJFB9xmFM
-	dfkSPnIOBRmHEHqQS9QipZ0uDYDQE2zrSxMkDfpLY0uTP8iy/+ett5FL2d6XOGVfXA/A
-	bFww==
-X-Gm-Message-State: APjAAAVbCUz1qSYJipceA36H50wIOc5cOOP4ybj89tynhb4X/j+j0SjW
-	uQ/MHUGDICuk0wWsOUfYvd7ihjx5
-X-Google-Smtp-Source: APXvYqys+tjVHpy/YOHSmFWmLjFOVRL+11e5NTY0OKo7erqT7HGzVLPIEgJGayalG5r1E9lcXLwc4A==
-X-Received: by 2002:adf:dfcf:: with SMTP id q15mr33780755wrn.404.1580288886818;
-	Wed, 29 Jan 2020 01:08:06 -0800 (PST)
-Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
-	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	a62sm1550224wmh.33.2020.01.29.01.08.05
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 01:08:06 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 10:07:15 +0100
-Message-Id: <20200129090738.1398-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9VacGQJDgq5wJaQlasR5kQhrYEeumjLlJ0Rt0nR6viI=;
+	b=UwPG2PVAZrA2S9zbmvLEeejhdRTEiuB+rrodbDFuM3m5XWPD7O25Pv7gMA+o/8C8YX
+	7oMCmrI/Jw+EMPGZned+tjNIp7lCTz8kgVwqrcOaNxVAFyN79vc2qxZtZZw87s+TT4ZP
+	xhS9HyCjcwqwwzAm1mn5LSGhJ5dbVluY77DmudXRU4my+mH5x8LovPNx9v1C6ob4fmYs
+	VnrwpribBeSe1NZ5wrvIpGh9mphcwALqahCnVkvsF27NvRiy1A5TPK/XYB+cwQO+J58m
+	BnveZmDuMS6IRxJDpSFyLleXyeGVFUkCcrScA49Wsdp0pzKF6JtzPOyq63lZy35+HoCA
+	um4A==
+X-Gm-Message-State: APjAAAV/s29liclePNE8vzLWDUxH6tQMXaUB0zVTZ38TKEFgre6t+VK7
+	+yYGaZHoy+d+1qOnU/3bJKyIdnwNcspeX34OSuoWCVnJlgk=
+X-Google-Smtp-Source: APXvYqzBKmAhjVbAgJeOqXGcIEQEQ4oQghWGtYNfWD3SbGa8AXvSoe71PT0/Z+7zUWHF8qoEaW7XWGhQIKD23ekRJw8=
+X-Received: by 2002:ac8:4419:: with SMTP id j25mr23971738qtn.378.1580263255159;
+	Tue, 28 Jan 2020 18:00:55 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 01/24] core-image-sato-sdk-ptest: do not pull in ptest-pkgs
+References: <20200128151643.9711-1-richard.purdie@linuxfoundation.org>
+	<20200128151643.9711-3-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200128151643.9711-3-richard.purdie@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 28 Jan 2020 18:00:28 -0800
+Message-ID: <CAMKF1sqYswYbOA+N80sK3sELzPPCTymDna8bgSKETCvZROi2Fw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/5] texinfo/texinfo-dummy-native: Drop native path prefix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2020 14:01:14 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Jan 2020 14:28:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The lists of ptests are defined via PTESTS_FAST and PTESTS_SLOW;
-ptests-pkgs also pulls in additional items that are specifically
-excluded from those due to causing issues with ptesting (particularly,
-bash-ptest is non-deterministic and was dropped from PTESTS_FAST/SLOW
-yet still gets pulled in via ptest-pkgs, and is causing failures).
+it perhaps is the reason for most of failures seen here
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-sato/images/core-image-sato-sdk-ptest.bb | 2 --
- 1 file changed, 2 deletions(-)
+https://errors.yoctoproject.org/Errors/Build/97736/
 
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-index 85b5adbc693..58c257c49fb 100644
---- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-+++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-@@ -3,8 +3,6 @@ require conf/distro/include/ptest-packagelists.inc
- 
- DESCRIPTION += "Also includes ptest packages."
- 
--IMAGE_FEATURES += "ptest-pkgs"
--
- PROVIDES += "core-image-sato-ptest"
- 
- # Also include ptests which may not otherwise be included in a sato image
--- 
-2.25.0
+perhaps we need to explicitly inherit gettext in these recipes ?
 
+On Tue, Jan 28, 2020 at 7:17 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Now we have recipe specific sysroots we don't need this native path
+> prefix. It was breaking the crosssdk/cross-canadian cases and causing
+> bugs, removing it is the simplest solution.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/classes/texinfo.bbclass                                  | 4 +---
+>  .../texinfo-dummy-native/texinfo-dummy-native.bb              | 2 --
+>  2 files changed, 1 insertion(+), 5 deletions(-)
+>
+> diff --git a/meta/classes/texinfo.bbclass b/meta/classes/texinfo.bbclass
+> index 6b0def0eac4..72091c733e5 100644
+> --- a/meta/classes/texinfo.bbclass
+> +++ b/meta/classes/texinfo.bbclass
+> @@ -10,9 +10,7 @@ TEXDEP = "texinfo-native"
+>  TEXDEP_class-native = "texinfo-dummy-native"
+>  TEXDEP_class-cross = "texinfo-dummy-native"
+>  DEPENDS_append = " ${TEXDEP}"
+> -PATH_prepend_class-native = "${STAGING_BINDIR_NATIVE}/texinfo-dummy-native:"
+> -PATH_prepend_class-cross = "${STAGING_BINDIR_NATIVE}/texinfo-dummy-native:"
+>
+>  # libtool-cross doesn't inherit cross
+>  TEXDEP_pn-libtool-cross = "texinfo-dummy-native"
+> -PATH_prepend_pn-libtool-cross = "${STAGING_BINDIR_NATIVE}/texinfo-dummy-native:"
+> +
+> diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
+> index 1254bc89b48..3e6dfb0f1b9 100644
+> --- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
+> +++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy-native.bb
+> @@ -9,8 +9,6 @@ SRC_URI = "file://template.py file://COPYING"
+>
+>  S = "${WORKDIR}"
+>
+> -NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
+> -
+>  inherit native
+>
+>  do_install_name() {
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
