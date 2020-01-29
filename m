@@ -1,52 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 39D9560AC2
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C3C0605AD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 15:41:02 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id w15so4635782wru.4
+	Thu, 30 Jan 2020 13:09:10 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id s144so6424965wme.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 07:41:03 -0800 (PST)
+	Thu, 30 Jan 2020 05:09:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=SHKOyI6NQ9rlzhRgevJH75ptXKG8ow7sGLfS8NITBUI=;
-	b=oWbfe8oIcl03Xo+Jw3MPe27qfIyqFFLyyDTLJdtFvHz91fczsWkelfAWfE5X+DDBcy
-	iDYbonpBjVolGZhMr0UDTFpX84AcKT0UVICz1EgSWkyM1xWQtbKSKRQ7hciFFDfh2GJe
-	TESbBFrbWLg9+tROOfnmUawpzO/SUq/B/htVYnjnjuoUITqXXnIq/ycJ6WlnWlk0Ch+/
-	B21K+QhTGXwOGC0D9hjxU2ia0fA8LVRg64BLAP9BXCPpp8eJb9xcsw1YNdQqBuwOVJQi
-	hfMsze2ytOivJiUON0etHOM38ahHDoAHOBMIUo1hOI8QdBLHWHlT0webwhetH0FPsmSQ
-	WhHw==
+	bh=Hy12neHZNAG/ZGCfWGj9U7P5NgNMltX4721WYxFtTus=;
+	b=QHIudKoAzycWy0g6xZGIvGZdI+n4jUVzL8CrI/nYNH+iV4/jw/3PBduZTHUZPGpL7O
+	He72bZ+WDx14wo0ZmmmcHj0fuJI7GBmgxyKkG34yfZbWnPwTbv8SEyze5YAvAUyJA5x5
+	2vKtoZW9z3AIIRvxh2nePIt5qlkPQFbyS3EqoGyxCHiN9UkKs3GQiWTGUZKirM3YeQZY
+	ilcxCh2AkQBuqt4/WRvffKH0rsJAW2sdB8jlSj8YkwH0gpHeX660GjWnwA1B/U1SRzQs
+	ENH+sRhkMdOnIqy/OSCpzLRhx8zetXt9Zbp4ogFB2UTBrNYAWkd6HQ0uUY2KNnPKted8
+	w8vQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=SHKOyI6NQ9rlzhRgevJH75ptXKG8ow7sGLfS8NITBUI=;
-	b=J1xSLB9/diBCD4J5BDsnMMekxDqCIf79nRPaZWrl11SbgQ6Pc1QEDSzjX0/MOAEeyg
-	x/08hqwfxsKp75H7cFCSOnbqcbLEjbwQWRB7GrxC+v2VRv3OVofn7+mPIcJ3DdJTQb5P
-	9JfD+Dd0DIWSGSqASAktyQ/xZhAXtle52cwu15dIdcwxFycFG7m/bo2uDcX5qMNsJiu2
-	JbKHX3lUIf8nPyAWgJWyrvDSiv7UjGdXg8cZB2+e6WJR1hqqm+RbfFsiFpTiO6HwWBz+
-	aZR80G4hwmWoffw1kloyGFetLLCC2Vst24mr07Iy8WL6dPOZBCh5Ou76CPfw5/PHC2Ci
-	IgJw==
-X-Gm-Message-State: APjAAAVTA+X7oiVBdRqmtG1NrcAFB56gx63ItL6pTfhT10KLEFQ2THsS
-	LHShO10fdHDB5JyY1zdgABkk6WyF
-X-Google-Smtp-Source: APXvYqx8+D2HtCS6gnlhSPlxytIZeSTQ+poonriqkUfo26XdCLIwLoxL2aGrnvfXCbo96pTQsvIoGw==
-X-Received: by 2002:adf:cd04:: with SMTP id w4mr6137675wrm.219.1580288894968; 
-	Wed, 29 Jan 2020 01:08:14 -0800 (PST)
+	bh=Hy12neHZNAG/ZGCfWGj9U7P5NgNMltX4721WYxFtTus=;
+	b=oPMsphc3MO28h8J/Hb1f6fPwTUXUxRsj6cU8DKGQTGkC86oru67UEXgn6Po1qWIEDr
+	55swvFSuxsakgSTNJxc4OwWrL1iED2acbdl3rGcaXXw3FHO2SypWJrhhWqYpzbgYMD3y
+	jLENSXU7uKeijv6tSGSbe2kGTFfYGJPE0h34JZFvFjYR8aCf0qL89o7BEdslQsNzYPbz
+	GT9o2KQUDqyYclIc1Q+eVr/VJ/zDV2vr0UO5e2422KmA+tC6ohvXyoGUKbdQgXd6OfgW
+	UDInO003HghLJ0JO7Xat2tcRgoEZ6MQJWoKICRRCXX6NUkx9N17mlFj1s6FxnNITEC5F
+	iOSg==
+X-Gm-Message-State: APjAAAW+qTELdJMQv+ZMp10N1CEAMNsqavFbSJKxrLqqDafFLKDyGvL2
+	8CdImzhOjf3IPDrTmspVWvCADrZb
+X-Google-Smtp-Source: APXvYqzXJfYxpHWVAs+LO7C+EgTS8h4ABJYC3vptxmL/cDivg1PtAJD0VNaUZdnIfx1m3qa3Z3X7rg==
+X-Received: by 2002:a1c:1d02:: with SMTP id d2mr10750463wmd.185.1580288901100; 
+	Wed, 29 Jan 2020 01:08:21 -0800 (PST)
 Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
 	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	a62sm1550224wmh.33.2020.01.29.01.08.14
+	a62sm1550224wmh.33.2020.01.29.01.08.20
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 01:08:14 -0800 (PST)
+	Wed, 29 Jan 2020 01:08:20 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 10:07:25 +0100
-Message-Id: <20200129090738.1398-11-alex.kanavin@gmail.com>
+Date: Wed, 29 Jan 2020 10:07:32 +0100
+Message-Id: <20200129090738.1398-18-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
 References: <20200129090738.1398-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 11/24] ccache: upgrade 3.7.3 -> 3.7.7
+Subject: [PATCH 18/24] python3-git: upgrade 3.0.2 -> 3.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,44 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 09:28:14 -0000
+X-List-Received-Date: Fri, 31 Jan 2020 09:28:15 -0000
 Content-Transfer-Encoding: 8bit
 
-License-Update: copyright years
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/ccache/ccache_3.7.3.bb | 7 -------
- meta/recipes-devtools/ccache/ccache_3.7.7.bb | 7 +++++++
- 2 files changed, 7 insertions(+), 7 deletions(-)
- delete mode 100644 meta/recipes-devtools/ccache/ccache_3.7.3.bb
- create mode 100644 meta/recipes-devtools/ccache/ccache_3.7.7.bb
+ .../python/{python3-git_3.0.2.bb => python3-git_3.0.5.bb}     | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-git_3.0.2.bb => python3-git_3.0.5.bb} (88%)
 
-diff --git a/meta/recipes-devtools/ccache/ccache_3.7.3.bb b/meta/recipes-devtools/ccache/ccache_3.7.3.bb
-deleted file mode 100644
-index c6a682ee0de..00000000000
---- a/meta/recipes-devtools/ccache/ccache_3.7.3.bb
-+++ /dev/null
-@@ -1,7 +0,0 @@
--require ccache.inc
--
--LICENSE = "GPLv3+"
--LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=0094c59039cec66b8a4c905204333514"
--
--SRC_URI[md5sum] = "7be62ea6e190941a8c12a3d5394fd926"
--SRC_URI[sha256sum] = "355955a61562c53c4ec4669e1c92708b0008f50d214b27f07a87cf4a1fa6b01e"
-diff --git a/meta/recipes-devtools/ccache/ccache_3.7.7.bb b/meta/recipes-devtools/ccache/ccache_3.7.7.bb
-new file mode 100644
-index 00000000000..3e7362b28bc
---- /dev/null
-+++ b/meta/recipes-devtools/ccache/ccache_3.7.7.bb
-@@ -0,0 +1,7 @@
-+require ccache.inc
-+
-+LICENSE = "GPLv3+"
-+LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=22d514dbc01fdf9a9784334b6b59417a"
-+
-+SRC_URI[md5sum] = "500d7bd9ebc6ee3105d7fc332c1ef395"
-+SRC_URI[sha256sum] = "9b61f7fab2ec15305ee8382b03365503232dfb04b57414e7b0433768d530fa8a"
+diff --git a/meta/recipes-devtools/python/python3-git_3.0.2.bb b/meta/recipes-devtools/python/python3-git_3.0.5.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-git_3.0.2.bb
+rename to meta/recipes-devtools/python/python3-git_3.0.5.bb
+index 9dd753db4fc..36313ef8b9a 100644
+--- a/meta/recipes-devtools/python/python3-git_3.0.2.bb
++++ b/meta/recipes-devtools/python/python3-git_3.0.5.bb
+@@ -12,8 +12,8 @@ PYPI_PACKAGE = "GitPython"
+ 
+ inherit pypi setuptools3
+ 
+-SRC_URI[md5sum] = "ccec14a5c9f18702406122983d80032c"
+-SRC_URI[sha256sum] = "d2f4945f8260f6981d724f5957bc076398ada55cb5d25aaee10108bcdc894100"
++SRC_URI[md5sum] = "7555ad89a22f663c25cced5f623bdef0"
++SRC_URI[sha256sum] = "9c2398ffc3dcb3c40b27324b316f08a4f93ad646d5a6328cafbb871aa79f5e42"
+ 
+ DEPENDS += " ${PYTHON_PN}-gitdb"
+ 
 -- 
 2.25.0
 
