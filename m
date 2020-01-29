@@ -1,52 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
-	[209.85.208.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C2E560155
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+	[209.85.208.53])
+	by mail.openembedded.org (Postfix) with ESMTP id F1FD6605C7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 12:46:12 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id x14so3128211ljd.13
+	Thu, 30 Jan 2020 13:30:44 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id cy15so3831669edb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 04:46:13 -0800 (PST)
+	Thu, 30 Jan 2020 05:30:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=7sTELl6qYzhKvydY4YZme1zlcVwBL7QpA91LsVfMBBs=;
-	b=gCP7F+ZitFOJH7k95Eeld3m/R8rDXdVsLvXv40R7xBOLBvoonjlmmDdZzbLggheJaK
-	m5xXsgkGE4jcpUYKyVp/Zma5puqRmSDF3AEU3KJ4OW2Q6+fA961/7Q8p7M4tFcmufYtr
-	e4LyGugK1hzjtIFyiYARVprxGNLKpC/NMlxNimfAjfTRIR4PTkFDI298I2GYjpA1MrJW
-	TOweJGkxY0tSJYKnLa2lZHP09wz8Aw2LxX9LO2pSRNYh0tUL603XxYAT6Hhdr1ZwS1AE
-	hPLaMwL/8LJ1ZXwF7X3I0KNKaBot3yE6QGJiU8bRCDAFJzPo7OQ1sktBAEVKpAjYouK+
-	wbqA==
+	bh=DcAkxIFJLH6sziLDyitWWxs4kozo9RaBPO5u6K2FvzI=;
+	b=u6HFSixRCfAgWaD/SuHRecFuvkjOv9neT6/V6StDEtinNh26suLguf5JHfyDZcOQSf
+	wAw3747tFnSDm5UukHPkwmsZoW2D7Xl6VawdIyn7vGOxT+Xm2OUM3tlsnKXRe9fdsHMl
+	ccObo5MtSzuv2mGaOo1yFtWOlsj2TKlUw9cLGvsYSUVXJrV5KPSO0WfacfOMshTlSa0B
+	wJdLIWsJfjgYNp0I6XOvsKqlPc1DxSKlqeCrWBw9L2P+SrAl/idakVLnJRI6/eo7m2HV
+	DIptTBGNFbsOlsYWp/eLNTR4dPiFL48JIVOhcgm1GkGx5OOqQmayV+stQ/2kcsFOgQj9
+	8mvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=7sTELl6qYzhKvydY4YZme1zlcVwBL7QpA91LsVfMBBs=;
-	b=a2J2nQZEkyH2u7ELLV/FrpcDIA9FXDG6MAMkw9o/N0PVnuu52u17qGax2c+iuqCT+4
-	tNLv6EdI1phXkRizhUVlNV7mG9EkPvKzJuEm78ijg1OQ0EjQU9WQUleT2+BpKog16iuU
-	3viEtxbJKyGKYw+Ng9bXiAtOu1WR59IgDxoI1rtliJrpW1CZ7yc4433tE2Cw0GMrMNHi
-	9j0WVIWaLD74FEZYlDHZlWSh1Dx3ShgYqYIJMHIGmiDhcTUbOKbyWTV+kFscK2VmvS3D
-	9rI5B+EeNxZXeFQog1c8s21mpCyJKyJbhu4aG/iIavmpbyxXj6NzHJOVFMdCo8Y07pHe
-	cBQQ==
-X-Gm-Message-State: APjAAAVCKtD0DrbrJg9VVr2JYJhQxmX5F5iWgLCr3+aoqghknzRNpJgv
-	99OCYpilXKIDdifAt86s1EsPSc0z
-X-Google-Smtp-Source: APXvYqy9W+pj/6JWFu/Ep8fASSrI04uy+mEEu+vKOKNIl9jxvAIshuzXNrjSvxmtuI+ttsWClsFXcA==
-X-Received: by 2002:a5d:43c7:: with SMTP id v7mr32770127wrr.32.1580288889344; 
-	Wed, 29 Jan 2020 01:08:09 -0800 (PST)
+	bh=DcAkxIFJLH6sziLDyitWWxs4kozo9RaBPO5u6K2FvzI=;
+	b=mwb0zPYutJxrobirFdAisHoFLSI+OpafHp/eF2T5vUOIYgnsVGsGeGH79hzekgBrk2
+	zXkF++IwatZ26RzFu1S86ayQxrLBFruxC6Wf/5/juHkXAuR0Z2RHoGr7dN7r8bgnudI3
+	ww2yk8RwGfMdLUwLInFopPiZohLvIyDXsTjI9iL2NnqCTWdq63FsPb32rrejgZCIxtG4
+	n+RzY6qbgvX7kYPLb8iNyTMix7npYgIpZqvZLJvyHLG5XSvqepFALXIkK9G72v5uDODK
+	cHJjYXei1moOdMwvlcsJ63q/MMeGsS+2EaIcISaXLfoRQbNjNzyg0pS/jSuM7w5Vnf0h
+	SGqQ==
+X-Gm-Message-State: APjAAAX19WyP5+TGc0WQWko6QHnSUdU6+tr659SHU1tb+laeAlnqmQqo
+	GWuhotsdIFF7UAaHQnCkNoWW9cNO
+X-Google-Smtp-Source: APXvYqzZNykifTXxhSavLA2wWgIRfLnTHs4Lrf01Dp5LrGaWQJR02/4tJ5bsASPDZ+GRIHaCMKu5RA==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr32694844wrm.13.1580288903453; 
+	Wed, 29 Jan 2020 01:08:23 -0800 (PST)
 Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
 	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	a62sm1550224wmh.33.2020.01.29.01.08.08
+	a62sm1550224wmh.33.2020.01.29.01.08.22
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 01:08:08 -0800 (PST)
+	Wed, 29 Jan 2020 01:08:23 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 10:07:18 +0100
-Message-Id: <20200129090738.1398-4-alex.kanavin@gmail.com>
+Date: Wed, 29 Jan 2020 10:07:35 +0100
+Message-Id: <20200129090738.1398-21-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
 References: <20200129090738.1398-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/24] speexdsp: fix upstream version check
+Subject: [PATCH 21/24] python3-six: upgrade 1.13.0 -> 1.14.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2020 12:46:13 -0000
+X-List-Received-Date: Thu, 30 Jan 2020 13:30:45 -0000
 Content-Transfer-Encoding: 8bit
 
+License-update: copyright years
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-multimedia/speex/speexdsp_1.2.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/python/python-six.inc                 | 6 +++---
+ .../python/{python3-six_1.13.0.bb => python3-six_1.14.0.bb} | 1 +
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/python/{python3-six_1.13.0.bb => python3-six_1.14.0.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/speex/speexdsp_1.2.0.bb b/meta/recipes-multimedia/speex/speexdsp_1.2.0.bb
-index 2f934ebe3ab..63696467613 100644
---- a/meta/recipes-multimedia/speex/speexdsp_1.2.0.bb
-+++ b/meta/recipes-multimedia/speex/speexdsp_1.2.0.bb
-@@ -7,6 +7,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=314649d8ba9dd7045dfb6683f298d0a8"
+diff --git a/meta/recipes-devtools/python/python-six.inc b/meta/recipes-devtools/python/python-six.inc
+index c386090b4b0..bbbddbec50a 100644
+--- a/meta/recipes-devtools/python/python-six.inc
++++ b/meta/recipes-devtools/python/python-six.inc
+@@ -2,10 +2,10 @@ SUMMARY = "Python 2 and 3 compatibility library"
+ HOMEPAGE = "https://pypi.python.org/pypi/six/"
+ SECTION = "devel/python"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=f82eb3a1a7fade60bda5980935084b62"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=43cfc9e4ac0e377acfb9b76f56b8415d"
  
- SRC_URI = "http://downloads.xiph.org/releases/speex/speexdsp-${PV}.tar.gz"
+-SRC_URI[md5sum] = "e92c23c882c7d5564ce5773fe31b2771"
+-SRC_URI[sha256sum] = "30f610279e8b2578cab6db20741130331735c781b56053c59c4076da27f06b66"
++SRC_URI[md5sum] = "21674588a57e649d1a6d977ec3122140"
++SRC_URI[sha256sum] = "236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"
  
-+UPSTREAM_CHECK_REGEX = "speexdsp-(?P<pver>\d+(\.\d+)+)\.tar"
+ inherit pypi
+ 
+diff --git a/meta/recipes-devtools/python/python3-six_1.13.0.bb b/meta/recipes-devtools/python/python3-six_1.14.0.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python3-six_1.13.0.bb
+rename to meta/recipes-devtools/python/python3-six_1.14.0.bb
+index 8795313bec6..99e6629b2f5 100644
+--- a/meta/recipes-devtools/python/python3-six_1.13.0.bb
++++ b/meta/recipes-devtools/python/python3-six_1.14.0.bb
+@@ -1,2 +1,3 @@
+ inherit setuptools3
+ require python-six.inc
 +
- SRC_URI[md5sum] = "b722df341576dc185d897131321008fc"
- SRC_URI[sha256sum] = "682042fc6f9bee6294ec453f470dadc26c6ff29b9c9e9ad2ffc1f4312fd64771"
- 
 -- 
 2.25.0
 
