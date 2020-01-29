@@ -1,43 +1,52 @@
-Return-Path: <paul.barker@konsulko.com>
-Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
-	[209.85.167.173])
-	by mail.openembedded.org (Postfix) with ESMTP id BDD6260B59
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+	[209.85.208.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 58FBB6080B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 20:51:07 +0000 (UTC)
-Received: by mail-oi1-f173.google.com with SMTP id p125so5008368oif.10
+	Thu, 30 Jan 2020 14:29:39 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id r21so4060648edq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 12:51:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=m8px4xij1P+pfYwE8ctp06RR0z5tv6FX0EoTQCOA8qc=;
-	b=TXiuPwTYEY3puQnfcbcJYZKmB2nmlvHQ/doa04jQukeSW7enzo0hBnXfqKcaUBBXsA
-	20uZN5rf6IzdiLd5pmEsYqgbzrVQv+d0aAaYAXaZQgI9EF8vYTKgDyKvBH8RoazsqTnt
-	x0/jfXZ2NRrhBvJ2AwcXVlOUpIc383/0WNbek=
+	Thu, 30 Jan 2020 06:29:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=PGewnU++Sx4mSKBBGM0A4kXS2oeTuB6RT3MVogxeKfo=;
+	b=KXLMnjtxiDkDnqdxHCsNkrS3/vfyhgVuQfN64He9vcQRAmw51Q1ACrzDJMj/MeTajI
+	cRtjChUyL6q+ojdEao4ZoN7fy2g13AxggDZiBnwQiCZSOHof/f4lBiYYUx213/p/JtHw
+	oswGAbk0z/XGQUvUrBtu5jH5bFny7r/k/XcDwdyvsvtLHfp1RaQEniIxrGpRVl9/rCQu
+	bOnV7+hf8ZFppYXBmLCwPp4D7W6js7pgeCON5QhXf2QqWULX0iAcY0+Szto4IW6JDHKt
+	DEdP/aIYe6UsMGtCYng0ky2UTsoOalGmkROvI0m9ASi33CAKKJnsxbG0dCz/bsP9Czmr
+	Zaxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=m8px4xij1P+pfYwE8ctp06RR0z5tv6FX0EoTQCOA8qc=;
-	b=JEB2Oe7oejoT5j/1veft+RFvJscXNRrc2jOQANfzzOxbZHU1GsZ9AYXTJUwikTvK6l
-	6vjbQ73cyhTbo27SYkya3Jk6O43VamHiwN4xI9chCo9urpHtzCKgbVK0UB3hdQIQD8/J
-	t9s6bBzz3MB4G1aGAYWwteeLKjzHqgAy35dDFwxr27ytgGPPD25iyzwboaHbOX1Cu9V9
-	cocb6LKP0VcR3FOeD4/gCZamaomwMfkhJH1OsTACNujTOycSLLpGamj2RpJ95Ymx8NIx
-	oMFbdAUrJtGqJR5W+q3EN4Vkvi4nB99mGVXaKqDDEJA+0mfsGZtiEUj631sIiAeUhYzZ
-	Kt1w==
-X-Gm-Message-State: APjAAAXelCo40ZFbF/g2rH/JgLjgtwVFxyq1OAW9qPTY2Y8V5jvify9A
-	V7+okdPATDZI0ganDIKztaFqW2J1pnexr2+rf21GZHXls2pGDQ==
-X-Google-Smtp-Source: APXvYqyw+qsHxd/SZNg2HHk7FX5dQXhPa7afy0CZY1MnGqrHdjGLVkPdGrnpW1meIViFJCqkejHH7Kea/EMJCJRZHI4=
-X-Received: by 2002:aca:ec13:: with SMTP id k19mr4069552oih.22.1580417468603; 
-	Thu, 30 Jan 2020 12:51:08 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=PGewnU++Sx4mSKBBGM0A4kXS2oeTuB6RT3MVogxeKfo=;
+	b=tuJK5i52jiGD685r3JM1u0rP8dyrQeZAOaL4PW+U3orL3PRsNwXVjQ0/YQ/ka7gd69
+	Tn4KRBnDQ5BEDv1nBDkSkWH+XIoCeYouVVHrYYLki8FaEotD5EJZ1rk/MdCD8nI/12Tb
+	EHxiIglxZQ7fsFXsvy2d3UgdOax9E3DQdJl6KdGqTp+zLEGtRgYUeJnYyT8zANGVqUrW
+	gSljp2MtBhu+5EXVXXqkIu0+DOVmazKtg1jGPvmWRRGOJzbYb7PDs54jwtYSidu/0gfP
+	16riCO9tUXXdx5IgjNv5kp2jBi71oT7vQarh6hFWkb5MBoDUFY9UYrRRVbYnFPe6Ei6V
+	NW4w==
+X-Gm-Message-State: APjAAAXgFTPti10o+dYOZdHLjhC+/VXxQPZlWurztUdqMeZWh7DoLjrw
+	tM3+IrWK7aqL8SPJk7FQ5T/8iNx0
+X-Google-Smtp-Source: APXvYqyhPXtkpMyV+CUGyJVtb7aMAYQI+CEErmENCL742OiZSRFaRiiE9LHtsiJ25YsjfXK28AQK+Q==
+X-Received: by 2002:adf:ebc6:: with SMTP id v6mr33459996wrn.75.1580288904197; 
+	Wed, 29 Jan 2020 01:08:24 -0800 (PST)
+Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
+	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
+	a62sm1550224wmh.33.2020.01.29.01.08.23
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 29 Jan 2020 01:08:23 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jan 2020 10:07:36 +0100
+Message-Id: <20200129090738.1398-22-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
+References: <20200129090738.1398-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-References: <CAM9ZRVvru2LaypQk337KMmT1DsxRAuA4-9peU21PSMRf2o43Hg@mail.gmail.com>
-In-Reply-To: <CAM9ZRVvru2LaypQk337KMmT1DsxRAuA4-9peU21PSMRf2o43Hg@mail.gmail.com>
-From: Paul Barker <pbarker@konsulko.com>
-Date: Thu, 30 Jan 2020 20:50:57 +0000
-Message-ID: <CAM9ZRVsoGUKeCEDxiNQOBBRYf6eHb7M2zK0BLbOKVprjHUV3dQ@mail.gmail.com>
-To: yocto@lists.yoctoproject.org, 
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: OpenEmbedded at FOSDEM 2020: Request for volunteers and demos
+Subject: [PATCH 22/24] xserver-xorg: upgrade 1.20.6 -> 1.20.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,51 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 09:28:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 31 Jan 2020 09:28:14 -0000
+Content-Transfer-Encoding: 8bit
 
-Hey folks,
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../{xserver-xorg_1.20.6.bb => xserver-xorg_1.20.7.bb}        | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.6.bb => xserver-xorg_1.20.7.bb} (88%)
 
-We've now got a couple of demos planned for the OE stand at FOSDEM
-this weekend but some more volunteers to help out at the stand would
-be really good! If you're at FOSDEM and can spare even an hour or two
-please drop me an email :)
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.6.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.6.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
+index a1cd490394f..2bd10adf078 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.6.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
+@@ -5,8 +5,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+             file://0001-test-xtest-Initialize-array-with-braces.patch \
+             file://sdksyms-no-build-path.patch \
+             "
+-SRC_URI[md5sum] = "a98170084f2c8fed480d2ff601f8a14b"
+-SRC_URI[sha256sum] = "6316146304e6e8a36d5904987ae2917b5d5b195dc9fc63d67f7aca137e5a51d1"
++SRC_URI[md5sum] = "d2e96355ad47244c675bce38db2b48a9"
++SRC_URI[sha256sum] = "bd5986f010f34f5b3d6bc99fe395ecb1e0dead15a26807e0c832701809a06ea1"
+ 
+ CFLAGS += "-fcommon"
+ 
+-- 
+2.25.0
 
-Even if you're not available to volunteer, we look forward to saying
-hello at the stand!
-
-Thanks,
-Paul
-
-On Wed, 8 Jan 2020 at 14:02, Paul Barker <pbarker@konsulko.com> wrote:
->
-> Hey folks,
->
-> We've got a stand for OpenEmbedded at FOSDEM 2020
-> (https://fosdem.org/2020/stands/). For anyone who hasn't been to
-> FOSDEM before, it's the Free and Open Source Developers' European
-> Meeting at ULB in Brussels, Belgium on Feb 1st and 2nd. FOSDEM is free
-> to attend conference with dozens of stands, hundreds of talks and
-> thousands of attendees. I highly recommend coming along if you're able
-> to!
->
-> I'll be able to look after the stand for most of the weekend but will
-> need some assistance and some cover so that I can take breaks when
-> needed. I'm looking for volunteers to help with the following:
-> * Setup from 09:00 on Saturday morning.
-> * Running the stand and discussing the project with attendees from
-> 10:00 to 17:00 Saturday and Sunday.
-> * Tidy up from 17:00 on Sunday.
->
-> I'm also looking for demos that can show off the project. I'll have my
-> laptop with me to show toaster, the layer index, how builds work, etc
-> but I won't be bringing any hardware devices as I'm travelling on
-> after FOSDEM. We'll need a couple of hardware demos to show off the
-> project well. The table is 180x80 cm.
->
-> If anyone can print up some flyers with info about the project that
-> would also be excellent.
->
-> Thanks,
-> Paul
 
