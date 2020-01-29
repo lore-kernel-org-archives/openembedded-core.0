@@ -1,52 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B64260628
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id EF5B2605F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 13:38:23 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id f129so4268321wmf.2
+	Thu, 30 Jan 2020 13:38:45 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id t23so3821681wmi.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 05:38:24 -0800 (PST)
+	Thu, 30 Jan 2020 05:38:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=JhUCykz77kJK1eSEYRTbbk7auGWzHPq761vr9GPKjWA=;
-	b=a8HQPZ6ouRbD0qybLiJY+vONt8FqU6Duq034pdQ+NpF+Q38xyC5RzxHvi8wKEhssvL
-	hbt9+E3qAPNTXmElUN3m8/Ae/G+niODo9lMsc9RkFC+vsTKp8IW8u9IJTEUyckzZ0OwI
-	8Lnj0pAlanDNBo4hDQjD81GK5RQ1wAY0SzYbRIiHCwl/R07bfCMMPRX95OOmZE2eHoMx
-	iMUMBEA9A0LXL/ZXijrWGyelssKi4jQaaTLc4/DgcfJ6JxEpd9HdBEYgYeGjVPSOY+q6
-	ddj3GJE1iI4QXIDiNh7Z3qNTYWn0pgtirY/XYrAsPmMBhkyKId0BrH2f3SHa8Xb+MoLV
-	jptA==
+	bh=92FKO0YkEQvuYmeZgwdX8ZzSH2Iqbydn2qHTG6Pr6bE=;
+	b=kgqdT/J9+PTmhW8qeg6oTAwOBsTTmvH/E74EvI+0l2HtXLNibAMimkuVdlbzjmAW+3
+	t9/nbMTsBgD8w6dXpWIWEIOiqrB1+xsDlznEvzqC81icASu4brWZTfxJx6Rhyr+NjThD
+	NpVdZa8+pU0cYOjtef8cqwjw6Es/e55eaKdgSEXPKTE3yEQ/T+4C0q6XpF9ME+Z47xuJ
+	l/O+gAJ4sU+FAnzziip1dGFN+IDOP7aOrt2L8DOapSd/WYk8rgZAdrc4Nx0/N5nN8UVm
+	kznsA4ou+4MOcrbC6dnCjpy7KkHI82qjYLr3+SkVPn485yYTDkKXkQAPUUxfpBfpWvgw
+	fETA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=JhUCykz77kJK1eSEYRTbbk7auGWzHPq761vr9GPKjWA=;
-	b=Jk3z+GFN0a8xssNCspZrpPm38hLuMnM+Rcw1CGe8YDLHA4lG5U8jx8xOMNc3Uq4wV8
-	ekOFVqRk8kzMpz9CsnehqrB6dR4rcdrYQ9Zy7QjNG7Md98yYwZ28XGCdF0uATQflfTxe
-	1qW6NMQ7OTW5C9SFnFDihrXpZpoQy61NkayNd0vUIRRbp9Jt1Y+DD/+57cJ6XuaxdrHE
-	xUXFypASRT2hK2VtWJCBsY54GPzEG+960EuB8BkNC3zZHU8HAVfBX0xY1Do7s3ZxQsm9
-	kSWghptWGBgYLkCXIFthZ547Ikd+Zk4b1lVdo7v3jcDSP5HXLz7CFD16LYJieNj+GaRU
-	pfBw==
-X-Gm-Message-State: APjAAAWi1mslvrgG4akOJ3THOBSUkWv2dXr+KMI+cr3qlRiZO8TPIwMa
-	9/FEiYwvgfU2bKaV4l7F7wcKt1gv
-X-Google-Smtp-Source: APXvYqy2dQxTdErrLvbC1I0RfFUuU7Bt13TGP1LyFRJYD0iV6dTFB+DzTgDpeCs0k2oz7kmxp/ibDQ==
-X-Received: by 2002:a1c:7c08:: with SMTP id x8mr10719131wmc.106.1580288899246; 
-	Wed, 29 Jan 2020 01:08:19 -0800 (PST)
+	bh=92FKO0YkEQvuYmeZgwdX8ZzSH2Iqbydn2qHTG6Pr6bE=;
+	b=JnwDTDROs2TQxvpAgdOXTnES0RtM046Mn0s7mZ4GWXuhnDtWZEJxTwL1WIVEHEWNkT
+	ODcq1fusXGU2SZkFeZ4yjMq+x+fHKNOgIXnAbas4FJvo7sKK5SqXlmxbgIkjGgGdeF+k
+	unDUmVQS0TOUdn1JlviK8i+qB+cn1SL+TP73KLl4fAITHnV1fS1p/9amRXnViuFpJbPm
+	jLPDgwSDF8evpBeMVWCZ83JBrrSY6oTxxu/DRmIz/fpKPcwHE6m5lzZe9D83Iexzj7Ju
+	RCGfchTYKoO3P3pp3O5zjHJjau+to9o2rV6DWKt4d0+tgcJ01cdMBrgTbr0NLVMTOvxO
+	AY7Q==
+X-Gm-Message-State: APjAAAWURcGhHxmw/ZNKV9tgRFVz9dAOXe4/Qh6i1RrmRQwDPYny7Lef
+	S3t9IJT38fDodPQMpT2dcsFohbWc
+X-Google-Smtp-Source: APXvYqyfSrZHvgyAvF69uShvF+p9u46S5GQh3RCW9HaKX+TCBeK4+baCRCXP+4xwFC297Aoaj2WseQ==
+X-Received: by 2002:a1c:a947:: with SMTP id s68mr10459092wme.61.1580288888528; 
+	Wed, 29 Jan 2020 01:08:08 -0800 (PST)
 Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
 	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	a62sm1550224wmh.33.2020.01.29.01.08.18
+	a62sm1550224wmh.33.2020.01.29.01.08.07
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 01:08:18 -0800 (PST)
+	Wed, 29 Jan 2020 01:08:07 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 10:07:30 +0100
-Message-Id: <20200129090738.1398-16-alex.kanavin@gmail.com>
+Date: Wed, 29 Jan 2020 10:07:17 +0100
+Message-Id: <20200129090738.1398-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
 References: <20200129090738.1398-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 16/24] libedit: upgrade 20191025-3.1 -> 20191231-3.1
+Subject: [PATCH 03/24] libva-utils: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +59,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2020 13:38:24 -0000
+X-List-Received-Date: Thu, 30 Jan 2020 13:38:46 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{libedit_20191025-3.1.bb => libedit_20191231-3.1.bb}      | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/libedit/{libedit_20191025-3.1.bb => libedit_20191231-3.1.bb} (78%)
+ meta/recipes-graphics/libva/libva-utils_2.6.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/libedit/libedit_20191025-3.1.bb b/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
-similarity index 78%
-rename from meta/recipes-devtools/libedit/libedit_20191025-3.1.bb
-rename to meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
-index f810013a680..7116c9ddbc0 100644
---- a/meta/recipes-devtools/libedit/libedit_20191025-3.1.bb
-+++ b/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
-@@ -13,7 +13,7 @@ inherit autotools
- SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
-            file://stdc-predef.patch \
-           "
--SRC_URI[md5sum] = "2d6568467080cfd75e715d045102b544"
--SRC_URI[sha256sum] = "6dff036660d478bfaa14e407fc5de26d22da1087118c897b1a3ad2e90cb7bf39"
-+SRC_URI[md5sum] = "2e22a51131de94ff2df24901f7cfe416"
-+SRC_URI[sha256sum] = "dbb82cb7e116a5f8025d35ef5b4f7d4a3cdd0a3909a146a39112095a2d229071"
+diff --git a/meta/recipes-graphics/libva/libva-utils_2.6.0.bb b/meta/recipes-graphics/libva/libva-utils_2.6.0.bb
+index 0037fdfd854..03b38027a13 100644
+--- a/meta/recipes-graphics/libva/libva-utils_2.6.0.bb
++++ b/meta/recipes-graphics/libva/libva-utils_2.6.0.bb
+@@ -18,7 +18,7 @@ SRC_URI = "git://github.com/intel/libva-utils.git;branch=v2.6-branch"
+ SRCREV = "8ea1eba433dcbceb0e5dcb54b8e3f984987f7a17"
+ S = "${WORKDIR}/git"
  
- BBCLASSEXTEND = "native nativesdk"
+-UPSTREAM_CHECK_URI = "https://github.com/intel/libva-utils/releases"
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
+ 
+ DEPENDS = "libva"
+ 
 -- 
 2.25.0
 
