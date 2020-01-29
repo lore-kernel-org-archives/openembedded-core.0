@@ -1,48 +1,52 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com
-	[209.85.167.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 8EB466069A
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AB7B4608DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 14:01:52 +0000 (UTC)
-Received: by mail-lf1-f42.google.com with SMTP id n25so2390775lfl.0
+	Thu, 30 Jan 2020 15:05:39 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id t14so4606299wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 06:01:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=plKacpW2yYgXamGEKLwQhPxlb5eyQoNJVUvajXl/Dbo=;
-	b=c5SM4Th6S/z2JlUOkSim2cwzfpK6PFXulhEvhq928kFFZ1IAciNvlOQ3mJb9dWLHLI
-	RiFoTDENlitdV/o8Kd3hFvWBigKX/1vfqoid45fVMPMqcgg0UcqAyqeIH5QkreNNeA1P
-	syJF6C2XKIl4Q7X9MH37XosFZps5gPJ8WVS55alhkr8+FS+UZRZ0bXy0gGri8FEYtW0r
-	qbedsEmnl3oWkDsLjWiEYJEEpLa/IpVLbkNKszHK+B2xizs7k+CXizaQtqVykOFzmQxR
-	B+pfTnncvl50Fu6U4/e1cwPSafPn5l4WKDfZ9qd+vOAhwb7f7fccvvy5jXkMBvB0CQ3K
-	lwNw==
+	Thu, 30 Jan 2020 07:05:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=bP6Cx2pVDaD8sH4FZlS9hzdCqNI1K18GkoMtrwr/Nes=;
+	b=b3LKzw1yhIOO71FJax3BVNSivEfJ+JRKioJSZs2rUAZu3BQyoqlT4ntXa+z4HbxFCD
+	pMS4dupRbGRRlI61csHZvZ6G6Y36EQaFJYaJTzBJL3iPbGuJuMLUucQIP1BWst+QvvrC
+	Llfq3eNiEOzCHjnu5i74e5qC9IqtD9Ln4EBPs2a1N9le5zgaTc0+FHeZ99q4aGAWEWLM
+	VY23ICKYFwjJHcixGjq8HIjRGWWXZT4dm7W0xecN8UgI8Y0DcF8PH2wd3IjLFP08h82+
+	ASfA4/FFeCsr2ttpf8nI+8E6CWthUXOHzkIWlzo1GS7dzrjaNn+omB5wLgyoaEx46YXa
+	7CVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=plKacpW2yYgXamGEKLwQhPxlb5eyQoNJVUvajXl/Dbo=;
-	b=BPZnpq4O/mObhDX0ytY3+hUOOaYm9df834nmesL7B0TLPAKB/sMiB+NgYvCadBwlBI
-	u7Byf4ql1z6ejmk2G349aT2RDp20uiXmyOnfLaei5MhYgd59talXnNpKlQlItyJ4kFSV
-	xXXYRCy13LeOEnOphpWiT2YPBEgkgPvlNqG2OQCG0wA6lc0d29AsokwSLs6sNiqI9Zpd
-	12HVhQJ2oo9WkvhZbnlh3QQz9bI34BajNWh85opp+NywiK/JPPR7AMff4Aaxx7MSBhsO
-	YPJsNKlPUt1kVje38JlpWrafxC9c68XlI2S+RM36JXLuWpah06CpZ71ct02OD7Z+8FwO
-	yBpw==
-X-Gm-Message-State: APjAAAVXHZmIal84QLNs5VsZGjsv/enRcQvysJoBvYdIpcHyVqMEVSrN
-	pHx84JBCFfsj+9K5dc8jDRqsdOQbE8C3nqwQ+QDbYWQXW4+E4w==
-X-Google-Smtp-Source: APXvYqxFqJ1jLLlDAz26RnF3wugFjhPFgotcJRuba19gOydjwzeuwxV81vIm/gfkO7+EOCDtJY0dQvSyC6x5SyFrAK8=
-X-Received: by 2002:a19:7711:: with SMTP id s17mr2688086lfc.164.1580392912986; 
-	Thu, 30 Jan 2020 06:01:52 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=bP6Cx2pVDaD8sH4FZlS9hzdCqNI1K18GkoMtrwr/Nes=;
+	b=oZFywegLvI78lvAM/joeztAeszz3FFucwZlX0UUO4/J1dAsF/OXZDUEZXTm47KNKHn
+	FeefpT+zTQG1mTI8RAAZ1DV3wYHRqK2uB5QPTcNxI+CEJUc/1SMHKU3Y0keEmyVGWIDt
+	sjvnqf1PEq/A4eAJA3LJh6xTUukilcwg/k+gcP6g1kYqWvkkoBedhh8vikbmmo+Sqrd9
+	SzuwJQCL94YUl26+tyOwG3eqRdDD8BIHkWAfXGT2doVJ3wHDSze0zoCqdbl9dRAdHL9U
+	O96kcmNdq7HjoTB+qiGJfAZ7JPtaeJQEvkNkgjgV34idCvZ3ROjhkhAye3l0WmfK7DTF
+	ECGQ==
+X-Gm-Message-State: APjAAAX+aoUoTEAROkvZCmThWVR+CxdWW5DJ+xFsxkzrr7fLHKIvBSpI
+	Agr18mfShaaBJng+BEKoLmH7EaU7
+X-Google-Smtp-Source: APXvYqzyRe5ueRPd/+BOUASLjIphe/vPXLIb+ehhyZ9S4MQ58xt2H+EVC4eLNg90UBSx8KCvWjdu5Q==
+X-Received: by 2002:a7b:c08d:: with SMTP id r13mr10670636wmh.104.1580288890916;
+	Wed, 29 Jan 2020 01:08:10 -0800 (PST)
+Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
+	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
+	a62sm1550224wmh.33.2020.01.29.01.08.10
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 29 Jan 2020 01:08:10 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jan 2020 10:07:20 +0100
+Message-Id: <20200129090738.1398-6-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
+References: <20200129090738.1398-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-References: <20200106091806.49129-1-tanuk@iki.fi>
-	<20200106091806.49129-3-tanuk@iki.fi>
-In-Reply-To: <20200106091806.49129-3-tanuk@iki.fi>
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 30 Jan 2020 15:01:41 +0100
-Message-ID: <CAP71WjyMNKJJ0CFzVaVRx0T4rffN0dWJQ-JfJEk7iKHPFegEpA@mail.gmail.com>
-To: Tanu Kaskinen <tanuk@iki.fi>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 2/5] alsa-ucm-conf: new recipe, version 1.2.1.2
+Subject: [PATCH 06/24] bison: upgrade 3.4.2 -> 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,100 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 09:28:06 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 31 Jan 2020 09:28:08 -0000
+Content-Transfer-Encoding: 8bit
 
-hey,
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-devtools/bison/{bison_3.4.2.bb => bison_3.5.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/bison/{bison_3.4.2.bb => bison_3.5.bb} (90%)
 
-On Mon, Jan 6, 2020 at 10:18 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
->
-> The UCM configuration files were moved from the alsa-lib repository to a
-> new alsa-ucm-conf repository. The move was accompanied by a license
-> change from LGPL2.1 to BSD-3-Clause.
->
-> Signed-off-by: Tanu Kaskinen <tanuk@iki.fi>
-> ---
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../alsa/alsa-lib_1.2.1.2.bb                  |  2 +-
->  .../alsa/alsa-ucm-conf_1.2.1.2.bb             | 23 +++++++++++++++++++
->  3 files changed, 25 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.1.2.bb
->
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> index 39eee9475c..c9fb373f52 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -35,6 +35,7 @@ RECIPE_MAINTAINER_pn-alsa-lib = "Tanu Kaskinen <tanuk@iki.fi>"
->  RECIPE_MAINTAINER_pn-alsa-plugins = "Tanu Kaskinen <tanuk@iki.fi>"
->  RECIPE_MAINTAINER_pn-alsa-state = "Tanu Kaskinen <tanuk@iki.fi>"
->  RECIPE_MAINTAINER_pn-alsa-tools = "Tanu Kaskinen <tanuk@iki.fi>"
-> +RECIPE_MAINTAINER_pn-alsa-ucm-conf = "Tanu Kaskinen <tanuk@iki.fi>"
->  RECIPE_MAINTAINER_pn-alsa-utils = "Tanu Kaskinen <tanuk@iki.fi>"
->  RECIPE_MAINTAINER_pn-alsa-utils-scripts = "Tanu Kaskinen <tanuk@iki.fi>"
->  RECIPE_MAINTAINER_pn-apmd = "Anuj Mittal <anuj.mittal@intel.com>"
-> diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-> index 9565ad1b20..7bc78b8523 100644
-> --- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-> +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.1.2.bb
-> @@ -33,7 +33,7 @@ FILES_alsa-server = "${bindir}/*"
->  FILES_alsa-conf = "${datadir}/alsa/"
->  FILES_libatopology = "${libdir}/libatopology.so.*"
->
-> -RDEPENDS_${PN}_class-target = "alsa-conf"
-> +RDEPENDS_${PN}_class-target = "alsa-conf alsa-ucm-conf"
->
->  # upgrade path
->  RPROVIDES_${PN} = "libasound"
-> diff --git a/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.1.2.bb b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.1.2.bb
-> new file mode 100644
-> index 0000000000..469d1f7a95
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/alsa/alsa-ucm-conf_1.2.1.2.bb
-> @@ -0,0 +1,23 @@
-> +SUMMARY = "ALSA Use Case Manager configuration"
-> +HOMEPAGE = "https://alsa-project.org"
-> +BUGTRACKER = "https://alsa-project.org/wiki/Bug_Tracking"
-> +LICENSE = "BSD-3-Clause"
-> +LIC_FILES_CHKSUM = "file://LICENSE;md5=20d74d74db9741697903372ad001d3b4"
-> +
-> +# The tarball doesn't have any toplevel directory. The subdir option tells
-> +# Bitbake to unpack the archive to the correct place.
-> +SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2;subdir=${BP}"
-> +SRC_URI[md5sum] = "b7fa43cfd79df978184a6333766d2a50"
-> +SRC_URI[sha256sum] = "ea8a86875f4cf430d49a662a04a6d6c606c5c9d67e54cb944c4d77b24554062f"
-> +
-> +inherit allarch
+diff --git a/meta/recipes-devtools/bison/bison_3.4.2.bb b/meta/recipes-devtools/bison/bison_3.5.bb
+similarity index 90%
+rename from meta/recipes-devtools/bison/bison_3.4.2.bb
+rename to meta/recipes-devtools/bison/bison_3.5.bb
+index 46f0f908dd4..3d8f6579b9e 100644
+--- a/meta/recipes-devtools/bison/bison_3.4.2.bb
++++ b/meta/recipes-devtools/bison/bison_3.5.bb
+@@ -17,8 +17,8 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+ # No point in hardcoding path to m4, just use PATH
+ EXTRA_OECONF += "M4=m4"
+ 
+-SRC_URI[md5sum] = "d1ceb9dfde2d03b24a4c1137f7f1b572"
+-SRC_URI[sha256sum] = "27d05534699735dc69e86add5b808d6cb35900ad3fd63fa82e3eb644336abfa0"
++SRC_URI[md5sum] = "c0230be066069f33c8445766833f3205"
++SRC_URI[sha256sum] = "55e4a023b1b4ad19095a5f8279f0dc048fa29f970759cea83224a6d5e7a3a641"
+ 
+ inherit autotools gettext texinfo
+ 
+-- 
+2.25.0
 
-it's a bit late into the game.. but I have some questions about this
-patch. now that the alsa-ucm-conf are allarch, how do we expect a BSP
-layer to provide its own UCM config files? if i add a .bbappend file,
-I can't change PACKAGE_ARCH to be 'machine' specific. If i create a
-new recipe for my custom UCM files, then it's not obvious when I
-should install them, since we need them only if alsa-ucm-conf is
-installed in the first place..
-
-I was thinking about adding an empty alsa-ucm-machine-conf recipe that
-BSP could append,  like gpsd, e.g.:
-http://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-navigation/gpsd/gpsd-machine-conf_1.0.bb
-
-Is that a good idea?
-
-> +
-> +do_install() {
-> +        install -d ${D}/usr/share/alsa
-> +        cp -r ${S}/ucm ${D}/usr/share/alsa
-> +        cp -r ${S}/ucm2 ${D}/usr/share/alsa
-> +}
-> +
-> +PACKAGES = "${PN}"
-> +
-> +FILES_${PN} = "*"
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
