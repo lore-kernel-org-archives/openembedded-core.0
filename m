@@ -1,50 +1,52 @@
-Return-Path: <philip@balister.org>
-X-Greylist: delayed 401 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 30 Jan 2020 19:18:53 UTC
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F7D260D40
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 14B1B6026C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 19:18:53 +0000 (UTC)
-Received: (qmail 11396 invoked by uid 1003); 30 Jan 2020 19:10:48 -0000
-Received: from unknown (HELO ?192.168.8.100?)
-	(philip@opensdr.com@84.241.196.35)
-	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
-	30 Jan 2020 19:10:48 -0000
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20200130000115.506-1-richard.purdie@linuxfoundation.org>
-From: Philip Balister <philip@balister.org>
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	mQENBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAG0JVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz6JAT4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4Yxi5AQ0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAYkBJQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Message-ID: <2d770828-7e31-2b10-8ed1-2df7a911486d@balister.org>
-Date: Thu, 30 Jan 2020 20:12:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.2.2
+	Thu, 30 Jan 2020 13:19:37 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id t23so3757953wmi.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jan 2020 05:19:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=69p6DyC16680iXlBtTVxV6ubmVOYOPnT0KA4vJAJyqY=;
+	b=JASFvYhfTX+TWEtH0jA3vuNvkmJOzpVHcPouegYOGFqqZZbVBAA1F6AzNOWp9gsE4N
+	yDrLZzKfPwiKip4UXzu6jjyi135r81Q/tlYP4coBKDAipkuxiaMd3t2eByjCSIU9kOK9
+	IQpIy/2+4TBJbOJATSlgKu3DlQqbRI/LN2QgCxwKsurJ65tzCCNl99pN0EkWRaYO8X7d
+	Mv4xRhLbH4v5/6K2mTgsw+gTcEFwnXvuijuZ30amuUc808RsSWMXjjrDJTi2TTswtTTa
+	jK/cj8O5xBPkyw1t8R8E8hrMhoiC6ezXHLJ6CBms+ZfWtwSSsulge9noK/l0Swn2p9kK
+	+mEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=69p6DyC16680iXlBtTVxV6ubmVOYOPnT0KA4vJAJyqY=;
+	b=d9J1Q2sO0wFN5JNvWBtKk6qXfSfcAlHg95GlPHBr3KV3GeZAnp6CnQFEgc4t5WjFB4
+	Af2bZjGbinioomO7DQDRoqWpcZaJt9CwPluY/hPzBzpJjnTILFD9+wvbsClmvavDD0+z
+	uO9r1vXvU48+lATFe5qE4y1gRslm5qqSE03RybTGy7YAyyJk3uiz/eiQ1zCsd82vZ/or
+	5z71j9ZK2YxU+M84Mt52hiSakVndy1+j3o3xKWLJjWfHgyyq6DfHwoEPxHzcpyExfiX9
+	mjU2WyzmJucUkHqOuvNu6dII85CIfokrnsRmud0Psnrq1q8FHD0yU7dwzeNJL2pGafHI
+	s+aw==
+X-Gm-Message-State: APjAAAUBavIIWxBC7erRpVv9UKia3OEVJY+oYRjncHTtBbR40ppYH0hP
+	U2r30IqD91HZxSMNN0a8LmW8mt6W
+X-Google-Smtp-Source: APXvYqxOMUBUzB1ykjQFl25xllQKtsJvk6GCdkhI9PBjgTB26fBNTziNHN+TGCv/cpaLhuWg2R6ujA==
+X-Received: by 2002:a7b:c1d6:: with SMTP id a22mr10076361wmj.134.1580288891779;
+	Wed, 29 Jan 2020 01:08:11 -0800 (PST)
+Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
+	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
+	a62sm1550224wmh.33.2020.01.29.01.08.11
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 29 Jan 2020 01:08:11 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jan 2020 10:07:21 +0100
+Message-Id: <20200129090738.1398-7-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
+References: <20200129090738.1398-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20200130000115.506-1-richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH] MEMORIAM: Add recognition for contributors no longer with us
+Subject: [PATCH 07/24] puzzles: upgrade to latest revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +59,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 09:28:05 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 Jan 2020 09:28:06 -0000
+Content-Transfer-Encoding: 8bit
 
-On 1/30/20 1:01 AM, Richard Purdie wrote:
-> Its sad to have this but as the project ages, also perhaps inevitable.
-> Besides their contributions, remember them here.
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  MEMORIAM | 5 +++++
->  1 file changed, 5 insertions(+)
->  create mode 100644 MEMORIAM
-> 
-> diff --git a/MEMORIAM b/MEMORIAM
-> new file mode 100644
-> index 00000000000..0b3ce4670fc
-> --- /dev/null
-> +++ b/MEMORIAM
-> @@ -0,0 +1,5 @@
-> +Some project contributors who are sadly no longer with us:
-> +
-> +Greg Gilbert (treke) - Ahead of his time with licensing
-> +Thomas Wood (thos) - Creator of the original sato
-> +Scott Rifenbark (scottrif) - Our long standing techwriter whose words live on
-> 
+License-Update: list of contributors updated.
 
-Acked-by: Philip Balister <philip@balister.org>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-sato/puzzles/puzzles_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index 57f2af48eb8..41b78d6fe12 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Simon Tatham's Portable Puzzle Collection"
+ HOMEPAGE = "http://www.chiark.greenend.org.uk/~sgtatham/puzzles/"
+ LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=da6110d4ed1225a287eab2bf0ac0193b"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=6099f4981f9461d7f411091e69a7f07a"
+ 
+ DEPENDS = "libxt"
+ 
+@@ -17,7 +17,7 @@ SRC_URI = "git://git.tartarus.org/simon/puzzles.git \
+            "
+ 
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "1c0c49dd5cd8df6ae87f7be5371be84589fa2662"
++SRCREV = "79a5378b5adc46ee33ba34d55738f916fb8adfc9"
+ PE = "2"
+ PV = "0.0+git${SRCPV}"
+ 
+-- 
+2.25.0
+
 
