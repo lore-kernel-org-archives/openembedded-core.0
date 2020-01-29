@@ -1,52 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B4269605F8
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B64260628
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 13:34:34 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id m10so6479989wmc.0
+	Thu, 30 Jan 2020 13:38:23 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id f129so4268321wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 05:34:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=z5ZwM9C4e43dypNPZM05sEdc3iyWB5UaV5JnUrJxLsY=;
-	b=R/Wlhry2dG+kRjIdtIKgiMf8zIporpv7tPWxCRTKw5Qs+MdjJ3ssSqgWmD9Gt8TZL1
-	EYxljPpqV668NRdAAGYgxwk/nPkG+4+cSFqjlfRoLUMYAzX3TNoTe2iYhTP8GsbOgIMr
-	P/V9HrbYc1Iz1JuX0xPwaFS7b2tkQPkKiMMsb+QQPJzpI2b/S2g15ZA2PMG4w3OiP9hU
-	V7qQ4OTenxNgMuslm/nWwNsBsEZkwNeZ41cR/w6uXgk4WKKrAx0/MEKIIIvMwEU3EQlr
-	UacQqBjibmvp4jEeJKvsvmxYLuLIfpvsZcTvMlT5fN08tCaZNRdwF500SRwaxOcqH4KK
-	GVBA==
+	Thu, 30 Jan 2020 05:38:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=JhUCykz77kJK1eSEYRTbbk7auGWzHPq761vr9GPKjWA=;
+	b=a8HQPZ6ouRbD0qybLiJY+vONt8FqU6Duq034pdQ+NpF+Q38xyC5RzxHvi8wKEhssvL
+	hbt9+E3qAPNTXmElUN3m8/Ae/G+niODo9lMsc9RkFC+vsTKp8IW8u9IJTEUyckzZ0OwI
+	8Lnj0pAlanDNBo4hDQjD81GK5RQ1wAY0SzYbRIiHCwl/R07bfCMMPRX95OOmZE2eHoMx
+	iMUMBEA9A0LXL/ZXijrWGyelssKi4jQaaTLc4/DgcfJ6JxEpd9HdBEYgYeGjVPSOY+q6
+	ddj3GJE1iI4QXIDiNh7Z3qNTYWn0pgtirY/XYrAsPmMBhkyKId0BrH2f3SHa8Xb+MoLV
+	jptA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=z5ZwM9C4e43dypNPZM05sEdc3iyWB5UaV5JnUrJxLsY=;
-	b=sBVT5Nx4u7tBOztcIHerIWqCZbVv/xHgpJOXszAHoOfYZkJIxFpIVeSkM+Z83OiWXV
-	JhvjIZXwFvLe5+nK2BGvNr3L3TfCf37KszBbZQj5RzMxpBn7qRNdjYrcUC6DRl6i7l/d
-	wnonmYSbCle1Fpx9dq9uY04lB+0j2c2m+oPgLNx9d1TMPdKjIGm07RwsQRDnyjwu9Dsp
-	xS0Hl5l301lqgDVT7uap5mMhQ9859439tBPVuFrPZmagN+khtND3aEYctysSbDeHf87L
-	dRvYSq7q/rU7F4DuF6iVQ/jCxPgWudnZDIa+73DVNHVwxKHbA1VGA0KKUOe3erXlfEpy
-	QtYQ==
-X-Gm-Message-State: APjAAAUW2R2CQ8cDu2xatF2YP+MCzGxgfsKlAgvM4GfZCLmRJSzAQBkj
-	QNP8qBmkF21w1z2i9oPRB8tvPlDrOTb+vw==
-X-Google-Smtp-Source: APXvYqyvmA8FaeyeWbNiZEoGy9vbrODrIWrFTWDxjPcPdcIg5dFLxE0SMtZnAcLt3SOISEVbHtY4Tw==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr1173841wmi.116.1580332430322; 
-	Wed, 29 Jan 2020 13:13:50 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	z10sm3486464wmk.31.2020.01.29.13.13.48
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=JhUCykz77kJK1eSEYRTbbk7auGWzHPq761vr9GPKjWA=;
+	b=Jk3z+GFN0a8xssNCspZrpPm38hLuMnM+Rcw1CGe8YDLHA4lG5U8jx8xOMNc3Uq4wV8
+	ekOFVqRk8kzMpz9CsnehqrB6dR4rcdrYQ9Zy7QjNG7Md98yYwZ28XGCdF0uATQflfTxe
+	1qW6NMQ7OTW5C9SFnFDihrXpZpoQy61NkayNd0vUIRRbp9Jt1Y+DD/+57cJ6XuaxdrHE
+	xUXFypASRT2hK2VtWJCBsY54GPzEG+960EuB8BkNC3zZHU8HAVfBX0xY1Do7s3ZxQsm9
+	kSWghptWGBgYLkCXIFthZ547Ikd+Zk4b1lVdo7v3jcDSP5HXLz7CFD16LYJieNj+GaRU
+	pfBw==
+X-Gm-Message-State: APjAAAWi1mslvrgG4akOJ3THOBSUkWv2dXr+KMI+cr3qlRiZO8TPIwMa
+	9/FEiYwvgfU2bKaV4l7F7wcKt1gv
+X-Google-Smtp-Source: APXvYqy2dQxTdErrLvbC1I0RfFUuU7Bt13TGP1LyFRJYD0iV6dTFB+DzTgDpeCs0k2oz7kmxp/ibDQ==
+X-Received: by 2002:a1c:7c08:: with SMTP id x8mr10719131wmc.106.1580288899246; 
+	Wed, 29 Jan 2020 01:08:19 -0800 (PST)
+Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
+	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
+	a62sm1550224wmh.33.2020.01.29.01.08.18
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 13:13:49 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 29 Jan 2020 01:08:18 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 21:13:46 +0000
-Message-Id: <20200129211346.8149-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+Date: Wed, 29 Jan 2020 10:07:30 +0100
+Message-Id: <20200129090738.1398-16-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
+References: <20200129090738.1398-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] glibc: merge libc-common.bbclass into glibc.bb
+Subject: [PATCH 16/24] libedit: upgrade 20191025-3.1 -> 20191231-3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,131 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2020 13:35:19 -0000
+X-List-Received-Date: Thu, 30 Jan 2020 13:38:24 -0000
 Content-Transfer-Encoding: 8bit
 
-There's only one user of libc-common now that we don't ship both glibc and
-eglibc, so copy the contents directly into the recipe.
-
-[ YOCTO #12135 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/classes/libc-common.bbclass          | 37 ---------------------
- meta/recipes-core/glibc/glibc-package.inc | 40 +++++++++++++++++++++--
- 2 files changed, 38 insertions(+), 39 deletions(-)
- delete mode 100644 meta/classes/libc-common.bbclass
+ .../{libedit_20191025-3.1.bb => libedit_20191231-3.1.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/libedit/{libedit_20191025-3.1.bb => libedit_20191231-3.1.bb} (78%)
 
-diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
-deleted file mode 100644
-index 0e351b67464..00000000000
---- a/meta/classes/libc-common.bbclass
-+++ /dev/null
-@@ -1,37 +0,0 @@
--do_install() {
--	oe_runmake install_root=${D} install
--	install -Dm 0644 ${WORKDIR}/etc/ld.so.conf ${D}/${sysconfdir}/ld.so.conf
--	install -d ${D}${localedir}
--	make -f ${WORKDIR}/generate-supported.mk IN="${S}/localedata/SUPPORTED" OUT="${WORKDIR}/SUPPORTED"
--	# get rid of some broken files...
--	for i in ${GLIBC_BROKEN_LOCALES}; do
--		sed -i "/$i/d" ${WORKDIR}/SUPPORTED
--	done
--	rm -f ${D}${sysconfdir}/rpc
--	rm -rf ${D}${datadir}/zoneinfo
--	rm -rf ${D}${libexecdir}/getconf
--}
--
--def get_libc_fpu_setting(bb, d):
--    if d.getVar('TARGET_FPU') in [ 'soft', 'ppc-efd' ]:
--        return "--without-fp"
--    return ""
--
--python populate_packages_prepend () {
--    if d.getVar('DEBIAN_NAMES'):
--        pkgs = d.getVar('PACKAGES').split()
--        bpn = d.getVar('BPN')
--        prefix = d.getVar('MLPREFIX') or ""
--        # Set the base package...
--        d.setVar('PKG_' + prefix + bpn, prefix + 'libc6')
--        libcprefix = prefix + bpn + '-'
--        for p in pkgs:
--            # And all the subpackages.
--            if p.startswith(libcprefix):
--                renamed = p.replace(bpn, 'libc6', 1)
--                d.setVar('PKG_' + p, renamed)
--        # For backward compatibility with old -dbg package
--        d.appendVar('RPROVIDES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
--        d.appendVar('RCONFLICTS_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
--        d.appendVar('RREPLACES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
--}
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index ede9e9b9096..8d3d76bb416 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -65,9 +65,21 @@ DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconv, loc
- DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
- DESCRIPTION_tzcode = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
+diff --git a/meta/recipes-devtools/libedit/libedit_20191025-3.1.bb b/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
+similarity index 78%
+rename from meta/recipes-devtools/libedit/libedit_20191025-3.1.bb
+rename to meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
+index f810013a680..7116c9ddbc0 100644
+--- a/meta/recipes-devtools/libedit/libedit_20191025-3.1.bb
++++ b/meta/recipes-devtools/libedit/libedit_20191231-3.1.bb
+@@ -13,7 +13,7 @@ inherit autotools
+ SRC_URI = "http://www.thrysoee.dk/editline/${BP}.tar.gz \
+            file://stdc-predef.patch \
+           "
+-SRC_URI[md5sum] = "2d6568467080cfd75e715d045102b544"
+-SRC_URI[sha256sum] = "6dff036660d478bfaa14e407fc5de26d22da1087118c897b1a3ad2e90cb7bf39"
++SRC_URI[md5sum] = "2e22a51131de94ff2df24901f7cfe416"
++SRC_URI[sha256sum] = "dbb82cb7e116a5f8025d35ef5b4f7d4a3cdd0a3909a146a39112095a2d229071"
  
--inherit libc-common multilib_header
-+inherit multilib_header
-+
-+do_install() {
-+	oe_runmake install_root=${D} install
-+	install -Dm 0644 ${WORKDIR}/etc/ld.so.conf ${D}/${sysconfdir}/ld.so.conf
-+	install -d ${D}${localedir}
-+	make -f ${WORKDIR}/generate-supported.mk IN="${S}/localedata/SUPPORTED" OUT="${WORKDIR}/SUPPORTED"
-+	# get rid of some broken files...
-+	for i in ${GLIBC_BROKEN_LOCALES}; do
-+		sed -i "/$i/d" ${WORKDIR}/SUPPORTED
-+	done
-+	rm -f ${D}${sysconfdir}/rpc
-+	rm -rf ${D}${datadir}/zoneinfo
-+	rm -rf ${D}${libexecdir}/getconf
- 
--do_install_append () {
- 	rm -f ${D}${sysconfdir}/localtime
- 
- 	# remove empty glibc dir
-@@ -108,6 +120,11 @@ do_install_append () {
- 	fi
- }
- 
-+def get_libc_fpu_setting(bb, d):
-+    if d.getVar('TARGET_FPU') in [ 'soft', 'ppc-efd' ]:
-+        return "--without-fp"
-+    return ""
-+
- do_install_append_class-target() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
- 		install -d ${D}${sysconfdir}/tmpfiles.d
-@@ -233,6 +250,25 @@ stash_locale_package_cleanup() {
- 	stash_locale_cleanup ${PKGD}
- }
- 
-+python populate_packages_prepend () {
-+    if d.getVar('DEBIAN_NAMES'):
-+        pkgs = d.getVar('PACKAGES').split()
-+        bpn = d.getVar('BPN')
-+        prefix = d.getVar('MLPREFIX') or ""
-+        # Set the base package...
-+        d.setVar('PKG_' + prefix + bpn, prefix + 'libc6')
-+        libcprefix = prefix + bpn + '-'
-+        for p in pkgs:
-+            # And all the subpackages.
-+            if p.startswith(libcprefix):
-+                renamed = p.replace(bpn, 'libc6', 1)
-+                d.setVar('PKG_' + p, renamed)
-+        # For backward compatibility with old -dbg package
-+        d.appendVar('RPROVIDES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
-+        d.appendVar('RCONFLICTS_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
-+        d.appendVar('RREPLACES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
-+}
-+
- pkg_postinst_nscd () {
- 	if [ -z "$D" ]; then
- 		if command -v systemd-tmpfiles >/dev/null; then
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-2.20.1
+2.25.0
 
 
