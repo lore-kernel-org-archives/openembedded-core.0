@@ -1,57 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 08C77605F9
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B4269605F8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 13:35:16 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id c26so3815162eds.8
+	Thu, 30 Jan 2020 13:34:34 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id m10so6479989wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 05:35:18 -0800 (PST)
+	Thu, 30 Jan 2020 05:34:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=duaWlQvltG489XToX2FPui38lZRu2vmalYvJQdzAN+M=;
-	b=G5jGwxLSgu3U9hp0c/A0gDYQAebjBXWuFEprxl7piNHvgdsB1wRbD1haWS5kNGXnAk
-	wkIPwn7M2afu0zYKVt05j0dAibToi+Kj2m8m3VQ+Z1cS1PNXx7GIghTO/4/4lVGiEzq8
-	/k/cspq9CJlwy4F2HeoXyiKUkyRMzlQE3JQxY=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=z5ZwM9C4e43dypNPZM05sEdc3iyWB5UaV5JnUrJxLsY=;
+	b=R/Wlhry2dG+kRjIdtIKgiMf8zIporpv7tPWxCRTKw5Qs+MdjJ3ssSqgWmD9Gt8TZL1
+	EYxljPpqV668NRdAAGYgxwk/nPkG+4+cSFqjlfRoLUMYAzX3TNoTe2iYhTP8GsbOgIMr
+	P/V9HrbYc1Iz1JuX0xPwaFS7b2tkQPkKiMMsb+QQPJzpI2b/S2g15ZA2PMG4w3OiP9hU
+	V7qQ4OTenxNgMuslm/nWwNsBsEZkwNeZ41cR/w6uXgk4WKKrAx0/MEKIIIvMwEU3EQlr
+	UacQqBjibmvp4jEeJKvsvmxYLuLIfpvsZcTvMlT5fN08tCaZNRdwF500SRwaxOcqH4KK
+	GVBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=duaWlQvltG489XToX2FPui38lZRu2vmalYvJQdzAN+M=;
-	b=UqL8iidROjsi4WLOpYoDWsECqizqkUoNUfIeg+mCcJr00vwEPl0RtT+sD4VM+H1a5U
-	nxdBxhFfltNWFGcVuqZjJ8IgwJDlMgfbtr28KbaoQOIzS3CBQqFhmC2y1xlr0fhmjhTQ
-	g9ICUfQdm0wj0zbw7k1INsK74/QBgnr+dqSyK61e9XAL5StFl7SPajOZntGIgTYbV1bl
-	poGZUAmQdxXGXOak8GE/fWzXZgpqgBiU+yYtYaFvlcv9CGiQycZcZ6z90oeTDeINMX6W
-	p4S7xhMoFO8qiGjjMJca6OeJqunMwK5svpR2Av59s5LClfHgrVR17CanXrtWFcKERz8s
-	LFRw==
-X-Gm-Message-State: APjAAAXsyUS/Qu7rQgScNmsdzInzdEpE91tnZ0WLuaxESuHAdaT+vMoH
-	vnc920EHjfD2qQa+J6Ub2jbEwlvohOM=
-X-Google-Smtp-Source: APXvYqy+fMjd0Ac5u/LLaWx6ZooFRez7eiLdnHhh88/cuLEXlIAQNMdRRJU1lmq+e5yPwARAv/Lqxw==
-X-Received: by 2002:adf:fc08:: with SMTP id i8mr34355505wrr.82.1580298932611; 
-	Wed, 29 Jan 2020 03:55:32 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	l15sm2530772wrv.39.2020.01.29.03.55.31
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=z5ZwM9C4e43dypNPZM05sEdc3iyWB5UaV5JnUrJxLsY=;
+	b=sBVT5Nx4u7tBOztcIHerIWqCZbVv/xHgpJOXszAHoOfYZkJIxFpIVeSkM+Z83OiWXV
+	JhvjIZXwFvLe5+nK2BGvNr3L3TfCf37KszBbZQj5RzMxpBn7qRNdjYrcUC6DRl6i7l/d
+	wnonmYSbCle1Fpx9dq9uY04lB+0j2c2m+oPgLNx9d1TMPdKjIGm07RwsQRDnyjwu9Dsp
+	xS0Hl5l301lqgDVT7uap5mMhQ9859439tBPVuFrPZmagN+khtND3aEYctysSbDeHf87L
+	dRvYSq7q/rU7F4DuF6iVQ/jCxPgWudnZDIa+73DVNHVwxKHbA1VGA0KKUOe3erXlfEpy
+	QtYQ==
+X-Gm-Message-State: APjAAAUW2R2CQ8cDu2xatF2YP+MCzGxgfsKlAgvM4GfZCLmRJSzAQBkj
+	QNP8qBmkF21w1z2i9oPRB8tvPlDrOTb+vw==
+X-Google-Smtp-Source: APXvYqyvmA8FaeyeWbNiZEoGy9vbrODrIWrFTWDxjPcPdcIg5dFLxE0SMtZnAcLt3SOISEVbHtY4Tw==
+X-Received: by 2002:a7b:c119:: with SMTP id w25mr1173841wmi.116.1580332430322; 
+	Wed, 29 Jan 2020 13:13:50 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	z10sm3486464wmk.31.2020.01.29.13.13.48
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 03:55:31 -0800 (PST)
-Message-ID: <6b33c47868865ce3549b8698b9bed6a2d0fa06ca.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Schrempf Frieder <frieder.schrempf@kontron.de>, Tom Hochstein
-	<tom.hochstein@nxp.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "akuster808@gmail.com"
-	<akuster808@gmail.com>, "anuj.mittal@intel.com" <anuj.mittal@intel.com>
-Date: Wed, 29 Jan 2020 11:55:30 +0000
-In-Reply-To: <da035af4-d1e8-efd9-30fc-19a4f875948b@kontron.de>
-References: <20191120192419.7352-1-tom.hochstein@nxp.com>
-	<d25ed9e2-6ff8-355a-1de0-8b51aef9e2c8@kontron.de>
-	<VE1PR04MB6621F85F190F08F43967C895E2540@VE1PR04MB6621.eurprd04.prod.outlook.com>
-	<2f61a2ea-456e-0cf0-7ddf-03a0d9adf72e@kontron.de>
-	<da035af4-d1e8-efd9-30fc-19a4f875948b@kontron.de>
-User-Agent: Evolution 3.34.1-2 
+	Wed, 29 Jan 2020 13:13:49 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 Jan 2020 21:13:46 +0000
+Message-Id: <20200129211346.8149-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] devtool/standard.py: Allow recipe to disable menuconfig logic
+Subject: [PATCH] glibc: merge libc-common.bbclass into glibc.bb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,51 +59,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2020 13:35:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 Jan 2020 13:35:19 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2020-01-29 at 08:20 +0000, Schrempf Frieder wrote:
-> On 08.01.20 09:32, Schrempf Frieder wrote:
-> > On 13.12.19 17:14, Tom Hochstein wrote:
-> > > I made a PR as well:
-> > > 
-> > > https://github.com/openembedded/openembedded-core/pull/57
-> > > 
-> > > Tom
-> > 
-> > I don't think PRs are accepted for oe-core. Your patches should be
-> > ok,
-> > if someone reviews and applies them.
-> > 
-> > Dear maintainers, could you consider to review/apply this fix for
-> > master/zeus? It fixes an annoying issue when working with devtool
-> > and
-> > u-boot.
-> 
-> Ping again.
-> 
-> Can someone please at least look at these patches or give any reason
-> why no one cares about them?
+There's only one user of libc-common now that we don't ship both glibc and
+eglibc, so copy the contents directly into the recipe.
 
-Sorry, the project is struggling with failing automated tests and
-struggling to find people able to review patches for some subject
-areas.
+[ YOCTO #12135 ]
 
-I don't know devtool very well and its hard for me to say if this is a
-good change or if there is some other way we should be fixing this.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/libc-common.bbclass          | 37 ---------------------
+ meta/recipes-core/glibc/glibc-package.inc | 40 +++++++++++++++++++++--
+ 2 files changed, 38 insertions(+), 39 deletions(-)
+ delete mode 100644 meta/classes/libc-common.bbclass
 
-Of particular concern is there is no automated testing in this area and
-devtool has good tests in general.
-
-Not good answers I know, sorry :(.
-
-I'll add this to -next for wider testing and see if I can find someone
-to review.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/libc-common.bbclass b/meta/classes/libc-common.bbclass
+deleted file mode 100644
+index 0e351b67464..00000000000
+--- a/meta/classes/libc-common.bbclass
++++ /dev/null
+@@ -1,37 +0,0 @@
+-do_install() {
+-	oe_runmake install_root=${D} install
+-	install -Dm 0644 ${WORKDIR}/etc/ld.so.conf ${D}/${sysconfdir}/ld.so.conf
+-	install -d ${D}${localedir}
+-	make -f ${WORKDIR}/generate-supported.mk IN="${S}/localedata/SUPPORTED" OUT="${WORKDIR}/SUPPORTED"
+-	# get rid of some broken files...
+-	for i in ${GLIBC_BROKEN_LOCALES}; do
+-		sed -i "/$i/d" ${WORKDIR}/SUPPORTED
+-	done
+-	rm -f ${D}${sysconfdir}/rpc
+-	rm -rf ${D}${datadir}/zoneinfo
+-	rm -rf ${D}${libexecdir}/getconf
+-}
+-
+-def get_libc_fpu_setting(bb, d):
+-    if d.getVar('TARGET_FPU') in [ 'soft', 'ppc-efd' ]:
+-        return "--without-fp"
+-    return ""
+-
+-python populate_packages_prepend () {
+-    if d.getVar('DEBIAN_NAMES'):
+-        pkgs = d.getVar('PACKAGES').split()
+-        bpn = d.getVar('BPN')
+-        prefix = d.getVar('MLPREFIX') or ""
+-        # Set the base package...
+-        d.setVar('PKG_' + prefix + bpn, prefix + 'libc6')
+-        libcprefix = prefix + bpn + '-'
+-        for p in pkgs:
+-            # And all the subpackages.
+-            if p.startswith(libcprefix):
+-                renamed = p.replace(bpn, 'libc6', 1)
+-                d.setVar('PKG_' + p, renamed)
+-        # For backward compatibility with old -dbg package
+-        d.appendVar('RPROVIDES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
+-        d.appendVar('RCONFLICTS_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
+-        d.appendVar('RREPLACES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
+-}
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index ede9e9b9096..8d3d76bb416 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -65,9 +65,21 @@ DESCRIPTION_${PN}-utils = "Miscellaneous utilities including getconf, iconv, loc
+ DESCRIPTION_libsotruss = "Library to support sotruss which traces calls through PLTs"
+ DESCRIPTION_tzcode = "tzcode, timezone zoneinfo utils -- zic, zdump, tzselect"
+ 
+-inherit libc-common multilib_header
++inherit multilib_header
++
++do_install() {
++	oe_runmake install_root=${D} install
++	install -Dm 0644 ${WORKDIR}/etc/ld.so.conf ${D}/${sysconfdir}/ld.so.conf
++	install -d ${D}${localedir}
++	make -f ${WORKDIR}/generate-supported.mk IN="${S}/localedata/SUPPORTED" OUT="${WORKDIR}/SUPPORTED"
++	# get rid of some broken files...
++	for i in ${GLIBC_BROKEN_LOCALES}; do
++		sed -i "/$i/d" ${WORKDIR}/SUPPORTED
++	done
++	rm -f ${D}${sysconfdir}/rpc
++	rm -rf ${D}${datadir}/zoneinfo
++	rm -rf ${D}${libexecdir}/getconf
+ 
+-do_install_append () {
+ 	rm -f ${D}${sysconfdir}/localtime
+ 
+ 	# remove empty glibc dir
+@@ -108,6 +120,11 @@ do_install_append () {
+ 	fi
+ }
+ 
++def get_libc_fpu_setting(bb, d):
++    if d.getVar('TARGET_FPU') in [ 'soft', 'ppc-efd' ]:
++        return "--without-fp"
++    return ""
++
+ do_install_append_class-target() {
+ 	if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+ 		install -d ${D}${sysconfdir}/tmpfiles.d
+@@ -233,6 +250,25 @@ stash_locale_package_cleanup() {
+ 	stash_locale_cleanup ${PKGD}
+ }
+ 
++python populate_packages_prepend () {
++    if d.getVar('DEBIAN_NAMES'):
++        pkgs = d.getVar('PACKAGES').split()
++        bpn = d.getVar('BPN')
++        prefix = d.getVar('MLPREFIX') or ""
++        # Set the base package...
++        d.setVar('PKG_' + prefix + bpn, prefix + 'libc6')
++        libcprefix = prefix + bpn + '-'
++        for p in pkgs:
++            # And all the subpackages.
++            if p.startswith(libcprefix):
++                renamed = p.replace(bpn, 'libc6', 1)
++                d.setVar('PKG_' + p, renamed)
++        # For backward compatibility with old -dbg package
++        d.appendVar('RPROVIDES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
++        d.appendVar('RCONFLICTS_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
++        d.appendVar('RREPLACES_' + libcprefix + 'dbg', ' ' + prefix + 'libc-dbg')
++}
++
+ pkg_postinst_nscd () {
+ 	if [ -z "$D" ]; then
+ 		if command -v systemd-tmpfiles >/dev/null; then
+-- 
+2.20.1
 
 
