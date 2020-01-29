@@ -1,52 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
-	[209.85.208.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F47F60226
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CD8B360069
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 16:20:48 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id j17so4438617edp.3
+	Wed, 29 Jan 2020 02:28:56 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id v25so12088877qto.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 08:20:50 -0800 (PST)
+	Tue, 28 Jan 2020 18:28:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=iCZ9xYJMO81aYIXN3+Oi1x8mMiGMJ6Hjm+tKDH0yHOU=;
-	b=OzygGQEpHg1EQahuqwMjkcTbq/+woCedY3gtnGGPxmY7GxD2TAdXPUMlHn6TPglFBs
-	HK7MH92zN52gQLlxAfCpQXOVFjLm4sUlrWdEif6jNYgpCC1AmIrT/ZIMPpWLBVlG5a8z
-	pTviQcnWscpYtLvKrXdROi3iLt0R7nkoSQ9dAU5hUMmA09HoXsXNRY3eFqhuKbuzXtbX
-	YFvNx7RDn+LNsuZLq1xgVL9EnOCcg1xAYyxxgojsX4GaLlliLx/KI2ge7LoJjMzArIGV
-	EZ6C3jd21Cz1/i7KrQOyBB08lnNC9JHS8BOnfkhU5afwLvv4/fqcsktdvVO0Z4/5Dtbz
-	b0MQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=n6KJoQ/eOJxjNkv2hi+WKqi8y3WaQirsDNyDstUCPbg=;
+	b=dkqKC81mQ5mrchB4dWykOpE4aiHjcFDG486JFJK1TYBWRpQe9E+YEex4l0lX6Ojs5r
+	zy9GM9JmzJ9FDVD0b7ObtfkztVzV/m4DSlY3Tulz9arbLBVIEKdPGf95fjCZghEeasQi
+	L/8lNJzXWFRNoRljQt1c9FWexa7HV4bcWuMdw1Ql8en6i+QnYF10CobauaYLppXuL5dR
+	abapZgN/fRV0qP0Y3FT+AcBWx/5MTu40fr8l0QD+ylP6FnkCATBDy9o1BNRVNpicm0w4
+	oc7SlOfBdU4JsRgoCx59qWlxYiaeQGQHxv8xWGtdF/eDGPd9RWHfRl4Wm+JKOepXmYnR
+	EcsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=iCZ9xYJMO81aYIXN3+Oi1x8mMiGMJ6Hjm+tKDH0yHOU=;
-	b=LsSmNlzhS7wyocARtB9Jsr34g6oQN1cKJkJvfPR3w3ceDTzEDRiv4NTgwpHW4HZah8
-	6J1xY6/2u8D/Q/h+oghcKb0tmhyzx0ZLCZM/Dbk2kzjWIcBKsHgm7wqkzXOdZNHSf4oI
-	Qcgv1vSjnHBFmnKRf7bQLe6UTmnkJxAB089VYy0bUCbJ5icdDn4swOdS9ajSdZgFg+39
-	SmzLCqHqQsn6bdHdymVzCHsT0W12NE+HBN+1ybaqsImAYuIlN9mDjQp2Qnb8qPwD9B7k
-	/4kqXxrv3DG4ckkuEwFmPbuBis8P0ok+K/eOdeKB+9i89GMkp9sqa5m63Z81gbgQyW49
-	UB8Q==
-X-Gm-Message-State: APjAAAX8v1CGXP6WdrMFvIghjaim2Z9lulw1Adzb4pnUK8hQKGsm2MW8
-	4UqxhNtx3usxiKDcF+Np0zs4Axfn
-X-Google-Smtp-Source: APXvYqzXoq0FH1mKrfrsphFd5zT5AVftmz1XfzPmtsJqn9JDYl6esMFZ3DXomDE7OEtprTUYtILdNA==
-X-Received: by 2002:adf:c54e:: with SMTP id s14mr32768424wrf.385.1580288905906;
-	Wed, 29 Jan 2020 01:08:25 -0800 (PST)
-Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
-	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	a62sm1550224wmh.33.2020.01.29.01.08.25
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 01:08:25 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 10:07:38 +0100
-Message-Id: <20200129090738.1398-24-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
-References: <20200129090738.1398-1-alex.kanavin@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=n6KJoQ/eOJxjNkv2hi+WKqi8y3WaQirsDNyDstUCPbg=;
+	b=RQFGIAjnE6hyU3p+W86ooFZi/JMIiMmNtoAonRQ9bV2U+mGXwT2wc8dA6HSoljJN3Q
+	0+L0aXvYH9PO4TvLIiOA7GqguUv4QKwwqAZNj7jEeSiQyO/tbXgbw4/HhWeOf+/25eGa
+	SiHVExnjiB2dDsh8rbpZH841y8Ld+AdwJTBP6P+x/qZd6fMMeeUhv0OfIXo0DYnI/XBo
+	imd7Zv2ljqFlzKZsbCFiiLyU0UB0VH5+5VcGOzWnfayI+kK7FxPjZTB/YIEDRYUnztRF
+	zNwbA3E4Jfjz36G9KklRQqkjU8UFKZ1PxSi3+Bq6HQ/ywo/1lxgpnHPhdezKbiXEokCb
+	aG7A==
+X-Gm-Message-State: APjAAAXN9JDy+9O0LuodQV1FJFXcKudJW0ksdUpf2cAY9R1TF7HlvvkZ
+	yCgdh9bMGK207ixSg0qX2BcM7M1HNCknBL1k+AWK8cE1
+X-Google-Smtp-Source: APXvYqzfvY6/q6QR6LoETPTEJpMqIxiNL9XYvPmQgh+7X2skPX/wuuaTSGZYD/j8LDJGLv/qZ7mpZ/aZTzguf5PGiZU=
+X-Received: by 2002:a05:620a:6b8:: with SMTP id
+	i24mr26381357qkh.9.1580263129096; 
+	Tue, 28 Jan 2020 17:58:49 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 24/24] libpcre2: upgrade 10.33 -> 10.34
+References: <cover.1580248809.git.bruce.ashfield@gmail.com>
+In-Reply-To: <cover.1580248809.git.bruce.ashfield@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 28 Jan 2020 17:58:23 -0800
+Message-ID: <CAMKF1soahdfvfsi_-27Zm3QMsr_Mp__oZ8k22gVuUZJpvn1Q-Q@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3][RFT]: kernel-yocto: v5.4 LTS kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +55,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2020 16:20:49 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 29 Jan 2020 02:33:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../libpcre/{libpcre2_10.33.bb => libpcre2_10.34.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libpcre/{libpcre2_10.33.bb => libpcre2_10.34.bb} (93%)
+On Tue, Jan 28, 2020 at 2:14 PM <bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> Hi all,
+>
+> I just wanted to send these to the list, so everyone could see the
+> reference kernel that we are planning for the upcoming release.
+>
+> I have other patches to drop 4.19, 5.2 and make this the default
+> kernel for the various reference platforms as well, but I'm not
+> sending them, since we still have two outstanding issues:
+>
+> 1) mips64 init is segfaulting after / during some self tests.
+>
+>    https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/1520/steps/8/logs/step6c
+>
+> 2) x86 musl is getting a gpf on many commands:
+>
+>    https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1501/steps/8/logs/step1c
+>
 
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.33.bb b/meta/recipes-support/libpcre/libpcre2_10.34.bb
-similarity index 93%
-rename from meta/recipes-support/libpcre/libpcre2_10.33.bb
-rename to meta/recipes-support/libpcre/libpcre2_10.34.bb
-index 87da3137696..fa8655e0276 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.33.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.34.bb
-@@ -14,8 +14,8 @@ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
-            file://pcre-cross.patch \
- "
- 
--SRC_URI[md5sum] = "80b355f2dce909a2e2424f5c79eddb44"
--SRC_URI[sha256sum] = "35514dff0ccdf02b55bd2e9fa586a1b9d01f62332c3356e379eabb75f789d8aa"
-+SRC_URI[md5sum] = "d280b62ded13f9ccf2fac16ee5286366"
-+SRC_URI[sha256sum] = "74c473ffaba9e13db6951fd146e0143fe9887852ce73406a03277af1d9b798ca"
- 
- CVE_PRODUCT = "pcre2"
- 
--- 
-2.25.0
+musl now uses 64bit time_t for all 32bit platforms. So my hunch is in
+that direction. If you can point to
+an interactive reproducer that will help. I think stracing it will
+help identify the problem. all segfaults seems
+to be similar so it could just be one issue causing this all.
 
+> I've looked into both, and don't have any great ideas on how to debug
+> or fix them.
+>
+> So if anyone has ideas, or wants to poke at these, feel free to follow up.
+> But as of now, we still can't merge the v5.4 kernel as the reference due
+> to these remaining problems.
+>
+> Bruce
+>
+>
+> The following changes since commit ca3993cc4b13d4e661228cee6fb9448adfd0a4ba:
+>
+>   bitbake: tests/fetch: Allow wget upgrade tests to run against a local server (2020-01-22 15:56:39 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.pokylinux.org/poky-contrib zedd/kernel-oe
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+>
+> Bruce Ashfield (3):
+>   linux-yocto: introduce 5.4 recipes
+>   kern-tools: update Kconfiglib to latest (for 5.4+ kernel)
+>   kernel-devsrc: update to v5.4+
+>
+>  .../kern-tools/kern-tools-native_git.bb       |  2 +-
+>  meta/recipes-kernel/linux/kernel-devsrc.bb    |  8 +--
+>  .../linux/linux-yocto-rt_5.4.bb               | 44 +++++++++++++++
+>  .../linux/linux-yocto-tiny_5.4.bb             | 32 +++++++++++
+>  meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 54 +++++++++++++++++++
+>  5 files changed, 136 insertions(+), 4 deletions(-)
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.4.bb
+>
+> --
+> 2.19.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
