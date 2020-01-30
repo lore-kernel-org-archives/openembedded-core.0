@@ -1,52 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
-	[209.85.208.53])
-	by mail.openembedded.org (Postfix) with ESMTP id F1FD6605C7
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EEDA9605B8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 13:30:44 +0000 (UTC)
-Received: by mail-ed1-f53.google.com with SMTP id cy15so3831669edb.4
+	Thu, 30 Jan 2020 13:29:05 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id c84so4211674wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 05:30:46 -0800 (PST)
+	Thu, 30 Jan 2020 05:29:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=DcAkxIFJLH6sziLDyitWWxs4kozo9RaBPO5u6K2FvzI=;
-	b=u6HFSixRCfAgWaD/SuHRecFuvkjOv9neT6/V6StDEtinNh26suLguf5JHfyDZcOQSf
-	wAw3747tFnSDm5UukHPkwmsZoW2D7Xl6VawdIyn7vGOxT+Xm2OUM3tlsnKXRe9fdsHMl
-	ccObo5MtSzuv2mGaOo1yFtWOlsj2TKlUw9cLGvsYSUVXJrV5KPSO0WfacfOMshTlSa0B
-	wJdLIWsJfjgYNp0I6XOvsKqlPc1DxSKlqeCrWBw9L2P+SrAl/idakVLnJRI6/eo7m2HV
-	DIptTBGNFbsOlsYWp/eLNTR4dPiFL48JIVOhcgm1GkGx5OOqQmayV+stQ/2kcsFOgQj9
-	8mvQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=wBohBcGY92+UbYSCbLBOId+sCvCCVmYtzaYL+ElxAdw=;
+	b=uOm8eJ0pj4IhB/SRfCyUXvS7GzowR98W8myRd1Ix4sQnbSlDgx/RJQlLN1FMw7/AMJ
+	eRnxE5mQSk0t/mYMufOU8gx41Ybyced50mAurZlo8ytuIJFZRlauGyd8Y+t/c6pL5zaG
+	WhVKUiCQbSU3iwvvBEi6mC7xXXqMja57WbF+hvaEazJg48CQUWXT+3AC/Rdkr6dyB3k5
+	BJgcTFJwTKNYRvWL0jPdrHaDm26ONa+bod5Olo4mVt6O++tQ4bvB5bpzbQaSD8D1dSic
+	cVl1dWMn14DJySl6uRPSAkJaCZ6oJY0qo7V9ypsd19yw2QUgxbwJM1DtyWHfMUN3FTb9
+	S8cQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=DcAkxIFJLH6sziLDyitWWxs4kozo9RaBPO5u6K2FvzI=;
-	b=mwb0zPYutJxrobirFdAisHoFLSI+OpafHp/eF2T5vUOIYgnsVGsGeGH79hzekgBrk2
-	zXkF++IwatZ26RzFu1S86ayQxrLBFruxC6Wf/5/juHkXAuR0Z2RHoGr7dN7r8bgnudI3
-	ww2yk8RwGfMdLUwLInFopPiZohLvIyDXsTjI9iL2NnqCTWdq63FsPb32rrejgZCIxtG4
-	n+RzY6qbgvX7kYPLb8iNyTMix7npYgIpZqvZLJvyHLG5XSvqepFALXIkK9G72v5uDODK
-	cHJjYXei1moOdMwvlcsJ63q/MMeGsS+2EaIcISaXLfoRQbNjNzyg0pS/jSuM7w5Vnf0h
-	SGqQ==
-X-Gm-Message-State: APjAAAX19WyP5+TGc0WQWko6QHnSUdU6+tr659SHU1tb+laeAlnqmQqo
-	GWuhotsdIFF7UAaHQnCkNoWW9cNO
-X-Google-Smtp-Source: APXvYqzZNykifTXxhSavLA2wWgIRfLnTHs4Lrf01Dp5LrGaWQJR02/4tJ5bsASPDZ+GRIHaCMKu5RA==
-X-Received: by 2002:adf:dd46:: with SMTP id u6mr32694844wrm.13.1580288903453; 
-	Wed, 29 Jan 2020 01:08:23 -0800 (PST)
-Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
-	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	a62sm1550224wmh.33.2020.01.29.01.08.22
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wBohBcGY92+UbYSCbLBOId+sCvCCVmYtzaYL+ElxAdw=;
+	b=El67y5QbnKUesh5jdwc1MeFSDzbXSTnIutzVzS7yk1gsEz3ArCkM78f96EiRtsnQxr
+	/b9dKkEKi1X00lAsXLDINEU3IQh2K/ahwP9bgcpfRtSed/7vNUr5wwrDlg/4KtHfXyb5
+	qcP9drZ8rB8ClyqK8IVy4RoF227E9AXhLWDP/vakRjmRAxYUz7bgsUjP9PQ5s4g3vHp+
+	QmUs2JPh6FAPB3ETAWfPpIwP7RoiWMxsB2qiHDffehViHQ9MrN09VsDujdkJiJAZ+NS3
+	UeDhfIIQSa8x0co2GjZz5A0Zac+LZ4xYp6GG5w+D4iqHVHuNqERomRfA+hC5nby/ealV
+	3Chw==
+X-Gm-Message-State: APjAAAW5RE21GQnVoCbayVai7Fl8RNYfaIoEtnJMx6+cRnWis1xvr9b5
+	IWKp4bXqwKMgTnNhQyCLo3chmu2J
+X-Google-Smtp-Source: APXvYqwu4dGp3JVKONQdwm5/0iLgKJ7dzFYhu0y+bJN9CzIRdaBlMON449/esrt5pCWEi5xZFwu3qQ==
+X-Received: by 2002:a7b:cb42:: with SMTP id v2mr3053612wmj.170.1580360089723; 
+	Wed, 29 Jan 2020 20:54:49 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	a132sm4702434wme.3.2020.01.29.20.54.48
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 01:08:23 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Wed, 29 Jan 2020 20:54:48 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 10:07:35 +0100
-Message-Id: <20200129090738.1398-21-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
-References: <20200129090738.1398-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 21/24] python3-six: upgrade 1.13.0 -> 1.14.0
+Date: Thu, 30 Jan 2020 04:54:46 +0000
+Message-Id: <20200130045446.44017-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [RESEND PATCH] rootfs-postcommands: Remove spaces before ; in -ROOTFS_..._COMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,47 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2020 13:30:45 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 Jan 2020 13:30:46 -0000
 
-License-update: copyright years
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+With spaces in ROOTFS_POSTPROCESS_COMMAND attempts to remove elements
+using ROOTFS_POSTPROCESS_COMMAND_remove causes parse failures of the
+form:
+
+  bb.pysh.sherrors.ShellSyntaxError: LexToken(COMMA,';',0,0)
+  followed by:
+    LexToken(TOKEN,'write_image_test_data',0,0)
+    LexToken(COMMA,';',0,0)
+    LexToken(TOKEN,'set_systemd_default_target',0,0)
+    LexToken(COMMA,';',0,0)
+    LexToken(TOKEN,'systemd_create_users',0,0)
+
+Removing the spaces between the function name and semicolon allows the
+list to parse correctly.
+
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-devtools/python/python-six.inc                 | 6 +++---
- .../python/{python3-six_1.13.0.bb => python3-six_1.14.0.bb} | 1 +
- 2 files changed, 4 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-six_1.13.0.bb => python3-six_1.14.0.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python-six.inc b/meta/recipes-devtools/python/python-six.inc
-index c386090b4b0..bbbddbec50a 100644
---- a/meta/recipes-devtools/python/python-six.inc
-+++ b/meta/recipes-devtools/python/python-six.inc
-@@ -2,10 +2,10 @@ SUMMARY = "Python 2 and 3 compatibility library"
- HOMEPAGE = "https://pypi.python.org/pypi/six/"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=f82eb3a1a7fade60bda5980935084b62"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=43cfc9e4ac0e377acfb9b76f56b8415d"
+ meta/classes/rootfs-postcommands.bbclass | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+index a7f33fbf9e77..ebf96be7e85f 100644
+--- a/meta/classes/rootfs-postcommands.bbclass
++++ b/meta/classes/rootfs-postcommands.bbclass
+@@ -1,6 +1,6 @@
  
--SRC_URI[md5sum] = "e92c23c882c7d5564ce5773fe31b2771"
--SRC_URI[sha256sum] = "30f610279e8b2578cab6db20741130331735c781b56053c59c4076da27f06b66"
-+SRC_URI[md5sum] = "21674588a57e649d1a6d977ec3122140"
-+SRC_URI[sha256sum] = "236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"
+ # Zap the root password if debug-tweaks feature is not enabled
+-ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
++ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password; ",d)}'
  
- inherit pypi
+ # Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
+@@ -12,7 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'deb
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
  
-diff --git a/meta/recipes-devtools/python/python3-six_1.13.0.bb b/meta/recipes-devtools/python/python3-six_1.14.0.bb
-similarity index 97%
-rename from meta/recipes-devtools/python/python3-six_1.13.0.bb
-rename to meta/recipes-devtools/python/python3-six_1.14.0.bb
-index 8795313bec6..99e6629b2f5 100644
---- a/meta/recipes-devtools/python/python3-six_1.13.0.bb
-+++ b/meta/recipes-devtools/python/python3-six_1.14.0.bb
-@@ -1,2 +1,3 @@
- inherit setuptools3
- require python-six.inc
-+
+ # Create /etc/timestamp during image construction to give a reasonably sane default time setting
+-ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
++ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
+ 
+ # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
+ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
+@@ -26,11 +26,11 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only
+ APPEND_append = '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", " ro", "", d)}'
+ 
+ # Generates test data file with data store variables expanded in json format
+-ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
++ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data; "
+ 
+ # Write manifest
+ IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
+-ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
++ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest; "
+ # Set default postinst log file
+ POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+ # Set default target for systemd images
 -- 
-2.25.0
+2.17.1
 
 
