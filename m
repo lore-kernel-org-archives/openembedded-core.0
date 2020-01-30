@@ -1,52 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
-	[209.85.208.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 5480B608BC
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id B0BAC605D4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 14:47:04 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id v28so4024991edw.12
+	Thu, 30 Jan 2020 15:18:37 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id j5so2711834qtq.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 06:47:05 -0800 (PST)
+	Thu, 30 Jan 2020 07:18:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=pxJnUcaMozOuZOvTpulUg2mXu0Ws6ub72oE5CmAqHJM=;
-	b=YbN09/U6M1rCJtuPBFtDSdIfUKil6sp32b2kWra2mX6NZPPD6VkuWLFQ2lFw05Uy5v
-	ukGy1WNjOjZFcGxUSWeKCbCWVUZaG+YWaBYy/DyTbAZgYUEofBIygccMWbYKpF8SozQ1
-	d0NlMcpLTLOf/4jhRIZF3yQe+29fpFUh/VqLj67Ab0J6HFlLqCPkBvH53/7EJOKIVg+D
-	DqM6MGN26C3l+4XCfzWXXCi1CB+AG7pCwWWB/eg0/wiMbTFcGxm/ZaRjHKGhR6WTfbzS
-	tJX3ic8cj96DJ4k+vHa0A9Nrs4A6yAkSItewx8rsaK2heg07/NR3TN9LP39ha/f7QpWf
-	/5Qg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=7t/Ay/CPlmTubFj4zI7y5VCCdgksNHkmiyjyVCQ8Z/c=;
+	b=eSa8u4zYN0s4Vl/jVCVJgkzBIYEym2JVJpV4mnzvi4JBREDpY2f9FvWDLh6fk2zyZL
+	fOtTRcT9sKuMnp9XFEspceApK9hfTC1g3b3LKCqP1cYo+i9dgwMs1wy/bCqV74zNnq4k
+	EwMBheIrpLb6/lWiP7LGP1/GpLPlrZr88rvx74jPhfLtIPbdw5sPIsj00vEdy/fUqacm
+	bO2Ferlr4F/aRIfvk3CCBcH9kF6Lm8spZl+8fRhqC/+YRw8GKWJsSijg1RPUYIA/ldBp
+	LajAtf09GAEjQqzI3+Sh2KSnsCxpQ+soqqAPuBf4LzXacla5EfTVa13FP+1nh+LQSU5n
+	tHRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=pxJnUcaMozOuZOvTpulUg2mXu0Ws6ub72oE5CmAqHJM=;
-	b=KCYVOJ/dw4qdCikJ81W7Es4vVf2gKjCaTFfqHN46rQDsVLQcruQ7KSsJcAUcqe7Io3
-	L2g90JVvu753wpYgbyXvhPg/JZDDvokXEn1iKu1Q3jnwViC1TRYbmoY2YCm6A+0XdMJe
-	SzjvP0imdnAboQLkmmtbXZ9yzb1qBNs5YoDy3KOvOVwHAIWLOaPVdhaZz3WRLyHshkXP
-	0IlwiiI/eE5En45FjL6kzL/9fu2kinUr8rFvulweCDxBegslcOYhK2jayB74caP6UfR9
-	BhN7PWsZIT+4nXhVsPzjUOdash91T5LNQHWJnZ3Dm9eFgy21im5E7t3aScoKwIEVTEud
-	00Ng==
-X-Gm-Message-State: APjAAAVWA4bsht1wiHMXpAE+cXnAzx3SMWOYahD9OiqnfjmyjRmhysKZ
-	62y8CaEJMVMw+Vj77O5xEQTfKI08
-X-Google-Smtp-Source: APXvYqzMVo53/rnZX+XUCD5awSTVoPpNYmeaE+BcVmeBOx9a+gQyaRNrUbD0LojCVxFIxY5PKUSJLQ==
-X-Received: by 2002:a5d:45c4:: with SMTP id b4mr33315672wrs.303.1580288895824; 
-	Wed, 29 Jan 2020 01:08:15 -0800 (PST)
-Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
-	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	a62sm1550224wmh.33.2020.01.29.01.08.15
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 01:08:15 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 10:07:26 +0100
-Message-Id: <20200129090738.1398-12-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
-References: <20200129090738.1398-1-alex.kanavin@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=7t/Ay/CPlmTubFj4zI7y5VCCdgksNHkmiyjyVCQ8Z/c=;
+	b=IIJOMqL/UkEwkD+roJNcbLjPS0c1hB5y1leu4WWP0frOBcqUULhybAYr1A76T503Ij
+	xLWDbyQeci5YbHZbnMs6V4Ow5tSSrgUNoilw0lWN5/WdGSA2RkC1WyM3XOb8+hW5jhjH
+	VVJ2poA5du7KZah1D6Q2At2ELxGhWQfaELbDfCChUooN1/5y7xniteklXJP3lawCluhq
+	8IKv9ckCmEW2E7cEulkuh/VgiHITvGkgo4JwUsDJ083K7suo1z/ETPpBTQbgClgULt88
+	6GslMThGfP8ZwYM07m0vPMWOddOg4G8ZbQD5sEl7er95nxdE/jof8yRnqRcfvSWhhC7v
+	zxpA==
+X-Gm-Message-State: APjAAAUFFHIGqcwrLZ3RDDLGChFBvWbhUxAg8dW5XsOWbigaQXLfyNB7
+	sBVmT6QJTr/7QlktdN9R6U7vG7W6KOAQjZ8smNs=
+X-Google-Smtp-Source: APXvYqzfJ8aKLK5k3qYE4LAu18Y9Vj3U/wlO+F0e2sJaeSCBoOm/gz+FLlYP80PO+4pBGn9ECtkX/l7gDgbLh6ujiRg=
+X-Received: by 2002:ac8:4419:: with SMTP id j25mr5369582qtn.378.1580397518341; 
+	Thu, 30 Jan 2020 07:18:38 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 12/24] piglit: upgrade to latest revision
+References: <cover.1580248809.git.bruce.ashfield@gmail.com>
+	<e6b6484beb730f63714567d89da06834fbbbbd3c.1580248809.git.bruce.ashfield@gmail.com>
+In-Reply-To: <e6b6484beb730f63714567d89da06834fbbbbd3c.1580248809.git.bruce.ashfield@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 30 Jan 2020 07:18:11 -0800
+Message-ID: <CAMKF1so3M-Zza8Oz54Z=pXmykU4686nKWL3JLK8f-bBde-ueiA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/3] linux-yocto: introduce 5.4 recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,28 +55,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 09:28:16 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 31 Jan 2020 09:28:17 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-graphics/piglit/piglit_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+kernel-seltest fails now to build
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index f53098c45de..d0d83316977 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -10,7 +10,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
--SRCREV = "603cfb97542a411e8957a0d689d8b28cf8b9ef4d"
-+SRCREV = "6126c2d4e476c7770d216ffa1932c10e2a5a7813"
- # (when PV goes above 1.0 remove the trailing r)
- PV = "1.0+gitr${SRCPV}"
- 
--- 
-2.25.0
+https://errors.yoctoproject.org/Errors/Details/308578/
 
+On Tue, Jan 28, 2020 at 2:14 PM <bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> This creates recipes for the v5.4/* branches of the linux-yocto
+> reference kernel.
+>
+> preempt-rt, yaffs2, aufs5 and reference board specific patches are
+> part of these branches. All major architectures: x86,x86-64,ARM,
+> ARM64,ppc,mips and mips64 have been feature tested against this
+> reference.
+>
+> 5.4 is a LTS release, and as such will receive -stable updates
+> for the duration of upstream korg support.
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  .../linux/linux-yocto-rt_5.4.bb               | 44 +++++++++++++++
+>  .../linux/linux-yocto-tiny_5.4.bb             | 32 +++++++++++
+>  meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 54 +++++++++++++++++++
+>  3 files changed, 130 insertions(+)
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+>  create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.4.bb
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+> new file mode 100644
+> index 0000000000..52f0e3b833
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+> @@ -0,0 +1,44 @@
+> +KBRANCH ?= "v5.4/standard/preempt-rt/base"
+> +
+> +require recipes-kernel/linux/linux-yocto.inc
+> +
+> +# Skip processing of this recipe if it is not explicitly specified as the
+> +# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
+> +# to build multiple virtual/kernel providers, e.g. as dependency of
+> +# core-image-rt-sdk, core-image-rt.
+> +python () {
+> +    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
+> +        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+> +}
+> +
+> +SRCREV_machine ?= "5d5d4070c5f8b10a4c6bda37e77071ce37f102d5"
+> +SRCREV_meta ?= "a48522779fae4887c47268e5f650bf10c94a165c"
+> +
+> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+> +
+> +LINUX_VERSION ?= "5.4.15"
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+> +
+> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+> +DEPENDS += "openssl-native util-linux-native"
+> +
+> +PV = "5.4.15"
+> +
+> +KMETA = "kernel-meta"
+> +KCONF_BSP_AUDIT_LEVEL = "2"
+> +
+> +LINUX_KERNEL_TYPE = "preempt-rt"
+> +
+> +COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
+> +
+> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+> +
+> +# Functionality flags
+> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
+> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> +KERNEL_FEATURES_append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+> new file mode 100644
+> index 0000000000..a028b37548
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+> @@ -0,0 +1,32 @@
+> +KBRANCH ?= "v5.4/standard/tiny/base"
+> +KBRANCH_qemuarm  ?= "v5.4/standard/tiny/arm-versatile-926ejs"
+> +
+> +LINUX_KERNEL_TYPE = "tiny"
+> +KCONFIG_MODE = "--allnoconfig"
+> +
+> +require recipes-kernel/linux/linux-yocto.inc
+> +
+> +LINUX_VERSION ?= "5.4.15"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+> +
+> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+> +DEPENDS += "openssl-native util-linux-native"
+> +
+> +KMETA = "kernel-meta"
+> +KCONF_BSP_AUDIT_LEVEL = "2"
+> +
+> +SRCREV_machine_qemuarm ?= "9eeafafc19278b5c5376ba1fd9eae26626730458"
+> +SRCREV_machine ?= "cdda35317561d2741b396efa623ace0bd2212c16"
+> +SRCREV_meta ?= "a48522779fae4887c47268e5f650bf10c94a165c"
+> +
+> +PV = "5.4.15"
+> +
+> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+> +
+> +COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
+> +
+> +# Functionality flags
+> +KERNEL_FEATURES = ""
+> +
+> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+> new file mode 100644
+> index 0000000000..9fbc47d79e
+> --- /dev/null
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
+> @@ -0,0 +1,54 @@
+> +KBRANCH ?= "v5.4/standard/base"
+> +
+> +require recipes-kernel/linux/linux-yocto.inc
+> +
+> +# board specific branches
+> +KBRANCH_qemuarm  ?= "v5.4/standard/arm-versatile-926ejs"
+> +KBRANCH_qemuarm64 ?= "v5.4/standard/qemuarm64"
+> +KBRANCH_qemumips ?= "v5.4/standard/mti-malta32"
+> +KBRANCH_qemuppc  ?= "v5.4/standard/qemuppc"
+> +KBRANCH_qemuriscv64  ?= "v5.4/standard/base"
+> +KBRANCH_qemux86  ?= "v5.4/standard/base"
+> +KBRANCH_qemux86-64 ?= "v5.4/standard/base"
+> +KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
+> +
+> +SRCREV_machine_qemuarm ?= "637086def651a00b1274a80cd3ca740e271eb0f9"
+> +SRCREV_machine_qemuarm64 ?= "cdda35317561d2741b396efa623ace0bd2212c16"
+> +SRCREV_machine_qemumips ?= "bfe04753d00b0f36848bb8204020b69d0e78f02a"
+> +SRCREV_machine_qemuppc ?= "cdda35317561d2741b396efa623ace0bd2212c16"
+> +SRCREV_machine_qemuriscv64 ?= "cdda35317561d2741b396efa623ace0bd2212c16"
+> +SRCREV_machine_qemux86 ?= "cdda35317561d2741b396efa623ace0bd2212c16"
+> +SRCREV_machine_qemux86-64 ?= "cdda35317561d2741b396efa623ace0bd2212c16"
+> +SRCREV_machine_qemumips64 ?= "81cd255c72add4dcf06603250869f739bb4f05cb"
+> +SRCREV_machine ?= "cdda35317561d2741b396efa623ace0bd2212c16"
+> +SRCREV_meta ?= "a48522779fae4887c47268e5f650bf10c94a165c"
+> +
+> +# remap qemuarm to qemuarma15 for the 5.4 kernel
+> +# KMACHINE_qemuarm ?= "qemuarma15"
+> +
+> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
+> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
+> +
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+> +LINUX_VERSION ?= "5.4.15"
+> +
+> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+> +DEPENDS += "openssl-native util-linux-native"
+> +
+> +PV = "5.4.15"
+> +
+> +KMETA = "kernel-meta"
+> +KCONF_BSP_AUDIT_LEVEL = "2"
+> +
+> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+> +
+> +COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64"
+> +
+> +# Functionality flags
+> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
+> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+> +KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+> +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+> --
+> 2.19.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
