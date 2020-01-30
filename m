@@ -1,31 +1,49 @@
-Return-Path: <mfe@pengutronix.de>
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
-	[85.220.165.71])
-	by mail.openembedded.org (Postfix) with ESMTP id 6641A608C6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C3C1160634
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 15:21:44 +0000 (UTC)
-Received: from dude02.hi.pengutronix.de ([2001:67c:670:100:1d::28]
-	helo=dude02.lab.pengutronix.de)
-	by metis.ext.pengutronix.de with esmtps
-	(TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1iwpdu-00040u-Mn; Wed, 29 Jan 2020 16:52:38 +0100
-Received: from mfe by dude02.lab.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1iwpdu-0003DW-8D; Wed, 29 Jan 2020 16:52:38 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 16:52:36 +0100
-Message-Id: <20200129155236.12307-1-m.felsch@pengutronix.de>
+	Thu, 30 Jan 2020 13:41:05 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id r21so3892145edq.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 Jan 2020 05:41:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Mlb60JCVVjJNk1SxFDuWBRr0cIkFwp4LPZQRoK/ognA=;
+	b=VmqEIYvdpmXh3KCPPY+vnidYP9N5iP1pk3/EODPeQhuXkXOmlXr7j8XtvCeaG9CUxg
+	GMipy+O5mczWetjrqgLVSIqHu1SIqTOygakj34JLi3CqG5AoQRmzNQR1e+offJOO/FY/
+	SkvANn4Qb8ev5Kdir11WMAjhp9hJen5HED8tg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Mlb60JCVVjJNk1SxFDuWBRr0cIkFwp4LPZQRoK/ognA=;
+	b=JNm9c2ZeWG6mk1hjpqqy3nUgtlXStrvIIIWAFNgZiLXtCJxlyvglt5j8fXRGdtvEHS
+	QQV8RxILNxg9WnHQOCTLU4zeVAy0RPlisKDjVBf+4BIAgSRieZHqkizltVQ8C5B/we1m
+	mgQZtVzIfokNz9ei91MgR6YTRMwDxQnbrZcoM5QirrXeZgiOxxkpjiTLZXkTbiD8jxg5
+	8jMaZz+jUDHYjSqlaEWSllodLjWFXvo37WofFDWQxwKD/GzdHRDuJE4lWlX/U7tD8SJw
+	BKvXlVZb5NPpVq5YHU94nQM5U47+E1Kb2DAjrzq5hQXtMqUe2axbYX/W2Zooj+eWWEVC
+	rkWA==
+X-Gm-Message-State: APjAAAWIt9KKBXd9x5qDQMpP+Wz9gEewqVxNNXljUy+FE7K1wFJLzyg5
+	YysIf+/k5GPJNDO6Plgul7TUk9RAs/4=
+X-Google-Smtp-Source: APXvYqyrQjGZOLOV6IcA6gsSYmbekZ6PJVa/zL9xzIRlpc5V7zG2/f7oyJa5lXgzpFpEfjNpdfgsJg==
+X-Received: by 2002:adf:f382:: with SMTP id m2mr4243731wro.163.1580376085171; 
+	Thu, 30 Jan 2020 01:21:25 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	z19sm5341732wmi.35.2020.01.30.01.21.24
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 30 Jan 2020 01:21:24 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jan 2020 09:21:23 +0000
+Message-Id: <20200130092123.8400-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::28
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Subject: [PATCH] util-linux: alternatify rtcwake
+Subject: [PATCH] MEMORIAM: Add recognition for contributors no longer with us
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,29 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 09:28:11 -0000
+X-List-Received-Date: Fri, 31 Jan 2020 09:28:12 -0000
 Content-Transfer-Encoding: 8bit
 
-This tool can be turned on in busybox which lead into a error during
-do_rootfs.
+Its sad to have this but as the project ages, also perhaps inevitable.
+Besides their contributions, remember them here.
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 1 +
- 1 file changed, 1 insertion(+)
+ MEMORIAM | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 MEMORIAM
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index a61bc78542..b72397bb73 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -248,6 +248,7 @@ ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
- ALTERNATIVE_LINK_NAME[renice] = "${bindir}/renice"
- ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
- ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
-+ALTERNATIVE_LINK_NAME[rtcwake] = "${sbindir}/rtcwake"
- ALTERNATIVE_LINK_NAME[setsid] = "${bindir}/setsid"
- ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
- ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+diff --git a/MEMORIAM b/MEMORIAM
+new file mode 100644
+index 00000000000..0b3ce4670fc
+--- /dev/null
++++ b/MEMORIAM
+@@ -0,0 +1,5 @@
++Some project contributors who are sadly no longer with us:
++
++Greg Gilbert (treke) - Ahead of his time with licensing
++Thomas Wood (thos) - Creator of the original sato
++Scott Rifenbark (scottrif) - Our long standing techwriter whose words live on
 -- 
 2.20.1
 
