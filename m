@@ -1,50 +1,43 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 430BD6027C
+Return-Path: <paul.barker@konsulko.com>
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com
+	[209.85.167.173])
+	by mail.openembedded.org (Postfix) with ESMTP id BDD6260B59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 13:52:08 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id n11so4038367iom.9
+	Thu, 30 Jan 2020 20:51:07 +0000 (UTC)
+Received: by mail-oi1-f173.google.com with SMTP id p125so5008368oif.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 05:52:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=4DlU+jvXKPYfRYqai9IXspvOotC7EsbrNKdIk2EUajw=;
-	b=Lzm0tykzPFneervmtWfzmQ0fslJmaEQUO9YKwVpjDDKr4CSfIm/vh6y1AUhgg80cYf
-	OFBxnzmu/zRgJ9I1LsHhE0GSY3X0oNPERsNXLQQucVxHqFERE5jWBvV10+zFEvc3CkCy
-	7RG23l1+jVWgVr+IHLQfG0iJBQc4ZGeiBX+11m1HKGxIWg7XWUF/XLSwjpj6Du1RN7VZ
-	gYhMApuJTUv7G1Pyi6uhIgR++ZMPiopsbQ7i85G3sbbpexEiY6yYXIFkwwEU5MmkX3AE
-	XGKPBAXiOAKPiBAa75lCBJLGN57b453hXdKu4XlJDjlv8Ab9LRycVPCWKFITwJV+NoLg
-	B/Sg==
+	Thu, 30 Jan 2020 12:51:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=m8px4xij1P+pfYwE8ctp06RR0z5tv6FX0EoTQCOA8qc=;
+	b=TXiuPwTYEY3puQnfcbcJYZKmB2nmlvHQ/doa04jQukeSW7enzo0hBnXfqKcaUBBXsA
+	20uZN5rf6IzdiLd5pmEsYqgbzrVQv+d0aAaYAXaZQgI9EF8vYTKgDyKvBH8RoazsqTnt
+	x0/jfXZ2NRrhBvJ2AwcXVlOUpIc383/0WNbek=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=4DlU+jvXKPYfRYqai9IXspvOotC7EsbrNKdIk2EUajw=;
-	b=uBejCsGkj15QOc67RTifngKG54nEqHmbZqzpg8WYf8jwb1YDjVnNJFd8zmSQSey6n8
-	eRoe4f8VVTldnFnNGAkj6jbU9Zm6RgW4+ZysVjkmwZeEow77YmjLe7XO0mkYHUjz3Dlt
-	ZzUjxYQf25WRpZ2OKYI2Xa5IYyTMbQeR0vX9L7olr2ooZUfZn4qJ2YOIiheMXHI5UGRf
-	ztmFNgTPnTgxCV1CfT0Sf63tHqAmifcjCUKaTfL/XN5xoNTIUt06kxkUPyX0wVuD0pya
-	gidSjzFxjWTB43DRNm+l3HXXpaA+et247VlOjBebQZFr/nZuNJsR4tLPNrMszc7vzmuh
-	pJJg==
-X-Gm-Message-State: APjAAAWiPWmTBOFZ4C1i7+bR49qHzSlCA4/fQ/yi44iVpxw0+mdpG8IC
-	zba5iAMDqWBxinrwLPfHmTURbuvCdoazVWXqyDQPeBJh
-X-Google-Smtp-Source: APXvYqyZFM2KjZISulKduwPlabIlUrpgOmKboGb6ktm3x7bBRuw+rwrbUM0IYYZ21BKoNM0oXt7C1YBsZU2SEdaqOTM=
-X-Received: by 2002:ac8:145:: with SMTP id f5mr27150624qtg.194.1580313740676; 
-	Wed, 29 Jan 2020 08:02:20 -0800 (PST)
+	:message-id:subject:to;
+	bh=m8px4xij1P+pfYwE8ctp06RR0z5tv6FX0EoTQCOA8qc=;
+	b=JEB2Oe7oejoT5j/1veft+RFvJscXNRrc2jOQANfzzOxbZHU1GsZ9AYXTJUwikTvK6l
+	6vjbQ73cyhTbo27SYkya3Jk6O43VamHiwN4xI9chCo9urpHtzCKgbVK0UB3hdQIQD8/J
+	t9s6bBzz3MB4G1aGAYWwteeLKjzHqgAy35dDFwxr27ytgGPPD25iyzwboaHbOX1Cu9V9
+	cocb6LKP0VcR3FOeD4/gCZamaomwMfkhJH1OsTACNujTOycSLLpGamj2RpJ95Ymx8NIx
+	oMFbdAUrJtGqJR5W+q3EN4Vkvi4nB99mGVXaKqDDEJA+0mfsGZtiEUj631sIiAeUhYzZ
+	Kt1w==
+X-Gm-Message-State: APjAAAXelCo40ZFbF/g2rH/JgLjgtwVFxyq1OAW9qPTY2Y8V5jvify9A
+	V7+okdPATDZI0ganDIKztaFqW2J1pnexr2+rf21GZHXls2pGDQ==
+X-Google-Smtp-Source: APXvYqyw+qsHxd/SZNg2HHk7FX5dQXhPa7afy0CZY1MnGqrHdjGLVkPdGrnpW1meIViFJCqkejHH7Kea/EMJCJRZHI4=
+X-Received: by 2002:aca:ec13:: with SMTP id k19mr4069552oih.22.1580417468603; 
+	Thu, 30 Jan 2020 12:51:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20200128151643.9711-1-richard.purdie@linuxfoundation.org>
-	<20200128151643.9711-3-richard.purdie@linuxfoundation.org>
-	<CAMKF1sqYswYbOA+N80sK3sELzPPCTymDna8bgSKETCvZROi2Fw@mail.gmail.com>
-	<10d77c789a51e9fdb089b2faf983414cc17fb20b.camel@linuxfoundation.org>
-In-Reply-To: <10d77c789a51e9fdb089b2faf983414cc17fb20b.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 29 Jan 2020 08:02:09 -0800
-Message-ID: <CAMKF1sqXQR0Ot0GOyYsWPUB_1ZJKOQtzrFU0Fz9bLiMcM-SwHA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] texinfo/texinfo-dummy-native: Drop native path prefix
+References: <CAM9ZRVvru2LaypQk337KMmT1DsxRAuA4-9peU21PSMRf2o43Hg@mail.gmail.com>
+In-Reply-To: <CAM9ZRVvru2LaypQk337KMmT1DsxRAuA4-9peU21PSMRf2o43Hg@mail.gmail.com>
+From: Paul Barker <pbarker@konsulko.com>
+Date: Thu, 30 Jan 2020 20:50:57 +0000
+Message-ID: <CAM9ZRVsoGUKeCEDxiNQOBBRYf6eHb7M2zK0BLbOKVprjHUV3dQ@mail.gmail.com>
+To: yocto@lists.yoctoproject.org, 
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: OpenEmbedded at FOSDEM 2020: Request for volunteers and demos
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +51,50 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 31 Jan 2020 09:28:13 -0000
-Content-Type: multipart/alternative; boundary="000000000000259052059d497786"
-
---000000000000259052059d497786
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jan 29, 2020 at 4:00 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Hey folks,
 
-> On Tue, 2020-01-28 at 18:00 -0800, Khem Raj wrote:
-> > it perhaps is the reason for most of failures seen here
-> >
-> > https://errors.yoctoproject.org/Errors/Build/97736/
-> >
-> > perhaps we need to explicitly inherit gettext in these recipes ?
+We've now got a couple of demos planned for the OE stand at FOSDEM
+this weekend but some more volunteers to help out at the stand would
+be really good! If you're at FOSDEM and can spare even an hour or two
+please drop me an email :)
+
+Even if you're not available to volunteer, we look forward to saying
+hello at the stand!
+
+Thanks,
+Paul
+
+On Wed, 8 Jan 2020 at 14:02, Paul Barker <pbarker@konsulko.com> wrote:
 >
-> These patches aren't quite working in master yet but those failures
-> look like they'd be solved with an "inherit texinfo" added to the
-> recipes.
-
-
-Right except indent package which is quite unhappy even after that but I
-have disabled documentation generation for that now
-
-
+> Hey folks,
 >
-> Cheers,
+> We've got a stand for OpenEmbedded at FOSDEM 2020
+> (https://fosdem.org/2020/stands/). For anyone who hasn't been to
+> FOSDEM before, it's the Free and Open Source Developers' European
+> Meeting at ULB in Brussels, Belgium on Feb 1st and 2nd. FOSDEM is free
+> to attend conference with dozens of stands, hundreds of talks and
+> thousands of attendees. I highly recommend coming along if you're able
+> to!
 >
-> Richard
+> I'll be able to look after the stand for most of the weekend but will
+> need some assistance and some cover so that I can take breaks when
+> needed. I'm looking for volunteers to help with the following:
+> * Setup from 09:00 on Saturday morning.
+> * Running the stand and discussing the project with attendees from
+> 10:00 to 17:00 Saturday and Sunday.
+> * Tidy up from 17:00 on Sunday.
 >
+> I'm also looking for demos that can show off the project. I'll have my
+> laptop with me to show toaster, the layer index, how builds work, etc
+> but I won't be bringing any hardware devices as I'm travelling on
+> after FOSDEM. We'll need a couple of hardware demos to show off the
+> project well. The table is 180x80 cm.
 >
+> If anyone can print up some flyers with info about the project that
+> would also be excellent.
 >
->
+> Thanks,
+> Paul
 
---000000000000259052059d497786
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Jan 29, 2020 at 4:00 AM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, 2020-=
-01-28 at 18:00 -0800, Khem Raj wrote:<br>
-&gt; it perhaps is the reason for most of failures seen here<br>
-&gt; <br>
-&gt; <a href=3D"https://errors.yoctoproject.org/Errors/Build/97736/" rel=3D=
-"noreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/Build=
-/97736/</a><br>
-&gt; <br>
-&gt; perhaps we need to explicitly inherit gettext in these recipes ?<br>
-<br>
-These patches aren&#39;t quite working in master yet but those failures<br>
-look like they&#39;d be solved with an &quot;inherit texinfo&quot; added to=
- the<br>
-recipes.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Right ex=
-cept indent package which is quite unhappy even after that but I have disab=
-led documentation generation for that now=C2=A0</div><div dir=3D"auto"><br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex"><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div></div>
-
---000000000000259052059d497786--
