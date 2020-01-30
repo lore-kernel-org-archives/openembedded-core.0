@@ -1,48 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B0BAC605D4
+Return-Path: <prvs=2919fc5d3=alistair.francis@wdc.com>
+Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
+	by mail.openembedded.org (Postfix) with ESMTP id 598FA601D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 15:18:37 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id j5so2711834qtq.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 07:18:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7t/Ay/CPlmTubFj4zI7y5VCCdgksNHkmiyjyVCQ8Z/c=;
-	b=eSa8u4zYN0s4Vl/jVCVJgkzBIYEym2JVJpV4mnzvi4JBREDpY2f9FvWDLh6fk2zyZL
-	fOtTRcT9sKuMnp9XFEspceApK9hfTC1g3b3LKCqP1cYo+i9dgwMs1wy/bCqV74zNnq4k
-	EwMBheIrpLb6/lWiP7LGP1/GpLPlrZr88rvx74jPhfLtIPbdw5sPIsj00vEdy/fUqacm
-	bO2Ferlr4F/aRIfvk3CCBcH9kF6Lm8spZl+8fRhqC/+YRw8GKWJsSijg1RPUYIA/ldBp
-	LajAtf09GAEjQqzI3+Sh2KSnsCxpQ+soqqAPuBf4LzXacla5EfTVa13FP+1nh+LQSU5n
-	tHRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7t/Ay/CPlmTubFj4zI7y5VCCdgksNHkmiyjyVCQ8Z/c=;
-	b=IIJOMqL/UkEwkD+roJNcbLjPS0c1hB5y1leu4WWP0frOBcqUULhybAYr1A76T503Ij
-	xLWDbyQeci5YbHZbnMs6V4Ow5tSSrgUNoilw0lWN5/WdGSA2RkC1WyM3XOb8+hW5jhjH
-	VVJ2poA5du7KZah1D6Q2At2ELxGhWQfaELbDfCChUooN1/5y7xniteklXJP3lawCluhq
-	8IKv9ckCmEW2E7cEulkuh/VgiHITvGkgo4JwUsDJ083K7suo1z/ETPpBTQbgClgULt88
-	6GslMThGfP8ZwYM07m0vPMWOddOg4G8ZbQD5sEl7er95nxdE/jof8yRnqRcfvSWhhC7v
-	zxpA==
-X-Gm-Message-State: APjAAAUFFHIGqcwrLZ3RDDLGChFBvWbhUxAg8dW5XsOWbigaQXLfyNB7
-	sBVmT6QJTr/7QlktdN9R6U7vG7W6KOAQjZ8smNs=
-X-Google-Smtp-Source: APXvYqzfJ8aKLK5k3qYE4LAu18Y9Vj3U/wlO+F0e2sJaeSCBoOm/gz+FLlYP80PO+4pBGn9ECtkX/l7gDgbLh6ujiRg=
-X-Received: by 2002:ac8:4419:: with SMTP id j25mr5369582qtn.378.1580397518341; 
-	Thu, 30 Jan 2020 07:18:38 -0800 (PST)
+	Thu, 30 Jan 2020 23:10:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1580425900; x=1611961900;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=rMnZzmzszq2Ymjagzzq0xdOSUCr7kQefJYJG3zjdwRw=;
+	b=nnCYYfhJwOsxV6/UWKGUhh20rCEAQlyiDR99hzB5WtMWQPqiCTHMsVj0
+	RO4bOPDVdhTWCklIJQcfLPYMwMaY6tVFfNDAI0oUuILF6erUisNHJL55h
+	2RywFZyUMTHUIBEDff1SrRw64Hxjnl1h5Dg5ujYeOQ1U7xKPz5X97jMS9
+	+Txmk/Cm1sZzfYDWRky1Jh2aKuduLg/ttBYRPqEy75YtW3KKXvpjxs376
+	j04PJjo1fqtOit6xSfoC8tvHpmaKprPWx3Fytu0qV0c6iDVK5m7VGURlI
+	zHTj0mFO6kWTAcc98TglbjzCpoX7n422xZHaGzyyj/ngbYOGmf4DM5JnC w==;
+IronPort-SDR: cY5ITScf/MHxrB/QhZ2B2Ww+FLKF2RlSYeZ+SA8W/5TZ1BRP9PXTzqmOhDWbLOrB/R1Cvz2JCp
+	cWUww+VUVcxl1J1hTKp4tQANneCNUIK5Rnwoez+rAOPuj2OKaypClHSZGecuKNGsFt11bIQw0K
+	2PqhF32RRVOYlThsAZ37v17RRPBADvDm6yqlRMA03k3uOGJUg4WxbbEqd9Ubp1Rsthc4JaghBW
+	1UgjS5SEvu0VjmU8UOgUG6h14OUwia4pi9U6AQbLuMuc70GtlcDe044qn6UZBafatgQJYdwMyp
+	isQ=
+X-IronPort-AV: E=Sophos;i="5.70,383,1574092800"; d="scan'208";a="230500780"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 31 Jan 2020 07:11:39 +0800
+IronPort-SDR: RWjKQsGbbi3Gr9YEpAaPUU833gxvO9Xbx4+YswZ0DoZHvFw7wRDCG7/LT8vP2COnfx2M7tuYgM
+	S5v/FQHFWGkLmU/2JEfVawXRcH2CWeGUjiplXvIBJOTKeVd9us+Bk2Skgpme5dHOTF0GFZRDcs
+	hWx15IulEmymy2Xgbq56AsLaS4T0vzkoMDFQQQ0E1Lrj6qFWnHzyx8Ky2DLECcGunVUu4YtQZr
+	Hgg06xYGo5okvJOpzgLDkmegLjzWcwtcGfv4c9z9Z+T09rq79KMpAhzpJ1UezVexIJxrH1fQk4
+	+fL5+gT6EiUgQOc/9rVSxanc
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+	by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+	30 Jan 2020 15:04:10 -0800
+IronPort-SDR: vgDOvR3o2WHDCmxvpaNYao5hFZY5UBnYBd9Cf3XRQuJf1sRidr/06qdnd3HCuUA72/AeFpBJVx
+	8KMdrviLsC9QDJuS07XT+mz+TJHg3ywK4i7bI58e3tJDt2+U3Ktx72NG8FR/Mzwn/YnxTbQVYD
+	PXdtlw1P6sBbVoNICeKkyo5VyHzLv0Pd85L+jRaWcElsRs3fMebv0DhzlgQQTAOfOR40G2OCUA
+	b1SQnVSxvVPgR7ClFhp+jYaAjGyPky2Vu2Oplg5g6tfVCGrRYQAQB2jEtHbr26Du6sCXXy9dvS
+	2U8=
+WDCIronportException: Internal
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.158.235])
+	by uls-op-cesaip02.wdc.com with ESMTP; 30 Jan 2020 15:10:59 -0800
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 Jan 2020 15:04:23 -0800
+Message-Id: <20200130230423.18086-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <cover.1580248809.git.bruce.ashfield@gmail.com>
-	<e6b6484beb730f63714567d89da06834fbbbbd3c.1580248809.git.bruce.ashfield@gmail.com>
-In-Reply-To: <e6b6484beb730f63714567d89da06834fbbbbd3c.1580248809.git.bruce.ashfield@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 30 Jan 2020 07:18:11 -0800
-Message-ID: <CAMKF1so3M-Zza8Oz54Z=pXmykU4686nKWL3JLK8f-bBde-ueiA@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/3] linux-yocto: introduce 5.4 recipes
+Subject: [PATCH] opensbi: Remove dependency on FDT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,191 +61,86 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 31 Jan 2020 09:28:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-kernel-seltest fails now to build
+U-Boot no longer requires OpenSBI to include a FDT for the HiFive
+Unleashed, so remove the support from OpenSBI.
 
-https://errors.yoctoproject.org/Errors/Details/308578/
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ meta/recipes-bsp/opensbi/opensbi-payloads.inc | 20 +------------------
+ meta/recipes-bsp/opensbi/opensbi_0.5.bb       |  4 +---
+ 2 files changed, 2 insertions(+), 22 deletions(-)
 
-On Tue, Jan 28, 2020 at 2:14 PM <bruce.ashfield@gmail.com> wrote:
->
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> This creates recipes for the v5.4/* branches of the linux-yocto
-> reference kernel.
->
-> preempt-rt, yaffs2, aufs5 and reference board specific patches are
-> part of these branches. All major architectures: x86,x86-64,ARM,
-> ARM64,ppc,mips and mips64 have been feature tested against this
-> reference.
->
-> 5.4 is a LTS release, and as such will receive -stable updates
-> for the duration of upstream korg support.
->
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
->  .../linux/linux-yocto-rt_5.4.bb               | 44 +++++++++++++++
->  .../linux/linux-yocto-tiny_5.4.bb             | 32 +++++++++++
->  meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 54 +++++++++++++++++++
->  3 files changed, 130 insertions(+)
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
->  create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.4.bb
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-> new file mode 100644
-> index 0000000000..52f0e3b833
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-> @@ -0,0 +1,44 @@
-> +KBRANCH ?= "v5.4/standard/preempt-rt/base"
-> +
-> +require recipes-kernel/linux/linux-yocto.inc
-> +
-> +# Skip processing of this recipe if it is not explicitly specified as the
-> +# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
-> +# to build multiple virtual/kernel providers, e.g. as dependency of
-> +# core-image-rt-sdk, core-image-rt.
-> +python () {
-> +    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
-> +        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
-> +}
-> +
-> +SRCREV_machine ?= "5d5d4070c5f8b10a4c6bda37e77071ce37f102d5"
-> +SRCREV_meta ?= "a48522779fae4887c47268e5f650bf10c94a165c"
-> +
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
-> +
-> +LINUX_VERSION ?= "5.4.15"
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-> +
-> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-> +DEPENDS += "openssl-native util-linux-native"
-> +
-> +PV = "5.4.15"
-> +
-> +KMETA = "kernel-meta"
-> +KCONF_BSP_AUDIT_LEVEL = "2"
-> +
-> +LINUX_KERNEL_TYPE = "preempt-rt"
-> +
-> +COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
-> +
-> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
-> +
-> +# Functionality flags
-> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
-> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
-> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> +KERNEL_FEATURES_append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-> new file mode 100644
-> index 0000000000..a028b37548
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-> @@ -0,0 +1,32 @@
-> +KBRANCH ?= "v5.4/standard/tiny/base"
-> +KBRANCH_qemuarm  ?= "v5.4/standard/tiny/arm-versatile-926ejs"
-> +
-> +LINUX_KERNEL_TYPE = "tiny"
-> +KCONFIG_MODE = "--allnoconfig"
-> +
-> +require recipes-kernel/linux/linux-yocto.inc
-> +
-> +LINUX_VERSION ?= "5.4.15"
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-> +
-> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-> +DEPENDS += "openssl-native util-linux-native"
-> +
-> +KMETA = "kernel-meta"
-> +KCONF_BSP_AUDIT_LEVEL = "2"
-> +
-> +SRCREV_machine_qemuarm ?= "9eeafafc19278b5c5376ba1fd9eae26626730458"
-> +SRCREV_machine ?= "cdda35317561d2741b396efa623ace0bd2212c16"
-> +SRCREV_meta ?= "a48522779fae4887c47268e5f650bf10c94a165c"
-> +
-> +PV = "5.4.15"
-> +
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
-> +
-> +COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
-> +
-> +# Functionality flags
-> +KERNEL_FEATURES = ""
-> +
-> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.4.bb b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-> new file mode 100644
-> index 0000000000..9fbc47d79e
-> --- /dev/null
-> +++ b/meta/recipes-kernel/linux/linux-yocto_5.4.bb
-> @@ -0,0 +1,54 @@
-> +KBRANCH ?= "v5.4/standard/base"
-> +
-> +require recipes-kernel/linux/linux-yocto.inc
-> +
-> +# board specific branches
-> +KBRANCH_qemuarm  ?= "v5.4/standard/arm-versatile-926ejs"
-> +KBRANCH_qemuarm64 ?= "v5.4/standard/qemuarm64"
-> +KBRANCH_qemumips ?= "v5.4/standard/mti-malta32"
-> +KBRANCH_qemuppc  ?= "v5.4/standard/qemuppc"
-> +KBRANCH_qemuriscv64  ?= "v5.4/standard/base"
-> +KBRANCH_qemux86  ?= "v5.4/standard/base"
-> +KBRANCH_qemux86-64 ?= "v5.4/standard/base"
-> +KBRANCH_qemumips64 ?= "v5.4/standard/mti-malta64"
-> +
-> +SRCREV_machine_qemuarm ?= "637086def651a00b1274a80cd3ca740e271eb0f9"
-> +SRCREV_machine_qemuarm64 ?= "cdda35317561d2741b396efa623ace0bd2212c16"
-> +SRCREV_machine_qemumips ?= "bfe04753d00b0f36848bb8204020b69d0e78f02a"
-> +SRCREV_machine_qemuppc ?= "cdda35317561d2741b396efa623ace0bd2212c16"
-> +SRCREV_machine_qemuriscv64 ?= "cdda35317561d2741b396efa623ace0bd2212c16"
-> +SRCREV_machine_qemux86 ?= "cdda35317561d2741b396efa623ace0bd2212c16"
-> +SRCREV_machine_qemux86-64 ?= "cdda35317561d2741b396efa623ace0bd2212c16"
-> +SRCREV_machine_qemumips64 ?= "81cd255c72add4dcf06603250869f739bb4f05cb"
-> +SRCREV_machine ?= "cdda35317561d2741b396efa623ace0bd2212c16"
-> +SRCREV_meta ?= "a48522779fae4887c47268e5f650bf10c94a165c"
-> +
-> +# remap qemuarm to qemuarma15 for the 5.4 kernel
-> +# KMACHINE_qemuarm ?= "qemuarma15"
-> +
-> +SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH}; \
-> +           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.4;destsuffix=${KMETA}"
-> +
-> +LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
-> +LINUX_VERSION ?= "5.4.15"
-> +
-> +DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
-> +DEPENDS += "openssl-native util-linux-native"
-> +
-> +PV = "5.4.15"
-> +
-> +KMETA = "kernel-meta"
-> +KCONF_BSP_AUDIT_LEVEL = "2"
-> +
-> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
-> +
-> +COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64"
-> +
-> +# Functionality flags
-> +KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-> +KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
-> +KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
-> +KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> +KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
-> +KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
-> +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
-> --
-> 2.19.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-bsp/opensbi/opensbi-payloads.inc b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+index b9714a7acb..2e32943245 100644
+--- a/meta/recipes-bsp/opensbi/opensbi-payloads.inc
++++ b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+@@ -7,18 +7,8 @@ def riscv_get_extra_oemake_image(d):
+ 
+     return "FW_PAYLOAD_PATH=" + deploy_dir + "/" + sbi_payload
+ 
+-def riscv_get_extra_oemake_fdt(d):
+-    sbi_fdt_payload = d.getVar('RISCV_SBI_FDT')
+-    deploy_dir = d.getVar('DEPLOY_DIR_IMAGE')
+-
+-    if sbi_fdt_payload is None:
+-        return ""
+-
+-    return "FW_PAYLOAD_FDT_PATH=" + deploy_dir + "/" + sbi_fdt_payload
+-
+ def riscv_get_do_compile_depends(d):
+     sbi_payload = d.getVar('RISCV_SBI_PAYLOAD')
+-    sbi_fdt_payload = d.getVar('RISCV_SBI_FDT')
+ 
+     if sbi_payload is None:
+         return ""
+@@ -26,14 +16,6 @@ def riscv_get_do_compile_depends(d):
+     if 'linux' in sbi_payload or 'Image' in sbi_payload:
+         return "virtual/kernel:do_deploy"
+     if 'u-boot.bin' in sbi_payload:
+-        # If we want U-Boot and a FDT then we need to depend on U-Boot and
+-        # the kernel
+-        if sbi_fdt_payload is not None:
+-            return "virtual/bootloader:do_deploy virtual/kernel:do_deploy"
+-        else:
+-            return "virtual/bootloader:do_deploy"
+-    # If we want a custom FDT then we need to depend on the kernel
+-    if sbi_fdt_payload is not None:
+-        return "virtual/kernel:do_deploy"
++        return "virtual/bootloader:do_deploy"
+ 
+     return ""
+diff --git a/meta/recipes-bsp/opensbi/opensbi_0.5.bb b/meta/recipes-bsp/opensbi/opensbi_0.5.bb
+index 6a9026254c..71d64fa324 100644
+--- a/meta/recipes-bsp/opensbi/opensbi_0.5.bb
++++ b/meta/recipes-bsp/opensbi/opensbi_0.5.bb
+@@ -2,7 +2,6 @@ SUMMARY = "RISC-V Open Source Supervisor Binary Interface (OpenSBI)"
+ DESCRIPTION = "OpenSBI aims to provide an open-source and extensible implementation of the RISC-V SBI specification for a platform specific firmware (M-mode) and a general purpose OS, hypervisor or bootloader (S-mode or HS-mode). OpenSBI implementation can be easily extended by RISC-V platform or System-on-Chip vendors to fit a particular hadware configuration."
+ LICENSE = "BSD-2-Clause"
+ LIC_FILES_CHKSUM = "file://COPYING.BSD;md5=42dd9555eb177f35150cf9aa240b61e5"
+-DEPENDS += "dtc-native"
+ 
+ require opensbi-payloads.inc
+ 
+@@ -21,7 +20,7 @@ SRC_URI[sha256sum] = "07f18b73abf3b85aabe5bead19a923716c100d30eb58033459f39c3a22
+ 
+ EXTRA_OEMAKE += "PLATFORM=${RISCV_SBI_PLAT} I=${D}"
+ # If RISCV_SBI_PAYLOAD is set then include it as a payload
+-EXTRA_OEMAKE_append = " ${@riscv_get_extra_oemake_image(d)} ${@riscv_get_extra_oemake_fdt(d)}"
++EXTRA_OEMAKE_append = " ${@riscv_get_extra_oemake_image(d)}"
+ 
+ # Required if specifying a custom payload
+ do_compile[depends] += "${@riscv_get_do_compile_depends(d)}"
+@@ -47,7 +46,6 @@ FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_jump.*"
+ FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
+ FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_dynamic.*"
+ 
+-
+ COMPATIBLE_HOST = "(riscv64|riscv32).*"
+ INHIBIT_PACKAGE_STRIP = "1"
+ 
+-- 
+2.25.0
+
 
