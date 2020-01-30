@@ -1,52 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D3AA4605A0
+Return-Path: <sumit.garg@linaro.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EB4E5600FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 13:04:07 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id p9so3697889wmc.2
+	Thu, 30 Jan 2020 13:26:57 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id d16so3990291wre.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 05:04:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=t66v0jHJ9ULn8PW8d+iGk1Thk03+mbtmaKi+CchNcAU=;
-	b=XweetsV+FTr+4JnEjJnKua/g5kiCd6jBwdvEw3QeqccLn4VdCTyi8WNSpg0d2ynbuV
-	OuCi1QR8nl0k/bjaQN1u1eLQgjXI7TM84LaBQw6bf7VPDSqvq27d0zVcQOXu3pX2qdzy
-	pBEcYNgYaminkLfUbpkjoSqIKBBotaSKl5yAo/Vi8woe2zhirw45fZp/h3VpX/QczpwW
-	pcPpFcVH6GNhH9bHe7hMjM+3d6zP0IEerOWTZxIKcENqXTLn+pfeVpFvTocsSWKw4kNN
-	x43XAGm2Oe6E0MmNLnX8ANsEHwCr+CkGXQ9//dgRZVbmHznzpWu+L+g8f0e+1TclnsbE
-	Jmug==
+	Thu, 30 Jan 2020 05:26:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wu81+znsQVlO4GDXSknkCVCJqM91YpuGTjqELTmM4Xs=;
+	b=dqU46jNcyp5Dy43+T3qx5xOFe/GT/f45C6jIMJ+L6i7lollmlmG7+K48lYpw0sikx+
+	nwJkyyyZLJAhVJCfP+0YDPDoIjseTsnw08l8WJFECohQYuVlB3Gy+RBgGgMy3hh/1VHA
+	iVhq6mIYS4+SK/ODS6qIPYvOIvZ4SYUOD384hJQtYhV1+kpALPu8KTC0HFEJJOmpbTnG
+	i7RFZRGF3P3dSZrhNxBmdpbdlb3/THSe/wkWh/bQPPEV7IabR5YyYZAMNRt6HURQtLc9
+	QNkSePTwhzfQCrYZicouDzHyDBH4hrYWZ/g764QbLcMO0r0elsC5rfTRNI2wIXY5mYzl
+	JiCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=t66v0jHJ9ULn8PW8d+iGk1Thk03+mbtmaKi+CchNcAU=;
-	b=TF6mt6CkVmcGAWLqWAM8VojHvlAgdoIHZcvqDSmEjbwQnWW9mgskP+cH71O/PuJaL3
-	7FiActytyb3AMaIo0+kqukepqpenrGd/i4hnp1sVE7lLXqNLsoYZYQj2LO9kMgf0rXOZ
-	KUPkHPqlWktONoytak0ay/AAk8h1UoqReglaVJ+TuQ5PJvXXkqu3ir+En1E0FS1nPbev
-	wIijjekH1HNdK9sK8A//dYAiptRMQmfHs9wZoiikqsqBXLBCgjS9a3bc8e2zPFwzegG9
-	jb6rMJnfFGX+A+dusb3KadaQ7hK84nuuCDafswMnPRtU8JPoQrvy+9SZqxUsDLQ2MT1Y
-	JnNw==
-X-Gm-Message-State: APjAAAW4suryOKQqrU0ecoQnxQcXXM7HljZ1BzNeYdSw/rofY6q6WcpZ
-	4wvE5pWN7o0/Y+fIXXHWQ1alyggu
-X-Google-Smtp-Source: APXvYqxK+4a3my9RFCUTwxhDoJtcxkdf6AZ/CAA/9CLQRAaLE75AGYEFtL2kZL+QnmYsGmVIsydr7w==
-X-Received: by 2002:a7b:c1d0:: with SMTP id a16mr10183132wmj.175.1580288900023;
-	Wed, 29 Jan 2020 01:08:20 -0800 (PST)
-Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
-	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	a62sm1550224wmh.33.2020.01.29.01.08.19
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 01:08:19 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 Jan 2020 10:07:31 +0100
-Message-Id: <20200129090738.1398-17-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200129090738.1398-1-alex.kanavin@gmail.com>
-References: <20200129090738.1398-1-alex.kanavin@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wu81+znsQVlO4GDXSknkCVCJqM91YpuGTjqELTmM4Xs=;
+	b=Q09uvSmCmqU6pshQkXA05R1o9D4QkHEmQjd0Pr5psLHXCgi6VZwE0nUzpOeCHG1p6Z
+	rvX9siPAQ0I6h7lrneC/8PsJ8r2dYg8pm8/dN/PKHSywOzJllSV4SybrKGyj2a6s3HTC
+	SaS/SnUGSCHB+FYW504Sfg7tx/FfFUb1hjrudkr8EBD83rWqXJuiofnL6UONdbGwHt/K
+	uwBiLTB2RK6NplQaWojYGbNoFiSXJ4j+/BQ6seXJyI/lIFi5YbLqXpfsNCmgP8v98BXV
+	TpYwCZ8QYOM4MOjsFBbxI3fFlZSzkVjTnIooe8rB+en4vx7+W4Cqlqn8+w2WJejYZdRa
+	+sBA==
+X-Gm-Message-State: APjAAAUms+7RsGg3ePFVygkqdseV8bn+Y63aajK2Jt3/YEU+Q0oVQ0D2
+	y7c+ReFZwO00qQ2MuqEzsFRamJZM6TMWX5ib0wr61FJDF9c=
+X-Google-Smtp-Source: APXvYqxhbfQVJIg/PpuW9mCbR1ghByrWUApLFIj4i85ItfNYF5RCdWHaZK/NaQTy0+VZI3DmUSFOV1aM4XIcN5BBaU4=
+X-Received: by 2002:a19:e011:: with SMTP id x17mr2145941lfg.59.1580376655616; 
+	Thu, 30 Jan 2020 01:30:55 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 17/24] python3-setuptools: upgrade 42.0.2 -> 45.0.0
+References: <1579595173-23336-1-git-send-email-sumit.garg@linaro.org>
+	<2736c79c-ff8e-3d90-52cd-b264bba74d09@gmail.com>
+	<CANNYZj9pLvB+buTyq0gWx_1Jh0D8V1SwyDdwbEOkmKfMLUGhxQ@mail.gmail.com>
+In-Reply-To: <CANNYZj9pLvB+buTyq0gWx_1Jh0D8V1SwyDdwbEOkmKfMLUGhxQ@mail.gmail.com>
+From: Sumit Garg <sumit.garg@linaro.org>
+Date: Thu, 30 Jan 2020 15:00:43 +0530
+Message-ID: <CAFA6WYNwY50OVknFYLdMEwRaDW4d-OD8HMBsWwrnmfAaEcL8wA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	akuster808 <akuster808@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [zeus][PATCH] core: recipes: fix some native tools dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,59 +57,79 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 31 Jan 2020 09:28:18 -0000
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...01-conditionally-do-not-fetch-code-by-easy_install.patch | 6 +++---
- meta/recipes-devtools/python/python-setuptools.inc          | 4 ++--
- ...n3-setuptools_42.0.2.bb => python3-setuptools_45.0.0.bb} | 0
- 3 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/python/{python3-setuptools_42.0.2.bb => python3-setuptools_45.0.0.bb} (100%)
+On Wed, 29 Jan 2020 at 22:00, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> I think a separate, somewhat different patch was sent for master?
+>
 
-diff --git a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-index 169d1b155bd..b1a6813b2e3 100644
---- a/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-+++ b/meta/recipes-devtools/python/files/0001-conditionally-do-not-fetch-code-by-easy_install.patch
-@@ -1,4 +1,4 @@
--From 5bba4f57f048016aa92ce5909e9e372db619554e Mon Sep 17 00:00:00 2001
-+From 50e4ebce9f711391e2fa9f43906259e19ac00e63 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 17 Jul 2018 10:13:38 +0800
- Subject: [PATCH] conditionally do not fetch code by easy_install
-@@ -15,10 +15,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 5 insertions(+)
- 
- diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
--index 05508ce..945e118 100755
-+index 09066f8..d3039a5 100644
- --- a/setuptools/command/easy_install.py
- +++ b/setuptools/command/easy_install.py
--@@ -640,6 +640,11 @@ class easy_install(Command):
-+@@ -649,6 +649,11 @@ class easy_install(Command):
-              os.path.exists(tmpdir) and rmtree(rmtree_safe(tmpdir))
-  
-      def easy_install(self, spec, deps=False):
-diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
-index d8bce7145eb..c697937887b 100644
---- a/meta/recipes-devtools/python/python-setuptools.inc
-+++ b/meta/recipes-devtools/python/python-setuptools.inc
-@@ -10,8 +10,8 @@ inherit pypi
- 
- SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
- 
--SRC_URI[md5sum] = "5ac69b66a6f7d4785517017f37df28e9"
--SRC_URI[sha256sum] = "c5b372090d7c8709ce79a6a66872a91e518f7d65af97fca78135e1cb10d4b940"
-+SRC_URI[md5sum] = "14898abd6f436eee58a5a2ba291fcbeb"
-+SRC_URI[sha256sum] = "c46d9c8f2289535457d36c676b541ca78f7dcb736b97d02f50d17f7f15b583cc"
- 
- DEPENDS += "${PYTHON_PN}"
- 
-diff --git a/meta/recipes-devtools/python/python3-setuptools_42.0.2.bb b/meta/recipes-devtools/python/python3-setuptools_45.0.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-setuptools_42.0.2.bb
-rename to meta/recipes-devtools/python/python3-setuptools_45.0.0.bb
--- 
-2.25.0
+Correct.
 
+Patch for master: https://patchwork.openembedded.org/patch/169288/
+Patch for zeus: https://patchwork.openembedded.org/patch/169289/
+
+-Sumit
+
+> Alex
+>
+> On Wed, 29 Jan 2020 at 17:15, akuster808 <akuster808@gmail.com> wrote:
+>>
+>>
+>>
+>> On 1/21/20 12:26 AM, Sumit Garg wrote:
+>> > Some native tools dependency issues were seen while building with
+>> > external GCC tool-set rather than source GCC tool-set. While building
+>> > with source tool-set these dependencies were implicitly met which is not
+>> > the case with external tool-set. So explicitly state these native tools
+>> > dependencies.
+>> Do these changes need to be in master?
+>>
+>> - armin
+>> > Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
+>> > ---
+>> >  meta/recipes-extended/man-db/man-db_2.8.7.bb       | 2 +-
+>> >  meta/recipes-extended/psmisc/psmisc.inc            | 2 +-
+>> >  meta/recipes-graphics/xorg-app/xorg-app-common.inc | 2 +-
+>> >  3 files changed, 3 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/meta/recipes-extended/man-db/man-db_2.8.7.bb b/meta/recipes-extended/man-db/man-db_2.8.7.bb
+>> > index 083b237..0d73b03 100644
+>> > --- a/meta/recipes-extended/man-db/man-db_2.8.7.bb
+>> > +++ b/meta/recipes-extended/man-db/man-db_2.8.7.bb
+>> > @@ -10,7 +10,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
+>> >  SRC_URI[md5sum] = "ec0b23c8314a1654c4d059b2c18ce43d"
+>> >  SRC_URI[sha256sum] = "b9cd5bb996305d08bfe9e1114edc30b4c97be807093b88af8033ed1cf9beb326"
+>> >
+>> > -DEPENDS = "libpipeline gdbm groff-native base-passwd"
+>> > +DEPENDS = "libpipeline gdbm groff-native base-passwd flex-native"
+>> >  RDEPENDS_${PN} += "base-passwd"
+>> >
+>> >  # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+>> > diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
+>> > index 594a10c..6de5acb 100644
+>> > --- a/meta/recipes-extended/psmisc/psmisc.inc
+>> > +++ b/meta/recipes-extended/psmisc/psmisc.inc
+>> > @@ -7,7 +7,7 @@ command sends a specified signal (SIGTERM if nothing is specified) to \
+>> >  processes identified by name.  The fuser command identifies the PIDs \
+>> >  of processes that are using specified files or filesystems."
+>> >  SECTION = "base"
+>> > -DEPENDS = "ncurses virtual/libintl gettext-native"
+>> > +DEPENDS = "ncurses virtual/libintl gettext-native xz-native"
+>> >  LICENSE = "GPLv2"
+>> >
+>> >  SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz"
+>> > diff --git a/meta/recipes-graphics/xorg-app/xorg-app-common.inc b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+>> > index 3529cb2..211e399 100644
+>> > --- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+>> > +++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+>> > @@ -12,6 +12,6 @@ INC_PR = "r8"
+>> >
+>> >  SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.bz2"
+>> >
+>> > -inherit autotools pkgconfig distro_features_check
+>> > +inherit autotools pkgconfig distro_features_check gettext
+>> >
+>> >  FILES_${PN} += " ${libdir}/X11/${BPN} ${datadir}/X11/app-defaults/"
+>>
 
