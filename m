@@ -1,53 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DE2560664
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E52260D31
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 14:15:27 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id b15so2397624lfc.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 06:15:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=K2WT26d7TUDaPZXbhFZ96kEUP/rQun04dlnbuMOud2Q=;
-	b=I6pUsTOHVbm+gjB6z/Igx4vth4YEYtm62zZ1vK/soGYzbe+1dal8OkYr3uJ68GrmkH
-	9snaQWcxq0eShv7ip+to2ASWFEHlb8CC5LbkwlsQsLU0HGEeV/pk8zecrbI2Shn/eNCX
-	genWTP0pyRzMeuhGD0isvSs3brdLSQqx0GkIM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=K2WT26d7TUDaPZXbhFZ96kEUP/rQun04dlnbuMOud2Q=;
-	b=k1FB2oDlkqhB92PKjTXq+27AZ88va4DcOjmgB1lYy3Kk5dlEK37mrPHYBOOFoMhr9m
-	qKWm8+sbvXFy3KzWHsRS7jN0TQkmoSYivzSdcQ1tE2UV18MzHlU11C3B4UMbdxpGKm3J
-	QqGE+FKVRIuWxlVY8Wft/a4qcUZS9XxxiKi7XqIjNsjodVPJMzq/UYI9t7Z6LPBW8RF2
-	x9wqt0cWRWPiELmwGD69CI8EI1qJ6ZKgocLezq9miHCWxw8FOVTyGVsFH8BSRhgmg05l
-	4Jp3HhY1scOk42dhUxk8DIW6imtbCkej5BoVZmOsQs7xz4UkJ8vX/gwnGsBzw90BqVNC
-	Up2w==
-X-Gm-Message-State: APjAAAVr68Jd3Jt11+ZAOz+/EJ2ia3/+ervmrBxJYoW82QDZ6qYCwKVN
-	zBz761YooSMwJqSlX+rUOEymJEHEY+Y=
-X-Google-Smtp-Source: APXvYqzSgct09iRe6A6KmgUBNuZEkEQM890YAJPrhcWgguLdLNaKWq3Xktag08OfzbtXn54SV5q0Rg==
-X-Received: by 2002:adf:fd84:: with SMTP id d4mr34558658wrr.211.1580299201651; 
-	Wed, 29 Jan 2020 04:00:01 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 4sm1976079wmg.22.2020.01.29.04.00.00
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 29 Jan 2020 04:00:01 -0800 (PST)
-Message-ID: <10d77c789a51e9fdb089b2faf983414cc17fb20b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 29 Jan 2020 11:59:59 +0000
-In-Reply-To: <CAMKF1sqYswYbOA+N80sK3sELzPPCTymDna8bgSKETCvZROi2Fw@mail.gmail.com>
-References: <20200128151643.9711-1-richard.purdie@linuxfoundation.org>
-	<20200128151643.9711-3-richard.purdie@linuxfoundation.org>
-	<CAMKF1sqYswYbOA+N80sK3sELzPPCTymDna8bgSKETCvZROi2Fw@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
+	Thu, 30 Jan 2020 22:45:38 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jan 2020 14:45:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,382,1574150400"; d="scan'208";a="430184767"
+Received: from pgsmsx112-dag.png.intel.com (HELO PGSMSX112.gar.corp.intel.com)
+	([10.108.55.234])
+	by fmsmga006.fm.intel.com with ESMTP; 30 Jan 2020 14:45:38 -0800
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.131]) by
+	PGSMSX112.gar.corp.intel.com ([169.254.3.207]) with mapi id
+	14.03.0439.000; Fri, 31 Jan 2020 06:45:38 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/5] texinfo/texinfo-dummy-native: Drop native path prefix
+Thread-Topic: [OE-core] [PATCH 1/5] stress-ng: upgrade 0.10.15 -> 0.10.16
+Thread-Index: AQHV0Odpb1RwKzNylkaGTdZ4CumRm6gDVg2A
+Date: Thu, 30 Jan 2020 22:45:37 +0000
+Message-ID: <2fa3f5b181b91e08037d3662fb48e26589c0a46f.camel@intel.com>
+References: <20200122054636.10681-1-anuj.mittal@intel.com>
+In-Reply-To: <20200122054636.10681-1-anuj.mittal@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.179.152]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/5] stress-ng: upgrade 0.10.15 -> 0.10.16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,24 +44,35 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 31 Jan 2020 09:28:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <09134C5448F074468B0EE050AFF7A901@intel.com>
+Content-Transfer-Encoding: base64
 
-On Tue, 2020-01-28 at 18:00 -0800, Khem Raj wrote:
-> it perhaps is the reason for most of failures seen here
-> 
-> https://errors.yoctoproject.org/Errors/Build/97736/
-> 
-> perhaps we need to explicitly inherit gettext in these recipes ?
-
-These patches aren't quite working in master yet but those failures
-look like they'd be solved with an "inherit texinfo" added to the
-recipes.
-
-Cheers,
-
-Richard
-
-
-
+UGluZw0KDQpPbiBXZWQsIDIwMjAtMDEtMjIgYXQgMTM6NDYgKzA4MDAsIEFudWogTWl0dGFsIHdy
+b3RlOg0KPiBTaWduZWQtb2ZmLWJ5OiBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29t
+Pg0KPiAtLS0NCj4gIC4uLi9zdHJlc3Mtbmcve3N0cmVzcy1uZ18wLjEwLjE1LmJiID0+IHN0cmVz
+cy1uZ18wLjEwLjE2LmJifSAgfCA0DQo+ICsrLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
+dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+ICByZW5hbWUgbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L3N0cmVzcy1uZy97c3RyZXNzLW5nXzAuMTAuMTUuYmIgPT4NCj4gc3RyZXNzLW5nXzAuMTAuMTYu
+YmJ9ICg4MyUpDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVz
+cy1uZy9zdHJlc3MtbmdfMC4xMC4xNS5iYg0KPiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zdHJl
+c3Mtbmcvc3RyZXNzLW5nXzAuMTAuMTYuYmINCj4gc2ltaWxhcml0eSBpbmRleCA4MyUNCj4gcmVu
+YW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3MtbmdfMC4xMC4x
+NS5iYg0KPiByZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N0cmVzcy1uZy9zdHJlc3Mt
+bmdfMC4xMC4xNi5iYg0KPiBpbmRleCA1NDAyMTMwZmRhLi5lNjdiODJhNTI3IDEwMDY0NA0KPiAt
+LS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3RyZXNzLW5nL3N0cmVzcy1uZ18wLjEwLjE1LmJi
+DQo+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zdHJlc3Mtbmcvc3RyZXNzLW5nXzAuMTAu
+MTYuYmINCj4gQEAgLTgsOCArOCw4IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiDQo+IGZpbGU6Ly9D
+T1BZSU5HO21kNT1iMjM0ZWU0ZDY5ZjVmY2U0NDg2YTgwZmRhZjRhNDI2MyINCj4gIFNSQ19VUkkg
+PSAiDQo+IGh0dHBzOi8va2VybmVsLnVidW50dS5jb20vfmNraW5nL3RhcmJhbGxzLyR7QlBOfS8k
+e0JQfS50YXIueHogXA0KPiAgICAgICAgICAgICBmaWxlOi8vMDAwMS1Eby1ub3QtcHJlc2VydmUt
+b3duZXJzaGlwLXdoZW4taW5zdGFsbGluZy0NCj4gZXhhbXBsZS1qby5wYXRjaCBcDQo+ICAgICAg
+ICAgICAgICINCj4gLVNSQ19VUklbbWQ1c3VtXSA9ICIzMDNhNzI3NmUzYTllM2RkMDNiZTZjYWJj
+OWU4NGE3NSINCj4gLVNSQ19VUklbc2hhMjU2c3VtXSA9DQo+ICIxZDBjYThhMmYyODdlMTNjMmQz
+NmMwMWU4NzRkMTZkNjdiY2IzNjhkOGQyNjU2MzMyNGM5YWFmMGRkYjEwMGMxIg0KPiArU1JDX1VS
+SVttZDVzdW1dID0gImEzMzdjZDViMTQxMmM1M2M1ODBlOTVlZTJhOWZjNzdiIg0KPiArU1JDX1VS
+SVtzaGEyNTZzdW1dID0NCj4gImVhYmZmZmNmZmNmNTNlNjc3NjUxODEyODA0NTZjMjA0YWQwMDIx
+NDMzOWNmZGIzZWUyNzY5ZDU4YjRhN2UzMDQiDQo+ICANCj4gIERFUEVORFMgPSAiY29yZXV0aWxz
+LW5hdGl2ZSINCj4gIA0KPiAtLSANCj4gMi4yMS4xDQo+IA0K
 
