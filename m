@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 9129760846;
-	Fri, 31 Jan 2020 10:03:35 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 1F8F760BF9;
+	Fri, 31 Jan 2020 10:03:38 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 31 Jan 2020 10:03:37 -0000
-Message-ID: <20200131100337.2273.56415@do>
-References: <20200130092123.8400-1-richard.purdie@linuxfoundation.org>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Date: Fri, 31 Jan 2020 10:03:39 -0000
+Message-ID: <20200131100339.2277.96301@do>
+References: <20200130094558.29743-1-m.felsch@pengutronix.de>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200130092123.8400-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200130094558.29743-1-m.felsch@pengutronix.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTUVNT1JJQU06IEFkZCByZWNvZ25pdGlvbiBmb3IgY29udHJpYnV0b3JzIG5vIGxvbmdlciB3aXRoIHVzIChyZXYyKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgdXRpbC1saW51eDogYWx0ZXJuYXRpZnkgcnRjd2FrZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 10:03:35 -0000
+X-List-Received-Date: Fri, 31 Jan 2020 10:03:38 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: MEMORIAM: Add recognition for contributors no longer with us (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/22344/
+Series: util-linux: alternatify rtcwake
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22359/
 State : failure
 
 == Summary ==
