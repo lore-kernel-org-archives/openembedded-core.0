@@ -1,63 +1,50 @@
-Return-Path: <otavio.salvador@ossystems.com.br>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AD436007C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 75D6060C24
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 14:08:55 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id j20so6585163qka.10
+	Fri, 31 Jan 2020 15:30:58 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id a6so9029675wrx.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 06:08:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
-	:cc; bh=DqZ+gUwk8hNMll4MmYQLrS4vg+sshoQkJYvt1TkXD2A=;
-	b=nAxQXfyD703kZYz3HKB5SneLXouPb9MxPkDvgGtIpkfpacJ1RBrBJ2nT0STNJ5gNKj
-	7vHCH9r/7r4KPEpoHNFi5PjZVQFXCo6QMEV8ZceCj6QLJfvWKdRmbTVnQX59A9aMyt58
-	BuimVdkwDjSIdAOnKXPOcWI3M642RVNS0cR7EuIX4qwHAL93kClnd8uU6FaZEkfOj+Es
-	uOBs9LDg0tuKVFIOKwGu1pXm7u5I02SzU0qK78x8EourvRAZNU76Pkk+LAEBNfsWT3Vl
-	IfihGz8e0CDG5hySJ2stjHgcwEfP8RSQGeh/9JJBo6cB0MzLTDqSGyQoHhXUcUhow/cj
-	lgEQ==
+	Fri, 31 Jan 2020 07:30:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Y4qmaKk0LUopJeBNdVuULt4KuXiUxC0GCDGdD/zNZS8=;
+	b=TRy7vZJeR5XwmGFSr/UCfjC2Cqga6lAt6fMhDIXEEkIo3lt4HHz3PJcjdZGUvizV37
+	+6nZWP6+jYANwWUPtDnHrqeu4SHxMux7TZNn8SjP0ZkChi2+D62IL9ySFwOvCz03jppW
+	q6c/UwP/8mMmS5Y/fqTk+q9xpyP++/hY22CMXi2IUHRoGJcRLOTHYrfngcyd6hRW5jmJ
+	kUEwt3lfYTMOq/oLeWfXtmqmykoyiJo8eHff+L7OtHRuvqlhHpz9340s7SpFpwr5gr8N
+	+vmAcccQvZQLoCqhKfNibfNSaxez+ahy+6ikQCUnwNykkEyXfzrDytAfBkL1frSOSGr3
+	ujiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
-	:message-id:subject:to:cc;
-	bh=DqZ+gUwk8hNMll4MmYQLrS4vg+sshoQkJYvt1TkXD2A=;
-	b=I3xtvQ188yiJH9lCu+oPZb8h+EAWM2LrmJUuWly1g39sZjHUs/9g7XcZt1+Xrb2Urs
-	C1iB6CfYDwaH0TZIyi6I5fcXx29cQGEFQJVvM/P4PL5MDemmk1zc7K9pkfw2Ij7nrCZ0
-	Qv6zbaCLhqpZQThSJNqm2dOBkzB4SJCIjaZ7pkwHI1S5TLbE+8N8/KELsL53b/zbJi9k
-	mtTqYJQyQHoTnIFceI5gguWLyVJbILjWvuNDk/puF1KlrEoXjtvfNB2FiY3AZIv6P7Uz
-	2T732yCcb6Gpf0991JcvWCsIaD8wrp7+E8kn0wLij6hMF3J1Xnb6AZAlww3XVVOdB6k3
-	g9pg==
-X-Gm-Message-State: APjAAAUqREx/DhJ8JjV+X0jXzCxCCEp3tMyMgVi9WKXDL/fubH+lSJF+
-	si4bldnAJIxSND+GAqplt8+ueT1NQNM+VA==
-X-Google-Smtp-Source: APXvYqzKX15NFwKqP2cMpkL3OotVFRAnE40wY+ev/AvP8xaLIE//BM3Ss/rAM7ziAmx8r7F8LWR5dg==
-X-Received: by 2002:a37:6551:: with SMTP id z78mr11224779qkb.144.1580479735836;
-	Fri, 31 Jan 2020 06:08:55 -0800 (PST)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com.
-	[209.85.160.175]) by smtp.gmail.com with ESMTPSA id
-	y27sm5158397qta.50.2020.01.31.06.08.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 31 Jan 2020 06:08:54 -0800 (PST)
-From: Otavio Salvador <otavio.salvador@ossystems.com.br>
-X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
-Received: by mail-qt1-f175.google.com with SMTP id d9so5423797qte.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 06:08:54 -0800 (PST)
-X-Received: by 2002:aed:3e53:: with SMTP id m19mr10911014qtf.387.1580479734182;
-	Fri, 31 Jan 2020 06:08:54 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Y4qmaKk0LUopJeBNdVuULt4KuXiUxC0GCDGdD/zNZS8=;
+	b=hbPAfG3KWTLF+lf0OSm+OX2l9S1Ci0bSF6SficEVgSSudbNWXAIibC6Ozmh4eNg9Hb
+	O84fP06s9Oif/3yCcYCkIB+GGpAaVX+3RCevHgUxGSRCuIDF3L7vi2Uqof4aJhuEy14T
+	ZoV/N8lBNexzCwtm3CB8G4sIvMbtk3Y6ud/SsNc4FTLjP2stqMbV3CpLCcEzQzX0KBI7
+	wwNkoxVPMHHlnjMLNSXPpjtMXkiPyatm6fB752C1Zr93DBWktJloeN5bsdxHBuLbhuAr
+	yRQQHgori6BCqRyeWj/Dbgj1FNtUE67KeDadN8ibWuk+lPtu99Zhp0xrUwARNrV/8BGe
+	sWwg==
+X-Gm-Message-State: APjAAAVmZJLD3zly11HEPbIklzhybH/KvmaREJoc/cZwV6MpwFU+762N
+	WTFGLYdm4A1n8OI4o5oam8r3JP6H
+X-Google-Smtp-Source: APXvYqyADeAG/FYcXFvdMYhYn8epct+v5t4fUD3UVcDotzKuTp3BZO3YGv5nHaCcHAKBijOSIIt5ZA==
+X-Received: by 2002:adf:d4ca:: with SMTP id w10mr13486348wrk.53.1580484658494; 
+	Fri, 31 Jan 2020 07:30:58 -0800 (PST)
+Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
+	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
+	z3sm12432497wrs.94.2020.01.31.07.30.57
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 31 Jan 2020 07:30:57 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Jan 2020 16:30:25 +0100
+Message-Id: <20200131153025.31040-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <20200131133324.3791406-1-otavio@ossystems.com.br>
-	<20200131133324.3791406-2-otavio@ossystems.com.br>
-	<CANNYZj8C6JNTypMzoVSheVfCt78bxh_RdDmjjijsGhSXGB1gFg@mail.gmail.com>
-In-Reply-To: <CANNYZj8C6JNTypMzoVSheVfCt78bxh_RdDmjjijsGhSXGB1gFg@mail.gmail.com>
-Date: Fri, 31 Jan 2020 11:08:42 -0300
-X-Gmail-Original-Message-ID: <CAP9ODKqPip50E7Ovrsm8_zpip-EH6n4jw=GeyVbA=BoBnUrN1A@mail.gmail.com>
-Message-ID: <CAP9ODKqPip50E7Ovrsm8_zpip-EH6n4jw=GeyVbA=BoBnUrN1A@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Otavio Salvador <otavio@ossystems.com.br>,
-	OpenEmbedded Core Mailing List <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] linux-firmware: Update 20190815 -> 20200122
+Subject: [PATCH] busybox: sort the .config file used by ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,18 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 14:08:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 31 Jan 2020 15:30:58 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jan 31, 2020 at 10:46 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
-> I have sent a patch for the same, and I think my patch might be a bit better as it adds the two newly added license files?
-> (there's been a problem with oe-core list for the past couple of days so you may not have received it)
+It was found to have slight variations in order of options
+depending on the host. Sorting it helps reproducibility.
 
-Good. No problem. I'll drop mine here.
+[YOCTO #13756]
 
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-core/busybox/busybox.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 391e4fd1639..1a82f23b0f3 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -356,7 +356,7 @@ do_install_ptest () {
+ 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
+         # These access the internet which is not guaranteed to work on machines running the tests
+         rm -rf ${D}${PTEST_PATH}/testsuite/wget
+-	cp ${B}/.config      ${D}${PTEST_PATH}/
++	sort ${B}/.config > ${D}${PTEST_PATH}/.config
+ 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
+ }
+ 
 -- 
-Otavio Salvador                             O.S. Systems
-http://www.ossystems.com.br        http://code.ossystems.com.br
-Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
+2.25.0
+
 
