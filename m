@@ -1,52 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EEA5260AD2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 21:32:26 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id z7so5917330wrl.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 13:32:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=EqNogyjIQII0fd4OMbl1vF43UhhwP4aCNocsKa/AAJY=;
-	b=PqQMa2q1u6L1WIOroRdjOJZ7zvm+jEfSRmH1EnGqOzVLK+avj9QwPUY26hcmj58jTa
-	IsDiiMRrguV14e3fZ2wpkdund1TxMgza6ZO+WsuH7uVTJDmYcQGumobSFcC4HLw1HI/3
-	pGVv/QrlGD3+laG8Dt+MkmhApCnbnYiapfDA8=
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
+	[209.85.210.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 5946460D72
+	for <openembedded-core@openembedded.org>;
+	Fri, 31 Jan 2020 00:28:03 +0000 (UTC)
+Received: by mail-pf1-f170.google.com with SMTP id y5so2345820pfb.11
+	for <openembedded-core@openembedded.org>;
+	Thu, 30 Jan 2020 16:28:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=hcu/vHg89xqqxJQJW/4wJ+q/WdDzyPernSiveNb0a8M=;
+	b=NJfYwj2G6tKwnwF1CZsDiyqdnjePd2eDCphOXqSvxN473XqNLrvFffpTLeXFfkylB3
+	TEs2sml5q6el859IHcXJx3f08fktfuMjuBnV6aMxscVvBp7TVT6ERDy0vPB4H3RLj7Ec
+	AnNRO6Ub9n6mhXe/MY91ARh31R996xYwnUmfT7FrH90iI/Bn0P4URUoQrHmRj7RDPy5/
+	5O1aZdHqho5uUWonxf/Kw3T0vWZ69UuvxxhWDjYuz025CxEO4Ni+3CTBYkcafKLv+NYe
+	h1Ttdz6zSqP1TFtNKUwgelHMkRsu8Zt9gDeCRcoyb62Eap7pYnej8SG/DEDY1Nrz4WS6
+	6f7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=EqNogyjIQII0fd4OMbl1vF43UhhwP4aCNocsKa/AAJY=;
-	b=sS5ZZLdEqzOwC9UghDlWk11/ipNhKdbF7+uX5ecDqm6Adg22VC6mXZz1KBhlZvX79C
-	TxJnAJWg33oVj7/JLUDH3hLAxowdh+sAyd4+UkucitI0yN4UAoRJaiiCafZF4hdV+q6y
-	J0ZvjYdojZ1Xt2z7ffn3KJNAi/wFgt6lg+joCkO0rCmAeRNMdy2V0gHgOs9uELn6Xi8D
-	Ac3ai5VbNXb4A7mnJR5yitmj12BzB+FA0qM0XYIiWIPWHuzPnSQXIcTnxHAoe98GV/d1
-	+Z3YRVWrUDUTg/+S95AykBigdDyJdahz/OyjnL5jQ4I1JYTEyJLkXRHwLUK8uuCRVqW9
-	W7iA==
-X-Gm-Message-State: APjAAAU0Nr9+rNclhCE9EnOokfRuo6a8/U9ZnmljB+hTqE40CX0Qc8yw
-	s2FosdlttQ4rL1/Bl9ypWn6WDw==
-X-Google-Smtp-Source: APXvYqxdjaBUPoMhTXvMn15QIUxW76YCg/pwlkusNZaDSoezQWFpaPcptGC58vWubOqhKTA1YfQb7A==
-X-Received: by 2002:a05:6000:1289:: with SMTP id
-	f9mr7289619wrx.381.1580419947656; 
-	Thu, 30 Jan 2020 13:32:27 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id s1sm52481wro.66.2020.01.30.13.32.25
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=hcu/vHg89xqqxJQJW/4wJ+q/WdDzyPernSiveNb0a8M=;
+	b=XydT2TibBprvLwG14mKYQrb54m2BdnzDL1f1I+OKFklOVLZBup22LdzMYgcuh1AqVC
+	55SD22wentCTCHwH2xEI86XBJuJlTNTQOH9dSYGFC794Sj4ux93w79IOAvCuD/P99d1P
+	B5sGmY1KEXvBnI7KNguuLSeU3unUFLlCJsehHrJ7sTXBcoBgwWxFYhhT4jjYWI2dZfsb
+	5ri1pdTyAJxSC4EG7gbkf8dkv9b6C1aadHj/Nwbs7KfwmTrwukKinK9SJe7RmrerhUsz
+	kqjCMHU4BugUXv7Xldr/onKGqHXmCjqt+yHo0t5pfsY5dtuhZlNMbVmAPjUuQT9eUDjF
+	CZ5A==
+X-Gm-Message-State: APjAAAXkNVFGaA346ytFRvgNB1UA3m2G4riwx+7+z7HaaoNiUGTg5JaJ
+	i+hiP8aGBZg9jWCTuBq3w5s9kjDG
+X-Google-Smtp-Source: APXvYqzy8WMC+JhCrIQlIIPaSjItd43DdFEfzmeqOtsMxT9ABlV1gkZ9XxTZpO9/xKJ1fE/yPTQFdg==
+X-Received: by 2002:a62:d10b:: with SMTP id z11mr7447397pfg.67.1580430484159; 
+	Thu, 30 Jan 2020 16:28:04 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:9979:cdb6:7624:d076])
+	by smtp.gmail.com with ESMTPSA id
+	j28sm7949306pgb.36.2020.01.30.16.28.03
+	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 30 Jan 2020 13:32:27 -0800 (PST)
-Message-ID: <cf808ec0358da6f3fff30709b4c322b8b36a2387.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Rich Persaud <persaur@gmail.com>
-Date: Thu, 30 Jan 2020 21:32:22 +0000
-In-Reply-To: <B461ED80-C70F-4961-A8D5-A4879136DC22@gmail.com>
-References: <20200127174011.16243-1-richard.purdie@linuxfoundation.org>
-	<B461ED80-C70F-4961-A8D5-A4879136DC22@gmail.com>
-User-Agent: Evolution 3.34.1-2 
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] autotools: Give in and force CONFIG_SHELL to bash
+	Thu, 30 Jan 2020 16:28:03 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@openembedded.org
+Date: Thu, 30 Jan 2020 16:28:01 -0800
+Message-Id: <20200131002801.31570-2-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200131002801.31570-1-akuster808@gmail.com>
+References: <20200131002801.31570-1-akuster808@gmail.com>
+Subject: [PATCH 2/2] parselogs: remove mpc8315e-rdb from errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +59,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 Jan 2020 21:32:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 31 Jan 2020 00:31:09 -0000
 
-On Thu, 2020-01-30 at 15:58 -0500, Rich Persaud wrote:
-> On Jan 27, 2020, at 12:40, Richard Purdie <
-> richard.purdie@linuxfoundation.org> wrote:
-> > ﻿At present, CONFIG_SHELL becomes /bin/sh if its bash and /bin/bash
-> > if not. This
-> > isn't deterministic and leads to changes in ptest packages which
-> > include Makefiles.
-> > 
-> > At first glance you'd think we'd hardcode to /bin/sh since most
-> > system shells are sane.
-> > 
-> > Sadly the dash vs. bash leads to quoting differences in configure.
-> > 
-> > The bash default is probably the safest option since configure
-> > tries to find bash
-> > and this is what most systems would end up using.
-> > 
-> > The end result is a more consisent build environment.
-> 
-> Since every OE user is currently forced to depend on host tool
-> binaries, could we limit such dependency to a bootstrap phase where
-> bitbake generates native versions of HOSTTOOLS (including bash)
-> before building product binaries? 
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/lib/oeqa/runtime/cases/parselogs.py | 5 -----
+ 1 file changed, 5 deletions(-)
 
-On this specific issue, I very much doubt the build would work without
-bash as so many scripts require it. We're just force it to a value
-rather than having it pick /bin/sh on some systems (where it is bash)
-and /bin/bash on others.
-
-The aim is we can generate all the hosttools with "bitbake buildtools-
-tarball" or "bitbake buildtools-extended-tarball" (includes gcc). Those
-work today, we don't have an automatic extraction and preface to the
-build phase as yet but that is next on my development list once we have
-the build reproducibility issues track down and resolved.
-
-So I think what you're asking for is nearly there, we just have manual
-setup right now?
-
-Cheers,
-
-Richard
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
+index b7c7b30adf..9dafb89b03 100644
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+@@ -185,11 +185,6 @@ ignore_errors = {
+         'Failed to make EGL context current',
+         'glamor initialization failed',
+         ] + common_errors,
+-    'mpc8315e-rdb' : [
+-        'of_irq_parse_pci: failed with',
+-        'Fatal server error:',
+-        'Server terminated with error',
+-        ] + common_errors,
+ }
+ 
+ log_locations = ["/var/log/","/var/log/dmesg", "/tmp/dmesg_output.log"]
+-- 
+2.17.1
 
 
