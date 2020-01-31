@@ -1,122 +1,82 @@
-Return-Path: <mhalstead@linuxfoundation.org>
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
-	[209.85.166.45])
-	by mail.openembedded.org (Postfix) with ESMTP id DA82760628
+Return-Path: <alejandro@enedino.org>
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com
+	(mail-eopbgr690062.outbound.protection.outlook.com [40.107.69.62])
+	by mail.openembedded.org (Postfix) with ESMTP id 137F860D7E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 09:33:52 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id c16so7432613ioh.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 01:33:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:subject:to:autocrypt:organization:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=T9Rjilqwg1US7EfPTVQUdRV4Kk24nBcSgDD5FaMJF/k=;
-	b=aUpgqPSJssBYozZFymgIKOlZ52jxhaXs1ccHFnhCHCE0YXrXABOmuQ5j+PMVGGhu1+
-	blcVLJnlBpQoB5sg0m9Dmydo8SombCsjdZtMJABEYCWLXw0ucQ6Jtfjfa+PBbYkFA8+j
-	CUrHDcm5skGTVMwEW6W2hNB7nQbchBeKmn/KI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:autocrypt:organization
-	:message-id:date:user-agent:mime-version:content-transfer-encoding
-	:content-language;
-	bh=T9Rjilqwg1US7EfPTVQUdRV4Kk24nBcSgDD5FaMJF/k=;
-	b=Kaf5Dcm4lmZmSjMuvq+mChPlOBGOZF9gUYz2EsxAC/CYngGrIkpM+2BFhsrj+1TPlX
-	mQILNhixBIXw2R2dW+5lGsvpWACo3qzK/eovY8DwZ9e3Os+Cu4Ql5251Vyoy7aygDQp7
-	DIIcu1OfBLKtIX03e/WGtyrQI9aUYCCVtIwPxs2iL/jm5g0TvyFO0Why9u0y+1HcUeHa
-	OVozaPa5Wmugwh/OYX+0Rt/huzTOtrgf8zskqVnJnSW1QCCKpL24NyIANQcbejrwr4W2
-	CUSlsSNe9SEpPJLbQBRZ/mCQjF8YEEWas7SXVffDLcCqpxwQclZzzYIg6xXag/4HYk8H
-	hycw==
-X-Gm-Message-State: APjAAAVuIx117LhW51Pl9VTYY6mfn+qWvfZVZcmIQvaL+WVS4ci009C9
-	CSWScgbunsHLMI5vD2NpLwFoctzdG/Q=
-X-Google-Smtp-Source: APXvYqwenASY5E24Fa/+iKMj5tZflOyH/WJmN1UKZGtAYZzVXCfZkRp+hSHu+/DOUlR/ay20AUfOEw==
-X-Received: by 2002:a63:27c4:: with SMTP id n187mr9562057pgn.305.1580461330543;
-	Fri, 31 Jan 2020 01:02:10 -0800 (PST)
-Received: from localhost.localdomain (c-73-11-95-70.hsd1.or.comcast.net.
-	[73.11.95.70]) by smtp.gmail.com with ESMTPSA id
-	b12sm9770324pfr.26.2020.01.31.01.02.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 31 Jan 2020 01:02:09 -0800 (PST)
-From: Michael Halstead <mhalstead@linuxfoundation.org>
+	Fri, 31 Jan 2020 09:54:56 +0000 (UTC)
+Received: from SN4PR0201CA0043.namprd02.prod.outlook.com
+	(2603:10b6:803:2e::29) by BYAPR02MB5463.namprd02.prod.outlook.com
+	(2603:10b6:a03:96::32) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2665.22;
+	Fri, 31 Jan 2020 09:54:57 +0000
+Received: from CY1NAM02FT028.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e45::209) by SN4PR0201CA0043.outlook.office365.com
+	(2603:10b6:803:2e::29) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2665.23 via
+	Frontend Transport; Fri, 31 Jan 2020 09:54:56 +0000
+Authentication-Results: spf=none (sender IP is 149.199.60.83)
+	smtp.mailfrom=enedino.org; lists.openembedded.org;
+	dkim=none (message not
+	signed) header.d=none;lists.openembedded.org; dmarc=none action=none
+	header.from=enedino.org;
+Received-SPF: None (protection.outlook.com: enedino.org does not designate
+	permitted sender hosts)
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	CY1NAM02FT028.mail.protection.outlook.com (10.152.75.132) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2686.25
+	via Frontend Transport; Fri, 31 Jan 2020 09:54:56 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <alejandro@enedino.org>)
+	id 1ixT0n-0002gH-QX; Fri, 31 Jan 2020 01:54:53 -0800
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp1.xlnx.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <alejandro@enedino.org>)
+	id 1ixT0i-0004kY-MN; Fri, 31 Jan 2020 01:54:48 -0800
+Received: from xsj-pvapsmtp01 (smtp3.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	00V9smSj029024; Fri, 31 Jan 2020 01:54:48 -0800
+Received: from [172.19.2.8] (helo=xsjalejandr50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <alejandro@enedino.org>)
+	id 1ixT0h-0004kP-UF; Fri, 31 Jan 2020 01:54:47 -0800
+From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
 To: openembedded-core@lists.openembedded.org
-Autocrypt: addr=mhalstead@linuxfoundation.org; keydata=
-	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
-	xog=
-Organization: Linux Foundation
-Message-ID: <bf2d5545-cfee-d41c-575a-f81c6c15b1d7@linuxfoundation.org>
-Date: Fri, 31 Jan 2020 01:02:08 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+Date: Fri, 31 Jan 2020 01:54:42 -0800
+Message-Id: <1580464482-27782-1-git-send-email-alejandro@enedino.org>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-Result: No--9.706-7.0-31-1
+X-imss-scan-details: No--9.706-7.0-31-1;No--9.706-5.0-31-1
+X-TM-AS-User-Approved-Sender: No;No
+X-TM-AS-Result-Xfilter: Match text exemption rules:No
+X-EOPAttributedMessage: 0
+X-Matching-Connectors: 132249380963390673;
+	(f9e945fa-a09a-4caa-7158-08d2eb1d8c44); ()
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(376002)(39860400002)(396003)(346002)(136003)(428003)(199004)(189003)(36756003)(316002)(26005)(5660300002)(86362001)(2906002)(498600001)(6666004)(356004)(9786002)(426003)(6916009)(8936002)(81166006)(8676002)(81156014)(2616005)(4326008)(107886003)(70206006)(70586007)(336012);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB5463; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:None; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1;
 MIME-Version: 1.0
-Subject: New Dedicated Licensing and Documentation Mailing Lists
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b40cfb52-db4a-4d42-8ab5-08d7a633a088
+X-MS-TrafficTypeDiagnostic: BYAPR02MB5463:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB54633206E48AFE47B819C3DBB8070@BYAPR02MB5463.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-Forefront-PRVS: 029976C540
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: u6rnCV8tXv/X9y4N8cbVuRNzM0ooYPTMRZKKe1aqUZf+/WdqVtjFCbSsbWJtVECJKsRt5e5VIM+6AOQ6hEfYwt6sJhyQt3ullOgh+bndDmKb/qVGY4559P15TsWwQuj6EQvaj26Rf8o9o7LUBvD4MNjpwY5pQmyksdyLEcheSQUr+xYFgTTf0hU+4RPe5fvMBEeTvQR7U2m1d6gQrGnSqIz6iHyEz8O1ziYGPUqGMovXhbahBuTzgna+s/N2nIHaBXVeTgEf5Kwsywwj2ualtXMs4V8YWNgU2KbhvZCgoibz+7wzOhTqe+ulLWp+8gzmP/NQtweZL/E1x+r2F0MG5Wy/ERBPIcXhNi5l7aHv7eU0Id+cnR1R0osORG50rlgTvI8H2nQPXbyHWrtT9ps0fRoCeMZdnjG2KtanF3npM0e47ozfGI0yyI7GcjS1ZywI17Fv7nrxwtcz4+lHwTq98IigLWq3TjcocuCv9TxeAY0777ozUK6WhngORKM+Nvsxlz5Dy7Q43S6jgTPQTZ2T6Q==
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2020 09:54:56.1231 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b40cfb52-db4a-4d42-8ab5-08d7a633a088
+X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5463
+Subject: [PATCH v2 1/2] baremetal-helloworld: Create recipe for baremetal examples on QEMU
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -129,29 +89,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 09:33:53 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 31 Jan 2020 09:54:57 -0000
+Content-Type: text/plain
 
-We are adding new lists for topics concerning subcommunities that
-will benefit from focused list traffic.
+Create HelloWorld examples that run on several of the QEMU architectures
+supported by the build system.
 
+This recipe can be used by anyone to understand how baremetal applications
+can be built using OpenEmbedded and how the wiring to set them up could be.
 
-The licensing list will separate licensing and legal discussion from
-general development to aid participation of specialists in this area.
+This should also facilitate creating/extending the OE testing infrastructure
+to allow baremetal applications or RTOSs to be tested in the same way that
+Linux currently is.
 
-Please join at https://lists.yoctoproject.org/g/licensing/join.
+This can easily be extended to work on other MACHINES in the future.
 
+To run this example:
 
-Join the docs list to discuss all things documentation and to
-collaborate on the patches to the docs.
+$ source oe-init-buildenv
 
-Please join at https://lists.yoctoproject.org/g/docs/join.
+$ bitbake-layers add-layer ../meta-skeleton
 
+# TCLIBC="baremetal" would work as well
+$ echo "TCLIBC = \"newlib\"" >> ./conf/local.conf
+
+$ echo "MACHINE = \"qemuarm64\"" >> ./conf/local.conf
+
+$ bitbake baremetal-helloworld
+
+$ runqemu
+
+runqemu - INFO - Running bitbake -e ...
+runqemu - INFO - Continuing with the following parameters:
+KERNEL: [tmp/deploy/images/qemuarm64/baremetal-helloworld-qemuarm64.bin]
+MACHINE: [qemuarm64]
+FSTYPE: [bin]
+ROOTFS: [tmp/deploy/images/qemuarm64/baremetal-helloworld-qemuarm64.bin]
+CONFFILE: [tmp/deploy/images/qemuarm64/baremetal-helloworld-qemuarm64.qemuboot.conf]
+
+Hello OpenEmbedded!
+
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+---
+ .../baremetal-examples/baremetal-helloworld_git.bb | 105 +++++++++++++++++++++
+ 1 file changed, 105 insertions(+)
+ create mode 100644 meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+
+diff --git a/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+new file mode 100644
+index 0000000..d863370
+--- /dev/null
++++ b/meta-skeleton/recipes-baremetal/baremetal-examples/baremetal-helloworld_git.bb
+@@ -0,0 +1,105 @@
++SUMMARY = "Baremetal examples to work with the several QEMU architectures supported on OpenEmbedded"
++HOMEPAGE = "https://github.com/aehs29/baremetal-helloqemu"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=39346640a23c701e4f459e05f56f4449"
++
++SRCREV = "99f4fa4a3b266b42b52af302610b0f4f429ba5e3"
++PV = "0.1+git${SRCPV}"
++
++SRC_URI = "git://github.com/aehs29/baremetal-helloqemu.git;protocol=https;branch=master"
++
++S = "${WORKDIR}/git/"
++
++# These examples are not meant to be built when using either musl or glibc
++COMPATIBLE_HOST_libc-musl_class-target = "null"
++COMPATIBLE_HOST_libc-glibc_class-target = "null"
++
++# This will be translated automatically to the architecture and
++# machine that QEMU uses on OE, e.g. -machine virt -cpu cortex-a57
++# but the examples can also be run on other architectures/machines
++# such as vexpress-a15 by overriding the setting on the machine.conf
++COMPATIBLE_MACHINE = "qemuarmv5|qemuarm|qemuarm64"
++
++BAREMETAL_QEMUARCH ?= ""
++BAREMETAL_QEMUARCH_qemuarmv5 = "versatile"
++BAREMETAL_QEMUARCH_qemuarm = "arm"
++BAREMETAL_QEMUARCH_qemuarm64 = "aarch64"
++
++
++EXTRA_OEMAKE_append = " QEMUARCH=${BAREMETAL_QEMUARCH} V=1"
++
++do_install(){
++    install -d ${D}/${datadir}
++    install -m 755 ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.bin ${D}/${datadir}/hello_baremetal_${MACHINE}.bin
++    install -m 755 ${B}build/hello_baremetal_${BAREMETAL_QEMUARCH}.elf ${D}/${datadir}/hello_baremetal_${MACHINE}.elf
++}
++
++# Borrowed from meta-freertos
++inherit rootfs-postcommands
++inherit deploy
++do_deploy[dirs] = "${DEPLOYDIR} ${DEPLOY_DIR_IMAGE}"
++do_rootfs[dirs] = "${DEPLOYDIR} ${DEPLOY_DIR_IMAGE}"
++DEPLOYDIR = "${IMGDEPLOYDIR}"
++IMAGE_LINK_NAME ?= "baremetal-helloworld-image-${MACHINE}"
++IMAGE_NAME_SUFFIX ?= ""
++
++do_deploy(){
++    install ${D}/${datadir}/hello_baremetal_${MACHINE}.bin ${DEPLOYDIR}/${IMAGE_LINK_NAME}.bin
++    install ${D}/${datadir}/hello_baremetal_${MACHINE}.elf ${DEPLOYDIR}/${IMAGE_LINK_NAME}.elf
++}
++
++do_image(){
++    :
++}
++
++FILES_${PN} += " \
++    ${datadir}/hello_baremetal_${MACHINE}.bin \
++    ${datadir}/hello_baremetal_${MACHINE}.elf \
++"
++
++python do_rootfs(){
++    from oe.utils import execute_pre_post_process
++    from pathlib import Path
++
++    # Write empty manifest testdate file
++    deploy_dir = d.getVar('DEPLOYDIR')
++    link_name = d.getVar('IMAGE_LINK_NAME')
++    manifest_name = d.getVar('IMAGE_MANIFEST')
++
++    Path(manifest_name).touch()
++    if os.path.exists(manifest_name) and link_name:
++        manifest_link = deploy_dir + "/" + link_name + ".manifest"
++        if os.path.lexists(manifest_link):
++            os.remove(manifest_link)
++        os.symlink(os.path.basename(manifest_name), manifest_link)
++    execute_pre_post_process(d, d.getVar('ROOTFS_POSTPROCESS_COMMAND'))
++}
++
++# QEMU generic FreeRTOS parameters
++QB_DEFAULT_KERNEL = "${IMAGE_LINK_NAME}.bin"
++QB_MEM = "-m 256"
++QB_OPT_APPEND = "-nographic"
++QB_DEFAULT_FSTYPE = "bin"
++QB_DTB = ""
++
++# This next part is necessary to trick the build system into thinking
++# its building an image recipe so it generates the qemuboot.conf
++addtask do_deploy after do_write_qemuboot_conf before do_build
++addtask do_rootfs before do_deploy after do_install
++addtask do_image after do_rootfs before do_build
++inherit qemuboot
++
++# Based on image.bbclass to make sure we build qemu
++python(){
++    # do_addto_recipe_sysroot doesnt exist for all recipes, but we need it to have
++    # /usr/bin on recipe-sysroot (qemu) populated
++    def extraimage_getdepends(task):
++        deps = ""
++        for dep in (d.getVar('EXTRA_IMAGEDEPENDS') or "").split():
++        # Make sure we only add it for qemu
++            if 'qemu' in dep:
++                deps += " %s:%s" % (dep, task)
++        return deps
++    d.appendVarFlag('do_image', 'depends', extraimage_getdepends('do_addto_recipe_sysroot'))
++    d.appendVarFlag('do_image', 'depends', extraimage_getdepends('do_populate_sysroot'))
++}
 -- 
-Michael Halstead
-Linux Foundation / Yocto Project
-Systems Operations Engineer
+2.7.4
 
 
