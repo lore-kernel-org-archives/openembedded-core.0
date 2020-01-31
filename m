@@ -1,52 +1,23 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
-	[209.85.210.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 5946460D72
-	for <openembedded-core@openembedded.org>;
-	Fri, 31 Jan 2020 00:28:03 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id y5so2345820pfb.11
-	for <openembedded-core@openembedded.org>;
-	Thu, 30 Jan 2020 16:28:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=hcu/vHg89xqqxJQJW/4wJ+q/WdDzyPernSiveNb0a8M=;
-	b=NJfYwj2G6tKwnwF1CZsDiyqdnjePd2eDCphOXqSvxN473XqNLrvFffpTLeXFfkylB3
-	TEs2sml5q6el859IHcXJx3f08fktfuMjuBnV6aMxscVvBp7TVT6ERDy0vPB4H3RLj7Ec
-	AnNRO6Ub9n6mhXe/MY91ARh31R996xYwnUmfT7FrH90iI/Bn0P4URUoQrHmRj7RDPy5/
-	5O1aZdHqho5uUWonxf/Kw3T0vWZ69UuvxxhWDjYuz025CxEO4Ni+3CTBYkcafKLv+NYe
-	h1Ttdz6zSqP1TFtNKUwgelHMkRsu8Zt9gDeCRcoyb62Eap7pYnej8SG/DEDY1Nrz4WS6
-	6f7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=hcu/vHg89xqqxJQJW/4wJ+q/WdDzyPernSiveNb0a8M=;
-	b=XydT2TibBprvLwG14mKYQrb54m2BdnzDL1f1I+OKFklOVLZBup22LdzMYgcuh1AqVC
-	55SD22wentCTCHwH2xEI86XBJuJlTNTQOH9dSYGFC794Sj4ux93w79IOAvCuD/P99d1P
-	B5sGmY1KEXvBnI7KNguuLSeU3unUFLlCJsehHrJ7sTXBcoBgwWxFYhhT4jjYWI2dZfsb
-	5ri1pdTyAJxSC4EG7gbkf8dkv9b6C1aadHj/Nwbs7KfwmTrwukKinK9SJe7RmrerhUsz
-	kqjCMHU4BugUXv7Xldr/onKGqHXmCjqt+yHo0t5pfsY5dtuhZlNMbVmAPjUuQT9eUDjF
-	CZ5A==
-X-Gm-Message-State: APjAAAXkNVFGaA346ytFRvgNB1UA3m2G4riwx+7+z7HaaoNiUGTg5JaJ
-	i+hiP8aGBZg9jWCTuBq3w5s9kjDG
-X-Google-Smtp-Source: APXvYqzy8WMC+JhCrIQlIIPaSjItd43DdFEfzmeqOtsMxT9ABlV1gkZ9XxTZpO9/xKJ1fE/yPTQFdg==
-X-Received: by 2002:a62:d10b:: with SMTP id z11mr7447397pfg.67.1580430484159; 
-	Thu, 30 Jan 2020 16:28:04 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:a5c0:9979:cdb6:7624:d076])
-	by smtp.gmail.com with ESMTPSA id
-	j28sm7949306pgb.36.2020.01.30.16.28.03
-	for <openembedded-core@openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 30 Jan 2020 16:28:03 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@openembedded.org
-Date: Thu, 30 Jan 2020 16:28:01 -0800
-Message-Id: <20200131002801.31570-2-akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20200131002801.31570-1-akuster808@gmail.com>
-References: <20200131002801.31570-1-akuster808@gmail.com>
-Subject: [PATCH 2/2] parselogs: remove mpc8315e-rdb from errors
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BD94960FF3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 Jan 2020 05:47:45 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Jan 2020 21:47:46 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,384,1574150400"; d="scan'208";a="223035255"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga008.jf.intel.com with ESMTP; 30 Jan 2020 21:47:44 -0800
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Jan 2020 13:47:42 +0800
+Message-Id: <1580449662-57462-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] scripts/lib/resulttool/report: Enable report selected test case result
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +30,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 00:31:09 -0000
+X-List-Received-Date: Fri, 31 Jan 2020 08:00:05 -0000
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Enable reporting selected test case result given the user provided
+the selected test case id. If both test result id and test case id
+were provided, report the selected test case result from the
+selected test result id.
+
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/lib/oeqa/runtime/cases/parselogs.py | 5 -----
- 1 file changed, 5 deletions(-)
+ scripts/lib/resulttool/report.py | 33 ++++++++++++++++++++++++++++-----
+ 1 file changed, 28 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runtime/cases/parselogs.py
-index b7c7b30adf..9dafb89b03 100644
---- a/meta/lib/oeqa/runtime/cases/parselogs.py
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py
-@@ -185,11 +185,6 @@ ignore_errors = {
-         'Failed to make EGL context current',
-         'glamor initialization failed',
-         ] + common_errors,
--    'mpc8315e-rdb' : [
--        'of_irq_parse_pci: failed with',
--        'Fatal server error:',
--        'Server terminated with error',
--        ] + common_errors,
- }
+diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
+index 692dd7a..7ceceac 100644
+--- a/scripts/lib/resulttool/report.py
++++ b/scripts/lib/resulttool/report.py
+@@ -212,7 +212,21 @@ class ResultsTextReport(object):
+                                  maxlen=maxlen)
+         print(output)
  
- log_locations = ["/var/log/","/var/log/dmesg", "/tmp/dmesg_output.log"]
+-    def view_test_report(self, logger, source_dir, branch, commit, tag, use_regression_map, raw_test):
++    def view_test_report(self, logger, source_dir, branch, commit, tag, use_regression_map, raw_test, selected_test_case_only):
++        def print_selected_testcase_result(testresults, selected_test_case_only):
++            for testsuite in testresults:
++                for resultid in testresults[testsuite]:
++                    result = testresults[testsuite][resultid]['result']
++                    test_case_result = result.get(selected_test_case_only, {})
++                    if test_case_result.get('status'):
++                        print('Found selected test case result for %s from %s' % (selected_test_case_only,
++                                                                                           resultid))
++                        print(test_case_result['status'])
++                    else:
++                        print('Could not find selected test case result for %s from %s' % (selected_test_case_only,
++                                                                                           resultid))
++                    if test_case_result.get('log'):
++                        print(test_case_result['log'])
+         test_count_reports = []
+         configmap = resultutils.store_map
+         if use_regression_map:
+@@ -235,12 +249,18 @@ class ResultsTextReport(object):
+             for testsuite in testresults:
+                 result = testresults[testsuite].get(raw_test, {})
+                 if result:
+-                    raw_results[testsuite] = result
++                    raw_results[testsuite] = {raw_test: result}
+             if raw_results:
+-                print(json.dumps(raw_results, sort_keys=True, indent=4))
++                if selected_test_case_only:
++                    print_selected_testcase_result(raw_results, selected_test_case_only)
++                else:
++                    print(json.dumps(raw_results, sort_keys=True, indent=4))
+             else:
+                 print('Could not find raw test result for %s' % raw_test)
+             return 0
++        if selected_test_case_only:
++            print_selected_testcase_result(testresults, selected_test_case_only)
++            return 0
+         for testsuite in testresults:
+             for resultid in testresults[testsuite]:
+                 skip = False
+@@ -268,7 +288,7 @@ class ResultsTextReport(object):
+ def report(args, logger):
+     report = ResultsTextReport()
+     report.view_test_report(logger, args.source_dir, args.branch, args.commit, args.tag, args.use_regression_map,
+-                            args.raw_test_only)
++                            args.raw_test_only, args.selected_test_case_only)
+     return 0
+ 
+ def register_commands(subparsers):
+@@ -287,4 +307,7 @@ def register_commands(subparsers):
+                               help='instead of the default "store_map", use the "regression_map" for report')
+     parser_build.add_argument('-r', '--raw_test_only', default='',
+                               help='output raw test result only for the user provided test result id')
+-
++    parser_build.add_argument('-s', '--selected_test_case_only', default='',
++                              help='output selected test case result for the user provided test case id, if both test '
++                                   'result id and test case id are provided then output the selected test case result '
++                                   'from the provided test result id')
 -- 
-2.17.1
+2.7.4
 
 
