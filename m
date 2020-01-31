@@ -1,56 +1,51 @@
 Return-Path: <jpewhacker@gmail.com>
 Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
 	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id BF05660C34
+	by mail.openembedded.org (Postfix) with ESMTP id 024CF60665
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 19:01:21 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id c16so9337664ioh.6
+	Fri, 31 Jan 2020 19:07:17 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id z16so4602453iod.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 11:01:23 -0800 (PST)
+	Fri, 31 Jan 2020 11:07:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:references:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=3ogqkAzKUdyubUqzv03lzuL7sh5Npr1bn2mOFT8iFlo=;
-	b=MLakk+2wzZSnEtYL7C2QWJamvb7D3x7iHTlNBhT4ycnk6cvOTYTiIj+yyh1475lxS1
-	GMuz/3sv+ogtoEzgLGC1tKOAkwIH6ie4imZ88OzRMJ1srWlkTSZMv0zYktUj0G9JkVUv
-	1JPTaQd56ISIJhswkJoYD4Wz/jHlgojRC7Gi06tN3SvDASo4IiI3BR2dkgMH2WUCMj1g
-	QQl0XtzGvbUjAFoUbPDW/6m5JyngztXBOD/a/RKkggAOJMuMuLqek89ICYePkr1HI2+w
-	/ROk6sMAq+j9wR8dgBDha3RNWKv30G+3dquxG2HBlNSaVBKYaIlUH66qNNkC1Dx6+noK
-	IpjQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YmxOHHMXBhrS2MB0qScPtl7DWbhsSc4woWst7PjdK8Q=;
+	b=NtujQPqeF2TbqiI0cRTa/ZecdyTTq80rdeo+xu71F8dDqZneu07jZztTMMz0BFrLv7
+	TVrDCLh2Zn5kLthU7UDZwmqOHM29tDZhMQ+FT57AXrVvdgiv7qBtto8/WScmvlyz52yB
+	5uSG+FyPUI4CssBn32TG5Yyylw8c+JLhgi9LdmlJJmibLVOZx26dOwiWsSw1aPLx2byf
+	yDcKBd37ZULgBKFf90wB9jCDdogEhrP+rCy/EyW8i+cs+RXS7mENhV0oF4G0/kEqwz/a
+	GRxX1wKhFTtBa80SkLwkowT/F5XQ0oWj4WrGs7XW1HH/8ZmEDhhiBrLaqR9vSzUhWm+a
+	rurQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=3ogqkAzKUdyubUqzv03lzuL7sh5Npr1bn2mOFT8iFlo=;
-	b=KK2T9uHOjOzWYzmJ74US+InKAr+TWGaj0F8whAWNLV1miTfHvUIuoBNyYElNJakMCm
-	d5tF+IIHffYRSLXEsjnc0BM80S6hSivFZcpgKXXsEotWZWiau5fDKrXEShiYh7b++rn9
-	diSBmcqzzbLXwYD9HzvNhz4Gdb6I4hLv+uNoNFKhUR2p9b0NNeO0x9kFRp/X8fcS+qg5
-	8laORPpR4PC29WQxfsTVZYLjAKQb0b2o3UebObbrTzsQEofrgPNJ+l2cn7iH4TFKDLlv
-	mtnb8RMSvEFdIXuiZi55pypwnLv9g6B+BbGy5894gH/8b8Jpa/hgcScc5YNG8015EFYa
-	RYCg==
-X-Gm-Message-State: APjAAAVjrMV09Wuhu7Xk+1TjXPT2MR+FKay246d7mGTSUMXjkMPJgYRC
-	kFXN+OLfHTIGmt5wva1CSB34Qx0tvv8=
-X-Google-Smtp-Source: APXvYqzJx+D7pQalC9FF1ID3WFS7Eqf7zIQtBidmxbOR4LFyqvO8c0nIu5P+OSgpRbtGZE2aht5NGQ==
-X-Received: by 2002:a02:7092:: with SMTP id f140mr9656469jac.128.1580497282280;
-	Fri, 31 Jan 2020 11:01:22 -0800 (PST)
-Received: from [10.30.196.43] ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	190sm2625602iou.60.2020.01.31.11.01.21
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 31 Jan 2020 11:01:21 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YmxOHHMXBhrS2MB0qScPtl7DWbhsSc4woWst7PjdK8Q=;
+	b=g3jjtNQrUXWGZIlRSidagUA8WfmHhiV/Z/F6mkJprzFeeOheI54EiL5YOeMxrkuAOO
+	uRxkkss7jrxbamS9lP9NFJIBNZ8f4gocFROAFUsx/5O012jpMc6ALZaOx4rOsHiPePzr
+	2M5c/4hfKyIWOesKVKrrBszCM8O0SBiRhni9NBnuIwMAHo0+gJtnSDn850+TKoJLBHH3
+	ao4G7A/q4rAY3A5wLa2HY9o37HMHyyy+a+P2oglImu2bgVObOBMPYLEbFWR2bhqY2VYe
+	uIVoRaSO9Tk82jp2rJs0d0nbLLvzWV2v9MA8RqDS4rVZRChk6bvvTs7YSQsWui4qWd1s
+	T6pQ==
+X-Gm-Message-State: APjAAAVwGPJj0L6g+HD4+9eyREG8UpONPG0Z7fYnkmkk0uK1njwLfw56
+	3Zpfgsv0ATFPiRN+LvzTi2f0D5mZ3aY=
+X-Google-Smtp-Source: APXvYqzbo83osBKzJEOenWQkdpnkydicgJIEruGWM8kqoxrqkM4d3I/BpIJXMBU59e+qB6qJNN0flQ==
+X-Received: by 2002:a05:6602:214f:: with SMTP id
+	y15mr9714563ioy.69.1580497637902; 
+	Fri, 31 Jan 2020 11:07:17 -0800 (PST)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id h9sm3489189ili.41.2020.01.31.11.07.17
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 31 Jan 2020 11:07:17 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <20200131184935.2484-1-alex.kanavin@gmail.com>
-Message-ID: <c3fc71d8-57a2-ec67-bcab-cf6a94893f91@gmail.com>
-Date: Fri, 31 Jan 2020 13:01:20 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 Jan 2020 13:04:16 -0600
+Message-Id: <20200131190416.2261621-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-In-Reply-To: <20200131184935.2484-1-alex.kanavin@gmail.com>
-Subject: Re: [PATCH] bitbake.conf: drop pod2man from hosttools
+Subject: [PATCH] classes/reproducible_build: Read SDE file later
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,63 +58,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 19:01:21 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 31 Jan 2020 19:07:18 -0000
+Content-Transfer-Encoding: 8bit
 
+Defers the resolution of the SOURCE_DATE_EPOCH until the variable needs
+to be actually realized with a value. The previous method of loading the
+value in anonymous python had issues because it could occur before other
+anonymous python functions that affect the location of the epoch file,
+such as when a recipe uses AUTOINC/AUTOREV or allarch.bbclass.
 
-On 1/31/20 12:49 PM, Alexander Kanavin wrote:
-> pod2man writes the current date into manpages, and while later
-> versions of it respect SOURCE_DATE_EPOCH and use that instead,
-> earlier versions do not. This was found to cause reproducibility
-> issues.
->
-> This patch replaces host version of pod2man with one from
-> perl-native.
->
-> [YOCTO #13755]
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->   meta/conf/bitbake.conf                               | 2 +-
->   meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb | 2 ++
->   2 files changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index b6aa9f33e92..f7544b35c6e 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -488,7 +488,7 @@ HOSTTOOLS += " \
->       cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
->       fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
->       head hostname iconv id install ld ldd ln ls make makeinfo md5sum mkdir mknod \
-> -    mktemp mv nm objcopy objdump od patch perl pod2man pr printf pwd \
-> +    mktemp mv nm objcopy objdump od patch perl pr printf pwd \
+Also adds more logging to help diagnose issues in the future.
 
-There has been some reluctance to dropping pod2man from the hosttools 
-and requiring perl-native as a build time dependency due to the negative 
-impact on the build time.
+[YOCTO #13763]
 
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/reproducible_build.bbclass | 43 +++++++++++++++++++------
+ 1 file changed, 34 insertions(+), 9 deletions(-)
 
->       python3 ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh sha256sum \
->       sleep sort split stat strings strip tail tar tee test touch tr true uname \
->       uniq wc wget which xargs \
-> diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-> index 6495726500f..8e7ef00b087 100644
-> --- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-> +++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-> @@ -18,6 +18,8 @@ TARGET_CC_ARCH += "${LDFLAGS}"
->   
->   RDEPENDS_${PN} += "bash"
->   
-> +inherit perlnative
-> +
+diff --git a/meta/classes/reproducible_build.bbclass b/meta/classes/reproducible_build.bbclass
+index 39b6e40cacc..41950f1412c 100644
+--- a/meta/classes/reproducible_build.bbclass
++++ b/meta/classes/reproducible_build.bbclass
+@@ -44,10 +44,12 @@ SDE_DEPLOYDIR = "${WORKDIR}/deploy-source-date-epoch"
+ SSTATETASKS += "do_deploy_source_date_epoch"
+ 
+ do_deploy_source_date_epoch () {
+-    echo "Deploying SDE to ${SDE_DIR}."
+     mkdir -p ${SDE_DEPLOYDIR}
+     if [ -e ${SDE_FILE} ]; then
++        echo "Deploying SDE from ${SDE_FILE} -> ${SDE_DEPLOYDIR}."
+         cp -p ${SDE_FILE} ${SDE_DEPLOYDIR}/__source_date_epoch.txt
++    else
++        echo "${SDE_FILE} not found!"
+     fi
+ }
+ 
+@@ -56,7 +58,11 @@ python do_deploy_source_date_epoch_setscene () {
+     bb.utils.mkdirhier(d.getVar('SDE_DIR'))
+     sde_file = os.path.join(d.getVar('SDE_DEPLOYDIR'), '__source_date_epoch.txt')
+     if os.path.exists(sde_file):
+-        os.rename(sde_file, d.getVar('SDE_FILE'))
++        target = d.getVar('SDE_FILE')
++        bb.debug(1, "Moving setscene SDE file %s -> %s" % (sde_file, target))
++        os.rename(sde_file, target)
++    else:
++        bb.debug(1, "%s not found!" % sde_file)
+ }
+ 
+ do_deploy_source_date_epoch[dirs] = "${SDE_DEPLOYDIR}"
+@@ -164,16 +170,35 @@ python do_create_source_date_epoch_stamp() {
+         f.write(str(source_date_epoch))
+ }
+ 
++def get_source_date_epoch_value(d):
++    if d.getVar('BUILD_REPRODUCIBLE_BINARIES') != '1':
++        return ''
++
++    cached = d.getVar('__CACHED_SOURCE_DATE_EPOCH')
++    if cached:
++        return cached
++
++    epochfile = d.getVar('SDE_FILE')
++    source_date_epoch = 0
++    if os.path.isfile(epochfile):
++        with open(epochfile, 'r') as f:
++            s = f.read()
++            try:
++                source_date_epoch = int(s)
++            except ValueError:
++                bb.warn("SOURCE_DATE_EPOCH value '%s' is invalid. Reverting to 0" % s)
++                source_date_epoch = 0
++        bb.debug(1, "SOURCE_DATE_EPOCH: %d" % source_date_epoch)
++    else:
++        bb.debug(1, "Cannot find %s. SOURCE_DATE_EPOCH will default to %d" % (epochfile, source_date_epoch))
++
++    d.setVar('__CACHED_SOURCE_DATE_EPOCH', str(source_date_epoch))
++    return str(source_date_epoch)
++
++export SOURCE_DATE_EPOCH ?= "${@get_source_date_epoch_value(d)}"
+ BB_HASHBASE_WHITELIST += "SOURCE_DATE_EPOCH"
+ 
+ python () {
+     if d.getVar('BUILD_REPRODUCIBLE_BINARIES') == '1':
+         d.appendVarFlag("do_unpack", "postfuncs", " do_create_source_date_epoch_stamp")
+-        epochfile = d.getVar('SDE_FILE')
+-        source_date_epoch = "0"
+-        if os.path.isfile(epochfile):
+-            with open(epochfile, 'r') as f:
+-                source_date_epoch = f.read()
+-            bb.debug(1, "SOURCE_DATE_EPOCH: %s" % source_date_epoch)
+-        d.setVar('SOURCE_DATE_EPOCH', source_date_epoch)
+ }
+-- 
+2.24.1
 
-Is this the only recipe that needs pod2man?
-
-
->   # For native builds we use the host Python
->   PYTHONRDEPS = "python3 python3-shell python3-io python3-math python3-crypt python3-logging python3-fcntl python3-pickle python3-compression python3-stringold"
->   PYTHONRDEPS_class-native = ""
 
