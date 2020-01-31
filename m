@@ -1,48 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C8CA60D0C
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 05:35:08 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id c5so4524308qtj.6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 Jan 2020 21:35:09 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
+	[209.85.210.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 8DE5660D03
+	for <openembedded-core@openembedded.org>;
+	Fri, 31 Jan 2020 00:28:02 +0000 (UTC)
+Received: by mail-pf1-f171.google.com with SMTP id 185so2370724pfv.3
+	for <openembedded-core@openembedded.org>;
+	Thu, 30 Jan 2020 16:28:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZYvh2yUrUROAVSijkfDJYvKMhC/zWebry+jB/2Uh5sI=;
-	b=vab60jhPctdPZUvvFmLueg+xQ5KNvPiMBSGBAXqBqPGO4VVMR1s/NmuzIFTlKYSdFp
-	kTDD5WiYgXfATllGlobT+TO1WJgaq40f4lS4qMvoE8YXOpiftjNNMvd5pRkihCfYkjD8
-	lUBVBVyPWI0QefGOzfA9Y7Jdcmp0wIYtlGWyafRR+64JsinSa3Hz+Qac/u9yirbjfE5W
-	fNHxDuVYlKPYzw2mQR8oIBJuk3nY28NYeVExdr0NEQUdZHszrQHW5LGshpHm1dkf3q6+
-	UdySj2ZkogDcFR4VWwRORGHOU/FLfLiQplGCNnkrYYRnrj0dOlhVdGjTor+BhGg4VZCG
-	AEDg==
+	h=from:to:subject:date:message-id;
+	bh=whl33y3FI0DVJ/PPEgMMDN5dYsUaKMJwmKWaXrSpNac=;
+	b=C5KDcNRd5KYbx/5nDzxKd0MDipLzR3aop9U33bDMvOp8jSecTHSVe7XuiGUp9wkqk4
+	0fDZOeInETCE0BSmHfA4bejl5YWi1VA73IecZkWbekxwPgraE01fZ5bJGUprVfJ0kghn
+	YGOZm66LnM7nnIQ9BgOmAwbHfbIilJ34222DfhkvgepB1RDwO1CAOqEPxyBRUObb9SZQ
+	9gHxq6w5PCTmrKn71t4a0WUsvy/+xmK+ftBBH8irBakwaU5imVGTRS9LUem86s09bszu
+	cjJ+x8KPI0NYPWq1gaFgYzsyGOMFN5MElULEEYa6HfFc78BpV0rT5p0yHIS9Jg2NaHn/
+	W0+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZYvh2yUrUROAVSijkfDJYvKMhC/zWebry+jB/2Uh5sI=;
-	b=IETKGxJaqM4XhetyC90L8X+aiwvw5L4XI65MTQG/M+zQ1i+u85UBnsnhpfxfmER0iT
-	JWEEAlSzJTIBVlODjcnWK7TXWGIVtMNep51RMqxhrjLk1TSnBaAjTmW8DjYN/+BxoDtb
-	uYM/fJfRCCdKoQ2rJZpCjHe61K/5N9pdz8lOadm42KwUt+VQwJGLT3Wxxlso1RqwqvXL
-	e2glUs5s4RF7uxTTHodq2nU3KGr5O8GkP8yXbpZUQUrxnuDjIyJ/3A8rz3WGEzm7cRSQ
-	ZpZPrBiZDEXhMMKVgx9khKByljeJpaLia2gP8/O3XcmyZO6Dugw3V89bnMqCdmLYJgaM
-	asgQ==
-X-Gm-Message-State: APjAAAWw5MKa2VeNxdnH7Tk2JTEm3mg3JhmqcIi7HMJXZoSrEwEq6fwp
-	N4+AyyEx+r79jHhZ5Dgyhk/VPABW9ViWd2ZWGVM=
-X-Google-Smtp-Source: APXvYqxb/Nj0m7jE17Y5eYZYiXKv+EeB4VYdYNzxOd/I7SnTdMdZrrFam96BFG87bcRTVUb+d+rMnyX3L7ITyBfc+MU=
-X-Received: by 2002:ac8:405a:: with SMTP id j26mr8991467qtl.88.1580448908957; 
-	Thu, 30 Jan 2020 21:35:08 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1580248809.git.bruce.ashfield@gmail.com>
-	<CAMKF1soahdfvfsi_-27Zm3QMsr_Mp__oZ8k22gVuUZJpvn1Q-Q@mail.gmail.com>
-In-Reply-To: <CAMKF1soahdfvfsi_-27Zm3QMsr_Mp__oZ8k22gVuUZJpvn1Q-Q@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 30 Jan 2020 21:34:42 -0800
-Message-ID: <CAMKF1sosVW93VB4AyqQ1J0nB+Xw_SSYywXLf85pndOYtbNwX=w@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3][RFT]: kernel-yocto: v5.4 LTS kernel
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=whl33y3FI0DVJ/PPEgMMDN5dYsUaKMJwmKWaXrSpNac=;
+	b=cVLBY6bDjQP/4rEIY6+IKEVlQyQ8ohHy//bMrgT6atv0HPvvZz1yJtPcTk7t7pNd43
+	a5eq4L9Dgi9wK7GTsEg5FoTznUesXfYdYLidII+muN14/uU5OyDf6MTgjX/HNeUAdN93
+	pWsW8ajXCMH0kjRi6kWxQ5acadD6c3DhTetqc6MLNHwnmamxD0WYaJKRUhonBTEPqMew
+	0tZ4xDm60a1sadDOrF6a1P1YojP8vRzjy4o1v8BsLwAJFn1y7KKsQDNYHAZ4+pUDAM2q
+	wxC4gIC9MBCt7ZWQgiFOtLqcr4G28h9Bas1Bi/A67acl3+w7diSwvrATnWdaGjN1aEiw
+	M8LQ==
+X-Gm-Message-State: APjAAAWNIoe41KZxTu2/sPbUE9XGw/K03HlPpBIcx/dFchebWIrHVXzP
+	MSdyrA3vOUspNtCPKhT6AwEBdAJX
+X-Google-Smtp-Source: APXvYqw3GqC7W9EKTzgo27UGX1C2dkvXsQbfG0xhgMPkxw3xyepixcV8YhRosm/sRKBCojHuI6J6hQ==
+X-Received: by 2002:a63:1346:: with SMTP id 6mr7460239pgt.111.1580430483358;
+	Thu, 30 Jan 2020 16:28:03 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:9979:cdb6:7624:d076])
+	by smtp.gmail.com with ESMTPSA id
+	j28sm7949306pgb.36.2020.01.30.16.28.02
+	for <openembedded-core@openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 30 Jan 2020 16:28:02 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@openembedded.org
+Date: Thu, 30 Jan 2020 16:28:00 -0800
+Message-Id: <20200131002801.31570-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] bsp-hw.json: remove mpc8315e-rdb manual tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,83 +57,81 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Fri, 31 Jan 2020 09:28:14 -0000
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jan 28, 2020 at 5:58 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Tue, Jan 28, 2020 at 2:14 PM <bruce.ashfield@gmail.com> wrote:
-> >
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > Hi all,
-> >
-> > I just wanted to send these to the list, so everyone could see the
-> > reference kernel that we are planning for the upcoming release.
-> >
-> > I have other patches to drop 4.19, 5.2 and make this the default
-> > kernel for the various reference platforms as well, but I'm not
-> > sending them, since we still have two outstanding issues:
-> >
-> > 1) mips64 init is segfaulting after / during some self tests.
-> >
-> >    https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/1520/steps/8/logs/step6c
-> >
-> > 2) x86 musl is getting a gpf on many commands:
-> >
-> >    https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1501/steps/8/logs/step1c
-> >
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/lib/oeqa/manual/bsp-hw.json | 52 --------------------------------
+ 1 file changed, 52 deletions(-)
 
-I ran bitbake -ctestimage core-image-sato-sdk for musl/qemux86 and it
-passed on master-next so perhaps
-its fixed somehow ?
+diff --git a/meta/lib/oeqa/manual/bsp-hw.json b/meta/lib/oeqa/manual/bsp-hw.json
+index 5c5b9b50bb..73cbaaa7c2 100644
+--- a/meta/lib/oeqa/manual/bsp-hw.json
++++ b/meta/lib/oeqa/manual/bsp-hw.json
+@@ -915,28 +915,6 @@
+             "summary": "Check_if_RTC_(Real_Time_Clock)_can_work_correctly"
+         }
+     },
+-    {
+-        "test": {
+-            "@alias": "bsps-hw.bsps-hw.Check_if_target_can_support_EEPROM",
+-            "author": [
+-                {
+-                    "email": "yi.zhao@windriver.com",
+-                    "name": "yi.zhao@windriver.com"
+-                }
+-            ],
+-            "execution": {
+-                "1": {
+-                    "action": "Check eeprom device exist in /sys/bus/i2c/devices/ ",
+-                    "expected_results": "Hexdump can read data from eeprom.\n"
+-                },
+-                "2": {
+-                    "action": "Run \"hexdump eeprom\" commandroot@mpc8315e-rdb:/sys/bus/i2c/devices/1-0051> hexdump eeprom0000000 9210 0b02 0211 0009 0b52 0108 0c00 3c000000010 6978 6930 6911 208c 7003 3c3c 00f0 8381\u2026\n",
+-                    "expected_results": ""
+-                }
+-            },
+-            "summary": "Check_if_target_can_support_EEPROM"
+-        }
+-    },
+     {
+         "test": {
+             "@alias": "bsps-hw.bsps-hw.System_can_boot_up_via_NFS",
+@@ -967,34 +945,4 @@
+             "summary": "System_can_boot_up_via_NFS"
+         }
+     },
+-    {
+-        "test": {
+-            "@alias": "bsps-hw.bsps-hw.Boot_from_JFFS2_image",
+-            "author": [
+-                {
+-                    "email": "yi.zhao@windriver.com",
+-                    "name": "yi.zhao@windriver.com"
+-                }
+-            ],
+-            "execution": {
+-                "1": {
+-                    "action": "First boot the board with NFS root. ",
+-                    "expected_results": "The system can boot up without problem\n"
+-                },
+-                "2": {
+-                    "action": "Install mtd-utils package. Erase the MTD partition which will be used as root: $ flash_eraseall /dev/mtd3 ",
+-                    "expected_results": ""
+-                },
+-                "3": {
+-                    "action": "Copy the JFFS2 image to the MTD partition: $ flashcp core-image-minimal-mpc8315e-rdb.jffs2 /dev/mtd3 ",
+-                    "expected_results": ""
+-                },
+-                "4": {
+-                    "action": "Then reboot the board and set up the environment in U-Boot: => setenv bootargs root=/dev/mtdblock3 rootfstype=jffs2 console=ttyS0,115200 ",
+-                    "expected_results": ""
+-                }
+-            },
+-            "summary": "Boot_from_JFFS2_image"
+-        }
+-    }
+ ]
+-- 
+2.17.1
 
->
-> musl now uses 64bit time_t for all 32bit platforms. So my hunch is in
-> that direction. If you can point to
-> an interactive reproducer that will help. I think stracing it will
-> help identify the problem. all segfaults seems
-> to be similar so it could just be one issue causing this all.
->
-> > I've looked into both, and don't have any great ideas on how to debug
-> > or fix them.
-> >
-> > So if anyone has ideas, or wants to poke at these, feel free to follow up.
-> > But as of now, we still can't merge the v5.4 kernel as the reference due
-> > to these remaining problems.
-> >
-> > Bruce
-> >
-> >
-> > The following changes since commit ca3993cc4b13d4e661228cee6fb9448adfd0a4ba:
-> >
-> >   bitbake: tests/fetch: Allow wget upgrade tests to run against a local server (2020-01-22 15:56:39 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.pokylinux.org/poky-contrib zedd/kernel-oe
-> >   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
-> >
-> > Bruce Ashfield (3):
-> >   linux-yocto: introduce 5.4 recipes
-> >   kern-tools: update Kconfiglib to latest (for 5.4+ kernel)
-> >   kernel-devsrc: update to v5.4+
-> >
-> >  .../kern-tools/kern-tools-native_git.bb       |  2 +-
-> >  meta/recipes-kernel/linux/kernel-devsrc.bb    |  8 +--
-> >  .../linux/linux-yocto-rt_5.4.bb               | 44 +++++++++++++++
-> >  .../linux/linux-yocto-tiny_5.4.bb             | 32 +++++++++++
-> >  meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 54 +++++++++++++++++++
-> >  5 files changed, 136 insertions(+), 4 deletions(-)
-> >  create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-> >  create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-> >  create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.4.bb
-> >
-> > --
-> > 2.19.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
