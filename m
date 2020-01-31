@@ -1,47 +1,61 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A08360071
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 38A9B60661
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 16:24:44 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id c9so9325373wrw.8
+	Fri, 31 Jan 2020 18:25:12 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id t26so9154848ioi.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 08:24:46 -0800 (PST)
+	Fri, 31 Jan 2020 10:25:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=AU4MMNMzD89Lyemy4V0N2sQVzB32jLXX2jW+ZqSsbqQ=;
-	b=OYGCIYeMxREAud66waF/SFbBfsgeSIw/kLVnKntRfdN3aQpi/M1qC60iVQrNy6rFkT
-	Q5eqcFE3s6qPBT6ehCq7ViW+ep1O7706kCsrrE9uIXOn/vOAVs/Xy0OLQkAJesntO946
-	w+/TqbsNTz5hE15pKzCNgO9s15purbKHjzxym0WFjYtnBa/6pr1vkAYzGD9yRjAHnYmm
-	BHxfLJnZ5P7E0amRG92Iz6fNZkpzY+jRUiW5kg0FCoITL2TgsecPEUcq1bOyNcQSY+T6
-	ZWCOA0KHOsPAsjVuKUGupdV8kRiX7EQk/e1F02OLiJeWPkJicrdId/XGhjyO7p6wHIc+
-	Lejg==
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=i4BUElLMopmEatKfQz/X8R1eFnlbqdEU8difDo7Q7Io=;
+	b=Z66+jjaet7isc23cucsPohq1NEsPbm1PNWoh6w8O78CjrqZS+6D+UXAR4ZAq0RCxEA
+	o2vf5AqdYwytY0+W+jDarXSQkZVaMgCzCNksWhTa8/N+JP4cwUOwAyWYHFWPdsmvjUO8
+	67E7XY6c13/yP+6DwAGYuO65TuvUZkDFYRiC11RkKkUxhFI1TjNNjVXyYGKnz1mrlrBS
+	5gwTCXlBGM1xHyrp9u10TUDUADLeIBvvLmHsG92FV9gGyPmLNiTtXV3tDnCcZ8ERj7di
+	iChOpOWlQV9ed3GWWDXrzyKA42d6c+gnRrj7Evy1nFEcdBjQh9eCesIqTGn/+U5Oe93o
+	SHVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=AU4MMNMzD89Lyemy4V0N2sQVzB32jLXX2jW+ZqSsbqQ=;
-	b=LxBHgsmQ24QJxqmyNCs4xPjv3ql07udmrmH6zZ7apPLnjEKNzjM2ZTUGfx/3c8BhiN
-	JkqVZfOSTXjeKlQdVDEPUuQHLsle9Df3kL02QpZKP8FW9snsadSSn47ZlVxZKattWw7L
-	tVmGeUPSC2agk6ehWI+xDC94K1QG44HwMci3GqQJpRe70i4tNvYqo/f8EB5wXZQ3tcmP
-	GkZsyfYXpgw+vVdl4H0mVaDkCyKEc1op5exx1d8Pn+KSzGOwra2zi/YUa40Lixb6gzYd
-	P59AybdB9swep521LONPZHv/Wlgx8aDXK8O9Gk3orhvcUMbOVPFK+urRQGGP2vocSCdv
-	7H/Q==
-X-Gm-Message-State: APjAAAU/c4D3s7k36YTFcG0CjrYS2Mw6aFOdULKGgtq+yxJirBpokhJf
-	QBFAo5X9X2+KBsGO+pDi+9IB/a8V
-X-Google-Smtp-Source: APXvYqyCl8xxKjrsDeBMvL9rgLklSAEHYjTLrwZJVtK7TZjqn0Q6HgV6PdxkWzrIOAIsHz6LGtOVbg==
-X-Received: by 2002:adf:e2cf:: with SMTP id d15mr13107256wrj.225.1580487885270;
-	Fri, 31 Jan 2020 08:24:45 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	v3sm12734527wru.32.2020.01.31.08.24.44
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 31 Jan 2020 08:24:44 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jan 2020 16:24:42 +0000
-Message-Id: <20200131162442.58931-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] kernel-fitimage: Handle overlays in EXTERNAL_KERNEL_DEVICETREE
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=i4BUElLMopmEatKfQz/X8R1eFnlbqdEU8difDo7Q7Io=;
+	b=R0v1s/jCBP7L7G4upId59NK58QhYtr3uVIVa/KIzXzmHYtTWJAbTLJi2p02Byj6BFF
+	xBjbUcjms92rv7Rkh7nceGm99gmJYUYztRpd5MudsGPrKIap6fhu68UmwlXkEixyAPDO
+	cgkLTx7CnBDn5Tjw17J4D4/R1ZlKB9Gta6U8tNkC6kasjfmvBEbUanOC33JiMuIhb2th
+	Wp6OfwoU5jntoDGfY7Oy1ztU1Xf/Td3KkY1sMUaxSEfaUHgq1dshbP80m1CWyqLYcZkf
+	0CZaAFsmEcPbYRfnwukk1afUnTVVWkPLjB94ckk5iVem1F1znIshe/CkZNvfT8y7cPwQ
+	vPBQ==
+X-Gm-Message-State: APjAAAUnqSb1DGVlPOz1MGNfjPniHkkGz1MHXcbbio5/7u92A/ldCYev
+	A89PPNMGycxMCjJfCDlWpTRAN0+zscE=
+X-Google-Smtp-Source: APXvYqzZ6TXsiwEdQp4DB9FTM45vaf0eNG1j6sTpJ8tvF0I8QLSmBzbFkOm68SKM36IYbvHSCd6xKg==
+X-Received: by 2002:a5d:8908:: with SMTP id b8mr9133086ion.89.1580495112220;
+	Fri, 31 Jan 2020 10:25:12 -0800 (PST)
+Received: from ?IPv6:2601:646:9200:4e0:808d:d66e:9108:2692?
+	([2601:646:9200:4e0:808d:d66e:9108:2692])
+	by smtp.gmail.com with ESMTPSA id
+	r14sm3440657ilg.59.2020.01.31.10.25.10
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Fri, 31 Jan 2020 10:25:11 -0800 (PST)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+References: <cover.1580248809.git.bruce.ashfield@gmail.com>
+	<CANNYZj_O7cMwJs_ND_MOwADb7PCc2XKJq3b1gQ0xaO7SbBr58g@mail.gmail.com>
+	<CADkTA4PZm6X0duFUx0prC4-kz=RUjsmO5vK_6Ox6w5GSGhJ0wQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <4789b1f1-8dc1-dead-1a19-d18f17c0d709@gmail.com>
+Date: Fri, 31 Jan 2020 10:25:09 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.4.2
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4PZm6X0duFUx0prC4-kz=RUjsmO5vK_6Ox6w5GSGhJ0wQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3][RFT]: kernel-yocto: v5.4 LTS kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +68,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 16:24:45 -0000
+X-List-Received-Date: Fri, 31 Jan 2020 18:25:12 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-When using EXTERNAL_KERNEL_DEVICETREE, collect DTB overlays too (*.dtbo)
-as well as iterating down into sub-directories so using the behaviour
-for naming which matches KERNEL_DEVICETREE.
+On 1/29/20 4:48 AM, Bruce Ashfield wrote:
+> On Wed, Jan 29, 2020 at 2:31 AM Alexander Kanavin
+> <alex.kanavin@gmail.com> wrote:
+>>
+>> Can these issues be bisected? That's how the two kernel regressions (both found last year via ptests) were tracked down to specific commits.
+>>
+> 
+> mips64 was already bisected, and reported upstream, not much help
+> there .. I've already reached out to some more hardcore mips folks for
+> more help, so hopefully that works :D
+> 
+can you point to link where this thread is
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+> The musl one didn't bisect in my attempt(s), but in that config it is
+> an easy issue to trigger. I'm out of time to debug it for the next two
+> weeks, hence why I'm broadcasting to see if others want to take a
+> look.
+> 
 
- meta/classes/kernel-fitimage.bbclass | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+As I saw, I do not see this with latest master-next
 
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-index ec18a3d69921..d1b8cdc1f049 100644
---- a/meta/classes/kernel-fitimage.bbclass
-+++ b/meta/classes/kernel-fitimage.bbclass
-@@ -391,11 +391,10 @@ fitimage_assemble() {
- 
- 	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
- 		dtbcount=1
--		for DTBFILE in ${EXTERNAL_KERNEL_DEVICETREE}/*.dtb; do
--			DTB=`basename ${DTBFILE}`
-+		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -name '*.dtbo' \) -printf '%P\n'); do
- 			DTB=$(echo "${DTB}" | tr '/' '_')
- 			DTBS="${DTBS} ${DTB}"
--			fitimage_emit_section_dtb ${1} ${DTB} ${DTBFILE}
-+			fitimage_emit_section_dtb ${1} ${DTB} "${EXTERNAL_KERNEL_DEVICETREE}/${DTB}"
- 		done
- 	fi
- 
--- 
-2.17.1
+> Bruce
+> 
+>> Alex
+>>
+>> On Tue, 28 Jan 2020 at 23:14, <bruce.ashfield@gmail.com> wrote:
+>>>
+>>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>>>
+>>> Hi all,
+>>>
+>>> I just wanted to send these to the list, so everyone could see the
+>>> reference kernel that we are planning for the upcoming release.
+>>>
+>>> I have other patches to drop 4.19, 5.2 and make this the default
+>>> kernel for the various reference platforms as well, but I'm not
+>>> sending them, since we still have two outstanding issues:
+>>>
+>>> 1) mips64 init is segfaulting after / during some self tests.
+>>>
+>>>     https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/1520/steps/8/logs/step6c
+>>>
+>>> 2) x86 musl is getting a gpf on many commands:
+>>>
+>>>     https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1501/steps/8/logs/step1c
+>>>
+>>> I've looked into both, and don't have any great ideas on how to debug
+>>> or fix them.
+>>>
+>>> So if anyone has ideas, or wants to poke at these, feel free to follow up.
+>>> But as of now, we still can't merge the v5.4 kernel as the reference due
+>>> to these remaining problems.
+>>>
+>>> Bruce
+>>>
+>>>
+>>> The following changes since commit ca3993cc4b13d4e661228cee6fb9448adfd0a4ba:
+>>>
+>>>    bitbake: tests/fetch: Allow wget upgrade tests to run against a local server (2020-01-22 15:56:39 +0000)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>    git://git.pokylinux.org/poky-contrib zedd/kernel-oe
+>>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+>>>
+>>> Bruce Ashfield (3):
+>>>    linux-yocto: introduce 5.4 recipes
+>>>    kern-tools: update Kconfiglib to latest (for 5.4+ kernel)
+>>>    kernel-devsrc: update to v5.4+
+>>>
+>>>   .../kern-tools/kern-tools-native_git.bb       |  2 +-
+>>>   meta/recipes-kernel/linux/kernel-devsrc.bb    |  8 +--
+>>>   .../linux/linux-yocto-rt_5.4.bb               | 44 +++++++++++++++
+>>>   .../linux/linux-yocto-tiny_5.4.bb             | 32 +++++++++++
+>>>   meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 54 +++++++++++++++++++
+>>>   5 files changed, 136 insertions(+), 4 deletions(-)
+>>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+>>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+>>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.4.bb
+>>>
+>>> --
+>>> 2.19.1
+>>>
+>>> --
+>>> _______________________________________________
+>>> Openembedded-core mailing list
+>>> Openembedded-core@lists.openembedded.org
+>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> 
+> 
 
 
