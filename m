@@ -1,50 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 75D6060C24
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A08360071
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 15:30:58 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id a6so9029675wrx.12
+	Fri, 31 Jan 2020 16:24:44 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id c9so9325373wrw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 07:30:59 -0800 (PST)
+	Fri, 31 Jan 2020 08:24:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Y4qmaKk0LUopJeBNdVuULt4KuXiUxC0GCDGdD/zNZS8=;
-	b=TRy7vZJeR5XwmGFSr/UCfjC2Cqga6lAt6fMhDIXEEkIo3lt4HHz3PJcjdZGUvizV37
-	+6nZWP6+jYANwWUPtDnHrqeu4SHxMux7TZNn8SjP0ZkChi2+D62IL9ySFwOvCz03jppW
-	q6c/UwP/8mMmS5Y/fqTk+q9xpyP++/hY22CMXi2IUHRoGJcRLOTHYrfngcyd6hRW5jmJ
-	kUEwt3lfYTMOq/oLeWfXtmqmykoyiJo8eHff+L7OtHRuvqlhHpz9340s7SpFpwr5gr8N
-	+vmAcccQvZQLoCqhKfNibfNSaxez+ahy+6ikQCUnwNykkEyXfzrDytAfBkL1frSOSGr3
-	ujiw==
+	h=from:to:cc:subject:date:message-id;
+	bh=AU4MMNMzD89Lyemy4V0N2sQVzB32jLXX2jW+ZqSsbqQ=;
+	b=OYGCIYeMxREAud66waF/SFbBfsgeSIw/kLVnKntRfdN3aQpi/M1qC60iVQrNy6rFkT
+	Q5eqcFE3s6qPBT6ehCq7ViW+ep1O7706kCsrrE9uIXOn/vOAVs/Xy0OLQkAJesntO946
+	w+/TqbsNTz5hE15pKzCNgO9s15purbKHjzxym0WFjYtnBa/6pr1vkAYzGD9yRjAHnYmm
+	BHxfLJnZ5P7E0amRG92Iz6fNZkpzY+jRUiW5kg0FCoITL2TgsecPEUcq1bOyNcQSY+T6
+	ZWCOA0KHOsPAsjVuKUGupdV8kRiX7EQk/e1F02OLiJeWPkJicrdId/XGhjyO7p6wHIc+
+	Lejg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Y4qmaKk0LUopJeBNdVuULt4KuXiUxC0GCDGdD/zNZS8=;
-	b=hbPAfG3KWTLF+lf0OSm+OX2l9S1Ci0bSF6SficEVgSSudbNWXAIibC6Ozmh4eNg9Hb
-	O84fP06s9Oif/3yCcYCkIB+GGpAaVX+3RCevHgUxGSRCuIDF3L7vi2Uqof4aJhuEy14T
-	ZoV/N8lBNexzCwtm3CB8G4sIvMbtk3Y6ud/SsNc4FTLjP2stqMbV3CpLCcEzQzX0KBI7
-	wwNkoxVPMHHlnjMLNSXPpjtMXkiPyatm6fB752C1Zr93DBWktJloeN5bsdxHBuLbhuAr
-	yRQQHgori6BCqRyeWj/Dbgj1FNtUE67KeDadN8ibWuk+lPtu99Zhp0xrUwARNrV/8BGe
-	sWwg==
-X-Gm-Message-State: APjAAAVmZJLD3zly11HEPbIklzhybH/KvmaREJoc/cZwV6MpwFU+762N
-	WTFGLYdm4A1n8OI4o5oam8r3JP6H
-X-Google-Smtp-Source: APXvYqyADeAG/FYcXFvdMYhYn8epct+v5t4fUD3UVcDotzKuTp3BZO3YGv5nHaCcHAKBijOSIIt5ZA==
-X-Received: by 2002:adf:d4ca:: with SMTP id w10mr13486348wrk.53.1580484658494; 
-	Fri, 31 Jan 2020 07:30:58 -0800 (PST)
-Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
-	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	z3sm12432497wrs.94.2020.01.31.07.30.57
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=AU4MMNMzD89Lyemy4V0N2sQVzB32jLXX2jW+ZqSsbqQ=;
+	b=LxBHgsmQ24QJxqmyNCs4xPjv3ql07udmrmH6zZ7apPLnjEKNzjM2ZTUGfx/3c8BhiN
+	JkqVZfOSTXjeKlQdVDEPUuQHLsle9Df3kL02QpZKP8FW9snsadSSn47ZlVxZKattWw7L
+	tVmGeUPSC2agk6ehWI+xDC94K1QG44HwMci3GqQJpRe70i4tNvYqo/f8EB5wXZQ3tcmP
+	GkZsyfYXpgw+vVdl4H0mVaDkCyKEc1op5exx1d8Pn+KSzGOwra2zi/YUa40Lixb6gzYd
+	P59AybdB9swep521LONPZHv/Wlgx8aDXK8O9Gk3orhvcUMbOVPFK+urRQGGP2vocSCdv
+	7H/Q==
+X-Gm-Message-State: APjAAAU/c4D3s7k36YTFcG0CjrYS2Mw6aFOdULKGgtq+yxJirBpokhJf
+	QBFAo5X9X2+KBsGO+pDi+9IB/a8V
+X-Google-Smtp-Source: APXvYqyCl8xxKjrsDeBMvL9rgLklSAEHYjTLrwZJVtK7TZjqn0Q6HgV6PdxkWzrIOAIsHz6LGtOVbg==
+X-Received: by 2002:adf:e2cf:: with SMTP id d15mr13107256wrj.225.1580487885270;
+	Fri, 31 Jan 2020 08:24:45 -0800 (PST)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	v3sm12734527wru.32.2020.01.31.08.24.44
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 31 Jan 2020 07:30:57 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Fri, 31 Jan 2020 08:24:44 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 Jan 2020 16:30:25 +0100
-Message-Id: <20200131153025.31040-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
-MIME-Version: 1.0
-Subject: [PATCH] busybox: sort the .config file used by ptests
+Date: Fri, 31 Jan 2020 16:24:42 +0000
+Message-Id: <20200131162442.58931-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] kernel-fitimage: Handle overlays in EXTERNAL_KERNEL_DEVICETREE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 Jan 2020 15:30:58 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 31 Jan 2020 16:24:45 -0000
 
-It was found to have slight variations in order of options
-depending on the host. Sorting it helps reproducibility.
+When using EXTERNAL_KERNEL_DEVICETREE, collect DTB overlays too (*.dtbo)
+as well as iterating down into sub-directories so using the behaviour
+for naming which matches KERNEL_DEVICETREE.
 
-[YOCTO #13756]
-
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 391e4fd1639..1a82f23b0f3 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -356,7 +356,7 @@ do_install_ptest () {
- 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
-         # These access the internet which is not guaranteed to work on machines running the tests
-         rm -rf ${D}${PTEST_PATH}/testsuite/wget
--	cp ${B}/.config      ${D}${PTEST_PATH}/
-+	sort ${B}/.config > ${D}${PTEST_PATH}/.config
- 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
- }
+ meta/classes/kernel-fitimage.bbclass | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index ec18a3d69921..d1b8cdc1f049 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -391,11 +391,10 @@ fitimage_assemble() {
+ 
+ 	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
+ 		dtbcount=1
+-		for DTBFILE in ${EXTERNAL_KERNEL_DEVICETREE}/*.dtb; do
+-			DTB=`basename ${DTBFILE}`
++		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -name '*.dtbo' \) -printf '%P\n'); do
+ 			DTB=$(echo "${DTB}" | tr '/' '_')
+ 			DTBS="${DTBS} ${DTB}"
+-			fitimage_emit_section_dtb ${1} ${DTB} ${DTBFILE}
++			fitimage_emit_section_dtb ${1} ${DTB} "${EXTERNAL_KERNEL_DEVICETREE}/${DTB}"
+ 		done
+ 	fi
  
 -- 
-2.25.0
+2.17.1
 
 
