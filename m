@@ -1,50 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5851660619
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C38260BDB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Feb 2020 10:58:50 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id m10so10649095wmc.0
+	Sat,  1 Feb 2020 17:20:40 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id 4so5144327pfz.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Feb 2020 02:58:51 -0800 (PST)
+	Sat, 01 Feb 2020 09:20:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=c7m/4qLnodKnRCKPxhn40iSWGUWOKmuC6spepsGt4Gc=;
-	b=eusdZI3hLpaiMKdPcrd86XtiFtDHYvfNYU91sOwg6fVrwamtaFJGqXWMQ27khZeBzn
-	IAT2z3Xb3ZiGUTtt9G/ZF+9NLbJQCGA0RfGGg4K8B+cHFw92N0JX6Os6Fz+ldJSqcl3h
-	upAHgc9iBrpmtgQ7LRGlDLbfX+T1x+3KHeUZdfQP2OAQr62/F0FkX+/GtkUb+bW4L0Wy
-	/xI4opHtK3qTtQ0qD2DbECxXZ9HFKjJN7SaFMMTW8+qPPWQr2UypSgLOScQXApDyUyyU
-	0Ajnf3GWy2u6AJLwJ9il/p+AOMx8pM+nnhIxX/uFe/4z0Unl/oplU6Pk6rZRHdCEkRXo
-	buZw==
+	bh=a6rgnyfKfvuzkNjUTUqhhqFE69Y68rolz2CqTkwCGDI=;
+	b=rtpmsyag8x4cjYOcEP4DFa4mZ3Y4AWNdkWEPmOhB6NwlZEpQ7D4SIFNDyfq9NL8nS8
+	QVayl3S84IybLLSEaU3dVDUxewreVz/THqEd3TPFwC8D78kZCCTzsyLjwgH1ZCTMUiZa
+	2shGZGmp0SYynAdEzBU16a/364Zq0wViVfjQ0Mphqc9dP8qNM2RRGoQpXq2fMMzpC4JA
+	2AuegAeghTYM5BSMnvPlz0IbxIFK4IiSyAjvJI0NcV+1hOJeZ7krgS3DigShS/E1QnqO
+	CKJ8uk1bY13U6SHcnG24o+CH50kmJOdC0bx0/2JGUWSJxWtkbQ3qWq0maz1VG+T/3bQ0
+	D19w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=c7m/4qLnodKnRCKPxhn40iSWGUWOKmuC6spepsGt4Gc=;
-	b=s1YoVdvq+tOEM5BrQfQGE+9Bd48eFXKNbJW0OF74s4iQghkF09Nm9gbJe1u6H3oZ2x
-	z4Oz0mHgv/csgbzqAS5354UmahDYOD2NGM8EVk/Y4e2uhKRr5Oh+dRbayEXy9TYDwebZ
-	oY3GAZjlg+/3KXaC9hYjtoEjSgeKfYnBvLe/5BUYjH2jhc/51oaNA6oI6HBrC+EEPzSh
-	mi8sxCPht1tUEsO33QpeDQY8ncQXBUow+iu0pI8ZSxcYXZbyK7cWSCyHXEBQ+wtCFKjb
-	UVhxCqGE7nAGFHl5I3IixZpz+FBIW0k0IWJuTgNDhOBaFesm6urqI+r40YkMWq8ZzCQ5
-	7YKg==
-X-Gm-Message-State: APjAAAV5LyNR+q+2hXhZdl6xV7lBfLOAEbXen6wIaYmG5kbpqIgsQXw9
-	WfFEaxBrePKH00PKqHzs2GSXmv54
-X-Google-Smtp-Source: APXvYqw/Mu8vHXFi2A74BkJMshvEiMD+SYFkbr5x0Mc/pQXwwe24S6a9/QM7HI0abgpxA9GbcXdBbg==
-X-Received: by 2002:a1c:5448:: with SMTP id p8mr18733239wmi.159.1580554730808; 
-	Sat, 01 Feb 2020 02:58:50 -0800 (PST)
-Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
-	[95.168.152.69]) by smtp.gmail.com with ESMTPSA id
-	r14sm13131358wrj.26.2020.02.01.02.58.49
+	bh=a6rgnyfKfvuzkNjUTUqhhqFE69Y68rolz2CqTkwCGDI=;
+	b=mTngNEe8+PIZlPVCnCIrB7HdhP/08DV9Z4W5IDVMyQZ9pkO0mfbz60Rg2VbBH7lQhK
+	SwAqOEexTnIEOqe1bGOAuPwfO0a4+R4+lOfFk4ioiRzr3i89W5jRv62CxaIOnAr/+apX
+	4+MPq6TUPmbIQ3jRlgkjtkyWyn8ynYqsqK+QIUiHgmxPE4fR1pn+yK6DY8tYhae74ZFw
+	ZCU6BADLJnp7kbC+dBNmRMYZNYBxLbD8phyYCZLa/20NmKIfvbRq3ComigJ8gQWML7Qt
+	MKEgAwLpRLlxkCzdsID7xxD4fGXEGY8MTj23BNd5IjMhkw/48R0vYzQUUMNOX/6vvGJ3
+	FfLg==
+X-Gm-Message-State: APjAAAXGz508Ksg/kGLbP13zGQwnhcUZrqewbryTnbtfp6BWdQ+f3VIz
+	pxFcn300j/EbIZJb3cFNi6oTVl4ZbYU=
+X-Google-Smtp-Source: APXvYqwXAlRNeiUZ7RrF3Nu9FRIfmS4n1qdisqCZMUFv8z3u4K8Ldj4sLaiGq6Ep+VAODuug+3MO+g==
+X-Received: by 2002:a63:5848:: with SMTP id i8mr16106400pgm.438.1580577640902; 
+	Sat, 01 Feb 2020 09:20:40 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::5683])
+	by smtp.gmail.com with ESMTPSA id
+	g24sm14629402pfk.92.2020.02.01.09.20.40
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 01 Feb 2020 02:58:50 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Sat, 01 Feb 2020 09:20:40 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Feb 2020 11:58:22 +0100
-Message-Id: <20200201105823.16391-1-alex.kanavin@gmail.com>
+Date: Sat,  1 Feb 2020 09:20:42 -0800
+Message-Id: <cover.1580577515.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Subject: [PATCH] icu: update SRC_URI
+Subject: [PATCH 0/2] Update to final glibc 2.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,48 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Feb 2020 10:58:50 -0000
+X-List-Received-Date: Sat, 01 Feb 2020 17:20:40 -0000
 Content-Transfer-Encoding: 8bit
 
-New releases of ICU are published on github.
+recognise ppc64le build host for uninative
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-support/icu/icu_64.2.bb | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+The following changes since commit 18b6b2ae819cbf0ef3858944b4cd02ab74df6607:
 
-diff --git a/meta/recipes-support/icu/icu_64.2.bb b/meta/recipes-support/icu/icu_64.2.bb
-index 10bac7aac08..44caa437bf7 100644
---- a/meta/recipes-support/icu/icu_64.2.bb
-+++ b/meta/recipes-support/icu/icu_64.2.bb
-@@ -6,13 +6,18 @@ def icu_download_version(d):
-     pvsplit = d.getVar('PV').split('.')
-     return pvsplit[0] + "_" + pvsplit[1]
- 
-+def icu_download_folder(d):
-+    pvsplit = d.getVar('PV').split('.')
-+    return pvsplit[0] + "-" + pvsplit[1]
-+
- ICU_PV = "${@icu_download_version(d)}"
-+ICU_FOLDER = "${@icu_download_folder(d)}"
- 
- # http://errors.yoctoproject.org/Errors/Details/20486/
- ARM_INSTRUCTION_SET_armv4 = "arm"
- ARM_INSTRUCTION_SET_armv5 = "arm"
- 
--BASE_SRC_URI = "http://download.icu-project.org/files/icu4c/${PV}/icu4c-${ICU_PV}-src.tgz"
-+BASE_SRC_URI = "https://github.com/unicode-org/icu/releases/download/release-${ICU_FOLDER}/icu4c-${ICU_PV}-src.tgz"
- SRC_URI = "${BASE_SRC_URI} \
-            file://icu-pkgdata-large-cmd.patch \
-            file://fix-install-manx.patch \
-@@ -26,5 +31,5 @@ SRC_URI_append_class-target = "\
- SRC_URI[md5sum] = "a3d18213beec454e3cdec9a3116d6b05"
- SRC_URI[sha256sum] = "627d5d8478e6d96fc8c90fed4851239079a561a6a8b9e48b0892f24e82d31d6c"
- 
--UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
--UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
-+UPSTREAM_CHECK_REGEX = "icu4c-(?P<pver>\d+(_\d+)+)-src"
-+UPSTREAM_CHECK_URI = "https://github.com/unicode-org/icu/releases"
+  Adding memoriam to scottrif (2020-01-31 08:03:08 +0000)
+
+are available in the Git repository at:
+
+  git://git.yoctoproject.org/poky-contrib kraj/pu
+  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kraj/pu
+
+Khem Raj (2):
+  uninative: Recognise ppc64 host ldso
+  glibc: Update to final 2.31 release
+
+ meta/classes/uninative.bbclass              | 2 +-
+ meta/conf/distro/include/tcmode-default.inc | 2 +-
+ meta/recipes-core/glibc/glibc-common.inc    | 2 +-
+ meta/recipes-core/glibc/glibc-version.inc   | 6 +++---
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
 -- 
 2.25.0
 
