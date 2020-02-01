@@ -1,51 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 00E9660BF2
+Return-Path: <andrey.z@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A3C660C7D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Feb 2020 17:27:49 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id j4so5367094pgi.1
+	Sat,  1 Feb 2020 18:48:58 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id t2so12664329wrr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Feb 2020 09:27:51 -0800 (PST)
+	Sat, 01 Feb 2020 10:48:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=KQSyER1NTabsohGLuovQUGz5lMsDdVNaB3UILzjNFkM=;
-	b=eIYOq8xtPS0RIkOSAwoBSAZaDu2Xr97KM/j/QppvrfBSxsczWIdvpp5zWi78rrGqI9
-	LBL3wrpWRAMl6MYFozUNNEFiYeSV6heBrt5ocmLgDS7AwxmcV+HFIKjNfJWfiQh4T1EL
-	wxQvQwvUryBl3Q0t+OuqPdynofbMtl4SOwQJX2AruTq1/g5Q1mwN7x32bJbSZQgffqNp
-	ZV7Vh/l22EU7/xy5oMuXbPVMc4EAQwA/hiyPg3FUab8GjC/okgN/0YisbnH+4fHg9XJO
-	gMgfLybO5qt7AkBCEXTNB6UcruUAY2z+3aUgxJ+MhR5LzaKQYQKxRqmPl4hRltYG++xT
-	dO0A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=xQRY1rXjCq5w7zraMtPwLqJXJiz/HnxseS4ksjAV8iw=;
+	b=vO37Tpse0eLu2ubfPeuU4Y2hrcox7UxFh4NBOa2STDNU9Jp44SxGpK6cenyeziSA4C
+	7P/WHVldnBYVgzo0D5v3q0Z+TZ8RtIbPxUqG6+reHp+kwzV/H9XeLARgn6jUkEpG3SZF
+	IA+jW+IFY/mDxp66y4Y609jyKHpmJ3+stIhQnsLb/9Ukk8HdHmQWY1tIAz7/uxP8RAez
+	IUwwZrMe1894CqlBoDxob7Uyc93mAGXithr0rlPihxDLJHC0fU9zJ78kTuM1miLgSseI
+	vJ0H/DXKosQG0u7TInbmrV5kCSegUxP1nljPFfCYx4wmJF/ZvAvi7QvezRZuktKSiHaj
+	ynww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=KQSyER1NTabsohGLuovQUGz5lMsDdVNaB3UILzjNFkM=;
-	b=qZO44biIodaCCaXMSzj33uW9UuKZOqBa7rd2x1p1IcOoihZgZ8NakXfj6p0pZ0qdHJ
-	t9+pP9PM/WJ6tfDzgJYXuM2gyNYtKARAcLlUFTXSJp2EYaTmXr2B7V3NlhKZEn7mZdU+
-	pRJ6J/vKm1hIKsQFHIokDk4rlitcPgUwkXz5Aqvz65LCQ/M39lhIObAcrPBSPc/pMni+
-	g+x4imKo2LXMLMPQgZOe2QGZylxcSp+LsDTum5qVmROqcYX61mxtDQMP3N83iXu/man5
-	85IV/9wndorMXQ8OhTlF3aGoIUoe3pRQMDzCxrh3ApxXdixP2OFYiwhbO6XIQch1R3l4
-	ufFQ==
-X-Gm-Message-State: APjAAAV+oVMKxZp5fIMQ8f3gwoxbCvYwVSIvMfRW0n6q7ffNRf9ekp5h
-	kkRiAfTIwQSbL6Sf8WW64FfsymTrAiE=
-X-Google-Smtp-Source: APXvYqzKNNNjtL3OGVA3M4ae/2fUCV1tWGGxVGKIL+7B+0vcv0qRskA6/A1JId2E8PljE/TwY2gWuw==
-X-Received: by 2002:a63:1f5b:: with SMTP id q27mr2966404pgm.434.1580578070642; 
-	Sat, 01 Feb 2020 09:27:50 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::5683])
-	by smtp.gmail.com with ESMTPSA id p4sm2916760pgh.14.2020.02.01.09.27.49
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 01 Feb 2020 09:27:49 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Feb 2020 09:27:51 -0800
-Message-Id: <db1e341019043998978894db44cb5026c8080009.1580577516.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <cover.1580577515.git.raj.khem@gmail.com>
-References: <cover.1580577515.git.raj.khem@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=xQRY1rXjCq5w7zraMtPwLqJXJiz/HnxseS4ksjAV8iw=;
+	b=llF81RQzLtsIOZu3/KivxTc3RimxsvYGKRAsZroCrULKoqPHewRBaXWWEEsCVcS9uO
+	qPFW8NO3zEZegYYQs2JVyhJmHDDDACasHLYhJQBmtdPCBIvQD6CXRDKexl/sYDJgOF9y
+	Phv9Tqxy8tp5wg1aA0UYDtGtQpk3P0ss36zjtK3DCiWUN7qiKJbFQnmrUB4rOcq6MqFH
+	CqaEx/SYHt8752GEyIjgsmdExY18WEv9VaQy/k7OjvPO0V7OQKsOFwswkEFY5Bfz3Bi+
+	a5OR/hAtpRVu9A3f+VhH3IrZ/9f9gvpraMrnkGXj2iRNBtgD0PPd6vq2ZupainK5ZVRB
+	7nAw==
+X-Gm-Message-State: APjAAAW/Kq40zJMRXWKuxqTxTX/ijiOHKEiH964bPPAoSEsOWwFBuHQl
+	wtv94Kzx1W7S3UaOUZlGOcoGYH6CBzQFWQ02UM5j9w==
+X-Google-Smtp-Source: APXvYqxNq/xa1O+VH3WmK3SB5PmSkEyZ+de/HJGGDecmUVbTA7ZqA03u8L2o8fch5au5jMqhXikKGyBroJ2VmSzlMvg=
+X-Received: by 2002:a05:6000:1201:: with SMTP id
+	e1mr5680176wrx.386.1580582938808; 
+	Sat, 01 Feb 2020 10:48:58 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] glibc: Update to final 2.31 release
+References: <20200127104444.14102-1-andrey.zhizhikin@leica-geosystems.com>
+In-Reply-To: <20200127104444.14102-1-andrey.zhizhikin@leica-geosystems.com>
+From: Andrey Zhizhikin <andrey.z@gmail.com>
+Date: Sat, 1 Feb 2020 19:48:47 +0100
+Message-ID: <CAHtQpK5sz23fBd+QxoSE83=bMfhc3P_W8Mu+FTGY0m393+rz-Q@mail.gmail.com>
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>,
+	anuj.mittal@intel.com
+Subject: Re: [PATCH] gstreamer1.0-plugins-bad: resolve opencv pkg-config in meson build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,54 +54,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Feb 2020 17:27:50 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 01 Feb 2020 18:48:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/conf/distro/include/tcmode-default.inc | 2 +-
- meta/recipes-core/glibc/glibc-common.inc    | 2 +-
- meta/recipes-core/glibc/glibc-version.inc   | 6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
+A one gentle ping here.
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index aba2baaaba..936db5ae16 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -20,7 +20,7 @@ GCCVERSION ?= "9.%"
- SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.33%"
- GDBVERSION ?= "8.3%"
--GLIBCVERSION ?= "2.30%"
-+GLIBCVERSION ?= "2.31"
- LINUXLIBCVERSION ?= "5.4%"
- QEMUVERSION ?= "4.1%"
- GOVERSION ?= "1.13%"
-diff --git a/meta/recipes-core/glibc/glibc-common.inc b/meta/recipes-core/glibc/glibc-common.inc
-index 27534d999f..8d412cc857 100644
---- a/meta/recipes-core/glibc/glibc-common.inc
-+++ b/meta/recipes-core/glibc/glibc-common.inc
-@@ -22,4 +22,4 @@ ARM_INSTRUCTION_SET_armv6 = "arm"
- #
- COMPATIBLE_HOST_libc-musl_class-target = "null"
- 
--PV = "2.30.9000"
-+PV = "2.31"
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index c2cfb7e2f1..f489650f70 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
--SRCBRANCH ?= "master"
--PV = "2.30.9000"
--SRCREV_glibc ?= "352bb99754ae7c83ff1b974f9c52244e974c9410"
-+SRCBRANCH ?= "release/2.31/master"
-+PV = "2.31"
-+SRCREV_glibc ?= "9ea3686266dca3f004ba874745a4087a89682617"
- SRCREV_localedef ?= "cd9f958c4c94a638fa7b2b4e21627364f1a1a655"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git"
--- 
-2.25.0
-
+On Mon, Jan 27, 2020 at 11:45 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+>
+> From: Andrey Zhizhikin <andrey.z@gmail.com>
+>
+> When opencv is picked in PACKAGECONFIG, plugin fails to locate data
+> dirs. This is due to meson.build file uses 'test' utility to verify that
+> the data dirs path is present and not taking sysroot into prefix.
+>
+> Introduce additional patch, which picks up PKG_CONFIG_SYSROOT_DIR as
+> prefix for 'test' utility to verify the data dir is actually present.
+>
+> Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+> ---
+>  ...issing-opencv-data-dir-in-yocto-buil.patch | 49 +++++++++++++++++++
+>  .../gstreamer1.0-plugins-bad_1.16.1.bb        |  1 +
+>  2 files changed, 50 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
+>
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
+> new file mode 100644
+> index 0000000000..4b6591c0d8
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
+> @@ -0,0 +1,49 @@
+> +From f41caae14b618ab815ede3c408e7482b00316e3e Mon Sep 17 00:00:00 2001
+> +From: Andrey Zhizhikin <andrey.z@gmail.com>
+> +Date: Mon, 27 Jan 2020 10:22:35 +0000
+> +Subject: [PATCH] opencv: resolve missing opencv data dir in yocto build
+> +
+> +When Yocto build is performed, opencv searches for data dir using simple
+> +'test' command, this fails because pkg-config provides an absolute
+> +path on the target which needs to be prepended by PKG_CONFIG_SYSROOT_DIR
+> +in order for the 'test' utility to pick up the absolute path.
+> +
+> +Upstream-Status: Inappropriate [OE-specific]
+> +
+> +Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+> +---
+> + ext/opencv/meson.build | 7 ++++---
+> + 1 file changed, 4 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/ext/opencv/meson.build b/ext/opencv/meson.build
+> +index f38b55dfe..a26403482 100644
+> +--- a/ext/opencv/meson.build
+> ++++ b/ext/opencv/meson.build
+> +@@ -78,20 +78,21 @@ else
+> + endif
+> +
+> + if opencv_found
+> ++  pkgconf_sysroot = run_command(python3, '-c', 'import os; print(os.environ.get("PKG_CONFIG_SYSROOT_DIR"))').stdout().strip()
+> +   opencv_prefix = opencv_dep.get_pkgconfig_variable('prefix')
+> +   gstopencv_cargs += ['-DOPENCV_PREFIX="' + opencv_prefix + '"']
+> +
+> +   # Check the data dir used by opencv for its xml data files
+> +   # Use prefix from pkg-config to be compatible with cross-compilation
+> +-  r = run_command('test', '-d', opencv_prefix + '/share/opencv')
+> ++  r = run_command('test', '-d', pkgconf_sysroot + opencv_prefix + '/share/opencv')
+> +   if r.returncode() == 0
+> +     gstopencv_cargs += '-DOPENCV_PATH_NAME="opencv"'
+> +   else
+> +-    r = run_command('test', '-d', opencv_prefix + '/share/OpenCV')
+> ++    r = run_command('test', '-d', pkgconf_sysroot + opencv_prefix + '/share/OpenCV')
+> +     if r.returncode() == 0
+> +       gstopencv_cargs += '-DOPENCV_PATH_NAME="OpenCV"'
+> +     else
+> +-      r = run_command('test', '-d', opencv_prefix + '/share/opencv4')
+> ++      r = run_command('test', '-d', pkgconf_sysroot + opencv_prefix + '/share/opencv4')
+> +       if r.returncode() == 0
+> +         gstopencv_cargs += '-DOPENCV_PATH_NAME="opencv4"'
+> +       else
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
+> index 56ae7a179e..024277eeb1 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
+> @@ -6,6 +6,7 @@ SRC_URI = " \
+>      file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
+>      file://avoid-including-sys-poll.h-directly.patch \
+>      file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
+> +    file://opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+>  "
+>  SRC_URI[md5sum] = "24d4d30ecc67d5cbc77c0475bcea1210"
+>  SRC_URI[sha256sum] = "56481c95339b8985af13bac19b18bc8da7118c2a7d9440ed70e7dcd799c2adb5"
+> --
+> 2.17.1
+>
 
