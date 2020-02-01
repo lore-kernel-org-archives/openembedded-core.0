@@ -1,48 +1,49 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 29AEA60618
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7161460618
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Feb 2020 00:41:42 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id q127so4466497pga.4
+	Sat,  1 Feb 2020 00:47:13 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id y73so4308936pfg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 16:41:43 -0800 (PST)
+	Fri, 31 Jan 2020 16:47:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:autocrypt:message-id:date:user-agent
 	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=B/GP+FS+ZqJrNDeAbSkj8shq6iwtqzilYXvcPjEh3tw=;
-	b=PqeivU7MlmAImctEOIGSIi0/zZdVXvBaFJVCUtwgqjXWxMOwfJ7IlVtU2pQMWHHCbh
-	qPUvI1RynfAVV9ZtlfDyjsa0ZAZzc8VAw3S9LH2wWMmaod3PcA+rRnJwjzsyRsCH0lJW
-	KRoNAPbQwPNzl9dJi+O9gh+O9cW7xl1/MFGAhoHxR6u2KmGiYw7TK/qM0LL6oc7708kr
-	Ff8h1h+34m++mwSwYcOWTP5IH74XCCcVRlF2J1c8bSXMTKGfQ/Tea+/rm9bcTRcwbTbK
-	Z8W+P0uSxQ7YN7ZtiAwJvXHnLC0DNhn02tLF+e4VqmiM+UKZ2NKuvXvOQz27QqT+5UKD
-	y6OQ==
+	bh=QwhTDaxxY3AvqEu7VImTeFZ6S/c6cc3P/tjHJJ6kJI8=;
+	b=p1jf1okkuj7is7iH1EinqiDntnCJ6zHKCjIyoC75lTR98+symRdak6SlXgyAkJjN3p
+	azbpHveKgnkLj1qLolLC7FKYS2BF5evxEE3jUBDxGvkjbCoy1Dja5wkhKeUXe2KhzlsU
+	jK+0hi+GUAsy+UE12ftxfvQqaep9FXGbrg6eWRsPMdk1coNBliJJMJ+Ira2lgT/sf5Vt
+	dkoXcSO8jXx03KngFYddG8C/rKWRpnEwUW6ey6uL8kAl8+IvKqvZBfFbZYag4d7mSuN0
+	yml+NOAxFLa1yrp3Gt2x0/7myONLxbquDNG8kHDzgJQGd4kiL6ArHOi2O/hj0H5dWoJX
+	obIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
 	:date:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=B/GP+FS+ZqJrNDeAbSkj8shq6iwtqzilYXvcPjEh3tw=;
-	b=kMDPk8vmsQtZZypnGcpYJIm4PL7WwCQ89Db0XbYotG3HDcp5k0KkoftKo/P/wV0HG4
-	XjIibnhB/IOcoN1v2D/EfaYzzVBLHKQlFRp5ZX6eA8CSwZrP1GVxaUwYYCqIUlMmyq+M
-	jgsSSbSENd8emgTE8xOzUJrqVw8s9zU2l/kwtTW51xBzF67U0JkQ7DecOsfou6oZz7Qr
-	GCbN+RG9uG12YMoFDvqbaRAcR6E7u94Pm5rL96UIy+XdTZuJnhSmOVSuE6lvEccuUyvW
-	3XEqb8z/erpavPRWmrLYzdTy9HegxFQn1HOygMG9sWe/vyip9tWE2TIIZ+T7V2bUexYk
-	iFFg==
-X-Gm-Message-State: APjAAAVGJaB5TpsYKtBw1g3iNoIE51OWJZ6xH9zGAhdRqCVlUCFHYfOX
-	Vl9t66e0mC8qIlS2IQJvicCBTJPr
-X-Google-Smtp-Source: APXvYqzPuSD2n91X2DvRBifCmVugf/6u+K3Z9TYAyQpQD/AhHkhjfYEllclnwmJvxMy7khFaBPWg6Q==
-X-Received: by 2002:a63:4702:: with SMTP id u2mr13119096pga.125.1580517702841; 
-	Fri, 31 Jan 2020 16:41:42 -0800 (PST)
+	bh=QwhTDaxxY3AvqEu7VImTeFZ6S/c6cc3P/tjHJJ6kJI8=;
+	b=cZsr+2sYIVWL1mxXPoCkx/WVStMg/Rp9HmAK9kvUTOht7kVHbsovXuFDcB9orzizDG
+	JxoNEtp9ldVl2jyPwMPMzxtgbJbJXPAZpu6LQMLi/p4Rn420b//7Sv2bT89kw16wxy1w
+	pkthr789nrTiszX3MEUQVHQRj2LNiUJ8FopytauRqFdC/RES9y4XVZg8NV5TNVYF67ao
+	3FgzCpM2UvhYC03H/cifbsmXO5uPmJyqToe5OV1ESlQ5JLKAby8n0TA+doZpIZuJB1DG
+	O2wXXYb7uUdAJaYzVoJqGdyWgHPSfkGh7chy3hJHu0qRASLj05N9lwlPSpWhQMTniSEq
+	eB7g==
+X-Gm-Message-State: APjAAAXJYNjEl12729c5OiFvl58z5fQvwmT/L7Smihxpc/zGoJaPETBU
+	aYJE220NI/UWnocre4hLrfmUWuh4
+X-Google-Smtp-Source: APXvYqzKquSfBQb70CJmKMaLM48DMfUmxA0uMJikRhMgKx9m2wQ/ommCsnu2hF9JD9Esv92xdHD8rA==
+X-Received: by 2002:a62:5213:: with SMTP id g19mr13230952pfb.188.1580518034237;
+	Fri, 31 Jan 2020 16:47:14 -0800 (PST)
 Received: from ?IPv6:2601:202:4180:a5c0:e0e6:3e38:df8b:421b?
 	([2601:202:4180:a5c0:e0e6:3e38:df8b:421b])
-	by smtp.gmail.com with ESMTPSA id o1sm2545207pfg.60.2020.01.31.16.41.42
+	by smtp.gmail.com with ESMTPSA id
+	y2sm11860113pff.139.2020.01.31.16.47.13
 	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 31 Jan 2020 16:41:42 -0800 (PST)
+	Fri, 31 Jan 2020 16:47:13 -0800 (PST)
 To: Mark Hatle <mark.hatle@kernel.crashing.org>,
 	openembedded-core@lists.openembedded.org
-References: <20200131233305.118454-1-mark.hatle@kernel.crashing.org>
-	<20200131233305.118454-2-mark.hatle@kernel.crashing.org>
+References: <20200131232331.117030-1-mark.hatle@kernel.crashing.org>
+	<20200131232331.117030-2-mark.hatle@kernel.crashing.org>
 From: akuster808 <akuster808@gmail.com>
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
@@ -87,13 +88,13 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <afe2cf58-4b27-0279-6634-1bf9bd7cab66@gmail.com>
-Date: Fri, 31 Jan 2020 16:41:40 -0800
+Message-ID: <0a69a969-c20e-5273-0faa-a1f6dc5d29d7@gmail.com>
+Date: Fri, 31 Jan 2020 16:47:11 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
 	Thunderbird/68.4.1
 MIME-Version: 1.0
-In-Reply-To: <20200131233305.118454-2-mark.hatle@kernel.crashing.org>
-Subject: Re: [PATCH v2 2/2] microblaze tune: cleanup +=
+In-Reply-To: <20200131232331.117030-2-mark.hatle@kernel.crashing.org>
+Subject: Re: [PATCH 2/2] microblaze tune: cleanup +=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -106,19 +107,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Feb 2020 00:41:42 -0000
+X-List-Received-Date: Sat, 01 Feb 2020 00:47:13 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
 
 
-On 1/31/20 3:33 PM, Mark Hatle wrote:
+On 1/31/20 3:23 PM, Mark Hatle wrote:
 > From: Mark Hatle <mark.hatle@xilinx.com>
 >
 > Various += were used, refactor these to be either = or .= depending on
 > usuage.
-what is in version 2?
 >
 > CONFLICTS should be '=', as no leading space is required and they are not
 > amending any other conflict settings.
@@ -126,7 +126,9 @@ what is in version 2?
 > The TUNE_CCARGS should be .= so that if the feature does not define a CCARG
 > blank spaces are not added to the CFLAGS.  This is consistent to how the arm
 > tuning is implemented.
->
+Does some form of this need to be in Zeus?
+
+- armin
 > Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
 > Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 > ---
@@ -136,7 +138,7 @@ what is in version 2?
 >  3 files changed, 18 insertions(+), 18 deletions(-)
 >
 > diff --git a/meta/conf/machine/include/microblaze/arch-microblaze.inc b/meta/conf/machine/include/microblaze/arch-microblaze.inc
-> index fb777d929c..19cc2b59b9 100644
+> index 55ce158f12..19cc2b59b9 100644
 > --- a/meta/conf/machine/include/microblaze/arch-microblaze.inc
 > +++ b/meta/conf/machine/include/microblaze/arch-microblaze.inc
 > @@ -9,34 +9,34 @@ MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "microblaze
@@ -167,7 +169,7 @@ what is in version 2?
 > -TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "barrel-shift", "-mxl-barrel-shift", "-mno-xl-barrel-shift", d)}"
 > -TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "pattern-compare", "-mxl-pattern-compare", "-mno-xl-pattern-compare", d)}"
 > -TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "frequency-optimized", "-mxl-frequency", "", d)}"
-> -TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "-m64", "", d)}"
+> -TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "microblaze64", "-m64", "", d)}"
 > +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "barrel-shift", " -mxl-barrel-shift", " -mno-xl-barrel-shift", d)}"
 > +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "pattern-compare", " -mxl-pattern-compare", " -mno-xl-pattern-compare", d)}"
 > +TUNE_CCARGS .= "${@bb.utils.contains("TUNE_FEATURES", "frequency-optimized", " -mxl-frequency", "", d)}"
