@@ -1,47 +1,47 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3030F6021D
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 001A560C42
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Feb 2020 04:49:14 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id d16so10994610wre.10
+	Sat,  1 Feb 2020 04:50:14 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id t2so11067004wrr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 Jan 2020 20:49:15 -0800 (PST)
+	Fri, 31 Jan 2020 20:50:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xi4y/38W8fHqYpUwfgqHnoTz5BnGQ3gsCW4aj3guKcA=;
-	b=gx3olEG3eP7XpNJ+MsUufJDbKyw48mhla12QJDu3JwQXu48LIk/8u5GWCqM/PKset2
-	gO1Op4GYFmvYzc8I7C0yoFXew3WrzfQphAiQOjDhYZUJVlOB/mRjNwnXhRBJQMkbemuc
-	u6Frpgb6FsLx3cY0VFD6MdsUYueyk0mEzZcIiFTn0KvL16Nij/EWLBt1e90RtRxndjaR
-	jHNSJ0NsVbM34YBpho+gw0shKcZQrQbuMZKhxK0FHbq7SQvJol4WLNgFdfjbHn4WyB+f
-	Ve+IBvaFZZ2irRKOfuFtNOfi+G5I7LEBo3mCReE/EEA0YyIC4txFNK1GT8enE4d8xYLO
-	h7Pg==
+	:cc; bh=4xvv76vJKe+7Umd+bmgjrakM+S3aP3Pto81Mda5FftI=;
+	b=XhDpOZyg4XdNgf0exMSecBHATt+teIXxpYbQifnuNCB5RF23CjiyCvxuhsMzGjZW3c
+	uJ8kiKUxkKhsyJK0XGrumC09D+i8WSbtTYuaTl51PijiVCRjmqBmRr4ghpzljOHGCX/h
+	QZ0oIH+8KXoie7g+zZwdTu8NlUnWl2UIOAV5FXJn4SdmdOQsmG+4nQyEjn7OeGqw7ZrI
+	LEkhtlWztYFvCBxSHpMhDbV5ruDEDunmeuTTEYHGpYk+6Z8Gu2xufpN+EumyDuez09OT
+	tnvB0RVkBBfKMt4E5deBu5AoAqTTqJLx07pq/4U0KBllDSqVEjzWk8WC44OgEv0TvcA/
+	pmYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=xi4y/38W8fHqYpUwfgqHnoTz5BnGQ3gsCW4aj3guKcA=;
-	b=ujnqAicUlCl0hcq9ijq40R1bA2ulLUeRZQGAA7mwjIXLaOIO2PofWP3FYCvjyxlhY2
-	URbVjtq9DSP6U0bviA3S0+z/cEnYfez2FtO16dgVi8U4sJ7lpFcCyxNjXa5UCETR7AGz
-	bHsRiu9M4P/hQFjAturx7/sHymHaKKhWxZpmrDg8ryHfQtFHT1PNLVcrhEFpZyiaEyBq
-	aRswIGGBNkgYtBsGPXuFQrpxEg1Vi1qAj08MRT+V5v6BqNlNAcUtPx0+QkOUGe44OchU
-	t8F3skseEwj1f7M7A2HF9ARprT/Ez1rhZHLxMC6Fhb1vr70BU8dnenJ+ph8AuZYSfGZN
-	VsRQ==
-X-Gm-Message-State: APjAAAW9Oj04F1EsONs/FM0t/nzum2uIWsBgwQY9FZeHKSkGuAPXDR1H
-	C7xgGPsT6LcoFhhuePX/WQWb0GHPHerYDoKMCzgZPEkQ
-X-Google-Smtp-Source: APXvYqwHaZqGDexSHiQo7Pt7aarDe5DIDBEXfktLm+SIXkCzEAqRMbH9OT4y00LH8LPkqMhToNN0oEAeDuvcJEFghB4=
-X-Received: by 2002:adf:ed04:: with SMTP id a4mr2258923wro.76.1580532554715;
-	Fri, 31 Jan 2020 20:49:14 -0800 (PST)
+	bh=4xvv76vJKe+7Umd+bmgjrakM+S3aP3Pto81Mda5FftI=;
+	b=ThhxQbLSWpAgubFRR1HB8R8iNnPW0oNDVZGSS30g82LZiO7LrgJTMwmxq1yjMvQctM
+	l7CF4OaFX7NAPlnu829gmuLOunOl/V2Xm7Pp8Jhf13fgqJiQxdBFTPWV0HOVKJUlV/B5
+	XgsJ+9OOuGyGhSwyaM2UpvVXaRegtUFvlq7cYIm8XLUADmwvEJiRGzmZcbqJjcowaFF+
+	7aLebl9DIX2WPBdmnfu4nVr012CCvVOvS40Hh/voKD5OJv8pgXCXHELXCfDu2EL/ZqMe
+	Vjk3BgLoaylNHD7gsIFWqJks6iqtDpAbOE0OBHG8/zyvOU+YNOI5mTRhaCDi0hXBRthi
+	N+SA==
+X-Gm-Message-State: APjAAAVMlO5+r9HxV1M1h3yWo51Tl1EvE+GnFkTCjoqEXH63j+zHs2ZM
+	Tt+vROhJ3WxdND3/e7FQ4CdEkPfkrGOruxMWXoakpJpt
+X-Google-Smtp-Source: APXvYqzjKe30zU86TEryQN1hXCayBT0zdvyT5RiUTHpujX+qPwuOZ8irS8dELNqre/h28uvc5lpj63cnU0KFLx8imes=
+X-Received: by 2002:adf:d4c7:: with SMTP id w7mr1956861wrk.101.1580532615610; 
+	Fri, 31 Jan 2020 20:50:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20200131220751.106516-1-mark.hatle@kernel.crashing.org>
-In-Reply-To: <20200131220751.106516-1-mark.hatle@kernel.crashing.org>
+References: <20200131233305.118454-1-mark.hatle@kernel.crashing.org>
+In-Reply-To: <20200131233305.118454-1-mark.hatle@kernel.crashing.org>
 From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Sat, 1 Feb 2020 14:49:03 +1000
-Message-ID: <CA+aJhH0a5VSwdhGqg=5Ez+=TzDm0=Esu1kebDERWZTjkRp=7Ew@mail.gmail.com>
+Date: Sat, 1 Feb 2020 14:50:04 +1000
+Message-ID: <CA+aJhH1nnqrUzwdRuju04NY=YsTfafkQLA7ucMMUUcPyozpEmA@mail.gmail.com>
 To: Mark Hatle <mark.hatle@kernel.crashing.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] microblaze tune: Correct two minor issues with the microblaze tune
+Subject: Re: [PATCH v2 1/2] microblaze tune: Enable 64-bit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,65 +54,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Feb 2020 04:49:14 -0000
+X-List-Received-Date: Sat, 01 Feb 2020 04:50:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 1 Feb 2020 at 08:13, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+On Sat, 1 Feb 2020 at 09:33, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
 >
 > From: Mark Hatle <mark.hatle@xilinx.com>
 >
-> TUNE_ARCH - microblazeeb is not a valid architecture, microblaze is big
->             endian, microblazeel is the little endian version.
->
-> Version arguments:
->   If a version feature is not defined, then we don't want to set either
->   TUNE_CCARGS or MBPKGARCH_VERSION.
+> 64-bit is not yet available in Linux, but some non-Linux uses exist.
 >
 > Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
 > Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 > ---
->  meta/conf/machine/include/microblaze/arch-microblaze.inc      | 2 +-
->  .../include/microblaze/feature-microblaze-versions.inc        | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  meta/conf/machine/include/microblaze/arch-microblaze.inc | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
 >
 > diff --git a/meta/conf/machine/include/microblaze/arch-microblaze.inc b/meta/conf/machine/include/microblaze/arch-microblaze.inc
-> index eab7171cb2..265898b6b6 100644
+> index 265898b6b6..fb777d929c 100644
 > --- a/meta/conf/machine/include/microblaze/arch-microblaze.inc
 > +++ b/meta/conf/machine/include/microblaze/arch-microblaze.inc
-> @@ -46,7 +46,7 @@ require conf/machine/include/microblaze/feature-microblaze-versions.inc
->  require conf/machine/include/microblaze/feature-microblaze-math.inc
+> @@ -4,6 +4,9 @@
+>  TUNEVALID[microblaze] = "MicroBlaze"
+>  MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "microblaze", "microblaze:", "", d)}"
 >
->  # Architecture name, either 'microblazeeb' or 'microblazeel' depending on endianess
+> +TUNEVALID[64-bit] = "64-bit MicroBlaze"
+> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "microblaze64:", "", d)}"
 
-Worth updating the comment at the same time.
-
-> -TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "eb", "el", d)}"
-> +TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
-
-This change will break some things in oe-core (and probably
-meta-xilinx too). They should be updated at the same time.
-
-Might also be worth removing the microblazeeb references in siteinfo,
-and elf.py. Since they were added to support this.
+This should probably TUNECONFLICTS with all unsupported versions.
 
 Regards,
 Nathan
 
+
+> +
+>  # Endian
+>  TUNEVALID[bigendian] = "Use Microblaze Big Endian"
+>  TUNECONFLICTS[bigendian] += "v10.0"
+> @@ -26,6 +29,7 @@ TUNECONFLICTS[frequency-optimized] += "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "barrel-shift", "-mxl-barrel-shift", "-mno-xl-barrel-shift", d)}"
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "pattern-compare", "-mxl-pattern-compare", "-mno-xl-pattern-compare", d)}"
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "frequency-optimized", "-mxl-frequency", "", d)}"
+> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "-m64", "", d)}"
 >
+>  # Disable reorder for v8.30 if pattern-compare is not enabled
+>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "reorder", \
+> @@ -48,6 +52,9 @@ require conf/machine/include/microblaze/feature-microblaze-math.inc
+>  # Architecture name, either 'microblazeeb' or 'microblazeel' depending on endianess
+>  TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
+>
+> +# Add 64-bit to the PKGARCH if enabled.
+> +MBPKGARCH_SIZE = "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "64", "", d)}"
+> +
 >  # Package Architecture formatting
->  TUNE_PKGARCH = "microblaze${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
-> diff --git a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
-> index 3221e2aab7..003fde3e07 100644
-> --- a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
-> +++ b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
-> @@ -64,6 +64,6 @@ TUNECONFLICTS[v10.0] = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3
->  TUNECONFLICTS[v11.0] = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3 v9.4 v9.5 v9.6 v10.0"
->
->  # Version flags
-> -TUNE_CCARGS += "-mcpu=${@microblaze_current_version(d, True)}"
-> -MBPKGARCH_VERSION = "-${@microblaze_current_version(d)}"
-> +TUNE_CCARGS += "${@'-mcpu=${@microblaze_current_version(d, True)' if microblaze_current_version(d, True) != '' else ''}"
-> +MBPKGARCH_VERSION = "${@'-${@microblaze_current_version(d, True)' if microblaze_current_version(d, True) != '' else ''}"
+> -TUNE_PKGARCH = "microblaze${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
+> +TUNE_PKGARCH = "microblaze${MBPKGARCH_SIZE}${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
 >
 > --
 > 2.17.1
