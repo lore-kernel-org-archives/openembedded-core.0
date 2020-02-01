@@ -1,47 +1,49 @@
-Return-Path: <andrey.z@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A3C660C7D
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 403A760ACB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Feb 2020 18:48:58 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t2so12664329wrr.1
+	Sat,  1 Feb 2020 22:47:22 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id cy15so11975311edb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Feb 2020 10:48:59 -0800 (PST)
+	Sat, 01 Feb 2020 14:47:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=xQRY1rXjCq5w7zraMtPwLqJXJiz/HnxseS4ksjAV8iw=;
-	b=vO37Tpse0eLu2ubfPeuU4Y2hrcox7UxFh4NBOa2STDNU9Jp44SxGpK6cenyeziSA4C
-	7P/WHVldnBYVgzo0D5v3q0Z+TZ8RtIbPxUqG6+reHp+kwzV/H9XeLARgn6jUkEpG3SZF
-	IA+jW+IFY/mDxp66y4Y609jyKHpmJ3+stIhQnsLb/9Ukk8HdHmQWY1tIAz7/uxP8RAez
-	IUwwZrMe1894CqlBoDxob7Uyc93mAGXithr0rlPihxDLJHC0fU9zJ78kTuM1miLgSseI
-	vJ0H/DXKosQG0u7TInbmrV5kCSegUxP1nljPFfCYx4wmJF/ZvAvi7QvezRZuktKSiHaj
-	ynww==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=qTIM8aaDoBbXmYzb1qjr9Fj8p8jmxzddUbu+4BsDyi8=;
+	b=RVBeHbGQs9kcLpZ1g/O4CdpyNKWNrI++TCUY+mfqsSTCI5YUmuY13TmzmcWZ4AIAOs
+	4w4zBfE2VoRBkxIcZwJCSdkrl6IbE6DaWhZubQbZ0nOrsdJiqyF2uQoADThzFIc5NZ78
+	CAvOhqi3nA+bOp9iLH/2mdbGPhbYHQ91jUNWi3583pR3BWnxSERs9cdoW7qRWIRHyc+G
+	wfCUVmseN2hAQPJeCcGHbI3YDDubrrj5Ujm5i52FH0/ItcElS8q7DtfIXGeH8R2gbM0y
+	6QUKRbS9Epe2IvzS1Z/RXlMNziRJogmYNJwFnlPN9VO48/VMdP7fmaRjlSU1JdywaL5c
+	opuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=xQRY1rXjCq5w7zraMtPwLqJXJiz/HnxseS4ksjAV8iw=;
-	b=llF81RQzLtsIOZu3/KivxTc3RimxsvYGKRAsZroCrULKoqPHewRBaXWWEEsCVcS9uO
-	qPFW8NO3zEZegYYQs2JVyhJmHDDDACasHLYhJQBmtdPCBIvQD6CXRDKexl/sYDJgOF9y
-	Phv9Tqxy8tp5wg1aA0UYDtGtQpk3P0ss36zjtK3DCiWUN7qiKJbFQnmrUB4rOcq6MqFH
-	CqaEx/SYHt8752GEyIjgsmdExY18WEv9VaQy/k7OjvPO0V7OQKsOFwswkEFY5Bfz3Bi+
-	a5OR/hAtpRVu9A3f+VhH3IrZ/9f9gvpraMrnkGXj2iRNBtgD0PPd6vq2ZupainK5ZVRB
-	7nAw==
-X-Gm-Message-State: APjAAAW/Kq40zJMRXWKuxqTxTX/ijiOHKEiH964bPPAoSEsOWwFBuHQl
-	wtv94Kzx1W7S3UaOUZlGOcoGYH6CBzQFWQ02UM5j9w==
-X-Google-Smtp-Source: APXvYqxNq/xa1O+VH3WmK3SB5PmSkEyZ+de/HJGGDecmUVbTA7ZqA03u8L2o8fch5au5jMqhXikKGyBroJ2VmSzlMvg=
-X-Received: by 2002:a05:6000:1201:: with SMTP id
-	e1mr5680176wrx.386.1580582938808; 
-	Sat, 01 Feb 2020 10:48:58 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=qTIM8aaDoBbXmYzb1qjr9Fj8p8jmxzddUbu+4BsDyi8=;
+	b=Q84midCz5aP08ZFfPYyVyS3P39dEjw0M650F56O4Qrh7SYsYHmM9WuDBvPfgo8QrzO
+	PjzgKGN2VIg2481+vuKNaNW7qSf2s8HPBdKUSDd3iOera5/anbfRl6HFayBsDMEJXEjr
+	dcC+wK0Su3smescZkZEQ1nmrC+kPwvEEmuuSjDh/f3P3Msm/76i4n2rTPY5azz3xokob
+	tqjLuZqiQgbw60jxZ+wRrNHLU37+IqNIz6ki28RHHxNABYy9vIzeXP7kRTfl2yVF08/S
+	bGX93GI8hhJ4YR4gZKWrpLUUFim3hUUFYhA6i+hOTol2ncbVuc6mvCha78cnl2tEZ2W3
+	w6Vw==
+X-Gm-Message-State: APjAAAUq5JgUqq5UzwqmTQUxMlwogcFCgSfOEE96ClY3V5igVInrUBc5
+	bxD1jlDmIp9PBMj9k43YEBwWxyAOiiZz6iHxBklfYW0q
+X-Google-Smtp-Source: APXvYqyTIu2yEOb2nh38iE7susm2eYsJ8mdirll9wXYgTt3W4R1kVNmM53SO5KgOvnsF3GKVhibr43ItCeEx068o4sg=
+X-Received: by 2002:a17:906:f49:: with SMTP id h9mr15217691ejj.6.1580597242541;
+	Sat, 01 Feb 2020 14:47:22 -0800 (PST)
 MIME-Version: 1.0
-References: <20200127104444.14102-1-andrey.zhizhikin@leica-geosystems.com>
-In-Reply-To: <20200127104444.14102-1-andrey.zhizhikin@leica-geosystems.com>
-From: Andrey Zhizhikin <andrey.z@gmail.com>
-Date: Sat, 1 Feb 2020 19:48:47 +0100
-Message-ID: <CAHtQpK5sz23fBd+QxoSE83=bMfhc3P_W8Mu+FTGY0m393+rz-Q@mail.gmail.com>
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>,
-	anuj.mittal@intel.com
-Subject: Re: [PATCH] gstreamer1.0-plugins-bad: resolve opencv pkg-config in meson build
+References: <cover.1580248809.git.bruce.ashfield@gmail.com>
+	<CANNYZj_O7cMwJs_ND_MOwADb7PCc2XKJq3b1gQ0xaO7SbBr58g@mail.gmail.com>
+	<CADkTA4PZm6X0duFUx0prC4-kz=RUjsmO5vK_6Ox6w5GSGhJ0wQ@mail.gmail.com>
+	<4789b1f1-8dc1-dead-1a19-d18f17c0d709@gmail.com>
+In-Reply-To: <4789b1f1-8dc1-dead-1a19-d18f17c0d709@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Sat, 1 Feb 2020 17:47:11 -0500
+Message-ID: <CADkTA4MYP_vkdjSb9-g=FdrELLGfrap2vOZjuYUdBcVoS5Uznw@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3][RFT]: kernel-yocto: v5.4 LTS kernel
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,97 +56,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Feb 2020 18:48:58 -0000
+X-List-Received-Date: Sat, 01 Feb 2020 22:47:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-A one gentle ping here.
+On Fri, Jan 31, 2020 at 1:25 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> On 1/29/20 4:48 AM, Bruce Ashfield wrote:
+> > On Wed, Jan 29, 2020 at 2:31 AM Alexander Kanavin
+> > <alex.kanavin@gmail.com> wrote:
+> >>
+> >> Can these issues be bisected? That's how the two kernel regressions (both found last year via ptests) were tracked down to specific commits.
+> >>
+> >
+> > mips64 was already bisected, and reported upstream, not much help
+> > there .. I've already reached out to some more hardcore mips folks for
+> > more help, so hopefully that works :D
+> >
+> can you point to link where this thread is
 
-On Mon, Jan 27, 2020 at 11:45 AM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+It was on the mips-kernel mailing list, but thanks to our friends at
+Cisco, I have a patch in hand for this issue now. They'll follow up to
+the original thread on the kernel mailing list with the detailed
+findings (also watch for it on the linux-yocto mailing list).
+
 >
-> From: Andrey Zhizhikin <andrey.z@gmail.com>
+> > The musl one didn't bisect in my attempt(s), but in that config it is
+> > an easy issue to trigger. I'm out of time to debug it for the next two
+> > weeks, hence why I'm broadcasting to see if others want to take a
+> > look.
+> >
 >
-> When opencv is picked in PACKAGECONFIG, plugin fails to locate data
-> dirs. This is due to meson.build file uses 'test' utility to verify that
-> the data dirs path is present and not taking sysroot into prefix.
+> As I saw, I do not see this with latest master-next
+
+ok, cool. I'll queue the mips fix and re-test. Hopefully it has been
+sorted out through the latest version bumps.
+
+Bruce
+
 >
-> Introduce additional patch, which picks up PKG_CONFIG_SYSROOT_DIR as
-> prefix for 'test' utility to verify the data dir is actually present.
+> > Bruce
+> >
+> >> Alex
+> >>
+> >> On Tue, 28 Jan 2020 at 23:14, <bruce.ashfield@gmail.com> wrote:
+> >>>
+> >>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >>>
+> >>> Hi all,
+> >>>
+> >>> I just wanted to send these to the list, so everyone could see the
+> >>> reference kernel that we are planning for the upcoming release.
+> >>>
+> >>> I have other patches to drop 4.19, 5.2 and make this the default
+> >>> kernel for the various reference platforms as well, but I'm not
+> >>> sending them, since we still have two outstanding issues:
+> >>>
+> >>> 1) mips64 init is segfaulting after / during some self tests.
+> >>>
+> >>>     https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/1520/steps/8/logs/step6c
+> >>>
+> >>> 2) x86 musl is getting a gpf on many commands:
+> >>>
+> >>>     https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1501/steps/8/logs/step1c
+> >>>
+> >>> I've looked into both, and don't have any great ideas on how to debug
+> >>> or fix them.
+> >>>
+> >>> So if anyone has ideas, or wants to poke at these, feel free to follow up.
+> >>> But as of now, we still can't merge the v5.4 kernel as the reference due
+> >>> to these remaining problems.
+> >>>
+> >>> Bruce
+> >>>
+> >>>
+> >>> The following changes since commit ca3993cc4b13d4e661228cee6fb9448adfd0a4ba:
+> >>>
+> >>>    bitbake: tests/fetch: Allow wget upgrade tests to run against a local server (2020-01-22 15:56:39 +0000)
+> >>>
+> >>> are available in the Git repository at:
+> >>>
+> >>>    git://git.pokylinux.org/poky-contrib zedd/kernel-oe
+> >>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
+> >>>
+> >>> Bruce Ashfield (3):
+> >>>    linux-yocto: introduce 5.4 recipes
+> >>>    kern-tools: update Kconfiglib to latest (for 5.4+ kernel)
+> >>>    kernel-devsrc: update to v5.4+
+> >>>
+> >>>   .../kern-tools/kern-tools-native_git.bb       |  2 +-
+> >>>   meta/recipes-kernel/linux/kernel-devsrc.bb    |  8 +--
+> >>>   .../linux/linux-yocto-rt_5.4.bb               | 44 +++++++++++++++
+> >>>   .../linux/linux-yocto-tiny_5.4.bb             | 32 +++++++++++
+> >>>   meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 54 +++++++++++++++++++
+> >>>   5 files changed, 136 insertions(+), 4 deletions(-)
+> >>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
+> >>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
+> >>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.4.bb
+> >>>
+> >>> --
+> >>> 2.19.1
+> >>>
+> >>> --
+> >>> _______________________________________________
+> >>> Openembedded-core mailing list
+> >>> Openembedded-core@lists.openembedded.org
+> >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> >
+> >
+> >
 >
-> Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
-> ---
->  ...issing-opencv-data-dir-in-yocto-buil.patch | 49 +++++++++++++++++++
->  .../gstreamer1.0-plugins-bad_1.16.1.bb        |  1 +
->  2 files changed, 50 insertions(+)
->  create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-> new file mode 100644
-> index 0000000000..4b6591c0d8
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-> @@ -0,0 +1,49 @@
-> +From f41caae14b618ab815ede3c408e7482b00316e3e Mon Sep 17 00:00:00 2001
-> +From: Andrey Zhizhikin <andrey.z@gmail.com>
-> +Date: Mon, 27 Jan 2020 10:22:35 +0000
-> +Subject: [PATCH] opencv: resolve missing opencv data dir in yocto build
-> +
-> +When Yocto build is performed, opencv searches for data dir using simple
-> +'test' command, this fails because pkg-config provides an absolute
-> +path on the target which needs to be prepended by PKG_CONFIG_SYSROOT_DIR
-> +in order for the 'test' utility to pick up the absolute path.
-> +
-> +Upstream-Status: Inappropriate [OE-specific]
-> +
-> +Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
-> +---
-> + ext/opencv/meson.build | 7 ++++---
-> + 1 file changed, 4 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/ext/opencv/meson.build b/ext/opencv/meson.build
-> +index f38b55dfe..a26403482 100644
-> +--- a/ext/opencv/meson.build
-> ++++ b/ext/opencv/meson.build
-> +@@ -78,20 +78,21 @@ else
-> + endif
-> +
-> + if opencv_found
-> ++  pkgconf_sysroot = run_command(python3, '-c', 'import os; print(os.environ.get("PKG_CONFIG_SYSROOT_DIR"))').stdout().strip()
-> +   opencv_prefix = opencv_dep.get_pkgconfig_variable('prefix')
-> +   gstopencv_cargs += ['-DOPENCV_PREFIX="' + opencv_prefix + '"']
-> +
-> +   # Check the data dir used by opencv for its xml data files
-> +   # Use prefix from pkg-config to be compatible with cross-compilation
-> +-  r = run_command('test', '-d', opencv_prefix + '/share/opencv')
-> ++  r = run_command('test', '-d', pkgconf_sysroot + opencv_prefix + '/share/opencv')
-> +   if r.returncode() == 0
-> +     gstopencv_cargs += '-DOPENCV_PATH_NAME="opencv"'
-> +   else
-> +-    r = run_command('test', '-d', opencv_prefix + '/share/OpenCV')
-> ++    r = run_command('test', '-d', pkgconf_sysroot + opencv_prefix + '/share/OpenCV')
-> +     if r.returncode() == 0
-> +       gstopencv_cargs += '-DOPENCV_PATH_NAME="OpenCV"'
-> +     else
-> +-      r = run_command('test', '-d', opencv_prefix + '/share/opencv4')
-> ++      r = run_command('test', '-d', pkgconf_sysroot + opencv_prefix + '/share/opencv4')
-> +       if r.returncode() == 0
-> +         gstopencv_cargs += '-DOPENCV_PATH_NAME="opencv4"'
-> +       else
-> +--
-> +2.17.1
-> +
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-> index 56ae7a179e..024277eeb1 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.16.1.bb
-> @@ -6,6 +6,7 @@ SRC_URI = " \
->      file://fix-maybe-uninitialized-warnings-when-compiling-with-Os.patch \
->      file://avoid-including-sys-poll.h-directly.patch \
->      file://ensure-valid-sentinels-for-gst_structure_get-etc.patch \
-> +    file://opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
->  "
->  SRC_URI[md5sum] = "24d4d30ecc67d5cbc77c0475bcea1210"
->  SRC_URI[sha256sum] = "56481c95339b8985af13bac19b18bc8da7118c2a7d9440ed70e7dcd799c2adb5"
-> --
-> 2.17.1
->
+
+
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
