@@ -1,53 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 830A560E77
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 1D7F860DE3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  2 Feb 2020 18:35:00 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id b9so6525168pgk.12
+	Sun,  2 Feb 2020 19:04:39 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id w1so12338301ljh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Feb 2020 10:35:01 -0800 (PST)
+	Sun, 02 Feb 2020 11:04:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=Ek188JtRxg45a8GY3IgVJPVLi85pWNhAMavFsW2a1ow=;
-	b=RupvTHDqNmKKUcEErB8WTjYld5a8A9AcA4vQdsiwQQe4s1VNbUh5wHfxhQW+BEX3Ki
-	WuVVrb5XHLOMZ4QtOWwBI/956fBfxqGqGfqH73I8Da7/g2P5u3Kbw3L/ZxbTyRmuvbMz
-	QFAuf/XU6c2CzcPqGEJKkh5ydnxIqSJv7mlK6M9NVVAAAUzJtCYjZX0kcaJED0gv8Wbk
-	2kHaGKCmRd5xWcfbQnbLE0klDuQQtv/JcG6WlelbmfBqXYkED9RyQ3YlzrP/0dNZWaGw
-	NyjQ+AS0LeoPCMHxg4hFVxp62Xa0XmCyGyIr++Epdxt3vKeEoYgK2z3lSEUuuJau/V6t
-	msow==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=9h07Uh+IzAlPy99+EcqnufcPFQotWi5ucLwF+Y4L6l8=;
+	b=vYrDpLejrdppwRlHoJrNl1sIHTngnal4LdAfuGCb8RLW+i6qghqbmWbgw6wWYNhEwz
+	R7NuG7wDjFzdJ9Y7dwCoQX7QfsPQq+4ZXCuMzU0+Hxqs2wwZ/Fzy/sFi4YrA9P0a8BIe
+	Lq+QkBDsy32Wd1anvN7HC3LRyk05TBqu2vWiZenZyeYQxSaO6g6p7Es7bryJzw5s3DSA
+	a5MyS8yfT97FWxKEXWBzrvaRDXRs4AZIONIEeQM2le0Wa0nquL/hdFg00MKcHiCKw5U6
+	Ed0/jOiPIhnWuvXgahaW47Gj2XQUbC+ZMFrQfHVn+hMjnizLFdJt7ZgyzLabfmurIyM3
+	OgOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Ek188JtRxg45a8GY3IgVJPVLi85pWNhAMavFsW2a1ow=;
-	b=H1jhFOmvtFxX44EzDTAFJ1ywBh0yhrkFC8FV+fmHHbM8/t04zYMPHDreFVSFpqHmuz
-	w66+k+zV6SUrK1ZWD6nlokhZvuuk/08rmUHPa1gdAz2na867DDNjcvlDGYWoquTs1dZl
-	wv+HWicjoh2Sit62TCaquU8/bATjYPYdysC1T71fkw6dVAq7qiAsFQgE+1YLdbAadUlM
-	JkPTHRB+HR0SrFKhsAMd5lJmKdLnrWLzYQYP66bdg1PDuoxzBgUDDVXL0HLYsB6B3B0J
-	iZZH5fDadyNlBf5kDhrw1iIbKktb486PwgexWbv4YAlf1IOYo2nInUbAzC2DfNRXvkC2
-	p+Tw==
-X-Gm-Message-State: APjAAAVmqK8xe12ULmxMRj0HOYiV+qFZRXJ/Qqi64mjzW3mx//JlqZHF
-	nHuwznWiqbQIGcy9GIVIlit6+/0+N5Q=
-X-Google-Smtp-Source: APXvYqzgyeLNZRhxaT6+cMYAnD5+MSlIz80FG7yWLvCV3ImveU4VHtjoCXDLn3Uzq3d5Lq8Gmf2blg==
-X-Received: by 2002:a05:6a00:5b:: with SMTP id
-	i27mr21325680pfk.112.1580668501176; 
-	Sun, 02 Feb 2020 10:35:01 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::5683])
-	by smtp.gmail.com with ESMTPSA id
-	z27sm17761809pfj.107.2020.02.02.10.35.00
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 02 Feb 2020 10:35:00 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  2 Feb 2020 10:34:59 -0800
-Message-Id: <dbcf3b0eb10ca61d3122342eb4efe90c49179441.1580668334.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <cover.1580668334.git.raj.khem@gmail.com>
-References: <cover.1580668334.git.raj.khem@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9h07Uh+IzAlPy99+EcqnufcPFQotWi5ucLwF+Y4L6l8=;
+	b=iylWk4w1VLltRJN/Bo/W8f7qCzZ9f3kzKt7duOY0dtFIle+fIOy3OpwMnjQJUitIFh
+	I0nA/j1/xq7iqFX3TjWdl584+WxLn4O2qViSwF2+M/BuxTRtY616rDnU90pEsg66bKJr
+	RMfA79plTtY1TLb+z4SAPL4x8LtyxsgUeAtkLPHDB6qbxLnQakidZErcIXgl9CJZE5kg
+	xwQqM3OiSNTuxJm2oUhHBdLI8B57pbvNnmlnpEnANg4z3z4LXqajPd2MK0vppM/6riL8
+	rzUp2XgjCT3w2Vxwp2JTA2VGDVnnowIN3tqCK2gaPJ7Z8WrySyjm9KJccC9hzPANHTJY
+	mnGg==
+X-Gm-Message-State: APjAAAV0Xus2Y3OPCBi6MMLhxeDWY9662C2xyeAboLON4GjlPywjsR+0
+	hGiOq44DtQxNZ0gCAK+ImAf2NfUNi3iuGrdydZw=
+X-Google-Smtp-Source: APXvYqyRf7cW8EN28wb6vct4+nz+bB8/zW01fZ6z4E0lktKGaR4R8zVd1Udl+NExpE/lnAIEX34vgYKMRUN7+XxdjnA=
+X-Received: by 2002:a2e:b0db:: with SMTP id g27mr11423341ljl.74.1580670279497; 
+	Sun, 02 Feb 2020 11:04:39 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] musl: Update to latest on master
+References: <20200202020323.23609-1-alistair@alistair23.me>
+	<CANx9H-Cf3zEAibK18UwB_pVfMuCXQR_chhhTFFZgAiWBv4zDWA@mail.gmail.com>
+In-Reply-To: <CANx9H-Cf3zEAibK18UwB_pVfMuCXQR_chhhTFFZgAiWBv4zDWA@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Sun, 2 Feb 2020 11:04:11 -0800
+Message-ID: <CAKmqyKPmjOnRxQPpOv3Cy7WYrNnip7o+9dTWLLKGwgLcFGn23g@mail.gmail.com>
+To: Tim Orling <ticotimo@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] libchamplain: Add support for building libchamplain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +54,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 02 Feb 2020 18:35:00 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 02 Feb 2020 19:04:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Details on commit delta [1]
+On Sat, Feb 1, 2020 at 6:43 PM Tim Orling <ticotimo@gmail.com> wrote:
+>
+>
+>
+> On Sat, Feb 1, 2020 at 6:11 PM Alistair Francis <alistair@alistair23.me> wrote:
+>
+> Maybe some explanation of what is for and why we want it in core would be helpful here.
 
-[1] https://git.musl-libc.org/cgit/musl/log/?qt=range&q=83350eb17b9cb355e3f08b0340c4f1e8c437fac9..e6093b5a870a38ebfb3e54382acd48c698bde15d
+On second thought it probably should go into meta-openembeded. I'll
+send a patch there.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Alistair
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 629872050c..f4853b4f2e 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader
- 
--SRCREV = "83350eb17b9cb355e3f08b0340c4f1e8c437fac9"
-+SRCREV = "e6093b5a870a38ebfb3e54382acd48c698bde15d"
- 
- BASEVER = "1.1.24"
- 
--- 
-2.25.0
-
+>
+>> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+>> ---
+>>  .../libchamplain/libchamplain_0.12.20.bb             | 12 ++++++++++++
+>>  1 file changed, 12 insertions(+)
+>>  create mode 100644 meta/recipes-gnome/libchamplain/libchamplain_0.12.20.bb
+>>
+>> diff --git a/meta/recipes-gnome/libchamplain/libchamplain_0.12.20.bb b/meta/recipes-gnome/libchamplain/libchamplain_0.12.20.bb
+>> new file mode 100644
+>> index 0000000000..90e5533015
+>> --- /dev/null
+>> +++ b/meta/recipes-gnome/libchamplain/libchamplain_0.12.20.bb
+>> @@ -0,0 +1,12 @@
+>> +SUMMARY = "libchamplain is a Gtk widget displaying zoomable and pannable maps"
+>> +LICENSE = "LGPLv2.1"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=2d5025d4aa3495befef8f17206a5b0a1"
+>> +DEPENDS = "glib-2.0 gtk+3 gdk-pixbuf clutter-1.0 clutter-gtk-1.0 libsoup-2.4"
+>> +
+>> +inherit meson gobject-introspection
+>> +
+>> +SRCREV = "145e417f32e507b63c21ad4e915b808a6174099e"
+>> +SRC_URI = "git://github.com/gnome/libchamplain.git"
+>> +
+>> +S = "${WORKDIR}/git"
+>> +
+>> --
+>> 2.25.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
