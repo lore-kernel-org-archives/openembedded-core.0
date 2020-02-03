@@ -1,26 +1,39 @@
-Return-Path: <Zhe.He@windriver.com>
-X-Greylist: delayed 6935 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 03 Feb 2020 06:47:33 UTC
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 94C7460BBC
+Return-Path: <anuj.mittal@intel.com>
+X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 03 Feb 2020 06:52:51 UTC
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id C581460B74
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 06:47:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0136lYQM029939
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 2 Feb 2020 22:47:34 -0800 (PST)
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Sun, 2 Feb 2020 22:47:34 -0800
-From: <zhe.he@windriver.com>
-To: <zhe.he@windriver.com>, <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Feb 2020 14:47:32 +0800
-Message-ID: <20200203064732.3923-1-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Mon,  3 Feb 2020 06:52:51 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Feb 2020 22:45:45 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,396,1574150400"; d="scan'208";a="230920892"
+Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
+	by orsmga003.jf.intel.com with ESMTP; 02 Feb 2020 22:45:44 -0800
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.131]) by
+	PGSMSX105.gar.corp.intel.com ([169.254.4.51]) with mapi id
+	14.03.0439.000; Mon, 3 Feb 2020 14:45:43 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"joel@jms.id.au" <joel@jms.id.au>
+Thread-Topic: [OE-core] [PATCH] perf: Additional fixes for 5.5+
+Thread-Index: AQHV2lw+rMZyuNaKGkeQwrQDctaJaagIgEYA
+Date: Mon, 3 Feb 2020 06:45:42 +0000
+Message-ID: <d07c374f6602370df038e8440c2c5aedf6faecea.camel@intel.com>
+References: <20200203063455.417119-1-joel@jms.id.au>
+In-Reply-To: <20200203063455.417119-1-joel@jms.id.au>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.21.206]
 MIME-Version: 1.0
-Subject: [PATCH] lttng-modules: update to 2.11.1
+Cc: "bradleyb@fuzziesquirrel.com" <bradleyb@fuzziesquirrel.com>
+Subject: Re: [PATCH] perf: Additional fixes for 5.5+
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +46,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 06:47:33 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Feb 2020 06:52:52 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <E42950AE5D64D34EA5F761A178AD1F42@intel.com>
+Content-Transfer-Encoding: base64
 
-From: He Zhe <zhe.he@windriver.com>
-
-Fix build failure with kernel v5.5.
-Remove patch as issues fixed upstream.
-
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- ...modules_2.11.0.bb => lttng-modules_2.11.1.bb} | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.11.0.bb => lttng-modules_2.11.1.bb} (68%)
-
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
-similarity index 68%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
-index 3465a43d38..c833ff7009 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
-@@ -11,14 +11,10 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
--           file://0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch \
--           file://0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch \
--           file://0003-Fix-sunrpc-use-signed-integer-for-client-id.patch \
--           file://0004-sunrpc-introduce-lttng_get_clid-helper.patch \
-            "
- 
--SRC_URI[md5sum] = "46ec6c566e65cf27b391a1bb643e11b4"
--SRC_URI[sha256sum] = "98af92d8c2e00f4eb63bc637a6967103cf6997434493f36e7a535a491e4fad5f"
-+SRC_URI[md5sum] = "0d964723c8765b39835e5e6efc60a604"
-+SRC_URI[sha256sum] = "d3e5648937e59dee983ef844f9316c55e9961f9dc8515b9260c473bbb70696c1"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
-@@ -35,13 +31,13 @@ python do_package_prepend() {
- }
- 
- BBCLASSEXTEND = "devupstream:target"
--LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=c4613d1f8a9587bd7b366191830364b3"
-+LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
- DEFAULT_PREFERENCE_class-devupstream = "-1"
--SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.10 \
-+SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.11 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-            "
--SRCREV_class-devupstream = "624aca5d7507fbd11ea4a1a474c3aa1031bd9a31"
--PV_class-devupstream = "2.10.10+git${SRCPV}"
-+SRCREV_class-devupstream = "6ad0e68b43c3e52fcb3d47c4d823a7b84aeb443a"
-+PV_class-devupstream = "2.11.1+git${SRCPV}"
- S_class-devupstream = "${WORKDIR}/git"
- SRCREV_FORMAT ?= "lttng_git"
--- 
-2.17.1
-
+T24gTW9uLCAyMDIwLTAyLTAzIGF0IDE3OjA0ICsxMDMwLCBKb2VsIFN0YW5sZXkgd3JvdGU6DQo+
+ICAgICAgIyB1c2UgL3Vzci9iaW4vZW52IGluc3RlYWQgb2YgdmVyc2lvbiBzcGVjaWZpYyBweXRo
+b24NCj4gLSAgICBmb3IgcyBpbiBgZmluZCAke1N9L3Rvb2xzL3BlcmYvIC1uYW1lICcqLnB5J2A7
+IGRvDQo+IC0gICAgICAgIHNlZCAtaSAncywvdXNyL2Jpbi9weXRob24sL3Vzci9iaW4vZW52IHB5
+dGhvbjMsJyAiJHtzfSINCj4gKyAgICBmb3IgcyBpbiBgZmluZCAke1N9L3Rvb2xzL3BlcmYvIC1u
+YW1lICcqLnB5J2ANCj4gc2NyaXB0cy9icGZfaGVscGVyc19kb2MucHk7IGRvDQo+ICAgICAgICAg
+IHNlZCAtaSAncywvdXNyL2Jpbi9weXRob24yLC91c3IvYmluL2VudiBweXRob24zLCcgIiR7c30i
+DQo+ICAgICAgICAgIHNlZCAtaSAncywvdXNyL2Jpbi9lbnYgcHl0aG9uMiwvdXNyL2Jpbi9lbnYg
+cHl0aG9uMywnICIke3N9Ig0KPiAgICAgICAgICBzZWQgLWkgJ3MsL3Vzci9iaW4vcHl0aG9uMywv
+dXNyL2Jpbi9lbnYgcHl0aG9uMywnICIke3N9Ig0KPiArICAgICAgICBzZWQgLWkgJ3MsL3Vzci9i
+aW4vcHl0aG9uLC91c3IvYmluL2VudiBweXRob24zLCcgIiR7c30iDQoNCkNhbiBhbGwgdGhlc2Ug
+bGluZXMgYmUgcmVwbGFjZWQgYnk6DQoNCnNlZCAtaSAtZSAiMXMsIyEuKnB5dGhvbi4qLCMhJHtV
+U1JCSU5QQVRIfS9lbnYgcHl0aG9uMywiICR7c30NCg0KVGhhbmtzLA0KDQpBbnVqDQo=
 
