@@ -1,50 +1,44 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id BB27F60B33
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
+	[209.85.166.42])
+	by mail.openembedded.org (Postfix) with ESMTP id CE0EE6025D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 10:26:13 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id q9so15163870wmj.5
+	Mon,  3 Feb 2020 10:56:48 +0000 (UTC)
+Received: by mail-io1-f42.google.com with SMTP id z16so11449834iod.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2020 02:26:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=1V+kMK0zsgPBEYitkKaL7QRZValMOgqBAof9GU9Ysjo=;
-	b=b7IokAFhh2gVNc+KQqZpsSE3OI/P3psYCxoXsOXGL6kDmPwczKZGI9o8NFmwPmOE53
-	hAMUo7Y/2r6KeWBVsQvhIuEcjeo4AjVTbTv33KGfsMOB9TuNpvykom5RhvCngw6UahQ6
-	3qaSg3kbrnV3MmLyq5M4c1t7zmTnpBt5mmBU8=
+	Mon, 03 Feb 2020 02:56:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=X/avO0WB35s3hnH/Fi7rgBIN3czIHFiQJjrd916W/3k=;
+	b=t0LcgOMUxxAxydw+WdeWzTOsFlVImXYcqbsBMVe0T+z8Ly0gl/Ummp0LEOSxsPclLm
+	sfdacfgY3bDlDjYQSWq+fTkdOcZJvO2LvtYmd/6kJYxve+Q7mD8wiXKL2x63elDPOW/5
+	ly88vuAbr/NXdmwgMYDl2+OLFGVasTpb9/RXVperpjbQHY2PeBnmgJw6nEVE+lwymvT7
+	iMl6XtEkowy4+TJLFntYh69R1xyWtaVucD9Y0/ketL838l2HBhc+6HOr2Lop4xtGmj/p
+	vTYMRSQKRbJv+hcPl7VeiW/3EHLX+fAZAIZqA5aqyM7AiqStiCcC/iMnC1+BvCyLRkW4
+	tOUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=1V+kMK0zsgPBEYitkKaL7QRZValMOgqBAof9GU9Ysjo=;
-	b=XeXGB6OQegBOwoi2WewSP7euPNfoEQtEmtQIxoBlbYApdJl0ljsLkXtvdYI9vQiQps
-	wMDoyoZsq7Y5BTqhEtUrgm7C6IT57v+yHuUSvZ/t403IhpwaD7l3/Kf9kdEJT03LuL9n
-	MD+YT97crtaF98A2jJ9ycHJM5LkjdQOPNd/FyeGJE0lrIj9WNgWtYjhEkKlRzFTIbA1j
-	jnJd5aYkDDqBhrkOqTmvml67WOuLC1fEQyUBLy3/uBJpCljol/EwJA1xVAshNAPTtXgl
-	NnM24O2ajSXqH+ejN888XWeua6NrZ5zHrNgaJ3qtwIbwvCsdlUGWdPMOtwKbY+5ApD20
-	/+HQ==
-X-Gm-Message-State: APjAAAV11iozIRm6BTKWZU3Ec06x5/CCZhxz/eFs2mm9OvcM9KFsFZ1V
-	qqW045al/kdeZj2GWqsSrq1afw==
-X-Google-Smtp-Source: APXvYqya/1yz55ce3Fwvpuh0cFtjW8ze2gjDs1ivT/Y7v7RKobVZoZtcxYJfQw2UMtEhsJ2VRFzlvw==
-X-Received: by 2002:a1c:9c4c:: with SMTP id f73mr27170605wme.125.1580725574077;
-	Mon, 03 Feb 2020 02:26:14 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id i3sm12056613wrc.6.2020.02.03.02.26.12
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 03 Feb 2020 02:26:13 -0800 (PST)
-Message-ID: <b672e48f8e33b9ea75b9772321f2db0951b38942.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alex Kiernan <alex.kiernan@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 03 Feb 2020 10:26:12 +0000
-In-Reply-To: <20200127231306.46105-1-alex.kiernan@gmail.com>
-References: <20200127231306.46105-1-alex.kiernan@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=X/avO0WB35s3hnH/Fi7rgBIN3czIHFiQJjrd916W/3k=;
+	b=jnquQ2enwq5XwI07C5xLbpJ4fH9kwt9Ogi+MNFHrF7BhAkerR/tJEb/2f16/a7umg9
+	ZpdIVT5N8v2Ok4VTpHphJQjKUDaq9BKUl6bSJLbcIFBwz3zPu5S5u39f9v+kr7S1SopO
+	SaAYT5KXdAO+svzJRj6I10R3efM/+QC5dzE+rofljqq8BMr/dwhDkQA6GlJA8z9wHd7k
+	CPeJqyFOCw8myqQvMaQk4N6tu7FEOR29/QZRtq+yDziZ+rOMFOvHwX1r+4cHtDFpw8dV
+	ExoSfcqP2Hfdq5Ja6rVgL91pjHNokKJ6b+UtVtrh0ywiALo/jluk2tphm3KZQG7LWfeX
+	cMHw==
+X-Gm-Message-State: APjAAAWMedVOdqyD2vybasFTevbfk2V0sdpItX3/2ciSHYvlmgXDWBhc
+	l3Vw1SMNq90QHp3U5ktaMgW8rOtp8VM3WkSzZmZB4P1/
+X-Google-Smtp-Source: APXvYqySjmQSAgDycnPArYFV0AlVMzImYIiioKjF5bb4Fd82beJu47YpNWkBRH839FKj5Jrco+XBLq/nxgYkeJalVqU=
+X-Received: by 2002:a5d:87ca:: with SMTP id q10mr11955202ios.192.1580727409574;
+	Mon, 03 Feb 2020 02:56:49 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH] systemd: Upgrade 243.2 -> 243.4-latest
+Received: by 2002:ad5:5d0d:0:0:0:0:0 with HTTP;
+	Mon, 3 Feb 2020 02:56:49 -0800 (PST)
+From: JH <jupiter.hce@gmail.com>
+Date: Mon, 3 Feb 2020 21:56:49 +1100
+Message-ID: <CAA=hcWQSba31fHCkAEdaK4+FwR_Szzs9t0fTajq4+USqnbZb1g@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Failed to add u-boot ubifs (not working)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +51,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 10:26:14 -0000
+X-List-Received-Date: Mon, 03 Feb 2020 10:56:48 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-01-27 at 23:13 +0000, Alex Kiernan wrote:
-> Update to latest on the 243 stable branch. This includes (amongst other
-> fixes) seccomp filter changes which fix failures with glibc 2.31, e.g.
-> 
->   systemd-journald[543]: Assertion 'clock_gettime(map_clock_id(clock_id), &ts) == 0' failed at src/basic/time-util.c:55, function now(). Aborting.
-> 
-> Rebase 0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-> 
-> Drop 0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch,
-> fixed in 5c0224c7bf3c ("Handle d_type == DT_UNKNOWN correctly").
-> 
-> Drop 0001-seccomp-more-comprehensive-protection-against-libsec.patch,
-> fixed in 70e8c1978a9a ("seccomp: real syscall numbers are >= 0").
+Hi,
 
-Unfortunately something in this causes:
+I added my local machine to ubifs, is it correct?
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/109/builds/412
-https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/413
-https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/1545
+UBOOT_CONFIG[nand] = "mx6ull_14x14_evk_nand_config,ubifs"
 
-I've been blaming Trevor's patches until now but its this one (sorry
-Trevor!).
+I built the u-boot.imx, but the ubi was still missing in u-boot. What
+I could be missing?
 
-Cheers,
+=> run nand-boot;
+Unknown command 'ubi' - try 'help'
+Unknown command 'ubi' - try 'help'
 
-Richard
+Thank you.
 
+Kind regards,
 
-
+- jh
 
