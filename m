@@ -1,51 +1,29 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9618660234
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C26586008D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 07:33:52 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id p3so14950031edx.7
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Feb 2020 23:33:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=VxYA53/Q9ab0fY7/jvwPkFM1LLTb0iibM1Ymbk51hqo=;
-	b=JyMg4CpNp67LGysRHFP5p8nCfPknPgcu5C7AzW+yqy+fNMP8+Rwp5ybIZ+T097eHC6
-	S9TD+BE2Vo887TFzHa8sd3Ow0NDnoaInNCpvE4i3ZqabLqS02NYwEFolluUJ8LF5z+aP
-	gjTzVZCr45dT2susJGaRV1QpytUESYaeTsk2uNyh1o1hC4P+0Wiyo9HsGtlTfjZBZMTY
-	NEUZ30267ir6dNysXRlAdeiaEH2F0qwEdDboBwjKHM2LSzlc8oaUVEa64fbopMvSEKiQ
-	86zkTy84PV4zgT/UTkyz+PyaHw/1+AX8TmJGAJe+IOs7nqoDQjP5qbuqqfLtlDl8S0W6
-	PMqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=VxYA53/Q9ab0fY7/jvwPkFM1LLTb0iibM1Ymbk51hqo=;
-	b=mP2oyPMU9U9/0rCHfiLRDEfXrO+bKMPR9sKaDbk6I6JgMJ7rEnmcsKrbH501R2mgQf
-	SlDNgPtkYrmeZuDdZe++2KdAmHwR5pIHoUthjyuTSSJ2Q9JhAB0635XkdBVjkoM18wRm
-	oIiTCpySEyNJWTeOzgPOSUKWMzhkWvdMfZGxfnWu0Amy3WrQFRJRmUrIp0ukgn58yMkM
-	aW+jnPCgGAVY9ukmSQBhFK2bbQoNPM+X7QC1KKsn7c2EhMs3o4gAo/sc4ScjlYc8dxgy
-	rYsLD1j7+EbzXNjTagDCMW6NQFTz2E7MEI/2ypX57zzr9Ed+cQ6Ly9/yWBJqQ2pSGmOm
-	B5jA==
-X-Gm-Message-State: APjAAAUGBUiWBS1N41V7T073eR4X5SG2NpC+yQziLeREdc3mUNEeMzw6
-	yx/RI4txqVLaZpiH9pn484BUekTBp9GJd5VHQV8=
-X-Google-Smtp-Source: APXvYqyXfrhDRzFjMoj2XAJ4S6K1C9Cxim5JYCj/g80qmWYjWfd2i9k2k4bUegSNDq5FbgCoTKGYVyxlvpfHUtcgy9U=
-X-Received: by 2002:a17:906:f49:: with SMTP id h9mr20147825ejj.6.1580715233412;
-	Sun, 02 Feb 2020 23:33:53 -0800 (PST)
+	Mon,  3 Feb 2020 07:44:30 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0137iUxP000614
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Sun, 2 Feb 2020 23:44:30 -0800 (PST)
+Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Sun, 2 Feb 2020 23:44:30 -0800
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20200203064732.3923-1-zhe.he@windriver.com>
+	<CFA2B040-69D2-4255-AD7F-E2C1E2765AA7@gmail.com>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <57015772-f68f-a3e3-5732-cb342b503661@windriver.com>
+Date: Mon, 3 Feb 2020 15:44:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <cover.1580248809.git.bruce.ashfield@gmail.com>
-	<CANNYZj_O7cMwJs_ND_MOwADb7PCc2XKJq3b1gQ0xaO7SbBr58g@mail.gmail.com>
-	<CADkTA4PZm6X0duFUx0prC4-kz=RUjsmO5vK_6Ox6w5GSGhJ0wQ@mail.gmail.com>
-	<4789b1f1-8dc1-dead-1a19-d18f17c0d709@gmail.com>
-	<CADkTA4MYP_vkdjSb9-g=FdrELLGfrap2vOZjuYUdBcVoS5Uznw@mail.gmail.com>
-In-Reply-To: <CADkTA4MYP_vkdjSb9-g=FdrELLGfrap2vOZjuYUdBcVoS5Uznw@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Mon, 3 Feb 2020 02:33:42 -0500
-Message-ID: <CADkTA4MK3Jx4Z8uigb0Nuzw=E28yVH2k04StXspNBsiXHj+k3w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/3][RFT]: kernel-yocto: v5.4 LTS kernel
+In-Reply-To: <CFA2B040-69D2-4255-AD7F-E2C1E2765AA7@gmail.com>
+X-Originating-IP: [128.224.162.175]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lttng-modules: update to 2.11.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,140 +36,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 07:33:53 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 03 Feb 2020 07:44:30 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Sat, Feb 1, 2020 at 5:47 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
+Oops, sure. I'll send v2.
+
+Zhe
+
+On 2/3/20 3:18 PM, Alexander Kanavin wrote:
+> The patch files should also be removed.
 >
-> On Fri, Jan 31, 2020 at 1:25 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > On 1/29/20 4:48 AM, Bruce Ashfield wrote:
-> > > On Wed, Jan 29, 2020 at 2:31 AM Alexander Kanavin
-> > > <alex.kanavin@gmail.com> wrote:
-> > >>
-> > >> Can these issues be bisected? That's how the two kernel regressions (both found last year via ptests) were tracked down to specific commits.
-> > >>
-> > >
-> > > mips64 was already bisected, and reported upstream, not much help
-> > > there .. I've already reached out to some more hardcore mips folks for
-> > > more help, so hopefully that works :D
-> > >
-> > can you point to link where this thread is
+> Alex
 >
-> It was on the mips-kernel mailing list, but thanks to our friends at
-> Cisco, I have a patch in hand for this issue now. They'll follow up to
-> the original thread on the kernel mailing list with the detailed
-> findings (also watch for it on the linux-yocto mailing list).
->
-> >
-> > > The musl one didn't bisect in my attempt(s), but in that config it is
-> > > an easy issue to trigger. I'm out of time to debug it for the next two
-> > > weeks, hence why I'm broadcasting to see if others want to take a
-> > > look.
-> > >
-> >
-> > As I saw, I do not see this with latest master-next
->
-> ok, cool. I'll queue the mips fix and re-test. Hopefully it has been
-> sorted out through the latest version bumps.
+>> On 3 Feb 2020, at 7.47, <zhe.he@windriver.com> <zhe.he@windriver.com> wrote:
+>>
+>> From: He Zhe <zhe.he@windriver.com>
+>>
+>> Fix build failure with kernel v5.5.
+>> Remove patch as issues fixed upstream.
+>>
+>> Signed-off-by: He Zhe <zhe.he@windriver.com>
+>> ---
+>> ...modules_2.11.0.bb => lttng-modules_2.11.1.bb} | 16 ++++++----------
+>> 1 file changed, 6 insertions(+), 10 deletions(-)
+>> rename meta/recipes-kernel/lttng/{lttng-modules_2.11.0.bb => lttng-modules_2.11.1.bb} (68%)
+>>
+>> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+>> similarity index 68%
+>> rename from meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb
+>> rename to meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+>> index 3465a43d38..c833ff7009 100644
+>> --- a/meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb
+>> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+>> @@ -11,14 +11,10 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+>> SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+>>            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+>>            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+>> -           file://0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch \
+>> -           file://0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch \
+>> -           file://0003-Fix-sunrpc-use-signed-integer-for-client-id.patch \
+>> -           file://0004-sunrpc-introduce-lttng_get_clid-helper.patch \
+>>            "
+>>
+>> -SRC_URI[md5sum] = "46ec6c566e65cf27b391a1bb643e11b4"
+>> -SRC_URI[sha256sum] = "98af92d8c2e00f4eb63bc637a6967103cf6997434493f36e7a535a491e4fad5f"
+>> +SRC_URI[md5sum] = "0d964723c8765b39835e5e6efc60a604"
+>> +SRC_URI[sha256sum] = "d3e5648937e59dee983ef844f9316c55e9961f9dc8515b9260c473bbb70696c1"
+>>
+>> export INSTALL_MOD_DIR="kernel/lttng-modules"
+>>
+>> @@ -35,13 +31,13 @@ python do_package_prepend() {
+>> }
+>>
+>> BBCLASSEXTEND = "devupstream:target"
+>> -LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=c4613d1f8a9587bd7b366191830364b3"
+>> +LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
+>> DEFAULT_PREFERENCE_class-devupstream = "-1"
+>> -SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.10 \
+>> +SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.11 \
+>>            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+>>            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+>>            "
+>> -SRCREV_class-devupstream = "624aca5d7507fbd11ea4a1a474c3aa1031bd9a31"
+>> -PV_class-devupstream = "2.10.10+git${SRCPV}"
+>> +SRCREV_class-devupstream = "6ad0e68b43c3e52fcb3d47c4d823a7b84aeb443a"
+>> +PV_class-devupstream = "2.11.1+git${SRCPV}"
+>> S_class-devupstream = "${WORKDIR}/git"
+>> SRCREV_FORMAT ?= "lttng_git"
+>> -- 
+>> 2.17.1
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-I'm unfortunately still seeing this on my AB run against master next.
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1520/steps/8/logs/step1c
-
-Which does imply that the kernel bump is triggering it (since
-master-next had 5.4, but it wasn't the default, my series makes it the
-default).  I won't have any time to look at this until late next week,
-since I'm still traveling.
-
-Bruce
-
->
-> Bruce
->
-> >
-> > > Bruce
-> > >
-> > >> Alex
-> > >>
-> > >> On Tue, 28 Jan 2020 at 23:14, <bruce.ashfield@gmail.com> wrote:
-> > >>>
-> > >>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > >>>
-> > >>> Hi all,
-> > >>>
-> > >>> I just wanted to send these to the list, so everyone could see the
-> > >>> reference kernel that we are planning for the upcoming release.
-> > >>>
-> > >>> I have other patches to drop 4.19, 5.2 and make this the default
-> > >>> kernel for the various reference platforms as well, but I'm not
-> > >>> sending them, since we still have two outstanding issues:
-> > >>>
-> > >>> 1) mips64 init is segfaulting after / during some self tests.
-> > >>>
-> > >>>     https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/1520/steps/8/logs/step6c
-> > >>>
-> > >>> 2) x86 musl is getting a gpf on many commands:
-> > >>>
-> > >>>     https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1501/steps/8/logs/step1c
-> > >>>
-> > >>> I've looked into both, and don't have any great ideas on how to debug
-> > >>> or fix them.
-> > >>>
-> > >>> So if anyone has ideas, or wants to poke at these, feel free to follow up.
-> > >>> But as of now, we still can't merge the v5.4 kernel as the reference due
-> > >>> to these remaining problems.
-> > >>>
-> > >>> Bruce
-> > >>>
-> > >>>
-> > >>> The following changes since commit ca3993cc4b13d4e661228cee6fb9448adfd0a4ba:
-> > >>>
-> > >>>    bitbake: tests/fetch: Allow wget upgrade tests to run against a local server (2020-01-22 15:56:39 +0000)
-> > >>>
-> > >>> are available in the Git repository at:
-> > >>>
-> > >>>    git://git.pokylinux.org/poky-contrib zedd/kernel-oe
-> > >>>    http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel-oe
-> > >>>
-> > >>> Bruce Ashfield (3):
-> > >>>    linux-yocto: introduce 5.4 recipes
-> > >>>    kern-tools: update Kconfiglib to latest (for 5.4+ kernel)
-> > >>>    kernel-devsrc: update to v5.4+
-> > >>>
-> > >>>   .../kern-tools/kern-tools-native_git.bb       |  2 +-
-> > >>>   meta/recipes-kernel/linux/kernel-devsrc.bb    |  8 +--
-> > >>>   .../linux/linux-yocto-rt_5.4.bb               | 44 +++++++++++++++
-> > >>>   .../linux/linux-yocto-tiny_5.4.bb             | 32 +++++++++++
-> > >>>   meta/recipes-kernel/linux/linux-yocto_5.4.bb  | 54 +++++++++++++++++++
-> > >>>   5 files changed, 136 insertions(+), 4 deletions(-)
-> > >>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_5.4.bb
-> > >>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_5.4.bb
-> > >>>   create mode 100644 meta/recipes-kernel/linux/linux-yocto_5.4.bb
-> > >>>
-> > >>> --
-> > >>> 2.19.1
-> > >>>
-> > >>> --
-> > >>> _______________________________________________
-> > >>> Openembedded-core mailing list
-> > >>> Openembedded-core@lists.openembedded.org
-> > >>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > >
-> > >
-> > >
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
