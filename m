@@ -1,47 +1,54 @@
-Return-Path: <andrey.z@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C020A60234
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 724C860B96
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 07:07:50 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id z9so4260624wrs.10
+	Mon,  3 Feb 2020 07:18:37 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id z3so16546071wru.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 02 Feb 2020 23:07:52 -0800 (PST)
+	Sun, 02 Feb 2020 23:18:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=K/mOo8RlT9vK1RLb5Vx6UyAd2oLcJ4DGpM6PrWVKYMA=;
-	b=q1ot4i7UmCGm9LKe6g2xQlp2SPnkA6flKZ7ECU11JFbbupDDmqetyEYFa/F3IZb2oC
-	fRaxudGF9nTO9FJh7Q+hzuY+qA3/uZDuy7oJu3rutnO7jGCTDJt+/AYmZlJ+oowRK7ue
-	ly+uDGHVndWjPfEON180ajmUM5wRspEAOiInK1nw5veB804YrzI4EQmzvafQNo1gFOaZ
-	NqLpQc53zb4e8Xy1qjt6Nx7kU4QAkTylBH9MmEC9D9YrH4YRneGpu+piIbsXpHB+261R
-	QXqPstPXV14vCvKLkKMNZ6DEx/2YMxQTcd29yY82j/0N8wYDMA5WEFq4z9vfRQLS5F5y
-	qpUw==
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=6Gk/vVyo31ZK7l/ihA5CAgsYVh4CVOA3uUMbaTMd3Rg=;
+	b=R+R86MUZB9TB9S0qbrG0JPJ/IjH6KYzTOSUKMv78LXKy5oKINrCjkqaVvys0go9W4m
+	fuhv01gikR7raBXDJu2jxxIu7hA5/ZevwbOKnrfg0TZbgXsaku1bTukCt1+FVbFVECiZ
+	Cdw1aMw3mTwjJvBmme9GhjkmvV4TrjHej2AgQxy/KXXk2XeXOZ9v0A8Z1B6G5XjXnc4/
+	pz7nORodnWcXJai6PhhqU6qSNfrpaml/A5zemd0IJvy6Bio5cxHNbckhjqTSUtQWIBpB
+	WpHcZLG8iTkocb4hqne4HfR51p6O64eXLj2IsIeqMEFPByxbAhounRxUBFTJtRHf5Ema
+	EZbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=K/mOo8RlT9vK1RLb5Vx6UyAd2oLcJ4DGpM6PrWVKYMA=;
-	b=jSWmNo9fbkZ4BBUYpBdpjSAbBhL997WRIkvhC5Sqi+d+c/BXToaG4Sfgp09Q/coSyi
-	sjg3A/5ito8W6Kux3CvKGeOAyCxxNi7uLYTINjx7nv4bbJ0SMWXDMRFkVawglq7vyMWg
-	DAXsRV6fX+UOahzlnpwN5Kq1ULzH80W+qmgWJUyrCUz+frZfo7c5HoXLCBNK4JmSR8kJ
-	HdYrhedkJxlP5/89+lA9ehqHiFDi5MUmmnl0On6qw5AtCsYBYBiuLNE0R3JyPzZnsahl
-	z3+rZMBNZ1CbBsAWVgdxVJRougxyW+GCI+uxL+FEoycuATJ31FBxzIa3Y4csBHQNpY6O
-	0yVQ==
-X-Gm-Message-State: APjAAAXZg5g+aOWyR6Rm/KDIS16sBVz7Jl2PPU3UyzcaDQUD/yT9qEJw
-	mTCd+0JZmakNHZjLH9Ndz/g5VUeJAoAllqb6VAg=
-X-Google-Smtp-Source: APXvYqzt2tWkxbVrb69/yIpEjcYT4yJQbCd50h49TZ7RCnukrV9xEYWjvaBRPDTFlkADiw2+KgqsJxlJGBjt7acNIDo=
-X-Received: by 2002:a5d:42c5:: with SMTP id t5mr14208187wrr.73.1580713671391; 
-	Sun, 02 Feb 2020 23:07:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20200203063455.417119-1-joel@jms.id.au>
-In-Reply-To: <20200203063455.417119-1-joel@jms.id.au>
-From: Andrey Zhizhikin <andrey.z@gmail.com>
-Date: Mon, 3 Feb 2020 08:07:40 +0100
-Message-ID: <CAHtQpK4W2PgPqdweMx7RZ8WzG4YgcJXeREHr+VcP+gGj9HrmCQ@mail.gmail.com>
-To: Joel Stanley <joel@jms.id.au>
-Cc: Brad Bishop <bradleyb@fuzziesquirrel.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] perf: Additional fixes for 5.5+
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=6Gk/vVyo31ZK7l/ihA5CAgsYVh4CVOA3uUMbaTMd3Rg=;
+	b=kibP2y4F87jRqh2+E7P72Cbr61qYRf/2CTwutWtBsZdV1ztGuQ2VNwyLy1JAZaV3bs
+	YceJvp2jj2vIGOcHHQj7rc6k1oY3U9mFQsQCrlkejAIOhuglJcRMAuPrbGn8A+HCM2wY
+	Dp5wy1+N208pDobUBIo7doI7tOr//3UhQY9EBa9WAohHBPFu5mGJdeuhsGuDdSj8EwQx
+	JLnrQZgJVYcTLi/xlYlx9SA9iJQ2aNBMyRYXG0imywDVfm+15ncxlG290WdkdclIrAc1
+	Im2vVYRTRneaFoGXfXIUypdvsVpKXXCWSkrKHTSSe0/Qu0BZ9S64Z/SVmlLfvIbKQHEB
+	KyTQ==
+X-Gm-Message-State: APjAAAVY1yRP/mJwZaBCNn8X3ChMw36s8bMKxO27NiLjmn8dzxRK4YEx
+	gh3JhczCh+YPNZCcvFV8glW5S9M8
+X-Google-Smtp-Source: APXvYqwOBIErdT4deXKWOT2qgFabg3s9xVNyMWzBzbbCPTA2O8h0lXVC1ON8uGRmV6AYQ9P7kzafNw==
+X-Received: by 2002:adf:b648:: with SMTP id i8mr13444564wre.91.1580714318049; 
+	Sun, 02 Feb 2020 23:18:38 -0800 (PST)
+Received: from ?IPv6:2a01:598:b10d:af82:9dad:6022:9130:4cb4?
+	([2a01:598:b10d:af82:9dad:6022:9130:4cb4])
+	by smtp.gmail.com with ESMTPSA id
+	133sm15946919wmd.5.2020.02.02.23.18.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 02 Feb 2020 23:18:37 -0800 (PST)
+Mime-Version: 1.0 (1.0)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: iPhone Mail (16G102)
+In-Reply-To: <20200203064732.3923-1-zhe.he@windriver.com>
+Date: Mon, 3 Feb 2020 08:18:36 +0100
+Message-Id: <CFA2B040-69D2-4255-AD7F-E2C1E2765AA7@gmail.com>
+References: <20200203064732.3923-1-zhe.he@windriver.com>
+To: zhe.he@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lttng-modules: update to 2.11.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,76 +61,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 07:07:51 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 03 Feb 2020 07:18:37 -0000
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 3, 2020 at 7:35 AM Joel Stanley <joel@jms.id.au> wrote:
->
-> In e5c4f3127521 ("perf: fix build for v5.5+") this recipe was fixed for
-> 5.5 kernels, however testing shows that there's a few other changes
-> required.
->
-> perf's build system uses a file from the scripts/ directory to
-> generate a bpf header, so this must be added to the list of files to
-> perform a replace on.
->
-> Additionally the replacement would run on all occurrences of
-> /usr/bin/python first, resulting in lines that contained
-> "/usr/bin/env python32". This re-orders the sed lines to avoid that.
->
-> This fixes warnings such the following:
->
->    File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
->      _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
->  ModuleNotFoundError: No module named '_sysconfigdata'
->
-> Change-Id: I8d0011908c87d5fbcf1c3aefb362fe6beb64d22e
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
+The patch files should also be removed.
+
+Alex
+
+> On 3 Feb 2020, at 7.47, <zhe.he@windriver.com> <zhe.he@windriver.com> wrot=
+e:
+>=20
+> From: He Zhe <zhe.he@windriver.com>
+>=20
+> Fix build failure with kernel v5.5.
+> Remove patch as issues fixed upstream.
+>=20
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
 > ---
-> Found when attempting to use 5.5 with OpenBMC.
->
-> The sed method of fixing this may be fragile, and moving to patching the
-> source tree may be preferred in the future.
->
->  meta/recipes-kernel/perf/perf.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 6d1b06693d26..1e0be467c024 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -239,11 +239,11 @@ do_configure_prepend () {
->      fi
->
->      # use /usr/bin/env instead of version specific python
-> -    for s in `find ${S}/tools/perf/ -name '*.py'`; do
-> -        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
-> +    for s in `find ${S}/tools/perf/ -name '*.py'` scripts/bpf_helpers_doc.py; do
+> ...modules_2.11.0.bb =3D> lttng-modules_2.11.1.bb} | 16 ++++++----------
+> 1 file changed, 6 insertions(+), 10 deletions(-)
+> rename meta/recipes-kernel/lttng/{lttng-modules_2.11.0.bb =3D> lttng-modul=
+es_2.11.1.bb} (68%)
+>=20
+> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb b/meta/reci=
+pes-kernel/lttng/lttng-modules_2.11.1.bb
+> similarity index 68%
+> rename from meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb
+> rename to meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+> index 3465a43d38..c833ff7009 100644
+> --- a/meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+> @@ -11,14 +11,10 @@ COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|aarch64|mips=
+|nios2|arm|riscv).*-linux'
+> SRC_URI =3D "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+>            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.pat=
+ch \
+>            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+> -           file://0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-=
+in.patch \
+> -           file://0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_q=
+ue.patch \
+> -           file://0003-Fix-sunrpc-use-signed-integer-for-client-id.patch \=
 
-bpf_helpers_doc.py script is already python3, and according to the GIT
-[1] - it was created like that. Do we really need to include it in the
-list? Besides, provided this is really needed - does it make sense to
-check all scripts instead of explicitly supplying just one here?
-
->          sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
->          sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
->          sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
-> +        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
->      done
->
->      # unistd.h can be out of sync between libc-headers and the captured version in the perf source
-> --
-> 2.24.1
->
-> --
+> -           file://0004-sunrpc-introduce-lttng_get_clid-helper.patch \
+>            "
+>=20
+> -SRC_URI[md5sum] =3D "46ec6c566e65cf27b391a1bb643e11b4"
+> -SRC_URI[sha256sum] =3D "98af92d8c2e00f4eb63bc637a6967103cf6997434493f36e7=
+a535a491e4fad5f"
+> +SRC_URI[md5sum] =3D "0d964723c8765b39835e5e6efc60a604"
+> +SRC_URI[sha256sum] =3D "d3e5648937e59dee983ef844f9316c55e9961f9dc8515b926=
+0c473bbb70696c1"
+>=20
+> export INSTALL_MOD_DIR=3D"kernel/lttng-modules"
+>=20
+> @@ -35,13 +31,13 @@ python do_package_prepend() {
+> }
+>=20
+> BBCLASSEXTEND =3D "devupstream:target"
+> -LIC_FILES_CHKSUM_class-devupstream =3D "file://LICENSE;md5=3Dc4613d1f8a95=
+87bd7b366191830364b3"
+> +LIC_FILES_CHKSUM_class-devupstream =3D "file://LICENSE;md5=3D3f882d431dc0=
+f32f1f44c0707aa41128"
+> DEFAULT_PREFERENCE_class-devupstream =3D "-1"
+> -SRC_URI_class-devupstream =3D "git://git.lttng.org/lttng-modules;branch=3D=
+stable-2.10 \
+> +SRC_URI_class-devupstream =3D "git://git.lttng.org/lttng-modules;branch=3D=
+stable-2.11 \
+>            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.pat=
+ch \
+>            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+>            "
+> -SRCREV_class-devupstream =3D "624aca5d7507fbd11ea4a1a474c3aa1031bd9a31"
+> -PV_class-devupstream =3D "2.10.10+git${SRCPV}"
+> +SRCREV_class-devupstream =3D "6ad0e68b43c3e52fcb3d47c4d823a7b84aeb443a"
+> +PV_class-devupstream =3D "2.11.1+git${SRCPV}"
+> S_class-devupstream =3D "${WORKDIR}/git"
+> SRCREV_FORMAT ?=3D "lttng_git"
+> --=20
+> 2.17.1
+>=20
+> --=20
 > _______________________________________________
 > Openembedded-core mailing list
 > Openembedded-core@lists.openembedded.org
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/log/scripts/bpf_helpers_doc.py?h=v5.5
-
--- 
-Regards,
-Andrey.
 
