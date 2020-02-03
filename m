@@ -1,52 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id AF1C8608DD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BB27F60B33
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 10:20:00 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id w15so17237381wru.4
+	Mon,  3 Feb 2020 10:26:13 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id q9so15163870wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2020 02:20:02 -0800 (PST)
+	Mon, 03 Feb 2020 02:26:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=gIHWjK6jPCTr+3SEuJ/UjXGj2NoKfGXlBvGuCbDFlkM=;
-	b=p2R1pWAJts2EzFR+LD4Rc2Dl5ocOuMyuC/UqA98aQnzi5gZGS454soKI3JVrJCuaiq
-	kedgaYfRhDVwSTbfAwBGX61dxYn+1oevtlJXP98+Atv8owW8XOwZ91NdK6Wf8ezv0LUO
-	BwDNr6qwtKeTRR8qZ2ZODLBvh+kAbMjs18ggGFfFRZhSb7CBWR6lmxSwvXm3ynljmE22
-	bzakOHeyK+s201/8lguMTQC0mlZbDaOlCRPU/OeDpuBEBWBDdzwTKDWIGxJmIEf3OTZ0
-	M9HBP7QtG3vFyvWgDROYstjA7lummKCBKSgGgZi/810SORlZJc11kUyjZqANoPLnQ+5h
-	Tgzw==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=1V+kMK0zsgPBEYitkKaL7QRZValMOgqBAof9GU9Ysjo=;
+	b=b7IokAFhh2gVNc+KQqZpsSE3OI/P3psYCxoXsOXGL6kDmPwczKZGI9o8NFmwPmOE53
+	hAMUo7Y/2r6KeWBVsQvhIuEcjeo4AjVTbTv33KGfsMOB9TuNpvykom5RhvCngw6UahQ6
+	3qaSg3kbrnV3MmLyq5M4c1t7zmTnpBt5mmBU8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=gIHWjK6jPCTr+3SEuJ/UjXGj2NoKfGXlBvGuCbDFlkM=;
-	b=jtmWDyPtwYZ9+TDpt2ZYoZFELzzc6hbSY1oUFrLG6HyrRWwVULZAtizoRkIy+VtjDl
-	EoQ9EwmNBUimmJZ2/VwXjwv++ObUkkJVo8JURuE3QGqyMoJ47jG8enjxrOzOb1Hmuci2
-	Nszs6XIgOrnO4LryHGIGWeuJ02cwOG2sRD+zU4Pt+ylPZvwMaQahRgepaNqn6D0Vf9c5
-	ZGn5/kE7B4gx8kjDIFCdMtS4zJaj8wL4WUSODAgkRKVm1pxce1zK4tfG/CBk8zGb3T0T
-	JIETMN2ulvi1KzkttVPORf2Q4gRTM0qKDEje4XtyGsM2lwUXh1MouAVTyEDx56gKJN0F
-	j32w==
-X-Gm-Message-State: APjAAAUuvXd+UR1cyIcigBZN8jexPBDD3ciNHoJOZU1oMcvk+gxT+QTF
-	RcrSdukeN0F5SxXTOU3ZsISYVcXtYtk=
-X-Google-Smtp-Source: APXvYqzlcJfGmo4JfK4qx77qcwKNN+8P6HF9xX069q0nRC/H1fFT7t1Lxa9yCT0mL82Wfg6OMSfZPg==
-X-Received: by 2002:adf:f6c8:: with SMTP id y8mr14289719wrp.167.1580725201101; 
-	Mon, 03 Feb 2020 02:20:01 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a26sm23617825wmm.18.2020.02.03.02.19.58
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=1V+kMK0zsgPBEYitkKaL7QRZValMOgqBAof9GU9Ysjo=;
+	b=XeXGB6OQegBOwoi2WewSP7euPNfoEQtEmtQIxoBlbYApdJl0ljsLkXtvdYI9vQiQps
+	wMDoyoZsq7Y5BTqhEtUrgm7C6IT57v+yHuUSvZ/t403IhpwaD7l3/Kf9kdEJT03LuL9n
+	MD+YT97crtaF98A2jJ9ycHJM5LkjdQOPNd/FyeGJE0lrIj9WNgWtYjhEkKlRzFTIbA1j
+	jnJd5aYkDDqBhrkOqTmvml67WOuLC1fEQyUBLy3/uBJpCljol/EwJA1xVAshNAPTtXgl
+	NnM24O2ajSXqH+ejN888XWeua6NrZ5zHrNgaJ3qtwIbwvCsdlUGWdPMOtwKbY+5ApD20
+	/+HQ==
+X-Gm-Message-State: APjAAAV11iozIRm6BTKWZU3Ec06x5/CCZhxz/eFs2mm9OvcM9KFsFZ1V
+	qqW045al/kdeZj2GWqsSrq1afw==
+X-Google-Smtp-Source: APXvYqya/1yz55ce3Fwvpuh0cFtjW8ze2gjDs1ivT/Y7v7RKobVZoZtcxYJfQw2UMtEhsJ2VRFzlvw==
+X-Received: by 2002:a1c:9c4c:: with SMTP id f73mr27170605wme.125.1580725574077;
+	Mon, 03 Feb 2020 02:26:14 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id i3sm12056613wrc.6.2020.02.03.02.26.12
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 03 Feb 2020 02:19:59 -0800 (PST)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Feb 2020 10:19:55 +0000
-Message-Id: <20200203101955.2448-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1
+	Mon, 03 Feb 2020 02:26:13 -0800 (PST)
+Message-ID: <b672e48f8e33b9ea75b9772321f2db0951b38942.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alex Kiernan <alex.kiernan@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 03 Feb 2020 10:26:12 +0000
+In-Reply-To: <20200127231306.46105-1-alex.kiernan@gmail.com>
+References: <20200127231306.46105-1-alex.kiernan@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: [PATCH] podfix: remove
+Subject: Re: [PATCH] systemd: Upgrade 243.2 -> 243.4-latest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,71 +57,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 10:20:01 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Feb 2020 10:26:14 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Now that we don't use the host pod2man (oe-core deda455) the podfix
-class is redundant and can be removed.
+On Mon, 2020-01-27 at 23:13 +0000, Alex Kiernan wrote:
+> Update to latest on the 243 stable branch. This includes (amongst other
+> fixes) seccomp filter changes which fix failures with glibc 2.31, e.g.
+> 
+>   systemd-journald[543]: Assertion 'clock_gettime(map_clock_id(clock_id), &ts) == 0' failed at src/basic/time-util.c:55, function now(). Aborting.
+> 
+> Rebase 0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+> 
+> Drop 0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch,
+> fixed in 5c0224c7bf3c ("Handle d_type == DT_UNKNOWN correctly").
+> 
+> Drop 0001-seccomp-more-comprehensive-protection-against-libsec.patch,
+> fixed in 70e8c1978a9a ("seccomp: real syscall numbers are >= 0").
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/podfix.bbclass                   | 35 -------------------
- .../classes/reproducible_build_simple.bbclass |  2 --
- 2 files changed, 37 deletions(-)
- delete mode 100644 meta/classes/podfix.bbclass
+Unfortunately something in this causes:
 
-diff --git a/meta/classes/podfix.bbclass b/meta/classes/podfix.bbclass
-deleted file mode 100644
-index cc8210a27e2..00000000000
---- a/meta/classes/podfix.bbclass
-+++ /dev/null
-@@ -1,35 +0,0 @@
--python pod_strip_version() {
--    import re
--
--    def opener(filename, mode):
--        if filename.endswith(".gz"):
--            import gzip
--            return gzip.open(filename, mode)
--        elif filename.endswith(".bz2"):
--            import bz2
--            return bz2.open(filename, mode)
--        else:
--            return open(filename, mode)
--
--    bad_re = re.compile(rb"Automatically generated by Pod::Man( [0-9]+.+)")
--
--    for root, dirs, files in os.walk(d.expand("${D}${mandir}")):
--        for filename in files:
--            filename = os.path.join(root, filename)
--            if not os.path.isfile(filename):
--                continue
--
--            with opener(filename, "rb") as manfile:
--                manpage = manfile.read()
--                m = bad_re.search(manpage)
--                if not m:
--                    continue
--
--            bb.note("podfix: stripping version from %s" % filename)
--            os.unlink(filename)
--            with opener(filename, "wb") as manfile:
--                manfile.write(manpage[:m.start(1)])
--                manfile.write(manpage[m.end(1):])
--}
--
--do_install[postfuncs] += "pod_strip_version"
-diff --git a/meta/classes/reproducible_build_simple.bbclass b/meta/classes/reproducible_build_simple.bbclass
-index 153a0760721..3e5fd824328 100644
---- a/meta/classes/reproducible_build_simple.bbclass
-+++ b/meta/classes/reproducible_build_simple.bbclass
-@@ -8,5 +8,3 @@ export SOURCE_DATE_EPOCH ??= "1520598896"
- 
- REPRODUCIBLE_TIMESTAMP_ROOTFS ??= "1520598896"
- BUILDNAME ??= "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"
--
--inherit podfix
--- 
-2.20.1
+https://autobuilder.yoctoproject.org/typhoon/#/builders/109/builds/412
+https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/413
+https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/1545
+
+I've been blaming Trevor's patches until now but its this one (sorry
+Trevor!).
+
+Cheers,
+
+Richard
+
+
 
 
