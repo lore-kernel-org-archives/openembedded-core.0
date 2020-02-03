@@ -1,52 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id DD2E860F89
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C76B60F29
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 14:17:03 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id g1so16064833wmh.4
+	Mon,  3 Feb 2020 15:34:22 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id g3so6003891qka.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2020 06:17:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=zcEGZzrJszjVynjcnB/woQM91EjSTJPeimJSQHUmt4E=;
-	b=fGx7cA4vL8S/lWf19ekVDZej9WEtTZiuPwEs9xSnSOdUGQ3bmmiOYlBBoHqet17ltm
-	xUsTFNgyGpQZ+51qVZVd0nZ3E0cZx++9HWqe+xbABInhgsYf08TE+hBTeg4UGn/5Eg7a
-	1oBzGzTLisiqHUfScLVJJfBMXLq4dPbZ0GLz8=
+	Mon, 03 Feb 2020 07:34:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=qaLXkPEMhLzjy9E+o/JbdcBYuRJdJHP8tj3Cp1fIG2U=;
+	b=Az+JWGAUhSM8ZQR8KaCgt/tfOFW3GHnpS3fdlSxyxFMdhLlWm92K7DNPMQZErd+cIG
+	u6r0+4Q+aL7PkLiJomQMfGdFjjVc+Wxc7qRNct43q8bD6hvNFomHgmUdJ1RnRksVzj0V
+	4g3R22FT25gk+ZNw/E4AB6SFTooc00kNeBouOAQET1jxbBqp6lI3ZOi6fG67UIJmudTT
+	qe8yG3k4+NLBjf3KPD50AZ2CZsqC5Eb3rgAk4WGrRb6m1WE3jelXWQ4+9u5wsQf0ScHX
+	cw+FKTSkgH0iQTgiCPE8eKYjC4TCND7Ac/Ownk9jWtxJ4m9RHZU4JckXBeoK/usFPFbI
+	j0Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=zcEGZzrJszjVynjcnB/woQM91EjSTJPeimJSQHUmt4E=;
-	b=L9E0eh71HltHoVyneDH8lvt5oVxOIr+FgT3LBTP1JCTsU1I+pI6XsYs2Uk2twInYZ+
-	HjcSTWF2d8hSOxvW8TRiBK5M8yilAMFaHs2BYou4CmGI+4lIhPRgLtpiJj3JRjjw+Hs5
-	bkQK2DFurd97lh3P+DYXOtGOEek+IakFZS0KanY07AREETe4gzPKRfrvrsHpfKT9JJR4
-	dq2AS2gWUrHhS44OfnRM4GV+2UayRL5E+o2gH7FLvYBu0i20Zz9hryiGPWkRiB+kYUfx
-	JZCKH6oATc4xu5ItDdKvI4y6U+/icNJonG+B/84npG75Hztv6L7gxTjf5bFkbIP7w4UY
-	i4DA==
-X-Gm-Message-State: APjAAAULAVTGcs95EHLH5dCY4yxIwqWWVW0OdFA7CHnSDc9vrwwRBAkG
-	te+r69AIm3ZDxyvpWvvUOTliTjvprvM=
-X-Google-Smtp-Source: APXvYqyF76aK/KsOzlPsGUMny66Rhe+sTejcmZ5QrFi+F0hDOVwquAQEX2InefojujlWlUymJG7U2w==
-X-Received: by 2002:a05:600c:2383:: with SMTP id
-	m3mr30427380wma.32.1580739424222; 
-	Mon, 03 Feb 2020 06:17:04 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	l29sm2168822wrb.64.2020.02.03.06.17.02
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 03 Feb 2020 06:17:03 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Feb 2020 14:17:01 +0000
-Message-Id: <20200203141701.18379-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200203141701.18379-1-richard.purdie@linuxfoundation.org>
-References: <20200203141701.18379-1-richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=qaLXkPEMhLzjy9E+o/JbdcBYuRJdJHP8tj3Cp1fIG2U=;
+	b=pYGGVQjnWIBtuGj5oTLXE2uRns9MIcrLrk6o30jsK9ZOb0s1dFjgVzIswsvEyNDvUw
+	RpkUXqCC0udIlqczq9ZAX/nscTm53//gQJCTUJqAMiW1xhYLH7FgaGmrLmOFgLxq6bP8
+	UOhRfb6OkcqZ+x7N4su3l2m6UVQ9A/ommxssB1QCUzQlNAW4LoX/7YPt86bJloMCtAPB
+	LT6oMshVi3NUbykXrnWaxALDmGi6kRv/PvkGzTlvM3T4+dSugUDL55spWqxfPwyWCy2H
+	DEHq9iuXG9Yr1Sjy4hA8D0YmX7ebaOXFb6H/iq9315EfUN+BMGoVrdXJWbjefH04jBjz
+	yteQ==
+X-Gm-Message-State: APjAAAUz+VmY8NT/ULC6s5plRpQqAPAJZBYWqhsy1iZmDv6cM43Nr0b9
+	ZiWnDSe2ABLBidVYo1LEgsvQjS7KqHynMoVIY36k5Eu/VsI=
+X-Google-Smtp-Source: APXvYqwsW3hCHmP8D4gJmzj681kvUt3xrOoccG4Np3vIzJ0FAxBWfAxAAMWPQs9K5qRa5JWIOMVbaEX7obHSGXhi02g=
+X-Received: by 2002:a05:620a:6b8:: with SMTP id
+	i24mr24755624qkh.9.1580744062817; 
+	Mon, 03 Feb 2020 07:34:22 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] libxshmfence: Set shm directory deterministically
+References: <20200129090738.1398-1-alex.kanavin@gmail.com>
+	<20200129090738.1398-6-alex.kanavin@gmail.com>
+In-Reply-To: <20200129090738.1398-6-alex.kanavin@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 3 Feb 2020 07:33:51 -0800
+Message-ID: <CAMKF1srnJBbYKttY1PEgr2gAjRxUXXjvmjFcMgkMteHYaLxgEg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 06/24] bison: upgrade 3.4.2 -> 3.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,33 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 14:17:04 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Feb 2020 15:34:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Without setting this it will vary depending on which directories are present
-on the host.
+http://errors.yoctoproject.org/Errors/Details/368059/
 
-[YOCTO #13778]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-index 85a48e4c588..cc456965305 100644
---- a/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.bb
-@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=47e508ca280fde97906eacb77892c3ac"
- 
- DEPENDS += "virtual/libx11"
- 
-+EXTRA_OECONF += "--with-shared-memory-dir=/dev/shm"
-+
- BBCLASSEXTEND = "native nativesdk"
- 
- SRC_URI[md5sum] = "42dda8016943dc12aff2c03a036e0937"
--- 
-2.20.1
-
+On Fri, Jan 31, 2020 at 1:34 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-devtools/bison/{bison_3.4.2.bb => bison_3.5.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/bison/{bison_3.4.2.bb => bison_3.5.bb} (90%)
+>
+> diff --git a/meta/recipes-devtools/bison/bison_3.4.2.bb b/meta/recipes-devtools/bison/bison_3.5.bb
+> similarity index 90%
+> rename from meta/recipes-devtools/bison/bison_3.4.2.bb
+> rename to meta/recipes-devtools/bison/bison_3.5.bb
+> index 46f0f908dd4..3d8f6579b9e 100644
+> --- a/meta/recipes-devtools/bison/bison_3.4.2.bb
+> +++ b/meta/recipes-devtools/bison/bison_3.5.bb
+> @@ -17,8 +17,8 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+>  # No point in hardcoding path to m4, just use PATH
+>  EXTRA_OECONF += "M4=m4"
+>
+> -SRC_URI[md5sum] = "d1ceb9dfde2d03b24a4c1137f7f1b572"
+> -SRC_URI[sha256sum] = "27d05534699735dc69e86add5b808d6cb35900ad3fd63fa82e3eb644336abfa0"
+> +SRC_URI[md5sum] = "c0230be066069f33c8445766833f3205"
+> +SRC_URI[sha256sum] = "55e4a023b1b4ad19095a5f8279f0dc048fa29f970759cea83224a6d5e7a3a641"
+>
+>  inherit autotools gettext texinfo
+>
+> --
+> 2.25.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
