@@ -1,50 +1,25 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FCC6610BC
+Return-Path: <mark.hatle@kernel.crashing.org>
+Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C6EA60B47
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 18:11:53 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id a9so358435wmj.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2020 10:11:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=K/GE9bWyF24AzXm8PIODTGunlRZb7H2WY+wYUaJ8lDo=;
-	b=LKIiQSxRRY41Pzqt7ReYIYWBvM3BwoAWXCtH5WYVtBwaCXVmv762zEx1t6tOuaFSvf
-	vIpJF/k4wahJycnVx95RfNBu1TrFH7c/qvvOGoK9lklYJhVOGOqePiH6f7OCJ8JhPl7O
-	3cr+Qe4HSkSoHmPywOduP/gFywnbyOAYt2aTIp9MCG/7pCjmGLm2Efb+4upsKcq20Ud5
-	xGtRPQyLQwRhPUrN/3PfSnywHpK/Y0LodTbLdIcF/8SM2Dc5sfCLbw2wTcZ/NkVSSu4Z
-	aeWlWsdM+pKlSIA7565d6H/vDGeK5eKfL/5x5T+qkdBsTTBU0NXCBksn+4S22w7iLuAk
-	CajQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=K/GE9bWyF24AzXm8PIODTGunlRZb7H2WY+wYUaJ8lDo=;
-	b=ivjIEQ9zjhSfP7xz8IFSrK0kKQugqmaaorKY6UjWiI9q522M/W8F9IMZcS4ZBu3KOJ
-	KdeuSVfGOEdWLJ+VefHc5gVA9zc0pGErgn9FwvVYFiVc9/OOugm2sIkOw5h2B95qqk3F
-	3U+DpKhIXoENXvwBnopoAzQeH4edgnKCZNFhFpa9jIhOIf1SQa0SnLEde6C6EwmG7t9c
-	4+myRGABU2yWtoOoXSAvFngNaZU97bARd7Vzk0lDWN3LqL4MZhoLYpQ22CTUKuegY/SG
-	ARrKmKYD8BYdm+ckgXukXMVGxR61ZZmCm9IdBuaArOgBoEQ/c/LE+j1M7tZVw6QbcIKR
-	qaSQ==
-X-Gm-Message-State: APjAAAUbURARd3JDwGCw7+dumILW4rtoE7poHkX1NoSM9HLZ4lfNHZDi
-	T98QKERMzcOnyYf1HyISmaWI2syr
-X-Google-Smtp-Source: APXvYqz7HLBPjkJUFeeoUkNOPouWcFwxO8p2rRM5SfnrMbccx34UlqAMfeC7NP9VK619mtmjUTfixQ==
-X-Received: by 2002:a1c:7c08:: with SMTP id x8mr323060wmc.106.1580753513664;
-	Mon, 03 Feb 2020 10:11:53 -0800 (PST)
-Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
-	v17sm25998577wrt.91.2020.02.03.10.11.52
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 03 Feb 2020 10:11:53 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Feb 2020 19:11:50 +0100
-Message-Id: <20200203181150.29162-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Mon,  3 Feb 2020 18:36:06 +0000 (UTC)
+Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
+	(authenticated bits=0)
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 013Ia4Wf001037
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
+	verify=NO); Mon, 3 Feb 2020 12:36:05 -0600
+To: Nathan Rossi <nathan@nathanrossi.com>
+References: <20200131233305.118454-1-mark.hatle@kernel.crashing.org>
+	<CA+aJhH1nnqrUzwdRuju04NY=YsTfafkQLA7ucMMUUcPyozpEmA@mail.gmail.com>
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+Message-ID: <5e6edcb4-8eca-7bb8-5fc4-5c0504d4f130@kernel.crashing.org>
+Date: Mon, 3 Feb 2020 12:36:04 -0600
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.4.2
 MIME-Version: 1.0
-Subject: [PATCHv2] kernel.bbclass: set LD in KERNEL_CONFIG_COMMAND to fix 5.4+ builds when gold is enabled
+In-Reply-To: <CA+aJhH1nnqrUzwdRuju04NY=YsTfafkQLA7ucMMUUcPyozpEmA@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/2] microblaze tune: Enable 64-bit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,49 +32,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 18:11:53 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Feb 2020 18:36:06 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-* with 5.4 kernel the do_configure fails when gold is enabled (with ld-is-gold in DISTRO_FEATURES)
-* bfd is already being set in KERNEL_LD:
-  kernel-arch.bbclass:KERNEL_LD = "${CCACHE}${HOST_PREFIX}ld.bfd ${HOST_LD_KERNEL_ARCH}"
-  but KERNEL_LD is currently respected only by do_compile and do_compile_kernel modules
-  and new kernel which contains a check for gold in Kbuild:
-  https://lore.kernel.org/lkml/alpine.DEB.2.21.1907161434260.1767@nanos.tec.linutronix.de/
-  more details:
-  https://lore.kernel.org/r/CAMe9rOqMqkQ0LNpm25yE_Yt0FKp05WmHOrwc0aRDb53miFKM+w@mail.gmail.com
-  will fail during the configuration even when gold wouldn't be used to
-  build it in the end, add LD setting to KERNEL_CONFIG_COMMAND to prevent
-  premature error when configuring
 
-  scripts/kconfig/conf  --olddefconfig Kconfig
-  scripts/Kconfig.include:39:  gold linker 'x86_64-oe-linux-ld' not supported
-  make[2]: *** [/OE/build/oe-core/tmp-glibc/work-shared/qemux86-64/kernel-source/scripts/kconfig/Makefile:73: olddefconfig] Error 1
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
+On 1/31/20 10:50 PM, Nathan Rossi wrote:
+> On Sat, 1 Feb 2020 at 09:33, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+>>
+>> From: Mark Hatle <mark.hatle@xilinx.com>
+>>
+>> 64-bit is not yet available in Linux, but some non-Linux uses exist.
+>>
+>> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+>> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+>> ---
+>>  meta/conf/machine/include/microblaze/arch-microblaze.inc | 9 ++++++++-
+>>  1 file changed, 8 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/conf/machine/include/microblaze/arch-microblaze.inc b/meta/conf/machine/include/microblaze/arch-microblaze.inc
+>> index 265898b6b6..fb777d929c 100644
+>> --- a/meta/conf/machine/include/microblaze/arch-microblaze.inc
+>> +++ b/meta/conf/machine/include/microblaze/arch-microblaze.inc
+>> @@ -4,6 +4,9 @@
+>>  TUNEVALID[microblaze] = "MicroBlaze"
+>>  MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "microblaze", "microblaze:", "", d)}"
+>>
+>> +TUNEVALID[64-bit] = "64-bit MicroBlaze"
+>> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "microblaze64:", "", d)}"
+> 
+> This should probably TUNECONFLICTS with all unsupported versions.
 
-v2 just without --in-reply-to to original thread "kernel-yocto: v5.4 LTS kernel (rev2)",
-because patchtest tries to apply it with linux-yocto changes from that thread and reports
-failure that it cannot be applied in master
+I have no information on what versions are unsupported with 64-bit.  If I
+receive that information, I will add it as conflicts.
 
- meta/classes/kernel.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--Mark
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index 750988f4e5..15219c596f 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -508,7 +508,7 @@ sysroot_stage_all () {
- 	:
- }
- 
--KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" O=${B} olddefconfig || oe_runmake -C ${S} O=${B} CC="${KERNEL_CC}" oldnoconfig"
-+KERNEL_CONFIG_COMMAND ?= "oe_runmake_call -C ${S} CC="${KERNEL_CC}" LD="${KERNEL_LD}" O=${B} olddefconfig || oe_runmake -C ${S} O=${B} CC="${KERNEL_CC}" LD="${KERNEL_LD}" oldnoconfig"
- 
- python check_oldest_kernel() {
-     oldest_kernel = d.getVar('OLDEST_KERNEL')
--- 
-2.20.1
-
+> Regards,
+> Nathan
+> 
+> 
+>> +
+>>  # Endian
+>>  TUNEVALID[bigendian] = "Use Microblaze Big Endian"
+>>  TUNECONFLICTS[bigendian] += "v10.0"
+>> @@ -26,6 +29,7 @@ TUNECONFLICTS[frequency-optimized] += "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0
+>>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "barrel-shift", "-mxl-barrel-shift", "-mno-xl-barrel-shift", d)}"
+>>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "pattern-compare", "-mxl-pattern-compare", "-mno-xl-pattern-compare", d)}"
+>>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "frequency-optimized", "-mxl-frequency", "", d)}"
+>> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "-m64", "", d)}"
+>>
+>>  # Disable reorder for v8.30 if pattern-compare is not enabled
+>>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "reorder", \
+>> @@ -48,6 +52,9 @@ require conf/machine/include/microblaze/feature-microblaze-math.inc
+>>  # Architecture name, either 'microblazeeb' or 'microblazeel' depending on endianess
+>>  TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
+>>
+>> +# Add 64-bit to the PKGARCH if enabled.
+>> +MBPKGARCH_SIZE = "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "64", "", d)}"
+>> +
+>>  # Package Architecture formatting
+>> -TUNE_PKGARCH = "microblaze${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
+>> +TUNE_PKGARCH = "microblaze${MBPKGARCH_SIZE}${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
+>>
+>> --
+>> 2.17.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
