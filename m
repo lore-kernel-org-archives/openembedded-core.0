@@ -1,21 +1,23 @@
 Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CB4A560172
+X-Greylist: delayed 8136 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 03 Feb 2020 08:00:00 UTC
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 91D8260172
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 07:59:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0134pwuJ028992
+	Mon,  3 Feb 2020 08:00:00 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0135iIE7003618
 	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 2 Feb 2020 20:51:59 -0800 (PST)
+	Sun, 2 Feb 2020 21:44:25 -0800 (PST)
 Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Sun, 2 Feb 2020 20:51:51 -0800
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Sun, 2 Feb 2020 21:44:21 -0800
 From: <zhe.he@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Feb 2020 12:51:50 +0800
-Message-ID: <20200203045150.24875-1-zhe.he@windriver.com>
+Date: Mon, 3 Feb 2020 13:44:20 +0800
+Message-ID: <20200203054420.35875-1-zhe.he@windriver.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
 Subject: [PATCH] lttng-modules: update to 2.11.1
@@ -31,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 07:59:59 -0000
+X-List-Received-Date: Mon, 03 Feb 2020 08:00:00 -0000
 Content-Type: text/plain
 
 From: He Zhe <zhe.he@windriver.com>
