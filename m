@@ -1,50 +1,49 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A5BF60CD7
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com
+	[209.85.215.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 15EB360CE4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 20:26:46 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id d15so18306198iog.3
+	Mon,  3 Feb 2020 20:50:47 +0000 (UTC)
+Received: by mail-pg1-f173.google.com with SMTP id u131so8416583pgc.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2020 12:26:48 -0800 (PST)
+	Mon, 03 Feb 2020 12:50:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rKHuafV1EDbVsZlt6N6kfprrQCebIE9pUHEyb+kEwd0=;
-	b=TPsVKUP/ZHGXyv2O4W2gKa71Lp973vphCSpisFbbKnYq7nSTARh9h04EN/N7xwUV9l
-	nVb53z3Jpd0pfbuRZ+HVt0SevB1Wa/CyJ4QQRoldZyLyzphl0d9JIOKQ9LHQ/AjmKE19
-	b1aZ/9G8xhFm4UfmGZl7+csFiZ+AuTJ+vdjJ1QecccNLfUlBl3GGinYuDJZWja/4uNC7
-	TfSDjSZNyi0mxZOEveybuqkYJRvq3KpA5rn0BBjVzWVjnROW/CeFOA9WzosvvDl+YGvZ
-	v6lbSem8dDlAArXjldDS92hssXP0ruEvi2aexxUoUKTsb65LOhpVZepShQiI0y0rlx4L
-	ozWg==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pQQT2//vE/zB4jbZ5QplludSDTs9pA+bLaiLGkSRWsE=;
+	b=EDbT5vGKD0Jth9651utrX65C2ay/36TlXfs6ccWYVPTUfSlJTKw/9HebSNIrcg8sJY
+	8IN7sEIZrVfdVJUzHDTTLYrjEN6LRdH+7eUha0Pbuybuoztdgzjf9R39fmAY2JjwzBBn
+	9dSLX9hm5D+ebgX3UC+T5B4jY7NQBtfQtWqQ0shKKp9aQewA6hk6XQ3y3P1UIriuR75y
+	P77UTRVTbOT6T/99GoGSeymb90m7zqamwZpIMQCLHbZVZCTppI5y6BfIDHqfNkPPinMZ
+	ifC17iObhm49y7s1v1PGSXTGbOxbxa3HCaSfqiJIOBlJRQkjIhEM76tfyLOVcpqKg0aT
+	njcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rKHuafV1EDbVsZlt6N6kfprrQCebIE9pUHEyb+kEwd0=;
-	b=thFbrgy9okgTuLXaXoplmk3AUoCNTh9965MrP/tbUO9iwF6tDOwX3ZSSWvOnM2N0TQ
-	Xz1tuWd3/3GbfPOy5c9px1AjkwVJ/wEdzi0wx1Vh+VXXZgoNU2BIK0GhkFV3KOUH21uX
-	M2BreXO7lS4yrEofkMIOiMwKm7kdWCx28ZKEX7wZP1rVwtejiRddm77H1lGA3Rflh0YS
-	PGiuf9aJ2Vlq1gmWHamgfVL7N5AUJbtsORchaRZ+YJvNKRovYfZoBgJeQyHugOgmNW9o
-	qtb1XhR3zOGKoOm/ehNlAPtEZOvTN8JM6gTl0fEnN2AmHFJgpNtp9+c28LSSoB6Or6k6
-	yGQg==
-X-Gm-Message-State: APjAAAUbuRCrZ5xfR1q66IIuGj6QU2pZmUtTlVwzzSOiFerDiFbiBXF0
-	Ii6mpbmK2diipOQbMxFIM1HDsWkevKRT6CYEOY83m7Bb
-X-Google-Smtp-Source: APXvYqwrmJ9gBrpZdldrQ7xRC2bC89s5kWqlOfYCv4XgkXkBeMFM8gQcIDTofBErGRGofjXcoVpEkQn20/1/PE3YCnE=
-X-Received: by 2002:a5e:c60a:: with SMTP id f10mr20558698iok.295.1580761608054;
-	Mon, 03 Feb 2020 12:26:48 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=pQQT2//vE/zB4jbZ5QplludSDTs9pA+bLaiLGkSRWsE=;
+	b=TWet52ax6cmtbG/RNF9/3E+dJh4TTj/g/MKhwcbKT6YNjX0FzIbss+0Azr6mxmKEx5
+	yU5N0P1avt5t/em4XAFZ0CF3IddbhqCUlXlv6wxq0UfjJoD8boE4hiKxmLoN2bD/HJhr
+	igbWnK6vy5ObWSU91ArSrV0x116bL6bJkVu8gEjRHfUSZnidmwi7Zfy3YS5Yb44/wTol
+	LQJbERrrXfViQ+iAYIWGeuiLYkwZD11wrBd4xBJoNhzGRJ1EHnQM7jmuflowCs+3QJFe
+	hDXdWPDOsTXCFLS+93ShBBbZLHY8YJvkQPsv5koutTZq3Gr+O6DrNpqCf9MiL3co6m1l
+	JhZA==
+X-Gm-Message-State: APjAAAWAAbAOHNQ4g0jG3lFgst2gfQMR8YbpadNlAHPKFk0XWOM15OB9
+	TlR67iQk5k72kZC42XYzidTjIwLFsok=
+X-Google-Smtp-Source: APXvYqzV4FErsV7AHeLWeAOxgXvwFnyeRE5WbmwG/nIq7AfdZj9dW/HHUr6BXIXFTg0WyTFH3Zr7nw==
+X-Received: by 2002:aa7:84c6:: with SMTP id x6mr25388801pfn.181.1580763048561; 
+	Mon, 03 Feb 2020 12:50:48 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1852])
+	by smtp.gmail.com with ESMTPSA id s23sm353660pjq.17.2020.02.03.12.50.47
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 03 Feb 2020 12:50:48 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Feb 2020 12:50:49 -0800
+Message-Id: <20200203205049.1324254-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-References: <20200127231306.46105-1-alex.kiernan@gmail.com>
-	<b672e48f8e33b9ea75b9772321f2db0951b38942.camel@linuxfoundation.org>
-	<CAO5Uq5SGEmZCDvfMN=d=q_m40OohtLozOHBmRji8snYj4MZEeg@mail.gmail.com>
-	<CAO5Uq5SG16CTCdNT1O7DgGc2Y4qUXrDU8VU1f9ox_WCL0a1kgg@mail.gmail.com>
-In-Reply-To: <CAO5Uq5SG16CTCdNT1O7DgGc2Y4qUXrDU8VU1f9ox_WCL0a1kgg@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 3 Feb 2020 20:26:37 +0000
-Message-ID: <CAO5Uq5THBhHjkOH+r-yP3Y3nJF2KdVetoffmd2Cvy0LzSKzD+g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Upgrade 243.2 -> 243.4-latest
+Subject: [PATCH] python3-six: Move src_uri checks to recipe main
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,58 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 20:26:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 03 Feb 2020 20:50:48 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 3, 2020 at 7:55 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> Hi Richard
->
-> On Mon, Feb 3, 2020 at 2:13 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> >
-> > On Mon, Feb 3, 2020 at 10:26 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Mon, 2020-01-27 at 23:13 +0000, Alex Kiernan wrote:
-> > > > Update to latest on the 243 stable branch. This includes (amongst other
-> > > > fixes) seccomp filter changes which fix failures with glibc 2.31, e.g.
-> > > >
-> > > >   systemd-journald[543]: Assertion 'clock_gettime(map_clock_id(clock_id), &ts) == 0' failed at src/basic/time-util.c:55, function now(). Aborting.
-> > > >
-> > > > Rebase 0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-> > > >
-> > > > Drop 0001-unit-file.c-consider-symlink-on-filesystems-like-NFS.patch,
-> > > > fixed in 5c0224c7bf3c ("Handle d_type == DT_UNKNOWN correctly").
-> > > >
-> > > > Drop 0001-seccomp-more-comprehensive-protection-against-libsec.patch,
-> > > > fixed in 70e8c1978a9a ("seccomp: real syscall numbers are >= 0").
-> > >
-> > > Unfortunately something in this causes:
-> > >
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/109/builds/412
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/101/builds/413
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/1545
-> > >
-> >
-> > That's disappointing...
-> >
->
-> I'm failing to reproduce this - am I right in thinking the error I
-> should be looking for is this one:
->
-> [ 3.997360] ide-cd: hdc: tray open
-> [ 3.999321] print_req_error: I/O error, dev hdc, sector 8388592 flags 80700
->
-> or some variation on it?
->
-> I've got testimage running across a number of the images I think are
-> the ones that are being run and I can't get any of them to fail.
->
+.inc is used by other versions of recipe as well, therefore putting
+checksums in .inc will break them unless the version is same as in
+oe-core
 
-Scratch that... it looks like one of the local changes is necessary to
-cause this - I'd foolishly reused an external source tree rather than
-just letting devtool deal with it.
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-devtools/python/python-six.inc        | 3 ---
+ meta/recipes-devtools/python/python3-six_1.14.0.bb | 2 ++
+ 2 files changed, 2 insertions(+), 3 deletions(-)
 
+diff --git a/meta/recipes-devtools/python/python-six.inc b/meta/recipes-devtools/python/python-six.inc
+index bbbddbec50..05b32810bd 100644
+--- a/meta/recipes-devtools/python/python-six.inc
++++ b/meta/recipes-devtools/python/python-six.inc
+@@ -4,9 +4,6 @@ SECTION = "devel/python"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=43cfc9e4ac0e377acfb9b76f56b8415d"
+ 
+-SRC_URI[md5sum] = "21674588a57e649d1a6d977ec3122140"
+-SRC_URI[sha256sum] = "236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"
+-
+ inherit pypi
+ 
+ RDEPENDS_${PN} = "${PYTHON_PN}-io"
+diff --git a/meta/recipes-devtools/python/python3-six_1.14.0.bb b/meta/recipes-devtools/python/python3-six_1.14.0.bb
+index 99e6629b2f..151c366caa 100644
+--- a/meta/recipes-devtools/python/python3-six_1.14.0.bb
++++ b/meta/recipes-devtools/python/python3-six_1.14.0.bb
+@@ -1,3 +1,5 @@
+ inherit setuptools3
+ require python-six.inc
+ 
++SRC_URI[md5sum] = "21674588a57e649d1a6d977ec3122140"
++SRC_URI[sha256sum] = "236bdbdce46e6e6a3d61a337c0f8b763ca1e8717c03b369e87a7ec7ce1319c0a"
 -- 
-Alex Kiernan
+2.25.0
+
 
