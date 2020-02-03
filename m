@@ -1,52 +1,26 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ADC6608C6
+Return-Path: <Kai.Kang@windriver.com>
+X-Greylist: delayed 1134 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 03 Feb 2020 09:33:14 UTC
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F29C60B2A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 08:55:26 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id p17so15922989wma.1
+	Mon,  3 Feb 2020 09:33:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0139XF1M001828
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2020 00:55:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=2qhDZ5GTHhZqm84fjSyjmFAsryM7sxVRc0QMvKodUB8=;
-	b=MsI2iRDHHPqWNhgsF9f8sNvI3LmAWxJnIKATRXkYfvLMQ2kupXkwMraG5cQaJ9giYI
-	z+kmphVvSKTv07jqH3KqIRnIjEltj4v/8uLTfUhh9ELlmc1EXHQooy9HNX2nh+quS2jS
-	qLLPsTYafOMwT0sFZpUTWsuE6DdRt3gIg1YIs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=2qhDZ5GTHhZqm84fjSyjmFAsryM7sxVRc0QMvKodUB8=;
-	b=SiccN0Y+7xmNnnGCZSdG+KeOdH3OkPVsm6Ez7eW8QxcK1lK64uyRvE3G8GYFXxg7lw
-	+KCQ0obK1GNk6n9C+uIQBTzQlV6RXNpyimMkoSXHpvy65CGaNtaS+y3sN+XhGhmM5Whj
-	0JMVAelYGjj15uxW39zTi8Y4xj9cUVW3Wp3cASd9og2CqiHsU3vtSj7GnC24UxlpQtpQ
-	+DxtP2Q1JXaRi2XPMdf31fvIixh/l+qO04lnc2goLP5nNmNE13XVrvM88xfuPYaAYrb8
-	olGGco1HR6zi37dNx8BOisEzEvOaApnzh0wP3Tm9KmT/vqyh2NG5wqAmKDni1SBMKajK
-	VxAw==
-X-Gm-Message-State: APjAAAW2OL1TetD25bxsMTca5KLQ19T8nUecGJzX2QInzxW8sqcUzBl6
-	o5T/iMqkZQ15meLOf95QxX2JGG/+b4o=
-X-Google-Smtp-Source: APXvYqyZVsigp2utxR3o4UY9PplvCevDxCzirXh/i6lDFFP5brpQvuFEc11RgVT3qnuyRzWCsv4CXA==
-X-Received: by 2002:a1c:de55:: with SMTP id v82mr27382060wmg.48.1580720126728; 
-	Mon, 03 Feb 2020 00:55:26 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c17sm23735917wrr.87.2020.02.03.00.55.25
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 03 Feb 2020 00:55:25 -0800 (PST)
-Message-ID: <d60571d81371e3727c70d4cde9e1ff4854563a4c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 03 Feb 2020 08:55:24 +0000
-In-Reply-To: <20200129090738.1398-22-alex.kanavin@gmail.com>
-References: <20200129090738.1398-1-alex.kanavin@gmail.com>
-	<20200129090738.1398-22-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Mon, 3 Feb 2020 01:33:15 -0800 (PST)
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 3 Feb 2020 01:33:14 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 3 Feb 2020 17:33:11 +0800
+Message-ID: <20200203093311.9644-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 22/24] xserver-xorg: upgrade 1.20.6 -> 1.20.7
+Subject: [PATCH] ifupdown: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,54 +33,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 08:55:26 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 03 Feb 2020 09:33:14 -0000
+Content-Type: text/plain
 
-On Wed, 2020-01-29 at 10:07 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  .../{xserver-xorg_1.20.6.bb => xserver-xorg_1.20.7.bb}        | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.6.bb => xserver-xorg_1.20.7.bb} (88%)
-> 
-> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.6.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
-> similarity index 88%
-> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.6.bb
-> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
-> index a1cd490394f..2bd10adf078 100644
-> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.6.bb
-> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
-> @@ -5,8 +5,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
->              file://0001-test-xtest-Initialize-array-with-braces.patch \
->              file://sdksyms-no-build-path.patch \
->              "
-> -SRC_URI[md5sum] = "a98170084f2c8fed480d2ff601f8a14b"
-> -SRC_URI[sha256sum] = "6316146304e6e8a36d5904987ae2917b5d5b195dc9fc63d67f7aca137e5a51d1"
-> +SRC_URI[md5sum] = "d2e96355ad47244c675bce38db2b48a9"
-> +SRC_URI[sha256sum] = "bd5986f010f34f5b3d6bc99fe395ecb1e0dead15a26807e0c832701809a06ea1"
->  
->  CFLAGS += "-fcommon"
+From: Kai Kang <kai.kang@windriver.com>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/1534
+Add ptest for ifupdown with its own test cases.
 
-nodistro build so probably GL distro features related:
+[Yocto #13736]
 
-../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c: In function 'drmmode_crtc_set_mode':
-../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c:757:15: warning: unused variable 'screen' [-Wunused-variable]
-  757 |     ScreenPtr screen = crtc->scrn->pScreen;
-      |               ^~~~~~
-../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c: In function 'drmmode_clear_pixmap':
-../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c:1806:9: error: implicit declaration of function 'miClearDrawable'; did you mean 'drmCreateDrawable'? [-Werror=implicit-function-declaration]
- 1806 |         miClearDrawable(&pixmap->drawable, gc);
-      |         ^~~~~~~~~~~~~~~
-      |         drmCreateDrawable
-../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c:1806:9: warning: nested extern declaration of 'miClearDrawable' [-Wnested-externs]
-cc1: some warnings being treated as errors
-make[5]: *** [Makefile:789: drmmode_display.lo] Error 1
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-core/ifupdown/files/run-ptest    |  4 ++
+ .../ifupdown/files/tweak-ptest-script.patch   | 49 +++++++++++++++++++
+ meta/recipes-core/ifupdown/ifupdown_0.8.35.bb | 10 +++-
+ 3 files changed, 62 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-core/ifupdown/files/run-ptest
+ create mode 100644 meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/ifupdown/files/run-ptest b/meta/recipes-core/ifupdown/files/run-ptest
+new file mode 100644
+index 0000000000..8694042392
+--- /dev/null
++++ b/meta/recipes-core/ifupdown/files/run-ptest
+@@ -0,0 +1,4 @@
++#!/bin/sh
++
++CURDIR=$(dirname `readlink -f $0`)
++cd $CURDIR/tests && ./testbuild-linux
+diff --git a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
+new file mode 100644
+index 0000000000..d7600cf243
+--- /dev/null
++++ b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
+@@ -0,0 +1,49 @@
++Tweak tests of ifupdown to make it work with oe-core ptest framework.
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++diff --git a/tests/testbuild-linux b/tests/testbuild-linux
++index 1181ea0..d5c1814 100755
++--- a/tests/testbuild-linux
+++++ b/tests/testbuild-linux
++@@ -1,6 +1,7 @@
++ #!/bin/sh -e
++ 
++-dir=tests/linux
+++curdir=$(dirname `readlink -f $0`)
+++dir=$curdir/linux
++ 
++ result=true
++ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
++@@ -12,7 +13,7 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
++         echo "Testcase $test: $args"
++ 
++ 	exitcode=0
++-        ./ifup -v --no-act-commands --force -i $dir/testcase.$test --state-dir=$dir/state.$test $args \
+++        ifup -v --no-act-commands --force -i $dir/testcase.$test --state-dir=$dir/state.$test $args \
++                 >$dir/up-res-out.$test 2>$dir/up-res-err.$test || exitcode=$?
++ 
++         (echo "exit code: $exitcode";
++@@ -20,7 +21,7 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
++          echo "====stderr===="; cat $dir/up-res-err.$test) > $dir/up-res.$test
++ 
++ 	exitcode=0
++-        ./ifdown -v --no-act-commands --force -i $dir/testcase.$test --state-dir=$dir/state.$test $args \
+++        ifdown -v --no-act-commands --force -i $dir/testcase.$test --state-dir=$dir/state.$test $args \
++                >$dir/down-res-out.$test 2>$dir/down-res-err.$test || exitcode=$?
++ 
++         (echo "exit code: $exitcode";
++@@ -28,9 +29,9 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
++          echo "====stderr===="; cat $dir/down-res-err.$test) > $dir/down-res.$test
++ 
++         if diff -ub $dir/up.$test $dir/up-res.$test && diff -ub $dir/down.$test $dir/down-res.$test; then
++-                echo "(okay)"
+++                echo "PASS: $test"
++         else
++-                echo "(failed)"
+++                echo "FAIL: $test"
++                 result=false
++         fi
++         echo "=========="
+diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb
+index 0de97fe372..53cb971d33 100644
+--- a/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb
++++ b/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb
+@@ -11,13 +11,15 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https \
+            file://99_network \
+            file://0001-Define-FNM_EXTMATCH-for-musl.patch \
+            file://0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch \
++           file://run-ptest \
++           ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://tweak-ptest-script.patch', '', d)} \
+            "
+ SRCREV = "4af76318cfc57f8e4a44d357104188666213bd4b"
+ 
+ S = "${WORKDIR}/git"
+ 
+ 
+-inherit update-alternatives
++inherit ptest update-alternatives
+ 
+ do_compile () {
+ 	chmod a+rx *.pl *.sh
+@@ -40,6 +42,12 @@ do_install () {
+ 	cd ${D}${mandir}/man8 && ln -s ifup.8 ifdown.8
+ }
+ 
++do_install_ptest () {
++    install -d ${D}${PTEST_PATH}/tests
++    cp -r ${S}/tests/testbuild-linux ${D}${PTEST_PATH}/tests/
++    cp -r ${S}/tests/linux ${D}${PTEST_PATH}/tests/
++}
++
+ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE_${PN} = "ifup ifdown"
+ 
+-- 
+2.17.1
 
 
