@@ -1,26 +1,52 @@
-Return-Path: <Kai.Kang@windriver.com>
-X-Greylist: delayed 1134 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 03 Feb 2020 09:33:14 UTC
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F29C60B2A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
+	[209.85.221.49])
+	by mail.openembedded.org (Postfix) with ESMTP id AF1C8608DD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 09:33:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 0139XF1M001828
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Mon,  3 Feb 2020 10:20:00 +0000 (UTC)
+Received: by mail-wr1-f49.google.com with SMTP id w15so17237381wru.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Feb 2020 01:33:15 -0800 (PST)
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Mon, 3 Feb 2020 01:33:14 -0800
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Feb 2020 17:33:11 +0800
-Message-ID: <20200203093311.9644-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Mon, 03 Feb 2020 02:20:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gIHWjK6jPCTr+3SEuJ/UjXGj2NoKfGXlBvGuCbDFlkM=;
+	b=p2R1pWAJts2EzFR+LD4Rc2Dl5ocOuMyuC/UqA98aQnzi5gZGS454soKI3JVrJCuaiq
+	kedgaYfRhDVwSTbfAwBGX61dxYn+1oevtlJXP98+Atv8owW8XOwZ91NdK6Wf8ezv0LUO
+	BwDNr6qwtKeTRR8qZ2ZODLBvh+kAbMjs18ggGFfFRZhSb7CBWR6lmxSwvXm3ynljmE22
+	bzakOHeyK+s201/8lguMTQC0mlZbDaOlCRPU/OeDpuBEBWBDdzwTKDWIGxJmIEf3OTZ0
+	M9HBP7QtG3vFyvWgDROYstjA7lummKCBKSgGgZi/810SORlZJc11kUyjZqANoPLnQ+5h
+	Tgzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gIHWjK6jPCTr+3SEuJ/UjXGj2NoKfGXlBvGuCbDFlkM=;
+	b=jtmWDyPtwYZ9+TDpt2ZYoZFELzzc6hbSY1oUFrLG6HyrRWwVULZAtizoRkIy+VtjDl
+	EoQ9EwmNBUimmJZ2/VwXjwv++ObUkkJVo8JURuE3QGqyMoJ47jG8enjxrOzOb1Hmuci2
+	Nszs6XIgOrnO4LryHGIGWeuJ02cwOG2sRD+zU4Pt+ylPZvwMaQahRgepaNqn6D0Vf9c5
+	ZGn5/kE7B4gx8kjDIFCdMtS4zJaj8wL4WUSODAgkRKVm1pxce1zK4tfG/CBk8zGb3T0T
+	JIETMN2ulvi1KzkttVPORf2Q4gRTM0qKDEje4XtyGsM2lwUXh1MouAVTyEDx56gKJN0F
+	j32w==
+X-Gm-Message-State: APjAAAUuvXd+UR1cyIcigBZN8jexPBDD3ciNHoJOZU1oMcvk+gxT+QTF
+	RcrSdukeN0F5SxXTOU3ZsISYVcXtYtk=
+X-Google-Smtp-Source: APXvYqzlcJfGmo4JfK4qx77qcwKNN+8P6HF9xX069q0nRC/H1fFT7t1Lxa9yCT0mL82Wfg6OMSfZPg==
+X-Received: by 2002:adf:f6c8:: with SMTP id y8mr14289719wrp.167.1580725201101; 
+	Mon, 03 Feb 2020 02:20:01 -0800 (PST)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	a26sm23617825wmm.18.2020.02.03.02.19.58
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 03 Feb 2020 02:19:59 -0800 (PST)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  3 Feb 2020 10:19:55 +0000
+Message-Id: <20200203101955.2448-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] ifupdown: add ptest
+Subject: [PATCH] podfix: remove
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,124 +59,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 09:33:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Feb 2020 10:20:01 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Kai Kang <kai.kang@windriver.com>
+Now that we don't use the host pod2man (oe-core deda455) the podfix
+class is redundant and can be removed.
 
-Add ptest for ifupdown with its own test cases.
-
-[Yocto #13736]
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-core/ifupdown/files/run-ptest    |  4 ++
- .../ifupdown/files/tweak-ptest-script.patch   | 49 +++++++++++++++++++
- meta/recipes-core/ifupdown/ifupdown_0.8.35.bb | 10 +++-
- 3 files changed, 62 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/ifupdown/files/run-ptest
- create mode 100644 meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
+ meta/classes/podfix.bbclass                   | 35 -------------------
+ .../classes/reproducible_build_simple.bbclass |  2 --
+ 2 files changed, 37 deletions(-)
+ delete mode 100644 meta/classes/podfix.bbclass
 
-diff --git a/meta/recipes-core/ifupdown/files/run-ptest b/meta/recipes-core/ifupdown/files/run-ptest
-new file mode 100644
-index 0000000000..8694042392
---- /dev/null
-+++ b/meta/recipes-core/ifupdown/files/run-ptest
-@@ -0,0 +1,4 @@
-+#!/bin/sh
-+
-+CURDIR=$(dirname `readlink -f $0`)
-+cd $CURDIR/tests && ./testbuild-linux
-diff --git a/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-new file mode 100644
-index 0000000000..d7600cf243
---- /dev/null
-+++ b/meta/recipes-core/ifupdown/files/tweak-ptest-script.patch
-@@ -0,0 +1,49 @@
-+Tweak tests of ifupdown to make it work with oe-core ptest framework.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+diff --git a/tests/testbuild-linux b/tests/testbuild-linux
-+index 1181ea0..d5c1814 100755
-+--- a/tests/testbuild-linux
-++++ b/tests/testbuild-linux
-+@@ -1,6 +1,7 @@
-+ #!/bin/sh -e
-+ 
-+-dir=tests/linux
-++curdir=$(dirname `readlink -f $0`)
-++dir=$curdir/linux
-+ 
-+ result=true
-+ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
-+@@ -12,7 +13,7 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
-+         echo "Testcase $test: $args"
-+ 
-+ 	exitcode=0
-+-        ./ifup -v --no-act-commands --force -i $dir/testcase.$test --state-dir=$dir/state.$test $args \
-++        ifup -v --no-act-commands --force -i $dir/testcase.$test --state-dir=$dir/state.$test $args \
-+                 >$dir/up-res-out.$test 2>$dir/up-res-err.$test || exitcode=$?
-+ 
-+         (echo "exit code: $exitcode";
-+@@ -20,7 +21,7 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
-+          echo "====stderr===="; cat $dir/up-res-err.$test) > $dir/up-res.$test
-+ 
-+ 	exitcode=0
-+-        ./ifdown -v --no-act-commands --force -i $dir/testcase.$test --state-dir=$dir/state.$test $args \
-++        ifdown -v --no-act-commands --force -i $dir/testcase.$test --state-dir=$dir/state.$test $args \
-+                >$dir/down-res-out.$test 2>$dir/down-res-err.$test || exitcode=$?
-+ 
-+         (echo "exit code: $exitcode";
-+@@ -28,9 +29,9 @@ for test in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18; do
-+          echo "====stderr===="; cat $dir/down-res-err.$test) > $dir/down-res.$test
-+ 
-+         if diff -ub $dir/up.$test $dir/up-res.$test && diff -ub $dir/down.$test $dir/down-res.$test; then
-+-                echo "(okay)"
-++                echo "PASS: $test"
-+         else
-+-                echo "(failed)"
-++                echo "FAIL: $test"
-+                 result=false
-+         fi
-+         echo "=========="
-diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb
-index 0de97fe372..53cb971d33 100644
---- a/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb
-+++ b/meta/recipes-core/ifupdown/ifupdown_0.8.35.bb
-@@ -11,13 +11,15 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https \
-            file://99_network \
-            file://0001-Define-FNM_EXTMATCH-for-musl.patch \
-            file://0001-Makefile-do-not-use-dpkg-for-determining-OS-type.patch \
-+           file://run-ptest \
-+           ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'file://tweak-ptest-script.patch', '', d)} \
-            "
- SRCREV = "4af76318cfc57f8e4a44d357104188666213bd4b"
+diff --git a/meta/classes/podfix.bbclass b/meta/classes/podfix.bbclass
+deleted file mode 100644
+index cc8210a27e2..00000000000
+--- a/meta/classes/podfix.bbclass
++++ /dev/null
+@@ -1,35 +0,0 @@
+-python pod_strip_version() {
+-    import re
+-
+-    def opener(filename, mode):
+-        if filename.endswith(".gz"):
+-            import gzip
+-            return gzip.open(filename, mode)
+-        elif filename.endswith(".bz2"):
+-            import bz2
+-            return bz2.open(filename, mode)
+-        else:
+-            return open(filename, mode)
+-
+-    bad_re = re.compile(rb"Automatically generated by Pod::Man( [0-9]+.+)")
+-
+-    for root, dirs, files in os.walk(d.expand("${D}${mandir}")):
+-        for filename in files:
+-            filename = os.path.join(root, filename)
+-            if not os.path.isfile(filename):
+-                continue
+-
+-            with opener(filename, "rb") as manfile:
+-                manpage = manfile.read()
+-                m = bad_re.search(manpage)
+-                if not m:
+-                    continue
+-
+-            bb.note("podfix: stripping version from %s" % filename)
+-            os.unlink(filename)
+-            with opener(filename, "wb") as manfile:
+-                manfile.write(manpage[:m.start(1)])
+-                manfile.write(manpage[m.end(1):])
+-}
+-
+-do_install[postfuncs] += "pod_strip_version"
+diff --git a/meta/classes/reproducible_build_simple.bbclass b/meta/classes/reproducible_build_simple.bbclass
+index 153a0760721..3e5fd824328 100644
+--- a/meta/classes/reproducible_build_simple.bbclass
++++ b/meta/classes/reproducible_build_simple.bbclass
+@@ -8,5 +8,3 @@ export SOURCE_DATE_EPOCH ??= "1520598896"
  
- S = "${WORKDIR}/git"
- 
- 
--inherit update-alternatives
-+inherit ptest update-alternatives
- 
- do_compile () {
- 	chmod a+rx *.pl *.sh
-@@ -40,6 +42,12 @@ do_install () {
- 	cd ${D}${mandir}/man8 && ln -s ifup.8 ifdown.8
- }
- 
-+do_install_ptest () {
-+    install -d ${D}${PTEST_PATH}/tests
-+    cp -r ${S}/tests/testbuild-linux ${D}${PTEST_PATH}/tests/
-+    cp -r ${S}/tests/linux ${D}${PTEST_PATH}/tests/
-+}
-+
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_${PN} = "ifup ifdown"
- 
+ REPRODUCIBLE_TIMESTAMP_ROOTFS ??= "1520598896"
+ BUILDNAME ??= "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"
+-
+-inherit podfix
 -- 
-2.17.1
+2.20.1
 
 
