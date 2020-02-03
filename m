@@ -1,26 +1,52 @@
-Return-Path: <Zhe.He@windriver.com>
-X-Greylist: delayed 8136 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 03 Feb 2020 08:00:00 UTC
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 91D8260172
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ADC6608C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Feb 2020 08:00:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 0135iIE7003618
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Mon,  3 Feb 2020 08:55:26 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id p17so15922989wma.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 2 Feb 2020 21:44:25 -0800 (PST)
-Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Sun, 2 Feb 2020 21:44:21 -0800
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 3 Feb 2020 13:44:20 +0800
-Message-ID: <20200203054420.35875-1-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Mon, 03 Feb 2020 00:55:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=2qhDZ5GTHhZqm84fjSyjmFAsryM7sxVRc0QMvKodUB8=;
+	b=MsI2iRDHHPqWNhgsF9f8sNvI3LmAWxJnIKATRXkYfvLMQ2kupXkwMraG5cQaJ9giYI
+	z+kmphVvSKTv07jqH3KqIRnIjEltj4v/8uLTfUhh9ELlmc1EXHQooy9HNX2nh+quS2jS
+	qLLPsTYafOMwT0sFZpUTWsuE6DdRt3gIg1YIs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=2qhDZ5GTHhZqm84fjSyjmFAsryM7sxVRc0QMvKodUB8=;
+	b=SiccN0Y+7xmNnnGCZSdG+KeOdH3OkPVsm6Ez7eW8QxcK1lK64uyRvE3G8GYFXxg7lw
+	+KCQ0obK1GNk6n9C+uIQBTzQlV6RXNpyimMkoSXHpvy65CGaNtaS+y3sN+XhGhmM5Whj
+	0JMVAelYGjj15uxW39zTi8Y4xj9cUVW3Wp3cASd9og2CqiHsU3vtSj7GnC24UxlpQtpQ
+	+DxtP2Q1JXaRi2XPMdf31fvIixh/l+qO04lnc2goLP5nNmNE13XVrvM88xfuPYaAYrb8
+	olGGco1HR6zi37dNx8BOisEzEvOaApnzh0wP3Tm9KmT/vqyh2NG5wqAmKDni1SBMKajK
+	VxAw==
+X-Gm-Message-State: APjAAAW2OL1TetD25bxsMTca5KLQ19T8nUecGJzX2QInzxW8sqcUzBl6
+	o5T/iMqkZQ15meLOf95QxX2JGG/+b4o=
+X-Google-Smtp-Source: APXvYqyZVsigp2utxR3o4UY9PplvCevDxCzirXh/i6lDFFP5brpQvuFEc11RgVT3qnuyRzWCsv4CXA==
+X-Received: by 2002:a1c:de55:: with SMTP id v82mr27382060wmg.48.1580720126728; 
+	Mon, 03 Feb 2020 00:55:26 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	c17sm23735917wrr.87.2020.02.03.00.55.25
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 03 Feb 2020 00:55:25 -0800 (PST)
+Message-ID: <d60571d81371e3727c70d4cde9e1ff4854563a4c.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 03 Feb 2020 08:55:24 +0000
+In-Reply-To: <20200129090738.1398-22-alex.kanavin@gmail.com>
+References: <20200129090738.1398-1-alex.kanavin@gmail.com>
+	<20200129090738.1398-22-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: [PATCH] lttng-modules: update to 2.11.1
+Subject: Re: [PATCH 22/24] xserver-xorg: upgrade 1.20.6 -> 1.20.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,63 +59,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Feb 2020 08:00:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 03 Feb 2020 08:55:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: He Zhe <zhe.he@windriver.com>
+On Wed, 2020-01-29 at 10:07 +0100, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  .../{xserver-xorg_1.20.6.bb => xserver-xorg_1.20.7.bb}        | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_1.20.6.bb => xserver-xorg_1.20.7.bb} (88%)
+> 
+> diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.6.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
+> similarity index 88%
+> rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.6.bb
+> rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
+> index a1cd490394f..2bd10adf078 100644
+> --- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.6.bb
+> +++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_1.20.7.bb
+> @@ -5,8 +5,8 @@ SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.pat
+>              file://0001-test-xtest-Initialize-array-with-braces.patch \
+>              file://sdksyms-no-build-path.patch \
+>              "
+> -SRC_URI[md5sum] = "a98170084f2c8fed480d2ff601f8a14b"
+> -SRC_URI[sha256sum] = "6316146304e6e8a36d5904987ae2917b5d5b195dc9fc63d67f7aca137e5a51d1"
+> +SRC_URI[md5sum] = "d2e96355ad47244c675bce38db2b48a9"
+> +SRC_URI[sha256sum] = "bd5986f010f34f5b3d6bc99fe395ecb1e0dead15a26807e0c832701809a06ea1"
+>  
+>  CFLAGS += "-fcommon"
 
-Fix build failure with kernel v5.5.
-Remove patch as issues fixed upstream.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/1534
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- ...modules_2.11.0.bb => lttng-modules_2.11.1.bb} | 16 ++++++----------
- 1 file changed, 6 insertions(+), 10 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.11.0.bb => lttng-modules_2.11.1.bb} (68%)
+nodistro build so probably GL distro features related:
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
-similarity index 68%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
-index 3465a43d38..c833ff7009 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.11.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
-@@ -11,14 +11,10 @@ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
--           file://0001-Fix-SUNRPC-Fix-oops-when-trace-sunrpc_task-events-in.patch \
--           file://0002-Fix-sunrpc-null-rpc_clnt-dereference-in-rpc_task_que.patch \
--           file://0003-Fix-sunrpc-use-signed-integer-for-client-id.patch \
--           file://0004-sunrpc-introduce-lttng_get_clid-helper.patch \
-            "
- 
--SRC_URI[md5sum] = "46ec6c566e65cf27b391a1bb643e11b4"
--SRC_URI[sha256sum] = "98af92d8c2e00f4eb63bc637a6967103cf6997434493f36e7a535a491e4fad5f"
-+SRC_URI[md5sum] = "0d964723c8765b39835e5e6efc60a604"
-+SRC_URI[sha256sum] = "d3e5648937e59dee983ef844f9316c55e9961f9dc8515b9260c473bbb70696c1"
- 
- export INSTALL_MOD_DIR="kernel/lttng-modules"
- 
-@@ -35,13 +31,13 @@ python do_package_prepend() {
- }
- 
- BBCLASSEXTEND = "devupstream:target"
--LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=c4613d1f8a9587bd7b366191830364b3"
-+LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
- DEFAULT_PREFERENCE_class-devupstream = "-1"
--SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.10 \
-+SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.11 \
-            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-            "
--SRCREV_class-devupstream = "624aca5d7507fbd11ea4a1a474c3aa1031bd9a31"
--PV_class-devupstream = "2.10.10+git${SRCPV}"
-+SRCREV_class-devupstream = "6ad0e68b43c3e52fcb3d47c4d823a7b84aeb443a"
-+PV_class-devupstream = "2.11.1+git${SRCPV}"
- S_class-devupstream = "${WORKDIR}/git"
- SRCREV_FORMAT ?= "lttng_git"
--- 
-2.17.1
+../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c: In function 'drmmode_crtc_set_mode':
+../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c:757:15: warning: unused variable 'screen' [-Wunused-variable]
+  757 |     ScreenPtr screen = crtc->scrn->pScreen;
+      |               ^~~~~~
+../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c: In function 'drmmode_clear_pixmap':
+../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c:1806:9: error: implicit declaration of function 'miClearDrawable'; did you mean 'drmCreateDrawable'? [-Werror=implicit-function-declaration]
+ 1806 |         miClearDrawable(&pixmap->drawable, gc);
+      |         ^~~~~~~~~~~~~~~
+      |         drmCreateDrawable
+../../../../../xorg-server-1.20.7/hw/xfree86/drivers/modesetting/drmmode_display.c:1806:9: warning: nested extern declaration of 'miClearDrawable' [-Wnested-externs]
+cc1: some warnings being treated as errors
+make[5]: *** [Makefile:789: drmmode_display.lo] Error 1
+
+Cheers,
+
+Richard
 
 
