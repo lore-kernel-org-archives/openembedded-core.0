@@ -1,45 +1,49 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-il1-f181.google.com (mail-il1-f181.google.com
-	[209.85.166.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C7A96103A
+Return-Path: <marek.belisko@gmail.com>
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com
+	[209.85.208.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 556EC61049
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 11:09:19 +0000 (UTC)
-Received: by mail-il1-f181.google.com with SMTP id f10so15470421ils.8
+	Tue,  4 Feb 2020 11:13:15 +0000 (UTC)
+Received: by mail-ed1-f53.google.com with SMTP id r21so19453208edq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Feb 2020 03:09:20 -0800 (PST)
+	Tue, 04 Feb 2020 03:13:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=mKiWfw35TRBcNC5ah0+e4ESx/3gHIgWIINi6hAJbztM=;
-	b=RxObIr6ZKQS4LEYyn00FpQ22gfj03kRb1wogcKKLhyGtdQViDnzYdVCQi92alvkwKl
-	8U+9tPAC+O7hgbR2bv2ukjsxhomFMuIUkDe3wa99Yo/cPVfX/aliAYav8x8ISMxElfY/
-	ag+vS5MUPAjy/1AlKHIwAL9X42DgW320RotkjRisn60GlDjZxl7Ucyd2dTaIYF5SRa9L
-	WKyFLULsW34ZEAiyEgQr9O9tb3/gKl7BHsBBMDbzlwyMZVyaF06MHHlYs2+WOkYh71G4
-	/zQlf2K9N5JA/tjdiEIDfp38ntiVpsIqwR+S3kVxZc8VbJQRr7X6a0Tbxh7SUn2CpC9t
-	uJ2A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Ataw+ErBILSPd1VMqW1unUde9B9FmPfyIN3X7cnD46M=;
+	b=Zg1TOlzmooovud2PyMR9wzmbKsfyMfnv+sNbD5cvVwABNKgULscYEhnrqF8HuVYkvN
+	m7giXsirWJWHPgAsCdsI43C24TLu2weRoFR6RTcPExTZmnYnU2gRqv91+hluw1T6Du9q
+	goV1nqO4ZnssUQdEF8dkuvS04MkBs142c5ffIK3B8xXGdrIe9//+qckLmKty8Qw0YqCC
+	n2Nt1w/UfGEDH1SMXm3ywwwEeYCNKQfzUiFCkZCbrH+HOGsj9xd4u1wECr8Tu71G4eOr
+	FbR+dwf8Rwf6z8EalM68Nn9ZOsyZpDJIUPGpR2cHKQs89bxGBNDO7vBlgxxhX7iq5KdV
+	vZlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=mKiWfw35TRBcNC5ah0+e4ESx/3gHIgWIINi6hAJbztM=;
-	b=A3m7L2c7jlQAXJB4yOZxEPD2QdV7O4AzaDbCIKd5sz7qLdAO40zd/9NtEi0hpGmmH7
-	bfYIXsJcLw+ubxpmJRg65lsaqi7zGHGEM/zWLXSYGCLt9cCkGUYgLVQzTRc/lXJq3lfa
-	DHgLm8KXK8iEYK8tRe6ukRVcplVn+mwizJNoLe4pk+zbF3xMShKVqzraSJodJI3HIaLC
-	D6aoN4/kDUPWvQcc6hMB+dxAEQ+ooS5IW1UMjqmbnFFe/JxrNhSCqLURP7DHNoydJRMT
-	WGvf+iXwjXihuKbbM/PrqAS+/FlXegAvx2+bfvvl+wEWgFM91e3mfbCZzAqPMNA8ZDJs
-	BMpQ==
-X-Gm-Message-State: APjAAAXVUxlCeO0SkCgFemMcdfMJ3ZyAeMX0vuEkEfTT2REopqZsCIyf
-	rwaRNHrM4M0OQtDZEoguaOdK0hx9Ivar4GjZMfU=
-X-Google-Smtp-Source: APXvYqyXS4Zv0+5IfAjQVkK2QCnDHOOUpsHMWdCyIqWEFQPvQtVzub8qpk6Uwe7ZR3oov54POb57GvHNqhlrbWqWFkQ=
-X-Received: by 2002:a92:390d:: with SMTP id g13mr19826136ila.53.1580814560493; 
-	Tue, 04 Feb 2020 03:09:20 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Ataw+ErBILSPd1VMqW1unUde9B9FmPfyIN3X7cnD46M=;
+	b=W1gIJjexmJVCqIxspBIjILlnysPij9tQFbyJcw3unTUg3JIOp3r1+0uR8vUsvK9znh
+	7rBF7t3UPWKhk+ZGm1bZhOFxWgzqljICM7hD4Hv9DsnRGem3cnolm+6UCVlokD0y6Rp+
+	nyZ81i29KBSxJ1X+sevCWycywIWh3K1TIVZnsrVN1h+wAdap8c8V748lMb/C2QExx5Zo
+	lDHOfBdaNWd8DE9rHrHR8uqseLNm4BA/MJbmtLakN1hqVxhTS0cZIrv2MfMijRWJ/5+P
+	roo2h9Zv3kthGKhOJtdCVZzZLwyMsOcuiViHABZk0XSMN9Kk8rjwX01Rsw8ssTnX3N26
+	A8mw==
+X-Gm-Message-State: APjAAAXYbbyNIxST3eBvdzs+/cApPjPIpzvjen2mkGcEC4allOv/QUs7
+	+sJi39/SYRocC23+3cgBh8LC6/DnhvpL5FepcmCEz1qgAXc=
+X-Google-Smtp-Source: APXvYqx/qnsDqF1dg71yCyGbdl0PQGeaGOrUZVJILNh67siPY3E1+IiSqJa4z0RRsPpusdB2OFXoTYoUZfc2Dov2ee8=
+X-Received: by 2002:a17:906:34d7:: with SMTP id
+	h23mr25433431ejb.90.1580814795994; 
+	Tue, 04 Feb 2020 03:13:15 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:ad5:5d0d:0:0:0:0:0 with HTTP;
-	Tue, 4 Feb 2020 03:09:20 -0800 (PST)
-From: JH <jupiter.hce@gmail.com>
-Date: Tue, 4 Feb 2020 22:09:20 +1100
-Message-ID: <CAA=hcWQVh1JoDSL7f2yXbpWBkGZkwDU=dqPxRF8Ojq_YnRoOfw@mail.gmail.com>
-To: Yocto discussion list <yocto@yoctoproject.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Which package for nandbiterrs?
+References: <CAA=hcWQVh1JoDSL7f2yXbpWBkGZkwDU=dqPxRF8Ojq_YnRoOfw@mail.gmail.com>
+In-Reply-To: <CAA=hcWQVh1JoDSL7f2yXbpWBkGZkwDU=dqPxRF8Ojq_YnRoOfw@mail.gmail.com>
+From: Belisko Marek <marek.belisko@gmail.com>
+Date: Tue, 4 Feb 2020 12:13:05 +0100
+Message-ID: <CAAfyv36q3v0jLJU7yi-9Jjnx_hfNkH-+z9X+B9ebN87rYcqEzA@mail.gmail.com>
+To: JH <jupiter.hce@gmail.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] Which package for nandbiterrs?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,22 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 11:09:19 -0000
+X-List-Received-Date: Tue, 04 Feb 2020 11:13:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+On Tue, Feb 4, 2020 at 12:09 PM JH <jupiter.hce@gmail.com> wrote:
+>
+> Hi,
+>
+> I built the image in thud to include following MTD receipts:
+>
+> mtd-utils
+> mtd-utils-ubifs
+> mtd-utils-tests
+>
+> But the nandbiterrs is still missing, which package for nandbiterrs?
+Are you referring to this one:
+https://elixir.bootlin.com/linux/latest/source/drivers/mtd/tests/nandbiterrs.c
+Then it's in kernel (not sure if tests are build though).
+>
+> Thank you.
+>
+> Kind regards,
+>
+> - jh
+> 
 
-I built the image in thud to include following MTD receipts:
+BR,
 
-mtd-utils
-mtd-utils-ubifs
-mtd-utils-tests
-
-But the nandbiterrs is still missing, which package for nandbiterrs?
-
-Thank you.
-
-Kind regards,
-
-- jh
+marek
 
