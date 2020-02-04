@@ -1,26 +1,49 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B3C8611F8
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F59060C16
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 05:54:24 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Feb 2020 21:47:20 -0800
-X-IronPort-AV: E=Sophos;i="5.70,398,1574150400"; d="scan'208";a="219629201"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.21.206])
-	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Feb 2020 21:47:19 -0800
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Feb 2020 13:47:07 +0800
-Message-Id: <20200204054707.913173-4-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200204054707.913173-1-anuj.mittal@intel.com>
-References: <20200204054707.913173-1-anuj.mittal@intel.com>
+	Tue,  4 Feb 2020 06:52:28 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id p9so1932516wmc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 03 Feb 2020 22:52:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3620gU+ya1LIdXYtV5LRIuJ+izgumCOFN/TiooqeoTM=;
+	b=ihMgzUP2Z7dzT0JHV1zk2IvZqhjN4lIOaEYunQVqNqIs/EZj/VzS1537x0vip2q6a3
+	LkJe3Z7nYOY4t53dutwiHblKVTEOtbJb6GE+ssgHOObZFGT4Ni3Ma+zmgMVTl3z5ufKc
+	v3H3fi5m4pf7CuR+HNb26APkdVaxf91R9gkzmYJuoaz3n0YCkQZAwZNGE2L6ZKg5vUSh
+	INNUQDEKmK1o1v1EibHdwjwPDZ990EafSrbbTcKHf729i5pE5PFt2nUYI+rtGkgflmgR
+	15OmSkLUwY96XqBB2prWb50GHeov5oJEaHYEPZViG4SyIwYl/ISTFVJXBvgQbrPwizW8
+	w7cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3620gU+ya1LIdXYtV5LRIuJ+izgumCOFN/TiooqeoTM=;
+	b=gMo51SK5LB/Zr7G0RrYCQghfgcIBex28HWYCKR3lKvUoANpwt2SXoQbCIAY2WLtn7s
+	6/M8e4ay0Jl6sSQl107ZLpHlJiXrp8Ax+p3un1UgbumuJ3c0cQy+ccp1+kfRu+KLkx8B
+	YNRg7rDev51ZNS3SMrLlCFAxImzq/BEifUWLvQsJ4MIeEysGKk6lRw4nEx7+oYd/pG+v
+	7vtxUWbqYSXgQmiGWVqLa1dXVjKr3JXGQNJ81MLOVhkBFpBY+txs7HuMtb9TDPKOHH8J
+	q8n74ty6+/EcXVnR8W9AZSPD3dD4Eo6RH9n/1ML1rWhWAETGVcVV7KKRNPD7jglf6AU7
+	A2BQ==
+X-Gm-Message-State: APjAAAUOupjznFp4saJJVg4n0f5GBlbo34lXElW//NCMn8K9wXn9VUf4
+	UR1pG8avSNB8e0he/7ZyMrKP2/CxDUMZ7WJnYPB2kZSo5UM=
+X-Google-Smtp-Source: APXvYqz3HeOHAMHZlW44BqN9MihBh1l2K4X/eP4Yi9spziE3q5A1XzzI26s497p4KiNbgerL1DC9vjKQ9wPSynIDx/0=
+X-Received: by 2002:a1c:95:: with SMTP id 143mr3958468wma.65.1580799149046;
+	Mon, 03 Feb 2020 22:52:29 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 4/4] sqlite3: upgrade 3.30.1 -> 3.31.1
+References: <20200131233305.118454-1-mark.hatle@kernel.crashing.org>
+	<CA+aJhH1nnqrUzwdRuju04NY=YsTfafkQLA7ucMMUUcPyozpEmA@mail.gmail.com>
+	<5e6edcb4-8eca-7bb8-5fc4-5c0504d4f130@kernel.crashing.org>
+In-Reply-To: <5e6edcb4-8eca-7bb8-5fc4-5c0504d4f130@kernel.crashing.org>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Tue, 4 Feb 2020 16:52:17 +1000
+Message-ID: <CA+aJhH3h2DhtUJLKtR8a72kHr9R+oGsfvZe8GRzPsmdsAedmCA@mail.gmail.com>
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v2 1/2] microblaze tune: Enable 64-bit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,62 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 05:54:24 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 04 Feb 2020 06:52:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-support/sqlite/sqlite3_3.30.1.bb | 20 -------------------
- meta/recipes-support/sqlite/sqlite3_3.31.1.bb | 12 +++++++++++
- 2 files changed, 12 insertions(+), 20 deletions(-)
- delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.30.1.bb
- create mode 100644 meta/recipes-support/sqlite/sqlite3_3.31.1.bb
+On Tue, 4 Feb 2020 at 04:36, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+>
+>
+>
+> On 1/31/20 10:50 PM, Nathan Rossi wrote:
+> > On Sat, 1 Feb 2020 at 09:33, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+> >>
+> >> From: Mark Hatle <mark.hatle@xilinx.com>
+> >>
+> >> 64-bit is not yet available in Linux, but some non-Linux uses exist.
+> >>
+> >> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+> >> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+> >> ---
+> >>  meta/conf/machine/include/microblaze/arch-microblaze.inc | 9 ++++++++-
+> >>  1 file changed, 8 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/meta/conf/machine/include/microblaze/arch-microblaze.inc b/meta/conf/machine/include/microblaze/arch-microblaze.inc
+> >> index 265898b6b6..fb777d929c 100644
+> >> --- a/meta/conf/machine/include/microblaze/arch-microblaze.inc
+> >> +++ b/meta/conf/machine/include/microblaze/arch-microblaze.inc
+> >> @@ -4,6 +4,9 @@
+> >>  TUNEVALID[microblaze] = "MicroBlaze"
+> >>  MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "microblaze", "microblaze:", "", d)}"
+> >>
+> >> +TUNEVALID[64-bit] = "64-bit MicroBlaze"
+> >> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "microblaze64:", "", d)}"
+> >
+> > This should probably TUNECONFLICTS with all unsupported versions.
+>
+> I have no information on what versions are unsupported with 64-bit.  If I
+> receive that information, I will add it as conflicts.
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.30.1.bb b/meta/recipes-support/sqlite/sqlite3_3.30.1.bb
-deleted file mode 100644
-index e055aca205..0000000000
---- a/meta/recipes-support/sqlite/sqlite3_3.30.1.bb
-+++ /dev/null
-@@ -1,20 +0,0 @@
--require sqlite3.inc
--
--LICENSE = "PD"
--LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
--
--SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
--           file://CVE-2019-19244.patch \
--           file://CVE-2019-19880.patch \
--           file://CVE-2019-19923.patch \
--           file://CVE-2019-19924.patch \
--           file://CVE-2019-19925.patch \
--           file://CVE-2019-19926.patch \
--           file://CVE-2019-19959.patch \
--           file://CVE-2019-20218.patch \
--           "
--SRC_URI[md5sum] = "51252dc6bc9094ba11ab151ba650ff3c"
--SRC_URI[sha256sum] = "8c5a50db089bd2a1b08dbc5b00d2027602ca7ff238ba7658fabca454d4298e60"
--
--# -19242 is only an issue in specific development branch commits
--CVE_CHECK_WHITELIST += "CVE-2019-19242"
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.31.1.bb b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-new file mode 100644
-index 0000000000..903d66ab29
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3_3.31.1.bb
-@@ -0,0 +1,12 @@
-+require sqlite3.inc
-+
-+LICENSE = "PD"
-+LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
-+
-+SRC_URI = "http://www.sqlite.org/2020/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+           "
-+SRC_URI[md5sum] = "2d0a553534c521504e3ac3ad3b90f125"
-+SRC_URI[sha256sum] = "62284efebc05a76f909c580ffa5c008a7d22a1287285d68b7825a2b6b51949ae"
-+
-+# -19242 is only an issue in specific development branch commits
-+CVE_CHECK_WHITELIST += "CVE-2019-19242"
--- 
-2.24.1
+It looks like it was added in v11.0 (and unsupported in all prior
+versions), according to the microblaze reference manual
+(https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug984-vivado-microblaze-ref.pdf).
 
+Regards,
+Nathan
+
+>
+> --Mark
+>
+> > Regards,
+> > Nathan
+> >
+> >
+> >> +
+> >>  # Endian
+> >>  TUNEVALID[bigendian] = "Use Microblaze Big Endian"
+> >>  TUNECONFLICTS[bigendian] += "v10.0"
+> >> @@ -26,6 +29,7 @@ TUNECONFLICTS[frequency-optimized] += "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0
+> >>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "barrel-shift", "-mxl-barrel-shift", "-mno-xl-barrel-shift", d)}"
+> >>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "pattern-compare", "-mxl-pattern-compare", "-mno-xl-pattern-compare", d)}"
+> >>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "frequency-optimized", "-mxl-frequency", "", d)}"
+> >> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "-m64", "", d)}"
+> >>
+> >>  # Disable reorder for v8.30 if pattern-compare is not enabled
+> >>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "reorder", \
+> >> @@ -48,6 +52,9 @@ require conf/machine/include/microblaze/feature-microblaze-math.inc
+> >>  # Architecture name, either 'microblazeeb' or 'microblazeel' depending on endianess
+> >>  TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
+> >>
+> >> +# Add 64-bit to the PKGARCH if enabled.
+> >> +MBPKGARCH_SIZE = "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "64", "", d)}"
+> >> +
+> >>  # Package Architecture formatting
+> >> -TUNE_PKGARCH = "microblaze${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
+> >> +TUNE_PKGARCH = "microblaze${MBPKGARCH_SIZE}${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
+> >>
+> >> --
+> >> 2.17.1
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
