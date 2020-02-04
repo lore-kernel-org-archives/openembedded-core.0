@@ -1,48 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id EB07D60B71
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
+	[209.85.215.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 60BB5611F9
 	for <openembedded-core@openembedded.org>;
-	Tue,  4 Feb 2020 15:06:11 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id k3so9795516pgc.3
+	Tue,  4 Feb 2020 15:06:13 +0000 (UTC)
+Received: by mail-pg1-f169.google.com with SMTP id k3so9795546pgc.3
 	for <openembedded-core@openembedded.org>;
-	Tue, 04 Feb 2020 07:06:13 -0800 (PST)
+	Tue, 04 Feb 2020 07:06:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=hGxIXqLbo55aW6Ucxkqo0I7gCFauSm6FS19gXu1EYIs=;
-	b=CQBuHgZEOls2xdRr56FCOtrhG0UQqHFGG5UhfS/n8nSccRXjUpLW/rTemNTZfPeRNQ
-	5lM3mGT+HQr1SgCselsMx+4YYO+50K6as7511hR6e4GNYxNFolDfUPkHgPuVZu+xLbNn
-	ZbwUMzi8T7ncxZ2E5nfrekv0iuUcj908gAY4gE/f3n4+Yr9O3hw92IzSRdBv4J8fnHrU
-	9QKi9DqlIoMsCCMgBUDhZNFIWVzgNS00TUHhBpyYzYXdchKcHnakcmwHbStQSFlP+3gS
-	UnVZj6Tn6XPtohiDVxxCqPrdkAyJRLQGcHE85W7DJ9W56Med90HUJX5RtQz7DSxo2kUf
-	8Qsw==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=dmbU8KUAjvuGC1+F0jX22Y6ppNcouY2M002z0JPZ9BU=;
+	b=GyTwE4HAzDC0eZE9+fp8BJOVO/Y0Ds+tbdusEnVzlr5NszZGiZWlQsANaj/QS1L3PP
+	OFKBuAHbUuj8F55Md+JPEnrMLcdPCFI11uOOCv/somldw4q2+VjVUZ/j0dEoWJeo3ohA
+	oT93kp1ixLE038WYByi1nait4gAFcSwMWgcIjVpZI9bzcoDHpYarbWTuuhlMxED/ytUH
+	B9+SyT3nfvbFM0/OEfDuJjhWj4SoZ9OzFn82CUv1BieOqO1KokxH3v+d4GG7e9P05Scx
+	pJcq8S9PK68wVfQ3VvDbOMgcJ2V7scOwS6vNA0sEivX4LxKXSFDFI0MT92MgqLx56iUK
+	xgWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=hGxIXqLbo55aW6Ucxkqo0I7gCFauSm6FS19gXu1EYIs=;
-	b=p5pL7oD//F4Qtl1TqGs72oxyWndnN1hYaog+XyCO6HRtwZxFSQ/8/Po+yqPFFb4qi+
-	CKEfMqikq8FHylrcG9JrmlSOEjn2mfkkUMpPTtGLev6cW2W3CNGjiWpdgwqQWJPUyWer
-	tFi70ffifEK+1KMpM3ulg1RZO642CkNGxM/r1CcRZRigwhpQSfcABnYNM4yLJhZSavTu
-	Ok/UjqGA7PWqGNeawmq37ugz2cg3zBJqeSjkfggJ4d4Kko3K59QmJQxXoTxzmtvHJbIe
-	2huMbk1Rl8WoRKURzusOAiO9yJCaUzpu6D6fI+fSjBoVFu6CO+1HhtsUVPLTEDplnUS5
-	ArmA==
-X-Gm-Message-State: APjAAAWifYIqV2C91TAvnYbgBflvNM87QZzK/EO5ac1ITUtzyiWSUoXJ
-	LsQdd7t9Ss//osW+qYzeKl7dsG32
-X-Google-Smtp-Source: APXvYqxzN8g/Y8sVi1wFjzbRxe37P5xJkscbJqwJwF9gieOf9x0+3bGuCAL6CKmow2Njld9rzYIunw==
-X-Received: by 2002:a63:c441:: with SMTP id m1mr447918pgg.324.1580828772592;
-	Tue, 04 Feb 2020 07:06:12 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=dmbU8KUAjvuGC1+F0jX22Y6ppNcouY2M002z0JPZ9BU=;
+	b=dG5YfyZRv2W6tfIMmWj1WLoT+94cIYNJGW/DZ4EbBoV5o5XQnt4PKFwD3eCstSseiH
+	0Y4uSRd8hrzTWYuCAURqtDRWvNhVp1xu1bH2F1ZjZFWxlH3dqC5UWqG8UFV1a12is8rX
+	QXPecLBpK+qB77zunAElbxZdFoYfOphyWwmsAand3tON5WTPI62S6l+2xZviN4vstP0b
+	VIZcFXscWaxj3waFeEyBp22I1Js/Pr8xxiBjhncVfvResdEUiTPXp7TgO970UF3yKUpO
+	FpITq+rH/4XLLOIy4t4BMIeeHGf2DEGmeL/ZTd7g8t4ctFEQARcZ8dErJxIHQfCQxkz3
+	mj0Q==
+X-Gm-Message-State: APjAAAV6UxiJA2HTn16DkR1vO7wmZAPgTAwylQe6qp+v/YGVVfudMeoo
+	hRgFQ3fM0yOFMP/UKMrAnIZDPODF
+X-Google-Smtp-Source: APXvYqxcf9YUzWJyaYwPV58Wox/I6r7vIJ96QEZI2qG9EoVJI3um7z9mggF1sFdjJ76J2qekdBSRyQ==
+X-Received: by 2002:aa7:8699:: with SMTP id d25mr31023350pfo.139.1580828773890;
+	Tue, 04 Feb 2020 07:06:13 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0::afc]) by smtp.gmail.com with ESMTPSA id
-	b98sm4216055pjc.16.2020.02.04.07.06.11
+	b98sm4216055pjc.16.2020.02.04.07.06.12
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 04 Feb 2020 07:06:12 -0800 (PST)
+	Tue, 04 Feb 2020 07:06:13 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Tue,  4 Feb 2020 07:06:00 -0800
-Message-Id: <cover.1580828664.git.akuster808@gmail.com>
+Date: Tue,  4 Feb 2020 07:06:01 -0800
+Message-Id: <3bd467abc907070b98dc470a23ac4d72866d58d9.1580828664.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [zeus 0/8] Merge request
+In-Reply-To: <cover.1580828664.git.akuster808@gmail.com>
+References: <cover.1580828664.git.akuster808@gmail.com>
+Subject: [zeus 1/8] libxml2: Fix CVE-2019-19956
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +58,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 15:06:12 -0000
+X-List-Received-Date: Tue, 04 Feb 2020 15:06:13 -0000
 
-Please concider these changes for zeus
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-The following changes since commit 2bba0052597020ea887c84419440df11f9859283:
+see:
+https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549
 
-  sstatesig: Improve debug output if getpwuid() fails (2020-01-18 14:04:27 -0800)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/zeus-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/zeus-next
-
-Armin Kuster (1):
-  python2: add ntpath
-
-De Huo (2):
-  bash: Fix CVE-2019-18276
-  kbd: configure.ac: Fix logic of vlock configure switch
-
-Hongxu Jia (1):
-  kbd: avoid vlock conflict with busybox
-
-Joe Slater (1):
-  webkitgtk: fix occasional link error
-
-Lee Chee Yang (1):
-  libxml2: Fix CVE-2019-19956
-
-Sana Kazi (1):
-  bzip2: Fix CVE-2019-12900
-
-Sumit Garg (1):
-  core: recipes: fix some native tools dependencies
-
- ...-Fix-logic-of-vlock-configure-switch.patch |  31 ++
- meta/recipes-core/kbd/kbd_2.0.4.bb            |   4 +-
- .../libxml/libxml2/Fix-CVE-2019-19956.patch   |  40 ++
- meta/recipes-core/libxml/libxml2_2.9.9.bb     |   1 +
- .../python/python/python2-manifest.json       |   1 +
- .../bash/bash/bash-CVE-2019-18276.patch       | 402 ++++++++++++++++++
- meta/recipes-extended/bash/bash_5.0.bb        |   1 +
- .../bzip2/bzip2-1.0.6/CVE-2019-12900.patch    |  36 ++
- meta/recipes-extended/man-db/man-db_2.8.7.bb  |   2 +-
- meta/recipes-extended/psmisc/psmisc.inc       |   2 +-
- .../xorg-app/xorg-app-common.inc              |   2 +-
- .../webkit/webkitgtk/fix-link-error.patch     |  45 ++
- meta/recipes-sato/webkit/webkitgtk_2.24.4.bb  |   1 +
- 13 files changed, 564 insertions(+), 4 deletions(-)
- create mode 100644 meta/recipes-core/kbd/kbd/0001-configure.ac-Fix-logic-of-vlock-configure-switch.patch
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../libxml/libxml2/Fix-CVE-2019-19956.patch   | 40 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.9.bb     |  1 +
+ 2 files changed, 41 insertions(+)
  create mode 100644 meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch
- create mode 100644 meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch
- create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
- create mode 100755 meta/recipes-sato/webkit/webkitgtk/fix-link-error.patch
 
+diff --git a/meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch b/meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch
+new file mode 100644
+index 0000000000..1c2dff9d5f
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/Fix-CVE-2019-19956.patch
+@@ -0,0 +1,40 @@
++From 5a02583c7e683896d84878bd90641d8d9b0d0549 Mon Sep 17 00:00:00 2001
++From: Zhipeng Xie <xiezhipeng1@huawei.com>
++Date: Wed, 7 Aug 2019 17:39:17 +0800
++Subject: [PATCH] Fix memory leak in xmlParseBalancedChunkMemoryRecover
++
++When doc is NULL, namespace created in xmlTreeEnsureXMLDecl
++is bind to newDoc->oldNs, in this case, set newDoc->oldNs to
++NULL and free newDoc will cause a memory leak.
++
++Found with libFuzzer.
++
++Closes #82.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549]
++CVE: CVE-2019-19956
++
++Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
++
++---
++ parser.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/parser.c b/parser.c
++index 1ce1ccf1..26d9f4e3 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -13894,7 +13894,8 @@ xmlParseBalancedChunkMemoryRecover(xmlDocPtr doc, xmlSAXHandlerPtr sax,
++     xmlFreeParserCtxt(ctxt);
++     newDoc->intSubset = NULL;
++     newDoc->extSubset = NULL;
++-    newDoc->oldNs = NULL;
+++    if(doc != NULL)
+++	newDoc->oldNs = NULL;
++     xmlFreeDoc(newDoc);
++ 
++     return(ret);
++-- 
++2.24.1
++
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.9.bb b/meta/recipes-core/libxml/libxml2_2.9.9.bb
+index c38f883e44..c44a90b1c2 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.9.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.9.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://libxml-m4-use-pkgconfig.patch \
+            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
+            file://fix-execution-of-ptests.patch \
++           file://Fix-CVE-2019-19956.patch \
+            "
+ 
+ SRC_URI[libtar.md5sum] = "c04a5a0a042eaa157e8e8c9eabe76bd6"
 -- 
 2.17.1
 
