@@ -1,57 +1,44 @@
-Return-Path: <prvs=296d8a8c9=Mikko.Rapeli@bmw.de>
-X-Greylist: delayed 429 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 04 Feb 2020 09:28:59 UTC
-Received: from esa8.bmw.c3s2.iphmx.com (esa8.bmw.c3s2.iphmx.com
-	[68.232.139.97])
-	by mail.openembedded.org (Postfix) with ESMTP id 14E19611FC
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 46C2261155
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 09:28:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1580808542; x=1612344542;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=hyQhAU1wO53WXRuO4ZJx6x64wWSPJqqGJVYz7AElcaI=;
-	b=jwWZMtp81+b9o6SgFKx0Pdb59BuY1GvrNKSefD6Adqbvs6Q7XtLgYDK8
-	ccNWS8ofR9tRZhob8tNI6P5d1oU+vWDgJVyUgdSpYe1WxYBq4ej1NDR1B
-	PkF9+HyKY8s8ubEP8I8p86i0cgkFgomy7WglDdw6AX/8tvymek9FnaXyW w=;
-IronPort-SDR: Cl1CrVVJ1IqNhkY8dhRsFx2YFCM619sEQtwXUV4k4YEmvvYh1XPEadapB5wxawRw6OEDstiPgZ
-	cCg6T2M6urSURsrijzzP8023EFvcv90eq+JAM4b1tfAxSEeI57bObXw+/Xkxsk0ppoUTH87QYH
-	gOrujGawtRH49JAxwKlvEM+MflKzmLmln39T22sQUNlQHpep9B+Qxcid/kmXSBYM9ZqLfa0gmC
-	WzZnAwIYbjwyUyA18cDXHE0B8vtdsD58cqbRfyoULn99SfUoBqNdIlaDC3kz8Lsna5uXoE8W6S
-	kyY=
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
-	esa8.bmw.c3s2.iphmx.com with ESMTP/TLS; 04 Feb 2020 10:21:29 +0100
-Received: from esabb1.muc ([160.50.100.31])  by esagw2.muc with ESMTP/TLS;
-	04 Feb 2020 10:21:26 +0100
-Received: from smucm10j.bmwgroup.net (HELO smucm10j.europe.bmw.corp)
-	([160.48.96.46])
-	by esabb1.muc with ESMTP/TLS; 04 Feb 2020 10:21:26 +0100
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10j.europe.bmw.corp
-	(160.48.96.46) with Microsoft SMTP Server (TLS;
-	Tue, 4 Feb 2020 10:21:26 +0100
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Tue, 4 Feb 2020 10:21:26 +0100
-IronPort-SDR: b/YTsTZva8zoUAMbk8dHmJEBzskTT9BUJlG8CAc0bg1vZotDc2X7eZofxnjn1qQo+n5VlOF1dH
-	MOuv9mQ0UQhc2EvVdwQEMxJDmBhU8+YEs=
-From: <Mikko.Rapeli@bmw.de>
-To: <anuj.mittal@intel.com>
-Thread-Topic: [OE-core] [PATCH v2] sqlite3: upgrade 3.30.1 -> 3.31.1
-Thread-Index: AQHV2x97suqR6oGxeEO1uBR3N8iP6KgKse+A
-Date: Tue, 4 Feb 2020 09:21:26 +0000
-Message-ID: <20200204092125.GT104502@korppu>
-References: <20200204054432.822155-4-anuj.mittal@intel.com>
-	<20200204055145.998317-1-anuj.mittal@intel.com>
-In-Reply-To: <20200204055145.998317-1-anuj.mittal@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
+	Tue,  4 Feb 2020 10:12:22 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id c84so2799898wme.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Feb 2020 02:12:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=F+ihX/3qzvmMSIUu/zh3fHBeiT+iQea7RMfhtx5jets=;
+	b=FJjtwJIOGfzV5UT2k0SFAeKA1gv9HiSeb15KuCAJMpljYXV/x4n6QMXBqvj1ZXyx1u
+	hdStJz1S5ZbeGFs6NCsH0W9LAKsHXQYpyg1uyzPDDNLZNyaAPYPjIX1st8VLNvCXPvah
+	9pO6tg/MQQLd3WM3FSwuEakcJAyQJGJMadytgGRU9zCmakB25TJJ4dCNtjBajhJjNAjY
+	ixxuDY08WhKw2KiZJlZxf/W9dRCgAWMRynmKCDkX0rp89EzdZ0aw1e4Gt5oCtGmlN7v9
+	ahLTqWq0y/VyZ802D61tsZorCyXSWUZca3ckbwAiS9T2/9/IKkbMTBURy3heIzrkpfOE
+	w1Eg==
+X-Gm-Message-State: APjAAAUlviqV12Ca+Na6lWdf0PMtzPmLXdY99uq/31miLkLhky1Uin44
+	lyw3U9rlY0KzQJvFh8/Brav6XjFe
+X-Google-Smtp-Source: APXvYqwwnNQ7D55P3U90jmyNzNrTmznE14reIBS0f7pJpK5QXwJ7sw3V3OpSWS8/Tos3DcU4hDVAYg==
+X-Received: by 2002:a05:600c:218a:: with SMTP id
+	e10mr4881581wme.6.1580811142820; 
+	Tue, 04 Feb 2020 02:12:22 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	c74sm3185131wmd.26.2020.02.04.02.12.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 04 Feb 2020 02:12:22 -0800 (PST)
+Message-ID: <7ac1f42722323cd35a7e0a875944350c6c65cfd9.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 04 Feb 2020 10:12:21 +0000
+In-Reply-To: <edb7d26f5a7a2edfdde15409818bed954ec27dfd.camel@andred.net>
+References: <edb7d26f5a7a2edfdde15409818bed954ec27dfd.camel@andred.net>
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] sqlite3: upgrade 3.30.1 -> 3.31.1
+Subject: Re: nondeterministic -c testimage (python3 from hosttools vs recipe-sysroot-native)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,24 +51,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 09:29:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <84E75585021657439AD579EC866243B2@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 04 Feb 2020 10:12:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Answering my own question here...
 
-slightly off topic but I was checking CVEs for sqlite3 and noticed
-this recipe uses the merged source tree format. This makes it very
-hard to cherry-pick CVE and other patches from Debian, Ubuntu,
-OpenSUSE etc.
+On Tue, 2020-02-04 at 08:43 +0000, André Draszik wrote:
+> 1) Should testimage remove the recipe-sysroot-native from PATH (for the duration of the
+> test) so that everything runs in the same environment? Or 
+> 2) should my image update TESTIMAGEDEPENDS and depend on python3-native and all the extra
+> python3 native module recipes from OE.
+> 
+> 
+> I'm inclined to send a patch to update PATH for the testimage run, but wanted to gauge
+> opinions first?
 
-Why use sqlite sources in "amalgamation" format?
+Option 1) probably won't work, as things like native apt/opkg/rpm etc. are being added to
+recipe-sysroot-native via TESTIMAGEDEPENDS, so PATH can not be changed.
 
-https://sqlite.org/amalgamation.html
+I'll have to use option 2).
+
 
 Cheers,
+Andre'
 
--Mikko=
+
 
