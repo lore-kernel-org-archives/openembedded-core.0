@@ -1,50 +1,40 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 777D561203
+Return-Path: <andre.draszik@gmail.com>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id C4E1D6119F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 08:28:18 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id z7so21700571wrl.13
+	Tue,  4 Feb 2020 08:43:20 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id t2so21865214wrr.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Feb 2020 00:28:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=8ZcHbxBNB8VLwBfIR4bmqQJf+90bRYmldbR5n1JtZdQ=;
-	b=WMyfxUAZHv4EzrGBQ8RlA+dNDUlCTYkqdXjXjHj3WlBbQP+Et6LDegT13W5FeLYFyW
-	Q78jwABvx7A0mottPRs3EYH67nSYqm0OL4vCtxBrdnczceHugFA35FswjYAkuGD9LmnP
-	sa0slbdHAHLoP0Kv9iSzl1oBHlrv3Ap4lcuLc=
+	Tue, 04 Feb 2020 00:43:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=8ZcHbxBNB8VLwBfIR4bmqQJf+90bRYmldbR5n1JtZdQ=;
-	b=B+F5DOhyC2y7tcq027mXiq4idnx+58SBq9dFIuW7hP/x0HkylSJvhisfRlOVLB2Abh
-	D9sH8TdJsgF02AYEVRDAA7fkooKnQoNQ8FErLOxbsDx8eGazStkNA5QhY9rOi3MkR8sG
-	iGMFmL1S//sXCYarOtpPxcbWVdTJbHeqh2tMAkOd/nIixLb2eDjmVhkrkTn7xcEeXeaX
-	BZrpfeF5TThvhUE3VfjN8NVW5PEeQfK3dK2ULCc44BiwkxZ8GCdoeRHWS3l++p6CLerU
-	u8BDEo+2tXBn2XN3qzz9RG5wVqX+ohOLA9XxHnf9o5oLh2mjjq6jXxsl1/CNJ1LpnCyM
-	KxcQ==
-X-Gm-Message-State: APjAAAVB49HrIiMD+CREheFKXTCh6mpUFPOIXHK4GqypFxXZRyEIl6aZ
-	fpsEaJvoeF7Of6mvytOphtU2rQ==
-X-Google-Smtp-Source: APXvYqxkPslJhaZh4LQGvjfLH8/8ucVUWNlu+BYMSLzb2dJ+OVThlPEexrCK7At7tClqU9c14WbL8w==
-X-Received: by 2002:a5d:6b03:: with SMTP id v3mr19908583wrw.289.1580804899180; 
-	Tue, 04 Feb 2020 00:28:19 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	f207sm2922199wme.9.2020.02.04.00.28.17
+	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=qlIO2XtQc/yZf/wpckwIKch6rqxiKCG05p/6O00HoDY=;
+	b=YPV4ZceYiA59Vw7UoX/H0Z2pw27TStx6ZFAXvMjkIj6ZOChAKhO6yW29mTNLfy6m/B
+	/5bC5E+IYBjG8FMTe7RSrDohSwyuUYodj+I/xftj2g/wY/HzfUFqKCQUcB745IsitFcI
+	vQOHT/doP1k7YLPBcLEl3ehXS1TmB8loOV01tNOb4qbcrV2LlYQY8+kdxkRiWRnnGYz/
+	AO/93FimtzMrW0ORhoICRZJxv8c/8BP17trZXh5MEzwXpyfDd+o+QW/d+pK2imdgTXGC
+	TiHQR+hMlecKadIzsK5LHt4KGi8rhgBkE0Yf9Y0bG3VyBSGG3vBiC00j1QPMdDLnMDye
+	74pw==
+X-Gm-Message-State: APjAAAW49G78YlzC85jjQVpZkc/kv/38nh4GeWPZM2NLwXf6huQ02YzJ
+	fQuk+6rjAqL6H+Sj4PfQ4id+bgsd
+X-Google-Smtp-Source: APXvYqwgQ0n4gQtzhTfUJleVuyAyBki5NZ+rU+tR4HSbBe+5LETUdDACbWLll+HW+/t9IbvIkQzVyA==
+X-Received: by 2002:adf:f302:: with SMTP id i2mr20851234wro.21.1580805801174; 
+	Tue, 04 Feb 2020 00:43:21 -0800 (PST)
+Received: from tfsielt31850 ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id t81sm2826793wmg.6.2020.02.04.00.43.20
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 04 Feb 2020 00:28:18 -0800 (PST)
-Message-ID: <587d3ca449eb20660d1effbbd07e1f671511485f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: JH <jupiter.hce@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Tue, 04 Feb 2020 08:28:17 +0000
-In-Reply-To: <CAA=hcWQ47R4kiGtB-zAuzf1OSorJ2SumgEt6DZMebEzb14jBYg@mail.gmail.com>
-References: <CAA=hcWQ47R4kiGtB-zAuzf1OSorJ2SumgEt6DZMebEzb14jBYg@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Tue, 04 Feb 2020 00:43:20 -0800 (PST)
+Message-ID: <edb7d26f5a7a2edfdde15409818bed954ec27dfd.camel@andred.net>
+From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 04 Feb 2020 08:43:19 +0000
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Subject: Re: How to patch a local file in a simple elegant way?
+Subject: nondeterministic -c testimage (python3 from hosttools vs recipe-sysroot-native)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,61 +47,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 08:28:20 -0000
+X-List-Received-Date: Tue, 04 Feb 2020 08:43:21 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-02-04 at 18:26 +1100, JH wrote:
-> Hello,
-> 
-> Is anyway to patch a local file without committing to the git source?
-> I did not realize a local patch is that hard or if it is impossible.
-> 
-> In my OE build, I want to make a patch file for mx6ullevk.h in
-> meta-freescale/recipes-bsp/u-boot/u-boot-imx_2017.03.bb, to customize
-> mtdparts and bootargs as I could not find a simple way to do it using
-> bbapaend, I did not and I don't want to submit the patch to the git
-> source. So I got a bunch of errors:
-> 
-> ERROR: u-boot-imx-2017.03-r0 do_fetch: Fetcher failure: Unable to
-> find
-> revision 8be98e9322040c655b9e5c9fb2c494e002e3fad9 in branch
-> imx_v2017.03_4.9.123_imx8mm_gafile://mx6ullevk.patch even from
-> upstream
-> ERROR: u-boot-imx-2017.03-r0 do_fetch: Fetcher failure for URL:
-> 'git://source.codeaurora.org/external/imx/uboot-
-> imx.git;protocol=https;branch=imx_v2017.03_4.9.123_imx8mm_ga
-> file://mx6ullevk.patch'.
-> Unable to fetch URL from any source.
-> ERROR: u-boot-imx-2017.03-r0 do_fetch: Function failed: base_do_fetch
-> ERROR: Logfile of failure stored in:
-> /build/Installation/sa_platform_build/Source/Yocto/build/tmp-
-> glibc/work/solar-oe-linux-gnueabi/u-boot-imx/2017.03-
-> r0/temp/log.do_fetch.25780
-> ERROR: Task (/build/Installation/sa_platform_build/Source/Yocto/oe-
-> core/../meta-freescale/recipes-bsp/u-boot/u-boot-
-> imx_2017.03.bb:do_fetch)
-> failed with exit code '1'
+Hi,
 
-I think your approach was right, you just need to fix the whitespace
-issue. Note how the above error says:
+I have some OEQA image tests where external python3 scripts are invoked by the OEQA
+test case.
 
-123_imx8mm_gafile://mx6u
+Those external scripts use #!/usr/bin/env python3 as shebang.
 
-You need a space before the "file://"
+Now it appears that if rm-work is enabled, those are run using python3 from the
+tmp/hosttools/python3 symlink and without rm-work, they run using python3 from the
+recipe-sysroot-native (which all makes sense).
 
-so probably
+But the whole testing becomes a bit nondeterministic... In particular, those external
+python3 script import modules that
+are not available in the recipe-sysroot-native (but
+they are in the host's python3 installation).
 
-_append = " file://xxx"
 
-instead of what I'd guess you had:
+What is the correct solution here - considering that
+a) OEQA test cases themselves are run using hosttools' python3, and also considering
+b) that additional hosttools symlinks are added if testimage is enabled (via
+bitbake.conf)
 
-_append = "file://xxx"
+
+
+1) Should testimage remove the recipe-sysroot-native from PATH (for the duration of the
+test) so that everything runs in the same environment? Or 
+2) should my image update TESTIMAGEDEPENDS and depend on python3-native and all the extra
+python3 native module recipes from OE.
+
+
+I'm inclined to send a patch to update PATH for the testimage run, but wanted to gauge
+opinions first?
+
+
+What is the correct approach here?
+
+
 
 Cheers,
-
-Richard
-
+Andre'
 
 
 
