@@ -1,49 +1,45 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 212C56102C
+Return-Path: <takondra@cisco.com>
+X-Greylist: delayed 425 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 04 Feb 2020 02:27:50 UTC
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 64EC8610F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 01:45:32 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id k3so8826795pgc.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2020 17:45:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=QYot0LRgF+2iUduliRApA2Pn1UubImzLA+UcgkM59hI=;
-	b=Yddf1kA4+hLpGus3eLLRvP01OVbuvVpDhwGfs8pLBy04L/1m2m1+73JGPLofz1UutY
-	5bYzYUjbFb/IOfOtvAXd3TooMmscE4zF3YbZvHTrxArFQvx2GA/0RbJ6E8RwrnwvLSq3
-	dU14c7HQcdAK4mTMD8kfMA4HSOI9fx5wM53nOO8HXrrovOD9hW+rEnFH7Gdur6s8BJLw
-	ttv9cLzt89LXzsELk+DJuNHddE+UAUQRmcPaYzNwEP8Xj7Pqf7IYYoE/4Mtqt6AjI3/f
-	W1ee2/hfOhVEq7xwZ0xra6Iz+vm6gRoS+Ud2GFB3hktR8jH0Bw8EmtdaqkvXzjngW9V0
-	ujlQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=QYot0LRgF+2iUduliRApA2Pn1UubImzLA+UcgkM59hI=;
-	b=QMtcVQdYZsIYAyt6OuELc24B4JDPWVvE5dy4o65FuzwbYE8+MM6dpWXe3hYrBRxLlG
-	wBaGJqGVAk4rYkPsRmPMQ6KPgcFQOskpr/fTEBcjEc8netKhOaGsJxEDpmp0x/FWsZa8
-	H2sMK6p8lGaw11PfCejGHivcTrO9tos29hVp2KQk+Lz4bNmkNBCvAbxUJnvgB93oB4mJ
-	Ckky1iw67l2J5flntBnuRyDxOUHNf3a/VS5MjKaI5zbG13AUqwcXclAEuTbIGutQ/o79
-	INfpZuFjZwvZCEniGjwF+RWZ3DbGfBe6dLoXOzei72LBM1fuAbjuUm/cQ8uQLYsgP0i8
-	AdwA==
-X-Gm-Message-State: APjAAAWy6OFs3TRcGV9Z2EMiikndvXtq87QICquzxmKZJJoFJMDPblLL
-	qrAoZHXHlDuDvAtT+uoX301/xOKG+vU=
-X-Google-Smtp-Source: APXvYqxtFwZ2i2MKa4hSQRO7AY0vhsuGFNfZKfXde2KgjKbw5xxlvSB5g5QgaxDDX4YJcr+7mZjY6A==
-X-Received: by 2002:a63:3e09:: with SMTP id l9mr28773266pga.149.1580780733500; 
-	Mon, 03 Feb 2020 17:45:33 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1852])
-	by smtp.gmail.com with ESMTPSA id o11sm762431pjs.6.2020.02.03.17.45.32
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 03 Feb 2020 17:45:33 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Tue,  4 Feb 2020 02:27:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=4582; q=dns/txt; s=iport;
+	t=1580783272; x=1581992872;
+	h=from:to:cc:subject:date:message-id;
+	bh=MojADktelgscstc0EDBXKkIwZIA+vjr85ExTUxDI7LY=;
+	b=in+wjlG6jRGU60bYGP0Qn9LAL/Eep7gWYhAM4vIM/oGsSDSV7A1V+Kbq
+	a8OPMJ9ak/82uibBqYt4PwC+en9gfYG+XKdzaTWt66XcJAjjaskC6NGID
+	cqMe/3EmRAVHfZB2x94fmbEPEyNNIDtE1FUPdHjhl3rqRBM5ICthJZ0bv o=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0AXAAAu1Dhe/4oNJK1lGgEBAQEBAQE?=
+	=?us-ascii?q?BAQMBAQEBEQEBAQICAQEBAYFqAgEBAQELAYIobFQBMiqWNohukUkJAQEBDAE?=
+	=?us-ascii?q?BJQoBAYRAgjYkNwYOAgMNAQEEAQEBAgEFBG2FNwyFZgEtUiwDAQIeYCGDJgG?=
+	=?us-ascii?q?CViUPq3KBdDOENQGBFINMgTgGFIEkAYdBhF4agUE/gRCCX3OCZAKCC4VIBK9?=
+	=?us-ascii?q?igkWHRo5uDBubBwGLAIxIkjMCBAsCFYFoI4FYcBWDJ1AYDY4pARaDUIpTQQM?=
+	=?us-ascii?q?wC45+AQE?=
+X-IronPort-AV: E=Sophos;i="5.70,398,1574121600"; d="scan'208";a="443133506"
+Received: from alln-core-5.cisco.com ([173.36.13.138])
+	by alln-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	04 Feb 2020 02:20:18 +0000
+Received: from sjc-ads-7132.cisco.com (sjc-ads-7132.cisco.com [10.30.217.207])
+	(authenticated bits=0)
+	by alln-core-5.cisco.com (8.15.2/8.15.2) with ESMTPSA id 0142K6jt022846
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-SHA bits=256 verify=NO);
+	Tue, 4 Feb 2020 02:20:18 GMT
+From: Taras Kondratiuk <takondra@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Feb 2020 17:45:36 -0800
-Message-Id: <20200204014536.2524501-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
-MIME-Version: 1.0
-Subject: [PATCH] webkitgtk: Prefer -pthread over -lpthread
+Date: Tue,  4 Feb 2020 02:20:06 +0000
+Message-Id: <20200204022006.714-1-takondra@cisco.com>
+X-Mailer: git-send-email 2.18.1
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Authenticated-User: takondra@cisco.com
+X-Outbound-SMTP-Client: 10.30.217.207, sjc-ads-7132.cisco.com
+X-Outbound-Node: alln-core-5.cisco.com
+Cc: xe-linux-external@cisco.com
+Subject: [PATCH] gcc-9.2: fix bug #91102 'aarch64 ICE on Linux kernel with -Os'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,84 +52,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 01:45:33 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 04 Feb 2020 02:27:50 -0000
 
--pthread is compiler driver option which links in needed dependencies
-for pthreads along with -lpthread, this aids in fixing build failures
-on rv64
+Linux kernel compilation for aarch64 triggers ICE if
+CONFIG_CC_OPTIMIZE_FOR_SIZE=y.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+The rootcause is GCC bug #91102 'aarch64 ICE on Linux kernel with -Os'.
+Apply the fix to 9.2.
+
+Signed-off-by: Taras Kondratiuk <takondra@cisco.com>
 ---
- ...1-Enable-THREADS_PREFER_PTHREAD_FLAG.patch | 45 +++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.26.2.bb  |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch
+ meta/recipes-devtools/gcc/gcc-9.2.inc         |  1 +
+ ...02-aarch64-ICE-on-Linux-kernel-with-.patch | 95 +++++++++++++++++++
+ 2 files changed, 96 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-9.2/re-PR-target-91102-aarch64-ICE-on-Linux-kernel-with-.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-9.2.inc b/meta/recipes-devtools/gcc/gcc-9.2.inc
+index 926df11c2782..2bae85afe3a3 100644
+--- a/meta/recipes-devtools/gcc/gcc-9.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-9.2.inc
+@@ -69,6 +69,7 @@ SRC_URI = "\
+ 	   file://CVE-2019-15847_1.patch \
+ 	   file://CVE-2019-15847_2.patch \
+ 	   file://CVE-2019-15847_3.patch \
++           file://re-PR-target-91102-aarch64-ICE-on-Linux-kernel-with-.patch \
+ "
+ S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/gcc-${PV}"
+ SRC_URI[md5sum] = "3818ad8600447f05349098232c2ddc78"
+diff --git a/meta/recipes-devtools/gcc/gcc-9.2/re-PR-target-91102-aarch64-ICE-on-Linux-kernel-with-.patch b/meta/recipes-devtools/gcc/gcc-9.2/re-PR-target-91102-aarch64-ICE-on-Linux-kernel-with-.patch
 new file mode 100644
-index 0000000000..268118b5ca
+index 000000000000..c37e0bb9dd9b
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch
-@@ -0,0 +1,45 @@
-+From 8ee7806ad2d5606967f7a1529a113fb9d1a386de Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 3 Feb 2020 17:06:27 -0800
-+Subject: [PATCH] Enable THREADS_PREFER_PTHREAD_FLAG
++++ b/meta/recipes-devtools/gcc/gcc-9.2/re-PR-target-91102-aarch64-ICE-on-Linux-kernel-with-.patch
+@@ -0,0 +1,95 @@
++From efb0ee06f5c0186c2d1442ecd4dbbd55dbd97b44 Mon Sep 17 00:00:00 2001
++From: Vladimir Makarov <vmakarov@redhat.com>
++Date: Wed, 10 Jul 2019 16:07:10 +0000
++Subject: [PATCH] re PR target/91102 (aarch64 ICE on Linux kernel with -Os
++ starting with r270266)
 +
-+Fixes build failures on risv64
++2019-07-10  Vladimir Makarov  <vmakarov@redhat.com>
 +
-+Taken from https://trac.webkit.org/changeset/231843/webkit
++	PR target/91102
++	* lra-constraints.c (process_alt_operands): Don't match user
++	defined regs only if they are early clobbers.
 +
-+ Enable THREADS_PREFER_PTHREAD_FLAG. This uses -pthread instead of
-+-lpthread, fixing the 64-bit RISC-V build of the GTK+ port due to
-+missing atomic primitives.
++2019-07-10  Vladimir Makarov  <vmakarov@redhat.com>
 +
-+Upstream-Status: Submitted [https://trac.webkit.org/changeset/231843/webkit]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++	PR target/91102
++	* gcc.target/aarch64/pr91102.c: New test.
++
++From-SVN: r273357
++Upstream-Status: Backport [https://github.com/gcc-mirror/gcc/commit/613caed2feb9cfc8158308670b59df3d031ec629]
++[takondra: dropped conflicting ChangeLog changes]
++Signed-off-by: Taras Kondratiuk <takondra@cisco.com>
 +---
-+ Source/cmake/OptionsGTK.cmake     | 2 ++
-+ Source/cmake/OptionsJSCOnly.cmake | 1 +
-+ 2 files changed, 3 insertions(+)
++ gcc/lra-constraints.c                      | 17 ++++++++++----
++ gcc/testsuite/gcc.target/aarch64/pr91102.c | 26 ++++++++++++++++++++++
++ 2 files changed, 39 insertions(+), 4 deletions(-)
++ create mode 100644 gcc/testsuite/gcc.target/aarch64/pr91102.c
 +
-+diff --git a/Source/cmake/OptionsGTK.cmake b/Source/cmake/OptionsGTK.cmake
-+index d3beef19..6a92856f 100644
-+--- a/Source/cmake/OptionsGTK.cmake
-++++ b/Source/cmake/OptionsGTK.cmake
-+@@ -17,6 +17,8 @@ set(WEBKITGTK_HEADER_INSTALL_DIR "${CMAKE_INSTALL_INCLUDEDIR}/webkitgtk-${WEBKIT
-+ set(INTROSPECTION_INSTALL_GIRDIR "${CMAKE_INSTALL_FULL_DATADIR}/gir-1.0")
-+ set(INTROSPECTION_INSTALL_TYPELIBDIR "${LIB_INSTALL_DIR}/girepository-1.0")
-+ 
-++set(THREADS_PREFER_PTHREAD_FLAG ON)
++diff --git a/gcc/lra-constraints.c b/gcc/lra-constraints.c
++index cf33da8013e4..6382dbf852b6 100644
++--- a/gcc/lra-constraints.c
+++++ b/gcc/lra-constraints.c
++@@ -2172,8 +2172,9 @@ process_alt_operands (int only_alternative)
++ 		    else
++ 		      {
++ 			/* Operands don't match.  If the operands are
++-			   different user defined explicit hard registers,
++-			   then we cannot make them match.  */
+++			   different user defined explicit hard
+++			   registers, then we cannot make them match
+++			   when one is early clobber operand.  */
++ 			if ((REG_P (*curr_id->operand_loc[nop])
++ 			     || SUBREG_P (*curr_id->operand_loc[nop]))
++ 			    && (REG_P (*curr_id->operand_loc[m])
++@@ -2192,9 +2193,17 @@ process_alt_operands (int only_alternative)
++ 				&& REG_P (m_reg)
++ 				&& HARD_REGISTER_P (m_reg)
++ 				&& REG_USERVAR_P (m_reg))
++-			      break;
+++			      {
+++				int i;
+++				
+++				for (i = 0; i < early_clobbered_regs_num; i++)
+++				  if (m == early_clobbered_nops[i])
+++				    break;
+++				if (i < early_clobbered_regs_num
+++				    || early_clobber_p)
+++				  break;
+++			      }
++ 			  }
++-
++ 			/* Both operands must allow a reload register,
++ 			   otherwise we cannot make them match.  */
++ 			if (curr_alt[m] == NO_REGS)
++diff --git a/gcc/testsuite/gcc.target/aarch64/pr91102.c b/gcc/testsuite/gcc.target/aarch64/pr91102.c
++new file mode 100644
++index 000000000000..70b99045a48e
++--- /dev/null
+++++ b/gcc/testsuite/gcc.target/aarch64/pr91102.c
++@@ -0,0 +1,26 @@
+++/* PR target/91102 */
+++/* { dg-do compile } */
+++/* { dg-options "-O2" } */
 ++
-+ find_package(Cairo 1.14.0 REQUIRED)
-+ find_package(Fontconfig 2.8.0 REQUIRED)
-+ find_package(Freetype 2.4.2 REQUIRED)
-+diff --git a/Source/cmake/OptionsJSCOnly.cmake b/Source/cmake/OptionsJSCOnly.cmake
-+index b2e87418..326ade23 100644
-+--- a/Source/cmake/OptionsJSCOnly.cmake
-++++ b/Source/cmake/OptionsJSCOnly.cmake
-+@@ -1,3 +1,4 @@
-++set(THREADS_PREFER_PTHREAD_FLAG ON)
-+ find_package(Threads REQUIRED)
-+ 
-+ if (MSVC)
-+-- 
-+2.25.0
-+
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb
-index a223cfd451..a184d833c4 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-OptionsGTK.cmake-drop-the-hardcoded-introspection-gt.patch \
-            file://0001-Fix-racy-parallel-build-of-WebKit2-4.0.gir.patch \
-            file://0001-Tweak-gtkdoc-settings-so-that-gtkdoc-generation-work.patch \
-+           file://0001-Enable-THREADS_PREFER_PTHREAD_FLAG.patch \
-            file://x32_support.patch \
-            file://cross-compile.patch \
-            file://0001-Fix-build-with-musl.patch \
+++int
+++foo (long d, long l)
+++{
+++  register long e asm ("x1") = d;
+++  register long f asm("x2") = l;
+++  asm ("" : : "r" (e), "r" (f));
+++  return 3;
+++}
+++
+++struct T { int i; int j; };
+++union S { long h; struct T t; };
+++
+++void
+++bar (union S b)
+++{
+++  while (1)
+++    {
+++      union S c = b;
+++      c.t.j++;
+++      b.h = foo (b.h, c.h);
+++    }
+++}
 -- 
-2.25.0
+2.18.1
 
 
