@@ -1,40 +1,24 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id C4E1D6119F
+Return-Path: <quentin.schulz@streamunlimited.com>
+Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
+	by mail.openembedded.org (Postfix) with ESMTP id 0217B6080C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 08:43:20 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id t2so21865214wrr.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Feb 2020 00:43:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=qlIO2XtQc/yZf/wpckwIKch6rqxiKCG05p/6O00HoDY=;
-	b=YPV4ZceYiA59Vw7UoX/H0Z2pw27TStx6ZFAXvMjkIj6ZOChAKhO6yW29mTNLfy6m/B
-	/5bC5E+IYBjG8FMTe7RSrDohSwyuUYodj+I/xftj2g/wY/HzfUFqKCQUcB745IsitFcI
-	vQOHT/doP1k7YLPBcLEl3ehXS1TmB8loOV01tNOb4qbcrV2LlYQY8+kdxkRiWRnnGYz/
-	AO/93FimtzMrW0ORhoICRZJxv8c/8BP17trZXh5MEzwXpyfDd+o+QW/d+pK2imdgTXGC
-	TiHQR+hMlecKadIzsK5LHt4KGi8rhgBkE0Yf9Y0bG3VyBSGG3vBiC00j1QPMdDLnMDye
-	74pw==
-X-Gm-Message-State: APjAAAW49G78YlzC85jjQVpZkc/kv/38nh4GeWPZM2NLwXf6huQ02YzJ
-	fQuk+6rjAqL6H+Sj4PfQ4id+bgsd
-X-Google-Smtp-Source: APXvYqwgQ0n4gQtzhTfUJleVuyAyBki5NZ+rU+tR4HSbBe+5LETUdDACbWLll+HW+/t9IbvIkQzVyA==
-X-Received: by 2002:adf:f302:: with SMTP id i2mr20851234wro.21.1580805801174; 
-	Tue, 04 Feb 2020 00:43:21 -0800 (PST)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id t81sm2826793wmg.6.2020.02.04.00.43.20
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 04 Feb 2020 00:43:20 -0800 (PST)
-Message-ID: <edb7d26f5a7a2edfdde15409818bed954ec27dfd.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 04 Feb 2020 08:43:19 +0000
-User-Agent: Evolution 3.30.5-1.1 
+	Tue,  4 Feb 2020 09:05:58 +0000 (UTC)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp2.bon.at (Postfix) with ESMTPSA id 48Bf1T55S7z5tlL;
+	Tue,  4 Feb 2020 10:05:49 +0100 (CET)
+Date: Tue, 4 Feb 2020 10:05:48 +0100
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+To: JH <jupiter.hce@gmail.com>
+Message-ID: <20200204090548.jokxe7ircypcb6co@qschulz>
+References: <CAA=hcWQSba31fHCkAEdaK4+FwR_Szzs9t0fTajq4+USqnbZb1g@mail.gmail.com>
+	<20200203110820.kokz6qu4l74nyhlk@qschulz>
+	<CAA=hcWSa+athn4Jw_nOG3ofVEmCYpTqyJVWPGcv-kNV2FmjVeA@mail.gmail.com>
 MIME-Version: 1.0
-Subject: nondeterministic -c testimage (python3 from hosttools vs recipe-sysroot-native)
+In-Reply-To: <CAA=hcWSa+athn4Jw_nOG3ofVEmCYpTqyJVWPGcv-kNV2FmjVeA@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+Cc: linux-mtd <linux-mtd@lists.infradead.org>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: Failed to add u-boot ubifs (not working)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,50 +31,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 08:43:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Feb 2020 09:05:59 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+Hi JH,
 
-I have some OEQA image tests where external python3 scripts are invoked by the OEQA
-test case.
+On Tue, Feb 04, 2020 at 10:00:27AM +1100, JH wrote:
+> Hi Quentin,
+> 
+> Thanks for your response.
+> 
+> On 2/3/20, Quentin Schulz <quentin.schulz@streamunlimited.com> wrote:
+> > Hi JH,
+> >
+> > On Mon, Feb 03, 2020 at 09:56:49PM +1100, JH wrote:
+> >> Hi,
+> >>
+> >> I added my local machine to ubifs, is it correct?
+> >>
+> >> UBOOT_CONFIG[nand] = "mx6ull_14x14_evk_nand_config,ubifs"
+> >>
+> >
+> > Also, you need to select UBOOT_CONFIG somewhere, with the above line,
+> > you just say "if nand is selected as an UBOOT_CONFIG, do xyz". You still
+> > need to select it (with I assume, UBOOT_CONFIG += "nand" in a bbappend
+> > somewhere).
+> 
+> Sorry for not being it clear, I indeed defined UBOOT_CONFIG = "nand"
+> in the local.conf. Should I define it as UBOOT_CONFIG += "nand" or
+> should I move it to a u-boot bbappend?
+> 
 
-Those external scripts use #!/usr/bin/env python3 as shebang.
+From what you say below, it was defined in a machine configuration file,
+so modify it there. It;s fine *for debugging purposes* to modify the
+original file but in the case of machine configuration file, once you've
+settled with some modifications, you need to create a new one in your
+own layer and add the changes there so they can be shared with people
+(conf/local.conf is NOT supposed to be shared).
 
-Now it appears that if rm-work is enabled, those are run using python3 from the
-tmp/hosttools/python3 symlink and without rm-work, they run using python3 from the
-recipe-sysroot-native (which all makes sense).
+But UBOOT_CONFIG = "nand" looks decent to me (it's a machine specific
+variable, so rather set it in the machine configuration file).
 
-But the whole testing becomes a bit nondeterministic... In particular, those external
-python3 script import modules that
-are not available in the recipe-sysroot-native (but
-they are in the host's python3 installation).
+> > What's in your mx6ull_14x14_evk_nand_config?
+> 
+> The mx6ull_14x14_evk_nand_config,ubifs was from a tip found and copied
+> from Internet, but the original definition is from included
+> meta-freescale/conf/machine/imx6ullevk.conf:
+> 
+> UBOOT_CONFIG ??= "sd"
+> UBOOT_CONFIG[sd] = "mx6ull_14x14_evk_config,sdcard"
+> UBOOT_CONFIG[mfgtool] = "mx6ull_14x14_evk_config"
+> 
+> I tried to use UBOOT_CONFIG[nand] = "mx6ull_14x14_evk_config,ubifs", no avail.
+> 
 
+I'd first have a look what this ",sdcard" thing is doing (c.f.
+http://cgit.openembedded.org/openembedded-core/tree/meta/recipes-bsp/u-boot/u-boot.inc?h=thud).
 
-What is the correct solution here - considering that
-a) OEQA test cases themselves are run using hosttools' python3, and also considering
-b) that additional hosttools symlinks are added if testimage is enabled (via
-bitbake.conf)
+> > I haven't used that option before but what's ,ubifs supposed to do? Are
+> > you sure this nand option for UBOOT_CONFIG would actually create a .imx
+> > and not a .ubifs for example or something along those lines.
+> >
+> > TL;DR: Make sure UBOOT_CONFIG has nand in it, check that .imx is built
+> > with your defconfig and check that you're actually enabling the UBI
+> > command in your defconfig.
+> 
+> Yes, all enabled in my kernel 4.19.75:
+> 
 
+You're mixing things up. If you want the ubi command to be present in
+U-Boot, you need to put it in the U-Boot defconfig. Kernel defconfig has
+nothing to do with it. Though, you might want ubi support in the kernel
+but that's unrelated to your current issue.
 
+> CONFIG_MTD_UBI=y
+> CONFIG_MTD_UBI_WL_THRESHOLD=4096
+> CONFIG_MTD_UBI_BEB_LIMIT=20
+> CONFIG_MTD_UBI_FASTMAP=y
+> # CONFIG_MTD_UBI_GLUEBI is not set
+> CONFIG_MTD_UBI_BLOCK=y
+> CONFIG_DTC=y
+> CONFIG_OF=y
+> 
+> > Also, it would be helpful if you could give links to the recipes you're
+> > using. I seem to recall in some other mail it was
+> > http://git.yoctoproject.org/cgit/cgit.cgi/meta-freescale/tree/recipes-bsp/u-boot/u-boot-imx_2017.03.bb?h=sumo
+> > but it could be thud version as well.
+> 
 
-1) Should testimage remove the recipe-sysroot-native from PATH (for the duration of the
-test) so that everything runs in the same environment? Or 
-2) should my image update TESTIMAGEDEPENDS and depend on python3-native and all the extra
-python3 native module recipes from OE.
+I've seen a few mails from you recently on the mailing list which are
+more or less sequels to previous mails. FWIW, we have an IRC channel on
+freenode at #yocto, that might be helpful if you have quick questions
+(e.g. your "applying a patch" mail).
 
+I find Yocto to not be the most forgiving when copy-pasting stuff from
+the internet. I'd suggest to invest a little bit of time in reading the
+source code of what you're trying to modify (u-boot recipes, classes,
+etc.), you also have an extensive documentation here:
+https://www.yoctoproject.org/docs/2.6.4/mega-manual/mega-manual.html
+it is a manual containing all the other manuals you can find per topic
+here: https://www.yoctoproject.org/docs/
 
-I'm inclined to send a patch to update PATH for the testimage run, but wanted to gauge
-opinions first?
+I can also suggest Live coding sessions with Jozef on the project's YT
+channel https://www.youtube.com/user/TheYoctoProject. (It's Twitch
+streams uploaded to YT so if you'd rather watch when he's streaming:
+https://www.twitch.tv/letoatreidesthe2nd
 
+I want to end those recommendations on a note: sending mails is perfectly
+fine :)
 
-What is the correct approach here?
-
-
-
-Cheers,
-Andre'
-
-
+Have fun with Yocto,
+Quentin
 
