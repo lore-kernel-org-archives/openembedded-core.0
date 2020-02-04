@@ -1,44 +1,49 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
-	[209.85.166.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 63AA5611F4
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 45787611FE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 07:26:38 +0000 (UTC)
-Received: by mail-io1-f47.google.com with SMTP id z193so19788928iof.1
+	Tue,  4 Feb 2020 08:16:47 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id y17so21754981wrh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2020 23:26:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=l4G5teVi9vZEtaBB4qJDXz8cRurOcK1IF0pv9ECV4sE=;
-	b=akcohl/rYyWcCJxIPdurwqxUPOl/nBrGRQRRDiO58zCP9h1XASgcn3CjIHBm8N2DH3
-	o7GI89NtbLbjzbVSow1MS8kxdVVDOJeBz+cmlgyQOe0EqCoXawijnf3MImsuGO5c+NWs
-	zqPjnX8Aei/XD9zU+M1SBT7hXNOxnvDgkRQVLXMAJMgWp3f/jA0gb9AMbnZc7IsI62Ai
-	kuHmdlPzwMV7oNXfh9esu6hf9zqo0PGqmN/JJW2OXTpeKnSx2IcbhejDQo62OXLtia6z
-	JKWny9oe/S+M3wvGqQjjKSTG4NnkiyVi1iQk1kGi2ZNCaGO9pVSZk65qTcK9075ijVAn
-	O9oQ==
+	Tue, 04 Feb 2020 00:16:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=P59zs51FR5jMO+FBEpApA+Xj6GpEW/TSs6E5KL1xIIk=;
+	b=cFcgBN0g/tY0dJrCiWD7PoDs9pNnGHJzLNn1SG4m61QgivJy+yMjoKfMKQn5dgoZlE
+	HokvqwKguy2m7FGL5vhZ0AGUp6giHri9/N5IUkx9aDffXcYnhnmw0gqn1xgfbb6pBGm+
+	gv8bwDRJPPUkB3UynD/2S7watSeuVrYj0kf7s5fHtiFg3NYEbRwq67aN4UmafIXshLQb
+	i7upBqlQoOcpM/eWSO6b8mn+Ei6jCFq+109fHCXyZYyulZ/F3qEJNfu3ln7nuDfaPfXS
+	IPIlUKCiw17ngvHx8awfmp09vF4cxs2sicQhw78mbPSReSxcz/88NY5zJr6zZm2uoZBQ
+	PU1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=l4G5teVi9vZEtaBB4qJDXz8cRurOcK1IF0pv9ECV4sE=;
-	b=I10eQGRYC+bhXByM0aG6vJdGC2oZkpuSV8cf9Qy/UlL08QBszukzHaHjwnayoCS+Jr
-	X01Nda53JroLX9O86NgChsBzyeqdQ6IIbhpBABWGmxhDoc8Qbcpm4GNJ6D6TR1bCUxiy
-	q1CyAT9Gd8DrWXzSsVtYpSuIIEzUsMSVViUPhpH27lWIT8SBhZZJVkvT4lCnuUtOTWuS
-	11uB6TSDw0UMCLi15eOGQOrhNX265fSbekLxmvWZPLxi9yJRUg9FSTgehz962uCaDpyd
-	4OukoAEtYdh2c3BIvVD6epVa3JH/SS5XO6TLpCNhX18wGnes6xKM0oXH15NJ+nn/8D68
-	udOQ==
-X-Gm-Message-State: APjAAAUjKP5cpEzVVb4wowdAy/ROQ9N5BTO3fueImTEdgt5r+nDgCYsx
-	VZ1rSIQP+62NPgLPe0uym/RLkEEPI2Cw/h2Tve89/YIdQvE=
-X-Google-Smtp-Source: APXvYqwqu6/B2/pkywIOQ+Z1DN/mJDjuIUV4GeVjU3PuExuJ9OVePKypzl7qQej5ik3XU25+CR2TVtlRZOzLtdAfODQ=
-X-Received: by 2002:a02:6055:: with SMTP id d21mr23911872jaf.21.1580801198965; 
-	Mon, 03 Feb 2020 23:26:38 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=P59zs51FR5jMO+FBEpApA+Xj6GpEW/TSs6E5KL1xIIk=;
+	b=mynoS0yYyFXw3fjROlJGN8C6eA+dNey87cl8dpAhYWbktSrYxlchhtBcA0jKzNew+V
+	eyVHnX7itJTr4zPynZsRmswBlSJHfWUBScv1M1kbSH11oG8TcEN/8lkL2rHF1+qHgvPs
+	tgkcE3QhiLyRfMWix4C4FPvzv0kVU5hP7RYYzfLnfyalerSXQjl1tVrHbZfb3MJYJnnG
+	ZPvjcqvgdQtWwULcOwvWrB1BHPFl7TKQYfeV2UnlhEb+LKHBo8/grsVF+dBI1NVRkEla
+	543tVdl3PkctZs0b9QaknXbGaW9iWq2PFr9OpEGl7En4xUW5qPutQOw8LQ+9B5HS74rs
+	KveA==
+X-Gm-Message-State: APjAAAViAOCk5zPG4hxkPNN3hX6zuCXZUChIQYC6R374dbioPLnSQscC
+	228MAhQVI127sulu+8Tzr7G9pVBSFs2e9JK3pbE5cIya
+X-Google-Smtp-Source: APXvYqyUQoIKHt3Ke+k41WmkasLI4odgHDUHWn9mf0213EO37kcT9PVaGRNbE664KCAc/qR5Grry9pbGKcrCvrAVp8k=
+X-Received: by 2002:adf:f44a:: with SMTP id f10mr21838261wrp.16.1580804207735; 
+	Tue, 04 Feb 2020 00:16:47 -0800 (PST)
 MIME-Version: 1.0
-Received: by 2002:ad5:5d0d:0:0:0:0:0 with HTTP;
-	Mon, 3 Feb 2020 23:26:38 -0800 (PST)
-From: JH <jupiter.hce@gmail.com>
-Date: Tue, 4 Feb 2020 18:26:38 +1100
-Message-ID: <CAA=hcWQ47R4kiGtB-zAuzf1OSorJ2SumgEt6DZMebEzb14jBYg@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: How to patch a local file in a simple elegant way?
+References: <20200131220751.106516-1-mark.hatle@kernel.crashing.org>
+	<CA+aJhH0a5VSwdhGqg=5Ez+=TzDm0=Esu1kebDERWZTjkRp=7Ew@mail.gmail.com>
+	<8a54da63-ab5a-8222-f401-aaea7debcfc5@kernel.crashing.org>
+In-Reply-To: <8a54da63-ab5a-8222-f401-aaea7debcfc5@kernel.crashing.org>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Tue, 4 Feb 2020 18:16:32 +1000
+Message-ID: <CA+aJhH2DGeMOTM71yHhPvnZDc6N0wrrwYAv9Xf6VOaKTtW2X1A@mail.gmail.com>
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] microblaze tune: Correct two minor issues with the microblaze tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,42 +56,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 07:26:38 -0000
+X-List-Received-Date: Tue, 04 Feb 2020 08:16:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+On Tue, 4 Feb 2020 at 04:55, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+>
+>
+>
+> On 1/31/20 10:49 PM, Nathan Rossi wrote:
+> > On Sat, 1 Feb 2020 at 08:13, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+> >>
+> >> From: Mark Hatle <mark.hatle@xilinx.com>
+> >>
+> >> TUNE_ARCH - microblazeeb is not a valid architecture, microblaze is big
+> >>             endian, microblazeel is the little endian version.
+> >>
+> >> Version arguments:
+> >>   If a version feature is not defined, then we don't want to set either
+> >>   TUNE_CCARGS or MBPKGARCH_VERSION.
+> >>
+> >> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
+> >> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+> >> ---
+> >>  meta/conf/machine/include/microblaze/arch-microblaze.inc      | 2 +-
+> >>  .../include/microblaze/feature-microblaze-versions.inc        | 4 ++--
+> >>  2 files changed, 3 insertions(+), 3 deletions(-)
+> >>
+> >> diff --git a/meta/conf/machine/include/microblaze/arch-microblaze.inc b/meta/conf/machine/include/microblaze/arch-microblaze.inc
+> >> index eab7171cb2..265898b6b6 100644
+> >> --- a/meta/conf/machine/include/microblaze/arch-microblaze.inc
+> >> +++ b/meta/conf/machine/include/microblaze/arch-microblaze.inc
+> >> @@ -46,7 +46,7 @@ require conf/machine/include/microblaze/feature-microblaze-versions.inc
+> >>  require conf/machine/include/microblaze/feature-microblaze-math.inc
+> >>
+> >>  # Architecture name, either 'microblazeeb' or 'microblazeel' depending on endianess
+> >
+> > Worth updating the comment at the same time.
+> >
+> >> -TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "eb", "el", d)}"
+> >> +TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
+> >
+> > This change will break some things in oe-core (and probably
+> > meta-xilinx too). They should be updated at the same time.
+>
+> Do you have an example of what?  Cause without this, all autoconf invocation of
+> big endian failed for me due to invalid architecture.
 
-Is anyway to patch a local file without committing to the git source?
-I did not realize a local patch is that hard or if it is impossible.
+So core-image-minimal builds were working when I had been testing, but
+that was a number of releases ago now.
 
-In my OE build, I want to make a patch file for mx6ullevk.h in
-meta-freescale/recipes-bsp/u-boot/u-boot-imx_2017.03.bb, to customize
-mtdparts and bootargs as I could not find a simple way to do it using
-bbapaend, I did not and I don't want to submit the patch to the git
-source. So I got a bunch of errors:
+There are only a few instances in oe-core that check for "microblazeeb".
 
-ERROR: u-boot-imx-2017.03-r0 do_fetch: Fetcher failure: Unable to find
-revision 8be98e9322040c655b9e5c9fb2c494e002e3fad9 in branch
-imx_v2017.03_4.9.123_imx8mm_gafile://mx6ullevk.patch even from
-upstream
-ERROR: u-boot-imx-2017.03-r0 do_fetch: Fetcher failure for URL:
-'git://source.codeaurora.org/external/imx/uboot-imx.git;protocol=https;branch=imx_v2017.03_4.9.123_imx8mm_gafile://mx6ullevk.patch'.
-Unable to fetch URL from any source.
-ERROR: u-boot-imx-2017.03-r0 do_fetch: Function failed: base_do_fetch
-ERROR: Logfile of failure stored in:
-/build/Installation/sa_platform_build/Source/Yocto/build/tmp-glibc/work/solar-oe-linux-gnueabi/u-boot-imx/2017.03-r0/temp/log.do_fetch.25780
-ERROR: Task (/build/Installation/sa_platform_build/Source/Yocto/oe-core/../meta-freescale/recipes-bsp/u-boot/u-boot-imx_2017.03.bb:do_fetch)
-failed with exit code '1'
+classes/meson.bbclass:60:    elif arch == "microblazeel" or arch ==
+"microblazeeb":
+Probably just arch.startswith("microblaze") here
 
-Googling Internet, there are many suggestions to workarounds, git to
-local repository, git to your own repository, or even copy all git
-source to build u-boot offline. None of is elegant, I am sure there
-are some nice way to do it. Could you please advise if there is a
-simple elegant way to do it?
+classes/kernel-arch.bbclass:37:    elif re.match('microblazee[bl]',
+a):        return 'microblaze'
+This one won't break, since "microblaze" is already a valid kernel
+arch. But for clean up just needs to be microblazeel.
 
-Thank you.
+recipes-extended/ghostscript/ghostscript/microblazeeb/objarch.h
 
-Kind regards,
+>
+> > Might also be worth removing the microblazeeb references in siteinfo,
+> > and elf.py. Since they were added to support this.
+>
+> I looked at these and left them "just in case", as they didn't seem to conflict
+> with anything that I saw.
 
-- jh
+Leaving them is fine, though removal to avoid confusion and for clean
+up in general is probably a good idea.
+
+Thanks,
+Nathan
+
+
+>
+> --Mark
+>
+> > Regards,
+> > Nathan
+> >
+> >>
+> >>  # Package Architecture formatting
+> >>  TUNE_PKGARCH = "microblaze${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
+> >> diff --git a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
+> >> index 3221e2aab7..003fde3e07 100644
+> >> --- a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
+> >> +++ b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
+> >> @@ -64,6 +64,6 @@ TUNECONFLICTS[v10.0] = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3
+> >>  TUNECONFLICTS[v11.0] = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3 v9.4 v9.5 v9.6 v10.0"
+> >>
+> >>  # Version flags
+> >> -TUNE_CCARGS += "-mcpu=${@microblaze_current_version(d, True)}"
+> >> -MBPKGARCH_VERSION = "-${@microblaze_current_version(d)}"
+> >> +TUNE_CCARGS += "${@'-mcpu=${@microblaze_current_version(d, True)' if microblaze_current_version(d, True) != '' else ''}"
+> >> +MBPKGARCH_VERSION = "${@'-${@microblaze_current_version(d, True)' if microblaze_current_version(d, True) != '' else ''}"
+> >>
+> >> --
+> >> 2.17.1
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
