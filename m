@@ -1,19 +1,19 @@
 Return-Path: <mark.hatle@kernel.crashing.org>
 Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F96E61107
+	by mail.openembedded.org (Postfix) with ESMTP id D70AE61107
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 21:06:43 +0000 (UTC)
+	Tue,  4 Feb 2020 21:06:44 +0000 (UTC)
 Received: from lons-builder.int.hatle.net ([192.40.192.88])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 014L6UMx009706;
-	Tue, 4 Feb 2020 15:06:43 -0600
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 014L6UMv009706;
+	Tue, 4 Feb 2020 15:06:39 -0600
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Feb 2020 15:06:30 -0600
-Message-Id: <20200204210630.41960-6-mark.hatle@kernel.crashing.org>
+Date: Tue,  4 Feb 2020 15:06:28 -0600
+Message-Id: <20200204210630.41960-4-mark.hatle@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200204210630.41960-1-mark.hatle@kernel.crashing.org>
 References: <20200204210630.41960-1-mark.hatle@kernel.crashing.org>
-Subject: [PATCH v4 5/5] Microblaze: Adjust Linux items from microblazeeb to microblaze
+Subject: [PATCH v4 3/5] microblaze tune: Enable 64-bit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,86 +26,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 21:06:44 -0000
+X-List-Received-Date: Tue, 04 Feb 2020 21:06:45 -0000
 
-Due to recent changes to the tune, in order to match config.guess, the name
-of the big-endian microblaze architecture was changes to 'microblaze'.
+From: Mark Hatle <mark.hatle@xilinx.com>
 
+64-bit is not yet available in Linux, but some non-Linux uses exist.
+
+Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
- meta/classes/meson.bbclass                                     | 2 +-
- meta/classes/siteinfo.bbclass                                  | 3 ---
- meta/lib/oe/elf.py                                             | 3 ---
- .../ghostscript/{microblazeeb => microblaze}/objarch.h         | 0
- 4 files changed, 1 insertion(+), 7 deletions(-)
- rename meta/recipes-extended/ghostscript/ghostscript/{microblazeeb => microblaze}/objarch.h (100%)
+ .../machine/include/microblaze/arch-microblaze.inc    | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-index 001602bd04..06034e8b47 100644
---- a/meta/classes/meson.bbclass
-+++ b/meta/classes/meson.bbclass
-@@ -57,7 +57,7 @@ def meson_cpu_family(var, d):
-         return 'mips64'
-     elif re.match(r"i[3-6]86", arch):
-         return "x86"
--    elif arch == "microblazeel" or arch == "microblazeeb":
-+    elif arch == "microblazeel":
-         return "microblaze"
-     else:
-         return arch
-diff --git a/meta/classes/siteinfo.bbclass b/meta/classes/siteinfo.bbclass
-index d62aaac0f0..1a048c053f 100644
---- a/meta/classes/siteinfo.bbclass
-+++ b/meta/classes/siteinfo.bbclass
-@@ -35,7 +35,6 @@ def siteinfo_data_for_machine(arch, os, d):
-         "lm32": "endian-big bit-32",
-         "m68k": "endian-big bit-32",
-         "microblaze": "endian-big bit-32 microblaze-common",
--        "microblazeeb": "endian-big bit-32 microblaze-common",
-         "microblazeel": "endian-little bit-32 microblaze-common",
-         "mips": "endian-big bit-32 mips-common",
-         "mips64": "endian-big bit-64 mips-common",
-@@ -89,8 +88,6 @@ def siteinfo_data_for_machine(arch, os, d):
-         "arm-linux-musleabi": "arm-linux",
-         "armeb-linux-gnueabi": "armeb-linux",
-         "armeb-linux-musleabi": "armeb-linux",
--        "microblazeeb-linux" : "microblaze-linux",
--        "microblazeeb-linux-musl" : "microblaze-linux",
-         "microblazeel-linux" : "microblaze-linux",
-         "microblazeel-linux-musl" : "microblaze-linux",
-         "mips-linux-musl": "mips-linux",
-diff --git a/meta/lib/oe/elf.py b/meta/lib/oe/elf.py
-index 2ed614f652..df0a4593fa 100644
---- a/meta/lib/oe/elf.py
-+++ b/meta/lib/oe/elf.py
-@@ -22,7 +22,6 @@ def machine_dict(d):
-                         "mips":       ( 8,     0,    0,          False,         32),
-                         "mipsel":     ( 8,     0,    0,          True,          32),
-                         "microblaze":  (189,   0,    0,          False,         32),
--                        "microblazeeb":(189,   0,    0,          False,         32),
-                         "microblazeel":(189,   0,    0,          True,          32),
-                         "powerpc":    (20,     0,    0,          False,         32),
-                         "riscv32":    (243,    0,    0,          True,          32),
-@@ -60,7 +59,6 @@ def machine_dict(d):
-                         "sh4":        (42,     0,    0,          True,          32),
-                         "sparc":      ( 2,     0,    0,          False,         32),
-                         "microblaze":  (189,   0,    0,          False,         32),
--                        "microblazeeb":(189,   0,    0,          False,         32),
-                         "microblazeel":(189,   0,    0,          True,          32),
-                       },
-             "linux-musl" : { 
-@@ -81,7 +79,6 @@ def machine_dict(d):
-                         "mips64":     (   8,     0,    0,          False,         64),
-                         "mips64el":   (   8,     0,    0,          True,          64),
-                         "microblaze":  (189,     0,    0,          False,         32),
--                        "microblazeeb":(189,     0,    0,          False,         32),
-                         "microblazeel":(189,     0,    0,          True,          32),
-                         "riscv32":    (243,      0,    0,          True,          32),
-                         "riscv64":    (243,      0,    0,          True,          64),
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/microblazeeb/objarch.h b/meta/recipes-extended/ghostscript/ghostscript/microblaze/objarch.h
-similarity index 100%
-rename from meta/recipes-extended/ghostscript/ghostscript/microblazeeb/objarch.h
-rename to meta/recipes-extended/ghostscript/ghostscript/microblaze/objarch.h
+diff --git a/meta/conf/machine/include/microblaze/arch-microblaze.inc b/meta/conf/machine/include/microblaze/arch-microblaze.inc
+index 89e9484190..0349caac0a 100644
+--- a/meta/conf/machine/include/microblaze/arch-microblaze.inc
++++ b/meta/conf/machine/include/microblaze/arch-microblaze.inc
+@@ -4,6 +4,11 @@
+ TUNEVALID[microblaze] = "MicroBlaze"
+ MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "microblaze", "microblaze:", "", d)}"
+ 
++# 64-bit
++TUNEVALID[64-bit] = "64-bit MicroBlaze"
++TUNECONFLICTS[64-bit] = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3 v9.4 v9.5 v9.6 v10.0"
++MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "microblaze64:", "", d)}"
++
+ # Endian
+ TUNEVALID[bigendian] = "Use Microblaze Big Endian"
+ TUNECONFLICTS[bigendian] += "v10.0"
+@@ -26,6 +31,7 @@ TUNECONFLICTS[frequency-optimized] += "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "barrel-shift", "-mxl-barrel-shift", "-mno-xl-barrel-shift", d)}"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "pattern-compare", "-mxl-pattern-compare", "-mno-xl-pattern-compare", d)}"
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "frequency-optimized", "-mxl-frequency", "", d)}"
++TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "-m64", "", d)}"
+ 
+ # Disable reorder for v8.30 if pattern-compare is not enabled
+ TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "reorder", \
+@@ -48,6 +54,9 @@ require conf/machine/include/microblaze/feature-microblaze-math.inc
+ # Architecture name, either 'microblaze' or 'microblazeel' depending on endianess
+ TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
+ 
++# Add 64-bit to the PKGARCH if enabled.
++MBPKGARCH_SIZE = "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "64", "", d)}"
++
+ # Package Architecture formatting
+-TUNE_PKGARCH = "microblaze${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
++TUNE_PKGARCH = "microblaze${MBPKGARCH_SIZE}${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
+ 
 -- 
 2.17.1
 
