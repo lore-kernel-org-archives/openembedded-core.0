@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 73EA760F7F
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+	[209.85.210.181])
+	by mail.openembedded.org (Postfix) with ESMTP id B8D4E60F7F
 	for <openembedded-core@openembedded.org>;
-	Tue,  4 Feb 2020 15:06:17 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id y8so7369283pll.13
+	Tue,  4 Feb 2020 15:06:18 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id y5so9577155pfb.11
 	for <openembedded-core@openembedded.org>;
-	Tue, 04 Feb 2020 07:06:18 -0800 (PST)
+	Tue, 04 Feb 2020 07:06:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=EWXqBjqBjxqBimP1uFkvbZyXyS/0fIOCjJARWAJsXoI=;
-	b=ahDkgyPndtXqROfPu6GHXgRt6roxiSLkNKd+q0d6IRR/EXQMRj3UnwM6KTRxmI7xJp
-	xw4EHBtdl2/To/M5zjIgnckEaa5ZTmfE9Zqe64wIiRAm82+zMi387ryVZNQZFGsj4OYp
-	dUpSE+eHFaqv9td7lASDE3hYHA33s1b2SL4pHf+IcJQ5XqhSmXfU7Jil6Qwv/hBRkHZz
-	BEFKQEjBqvtZKp2MtaUPKhNZC+1zQtzx0L1CwEgsmaBl6hIG1bQTYNxhSp+3ceewzg/Y
-	fcm7PB4mSRyaYs2OwdqmECnxom/hgihQ+zZ3jDnYoG5g9YsDKm+7B6OO4emFSj7AanRi
-	4tLg==
+	bh=hBWhWhmQTPUifZT77diqpZX1Yu8Pq2cg+BlIC0EouAs=;
+	b=Ab9nOG55j4lxn6Bjh6ru/r0m83YMiNC0TbKYPjLr4Yej/MuRkpEViq59sWNfEfBNIh
+	w4yhEYVgzt5bfyvRLESN+lR9rJsgNlwSLhAB/Qm/RMUY74fP2InHJxgtZqKiCnPk2F41
+	mmWi/Q1xFBoUIPgx5jCAqj5Cr+PPZzFgKsaRz4iatwTXKrYWo/7/i+eAqqiWFkDrpj8w
+	DucHVUpjH3xJouSs6DO+C0mCuBG3yKKNFxGuWFg1mx8BORpNAOelSmKVPn+jg9rGuf0I
+	TLjAtVPDcT59aM9nqKankfzxZjwU4NJNrfrfP9AkmBm+zyWZ0Vn9vmuWurPq+TpqPuLE
+	2sdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=EWXqBjqBjxqBimP1uFkvbZyXyS/0fIOCjJARWAJsXoI=;
-	b=rfzrmKFiOXDpfW9UBCrgzO6bxzIOH7yzf6Ft9oR5jWz7GjYNCu89+dqUX+k4aDbh5/
-	FQUUYTI87EnCUFmAuxm9d3ANGeyi+IABV1lfGrxFUp3CxRuyvwcsdHY9m+MRSSJWBwnC
-	O25Q+WMFuvV1hiQJ8visSj11i6Nh44JbjEJTKIpTWZpSRl+ltDckTp0Iki/Wg5g0Ap2j
-	NFUTJyfRr41i79IoKpv+BOn9FMv+vBSNZ11oYmgPS9+ANlkEIyoT6HeLYYgQxturWjbh
-	DtkJtxWHHjtQWkuwWCvnzCJp8KkUdJ6TrDyfC9AR2ctDuUfJaTmEbCseph3DTS2XyvSy
-	M3tg==
-X-Gm-Message-State: APjAAAU44HArtcyI6EvTx/biEcdV4kuwZDNZXn+rS1eguDrieBqRlSyf
-	RYUuaYgHcGZNIGpocq+7H9dLWVdY
-X-Google-Smtp-Source: APXvYqwuUpnxTSWnJaUXopGDPZ5f02VKXsTaC8KPAbu0l6XxmA7tee6MNUMKJfnwowkjMufWD48wKA==
-X-Received: by 2002:a17:902:ba94:: with SMTP id
-	k20mr18997352pls.104.1580828778236; 
-	Tue, 04 Feb 2020 07:06:18 -0800 (PST)
+	bh=hBWhWhmQTPUifZT77diqpZX1Yu8Pq2cg+BlIC0EouAs=;
+	b=mpzN3dRFyzvZB0bhcUrSHdcxywQ9jhcWM6b/TJV49zJ4NBAVBbZvqrnxB1QjnQQprY
+	BFZj/R7XO7ho1hKzNxBuZHxZfvr7PEIjw0XjYjWl2sJLIXVl6D+q44zsLqBIbrg4/zLR
+	b39OLxx16SLVetRtcMVmI3nzXZwCxqYny6rBMkRIW77jMuvsc9zAs+nUo5KZqg3ifNzX
+	N3toZ9stKjz+OpvvQxh9D1UEYjiljtx5GaZYkzITEsiRBoGbheBpMIAhoNYHpit1rAfE
+	c3jcDLDmSry53Y4SCD468gpTUr6DTlWKwSU4hQQeLO9Bo1geJUwSHbAXelrYv8GVcfk2
+	kJ7A==
+X-Gm-Message-State: APjAAAUoj9UZmamTmjSGsDEbxAqTuUpwQ0TLzcQC+m6DkbuHUkuitWyL
+	fVlW9sX1a8H2jza4VkpnLr2xgGrv
+X-Google-Smtp-Source: APXvYqwMPhlX01FoEpi8fwj1fVmxRMFymdqdHND9cqSgrHeT8WwxE0oqZMxHhRc0I5pxeJJ6OFHCsA==
+X-Received: by 2002:a62:8308:: with SMTP id h8mr21537723pfe.180.1580828779178; 
+	Tue, 04 Feb 2020 07:06:19 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:a5c0::afc]) by smtp.gmail.com with ESMTPSA id
-	b98sm4216055pjc.16.2020.02.04.07.06.17
+	b98sm4216055pjc.16.2020.02.04.07.06.18
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 04 Feb 2020 07:06:17 -0800 (PST)
+	Tue, 04 Feb 2020 07:06:18 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Tue,  4 Feb 2020 07:06:05 -0800
-Message-Id: <c29059a8c2ecb18f32439b0880e9d6b2362b0036.1580828664.git.akuster808@gmail.com>
+Date: Tue,  4 Feb 2020 07:06:06 -0800
+Message-Id: <1e0f2151ab9c30e104bcbd30e2c1d842a1ff4150.1580828664.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1580828664.git.akuster808@gmail.com>
 References: <cover.1580828664.git.akuster808@gmail.com>
-Subject: [zeus 5/8] bzip2: Fix CVE-2019-12900
+Subject: [zeus 6/8] core: recipes: fix some native tools dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,64 +58,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 15:06:17 -0000
+X-List-Received-Date: Tue, 04 Feb 2020 15:06:18 -0000
 
-From: Sana Kazi <Sana.Kazi@kpit.com>
+From: Sumit Garg <sumit.garg@linaro.org>
 
-Added patch for CVE-2019-12900 as backport from upstream.
-Fixes out of bound access discovered while fuzzying karchive.
+Some native tools dependency issues were seen while building with
+external GCC tool-set rather than source GCC tool-set. While building
+with source tool-set these dependencies were implicitly met which is not
+the case with external tool-set. So explicitly state these native tools
+dependencies.
 
-Tested by: Sana.Kazi@kpit.com
-
-Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
+Signed-off-by: Sumit Garg <sumit.garg@linaro.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../bzip2/bzip2-1.0.6/CVE-2019-12900.patch    | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
- create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
+ meta/recipes-extended/man-db/man-db_2.8.7.bb       | 2 +-
+ meta/recipes-extended/psmisc/psmisc.inc            | 2 +-
+ meta/recipes-graphics/xorg-app/xorg-app-common.inc | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch b/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
-new file mode 100644
-index 0000000000..9859d9d1a2
---- /dev/null
-+++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
-@@ -0,0 +1,36 @@
-+From 74de1e2e6ffc9d51ef9824db71a8ffee5962cdbc Mon Sep 17 00:00:00 2001
-+From: Albert Astals Cid <aacid@kde.org>
-+Date: Tue, 28 May 2019 19:35:18 +0200
-+Subject: [PATCH] Make sure nSelectors is not out of range
-+
-+nSelectors is used in a loop from 0 to nSelectors to access selectorMtf
-+which is
-+UChar    selectorMtf[BZ_MAX_SELECTORS];
-+so if nSelectors is bigger than BZ_MAX_SELECTORS it'll do an invalid memory
-+access
-+Fixes out of bounds access discovered while fuzzying karchive
-+
-+Link: https://gitlab.com/federicomenaquintero/bzip2/commit/74de1e2e6ffc9d51ef9824db71a8ffee5962cdbc.patch
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-12900.patch
-+Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
-+---
-+ decompress.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/decompress.c b/decompress.c
-+index ab6a624..f3db91d 100644
-+--- a/decompress.c
-++++ b/decompress.c
-+@@ -287,7 +287,7 @@ Int32 BZ2_decompress ( DState* s )
-+       GET_BITS(BZ_X_SELECTOR_1, nGroups, 3);
-+       if (nGroups < 2 || nGroups > 6) RETURN(BZ_DATA_ERROR);
-+       GET_BITS(BZ_X_SELECTOR_2, nSelectors, 15);
-+-      if (nSelectors < 1) RETURN(BZ_DATA_ERROR);
-++      if (nSelectors < 1 || nSelectors > BZ_MAX_SELECTORS) RETURN(BZ_DATA_ERROR);
-+       for (i = 0; i < nSelectors; i++) {
-+          j = 0;
-+          while (True) {
-+--
-+2.22.0
+diff --git a/meta/recipes-extended/man-db/man-db_2.8.7.bb b/meta/recipes-extended/man-db/man-db_2.8.7.bb
+index 083b2374aa..0d73b03482 100644
+--- a/meta/recipes-extended/man-db/man-db_2.8.7.bb
++++ b/meta/recipes-extended/man-db/man-db_2.8.7.bb
+@@ -10,7 +10,7 @@ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
+ SRC_URI[md5sum] = "ec0b23c8314a1654c4d059b2c18ce43d"
+ SRC_URI[sha256sum] = "b9cd5bb996305d08bfe9e1114edc30b4c97be807093b88af8033ed1cf9beb326"
+ 
+-DEPENDS = "libpipeline gdbm groff-native base-passwd"
++DEPENDS = "libpipeline gdbm groff-native base-passwd flex-native"
+ RDEPENDS_${PN} += "base-passwd"
+ 
+ # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+diff --git a/meta/recipes-extended/psmisc/psmisc.inc b/meta/recipes-extended/psmisc/psmisc.inc
+index 594a10cf22..6de5acb71b 100644
+--- a/meta/recipes-extended/psmisc/psmisc.inc
++++ b/meta/recipes-extended/psmisc/psmisc.inc
+@@ -7,7 +7,7 @@ command sends a specified signal (SIGTERM if nothing is specified) to \
+ processes identified by name.  The fuser command identifies the PIDs \
+ of processes that are using specified files or filesystems."
+ SECTION = "base"
+-DEPENDS = "ncurses virtual/libintl gettext-native"
++DEPENDS = "ncurses virtual/libintl gettext-native xz-native"
+ LICENSE = "GPLv2"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/psmisc/psmisc-${PV}.tar.gz"
+diff --git a/meta/recipes-graphics/xorg-app/xorg-app-common.inc b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+index 3529cb26ef..211e399cf0 100644
+--- a/meta/recipes-graphics/xorg-app/xorg-app-common.inc
++++ b/meta/recipes-graphics/xorg-app/xorg-app-common.inc
+@@ -12,6 +12,6 @@ INC_PR = "r8"
+ 
+ SRC_URI = "${XORG_MIRROR}/individual/app/${BPN}-${PV}.tar.bz2"
+ 
+-inherit autotools pkgconfig distro_features_check
++inherit autotools pkgconfig distro_features_check gettext
+ 
+ FILES_${PN} += " ${libdir}/X11/${BPN} ${datadir}/X11/app-defaults/"
 -- 
 2.17.1
 
