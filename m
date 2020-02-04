@@ -1,49 +1,44 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F59060C16
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+	[209.85.166.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 63AA5611F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 06:52:28 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p9so1932516wmc.2
+	Tue,  4 Feb 2020 07:26:38 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id z193so19788928iof.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Feb 2020 22:52:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3620gU+ya1LIdXYtV5LRIuJ+izgumCOFN/TiooqeoTM=;
-	b=ihMgzUP2Z7dzT0JHV1zk2IvZqhjN4lIOaEYunQVqNqIs/EZj/VzS1537x0vip2q6a3
-	LkJe3Z7nYOY4t53dutwiHblKVTEOtbJb6GE+ssgHOObZFGT4Ni3Ma+zmgMVTl3z5ufKc
-	v3H3fi5m4pf7CuR+HNb26APkdVaxf91R9gkzmYJuoaz3n0YCkQZAwZNGE2L6ZKg5vUSh
-	INNUQDEKmK1o1v1EibHdwjwPDZ990EafSrbbTcKHf729i5pE5PFt2nUYI+rtGkgflmgR
-	15OmSkLUwY96XqBB2prWb50GHeov5oJEaHYEPZViG4SyIwYl/ISTFVJXBvgQbrPwizW8
-	w7cg==
+	Mon, 03 Feb 2020 23:26:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=l4G5teVi9vZEtaBB4qJDXz8cRurOcK1IF0pv9ECV4sE=;
+	b=akcohl/rYyWcCJxIPdurwqxUPOl/nBrGRQRRDiO58zCP9h1XASgcn3CjIHBm8N2DH3
+	o7GI89NtbLbjzbVSow1MS8kxdVVDOJeBz+cmlgyQOe0EqCoXawijnf3MImsuGO5c+NWs
+	zqPjnX8Aei/XD9zU+M1SBT7hXNOxnvDgkRQVLXMAJMgWp3f/jA0gb9AMbnZc7IsI62Ai
+	kuHmdlPzwMV7oNXfh9esu6hf9zqo0PGqmN/JJW2OXTpeKnSx2IcbhejDQo62OXLtia6z
+	JKWny9oe/S+M3wvGqQjjKSTG4NnkiyVi1iQk1kGi2ZNCaGO9pVSZk65qTcK9075ijVAn
+	O9oQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3620gU+ya1LIdXYtV5LRIuJ+izgumCOFN/TiooqeoTM=;
-	b=gMo51SK5LB/Zr7G0RrYCQghfgcIBex28HWYCKR3lKvUoANpwt2SXoQbCIAY2WLtn7s
-	6/M8e4ay0Jl6sSQl107ZLpHlJiXrp8Ax+p3un1UgbumuJ3c0cQy+ccp1+kfRu+KLkx8B
-	YNRg7rDev51ZNS3SMrLlCFAxImzq/BEifUWLvQsJ4MIeEysGKk6lRw4nEx7+oYd/pG+v
-	7vtxUWbqYSXgQmiGWVqLa1dXVjKr3JXGQNJ81MLOVhkBFpBY+txs7HuMtb9TDPKOHH8J
-	q8n74ty6+/EcXVnR8W9AZSPD3dD4Eo6RH9n/1ML1rWhWAETGVcVV7KKRNPD7jglf6AU7
-	A2BQ==
-X-Gm-Message-State: APjAAAUOupjznFp4saJJVg4n0f5GBlbo34lXElW//NCMn8K9wXn9VUf4
-	UR1pG8avSNB8e0he/7ZyMrKP2/CxDUMZ7WJnYPB2kZSo5UM=
-X-Google-Smtp-Source: APXvYqz3HeOHAMHZlW44BqN9MihBh1l2K4X/eP4Yi9spziE3q5A1XzzI26s497p4KiNbgerL1DC9vjKQ9wPSynIDx/0=
-X-Received: by 2002:a1c:95:: with SMTP id 143mr3958468wma.65.1580799149046;
-	Mon, 03 Feb 2020 22:52:29 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=l4G5teVi9vZEtaBB4qJDXz8cRurOcK1IF0pv9ECV4sE=;
+	b=I10eQGRYC+bhXByM0aG6vJdGC2oZkpuSV8cf9Qy/UlL08QBszukzHaHjwnayoCS+Jr
+	X01Nda53JroLX9O86NgChsBzyeqdQ6IIbhpBABWGmxhDoc8Qbcpm4GNJ6D6TR1bCUxiy
+	q1CyAT9Gd8DrWXzSsVtYpSuIIEzUsMSVViUPhpH27lWIT8SBhZZJVkvT4lCnuUtOTWuS
+	11uB6TSDw0UMCLi15eOGQOrhNX265fSbekLxmvWZPLxi9yJRUg9FSTgehz962uCaDpyd
+	4OukoAEtYdh2c3BIvVD6epVa3JH/SS5XO6TLpCNhX18wGnes6xKM0oXH15NJ+nn/8D68
+	udOQ==
+X-Gm-Message-State: APjAAAUjKP5cpEzVVb4wowdAy/ROQ9N5BTO3fueImTEdgt5r+nDgCYsx
+	VZ1rSIQP+62NPgLPe0uym/RLkEEPI2Cw/h2Tve89/YIdQvE=
+X-Google-Smtp-Source: APXvYqwqu6/B2/pkywIOQ+Z1DN/mJDjuIUV4GeVjU3PuExuJ9OVePKypzl7qQej5ik3XU25+CR2TVtlRZOzLtdAfODQ=
+X-Received: by 2002:a02:6055:: with SMTP id d21mr23911872jaf.21.1580801198965; 
+	Mon, 03 Feb 2020 23:26:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20200131233305.118454-1-mark.hatle@kernel.crashing.org>
-	<CA+aJhH1nnqrUzwdRuju04NY=YsTfafkQLA7ucMMUUcPyozpEmA@mail.gmail.com>
-	<5e6edcb4-8eca-7bb8-5fc4-5c0504d4f130@kernel.crashing.org>
-In-Reply-To: <5e6edcb4-8eca-7bb8-5fc4-5c0504d4f130@kernel.crashing.org>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Tue, 4 Feb 2020 16:52:17 +1000
-Message-ID: <CA+aJhH3h2DhtUJLKtR8a72kHr9R+oGsfvZe8GRzPsmdsAedmCA@mail.gmail.com>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/2] microblaze tune: Enable 64-bit
+Received: by 2002:ad5:5d0d:0:0:0:0:0 with HTTP;
+	Mon, 3 Feb 2020 23:26:38 -0800 (PST)
+From: JH <jupiter.hce@gmail.com>
+Date: Tue, 4 Feb 2020 18:26:38 +1100
+Message-ID: <CAA=hcWQ47R4kiGtB-zAuzf1OSorJ2SumgEt6DZMebEzb14jBYg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: How to patch a local file in a simple elegant way?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,85 +51,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 06:52:28 -0000
+X-List-Received-Date: Tue, 04 Feb 2020 07:26:38 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 4 Feb 2020 at 04:36, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
->
->
->
-> On 1/31/20 10:50 PM, Nathan Rossi wrote:
-> > On Sat, 1 Feb 2020 at 09:33, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
-> >>
-> >> From: Mark Hatle <mark.hatle@xilinx.com>
-> >>
-> >> 64-bit is not yet available in Linux, but some non-Linux uses exist.
-> >>
-> >> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-> >> Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
-> >> ---
-> >>  meta/conf/machine/include/microblaze/arch-microblaze.inc | 9 ++++++++-
-> >>  1 file changed, 8 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/meta/conf/machine/include/microblaze/arch-microblaze.inc b/meta/conf/machine/include/microblaze/arch-microblaze.inc
-> >> index 265898b6b6..fb777d929c 100644
-> >> --- a/meta/conf/machine/include/microblaze/arch-microblaze.inc
-> >> +++ b/meta/conf/machine/include/microblaze/arch-microblaze.inc
-> >> @@ -4,6 +4,9 @@
-> >>  TUNEVALID[microblaze] = "MicroBlaze"
-> >>  MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "microblaze", "microblaze:", "", d)}"
-> >>
-> >> +TUNEVALID[64-bit] = "64-bit MicroBlaze"
-> >> +MACHINEOVERRIDES =. "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "microblaze64:", "", d)}"
-> >
-> > This should probably TUNECONFLICTS with all unsupported versions.
->
-> I have no information on what versions are unsupported with 64-bit.  If I
-> receive that information, I will add it as conflicts.
+Hello,
 
-It looks like it was added in v11.0 (and unsupported in all prior
-versions), according to the microblaze reference manual
-(https://www.xilinx.com/support/documentation/sw_manuals/xilinx2019_2/ug984-vivado-microblaze-ref.pdf).
+Is anyway to patch a local file without committing to the git source?
+I did not realize a local patch is that hard or if it is impossible.
 
-Regards,
-Nathan
+In my OE build, I want to make a patch file for mx6ullevk.h in
+meta-freescale/recipes-bsp/u-boot/u-boot-imx_2017.03.bb, to customize
+mtdparts and bootargs as I could not find a simple way to do it using
+bbapaend, I did not and I don't want to submit the patch to the git
+source. So I got a bunch of errors:
 
->
-> --Mark
->
-> > Regards,
-> > Nathan
-> >
-> >
-> >> +
-> >>  # Endian
-> >>  TUNEVALID[bigendian] = "Use Microblaze Big Endian"
-> >>  TUNECONFLICTS[bigendian] += "v10.0"
-> >> @@ -26,6 +29,7 @@ TUNECONFLICTS[frequency-optimized] += "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0
-> >>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "barrel-shift", "-mxl-barrel-shift", "-mno-xl-barrel-shift", d)}"
-> >>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "pattern-compare", "-mxl-pattern-compare", "-mno-xl-pattern-compare", d)}"
-> >>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "frequency-optimized", "-mxl-frequency", "", d)}"
-> >> +TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "-m64", "", d)}"
-> >>
-> >>  # Disable reorder for v8.30 if pattern-compare is not enabled
-> >>  TUNE_CCARGS += "${@bb.utils.contains("TUNE_FEATURES", "reorder", \
-> >> @@ -48,6 +52,9 @@ require conf/machine/include/microblaze/feature-microblaze-math.inc
-> >>  # Architecture name, either 'microblazeeb' or 'microblazeel' depending on endianess
-> >>  TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
-> >>
-> >> +# Add 64-bit to the PKGARCH if enabled.
-> >> +MBPKGARCH_SIZE = "${@bb.utils.contains("TUNE_FEATURES", "64-bit", "64", "", d)}"
-> >> +
-> >>  # Package Architecture formatting
-> >> -TUNE_PKGARCH = "microblaze${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
-> >> +TUNE_PKGARCH = "microblaze${MBPKGARCH_SIZE}${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
-> >>
-> >> --
-> >> 2.17.1
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ERROR: u-boot-imx-2017.03-r0 do_fetch: Fetcher failure: Unable to find
+revision 8be98e9322040c655b9e5c9fb2c494e002e3fad9 in branch
+imx_v2017.03_4.9.123_imx8mm_gafile://mx6ullevk.patch even from
+upstream
+ERROR: u-boot-imx-2017.03-r0 do_fetch: Fetcher failure for URL:
+'git://source.codeaurora.org/external/imx/uboot-imx.git;protocol=https;branch=imx_v2017.03_4.9.123_imx8mm_gafile://mx6ullevk.patch'.
+Unable to fetch URL from any source.
+ERROR: u-boot-imx-2017.03-r0 do_fetch: Function failed: base_do_fetch
+ERROR: Logfile of failure stored in:
+/build/Installation/sa_platform_build/Source/Yocto/build/tmp-glibc/work/solar-oe-linux-gnueabi/u-boot-imx/2017.03-r0/temp/log.do_fetch.25780
+ERROR: Task (/build/Installation/sa_platform_build/Source/Yocto/oe-core/../meta-freescale/recipes-bsp/u-boot/u-boot-imx_2017.03.bb:do_fetch)
+failed with exit code '1'
+
+Googling Internet, there are many suggestions to workarounds, git to
+local repository, git to your own repository, or even copy all git
+source to build u-boot offline. None of is elegant, I am sure there
+are some nice way to do it. Could you please advise if there is a
+simple elegant way to do it?
+
+Thank you.
+
+Kind regards,
+
+- jh
 
