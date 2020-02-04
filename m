@@ -1,19 +1,19 @@
 Return-Path: <mark.hatle@kernel.crashing.org>
 Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 67C47610E3
+	by mail.openembedded.org (Postfix) with ESMTP id 7930D610FB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 21:06:38 +0000 (UTC)
+	Tue,  4 Feb 2020 21:06:39 +0000 (UTC)
 Received: from lons-builder.int.hatle.net ([192.40.192.88])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 014L6UMt009706;
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 014L6UMu009706;
 	Tue, 4 Feb 2020 15:06:38 -0600
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Feb 2020 15:06:26 -0600
-Message-Id: <20200204210630.41960-2-mark.hatle@kernel.crashing.org>
+Date: Tue,  4 Feb 2020 15:06:27 -0600
+Message-Id: <20200204210630.41960-3-mark.hatle@kernel.crashing.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20200204210630.41960-1-mark.hatle@kernel.crashing.org>
 References: <20200204210630.41960-1-mark.hatle@kernel.crashing.org>
-Subject: [PATCH v4 1/5] microblaze tune: change microblazeeb to microblaze
+Subject: [PATCH v4 2/5] microblaze tune: Allow no version to be set
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,46 +26,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 21:06:38 -0000
+X-List-Received-Date: Tue, 04 Feb 2020 21:06:40 -0000
 
 From: Mark Hatle <mark.hatle@xilinx.com>
 
-Using microblazeeb breaks a number of autoconf recipes, including newlib
-components.  'microblaze' is defined as the big-endian version, while
-microblazeel is defined as the little-endian version.
-
-config.sub: 2018-07-03
-
-...
-        | maxq | mb | microblaze | microblazeel | mcore | mep | metag \
-...
-        | microblaze-* | microblazeel-* \
-...
-        microblaze*)
-                basic_machine=microblaze-xilinx
-...
+We want to allow no version to be configured.  This should use the GCC default
+which is the latest defined version, currently 11.0.
 
 Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
 Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
 ---
- meta/conf/machine/include/microblaze/arch-microblaze.inc | 4 ++--
+ .../include/microblaze/feature-microblaze-versions.inc        | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/machine/include/microblaze/arch-microblaze.inc b/meta/conf/machine/include/microblaze/arch-microblaze.inc
-index eab7171cb2..89e9484190 100644
---- a/meta/conf/machine/include/microblaze/arch-microblaze.inc
-+++ b/meta/conf/machine/include/microblaze/arch-microblaze.inc
-@@ -45,8 +45,8 @@ MBPKGARCH_TUNE .= "${@bb.utils.contains("TUNE_FEATURES", "frequency-optimized",
- require conf/machine/include/microblaze/feature-microblaze-versions.inc
- require conf/machine/include/microblaze/feature-microblaze-math.inc
+diff --git a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
+index 3221e2aab7..5c37f49abb 100644
+--- a/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
++++ b/meta/conf/machine/include/microblaze/feature-microblaze-versions.inc
+@@ -64,6 +64,6 @@ TUNECONFLICTS[v10.0] = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3
+ TUNECONFLICTS[v11.0] = "v8.00 v8.10 v8.20 v8.30 v8.40 v8.50 v9.0 v9.1 v9.2 v9.3 v9.4 v9.5 v9.6 v10.0"
  
--# Architecture name, either 'microblazeeb' or 'microblazeel' depending on endianess
--TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "eb", "el", d)}"
-+# Architecture name, either 'microblaze' or 'microblazeel' depending on endianess
-+TUNE_ARCH = "microblaze${@bb.utils.contains("TUNE_FEATURES", "bigendian", "", "el", d)}"
+ # Version flags
+-TUNE_CCARGS += "-mcpu=${@microblaze_current_version(d, True)}"
+-MBPKGARCH_VERSION = "-${@microblaze_current_version(d)}"
++TUNE_CCARGS += "${@'-mcpu=%s' % (microblaze_current_version(d, True)) if microblaze_current_version(d, True) != '' else ''}"
++MBPKGARCH_VERSION = "${@'-%s' % (microblaze_current_version(d, True)) if microblaze_current_version(d, True) != '' else ''}"
  
- # Package Architecture formatting
- TUNE_PKGARCH = "microblaze${MBPKGARCH_ENDIAN}${MBPKGARCH_VERSION}${MBPKGARCH_TUNE}${MBPKGARCH_MATH}"
 -- 
 2.17.1
 
