@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
-	[209.85.128.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 0350560C6E
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 17A41607AE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 12:11:55 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id f129so2473487wmf.2
+	Wed,  5 Feb 2020 12:11:56 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id t14so2461750wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2020 04:11:56 -0800 (PST)
+	Wed, 05 Feb 2020 04:11:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=fQhfk/989PFsHHgdBKjirQFWHS2/9lh86606Ls6usEQ=;
-	b=TuA+BQLVStnU/hcoDajGWyzBhTi+gUyZJITp8UVbqzoZNUt9RYKpDC7jah8LMO1xte
-	Wx/wxVT78CmzuLRDK4afsEoxMk8jchw0mKoy7vpdLRuoH1BausZFelZWN7uurgSUC0k3
-	a2q1Dqb4cseer4gglP+6coeEn3gir8cClIRNQ=
+	bh=cZjF3+9QZv9TPU0J8SndfFGQmCRE5uIBIp9pu2j0bHk=;
+	b=fTRFaC3w5IUX5DgUJWaO4pQ+ARCxmPOqbGcEHR/VmmGEpmwvVW78USfATal9sSp2vB
+	40a+/MowtwXMS8pRHthcOc8gIbeuXpoABmC4k1SkpmN3NNUNujbnRMou86jiTVP1Kju0
+	UWB9sraq0b9NSsD6CabO65GjOl2yF46byGbdw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=fQhfk/989PFsHHgdBKjirQFWHS2/9lh86606Ls6usEQ=;
-	b=c9Vt5sunVS0EbnyekzapWlU48cnRZOWipeWc7Obwk9ehCyrlYDAcb+cYVOpAc42qK3
-	F7XcPmFlNoozeBM3cciTKpPWANIrrIcn6hKMMUcOJcYINYFh2s3pwxxtHvlvZ59v1aax
-	+/xbbZUQLO0tVc1zQmYC7llDc3ig4Bqg4CX9tjR0W2F9tZgTarS+uZ5O6ZVjAH98OfOl
-	yFCNo+kQHWjbzim8QLG7GRux52j3qp3YQ+5Lgt33OxZNtq9drXSf3OORSU7PYYG7HSRi
-	j2rgo7SQQTIdSocvJNE6v35l0QWGGVmd7jxGeSEkhLO4FK3skFb1rn+5D4V6WFIeC1vG
-	lOPA==
-X-Gm-Message-State: APjAAAUsASdq6qFZAFHjgwscUljVBKNoRD+4K+gqMNEy51IrsMWqCQb/
-	qM6N8e9b9Ta6rkXkgawOYQVg0c1cyq4=
-X-Google-Smtp-Source: APXvYqxSZvhpHGeibqECSdEIlbsEcrYxcGNxFDzAfuxtM9m3ZOmK7rfctNBTtybnHIKky8EeLNMhkA==
-X-Received: by 2002:a7b:c258:: with SMTP id b24mr5717898wmj.140.1580904715467; 
-	Wed, 05 Feb 2020 04:11:55 -0800 (PST)
+	bh=cZjF3+9QZv9TPU0J8SndfFGQmCRE5uIBIp9pu2j0bHk=;
+	b=Ze92rNBj6tZH8qcx0JNRP+XZfjdGesudo90GqlKPVqoCeeTTOhDPlSxBZqnl7ow4Ez
+	fanxACqsEp78HEmqgTiTmrZU7zGxdB3PzhVtIVEgUcNQmMU7dxByObVE9bBOO6M1vXsQ
+	l6CAz4duY6Yv1YLVBHSYGL/Uevl9T2drjEbP9x3yV+1aokJp956p0vJsSJSgRyuTjsyP
+	+kPUI3h0FsE0OvOewgL9c0oaAX+dSffd91MVjKqOuffstLCO8ny2E2vOBWvpeRCNs2qw
+	xUrQzf78Rv4wjeFtX8RFZx2DwaoANMdaPhCNmVZc1rj+sgE+gXE8yeJhMDUWa4LaKWL+
+	hlOQ==
+X-Gm-Message-State: APjAAAVQkUWAbiVOeMrM8kJglB6CGVhXYTvBB3TRH4vlbQ82mcRQi6Qq
+	s1KO96BEeuw5NLAbp/++cdHmH/e6nP4=
+X-Google-Smtp-Source: APXvYqwd1bmNfy78rsm10NXZxeA9I5UD0HHZY/nwLFQJH3qz/h43ILUrAZ3kvf1UaEzD9kt+hRHLCg==
+X-Received: by 2002:a1c:7f87:: with SMTP id a129mr5736006wmd.156.1580904716391;
+	Wed, 05 Feb 2020 04:11:56 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	w19sm7557529wmc.22.2020.02.05.04.11.54
+	w19sm7557529wmc.22.2020.02.05.04.11.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 05 Feb 2020 04:11:54 -0800 (PST)
+	Wed, 05 Feb 2020 04:11:55 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Feb 2020 12:11:48 +0000
-Message-Id: <20200205121151.27880-3-richard.purdie@linuxfoundation.org>
+Date: Wed,  5 Feb 2020 12:11:49 +0000
+Message-Id: <20200205121151.27880-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200205121151.27880-1-richard.purdie@linuxfoundation.org>
 References: <20200205121151.27880-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 3/6] mc: Set zipinfo presence determinstically
+Subject: [PATCH 4/6] mc: Fix manpage date indeterminism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,29 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 12:11:55 -0000
+X-List-Received-Date: Wed, 05 Feb 2020 12:11:56 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-This value was floating causing differences in generated files.
-Set it determinstically.
+The man page date can vary depending upon the host perl, e.g. in Russian
+some versions print 'июня', others 'Июнь' or Polish 'czerwca' or 'czerwiec'.
+Rather than depend upon perl-native to fix this, just remove the date from
+the manpages.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/mc/mc_4.8.23.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../recipes-extended/mc/files/nomandate.patch | 21 +++++++++++++++++++
+ meta/recipes-extended/mc/mc_4.8.23.bb         |  1 +
+ 2 files changed, 22 insertions(+)
+ create mode 100644 meta/recipes-extended/mc/files/nomandate.patch
 
+diff --git a/meta/recipes-extended/mc/files/nomandate.patch b/meta/recipes-extended/mc/files/nomandate.patch
+new file mode 100644
+index 00000000000..48bd73b1102
+--- /dev/null
++++ b/meta/recipes-extended/mc/files/nomandate.patch
+@@ -0,0 +1,21 @@
++The man page date can vary depending upon the host perl, e.g. in Russian
++some versions print 'июня', others 'Июнь' or Polish 'czerwca' or 'czerwiec'.
++Rather than depend upon perl-native to fix this, just remove the date from 
++the manpages.
++
++RP 2020/2/4
++
++Upstream-Status: Inappropriate [OE specficic reproducibility workaround]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: mc-4.8.23/doc/man/date-of-man-include.am
++===================================================================
++--- mc-4.8.23.orig/doc/man/date-of-man-include.am
+++++ mc-4.8.23/doc/man/date-of-man-include.am
++@@ -1,5 +1,5 @@
++ SED_PARAMETERS = \
++-	-e "s/%DATE_OF_MAN_PAGE%/$${MAN_DATE}/g" \
+++	-e "s/%DATE_OF_MAN_PAGE%//g" \
++ 	-e "s/%DISTR_VERSION%/@DISTR_VERSION@/g" \
++ 	-e "s{%prefix%{@prefix@{g" \
++ 	-e "s{%sysconfdir%{@sysconfdir@{g" \
 diff --git a/meta/recipes-extended/mc/mc_4.8.23.bb b/meta/recipes-extended/mc/mc_4.8.23.bb
-index 95fa1dae78d..d8c8f8643e1 100644
+index d8c8f8643e1..ead348b92e7 100644
 --- a/meta/recipes-extended/mc/mc_4.8.23.bb
 +++ b/meta/recipes-extended/mc/mc_4.8.23.bb
-@@ -29,6 +29,7 @@ EXTRA_OECONF = "--with-screen=ncurses --without-gpm-mouse --without-x --disable-
- CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
- CACHED_CONFIGUREVARS += "ac_cv_path_PYTHON='/usr/bin/env python'"
- CACHED_CONFIGUREVARS += "ac_cv_path_GREP='/usr/bin/env grep'"
-+CACHED_CONFIGUREVARS += "mc_cv_have_zipinfo=yes"
- 
- do_install_append () {
- 	sed -i -e '1s,#!.*perl,#!${bindir}/env perl,' ${D}${libexecdir}/mc/extfs.d/*
+@@ -11,6 +11,7 @@ SRC_URI = "http://www.midnight-commander.org/downloads/${BPN}-${PV}.tar.bz2 \
+            file://0001-mc-replace-perl-w-with-use-warnings.patch \
+            file://0001-Add-option-to-control-configure-args.patch \
+            file://0001-Ticket-3629-configure.ac-drop-bundled-gettext.patch \
++           file://nomandate.patch \
+            "
+ SRC_URI[md5sum] = "152927ac29cf0e61d7d019f261bb7d89"
+ SRC_URI[sha256sum] = "238c4552545dcf3065359bd50753abbb150c1b22ec5a36eaa02c82808293267d"
 -- 
 2.20.1
 
