@@ -1,50 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
-	[209.85.128.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 6245760B34
+Return-Path: <peter.kjellerstedt@axis.com>
+X-Greylist: delayed 430 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 05 Feb 2020 19:22:53 UTC
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id CB94960C5F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 19:02:07 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id g1so3652186wmh.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2020 11:02:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=DM1B/ybidRIZe0Uz/ZAmiVaSiPh5Oe3JVCWVF5wdk3U=;
-	b=E02qJOTNDKZpJ9zbpwxYxVt4Ywx5DUE8CF6SrSNPgRwtC5nAWUccR7CBYvI1D6ILsa
-	rirXuck2tOLhoBErOH9Jj57SBNm4CvLnFfiYEC8L5NjKtmZPiYP/rKWPfwUGUBT5rJca
-	Gp6xqHbxs2J0tRC8W7NWTvhm2liEGsO+IWBdo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=DM1B/ybidRIZe0Uz/ZAmiVaSiPh5Oe3JVCWVF5wdk3U=;
-	b=Fp2zTzD0SZQ/pzCEyKGx4rCvmYqI/W1clXeZDCoOxI8QDLieJMdBFBxqp0rO9PWmdp
-	O8CJB4/+lODrq6q7bTSZnKhLKrJRoV2wdWfmVLo4TYfrRFdLQPkelHogWRT+ES46K1KK
-	9JaPDOAz5ayYRvp8+iRIIXS6vOk7M2Q3WdcTx09ixj5fEuwfkidADA/tRt+wz3SXhx6w
-	1tLI190IiT2sicvpJe0fTjcUA0KOq5bkppqN4b2+inj7kzjUOPhSC7KWliLFe19doSIx
-	ZikMdzP1ich3BV/0RmbsaqCnPLpzPp6UoHl3nRt4ISnN42CLY/AGngQ0IOROijmr1pXk
-	p3Zw==
-X-Gm-Message-State: APjAAAUNV4fKCWODUGQKh5m/LpZ5Gp5BzldMdez2pA2IBe8zdSeaPVNw
-	D17lV5CE4QKWRxJO8riHy7f0t6gPsjM=
-X-Google-Smtp-Source: APXvYqz2OhO6x4Nr7GSZhFDD7W7tEPWwOJNLe/3gOoYXF4TN7A0fZWJzV/Md7vhf5RSsMMtQlMR8xQ==
-X-Received: by 2002:a7b:ce10:: with SMTP id m16mr6826587wmc.115.1580929327548; 
-	Wed, 05 Feb 2020 11:02:07 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id w20sm536052wmk.34.2020.02.05.11.02.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 05 Feb 2020 11:02:06 -0800 (PST)
-Message-ID: <763401698becd74610d4771100229b0a5350847f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 05 Feb 2020 19:02:04 +0000
-In-Reply-To: <b678f3b8b7dc947dec08b47886eb49e5bd61f097.camel@linuxfoundation.org>
-References: <b678f3b8b7dc947dec08b47886eb49e5bd61f097.camel@linuxfoundation.org>
-User-Agent: Evolution 3.34.1-2 
+	Wed,  5 Feb 2020 19:22:53 +0000 (UTC)
+IronPort-SDR: KE3V91aH4nyz9jEk4SupmmdyqBjXIW6TEUQlfbIdhYGXI0KkwjFU3CXkneAxSwQ9SaqqzeUHkH
+	Dep63EUA929jfMAm25VK1rG5cwBreYqVVLqKRDt4pZ1xmCLMeHdjTTnJvgiWFBWlc79jmW8QR6
+	MRSKTXINaATerKT0JSt9VpU5JFLz6B9HPr67eUpo/Ss2tS4HDzKIhUI2+y8yO2ZiJTNUe4/Hyj
+	jZeBuchbCESTd5rsJyQJbqeiehyDISeRRqQPy2BGYcdn9kcxai4l6kk+fvDa2qe+qfdeFWeD2D
+	zj4=
+X-IronPort-AV: E=Sophos;i="5.70,406,1574118000"; 
+   d="scan'208";a="4970818"
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 5 Feb 2020 20:15:40 +0100
+Message-ID: <20200205191540.9200-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.1
 MIME-Version: 1.0
-Subject: Re: Reproducible Builds Issue Status
+Subject: [zeus][PATCH] devtool/standard.py: Allow recipe to disable menuconfig logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +31,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 19:02:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Feb 2020 19:22:54 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, 2020-02-05 at 14:27 +0000, Richard Purdie wrote:
-> Good news is we're down to a set of specific issues and those issues
-> seem "stable". The ones we haven't fixed yet with master-next are:
-> 
-> /srv/autobuilder/autobuilder.yoctoproject.org/pub/repro-fail/oe-reproducible-20200205-rtw2qpgl:
-> (https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200205-rtw2qpgl/)
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/gtk+3-dbg_3.24.13-r0_amd64.deb
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/gtk+3-src_3.24.13-r0_amd64.deb
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/libgtk-3.0_3.24.13-r0_amd64.deb
-> (needs a bug)
+From: Tom Hochstein <tom.hochstein@nxp.com>
 
-Ross has a patch for the gtk3 issue (thanks!).
+u-boot.inc supports u-boot recipes with or without menuconfig [1].
+However, running devtool on a u-boot recipe that does not support menuconfig
+results in an error:
 
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/libidn2-dev_2.3.0-r0_amd64.deb
-> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=13771)
+cp: cannot stat '/home/r60874/upstream/fsl-xwayland/tmp/work/imx8mmevk-fsl-linux/u-boot-imx/2018.03-r0/u-boot-imx-2018.03//.config': No such file or directory
 
-I've sent a patch for libidn2.
+The problem is the devtool logic assumes that any recipe with a do_menuconfig task
+will generate a .config in do_configure().
 
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/ncurses-doc_6.1+20191019-r0_amd64.deb
-> (needs a bug)
+Fix the problem by removing the assumption with a flag that the recipe can control,
+like this:
 
-Still needs a bug, not looked at.
+do_configure() {
+    if [ menuconfig-supported ]; then
+        ...
+    else
+        DEVTOOL_DISABLE_MENUCONFIG=true
+    fi
+}
 
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/openssl-ptest_1.1.1d-r0_amd64.deb
-> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=13770)
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/perl-dbg_5.30.1-r0_amd64.deb
-> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=13773)
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/perl-dev_5.30.1-r0_amd64.deb
-> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=13772)
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/perl-module-config-heavy_5.30.1-r0_amd64.deb
-> (https://bugzilla.yoctoproject.org/show_bug.cgi?id=13774)
+[1] https://github.com/openembedded/openembedded-core/commit/11278e3b2c75be80645b9841763a97dbb35daadc
 
-13772 is looking to be partially a dash vs bash issue.
-13774 is partially a sorting issue from perl-cross, I've something
-locally I'm experimenting with.
+Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ scripts/lib/devtool/standard.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-There are multiple perl issues intertwined and I suspect several more
-issues to find.
-
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/perl-module-data-dumper_5.30.1-r0_amd64.deb
-> (unfiled, may be related to above 13772)
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/perl-ptest_5.30.1-r0_amd64.deb
-> (unfiled, may be related to above 13772)
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/perl_5.30.1-r0_amd64.deb
-> (unfiled, may be related to above 13772)
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/tar-dbg_1.32-r0_amd64.deb
-> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/tar_1.32-r0_amd64.deb
-> (needs a bug)
-
-This one is fixed, patch out for review.
-
-> Also:
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13776
-> (didn't show on this set of builds)
-
-I looked at and commented on this but don't know how to reproduce.
-
-Cheers,
-
-Richard
-
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index 60c9a046f9..b43c725cf8 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -940,8 +940,10 @@ def modify(args, config, basepath, workspace):
+                         '}\n')
+             if rd.getVarFlag('do_menuconfig','task'):
+                 f.write('\ndo_configure_append() {\n'
+-                '    cp ${B}/.config ${S}/.config.baseline\n'
+-                '    ln -sfT ${B}/.config ${S}/.config.new\n'
++                '    if [ ! ${DEVTOOL_DISABLE_MENUCONFIG} ]; then\n'
++                '        cp ${B}/.config ${S}/.config.baseline\n'
++                '        ln -sfT ${B}/.config ${S}/.config.new\n'
++                '    fi\n'
+                 '}\n')
+             if initial_rev:
+                 f.write('\n# initial_rev: %s\n' % initial_rev)
+-- 
+2.21.1
 
 
