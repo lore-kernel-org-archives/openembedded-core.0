@@ -1,52 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B22F607AE
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id EFB9260C76
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 12:11:57 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id s10so2223377wmh.3
+	Wed,  5 Feb 2020 12:41:44 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id s10so2318748wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2020 04:11:59 -0800 (PST)
+	Wed, 05 Feb 2020 04:41:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=Wp3DiDy8j8BRumE/nKvlDArLjJc9lIo46U27+YXF7tE=;
-	b=bLufmEghntHcVmIpzkpwmK/vtP7v1eGP52qK0Pmrv6DGI1AYQgU1wdkMMbqZ5MbvH6
-	trBmiN6dgE+2tGt/o/k2j3YzQZwX2sXtkfrkJvYJUqF4Pg+mQHlYKDyb1HwehDWjI74t
-	dGI3K+1B/6aXobqldgvw6HgNnXwFiReabmeGQ=
+	d=nathanrossi.com; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=8I7fcxvDFj4ffC/dPRM1y9dU7+1fqmdsE13V+uRXVRY=;
+	b=Q1a9+0QEEZt+iGtf49ZvdX0td1FkR/8k80J1zFScVxgD93cr2QqGVXxGwGn6eJ/c8u
+	PD3heAOdWrv5d5ayXMN9d0chgAArC8iVQiGbrt4CT1Ryz+sRocbWFX3/dtAaT4VjkuH8
+	ka/G9BBh/9fx1VPkD8Va9p+DbR8f4wmJmQnd5O/yQx80u4GeIFIQRFp8qLMExYFjXPLx
+	EeNvSvOQIcN0iQJte8gCukQ3OHsGevAvMg/sOy3+5FfpAIF1QfmHwPSQCyWHUOdYYzzF
+	OEwuhey75hJOhyGQX2dwh2mbZfKhJq9lVQN2a+WoiZMLSNOSU4LNy6NdUd155ans5X1d
+	Q7xA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Wp3DiDy8j8BRumE/nKvlDArLjJc9lIo46U27+YXF7tE=;
-	b=nKl+NL+N/GfH0On682Nx90gXGVZrJmsFmuIxs7wLv26P5Jr/HF+v8kddEh5oJOyG1j
-	OQou6pVnMiWavuOWEd3Ap1nXYYximaroYhdffwaNto+BRNwW3f+v7olrpeG+5axBD9Rr
-	EtwznmtEk7YzQYhUzoZ6tjdnot6CSmEz7mXgWnaUWIvmyVSrYV2vPRjQsn9f4Ztxt8FV
-	2E4V5b0tcoxgQz0fZoGkF0iU23rLlGEb/jg8ph8eVHkoWm6YT2rVlRm7QN8tl2QgWoT/
-	chBIOIyWtPWdRrTuGiEKZrdxaa0kiCdlPucLWPTRmabKeNrGfAakQppaQ70ie3DaiXiX
-	NBEg==
-X-Gm-Message-State: APjAAAVlJy2/WztWwpEkzicKPPviRsfBQEwGQo+ockJFamDvOEddpGF4
-	XStPSyf+m/UAe7+QES9uwcwXofagosc=
-X-Google-Smtp-Source: APXvYqwK88szRHciBaGvLGdtsXobXqQVPdaG09TiXr5ndE0Sp3Tei7X6lq+eLBONt0oGEPMk1/XQ2w==
-X-Received: by 2002:a05:600c:145:: with SMTP id
-	w5mr5212380wmm.157.1580904718406; 
-	Wed, 05 Feb 2020 04:11:58 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w19sm7557529wmc.22.2020.02.05.04.11.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 05 Feb 2020 04:11:57 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Feb 2020 12:11:51 +0000
-Message-Id: <20200205121151.27880-6-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200205121151.27880-1-richard.purdie@linuxfoundation.org>
-References: <20200205121151.27880-1-richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=8I7fcxvDFj4ffC/dPRM1y9dU7+1fqmdsE13V+uRXVRY=;
+	b=EAJW7+olV0QU1IMwZBxw/qexHda9MA9LT3gu1ZAWvpZy51CZkaF8DQEB9wRwvBkBfu
+	rMpXcjnBx2cnaMqNwwNseZLRa2IZnRrbSyYCq7D4w/h/O25Oh7IR8lzsj6Kp8O65z4Nw
+	utg0kueoaCu90TWk+6+yJWSqLB4EynNvIbtb8o8qIiVS2wJEBnfpuQhasysg3yYbFYyA
+	Zq8IiulEPCcTTr9MfYScj7kGxGryIGEoXGSJ78U0ebH+S73Fo1jBEW/2oqln/Q9SB/ck
+	93EJXD/YQ9Vn3OCLtjc71eB0/oXZw8g6B8/l9QVIe6vMZKYlySeESX8SQYKha2JmrvOG
+	82vw==
+X-Gm-Message-State: APjAAAV3X/RWHpyuRRnY3ybu8zzc9ZGXCnqO5Q5mc+Z0n6K/VgeVqRWi
+	Mj8j9nN1AVGWd3ltQkFJr0PJg1FZxrfTj3/ZaNzBpnY6
+X-Google-Smtp-Source: APXvYqzUgMduSZ2JTmVVs8pelalyiG3X4rFtFNA/yAhZTXfcMXUDSAwXCJenxiZIKPrdL6w8EIJbStPWfHRV+AZ27vU=
+X-Received: by 2002:a1c:5448:: with SMTP id p8mr5900744wmi.159.1580906505482; 
+	Wed, 05 Feb 2020 04:41:45 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 6/6] xserver-xorg: Fix reproducibility issue
+References: <20200204210630.41960-1-mark.hatle@kernel.crashing.org>
+In-Reply-To: <20200204210630.41960-1-mark.hatle@kernel.crashing.org>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Wed, 5 Feb 2020 22:41:34 +1000
+Message-ID: <CA+aJhH2WTqiXEDBj7nSHiPQ9CeY2eF=aG_Vd+xJ=XpJx-o0Peg@mail.gmail.com>
+To: Mark Hatle <mark.hatle@kernel.crashing.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH v4 0/5] Microblaze tune updates
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 12:11:58 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 05 Feb 2020 12:41:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The host kernel version was being encoded into the Xorg binary. Set
-an appropriate configure option to avoid this and be deterministic.
+On Wed, 5 Feb 2020 at 07:06, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
+>
+> Version 4 of the patch set.
+>
+> I've collected all of the patches resently sent, and reworked them per
+> the comments on the mailing list.
+>
+> The patches are directly available at:
+>
+> git://git.openembedded.org/openembedded-core-contrib mgh/xilinx-microblaze
+>
+> The work was broken up into a few more individual pieces.  This will allow
+> backports to Zeus for fixes vs new features.
+>
+> Mark Hatle (5):
+>   microblaze tune: change microblazeeb to microblaze
+>   microblaze tune: Allow no version to be set
+>   microblaze tune: Enable 64-bit
+>   microblaze tune: cleanup +=
+>   Microblaze: Adjust Linux items from microblazeeb to microblaze
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 1 +
- 1 file changed, 1 insertion(+)
+Looks good. I gave it a quick test, qemu big endian builds and boots
+core-image-minimal now.
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-index a0ae65c785d..14ba6bfee6c 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
-@@ -117,6 +117,7 @@ EXTRA_OECONF += "--with-fop=no \
-                  --sysconfdir=/etc/X11 \
-                  --localstatedir=/var \
-                  --with-xkb-output=/var/lib/xkb \
-+                 --with-os-name=Linux \
- "
- 
- OPENGL_PKGCONFIGS = "dri glx glamor dri3 xshmfence"
--- 
-2.20.1
-
+Thanks,
+Nathan
 
