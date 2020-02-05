@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 87D50605F2
+Received: from mail-qv1-f67.google.com (mail-qv1-f67.google.com
+	[209.85.219.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E884A60C70
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 23:12:54 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id t13so3040081qto.3
+	Wed,  5 Feb 2020 23:12:56 +0000 (UTC)
+Received: by mail-qv1-f67.google.com with SMTP id y8so1976501qvk.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2020 15:12:55 -0800 (PST)
+	Wed, 05 Feb 2020 15:12:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=2VGBnk0YT4Kge5zsqfBdYha5J/A7F/DUk8FlDNW/+WA=;
-	b=dV0uiWMOzX54b5e4pkFpXr8vLp5HKVOu+JMD+fKLonsz1+X/KJB4LQlAGGhwiWF7eW
-	pXI8mncminPXbgvqo1Tnhc/F5ecmG5iSexpecf9iwxDk9EBFYAA0dVpqskiQEqVdTyGH
-	mMybIEb4HMO5a7372VHV3l/PWDkm2eY6nq7PkJowX5LSiEh8wpjcxQD2/KOKglZosoUW
-	uRRmDq2A0OmEdDmVCbcLV3aMHleCOpHSf0gFj8ew2+RokvB1oYXGmYgqc+wjt5dIYOPo
-	dFBUhwZQwYCflpkiNXGnXUG2tcZg+1oAv4Xmw1TWkDPJKof10huOJcgd6MsUHtus3e5/
-	VUtw==
+	bh=RSa44dX2g6nQVud0zL3I+oPqxnRkx4bzLKn+F8PfS+0=;
+	b=pMvIwtgU6VWZIb05ZCrCAaMsxNrITZijwuOhYWyRD3Hw6qG0W76Lek5xor+KL66gZn
+	VQYa9Jeljj5Mag9PDH4ZwYfOSJb+FDSaubs3a7U4T4qe3+aYOYKxbcrV/DfTd6FlTE39
+	6DQTWmHhtgOdiHpf3OdgnV4NkjQpUrYyF/tRGxRhjP3kFUHBhuHzXbCcubF/tTUmyjMN
+	7AEudLNgFpANgr1g2SLXkmlNwGUyOYPA2PNXAO4sdn+KdVg+aulvuZuaFsRNxrSckTue
+	zpgdqjG1F7tEtLWDQB6tLdA/uMNvnCT6AI3w8eX3Gb26dSBZY+A8L6OVyH7bdHOlpK5q
+	J+gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=2VGBnk0YT4Kge5zsqfBdYha5J/A7F/DUk8FlDNW/+WA=;
-	b=dTJsIImjeaEgUHyA/+rM/Ki+1Ng2Ps2tozDDJv08e3epGQ9OJ5WvNRiesMMqwqHA51
-	zV2JO8J05NT6KgRy6qR0CqwoCYKiZbU7Dl032kgcRROK8P17sGZ4lKYDoNsUKwCeqVT0
-	6YhfxCunLRn7QlGGjYItenTNinnOEO3A4aUDSMFa53xKAeOUtX2PrzTxcIijF/yyI7Do
-	6Ry4nXPRuzL8KRDPOsSSBIzuUwlLbg9Sf04FxKsnLOHcJI9CPfC+VBKgvCyJidIWcqR/
-	biTOrCaf3iH873fdFTbXgXytU3ogTdB7neHMuYWe49f6QYtKbRavTaupkzBYiVmyDj7t
-	QtDA==
-X-Gm-Message-State: APjAAAWs0P3LeYpRdWZco11Tjs4U0rfmsxNlmSz1ZDYHCtnO4UUU4GiO
-	IOHK3hvs0utkldfEsJ+BtdjkdBoSexn6Fg==
-X-Google-Smtp-Source: APXvYqzSOEs/CRPFosUpppwAbQGZTXcKdia+brMBQxVTMaQJ4UaK6zTQCmZ0+Wht70yEFfvD95ehhA==
-X-Received: by 2002:ac8:6694:: with SMTP id d20mr190134qtp.60.1580944375465;
-	Wed, 05 Feb 2020 15:12:55 -0800 (PST)
+	bh=RSa44dX2g6nQVud0zL3I+oPqxnRkx4bzLKn+F8PfS+0=;
+	b=fsbt+wpa00A28T/wHK0xNjCZOQB7UWFmUc7X/+RpYtU6HYP1Nu8PLScuF5gMEPci1Z
+	VKb4z+scLJdrVThdGL8h35IWBwU7XxmXTKNJASpHjeTyFxw+yBwnwklnU1DwTPHR9mx9
+	iGNwxRYDMudukBGUJMZgBO6p/+fhaFD/RcZydaWsTHrboN2q2Ct7cJ3w10jLNFuPfWQ/
+	bYzrwX7zIU/bXJKQYNGxzEtJzZOtzslkjoHZ/cQw96BJRRp87MrJHX3hkZjoCJyYww6A
+	M53TRxc83Sh+9G/h3qxZ8oVewbGMLkkm51Ci1qbYyTTgnhqVK2fjuZmChEFMzGwg0SWH
+	/tUA==
+X-Gm-Message-State: APjAAAWfdecPKZzOmM2qQfrMjaaiGGPCYWtEMGnhVhc+OglA7D0+GGX5
+	MjXZwhKYR7q2bfzXr6zvpHcL8iFlfAPo+A==
+X-Google-Smtp-Source: APXvYqwStXqTplcvQ8d1xvMdt3j2hRxakqIHrmu93YPn/IXk5ipr7+C3wMq2of3c4GmBZSd5RJ4EEQ==
+X-Received: by 2002:ad4:58a8:: with SMTP id ea8mr53572qvb.93.1580944376453;
+	Wed, 05 Feb 2020 15:12:56 -0800 (PST)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.113.11.95])
-	by smtp.gmail.com with ESMTPSA id o17sm696332qtj.80.2020.02.05.15.12.54
+	by smtp.gmail.com with ESMTPSA id o17sm696332qtj.80.2020.02.05.15.12.55
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 05 Feb 2020 15:12:54 -0800 (PST)
+	Wed, 05 Feb 2020 15:12:55 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Wed,  5 Feb 2020 18:12:43 -0500
-Message-Id: <380f2a65d776b678f454c8dd4b2722aeb41da081.1580944129.git.bruce.ashfield@gmail.com>
+Date: Wed,  5 Feb 2020 18:12:44 -0500
+Message-Id: <52b98a7fb4dea5caf2629ebe3339a559bf8e7ef0.1580944129.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1580944129.git.bruce.ashfield@gmail.com>
 References: <cover.1580944129.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/9] kern-tools: integrate merge_config fix for gold linker
+Subject: [PATCH 3/9] kern-tools-native: use more common S value and oe_runmake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,47 +61,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 23:12:54 -0000
+X-List-Received-Date: Wed, 05 Feb 2020 23:12:57 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-Bumping the SRCREV to pickup the following fix:
-
-   Author: Martin Jansa <Martin.Jansa@gmail.com>
-   Date:   Wed Feb 5 03:26:57 2020 +0100
-
-       merge_config.sh: pass LD variable from shell environment to make
-
-       * since 5.4 kernel Kconfig will fail immediately when it detects
-         that LD points to gold linker:
-
-         scripts/Kconfig.include:39:  gold linker 'i686-oe-linux-ld' not supported
-
-       * in OE we already pass bfd linker in KERNEL_LD variable to merge_config.sh
-         but we need to pass it also into the make call here
-
-       Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../kern-tools/kern-tools-native_git.bb               | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index 57ec1abc6d..3f9cfe7fe5 100644
+index 3f9cfe7fe5..f263421234 100644
 --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
 +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=9c30e971d435
+@@ -1,6 +1,6 @@
+ SUMMARY = "Tools for managing Yocto Project style branched kernels"
+ LICENSE = "GPLv2"
+-LIC_FILES_CHKSUM = "file://git/tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249624278c3e343e501"
++LIC_FILES_CHKSUM = "file://tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249624278c3e343e501"
  
  DEPENDS = "git-native"
  
--SRCREV = "5358eb293399867db05fd73d04ce908d69a03bed"
-+SRCREV = "388b67974deb2176c06994a325676cbf23e5fce8"
- PR = "r12"
- PV = "0.2+git${SRCPV}"
+@@ -11,14 +11,17 @@ PV = "0.2+git${SRCPV}"
+ inherit native
  
+ SRC_URI = "git://git.yoctoproject.org/yocto-kernel-tools.git"
+-S = "${WORKDIR}"
++S = "${WORKDIR}/git"
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
++do_configure() {
++	:
++}
++
+ do_compile() { 
+ 	:
+ }
+ 
+ do_install() {
+-	cd ${S}/git
+-	make DESTDIR=${D}${bindir} install
++	oe_runmake DESTDIR=${D}${bindir} install
+ }
 -- 
 2.19.1
 
