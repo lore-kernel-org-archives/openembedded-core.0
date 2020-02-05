@@ -1,47 +1,50 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AE376601C5
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AFE8D60C79
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 13:49:37 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id u6so2859296wrt.0
+	Wed,  5 Feb 2020 13:57:27 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id v28so2243714edw.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2020 05:49:39 -0800 (PST)
+	Wed, 05 Feb 2020 05:57:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0X6e6lXYNnC4q3Tg2JNIh5tlEk+Z90VPF8rrmkGjo4U=;
-	b=Ihc1BYWcfEm45o0lSf1beuJVJN4LiF1ftNF8OEWXzhiAaEx2x4SXyL3nwtX/HVmrsh
-	mEUifnwJePoSQeSjTP+6NLjAOe1N7okcnR8U0plk6gNuhsLtUAC1iIARF8ado97wiGhF
-	V+9E/Z2WhACbClry/fKRlr21LE70ENut9Qqf5+yA1Bha2g6m1eeS7PxmLSgkI5v1lHBv
-	oeixOQEPxcADOLuZNfInTdno6pIvutB8b4tKKC9mQVzbe9ezFfJ/fqqSCAlKOlAdVB1v
-	uhNc7uMhvEE6Dk8dRpOTnIKnfyYvQzzwlfw/XKX3Ywhvc1kZZp2tnSkMr9aOVVO1PYHM
-	XQmw==
+	:cc; bh=DyYbIFW4hSh0ix752IzxodhO//jB8kQi2EV5gHzhgX4=;
+	b=kxMLsT4uxSV9QSHeKLTq6WMKr1Px8gHrEObZLU863RxCdyZQXk4jQW+a3sA1FcmmNl
+	0WWiBH8hpxmMi6nn/IyR7C8LJQyalXI/AMtt3i/pGaxex4Gx4+A6oAY8WB+ad2svlzt6
+	U/ZuqAQBbAEgIKFaAORIG9CEU+ETqspft8BW7CwpjgzflIJaLkT0b4hYyRKgwoufebgG
+	Dmfw5yB92pv3+/B7uJpFjuC5sYZS5eBJJ/SWHNIwGT6AR8KdNc9r4lpnA80xJFsChWVE
+	gawsWB1PwVAV9DjLSuWm6TusYzLoAs/qLIC908b81jz2kEggp7HZLdPVCYaSApyKKTcQ
+	sOSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=0X6e6lXYNnC4q3Tg2JNIh5tlEk+Z90VPF8rrmkGjo4U=;
-	b=jJZdSKtsshizkSewTJn2p1bwFCObUmq17A5oQlFUW+ron60CZQcyJq+mjzPE6qYGQl
-	QvRgvnv3AUz8y9NELYy0nyEYMiDXw5eiCqpEhNKBEJ2bYBOMDnKrnLThTE4Y8TaazgjI
-	4iEPcZZMHXu8zcMWsglbNy89/M8hGX+ORF7T7y2S+XxdefRlalpdaR6fpNR7lScsgMir
-	Y5pLqzonswk837QzhduRomSIVJAkNY4GMPx/4WFLRad4O0OhmrAT5Tcr7/nX2iAImjmx
-	3MaxrStl9S4DbQjZW0z1gLE0JPy8sDfbTknxWaGaaKHokGWuhwWTmhxF+Yck5bvC96lc
-	fWAw==
-X-Gm-Message-State: APjAAAU2dLh9tl/SAnNDd/cAMqVP059hqIabh1YZVTj5L0hzw/uM1jhU
-	B++GlRAtxLYFPO6iXZ/AdA+AdOuunFdU+GIwOi5QGg==
-X-Google-Smtp-Source: APXvYqzRnKzecAi2vuaaDmQG5UB43zIbcGPOK+rH8kn9ukT7GLogfcc+YMsfowCUDZzZ8Ezd5Y1HtSdRhoyEzHfAYMY=
-X-Received: by 2002:a5d:45c4:: with SMTP id b4mr27886691wrs.303.1580910578292; 
-	Wed, 05 Feb 2020 05:49:38 -0800 (PST)
+	bh=DyYbIFW4hSh0ix752IzxodhO//jB8kQi2EV5gHzhgX4=;
+	b=ax2uQladfq3JcYX9ZE3ByXjPVxsfZROBR65qjKTZA1TtEQcpzsw1ZdRXzMInyBwD6+
+	E/MaHKkjlmXDISns/nF4X7nvhJ7wSsU4Z9qh8o+gZGp3XUgbO8oDjfYtiP7sHDmcGNhJ
+	qj8XguQ3J2ggPeiRY/grdEEDBhXM+jrBS+i3lCimYSVl9HesTIb9M/LyIMFsSrHJXS1c
+	aURoojbjlAhvS2MYsfyJ9Py2oNK6wUz+fvOXOdSUaRtCgoRY0AKacSFA+3Y9QoKWiN1V
+	yHMVgkMPeCyX8HSh/eed2kxGXWmLpfhI7hsszn3sywm7APP6CSFJSDizWRidxr4WSC3a
+	hySw==
+X-Gm-Message-State: APjAAAVzjvJRGlJLTgfVbXC5//+cdVL+GuchGGo7Y0iPklMwUP6EC/XC
+	TR+JOXAMPDcvptyfkqNq7zzg2GnXwTSFtStMdm4=
+X-Google-Smtp-Source: APXvYqyqPGQuScFIMWbpLHu3N61l5O24gWexdgVTBnX8BHwxW/LaVtXZ5QFhPsehpeog2ZvyAMMeW54LBVItU7bfvzg=
+X-Received: by 2002:a17:906:9413:: with SMTP id
+	q19mr29766079ejx.172.1580911048314; 
+	Wed, 05 Feb 2020 05:57:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20200205121151.27880-1-richard.purdie@linuxfoundation.org>
-	<20200205121151.27880-2-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20200205121151.27880-2-richard.purdie@linuxfoundation.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Wed, 5 Feb 2020 07:49:24 -0600
-Message-ID: <CAJdd5GZaiH=z9K7JJvYH9BmiAf_VHyR9avzT6M4jK5LwUX3QZw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/6] oeqa/reproducible: Improve test output and ensure deb+ipk compared
+References: <20200205024241.27828-1-Martin.Jansa@gmail.com>
+	<20200205024241.27828-4-Martin.Jansa@gmail.com>
+	<CADkTA4P-C8xPVcscM3DfUJ28KR19gcHW7s1X-dbU-5FN68+DaA@mail.gmail.com>
+In-Reply-To: <CADkTA4P-C8xPVcscM3DfUJ28KR19gcHW7s1X-dbU-5FN68+DaA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 5 Feb 2020 14:57:17 +0100
+Message-ID: <CA+chaQfTcJNTnEo-kexWvM0tyq_UN2nh0rvsFO9OiB4JvN=HAQ@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] kern-tools-native: use more common S value and oe_runmake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,159 +57,173 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 13:49:38 -0000
-Content-Type: multipart/alternative; boundary="00000000000070db79059dd46dbe"
+X-List-Received-Date: Wed, 05 Feb 2020 13:57:28 -0000
+Content-Type: multipart/alternative; boundary="00000000000074d479059dd489c2"
 
---00000000000070db79059dd46dbe
+--00000000000074d479059dd489c2
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Feb 5, 2020, 6:12 AM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+OK, the patchdir cleanup won't be needed as you've already applied that
+.patch file in the repo.
 
-> Adding newline characters between the packages in the failure output
-> massively improves readability.
->
-> Also ensure to output ipk failures when there are deb failures by
-> calling self.fail() at the end, else sometimes only partial differences
-> are returned.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/lib/oeqa/selftest/cases/reproducible.py | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py
-> b/meta/lib/oeqa/selftest/cases/reproducible.py
-> index 04dc46f38a0..f6433c9a02b 100644
-> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
-> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-> @@ -185,6 +185,8 @@ class ReproducibleTests(OESelftestTestCase):
->          # NOTE: The temp directories from the reproducible build are
-> purposely
->          # kept after the build so it can be diffed for debugging.
->
-> +        fails = []
-> +
->          for c in self.package_classes:
->              with self.subTest(package_class=c):
->
+But I have forgot to update LIC_FILES_CHKSUM, which shouldn't have the
+"git/" anymore as it's relative to ${S}.
 
-It too bad subtests are broken. If we can't handle failed subtests, we can
-remove this line that creates the subtest in the first place.
+LIC_FILES_CHKSUM =
+"file://tools/kgit;beginline=5;endline=9;md5=9c30e971d435e249624278c3e343e501"
 
-                 package_class = 'package_' + c
-> @@ -208,8 +210,11 @@ class ReproducibleTests(OESelftestTestCase):
->                          self.copy_file(d.test, '/'.join([save_dir,
-> d.test]))
+Please adjust in your consolidated pull requests.
+
+On Wed, Feb 5, 2020 at 3:54 AM Bruce Ashfield <bruce.ashfield@gmail.com>
+wrote:
+
+> On Tue, Feb 4, 2020 at 9:42 PM Martin Jansa <martin.jansa@gmail.com>
+> wrote:
+> >
+> > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+> > ---
+> >  .../kern-tools/kern-tools-native_git.bb               | 11 +++++++----
+> >  1 file changed, 7 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> > index 8053483355..28080e510f 100644
+> > --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> > +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+> > @@ -11,16 +11,19 @@ PV = "0.2+git${SRCPV}"
+> >  inherit native
+> >
+> >  SRC_URI = "git://git.yoctoproject.org/yocto-kernel-tools.git"
+> > -S = "${WORKDIR}"
+> > +S = "${WORKDIR}/git"
 >
->                  if result.missing or result.different:
-> -                    self.fail("The following %s packages are missing or
-> different: %s" %
-> -                            (c, ' '.join(r.test for r in (result.missing
-> + result.different))))
-> +                    fails.append("The following %s packages are missing
-> or different: %s" %
-> +                            (c, '\n'.join(r.test for r in (result.missing
-> + result.different))))
-> +
-> +        if fails:
-> +            self.fail('\n'.join(fails))
+> While not common, this was on purpose.  This isn't something that is
+> typically patched, it is something I queue and bump for release.
 >
->          # Clean up empty directories
->          if self.save_results:
+> So I'm ok with the cleanup, but I'll drop the patch tweaking part when
+> I queue for test, since I'll have the patch already in the repo.
+>
+> Bruce
+>
+> >  UPSTREAM_CHECK_COMMITS = "1"
+> >
+> > +do_configure() {
+> > +       :
+> > +}
+> > +
+> >  do_compile() {
+> >         :
+> >  }
+> >
+> >  do_install() {
+> > -       cd ${S}/git
+> > -       make DESTDIR=${D}${bindir} install
+> > +       oe_runmake DESTDIR=${D}${bindir} install
+> >  }
+> >
+> > -SRC_URI +=
+> "file://0001-merge_config.sh-pass-LD-variable-from-shell-environm.patch;patchdir=git"
+> > +SRC_URI +=
+> "file://0001-merge_config.sh-pass-LD-variable-from-shell-environm.patch"
+> > --
+> > 2.20.1
+> >
+>
+>
 > --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 >
 
---00000000000070db79059dd46dbe
+--00000000000074d479059dd489c2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Feb 5, 2020, 6:12 AM Richard Purdie &lt;<a hre=
-f=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundat=
-ion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
-margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Adding newli=
-ne characters between the packages in the failure output<br>
-massively improves readability.<br>
+<div dir=3D"ltr">OK, the patchdir cleanup won&#39;t be needed as you&#39;ve=
+ already applied that .patch file in the repo.<div><br></div><div>But I hav=
+e forgot to update LIC_FILES_CHKSUM, which shouldn&#39;t have the &quot;git=
+/&quot; anymore as it&#39;s relative to ${S}.</div><div><br></div><div>LIC_=
+FILES_CHKSUM =3D &quot;file://tools/kgit;beginline=3D5;endline=3D9;md5=3D9c=
+30e971d435e249624278c3e343e501&quot;<br></div><div><br></div><div>Please ad=
+just in your consolidated pull requests.</div></div><br><div class=3D"gmail=
+_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 5, 2020 at 3:54 A=
+M Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com">bruce.ashf=
+ield@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">On Tue, Feb 4, 2020 at 9:42 PM Martin Jansa &lt;<a href=3D"ma=
+ilto:martin.jansa@gmail.com" target=3D"_blank">martin.jansa@gmail.com</a>&g=
+t; wrote:<br>
+&gt;<br>
+&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Martin.Jansa@gmail.c=
+om" target=3D"_blank">Martin.Jansa@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../kern-tools/<a href=3D"http://kern-tools-native_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">kern-tools-native_git.bb</a>=C2=A0 =C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 11 +++++++----<br>
+&gt;=C2=A0 1 file changed, 7 insertions(+), 4 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-kernel/kern-tools/<a href=3D"http://kern-too=
+ls-native_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_gi=
+t.bb</a> b/meta/recipes-kernel/kern-tools/<a href=3D"http://kern-tools-nati=
+ve_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.bb</a=
+><br>
+&gt; index 8053483355..28080e510f 100644<br>
+&gt; --- a/meta/recipes-kernel/kern-tools/<a href=3D"http://kern-tools-nati=
+ve_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.bb</a=
+><br>
+&gt; +++ b/meta/recipes-kernel/kern-tools/<a href=3D"http://kern-tools-nati=
+ve_git.bb" rel=3D"noreferrer" target=3D"_blank">kern-tools-native_git.bb</a=
+><br>
+&gt; @@ -11,16 +11,19 @@ PV =3D &quot;0.2+git${SRCPV}&quot;<br>
+&gt;=C2=A0 inherit native<br>
+&gt;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/y=
+octo-kernel-tools.git" rel=3D"noreferrer" target=3D"_blank">git.yoctoprojec=
+t.org/yocto-kernel-tools.git</a>&quot;<br>
+&gt; -S =3D &quot;${WORKDIR}&quot;<br>
+&gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
 <br>
-Also ensure to output ipk failures when there are deb failures by<br>
-calling self.fail() at the end, else sometimes only partial differences<br>
-are returned.<br>
+While not common, this was on purpose.=C2=A0 This isn&#39;t something that =
+is<br>
+typically patched, it is something I queue and bump for release.<br>
 <br>
-Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
-ndation.org" target=3D"_blank" rel=3D"noreferrer">richard.purdie@linuxfound=
-ation.org</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oeqa/selftest/cases/reproducible.py | 9 +++++++--<br>
-=C2=A01 file changed, 7 insertions(+), 2 deletions(-)<br>
+So I&#39;m ok with the cleanup, but I&#39;ll drop the patch tweaking part w=
+hen<br>
+I queue for test, since I&#39;ll have the patch already in the repo.<br>
 <br>
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/s=
-elftest/cases/reproducible.py<br>
-index 04dc46f38a0..f6433c9a02b 100644<br>
---- a/meta/lib/oeqa/selftest/cases/reproducible.py<br>
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py<br>
-@@ -185,6 +185,8 @@ class ReproducibleTests(OESelftestTestCase):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# NOTE: The temp directories from the rep=
-roducible build are purposely<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# kept after the build so it can be diffe=
-d for debugging.<br>
+Bruce<br>
 <br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fails =3D []<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for c in self.package_classes:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with self.subTest(package_c=
-lass=3Dc):<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">It too bad subtests are broken. If we can&#39;t handle failed sub=
-tests, we can remove this line that creates the subtest in the first place.=
-</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quo=
-te"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0package_class=
- =3D &#39;package_&#39; + c<br>
-@@ -208,8 +210,11 @@ class ReproducibleTests(OESelftestTestCase):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0self.copy_file(d.test, &#39;/&#39;.join([save_dir, d.test]=
-))<br>
+&gt;=C2=A0 UPSTREAM_CHECK_COMMITS =3D &quot;1&quot;<br>
+&gt;<br>
+&gt; +do_configure() {<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0:<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;=C2=A0 do_compile() {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0:<br>
+&gt;=C2=A0 }<br>
+&gt;<br>
+&gt;=C2=A0 do_install() {<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0cd ${S}/git<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0make DESTDIR=3D${D}${bindir} install<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake DESTDIR=3D${D}${bindir} install=
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if result.mis=
-sing or result.different:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self=
-.fail(&quot;The following %s packages are missing or different: %s&quot; %<=
-br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 (c, &#39; &#39;.join(r.test for r in (result.missi=
-ng + result.different))))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fail=
-s.append(&quot;The following %s packages are missing or different: %s&quot;=
- %<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 (c, &#39;\n&#39;.join(r.test for r in (result.miss=
-ing + result.different))))<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if fails:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fail(&#39;\n&#39;.join(fail=
-s))<br>
+&gt;=C2=A0 }<br>
+&gt;<br>
+&gt; -SRC_URI +=3D &quot;file://0001-merge_config.sh-pass-LD-variable-from-=
+shell-environm.patch;patchdir=3Dgit&quot;<br>
+&gt; +SRC_URI +=3D &quot;file://0001-merge_config.sh-pass-LD-variable-from-=
+shell-environm.patch&quot;<br>
+&gt; --<br>
+&gt; 2.20.1<br>
+&gt;<br>
 <br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Clean up empty directories<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.save_results:<br>
+<br>
 -- <br>
-2.20.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
-.org/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div></div></div>
+- Thou shalt not follow the NULL pointer, for chaos and madness await<br>
+thee at its end<br>
+- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br>
+</blockquote></div>
 
---00000000000070db79059dd46dbe--
+--00000000000074d479059dd489c2--
