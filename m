@@ -1,49 +1,50 @@
 Return-Path: <bruce.ashfield@gmail.com>
 Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
 	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 879CB6102B
+	by mail.openembedded.org (Postfix) with ESMTP id 61CF36102C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 02:54:45 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id m13so731953edb.6
+	Wed,  5 Feb 2020 03:00:46 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id cy15so753155edb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Feb 2020 18:54:46 -0800 (PST)
+	Tue, 04 Feb 2020 19:00:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=7g9EvjwDMD3QcA+hPxeHtpxf0j7+6nYGRwaB9N02bf0=;
-	b=JagIiNAbuokHFJSNVpn/uIpjIChFTGfsElBob4YInYIS6sxhZ2nhMuNjbBtuSWp2C0
-	jTjKGNoHZfz7XLi/edLuJZUlJOIBrumgLDVb3eg1R2C3/MFTr/u1G2BZSc7Surp4JCoy
-	UxyerI4RLobfHHwOfnKIIqjV4zVpcjee5AfhIkd4CI1KoqoVL/R7MN5859TQse6hFrmT
-	KhSsWBPiAyI816ypr1zIayy2qMWjXzm4dVQ4gC7JzS5NlytQg7yLJegHSShOozPdv+ZV
-	kENAQeJrl+dXgHcWTgb7tzkuF9KXZRG4TZpIQ5BDoWtamdwAt9I85FPwVYbBH8SDDT+l
-	sJLg==
+	:cc:content-transfer-encoding;
+	bh=PGOX88O5hCXUWADQHFVeVnYLL5boC0SD9Dy6DDGtw10=;
+	b=FHOx7Wz2ko8do7R/JKPWxeBAxZj280d5A5i1W06H0A1OiJGlTBZHqLKf7L5i9KWdBg
+	L1ISdscSRBevBwcsWUzw6V0iNaorTNzUyD5O1fcevC+7mMrdlTuzGVfGvIl7D0oj+coK
+	VwAV9G2SGzQzVgV5Y4tpSmux/0o5SZVEsrrtQ0rS2PesBU5OpbEfWw33LFw6Ge89mGAL
+	ovkYFI60mWXOxGjVK0T63e7zY9dyXTKycIi6p1kvafNlyRO/cD6mXv9fLS8xLaH8Jtw6
+	WClMkIQQ0PJB6I/QrSalOy8ltw4TnuRpH9msqEuADA77j1hO5QVD1vLjlzQ499BuJ7yv
+	Y/hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=7g9EvjwDMD3QcA+hPxeHtpxf0j7+6nYGRwaB9N02bf0=;
-	b=bT5hDbhZzBHYMuj08pyxwfZjw0XNI3WyNjXbQVIn4KQUdZRoK4cDiRIc4T0dt8pX8r
-	bPUaNk4aRkeZ8esFBdNj5oVHDFofqRTi8Tr18Vnp21bjrD4AvR6owJl3/9EXCE1jWScS
-	0rbJVuZ+VPlioHnMUBGZfl6M3TieRuLkSL+s0Z/Ry7vh46+MCp0nhim+8t3cjKklVxUU
-	AV4jZI/5lzaipql3wFCB8KkCpd26GvZFJSB91ypWSyP8GaSaOXgGyNqA5PsWN60BV1wP
-	fA0fUXzeb/AZcafhozezNHp9ABStrFdYm5/z6RYYHAH9jL3ZJiABneYDL/rQV7QKrQk8
-	njLQ==
-X-Gm-Message-State: APjAAAWeaZ1xOY53gn1ev9ltnWYrQT01OUiESz9Ic36uM6z1MAVmmnnC
-	wUPC/wESYYrHDpPff5tD6lkPwGEzJyfCdr6Jn2A=
-X-Google-Smtp-Source: APXvYqzX6JPfnXAaksocZrFreK5iB3xK6+7aReUh51VAy8CPU49pzCUZMdIDUojNeX8mY5pqXIhOt3YOJzrtxDMAS40=
-X-Received: by 2002:a17:906:4bd1:: with SMTP id
-	x17mr28928058ejv.181.1580871286289; 
-	Tue, 04 Feb 2020 18:54:46 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=PGOX88O5hCXUWADQHFVeVnYLL5boC0SD9Dy6DDGtw10=;
+	b=l2x+TTuWOOvBKR4cV6KvzMwynazzHuoTR/gi5GnNB+LIFP4uwx0X9hGkDV/Ybi8okA
+	TTFZqrquw7CFbZr44kvoFG3VMinIE9qIgnsS212ZqWZZ8kjX5Fca1eZPbYp3QWch1RSY
+	WhHaRTtxn5olE14Vd/VM+QY9d1SJ+h6fKsFtevHY6vDQFPlUDUYbaOHFP/8mrxCmX/st
+	2TWflwY0Ln/t4UOXv/QFex527X+qXFFAUAqBOWTS1Z+IzSM1Fp5Ct9zLcDpIoSClfJfA
+	4P2lP1YGeQAoww7JSbSV9E8Yd3hqI4GBh/3Wsu4rlhaw2MM0u6Ndn5I79dWrgNkbXlIg
+	4mnw==
+X-Gm-Message-State: APjAAAVQRzB27AJEwHJjxXpni+WAkKtTqMD/t961XtNy7dUkrFdNx++X
+	lBBUQUpFiEBC58cDSM5A+/36csb4ToaYpbI6irQ=
+X-Google-Smtp-Source: APXvYqxR7zEk1IbUQdeM+o93LFpjJRvImuvCJGvrRKdjWJ/ffPCw72b09njZ3ewSIYaunlOvpyS96q0Wy0ZIR8nF+uQ=
+X-Received: by 2002:a05:6402:1a4e:: with SMTP id
+	bf14mr2857028edb.365.1580871646976; 
+	Tue, 04 Feb 2020 19:00:46 -0800 (PST)
 MIME-Version: 1.0
 References: <20200205024241.27828-1-Martin.Jansa@gmail.com>
-	<20200205024241.27828-4-Martin.Jansa@gmail.com>
-In-Reply-To: <20200205024241.27828-4-Martin.Jansa@gmail.com>
+	<20200205024241.27828-2-Martin.Jansa@gmail.com>
+In-Reply-To: <20200205024241.27828-2-Martin.Jansa@gmail.com>
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 4 Feb 2020 21:54:35 -0500
-Message-ID: <CADkTA4P-C8xPVcscM3DfUJ28KR19gcHW7s1X-dbU-5FN68+DaA@mail.gmail.com>
+Date: Tue, 4 Feb 2020 22:00:36 -0500
+Message-ID: <CADkTA4NQybKSj7s0aB8bne=QpnuFgH4A1_cZb-P_f=98_G8o_w@mail.gmail.com>
 To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 4/4] kern-tools-native: use more common S value and oe_runmake
+Subject: Re: [PATCH 2/4] kernel-yocto.bbclass: do_kernel_configme: don't use +errexit, merge_config_build.log and fail when /.config wasn't created
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,59 +57,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 02:54:45 -0000
+X-List-Received-Date: Wed, 05 Feb 2020 03:00:46 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
 On Tue, Feb 4, 2020 at 9:42 PM Martin Jansa <martin.jansa@gmail.com> wrote:
 >
+> * for whatever reason, instead of silently continuing to build default ke=
+rnel config
+>
 > Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 > ---
->  .../kern-tools/kern-tools-native_git.bb               | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
+>  meta/classes/kernel-yocto.bbclass | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> index 8053483355..28080e510f 100644
-> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> @@ -11,16 +11,19 @@ PV = "0.2+git${SRCPV}"
->  inherit native
+> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yoct=
+o.bbclass
+> index d2796b01bf..8e642cd999 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -318,8 +318,6 @@ do_kernel_configme[depends] +=3D "virtual/${TARGET_PR=
+EFIX}gcc:do_populate_sysroot"
+>  do_kernel_configme[depends] +=3D "bc-native:do_populate_sysroot bison-na=
+tive:do_populate_sysroot"
+>  do_kernel_configme[dirs] +=3D "${S} ${B}"
+>  do_kernel_configme() {
+> -       set +e
+> -
+>         # translate the kconfig_mode into something that merge_config.sh
+>         # understands
+>         case ${KCONFIG_MODE} in
+> @@ -345,8 +343,9 @@ do_kernel_configme() {
+>                 bbfatal_log "Could not find configuration queue (${meta_d=
+ir}/config.queue)"
+>         fi
 >
->  SRC_URI = "git://git.yoctoproject.org/yocto-kernel-tools.git"
-> -S = "${WORKDIR}"
-> +S = "${WORKDIR}/git"
+> -       CFLAGS=3D"${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC=3D"${BUILD_CC} $=
+{BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}" CC=3D"${KERNEL_CC=
+}" LD=3D"${KERNEL_LD}" ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flag=
+s} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
+> -       if [ $? -ne 0 ]; then
+> +       CFLAGS=3D"${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC=3D"${BUILD_CC} $=
+{BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}" CC=3D"${KERNEL_CC=
+}" LD=3D"${KERNEL_LD}" ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flag=
+s} ${configs}
+> +
 
-While not common, this was on purpose.  This isn't something that is
-typically patched, it is something I queue and bump for release.
+At one point there was a modified merge_config that I used while the
+kernel caught up to the functionality that we needed, it didn't return
+zero in this scenario. Hence why just checking the return code was
+enough.
 
-So I'm ok with the cleanup, but I'll drop the patch tweaking part when
-I queue for test, since I'll have the patch already in the repo.
+This makes sense to me, and explains the difference between our runs,
+and why my clean oe-core + bitbake test worked as well.
 
 Bruce
 
->  UPSTREAM_CHECK_COMMITS = "1"
+> +       if [ $? -ne 0 -o ! -f ${B}/.config ]; then
+>                 bbfatal_log "Could not configure ${KMACHINE}-${LINUX_KERN=
+EL_TYPE}"
+>         fi
 >
-> +do_configure() {
-> +       :
-> +}
-> +
->  do_compile() {
->         :
->  }
->
->  do_install() {
-> -       cd ${S}/git
-> -       make DESTDIR=${D}${bindir} install
-> +       oe_runmake DESTDIR=${D}${bindir} install
->  }
->
-> -SRC_URI += "file://0001-merge_config.sh-pass-LD-variable-from-shell-environm.patch;patchdir=git"
-> +SRC_URI += "file://0001-merge_config.sh-pass-LD-variable-from-shell-environm.patch"
 > --
 > 2.20.1
 >
 
 
--- 
+--=20
 - Thou shalt not follow the NULL pointer, for chaos and madness await
 thee at its end
 - "Use the force Harry" - Gandalf, Star Trek II
