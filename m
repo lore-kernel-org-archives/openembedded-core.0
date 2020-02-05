@@ -1,53 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com
-	[209.85.216.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 191AB60AFB
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga07.intel.com (mga07.intel.com [134.134.136.100])
+	by mail.openembedded.org (Postfix) with ESMTP id ABACC6062B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 05:41:18 +0000 (UTC)
-Received: by mail-pj1-f45.google.com with SMTP id ep11so478869pjb.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Feb 2020 21:41:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=vF3mln2TxW1RqAIkDlcfe9OsRvk525eYdCDUYQ1Rb7w=;
-	b=ZB2jzTkzDKS94ZSAedWImoX7Y4T7opYTsLvD64045kksxv/ECRLagiEWR4BKvAp9m8
-	XmOkK5EpCWxqqwZHmce3RkxnQwLJCRRqlDQxBf/N8bDhMYOdBrpJ0ZNAnHGkNNfXzfKa
-	uMaImXJ/ChBya/5nh2LeYukzaGvOaA6zgOi33gUaaK6eQ0FSRP7A1ges0Stlv3f+OQok
-	QV6TVsYGJOKxChBw8gADU1HejIXrsUR3Nl5Liw6G8y/gMdDZ13bbLufuTCwvfhBXkbcN
-	Fj+7Mpkf0QPi+vCCgFgA1+yZ9rSMO+kISr/8Bahm8VlnyLCzFA036+Nq4xnvo/wYZefO
-	BUDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=vF3mln2TxW1RqAIkDlcfe9OsRvk525eYdCDUYQ1Rb7w=;
-	b=KKUmFDMalozfOeFnsZ1J1VJts2C/uJSDsu/Ujp6SBb08OYLVfIz4fK0TOn1VLW1GHg
-	ITYBhqFUI9D6b9PRamAvGl6nKs0XBTfGIZwJvRUYC1H1HEjIyj1kvyzKAAG5LUD5TFCh
-	gGP1U8VG0dNht7IX+t/EKF93ykFkdUGvk5nFSjrs/3W+QgBsUq96fwc9EI7cgl1SAWwI
-	oRYG4h/e7q9xhyvSj8wW6FpaBuBIiXwkED5zoSLBOJQaCIrDonkEan0qBilJmQVmdZpj
-	/4xSa5zIwVq4Cx+0L5siOlaDpW1ufV1v3H4uy4abz1ZmQu13Un3kyzYQLwga+LKbQeyx
-	84Zw==
-X-Gm-Message-State: APjAAAVICyAeT9gPbN4XWXCpYt0E5lMvVWExOPFV70Xy1DS0eBEXCM2k
-	h16Cc5FAxiddptJokLz+8ZIa36xg8ZQ=
-X-Google-Smtp-Source: APXvYqwWRxuxU1gr+FfZL3iKlxUDTk8j2YlGvWhtl1BePvTo2Fv3/Pi/AlBUuz57lDsv7sOB8i72ew==
-X-Received: by 2002:a17:902:34d:: with SMTP id
-	71mr31905578pld.316.1580881279498; 
-	Tue, 04 Feb 2020 21:41:19 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::1852])
-	by smtp.gmail.com with ESMTPSA id
-	t30sm24951980pgl.75.2020.02.04.21.41.18
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 04 Feb 2020 21:41:19 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
+	Wed,  5 Feb 2020 07:39:50 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Feb 2020 23:39:51 -0800
+X-IronPort-AV: E=Sophos;i="5.70,404,1574150400"; d="scan'208";a="220015668"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.221.21.206])
+	by orsmga007-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Feb 2020 23:39:50 -0800
+From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Feb 2020 21:41:20 -0800
-Message-Id: <20200205054120.1461132-2-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200205054120.1461132-1-raj.khem@gmail.com>
-References: <20200205054120.1461132-1-raj.khem@gmail.com>
+Date: Wed,  5 Feb 2020 15:39:36 +0800
+Message-Id: <20200205073938.38227-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] oeqa: autoreconf cpio before building
+Subject: [zeus][PATCH 1/3] rsync: whitelist CVE-2017-16548
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,59 +31,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 05:41:19 -0000
+X-List-Received-Date: Wed, 05 Feb 2020 07:39:50 -0000
 Content-Transfer-Encoding: 8bit
 
-since the versions of autotools might differ in OE especially
-so recreate config.h.in, aclocal.m4, configure, and Makefile.in
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
-[YOCTO #13779]
+patch for this CVE applies to v3.1.3pre1 not for v3.1.3.
+patch already in v3.1.3.
+see
+https://git.samba.org/rsync.git/?p=rsync.git;a=commitdiff;h=47a63d90e71d3e19e0e96052bb8c6b9cb140ecc1;hp=bc112b0e7feece62ce98708092306639a8a53cce
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+(From OE-Core rev: 1e2739c821312527010fb0afbde5a20cd3f03d24)
+
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/buildcpio.py | 2 +-
- meta/lib/oeqa/sdk/cases/buildcpio.py     | 1 +
- meta/lib/oeqa/selftest/cases/meta_ide.py | 2 +-
- 3 files changed, 3 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/rsync/rsync_3.1.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/lib/oeqa/runtime/cases/buildcpio.py b/meta/lib/oeqa/runtime/cases/buildcpio.py
-index 4bd72dd37e..9cc261c314 100644
---- a/meta/lib/oeqa/runtime/cases/buildcpio.py
-+++ b/meta/lib/oeqa/runtime/cases/buildcpio.py
-@@ -27,6 +27,6 @@ class BuildCpioTest(OERuntimeTestCase):
-     @OEHasPackage(['autoconf'])
-     def test_cpio(self):
-         self.project.download_archive()
--        self.project.run_configure()
-+        self.project.run_configure('','autoreconf --force;')
-         self.project.run_make()
-         self.project.run_install()
-diff --git a/meta/lib/oeqa/sdk/cases/buildcpio.py b/meta/lib/oeqa/sdk/cases/buildcpio.py
-index b0beafb38f..ec10149d34 100644
---- a/meta/lib/oeqa/sdk/cases/buildcpio.py
-+++ b/meta/lib/oeqa/sdk/cases/buildcpio.py
-@@ -28,6 +28,7 @@ class BuildCpioTest(OESDKTestCase):
-             self.assertTrue(os.path.isdir(dirs["source"]))
-             os.makedirs(dirs["build"])
+diff --git a/meta/recipes-devtools/rsync/rsync_3.1.3.bb b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+index ffb1d061c0..152ff02a25 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.1.3.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.1.3.bb
+@@ -20,6 +20,9 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+ SRC_URI[md5sum] = "1581a588fde9d89f6bc6201e8129afaf"
+ SRC_URI[sha256sum] = "55cc554efec5fdaad70de921cd5a5eeb6c29a95524c715f3bbf849235b0800c0"
  
-+            self._run("cd {source} && autoreconf --force")
-             self._run("cd {build} && {source}/configure $CONFIGURE_FLAGS".format(**dirs))
-             self._run("cd {build} && make -j".format(**dirs))
-             self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
-diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/selftest/cases/meta_ide.py
-index 809142559a..46398c7e2d 100644
---- a/meta/lib/oeqa/selftest/cases/meta_ide.py
-+++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
-@@ -43,7 +43,7 @@ class MetaIDE(OESelftestTestCase):
-                         "https://ftp.gnu.org/gnu/cpio/cpio-2.13.tar.gz",
-                         self.tmpdir_metaideQA, self.td['DATETIME'], dl_dir=dl_dir)
-         self.project.download_archive()
--        self.assertEqual(self.project.run_configure(), 0,
-+        self.assertEqual(self.project.run_configure('','autoreconf --force;'), 0,
-                         msg="Running configure failed")
-         self.assertEqual(self.project.run_make(), 0,
-                         msg="Running make failed")
++# -16548 required for v3.1.3pre1. Already in v3.1.3.
++CVE_CHECK_WHITELIST += " CVE-2017-16548 "
++
+ inherit autotools
+ 
+ PACKAGECONFIG ??= "acl attr \
 -- 
-2.25.0
+2.24.1
 
 
