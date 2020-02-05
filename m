@@ -1,54 +1,55 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com
-	[209.85.219.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 53EBC605F2
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D1E2605F2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 23:13:01 +0000 (UTC)
-Received: by mail-qv1-f68.google.com with SMTP id y8so1976563qvk.6
+	Wed,  5 Feb 2020 23:13:03 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id x1so3675766qkl.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2020 15:13:02 -0800 (PST)
+	Wed, 05 Feb 2020 15:13:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=96thOFLTrdL7VxPCvbk2egsU3MtC3r918mqbaIeQHcE=;
-	b=G/dyUuzMxBmzRtiB9wmJuShYZPEJRO3FnteTpLqso7CyGFA86zPHF/LO+PKGKqGwXo
-	XSsIIfxHnvY71VfIE4qQ+m2mtXb5HjNQmBkx7z5WcjrPuApP9XIalxYF0LFO2mq1WtNP
-	1ZYz8wpy559MiBMnl3x/6l3I3YR3tGibjUoN+8xHGfqGPhP1J681v4G4Tt3r56G1YELA
-	kIWlPVY63J4Ey3b+CAdfcAzJQG5W3ONAN7o/v/WdnW+BD5uKNQ0LIz9bSlPVrN03J3aL
-	FPccstfowTB0PjKbO4pKT8GzN0YeaC2zCwue68nwj8EQ7dJUsAf/DI8o9Q5feZLHldOm
-	1xDg==
+	bh=Cwwz/3Cgi4/T3NwTNGFFDDDdDxNQv5m0K8Tvm+TV+Do=;
+	b=TCgia9a80PytsvS6pSkN/b5OQSKH6PG9zNx9YPDWjbb4RMNzO9UTAH78YDtagJv1bT
+	13vcR+tWHQrdkHvRCTZFVmiR5kuBQuBfufy+ltNQ8+bAaUYcOYS8UJEIou+AJB8X5eFP
+	FaQMs8m3RrgAVLB3krdWMZQWePAITfN2+LEpvxduuUzFhZpCk2CnBFFMNh+UBbQ9icKe
+	+jVHMZM49lVJ0yHIJRKZsKmPYL2KETiv3b2BcdKT5UHH4lp5mQPCqj6Wxn8Nc3nryqmR
+	urJB31Z6cJGG6ecT1ux5opMbrr7SwBxBQf/pYI4Cu65bqXuuq1zDHHQVPMnhjA7kXf2/
+	zudQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=96thOFLTrdL7VxPCvbk2egsU3MtC3r918mqbaIeQHcE=;
-	b=JG545TVV5C0wBTCvyqs6X6SL3LXXCvhZe060HAOLdMWgnvPcdUYL5OVmoG6eq5GNFv
-	LeUZdsfHD0Al2Wynzx/GOpBKkbFUz+0nlEDmBxLsyNkc0ZPSQfhSWuNigauG903R98Ee
-	K5k8BO3jXyRwy34FbyQmthmY2Nr9q1eEf+JJ++ya4x1hpvrppYy6kYwr2IeFcoQ/kV9x
-	B4zlq6Ur355CXe4+V8DFu0jpyhIh3kPo6Ge3d0c0xYxi+x/8w+vyO/tG7fBHwrvcMBad
-	lA/o3GvE483+arZaLTmL7x3rejG2hxamx/oC+TxzX87VxquN/aIVicWHDHO1YMwpyHFQ
-	s5pA==
-X-Gm-Message-State: APjAAAVuCo67vo7aDDw2zadt1ZSWc3Y5sJrEXNLL37WvbQf6QPf5jS5P
-	gmzwnG0jMgGk2hUAg5RmKiI=
-X-Google-Smtp-Source: APXvYqzYGP7ZSxgyp6pBtFgBUBYol/qtxfknMfxyK+7Kt244osVBB9TpTMGyAFF4Er7UiJSaHxRG1w==
-X-Received: by 2002:a0c:e58e:: with SMTP id t14mr49414qvm.131.1580944382237;
-	Wed, 05 Feb 2020 15:13:02 -0800 (PST)
+	bh=Cwwz/3Cgi4/T3NwTNGFFDDDdDxNQv5m0K8Tvm+TV+Do=;
+	b=dJYn2N1Fkiv4WRSVE0I1BgPLAICVRm0wEwq7r2AciCAfT/31S+/r1Z2ONGwL+mHOue
+	8UqqcDpurvPT8BC/poNJ8groujtjgWpSAZQTk6DWoQtPQUDroCXe6T7auXZf1D7tbhzX
+	FpBR5WMtT+r4arnECS3dyAF4Io+u8UggihPzlqsAwpTZKZS2Kz5XtB1d2r43mk4Jgvkn
+	ZcDKoC3Q7LwnW8ewPvcpD5Lh13CsuHvzbNoLsVAU91/152RCSQV8i8UAvvv/uZ/twLgl
+	jzIXsfcgWPngDdpJe/ub+Pwt50N4z5HX1DfSMu1w3q4/a/2re3SSk3O9+RhnXQOqyfcS
+	LaLQ==
+X-Gm-Message-State: APjAAAXamrfr4Z0HulVuWFG+Rg0G7lW9CRqkM6306M0SiiP959n2zlU0
+	vIio6epu8uDFUkfSxSG/nSETbHL2nvgpEw==
+X-Google-Smtp-Source: APXvYqwR6p9pqyUJ4k5XwdDy6W4ETqkO+UPsFdGNC6e943Lv8NvU4pRh5puWLSEgtr75p+tFTz8VDQ==
+X-Received: by 2002:a05:620a:88b:: with SMTP id
+	b11mr102671qka.429.1580944383192; 
+	Wed, 05 Feb 2020 15:13:03 -0800 (PST)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.113.11.95])
-	by smtp.gmail.com with ESMTPSA id o17sm696332qtj.80.2020.02.05.15.13.01
+	by smtp.gmail.com with ESMTPSA id o17sm696332qtj.80.2020.02.05.15.13.02
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 05 Feb 2020 15:13:01 -0800 (PST)
+	Wed, 05 Feb 2020 15:13:02 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Wed,  5 Feb 2020 18:12:49 -0500
-Message-Id: <a7dfcd09a44a35ce8cd109c3084486347782e8aa.1580944129.git.bruce.ashfield@gmail.com>
+Date: Wed,  5 Feb 2020 18:12:50 -0500
+Message-Id: <36300ff0f34f374ade66d2a35d0f9771a187ec7e.1580944129.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1580944129.git.bruce.ashfield@gmail.com>
 References: <cover.1580944129.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 8/9] kernel-yocto.bbclass: do_kernel_configme: don't use +errexit, merge_config_build.log and fail when /.config wasn't created
+Subject: [PATCH 9/9] kernel-yocto: fix defconfig detection in find_sccs()
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,44 +62,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 23:13:01 -0000
+X-List-Received-Date: Wed, 05 Feb 2020 23:13:04 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Gavin Li <gavinli@thegavinli.com>
 
-* for whatever reason, instead of silently continuing to build default kernel config
+The current code would cause a file like "config.bin" to added to the
+config sources list. I am sure the intention was to add any files with
+defconfig in its name and not the other way around.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Gavin Li <gavinli@thegavinli.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/classes/kernel-yocto.bbclass | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index f71aa7d0a6..d961901b74 100644
+index d961901b74..918d101d3d 100644
 --- a/meta/classes/kernel-yocto.bbclass
 +++ b/meta/classes/kernel-yocto.bbclass
-@@ -327,8 +327,6 @@ do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
- do_kernel_configme[depends] += "bc-native:do_populate_sysroot bison-native:do_populate_sysroot"
- do_kernel_configme[dirs] += "${S} ${B}"
- do_kernel_configme() {
--	set +e
--
- 	# translate the kconfig_mode into something that merge_config.sh
- 	# understands
- 	case ${KCONFIG_MODE} in
-@@ -354,8 +352,9 @@ do_kernel_configme() {
- 		bbfatal_log "Could not find configuration queue (${meta_dir}/config.queue)"
- 	fi
+@@ -47,7 +47,7 @@ def find_sccs(d):
+         base, ext = os.path.splitext(os.path.basename(s))
+         if ext and ext in [".scc", ".cfg"]:
+             sources_list.append(s)
+-        elif base and base in 'defconfig':
++        elif base and 'defconfig' in base:
+             sources_list.append(s)
  
--	CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}"	HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" LD="${KERNEL_LD}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
--	if [ $? -ne 0 ]; then
-+	CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" LD="${KERNEL_LD}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs}
-+
-+	if [ $? -ne 0 -o ! -f ${B}/.config ]; then
- 		bbfatal_log "Could not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}"
- 	fi
- 
+     return sources_list
 -- 
 2.19.1
 
