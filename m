@@ -1,47 +1,47 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EFB9260C76
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id AE376601C5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 12:41:44 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id s10so2318748wmh.3
+	Wed,  5 Feb 2020 13:49:37 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id u6so2859296wrt.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2020 04:41:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
+	Wed, 05 Feb 2020 05:49:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8I7fcxvDFj4ffC/dPRM1y9dU7+1fqmdsE13V+uRXVRY=;
-	b=Q1a9+0QEEZt+iGtf49ZvdX0td1FkR/8k80J1zFScVxgD93cr2QqGVXxGwGn6eJ/c8u
-	PD3heAOdWrv5d5ayXMN9d0chgAArC8iVQiGbrt4CT1Ryz+sRocbWFX3/dtAaT4VjkuH8
-	ka/G9BBh/9fx1VPkD8Va9p+DbR8f4wmJmQnd5O/yQx80u4GeIFIQRFp8qLMExYFjXPLx
-	EeNvSvOQIcN0iQJte8gCukQ3OHsGevAvMg/sOy3+5FfpAIF1QfmHwPSQCyWHUOdYYzzF
-	OEwuhey75hJOhyGQX2dwh2mbZfKhJq9lVQN2a+WoiZMLSNOSU4LNy6NdUd155ans5X1d
-	Q7xA==
+	:cc; bh=0X6e6lXYNnC4q3Tg2JNIh5tlEk+Z90VPF8rrmkGjo4U=;
+	b=Ihc1BYWcfEm45o0lSf1beuJVJN4LiF1ftNF8OEWXzhiAaEx2x4SXyL3nwtX/HVmrsh
+	mEUifnwJePoSQeSjTP+6NLjAOe1N7okcnR8U0plk6gNuhsLtUAC1iIARF8ado97wiGhF
+	V+9E/Z2WhACbClry/fKRlr21LE70ENut9Qqf5+yA1Bha2g6m1eeS7PxmLSgkI5v1lHBv
+	oeixOQEPxcADOLuZNfInTdno6pIvutB8b4tKKC9mQVzbe9ezFfJ/fqqSCAlKOlAdVB1v
+	uhNc7uMhvEE6Dk8dRpOTnIKnfyYvQzzwlfw/XKX3Ywhvc1kZZp2tnSkMr9aOVVO1PYHM
+	XQmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=8I7fcxvDFj4ffC/dPRM1y9dU7+1fqmdsE13V+uRXVRY=;
-	b=EAJW7+olV0QU1IMwZBxw/qexHda9MA9LT3gu1ZAWvpZy51CZkaF8DQEB9wRwvBkBfu
-	rMpXcjnBx2cnaMqNwwNseZLRa2IZnRrbSyYCq7D4w/h/O25Oh7IR8lzsj6Kp8O65z4Nw
-	utg0kueoaCu90TWk+6+yJWSqLB4EynNvIbtb8o8qIiVS2wJEBnfpuQhasysg3yYbFYyA
-	Zq8IiulEPCcTTr9MfYScj7kGxGryIGEoXGSJ78U0ebH+S73Fo1jBEW/2oqln/Q9SB/ck
-	93EJXD/YQ9Vn3OCLtjc71eB0/oXZw8g6B8/l9QVIe6vMZKYlySeESX8SQYKha2JmrvOG
-	82vw==
-X-Gm-Message-State: APjAAAV3X/RWHpyuRRnY3ybu8zzc9ZGXCnqO5Q5mc+Z0n6K/VgeVqRWi
-	Mj8j9nN1AVGWd3ltQkFJr0PJg1FZxrfTj3/ZaNzBpnY6
-X-Google-Smtp-Source: APXvYqzUgMduSZ2JTmVVs8pelalyiG3X4rFtFNA/yAhZTXfcMXUDSAwXCJenxiZIKPrdL6w8EIJbStPWfHRV+AZ27vU=
-X-Received: by 2002:a1c:5448:: with SMTP id p8mr5900744wmi.159.1580906505482; 
-	Wed, 05 Feb 2020 04:41:45 -0800 (PST)
+	bh=0X6e6lXYNnC4q3Tg2JNIh5tlEk+Z90VPF8rrmkGjo4U=;
+	b=jJZdSKtsshizkSewTJn2p1bwFCObUmq17A5oQlFUW+ron60CZQcyJq+mjzPE6qYGQl
+	QvRgvnv3AUz8y9NELYy0nyEYMiDXw5eiCqpEhNKBEJ2bYBOMDnKrnLThTE4Y8TaazgjI
+	4iEPcZZMHXu8zcMWsglbNy89/M8hGX+ORF7T7y2S+XxdefRlalpdaR6fpNR7lScsgMir
+	Y5pLqzonswk837QzhduRomSIVJAkNY4GMPx/4WFLRad4O0OhmrAT5Tcr7/nX2iAImjmx
+	3MaxrStl9S4DbQjZW0z1gLE0JPy8sDfbTknxWaGaaKHokGWuhwWTmhxF+Yck5bvC96lc
+	fWAw==
+X-Gm-Message-State: APjAAAU2dLh9tl/SAnNDd/cAMqVP059hqIabh1YZVTj5L0hzw/uM1jhU
+	B++GlRAtxLYFPO6iXZ/AdA+AdOuunFdU+GIwOi5QGg==
+X-Google-Smtp-Source: APXvYqzRnKzecAi2vuaaDmQG5UB43zIbcGPOK+rH8kn9ukT7GLogfcc+YMsfowCUDZzZ8Ezd5Y1HtSdRhoyEzHfAYMY=
+X-Received: by 2002:a5d:45c4:: with SMTP id b4mr27886691wrs.303.1580910578292; 
+	Wed, 05 Feb 2020 05:49:38 -0800 (PST)
 MIME-Version: 1.0
-References: <20200204210630.41960-1-mark.hatle@kernel.crashing.org>
-In-Reply-To: <20200204210630.41960-1-mark.hatle@kernel.crashing.org>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Wed, 5 Feb 2020 22:41:34 +1000
-Message-ID: <CA+aJhH2WTqiXEDBj7nSHiPQ9CeY2eF=aG_Vd+xJ=XpJx-o0Peg@mail.gmail.com>
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v4 0/5] Microblaze tune updates
+References: <20200205121151.27880-1-richard.purdie@linuxfoundation.org>
+	<20200205121151.27880-2-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200205121151.27880-2-richard.purdie@linuxfoundation.org>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Wed, 5 Feb 2020 07:49:24 -0600
+Message-ID: <CAJdd5GZaiH=z9K7JJvYH9BmiAf_VHyR9avzT6M4jK5LwUX3QZw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/6] oeqa/reproducible: Improve test output and ensure deb+ipk compared
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,33 +54,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 12:41:45 -0000
+X-List-Received-Date: Wed, 05 Feb 2020 13:49:38 -0000
+Content-Type: multipart/alternative; boundary="00000000000070db79059dd46dbe"
+
+--00000000000070db79059dd46dbe
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, 5 Feb 2020 at 07:06, Mark Hatle <mark.hatle@kernel.crashing.org> wrote:
->
-> Version 4 of the patch set.
->
-> I've collected all of the patches resently sent, and reworked them per
-> the comments on the mailing list.
->
-> The patches are directly available at:
->
-> git://git.openembedded.org/openembedded-core-contrib mgh/xilinx-microblaze
->
-> The work was broken up into a few more individual pieces.  This will allow
-> backports to Zeus for fixes vs new features.
->
-> Mark Hatle (5):
->   microblaze tune: change microblazeeb to microblaze
->   microblaze tune: Allow no version to be set
->   microblaze tune: Enable 64-bit
->   microblaze tune: cleanup +=
->   Microblaze: Adjust Linux items from microblazeeb to microblaze
+On Wed, Feb 5, 2020, 6:12 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Looks good. I gave it a quick test, qemu big endian builds and boots
-core-image-minimal now.
+> Adding newline characters between the packages in the failure output
+> massively improves readability.
+>
+> Also ensure to output ipk failures when there are deb failures by
+> calling self.fail() at the end, else sometimes only partial differences
+> are returned.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>  meta/lib/oeqa/selftest/cases/reproducible.py | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py
+> b/meta/lib/oeqa/selftest/cases/reproducible.py
+> index 04dc46f38a0..f6433c9a02b 100644
+> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+> @@ -185,6 +185,8 @@ class ReproducibleTests(OESelftestTestCase):
+>          # NOTE: The temp directories from the reproducible build are
+> purposely
+>          # kept after the build so it can be diffed for debugging.
+>
+> +        fails = []
+> +
+>          for c in self.package_classes:
+>              with self.subTest(package_class=c):
+>
 
-Thanks,
-Nathan
+It too bad subtests are broken. If we can't handle failed subtests, we can
+remove this line that creates the subtest in the first place.
 
+                 package_class = 'package_' + c
+> @@ -208,8 +210,11 @@ class ReproducibleTests(OESelftestTestCase):
+>                          self.copy_file(d.test, '/'.join([save_dir,
+> d.test]))
+>
+>                  if result.missing or result.different:
+> -                    self.fail("The following %s packages are missing or
+> different: %s" %
+> -                            (c, ' '.join(r.test for r in (result.missing
+> + result.different))))
+> +                    fails.append("The following %s packages are missing
+> or different: %s" %
+> +                            (c, '\n'.join(r.test for r in (result.missing
+> + result.different))))
+> +
+> +        if fails:
+> +            self.fail('\n'.join(fails))
+>
+>          # Clean up empty directories
+>          if self.save_results:
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--00000000000070db79059dd46dbe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Feb 5, 2020, 6:12 AM Richard Purdie &lt;<a hre=
+f=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundat=
+ion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Adding newli=
+ne characters between the packages in the failure output<br>
+massively improves readability.<br>
+<br>
+Also ensure to output ipk failures when there are deb failures by<br>
+calling self.fail() at the end, else sometimes only partial differences<br>
+are returned.<br>
+<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank" rel=3D"noreferrer">richard.purdie@linuxfound=
+ation.org</a>&gt;<br>
+---<br>
+=C2=A0meta/lib/oeqa/selftest/cases/reproducible.py | 9 +++++++--<br>
+=C2=A01 file changed, 7 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/s=
+elftest/cases/reproducible.py<br>
+index 04dc46f38a0..f6433c9a02b 100644<br>
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py<br>
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py<br>
+@@ -185,6 +185,8 @@ class ReproducibleTests(OESelftestTestCase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# NOTE: The temp directories from the rep=
+roducible build are purposely<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# kept after the build so it can be diffe=
+d for debugging.<br>
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 fails =3D []<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for c in self.package_classes:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0with self.subTest(package_c=
+lass=3Dc):<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">It too bad subtests are broken. If we can&#39;t handle failed sub=
+tests, we can remove this line that creates the subtest in the first place.=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quo=
+te"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0package_class=
+ =3D &#39;package_&#39; + c<br>
+@@ -208,8 +210,11 @@ class ReproducibleTests(OESelftestTestCase):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0self.copy_file(d.test, &#39;/&#39;.join([save_dir, d.test]=
+))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if result.mis=
+sing or result.different:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self=
+.fail(&quot;The following %s packages are missing or different: %s&quot; %<=
+br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 (c, &#39; &#39;.join(r.test for r in (result.missi=
+ng + result.different))))<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fail=
+s.append(&quot;The following %s packages are missing or different: %s&quot;=
+ %<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 (c, &#39;\n&#39;.join(r.test for r in (result.miss=
+ing + result.different))))<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if fails:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.fail(&#39;\n&#39;.join(fail=
+s))<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# Clean up empty directories<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.save_results:<br>
+-- <br>
+2.20.1<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
+.org/mailman/listinfo/openembedded-core</a><br>
+</blockquote></div></div></div>
+
+--00000000000070db79059dd46dbe--
