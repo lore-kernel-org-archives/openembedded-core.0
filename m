@@ -1,56 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4045F610E3
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Feb 2020 21:29:23 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p9so204291wmc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Feb 2020 13:29:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=ovWkhdZ9j2mKAPaNUrqw76mSnl9S4gZaOvz7kG2EU6Y=;
-	b=FaMaM9cn6mYN+yRxDs/UxsJcq3Lfq96mYeR/LIZWlE0sztmxDaBdGIxeBB70UsSOQP
-	/DAn6quzwOPLHtiBQfSjWmer8nu8MwqjQkag2dRB+H4yOwjyzPXBcpOwDDw7wT1U5YOT
-	2qBzEiwDfRkgm+kjxp7EEdbv0yeRL1myH3E2E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ovWkhdZ9j2mKAPaNUrqw76mSnl9S4gZaOvz7kG2EU6Y=;
-	b=FItuZy2R+kO8/Jxz45ZdCXkcF7uozeqqqDmT0OICLasGvVjn6hH8WVfCT7DhuD7dDY
-	v2UuJJAUWs0bRpqUSUC0JhuHfRGFr6zj4JtCZNRYCwvF4ENCZOjH1oyu5Gzu8MWClNYs
-	hnGmlD3zHw18kPAKW3+LplAw3yR9Sxvn0SgZN4nHmbQAyptJ0gmJrQC8oPfJzfNj1RmX
-	TfeCjpQwf7Lg2sNjKVm/x46DSWG8b/n0I+P/Auj9vxsojKPTRy4CUFi9Iv7s4COgKVAB
-	5LafHJacptJOlqL4mxZaECO6/2bY8KGLHyDCUM8aeYItq9hbcsc6FCRYyYL0uNDSlV+h
-	UeAA==
-X-Gm-Message-State: APjAAAWXb2jIsO0RhH0WpLo8dQtmYkTYepwnYKNyGo41SDEVApKwXO0b
-	CMeFBgrqH0OGkdkb5SFWxL/plw==
-X-Google-Smtp-Source: APXvYqxkgnVvyunL2u/74rHlPw+UxrIAh+AxO+9R0KtbFdTk6KGsS9oWOqMCMlnkjL9dqLwcr/08PA==
-X-Received: by 2002:a05:600c:54d:: with SMTP id
-	k13mr985736wmc.188.1580851763942; 
-	Tue, 04 Feb 2020 13:29:23 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	i16sm16033468wrr.71.2020.02.04.13.29.23
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 04 Feb 2020 13:29:23 -0800 (PST)
-Message-ID: <1e008fb569c7f94319b00108b26133e2127fe0c7.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Kang Kai
-	<Kai.Kang@windriver.com>
-Date: Tue, 04 Feb 2020 21:29:22 +0000
-In-Reply-To: <CANNYZj9jTrZHYJw0y2=7BxhpJxgV792y06O2eQqsDALApo+QJw@mail.gmail.com>
-References: <20200203091406.37643-1-kai.kang@windriver.com>
-	<B90E2425-D2BC-411A-B3CF-E3B31614A8DE@gmail.com>
-	<4d47a7c5-d60a-2fcc-3a4d-a716727bbcbd@windriver.com>
-	<CANNYZj9jTrZHYJw0y2=7BxhpJxgV792y06O2eQqsDALApo+QJw@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+Return-Path: <anuj.mittal@intel.com>
+X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 05 Feb 2020 00:51:44 UTC
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 8905B60674
+	for <openembedded-core@openembedded.org>;
+	Wed,  5 Feb 2020 00:51:44 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Feb 2020 16:44:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,403,1574150400"; d="scan'208";a="224485547"
+Received: from kmsmsx153.gar.corp.intel.com ([172.21.73.88])
+	by orsmga008.jf.intel.com with ESMTP; 04 Feb 2020 16:44:37 -0800
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.131]) by
+	KMSMSX153.gar.corp.intel.com ([169.254.5.66]) with mapi id
+	14.03.0439.000; Wed, 5 Feb 2020 08:44:36 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: Armin Kuster <akuster808@gmail.com>, "openembedded-core@openembedded.org"
+	<openembedded-core@openembedded.org>
+Thread-Topic: [OE-core] [zeus 5/8] bzip2: Fix CVE-2019-12900
+Thread-Index: AQHV22za66PoEgViUUCSMCOExtU3m6gLwmSQ
+Date: Wed, 5 Feb 2020 00:44:36 +0000
+Message-ID: <C0207330DF60C5409302EC78C3FE68F3033F5C46@PGSMSX101.gar.corp.intel.com>
+References: <cover.1580828664.git.akuster808@gmail.com>
+	<c29059a8c2ecb18f32439b0880e9d6b2362b0036.1580828664.git.akuster808@gmail.com>
+In-Reply-To: <c29059a8c2ecb18f32439b0880e9d6b2362b0036.1580828664.git.akuster808@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+dlp-product: dlpe-windows
+dlp-version: 11.2.0.6
+dlp-reaction: no-action
+x-ctpclassification: CTP_NT
+x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYTg3MTBmMmEtZDM1Ni00ZjdlLTkyNjMtNmIzMmQzNjZiM2UzIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiMWxSXC9ZUGo2N1RnSDB2NFwvTXRzc3Q5Z1wvT1hsMlZQeTNKM2o5bmMrR2QrOXF6UlBRUlZxZnFNNHk3QzBnc0lrSSJ9
+x-originating-ip: [172.30.20.206]
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ifupdown: add ptest
+Subject: Re: [zeus 5/8] bzip2: Fix CVE-2019-12900
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,34 +50,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Feb 2020 21:29:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Feb 2020 00:51:44 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2020-02-04 at 21:50 +0100, Alexander Kanavin wrote:
-> imagefeatures.py does set:
-> 
-> PREFERRED_PROVIDER_virtual/base-utils = "packagegroup-core-base-
-> utils"
-> VIRTUAL-RUNTIME_base-utils = "packagegroup-core-base-utils"
-> 
-> which I believe does actually replace replace busybox with that
-> packagegroup in any image, as packagegroup-core-boot RDEPENDS on
-> VIRTUAL-RUNTIME_base-utils.
-> 
-> I'm not sure why imagefeatures.py only does 'bitbake("--graphviz
-> core-image-sato")' instead of building and booting that image
-> properly, but this is exactly the place where it should happen.
+I think this should be reverted. Sorry, I had given comments at the time pa=
+tch was sent but missed this in zeus review.
 
-I suspect it dates from a time where booting and testing the image
-likely wouldn't have worked. It sounds like there would be a lot more
-value in that now.
+http://lists.openembedded.org/pipermail/openembedded-core/2020-January/2918=
+26.html
 
-I merged this patch on the basis it was a good step forwards on the
-issue in case that wasn't clear.
+This CVE is not applicable to 1.0.7. This is not failing because the CVE pa=
+tch file is not included in SRC_URI in recipe.
 
-Cheers,
+Thanks,
 
-Richard
+Anuj=20
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Armin Kuster
+> Sent: Tuesday, February 4, 2020 11:06 PM
+> To: openembedded-core@openembedded.org
+> Subject: [OE-core] [zeus 5/8] bzip2: Fix CVE-2019-12900
+>=20
+> From: Sana Kazi <Sana.Kazi@kpit.com>
+>=20
+> Added patch for CVE-2019-12900 as backport from upstream.
+> Fixes out of bound access discovered while fuzzying karchive.
+>=20
+> Tested by: Sana.Kazi@kpit.com
+>=20
+> Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  .../bzip2/bzip2-1.0.6/CVE-2019-12900.patch    | 36 +++++++++++++++++++
+>  1 file changed, 36 insertions(+)
+>  create mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-
+> 12900.patch
+>=20
+> diff --git a/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
+> b/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
+> new file mode 100644
+> index 0000000000..9859d9d1a2
+> --- /dev/null
+> +++ b/meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
+> @@ -0,0 +1,36 @@
+> +From 74de1e2e6ffc9d51ef9824db71a8ffee5962cdbc Mon Sep 17 00:00:00 2001
+> +From: Albert Astals Cid <aacid@kde.org>
+> +Date: Tue, 28 May 2019 19:35:18 +0200
+> +Subject: [PATCH] Make sure nSelectors is not out of range
+> +
+> +nSelectors is used in a loop from 0 to nSelectors to access selectorMtf
+> +which is
+> +UChar    selectorMtf[BZ_MAX_SELECTORS];
+> +so if nSelectors is bigger than BZ_MAX_SELECTORS it'll do an invalid
+> +memory access Fixes out of bounds access discovered while fuzzying
+> +karchive
+> +
+> +Link:
+> +https://gitlab.com/federicomenaquintero/bzip2/commit/74de1e2e6ffc9d51ef
+> +9824db71a8ffee5962cdbc.patch
+> +
+> +Upstream-Status: Backport
+> +CVE: CVE-2019-12900.patch
+> +Signed-off-by: Saloni Jain <Saloni.Jain@kpit.com>
+> +---
+> + decompress.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/decompress.c b/decompress.c index ab6a624..f3db91d 100644
+> +--- a/decompress.c
+> ++++ b/decompress.c
+> +@@ -287,7 +287,7 @@ Int32 BZ2_decompress ( DState* s )
+> +       GET_BITS(BZ_X_SELECTOR_1, nGroups, 3);
+> +       if (nGroups < 2 || nGroups > 6) RETURN(BZ_DATA_ERROR);
+> +       GET_BITS(BZ_X_SELECTOR_2, nSelectors, 15);
+> +-      if (nSelectors < 1) RETURN(BZ_DATA_ERROR);
+> ++      if (nSelectors < 1 || nSelectors > BZ_MAX_SELECTORS)
+> ++ RETURN(BZ_DATA_ERROR);
+> +       for (i =3D 0; i < nSelectors; i++) {
+> +          j =3D 0;
+> +          while (True) {
+> +--
+> +2.22.0
+> --
+> 2.17.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
