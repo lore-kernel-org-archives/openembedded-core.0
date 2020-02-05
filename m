@@ -1,52 +1,57 @@
 Return-Path: <ross@burtonini.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6B9DE60B1E
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com
+	[209.85.216.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 6860860043
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 17:24:58 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id p9so3371088wmc.2
+	Wed,  5 Feb 2020 17:29:31 +0000 (UTC)
+Received: by mail-pj1-f48.google.com with SMTP id d5so1252790pjz.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2020 09:24:59 -0800 (PST)
+	Wed, 05 Feb 2020 09:29:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=IWidFcgNcb5fp6AwCLQrMOZaPH2nbWBFQ39VTPwG5To=;
-	b=Jdn39pFn/7STkw2N2rPcMIKa4JFYU6a+XQwSzYdlx+PrneTycuMTWkP7HX4qmvwcQp
-	0ya2sdKkHI31xR/+CzdWXMb8sY6q1aukAnkhBaN6OyM4voFEQaNWsPia7Z74bOO6ibnk
-	TxnMhvn2XZ1rdBEX0Bu8dN00JVkr92Oc24L4JUyBZtq6eIiy8RNUIDDkkTEHskY4Yakn
-	Un/id6P/DlATlVIG8Ll2IWdxkZi2yFCwA+5AkqdyqVeyvNnWwBQum4pwrdIXtASI326Z
-	riVsjJw90X3IqXDkQU2jRjGhlWaWkaIa/1/S3tBMleE+IrVYuy9Lx+7O1/BzyeefJjC7
-	8lBg==
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language:content-transfer-encoding;
+	bh=+2GFL2+Y3DzVe78fwj7rU5kXhocAljScAG71d9DIEAU=;
+	b=WjOGj9HEu3CU+5c1Kpt4+n3AEh4WksBn7p8ommkaCQV0GHx/JvZq2/AwtZ3utdwQwu
+	CpIk23ua1Gh/In6g1GiMa4j5O4gGj/O6vxsDf5fJuGnsdfOxYAaVGgErt1V00P8WN95n
+	TPnIrtS5Udcfx8mMAXYJL1DwStyKw38mV6k9MQFHuFjf8qTkd8loLrTn0V9nBtx62lzt
+	bQgAOMph+Vpfm0ow6/ShxCpVNVtj0LeXsTrj3BNP5UFRu0tJoVyHeHtLffrdnx8/tlDw
+	pgW4BvCODfeLl4gIfzW+FHin4UBb0tfxMyN7+x3yj9SxFS9hCnBBgcFval5oT8FXvjvk
+	pcyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=IWidFcgNcb5fp6AwCLQrMOZaPH2nbWBFQ39VTPwG5To=;
-	b=JPnEGUa3CgO+CSQ+dIVW6aan9xD3pXyqD4XZzGBUWf1NGqOZrZaYkCBJ2OxjEcSm26
-	6Qa53fGK+9WF7xHN01cwczXx+z8GZOKaZq+MD3/rLgp4m1VF3yuDa1uISpOL3QYmt2TT
-	K16/wURCNiXYQK9zBTyaDR2Dsf6f8h5inr83rRjtfSHCUBGNe2ZdFc0i94Hwho38KhtK
-	8/uEfTfX2Io2spnmhSmttZZ/tK1xMnITUuNSAaCH5NzIc3fn7ZU7To4xOQguRCfcl3zs
-	+Gm4d+kPVDusAiTRrAW6/VtCG/RY/GT9R/eVMaHp6wuD2+nOewsiIJakq0pj0hrRWDV5
-	xcSQ==
-X-Gm-Message-State: APjAAAWgnFhnyd32uz8IiT7GGW6pL7D5SOF5Y68bYqqpNF0vn/q4SNlE
-	m59anpaTOiVN9+0Z+RvXIt+OHpZZ/BiwdA==
-X-Google-Smtp-Source: APXvYqy/lXo01jV3FNf9og1uyPKf8hanCyrpgrKDXIamsX7DDbNNsyLer5EODeM3Y5KHTBKVykWFAg==
-X-Received: by 2002:a7b:c450:: with SMTP id l16mr7121460wmi.31.1580923498803; 
-	Wed, 05 Feb 2020 09:24:58 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id i2sm283085wmb.28.2020.02.05.09.24.58
+	bh=+2GFL2+Y3DzVe78fwj7rU5kXhocAljScAG71d9DIEAU=;
+	b=MXzk41MD+k0cklvWb7XwWoilg00V/7U8mzbMqo40eGDDpjYDp7ektB/D9rfZ6MMFxp
+	C87cF432CJob/kFOaz4yQXFwRLIZxBoRMmT6G9vBhOkI9ApPfnJ66W/SGlI4FKbMNxLW
+	o7vAiR+hIEUGq7GzOcaz4cuEzMpG4NMnh8f+gZdvHv3QTaW8XDAcimPo8VNALh50onI6
+	YOg+DZ5wLXwLFVgFjW4RK1gPRk/sIE+1hGII26q7L7ouvwNdO/dUGl8JVzgAXBkEB0YN
+	+v/wLVfRqkII3HX5yNKjz26aTewDCCUhJiTyDtORjIdtM/l/l8ebzWrd52mwUT4St0lm
+	XQlA==
+X-Gm-Message-State: APjAAAX/Uzn/oOCg4LCU8+CDgkwzAh1n6w1TvklTRn37I4U4ajp5WDW6
+	zZPwBpoF9bNv4Aoi1HeXYfKrb1rXGis=
+X-Google-Smtp-Source: APXvYqxBZFbnmHeJ0aptHW9azVZhOcW9RWZ+z53S0qcruuGpMMVwDhCdFAkmIde5jhVSQUCW9y1j9w==
+X-Received: by 2002:a17:902:7283:: with SMTP id
+	d3mr31536242pll.118.1580923771811; 
+	Wed, 05 Feb 2020 09:29:31 -0800 (PST)
+Received: from dbird-mobl1.ger.corp.intel.com (fmdmzpr03-ext.fm.intel.com.
+	[192.55.54.38])
+	by smtp.gmail.com with ESMTPSA id 6sm436951pgh.0.2020.02.05.09.29.30
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 05 Feb 2020 09:24:58 -0800 (PST)
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 05 Feb 2020 09:29:31 -0800 (PST)
+To: oe-core <openembedded-core@lists.openembedded.org>
+References: <b678f3b8b7dc947dec08b47886eb49e5bd61f097.camel@linuxfoundation.org>
 From: Ross Burton <ross@burtonini.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Feb 2020 17:24:55 +0000
-Message-Id: <20200205172455.20928-1-ross@burtonini.com>
-X-Mailer: git-send-email 2.20.1
+Message-ID: <0d407eca-e156-4457-9cc0-cb11581c7aca@burtonini.com>
+Date: Wed, 5 Feb 2020 17:29:27 +0000
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
+	Gecko/20100101 Thunderbird/68.4.2
 MIME-Version: 1.0
-Subject: [PATCH] gtk+3: sort resources for reproducible binaries
+In-Reply-To: <b678f3b8b7dc947dec08b47886eb49e5bd61f097.camel@linuxfoundation.org>
+Subject: Re: Reproducible Builds Issue Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,46 +64,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 17:24:58 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 05 Feb 2020 17:29:31 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-From: Ross Burton <ross.burton@intel.com>
+On 05/02/2020 14:27, Richard Purdie wrote:
+> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/gtk+3-dbg_3.24.13-r0_amd64.deb
+> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/gtk+3-src_3.24.13-r0_amd64.deb
+> /home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-25815/reproducibleB/tmp/deploy/deb/./core2-64/libgtk-3.0_3.24.13-r0_amd64.deb
 
-The list of resources is gathered with $(wildcard) in Make, which isn't
-sorted. If this order changes then the generated libraries will differ.
+I grabbed the library on the theory that this is just a single probem. 
+The issue is that the gresources segment in libgdk.so (files embedded 
+inside the binary) had the same files in a different order, so I just 
+sent a patch to sort the $(wildcard).  Hopefully that solves the problem.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../gtk+/gtk+3/sort-resources.patch           | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
-
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch b/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
-new file mode 100644
-index 00000000000..7f87372c52d
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
-@@ -0,0 +1,19 @@
-+If the resources file isn't sorted in some way then libgdk.so will differ
-+depending on the inode order of the resource files.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/gdk/Makefile.am b/gdk/Makefile.am
-+index e25b57ba50..26f2d57c6e 100644
-+--- a/gdk/Makefile.am
-++++ b/gdk/Makefile.am
-+@@ -465,7 +465,7 @@ stamp-gc-h: $(top_builddir)/config.status
-+ # Resources
-+ #
-+ 
-+-glsl_sources := $(wildcard $(srcdir)/resources/glsl/*.glsl)
-++glsl_sources := $(sort $(wildcard $(srcdir)/resources/glsl/*.glsl))
-+ 
-+ gdk.gresource.xml: Makefile.am
-+ 	$(AM_V_GEN) echo "<?xml version='1.0' encoding='UTF-8'?>" > $@; \
--- 
-2.20.1
-
+Ross
 
