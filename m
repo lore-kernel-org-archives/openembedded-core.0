@@ -1,52 +1,52 @@
 Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 95EC861023
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BE0AE60E5D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 02:42:45 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id q9so747436wmj.5
+	Wed,  5 Feb 2020 02:42:47 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id g1so753309wmh.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Feb 2020 18:42:46 -0800 (PST)
+	Tue, 04 Feb 2020 18:42:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=7WbrPup62agUrw0KJzoixrxHh7VBz3UtwrlpYb0/KIk=;
-	b=Pj5xLwHh8iIYjbeBVsOQhETgx+vNIZMTLKkHjbX+4k9Ox8DCACvU6Vy58wrKaif2bX
-	YIBAvtP8rcOaRYWtcrYx463qq+3dLC91dAO8oRY77UC1+AqLyeRuSR6/bz7Td1do2oOl
-	IOnFB6c03xFvap7oqvIv9AmnrZ9enQvUL1ooyJwl64fqDwDEk8jTpCVRd2v+QZEFEsOk
-	vQGQrNDbc3/m2jltpwTGDIZ1ia+6MsF18cbfT60eHzQk0k7Hu+X2uOyEGNdym2hm5ba4
-	DTnwXngSAPu9xDbg/KLe/XYKagacA9SOFCGvHB6rdBN9AVMjOdFYAwYDkhwPiCf0XD5V
-	nLnQ==
+	bh=dudQ/Qpl0rAq4Gr4uvQ4qGZ+8MGMURNcdcOc2IAgr+Y=;
+	b=BC6joIE114rtux45XlpVQFOcqismDcURYgY9Ee8tzmvJgt/F0JAmwM+xFN1C9qjM9h
+	iQPOfu1255i/suSO50WNTj0ACXtnUm904Yw8JBFGSX//A+FWwXdo1WUdR+Wl8tot1GuZ
+	tIUc7lF6Mi8bsqblC60e8dQqcFhFuHLeyWe911I+FG3QC6qhTKZZ3YDqrosMcd43wGoV
+	1W8ojl7UUeZRzuBj/FUMpoI40P+CsAVeSYUEHUsKnOQQWtCvPtYNahJBtObtSrDaMd6X
+	mzjnO0XMwFGM14qBqpz1+yRmn2XuJh5QvOpyxRyeZ5LYIdwwpGJyc5G6fmmvIn0iPcly
+	QvPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=7WbrPup62agUrw0KJzoixrxHh7VBz3UtwrlpYb0/KIk=;
-	b=XLYpCwF4TVcT/u/x7LNGANFCp8p/hGQ1IHI9NOCEOqMb77xkl+MaAPEaA+8iA4CT0z
-	aXLEc2t1Rk2mXNyyPC62WNop+puhtD4mVBqFEdv0KPGL86Dk/do+dtQOKDcdAepErJPg
-	XVDu0CtrkOFyNaVMCASsx0QIp6QHmDr3VZ6uypES+X3jw6Pwoqk48htwL0v0EkSG6qrx
-	tJGFe2M9D+Aisy+Qe2GVr38Ve6cuhxE1h2i2xK5VjrzcrWKtKMmCf2oQuA84Ocu8zv5k
-	SwnILoQwSfg0RaDIQzIUhMZ05OXWuoAZ6KatMxz2Q0uWUvvgvROjtzW7FYXqYOUT1vmK
-	lpfA==
-X-Gm-Message-State: APjAAAVd4gPgeEpnCjzUjjpc/JZaPd3BMX+vr5s6j1OFfh560aI5T1Ti
-	7pZg3v//vyLXwzXoT29tmBjwWEYD
-X-Google-Smtp-Source: APXvYqwtzx8jJ39UQ9fmagkSQBzR4qsi2YR5DX/a9GyRgv9o/6LlX9L2Oc/jfncTBVh6n2nlcX6M+w==
-X-Received: by 2002:a1c:988a:: with SMTP id a132mr2274237wme.113.1580870565930;
-	Tue, 04 Feb 2020 18:42:45 -0800 (PST)
-Received: from localhost ([109.238.218.228])
-	by smtp.gmail.com with ESMTPSA id r1sm9681144wrx.11.2020.02.04.18.42.45
+	bh=dudQ/Qpl0rAq4Gr4uvQ4qGZ+8MGMURNcdcOc2IAgr+Y=;
+	b=CdwWxU3h6S7XpZdD0DX7I7SzJcYqwB84Q3dHYarCbK6FyfPtOv24CD/FPVfF2o4Htv
+	XNk9kHOONZzhuAEMGo/bq9zMvaBmXV/QgoMF7bOCl5EuN/GOw0862AEYrQx9us7KZxQS
+	XI8Rjs9R5MQH+NXMGatPAZBOxFVUWsO1Fh6OHhEu4+w0YrfsDLaNW3xnAlUJqQtMBFUI
+	w0ZKT3kRdmSniPKXuP/6t4g56mFQ5cetugXsmSpiJiqL5U8qXqiBxdO5jUjtrAjsVmKE
+	mte1CiDoITKPuxQjMkHq7TcLIYgm/ad7UHCi/oYsClsZkCJXQpoNuj0P+h3BZFbsGi6K
+	R9PA==
+X-Gm-Message-State: APjAAAV/EuSzbFnSdk1w9fh9J8MWg3BLp8YPP2vyNnlqqv6Vy9vV0XqZ
+	MJuk6rw4ZTD6k/SMeDr22SQab4vY
+X-Google-Smtp-Source: APXvYqwA1k7Dx2O9bjqWwNa4d4JNxUhG/BDP4yh0o73MQQeAjN34zLjtj35hsZISXqzMyCeHI5AkRg==
+X-Received: by 2002:a1c:9e13:: with SMTP id h19mr2498391wme.21.1580870568080; 
+	Tue, 04 Feb 2020 18:42:48 -0800 (PST)
+Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
+	q124sm7712866wme.2.2020.02.04.18.42.47
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 04 Feb 2020 18:42:45 -0800 (PST)
+	Tue, 04 Feb 2020 18:42:47 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Feb 2020 03:42:39 +0100
-Message-Id: <20200205024241.27828-2-Martin.Jansa@gmail.com>
+Date: Wed,  5 Feb 2020 03:42:40 +0100
+Message-Id: <20200205024241.27828-3-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20200205024241.27828-1-Martin.Jansa@gmail.com>
 References: <20200205024241.27828-1-Martin.Jansa@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/4] kernel-yocto.bbclass: do_kernel_configme: don't use +errexit, merge_config_build.log and fail when /.config wasn't created
+Subject: [PATCH 3/4] kern-tools-native: pass LD variable from shell environment to the make call
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,41 +59,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 02:42:46 -0000
+X-List-Received-Date: Wed, 05 Feb 2020 02:42:48 -0000
 Content-Transfer-Encoding: 8bit
 
-* for whatever reason, instead of silently continuing to build default kernel config
+* since 5.4 kernel Kconfig will fail immediately when it detects
+  that LD points to gold linker:
+
+  scripts/Kconfig.include:39:  gold linker 'i686-oe-linux-ld' not supported
+
+* in OE we already pass bfd linker in KERNEL_LD variable to merge_config.sh
+  but we need to pass it also into the make call here
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/classes/kernel-yocto.bbclass | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ .../kern-tools/kern-tools-native_git.bb       |  2 ++
+ ...pass-LD-variable-from-shell-environm.patch | 32 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-kernel/kern-tools/kern-tools/0001-merge_config.sh-pass-LD-variable-from-shell-environm.patch
 
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index d2796b01bf..8e642cd999 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -318,8 +318,6 @@ do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}gcc:do_populate_sysroot"
- do_kernel_configme[depends] += "bc-native:do_populate_sysroot bison-native:do_populate_sysroot"
- do_kernel_configme[dirs] += "${S} ${B}"
- do_kernel_configme() {
--	set +e
--
- 	# translate the kconfig_mode into something that merge_config.sh
- 	# understands
- 	case ${KCONFIG_MODE} in
-@@ -345,8 +343,9 @@ do_kernel_configme() {
- 		bbfatal_log "Could not find configuration queue (${meta_dir}/config.queue)"
- 	fi
- 
--	CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}"	HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" LD="${KERNEL_LD}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
--	if [ $? -ne 0 ]; then
-+	CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" LD="${KERNEL_LD}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs}
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+index 57ec1abc6d..8053483355 100644
+--- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
++++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
+@@ -22,3 +22,5 @@ do_install() {
+ 	cd ${S}/git
+ 	make DESTDIR=${D}${bindir} install
+ }
 +
-+	if [ $? -ne 0 -o ! -f ${B}/.config ]; then
- 		bbfatal_log "Could not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}"
- 	fi
- 
++SRC_URI += "file://0001-merge_config.sh-pass-LD-variable-from-shell-environm.patch;patchdir=git"
+diff --git a/meta/recipes-kernel/kern-tools/kern-tools/0001-merge_config.sh-pass-LD-variable-from-shell-environm.patch b/meta/recipes-kernel/kern-tools/kern-tools/0001-merge_config.sh-pass-LD-variable-from-shell-environm.patch
+new file mode 100644
+index 0000000000..d7d3d9dd2b
+--- /dev/null
++++ b/meta/recipes-kernel/kern-tools/kern-tools/0001-merge_config.sh-pass-LD-variable-from-shell-environm.patch
+@@ -0,0 +1,32 @@
++From 091dbfede29c128a1a467d7f3c0aedc33ba3d2cb Mon Sep 17 00:00:00 2001
++From: Martin Jansa <Martin.Jansa@gmail.com>
++Date: Wed, 5 Feb 2020 03:26:57 +0100
++Subject: [PATCH] merge_config.sh: pass LD variable from shell environment to
++ make
++
++* since 5.4 kernel Kconfig will fail immediately when it detects
++  that LD points to gold linker:
++
++  scripts/Kconfig.include:39:  gold linker 'i686-oe-linux-ld' not supported
++
++* in OE we already pass bfd linker in KERNEL_LD variable to merge_config.sh
++  but we need to pass it also into the make call here
++
++Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++---
++ tools/merge_config.sh | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tools/merge_config.sh b/tools/merge_config.sh
++index 296e759..11f3085 100755
++--- a/tools/merge_config.sh
+++++ b/tools/merge_config.sh
++@@ -153,7 +153,7 @@ fi
++ # Use the merged file as the starting point for:
++ # alldefconfig: Fills in any missing symbols with Kconfig default
++ # allnoconfig: Fills in any missing symbols with # CONFIG_* is not set
++-make KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
+++make LD=$LD KCONFIG_ALLCONFIG=$TMP_FILE $OUTPUT_ARG $ALLTARGET
++ 
++ 
++ # Check all specified config values took (might have missed-dependency issues)
 -- 
 2.20.1
 
