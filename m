@@ -1,122 +1,51 @@
-Return-Path: <takondra@cisco.com>
-Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
-	by mail.openembedded.org (Postfix) with ESMTP id B973B610B9
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 088FB61023
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Feb 2020 01:25:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=368; q=dns/txt; s=iport;
-	t=1580865945; x=1582075545;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-transfer-encoding:mime-version;
-	bh=ICZ4kjNV9rUOff4ro21vP3aW9upiXCjKfQD05Q8Co8Q=;
-	b=J+05zV7hV245LUEenWW/ZEwiwMccgQ3pqKzEWmPxwghLIJt64OVMFWtq
-	qgyqVIc2SrgcDlvglSq8pPJ5GaJfk3WZTNKXoXo51lr5iVJcyUPFFOL65
-	cUiZJuj0osChUOuo3wPogyok9dIGA5VL6qQMX3sagacSG0AreTlQHDxDe A=;
-IronPort-PHdr: =?us-ascii?q?9a23=3AqyS9VhQYpojVH7uXgUr77s5PJNpsv++ubAcI9p?=
-	=?us-ascii?q?oqja5Pea2//pPkeVbS/uhpkESXBNfA8/wRje3QvuigQmEG7Zub+FE6OJ1XH1?=
-	=?us-ascii?q?5g640NmhA4RsuMCEn1NvnvOjAzH8NEWEVs13q6KkNSXs35Yg6arw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0CBBQBAGTpe/51dJa1lHAEBAQEBBwE?=
-	=?us-ascii?q?BEQEEBAEBgXuBVFAFgUQgBAsqh1sDiwKCX5gPglIDVAkBAQEMAQEtAgEBhEA?=
-	=?us-ascii?q?CgjckOBMCAw0BAQQBAQECAQUEbYU3DIVmAQEBAQIBEi4BATcBDwIBCBguMiU?=
-	=?us-ascii?q?CBAENDRqFTwMOIAECoUACgTmIYoIngn8BAQWFMRiCDAkUgSSMIhqBQT+BWIJ?=
-	=?us-ascii?q?MPoRLAoNAgiyXPJgrCoI7ll6COAEPiA6QMosAg2GbGgIEAgQFAg4BAQWBaSK?=
-	=?us-ascii?q?BWHAVgydQGA2OHTiDO4pTdIEpjRIBAQ?=
-X-IronPort-AV: E=Sophos;i="5.70,403,1574121600"; d="scan'208";a="443981358"
-Received: from rcdn-core-6.cisco.com ([173.37.93.157])
-	by alln-iport-6.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
-	05 Feb 2020 01:25:36 +0000
-Received: from XCH-ALN-008.cisco.com (xch-aln-008.cisco.com [173.36.7.18])
-	by rcdn-core-6.cisco.com (8.15.2/8.15.2) with ESMTPS id 0151PasI020025
-	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL);
-	Wed, 5 Feb 2020 01:25:36 GMT
-Received: from xhs-rcd-001.cisco.com (173.37.227.246) by XCH-ALN-008.cisco.com
-	(173.36.7.18) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
-	Tue, 4 Feb 2020 19:25:35 -0600
-Received: from xhs-rcd-001.cisco.com (173.37.227.246) by xhs-rcd-001.cisco.com
-	(173.37.227.246) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
-	Tue, 4 Feb 2020 19:25:35 -0600
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (72.163.14.9) by
-	xhs-rcd-001.cisco.com (173.37.227.246) with Microsoft SMTP Server
-	(TLS) id
-	15.0.1473.3 via Frontend Transport; Tue, 4 Feb 2020 19:25:35 -0600
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=SbkmiZiAqWOjwfM/f3KBUAmH7/pUaZAPu4rvQR+4BEKlUA1NsjMfTDGwBmuiLIkr2yHjXhr4UKw7mR1xtyEhgTJk44MPhiloPYIbh8OvHfkIV4zCLICOi5SC0uUWA88fSyvOXlP+ihP+ptecCNSJxqyzvX27j2isit4Jh5oC0I8YJDGjECcpwXE4PVO3b9KBAoq82H4RXnitT/bzMOouzcDy09uOMSQ+/iSHvq8/4Y/8CI5JLJ0SiYWusWNrU81LW/OyV4Uaa0fYdyPhquYRanYmexA3v1/dQnItPp79K1Rmmx86i0bFTE3VN+aZzVZIMs7QTvd7+Pw723tXC8IgVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=ICZ4kjNV9rUOff4ro21vP3aW9upiXCjKfQD05Q8Co8Q=;
-	b=QpRdxIqpA/BwyPbo7oNtHhM23d1ymltWjTG/pXvixUGImBRuZaVn2n5Vk8BPkxBkEdw+9glnuWeQG2fvmj4aKT9+XJDojzyBEs0S9ulX+XgAzT0iitffrBpBJQTvsvBWghH6hhrwiqjdtUVxZQ14O+nXe6cE2B+7ee9TPLXts4ezqGn+QXPC4KTTkhIGmN+LErM4fepxvwlPNdC40SBWl32Nh88ipi4G0ulXXSpZZQ2uWA+GeX4LbRaC2+UtJR290esdr3pgAgX/KEZfla0eaGhEsxJYApWgmKBnJGsd0FTp6OZPU77lLsTK9SRxcgbt2+WMZYJOZmTSvAS6guAdYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com; 
-	dkim=pass header.d=cisco.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cisco.onmicrosoft.com; 
-	s=selector2-cisco-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=ICZ4kjNV9rUOff4ro21vP3aW9upiXCjKfQD05Q8Co8Q=;
-	b=dLSDzngL7+p9h/Pyex2LxoNRnSXD+g5byJDV0Pee5no+U9YFrNWOYJMfv2YTtXI9zlg4uxKDCBJsEICHiOUKj0TzF6uQGa45twWbm5AikSEMr7y1IpqYZFgboLUhuxUhK+L89mnk1L1L58wycV0MhwV2idnVK/PRII2PHKfnvVU=
-Received: from BYAPR11MB3366.namprd11.prod.outlook.com (20.177.185.84) by
-	BYAPR11MB2821.namprd11.prod.outlook.com (52.135.228.157) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2686.27; Wed, 5 Feb 2020 01:25:32 +0000
-Received: from BYAPR11MB3366.namprd11.prod.outlook.com
-	([fe80::2168:ae72:cbd4:6677]) by
-	BYAPR11MB3366.namprd11.prod.outlook.com
-	([fe80::2168:ae72:cbd4:6677%4]) with mapi id 15.20.2686.031;
-	Wed, 5 Feb 2020 01:25:32 +0000
-From: "Taras Kondratiuk (takondra)" <takondra@cisco.com>
-To: akuster808 <akuster808@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Thread-Topic: [OE-core] [PATCH] gcc-9.2: fix bug #91102 'aarch64 ICE on Linux
-	kernel with -Os'
-Thread-Index: AQHV2wHK+0HXUzgSKka/cbotSYXTGKgKaGEAgAAFsQCAAV9Hwg==
-Date: Wed, 5 Feb 2020 01:25:32 +0000
-Message-ID: <BYAPR11MB336694DBBD57A81DD1F1F76BC8020@BYAPR11MB3366.namprd11.prod.outlook.com>
-References: <20200204022006.714-1-takondra@cisco.com>
-	<CAMKF1sqmKCwbdE1uncP+k+7OQGrHawJ3dTM1h1_yO9EJuV00iQ@mail.gmail.com>,
-	<baf2b1ab-bc63-c350-4956-000c64d4b51d@gmail.com>
-In-Reply-To: <baf2b1ab-bc63-c350-4956-000c64d4b51d@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=takondra@cisco.com; 
-x-originating-ip: [2001:420:302:1320:4cd6:d27:b3db:1f59]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a9cf6a83-8c05-4a84-0a5d-08d7a9da4b57
-x-ms-traffictypediagnostic: BYAPR11MB2821:
-x-ld-processed: 5ae1af62-9505-4097-a69a-c1553ef7840e,ExtAddr
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR11MB2821D3A69756753295BA0192C8020@BYAPR11MB2821.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0304E36CA3
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(4636009)(396003)(366004)(39860400002)(136003)(346002)(376002)(199004)(189003)(66946007)(64756008)(66446008)(76116006)(66476007)(66556008)(5660300002)(52536014)(71200400001)(55016002)(9686003)(4744005)(4326008)(8676002)(8936002)(2906002)(478600001)(81156014)(81166006)(54906003)(186003)(86362001)(33656002)(7696005)(110136005)(316002)(53546011)(6506007);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR11MB2821;
-	H:BYAPR11MB3366.namprd11.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: cisco.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: QGi9FZxQ/PHuIJZazXiyfKuFUcdYXLm9tgTXM99lI8ekd4k/mLOmiQm+XEV7QWklY/XxqDrx44MKdUJIyQjA/7otoiJ0H7yQA+776qRvHzoqF336PGkeWRYWWrvVnEMnsQmefEXfslwwKus9S924+Of3m9ma6d1NzMapZZEwH5F42d6dGWY+wgd3RA3mPwSU4y9YA9Z94zs9MsBZGf5BxEvG3qoBYG2PHe/BqHZLQMlswuwUJJ5ckpAVoHPppfHBZmhufKtkKlzzcEsGaRVioqU4alKJrwTH9d+bbdBCgmWJ32B4+1AuN/4R3NNS1MT5RCLQUdD2SHL7oMno2P0G7pvREWvOZeI/evy2FL4uWbtsfGxr2JGmsP/TUrHMMbdkyeKtC6Fce0Yn2Y95YYV/XHV3z+UPNWfSxywySR11VWApQKfriGpDsQtDUZ/iW+nR
-x-ms-exchange-antispam-messagedata: SWn0iakWaauYZ1WQznRBhsmEz7GCDOyypeMV+yT5rPZCJxiSQwf0R/hdV6U5SyVtKKhhvWAAs6IybxgpznxZ/mo5F6H1yWWWMmAX4EkXqTzqwEcdJqIR7E6bl9uJ9r28bZ7uMJBjMjfg4OBtW+3Sdrw3w+WJP5/mOBEK2w4v3lF203piGEAbqrKfnOqF5eCInsNG4gWFsKg99EQ1nYAdAw==
+	Wed,  5 Feb 2020 02:42:44 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id g1so753252wmh.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 04 Feb 2020 18:42:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ggnt7Y1ePiYPaB9qWUcfS8Z10ik/TWenBoH8EhyP4rY=;
+	b=F57QargPKd1hBgmcNn04dXCVqVNvOlcwRMkheUY10CTUQY6SuQkNxQWwjl6o/EqCIt
+	Ia/px+3CS49/53Zb/PYhX5Oe8GauTrBwsaPe9mAy+4fMtiKQVfLm8U3bL64K3NOjwV3o
+	E2zOBXUBgMMzsfgQTdC7qyRWXDD9YZThbmLVljdx1wNwLNcM6A29vShqZTvT28PYCYn5
+	yic9MRNAklc0FuckMvAFijRfrW8h7E33pL3TYdVhkcTl7Dhsv8o1J/RqY3/tHOqV9ka1
+	F+lqj9LGE3H1J2Hv/ui9ZHhqeMoUXldfUruAxun9HTRZEWyynPs3gBdeVq03ma68kH0U
+	B0dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ggnt7Y1ePiYPaB9qWUcfS8Z10ik/TWenBoH8EhyP4rY=;
+	b=CF8/qIK8aP6Xma74iceqdbU401ETrfGWPwlC/OD4He9aW4axST8iZTCGPfAfIVYPcR
+	nwqo9xdNVoSIYvCB5XfG359cYpbkKutWkw2EenpEw0X1CrVvjLDz6jb15jJThrsWAVk4
+	UtYs/5q7AJPcwqj/1Zz3jEZScesHfuc8+K8ZKaexzx0eXwUspTbVbh6Bjc5rn9PG2uem
+	a7zKpW2Oc7H95gO+20XX5b7vtxS0utzvl6MTvKTvxz+bH6PSE7o8m+PoPqp2O0izDgq0
+	LuD8cj3jqUlSz0gpu/5WSh10K5kkUObi7/QrTi5TMBNngu9xvvUJRINFWxpiUnV1SVRV
+	gm9g==
+X-Gm-Message-State: APjAAAVCC3PP1VfKYEORyYt7ihi8AqHUtWdv/fZK60etDX/ngaYw+Vgy
+	jJoqntbrxCH+lFLNnWjRM08sd70r
+X-Google-Smtp-Source: APXvYqwuaLRA0iS45LDz5MXF5Y0/OK1sb4V3TLJro3ZoFGjM1B0I+6La5KASChiIBz2a0IOBweIMxw==
+X-Received: by 2002:a05:600c:20c6:: with SMTP id
+	y6mr2386295wmm.95.1580870564933; 
+	Tue, 04 Feb 2020 18:42:44 -0800 (PST)
+Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
+	n16sm33032896wro.88.2020.02.04.18.42.43
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 04 Feb 2020 18:42:43 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Feb 2020 03:42:38 +0100
+Message-Id: <20200205024241.27828-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9cf6a83-8c05-4a84-0a5d-08d7a9da4b57
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Feb 2020 01:25:32.6376 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: To39TwAiuS0HxfzAA5PUqThRT9pv0LqJTs/62w4XWW2hvrN9HJVvYorF5Hns4CmF4+mM8l2RkysKnaSDxHlKRw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR11MB2821
-X-OriginatorOrg: cisco.com
-X-Outbound-SMTP-Client: 173.36.7.18, xch-aln-008.cisco.com
-X-Outbound-Node: rcdn-core-6.cisco.com
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"xe-linux-external\(mailer list\)" <xe-linux-external@cisco.com>
-Subject: Re: [PATCH] gcc-9.2: fix bug #91102 'aarch64 ICE on Linux kernel with -Os'
+Subject: [PATCH 1/4] kernel-yocto.bbclass: set KERNEL_LD also for merge_config.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -129,21 +58,217 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Feb 2020 01:25:44 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Wed, 05 Feb 2020 02:42:45 -0000
 Content-Transfer-Encoding: quoted-printable
 
-On Mon 2/3/20 20:17 akuster808 wrote:=0A=
-> On 2/3/20 7:57 PM, Khem Raj wrote:=0A=
-> > this is ok. Also please ask it to be backported to 9.3 on gcc bugzilla=
-=0A=
-=0A=
-Asked to add it to 9.3 in the bugzilla.=0A=
-=0A=
-> =0A=
-> And zeus : )=0A=
-=0A=
-The patch applies to zeus branch as is without conflicts.=0A=
-Should still resend it separately for Zeus?=
+* when ld-is-gold is used, merge_config.sh silently fails and doesn't gener=
+ate anything
+  useful in .config (and also include directory isn't created):
+
+  tmp-glibc-bfd-qemux86-do_kernel_configme/work/qemux86-oe-linux/linux-yoct=
+o/5.4.15-r0/linux-qemux86-standard-build:
+  total 164K
+  drwxr-xr-x 4 martin martin 4.0K Feb  5 02:27 .
+  drwxrwxr-x 7 martin martin 4.0K Feb  5 02:27 ..
+  -rw-rw-r-- 1 martin martin 133K Feb  5 02:28 .config
+  -rw-rw-r-- 1 martin martin   39 Feb  5 02:27 .gitignore
+  drwxr-xr-x 4 martin martin 4.0K Feb  5 02:27 include
+  -rw-rw-r-- 1 martin martin  201 Feb  5 02:27 Makefile
+  drwxrwxr-x 4 martin martin 4.0K Feb  5 02:27 scripts
+  lrwxrwxrwx 1 martin martin   61 Feb  5 02:27 source -> /OE/build/oe-core/=
+tmp-glibc/work-shared/qemux86/kernel-source
+
+  tmp-glibc-gold-qemux86-do_kernel_configme/work/qemux86-oe-linux/linux-yoc=
+to/5.4.15-r0/linux-qemux86-standard-build:
+  total 28K
+  drwxr-xr-x 3 martin martin 4.0K Feb  5 02:26 .
+  drwxrwxr-x 7 martin martin 4.0K Feb  5 02:26 ..
+  -rw-rw-r-- 1 martin martin   74 Feb  5 02:26 .config
+  -rw-rw-r-- 1 martin martin   39 Feb  5 02:26 .gitignore
+  -rw-rw-r-- 1 martin martin  201 Feb  5 02:26 Makefile
+  drwxrwxr-x 4 martin martin 4.0K Feb  5 02:26 scripts
+  lrwxrwxrwx 1 martin martin   61 Feb  5 02:26 source -> /OE/build/oe-core/=
+tmp-glibc/work-shared/qemux86/kernel-source
+
+  $ cat tmp-glibc-gold-qemux86-do_kernel_configme/work/qemux86-oe-linux/lin=
+ux-yocto/5.4.15-r0/linux-qemux86-standard-build/.config
+  CONFIG_LOCALVERSION=3D"-yocto-standard"
+
+* and because the failure is silent, it will happily start building
+  kernel with default defconfig, which even builds OK for qemux86-64
+  but on qemux86 I've noticed this issue, because incorrectly
+  configured kernel build fails with:
+
+  $ tail -n 20 tmp-glibc-gold-qemux86/work/qemux86-oe-linux/linux-yocto/5.4=
+.15-r0/temp/log.do_compile
+    LD       /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/=
+5.4.15-r0/linux-qemux86-standard-build/tools/objtool/libsubcmd-in.o
+    AR       /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/=
+5.4.15-r0/linux-qemux86-standard-build/tools/objtool/libsubcmd.a
+    HOSTCC  scripts/mod/mk_elfconfig
+    CC      scripts/mod/devicetable-offsets.s
+    CC      scripts/mod/empty.o
+  cc1: error: code model 'kernel' not supported in the 32 bit mode
+  cc1: sorry, unimplemented: 64-bit mode not compiled in
+  make[2]: *** [/OE/build/oe-core/tmp-glibc/work-shared/qemux86/kernel-sour=
+ce/scripts/Makefile.build:99: scripts/mod/devicetable-offsets.s] Error 1
+  make[2]: *** Waiting for unfinished jobs....
+  cc1: error: code model 'kernel' not supported in the 32 bit mode
+  cc1: sorry, unimplemented: 64-bit mode not compiled in
+  make[2]: *** [/OE/build/oe-core/tmp-glibc/work-shared/qemux86/kernel-sour=
+ce/scripts/Makefile.build:266: scripts/mod/empty.o] Error 1
+  make[1]: *** [/OE/build/oe-core/tmp-glibc/work-shared/qemux86/kernel-sour=
+ce/Makefile:1111: prepare0] Error 2
+  make[1]: *** Waiting for unfinished jobs....
+    LD       /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/=
+5.4.15-r0/linux-qemux86-standard-build/tools/objtool/objtool-in.o
+  /OE/build/oe-core/tmp-glibc/work-shared/qemux86/kernel-source/tools/objto=
+ol
+    LINK     /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/=
+5.4.15-r0/linux-qemux86-standard-build/tools/objtool/objtool
+  make: *** [/OE/build/oe-core/tmp-glibc/work-shared/qemux86/kernel-source/=
+Makefile:179: sub-make] Error 2
+  WARNING: exit code 1 from a shell command.
+
+* the issue happens in log.do_kernel_configme, but the log is completely us=
+eless:
+
+  cat tmp-glibc-gold-qemux86-do_kernel_configme/work/qemux86-oe-linux/linux=
+-yocto/5.4.15-r0/temp/log.do_kernel_configme
+  DEBUG: Executing python function extend_recipe_sysroot
+  NOTE: Direct dependencies are ['virtual:native:/OE/build/oe-core/openembe=
+dded-core/meta/recipes-devtools/bison/bison_3.5.bb:do_populate_sysroot', '/=
+OE/build/oe-core/openembedded-core/meta/recipes-kernel/kern-tools/kern-tool=
+s-native_git.bb:do_populate_sysroot', 'virtual:native:/OE/build/oe-core/ope=
+nembedded-core/meta/recipes-extended/bc/bc_1.07.1.bb:do_populate_sysroot', =
+'/OE/build/oe-core/openembedded-core/meta/recipes-devtools/binutils/binutil=
+s-cross_2.33.bb:do_populate_sysroot', '/OE/build/oe-core/openembedded-core/=
+meta/recipes-devtools/quilt/quilt-native_0.66.bb:do_populate_sysroot', '/OE=
+/build/oe-core/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_9.2.bb=
+:do_populate_sysroot']
+  NOTE: Installed into sysroot: ['bison-native', 'bc-native', 'binutils-cro=
+ss-i686', 'gcc-cross-i686', 'autoconf-native', 'xz-native', 'flex-native', =
+'gnu-config-native', 'automake-native', 'libtool-native', 'texinfo-dummy-na=
+tive', 'gettext-minimal-native', 'readline-native', 'zlib-native', 'gmp-nat=
+ive', 'libmpc-native', 'mpfr-native', 'linux-libc-headers', 'm4-native', 'n=
+curses-native', 'pkgconfig-native']
+  NOTE: Skipping as already exists in sysroot: ['kern-tools-native', 'quilt=
+-native']
+  DEBUG: sed -e 's:^[^/]*/:/OE/build/oe-core/tmp-glibc/work/qemux86-oe-linu=
+x/linux-yocto/5.4.15-r0/recipe-sysroot-native/:g' /OE/build/oe-core/tmp-gli=
+bc/sysroots-components/x86_64/bison-native/fixmepath /OE/build/oe-core/tmp-=
+glibc/sysroots-components/x86_64/gcc-cross-i686/fixmepath /OE/build/oe-core=
+/tmp-glibc/sysroots-components/x86_64/autoconf-native/fixmepath /OE/build/o=
+e-core/tmp-glibc/sysroots-components/x86_64/gnu-config-native/fixmepath /OE=
+/build/oe-core/tmp-glibc/sysroots-components/x86_64/automake-native/fixmepa=
+th /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/libtool-native/fi=
+xmepath /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/gmp-native/f=
+ixmepath /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/ncurses-nat=
+ive/fixmepath /OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/pkgcon=
+fig-native/fixmepath | xargs sed -i -e 's:FIXMESTAGINGDIRTARGET:/OE/build/o=
+e-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/5.4.15-r0/recipe-sysroot=
+:g; s:FIXMESTAGINGDIRHOST:/OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux=
+/linux-yocto/5.4.15-r0/recipe-sysroot-native:g' -e 's:FIXME_PSEUDO_SYSROOT:=
+/OE/build/oe-core/tmp-glibc/sysroots-components/x86_64/pseudo-native:g' -e =
+'s:FIXME_HOSTTOOLS_DIR:/OE/build/oe-core/tmp-glibc/hosttools:g' -e 's:FIXME=
+_PKGDATA_DIR:/OE/build/oe-core/tmp-glibc/pkgdata/qemux86:g' -e 's:FIXME_PSE=
+UDO_LOCALSTATEDIR:/OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-y=
+octo/5.4.15-r0/pseudo/:g' -e 's:FIXME_LOGFIFO:/OE/build/oe-core/tmp-glibc/w=
+ork/qemux86-oe-linux/linux-yocto/5.4.15-r0/temp/fifo.10476:g'
+  DEBUG: Python function extend_recipe_sysroot finished
+  DEBUG: Executing shell function do_kernel_configme
+  DEBUG: Shell function do_kernel_configme finished
+
+  ]because merge_config.sh is redirected to work-shared/qemux86/kernel-sour=
+ce/.kernel-meta/cfg/merge_config_build.log
+  and bbfatal_log called in do_kernel_configme only when merge_config.sh fa=
+ils which it should in this case
+  but doesn't.
+
+  The merge_config_build.log shows 5.4 specific error:
+    scripts/Kconfig.include:39:  gold linker 'i686-oe-linux-ld' not support=
+ed
+  but then it happily continues reporting what isn't applied in not created
+  .config file
+
+  --- tmp-glibc-bfd-qemux86-do_kernel_configme/work-shared/qemux86/kernel-s=
+ource/.kernel-meta/cfg/merge_config_build.log  2020-02-05 02:28:01.45552020=
+7 +0100
+  +++ tmp-glibc-gold-qemux86-do_kernel_configme/work-shared/qemux86/kernel-=
+source/.kernel-meta/cfg/merge_config_build.log 2020-02-05 02:26:30.65647090=
+9 +0100
+  @@ -171,586 +171,5113 @@
+     HOSTCC  scripts/kconfig/symbol.o
+     HOSTLD  scripts/kconfig/conf
+   scripts/kconfig/conf  --alldefconfig Kconfig
+  -./.tmp.config.jDjIEYi9Yq:2208:warning: unexpected data:  #
+  -./.tmp.config.jDjIEYi9Yq:2209:warning: unexpected data:  # Generic Drive=
+r Options
+  -./.tmp.config.jDjIEYi9Yq:2210:warning: unexpected data:  #
+  -./.tmp.config.jDjIEYi9Yq:3102:warning: symbol value 'm' invalid for SAMP=
+LE_SECCOMP
+  -./.tmp.config.jDjIEYi9Yq:3119:warning: symbol value 'm' invalid for NF_C=
+T_PROTO_GRE
+  -./.tmp.config.jDjIEYi9Yq:3120:warning: symbol value 'm' invalid for NF_C=
+T_PROTO_SCTP
+  -./.tmp.config.jDjIEYi9Yq:3121:warning: symbol value 'm' invalid for NF_C=
+T_PROTO_UDPLITE
+  -#
+  -# configuration written to .config
+  -#
+  +scripts/Kconfig.include:39:  gold linker 'i686-oe-linux-ld' not supported
+  +make[2]: *** [/OE/build/oe-core/tmp-glibc/work-shared/qemux86/kernel-sou=
+rce/scripts/kconfig/Makefile:73: alldefconfig] Error 1
+  +make[1]: *** [/OE/build/oe-core/tmp-glibc/work-shared/qemux86/kernel-sou=
+rce/Makefile:567: alldefconfig] Error 2
+   make[1]: Leaving directory '/OE/build/oe-core/tmp-glibc/work/qemux86-oe-=
+linux/linux-yocto/5.4.15-r0/linux-qemux86-standard-build'
+  +make: *** [Makefile:179: sub-make] Error 2
+  +grep: /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/5.4.=
+15-r0/linux-qemux86-standard-build/.config: No such file or directory
+  +Value requested for CONFIG_LOCALVERSION not in final .config
+  +Requested value:  CONFIG_LOCALVERSION=3D""
+  +Actual value:
+  +
+  +grep: /OE/build/oe-core/tmp-glibc/work/qemux86-oe-linux/linux-yocto/5.4.=
+15-r0/linux-qemux86-standard-build/.config: No such file or directory
+  +Value requested for CONFIG_LOCALVERSION_AUTO not in final .config
+  +Requested value:  # CONFIG_LOCALVERSION_AUTO is not set
+  +Actual value:
+
+* I don't know why merge_config.sh uses separate more difficult to find mer=
+ge_config_build.log
+  instead of leaving the output to end in log.do_kernel_configme, I'll send=
+ it as separate
+  commit so that it can be discussed there.
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.=
+bbclass
+index 141eeafeb9..d2796b01bf 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -345,7 +345,7 @@ do_kernel_configme() {
+ 		bbfatal_log "Could not find configuration queue (${meta_dir}/config.queu=
+e)"
+ 	fi
+=20
+-	CFLAGS=3D"${CFLAGS} ${TOOLCHAIN_OPTIONS}"	HOSTCC=3D"${BUILD_CC} ${BUILD_C=
+FLAGS} ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}" CC=3D"${KERNEL_CC}" ARCH=
+=3D${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}=
+/cfg/merge_config_build.log 2>&1
++	CFLAGS=3D"${CFLAGS} ${TOOLCHAIN_OPTIONS}"	HOSTCC=3D"${BUILD_CC} ${BUILD_C=
+FLAGS} ${BUILD_LDFLAGS}" HOSTCPP=3D"${BUILD_CPP}" CC=3D"${KERNEL_CC}" LD=3D=
+"${KERNEL_LD}" ARCH=3D${ARCH} merge_config.sh -O ${B} ${config_flags} ${con=
+figs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
+ 	if [ $? -ne 0 ]; then
+ 		bbfatal_log "Could not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}"
+ 	fi
+--=20
+2.20.1
+
 
