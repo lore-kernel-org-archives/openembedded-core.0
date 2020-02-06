@@ -1,50 +1,56 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AADE60582
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+	[209.85.167.196])
+	by mail.openembedded.org (Postfix) with ESMTP id CC71860D27
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 22:15:12 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id w15so303214wru.4
+	Thu,  6 Feb 2020 22:16:26 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id v19so6262439oic.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 14:15:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lW8AKXHvh/TVygC1hPJsFkNprYRsq5dZ9WMWdAg6NTA=;
-	b=ZAyYoqXfGncmyWy2GDmXHlC+IKMM1uctwWx7O/ABZ1JFArRSkpSwGOkcuoBhY96qTC
-	7lS9IhS8MMUwNT7mwTXNr4sGh8pAJIj5MJOLRnj014EbTXkjs+cyt8ArVnQ2QstiCm4O
-	24E3XPiPzDOrDO5HcUH28CQRAuXyKEe8hX8kLcNhVWec+rMroDy8d5LDPkweP7/O+50q
-	S3p71JKHmNUZ8XuZzAM79AVfu3TGIy7DR2+e2LXkMwvH7oHKlECIK3cQk0Bqd7vNOjz8
-	caUiccuJHn9vrtHcbRngFkxD4l/WA9fVskU5OhelMKLAWW5uG3SNsgXXGWdFC07DUEgk
-	zGmQ==
+	Thu, 06 Feb 2020 14:16:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=exqFZPzOXU2GmxUb5rbw9kB9U2RtadCs0SYMFl+1iaY=;
+	b=KIKm/lDfSljSL5qzFzJR1EUjA7dGbGeHhbHCrHPquezOL2wIoX4VionYllyn62qpz8
+	HYvAoeaWch0CYN0xgq7IvULhp6DU5OoEfQIX9V9Q+RX8nVbuSqC9w7VYy5ECWhSJPumv
+	TFjuumj+lHaCqDagsyj6Z8dCGpSsdtHrO+EYF8IAvl99dv515ZdMsSq2r95cFtnwZQDW
+	4CNEFgq8hwqro/FDPbsvRPO2tY9dARSnLalkL9h7XPl59ftST8zzEPs045MBCzOYIKbR
+	icXJVjJoxYEdO/6J+5pYKOM2OY0Rz2yRSBkeUwEPC3tsa4y/Nz2XJx1QHU7N9H1XozCj
+	vXfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lW8AKXHvh/TVygC1hPJsFkNprYRsq5dZ9WMWdAg6NTA=;
-	b=a9z00o3gcnFZwQUkM73zvopm9k0b0iT0eA/nmm66x7owPhpiKQaV50P+wyqJ33LLXR
-	zm9WWnVYNO7bcradACSfC+UcTmuTCMsbWEXz9BkGkjjaZIQ8/Spt+jHVVkXEv34/mma+
-	DcCoftwkdQUK0gxiDkWZH2XeGEq87D1SWHGSgTr8P3ThRP2/emX4orGGYSkJdawiAlov
-	x6HmQJ62OJq2JMG7c0CjoVfEOEIgdeid16kS77OMZ77qBGsteondSNemJQu/QFnvC0ju
-	Xw8rh3K9Ov57PKoe6tltRAgCJ2ZlVdgbllQ29gWjiArKouob42m10qXwpC94BseMhPm2
-	cn4w==
-X-Gm-Message-State: APjAAAX3SeTAWyTr7iPgZbuLuzfbnryCsx8FwuNQFQ8lDxWcgzCwQs10
-	eT93cl6J0gJAX+5+4Y7ozgv/mtzX
-X-Google-Smtp-Source: APXvYqxvRt4cZW8pDqe6uvkQ9nsybrNjonbvkvSUstAle3W1vdP+/xu8yM4eddoy85U069SOGrCUcw==
-X-Received: by 2002:adf:f80c:: with SMTP id s12mr138674wrp.1.1581027312403;
-	Thu, 06 Feb 2020 14:15:12 -0800 (PST)
-Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
-	[95.168.152.69])
-	by smtp.gmail.com with ESMTPSA id w1sm868249wro.72.2020.02.06.14.15.11
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 06 Feb 2020 14:15:11 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=exqFZPzOXU2GmxUb5rbw9kB9U2RtadCs0SYMFl+1iaY=;
+	b=cstWVMvIoKWQ1Eg1st1H8rxWe1u3BM5u92mddZm/KGZ4ZLZw7jRQO60NN10c4hlo/s
+	rirAwMW0cvdglVl/qRsxZEsui1pPuEnNzvyyoGStm+JksHp7A5LOIQVxY1QtfP9Pad5e
+	N0q+zGGGwJ+H9eDuGdz0HtJHgUH1N8gyVniPVPGv42cycMHkSwmmz/VKVx+yaudel/NS
+	op8Vkh3zG9/fEY2tDWjIacwRq60VJ8c4e4vdi2OKR7jJF4rL2qgzY95ltpCCAv2AnbnM
+	IR2XXnryKoHDkTJ1ACMUpIhDOyVue23Kqb8I/XUp/fhhmRy9SxuV7+NSO1FZmGdbYW0N
+	XDgQ==
+X-Gm-Message-State: APjAAAV9Voj9aZBrrRr/EEzeJs5WdloEePT1olcLwNhz3110Hh1Qoh81
+	W/TgNC529IHJXGlbrgiYj3Z3Whg72kQ=
+X-Google-Smtp-Source: APXvYqy62beMkVJGy2xNMPw9MaeAvzOSSQauVr1bp4SAaPk9kxMylgQ787oMHp7lPgFR3MAyoB2/qQ==
+X-Received: by 2002:a05:6808:249:: with SMTP id m9mr90054oie.5.1581027387508; 
+	Thu, 06 Feb 2020 14:16:27 -0800 (PST)
+Received: from ?IPv6:2600:1700:4c90:60a0:853c:fd5c:c2af:f5f9?
+	([2600:1700:4c90:60a0:853c:fd5c:c2af:f5f9])
+	by smtp.gmail.com with ESMTPSA id r80sm329798oie.41.2020.02.06.14.16.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Thu, 06 Feb 2020 14:16:26 -0800 (PST)
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2020 23:14:38 +0100
-Message-Id: <20200206221438.2090-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
+References: <20200206220704.1109-1-ross@burtonini.com>
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Message-ID: <5bbb4e00-46c4-8196-e9ae-1b665479aa2b@mvista.com>
+Date: Thu, 6 Feb 2020 14:16:22 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.2
 MIME-Version: 1.0
-Subject: [PATCH] perl: do not install files that contain build host specific data
+In-Reply-To: <20200206220704.1109-1-ross@burtonini.com>
+Subject: Re: [PATCH] perl: don't package the host configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,49 +63,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 22:15:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 06 Feb 2020 22:16:26 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-This was breaking reproducibility, and the files aren't needed on
-target.
+Should that bug number be 13772 not 13372?
 
-[YOCTO #13772]
+On 2/6/2020 2:07 PM, Ross Burton wrote:
+> From: Ross Burton <ross.burton@intel.com>
+>
+> `make install` installs xconfig.h, which is the configuration of the
+> *build host* used when building miniperl, used to bootstrap the Perl
+> build.
+>
+> As this changes depending on the build host, remove don't install it.
+>
+> [ YOCTO #13372 ]
+>
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
+> ---
+>   meta/recipes-devtools/perl/perl_5.30.1.bb | 4 ++++
+>   1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
+> index d4b6bb32b43..8af9dfa4a2c 100644
+> --- a/meta/recipes-devtools/perl/perl_5.30.1.bb
+> +++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
+> @@ -139,6 +139,10 @@ do_install() {
+>       # Fix up shared library
+>       rm ${D}/${libdir}/perl5/${PV}/*/CORE/libperl.so
+>       ln -sf ../../../../libperl.so.${PERL_LIB_VER} $(echo ${D}/${libdir}/perl5/${PV}/*/CORE)/libperl.so
+> +
+> +    # This is the native configuration for the bootstrap perl, don't need it
+> +    # packaged.
+> +    rm -f ${D}${libdir}/perl5/${PV}/*/CORE/xconfig.h
+>   }
+>   
+>   do_install_append_class-target() {
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-devtools/perl/perl-ptest.inc | 3 +++
- meta/recipes-devtools/perl/perl_5.30.1.bb | 3 +++
- 2 files changed, 6 insertions(+)
-
-diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
-index 7152057762..9e708f791d 100644
---- a/meta/recipes-devtools/perl/perl-ptest.inc
-+++ b/meta/recipes-devtools/perl/perl-ptest.inc
-@@ -42,6 +42,9 @@ do_install_ptest () {
- 
- 	 # Remove a useless timestamp...
- 	 sed -i -e '/Autogenerated starting on/d' ${D}${PTEST_PATH}/lib/unicore/mktables.lst
-+
-+         # Remove files with host-specific configuration for building native binaries
-+         rm ${D}${PTEST_PATH}/Makefile.config ${D}${PTEST_PATH}/xconfig.h ${D}${PTEST_PATH}/xconfig.sh
- }
- 
- python populate_packages_prepend() {
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index 3634122686..dcdabb692d 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -144,6 +144,9 @@ do_install_append_class-target() {
-     # This is used to substitute target configuration when running native perl via perl-configpm-switch.patch
-     ln -s Config_heavy.pl ${D}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/Config_heavy-target.pl
- 
-+    # This contains host-specific information used for building miniperl (a helper executable built with host compiler)
-+    # and therefore isn't reproducible. I believe the file isn't actually needed on target.
-+    rm ${D}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/CORE/xconfig.h
- }
- 
- do_install_append_class-nativesdk() {
 -- 
-2.25.0
+Jeremy A. Puhlman
+jpuhlman@mvista.com
 
 
