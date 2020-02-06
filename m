@@ -1,54 +1,33 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D75E160C16
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 4363C608A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 10:39:43 +0000 (UTC)
-Received: by mail-il1-f196.google.com with SMTP id f5so4650304ilq.5
+	Thu,  6 Feb 2020 11:11:51 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,409,1574092800"; d="scan'208";a="82957620"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Feb 2020 19:11:50 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id 1F92850A9961
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 02:39:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=/1qQoGyod6NdQu7OZ/NgoMwp8aI6nX0JbHgkGmcofc0=;
-	b=PvdCgnuFEB5MRnAe0ng+KViZnUAm0N0MqGvV2xcBQOmVW737HllBOHKFD+YP0B/9I/
-	MVNW+J8Qv+ws2NI2lBc8yrL0+jJlrTj7MHG7hnghyM7qRwJopKWuqZC/maImzQt1u82f
-	3TPxwDau2aFSUkvVlNgi/2PPafEBC4gj4RtuKozwM6bnDOHJt2FvuS4deD5ysRMqr5NU
-	Az4cM1BzIdoTX1z1uhbh1eHYGO5TxCzJMiK6t6ix6x5PCQWt9Nh8Z2DwuJR9tIvOJEue
-	APH23BqUVHkdsHu3EgdDnL3rOr7dstE7ZT5M2AzE4OLnIASW+QavvsUBR31D2zjNFEM4
-	5PjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=/1qQoGyod6NdQu7OZ/NgoMwp8aI6nX0JbHgkGmcofc0=;
-	b=Sd4ujPL8BYEt2KIGNEy1/goJu1obMpcEPk3Ux/h4RsXbC1Ib3ARG9iEkQPkTqUuHo4
-	/zx/NzpFy89XydEslAFs/df1n3NfaOAkbpC6EL/hRdd+yOdeDNS5p5CSP+YQ/sVohL50
-	d26VBA7JsuAE8VNOZl7wphmT37nsHIBEp4KqAkrPCULicEFTtI4dMnocx8ZV/KY02oRD
-	49hMYxM1oxn1lKCnwCelPrkKQwmHvtyNkvX8CpdI++/CBdAAek4hwgUhSJGDwhjSC7rf
-	1gcO7jiBpbgq3bN/v19pTCS9+nACbvRylMrZ8XNUun72UidMVoTv2y+hQYZRAPOUzuNc
-	pYDQ==
-X-Gm-Message-State: APjAAAVW+2Mj93XCDjNvORyNwaOXU3z7x2MYqOLYzWa5RuHyCCAG8vik
-	cGH2LS65TvhHJEYeGHStFcjsPtmNRs6Lzt1evt0=
-X-Google-Smtp-Source: APXvYqyIS7F+RLWtmTdVq4YPRc+8dNbmqrdzkbdzKKdI5hQfmuy/OiKfLOnmTaRQje4MYbYwe+yd6vDxTO27aa6Y2CM=
-X-Received: by 2002:a92:d5cf:: with SMTP id d15mr3066998ilq.306.1580985584782; 
-	Thu, 06 Feb 2020 02:39:44 -0800 (PST)
+	Thu,  6 Feb 2020 19:02:21 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Thu, 6 Feb 2020 19:11:34 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 6 Feb 2020 19:11:42 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Feb 2020 11:02:54 -0800
+Message-ID: <1581015774-46438-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Received: by 2002:ad5:5d0d:0:0:0:0:0 with HTTP;
-	Thu, 6 Feb 2020 02:39:44 -0800 (PST)
-In-Reply-To: <CAA=hcWSAbcf9GchJN_+-DzMDYJQfMKBGYHmJzRNwY5P_szMvOg@mail.gmail.com>
-References: <CAA=hcWSCZROrpDBWV5ZAA+LV6j0cjRSKxyjonOfWS4mCZAtdHg@mail.gmail.com>
-	<CAAx3WaDGin=NcQk3X4=MTK8RfTrNO=LvrG+LbAyrWFUnWgU9aQ@mail.gmail.com>
-	<CAA=hcWSAbcf9GchJN_+-DzMDYJQfMKBGYHmJzRNwY5P_szMvOg@mail.gmail.com>
-From: JH <jupiter.hce@gmail.com>
-Date: Thu, 6 Feb 2020 21:39:44 +1100
-Message-ID: <CAA=hcWR7vHD9AbgkJXTxQD3dvQCdc0oo6eXzP3T2NSnyhdYsQQ@mail.gmail.com>
-To: Gabriele Zampieri <gabbla.malist@gmail.com>
-Cc: Meta Freescale <meta-freescale@yoctoproject.org>,
-	Yocto discussion list <yocto@yoctoproject.org>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Support UBI u-boot
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: 1F92850A9961.A1B4C
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] mesa: upgrade 19.3.1 -> 19.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,18 +40,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 10:39:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Feb 2020 11:11:52 -0000
+Content-Type: text/plain
 
-On 2/6/20, JH <jupiter.hce@gmail.com> wrote:
-> I think I need to add an appended recipes-bsp to my layer just like I
-> added the recipes-kernel to my layer to overwrite kernel defconfig, I
-> need to overwrite u-boot defconfig.
->
-> In kernel, to overwrite defconfig, I run bitbake -c menuconfig
-> virtual/kernel, how can I generate u-boot defconfig, to run bitbake -c
-> menuconfig u-boot?
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../mesa/{mesa-gl_19.3.1.bb => mesa-gl_19.3.3.bb}             | 0
+ meta/recipes-graphics/mesa/{mesa_19.3.1.bb => mesa_19.3.3.bb} | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_19.3.1.bb => mesa-gl_19.3.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_19.3.1.bb => mesa_19.3.3.bb} (88%)
 
-Hmm, more complicated than I thought, it does not have defconfig in
-u-boot like kernel does, how do you overwrite u-boot config in Yocto?
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.3.1.bb b/meta/recipes-graphics/mesa/mesa-gl_19.3.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_19.3.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_19.3.3.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_19.3.1.bb b/meta/recipes-graphics/mesa/mesa_19.3.3.bb
+similarity index 88%
+rename from meta/recipes-graphics/mesa/mesa_19.3.1.bb
+rename to meta/recipes-graphics/mesa/mesa_19.3.3.bb
+index b889f092e3..7e0c5d6500 100644
+--- a/meta/recipes-graphics/mesa/mesa_19.3.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.3.3.bb
+@@ -9,8 +9,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0001-meson-misdetects-64bit-atomics-on-mips-clang.patch \
+            "
+ 
+-SRC_URI[md5sum] = "5c5965db31993af47fee82c9a7ccba5e"
+-SRC_URI[sha256sum] = "cd951db69c56a97ff0570a7ab2c0e39e6c5323f4cd8f4eb8274723e033beae59"
++SRC_URI[md5sum] = "00010e0bb8f6641276ff6cb3e9386114"
++SRC_URI[sha256sum] = "81ce4810bb25d61300f8104856461f4d49cf7cb794aa70cb572312e370c39f09"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
+-- 
+2.17.1
+
+
+
 
