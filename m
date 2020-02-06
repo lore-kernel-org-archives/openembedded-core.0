@@ -1,52 +1,50 @@
-Return-Path: <ross@burtonini.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 943F56062D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AADE60582
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 22:07:09 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id f129so564817wmf.2
+	Thu,  6 Feb 2020 22:15:12 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id w15so303214wru.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 14:07:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=burtonini-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
+	Thu, 06 Feb 2020 14:15:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=q+tcBGq7BL9U2BUFSi1N/LNfBx0ABS+yTkIDMZJo4Wk=;
-	b=vjVSe64KdoB+XI4FPzUxr8+Ib3YeaNtAmDpF0QI96RDQtnLuZWMDb/iOrXqCEpbCa+
-	7oyPuLCNNifZY1YnZ7jqbW0jRlCxQjWTxykYqmZu6gediMSF31cZZlQdbyUfaS3ok5Ne
-	QemOg/F11obO94bLNh/CSqB8lXXh2rRsCJbxzIERUlWIoPDJdfc1AqNxOZvw0WxmtFGU
-	Q1t9jFWdTZqBO3VEolKxrnAIP7iUtlbG0zyENUFOGdJB9Pq2CqZ5wIsEeeTX0H7oqHWj
-	WCAQq0TlwoxOdhAgHbz8LpMZGzEO4RWkSga5MHr5HVBGMQv+GL/HgntenB5LerzJCPq6
-	8YIA==
+	bh=lW8AKXHvh/TVygC1hPJsFkNprYRsq5dZ9WMWdAg6NTA=;
+	b=ZAyYoqXfGncmyWy2GDmXHlC+IKMM1uctwWx7O/ABZ1JFArRSkpSwGOkcuoBhY96qTC
+	7lS9IhS8MMUwNT7mwTXNr4sGh8pAJIj5MJOLRnj014EbTXkjs+cyt8ArVnQ2QstiCm4O
+	24E3XPiPzDOrDO5HcUH28CQRAuXyKEe8hX8kLcNhVWec+rMroDy8d5LDPkweP7/O+50q
+	S3p71JKHmNUZ8XuZzAM79AVfu3TGIy7DR2+e2LXkMwvH7oHKlECIK3cQk0Bqd7vNOjz8
+	caUiccuJHn9vrtHcbRngFkxD4l/WA9fVskU5OhelMKLAWW5uG3SNsgXXGWdFC07DUEgk
+	zGmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=q+tcBGq7BL9U2BUFSi1N/LNfBx0ABS+yTkIDMZJo4Wk=;
-	b=SdGs2G8RrbAwNwF20ByKVZ00roZojpQcpNqBeeDy8yo8Ood98rFPp5/YHQd/UdESkR
-	zZCJdrlmiFBT9eemvKTfvBYwTPSoLhiFuTZ5fRvPtHiTLGk3yrcwikri6Iwl7kEz9qiY
-	+0T8bKlBUfUjzYPgLMvIC05rlcY9WjCcyBCXGlu0fgpNsFWcSMiTiQLbbhwU+UkKYdsg
-	iHkF9n+OgSW+BTfIAMoBxs8VgHNuPv8jnZUb7tH3Y12mi9B+7m3XfHL09xW1p/TL9TQn
-	ZxWQFZdj4C8WA6oMX9Aj0ZSGvF0WDdCrfalTAmfKdxMFzZ8qjGadHmyv/WtEhYKU/4QY
-	gwmg==
-X-Gm-Message-State: APjAAAV/MqirguVZc2v59ruK32RAKg15P4ks2SZbER/oDbEYaw7UmDSc
-	qjLMrknTfKN+AEyF0EEV4ADYzizwXYeYqA==
-X-Google-Smtp-Source: APXvYqwbPHkawNnPZVpJwzOJ1ldN29ZK1cszLLOIX5R9NWRjByJxE4Equ+uf3C5AaytRNGMhalqEFQ==
-X-Received: by 2002:a7b:c119:: with SMTP id w25mr6927991wmi.116.1581026829956; 
-	Thu, 06 Feb 2020 14:07:09 -0800 (PST)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id w1sm844680wro.72.2020.02.06.14.07.09
-	for <openembedded-core@lists.openembedded.org>
+	bh=lW8AKXHvh/TVygC1hPJsFkNprYRsq5dZ9WMWdAg6NTA=;
+	b=a9z00o3gcnFZwQUkM73zvopm9k0b0iT0eA/nmm66x7owPhpiKQaV50P+wyqJ33LLXR
+	zm9WWnVYNO7bcradACSfC+UcTmuTCMsbWEXz9BkGkjjaZIQ8/Spt+jHVVkXEv34/mma+
+	DcCoftwkdQUK0gxiDkWZH2XeGEq87D1SWHGSgTr8P3ThRP2/emX4orGGYSkJdawiAlov
+	x6HmQJ62OJq2JMG7c0CjoVfEOEIgdeid16kS77OMZ77qBGsteondSNemJQu/QFnvC0ju
+	Xw8rh3K9Ov57PKoe6tltRAgCJ2ZlVdgbllQ29gWjiArKouob42m10qXwpC94BseMhPm2
+	cn4w==
+X-Gm-Message-State: APjAAAX3SeTAWyTr7iPgZbuLuzfbnryCsx8FwuNQFQ8lDxWcgzCwQs10
+	eT93cl6J0gJAX+5+4Y7ozgv/mtzX
+X-Google-Smtp-Source: APXvYqxvRt4cZW8pDqe6uvkQ9nsybrNjonbvkvSUstAle3W1vdP+/xu8yM4eddoy85U069SOGrCUcw==
+X-Received: by 2002:adf:f80c:: with SMTP id s12mr138674wrp.1.1581027312403;
+	Thu, 06 Feb 2020 14:15:12 -0800 (PST)
+Received: from linux-f9zs.box (cable-95-168-152-69.cust.telecolumbus.net.
+	[95.168.152.69])
+	by smtp.gmail.com with ESMTPSA id w1sm868249wro.72.2020.02.06.14.15.11
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 06 Feb 2020 14:07:09 -0800 (PST)
-From: Ross Burton <ross@burtonini.com>
+	Thu, 06 Feb 2020 14:15:11 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2020 22:07:04 +0000
-Message-Id: <20200206220704.1109-1-ross@burtonini.com>
-X-Mailer: git-send-email 2.20.1
+Date: Thu,  6 Feb 2020 23:14:38 +0100
+Message-Id: <20200206221438.2090-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-Subject: [PATCH] perl: don't package the host configuration
+Subject: [PATCH] perl: do not install files that contain build host specific data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +57,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 22:07:09 -0000
+X-List-Received-Date: Thu, 06 Feb 2020 22:15:12 -0000
 Content-Transfer-Encoding: 8bit
 
-From: Ross Burton <ross.burton@intel.com>
+This was breaking reproducibility, and the files aren't needed on
+target.
 
-`make install` installs xconfig.h, which is the configuration of the
-*build host* used when building miniperl, used to bootstrap the Perl
-build.
+[YOCTO #13772]
 
-As this changes depending on the build host, remove don't install it.
-
-[ YOCTO #13372 ]
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/perl/perl_5.30.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/perl/perl-ptest.inc | 3 +++
+ meta/recipes-devtools/perl/perl_5.30.1.bb | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
-index d4b6bb32b43..8af9dfa4a2c 100644
---- a/meta/recipes-devtools/perl/perl_5.30.1.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
-@@ -139,6 +139,10 @@ do_install() {
-     # Fix up shared library
-     rm ${D}/${libdir}/perl5/${PV}/*/CORE/libperl.so
-     ln -sf ../../../../libperl.so.${PERL_LIB_VER} $(echo ${D}/${libdir}/perl5/${PV}/*/CORE)/libperl.so
+diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
+index 7152057762..9e708f791d 100644
+--- a/meta/recipes-devtools/perl/perl-ptest.inc
++++ b/meta/recipes-devtools/perl/perl-ptest.inc
+@@ -42,6 +42,9 @@ do_install_ptest () {
+ 
+ 	 # Remove a useless timestamp...
+ 	 sed -i -e '/Autogenerated starting on/d' ${D}${PTEST_PATH}/lib/unicore/mktables.lst
 +
-+    # This is the native configuration for the bootstrap perl, don't need it
-+    # packaged.
-+    rm -f ${D}${libdir}/perl5/${PV}/*/CORE/xconfig.h
++         # Remove files with host-specific configuration for building native binaries
++         rm ${D}${PTEST_PATH}/Makefile.config ${D}${PTEST_PATH}/xconfig.h ${D}${PTEST_PATH}/xconfig.sh
  }
  
- do_install_append_class-target() {
+ python populate_packages_prepend() {
+diff --git a/meta/recipes-devtools/perl/perl_5.30.1.bb b/meta/recipes-devtools/perl/perl_5.30.1.bb
+index 3634122686..dcdabb692d 100644
+--- a/meta/recipes-devtools/perl/perl_5.30.1.bb
++++ b/meta/recipes-devtools/perl/perl_5.30.1.bb
+@@ -144,6 +144,9 @@ do_install_append_class-target() {
+     # This is used to substitute target configuration when running native perl via perl-configpm-switch.patch
+     ln -s Config_heavy.pl ${D}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/Config_heavy-target.pl
+ 
++    # This contains host-specific information used for building miniperl (a helper executable built with host compiler)
++    # and therefore isn't reproducible. I believe the file isn't actually needed on target.
++    rm ${D}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/CORE/xconfig.h
+ }
+ 
+ do_install_append_class-nativesdk() {
 -- 
-2.20.1
+2.25.0
 
 
