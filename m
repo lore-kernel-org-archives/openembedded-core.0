@@ -1,48 +1,35 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
-	[209.85.166.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 955DB600A1
+Return-Path: <wangmy@cn.fujitsu.com>
+X-Greylist: delayed 623 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 06 Feb 2020 07:11:02 UTC
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 824CE60B70
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 06:34:54 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id s6so5065713iol.9
+	Thu,  6 Feb 2020 07:11:02 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,408,1574092800"; d="scan'208";a="82948514"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Feb 2020 15:00:36 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id 30EAB406AB15
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Feb 2020 22:34:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=1eb2RXCmyTB1S8buyh/wDuPzjOjoOwR3b2p2azWf8rs=;
-	b=VUcqclUkf5oApTbSMbGTfUcLIlJLhrucVOgq//WegVNKQ60NL4+huMzvRtefPcVdYV
-	QXe2A/4LoID5iOLOX21fH9KIAJEN5+vhaBYGjj6h2DcwcysS1K9p2oKek3Cw9Uf3Lxv2
-	oPHtgDhx6Bjyhcg589Cmu5T1ikxg0S3v9S6ERAt+TB+SsxKw9Jkj5Ren/BBgkVWIdPdA
-	X7oqsJDZ3fBCriFXPrImlvW5xGxBLTPjSreqN3BIbdP6JxWC8jzgxy6QUlzkJYBlBJtv
-	NkGunayn+Mg/9xdXQBrVR5vmtzMG5roaIUDKXNBw4rZ//bXyU6O7g6fYFvChPDV0gzwh
-	EVfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=1eb2RXCmyTB1S8buyh/wDuPzjOjoOwR3b2p2azWf8rs=;
-	b=bn7T86KJNNKHjO0HtYlgVDkee3P1uLlTRE5p4C9xcuhG9zo89YE7Tdkw5OmUadPqBo
-	rGHDKjepNDTaRNPdRQoOtpqUin8DcYI9DKsPHoN98XR6sjL9VvQC2f4r4WW1+mhjl8LL
-	vDltj6Jpjwq7jjq5zZRWfdjodxR+hZdij4wDEjcPgU+6J0x/DTji9qutUOj37Qz6O08m
-	f4n5/YoagAmYGITXYBRX1Jt8z4tYrQ/TE+oqHFQ4VW8DXBwNOol9f2WKJBkOBzTZARq+
-	+wPywL4Z7atC6vEiYrVi0IJyaAqSZWJNLTgA3XVVR6vKV2h4ihTDka/m9Zs1kx+2MJpm
-	E38w==
-X-Gm-Message-State: APjAAAUVvJZMhxotm07nzNlGTD4tc/t0qttBHQQO07/J81o2VOcR6Voy
-	nXfNQtpih29lm0jw5mRGbQd8gOADbc2SB5ueITkJXVFJOnI=
-X-Google-Smtp-Source: APXvYqxqyqjFDJAEgGurujDeH26RHpn/CwweVo6OY98Mv6SCwQR6jUskKdB9DDRK9pJmg0T8vjakFrpWgrtWnysZD74=
-X-Received: by 2002:a02:6055:: with SMTP id d21mr33814202jaf.21.1580970895556; 
-	Wed, 05 Feb 2020 22:34:55 -0800 (PST)
+	Thu,  6 Feb 2020 14:51:09 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Thu, 6 Feb 2020 15:00:34 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 6 Feb 2020 15:00:43 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Feb 2020 06:52:26 -0800
+Message-ID: <1581000746-42975-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Received: by 2002:ad5:5d0d:0:0:0:0:0 with HTTP;
-	Wed, 5 Feb 2020 22:34:55 -0800 (PST)
-From: JH <jupiter.hce@gmail.com>
-Date: Thu, 6 Feb 2020 17:34:55 +1100
-Message-ID: <CAA=hcWSCZROrpDBWV5ZAA+LV6j0cjRSKxyjonOfWS4mCZAtdHg@mail.gmail.com>
-To: Meta Freescale <meta-freescale@yoctoproject.org>, 
-	Yocto discussion list <yocto@yoctoproject.org>, 
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Cc: U-Boot Mailing List <u-boot@lists.denx.de>
-Subject: Support UBI u-boot
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: 30EAB406AB15.A4261
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] lighttpd: upgrade 1.4.54 -> 1.4.55
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,53 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 06:34:54 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Feb 2020 07:11:03 -0000
+Content-Type: text/plain
 
-Hi,
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../lighttpd/{lighttpd_1.4.54.bb => lighttpd_1.4.55.bb}       | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/lighttpd/{lighttpd_1.4.54.bb => lighttpd_1.4.55.bb} (96%)
 
-Sorry for cross-posting, I have been asking for helping solving the
-issue many days ago, but could not get those work.
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+similarity index 96%
+rename from meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb
+rename to meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+index 20ce698729..7a255ce2f2 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.54.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.55.bb
+@@ -19,8 +19,8 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+         file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch \
+         "
+ 
+-SRC_URI[md5sum] = "7abc776243c811e9872f73ab38b7f8b5"
+-SRC_URI[sha256sum] = "cf14cce2254a96d8fcb6d3181e1a3c29a8f832531c3e86ff6f2524ecda9a8721"
++SRC_URI[md5sum] = "be4bda2c28bcbdac6eb941528f6edf03"
++SRC_URI[sha256sum] = "6a0b50e9c9d5cc3d9e48592315c25a2d645858f863e1ccd120507a30ce21e927"
+ 
+ PACKAGECONFIG ??= "openssl pcre zlib \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+-- 
+2.17.1
 
-(1) UBI support
-
-I added NAND and UBIFS support to my Yocto layer machine config file:
-
-UBOOT_CONFIG = "nand"
-UBOOT_CONFIG[nand] += "mx6ull_14x14_evk_config"
-UBOOT_CONFIG[nand] += "mx6ull_14x14_evk_nand_config"
-UBOOT_CONFIG[nand] += "ubi"
-UBOOT_CONFIG[nand] += "ubifs"
-
-But my u-boot.imx-nand still could not support ubi:
-
-=> ubi part rootfs
-Unknown command 'ubi' - try 'help'
-
-What I could be missing here?
 
 
-(2) Patch u-boot parameters
-
-I am not clear how you do to change u-boot parameters, it seems to me
-I have to create my own u-boot-imx_2017.03.bbappend and patch files to
- mx6ullevk.h, to change u-boot parameters of mtdparts, NAND_ROOT_UBI,
-bootcmd, etc based on my configuration.
-
-But Yocto won't allow the patch running unless that the patch is
-committed to the git repository in
-https://source.codeaurora.org/external/imx/uboot-imx.git.
-
-Ideally, I thought all u-boot parameters can be changed in a bbappend
-file, could you advise if it is possible to do that way or not? If so,
-how to do it?
-
-If not, what is the policy for making parches and commit to the git
-repository https://source.codeaurora.org/external/imx/uboot-imx.git?
-
-Thank you.
-
-Kind regards,
-
-- jh
 
