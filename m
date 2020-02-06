@@ -1,48 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A219760B1F
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+	[209.85.160.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EA87560130
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 16:54:13 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id n184so1413531qkn.1
+	Thu,  6 Feb 2020 17:35:54 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id w8so5111537qts.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 08:54:15 -0800 (PST)
+	Thu, 06 Feb 2020 09:35:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MUylGOxF8noWKR4pX3nwFL+gxJUZJRCBY/0wbjpd3U8=;
-	b=Tvp5jWZG29Zaj5wTjOUzSDVylBwwHP4N8E8ql+/vSsZqi33ojWpgN404kBRuOeLyyt
-	wP5+7l+d9b4JC2Ndih6QBlBbaXSTcmDmnfSzubjA4KfsPY0y4wKs7ImsJfSWkLgTr/A/
-	lRfUJuBqAAQpRZEpL6oR/oo39qcBkq+UKxwyQaWZY8+1iKh+im++fTFMcuox6mMxRWI9
-	r+fa5g7uLS9uM6ty0reRzkHeGXdP+TjKy6zrk+9OkR7/WfAuwO4oxxDdT3+ORQqH8Rxu
-	f6IxvcWZrq84Lyb7LK1BVXILnnkWgnapoh6mxdtgPY24WP8Qtg5s1WKL3Mc+T9WRuStr
-	z4yw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=NmJWv0kCBtrNREq0Px0o28LutU/SGuZv8pRMeJ/ppA8=;
+	b=DJQ7ajJ0cHNYkiavJawL+aOQ9Uyw/7AuDK8pMXZJsI2/RomWWF2+DWfH782vv2G3eB
+	rZMbWHOPnIMdzCdj0wWz9oBFHkX9+97xKmoZL651tBLYvB1NirY7nRpo26YSpncadEmY
+	uCYFdlqoNbpwW5PEvY4ViUm0wyPy4XZDUuXOqeZC3UH8SW1E3GEfXFHBuxu+LjoEy93n
+	yL/Ykq/qTg9Alobvfjl0djNHyWRTFjimkmvBUmCeuDaoLXbSPMqxFnuVIh3uMZhS3CD3
+	4cM7CbVvBWtT5OUF5yXAci8JpHKCivhciaAsyQxqs6SpWokQPKEHOd/s/yK04e+dMi+U
+	Q0Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=MUylGOxF8noWKR4pX3nwFL+gxJUZJRCBY/0wbjpd3U8=;
-	b=o+v+GYFS7hK2gU4TL3uLcSON8SkpyIQhLZhiEZcN+mXJ/1nKh6UCPicJOBIiaJWsSY
-	tmf39MX/sN/3Lv9MaMHFnsuCWvvGUwIrBhPLzEMjmMSpuBMAxK63IvtXYH6+fEhzPAi1
-	LHQGgcrdEznwz8vAGGVjkfCEqVlNHPU78vLp2JOC8JS59U0UVuxFdZ2K8N8Y4Tro4JN2
-	iZHqw957Y+uMnsN1Pfkk8JGPkxaqlgwsyRVYSDhahiZf6ltvx4qIuaDnE42k284D+Ix6
-	efIWBW/eJMfpQZsp6+7Vq71M5K6rbAssp9H52VE2Ce1y5R4vUDbEa3FO5fWtJk6tVQEq
-	zKpA==
-X-Gm-Message-State: APjAAAVBdtMgL2OO+YRdz4NYMChHVR8uKao8t5DFuyoxPf/+s90FKzSP
-	bMX568vRyYU54c9H3HJwfx2lzFRzAmayt6aNTqo=
-X-Google-Smtp-Source: APXvYqzWCGxlilket4bTe/thzTJP8c6VGaVIr7ToR19Mdv5F7z/+WorfWQDT31aJhqocTRt3+mC8aJaGWCob7GoM/IU=
-X-Received: by 2002:a37:bf82:: with SMTP id p124mr3413282qkf.337.1581008054147;
-	Thu, 06 Feb 2020 08:54:14 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=NmJWv0kCBtrNREq0Px0o28LutU/SGuZv8pRMeJ/ppA8=;
+	b=gQ0dIKjNbZRxm72Yi+Ar7Cq+AZuON86KrkYru6tCkamBnj8SIXgn6ZTn//+ItfzJSY
+	t7L0NzFuFGCYihMGCYd1WAKYT9ra3R+fQ/W39ZexMdD5/WS7sNDHMGWRsYFEh9ZnDeAU
+	KL9EZqKJCLAraRAfAPTefwa5Kgx6mJ4LzOV2MoYNdF3IudhjoLfEGR1ptMER+8H8QAdT
+	FAFvX5FAhbrEDmJZdV8I5BxitYYyVmPmxuIvwL83F6X6AnRbSsFEspOobvZMvtkVoDuX
+	gAnJjIHnyygfaKTolawcUAR2u4Uzlwv0XtdJXEimMy6dnS8d2WhaUoPTtTLowWLOSELO
+	QY2Q==
+X-Gm-Message-State: APjAAAUEe246JWiC2UQ8DYVR62bJYwQk+3/AYinnK98llSNydD3k8ixG
+	eWqpqPdfVWgtzKc9YALCmS0=
+X-Google-Smtp-Source: APXvYqwf90AEO32fJVtVqrMPJ+R7IAv7anGuEdn1obyEtdVJKt2qp9MFyWNp7ftGHunqZMZqpe/XPw==
+X-Received: by 2002:ac8:6644:: with SMTP id j4mr3521306qtp.90.1581010555610;
+	Thu, 06 Feb 2020 09:35:55 -0800 (PST)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.113.11.95]) by smtp.gmail.com with ESMTPSA id
+	e26sm1715138qkm.80.2020.02.06.09.35.54
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 06 Feb 2020 09:35:54 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Thu,  6 Feb 2020 12:35:43 -0500
+Message-Id: <cover.1581010425.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20200205010819.4172914-1-raj.khem@gmail.com>
-	<20200206093723.6hq2anenujgnqiq5@jama>
-In-Reply-To: <20200206093723.6hq2anenujgnqiq5@jama>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 6 Feb 2020 08:53:48 -0800
-Message-ID: <CAMKF1sqVSNvfG0C8CUOB-10A0wxgu+--Y_=KDbzaM-z+dApjZA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bison: Upgrade to 3.5.1
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 00/10][v2] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,75 +59,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 16:54:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Feb 2020 17:35:55 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, Feb 6, 2020 at 1:37 AM Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> On Tue, Feb 04, 2020 at 05:08:19PM -0800, Khem Raj wrote:
-> > Minor upgrade on 3.5 release series
->
-> Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
->
-> Minor upgrade with added benefits that bison-native doesn't fail to
-> build for me when using yoe-distro. Strangely I haven't seen this error
-> in any other build yet.
->
-> 86_64-linux/bison-native/3.5-r0/recipe-sysroot-native/usr/include -O2 -pipe -c -o lib/libbison_a-pipe2.o `test -f 'lib/pipe2.c' || echo '../bison-3.5/'`lib/pipe2.c
-> In file included from ../bison-3.5/lib/pipe2.c:25:
-> ../bison-3.5/lib/binary-io.h: In function '__gl_setmode':
-> ../bison-3.5/lib/binary-io.h:52:10: error: 'O_BINARY' undeclared (first use in this function)
->    52 |   return O_BINARY;
->       |          ^~~~~~~~
-> ../bison-3.5/lib/binary-io.h:52:10: note: each undeclared identifier is reported only once for each function it appears in
-> ../bison-3.5/lib/pipe2.c: In function 'rpl_pipe2':
-> ../bison-3.5/lib/pipe2.c:70:43: error: 'O_BINARY' undeclared (first use in this function); did you mean 'SET_BINARY'?
->    70 |   if ((flags & ~(O_CLOEXEC | O_NONBLOCK | O_BINARY | O_TEXT)) != 0)
->       |                                           ^~~~~~~~
->       |                                           SET_BINARY
-> ../bison-3.5/lib/pipe2.c:70:54: error: 'O_TEXT' undeclared (first use in this function); did you mean 'F_TEST'?
->    70 |   if ((flags & ~(O_CLOEXEC | O_NONBLOCK | O_BINARY | O_TEXT)) != 0)
->       |                                                      ^~~~~~
->       |                                                      F_TEST
-> make: *** [Makefile:4827: lib/libbison_a-pipe2.o] Error 1
-> WARNING: exit code 1 from a shell command.
->
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-I have seen this error too,  I think BUILT_SOURCES keyword is not being
-handled rightly, I don't see this error when I don't use make -l
-option, Perhaps its a bug in make, I don't know.
+v2 adds a 10th patch to the series to fixup a config issue seen
+with qemuarm64. The other patches are unchanged.
 
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/bison/{bison_3.5.bb => bison_3.5.1.bb} | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-devtools/bison/{bison_3.5.bb => bison_3.5.1.bb} (90%)
-> >
-> > diff --git a/meta/recipes-devtools/bison/bison_3.5.bb b/meta/recipes-devtools/bison/bison_3.5.1.bb
-> > similarity index 90%
-> > rename from meta/recipes-devtools/bison/bison_3.5.bb
-> > rename to meta/recipes-devtools/bison/bison_3.5.1.bb
-> > index 3d8f6579b9..e70252d974 100644
-> > --- a/meta/recipes-devtools/bison/bison_3.5.bb
-> > +++ b/meta/recipes-devtools/bison/bison_3.5.1.bb
-> > @@ -17,8 +17,8 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-> >  # No point in hardcoding path to m4, just use PATH
-> >  EXTRA_OECONF += "M4=m4"
-> >
-> > -SRC_URI[md5sum] = "c0230be066069f33c8445766833f3205"
-> > -SRC_URI[sha256sum] = "55e4a023b1b4ad19095a5f8279f0dc048fa29f970759cea83224a6d5e7a3a641"
-> > +SRC_URI[md5sum] = "6fc5fa4488832a65db934b9e93bd5d4c"
-> > +SRC_URI[sha256sum] = "3e7e097bd9709a2d5e40e69446b74b149733b3de864fadb7a9b54eca7b2a4dd0"
-> >
-> >  inherit autotools gettext texinfo
-> >
-> > --
-> > 2.25.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+The original pull request text follows:
+
+---------
+
+Hi all,
+
+I've kept the v5.4 content changes, as well as the kernel version default
+changes out of this series and instead focused it on the collection of
+kernel-yocto and kern-tools tweaks that I've gethered over the past few
+weeks.
+
+I have Martin's gold linker fixes included, as well as the re-org'ing of
+the linux-yocto tasks that Paul Barker did to make it usable as a single
+inherit of the bbclass.
+
+I also have a defconfig detection fix included that was sent to the list.
+
+I was able to confirm that my configuration was the same with this series
+enabled, and I was able to boot.
+
+That being said, I'll keep my eye out for any AB fallout and will continue
+some more build locally .. but I wanted to get this out today as promised.
+
+Cheers,
+
+Bruce
+
+The following changes since commit 3c6978c8db59f152693f9fae65dbab13ecfcaad4:
+
+  kernel-yocto.bbclass: export LD in the environment used by kconf_check (2020-02-04 15:56:29 +0000)
+
+are available in the Git repository at:
+
+  git://git.pokylinux.org/poky-contrib zedd/kernel
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
+
+Bruce Ashfield (3):
+  kern-tools: tweak symbol_why to be python safe
+  kern-tools: integrate merge_config fix for gold linker
+  kern-tools: fix merge_config when LD contains parameters
+
+Gavin Li (1):
+  kernel-yocto: fix defconfig detection in find_sccs()
+
+Martin Jansa (3):
+  kern-tools-native: use more common S value and oe_runmake
+  kernel-yocto.bbclass: set KERNEL_LD also for merge_config.sh
+  kernel-yocto.bbclass: do_kernel_configme: don't use +errexit,
+    merge_config_build.log and fail when /.config wasn't created
+
+Paul Barker (3):
+  kernel-yocto: Move defaults and tasks from linux-yocto.inc into
+    bbclass
+  kernel-yocto: Drop setting of unused variables in do_kernel_metadata
+  kernel-yocto: Only override CONFIG_LOCALVERSION if
+    LINUX_VERSION_EXTENSION is set
+
+ meta/classes/kernel-yocto.bbclass             | 49 +++++++++++++------
+ .../kern-tools/kern-tools-native_git.bb       | 13 +++--
+ meta/recipes-kernel/linux/linux-yocto.inc     | 21 --------
+ 3 files changed, 42 insertions(+), 41 deletions(-)
+
+-- 
+2.19.1
+
 
