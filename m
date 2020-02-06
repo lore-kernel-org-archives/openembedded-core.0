@@ -1,48 +1,24 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BCEE60D63
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 202F860D2C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 13:25:24 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id o15so6094864ljg.6
+	Thu,  6 Feb 2020 14:13:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 016EDVg9021937
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 05:25:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=z5PdsZSssXpsNXLEnq5o2TtxZ7WbNxQCq4uKulES1m8=;
-	b=vPXCagrSTm8iDnhojWje0m/ErKpQ7R9dTTwSrEUz1Yn7qzfjLBorbs7mESmUHwauCf
-	3mRs8vu4ztpKLAkgZ+7uZy6yK+T6L37bDxrc96kXv2muJmp+KVcfqqVb1KXqx80fp14x
-	45Jm+6gKr3U5XwsRIZUT29/mNpP0BX0C7HaUoJOdCvJr6Ps5gTN/y2cPsOcUpufHFSYF
-	JHsf1yodOHaSeZbzA0UsrJg+aRW6N9VqFxj5TBwoxD/8usuvwEfjbtUjXreACaicsS5b
-	X/pXO+AmNTpVjTAQf0QpUj3c4aW2RRX2WJ/2EnbpcQLGTCQEngsfeiPtBATU9Xd9x9qZ
-	pw6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=z5PdsZSssXpsNXLEnq5o2TtxZ7WbNxQCq4uKulES1m8=;
-	b=VSgeM0qobKBuEzfQ5NrXbPAq/2VuG7DuTeMGhQoPwxs6DoHunUHx/x7ptgBW4O+TXu
-	oOD7BDg9+PGcMVVsRmzDsgh/gvl+KEU7XOenwcOYMEyr4aZoipQPFw2OE6eJ0XUVqZfk
-	lqzhwFxDRqYBc1ciLLVAmM/r/VTdrunR0JIsxwSqjZoOtMEv/4xatqAb2Qtz9HMOcPyB
-	pTqkmTsVS9yPIIKvsQoaafBSpAsss8t9mNmtROURJVGj8rzeyRAJ2YYON8AnRNIVm2U7
-	QJhjEeQkqFGYRBndjZpT3I9Kr5VPandpiq4QI0zilnWbenlgSGwRpS6RGGq/rCys7bDq
-	1VBA==
-X-Gm-Message-State: APjAAAXPCkkWFBb0703l4exAssLH4kkDU8yPR2WlRzXyAXzi6iUMB7WE
-	ObgxXEHQPilj7QdUwJIemhpci1f2fTnCGpWDIfO2ukBr
-X-Google-Smtp-Source: APXvYqw2DqYOyDxkm9bi1OBIUjWnkFOkRTSBRghvBmVLfSdn9/VCLxOTYAJyQ47XSBhTIzjFamkGvK6maK3bu1v1vqQ=
-X-Received: by 2002:a2e:3504:: with SMTP id z4mr2057576ljz.273.1580995524602; 
-	Thu, 06 Feb 2020 05:25:24 -0800 (PST)
+	Thu, 6 Feb 2020 06:13:42 -0800
+Received: from yow-tgamblin-fedora2.wrs.com (128.224.56.206) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 6 Feb 2020 06:13:21 -0800
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Feb 2020 09:13:20 -0500
+Message-ID: <20200206141320.2074733-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-References: <cover.1580944129.git.bruce.ashfield@gmail.com>
-	<81d55204978a296d27ecaff359d270dfc0f473eb.camel@linuxfoundation.org>
-In-Reply-To: <81d55204978a296d27ecaff359d270dfc0f473eb.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 6 Feb 2020 08:25:13 -0500
-Message-ID: <CADkTA4MOtNcsWQvxPORFRmrTCXE=0XXPaDZK-ucpbXWvt-eN4A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] kernel-yocto: consolidated pull request
+Subject: [PATCH] bitbake-buildall: automate build testing for qemu MACHINEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,66 +31,195 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 13:25:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Feb 2020 14:13:52 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Thu, Feb 6, 2020 at 4:03 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> Hi Bruce,
->
-> On Wed, 2020-02-05 at 18:12 -0500, bruce.ashfield@gmail.com wrote:
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > Hi all,
-> >
-> > I've kept the v5.4 content changes, as well as the kernel version
-> > default
-> > changes out of this series and instead focused it on the collection
-> > of
-> > kernel-yocto and kern-tools tweaks that I've gethered over the past
-> > few
-> > weeks.
-> >
-> > I have Martin's gold linker fixes included, as well as the re-org'ing
-> > of
-> > the linux-yocto tasks that Paul Barker did to make it usable as a
-> > single
-> > inherit of the bbclass.
-> >
-> > I also have a defconfig detection fix included that was sent to the
-> > list.
-> >
-> > I was able to confirm that my configuration was the same with this
-> > series
-> > enabled, and I was able to boot.
-> >
-> > That being said, I'll keep my eye out for any AB fallout and will
-> > continue
-> > some more build locally .. but I wanted to get this out today as
-> > promised.
->
-> qemuarm64 seems unhappy:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/1524
+bitbake-buildall simplifies the process of build testing an upgraded or
+patched recipe by cycling through the build steps for each available qemu
+target, with desired LIBC specified by the user as an option (defaulting
+to both glibc and musl if no option is provided). While building, a log
+file with the name "<recipe>-buildall.log" is written, containing a PASS
+or FAIL line upon completion of the build for each architecture. For now,
+qemu targets are not selectable (i.e. the recipe is built for all qemu
+targets found in meta/conf/machine), but this functionality can be added
+in the future along with other useful options.
 
-Bugger. I'll fix and resend a v2 pull request.
+The log file created by bitbake-buildall also includes some basic system
+info (e.g. build start time, hostname, host OS, host kernel). Since it is
+not guaranteed that tools such as lsb_release will be available on the
+host (it isn't by default on my Fedora machine), this information is
+collected manually. Additionally, the previous run's log is retained for
+comparison by renaming it in the format <recipe>-buildall.log.old once a
+new set of builds is triggered for the same recipe.
 
-Bruce
+Sample log output:
 
->
-> (the builds on the arm native machine also failed but it looks related)
->
-> I think everything else passed testing for this series.
->
-> Cheers,
->
-> Richard
->
+BITBAKE-BUILDALL LOG FOR aspell
+START TIME: 2020-02-05_15:57:41
+HOSTNAME: yow-tgamblin-fedora2
+HOST OS: Fedora 31 (Server Edition)
+HOST KERNEL: 5.4.10-200.fc31.x86_64
+===============
+BUILD RESULTS:
+[glibc]
+PASS: qemuarmv5
+PASS: qemux86
+PASS: qemuppc
+PASS: qemumips64
+FAIL: qemux86-64
+FAIL: qemumips
+FAIL: qemuarm
+FAIL: qemuarm64
+FAIL: qemuriscv64
+[musl]
+PASS: qemuarmv5
+PASS: qemux86
+PASS: qemuppc
+PASS: qemumips64
+PASS: qemux86-64
+PASS: qemumips
+PASS: qemuarm
+PASS: qemuarm64
+PASS: qemuriscv64
+===============
+PASSED: 13
+FAILED: 5
 
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+---
+ scripts/bitbake-buildall | 121 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 121 insertions(+)
+ create mode 100755 scripts/bitbake-buildall
 
+diff --git a/scripts/bitbake-buildall b/scripts/bitbake-buildall
+new file mode 100755
+index 0000000000..5ef148ecf7
+--- /dev/null
++++ b/scripts/bitbake-buildall
+@@ -0,0 +1,121 @@
++#!/bin/sh
++#  Copyright (c) 2020 Wind River Systems, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# bitbake-buildall: a tool for automating build testing of recipes
++# TODO: Add support for selecting which qemu architectures to build
++# TODO: Add support for queueing up multiple recipe builds
++# TODO: Add more logging options (e.g. local.conf info, bitbake env info)
++
++usage ()
++{
++    base=$(basename "$0")
++    echo "Usage: $base [options] [recipename/target]"
++    echo "Executes a build of a given target for selected LIBCs. With no options, default to both libc and musl."
++    echo "Options:"
++    echo "-l, --libc            Specify one of \"libc\" or \"musl\""
++}
++
++
++buildall ()
++{
++    # Get path to oe-core directory. Since oe-init-build-env prepends $PATH with
++    # the path to the scripts directory, get it from there
++    SCRIPTS_PATH="$(echo "$PATH" | cut -d ":" -f 1)"
++    OE_CORE_PATH=$(echo "$SCRIPTS_PATH" | sed 's|\(.*\)/.*|\1|') 
++
++    # Get target list and host machine information
++    TARGET_LIST=$(find "$OE_CORE_PATH"/meta/conf/machine -maxdepth 1 -type f | grep qemu | sed 's|.*/||' | sed -e 's/\.conf//')
++
++    # Set LIBC value to use for the builds based on options provided by the user
++    if [ -n "$2" ]
++    then
++	LIBC_LIST="$2"
++	echo "$LIBC_LIST"
++    else
++	LIBC_LIST="glibc musl"
++	echo "$LIBC_LIST"
++    fi
++
++    START_TIME=$(date "+%Y-%m-%d_%H:%M:%S")
++    LOG_FILE="$1-buildall.log"
++    OS_INFO=$(grep "PRETTY_NAME=" /etc/os-release | awk -F "=" '{print $2}' | sed -e 's/^"//' -e 's/"$//')
++
++    # Append an existing log file for this build with .old if one exists
++    if [ -f "${LOG_FILE}" ] 
++    then
++       mv "${LOG_FILE}" "${LOG_FILE}.old"
++    else
++	   touch "${LOG_FILE}"
++    fi
++
++    # Fill the log file with build and host info
++    echo "BITBAKE-BUILDALL LOG FOR $1" >> "${LOG_FILE}"
++    echo "START TIME: ${START_TIME}" >> "${LOG_FILE}"
++    echo "HOSTNAME: $(uname -n)" >> "${LOG_FILE}"
++    echo "HOST OS: ${OS_INFO}" >> "${LOG_FILE}"
++    echo "HOST KERNEL: $(uname -r)" >> "${LOG_FILE}"
++    echo "===============" >> "${LOG_FILE}"
++    echo "BUILD RESULTS:" >> "${LOG_FILE}"
++
++    # start the builds for each MACHINE and TCLIBC
++    for j in ${LIBC_LIST} 
++    do
++	echo "[$j]" >> "${LOG_FILE}"
++	for i in ${TARGET_LIST} 
++	do
++	    echo "$i" "$j"; \
++	    TCLIBC=$j MACHINE=$i bitbake "$1" && echo "PASS: $i" >> "${LOG_FILE}" || echo "FAIL: $i" >> "${LOG_FILE}"
++	done
++    done
++
++    # Get pass/fail totals and add them to the end of the log
++    PASSED=$(grep "PASS:" "${LOG_FILE}" | wc -l)
++    FAILED=$(grep "FAIL:" "${LOG_FILE}" | wc -l)
++
++    echo "===============" >> "${LOG_FILE}"
++    echo "PASSED: ${PASSED}" >> "${LOG_FILE}"
++    echo "FAILED: ${FAILED}" >> "${LOG_FILE}"
++}
++
++
++# fail entire script if any command fails
++set -e
++set -o pipefail
++
++# print usage and exit if not enough args given
++[ $# -eq 0 ] && usage && exit 1
++
++# handle arguments
++RECIPE=
++while [ $# -gt 0 ]
++do
++    arg=$1
++    case $arg in
++	-l|--libc)
++	if [ "$2" = "glibc" ] || [ "$2" = "musl" ]
++	then
++	    LIBC_LIST="$2"
++	else
++	    echo "Unrecognized libc option."
++	    usage && exit 1
++	fi
++	shift
++	shift
++	;;
++	*)
++        RECIPE="$1"
++	shift
++	;;
++    esac
++done
++
++set -- "$RECIPE"
++
++# run buildall for the given recipe and LIBC
++if [ -n "$1" ]
++then
++	buildall "$1" "$LIBC_LIST"
++fi
++
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.24.1
+
 
