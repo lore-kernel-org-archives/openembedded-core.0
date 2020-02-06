@@ -1,45 +1,100 @@
-Return-Path: <scott.branden@broadcom.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B7CD60BB1
+Return-Path: <JAEWON@xilinx.com>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+	(mail-mw2nam12on2087.outbound.protection.outlook.com [40.107.244.87])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D96C60BF2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 20:57:49 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id l24so3362090pgk.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 12:57:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=VNu5ZXo8ZxCmerNVSBNfJD6Xk68XXtmDzu/OHGc2zSA=;
-	b=ICwF1KC/RnnoRw7knf7TqXbxaO6SofUS0ZpYa7nzjCbqZNg8SlwfswbO33V4HvPAKU
-	zRjqvzUBVgSSU7YP/DQqIK8ngiu43pNtHG0/3lxx7psb4P/BU/vxl/8SZpB8r+Dt9VMP
-	qMYIhL5XdBMGe6uKAQXaiYXKR5H72+nMu54LA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VNu5ZXo8ZxCmerNVSBNfJD6Xk68XXtmDzu/OHGc2zSA=;
-	b=jDLQUruK4teh2LJHf9KzMyYjnZf/mvTvuimKE42pVskRnEdtQp+ihLpf2wgIwYR0NB
-	85OpuD8ZpUcioje7vZsJaRDfkjs8oTS4zJbLVch/AjRsvaXbRsenCXQT6Tkfi1UYbqqd
-	U1DD7duG2IBf1W7a3fzKgFA0/QbtyFNVyCpnOIaATJPpdGFIgxwE2eqjCDTkoNFMnR33
-	mAl2T3xHxLpbp5RIBfpdLTcCjqSdtDRyi6rsTgEX/N7ZGeSygscc0D3DfvCoFvYrbfXr
-	YNXETFSSe+I/Rra7tbyrwssrnm922ElaSHPv8pwrGckbCvuX6+swZC+f5kJvmvwdo3tg
-	VNCA==
-X-Gm-Message-State: APjAAAUE1CjFniVi0nrbb9ps1pl7oKe8zYsAg6OODYQY0Kuv9VcKkL+m
-	o/sKUF0EHHZYCxDZ6ofWKv9gcoC+T0sRJ1khbg5nGLXThiqMrTHhAorCuXr/b1AR9Obd/jHnw2v
-	HvDddtDE8bXutwNSxLEezQGo1X0L8Yf8esr9GNeAPb112CaWZnLr9Ron8S4MYwh/d/9p+Bg//eh
-	JksYLb7DHxO5AOSWjyy+6/prwk
-X-Google-Smtp-Source: APXvYqxclw9xxZj0nFOLigIPLhzDlnDnjJVE/yx0c6tJhWEljo4bEIUvTsO/xmkFoKjv3UZn17IgGw==
-X-Received: by 2002:aa7:8191:: with SMTP id g17mr6139160pfi.25.1581022669917; 
-	Thu, 06 Feb 2020 12:57:49 -0800 (PST)
-Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
-	by smtp.gmail.com with ESMTPSA id d22sm292548pgg.52.2020.02.06.12.57.48
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 06 Feb 2020 12:57:49 -0800 (PST)
-From: Scott Branden <scott.branden@broadcom.com>
+	Thu,  6 Feb 2020 21:45:24 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=BNknP/Ef2I1YvSHSSMlo1ab5LvAp/JUVvok77UWh8WnI+B6J3vFtmE+njUlxxlE9JyPASST/a//CGhvevUh6DxndjOJK4x9xN5cNp0ecZx/P7i/isW+fobk4HkaA2tNtZCDcizqgEIg2e27riIfj0fO4YUVFqqB4phuiNml9V+VKSw4NL6xJcXxyqo8UnvPGPqiYnK/EM8xCDicWFJx5GMcqj/1mPH8XMA61PzMkWQng1dDDyB4CyJS5quggV6yjBSUmlZvQGPAUdmjP4ZgB9zSLkA0ANkBoDcaGbBOyxw4a4t6EEb3Z8zlDp2D/gWyGoJ1mm35YbENCKW+4G2XoAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=755NqEYgPVqyO2BBHEfypbgZnLYfIGrRQA7OmuZ/7oI=;
+	b=BjD3bphJW9TlOUrPsGqSDoDwANwo3EI+vdQABFunJmRKFc4Js75E6SXpMJseX/9FBUMX6cDv+CHQY6lCt+Cf7NFcQEhvsgPfCsL5VBFtPhLuWeHEyXFX5HIfJA4uz9gREqWo9vtYL4Wyekwz7Ll6rPNfmV/y/5Jr1bGYxy/D0esR+t1ScTGaFruVoPrw0JT+4cwxtkBxPFvTjdIPwC8OMVPDO2An3lFpQOwWWgh9Q1jrVUXMO0DjhEBj2kgiMImKCjdsKZu1Os9rG18aXKKAlodbYt+bnmixbkNBsKEGhC2uqAmbn29T4zdJ74BY0ZgUIX4nKkkLGGU799FGx3yDvA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+	149.199.60.83) smtp.rcpttodomain=lists.openembedded.org
+	smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
+	header.from=xilinx.com; dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=755NqEYgPVqyO2BBHEfypbgZnLYfIGrRQA7OmuZ/7oI=;
+	b=Q2KZ6OLbISqTcSBlS2LxZZLxeRA2jYkvOnaogpj5ifKlQhl8xfANfmTovgBtfJC8d9fiLb6SlZeJviAfl4pci3j08f8xUE71IkMjaFbJUIhAOnQczDmSD4lgd0j6D+NbuzAV7btVMOsH8c3dMYKAtxhmIUCb88gdZHYZNB0EwHk=
+Received: from CH2PR02CA0019.namprd02.prod.outlook.com (2603:10b6:610:4e::29)
+	by SN6PR02MB4783.namprd02.prod.outlook.com (2603:10b6:805:9e::11)
+	with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.23;
+	Thu, 6 Feb 2020 21:45:24 +0000
+Received: from CY1NAM02FT041.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e45::200) by CH2PR02CA0019.outlook.office365.com
+	(2603:10b6:610:4e::29) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.23 via
+	Frontend Transport; Thu, 6 Feb 2020 21:45:23 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
+	signed) header.d=none; lists.openembedded.org;
+	dmarc=bestguesspass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	CY1NAM02FT041.mail.protection.outlook.com (10.152.74.156) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2707.21
+	via Frontend Transport; Thu, 6 Feb 2020 21:45:23 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>) id 1izoxe-0007Pt-QB
+	for openembedded-core@lists.openembedded.org;
+	Thu, 06 Feb 2020 13:45:22 -0800
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>) id 1izoxY-0000dc-Ua
+	for openembedded-core@lists.openembedded.org;
+	Thu, 06 Feb 2020 13:45:16 -0800
+Received: from xsj-pvapsmtp01 (xsj-pvapsmtp01.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	016LjCr5018979; Thu, 6 Feb 2020 13:45:13 -0800
+Received: from [172.19.3.42] (helo=xsjjaewon50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1izoxT-0000bk-DJ; Thu, 06 Feb 2020 13:45:11 -0800
+From: Jaewon Lee <jaewon.lee@xilinx.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2020 12:57:43 -0800
-Message-Id: <20200206205743.5388-1-scott.branden@broadcom.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] cryptodev: update to Jan.23, 2020
+Date: Thu,  6 Feb 2020 13:45:11 -0800
+Message-Id: <1581025511-18119-1-git-send-email-jaewon.lee@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(4636009)(346002)(136003)(396003)(39860400002)(376002)(199004)(189003)(70206006)(70586007)(356004)(2906002)(107886003)(2616005)(426003)(7696005)(44832011)(336012)(478600001)(54906003)(26005)(36756003)(4326008)(186003)(5660300002)(8676002)(81166006)(81156014)(8936002)(6916009)(316002)(9786002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:SN6PR02MB4783; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1;
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 1033aee9-1e78-4b2a-e612-08d7ab4ddebb
+X-MS-TrafficTypeDiagnostic: SN6PR02MB4783:
+X-Microsoft-Antispam-PRVS: <SN6PR02MB478324525294A15B34746BCBAF1D0@SN6PR02MB4783.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:626;
+X-Forefront-PRVS: 0305463112
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: EDFKZsuXlG5w942wz5cdBARvPRIADJ3MbSkX5p3p+HqzfIcuIikaxcQAcn6DQogGIs36WwZmaKD5HaNPj4pc14XklpwkEs+MIijWGnWTLV2yBolAfkaaw+h+hrsraSwSvqGq22HC7k00EQRTnTpjJUWCeAcDcvyR3sNPViiu3lEXFsX0Dr3vSdycG6L0zwUVLN5ra4b5aa/73va/OejDsOZ4QHT0fM4RatkJ2T4x3WEZFnqgJI6xEc9Xj/KTT7q4iIwamXul/r1KCpWiFIysR60xArQZDzr/ELxynElAtp49MZRVzXzkvZUsFV9W+Xku3rXvrWoDT8nafQvibJXRUnOp0wghZ21VI7nKchKHSLii8i4+FF09UQtK0ag96jblN4EIbrZiaC0N+CM2UV89oVPKbrO6qgn5j7bVy3PmhcABwjL3DMh2xvMnwoTjKHI/
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2020 21:45:23.2621 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1033aee9-1e78-4b2a-e612-08d7ab4ddebb
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4783
+Cc: Mark Hatle <mark.hatle@xilinx.com>
+Subject: [PATCH v2] sstate.bbclass: fix issue while handling long sstate filenames
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,102 +107,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 20:57:49 -0000
+X-List-Received-Date: Thu, 06 Feb 2020 21:45:24 -0000
+Content-Type: text/plain
 
-* Remove backported patches:
-  0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
+When moving to python3, divison using '/' now returns float instead of
+an integer. In upstream commit b8025e972081b70960ffcbcbe43a7118041556a1
+sstate filenames longer than the limit are changed to just include
+necessary info + 3 fields just for information. The space left over
+after the necessary info is divided into 3 for each of the fields.
+Using '//' instead to do the division to solve the following error
+message:
 
-Update to latest cryptodev dated Jan.23, 2020.
-Fixes build on kernel v5.5+
+avail = (254 - len(hash + "_" + taskname + extension) -
+len(components[0]) - len(components[1]) - len(components[5]) -
+len(components[6]) - 7) / 3
+    >        components[2] = components[2][:avail]
+             components[3] = components[3][:avail]
+TypeError: slice indices must be integers or None or have an __index__
+method
 
-Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
 ---
- meta/recipes-kernel/cryptodev/cryptodev.inc   |  3 +-
- ...x-module-loading-with-Linux-v5.0-rc5.patch | 59 -------------------
- 2 files changed, 1 insertion(+), 61 deletions(-)
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
+v2: used '//' instead of casting to int
+---
+ meta/classes/sstate.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index 9d8ba44058..f99f8bc9f0 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -4,9 +4,8 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
- 
- SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux \
--           file://0001-Fix-module-loading-with-Linux-v5.0-rc5.patch \
-            "
--SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
-+SRCREV = "a87053bee5680878c295b7d23cf0d7065576ac2b"
- 
- S = "${WORKDIR}/git"
- 
-diff --git a/meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch b/meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
-deleted file mode 100644
-index 34ec87272f..0000000000
---- a/meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--Upstream-Status: Backport [https://github.com/cryptodev-linux/cryptodev-linux/commit/f971e0c]
--
--Backport patch from upstream to fix module cryptodev loading error.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
--
--From f971e0cd4a0ebe59fb2e8e17240399bf6901b09b Mon Sep 17 00:00:00 2001
--From: "Derald D. Woods" <woods.technical@gmail.com>
--Date: Sun, 10 Feb 2019 13:22:19 -0600
--Subject: [PATCH] Fix module loading with Linux v5.0-rc5
--
--This commit fixes this module load error:
--[...]
--[   29.112091] cryptodev: loading out-of-tree module taints kernel.
--[   29.128906] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
--[   29.188842] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
--modprobe: can't load module cryptodev (extra/cryptodev.ko): unknown symbol in module, or unknown parameter
--[...]
--
--Upstream Linux support for unused GIVCIPHER, and others, was dropped here:
--
--c79b411eaa72 (crypto: skcipher - remove remnants of internal IV generators)
--
--Signed-off-by: Derald D. Woods <woods.technical@gmail.com>
-----
-- cryptlib.c | 9 +++++++--
-- 1 file changed, 7 insertions(+), 2 deletions(-)
--
--diff --git a/cryptlib.c b/cryptlib.c
--index 6e66698..4a87037 100644
----- a/cryptlib.c
--+++ b/cryptlib.c
--@@ -38,7 +38,9 @@
-- #include "cryptodev_int.h"
-- #include "cipherapi.h"
-- 
--+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 0, 0))
-- extern const struct crypto_type crypto_givcipher_type;
--+#endif
-- 
-- static void cryptodev_complete(struct crypto_async_request *req, int err)
-- {
--@@ -157,8 +159,11 @@ int cryptodev_cipher_init(struct cipher_data *out, const char *alg_name,
-- 
-- #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 8, 0))
-- 		tfm = crypto_skcipher_tfm(out->async.s);
---		if ((tfm->__crt_alg->cra_type == &crypto_ablkcipher_type) ||
---		    (tfm->__crt_alg->cra_type == &crypto_givcipher_type)) {
--+		if ((tfm->__crt_alg->cra_type == &crypto_ablkcipher_type)
--+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 0, 0))
--+		    || (tfm->__crt_alg->cra_type == &crypto_givcipher_type)
--+#endif
--+							) {
-- 			struct ablkcipher_alg *alg;
-- 
-- 			alg = &tfm->__crt_alg->cra_ablkcipher;
---- 
--2.20.0
--
+diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
+index faa6470..0beeb33 100644
+--- a/meta/classes/sstate.bbclass
++++ b/meta/classes/sstate.bbclass
+@@ -20,7 +20,7 @@ def generate_sstatefn(spec, hash, taskname, siginfo, d):
+         components = spec.split(":")
+         # Fields 0,5,6 are mandatory, 1 is most useful, 2,3,4 are just for information
+         # 7 is for the separators
+-        avail = (254 - len(hash + "_" + taskname + extension) - len(components[0]) - len(components[1]) - len(components[5]) - len(components[6]) - 7) / 3
++        avail = (254 - len(hash + "_" + taskname + extension) - len(components[0]) - len(components[1]) - len(components[5]) - len(components[6]) - 7) // 3
+         components[2] = components[2][:avail]
+         components[3] = components[3][:avail]
+         components[4] = components[4][:avail]
 -- 
-2.17.1
+2.7.4
 
 
