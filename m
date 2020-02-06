@@ -1,37 +1,51 @@
-Return-Path: <martin@geanix.com>
-X-Greylist: delayed 341 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 06 Feb 2020 07:58:28 UTC
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C74D2600A1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D551860B3F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 07:58:28 +0000 (UTC)
-Received: from [192.168.8.20] (unknown [85.184.140.241])
-	by first.geanix.com (Postfix) with ESMTPSA id 940E0726F;
-	Thu,  6 Feb 2020 07:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1580975549; bh=xbqqvVHmX8phXGbd7UxRQcrw12ylj+3LElgS8nsk+ds=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To;
-	b=d9wGHTTlnDPVRLzKkA8QdDROCuDxy7r5EGb+ra6DIPR9ef/vIU+pm0y8DKMawiDHS
-	cRczyAT4BHVvpZK3TiCvGszZAJarfKzhMnOQBuj6UUg8xh4V5hi5Pye5Bpy7UEnf+N
-	c2FnXil96KeCiUQnuNKEVH8eydFxFfbPyPijd2/oo7+dTTnZus3oks+1FkxADpzrRl
-	ctWnHthAyWgOWbwWvkiYBphQQ2P+oiGRV1vaF4ybOg80nGW3hWyDnT2Itrv60qA/5g
-	aPM3vDKfoD35j7noIExXaF5nkPujPACH82JBa1x3HAC6Xa2zw+mfqASgctatz4XI7t
-	FTOmAAtpCLz8g==
-To: Jaewon Lee <jaewon.lee@xilinx.com>,
-	openembedded-core@lists.openembedded.org
-References: <1580950649-8807-1-git-send-email-jaewon.lee@xilinx.com>
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
-Message-ID: <57d3655a-a20f-f7df-f335-9958075465e5@geanix.com>
-Date: Thu, 6 Feb 2020 08:52:52 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.2
+	Thu,  6 Feb 2020 09:03:56 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id q9so5368849wmj.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Feb 2020 01:03:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=7MWXxWw6oUICvO/an/7MONpHXFsSWGcU6t45XumH+X4=;
+	b=Npma+SXgG3L7f4aFJLts2DtdcI5Lq6g33txxikP1V2AKB7faHaO8lTBhSYyH62yVED
+	tjDMZBP6hTAnBqfOuTV/6DoBKMc2Qo+v4rnb7vxAGgJYLCvbD9NoP0Jk5gjCmK0iSpPj
+	CmB1e3Df9z+VC33Dv5dEbVLagNXH2iQjuEqpo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=7MWXxWw6oUICvO/an/7MONpHXFsSWGcU6t45XumH+X4=;
+	b=e8GWChWKn4YxDHIVO97lqtUHehz8b8itu0Z16EMo83usNQErprGUjoLF97qJy1iknh
+	7XQEbxaLDfdf2s1vGZ7PE3MdZYbXRxORRt+CIjaeoDP65O1w9hqUCY3WTXU61OO6EZ6V
+	5VLd5udsWmxoHpGmBWMItwwGoMckE5wyKzXGktkosJ+tSKKCoE4ktwHTxuLWs2dv6KEv
+	BW6sjKfEqkppVTZoSeixGhzxDp553YdYiqE7Ey2GE93p6iGYsJGAQ+Q3+QV1OCgA8LlD
+	DrSu/4tFpadQWUI4aIW4jWJBMXh20vzfZ2XcmHGA97QnyhXC5uEg0kd8Rkw4p/EEiSCt
+	6TCg==
+X-Gm-Message-State: APjAAAU6PTSr+NcDe2NigZf9xkszUOG/DOtZZkT7HsNDuzI2+C5NYtlx
+	Lho7Ljla0Wd+DDhR8C9PdWBiLA==
+X-Google-Smtp-Source: APXvYqwlPSMb+LgtqIsv+aQUgi4+mVRXXirMQvSN0CHM+XGf4ZdWGf+vby5/n5l5f8x1hkBA5wxziw==
+X-Received: by 2002:a7b:c774:: with SMTP id x20mr3248516wmk.67.1580979837364; 
+	Thu, 06 Feb 2020 01:03:57 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b67sm2937229wmc.38.2020.02.06.01.03.56
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 06 Feb 2020 01:03:56 -0800 (PST)
+Message-ID: <81d55204978a296d27ecaff359d270dfc0f473eb.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: bruce.ashfield@gmail.com
+Date: Thu, 06 Feb 2020 09:03:54 +0000
+In-Reply-To: <cover.1580944129.git.bruce.ashfield@gmail.com>
+References: <cover.1580944129.git.bruce.ashfield@gmail.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-In-Reply-To: <1580950649-8807-1-git-send-email-jaewon.lee@xilinx.com>
-X-Spam-Status: No, score=-0.8 required=4.0 tests=ALL_TRUSTED,DKIM_INVALID,
-	DKIM_SIGNED,URIBL_BLOCKED autolearn=disabled version=3.4.3
-X-Spam-Checker-Version: SpamAssassin 3.4.3 (2019-12-06) on eb9da72b0f73
-Cc: Mark Hatle <mark.hatle@xilinx.com>
-Subject: Re: [PATCH] sstate.bbclass: fix issue while handling long sstate filenames
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/9] kernel-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +58,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 07:58:29 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US-large
+X-List-Received-Date: Thu, 06 Feb 2020 09:03:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
+Hi Bruce,
 
-
-On 06/02/2020 01.57, Jaewon Lee wrote:
-> When moving to python3, divison using '/' now returns float instead of
-> an integer. In upstream commit b8025e972081b70960ffcbcbe43a7118041556a1
-> sstate filenames longer than the limit are changed to just include
-> necessary info + 3 fields just for information. The space left over
-> after the necessary info is divided into 3 for each of the fields.
-> Casting the outcome of that division to int to solve the following error
-> message:
+On Wed, 2020-02-05 at 18:12 -0500, bruce.ashfield@gmail.com wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
 > 
-> avail = (254 - len(hash + "_" + taskname + extension) -
-> len(components[0]) - len(components[1]) - len(components[5]) -
-> len(components[6]) - 7) / 3
->      >        components[2] = components[2][:avail]
->               components[3] = components[3][:avail]
-> TypeError: slice indices must be integers or None or have an __index__
-> method
+> Hi all,
 > 
-> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-> Signed-off-by: Mark Hatle <mark.hatle@xilinx.com>
-> ---
->   meta/classes/sstate.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> I've kept the v5.4 content changes, as well as the kernel version
+> default
+> changes out of this series and instead focused it on the collection
+> of
+> kernel-yocto and kern-tools tweaks that I've gethered over the past
+> few
+> weeks.
 > 
-> diff --git a/meta/classes/sstate.bbclass b/meta/classes/sstate.bbclass
-> index faa6470..53a6d06 100644
-> --- a/meta/classes/sstate.bbclass
-> +++ b/meta/classes/sstate.bbclass
-> @@ -20,7 +20,7 @@ def generate_sstatefn(spec, hash, taskname, siginfo, d):
->           components = spec.split(":")
->           # Fields 0,5,6 are mandatory, 1 is most useful, 2,3,4 are just for information
->           # 7 is for the separators
-> -        avail = (254 - len(hash + "_" + taskname + extension) - len(components[0]) - len(components[1]) - len(components[5]) - len(components[6]) - 7) / 3
-> +        avail = int((254 - len(hash + "_" + taskname + extension) - len(components[0]) - len(components[1]) - len(components[5]) - len(components[6]) - 7) / 3)
-
-Python has a nifty // operator that resembles integer division from C:
-
- >>> 3 / 2
-
-1.5
-
- >>> 3 // 2
-
-1
-
-
-// Martin
-
->           components[2] = components[2][:avail]
->           components[3] = components[3][:avail]
->           components[4] = components[4][:avail]
+> I have Martin's gold linker fixes included, as well as the re-org'ing 
+> of
+> the linux-yocto tasks that Paul Barker did to make it usable as a
+> single
+> inherit of the bbclass.
 > 
+> I also have a defconfig detection fix included that was sent to the
+> list.
+> 
+> I was able to confirm that my configuration was the same with this
+> series
+> enabled, and I was able to boot.
+> 
+> That being said, I'll keep my eye out for any AB fallout and will
+> continue
+> some more build locally .. but I wanted to get this out today as
+> promised.
+
+qemuarm64 seems unhappy:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/1524
+
+(the builds on the arm native machine also failed but it looks related)
+
+I think everything else passed testing for this series.
+
+Cheers,
+
+Richard
+
 
