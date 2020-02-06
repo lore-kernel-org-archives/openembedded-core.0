@@ -1,42 +1,48 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 41C0E60C40
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
+	[209.85.166.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 955DB600A1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 03:34:34 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 Feb 2020 19:34:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,408,1574150400"; d="scan'208";a="279567665"
-Received: from pgsmsx108.gar.corp.intel.com ([10.221.44.103])
-	by FMSMGA003.fm.intel.com with ESMTP; 05 Feb 2020 19:34:35 -0800
-Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.131]) by
-	PGSMSX108.gar.corp.intel.com ([169.254.8.76]) with mapi id
-	14.03.0439.000; Thu, 6 Feb 2020 11:34:34 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "takondra@cisco.com" <takondra@cisco.com>, "raj.khem@gmail.com"
-	<raj.khem@gmail.com>, "akuster808@gmail.com" <akuster808@gmail.com>
-Thread-Topic: [OE-core] [PATCH] gcc-9.2: fix bug #91102 'aarch64 ICE on
-	Linux kernel with -Os'
-Thread-Index: AQHV2xIYwGA4rFEWRkWlInLNfBApRKgLShAAgAG2YYA=
-Date: Thu, 6 Feb 2020 03:34:33 +0000
-Message-ID: <0d7fe14fd49e80118841764cbda78f36dc63b4b5.camel@intel.com>
-References: <20200204022006.714-1-takondra@cisco.com>
-	<CAMKF1sqmKCwbdE1uncP+k+7OQGrHawJ3dTM1h1_yO9EJuV00iQ@mail.gmail.com>	, 
-	<baf2b1ab-bc63-c350-4956-000c64d4b51d@gmail.com>
-	<BYAPR11MB336694DBBD57A81DD1F1F76BC8020@BYAPR11MB3366.namprd11.prod.outlook.com>
-In-Reply-To: <BYAPR11MB336694DBBD57A81DD1F1F76BC8020@BYAPR11MB3366.namprd11.prod.outlook.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.221.21.206]
+	Thu,  6 Feb 2020 06:34:54 +0000 (UTC)
+Received: by mail-io1-f53.google.com with SMTP id s6so5065713iol.9
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Feb 2020 22:34:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=1eb2RXCmyTB1S8buyh/wDuPzjOjoOwR3b2p2azWf8rs=;
+	b=VUcqclUkf5oApTbSMbGTfUcLIlJLhrucVOgq//WegVNKQ60NL4+huMzvRtefPcVdYV
+	QXe2A/4LoID5iOLOX21fH9KIAJEN5+vhaBYGjj6h2DcwcysS1K9p2oKek3Cw9Uf3Lxv2
+	oPHtgDhx6Bjyhcg589Cmu5T1ikxg0S3v9S6ERAt+TB+SsxKw9Jkj5Ren/BBgkVWIdPdA
+	X7oqsJDZ3fBCriFXPrImlvW5xGxBLTPjSreqN3BIbdP6JxWC8jzgxy6QUlzkJYBlBJtv
+	NkGunayn+Mg/9xdXQBrVR5vmtzMG5roaIUDKXNBw4rZ//bXyU6O7g6fYFvChPDV0gzwh
+	EVfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=1eb2RXCmyTB1S8buyh/wDuPzjOjoOwR3b2p2azWf8rs=;
+	b=bn7T86KJNNKHjO0HtYlgVDkee3P1uLlTRE5p4C9xcuhG9zo89YE7Tdkw5OmUadPqBo
+	rGHDKjepNDTaRNPdRQoOtpqUin8DcYI9DKsPHoN98XR6sjL9VvQC2f4r4WW1+mhjl8LL
+	vDltj6Jpjwq7jjq5zZRWfdjodxR+hZdij4wDEjcPgU+6J0x/DTji9qutUOj37Qz6O08m
+	f4n5/YoagAmYGITXYBRX1Jt8z4tYrQ/TE+oqHFQ4VW8DXBwNOol9f2WKJBkOBzTZARq+
+	+wPywL4Z7atC6vEiYrVi0IJyaAqSZWJNLTgA3XVVR6vKV2h4ihTDka/m9Zs1kx+2MJpm
+	E38w==
+X-Gm-Message-State: APjAAAUVvJZMhxotm07nzNlGTD4tc/t0qttBHQQO07/J81o2VOcR6Voy
+	nXfNQtpih29lm0jw5mRGbQd8gOADbc2SB5ueITkJXVFJOnI=
+X-Google-Smtp-Source: APXvYqxqyqjFDJAEgGurujDeH26RHpn/CwweVo6OY98Mv6SCwQR6jUskKdB9DDRK9pJmg0T8vjakFrpWgrtWnysZD74=
+X-Received: by 2002:a02:6055:: with SMTP id d21mr33814202jaf.21.1580970895556; 
+	Wed, 05 Feb 2020 22:34:55 -0800 (PST)
 MIME-Version: 1.0
-Cc: "xe-linux-external@cisco.com" <xe-linux-external@cisco.com>,
-	"openembedded-core@lists.openembedded.org"
+Received: by 2002:ad5:5d0d:0:0:0:0:0 with HTTP;
+	Wed, 5 Feb 2020 22:34:55 -0800 (PST)
+From: JH <jupiter.hce@gmail.com>
+Date: Thu, 6 Feb 2020 17:34:55 +1100
+Message-ID: <CAA=hcWSCZROrpDBWV5ZAA+LV6j0cjRSKxyjonOfWS4mCZAtdHg@mail.gmail.com>
+To: Meta Freescale <meta-freescale@yoctoproject.org>, 
+	Yocto discussion list <yocto@yoctoproject.org>, 
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-9.2: fix bug #91102 'aarch64 ICE on Linux kernel with -Os'
+Cc: U-Boot Mailing List <u-boot@lists.denx.de>
+Subject: Support UBI u-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,16 +55,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 03:34:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0FE3E23CF4EC994A9AEF802A677BFC5B@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 06 Feb 2020 06:34:54 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-T24gV2VkLCAyMDIwLTAyLTA1IGF0IDAxOjI1ICswMDAwLCBUYXJhcyBLb25kcmF0aXVrICh0YWtv
-bmRyYSkgdmlhDQpPcGVuZW1iZWRkZWQtY29yZSB3cm90ZToNCj4gVGhlIHBhdGNoIGFwcGxpZXMg
-dG8gemV1cyBicmFuY2ggYXMgaXMgd2l0aG91dCBjb25mbGljdHMuDQo+IFNob3VsZCBzdGlsbCBy
-ZXNlbmQgaXQgc2VwYXJhdGVseSBmb3IgWmV1cz8NCg0KSSBoYXZlIHBpY2tlZCB0aGlzIHVwIGFs
-b25nIHdpdGggc29tZSBvdGhlciBwYXRjaGVzIGZvciB6ZXVzLW5leHQuDQoNClRoYW5rcywNCg0K
-QW51ag0K
+Hi,
+
+Sorry for cross-posting, I have been asking for helping solving the
+issue many days ago, but could not get those work.
+
+(1) UBI support
+
+I added NAND and UBIFS support to my Yocto layer machine config file:
+
+UBOOT_CONFIG = "nand"
+UBOOT_CONFIG[nand] += "mx6ull_14x14_evk_config"
+UBOOT_CONFIG[nand] += "mx6ull_14x14_evk_nand_config"
+UBOOT_CONFIG[nand] += "ubi"
+UBOOT_CONFIG[nand] += "ubifs"
+
+But my u-boot.imx-nand still could not support ubi:
+
+=> ubi part rootfs
+Unknown command 'ubi' - try 'help'
+
+What I could be missing here?
+
+
+(2) Patch u-boot parameters
+
+I am not clear how you do to change u-boot parameters, it seems to me
+I have to create my own u-boot-imx_2017.03.bbappend and patch files to
+ mx6ullevk.h, to change u-boot parameters of mtdparts, NAND_ROOT_UBI,
+bootcmd, etc based on my configuration.
+
+But Yocto won't allow the patch running unless that the patch is
+committed to the git repository in
+https://source.codeaurora.org/external/imx/uboot-imx.git.
+
+Ideally, I thought all u-boot parameters can be changed in a bbappend
+file, could you advise if it is possible to do that way or not? If so,
+how to do it?
+
+If not, what is the policy for making parches and commit to the git
+repository https://source.codeaurora.org/external/imx/uboot-imx.git?
+
+Thank you.
+
+Kind regards,
+
+- jh
 
