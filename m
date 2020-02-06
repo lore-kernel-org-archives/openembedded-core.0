@@ -1,51 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D551860B3F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5865960197
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 09:03:56 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id q9so5368849wmj.5
+	Thu,  6 Feb 2020 09:37:24 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id y17so6270814wrh.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 01:03:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=7MWXxWw6oUICvO/an/7MONpHXFsSWGcU6t45XumH+X4=;
-	b=Npma+SXgG3L7f4aFJLts2DtdcI5Lq6g33txxikP1V2AKB7faHaO8lTBhSYyH62yVED
-	tjDMZBP6hTAnBqfOuTV/6DoBKMc2Qo+v4rnb7vxAGgJYLCvbD9NoP0Jk5gjCmK0iSpPj
-	CmB1e3Df9z+VC33Dv5dEbVLagNXH2iQjuEqpo=
+	Thu, 06 Feb 2020 01:37:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=nX+F8tAMiPXLZYHZkheDAtAKGI+/0uG8br2+yaosGPM=;
+	b=CYAn9LX7GgHSgvFaNtrd8MCdyxn7+VxJp3bW68Bnas7QbN8VExtupf7K/GtveFvC2e
+	WIXGFFpNQaI318bWjz6aS+yccZiL2UpFfu6CECtz7cEbvCp9d5E8J4wYL3fIrTWR6z66
+	vREC3og/24hiLrK2Mds3I/4xAH0TO0SAU/9s0Vcxf16VRWRuLHjmxIKs6+OmxfIR7P5e
+	Md1rBkg20Kzhrx1i/ow0A89B7YPC2+Xfcmn0N70IMDTJCPaopAFjai+RzqznSMbIXMyc
+	KVTkLBc4Y4W9euTvDYIuBXN8dpTp1RYF9Rl+LW8uMsnnyZOkWclE/UyM1gkN8Mbo/yFy
+	ud3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=7MWXxWw6oUICvO/an/7MONpHXFsSWGcU6t45XumH+X4=;
-	b=e8GWChWKn4YxDHIVO97lqtUHehz8b8itu0Z16EMo83usNQErprGUjoLF97qJy1iknh
-	7XQEbxaLDfdf2s1vGZ7PE3MdZYbXRxORRt+CIjaeoDP65O1w9hqUCY3WTXU61OO6EZ6V
-	5VLd5udsWmxoHpGmBWMItwwGoMckE5wyKzXGktkosJ+tSKKCoE4ktwHTxuLWs2dv6KEv
-	BW6sjKfEqkppVTZoSeixGhzxDp553YdYiqE7Ey2GE93p6iGYsJGAQ+Q3+QV1OCgA8LlD
-	DrSu/4tFpadQWUI4aIW4jWJBMXh20vzfZ2XcmHGA97QnyhXC5uEg0kd8Rkw4p/EEiSCt
-	6TCg==
-X-Gm-Message-State: APjAAAU6PTSr+NcDe2NigZf9xkszUOG/DOtZZkT7HsNDuzI2+C5NYtlx
-	Lho7Ljla0Wd+DDhR8C9PdWBiLA==
-X-Google-Smtp-Source: APXvYqwlPSMb+LgtqIsv+aQUgi4+mVRXXirMQvSN0CHM+XGf4ZdWGf+vby5/n5l5f8x1hkBA5wxziw==
-X-Received: by 2002:a7b:c774:: with SMTP id x20mr3248516wmk.67.1580979837364; 
-	Thu, 06 Feb 2020 01:03:57 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b67sm2937229wmc.38.2020.02.06.01.03.56
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=nX+F8tAMiPXLZYHZkheDAtAKGI+/0uG8br2+yaosGPM=;
+	b=HxC9dRn2oXcdnui9/AG/JHlhcITq50d849qE94GTbAV7MHN+71IfOC2M3KMG8T+S1L
+	hDTtybydfXPN43V9zVflqpvH6hcZk4C4hUJkFcbZHCjLkYcR1NJ2jIU22jU6YWco4XJc
+	ysKiPhB1obcNh9hVgbD7sCqPSkO3JTWNM+fLXgL4Or2RhHzLdGd+8lC200SXbA5xIhpm
+	8KdHH7qPvhfkark8+BTVtG6eZpRI+tgjVEVvJwKZIktrnPN9NR30sf+fyAzo3sxL/LKb
+	C42zdlPIxlW4QpTnX/SYTvEiLkcl0evFf1haYPw8Li7ATdJ3oYHkt0Ifkij+4zMGup4/
+	mItA==
+X-Gm-Message-State: APjAAAV6enBbvxG1hkpajn8ghnAg2gz/TscDvzyfIehb+/26wfwEi05i
+	8xl62Ap91puWlVlMUZcHrxLEx+zF
+X-Google-Smtp-Source: APXvYqz7LH2iWex2oH6GmJ1G0ppOEaAItV8IcyIk4zRWT1amXkeFMAQWJwWOv+WfHROeRKrFEEz3cQ==
+X-Received: by 2002:a5d:4ed0:: with SMTP id s16mr2937679wrv.144.1580981844917; 
+	Thu, 06 Feb 2020 01:37:24 -0800 (PST)
+Received: from localhost ([109.238.218.228])
+	by smtp.gmail.com with ESMTPSA id d13sm3435215wrc.3.2020.02.06.01.37.23
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 06 Feb 2020 01:03:56 -0800 (PST)
-Message-ID: <81d55204978a296d27ecaff359d270dfc0f473eb.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: bruce.ashfield@gmail.com
-Date: Thu, 06 Feb 2020 09:03:54 +0000
-In-Reply-To: <cover.1580944129.git.bruce.ashfield@gmail.com>
-References: <cover.1580944129.git.bruce.ashfield@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Thu, 06 Feb 2020 01:37:23 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Thu, 6 Feb 2020 10:37:23 +0100
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20200206093723.6hq2anenujgnqiq5@jama>
+References: <20200205010819.4172914-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <20200205010819.4172914-1-raj.khem@gmail.com>
+User-Agent: NeoMutt/20180716
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/9] kernel-yocto: consolidated pull request
+Subject: Re: [PATCH] bison: Upgrade to 3.5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,53 +60,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 09:03:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 06 Feb 2020 09:37:24 -0000
+X-Groupsio-MsgNum: 134583
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="yor25h3jvqko374v"
+Content-Disposition: inline
 
-Hi Bruce,
+--yor25h3jvqko374v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2020-02-05 at 18:12 -0500, bruce.ashfield@gmail.com wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> 
-> Hi all,
-> 
-> I've kept the v5.4 content changes, as well as the kernel version
-> default
-> changes out of this series and instead focused it on the collection
-> of
-> kernel-yocto and kern-tools tweaks that I've gethered over the past
-> few
-> weeks.
-> 
-> I have Martin's gold linker fixes included, as well as the re-org'ing 
-> of
-> the linux-yocto tasks that Paul Barker did to make it usable as a
-> single
-> inherit of the bbclass.
-> 
-> I also have a defconfig detection fix included that was sent to the
-> list.
-> 
-> I was able to confirm that my configuration was the same with this
-> series
-> enabled, and I was able to boot.
-> 
-> That being said, I'll keep my eye out for any AB fallout and will
-> continue
-> some more build locally .. but I wanted to get this out today as
-> promised.
+On Tue, Feb 04, 2020 at 05:08:19PM -0800, Khem Raj wrote:
+> Minor upgrade on 3.5 release series
 
-qemuarm64 seems unhappy:
+Acked-by: Martin Jansa <Martin.Jansa@gmail.com>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/1524
+Minor upgrade with added benefits that bison-native doesn't fail to
+build for me when using yoe-distro. Strangely I haven't seen this error
+in any other build yet.
 
-(the builds on the arm native machine also failed but it looks related)
+86_64-linux/bison-native/3.5-r0/recipe-sysroot-native/usr/include -O2 -pipe=
+ -c -o lib/libbison_a-pipe2.o `test -f 'lib/pipe2.c' || echo '../bison-3.5/=
+'`lib/pipe2.c
+In file included from ../bison-3.5/lib/pipe2.c:25:
+=2E./bison-3.5/lib/binary-io.h: In function '__gl_setmode':
+=2E./bison-3.5/lib/binary-io.h:52:10: error: 'O_BINARY' undeclared (first u=
+se in this function)
+   52 |   return O_BINARY;
+      |          ^~~~~~~~
+=2E./bison-3.5/lib/binary-io.h:52:10: note: each undeclared identifier is r=
+eported only once for each function it appears in
+=2E./bison-3.5/lib/pipe2.c: In function 'rpl_pipe2':
+=2E./bison-3.5/lib/pipe2.c:70:43: error: 'O_BINARY' undeclared (first use i=
+n this function); did you mean 'SET_BINARY'?
+   70 |   if ((flags & ~(O_CLOEXEC | O_NONBLOCK | O_BINARY | O_TEXT)) !=3D =
+0)
+      |                                           ^~~~~~~~
+      |                                           SET_BINARY
+=2E./bison-3.5/lib/pipe2.c:70:54: error: 'O_TEXT' undeclared (first use in =
+this function); did you mean 'F_TEST'?
+   70 |   if ((flags & ~(O_CLOEXEC | O_NONBLOCK | O_BINARY | O_TEXT)) !=3D =
+0)
+      |                                                      ^~~~~~
+      |                                                      F_TEST
+make: *** [Makefile:4827: lib/libbison_a-pipe2.o] Error 1
+WARNING: exit code 1 from a shell command.
 
-I think everything else passed testing for this series.
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-devtools/bison/{bison_3.5.bb =3D> bison_3.5.1.bb} | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-devtools/bison/{bison_3.5.bb =3D> bison_3.5.1.bb} (9=
+0%)
+>=20
+> diff --git a/meta/recipes-devtools/bison/bison_3.5.bb b/meta/recipes-devt=
+ools/bison/bison_3.5.1.bb
+> similarity index 90%
+> rename from meta/recipes-devtools/bison/bison_3.5.bb
+> rename to meta/recipes-devtools/bison/bison_3.5.1.bb
+> index 3d8f6579b9..e70252d974 100644
+> --- a/meta/recipes-devtools/bison/bison_3.5.bb
+> +++ b/meta/recipes-devtools/bison/bison_3.5.1.bb
+> @@ -17,8 +17,8 @@ SRC_URI =3D "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+>  # No point in hardcoding path to m4, just use PATH
+>  EXTRA_OECONF +=3D "M4=3Dm4"
+> =20
+> -SRC_URI[md5sum] =3D "c0230be066069f33c8445766833f3205"
+> -SRC_URI[sha256sum] =3D "55e4a023b1b4ad19095a5f8279f0dc048fa29f970759cea8=
+3224a6d5e7a3a641"
+> +SRC_URI[md5sum] =3D "6fc5fa4488832a65db934b9e93bd5d4c"
+> +SRC_URI[sha256sum] =3D "3e7e097bd9709a2d5e40e69446b74b149733b3de864fadb7=
+a9b54eca7b2a4dd0"
+> =20
+>  inherit autotools gettext texinfo
+> =20
+> --=20
+> 2.25.0
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Cheers,
+--yor25h3jvqko374v
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Richard
+-----BEGIN PGP SIGNATURE-----
 
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXjveUgAKCRA3VSO3ZXaA
+HAP9AJ9D1vgb1lcGaPKxQDRMvNxaCLTnBQCgqiLvcdUxa/6qWGROm2JZ7QGGvEc=
+=vhUR
+-----END PGP SIGNATURE-----
 
+--yor25h3jvqko374v--
