@@ -1,49 +1,45 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C3CA560D18
+Return-Path: <scott.branden@broadcom.com>
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B7CD60BB1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 20:33:29 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id r18so7411001edl.1
+	Thu,  6 Feb 2020 20:57:49 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id l24so3362090pgk.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 12:33:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rL3X4nWIGnWc6SLMku1d2lyPTaPnou1AEr/rxznhhVY=;
-	b=qjtPzSLgIjz0DpJWO/IZAuCld1ch6rVpIc5x/oXOduIMj9PN12jTXsRIGbRNT4IJJc
-	/eN6HcDLpbGZ+S3y1sKlblarcxkpnu9i4oWU4IYke6F4CEFu1iboHHdaE/HXvqzuyHTG
-	yCv8l+r5zCUtNuaB0GxCInlb0VIZCwiKZIv9C/v8knq+aMVcowUWxolm8JfAhPJ5VqlJ
-	bx4WWmk/9aiCWAO6cIOY8GvJ2U/fWK61WW+7dAtJmv3zLfmbVatgA+INE/xBe3334jfl
-	d/nD3TdY35dMDAXTMdTzdrPbxK1eF5F3KYsmCkU7nInKMAMdmo9V3W2ugXebJiqkCjgl
-	zukQ==
+	Thu, 06 Feb 2020 12:57:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=VNu5ZXo8ZxCmerNVSBNfJD6Xk68XXtmDzu/OHGc2zSA=;
+	b=ICwF1KC/RnnoRw7knf7TqXbxaO6SofUS0ZpYa7nzjCbqZNg8SlwfswbO33V4HvPAKU
+	zRjqvzUBVgSSU7YP/DQqIK8ngiu43pNtHG0/3lxx7psb4P/BU/vxl/8SZpB8r+Dt9VMP
+	qMYIhL5XdBMGe6uKAQXaiYXKR5H72+nMu54LA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rL3X4nWIGnWc6SLMku1d2lyPTaPnou1AEr/rxznhhVY=;
-	b=e0cK2RnAqxOkS+i8OaCZWLt+U3w09hhrmk6SDa+KqluCnBHLwoVNQzrDowkMFq0pIh
-	8sVZk7qE81AhC4taTxcToORzlekKNwoul0mxsuZu3rTcQ4UOy/Q0HZRUTl99wFfidLt1
-	1QUZxHZIrRZsRz6i6UxdEftkpwB5VSjS0SMtomAG8u5ouRCtNXysw5cpYxYPbiKE57v/
-	zYn289zLgD1MdOmBWtiwFSxue28DFZ55PNfD6WsrdpUIIEDvFkGNhopoQNSm36DQhqza
-	pcaBjYKWNTe+SsMRqJT7MgooG2MVhY1X8GBCOng0TW78jFH/yqjz71QDSUEA14FqOs/k
-	a4OA==
-X-Gm-Message-State: APjAAAX2hYpWFbdpdPZXRuXn9etf2ghaKjy1hYdEHOA8v4AF2GAn9ZAO
-	c9ntlhGXGsh4D74+x1UP2kdjay8uJs8XOa9VmSNOqKHl
-X-Google-Smtp-Source: APXvYqyHSikO1mrlAqdLHoWWFYVlWn1P4OL92pfc2GKaQZO/tRaZgZoKEK8IwMgcgU59K/QwdUBXlRFSnFfgsVUuYB8=
-X-Received: by 2002:a17:906:717:: with SMTP id
-	y23mr4578284ejb.339.1581021210317; 
-	Thu, 06 Feb 2020 12:33:30 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1581010425.git.bruce.ashfield@gmail.com>
-	<CADkTA4PZ4=V2vquGXV7=xPL5GWaPP6PMbg+bBgswCaY0tDDhQg@mail.gmail.com>
-In-Reply-To: <CADkTA4PZ4=V2vquGXV7=xPL5GWaPP6PMbg+bBgswCaY0tDDhQg@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 6 Feb 2020 15:33:19 -0500
-Message-ID: <CADkTA4PKB5+cGq9_y=WyNvYzT9xTnsWC_RX5=toNn=MWkXRdrQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 00/10][v2] kernel-yocto: consolidated pull request
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=VNu5ZXo8ZxCmerNVSBNfJD6Xk68XXtmDzu/OHGc2zSA=;
+	b=jDLQUruK4teh2LJHf9KzMyYjnZf/mvTvuimKE42pVskRnEdtQp+ihLpf2wgIwYR0NB
+	85OpuD8ZpUcioje7vZsJaRDfkjs8oTS4zJbLVch/AjRsvaXbRsenCXQT6Tkfi1UYbqqd
+	U1DD7duG2IBf1W7a3fzKgFA0/QbtyFNVyCpnOIaATJPpdGFIgxwE2eqjCDTkoNFMnR33
+	mAl2T3xHxLpbp5RIBfpdLTcCjqSdtDRyi6rsTgEX/N7ZGeSygscc0D3DfvCoFvYrbfXr
+	YNXETFSSe+I/Rra7tbyrwssrnm922ElaSHPv8pwrGckbCvuX6+swZC+f5kJvmvwdo3tg
+	VNCA==
+X-Gm-Message-State: APjAAAUE1CjFniVi0nrbb9ps1pl7oKe8zYsAg6OODYQY0Kuv9VcKkL+m
+	o/sKUF0EHHZYCxDZ6ofWKv9gcoC+T0sRJ1khbg5nGLXThiqMrTHhAorCuXr/b1AR9Obd/jHnw2v
+	HvDddtDE8bXutwNSxLEezQGo1X0L8Yf8esr9GNeAPb112CaWZnLr9Ron8S4MYwh/d/9p+Bg//eh
+	JksYLb7DHxO5AOSWjyy+6/prwk
+X-Google-Smtp-Source: APXvYqxclw9xxZj0nFOLigIPLhzDlnDnjJVE/yx0c6tJhWEljo4bEIUvTsO/xmkFoKjv3UZn17IgGw==
+X-Received: by 2002:aa7:8191:: with SMTP id g17mr6139160pfi.25.1581022669917; 
+	Thu, 06 Feb 2020 12:57:49 -0800 (PST)
+Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
+	by smtp.gmail.com with ESMTPSA id d22sm292548pgg.52.2020.02.06.12.57.48
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 06 Feb 2020 12:57:49 -0800 (PST)
+From: Scott Branden <scott.branden@broadcom.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Feb 2020 12:57:43 -0800
+Message-Id: <20200206205743.5388-1-scott.branden@broadcom.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] cryptodev: update to Jan.23, 2020
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,113 +52,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 20:33:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Feb 2020 20:57:49 -0000
 
-On Thu, Feb 6, 2020 at 2:12 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
->
-> On Thu, Feb 6, 2020 at 12:35 PM <bruce.ashfield@gmail.com> wrote:
-> >
-> > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >
-> > v2 adds a 10th patch to the series to fixup a config issue seen
-> > with qemuarm64. The other patches are unchanged.
->
-> Hold on queuing this quite yet.
->
-> On a clean build/test on a second machine, I saw the error pop back
-> up. I'll follow up shortly, once I've had a chance to look at that and
-> see if I missed something.
+* Remove backported patches:
+  0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
 
-There were some missing directories during the builds that showed
-errors, but I've since removed tmp and things are building through the
-kernel now.
+Update to latest cryptodev dated Jan.23, 2020.
+Fixes build on kernel v5.5+
 
-As such, I don't have an updated patch and this series should be good
-.. but I'll be waiting to see if the AB runs into what I saw.
+Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+---
+ meta/recipes-kernel/cryptodev/cryptodev.inc   |  3 +-
+ ...x-module-loading-with-Linux-v5.0-rc5.patch | 59 -------------------
+ 2 files changed, 1 insertion(+), 61 deletions(-)
+ delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
 
-Bruce
-
->
-> Bruce
->
-> >
-> > The original pull request text follows:
-> >
-> > ---------
-> >
-> > Hi all,
-> >
-> > I've kept the v5.4 content changes, as well as the kernel version default
-> > changes out of this series and instead focused it on the collection of
-> > kernel-yocto and kern-tools tweaks that I've gethered over the past few
-> > weeks.
-> >
-> > I have Martin's gold linker fixes included, as well as the re-org'ing of
-> > the linux-yocto tasks that Paul Barker did to make it usable as a single
-> > inherit of the bbclass.
-> >
-> > I also have a defconfig detection fix included that was sent to the list.
-> >
-> > I was able to confirm that my configuration was the same with this series
-> > enabled, and I was able to boot.
-> >
-> > That being said, I'll keep my eye out for any AB fallout and will continue
-> > some more build locally .. but I wanted to get this out today as promised.
-> >
-> > Cheers,
-> >
-> > Bruce
-> >
-> > The following changes since commit 3c6978c8db59f152693f9fae65dbab13ecfcaad4:
-> >
-> >   kernel-yocto.bbclass: export LD in the environment used by kconf_check (2020-02-04 15:56:29 +0000)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.pokylinux.org/poky-contrib zedd/kernel
-> >   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=zedd/kernel
-> >
-> > Bruce Ashfield (3):
-> >   kern-tools: tweak symbol_why to be python safe
-> >   kern-tools: integrate merge_config fix for gold linker
-> >   kern-tools: fix merge_config when LD contains parameters
-> >
-> > Gavin Li (1):
-> >   kernel-yocto: fix defconfig detection in find_sccs()
-> >
-> > Martin Jansa (3):
-> >   kern-tools-native: use more common S value and oe_runmake
-> >   kernel-yocto.bbclass: set KERNEL_LD also for merge_config.sh
-> >   kernel-yocto.bbclass: do_kernel_configme: don't use +errexit,
-> >     merge_config_build.log and fail when /.config wasn't created
-> >
-> > Paul Barker (3):
-> >   kernel-yocto: Move defaults and tasks from linux-yocto.inc into
-> >     bbclass
-> >   kernel-yocto: Drop setting of unused variables in do_kernel_metadata
-> >   kernel-yocto: Only override CONFIG_LOCALVERSION if
-> >     LINUX_VERSION_EXTENSION is set
-> >
-> >  meta/classes/kernel-yocto.bbclass             | 49 +++++++++++++------
-> >  .../kern-tools/kern-tools-native_git.bb       | 13 +++--
-> >  meta/recipes-kernel/linux/linux-yocto.inc     | 21 --------
-> >  3 files changed, 42 insertions(+), 41 deletions(-)
-> >
-> > --
-> > 2.19.1
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
-
-
-
+diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+index 9d8ba44058..f99f8bc9f0 100644
+--- a/meta/recipes-kernel/cryptodev/cryptodev.inc
++++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+@@ -4,9 +4,8 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+ 
+ SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux \
+-           file://0001-Fix-module-loading-with-Linux-v5.0-rc5.patch \
+            "
+-SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
++SRCREV = "a87053bee5680878c295b7d23cf0d7065576ac2b"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch b/meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
+deleted file mode 100644
+index 34ec87272f..0000000000
+--- a/meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-Upstream-Status: Backport [https://github.com/cryptodev-linux/cryptodev-linux/commit/f971e0c]
+-
+-Backport patch from upstream to fix module cryptodev loading error.
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-
+-From f971e0cd4a0ebe59fb2e8e17240399bf6901b09b Mon Sep 17 00:00:00 2001
+-From: "Derald D. Woods" <woods.technical@gmail.com>
+-Date: Sun, 10 Feb 2019 13:22:19 -0600
+-Subject: [PATCH] Fix module loading with Linux v5.0-rc5
+-
+-This commit fixes this module load error:
+-[...]
+-[   29.112091] cryptodev: loading out-of-tree module taints kernel.
+-[   29.128906] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
+-[   29.188842] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
+-modprobe: can't load module cryptodev (extra/cryptodev.ko): unknown symbol in module, or unknown parameter
+-[...]
+-
+-Upstream Linux support for unused GIVCIPHER, and others, was dropped here:
+-
+-c79b411eaa72 (crypto: skcipher - remove remnants of internal IV generators)
+-
+-Signed-off-by: Derald D. Woods <woods.technical@gmail.com>
+----
+- cryptlib.c | 9 +++++++--
+- 1 file changed, 7 insertions(+), 2 deletions(-)
+-
+-diff --git a/cryptlib.c b/cryptlib.c
+-index 6e66698..4a87037 100644
+---- a/cryptlib.c
+-+++ b/cryptlib.c
+-@@ -38,7 +38,9 @@
+- #include "cryptodev_int.h"
+- #include "cipherapi.h"
+- 
+-+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 0, 0))
+- extern const struct crypto_type crypto_givcipher_type;
+-+#endif
+- 
+- static void cryptodev_complete(struct crypto_async_request *req, int err)
+- {
+-@@ -157,8 +159,11 @@ int cryptodev_cipher_init(struct cipher_data *out, const char *alg_name,
+- 
+- #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 8, 0))
+- 		tfm = crypto_skcipher_tfm(out->async.s);
+--		if ((tfm->__crt_alg->cra_type == &crypto_ablkcipher_type) ||
+--		    (tfm->__crt_alg->cra_type == &crypto_givcipher_type)) {
+-+		if ((tfm->__crt_alg->cra_type == &crypto_ablkcipher_type)
+-+#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 0, 0))
+-+		    || (tfm->__crt_alg->cra_type == &crypto_givcipher_type)
+-+#endif
+-+							) {
+- 			struct ablkcipher_alg *alg;
+- 
+- 			alg = &tfm->__crt_alg->cra_ablkcipher;
+--- 
+-2.20.0
+-
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
+
 
