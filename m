@@ -1,46 +1,50 @@
 Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com
-	[209.85.222.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 7133A60E45
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 38C0F60B01
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2020 18:40:01 +0000 (UTC)
-Received: by mail-ua1-f52.google.com with SMTP id 80so198023uah.9
+	Fri,  7 Feb 2020 18:48:05 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id g15so266056vsf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Feb 2020 10:40:02 -0800 (PST)
+	Fri, 07 Feb 2020 10:48:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=vDzDYf3wL/nkT0bdVbiMXFHcGVvCSz+wwPy2H2PSToc=;
-	b=l+EZ0EaN7hv4wUi98BfyDzN7wl9+2svdDcqQH8bwDizlONhABnANlB+tJeMrTrgyR0
-	F4NM8mRuquwyuXok6F+FxD1QtMa4CnLWrWNj5XAi5+2qdWVHNntVUFf69lSDem37Xajo
-	Epm/6YW+1ZoLXFmREQniq2Gu1UDWj0Wkj5KensICE/qxwNgZkjpejRbhODtCJL3wC0+X
-	5gYh5XYyl2hUjWWr1sUYZz8V+LTBDi3nN00xFhaYlSKxqqb4tJS64O0t5RUvIFbdVpRC
-	62us5TbcBv5g0PPXS/V+do4bjLKEhYneyyHTmq0SUhJNbNa9oJ9FwcbxWH7ViLF96IsT
-	kN5w==
+	:cc; bh=ixKL3fAUyyrhURHGfwljOoEnneyfhckaCYSOLVOfiZw=;
+	b=Bumb+/pJ7lQ3bhWlVzVGWKMaZ78HgQP9DgkRgSi79KbTiFLYngcBp3X0UpKhaVKHcP
+	N8eak1tZIJK5dUuKO80rqRt3MX7xs1l0P359mPsKs/7538tALega2vNDvWSesyZsW26+
+	qxnPB4iyhpGk8izo+Dz6EOwJFNADblLZ1PqwWmi8IboNdYzw5OpvvH5LIdCRuEuVWcRv
+	xxMH5goZkFVRMfncwK/stP3JwJO2NkzRlNOaMX8ELXy6E0JVCYPDspXQkiqgO8Q0TKCu
+	TZwiLw80XrJIyMEA+3GI5AE00gA2xY0lFfVUYc0igJrxavorQYDxfzm6Vnd1Baw6swUD
+	wlpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=vDzDYf3wL/nkT0bdVbiMXFHcGVvCSz+wwPy2H2PSToc=;
-	b=jTFVCZizNNhC56lWOx0oSf89pN06VxoK9tut1HtKLX0fWw0SeKXwJkQ28UQ3q072ZK
-	IC0ydkSiAvIn0Mns5/2VhBE2TuPuLHyU/5wczMgH/NDabEgUVezA8QX0H7JGyJ2BCoQ5
-	Bk7Xj7E8oaQfIExor0SeZtozifdd3yPGkPgKq3sKkutVWjn28+Pplsu3pFP5BwnJDLdh
-	q7VraEOK82NlNK/uY3+2Kk5Cd2181s689BHfXBVkLV/KQ955xsxMA226m9ifNJ2OpBZA
-	FwMo9QIM2Orp2T8HEGgPdZ6oipOazfFafeeqUn5uh8sqefhrLoAjEji8DNDA3pmB2Qc+
-	TP2w==
-X-Gm-Message-State: APjAAAWsxxN06GPUoAd+7EYyBNmqLSamNeLFbrmEcFRTqDu6ljTq4RUI
-	Vkql9JABDBs67LsXWIgs87cQy164FBHFspXPZPw=
-X-Google-Smtp-Source: APXvYqwqGGnCzfH116mG6bb5OlPpDRtWT4DNbVBsPnlDmes4iVP957VBeKTZVPygSomlCBnmrmc0ipfzAC/qgLCRzl0=
-X-Received: by 2002:ab0:3387:: with SMTP id y7mr38663uap.99.1581100802185;
-	Fri, 07 Feb 2020 10:40:02 -0800 (PST)
+	bh=ixKL3fAUyyrhURHGfwljOoEnneyfhckaCYSOLVOfiZw=;
+	b=CQIyZ/FA3j84x7BZQQ5+BbDKTJiKagPzL1CPFNsX3puGrdhzELotuj6QAaaRq0I3PG
+	2D9hpHuAaALnBGB+pP/oMky/lq2zoLZy0qaK8fmaO4i40cOe2pxTEctfYsN3KCuKhtYV
+	vTi6y6j4RN3Rn7lYJxI67h3IsWWAH2Zo8zzizmHfZNQRHMULr1Y2+yjroG3Wci5CUGXN
+	suArVfyWqOifRZUzW7X91fzgI1Vxi0JX8S+Goaq9mZb+eQkaojHys7IhOyFhBvdg3Mhh
+	oWcO1CHIQqo9KAFSfwkeocBWDLXICJHpdB1/xSE9BqIDyXRVbGvz6AOdqxn3zooDUJrk
+	zCbQ==
+X-Gm-Message-State: APjAAAVGHI4Kc6whNHPHy6SpRozcK9KjI7dY6gqsa9HAPgr5lkaC2Vz0
+	KQRVmhLXQNGaJ5+yUIS5icdV7WtxkSi0tSyPsyo=
+X-Google-Smtp-Source: APXvYqwhJQ/GtEr3am2UVkXRrXayR69BXDjo5iyv/Xkk99Ce32+iTwuDzusqCJcYTxZze7wY24Zhj+kN3fzViXZva4o=
+X-Received: by 2002:a67:ee4e:: with SMTP id g14mr349777vsp.223.1581101285914; 
+	Fri, 07 Feb 2020 10:48:05 -0800 (PST)
 MIME-Version: 1.0
-References: <20200207182542.300768-1-raj.khem@gmail.com>
-In-Reply-To: <20200207182542.300768-1-raj.khem@gmail.com>
+References: <20200205054120.1461132-1-raj.khem@gmail.com>
+	<20200205054120.1461132-2-raj.khem@gmail.com>
+	<396189a7541b8b73d5bfff4949d9873ab5079fd2.camel@linuxfoundation.org>
+	<CAJ86T=U-i3H09en6j0k5jfs+_cFakRyKPMsTpr-ieHNAgOmPzg@mail.gmail.com>
+	<CAMKF1so_g-48z24jqbWmmeRLZNMjRpqnzMZF40kJXMae98Zpsg@mail.gmail.com>
+In-Reply-To: <CAMKF1so_g-48z24jqbWmmeRLZNMjRpqnzMZF40kJXMae98Zpsg@mail.gmail.com>
 From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 7 Feb 2020 10:39:49 -0800
-Message-ID: <CAJ86T=VX3N9fchLbA0w-pxuuao-Nn6B9N=pvtxe1efSH9qogQA@mail.gmail.com>
+Date: Fri, 7 Feb 2020 10:47:54 -0800
+Message-ID: <CAJ86T=U_t9qfz_ZyRMM2ZUNoF0e2M=Uu=0APkdTjQ9xj4AMEPw@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] oeqa: Touch cpio configure script before building
+Subject: Re: [PATCH 2/2] oeqa: autoreconf cpio before building
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,86 +57,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2020 18:40:01 -0000
+X-List-Received-Date: Fri, 07 Feb 2020 18:48:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Feb 7, 2020 at 10:25 AM Khem Raj <raj.khem@gmail.com> wrote:
+On Fri, Feb 7, 2020 at 10:28 AM Khem Raj <raj.khem@gmail.com> wrote:
 >
-> since the versions of autotools might differ, and difference in
-> timestamps for configure and system can result in reconfigure lets avoid
-> that by touching the configure script to match system time
+> On Fri, Feb 7, 2020 at 10:18 AM Andre McCurdy <armccurdy@gmail.com> wrote:
+> >
+> > On Fri, Feb 7, 2020 at 10:09 AM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > On Tue, 2020-02-04 at 21:41 -0800, Khem Raj wrote:
+> > > > since the versions of autotools might differ in OE especially
+> > > > so recreate config.h.in, aclocal.m4, configure, and Makefile.in
+> > > >
+> > > > [YOCTO #13779]
+> > > >
+> > > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > > > ---
+> > > >  meta/lib/oeqa/runtime/cases/buildcpio.py | 2 +-
+> > > >  meta/lib/oeqa/sdk/cases/buildcpio.py     | 1 +
+> > > >  meta/lib/oeqa/selftest/cases/meta_ide.py | 2 +-
+> > > >  3 files changed, 3 insertions(+), 2 deletions(-)
+> > > >
+> > > > diff --git a/meta/lib/oeqa/runtime/cases/buildcpio.py
+> > > > b/meta/lib/oeqa/runtime/cases/buildcpio.py
+> > > > index 4bd72dd37e..9cc261c314 100644
+> > > > --- a/meta/lib/oeqa/runtime/cases/buildcpio.py
+> > > > +++ b/meta/lib/oeqa/runtime/cases/buildcpio.py
+> > > > @@ -27,6 +27,6 @@ class BuildCpioTest(OERuntimeTestCase):
+> > > >      @OEHasPackage(['autoconf'])
+> > > >      def test_cpio(self):
+> > > >          self.project.download_archive()
+> > > > -        self.project.run_configure()
+> > > > +        self.project.run_configure('','autoreconf --force;')
+> > > >          self.project.run_make()
+> > > >          self.project.run_install()
+> > > > diff --git a/meta/lib/oeqa/sdk/cases/buildcpio.py
+> > > > b/meta/lib/oeqa/sdk/cases/buildcpio.py
+> > > > index b0beafb38f..ec10149d34 100644
+> > > > --- a/meta/lib/oeqa/sdk/cases/buildcpio.py
+> > > > +++ b/meta/lib/oeqa/sdk/cases/buildcpio.py
+> > > > @@ -28,6 +28,7 @@ class BuildCpioTest(OESDKTestCase):
+> > > >              self.assertTrue(os.path.isdir(dirs["source"]))
+> > > >              os.makedirs(dirs["build"])
+> > > >
+> > > > +            self._run("cd {source} && autoreconf --force")
+> > > >              self._run("cd {build} && {source}/configure
+> > > > $CONFIGURE_FLAGS".format(**dirs))
+> > > >              self._run("cd {build} && make -j".format(**dirs))
+> > > >              self._run("cd {build} && make install
+> > > > DESTDIR={install}".format(**dirs))
+> > > > diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py
+> > > > b/meta/lib/oeqa/selftest/cases/meta_ide.py
+> > > > index 809142559a..46398c7e2d 100644
+> > > > --- a/meta/lib/oeqa/selftest/cases/meta_ide.py
+> > > > +++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
+> > > > @@ -43,7 +43,7 @@ class MetaIDE(OESelftestTestCase):
+> > > >                          "
+> > > > https://ftp.gnu.org/gnu/cpio/cpio-2.13.tar.gz",
+> > > >                          self.tmpdir_metaideQA, self.td['DATETIME'],
+> > > > dl_dir=dl_dir)
+> > > >          self.project.download_archive()
+> > > > -        self.assertEqual(self.project.run_configure(), 0,
+> > > > +        self.assertEqual(self.project.run_configure('','autoreconf
+> > > > --force;'), 0,
+> > > >                          msg="Running configure failed")
+> > > >          self.assertEqual(self.project.run_make(), 0,
+> > > >                          msg="Running make failed")
+> > > > --
+> > > > 2.25.0
+> > >
+> > > This breaks the SDK everywhere:
+> > >
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/1552/steps/8/logs/step2c
+> > >
+> > > (and many more)
+> >
+> > Configuring with --disable-maintainer-mode might be a better fix for
+> > the original problem?
+> >
+>
+> yes, or just touch configure, which I have sent as v2
 
-This is probably only a partial fix. If you look at the various
-dependencies in Makefile.in, ensuring that configure is newer than
-$(am__configure_deps) is only one case that needs to be handled. You
-also need to ensure that e.g. Makefile.in is newer than
-$(srcdir)/Makefile.am $(srcdir)/Make.rules $(am__configure_deps), that
-aclocal.m4 is newer than $(am__aclocal_m4_deps), etc.
-
-Touching various files in the right order can be made to work, but
-there's more to it than just touching configure. Configuring with
---disable-maintainer-mode and therefore disabling all these autotools
-rules is probably a more robust solution.
-
-> Avoids
-> error: newly created file is older than distributed files!
->
-> [YOCTO #13779]
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
-> v2: Touch configure to match timestamps with system
->     Move the touch cmd to configure step itself
->
->  meta/lib/oeqa/runtime/cases/buildcpio.py | 2 +-
->  meta/lib/oeqa/sdk/cases/buildcpio.py     | 2 +-
->  meta/lib/oeqa/selftest/cases/meta_ide.py | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/lib/oeqa/runtime/cases/buildcpio.py b/meta/lib/oeqa/runtime/cases/buildcpio.py
-> index 4bd72dd37e..a2cc8148db 100644
-> --- a/meta/lib/oeqa/runtime/cases/buildcpio.py
-> +++ b/meta/lib/oeqa/runtime/cases/buildcpio.py
-> @@ -27,6 +27,6 @@ class BuildCpioTest(OERuntimeTestCase):
->      @OEHasPackage(['autoconf'])
->      def test_cpio(self):
->          self.project.download_archive()
-> -        self.project.run_configure()
-> +        self.project.run_configure('','touch ./configure;')
->          self.project.run_make()
->          self.project.run_install()
-> diff --git a/meta/lib/oeqa/sdk/cases/buildcpio.py b/meta/lib/oeqa/sdk/cases/buildcpio.py
-> index b0beafb38f..e412ee189f 100644
-> --- a/meta/lib/oeqa/sdk/cases/buildcpio.py
-> +++ b/meta/lib/oeqa/sdk/cases/buildcpio.py
-> @@ -28,7 +28,7 @@ class BuildCpioTest(OESDKTestCase):
->              self.assertTrue(os.path.isdir(dirs["source"]))
->              os.makedirs(dirs["build"])
->
-> -            self._run("cd {build} && {source}/configure $CONFIGURE_FLAGS".format(**dirs))
-> +            self._run("cd {build} && touch {source}/configure && {source}/configure $CONFIGURE_FLAGS".format(**dirs))
->              self._run("cd {build} && make -j".format(**dirs))
->              self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
->
-> diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/selftest/cases/meta_ide.py
-> index 809142559a..16acd1154d 100644
-> --- a/meta/lib/oeqa/selftest/cases/meta_ide.py
-> +++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
-> @@ -43,7 +43,7 @@ class MetaIDE(OESelftestTestCase):
->                          "https://ftp.gnu.org/gnu/cpio/cpio-2.13.tar.gz",
->                          self.tmpdir_metaideQA, self.td['DATETIME'], dl_dir=dl_dir)
->          self.project.download_archive()
-> -        self.assertEqual(self.project.run_configure(), 0,
-> +        self.assertEqual(self.project.run_configure('','touch configure;'), 0,
->                          msg="Running configure failed")
->          self.assertEqual(self.project.run_make(), 0,
->                          msg="Running make failed")
-> --
-> 2.25.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+If only it was that easy! :-)
 
