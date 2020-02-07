@@ -1,50 +1,33 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-il1-f195.google.com (mail-il1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CB34160ED4
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B2F260B07
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2020 15:44:40 +0000 (UTC)
-Received: by mail-il1-f195.google.com with SMTP id x2so2055351ila.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Feb 2020 07:44:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1DFfZfep9vFFI62Cu1WHN/ORmhNn3BzLTHcUefQLovA=;
-	b=GO2i4r+ge6HHZwJrqEcMKIUaMPBb/Z8yxZZHb/1SYPPTQt/IwRnielBhABITi3kP9n
-	ulKMVkZOTJP672bv1SjDbgEM/TuN+j9bATzjJe7GOxMyh489AsjQOnWArbqeaVykN/S7
-	zWbU5MhqeDA6AqjtHVRwqWtc1YDBpo/9Aa2ZFthoIFDE2BHHlmtWpthmbtyad0mwNqjE
-	nWJCa7TBaxJF5ilxhV0BNBrsmUkkF8nIracueW+czdVHn8t7Xl/aU49csH8I4q+DbE/3
-	1IHcPIYsUc5peosdoW98xml+qBJDymotratV8RCedUxn6ZUoxGJ+608HR/7utjPhWgw6
-	ocvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=1DFfZfep9vFFI62Cu1WHN/ORmhNn3BzLTHcUefQLovA=;
-	b=FV8KccdEJ3AEgL5fJeGxog4okBNCHIThrllZYfdmQqQjK92vsgUJH8hmfw5xAVyA0b
-	WUTgvGO1bXuNnMAegWUuhaOetczzv2r0/tw1LczG3Dya1IARnPKjvOEvAbTPiZXb/+OH
-	Aykl5vk40ebLv/Y1v+NeZlhs4siwG7TFUqbaW8WXxrPYbDnq1J01zZF8DECExQV3JcXx
-	I1cGu976+TzRWArkXr8o0VaqAMoEymE91tg8tQYmbREcvuJqZJuKGNFLqNvNIcwnspU4
-	478FWalpx5pUjlz94D+l3ttFpb2svu0Qd1AdJO3NymNt0WyFGOSIOhj8NXs+7jkuOqkx
-	ID/A==
-X-Gm-Message-State: APjAAAVGxRWtD0Ati+KJSnOUjQEnqy6Oz8pMJSBMe3ioS9OHMNXDYpZ6
-	qEDS9dVT8xbg7ubjgmvBSeIQQds2AQ3nHI+JHg4=
-X-Google-Smtp-Source: APXvYqzj6dfVZm/VVr5irZTKKq+nnZQ6ZOx9j8Aj5PvLM8mlQsmzemBCHAjEOzYnFImflzbTBu6g5t4zWdNmIuj56P0=
-X-Received: by 2002:a92:af08:: with SMTP id n8mr9620425ili.217.1581090281723; 
-	Fri, 07 Feb 2020 07:44:41 -0800 (PST)
-MIME-Version: 1.0
-References: <CAO5Uq5QPxrnkPhjeO3s79AAYF55nPtR3OL0iuL9rqCvN-OmpfA@mail.gmail.com>
-	<ad681bbf95efbeb211cbbe00dd73a4e2ce7cf335.camel@linuxfoundation.org>
-	<BN6PR1201MB248222EF01FA45459B7BC0BE8B1C0@BN6PR1201MB2482.namprd12.prod.outlook.com>
-	<6109c3315b8a215881c134441b74d0753820b5c8.camel@linuxfoundation.org>
-In-Reply-To: <6109c3315b8a215881c134441b74d0753820b5c8.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 7 Feb 2020 15:44:29 +0000
-Message-ID: <CAO5Uq5T1k-ZMZwpsDOeE+aQOJMBZ0PQSzC1jeS+iw=20bxyogA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+	Fri,  7 Feb 2020 16:27:18 +0000 (UTC)
+IronPort-SDR: YzRHa2OVqdnNecfZBTrl7iyg6s1FPr+i99lhogDk5h/jCuE6B11PajCivuZSp2FS2vYetU9re8
+	cN6lhLkrWT0L/drh2bDprkPMRHdrI+7qCVf5/jJNqb2U6h5Tmc6gKKqcLSyNN6XfBkyyMsowr/
+	YXcZja+Fi3VZTXkpAawMi7sHjAYUYsmveRpCxgT63NiCrBsRFKsPA6uI40wZSFLf8hz4SQJOe6
+	H7qPvO8D9wrq/qnQ5H/ofhDyspC4VGJCEUwCeZq0mNkeb4yTUusNDNUnivyoAqIDQRHeWzm/U7
+	1Qs=
+X-IronPort-AV: E=Sophos;i="5.70,414,1574118000"; 
+   d="scan'208";a="5053087"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Cache unihash ... doesn't match BB_UNIHASH ...
+Thread-Topic: [OE-core] [OE-Core][PATCH] rootfs: Make BUILDNAME a weak default
+	in	reproducible_build_simple
+Thread-Index: AQHVzcH43KT99JzQmkmdUsh/lS9Bh6gQCF6w
+Date: Fri, 7 Feb 2020 16:27:18 +0000
+Message-ID: <9242b01969234918b10a8d1c2f494590@XBOX03.axis.com>
+References: <20200118054107.101203-1-alex.kiernan@gmail.com>
+In-Reply-To: <20200118054107.101203-1-alex.kiernan@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Subject: Re: [PATCH] rootfs: Make BUILDNAME a weak default in	reproducible_build_simple
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,62 +40,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2020 15:44:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Feb 2020 16:27:19 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 7, 2020 at 3:06 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2020-02-07 at 14:43 +0000, chris.laplante@agilent.com wrote:
-> > Hi Richard,
-> >
-> > > On Fri, 2020-02-07 at 08:16 +0000, Alex Kiernan wrote:
-> > > > Hi
-> > > >
-> > > > We've got a couple of multiconfig builds with different
-> > > > configurations in one bitbake run (whether it needs to be like
-> > > > this a
-> > > > different question - I suspect we had something that worked and
-> > > > stopped there!)
-> > > >
-> > > > However, for sometime we've been seeing errors like this on
-> > > > master
-> > > > (the recipes vary):
-> > > >
-> > > > ERROR: mc:forensic:ca-certificates-20190110-r0
-> > > > do_deploy_source_date_epoch: Cache unihash
-> > > > 37d2546973a2b7c16fbcb1a8dd4939e4a1bba8c3d6d2dfb6e7204ca08d437ace
-> > > > doesn't match BB_UNIHASH
-> > > > 09baf78bd9316acdd308980c42ea4ed1eacea61bcc0d840c36293d1a5a22db69
-> > >
-> > > This is an internal sanity test. It means the hash that it had in
-> > > the
-> > > task/worker context didn't match what the server thought the
-> > > unihash
-> > > should be. There have been changes in this area to try and fix
-> > > various
-> > > things, I'm wondering if we introduced a bug with multiconfig
-> > > handling.
-> > >
-> > > There are some patches in master-next related to this area so it
-> > > would
-> > > be interesting to know if that made things better/worse.
-> >
-> > Anecdotally, we are running Zeus for nightly builds with three
-> > multiconfigs. I cherry-picked your "bitbake: fix2" and "bitbake:
-> > fixup" patches and haven't seen any of the BB_UNIHASH errors since.
-> > Granted it's only been a week. But before that, hash equiv +
-> > multiconfig was unusable due to the BB_UNIHASH errors.
->
-> That is a really helpful data point, thanks. I should probably clean up
-> those bitbake patches and get them merged then, I couldn't decide if
-> they were right or not...
->
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Alex Kiernan
+> Sent: den 18 januari 2020 06:41
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [OE-Core][PATCH] rootfs: Make BUILDNAME a weak default
+> in reproducible_build_simple
+>=20
+> 11e45082ad00 ("rootfs-postcommands.bbclass: improve binary
+> reproducibility") fixed binary reproducibility of /etc/version, but with
+> the move to reproducibilty in all builds, setting /etc/version to
+> anything other than the default fixed timestamp is tricky because
+> rootfs_reproducible() runs very late.
+>=20
+> rootfs.py uses BUILDNAME if set for /etc/version, so introduce a weak
+> default for BUILDNAME of "REPRODUCIBLE_TIMESTAMP_ROOTFS", when enabling
+> reproducible builds hence allowing BUILDNAME to be overridden elsewhere.
+>=20
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
+>=20
+>  meta/classes/reproducible_build_simple.bbclass | 1 +
+>  meta/classes/rootfs-postcommands.bbclass       | 5 -----
+>  2 files changed, 1 insertion(+), 5 deletions(-)
+>=20
+> diff --git a/meta/classes/reproducible_build_simple.bbclass b/meta/classe=
+s/reproducible_build_simple.bbclass
+> index d0842f0f902a..153a07607219 100644
+> --- a/meta/classes/reproducible_build_simple.bbclass
+> +++ b/meta/classes/reproducible_build_simple.bbclass
+> @@ -7,5 +7,6 @@ export PERL_HASH_SEED =3D "0"
+>  export SOURCE_DATE_EPOCH ??=3D "1520598896"
+>=20
+>  REPRODUCIBLE_TIMESTAMP_ROOTFS ??=3D "1520598896"
+> +BUILDNAME ??=3D "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"
 
-I just picked all your pending changes out of master-next into our
-local patch queue - will let you know how it looks when it's finished
-cooking!
+Can we please revert this change?  This breaks (all?) other usages=20
+of ${BUILDNAME}. E.g., the information in tmp/buildstats is totally=20
+useless now since all builds end up in the same directory=20
+"tmp/buildstats/1520598896", overwriting each other...
 
--- 
-Alex Kiernan
+>=20
+>  inherit podfix
+> diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/root=
+fs-postcommands.bbclass
+> index fdc63bb64d55..ebf96be7e85f 100644
+> --- a/meta/classes/rootfs-postcommands.bbclass
+> +++ b/meta/classes/rootfs-postcommands.bbclass
+> @@ -356,11 +356,6 @@ python rootfs_log_check_recommends() {
+>  # Perform any additional adjustments needed to make rootf binary reprodu=
+cible
+>  rootfs_reproducible () {
+>  	if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" !=3D "" ]; then
+> -		# Convert UTC into %4Y%2m%2d%2H%2M%2S
+> -		sformatted=3D`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS} +%4Y%2m%2d%=
+2H%2M%2S`
+> -		echo $sformatted > ${IMAGE_ROOTFS}/etc/version
+> -		bbnote "rootfs_reproducible: set /etc/version to $sformatted"
+> -
+>  		if [ -d ${IMAGE_ROOTFS}${sysconfdir}/gconf ]; then
+>  			find ${IMAGE_ROOTFS}${sysconfdir}/gconf -name '%gconf.xml' -print0 | =
+xargs -0r \
+>  			sed -i -e 's@\bmtime=3D"[0-9][0-9]*"@mtime=3D"'${REPRODUCIBLE_TIMESTA=
+MP_ROOTFS}'"@g'
+> --
+> 2.17.1
+
+//Peter
+
 
