@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0097B60F03;
-	Fri,  7 Feb 2020 15:02:30 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 2B79160F0C;
+	Fri,  7 Feb 2020 15:02:32 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Fri, 07 Feb 2020 15:02:32 -0000
-Message-ID: <20200207150232.2273.46761@do>
-References: <20200207144057.6121-1-richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 07 Feb 2020 15:02:33 -0000
+Message-ID: <20200207150233.2273.72494@do>
+References: <20200207145204.35747-1-bruce.ashfield@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200207144057.6121-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200207145204.35747-1-bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInN5c3Zpbml0OiBGaXggUmVwcm9kdWNpYmlsaXR5IC4uLiIgYW5kIDIgbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Iga2Vybi10b29sczogZml4IG1lcmdlX2NvbmZpZyB3aGVuIExEIGNvbnRhaW5zIHBhcmFtZXRlcnM=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2020 15:02:31 -0000
+X-List-Received-Date: Fri, 07 Feb 2020 15:02:32 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "sysvinit: Fix Reproducibility ..." and 2 more
+Series: kern-tools: fix merge_config when LD contains parameters
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/22469/
+URL   : https://patchwork.openembedded.org/series/22470/
 State : failure
 
 == Summary ==
@@ -45,10 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
-  Suggested fix    Include where determinism.patch was submitted
-  Current          Upstream-Status: Pending [75% submitted]
-  Standard format  Upstream-Status: Submitted [where]
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 6f6a6bbac6)
 
 
 
