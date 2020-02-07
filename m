@@ -1,49 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 126FB60B06
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CC7760D49
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Feb 2020 22:48:50 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id c9so363194wrw.8
+	Fri,  7 Feb 2020 00:00:45 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id k11so524777wrd.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 14:48:52 -0800 (PST)
+	Thu, 06 Feb 2020 16:00:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=GahCMAbm23vrGX1hySF7tzhlZ7djTUmGWyrAGVVKoIo=;
-	b=L78EgaVwieRIQn4xLHnGt/wgdP/vj4X6wJcVt/mB6XInyShx59Fl/frfWEiH37g164
-	6/IKvL95UZSnGVmLAhGNG/P/PZwK/HQSt1KqY2xOUAi1pxv3LlvcB+sO/sSOOaspJmZj
-	G5R6qoCGePs2UwV3jD8Zcz/mmtrn5r9a01Abg=
+	bh=B98fEWRa2dfYnwkghJaQaF1c40Ee7zJMPAQHICvaTZI=;
+	b=ZELxeuYNYGUxL7BVQuvZCrlENG87iKDoNvL0bcxMOkoDamOnvUPFblYVEnejHKDclD
+	hOL+Db9sgI0zfm0VaXny00fNbg/jFwbbaUpQ2so/IYPMhS0draCSo/Mqcjf8uLc+CksU
+	PdDKVRpSetEL8bE/TIO5o2/AagPz6nUwC3+KQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=GahCMAbm23vrGX1hySF7tzhlZ7djTUmGWyrAGVVKoIo=;
-	b=TD8TSZiFoJG1FqQIbj793oV2/6d613cic33Du8bLhpIfD1z95gW5gnb5mxV3gBQE6h
-	k5lpfBUK4OSw0TuKPfh43Zn0grDMOzMXSSuVFJ1TdPXH+cgou8oJiu9G6KsHro0Xh0JM
-	zWBMeAV0ptaDaL+deC59OclcAln+dVp697si7mMG6CeqqSMyUW4ldO+57WiPO7JgsaLv
-	TOXhM5mJbp2jbfy8eB6zEuKxgX7B1rMvUwp6vE1q+4i4+Q4TuyzfIOlr/T/x6WopCaiH
-	HbBScEKPAKT27mEb++iFnjqeS2nzVkxfTzE6NNl5V5oaS10Na4XPXI/rwzP+yeWccF3z
-	W9ig==
-X-Gm-Message-State: APjAAAWZlchmK3kL25wFOwIvhcTKR8r1XLiAlT+faps8sbX1bTiWksGn
-	p0m66A0PK9mWsgkcj5DH4iyLqAwJYHI=
-X-Google-Smtp-Source: APXvYqwcUXPW41Cgw8V1Mta9xuPZtOlNhuQzykYSKjmc/2LzzP3ZvXqPXeRL2eKfYIOozhV51eBAVA==
-X-Received: by 2002:adf:f103:: with SMTP id r3mr240557wro.295.1581029331192;
-	Thu, 06 Feb 2020 14:48:51 -0800 (PST)
+	bh=B98fEWRa2dfYnwkghJaQaF1c40Ee7zJMPAQHICvaTZI=;
+	b=SUjoTsfKn7R4wiyGIi7cfsmyLR75mKhcMo96qSoJ6kMkEy8bcb2LiMUyGZQYW7plkR
+	Oegp6tyPYJPbvYe8VsXosU+ha0uMkxJIFnRIuVbEE+fmu68pd6QcHE6EBgoxk8yQiW53
+	FGtOPJdwqOJl5GS9IoXFpefJ3CYDtxDe3cm5/nGoL3bEF1dEdmMOSM3RUmqdzU50rtCQ
+	jOnbyibPqAUFeelbT9FO3n4wnb8au0SVwfH2Amuc5ROBpWhhwHUTZskhXz6NK4jDultb
+	mXWpwXWwe09umDkXrMXzBWTYoq7FZ2H+iGUMg6mPQddHttPNIvU01PZd7kRrP9Yfew+U
+	K/tA==
+X-Gm-Message-State: APjAAAVt98dk+Byho/cZ+oI0ErAcNHuCO3Q5GF5Q51qH8gxW4PGEjbAC
+	6WPUbXYv4aAFMFK/dlodc6nuDns5tKk=
+X-Google-Smtp-Source: APXvYqw8sUh9F0RkcrjvAPIhtDkxjobjYr4xZaEHi8KuXggNMgyB3QcDfguGDdFikiQr+mJpnzDn+g==
+X-Received: by 2002:a5d:4d06:: with SMTP id z6mr555713wrt.241.1581033645361;
+	Thu, 06 Feb 2020 16:00:45 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z3sm898181wrs.32.2020.02.06.14.48.50
+	d13sm1115398wrc.3.2020.02.06.16.00.42
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 06 Feb 2020 14:48:50 -0800 (PST)
+	Thu, 06 Feb 2020 16:00:43 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Feb 2020 22:48:49 +0000
-Message-Id: <20200206224849.17737-1-richard.purdie@linuxfoundation.org>
+Date: Fri,  7 Feb 2020 00:00:39 +0000
+Message-Id: <20200207000041.19304-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] openssl: Fix reproducibility issue
+Subject: [PATCH 1/3] iputils: Fix build determinism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,71 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Feb 2020 22:48:51 -0000
+X-List-Received-Date: Fri, 07 Feb 2020 00:00:45 -0000
 Content-Transfer-Encoding: 8bit
 
-There was a build architecture leaking into the target ptest which
-could vary depending upon host. Remove it as its cosmetic.
-
-[YOCTO #13770]
+The suid/setcap code depends on whether setcap is on the host system or not
+with suid as a fallback. Disable this functionality to be deterministic.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../openssl/openssl/reproducible.patch        | 32 +++++++++++++++++++
- .../openssl/openssl_1.1.1d.bb                 |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/reproducible.patch
+ meta/recipes-extended/iputils/iputils_s20190709.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/reproducible.patch b/meta/recipes-connectivity/openssl/openssl/reproducible.patch
-new file mode 100644
-index 00000000000..a24260c95d0
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/reproducible.patch
-@@ -0,0 +1,32 @@
-+The value for perl_archname can vary depending on the host, e.g. 
-+x86_64-linux-gnu-thread-multi or x86_64-linux-thread-multi which
-+makes the ptest package non-reproducible. Its unused other than 
-+these references so drop it.
-+
-+RP 2020/2/6
-+
-+Upstream-Status: Pending
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: openssl-1.1.1d/Configure
-+===================================================================
-+--- openssl-1.1.1d.orig/Configure
-++++ openssl-1.1.1d/Configure
-+@@ -286,7 +286,7 @@ if (defined env($local_config_envname))
-+ # Save away perl command information
-+ $config{perl_cmd} = $^X;
-+ $config{perl_version} = $Config{version};
-+-$config{perl_archname} = $Config{archname};
-++#$config{perl_archname} = $Config{archname};
-+ 
-+ $config{prefix}="";
-+ $config{openssldir}="";
-+@@ -2517,7 +2517,7 @@ _____
-+                           @{$config{perlargv}}), "\n";
-+         print "\nPerl information:\n\n";
-+         print '    ',$config{perl_cmd},"\n";
-+-        print '    ',$config{perl_version},' for ',$config{perl_archname},"\n";
-++        print '    ',$config{perl_version},"\n";
-+     }
-+     if ($dump || $options) {
-+         my $longest = 0;
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-index 7fd0f9a269c..c2ba005f47f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1d.bb
-@@ -17,6 +17,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
-            file://CVE-2019-1551.patch \
-+           file://reproducible.patch \
-            "
+diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
+index a672ccdb7c0..e0d2ae160ee 100644
+--- a/meta/recipes-extended/iputils/iputils_s20190709.bb
++++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
+@@ -34,7 +34,8 @@ PACKAGECONFIG[docs] = "-DBUILD_HTML_MANS=true -DBUILD_MANS=true,-DBUILD_HTML_MAN
  
- SRC_URI_append_class-nativesdk = " \
+ inherit meson update-alternatives
+ 
+-EXTRA_OEMESON += "--prefix=${root_prefix}/"
++# Have to disable setcap/suid as its not deterministic
++EXTRA_OEMESON += "--prefix=${root_prefix}/ -DNO_SETCAP_OR_SUID=true"
+ 
+ ALTERNATIVE_PRIORITY = "100"
+ 
 -- 
 2.20.1
 
