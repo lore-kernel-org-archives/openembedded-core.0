@@ -1,48 +1,31 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com
-	[209.85.166.53])
-	by mail.openembedded.org (Postfix) with ESMTP id E8C3B60E5D
+Return-Path: <quentin.schulz@streamunlimited.com>
+Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
+	by mail.openembedded.org (Postfix) with ESMTP id DE69B601BD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2020 09:13:03 +0000 (UTC)
-Received: by mail-io1-f53.google.com with SMTP id t26so1385905ioi.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Feb 2020 01:13:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rw61aJEKVEgAH2mgut0e7gUNr+kX7gnTzg2WoZgJJbs=;
-	b=k4mYM5CJsoaSxV/5ngoHx0gU4WwoN8wzuJ9PlDK9v9eE8pr/MpjiKevQR/QM4SS/uT
-	1eQ/AIhEZZyk1A1HXJJMnhKmDCrFcjs6VdAoiOCmqAHMW6nAlPUXUnIAaD/riV5i7imG
-	YVmullTlIJmli3hHKR8NkL+31pgTe5cLVUp2lNyA1WhKq2U56u6nsu/0sIU2GeNTrPFI
-	pdtW1to6+4RH9TVR/hdFbT8AQj/mnc/B69WcC4l7tnbPPqrJ93quL9pBozDWCieH40t8
-	CfyTaaHHG7acRGNLynV8WoNJXUCtqIHJT/kGegpikbBojmOkLClLVtd9SlP8ZQcO/gPI
-	6JTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rw61aJEKVEgAH2mgut0e7gUNr+kX7gnTzg2WoZgJJbs=;
-	b=dIazn/CZzrSgi3cok1Km7yujU7cbHLI+Le5f6gRRzJeF2NbTSKUzPJYYcaY6xo5sqE
-	w0Sj3exsAXNfuP3xQJYLj45/O+mt+6G/k0nTf8iD2OP0LLWPOnKoiuLfPUTjvVY3Hlxx
-	zdI3US9lQ/el0CpW4heqwSWwG3o2+gx470Y+YzPoCMF4D22664S0OjLR4gHqQ7AIcv6U
-	kIVCwZq4y93GyjBiSzVqyqhOuD72Q0QnXBFpI76hQKG++EphHsvxF/j6WxCJJFIaDxfH
-	WhKZvZ8vKPEFadXlh5/I/Cta5N54OPsDQGne030kIb60/GKEY5hRX7rtSHQm3XjUuLAK
-	NgRQ==
-X-Gm-Message-State: APjAAAUyiIp9x9+3U0QDpOMpvzWdH5VrFbtTH95C1rXvCQwK6BXf+0MT
-	EJaGEw6jLAvgu68R7BnJaNiBK2E9/6IB07zKbBo=
-X-Google-Smtp-Source: APXvYqxEZ1/H7cuewMSFh/Zp6grWYE7/RZ/s3sC23JCEyGsRuVZaPNrjJmEa/+INTOh+nN+C50hU1bDf6qwd4K4AKD0=
-X-Received: by 2002:a6b:f80a:: with SMTP id o10mr2236218ioh.144.1581066784703; 
-	Fri, 07 Feb 2020 01:13:04 -0800 (PST)
+	Fri,  7 Feb 2020 11:55:31 +0000 (UTC)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp2.bon.at (Postfix) with ESMTPSA id 48DYdk3dXkz5tl9;
+	Fri,  7 Feb 2020 12:55:22 +0100 (CET)
+Date: Fri, 7 Feb 2020 12:55:21 +0100
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+To: JH <jupiter.hce@gmail.com>
+Message-ID: <20200207115521.i7flzwf6e24obq5r@qschulz>
+References: <CAA=hcWSCZROrpDBWV5ZAA+LV6j0cjRSKxyjonOfWS4mCZAtdHg@mail.gmail.com>
+	<em86bbcd60-f004-4acb-b508-4471dac5c7c1@andys-imac.leeshillfarm.local>
+	<CAA=hcWQsP1N58iqrxEggZBdSksgHk+gfuG7yz0+C3G7o0=DzOw@mail.gmail.com>
+	<c159fe1d7cc14f5c80878fe81a957bb4@tagmaster.com>
+	<CAA=hcWQPrfb3UrYsfyhs4as8wGDf5DsyEtF=cgCo4gJprx=b1Q@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAO5Uq5QPxrnkPhjeO3s79AAYF55nPtR3OL0iuL9rqCvN-OmpfA@mail.gmail.com>
-	<ad681bbf95efbeb211cbbe00dd73a4e2ce7cf335.camel@linuxfoundation.org>
-In-Reply-To: <ad681bbf95efbeb211cbbe00dd73a4e2ce7cf335.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 7 Feb 2020 09:12:53 +0000
-Message-ID: <CAO5Uq5TB3pNatrFGwSdDt3gx6SARU5S-6M7AHfpOxgcrkUpBOA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Cache unihash ... doesn't match BB_UNIHASH ...
+In-Reply-To: <CAA=hcWQPrfb3UrYsfyhs4as8wGDf5DsyEtF=cgCo4gJprx=b1Q@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+Cc: Andy Pont <andy.pont@sdcsystems.com>,
+	Yocto discussion list <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	Pelle Windestam <Pelle.Windestam@tagmaster.com>,
+	linux-mtd <linux-mtd@lists.infradead.org>,
+	Meta Freescale <meta-freescale@yoctoproject.org>
+Subject: Re: [yocto] Support UBI u-boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,65 +38,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2020 09:13:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Feb 2020 11:55:32 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, Feb 7, 2020 at 8:31 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2020-02-07 at 08:16 +0000, Alex Kiernan wrote:
-> > Hi
-> >
-> > We've got a couple of multiconfig builds with different
-> > configurations in one bitbake run (whether it needs to be like this a
-> > different question - I suspect we had something that worked and
-> > stopped there!)
-> >
-> > However, for sometime we've been seeing errors like this on master
-> > (the recipes vary):
-> >
-> > ERROR: mc:forensic:ca-certificates-20190110-r0
-> > do_deploy_source_date_epoch: Cache unihash
-> > 37d2546973a2b7c16fbcb1a8dd4939e4a1bba8c3d6d2dfb6e7204ca08d437ace
-> > doesn't match BB_UNIHASH
-> > 09baf78bd9316acdd308980c42ea4ed1eacea61bcc0d840c36293d1a5a22db69
->
-> This is an internal sanity test. It means the hash that it had in the
-> task/worker context didn't match what the server thought the unihash
-> should be. There have been changes in this area to try and fix various
-> things, I'm wondering if we introduced a bug with multiconfig handling.
->
-> There are some patches in master-next related to this area so it would
-> be interesting to know if that made things better/worse.
->
+Hi JH,
 
-I can pull those in, if it'd be useful to test?
+On Fri, Feb 07, 2020 at 07:52:35PM +1100, JH wrote:
+> Hi Pelle,
+> 
+> Aplogize for cross posting.
+> 
+> On 2/7/20, Pelle Windestam <Pelle.Windestam@tagmaster.com> wrote:
+> > In my case u-boot uses a default config called imx8qxp_var_som_defconfig
+> > stored under the configs directory in u-boot (not sure if its in the
+> > official repositories, I use a vendor supplied u-boot repo, but the
+> > procedure should be the same either way), then I have created a
+> > .bbappend-file for the u-boot recipe, and added a patch that modifies the
+> > defconfig file to include the options I want to enable. Then as u-boot is
+> > built, it will use the patched defconfig with the appropriate options
+> > enabled. In the meta-freescale layer the u-boot recipes are under
+> > meta-freescale/recipes-bsp/u-boot.
+> 
+> Thanks for the tip, that is quite helpful. I created bbappend file,
+> run the make menuconfig to enable NAND and CONFIG_CMD_UBI, but then
+> failed in build, missing all MTD, NAND, UBI references, the MTD, NAND,
+> UBI are all selected, what I could be missing?
+> 
+> /build/Installer/sa_platform_build/Source/Yocto/build/tmp-glibc/work/solar-oe-linux-gnueabi/u-boot-imx/2017.03-r0/git/cmd/ubi.c:448:
+> undefined reference to `mtdparts_init'
 
-> > Coupled with deadlock messages:
-> >
-> > WARNING: Runqeueue deadlocked on deferred tasks, forcing task
-> > mc:factory:virtual:native:/var/lib/jenkins/workspace/nanohub_master/b
-> > uild/../poky/meta/recipes-
-> > support/sqlite/sqlite3_3.31.1.bb:do_populate_sysroot
->
-> This happens if a build has multiple different components with matching
-> hashes. It builds the "first" one and defers the others since they
-> could become available in sstate after the first one builds.
->
-> You should see messages from runqueue.py:
->
-> bb.note("Deferring %s after %s" % (tid, sqdata.hashes[h]))
->
-> The behaviour should be to therefore prioritise one multiconfig. I
-> worry that the sorting isn't quite right and its building bits of
-> several multiconfigs and deadlocking?
->
-> Do you have the logs with the Deferring XXX after YYY messages in you
-> could share? I suspect its a sorting problem.
->
+This function is not defined. So you look it up in the sources, find
+where it's defined.
 
-Sure - I'll mail it over separately.
+Is it in a file which is compiled/included somewhere?
+Is it surrounded by #ifdef? And by surrounded, I mean the #ifdef can
+be several thousands of lines above the function definition.
 
--- 
-Alex Kiernan
+In that case, I couldn't find the sources of u-boot-imx (didn't take the
+time) but from upstream:
+https://elixir.bootlin.com/u-boot/v2017.03/source/cmd/nand.c#L35
+
+It's surrounded by #if defined(CONFIG_CMD_MTDPARTS) so you need
+CMD_MTDPARTS to be enabled. Do the same for all the other calls. There's
+no magic thing, you thus have to look it up yourself most of the time.
+Even though arguably, that's a mistake from upstream (there should be a
+dependency on MTDPARTS in Kconfig, anyway...).
+
+Quentin
 
