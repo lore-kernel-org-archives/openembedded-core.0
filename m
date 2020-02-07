@@ -1,31 +1,33 @@
-Return-Path: <quentin.schulz@streamunlimited.com>
-Received: from bsmtp2.bon.at (bsmtp2.bon.at [213.33.87.16])
-	by mail.openembedded.org (Postfix) with ESMTP id DE69B601BD
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id BF15960BEB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2020 11:55:31 +0000 (UTC)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp2.bon.at (Postfix) with ESMTPSA id 48DYdk3dXkz5tl9;
-	Fri,  7 Feb 2020 12:55:22 +0100 (CET)
-Date: Fri, 7 Feb 2020 12:55:21 +0100
-From: Quentin Schulz <quentin.schulz@streamunlimited.com>
-To: JH <jupiter.hce@gmail.com>
-Message-ID: <20200207115521.i7flzwf6e24obq5r@qschulz>
-References: <CAA=hcWSCZROrpDBWV5ZAA+LV6j0cjRSKxyjonOfWS4mCZAtdHg@mail.gmail.com>
-	<em86bbcd60-f004-4acb-b508-4471dac5c7c1@andys-imac.leeshillfarm.local>
-	<CAA=hcWQsP1N58iqrxEggZBdSksgHk+gfuG7yz0+C3G7o0=DzOw@mail.gmail.com>
-	<c159fe1d7cc14f5c80878fe81a957bb4@tagmaster.com>
-	<CAA=hcWQPrfb3UrYsfyhs4as8wGDf5DsyEtF=cgCo4gJprx=b1Q@mail.gmail.com>
+	Fri,  7 Feb 2020 12:28:50 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,413,1574092800"; d="scan'208";a="83001944"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 07 Feb 2020 20:28:49 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id A28B549DF14D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  7 Feb 2020 20:19:17 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Fri, 7 Feb 2020 20:28:45 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Fri, 7 Feb 2020 20:28:47 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 7 Feb 2020 12:27:55 -0800
+Message-ID: <1581107275-6540-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-In-Reply-To: <CAA=hcWQPrfb3UrYsfyhs4as8wGDf5DsyEtF=cgCo4gJprx=b1Q@mail.gmail.com>
-User-Agent: NeoMutt/20180716
-Cc: Andy Pont <andy.pont@sdcsystems.com>,
-	Yocto discussion list <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	Pelle Windestam <Pelle.Windestam@tagmaster.com>,
-	linux-mtd <linux-mtd@lists.infradead.org>,
-	Meta Freescale <meta-freescale@yoctoproject.org>
-Subject: Re: [yocto] Support UBI u-boot
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: A28B549DF14D.A51C0
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] pciutils: upgrade 3.6.2 -> 3.6.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,52 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2020 11:55:32 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 07 Feb 2020 12:28:52 -0000
+Content-Type: text/plain
 
-Hi JH,
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../pciutils/{pciutils_3.6.2.bb => pciutils_3.6.4.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-bsp/pciutils/{pciutils_3.6.2.bb => pciutils_3.6.4.bb} (92%)
 
-On Fri, Feb 07, 2020 at 07:52:35PM +1100, JH wrote:
-> Hi Pelle,
-> 
-> Aplogize for cross posting.
-> 
-> On 2/7/20, Pelle Windestam <Pelle.Windestam@tagmaster.com> wrote:
-> > In my case u-boot uses a default config called imx8qxp_var_som_defconfig
-> > stored under the configs directory in u-boot (not sure if its in the
-> > official repositories, I use a vendor supplied u-boot repo, but the
-> > procedure should be the same either way), then I have created a
-> > .bbappend-file for the u-boot recipe, and added a patch that modifies the
-> > defconfig file to include the options I want to enable. Then as u-boot is
-> > built, it will use the patched defconfig with the appropriate options
-> > enabled. In the meta-freescale layer the u-boot recipes are under
-> > meta-freescale/recipes-bsp/u-boot.
-> 
-> Thanks for the tip, that is quite helpful. I created bbappend file,
-> run the make menuconfig to enable NAND and CONFIG_CMD_UBI, but then
-> failed in build, missing all MTD, NAND, UBI references, the MTD, NAND,
-> UBI are all selected, what I could be missing?
-> 
-> /build/Installer/sa_platform_build/Source/Yocto/build/tmp-glibc/work/solar-oe-linux-gnueabi/u-boot-imx/2017.03-r0/git/cmd/ubi.c:448:
-> undefined reference to `mtdparts_init'
+diff --git a/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb b/meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
+similarity index 92%
+rename from meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
+rename to meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
+index 413421cd8a..034bb63dc9 100644
+--- a/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
++++ b/meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
+@@ -11,8 +11,8 @@ DEPENDS = "zlib kmod"
+ SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz \
+            file://configure.patch"
+ 
+-SRC_URI[md5sum] = "77963796d1be4f451b83e6da28ba4f82"
+-SRC_URI[sha256sum] = "db452ec986edefd88af0d222d22f6102f8030a8633fdfe846c3ae4bde9bb93f3"
++SRC_URI[md5sum] = "4343b37e19f319ce8f3d59c30031790e"
++SRC_URI[sha256sum] = "f67ff732976e2db2a5ccdf3960020796526ba6b05f6b1cdd24b7b206af706055"
+ 
+ inherit multilib_header pkgconfig
+ 
+-- 
+2.17.1
 
-This function is not defined. So you look it up in the sources, find
-where it's defined.
 
-Is it in a file which is compiled/included somewhere?
-Is it surrounded by #ifdef? And by surrounded, I mean the #ifdef can
-be several thousands of lines above the function definition.
 
-In that case, I couldn't find the sources of u-boot-imx (didn't take the
-time) but from upstream:
-https://elixir.bootlin.com/u-boot/v2017.03/source/cmd/nand.c#L35
-
-It's surrounded by #if defined(CONFIG_CMD_MTDPARTS) so you need
-CMD_MTDPARTS to be enabled. Do the same for all the other calls. There's
-no magic thing, you thus have to look it up yourself most of the time.
-Even though arguably, that's a mistake from upstream (there should be a
-dependency on MTDPARTS in Kconfig, anyway...).
-
-Quentin
 
