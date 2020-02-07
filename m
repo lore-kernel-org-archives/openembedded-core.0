@@ -1,54 +1,24 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-il1-f176.google.com (mail-il1-f176.google.com
-	[209.85.166.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A85360AE3
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F91860697
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2020 04:32:58 +0000 (UTC)
-Received: by mail-il1-f176.google.com with SMTP id f5so604018ilq.5
+	Fri,  7 Feb 2020 06:07:46 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01767l4C026241
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Feb 2020 20:33:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=CVFNM2T8EOrhg8m1g3h9jAd0Z4JF6n38tH/XAbj1Tm4=;
-	b=lnL57Jz/TPx9kviAsgWrLjuo2xWYPCOy9UZJDjpyxsEGzGBTFXhE1P4z0jBOJZRmnF
-	tlBCZK4AX5KzJAdFVmnmnYFtd4WSSI8HDp62Tid5ACm8aGGpYZ7G3tP5mH/ZPZrjRSAR
-	5UCo0NDtleJ3PVHLAlfMSdGwaLVCcPHsyoY9HR3qTUNT1IrtKSPTBIsYj8jejHu+Ywoe
-	8yKXEpgoMj84jZOjkaYX43l1TU5YymEetwhZkkLVbIUteH2Ifm9Rweth+szIMiwxtYs6
-	lnbPS5VWghDBovKDBVaJsizuiJJiDxZ9VDS1DG/VZr3AHFtLygzylnnUs+ZraOnwOF5N
-	eU7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=CVFNM2T8EOrhg8m1g3h9jAd0Z4JF6n38tH/XAbj1Tm4=;
-	b=DNU6Cv8pf0JreTpY3/C/BoqEV4BLOTPP3J3P+BNxxHtSpxPeoJX/3pbR+TPdSCFDW2
-	VL8EsdI2Bkp4Uf850TNpbY36mpi08S0xl/wbdXVjseu/ub8kLNmGj+zt8AwT2ydG7DsX
-	OZOmsP/tKU7sVlzO22651vII3MALBlcEIgR+na4Mr65USAOVI14NIHZq34Vz/DfCUA/2
-	KN/Gs9vO9UUzEgUnypBDb0Aj3JkHOkfluE+rixJmB7wEJ6NjZAJPMwA+CJPJgweCJLxi
-	8dHegNWZdE9GjVlRnj7Iutj7z5sc4Y+LavhD4h40Wa0vZJ3xrWHuELrqrH1owdmnxm9W
-	mtqA==
-X-Gm-Message-State: APjAAAUgCmChlOxbwUGwFfM25sm8kXxkhsqywFXNbnGeUz3rI34RzFXQ
-	OyFY2b97pI4z9pYfk6xloQHkiDj3su6SEMLnpE4=
-X-Google-Smtp-Source: APXvYqyUVE5gawB7gYhjEz7LbX24FAQm4xZ+1nTSGwHPGIOLYUprsbJXK/Q6O3PuQD3yQPB4li1E/KEdxsdiXLnbFuE=
-X-Received: by 2002:a92:d7c1:: with SMTP id g1mr7903281ilq.192.1581049979827; 
-	Thu, 06 Feb 2020 20:32:59 -0800 (PST)
+	Thu, 6 Feb 2020 22:07:47 -0800 (PST)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Thu, 6 Feb 2020 22:07:45 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 7 Feb 2020 14:07:43 +0800
+Message-ID: <1581055664-311654-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Received: by 2002:ad5:5d0d:0:0:0:0:0 with HTTP;
-	Thu, 6 Feb 2020 20:32:59 -0800 (PST)
-In-Reply-To: <em86bbcd60-f004-4acb-b508-4471dac5c7c1@andys-imac.leeshillfarm.local>
-References: <CAA=hcWSCZROrpDBWV5ZAA+LV6j0cjRSKxyjonOfWS4mCZAtdHg@mail.gmail.com>
-	<em86bbcd60-f004-4acb-b508-4471dac5c7c1@andys-imac.leeshillfarm.local>
-From: JH <jupiter.hce@gmail.com>
-Date: Fri, 7 Feb 2020 15:32:59 +1100
-Message-ID: <CAA=hcWQsP1N58iqrxEggZBdSksgHk+gfuG7yz0+C3G7o0=DzOw@mail.gmail.com>
-To: Andy Pont <andy.pont@sdcsystems.com>
-Cc: Meta Freescale <meta-freescale@yoctoproject.org>,
-	Yocto discussion list <yocto@yoctoproject.org>,
-	U-Boot Mailing List <u-boot@lists.denx.de>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Support UBI u-boot
+Subject: [PATCH 1/2] python3: fix the installation path of libpython3.7m.a for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,70 +31,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2020 04:32:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 07 Feb 2020 06:07:46 -0000
+Content-Type: text/plain
 
-Hi Andy,
+From: Changqing Li <changqing.li@windriver.com>
 
-On 2/6/20, Andy Pont <andy.pont@sdcsystems.com> wrote:
-> JH wrote...
->
->
->>I added NAND and UBIFS support to my Yocto layer machine config file:
->>
->>UBOOT_CONFIG =3D "nand"
->>UBOOT_CONFIG[nand] +=3D "mx6ull_14x14_evk_config"
->>UBOOT_CONFIG[nand] +=3D "mx6ull_14x14_evk_nand_config"
->>UBOOT_CONFIG[nand] +=3D "ubi"
->>UBOOT_CONFIG[nand] +=3D "ubifs"
->>
->>But my u-boot.imx-nand still could not support ubi:
->>
->>=3D> ubi part rootfs
->>Unknown command 'ubi' - try =E2=80=98help=E2=80=99
-> You need to start to read through the various sources to figure out for
-> yourself what is going on!
->
-> Starting from the bottom, in U-Boot 2017.03 all of the command sources
-> are in the =E2=80=9Ccmd=E2=80=9D directory. The =E2=80=9Cubi =E2=80=A6=E2=
-=80=9D command are all in ubi.c.
-> Reading cmd/Makefile shows that file gets added into the build if
-> CONFIG_CMD_UBI is enabled.
+Fix the installation path of libpython3.7m.a on mulitlib lib64
+platform to lib64 instead of lib
 
-You are right, that CONFIG_CMD_UBI is not enabled, but I could not
-find any conf or bb files I could change or enable CONFIG_CMD_UBI in
-meta-freescale layer.
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../python3/0001-configure.ac-fix-LIBPL.patch      | 35 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.8.1.bb      |  5 ++--
+ 2 files changed, 38 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-configure.ac-fix-LIBPL.patch
 
-Desperately, I hacked to run "make menuconfig" at U-Boot 2017.03 build
-directory, selected and enabled CONFIG_CMD_UBI and saved to .config
-file in that build directory, but then to run bitbake to build u-boot
-again, the .config was removed and replaced by an old one disabled
-CONFIG_CMD_UBI again.
+diff --git a/meta/recipes-devtools/python/python3/0001-configure.ac-fix-LIBPL.patch b/meta/recipes-devtools/python/python3/0001-configure.ac-fix-LIBPL.patch
+new file mode 100644
+index 0000000..123ce3a
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-configure.ac-fix-LIBPL.patch
+@@ -0,0 +1,35 @@
++From acce3d441e7eadadd2d3ce38654155dc43f1f607 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Fri, 7 Feb 2020 09:36:25 +0800
++Subject: [PATCH] configure.ac: fix LIBPL
++
++Use LIBDIR rather than prefix/lib, so that it would work when lib64.
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
++Signed-off-by: Li Zhou <li.zhou@windriver.c>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ configure.ac | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index ce04258..915f475 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -4532,9 +4532,9 @@ fi
++ dnl define LIBPL after ABIFLAGS and LDVERSION is defined.
++ AC_SUBST(PY_ENABLE_SHARED)
++ if test x$PLATFORM_TRIPLET = x; then
++-  LIBPL='$(prefix)'"/lib/python${VERSION}/config-${LDVERSION}"
+++  LIBPL='$(LIBDIR)'"/python${VERSION}/config-${LDVERSION}"
++ else
++-  LIBPL='$(prefix)'"/lib/python${VERSION}/config-${LDVERSION}-${PLATFORM_TRIPLET}"
+++  LIBPL='$(LIBDIR)'"/python${VERSION}/config-${LDVERSION}-${PLATFORM_TRIPLET}"
++ fi
++ AC_SUBST(LIBPL)
++
++--
++2.7.4
++
+diff --git a/meta/recipes-devtools/python/python3_3.8.1.bb b/meta/recipes-devtools/python/python3_3.8.1.bb
+index a71c207..981b52e 100644
+--- a/meta/recipes-devtools/python/python3_3.8.1.bb
++++ b/meta/recipes-devtools/python/python3_3.8.1.bb
+@@ -29,6 +29,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0017-setup.py-do-not-report-missing-dependencies-for-disa.patch \
+            file://0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
+            file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
++           file://0001-configure.ac-fix-LIBPL.patch \
+            "
+ 
+ SRC_URI_append_class-native = " \
+@@ -174,7 +175,7 @@ py_package_preprocess () {
+                 -e 's:${RECIPE_SYSROOT_NATIVE}::g' \
+                 -e 's:${RECIPE_SYSROOT}::g' \
+                 -e 's:${BASE_WORKDIR}/${MULTIMACH_TARGET_SYS}::g' \
+-                ${PKGD}/${prefix}/lib/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile \
++                ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}${PYTHON_ABI}*/Makefile \
+                 ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py \
+                 ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config
+ 
+@@ -322,7 +323,7 @@ RPROVIDES_${PN}-venv += "python3-pyvenv"
+ # package libpython3
+ PACKAGES =+ "libpython3 libpython3-staticdev"
+ FILES_libpython3 = "${libdir}/libpython*.so.*"
+-FILES_libpython3-staticdev += "${prefix}/lib/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}-*/libpython${PYTHON_MAJMIN}.a"
++FILES_libpython3-staticdev += "${libdir}/python${PYTHON_MAJMIN}/config-${PYTHON_MAJMIN}-*/libpython${PYTHON_MAJMIN}.a"
+ INSANE_SKIP_${PN}-dev += "dev-elf"
+ 
+ # catch all the rest (unsorted)
+-- 
+2.7.4
 
-Other people recommended to build u-boot in a standalone environment
-out of OE / Yocto build system. Since I have set up everything in OE /
-Yocto environment, I thought it could be easier if I could modify one
-line of u-boot config file in a recipe.
-
-Any idea where is the recipe in meta-freescale to allow me to change /
-enable CONFIG_CMD_UBI?
-
-Am I the only one unable to change u-boot config file in OE / Yoctu
-build? That makes me very sad :-(.
-
-
-> The next place to look is whether or not that is set in your defconfig
-> for U-Boot or overwritten somewhere in a recipe in your Yocto build
-> environment.
-
-Yeah, I'll been searched all day, could not find a recipe Yocto build
-environment, I was told OE / Yocto does not have that stack and
-mechanism to set and change u-boot config, is it true?
-
-Thank you very much.
-
-Kind regards,
-
-- jh
 
