@@ -1,28 +1,43 @@
-Return-Path: <Changqing.Li@windriver.com>
-X-Greylist: delayed 6731 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 07 Feb 2020 07:59:59 UTC
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 14FDE60AF3
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
+	[209.85.166.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 97B0C60EB1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Feb 2020 07:59:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01767nxc007522
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Fri,  7 Feb 2020 08:16:28 +0000 (UTC)
+Received: by mail-io1-f43.google.com with SMTP id c16so1261242ioh.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Feb 2020 22:07:49 -0800 (PST)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Thu, 6 Feb 2020 22:07:47 -0800
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Feb 2020 14:07:44 +0800
-Message-ID: <1581055664-311654-2-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1581055664-311654-1-git-send-email-changqing.li@windriver.com>
-References: <1581055664-311654-1-git-send-email-changqing.li@windriver.com>
+	Fri, 07 Feb 2020 00:16:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=zD6mLtba7ito8g9vSWDpz/TSFdgCzlWSSFCbo3miuaI=;
+	b=MAxZOTD0w8cked4h2T+1DYivSVFQy6VSWbXQRSX6qss7KmZBo4wQB3vlTMOM1wulEy
+	asG3Reu8PTDynELOCcyJ/WMnmwI/rioNxG/uuiqKPYUaFsdkTPDvIxTS2pilsf/pglGT
+	hmi4n3OcdT0i7lTK0qJ4JfbmjchtNHYm2tIiSddZlzjeargar+JUg9GGBiQJAtOVoTsX
+	+laJDp9cZKWhPWOSlBnX6P25rSXHyy9EmzLJDxmjlXJPiJ0N1BH70Kja0k99RjlzM9zB
+	wT+f3EKcu2Iqlg82ZW0Gxrg1IuMLg4Tb8PD4R/80rnchvkz5+OgjlPmkxItGh4ghgp+9
+	7vrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=zD6mLtba7ito8g9vSWDpz/TSFdgCzlWSSFCbo3miuaI=;
+	b=brZ8jeBLfC8BociZOCvqW+5H9XDAWUBm6U82R8DUtb/Cf+QuILV2fwkAqonrWQ2wEC
+	keREQrQ4eza7sdpxg6gJHeSmpyMW/+kWJNwE5ty9dD/0CwFCZWxt40YHlQyAqKe+5/ND
+	02jY4t/hnVyjDQYkoouhIkrZ/0zWQMwgZhZt5ov6GqI1vAkPbZTkpyRFNYtFPX9nDrdL
+	1122ktMXXoSSgAP5tI3OIS9SNzdIvv//cnPmtsvYg9VJUIs5XC82iCbYRrHlOhWRtOGf
+	4eB7PpT3R0YDhOq510fTmQ7cR5QLTdTzhpyt2QUAMWEZ+iroiFr80qw29yNgQPM3d1FG
+	tXLw==
+X-Gm-Message-State: APjAAAX7sZR6SDAbN2EamK9Le1XQx2gw+Eraw6pqEre1KFLji7PgMEXi
+	pmGXJaCFEOvTNpzgSg7mFfQTC4JtHiIMqVS6j7abB3Tm
+X-Google-Smtp-Source: APXvYqya4QmYnI+tNGLWl9H7IDGou0O5UV7Ud37xRHELjyxk0+hk0fdaJuFr0qialL5sDMuRcQpfdVaeCOqrYC6NLSI=
+X-Received: by 2002:a6b:f80a:: with SMTP id o10mr2089196ioh.144.1581063389399; 
+	Fri, 07 Feb 2020 00:16:29 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] python3: Do not hardcode "lib" for distutils
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 7 Feb 2020 08:16:18 +0000
+Message-ID: <CAO5Uq5QPxrnkPhjeO3s79AAYF55nPtR3OL0iuL9rqCvN-OmpfA@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Cache unihash ... doesn't match BB_UNIHASH ...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,91 +50,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Feb 2020 08:00:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 07 Feb 2020 08:16:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Changqing Li <changqing.li@windriver.com>
+Hi
 
-Get the sys.lib from python3 itself and do not use
-hardcoded value of 'lib' for distutils.
+We've got a couple of multiconfig builds with different configurations
+in one bitbake run (whether it needs to be like this a different
+question - I suspect we had something that worked and stopped there!)
 
-Solve the error below that occurs when run "python3 setup.py
-install"
-on lib64 multilib platform:
-[Errno 2] No such file or directory:
-'/usr/lib/python3.7/site-packages/test-easy-install-1828.write-test'
+However, for sometime we've been seeing errors like this on master
+(the recipes vary):
 
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
+ERROR: mc:forensic:ca-certificates-20190110-r0
+do_deploy_source_date_epoch: Cache unihash
+37d2546973a2b7c16fbcb1a8dd4939e4a1bba8c3d6d2dfb6e7204ca08d437ace
+doesn't match BB_UNIHASH
+09baf78bd9316acdd308980c42ea4ed1eacea61bcc0d840c36293d1a5a22db69
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- ...python3-Do-not-hardcode-lib-for-distutils.patch | 43 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.8.1.bb      |  1 +
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-python3-Do-not-hardcode-lib-for-distutils.patch
+Coupled with deadlock messages:
 
-diff --git a/meta/recipes-devtools/python/python3/0001-python3-Do-not-hardcode-lib-for-distutils.patch b/meta/recipes-devtools/python/python3/0001-python3-Do-not-hardcode-lib-for-distutils.patch
-new file mode 100644
-index 0000000..fe031b9
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-python3-Do-not-hardcode-lib-for-distutils.patch
-@@ -0,0 +1,43 @@
-+From bb711b53f10d32a90a27ccf4b0dc51e4a701d862 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Fri, 7 Feb 2020 09:42:09 +0800
-+Subject: [PATCH] python3: Do not hardcode "lib" for distutils
-+
-+Get the sys.lib from python3 itself and do not use
-+hardcoded value of 'lib' for distutils.
-+
-+Upstream-Status: Inappropriate [oe-core specific]
-+
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ Lib/distutils/command/install.py | 6 ++++--
-+ 1 file changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/Lib/distutils/command/install.py b/Lib/distutils/command/install.py
-+index c625c95..8e32f54 100644
-+--- a/Lib/distutils/command/install.py
-++++ b/Lib/distutils/command/install.py
-+@@ -19,6 +19,8 @@ from site import USER_BASE
-+ from site import USER_SITE
-+ HAS_USER_SITE = True
-+
-++libname = sys.lib
-++
-+ WINDOWS_SCHEME = {
-+     'purelib': '$base/Lib/site-packages',
-+     'platlib': '$base/Lib/site-packages',
-+@@ -29,8 +31,8 @@ WINDOWS_SCHEME = {
-+
-+ INSTALL_SCHEMES = {
-+     'unix_prefix': {
-+-        'purelib': '$base/lib/python$py_version_short/site-packages',
-+-        'platlib': '$platbase/lib/python$py_version_short/site-packages',
-++        'purelib': '$base/' + libname + '/python$py_version_short/site-packages',
-++        'platlib': '$platbase/' + libname + '/python$py_version_short/site-packages',
-+         'headers': '$base/include/python$py_version_short$abiflags/$dist_name',
-+         'scripts': '$base/bin',
-+         'data'   : '$base',
-+--
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/python/python3_3.8.1.bb b/meta/recipes-devtools/python/python3_3.8.1.bb
-index 981b52e..c836066 100644
---- a/meta/recipes-devtools/python/python3_3.8.1.bb
-+++ b/meta/recipes-devtools/python/python3_3.8.1.bb
-@@ -30,6 +30,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
-            file://0001-Makefile-do-not-compile-.pyc-in-parallel.patch \
-            file://0001-configure.ac-fix-LIBPL.patch \
-+           file://0001-python3-Do-not-hardcode-lib-for-distutils.patch \
-            "
- 
- SRC_URI_append_class-native = " \
+WARNING: Runqeueue deadlocked on deferred tasks, forcing task
+mc:factory:virtual:native:/var/lib/jenkins/workspace/nanohub_master/build/../poky/meta/recipes-support/sqlite/sqlite3_3.31.1.bb:do_populate_sysroot
+
+Any pointers to whereabouts I should be looking for what we've got wrong?
+
 -- 
-2.7.4
-
+Alex Kiernan
 
