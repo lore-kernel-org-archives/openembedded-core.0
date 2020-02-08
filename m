@@ -1,51 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 969A860223
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id CB91160F49
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Feb 2020 13:25:27 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id p9so5245767wmc.2
+	Sat,  8 Feb 2020 13:56:01 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id z3so2159583wru.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Feb 2020 05:25:28 -0800 (PST)
+	Sat, 08 Feb 2020 05:56:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=d3LTRIYyJxiuD/DptiWDodu2BsRasms8PaUPtFStv/M=;
-	b=SspPb2GaohTuU5lELesFaujvHHsOwCc+C+AvFLOPxe1b4/d23w0iTIhb2R9YDUnoVs
-	IwR2SuhCt157GtK0SEEuXQgEFiuOtF4gKKiuiuJpMRCupaOO0/XX/Tv8iJUxmogwHh7b
-	ktyvTOkkU/0U2U9yxOrKCD+ZYknWtA+9iCEjk=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=UQE5UYTwMJgnCVBATgL8Rao7LXA8gUwnxkV2qVx3JOc=;
+	b=EEWMGP8vWiD20lJAYOKa/w2VJMNRUktCgibJnUnknb717I/c0feKcsbiKtq/M26QvD
+	+WsrETQ0snkX18iKg1TSdltIU+Hq7VQ+wP94iCKp37pGAx+3dsYJX/HccR2LCpCsYkYV
+	YL7jH2dJFRsslnihDT2f53sOUvPpc+GpNTmP8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=d3LTRIYyJxiuD/DptiWDodu2BsRasms8PaUPtFStv/M=;
-	b=Tx1uL0K4Mqbq6P8yrFzIZkbwcw0tizZPGVBo0spAKyiQGyFH3hFWxpuowKORPHQ8yw
-	fOI9Pxls4mnZrLbeHwwES7/ufNNy1jF8R3hphwNlI+Jfx5N0bj/qjGIOxvSn+KmSCYF5
-	PQOffUUe7Fi0dMSoOvI34ekgvDOH9VhdkkrJoUoRyvRiPFO1v1yozowkQ36Tum2Um11U
-	v0IVMiGQtOLqC3t3JhEd4+Bqjoni3hegzX2zVD4S9xeJjNXjnYsdY1pR6RQJTFaFLPnc
-	e9cOROMkQ+TKyApSKqfu2NRRUNzc7mxAz6oYOYhBwZDgUxNUqyIlxJknRBKq1buAaMdf
-	PBoQ==
-X-Gm-Message-State: APjAAAXSjz5gLcnRwprTxIml/w5OplSdN/xm4+YRQLQd2Zfd0Uq5OR0M
-	3MYYM+1LL89PKeKA5wZNs4zOBg==
-X-Google-Smtp-Source: APXvYqxaeqaHicy/G8rewDnABFSBvyGhJZSm8FxwenqZuVjnKC0GTRWjj8NY4M5S0yGw8ZD9gM8UHw==
-X-Received: by 2002:a7b:c1d0:: with SMTP id a16mr4443244wmj.175.1581168328048; 
-	Sat, 08 Feb 2020 05:25:28 -0800 (PST)
+	bh=UQE5UYTwMJgnCVBATgL8Rao7LXA8gUwnxkV2qVx3JOc=;
+	b=WrIc0hmJYjdwW1Tz7iacY3cgg12CyC57/VvIRpaRl2GlDKtWFx2ESpfl3mhrKmG+t9
+	LziPy449nYWOoNJdXs2k6RhaNSXamkt8BE6g1aMFkB4rRVbsGozF6fOmB3SpWTUVJMMk
+	06WujGw/YFdGLQEJizCyQuCXek+z7tD9r9YnbPuODwDbGIgDpF/2HUDjfIMQ/MIuq4QH
+	Hrc7n4aVBKH7dWCLY9ucVYF74V8PsP5ctXu6IjP7420HsmMU3a5Eufk+LQ5DHjA7hyQc
+	hzmp2x0+Iq1CmgAi4wwUvBF2oORQ31a2Fpb0/bgqd6PwCRMDJvbNhy89EIdBNecB7Tkf
+	8BzA==
+X-Gm-Message-State: APjAAAWBq6lTeAO9/y0utLBcK1/2+8AHOxeZelnp+hO6tY1Cq9OLUABC
+	paSX1gLu9lc8fbLxkSJ3DmjiCnUZW1o=
+X-Google-Smtp-Source: APXvYqymMx6UMEUsHp1W6ohP276mKUufXdUqj4opvibYE3zossJK8Ex8uVjzae2zX0LtJ8dqil2OBg==
+X-Received: by 2002:adf:e692:: with SMTP id r18mr5569388wrm.413.1581170162042; 
+	Sat, 08 Feb 2020 05:56:02 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w13sm7588990wru.38.2020.02.08.05.25.25
+	by smtp.gmail.com with ESMTPSA id s22sm7189361wmh.4.2020.02.08.05.56.00
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 08 Feb 2020 05:25:27 -0800 (PST)
-Message-ID: <6403172746ac0772f8c6d0f55838bebe5368e1e8.camel@linuxfoundation.org>
+	Sat, 08 Feb 2020 05:56:01 -0800 (PST)
+Message-ID: <6207024170e32fe8ef7262433124efc64d614132.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alex Kiernan <alex.kiernan@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 08 Feb 2020 13:25:20 +0000
-In-Reply-To: <20200130045446.44017-1-alex.kiernan@gmail.com>
-References: <20200130045446.44017-1-alex.kiernan@gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Sat, 08 Feb 2020 13:56:00 +0000
+In-Reply-To: <836aaccb82a2781c00e26249ab896d7ef0e25a27.camel@linuxfoundation.org>
+References: <836aaccb82a2781c00e26249ab896d7ef0e25a27.camel@linuxfoundation.org>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [RESEND PATCH] rootfs-postcommands: Remove spaces before ; in -ROOTFS_..._COMMAND
+Subject: Re: Reproducible Build Status (and implications for zeus 3.0.2)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,36 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Feb 2020 13:25:27 -0000
+X-List-Received-Date: Sat, 08 Feb 2020 13:56:02 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-01-30 at 04:54 +0000, Alex Kiernan wrote:
-> With spaces in ROOTFS_POSTPROCESS_COMMAND attempts to remove elements
-> using ROOTFS_POSTPROCESS_COMMAND_remove causes parse failures of the
-> form:
+On Fri, 2020-02-07 at 14:23 +0000, Richard Purdie wrote:
+> I think we're now down to:
 > 
->   bb.pysh.sherrors.ShellSyntaxError: LexToken(COMMA,';',0,0)
->   followed by:
->     LexToken(TOKEN,'write_image_test_data',0,0)
->     LexToken(COMMA,';',0,0)
->     LexToken(TOKEN,'set_systemd_default_target',0,0)
->     LexToken(COMMA,';',0,0)
->     LexToken(TOKEN,'systemd_create_users',0,0)
-> 
-> Removing the spaces between the function name and semicolon allows
-> the list to parse correctly.
-> 
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
-> 
->  meta/classes/rootfs-postcommands.bbclass | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> sudo path issues (Ross is poking)
+> ncurses-doc issue (assigned to JPEW)
+> perl host compiler flags issue 
+> sysvinit missing group problem (assigned to Mingli Yu at present)
 
-This does sound like you're working around a bug in shlex :/
+We're now down to:
+
+A gstreamer issue with libcap:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13786
+
+and some potential perl host compiler flags leaking in
+(no bug for that, we've not seen it in the last build and I'm not 100%
+sure if we fixed it or not yet)
+
+I've queued up the recent fixes into zeus-next as I think they're
+stable material.
+
+I'm seriously considering letting 3.0.2 wait a little to include those
+fixes in an rc2 and abandon rc1. If we do that, we may want to get the
+bitbake hashequiv+multiconfig fixes in master-next sorted too.
 
 Cheers,
 
 Richard
+
+
 
 
