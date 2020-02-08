@@ -1,47 +1,46 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E9D5460E9E
+Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 74A4E60E9E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Feb 2020 09:20:12 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id k24so2278294ioc.4
+	Sat,  8 Feb 2020 09:20:45 +0000 (UTC)
+Received: by mail-il1-f194.google.com with SMTP id t17so1636535ilm.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Feb 2020 01:20:14 -0800 (PST)
+	Sat, 08 Feb 2020 01:20:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=5O4syRN7qFcdGPLfvOGVhIBBD8dBuicmV+Tm06M9d9g=;
-	b=L8L/zfJu1arx5UMBo6Jry1N75lGa1uES5QQ9YHMdQkhCRsi2mqZw7ecwReyMfOz8yR
-	ijszTQwJZ4LkWvqyDVt2pVvxNj9azhp9+L7yZI89DZBccagwjIPVo44sFkgYmWmtvAR+
-	FnJi8ksNltcp3dJhyVIuGq6ZGk90FFHB2PkwunEoP1Kd3no9F7qGCBiBeh3Td9jeH4Ge
-	vVApvTVBt20wqpcrZnoAe5gFKH+1wtsBLGF0CGBSs4tx7ZNGik+wP0cthZgxfQvAAVG1
-	HOs4Y3etMixRUIsOi6ScJNaT0M2/+0xGU+6vDY9ylK6/+oagKgtCCXSMdacdN/Y7tph6
-	U0Cg==
+	bh=kprOy3DHpD8iK2WQw4Iu1Y5zL2D7w8yPPByCxAuwT1Q=;
+	b=SJXOqwQv8MfcOAuERirjnNwI8jjuwE6Restobp6dLRiIuYVsxZxjR14M3od8M2+5bS
+	LuTtXDpcxO0vdOY+7AwSg5QvbjqiXr2IGWUTrLP0mREYCiGXGTAeyutN+Qlilr+XJTlj
+	y3qQGvdZXTC3RnZdk3jNrxkMFE5e5OgSesCIwLYzq4kH2iRXVkU/JBNEhxVczUhxdHmw
+	6IONBWceDFy1svqtexcg9U2dsv/OJyzGWAPRc6zWxPeh1vqV+EK6+YM+IBY7aFr0RMKx
+	uirjVKwLLDDMnpF6zrgg0A3VISZXtREb738UXNB3YT/UI7dHEyUBv0oZYot/3L8jLZs7
+	Yieg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to;
-	bh=5O4syRN7qFcdGPLfvOGVhIBBD8dBuicmV+Tm06M9d9g=;
-	b=VjiyI2qs+G3D6RdCWfm9v7kohBnfNio/iUcc/SNA+ssD/sGco8dN7YZt2B/hBGg+Dz
-	SGCV77N6aWBTvUEYudF4mackfAVC3e5wF+8haE+9hY29XubYNPyL8apFKSn3+DxDlOlL
-	u0WkQZWX3c9hVGlgy+HTBrxbv6zGypQ8sQwNAIl2UfZIbgJuPPHpmXU4q97zTRH18YRh
-	xp9BQe1ebRMkmr1bFJp4UDW/QpsxXXFpJNTnnnXm8pGRznO9UIxLvh4gM1iX53bkaTOL
-	vGu/2gLWuORJfAochXZfDmMVJo828S8d/+UPIz6QA7qCRRLGVo6GBOqJV9yvDRuiGEEv
-	1UQg==
-X-Gm-Message-State: APjAAAUXvRsG+LbpRuYpx0HVbJzKjbvq0FO27Fott+BrBtZhjC/EUivs
-	yLXZ4EA5/9ZobzIkbqQO7PBmfUy3YzQxGqqQLww6Lw==
-X-Google-Smtp-Source: APXvYqwfsPwOF6DzbQWic7fTqc3sgJ7mKSgxv4WR4eqLgpA/mS9O9bQ+MNte1QIVb5kDLBwRp0ZGo5AzcZgLteLpKgs=
-X-Received: by 2002:a05:6638:34c:: with SMTP id
-	x12mr2295811jap.144.1581153613585; 
-	Sat, 08 Feb 2020 01:20:13 -0800 (PST)
+	bh=kprOy3DHpD8iK2WQw4Iu1Y5zL2D7w8yPPByCxAuwT1Q=;
+	b=Hrn+NiAFVl6xdX3vCnz4lvNnJFGgmS5p0RVx/8KAbkofpLLiUGznNYIFX82jSq5vPX
+	V+N2/jfbKJ30UBSFeb6EPLPiWO3KdGxKrFMh5edOkhxa4kKyIQauM8SSaEhgVNB91UGu
+	Zs+4L9E5dpTS7SwgxcxaP/acurDYfgwKfx5Scw1GC2BQrWlSmKoqr49k6cmLKWqsnhB8
+	X/N+nuvx5JJnc9blGJMfht4japIufos8HqGK03wmloPVK2K/en32vE8YxKNZ1aR0AH39
+	8lr7uSjuUPbux6u4FhDl7dMgNEmFfLnVontO+ebuCfF52+SHPMXz/gNqY3DaGLe6Dcdg
+	WtKg==
+X-Gm-Message-State: APjAAAWyz26p06igUh5/b3EEckAuU3GQid2HanidCRvb3f1/i3jiEDkk
+	ckU1I7McdYr2SPSiDZLis/vHbcdivFza5uvLw6pKzQ==
+X-Google-Smtp-Source: APXvYqy+XfB3TRtqa7to7dIUX3AqVLEuWCjvkktAPyf7+o1glzoxjYndFuiPrPneOtpdg4HGmNb+VZ4E1xPUwqLaXx0=
+X-Received: by 2002:a92:5c8f:: with SMTP id d15mr3813234ilg.102.1581153646210; 
+	Sat, 08 Feb 2020 01:20:46 -0800 (PST)
 MIME-Version: 1.0
-References: <20200131162442.58931-1-alex.kiernan@gmail.com>
-In-Reply-To: <20200131162442.58931-1-alex.kiernan@gmail.com>
+References: <20200130045446.44017-1-alex.kiernan@gmail.com>
+In-Reply-To: <20200130045446.44017-1-alex.kiernan@gmail.com>
 From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sat, 8 Feb 2020 09:20:02 +0000
-Message-ID: <CAO5Uq5QPQRN2u+CEgb4omm+JCGg7Bour3jjzp8OF0NFyx4qm5w@mail.gmail.com>
+Date: Sat, 8 Feb 2020 09:20:35 +0000
+Message-ID: <CAO5Uq5RcDacqi51E_+gegh7Mv1B8h18DC7roAet9ADBywTtVoA@mail.gmail.com>
 To: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-fitimage: Handle overlays in EXTERNAL_KERNEL_DEVICETREE
+Subject: Re: [RESEND PATCH] rootfs-postcommands: Remove spaces before ; in -ROOTFS_..._COMMAND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,39 +53,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Feb 2020 09:20:13 -0000
+X-List-Received-Date: Sat, 08 Feb 2020 09:20:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jan 31, 2020 at 4:24 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+On Thu, Jan 30, 2020 at 4:54 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
 >
-> When using EXTERNAL_KERNEL_DEVICETREE, collect DTB overlays too (*.dtbo)
-> as well as iterating down into sub-directories so using the behaviour
-> for naming which matches KERNEL_DEVICETREE.
+> With spaces in ROOTFS_POSTPROCESS_COMMAND attempts to remove elements
+> using ROOTFS_POSTPROCESS_COMMAND_remove causes parse failures of the
+> form:
+>
+>   bb.pysh.sherrors.ShellSyntaxError: LexToken(COMMA,';',0,0)
+>   followed by:
+>     LexToken(TOKEN,'write_image_test_data',0,0)
+>     LexToken(COMMA,';',0,0)
+>     LexToken(TOKEN,'set_systemd_default_target',0,0)
+>     LexToken(COMMA,';',0,0)
+>     LexToken(TOKEN,'systemd_create_users',0,0)
+>
+> Removing the spaces between the function name and semicolon allows the
+> list to parse correctly.
 >
 > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 > ---
 >
->  meta/classes/kernel-fitimage.bbclass | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  meta/classes/rootfs-postcommands.bbclass | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-> index ec18a3d69921..d1b8cdc1f049 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -391,11 +391,10 @@ fitimage_assemble() {
+> diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
+> index a7f33fbf9e77..ebf96be7e85f 100644
+> --- a/meta/classes/rootfs-postcommands.bbclass
+> +++ b/meta/classes/rootfs-postcommands.bbclass
+> @@ -1,6 +1,6 @@
 >
->         if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
->                 dtbcount=1
-> -               for DTBFILE in ${EXTERNAL_KERNEL_DEVICETREE}/*.dtb; do
-> -                       DTB=`basename ${DTBFILE}`
-> +               for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -name '*.dtbo' \) -printf '%P\n'); do
->                         DTB=$(echo "${DTB}" | tr '/' '_')
->                         DTBS="${DTBS} ${DTB}"
-> -                       fitimage_emit_section_dtb ${1} ${DTB} ${DTBFILE}
-> +                       fitimage_emit_section_dtb ${1} ${DTB} "${EXTERNAL_KERNEL_DEVICETREE}/${DTB}"
->                 done
->         fi
+>  # Zap the root password if debug-tweaks feature is not enabled
+> -ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
+> +ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password; ",d)}'
 >
+>  # Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
+>  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
+> @@ -12,7 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'deb
+>  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
+>
+>  # Create /etc/timestamp during image construction to give a reasonably sane default time setting
+> -ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
+> +ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
+>
+>  # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
+>  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
+> @@ -26,11 +26,11 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only
+>  APPEND_append = '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", " ro", "", d)}'
+>
+>  # Generates test data file with data store variables expanded in json format
+> -ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
+> +ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data; "
+>
+>  # Write manifest
+>  IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
+> -ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
+> +ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest; "
+>  # Set default postinst log file
+>  POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
+>  # Set default target for systemd images
 
 Ping?
 
