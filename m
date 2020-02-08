@@ -1,33 +1,47 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 4401E60EB9
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E9D5460E9E
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Feb 2020 09:04:55 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,416,1574092800"; d="scan'208";a="83037062"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 08 Feb 2020 17:04:55 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id D142F406AB15
+	Sat,  8 Feb 2020 09:20:12 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id k24so2278294ioc.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Feb 2020 16:55:25 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Sat, 8 Feb 2020 17:04:54 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Sat, 8 Feb 2020 17:04:55 +0800
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 8 Feb 2020 09:00:55 -0800
-Message-ID: <1581181255-24126-1-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Sat, 08 Feb 2020 01:20:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=5O4syRN7qFcdGPLfvOGVhIBBD8dBuicmV+Tm06M9d9g=;
+	b=L8L/zfJu1arx5UMBo6Jry1N75lGa1uES5QQ9YHMdQkhCRsi2mqZw7ecwReyMfOz8yR
+	ijszTQwJZ4LkWvqyDVt2pVvxNj9azhp9+L7yZI89DZBccagwjIPVo44sFkgYmWmtvAR+
+	FnJi8ksNltcp3dJhyVIuGq6ZGk90FFHB2PkwunEoP1Kd3no9F7qGCBiBeh3Td9jeH4Ge
+	vVApvTVBt20wqpcrZnoAe5gFKH+1wtsBLGF0CGBSs4tx7ZNGik+wP0cthZgxfQvAAVG1
+	HOs4Y3etMixRUIsOi6ScJNaT0M2/+0xGU+6vDY9ylK6/+oagKgtCCXSMdacdN/Y7tph6
+	U0Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=5O4syRN7qFcdGPLfvOGVhIBBD8dBuicmV+Tm06M9d9g=;
+	b=VjiyI2qs+G3D6RdCWfm9v7kohBnfNio/iUcc/SNA+ssD/sGco8dN7YZt2B/hBGg+Dz
+	SGCV77N6aWBTvUEYudF4mackfAVC3e5wF+8haE+9hY29XubYNPyL8apFKSn3+DxDlOlL
+	u0WkQZWX3c9hVGlgy+HTBrxbv6zGypQ8sQwNAIl2UfZIbgJuPPHpmXU4q97zTRH18YRh
+	xp9BQe1ebRMkmr1bFJp4UDW/QpsxXXFpJNTnnnXm8pGRznO9UIxLvh4gM1iX53bkaTOL
+	vGu/2gLWuORJfAochXZfDmMVJo828S8d/+UPIz6QA7qCRRLGVo6GBOqJV9yvDRuiGEEv
+	1UQg==
+X-Gm-Message-State: APjAAAUXvRsG+LbpRuYpx0HVbJzKjbvq0FO27Fott+BrBtZhjC/EUivs
+	yLXZ4EA5/9ZobzIkbqQO7PBmfUy3YzQxGqqQLww6Lw==
+X-Google-Smtp-Source: APXvYqwfsPwOF6DzbQWic7fTqc3sgJ7mKSgxv4WR4eqLgpA/mS9O9bQ+MNte1QIVb5kDLBwRp0ZGo5AzcZgLteLpKgs=
+X-Received: by 2002:a05:6638:34c:: with SMTP id
+	x12mr2295811jap.144.1581153613585; 
+	Sat, 08 Feb 2020 01:20:13 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: D142F406AB15.A2001
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2] pciutils: upgrade 3.6.2 -> 3.6.4
+References: <20200131162442.58931-1-alex.kiernan@gmail.com>
+In-Reply-To: <20200131162442.58931-1-alex.kiernan@gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Sat, 8 Feb 2020 09:20:02 +0000
+Message-ID: <CAO5Uq5QPQRN2u+CEgb4omm+JCGg7Bour3jjzp8OF0NFyx4qm5w@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-fitimage: Handle overlays in EXTERNAL_KERNEL_DEVICETREE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,62 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Feb 2020 09:04:56 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 08 Feb 2020 09:20:13 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-refresh the following patch:
-configure.patch
+On Fri, Jan 31, 2020 at 4:24 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+>
+> When using EXTERNAL_KERNEL_DEVICETREE, collect DTB overlays too (*.dtbo)
+> as well as iterating down into sub-directories so using the behaviour
+> for naming which matches KERNEL_DEVICETREE.
+>
+> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> ---
+>
+>  meta/classes/kernel-fitimage.bbclass | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+> index ec18a3d69921..d1b8cdc1f049 100644
+> --- a/meta/classes/kernel-fitimage.bbclass
+> +++ b/meta/classes/kernel-fitimage.bbclass
+> @@ -391,11 +391,10 @@ fitimage_assemble() {
+>
+>         if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
+>                 dtbcount=1
+> -               for DTBFILE in ${EXTERNAL_KERNEL_DEVICETREE}/*.dtb; do
+> -                       DTB=`basename ${DTBFILE}`
+> +               for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -name '*.dtbo' \) -printf '%P\n'); do
+>                         DTB=$(echo "${DTB}" | tr '/' '_')
+>                         DTBS="${DTBS} ${DTB}"
+> -                       fitimage_emit_section_dtb ${1} ${DTB} ${DTBFILE}
+> +                       fitimage_emit_section_dtb ${1} ${DTB} "${EXTERNAL_KERNEL_DEVICETREE}/${DTB}"
+>                 done
+>         fi
+>
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- meta/recipes-bsp/pciutils/pciutils/configure.patch            | 4 ++--
- .../pciutils/{pciutils_3.6.2.bb => pciutils_3.6.4.bb}         | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-bsp/pciutils/{pciutils_3.6.2.bb => pciutils_3.6.4.bb} (92%)
+Ping?
 
-diff --git a/meta/recipes-bsp/pciutils/pciutils/configure.patch b/meta/recipes-bsp/pciutils/pciutils/configure.patch
-index a7e445733a..e444c13975 100644
---- a/meta/recipes-bsp/pciutils/pciutils/configure.patch
-+++ b/meta/recipes-bsp/pciutils/pciutils/configure.patch
-@@ -24,7 +24,7 @@ Index: pciutils-3.5.6/Makefile
- -	$(CC) $(LDFLAGS) $(TARGET_ARCH) $^ $(LDLIBS) -o $@
- +	$(CC) $(LDFLAGS) $(TARGET_ARCH) $^ $(LIB_LDLIBS) $(LDLIBS) -o $@
-  
-- %.8 %.7: %.man
-+ %.8 %.7 %.5: %.man
-  	M=`echo $(DATE) | sed 's/-01-/-January-/;s/-02-/-February-/;s/-03-/-March-/;s/-04-/-April-/;s/-05-/-May-/;s/-06-/-June-/;s/-07-/-July-/;s/-08-/-August-/;s/-09-/-September-/;s/-10-/-October-/;s/-11-/-November-/;s/-12-/-December-/;s/\(.*\)-\(.*\)-\(.*\)/\3 \2 \1/'` ; sed <$< >$@ "s/@TODAY@/$$M/;s/@VERSION@/pciutils-$(VERSION)/;s#@IDSDIR@#$(IDSDIR)#"
- Index: pciutils-3.5.6/lib/configure
- ===================================================================
-@@ -70,7 +70,7 @@ Index: pciutils-3.5.6/lib/configure
-  fi
-  [ -n "$RELEASE" ] && rel="${RELEASE}"
-  # CAVEAT: tr on Solaris is a bit weird and the extra [] is otherwise harmless.
--@@ -44,6 +48,8 @@ cpu=`echo $host | sed 's/^\([^-]*\)-\([^
-+@@ -44,6 +48,8 @@ cpu=`echo $host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\1/'`
-  sys=`echo $host | sed 's/^\([^-]*\)-\([^-]*\)-\(.*\)$/\3/'`
-  echo " $host $rel $cpu $sys"
-  
-diff --git a/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb b/meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
-similarity index 92%
-rename from meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
-rename to meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
-index 413421cd8a..034bb63dc9 100644
---- a/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
-+++ b/meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
-@@ -11,8 +11,8 @@ DEPENDS = "zlib kmod"
- SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz \
-            file://configure.patch"
- 
--SRC_URI[md5sum] = "77963796d1be4f451b83e6da28ba4f82"
--SRC_URI[sha256sum] = "db452ec986edefd88af0d222d22f6102f8030a8633fdfe846c3ae4bde9bb93f3"
-+SRC_URI[md5sum] = "4343b37e19f319ce8f3d59c30031790e"
-+SRC_URI[sha256sum] = "f67ff732976e2db2a5ccdf3960020796526ba6b05f6b1cdd24b7b206af706055"
- 
- inherit multilib_header pkgconfig
- 
 -- 
-2.17.1
-
-
-
+Alex Kiernan
 
