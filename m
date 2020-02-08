@@ -1,52 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id CA50160F44
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Feb 2020 16:38:43 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id u6so2490919wrt.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Feb 2020 08:38:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=2w+cgQL+Z6qS+oV59fLbIMHL5s21319a4vj1aBP9g8Q=;
-	b=E7rQ4pvgKDA2iQW3DWECHovXwV8qc2FPOBj9/XSYEMJyyt/atte9Lc+CmfcGh2gfHn
-	jegupYNa9UhJ9GhZ1c1ArU5ol56f+SvJLxFDuXoFPyT4K2zf6nbGL5PG+MCjoTSwDVs1
-	JpfiJlccpjyPagix/km1rxO6qyrnhKJZgLfDE=
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E73B60F80
+	for <openembedded-core@openembedded.org>;
+	Sat,  8 Feb 2020 18:10:37 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id g15so1677145vsf.1
+	for <openembedded-core@openembedded.org>;
+	Sat, 08 Feb 2020 10:10:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Nh55cmJZedSdYq7j4nE9FDTYzlyID90KFl63RA/aGyM=;
+	b=VHkFgohEhtRNtC5UARJ1aoaP8gWtX1sHnXG0ScJuBZ7RurBJMPJHSld6bcNL1cPAye
+	QWyptl3PjHCw3hpCPUnyZNLaNEACItGPaK8D0gkDqEZhMTmSjxjTDhJ4+Idw5GOg5NBl
+	quwheIl8ZaPvSbXfvCDiUOxlLOOBKs3vfoZuHuX/2OqiTY3Cj8Vkn1HRf0zznuBiT+ni
+	nGJ1ibf9RiMLfISBQXJITodnyVj9U8Xe+1NFjWhjQx4szbsGJlWR0jjtjQEyoOORgfUi
+	pQPPbDIk213YQaUK4LFdMSuOAsveRQW4wXqEyMYk5Ehxdzu9xmuBax7ZO2+/yuh3N2+n
+	dPHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=2w+cgQL+Z6qS+oV59fLbIMHL5s21319a4vj1aBP9g8Q=;
-	b=qy1Hh/9+0RIvTsr8PUhYjZti7DuKS8pcGqgsNIb/InmPcDBoQ1qF5PIGe7Oegi9Sg1
-	I+X/HjGBcRqheVFzU/Y3SCGjiGcRLiV7ffuVLhHpFTjIKZ+8tTI40GEJk/RO86hF3oPK
-	W/h+ehULh98OVuY8tiFP5f8liAjKhobbGpqQnx+YVYg24xsNa2F2pHU6JMnMpFDvVjTw
-	m51aGW5ashWsSVj5jiOCG/oJD+tgo+weLC7g6lQXgw7awIBAij/oCfWFiLUGDTr6hldr
-	sjEjN1dLoLfUotnUpnFq15+aYSx0svg4BLmCC6hzBn3oc379osUrdF3Gb7qYKzI8Gh9z
-	zC6Q==
-X-Gm-Message-State: APjAAAUqcCC2+TVXWkHOlZlDDwT/pqJ+CAPLR6KGNYZggX6aIZvFU7QL
-	UA7e1ADUGWGtOAVBXUfKo1+Oqw==
-X-Google-Smtp-Source: APXvYqxo40sDPr3tmYVxBZYk1aVltj4DBKX7r1H9SFhpH8z5aVEkFotDllpFRq1waPerHbf6ShswRA==
-X-Received: by 2002:adf:f507:: with SMTP id q7mr5998408wro.384.1581179924499; 
-	Sat, 08 Feb 2020 08:38:44 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id s22sm7633416wmh.4.2020.02.08.08.38.43
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 08 Feb 2020 08:38:43 -0800 (PST)
-Message-ID: <351a57e7950a487d5e6b7ba40d0807fac56582c7.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Date: Sat, 08 Feb 2020 16:38:42 +0000
-In-Reply-To: <36734d21-1649-3a14-1355-eb998c0ede12@gmail.com>
-References: <836aaccb82a2781c00e26249ab896d7ef0e25a27.camel@linuxfoundation.org>
-	<6207024170e32fe8ef7262433124efc64d614132.camel@linuxfoundation.org>
-	<36734d21-1649-3a14-1355-eb998c0ede12@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Nh55cmJZedSdYq7j4nE9FDTYzlyID90KFl63RA/aGyM=;
+	b=FLrjrj6+focVU4EoAlHJC2OHdFk8nTTipLwt62wwb77FzJ25frI9YS4G/UpiAase9D
+	o2EsnXjKZ93eEDhP4sNFClyL8C6ylIeVbYh31w5vWgLwR5Y6jf6VbLZMOoZStabnOlIs
+	6bcWB7541IR4uSkJtaG/Ho4p4uS9a8zjR2pExNy/ymyn5cwmEdPdOIYFND8ouUk+DgUP
+	3LsT3oRBmVTMk1SYQSSyP4nK4UKGBygtlBCuAdAt/b45XafYsMM1Bfgrbutus6c8SDlm
+	yGedXbGcEbmbBx3qhMWhCgu6Ar7afc9YHlzjk2kfAnX74jBTrLvUWqX+k0nfSXleAPCP
+	ix5Q==
+X-Gm-Message-State: APjAAAUQt5Y/zyAfV6qiD9O1CrcaiwrnHsDq6jh4KPQM/ErqyHjGyH4Q
+	ID1i0zQ7wJnVZBC7/rSHmPeCdIs1pDyxgQT9uw4SheDv
+X-Google-Smtp-Source: APXvYqwdFtfUSRNkuAzPJdKxUFug2F5HrtjeQJ5aW91L+IuIiMbL54SUHpZktqOSRmTzCmLU5w1+IalPDRvNzxAMBQk=
+X-Received: by 2002:a67:7987:: with SMTP id u129mr2381071vsc.83.1581185438623; 
+	Sat, 08 Feb 2020 10:10:38 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: Reproducible Build Status (and implications for zeus 3.0.2)
+References: <20200204184113.16070-1-alistair.francis@wdc.com>
+	<bd2c5b87416b5d77d7b1405666a6a333be2fb135.camel@linuxfoundation.org>
+In-Reply-To: <bd2c5b87416b5d77d7b1405666a6a333be2fb135.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 8 Feb 2020 19:10:27 +0100
+Message-ID: <CANNYZj-PpRueMjDaoJy86xpe_iEA6rePRTfiVaD-ECcpQ6MbQg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH] qemu: Upgrade to 4.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +54,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Feb 2020 16:38:44 -0000
+X-List-Received-Date: Sat, 08 Feb 2020 18:10:38 -0000
+Content-Type: multipart/alternative; boundary="00000000000064b09b059e146cab"
+
+--00000000000064b09b059e146cab
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sat, 2020-02-08 at 08:36 -0800, akuster808 wrote:
-> 
-> On 2/8/20 5:56 AM, Richard Purdie wrote:
-> > On Fri, 2020-02-07 at 14:23 +0000, Richard Purdie wrote:
-> > > I think we're now down to:
-> > > 
-> > > sudo path issues (Ross is poking)
-> > > ncurses-doc issue (assigned to JPEW)
-> > > perl host compiler flags issue 
-> > > sysvinit missing group problem (assigned to Mingli Yu at present)
-> > We're now down to:
-> > 
-> > A gstreamer issue with libcap:
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=13786
-> > 
-> > and some potential perl host compiler flags leaking in
-> > (no bug for that, we've not seen it in the last build and I'm not
-> > 100%
-> > sure if we fixed it or not yet)
-> > 
-> > I've queued up the recent fixes into zeus-next as I think they're
-> > stable material.
-> I can not  find your changes so that puts a hold on any zeus work I
-> was planning on doing.  I guess this frees up my weekend. 
+I think this backport should address the problem:
+https://git.qemu.org/?p=qemu.git;a=commitdiff;h=a88c40f02ace88f09b2a85a64831b277b2ebc88c
 
-Sorry, they're pushed now. My scripts don't seem to update zeus-next
-for some reason.
+Alex
 
-> > I'm seriously considering letting 3.0.2 wait a little to include
-> > those
-> > fixes in an rc2 and abandon rc1. 
-> My vote was for rc2 if it counts.
-> > If we do that, we may want to get the
-> > bitbake hashequiv+multiconfig fixes in master-next sorted too.
-> Is we "You" in this case to?
+On Sat, 8 Feb 2020 at 08:45, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-Yes, I merged those to master now.
+> On Tue, 2020-02-04 at 10:41 -0800, Alistair Francis wrote:
+> > While we are upgrading let's refresh patches and remove the outdated
+> > patches.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>
+> I think this stopped qemu running on the autobuilder, we saw many
+> versions of:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1538
+>
+> Failed to run qemu: qemu: can't parse 'vga' parameter: Invalid argument
+>
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Cheers,
+--00000000000064b09b059e146cab
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div>I think this backport should address the problem:</di=
+v><div><a href=3D"https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Da88=
+c40f02ace88f09b2a85a64831b277b2ebc88c">https://git.qemu.org/?p=3Dqemu.git;a=
+=3Dcommitdiff;h=3Da88c40f02ace88f09b2a85a64831b277b2ebc88c</a></div><div><b=
+r></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D=
+"ltr" class=3D"gmail_attr">On Sat, 8 Feb 2020 at 08:45, Richard Purdie &lt;=
+<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxf=
+oundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">On Tue, 2020-02-04 at 10:41 -0800, Alistair Francis wrote:<br>
+&gt; While we are upgrading let&#39;s refresh patches and remove the outdat=
+ed<br>
+&gt; patches.<br>
+&gt; <br>
+&gt; Signed-off-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis=
+@wdc.com" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+<br>
+I think this stopped qemu running on the autobuilder, we saw many<br>
+versions of:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/50/build=
+s/1538" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/50/builds/1538</a><br>
+<br>
+Failed to run qemu: qemu: can&#39;t parse &#39;vga&#39; parameter: Invalid =
+argument<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-
+--00000000000064b09b059e146cab--
