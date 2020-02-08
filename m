@@ -1,46 +1,41 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-il1-f194.google.com (mail-il1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 74A4E60E9E
+Return-Path: <aehs29@gmail.com>
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id CDE9D60D24
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Feb 2020 09:20:45 +0000 (UTC)
-Received: by mail-il1-f194.google.com with SMTP id t17so1636535ilm.13
+	Sat,  8 Feb 2020 10:30:10 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id p11so800173plq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Feb 2020 01:20:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=kprOy3DHpD8iK2WQw4Iu1Y5zL2D7w8yPPByCxAuwT1Q=;
-	b=SJXOqwQv8MfcOAuERirjnNwI8jjuwE6Restobp6dLRiIuYVsxZxjR14M3od8M2+5bS
-	LuTtXDpcxO0vdOY+7AwSg5QvbjqiXr2IGWUTrLP0mREYCiGXGTAeyutN+Qlilr+XJTlj
-	y3qQGvdZXTC3RnZdk3jNrxkMFE5e5OgSesCIwLYzq4kH2iRXVkU/JBNEhxVczUhxdHmw
-	6IONBWceDFy1svqtexcg9U2dsv/OJyzGWAPRc6zWxPeh1vqV+EK6+YM+IBY7aFr0RMKx
-	uirjVKwLLDDMnpF6zrgg0A3VISZXtREb738UXNB3YT/UI7dHEyUBv0oZYot/3L8jLZs7
-	Yieg==
+	Sat, 08 Feb 2020 02:30:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=kprOy3DHpD8iK2WQw4Iu1Y5zL2D7w8yPPByCxAuwT1Q=;
-	b=Hrn+NiAFVl6xdX3vCnz4lvNnJFGgmS5p0RVx/8KAbkofpLLiUGznNYIFX82jSq5vPX
-	V+N2/jfbKJ30UBSFeb6EPLPiWO3KdGxKrFMh5edOkhxa4kKyIQauM8SSaEhgVNB91UGu
-	Zs+4L9E5dpTS7SwgxcxaP/acurDYfgwKfx5Scw1GC2BQrWlSmKoqr49k6cmLKWqsnhB8
-	X/N+nuvx5JJnc9blGJMfht4japIufos8HqGK03wmloPVK2K/en32vE8YxKNZ1aR0AH39
-	8lr7uSjuUPbux6u4FhDl7dMgNEmFfLnVontO+ebuCfF52+SHPMXz/gNqY3DaGLe6Dcdg
-	WtKg==
-X-Gm-Message-State: APjAAAWyz26p06igUh5/b3EEckAuU3GQid2HanidCRvb3f1/i3jiEDkk
-	ckU1I7McdYr2SPSiDZLis/vHbcdivFza5uvLw6pKzQ==
-X-Google-Smtp-Source: APXvYqy+XfB3TRtqa7to7dIUX3AqVLEuWCjvkktAPyf7+o1glzoxjYndFuiPrPneOtpdg4HGmNb+VZ4E1xPUwqLaXx0=
-X-Received: by 2002:a92:5c8f:: with SMTP id d15mr3813234ilg.102.1581153646210; 
-	Sat, 08 Feb 2020 01:20:46 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3Hd+0KC5VG2qiKyVZV/2ffTGzfJ+zX/n7yLsgy+HnZI=;
+	b=A/omQcDf5atMlZuxKeUkIRGkXvAcQGyUY1H8LPIt/rPTqhES961GOflCwIznFpMP2M
+	gfE3SyAbeCuYdt47qfNScApKcazveMClgWCNbv1/7hOnw86PNo9+KvSmJ+IX65MrzGj9
+	iXI/5V7VgvAktkTrITyzGWqqJwepI8lfw+nOAp2A874iA0EIy1On/11H08Phd47XU1r4
+	14tb4+7KA50WvqSFp1ufm8RX4wm/F0fI1OKCs4wbdmRM8DdrcPQ/1bgA302aNvKkvE2q
+	XOoVBwTOecL8YHwBMIw3GgV3sKlIafV989bTG/GWj6UFJfSvCFgdmgnV6rWfaAKfQNDE
+	a+hA==
+X-Gm-Message-State: APjAAAXBMMkvKWcQH5jWeb0afQ3B6aLRxnygULgHTDviVFxV4U0hSw4N
+	PcuOisx9U5Z9GqoMduR+zIZ6BONitwf6rw==
+X-Google-Smtp-Source: APXvYqwH+FVmIz2G+6oe7m8AoKI5/LD1edlaGpMejv2+d+/Z1/8EbBAjIxwDbHp5lISB5lteOPKSXQ==
+X-Received: by 2002:a17:90a:1e63:: with SMTP id
+	w90mr9274035pjw.36.1581157811357; 
+	Sat, 08 Feb 2020 02:30:11 -0800 (PST)
+Received: from penguin.lxd (c-73-223-117-38.hsd1.ca.comcast.net.
+	[73.223.117.38]) by smtp.gmail.com with ESMTPSA id
+	p17sm5767763pfn.31.2020.02.08.02.30.10
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 08 Feb 2020 02:30:10 -0800 (PST)
+From: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  8 Feb 2020 02:30:04 -0800
+Message-Id: <20200208103004.4910-1-alejandro@enedino.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200130045446.44017-1-alex.kiernan@gmail.com>
-In-Reply-To: <20200130045446.44017-1-alex.kiernan@gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Sat, 8 Feb 2020 09:20:35 +0000
-Message-ID: <CAO5Uq5RcDacqi51E_+gegh7Mv1B8h18DC7roAet9ADBywTtVoA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RESEND PATCH] rootfs-postcommands: Remove spaces before ; in -ROOTFS_..._COMMAND
+Subject: [PATCH 1/2] testimage: Allow testing on QEMU machines with a single serial port
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,70 +48,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Feb 2020 09:20:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 08 Feb 2020 10:30:10 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, Jan 30, 2020 at 4:54 AM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> With spaces in ROOTFS_POSTPROCESS_COMMAND attempts to remove elements
-> using ROOTFS_POSTPROCESS_COMMAND_remove causes parse failures of the
-> form:
->
->   bb.pysh.sherrors.ShellSyntaxError: LexToken(COMMA,';',0,0)
->   followed by:
->     LexToken(TOKEN,'write_image_test_data',0,0)
->     LexToken(COMMA,';',0,0)
->     LexToken(TOKEN,'set_systemd_default_target',0,0)
->     LexToken(COMMA,';',0,0)
->     LexToken(TOKEN,'systemd_create_users',0,0)
->
-> Removing the spaces between the function name and semicolon allows the
-> list to parse correctly.
->
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
->
->  meta/classes/rootfs-postcommands.bbclass | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-> index a7f33fbf9e77..ebf96be7e85f 100644
-> --- a/meta/classes/rootfs-postcommands.bbclass
-> +++ b/meta/classes/rootfs-postcommands.bbclass
-> @@ -1,6 +1,6 @@
->
->  # Zap the root password if debug-tweaks feature is not enabled
-> -ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password ; ",d)}'
-> +ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'empty-root-password' ], "", "zap_empty_root_password; ",d)}'
->
->  # Allow dropbear/openssh to accept logins from accounts with an empty password string if debug-tweaks or allow-empty-password is enabled
->  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'allow-empty-password' ], "ssh_allow_empty_password; ", "",d)}'
-> @@ -12,7 +12,7 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'deb
->  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains_any("IMAGE_FEATURES", [ 'debug-tweaks', 'post-install-logging' ], "postinst_enable_logging; ", "",d)}'
->
->  # Create /etc/timestamp during image construction to give a reasonably sane default time setting
-> -ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
-> +ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp; "
->
->  # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
->  ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
-> @@ -26,11 +26,11 @@ ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only
->  APPEND_append = '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", " ro", "", d)}'
->
->  # Generates test data file with data store variables expanded in json format
-> -ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data ; "
-> +ROOTFS_POSTPROCESS_COMMAND += "write_image_test_data; "
->
->  # Write manifest
->  IMAGE_MANIFEST = "${IMGDEPLOYDIR}/${IMAGE_NAME}${IMAGE_NAME_SUFFIX}.manifest"
-> -ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest ; "
-> +ROOTFS_POSTUNINSTALL_COMMAND =+ "write_image_manifest; "
->  # Set default postinst log file
->  POSTINST_LOGFILE ?= "${localstatedir}/log/postinstall.log"
->  # Set default target for systemd images
+commmit 6cde67d0a84 enables the use of qemurunner on machines that
+only have a single serial port, but still sets the default value
+as serial_ports=2 if not provided.
 
-Ping?
+The testimage class does not call qemurunner with a serial_ports
+argument, hence always defaulting to two.
 
+Pass the serial_ports argument from the testimage class to allow
+tests to run on QEMU machines with a single serial port.
+
+Signed-off-by: Alejandro Hernandez Samaniego <alejandro@enedino.org>
+---
+ meta/classes/testimage.bbclass    | 1 +
+ meta/lib/oeqa/core/target/qemu.py | 5 +++--
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 844ed87944..0d55c3247e 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -256,6 +256,7 @@ def testimage_main(d):
+                       'kvm'         : kvm,
+                       'slirp'       : slirp,
+                       'dump_dir'    : d.getVar("TESTIMAGE_DUMP_DIR"),
++                      'serial_ports': len(d.getVar("SERIAL_CONSOLES").split()),
+                     }
+ 
+     # TODO: Currently BBPATH is needed for custom loading of targets.
+diff --git a/meta/lib/oeqa/core/target/qemu.py b/meta/lib/oeqa/core/target/qemu.py
+index 758703c0d1..008a9f03ce 100644
+--- a/meta/lib/oeqa/core/target/qemu.py
++++ b/meta/lib/oeqa/core/target/qemu.py
+@@ -18,7 +18,7 @@ class OEQemuTarget(OESSHTarget):
+     def __init__(self, logger, server_ip, timeout=300, user='root',
+             port=None, machine='', rootfs='', kernel='', kvm=False, slirp=False,
+             dump_dir='', dump_host_cmds='', display='', bootlog='',
+-            tmpdir='', dir_image='', boottime=60, **kwargs):
++            tmpdir='', dir_image='', boottime=60, serial_ports=2, **kwargs):
+ 
+         super(OEQemuTarget, self).__init__(logger, None, server_ip, timeout,
+                 user, port)
+@@ -35,7 +35,8 @@ class OEQemuTarget(OESSHTarget):
+                                  deploy_dir_image=dir_image, display=display,
+                                  logfile=bootlog, boottime=boottime,
+                                  use_kvm=kvm, use_slirp=slirp, dump_dir=dump_dir,
+-                                 dump_host_cmds=dump_host_cmds, logger=logger)
++                                 dump_host_cmds=dump_host_cmds, logger=logger,
++                                 serial_ports=serial_ports)
+ 
+     def start(self, params=None, extra_bootparams=None, runqemuparams=''):
+         if self.use_slirp and not self.server_ip:
 -- 
-Alex Kiernan
+2.20.1
+
 
