@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 64FDE6089D
-	for <openembedded-core@openembedded.org>;
-	Sat,  8 Feb 2020 07:45:28 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id t2so1511801wrr.1
-	for <openembedded-core@openembedded.org>;
-	Fri, 07 Feb 2020 23:45:29 -0800 (PST)
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F9EC60D27
+	for <openembedded-core@lists.openembedded.org>;
+	Sat,  8 Feb 2020 07:46:13 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id s10so4728075wmh.3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 07 Feb 2020 23:46:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=H6mBjfAxhkWL1KEZImNUa1GgTiL+ApyajTb6M/yFFdA=;
-	b=Fv1hGvoiH3Gu4fQjmoGTrHCw0XdN6zf0dvBmLBBn8w5KGm7lcPsnBlffaDr/7HM2/r
-	O+pBig/IKvml31oYTzTWoCl/0j9sG3uMDQ0y2d6gDsVGewcW6GKCyluFCkWdHQbFFE4L
-	fzK3UCGu0MSAgbvaq+NkuTvrRNwvV+QF+Eh7c=
+	bh=WEKzgmlbWEL9aFLPWVDipCWZXBQE5k63BTMYO6gt8eY=;
+	b=AbPW0Nk3RwdmWe+UT/ndk/MiSyglRnFS01I6or7AibwL5Qoek0nWM1C+81xwb2CdGO
+	duPS+3oaL3uluueo5TJa3xEcU9v9pDi0ok4JSmGN7GqCQhRyUVQc0OzNDQ4jM65Do70b
+	1OLjPMHFMfrMHpQIkhu2irrnHbpfYdlpGXALM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=H6mBjfAxhkWL1KEZImNUa1GgTiL+ApyajTb6M/yFFdA=;
-	b=PUe6sPFLo/xPXu8BWpbOceMYy8oW+CWTiTqnMmBhfaSewLlUESF7Z2q6pfzWbPR4/6
-	UKzRpbvLMq54EbBkXWqk7XvHwU4gmTwLn8VCP8Q+jFiyPd7BmACxPknLMRnhjFWoioj3
-	sxJub/ooY70AkDkeoVegl0q9jV5aqfIiIboldlHfdwBQBm8EiPRQ2WUljszjkijyR7Pe
-	cr4NJ7Oc/bssb3Kb2YUhy9wM+4poQF4a+Z7xhq7OovNStU5ey/EbU00vG2fgmAoc9aVD
-	HUb9IkUpuidFPR2PKpuOjm4G+8NOVsMhy/k5fRSJ5swTCMaZaafePtEMyQKoLDdIGcGd
-	Z2Bg==
-X-Gm-Message-State: APjAAAWV6C+xNwx82OjWAiRpC2Gber8SzffzN93MExWk2w7iVvNl+4+H
-	JJxwoXo1NiuXuEdE2mi1AeWQN2Rr5Yw=
-X-Google-Smtp-Source: APXvYqyTGl6LUXEbrrU5sUEkCC5SK7mBaM2pUHVCFesKE8OA1C2TjvtYggAvo3iTGI/G6RfU9YHgrA==
-X-Received: by 2002:adf:ea4a:: with SMTP id j10mr3874966wrn.119.1581147928972; 
-	Fri, 07 Feb 2020 23:45:28 -0800 (PST)
+	bh=WEKzgmlbWEL9aFLPWVDipCWZXBQE5k63BTMYO6gt8eY=;
+	b=F4b9ztJi0D+iQHB7h2GYIwSSuSHvCMz9nBhqMWTd5E0KcFSoNBaY7m32OTiQNalLzz
+	ld2uNdgVYRJHfqF6EPH2gkG2aeTL1ycoOMmUni1XLFFCGdYFULppwXJLj8VT7TCSVdbV
+	6mP42ycuoenFMCsZc44TkEHtmuU68V9cpWoTzG760AM1PWcSOOkbv6O0Fy13QFUgZeLC
+	G+NFgoJnm1BAVgTycZZgQW51jzuzCPdiyJSsww1yqYzG22+ctdeqBoGtoLy+WPyBbQ2W
+	bQSi2V9ERv6Zt2OX4yfR74hk9/HPNJz+j4du1dMGWmJPacFrO7rn1kAPadtbHHtLzjJq
+	nYQQ==
+X-Gm-Message-State: APjAAAVzF7X9eJFgSaPw1BSZ94X6NFaUOTIsBkMeFJvVLPblUK1763YF
+	zz4uskBLmCQ95uOKXKITVCuKSA==
+X-Google-Smtp-Source: APXvYqyzEVd/Nycut1VVBUIjYEgvTFr+JByi35Vok6vLxOQH/+L7GIYqztD6VaS7qeb8KQpE53Ye8Q==
+X-Received: by 2002:a05:600c:294:: with SMTP id
+	20mr3126133wmk.135.1581147974077; 
+	Fri, 07 Feb 2020 23:46:14 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	y139sm6573168wmd.24.2020.02.07.23.45.27
+	y185sm6665496wmg.2.2020.02.07.23.46.13
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 07 Feb 2020 23:45:28 -0800 (PST)
-Message-ID: <bd2c5b87416b5d77d7b1405666a6a333be2fb135.camel@linuxfoundation.org>
+	Fri, 07 Feb 2020 23:46:13 -0800 (PST)
+Message-ID: <91dffeba4f2b203b8fd53a0bfc50f85115644f41.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alistair Francis <alistair.francis@wdc.com>, 
-	openembedded-core@openembedded.org
-Date: Sat, 08 Feb 2020 07:45:27 +0000
-In-Reply-To: <20200204184113.16070-1-alistair.francis@wdc.com>
-References: <20200204184113.16070-1-alistair.francis@wdc.com>
+To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 08 Feb 2020 07:46:12 +0000
+In-Reply-To: <1581107275-6540-1-git-send-email-wangmy@cn.fujitsu.com>
+References: <1581107275-6540-1-git-send-email-wangmy@cn.fujitsu.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH] qemu: Upgrade to 4.2.0
+Subject: Re: [PATCH] pciutils: upgrade 3.6.2 -> 3.6.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,22 +59,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Feb 2020 07:45:28 -0000
+X-List-Received-Date: Sat, 08 Feb 2020 07:46:13 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2020-02-04 at 10:41 -0800, Alistair Francis wrote:
-> While we are upgrading let's refresh patches and remove the outdated
-> patches.
+On Fri, 2020-02-07 at 12:27 -0800, Wang Mingyu wrote:
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>  .../pciutils/{pciutils_3.6.2.bb => pciutils_3.6.4.bb}         | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-bsp/pciutils/{pciutils_3.6.2.bb => pciutils_3.6.4.bb} (92%)
 > 
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> diff --git a/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb b/meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
+> similarity index 92%
+> rename from meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
+> rename to meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
+> index 413421cd8a..034bb63dc9 100644
+> --- a/meta/recipes-bsp/pciutils/pciutils_3.6.2.bb
+> +++ b/meta/recipes-bsp/pciutils/pciutils_3.6.4.bb
+> @@ -11,8 +11,8 @@ DEPENDS = "zlib kmod"
+>  SRC_URI = "${KERNELORG_MIRROR}/software/utils/pciutils/pciutils-${PV}.tar.xz \
+>             file://configure.patch"
+>  
+> -SRC_URI[md5sum] = "77963796d1be4f451b83e6da28ba4f82"
+> -SRC_URI[sha256sum] = "db452ec986edefd88af0d222d22f6102f8030a8633fdfe846c3ae4bde9bb93f3"
+> +SRC_URI[md5sum] = "4343b37e19f319ce8f3d59c30031790e"
+> +SRC_URI[sha256sum] = "f67ff732976e2db2a5ccdf3960020796526ba6b05f6b1cdd24b7b206af706055"
+>  
+>  inherit multilib_header pkgconfig
 
-I think this stopped qemu running on the autobuilder, we saw many
-versions of:
+Patches need refreshing:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1538
-
-Failed to run qemu: qemu: can't parse 'vga' parameter: Invalid argument
+WARNING: pciutils-3.6.4-r0 do_patch: Fuzz detected:
+WARNING: pciutils-3.6.4-r0 do_patch: QA Issue: Patch log indicates that patches do not apply cleanly. [patch-fuzz]
 
 Cheers,
 
