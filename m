@@ -1,40 +1,42 @@
 Return-Path: <tom.hochstein@nxp.com>
 Received: from EUR04-DB3-obe.outbound.protection.outlook.com
-	(mail-eopbgr60085.outbound.protection.outlook.com [40.107.6.85])
-	by mail.openembedded.org (Postfix) with ESMTP id 7080560CE8
+	(mail-eopbgr60069.outbound.protection.outlook.com [40.107.6.69])
+	by mail.openembedded.org (Postfix) with ESMTP id DD5F260F13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Feb 2020 03:00:29 +0000 (UTC)
+	Sun,  9 Feb 2020 03:00:34 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=Oc3tPsfiljh1XtEtDEObkPb1c/mq9Xd9PQn4L08An8cQNH9A6fCfEBLVS7WMXXDmtFNE/qdMeytMe+s9hTsFiNwX8D+jXQsdRTtkc8TxzIyquKS1+pQMf/OCFcekPRz6zWVMRuBtFiQX2FzkuK8gsLOZ8x07KDha2JQvggmI7BuAGgv1uM2oiUgLZOzDxW3i9+kW2BKP91Tp8QTQrpab85IQ4zHtegOrk3rab9rXKz8DtO4IRBZneFHRXqmgXqMfVor5AzNhLJn87Vg1emdCkoYqL9IFa1/arrPaEYu3VXRS7dsLRDI7d4uknxuGhhdXp3EBR/gNBwqj2zOlM76aOQ==
+	b=ceL/q4BBjMbvmX9JxV1enMILufYH8MfY4IKUk1RA8WzvyhwWjBuD3JVPFzRLJcQdtL4nL77cXMk5iA91T+4u+mxEoBi1MmIp2APUM6Sboq+MD4ABUYrqR/bvMi+L/5X/6G5T3Sj0O/10M7NITDmUr2es0FNtj5cA+thGIWRBPyZHwIjlCJdAXTsIsqqkat3SvPJrMCP2xauGM9AWoCZR6UqVYm3vw7a+XnUrryFloNdPPStRyTL0vJKGWTSq44EESWDO9fmRhEk8uSK/R5zG5bj+6Waxj7sAQTmWblwJuDc9I9y3ObglNZGWFPHLgAyqAoWqZ7FtcVLgxEldMrrO9w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
 	s=arcselector9901;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=Tuc64ThbBPKlep5fC4CF7hRxehADs9VUf5hGVCe9LZ4=;
-	b=bRnqEnUw0+DeDUISBikRtrPjeo16ENfAXhv4HZFKf/HGKUpaIVj70OkDM9gFijCoq5wZNk4/CzTkO1Cg8tLVwlwfVNtemuC4O4ta9WtT2fXB+DjNcTEGRVe0wZOooHNxDD5VXqEsckiyGygOIudSpuQhFMIU0opDpnVIYbweEVg0ay92XwJ5dEYCuScc+Jo/X5A1exfbwvDIUmZDudqOWjssyNRNG5+sp0lrIdhNAGNpuGHZhklIB8JbbkLMld593Sg5vDFfZThbUIhF0lE8oNqD0cL9cchvjaL/a2NLcWGzRNvZ1Kbc+SYAjJpWe/L7lFKCtI8YxcgXd/QCofKkIg==
+	bh=m9duO4KBmujStBIwhy1tYZE+7+rm54OOld+81xwjiBo=;
+	b=i5/BUjRafUFLqtVTHKkgQuYWlPpP0quj9kb0YbSH28/RPi6CRzO7zuuuLq5C9FFZoD8IShnpogKRl2Klw9387uGEOP0aCnrX6DtEHQX1k90bLS2NrYjKGaEIxFhj49ZvxLXSB3eLGED4yjsu9OFhL477bCJF0r4v1JT5bMWlvE/fHX5vGN7Lb+OfUccxVlPOFDG5Cif5xBrGWPJuC1G3B3UdnEDzJJvjGvLZMr0u9yi9etDxdGXRYXdBRgiRqB4xbAMnuhPc9QQHoaSnobtb2T9TRqB1AE/ZJEMtOZ4TfsicTQ9kgoMoWAfyvA/oaXcdsr5wfm1svoLuPsf/P/RBkA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
 	smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com;
 	dkim=pass header.d=nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2; 
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=Tuc64ThbBPKlep5fC4CF7hRxehADs9VUf5hGVCe9LZ4=;
-	b=CZ5PPfhUPE7u0u+ym1h4dUJtmn6DYx4maOi7VLp5PIiAZtMysO09lZWr+u/uVox/AhuFW5u6OUWGGSaNb9F5WGg3P3Stj/P+fWpeYtngjvkO4YuW7xD9zM0bAE1NfIU/xjz+HUsBDZaMqJTrUTGudjkt0mgOaWgWapM0RikfBzs=
+	bh=m9duO4KBmujStBIwhy1tYZE+7+rm54OOld+81xwjiBo=;
+	b=pRsvrXiGOd3xMUdCvjCQGCxErdKYyKDFnbqYfSfuUMBCGg2/NfdKw4Q6JnRh6SWQ+miI1QrHRMi3OHicHBy1y/7EQjqYLkx/CyhMQSyRdwrv4waEBkVrbQihRqucb7tXXK9Pbsm96LRk5z07hmV01XejZ21cS9G2laCYHDAjdSw=
 Authentication-Results: spf=none (sender IP is )
 	smtp.mailfrom=tom.hochstein@nxp.com; 
 Received: from VE1PR04MB6621.eurprd04.prod.outlook.com (20.179.234.213) by
 	VE1PR04MB6752.eurprd04.prod.outlook.com (20.179.234.205) with Microsoft
 	SMTP
 	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2707.23; Sun, 9 Feb 2020 03:00:28 +0000
+	15.20.2707.23; Sun, 9 Feb 2020 03:00:35 +0000
 Received: from VE1PR04MB6621.eurprd04.prod.outlook.com
 	([fe80::71aa:4c20:47c4:759a]) by
 	VE1PR04MB6621.eurprd04.prod.outlook.com
 	([fe80::71aa:4c20:47c4:759a%7]) with mapi id 15.20.2707.028;
-	Sun, 9 Feb 2020 03:00:28 +0000
+	Sun, 9 Feb 2020 03:00:35 +0000
 From: Tom Hochstein <tom.hochstein@nxp.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  8 Feb 2020 21:00:07 -0600
-Message-Id: <20200209030008.4719-1-tom.hochstein@nxp.com>
+Date: Sat,  8 Feb 2020 21:00:08 -0600
+Message-Id: <20200209030008.4719-2-tom.hochstein@nxp.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20200209030008.4719-1-tom.hochstein@nxp.com>
+References: <20200209030008.4719-1-tom.hochstein@nxp.com>
 X-ClientProxiedBy: DM5PR11CA0015.namprd11.prod.outlook.com
 	(2603:10b6:3:115::25) To VE1PR04MB6621.eurprd04.prod.outlook.com
 	(2603:10a6:803:124::21)
@@ -43,19 +45,19 @@ Received: from tx30imx-01.am.freescale.net (64.157.242.222) by
 	DM5PR11CA0015.namprd11.prod.outlook.com (2603:10b6:3:115::25)
 	with Microsoft SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2707.21
-	via Frontend Transport; Sun, 9 Feb 2020 03:00:27 +0000
+	via Frontend Transport; Sun, 9 Feb 2020 03:00:34 +0000
 X-Mailer: git-send-email 2.17.1
 X-Originating-IP: [64.157.242.222]
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 9decc5a1-777a-4079-24b3-08d7ad0c37a6
+X-MS-Office365-Filtering-Correlation-Id: 0e52c359-10e2-497f-4d1c-08d7ad0c3bba
 X-MS-TrafficTypeDiagnostic: VE1PR04MB6752:|VE1PR04MB6752:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VE1PR04MB67523DB661D421E3FF895C1DE21E0@VE1PR04MB6752.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3383;
+X-Microsoft-Antispam-PRVS: <VE1PR04MB67520636516992544801179BE21E0@VE1PR04MB6752.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-Forefront-PRVS: 0308EE423E
 X-Forefront-Antispam-Report: SFV:NSPM;
-	SFS:(10009020)(4636009)(346002)(366004)(396003)(136003)(376002)(39860400002)(189003)(199004)(478600001)(4326008)(6506007)(316002)(2906002)(1076003)(6666004)(86362001)(66476007)(8676002)(36756003)(6916009)(5660300002)(52116002)(66556008)(26005)(8936002)(44832011)(4744005)(66946007)(6512007)(16526019)(6486002)(81166006)(186003)(81156014)(2616005)(956004);
+	SFS:(10009020)(4636009)(346002)(366004)(396003)(136003)(376002)(39860400002)(189003)(199004)(478600001)(4326008)(6506007)(316002)(2906002)(1076003)(6666004)(86362001)(66476007)(8676002)(36756003)(6916009)(5660300002)(52116002)(66556008)(26005)(8936002)(44832011)(66946007)(6512007)(16526019)(6486002)(81166006)(186003)(81156014)(2616005)(956004);
 	DIR:OUT; SFP:1101; SCL:1; SRVR:VE1PR04MB6752;
 	H:VE1PR04MB6621.eurprd04.prod.outlook.com; FPR:; SPF:None;
 	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
@@ -63,17 +65,17 @@ Received-SPF: None (protection.outlook.com: nxp.com does not designate
 	permitted sender hosts)
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PpL0f1fPAeYHZ1RQ9o7rdLv+WtUcsddYQ9UoFP2mTJEM7N5bbDr+x/7HNFkpK27AY1/BM/Qx1JAfpXuOKfdWE/bSItGZMGopn7O6PqRpniwei04fgYz0SHrPFEez9lKlH0A8HKdTltR4BG5iplOQC9QxCWXQNOIchgJ4FzTK12tsSNkF2M6F+p8K/OtXCuyV2pWVBUwQ66ooU3nV7we+IIgPjypvRd6cEBeXuvo5Giv7hR92IBtLqa4XUbnQH59p36vM/H4sEwRNMuoSEqptfkqHCNsDA8D7YR1CP7eifGk//J9e52vWz0/0dMEsP0oBcb7xG+QQHxiN4sGvpcvPbFt/K1WgpbEMqojs849wiJoZkQGmfs20mgtL2305W5g58H/dPDOZHWvbtSFq4FiHdKPOV0Cz/dMJWGWxYot2+mo+GZJB3bLGZFM9YGC5n5mO
-X-MS-Exchange-AntiSpam-MessageData: 4f5ugkopBigopPqSsE8pRyzlxZ9XkbNvGPqv8a5pOO3RRr+F3IOfSA8ThtyLzPe6UPKWZWSK7oiGdRh48595sAXd64CgzceWm0ju7LtZ9W9MVoaXANwgD8wVk5/ilWRuvyDStGsBItNE3V+Cygq7Xg==
+X-Microsoft-Antispam-Message-Info: OxruKpCS6VuqoPAVqW5Id+QlSRa4jY8pm9NXFYd0V37/YqQWPnEm8eAMNfa1As9dhrR35dJo4ELsbbrNxe3bBbDKc0m5mnxsXUDY7JNU8F5WCkdD/Au8uf4IkJyqKUnCy/yDNP02qVVbBNCLC7lgDtuCK6cSL0VxR33qbT6B0YRM//WjQGmUBvd578jYm8yDRdJ0amc+9i36KCjLzrIg9lEJEIzY5RpA7oxm0LvssSaQkjU93gmC0AdDuWPExhrAZhzJsjDvi1B3nmmR13oBC5RF7QeP/4PSOODBTPizRMtynNHBVeg+oLYyAChiMa0G2mqjuI406jChvFf9rIhdHNTgHlnpNLwuYsEqXR4lGtgulXtLWpNQ85+SYUjoGJm0Nsr7xmGnO++Y4xSZFVNfB8g1ZOv+88J8FAsJTHN9tIVGLi2fpJp7ETsUAfN0L3Z1
+X-MS-Exchange-AntiSpam-MessageData: FWLtFC0AXjf8nVKSAUGpVtnmgna5THTmnzaDS/A7hw5XsedRHZD/rnOO8rs0D3Im99kB2JsTTRvUC64jKGm7PCzt4EwRxVWVmliL1lr/6vHbr2uOh6l+WWbYwFr5JkZfLu0LGTcUUo9fJ6YAu0Dx0Q==
 X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9decc5a1-777a-4079-24b3-08d7ad0c37a6
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2020 03:00:28.3990 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0e52c359-10e2-497f-4d1c-08d7ad0c3bba
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Feb 2020 03:00:35.1981 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: vmqcvGHshvN8b2QSOz0pxspUESHDKd14MwWYNikartETKY3XEhfWi5BKwW/gxhcv4nPTNa6c+CD+9gp5IaboHg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 93xy/L0Y0C1+OlQxT+WZIR8n0OvahKcNYCNmvHbZRcgIhrho2OMOq/j2K7TK7cY5ZJwbSRfIb8iPYbKZ3bY7DQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB6752
-Subject: [PATCH 1/2] bitbake.conf: Add wayland to DISTRO_FEATURES_FILTER_NATIVESDK
+Subject: [PATCH 2/2] wayland: Fix wayland-scanner missing from SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -86,29 +88,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Feb 2020 03:00:30 -0000
+X-List-Received-Date: Sun, 09 Feb 2020 03:00:35 -0000
 Content-Type: text/plain
 
-nativesdk-wayland was not being added to the SDK. This fixes that.
+The FILES variable is customized to package wayland-scanner
+in the target -dev package. However, this is not correct for
+the nativesdk packages and causes wayland-scanner to be
+missing from the SDK.
+
+Fix the nativesdk packaging by properly limiting the
+wayland-scanner target packaging.
 
 Signed-off-by: Tom Hochstein <tom.hochstein@nxp.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/wayland/wayland_1.17.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 2da7c5849a..a93099bf0c 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -826,7 +826,7 @@ DISTRO_FEATURES_NATIVESDK ?= "x11"
- # Normally target distro features will not be applied to native builds:
- # Native distro features on this list will use the target feature value
- DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation"
--DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation"
-+DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation wayland"
+diff --git a/meta/recipes-graphics/wayland/wayland_1.17.0.bb b/meta/recipes-graphics/wayland/wayland_1.17.0.bb
+index 12916a0c40..cb4ff2c20b 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.17.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.17.0.bb
+@@ -43,7 +43,7 @@ sysroot_stage_all_append_class-target () {
+ 	cp ${STAGING_DATADIR_NATIVE}/aclocal/wayland-scanner.m4 ${SYSROOT_DESTDIR}/${datadir}/aclocal/
+ }
  
- DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit gobject-introspection-data ldconfig"
- MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
+-FILES_${PN} = "${libdir}/*${SOLIBS}"
+-FILES_${PN}-dev += "${bindir} ${datadir}/wayland"
++FILES_${PN}_class-target = "${libdir}/*${SOLIBS}"
++FILES_${PN}-dev_append_class-target = " ${bindir} ${datadir}/wayland"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.17.1
 
