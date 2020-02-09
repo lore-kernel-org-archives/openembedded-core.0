@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com
-	[209.85.210.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1810360D24
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com
+	[209.85.216.51])
+	by mail.openembedded.org (Postfix) with ESMTP id BA1F060CCF
 	for <openembedded-core@openembedded.org>;
-	Sun,  9 Feb 2020 16:10:17 +0000 (UTC)
-Received: by mail-pf1-f170.google.com with SMTP id p14so2421925pfn.4
+	Sun,  9 Feb 2020 16:10:18 +0000 (UTC)
+Received: by mail-pj1-f51.google.com with SMTP id gv17so3108977pjb.1
 	for <openembedded-core@openembedded.org>;
-	Sun, 09 Feb 2020 08:10:19 -0800 (PST)
+	Sun, 09 Feb 2020 08:10:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=s3TaewR9NLb94JkopkW2bzNcpPCDI1EBvzmcx4Dk79M=;
-	b=QDHvvthpHKfHJcmcwlckQ0c1JIrjODslWAeqeaOYuWvr8goNRvSnW0joQF1MrnAY3+
-	9Qh5D0SiCHCx1ygAGPW3Hv1gK7T9lpppmXV+OV57KIbIIZjOQ/b0IOGhevVB0VWc1kmY
-	+yX1HxnZH604U0bpqApLDHo7UDu7VdWwQf/qshGlrKPWJ98qGGLf2p9ezaKlNNe0ENBU
-	OzxqXJTc8yT2V/X4MrWRYa+GzwVP1oBzDG5G64Jmleo16sxGHrl9JOoJ6TUGqBx/EWSN
-	IwRJlOKil9J7g/J+cGYRsWu4HjJMj9N34ERAud1WwZp1KkYYtKXQbtMkjrCX953ekCC3
-	ceog==
+	bh=qI+oLVZrgc5AX3kniE3bP1rp80RjD37is45MToBFHIg=;
+	b=vKDk2rEVcoCQxwIPnYtDlTmSXDYy/sbQYjI81OqqDPRzFaGFmGIpJjHXAusRdXQISP
+	9700Fs/ZlRZbcsUub2D3XDwM2wXbk4h2inELPv2Iw9GxKzm0f4Pxxr1Ly4ttRHATOe59
+	ABTCKvdFOAnUgrlOtHRIEdQ/oC+iIp+chdAza14RtHUz/jQkkCmcbkczJPv4CNJr/OL/
+	yyGNemCNDSUj/3phjtXKyEU0z5vKFIT/R2rX5ohBGEHucH7uvNpHygCJN3eMtrBuBKnG
+	aa87X/zN6R5Kg76IJxt+tDt501OWomW1wgVldbgvE3gxmIOeowO2nrmdDkhfMW03QGON
+	Qfwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=s3TaewR9NLb94JkopkW2bzNcpPCDI1EBvzmcx4Dk79M=;
-	b=FQnZDfkUJGuB3rgwDinoLhTKoO0Q1dK1LcmgkADNhudpU1fFn8BDCMl8erlBiWQpDB
-	lFvod+H5sRgxKycMnIs5tGXqD0kRqxcOcBFnFB0Y7FtGiydufntgYY5O/7L6HqPnQTDt
-	V1EVUOduHoXj9sWSVYq86/tBOwcEdAjjWbaZUL+uRkXnn7ZLp1s/Pu3J2KaOhmq5R5yO
-	qANKUZYUea/aaKAxoCA/yS14Jem/DlYT5biceMr4VXY0PalWBaa5LEOq8UIXL3JhOHDp
-	Tf+gRFWslSe2RrkkvW1oYjlciL0nnWGF/jP+OLXeId3MisMvOZ8CUqiRawYQZBTG3Clw
-	cs0g==
-X-Gm-Message-State: APjAAAU/4+LXRZiJTiMaQjVrrmgRzcplwUrW/p5FVGVHpT09JLBSV8FA
-	oOOJXpElgH0ScArcmhBZB6X0HtQM
-X-Google-Smtp-Source: APXvYqyIzcyCq1nGLEKEbjedc9/b/Wicar5JMUzy90g3cpjoaSVKZeb3iYbh+4Fii74Zjk1N3xhCNg==
-X-Received: by 2002:a63:7c4d:: with SMTP id l13mr9869052pgn.275.1581264618962; 
-	Sun, 09 Feb 2020 08:10:18 -0800 (PST)
+	bh=qI+oLVZrgc5AX3kniE3bP1rp80RjD37is45MToBFHIg=;
+	b=NdBzi4ZdfoJr4sQSkfnyFVP1uuS7jsWIVEIzNTtLyzxwgcwuM+kGy56/MDhsI6+EVk
+	ZUdhe7BcnaD0tf0F1hdyAVAmfdS/9UEorTq0T9C/wEDObqxWMksWjp1utrEJENxfsyto
+	D4l3uklJJhvgF+ztcLHsTNxeibWm/L8mCEB+3b8LNa6xROG7ApJ9vLGwz6JL7zypfo+S
+	ekp4PL94y1/hqbHLo86uEe7OmnFxX8pD/C8VKqG7KE66vFuCFr+dx5f4ZQb/k+kGIm9u
+	HLYYRVTOuZ38j+Pl9pNISOweTl4iFlzUhtyZo3imrACQMxw2nsVFbcoRAxfns8nFeqQo
+	Gb1A==
+X-Gm-Message-State: APjAAAWXBDXDf4/IWcSAlkwfdRPpIUSHTefY30huXlDqSuvKewSDfroJ
+	PJW2y72Rz5fhyIlpvauxvUUCvcwb
+X-Google-Smtp-Source: APXvYqxxLsYHcTj6RAOf+zcd9tLzfg0Y9F05a5hwU9WyuXlxRlY4l1dzIiYFa1aHpu3/F4HViXvlcQ==
+X-Received: by 2002:a17:90a:1785:: with SMTP id
+	q5mr15986657pja.143.1581264619668; 
+	Sun, 09 Feb 2020 08:10:19 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:154b:3780:5122:4aa9])
 	by smtp.gmail.com with ESMTPSA id
-	u126sm9408153pfu.182.2020.02.09.08.10.18
+	u126sm9408153pfu.182.2020.02.09.08.10.19
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 09 Feb 2020 08:10:18 -0800 (PST)
+	Sun, 09 Feb 2020 08:10:19 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun,  9 Feb 2020 08:09:47 -0800
-Message-Id: <79ea42840c82f3c14d4c735b6c6f5827195d1612.1581264380.git.akuster808@gmail.com>
+Date: Sun,  9 Feb 2020 08:09:48 -0800
+Message-Id: <e58cda50cea5cd31a0c0e91991ede38b0355d995.1581264380.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1581264380.git.akuster808@gmail.com>
 References: <cover.1581264380.git.akuster808@gmail.com>
-Subject: [zeus 19/29] gtk+3: sort resources for reproducible binaries
+Subject: [zeus 20/29] perl: do not install files that contain build host specific data
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,61 +62,53 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 09 Feb 2020 16:10:18 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 
-The list of resources is gathered with $(wildcard) in Make, which isn't
-sorted. If this order changes then the generated libraries will differ.
+This was breaking reproducibility, and the files aren't needed on
+target.
 
-(From OE-Core rev: f3675be6be29426688187a135221431a0941d007)
+[YOCTO #13772]
 
-(From OE-Core rev: a2a6d9fa4df66a1f52c1c1fec45eedb4199e8162)
+(From OE-Core rev: 2e0f30c4680221c693495e3a0327378d502a518b)
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+(From OE-Core rev: 208efc88fa3c57244b272bf7e7f7f8163f14630c)
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../gtk+/gtk+3/sort-resources.patch           | 19 +++++++++++++++++++
- meta/recipes-gnome/gtk+/gtk+3_3.24.8.bb       |  1 +
- 2 files changed, 20 insertions(+)
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
+ meta/recipes-devtools/perl/perl-ptest.inc | 3 +++
+ meta/recipes-devtools/perl/perl_5.30.0.bb | 3 +++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch b/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
-new file mode 100644
-index 0000000000..7f87372c52
---- /dev/null
-+++ b/meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
-@@ -0,0 +1,19 @@
-+If the resources file isn't sorted in some way then libgdk.so will differ
-+depending on the inode order of the resource files.
+diff --git a/meta/recipes-devtools/perl/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
+index 7152057762..98e3361fcc 100644
+--- a/meta/recipes-devtools/perl/perl-ptest.inc
++++ b/meta/recipes-devtools/perl/perl-ptest.inc
+@@ -42,6 +42,9 @@ do_install_ptest () {
+ 
+ 	 # Remove a useless timestamp...
+ 	 sed -i -e '/Autogenerated starting on/d' ${D}${PTEST_PATH}/lib/unicore/mktables.lst
 +
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/gdk/Makefile.am b/gdk/Makefile.am
-+index e25b57ba50..26f2d57c6e 100644
-+--- a/gdk/Makefile.am
-++++ b/gdk/Makefile.am
-+@@ -465,7 +465,7 @@ stamp-gc-h: $(top_builddir)/config.status
-+ # Resources
-+ #
-+ 
-+-glsl_sources := $(wildcard $(srcdir)/resources/glsl/*.glsl)
-++glsl_sources := $(sort $(wildcard $(srcdir)/resources/glsl/*.glsl))
-+ 
-+ gdk.gresource.xml: Makefile.am
-+ 	$(AM_V_GEN) echo "<?xml version='1.0' encoding='UTF-8'?>" > $@; \
-diff --git a/meta/recipes-gnome/gtk+/gtk+3_3.24.8.bb b/meta/recipes-gnome/gtk+/gtk+3_3.24.8.bb
-index d79b18bee0..596dee6264 100644
---- a/meta/recipes-gnome/gtk+/gtk+3_3.24.8.bb
-+++ b/meta/recipes-gnome/gtk+/gtk+3_3.24.8.bb
-@@ -7,6 +7,7 @@ SRC_URI = "http://ftp.gnome.org/pub/gnome/sources/gtk+/${MAJ_VER}/gtk+-${PV}.tar
-            file://0002-Do-not-try-to-initialize-GL-without-libGL.patch \
-            file://0003-Add-disable-opengl-configure-option.patch \
-            file://link_fribidi.patch \
-+           file://sort-resources.patch \
-           "
- SRC_URI[md5sum] = "eeedde01856238114dcf4df3ebc942a5"
- SRC_URI[sha256sum] = "666962de9b9768fe9ca785b0e2f42c8b9db3868a12fa9b356b167238d70ac799"
++	 # Remove files with host-specific configuration for building native binaries
++	 rm ${D}${PTEST_PATH}/Makefile.config ${D}${PTEST_PATH}/xconfig.h ${D}${PTEST_PATH}/xconfig.sh
+ }
+ 
+ python populate_packages_prepend() {
+diff --git a/meta/recipes-devtools/perl/perl_5.30.0.bb b/meta/recipes-devtools/perl/perl_5.30.0.bb
+index ba2a8437d4..c567d4e7a2 100644
+--- a/meta/recipes-devtools/perl/perl_5.30.0.bb
++++ b/meta/recipes-devtools/perl/perl_5.30.0.bb
+@@ -135,6 +135,9 @@ do_install_append_class-target() {
+     # This is used to substitute target configuration when running native perl via perl-configpm-switch.patch
+     ln -s Config_heavy.pl ${D}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/Config_heavy-target.pl
+ 
++    # This contains host-specific information used for building miniperl (a helper executable built with host compiler)
++    # and therefore isn't reproducible. I believe the file isn't actually needed on target.
++    rm ${D}${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/CORE/xconfig.h
+ }
+ 
+ do_install_append_class-nativesdk() {
 -- 
 2.17.1
 
