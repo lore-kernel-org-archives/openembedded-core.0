@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com
-	[209.85.216.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 4321A60CD4
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
+	[209.85.216.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 17F8060CC9
 	for <openembedded-core@openembedded.org>;
 	Sun,  9 Feb 2020 16:10:09 +0000 (UTC)
-Received: by mail-pj1-f46.google.com with SMTP id j17so3101329pjz.3
+Received: by mail-pj1-f50.google.com with SMTP id j17so3101339pjz.3
 	for <openembedded-core@openembedded.org>;
-	Sun, 09 Feb 2020 08:10:10 -0800 (PST)
+	Sun, 09 Feb 2020 08:10:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=GhbQcd+dOfJEJ1oE9SFJz1YU4MWxRtY5Vq6mYE/WGl0=;
-	b=rvmdPyfhPgfEwVkcoBeS0Wgu8OUFa0a62Y8FGMoD3BQvrcaI5e6tMZModIIBocxZqV
-	dFqsKOz+wDmd2NUAxaBIF2YHJbajSNT3vZZ2r3stCUucXy+XI4kAA+ViC26VKJWcXGjk
-	sx8nY4TIsfndjLQHjZjcmnCXjTjsIEzmq8lHrUyfE1J2d3D0FQxA030UF7iaUg9GLc8w
-	Ceyy6WWVetsJhtL3dKkQ9jKybnhmTpK7KHUG1FovaQLTwqFQ/+Fd+TmrXySliIlUh2Lc
-	6sANT7DxzqtfM+18oajZQZ5qhb4Llrah5oO79kSPS+ggYnClgosIdmMQf2uDsoTgqUjK
-	bj7g==
+	bh=pj/qwqPiQSuS4dGTetuX4yEjO60nzbglbFtaKDWYtGw=;
+	b=IC1NSUDfeXaq+tiQddu59edRRR7Z5rMClSXcTPa8BFM11yvrCkJcvjwPBimpVbC/xY
+	zFKiEodgur9E8PKsT9gTFfPNb00HBHDARSj0EbuuEteWmwhrMORQZfpWkuKRSQg/7qvL
+	qSGi5+GywhyoQeTAn+WP1O8pGS86v+6Jt9436rAjcN1d5jNNm7Y7g/wt6YoT9LASMLby
+	UlqED0QnReJlpktokJvt1iVy677kwLRhudB1pEqDPyNGzME7CMSYMt2lncON92GL8mZz
+	fUwoxUan+pcXAjZsEEL8ayzY8IkHqFY67wbVUIXcC2KTkdC6KiauiWTM1QgPD06Ka3NI
+	TAxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=GhbQcd+dOfJEJ1oE9SFJz1YU4MWxRtY5Vq6mYE/WGl0=;
-	b=ijJxU4+R3Uj/UIg5tLjQPxAGe31oHCSZqBXlSnn7ZcvCVmyp3HYR92DtwE2xYErR01
-	ZihErlsgwlg8pKZDiu9bYgdk3AjRIWwne7Z45sD6kkRpUXiW6c6Wbu1lXKqZmy+q4BN7
-	iJBQpdQvSLQxfzMvms955VPI2KcRMfrv7ENS18WQOZparuQcjxQ6hV8Sa+cdMADSskRN
-	SYDpPPayRGe8MoYsRiPCBcBaacBUKp/MQQOCM3TBEtZXMI0YzeNDXNOfvuognQbBOAX8
-	CH8WJemDBuM8vQv4PTAdT7ZBaKtBBlOcTj+adwHauMGayOGVxU0d/D3/v8gVLtWYKmmI
-	V39g==
-X-Gm-Message-State: APjAAAWTBQb6IKUs6E1seu+n7vORT+1NEue8KSLbzNe7CMWFeR0lxUkK
-	xt2c2Qeua2onbca4lM3WyDUGJPW+
-X-Google-Smtp-Source: APXvYqwxnb93Yzwc+HmW6ROWkTXPPLbgF4NdqyZYVdZszGBwGA7iidAHOLJCzaLuit7AP5ODN3Xvpg==
-X-Received: by 2002:a17:902:462:: with SMTP id
-	89mr8824431ple.270.1581264610195; 
+	bh=pj/qwqPiQSuS4dGTetuX4yEjO60nzbglbFtaKDWYtGw=;
+	b=EU6LMLPZixM2BX//TdQyxWxfdCaXfmLHx4XzEfdoA3hoboQMa2QgVLE3KVENWHoHKj
+	M0I3HXSJ5mFMJ7P4O+ON+N3HdNrsAmW/z9vh7KpT8K5xjYEfq6O48MusPLDhgDmoLQ6C
+	xpx34bJX6glcuTdUHhKlI9ghvUCulM7Ip1+d6O8onQmV/xhpK2ovjy3p228yLCkGRbFW
+	lZx+kUEH9AcjN0k5ojd2rRfLn40oD5BPQmX15bB5EtjvlTyo2e0f0cbqU9fO4SE5iMFb
+	u/Sr7ZNtOWVV7AgRHeaPsJHOhnhN2f3DfMzrGBiWyRIa9rOziTaBGZ+UMMLGrg7K8m5H
+	RB8g==
+X-Gm-Message-State: APjAAAWPQBsqTq/cVGM825ooWNDtw9joE3malbVrjclagwd2RVQE6nXB
+	x42sZ2PAYKMehQf3g+YS66jh+eLI
+X-Google-Smtp-Source: APXvYqxzhvor/q6XRb6W9y/GW8ocuhIwu1N+VCEmQKGQgS6B3SAagmE+O+32ToyM/sPE6jTJM3096A==
+X-Received: by 2002:a17:90a:a115:: with SMTP id
+	s21mr15397750pjp.23.1581264610985; 
 	Sun, 09 Feb 2020 08:10:10 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:154b:3780:5122:4aa9])
 	by smtp.gmail.com with ESMTPSA id
-	u126sm9408153pfu.182.2020.02.09.08.10.09
+	u126sm9408153pfu.182.2020.02.09.08.10.10
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 09 Feb 2020 08:10:09 -0800 (PST)
+	Sun, 09 Feb 2020 08:10:10 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Sun,  9 Feb 2020 08:09:36 -0800
-Message-Id: <7a222381df431a46dd0898c2b90a1d2dda2e0a43.1581264380.git.akuster808@gmail.com>
+Date: Sun,  9 Feb 2020 08:09:37 -0800
+Message-Id: <edaff3c94e47c3e237a4366ef7cda4681e6b375d.1581264380.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1581264380.git.akuster808@gmail.com>
 References: <cover.1581264380.git.akuster808@gmail.com>
-Subject: [zeus 08/29] opkg-utils: Fix reproducibility issues in opkg-build
+Subject: [zeus 09/29] oeqa/reproducible: Improve test output and ensure deb+ipk compared
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,79 +60,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Feb 2020 16:10:09 -0000
+X-List-Received-Date: Sun, 09 Feb 2020 16:10:10 -0000
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-There is a sorting problem with opkg-build where the ipk generated is depending
-upon the order of files on disk. The reason is the --sort option to tar only
-influences the orders of files tar reads, not those passed by the -T option.
+Adding newline characters between the packages in the failure output
+massively improves readability.
 
-Add in a sort call to resolve this issue. To ensure consistent sorting we
-also need to force to a specific locale (C) else the results are still not
-deterministic.
+Also ensure to output ipk failures when there are deb failures by
+calling self.fail() at the end, else sometimes only partial differences
+are returned.
 
-(From OE-Core rev: a9b8287984c63420e10329a69f7ac5125f1687f8)
+(From OE-Core rev: 6e2e0480852177db75a6108d77c99c92c4e9950f)
 
-(From OE-Core rev: b577a6d923042cfc04e67d470e0987488ea61412)
+(From OE-Core rev: 4d470f48f7fb5e05fba1ca3a59fb4f85d910026e)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../opkg-utils/fix-reproducibility.patch      | 32 +++++++++++++++++++
- .../opkg-utils/opkg-utils_0.4.2.bb            |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/fix-reproducibility.patch
+ meta/lib/oeqa/selftest/cases/reproducible.py | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/fix-reproducibility.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/fix-reproducibility.patch
-new file mode 100644
-index 0000000000..945979bc8a
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/fix-reproducibility.patch
-@@ -0,0 +1,32 @@
-+Fix reproducibility issues in opkg-build
-+
-+There is a sorting problem with opkg-build where the ipk generated is depending
-+upon the order of files on disk. The reason is the --sort option to tar only
-+influences the orders of files tar reads, not those passed by the -T option.
-+
-+Add in a sort call to resolve this issue. To ensure consistent sorting we
-+also need to force to a specific locale (C) else the results are still not
-+deterministic.
-+
-+RP 2020/2/5
-+
-+Upstream-Status: Submitted [https://groups.google.com/forum/#!topic/opkg-devel/YttZ73NLrYQ]
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: opkg-utils-0.4.2/opkg-build
-+===================================================================
-+--- opkg-utils-0.4.2.orig/opkg-build
-++++ opkg-utils-0.4.2/opkg-build
-+@@ -305,8 +305,10 @@ if [ ! -z "$SOURCE_DATE_EPOCH"  ]; then
-+     mtime_args="--mtime=@$build_date --clamp-mtime"
-+ fi
-+ 
-+-( cd $pkg_dir/$CONTROL && find . -type f > $tmp_dir/control_list )
-+-( cd $pkg_dir && find . -path ./$CONTROL -prune -o -path . -o -print  > $tmp_dir/file_list )
-++export LANG=C
-++export LC_ALL=C
-++( cd $pkg_dir/$CONTROL && find . -type f | sort > $tmp_dir/control_list )
-++( cd $pkg_dir && find . -path ./$CONTROL -prune -o -path . -o -print  | sort > $tmp_dir/file_list )
-+ ( cd $pkg_dir && tar $ogargs $tsortargs --no-recursion $mtime_args -c $tarformat -T $tmp_dir/file_list | $compressor $compressorargs > $tmp_dir/data.tar.$cext )
-+ ( cd $pkg_dir/$CONTROL && tar $ogargs $tsortargs --no-recursion --mtime=@$build_date -c $tarformat -T $tmp_dir/control_list | gzip $zipargs > $tmp_dir/control.tar.gz )
-+ rm $tmp_dir/file_list
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-index 6495726500..042eec7e0e 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.4.2.bb
-@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
- PROVIDES += "${@bb.utils.contains('PACKAGECONFIG', 'update-alternatives', 'virtual/update-alternatives', '', d)}"
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index a9110565a9..1b0b5bae70 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -174,6 +174,8 @@ class ReproducibleTests(OESelftestTestCase):
+         # NOTE: The temp directories from the reproducible build are purposely
+         # kept after the build so it can be diffed for debugging.
  
- SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV}.tar.gz \ 
-+           file://fix-reproducibility.patch \
- "
- UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
++        fails = []
++
+         for c in self.package_classes:
+             with self.subTest(package_class=c):
+                 package_class = 'package_' + c
+@@ -197,6 +199,9 @@ class ReproducibleTests(OESelftestTestCase):
+                         self.copy_file(d.test, '/'.join([save_dir, d.test]))
+ 
+                 if result.missing or result.different:
+-                    self.fail("The following %s packages are missing or different: %s" %
+-                            (c, ' '.join(r.test for r in (result.missing + result.different))))
++                    fails.append("The following %s packages are missing or different: %s" %
++                            (c, '\n'.join(r.test for r in (result.missing + result.different))))
++
++        if fails:
++            self.fail('\n'.join(fails))
  
 -- 
 2.17.1
