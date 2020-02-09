@@ -1,50 +1,83 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id CC4536110F
+Return-Path: <chris.laplante@agilent.com>
+Received: from NAM04-SN1-obe.outbound.protection.outlook.com
+	(mail-eopbgr700071.outbound.protection.outlook.com [40.107.70.71])
+	by mail.openembedded.org (Postfix) with ESMTP id A3E5460F4C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Feb 2020 23:01:06 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id d18so2327717qtj.10
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Feb 2020 15:01:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OkgTmRTjvYoGatyINjFebK2SiPyCSxLJUcL1A0Woy6U=;
-	b=fm+IjrsKhaEhm3CVeG5n10bNGfHHnwj+c012sRbjeAeqGyPqzMLHJk8WOSBYXFchZL
-	OdroFE2+kgDOwBEBecfe5FzPKlP3VJb+opyrYshzzKPLjP3qWjdibHrt8H497fUuHgah
-	eGxJbcGJEmbXmKta96TyFaksmfpm+zGYtdK1eoSzgmcVv52I47u15o3+2DxH2z+ca6Mf
-	Snk6J0v11vhgjFfkRCdm0jGUrERPcW4hhoTs6Q7lUF/4YV9Y4fy+6BfzROQElCqRjhOw
-	IVxSSHw3H6et/I5dD/efaMkmBkQVe6Rx9VGk1hen/PGtqWbCh8vMlpGKLEzU6iZqJUj0
-	8vAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=OkgTmRTjvYoGatyINjFebK2SiPyCSxLJUcL1A0Woy6U=;
-	b=f9wQrXM38HsEDomh76lvwF0vVDWAom0PJwa751ZtpKmQysjSkU6rzaeEp1kypeeTgg
-	LbdXO1Bi/Ru8vYqGCPvM3IzJ4xeAReS+msZu5ziD3mP0cOhgQcf//6fEQ/1afpPILCqQ
-	n4uQBLcN3mUlntvBIEcyDEzFRACjhTD5ibzeUALv4J8wOR5QD/XGxJ7OUFIoLKnY2xfB
-	tEmi3bqpbh9A6HdB+/3ro2CdvZm4yjmD2e5X/IkBHGlfY0vzWFqghoDkkXF85zK1NSvT
-	Pn3EFJW1FM0VF/O2xwbkg3KPDbqKADV9s6UP3LzLwb2ve5+9ixsyB8GQD8IV/ET8hi5F
-	acHw==
-X-Gm-Message-State: APjAAAU1QUVVgVCynwVZ1k3pD1qes4iOgN6OEdHSTziUfezcHvFjqLK6
-	tJhiPbgy2c21pKYiBLN3IoqVVDAaWmlEj2MnnUGJ0LWO
-X-Google-Smtp-Source: APXvYqxOsZ0EHpfrrQpym3e0f9+bqJfbOgaPCr2l79HAbFmqe6TZ0Vd53EbbuTAMvPFSO9R5kNshyPylPYk/WB3nK+g=
-X-Received: by 2002:ac8:4419:: with SMTP id j25mr4418883qtn.378.1581202867149; 
-	Sat, 08 Feb 2020 15:01:07 -0800 (PST)
+	Sun,  9 Feb 2020 00:23:42 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+	b=ebm2SnohN9GlWpZVP2PNatYzSxJADExw1Mr7hkryxkByhduPb2+gWE0hAQOa646h5C6s+8Tm+Mt94uHsr8uUrmB2Fb7C0skDVIMWvz4Z1bS1sn5F7RN7Dy2WcWicqfbDQUThVLZcInQsCwVlwjJS+rKj+7LNfej2Ilg70+iFjHRlTXcYkwwsUzMeWAs2TzO9HpHvEeL6WbOI48K7gFNhoEQT5bJ6JZ6zOoD79gv6YHTeIDwxA8GOVrPbthvrvu2CC7kqHEyYclH0rzXiXedP+wdT18vhmU+ZGf+1flkp7eraiNe34/DRyf7dJu5eNn5736Nq7g9eDLiz7hCrcb0e8w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+	s=arcselector9901;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=kDEQvWlAtMvI0BMm0aDDgbCa4bvZB7nJDQSmDJcBjbI=;
+	b=kFIMSqvupo9xoSpVo4wSz7Uqd3tgQZ0ZfoL89njpv1+TUtb5Q9BbYwptvalmxIZdeC6mW1HFn8HqzA4QQ9JVBXZ3LV0AaXidXwDgIokGoy+jVU9SW9PVJCFtPrXk5jZH7btw1xujeIWKgeoOeGghvzZ1kwpRUkyxDjeU3Ns/6VRZIpdG6dG87dN3Ux7iGV13lh/Gs/2munKsE08A/fye6JvCCeapYjN/qTSMvBGO6YG6fhywfs4+stzIdTOX2ma900iCmECfh8+VExNSVSYypcsVShM4GRLgIcftdPzkHHoxOJWfzi01FMdiJYigX7b2Bo2CbDSVZ+72VoOZxnMBCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+	smtp.mailfrom=agilent.com;
+	dmarc=pass action=none header.from=agilent.com; 
+	dkim=pass header.d=agilent.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
+	s=selector2;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=kDEQvWlAtMvI0BMm0aDDgbCa4bvZB7nJDQSmDJcBjbI=;
+	b=AX3zl+VKNtBRknDL1tGQ1HdS6Pieoo/41OFlhVMMS6SitIfjFxkA8MeA4+dNMPz6uOFqCxIQAh6iv3V53vyghmu0ipNfh77Qrt5qRCKfUr8/GnHepaZhP2k30un133+iNz5b12GUgsHzJHGmxW0mrZspnVG9TFzr/eYOkfh65XM=
+Received: from BN6PR1201MB2482.namprd12.prod.outlook.com (10.172.108.140) by
+	BN6PR1201MB0035.namprd12.prod.outlook.com (10.174.238.140) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.2707.21; Sun, 9 Feb 2020 00:23:41 +0000
+Received: from BN6PR1201MB2482.namprd12.prod.outlook.com
+	([fe80::b9c1:6c94:2b61:5290]) by
+	BN6PR1201MB2482.namprd12.prod.outlook.com
+	([fe80::b9c1:6c94:2b61:5290%11]) with mapi id 15.20.2707.024;
+	Sun, 9 Feb 2020 00:23:40 +0000
+From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] Cache unihash ... doesn't match BB_UNIHASH ...
+Thread-Index: AQHV3Y7yppMxqsfL50SQ0gLLoMQb+qgPZvSAgABkhGCAAAmeAIAACsOAgAISmdA=
+Date: Sun, 9 Feb 2020 00:23:40 +0000
+Message-ID: <BN6PR1201MB248219E5E090A8B5691CCB098B1E0@BN6PR1201MB2482.namprd12.prod.outlook.com>
+References: <CAO5Uq5QPxrnkPhjeO3s79AAYF55nPtR3OL0iuL9rqCvN-OmpfA@mail.gmail.com>
+	<ad681bbf95efbeb211cbbe00dd73a4e2ce7cf335.camel@linuxfoundation.org>
+	<BN6PR1201MB248222EF01FA45459B7BC0BE8B1C0@BN6PR1201MB2482.namprd12.prod.outlook.com>
+	<6109c3315b8a215881c134441b74d0753820b5c8.camel@linuxfoundation.org>
+	<CAO5Uq5T1k-ZMZwpsDOeE+aQOJMBZ0PQSzC1jeS+iw=20bxyogA@mail.gmail.com>
+In-Reply-To: <CAO5Uq5T1k-ZMZwpsDOeE+aQOJMBZ0PQSzC1jeS+iw=20bxyogA@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=chris.laplante@agilent.com; 
+x-originating-ip: [4.59.252.60]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 3de755ba-0d62-44ae-74ed-08d7acf65091
+x-ms-traffictypediagnostic: BN6PR1201MB0035:
+x-microsoft-antispam-prvs: <BN6PR1201MB00354207C798EF22EFCE5A898B1E0@BN6PR1201MB0035.namprd12.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-forefront-prvs: 0308EE423E
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(376002)(366004)(39860400002)(396003)(136003)(346002)(189003)(199004)(29502001)(7696005)(8936002)(81156014)(81166006)(71200400001)(8676002)(6506007)(54906003)(4326008)(316002)(26005)(478600001)(2906002)(186003)(66556008)(66946007)(66476007)(66446008)(64756008)(9686003)(86362001)(76116006)(55016002)(33656002)(52536014)(6916009)(5660300002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR1201MB0035;
+	H:BN6PR1201MB2482.namprd12.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: agilent.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: WEnjvmX9/evXQJuRRp7ys9iOq7/OkxRF79QBrawlVDrI+GUXuHF0c3mhB7bUB6uboxcfnh14SxbALBkDoS3xRU0oiVZk0EkD7z2WJU7hYTcCBEx/z1GQLTDPHMwhz94OvJ9OZSDS0Wp06dUOH2mLurF0jL9YLFlM8SmucJY5aVOfsUzhWMInZSBJMLs3gC3kbNTCTcEnTbQ6ryD3nYIUlRG0+63EnAQrrO8HKd9h/EcT6MMsi1Lit0pXmAHr0mGvm36hpSjS/9emN0ced3yQ7Y/sAD83xnEKoXTpGl/YhAk9BgQLobxQvCoFtZd1dW/iZNdtMzeglS/TVeVRLqwixdxaTFH2IGso1E/KObyRQ8AAA7fKVkr9Jjb9bk5B5jGP80OsL2jP7TRMNSdPViskgloZE5SeCHBSRpqOn7QLHEJDPOOp+cznHsnvbDfQhPRKZyhlzd+nleNaxCPcR/P3+BUKwQGNCZ+AWtL/3+dkaugaIlzW3i/QgT7gO7HjGsuF
+x-ms-exchange-antispam-messagedata: OvVJddUJTJlYR9k+kG3UZkbupVOh3nJYDWlEmczWzpJYUk5SqdnbAsNvqqhKsNzPKTPHZRKSdCg4cE6/d8LlhqdatUF4VQz471err0YSk19LKWcwQlEDJQL/n8g87bY31CxgidXlhbAqWSAlYQ/GWg==
+x-ms-exchange-transport-forked: True
 MIME-Version: 1.0
-References: <20200207194559.527-1-alex.kanavin@gmail.com>
-	<20200207194559.527-3-alex.kanavin@gmail.com>
-	<CAMKF1srQWT2o-B-Rs3_8KWCDnRCNQXJyaTR7XYm3PLMNU+4VUw@mail.gmail.com>
-	<5a26efc5-f0a7-1d1b-0cff-d1c6d81d7dd5@gmail.com>
-In-Reply-To: <5a26efc5-f0a7-1d1b-0cff-d1c6d81d7dd5@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 8 Feb 2020 15:00:56 -0800
-Message-ID: <CAMKF1sqwhhrgTipODiXMtb_-tQD8XuHLijesEXLy=Fuj0=9nSQ@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
+X-OriginatorOrg: agilent.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3de755ba-0d62-44ae-74ed-08d7acf65091
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Feb 2020 00:23:40.7727 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 2X7ibzz9ewXGn/Qjb6syQRvTXGfRa/n1aK8tlRNexvDgNppFdxd5eU9JFy6L6NVIFngDb/wT4MhFmLJ/AQsgkgQQAz9EuegVNj+zoIk5v/A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0035
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] chkconfig: remove the recipe
+Subject: Re: Cache unihash ... doesn't match BB_UNIHASH ...
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,679 +90,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Feb 2020 23:01:07 -0000
-Content-Type: multipart/alternative; boundary="00000000000036dede059e187b66"
+X-List-Received-Date: Sun, 09 Feb 2020 00:23:42 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---00000000000036dede059e187b66
-Content-Type: text/plain; charset="UTF-8"
+SGkgUmljaGFyZCwNCg0KPiA+ID4gQW5lY2RvdGFsbHksIHdlIGFyZSBydW5uaW5nIFpldXMgZm9y
+IG5pZ2h0bHkgYnVpbGRzIHdpdGggdGhyZWUNCj4gPiA+IG11bHRpY29uZmlncy4gSSBjaGVycnkt
+cGlja2VkIHlvdXIgImJpdGJha2U6IGZpeDIiIGFuZCAiYml0YmFrZToNCj4gPiA+IGZpeHVwIiBw
+YXRjaGVzIGFuZCBoYXZlbid0IHNlZW4gYW55IG9mIHRoZSBCQl9VTklIQVNIIGVycm9ycyBzaW5j
+ZS4NCj4gPiA+IEdyYW50ZWQgaXQncyBvbmx5IGJlZW4gYSB3ZWVrLiBCdXQgYmVmb3JlIHRoYXQs
+IGhhc2ggZXF1aXYgKw0KPiA+ID4gbXVsdGljb25maWcgd2FzIHVudXNhYmxlIGR1ZSB0byB0aGUg
+QkJfVU5JSEFTSCBlcnJvcnMuDQo+ID4NCj4gPiBUaGF0IGlzIGEgcmVhbGx5IGhlbHBmdWwgZGF0
+YSBwb2ludCwgdGhhbmtzLiBJIHNob3VsZCBwcm9iYWJseSBjbGVhbiB1cA0KPiA+IHRob3NlIGJp
+dGJha2UgcGF0Y2hlcyBhbmQgZ2V0IHRoZW0gbWVyZ2VkIHRoZW4sIEkgY291bGRuJ3QgZGVjaWRl
+IGlmDQo+ID4gdGhleSB3ZXJlIHJpZ2h0IG9yIG5vdC4uLg0KPiA+DQo+IA0KPiBJIGp1c3QgcGlj
+a2VkIGFsbCB5b3VyIHBlbmRpbmcgY2hhbmdlcyBvdXQgb2YgbWFzdGVyLW5leHQgaW50byBvdXIN
+Cj4gbG9jYWwgcGF0Y2ggcXVldWUgLSB3aWxsIGxldCB5b3Uga25vdyBob3cgaXQgbG9va3Mgd2hl
+biBpdCdzIGZpbmlzaGVkDQo+IGNvb2tpbmchDQoNClRoZXJlIGFyZSB0d28gc21hbGwgaXNzdWVz
+IEkgaGF2ZSBvYnNlcnZlZC4gIA0KDQpPbmUgaXMgb2NjYXNpb25hbGx5IEkgZ2V0IGEgbG90IG9m
+IHVuZGV0ZXJtaW5pc3RpYyBtZXRhZGF0YSBlcnJvcnMgd2hlbiBCQl9DQUNIRV9QT0xJQ1kgPSAi
+Y2FjaGUiLCBtdWx0aWNvbmZpZywgYW5kIGhhc2ggZXF1aXYgYXJlIGVuYWJsZWQuIFRoZSBlcnJv
+cnMgYXJlIGFsbCBvbiByZWNpcGVzIGZvciB3aGljaCBTUkNSRVYgPSAiJHtBVVRPUkVWfSIuIEl0
+IGRvZXNuJ3QgYWx3YXlzIGhhcHBlbi4gQnV0IGl0IGRpZCBqdXN0IG5vdyB3aGVuIEkgcmViYXNl
+ZCBvdXIgInpldXMtbW9kaWZpZWQiIGJyYW5jaCBvbnRvIHRoZSB1cHN0cmVhbSAiemV1cyIgYnJh
+bmNoLCB0byBnZXQgdGhlIGNoYW5nZXMgc3RhcnRpbmcgd2l0aCA3ZGM3MmZkZTZlZGViNWQ2YWM2
+YjM4MzI1MzA5OThhZmVlYTY3Y2JjLiANCg0KVHdvIGlzIHRoYXQsIHNvbWV0aW1lcyAiSW5pdGlh
+bGl6aW5nIHRhc2tzIiBzdGFnZSBhcHBlYXJzIHN0dWNrIGF0IDQ0JSBmb3IgYSBjb3VwbGUgbWlu
+dXRlcy4gSSB0cmFjZWQgaXQgZG93biB0byB0aGlzIGNvZGUgaW4gcnVucXVldWUucHkgKGxpbmUg
+MTE2OCBvbiB6ZXVzKToNCg0KICAgICAgICAjIEl0ZXJhdGUgb3ZlciB0aGUgdGFzayBsaXN0IGFu
+ZCBjYWxsIGludG8gdGhlIHNpZ2dlbiBjb2RlDQogICAgICAgIGRlYWx0d2l0aCA9IHNldCgpDQog
+ICAgICAgIHRvZGVhbCA9IHNldChzZWxmLnJ1bnRhc2tlbnRyaWVzKQ0KICAgICAgICB3aGlsZSBs
+ZW4odG9kZWFsKSA+IDA6IA0KICAgICAgICAgICAgZm9yIHRpZCBpbiB0b2RlYWwuY29weSgpOg0K
+ICAgICAgICAgICAgICAgIGlmIGxlbihzZWxmLnJ1bnRhc2tlbnRyaWVzW3RpZF0uZGVwZW5kcyAt
+IGRlYWx0d2l0aCkgPT0gMDoNCiAgICAgICAgICAgICAgICAgICAgZGVhbHR3aXRoLmFkZCh0aWQp
+DQogICAgICAgICAgICAgICAgICAgIHRvZGVhbC5yZW1vdmUodGlkKQ0KICAgICAgICAgICAgICAg
+ICAgICBzZWxmLnByZXBhcmVfdGFza19oYXNoKHRpZCkNCg0KV2hlbiBJIGluc3RydW1lbnQgdGhl
+IGxvb3AgdG8gcHJpbnQgb3V0IHRoZSBzaXplIG9mICJ0b2RlYWwiLCBJIHNlZSBpdCBkZWNyZWFz
+ZSB2ZXJ5IHNsb3dseSwgc29tZXRpbWVzIG9ubHkgYSBjb3VwbGUgYXQgYSB0aW1lLiBJJ20gZ3Vl
+c3NpbmcgdGhpcyBpcyBiZWNhdXNlIHByZXBhcmVfdGFza19oYXNoIGlzIGNvbnRhY3RpbmcgdGhl
+IGhhc2ggZXF1aXYgc2VydmVyLCBpbiBhIHNlcmlhbCBtYW5uZXIgaGVyZS4gSSdtIG92ZXIgbXkg
+d29yayBWUE4gd2hpY2ggbWFrZXMgdGhpbmdzIGV4dHJhIHNsb3cuIElzIHRoZXJlIGFuIG9wcG9y
+dHVuaXR5IGZvciBiYXRjaGluZyBoZXJlPyANCg0KVGhhbmtzLA0KQ2hyaXMNCg==
 
-On Sat, Feb 8, 2020 at 12:41 PM akuster808 <akuster808@gmail.com> wrote:
-
->
->
-> On 2/8/20 11:01 AM, Khem Raj wrote:
-> > On Fri, Feb 7, 2020 at 11:47 AM Alexander Kanavin
-> > <alex.kanavin@gmail.com> wrote:
-> >> chkconfig is one of the options for virtual/update-alternatives,
-> >> however opkg-utils have been used as the default for a very long time,
-> >> while chkconfig isn't anymore tested in any way, and is stuck
-> >> at a very old version due to newer versions requiring selinux.
-> >>
-> > there are recipes in other layers depending on it. e.g. see
-> >
-> > 09:40:46 ERROR: Nothing RPROVIDES 'chkconfig' (but
-> >
-> /mnt/jenkins/workspace/Yocto-world-clang/sources/meta-openembedded/meta-oe/recipes-graphics/tigervnc/
-> tigervnc_1.10.1.bb
-> > RDEPENDS on or otherwise requires it)
-> > 09:40:48 ERROR: Nothing RPROVIDES 'tigervnc-dev' (but
-> >
-> /mnt/jenkins/workspace/Yocto-world-clang/sources/meta-openembedded/meta-oe/recipes-graphics/tigervnc/
-> tigervnc_1.10.1.bb
-> > RDEPENDS on or otherwise requires it)
-> > 09:40:48 No eligible RPROVIDERs exist for 'tigervnc-dev'
->
-> Should it move to meta-oe then?
-
-
-I would prefer to remove the dep instead
-
->
-> >
-> >
-> >> [YOCTO #11264]
-> >>
-> >> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> >> ---
-> >>  meta/conf/distro/include/maintainers.inc      |  2 -
-> >>  .../packagegroups/packagegroup-self-hosted.bb |  1 -
-> >>  .../chkconfig-alternatives-native_1.3.59.bb   | 44 ------------
-> >>  .../chkconfig/chkconfig/replace_caddr_t.patch | 33 ---------
-> >>  .../chkconfig/chkconfig_1.3.58.bb             | 71 -------------------
-> >>  5 files changed, 151 deletions(-)
-> >>  delete mode 100644 meta/recipes-extended/chkconfig/
-> chkconfig-alternatives-native_1.3.59.bb
-> >>  delete mode 100644
-> meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.patch
-> >>  delete mode 100644 meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-> >>
-> >> diff --git a/meta/conf/distro/include/maintainers.inc
-> b/meta/conf/distro/include/maintainers.inc
-> >> index a80e85a2f6..c68e9edf63 100644
-> >> --- a/meta/conf/distro/include/maintainers.inc
-> >> +++ b/meta/conf/distro/include/maintainers.inc
-> >> @@ -94,8 +94,6 @@ RECIPE_MAINTAINER_pn-cairo = "Anuj Mittal <
-> anuj.mittal@intel.com>"
-> >>  RECIPE_MAINTAINER_pn-cantarell-fonts = "Alexander Kanavin <
-> alex.kanavin@gmail.com>"
-> >>  RECIPE_MAINTAINER_pn-ccache = "Robert Yang <liezhi.yang@windriver.com
-> >"
-> >>  RECIPE_MAINTAINER_pn-cdrtools-native = "Yi Zhao <yi.zhao@windriver.com
-> >"
-> >> -RECIPE_MAINTAINER_pn-chkconfig = "Yi Zhao <yi.zhao@windriver.com>"
-> >> -RECIPE_MAINTAINER_pn-chkconfig-alternatives-native = "Yi Zhao <
-> yi.zhao@windriver.com>"
-> >>  RECIPE_MAINTAINER_pn-chrpath = "Yi Zhao <yi.zhao@windriver.com>"
-> >>  RECIPE_MAINTAINER_pn-clutter-1.0 = "Ross Burton <ross.burton@intel.com
-> >"
-> >>  RECIPE_MAINTAINER_pn-clutter-gst-3.0 = "Ross Burton <
-> ross.burton@intel.com>"
-> >> diff --git a/meta/recipes-core/packagegroups/
-> packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/
-> packagegroup-self-hosted.bb
-> >> index ea6d567301..9a70b189a4 100644
-> >> --- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> >> +++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
-> >> @@ -108,7 +108,6 @@ RDEPENDS_packagegroup-self-hosted-debug = " \
-> >>
-> >>  RDEPENDS_packagegroup-self-hosted-extended = "\
-> >>      bzip2 \
-> >> -    chkconfig \
-> >>      chrpath \
-> >>      cpio \
-> >>      curl \
-> >> diff --git a/meta/recipes-extended/chkconfig/
-> chkconfig-alternatives-native_1.3.59.bb b/meta/recipes-extended/chkconfig/
-> chkconfig-alternatives-native_1.3.59.bb
-> >> deleted file mode 100644
-> >> index 87fa8eb605..0000000000
-> >> --- a/meta/recipes-extended/chkconfig/
-> chkconfig-alternatives-native_1.3.59.bb
-> >> +++ /dev/null
-> >> @@ -1,44 +0,0 @@
-> >> -require recipes-extended/chkconfig/chkconfig_1.3.58.bb
-> >> -
-> >> -SUMMARY = "${SUMMARY_chkconfig-alternatives}"
-> >> -DESCRIPTION = "${DESCRIPTION_chkconfig-alternatives}"
-> >> -DEPENDS = ""
-> >> -PROVIDES += "virtual/update-alternatives-native"
-> >> -LIC_FILES_CHKSUM =
-> "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> >> -
-> >> -# The sysroot branch is 1.3.59 + some git commits from master +
-> --sysroot
-> >> -# support for alternatives.
-> >> -SRC_URI = "git://github.com/kergoth/chkconfig;branch=sysroot"
-> >> -S = "${WORKDIR}/git"
-> >> -UPSTREAM_CHECK_GITTAGREGEX = "chkconfig-(?P<pver>(\d+(\.\d+)+))"
-> >> -
-> >> -SRCREV = "cd437ecbd8986c894442f8fce1e0061e20f04dee"
-> >> -PV = "1.3.59+${SRCPV}"
-> >> -
-> >> -inherit native
-> >> -
-> >> -# We want our native recipes to build using the target paths rather
-> than paths
-> >> -# into the sysroot, as we may use them to construct the rootfs. As
-> such, we
-> >> -# only adjust the paths to match the metadata for the target, not
-> native.
-> >> -obey_variables () {
-> >> -       sed -i 's,ALTERNATIVES_ROOT,OPKG_OFFLINE_ROOT,'
-> ${S}/alternatives.c
-> >> -}
-> >> -
-> >> -do_compile () {
-> >> -       oe_runmake alternatives
-> >> -}
-> >> -
-> >> -do_install () {
-> >> -       install -d ${D}${sysconfdir}/alternatives \
-> >> -                  ${D}${localstatedir}/lib/alternatives
-> >> -
-> >> -       install -D -m 0755 alternatives ${D}${bindir}/alternatives
-> >> -       install -D -m 0644 alternatives.8
-> ${D}${mandir}/man8/alternatives.8
-> >> -
-> >> -       ln -s alternatives ${D}${bindir}/update-alternatives
-> >> -       ln -s alternatives.8 ${D}${mandir}/man8/update-alternatives.8
-> >> -}
-> >> -
-> >> -do_install_append_linuxstdbase() {
-> >> -       rm -rf ${D}${libdir}/lsb
-> >> -}
-> >> diff --git
-> a/meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.patch
-> b/meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.patch
-> >> deleted file mode 100644
-> >> index 96d1938791..0000000000
-> >> --- a/meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.patch
-> >> +++ /dev/null
-> >> @@ -1,33 +0,0 @@
-> >> -caddr_t is a legacy BSD type which was rejected by the POSIX standard.
-> >> -Use void * instead.
-> >> -
-> >> -sys/unitstd.h is not needed and moreover its not available on all C
-> library
-> >> -implementations e.g. musl
-> >> -
-> >> -Upstream-Status: Pending
-> >> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> >> -Index: chkconfig-1.3.58/alternatives.c
-> >> -===================================================================
-> >> ---- chkconfig-1.3.58.orig/alternatives.c
-> >> -+++ chkconfig-1.3.58/alternatives.c
-> >> -@@ -22,7 +22,6 @@
-> >> - #include <stdio.h>
-> >> - #include <string.h>
-> >> - #include <sys/stat.h>
-> >> --#include <sys/unistd.h>
-> >> - #include <unistd.h>
-> >> -
-> >> - #define       FLAGS_TEST      (1 << 0)
-> >> -Index: chkconfig-1.3.58/leveldb.c
-> >> -===================================================================
-> >> ---- chkconfig-1.3.58.orig/leveldb.c
-> >> -+++ chkconfig-1.3.58/leveldb.c
-> >> -@@ -442,7 +442,7 @@ int parseServiceInfo(int fd, char * name
-> >> -     fstat(fd, &sb);
-> >> -
-> >> -     bufstart = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fd, 0);
-> >> --    if (bufstart == ((caddr_t) -1)) {
-> >> -+    if (bufstart == ((void*) -1)) {
-> >> -       close(fd);
-> >> -       return -1;
-> >> -     }
-> >> diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-> b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-> >> deleted file mode 100644
-> >> index d21dd69704..0000000000
-> >> --- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-> >> +++ /dev/null
-> >> @@ -1,71 +0,0 @@
-> >> -SUMMARY = "A system tool for maintaining the /etc/rc*.d hierarchy"
-> >> -DESCRIPTION = "Chkconfig is a basic system utility.  It updates and
-> queries runlevel \
-> >> -information for system services.  Chkconfig manipulates the numerous \
-> >> -symbolic links in /etc/rc.d, to relieve system administrators of some \
-> >> -of the drudgery of manually editing the symbolic links."
-> >> -
-> >> -RECIPE_NO_UPDATE_REASON = "Version 1.5 requires selinux"
-> >> -
-> >> -HOMEPAGE = "https://github.com/fedora-sysv"
-> >> -
-> >> -LICENSE = "GPLv2"
-> >> -LIC_FILES_CHKSUM =
-> "file://COPYING;md5=5574c6965ae5f583e55880e397fbb018"
-> >> -
-> >> -DEPENDS = "libnewt popt"
-> >> -PROVIDES += "virtual/update-alternatives"
-> >> -
-> >> -PR = "r7"
-> >> -
-> >> -S = "${WORKDIR}/${BPN}-${BPN}-${PV}"
-> >> -
-> >> -SRC_URI = "git://github.com/fedora-sysv/chkconfig.git \
-> >> -           file://replace_caddr_t.patch \
-> >> -          "
-> >> -
-> >> -SRCREV = "3e0b3909ff6328d232b27b9c32f1a9309c6cd0a4"
-> >> -UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
-> >> -
-> >> -S = "${WORKDIR}/git"
-> >> -
-> >> -inherit gettext
-> >> -
-> >> -# Makefile uses RPM_OPT_FLAGS to construct CFLAGS
-> >> -#
-> >> -EXTRA_OEMAKE = "\
-> >> -    'RPM_OPT_FLAGS=${CFLAGS}' \
-> >> -    'LDFLAGS=${LDFLAGS}' \
-> >> -    'BINDIR=${base_sbindir}' \
-> >> -    'SBINDIR=${sbindir}' \
-> >> -    'MANDIR=${mandir}' \
-> >> -    'ALTDIR=${localstatedir}/lib/alternatives' \
-> >> -    'ALTDATADIR=${sysconfdir}/alternatives' \
-> >> -"
-> >> -
-> >> -do_unpack[postfuncs] += "obey_variables"
-> >> -do_unpack[vardeps] += "obey_variables"
-> >> -obey_variables () {
-> >> -       sed -i -e 's,/etc,${sysconfdir},;
-> s,/lib/systemd,${base_libdir}/systemd,' ${S}/leveldb.h
-> >> -       sed -i -e 's,/etc/alternatives,${sysconfdir}/alternatives,' \
-> >> -              -e
-> 's,/var/lib/alternatives,${localstatedir}/lib/alternatives,' \
-> >> -              -e 's,/usr/share/locale,${datadir}/locale,'
-> ${S}/alternatives.c
-> >> -}
-> >> -
-> >> -do_install() {
-> >> -       oe_runmake 'DESTDIR=${D}' 'INSTALLNLSDIR=${D}${datadir}/locale'
-> \
-> >> -               'BINDIR=${sbindir}' install
-> >> -       install -d ${D}${sysconfdir}/chkconfig.d
-> >> -}
-> >> -
-> >> -PACKAGES =+ "${PN}-alternatives ${PN}-alternatives-doc"
-> >> -SUMMARY_${PN}-alternatives = "Maintain symbolic links determining
-> default commands"
-> >> -DESCRIPTION_${PN}-alternatives = "alternatives creates, removes,
-> maintains and displays \
-> >> -information about the symbolic links comprising the alternatives
-> system."
-> >> -SUMMARY_${PN}-alternatives-doc = "${SUMMARY_${PN}-alternatives} -
-> Documentation files"
-> >> -DESCRIPTION_${PN}-alternatives-doc =
-> "${DESCRIPTION_${PN}-alternatives}  \
-> >> -This package contains documentation."
-> >> -RPROVIDES_${PN}-alternatives += "update-alternatives"
-> >> -RCONFLICTS_${PN}-alternatives = "update-alternatives-opkg
-> update-alternatives-dpkg"
-> >> -FILES_${PN}-alternatives = "${sbindir}/alternatives
-> ${sbindir}/update-alternatives \
-> >> -                           ${sysconfdir}/alternatives
-> ${localstatedir}/lib/alternatives"
-> >> -FILES_${PN}-alternatives-doc = "${mandir}/man8/alternatives.8 \
-> >> -                                ${mandir}/man8/update-alternatives.8"
-> >> --
-> >> 2.25.0
-> >>
-> >> --
-> >> _______________________________________________
-> >> Openembedded-core mailing list
-> >> Openembedded-core@lists.openembedded.org
-> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-
---00000000000036dede059e187b66
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sat, Feb 8, 2020 at 12:41 PM akuster808 &lt;<a href=3D"m=
-ailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
-#ccc solid;padding-left:1ex"><br>
-<br>
-On 2/8/20 11:01 AM, Khem Raj wrote:<br>
-&gt; On Fri, Feb 7, 2020 at 11:47 AM Alexander Kanavin<br>
-&gt; &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.k=
-anavin@gmail.com</a>&gt; wrote:<br>
-&gt;&gt; chkconfig is one of the options for virtual/update-alternatives,<b=
-r>
-&gt;&gt; however opkg-utils have been used as the default for a very long t=
-ime,<br>
-&gt;&gt; while chkconfig isn&#39;t anymore tested in any way, and is stuck<=
-br>
-&gt;&gt; at a very old version due to newer versions requiring selinux.<br>
-&gt;&gt;<br>
-&gt; there are recipes in other layers depending on it. e.g. see<br>
-&gt;<br>
-&gt; 09:40:46 ERROR: Nothing RPROVIDES &#39;chkconfig&#39; (but<br>
-&gt; /mnt/jenkins/workspace/Yocto-world-clang/sources/meta-openembedded/met=
-a-oe/recipes-graphics/tigervnc/<a href=3D"http://tigervnc_1.10.1.bb" rel=3D=
-"noreferrer" target=3D"_blank">tigervnc_1.10.1.bb</a><br>
-&gt; RDEPENDS on or otherwise requires it)<br>
-&gt; 09:40:48 ERROR: Nothing RPROVIDES &#39;tigervnc-dev&#39; (but<br>
-&gt; /mnt/jenkins/workspace/Yocto-world-clang/sources/meta-openembedded/met=
-a-oe/recipes-graphics/tigervnc/<a href=3D"http://tigervnc_1.10.1.bb" rel=3D=
-"noreferrer" target=3D"_blank">tigervnc_1.10.1.bb</a><br>
-&gt; RDEPENDS on or otherwise requires it)<br>
-&gt; 09:40:48 No eligible RPROVIDERs exist for &#39;tigervnc-dev&#39;<br>
-<br>
-Should it move to meta-oe then?</blockquote><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">I would prefer to remove the dep instead</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;p=
-adding-left:1ex"><br>
-&gt;<br>
-&gt;<br>
-&gt;&gt; [YOCTO #11264]<br>
-&gt;&gt;<br>
-&gt;&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavi=
-n@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0=
- |=C2=A0 2 -<br>
-&gt;&gt;=C2=A0 .../packagegroups/<a href=3D"http://packagegroup-self-hosted=
-.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-self-hosted.bb</a> |=
-=C2=A0 1 -<br>
-&gt;&gt;=C2=A0 .../<a href=3D"http://chkconfig-alternatives-native_1.3.59.b=
-b" rel=3D"noreferrer" target=3D"_blank">chkconfig-alternatives-native_1.3.5=
-9.bb</a>=C2=A0 =C2=A0| 44 ------------<br>
-&gt;&gt;=C2=A0 .../chkconfig/chkconfig/replace_caddr_t.patch | 33 ---------=
-<br>
-&gt;&gt;=C2=A0 .../chkconfig/<a href=3D"http://chkconfig_1.3.58.bb" rel=3D"=
-noreferrer" target=3D"_blank">chkconfig_1.3.58.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0| 71 -------------------<br>
-&gt;&gt;=C2=A0 5 files changed, 151 deletions(-)<br>
-&gt;&gt;=C2=A0 delete mode 100644 meta/recipes-extended/chkconfig/<a href=
-=3D"http://chkconfig-alternatives-native_1.3.59.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">chkconfig-alternatives-native_1.3.59.bb</a><br>
-&gt;&gt;=C2=A0 delete mode 100644 meta/recipes-extended/chkconfig/chkconfig=
-/replace_caddr_t.patch<br>
-&gt;&gt;=C2=A0 delete mode 100644 meta/recipes-extended/chkconfig/<a href=
-=3D"http://chkconfig_1.3.58.bb" rel=3D"noreferrer" target=3D"_blank">chkcon=
-fig_1.3.58.bb</a><br>
-&gt;&gt;<br>
-&gt;&gt; diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/=
-distro/include/maintainers.inc<br>
-&gt;&gt; index a80e85a2f6..c68e9edf63 100644<br>
-&gt;&gt; --- a/meta/conf/distro/include/maintainers.inc<br>
-&gt;&gt; +++ b/meta/conf/distro/include/maintainers.inc<br>
-&gt;&gt; @@ -94,8 +94,6 @@ RECIPE_MAINTAINER_pn-cairo =3D &quot;Anuj Mittal=
- &lt;<a href=3D"mailto:anuj.mittal@intel.com" target=3D"_blank">anuj.mittal=
-@intel.com</a>&gt;&quot;<br>
-&gt;&gt;=C2=A0 RECIPE_MAINTAINER_pn-cantarell-fonts =3D &quot;Alexander Kan=
-avin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.k=
-anavin@gmail.com</a>&gt;&quot;<br>
-&gt;&gt;=C2=A0 RECIPE_MAINTAINER_pn-ccache =3D &quot;Robert Yang &lt;<a hre=
-f=3D"mailto:liezhi.yang@windriver.com" target=3D"_blank">liezhi.yang@windri=
-ver.com</a>&gt;&quot;<br>
-&gt;&gt;=C2=A0 RECIPE_MAINTAINER_pn-cdrtools-native =3D &quot;Yi Zhao &lt;<=
-a href=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver=
-.com</a>&gt;&quot;<br>
-&gt;&gt; -RECIPE_MAINTAINER_pn-chkconfig =3D &quot;Yi Zhao &lt;<a href=3D"m=
-ailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com</a>&gt=
-;&quot;<br>
-&gt;&gt; -RECIPE_MAINTAINER_pn-chkconfig-alternatives-native =3D &quot;Yi Z=
-hao &lt;<a href=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@=
-windriver.com</a>&gt;&quot;<br>
-&gt;&gt;=C2=A0 RECIPE_MAINTAINER_pn-chrpath =3D &quot;Yi Zhao &lt;<a href=
-=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com</=
-a>&gt;&quot;<br>
-&gt;&gt;=C2=A0 RECIPE_MAINTAINER_pn-clutter-1.0 =3D &quot;Ross Burton &lt;<=
-a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel=
-.com</a>&gt;&quot;<br>
-&gt;&gt;=C2=A0 RECIPE_MAINTAINER_pn-clutter-gst-3.0 =3D &quot;Ross Burton &=
-lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@i=
-ntel.com</a>&gt;&quot;<br>
-&gt;&gt; diff --git a/meta/recipes-core/packagegroups/<a href=3D"http://pac=
-kagegroup-self-hosted.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup=
--self-hosted.bb</a> b/meta/recipes-core/packagegroups/<a href=3D"http://pac=
-kagegroup-self-hosted.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup=
--self-hosted.bb</a><br>
-&gt;&gt; index ea6d567301..9a70b189a4 100644<br>
-&gt;&gt; --- a/meta/recipes-core/packagegroups/<a href=3D"http://packagegro=
-up-self-hosted.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-self-h=
-osted.bb</a><br>
-&gt;&gt; +++ b/meta/recipes-core/packagegroups/<a href=3D"http://packagegro=
-up-self-hosted.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-self-h=
-osted.bb</a><br>
-&gt;&gt; @@ -108,7 +108,6 @@ RDEPENDS_packagegroup-self-hosted-debug =3D &q=
-uot; \<br>
-&gt;&gt;<br>
-&gt;&gt;=C2=A0 RDEPENDS_packagegroup-self-hosted-extended =3D &quot;\<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 bzip2 \<br>
-&gt;&gt; -=C2=A0 =C2=A0 chkconfig \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 chrpath \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 cpio \<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 curl \<br>
-&gt;&gt; diff --git a/meta/recipes-extended/chkconfig/<a href=3D"http://chk=
-config-alternatives-native_1.3.59.bb" rel=3D"noreferrer" target=3D"_blank">=
-chkconfig-alternatives-native_1.3.59.bb</a> b/meta/recipes-extended/chkconf=
-ig/<a href=3D"http://chkconfig-alternatives-native_1.3.59.bb" rel=3D"norefe=
-rrer" target=3D"_blank">chkconfig-alternatives-native_1.3.59.bb</a><br>
-&gt;&gt; deleted file mode 100644<br>
-&gt;&gt; index 87fa8eb605..0000000000<br>
-&gt;&gt; --- a/meta/recipes-extended/chkconfig/<a href=3D"http://chkconfig-=
-alternatives-native_1.3.59.bb" rel=3D"noreferrer" target=3D"_blank">chkconf=
-ig-alternatives-native_1.3.59.bb</a><br>
-&gt;&gt; +++ /dev/null<br>
-&gt;&gt; @@ -1,44 +0,0 @@<br>
-&gt;&gt; -require recipes-extended/chkconfig/<a href=3D"http://chkconfig_1.=
-3.58.bb" rel=3D"noreferrer" target=3D"_blank">chkconfig_1.3.58.bb</a><br>
-&gt;&gt; -<br>
-&gt;&gt; -SUMMARY =3D &quot;${SUMMARY_chkconfig-alternatives}&quot;<br>
-&gt;&gt; -DESCRIPTION =3D &quot;${DESCRIPTION_chkconfig-alternatives}&quot;=
-<br>
-&gt;&gt; -DEPENDS =3D &quot;&quot;<br>
-&gt;&gt; -PROVIDES +=3D &quot;virtual/update-alternatives-native&quot;<br>
-&gt;&gt; -LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3Db234ee4d69f5fce44=
-86a80fdaf4a4263&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -# The sysroot branch is 1.3.59 + some git commits from master + -=
--sysroot<br>
-&gt;&gt; -# support for alternatives.<br>
-&gt;&gt; -SRC_URI =3D &quot;git://<a href=3D"http://github.com/kergoth/chkc=
-onfig;branch=3Dsysroot" rel=3D"noreferrer" target=3D"_blank">github.com/ker=
-goth/chkconfig;branch=3Dsysroot</a>&quot;<br>
-&gt;&gt; -S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt;&gt; -UPSTREAM_CHECK_GITTAGREGEX =3D &quot;chkconfig-(?P&lt;pver&gt;(\d=
-+(\.\d+)+))&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -SRCREV =3D &quot;cd437ecbd8986c894442f8fce1e0061e20f04dee&quot;<b=
-r>
-&gt;&gt; -PV =3D &quot;1.3.59+${SRCPV}&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -inherit native<br>
-&gt;&gt; -<br>
-&gt;&gt; -# We want our native recipes to build using the target paths rath=
-er than paths<br>
-&gt;&gt; -# into the sysroot, as we may use them to construct the rootfs. A=
-s such, we<br>
-&gt;&gt; -# only adjust the paths to match the metadata for the target, not=
- native.<br>
-&gt;&gt; -obey_variables () {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i &#39;s,ALTERNATIVES_ROOT,OPKG_O=
-FFLINE_ROOT,&#39; ${S}/alternatives.c<br>
-&gt;&gt; -}<br>
-&gt;&gt; -<br>
-&gt;&gt; -do_compile () {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake alternatives<br>
-&gt;&gt; -}<br>
-&gt;&gt; -<br>
-&gt;&gt; -do_install () {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${sysconfdir}/alternati=
-ves \<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${=
-D}${localstatedir}/lib/alternatives<br>
-&gt;&gt; -<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0install -D -m 0755 alternatives ${D}${=
-bindir}/alternatives<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0install -D -m 0644 alternatives.8 ${D}=
-${mandir}/man8/alternatives.8<br>
-&gt;&gt; -<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -s alternatives ${D}${bindir}/updat=
-e-alternatives<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0ln -s alternatives.8 ${D}${mandir}/man=
-8/update-alternatives.8<br>
-&gt;&gt; -}<br>
-&gt;&gt; -<br>
-&gt;&gt; -do_install_append_linuxstdbase() {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0rm -rf ${D}${libdir}/lsb<br>
-&gt;&gt; -}<br>
-&gt;&gt; diff --git a/meta/recipes-extended/chkconfig/chkconfig/replace_cad=
-dr_t.patch b/meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.patc=
-h<br>
-&gt;&gt; deleted file mode 100644<br>
-&gt;&gt; index 96d1938791..0000000000<br>
-&gt;&gt; --- a/meta/recipes-extended/chkconfig/chkconfig/replace_caddr_t.pa=
-tch<br>
-&gt;&gt; +++ /dev/null<br>
-&gt;&gt; @@ -1,33 +0,0 @@<br>
-&gt;&gt; -caddr_t is a legacy BSD type which was rejected by the POSIX stan=
-dard.<br>
-&gt;&gt; -Use void * instead.<br>
-&gt;&gt; -<br>
-&gt;&gt; -sys/unitstd.h is not needed and moreover its not available on all=
- C library<br>
-&gt;&gt; -implementations e.g. musl<br>
-&gt;&gt; -<br>
-&gt;&gt; -Upstream-Status: Pending<br>
-&gt;&gt; -Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com"=
- target=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt;&gt; -Index: chkconfig-1.3.58/alternatives.c<br>
-&gt;&gt; -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-&gt;&gt; ---- chkconfig-1.3.58.orig/alternatives.c<br>
-&gt;&gt; -+++ chkconfig-1.3.58/alternatives.c<br>
-&gt;&gt; -@@ -22,7 +22,6 @@<br>
-&gt;&gt; - #include &lt;stdio.h&gt;<br>
-&gt;&gt; - #include &lt;string.h&gt;<br>
-&gt;&gt; - #include &lt;sys/stat.h&gt;<br>
-&gt;&gt; --#include &lt;sys/unistd.h&gt;<br>
-&gt;&gt; - #include &lt;unistd.h&gt;<br>
-&gt;&gt; -<br>
-&gt;&gt; - #define=C2=A0 =C2=A0 =C2=A0 =C2=A0FLAGS_TEST=C2=A0 =C2=A0 =C2=A0=
- (1 &lt;&lt; 0)<br>
-&gt;&gt; -Index: chkconfig-1.3.58/leveldb.c<br>
-&gt;&gt; -=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D<br>
-&gt;&gt; ---- chkconfig-1.3.58.orig/leveldb.c<br>
-&gt;&gt; -+++ chkconfig-1.3.58/leveldb.c<br>
-&gt;&gt; -@@ -442,7 +442,7 @@ int parseServiceInfo(int fd, char * name<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0fstat(fd, &amp;sb);<br>
-&gt;&gt; -<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0bufstart =3D mmap(NULL, sb.st_size, PROT_READ=
-, MAP_SHARED, fd, 0);<br>
-&gt;&gt; --=C2=A0 =C2=A0 if (bufstart =3D=3D ((caddr_t) -1)) {<br>
-&gt;&gt; -+=C2=A0 =C2=A0 if (bufstart =3D=3D ((void*) -1)) {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0close(fd);<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0return -1;<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0}<br>
-&gt;&gt; diff --git a/meta/recipes-extended/chkconfig/<a href=3D"http://chk=
-config_1.3.58.bb" rel=3D"noreferrer" target=3D"_blank">chkconfig_1.3.58.bb<=
-/a> b/meta/recipes-extended/chkconfig/<a href=3D"http://chkconfig_1.3.58.bb=
-" rel=3D"noreferrer" target=3D"_blank">chkconfig_1.3.58.bb</a><br>
-&gt;&gt; deleted file mode 100644<br>
-&gt;&gt; index d21dd69704..0000000000<br>
-&gt;&gt; --- a/meta/recipes-extended/chkconfig/<a href=3D"http://chkconfig_=
-1.3.58.bb" rel=3D"noreferrer" target=3D"_blank">chkconfig_1.3.58.bb</a><br>
-&gt;&gt; +++ /dev/null<br>
-&gt;&gt; @@ -1,71 +0,0 @@<br>
-&gt;&gt; -SUMMARY =3D &quot;A system tool for maintaining the /etc/rc*.d hi=
-erarchy&quot;<br>
-&gt;&gt; -DESCRIPTION =3D &quot;Chkconfig is a basic system utility.=C2=A0 =
-It updates and queries runlevel \<br>
-&gt;&gt; -information for system services.=C2=A0 Chkconfig manipulates the =
-numerous \<br>
-&gt;&gt; -symbolic links in /etc/rc.d, to relieve system administrators of =
-some \<br>
-&gt;&gt; -of the drudgery of manually editing the symbolic links.&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -RECIPE_NO_UPDATE_REASON =3D &quot;Version 1.5 requires selinux&qu=
-ot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -HOMEPAGE =3D &quot;<a href=3D"https://github.com/fedora-sysv" rel=
-=3D"noreferrer" target=3D"_blank">https://github.com/fedora-sysv</a>&quot;<=
-br>
-&gt;&gt; -<br>
-&gt;&gt; -LICENSE =3D &quot;GPLv2&quot;<br>
-&gt;&gt; -LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D5574c6965ae5f583e=
-55880e397fbb018&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -DEPENDS =3D &quot;libnewt popt&quot;<br>
-&gt;&gt; -PROVIDES +=3D &quot;virtual/update-alternatives&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -PR =3D &quot;r7&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -S =3D &quot;${WORKDIR}/${BPN}-${BPN}-${PV}&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -SRC_URI =3D &quot;git://<a href=3D"http://github.com/fedora-sysv/=
-chkconfig.git" rel=3D"noreferrer" target=3D"_blank">github.com/fedora-sysv/=
-chkconfig.git</a> \<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://replace_caddr_t.p=
-atch \<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -SRCREV =3D &quot;3e0b3909ff6328d232b27b9c32f1a9309c6cd0a4&quot;<b=
-r>
-&gt;&gt; -UPSTREAM_CHECK_GITTAGREGEX =3D &quot;(?P&lt;pver&gt;\d+(\.\d+)+)&=
-quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -inherit gettext<br>
-&gt;&gt; -<br>
-&gt;&gt; -# Makefile uses RPM_OPT_FLAGS to construct CFLAGS<br>
-&gt;&gt; -#<br>
-&gt;&gt; -EXTRA_OEMAKE =3D &quot;\<br>
-&gt;&gt; -=C2=A0 =C2=A0 &#39;RPM_OPT_FLAGS=3D${CFLAGS}&#39; \<br>
-&gt;&gt; -=C2=A0 =C2=A0 &#39;LDFLAGS=3D${LDFLAGS}&#39; \<br>
-&gt;&gt; -=C2=A0 =C2=A0 &#39;BINDIR=3D${base_sbindir}&#39; \<br>
-&gt;&gt; -=C2=A0 =C2=A0 &#39;SBINDIR=3D${sbindir}&#39; \<br>
-&gt;&gt; -=C2=A0 =C2=A0 &#39;MANDIR=3D${mandir}&#39; \<br>
-&gt;&gt; -=C2=A0 =C2=A0 &#39;ALTDIR=3D${localstatedir}/lib/alternatives&#39=
-; \<br>
-&gt;&gt; -=C2=A0 =C2=A0 &#39;ALTDATADIR=3D${sysconfdir}/alternatives&#39; \=
-<br>
-&gt;&gt; -&quot;<br>
-&gt;&gt; -<br>
-&gt;&gt; -do_unpack[postfuncs] +=3D &quot;obey_variables&quot;<br>
-&gt;&gt; -do_unpack[vardeps] +=3D &quot;obey_variables&quot;<br>
-&gt;&gt; -obey_variables () {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;s,/etc,${sysconfdir},; =
-s,/lib/systemd,${base_libdir}/systemd,&#39; ${S}/leveldb.h<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &#39;s,/etc/alternatives,${s=
-ysconfdir}/alternatives,&#39; \<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s,/var/l=
-ib/alternatives,${localstatedir}/lib/alternatives,&#39; \<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -e &#39;s,/usr/s=
-hare/locale,${datadir}/locale,&#39; ${S}/alternatives.c<br>
-&gt;&gt; -}<br>
-&gt;&gt; -<br>
-&gt;&gt; -do_install() {<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake &#39;DESTDIR=3D${D}&#39; &#=
-39;INSTALLNLSDIR=3D${D}${datadir}/locale&#39; \<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;BINDI=
-R=3D${sbindir}&#39; install<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0install -d ${D}${sysconfdir}/chkconfig=
-.d<br>
-&gt;&gt; -}<br>
-&gt;&gt; -<br>
-&gt;&gt; -PACKAGES =3D+ &quot;${PN}-alternatives ${PN}-alternatives-doc&quo=
-t;<br>
-&gt;&gt; -SUMMARY_${PN}-alternatives =3D &quot;Maintain symbolic links dete=
-rmining default commands&quot;<br>
-&gt;&gt; -DESCRIPTION_${PN}-alternatives =3D &quot;alternatives creates, re=
-moves, maintains and displays \<br>
-&gt;&gt; -information about the symbolic links comprising the alternatives =
-system.&quot;<br>
-&gt;&gt; -SUMMARY_${PN}-alternatives-doc =3D &quot;${SUMMARY_${PN}-alternat=
-ives} - Documentation files&quot;<br>
-&gt;&gt; -DESCRIPTION_${PN}-alternatives-doc =3D &quot;${DESCRIPTION_${PN}-=
-alternatives}=C2=A0 \<br>
-&gt;&gt; -This package contains documentation.&quot;<br>
-&gt;&gt; -RPROVIDES_${PN}-alternatives +=3D &quot;update-alternatives&quot;=
-<br>
-&gt;&gt; -RCONFLICTS_${PN}-alternatives =3D &quot;update-alternatives-opkg =
-update-alternatives-dpkg&quot;<br>
-&gt;&gt; -FILES_${PN}-alternatives =3D &quot;${sbindir}/alternatives ${sbin=
-dir}/update-alternatives \<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${sysconfdir}/alternatives ${localstatedi=
-r}/lib/alternatives&quot;<br>
-&gt;&gt; -FILES_${PN}-alternatives-doc =3D &quot;${mandir}/man8/alternative=
-s.8 \<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${mandir}/man8/update-alte=
-rnatives.8&quot;<br>
-&gt;&gt; --<br>
-&gt;&gt; 2.25.0<br>
-&gt;&gt;<br>
-&gt;&gt; --<br>
-&gt;&gt; _______________________________________________<br>
-&gt;&gt; Openembedded-core mailing list<br>
-&gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=
-=3D"_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
-dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
-rg/mailman/listinfo/openembedded-core</a><br>
-<br>
-</blockquote></div></div>
-
---00000000000036dede059e187b66--
