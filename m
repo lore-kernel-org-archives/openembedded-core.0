@@ -1,59 +1,46 @@
 Return-Path: <scott.branden@broadcom.com>
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
-	[209.85.216.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D05E060F52
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0879960CC9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Feb 2020 19:27:47 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id gv17so3233016pjb.1
+	Sun,  9 Feb 2020 19:33:34 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a6so1510622wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Feb 2020 11:27:49 -0800 (PST)
+	Sun, 09 Feb 2020 11:33:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=Z0ByQWTSiTlh5Xq/6A79rPTjT0fE+AVKFUiirT8KmNY=;
-	b=WqrlaH3E3AeeraoaTKf9qRQpn+uaffmRVdeRdGx5UCD77+Nzwf6rw4Xeb0Rj4Yfzrn
-	z0ZRxrgkic7DuhSnUU13rvKLKNP7lXtqx3DDBuflnpO+CZb09yWDreTCKqFA9cSqn0pE
-	WD41fiowCQt4URDuG9x5bv6lwPPL/emVzooQg=
+	h=from:to:cc:subject:date:message-id;
+	bh=t4/oraNAOn3tGz9yRjE4QXrYw5MI4sJUNjAb0ziAZTQ=;
+	b=gH+J1RUlowH896j92SZjJIu40rE9OaNDv19ttNpmOesQ+WP8h10O2qMrvVyQ8gvxH5
+	aUNLcroDu4793Xaejw03Lhd9l3x5R28siYY8KxtZeG2xlC00PZRTF+gmryhsEJNgTAAI
+	sNUOEeh0wJsMD+VnmVgHJd8M0X0Yae1FDal/M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=Z0ByQWTSiTlh5Xq/6A79rPTjT0fE+AVKFUiirT8KmNY=;
-	b=cXY4UFnWb88BdbF/wopTvpX+M9oJTP6sWCXFMsLDC3QB8puu4OBl+X0qppgMv7zKA+
-	XE3FfNzVBC7Uo9+WaSrVxO2igyT00YbLW4fX0eoFsBPYUD1ArwjXaVIX0y2T+qa0rp0d
-	lJjmJzc9wJt7a2w8CbPAEL+1+42nR/7aK+cUEI93IPlSQl1E/C8xiiKLRIHRpnzb/FjH
-	+Pg4AtBKcaVGRoknP7AplK7Gum5D/2X5VPPVxBv80dnFOdDNxNP8GIGQHv1xJOMV74cz
-	/ev+udMUcVuYszYhN13SMBF2CSLeLVcQXRuAi/0FegMBiuw1qCvBP6/AMLu94ioHZokm
-	mlcQ==
-X-Gm-Message-State: APjAAAWQlFWskIeWgmxqnz8lzSIyVgBSUPBuHXvWhqYjj0WvyVh48WRA
-	Oa8Qt7nKAdO/Nc8UfHByn2o4KkIYColYsCiuBtuU86sNDA5soRp2f4kMfNUGezKCa1Tp7jANXSr
-	/EFhdm44xBOpB2FlxzfLTLEa72yGfpbzo9+wwZvUk8Le6xjTlX/OStpq+tK3vXBu4r44EalsUjM
-	4SBWAXhmLyqBh5IjMjBrD57PE7DOc=
-X-Google-Smtp-Source: APXvYqzlwOjnri1Ds9YtO2MEMzEESLM/J+eNMEoSpM40UKk9cLSArO/rLNHM6ws6ScCjROWQLvLm3w==
-X-Received: by 2002:a17:90a:e653:: with SMTP id
-	ep19mr17047336pjb.58.1581276468261; 
-	Sun, 09 Feb 2020 11:27:48 -0800 (PST)
-Received: from [10.136.13.65] ([192.19.228.250])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=t4/oraNAOn3tGz9yRjE4QXrYw5MI4sJUNjAb0ziAZTQ=;
+	b=BQaimpGNCgFY9XCLCXot7XgGNQGFHKxeuIWlzwd0Pt/vv7yBrHy3tAFezEC6YvC4/3
+	D9ADJ83DeVe+A4QLPrO6jUBv9bwff/a2H+YEFdJuXQqq1jMwryjJP01BZtjz5hca60Wp
+	5LTbmfTjfPJHLjz+nTjSLXd+oywvOj/hiDQ1wTY4FCJQ7aufh8oaCXYvVodqnF2EanQA
+	RNdWrLddLNjHemSMTcZZP/75yitdB21FUtNBSd3YJVaB/JCCtz56a3WoPEnGcnLJh4ek
+	mh6HK7/N+QAz6ygeyGYNYBWI0k9oiaSzYeyoHJMK74/if4BNMv2+SdhMDzYybwAORT2k
+	oQPQ==
+X-Gm-Message-State: APjAAAWSrevyAF20o7VzhqYGT4SPZqFdAljmL0m9GqfHm6r6JD62oc7L
+	1aEOCjP4IowrKCcp4rpCmIQ+GCLHF9BNT1LxJ8GZSPsDEJLSzkSJfdszYS3tzpYFRTimkmwegWp
+	ady0bckfti5s4m2ePdxFrUlZu0iB+lXNyzHS3Na8H9qr3OJunbxnnSonxN0i0HkwUbUToH3PruY
+	POOVhvYRfaExpsW1UjunoOVPe/G0c=
+X-Google-Smtp-Source: APXvYqwq251awWMyQJvZVi7qFATvIE1NvCDVT4PdgFqkJ4OxrJ0Yp+RVeobmow1ijZycqy4bC4+Kqg==
+X-Received: by 2002:a7b:c4cc:: with SMTP id g12mr11511471wmk.68.1581276815275; 
+	Sun, 09 Feb 2020 11:33:35 -0800 (PST)
+Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
 	by smtp.gmail.com with ESMTPSA id
-	y76sm10186274pfc.87.2020.02.09.11.27.47
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Sun, 09 Feb 2020 11:27:47 -0800 (PST)
-To: Khem Raj <raj.khem@gmail.com>
-References: <20200208000110.29065-1-scott.branden@broadcom.com>
-	<CAMKF1spdaO+wpwowYzfu=vigB+tSJPtwS46eimFenj=0hmhLFA@mail.gmail.com>
-	<55bb9c66-a419-c43d-111b-e5442db8df91@broadcom.com>
-	<CAMKF1spFfVojndyrOXa6TFXHUO-DNR3xr3Dj7jwGa8g--Pdz1Q@mail.gmail.com>
+	u14sm13123021wrm.51.2020.02.09.11.33.33
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sun, 09 Feb 2020 11:33:34 -0800 (PST)
 From: Scott Branden <scott.branden@broadcom.com>
-Message-ID: <2159565f-eaca-697d-0711-e39aeccb1ba2@broadcom.com>
-Date: Sun, 9 Feb 2020 11:27:46 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1spFfVojndyrOXa6TFXHUO-DNR3xr3Dj7jwGa8g--Pdz1Q@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] x265: add x265 recipe
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  9 Feb 2020 11:33:18 -0800
+Message-Id: <20200209193319.4378-1-scott.branden@broadcom.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v3 1/2] x265: add x265 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,83 +53,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Feb 2020 19:27:47 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sun, 09 Feb 2020 19:33:35 -0000
 
+Add x265 recipe for latest tag of Release_3.2 branch (3.2.1).
 
+Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+---
+ meta/recipes-multimedia/x265/x265_3.2.1.bb | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+ create mode 100644 meta/recipes-multimedia/x265/x265_3.2.1.bb
 
-On 2020-02-08 11:18 a.m., Khem Raj wrote:
-> On Fri, Feb 7, 2020 at 8:02 PM Scott Branden <scott.branden@broadcom.com> wrote:
->> Hi Khem,
->>
->> On 2020-02-07 5:12 p.m., Khem Raj wrote:
->>
->>
->>
->> On Fri, Feb 7, 2020 at 4:01 PM Scott Branden via Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
->>> Add x265 recipe from latest revision of stable branch.
->>
->> I wonder if it belongs to core are there deps on it that we need in common metadata
->>
->> I simply followed where x264 recipe is located and placed x265 beside it.
->> Both are needed when enabled in ffmpeg.
->>
->> I don't know if that answers your question as to where they should be located.
-> idea is to keep small and therefore we should assess the inclusions in core
-> we have many packageconfigs which require packages from other layers
-> so if ffmpeg needs it and is optional then it should be fine to keep
-> it in meta-multimedia and packageconfig in ffmpeg disabled by default.
-I don't see why x264 would be in core and x265 in meta-multimedia.
-Both should be moved to meta-multimedia then?
-
-I think you would also require a bbappend to fffmpeg recipe to add x264 
-and x265 to ffmpeg packageconfig.
-if that is the case, why not move ffmpeg to meta-multimedia as well?
-
->
->>>
->>> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
->>> ---
->>>   meta/recipes-multimedia/x265/x265_git.bb | 20 ++++++++++++++++++++
->>>   1 file changed, 20 insertions(+)
->>>   create mode 100644 meta/recipes-multimedia/x265/x265_git.bb
->>>
->>> diff --git a/meta/recipes-multimedia/x265/x265_git.bb b/meta/recipes-multimedia/x265/x265_git.bb
->>> new file mode 100644
->>> index 0000000000..796fbbc13a
->>> --- /dev/null
->>> +++ b/meta/recipes-multimedia/x265/x265_git.bb
->>> @@ -0,0 +1,20 @@
->>> +SUMMARY = "H.265/HEVC video encoder"
->>> +DESCRIPTION = "A free software library and application for encoding video streams into the H.265/HEVC format."
->>> +HOMEPAGE = "http://www.videolan.org/developers/x265.html"
->>> +
->>> +LICENSE = "GPLv2"
->>> +LICENSE_FLAGS = "commercial"
->>> +LIC_FILES_CHKSUM = "file://../COPYING;md5=c9e0427bc58f129f99728c62d4ad4091"
->>> +
->>> +DEPENDS = "gnutls zlib libpcre"
->>> +
->>> +SRC_URI = "git://github.com/videolan/x265;branch=stable \
->>> +          "
->>> +
->>> +SRCREV = "4ef6b67fd46e1584e52a11a264812edcaef02526"
->>> +
->>> +S = "${WORKDIR}/git/source"
->>> +
->>> +inherit lib_package pkgconfig cmake
->>> +
->>> +AS[unexport] = "1"
->>> --
->>> 2.17.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
+diff --git a/meta/recipes-multimedia/x265/x265_3.2.1.bb b/meta/recipes-multimedia/x265/x265_3.2.1.bb
+new file mode 100644
+index 0000000000..3a41475be7
+--- /dev/null
++++ b/meta/recipes-multimedia/x265/x265_3.2.1.bb
+@@ -0,0 +1,20 @@
++SUMMARY = "H.265/HEVC video encoder"
++DESCRIPTION = "A free software library and application for encoding video streams into the H.265/HEVC format."
++HOMEPAGE = "http://www.videolan.org/developers/x265.html"
++
++LICENSE = "GPLv2"
++LICENSE_FLAGS = "commercial"
++LIC_FILES_CHKSUM = "file://../COPYING;md5=c9e0427bc58f129f99728c62d4ad4091"
++
++DEPENDS = "nasm-native gnutls zlib libpcre"
++
++SRC_URI = "http://ftp.videolan.org/pub/videolan/x265/x265_${PV}.tar.gz"
++
++S = "${WORKDIR}/x265_${PV}/source"
++
++SRC_URI[md5sum] = "94808045a34d88a857e5eaf3f68f4bca"
++SRC_URI[sha256sum] = "fb9badcf92364fd3567f8b5aa0e5e952aeea7a39a2b864387cec31e3b58cbbcc"
++
++inherit lib_package pkgconfig cmake
++
++AS[unexport] = "1"
+-- 
+2.17.1
 
 
