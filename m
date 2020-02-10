@@ -1,54 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 65DC860B34
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D99D860B34
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 16:01:29 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id v25so5474682qto.7
+	Mon, 10 Feb 2020 16:02:27 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id z3so8448244wru.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 08:01:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=h+paI7xUgFuNsBvn992Iyx4476H7F9S5iy9umEOufqA=;
-	b=Z4TN7LtmCR2KzGO3H5j0Uorr5fQkXeA3syAAjyFNTyVFjkI0dFdFSFtaOB2GK5M9XC
-	aq0opd8k/GDOtYhPXH1Yny95+WRqk+5beS8AUhVPzQ5DOEFsXdw6jpOOREfHM1QytyF2
-	1qqJq1IffiztLddi2eciKdq/w+hAOtZBVuMoN/C1QlbarUbHHttQ5QcagRNAH8nDaz5n
-	AxTjqj4auhq4PwfDx87nmsaS0q70NSC4dC/dbJ0ODowc4LdCWnStikZ/kN8VeXaxLIWx
-	/3AC341gPa28b92iZgWmeKFX7Ec3DmzmaH5H1hY9Uiyc4V0VH5nyQ08zurVKfi7phbxj
-	0VYw==
+	Mon, 10 Feb 2020 08:02:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/Uc/mTjqIVAzhrUbBj+THXImp/d72z1qNDzjmDlH3mo=;
+	b=AseKl+bL433gfuuTge8Yc3yHOQrVn1HD+18DgrRycI83fVFwm8TzZa1SyV3t42xhQs
+	QkLM0YJcHRhcjPimK75r2ctvACq2AQEvdiMvrtoExGQWjNSrNcGm8ZZAfk2YXL7WCzLG
+	wlo3P+XaA8o3H9ZMXPcO2kkqqfqJk7OMzOcqE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=h+paI7xUgFuNsBvn992Iyx4476H7F9S5iy9umEOufqA=;
-	b=TQr7yNmZoP12gSIm/DvMBXGAxMnvO7bPkMMjiN1KJJL9WjYIzpptv+vmgOlcnl15N3
-	K5ZYr6H9yLc44toAsdFy1Ria8yniYFAekI8mSvpdIz9MnTXuVWKLbPwVKWs0PD35j8VA
-	MOKbkzAz471t5tt9qt3LeDYYqzVuGY3MCgoLBBl7Brqqli2v8xvFw084cF4eGyzqNFBT
-	xm6rE9VyvOcN/naZatTmWuxwQroh/BhaVB3fT5srjJhFLYeY3qwAewT1K95Y1W/KBv1Q
-	OWRu/6U//UcIK1g2oYu5+4WQip+DUmETryV1tTzZWzjRJMMxtlRoaDBsNmqcZTLhXjFB
-	c5OA==
-X-Gm-Message-State: APjAAAWz21LEfRuNTtcO6LYIOGNh4+H1KUjJWQ89u3EhVbnleMrF8ydt
-	X+qDY2DpYIF/dc+Au1jzbUcEg7yddZA4zVHZItU=
-X-Google-Smtp-Source: APXvYqwdwwwfXV4I2haRU1rONjXoQ5HEhO/yAlay/1m6uzXdjTzPzfD4tZ/zi65aldYLEFGNK1N9mpEvDikc+4QpGZY=
-X-Received: by 2002:ac8:4419:: with SMTP id j25mr10596626qtn.378.1581350490175;
-	Mon, 10 Feb 2020 08:01:30 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/Uc/mTjqIVAzhrUbBj+THXImp/d72z1qNDzjmDlH3mo=;
+	b=PI9eIFd4xSD6oqaV/CFua44LyGlyasT/x/+oNn/YjS1bLBlGjCxEQ3x5U4aeRfOkPc
+	DaUHl3SMEaNlaPQd9RXxELsCyf4wHDHJvfKVM8P4eUsGlUvM6Gy5lEWUHxTDtuCbgmGD
+	JzcI7sg/e06vaogsO+2/jpoeC42iFaU9IGT+lQRELUlJKaQsRyCdmNLB0sFy281dV1OW
+	2zphLpzf3CAZTIk2dvXWzoofHS3/nIF48abq7fCknX8LJ5jZi/JRoCxah1uTwqs6gDwM
+	KjNbBkbS06sFBDRaYs1aWpivhSvL8rPLjxt5uWd08yAgz6ti2zzkCVj6AhaBQq0lV/vo
+	gtDw==
+X-Gm-Message-State: APjAAAXii7Ue8gLchb0xwaQHqRo36u3dT1j6oRuEoITxrAdCB7dXM+7O
+	CfdrJpb8VSNTHuIJTsKAutWjcaWChok=
+X-Google-Smtp-Source: APXvYqz97CrAjN5Ioz23gdCB6OyPdfrbos9Owbio8D8AwXj6eLmPbL0Wl+7lulkwmVcna2F30VDGzQ==
+X-Received: by 2002:a5d:4692:: with SMTP id u18mr2751507wrq.206.1581350548138; 
+	Mon, 10 Feb 2020 08:02:28 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	g79sm1088531wme.17.2020.02.10.08.02.26
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 10 Feb 2020 08:02:27 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 10 Feb 2020 16:02:24 +0000
+Message-Id: <20200210160224.21246-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20200208000110.29065-1-scott.branden@broadcom.com>
-	<CAMKF1spdaO+wpwowYzfu=vigB+tSJPtwS46eimFenj=0hmhLFA@mail.gmail.com>
-	<55bb9c66-a419-c43d-111b-e5442db8df91@broadcom.com>
-	<CAMKF1spFfVojndyrOXa6TFXHUO-DNR3xr3Dj7jwGa8g--Pdz1Q@mail.gmail.com>
-	<2159565f-eaca-697d-0711-e39aeccb1ba2@broadcom.com>
-	<CAMKF1srW_aR=4TZBxTdnTXwRWZg0u7TDhiNme9JsE8NSzXy_sw@mail.gmail.com>
-	<6cf5b86f-5055-0573-61ab-ad4717af5c2d@broadcom.com>
-	<CANNYZj_HaQAVfJ0f8jK2NXePovceXSZwJFdBMMVBSL4Fs_MqTw@mail.gmail.com>
-In-Reply-To: <CANNYZj_HaQAVfJ0f8jK2NXePovceXSZwJFdBMMVBSL4Fs_MqTw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 10 Feb 2020 08:01:03 -0800
-Message-ID: <CAMKF1spnPDqoOfSHs8tZSJGC54HnKk167sochq8MMh5X_ddu=w@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/2] x265: add x265 recipe
+Subject: [PATCH] pkgconf: Remove pointless DEFAULT_PREFERENCE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,113 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 16:01:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 10 Feb 2020 16:02:28 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 10, 2020 at 3:42 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> As long as we're consistent, I'm ok with either option. I think it's ultimately up to RP to make the call.
->
->
+There is no other version of pkgconfig to have a preference against,
+remove the unneeded variable.
 
-The usecase is fine, as long as we add x265 support to gst plugins and
-ffmeg and it gets tested via reference
-images, I see no issues adding it.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-> Alex
->
-> On Mon, 10 Feb 2020 at 07:16, Scott Branden via Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
->>
->>
->>
->> On 2020-02-09 3:35 p.m., Khem Raj wrote:
->> > On Sun, Feb 9, 2020 at 11:27 AM Scott Branden
->> > <scott.branden@broadcom.com> wrote:
->> >>
->> >>
->> >> On 2020-02-08 11:18 a.m., Khem Raj wrote:
->> >>> On Fri, Feb 7, 2020 at 8:02 PM Scott Branden <scott.branden@broadcom.com> wrote:
->> >>>> Hi Khem,
->> >>>>
->> >>>> On 2020-02-07 5:12 p.m., Khem Raj wrote:
->> >>>>
->> >>>>
->> >>>>
->> >>>> On Fri, Feb 7, 2020 at 4:01 PM Scott Branden via Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
->> >>>>> Add x265 recipe from latest revision of stable branch.
->> >>>> I wonder if it belongs to core are there deps on it that we need in common metadata
->> >>>>
->> >>>> I simply followed where x264 recipe is located and placed x265 beside it.
->> >>>> Both are needed when enabled in ffmpeg.
->> >>>>
->> >>>> I don't know if that answers your question as to where they should be located.
->> >>> idea is to keep small and therefore we should assess the inclusions in core
->> >>> we have many packageconfigs which require packages from other layers
->> >>> so if ffmpeg needs it and is optional then it should be fine to keep
->> >>> it in meta-multimedia and packageconfig in ffmpeg disabled by default.
->> >> I don't see why x264 would be in core and x265 in meta-multimedia.
->> >> Both should be moved to meta-multimedia then?
->> >>
->> > I followed the thread a bit and I see there are followups where
->> > usecase for other recipes in core is now
->> > established, where this seemed a leaf package being added to oe-core,
->> > So perhaps it should be added
->> > to validation loops as well like x264.
->> I leave it to the powers that be to decide where to place this recipe.
->> >
->> >> I think you would also require a bbappend to fffmpeg recipe to add x264
->> >> and x265 to ffmpeg packageconfig.
->> >> if that is the case, why not move ffmpeg to meta-multimedia as well?
->> >>
->> > You would not go down that line of thought since these packages are in
->> > the dependency chain for validating reference
->> > images in core along with they being used by other packages from other layers.
->> >
->> >>>>> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
->> >>>>> ---
->> >>>>>    meta/recipes-multimedia/x265/x265_git.bb | 20 ++++++++++++++++++++
->> >>>>>    1 file changed, 20 insertions(+)
->> >>>>>    create mode 100644 meta/recipes-multimedia/x265/x265_git.bb
->> >>>>>
->> >>>>> diff --git a/meta/recipes-multimedia/x265/x265_git.bb b/meta/recipes-multimedia/x265/x265_git.bb
->> >>>>> new file mode 100644
->> >>>>> index 0000000000..796fbbc13a
->> >>>>> --- /dev/null
->> >>>>> +++ b/meta/recipes-multimedia/x265/x265_git.bb
->> >>>>> @@ -0,0 +1,20 @@
->> >>>>> +SUMMARY = "H.265/HEVC video encoder"
->> >>>>> +DESCRIPTION = "A free software library and application for encoding video streams into the H.265/HEVC format."
->> >>>>> +HOMEPAGE = "http://www.videolan.org/developers/x265.html"
->> >>>>> +
->> >>>>> +LICENSE = "GPLv2"
->> >>>>> +LICENSE_FLAGS = "commercial"
->> >>>>> +LIC_FILES_CHKSUM = "file://../COPYING;md5=c9e0427bc58f129f99728c62d4ad4091"
->> >>>>> +
->> >>>>> +DEPENDS = "gnutls zlib libpcre"
->> >>>>> +
->> >>>>> +SRC_URI = "git://github.com/videolan/x265;branch=stable \
->> >>>>> +          "
->> >>>>> +
->> >>>>> +SRCREV = "4ef6b67fd46e1584e52a11a264812edcaef02526"
->> >>>>> +
->> >>>>> +S = "${WORKDIR}/git/source"
->> >>>>> +
->> >>>>> +inherit lib_package pkgconfig cmake
->> >>>>> +
->> >>>>> +AS[unexport] = "1"
->> >>>>> --
->> >>>>> 2.17.1
->> >>>>>
->> >>>>> --
->> >>>>> _______________________________________________
->> >>>>> Openembedded-core mailing list
->> >>>>> Openembedded-core@lists.openembedded.org
->> >>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb b/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
+index 94bc112b9fd..732ca2a0348 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
+@@ -8,7 +8,6 @@ BUGTRACKER = "https://github.com/pkgconf/pkgconf/issues"
+ SECTION = "devel"
+ PROVIDES += "pkgconfig"
+ RPROVIDES_${PN} += "pkgconfig"
+-DEFAULT_PREFERENCE = "-1"
+ 
+ # The pkgconf license seems to be functionally equivalent to BSD-2-Clause or
+ # ISC, but has different wording, so needs its own name.
+-- 
+2.20.1
+
 
