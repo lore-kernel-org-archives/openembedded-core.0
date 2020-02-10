@@ -1,35 +1,35 @@
 Return-Path: <wangmy@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A59660BCA
+	by mail.openembedded.org (Postfix) with ESMTP id A379860FB5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 09:49:46 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,424,1574092800"; d="scan'208";a="83096240"
+	Mon, 10 Feb 2020 09:49:58 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,424,1574092800"; d="scan'208";a="83096244"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 10 Feb 2020 17:49:47 +0800
-Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
-	by cn.fujitsu.com (Postfix) with ESMTP id 290D1406AB15
+	by heian.cn.fujitsu.com with ESMTP; 10 Feb 2020 17:49:59 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 9966D406AB15
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 17:40:16 +0800 (CST)
+	Mon, 10 Feb 2020 17:40:29 +0800 (CST)
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Mon, 10 Feb 2020 17:49:48 +0800
+	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Mon, 10 Feb 2020 17:50:02 +0800
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 10 Feb 2020 17:49:50 +0800
+	Server (TLS) id 14.3.439.0; Mon, 10 Feb 2020 17:50:03 +0800
 From: Wang Mingyu <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Feb 2020 09:38:01 -0800
-Message-ID: <1581356285-65315-2-git-send-email-wangmy@cn.fujitsu.com>
+Date: Mon, 10 Feb 2020 09:38:02 -0800
+Message-ID: <1581356285-65315-3-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1581356285-65315-1-git-send-email-wangmy@cn.fujitsu.com>
 References: <1581356285-65315-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 290D1406AB15.A02BF
+X-yoursite-MailScanner-ID: 9966D406AB15.A1B4B
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] xkeyboard-config: upgrade 2.28 -> 2.29
+Subject: [PATCH] libtasn1: upgrade 4.15.0 -> 4.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +42,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 09:49:46 -0000
+X-List-Received-Date: Mon, 10 Feb 2020 09:49:59 -0000
 Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../{xkeyboard-config_2.28.bb => xkeyboard-config_2.29.bb}    | 4 ++--
+ .../gnutls/{libtasn1_4.15.0.bb => libtasn1_4.16.0.bb}         | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.28.bb => xkeyboard-config_2.29.bb} (87%)
+ rename meta/recipes-support/gnutls/{libtasn1_4.15.0.bb => libtasn1_4.16.0.bb} (83%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.28.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.29.bb
-similarity index 87%
-rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.28.bb
-rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.29.bb
-index 7a3d694bd6..c8fa98e8d8 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.28.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.29.bb
-@@ -13,8 +13,8 @@ LICENSE = "MIT & MIT-style"
- LIC_FILES_CHKSUM = "file://COPYING;md5=0e7f21ca7db975c63467d2e7624a12f9"
+diff --git a/meta/recipes-support/gnutls/libtasn1_4.15.0.bb b/meta/recipes-support/gnutls/libtasn1_4.16.0.bb
+similarity index 83%
+rename from meta/recipes-support/gnutls/libtasn1_4.15.0.bb
+rename to meta/recipes-support/gnutls/libtasn1_4.16.0.bb
+index 115c98ae57..8337b70241 100644
+--- a/meta/recipes-support/gnutls/libtasn1_4.15.0.bb
++++ b/meta/recipes-support/gnutls/libtasn1_4.16.0.bb
+@@ -14,8 +14,8 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
  
- SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.bz2"
--SRC_URI[md5sum] = "5a968ab77846ff85a04242410b2a61de"
--SRC_URI[sha256sum] = "69adb25b0fc64e4075f8ec0eab8d869892419f474f91fb69db1713de2062bdce"
-+SRC_URI[md5sum] = "b5980bdc6c7d79f6dcccba8c76bb6c5d"
-+SRC_URI[sha256sum] = "1d4175278bf06000683656763a8b1d3282c61a314b6db41260c8efe92d621802"
+ DEPENDS = "bison-native"
  
- SECTION = "x11/libs"
- DEPENDS = "util-macros libxslt-native"
+-SRC_URI[md5sum] = "33e3fb5501bb2142184238c815b0beb8"
+-SRC_URI[sha256sum] = "dd77509fe8f5304deafbca654dc7f0ea57f5841f41ba530cff9a5bf71382739e"
++SRC_URI[md5sum] = "531208de3729d42e2af0a32890f08736"
++SRC_URI[sha256sum] = "0e0fb0903839117cb6e3b56e68222771bebf22ad7fc2295a0ed7d576e8d4329d"
+ 
+ inherit autotools texinfo lib_package gtk-doc
+ 
 -- 
 2.17.1
 
