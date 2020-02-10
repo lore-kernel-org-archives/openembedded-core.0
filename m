@@ -1,19 +1,19 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 09464606C5;
-	Mon, 10 Feb 2020 17:02:38 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 15481606C5;
+	Mon, 10 Feb 2020 17:02:39 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Andrii Bordunov via Openembedded-core
 	<openembedded-core@lists.openembedded.org>
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Feb 2020 17:02:39 -0000
-Message-ID: <20200210170239.2273.6687@do>
-References: <CAKqUGW9ZMSWSdf_zPnH6RA7BihMcAK-0SOEW8T9EsTq8JGuN_g@mail.gmail.com>
+Date: Mon, 10 Feb 2020 17:02:40 -0000
+Message-ID: <20200210170240.2273.98845@do>
+References: <CAKqUGW9sq9CxgcL4p0LbuQkzksO3eJ3T5BPKZkrEJ0oUvNSJ9Q@mail.gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <CAKqUGW9ZMSWSdf_zPnH6RA7BihMcAK-0SOEW8T9EsTq8JGuN_g@mail.gmail.com>
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZXhwYXQ6IEFkZCBwdGVzdCAocmV2Mik=?=
+In-Reply-To: <CAKqUGW9sq9CxgcL4p0LbuQkzksO3eJ3T5BPKZkrEJ0oUvNSJ9Q@mail.gmail.com>
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgW1YyXQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,15 +26,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 17:02:38 -0000
+X-List-Received-Date: Mon, 10 Feb 2020 17:02:39 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: expat: Add ptest (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/22530/
+Series: [V2] 
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22533/
 State : failure
 
 == Summary ==
