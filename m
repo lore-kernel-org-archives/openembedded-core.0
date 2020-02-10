@@ -1,49 +1,43 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D99D860B34
+Return-Path: <oleksandr.s.popovych@globallogic.com>
+Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
+	[209.85.166.175])
+	by mail.openembedded.org (Postfix) with ESMTP id E56E260B9A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 16:02:27 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id z3so8448244wru.3
+	Mon, 10 Feb 2020 16:40:46 +0000 (UTC)
+Received: by mail-il1-f175.google.com with SMTP id f70so765882ill.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 08:02:29 -0800 (PST)
+	Mon, 10 Feb 2020 08:40:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/Uc/mTjqIVAzhrUbBj+THXImp/d72z1qNDzjmDlH3mo=;
-	b=AseKl+bL433gfuuTge8Yc3yHOQrVn1HD+18DgrRycI83fVFwm8TzZa1SyV3t42xhQs
-	QkLM0YJcHRhcjPimK75r2ctvACq2AQEvdiMvrtoExGQWjNSrNcGm8ZZAfk2YXL7WCzLG
-	wlo3P+XaA8o3H9ZMXPcO2kkqqfqJk7OMzOcqE=
+	d=globallogic.com; s=google;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=jVh3kt7+11MwShyrmXr3BHlvF+1o1Gz4eX/fooOmJIc=;
+	b=Vua0c4VQ6aT0iaVfeMQMF0ENdKIV/oel0GTCFapnS4n9llX7pkLWUYA426fXSZIG52
+	KK+xIUTrgEppRubmPq2/U/JZYtTDtq/8JCD63NOoOhkn7E9qgIWtcg2HoosW9wddRdGd
+	8TLXUy3jm0jQS6aDDYsI9lxnqTb5SWOazETpP469Mpiq+SBkIxsdrbwueE/fGZ5hn8GO
+	UqoK1F7EAxNDhUVfCWFaA/pwpe6961oo3j7lMd73ui4msg+xpGp/QU2dsLLbG9ecT32r
+	2XYGgMPreqs17BBeXsqhQRQVfaPwSwJJ+cGGO+IjCgZHYYacmbRKVa7N8ZYjm6FPxOBw
+	1lQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=/Uc/mTjqIVAzhrUbBj+THXImp/d72z1qNDzjmDlH3mo=;
-	b=PI9eIFd4xSD6oqaV/CFua44LyGlyasT/x/+oNn/YjS1bLBlGjCxEQ3x5U4aeRfOkPc
-	DaUHl3SMEaNlaPQd9RXxELsCyf4wHDHJvfKVM8P4eUsGlUvM6Gy5lEWUHxTDtuCbgmGD
-	JzcI7sg/e06vaogsO+2/jpoeC42iFaU9IGT+lQRELUlJKaQsRyCdmNLB0sFy281dV1OW
-	2zphLpzf3CAZTIk2dvXWzoofHS3/nIF48abq7fCknX8LJ5jZi/JRoCxah1uTwqs6gDwM
-	KjNbBkbS06sFBDRaYs1aWpivhSvL8rPLjxt5uWd08yAgz6ti2zzkCVj6AhaBQq0lV/vo
-	gtDw==
-X-Gm-Message-State: APjAAAXii7Ue8gLchb0xwaQHqRo36u3dT1j6oRuEoITxrAdCB7dXM+7O
-	CfdrJpb8VSNTHuIJTsKAutWjcaWChok=
-X-Google-Smtp-Source: APXvYqz97CrAjN5Ioz23gdCB6OyPdfrbos9Owbio8D8AwXj6eLmPbL0Wl+7lulkwmVcna2F30VDGzQ==
-X-Received: by 2002:a5d:4692:: with SMTP id u18mr2751507wrq.206.1581350548138; 
-	Mon, 10 Feb 2020 08:02:28 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g79sm1088531wme.17.2020.02.10.08.02.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 10 Feb 2020 08:02:27 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Feb 2020 16:02:24 +0000
-Message-Id: <20200210160224.21246-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=jVh3kt7+11MwShyrmXr3BHlvF+1o1Gz4eX/fooOmJIc=;
+	b=bga3X0uh82rsCV+MJSUCKCki7A+aBPd8Npiyi6dNPT6nlSLmxJxCrKQ7zyPd85cob8
+	y0C89Pk6J+3TiCRfSuNl064HOASiwYt0HV0YyOfY8Zy4efsAllajORTE2//LQILNxDfI
+	Etay1ALOCaR0V8vp7Zg66CRTgkbspSk/c4bcVonmpBDtNRQWQlgQB9O1vL+NrYQkZmWQ
+	WpaTdmfdgz2r2oOo2OjFZnSll/ZIP19x/+PRZtvLqDpuNLi3JHX4kIHUWKTK8EiGIsof
+	HWBUSe8cTIKrtE/NFGqZVmGuLPvHDRaPEVf1R9FpDUZxrglL556TL8izETz4ykqUHtJ2
+	lLqQ==
+X-Gm-Message-State: APjAAAXU+eaXymv3X7sxoXw+RuRzgta3IqPmhcbJ+i9QVsOK1JXm1m/A
+	N9HfW2j51EswTSdGKouB1mG8xbOZI1mi+UnripgSyiISKfo=
+X-Google-Smtp-Source: APXvYqxQEToPcXooquhbOWT+j6Cah13I61iXD/M1Pp4Say6jXZhPd30JL39oXCEUt/Pg5Rj3uuJtUQLdwH89Y//FSVk=
+X-Received: by 2002:a92:d0d1:: with SMTP id y17mr2285247ila.83.1581352847673; 
+	Mon, 10 Feb 2020 08:40:47 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] pkgconf: Remove pointless DEFAULT_PREFERENCE
+From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+Date: Mon, 10 Feb 2020 18:40:36 +0200
+Message-ID: <CAKqUGW9sq9CxgcL4p0LbuQkzksO3eJ3T5BPKZkrEJ0oUvNSJ9Q@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH V2]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +50,218 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 16:02:28 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 10 Feb 2020 16:40:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-There is no other version of pkgconfig to have a preference against,
-remove the unneeded variable.
+From dcf5a9b6199c3b1f4a6aad00334e69281bde3c34 Mon Sep 17 00:00:00 2001
+From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+Date: Thu, 6 Feb 2020 18:14:28 +0200
+Subject: [OE-core][PATCH] expat: Added ptest
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+For ptest support for this package several additional patches and
+run-ptest script were added and recipe was changed.
+
+Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
 ---
- meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb | 1 -
- 1 file changed, 1 deletion(-)
+ ...d-Makefile-targets-for-ptest-support.patch | 38 ++++++++++++++
+ ...ort-for-ptests-in-form-of-new-target.patch | 31 ++++++++++++
+ ...ed-suitable-format-of-tests-in-ptest.patch | 50 +++++++++++++++++++
+ meta/recipes-core/expat/expat/run-ptest       |  3 ++
+ meta/recipes-core/expat/expat_2.2.9.bb        | 12 ++++-
+ 5 files changed, 133 insertions(+), 1 deletion(-)
+ create mode 100644
+meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+ create mode 100644
+meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+ create mode 100644
+meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+ create mode 100644 meta/recipes-core/expat/expat/run-ptest
 
-diff --git a/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb b/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
-index 94bc112b9fd..732ca2a0348 100644
---- a/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
-+++ b/meta/recipes-devtools/pkgconf/pkgconf_1.6.3.bb
-@@ -8,7 +8,6 @@ BUGTRACKER = "https://github.com/pkgconf/pkgconf/issues"
- SECTION = "devel"
- PROVIDES += "pkgconfig"
- RPROVIDES_${PN} += "pkgconfig"
--DEFAULT_PREFERENCE = "-1"
- 
- # The pkgconf license seems to be functionally equivalent to BSD-2-Clause or
- # ISC, but has different wording, so needs its own name.
+diff --git a/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+new file mode 100644
+index 0000000000..32488060ee
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+@@ -0,0 +1,38 @@
++From ce803ec3d7b095cb55686f9cd5d3f01d34a31a5e Mon Sep 17 00:00:00 2001
++From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++Date: Thu, 6 Feb 2020 13:41:45 +0200
++Subject: [PATCH 1/3] expat: Added Makefile targets for ptest support
++
++install-ptest, runtests and check tagrets are added.
++
++Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++---
++ Makefile.am | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
++
++diff --git a/Makefile.am b/Makefile.am
++index 5e1d37d..c63b44a 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -152,3 +152,18 @@ qa:
++     QA_COMPILER=clang QA_SANITIZER=memory    ./qa.sh
++     QA_COMPILER=clang QA_SANITIZER=undefined ./qa.sh
++     QA_COMPILER=gcc   QA_PROCESSOR=gcov      ./qa.sh
+++
+++.PHONY: install-ptest
+++install-ptest:
+++    echo $(S)
+++    (if [ -d tests/.libs ] ; then cd tests/.libs; fi; \
+++        install runtests runtestspp $(DESTDIR))
+++    cp Makefile $(DESTDIR)
+++    sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
+++
+++.PHONY: runtests
+++runtests:
+++    @echo "C variant of tests:"
+++    @$(CHECKER) ./runtests$(EXEEXT) -q
+++    @echo "C++ variant of tests:"
+++    @$(CHECKER) ./runtestspp$(EXEEXT) -q
++--
++2.17.1
++
+diff --git a/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+new file mode 100644
+index 0000000000..cf8a2495e9
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+@@ -0,0 +1,31 @@
++From 2b209a025f62fb1be7b32599aa80703ce8ecd76a Mon Sep 17 00:00:00 2001
++From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++Date: Thu, 6 Feb 2020 13:43:57 +0200
++Subject: [PATCH 2/3] expat: Added support for ptests in form of new target
++
++configure.am file changed, according to this advice:
++https://wiki.yoctoproject.org/wiki/Ptest#Building_the_test_suite
++
++Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++---
++ configure.ac | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index d58ac03..8e6b41e 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -34,8 +34,8 @@ AC_CONFIG_SRCDIR([Makefile.in])
++ AC_CONFIG_AUX_DIR([conftools])
++ AC_CONFIG_MACRO_DIR([m4])
++ AC_CANONICAL_HOST
++-AM_INIT_AUTOMAKE
++-
+++AM_INIT_AUTOMAKE([serial-tests])
+++AM_EXTRA_RECURSIVE_TARGETS([buildtest-TESTS])
++
++ dnl
++ dnl Increment LIBREVISION if source code has changed at all
++--
++2.17.1
++
+diff --git a/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+new file mode 100644
+index 0000000000..5d1daefc92
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+@@ -0,0 +1,50 @@
++From b2e236e238f8bab42651313ea198b27355945d97 Mon Sep 17 00:00:00 2001
++From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++Date: Thu, 6 Feb 2020 13:44:56 +0200
++Subject: [PATCH 3/3] expat: Added suitable format of tests in ptest
++
++Some changes in testcases code were applied for testcase engine.
++This was just adding of message outputs in "RESULT: TESTNAME" form...
++
++Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++---
++ tests/minicheck.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/tests/minicheck.c b/tests/minicheck.c
++index a5a1efb..b39cda9 100644
++--- a/tests/minicheck.c
+++++ b/tests/minicheck.c
++@@ -164,6 +164,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       if (tc->setup != NULL) {
++         /* setup */
++         if (setjmp(env)) {
+++          printf("SKIP: %s\n", _check_current_function);
++           add_failure(runner, verbosity);
++           continue;
++         }
++@@ -171,6 +172,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       }
++       /* test */
++       if (setjmp(env)) {
+++        printf("FAIL: %s\n", _check_current_function);
++         add_failure(runner, verbosity);
++         continue;
++       }
++@@ -179,11 +181,13 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       /* teardown */
++       if (tc->teardown != NULL) {
++         if (setjmp(env)) {
+++          printf("PASS: %s\n", _check_current_function);
++           add_failure(runner, verbosity);
++           continue;
++         }
++         tc->teardown();
++       }
+++      printf("PASS: %s\n", _check_current_function);
++     }
++     tc = tc->next_tcase;
++   }
++--
++2.17.1
++
+diff --git a/meta/recipes-core/expat/expat/run-ptest
+b/meta/recipes-core/expat/expat/run-ptest
+new file mode 100644
+index 0000000000..df994c0838
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/bash
++
++make -k runtests
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb
+b/meta/recipes-core/expat/expat_2.2.9.bb
+index 8f3db41352..420ffddc80 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.9.bb
+@@ -8,15 +8,25 @@ LIC_FILES_CHKSUM =
+"file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
+
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+            file://libtool-tag.patch \
++       file://0001-expat-Added-Makefile-targets-for-ptest-support.patch \
++       file://0002-expat-Added-support-for-ptests-in-form-of-new-target.patch \
++       file://0003-expat-Added-suitable-format-of-tests-in-ptest.patch \
++       file://run-ptest \
+       "
+
+ SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+ SRC_URI[sha256sum] =
+"f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
+
+-inherit autotools lib_package
++inherit autotools ptest lib_package
++
++RDEPENDS_${PN}-ptest += "make bash"
+
+
+ do_configure_prepend () {
+     rm -f ${S}/conftools/libtool.m4
+ }
+
++do_compile_ptest() {
++    oe_runmake buildtest-TESTS
++}
++
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-2.20.1
-
+2.17.1
 
