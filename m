@@ -1,43 +1,43 @@
 Return-Path: <oleksandr.s.popovych@globallogic.com>
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com
-	[209.85.166.175])
-	by mail.openembedded.org (Postfix) with ESMTP id E56E260B9A
+Received: from mail-il1-f178.google.com (mail-il1-f178.google.com
+	[209.85.166.178])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ECA360C0E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 16:40:46 +0000 (UTC)
-Received: by mail-il1-f175.google.com with SMTP id f70so765882ill.6
+	Mon, 10 Feb 2020 16:50:32 +0000 (UTC)
+Received: by mail-il1-f178.google.com with SMTP id o13so780833ilg.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 08:40:48 -0800 (PST)
+	Mon, 10 Feb 2020 08:50:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=globallogic.com; s=google;
 	h=mime-version:from:date:message-id:subject:to;
 	bh=jVh3kt7+11MwShyrmXr3BHlvF+1o1Gz4eX/fooOmJIc=;
-	b=Vua0c4VQ6aT0iaVfeMQMF0ENdKIV/oel0GTCFapnS4n9llX7pkLWUYA426fXSZIG52
-	KK+xIUTrgEppRubmPq2/U/JZYtTDtq/8JCD63NOoOhkn7E9qgIWtcg2HoosW9wddRdGd
-	8TLXUy3jm0jQS6aDDYsI9lxnqTb5SWOazETpP469Mpiq+SBkIxsdrbwueE/fGZ5hn8GO
-	UqoK1F7EAxNDhUVfCWFaA/pwpe6961oo3j7lMd73ui4msg+xpGp/QU2dsLLbG9ecT32r
-	2XYGgMPreqs17BBeXsqhQRQVfaPwSwJJ+cGGO+IjCgZHYYacmbRKVa7N8ZYjm6FPxOBw
-	1lQg==
+	b=MSFNLbG7p/b4TX4oEwN/H7PlGq3QvgrjVxQKLFdMormTzgILUX6CtIGfGyh/CYt4iM
+	3xJQ1Tn/nkzrPrVDQiDaOAFKzPDfsJF0SWIf7rXmNW4aHYshr8PVs2Nyv0yUO7uT1pmQ
+	mUWvJ+wgda8ouOO/sJ/jM/Z3BYQDnM7pauFcXQajCEwBub9mpi29tteeKV2ROdBjXrR6
+	yksqJ39eEKxJHM9AUOYVi7n20Gi24s958w+bIPHaNL6o/jcVP6ullRsjJpIEcxshjqKI
+	YsN8rPKV+hNCs4p28crnZ8rYphJ9CaiQ3KSaDrRtLrwCb9cN6/HiULAd36OmJc29S8KO
+	gVFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
 	bh=jVh3kt7+11MwShyrmXr3BHlvF+1o1Gz4eX/fooOmJIc=;
-	b=bga3X0uh82rsCV+MJSUCKCki7A+aBPd8Npiyi6dNPT6nlSLmxJxCrKQ7zyPd85cob8
-	y0C89Pk6J+3TiCRfSuNl064HOASiwYt0HV0YyOfY8Zy4efsAllajORTE2//LQILNxDfI
-	Etay1ALOCaR0V8vp7Zg66CRTgkbspSk/c4bcVonmpBDtNRQWQlgQB9O1vL+NrYQkZmWQ
-	WpaTdmfdgz2r2oOo2OjFZnSll/ZIP19x/+PRZtvLqDpuNLi3JHX4kIHUWKTK8EiGIsof
-	HWBUSe8cTIKrtE/NFGqZVmGuLPvHDRaPEVf1R9FpDUZxrglL556TL8izETz4ykqUHtJ2
-	lLqQ==
-X-Gm-Message-State: APjAAAXU+eaXymv3X7sxoXw+RuRzgta3IqPmhcbJ+i9QVsOK1JXm1m/A
-	N9HfW2j51EswTSdGKouB1mG8xbOZI1mi+UnripgSyiISKfo=
-X-Google-Smtp-Source: APXvYqxQEToPcXooquhbOWT+j6Cah13I61iXD/M1Pp4Say6jXZhPd30JL39oXCEUt/Pg5Rj3uuJtUQLdwH89Y//FSVk=
-X-Received: by 2002:a92:d0d1:: with SMTP id y17mr2285247ila.83.1581352847673; 
-	Mon, 10 Feb 2020 08:40:47 -0800 (PST)
+	b=R+hKc91iiEcg6AnoaFv2PILJWTS8XjRkFDw5xiOYhYsQLD5tTyh/bS9R5TjFd5CYxV
+	qy68qPeS63q41Dxe5wSDY75fBlDvJTr90I8V+b0BAM1DDG8yI4i2jH38cVB3cAwpVEUZ
+	x130pQGd+yyoHHnrm9KMYEt13WCKH0l4hPxlCWwh3Sl4Br+xZSJjHR6uag7ME6Gx7YeY
+	GRDcInCDyuW1i2o5jQZ2JpfW1wAYLgTuPPIsVvqZILAzyZH3D2YZMPpU6meqdJWCX0wD
+	o5wTzJ7Az1XUD1jkHbC7Y7l+O0zxCbpfvxpGeyCtexa8DrZjBQQFJJvSghEyms9Ys86D
+	md7Q==
+X-Gm-Message-State: APjAAAUJ232vuTE9ZbDBwLhHoJvdRuu1tJTZvDlA7WpBoL4YR624uff/
+	bR/Y/GMtszXzVZ/lLz37IS6L4gvn8jZa2ICbs8hQukL/
+X-Google-Smtp-Source: APXvYqyfTFYDwD2NUQ9czjxGM4E3OPWITeedHIP1A7sVjC/Xcjslr7u0ilkrSEAgMoaVby79aHtZuZdEzBSyy9xCDRQ=
+X-Received: by 2002:a92:d0d1:: with SMTP id y17mr2323351ila.83.1581353432947; 
+	Mon, 10 Feb 2020 08:50:32 -0800 (PST)
 MIME-Version: 1.0
 From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
-Date: Mon, 10 Feb 2020 18:40:36 +0200
-Message-ID: <CAKqUGW9sq9CxgcL4p0LbuQkzksO3eJ3T5BPKZkrEJ0oUvNSJ9Q@mail.gmail.com>
+Date: Mon, 10 Feb 2020 18:50:22 +0200
+Message-ID: <CAKqUGW9ZMSWSdf_zPnH6RA7BihMcAK-0SOEW8T9EsTq8JGuN_g@mail.gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH V2]
+Subject: [PATCH v3] expat: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,7 +50,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 16:40:47 -0000
+X-List-Received-Date: Mon, 10 Feb 2020 16:50:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 
 From dcf5a9b6199c3b1f4a6aad00334e69281bde3c34 Mon Sep 17 00:00:00 2001
@@ -262,6 +262,6 @@ index 8f3db41352..420ffddc80 100644
 +}
 +
  BBCLASSEXTEND = "native nativesdk"
--- 
+--
 2.17.1
 
