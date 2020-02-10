@@ -1,50 +1,60 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
-	[209.85.216.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CF5D60C77
+Return-Path: <scott.branden@broadcom.com>
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 3BFD4608E2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 03:30:06 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id d5so3566801pjz.5
+	Mon, 10 Feb 2020 06:15:38 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id a6so2402427plm.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Feb 2020 19:30:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=j3e0gSV3tyLObxdKkIj80SZh/4Jf7MczNmeGWenp/sM=;
-	b=FrB1tuDEU/BIqNpbR1+wFeCvOY/fXGO1yno0OPQ59+grGxIUVE6+gFW1yZ/z7gsnRr
-	qxWkVJg6ttCzlP+Amn+dhbfQ2ePNPgNAwE2xVJT1HEHgam+fhk/y/cf86rpY36iK+G+9
-	2v8RXhHBR3o9DGGtaJrLGjiNIcfRy2VbmElPODYkGNYGG46Qd2xtf5cqdLgDJiW/mYRt
-	GNHOoFcVtokE+HZOnfxTvmGdjajCkek1uRWiXz2J77BZ1MHYtl1NjfEcXxOTFJiysI5f
-	UasOI1uAEvWBDV2NeRNejrpAagIYqK76xXkguKAG4jJbZCxdoU2XNFmOAEyGgsiD0OFE
-	G1Bg==
+	Sun, 09 Feb 2020 22:15:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=s989MW6nBLKIHnqA8JkmHvfW/viUSUMufOekW9B+SCc=;
+	b=TcL6Fy8afGWzL88h74ziW2YtYyvjbxlDRNF1561cWr0Euw2PWFqIS27QXHMj3bkUZj
+	cBEqO8jgO5H/VmdN3TrvP0PqhDw4JnNppEVCcuwP9Y8vaNgGQgmYpTPWST/uj527bX2q
+	WVUGZn/Kgop93RLEJkkXASYXpdz3GfguI7tf8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=j3e0gSV3tyLObxdKkIj80SZh/4Jf7MczNmeGWenp/sM=;
-	b=rzX3Y25LMbiz8nQlVYeRYaTfoLKxeFEW7gzdmdxizkAe0fCRBo3/YhjCbj+/jsTgo3
-	AQYgqpG6Rkmriklum5uG2UjDXiaLX0n0+PqAMlK+MG1ajdcid2e3ADJrWa8iFJczqK6g
-	Tgk3Kd4FPAHKpnUifijSOMIMayhfJ1sKq30Sa21RRW0a82bbiRxcoNHbKoQq+6mPD9Zb
-	GDpkXCKHhYaeYYZmdY8pREEavZ1E04DjLtfSy5I8TkwdT6oJcedl/cYIg21ebforPLUF
-	bBOKLvaLVucbmuz1RxbNDGXrePId2Mlci+GKXGqEbW0K7j+m/XlJM9yN0VyYc4BctYSX
-	rd1Q==
-X-Gm-Message-State: APjAAAX77gpgMZ/dAMPPZDpzwtuxyroulozlTMd0LTcGKe5a3WJ23zC8
-	9mczQTrzbe9nSowkJzLyWamZXGQ4wjA=
-X-Google-Smtp-Source: APXvYqyUnGsOYW+9ZXVhSVAQT6a/XIyjkkLXxjSIXYfedLL9Uer0JiftBIgil2G1uu6ylXpN0dOKpg==
-X-Received: by 2002:a17:902:ba94:: with SMTP id
-	k20mr10879893pls.104.1581305406661; 
-	Sun, 09 Feb 2020 19:30:06 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::5683])
-	by smtp.gmail.com with ESMTPSA id e9sm9175234pjt.16.2020.02.09.19.30.05
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 09 Feb 2020 19:30:06 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Feb 2020 19:30:07 -0800
-Message-Id: <20200210033007.2324804-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=s989MW6nBLKIHnqA8JkmHvfW/viUSUMufOekW9B+SCc=;
+	b=L8rdLOCW73OlAxGWbUnXC9ByfQsFhbkKYvNRCNZ/3cF3BIWst/ihrAoma/UJXsIyUQ
+	JVV7yBQ6q6TUIT9QYhBuIksWfIV8QB1DErGubUTFSTCqoe8zeoS8G6i02XInAbHQT/dO
+	o/Rc+s2DdU8bBwQSaifzLB3AYI4Rpfa6nKH8uVhvjRz+jh6iEO7sWuUu2kB7ffC7Vwsv
+	gXYwxk4rG80gy7ICZ6bQD30WXnW30fcvpGc6wRcwrstzOSR5ZGPDEe7EIJz0ttHkQDWz
+	AWmWQyfpeqjeM9dmJtcxj3/Xz+4x3SyPBqpWWRwYksbdNGDOpuIdWlWahh8v85473Y8K
+	BWJA==
+X-Gm-Message-State: APjAAAUiaxvmb9jwQe/0RLPq6ahw+TrG6einoIxEQEoHtqlsH9BhHcEq
+	qxcHkBnpBeiQy0BqlxPW745ex3zkDI0qa2jY2l7k6OG0KC/ltoaP26zRBaA3eiGlbASLmhYP9h7
+	b7lrdTvUlXFeUcZmWmchXdgL5t81ocmUPryQhoAeG+hIeegGyp6MZ5PS4281JsjwIo25i0xGiVI
+	3jxe45vlRt0U3t+fMeUegxKxhbYGk=
+X-Google-Smtp-Source: APXvYqx7xBOk7qpIkiUSJeG61ak9GlKnG0eCckGVQUfmAti8wK4PZyaBPa9kDr3roZIR7MKECGIoyA==
+X-Received: by 2002:a17:902:b612:: with SMTP id
+	b18mr10810556pls.318.1581315338681; 
+	Sun, 09 Feb 2020 22:15:38 -0800 (PST)
+Received: from [10.136.13.65] ([192.19.228.250])
+	by smtp.gmail.com with ESMTPSA id u2sm10907339pgj.7.2020.02.09.22.15.37
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Sun, 09 Feb 2020 22:15:38 -0800 (PST)
+To: Khem Raj <raj.khem@gmail.com>
+References: <20200208000110.29065-1-scott.branden@broadcom.com>
+	<CAMKF1spdaO+wpwowYzfu=vigB+tSJPtwS46eimFenj=0hmhLFA@mail.gmail.com>
+	<55bb9c66-a419-c43d-111b-e5442db8df91@broadcom.com>
+	<CAMKF1spFfVojndyrOXa6TFXHUO-DNR3xr3Dj7jwGa8g--Pdz1Q@mail.gmail.com>
+	<2159565f-eaca-697d-0711-e39aeccb1ba2@broadcom.com>
+	<CAMKF1srW_aR=4TZBxTdnTXwRWZg0u7TDhiNme9JsE8NSzXy_sw@mail.gmail.com>
+From: Scott Branden <scott.branden@broadcom.com>
+Message-ID: <6cf5b86f-5055-0573-61ab-ad4717af5c2d@broadcom.com>
+Date: Sun, 9 Feb 2020 22:15:36 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-Subject: [PATCH v4] oeqa: Use --disable-maintainer-mode configure option
+In-Reply-To: <CAMKF1srW_aR=4TZBxTdnTXwRWZg0u7TDhiNme9JsE8NSzXy_sw@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] x265: add x265 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,57 +67,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 03:30:06 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 10 Feb 2020 06:15:38 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-since the versions of autotools might differ on target and build host, plus difference in
-timestamps for configure and system can result in reconfigure lets avoid
-that by disabling maintainer mode
 
-Avoids
-error: newly created file is older than distributed files!
 
-[YOCTO #13779]
-
-Suggested-by: Andre McCurdy <armccurdy@gmail.com>
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Touch configure to match timestamps with system
-    Move the touch cmd to configure step itself
-v3: Use --disable-maintainer-mode
-v4: Remove --disable-maintainer-mode for meta-ide selftest, its not
-    needed
-
- meta/lib/oeqa/runtime/cases/buildcpio.py | 2 +-
- meta/lib/oeqa/sdk/cases/buildcpio.py     | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/lib/oeqa/runtime/cases/buildcpio.py b/meta/lib/oeqa/runtime/cases/buildcpio.py
-index 4bd72dd37e..d0f91668b2 100644
---- a/meta/lib/oeqa/runtime/cases/buildcpio.py
-+++ b/meta/lib/oeqa/runtime/cases/buildcpio.py
-@@ -27,6 +27,6 @@ class BuildCpioTest(OERuntimeTestCase):
-     @OEHasPackage(['autoconf'])
-     def test_cpio(self):
-         self.project.download_archive()
--        self.project.run_configure()
-+        self.project.run_configure('--disable-maintainer-mode','')
-         self.project.run_make()
-         self.project.run_install()
-diff --git a/meta/lib/oeqa/sdk/cases/buildcpio.py b/meta/lib/oeqa/sdk/cases/buildcpio.py
-index b0beafb38f..902e93f623 100644
---- a/meta/lib/oeqa/sdk/cases/buildcpio.py
-+++ b/meta/lib/oeqa/sdk/cases/buildcpio.py
-@@ -28,7 +28,7 @@ class BuildCpioTest(OESDKTestCase):
-             self.assertTrue(os.path.isdir(dirs["source"]))
-             os.makedirs(dirs["build"])
- 
--            self._run("cd {build} && {source}/configure $CONFIGURE_FLAGS".format(**dirs))
-+            self._run("cd {build} && {source}/configure --disable-maintainer-mode $CONFIGURE_FLAGS".format(**dirs))
-             self._run("cd {build} && make -j".format(**dirs))
-             self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
- 
--- 
-2.25.0
+On 2020-02-09 3:35 p.m., Khem Raj wrote:
+> On Sun, Feb 9, 2020 at 11:27 AM Scott Branden
+> <scott.branden@broadcom.com> wrote:
+>>
+>>
+>> On 2020-02-08 11:18 a.m., Khem Raj wrote:
+>>> On Fri, Feb 7, 2020 at 8:02 PM Scott Branden <scott.branden@broadcom.com> wrote:
+>>>> Hi Khem,
+>>>>
+>>>> On 2020-02-07 5:12 p.m., Khem Raj wrote:
+>>>>
+>>>>
+>>>>
+>>>> On Fri, Feb 7, 2020 at 4:01 PM Scott Branden via Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
+>>>>> Add x265 recipe from latest revision of stable branch.
+>>>> I wonder if it belongs to core are there deps on it that we need in common metadata
+>>>>
+>>>> I simply followed where x264 recipe is located and placed x265 beside it.
+>>>> Both are needed when enabled in ffmpeg.
+>>>>
+>>>> I don't know if that answers your question as to where they should be located.
+>>> idea is to keep small and therefore we should assess the inclusions in core
+>>> we have many packageconfigs which require packages from other layers
+>>> so if ffmpeg needs it and is optional then it should be fine to keep
+>>> it in meta-multimedia and packageconfig in ffmpeg disabled by default.
+>> I don't see why x264 would be in core and x265 in meta-multimedia.
+>> Both should be moved to meta-multimedia then?
+>>
+> I followed the thread a bit and I see there are followups where
+> usecase for other recipes in core is now
+> established, where this seemed a leaf package being added to oe-core,
+> So perhaps it should be added
+> to validation loops as well like x264.
+I leave it to the powers that be to decide where to place this recipe.
+>
+>> I think you would also require a bbappend to fffmpeg recipe to add x264
+>> and x265 to ffmpeg packageconfig.
+>> if that is the case, why not move ffmpeg to meta-multimedia as well?
+>>
+> You would not go down that line of thought since these packages are in
+> the dependency chain for validating reference
+> images in core along with they being used by other packages from other layers.
+>
+>>>>> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+>>>>> ---
+>>>>>    meta/recipes-multimedia/x265/x265_git.bb | 20 ++++++++++++++++++++
+>>>>>    1 file changed, 20 insertions(+)
+>>>>>    create mode 100644 meta/recipes-multimedia/x265/x265_git.bb
+>>>>>
+>>>>> diff --git a/meta/recipes-multimedia/x265/x265_git.bb b/meta/recipes-multimedia/x265/x265_git.bb
+>>>>> new file mode 100644
+>>>>> index 0000000000..796fbbc13a
+>>>>> --- /dev/null
+>>>>> +++ b/meta/recipes-multimedia/x265/x265_git.bb
+>>>>> @@ -0,0 +1,20 @@
+>>>>> +SUMMARY = "H.265/HEVC video encoder"
+>>>>> +DESCRIPTION = "A free software library and application for encoding video streams into the H.265/HEVC format."
+>>>>> +HOMEPAGE = "http://www.videolan.org/developers/x265.html"
+>>>>> +
+>>>>> +LICENSE = "GPLv2"
+>>>>> +LICENSE_FLAGS = "commercial"
+>>>>> +LIC_FILES_CHKSUM = "file://../COPYING;md5=c9e0427bc58f129f99728c62d4ad4091"
+>>>>> +
+>>>>> +DEPENDS = "gnutls zlib libpcre"
+>>>>> +
+>>>>> +SRC_URI = "git://github.com/videolan/x265;branch=stable \
+>>>>> +          "
+>>>>> +
+>>>>> +SRCREV = "4ef6b67fd46e1584e52a11a264812edcaef02526"
+>>>>> +
+>>>>> +S = "${WORKDIR}/git/source"
+>>>>> +
+>>>>> +inherit lib_package pkgconfig cmake
+>>>>> +
+>>>>> +AS[unexport] = "1"
+>>>>> --
+>>>>> 2.17.1
+>>>>>
+>>>>> --
+>>>>> _______________________________________________
+>>>>> Openembedded-core mailing list
+>>>>> Openembedded-core@lists.openembedded.org
+>>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
