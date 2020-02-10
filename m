@@ -1,35 +1,35 @@
 Return-Path: <wangmy@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id A379860FB5
+	by mail.openembedded.org (Postfix) with ESMTP id 483F060FB2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 09:49:58 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,424,1574092800"; d="scan'208";a="83096244"
+	Mon, 10 Feb 2020 09:50:09 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,424,1574092800"; d="scan'208";a="83096254"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 10 Feb 2020 17:49:59 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 9966D406AB15
+	by heian.cn.fujitsu.com with ESMTP; 10 Feb 2020 17:50:09 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 12A3750A9962
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 17:40:29 +0800 (CST)
+	Mon, 10 Feb 2020 17:40:37 +0800 (CST)
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Mon, 10 Feb 2020 17:50:02 +0800
+	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Mon, 10 Feb 2020 17:50:08 +0800
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 10 Feb 2020 17:50:03 +0800
+	Server (TLS) id 14.3.439.0; Mon, 10 Feb 2020 17:50:11 +0800
 From: Wang Mingyu <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 10 Feb 2020 09:38:02 -0800
-Message-ID: <1581356285-65315-3-git-send-email-wangmy@cn.fujitsu.com>
+Date: Mon, 10 Feb 2020 09:38:03 -0800
+Message-ID: <1581356285-65315-4-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1581356285-65315-1-git-send-email-wangmy@cn.fujitsu.com>
 References: <1581356285-65315-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 9966D406AB15.A1B4B
+X-yoursite-MailScanner-ID: 12A3750A9962.A3FAD
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] libtasn1: upgrade 4.15.0 -> 4.16.0
+Subject: [PATCH] libxcrypt: upgrade 4.4.10 -> 4.4.12
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,33 +42,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 09:49:59 -0000
+X-List-Received-Date: Mon, 10 Feb 2020 09:50:09 -0000
 Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../gnutls/{libtasn1_4.15.0.bb => libtasn1_4.16.0.bb}         | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/gnutls/{libtasn1_4.15.0.bb => libtasn1_4.16.0.bb} (83%)
+ .../{libxcrypt-compat_4.4.10.bb => libxcrypt-compat_4.4.12.bb}  | 0
+ meta/recipes-core/libxcrypt/libxcrypt.inc                       | 2 +-
+ .../libxcrypt/{libxcrypt_4.4.10.bb => libxcrypt_4.4.12.bb}      | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/libxcrypt/{libxcrypt-compat_4.4.10.bb => libxcrypt-compat_4.4.12.bb} (100%)
+ rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.10.bb => libxcrypt_4.4.12.bb} (100%)
 
-diff --git a/meta/recipes-support/gnutls/libtasn1_4.15.0.bb b/meta/recipes-support/gnutls/libtasn1_4.16.0.bb
-similarity index 83%
-rename from meta/recipes-support/gnutls/libtasn1_4.15.0.bb
-rename to meta/recipes-support/gnutls/libtasn1_4.16.0.bb
-index 115c98ae57..8337b70241 100644
---- a/meta/recipes-support/gnutls/libtasn1_4.15.0.bb
-+++ b/meta/recipes-support/gnutls/libtasn1_4.16.0.bb
-@@ -14,8 +14,8 @@ SRC_URI = "${GNU_MIRROR}/libtasn1/libtasn1-${PV}.tar.gz \
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.10.bb b/meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.12.bb
+similarity index 100%
+rename from meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.10.bb
+rename to meta/recipes-core/libxcrypt/libxcrypt-compat_4.4.12.bb
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.inc b/meta/recipes-core/libxcrypt/libxcrypt.inc
+index accbdd6361..59744c0cf8 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.inc
++++ b/meta/recipes-core/libxcrypt/libxcrypt.inc
+@@ -10,7 +10,7 @@ LIC_FILES_CHKSUM ?= "file://LICENSING;md5=3bb6614cf5880cbf1b9dbd9e3d145e2c \
+ inherit autotools pkgconfig
  
- DEPENDS = "bison-native"
+ SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
+-SRCREV = "dcf7d7509a26a2fe83f115f5ee731c59749ae17e"
++SRCREV = "21f93470aad8634fcf39f72db0b62642c7073a0c"
+ SRCBRANCH ?= "develop"
  
--SRC_URI[md5sum] = "33e3fb5501bb2142184238c815b0beb8"
--SRC_URI[sha256sum] = "dd77509fe8f5304deafbca654dc7f0ea57f5841f41ba530cff9a5bf71382739e"
-+SRC_URI[md5sum] = "531208de3729d42e2af0a32890f08736"
-+SRC_URI[sha256sum] = "0e0fb0903839117cb6e3b56e68222771bebf22ad7fc2295a0ed7d576e8d4329d"
- 
- inherit autotools texinfo lib_package gtk-doc
- 
+ PROVIDES = "virtual/crypt"
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.10.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.12.bb
+similarity index 100%
+rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.10.bb
+rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.12.bb
 -- 
 2.17.1
 
