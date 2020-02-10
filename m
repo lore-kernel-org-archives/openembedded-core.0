@@ -1,48 +1,48 @@
-Return-Path: <rahulchauhankitps@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 5678260CE3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 18:49:37 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id y1so3171434plp.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 10:49:38 -0800 (PST)
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D40560637
+	for <openembedded-core@openembedded.org>;
+	Mon, 10 Feb 2020 19:56:31 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id r19so8779455ljg.3
+	for <openembedded-core@openembedded.org>;
+	Mon, 10 Feb 2020 11:56:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=4w7c764Xm8OoxtFmZJOBtR7Rn3a8UR5ozOqKzQ3O9Is=;
-	b=ExP7IlmBQAlZyZT0zx/IHKeCo1LcxB4rihj0z5osMr5OYSzo2YEsJauF21MCYN4pYN
-	m0o21z5J3qlpWJlIJw5lr16lWOxs7atnVITP7aDJKYdL9ahdUz7Z9RFnkdq7viO3aI22
-	a5AhKdqBgR8xlAb1BvoXGEJkMcLqe6uYzFVYgCIAjwhdmYkOJPa+aJIGdXuniNAX66Hp
-	NmE6Ml8XHttd6nmKeNiv0UN8nkHv4iniUA0YMMsShdyYkodvOutIYP4TKFHvyK5BA1Ob
-	RIg6cN5uoxrKvmERgi4Dh9U7BE4cXx5I3P3tdNbowUC4dl9MqAOPb0qgKE89FqeHJEeT
-	T/sQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=1mz27nEOm0ekuPDqDy8yoLkximKGoUI0HDgJ7Yf5WGc=;
+	b=fAhWp6OlASyScp+QD/Jrf6vnSI5pUj5xhQmgSLR43MtT/K/GX9m2YB+k/erUAFsNNA
+	X1AhDsASPUbU07sTjVq446p0+Tk9UAHRzkZqwzOAJGwZvzxMmlisws7QoKapuD6hgxya
+	copQOQoELE9vUVUkY0slCsPfCdoug73WlXXrvR8tp5+ortt/5nCBJaMItKabMeLL//AU
+	jzzPJ3yogOmUfWkmbJiGksaxOqe2cEVAdrlyYVvJNc3O596dAEwZkjPQGXU2Aqg80AiN
+	rn/x2HD7D9dWe07LtkSY/9q/hOw2ez3GcdCPh3N7SrYhXaQZc+4ETguinKKwkwn7GKWB
+	PNfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4w7c764Xm8OoxtFmZJOBtR7Rn3a8UR5ozOqKzQ3O9Is=;
-	b=ixGZ4akC/f1TUu5WsaDI16+pfvredHOdviGZJd+EpASiQPZ9V/AcGNVG50Mksjj1kP
-	SkSe4NaR+tZVPwloDXcj2Lx1Y4eREdP6pqRGW8PcBkvIJE5sj8QA0C6gChz4FEJVZIf2
-	T71j0MR140AmV75FrSl8mbOVIhrIaMXAuR2gBJYWEmyIuOPgXIGEGPEzfRfSr4/6xxPH
-	u3Jt+EChFnYove2nrhEVhPScuoKz+FfYgDoxwT2cCA2kxzUEGBVGnKkif+CbCxHcOCyL
-	zWlq/Id8sGv/k/nsWrNt8PZtQtYrkcUApEowZHcnXX2WfTHqdQb1Tm/I/ync+Q+tCsaK
-	hw+w==
-X-Gm-Message-State: APjAAAWmx+RmqevE+aXEmVxFybMxCaIdWMmYvX+cGgtKYqgeVxzTlqVH
-	335JSYNO/tMNv4IeCcf3YwhJLSuY
-X-Google-Smtp-Source: APXvYqw+Mr9OLbIMdwGFbbTFEpSEAqW74eAsAYHwTnioCNuv5sedusAtraz+wRXMBSuNQ0+GEtUbeQ==
-X-Received: by 2002:a17:902:820b:: with SMTP id
-	x11mr14097388pln.196.1581360577734; 
-	Mon, 10 Feb 2020 10:49:37 -0800 (PST)
-Received: from localhost.localdomain ([36.255.87.199])
-	by smtp.gmail.com with ESMTPSA id q29sm893253pgc.15.2020.02.10.10.49.35
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 10 Feb 2020 10:49:36 -0800 (PST)
-From: Rahul Chauhan <rahulchauhankitps@gmail.com>
-X-Google-Original-From: Rahul Chauhan <rahulk@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Feb 2020 00:19:21 +0530
-Message-Id: <1581360561-30532-1-git-send-email-rahulk@mvista.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [warrior][PATCH] libxml2: Fix CVE-2019-19956
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=1mz27nEOm0ekuPDqDy8yoLkximKGoUI0HDgJ7Yf5WGc=;
+	b=VDnlO7xST7EBjTBtZGfHUtyNEXQm4ECS63FzKPHRVYktNhqV+vYCZvG61msrzenWK6
+	eb1vZ9i3mtkMEwBihrFEXEFOWyC8dbFWXS90OpWY2/CLeyx8OtGcmOO3j7w3Ttu4/XCv
+	jNJoFu8oJ5UF8DcreW18OfvhGkHOJnU+1PxySGdijiXg6hEgIIbU+U75n3gyYu1dYPuS
+	OgM+5ZTpEHsx6rFJ5Ox954I1NU78HvZJWK9er7D4HbLBh/SfRn40UmOtLfMPU9mNQfPy
+	k3n9k3d8e7kxrLjVZJOxgEw2L3gp/taNlQfzLOW3ZEWpUmnGU17XL7lLY6LG4G5bLd0v
+	tmug==
+X-Gm-Message-State: APjAAAUsk49LF0mE1bQPycFXHiy/TYZMg74XZHExm6Q75sG7aj1x1COn
+	nZVmtuIKncltmV4riQlXrA936HWUU4k2R9ciEiA=
+X-Google-Smtp-Source: APXvYqwNdmB2JMR7oYtE5qrq7uhdQKb0dPDWyNHy0GzL5uQ/6avzxzVj+IAVMZf+U7sivvnMqINHgy3/qbRLQ3EOYX4=
+X-Received: by 2002:a2e:8197:: with SMTP id e23mr1806422ljg.250.1581364591839; 
+	Mon, 10 Feb 2020 11:56:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20200204184113.16070-1-alistair.francis@wdc.com>
+	<bd2c5b87416b5d77d7b1405666a6a333be2fb135.camel@linuxfoundation.org>
+	<CANNYZj-PpRueMjDaoJy86xpe_iEA6rePRTfiVaD-ECcpQ6MbQg@mail.gmail.com>
+In-Reply-To: <CANNYZj-PpRueMjDaoJy86xpe_iEA6rePRTfiVaD-ECcpQ6MbQg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 10 Feb 2020 11:49:13 -0800
+Message-ID: <CAKmqyKMGAgiQVZTX6rtKtO6ZU3XV_4Mdd_nPh8cwEhwZwokTjg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@openembedded.org
+Subject: Re: [PATCH] qemu: Upgrade to 4.2.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,72 +55,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 18:49:37 -0000
+X-List-Received-Date: Mon, 10 Feb 2020 19:56:31 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Rahul Chauhan <rahulk@mvista.com>
----
- .../libxml/libxml2/fix-CVE-2019-19956.patch        | 38 ++++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.8.bb          |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
+On Sat, Feb 8, 2020 at 10:10 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> I think this backport should address the problem:
+> https://git.qemu.org/?p=qemu.git;a=commitdiff;h=a88c40f02ace88f09b2a85a64831b277b2ebc88c
 
-diff --git a/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
-new file mode 100644
-index 0000000..43c3589
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
-@@ -0,0 +1,38 @@
-+From 3cd2b25ddb04740be2880cfd78d60038452228b1 Mon Sep 17 00:00:00 2001
-+From: Zhipeng Xie <xiezhipeng1@huawei.com>
-+Date: Wed, 7 Aug 2019 17:39:17 +0800
-+Subject: [PATCH] Fix memory leak in xmlParseBalancedChunkMemoryRecover
-+
-+When doc is NULL, namespace created in xmlTreeEnsureXMLDecl
-+is bind to newDoc->oldNs, in this case, set newDoc->oldNs to
-+NULL and free newDoc will cause a memory leak.
-+
-+Found with libFuzzer.
-+
-+Closes #82.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549]
-+CVE: CVE-2019-19956
-+
-+Signed-off-by: Rahul Chauhan <rahulk@mvista.com>
-+---
-+ parser.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/parser.c b/parser.c
-+index b7ecd65..491f5c9 100644
-+--- a/parser.c
-++++ b/parser.c
-+@@ -13899,7 +13899,8 @@ xmlParseBalancedChunkMemoryRecover(xmlDocPtr doc, xmlSAXHandlerPtr sax,
-+     xmlFreeParserCtxt(ctxt);
-+     newDoc->intSubset = NULL;
-+     newDoc->extSubset = NULL;
-+-    newDoc->oldNs = NULL;
-++    if(doc != NULL)
-++	newDoc->oldNs = NULL;
-+     xmlFreeDoc(newDoc);
-+ 
-+     return(ret);
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.8.bb
-index 62643bc..67c2d4f 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
-@@ -23,6 +23,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
-            file://fix-CVE-2017-8872.patch \
-            file://fix-CVE-2018-14404.patch \
-            file://0001-Fix-infinite-loop-in-LZMA-decompression.patch \
-+           file://fix-CVE-2019-19956.patch \
-            "
- 
- SRC_URI[libtar.md5sum] = "b786e353e2aa1b872d70d5d1ca0c740d"
--- 
-2.7.4
+Thanks for that!
 
+I have sent a v2 with this patch included.
+
+Alistair
+
+>
+> Alex
+>
+> On Sat, 8 Feb 2020 at 08:45, Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+>>
+>> On Tue, 2020-02-04 at 10:41 -0800, Alistair Francis wrote:
+>> > While we are upgrading let's refresh patches and remove the outdated
+>> > patches.
+>> >
+>> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+>>
+>> I think this stopped qemu running on the autobuilder, we saw many
+>> versions of:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/1538
+>>
+>> Failed to run qemu: qemu: can't parse 'vga' parameter: Invalid argument
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
