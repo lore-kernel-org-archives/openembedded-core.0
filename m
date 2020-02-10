@@ -1,55 +1,29 @@
-Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B61E60FA1
+Return-Path: <pjtexier@koncepto.io>
+X-Greylist: delayed 506 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 10 Feb 2020 21:34:34 UTC
+Received: from koncepto.io (koncepto.io [195.154.119.111])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FB9460FA1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 21:29:34 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id j7so3352651plt.1
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 13:29:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=uSOgRVFxehselO2YD4tIOgZSA48nXroOgHotdD0AkhI=;
-	b=FGA8TfyWIc2meE24UF4C8tOgOY0rKqevbkPIM0lFhMByQDHB3uNLdoDNpHfnzB/ZTs
-	fZRKD4XQYOckD+roubWOZ8sSrgxicqNtN2ekOMTdLvwRGIrvrBvw6b3IiSEPyJLp9N8Q
-	+9+XAQz0yNh/vk8wEoMG8LGAS13ZADbj/Hy48mxsGz1hoHnUX3DqWQLmIAOys+Vq6jLc
-	eTsk8ydG0OuKMY3RKrDRejBuEWwCLgD6TQPLhPIU+wqKpRkund28V3skX15fyZoSeJs0
-	BOM24/a/vy+viZ/CnoabvanrO4O3mzVk+ekFIQXdqhx8hobKC4poGqpmVh7NuJPyoin+
-	VOJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=uSOgRVFxehselO2YD4tIOgZSA48nXroOgHotdD0AkhI=;
-	b=r/MXoWniae+d57OS+X/t+Z2xlzY1KVuBuAf7taKFY4OZLrNpyZHbE/xVE1YUw5Ueh/
-	VoAlq3UY6CmD5KGRRw1765Q+fVJYXFDi4czw1rlYtGwS3xjEsygbGh35AcMl0Gqpxg/Z
-	O6zzmQjwe0UvN1YUC15YJFzefLSxy5PhqKKyl3g/wYmVk7a3b+WKfDw1CJUjXC7d8pHl
-	48MmKARi/XIBE0fN1H0T1FuzwRNIZjM551dgVW1dNAat43vBiK2dsFiLFoPfZn0Pt2Yw
-	E6v0Noo9kV2H6L3d+s9n1V3jXYlr4z5AY/xLf/qFSJL6zVCoMGY49h6E5gqDzx6uTLUx
-	BzkA==
-X-Gm-Message-State: APjAAAW+Q3RpMBjPRN9WdnTt90+ENeYZRmVnnpolBxqarPLaRPzBkVnQ
-	Nf2vuNhjTd6eplX0qJyxqNP8QiAROOg=
-X-Google-Smtp-Source: APXvYqyyi6G0DBDRzt+09CE22lv136OpYfKfxsxQqrQIchtM49Gme4Q6tAl2MGc/jXsq3/+cPDwE1Q==
-X-Received: by 2002:a17:90a:d985:: with SMTP id
-	d5mr1276571pjv.73.1581370175028; 
-	Mon, 10 Feb 2020 13:29:35 -0800 (PST)
-Received: from workhorse.localdomain
-	([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
-	by smtp.gmail.com with ESMTPSA id
-	z19sm1316337pfn.49.2020.02.10.13.29.33
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 10 Feb 2020 13:29:34 -0800 (PST)
-Sender: Jeremy Puhlman <jpuhlman@gmail.com>
-Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id 820D42A04D6; Mon, 10 Feb 2020 13:29:32 -0800 (PST)
-From: Jeremy Puhlman <jpuhlman@mvista.com>
+	Mon, 10 Feb 2020 21:34:34 +0000 (UTC)
+Received: from menoah.home (lfbn-bor-1-1001-35.w90-120.abo.wanadoo.fr
+	[90.120.192.35]) by koncepto.io (Postfix) with ESMTPSA id 3D1DF60022;
+	Mon, 10 Feb 2020 22:26:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
+	s=default; t=1581369964;
+	bh=qbGmIizEK6grPVyn7khRt7wVN5F8ZXhiZfUKVnwtEDU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oLlNw29bt28dF8hxPwFTBVVOKu16gBeWkQqOeLqXz2oG0E6ZshhNkXVf2j5tbF2bl
+	TaOiGhQpXkjXsgN81W4B3sJkDA/xp5olcY/0qZ3VTHnNw4DTu3e+ipXmcsysUBUOvR
+	q/z1A6LTj9W3FqCt73TQG7Bn+eiFK7UByIL59ZHzXKtEuY9bh5LT7ReYfUvbsUMk6Y
+	KpojqnGNseM0fpJ5zbkbV2OFuhe0OTi4HypoM52AEMeyvWdBW/HdK0UqJEENl/DL5/
+	vROurEU+cCy5dAmxtk5V1R/OUFAqpbYkaIDsE960KIJXK8lOuJWOpSDUmqrOdfxgVK
+	ZfVcjGoCACS+w==
+From: Pierre-Jean Texier <pjtexier@koncepto.io>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Feb 2020 13:29:26 -0800
-Message-Id: <20200210212926.24770-1-jpuhlman@mvista.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] binutils: additional patch should be added with space.
+Date: Mon, 10 Feb 2020 22:25:59 +0100
+Message-Id: <1581369959-17175-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] mtdev: upgrade 1.1.5 -> 1.1.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,32 +36,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 21:29:34 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 10 Feb 2020 21:34:34 -0000
 
-If an append adds a patch or file with SRC_URI += , the spaceless
-append causes the file listings to concatinate and cause failures
-in the nativesdk-binutils parse/build.
+Also remove patch which have been merged upstream
 
-Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 ---
- meta/recipes-devtools/binutils/binutils_2.33.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...-for-64bit-time_t-for-32bit-architectures.patch | 77 ----------------------
+ .../wayland/{mtdev_1.1.5.bb => mtdev_1.1.6.bb}     |  8 +--
+ 2 files changed, 3 insertions(+), 82 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/mtdev/0001-adjust-for-64bit-time_t-for-32bit-architectures.patch
+ rename meta/recipes-graphics/wayland/{mtdev_1.1.5.bb => mtdev_1.1.6.bb} (65%)
 
-diff --git a/meta/recipes-devtools/binutils/binutils_2.33.bb b/meta/recipes-devtools/binutils/binutils_2.33.bb
-index ecdab96658..8bd2bf778c 100644
---- a/meta/recipes-devtools/binutils/binutils_2.33.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.33.bb
-@@ -51,7 +51,7 @@ do_install_class-native () {
- PACKAGE_BEFORE_PN += "libbfd"
- FILES_libbfd = "${libdir}/libbfd-*.so"
+diff --git a/meta/recipes-graphics/wayland/mtdev/0001-adjust-for-64bit-time_t-for-32bit-architectures.patch b/meta/recipes-graphics/wayland/mtdev/0001-adjust-for-64bit-time_t-for-32bit-architectures.patch
+deleted file mode 100644
+index a0cebe5..0000000
+--- a/meta/recipes-graphics/wayland/mtdev/0001-adjust-for-64bit-time_t-for-32bit-architectures.patch
++++ /dev/null
+@@ -1,77 +0,0 @@
+-From af75e8ee3d12a493b758421b2feed0351fdcbbf0 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 23 Nov 2019 13:44:32 -0800
+-Subject: [PATCH] adjust for 64bit time_t for 32bit architectures
+-
+-libc that has support for 32 bit applications to use 64 bit
+-time_t supplies __USE_TIME_BITS64 define [1]
+-
+-[1] https://sourceware.org/glibc/wiki/Y2038ProofnessDesign
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/core.c        |  8 +++++++-
+- test/mtdev-test.c | 10 ++++++++--
+- 2 files changed, 15 insertions(+), 3 deletions(-)
+-
+-diff --git a/src/core.c b/src/core.c
+-index 87ef420..0d91c0b 100644
+---- a/src/core.c
+-+++ b/src/core.c
+-@@ -31,6 +31,11 @@
+- #include "evbuf.h"
+- #include "match.h"
+- 
+-+#ifndef input_event_sec
+-+#define input_event_sec time.tv_sec
+-+#define input_event_usec time.tv_usec
+-+#endif
+-+
+- static inline int istouch(const struct mtdev_slot *data,
+- 			  const struct mtdev *dev)
+- {
+-@@ -251,7 +256,8 @@ static void push_slot_changes(struct mtdev_state *state,
+- 			count++;
+- 	if (!count)
+- 		return;
+--	ev.time = syn->time;
+-+	ev.input_event_sec = syn->input_event_sec;
+-+	ev.input_event_usec = syn->input_event_usec;
+- 	ev.type = EV_ABS;
+- 	ev.code = ABS_MT_SLOT;
+- 	ev.value = slot;
+-diff --git a/test/mtdev-test.c b/test/mtdev-test.c
+-index 1b3e4f2..773f86a 100644
+---- a/test/mtdev-test.c
+-+++ b/test/mtdev-test.c
+-@@ -30,9 +30,15 @@
+- #include <stdio.h>
+- #include <unistd.h>
+- #include <fcntl.h>
+-+#include <stdint.h>
+-+
+-+#ifndef input_event_sec
+-+#define input_event_sec time.tv_sec
+-+#define input_event_usec time.tv_usec
+-+#endif
+- 
+- /* year-proof millisecond event time */
+--typedef __u64 mstime_t;
+-+typedef uint64_t mstime_t;
+- 
+- static int use_event(const struct input_event *ev)
+- {
+-@@ -47,7 +53,7 @@ static void print_event(const struct input_event *ev)
+- {
+- 	static const mstime_t ms = 1000;
+- 	static int slot;
+--	mstime_t evtime = ev->time.tv_usec / ms + ev->time.tv_sec * ms;
+-+	mstime_t evtime = ev->input_event_usec / ms + ev->input_event_sec * ms;
+- 	if (ev->type == EV_ABS && ev->code == ABS_MT_SLOT)
+- 		slot = ev->value;
+- 	fprintf(stderr, "%012llx %02d %01d %04x %d\n",
+--- 
+-2.24.0
+-
+diff --git a/meta/recipes-graphics/wayland/mtdev_1.1.5.bb b/meta/recipes-graphics/wayland/mtdev_1.1.6.bb
+similarity index 65%
+rename from meta/recipes-graphics/wayland/mtdev_1.1.5.bb
+rename to meta/recipes-graphics/wayland/mtdev_1.1.6.bb
+index aa8bb69..7c1cb5e 100644
+--- a/meta/recipes-graphics/wayland/mtdev_1.1.5.bb
++++ b/meta/recipes-graphics/wayland/mtdev_1.1.6.bb
+@@ -11,10 +11,8 @@ SECTION = "libs"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=ea6bd0268bb0fcd6b27698616ceee5d6"
  
--SRC_URI_append_class-nativesdk =  "file://nativesdk-relocation.patch"
-+SRC_URI_append_class-nativesdk =  " file://nativesdk-relocation.patch "
+-SRC_URI = "http://bitmath.org/code/${BPN}/${BP}.tar.bz2 \
+-           file://0001-adjust-for-64bit-time_t-for-32bit-architectures.patch \
+-"
+-SRC_URI[md5sum] = "52c9610b6002f71d1642dc1a1cca5ec1"
+-SRC_URI[sha256sum] = "6677d5708a7948840de734d8b4675d5980d4561171c5a8e89e54adf7a13eba7f"
++SRC_URI = "http://bitmath.org/code/${BPN}/${BP}.tar.bz2"
++SRC_URI[md5sum] = "bf8ef2482e84a00b5db8fbd3ce00e249"
++SRC_URI[sha256sum] = "15d7b28da8ac71d8bc8c9287c2045fd174267bc740bec10cfda332dc1204e0e0"
  
- USE_ALTERNATIVES_FOR_class-nativesdk = ""
- FILES_${PN}_append_class-nativesdk = " ${bindir}"
+ inherit autotools pkgconfig
 -- 
-2.20.1
+2.7.4
 
 
