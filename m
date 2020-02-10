@@ -1,51 +1,47 @@
-Return-Path: <persaur@gmail.com>
-Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com
-	[209.85.219.179])
-	by mail.openembedded.org (Postfix) with ESMTP id D9A5F601E6;
-	Mon, 10 Feb 2020 17:10:52 +0000 (UTC)
-Received: by mail-yb1-f179.google.com with SMTP id q190so909188ybg.3;
-	Mon, 10 Feb 2020 09:10:54 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 43ABB60926
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Feb 2020 17:13:28 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id v141so4599472vsv.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Feb 2020 09:13:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=content-transfer-encoding:from:mime-version:subject:message-id:date
-	:cc:to; bh=EwFSk5rCNPF14V7Hol66+lTrsPUHo8hlHGKF3ApDk1Q=;
-	b=gfQZjs5nyYFe9Zo9PXfxtfYty1VsHgYFUIziaEOulAOeo1bB4by4/3h/QiVISIY+rX
-	XSXiCdLbGIDl9K+s9MLWsD0iezS19rJbJMQrMsHO4P5hL5XggqLFmqwcAhjiZEE5bXVc
-	98AdtKUeYMxfJ7Kbkv7cpkIhOo4nmCVcX5X9OUc5LFs7IlzwRDEX87Y1R3huY+qXwxV8
-	A/pau7YJlqm4kN0iTiS+pnVjISUQDX8y1376eEIf+IUSkMa1fKja9QVhLc3cqeKHDh9/
-	bj2jDe95sQN1EhPuJoJhu6KMrr/PBZ+pqogMKOt/XXOhniEQUDR7fKNL1r3NyylIUpM3
-	ATTw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=o+3+XvmlqZj+OgV5FGkWVQqzlEwjJsP4ucflpX+afBI=;
+	b=h2XbMSniBQIHyKHGWZb/X/gVOZ66ncWuhjN2Kd5vd/kWRA0dJVeby7IWTk3MAoY25D
+	pb+F6iXXwkAUSHunOnSbj0DQ5ZFn91vx7Tr+/o6kqjFzJvmZmBWT132q/bct2tsWIqGY
+	USnmF/M1VW2GIMRhAUutQu7tEYDiEAF+6Z/2dgFrShzeMxekAl0c8+F5f6COqAhn5AK2
+	I03yVcD72VZvvVfxnrs3GtFn+UIyx4xZNe4o9SCSUpQ0IXUZfLaYKwG5aQ66SlVcCkFz
+	Xx5mfSsuh1CA4v0lJ4vdTgl/IGtz/PRGQsMSeUIUrjpsB4akoO9kN24Sz/AYD2gZfN3v
+	+/bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:content-transfer-encoding:from:mime-version
-	:subject:message-id:date:cc:to;
-	bh=EwFSk5rCNPF14V7Hol66+lTrsPUHo8hlHGKF3ApDk1Q=;
-	b=kve06n/thC6MM1FIH5K4M+LfWypvriSHrTwbPjcUy5S8m1gU9ttJepZlVCuQVxAPD4
-	d04PhBEL7IGTF4W806nSximAbO/75cuiX8cl4J/ehDNw5PawmLgia2b0UpC+ad0q4wqD
-	KC8CrWSHSnQ/PbRgqB2NPTBMSeNJKKqL8nr9NO94VxWMXWHdb1pLnV7H5qQFyFOvSDOp
-	ecmYR8ps5J0W/b/FcjmtivJKIRq0MfVmp8900MublXyGQmO7tqxbt2+U7yNzysjKuPFw
-	c/qBTPANaclVAz2NmgwsiLwPeXRQWXVfqKU7Yi2hZ2hWY56A9qZ8ZNAYCqKhK6lN2Txx
-	/imw==
-X-Gm-Message-State: APjAAAUn0uxjp2VdhiLm8fLP9MPy89gAZcwzi7GBAown3AXb8Dwp4/46
-	ZygrhxN+ti3BQHNHEkptVho=
-X-Google-Smtp-Source: APXvYqyL2dvmcJwCv5gWJHxrKp2/YV9QFnUg47H3dXtUhsPYUJxOOMnYES+aAEiJvV009rO/VDLvcw==
-X-Received: by 2002:a5b:14d:: with SMTP id c13mr2158833ybp.240.1581354653670; 
-	Mon, 10 Feb 2020 09:10:53 -0800 (PST)
-Received: from [100.64.72.61] ([173.245.215.240])
-	by smtp.gmail.com with ESMTPSA id
-	p204sm500611ywp.14.2020.02.10.09.10.52
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 10 Feb 2020 09:10:53 -0800 (PST)
-From: Rich Persaud <persaur@gmail.com>
-Mime-Version: 1.0 (1.0)
-Message-Id: <30A4CC9D-603A-458A-8ACD-EEC71389434A@gmail.com>
-Date: Mon, 10 Feb 2020 12:10:52 -0500
-To: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>
-X-Mailer: iPad Mail (17D50)
-Cc: Mark Hatle <mark.hatle@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>,
-	Ross Burton <ross.burton@intel.com>
-Subject: Re: [Openembedded-architecture] Incorporating deploy artefacts from one multiconfig in another multiconfig
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=o+3+XvmlqZj+OgV5FGkWVQqzlEwjJsP4ucflpX+afBI=;
+	b=CE0dpJ6EIfsu7qQSIwdhYlkCQwQiRkpb7O8ylKP1DIb5L7MSe/UtowxvCknN8OQ4lC
+	O028PYvyOfZYUxnKgpt1UoFLFxiuU0BRAMLkPcLUxFfuVF93JMcmdTAhDlsApYIB9hmN
+	v6O1kmgxSqEnudYabcNck5Ft6vTNRlyaNAYHQbD/vI0OazHqVc4BXiHX3tIiJHvI5InZ
+	fmZLIIREEa8sdTsVQwrzLdiWCve0oyN0OTpES8KSQNZT3R5N/ghWXenOYNouMQgnEBR8
+	Zst7lqwJa/yF5TZXuriYcwG3dCjUI3qq45+dN5e7wBKZhdCOL33KR/Ojkk8bTuAexGXV
+	9ZYA==
+X-Gm-Message-State: APjAAAUEA+O/P83wIznl4TZllYzExEnUokfOR37Azjv5Pakk49fDBV4E
+	DI0keF/0hWUdR4kiPS6JE77GkiEoS9A1lTlNOfc=
+X-Google-Smtp-Source: APXvYqxfMs5sn63ZhNn4r6TMyNb3m95Y5pIFHACwqKzppjoQnsG1V4wYAAz227+k3ovpvr2gdbSE99luOIJQGSHSOkQ=
+X-Received: by 2002:a05:6102:405:: with SMTP id
+	d5mr6896823vsq.94.1581354808974; 
+	Mon, 10 Feb 2020 09:13:28 -0800 (PST)
+MIME-Version: 1.0
+References: <CAKqUGW9ZMSWSdf_zPnH6RA7BihMcAK-0SOEW8T9EsTq8JGuN_g@mail.gmail.com>
+In-Reply-To: <CAKqUGW9ZMSWSdf_zPnH6RA7BihMcAK-0SOEW8T9EsTq8JGuN_g@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 10 Feb 2020 18:14:00 +0100
+Message-ID: <CANNYZj-ijJ-NgbbVuSjHEjK+N3aKpGr2zBhb0GgVy=Gt_zgvJg@mail.gmail.com>
+To: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] expat: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,208 +54,544 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 17:10:53 -0000
-Content-Type: multipart/alternative;
-	boundary=Apple-Mail-ACC1D051-30EE-4599-9DFA-A41E38A8CBBB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 10 Feb 2020 17:13:28 -0000
+Content-Type: multipart/alternative; boundary="000000000000a7223e059e3bdb9d"
 
---Apple-Mail-ACC1D051-30EE-4599-9DFA-A41E38A8CBBB
-Content-Type: text/plain;
-	charset=utf-8
+--000000000000a7223e059e3bdb9d
+Content-Type: text/plain; charset="UTF-8"
+
+You need to send your patch using 'git send-email', that will guarantee the
+correct format.
+
+Alex
+
+On Mon, 10 Feb 2020 at 17:50, Oleksandr Popovych via Openembedded-core <
+openembedded-core@lists.openembedded.org> wrote:
+
+> From dcf5a9b6199c3b1f4a6aad00334e69281bde3c34 Mon Sep 17 00:00:00 2001
+> From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> Date: Thu, 6 Feb 2020 18:14:28 +0200
+> Subject: [OE-core][PATCH] expat: Added ptest
+>
+> For ptest support for this package several additional patches and
+> run-ptest script were added and recipe was changed.
+>
+> Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> ---
+>  ...d-Makefile-targets-for-ptest-support.patch | 38 ++++++++++++++
+>  ...ort-for-ptests-in-form-of-new-target.patch | 31 ++++++++++++
+>  ...ed-suitable-format-of-tests-in-ptest.patch | 50 +++++++++++++++++++
+>  meta/recipes-core/expat/expat/run-ptest       |  3 ++
+>  meta/recipes-core/expat/expat_2.2.9.bb        | 12 ++++-
+>  5 files changed, 133 insertions(+), 1 deletion(-)
+>  create mode 100644
+>
+> meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+>  create mode 100644
+>
+> meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+>  create mode 100644
+>
+> meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+>  create mode 100644 meta/recipes-core/expat/expat/run-ptest
+>
+> diff --git
+> a/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+>
+> b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+> new file mode 100644
+> index 0000000000..32488060ee
+> --- /dev/null
+> +++
+> b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+> @@ -0,0 +1,38 @@
+> +From ce803ec3d7b095cb55686f9cd5d3f01d34a31a5e Mon Sep 17 00:00:00 2001
+> +From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +Date: Thu, 6 Feb 2020 13:41:45 +0200
+> +Subject: [PATCH 1/3] expat: Added Makefile targets for ptest support
+> +
+> +install-ptest, runtests and check tagrets are added.
+> +
+> +Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +---
+> + Makefile.am | 15 +++++++++++++++
+> + 1 file changed, 15 insertions(+)
+> +
+> +diff --git a/Makefile.am b/Makefile.am
+> +index 5e1d37d..c63b44a 100644
+> +--- a/Makefile.am
+> ++++ b/Makefile.am
+> +@@ -152,3 +152,18 @@ qa:
+> +     QA_COMPILER=clang QA_SANITIZER=memory    ./qa.sh
+> +     QA_COMPILER=clang QA_SANITIZER=undefined ./qa.sh
+> +     QA_COMPILER=gcc   QA_PROCESSOR=gcov      ./qa.sh
+> ++
+> ++.PHONY: install-ptest
+> ++install-ptest:
+> ++    echo $(S)
+> ++    (if [ -d tests/.libs ] ; then cd tests/.libs; fi; \
+> ++        install runtests runtestspp $(DESTDIR))
+> ++    cp Makefile $(DESTDIR)
+> ++    sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
+> ++
+> ++.PHONY: runtests
+> ++runtests:
+> ++    @echo "C variant of tests:"
+> ++    @$(CHECKER) ./runtests$(EXEEXT) -q
+> ++    @echo "C++ variant of tests:"
+> ++    @$(CHECKER) ./runtestspp$(EXEEXT) -q
+> +--
+> +2.17.1
+> +
+> diff --git
+> a/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+>
+> b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+> new file mode 100644
+> index 0000000000..cf8a2495e9
+> --- /dev/null
+> +++
+> b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+> @@ -0,0 +1,31 @@
+> +From 2b209a025f62fb1be7b32599aa80703ce8ecd76a Mon Sep 17 00:00:00 2001
+> +From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +Date: Thu, 6 Feb 2020 13:43:57 +0200
+> +Subject: [PATCH 2/3] expat: Added support for ptests in form of new target
+> +
+> +configure.am file changed, according to this advice:
+> +https://wiki.yoctoproject.org/wiki/Ptest#Building_the_test_suite
+> +
+> +Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +---
+> + configure.ac | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index d58ac03..8e6b41e 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -34,8 +34,8 @@ AC_CONFIG_SRCDIR([Makefile.in])
+> + AC_CONFIG_AUX_DIR([conftools])
+> + AC_CONFIG_MACRO_DIR([m4])
+> + AC_CANONICAL_HOST
+> +-AM_INIT_AUTOMAKE
+> +-
+> ++AM_INIT_AUTOMAKE([serial-tests])
+> ++AM_EXTRA_RECURSIVE_TARGETS([buildtest-TESTS])
+> +
+> + dnl
+> + dnl Increment LIBREVISION if source code has changed at all
+> +--
+> +2.17.1
+> +
+> diff --git
+> a/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+>
+> b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+> new file mode 100644
+> index 0000000000..5d1daefc92
+> --- /dev/null
+> +++
+> b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+> @@ -0,0 +1,50 @@
+> +From b2e236e238f8bab42651313ea198b27355945d97 Mon Sep 17 00:00:00 2001
+> +From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +Date: Thu, 6 Feb 2020 13:44:56 +0200
+> +Subject: [PATCH 3/3] expat: Added suitable format of tests in ptest
+> +
+> +Some changes in testcases code were applied for testcase engine.
+> +This was just adding of message outputs in "RESULT: TESTNAME" form...
+> +
+> +Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +---
+> + tests/minicheck.c | 4 ++++
+> + 1 file changed, 4 insertions(+)
+> +
+> +diff --git a/tests/minicheck.c b/tests/minicheck.c
+> +index a5a1efb..b39cda9 100644
+> +--- a/tests/minicheck.c
+> ++++ b/tests/minicheck.c
+> +@@ -164,6 +164,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
+> +       if (tc->setup != NULL) {
+> +         /* setup */
+> +         if (setjmp(env)) {
+> ++          printf("SKIP: %s\n", _check_current_function);
+> +           add_failure(runner, verbosity);
+> +           continue;
+> +         }
+> +@@ -171,6 +172,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
+> +       }
+> +       /* test */
+> +       if (setjmp(env)) {
+> ++        printf("FAIL: %s\n", _check_current_function);
+> +         add_failure(runner, verbosity);
+> +         continue;
+> +       }
+> +@@ -179,11 +181,13 @@ srunner_run_all(SRunner *runner, int verbosity) {
+> +       /* teardown */
+> +       if (tc->teardown != NULL) {
+> +         if (setjmp(env)) {
+> ++          printf("PASS: %s\n", _check_current_function);
+> +           add_failure(runner, verbosity);
+> +           continue;
+> +         }
+> +         tc->teardown();
+> +       }
+> ++      printf("PASS: %s\n", _check_current_function);
+> +     }
+> +     tc = tc->next_tcase;
+> +   }
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-core/expat/expat/run-ptest
+> b/meta/recipes-core/expat/expat/run-ptest
+> new file mode 100644
+> index 0000000000..df994c0838
+> --- /dev/null
+> +++ b/meta/recipes-core/expat/expat/run-ptest
+> @@ -0,0 +1,3 @@
+> +#!/bin/bash
+> +
+> +make -k runtests
+> diff --git a/meta/recipes-core/expat/expat_2.2.9.bb
+> b/meta/recipes-core/expat/expat_2.2.9.bb
+> index 8f3db41352..420ffddc80 100644
+> --- a/meta/recipes-core/expat/expat_2.2.9.bb
+> +++ b/meta/recipes-core/expat/expat_2.2.9.bb
+> @@ -8,15 +8,25 @@ LIC_FILES_CHKSUM =
+> "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
+>
+>  SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+>             file://libtool-tag.patch \
+> +       file://0001-expat-Added-Makefile-targets-for-ptest-support.patch \
+> +
+>  file://0002-expat-Added-support-for-ptests-in-form-of-new-target.patch \
+> +       file://0003-expat-Added-suitable-format-of-tests-in-ptest.patch \
+> +       file://run-ptest \
+>        "
+>
+>  SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+>  SRC_URI[sha256sum] =
+> "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
+>
+> -inherit autotools lib_package
+> +inherit autotools ptest lib_package
+> +
+> +RDEPENDS_${PN}-ptest += "make bash"
+>
+>
+>  do_configure_prepend () {
+>      rm -f ${S}/conftools/libtool.m4
+>  }
+>
+> +do_compile_ptest() {
+> +    oe_runmake buildtest-TESTS
+> +}
+> +
+>  BBCLASSEXTEND = "native nativesdk"
+> --
+> 2.17.1
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--000000000000a7223e059e3bdb9d
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Feb 21, 2019, at 18:51, Richard Purdie <richard.purdie@linuxfoundation.or=
-g> wrote:
->=20
-> =EF=BB=BFMulticonfig is meant to support this workflow. Unfortunately ther=
-e are
-> open bugs and people haven't the time to work on it so its stalled.
-> That said, the key pieces are already there.
->=20
-> A picture is worth a thousand words. I thought a demo might interest
-> people and "prove" this can work.
->=20
-> To make it work you need four patches:
->=20
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurdie/t222=
-&id=3Db896b2238c100d486e7c43992b49001150749d04
->=20
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurdie/t222=
-&id=3De5ef6b008e85f42b5e4ffd72fae7036dd68b2ea5
->=20
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurdie/t222=
-&id=3D5d2bd43d14315ef3212e0d09a16446bd74305a2f
->=20
-> http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Drpurdie/t222=
-&id=3Dabdb83576b699448b76293294809aaa04b8e853b
->=20
-> The first two are fixes from Alejandro which haven't merged as they're
-> not right. The third patch was me hitting the fixes and bitbake to make
-> the demo work. That proves they're not right and hints at where we have
-> some problems in bitbake too. We can get those issues sorted fairly
-> easily and I'm going to block 2.7 M3 on them.
->=20
-> The final patch is the interesting one.
->=20
-> It adds a layer, meta-multiconfig-example layer with a README about how
-> to configure it. Basically you create two multiconfig configurations,
-> "musl" and "tiny".
->=20
-> The demo is to run "bitbake core-image-full-cmdline".
->=20
-> The result is a core-image-full-cmdline image with a tiny qemux86 image
-> and a musl based qemux86-64 image installed into /var/lib/machines/
->=20
-> The way it does this is creative, having a recipe called image-packer
-> which creates virtclass variants of itself which depend on the
-> appropriate multiconfig. It pulls in the images and creates a package
-> containing them which the bbappend to core-image-full-cmdline can then
-> install. It'd be very easy to turn this into a list driven piece of
-> code rather than the two values currently listed.
->=20
-> Its late here, some of the above code is horrible. I have rushed this
-> but hopefully it shows this is possible! :)
->=20
-> I've love to turn this into an oe-selftest, that is my ultimate=20
-> intention for this code.
->=20
-> As things stand today you can't query one multiconfig from another. As
-> this demo shows, that doesn't need to stop you making interesting
-> things though. We will do something with such querying eventually to
-> make things easier but until then, much is still possible.
+<div dir=3D"ltr">You need to send your patch using &#39;git send-email&#39;=
+, that will guarantee the correct format.<div><br></div><div>Alex</div></di=
+v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On M=
+on, 10 Feb 2020 at 17:50, Oleksandr Popovych via Openembedded-core &lt;<a h=
+ref=3D"mailto:openembedded-core@lists.openembedded.org">openembedded-core@l=
+ists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-st=
+yle:solid;border-left-color:rgb(204,204,204);padding-left:1ex">From dcf5a9b=
+6199c3b1f4a6aad00334e69281bde3c34 Mon Sep 17 00:00:00 2001<br>
+From: Oleksandr Popovych &lt;<a href=3D"mailto:oleksandr.s.popovych@globall=
+ogic.com" target=3D"_blank">oleksandr.s.popovych@globallogic.com</a>&gt;<br=
+>
+Date: Thu, 6 Feb 2020 18:14:28 +0200<br>
+Subject: [OE-core][PATCH] expat: Added ptest<br>
+<br>
+For ptest support for this package several additional patches and<br>
+run-ptest script were added and recipe was changed.<br>
+<br>
+Signed-off-by: Oleksandr Popovych &lt;<a href=3D"mailto:oleksandr.s.popovyc=
+h@globallogic.com" target=3D"_blank">oleksandr.s.popovych@globallogic.com</=
+a>&gt;<br>
+---<br>
+=C2=A0...d-Makefile-targets-for-ptest-support.patch | 38 ++++++++++++++<br>
+=C2=A0...ort-for-ptests-in-form-of-new-target.patch | 31 ++++++++++++<br>
+=C2=A0...ed-suitable-format-of-tests-in-ptest.patch | 50 ++++++++++++++++++=
++<br>
+=C2=A0meta/recipes-core/expat/expat/run-ptest=C2=A0 =C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 3 ++<br>
+=C2=A0meta/recipes-core/expat/<a href=3D"http://expat_2.2.9.bb" rel=3D"nore=
+ferrer" target=3D"_blank">expat_2.2.9.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1=
+2 ++++-<br>
+=C2=A05 files changed, 133 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644<br>
+meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-s=
+upport.patch<br>
+=C2=A0create mode 100644<br>
+meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-o=
+f-new-target.patch<br>
+=C2=A0create mode 100644<br>
+meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-=
+ptest.patch<br>
+=C2=A0create mode 100644 meta/recipes-core/expat/expat/run-ptest<br>
+<br>
+diff --git a/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-target=
+s-for-ptest-support.patch<br>
+b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest=
+-support.patch<br>
+new file mode 100644<br>
+index 0000000000..32488060ee<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-p=
+test-support.patch<br>
+@@ -0,0 +1,38 @@<br>
++From ce803ec3d7b095cb55686f9cd5d3f01d34a31a5e Mon Sep 17 00:00:00 2001<br>
++From: Oleksandr Popovych &lt;<a href=3D"mailto:oleksandr.s.popovych@global=
+logic.com" target=3D"_blank">oleksandr.s.popovych@globallogic.com</a>&gt;<b=
+r>
++Date: Thu, 6 Feb 2020 13:41:45 +0200<br>
++Subject: [PATCH 1/3] expat: Added Makefile targets for ptest support<br>
++<br>
++install-ptest, runtests and check tagrets are added.<br>
++<br>
++Signed-off-by: Oleksandr Popovych &lt;<a href=3D"mailto:oleksandr.s.popovy=
+ch@globallogic.com" target=3D"_blank">oleksandr.s.popovych@globallogic.com<=
+/a>&gt;<br>
++---<br>
++ Makefile.am | 15 +++++++++++++++<br>
++ 1 file changed, 15 insertions(+)<br>
++<br>
++diff --git a/Makefile.am b/Makefile.am<br>
++index 5e1d37d..c63b44a 100644<br>
++--- a/Makefile.am<br>
+++++ b/Makefile.am<br>
++@@ -152,3 +152,18 @@ qa:<br>
++=C2=A0 =C2=A0 =C2=A0QA_COMPILER=3Dclang QA_SANITIZER=3Dmemory=C2=A0 =C2=A0=
+ ./qa.sh<br>
++=C2=A0 =C2=A0 =C2=A0QA_COMPILER=3Dclang QA_SANITIZER=3Dundefined ./qa.sh<b=
+r>
++=C2=A0 =C2=A0 =C2=A0QA_COMPILER=3Dgcc=C2=A0 =C2=A0QA_PROCESSOR=3Dgcov=C2=
+=A0 =C2=A0 =C2=A0 ./qa.sh<br>
+++<br>
+++.PHONY: install-ptest<br>
+++install-ptest:<br>
+++=C2=A0 =C2=A0 echo $(S)<br>
+++=C2=A0 =C2=A0 (if [ -d tests/.libs ] ; then cd tests/.libs; fi; \<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 install runtests runtestspp $(DESTDIR))<br>
+++=C2=A0 =C2=A0 cp Makefile $(DESTDIR)<br>
+++=C2=A0 =C2=A0 sed -i -e &#39;s|^Makefile:|_Makefile:|&#39; $(DESTDIR)/Mak=
+efile<br>
+++<br>
+++.PHONY: runtests<br>
+++runtests:<br>
+++=C2=A0 =C2=A0 @echo &quot;C variant of tests:&quot;<br>
+++=C2=A0 =C2=A0 @$(CHECKER) ./runtests$(EXEEXT) -q<br>
+++=C2=A0 =C2=A0 @echo &quot;C++ variant of tests:&quot;<br>
+++=C2=A0 =C2=A0 @$(CHECKER) ./runtestspp$(EXEEXT) -q<br>
++--<br>
++2.17.1<br>
++<br>
+diff --git a/meta/recipes-core/expat/expat/0002-expat-Added-support-for-pte=
+sts-in-form-of-new-target.patch<br>
+b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form=
+-of-new-target.patch<br>
+new file mode 100644<br>
+index 0000000000..cf8a2495e9<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-=
+form-of-new-target.patch<br>
+@@ -0,0 +1,31 @@<br>
++From 2b209a025f62fb1be7b32599aa80703ce8ecd76a Mon Sep 17 00:00:00 2001<br>
++From: Oleksandr Popovych &lt;<a href=3D"mailto:oleksandr.s.popovych@global=
+logic.com" target=3D"_blank">oleksandr.s.popovych@globallogic.com</a>&gt;<b=
+r>
++Date: Thu, 6 Feb 2020 13:43:57 +0200<br>
++Subject: [PATCH 2/3] expat: Added support for ptests in form of new target=
+<br>
++<br>
++<a href=3D"http://configure.am" rel=3D"noreferrer" target=3D"_blank">confi=
+gure.am</a> file changed, according to this advice:<br>
++<a href=3D"https://wiki.yoctoproject.org/wiki/Ptest#Building_the_test_suit=
+e" rel=3D"noreferrer" target=3D"_blank">https://wiki.yoctoproject.org/wiki/=
+Ptest#Building_the_test_suite</a><br>
++<br>
++Signed-off-by: Oleksandr Popovych &lt;<a href=3D"mailto:oleksandr.s.popovy=
+ch@globallogic.com" target=3D"_blank">oleksandr.s.popovych@globallogic.com<=
+/a>&gt;<br>
++---<br>
++ <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank">conf=
+igure.ac</a> | 4 ++--<br>
++ 1 file changed, 2 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"=
+_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"noreferre=
+r" target=3D"_blank">configure.ac</a><br>
++index d58ac03..8e6b41e 100644<br>
++--- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
+>configure.ac</a><br>
+++++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
+>configure.ac</a><br>
++@@ -34,8 +34,8 @@ AC_CONFIG_SRCDIR([Makefile.in])<br>
++ AC_CONFIG_AUX_DIR([conftools])<br>
++ AC_CONFIG_MACRO_DIR([m4])<br>
++ AC_CANONICAL_HOST<br>
++-AM_INIT_AUTOMAKE<br>
++-<br>
+++AM_INIT_AUTOMAKE([serial-tests])<br>
+++AM_EXTRA_RECURSIVE_TARGETS([buildtest-TESTS])<br>
++<br>
++ dnl<br>
++ dnl Increment LIBREVISION if source code has changed at all<br>
++--<br>
++2.17.1<br>
++<br>
+diff --git a/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format=
+-of-tests-in-ptest.patch<br>
+b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-i=
+n-ptest.patch<br>
+new file mode 100644<br>
+index 0000000000..5d1daefc92<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tes=
+ts-in-ptest.patch<br>
+@@ -0,0 +1,50 @@<br>
++From b2e236e238f8bab42651313ea198b27355945d97 Mon Sep 17 00:00:00 2001<br>
++From: Oleksandr Popovych &lt;<a href=3D"mailto:oleksandr.s.popovych@global=
+logic.com" target=3D"_blank">oleksandr.s.popovych@globallogic.com</a>&gt;<b=
+r>
++Date: Thu, 6 Feb 2020 13:44:56 +0200<br>
++Subject: [PATCH 3/3] expat: Added suitable format of tests in ptest<br>
++<br>
++Some changes in testcases code were applied for testcase engine.<br>
++This was just adding of message outputs in &quot;RESULT: TESTNAME&quot; fo=
+rm...<br>
++<br>
++Signed-off-by: Oleksandr Popovych &lt;<a href=3D"mailto:oleksandr.s.popovy=
+ch@globallogic.com" target=3D"_blank">oleksandr.s.popovych@globallogic.com<=
+/a>&gt;<br>
++---<br>
++ tests/minicheck.c | 4 ++++<br>
++ 1 file changed, 4 insertions(+)<br>
++<br>
++diff --git a/tests/minicheck.c b/tests/minicheck.c<br>
++index a5a1efb..b39cda9 100644<br>
++--- a/tests/minicheck.c<br>
+++++ b/tests/minicheck.c<br>
++@@ -164,6 +164,7 @@ srunner_run_all(SRunner *runner, int verbosity) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (tc-&gt;setup !=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0/* setup */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (setjmp(env)) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;SKIP: %s\n&quot;, _check_=
+current_function);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0add_failure(runner, verbosity);<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++@@ -171,6 +172,7 @@ srunner_run_all(SRunner *runner, int verbosity) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* test */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (setjmp(env)) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;FAIL: %s\n&quot;, _check_current=
+_function);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0add_failure(runner, verbosity);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++@@ -179,11 +181,13 @@ srunner_run_all(SRunner *runner, int verbosity) {<br=
+>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0/* teardown */<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if (tc-&gt;teardown !=3D NULL) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (setjmp(env)) {<br>
+++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 printf(&quot;PASS: %s\n&quot;, _check_=
+current_function);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0add_failure(runner, verbosity);<b=
+r>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tc-&gt;teardown();<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+++=C2=A0 =C2=A0 =C2=A0 printf(&quot;PASS: %s\n&quot;, _check_current_functi=
+on);<br>
++=C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 =C2=A0tc =3D tc-&gt;next_tcase;<br>
++=C2=A0 =C2=A0}<br>
++--<br>
++2.17.1<br>
++<br>
+diff --git a/meta/recipes-core/expat/expat/run-ptest<br>
+b/meta/recipes-core/expat/expat/run-ptest<br>
+new file mode 100644<br>
+index 0000000000..df994c0838<br>
+--- /dev/null<br>
++++ b/meta/recipes-core/expat/expat/run-ptest<br>
+@@ -0,0 +1,3 @@<br>
++#!/bin/bash<br>
++<br>
++make -k runtests<br>
+diff --git a/meta/recipes-core/expat/<a href=3D"http://expat_2.2.9.bb" rel=
+=3D"noreferrer" target=3D"_blank">expat_2.2.9.bb</a><br>
+b/meta/recipes-core/expat/<a href=3D"http://expat_2.2.9.bb" rel=3D"noreferr=
+er" target=3D"_blank">expat_2.2.9.bb</a><br>
+index 8f3db41352..420ffddc80 100644<br>
+--- a/meta/recipes-core/expat/<a href=3D"http://expat_2.2.9.bb" rel=3D"nore=
+ferrer" target=3D"_blank">expat_2.2.9.bb</a><br>
++++ b/meta/recipes-core/expat/<a href=3D"http://expat_2.2.9.bb" rel=3D"nore=
+ferrer" target=3D"_blank">expat_2.2.9.bb</a><br>
+@@ -8,15 +8,25 @@ LIC_FILES_CHKSUM =3D<br>
+&quot;file://COPYING;md5=3D5b8620d98e49772d95fc1d291c26aa79&quot;<br>
+<br>
+=C2=A0SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \<b=
+r>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://libtool-tag.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-expat-Added-Makefile-targets-for-pt=
+est-support.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-expat-Added-support-for-ptests-in-f=
+orm-of-new-target.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-expat-Added-suitable-format-of-test=
+s-in-ptest.patch \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;875a2c2ff3e8eb9e5a5cd62db2033ab5&quot;<br>
+=C2=A0SRC_URI[sha256sum] =3D<br>
+&quot;f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237&quot=
+;<br>
+<br>
+-inherit autotools lib_package<br>
++inherit autotools ptest lib_package<br>
++<br>
++RDEPENDS_${PN}-ptest +=3D &quot;make bash&quot;<br>
+<br>
+<br>
+=C2=A0do_configure_prepend () {<br>
+=C2=A0 =C2=A0 =C2=A0rm -f ${S}/conftools/libtool.m4<br>
+=C2=A0}<br>
+<br>
++do_compile_ptest() {<br>
++=C2=A0 =C2=A0 oe_runmake buildtest-TESTS<br>
++}<br>
++<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+--<br>
+2.17.1<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-For search engines: the multiconfig demo from this thread is now is an oe-se=
-lftest:
-
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-selftest/recipes-t=
-est/multiconfig/multiconfig-image-packager_0.1.bb
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/lib/oeqa/selftest/=
-cases/multiconfig.py
-
-Are there other public examples of combining artifacts from different machin=
-es into a single image via multiconfig?  We can include them in a doc update=
- for Dunfell.  A list of use cases could motivate more people to try multico=
-nfig.
-
-For developer workflows, multiconfig can accelerate multi-image builds (more=
- parallelism) but slow single-package builds (more recipe parsing).  As a wo=
-rkaround, BBMULTICONFIG=3D"" restores the speed of building a target for a s=
-ingle MACHINE+DISTRO config.
-
-Is there a better way to disable multiconfig for a single bitbake invocation=
-?  Bitbake currently requires a MACHINE to be specified for multiconfig buil=
-ds.  It also accepts non-multiconfig target names, even when BBMULTICONFIG i=
-s defined.  =46rom a usability point of view, this CLI syntax could distingu=
-ish the two workflows:
-
-  standard build:  MACHINE=3Dfoo bitbake singleconfig-image =20
-  multiconfig build:  bitbake mc::multiconfig-image
-
-Rich=
-
---Apple-Mail-ACC1D051-30EE-4599-9DFA-A41E38A8CBBB
-Content-Type: text/html;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><meta http-equiv=3D"content-type" content=3D"text/html; charset=3D=
-utf-8"></head><body dir=3D"auto"><div dir=3D"ltr">On Feb 21, 2019, at 18:51,=
- Richard Purdie &lt;richard.purdie@linuxfoundation.org&gt; wrote:<div dir=3D=
-"ltr"><blockquote type=3D"cite"><span></span><br></blockquote><blockquote ty=
-pe=3D"cite"><span>=EF=BB=BFMulticonfig is meant to support this workflow. Un=
-fortunately there are</span><br></blockquote><blockquote type=3D"cite"><span=
->open bugs and people haven't the time to work on it so its stalled.</span><=
-br></blockquote><blockquote type=3D"cite"><span>That said, the key pieces ar=
-e already there.</span><br></blockquote><blockquote type=3D"cite"><span></sp=
-an><br></blockquote><blockquote type=3D"cite"><span>A picture is worth a tho=
-usand words. I thought a demo might interest</span><br></blockquote><blockqu=
-ote type=3D"cite"><span>people and "prove" this can work.</span><br></blockq=
-uote><blockquote type=3D"cite"><span></span><br></blockquote><blockquote typ=
-e=3D"cite"><span>To make it work you need four patches:</span><br></blockquo=
-te><blockquote type=3D"cite"><span></span><br></blockquote><blockquote type=3D=
-"cite"><span>http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=3Dr=
-purdie/t222&amp;id=3Db896b2238c100d486e7c43992b49001150749d04</span><br></bl=
-ockquote><blockquote type=3D"cite"><span></span><br></blockquote><blockquote=
- type=3D"cite"><span>http://git.yoctoproject.org/cgit.cgi/poky-contrib/commi=
-t/?h=3Drpurdie/t222&amp;id=3De5ef6b008e85f42b5e4ffd72fae7036dd68b2ea5</span>=
-<br></blockquote><blockquote type=3D"cite"><span></span><br></blockquote><bl=
-ockquote type=3D"cite"><span>http://git.yoctoproject.org/cgit.cgi/poky-contr=
-ib/commit/?h=3Drpurdie/t222&amp;id=3D5d2bd43d14315ef3212e0d09a16446bd74305a2=
-f</span><br></blockquote><blockquote type=3D"cite"><span></span><br></blockq=
-uote><blockquote type=3D"cite"><span>http://git.yoctoproject.org/cgit.cgi/po=
-ky-contrib/commit/?h=3Drpurdie/t222&amp;id=3Dabdb83576b699448b76293294809aaa=
-04b8e853b</span><br></blockquote><blockquote type=3D"cite"><span></span><br>=
-</blockquote><blockquote type=3D"cite"><span>The first two are fixes from Al=
-ejandro which haven't merged as they're</span><br></blockquote><blockquote t=
-ype=3D"cite"><span>not right. The third patch was me hitting the fixes and b=
-itbake to make</span><br></blockquote><blockquote type=3D"cite"><span>the de=
-mo work. That proves they're not right and hints at where we have</span><br>=
-</blockquote><blockquote type=3D"cite"><span>some problems in bitbake too. W=
-e can get those issues sorted fairly</span><br></blockquote><blockquote type=
-=3D"cite"><span>easily and I'm going to block 2.7 M3 on them.</span><br></bl=
-ockquote><blockquote type=3D"cite"><span></span><br></blockquote><blockquote=
- type=3D"cite"><span>The final patch is the interesting one.</span><br></blo=
-ckquote><blockquote type=3D"cite"><span></span><br></blockquote><blockquote t=
-ype=3D"cite"><span>It adds a layer, meta-multiconfig-example layer with a RE=
-ADME about how</span><br></blockquote><blockquote type=3D"cite"><span>to con=
-figure it. Basically you create two multiconfig configurations,</span><br></=
-blockquote><blockquote type=3D"cite"><span>"musl" and "tiny".</span></blockq=
-uote><blockquote type=3D"cite"><span></span><br></blockquote><blockquote typ=
-e=3D"cite"><span>The demo is to run "bitbake core-image-full-cmdline".</span=
-><br></blockquote><blockquote type=3D"cite"><span></span><br></blockquote><b=
-lockquote type=3D"cite"><span>The result is a core-image-full-cmdline image w=
-ith a tiny qemux86 image</span><br></blockquote><blockquote type=3D"cite"><s=
-pan>and a musl based qemux86-64 image installed into /var/lib/machines/</spa=
-n><br></blockquote><blockquote type=3D"cite"><span></span><br></blockquote><=
-blockquote type=3D"cite"><span>The way it does this is creative, having a re=
-cipe called image-packer</span><br></blockquote><blockquote type=3D"cite"><s=
-pan>which creates virtclass variants of itself which depend on the</span><br=
-></blockquote><blockquote type=3D"cite"><span>appropriate multiconfig. It pu=
-lls in the images and creates a package</span><br></blockquote><blockquote t=
-ype=3D"cite"><span>containing them which the bbappend to core-image-full-cmd=
-line can then</span><br></blockquote><blockquote type=3D"cite"><span>install=
-. It'd be very easy to turn this into a list driven piece of</span><br></blo=
-ckquote><blockquote type=3D"cite"><span>code rather than the two values curr=
-ently listed.</span><br></blockquote><blockquote type=3D"cite"><span></span>=
-<br></blockquote><blockquote type=3D"cite"><span>Its late here, some of the a=
-bove code is horrible. I have rushed this</span><br></blockquote><blockquote=
- type=3D"cite"><span>but hopefully it shows this is possible! :)</span><br><=
-/blockquote><blockquote type=3D"cite"><span></span><br></blockquote><blockqu=
-ote type=3D"cite"><span>I've love to turn this into an oe-selftest, that is m=
-y ultimate </span><br></blockquote><blockquote type=3D"cite"><span>intention=
- for this code.</span><br></blockquote><blockquote type=3D"cite"><span></spa=
-n><br></blockquote><blockquote type=3D"cite"><span>As things stand today you=
- can't query one multiconfig from another. As</span><br></blockquote><blockq=
-uote type=3D"cite"><span>this demo shows, that doesn't need to stop you maki=
-ng interesting</span><br></blockquote><blockquote type=3D"cite"><span>things=
- though. We will do something with such querying eventually to</span><br></b=
-lockquote><blockquote type=3D"cite"><span>make things easier but until then,=
- much is still possible.</span></blockquote><br></div><div dir=3D"ltr">For s=
-earch engines: the multiconfig demo from this thread is now is an oe-selftes=
-t:</div><div dir=3D"ltr"><br></div><div dir=3D"ltr"><div dir=3D"ltr"><a href=
-=3D"https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta-selftest/recip=
-es-test/multiconfig/multiconfig-image-packager_0.1.bb">https://git.yoctoproj=
-ect.org/cgit/cgit.cgi/poky/tree/meta-selftest/recipes-test/multiconfig/multi=
-config-image-packager_0.1.bb</a></div></div><div dir=3D"ltr"><a href=3D"http=
-s://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/lib/oeqa/selftest/case=
-s/multiconfig.py">https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/=
-lib/oeqa/selftest/cases/multiconfig.py</a></div><div dir=3D"ltr"><br></div><=
-div dir=3D"ltr">Are there other public examples of combining artifacts from d=
-ifferent machines into a single image via multiconfig? &nbsp;We can include t=
-hem in a doc update for Dunfell. &nbsp;A list of use cases could motivate mo=
-re people to try multiconfig.</div><div dir=3D"ltr"><br></div><div dir=3D"lt=
-r">For developer workflows, multiconfig can accelerate multi-image builds (m=
-ore parallelism) but slow single-package builds (more recipe parsing). &nbsp=
-;As a workaround, BBMULTICONFIG=3D"" restores the speed of building a target=
- for a single MACHINE+DISTRO config.</div><div dir=3D"ltr"><br></div><div di=
-r=3D"ltr">Is there a better way to disable multiconfig for a single bitbake i=
-nvocation? &nbsp;Bitbake currently requires a MACHINE to be specified for mu=
-lticonfig builds. &nbsp;It also accepts non-multiconfig target names, even w=
-hen BBMULTICONFIG is defined. &nbsp;=46rom a usability point of view, this C=
-LI syntax could distinguish the two workflows:</div><div dir=3D"ltr"><br></d=
-iv><div dir=3D"ltr">&nbsp; standard build: &nbsp;MACHINE=3Dfoo bitbake singl=
-econfig-image &nbsp;</div><div dir=3D"ltr">&nbsp; multiconfig build: &nbsp;b=
-itbake mc::multiconfig-image</div><div dir=3D"ltr"><br></div><div dir=3D"ltr=
-">Rich</div></div></body></html>=
-
---Apple-Mail-ACC1D051-30EE-4599-9DFA-A41E38A8CBBB--
+--000000000000a7223e059e3bdb9d--
