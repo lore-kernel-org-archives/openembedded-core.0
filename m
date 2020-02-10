@@ -1,53 +1,24 @@
-Return-Path: <maxime.roussinbelanger@gmail.com>
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com
-	[209.85.219.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 03D0660FBF
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 46DBB60698
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 21:42:14 +0000 (UTC)
-Received: by mail-qv1-f47.google.com with SMTP id dc14so3964208qvb.9
+	Mon, 10 Feb 2020 23:46:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01ANkEAH019257
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 13:42:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=hAesYGWWpIgbRLBgiZc5vBe9bgMe8bfMIl48gTyYW8E=;
-	b=U17r7pyWgx7OaeOF1jB4thHKi6odW4Ww/jmEJqog6vRMOyClP3jdqJql+EHGg1TfYa
-	6pyu2twpSAWxrZkZfP72acAUYTpFeKMd2FtT8Ug4vmP55GjxbBItC4s3kzqtYponMdjF
-	A7SPAj93cld+yxuKZsUBkyjpNo9UTylT9rJomsbQ7/vAIPGpgkORgvSVtanmyjR99PXP
-	683x4iY6eyrOcHt6TC4qqZtiiK8+fAn4+/M7u1lxYqIEZu5rMpvKNAMM+fiMIzwmDgeM
-	0VgZ6A+XUR2wqjKPiE/NarobsEZzEs+5svVbVURr5shdbKOXfwd7poOMhu+EcLXam/Ux
-	iElw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=hAesYGWWpIgbRLBgiZc5vBe9bgMe8bfMIl48gTyYW8E=;
-	b=UiqhfKy1Z7ZT2XOSf/9/1xPdwLnd3IbJ7LsRuJ5jUbXTk1FBWdHMiAgJbxdSdKC3DZ
-	P3G9s7JvhMdBlJJGZLCz/ycrxtBbnDb/8A5XJ8V3DgyxqZ6E6/wGb9/YMGFThvRK1Aeo
-	T7iAfZjI2xW/iCFQfUbMpLW8cVOsbjVqHFuxjWel5mJww4fu5DfCRJ+fHtq3hLJZD68G
-	LjmeOgEHQLQspakDXxYZaa7++jQ6mBcu3GPVRI8ZmHFXL3qI4nyKRVoR0IFUGvY9DPnq
-	7SAfUi6D6fAZLTdVjatb1qUBZ12HX7+zzSYCuyeFKU3+YDjukfVs2fWl56A51wDMP7LO
-	Fyyg==
-X-Gm-Message-State: APjAAAUxU4R4mgFdVh/szYJM4c4TVvGhK1186etLdoutVWdDFJb1EO4F
-	AiBAq3eDfusRB3f6O3sEhD74GIhnL4U=
-X-Google-Smtp-Source: APXvYqx/W9SeMN6kytHeTIbY6QfMZH6vXCCZ4vevpI4ZGIIdEO2c+f9lPJ5i8IeazTxCdf3/h55DUA==
-X-Received: by 2002:a05:6214:118d:: with SMTP id
-	t13mr11831824qvv.5.1581370935617; 
-	Mon, 10 Feb 2020 13:42:15 -0800 (PST)
-Received: from mbedesk.Sonatest.net
-	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
-	[174.94.156.236])
-	by smtp.gmail.com with ESMTPSA id 135sm842758qkj.55.2020.02.10.13.42.14
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 10 Feb 2020 13:42:15 -0800 (PST)
-From: =?UTF-8?q?Maxime=20Roussin-B=C3=A9langer?=
-	<maxime.roussinbelanger@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 10 Feb 2020 16:42:11 -0500
-Message-Id: <20200210214211.2696-1-maxime.roussinbelanger@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Mon, 10 Feb 2020 15:46:25 -0800
+Received: from yow-tgamblin-fedora2.wrs.com (128.224.56.206) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
+	14.3.468.0; Mon, 10 Feb 2020 15:46:03 -0800
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 10 Feb 2020 18:46:03 -0500
+Message-ID: <20200210234603.1718190-1-trevor.gamblin@windriver.com>
+X-Mailer: git-send-email 2.24.1
 MIME-Version: 1.0
-Subject: [PATCH] wpa-supplicant: add virtual supplicant
+Subject: [PATCH v2] bitbake-buildall: automate build testing for qemu MACHINEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,50 +31,197 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 21:42:15 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 10 Feb 2020 23:46:34 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-There is a second supplicant raising, iwd. User should be
-able to switch between wpa-supplicant and iwd. Let's provide
-a virtual package.
+bitbake-buildall simplifies the process of build testing an upgraded or
+patched recipe by cycling through the build steps for each available qemu
+target, with desired LIBC specified by the user as an option (defaulting
+to both glibc and musl if no option is provided). While building, a log
+file with the name "<recipe>-buildall.log" is written, containing a PASS
+or FAIL line upon completion of the build for each architecture. For now,
+qemu targets are not selectable (i.e. the recipe is built for all qemu
+targets found in meta/conf/machine), but this functionality can be added
+in the future along with other useful options.
 
-ConnMan, systemd-networkd and NetworkManager supports iwd.
+The log file created by bitbake-buildall also includes some basic system
+info (e.g. build start time, hostname, host OS, host kernel). Since it is
+not guaranteed that tools such as lsb_release will be available on the
+host (it isn't by default on my Fedora machine), this information is
+collected manually. Additionally, the previous run's log is retained for
+comparison by renaming it in the format <recipe>-buildall.log.old once a
+new set of builds is triggered for the same recipe.
 
-Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
+Finally, in v2, the line "set -o pipefail" has been removed to be fully
+POSIX-compatible.
+
+Sample log output:
+
+BITBAKE-BUILDALL LOG FOR aspell
+START TIME: 2020-02-05_15:57:41
+HOSTNAME: yow-tgamblin-fedora2
+HOST OS: Fedora 31 (Server Edition)
+HOST KERNEL: 5.4.10-200.fc31.x86_64
+===============
+BUILD RESULTS:
+[glibc]
+PASS: qemuarmv5
+PASS: qemux86
+PASS: qemuppc
+PASS: qemumips64
+FAIL: qemux86-64
+FAIL: qemumips
+FAIL: qemuarm
+FAIL: qemuarm64
+FAIL: qemuriscv64
+[musl]
+PASS: qemuarmv5
+PASS: qemux86
+PASS: qemuppc
+PASS: qemumips64
+PASS: qemux86-64
+PASS: qemumips
+PASS: qemuarm
+PASS: qemuarm64
+PASS: qemuriscv64
+===============
+PASSED: 13
+FAILED: 5
+
+Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
 ---
- meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb | 3 +++
- meta/recipes-core/packagegroups/packagegroup-base.bb           | 2 +-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ scripts/bitbake-buildall | 120 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 120 insertions(+)
+ create mode 100755 scripts/bitbake-buildall
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-index 2db09ad2c6..270e14eeb3 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb
-@@ -15,6 +15,9 @@ PACKAGECONFIG[openssl] = ",,openssl"
- 
- inherit pkgconfig systemd
- 
-+PROVIDES = "virtual/supplicant"
-+RPROVIDES_${PN} += "virtual/supplicant"
+diff --git a/scripts/bitbake-buildall b/scripts/bitbake-buildall
+new file mode 100755
+index 0000000000..74a5994f2f
+--- /dev/null
++++ b/scripts/bitbake-buildall
+@@ -0,0 +1,120 @@
++#!/bin/sh
++#  Copyright (c) 2020 Wind River Systems, Inc.
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# bitbake-buildall: a tool for automating build testing of recipes
++# TODO: Add support for selecting which qemu architectures to build
++# TODO: Add support for queueing up multiple recipe builds
++# TODO: Add more logging options (e.g. local.conf info, bitbake env info)
 +
- SYSTEMD_SERVICE_${PN} = "wpa_supplicant.service wpa_supplicant-nl80211@.service wpa_supplicant-wired@.service"
- SYSTEMD_AUTO_ENABLE = "disable"
- 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 1f802da09b..911877cf0a 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -270,7 +270,7 @@ SUMMARY_packagegroup-base-wifi = "WiFi support"
- RDEPENDS_packagegroup-base-wifi = "\
-     iw \
-     wireless-regdb-static \
--    wpa-supplicant"
-+    virtual/supplicant"
- 
- RRECOMMENDS_packagegroup-base-wifi = "\
-     ${@bb.utils.contains('COMBINED_FEATURES', 'usbhost', 'kernel-module-zd1211rw', '',d)} \
++usage ()
++{
++    base=$(basename "$0")
++    echo "Usage: $base [options] [recipename/target]"
++    echo "Executes a build of a given target for selected LIBCs. With no options, default to both libc and musl."
++    echo "Options:"
++    echo "-l, --libc            Specify one of \"libc\" or \"musl\""
++}
++
++
++buildall ()
++{
++    # Get path to oe-core directory. Since oe-init-build-env prepends $PATH with
++    # the path to the scripts directory, get it from there
++    SCRIPTS_PATH="$(echo "$PATH" | cut -d ":" -f 1)"
++    OE_CORE_PATH=$(echo "$SCRIPTS_PATH" | sed 's|\(.*\)/.*|\1|') 
++
++    # Get target list and host machine information
++    TARGET_LIST=$(find "$OE_CORE_PATH"/meta/conf/machine -maxdepth 1 -type f | grep qemu | sed 's|.*/||' | sed -e 's/\.conf//')
++
++    # Set LIBC value to use for the builds based on options provided by the user
++    if [ -n "$2" ]
++    then
++	LIBC_LIST="$2"
++	echo "$LIBC_LIST"
++    else
++	LIBC_LIST="glibc musl"
++	echo "$LIBC_LIST"
++    fi
++
++    START_TIME=$(date "+%Y-%m-%d_%H:%M:%S")
++    LOG_FILE="$1-buildall.log"
++    OS_INFO=$(grep "PRETTY_NAME=" /etc/os-release | awk -F "=" '{print $2}' | sed -e 's/^"//' -e 's/"$//')
++
++    # Append an existing log file for this build with .old if one exists
++    if [ -f "${LOG_FILE}" ] 
++    then
++       mv "${LOG_FILE}" "${LOG_FILE}.old"
++    else
++	   touch "${LOG_FILE}"
++    fi
++
++    # Fill the log file with build and host info
++    echo "BITBAKE-BUILDALL LOG FOR $1" >> "${LOG_FILE}"
++    echo "START TIME: ${START_TIME}" >> "${LOG_FILE}"
++    echo "HOSTNAME: $(uname -n)" >> "${LOG_FILE}"
++    echo "HOST OS: ${OS_INFO}" >> "${LOG_FILE}"
++    echo "HOST KERNEL: $(uname -r)" >> "${LOG_FILE}"
++    echo "===============" >> "${LOG_FILE}"
++    echo "BUILD RESULTS:" >> "${LOG_FILE}"
++
++    # start the builds for each MACHINE and TCLIBC
++    for j in ${LIBC_LIST} 
++    do
++	echo "[$j]" >> "${LOG_FILE}"
++	for i in ${TARGET_LIST} 
++	do
++	    echo "$i" "$j"; \
++	    TCLIBC=$j MACHINE=$i bitbake "$1" && echo "PASS: $i" >> "${LOG_FILE}" || echo "FAIL: $i" >> "${LOG_FILE}"
++	done
++    done
++
++    # Get pass/fail totals and add them to the end of the log
++    PASSED=$(grep "PASS:" "${LOG_FILE}" | wc -l)
++    FAILED=$(grep "FAIL:" "${LOG_FILE}" | wc -l)
++
++    echo "===============" >> "${LOG_FILE}"
++    echo "PASSED: ${PASSED}" >> "${LOG_FILE}"
++    echo "FAILED: ${FAILED}" >> "${LOG_FILE}"
++}
++
++
++# fail entire script if any command fails
++set -e
++
++# print usage and exit if not enough args given
++[ $# -eq 0 ] && usage && exit 1
++
++# handle arguments
++RECIPE=
++while [ $# -gt 0 ]
++do
++    arg=$1
++    case $arg in
++	-l|--libc)
++	if [ "$2" = "glibc" ] || [ "$2" = "musl" ]
++	then
++	    LIBC_LIST="$2"
++	else
++	    echo "Unrecognized libc option."
++	    usage && exit 1
++	fi
++	shift
++	shift
++	;;
++	*)
++        RECIPE="$1"
++	shift
++	;;
++    esac
++done
++
++set -- "$RECIPE"
++
++# run buildall for the given recipe and LIBC
++if [ -n "$1" ]
++then
++	buildall "$1" "$LIBC_LIST"
++fi
++
 -- 
-2.20.1
+2.24.1
 
 
