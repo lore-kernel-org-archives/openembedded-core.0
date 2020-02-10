@@ -1,44 +1,46 @@
-Return-Path: <paul.barker@konsulko.com>
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
-	[209.85.210.45])
-	by mail.openembedded.org (Postfix) with ESMTP id D805C60F19
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 08:14:25 +0000 (UTC)
-Received: by mail-ot1-f45.google.com with SMTP id d3so5485885otp.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 00:14:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fgetZ5AZzWswZoM9D/6sgUgGHsmbR0+h4EgedM9nCrI=;
-	b=RuFs+mJwDz/dPkgTAL2BG887T+c9P7AttJtALZQsQFbXa3M0yVM0vccN7LHvgw3Fjf
-	hjnwIF8SSSJKrMTzM90Cth5ylvbLEs6f8exfJ4uaJZEuSXlvlE29zBPIzAsU3mtZLhqR
-	wZy6kc99cZE44SpFFw9aMvclcFmi+FLrTGi0M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=fgetZ5AZzWswZoM9D/6sgUgGHsmbR0+h4EgedM9nCrI=;
-	b=SmG7QXExQZ+ztaeEQTtXZ5SUy6UDwohav26DBs1E7/yY45TGsYykZYes7Sc54y1MKT
-	0ZawDFE94DA85nKRmyDwTHJG++1KEUcxwMY0rs5D8OoHMh7219XFoNyjBMWFxVBs+Pd8
-	cl0XaMNyHuLrF4ETkzeYAy8wnjJfSvBsHEC96j/a326YTsEN+d9xuwva2MOxjXOUSlDD
-	2MTrkwiqinLn9kviDHmrY08jYIWuJVXgzyEJJ6y0hhu6yVG0fQ22z0Xu4etmOgJiPJ+q
-	bAkm2GYh04B0wg5ywhe8C8b7At1t0ycbDPM8G2+VLcfWXRx5GvM6kyD02HpStRH30jRn
-	hkpQ==
-X-Gm-Message-State: APjAAAVEcqSik5mgnyjHyCPRDs2l3MycYSvDYZ/HXSaor0+Qu296EQLN
-	5sxI1tBo2Z5dZkwiHA3Q0U6xNyVHMERb9Ff6UzoSR/g4q09mJA==
-X-Google-Smtp-Source: APXvYqxXfYcWIRsG+DcUr9InjYLJcNzc/gm81siDLjUAro/PvufWrkcailfqKM3XCW91j0jgbrpWL5MkDlkcdlwRmRo=
-X-Received: by 2002:a9d:4801:: with SMTP id c1mr224133otf.258.1581322466946;
-	Mon, 10 Feb 2020 00:14:26 -0800 (PST)
+Return-Path: <frieder.schrempf@kontron.de>
+X-Greylist: delayed 575 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 10 Feb 2020 08:17:01 UTC
+Received: from skedge03.snt-world.com (skedge03.snt-world.com [91.208.41.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C5D560F6C
+	for <openembedded-core@openembedded.org>;
+	Mon, 10 Feb 2020 08:17:01 +0000 (UTC)
+Received: from sntmail12r.snt-is.com (unknown [10.203.32.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by skedge03.snt-world.com (Postfix) with ESMTPS id AF21567AB5C;
+	Mon, 10 Feb 2020 09:07:25 +0100 (CET)
+Received: from sntmail12r.snt-is.com (10.203.32.182) by sntmail12r.snt-is.com
+	(10.203.32.182) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5;
+	Mon, 10 Feb 2020 09:07:25 +0100
+Received: from sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305]) by
+	sntmail12r.snt-is.com ([fe80::e551:8750:7bba:3305%3]) with mapi id
+	15.01.1913.005; Mon, 10 Feb 2020 09:07:25 +0100
+From: Schrempf Frieder <frieder.schrempf@kontron.de>
+To: Armin Kuster <akuster808@gmail.com>, "openembedded-core@openembedded.org"
+	<openembedded-core@openembedded.org>
+Thread-Topic: [OE-core] [zeus 00/29] Patch review
+Thread-Index: AQHV32Nxjvox4g6S006I16EvkTMqd6gUArWA
+Date: Mon, 10 Feb 2020 08:07:25 +0000
+Message-ID: <e84c869d-1f1c-fdcf-4994-02277ab9d266@kontron.de>
+References: <cover.1581264380.git.akuster808@gmail.com>
+In-Reply-To: <cover.1581264380.git.akuster808@gmail.com>
+Accept-Language: de-DE, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.25.9.193]
+x-c2processedorg: 51b406b7-48a2-4d03-b652-521f56ac89f3
 MIME-Version: 1.0
-References: <077f01d5dab8$a17a92a0$e46fb7e0$@gmail.com>
-In-Reply-To: <077f01d5dab8$a17a92a0$e46fb7e0$@gmail.com>
-From: Paul Barker <pbarker@konsulko.com>
-Date: Mon, 10 Feb 2020 08:14:16 +0000
-Message-ID: <CAM9ZRVuDPzaBHZzzFs1YpWrgTkeTrDtjv_He2WwGm207p5Q0HA@mail.gmail.com>
-To: sjolley.yp.pm@gmail.com
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Reminder: Yocto Project Technical Team Meeting @ Monthly from 8am on the first Tuesday (PDT)
+X-SnT-MailScanner-Information: Please contact the ISP for more information
+X-SnT-MailScanner-ID: AF21567AB5C.AFF13
+X-SnT-MailScanner: Not scanned: please contact your Internet E-Mail Service
+	Provider for details
+X-SnT-MailScanner-SpamCheck: 
+X-SnT-MailScanner-From: frieder.schrempf@kontron.de
+X-SnT-MailScanner-To: akuster808@gmail.com, openembedded-core@openembedded.org
+X-Spam-Status: No
+Subject: Re: [zeus 00/29] Patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,64 +53,130 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 08:14:27 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 10 Feb 2020 08:17:02 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <A89B5754578E164F8A73B37F6B2ED177@snt-world.com>
+Content-Transfer-Encoding: base64
 
-Hi Stephen,
-
-The link in your email points to the 2019 minutes, I think the current
-link is https://docs.google.com/document/d/1ly8nyhO14kDNnFcW2QskANXW3ZT7QwKC5wWVDg9dDH4/edit.
-
-Thanks,
-Paul
-
-On Mon, 3 Feb 2020 at 17:37, <sjolley.yp.pm@gmail.com> wrote:
->
-> All,
->
->
->
-> Just a reminder we will hold the monthly Yocto Project Technical Meeting at 8am PST tomorrow. (2/4)
->
->
->
-> Yocto Project Technical Team Meeting: We encourage people attending the meeting to logon and announce themselves on the Yocto Project IRC chancel during the meeting (optional):
->
-> Yocto IRC: http://webchat.freenode.net/?channels=#yocto
->
->
->
-> Wiki: https://www.yoctoproject.org/public-virtual-meetings/
->
->
->
-> When            Monthly from 8am to 8:30am on the first Tuesday Pacific Time
->
-> Where           Zoom Meeting: https://zoom.us/j/990892712
->
->
->
-> I am tracking the minutes at: https://docs.google.com/document/d/1Y5IIuE-z0Ykdl-DwuzUJh52flOZuhN_TSAfw2tdU9pg/edit?ts=5c06b22d  Please request access if you want to assist in editing them.  The world should have view access.
->
->
->
-> Thanks,
->
->
->
-> Stephen K. Jolley
->
-> Yocto Project Program Manager
->
-> (    Cell:                (208) 244-4460
->
-> * Email:              sjolley.yp.pm@gmail.com
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+SGkgQXJtaW4sDQoNCk9uIDA5LjAyLjIwIDE3OjA5LCBBcm1pbiBLdXN0ZXIgd3JvdGU6DQo+IFRo
+ZXNlIGFyZSB0aGUgYWRkaXRpb25hbCBjaGFuZ2VzIHRvIGhlbHAgYWRkcmVzcyByZXByb2R1Y2li
+aWxpdHkgaXNzdWVzIGFuZCBhZGRpdGlvbmFsIGZpeGVzDQo+IHdlIHdvdWxkIGxpa2UgdG8gYmUg
+aW5jbHVkZWQgaW4gMy4wLjINCj4gDQo+IFBsZWFzZSBoYXZlIGNvbW1lbnRzIGJhY2sgYnkgVHVl
+c2RheQ0KDQpJIGhhdmUgdHdvIHF1ZXN0aW9ucy9jb21tZW50czoNCg0KMS4gV2hlbiBJIGxvb2sg
+YXQgdGhlIHpldXMtbmV4dCBicmFuY2gsIHdoeSBkbyBJIHNlZSBvbmx5IHBhdGNoZXMgNyB0byAN
+CjI5IGZyb20gdGhpcyBzZXJpZXMgYXBwbGllZCBhbmQgd2hhdCBhYm91dCBwYXRjaGVzIDEgdG8g
+Nj8gQW0gSSBtaXNzaW5nIA0Kc29tZXRoaW5nPw0KDQoyLiBQYXRjaCA1IChkZXZ0b29sL3N0YW5k
+YXJkLnB5OiBBbGxvdyByZWNpcGUgdG8gZGlzYWJsZSBtZW51Y29uZmlnIA0KbG9naWMpIGdvZXMg
+aGFuZCBpbiBoYW5kIHdpdGggYSBjaGFuZ2UgdG8gdGhlIHUtYm9vdCByZWNpcGUsIHRoYXQgaXMg
+DQphbHNvIGluIG1hc3RlciAoYzYzNGI4ZGIxYThiKS4gVGhpcyBwYXRjaCBzZWVtcyB0byBiZSBt
+aXNzaW5nIGhlcmUuDQoNClJlZ2FyZHMsDQpGcmllZGVyDQoNCj4gDQo+IFRoZSBmb2xsb3dpbmcg
+Y2hhbmdlcyBzaW5jZSBjb21taXQgOWIxYmYwODMxMjliZTJiODQ5ZGI1MmQ0ZjBlZGE5ZWI2MDc3
+Yzk3ZToNCj4gDQo+ICAgIHB5dGhvbjI6IGFkZCBudHBhdGggKDIwMjAtMDItMDIgMTg6MTk6NTAg
+LTA4MDApDQo+IA0KPiBhcmUgYXZhaWxhYmxlIGluIHRoZSBHaXQgcmVwb3NpdG9yeSBhdDoNCj4g
+DQo+ICAgIGdpdDovL2dpdC5vcGVuZW1iZWRkZWQub3JnL29wZW5lbWJlZGRlZC1jb3JlLWNvbnRy
+aWIgc3RhYmxlL3pldXMtbnV0DQo+ICAgIGh0dHA6Ly9jZ2l0Lm9wZW5lbWJlZGRlZC5vcmcvb3Bl
+bmVtYmVkZGVkLWNvcmUtY29udHJpYi9sb2cvP2g9c3RhYmxlL3pldXMtbnV0DQo+IA0KPiBBbGVq
+YW5kcm8gZGVsIENhc3RpbGxvICgxKToNCj4gICAgb3BrZy11dGlsczogdXBncmFkZSB0byB2ZXJz
+aW9uIDAuNC4yDQo+IA0KPiBBbGV4YW5kZXIgS2FuYXZpbiAoMSk6DQo+ICAgIHBlcmw6IGRvIG5v
+dCBpbnN0YWxsIGZpbGVzIHRoYXQgY29udGFpbiBidWlsZCBob3N0IHNwZWNpZmljIGRhdGENCj4g
+DQo+IEFudWogTWl0dGFsICgzKToNCj4gICAgUmV2ZXJ0ICJiemlwMjogRml4IENWRS0yMDE5LTEy
+OTAwIg0KPiAgICBjdXJsOiBmaXggQ1ZFLTIwMTktMTU2MDENCj4gICAgY3BpbzogZml4IENWRS0y
+MDE5LTE0ODY2DQo+IA0KPiBKb3NodWEgV2F0dCAoMik6DQo+ICAgIGNsYXNzZXMvcmVwcm9kdWNp
+YmxlX2J1aWxkOiBSZWFkIFNERSBmaWxlIGxhdGVyDQo+ICAgIG1jOiBGaXggYnVpbGQgcmVwcm9k
+dWNpYmlsaXR5DQo+IA0KPiBMZWUgQ2hlZSBZYW5nICgxKToNCj4gICAgcnN5bmM6IHdoaXRlbGlz
+dCBDVkUtMjAxNy0xNjU0OA0KPiANCj4gUmljaGFyZCBQdXJkaWUgKDE3KToNCj4gICAgb3BrZy11
+dGlsczogRml4IHJlcHJvZHVjaWJpbGl0eSBpc3N1ZXMgaW4gb3BrZy1idWlsZA0KPiAgICBvZXFh
+L3JlcHJvZHVjaWJsZTogSW1wcm92ZSB0ZXN0IG91dHB1dCBhbmQgZW5zdXJlIGRlYitpcGsgY29t
+cGFyZWQNCj4gICAgc3VkbzogU2V0IHZhcmRpciBkZXRlcm1pbmlzdGljYWxseQ0KPiAgICBsaWJ4
+c2htZmVuY2U6IFNldCBzaG0gZGlyZWN0b3J5IGRldGVybWluaXN0aWNhbGx5DQo+ICAgIG1jOiBT
+ZXQgemlwaW5mbyBwcmVzZW5jZSBkZXRlcm1pbnN0aWNhbGx5DQo+ICAgIG1jOiBGaXggbWFucGFn
+ZSBkYXRlIGluZGV0ZXJtaW5pc20NCj4gICAgdGFyOiBGaXggYnVpbGQgZGV0ZXJtaW5pc20sIGRp
+c2FibGUgcnNoDQo+ICAgIHBhdGNoOiBFeHRlbmQgdG8gbmF0aXZlL25hdGl2ZXNkayBhbmQgZGVw
+ZW5kIHVwb24NCj4gICAgbGliaWRuMjogRml4IHJlcHJvZHVjaWJpbGl0eSBpc3N1ZQ0KPiAgICBw
+ZXJsOiBGaXggdmFyaW91cyByZXByb2R1Y2liaWxlIGJ1aWxkIGlzc3Vlcw0KPiAgICBvcGVuc3Ns
+OiBGaXggcmVwcm9kdWNpYmlsaXR5IGlzc3VlDQo+ICAgIGlwdXRpbHM6IEZpeCBidWlsZCBkZXRl
+cm1pbmlzbQ0KPiAgICBsaWJpbnB1dDogRml4IGRldGVybWluaXNtIGlzc3VlDQo+ICAgIGxpYmdj
+cnlwdDogRml4IGRldGVybWluaXNtIGlzc3VlDQo+ICAgIHN5c3Zpbml0OiBGaXggUmVwcm9kdWNp
+YmlsaXR5IGlzc3VlDQo+ICAgIGxpYmV2ZGV2OiBGaXggZGV0ZXJtaW5pc20gaXNzdWUNCj4gICAg
+bmN1cnNlczogRml4IHJlcHJvZHVjaWJpbGl0eSBpc3N1ZQ0KPiANCj4gUm9zcyBCdXJ0b24gKDIp
+Og0KPiAgICBndGsrMzogc29ydCByZXNvdXJjZXMgZm9yIHJlcHJvZHVjaWJsZSBiaW5hcmllcw0K
+PiAgICBzdWRvOiBzcGVjaWZ5IHdoZXJlIHRhcmdldCB0b29scyBhcmUNCj4gDQo+IFRhcmFzIEtv
+bmRyYXRpdWsgdmlhIE9wZW5lbWJlZGRlZC1jb3JlICgxKToNCj4gICAgZ2NjLTkuMjogZml4IGJ1
+ZyAjOTExMDIgJ2FhcmNoNjQgSUNFIG9uIExpbnV4IGtlcm5lbCB3aXRoIC1PcycNCj4gDQo+IFRv
+bSBIb2Noc3RlaW4gKDEpOg0KPiAgICBkZXZ0b29sL3N0YW5kYXJkLnB5OiBBbGxvdyByZWNpcGUg
+dG8gZGlzYWJsZSBtZW51Y29uZmlnIGxvZ2ljDQo+IA0KPiAgIG1ldGEvY2xhc3Nlcy9wYXRjaC5i
+YmNsYXNzICAgICAgICAgICAgICAgICAgICB8ICAgNyArDQo+ICAgbWV0YS9jbGFzc2VzL3JlcHJv
+ZHVjaWJsZV9idWlsZC5iYmNsYXNzICAgICAgIHwgIDQwICsrLQ0KPiAgIG1ldGEvbGliL29lcWEv
+c2VsZnRlc3QvY2FzZXMvcmVwcm9kdWNpYmxlLnB5ICB8ICAgOSArLQ0KPiAgIC4uLi9vcGVuc3Ns
+L29wZW5zc2wvcmVwcm9kdWNpYmxlLnBhdGNoICAgICAgICB8ICAzMiArKw0KPiAgIC4uLi9vcGVu
+c3NsL29wZW5zc2xfMS4xLjFkLmJiICAgICAgICAgICAgICAgICB8ICAgMSArDQo+ICAgbWV0YS9y
+ZWNpcGVzLWNvcmUvbWV0YS9idWlsZHRvb2xzLXRhcmJhbGwuYmIgIHwgICAxICsNCj4gICBtZXRh
+L3JlY2lwZXMtY29yZS9uY3Vyc2VzL25jdXJzZXMuaW5jICAgICAgICAgfCAgIDEgKw0KPiAgIC4u
+Li9yZWNpcGVzLWNvcmUvc3lzdmluaXQvc3lzdmluaXRfMi44OGRzZi5iYiB8ICAgMSArDQo+ICAg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtOS4yLmluYyAgICAgICAgIHwgICAxICsNCj4g
+ICAuLi4wMi1hYXJjaDY0LUlDRS1vbi1MaW51eC1rZXJuZWwtd2l0aC0ucGF0Y2ggfCAgOTUgKysr
+KysrDQo+ICAgLi4uU3dpdGNoLWFsbC1zY3JpcHRzLXRvLXVzZS1QeXRob24tMy54LnBhdGNoIHwg
+MTEzIC0tLS0tLS0NCj4gICAuLi5sZC1jbGFtcC1tdGltZXMtdG8tU09VUkNFX0RBVEVfRVBPQ0gu
+cGF0Y2ggfCAgNDQgLS0tDQo+ICAgLi4uL29wa2ctdXRpbHMvZml4LXJlcHJvZHVjaWJpbGl0eS5w
+YXRjaCAgICAgIHwgIDMyICsrDQo+ICAgLi4uL29wa2ctdXRpbHMvb3BrZy11dGlscy9waXBlZmFp
+bC5wYXRjaCAgICAgIHwgIDMxIC0tDQo+ICAgLi4ucGtnLXV0aWxzXzAuNC4xLmJiID0+IG9wa2ct
+dXRpbHNfMC40LjIuYmJ9IHwgIDEzICstDQo+ICAgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BhdGNo
+L3BhdGNoXzIuNy42LmJiICAgIHwgICAzICsNCj4gICAuLi4vcGVybC9maWxlcy9kZXRlcm1pbmlz
+bS5wYXRjaCAgICAgICAgICAgICAgfCAgODEgKysrKysNCj4gICBtZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcGVybC9wZXJsLXB0ZXN0LmluYyAgICAgfCAgIDMgKw0KPiAgIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9wZXJsL3BlcmxfNS4zMC4wLmJiICAgICB8ICAgNCArDQo+ICAgbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3JzeW5jL3JzeW5jXzMuMS4zLmJiICAgIHwgICAzICsNCj4gICAuLi4vYnppcDIvYnpp
+cDItMS4wLjYvQ1ZFLTIwMTktMTI5MDAucGF0Y2ggICAgfCAgMzYgLS0NCj4gICAuLi4vY3Bpby9j
+cGlvLTIuMTIvQ1ZFLTIwMTktMTQ4NjYucGF0Y2ggICAgICAgfCAzMTYgKysrKysrKysrKysrKysr
+KysrDQo+ICAgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2NwaW8vY3Bpb18yLjEyLmJiICAgICAgIHwg
+ICAxICsNCj4gICAuLi4vaXB1dGlscy9pcHV0aWxzX3MyMDE5MDcwOS5iYiAgICAgICAgICAgICAg
+fCAgIDMgKy0NCj4gICBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliaWRuL2xpYmlkbjJfMi4yLjAu
+YmIgfCAgIDMgKy0NCj4gICAuLi5BZGQtb3B0aW9uLXRvLWNvbnRyb2wtY29uZmlndXJlLWFyZ3Mu
+cGF0Y2ggfCAgOTkgKysrKysrDQo+ICAgLi4uL3JlY2lwZXMtZXh0ZW5kZWQvbWMvZmlsZXMvbm9t
+YW5kYXRlLnBhdGNoIHwgIDIxICsrDQo+ICAgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21jL21jXzQu
+OC4yMy5iYiAgICAgICAgIHwgICA3ICstDQo+ICAgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N1ZG8v
+c3Vkby5pbmMgICAgICAgICAgIHwgICAyICstDQo+ICAgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N1
+ZG8vc3Vkb18xLjguMjcuYmIgICAgIHwgIDEwICstDQo+ICAgbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L3Rhci90YXJfMS4zMi5iYiAgICAgICAgIHwgICAyICsNCj4gICAuLi4vZ3RrKy9ndGsrMy9zb3J0
+LXJlc291cmNlcy5wYXRjaCAgICAgICAgICAgfCAgMTkgKysNCj4gICBtZXRhL3JlY2lwZXMtZ25v
+bWUvZ3RrKy9ndGsrM18zLjI0LjguYmIgICAgICAgfCAgIDEgKw0KPiAgIC4uLi93YXlsYW5kL2xp
+YmlucHV0L2RldGVybWluaXNtLnBhdGNoICAgICAgICB8ICAyMSArKw0KPiAgIC4uLi93YXlsYW5k
+L2xpYmlucHV0XzEuMTQuMS5iYiAgICAgICAgICAgICAgICB8ICAgNCArLQ0KPiAgIC4uLi94b3Jn
+LWxpYi9saWJ4c2htZmVuY2VfMS4zLmJiICAgICAgICAgICAgICB8ICAgMiArDQo+ICAgLi4uL2N1
+cmwvY3VybC9DVkUtMjAxOS0xNTYwMS5wYXRjaCAgICAgICAgICAgIHwgIDQ2ICsrKw0KPiAgIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L2N1cmwvY3VybF83LjY2LjAuYmIgICAgICB8ICAgMSArDQo+ICAg
+Li4uL2xpYmV2ZGV2L2xpYmV2ZGV2L2RldGVybWluaXNtLnBhdGNoICAgICAgIHwgIDM0ICsrDQo+
+ICAgLi4uL2xpYmV2ZGV2L2xpYmV2ZGV2XzEuOC4wLmJiICAgICAgICAgICAgICAgIHwgICAzICst
+DQo+ICAgLi4uL2xpYmdjcnlwdC9maWxlcy9kZXRlcm1pbmlzbS5wYXRjaCAgICAgICAgIHwgIDMy
+ICsrDQo+ICAgLi4uL2xpYmdjcnlwdC9saWJnY3J5cHRfMS44LjQuYmIgICAgICAgICAgICAgIHwg
+ICAxICsNCj4gICBzY3JpcHRzL2xpYi9kZXZ0b29sL3N0YW5kYXJkLnB5ICAgICAgICAgICAgICAg
+fCAgIDYgKy0NCj4gICA0MyBmaWxlcyBjaGFuZ2VkLCA5MzMgaW5zZXJ0aW9ucygrKSwgMjUyIGRl
+bGV0aW9ucygtKQ0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2
+aXR5L29wZW5zc2wvb3BlbnNzbC9yZXByb2R1Y2libGUucGF0Y2gNCj4gICBjcmVhdGUgbW9kZSAx
+MDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtOS4yL3JlLVBSLXRhcmdldC05MTEw
+Mi1hYXJjaDY0LUlDRS1vbi1MaW51eC1rZXJuZWwtd2l0aC0ucGF0Y2gNCj4gICBkZWxldGUgbW9k
+ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMvb3BrZy11dGlscy8wMDAx
+LVN3aXRjaC1hbGwtc2NyaXB0cy10by11c2UtUHl0aG9uLTMueC5wYXRjaA0KPiAgIGRlbGV0ZSBt
+b2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3BrZy11dGlscy9vcGtnLXV0aWxzLzAw
+MDEtb3BrZy1idWlsZC1jbGFtcC1tdGltZXMtdG8tU09VUkNFX0RBVEVfRVBPQ0gucGF0Y2gNCj4g
+ICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMvb3Br
+Zy11dGlscy9maXgtcmVwcm9kdWNpYmlsaXR5LnBhdGNoDQo+ICAgZGVsZXRlIG1vZGUgMTAwNjQ0
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcGtnLXV0aWxzL29wa2ctdXRpbHMvcGlwZWZhaWwucGF0
+Y2gNCj4gICByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL29wa2ctdXRpbHMve29wa2ctdXRp
+bHNfMC40LjEuYmIgPT4gb3BrZy11dGlsc18wLjQuMi5iYn0gKDgzJSkNCj4gICBjcmVhdGUgbW9k
+ZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvZmlsZXMvZGV0ZXJtaW5pc20ucGF0
+Y2gNCj4gICBkZWxldGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2J6aXAyL2J6
+aXAyLTEuMC42L0NWRS0yMDE5LTEyOTAwLnBhdGNoDQo+ICAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1l
+dGEvcmVjaXBlcy1leHRlbmRlZC9jcGlvL2NwaW8tMi4xMi9DVkUtMjAxOS0xNDg2Ni5wYXRjaA0K
+PiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbWMvZmlsZXMvMDAw
+MS1BZGQtb3B0aW9uLXRvLWNvbnRyb2wtY29uZmlndXJlLWFyZ3MucGF0Y2gNCj4gICBjcmVhdGUg
+bW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21jL2ZpbGVzL25vbWFuZGF0ZS5wYXRj
+aA0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtZ25vbWUvZ3RrKy9ndGsrMy9z
+b3J0LXJlc291cmNlcy5wYXRjaA0KPiAgIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMt
+Z3JhcGhpY3Mvd2F5bGFuZC9saWJpbnB1dC9kZXRlcm1pbmlzbS5wYXRjaA0KPiAgIGNyZWF0ZSBt
+b2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9jdXJsL2N1cmwvQ1ZFLTIwMTktMTU2MDEu
+cGF0Y2gNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGliZXZk
+ZXYvbGliZXZkZXYvZGV0ZXJtaW5pc20ucGF0Y2gNCj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvbGliZ2NyeXB0L2ZpbGVzL2RldGVybWluaXNtLnBhdGNoDQo+IA==
 
