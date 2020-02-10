@@ -1,55 +1,43 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-il1-f172.google.com (mail-il1-f172.google.com
-	[209.85.166.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F9B660632
+Return-Path: <oleksandr.s.popovych@globallogic.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E984060213
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 14:22:25 +0000 (UTC)
-Received: by mail-il1-f172.google.com with SMTP id f10so326284ils.8
+	Mon, 10 Feb 2020 14:51:42 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id z8so7887746ioh.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 06:22:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=LDNJU/IZdrb0DnQnX9vgdb0Cc28bpcRxuDwv+Zo4Cjk=;
-	b=N6N9g5cb575M3Po+LQyO1Ruphe9dCfSFmLsVxj3KzW96/5Ad3U8qEKhZ1mZpqmyj1t
-	by9N5x9OeVkOFADZU6890GOPR4cY32nZVddc3w8jCXAvtXTGBz4b3HAWaL3bTf6ndShI
-	kKCKwOgCLKZxWZtAHfSIAQ/PzWVSPv/d/9JZG8hUxXxpRH18FZhTnS+O0Txhxx31wk11
-	dMon+NwmapkXLm9UPOzoHwk24u7V95vdx9ACKs+Pihx1Y//b0gyly7y+mcsoDaED7Rax
-	QSSUPY+DrP4OwHkIA84cVv59YmT05Z6OZNKIwvxOpBMH53ExvdLC5XB4c4NKpf843tWf
-	oIlA==
+	Mon, 10 Feb 2020 06:51:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=globallogic.com; s=google;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=URz6ATdlT2K566TQRbjcq8+oUcME/3Ji6xas8ICmvOY=;
+	b=MiBXbhZMilCR7CluQhDd4docjYZHIeRWT6NwOfGxww7v3k1Zi6Ewf7ti0mbVAkXXIS
+	R6YCP1dyXqYSNRm87pIzYZe7ntyGNrRXw4EjfMl1E8rX9xnuCtdvVLpnnZyHUv/+eMcZ
+	ybP8jW++SvIvjkKY+NiB557FhmdjUItFoHjdkKWhTvtWrPfLp0GPbmZ+TKxGKRf8xAO5
+	eMe571P5tl5sHR4bPl3UBvIWz51D6fKExuPfmSAhLw6PPT5m6qrcIboBLfwRSkRr0nVi
+	azk1CQlCdiYcrTqHQK9+k8GBcqzuYxLn4oxKORF8m+9myGWoctpcd5MzjNu7caoquslf
+	+j/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=LDNJU/IZdrb0DnQnX9vgdb0Cc28bpcRxuDwv+Zo4Cjk=;
-	b=kooBSNsSC25yx/UHHeC4C/uRHCk+IMtcx+rbt8mYJlMtY1O0oXGlX8Y4AOSPBPayNO
-	5O4CekskpvT6G2StCBpAUinjutV4OWAIXaZiNR3HOsgGlr4rLFK8vvrXSLYjbuzXVJo+
-	s/DWDC3JZh7q7AlzZYmHnTSvSJSxbvl4Lv6un96/43I8vo85qj9vqTeBzt53r6319PGf
-	VqZHBXlrO7nCSS3OeoufaFA+LhZ0fe4bDQRHlhn/ODVmp0jSQx0TE2cdK68ApdVCjGQh
-	KzIPsfZ/gH6Z6sm1p66kUI8OLYXaNCI121MAdFB3DIR0vy1XydEYesZo+UDiuxDsM+C8
-	3bBQ==
-X-Gm-Message-State: APjAAAX1u1PJulL526XEJ6fz0VNX8DwiW9aWST9rBIG8JsmQjuuwNOig
-	ema/REtPNUBgyGR7ZghZoiGYgiHbEpJblpWYy7E=
-X-Google-Smtp-Source: APXvYqwNx3ggMLZZHDmlB360DWcyThhxLdCCHBIVDvkNExiYUJyr28kAgBFaOuPCDbI1wLs2bNkvpLnyTj0k90QYy/4=
-X-Received: by 2002:a92:1a0a:: with SMTP id a10mr1611193ila.295.1581344546342; 
-	Mon, 10 Feb 2020 06:22:26 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=URz6ATdlT2K566TQRbjcq8+oUcME/3Ji6xas8ICmvOY=;
+	b=S8SKe1qqgJ+musiq76RXJKp6E+48c5+WZjvHyaj7JX1bK7T7mUshj6NdoQpeGcypJk
+	A+7HcC9/6fawrqX9XsibKnu1nEkfm2UPUBDYw4DyXehTX2a3S63zGiayHSHP83vDiOUo
+	IAQcb/cN63NW+4BZl53Lowm1Cx+C+Z9jv+roL8fANjF1ZpFTvpSxMHY+Vrx9rfjPX8Bx
+	RNWWo8h6dmIxcOSmA5zHJbajlfPZGvBoBZDw5s1rTuNTxb9Ax/uEhfCZPKawzp+NbPLI
+	GvpReVOXgAxmXPBICIbSWyh84VISBISQkiqgCVSim5uvcnXtMKvI9GWEAhKkR7fz8zk3
+	9mxQ==
+X-Gm-Message-State: APjAAAXESQAPd8wkwQEO4YO+JTAMwzOIIsuGYRXbajdFeVE8W4lDryof
+	hNBEHmuBYHmn5JCtxAg00RZkscAnPkOlu+WY+F6me8SebSQ=
+X-Google-Smtp-Source: APXvYqxpNQk5FPfGoNxBxNIyqDu7clau0i+hCdTMlNPNvIdSCX132nloMGI1YiKWGBuGwsLpskfpNlkqhw7+8OnX8CI=
+X-Received: by 2002:a5d:9d11:: with SMTP id j17mr9791076ioj.83.1581346303437; 
+	Mon, 10 Feb 2020 06:51:43 -0800 (PST)
 MIME-Version: 1.0
-References: <CAO5Uq5QPxrnkPhjeO3s79AAYF55nPtR3OL0iuL9rqCvN-OmpfA@mail.gmail.com>
-	<ad681bbf95efbeb211cbbe00dd73a4e2ce7cf335.camel@linuxfoundation.org>
-	<BN6PR1201MB248222EF01FA45459B7BC0BE8B1C0@BN6PR1201MB2482.namprd12.prod.outlook.com>
-	<6109c3315b8a215881c134441b74d0753820b5c8.camel@linuxfoundation.org>
-	<CAO5Uq5T1k-ZMZwpsDOeE+aQOJMBZ0PQSzC1jeS+iw=20bxyogA@mail.gmail.com>
-	<BN6PR1201MB248219E5E090A8B5691CCB098B1E0@BN6PR1201MB2482.namprd12.prod.outlook.com>
-	<CAO5Uq5Q5gR_Pyfve_Dr+gSZ29xxCKS-J4NUyKSLS8GXDp0LzbQ@mail.gmail.com>
-	<CAO5Uq5TExuHymttsrn7jvdxSSah3fafRJvR+2VfPJ90NH6XDqw@mail.gmail.com>
-In-Reply-To: <CAO5Uq5TExuHymttsrn7jvdxSSah3fafRJvR+2VfPJ90NH6XDqw@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 10 Feb 2020 14:22:15 +0000
-Message-ID: <CAO5Uq5SikiM15MYnDOaUH3nBZc2BcvUuRBu8Vf78GeWdwgbagA@mail.gmail.com>
-To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Cache unihash ... doesn't match BB_UNIHASH ...
+From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+Date: Mon, 10 Feb 2020 16:51:32 +0200
+Message-ID: <CAKqUGW_Fj10L5X3GfRzK8Gm45gkQYKL5UJR815dp3NgE2TRvNQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] expat: Add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,184 +50,218 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 14:22:25 -0000
+X-List-Received-Date: Mon, 10 Feb 2020 14:51:43 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Feb 9, 2020 at 4:25 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> On Sun, Feb 9, 2020 at 7:27 AM Alex Kiernan <alex.kiernan@gmail.com> wrot=
-e:
-> >
-> > On Sun, Feb 9, 2020 at 12:23 AM chris.laplante@agilent.com
-> > <chris.laplante@agilent.com> wrote:
-> > >
-> > > Hi Richard,
-> > >
-> > > > > > Anecdotally, we are running Zeus for nightly builds with three
-> > > > > > multiconfigs. I cherry-picked your "bitbake: fix2" and "bitbake=
-:
-> > > > > > fixup" patches and haven't seen any of the BB_UNIHASH errors si=
-nce.
-> > > > > > Granted it's only been a week. But before that, hash equiv +
-> > > > > > multiconfig was unusable due to the BB_UNIHASH errors.
-> > > > >
-> > > > > That is a really helpful data point, thanks. I should probably cl=
-ean up
-> > > > > those bitbake patches and get them merged then, I couldn't decide=
- if
-> > > > > they were right or not...
-> > > > >
-> > > >
-> > > > I just picked all your pending changes out of master-next into our
-> > > > local patch queue - will let you know how it looks when it's finish=
-ed
-> > > > cooking!
-> > >
-> > > There are two small issues I have observed.
-> > >
-> > > One is occasionally I get a lot of undeterministic metadata errors wh=
-en BB_CACHE_POLICY =3D "cache", multiconfig, and hash equiv are enabled. Th=
-e errors are all on recipes for which SRCREV =3D "${AUTOREV}". It doesn't a=
-lways happen. But it did just now when I rebased our "zeus-modified" branch=
- onto the upstream "zeus" branch, to get the changes starting with 7dc72fde=
-6edeb5d6ac6b3832530998afeea67cbc.
-> > >
-> > > Two is that, sometimes "Initializing tasks" stage appears stuck at 44=
-% for a couple minutes. I traced it down to this code in runqueue.py (line =
-1168 on zeus):
-> > >
-> > >         # Iterate over the task list and call into the siggen code
-> > >         dealtwith =3D set()
-> > >         todeal =3D set(self.runtaskentries)
-> > >         while len(todeal) > 0:
-> > >             for tid in todeal.copy():
-> > >                 if len(self.runtaskentries[tid].depends - dealtwith) =
-=3D=3D 0:
-> > >                     dealtwith.add(tid)
-> > >                     todeal.remove(tid)
-> > >                     self.prepare_task_hash(tid)
-> > >
-> > > When I instrument the loop to print out the size of "todeal", I see i=
-t decrease very slowly, sometimes only a couple at a time. I'm guessing thi=
-s is because prepare_task_hash is contacting the hash equiv server, in a se=
-rial manner here. I'm over my work VPN which makes things extra slow. Is th=
-ere an opportunity for batching here?
-> > >
-> >
-> > I've a new failure:
-> >
-> > 00:20:59.829  Traceback (most recent call last):
-> > 00:20:59.829    File
-> > "/var/lib/jenkins/workspace/nanohub_master/poky/bitbake/lib/bb/server/p=
-rocess.py",
-> > line 278, in ProcessServer.idle_commands(delay=3D0.1,
-> > fds=3D[<socket.socket fd=3D6, family=3DAddressFamily.AF_UNIX,
-> > type=3DSocketKind.SOCK_STREAM, proto=3D0, laddr=3Dbitbake.sock>,
-> > <socket.socket fd=3D18, family=3DAddressFamily.AF_UNIX,
-> > type=3DSocketKind.SOCK_STREAM, proto=3D0, laddr=3Dbitbake.sock>,
-> > <bb.server.process.ConnectionReader object at 0x7f831b7adb70>]):
-> > 00:20:59.829                   try:
-> > 00:20:59.829      >                retval =3D function(self, data, Fals=
-e)
-> > 00:20:59.829                       if retval is False:
-> > 00:20:59.829    File
-> > "/var/lib/jenkins/workspace/nanohub_master/poky/bitbake/lib/bb/cooker.p=
-y",
-> > line 1434, in buildTargetsIdle(server=3D<ProcessServer(ProcessServer-1,
-> > started)>, rq=3D<bb.runqueue.RunQueue object at 0x7f82f5112f98>,
-> > abort=3DFalse):
-> > 00:20:59.829                   try:
-> > 00:20:59.829      >                retval =3D rq.execute_runqueue()
-> > 00:20:59.829                   except runqueue.TaskFailure as exc:
-> > 00:20:59.829    File
-> > "/var/lib/jenkins/workspace/nanohub_master/poky/bitbake/lib/bb/runqueue=
-.py",
-> > line 1522, in RunQueue.execute_runqueue():
-> > 00:20:59.829               try:
-> > 00:20:59.829      >            return self._execute_runqueue()
-> > 00:20:59.829               except bb.runqueue.TaskFailure:
-> > 00:20:59.829    File
-> > "/var/lib/jenkins/workspace/nanohub_master/poky/bitbake/lib/bb/runqueue=
-.py",
-> > line 1488, in RunQueue._execute_runqueue():
-> > 00:20:59.829               if self.state is runQueueRunning:
-> > 00:20:59.829      >            retval =3D self.rqexe.execute()
-> > 00:20:59.829
-> > 00:20:59.829    File
-> > "/var/lib/jenkins/workspace/nanohub_master/poky/bitbake/lib/bb/runqueue=
-.py",
-> > line 1997, in RunQueueExecute.execute():
-> > 00:20:59.829                               else:
-> > 00:20:59.829      >
-> > self.sqdata.outrightfail.remove(nexttask)
-> > 00:20:59.829                           if nexttask in self.sqdata.outri=
-ghtfail:
-> >
-> > Just testing locally with:
-> >
-> > diff --git a/bitbake/lib/bb/runqueue.py b/bitbake/lib/bb/runqueue.py
-> > index 71108eeed752..a94a9bb27ae2 100644
-> > --- a/bitbake/lib/bb/runqueue.py
-> > +++ b/bitbake/lib/bb/runqueue.py
-> > @@ -1994,7 +1994,7 @@ class RunQueueExecute:
-> >                              self.sq_task_failoutright(nexttask)
-> >                              return True
-> >                          else:
-> > -                            self.sqdata.outrightfail.remove(nexttask)
-> > +                            self.sqdata.outrightfail.discard(nexttask)
-> >                      if nexttask in self.sqdata.outrightfail:
-> >                          logger.debug(2, 'No package found, so
-> > skipping setscene task %s', nexttask)
-> >                          self.sq_task_failoutright(nexttask)
-> >
->
-> That change has got me a clean build to complete end to end, which a
-> rebuild is then successfully using the sstate-cache.
->
+From f7b0599dcd3e12f0042bb06ea8b80645da997982 Mon Sep 17 00:00:00 2001
+From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+Date: Mon, 10 Feb 2020 15:57:25 +0200
+Subject: [OE-core][PATCH] expat: Add ptest
 
-With this change on top of master I've 7 green builds one after
-another, which is better than we've managed in a week.
+For ptest support for this package several additional patches and
+run-ptest script
+were added and recipe was changed.
 
-> But something is upsetting sstate I'm serving back from the jenkins
-> box to a local build, as I'm getting different hashes for the same
-> sstate:
->
-> akiernan@akiernan-virtual-machine:~/nanohub/build$ find sstate-cache
-> -name '*quilt-native*populate_sysroot*' -ls
->   2240468     40 -rw-rw-r--   1 akiernan akiernan    39406 Feb  9
-> 13:53 sstate-cache/universal/ff/29/sstate:quilt-native:x86_64-linux:0.66:=
-r0:x86_64:3:ff29b95eb35bba9a4c2e0857372991e6f08c0e9fcb72f76bc2dfbad5d12cade=
-1_populate_sysroot.tgz.siginfo
->   2241106     56 -rw-rw-r--   1 akiernan akiernan    53302 Feb  9
-> 13:53 sstate-cache/universal/ff/29/sstate:quilt-native:x86_64-linux:0.66:=
-r0:x86_64:3:ff29b95eb35bba9a4c2e0857372991e6f08c0e9fcb72f76bc2dfbad5d12cade=
-1_populate_sysroot.tgz
->   2634859     40 -rw-rw-r--   1 akiernan akiernan    39387 Feb  9
-> 16:16 sstate-cache/universal/83/30/sstate:quilt-native:x86_64-linux:0.66:=
-r0:x86_64:3:83309dcd3c0c7e2ab03ed24b2a5b8d6bf9e35e7b4c8c27373fd68513c8c2b29=
-e_populate_sysroot.tgz.siginfo
->   2634858     52 -rw-rw-r--   1 akiernan akiernan    52543 Feb  9
-> 16:16 sstate-cache/universal/83/30/sstate:quilt-native:x86_64-linux:0.66:=
-r0:x86_64:3:83309dcd3c0c7e2ab03ed24b2a5b8d6bf9e35e7b4c8c27373fd68513c8c2b29=
-e_populate_sysroot.tgz
-> akiernan@akiernan-virtual-machine:~/nanohub/build$ bitbake-diffsigs
-> sstate-cache/universal/ff/29/sstate:quilt-native:x86_64-linux:0.66:r0:x86=
-_64:3:ff29b95eb35bba9a4c2e0857372991e6f08c0e9fcb72f76bc2dfbad5d12cade1_popu=
-late_sysroot.tgz.siginfo
-> sstate-cache/universal/83/30/sstate:quilt-native:x86_64-linux:0.66:r0:x86=
-_64:3:83309dcd3c0c7e2ab03ed24b2a5b8d6bf9e35e7b4c8c27373fd68513c8c2b29e_popu=
-late_sysroot.tgz.siginfo
-> NOTE: Starting bitbake server...
-> akiernan@akiernan-virtual-machine:~/nanohub/build$
->
-> Running dumpsig and diffing them manually I'm none the wiser - other
-> than variables being a in a different order in the two sstate files,
-> they're identical.
->
+Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+---
+ ...d-Makefile-targets-for-ptest-support.patch | 38 ++++++++++++++
+ ...ort-for-ptests-in-form-of-new-target.patch | 31 ++++++++++++
+ ...ed-suitable-format-of-tests-in-ptest.patch | 50 +++++++++++++++++++
+ meta/recipes-core/expat/expat/run-ptest       |  3 ++
+ meta/recipes-core/expat/expat_2.2.9.bb        | 12 ++++-
+ 5 files changed, 133 insertions(+), 1 deletion(-)
+ create mode 100644
+meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+ create mode 100644
+meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+ create mode 100644
+meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+ create mode 100644 meta/recipes-core/expat/expat/run-ptest
 
-Whatever my problem is here, it's now vanished again :|
+diff --git a/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+new file mode 100644
+index 0000000000..32488060ee
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+@@ -0,0 +1,38 @@
++From ce803ec3d7b095cb55686f9cd5d3f01d34a31a5e Mon Sep 17 00:00:00 2001
++From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++Date: Thu, 6 Feb 2020 13:41:45 +0200
++Subject: [PATCH 1/3] expat: Added Makefile targets for ptest support
++
++install-ptest, runtests and check tagrets are added.
++
++Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++---
++ Makefile.am | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
++
++diff --git a/Makefile.am b/Makefile.am
++index 5e1d37d..c63b44a 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -152,3 +152,18 @@ qa:
++     QA_COMPILER=clang QA_SANITIZER=memory    ./qa.sh
++     QA_COMPILER=clang QA_SANITIZER=undefined ./qa.sh
++     QA_COMPILER=gcc   QA_PROCESSOR=gcov      ./qa.sh
+++
+++.PHONY: install-ptest
+++install-ptest:
+++    echo $(S)
+++    (if [ -d tests/.libs ] ; then cd tests/.libs; fi; \
+++        install runtests runtestspp $(DESTDIR))
+++    cp Makefile $(DESTDIR)
+++    sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
+++
+++.PHONY: runtests
+++runtests:
+++    @echo "C variant of tests:"
+++    @$(CHECKER) ./runtests$(EXEEXT) -q
+++    @echo "C++ variant of tests:"
+++    @$(CHECKER) ./runtestspp$(EXEEXT) -q
++--
++2.17.1
++
+diff --git a/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+new file mode 100644
+index 0000000000..cf8a2495e9
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+@@ -0,0 +1,31 @@
++From 2b209a025f62fb1be7b32599aa80703ce8ecd76a Mon Sep 17 00:00:00 2001
++From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++Date: Thu, 6 Feb 2020 13:43:57 +0200
++Subject: [PATCH 2/3] expat: Added support for ptests in form of new target
++
++configure.am file changed, according to this advice:
++https://wiki.yoctoproject.org/wiki/Ptest#Building_the_test_suite
++
++Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++---
++ configure.ac | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/configure.ac b/configure.ac
++index d58ac03..8e6b41e 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -34,8 +34,8 @@ AC_CONFIG_SRCDIR([Makefile.in])
++ AC_CONFIG_AUX_DIR([conftools])
++ AC_CONFIG_MACRO_DIR([m4])
++ AC_CANONICAL_HOST
++-AM_INIT_AUTOMAKE
++-
+++AM_INIT_AUTOMAKE([serial-tests])
+++AM_EXTRA_RECURSIVE_TARGETS([buildtest-TESTS])
++
++ dnl
++ dnl Increment LIBREVISION if source code has changed at all
++--
++2.17.1
++
+diff --git a/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+new file mode 100644
+index 0000000000..5d1daefc92
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+@@ -0,0 +1,50 @@
++From b2e236e238f8bab42651313ea198b27355945d97 Mon Sep 17 00:00:00 2001
++From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++Date: Thu, 6 Feb 2020 13:44:56 +0200
++Subject: [PATCH 3/3] expat: Added suitable format of tests in ptest
++
++Some changes in testcases code were applied for testcase engine.
++This was just adding of message outputs in "RESULT: TESTNAME" form...
++
++Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
++---
++ tests/minicheck.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/tests/minicheck.c b/tests/minicheck.c
++index a5a1efb..b39cda9 100644
++--- a/tests/minicheck.c
+++++ b/tests/minicheck.c
++@@ -164,6 +164,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       if (tc->setup != NULL) {
++         /* setup */
++         if (setjmp(env)) {
+++          printf("SKIP: %s\n", _check_current_function);
++           add_failure(runner, verbosity);
++           continue;
++         }
++@@ -171,6 +172,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       }
++       /* test */
++       if (setjmp(env)) {
+++        printf("FAIL: %s\n", _check_current_function);
++         add_failure(runner, verbosity);
++         continue;
++       }
++@@ -179,11 +181,13 @@ srunner_run_all(SRunner *runner, int verbosity) {
++       /* teardown */
++       if (tc->teardown != NULL) {
++         if (setjmp(env)) {
+++          printf("PASS: %s\n", _check_current_function);
++           add_failure(runner, verbosity);
++           continue;
++         }
++         tc->teardown();
++       }
+++      printf("PASS: %s\n", _check_current_function);
++     }
++     tc = tc->next_tcase;
++   }
++--
++2.17.1
++
+diff --git a/meta/recipes-core/expat/expat/run-ptest
+b/meta/recipes-core/expat/expat/run-ptest
+new file mode 100644
+index 0000000000..df994c0838
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/run-ptest
+@@ -0,0 +1,3 @@
++#!/bin/bash
++
++make -k runtests
+diff --git a/meta/recipes-core/expat/expat_2.2.9.bb
+b/meta/recipes-core/expat/expat_2.2.9.bb
+index 8f3db41352..420ffddc80 100644
+--- a/meta/recipes-core/expat/expat_2.2.9.bb
++++ b/meta/recipes-core/expat/expat_2.2.9.bb
+@@ -8,15 +8,25 @@ LIC_FILES_CHKSUM =
+"file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
 
---=20
-Alex Kiernan
+ SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+            file://libtool-tag.patch \
++       file://0001-expat-Added-Makefile-targets-for-ptest-support.patch \
++       file://0002-expat-Added-support-for-ptests-in-form-of-new-target.patch \
++       file://0003-expat-Added-suitable-format-of-tests-in-ptest.patch \
++       file://run-ptest \
+       "
+
+ SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+ SRC_URI[sha256sum] =
+"f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
+
+-inherit autotools lib_package
++inherit autotools ptest lib_package
++
++RDEPENDS_${PN}-ptest += "make bash"
+
+ do_configure_prepend () {
+     rm -f ${S}/conftools/libtool.m4
+ }
+
++do_compile_ptest() {
++    oe_runmake buildtest-TESTS
++}
++
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.17.1
 
