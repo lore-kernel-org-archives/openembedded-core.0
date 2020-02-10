@@ -1,102 +1,54 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id F016360B34
-	for <openembedded-core@openembedded.org>;
-	Mon, 10 Feb 2020 16:01:03 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id d9so4138210pgu.3
-	for <openembedded-core@openembedded.org>;
-	Mon, 10 Feb 2020 08:01:05 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+	[209.85.160.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 65DC860B34
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Feb 2020 16:01:29 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id v25so5474682qto.7
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Feb 2020 08:01:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:autocrypt:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=yQWE/6G1eTltKu6u4a/AsjoV5HYnyIgq/6udkcLpliw=;
-	b=Iqp5gHIAwe2Xc3IkRRdcLNsnomQ30ySLdu5cMiyqDZh4iaiaiRHv99A+9OwF/qHjbj
-	DMrJ9jTYKIhP8MhSnOfGHHDIRqAM3gGFMt+8xrqOOLpkgVF226OOs/j+JO2RSIkZoFGK
-	ILykXCyGN8XXutOzhptDmEvvk3K2R2yPNd26TwzWbgGtHhA4CXrM5kktXnftll51uxf3
-	aoux+QXybppe5ZLCevNNl2/KcReWb6hhb/osFrKRNczmSPA5iPEoEp/GWDholaRh5sAd
-	9mij6syfb/APRc8JcJInL4tj/Oa8xg4vcgUuLnAGx2A/x7us//qpbl86l90UpbMURE0h
-	aE5A==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=h+paI7xUgFuNsBvn992Iyx4476H7F9S5iy9umEOufqA=;
+	b=Z4TN7LtmCR2KzGO3H5j0Uorr5fQkXeA3syAAjyFNTyVFjkI0dFdFSFtaOB2GK5M9XC
+	aq0opd8k/GDOtYhPXH1Yny95+WRqk+5beS8AUhVPzQ5DOEFsXdw6jpOOREfHM1QytyF2
+	1qqJq1IffiztLddi2eciKdq/w+hAOtZBVuMoN/C1QlbarUbHHttQ5QcagRNAH8nDaz5n
+	AxTjqj4auhq4PwfDx87nmsaS0q70NSC4dC/dbJ0ODowc4LdCWnStikZ/kN8VeXaxLIWx
+	/3AC341gPa28b92iZgWmeKFX7Ec3DmzmaH5H1hY9Uiyc4V0VH5nyQ08zurVKfi7phbxj
+	0VYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=yQWE/6G1eTltKu6u4a/AsjoV5HYnyIgq/6udkcLpliw=;
-	b=tRMI53L3WUTyPovhJMaV7lO1HvhT9+zQYBm15mOAJl4HH4PbBSVeAkQu12I+QBKkTq
-	0tN0XG+n7C81TUDxi4KsMhtlzVILR0E90otajQ2udJZI3SK+HzDvBPwkgaiqBFyeKYIQ
-	vnap9jls/J7nN1hVNFWrQAUbbPvNq422JDFX+/ohRhUFjGc8wSj/XZ66KcBkdRmBiWph
-	z2emctH1E9mnm1CNINpqrAsHDyM9ogX1b8m+uvplEkgWOMlYUJi0DlhBdADjKCyRmbmE
-	uqHIXbl/K4zdvD3QMsIloZsmTHKPqWXvOZXR1XZffKjx+8kvY8IzknuhPuicY2aZdYv1
-	r7wg==
-X-Gm-Message-State: APjAAAWCaaGCLRyAl9Or2YDuEVkN4ZIXOhKJ/K2EEksXJTCpsW0E2rse
-	naD0v0JvfWiZyfJY3vMldZ9H5EMv
-X-Google-Smtp-Source: APXvYqwY+l6txWh/AH37JFNwvG7pXmtasT2tTIu2K7GtpJB1WCLl9UXXrF+1gF24Kj35DnWTNkGHyQ==
-X-Received: by 2002:a62:486:: with SMTP id 128mr1803545pfe.236.1581350464622; 
-	Mon, 10 Feb 2020 08:01:04 -0800 (PST)
-Received: from ?IPv6:2601:202:4180:a5c0:58cf:c2e4:7ede:a168?
-	([2601:202:4180:a5c0:58cf:c2e4:7ede:a168])
-	by smtp.gmail.com with ESMTPSA id g9sm800762pfm.150.2020.02.10.08.01.02
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Mon, 10 Feb 2020 08:01:03 -0800 (PST)
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	Schrempf Frieder <frieder.schrempf@kontron.de>,
-	Anuj Mittal <anuj.mittal@intel.com>
-References: <cover.1581264380.git.akuster808@gmail.com>
-	<e84c869d-1f1c-fdcf-4994-02277ab9d266@kontron.de>
-	<2cd46664933442f788e7d5ef62b184eb@XBOX03.axis.com>
-From: akuster808 <akuster808@gmail.com>
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <3e9e9b41-a82b-b77f-4ce7-746ae65c8fb0@gmail.com>
-Date: Mon, 10 Feb 2020 08:01:01 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=h+paI7xUgFuNsBvn992Iyx4476H7F9S5iy9umEOufqA=;
+	b=TQr7yNmZoP12gSIm/DvMBXGAxMnvO7bPkMMjiN1KJJL9WjYIzpptv+vmgOlcnl15N3
+	K5ZYr6H9yLc44toAsdFy1Ria8yniYFAekI8mSvpdIz9MnTXuVWKLbPwVKWs0PD35j8VA
+	MOKbkzAz471t5tt9qt3LeDYYqzVuGY3MCgoLBBl7Brqqli2v8xvFw084cF4eGyzqNFBT
+	xm6rE9VyvOcN/naZatTmWuxwQroh/BhaVB3fT5srjJhFLYeY3qwAewT1K95Y1W/KBv1Q
+	OWRu/6U//UcIK1g2oYu5+4WQip+DUmETryV1tTzZWzjRJMMxtlRoaDBsNmqcZTLhXjFB
+	c5OA==
+X-Gm-Message-State: APjAAAWz21LEfRuNTtcO6LYIOGNh4+H1KUjJWQ89u3EhVbnleMrF8ydt
+	X+qDY2DpYIF/dc+Au1jzbUcEg7yddZA4zVHZItU=
+X-Google-Smtp-Source: APXvYqwdwwwfXV4I2haRU1rONjXoQ5HEhO/yAlay/1m6uzXdjTzPzfD4tZ/zi65aldYLEFGNK1N9mpEvDikc+4QpGZY=
+X-Received: by 2002:ac8:4419:: with SMTP id j25mr10596626qtn.378.1581350490175;
+	Mon, 10 Feb 2020 08:01:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <2cd46664933442f788e7d5ef62b184eb@XBOX03.axis.com>
-Cc: "openembedded-core@openembedded.org" <openembedded-core@openembedded.org>
-Subject: Re: [zeus 00/29] Patch review
+References: <20200208000110.29065-1-scott.branden@broadcom.com>
+	<CAMKF1spdaO+wpwowYzfu=vigB+tSJPtwS46eimFenj=0hmhLFA@mail.gmail.com>
+	<55bb9c66-a419-c43d-111b-e5442db8df91@broadcom.com>
+	<CAMKF1spFfVojndyrOXa6TFXHUO-DNR3xr3Dj7jwGa8g--Pdz1Q@mail.gmail.com>
+	<2159565f-eaca-697d-0711-e39aeccb1ba2@broadcom.com>
+	<CAMKF1srW_aR=4TZBxTdnTXwRWZg0u7TDhiNme9JsE8NSzXy_sw@mail.gmail.com>
+	<6cf5b86f-5055-0573-61ab-ad4717af5c2d@broadcom.com>
+	<CANNYZj_HaQAVfJ0f8jK2NXePovceXSZwJFdBMMVBSL4Fs_MqTw@mail.gmail.com>
+In-Reply-To: <CANNYZj_HaQAVfJ0f8jK2NXePovceXSZwJFdBMMVBSL4Fs_MqTw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 10 Feb 2020 08:01:03 -0800
+Message-ID: <CAMKF1spnPDqoOfSHs8tZSJGC54HnKk167sochq8MMh5X_ddu=w@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 1/2] x265: add x265 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -109,51 +61,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Feb 2020 16:01:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 10 Feb 2020 16:01:30 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 2/10/20 1:55 AM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-
->> bounces@lists.openembedded.org> On Behalf Of Schrempf Frieder
->> Sent: den 10 februari 2020 09:07
->> To: Armin Kuster <akuster808@gmail.com>; openembedded-
->> core@openembedded.org
->> Subject: Re: [OE-core] [zeus 00/29] Patch review
->>
->> Hi Armin,
->>
->> On 09.02.20 17:09, Armin Kuster wrote:
->>> These are the additional changes to help address reproducibility issues
->>> and additional fixes we would like to be included in 3.0.2
->>>
->>> Please have comments back by Tuesday
->> I have two questions/comments:
->>
->> 1. When I look at the zeus-next branch, why do I see only patches 7 to
->> 29 from this series applied and what about patches 1 to 6? Am I missing
->> something?
-> That is a really good question, and one I too would like an answer to.
+On Mon, Feb 10, 2020 at 3:42 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
->> 2. Patch 5 (devtool/standard.py: Allow recipe to disable menuconfig
->> logic) goes hand in hand with a change to the u-boot recipe, that is
->> also in master (c634b8db1a8b). This patch seems to be missing here.
-> That one is probably my fault. We have a local recipe that defines a 
-> menuconfig task and thus I needed the correction for devtool and sent 
-> a request for it to be backported. However, since we do not use u-boot, 
-> I did not think of that part, which obviously should be backported too. 
-will find that one.
-
-thanks,
-Armin
+> As long as we're consistent, I'm ok with either option. I think it's ultimately up to RP to make the call.
 >
->> Regards,
->> Frieder
-> //Peter
 >
 
+The usecase is fine, as long as we add x265 support to gst plugins and
+ffmeg and it gets tested via reference
+images, I see no issues adding it.
+
+> Alex
+>
+> On Mon, 10 Feb 2020 at 07:16, Scott Branden via Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
+>>
+>>
+>>
+>> On 2020-02-09 3:35 p.m., Khem Raj wrote:
+>> > On Sun, Feb 9, 2020 at 11:27 AM Scott Branden
+>> > <scott.branden@broadcom.com> wrote:
+>> >>
+>> >>
+>> >> On 2020-02-08 11:18 a.m., Khem Raj wrote:
+>> >>> On Fri, Feb 7, 2020 at 8:02 PM Scott Branden <scott.branden@broadcom.com> wrote:
+>> >>>> Hi Khem,
+>> >>>>
+>> >>>> On 2020-02-07 5:12 p.m., Khem Raj wrote:
+>> >>>>
+>> >>>>
+>> >>>>
+>> >>>> On Fri, Feb 7, 2020 at 4:01 PM Scott Branden via Openembedded-core <openembedded-core@lists.openembedded.org> wrote:
+>> >>>>> Add x265 recipe from latest revision of stable branch.
+>> >>>> I wonder if it belongs to core are there deps on it that we need in common metadata
+>> >>>>
+>> >>>> I simply followed where x264 recipe is located and placed x265 beside it.
+>> >>>> Both are needed when enabled in ffmpeg.
+>> >>>>
+>> >>>> I don't know if that answers your question as to where they should be located.
+>> >>> idea is to keep small and therefore we should assess the inclusions in core
+>> >>> we have many packageconfigs which require packages from other layers
+>> >>> so if ffmpeg needs it and is optional then it should be fine to keep
+>> >>> it in meta-multimedia and packageconfig in ffmpeg disabled by default.
+>> >> I don't see why x264 would be in core and x265 in meta-multimedia.
+>> >> Both should be moved to meta-multimedia then?
+>> >>
+>> > I followed the thread a bit and I see there are followups where
+>> > usecase for other recipes in core is now
+>> > established, where this seemed a leaf package being added to oe-core,
+>> > So perhaps it should be added
+>> > to validation loops as well like x264.
+>> I leave it to the powers that be to decide where to place this recipe.
+>> >
+>> >> I think you would also require a bbappend to fffmpeg recipe to add x264
+>> >> and x265 to ffmpeg packageconfig.
+>> >> if that is the case, why not move ffmpeg to meta-multimedia as well?
+>> >>
+>> > You would not go down that line of thought since these packages are in
+>> > the dependency chain for validating reference
+>> > images in core along with they being used by other packages from other layers.
+>> >
+>> >>>>> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+>> >>>>> ---
+>> >>>>>    meta/recipes-multimedia/x265/x265_git.bb | 20 ++++++++++++++++++++
+>> >>>>>    1 file changed, 20 insertions(+)
+>> >>>>>    create mode 100644 meta/recipes-multimedia/x265/x265_git.bb
+>> >>>>>
+>> >>>>> diff --git a/meta/recipes-multimedia/x265/x265_git.bb b/meta/recipes-multimedia/x265/x265_git.bb
+>> >>>>> new file mode 100644
+>> >>>>> index 0000000000..796fbbc13a
+>> >>>>> --- /dev/null
+>> >>>>> +++ b/meta/recipes-multimedia/x265/x265_git.bb
+>> >>>>> @@ -0,0 +1,20 @@
+>> >>>>> +SUMMARY = "H.265/HEVC video encoder"
+>> >>>>> +DESCRIPTION = "A free software library and application for encoding video streams into the H.265/HEVC format."
+>> >>>>> +HOMEPAGE = "http://www.videolan.org/developers/x265.html"
+>> >>>>> +
+>> >>>>> +LICENSE = "GPLv2"
+>> >>>>> +LICENSE_FLAGS = "commercial"
+>> >>>>> +LIC_FILES_CHKSUM = "file://../COPYING;md5=c9e0427bc58f129f99728c62d4ad4091"
+>> >>>>> +
+>> >>>>> +DEPENDS = "gnutls zlib libpcre"
+>> >>>>> +
+>> >>>>> +SRC_URI = "git://github.com/videolan/x265;branch=stable \
+>> >>>>> +          "
+>> >>>>> +
+>> >>>>> +SRCREV = "4ef6b67fd46e1584e52a11a264812edcaef02526"
+>> >>>>> +
+>> >>>>> +S = "${WORKDIR}/git/source"
+>> >>>>> +
+>> >>>>> +inherit lib_package pkgconfig cmake
+>> >>>>> +
+>> >>>>> +AS[unexport] = "1"
+>> >>>>> --
+>> >>>>> 2.17.1
+>> >>>>>
+>> >>>>> --
+>> >>>>> _______________________________________________
+>> >>>>> Openembedded-core mailing list
+>> >>>>> Openembedded-core@lists.openembedded.org
+>> >>>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
