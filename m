@@ -1,50 +1,44 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 557C160F42;
-	Tue, 11 Feb 2020 17:59:58 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id z7so13508313wrl.13;
-	Tue, 11 Feb 2020 09:59:59 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com
+	[209.85.221.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CB6D60FC9;
+	Tue, 11 Feb 2020 18:07:08 +0000 (UTC)
+Received: by mail-vk1-f171.google.com with SMTP id b69so3238948vke.9;
+	Tue, 11 Feb 2020 10:07:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=qs1f7tQ3t6iHk6tNThsJwke1SVRbraBD+TZ9GCvspZM=;
-	b=AkA9XibKxIItoNxasb2+oQGTRCI09YqqZ5ZMzpTlX/vEF3AAw0OU0VDnepJLpR+j/f
-	soCOw1I+RfTqloaXA+KpbLXhotqocPY55leh7OQ9npBrIKWJkbuW4iK+te2LKDT2wC6j
-	Du2lKdtM0g9YW/03JHvGw1IlsF+rr8K5Ov42s8ydfzMC+nzcGBPEbCwIs7Vu9ohl0W2e
-	+c6JGi5TsiDMxBVkVwmJSC7dXed9ePoqSR0rkblMnNaAWAh/27IchYzRxwbVknSYmBbT
-	ajT9s2zQXPeIeb3/oBPMj4eU+OcIprU/UXPNSrK4Phmy129bivl6Ep1/8MOxfM+syo1/
-	x4Ow==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=4bLPkB9/Glm16caGkjtr0N4MQlaxMzW8rfhQttXFqw4=;
+	b=fgtTXZSjF4O5DZxTwjJD5yq7u9VF6JJYgayH29NT00qaR4QINUgLEnf1FQJL7ZXo4a
+	Q/7Rjj3YkvnsyY3k9A4k0C6qYn1gWAINyoIx+qWdXFMefCOXO94LiMPXP74+lT1SsIwX
+	hjK6n86aQVcsbcyB8zktxGDlpDGnXLw4puYbDcXuO0kRNqBzKseX5Gvv28fDAWh2MC4h
+	tU/MstCOR18p4Bu74z2DiR3nalbRRuGHaUyq7JgOOoyKL9SLh9MCrqsfy0/FBVNP7ixC
+	DDa121tGi2gphklMK1j4oWdJvRU0T2H3lDZehcHnzK/4JrEmlVKyCguNKFrH25VzLht6
+	3xAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=qs1f7tQ3t6iHk6tNThsJwke1SVRbraBD+TZ9GCvspZM=;
-	b=Qte5eBnVIFU9UZUpiJ0dCDpL4VXD0XCKz+C+IEC/Kq6j0SqkT/1Sb1UnSOA5OnjSfA
-	0LF1ZEzkd+uewmlXh0MSILL5EvqvFCnjRjsibqne6Rsy9qUKVH7l6w4OaXlhaggnI7xM
-	oePwrjiXZQzfstAUCkGQOmLpFeXfEvcx0D3l1TkemJLiGuOGwNRRBFsNtZYSXkNtosW5
-	hnLW5aiVPkeGRP/ZQG8V8I1q2kiCYOccLMY13HL9PSGZrxHdicqq7ngNHVLjS6t3gWMs
-	qZCNF2ywsDUeYpBrBpP4okpHvdfCe5eyIhronEbZqni6Nihi1hTAJge5DPjLWAK8vHD/
-	2rsg==
-X-Gm-Message-State: APjAAAVCXN/lAxm8xpidfhNMD2btos9deeBsc6i87ho2L3ZWG3z2KGEl
-	yhloYFWxZGeQ8Y4FOOcgBBY=
-X-Google-Smtp-Source: APXvYqw8OrISJrtn5p/Y1tXf/xzBWVUMoOwGxQztBhiXCiHJG5Jwtty5tBsMv3zWDBmSC93frKMTtw==
-X-Received: by 2002:a5d:670a:: with SMTP id o10mr9640492wru.227.1581443998968; 
-	Tue, 11 Feb 2020 09:59:58 -0800 (PST)
-Received: from localhost ([109.238.218.228]) by smtp.gmail.com with ESMTPSA id
-	133sm5096949wme.32.2020.02.11.09.59.57
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 11 Feb 2020 09:59:57 -0800 (PST)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 11 Feb 2020 18:59:57 +0100
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20200211175957.mmmyembd5z4bhvwr@jama>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=4bLPkB9/Glm16caGkjtr0N4MQlaxMzW8rfhQttXFqw4=;
+	b=e7yEQbkq9RukOvFOfe/tDGCEIiWKm0sQj8hCpSrxRZjSgCXhuxH+iZagHU6oez/UmN
+	ZX8nq6OK0yNyU6drSLu6QAL5HSh1mX7pauQRPjjfc6HSIMZPJiPmmsVJeZn1wmWcpZxT
+	Yk2O7qKk0akIfgN5vc9/N4c+n3uqtjSrLtmsgC9gKYqygMdWFC2u2s9UiRFMD3QzAu//
+	5iz9ZmYrv3gYZ+wx1a2m+yWHJRWbKLhgX9JVsqauBOMWqA/bqzaYoYkSLZa0S/MZwJe7
+	j1lartUb6nPVEDJSCkDS98arYvSZ5As3FBh9LlOwIB9eibBuDfyk6IAtrxQDwm0vNQ6C
+	v1JA==
+X-Gm-Message-State: APjAAAX9EJWRZGdBb46uWIgzVEswCQQOEPS9BVlJXPIxxWe2tnnxk9h3
+	VkzIXjd+6dy0EXpQ/JziE1kWuiPUduZ4PCbaMck=
+X-Google-Smtp-Source: APXvYqyBmSUDLq4Jkr/GfRWXZ6j6wrIsv6s2406krpovLiO7+jRarFk/dpG9KKFk9PD57zvwdx2sfw4zIfUDDDoKBew=
+X-Received: by 2002:a05:6122:2b6:: with SMTP id
+	22mr5266113vkq.49.1581444428812; 
+	Tue, 11 Feb 2020 10:07:08 -0800 (PST)
+MIME-Version: 1.0
 References: <CANNYZj-KS+mHQ20sQUv-SzpeaXjvAzQDPND00iuep6ek7utd5g@mail.gmail.com>
 	<2a9e05eadae5df35ae1c13be4484fd6d3e8fed19.camel@linuxfoundation.org>
-MIME-Version: 1.0
 In-Reply-To: <2a9e05eadae5df35ae1c13be4484fd6d3e8fed19.camel@linuxfoundation.org>
-User-Agent: NeoMutt/20180716
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 11 Feb 2020 19:06:57 +0100
+Message-ID: <CANNYZj_JXMzwQuLcUwfAty_ESZZ8gWav+K9_gz8dDqSZR+xUEw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-architecture
 	<openembedded-architecture@lists.openembedded.org>,
 	OE-core <openembedded-core@lists.openembedded.org>
@@ -61,53 +55,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2020 17:59:58 -0000
-X-Groupsio-MsgNum: 134827
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="pb3wqnsf2ldjequt"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 11 Feb 2020 18:07:09 -0000
+Content-Type: multipart/alternative; boundary="00000000000069563d059e50b9a3"
 
---pb3wqnsf2ldjequt
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--00000000000069563d059e50b9a3
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 11, 2020 at 05:53:38PM +0000, Richard Purdie wrote:
+On Tue, 11 Feb 2020 at 18:53, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+>
 > I still strongly believe we need something in core which pulls together
 > all our pieces into a UI where you can test key elements of what we
 > build. If we don't have sato how do we actually test the core or demo
 > it?
->=20
+>
+
+See my other email I just wrote; I think epiphany/webkit under weston is
+able to replace sato more or less fully in this aspect, and actually do
+more when it comes to modern embedded UI use cases which involve video and
+3D.
+
+
 > I think we shouldn't rush into things here. We should ramp up our
 > wayland testing and make the wayland images more useful/comprehensive
 > and then look at moving more of our tests from sato to the wayland
 > images.
->=20
-> So in summary, yes, I think we do retarget our testing over time and
-> strengthen when were testing under wayland. I probably don't see that
-> needing to happen quite as quickly as you do though!
+>
 
-Agreed,
+Certainly no rush here and this transition will proceed carefully and will
+take years, but then I am famous for mercilessly removing things from
+oe-core, and X with sato would be the biggest one yet! :)
 
-it might be nicer to have x11 separated in some meta-x11 layer and
-meta-sato in another layer as well, but as long as there is no clear
-replacement and x11 in oe-core doesn't cause too much work I think that
-dropping x11 from DISTRO_FEATURES is working quite nicely for people
-who don't care about x11 at all already.
+Alex
 
-Maybe it would make sense to remove x11 from default DISTRO_FEATURES
-and/or include opengl+wayland instead?
+--00000000000069563d059e50b9a3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cheers,
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 11 Feb 2020 at 18:53, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><br>
+I still strongly believe we need something in core which pulls together<br>
+all our pieces into a UI where you can test key elements of what we<br>
+build. If we don&#39;t have sato how do we actually test the core or demo<b=
+r>
+it?<br></blockquote><div><br></div><div>See my other email I just wrote; I =
+think epiphany/webkit under weston is able to replace sato more or less ful=
+ly in this aspect, and actually do more when it comes to modern embedded UI=
+ use cases which involve video and 3D.<br></div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+I think we shouldn&#39;t rush into things here. We should ramp up our<br>
+wayland testing and make the wayland images more useful/comprehensive<br>
+and then look at moving more of our tests from sato to the wayland<br>
+images.<br></blockquote><div><br></div><div>Certainly no rush here and this=
+ transition will proceed carefully and will take years, but then I am famou=
+s for mercilessly removing things from oe-core, and X with sato would be th=
+e biggest one yet! :)</div><div><br></div><div>Alex<br></div></div></div>
 
---pb3wqnsf2ldjequt
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXkLrnAAKCRA3VSO3ZXaA
-HHTLAJ4/cSb8Bw5SiMaoDimWJFLsCY9ULwCgi6/qqwIJWHlWV6jS5DdQ5w8ZS6s=
-=pwa7
------END PGP SIGNATURE-----
-
---pb3wqnsf2ldjequt--
+--00000000000069563d059e50b9a3--
