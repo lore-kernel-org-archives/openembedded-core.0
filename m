@@ -1,60 +1,49 @@
-Return-Path: <prvs=1310c64d90=holzmayr@rsi-elektrotechnik.de>
-X-Greylist: delayed 355 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 11 Feb 2020 14:17:36 UTC
-Received: from mo4-p01-ob.smtp.rzone.de (mo4-p01-ob.smtp.rzone.de
-	[81.169.146.164])
-	by mail.openembedded.org (Postfix) with ESMTP id 42FAB60CD4;
-	Tue, 11 Feb 2020 14:17:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1581430657;
-	s=strato-dkim-0002; d=rsi-elektrotechnik.de;
-	h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
-	X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
-	bh=CLZHhMvrDiBe+iP7yIPQdKMeCi0XfPMV/dt2n5ZJGeQ=;
-	b=spNRdMlEdeqG5XiO2C/Pop4/yQZXHATqGhXTLbSRMs+38y6tOvYkHlPAUqybcS/9LC
-	k3ROhD2lrfPQ0nv/B+38I2mzq67lSkVjngmTiwPyv7cKqQAzRQDPVVulBDMMbnSi0Nc4
-	1e+PCSt/W7s4CiCH2NVa/zY7SzCNee3ICcs7JzE4l2tSD05uzxcnKntnXsVM0HK0qaFf
-	5Cikoq/QsjXXlTiPWKLfbwI90fwtHvyPsW5/mPzAdnFM6wbJrMN3GxxnhWIvFSUgOJqY
-	K6pMYWBrGW/S9slohpbqEG+qzaxGPJRNQFHohOSRtmSj1fgvTB62mUesJe07Q8jF2UiC
-	HTBQ==
-X-RZG-AUTH: ":fz5RJhWIaexwuXGosGLfiBc0xYyi1Y5bd+wRKqrzPXw4V1/KqCOd+ZZzzoK8epFp9XQIUl6aPGQL"
-X-RZG-CLASS-ID: mo00
-Received: from mail.rsi-elektrotechnik.de
-	by smtp.strato.de (RZmta 46.1.12 AUTH)
-	with ESMTPSA id e0837bw1BE5bfhN
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
-	(Client did not present a certificate);
-	Tue, 11 Feb 2020 15:05:37 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/relaxed;
-	d=rsi-elektrotechnik.de; s=MDaemon; t=1581429937; x=1582034737;
-	i=holzmayr@rsi-elektrotechnik.de; q=dns/txt; h=Date:From:To:Cc:
-	Subject:Message-ID:References:MIME-Version:Content-Type:
-	Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
-	User-Agent; bh=CLZHhMvrDiBe+iP7yIPQdKMeCi0XfPMV/dt2n5ZJGeQ=; b=J
-	1iJ7+aAFKV03OnWKGg2GD2VBurnbitkqYTh4N4B0Mmwmy2QGs5SO5SNdjBy0i29o
-	3xUa6Ozygcl3l4pyUzzIJkc0KpuWPp7jG0dV0PBrTtHu1JzM7rvPT3l3PhhO2EUE
-	5n1RAB5O05YDLcEbphzpkACa66emfM3lgqDxpfj0H0=
-Received: by mail.rsi-elektrotechnik.de (MDaemon PRO v19.5.4) with ESMTPSA id
-	md50000243160.msg; Tue, 11 Feb 2020 15:05:37 +0100
-X-Spam-Processed: mail.rsi-elektrotechnik.de, Tue, 11 Feb 2020 15:05:37 +0100
-	(not processed: message from trusted or authenticated source)
-X-MDArrival-Date: Tue, 11 Feb 2020 15:05:37 +0100
-X-Authenticated-Sender: holzmayr@rsi-elektrotechnik.de
-X-Return-Path: prvs=1310c64d90=holzmayr@rsi-elektrotechnik.de
-X-Envelope-From: holzmayr@rsi-elektrotechnik.de
-Date: Tue, 11 Feb 2020 14:05:00 +0000
-From: Josef Holzmayr <holzmayr@rsi-elektrotechnik.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20200211140500.hreujdfmfxuf4omh@jh-mailer>
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com
+	[209.85.222.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 16C6E60CC6;
+	Tue, 11 Feb 2020 14:34:32 +0000 (UTC)
+Received: by mail-ua1-f44.google.com with SMTP id w15so4023867uap.0;
+	Tue, 11 Feb 2020 06:34:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=7Avd3+fdJ9FPL4H2nqN2D67jjOF2ijLyYcKTeAU+T08=;
+	b=XP9R3stjpuMr4hAewEjI+fXJGMG/gqsDPO/yZDfRiX22gF2WasYw5vlWfqINAMex65
+	fmsGydxcCxD9fcCJkQ3SzaTB4Z5CI1QuImwYHGXzwFXxQG5TqjUyHb2rGkM6+usyW02+
+	Q7hIPWaj2CbbC0UwUsIr3lilOtWUq7O4PCvFJJ4rCJRtPKok9WewvhI2Di3nwOUeYCfh
+	TsPkDTNiOYJmWL1obSTqe4Q/0QnKDc4jnilSW5/SVPyxR4Ei0YOhRCtZrLDKs8CmMOak
+	MCcz2299Fe7hpQVwXmkhhqRXar7TvqrI/tvUTOqCbXBa38O2MLr/iJCH31IOM3P96kZf
+	I+VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=7Avd3+fdJ9FPL4H2nqN2D67jjOF2ijLyYcKTeAU+T08=;
+	b=FE+bWQhxuYycSP92I4J3vSHvc6pQLiNDdtxp03kTxXTVjr/56xqQ7TsyVorfj4G4Sc
+	f86JulVt+gfXdgORy9EZxeX5ESD+AK9YeDC4m3v5EKt+UmGTA454d96RBIdZsPz7Dzvr
+	c2WyP33uEmPKIkaY9m6+gmCffqOcHH8iQO8fDXZnvqz7aPg20aqorxhVAoKPcQh3rann
+	K+JGfvC1iH+C5b02l0HpTG9G8rV/TbrAMCM4SFD+b4S6tg5TPYah1JtW7CW125PpBnxK
+	o5JQoIfNCoitXuPnaoZ1a0MKn5mXIRIRbL55DnHZZBUy5z7WZwgrYhik5B/Esr/YdpKt
+	51pg==
+X-Gm-Message-State: APjAAAXulKMgzWmPyFY8o8Dnbcd2K9HYOkxkSeOKpSvjLckUXOIgpTjR
+	MpR1/Q2Hp3Vl7HxzgDzjpGuhHaoOLZdOlZlibVWkgA==
+X-Google-Smtp-Source: APXvYqx2D93Tdj9jA7SAsqxA73lO9UFIXNNmj8kbU7GJpNrpY4bkqrKKyRNKsqVWoaPwXbkwPU4R4K6+GPj0YyoIIdQ=
+X-Received: by 2002:ab0:658d:: with SMTP id v13mr1659049uam.71.1581431672945; 
+	Tue, 11 Feb 2020 06:34:32 -0800 (PST)
+MIME-Version: 1.0
 References: <CANNYZj-KS+mHQ20sQUv-SzpeaXjvAzQDPND00iuep6ek7utd5g@mail.gmail.com>
 	<20200211135323.GA3234@localhost>
 	<CANNYZj_ExXVJJMS3g6Ga2xNc9AgspEhcMBQgmQGaQXmkcUYvPQ@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj_ExXVJJMS3g6Ga2xNc9AgspEhcMBQgmQGaQXmkcUYvPQ@mail.gmail.com>
-User-Agent: NeoMutt/20171215
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	openembedded-architecture
+	<CANNYZj_v9=Ys-NXqHWXY42dZqT95+LxcRUqSRKcyy6pMz-Y01g@mail.gmail.com>
+	<20200211141347.GB3234@localhost>
+In-Reply-To: <20200211141347.GB3234@localhost>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 11 Feb 2020 15:35:03 +0100
+Message-ID: <CANNYZj_2WVWrWDbL1tsUeqVQ_OPHnzebA=6fobRD9e==UybAhA@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: openembedded-architecture
 	<openembedded-architecture@lists.openembedded.org>,
-	Adrian Bunk <bunk@stusta.de>
+	OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [Openembedded-architecture] Future of sato and X in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -68,108 +57,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2020 14:17:38 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Feb 2020 14:34:33 -0000
+Content-Type: multipart/alternative; boundary="0000000000001a47fa059e4dc139"
 
-Howdy!
+--0000000000001a47fa059e4dc139
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 11, 2020 at 02:57:48PM +0100, Alexander Kanavin wrote:
-> The question is: what are the use cases for an 'example/reference UI'? Why
-> have one at all at this point? Remember, the core project is severely
-> under-staffed and we need to commit our limited resources wisely.
+X might and likely will start to bitrot sooner for those not using RHEL 8
+and its very conservative and never changing software stack. I can imagine
+Red Hat has no interest in supporting it on Fedora going forward for
+instance, they'll just make Xwayland work, and rip the standalone server
+and its drivers and libraries out.
 
-My $.02 are, that while being a good test vehicle to build for us, it is
-actually giving a wrong impression to newcomers. Like "here is a DE to
-start off, and you can use this build like your desktop box" which is not
-at all true.
+Oe-core will have X for as long as the burden of fixing build errors and
+runtime issues with custom patches is not too painful. The point I am
+trying to make is that I am not convinced oe-core needs a 'real' ui at all,
+and opinion to the contrary should justify the need.
 
-So my votes are on, as long as we have something that *can* do
-*something* on screen with as little effort as possible, we should go
-for it. Maintaining a custom thing should be avoided.
+Alex
 
-Greetz
+On Tue, 11 Feb 2020 at 15:13, Adrian Bunk <bunk@stusta.de> wrote:
 
-> 
-> On Tue, 11 Feb 2020 at 14:53, Adrian Bunk <bunk@stusta.de> wrote:
-> 
-> > On Tue, Feb 11, 2020 at 01:49:27PM +0100, Alexander Kanavin wrote:
-> > >...
-> > > - matchbox is reliant on gtk3 (to be obsoleted by gtk4 this year), and
-> > does
-> > > not have a Wayland compositor. Yocto project does not have the resources
-> > to
-> > > do the gtk4 port, or add a compositor.
-> > >
-> > > - no 'lightweight Wayland compositor with a desktop/launcher experience"
-> > > has emerged in the open source space; I think the only realistic choice
-> > at
-> > > the moment is the reference compositor Weston which provides a blank
-> > > desktop with ability to open terminal windows.
-> > >
-> > > So the way I think things should be going (seeking opinions/inputs of
-> > > course):
-> > >...
-> > > - oe-core continues to support and runtime-test X for as long as
-> > possible;
-> > > for this a new image (say, 'core-image-sato-xorg') is created which will
-> > > provide matchbox under X. However, once upstream bitrot sets in, and pain
-> > > threshold is exceeded, this will be removed and/or relegated to a legacy
-> > > layer.
-> > >
-> > > Thoughts?
-> >
-> > matchbox made sense at a time when you could go into a shop and buy an
-> > internet tablet with Linux running on 256 MB flash with 256 MB RAM.
-> >
-> > Part of the problem is that the only remaining usage of this branch
-> > of matchbox development seems to be as example UI for Yocto.
-> >
-> > For matchbox/sato I am wondering whether replacing it with parts of
-> > meta-xfce from meta-openembedded would be a good way forward.
-> >
-> > Upstream Xfce still seems to be 2-3 years away from gtk4 and Wayland
-> > support, but at the point where supporting X might become a problem
-> > this should be available.
-> >
-> > Xfce was my first thought as replacement since it appears to be
-> > well-maintained in meta-openembedded, no strong opinion whether
-> > it is actually the best option.
-> >
-> > > Regards,
-> > > Alex
-> >
-> > cu
-> > Adrian
-> >
+> On Tue, Feb 11, 2020 at 03:01:20PM +0100, Alexander Kanavin wrote:
+> > Specifically (sorry for the rapid-followup), I think the main value
+> > proposition of core is integration and testing of various language
+> > toolchains and core libraries. UIs in embedded space can mean pretty much
+> > anything, and so I'd leave that to specialised layers.
+>
+> That's actually quite different from your original email.
+>
+> Your original email raised the problem that X might start to bitrot
+> after the end of support for RHEL 8 in the year 2029 (sic).
+>
+> What functionality should be in core for users/demo/QA/...
+> is not strictly related to X versus Wayland.
+>
+> > Alex
+>
+> cu
+> Adrian
+>
 
-> _______________________________________________
-> Openembedded-architecture mailing list
-> Openembedded-architecture@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
+--0000000000001a47fa059e4dc139
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr">X might and likely will start to bitrot sooner for those n=
+ot using RHEL 8 and its very conservative and never changing software stack=
+. I can imagine Red Hat has no interest in supporting it on Fedora going fo=
+rward for instance, they&#39;ll just make Xwayland work, and rip the standa=
+lone server and its drivers and libraries out.=C2=A0<div><br></div><div>Oe-=
+core will have X for as long as the burden of fixing build errors and runti=
+me issues with custom patches is not too painful. The point I am trying to =
+make is that I am not convinced oe-core needs a &#39;real&#39; ui at all, a=
+nd opinion to the contrary should justify the need.<div><br></div><div><div=
+>Alex</div></div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
+" class=3D"gmail_attr">On Tue, 11 Feb 2020 at 15:13, Adrian Bunk &lt;<a hre=
+f=3D"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-wid=
+th:1px;border-left-style:solid;border-left-color:rgb(204,204,204);padding-l=
+eft:1ex">On Tue, Feb 11, 2020 at 03:01:20PM +0100, Alexander Kanavin wrote:=
+<br>
+&gt; Specifically (sorry for the rapid-followup), I think the main value<br=
+>
+&gt; proposition of core is integration and testing of various language<br>
+&gt; toolchains and core libraries. UIs in embedded space can mean pretty m=
+uch<br>
+&gt; anything, and so I&#39;d leave that to specialised layers.<br>
+<br>
+That&#39;s actually quite different from your original email.<br>
+<br>
+Your original email raised the problem that X might start to bitrot<br>
+after the end of support for RHEL 8 in the year 2029 (sic).<br>
+<br>
+What functionality should be in core for users/demo/QA/...<br>
+is not strictly related to X versus Wayland.<br>
+<br>
+&gt; Alex<br>
+<br>
+cu<br>
+Adrian<br>
+</blockquote></div>
 
--- 
-———————————————
-Josef Holzmayr
-Software Developer Embedded Systems
-
-Tel: +49 8444 9204-48
-Fax: +49 8444 9204-50
-
-R-S-I Elektrotechnik GmbH & Co. KG
-Woelkestrasse 11
-D-85301 Schweitenkirchen
-www.rsi-elektrotechnik.de
-———————————————
-Amtsgericht Ingolstadt – GmbH: HRB 191328 – KG: HRA 170393
-Geschäftsführer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
-Ust-IdNr: DE 128592548 
-
-_____________________________________________________________
-Amtsgericht Ingolstadt - GmbH: HRB 191328 - KG: HRA 170363
-Geschäftsführer: Dr.-Ing. Michael Sorg, Dipl.-Ing. Franz Sorg
-USt-IdNr.: DE 128592548
-
-
+--0000000000001a47fa059e4dc139--
