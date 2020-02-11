@@ -1,49 +1,29 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
-	[209.85.217.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 96C5C601EB;
-	Tue, 11 Feb 2020 14:00:49 +0000 (UTC)
-Received: by mail-vs1-f51.google.com with SMTP id r18so6326512vso.5;
-	Tue, 11 Feb 2020 06:00:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xPZVIl9TMB+URfZm2HepkwRPCqs/Hrchpkyd39xAZtc=;
-	b=P0CpRYBBhyeSkwouLBCa7zHwVP54pnr2yAbxND9LAnlb45gmF6NNm5XBla1nLJwmh+
-	wW8qLgnCwC3XLcD8diiC1cM14zDjHTX5UVV1RFUObQm4ZCxUR3ioxdw67pNxCBgaPvlG
-	WVEF56ebFlzsRY1YCGlv2O1Tz5f10h3LpOQXDvhmlDnWVEthpH/XZq9cgPKle/kHsNbf
-	BLcNjP57VucrwAaRFFxflfx5hMOiCISISbsFbUqK4KjSSTQK5StdMYcZ4A73owrLHwaR
-	sPRDztQt9tXHk1UypCt+bjMMtgkNFecgmKL9RIOpzPcpRFoxvhwXIUsH6SpeFDMb2FU9
-	Kmhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xPZVIl9TMB+URfZm2HepkwRPCqs/Hrchpkyd39xAZtc=;
-	b=TrjfxG7ADDWB4eiUtQ6JxCk7XT6qxMrIPrS5IVV/aRJ4nQWKtQCCOwMTAuGDhJcUkp
-	epIGy8f5bxi+9q9fbMe3xAEobqJ2SDjZ9mpXIA1Ta1xuGwBD0ZSpxcOBBfKBTjKV5Vw2
-	Ux9I/CjUnuaXMry/WfeJ9eilBklf/LLbQFES4rP1kmUAmBqpNJKCJQmkQEWXFChOSM8U
-	PVO4dzirpiPbofXZWZhvnjT1YSvFybmhwYQ8WGaQj3fSx8omDqHQTgExCTHkMlOUvwWI
-	BSPTWnvICbLMvdicu+lniAtIern+597hZbMKwe05grsRbUw/AC+37OkRSDFxM261ysJs
-	fVAg==
-X-Gm-Message-State: APjAAAV075pWNb5E6oOW4dgPGxdvF2fpOM8QANMK5uK3Kx5Uz8EBNiuW
-	1QN/dOI3zbm67qud6+F4DJJv9YUkFDxgyHVg8OE=
-X-Google-Smtp-Source: APXvYqxWlnou3YQJIEFC190OjOmlji/tTgJC7Y5ijNTaAkPepOvxdY0WQxMlirmAf05r4vV6JQknu2cIbPYuf2W/9WQ=
-X-Received: by 2002:a05:6102:757:: with SMTP id
-	v23mr9361421vsg.35.1581429650446; 
-	Tue, 11 Feb 2020 06:00:50 -0800 (PST)
+Return-Path: <Trevor.Gamblin@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 837A960CCC
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2020 14:06:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01BE6JtQ010068
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Tue, 11 Feb 2020 06:06:29 -0800
+Received: from [128.224.22.210] (128.224.22.210) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 11 Feb 2020 06:06:08 -0800
+To: Khem Raj <raj.khem@gmail.com>
+References: <20200210234603.1718190-1-trevor.gamblin@windriver.com>
+	<CAMKF1spA0NSOd9m=T2AHJ0xULm8=9FBgpz4kCAUk_7O_+ONeJg@mail.gmail.com>
+From: Trevor Gamblin <trevor.gamblin@windriver.com>
+Message-ID: <54185c02-4e1c-008f-b3d1-a97bea80771c@windriver.com>
+Date: Tue, 11 Feb 2020 09:06:07 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <CANNYZj-KS+mHQ20sQUv-SzpeaXjvAzQDPND00iuep6ek7utd5g@mail.gmail.com>
-	<20200211135323.GA3234@localhost>
-	<CANNYZj_ExXVJJMS3g6Ga2xNc9AgspEhcMBQgmQGaQXmkcUYvPQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_ExXVJJMS3g6Ga2xNc9AgspEhcMBQgmQGaQXmkcUYvPQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 11 Feb 2020 15:01:20 +0100
-Message-ID: <CANNYZj_v9=Ys-NXqHWXY42dZqT95+LxcRUqSRKcyy6pMz-Y01g@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Future of sato and X in oe-core
+In-Reply-To: <CAMKF1spA0NSOd9m=T2AHJ0xULm8=9FBgpz4kCAUk_7O_+ONeJg@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] bitbake-buildall: automate build testing for qemu MACHINEs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,159 +36,216 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2020 14:00:49 -0000
-Content-Type: multipart/alternative; boundary="0000000000008d5d5f059e4d48e3"
+X-List-Received-Date: Tue, 11 Feb 2020 14:06:56 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---0000000000008d5d5f059e4d48e3
-Content-Type: text/plain; charset="UTF-8"
 
-Specifically (sorry for the rapid-followup), I think the main value
-proposition of core is integration and testing of various language
-toolchains and core libraries. UIs in embedded space can mean pretty much
-anything, and so I'd leave that to specialised layers.
+On 2/10/20 7:28 PM, Khem Raj wrote:
+> On Mon, Feb 10, 2020 at 3:47 PM Trevor Gamblin
+> <trevor.gamblin@windriver.com> wrote:
+>> bitbake-buildall simplifies the process of build testing an upgraded or
+>> patched recipe by cycling through the build steps for each available qemu
+>> target, with desired LIBC specified by the user as an option (defaulting
+>> to both glibc and musl if no option is provided). While building, a log
+>> file with the name "<recipe>-buildall.log" is written, containing a PASS
+>> or FAIL line upon completion of the build for each architecture. For now,
+>> qemu targets are not selectable (i.e. the recipe is built for all qemu
+>> targets found in meta/conf/machine), but this functionality can be added
+>> in the future along with other useful options.
+>>
+>> The log file created by bitbake-buildall also includes some basic system
+>> info (e.g. build start time, hostname, host OS, host kernel). Since it is
+>> not guaranteed that tools such as lsb_release will be available on the
+>> host (it isn't by default on my Fedora machine), this information is
+>> collected manually. Additionally, the previous run's log is retained for
+>> comparison by renaming it in the format <recipe>-buildall.log.old once a
+>> new set of builds is triggered for the same recipe.
+>>
+>> Finally, in v2, the line "set -o pipefail" has been removed to be fully
+>> POSIX-compatible.
+>>
+>> Sample log output:
+>>
+>> BITBAKE-BUILDALL LOG FOR aspell
+>> START TIME: 2020-02-05_15:57:41
+>> HOSTNAME: yow-tgamblin-fedora2
+>> HOST OS: Fedora 31 (Server Edition)
+>> HOST KERNEL: 5.4.10-200.fc31.x86_64
+>> ===============
+>> BUILD RESULTS:
+>> [glibc]
+>> PASS: qemuarmv5
+>> PASS: qemux86
+>> PASS: qemuppc
+>> PASS: qemumips64
+>> FAIL: qemux86-64
+>> FAIL: qemumips
+>> FAIL: qemuarm
+>> FAIL: qemuarm64
+>> FAIL: qemuriscv64
+>> [musl]
+>> PASS: qemuarmv5
+>> PASS: qemux86
+>> PASS: qemuppc
+>> PASS: qemumips64
+>> PASS: qemux86-64
+>> PASS: qemumips
+>> PASS: qemuarm
+>> PASS: qemuarm64
+>> PASS: qemuriscv64
+>> ===============
+>> PASSED: 13
+>> FAILED: 5
+>>
+>> Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
+>> ---
+>>   scripts/bitbake-buildall | 120 +++++++++++++++++++++++++++++++++++++++
+>>   1 file changed, 120 insertions(+)
+>>   create mode 100755 scripts/bitbake-buildall
+> if its building qemu machines only, then naming it build-qemuall.sh or
+> some such would be
+> better, I would avoid usine bitbake- prefix. That can confuse with bitbake tools
 
-Alex
+The intent is that it can be extended to machines other than just qemu 
+with later patches, so I'm hesitant to give it a qemu-specific name.
 
-On Tue, 11 Feb 2020 at 14:57, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+I could rename it to something like buildall-targets.
 
-> The question is: what are the use cases for an 'example/reference UI'? Why
-> have one at all at this point? Remember, the core project is severely
-> under-staffed and we need to commit our limited resources wisely.
 >
-> Alex
->
-> On Tue, 11 Feb 2020 at 14:53, Adrian Bunk <bunk@stusta.de> wrote:
->
->> On Tue, Feb 11, 2020 at 01:49:27PM +0100, Alexander Kanavin wrote:
->> >...
->> > - matchbox is reliant on gtk3 (to be obsoleted by gtk4 this year), and
->> does
->> > not have a Wayland compositor. Yocto project does not have the
->> resources to
->> > do the gtk4 port, or add a compositor.
->> >
->> > - no 'lightweight Wayland compositor with a desktop/launcher experience"
->> > has emerged in the open source space; I think the only realistic choice
->> at
->> > the moment is the reference compositor Weston which provides a blank
->> > desktop with ability to open terminal windows.
->> >
->> > So the way I think things should be going (seeking opinions/inputs of
->> > course):
->> >...
->> > - oe-core continues to support and runtime-test X for as long as
->> possible;
->> > for this a new image (say, 'core-image-sato-xorg') is created which will
->> > provide matchbox under X. However, once upstream bitrot sets in, and
->> pain
->> > threshold is exceeded, this will be removed and/or relegated to a legacy
->> > layer.
->> >
->> > Thoughts?
+>> diff --git a/scripts/bitbake-buildall b/scripts/bitbake-buildall
+>> new file mode 100755
+>> index 0000000000..74a5994f2f
+>> --- /dev/null
+>> +++ b/scripts/bitbake-buildall
+>> @@ -0,0 +1,120 @@
+>> +#!/bin/sh
+>> +#  Copyright (c) 2020 Wind River Systems, Inc.
+>> +#
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +#
+>> +# bitbake-buildall: a tool for automating build testing of recipes
+>> +# TODO: Add support for selecting which qemu architectures to build
+>> +# TODO: Add support for queueing up multiple recipe builds
+>> +# TODO: Add more logging options (e.g. local.conf info, bitbake env info)
+>> +
+>> +usage ()
+>> +{
+>> +    base=$(basename "$0")
+>> +    echo "Usage: $base [options] [recipename/target]"
+>> +    echo "Executes a build of a given target for selected LIBCs. With no options, default to both libc and musl."
+>> +    echo "Options:"
+>> +    echo "-l, --libc            Specify one of \"libc\" or \"musl\""
+>> +}
+>> +
+>> +
+>> +buildall ()
+>> +{
+>> +    # Get path to oe-core directory. Since oe-init-build-env prepends $PATH with
+>> +    # the path to the scripts directory, get it from there
+>> +    SCRIPTS_PATH="$(echo "$PATH" | cut -d ":" -f 1)"
+>> +    OE_CORE_PATH=$(echo "$SCRIPTS_PATH" | sed 's|\(.*\)/.*|\1|')
+>> +
+>> +    # Get target list and host machine information
+>> +    TARGET_LIST=$(find "$OE_CORE_PATH"/meta/conf/machine -maxdepth 1 -type f | grep qemu | sed 's|.*/||' | sed -e 's/\.conf//')
+>> +
+>> +    # Set LIBC value to use for the builds based on options provided by the user
+>> +    if [ -n "$2" ]
+>> +    then
+>> +       LIBC_LIST="$2"
+>> +       echo "$LIBC_LIST"
+>> +    else
+>> +       LIBC_LIST="glibc musl"
+>> +       echo "$LIBC_LIST"
+>> +    fi
+>> +
+>> +    START_TIME=$(date "+%Y-%m-%d_%H:%M:%S")
+>> +    LOG_FILE="$1-buildall.log"
+>> +    OS_INFO=$(grep "PRETTY_NAME=" /etc/os-release | awk -F "=" '{print $2}' | sed -e 's/^"//' -e 's/"$//')
+>> +
+>> +    # Append an existing log file for this build with .old if one exists
+>> +    if [ -f "${LOG_FILE}" ]
+>> +    then
+>> +       mv "${LOG_FILE}" "${LOG_FILE}.old"
+>> +    else
+>> +          touch "${LOG_FILE}"
+>> +    fi
+>> +
+>> +    # Fill the log file with build and host info
+>> +    echo "BITBAKE-BUILDALL LOG FOR $1" >> "${LOG_FILE}"
+>> +    echo "START TIME: ${START_TIME}" >> "${LOG_FILE}"
+>> +    echo "HOSTNAME: $(uname -n)" >> "${LOG_FILE}"
+>> +    echo "HOST OS: ${OS_INFO}" >> "${LOG_FILE}"
+>> +    echo "HOST KERNEL: $(uname -r)" >> "${LOG_FILE}"
+>> +    echo "===============" >> "${LOG_FILE}"
+>> +    echo "BUILD RESULTS:" >> "${LOG_FILE}"
+>> +
+>> +    # start the builds for each MACHINE and TCLIBC
+>> +    for j in ${LIBC_LIST}
+>> +    do
+>> +       echo "[$j]" >> "${LOG_FILE}"
+>> +       for i in ${TARGET_LIST}
+>> +       do
+>> +           echo "$i" "$j"; \
+>> +           TCLIBC=$j MACHINE=$i bitbake "$1" && echo "PASS: $i" >> "${LOG_FILE}" || echo "FAIL: $i" >> "${LOG_FILE}"
+>> +       done
+>> +    done
+>> +
+>> +    # Get pass/fail totals and add them to the end of the log
+>> +    PASSED=$(grep "PASS:" "${LOG_FILE}" | wc -l)
+>> +    FAILED=$(grep "FAIL:" "${LOG_FILE}" | wc -l)
+>> +
+>> +    echo "===============" >> "${LOG_FILE}"
+>> +    echo "PASSED: ${PASSED}" >> "${LOG_FILE}"
+>> +    echo "FAILED: ${FAILED}" >> "${LOG_FILE}"
+>> +}
+>> +
+>> +
+>> +# fail entire script if any command fails
+>> +set -e
+>> +
+>> +# print usage and exit if not enough args given
+>> +[ $# -eq 0 ] && usage && exit 1
+>> +
+>> +# handle arguments
+>> +RECIPE=
+>> +while [ $# -gt 0 ]
+>> +do
+>> +    arg=$1
+>> +    case $arg in
+>> +       -l|--libc)
+>> +       if [ "$2" = "glibc" ] || [ "$2" = "musl" ]
+>> +       then
+>> +           LIBC_LIST="$2"
+>> +       else
+>> +           echo "Unrecognized libc option."
+>> +           usage && exit 1
+>> +       fi
+>> +       shift
+>> +       shift
+>> +       ;;
+>> +       *)
+>> +        RECIPE="$1"
+>> +       shift
+>> +       ;;
+>> +    esac
+>> +done
+>> +
+>> +set -- "$RECIPE"
+>> +
+>> +# run buildall for the given recipe and LIBC
+>> +if [ -n "$1" ]
+>> +then
+>> +       buildall "$1" "$LIBC_LIST"
+>> +fi
+>> +
+>> --
+>> 2.24.1
 >>
->> matchbox made sense at a time when you could go into a shop and buy an
->> internet tablet with Linux running on 256 MB flash with 256 MB RAM.
->>
->> Part of the problem is that the only remaining usage of this branch
->> of matchbox development seems to be as example UI for Yocto.
->>
->> For matchbox/sato I am wondering whether replacing it with parts of
->> meta-xfce from meta-openembedded would be a good way forward.
->>
->> Upstream Xfce still seems to be 2-3 years away from gtk4 and Wayland
->> support, but at the point where supporting X might become a problem
->> this should be available.
->>
->> Xfce was my first thought as replacement since it appears to be
->> well-maintained in meta-openembedded, no strong opinion whether
->> it is actually the best option.
->>
->> > Regards,
->> > Alex
->>
->> cu
->> Adrian
->>
->
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
---0000000000008d5d5f059e4d48e3
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Specifically (sorry for the rapid-followup), I think the m=
-ain value proposition of core is integration and testing of various languag=
-e toolchains and core libraries. UIs in embedded space can mean pretty much=
- anything, and so I&#39;d leave that to specialised layers.<div><br></div><=
-div>Alex</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Tue, 11 Feb 2020 at 14:57, Alexander Kanavin &lt;<a href=
-=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,204=
-,204);padding-left:1ex"><div dir=3D"ltr"><div>The question is: what are the=
- use cases for an &#39;example/reference UI&#39;? Why have one at all at th=
-is point? Remember, the core project is severely under-staffed and we need =
-to commit our limited resources wisely.</div><div><br></div><div>Alex</div>=
-<br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue=
-, 11 Feb 2020 at 14:53, Adrian Bunk &lt;<a href=3D"mailto:bunk@stusta.de" t=
-arget=3D"_blank">bunk@stusta.de</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">=
-On Tue, Feb 11, 2020 at 01:49:27PM +0100, Alexander Kanavin wrote:<br>
-&gt;...<br>
-&gt; - matchbox is reliant on gtk3 (to be obsoleted by gtk4 this year), and=
- does<br>
-&gt; not have a Wayland compositor. Yocto project does not have the resourc=
-es to<br>
-&gt; do the gtk4 port, or add a compositor.<br>
-&gt; <br>
-&gt; - no &#39;lightweight Wayland compositor with a desktop/launcher exper=
-ience&quot;<br>
-&gt; has emerged in the open source space; I think the only realistic choic=
-e at<br>
-&gt; the moment is the reference compositor Weston which provides a blank<b=
-r>
-&gt; desktop with ability to open terminal windows.<br>
-&gt; <br>
-&gt; So the way I think things should be going (seeking opinions/inputs of<=
-br>
-&gt; course):<br>
-&gt;...<br>
-&gt; - oe-core continues to support and runtime-test X for as long as possi=
-ble;<br>
-&gt; for this a new image (say, &#39;core-image-sato-xorg&#39;) is created =
-which will<br>
-&gt; provide matchbox under X. However, once upstream bitrot sets in, and p=
-ain<br>
-&gt; threshold is exceeded, this will be removed and/or relegated to a lega=
-cy<br>
-&gt; layer.<br>
-&gt; <br>
-&gt; Thoughts?<br>
-<br>
-matchbox made sense at a time when you could go into a shop and buy an<br>
-internet tablet with Linux running on 256 MB flash with 256 MB RAM.<br>
-<br>
-Part of the problem is that the only remaining usage of this branch<br>
-of matchbox development seems to be as example UI for Yocto.<br>
-<br>
-For matchbox/sato I am wondering whether replacing it with parts of<br>
-meta-xfce from meta-openembedded would be a good way forward.<br>
-<br>
-Upstream Xfce still seems to be 2-3 years away from gtk4 and Wayland <br>
-support, but at the point where supporting X might become a problem<br>
-this should be available.<br>
-<br>
-Xfce was my first thought as replacement since it appears to be <br>
-well-maintained in meta-openembedded, no strong opinion whether<br>
-it is actually the best option.<br>
-<br>
-&gt; Regards,<br>
-&gt; Alex<br>
-<br>
-cu<br>
-Adrian<br>
-</blockquote></div></div>
-</blockquote></div>
-
---0000000000008d5d5f059e4d48e3--
