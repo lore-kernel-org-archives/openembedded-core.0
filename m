@@ -1,47 +1,42 @@
-Return-Path: <rahulchauhankitps@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 052B560F06
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2020 07:27:01 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id c23so6251008lfi.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Feb 2020 23:27:02 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
+	[209.85.217.43])
+	by mail.openembedded.org (Postfix) with ESMTP id DBB026058C;
+	Tue, 11 Feb 2020 12:48:55 +0000 (UTC)
+Received: by mail-vs1-f43.google.com with SMTP id x18so6191862vsq.4;
+	Tue, 11 Feb 2020 04:48:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=qwcCiPiO5Mo7BkcfDE0TO9WAu5tzXbDTJ4slF31tYkg=;
-	b=OFryBD5SuCKMQcL07jyS0kPSX4XM+ne30hxlpuHFqzYzsoaqDvFg/TKOgFhdoEuIZq
-	u8swt8mgIsM5pRRG5Gk6QO1UTVR8yYX/MOjAgOjkCUnBbGjNZvB9TLydxZtg6dke2LfW
-	rrvbes8TAW/zLO9gI+KI4xkt5LYuVsw+xSBdS9agd34KgFEWRacYHHhr74coLGQ8EqoJ
-	0BGgQAlQswqQ4thrxhH6LQy+znGAYyTQ1ndz4TQGJWUKJpRYEyg3VH9Wkz+UpiE0CCQQ
-	b0VMdbxctb3g7epQkFznT7TutNU1A/rIAxru9UufVVRmznp3JsHJfEsCZvRnGsi/mp4C
-	ey7A==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=u/nUGgQi4Wv+gwlnC5ul2Xy2VrsMiTntpsvY5JfzJnA=;
+	b=vAzM4zyIJ77cXzaw/aNO7KkfMz54Nr4oluIE3hRd7JO5SE7UdAHNvG6I5G+Ho8LkBk
+	s1Npp+7lDepLZSIHVjqMHgNMdrBbcj21AsVgiZeBGE05lxyJMNZIu9geX8bEbkn2WY3I
+	xyDkqz3a8QdE5t+HWG90sgGvxfYlMPhCh0LX7gJ3oCmEck408OdPzbNne6Ky2noGVYwp
+	0q6vUdBO9xPKqJQxLTOP+IDPjDvNbLp1w7ESwHBchgMBPnsoFYsPuU2jKuyQv7Amate/
+	/pQxFhNDFMSS7lgH6el7VgddNFnICaFzg0wQb3e8G89dq5IeeTdthmi8nF0oFwStrOUp
+	RPqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=qwcCiPiO5Mo7BkcfDE0TO9WAu5tzXbDTJ4slF31tYkg=;
-	b=uXm+9+YagTJPcyW+Hud1eSPAh6n66VJT9AATVGlCIcOAQD/duipqNxIpbSp5YvXMS7
-	RIgmAiOQgRV9ZFpPQWQHJUTgrd4M24V/SLipE1guMh4i32WyWkjx/g9ViJf9/lQ6dUym
-	oMUzNw0JwK7wI7Y5PZAi7I4PrPxJo96E7yePB+eDmXX11yWPR4X7f43viF79MDcyRFN2
-	nyutvKNufoQiMwwa0gShR6DUa9CBW9VGkC9ZN4IG9pz8wX80NgtnvUGj2FFVm4KP5rEv
-	E7c8dJBxXh3eZK7peIvAaTvH7CWtKMFv0aqbgFPywjTFW6Cd1SzvPbZj28SUr+USl0sD
-	f3oQ==
-X-Gm-Message-State: APjAAAV8ExpK5leWHWC368ZLt1Criqa5GVye5frTdMtsqSRZMfHYyPsm
-	E6yRwhX1daswaBfjsN/tl/YgcJGgCdrZJkaclHM=
-X-Google-Smtp-Source: APXvYqysWFYP2ETDsNnALwAszkmvhDuxH7cNohsEsPEvNXFzU7En5bKCVb9IOBDDcnVypSsfy/pzSvuZGiIrobelhMs=
-X-Received: by 2002:ac2:5612:: with SMTP id v18mr2689160lfd.172.1581406021529; 
-	Mon, 10 Feb 2020 23:27:01 -0800 (PST)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=u/nUGgQi4Wv+gwlnC5ul2Xy2VrsMiTntpsvY5JfzJnA=;
+	b=NmMs2lJAGe7zEGVVqgypbr/Hzf5SokM9uHgRusYF9F4WOfR1EhNhW1y1AGveVMX96k
+	DWKlrPhOi8DZNEmcB8P+I1R1hjz8er4fHVKinA3EFC86/rznfKY4SVbITLuMsaZtlp66
+	UelIgq9NFZveU64nvHdpeBF3gAZX+HmbhAz07PsZ6DQKQKc3ye2nSpyvYrNxUBJ5i/gh
+	KSyc14eZZtFGKT/HxxdOGRvXYGakCkDwu5/tuCu/Gq/5RX1I6deiTpXx3DLbBToZzi5F
+	VNL1eDXcsiAI2N4P3JFXvipJ0ZWIvEZ5iKYSORwySJrO8RAQ48witJqrAN1bJmyiOFym
+	hDUA==
+X-Gm-Message-State: APjAAAU2ALNlNpEydMYDzzPpc9S7qT8OhGbbQy1dz02OADZ0zpb2gesY
+	FHRmBavyT3P33tojbqKkX0d2gv02X6X4qNKYOZGCSHe6
+X-Google-Smtp-Source: APXvYqx1lNqJDkq4HwTs4FmAdaoKfPBjKhaKg7ZDWH8XhJFnPJwyzn6V4WqMAZNcA0Wch6EkxdggRzeD1GtaKAitAMM=
+X-Received: by 2002:a67:7987:: with SMTP id u129mr9143636vsc.83.1581425336429; 
+	Tue, 11 Feb 2020 04:48:56 -0800 (PST)
 MIME-Version: 1.0
-References: <1581360561-30532-1-git-send-email-rahulk@mvista.com>
-	<603e05c3-b568-a228-7821-5a48593b4c30@gmail.com>
-In-Reply-To: <603e05c3-b568-a228-7821-5a48593b4c30@gmail.com>
-From: rahul chauhan <rahulchauhankitps@gmail.com>
-Date: Tue, 11 Feb 2020 12:56:50 +0530
-Message-ID: <CAGk+Jeg8EXqXcPspyvEoUYBPP2=4b+iXkeB9++KN2VH=UCPkSA@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [warrior][PATCH] libxml2: Fix CVE-2019-19956
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 11 Feb 2020 13:49:27 +0100
+Message-ID: <CANNYZj-KS+mHQ20sQUv-SzpeaXjvAzQDPND00iuep6ek7utd5g@mail.gmail.com>
+To: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Future of sato and X in oe-core
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,229 +49,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2020 07:27:02 -0000
-Content-Type: multipart/alternative; boundary="00000000000028b747059e47c844"
+X-List-Received-Date: Tue, 11 Feb 2020 12:48:56 -0000
+Content-Type: multipart/alternative; boundary="0000000000006ab46f059e4c4767"
 
---00000000000028b747059e47c844
+--0000000000006ab46f059e4c4767
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Armin,
+Hello,
 
-Both patches are same. Since after submit the patch . I could not see my
-patch at https://patchwork.openembedded.org/project/oe-core/patches/
-so I was suspect that my patch submitted properly or not.
+I'd like to lay out a few ideas/thoughts on what should be done with sato
+(matchbox bits) and X going forward. The inputs are:
 
-so I submitted this patch again.
+- Red Hat is the only company doing X maintenance anymore, and they're
+transitioning it to 'hard maintenance mode'
+https://blogs.gnome.org/uraeus/2019/06/24/on-the-road-to-fedora-workstation-31/
+"Once we are done with this [xwayland gaining missing features] we expect
+X.org to go into hard maintenance mode fairly quickly. The reality is that
+X.org is basically maintained by us and thus once we stop paying attention
+to it there is unlikely to be any major new releases coming out and there
+might even be some bitrot setting in over time. We will keep an eye on it
+as we will want to ensure X.org stays supportable until the end of the
+RHEL8 lifecycle at a minimum, but let this be a friendly notice for
+everyone who rely the work we do maintaining the Linux graphics stack, get
+onto Wayland, that is where the future is.
+"
 
-I have one quick question.
-After patch submission If I am not able to see my patch at
-https://patchwork.openembedded.org/project/oe-core/patches/ , is there any
-other way to check the patch submission status.
+- matchbox is reliant on gtk3 (to be obsoleted by gtk4 this year), and does
+not have a Wayland compositor. Yocto project does not have the resources to
+do the gtk4 port, or add a compositor.
 
-Thanks & Regards
-Rahul Chauhan
+- no 'lightweight Wayland compositor with a desktop/launcher experience"
+has emerged in the open source space; I think the only realistic choice at
+the moment is the reference compositor Weston which provides a blank
+desktop with ability to open terminal windows.
 
-On Tue, Feb 11, 2020 at 8:37 AM akuster808 <akuster808@gmail.com> wrote:
+So the way I think things should be going (seeking opinions/inputs of
+course):
 
->
->
-> On 2/10/20 10:49 AM, Rahul Chauhan wrote:
-> > Signed-off-by: Rahul Chauhan <rahulk@mvista.com>
-> > ---
-> >  .../libxml/libxml2/fix-CVE-2019-19956.patch        | 38
-> ++++++++++++++++++++++
-> >  meta/recipes-core/libxml/libxml2_2.9.8.bb          |  1 +
-> >  2 files changed, 39 insertions(+)
-> >  create mode 100644
-> meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
->
-> What is the difference from the patch sent on the 6th? is this a version 2?
->
-> - armin
-> >
-> > diff --git a/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
-> b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
-> > new file mode 100644
-> > index 0000000..43c3589
-> > --- /dev/null
-> > +++ b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
-> > @@ -0,0 +1,38 @@
-> > +From 3cd2b25ddb04740be2880cfd78d60038452228b1 Mon Sep 17 00:00:00 2001
-> > +From: Zhipeng Xie <xiezhipeng1@huawei.com>
-> > +Date: Wed, 7 Aug 2019 17:39:17 +0800
-> > +Subject: [PATCH] Fix memory leak in xmlParseBalancedChunkMemoryRecover
-> > +
-> > +When doc is NULL, namespace created in xmlTreeEnsureXMLDecl
-> > +is bind to newDoc->oldNs, in this case, set newDoc->oldNs to
-> > +NULL and free newDoc will cause a memory leak.
-> > +
-> > +Found with libFuzzer.
-> > +
-> > +Closes #82.
-> > +
-> > +Upstream-Status: Backport [
-> https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549
-> ]
-> > +CVE: CVE-2019-19956
-> > +
-> > +Signed-off-by: Rahul Chauhan <rahulk@mvista.com>
-> > +---
-> > + parser.c | 3 ++-
-> > + 1 file changed, 2 insertions(+), 1 deletion(-)
-> > +
-> > +diff --git a/parser.c b/parser.c
-> > +index b7ecd65..491f5c9 100644
-> > +--- a/parser.c
-> > ++++ b/parser.c
-> > +@@ -13899,7 +13899,8 @@ xmlParseBalancedChunkMemoryRecover(xmlDocPtr
-> doc, xmlSAXHandlerPtr sax,
-> > +     xmlFreeParserCtxt(ctxt);
-> > +     newDoc->intSubset = NULL;
-> > +     newDoc->extSubset = NULL;
-> > +-    newDoc->oldNs = NULL;
-> > ++    if(doc != NULL)
-> > ++    newDoc->oldNs = NULL;
-> > +     xmlFreeDoc(newDoc);
-> > +
-> > +     return(ret);
-> > +--
-> > +2.7.4
-> > +
-> > diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb
-> b/meta/recipes-core/libxml/libxml2_2.9.8.bb
-> > index 62643bc..67c2d4f 100644
-> > --- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
-> > +++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
-> > @@ -23,6 +23,7 @@ SRC_URI = "
-> http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
-> >             file://fix-CVE-2017-8872.patch \
-> >             file://fix-CVE-2018-14404.patch \
-> >             file://0001-Fix-infinite-loop-in-LZMA-decompression.patch \
-> > +           file://fix-CVE-2019-19956.patch \
-> >             "
-> >
-> >  SRC_URI[libtar.md5sum] = "b786e353e2aa1b872d70d5d1ca0c740d"
->
->
+- oe-core adopts Weston as the 'new sato'; all sato images that currently
+pull in matchbox and friends are changed to be Weston-based. Note that
+there is no requirement for 3D acceleration; Weston works with plain frame
+buffer device. However, both options should be supported and tested. Also,
+support for Xwayland should be tested.
 
---00000000000028b747059e47c844
+- oe-core continues to support and runtime-test X for as long as possible;
+for this a new image (say, 'core-image-sato-xorg') is created which will
+provide matchbox under X. However, once upstream bitrot sets in, and pain
+threshold is exceeded, this will be removed and/or relegated to a legacy
+layer.
+
+Thoughts?
+
+Regards,
+Alex
+
+--0000000000006ab46f059e4c4767
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi Armin,<div><br>Both patches are same. Since after submi=
-t the patch . I could not see my patch at <a href=3D"https://patchwork.open=
-embedded.org/project/oe-core/patches/">https://patchwork.openembedded.org/p=
-roject/oe-core/patches/</a><br>so I was suspect that my patch submitted pro=
-perly or not.<br><br>so I submitted this patch again.<br><br>I have one qui=
-ck question. <br>After patch submission If I am not able to see my patch at=
- <a href=3D"https://patchwork.openembedded.org/project/oe-core/patches/">ht=
-tps://patchwork.openembedded.org/project/oe-core/patches/</a> , is there an=
-y other way to check the patch submission status.<br></div><div><br></div><=
-div>Thanks &amp; Regards</div><div>Rahul Chauhan</div></div><br><div class=
-=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 11, 2020=
- at 8:37 AM akuster808 &lt;<a href=3D"mailto:akuster808@gmail.com">akuster8=
-08@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddin=
-g-left:1ex"><br>
-<br>
-On 2/10/20 10:49 AM, Rahul Chauhan wrote:<br>
-&gt; Signed-off-by: Rahul Chauhan &lt;<a href=3D"mailto:rahulk@mvista.com" =
-target=3D"_blank">rahulk@mvista.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../libxml/libxml2/fix-CVE-2019-19956.patch=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 | 38 ++++++++++++++++++++++<br>
-&gt;=C2=A0 meta/recipes-core/libxml/<a href=3D"http://libxml2_2.9.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">libxml2_2.9.8.bb</a>=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 |=C2=A0 1 +<br>
-&gt;=C2=A0 2 files changed, 39 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-core/libxml/libxml2/fix-CVE-2019=
--19956.patch<br>
-<br>
-What is the difference from the patch sent on the 6th? is this a version 2?=
-<br>
-<br>
-- armin<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch=
- b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000..43c3589<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch<br>
-&gt; @@ -0,0 +1,38 @@<br>
-&gt; +From 3cd2b25ddb04740be2880cfd78d60038452228b1 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Zhipeng Xie &lt;<a href=3D"mailto:xiezhipeng1@huawei.com" targe=
-t=3D"_blank">xiezhipeng1@huawei.com</a>&gt;<br>
-&gt; +Date: Wed, 7 Aug 2019 17:39:17 +0800<br>
-&gt; +Subject: [PATCH] Fix memory leak in xmlParseBalancedChunkMemoryRecove=
-r<br>
-&gt; +<br>
-&gt; +When doc is NULL, namespace created in xmlTreeEnsureXMLDecl<br>
-&gt; +is bind to newDoc-&gt;oldNs, in this case, set newDoc-&gt;oldNs to<br=
->
-&gt; +NULL and free newDoc will cause a memory leak.<br>
-&gt; +<br>
-&gt; +Found with libFuzzer.<br>
-&gt; +<br>
-&gt; +Closes #82.<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://gitlab.gnome.org/GNOME/=
-libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549" rel=3D"noreferrer"=
- target=3D"_blank">https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e=
-683896d84878bd90641d8d9b0d0549</a>]<br>
-&gt; +CVE: CVE-2019-19956<br>
-&gt; +<br>
-&gt; +Signed-off-by: Rahul Chauhan &lt;<a href=3D"mailto:rahulk@mvista.com"=
- target=3D"_blank">rahulk@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + parser.c | 3 ++-<br>
-&gt; + 1 file changed, 2 insertions(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/parser.c b/parser.c<br>
-&gt; +index b7ecd65..491f5c9 100644<br>
-&gt; +--- a/parser.c<br>
-&gt; ++++ b/parser.c<br>
-&gt; +@@ -13899,7 +13899,8 @@ xmlParseBalancedChunkMemoryRecover(xmlDocPtr =
-doc, xmlSAXHandlerPtr sax,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0xmlFreeParserCtxt(ctxt);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0newDoc-&gt;intSubset =3D NULL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0newDoc-&gt;extSubset =3D NULL;<br>
-&gt; +-=C2=A0 =C2=A0 newDoc-&gt;oldNs =3D NULL;<br>
-&gt; ++=C2=A0 =C2=A0 if(doc !=3D NULL)<br>
-&gt; ++=C2=A0 =C2=A0 newDoc-&gt;oldNs =3D NULL;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0xmlFreeDoc(newDoc);<br>
-&gt; + <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0return(ret);<br>
-&gt; +-- <br>
-&gt; +2.7.4<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-core/libxml/<a href=3D"http://libxml2_2.9.8.=
-bb" rel=3D"noreferrer" target=3D"_blank">libxml2_2.9.8.bb</a> b/meta/recipe=
-s-core/libxml/<a href=3D"http://libxml2_2.9.8.bb" rel=3D"noreferrer" target=
-=3D"_blank">libxml2_2.9.8.bb</a><br>
-&gt; index 62643bc..67c2d4f 100644<br>
-&gt; --- a/meta/recipes-core/libxml/<a href=3D"http://libxml2_2.9.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">libxml2_2.9.8.bb</a><br>
-&gt; +++ b/meta/recipes-core/libxml/<a href=3D"http://libxml2_2.9.8.bb" rel=
-=3D"noreferrer" target=3D"_blank">libxml2_2.9.8.bb</a><br>
-&gt; @@ -23,6 +23,7 @@ SRC_URI =3D &quot;<a href=3D"http://www.xmlsoft.org/=
-sources/libxml2-$%7BPV%7D.tar.gz;name=3Dlibtar" rel=3D"noreferrer" target=
-=3D"_blank">http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=3Dlibt=
-ar</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://fix-CVE-2017-887=
-2.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://fix-CVE-2018-144=
-04.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-infinit=
-e-loop-in-LZMA-decompression.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://fix-CVE-2019-19956.pa=
-tch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 SRC_URI[libtar.md5sum] =3D &quot;b786e353e2aa1b872d70d5d1ca0c740=
-d&quot;<br>
-<br>
-</blockquote></div>
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Hello,<div><br></div><di=
+v>I&#39;d like to lay out a few ideas/thoughts on what should be done with =
+sato (matchbox bits) and X going forward. The inputs are:</div><div><br></d=
+iv><div>- Red Hat is the only company doing X maintenance anymore, and they=
+&#39;re transitioning it to &#39;hard maintenance mode&#39;</div><div><a hr=
+ef=3D"https://blogs.gnome.org/uraeus/2019/06/24/on-the-road-to-fedora-works=
+tation-31/">https://blogs.gnome.org/uraeus/2019/06/24/on-the-road-to-fedora=
+-workstation-31/</a><br></div><div>&quot;<span style=3D"color:rgb(85,85,85)=
+;font-family:&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,Verd=
+ana,sans-serif;font-size:13px;background-color:rgb(248,248,240)">Once we ar=
+e done with this [xwayland gaining missing features] we expect X.org to go =
+into hard maintenance mode fairly quickly. The reality is that X.org is bas=
+ically maintained by us and thus once we stop paying attention to it there =
+is unlikely to be any major new releases coming out and there might even be=
+ some bitrot setting in over time. We will keep an eye on it as we will wan=
+t to ensure X.org stays supportable until the end of the RHEL8 lifecycle at=
+ a minimum, but let this be a friendly notice for everyone who rely the wor=
+k we do maintaining the Linux graphics stack, get onto Wayland, that is whe=
+re the future is.</span></div><div><span style=3D"color:rgb(85,85,85);font-=
+family:&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,Verdana,sa=
+ns-serif;font-size:13px;background-color:rgb(248,248,240)">&quot;</span></d=
+iv><div><br></div><div>- matchbox is reliant on gtk3 (to be obsoleted by gt=
+k4 this year), and does not have a Wayland compositor. Yocto project does n=
+ot have the resources to do the gtk4 port, or add a compositor.</div><div><=
+br></div><div>- no &#39;lightweight Wayland compositor with a desktop/launc=
+her experience&quot; has emerged in the open source space; I think the only=
+ realistic choice at the moment is the reference compositor Weston which pr=
+ovides a blank desktop with ability to open terminal windows.</div><div><br=
+></div><div>So the way I think things should be going (seeking opinions/inp=
+uts of course):</div><div><br></div><div>- oe-core adopts Weston as the &#3=
+9;new sato&#39;; all sato images that currently pull in matchbox and friend=
+s are changed to be Weston-based. Note that there is no requirement for 3D =
+acceleration; Weston works with plain frame buffer device. However, both op=
+tions should be supported and tested. Also, support for Xwayland should be =
+tested.</div><div><br></div><div>- oe-core continues to support and runtime=
+-test X for as long as possible; for this a new image (say, &#39;core-image=
+-sato-xorg&#39;) is created which will provide matchbox under X. However, o=
+nce upstream bitrot sets in, and pain threshold is exceeded, this will be r=
+emoved and/or relegated to a legacy layer.</div><div><br></div><div>Thought=
+s?</div><div><br></div><div>Regards,</div><div>Alex<br></div></div></div></=
+div>
 
---00000000000028b747059e47c844--
+--0000000000006ab46f059e4c4767--
