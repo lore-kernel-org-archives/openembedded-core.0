@@ -1,44 +1,47 @@
-Return-Path: <rahulchauhankitps@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A2BC060587
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AB639601F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2020 13:06:37 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id y6so11528674lji.0
+	Tue, 11 Feb 2020 13:15:44 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id g15so6263014vsf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2020 05:06:39 -0800 (PST)
+	Tue, 11 Feb 2020 05:15:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=o2xtCFTfd9jaXKDzlHTDBp1h5f6OmLsZveuy4fvaF/E=;
-	b=Oj440rs9dON0ZRn83wTZBWQW1d9yM2sEtLAhnBRpCnIIW4VLEFaTrWC2SNm8JneJc0
-	yRmpzwkZ9f5YLeaHnDSa3+5M1JZ0GQkvHbBG51VZx6JDZD2lznY6TSLQ5SHzS6PCuttp
-	pQYh+FTnfmqyUIyj+W619fSOXiGyVcueLaSdE8ivG1TyKiBYDSB2B0QrUFxTo5BJ73bR
-	rB450EgGdCnpKW1sjzOHvySZeNCcD+fh63XRzm+SX+s7o6Zo0jNrQBKoGyecNBUEJncH
-	5qPD+cdKMhFBePk16HFasNY31jqHUirFIP6sgou3gZ54CYtvHxgJrcpkCQgwGcYSPwge
-	4JvA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=7SHyed3jdKVCXNA75iFfRHIzHYATeVLinAfpEeUs+QY=;
+	b=sPaDwspMm3t3cwr0oBPinkH+i7z4oPlLZG2KK8KTZciyhlBtKIqIT0puOeQD6RRW2g
+	aZkuL7bBQjVofvxOjHDUPS+RWchgAN0zdQqrFZ9LuQRjUu6Vm2DofUhlrHpTmX20L892
+	bemB10sHgqlKVQeJ0E2hDpX7HEMnxrDJqFy7A7a5bd7qrTcRuB25yog08fFZcWAIvTFO
+	14WoUgjx2PQX1JN3ydcsoEjeaKZNuBa/l54V2Ex6CGPxrdM1XZMnDw45v0YsHK+z15mU
+	U7HoLrQmn2jHr8Dcadoigd66mOxxVLPhoNbjQyG5aGaIuqw96BC5IJfEgYEmLPcShjg9
+	9eWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=o2xtCFTfd9jaXKDzlHTDBp1h5f6OmLsZveuy4fvaF/E=;
-	b=YFqMIwFXPHuujaD+B87aK2HH0i44skn/W0F1E0KNfS1BcpFwnx45tK/bYZMgkwqU50
-	f1AH2+5Wlv0+ydBLQqd/5ASHX1M0LYpNUrDmkUzGupeUaB+bMXF/wlxDMxrkGKd1Y+ZD
-	Kfcu2VwB29WOg6X7lY9BkKiowoquCHm1tFwL1++BToiHYv5P/PV6XydEAlKQKSVSiCRF
-	rDizMWfCTVQ53qtyU8GFLKIohy8eCrhNt26JxwNm/wKXIXyFlJS/zB+s4fDBHIr/EHqq
-	NWPQpcqJG2oQOwt+BveFPGyckWzssmdZrAqlprQmMh9gjwGLNYTsNPVmHoqVZVEzc0fz
-	2GdQ==
-X-Gm-Message-State: APjAAAXxCFr7hBgB7aPlQwSVq5+ocTj5xh/6xPIAQAU0cv/jcEpV+Kq+
-	0rzx0wiUSAQXk6eYg8kroCr3WMCaNGbhikbFPuP2pRfm
-X-Google-Smtp-Source: APXvYqx5xx6s9zmhnqr/PKncjCczALtgfbLp/T/+DT1ytla8SeVtARCmZD/+/V95KicuIpW81FdcrdEkWU4snYoUjp4=
-X-Received: by 2002:a2e:7207:: with SMTP id n7mr3980421ljc.242.1581426397959; 
-	Tue, 11 Feb 2020 05:06:37 -0800 (PST)
+	:message-id:subject:to:cc;
+	bh=7SHyed3jdKVCXNA75iFfRHIzHYATeVLinAfpEeUs+QY=;
+	b=EcUnwBgQ6wGkuqladMuiok7nTGG0kV51BATkGCq15OREKoLTL6nOLWhuj4VB+J0uze
+	MT8jbOsZ5UtS03V80H4wmeTf1zatlVCx4VtNpeq+Qc8DwnvO5HtF9mmk9UlTYnffBDqm
+	pgtwjqT3ypqaKhRj82fMeugxje0xDVN55BEsH5iG+Pqj7fT3oRhWawjz6JSgD40o44wC
+	UGWG91lyETjp/5gMnaAQYCbqdYlmXf9QXQcgss+M/4ZUbxK0BcAkI8uHvPEG8xkMh3mZ
+	nPrgEkQmiC7t2vcUH9UIGMLlyJOWxuTLqEukqNnmuf5/12ph6yA12eI+iWlZOSt+z8cQ
+	xhmA==
+X-Gm-Message-State: APjAAAXl/dYcPX+acwJ/0K+TzzugV/EPvIIAbZZajXggIxiOC8KHXzJ/
+	w7qfy+gcDP5SoLxLBrXpEQ/1SEZgWRGRkoDRcfOlWg==
+X-Google-Smtp-Source: APXvYqwzVDZWu3VcRMnFuWLZD+uqOv8CqUsGRc2mYye1/QeTFCQtNXUDEuyHVEtaIT9LjsmYlyEfr1WqHpwQQ/QjyBM=
+X-Received: by 2002:a05:6102:405:: with SMTP id
+	d5mr8970523vsq.94.1581426945480; 
+	Tue, 11 Feb 2020 05:15:45 -0800 (PST)
 MIME-Version: 1.0
 References: <1581358619-5570-1-git-send-email-rahulchauhankitps@gmail.com>
-In-Reply-To: <1581358619-5570-1-git-send-email-rahulchauhankitps@gmail.com>
-From: rahul chauhan <rahulchauhankitps@gmail.com>
-Date: Tue, 11 Feb 2020 18:36:26 +0530
-Message-ID: <CAGk+Jeh6gN0Mk=ooVUZm7tzNu1B9+tPMhtkYk7tJm0Fb1v6dZQ@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org
+	<CAGk+Jeh6gN0Mk=ooVUZm7tzNu1B9+tPMhtkYk7tJm0Fb1v6dZQ@mail.gmail.com>
+In-Reply-To: <CAGk+Jeh6gN0Mk=ooVUZm7tzNu1B9+tPMhtkYk7tJm0Fb1v6dZQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 11 Feb 2020 14:16:15 +0100
+Message-ID: <CANNYZj8kpcFzQPSeB0BZnaC_PfLOvDOqAk93S9pg+PhnffT5CA@mail.gmail.com>
+To: rahul chauhan <rahulchauhankitps@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] ruby: fix CVE-2019-16254
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -52,191 +55,212 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2020 13:06:38 -0000
-Content-Type: multipart/alternative; boundary="000000000000b05ad0059e4c8696"
+X-List-Received-Date: Tue, 11 Feb 2020 13:15:44 -0000
+Content-Type: multipart/alternative; boundary="00000000000052dd21059e4ca7ce"
 
---000000000000b05ad0059e4c8696
+--00000000000052dd21059e4ca7ce
 Content-Type: text/plain; charset="UTF-8"
 
-Hi community members,
+Yes. You should always specify the target branch in the subject if it is
+not for master.
 
-This patch Fixes CVE-2019-16254 on zeus branch.
-patch test failed, since I did not use --subject-prefix="zeus][PATCH" at
-the time of patch submission to openembedded-core@lists.openembedded.org.
+Alex
 
-should i resubmit this patch with --subject-prefix="zeus][PATCH"
-or
-can anyone guide me what should do next in  this situation ?
-
-Thanks & Regards
-Rahul Chauhan
-
-On Mon, Feb 10, 2020 at 11:47 PM Rahul Chauhan <rahulchauhankitps@gmail.com>
+On Tue, 11 Feb 2020 at 14:06, rahul chauhan <rahulchauhankitps@gmail.com>
 wrote:
 
-> Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
-> ---
->  .../ruby/ruby/fix-CVE-2019-16254.patch             | 106
-> +++++++++++++++++++++
->  meta/recipes-devtools/ruby/ruby_2.5.5.bb           |   1 +
->  2 files changed, 107 insertions(+)
->  create mode 100644
-> meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+> Hi community members,
 >
-> diff --git a/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
-> b/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
-> new file mode 100644
-> index 0000000..704c850
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
-> @@ -0,0 +1,106 @@
-> +From 18d5289b4579822e391b3f5c16541e6552e9f06c Mon Sep 17 00:00:00 2001
-> +From: Yusuke Endoh <mame@ruby-lang.org>
-> +Date: Tue, 1 Oct 2019 12:29:18 +0900
-> +Subject: [PATCH] WEBrick: prevent response splitting and header injection
-> +
-> +This is a follow up to d9d4a28f1cdd05a0e8dabb36d747d40bbcc30f16.
-> +The commit prevented CRLR, but did not address an isolated CR or an
-> +isolated LF.
-> +
-> +Upstream-Status: Backport
-> https://github.com/ruby/ruby/commit/3ce238b5f9795581eb84114dcfbdf4aa086bfecc
-> +CVE: CVE-2019-16254
-> +
-> +Co-Authored-By: NARUSE, Yui <naruse@airemix.jp>
-> +Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
-> +---
-> + lib/webrick/httpresponse.rb       |  3 ++-
-> + test/webrick/test_httpresponse.rb | 46
-> +++++++++++++++++++++++++++++++++++++--
-> + 2 files changed, 46 insertions(+), 3 deletions(-)
-> +
-> +diff --git a/lib/webrick/httpresponse.rb b/lib/webrick/httpresponse.rb
-> +index 6d77692..d26324c 100644
-> +--- a/lib/webrick/httpresponse.rb
-> ++++ b/lib/webrick/httpresponse.rb
-> +@@ -367,7 +367,8 @@ def set_error(ex, backtrace=false)
-> +     private
-> +
-> +     def check_header(header_value)
-> +-      if header_value =~ /\r\n/
-> ++      header_value = header_value.to_s
-> ++      if /[\r\n]/ =~ header_value
-> +         raise InvalidHeader
-> +       else
-> +         header_value
-> +diff --git a/test/webrick/test_httpresponse.rb
-> b/test/webrick/test_httpresponse.rb
-> +index 6263e0a..24a6968 100644
-> +--- a/test/webrick/test_httpresponse.rb
-> ++++ b/test/webrick/test_httpresponse.rb
-> +@@ -29,7 +29,7 @@ def setup
-> +       @res.keep_alive  = true
-> +     end
-> +
-> +-    def test_prevent_response_splitting_headers
-> ++    def test_prevent_response_splitting_headers_crlf
-> +       res['X-header'] = "malicious\r\nCookie: hack"
-> +       io = StringIO.new
-> +       res.send_response io
-> +@@ -39,7 +39,7 @@ def test_prevent_response_splitting_headers
-> +       refute_match 'hack', io.string
-> +     end
-> +
-> +-    def test_prevent_response_splitting_cookie_headers
-> ++    def test_prevent_response_splitting_cookie_headers_crlf
-> +       user_input = "malicious\r\nCookie: hack"
-> +       res.cookies << WEBrick::Cookie.new('author', user_input)
-> +       io = StringIO.new
-> +@@ -50,6 +50,48 @@ def test_prevent_response_splitting_cookie_headers
-> +       refute_match 'hack', io.string
-> +     end
-> +
-> ++    def test_prevent_response_splitting_headers_cr
-> ++      res['X-header'] = "malicious\rCookie: hack"
-> ++      io = StringIO.new
-> ++      res.send_response io
-> ++      io.rewind
-> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
-> ++      assert_equal '500', res.code
-> ++      refute_match 'hack', io.string
-> ++    end
-> ++
-> ++    def test_prevent_response_splitting_cookie_headers_cr
-> ++      user_input = "malicious\rCookie: hack"
-> ++      res.cookies << WEBrick::Cookie.new('author', user_input)
-> ++      io = StringIO.new
-> ++      res.send_response io
-> ++      io.rewind
-> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
-> ++      assert_equal '500', res.code
-> ++      refute_match 'hack', io.string
-> ++    end
-> ++
-> ++    def test_prevent_response_splitting_headers_lf
-> ++      res['X-header'] = "malicious\nCookie: hack"
-> ++      io = StringIO.new
-> ++      res.send_response io
-> ++      io.rewind
-> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
-> ++      assert_equal '500', res.code
-> ++      refute_match 'hack', io.string
-> ++    end
-> ++
-> ++    def test_prevent_response_splitting_cookie_headers_lf
-> ++      user_input = "malicious\nCookie: hack"
-> ++      res.cookies << WEBrick::Cookie.new('author', user_input)
-> ++      io = StringIO.new
-> ++      res.send_response io
-> ++      io.rewind
-> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
-> ++      assert_equal '500', res.code
-> ++      refute_match 'hack', io.string
-> ++    end
-> ++
-> +     def test_304_does_not_log_warning
-> +       res.status      = 304
-> +       res.setup_header
-> +--
-> +2.7.4
-> diff --git a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-> b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-> index 223b037..58bb97f 100644
-> --- a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-> +++ b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
-> @@ -3,6 +3,7 @@ require ruby.inc
->  SRC_URI += " \
+> This patch Fixes CVE-2019-16254 on zeus branch.
+> patch test failed, since I did not use --subject-prefix="zeus][PATCH" at
+> the time of patch submission to openembedded-core@lists.openembedded.org.
 >
-> file://0001-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch \
->             file://run-ptest \
-> +           file://fix-CVE-2019-16254.patch \
->             "
+> should i resubmit this patch with --subject-prefix="zeus][PATCH"
+> or
+> can anyone guide me what should do next in  this situation ?
 >
->  SRC_URI[md5sum] = "7e156fb526b8f4bb1b30a3dd8a7ce400"
-> --
-> 2.7.4
+> Thanks & Regards
+> Rahul Chauhan
 >
+> On Mon, Feb 10, 2020 at 11:47 PM Rahul Chauhan <
+> rahulchauhankitps@gmail.com> wrote:
+>
+>> Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
+>> ---
+>>  .../ruby/ruby/fix-CVE-2019-16254.patch             | 106
+>> +++++++++++++++++++++
+>>  meta/recipes-devtools/ruby/ruby_2.5.5.bb           |   1 +
+>>  2 files changed, 107 insertions(+)
+>>  create mode 100644
+>> meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+>>
+>> diff --git a/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+>> b/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+>> new file mode 100644
+>> index 0000000..704c850
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+>> @@ -0,0 +1,106 @@
+>> +From 18d5289b4579822e391b3f5c16541e6552e9f06c Mon Sep 17 00:00:00 2001
+>> +From: Yusuke Endoh <mame@ruby-lang.org>
+>> +Date: Tue, 1 Oct 2019 12:29:18 +0900
+>> +Subject: [PATCH] WEBrick: prevent response splitting and header injection
+>> +
+>> +This is a follow up to d9d4a28f1cdd05a0e8dabb36d747d40bbcc30f16.
+>> +The commit prevented CRLR, but did not address an isolated CR or an
+>> +isolated LF.
+>> +
+>> +Upstream-Status: Backport
+>> https://github.com/ruby/ruby/commit/3ce238b5f9795581eb84114dcfbdf4aa086bfecc
+>> +CVE: CVE-2019-16254
+>> +
+>> +Co-Authored-By: NARUSE, Yui <naruse@airemix.jp>
+>> +Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
+>> +---
+>> + lib/webrick/httpresponse.rb       |  3 ++-
+>> + test/webrick/test_httpresponse.rb | 46
+>> +++++++++++++++++++++++++++++++++++++--
+>> + 2 files changed, 46 insertions(+), 3 deletions(-)
+>> +
+>> +diff --git a/lib/webrick/httpresponse.rb b/lib/webrick/httpresponse.rb
+>> +index 6d77692..d26324c 100644
+>> +--- a/lib/webrick/httpresponse.rb
+>> ++++ b/lib/webrick/httpresponse.rb
+>> +@@ -367,7 +367,8 @@ def set_error(ex, backtrace=false)
+>> +     private
+>> +
+>> +     def check_header(header_value)
+>> +-      if header_value =~ /\r\n/
+>> ++      header_value = header_value.to_s
+>> ++      if /[\r\n]/ =~ header_value
+>> +         raise InvalidHeader
+>> +       else
+>> +         header_value
+>> +diff --git a/test/webrick/test_httpresponse.rb
+>> b/test/webrick/test_httpresponse.rb
+>> +index 6263e0a..24a6968 100644
+>> +--- a/test/webrick/test_httpresponse.rb
+>> ++++ b/test/webrick/test_httpresponse.rb
+>> +@@ -29,7 +29,7 @@ def setup
+>> +       @res.keep_alive  = true
+>> +     end
+>> +
+>> +-    def test_prevent_response_splitting_headers
+>> ++    def test_prevent_response_splitting_headers_crlf
+>> +       res['X-header'] = "malicious\r\nCookie: hack"
+>> +       io = StringIO.new
+>> +       res.send_response io
+>> +@@ -39,7 +39,7 @@ def test_prevent_response_splitting_headers
+>> +       refute_match 'hack', io.string
+>> +     end
+>> +
+>> +-    def test_prevent_response_splitting_cookie_headers
+>> ++    def test_prevent_response_splitting_cookie_headers_crlf
+>> +       user_input = "malicious\r\nCookie: hack"
+>> +       res.cookies << WEBrick::Cookie.new('author', user_input)
+>> +       io = StringIO.new
+>> +@@ -50,6 +50,48 @@ def test_prevent_response_splitting_cookie_headers
+>> +       refute_match 'hack', io.string
+>> +     end
+>> +
+>> ++    def test_prevent_response_splitting_headers_cr
+>> ++      res['X-header'] = "malicious\rCookie: hack"
+>> ++      io = StringIO.new
+>> ++      res.send_response io
+>> ++      io.rewind
+>> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
+>> ++      assert_equal '500', res.code
+>> ++      refute_match 'hack', io.string
+>> ++    end
+>> ++
+>> ++    def test_prevent_response_splitting_cookie_headers_cr
+>> ++      user_input = "malicious\rCookie: hack"
+>> ++      res.cookies << WEBrick::Cookie.new('author', user_input)
+>> ++      io = StringIO.new
+>> ++      res.send_response io
+>> ++      io.rewind
+>> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
+>> ++      assert_equal '500', res.code
+>> ++      refute_match 'hack', io.string
+>> ++    end
+>> ++
+>> ++    def test_prevent_response_splitting_headers_lf
+>> ++      res['X-header'] = "malicious\nCookie: hack"
+>> ++      io = StringIO.new
+>> ++      res.send_response io
+>> ++      io.rewind
+>> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
+>> ++      assert_equal '500', res.code
+>> ++      refute_match 'hack', io.string
+>> ++    end
+>> ++
+>> ++    def test_prevent_response_splitting_cookie_headers_lf
+>> ++      user_input = "malicious\nCookie: hack"
+>> ++      res.cookies << WEBrick::Cookie.new('author', user_input)
+>> ++      io = StringIO.new
+>> ++      res.send_response io
+>> ++      io.rewind
+>> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
+>> ++      assert_equal '500', res.code
+>> ++      refute_match 'hack', io.string
+>> ++    end
+>> ++
+>> +     def test_304_does_not_log_warning
+>> +       res.status      = 304
+>> +       res.setup_header
+>> +--
+>> +2.7.4
+>> diff --git a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+>> b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+>> index 223b037..58bb97f 100644
+>> --- a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+>> +++ b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+>> @@ -3,6 +3,7 @@ require ruby.inc
+>>  SRC_URI += " \
+>>
+>> file://0001-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch \
+>>             file://run-ptest \
+>> +           file://fix-CVE-2019-16254.patch \
+>>             "
+>>
+>>  SRC_URI[md5sum] = "7e156fb526b8f4bb1b30a3dd8a7ce400"
+>> --
+>> 2.7.4
+>>
+>> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---000000000000b05ad0059e4c8696
+--00000000000052dd21059e4ca7ce
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi community members,</div><div><br></div><div>This p=
-atch Fixes CVE-2019-16254 on zeus branch.</div>patch test failed, since I d=
-id not use --subject-prefix=3D&quot;zeus][PATCH&quot; at the time of patch =
-submission to <a href=3D"mailto:openembedded-core@lists.openembedded.org">o=
-penembedded-core@lists.openembedded.org</a>.<br>=C2=A0<br><div>should i res=
-ubmit this patch with --subject-prefix=3D&quot;zeus][PATCH&quot;</div><div>=
-or <br></div><div>can anyone guide me what should do next in =C2=A0this sit=
-uation ?<br></div><div><br></div><div>Thanks &amp; Regards</div><div>Rahul =
-Chauhan<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
-s=3D"gmail_attr">On Mon, Feb 10, 2020 at 11:47 PM Rahul Chauhan &lt;<a href=
-=3D"mailto:rahulchauhankitps@gmail.com">rahulchauhankitps@gmail.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-o=
-ff-by: Rahul Chauhan &lt;<a href=3D"mailto:rahulchauhankitps@gmail.com" tar=
-get=3D"_blank">rahulchauhankitps@gmail.com</a>&gt;<br>
+<div dir=3D"ltr">Yes. You should always specify=C2=A0the target branch in t=
+he subject if it is not for master.<div><br></div><div>Alex</div></div><br>=
+<div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 11=
+ Feb 2020 at 14:06, rahul chauhan &lt;<a href=3D"mailto:rahulchauhankitps@g=
+mail.com">rahulchauhankitps@gmail.com</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1p=
+x;border-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1=
+ex"><div dir=3D"ltr"><div>Hi community members,</div><div><br></div><div>Th=
+is patch Fixes CVE-2019-16254 on zeus branch.</div>patch test failed, since=
+ I did not use --subject-prefix=3D&quot;zeus][PATCH&quot; at the time of pa=
+tch submission to <a href=3D"mailto:openembedded-core@lists.openembedded.or=
+g" target=3D"_blank">openembedded-core@lists.openembedded.org</a>.<br>=C2=
+=A0<br><div>should i resubmit this patch with --subject-prefix=3D&quot;zeus=
+][PATCH&quot;</div><div>or <br></div><div>can anyone guide me what should d=
+o next in =C2=A0this situation ?<br></div><div><br></div><div>Thanks &amp; =
+Regards</div><div>Rahul Chauhan<br></div></div><br><div class=3D"gmail_quot=
+e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 10, 2020 at 11:47 PM R=
+ahul Chauhan &lt;<a href=3D"mailto:rahulchauhankitps@gmail.com" target=3D"_=
+blank">rahulchauhankitps@gmail.com</a>&gt; wrote:<br></div><blockquote clas=
+s=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;b=
+order-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex"=
+>Signed-off-by: Rahul Chauhan &lt;<a href=3D"mailto:rahulchauhankitps@gmail=
+.com" target=3D"_blank">rahulchauhankitps@gmail.com</a>&gt;<br>
 ---<br>
 =C2=A0.../ruby/ruby/fix-CVE-2019-16254.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 =C2=A0 =C2=A0| 106 +++++++++++++++++++++<br>
@@ -405,5 +429,14 @@ nite-isinf-isnan-as-macros-firs.patch \<br>
 2.7.4<br>
 <br>
 </blockquote></div>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
---000000000000b05ad0059e4c8696--
+--00000000000052dd21059e4ca7ce--
