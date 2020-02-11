@@ -1,42 +1,24 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 12FD460CAC;
-	Tue, 11 Feb 2020 15:02:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 48H5bV2l34z3s;
-	Tue, 11 Feb 2020 16:02:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1581433334;
-	bh=l18lgfx6HjFeHXztD2FiB7qLHrF6GRVHF1+AqAuG7Pg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hgpAA3PVKIh75WKYD1Hnmt2ECt9Kfc4W+L7S8gfyo4g1Euyq99KpBWvbqVbgvKlJT
-	HjHmqCdORTFaUiHIrki//nthm1BFGQ2gk24iS71P7cIDfr6sZo/hD+rlsPBt2lyCnB
-	sSQugUXvDHKpY9QgKYvwaAD5MTX3EEx9GMk2W9+pRxUYeB5eJYpKuWpymXZhrPzG7R
-	PvaOOqNub+2Rip25n3qO94JWVWQ2uZRMA7YGPv35Jjex6QZuTi6/MKEYgjdm/S1Ylb
-	yN7SIRBatAA1WCicjJfaj81HgnPM91gJHnuO3fO1AUkwE0ocxmCOs37F2VdMsgPrEn
-	j9/3fBm2tWaUD8GyklqmtIxlSSBYpXMoMcKy5lo22I6E9Vp2ga3KxG3verPGv6n5dr
-	e+/yVLnq1FSkkDZWgrt6LmxOY61y1nHHBj/u4WJUT2rFleJ0kN+EMwU0/oIJQUQGDJ
-	s7iRflKq5gxdVudUbEx4H7Z8H1wCboyql66M4L3SMZWIPe4ekTmV9S1ELuHQJxK1TN
-	qY2UHxts7DHxl4TZucCD0eYWC84ScunTQdjyAq4Zr9aUZSJVZ5E59VI5rKmIQkmupo
-	DQm9WQF3xIiiIQSn1TjU8HM94uzhkFUaso78Uk1wJBeLIio9e6+ad892orI5mH1pFl
-	qKOQ0yrufQhaJn9f66Sp3nkA=
-Date: Tue, 11 Feb 2020 17:02:12 +0200
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20200211150212.GC3234@localhost>
-References: <CANNYZj-KS+mHQ20sQUv-SzpeaXjvAzQDPND00iuep6ek7utd5g@mail.gmail.com>
-	<20200211135323.GA3234@localhost>
-	<CANNYZj_ExXVJJMS3g6Ga2xNc9AgspEhcMBQgmQGaQXmkcUYvPQ@mail.gmail.com>
-	<CANNYZj_v9=Ys-NXqHWXY42dZqT95+LxcRUqSRKcyy6pMz-Y01g@mail.gmail.com>
-	<20200211141347.GB3234@localhost>
-	<CANNYZj_2WVWrWDbL1tsUeqVQ_OPHnzebA=6fobRD9e==UybAhA@mail.gmail.com>
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7915E60CC6
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2020 15:08:20 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01BF81H4011263
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2020 07:08:11 -0800
+Received: from pek-lpg-core3.wrs.com (128.224.153.232) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Tue, 11 Feb 2020 07:07:50 -0800
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Feb 2020 23:07:41 +0800
+Message-ID: <20200211150741.2729-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_2WVWrWDbL1tsUeqVQ_OPHnzebA=6fobRD9e==UybAhA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Future of sato and X in oe-core
+Subject: [PATCH] glibc-package.inc: fix multilib headers conflict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,42 +31,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2020 15:02:16 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 11 Feb 2020 15:08:20 -0000
+Content-Type: text/plain
 
-On Tue, Feb 11, 2020 at 03:35:03PM +0100, Alexander Kanavin wrote:
-> X might and likely will start to bitrot sooner for those not using RHEL 8
-> and its very conservative and never changing software stack. I can imagine
-> Red Hat has no interest in supporting it on Fedora going forward for
-> instance, they'll just make Xwayland work, and rip the standalone server
-> and its drivers and libraries out.
+From: Kai Kang <kai.kang@windriver.com>
 
-There are plenty of other users big and small left, and most of the
-hardware support already moved to the kernel.
+Pass bits/endianness.h and bits/struct_rwlock.h to oe_multilib_header in
+glibc-package.inc to fix files conflict:
 
-Stale and stable is not necessarily bad for users, and X will not
-suddenly stop working.
+| Error: Transaction check error:
+|   file /usr/include/bits/endianness.h conflicts between attempted installs of lib32-libc6-dev-2.31-r0.armv7vet2hf_vfp and libc6-dev-2.31-r0.aarch64
+|   file /usr/include/bits/struct_rwlock.h conflicts between attempted installs of lib32-libc6-dev-2.31-r0.armv7vet2hf_vfp and libc6-dev-2.31-r0.aarch64
 
-> Oe-core will have X for as long as the burden of fixing build errors and
-> runtime issues with custom patches is not too painful.
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If this is true, then let's revisit this topic in 10 years.
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 3aed7be4f8..285a9aa2f5 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -87,7 +87,7 @@ do_install() {
+ 		rmdir --ignore-fail-on-non-empty ${D}${libexecdir}
+ 	fi
+ 
+-	oe_multilib_header bits/syscall.h bits/long-double.h bits/floatn.h
++	oe_multilib_header bits/syscall.h bits/long-double.h bits/floatn.h bits/endianness.h bits/struct_rwlock.h
+ 
+ 	if [ -f ${D}${bindir}/mtrace ]; then
+ 		sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' -e '2s,exec.*perl,exec ${USRBINPATH}/env perl,' ${D}${bindir}/mtrace
+-- 
+2.17.1
 
-And the solution would then likely be to switch from matchbox/sato
-to some desktop environment that supports wayland.
-
-> The point I am
-> trying to make is that I am not convinced oe-core needs a 'real' ui at all,
-> and opinion to the contrary should justify the need.
-
-The point I am trying to make is that this is a different discussion.
-
-And any "no UI in oe-core" decision would not have to wait until the 
-point in the distant future when X might no longer be supportable.
-
-> Alex
-
-cu
-Adrian
 
