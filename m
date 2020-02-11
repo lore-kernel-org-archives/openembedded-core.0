@@ -1,52 +1,100 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com
-	[209.85.216.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F68A60B4A
-	for <openembedded-core@openembedded.org>;
-	Tue, 11 Feb 2020 01:52:22 +0000 (UTC)
-Received: by mail-pj1-f52.google.com with SMTP id m7so394821pjs.0
-	for <openembedded-core@openembedded.org>;
-	Mon, 10 Feb 2020 17:52:23 -0800 (PST)
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A76F60C5F
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2020 03:07:33 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id g6so3651653plt.2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Feb 2020 19:07:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=bisJEQc1YZzJmyV+a/sHUtlyDxaMw1TwPSW5nY0aX0c=;
-	b=W7JVMcINXPHWFE+kGH15g59/iTxKTRDgFn1tkXG+RCmxOsv35b6E9nQAjz11qT3fPd
-	BgmeDp0XayuwHZEDEqyb8elOMY20WFX0Lf2LN6qV59rtmT41cjQy38JJHcOPAWoiY/o2
-	0CcjSwA6VqfifWYXWGZmGvymnNMo3mE0UMLiC+0LeVoyHRV+f37K3SoSmjQ9x0k2feBV
-	sC/2VB++H9JjSa+EGbapc+Grbu1EERPqKLgfuFfJa7gL2NTIfdZDlNBX2eWa1O2sv2uU
-	Vh/ai/3dCEpZCy4NHcLqx4+iHUe9Zr7FS5R/Ue4jLRHLzf4M3p8SbMfhypgytEwVK4kr
-	oIfw==
+	h=subject:to:references:from:autocrypt:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=3eeU60vR2jrDhID0SFqM5cm7Th7NnKBmuKZ9gFQFJrs=;
+	b=oJmpPdGu9M1y8Ysa9J5BoiNOST8sLW2jwPLM+YbjHWo2j8X9JDqPoQJhhmCa7XVe2s
+	RvO7+Eizqo232J/uPMpW5EuIQf2Gkf0Vdh/iZHbG69+jVI54kLsE0A+F6BgrkpNZKLH9
+	H2JiAq1GgNo7pusgzGT9Y8kk4KdfuXr73x2MXB7ZGgUAmuRmyzWsdUySnAiVva+WyaVe
+	mSRDYZ2slOPqahOzESYf8zNZjoHGJ2DoEaJQ8/N3DWBaRHiyH3u43Jk7acp3ReTrJ3HV
+	cMhCgZibhnql85yLSWqDrXP6MhYpCLLPkO9eTJFlj0UOGoUveYD9sCGEA1SZoxnSZzRn
+	kYDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=bisJEQc1YZzJmyV+a/sHUtlyDxaMw1TwPSW5nY0aX0c=;
-	b=F7R32GN1fT8j3UWrHiDkBaA+K5PO/kFQ1qcJlR29p+V3wlzVP9h0RPOSYnKjwgGH7S
-	KjWbko4XiPRwR37W5A/2vfzLnhwn+NKso/Lc4ZhQUoXdJQCfdMWCcClx3qvw5RnivwWT
-	nTYOe274+Dlb3ff9viteKG+mXKQLslYXnMFOLtlmyTIbwpsAOB6VY9/xafMLblIn9RfC
-	iv2ijGJz6sf/j+moi1y54bN+yaTeUVU/JJ52xI5BusHo9z8mNOCierZezQzA3lREr4ge
-	dwOnxIglVfl07ykifrIBtWYKuo5PecyoA5i4iSGlFLp1dOY4sN0/dWB+nkModKwJukJ5
-	5j1g==
-X-Gm-Message-State: APjAAAVCmT2JxtTTIN3Y2tfRH/Rd5q6rK9baqsLOqo2UUeRR3p0Nw1fS
-	V7Gbg8NUsKfgFHErbnYHHyJTLNFF
-X-Google-Smtp-Source: APXvYqy+jKeT+lBOoFcjCObqFp47JFKGW2P0dU8WY3JJWXkWa7PKE6UtQjH/QhjLjglduUgERl9BxQ==
-X-Received: by 2002:a17:90a:950b:: with SMTP id
-	t11mr846442pjo.79.1581385943196; 
-	Mon, 10 Feb 2020 17:52:23 -0800 (PST)
-Received: from akuster-ThinkPad-T460s.mvista.com
+	h=x-gm-message-state:subject:to:references:from:autocrypt:message-id
+	:date:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=3eeU60vR2jrDhID0SFqM5cm7Th7NnKBmuKZ9gFQFJrs=;
+	b=pV62mWkSEKA8y4beNXe+mFpDP4X1AnOx/1WGAFfaox/spqWCvxBsbIkibXJv8l+yUi
+	RprV+AxYxnZ7DbNl/IIP+qMFIoF78Xr/EqXN6kpNAjtKKEUXTsNXai0oVfVAzASXVkAi
+	yEzEJp3mYT7SF/jPJ2tj2McMR7bC/45GLB5dbKgPXZhcm8xwvOwL3LVd5ONwshQCwvjj
+	/Uc81DqZy8pD4aoNMxfFC9dddnyIXW9OmnlxrmNUiUq38bDC/q1V4bM+fq4CM7PWag+d
+	NUp0Phm6bY46+nRLU+x9ICIsbaRLT0Eetww51fs/Nr7cvWetuQNZZHiH8ADnfgCQXyIm
+	G5ug==
+X-Gm-Message-State: APjAAAWvBI+PQiZy62P4LOG2aG1MDqER3GtQ+CNKCufZGqncAqByHBba
+	oLubcppaqshoYqY85QEuXQjlYDX4
+X-Google-Smtp-Source: APXvYqyGZRRhG6poX4nLj9H2Y2uHD4b+h1OjzXyfaWE/KrVN0GW/kAfmQrGIL0YPg6f+/sJ/WLiGAg==
+X-Received: by 2002:a17:90a:ead8:: with SMTP id
+	ev24mr1130131pjb.91.1581390454688; 
+	Mon, 10 Feb 2020 19:07:34 -0800 (PST)
+Received: from ?IPv6:2601:202:4180:a5c0:58cf:c2e4:7ede:a168?
 	([2601:202:4180:a5c0:58cf:c2e4:7ede:a168])
-	by smtp.gmail.com with ESMTPSA id u12sm1432183pgr.3.2020.02.10.17.52.22
-	for <openembedded-core@openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 10 Feb 2020 17:52:22 -0800 (PST)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@openembedded.org
-Date: Mon, 10 Feb 2020 17:51:50 -0800
-Message-Id: <cover.1581385841.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	by smtp.gmail.com with ESMTPSA id
+	f13sm1833312pfk.64.2020.02.10.19.07.33
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Mon, 10 Feb 2020 19:07:33 -0800 (PST)
+To: Rahul Chauhan <rahulchauhankitps@gmail.com>,
+	openembedded-core@lists.openembedded.org
+References: <1581360561-30532-1-git-send-email-rahulk@mvista.com>
+From: akuster808 <akuster808@gmail.com>
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	xsFNBFnlUP4BEADpKf+FQdLykenQXKk8i6xJNxDow+ypFeVAy8iFJp7Dsev+BtwUFo8VG7hx
+	Jmd71vHMw+coBetWC3lk+IKjX815Ox0puYXQVRRtI+yMCgd6ib3oGxoQ8tCMwhf9c9/aKjaz
+	mP97lWgGHbiEVsDpjzmMZGlJ6pDVZzxykkJExKaosE46AcA8KvfhRQg5zRyYBtinzs8Zu8AP
+	aquZVHNXxPwjKPaSEEYqQjFeiNgFTavV+AhM2dmPmGUWCX9RZisrqA4slGwEB0srMdFf12Zg
+	mD35Y9jZ80qpu5LPtJCFcsaAlebqR+dg36pIpiRR+olhN1wmC6LYP1vw6uMEYBjkTa2Rnb6+
+	C4FDzCJD4UCrUvLMNeTW810DY0bjMMj3SfmSGSfQUssaaaTXCVlLGuGxyCr/kza1rHaXMKum
+	Ek4EFj1fyn7AfkSLEHfJfY4sO1tpgigvs4eD/4ZSQEXSu/TjVvyKx4EvUbhlGMRyH2CPwD/H
+	7DFF8tcVtJvCwUUW+zKtjxjSSLrhniNMXAOQJZ6CdaqCe4OyJQT5aRdr+FWbBRjpaRCCf5nf
+	dTc88NMU9PrBT3vu0QJ5WNPO6MJpnb+d8iMNLZAz8tv8JMm2l+sMcNKSJ6lhX8peoBsfMVqc
+	FgiykEO0fUt7DCbUYR5tLjM/3E5tHvTjMooVJyOxoufVLYtTtQARAQABzSFha3VzdGVyODA4
+	IDxha3VzdGVyODA4QGdtYWlsLmNvbT7CwX0EEwEIACcFAlnlUP4CGyMFCQlmAYAFCwkIBwIG
+	FQgJCgsCBBYCAwECHgECF4AACgkQ7ou0mfRW5/kuhRAAlR2FTq5572jrX5nnPR7AqI2bvSVb
+	vqGLlvv739WhghvagbC+tu05QguopAhWW1/DcHK2+QtfIoC9UZrSW4RaO0CCo5sPjqK7l1KT
+	ngWX/rGjF6xTF2QN0U/btcpMyVN2CNtVLwsDF9e+GHKoUcnFkP+JP8vHGokN9k6E/c97hLaL
+	IJPeKl8LZXc2Efk+MaW1NXkfDJdcp/p+voajbihSQO6OZ/o+x9d2I3ZybKfTZ71+ek5Hxzjz
+	g6KkMOI7KJjlmBlrQFAtVbS+CFAKrwkYznE6ggkcmGv3N7DeUBTUR78hf+EZEAM+ajeLMtrG
+	rXE00pIb+gLGYPZxba5pCdQ+qWUW38qi9UnIRPm6fq7Ypx1r6XwJvbgCOkhbxo3D4YUdyC0b
+	FE9lgrg8htbc9in4j2+hVI6ALswNjLprzXdzdKrd+T3Egx36o3Z/qrYsW2o5/A5sVvvASVKi
+	wRPuEKhEhfmiHUPLvuKqhMoymHaz3fg5D2Q8G0gSDkLgeEpAjiWqf4+AGLx+MSDai7DSOsmI
+	t61kWxs7cFTB32UrB/TDoVNn3Fm88ZFQpA/bngikE9jgEm045mSY86fNlbFj2mcCd0Ha1i1n
+	aYc97RpgfjNMWyHDVHOGrNg/hJjkGa5RsAXkfyBwltHRw0Hj4urUQ3rr8um8PLe43SezPwXA
+	oRoyDxDOwU0EWeVQ/gEQALNHwj5VSPdnvXy1RXUuH+rclMx4x8zaqDyY0YqHfA7b/d8Y0VAt
+	Y6YpzDeFTwD8A0Wfb7kZ2mlDIE6ODCB71uT/E3C6b+FiiN+lgzslznjUW+9l8ddDhRrC8HMG
+	37vrXF5h++PTXUKEKUlkDib1w093tu3mlJXUvIAzl8CEHkptF6Br0L9XxFwuWoNUfjT9IorQ
+	0SVIhvq5PhVAITXUD5fD7/N8B4TYegmHFRo1UaaKSnSHwlJJkzKpeWOH8QTYrP0RHxX86Obv
+	IZuwbAo3F3oojcvLJt9NxWnbEmEALkleklLZnukgu7q5Wp1VDwhUbMFTLb6qmnBa/Xi30uOk
+	0l1TMHDbeQswvQDOZBAMukSRqyBetKxQ3iTfZ/3z1ubQRcVDbVlMDScSHQq0LK3F9yMOMM/6
+	0QPqJjl13xn/+Bn7WJiAIXXwzAV7uo6i0khFfjDtCDQ40aeffqOLxp1yMLkc3EKJGcQ5F6O2
+	ycEf4QXCYUbMXjxB0EJB8y7z+xOi5Mmd/pPlVmZ2gQK84NAL90p7n7jRlyf3gOUY+JOl4c5e
+	UFiIhOzmuqNrvPOiZ02GXh6SGUU5y7IgSoIKvXSFgHAn2OG/tcspBmkyv6IuNVpmbmEgYn4I
+	Rnt40UXVQkxTh0dENFhk2cjunMYozV/OqYCgmZLFSeJd8kAo4yn+yOtNABEBAAHCwWUEGAEI
+	AA8FAlnlUP4CGwwFCQlmAYAACgkQ7ou0mfRW5/nNcg//R63cbOS6zLtvdnPub3Ssp1Ft8Wmv
+	mni+kccuNApuDV7d63QckYxjAfUv2zYMLpbh87gVbLyCq9ASn552EbfRhTvHdk44CgbHBVcI
+	ZBEdZWgRR5ViJakQSYHpP2e5AGNFnx9gSIuRTaa5rvZM+4xeoZ2vJiq93TtaYPr7UFNfK+c4
+	vv4C66lkt9l95/I10eSc3RqbOKZW47emlg4X3ygEoB9k2lPrpspyf6sUuSEi0WrlSxoLAr6p
+	JG8rTUErYNeXe6JCdL31odDx1Dh5sdKIj2RicUYZNilxu9f1M7jZwf2ra1FGAlKj2ybqmgpZ
+	EFteaiCinEYsvDyZyOiWHjAFI+RZIPQQL3AnVp4l7wYD3r9hnqYPww0slyMDcb9262RoFkHq
+	dDwxPYarrNjWUpOzxB6bFxOgNRdCTgvQl8Ftk8a/yXB6vHeUSm1vPFCBxQPZytyfOLhEWm0J
+	/mkVL0Z6iRK3p1LKnpLYCS4/esL2u7RrhPyCs2SsL58YcQF/g+PpeT9geZ+oyZ/4IQ+TWJoU
+	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
+	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
+	8CS2NxU=
+Message-ID: <603e05c3-b568-a228-7821-5a48593b4c30@gmail.com>
+Date: Mon, 10 Feb 2020 19:07:32 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-Subject: [zeus 00/30] Pull request
+In-Reply-To: <1581360561-30532-1-git-send-email-rahulk@mvista.com>
+Subject: Re: [warrior][PATCH] libxml2: Fix CVE-2019-19956
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,134 +107,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2020 01:52:22 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Feb 2020 03:07:34 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Consolidated pull request.
-Cover leter only.
 
-The following changes since commit 9b1bf083129be2b849db52d4f0eda9eb6077c97e:
 
-  python2: add ntpath (2020-02-02 18:19:50 -0800)
+On 2/10/20 10:49 AM, Rahul Chauhan wrote:
+> Signed-off-by: Rahul Chauhan <rahulk@mvista.com>
+> ---
+>  .../libxml/libxml2/fix-CVE-2019-19956.patch        | 38 ++++++++++++++++++++++
+>  meta/recipes-core/libxml/libxml2_2.9.8.bb          |  1 +
+>  2 files changed, 39 insertions(+)
+>  create mode 100644 meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
 
-are available in the Git repository at:
+What is the difference from the patch sent on the 6th? is this a version 2?
 
-  git://git.openembedded.org/openembedded-core-contrib stable/zeus-next
-  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/zeus-next
-
-Alejandro del Castillo (1):
-  opkg-utils: upgrade to version 0.4.2
-
-Alexander Kanavin (1):
-  perl: do not install files that contain build host specific data
-
-Anuj Mittal (3):
-  Revert "bzip2: Fix CVE-2019-12900"
-  curl: fix CVE-2019-15601
-  cpio: fix CVE-2019-14866
-
-Joshua Watt (2):
-  classes/reproducible_build: Read SDE file later
-  mc: Fix build reproducibility
-
-Lee Chee Yang (1):
-  rsync: whitelist CVE-2017-16548
-
-Richard Purdie (17):
-  opkg-utils: Fix reproducibility issues in opkg-build
-  oeqa/reproducible: Improve test output and ensure deb+ipk compared
-  sudo: Set vardir deterministically
-  libxshmfence: Set shm directory deterministically
-  mc: Set zipinfo presence determinstically
-  mc: Fix manpage date indeterminism
-  tar: Fix build determinism, disable rsh
-  patch: Extend to native/nativesdk and depend upon
-  libidn2: Fix reproducibility issue
-  perl: Fix various reproducibile build issues
-  openssl: Fix reproducibility issue
-  iputils: Fix build determinism
-  libinput: Fix determinism issue
-  libgcrypt: Fix determinism issue
-  sysvinit: Fix Reproducibility issue
-  libevdev: Fix determinism issue
-  ncurses: Fix reproducibility issue
-
-Ross Burton (2):
-  gtk+3: sort resources for reproducible binaries
-  sudo: specify where target tools are
-
-Taras Kondratiuk via Openembedded-core (1):
-  gcc-9.2: fix bug #91102 'aarch64 ICE on Linux kernel with -Os'
-
-Tom Hochstein (2):
-  devtool/standard.py: Allow recipe to disable menuconfig logic
-  u-boot.inc: Fix devtool build u-boot for u-boot without menuconfig
-
- meta/classes/patch.bbclass                    |   7 +
- meta/classes/reproducible_build.bbclass       |  40 ++-
- meta/lib/oeqa/selftest/cases/reproducible.py  |   9 +-
- meta/recipes-bsp/u-boot/u-boot.inc            |   2 +
- .../openssl/openssl/reproducible.patch        |  32 ++
- .../openssl/openssl_1.1.1d.bb                 |   1 +
- meta/recipes-core/meta/buildtools-tarball.bb  |   1 +
- meta/recipes-core/ncurses/ncurses.inc         |   1 +
- .../recipes-core/sysvinit/sysvinit_2.88dsf.bb |   1 +
- meta/recipes-devtools/gcc/gcc-9.2.inc         |   1 +
- ...02-aarch64-ICE-on-Linux-kernel-with-.patch |  95 ++++++
- ...Switch-all-scripts-to-use-Python-3.x.patch | 113 -------
- ...ld-clamp-mtimes-to-SOURCE_DATE_EPOCH.patch |  44 ---
- .../opkg-utils/fix-reproducibility.patch      |  32 ++
- .../opkg-utils/opkg-utils/pipefail.patch      |  31 --
- ...pkg-utils_0.4.1.bb => opkg-utils_0.4.2.bb} |  13 +-
- meta/recipes-devtools/patch/patch_2.7.6.bb    |   3 +
- .../perl/files/determinism.patch              |  81 +++++
- meta/recipes-devtools/perl/perl-ptest.inc     |   3 +
- meta/recipes-devtools/perl/perl_5.30.0.bb     |   4 +
- meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   3 +
- .../bzip2/bzip2-1.0.6/CVE-2019-12900.patch    |  36 --
- .../cpio/cpio-2.12/CVE-2019-14866.patch       | 316 ++++++++++++++++++
- meta/recipes-extended/cpio/cpio_2.12.bb       |   1 +
- .../iputils/iputils_s20190709.bb              |   3 +-
- meta/recipes-extended/libidn/libidn2_2.2.0.bb |   3 +-
- ...Add-option-to-control-configure-args.patch |  99 ++++++
- .../recipes-extended/mc/files/nomandate.patch |  21 ++
- meta/recipes-extended/mc/mc_4.8.23.bb         |   7 +-
- meta/recipes-extended/sudo/sudo.inc           |   2 +-
- meta/recipes-extended/sudo/sudo_1.8.27.bb     |  10 +-
- meta/recipes-extended/tar/tar_1.32.bb         |   2 +
- .../gtk+/gtk+3/sort-resources.patch           |  19 ++
- meta/recipes-gnome/gtk+/gtk+3_3.24.8.bb       |   1 +
- .../wayland/libinput/determinism.patch        |  21 ++
- .../wayland/libinput_1.14.1.bb                |   4 +-
- .../xorg-lib/libxshmfence_1.3.bb              |   2 +
- .../curl/curl/CVE-2019-15601.patch            |  46 +++
- meta/recipes-support/curl/curl_7.66.0.bb      |   1 +
- .../libevdev/libevdev/determinism.patch       |  34 ++
- .../libevdev/libevdev_1.8.0.bb                |   3 +-
- .../libgcrypt/files/determinism.patch         |  32 ++
- .../libgcrypt/libgcrypt_1.8.4.bb              |   1 +
- scripts/lib/devtool/standard.py               |   6 +-
- 44 files changed, 935 insertions(+), 252 deletions(-)
- create mode 100644 meta/recipes-connectivity/openssl/openssl/reproducible.patch
- create mode 100644 meta/recipes-devtools/gcc/gcc-9.2/re-PR-target-91102-aarch64-ICE-on-Linux-kernel-with-.patch
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-Switch-all-scripts-to-use-Python-3.x.patch
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-build-clamp-mtimes-to-SOURCE_DATE_EPOCH.patch
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/fix-reproducibility.patch
- delete mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/pipefail.patch
- rename meta/recipes-devtools/opkg-utils/{opkg-utils_0.4.1.bb => opkg-utils_0.4.2.bb} (83%)
- create mode 100644 meta/recipes-devtools/perl/files/determinism.patch
- delete mode 100644 meta/recipes-extended/bzip2/bzip2-1.0.6/CVE-2019-12900.patch
- create mode 100644 meta/recipes-extended/cpio/cpio-2.12/CVE-2019-14866.patch
- create mode 100644 meta/recipes-extended/mc/files/0001-Add-option-to-control-configure-args.patch
- create mode 100644 meta/recipes-extended/mc/files/nomandate.patch
- create mode 100644 meta/recipes-gnome/gtk+/gtk+3/sort-resources.patch
- create mode 100644 meta/recipes-graphics/wayland/libinput/determinism.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-15601.patch
- create mode 100644 meta/recipes-support/libevdev/libevdev/determinism.patch
- create mode 100644 meta/recipes-support/libgcrypt/files/determinism.patch
-
--- 
-2.17.1
+- armin
+>
+> diff --git a/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
+> new file mode 100644
+> index 0000000..43c3589
+> --- /dev/null
+> +++ b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
+> @@ -0,0 +1,38 @@
+> +From 3cd2b25ddb04740be2880cfd78d60038452228b1 Mon Sep 17 00:00:00 2001
+> +From: Zhipeng Xie <xiezhipeng1@huawei.com>
+> +Date: Wed, 7 Aug 2019 17:39:17 +0800
+> +Subject: [PATCH] Fix memory leak in xmlParseBalancedChunkMemoryRecover
+> +
+> +When doc is NULL, namespace created in xmlTreeEnsureXMLDecl
+> +is bind to newDoc->oldNs, in this case, set newDoc->oldNs to
+> +NULL and free newDoc will cause a memory leak.
+> +
+> +Found with libFuzzer.
+> +
+> +Closes #82.
+> +
+> +Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549]
+> +CVE: CVE-2019-19956
+> +
+> +Signed-off-by: Rahul Chauhan <rahulk@mvista.com>
+> +---
+> + parser.c | 3 ++-
+> + 1 file changed, 2 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/parser.c b/parser.c
+> +index b7ecd65..491f5c9 100644
+> +--- a/parser.c
+> ++++ b/parser.c
+> +@@ -13899,7 +13899,8 @@ xmlParseBalancedChunkMemoryRecover(xmlDocPtr doc, xmlSAXHandlerPtr sax,
+> +     xmlFreeParserCtxt(ctxt);
+> +     newDoc->intSubset = NULL;
+> +     newDoc->extSubset = NULL;
+> +-    newDoc->oldNs = NULL;
+> ++    if(doc != NULL)
+> ++	newDoc->oldNs = NULL;
+> +     xmlFreeDoc(newDoc);
+> + 
+> +     return(ret);
+> +-- 
+> +2.7.4
+> +
+> diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+> index 62643bc..67c2d4f 100644
+> --- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
+> +++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+> @@ -23,6 +23,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+>             file://fix-CVE-2017-8872.patch \
+>             file://fix-CVE-2018-14404.patch \
+>             file://0001-Fix-infinite-loop-in-LZMA-decompression.patch \
+> +           file://fix-CVE-2019-19956.patch \
+>             "
+>  
+>  SRC_URI[libtar.md5sum] = "b786e353e2aa1b872d70d5d1ca0c740d"
 
 
