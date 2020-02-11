@@ -1,42 +1,45 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com
-	[209.85.217.43])
-	by mail.openembedded.org (Postfix) with ESMTP id DBB026058C;
-	Tue, 11 Feb 2020 12:48:55 +0000 (UTC)
-Received: by mail-vs1-f43.google.com with SMTP id x18so6191862vsq.4;
-	Tue, 11 Feb 2020 04:48:57 -0800 (PST)
+Return-Path: <rahulchauhankitps@gmail.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A2BC060587
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2020 13:06:37 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id y6so11528674lji.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Feb 2020 05:06:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=u/nUGgQi4Wv+gwlnC5ul2Xy2VrsMiTntpsvY5JfzJnA=;
-	b=vAzM4zyIJ77cXzaw/aNO7KkfMz54Nr4oluIE3hRd7JO5SE7UdAHNvG6I5G+Ho8LkBk
-	s1Npp+7lDepLZSIHVjqMHgNMdrBbcj21AsVgiZeBGE05lxyJMNZIu9geX8bEbkn2WY3I
-	xyDkqz3a8QdE5t+HWG90sgGvxfYlMPhCh0LX7gJ3oCmEck408OdPzbNne6Ky2noGVYwp
-	0q6vUdBO9xPKqJQxLTOP+IDPjDvNbLp1w7ESwHBchgMBPnsoFYsPuU2jKuyQv7Amate/
-	/pQxFhNDFMSS7lgH6el7VgddNFnICaFzg0wQb3e8G89dq5IeeTdthmi8nF0oFwStrOUp
-	RPqA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=o2xtCFTfd9jaXKDzlHTDBp1h5f6OmLsZveuy4fvaF/E=;
+	b=Oj440rs9dON0ZRn83wTZBWQW1d9yM2sEtLAhnBRpCnIIW4VLEFaTrWC2SNm8JneJc0
+	yRmpzwkZ9f5YLeaHnDSa3+5M1JZ0GQkvHbBG51VZx6JDZD2lznY6TSLQ5SHzS6PCuttp
+	pQYh+FTnfmqyUIyj+W619fSOXiGyVcueLaSdE8ivG1TyKiBYDSB2B0QrUFxTo5BJ73bR
+	rB450EgGdCnpKW1sjzOHvySZeNCcD+fh63XRzm+SX+s7o6Zo0jNrQBKoGyecNBUEJncH
+	5qPD+cdKMhFBePk16HFasNY31jqHUirFIP6sgou3gZ54CYtvHxgJrcpkCQgwGcYSPwge
+	4JvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=u/nUGgQi4Wv+gwlnC5ul2Xy2VrsMiTntpsvY5JfzJnA=;
-	b=NmMs2lJAGe7zEGVVqgypbr/Hzf5SokM9uHgRusYF9F4WOfR1EhNhW1y1AGveVMX96k
-	DWKlrPhOi8DZNEmcB8P+I1R1hjz8er4fHVKinA3EFC86/rznfKY4SVbITLuMsaZtlp66
-	UelIgq9NFZveU64nvHdpeBF3gAZX+HmbhAz07PsZ6DQKQKc3ye2nSpyvYrNxUBJ5i/gh
-	KSyc14eZZtFGKT/HxxdOGRvXYGakCkDwu5/tuCu/Gq/5RX1I6deiTpXx3DLbBToZzi5F
-	VNL1eDXcsiAI2N4P3JFXvipJ0ZWIvEZ5iKYSORwySJrO8RAQ48witJqrAN1bJmyiOFym
-	hDUA==
-X-Gm-Message-State: APjAAAU2ALNlNpEydMYDzzPpc9S7qT8OhGbbQy1dz02OADZ0zpb2gesY
-	FHRmBavyT3P33tojbqKkX0d2gv02X6X4qNKYOZGCSHe6
-X-Google-Smtp-Source: APXvYqx1lNqJDkq4HwTs4FmAdaoKfPBjKhaKg7ZDWH8XhJFnPJwyzn6V4WqMAZNcA0Wch6EkxdggRzeD1GtaKAitAMM=
-X-Received: by 2002:a67:7987:: with SMTP id u129mr9143636vsc.83.1581425336429; 
-	Tue, 11 Feb 2020 04:48:56 -0800 (PST)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=o2xtCFTfd9jaXKDzlHTDBp1h5f6OmLsZveuy4fvaF/E=;
+	b=YFqMIwFXPHuujaD+B87aK2HH0i44skn/W0F1E0KNfS1BcpFwnx45tK/bYZMgkwqU50
+	f1AH2+5Wlv0+ydBLQqd/5ASHX1M0LYpNUrDmkUzGupeUaB+bMXF/wlxDMxrkGKd1Y+ZD
+	Kfcu2VwB29WOg6X7lY9BkKiowoquCHm1tFwL1++BToiHYv5P/PV6XydEAlKQKSVSiCRF
+	rDizMWfCTVQ53qtyU8GFLKIohy8eCrhNt26JxwNm/wKXIXyFlJS/zB+s4fDBHIr/EHqq
+	NWPQpcqJG2oQOwt+BveFPGyckWzssmdZrAqlprQmMh9gjwGLNYTsNPVmHoqVZVEzc0fz
+	2GdQ==
+X-Gm-Message-State: APjAAAXxCFr7hBgB7aPlQwSVq5+ocTj5xh/6xPIAQAU0cv/jcEpV+Kq+
+	0rzx0wiUSAQXk6eYg8kroCr3WMCaNGbhikbFPuP2pRfm
+X-Google-Smtp-Source: APXvYqx5xx6s9zmhnqr/PKncjCczALtgfbLp/T/+DT1ytla8SeVtARCmZD/+/V95KicuIpW81FdcrdEkWU4snYoUjp4=
+X-Received: by 2002:a2e:7207:: with SMTP id n7mr3980421ljc.242.1581426397959; 
+	Tue, 11 Feb 2020 05:06:37 -0800 (PST)
 MIME-Version: 1.0
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 11 Feb 2020 13:49:27 +0100
-Message-ID: <CANNYZj-KS+mHQ20sQUv-SzpeaXjvAzQDPND00iuep6ek7utd5g@mail.gmail.com>
-To: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>, 
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Future of sato and X in oe-core
+References: <1581358619-5570-1-git-send-email-rahulchauhankitps@gmail.com>
+In-Reply-To: <1581358619-5570-1-git-send-email-rahulchauhankitps@gmail.com>
+From: rahul chauhan <rahulchauhankitps@gmail.com>
+Date: Tue, 11 Feb 2020 18:36:26 +0530
+Message-ID: <CAGk+Jeh6gN0Mk=ooVUZm7tzNu1B9+tPMhtkYk7tJm0Fb1v6dZQ@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] ruby: fix CVE-2019-16254
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,104 +52,358 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2020 12:48:56 -0000
-Content-Type: multipart/alternative; boundary="0000000000006ab46f059e4c4767"
+X-List-Received-Date: Tue, 11 Feb 2020 13:06:38 -0000
+Content-Type: multipart/alternative; boundary="000000000000b05ad0059e4c8696"
 
---0000000000006ab46f059e4c4767
+--000000000000b05ad0059e4c8696
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Hi community members,
 
-I'd like to lay out a few ideas/thoughts on what should be done with sato
-(matchbox bits) and X going forward. The inputs are:
+This patch Fixes CVE-2019-16254 on zeus branch.
+patch test failed, since I did not use --subject-prefix="zeus][PATCH" at
+the time of patch submission to openembedded-core@lists.openembedded.org.
 
-- Red Hat is the only company doing X maintenance anymore, and they're
-transitioning it to 'hard maintenance mode'
-https://blogs.gnome.org/uraeus/2019/06/24/on-the-road-to-fedora-workstation-31/
-"Once we are done with this [xwayland gaining missing features] we expect
-X.org to go into hard maintenance mode fairly quickly. The reality is that
-X.org is basically maintained by us and thus once we stop paying attention
-to it there is unlikely to be any major new releases coming out and there
-might even be some bitrot setting in over time. We will keep an eye on it
-as we will want to ensure X.org stays supportable until the end of the
-RHEL8 lifecycle at a minimum, but let this be a friendly notice for
-everyone who rely the work we do maintaining the Linux graphics stack, get
-onto Wayland, that is where the future is.
-"
+should i resubmit this patch with --subject-prefix="zeus][PATCH"
+or
+can anyone guide me what should do next in  this situation ?
 
-- matchbox is reliant on gtk3 (to be obsoleted by gtk4 this year), and does
-not have a Wayland compositor. Yocto project does not have the resources to
-do the gtk4 port, or add a compositor.
+Thanks & Regards
+Rahul Chauhan
 
-- no 'lightweight Wayland compositor with a desktop/launcher experience"
-has emerged in the open source space; I think the only realistic choice at
-the moment is the reference compositor Weston which provides a blank
-desktop with ability to open terminal windows.
+On Mon, Feb 10, 2020 at 11:47 PM Rahul Chauhan <rahulchauhankitps@gmail.com>
+wrote:
 
-So the way I think things should be going (seeking opinions/inputs of
-course):
+> Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
+> ---
+>  .../ruby/ruby/fix-CVE-2019-16254.patch             | 106
+> +++++++++++++++++++++
+>  meta/recipes-devtools/ruby/ruby_2.5.5.bb           |   1 +
+>  2 files changed, 107 insertions(+)
+>  create mode 100644
+> meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+>
+> diff --git a/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+> b/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+> new file mode 100644
+> index 0000000..704c850
+> --- /dev/null
+> +++ b/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch
+> @@ -0,0 +1,106 @@
+> +From 18d5289b4579822e391b3f5c16541e6552e9f06c Mon Sep 17 00:00:00 2001
+> +From: Yusuke Endoh <mame@ruby-lang.org>
+> +Date: Tue, 1 Oct 2019 12:29:18 +0900
+> +Subject: [PATCH] WEBrick: prevent response splitting and header injection
+> +
+> +This is a follow up to d9d4a28f1cdd05a0e8dabb36d747d40bbcc30f16.
+> +The commit prevented CRLR, but did not address an isolated CR or an
+> +isolated LF.
+> +
+> +Upstream-Status: Backport
+> https://github.com/ruby/ruby/commit/3ce238b5f9795581eb84114dcfbdf4aa086bfecc
+> +CVE: CVE-2019-16254
+> +
+> +Co-Authored-By: NARUSE, Yui <naruse@airemix.jp>
+> +Signed-off-by: Rahul Chauhan <rahulchauhankitps@gmail.com>
+> +---
+> + lib/webrick/httpresponse.rb       |  3 ++-
+> + test/webrick/test_httpresponse.rb | 46
+> +++++++++++++++++++++++++++++++++++++--
+> + 2 files changed, 46 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/lib/webrick/httpresponse.rb b/lib/webrick/httpresponse.rb
+> +index 6d77692..d26324c 100644
+> +--- a/lib/webrick/httpresponse.rb
+> ++++ b/lib/webrick/httpresponse.rb
+> +@@ -367,7 +367,8 @@ def set_error(ex, backtrace=false)
+> +     private
+> +
+> +     def check_header(header_value)
+> +-      if header_value =~ /\r\n/
+> ++      header_value = header_value.to_s
+> ++      if /[\r\n]/ =~ header_value
+> +         raise InvalidHeader
+> +       else
+> +         header_value
+> +diff --git a/test/webrick/test_httpresponse.rb
+> b/test/webrick/test_httpresponse.rb
+> +index 6263e0a..24a6968 100644
+> +--- a/test/webrick/test_httpresponse.rb
+> ++++ b/test/webrick/test_httpresponse.rb
+> +@@ -29,7 +29,7 @@ def setup
+> +       @res.keep_alive  = true
+> +     end
+> +
+> +-    def test_prevent_response_splitting_headers
+> ++    def test_prevent_response_splitting_headers_crlf
+> +       res['X-header'] = "malicious\r\nCookie: hack"
+> +       io = StringIO.new
+> +       res.send_response io
+> +@@ -39,7 +39,7 @@ def test_prevent_response_splitting_headers
+> +       refute_match 'hack', io.string
+> +     end
+> +
+> +-    def test_prevent_response_splitting_cookie_headers
+> ++    def test_prevent_response_splitting_cookie_headers_crlf
+> +       user_input = "malicious\r\nCookie: hack"
+> +       res.cookies << WEBrick::Cookie.new('author', user_input)
+> +       io = StringIO.new
+> +@@ -50,6 +50,48 @@ def test_prevent_response_splitting_cookie_headers
+> +       refute_match 'hack', io.string
+> +     end
+> +
+> ++    def test_prevent_response_splitting_headers_cr
+> ++      res['X-header'] = "malicious\rCookie: hack"
+> ++      io = StringIO.new
+> ++      res.send_response io
+> ++      io.rewind
+> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
+> ++      assert_equal '500', res.code
+> ++      refute_match 'hack', io.string
+> ++    end
+> ++
+> ++    def test_prevent_response_splitting_cookie_headers_cr
+> ++      user_input = "malicious\rCookie: hack"
+> ++      res.cookies << WEBrick::Cookie.new('author', user_input)
+> ++      io = StringIO.new
+> ++      res.send_response io
+> ++      io.rewind
+> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
+> ++      assert_equal '500', res.code
+> ++      refute_match 'hack', io.string
+> ++    end
+> ++
+> ++    def test_prevent_response_splitting_headers_lf
+> ++      res['X-header'] = "malicious\nCookie: hack"
+> ++      io = StringIO.new
+> ++      res.send_response io
+> ++      io.rewind
+> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
+> ++      assert_equal '500', res.code
+> ++      refute_match 'hack', io.string
+> ++    end
+> ++
+> ++    def test_prevent_response_splitting_cookie_headers_lf
+> ++      user_input = "malicious\nCookie: hack"
+> ++      res.cookies << WEBrick::Cookie.new('author', user_input)
+> ++      io = StringIO.new
+> ++      res.send_response io
+> ++      io.rewind
+> ++      res = Net::HTTPResponse.read_new(Net::BufferedIO.new(io))
+> ++      assert_equal '500', res.code
+> ++      refute_match 'hack', io.string
+> ++    end
+> ++
+> +     def test_304_does_not_log_warning
+> +       res.status      = 304
+> +       res.setup_header
+> +--
+> +2.7.4
+> diff --git a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+> b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+> index 223b037..58bb97f 100644
+> --- a/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+> +++ b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+> @@ -3,6 +3,7 @@ require ruby.inc
+>  SRC_URI += " \
+>
+> file://0001-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch \
+>             file://run-ptest \
+> +           file://fix-CVE-2019-16254.patch \
+>             "
+>
+>  SRC_URI[md5sum] = "7e156fb526b8f4bb1b30a3dd8a7ce400"
+> --
+> 2.7.4
+>
+>
 
-- oe-core adopts Weston as the 'new sato'; all sato images that currently
-pull in matchbox and friends are changed to be Weston-based. Note that
-there is no requirement for 3D acceleration; Weston works with plain frame
-buffer device. However, both options should be supported and tested. Also,
-support for Xwayland should be tested.
-
-- oe-core continues to support and runtime-test X for as long as possible;
-for this a new image (say, 'core-image-sato-xorg') is created which will
-provide matchbox under X. However, once upstream bitrot sets in, and pain
-threshold is exceeded, this will be removed and/or relegated to a legacy
-layer.
-
-Thoughts?
-
-Regards,
-Alex
-
---0000000000006ab46f059e4c4767
+--000000000000b05ad0059e4c8696
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">Hello,<div><br></div><di=
-v>I&#39;d like to lay out a few ideas/thoughts on what should be done with =
-sato (matchbox bits) and X going forward. The inputs are:</div><div><br></d=
-iv><div>- Red Hat is the only company doing X maintenance anymore, and they=
-&#39;re transitioning it to &#39;hard maintenance mode&#39;</div><div><a hr=
-ef=3D"https://blogs.gnome.org/uraeus/2019/06/24/on-the-road-to-fedora-works=
-tation-31/">https://blogs.gnome.org/uraeus/2019/06/24/on-the-road-to-fedora=
--workstation-31/</a><br></div><div>&quot;<span style=3D"color:rgb(85,85,85)=
-;font-family:&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,Verd=
-ana,sans-serif;font-size:13px;background-color:rgb(248,248,240)">Once we ar=
-e done with this [xwayland gaining missing features] we expect X.org to go =
-into hard maintenance mode fairly quickly. The reality is that X.org is bas=
-ically maintained by us and thus once we stop paying attention to it there =
-is unlikely to be any major new releases coming out and there might even be=
- some bitrot setting in over time. We will keep an eye on it as we will wan=
-t to ensure X.org stays supportable until the end of the RHEL8 lifecycle at=
- a minimum, but let this be a friendly notice for everyone who rely the wor=
-k we do maintaining the Linux graphics stack, get onto Wayland, that is whe=
-re the future is.</span></div><div><span style=3D"color:rgb(85,85,85);font-=
-family:&quot;Lucida Grande&quot;,&quot;Lucida Sans Unicode&quot;,Verdana,sa=
-ns-serif;font-size:13px;background-color:rgb(248,248,240)">&quot;</span></d=
-iv><div><br></div><div>- matchbox is reliant on gtk3 (to be obsoleted by gt=
-k4 this year), and does not have a Wayland compositor. Yocto project does n=
-ot have the resources to do the gtk4 port, or add a compositor.</div><div><=
-br></div><div>- no &#39;lightweight Wayland compositor with a desktop/launc=
-her experience&quot; has emerged in the open source space; I think the only=
- realistic choice at the moment is the reference compositor Weston which pr=
-ovides a blank desktop with ability to open terminal windows.</div><div><br=
-></div><div>So the way I think things should be going (seeking opinions/inp=
-uts of course):</div><div><br></div><div>- oe-core adopts Weston as the &#3=
-9;new sato&#39;; all sato images that currently pull in matchbox and friend=
-s are changed to be Weston-based. Note that there is no requirement for 3D =
-acceleration; Weston works with plain frame buffer device. However, both op=
-tions should be supported and tested. Also, support for Xwayland should be =
-tested.</div><div><br></div><div>- oe-core continues to support and runtime=
--test X for as long as possible; for this a new image (say, &#39;core-image=
--sato-xorg&#39;) is created which will provide matchbox under X. However, o=
-nce upstream bitrot sets in, and pain threshold is exceeded, this will be r=
-emoved and/or relegated to a legacy layer.</div><div><br></div><div>Thought=
-s?</div><div><br></div><div>Regards,</div><div>Alex<br></div></div></div></=
-div>
+<div dir=3D"ltr"><div>Hi community members,</div><div><br></div><div>This p=
+atch Fixes CVE-2019-16254 on zeus branch.</div>patch test failed, since I d=
+id not use --subject-prefix=3D&quot;zeus][PATCH&quot; at the time of patch =
+submission to <a href=3D"mailto:openembedded-core@lists.openembedded.org">o=
+penembedded-core@lists.openembedded.org</a>.<br>=C2=A0<br><div>should i res=
+ubmit this patch with --subject-prefix=3D&quot;zeus][PATCH&quot;</div><div>=
+or <br></div><div>can anyone guide me what should do next in =C2=A0this sit=
+uation ?<br></div><div><br></div><div>Thanks &amp; Regards</div><div>Rahul =
+Chauhan<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Mon, Feb 10, 2020 at 11:47 PM Rahul Chauhan &lt;<a href=
+=3D"mailto:rahulchauhankitps@gmail.com">rahulchauhankitps@gmail.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Signed-o=
+ff-by: Rahul Chauhan &lt;<a href=3D"mailto:rahulchauhankitps@gmail.com" tar=
+get=3D"_blank">rahulchauhankitps@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0.../ruby/ruby/fix-CVE-2019-16254.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0| 106 +++++++++++++++++++++<br>
+=C2=A0meta/recipes-devtools/ruby/<a href=3D"http://ruby_2.5.5.bb" rel=3D"no=
+referrer" target=3D"_blank">ruby_2.5.5.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br>
+=C2=A02 files changed, 107 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254=
+.patch<br>
+<br>
+diff --git a/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch b/met=
+a/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch<br>
+new file mode 100644<br>
+index 0000000..704c850<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/ruby/ruby/fix-CVE-2019-16254.patch<br>
+@@ -0,0 +1,106 @@<br>
++From 18d5289b4579822e391b3f5c16541e6552e9f06c Mon Sep 17 00:00:00 2001<br>
++From: Yusuke Endoh &lt;<a href=3D"mailto:mame@ruby-lang.org" target=3D"_bl=
+ank">mame@ruby-lang.org</a>&gt;<br>
++Date: Tue, 1 Oct 2019 12:29:18 +0900<br>
++Subject: [PATCH] WEBrick: prevent response splitting and header injection<=
+br>
++<br>
++This is a follow up to d9d4a28f1cdd05a0e8dabb36d747d40bbcc30f16.<br>
++The commit prevented CRLR, but did not address an isolated CR or an<br>
++isolated LF.<br>
++<br>
++Upstream-Status: Backport <a href=3D"https://github.com/ruby/ruby/commit/3=
+ce238b5f9795581eb84114dcfbdf4aa086bfecc" rel=3D"noreferrer" target=3D"_blan=
+k">https://github.com/ruby/ruby/commit/3ce238b5f9795581eb84114dcfbdf4aa086b=
+fecc</a><br>
++CVE: CVE-2019-16254<br>
++<br>
++Co-Authored-By: NARUSE, Yui &lt;<a href=3D"mailto:naruse@airemix.jp" targe=
+t=3D"_blank">naruse@airemix.jp</a>&gt;<br>
++Signed-off-by: Rahul Chauhan &lt;<a href=3D"mailto:rahulchauhankitps@gmail=
+.com" target=3D"_blank">rahulchauhankitps@gmail.com</a>&gt;<br>
++---<br>
++ lib/webrick/httpresponse.rb=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 3 ++-<br>
++ test/webrick/test_httpresponse.rb | 46 ++++++++++++++++++++++++++++++++++=
++++--<br>
++ 2 files changed, 46 insertions(+), 3 deletions(-)<br>
++<br>
++diff --git a/lib/webrick/httpresponse.rb b/lib/webrick/httpresponse.rb<br>
++index 6d77692..d26324c 100644<br>
++--- a/lib/webrick/httpresponse.rb<br>
+++++ b/lib/webrick/httpresponse.rb<br>
++@@ -367,7 +367,8 @@ def set_error(ex, backtrace=3Dfalse)<br>
++=C2=A0 =C2=A0 =C2=A0private<br>
++<br>
++=C2=A0 =C2=A0 =C2=A0def check_header(header_value)<br>
++-=C2=A0 =C2=A0 =C2=A0 if header_value =3D~ /\r\n/<br>
+++=C2=A0 =C2=A0 =C2=A0 header_value =3D header_value.to_s<br>
+++=C2=A0 =C2=A0 =C2=A0 if /[\r\n]/ =3D~ header_value<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0raise InvalidHeader<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0else<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0header_value<br>
++diff --git a/test/webrick/test_httpresponse.rb b/test/webrick/test_httpres=
+ponse.rb<br>
++index 6263e0a..24a6968 100644<br>
++--- a/test/webrick/test_httpresponse.rb<br>
+++++ b/test/webrick/test_httpresponse.rb<br>
++@@ -29,7 +29,7 @@ def setup<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0@res.keep_alive=C2=A0 =3D true<br>
++=C2=A0 =C2=A0 =C2=A0end<br>
++<br>
++-=C2=A0 =C2=A0 def test_prevent_response_splitting_headers<br>
+++=C2=A0 =C2=A0 def test_prevent_response_splitting_headers_crlf<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0res[&#39;X-header&#39;] =3D &quot;malicious\r\n=
+Cookie: hack&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0io =3D StringIO.new<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0res.send_response io<br>
++@@ -39,7 +39,7 @@ def test_prevent_response_splitting_headers<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0refute_match &#39;hack&#39;, io.string<br>
++=C2=A0 =C2=A0 =C2=A0end<br>
++<br>
++-=C2=A0 =C2=A0 def test_prevent_response_splitting_cookie_headers<br>
+++=C2=A0 =C2=A0 def test_prevent_response_splitting_cookie_headers_crlf<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0user_input =3D &quot;malicious\r\nCookie: hack&=
+quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0res.cookies &lt;&lt; WEBrick::Cookie.new(&#39;a=
+uthor&#39;, user_input)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0io =3D StringIO.new<br>
++@@ -50,6 +50,48 @@ def test_prevent_response_splitting_cookie_headers<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0refute_match &#39;hack&#39;, io.string<br>
++=C2=A0 =C2=A0 =C2=A0end<br>
++<br>
+++=C2=A0 =C2=A0 def test_prevent_response_splitting_headers_cr<br>
+++=C2=A0 =C2=A0 =C2=A0 res[&#39;X-header&#39;] =3D &quot;malicious\rCookie:=
+ hack&quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 io =3D StringIO.new<br>
+++=C2=A0 =C2=A0 =C2=A0 res.send_response io<br>
+++=C2=A0 =C2=A0 =C2=A0 io.rewind<br>
+++=C2=A0 =C2=A0 =C2=A0 res =3D Net::HTTPResponse.read_new(Net::BufferedIO.n=
+ew(io))<br>
+++=C2=A0 =C2=A0 =C2=A0 assert_equal &#39;500&#39;, res.code<br>
+++=C2=A0 =C2=A0 =C2=A0 refute_match &#39;hack&#39;, io.string<br>
+++=C2=A0 =C2=A0 end<br>
+++<br>
+++=C2=A0 =C2=A0 def test_prevent_response_splitting_cookie_headers_cr<br>
+++=C2=A0 =C2=A0 =C2=A0 user_input =3D &quot;malicious\rCookie: hack&quot;<b=
+r>
+++=C2=A0 =C2=A0 =C2=A0 res.cookies &lt;&lt; WEBrick::Cookie.new(&#39;author=
+&#39;, user_input)<br>
+++=C2=A0 =C2=A0 =C2=A0 io =3D StringIO.new<br>
+++=C2=A0 =C2=A0 =C2=A0 res.send_response io<br>
+++=C2=A0 =C2=A0 =C2=A0 io.rewind<br>
+++=C2=A0 =C2=A0 =C2=A0 res =3D Net::HTTPResponse.read_new(Net::BufferedIO.n=
+ew(io))<br>
+++=C2=A0 =C2=A0 =C2=A0 assert_equal &#39;500&#39;, res.code<br>
+++=C2=A0 =C2=A0 =C2=A0 refute_match &#39;hack&#39;, io.string<br>
+++=C2=A0 =C2=A0 end<br>
+++<br>
+++=C2=A0 =C2=A0 def test_prevent_response_splitting_headers_lf<br>
+++=C2=A0 =C2=A0 =C2=A0 res[&#39;X-header&#39;] =3D &quot;malicious\nCookie:=
+ hack&quot;<br>
+++=C2=A0 =C2=A0 =C2=A0 io =3D StringIO.new<br>
+++=C2=A0 =C2=A0 =C2=A0 res.send_response io<br>
+++=C2=A0 =C2=A0 =C2=A0 io.rewind<br>
+++=C2=A0 =C2=A0 =C2=A0 res =3D Net::HTTPResponse.read_new(Net::BufferedIO.n=
+ew(io))<br>
+++=C2=A0 =C2=A0 =C2=A0 assert_equal &#39;500&#39;, res.code<br>
+++=C2=A0 =C2=A0 =C2=A0 refute_match &#39;hack&#39;, io.string<br>
+++=C2=A0 =C2=A0 end<br>
+++<br>
+++=C2=A0 =C2=A0 def test_prevent_response_splitting_cookie_headers_lf<br>
+++=C2=A0 =C2=A0 =C2=A0 user_input =3D &quot;malicious\nCookie: hack&quot;<b=
+r>
+++=C2=A0 =C2=A0 =C2=A0 res.cookies &lt;&lt; WEBrick::Cookie.new(&#39;author=
+&#39;, user_input)<br>
+++=C2=A0 =C2=A0 =C2=A0 io =3D StringIO.new<br>
+++=C2=A0 =C2=A0 =C2=A0 res.send_response io<br>
+++=C2=A0 =C2=A0 =C2=A0 io.rewind<br>
+++=C2=A0 =C2=A0 =C2=A0 res =3D Net::HTTPResponse.read_new(Net::BufferedIO.n=
+ew(io))<br>
+++=C2=A0 =C2=A0 =C2=A0 assert_equal &#39;500&#39;, res.code<br>
+++=C2=A0 =C2=A0 =C2=A0 refute_match &#39;hack&#39;, io.string<br>
+++=C2=A0 =C2=A0 end<br>
+++<br>
++=C2=A0 =C2=A0 =C2=A0def test_304_does_not_log_warning<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0res.status=C2=A0 =C2=A0 =C2=A0 =3D 304<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0res.setup_header<br>
++--<br>
++2.7.4<br>
+diff --git a/meta/recipes-devtools/ruby/<a href=3D"http://ruby_2.5.5.bb" re=
+l=3D"noreferrer" target=3D"_blank">ruby_2.5.5.bb</a> b/meta/recipes-devtool=
+s/ruby/<a href=3D"http://ruby_2.5.5.bb" rel=3D"noreferrer" target=3D"_blank=
+">ruby_2.5.5.bb</a><br>
+index 223b037..58bb97f 100644<br>
+--- a/meta/recipes-devtools/ruby/<a href=3D"http://ruby_2.5.5.bb" rel=3D"no=
+referrer" target=3D"_blank">ruby_2.5.5.bb</a><br>
++++ b/meta/recipes-devtools/ruby/<a href=3D"http://ruby_2.5.5.bb" rel=3D"no=
+referrer" target=3D"_blank">ruby_2.5.5.bb</a><br>
+@@ -3,6 +3,7 @@ require ruby.inc<br>
+=C2=A0SRC_URI +=3D &quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://0001-configure.ac-check-fi=
+nite-isinf-isnan-as-macros-firs.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://fix-CVE-2019-16254.patch \=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
+<br>
+=C2=A0SRC_URI[md5sum] =3D &quot;7e156fb526b8f4bb1b30a3dd8a7ce400&quot;<br>
+-- <br>
+2.7.4<br>
+<br>
+</blockquote></div>
 
---0000000000006ab46f059e4c4767--
+--000000000000b05ad0059e4c8696--
