@@ -1,31 +1,19 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
-	by mail.openembedded.org (Postfix) with ESMTP id B5B3660EE7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2020 15:58:23 +0000 (UTC)
-Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
-	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 01BFwLIH017737
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NO); Tue, 11 Feb 2020 09:58:22 -0600
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Adrian Bunk <bunk@stusta.de>
-References: <CANNYZj-KS+mHQ20sQUv-SzpeaXjvAzQDPND00iuep6ek7utd5g@mail.gmail.com>
-	<20200211135323.GA3234@localhost>
-	<CANNYZj_ExXVJJMS3g6Ga2xNc9AgspEhcMBQgmQGaQXmkcUYvPQ@mail.gmail.com>
-	<CANNYZj_v9=Ys-NXqHWXY42dZqT95+LxcRUqSRKcyy6pMz-Y01g@mail.gmail.com>
-	<20200211141347.GB3234@localhost>
-	<CANNYZj_2WVWrWDbL1tsUeqVQ_OPHnzebA=6fobRD9e==UybAhA@mail.gmail.com>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-Message-ID: <8b9de58b-7d65-dc89-69ec-4b5d40667184@kernel.crashing.org>
-Date: Tue, 11 Feb 2020 09:58:21 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.4.2
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C9E860CD0;
+	Tue, 11 Feb 2020 16:02:17 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj_2WVWrWDbL1tsUeqVQ_OPHnzebA=6fobRD9e==UybAhA@mail.gmail.com>
-Cc: openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] Future of sato and X in oe-core
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Andrii Bordunov via Openembedded-core
+	<openembedded-core@lists.openembedded.org>
+Cc: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Feb 2020 16:02:18 -0000
+Message-ID: <20200211160218.2277.43270@do>
+References: <20200211155542.11190-1-oleksandr.s.popovych@globallogic.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200211155542.11190-1-oleksandr.s.popovych@globallogic.com>
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZXhwYXQ6IEFkZGVkIHB0ZXN0?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,78 +26,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Feb 2020 15:58:24 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 11 Feb 2020 16:02:17 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+== Series Details ==
+
+Series: expat: Added ptest
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22559/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
 
 
-On 2/11/20 8:35 AM, Alexander Kanavin wrote:
-> X might and likely will start to bitrot sooner for those not using RHEL 8 and
-> its very conservative and never changing software stack. I can imagine Red Hat
-> has no interest in supporting it on Fedora going forward for instance, they'll
-> just make Xwayland work, and rip the standalone server and its drivers and
-> libraries out. 
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
-X is incredibly stable code base.  I think as long as there are no major
-changes, the bitrot will be 'minor'.  I'm more worried about security response,
-especially as it goes longer and longer with only a small set of maintainers of
-last resort.
 
-> Oe-core will have X for as long as the burden of fixing build errors and runtime
-> issues with custom patches is not too painful. The point I am trying to make is
-> that I am not convinced oe-core needs a 'real' ui at all, and opinion to the
-> contrary should justify the need.
 
-It's already OE's responsibility to fix build errors and integration run-time
-issues.  When the burden goes beyond our resources, then we need to stop or find
-a champion who will taker that burden.
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
 
-I think we need to plan for that for all of the components of the system, not
-just X, but X is a good starting point.
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
-I also don't think oe-core itself needs a 'real' UI, and as my previous response
-said -- we do need something though to test that the graphical framework is
-working properly.
-
-In the past this often comes back to needing a LOT of a UI in order to
-adequately test all of the components of the system.   If wayland/weston has a
-proper test suite that exercises all of the various parts of and pieces of the
-systems -- then the need for a UI drops considerably.
-
-(but we still have the need for some sort of example/demostration...)
-
---Mark
-
-> Alex
-> 
-> On Tue, 11 Feb 2020 at 15:13, Adrian Bunk <bunk@stusta.de
-> <mailto:bunk@stusta.de>> wrote:
-> 
->     On Tue, Feb 11, 2020 at 03:01:20PM +0100, Alexander Kanavin wrote:
->     > Specifically (sorry for the rapid-followup), I think the main value
->     > proposition of core is integration and testing of various language
->     > toolchains and core libraries. UIs in embedded space can mean pretty much
->     > anything, and so I'd leave that to specialised layers.
-> 
->     That's actually quite different from your original email.
-> 
->     Your original email raised the problem that X might start to bitrot
->     after the end of support for RHEL 8 in the year 2029 (sic).
-> 
->     What functionality should be in core for users/demo/QA/...
->     is not strictly related to X versus Wayland.
-> 
->     > Alex
-> 
->     cu
->     Adrian
-> 
-> 
-> _______________________________________________
-> Openembedded-architecture mailing list
-> Openembedded-architecture@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
-> 
 
