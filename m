@@ -1,46 +1,46 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
-	[209.85.217.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C751600A4
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id AA35560B86
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 15:30:35 +0000 (UTC)
-Received: by mail-vs1-f65.google.com with SMTP id a2so1747835vso.3
+	Wed, 12 Feb 2020 16:33:05 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id c26so3122962eds.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 07:30:36 -0800 (PST)
+	Wed, 12 Feb 2020 08:33:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=p0wiuxj52b4r2/uAXAN51qGXC0FE1bY5AuFw4oaYVIk=;
-	b=TUdrXeimbgBoTJbgSWI09WuRw6HRdPSEzV6vJ3Ng1db8yK4JMRs/ewdkwCnsQ8k1A3
-	p7IhixbAUP0n5DlkQtNeitIr6h9RbOelQk0Vs/Ule3zkqSJUNW4vFyOjUCgyw1LWCO0F
-	2M5zbD731kAAXXJA8HVCkXOuHwfZpHKMKoPYQlKGQ23IALRq4wYdr9oYKrgsNJOUVR7H
-	D6tebGKIR+95/hmTwYNXvjQ/fA+O9zrhBuHVzHmXib4IOfATdOuOgbMLkeFgra9o0wXz
-	BDiMJ4GJVwEmatbJksPM1u4l+ckmfiFStcsTb866VSE0HKGSwoTBCP78Rrh1TCHJ8y2p
-	vSrA==
+	:cc; bh=87Dn6nNY7jSs/ybsSazenDnQp7/Y27+ooemJKgqpHKA=;
+	b=p6N8C81ccOls/XC0kZuvaJXTPpG//c2kODMRAyF0ZEonaDuN7G7FHqGFfRAKFrMcH6
+	1oi7wNDOWUkUkweK5Rr2A0+36oKO9QgDczMZRTwJRtrLMlAwyjmKwdUO2YPKWre+mhHb
+	s0+EmywCe6SGYWJ3ODL0/tqkwaFnkLF7jnOVdNND4EL/kQNVQIin4RYZtTltSnFmmqlw
+	Xhr2SCSzBLstz65JdOJF5192YKhg6d9b/9RLiEqZ1M5fZ9dICJ5qPjPT70MZlPvgOtr3
+	MB+LfyAmYjtq8ZStlnU6X9WOFQrr/FL1eLw008oRDHMw/pEuLSiTbDlQxiIxl2fHCGpU
+	G2RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=p0wiuxj52b4r2/uAXAN51qGXC0FE1bY5AuFw4oaYVIk=;
-	b=mIltZPQWMYK7RGAzWAoHnCqDBqsLd7eHluv+Ppd1zCaEio7UZY11WGSMQ6lJNVdr4h
-	jBpo5000JIs7Ustego7zoZDJ6EgP+zUVtAbmDp2H4w567FdCQEEvBGqoDPht6+cbIPF1
-	x6G2srSgcfH+vLXNcuezbX09aH4H1m+epGNYedNyWLpZZjDCRNEB5S187b/uhM0ZdbWM
-	ctQwo0LYfgXYQYtE6oE4I0zmMK19XpOF77bXlsFsa+d/HQew0+3Os9GsXaEip4HUmuvd
-	y8Ot68RMrAtO7TMTVhINaZLPcfsc4a63lprQbjnxRwufTrPUKyk+3NFUl9BeuBhsBK4i
-	/DNQ==
-X-Gm-Message-State: APjAAAUxiK7si+JZzxH6gRCeKnDPgvvIOzJtuz91bsGQHPIXRngB8neT
-	C/aOksv7X7P1zABRqmGVOsOB6HDDL4E/8PQp9uI=
-X-Google-Smtp-Source: APXvYqwj1WuzlKQqoHvuzGPfx4rPM8ib5NYL1hSw6Ll9jtZxVPJrEBhGc1wrisjZcVaR4YcRgoJ+qpdcJ86dUDBNEJ0=
-X-Received: by 2002:a05:6102:52e:: with SMTP id
-	m14mr12835526vsa.25.1581521436080; 
-	Wed, 12 Feb 2020 07:30:36 -0800 (PST)
+	bh=87Dn6nNY7jSs/ybsSazenDnQp7/Y27+ooemJKgqpHKA=;
+	b=hHP6QEPbL6DirIoY+BA9sbSbUrqwf2j/nfT20wYD6OwzMap9UvpkNkbmT0Q43u5OnB
+	u0CZ0OZz2R7FRNIE6aC+93usL8+hfsucMM5EYJE0RCtC03Lwg6vuQhydzj25zMn5yJJH
+	Z0jS1gcyGkfc9+G67+JyXCjS4jh3ul+Y2Sx0FXeX8t7esdRJfLfUOKSyXnHeJUwSGF+K
+	GoeP1MmMERHIyQf4fxmHNMXWu2oQPsqTGtNtQfFD4Ussr2fkvx0dwY99ezRRU1Oo/s7F
+	IbyxKBMW52ohfq9LEeUwz9jH8OOl4ds38WF4RbZLnvol1cBe/foQfdCYCH4pLkGsFuMN
+	9Pew==
+X-Gm-Message-State: APjAAAX2kIYCfw40iq0LeBQe+qMGmlcTmy1fTNc4v7LVHdKIli6OhnmH
+	XnC/fPswKKZeB54pk8GXnPh6lSeh4O0pqhkBZNAZ+Qr5
+X-Google-Smtp-Source: APXvYqySIKeoceMZx5mLzpk6bNschBrH7W20JEt9E0g/RGofvfe64E1xYJzGG4h58BucoFcXrUmp78Q6y1+TywzcbKk=
+X-Received: by 2002:a17:906:5a94:: with SMTP id
+	l20mr12245099ejq.192.1581525186276; 
+	Wed, 12 Feb 2020 08:33:06 -0800 (PST)
 MIME-Version: 1.0
 References: <20200212051936.1610922-1-raj.khem@gmail.com>
 	<CANNYZj9478oh1cNgK0U5oq8RX=q8VMYZpCnPZ8akgvUtQExFmg@mail.gmail.com>
 	<CAMKF1srv-UPO0OjHKqqwu0GPW-rcdcO+0NJSnR4B0s-V43i8pg@mail.gmail.com>
 In-Reply-To: <CAMKF1srv-UPO0OjHKqqwu0GPW-rcdcO+0NJSnR4B0s-V43i8pg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 12 Feb 2020 16:30:19 +0100
-Message-ID: <CANNYZj-oaJNCXzPVkkm_B1eTg+75SiDPbkd=iYQkDJeVyTFfQA@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 12 Feb 2020 17:32:55 +0100
+Message-ID: <CA+chaQevfESVZc2ee2p_Y7bJHOc=M54nWEzE4erb2+zJMFzjFA@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
@@ -57,20 +57,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2020 15:30:35 -0000
-Content-Type: multipart/alternative; boundary="00000000000066fe51059e62a7b1"
+X-List-Received-Date: Wed, 12 Feb 2020 16:33:05 -0000
+Content-Type: multipart/alternative; boundary="000000000000ee710c059e6386b9"
 
---00000000000066fe51059e62a7b1
+--000000000000ee710c059e6386b9
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Maybe we can package rpm better so that the binaries and the libraries go
-into separate packages? Then libsolv would only pull in the rpm libraries
-and rpm tests would be skipped?
+Will this work for you without anonymous python? I think it should.
 
-Alex
+PNBLACKLIST[dnf] ?=3D "${@oe.utils.conditional('PACKAGE_CLASSES',
+'package_rpm', '' 'does not build correctly without package_rpm in
+PACKAGE_CLASSES', d)}"
 
-On Wed 12. Feb 2020 at 16.12, Khem Raj <raj.khem@gmail.com> wrote:
+On Wed, Feb 12, 2020 at 4:12 PM Khem Raj <raj.khem@gmail.com> wrote:
 
 > On Tue, Feb 11, 2020 at 11:11 PM Alexander Kanavin
 > <alex.kanavin@gmail.com> wrote:
@@ -160,21 +160,27 @@ cy
 > >> Openembedded-core mailing list
 > >> Openembedded-core@lists.openembedded.org
 > >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---00000000000066fe51059e62a7b1
+--000000000000ee710c059e6386b9
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><div dir=3D"auto">Maybe we can package rpm better so that the binaries=
- and the libraries go into separate packages? Then libsolv would only pull =
-in the rpm libraries and rpm tests would be skipped?</div></div><div dir=3D=
-"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_q=
-uote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed 12. Feb 2020 at 16.12, K=
-hem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt=
-; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex">On Tue, Feb 11, 2020 at 11=
-:11 PM Alexander Kanavin<br>
+<div dir=3D"ltr"><div>Will this work for you without anonymous python? I th=
+ink it should.</div><div><br></div>PNBLACKLIST[dnf] ?=3D &quot;${@oe.utils.=
+conditional(&#39;PACKAGE_CLASSES&#39;, &#39;package_rpm&#39;, &#39;&#39; &#=
+39;does not build correctly without package_rpm in PACKAGE_CLASSES&#39;, d)=
+}&quot;<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Wed, Feb 12, 2020 at 4:12 PM Khem Raj &lt;<a href=3D"mailto:r=
+aj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px soli=
+d rgb(204,204,204);padding-left:1ex">On Tue, Feb 11, 2020 at 11:11 PM Alexa=
+nder Kanavin<br>
 &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
 n@gmail.com</a>&gt; wrote:<br>
 &gt;<br>
@@ -280,6 +286,14 @@ s Needs rpmdb support in libsolv&quot; % (pkgn, pkgv))<br>
 &gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembe=
 dded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.o=
 rg/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
---00000000000066fe51059e62a7b1--
+--000000000000ee710c059e6386b9--
