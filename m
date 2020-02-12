@@ -1,33 +1,35 @@
 Return-Path: <wangmy@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id D9F476103A
+	by mail.openembedded.org (Postfix) with ESMTP id 7032D61051
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 10:54:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,428,1574092800"; d="scan'208";a="83207881"
+	Wed, 12 Feb 2020 10:54:29 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,428,1574092800"; d="scan'208";a="83207886"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Feb 2020 18:54:24 +0800
-Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
-	by cn.fujitsu.com (Postfix) with ESMTP id 020BD50A9960
+	by heian.cn.fujitsu.com with ESMTP; 12 Feb 2020 18:54:30 +0800
+Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
+	by cn.fujitsu.com (Postfix) with ESMTP id 179AD50A996F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 18:44:52 +0800 (CST)
+	Wed, 12 Feb 2020 18:44:55 +0800 (CST)
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Wed, 12 Feb 2020 18:54:23 +0800
+	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Wed, 12 Feb 2020 18:54:25 +0800
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 12 Feb 2020 18:54:30 +0800
+	Server (TLS) id 14.3.439.0; Wed, 12 Feb 2020 18:54:33 +0800
 From: Wang Mingyu <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Feb 2020 10:35:05 -0800
-Message-ID: <1581532506-107041-1-git-send-email-wangmy@cn.fujitsu.com>
+Date: Wed, 12 Feb 2020 10:35:06 -0800
+Message-ID: <1581532506-107041-2-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1581532506-107041-1-git-send-email-wangmy@cn.fujitsu.com>
+References: <1581532506-107041-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 020BD50A9960.A6006
+X-yoursite-MailScanner-ID: 179AD50A996F.AB4C9
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] python3-pip: upgrade 19.3.1 -> 20.0.2
+Subject: [PATCH v2] ruby: upgrade 2.6.5 -> 2.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,33 +42,255 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2020 10:54:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Feb 2020 10:54:30 -0000
+Content-Type: text/plain; charset="y"
+Content-Transfer-Encoding: 8bit
+
+0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch
+Removed since it is included in 2.7.0.
+
+refresh the following patch:
+0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
+
+add the following patch to solve build error:
+0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch
+[error message]
+ERROR: ruby-2.7.0-r0 do_package_qa: QA Issue:
+/usr/lib/ruby/gems/2.7.0/gems/racc-1.4.16/bin/y2racc contained in
+package ruby requires /usr/local/bin/ruby, but no providers found in
+RDEPENDS_ruby? [file-rdeps]
+
+format of file COPYING is updated.
+LEGAL notice information is updated.
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../python/{python3-pip_19.3.1.bb => python3-pip_20.0.2.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_19.3.1.bb => python3-pip_20.0.2.bb} (81%)
+ meta/recipes-devtools/ruby/ruby.inc           |   4 +-
+ ...of-libexec-y2racc-and-libexec-racc2y.patch |  38 +++++++
+ ...Obey-LDFLAGS-for-the-link-of-libruby.patch |   8 +-
+ ...ck-finite-isinf-isnan-as-macros-firs.patch | 103 ------------------
+ .../ruby/{ruby_2.6.5.bb => ruby_2.7.0.bb}     |   6 +-
+ 5 files changed, 47 insertions(+), 112 deletions(-)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch
+ delete mode 100644 meta/recipes-devtools/ruby/ruby/0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch
+ rename meta/recipes-devtools/ruby/{ruby_2.6.5.bb => ruby_2.7.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_19.3.1.bb b/meta/recipes-devtools/python/python3-pip_20.0.2.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-pip_19.3.1.bb
-rename to meta/recipes-devtools/python/python3-pip_20.0.2.bb
-index d27e6fce5c..08738fb2f9 100644
---- a/meta/recipes-devtools/python/python3-pip_19.3.1.bb
-+++ b/meta/recipes-devtools/python/python3-pip_20.0.2.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8ba06d529c955048e5ddd7c45459eb2e"
+diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
+index ce1b02f012..a38b3fe624 100644
+--- a/meta/recipes-devtools/ruby/ruby.inc
++++ b/meta/recipes-devtools/ruby/ruby.inc
+@@ -8,10 +8,10 @@ HOMEPAGE = "http://www.ruby-lang.org/"
+ SECTION = "devel/ruby"
+ LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPLv2 | ISC | MIT"
+ LIC_FILES_CHKSUM = "\
+-    file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
++    file://COPYING;md5=5b8c87559868796979806100db3f3805 \
+     file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
+     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
+-    file://LEGAL;md5=4ac0b84d1f7f420bca282e1adefc7f99 \
++    file://LEGAL;md5=2b6d62dc0d608f34d510ca3f428110ec \
+ "
  
- DEPENDS += "python3 python3-setuptools-native"
+ DEPENDS = "ruby-native zlib openssl tcl libyaml gdbm readline libffi"
+diff --git a/meta/recipes-devtools/ruby/ruby/0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch b/meta/recipes-devtools/ruby/ruby/0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch
+new file mode 100644
+index 0000000000..f316bed7bd
+--- /dev/null
++++ b/meta/recipes-devtools/ruby/ruby/0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch
+@@ -0,0 +1,38 @@
++From eed7bc855fd8d232d4d203cc9027dd07cee8eca2 Mon Sep 17 00:00:00 2001
++From: Wang Mingyu <wangmy@cn.fujitsu.com>
++Date: Sat, 8 Feb 2020 15:16:14 +0800
++Subject: [PATCH] Modify shebang of libexec/y2racc and libexec/racc2y.
++
++change /usr/local/bin/ruby to /usr/bin/env ruby.
++
++Upstream-Status: Pending
++
++Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
++---
++ libexec/racc2y | 2 +-
++ libexec/y2racc | 2 +-
++ 2 files changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/libexec/racc2y b/libexec/racc2y
++index f88d73ed2c..74e49cfa21 100755
++--- a/libexec/racc2y
+++++ b/libexec/racc2y
++@@ -1,4 +1,4 @@
++-#!/usr/local/bin/ruby
+++#!/usr/bin/env ruby
++ #
++ # $Id$
++ #
++diff --git a/libexec/y2racc b/libexec/y2racc
++index 7933f94153..36daf864e1 100755
++--- a/libexec/y2racc
+++++ b/libexec/y2racc
++@@ -1,4 +1,4 @@
++-#!/usr/local/bin/ruby
+++#!/usr/bin/env ruby
++ #
++ # $Id$
++ #
++-- 
++2.17.1
++
+diff --git a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
+index 5979d8bd73..b31dee1128 100644
+--- a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
++++ b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
+@@ -6,13 +6,13 @@ Subject: [PATCH 2/3] Obey LDFLAGS for the link of libruby
+ Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+ Upstream-Status: Pending
+ ---
+- Makefile.in | 2 +-
++ template/Makefile.in | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[md5sum] = "1aaaf90fbafc50e7ba1e66ffceb00960"
--SRC_URI[sha256sum] = "21207d76c1031e517668898a6b46a9fb1501c7a4710ef5dfd6a40ad9e6757ea7"
-+SRC_URI[md5sum] = "7d42ba49b809604f0df3d55df1c3fd86"
-+SRC_URI[sha256sum] = "7db0c8ea4c7ea51c8049640e8e6e7fde949de672bfa4949920675563a5a6967f"
+-diff --git a/Makefile.in b/Makefile.in
++diff --git a/template/Makefile.in b/template/Makefile.in
+ index fa1e19ef37..bbd07fa34b 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
++--- a/template/Makefile.in
+++++ b/template/Makefile.in
+ @@ -109,7 +109,7 @@ MISSING = @LIBOBJS@ @ALLOCA@
+  ENABLE_SHARED = @ENABLE_SHARED@
+  LDSHARED = @LIBRUBY_LDSHARED@
+diff --git a/meta/recipes-devtools/ruby/ruby/0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch b/meta/recipes-devtools/ruby/ruby/0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch
+deleted file mode 100644
+index 1a8cff3e8c..0000000000
+--- a/meta/recipes-devtools/ruby/ruby/0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch
++++ /dev/null
+@@ -1,103 +0,0 @@
+-From bd71b698bf733e6e93282cd2b1b93f51e1a33c7c Mon Sep 17 00:00:00 2001
+-From: nobu <nobu@b2dd03c8-39d4-4d8f-98ff-823fe69b080e>
+-Date: Fri, 8 Feb 2019 07:22:55 +0000
+-Subject: [PATCH 3/3] configure.ac: check finite,isinf,isnan as macros first
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-[ruby-core:91487] [Bug #15595]
+-
+-git-svn-id: svn+ssh://ci.ruby-lang.org/ruby/trunk@67036 b2dd03c8-39d4-4d8f-98ff-823fe69b080e
+-
+----
+-Upstream-Status: Backport [https://github.com/ruby/ruby/commit/74f94b3e6ebf15b76f3b357e754095412b006e94]
+-Signed-off-by: André Draszik <andre.draszik@jci.com>
+----
+- aclocal.m4                    |  1 +
+- configure.ac                  | 13 ++++---------
+- tool/m4/ruby_replace_funcs.m4 | 13 +++++++++++++
+- 3 files changed, 18 insertions(+), 9 deletions(-)
+- create mode 100644 tool/m4/ruby_replace_funcs.m4
+-
+-diff --git a/aclocal.m4 b/aclocal.m4
+-index b0fe3eb959..ed7d14ef63 100644
+---- a/aclocal.m4
+-+++ b/aclocal.m4
+-@@ -35,6 +35,7 @@ m4_include([tool/m4/ruby_func_attribute.m4])
+- m4_include([tool/m4/ruby_mingw32.m4])
+- m4_include([tool/m4/ruby_prepend_option.m4])
+- m4_include([tool/m4/ruby_prog_gnu_ld.m4])
+-+m4_include([tool/m4/ruby_replace_funcs.m4])
+- m4_include([tool/m4/ruby_replace_type.m4])
+- m4_include([tool/m4/ruby_rm_recursive.m4])
+- m4_include([tool/m4/ruby_setjmp_type.m4])
+-diff --git a/configure.ac b/configure.ac
+-index 2c4d2888d2..2691da6a3c 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -946,9 +946,6 @@ main()
+- 		ac_cv_func_fsync=yes
+- 		ac_cv_func_seekdir=yes
+- 		ac_cv_func_telldir=yes
+--		ac_cv_func_isinf=yes
+--		ac_cv_func_isnan=yes
+--		ac_cv_func_finite=yes
+- 		ac_cv_func_lchown=yes
+- 		ac_cv_func_link=yes
+- 		ac_cv_func_readlink=yes
+-@@ -999,9 +996,6 @@ main()
+- [netbsd*], [	LIBS="-lm $LIBS"
+- 		],
+- [dragonfly*], [	LIBS="-lm $LIBS"
+--		# isinf() and isnan() are macros on DragonFly.
+--		ac_cv_func_isinf=yes
+--		ac_cv_func_isnan=yes
+- 		],
+- [aix*],[	LIBS="-lm $LIBS"
+- 		ac_cv_func_round=no
+-@@ -1724,11 +1718,8 @@ AC_REPLACE_FUNCS(dup2)
+- AC_REPLACE_FUNCS(erf)
+- AC_REPLACE_FUNCS(explicit_bzero)
+- AC_REPLACE_FUNCS(ffs)
+--AC_REPLACE_FUNCS(finite)
+- AC_REPLACE_FUNCS(flock)
+- AC_REPLACE_FUNCS(hypot)
+--AC_REPLACE_FUNCS(isinf)
+--AC_REPLACE_FUNCS(isnan)
+- AC_REPLACE_FUNCS(lgamma_r)
+- AC_REPLACE_FUNCS(memmove)
+- AC_REPLACE_FUNCS(nan)
+-@@ -1741,6 +1732,10 @@ AC_REPLACE_FUNCS(strlcpy)
+- AC_REPLACE_FUNCS(strstr)
+- AC_REPLACE_FUNCS(tgamma)
+- 
+-+RUBY_REPLACE_FUNC([finite], [@%:@include <math.h>])
+-+RUBY_REPLACE_FUNC([isinf], [@%:@include <math.h>])
+-+RUBY_REPLACE_FUNC([isnan], [@%:@include <math.h>])
+-+
+- # for missing/setproctitle.c
+- AS_CASE(["$target_os"],
+- [aix* | k*bsd*-gnu | kopensolaris*-gnu | linux* | darwin*], [AC_DEFINE(SPT_TYPE,SPT_REUSEARGV)],
+-diff --git a/tool/m4/ruby_replace_funcs.m4 b/tool/m4/ruby_replace_funcs.m4
+-new file mode 100644
+-index 0000000000..d0612e29a0
+---- /dev/null
+-+++ b/tool/m4/ruby_replace_funcs.m4
+-@@ -0,0 +1,13 @@
+-+# -*- Autoconf -*-
+-+dnl RUBY_REPLACE_FUNC [func] [included]
+-+AC_DEFUN([RUBY_REPLACE_FUNC], [dnl
+-+    AC_CHECK_DECL([$1],dnl
+-+        [AC_DEFINE(AS_TR_CPP(HAVE_[$1]))],dnl
+-+        [AC_REPLACE_FUNCS($1)],dnl
+-+        [$2])dnl
+-+])
+-+
+-+dnl RUBY_REPLACE_FUNCS [funcs] [included]
+-+AC_DEFUN([RUBY_REPLACE_FUNCS] [dnl
+-+    m4_map_args_w([$1], [RUBY_REPLACE_FUNC(], [), [$2]])dnl
+-+])
+--- 
+-2.23.0.rc1
+-
+diff --git a/meta/recipes-devtools/ruby/ruby_2.6.5.bb b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/ruby/ruby_2.6.5.bb
+rename to meta/recipes-devtools/ruby/ruby_2.7.0.bb
+index 0cdf6ee09f..c796318717 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.6.5.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
+@@ -1,13 +1,13 @@
+ require ruby.inc
  
- inherit pypi distutils3
+ SRC_URI += " \
+-           file://0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch \
+            file://remove_has_include_macros.patch \
+            file://run-ptest \
++           file://0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch \
+            "
  
+-SRC_URI[md5sum] = "8754bfb36d52c2bf1fb3d3ddc7101606"
+-SRC_URI[sha256sum] = "66976b716ecc1fd34f9b7c3c2b07bbd37631815377a2e3e85a5b194cfdcbed7d"
++SRC_URI[md5sum] = "bf4a54e8231176e109a42c546b4725a9"
++SRC_URI[sha256sum] = "8c99aa93b5e2f1bc8437d1bbbefd27b13e7694025331f77245d0c068ef1f8cbe"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 -- 
 2.17.1
 
