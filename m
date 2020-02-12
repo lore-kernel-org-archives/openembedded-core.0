@@ -1,24 +1,51 @@
-Return-Path: <Trevor.Gamblin@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C7441606DF
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-yb1-f180.google.com (mail-yb1-f180.google.com
+	[209.85.219.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 20FE260B1A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 02:07:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01C26xL0028751
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Wed, 12 Feb 2020 03:14:39 +0000 (UTC)
+Received: by mail-yb1-f180.google.com with SMTP id q190so340445ybg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Feb 2020 18:07:47 -0800
-Received: from yow-tgamblin-fedora2.wrs.com (128.224.56.206) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.468.0; Tue, 11 Feb 2020 18:06:56 -0800
-From: Trevor Gamblin <trevor.gamblin@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 11 Feb 2020 21:06:56 -0500
-Message-ID: <20200212020656.291916-1-trevor.gamblin@windriver.com>
-X-Mailer: git-send-email 2.24.1
+	Tue, 11 Feb 2020 19:14:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SUbNCoxv505vX8fOE2BRzh80bbc05olEwGQv+kI/GSw=;
+	b=n3b/9iNWhf3Qrm1mFA8vjrFLKI1E/SjWWrAjT9RQY643vNOLOQQObbbh3gMXnI0VAf
+	UvF+uOltfeCtWtBF5pUtrcN/3+jgGwBQx1dm9SDBmCj/Pp9BWDhoH/8d92IgAe79yJBR
+	Y29jPK5mkxQYRMTkdk37RpZKyaojSt0saDJZEz4Ag+p5V41b7T2bsxjEO1o+Ro+Dyzyb
+	/A1WWtQWVKbccGqgEdV+1tXl3HQJxROFSow2FS82CRXSXLBbrDXCoSQdmRhu8T/J1F+L
+	bJkrLcs7G8bsiKl3xvWW4aZ9pww3+uveWtmFdwy9JDhr2utQM023sNbwG7MkPSE+WAWz
+	8dfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SUbNCoxv505vX8fOE2BRzh80bbc05olEwGQv+kI/GSw=;
+	b=n+JyBFp7j8im3XXyYxAJNLFFzd3QCqNt7HWTK33bDkSMB0fM49YsIkRRe+2ujCsYPA
+	Aa/L+XW1GSnvf++rgkhczWcfx9bM7hnt8yat5EeTrHRXl2KO0L9DxcY2DnP3hpJsZPf3
+	sTaRAMNOYftF2gHpH/R+KY0hMNYv0paBK4nJ+UYBX77SLGBEYr51LmF+BhbLAJrs59C8
+	Nu0WVlal4ybTqmbjzIJqBTD6u99DBiOPrfmniQla8m2VY35xyME2Y9gsz7pQE1KuW0u1
+	bbW2hI9X1xpLNh6Y2cOBaCpLoE0HgXGNLjis/PihQ2EquRnJMgTTzzQXYC9NZmFdpKYH
+	A2+g==
+X-Gm-Message-State: APjAAAXXZdNTDqaa5XVbhKH8YDZUwi1Y0ysgf3fsv6UVvJx7xexUoZqI
+	lB0AcSp/M2xvie/KbTdCQOEbM2t9
+X-Google-Smtp-Source: APXvYqzjXQzzYmMnyeSRJuCJVHU5Ak3l7dmufWrgzR32wiXDnjnUgnnYT+9H31QPgpEH/QtAB4/75g==
+X-Received: by 2002:a25:8b04:: with SMTP id i4mr172918ybl.495.1581477280448;
+	Tue, 11 Feb 2020 19:14:40 -0800 (PST)
+Received: from localhost.localdomain ([2605:a601:ac3d:c100:4f37:550:d1b1:6f01])
+	by smtp.gmail.com with ESMTPSA id
+	h193sm2677370ywc.88.2020.02.11.19.14.38
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 11 Feb 2020 19:14:39 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Feb 2020 21:14:31 -0600
+Message-Id: <20200212031435.792802-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.23.0
 MIME-Version: 1.0
-Subject: [PATCH] buildall-qemu: automate build testing for qemu MACHINEs
+Subject: [PATCH 0/4] oeqa: Run diffoscop on saved output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,194 +58,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2020 02:07:56 -0000
+X-List-Received-Date: Wed, 12 Feb 2020 03:14:40 -0000
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-buildall-qemu simplifies the process of build testing an upgraded or
-patched recipe by cycling through the build steps for each available qemu
-target, with desired LIBC specified by the user as an option (defaulting
-to both glibc and musl if no option is provided). While building, a log
-file with the name "<recipe>-buildall.log" is written, containing a PASS
-or FAIL line upon completion of the build for each architecture. For now,
-qemu targets are not selectable (i.e. the recipe is built for all qemu
-targets found in meta/conf/machine), but this functionality can be added
-in the future along with other useful options.
+Adds recipes to build the diffoscope tool and run it when the OEQA
+reproducible build test saves output to a local path. This should make
+it much easier to debug reproducible build issues from the autobuilder,
+since the published output can be easily viewed on the website.
 
-The log file created by buildall-qemu also includes some basic system
-info (e.g. build start time, hostname, host OS, host kernel). Since it is
-not guaranteed that tools such as lsb_release will be available on the
-host (it isn't by default on my Fedora machine), this information is
-collected manually. Additionally, the previous run's log is retained for
-comparison by renaming it in the format <recipe>-buildall.log.old once a
-new set of builds is triggered for the same recipe.
+Joshua Watt (4):
+  python: Add libarchive-c recipe
+  python: Add magic recipe
+  recipes-support: Add diffoscope recipe
+  oeqa: reproducible: Run diffoscope on saved output
 
-Sample log output:
+ meta/conf/distro/include/maintainers.inc      |  3 +++
+ meta/lib/oeqa/selftest/cases/reproducible.py  | 24 +++++++++++++------
+ .../python/python3-libarchive-c_2.9.bb        | 17 +++++++++++++
+ .../python/python3-magic_0.4.15.bb            | 19 +++++++++++++++
+ .../diffoscope/diffoscope_136.bb              | 15 ++++++++++++
+ 5 files changed, 71 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-libarchive-c_2.9.bb
+ create mode 100644 meta/recipes-devtools/python/python3-magic_0.4.15.bb
+ create mode 100644 meta/recipes-support/diffoscope/diffoscope_136.bb
 
-BUILDALL-QEMU LOG FOR aspell
-START TIME: 2020-02-11_19:50:02
-HOSTNAME: yow-tgamblin-fedora2
-HOST OS: Fedora 31 (Server Edition)
-HOST KERNEL: 5.4.10-200.fc31.x86_64
-===============
-BUILD RESULTS:
-[glibc]
-PASS: qemuarmv5
-PASS: qemux86
-PASS: qemuppc
-PASS: qemumips64
-PASS: qemux86-64
-PASS: qemumips
-PASS: qemuarm
-PASS: qemuarm64
-PASS: qemuriscv64
-[musl]
-PASS: qemuarmv5
-PASS: qemux86
-PASS: qemuppc
-PASS: qemumips64
-PASS: qemux86-64
-FAIL: qemumips
-FAIL: qemuarm
-FAIL: qemuarm64
-FAIL: qemuriscv64
-===============
-PASSED: 14
-FAILED: 4
-
-Signed-off-by: Trevor Gamblin <trevor.gamblin@windriver.com>
----
- scripts/buildall-qemu | 120 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 120 insertions(+)
- create mode 100755 scripts/buildall-qemu
-
-diff --git a/scripts/buildall-qemu b/scripts/buildall-qemu
-new file mode 100755
-index 0000000000..a5a626d2a2
---- /dev/null
-+++ b/scripts/buildall-qemu
-@@ -0,0 +1,120 @@
-+#!/bin/sh
-+#  Copyright (c) 2020 Wind River Systems, Inc.
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# buildall-qemu: a tool for automating build testing of recipes
-+# TODO: Add support for selecting which qemu architectures to build
-+# TODO: Add support for queueing up multiple recipe builds
-+# TODO: Add more logging options (e.g. local.conf info, bitbake env info)
-+
-+usage ()
-+{
-+    base=$(basename "$0")
-+    echo "Usage: $base [options] [recipename/target]"
-+    echo "Executes a build of a given target for selected LIBCs. With no options, default to both libc and musl."
-+    echo "Options:"
-+    echo "-l, --libc            Specify one of \"libc\" or \"musl\""
-+}
-+
-+
-+buildall ()
-+{
-+    # Get path to oe-core directory. Since oe-init-build-env prepends $PATH with
-+    # the path to the scripts directory, get it from there
-+    SCRIPTS_PATH="$(echo "$PATH" | cut -d ":" -f 1)"
-+    OE_CORE_PATH=$(echo "$SCRIPTS_PATH" | sed 's|\(.*\)/.*|\1|') 
-+
-+    # Get target list and host machine information
-+    TARGET_LIST=$(find "$OE_CORE_PATH"/meta/conf/machine -maxdepth 1 -type f | grep qemu | sed 's|.*/||' | sed -e 's/\.conf//')
-+
-+    # Set LIBC value to use for the builds based on options provided by the user
-+    if [ -n "$2" ]
-+    then
-+	LIBC_LIST="$2"
-+	echo "$LIBC_LIST"
-+    else
-+	LIBC_LIST="glibc musl"
-+	echo "$LIBC_LIST"
-+    fi
-+
-+    START_TIME=$(date "+%Y-%m-%d_%H:%M:%S")
-+    LOG_FILE="$1-buildall.log"
-+    OS_INFO=$(grep "PRETTY_NAME=" /etc/os-release | awk -F "=" '{print $2}' | sed -e 's/^"//' -e 's/"$//')
-+
-+    # Append an existing log file for this build with .old if one exists
-+    if [ -f "${LOG_FILE}" ] 
-+    then
-+       mv "${LOG_FILE}" "${LOG_FILE}.old"
-+    else
-+	   touch "${LOG_FILE}"
-+    fi
-+
-+    # Fill the log file with build and host info
-+    echo "BUILDALL-QEMU LOG FOR $1" >> "${LOG_FILE}"
-+    echo "START TIME: ${START_TIME}" >> "${LOG_FILE}"
-+    echo "HOSTNAME: $(uname -n)" >> "${LOG_FILE}"
-+    echo "HOST OS: ${OS_INFO}" >> "${LOG_FILE}"
-+    echo "HOST KERNEL: $(uname -r)" >> "${LOG_FILE}"
-+    echo "===============" >> "${LOG_FILE}"
-+    echo "BUILD RESULTS:" >> "${LOG_FILE}"
-+
-+    # start the builds for each MACHINE and TCLIBC
-+    for j in ${LIBC_LIST} 
-+    do
-+	echo "[$j]" >> "${LOG_FILE}"
-+	for i in ${TARGET_LIST} 
-+	do
-+	    echo "$i" "$j"; \
-+	    TCLIBC=$j MACHINE=$i bitbake "$1" && echo "PASS: $i" >> "${LOG_FILE}" || echo "FAIL: $i" >> "${LOG_FILE}"
-+	done
-+    done
-+
-+    # Get pass/fail totals and add them to the end of the log
-+    PASSED=$(grep "PASS:" "${LOG_FILE}" | wc -l)
-+    FAILED=$(grep "FAIL:" "${LOG_FILE}" | wc -l)
-+
-+    echo "===============" >> "${LOG_FILE}"
-+    echo "PASSED: ${PASSED}" >> "${LOG_FILE}"
-+    echo "FAILED: ${FAILED}" >> "${LOG_FILE}"
-+}
-+
-+
-+# fail entire script if any command fails
-+set -e
-+
-+# print usage and exit if not enough args given
-+[ $# -eq 0 ] && usage && exit 1
-+
-+# handle arguments
-+RECIPE=
-+while [ $# -gt 0 ]
-+do
-+    arg=$1
-+    case $arg in
-+	-l|--libc)
-+	if [ "$2" = "glibc" ] || [ "$2" = "musl" ]
-+	then
-+	    LIBC_LIST="$2"
-+	else
-+	    echo "Unrecognized libc option."
-+	    usage && exit 1
-+	fi
-+	shift
-+	shift
-+	;;
-+	*)
-+        RECIPE="$1"
-+	shift
-+	;;
-+    esac
-+done
-+
-+set -- "$RECIPE"
-+
-+# run buildall for the given recipe and LIBC
-+if [ -n "$1" ]
-+then
-+	buildall "$1" "$LIBC_LIST"
-+fi
-+
 -- 
-2.24.1
+2.23.0
 
 
