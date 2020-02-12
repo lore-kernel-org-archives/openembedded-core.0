@@ -1,85 +1,28 @@
-Return-Path: <chris.laplante@agilent.com>
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com
-	(mail-dm6nam11on2042.outbound.protection.outlook.com [40.107.223.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E5C54608DC
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E9CD60B0F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 16:51:18 +0000 (UTC)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
-	b=cLRYl/nmZDiAxgZMX73TkEgk8RBfsuBJG3vhUfHIIzRrTd4O2Fe3rRUVchYjZKXsx0L1eQBHQLAl42axcMfjxpckTiKb38zGucE9lBj10QJzSji/sX8bpG4HVuKaedEdtkBMo+2UY8dTAhk1Sb23FAPvCxvoptsERsG5C4MsS06FZPM6temUKh0orvjfNe0prT6OW+qctvPBTCdN0lYk06F1WWT9o1pwqt/UC8hbtr3tk1WXhlqYzgS5eSAl7cAT5TPdykrK2xHojgAnc/5XUZDfSZ9pJo/9KsgQT0COrauh8W/0rlMncjo59lRS7OnIrAK4k5CQmJExCeoL5SVWOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
-	s=arcselector9901;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=/PbbLWHvV6djtNcJWJ4oirR/18VV86I9uL0YyWgYcYo=;
-	b=U3TiEMIQK+q65YCb8+HvpuJGbUzJ6A137/lJzs4XYp0uNTchYdGts54K7OyvSJI9ISQTjiB6owvx+HapAUWic8nbqd5Ll3I1FNkbRU8PTxw7GTCcqvuOIhrWKy9XygxdimsW+uNClOrkPfGomXuG7knPJBn+B/SgUXPEAkWV3L+hDGAh3a2TPFA0DuCRL+dJb0HhOu/uEIRBlD6Cw4FJ72NO+EhYk5PKDSvkFxDXHvoKIsWknFoXb0nr2e3oDO6ZO+V/Wa/YdKguvoJtF257Q6rrVkuPCBNg4eqjojcWPD5ntMtEiaYzNgq1CyldPOJOGiW95ScQmaMdo6v/rvtR4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
-	smtp.mailfrom=agilent.com;
-	dmarc=pass action=none header.from=agilent.com; 
-	dkim=pass header.d=agilent.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector2;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=/PbbLWHvV6djtNcJWJ4oirR/18VV86I9uL0YyWgYcYo=;
-	b=Q3zlRSl9uZQl6TN3Fd78V9kWUo9i2grofEiRgGV6Mbph0bxnL2WEYYFsGrf2PoEkCnQ+R0NK4TpYOi4jl5sokph74LFAkoRsD5p6TRSIo5T4tEzFd5r14aiOHFwbWg5IofP8GTUfU8Ng2huQDJ5kC0RBdMKY7TtDBWJ6lEFbvqs=
-Received: from BN6PR1201MB2482.namprd12.prod.outlook.com (10.172.108.140) by
-	BN6PR1201MB0113.namprd12.prod.outlook.com (10.174.114.138) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2707.24; Wed, 12 Feb 2020 16:51:18 +0000
-Received: from BN6PR1201MB2482.namprd12.prod.outlook.com
-	([fe80::b9c1:6c94:2b61:5290]) by
-	BN6PR1201MB2482.namprd12.prod.outlook.com
-	([fe80::b9c1:6c94:2b61:5290%11]) with mapi id 15.20.2707.030;
-	Wed, 12 Feb 2020 16:51:17 +0000
-From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Thread-Topic: [OE-core] Cache unihash ... doesn't match BB_UNIHASH ...
-Thread-Index: AQHV3Y7yppMxqsfL50SQ0gLLoMQb+qgPZvSAgABkhGCAAAmeAIAACsOAgAISmdCAASDJAIAEuq2g
-Date: Wed, 12 Feb 2020 16:51:17 +0000
-Message-ID: <BN6PR1201MB2482BB5FBC50F4233211BDFB8B1B0@BN6PR1201MB2482.namprd12.prod.outlook.com>
-References: <CAO5Uq5QPxrnkPhjeO3s79AAYF55nPtR3OL0iuL9rqCvN-OmpfA@mail.gmail.com>
-	<ad681bbf95efbeb211cbbe00dd73a4e2ce7cf335.camel@linuxfoundation.org>
-	<BN6PR1201MB248222EF01FA45459B7BC0BE8B1C0@BN6PR1201MB2482.namprd12.prod.outlook.com>
-	<6109c3315b8a215881c134441b74d0753820b5c8.camel@linuxfoundation.org>
-	<CAO5Uq5T1k-ZMZwpsDOeE+aQOJMBZ0PQSzC1jeS+iw=20bxyogA@mail.gmail.com>
-	<BN6PR1201MB248219E5E090A8B5691CCB098B1E0@BN6PR1201MB2482.namprd12.prod.outlook.com>
-	<CAJdd5GZ7De+yGrCitp4rcPQs+suZdHS+7N4c9N1gdG-6V-deZA@mail.gmail.com>
-In-Reply-To: <CAJdd5GZ7De+yGrCitp4rcPQs+suZdHS+7N4c9N1gdG-6V-deZA@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=chris.laplante@agilent.com; 
-x-originating-ip: [4.16.127.92]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 562dc588-e6ea-4edd-a6ed-08d7afdbc7b2
-x-ms-traffictypediagnostic: BN6PR1201MB0113:
-x-microsoft-antispam-prvs: <BN6PR1201MB0113B0A20A84EC0CA063504F8B1B0@BN6PR1201MB0113.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:10000;
-x-forefront-prvs: 0311124FA9
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(366004)(396003)(39860400002)(376002)(346002)(136003)(189003)(29502001)(199004)(71200400001)(9686003)(86362001)(54906003)(2906002)(33656002)(66946007)(55016002)(52536014)(316002)(26005)(64756008)(4326008)(66446008)(7696005)(478600001)(6916009)(8936002)(5660300002)(186003)(66556008)(66476007)(81166006)(81156014)(6506007)(8676002)(76116006);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR1201MB0113;
-	H:BN6PR1201MB2482.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: agilent.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: IDtoHdNRMtenWm9gSdzn3X3v7XsEUwvoaht9Mo2tuwDM2bMXOx3e1riagdKn7Q9KWlo+Ra+bUGfQqSMPdlU3v+CZCrnD1tFo5nKGsRTiwXvmHCA5uSOZXiAy6RC5D6qYXeoacu9qe1t49pWIFmBhxgg//cWJeM22Znw+tjhnA5Xufj1Q43XmWLNWFXnkkieF/EY7HwqSWqkIZauepWRq+ckekWPRpDErFg3gKzKVchnaHzzs2tkN5+vrVP/Bs9vN2GgHI9Oe3M1hb9/ZaUdM9UDHZjrGs5D3+rnKRevUK21P2IBt5TlVaOW5IyeVIaJUGiQJOzP+ZLANhMz+3PUDLYuRtuojbZk7+u2ZYAjThPPvEPWt0EMlShY5M1xKtL3CVKDddiS+WTljqWA2bzOSGy827yFrQA1GPxKbjsw1hGSiADHneqXTMLkIWQu86HfX9iSTaxtL9ZZe/uwntJxVPBvt5aEzs231lpDb/YqBqpWrdrj/Dfktvf7XAOv4MyDV
-x-ms-exchange-antispam-messagedata: XGQiduLPwHqt19BZmZvmTjY3cUCzHUU5Paw50kdZcxwgvyiMyeihgL++X9XHofS/7mQL6JHEJNA90pwC3tfGTCGYGC2CkY3uN9aJLfWo6BLxACbk9YbuhJI26MG636t5+4NyisU7+EbFvPxNix1URw==
-x-ms-exchange-transport-forked: True
-MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 562dc588-e6ea-4edd-a6ed-08d7afdbc7b2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Feb 2020 16:51:17.7218 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: G2G+hq83gIdUt+huBwzA36jU0A/sG1mAR83OdVCyDly3GvwLsknxX0W/9uDxC6zI04XtdMVkjKvnc+wKMuj6HTljEawcQ/tksnFkJ2XFMDY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR1201MB0113
-Cc: Patches and discussions about the oe-core layer
+	Wed, 12 Feb 2020 17:17:57 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01CHHGVk019211
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Wed, 12 Feb 2020 09:17:26 -0800
+Received: from [172.25.44.8] (172.25.44.8) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 12 Feb 2020 09:17:06 -0800
+To: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Cache unihash ... doesn't match BB_UNIHASH ...
+References: <20200212121911.4752-1-oleksandr.s.popovych@globallogic.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <c00c721b-67f5-27d0-99eb-b3a116aff1c8@windriver.com>
+Date: Wed, 12 Feb 2020 12:17:05 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
+MIME-Version: 1.0
+In-Reply-To: <20200212121911.4752-1-oleksandr.s.popovych@globallogic.com>
+X-Originating-IP: [172.25.44.8]
+Subject: Re: [PATCH v6] expat: Added ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -92,45 +35,247 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2020 16:51:19 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 12 Feb 2020 17:17:57 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-CA
 
-PiBPbmUgaXMgb2NjYXNpb25hbGx5IEkgZ2V0IGEgbG90IG9mIHVuZGV0ZXJtaW5pc3RpYyBtZXRh
-ZGF0YSBlcnJvcnMgd2hlbiBCQl9DQUNIRV9QT0xJQ1kgPSAiY2FjaGUiLCBtdWx0aWNvbmZpZywg
-YW5kIGhhc2ggZXF1aXYgYXJlDQo+IGVuYWJsZWQuIFRoZSBlcnJvcnMgYXJlIGFsbCBvbiByZWNp
-cGVzIGZvciB3aGljaCBTUkNSRVYgPSAiJHtBVVRPUkVWfSIuIEl0IGRvZXNuJ3QgYWx3YXlzIGhh
-cHBlbi4gQnV0IGl0IGRpZCBqdXN0IG5vdyB3aGVuIEkgcmViYXNlZA0KPiBvdXIgInpldXMtbW9k
-aWZpZWQiIGJyYW5jaCBvbnRvIHRoZSB1cHN0cmVhbSAiemV1cyIgYnJhbmNoLCB0byBnZXQgdGhl
-IGNoYW5nZXMgc3RhcnRpbmcgd2l0aA0KPiA3ZGM3MmZkZTZlZGViNWQ2YWM2YjM4MzI1MzA5OThh
-ZmVlYTY3Y2JjLg0KPiANCj4gVHdvIGlzIHRoYXQsIHNvbWV0aW1lcyAiSW5pdGlhbGl6aW5nIHRh
-c2tzIiBzdGFnZSBhcHBlYXJzIHN0dWNrIGF0IDQ0JSBmb3IgYSBjb3VwbGUgbWludXRlcy4gSSB0
-cmFjZWQgaXQgZG93biB0byB0aGlzIGNvZGUgaW4NCj4gcnVucXVldWUucHkgKGxpbmUgMTE2OCBv
-biB6ZXVzKToNCj4gDQo+IMKgIMKgIMKgIMKgICMgSXRlcmF0ZSBvdmVyIHRoZSB0YXNrIGxpc3Qg
-YW5kIGNhbGwgaW50byB0aGUgc2lnZ2VuIGNvZGUNCj4gwqAgwqAgwqAgwqAgZGVhbHR3aXRoID0g
-c2V0KCkNCj4gwqAgwqAgwqAgwqAgdG9kZWFsID0gc2V0KHNlbGYucnVudGFza2VudHJpZXMpDQo+
-IMKgIMKgIMKgIMKgIHdoaWxlIGxlbih0b2RlYWwpID4gMDoNCj4gwqAgwqAgwqAgwqAgwqAgwqAg
-Zm9yIHRpZCBpbiB0b2RlYWwuY29weSgpOg0KPiDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCBpZiBs
-ZW4oc2VsZi5ydW50YXNrZW50cmllc1t0aWRdLmRlcGVuZHMgLSBkZWFsdHdpdGgpID09IDA6DQo+
-IMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIMKgIGRlYWx0d2l0aC5hZGQodGlkKQ0KPiDCoCDC
-oCDCoCDCoCDCoCDCoCDCoCDCoCDCoCDCoCB0b2RlYWwucmVtb3ZlKHRpZCkNCj4gwqAgwqAgwqAg
-wqAgwqAgwqAgwqAgwqAgwqAgwqAgc2VsZi5wcmVwYXJlX3Rhc2tfaGFzaCh0aWQpDQo+IA0KPiBX
-aGVuIEkgaW5zdHJ1bWVudCB0aGUgbG9vcCB0byBwcmludCBvdXQgdGhlIHNpemUgb2YgInRvZGVh
-bCIsIEkgc2VlIGl0IGRlY3JlYXNlIHZlcnkgc2xvd2x5LCBzb21ldGltZXMgb25seSBhIGNvdXBs
-ZSBhdCBhIHRpbWUuIEknbQ0KPiBndWVzc2luZyB0aGlzIGlzIGJlY2F1c2UgcHJlcGFyZV90YXNr
-X2hhc2ggaXMgY29udGFjdGluZyB0aGUgaGFzaCBlcXVpdiBzZXJ2ZXIsIGluIGEgc2VyaWFsIG1h
-bm5lciBoZXJlLiBJJ20gb3ZlciBteSB3b3JrIFZQTiB3aGljaA0KPiBtYWtlcyB0aGluZ3MgZXh0
-cmEgc2xvdy4gSXMgdGhlcmUgYW4gb3Bwb3J0dW5pdHkgZm9yIGJhdGNoaW5nIGhlcmU/DQo+IA0K
-PiBCYXRjaGluZyBpcyBoYXJkIGJlY2F1c2UgdGhlIGhhc2hlcyB5b3UgcmVxdWVzdCBtaWdodCBk
-ZXBlbmQgb24gaGFzaGVzIHByZXZpb3VzIHJlY2VpdmVkIGZyb20gdGhlIHNlcnZlci4gSXQgbWln
-aHQgYmUgcG9zc2libGUgdG8NCj4gZmlndXJlIG91dCB0aGVzZSBkZXBlbmRlbmNpZXMgYW5kIHN1
-Ym1pdCBtdWx0aXBsZSBiYXRjaCByZXF1ZXN0cywgYnV0IHRoaXMgd291bGQgcmVxdWlyZSBzb21l
-IHdvcmsgaW4gdGhlIGNvZGUuIEFub3RoZXIgb3B0aW9uDQo+IHdvdWxkIGJlIHRvIGhhdmUgc29t
-ZSBtdWx0aS1sZXZlbCBjYWNoaW5nIHNjaGVtZSB3aGVyZSB5b3UgY2FuIGhhdmUgYSBsb2NhbCBk
-YXRhYmFzZSB0aGF0IG1pcnJvcnMgeW91ciBjZW50cmFsaXplZCBzZXJ2ZXIuDQo+IA0KPiBJZiB5
-b3UgaGF2ZSBhbnkgaWRlYXMgb24gaG93IHRvIG1ha2UgaXQgZmFzdGVyLCB3ZSB3b3VsZCBsb3Zl
-IHRvIGhlYXIgeW91ciBvcGluaW9uIDopDQoNCg0KR290Y2hhLCB1bmZvcnR1bmF0ZWx5IEkgZG9u
-J3QgaGF2ZSBhbnkgaWRlYXMgcmlnaHQgbm93IDovLiBSZWdhcmRpbmcgdGhlIGZpcnN0IGlzc3Vl
-LCBhbnkgaWRlYXMgdGhlcmU/DQoNClRoYW5rcywNCkNocmlzDQoNCg==
+On 2/12/20 7:19 AM, Oleksandr Popovych via Openembedded-core wrote:
+> For ptest support for this package several additional patches and
+> run-ptest script were added and recipe was changed.
+>
+> Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> ---
+>   ...d-Makefile-targets-for-ptest-support.patch | 40 ++++++++++++++
+>   ...ort-for-ptests-in-form-of-new-target.patch | 33 ++++++++++++
+>   ...ed-suitable-format-of-tests-in-ptest.patch | 52 +++++++++++++++++++
+>   meta/recipes-core/expat/expat/run-ptest       |  3 ++
+>   meta/recipes-core/expat/expat_2.2.9.bb        | 12 ++++-
+>   5 files changed, 139 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+>   create mode 100644 meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+>   create mode 100644 meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+>   create mode 100644 meta/recipes-core/expat/expat/run-ptest
+>
+> diff --git a/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+> new file mode 100644
+> index 0000000000..de213b4bc5
+> --- /dev/null
+> +++ b/meta/recipes-core/expat/expat/0001-expat-Added-Makefile-targets-for-ptest-support.patch
+> @@ -0,0 +1,40 @@
+> +From e306bd4849f61f50dad1f5d29fb650c347d78ad6 Mon Sep 17 00:00:00 2001
+> +From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +Date: Thu, 6 Feb 2020 13:41:45 +0200
+> +Subject: [PATCH 1/3] expat: Added Makefile targets for ptest support
+> +
+> +install-ptest, runtests and check tagrets are added.
+> +
+> +Upstream-Status: Inappropriate [oe-core specific]
+> +
+> +Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +---
+> + Makefile.am | 15 +++++++++++++++
+> + 1 file changed, 15 insertions(+)
+> +
+> +diff --git a/Makefile.am b/Makefile.am
+> +index 5e1d37d..c63b44a 100644
+> +--- a/Makefile.am
+> ++++ b/Makefile.am
+> +@@ -152,3 +152,18 @@ qa:
+> + 	QA_COMPILER=clang QA_SANITIZER=memory    ./qa.sh
+> + 	QA_COMPILER=clang QA_SANITIZER=undefined ./qa.sh
+> + 	QA_COMPILER=gcc   QA_PROCESSOR=gcov      ./qa.sh
+> ++
+> ++.PHONY: install-ptest
+> ++install-ptest:
+
+if you call this, install-test and don't change the behaviour used when
+testing self-hosted development, then perhaps
+the upstream will accept the changes.
+
+> ++	echo $(S)
+> ++	(if [ -d tests/.libs ] ; then cd tests/.libs; fi; \
+> ++		install runtests runtestspp $(DESTDIR))
+> ++	cp Makefile $(DESTDIR)
+> ++	sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
+> ++
+> ++.PHONY: runtests
+> ++runtests:
+> ++	@echo "C variant of tests:"
+> ++	@$(CHECKER) ./runtests$(EXEEXT) -q
+> ++	@echo "C++ variant of tests:"
+> ++	@$(CHECKER) ./runtestspp$(EXEEXT) -q
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+> new file mode 100644
+> index 0000000000..26ae144a37
+> --- /dev/null
+> +++ b/meta/recipes-core/expat/expat/0002-expat-Added-support-for-ptests-in-form-of-new-target.patch
+> @@ -0,0 +1,33 @@
+> +From 9a5085243b632a777f55269f7f6d2e40dd73a7bc Mon Sep 17 00:00:00 2001
+> +From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +Date: Thu, 6 Feb 2020 13:43:57 +0200
+> +Subject: [PATCH 2/3] expat: Added support for ptests in form of new target
+> +
+> +configure.am file changed, according to this advice:
+> +https://wiki.yoctoproject.org/wiki/Ptest#Building_the_test_suite
+> +
+> +Upstream-Status: Inappropriate [oe-core specific]
+> +
+> +Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +---
+> + configure.ac | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index d58ac03..8e6b41e 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -34,8 +34,8 @@ AC_CONFIG_SRCDIR([Makefile.in])
+> + AC_CONFIG_AUX_DIR([conftools])
+> + AC_CONFIG_MACRO_DIR([m4])
+> + AC_CANONICAL_HOST
+> +-AM_INIT_AUTOMAKE
+> +-
+> ++AM_INIT_AUTOMAKE([serial-tests])
+> ++AM_EXTRA_RECURSIVE_TARGETS([buildtest-TESTS])
+
+
+Cross-compiling is increasingly common.
+Upstream might accept you changes to split up
+building, installing and running tests.
+
+
+Same goes for the PASS/ FAIL printfs below.
+
+Working with upstream takes a bit more time but if we
+don't have to carry patches for years, it's worth it.
+
+Finally, how about adding the test results in the long log
+with info about the image and machine used? The time
+needed to run the tests will be useful to determine if these
+ptests can be added to:
+
+   meta/conf/distro/include/ptest-packagelists.inc
+
+and you could do that if the tests run in < 30 seconds in qemux86-64 
+with kvm support.
+
+
+Thanks,
+
+../Randy
+
+> +
+> + dnl
+> + dnl Increment LIBREVISION if source code has changed at all
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+> new file mode 100644
+> index 0000000000..9a85a26117
+> --- /dev/null
+> +++ b/meta/recipes-core/expat/expat/0003-expat-Added-suitable-format-of-tests-in-ptest.patch
+> @@ -0,0 +1,52 @@
+> +From 825f344543676fc3314f4e074163fd638db8e8f9 Mon Sep 17 00:00:00 2001
+> +From: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +Date: Thu, 6 Feb 2020 13:44:56 +0200
+> +Subject: [PATCH 3/3] expat: Added suitable format of tests in ptest
+> +
+> +Some changes in testcases code were applied for testcase engine.
+> +This was just adding of message outputs in "RESULT: TESTNAME" form...
+> +
+> +Upstream-Status: Inappropriate [oe-core specific]
+> +
+> +Signed-off-by: Oleksandr Popovych <oleksandr.s.popovych@globallogic.com>
+> +---
+> + tests/minicheck.c | 4 ++++
+> + 1 file changed, 4 insertions(+)
+> +
+> +diff --git a/tests/minicheck.c b/tests/minicheck.c
+> +index a5a1efb..b39cda9 100644
+> +--- a/tests/minicheck.c
+> ++++ b/tests/minicheck.c
+> +@@ -164,6 +164,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
+> +       if (tc->setup != NULL) {
+> +         /* setup */
+> +         if (setjmp(env)) {
+> ++          printf("SKIP: %s\n", _check_current_function);
+> +           add_failure(runner, verbosity);
+> +           continue;
+> +         }
+> +@@ -171,6 +172,7 @@ srunner_run_all(SRunner *runner, int verbosity) {
+> +       }
+> +       /* test */
+> +       if (setjmp(env)) {
+> ++        printf("FAIL: %s\n", _check_current_function);
+> +         add_failure(runner, verbosity);
+> +         continue;
+> +       }
+> +@@ -179,11 +181,13 @@ srunner_run_all(SRunner *runner, int verbosity) {
+> +       /* teardown */
+> +       if (tc->teardown != NULL) {
+> +         if (setjmp(env)) {
+> ++          printf("PASS: %s\n", _check_current_function);
+> +           add_failure(runner, verbosity);
+> +           continue;
+> +         }
+> +         tc->teardown();
+> +       }
+> ++      printf("PASS: %s\n", _check_current_function);
+> +     }
+> +     tc = tc->next_tcase;
+> +   }
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-core/expat/expat/run-ptest b/meta/recipes-core/expat/expat/run-ptest
+> new file mode 100644
+> index 0000000000..df994c0838
+> --- /dev/null
+> +++ b/meta/recipes-core/expat/expat/run-ptest
+> @@ -0,0 +1,3 @@
+> +#!/bin/bash
+> +
+> +make -k runtests
+> diff --git a/meta/recipes-core/expat/expat_2.2.9.bb b/meta/recipes-core/expat/expat_2.2.9.bb
+> index 8f3db41352..420ffddc80 100644
+> --- a/meta/recipes-core/expat/expat_2.2.9.bb
+> +++ b/meta/recipes-core/expat/expat_2.2.9.bb
+> @@ -8,15 +8,25 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=5b8620d98e49772d95fc1d291c26aa79"
+>   
+>   SRC_URI = "${SOURCEFORGE_MIRROR}/expat/expat-${PV}.tar.bz2 \
+>              file://libtool-tag.patch \
+> +	   file://0001-expat-Added-Makefile-targets-for-ptest-support.patch \
+> +	   file://0002-expat-Added-support-for-ptests-in-form-of-new-target.patch \
+> +	   file://0003-expat-Added-suitable-format-of-tests-in-ptest.patch \
+> +	   file://run-ptest \
+>   	  "
+>   
+>   SRC_URI[md5sum] = "875a2c2ff3e8eb9e5a5cd62db2033ab5"
+>   SRC_URI[sha256sum] = "f1063084dc4302a427dabcca499c8312b3a32a29b7d2506653ecc8f950a9a237"
+>   
+> -inherit autotools lib_package
+> +inherit autotools ptest lib_package
+> +
+> +RDEPENDS_${PN}-ptest += "make bash"
+>   
+>   do_configure_prepend () {
+>   	rm -f ${S}/conftools/libtool.m4
+>   }
+>   
+> +do_compile_ptest() {
+> +	oe_runmake buildtest-TESTS
+> +}
+> +
+>   BBCLASSEXTEND = "native nativesdk"
+
+
+-- 
+# Randy MacLeod
+# Wind River Linux
+
 
