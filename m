@@ -1,46 +1,33 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B246160B21
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D9F476103A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 10:35:29 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id y17so1572358wrh.5
+	Wed, 12 Feb 2020 10:54:24 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,428,1574092800"; d="scan'208";a="83207881"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 12 Feb 2020 18:54:24 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id 020BD50A9960
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 02:35:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=koAgHWN41H7IqhLxplPLYGMSFMdeoFtsPlF4YpugOLI=;
-	b=gFdqSse4YqRTaqJe4r0Vzy5V96nX3uzJ3EwAw0eD8XckNo91Z6DvHZWn/g1eHl2SJ/
-	slTaNp/DrSwjLl1UyUH7zCPcQ3Njjd+q+NuJw1uLuOnnGXygmICPcF0chY3LKuy7ZhTo
-	TkCl15g37Mb8j8PjQiBf3QdeHMskFWhWzS+AbljfFvuSDPw6jRHvg8iKxwIV1cqSRhSM
-	XoQqrOF0sT1b/8e/41YRYmS4u1NESkDO8IsrP6Gj40GpsNNbvhxhWdwBC1VsUrcy1wzg
-	CZ7kMumJnDUOBc+fXjOyUo/klc7bkdjr/2fSM3/DfL8J39J3E6v/XhnrVGHA8P1leT2+
-	ZvSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=koAgHWN41H7IqhLxplPLYGMSFMdeoFtsPlF4YpugOLI=;
-	b=kSohxkuF8yUiBXafH78YetnseCCUY3NsDXN02yGliClgDNakOrosYer2yy0TkY62TH
-	s4Hnl3rOxqtN6IAJbtUdUAr8nO70ZMTJLuDltemB+sbpT++xQmvQENIWIATmwX5sFYE+
-	blEehgpgYieELvizE9qK46NBxhJOiC7vHRCd6AnIVl9Y2uj/ckto3P3yXBJZTjt15KSc
-	a7pEznV+UcPn1/PNXDWBDyHl7krqEAI+yJDxruNADWBgn8nWTmTMlWhOOSUsaayZ11Yz
-	xdetXuR47HlOXj1rwVwjiQJVrEYhysTHbym5DqWCLhbYe/40S/LxYSfPCjE79RC8S0+W
-	dcLg==
-X-Gm-Message-State: APjAAAV00OVb8lGyJKKtA9/rQ9LwRMLIx7+8TfH5lxEuEtb5S2mD/Dls
-	A4HXEE8/eidOBbUNtyW7CUBTMMlO
-X-Google-Smtp-Source: APXvYqxtFB9sizGGtGJLX+Ia5rxQAU+2T7dEU9CblcLVr0SPy5UqUcIYFELxfagagOwiXwRCueNPKg==
-X-Received: by 2002:a5d:62d1:: with SMTP id o17mr14972616wrv.9.1581503730076; 
-	Wed, 12 Feb 2020 02:35:30 -0800 (PST)
-Received: from localhost.localdomain ([195.89.163.130])
-	by smtp.gmail.com with ESMTPSA id e6sm204402wme.3.2020.02.12.02.35.28
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 12 Feb 2020 02:35:29 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Feb 2020 10:35:26 +0000
-Message-Id: <20200212103526.61149-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] devicetree.bbclass: include symbols in base DT
+	Wed, 12 Feb 2020 18:44:52 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Wed, 12 Feb 2020 18:54:23 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 12 Feb 2020 18:54:30 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Feb 2020 10:35:05 -0800
+Message-ID: <1581532506-107041-1-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: 020BD50A9960.A6006
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] python3-pip: upgrade 19.3.1 -> 20.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,36 +40,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2020 10:35:30 -0000
+X-List-Received-Date: Wed, 12 Feb 2020 10:54:25 -0000
+Content-Type: text/plain
 
-When processing overlays, the base device tree must be compiled with
-symbols, otherwise attempting to apply overlays in U-Boot will fail
-with:
-
-  failed on fdt_overlay_apply(): FDT_ERR_NOTFOUND
-  base fdt does did not have a /__symbols__ node
-  make sure you've compiled with -@
-
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
+ .../python/{python3-pip_19.3.1.bb => python3-pip_20.0.2.bb}   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pip_19.3.1.bb => python3-pip_20.0.2.bb} (81%)
 
- meta/classes/devicetree.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/devicetree.bbclass b/meta/classes/devicetree.bbclass
-index d8779c794378..c772ab2ab93e 100644
---- a/meta/classes/devicetree.bbclass
-+++ b/meta/classes/devicetree.bbclass
-@@ -59,7 +59,7 @@ DT_BOOT_CPU ??= "0"
+diff --git a/meta/recipes-devtools/python/python3-pip_19.3.1.bb b/meta/recipes-devtools/python/python3-pip_20.0.2.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-pip_19.3.1.bb
+rename to meta/recipes-devtools/python/python3-pip_20.0.2.bb
+index d27e6fce5c..08738fb2f9 100644
+--- a/meta/recipes-devtools/python/python3-pip_19.3.1.bb
++++ b/meta/recipes-devtools/python/python3-pip_20.0.2.bb
+@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8ba06d529c955048e5ddd7c45459eb2e"
  
- DTC_FLAGS ?= "-R ${DT_RESERVED_MAP} -b ${DT_BOOT_CPU}"
- DTC_PPFLAGS ?= "-nostdinc -undef -D__DTS__ -x assembler-with-cpp"
--DTC_BFLAGS ?= "-p ${DT_PADDING_SIZE}"
-+DTC_BFLAGS ?= "-p ${DT_PADDING_SIZE} -@"
- DTC_OFLAGS ?= "-p 0 -@ -H epapr"
+ DEPENDS += "python3 python3-setuptools-native"
  
- python () {
+-SRC_URI[md5sum] = "1aaaf90fbafc50e7ba1e66ffceb00960"
+-SRC_URI[sha256sum] = "21207d76c1031e517668898a6b46a9fb1501c7a4710ef5dfd6a40ad9e6757ea7"
++SRC_URI[md5sum] = "7d42ba49b809604f0df3d55df1c3fd86"
++SRC_URI[sha256sum] = "7db0c8ea4c7ea51c8049640e8e6e7fde949de672bfa4949920675563a5a6967f"
+ 
+ inherit pypi distutils3
+ 
 -- 
 2.17.1
+
+
 
 
