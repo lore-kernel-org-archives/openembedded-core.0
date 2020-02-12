@@ -1,35 +1,46 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7032D61051
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C8D99606BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 10:54:29 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,428,1574092800"; d="scan'208";a="83207886"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Feb 2020 18:54:30 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 179AD50A996F
+	Wed, 12 Feb 2020 11:33:40 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id z3so1860398wru.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 18:44:55 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Wed, 12 Feb 2020 18:54:25 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 12 Feb 2020 18:54:33 +0800
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Feb 2020 10:35:06 -0800
-Message-ID: <1581532506-107041-2-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1581532506-107041-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1581532506-107041-1-git-send-email-wangmy@cn.fujitsu.com>
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 179AD50A996F.AB4C9
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v2] ruby: upgrade 2.6.5 -> 2.7.0
+	Wed, 12 Feb 2020 03:33:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=/MSpH6ULdEH4/5F2Wn+aXuP8DIKeM74owGxFdP7278c=;
+	b=Zf3r+ZyFh3OwTPTZqGk1mIlnEbYR9QKGREPgfYj7eL3zjNDc+bt/eMkUb/wh+pKPbT
+	6lwEWPOhIoYGc5QVitkf/lOIe+44wLZyratSv46sOHBi8mddKJNEVOHo6IfIBPmvfOaF
+	5YNNrAUG/kn2fM+mFd5h3cTb0z/F6ChQB9W0y+SV9hRvCGxnaNnnnTMAjSIKTEkHx8Kg
+	isjvLy607FK+1DB8FG93FHDnkLOw6zexV2wWo6mUmwbS29pYPfhtI9J1qH+R3CDVpFwn
+	5R5s2vUoSPz8XoaLTLBI0hu91JH2SeuWLSARYCJ1pNIVhHjSukpKtOvpDn5pfjeXyNJh
+	GKNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/MSpH6ULdEH4/5F2Wn+aXuP8DIKeM74owGxFdP7278c=;
+	b=gvJtMmPZuI3LBM6Lq+WbDQNcPJ0QBzjaQNOsPqMpC/7+oDepuDmMwhCzQEyYmApx67
+	8lu9IzLhXO31auI5r+HumVNbHO0pJu7M9tuADU0ri0J2xqlFWsXKXjjAK4h7DpASJz5d
+	Zqoa02UTSfDByMS9O8iup4LNurAFGRj2tC1MewgS/EUXdLiw8hZfrqFnK6Wt0hXt6Dc8
+	jUvxHSZxYY1qrvsAkYtfZcsxzZJHZyo/T7QF1DQp+n3RNcDnn8erqoyhwpRpPutyvuI1
+	KE4JcKDVqoIc86Wj7DxRg0TbjVUGP/+5EfkAW3WQZTldrHucK0FQTlyX3dMFXL4ARwfq
+	32Sw==
+X-Gm-Message-State: APjAAAX1jszRg56hg4qs06dEP4YwoN6ejnqsGoswxMaycQatT2X1XshG
+	/4tex2Ggp5eWrnermKBtcvqA2KNs
+X-Google-Smtp-Source: APXvYqxWwf0FazlvNgCYiOUtsH10VzLAIJdoT7YNJl1teUT2sJ7pdfAbkKk5co/3ZxF708als2r55Q==
+X-Received: by 2002:a5d:4750:: with SMTP id o16mr5639131wrs.91.1581507221121; 
+	Wed, 12 Feb 2020 03:33:41 -0800 (PST)
+Received: from localhost.localdomain ([195.89.163.130])
+	by smtp.gmail.com with ESMTPSA id z21sm386377wml.5.2020.02.12.03.33.40
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 12 Feb 2020 03:33:40 -0800 (PST)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Feb 2020 11:33:36 +0000
+Message-Id: <20200212113336.62171-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] kernel-fitimage: fix devicetree reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,258 +53,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2020 10:54:30 -0000
-Content-Type: text/plain; charset="y"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 12 Feb 2020 11:33:41 -0000
 
-0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch
-Removed since it is included in 2.7.0.
+Ensure that the order of dtb/dtbo files in the generated fitimage is
+reproducible.
 
-refresh the following patch:
-0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-
-add the following patch to solve build error:
-0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch
-[error message]
-ERROR: ruby-2.7.0-r0 do_package_qa: QA Issue:
-/usr/lib/ruby/gems/2.7.0/gems/racc-1.4.16/bin/y2racc contained in
-package ruby requires /usr/local/bin/ruby, but no providers found in
-RDEPENDS_ruby? [file-rdeps]
-
-format of file COPYING is updated.
-LEGAL notice information is updated.
-
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+Fixes: 71bfa9838cbf ("kernel-fitimage: Handle overlays in EXTERNAL_KERNEL_DEVICETREE")
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
- meta/recipes-devtools/ruby/ruby.inc           |   4 +-
- ...of-libexec-y2racc-and-libexec-racc2y.patch |  38 +++++++
- ...Obey-LDFLAGS-for-the-link-of-libruby.patch |   8 +-
- ...ck-finite-isinf-isnan-as-macros-firs.patch | 103 ------------------
- .../ruby/{ruby_2.6.5.bb => ruby_2.7.0.bb}     |   6 +-
- 5 files changed, 47 insertions(+), 112 deletions(-)
- create mode 100644 meta/recipes-devtools/ruby/ruby/0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch
- rename meta/recipes-devtools/ruby/{ruby_2.6.5.bb => ruby_2.7.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index ce1b02f012..a38b3fe624 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -8,10 +8,10 @@ HOMEPAGE = "http://www.ruby-lang.org/"
- SECTION = "devel/ruby"
- LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPLv2 | ISC | MIT"
- LIC_FILES_CHKSUM = "\
--    file://COPYING;md5=340948e1882e579731841bf49cdc22c1 \
-+    file://COPYING;md5=5b8c87559868796979806100db3f3805 \
-     file://BSDL;md5=19aaf65c88a40b508d17ae4be539c4b5\
-     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263\
--    file://LEGAL;md5=4ac0b84d1f7f420bca282e1adefc7f99 \
-+    file://LEGAL;md5=2b6d62dc0d608f34d510ca3f428110ec \
- "
+ meta/classes/kernel-fitimage.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
+index d1b8cdc1f049..72b05ff8d1dd 100644
+--- a/meta/classes/kernel-fitimage.bbclass
++++ b/meta/classes/kernel-fitimage.bbclass
+@@ -391,7 +391,7 @@ fitimage_assemble() {
  
- DEPENDS = "ruby-native zlib openssl tcl libyaml gdbm readline libffi"
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch b/meta/recipes-devtools/ruby/ruby/0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch
-new file mode 100644
-index 0000000000..f316bed7bd
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch
-@@ -0,0 +1,38 @@
-+From eed7bc855fd8d232d4d203cc9027dd07cee8eca2 Mon Sep 17 00:00:00 2001
-+From: Wang Mingyu <wangmy@cn.fujitsu.com>
-+Date: Sat, 8 Feb 2020 15:16:14 +0800
-+Subject: [PATCH] Modify shebang of libexec/y2racc and libexec/racc2y.
-+
-+change /usr/local/bin/ruby to /usr/bin/env ruby.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
-+---
-+ libexec/racc2y | 2 +-
-+ libexec/y2racc | 2 +-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libexec/racc2y b/libexec/racc2y
-+index f88d73ed2c..74e49cfa21 100755
-+--- a/libexec/racc2y
-++++ b/libexec/racc2y
-+@@ -1,4 +1,4 @@
-+-#!/usr/local/bin/ruby
-++#!/usr/bin/env ruby
-+ #
-+ # $Id$
-+ #
-+diff --git a/libexec/y2racc b/libexec/y2racc
-+index 7933f94153..36daf864e1 100755
-+--- a/libexec/y2racc
-++++ b/libexec/y2racc
-+@@ -1,4 +1,4 @@
-+-#!/usr/local/bin/ruby
-++#!/usr/bin/env ruby
-+ #
-+ # $Id$
-+ #
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-index 5979d8bd73..b31dee1128 100644
---- a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-@@ -6,13 +6,13 @@ Subject: [PATCH 2/3] Obey LDFLAGS for the link of libruby
- Signed-off-by: Christopher Larson <chris_larson@mentor.com>
- Upstream-Status: Pending
- ---
-- Makefile.in | 2 +-
-+ template/Makefile.in | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
--diff --git a/Makefile.in b/Makefile.in
-+diff --git a/template/Makefile.in b/template/Makefile.in
- index fa1e19ef37..bbd07fa34b 100644
----- a/Makefile.in
--+++ b/Makefile.in
-+--- a/template/Makefile.in
-++++ b/template/Makefile.in
- @@ -109,7 +109,7 @@ MISSING = @LIBOBJS@ @ALLOCA@
-  ENABLE_SHARED = @ENABLE_SHARED@
-  LDSHARED = @LIBRUBY_LDSHARED@
-diff --git a/meta/recipes-devtools/ruby/ruby/0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch b/meta/recipes-devtools/ruby/ruby/0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch
-deleted file mode 100644
-index 1a8cff3e8c..0000000000
---- a/meta/recipes-devtools/ruby/ruby/0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch
-+++ /dev/null
-@@ -1,103 +0,0 @@
--From bd71b698bf733e6e93282cd2b1b93f51e1a33c7c Mon Sep 17 00:00:00 2001
--From: nobu <nobu@b2dd03c8-39d4-4d8f-98ff-823fe69b080e>
--Date: Fri, 8 Feb 2019 07:22:55 +0000
--Subject: [PATCH 3/3] configure.ac: check finite,isinf,isnan as macros first
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--[ruby-core:91487] [Bug #15595]
--
--git-svn-id: svn+ssh://ci.ruby-lang.org/ruby/trunk@67036 b2dd03c8-39d4-4d8f-98ff-823fe69b080e
--
-----
--Upstream-Status: Backport [https://github.com/ruby/ruby/commit/74f94b3e6ebf15b76f3b357e754095412b006e94]
--Signed-off-by: André Draszik <andre.draszik@jci.com>
-----
-- aclocal.m4                    |  1 +
-- configure.ac                  | 13 ++++---------
-- tool/m4/ruby_replace_funcs.m4 | 13 +++++++++++++
-- 3 files changed, 18 insertions(+), 9 deletions(-)
-- create mode 100644 tool/m4/ruby_replace_funcs.m4
--
--diff --git a/aclocal.m4 b/aclocal.m4
--index b0fe3eb959..ed7d14ef63 100644
----- a/aclocal.m4
--+++ b/aclocal.m4
--@@ -35,6 +35,7 @@ m4_include([tool/m4/ruby_func_attribute.m4])
-- m4_include([tool/m4/ruby_mingw32.m4])
-- m4_include([tool/m4/ruby_prepend_option.m4])
-- m4_include([tool/m4/ruby_prog_gnu_ld.m4])
--+m4_include([tool/m4/ruby_replace_funcs.m4])
-- m4_include([tool/m4/ruby_replace_type.m4])
-- m4_include([tool/m4/ruby_rm_recursive.m4])
-- m4_include([tool/m4/ruby_setjmp_type.m4])
--diff --git a/configure.ac b/configure.ac
--index 2c4d2888d2..2691da6a3c 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -946,9 +946,6 @@ main()
-- 		ac_cv_func_fsync=yes
-- 		ac_cv_func_seekdir=yes
-- 		ac_cv_func_telldir=yes
---		ac_cv_func_isinf=yes
---		ac_cv_func_isnan=yes
---		ac_cv_func_finite=yes
-- 		ac_cv_func_lchown=yes
-- 		ac_cv_func_link=yes
-- 		ac_cv_func_readlink=yes
--@@ -999,9 +996,6 @@ main()
-- [netbsd*], [	LIBS="-lm $LIBS"
-- 		],
-- [dragonfly*], [	LIBS="-lm $LIBS"
---		# isinf() and isnan() are macros on DragonFly.
---		ac_cv_func_isinf=yes
---		ac_cv_func_isnan=yes
-- 		],
-- [aix*],[	LIBS="-lm $LIBS"
-- 		ac_cv_func_round=no
--@@ -1724,11 +1718,8 @@ AC_REPLACE_FUNCS(dup2)
-- AC_REPLACE_FUNCS(erf)
-- AC_REPLACE_FUNCS(explicit_bzero)
-- AC_REPLACE_FUNCS(ffs)
---AC_REPLACE_FUNCS(finite)
-- AC_REPLACE_FUNCS(flock)
-- AC_REPLACE_FUNCS(hypot)
---AC_REPLACE_FUNCS(isinf)
---AC_REPLACE_FUNCS(isnan)
-- AC_REPLACE_FUNCS(lgamma_r)
-- AC_REPLACE_FUNCS(memmove)
-- AC_REPLACE_FUNCS(nan)
--@@ -1741,6 +1732,10 @@ AC_REPLACE_FUNCS(strlcpy)
-- AC_REPLACE_FUNCS(strstr)
-- AC_REPLACE_FUNCS(tgamma)
-- 
--+RUBY_REPLACE_FUNC([finite], [@%:@include <math.h>])
--+RUBY_REPLACE_FUNC([isinf], [@%:@include <math.h>])
--+RUBY_REPLACE_FUNC([isnan], [@%:@include <math.h>])
--+
-- # for missing/setproctitle.c
-- AS_CASE(["$target_os"],
-- [aix* | k*bsd*-gnu | kopensolaris*-gnu | linux* | darwin*], [AC_DEFINE(SPT_TYPE,SPT_REUSEARGV)],
--diff --git a/tool/m4/ruby_replace_funcs.m4 b/tool/m4/ruby_replace_funcs.m4
--new file mode 100644
--index 0000000000..d0612e29a0
----- /dev/null
--+++ b/tool/m4/ruby_replace_funcs.m4
--@@ -0,0 +1,13 @@
--+# -*- Autoconf -*-
--+dnl RUBY_REPLACE_FUNC [func] [included]
--+AC_DEFUN([RUBY_REPLACE_FUNC], [dnl
--+    AC_CHECK_DECL([$1],dnl
--+        [AC_DEFINE(AS_TR_CPP(HAVE_[$1]))],dnl
--+        [AC_REPLACE_FUNCS($1)],dnl
--+        [$2])dnl
--+])
--+
--+dnl RUBY_REPLACE_FUNCS [funcs] [included]
--+AC_DEFUN([RUBY_REPLACE_FUNCS] [dnl
--+    m4_map_args_w([$1], [RUBY_REPLACE_FUNC(], [), [$2]])dnl
--+])
---- 
--2.23.0.rc1
--
-diff --git a/meta/recipes-devtools/ruby/ruby_2.6.5.bb b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/ruby/ruby_2.6.5.bb
-rename to meta/recipes-devtools/ruby/ruby_2.7.0.bb
-index 0cdf6ee09f..c796318717 100644
---- a/meta/recipes-devtools/ruby/ruby_2.6.5.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.7.0.bb
-@@ -1,13 +1,13 @@
- require ruby.inc
- 
- SRC_URI += " \
--           file://0003-configure.ac-check-finite-isinf-isnan-as-macros-firs.patch \
-            file://remove_has_include_macros.patch \
-            file://run-ptest \
-+           file://0001-Modify-shebang-of-libexec-y2racc-and-libexec-racc2y.patch \
-            "
- 
--SRC_URI[md5sum] = "8754bfb36d52c2bf1fb3d3ddc7101606"
--SRC_URI[sha256sum] = "66976b716ecc1fd34f9b7c3c2b07bbd37631815377a2e3e85a5b194cfdcbed7d"
-+SRC_URI[md5sum] = "bf4a54e8231176e109a42c546b4725a9"
-+SRC_URI[sha256sum] = "8c99aa93b5e2f1bc8437d1bbbefd27b13e7694025331f77245d0c068ef1f8cbe"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ 	if [ -n "${EXTERNAL_KERNEL_DEVICETREE}" ]; then
+ 		dtbcount=1
+-		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -name '*.dtbo' \) -printf '%P\n'); do
++		for DTB in $(find "${EXTERNAL_KERNEL_DEVICETREE}" \( -name '*.dtb' -o -name '*.dtbo' \) -printf '%P\n' | sort); do
+ 			DTB=$(echo "${DTB}" | tr '/' '_')
+ 			DTBS="${DTBS} ${DTB}"
+ 			fitimage_emit_section_dtb ${1} ${DTB} "${EXTERNAL_KERNEL_DEVICETREE}/${DTB}"
 -- 
 2.17.1
-
-
 
 
