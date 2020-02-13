@@ -1,52 +1,47 @@
-Return-Path: <scott.branden@broadcom.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E8B160C3E
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f51.google.com (mail-vs1-f51.google.com
+	[209.85.217.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D087E60C3E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 19:18:19 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id b17so8039460wmb.0
+	Thu, 13 Feb 2020 19:26:51 +0000 (UTC)
+Received: by mail-vs1-f51.google.com with SMTP id p14so4356606vsq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 11:18:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=BW5vxV3YqQeSn7GgIdYjcmEgWfIbxzUDfBq86tQNUpw=;
-	b=LhttuEm2hqsc5vVD9h2anIS3SFvQe0s9c5yEhCV219Pu8H7M2HgN4Y+fvIL0VzPvh9
-	INVXv+eiO4dURvTdU+PJh2J4dAXlSWWcHAw7Ljb/SoViqjXtFSa7UyAQM4578vAT80SD
-	qwQb195ZqkdRh2kq/YbmrQiSChv0JK2ucxv1M=
+	Thu, 13 Feb 2020 11:26:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=fwwcl4NcY73F49LLYVt/3LwsTY7T3SIPcy2Ry4aZ1p8=;
+	b=ESLndyNh8DiMV4+QOHlM1XFhwgHYC3RqDbt4FNW/5ZIRiFH/1x+raC9BjNYOlaZKKs
+	2MmR9CGUP9VUpYluMDgpKOPriUUdMH8J5rrUcWCM9p4J6HBW6UOkkJh7y+4wLvcqIIhM
+	xnMu5WFQx/M+wV8kFZYi7AcGOnMkfZzuO92aWx1uDEJMfszfeUVZYADRiL3M9XR8bZzY
+	pBGKwFR3Y6K6C0goe7FOH83+pf7FsNhLetiF+A3lMgYOrC8F4sbEMXul9Tm7XibCQpOk
+	wJfzQOmqTlJtthwXfH6yEksn7V0OMp/iZy5RVlVQWv9NjlyLrttgqsFM1tnV2wK83ScK
+	lrgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=BW5vxV3YqQeSn7GgIdYjcmEgWfIbxzUDfBq86tQNUpw=;
-	b=ML/ZItstXfMxxAg9Q1aGohryqCFJF0hbqZhV6FTiciCft+uyvV5A77SDXTF126jATZ
-	zPKpoEk+vRhkZXoW/HygO6E8M5pgJVYcAQ7gcVtFygCWLSDgwMgvsLMPqSoSB2ZzEt/a
-	Y52IyTyz8nGZVwC2K0lecqg+5e4Cjhdq9LFGHInBbt8KDSFnIbN0omy0k5VCPEWUbZgu
-	uJEvh/YqjqWzF62A4GgoyCbQ2OgmwM1Nvp2XUsoxXf4mhY9makeRPTjBQK+ZJEVj84Ow
-	2hdpaSg/Rg8YqLzO8T78BbT9qiLyWqBWmRHyiAkI0uPy2Z7ti+O5jyuIVLtfswDcAa4f
-	PNVg==
-X-Gm-Message-State: APjAAAWfPEk/OdlN+UANHiad+j6MsVyTZHgU1ODF+eYzvnygPjs+Hzb0
-	HEcllSurcq1NB40rzfefyDtu0b/xk0lKdOs3trjtsJt861i+ndHkPqu/QCErxPqznXEuEybF1Ca
-	lh4KHlPyNqVoiu5eH6tSYrH94a3/Q1cqj/Jh/Hx0BN1sK+3/csVRoEEMRrF2FSkX7byyrUKnJPo
-	/pFLmONguvdcyONjTws9t3TA57tGU=
-X-Google-Smtp-Source: APXvYqyXv8Ztlw0TQJTaPAIUzBUHsZ9kYEmEboUjiC/Rc+XG1WDapdg10qNiGPSCu+Umng/7A5OEeQ==
-X-Received: by 2002:a1c:4857:: with SMTP id v84mr7240581wma.8.1581621499437;
-	Thu, 13 Feb 2020 11:18:19 -0800 (PST)
-Received: from [10.136.13.65] ([192.19.228.250])
-	by smtp.gmail.com with ESMTPSA id h2sm4197402wrt.45.2020.02.13.11.18.17
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 13 Feb 2020 11:18:18 -0800 (PST)
-To: zhe.he@windriver.com, openembedded-core@lists.openembedded.org
-References: <1581619124-194740-1-git-send-email-zhe.he@windriver.com>
-From: Scott Branden <scott.branden@broadcom.com>
-Message-ID: <f25b2353-cd24-1aff-4028-967892e3d1e3@broadcom.com>
-Date: Thu, 13 Feb 2020 11:18:15 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=fwwcl4NcY73F49LLYVt/3LwsTY7T3SIPcy2Ry4aZ1p8=;
+	b=q9aUSg//dHswdqaiSE8ML2p5femA6k5ovle2keC3ATxvzmAgfXoQ2LPECKcJh6IbR7
+	NFKEeljVb5519vSsVQscrLNZwTpGsZ9nR2NelsJdeIM3kX3DQaEmh4Dx9yHrojJT1DmO
+	4x2jDnmB4tJTkraJJMQP08VsXOhrTdbFJ/wUt5Uqmm3cJ+NK8kecUZPnU4JkQTpTCplp
+	wZKT4cNtZN0GRkXt3tw3KSEaCNUJ6800V8/byA6aUZD3XFGxQuiHg3oNUsJ3dPxUqAUp
+	JPiEqC6ZfC1oSecrj1KDB02vRC3Hj6ga/9o1dffWmU/pe0CYde1ds2YPVSmNE+SAoIMn
+	WP4Q==
+X-Gm-Message-State: APjAAAUdZMshFurJk0fTU1g0Oj2xWema+xSD9yN0mDmlMo+u0lFC9hgx
+	G+rkmvM3lV7TQtRrEbtu40wOHSM01iPMIqiFLpI=
+X-Google-Smtp-Source: APXvYqxYAbqu03ejjaywGiOsSBVaObyauxK+E9t8b9y87YM8HZh2plxB5ld7WOLfiQVpuKcB4DwF18LorpEdecJCGG0=
+X-Received: by 2002:a05:6102:52e:: with SMTP id
+	m14mr16554270vsa.25.1581622012711; 
+	Thu, 13 Feb 2020 11:26:52 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1581619124-194740-1-git-send-email-zhe.he@windriver.com>
-Subject: Re: [PATCH] perf: Correct the substitution of python shebangs
+References: <20200213163918.29470-1-scott.branden@broadcom.com>
+In-Reply-To: <20200213163918.29470-1-scott.branden@broadcom.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 13 Feb 2020 20:26:41 +0100
+Message-ID: <CANNYZj-sdO8mrRLet5WSBV-MnSo5b-E4ZvsR+7PvgxFtse=ZKA@mail.gmail.com>
+To: Scott Branden <scott.branden@broadcom.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-multimedia][PATCH] x265: add x265 recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +54,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 19:18:19 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 13 Feb 2020 19:26:52 -0000
+Content-Type: multipart/alternative; boundary="0000000000003c963b059e7a12ab"
 
-Thank you - works for me.  I've been waiting for a fix!
+--0000000000003c963b059e7a12ab
+Content-Type: text/plain; charset="UTF-8"
 
-On 2020-02-13 10:38 a.m., zhe.he@windriver.com wrote:
-> From: He Zhe <zhe.he@windriver.com>
+Wrong mailing list, should go to oe-devel.
+
+Alex
+
+On Thu, 13 Feb 2020 at 17:39, Scott Branden via Openembedded-core <
+openembedded-core@lists.openembedded.org> wrote:
+
+> Add x265 recipe for latest tag of Release_3.2 branch (3.2.1).
 >
-> To make the native python3 are always used,
->
-> - Move the substitution of /usr/bin/python3 to first, otherwise the
->    possible original /usr/bin/python3 would be changed to
->    /usr/bin/env python33.
-> - Add substitution for ${S}/scripts/
->
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-Tested-by: Scott Branden <scott.branden@broadcom.com>
+> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
 > ---
->   meta/recipes-kernel/perf/perf.bb | 7 +++++++
->   1 file changed, 7 insertions(+)
+>  .../recipes-multimedia/x265/x265_3.2.1.bb     | 24 +++++++++++++++++++
+>  1 file changed, 24 insertions(+)
+>  create mode 100644
+> meta-openembedded/meta-multimedia/recipes-multimedia/x265/x265_3.2.1.bb
 >
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 6d1b066..14a9090 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -240,10 +240,17 @@ do_configure_prepend () {
->   
->       # use /usr/bin/env instead of version specific python
->       for s in `find ${S}/tools/perf/ -name '*.py'`; do
-> +        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
->           sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
->           sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
->           sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
-> +    done
+> diff --git a/meta-openembedded/meta-multimedia/recipes-multimedia/x265/
+> x265_3.2.1.bb b/meta-openembedded/meta-multimedia/recipes-multimedia/x265/
+> x265_3.2.1.bb
+> new file mode 100644
+> index 0000000000..68c1a55c8c
+> --- /dev/null
+> +++ b/meta-openembedded/meta-multimedia/recipes-multimedia/x265/
+> x265_3.2.1.bb
+> @@ -0,0 +1,24 @@
+> +SUMMARY = "H.265/HEVC video encoder"
+> +DESCRIPTION = "A free software library and application for encoding video
+> streams into the H.265/HEVC format."
+> +HOMEPAGE = "http://www.videolan.org/developers/x265.html"
 > +
-> +    for s in `find ${S}/scripts/ -name '*.py'`; do
->           sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
-> +        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
-> +        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
-> +        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
->       done
->   
->       # unistd.h can be out of sync between libc-headers and the captured version in the perf source
+> +LICENSE = "GPLv2"
+> +LICENSE_FLAGS = "commercial"
+> +LIC_FILES_CHKSUM =
+> "file://../COPYING;md5=c9e0427bc58f129f99728c62d4ad4091"
+> +
+> +DEPENDS = "nasm-native gnutls zlib libpcre"
+> +
+> +SRC_URI = "http://ftp.videolan.org/pub/videolan/x265/x265_${PV}.tar.gz"
+> +
+> +S = "${WORKDIR}/x265_${PV}/source"
+> +
+> +SRC_URI[md5sum] = "94808045a34d88a857e5eaf3f68f4bca"
+> +SRC_URI[sha256sum] =
+> "fb9badcf92364fd3567f8b5aa0e5e952aeea7a39a2b864387cec31e3b58cbbcc"
+> +
+> +inherit lib_package pkgconfig cmake
+> +
+> +AS[unexport] = "1"
+> +
+> +COMPATIBLE_MACHINE = "^$"
+> +COMPATIBLE_MACHINE_x86 = ".*"
+> +COMPATIBLE_MACHINE_x86-64 = ".*"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
+--0000000000003c963b059e7a12ab
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div>Wrong mailing list, should go to oe-devel.</div><div>=
+<br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Thu, 13 Feb 2020 at 17:39, Scott Branden v=
+ia Openembedded-core &lt;<a href=3D"mailto:openembedded-core@lists.openembe=
+dded.org">openembedded-core@lists.openembedded.org</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">Add x265 recipe for lates=
+t tag of Release_3.2 branch (3.2.1).<br>
+<br>
+Signed-off-by: Scott Branden &lt;<a href=3D"mailto:scott.branden@broadcom.c=
+om" target=3D"_blank">scott.branden@broadcom.com</a>&gt;<br>
+---<br>
+=C2=A0.../recipes-multimedia/x265/<a href=3D"http://x265_3.2.1.bb" rel=3D"n=
+oreferrer" target=3D"_blank">x265_3.2.1.bb</a>=C2=A0 =C2=A0 =C2=A0| 24 ++++=
++++++++++++++++<br>
+=C2=A01 file changed, 24 insertions(+)<br>
+=C2=A0create mode 100644 meta-openembedded/meta-multimedia/recipes-multimed=
+ia/x265/<a href=3D"http://x265_3.2.1.bb" rel=3D"noreferrer" target=3D"_blan=
+k">x265_3.2.1.bb</a><br>
+<br>
+diff --git a/meta-openembedded/meta-multimedia/recipes-multimedia/x265/<a h=
+ref=3D"http://x265_3.2.1.bb" rel=3D"noreferrer" target=3D"_blank">x265_3.2.=
+1.bb</a> b/meta-openembedded/meta-multimedia/recipes-multimedia/x265/<a hre=
+f=3D"http://x265_3.2.1.bb" rel=3D"noreferrer" target=3D"_blank">x265_3.2.1.=
+bb</a><br>
+new file mode 100644<br>
+index 0000000000..68c1a55c8c<br>
+--- /dev/null<br>
++++ b/meta-openembedded/meta-multimedia/recipes-multimedia/x265/<a href=3D"=
+http://x265_3.2.1.bb" rel=3D"noreferrer" target=3D"_blank">x265_3.2.1.bb</a=
+><br>
+@@ -0,0 +1,24 @@<br>
++SUMMARY =3D &quot;H.265/HEVC video encoder&quot;<br>
++DESCRIPTION =3D &quot;A free software library and application for encoding=
+ video streams into the H.265/HEVC format.&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"http://www.videolan.org/developers/x265.html=
+" rel=3D"noreferrer" target=3D"_blank">http://www.videolan.org/developers/x=
+265.html</a>&quot;<br>
++<br>
++LICENSE =3D &quot;GPLv2&quot;<br>
++LICENSE_FLAGS =3D &quot;commercial&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://../COPYING;md5=3Dc9e0427bc58f129f99728c6=
+2d4ad4091&quot;<br>
++<br>
++DEPENDS =3D &quot;nasm-native gnutls zlib libpcre&quot;<br>
++<br>
++SRC_URI =3D &quot;<a href=3D"http://ftp.videolan.org/pub/videolan/x265/x26=
+5_$%7BPV%7D.tar.gz" rel=3D"noreferrer" target=3D"_blank">http://ftp.videola=
+n.org/pub/videolan/x265/x265_${PV}.tar.gz</a>&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/x265_${PV}/source&quot;<br>
++<br>
++SRC_URI[md5sum] =3D &quot;94808045a34d88a857e5eaf3f68f4bca&quot;<br>
++SRC_URI[sha256sum] =3D &quot;fb9badcf92364fd3567f8b5aa0e5e952aeea7a39a2b86=
+4387cec31e3b58cbbcc&quot;<br>
++<br>
++inherit lib_package pkgconfig cmake<br>
++<br>
++AS[unexport] =3D &quot;1&quot;<br>
++<br>
++COMPATIBLE_MACHINE =3D &quot;^$&quot;<br>
++COMPATIBLE_MACHINE_x86 =3D &quot;.*&quot;<br>
++COMPATIBLE_MACHINE_x86-64 =3D &quot;.*&quot;<br>
+-- <br>
+2.17.1<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--0000000000003c963b059e7a12ab--
