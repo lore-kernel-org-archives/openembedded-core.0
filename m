@@ -1,38 +1,49 @@
-Return-Path: <rpjday@crashcourse.ca>
-X-Greylist: delayed 1100 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 13 Feb 2020 13:40:19 UTC
-Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
-	by mail.openembedded.org (Postfix) with ESMTP id 5430160B69
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C44660B5B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 13:40:19 +0000 (UTC)
-Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com
-	([174.114.57.56]:51922 helo=localhost.localdomain)
-	by cpanel7.indieserve.net with esmtpsa
-	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.92)
-	(envelope-from <rpjday@crashcourse.ca>) id 1j2ERL-002sjN-Hu
-	for openembedded-core@lists.openembedded.org;
-	Thu, 13 Feb 2020 08:22:00 -0500
-Date: Thu, 13 Feb 2020 08:21:57 -0500 (EST)
-From: "Robert P. J. Day" <rpjday@crashcourse.ca>
-X-X-Sender: rpjday@localhost.localdomain
-To: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Message-ID: <alpine.LFD.2.21.2002130820520.2823635@localhost.localdomain>
+	Thu, 13 Feb 2020 14:09:46 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n10so4901822wrm.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Feb 2020 06:09:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X/blAi8NP3mEWvxHutY3QeGyA1Snb4sAtLmShnD2pnE=;
+	b=Nd77ta1ignhGvR70bFyh1dRW8Jy/EN+d1uA9QTOvhRVRN/+XnqzZ7Cwvv/amJVeT4m
+	hGvxBksNhsjrb92oeAyvjMt/dtY8efKLivbfFE+5/0xv1ooovp7XNL2zGoP3cuWN2MEv
+	qLknWYgZZ57HUfSwftMO7mUjaL1KZzn04ULFA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X/blAi8NP3mEWvxHutY3QeGyA1Snb4sAtLmShnD2pnE=;
+	b=LhHBJ08GHj020g1GGyoxv6ssqMVJ/hEUMovy3Mc7QRopiYZZr6uHb6gm581QySYCN9
+	KtMlyI/5+sDBXk0mMIKvUZQ6e/b5q7ZIL+qjAqZrwh2AJT87R9gJkh3wRAyDG7sy+4VS
+	B9H93SMKNVqjHvUMGI0nHRcDgkN5ZLK5hprydFTDPpcJPo9WuK0N64g//TnTbQZgmIIc
+	0nEtP5HJOiW1kUm+hA7XvqjkfnPF659GBARtZENn62MaNeq7+2ez2NJRoEZngEtvNpdw
+	/VbpvCMtRiFlqkec2VR76cA7EDLj3s0+B8eoSktqHNAAvvYVEnPf3hD35EQsjSITuXog
+	ZNqA==
+X-Gm-Message-State: APjAAAUGIqrM9uRh/fcbmUkZDzTtPRn4TBHBduwW/xOUh9Pm2711sen0
+	u3t8GMvN86PeKmqCsRBh0RQOwjA9QdA=
+X-Google-Smtp-Source: APXvYqxsThVx+3Wg8CBfPDCfU4EqXgbwb9fqZ28pqto3CCna5NjmRfXhoOorIz+EqJhfMrGixgsp5g==
+X-Received: by 2002:a5d:61d1:: with SMTP id q17mr22377093wrv.156.1581602986501;
+	Thu, 13 Feb 2020 06:09:46 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	u23sm3149452wmu.14.2020.02.13.06.09.44
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 13 Feb 2020 06:09:45 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Feb 2020 14:09:41 +0000
+Message-Id: <20200213140941.18270-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OutGoing-Spam-Status: No, score=-0.2
-X-AntiAbuse: This header was added to track abuse,
-	please include it with any abuse report
-X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
-X-AntiAbuse: Original Domain - lists.openembedded.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - crashcourse.ca
-X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
-	rpjday+crashcourse.ca/only user confirmed/virtual account not
-	confirmed
-X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-Subject: [PATCH] icecc.bbclass: replace superfluous "+=" with "="
+Subject: [PATCH] package_ipk: Minor import tweak + ensure packages regenerated
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,37 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 13:40:19 -0000
-Content-Type: text/plain; charset=US-ASCII
+X-List-Received-Date: Thu, 13 Feb 2020 14:09:46 -0000
+Content-Transfer-Encoding: 8bit
 
+The recent opkg-utils change didn't update all the packages since its
+marked as ABISAFE (and has to be due to update-alternatives).
 
-Signed-off-by: Robert P. J. Day <rpjday@crashcourse.ca>
+Fix a minor import issue to avoid multiple imports of glob which
+also causes packages to re-generate.
 
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
+ meta/classes/package_ipk.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-  that's the only example of that i can see.
-
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index bc3d6f4cc8..d095305ed8 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -105,7 +105,7 @@ def icecc_dep_prepend(d):
-         return "icecc-create-env-native"
-     return ""
-
--DEPENDS_prepend += "${@icecc_dep_prepend(d)} "
-+DEPENDS_prepend = "${@icecc_dep_prepend(d)} "
-
- get_cross_kernel_cc[vardepsexclude] += "KERNEL_CC"
- def get_cross_kernel_cc(bb,d):
-
+diff --git a/meta/classes/package_ipk.bbclass b/meta/classes/package_ipk.bbclass
+index 4f23977032f..25d1ab725ad 100644
+--- a/meta/classes/package_ipk.bbclass
++++ b/meta/classes/package_ipk.bbclass
+@@ -45,6 +45,7 @@ def ipk_write_pkg(pkg, d):
+     import subprocess
+     import textwrap
+     import collections
++    import glob
+ 
+     def cleanupcontrol(root):
+         for p in ['CONTROL', 'DEBIAN']:
+@@ -101,8 +102,7 @@ def ipk_write_pkg(pkg, d):
+         bb.utils.mkdirhier(pkgoutdir)
+         os.chdir(root)
+         cleanupcontrol(root)
+-        from glob import glob
+-        g = glob('*')
++        g = glob.glob('*')
+         if not g and localdata.getVar('ALLOW_EMPTY', False) != "1":
+             bb.note("Not creating empty archive for %s-%s-%s" % (pkg, localdata.getVar('PKGV'), localdata.getVar('PKGR')))
+             return
 -- 
+2.20.1
 
-========================================================================
-Robert P. J. Day                                 Ottawa, Ontario, CANADA
-                         http://crashcourse.ca
-
-Twitter:                                       http://twitter.com/rpjday
-LinkedIn:                               http://ca.linkedin.com/in/rpjday
-========================================================================
 
