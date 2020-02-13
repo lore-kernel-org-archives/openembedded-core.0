@@ -1,52 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 8AC5C60C13
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id A6E1360BD7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 08:22:01 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id j15so2680887pgm.6
+	Thu, 13 Feb 2020 08:22:02 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id k29so2674014pfp.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 00:22:03 -0800 (PST)
+	Thu, 13 Feb 2020 00:22:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=sOxPrrAujN5DVlnZRPmsCbaJjyGO7gvZNMd2E3//6b0=;
-	b=HMsk+w6qKizWTth3tHkQtMSMSJzJyRmCkMjFPa/AwDLFQS7RRzMGwV1VdnVVX/rPpS
-	aRJYZDRPhcgdBtn3nI4uCElTT2xDu0AvpTIGiXBtTiUP4Om9Yi0GPQ0bRKh0hPr4/B3b
-	Yhj+DGFq36PSLEa4bMEca0mQ9mde57+QQpBdMl/5T3+33vxTsV/G9bfBkWg/YsxTaPaY
-	8EqolXisbiKTP/8FHe0npQkS7w1y38/Vt0QuswlmRbL/U76ngP5lfs7f9CVg1lpsQcLV
-	3/LsCzrFhUGE/u9bsUuksgkDwj6pAKmSv1ko3H4AVdHQvPUx8I5XeaPSRBMPBlctDSMY
-	m6CQ==
+	bh=lLIsO6+VajFIKlyCjkC0glybaIczrYa5G5aHljZpAG0=;
+	b=FlUCvMhDXFCB65NTCJ3vDUMXtAndpnXh+qaHw7J59UjSmhzAnGJdlAgL6x5O7H8+0O
+	Ie+N4iITHNt0WZOCHpjyxi1+OsqQh57eLNFLv1t4tJCYsXFLpPgcJwQU9n+QAodGflTI
+	992pUGDRvnRw/fdO19NRNiuPbNRtYLXKGIiE+LXlpmYk6Cz7EKJHyrYbJNG6KquVxCLu
+	IyOac7o88UJsPi7eQW8WPjORqlp7Qba/rVOUkSBpc8x4ooqL9vK6YwSOcx7huFhuFOch
+	Vqw/KfCqAyVoXrJOYjvwHg/YoQUXuyFRE0LQjEKqBKGqdYRdgR9tWlCEAjk4X7co2j5K
+	/l6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=sOxPrrAujN5DVlnZRPmsCbaJjyGO7gvZNMd2E3//6b0=;
-	b=lnBGPfcvtyp4lzQqG/eSsGHtBfwGy+1bBxhOxBmE2BDzxMLagL5Vnc/LxnfYGH42DW
-	/RJpjH2lXSTz6/7OoiEN+/GcmUlq9sYSnCQrk4EdPOSDjvjpwUgt+YXUadoGGnoSPVWP
-	t/osFlUOl4JwRWtmj+Kt2XF1aiyw5ysjbZGKl8WwQ9NI0gtNpIolKj0BP5dAVAadIw28
-	btYEulLmZJVl12ZqegFTJ9HOTlPpp4mkNVZJnfidX1k6cfbTBR6Aq3pp28m7PfoFKLio
-	a/ofTpgnXjCsDfVaarCnKgdcmtD1ll6xQ3jPasVUItSmTEumFH8unxsH2ABl6DJ/UILD
-	mtCg==
-X-Gm-Message-State: APjAAAXICFq+fYWuqnGvt6t9F/tC9encdzoCkvtd2+3IRXlXL5uNqTRm
-	ZsMxEkovwe0dOVQ92UeQptn61j774Fk=
-X-Google-Smtp-Source: APXvYqz6WHQ2IFqSTM2p1jwE6s+Kho75UPDYsfYIVCQhW31/viCzUpC9fFgDcuizrA+o+JdIaGTOmQ==
-X-Received: by 2002:a62:ab13:: with SMTP id p19mr12510061pff.98.1581582122227; 
-	Thu, 13 Feb 2020 00:22:02 -0800 (PST)
+	bh=lLIsO6+VajFIKlyCjkC0glybaIczrYa5G5aHljZpAG0=;
+	b=nK9+wiYMfslT8Hy17d6XtO/OF2ZTxEwLIFuQ68WlwpSVFIQVeSQi+Dl1jgMk/UBQBI
+	swpxfSpz9hmJq4Y5y3/SYTrA7JiZ7g2SA6BHCgj4PzRuqXW2xtzbnAXEyYYrYNY6VdZr
+	4JZH4iiq90m1CuoA8IXzuR/8wQJolADHDpuc6f6V8JIGsehO11MdFvMCsoDAGHXMxB9Z
+	opvotlEvwRtBVCVeOH6fDVED5lXyDVVTINO/UdF8LXGE79anV8O7IcDCK0U13YbQ0Htq
+	UOzqq9af4L6HFVuDdDuaj0td+Lk7cYqLVpB2K+XZERTVSRxiDT0aqD5WkcZQZyYA1orV
+	fVsg==
+X-Gm-Message-State: APjAAAU+gaAnAN7idXRbfTs4syt6En5UvS0gSrM/p7gxtxgvH6v8DnYa
+	8jS12uqAju0rac/M2amZYHmO/vTtYLM=
+X-Google-Smtp-Source: APXvYqyEYPGiC22XuiimILxmmtBC1QjlJs8jVeaT4hfKVcJBHnMs7Rl2NmQNuEePndZg0Gcy/y9BFg==
+X-Received: by 2002:aa7:8181:: with SMTP id g1mr16177804pfi.215.1581582123323; 
+	Thu, 13 Feb 2020 00:22:03 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::c740])
 	by smtp.gmail.com with ESMTPSA id
-	f127sm1958085pfa.112.2020.02.13.00.22.00
+	f127sm1958085pfa.112.2020.02.13.00.22.02
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 13 Feb 2020 00:22:00 -0800 (PST)
+	Thu, 13 Feb 2020 00:22:02 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2020 00:21:53 -0800
-Message-Id: <9bb12593baf723d5b00320c25c0658c77919c304.1581580428.git.raj.khem@gmail.com>
+Date: Thu, 13 Feb 2020 00:21:54 -0800
+Message-Id: <8002e94e6b5f865feb0a17a2454d53b7f748e965.1581580428.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1581580428.git.raj.khem@gmail.com>
 References: <cover.1581580428.git.raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 04/10] dnf, libdnf: Ignore if PACKAGE_CLASSES does not have rpm
+Subject: [PATCH 05/10] musl: Update to latest tip
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +59,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 08:22:01 -0000
+X-List-Received-Date: Thu, 13 Feb 2020 08:22:02 -0000
 Content-Transfer-Encoding: 8bit
 
-dnf does not work with opkg or dpkg/apt anyway
+Detailed changelog is here [1]
+
+[1] https://git.musl-libc.org/cgit/musl/log/?qt=range&q=e6093b5a870a38ebfb3e54382acd48c698bde15d..a662220df547e5c2446518e74440a7d834f9ebe6
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/dnf/dnf_4.2.2.bb        | 2 ++
- meta/recipes-devtools/libdnf/libdnf_0.28.1.bb | 1 +
- 2 files changed, 3 insertions(+)
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-index f38167f1ad..220f1aabbd 100644
---- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-@@ -84,3 +84,5 @@ SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
-                          dnf-automatic-notifyonly.service dnf-automatic-notifyonly.timer \
- "
- SYSTEMD_AUTO_ENABLE ?= "disable"
-+
-+PNBLACKLIST[dnf] ?= "${@bb.utils.contains('PACKAGE_CLASSES', 'package_rpm', '', 'does not build correctly without package_rpm in PACKAGE_CLASSES', d)}"
-diff --git a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
-index 882c435b32..49afa04812 100644
---- a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
-+++ b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
-@@ -26,4 +26,5 @@ EXTRA_OECMAKE_append_class-native = " -DWITH_GIR=OFF"
- EXTRA_OECMAKE_append_class-nativesdk = " -DWITH_GIR=OFF"
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index f4853b4f2e..b6ec6fe9af 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader
  
- BBCLASSEXTEND = "native nativesdk"
-+PNBLACKLIST[libdnf] ?= "${@bb.utils.contains('PACKAGE_CLASSES', 'package_rpm', '', 'does not build correctly without package_rpm in PACKAGE_CLASSES', d)}"
+-SRCREV = "e6093b5a870a38ebfb3e54382acd48c698bde15d"
++SRCREV = "a662220df547e5c2446518e74440a7d834f9ebe6"
+ 
+ BASEVER = "1.1.24"
  
 -- 
 2.25.0
