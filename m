@@ -1,49 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A14260EC8
+Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
+	[209.85.221.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 507B560EC8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 16:19:09 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id t12so3934130vso.13
+	Thu, 13 Feb 2020 16:24:52 +0000 (UTC)
+Received: by mail-vk1-f194.google.com with SMTP id b2so1733870vkk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 08:19:10 -0800 (PST)
+	Thu, 13 Feb 2020 08:24:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PGQjH+W4p18jUhFhvuGB6zOBaZV2cxr4nYSg9cMg9y4=;
-	b=YB2avRsuZDKJrq6PiTKGZ59X8edRdUjoHw9s9dSxfGFGjSR9ufYy3LwpMsl0nh+HxL
-	UfgDqsFF+vgdmla+CvfVBL50FsJknNNrg/VhjlYlYyYunZ+hMVj8lcvikNvYFPqBtWiT
-	gtY1AblkfjJQfVp4pH4fWDxuy4Qm3lBfqrU+c8GbMU+gALdcbjsrCbinVPoDrjORjLzn
-	jbOR0mz5WltEIu7zXbDzy73RYLPnADMutbQy2eWC23c/XIvjxT3KjbohJgPIkp0ANPlD
-	Fsf37SBRNcJEYESxAfmxm23Qfz+pnfg5ofWeGuqZlpIEO0JEDHEadXLjHFlocG54UPxH
-	jEPw==
+	:cc; bh=QjgDizG95hS50QGe8jELBPwSUjs1ZmL5BqUaDD6Tbck=;
+	b=cLXg5VkyhxWvay5eq2ietQLf2Gi7keXyFZflYXLQF59Ps4g+07QwUh96t9qn2rXVeY
+	qj+l4QWg9u6xVwk81iyv4lNgYj0BtkqTRaSzikOLrfySsjT+O0WC6BtBA5XBTgjhBZ6F
+	9JEQ2i5rgFeDRXQV8rbn0hFnTzrnW+sLLry+Dx/eHT2fNtOOIezkpSHQT4GQ1U9tCrUn
+	JgD9JZm5cdiq8HAjDFqirzGKs3ZlyUundbU0NfguCxSTHcYQvRkwVazIxxdRo7afFLme
+	P+9TzMR0sZLh14ZXFtjoGm8mH8KdFulCYOBLNY+8SvUOrBd8q+LJK9FbfrcJbywh3uOp
+	85fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=PGQjH+W4p18jUhFhvuGB6zOBaZV2cxr4nYSg9cMg9y4=;
-	b=t7mEv96hOZaoN8TeXTj6tddUO18Jovb+ymFBq48lzragMF547tgjyxLIZBLNzphuyQ
-	pSYQgHGW/VDj6aAZqS7dRYkd116x+rIpHIhUpyZWt9+8y5hsh/x1bcypVqBakrdma1fF
-	9heslaUdSLBi+eoqZS3gym/dQIx/twIB3ckkm1lHFliNcJpdCVNQ5A5XpW5BXz9hvHVx
-	7yR37atrfxRbABsoAfWsurZeeCu8QH1EdnSBu1IVHxeQCR7Dz/IVJTDYfo8N/eYsZR/z
-	1F5fO4voYyJ59Lcjv4kW4NTOspRlgYS0VpJ8OMaX+Ok+1ceqvytwu5CZzFzv2k249tK6
-	Wyjg==
-X-Gm-Message-State: APjAAAV1tOHOwm43EUPqcLfwnO1FgSMXUIgD4kar4lpVMnMGmPwKNGt5
-	+TSQgxhcOXjPK2oSubvrWPARTVLYDAVCKfZ/6q4=
-X-Google-Smtp-Source: APXvYqw3zQyilKqUFThiudIXtLGV1O0ZK28HPyscgn4G4Knp1G1j+yijcJ+7v47ou28XENLym30woy9NSsvdPsjTPLU=
-X-Received: by 2002:a05:6102:103:: with SMTP id
-	z3mr2551207vsq.23.1581610749955; 
-	Thu, 13 Feb 2020 08:19:09 -0800 (PST)
+	bh=QjgDizG95hS50QGe8jELBPwSUjs1ZmL5BqUaDD6Tbck=;
+	b=Kunlq1DnaG8bSkYUw8UZ8J3md5r1tglij/+lOzWtRAeGUsFQt0bAuuhgGsV7jWcEm0
+	cm1+do+ZL0+pKIDrArr3Ia85mI+PjTeiG3YI1FfKy1HBJabwJT2P4oc+nX3NGn859woM
+	871OSJhuVvPs5ExIozP/SI3ZuUVYop/qZFZOB8Bm5DambekgKfEE/2utbNGRcYNTNp6D
+	u+adbUJ5NtKcgwSb3w9oOkDdYd5UsyUfEZqPd6RvOC3njVjz4A886JsHWVJVIIhQNPs5
+	/cqeyLJxkhlanO3DfuX2bRCIGqlbWXqp0wLJ+R2LkTOlCNH0pOZVxafK6Sx9Um5xZ2h6
+	V8jA==
+X-Gm-Message-State: APjAAAVRa5DF5FJ1tL6QLtd99gFjy617EBztc9DZkmnneKVcmMHo/TF4
+	3yiDv0UCCKZg5mkFycXR16+EOqakWHa7jcBgQdA=
+X-Google-Smtp-Source: APXvYqyqwfC315FSRKjZjD915Sj7if0qqHCR/88cNlMvrf2UR7VR5jAJofWBRnw22LSYuGfGPBj2VDmZVcI78y52HoA=
+X-Received: by 2002:a1f:7dcd:: with SMTP id y196mr11133236vkc.29.1581611093160;
+	Thu, 13 Feb 2020 08:24:53 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1581575578.git.raj.khem@gmail.com>
-	<CANNYZj_T=J2fs39fpPKQjC5rGSg_opTeUGzPokeiU-5jwhRzTQ@mail.gmail.com>
-	<CAMKF1sqJTPVFALwd0qx+zfWq3MsmhVL=n58CDMns1MwJH2mTsw@mail.gmail.com>
-In-Reply-To: <CAMKF1sqJTPVFALwd0qx+zfWq3MsmhVL=n58CDMns1MwJH2mTsw@mail.gmail.com>
+References: <20200212191927.2708197-1-raj.khem@gmail.com>
+	<CANNYZj9-oPmywGhB8S6aaoJyfs7mdYLTsPTdDULgdyt6yQJb5g@mail.gmail.com>
+	<CAMKF1sowa6qCZwD=1Q7RRMpY1q7SbuW4izg4YFTqOhB2sAuUWw@mail.gmail.com>
+	<CANNYZj8kTvu7Z3C5JtXbjLNvu1NymoTbOgiJnLS3cqLMOKO3pw@mail.gmail.com>
+	<CAMKF1spSwxqzVW0r2wxQQqPg6PW3ZwZM+HcNh9L0zai7wz4HfQ@mail.gmail.com>
+	<CANNYZj_7n9NKm22GDjT9rBU+XokBhuqZthM20Gz-X-AoAxNP=A@mail.gmail.com>
+	<CAMKF1sqiOxhyd98HTVbqCLWhxBeqW1sZ_d5cvT8E+OMUQejMHQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sqiOxhyd98HTVbqCLWhxBeqW1sZ_d5cvT8E+OMUQejMHQ@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 13 Feb 2020 17:19:38 +0100
-Message-ID: <CANNYZj_C7i+2QKaFqjiDh0DFYYuYO7eY72wTR9NKz9JEjDtjCA@mail.gmail.com>
+Date: Thu, 13 Feb 2020 17:25:22 +0100
+Message-ID: <CANNYZj8FsGqPQ9dOVSiOpg0DEGK-+rXLa3Xr86+ZjDcyyDDoPg@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] recipe updates, testing fixes
+Subject: Re: [PATCH V2] dnf, libdnf: Ignore if PACKAGE_CLASSES does not have rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,49 +59,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 16:19:09 -0000
-Content-Type: multipart/alternative; boundary="000000000000ec9249059e7772a9"
+X-List-Received-Date: Thu, 13 Feb 2020 16:24:52 -0000
+Content-Type: multipart/alternative; boundary="0000000000006175ed059e778781"
 
---000000000000ec9249059e7772a9
+--0000000000006175ed059e778781
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, 13 Feb 2020 at 17:07, Khem Raj <raj.khem@gmail.com> wrote:
+On Thu, 13 Feb 2020 at 17:06, Khem Raj <raj.khem@gmail.com> wrote:
 
+> No, problem is that if One wants to use opkg backend then rpm drags along
+> but apt or dpkg don=E2=80=99t
 >
->> I'd like to request that these two are held back until we figure out wha=
-t
->> is going wrong with the rpm test (see separate thread).
->>
->
-> We already know what=E2=80=99s going on what more
-> Do you want to know ?
+> Even if test is made to pass rpm will be dragged into
+> Images which is not desired
 >
 
- As the rpm maintainer, yes I do. The test is not being skipped when it
-should be, and I'd like to know why.
+We can modify the rpm packaging so that only the library from rpm that
+libresolv links with, but not the executables or other libraries are in the
+image. Would you be ok with that?
 
 Alex
 
---000000000000ec9249059e7772a9
+--0000000000006175ed059e778781
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 13 Feb 2020 at 17:07, Khem Raj &l=
-t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
-r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-border-left-color:rgb(204,204,204);padding-left:1ex"><div><div class=3D"gma=
-il_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204,=
-204,204);padding-left:1ex"><div dir=3D"ltr"><div class=3D"gmail_quote"><div=
-><br></div><div>I&#39;d like to request that these two are held back until =
-we figure out what is going wrong with the rpm test (see separate thread).<=
-/div></div></div></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto"=
->We already know what=E2=80=99s going on what more</div><div dir=3D"auto">D=
-o you want to know ?</div></div></div></blockquote><div><br></div><div>=C2=
-=A0As the rpm maintainer, yes I do. The test is not being skipped when it s=
-hould be, and I&#39;d like to know why.</div><div><br></div><div>Alex=C2=A0=
-</div></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 13 Feb 2020 at 17:06, Khem Raj &l=
+t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:</=
+div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;borde=
+r-left-color:rgb(204,204,204);padding-left:1ex"><div><div class=3D"gmail_qu=
+ote"><div dir=3D"auto">No, problem is that if One wants to use opkg backend=
+ then rpm drags along but apt or dpkg don=E2=80=99t</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">Even if test is made to pass rpm will be dragge=
+d into</div><div dir=3D"auto">Images which is not desired</div></div></div>=
+</blockquote><div><br></div><div>We can modify the rpm packaging so that on=
+ly the library from rpm that libresolv links with, but not the executables =
+or other libraries are in the image. Would you be ok with that?</div><div><=
+br></div><div>Alex</div></div></div>
 
---000000000000ec9249059e7772a9--
+--0000000000006175ed059e778781--
