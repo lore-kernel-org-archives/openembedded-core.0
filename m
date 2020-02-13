@@ -1,47 +1,34 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A17E6073C
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 317 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 13 Feb 2020 06:29:05 UTC
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 7417F6073C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 06:21:32 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id t23so4857732wmi.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 22:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=8TzdSLQnIIx9yFQbNOHpNOkkgzFLsI05KEZNECRnryc=;
-	b=iOgDI+bTAHnGkH04z25u6hGAOCaVZnPKjn1TGURwFAWXW3+3E2eW5stQlrFCjRAoh1
-	w+GD8i6HYP5qO4UPGG6fIl5DgE6Nyk09fcW1XVu5wHQnRENFteiNeFb9vpTi9vMlIqgh
-	dWB3YXEFVA7xRHxaeZk0aofH0DKCM/b2omtiITol3J1FClJhXp+mGRfvuZkodv9FsJHk
-	WyXyeRpZuVXa70HjLvAvJrZyJeKkuovT4hPg28d0pniET2PQ9fUwOStzBu1dsvz4H1xi
-	0e32RtERuPHD71ICZKBKNhIp0dUAkOLAFrzD86BIHtM5qNqHLs/6/RkvyiMBcQzIMc/J
-	nsPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=8TzdSLQnIIx9yFQbNOHpNOkkgzFLsI05KEZNECRnryc=;
-	b=bPujw418SfkO2Ekr2zv1mAopDrTlQo+rN7UkXV1mgEU8iXjojpFdPNmw6FFrRznr4u
-	pNv3677taZL6zienmVxSp8LoekPLG5o4A8aA5Oefx/GQ3pM4Cts3veppszqfPwvobmVP
-	wjI5IhC3scSzL3N3GJ8ZURvQvD7EiYwJviE0AbA7VD9hCDXxuJSprcWT1jHxKY+yleQc
-	urHlDMyBBWFnqZvhij+uJk2o4DDDxXshpMJKfblbSQ7cdVhYz67gwcm0ZqNTny3Fg7gQ
-	kLhdNmfkABEj5+2KNN9XbdO9j3PWLNZROP5bpAsqqQZxWCovL0jshyUYr9mVE1axayPT
-	V9Kw==
-X-Gm-Message-State: APjAAAWXvDFj6AfkSvilp/o+sZnNKmTOslqm9dY5fyJVRyWO3pgEC9KI
-	9Tk3cmQXdU3b0swPYbQZ1mSC04cM
-X-Google-Smtp-Source: APXvYqx1eJmwvoxKL15i+Yyvz0a5xRs9ZbnKxbiiC46CxVmm8pwDlJ+kKHDFrYvtnAaS/0sRyMPP/g==
-X-Received: by 2002:a1c:491:: with SMTP id 139mr3747842wme.117.1581574893313; 
-	Wed, 12 Feb 2020 22:21:33 -0800 (PST)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246])
-	by smtp.gmail.com with ESMTPSA id a5sm1554844wmb.37.2020.02.12.22.21.32
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 12 Feb 2020 22:21:32 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
+	Thu, 13 Feb 2020 06:29:05 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id DF4BD40C0A;
+	Thu, 13 Feb 2020 06:23:49 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id rMBrDOFhYn9Q; Thu, 13 Feb 2020 06:23:49 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
+	[100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id C0303409E1;
+	Thu, 13 Feb 2020 06:23:48 +0000 (UTC)
+Received: from gimli.denix (unknown [192.168.30.6])
+	by mail.denix.org (Postfix) with ESMTP id 735531743FC;
+	Thu, 13 Feb 2020 01:23:48 -0500 (EST)
+From: Denys Dmytriyenko <denis@denix.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2020 06:21:30 +0000
-Message-Id: <20200213062130.103110-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v2] iputils: Fix systemd and ipv6 detection
+Date: Thu, 13 Feb 2020 01:23:44 -0500
+Message-Id: <1581575024-31531-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] wayland: upgrade 1.17.0 -> 1.18.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,177 +41,289 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 06:21:33 -0000
+X-List-Received-Date: Thu, 13 Feb 2020 06:29:05 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-When systemd is enabled, ensure iputils detects it correctly. Split out
-IPv6 only features based on ipv6 enabled in DISTRO_FEATURES.
+From: Denys Dmytriyenko <denys@ti.com>
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+This is the official release for Wayland 1.18. The main new features in
+this release are:
+
+- Add support for the Meson build system (autotools is still supported
+  but will be removed in a future release)
+- Add API to tag proxy objects to allow applications and toolkits to
+  share the same Wayland connection
+- Track wayland-server timers in user-space to prevent creating too
+  many FDs
+- Add wl_global_remove, a new function to mitigate race conditions with
+  globals
+https://lists.freedesktop.org/archives/wayland-devel/2020-February/041207.html
+
+2 upstreamed patches are dropped.
+
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
 ---
+ ...1-scanner-Add-configure-check-for-strndup.patch |  50 -------
+ ...l_priv_signal-to-wayland-server-private.h.patch | 166 ---------------------
+ .../{wayland_1.17.0.bb => wayland_1.18.0.bb}       |   8 +-
+ 3 files changed, 3 insertions(+), 221 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/wayland/0001-scanner-Add-configure-check-for-strndup.patch
+ delete mode 100644 meta/recipes-graphics/wayland/wayland/0002-Move-wl_priv_signal-to-wayland-server-private.h.patch
+ rename meta/recipes-graphics/wayland/{wayland_1.17.0.bb => wayland_1.18.0.bb} (84%)
 
-Changes in v2:
-- ninfod: fix systemd Documentation url error
-- rarpd: rdisc: Drop PrivateUsers
-
- ...-fix-systemd-Documentation-url-error.patch | 28 +++++++++++
- .../0001-rarpd-rdisc-Drop-PrivateUsers.patch  | 46 +++++++++++++++++++
- .../iputils/iputils_s20190709.bb              | 23 +++++++---
- 3 files changed, 91 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documentation-url-error.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-
-diff --git a/meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documentation-url-error.patch b/meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documentation-url-error.patch
-new file mode 100644
-index 000000000000..58bbb3122b48
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documentation-url-error.patch
-@@ -0,0 +1,28 @@
-+From c1f1527eb30d4a5feebf9a0757582bbf7fe3eae9 Mon Sep 17 00:00:00 2001
-+From: Andrea Stevanato <andrea.stevanato.95@hotmail.it>
-+Date: Tue, 5 Nov 2019 19:08:30 +0000
-+Subject: [PATCH] ninfod: fix systemd Documentation url error
-+
-+systemd[1]: /usr/lib/systemd/system/ninfod.service:3: Invalid URL, ignoring: ninfod(8)
-+
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/c1f1527eb30d4a5feebf9a0757582bbf7fe3eae9]
-+Signed-of-by: Alex Kiernan <alex.kiernan@gmail.com>
-+---
-+ systemd/ninfod.service.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/systemd/ninfod.service.in b/systemd/ninfod.service.in
-+index 5ab69ca00e96..8e79fcd9238e 100644
-+--- a/systemd/ninfod.service.in
-++++ b/systemd/ninfod.service.in
-+@@ -1,6 +1,6 @@
-+ [Unit]
-+ Description=Respond to IPv6 Node Information Queries
-+-Documentation=ninfod(8)
-++Documentation=man:ninfod(8)
-+ Requires=network.target
-+ After=network.target
-+ 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch b/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-new file mode 100644
-index 000000000000..d7367caf7877
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-@@ -0,0 +1,46 @@
-+From 6e51d529988cfc0bb357751fd767e9f1478e2b81 Mon Sep 17 00:00:00 2001
-+From: Alex Kiernan <alex.kiernan@gmail.com>
-+Date: Thu, 13 Feb 2020 06:08:45 +0000
-+Subject: [PATCH] rarpd: rdisc: Drop PrivateUsers
-+
-+Neither rarpd nor rdisc can gain the necessary capabilities with
-+PrivateUsers enabled.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-+---
-+ systemd/rarpd.service.in | 1 -
-+ systemd/rdisc.service.in | 3 ++-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/systemd/rarpd.service.in b/systemd/rarpd.service.in
-+index e600c10c93e6..f5d7621a7ce8 100644
-+--- a/systemd/rarpd.service.in
-++++ b/systemd/rarpd.service.in
-+@@ -12,7 +12,6 @@ AmbientCapabilities=CAP_NET_RAW
-+ DynamicUser=yes
-+ PrivateTmp=yes
-+ PrivateDevices=yes
-+-PrivateUsers=yes
-+ ProtectSystem=strict
-+ ProtectHome=yes
-+ ProtectControlGroups=yes
-+diff --git a/systemd/rdisc.service.in b/systemd/rdisc.service.in
-+index 4e2a1ec9d0e5..a71b87d36b37 100644
-+--- a/systemd/rdisc.service.in
-++++ b/systemd/rdisc.service.in
-+@@ -8,9 +8,10 @@ After=network.target
-+ EnvironmentFile=-/etc/sysconfig/rdisc
-+ ExecStart=@sbindir@/rdisc -f -t $OPTIONS $SEND_ADDRESS $RECEIVE_ADDRESS
-+ 
-++CapabilityBoundingSet=CAP_NET_RAW
-+ AmbientCapabilities=CAP_NET_RAW
-+ PrivateTmp=yes
-+-PrivateUsers=yes
-++DynamicUser=yes
-+ ProtectSystem=strict
-+ ProtectHome=yes
-+ ProtectControlGroups=yes
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
-index e0d2ae160ee0..2aed6b56ca99 100644
---- a/meta/recipes-extended/iputils/iputils_s20190709.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
-@@ -12,6 +12,8 @@ DEPENDS = "gnutls"
+diff --git a/meta/recipes-graphics/wayland/wayland/0001-scanner-Add-configure-check-for-strndup.patch b/meta/recipes-graphics/wayland/wayland/0001-scanner-Add-configure-check-for-strndup.patch
+deleted file mode 100644
+index c443587..0000000
+--- a/meta/recipes-graphics/wayland/wayland/0001-scanner-Add-configure-check-for-strndup.patch
++++ /dev/null
+@@ -1,50 +0,0 @@
+-From 3c8b4467a1ca229e72fb5223787ed400a19c65c0 Mon Sep 17 00:00:00 2001
+-From: Joshua Watt <JPEWhacker@gmail.com>
+-Date: Fri, 25 Oct 2019 21:03:23 -0500
+-Subject: [PATCH] scanner: Add configure check for strndup
+-
+-Some platforms may not have strndup() (e.g. MinGW), so provide a
+-equivalent implementation if it's not found.
+-
+-Upstream-Status: Accepted [4a1f348c20157db7bd7c759fdeb23fbe8729c571]
+-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+----
+- configure.ac  |  2 +-
+- src/scanner.c | 11 +++++++++++
+- 2 files changed, 12 insertions(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 8d56f2b..1c99e21 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -63,7 +63,7 @@ fi
+- AC_SUBST(GCC_CFLAGS)
+- 
+- AC_CHECK_HEADERS([sys/prctl.h])
+--AC_CHECK_FUNCS([accept4 mkostemp posix_fallocate prctl])
+-+AC_CHECK_FUNCS([accept4 mkostemp posix_fallocate prctl strndup])
+- 
+- AC_ARG_ENABLE([libraries],
+- 	      [AC_HELP_STRING([--disable-libraries],
+-diff --git a/src/scanner.c b/src/scanner.c
+-index a94be5d..27004bc 100644
+---- a/src/scanner.c
+-+++ b/src/scanner.c
+-@@ -916,6 +916,17 @@ verify_arguments(struct parse_context *ctx,
+- 
+- }
+- 
+-+#ifndef HAVE_STRNDUP
+-+char *
+-+strndup(const char *s, size_t size)
+-+{
+-+	char *r = malloc(size + 1);
+-+	strncpy(r, s, size);
+-+	r[size] = '\0';
+-+	return r;
+-+}
+-+#endif
+-+
+- static void
+- end_element(void *data, const XML_Char *name)
+- {
+diff --git a/meta/recipes-graphics/wayland/wayland/0002-Move-wl_priv_signal-to-wayland-server-private.h.patch b/meta/recipes-graphics/wayland/wayland/0002-Move-wl_priv_signal-to-wayland-server-private.h.patch
+deleted file mode 100644
+index b05b875..0000000
+--- a/meta/recipes-graphics/wayland/wayland/0002-Move-wl_priv_signal-to-wayland-server-private.h.patch
++++ /dev/null
+@@ -1,166 +0,0 @@
+-From e746f3bf7c8bb2f5dcf9e93edffc23b56eff12d0 Mon Sep 17 00:00:00 2001
+-From: Joshua Watt <JPEWhacker@gmail.com>
+-Date: Tue, 5 Nov 2019 09:09:50 -0600
+-Subject: [PATCH] Move wl_priv_signal to wayland-server-private.h
+-
+-Including wayland-server-core.h in wayland-private.h is problematic
+-because wayland-private.h is included by wayland-scanner which should be
+-able to build against non-POSIX platforms (e.g. MinGW). The only reason
+-that wayland-server-core.h was included in wayland-private.h was for the
+-wl_private_signal definitions, so move those to a
+-wayland-server-private.h file that can be included by both
+-wayland-server.c and the tests.
+-
+-Upstream-Status: Accepted [e7d88f35eb89cf0cc77cbddd834cacc63683a9cc]
+-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+----
+- Makefile.am                  |  3 +-
+- src/wayland-private.h        | 22 +--------------
+- src/wayland-server-private.h | 53 ++++++++++++++++++++++++++++++++++++
+- src/wayland-server.c         |  1 +
+- tests/newsignal-test.c       |  2 +-
+- 5 files changed, 58 insertions(+), 23 deletions(-)
+- create mode 100644 src/wayland-server-private.h
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index f47d055..026d981 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -56,7 +56,8 @@ libwayland_private_la_SOURCES =			\
+- 	src/connection.c			\
+- 	src/wayland-os.c			\
+- 	src/wayland-os.h			\
+--	src/wayland-private.h
+-+	src/wayland-private.h			\
+-+	src/wayland-server-private.h
+- 
+- include_HEADERS =				\
+- 	src/wayland-util.h			\
+-diff --git a/src/wayland-private.h b/src/wayland-private.h
+-index 29516ec..dc7d12f 100644
+---- a/src/wayland-private.h
+-+++ b/src/wayland-private.h
+-@@ -31,11 +31,11 @@
+- #include <stdarg.h>
+- #include <stdlib.h>
+- #include <stdint.h>
+-+#include <stdbool.h>
+- 
+- #define WL_HIDE_DEPRECATED 1
+- 
+- #include "wayland-util.h"
+--#include "wayland-server-core.h"
+- 
+- /* Invalid memory address */
+- #define WL_ARRAY_POISON_PTR (void *) 4
+-@@ -236,26 +236,6 @@ zalloc(size_t s)
+- 	return calloc(1, s);
+- }
+- 
+--struct wl_priv_signal {
+--	struct wl_list listener_list;
+--	struct wl_list emit_list;
+--};
+--
+--void
+--wl_priv_signal_init(struct wl_priv_signal *signal);
+--
+--void
+--wl_priv_signal_add(struct wl_priv_signal *signal, struct wl_listener *listener);
+--
+--struct wl_listener *
+--wl_priv_signal_get(struct wl_priv_signal *signal, wl_notify_func_t notify);
+--
+--void
+--wl_priv_signal_emit(struct wl_priv_signal *signal, void *data);
+--
+--void
+--wl_priv_signal_final_emit(struct wl_priv_signal *signal, void *data);
+--
+- void
+- wl_connection_close_fds_in(struct wl_connection *connection, int max);
+- 
+-diff --git a/src/wayland-server-private.h b/src/wayland-server-private.h
+-new file mode 100644
+-index 0000000..23fa458
+---- /dev/null
+-+++ b/src/wayland-server-private.h
+-@@ -0,0 +1,53 @@
+-+/*
+-+ * Copyright © 2008-2011 Kristian Høgsberg
+-+ * Copyright © 2011 Intel Corporation
+-+ * Copyright © 2013 Jason Ekstrand
+-+ *
+-+ * Permission is hereby granted, free of charge, to any person obtaining
+-+ * a copy of this software and associated documentation files (the
+-+ * "Software"), to deal in the Software without restriction, including
+-+ * without limitation the rights to use, copy, modify, merge, publish,
+-+ * distribute, sublicense, and/or sell copies of the Software, and to
+-+ * permit persons to whom the Software is furnished to do so, subject to
+-+ * the following conditions:
+-+ *
+-+ * The above copyright notice and this permission notice (including the
+-+ * next paragraph) shall be included in all copies or substantial
+-+ * portions of the Software.
+-+ *
+-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+-+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+-+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+-+ * NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+-+ * BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+-+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+-+ * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+-+ * SOFTWARE.
+-+ */
+-+
+-+#ifndef WAYLAND_SERVER_PRIVATE_H
+-+#define WAYLAND_SERVER_PRIVATE_H
+-+
+-+#include "wayland-server-core.h"
+-+
+-+struct wl_priv_signal {
+-+	struct wl_list listener_list;
+-+	struct wl_list emit_list;
+-+};
+-+
+-+void
+-+wl_priv_signal_init(struct wl_priv_signal *signal);
+-+
+-+void
+-+wl_priv_signal_add(struct wl_priv_signal *signal, struct wl_listener *listener);
+-+
+-+struct wl_listener *
+-+wl_priv_signal_get(struct wl_priv_signal *signal, wl_notify_func_t notify);
+-+
+-+void
+-+wl_priv_signal_emit(struct wl_priv_signal *signal, void *data);
+-+
+-+void
+-+wl_priv_signal_final_emit(struct wl_priv_signal *signal, void *data);
+-+
+-+#endif
+-diff --git a/src/wayland-server.c b/src/wayland-server.c
+-index 19f6a76..d6f0206 100644
+---- a/src/wayland-server.c
+-+++ b/src/wayland-server.c
+-@@ -45,6 +45,7 @@
+- 
+- #include "wayland-util.h"
+- #include "wayland-private.h"
+-+#include "wayland-server-private.h"
+- #include "wayland-server.h"
+- #include "wayland-os.h"
+- 
+-diff --git a/tests/newsignal-test.c b/tests/newsignal-test.c
+-index 47c429b..f3a7bd9 100644
+---- a/tests/newsignal-test.c
+-+++ b/tests/newsignal-test.c
+-@@ -26,7 +26,7 @@
+- #include <assert.h>
+- 
+- #include "test-runner.h"
+--#include "wayland-private.h"
+-+#include "wayland-server-private.h"
+- 
+- static void
+- signal_notify(struct wl_listener *listener, void *data)
+diff --git a/meta/recipes-graphics/wayland/wayland_1.17.0.bb b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
+similarity index 84%
+rename from meta/recipes-graphics/wayland/wayland_1.17.0.bb
+rename to meta/recipes-graphics/wayland/wayland_1.18.0.bb
+index 12916a0..7a3f075 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.17.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
+@@ -13,12 +13,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b31d8f53b6aaf2b4985d7dd7810a70d1 \
+ DEPENDS = "expat libffi wayland-native"
  
- SRC_URI = "git://github.com/iputils/iputils \
-            file://0001-ninfod-change-variable-name-to-avoid-colliding-with-.patch \
-+           file://0001-ninfod-fix-systemd-Documentation-url-error.patch \
-+           file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+-	   file://fixpathinpcfiles.patch \
+-           file://0001-scanner-Add-configure-check-for-strndup.patch \
+-           file://0002-Move-wl_priv_signal-to-wayland-server-private.h.patch \
++           file://fixpathinpcfiles.patch \
             "
- SRCREV = "13e00847176aa23683d68fce1d17ffb523510946"
+-SRC_URI[md5sum] = "d91f970aea11fd549eae023d06f91af3"
+-SRC_URI[sha256sum] = "72aa11b8ac6e22f4777302c9251e8fec7655dc22f9d94ee676c6b276f95f91a4"
++SRC_URI[md5sum] = "23317697b6e3ff2e1ac8c5ba3ed57b65"
++SRC_URI[sha256sum] = "4675a79f091020817a98fd0484e7208c8762242266967f55a67776936c2e294d"
  
-@@ -23,16 +25,20 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
- # breaks the version order.
- CVE_CHECK_WHITELIST += "CVE-2000-1213 CVE-2000-1214"
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
  
--PACKAGECONFIG ??= "libcap libgcrypt rarpd traceroute6"
-+PACKAGECONFIG ??= "libcap libgcrypt rarpd \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ninfod traceroute6', '', d)} \
-+                   ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
- PACKAGECONFIG[libcap] = "-DUSE_CAP=true, -DUSE_CAP=false, libcap"
- PACKAGECONFIG[libgcrypt] = "-DUSE_CRYPTO=gcrypt, -DUSE_CRYPTO=none, libgcrypt"
- PACKAGECONFIG[libidn] = "-DUSE_IDN=true, -DUSE_IDN=false, libidn2"
- PACKAGECONFIG[gettext] = "-DUSE_GETTEXT=true, -DUSE_GETTEXT=false, gettext"
-+PACKAGECONFIG[ninfod] = "-DBUILD_NINFOD=true,-DBUILD_NINFOD=false,"
- PACKAGECONFIG[rarpd] = "-DBUILD_RARPD=true,-DBUILD_RARPD=false,"
-+PACKAGECONFIG[systemd] = "-Dsystemdunitdir=${systemd_unitdir}/system,,systemd"
- PACKAGECONFIG[traceroute6] = "-DBUILD_TRACEROUTE6=true,-DBUILD_TRACEROUTE6=false,"
- PACKAGECONFIG[docs] = "-DBUILD_HTML_MANS=true -DBUILD_MANS=true,-DBUILD_HTML_MANS=false -DBUILD_MANS=false, libxslt"
- 
--inherit meson update-alternatives
-+inherit meson systemd update-alternatives
- 
- # Have to disable setcap/suid as its not deterministic
- EXTRA_OEMESON += "--prefix=${root_prefix}/ -DNO_SETCAP_OR_SUID=true"
-@@ -42,12 +48,12 @@ ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_${PN}-ping = "ping"
- ALTERNATIVE_LINK_NAME[ping] = "${base_bindir}/ping"
- 
--SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-traceroute6 ${PN}-clockdiff ${PN}-tftpd ${PN}-rarpd ${PN}-rdisc ${PN}-ninfod"
-+SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff ${PN}-tftpd ${PN}-rdisc \
-+             ${@bb.utils.contains('PACKAGECONFIG', 'rarpd', '${PN}-rarpd', '', d)} \
-+             ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-traceroute6 ${PN}-ninfod', '', d)}"
- PACKAGES += "${SPLITPKGS}"
- 
- ALLOW_EMPTY_${PN} = "1"
--ALLOW_EMPTY_${PN}-rarpd = "1"
--ALLOW_EMPTY_${PN}-traceroute6 = "1"
- RDEPENDS_${PN} += "${SPLITPKGS}"
- 
- FILES_${PN} = ""
-@@ -57,6 +63,11 @@ FILES_${PN}-tracepath = "${base_bindir}/tracepath"
- FILES_${PN}-traceroute6	= "${base_bindir}/traceroute6"
- FILES_${PN}-clockdiff = "${base_bindir}/clockdiff"
- FILES_${PN}-tftpd = "${base_bindir}/tftpd"
--FILES_${PN}-rarpd = "${base_sbindir}/rarpd"
-+FILES_${PN}-rarpd = "${base_sbindir}/rarpd  ${systemd_unitdir}/system/rarpd@.service"
- FILES_${PN}-rdisc = "${base_sbindir}/rdisc"
- FILES_${PN}-ninfod = "${base_sbindir}/ninfod ${sysconfdir}/init.d/ninfod.sh"
-+
-+SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-ninfod', '', d)} \
-+                    ${PN}-rdisc"
-+SYSTEMD_SERVICE_${PN}-ninfod = "ninfod.service"
-+SYSTEMD_SERVICE_${PN}-rdisc = "rdisc.service"
 -- 
-2.17.1
+2.7.4
 
 
