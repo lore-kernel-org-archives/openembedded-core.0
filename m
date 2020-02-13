@@ -1,52 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 36B8D60C3A
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B65A760BC3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 08:22:08 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id n7so2703572pfn.0
+	Thu, 13 Feb 2020 08:55:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01D8tEEs010442
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 00:22:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=lT6ssoRN09IHrR7vXcUuTi7CK9RvpKCw8vfYHDBS2Tc=;
-	b=TxVR20Hl8coHj1IBLVwIvRg+LkVBc8RzIyYZrzWht3FYazG5+yyjNZrDWqMErXAbgW
-	kFyZY2JPoMijtgPiIOYXlTzZGtLgnVQDL60cVylK2I2sU/+Pjmo8zLc2FVvy7YLCK53Z
-	WDlhYqkBgRwIyfhdfYE7VWVSOL6aehILsq30ODpf0JH0hawJ1L41JGVJN0vYkfNx9n02
-	lr5TrIr54pcpjFw2Xb0mISajF9m+1oi55a7+0ruhYyxArefER2mac3qlY+YqqoQOGLzi
-	Rg86bdyITwY4BIpvCEoLQkHlFKwqf9jhKiJdDz9EW891sIaPUVbjOL/xwxKQirNoMl3p
-	NN4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=lT6ssoRN09IHrR7vXcUuTi7CK9RvpKCw8vfYHDBS2Tc=;
-	b=CgpDuBOLQ3e66i+85gOsMcTLhpsfVy3E+N9JMffMko5RmmiYkyujBWmzDJHVcLPKXK
-	kEbPLLYGpPGsSJwJrMDqYeLokRZrDGP2IUQFhf8jubhVTO/KeLDbaZoXg2est0EuhEE4
-	aM4LHLo07WwL9pV6X2CXCoST4N+H33S9FcodvRMhzfyWVzegkXxsbRSVOKtCFJHVdzjk
-	62MbKuAE35Q139R8U8eBO+ajIl8LzHfEPW/x5dL8ppuJFIw43STRDQVfkoda4xJTU3BK
-	F/c+CtxYhXGMWUZLPC/VZ9d3zM+TJ0ROEWTvuhJKrZ7f4S6t8HPa5YWXopokmVH7kXj4
-	MAZw==
-X-Gm-Message-State: APjAAAXSk1SuOPbMpbL3vSZ/pqbEMXN5Rm6D8psk0lhCqu68KRi+nxKN
-	SphNSKzMau+8wle3xxB82fsbg9mhbG4=
-X-Google-Smtp-Source: APXvYqy04F1EtJ6azql74IycMpYDKhPQcQar7VFxzWVdziJp0GG1FXO4IpHApqw0Hsoz4TIyhPokEQ==
-X-Received: by 2002:a62:790e:: with SMTP id u14mr16454717pfc.174.1581582129080;
-	Thu, 13 Feb 2020 00:22:09 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::c740])
-	by smtp.gmail.com with ESMTPSA id
-	f127sm1958085pfa.112.2020.02.13.00.22.07
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 13 Feb 2020 00:22:08 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2020 00:21:59 -0800
-Message-Id: <e6544c1d527513025147d0cd8426b3a34d1fde1a.1581580428.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <cover.1581580428.git.raj.khem@gmail.com>
-References: <cover.1581580428.git.raj.khem@gmail.com>
+	Thu, 13 Feb 2020 00:55:24 -0800
+Received: from localhost (128.224.162.174) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Thu, 13 Feb 2020 00:55:03 -0800
+From: Yi Zhao <yi.zhao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Feb 2020 16:55:01 +0800
+Message-ID: <20200213085501.3398-1-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: [PATCH 10/10] binutils: Bail out if gold is used on 32/64 bit RISC-V
+X-Originating-IP: [128.224.162.174]
+Subject: [PATCH] ppp: Security fix CVE-2020-8597
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,51 +32,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 08:22:09 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 13 Feb 2020 08:55:33 -0000
+Content-Type: text/plain
 
-gold is not supporting risc-v yet and, this will cause subltle errors
-during build e.g. autoconf not finding certain features like visibility
-and it could take a while to unwind the problem. Its better to error out
-early
+CVE-2020-8597: eap.c in pppd in ppp 2.4.2 through 2.4.8 has an rhostname
+buffer overflow in the eap_request and eap_response functions.
 
-Remove dwp and ld.gold for rv32 as well
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2020-8597
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Patch from:
+https://github.com/paulusmack/ppp/commit/8d7970b8f3db727fe798b65f3377fe6787575426
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-devtools/binutils/binutils.inc | 7 +++++++
- 1 file changed, 7 insertions(+)
+ ...01-pppd-Fix-bounds-check-in-EAP-code.patch | 47 +++++++++++++++++++
+ meta/recipes-connectivity/ppp/ppp_2.4.7.bb    |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-connectivity/ppp/ppp/0001-pppd-Fix-bounds-check-in-EAP-code.patch
 
-diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
-index 0fb6cae407..a4b9aa586d 100644
---- a/meta/recipes-devtools/binutils/binutils.inc
-+++ b/meta/recipes-devtools/binutils/binutils.inc
-@@ -40,6 +40,7 @@ FILES_${PN}-dev = " \
- 
- LDGOLD_ALTS ?= "ld.gold dwp"
- LDGOLD_ALTS_riscv64 = ""
-+LDGOLD_ALTS_riscv32 = ""
- 
- USE_ALTERNATIVES_FOR = " \
- 	addr2line \
-@@ -83,6 +84,7 @@ LDGOLD_class-native = ""
- LDGOLD_class-crosssdk = ""
- LDGOLD ?= "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', '--enable-gold=default --enable-threads', '--enable-gold --enable-ld=default --enable-threads', d)}"
- 
+diff --git a/meta/recipes-connectivity/ppp/ppp/0001-pppd-Fix-bounds-check-in-EAP-code.patch b/meta/recipes-connectivity/ppp/ppp/0001-pppd-Fix-bounds-check-in-EAP-code.patch
+new file mode 100644
+index 0000000000..b7ba7ba643
+--- /dev/null
++++ b/meta/recipes-connectivity/ppp/ppp/0001-pppd-Fix-bounds-check-in-EAP-code.patch
+@@ -0,0 +1,47 @@
++From 8d7970b8f3db727fe798b65f3377fe6787575426 Mon Sep 17 00:00:00 2001
++From: Paul Mackerras <paulus@ozlabs.org>
++Date: Mon, 3 Feb 2020 15:53:28 +1100
++Subject: [PATCH] pppd: Fix bounds check in EAP code
 +
- # This is necessary due to a bug in the binutils Makefiles
- # EXTRA_OEMAKE = "configure-build-libiberty all"
- 
-@@ -163,3 +165,8 @@ inherit update-alternatives
- ALTERNATIVE_PRIORITY = "100"
- 
- ALTERNATIVE_${PN}_class-target = "${USE_ALTERNATIVES_FOR}"
++Given that we have just checked vallen < len, it can never be the case
++that vallen >= len + sizeof(rhostname).  This fixes the check so we
++actually avoid overflowing the rhostname array.
 +
-+python () {
-+    if bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', True, False, d) and bb.utils.contains_any('TARGET_ARCH', 'riscv32 riscv64', True, False, d):
-+        bb.fatal("Gold linker does not _yet_ support RISC-V architecture please remove ld-is-gold from DISTRO_FEATURES")
-+}
++Reported-by: Ilja Van Sprundel <ivansprundel@ioactive.com>
++Signed-off-by: Paul Mackerras <paulus@ozlabs.org>
++
++Upstream-Status: Backport
++[https://github.com/paulusmack/ppp/commit/8d7970b8f3db727fe798b65f3377fe6787575426]
++
++CVE: CVE-2020-8597
++
++Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
++---
++ pppd/eap.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/pppd/eap.c b/pppd/eap.c
++index 94407f5..1b93db0 100644
++--- a/pppd/eap.c
+++++ b/pppd/eap.c
++@@ -1420,7 +1420,7 @@ int len;
++ 		}
++ 
++ 		/* Not so likely to happen. */
++-		if (vallen >= len + sizeof (rhostname)) {
+++		if (len - vallen >= sizeof (rhostname)) {
++ 			dbglog("EAP: trimming really long peer name down");
++ 			BCOPY(inp + vallen, rhostname, sizeof (rhostname) - 1);
++ 			rhostname[sizeof (rhostname) - 1] = '\0';
++@@ -1846,7 +1846,7 @@ int len;
++ 		}
++ 
++ 		/* Not so likely to happen. */
++-		if (vallen >= len + sizeof (rhostname)) {
+++		if (len - vallen >= sizeof (rhostname)) {
++ 			dbglog("EAP: trimming really long peer name down");
++ 			BCOPY(inp + vallen, rhostname, sizeof (rhostname) - 1);
++ 			rhostname[sizeof (rhostname) - 1] = '\0';
++-- 
++2.17.1
++
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+index 644cde4562..60c56dd0bd 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.4.7.bb
+@@ -33,6 +33,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
+            file://0001-pppoe-include-netinet-in.h-before-linux-in.h.patch \
+            file://0001-ppp-Remove-unneeded-include.patch \
+            file://ppp-2.4.7-DES-openssl.patch \
++           file://0001-pppd-Fix-bounds-check-in-EAP-code.patch \
+ "
+ 
+ SRC_URI_append_libc-musl = "\
 -- 
-2.25.0
+2.17.1
 
 
