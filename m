@@ -1,48 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CED860811
+Return-Path: <Kexin.Hao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EBAB608CB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 22:16:34 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id c188so3742516qkg.4
+	Thu, 13 Feb 2020 02:44:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01D2iN7R001048
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Feb 2020 14:16:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=CtqpPwjtNAXXcm4qmhgpMPndU+oLMQ8rrFYzIWsYkqI=;
-	b=PkCBF9xuZ1TPcF2jU47CBalf9XSeMPlljz+0P4i4rTnLeot054UHHMGsuk6QMRXWVO
-	QKZcIOl48KTlNxrmNim03saoBnXFIiHW9MTHIpLpGXZzgbJdD/470/IMp9jMzfJe+b8P
-	QDmZUcm7+AHnGTpqPprcd1yRvQjz1bzOMFV7G8k7REsI6ol0sv9W8nf9+cqv6DbWN/Xt
-	/sjN6YxESXFnbMAeR0vwq+CP8tBRQd0ZhxQc2PuPEvwSWOQigRCmjAlsSlbLAsb3JoG5
-	WdGVbVYtYRDYMULUlc7QtcQN21sdF1hnPywvrhvh1VOE1NJYpCQAreGN63s3RWf92MIG
-	snOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=CtqpPwjtNAXXcm4qmhgpMPndU+oLMQ8rrFYzIWsYkqI=;
-	b=QmyTJhI3YCB/zBFztxzEzG7qmtN2X/DBPoxAl7Fud6YzSdvOil8cBRhAwNWBSmuSJw
-	um0nXgQJl4PyKNn08AupFqGHZPdZePb4JYhqb9jFCnZevR7r6NND8R0GXR3KR9DgHqDZ
-	R1lAmgEG2VW337prHssKeIkAD5icWd1jvqAiDp85db6K29p9kMGJNqjfPDw06JcLnZtI
-	Tl77Q+HzmP+TMCXx1Gc2GAZgHHzwGMsSLWplhFR694ubUkRYZXiWkhvB6e2lh4IVq/Gb
-	wE0b+WNuHFoUdEhAjzwGWpXSi9h+PtwrZb19z1tIkXbwovBiJ14I9n8Wy0cahVFElgcy
-	Dsjw==
-X-Gm-Message-State: APjAAAWDRgyi+KY5YCZdWaoOAMTLrp4RoKvXAXNn3AnnN3YPAakWEyHq
-	p8Cl9wyHjKZqXi7E067ER5M+n5FEuiMyLQ48n/yXhlXp
-X-Google-Smtp-Source: APXvYqwTKtrIuwvNaHR2ESX08o58OQDdO/ILNHhPLr3bFhidn4P+zbxW9ae6kF8wCkrWqriomOx1YVVOA3b10Y96F4o=
-X-Received: by 2002:ae9:ef96:: with SMTP id d144mr8252135qkg.337.1581545794705;
-	Wed, 12 Feb 2020 14:16:34 -0800 (PST)
+	Wed, 12 Feb 2020 18:44:44 -0800
+Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Wed, 12 Feb 2020 18:44:21 -0800
+From: Kevin Hao <kexin.hao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 13 Feb 2020 10:31:41 +0800
+Message-ID: <20200213023141.1657-1-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.25.0.191.gde93cc14ab7e
 MIME-Version: 1.0
-References: <20200212191927.2708197-1-raj.khem@gmail.com>
-	<CANNYZj9-oPmywGhB8S6aaoJyfs7mdYLTsPTdDULgdyt6yQJb5g@mail.gmail.com>
-In-Reply-To: <CANNYZj9-oPmywGhB8S6aaoJyfs7mdYLTsPTdDULgdyt6yQJb5g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 12 Feb 2020 14:16:08 -0800
-Message-ID: <CAMKF1sowa6qCZwD=1Q7RRMpY1q7SbuW4izg4YFTqOhB2sAuUWw@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] dnf, libdnf: Ignore if PACKAGE_CLASSES does not have rpm
+Subject: [PATCH] wic: Honor APPEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,78 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Feb 2020 22:16:35 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 13 Feb 2020 02:44:55 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, Feb 12, 2020 at 2:00 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> I would still prefer to just split rpm packaging into binaries and librar=
-ies, and avoid the need to blacklist and tweak recipes based on what PACKAG=
-E_CLASSES is set to altogether. That setting should not leak into recipes, =
-and should only matter from do_package onwards. Can you look into the rpm r=
-ecipe please?
->
+APPEND is used to add additional parameters to kernel by features, such
+as read-only-rootfs. So we should honor this variable when we compose
+the kernel parameter in wic. I know we also can resolve this kind of
+issue by using the .wks.in template introduced by commit 42e870c5ed4b
+("image_types.bbclass: support template .wks.in files for wic"), but the
+APPEND is needed by all the wks, it would seems pretty ridiculous to me
+to change all the .wks to .wks.in and then foist the APPEND into them.
+So the APPEND is definitely deserved to export to the wic directly.
 
- dnf and dnf related packages expecting rpmdb support in libresolv. I
-do not know dnf well enough to fix it and moreover it has no direct
-use for my usecase either. I also don't see a point of entertaining
-dnf for non-rpm backends. Its not intended for that either even if we
-were to make dnf not want rpmdb what good will it do to build for
-distros who do not use rpm. These changes do not change poky defaults
-which use rpm as default. OE-core does not and I dont know of any
-opkg user who also has rpmdb needed.
+[Yocto #12809]
 
-> Alex
->
-> On Wed, 12 Feb 2020 at 20:19, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> dnf does not work with opkg or dpkg/apt anyway
->>
->> Signed-off-by: Khem Raj <raj.khem@gmail.com>
->> ---
->> v2: Use PNBLACKLIST instead of anon python
->>
->>  meta/recipes-devtools/dnf/dnf_4.2.2.bb        | 2 ++
->>  meta/recipes-devtools/libdnf/libdnf_0.28.1.bb | 1 +
->>  2 files changed, 3 insertions(+)
->>
->> diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devto=
-ols/dnf/dnf_4.2.2.bb
->> index f38167f1ad..220f1aabbd 100644
->> --- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
->> +++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
->> @@ -84,3 +84,5 @@ SYSTEMD_SERVICE_${PN} =3D "dnf-makecache.service dnf-m=
-akecache.timer \
->>                           dnf-automatic-notifyonly.service dnf-automatic=
--notifyonly.timer \
->>  "
->>  SYSTEMD_AUTO_ENABLE ?=3D "disable"
->> +
->> +PNBLACKLIST[dnf] ?=3D "${@bb.utils.contains('PACKAGE_CLASSES', 'package=
-_rpm', '', 'does not build correctly without package_rpm in PACKAGE_CLASSES=
-', d)}"
->> diff --git a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb b/meta/recipe=
-s-devtools/libdnf/libdnf_0.28.1.bb
->> index 882c435b32..49afa04812 100644
->> --- a/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
->> +++ b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
->> @@ -26,4 +26,5 @@ EXTRA_OECMAKE_append_class-native =3D " -DWITH_GIR=3DO=
-FF"
->>  EXTRA_OECMAKE_append_class-nativesdk =3D " -DWITH_GIR=3DOFF"
->>
->>  BBCLASSEXTEND =3D "native nativesdk"
->> +PNBLACKLIST[libdnf] ?=3D "${@bb.utils.contains('PACKAGE_CLASSES', 'pack=
-age_rpm', '', 'does not build correctly without package_rpm in PACKAGE_CLAS=
-SES', d)}"
->>
->> --
->> 2.25.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+---
+ meta/classes/image_types_wic.bbclass | 2 +-
+ scripts/lib/wic/ksparser.py          | 5 +++++
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index fc9b106a9a81..b83308b45cb5 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -4,7 +4,7 @@ WICVARS ?= "\
+            BBLAYERS IMGDEPLOYDIR DEPLOY_DIR_IMAGE FAKEROOTCMD IMAGE_BASENAME IMAGE_BOOT_FILES \
+            IMAGE_LINK_NAME IMAGE_ROOTFS INITRAMFS_FSTYPES INITRD INITRD_LIVE ISODIR RECIPE_SYSROOT_NATIVE \
+            ROOTFS_SIZE STAGING_DATADIR STAGING_DIR STAGING_LIBDIR TARGET_SYS \
+-           KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME"
++           KERNEL_IMAGETYPE MACHINE INITRAMFS_IMAGE INITRAMFS_IMAGE_BUNDLE INITRAMFS_LINK_NAME APPEND"
+ 
+ inherit ${@bb.utils.contains('INITRAMFS_IMAGE_BUNDLE', '1', 'kernel-artifact-names', '', d)}
+ 
+diff --git a/scripts/lib/wic/ksparser.py b/scripts/lib/wic/ksparser.py
+index 707a2e801962..650b976223e0 100644
+--- a/scripts/lib/wic/ksparser.py
++++ b/scripts/lib/wic/ksparser.py
+@@ -246,6 +246,11 @@ class KickStart():
+                     elif line.startswith('bootloader'):
+                         if not self.bootloader:
+                             self.bootloader = parsed
++                            # Concatenate the strings set in APPEND
++                            append_var = get_bitbake_var("APPEND")
++                            if append_var:
++                                self.bootloader.append = ' '.join(filter(None, \
++                                                         (self.bootloader.append, append_var)))
+                         else:
+                             err = "%s:%d: more than one bootloader specified" \
+                                       % (confpath, lineno)
+-- 
+2.25.0.191.gde93cc14ab7e
+
 
