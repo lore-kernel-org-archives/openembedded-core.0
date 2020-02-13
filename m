@@ -1,52 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2740C60B87
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 14:24:40 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id g3so6886956wrs.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 06:24:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=gsX47D1X76Nfh9RoQi9qUMylJR1nw9iyF/dlmJ0PE88=;
-	b=YzG9UyI7fM94eF4xLSAIsArGqlZNHyPPGwBe0PsVW8lO3Dn+uk7miE0gD4IBLk2Igp
-	d3ktFFg34CClafCgDXWm/KS2L5buN4xUvxN6WiPWThrSHaPxbQi9ri8l9vP5qKdhhCdK
-	0qDJdoCVDMN3BfEKlLqLNGPi30R9vvBIrhI+w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=gsX47D1X76Nfh9RoQi9qUMylJR1nw9iyF/dlmJ0PE88=;
-	b=QRQPUgpiitBD7vowXWbBmodDZ20U5j5fToJcLdZTmuvmCgku6Y3EZhy93ON+V4ChqE
-	nDhY/LaiGl9UXYqWqJW+6FzI8wKmRbih+JUden4zvcCJk64oBQlBSAgAd6FesKl1AGan
-	RFo3oIV3sXi/f+28odYRSnh/P8u1mykunO0X2+1uTKYD/2beQyhi4/oUYKBl2rnqPNzb
-	66qrQlc9QRTOI3xnC86JHBAXEh2C7JfeJUX1YXJWh0RzDu5x3StdPXS1Hm1aj3mf4cU2
-	g3kabfHbbN78Niq/B1tsgKWhyVm3QhvLhSWhmPFw3k0U6VbfShChtfqmBvc99MKwAuwR
-	+alQ==
-X-Gm-Message-State: APjAAAW1TcZfRVZ+fOVDh6tDVKV1JnN4rAq3qN8obGLn4di2Qpd21Y0L
-	mSNDJHjb5zhTJvmq4EL82+zHMQ==
-X-Google-Smtp-Source: APXvYqwLg2WLjLnLtag9ToORm74DReRyTAwaSqQBfQcjyNE41pYXdETuy+j9ijtiucexkXaJQncFXw==
-X-Received: by 2002:a5d:474d:: with SMTP id o13mr21497623wrs.309.1581603881548;
-	Thu, 13 Feb 2020 06:24:41 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y139sm3310314wmd.24.2020.02.13.06.24.40
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 13 Feb 2020 06:24:40 -0800 (PST)
-Message-ID: <fea6b9336e34c7df3cd23217cf2715b04fbd9ae6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Maxime =?ISO-8859-1?Q?Roussin-B=E9langer?=
-	<maxime.roussinbelanger@gmail.com>,
-	openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2020 14:24:39 +0000
-In-Reply-To: <20200210214211.2696-1-maxime.roussinbelanger@gmail.com>
-References: <20200210214211.2696-1-maxime.roussinbelanger@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E9C3460C77;
+	Thu, 13 Feb 2020 14:32:17 +0000 (UTC)
 MIME-Version: 1.0
-Subject: Re: [PATCH] wpa-supplicant: add virtual supplicant
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Thu, 13 Feb 2020 14:32:19 -0000
+Message-ID: <20200213143219.2276.77092@do>
+References: <20200213140941.18270-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200213140941.18270-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGFja2FnZV9pcGs6IE1pbm9yIGltcG9ydCB0d2VhayArIGVuc3VyZSBwYWNrYWdlcyByZWdlbmVyYXRlZA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 14:24:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 13 Feb 2020 14:32:18 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2020-02-10 at 16:42 -0500, Maxime Roussin-Bélanger wrote:
-> There is a second supplicant raising, iwd. User should be
-> able to switch between wpa-supplicant and iwd. Let's provide
-> a virtual package.
-> 
-> ConnMan, systemd-networkd and NetworkManager supports iwd.
-> 
-> Signed-off-by: Maxime Roussin-Bélanger <maxime.roussinbelanger@gmail.com>
-> ---
->  meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.9.bb | 3 +++
->  meta/recipes-core/packagegroups/packagegroup-base.bb           | 2 +-
->  2 files changed, 4 insertions(+), 1 deletion(-)
+== Series Details ==
 
-I know its not easy to understand but we don't support virtual/* names
-in the runtime namespace, only the build time one (PROVIDES/DEPENDS).
+Series: package_ipk: Minor import tweak + ensure packages regenerated
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22606/
+State : failure
 
-Grep for VIRTUAL-RUNTIME to see how we handle this (its ugly I know).
+== Summary ==
 
-Cheers,
 
-Richard
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at ef24a545d1)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
