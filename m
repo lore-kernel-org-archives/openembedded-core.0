@@ -1,45 +1,53 @@
-Return-Path: <scott.branden@broadcom.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F22D60F06
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 915FC60EE0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 16:39:26 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id 4so3326779pfz.9
+	Thu, 13 Feb 2020 16:42:30 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id v195so6251157qkb.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 08:39:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=zXIGmLivW9tD6gmLRd9iaqUH20zXeOA3B1TOXqrH4BM=;
-	b=afUw8E29H/zAYmxq0xIfFLNXuM/Txx47RAgJgTbls9qpDou/hUZI8Wy6i81daj/dLp
-	faHrSc1WpSirzjb8uN8caCMRi4HY+WieV81BkAJFLYg1n/X3vmD/6viCPZYCJ665rHJm
-	t9tdPGfh9JtiFilRgu15FlzRFDdydFgcM8wG4=
+	Thu, 13 Feb 2020 08:42:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=NPFvWcE712w8SWmPIhjRleuZF1kWjtoDP3zL+N5G+Ng=;
+	b=X/6uCl1DZrZIoMKTkOIkjyx54VgrX/8ab0oPuNMJhoHFvV67Iq6TfPwJkZatWCPRXI
+	/r1Tw6iOhNbgaNmK+qarhAoncWy8y1NhO2gic2znykrIoZLEYXoxTJWhuQlYGTZL0hSC
+	Im8NA7+KYyMw/EczFOCdacr9Dv0eXCyG7wsyR+YNIlR9IiE1Ftl3VX9Mqp74W4aDVDd+
+	8ZOb4Ehk72lipkG5++HBs2z0go4KuTIHbVwSUf6X0xso1AE5Uu+O7ktt/QE0wydAZTgA
+	2fK/W8OdoxFzeTZ7MY+xmEcZyPhJrGDvQLQ4Rum89kNYJ5PdbYAYCvWgeUTXZHCdITeX
+	F5fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=zXIGmLivW9tD6gmLRd9iaqUH20zXeOA3B1TOXqrH4BM=;
-	b=ggxbbsxoDWAIBkeSmwSq6ralgUwt2KHzAvFNTCxVNlKrc4yiooiYMl1ohp4X64X+bz
-	lPc7gxNlG21uUchLa1fuSrc2gHdYsMMFfxUSfq7VmWmEeGCMCzk7Cv76SGR9RULsa9MG
-	MHyjuvanDooZZDUEJI7pcqOiZ3OE7uY4/J6CJJJD+9v15v/3/Kh5ogDPaNVcgFPzuzri
-	uizr1VuPIwKCsobiFVauWjPXsgFpqlmnEPrdmQt08mzWY8Gazfa3Xqa7D17cYvmpBGvt
-	3v843LIlZRCMxzVyAOjhgRw+/nxnoBB3/hkE4qkhrvRdAHO2t6bGSw20d0B5t5VfhMd2
-	Msjw==
-X-Gm-Message-State: APjAAAXEgoTuzsymapy/R5iCUHjDVWu2AwxOxDbdnq03ipIxkVR6Eifu
-	cebEDWW4kbZsk7sErbQ4ZNLiixthOYNA6n4nZkhpZDn31rx7nafov0GqbeM9dtKP4rF6/+FSsSh
-	i/SVatSkbR1sYhyQOep57edEekQ8b/VvBfNVkW52oupX/iEb/B9Y6fVABvUuYqgrLmK2Fq3KtJK
-	g/JWZhO6qEkW5gUukcTsb6j5SOHhA=
-X-Google-Smtp-Source: APXvYqzUa5TjOl8ROyTyI8/NSXEML4LQZgyEQ4ur+3yTF4XaDbAUYiXYhLA7p1i5KwQ93BOMxiwMKg==
-X-Received: by 2002:aa7:8804:: with SMTP id c4mr14997794pfo.214.1581611966796; 
-	Thu, 13 Feb 2020 08:39:26 -0800 (PST)
-Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
-	by smtp.gmail.com with ESMTPSA id 11sm3836629pfz.25.2020.02.13.08.39.25
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 13 Feb 2020 08:39:25 -0800 (PST)
-From: Scott Branden <scott.branden@broadcom.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2020 08:39:18 -0800
-Message-Id: <20200213163918.29470-1-scott.branden@broadcom.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [meta-multimedia][PATCH] x265: add x265 recipe
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=NPFvWcE712w8SWmPIhjRleuZF1kWjtoDP3zL+N5G+Ng=;
+	b=RzxK1AEyzD1hOH2u+nwcvXFRPkDuYs4kLbjegDmO64Qwxxpbs9H8/ykRxnUA362Sgq
+	UgIcxKANYD1xOC6HvG49nOTzWwZf9SShzjjI6EAaVcP+z5h05aDaDc9To9Rirds7ke2L
+	j3alMJNUEtHGEFmXO5936lsL2EDIFpAiOvVbZcXteQ8ZO9y4S2eWdpkjcDSLub1W9pYs
+	KHpDPEhzr227pyRPcaxFTnR/Kv5zUDTZ0jwt0TaoYxBJoWIDA/M/HWpVYRon78vy2tf5
+	j+oOqWQQISShWk4HLzvu9yOH2dN2+btpL0FnvkJ4wNIyDWNKOT28NZQjT+ht2Yhb6Cwh
+	2TrQ==
+X-Gm-Message-State: APjAAAWLjCQNAlm5xkSsxucs9NB00dtBbZrhNJwpcty6YNknw/Ijk8mH
+	Mb1Dz09mCrSus+MPdpFGoFQrgDT6Hm/IQs+wjZg=
+X-Google-Smtp-Source: APXvYqzKYFrf+dgVmruRJlcjpekm0jlwecLOFPBAAaMPKfdQs0Q8ILJ5mru4fYuL9vJqRpaKQvXtq3l5fnRHBnNpKhg=
+X-Received: by 2002:ae9:e88e:: with SMTP id a136mr382335qkg.71.1581612151145; 
+	Thu, 13 Feb 2020 08:42:31 -0800 (PST)
+MIME-Version: 1.0
+References: <20200212191927.2708197-1-raj.khem@gmail.com>
+	<CANNYZj9-oPmywGhB8S6aaoJyfs7mdYLTsPTdDULgdyt6yQJb5g@mail.gmail.com>
+	<CAMKF1sowa6qCZwD=1Q7RRMpY1q7SbuW4izg4YFTqOhB2sAuUWw@mail.gmail.com>
+	<CANNYZj8kTvu7Z3C5JtXbjLNvu1NymoTbOgiJnLS3cqLMOKO3pw@mail.gmail.com>
+	<CAMKF1spSwxqzVW0r2wxQQqPg6PW3ZwZM+HcNh9L0zai7wz4HfQ@mail.gmail.com>
+	<CANNYZj_7n9NKm22GDjT9rBU+XokBhuqZthM20Gz-X-AoAxNP=A@mail.gmail.com>
+	<CAMKF1sqiOxhyd98HTVbqCLWhxBeqW1sZ_d5cvT8E+OMUQejMHQ@mail.gmail.com>
+	<CANNYZj8FsGqPQ9dOVSiOpg0DEGK-+rXLa3Xr86+ZjDcyyDDoPg@mail.gmail.com>
+In-Reply-To: <CANNYZj8FsGqPQ9dOVSiOpg0DEGK-+rXLa3Xr86+ZjDcyyDDoPg@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Thu, 13 Feb 2020 08:42:20 -0800
+Message-ID: <CAMKF1srJRQMqhhQtKJaqLxQdsRsWeb1OC-r=sRL7JD5A-70L3w@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V2] dnf, libdnf: Ignore if PACKAGE_CLASSES does not have rpm
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,47 +60,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 16:39:26 -0000
+X-List-Received-Date: Thu, 13 Feb 2020 16:42:30 -0000
+Content-Type: multipart/alternative; boundary="000000000000710816059e77c6b0"
 
-Add x265 recipe for latest tag of Release_3.2 branch (3.2.1).
+--000000000000710816059e77c6b0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Scott Branden <scott.branden@broadcom.com>
----
- .../recipes-multimedia/x265/x265_3.2.1.bb     | 24 +++++++++++++++++++
- 1 file changed, 24 insertions(+)
- create mode 100644 meta-openembedded/meta-multimedia/recipes-multimedia/x265/x265_3.2.1.bb
+On Thu, Feb 13, 2020 at 8:24 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
-diff --git a/meta-openembedded/meta-multimedia/recipes-multimedia/x265/x265_3.2.1.bb b/meta-openembedded/meta-multimedia/recipes-multimedia/x265/x265_3.2.1.bb
-new file mode 100644
-index 0000000000..68c1a55c8c
---- /dev/null
-+++ b/meta-openembedded/meta-multimedia/recipes-multimedia/x265/x265_3.2.1.bb
-@@ -0,0 +1,24 @@
-+SUMMARY = "H.265/HEVC video encoder"
-+DESCRIPTION = "A free software library and application for encoding video streams into the H.265/HEVC format."
-+HOMEPAGE = "http://www.videolan.org/developers/x265.html"
-+
-+LICENSE = "GPLv2"
-+LICENSE_FLAGS = "commercial"
-+LIC_FILES_CHKSUM = "file://../COPYING;md5=c9e0427bc58f129f99728c62d4ad4091"
-+
-+DEPENDS = "nasm-native gnutls zlib libpcre"
-+
-+SRC_URI = "http://ftp.videolan.org/pub/videolan/x265/x265_${PV}.tar.gz"
-+
-+S = "${WORKDIR}/x265_${PV}/source"
-+
-+SRC_URI[md5sum] = "94808045a34d88a857e5eaf3f68f4bca"
-+SRC_URI[sha256sum] = "fb9badcf92364fd3567f8b5aa0e5e952aeea7a39a2b864387cec31e3b58cbbcc"
-+
-+inherit lib_package pkgconfig cmake
-+
-+AS[unexport] = "1"
-+
-+COMPATIBLE_MACHINE = "^$"
-+COMPATIBLE_MACHINE_x86 = ".*"
-+COMPATIBLE_MACHINE_x86-64 = ".*"
--- 
-2.17.1
+> On Thu, 13 Feb 2020 at 17:06, Khem Raj <raj.khem@gmail.com> wrote:
+>
+>> No, problem is that if One wants to use opkg backend then rpm drags alon=
+g
+>> but apt or dpkg don=E2=80=99t
+>>
+>> Even if test is made to pass rpm will be dragged into
+>> Images which is not desired
+>>
+>
+> We can modify the rpm packaging so that only the library from rpm that
+> libresolv links with, but not the executables or other libraries are in t=
+he
+> image. Would you be ok with that?
+>
+
+This still sneaks in pieces of rpm into distros where rpm is not needed so
+better would be to retool dnf to not demand rpm support in libsolv and
+break the dependency chain. Opkg is usually sought for small systems and
+last thing we want is unneeded dependencies
+
+I would rather use the OE configuration powers as such but I am not opposed
+to such a solution
 
 
+> Alex
+>
+
+--000000000000710816059e77c6b0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Thu, Feb 13, 2020 at 8:24 AM Alexander Kanavin &lt;<a hr=
+ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">O=
+n Thu, 13 Feb 2020 at 17:06, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.=
+com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:</div><div class=3D=
+"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(=
+204,204,204);padding-left:1ex"><div><div class=3D"gmail_quote"><div dir=3D"=
+auto">No, problem is that if One wants to use opkg backend then rpm drags a=
+long but apt or dpkg don=E2=80=99t</div><div dir=3D"auto"><br></div><div di=
+r=3D"auto">Even if test is made to pass rpm will be dragged into</div><div =
+dir=3D"auto">Images which is not desired</div></div></div></blockquote><div=
+><br></div><div>We can modify the rpm packaging so that only the library fr=
+om rpm that libresolv links with, but not the executables or other librarie=
+s are in the image. Would you be ok with that?</div></div></div></blockquot=
+e><div dir=3D"auto"><br></div><div dir=3D"auto">This still sneaks in pieces=
+ of rpm into distros where rpm is not needed so better would be to retool d=
+nf to not demand rpm support in libsolv and break the dependency chain. Opk=
+g is usually sought for small systems and last thing we want is unneeded de=
+pendencies=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto">I would=
+ rather use the OE configuration powers as such but I am not opposed to suc=
+h a solution</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+"><div dir=3D"ltr"><div class=3D"gmail_quote"><div></div><div><br></div><di=
+v>Alex</div></div></div>
+</blockquote></div></div>
+
+--000000000000710816059e77c6b0--
