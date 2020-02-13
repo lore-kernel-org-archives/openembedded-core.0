@@ -1,52 +1,46 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
-	[209.85.221.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 507B560EC8
+Return-Path: <scott.branden@broadcom.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id F229460EC8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 16:24:52 +0000 (UTC)
-Received: by mail-vk1-f194.google.com with SMTP id b2so1733870vkk.4
+	Thu, 13 Feb 2020 16:25:40 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id b9so3223856pgk.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 08:24:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QjgDizG95hS50QGe8jELBPwSUjs1ZmL5BqUaDD6Tbck=;
-	b=cLXg5VkyhxWvay5eq2ietQLf2Gi7keXyFZflYXLQF59Ps4g+07QwUh96t9qn2rXVeY
-	qj+l4QWg9u6xVwk81iyv4lNgYj0BtkqTRaSzikOLrfySsjT+O0WC6BtBA5XBTgjhBZ6F
-	9JEQ2i5rgFeDRXQV8rbn0hFnTzrnW+sLLry+Dx/eHT2fNtOOIezkpSHQT4GQ1U9tCrUn
-	JgD9JZm5cdiq8HAjDFqirzGKs3ZlyUundbU0NfguCxSTHcYQvRkwVazIxxdRo7afFLme
-	P+9TzMR0sZLh14ZXFtjoGm8mH8KdFulCYOBLNY+8SvUOrBd8q+LJK9FbfrcJbywh3uOp
-	85fw==
+	Thu, 13 Feb 2020 08:25:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=kS4QKePr8F+AOPtodMoZO6PMKn7+nTF8YN7z0i/pq4E=;
+	b=h5n6NSHgZAXgJLS9R/OojO4VSZ8oSV6VDa/Kfv5TaUbebc+O2+LhNRqzHf1D9TnRG5
+	RgjTVgf0r0ZRm6+9UybP2SRu1Pr+6rR0QXLK1zrvNaxoi5ltvjDIWgupUrbdEGKG3IRo
+	TwDJ9TtDKzAG2ZdTkgxnJ7hPYj7FjKA5limy8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QjgDizG95hS50QGe8jELBPwSUjs1ZmL5BqUaDD6Tbck=;
-	b=Kunlq1DnaG8bSkYUw8UZ8J3md5r1tglij/+lOzWtRAeGUsFQt0bAuuhgGsV7jWcEm0
-	cm1+do+ZL0+pKIDrArr3Ia85mI+PjTeiG3YI1FfKy1HBJabwJT2P4oc+nX3NGn859woM
-	871OSJhuVvPs5ExIozP/SI3ZuUVYop/qZFZOB8Bm5DambekgKfEE/2utbNGRcYNTNp6D
-	u+adbUJ5NtKcgwSb3w9oOkDdYd5UsyUfEZqPd6RvOC3njVjz4A886JsHWVJVIIhQNPs5
-	/cqeyLJxkhlanO3DfuX2bRCIGqlbWXqp0wLJ+R2LkTOlCNH0pOZVxafK6Sx9Um5xZ2h6
-	V8jA==
-X-Gm-Message-State: APjAAAVRa5DF5FJ1tL6QLtd99gFjy617EBztc9DZkmnneKVcmMHo/TF4
-	3yiDv0UCCKZg5mkFycXR16+EOqakWHa7jcBgQdA=
-X-Google-Smtp-Source: APXvYqyqwfC315FSRKjZjD915Sj7if0qqHCR/88cNlMvrf2UR7VR5jAJofWBRnw22LSYuGfGPBj2VDmZVcI78y52HoA=
-X-Received: by 2002:a1f:7dcd:: with SMTP id y196mr11133236vkc.29.1581611093160;
-	Thu, 13 Feb 2020 08:24:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20200212191927.2708197-1-raj.khem@gmail.com>
-	<CANNYZj9-oPmywGhB8S6aaoJyfs7mdYLTsPTdDULgdyt6yQJb5g@mail.gmail.com>
-	<CAMKF1sowa6qCZwD=1Q7RRMpY1q7SbuW4izg4YFTqOhB2sAuUWw@mail.gmail.com>
-	<CANNYZj8kTvu7Z3C5JtXbjLNvu1NymoTbOgiJnLS3cqLMOKO3pw@mail.gmail.com>
-	<CAMKF1spSwxqzVW0r2wxQQqPg6PW3ZwZM+HcNh9L0zai7wz4HfQ@mail.gmail.com>
-	<CANNYZj_7n9NKm22GDjT9rBU+XokBhuqZthM20Gz-X-AoAxNP=A@mail.gmail.com>
-	<CAMKF1sqiOxhyd98HTVbqCLWhxBeqW1sZ_d5cvT8E+OMUQejMHQ@mail.gmail.com>
-In-Reply-To: <CAMKF1sqiOxhyd98HTVbqCLWhxBeqW1sZ_d5cvT8E+OMUQejMHQ@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 13 Feb 2020 17:25:22 +0100
-Message-ID: <CANNYZj8FsGqPQ9dOVSiOpg0DEGK-+rXLa3Xr86+ZjDcyyDDoPg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] dnf, libdnf: Ignore if PACKAGE_CLASSES does not have rpm
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kS4QKePr8F+AOPtodMoZO6PMKn7+nTF8YN7z0i/pq4E=;
+	b=ow7TOKF7dv3qJPRJOBqT1jGjkDma4EzIFEzXt0uwbFykw9NcxdPoyRl53DgWX50i1Y
+	JOFt5kltDGWGw/vy3jRxm8ztRIOmghUGtgp75zkYydx2ltHljl2iHso6jeBsqy4NyAWu
+	5u1cJ2efDlR1jkr/wb9Q9pWePLVI+2NTYAMAwBAAujlr1KmqDuzjPjtQR52KelXVBExl
+	K76Qc5hdGiHlaRPXIcakv+VmI3R58OnVyi9tGPmiWtrNFVppWXQ2/ArJYFISx3GmVIZ3
+	llpr3ZFQNuD8RxqOR2B8OR9WrCavx6o5jkyqsOtImNH5cZvlR68BmIwTvxDIwSfeHZC6
+	jerQ==
+X-Gm-Message-State: APjAAAVsmHMFX2ZNfKkbJykFIAtpsY4G4avbcR3xBcvBoZ6ulsrnvIO7
+	5kmxSMjbJHPsWs43/RfAB/x6HQ2vzmdqAmzJrYIUhSYLZHUGrBSnkJ1H32mlP5BS+EPIVuzn9kX
+	VMsEX9xWhl3OW8VtU2siS+BT8k10A6Pomh58zCj2+9F/WKAxybGQo32P5bM/Nk/DC3+Gpyj947q
+	nlCQHuNxrmGclNJUT0e8ElLRdFbnY=
+X-Google-Smtp-Source: APXvYqynDIER9e+/RDXCB4HUY/jBrB3GThA347g8kP4pMVH/pz2JPy0x+txi5k1Nouh0pXvfrLu1nw==
+X-Received: by 2002:a63:8f49:: with SMTP id r9mr19133207pgn.190.1581611141735; 
+	Thu, 13 Feb 2020 08:25:41 -0800 (PST)
+Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
+	by smtp.gmail.com with ESMTPSA id
+	y10sm3693804pfq.110.2020.02.13.08.25.40
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 13 Feb 2020 08:25:40 -0800 (PST)
+From: Scott Branden <scott.branden@broadcom.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Feb 2020 08:25:33 -0800
+Message-Id: <20200213162533.3755-1-scott.branden@broadcom.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] ffmpeg: add PACKAGECONFIG support for x265
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,44 +53,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 16:24:52 -0000
-Content-Type: multipart/alternative; boundary="0000000000006175ed059e778781"
+X-List-Received-Date: Thu, 13 Feb 2020 16:25:41 -0000
 
---0000000000006175ed059e778781
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Add PACKAGECONFIG support for x265 in ffmpeg.
 
-On Thu, 13 Feb 2020 at 17:06, Khem Raj <raj.khem@gmail.com> wrote:
+Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-> No, problem is that if One wants to use opkg backend then rpm drags along
-> but apt or dpkg don=E2=80=99t
->
-> Even if test is made to pass rpm will be dragged into
-> Images which is not desired
->
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+index a3cf0c1a37..20a8249b02 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.2.2.bb
+@@ -74,6 +74,7 @@ PACKAGECONFIG[vaapi] = "--enable-vaapi,--disable-vaapi,libva"
+ PACKAGECONFIG[vdpau] = "--enable-vdpau,--disable-vdpau,libvdpau"
+ PACKAGECONFIG[vpx] = "--enable-libvpx,--disable-libvpx,libvpx"
+ PACKAGECONFIG[x264] = "--enable-libx264,--disable-libx264,x264"
++PACKAGECONFIG[x265] = "--enable-libx265,--disable-libx265,x265"
+ PACKAGECONFIG[xcb] = "--enable-libxcb,--disable-libxcb,libxcb"
+ PACKAGECONFIG[xv] = "--enable-outdev=xv,--disable-outdev=xv,libxv"
+ PACKAGECONFIG[zlib] = "--enable-zlib,--disable-zlib,zlib"
+-- 
+2.17.1
 
-We can modify the rpm packaging so that only the library from rpm that
-libresolv links with, but not the executables or other libraries are in the
-image. Would you be ok with that?
 
-Alex
-
---0000000000006175ed059e778781
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Thu, 13 Feb 2020 at 17:06, Khem Raj &l=
-t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:</=
-div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;borde=
-r-left-color:rgb(204,204,204);padding-left:1ex"><div><div class=3D"gmail_qu=
-ote"><div dir=3D"auto">No, problem is that if One wants to use opkg backend=
- then rpm drags along but apt or dpkg don=E2=80=99t</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto">Even if test is made to pass rpm will be dragge=
-d into</div><div dir=3D"auto">Images which is not desired</div></div></div>=
-</blockquote><div><br></div><div>We can modify the rpm packaging so that on=
-ly the library from rpm that libresolv links with, but not the executables =
-or other libraries are in the image. Would you be ok with that?</div><div><=
-br></div><div>Alex</div></div></div>
-
---0000000000006175ed059e778781--
