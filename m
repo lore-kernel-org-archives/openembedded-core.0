@@ -1,48 +1,53 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
-	[209.85.217.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3ECD860BCA
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
+	[209.85.214.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B57960BCD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 08:21:49 +0000 (UTC)
-Received: by mail-vs1-f67.google.com with SMTP id x123so3382503vsc.2
+	Thu, 13 Feb 2020 08:21:57 +0000 (UTC)
+Received: by mail-pl1-f196.google.com with SMTP id t6so2046920plj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 00:21:50 -0800 (PST)
+	Thu, 13 Feb 2020 00:21:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YtfW8ihFdhoQO69ge6PamulXbFnJ/kgHPRhIh+rt2/w=;
-	b=ROHrdsDBpf2AVFhkj1pb6zl4vw2Z9qvf86Ko/DvYeFtM4WUVzk8/cfcjomWIkbOT5L
-	793/7gwgFNmWNRN8THKYAYKSOFslt1xe+mBs5CWymagqqX+oMchqwQliHVV0Jf6oV7+8
-	hfXPvlFFyTx3jzt3uLQze/8Ti1lgyzLxenadjF1k2UOOvJrDRq5vQN05McNuD62i/5WL
-	aQYcVjxwnTZzgSpqvQNWJbG5eIrg6OlatnaD1qRKg20vliCP/p8ltjsjocw0S15iGpHH
-	OjvmBx1melndy2JKiGgXsZUOTVfYEFAQiE8nHdkJRFAetTzUO1mWdvmah1+QNuao4ips
-	z3mg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=gdQxIRqlJ0oBcNzpj3ZNE2pJE7sXyd21bsknmO6XaPU=;
+	b=A9LO9rWlj9WczknuO4b5lKM0LANsqVQP9rdASrFPlcE1RrgE6TSUclvn96XA3V+hlu
+	c6y6YPvPFCpJVVnTu0qOWcuyUg6mqQ1L79LdZGZ6Xo7JC0qPhPZAw8UTAGVHvYH8pjCl
+	xwU0fizRGVa1KlFtdBSF9K8kSXu6oSb1pFC2z40gcWaj3Wavb2O62vyT/LtWkJTS9K05
+	PugHbkGwT8iL0IVXjaGBPBfdVCPgMmDJj/OyHeGxY/W8Gl/WszA2ubS5eiMmq4BDP1fL
+	eH+JKV6/c++tgjl7thv8VRpoDzg3BSxbm7nivq18Rfk+E+SEC8Ig1XFOwiJUMqJEtsBs
+	yx6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=YtfW8ihFdhoQO69ge6PamulXbFnJ/kgHPRhIh+rt2/w=;
-	b=WrC2RoH4JFa0iFaGxmUvVtvB0rHc7/I5qIB8CfAcUztY8ZNVewU/SNCOoBmUpHzs72
-	rLJ9whcRI9kimADRs2XSefKFHwZ4Flu6fPwcZCqBbPZ+9qKh5txKq99hlEBMRZw/SHBV
-	bfpv7MoG0juUGDPiekYwZn8NKPZtQqFguFYq+YIJ/zHb5eutb+Wo70KljGLHE/mxS8i3
-	byRagGwkHZARlKmb5xGnO/i08fOaUnK4KUDZ5UBi/0THGXOJeI+Cz2iGdmnWdmA6gqaH
-	JM8ArXLQqZX1PTrEffZ5Ief+qGJcFK9Mb5LFPQxe1tsjB93EwOfLxjZCrDfid/jHgy2K
-	VBGw==
-X-Gm-Message-State: APjAAAUdVFB7j3OEQe4fEnUGep8JGBu0vKX+MnwQdSMrzE/WdE5FJdfU
-	N+GcDxPmH0n4SSDAws+kjeL2p1yPkZ+8NYaiYPw=
-X-Google-Smtp-Source: APXvYqxthYUORK+FOEPIfZ/4cdCD/7MpY/Oho6/axBu8pXZis5NVAgefCGb0OD+qU6yYtEyZv5tPtOrFxYfJEEzE710=
-X-Received: by 2002:a05:6102:757:: with SMTP id
-	v23mr1457662vsg.35.1581582110271; 
-	Thu, 13 Feb 2020 00:21:50 -0800 (PST)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=gdQxIRqlJ0oBcNzpj3ZNE2pJE7sXyd21bsknmO6XaPU=;
+	b=cLnroA2corMHSjcYfJl1B+G0NLdgurv8UR89nzgujQowhURdTJXolbnJNOt+rhSaiD
+	fu28OgIce5DdpX1X/vyDSqrET34PYgbll5nPbilmAin5A+POhMIONDZkcD8N9f5lacY/
+	eGVu5QU/086S3X7bjMJTUMAW9a2zKaxjqv05VxRF2l4Es2WKRQdymOKx3SSco7upUocT
+	OLofrAsAPnZtYbhY0LfqG6h7heDbnoC90ovVEba1r96sWyFf+9We6OqKrxYIE1Uhu7Lh
+	7spNpA3h/i4A3hARbSYiEpqdnJXtFFmBGghohu3nx1DykUR4JHu55C4wmveQqxDmMti4
+	nMGA==
+X-Gm-Message-State: APjAAAVaOTmoXosRuxZ/Rc4GqH6z/c3y/ozg89Ps377OXaHCNbkJzmhH
+	5g5pJ0K/1ibzXbFth/PCTXT68NMFzio=
+X-Google-Smtp-Source: APXvYqx2B5nF1UX/yUdeWIjQkjXuuqUrr97YUASat0/n0F+cIuzxI/9PoR10QyQ+9KEpCbRbt9x21g==
+X-Received: by 2002:a17:90b:289:: with SMTP id
+	az9mr3736754pjb.23.1581582117627; 
+	Thu, 13 Feb 2020 00:21:57 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::c740])
+	by smtp.gmail.com with ESMTPSA id
+	f127sm1958085pfa.112.2020.02.13.00.21.56
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 13 Feb 2020 00:21:57 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Feb 2020 00:21:50 -0800
+Message-Id: <4b64efecf0750245cd0bb42d2864533688d8530f.1581580428.git.raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.0
+In-Reply-To: <cover.1581580428.git.raj.khem@gmail.com>
+References: <cover.1581580428.git.raj.khem@gmail.com>
 MIME-Version: 1.0
-References: <cover.1581575578.git.raj.khem@gmail.com>
-In-Reply-To: <cover.1581575578.git.raj.khem@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 13 Feb 2020 09:21:39 +0100
-Message-ID: <CANNYZj_T=J2fs39fpPKQjC5rGSg_opTeUGzPokeiU-5jwhRzTQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] recipe updates, testing fixes
+Subject: [PATCH 01/10] qemuarm: Disable highmem when QB_MACHINE is virt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +60,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 08:21:49 -0000
-Content-Type: multipart/alternative; boundary="000000000000ddac54059e70c750"
+X-List-Received-Date: Thu, 13 Feb 2020 08:21:57 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000ddac54059e70c750
-Content-Type: text/plain; charset="UTF-8"
+running ptests on qemuarm returns fails since it finds errors in kernel
+logs like below
 
-On Thu, 13 Feb 2020 at 07:38, Khem Raj <raj.khem@gmail.com> wrote:
+***********************
+Central error: [    4.338465] pci-host-generic 4010000000.pcie: ECAM ioremap failed
+***********************
 
->   libsolv: Enable rpm packageconfig by default only if rpm O_P_M is
->     enabled
->   dnf,libdnf: Ignore if PACKAGE_CLASSES does not have rpm
->
+Since its a 32bit kernel 4010000000 address is truncated to 10000000 and ends up
+in conflicts with VIRT_PCIE_MMIO, which ranges from 0x10000000 to 0x3efeffff
 
-I'd like to request that these two are held back until we figure out what
-is going wrong with the rpm test (see separate thread).
+This is happening because the linux-yocto kernel is not compiled with
+LPAE support, however, virt machine for qemuarm assumes that by default
 
-Alex
+Should LPAE be enabled by default in kernel config is a separate
+question
 
---000000000000ddac54059e70c750
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/conf/machine/qemuarm.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Thu, 13 Feb 2020 at 07:38, Khem Raj &lt;<a href=3D"mailto:raj.khe=
-m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">=C2=A0 libsolv: Enable rpm packageconfig b=
-y default only if rpm O_P_M is<br>
-=C2=A0 =C2=A0 enabled<br>
-=C2=A0 dnf,libdnf: Ignore if PACKAGE_CLASSES does not have rpm<br></blockqu=
-ote><div><br></div><div>I&#39;d like to request that these two are held bac=
-k until we figure out what is going wrong with the rpm test (see separate t=
-hread).</div><div><br></div><div>Alex<br></div></div></div>
+diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
+index 26f40b1419..367fcef019 100644
+--- a/meta/conf/machine/qemuarm.conf
++++ b/meta/conf/machine/qemuarm.conf
+@@ -11,7 +11,7 @@ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+ 
+ # For runqemu
+ QB_SYSTEM_NAME = "qemu-system-arm"
+-QB_MACHINE = "-machine virt"
++QB_MACHINE = "-machine virt,highmem=off"
+ QB_CPU = "-cpu cortex-a15"
+ # Standard Serial console
+ QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0"
+-- 
+2.25.0
 
---000000000000ddac54059e70c750--
+
