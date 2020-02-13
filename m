@@ -1,50 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com
-	[209.85.216.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 1FFF260BAB
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3ECD860BCA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 08:21:43 +0000 (UTC)
-Received: by mail-pj1-f47.google.com with SMTP id d5so2048984pjz.5
+	Thu, 13 Feb 2020 08:21:49 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id x123so3382503vsc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 00:21:44 -0800 (PST)
+	Thu, 13 Feb 2020 00:21:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=gPZO3JsWPIbwE+LW/BLK5L8lMJPQzKX5sZvXnU9BcsY=;
-	b=cIZlSMFBiisZMoOQqEG8b1H7VZX9Hg5mfn84rJLU91L1ONonRzCZRLdmDdPiS9xatH
-	sDtkhaXu9o6ktNWznwEuME2rH65k57RvO31ofFZJrJo0dxsk/qol1BDV/JwGiJfkYqht
-	yUqIyuPIsrRJe9cb8wpiGzoCthBHRpFqwtL7nupbvc/NtNSzc1Vs604HfflCJXEx1thP
-	ArrUjQPcRwHkpK9ns6BAUFZVySKRGSNRBiFabkn2VHiXdoJj9odp4JfUsBN4sp4yblDi
-	7A1jPx5hNm/uO5HCXVhdKs9KsPtTpU1UQ04d8RCQwuVdSw0oALyAMQXr855vC2/41TUq
-	xnbw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YtfW8ihFdhoQO69ge6PamulXbFnJ/kgHPRhIh+rt2/w=;
+	b=ROHrdsDBpf2AVFhkj1pb6zl4vw2Z9qvf86Ko/DvYeFtM4WUVzk8/cfcjomWIkbOT5L
+	793/7gwgFNmWNRN8THKYAYKSOFslt1xe+mBs5CWymagqqX+oMchqwQliHVV0Jf6oV7+8
+	hfXPvlFFyTx3jzt3uLQze/8Ti1lgyzLxenadjF1k2UOOvJrDRq5vQN05McNuD62i/5WL
+	aQYcVjxwnTZzgSpqvQNWJbG5eIrg6OlatnaD1qRKg20vliCP/p8ltjsjocw0S15iGpHH
+	OjvmBx1melndy2JKiGgXsZUOTVfYEFAQiE8nHdkJRFAetTzUO1mWdvmah1+QNuao4ips
+	z3mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=gPZO3JsWPIbwE+LW/BLK5L8lMJPQzKX5sZvXnU9BcsY=;
-	b=MAgSbaQgmTsettfLTgu0rCiHZat6aCIK7WPCWHiw26LXb9xEdUilUZc/eGhi09bpW+
-	BSbRd+Doo6oH044qh9Vw9ys0TQSn+LkM9NwKiGodhpeaQlFjoFvO+BPsGQBtcPkluYD/
-	ADVYdg8Rh6I2yq1XlPZizNBgW4w+zrbnYX5vxZvZSzxZAupegtwvWxiaaDE56eJcTJh4
-	K+X81sjP08+yhVuqsoxrv+e/NFULKXZ884N68cAu12hfOUcFbakfgC2sHW7g7HFc+PNr
-	4BIZOHyZVbX9IgATaogBkrAaZJlwHOSu/nMPhDf0aw/nhhjLrTYcoMqqkwnPiHcJ0Mu2
-	mNgQ==
-X-Gm-Message-State: APjAAAUPR+GEmSNml4Z4uwodAjpyo+w8TnTFDh48Xf0of4+mYxG4hxGr
-	s0GG5vKxPwJNPpYQztQ9mir7wX3WxsI=
-X-Google-Smtp-Source: APXvYqyneTNm/7Jna5nYdl0jqdPGKMK0TTNFHpbcBzRgApf6/skdJuBRxKXNZNuikFPPzB6w4EDShw==
-X-Received: by 2002:a17:902:bf49:: with SMTP id
-	u9mr12459737pls.199.1581582103673; 
-	Thu, 13 Feb 2020 00:21:43 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::c740])
-	by smtp.gmail.com with ESMTPSA id w2sm1790419pgj.41.2020.02.13.00.21.42
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 13 Feb 2020 00:21:43 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2020 00:21:43 -0800
-Message-Id: <cover.1581580428.git.raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YtfW8ihFdhoQO69ge6PamulXbFnJ/kgHPRhIh+rt2/w=;
+	b=WrC2RoH4JFa0iFaGxmUvVtvB0rHc7/I5qIB8CfAcUztY8ZNVewU/SNCOoBmUpHzs72
+	rLJ9whcRI9kimADRs2XSefKFHwZ4Flu6fPwcZCqBbPZ+9qKh5txKq99hlEBMRZw/SHBV
+	bfpv7MoG0juUGDPiekYwZn8NKPZtQqFguFYq+YIJ/zHb5eutb+Wo70KljGLHE/mxS8i3
+	byRagGwkHZARlKmb5xGnO/i08fOaUnK4KUDZ5UBi/0THGXOJeI+Cz2iGdmnWdmA6gqaH
+	JM8ArXLQqZX1PTrEffZ5Ief+qGJcFK9Mb5LFPQxe1tsjB93EwOfLxjZCrDfid/jHgy2K
+	VBGw==
+X-Gm-Message-State: APjAAAUdVFB7j3OEQe4fEnUGep8JGBu0vKX+MnwQdSMrzE/WdE5FJdfU
+	N+GcDxPmH0n4SSDAws+kjeL2p1yPkZ+8NYaiYPw=
+X-Google-Smtp-Source: APXvYqxthYUORK+FOEPIfZ/4cdCD/7MpY/Oho6/axBu8pXZis5NVAgefCGb0OD+qU6yYtEyZv5tPtOrFxYfJEEzE710=
+X-Received: by 2002:a05:6102:757:: with SMTP id
+	v23mr1457662vsg.35.1581582110271; 
+	Thu, 13 Feb 2020 00:21:50 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH v2 00/10] recipe updates, testing fixes
+References: <cover.1581575578.git.raj.khem@gmail.com>
+In-Reply-To: <cover.1581575578.git.raj.khem@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 13 Feb 2020 09:21:39 +0100
+Message-ID: <CANNYZj_T=J2fs39fpPKQjC5rGSg_opTeUGzPokeiU-5jwhRzTQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/9] recipe updates, testing fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,96 +55,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 08:21:44 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 13 Feb 2020 08:21:49 -0000
+Content-Type: multipart/alternative; boundary="000000000000ddac54059e70c750"
 
-- Update gdb to 9.1 and musl to latest
-- Fix packages busybox, ltp to build with musl exposed 64bit time_t
-  problems
-- rest of all fixes are found testing core-image-sato-sdk on
-  qemuarm/qemux86_64
-- Add a check for gold being used on rv32/rv64
-- crosssdk is changed to not use target distro features
+--000000000000ddac54059e70c750
+Content-Type: text/plain; charset="UTF-8"
 
-The following changes since commit 34535f3e0ca6f6e37e6457fc800dfbfff64d9298:
+On Thu, 13 Feb 2020 at 07:38, Khem Raj <raj.khem@gmail.com> wrote:
 
-  bitbake: doc: minor tweaks to ch 1 of BB user manual (2020-02-08 17:41:17 +0000)
+>   libsolv: Enable rpm packageconfig by default only if rpm O_P_M is
+>     enabled
+>   dnf,libdnf: Ignore if PACKAGE_CLASSES does not have rpm
+>
 
-are available in the Git repository at:
+I'd like to request that these two are held back until we figure out what
+is going wrong with the rpm test (see separate thread).
 
-  git://git.yoctoproject.org/poky-contrib kraj/pu
-  http://git.yoctoproject.org/cgit.cgi/poky-contrib/log/?h=kraj/pu
+Alex
 
-Khem Raj (10):
-  qemuarm: Disable highmem when QB_MACHINE is virt
-  oeqa: Use --disable-maintainer-mode configure option
-  libsolv: Enable rpm packageconfig by default only if rpm O_P_M is
-    enabled
-  dnf,libdnf: Ignore if PACKAGE_CLASSES does not have rpm
-  musl: Update to latest tip
-  gdb: Upgrade to 9.1 release
-  busybox: Backport patches to support removal of __NR_clock_gettime
-  ltp: Fix tescases with 64bit time_t using 32bit arches
-  crosssdk: Set natisdk specific distro features
-  binutils: Bail out if gold is used on 32/64 bit RISC-V
+--000000000000ddac54059e70c750
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- meta/classes/crosssdk.bbclass                 |   6 +
- meta/conf/distro/include/tcmode-default.inc   |   2 +-
- meta/conf/machine/qemuarm.conf                |   2 +-
- meta/lib/oeqa/runtime/cases/buildcpio.py      |   2 +-
- meta/lib/oeqa/sdk/cases/buildcpio.py          |   2 +-
- ...rappers-around-clock_gettime-closes-.patch | 113 +++++++++++++++
- ...-Use-64-prefix-syscall-if-we-have-to.patch |  53 +++++++
- ...-Use-64-prefix-syscall-if-we-have-to.patch |  43 ++++++
- meta/recipes-core/busybox/busybox_1.31.1.bb   |   3 +
- meta/recipes-core/musl/musl_git.bb            |   2 +-
- meta/recipes-devtools/binutils/binutils.inc   |   7 +
- meta/recipes-devtools/dnf/dnf_4.2.2.bb        |   2 +
- meta/recipes-devtools/gdb/gdb-8.3.1.inc       |  22 ---
- meta/recipes-devtools/gdb/gdb-9.1.inc         |  21 +++
- ...ian_8.3.1.bb => gdb-cross-canadian_9.1.bb} |   0
- .../{gdb-cross_8.3.1.bb => gdb-cross_9.1.bb}  |   0
- ...ake-man-install-relative-to-DESTDIR.patch} |   9 +-
- ...x-nat-Define-_ABIO32-if-not-defined.patch} |   9 +-
- ...-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch} |   7 +-
- ...ort-for-Renesas-SH-sh4-architecture.patch} |  41 +++---
- ...eadline.a-when-using-disable-static.patch} |  13 +-
- ...s.h.patch => 0006-use-asm-sgidefs.h.patch} |   9 +-
- ...Use-exorted-definitions-of-SIGRTMIN.patch} |  11 +-
- ...atch => 0008-Change-order-of-CFLAGS.patch} |  13 +-
- ...9-resolve-restrict-keyword-conflict.patch} |  17 +--
- ...> 0010-Fix-invalid-sigprocmask-call.patch} |  23 ++-
- ...h => 0011-gdbserver-ctrl-c-handling.patch} |  31 ++--
- .../gdb/gdb/CVE-2019-1010180.patch            | 132 ------------------
- .../gdb/{gdb_8.3.1.bb => gdb_9.1.bb}          |   0
- meta/recipes-devtools/libdnf/libdnf_0.28.1.bb |   1 +
- .../libsolv/libsolv_0.7.10.bb                 |   2 +-
- ...or-time64-unsafe-syscalls-before-usi.patch |  81 +++++++++++
- meta/recipes-extended/ltp/ltp_20190930.bb     |   1 +
- 33 files changed, 422 insertions(+), 258 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/0001-Remove-syscall-wrappers-around-clock_gettime-closes-.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0001-date-Use-64-prefix-syscall-if-we-have-to.patch
- create mode 100644 meta/recipes-core/busybox/busybox/0001-time-Use-64-prefix-syscall-if-we-have-to.patch
- delete mode 100644 meta/recipes-devtools/gdb/gdb-8.3.1.inc
- create mode 100644 meta/recipes-devtools/gdb/gdb-9.1.inc
- rename meta/recipes-devtools/gdb/{gdb-cross-canadian_8.3.1.bb => gdb-cross-canadian_9.1.bb} (100%)
- rename meta/recipes-devtools/gdb/{gdb-cross_8.3.1.bb => gdb-cross_9.1.bb} (100%)
- rename meta/recipes-devtools/gdb/gdb/{0002-make-man-install-relative-to-DESTDIR.patch => 0001-make-man-install-relative-to-DESTDIR.patch} (77%)
- rename meta/recipes-devtools/gdb/gdb/{0003-mips-linux-nat-Define-_ABIO32-if-not-defined.patch => 0002-mips-linux-nat-Define-_ABIO32-if-not-defined.patch} (82%)
- rename meta/recipes-devtools/gdb/gdb/{0004-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch => 0003-ppc-ptrace-Define-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch} (89%)
- rename meta/recipes-devtools/gdb/gdb/{0005-Add-support-for-Renesas-SH-sh4-architecture.patch => 0004-Add-support-for-Renesas-SH-sh4-architecture.patch} (96%)
- rename meta/recipes-devtools/gdb/gdb/{0006-Dont-disable-libreadline.a-when-using-disable-static.patch => 0005-Dont-disable-libreadline.a-when-using-disable-static.patch} (83%)
- rename meta/recipes-devtools/gdb/gdb/{0007-use-asm-sgidefs.h.patch => 0006-use-asm-sgidefs.h.patch} (84%)
- rename meta/recipes-devtools/gdb/gdb/{0008-Use-exorted-definitions-of-SIGRTMIN.patch => 0007-Use-exorted-definitions-of-SIGRTMIN.patch} (81%)
- rename meta/recipes-devtools/gdb/gdb/{0009-Change-order-of-CFLAGS.patch => 0008-Change-order-of-CFLAGS.patch} (75%)
- rename meta/recipes-devtools/gdb/gdb/{0010-resolve-restrict-keyword-conflict.patch => 0009-resolve-restrict-keyword-conflict.patch} (80%)
- rename meta/recipes-devtools/gdb/gdb/{0011-Fix-invalid-sigprocmask-call.patch => 0010-Fix-invalid-sigprocmask-call.patch} (65%)
- rename meta/recipes-devtools/gdb/gdb/{0001-gdbserver-ctrl-c-handling.patch => 0011-gdbserver-ctrl-c-handling.patch} (45%)
- delete mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2019-1010180.patch
- rename meta/recipes-devtools/gdb/{gdb_8.3.1.bb => gdb_9.1.bb} (100%)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-Check-for-time64-unsafe-syscalls-before-usi.patch
+<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Thu, 13 Feb 2020 at 07:38, Khem Raj &lt;<a href=3D"mailto:raj.khe=
+m@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">=C2=A0 libsolv: Enable rpm packageconfig b=
+y default only if rpm O_P_M is<br>
+=C2=A0 =C2=A0 enabled<br>
+=C2=A0 dnf,libdnf: Ignore if PACKAGE_CLASSES does not have rpm<br></blockqu=
+ote><div><br></div><div>I&#39;d like to request that these two are held bac=
+k until we figure out what is going wrong with the rpm test (see separate t=
+hread).</div><div><br></div><div>Alex<br></div></div></div>
 
--- 
-2.25.0
-
-
+--000000000000ddac54059e70c750--
