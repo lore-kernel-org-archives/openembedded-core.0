@@ -1,47 +1,49 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
-	[209.85.128.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 5F02260BAF
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 382ED60B65
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 10:00:32 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id g1so5470761wmh.4
+	Thu, 13 Feb 2020 13:36:33 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id m10so7142217wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 02:00:33 -0800 (PST)
+	Thu, 13 Feb 2020 05:36:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=cD3GfkdNE9WBNTnCRlDR6T0cyFUVSKH0VHB7NY8vA1c=;
-	b=VFGRQJ/GcNSbsD87giGPuIYrq+AHzA3OcnoSg6159ew7DMlWSgZG5skP5GbKH2Z85f
-	dZlboMKcefuyGqIlb2R15i+XACPPmXMxZjIEvkMsVTA7DqWIdfiiadLATiCaDbZOH7WD
-	azBYj3TmvT+EYwiCvqw9ztNMbjkgKfZANaeJR+u7mRAHnCTmnKeDpMZcMjXL/s05e+EO
-	fudSJS1+SvBF+h+9qf0C/VvOlrFIEy1qZ377t2M83INsKqbESbBWAP6sYyUJyL3RPoqH
-	K32OZenMAd6T7F5RWCwX/WZR9V4/2R9PjtKnM6/r9IMgVSlTGDpWV7RwYDjTL8enlxsY
-	Yq/w==
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=umV/g/ZrpPsKyI0sKS3QjPy7alvLKnN0B+f7M3jMwo4=;
+	b=fxHgipFPRnt2fHxPT5oVn8saAqct3twXBDDHuLPX2l773h7SW1yAHIMUmdOq1zvUUX
+	DCP/9VxjFdkk4dhEKw4a7LA+idCM9FB1/FI1RUrAOo/RgwI29SK1L/1RCy/4C4itn3Hc
+	MIShNDIYminADFcTwE2oFDU3FR8EGddM2X7f3rBFy7mygvO0TMtViztq++mqWp+CfYv3
+	YK9ocjH38r1sjVUHPOl6mFRqp1SjNd2UNtD9WFKSgPcTZlFSc+xj5TdWj4SXrNGaDN9c
+	A64VGBuAzXdfu6dvUMRwzP/FQ/UTZEaId1dQgiC0es6XHPHtL6UaWnYJdilFJnfOUgPi
+	BEng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cD3GfkdNE9WBNTnCRlDR6T0cyFUVSKH0VHB7NY8vA1c=;
-	b=E+ryTTtTcAXMLXvhtsn/AJVPAiMBTO/HtwNwULp0pWppWFh2AVrAXSSm8wvMuUGj3t
-	vwPqRIW9XhDB1nH/wpM4iF6NncOWS1aTA+DSEPjss2lU6H0jZaTyFOgPuj4HDKSj/p8y
-	D1XZDdRKeKHIgFv+zJTYVi6leTRJVJM5SjFpqq0SDaUnGsYdW6tFfi6IESk/a67XHsbb
-	WSW9+Z95HPsjk4g/BNXPwtjKRTXugdS7GTQz0k21Hc8kvzV7imedhMvMu6BY9EUoetZ3
-	h4SRd4Betg1/kkHvEMzR0pajzOAH01ZdExMjFWYmt01hmsJ3HK6wGtzmE0X40rMWDhNP
-	HUpw==
-X-Gm-Message-State: APjAAAXJE9H+Mhdvheg/j/7OTxQjQ2vSyYwgRqyOIxPEh4wynmHrLQ7X
-	ttPHGRYOPU/adSBHtjjFw9ulOAz3
-X-Google-Smtp-Source: APXvYqyyMU4u2VcojJQR73f08skMZW0nCcMO8hVp7xOmr59cWCB+/euisxJGTS/6XCvvhkeV4P12Gg==
-X-Received: by 2002:a1c:b789:: with SMTP id h131mr4921756wmf.148.1581588032411;
-	Thu, 13 Feb 2020 02:00:32 -0800 (PST)
-Received: from localhost.localdomain ([195.89.163.130])
-	by smtp.gmail.com with ESMTPSA id
-	c77sm2314968wmd.12.2020.02.13.02.00.31
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=umV/g/ZrpPsKyI0sKS3QjPy7alvLKnN0B+f7M3jMwo4=;
+	b=oTdccEsJPsE7SkY8y3nT96KTTXelYg1Y/F98DpLf+XgwWo0oJDfRk7N5mNYI5NSjsd
+	T5mkN0WrGReM860upwVe3lBzgLIErZRItMUX/d/6CGCVbNBA5RtAxVcDalxOFypBO+77
+	1/qPWtcR2crkaYFbf4200JBwaDyket1LI8s0s0LLTYJgH14fe9GUF4bi3wtXSjlQmBrT
+	PoyJJRzMgAPn/HnY3FCkzpGKRVhUeNBeLuHd5PXjoHgsUlTJeJBvZ+O8cAdyTn2W06wh
+	iDYvwe913batLoKafs4PWCj7JnHEBWrcYCFVmwVg1gX3lJsldTrRayg6PFsqacLPp8Js
+	imEg==
+X-Gm-Message-State: APjAAAVnSUwMV+Zr1m2cVsoCihURY1XMGIhcE3+bdj7oKyLqIFZv7d3y
+	0Vx0nMTKUPU3ColNwuYeE3NCbNcQ
+X-Google-Smtp-Source: APXvYqyrBYkJsTW73t9VmPpM272BX+fd4GW3ogFamM1P1Itivp5eUsXMhvdmXSWt4R2c9U9oiYajGw==
+X-Received: by 2002:a1c:6a16:: with SMTP id f22mr5765582wmc.53.1581600993242; 
+	Thu, 13 Feb 2020 05:36:33 -0800 (PST)
+Received: from beaker.muppets.liwing.de (p4FE93807.dip0.t-ipconnect.de.
+	[79.233.56.7]) by smtp.gmail.com with ESMTPSA id
+	a198sm2980598wme.12.2020.02.13.05.36.32
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 13 Feb 2020 02:00:31 -0800 (PST)
-From: Alex Kiernan <alex.kiernan@gmail.com>
+	Thu, 13 Feb 2020 05:36:32 -0800 (PST)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: Jens Rehsack <sno@netbsd.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2020 10:00:29 +0000
-Message-Id: <20200213100029.36126-1-alex.kiernan@gmail.com>
+Date: Thu, 13 Feb 2020 14:36:16 +0100
+Message-Id: <20200213133616.19507-1-sno@netbsd.org>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v3] iputils: Fix systemd and ipv6 detection
+Cc: Jens Rehsack <sno@netbsd.org>
+Subject: [RESEND PATCH v2] make: 4.2.1 -> 4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,179 +56,208 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 10:00:32 -0000
+X-List-Received-Date: Thu, 13 Feb 2020 13:36:33 -0000
 
-When systemd is enabled, ensure iputils detects it correctly. Split out
-IPv6 only features based on ipv6 enabled in DISTRO_FEATURES.
+Announcement: https://lists.gnu.org/archive/html/bug-make/2020-01/msg00057.html
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+1) Remove upstream provided patches 0001-glob-Do-not-assume-glibc-glob-internals.patch
+   and 0002-glob-Do-not-assume-glibc-glob-internals.patch.
+
+2) License has been changed to GPLv3 only
+
+3) Important bug-fix is
+   * https://lists.gnu.org/archive/html/bug-make/2018-09/msg00006.html
+
+4) Backward-incompatibilities:
+   * Number signs (#) appearing inside a macro reference or function invocation
+     no longer introduce comments and should not be escaped with backslashes
+   * Previously appending using '+=' to an empty variable would result in a value
+     starting with a space.  Now the initial space is only added if the variable
+     already contains some value.  Similarly, appending an empty string does not
+     add a trailing space.
+
+Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
+ meta/recipes-devtools/make/make.inc           |  4 +-
+ ...b-Do-not-assume-glibc-glob-internals.patch | 70 -------------------
+ ...b-Do-not-assume-glibc-glob-internals.patch | 38 ----------
+ meta/recipes-devtools/make/make_4.2.1.bb      | 12 ----
+ meta/recipes-devtools/make/make_4.3.bb        | 10 +++
+ 5 files changed, 11 insertions(+), 123 deletions(-)
+ delete mode 100644 meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
+ delete mode 100644 meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
+ delete mode 100644 meta/recipes-devtools/make/make_4.2.1.bb
+ create mode 100644 meta/recipes-devtools/make/make_4.3.bb
 
-Changes in v3:
-- fix typo in SoB
-
-Changes in v2:
-- ninfod: fix systemd Documentation url error
-- rarpd: rdisc: Drop PrivateUsers
-
- ...-fix-systemd-Documentation-url-error.patch | 28 +++++++++++
- .../0001-rarpd-rdisc-Drop-PrivateUsers.patch  | 46 +++++++++++++++++++
- .../iputils/iputils_s20190709.bb              | 23 +++++++---
- 3 files changed, 91 insertions(+), 6 deletions(-)
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documentation-url-error.patch
- create mode 100644 meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-
-diff --git a/meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documentation-url-error.patch b/meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documentation-url-error.patch
-new file mode 100644
-index 000000000000..03a3f5602dc6
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0001-ninfod-fix-systemd-Documentation-url-error.patch
-@@ -0,0 +1,28 @@
-+From c1f1527eb30d4a5feebf9a0757582bbf7fe3eae9 Mon Sep 17 00:00:00 2001
-+From: Andrea Stevanato <andrea.stevanato.95@hotmail.it>
-+Date: Tue, 5 Nov 2019 19:08:30 +0000
-+Subject: [PATCH] ninfod: fix systemd Documentation url error
-+
-+systemd[1]: /usr/lib/systemd/system/ninfod.service:3: Invalid URL, ignoring: ninfod(8)
-+
-+Upstream-Status: Backport [https://github.com/iputils/iputils/commit/c1f1527eb30d4a5feebf9a0757582bbf7fe3eae9]
-+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-+---
-+ systemd/ninfod.service.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/systemd/ninfod.service.in b/systemd/ninfod.service.in
-+index 5ab69ca00e96..8e79fcd9238e 100644
-+--- a/systemd/ninfod.service.in
-++++ b/systemd/ninfod.service.in
-+@@ -1,6 +1,6 @@
-+ [Unit]
-+ Description=Respond to IPv6 Node Information Queries
-+-Documentation=ninfod(8)
-++Documentation=man:ninfod(8)
-+ Requires=network.target
-+ After=network.target
-+ 
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch b/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-new file mode 100644
-index 000000000000..d7367caf7877
---- /dev/null
-+++ b/meta/recipes-extended/iputils/iputils/0001-rarpd-rdisc-Drop-PrivateUsers.patch
-@@ -0,0 +1,46 @@
-+From 6e51d529988cfc0bb357751fd767e9f1478e2b81 Mon Sep 17 00:00:00 2001
-+From: Alex Kiernan <alex.kiernan@gmail.com>
-+Date: Thu, 13 Feb 2020 06:08:45 +0000
-+Subject: [PATCH] rarpd: rdisc: Drop PrivateUsers
-+
-+Neither rarpd nor rdisc can gain the necessary capabilities with
-+PrivateUsers enabled.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-+---
-+ systemd/rarpd.service.in | 1 -
-+ systemd/rdisc.service.in | 3 ++-
-+ 2 files changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/systemd/rarpd.service.in b/systemd/rarpd.service.in
-+index e600c10c93e6..f5d7621a7ce8 100644
-+--- a/systemd/rarpd.service.in
-++++ b/systemd/rarpd.service.in
-+@@ -12,7 +12,6 @@ AmbientCapabilities=CAP_NET_RAW
-+ DynamicUser=yes
-+ PrivateTmp=yes
-+ PrivateDevices=yes
-+-PrivateUsers=yes
-+ ProtectSystem=strict
-+ ProtectHome=yes
-+ ProtectControlGroups=yes
-+diff --git a/systemd/rdisc.service.in b/systemd/rdisc.service.in
-+index 4e2a1ec9d0e5..a71b87d36b37 100644
-+--- a/systemd/rdisc.service.in
-++++ b/systemd/rdisc.service.in
-+@@ -8,9 +8,10 @@ After=network.target
-+ EnvironmentFile=-/etc/sysconfig/rdisc
-+ ExecStart=@sbindir@/rdisc -f -t $OPTIONS $SEND_ADDRESS $RECEIVE_ADDRESS
-+ 
-++CapabilityBoundingSet=CAP_NET_RAW
-+ AmbientCapabilities=CAP_NET_RAW
-+ PrivateTmp=yes
-+-PrivateUsers=yes
-++DynamicUser=yes
-+ ProtectSystem=strict
-+ ProtectHome=yes
-+ ProtectControlGroups=yes
-+-- 
-+2.17.1
-+
-diff --git a/meta/recipes-extended/iputils/iputils_s20190709.bb b/meta/recipes-extended/iputils/iputils_s20190709.bb
-index e0d2ae160ee0..2aed6b56ca99 100644
---- a/meta/recipes-extended/iputils/iputils_s20190709.bb
-+++ b/meta/recipes-extended/iputils/iputils_s20190709.bb
-@@ -12,6 +12,8 @@ DEPENDS = "gnutls"
+diff --git a/meta/recipes-devtools/make/make.inc b/meta/recipes-devtools/make/make.inc
+index b8905bc6d3..4142cf23d3 100644
+--- a/meta/recipes-devtools/make/make.inc
++++ b/meta/recipes-devtools/make/make.inc
+@@ -5,9 +5,7 @@ called the makefile, which lists each of the non-source files and how to compute
+ HOMEPAGE = "http://www.gnu.org/software/make/"
+ SECTION = "devel"
  
- SRC_URI = "git://github.com/iputils/iputils \
-            file://0001-ninfod-change-variable-name-to-avoid-colliding-with-.patch \
-+           file://0001-ninfod-fix-systemd-Documentation-url-error.patch \
-+           file://0001-rarpd-rdisc-Drop-PrivateUsers.patch \
+-SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.bz2 \
+-           file://0001-glob-Do-not-assume-glibc-glob-internals.patch \
+-           file://0002-glob-Do-not-assume-glibc-glob-internals.patch \
++SRC_URI = "${GNU_MIRROR}/make/make-${PV}.tar.lz \
             "
- SRCREV = "13e00847176aa23683d68fce1d17ffb523510946"
  
-@@ -23,16 +25,20 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
- # breaks the version order.
- CVE_CHECK_WHITELIST += "CVE-2000-1213 CVE-2000-1214"
- 
--PACKAGECONFIG ??= "libcap libgcrypt rarpd traceroute6"
-+PACKAGECONFIG ??= "libcap libgcrypt rarpd \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', 'ninfod traceroute6', '', d)} \
-+                   ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
- PACKAGECONFIG[libcap] = "-DUSE_CAP=true, -DUSE_CAP=false, libcap"
- PACKAGECONFIG[libgcrypt] = "-DUSE_CRYPTO=gcrypt, -DUSE_CRYPTO=none, libgcrypt"
- PACKAGECONFIG[libidn] = "-DUSE_IDN=true, -DUSE_IDN=false, libidn2"
- PACKAGECONFIG[gettext] = "-DUSE_GETTEXT=true, -DUSE_GETTEXT=false, gettext"
-+PACKAGECONFIG[ninfod] = "-DBUILD_NINFOD=true,-DBUILD_NINFOD=false,"
- PACKAGECONFIG[rarpd] = "-DBUILD_RARPD=true,-DBUILD_RARPD=false,"
-+PACKAGECONFIG[systemd] = "-Dsystemdunitdir=${systemd_unitdir}/system,,systemd"
- PACKAGECONFIG[traceroute6] = "-DBUILD_TRACEROUTE6=true,-DBUILD_TRACEROUTE6=false,"
- PACKAGECONFIG[docs] = "-DBUILD_HTML_MANS=true -DBUILD_MANS=true,-DBUILD_HTML_MANS=false -DBUILD_MANS=false, libxslt"
- 
--inherit meson update-alternatives
-+inherit meson systemd update-alternatives
- 
- # Have to disable setcap/suid as its not deterministic
- EXTRA_OEMESON += "--prefix=${root_prefix}/ -DNO_SETCAP_OR_SUID=true"
-@@ -42,12 +48,12 @@ ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_${PN}-ping = "ping"
- ALTERNATIVE_LINK_NAME[ping] = "${base_bindir}/ping"
- 
--SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-traceroute6 ${PN}-clockdiff ${PN}-tftpd ${PN}-rarpd ${PN}-rdisc ${PN}-ninfod"
-+SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-clockdiff ${PN}-tftpd ${PN}-rdisc \
-+             ${@bb.utils.contains('PACKAGECONFIG', 'rarpd', '${PN}-rarpd', '', d)} \
-+             ${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-traceroute6 ${PN}-ninfod', '', d)}"
- PACKAGES += "${SPLITPKGS}"
- 
- ALLOW_EMPTY_${PN} = "1"
--ALLOW_EMPTY_${PN}-rarpd = "1"
--ALLOW_EMPTY_${PN}-traceroute6 = "1"
- RDEPENDS_${PN} += "${SPLITPKGS}"
- 
- FILES_${PN} = ""
-@@ -57,6 +63,11 @@ FILES_${PN}-tracepath = "${base_bindir}/tracepath"
- FILES_${PN}-traceroute6	= "${base_bindir}/traceroute6"
- FILES_${PN}-clockdiff = "${base_bindir}/clockdiff"
- FILES_${PN}-tftpd = "${base_bindir}/tftpd"
--FILES_${PN}-rarpd = "${base_sbindir}/rarpd"
-+FILES_${PN}-rarpd = "${base_sbindir}/rarpd  ${systemd_unitdir}/system/rarpd@.service"
- FILES_${PN}-rdisc = "${base_sbindir}/rdisc"
- FILES_${PN}-ninfod = "${base_sbindir}/ninfod ${sysconfdir}/init.d/ninfod.sh"
+ inherit autotools gettext pkgconfig texinfo
+diff --git a/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch b/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
+deleted file mode 100644
+index 2b6e4d40c3..0000000000
+--- a/meta/recipes-devtools/make/make/0001-glob-Do-not-assume-glibc-glob-internals.patch
++++ /dev/null
+@@ -1,70 +0,0 @@
+-From c90a7dda6c572f79b8e78da44b6ebf8704edef65 Mon Sep 17 00:00:00 2001
+-From: Paul Eggert <eggert@cs.ucla.edu>
+-Date: Sun, 24 Sep 2017 09:12:58 -0400
+-Subject: [PATCH 1/2] glob: Do not assume glibc glob internals.
+-
+-It has been proposed that glibc glob start using gl_lstat,
+-which the API allows it to do.  GNU 'make' should not get in
+-the way of this.  See:
+-https://sourceware.org/ml/libc-alpha/2017-09/msg00409.html
+-
+-* dir.c (local_lstat): New function, like local_stat.
+-(dir_setup_glob): Use it to initialize gl_lstat too, as the API
+-requires.
+----
+-Upstream-Status: Backport
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+- dir.c | 29 +++++++++++++++++++++++++++--
+- 1 file changed, 27 insertions(+), 2 deletions(-)
+-
+-diff --git a/dir.c b/dir.c
+-index f34bbf5..12eef30 100644
+---- a/dir.c
+-+++ b/dir.c
+-@@ -1299,15 +1299,40 @@ local_stat (const char *path, struct stat *buf)
+- }
+- #endif
+- 
+-+/* Similarly for lstat.  */
+-+#if !defined(lstat) && !defined(WINDOWS32) || defined(VMS)
+-+# ifndef VMS
+-+#  ifndef HAVE_SYS_STAT_H
+-+int lstat (const char *path, struct stat *sbuf);
+-+#  endif
+-+# else
+-+    /* We are done with the fake lstat.  Go back to the real lstat */
+-+#   ifdef lstat
+-+#     undef lstat
+-+#   endif
+-+# endif
+-+# define local_lstat lstat
+-+#elif defined(WINDOWS32)
+-+/* Windows doesn't support lstat().  */
+-+# define local_lstat local_stat
+-+#else
+-+static int
+-+local_lstat (const char *path, struct stat *buf)
+-+{
+-+  int e;
+-+  EINTRLOOP (e, lstat (path, buf));
+-+  return e;
+-+}
+-+#endif
+-+
+- void
+- dir_setup_glob (glob_t *gl)
+- {
+-   gl->gl_opendir = open_dirstream;
+-   gl->gl_readdir = read_dirstream;
+-   gl->gl_closedir = free;
+-+  gl->gl_lstat = local_lstat;
+-   gl->gl_stat = local_stat;
+--  /* We don't bother setting gl_lstat, since glob never calls it.
+--     The slot is only there for compatibility with 4.4 BSD.  */
+- }
+- 
+- void
+--- 
+-2.16.1
+-
+diff --git a/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch b/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
+deleted file mode 100644
+index d49acd9f6e..0000000000
+--- a/meta/recipes-devtools/make/make/0002-glob-Do-not-assume-glibc-glob-internals.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 9858702dbd1e137262c06765919937660879f63c Mon Sep 17 00:00:00 2001
+-From: Paul Eggert <eggert@cs.ucla.edu>
+-Date: Sun, 24 Sep 2017 09:12:58 -0400
+-Subject: [PATCH 2/2] glob: Do not assume glibc glob internals.
+-
+-It has been proposed that glibc glob start using gl_lstat,
+-which the API allows it to do.  GNU 'make' should not get in
+-the way of this.  See:
+-https://sourceware.org/ml/libc-alpha/2017-09/msg00409.html
+-
+-* dir.c (local_lstat): New function, like local_stat.
+-(dir_setup_glob): Use it to initialize gl_lstat too, as the API
+-requires.
+----
+-Upstream-Status: Backport
+-
+- configure.ac | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 64ec870..e87901c 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -399,10 +399,9 @@ AC_CACHE_CHECK([if system libc has GNU glob], [make_cv_sys_gnu_glob],
+- #include <glob.h>
+- #include <fnmatch.h>
+- 
+--#define GLOB_INTERFACE_VERSION 1
+- #if !defined _LIBC && defined __GNU_LIBRARY__ && __GNU_LIBRARY__ > 1
+- # include <gnu-versions.h>
+--# if _GNU_GLOB_INTERFACE_VERSION == GLOB_INTERFACE_VERSION
+-+if _GNU_GLOB_INTERFACE_VERSION == 1 || _GNU_GLOB_INTERFACE_VERSION == 2
+-    gnu glob
+- # endif
+- #endif],
+--- 
+-2.16.1
+-
+diff --git a/meta/recipes-devtools/make/make_4.2.1.bb b/meta/recipes-devtools/make/make_4.2.1.bb
+deleted file mode 100644
+index c6e6a0cd58..0000000000
+--- a/meta/recipes-devtools/make/make_4.2.1.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-LICENSE = "GPLv3 & LGPLv2"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://tests/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+-                    file://glob/COPYING.LIB;md5=4a770b67e6be0f60da244beb2de0fce4"
+-require make.inc
+-
+-EXTRA_OECONF += "--without-guile"
+-
+-SRC_URI[md5sum] = "15b012617e7c44c0ed482721629577ac"
+-SRC_URI[sha256sum] = "d6e262bf3601b42d2b1e4ef8310029e1dcf20083c5446b4b7aa67081fdffc589"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/make/make_4.3.bb b/meta/recipes-devtools/make/make_4.3.bb
+new file mode 100644
+index 0000000000..a3eb9d92f2
+--- /dev/null
++++ b/meta/recipes-devtools/make/make_4.3.bb
+@@ -0,0 +1,10 @@
++LICENSE = "GPLv3"
++LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
++require make.inc
 +
-+SYSTEMD_PACKAGES = "${@bb.utils.contains('DISTRO_FEATURES', 'ipv6', '${PN}-ninfod', '', d)} \
-+                    ${PN}-rdisc"
-+SYSTEMD_SERVICE_${PN}-ninfod = "ninfod.service"
-+SYSTEMD_SERVICE_${PN}-rdisc = "rdisc.service"
++EXTRA_OECONF += "--without-guile"
++
++SRC_URI[md5sum] = "d5c40e7bd1e97a7404f5d3be982f479a"
++SRC_URI[sha256sum] = "de1a441c4edf952521db30bfca80baae86a0ff1acd0a00402999344f04c45e82"
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.17.1
 
