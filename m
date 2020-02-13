@@ -1,53 +1,53 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B57960BCD
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A6C360BF6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 08:21:57 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id t6so2046920plj.5
+	Thu, 13 Feb 2020 08:21:58 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id d6so2684929pgn.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 00:21:58 -0800 (PST)
+	Thu, 13 Feb 2020 00:22:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=gdQxIRqlJ0oBcNzpj3ZNE2pJE7sXyd21bsknmO6XaPU=;
-	b=A9LO9rWlj9WczknuO4b5lKM0LANsqVQP9rdASrFPlcE1RrgE6TSUclvn96XA3V+hlu
-	c6y6YPvPFCpJVVnTu0qOWcuyUg6mqQ1L79LdZGZ6Xo7JC0qPhPZAw8UTAGVHvYH8pjCl
-	xwU0fizRGVa1KlFtdBSF9K8kSXu6oSb1pFC2z40gcWaj3Wavb2O62vyT/LtWkJTS9K05
-	PugHbkGwT8iL0IVXjaGBPBfdVCPgMmDJj/OyHeGxY/W8Gl/WszA2ubS5eiMmq4BDP1fL
-	eH+JKV6/c++tgjl7thv8VRpoDzg3BSxbm7nivq18Rfk+E+SEC8Ig1XFOwiJUMqJEtsBs
-	yx6g==
+	bh=33p2KlypTpThfdvAYUqigNrd2spF1km8igTUFe2HqvE=;
+	b=gmhKJpR6o8CfpNiW2DgQFdYCw4dQu2LPlse1dPKVVt/cGTDPifUGdpLjmcpQB0IVQj
+	NibE5dyPs+HlpCHm9Ga+jEXPSSvWnUIjUXpgd8NrX565qDYKOGDGjdTQB+bIawXA1cKv
+	cJFQez4ilYtiHI3h7+w7Uus+ni5y9cmax9F+PHurVmQDIp2ZutGkiW8uXP9u9Y5rbvQ9
+	c9g0kFDbE7JUMi/4Lj40elzSmiqyDjStrBPo33xnRQM72V2n84wKgrQ8EW3GgBSVoiyz
+	dJlqqqFJwxOBU92YUawZSHGb7+neoxHBWHFzcXLD2yZx86PvUA5DH8nxHxWbmChBCR/A
+	REZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=gdQxIRqlJ0oBcNzpj3ZNE2pJE7sXyd21bsknmO6XaPU=;
-	b=cLnroA2corMHSjcYfJl1B+G0NLdgurv8UR89nzgujQowhURdTJXolbnJNOt+rhSaiD
-	fu28OgIce5DdpX1X/vyDSqrET34PYgbll5nPbilmAin5A+POhMIONDZkcD8N9f5lacY/
-	eGVu5QU/086S3X7bjMJTUMAW9a2zKaxjqv05VxRF2l4Es2WKRQdymOKx3SSco7upUocT
-	OLofrAsAPnZtYbhY0LfqG6h7heDbnoC90ovVEba1r96sWyFf+9We6OqKrxYIE1Uhu7Lh
-	7spNpA3h/i4A3hARbSYiEpqdnJXtFFmBGghohu3nx1DykUR4JHu55C4wmveQqxDmMti4
-	nMGA==
-X-Gm-Message-State: APjAAAVaOTmoXosRuxZ/Rc4GqH6z/c3y/ozg89Ps377OXaHCNbkJzmhH
-	5g5pJ0K/1ibzXbFth/PCTXT68NMFzio=
-X-Google-Smtp-Source: APXvYqx2B5nF1UX/yUdeWIjQkjXuuqUrr97YUASat0/n0F+cIuzxI/9PoR10QyQ+9KEpCbRbt9x21g==
-X-Received: by 2002:a17:90b:289:: with SMTP id
-	az9mr3736754pjb.23.1581582117627; 
-	Thu, 13 Feb 2020 00:21:57 -0800 (PST)
+	bh=33p2KlypTpThfdvAYUqigNrd2spF1km8igTUFe2HqvE=;
+	b=kmF0qnmGFkhUWcUVZzHT6v/HVU0isArcTKPuA92n6uhtXCn3gdapBR/L3TqWl5cdrE
+	G0HRDUR+8j73X25rxvpEpOxofJa/b6dSn5QnNaSlAWweDj/mbgfxPjYRoU2L3mkUuYop
+	YdrRA3siYWqW69qn4/5NfHvqHQ27uWXnj7NvyzP9F/EogsdyVBSfn2384O58yPV42nQb
+	zW0u+rCWFPrJsuBlLWqdn0RD/cu/miWLE9g6p3TMcMa9GCbU+b0b5apkNnoPntP4r19O
+	yj2GtZbWGgKdDwJOTZobmg/UlgU0TlzLoNve3d8Gite2fL2I4lb3zvK9JkXDDElAG+ez
+	KR/g==
+X-Gm-Message-State: APjAAAXs371xkDeuvscco2s5JhPvqXCeO6xLpCl3Yr5DR6222kpFy8E8
+	qjpMFoy0NAlnip0slIs+Nh6+cwz9j/o=
+X-Google-Smtp-Source: APXvYqx5QbAw02vF0KW3VBMB1C+gDzuVerDcTChf67Em5rRVS17ZyQxyXMJy3YcLuwojTgVhnaefEw==
+X-Received: by 2002:a63:778c:: with SMTP id
+	s134mr16334518pgc.451.1581582119126; 
+	Thu, 13 Feb 2020 00:21:59 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::c740])
 	by smtp.gmail.com with ESMTPSA id
-	f127sm1958085pfa.112.2020.02.13.00.21.56
+	f127sm1958085pfa.112.2020.02.13.00.21.57
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 13 Feb 2020 00:21:57 -0800 (PST)
+	Thu, 13 Feb 2020 00:21:58 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2020 00:21:50 -0800
-Message-Id: <4b64efecf0750245cd0bb42d2864533688d8530f.1581580428.git.raj.khem@gmail.com>
+Date: Thu, 13 Feb 2020 00:21:51 -0800
+Message-Id: <c1060fee258e0cff3c3380d6b9243cc1e572676c.1581580428.git.raj.khem@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <cover.1581580428.git.raj.khem@gmail.com>
 References: <cover.1581580428.git.raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/10] qemuarm: Disable highmem when QB_MACHINE is virt
+Subject: [PATCH 02/10] oeqa: Use --disable-maintainer-mode configure option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +60,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 08:21:57 -0000
+X-List-Received-Date: Thu, 13 Feb 2020 08:21:58 -0000
 Content-Transfer-Encoding: 8bit
 
-running ptests on qemuarm returns fails since it finds errors in kernel
-logs like below
+since the versions of autotools might differ on target and build host, plus difference in
+timestamps for configure and system can result in reconfigure lets avoid
+that by disabling maintainer mode
 
-***********************
-Central error: [    4.338465] pci-host-generic 4010000000.pcie: ECAM ioremap failed
-***********************
+Avoids
+error: newly created file is older than distributed files!
 
-Since its a 32bit kernel 4010000000 address is truncated to 10000000 and ends up
-in conflicts with VIRT_PCIE_MMIO, which ranges from 0x10000000 to 0x3efeffff
+[YOCTO #13779]
 
-This is happening because the linux-yocto kernel is not compiled with
-LPAE support, however, virt machine for qemuarm assumes that by default
-
-Should LPAE be enabled by default in kernel config is a separate
-question
-
+Suggested-by: Andre McCurdy <armccurdy@gmail.com>
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/conf/machine/qemuarm.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/cases/buildcpio.py | 2 +-
+ meta/lib/oeqa/sdk/cases/buildcpio.py     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.conf
-index 26f40b1419..367fcef019 100644
---- a/meta/conf/machine/qemuarm.conf
-+++ b/meta/conf/machine/qemuarm.conf
-@@ -11,7 +11,7 @@ SERIAL_CONSOLES ?= "115200;ttyAMA0 115200;hvc0"
+diff --git a/meta/lib/oeqa/runtime/cases/buildcpio.py b/meta/lib/oeqa/runtime/cases/buildcpio.py
+index 4bd72dd37e..d0f91668b2 100644
+--- a/meta/lib/oeqa/runtime/cases/buildcpio.py
++++ b/meta/lib/oeqa/runtime/cases/buildcpio.py
+@@ -27,6 +27,6 @@ class BuildCpioTest(OERuntimeTestCase):
+     @OEHasPackage(['autoconf'])
+     def test_cpio(self):
+         self.project.download_archive()
+-        self.project.run_configure()
++        self.project.run_configure('--disable-maintainer-mode','')
+         self.project.run_make()
+         self.project.run_install()
+diff --git a/meta/lib/oeqa/sdk/cases/buildcpio.py b/meta/lib/oeqa/sdk/cases/buildcpio.py
+index b0beafb38f..902e93f623 100644
+--- a/meta/lib/oeqa/sdk/cases/buildcpio.py
++++ b/meta/lib/oeqa/sdk/cases/buildcpio.py
+@@ -28,7 +28,7 @@ class BuildCpioTest(OESDKTestCase):
+             self.assertTrue(os.path.isdir(dirs["source"]))
+             os.makedirs(dirs["build"])
  
- # For runqemu
- QB_SYSTEM_NAME = "qemu-system-arm"
--QB_MACHINE = "-machine virt"
-+QB_MACHINE = "-machine virt,highmem=off"
- QB_CPU = "-cpu cortex-a15"
- # Standard Serial console
- QB_KERNEL_CMDLINE_APPEND = "console=ttyAMA0"
+-            self._run("cd {build} && {source}/configure $CONFIGURE_FLAGS".format(**dirs))
++            self._run("cd {build} && {source}/configure --disable-maintainer-mode $CONFIGURE_FLAGS".format(**dirs))
+             self._run("cd {build} && make -j".format(**dirs))
+             self._run("cd {build} && make install DESTDIR={install}".format(**dirs))
+ 
 -- 
 2.25.0
 
