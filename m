@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 31D2A60C85
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CD9BF60C6F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 23:38:08 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id s144so809683wme.1
+	Thu, 13 Feb 2020 23:39:43 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id t14so8695455wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 15:38:09 -0800 (PST)
+	Thu, 13 Feb 2020 15:39:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=hqywPhT1gwxBG7MeEBXAaJJSbzA1/NXKyHtgVd3syto=;
-	b=QCmWmBonVAlelFc0HVuvL9K4dW3Ixj1ReLnOHJ6pb4vY1qephsmYubeJdBALWbDlsk
-	r1BnDnzAav3wP0BdowJ7+L12niM3PCduBvSYt6v0De6jl5e9EPwJPrR5M1DZqxyhF6P5
-	ots9dMv+nvhNNWAt7wbartmQ/oxXJzxq94VWs=
+	bh=jmEXuQ94c2loWI8Vr2VP/kY1jXmAKg4HB5bNd/T2mUo=;
+	b=SxfonpeXlqxPkc88l/X5dCvMZD2ljJA5OqUYSAbTLqJvjzF1BrvBztZNjst/PvhvTP
+	Nqmx0twq70O0hwHF/ykeLgGCyIy+zwyOX1mGT/mIYLrJ02+MMtg2OwxYtQVt0gd7G04O
+	/4N5+wE0nLbqlB5RjMEmiiOgYIHaledvMMXYk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=hqywPhT1gwxBG7MeEBXAaJJSbzA1/NXKyHtgVd3syto=;
-	b=mQg9CgxuELjbrTU9rtadXLC/pUCzivcm9PQ/wDFD47FoD9qs+hEYUEbGqielA8H4Nz
-	fbe4Iy/+XmHnvzluOnPFYaY0uHvtKHiLoxvWKKvi4TK/r0s7EK6DUY/TqYVNUNdculLj
-	Wa4CBJCqCc/GvWEvmy8VInFv4l4HuRojzhZF7s9tooNN1tvD7CDBlUKl7P0OEnbVow2+
-	50TayXrTE9NcP41Bl96xmnS99z5Rr+P2awpX2T3nvNYqZAzMARf4E2Ub2lKDy0jmDZGP
-	bZAUUgWoKAouUzwsf8D9zRORoAsnSopFqTsHjIIaYsC0p8COnC4fwVuaY3YwQH7LJGw8
-	L3rQ==
-X-Gm-Message-State: APjAAAWa1Q43OB/WP+M9haQLODfY4iveK4gYWVCixzwubDU0pTd7ou9I
-	l0DXx6Rcq7YU+YkVgKvYeoCGsA==
-X-Google-Smtp-Source: APXvYqxD539cDwuSukyCFs1+MwmWmupeFJinGzMEsMlrDyoA+Vd0Na8YVzwQ2ARrNSAFkb99bk7DMQ==
-X-Received: by 2002:a7b:cf01:: with SMTP id l1mr480679wmg.86.1581637089063;
-	Thu, 13 Feb 2020 15:38:09 -0800 (PST)
+	bh=jmEXuQ94c2loWI8Vr2VP/kY1jXmAKg4HB5bNd/T2mUo=;
+	b=MBH4HWovPrzO+1rYE+v373uVGm/JDDfvRw4symIbQTZzB1/OhLgn9xFeDyL5RsAaJm
+	H3d9T+9RHd6UeA88ynJ+5pCSShs1TdEvDdoWqzzLhSK9Ct59wvVKwCX1GrJXkuEr1Jn8
+	XyiFFyWnsBvHjhpSdCTrdZUYSprTl0lDG6ML/1iT2LHBbjQaEiSzRilQAf9lf2JVarzG
+	wZyGIIJ33XSGLpUnUbTDrdGUTt+E8wxb1Wh0yWjUzsUiMsSQj9HJvzE/XTf17AN0jpML
+	bkskcLH/RoIscn9vylAitTWXGPGxFKw1aVGs2uArvPwsBl0/cuiy2SDK7KFXVTyjERou
+	g2ig==
+X-Gm-Message-State: APjAAAWx25v4xIiEy34igLg+HJyNJ8NCg4shgbROQRbje2jLXO6IN0UT
+	Vys1qazk+QH+W7Kut1M0wBzO6iIpBsw=
+X-Google-Smtp-Source: APXvYqxr0Xxsw0zwktSKJrQzBr1Yt62eFeNT1CGIvThfL65fV7MwDfwI1Xiq7tJ/Aac1zSrbFUYopQ==
+X-Received: by 2002:a7b:ce10:: with SMTP id m16mr439674wmc.115.1581637184565; 
+	Thu, 13 Feb 2020 15:39:44 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	w19sm4761719wmc.22.2020.02.13.15.38.07
+	q14sm4765190wrj.81.2020.02.13.15.39.43
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 13 Feb 2020 15:38:07 -0800 (PST)
-Message-ID: <ff9fd754f0151c81ef5938f904415ef0a212b8b8.camel@linuxfoundation.org>
+	Thu, 13 Feb 2020 15:39:44 -0800 (PST)
+Message-ID: <6557ee9b5ee8375cc9e7ee79336975f2cd8c4468.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Thu, 13 Feb 2020 23:38:06 +0000
-In-Reply-To: <650b515ce0c79adcbba39cdf47bc23f764ca1465.1581575578.git.raj.khem@gmail.com>
-References: <cover.1581575578.git.raj.khem@gmail.com>
-	<650b515ce0c79adcbba39cdf47bc23f764ca1465.1581575578.git.raj.khem@gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 13 Feb 2020 23:39:43 +0000
+In-Reply-To: <20200213061649.102346-1-alex.kiernan@gmail.com>
+References: <20200213061649.102346-1-alex.kiernan@gmail.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH 6/9] gdb: Upgrade to 9.1 release
+Subject: Re: [PATCH v2] systemd: upgrade v244.1 -> v244.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,22 +58,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 23:38:09 -0000
+X-List-Received-Date: Thu, 13 Feb 2020 23:39:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2020-02-12 at 22:38 -0800, Khem Raj wrote:
-> Drop security patches which are now in 9.1 already
-> Forward port rest of patches to 9.1
-> Detailed changes [1]
-> 
-> [1] https://lists.gnu.org/archive/html/info-gnu/2020-02/msg00008.html
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On Thu, 2020-02-13 at 06:16 +0000, Alex Kiernan wrote:
+> Commits from v244-stable:
 
-Something odd is going on as another patch failure:
+I think this causes:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1551
+https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/1557
+
+(systemd-boot patch failures)
 
 Cheers,
 
