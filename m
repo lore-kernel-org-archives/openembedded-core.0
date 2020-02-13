@@ -1,48 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8CB5860B98
+Return-Path: <maxime.roussinbelanger@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DD5A460B98
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 16:08:42 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id o28so4813776qkj.9
+	Thu, 13 Feb 2020 16:14:13 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id n21so7058438ioo.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 08:08:44 -0800 (PST)
+	Thu, 13 Feb 2020 08:14:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=81Aby50R92oZxqFe9gAabulCfgKrQBlZLo5pYuxTBCE=;
-	b=OC6lGdPQnk3NFWTtaMNX3070KZ6gGnMRIl55eWmQAbof6VudL4S5tAXBxByorQBYYE
-	5uDnIdGu3Uvmfby20Z7L7zMrpzYs4wn4B9/BebPAuFxxEWpXGpyml61zBeYcETaJ6rrc
-	1R9VKHRhM9MtggoxOTC4WX7PNgSIQU/TEg21kDTPlKckhmCH8MWgP0tL+Q753bZoi/v+
-	0P2NcOuHeaeGTljrZfHVO+2mF+phbecomr8IKVJgW3l2w6bHqFaKge2hALLfGvahdPCO
-	/5RdmzQqtTN0f6eWI9DiiKMnhAxbXbLoQlFUJsg53gkx0s8HUBBr52n4DC+c4YNQxmKx
-	CH4g==
+	:cc; bh=4/1Ur/eFKHYcqPdKxuuHnoWQzZnP5WMIgs0AKmGC0CI=;
+	b=BoM5PRcoCAzaSuwtezvCOTk3Yw0ENkxqDaoijLAxotccfgfbK+Bxlsxm5MoiREaN5T
+	l73R1ByAOFZYdJQCNtLRDtVWqdnW5pTr1GqbShGhNuoPj03JEBABF2dOIqiNrtNrwU3D
+	2KJe09JFOpNW4j4RoIorA7FccVIhBvFY6LkxhJH/FnT6MKYXgfgN4YDx8EZGxPjPNZlS
+	dU/51SBKWrefIijYLID979RIyGx2+7Cyao6JiNi73SBv4DpLLCQSPz5LQ88zFGK1in67
+	a813eEzL7pPRops7ZI3PXEY9EBecnaFd0pP98j09reNpwFRvs0fBxho5gBh+F+P+Wvnl
+	oJ9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=81Aby50R92oZxqFe9gAabulCfgKrQBlZLo5pYuxTBCE=;
-	b=av1/VowUGPmv92ufQtxvu6iEBCWzCU9K2xII9Pmr3kbOu46gM73l5KG1YMdqk/73wI
-	bPnaC3awIR4g4i8Orr7y/IYi3VBz6bAAvpfOLZBCCl7tRpmlN/w25lYHadY2mF1Ye3f4
-	A4MHInh2oCw12ET02bbhep0LjDn5ZvXdI4zb8YHzgEEF3iiRF2AFSX/B1hJG6hvLv+oP
-	a3qByc+olMTA5k6iasHvgmPAI+XhelFBKmWGGLcJZaHqGzGBAPQNB8MpJjoyvomyISyv
-	yxPDOj6tuMg13AhjDD587qsBMCAOLZ+nj+fZwiwsyElfLlSHuDerSBGc7ilN8NHoML5S
-	ntdA==
-X-Gm-Message-State: APjAAAWMzrVr6re9sgtjUzHGnGDQaY+89/kgmJ96Ke/jKaNXKzBrAMmH
-	4REfj3GgrUgjytXQKkRMfBvGioEdHCKJOc6I7uofPv6a
-X-Google-Smtp-Source: APXvYqzkJ29gwLzdWYL2XBxipLvNDWgmQRnLJKshqSZmo4BddiYX+Kgm7UQN1czzUiKPf5bsbL/asVbn/RYbN8B3qiA=
-X-Received: by 2002:ae9:e88e:: with SMTP id a136mr237180qkg.71.1581610123259; 
-	Thu, 13 Feb 2020 08:08:43 -0800 (PST)
+	bh=4/1Ur/eFKHYcqPdKxuuHnoWQzZnP5WMIgs0AKmGC0CI=;
+	b=SdwUwIJ5fbLom9QmYmYI/ssxLNvhPtO2OhkMp3uHjZn7T4wYG1t3zyqvCqu2jVuXSe
+	4Xg6S1YR1yRlEx8XQiY1nAnB/joTCBvF/xM4lnsgg4x9D3JrmX5XYsXSebfVcd8VRbUY
+	0BF49cmnomSNf6BhzXxw46RN9Vb9CM1b7pCydXb7mpWvOPaLNRMYKo9IM8Hd98OYgHyR
+	6u0OxBUOY0jASIhWzKjGUNsm1nlEwuNisk4wx0aXwtrCtkKH9aaCRzXuXt1AS7ZjIZQR
+	wDqL1/P9gnH+AOEFqev9JDPTPTNXPhmnn3qTwaH/yBgoYYCUQhRRxwpXfgpfRd9OYy1G
+	2GVQ==
+X-Gm-Message-State: APjAAAVFADPPf0n93hqLMFJRlMU4/AtGayKF9CZDdcHjYzteIYKoXUKc
+	aXlmww7AxLz4ePJiifyws9elF3jlAUKlT4n72pM=
+X-Google-Smtp-Source: APXvYqwZLvcDK0H2UVHlk8E2XWdD2fyIVAtG6lgzE0hN+xQkwCuuUjthAAB15VmHIEwLqmHeZGFA9Ro/e/Kjgfka674=
+X-Received: by 2002:a6b:400b:: with SMTP id k11mr22864552ioa.256.1581610454824;
+	Thu, 13 Feb 2020 08:14:14 -0800 (PST)
 MIME-Version: 1.0
-References: <cover.1581575578.git.raj.khem@gmail.com>
-	<11cf7d82deafd496d30a4a28a38a3b1121762f9e.1581575578.git.raj.khem@gmail.com>
-	<20200213073151.GA20530@localhost>
-In-Reply-To: <20200213073151.GA20530@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 13 Feb 2020 08:08:31 -0800
-Message-ID: <CAMKF1soC2w3ntocLEeWyxMZ+sSUtCu6X0L9Co+iTTmd4Rxb-Jg@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 8/9] binutils: Bail out if gold is used on 32/64 bit RISC-V
+References: <20200210214211.2696-1-maxime.roussinbelanger@gmail.com>
+	<fea6b9336e34c7df3cd23217cf2715b04fbd9ae6.camel@linuxfoundation.org>
+	<CAE=T-s6CdNNZjqitGhYrAV8EiufQrPZJY8JLTmnPAEHC-sSHbQ@mail.gmail.com>
+	<928575d17e93b117b6f555d674089560161d6c97.camel@linuxfoundation.org>
+	<CAE=T-s6tXBA66zqe83-sib4m-JSXS++9sQ_m-D3a1KjU+-YcAw@mail.gmail.com>
+	<CANNYZj8_fd=k95FA0VFF7ZjxuFVCU8V0HouxtLCNptdWLCMLpA@mail.gmail.com>
+In-Reply-To: <CANNYZj8_fd=k95FA0VFF7ZjxuFVCU8V0HouxtLCNptdWLCMLpA@mail.gmail.com>
+From: =?UTF-8?Q?Maxime_Roussin=2DB=C3=A9langer?=
+	<maxime.roussinbelanger@gmail.com>
+Date: Thu, 13 Feb 2020 11:13:49 -0500
+Message-ID: <CAE=T-s7MvwX1Tx_=_GK82CHE3uo8hisCXGTrBB=LaNg_o-jOZQ@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wpa-supplicant: add virtual supplicant
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,85 +59,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Feb 2020 16:08:42 -0000
-Content-Type: multipart/alternative; boundary="00000000000091f4b6059e774d3f"
+X-List-Received-Date: Thu, 13 Feb 2020 16:14:14 -0000
+Content-Type: multipart/alternative; boundary="000000000000553ba8059e7761af"
 
---00000000000091f4b6059e774d3f
+--000000000000553ba8059e7761af
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Feb 12, 2020 at 11:31 PM Adrian Bunk <bunk@stusta.de> wrote:
-
-> On Wed, Feb 12, 2020 at 10:38:22PM -0800, Khem Raj wrote:
-> > gold is not supporting risc-v yet and, this will cause subltle errors
-> > during build e.g. autoconf not finding certain features like visibility
-> > and it could take a while to unwind the problem. Its better to error out
-> > early
-> >...
-> > @@ -163,3 +165,8 @@ inherit update-alternatives
-> >  ALTERNATIVE_PRIORITY = "100"
-> >
-> >  ALTERNATIVE_${PN}_class-target = "${USE_ALTERNATIVES_FOR}"
-> > +
-> > +python () {
-> > +    if bb.utils.contains('DISTRO_FEATURES', 'ld-is-gold', True, False,
-> d):
-> > +        bb.fatal("Gold linker does not _yet_ support RISC-V
-> architecture please remove ld-is-gold from DISTRO_FEATURES")
-> > +}
+On Thu, Feb 13, 2020 at 11:00 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 >
-> This lacks some check for RISC-V,
-> currently it errors for all architectures.
+> On Thu, 13 Feb 2020 at 16:55, Maxime Roussin-B=C3=A9langer <
+maxime.roussinbelanger@gmail.com> wrote:
+>>
+>> PACKAGECONFIG[iwd] =3D "--enable-iwd, --disable-wifi, iwd, iwd"
+>> PACKAGECONFIG[wpa-supplicant] =3D "--enable-wifi, --disable-wifi,
+wpa-supplicant, wpa-supplicant"
+>
+>
+> The problem with this, is that enabling one but not the other will
+combine into '--enable-iwd --disable-wifi' which is not what is intended.
 
+Actually, it is what is intended, the `--disable-wifi` will disable
+wpa-supplicant support, but keep the wifi support from other plugins (i.e.
+iwd).
 
-Yes this in itself was not enough please try the v2 series
-
+I agree that maybe the `--enable-wifi` is probably not the best option
+name, but I am not sure I can something about it :)
 
 >
-> cu
-> Adrian
+>
+> I am not sure why you need to specify them as both build and runtime
+dependencies, can you clarify why?
+
+iwd is probably not needed as a build dependency.. I would have to recheck
+that. ConnMan
+needs the runtime for the dbus interface that iwd exposes.
+
+wpa-supplicant is probably the same thing. I'm not sure why originally
+wpa-supplicant is specified as
+a build dependency. It's been there for 5 years..
+
+Thanks,
+Max.
+
+>
+> Alex
+
 >
 
---00000000000091f4b6059e774d3f
+--000000000000553ba8059e7761af
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Wed, Feb 12, 2020 at 11:31 PM Adrian Bunk &lt;<a href=3D=
-"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
-;padding-left:1ex">On Wed, Feb 12, 2020 at 10:38:22PM -0800, Khem Raj wrote=
-:<br>
-&gt; gold is not supporting risc-v yet and, this will cause subltle errors<=
-br>
-&gt; during build e.g. autoconf not finding certain features like visibilit=
-y<br>
-&gt; and it could take a while to unwind the problem. Its better to error o=
-ut<br>
-&gt; early<br>
-&gt;...<br>
-&gt; @@ -163,3 +165,8 @@ inherit update-alternatives<br>
-&gt;=C2=A0 ALTERNATIVE_PRIORITY =3D &quot;100&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 ALTERNATIVE_${PN}_class-target =3D &quot;${USE_ALTERNATIVES_FOR}=
-&quot;<br>
-&gt; +<br>
-&gt; +python () {<br>
-&gt; +=C2=A0 =C2=A0 if bb.utils.contains(&#39;DISTRO_FEATURES&#39;, &#39;ld=
--is-gold&#39;, True, False, d):<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.fatal(&quot;Gold linker does not _yet_=
- support RISC-V architecture please remove ld-is-gold from DISTRO_FEATURES&=
-quot;)<br>
-&gt; +}<br>
-<br>
-This lacks some check for RISC-V,<br>
-currently it errors for all architectures.</blockquote><div dir=3D"auto"><b=
-r></div><div dir=3D"auto">Yes this in itself was not enough please try the =
-v2 series=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail=
-_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
-1ex"><br>
-<br>
-cu<br>
-Adrian<br>
-</blockquote></div></div>
+<div dir=3D"ltr"><br><br>On Thu, Feb 13, 2020 at 11:00 AM Alexander Kanavin=
+ &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&g=
+t; wrote:<br>&gt;<br>&gt; On Thu, 13 Feb 2020 at 16:55, Maxime Roussin-B=C3=
+=A9langer &lt;<a href=3D"mailto:maxime.roussinbelanger@gmail.com">maxime.ro=
+ussinbelanger@gmail.com</a>&gt; wrote:<br>&gt;&gt;<br>&gt;&gt; PACKAGECONFI=
+G[iwd] =3D &quot;--enable-iwd, --disable-wifi, iwd, iwd&quot;<br>&gt;&gt; P=
+ACKAGECONFIG[wpa-supplicant] =3D &quot;--enable-wifi, --disable-wifi, wpa-s=
+upplicant, wpa-supplicant&quot;<br>&gt;<br>&gt;<br>&gt; The problem with th=
+is, is that enabling one but not the other will combine into &#39;--enable-=
+iwd --disable-wifi&#39; which is not what is intended.<br><br>Actually, it =
+is what is intended, the `--disable-wifi` will disable wpa-supplicant suppo=
+rt, but keep the wifi support from other plugins (i.e. iwd).<div><br></div>=
+<div>I agree that maybe the `--enable-wifi` is probably not the best option=
+ name, but I am not sure I can something about it :)</div><div><br></div><d=
+iv>&gt;</div><div><div>&gt;<br>&gt; I am not sure why you need to specify t=
+hem as both build and runtime dependencies, can you clarify why?</div><div>=
+<br></div><div>iwd is probably not needed as a build dependency.. I would h=
+ave to recheck that. ConnMan=C2=A0<br></div><div>needs the runtime for the =
+dbus interface that iwd exposes.</div><div><br></div><div>wpa-supplicant is=
+ probably the same thing. I&#39;m not sure why originally wpa-supplicant is=
+ specified as</div><div>a build dependency. It&#39;s been there for 5 years=
+..</div><div><br></div><div>Thanks,</div><div>Max.</div><div><br>&gt;<br>&g=
+t; Alex <div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
+</blockquote></div></div></div></div>
 
---00000000000091f4b6059e774d3f--
+--000000000000553ba8059e7761af--
