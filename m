@@ -1,57 +1,49 @@
-Return-Path: <jpuhlman@mvista.com>
-Received: from mail-oi1-f169.google.com (mail-oi1-f169.google.com
-	[209.85.167.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 436AF6112B
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 9704F610B6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 20:08:02 +0000 (UTC)
-Received: by mail-oi1-f169.google.com with SMTP id z2so10590187oih.6
+	Fri, 14 Feb 2020 22:33:30 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id u12so5278700pgb.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 12:08:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mvista-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language;
-	bh=+1oMdDxqJE1D9SOC4u8yorblZKi7y+NUXGFhtsCnehk=;
-	b=H2T1N64q0ddccXwSbl+EXfwscUzmqzcsfoVHiptnBD9eaB2CqLj+cHXW4d8id3rLgN
-	76iFa4z94sfCDnE3B8Q0maT417MtPXxxO1qullv/Tt9VWcdMD/yTULoKUUDXNxJ8kSm0
-	+acxN6+14hc8Tt9c7B3C1h6h766R0juyf700lPt9PNZhAgcPLaVvqdip1R8afIXIB1zT
-	1mXLrHtWdQhr6LyGSSEK0rRjkw07qlkJIJT4OZ0u6/amb9RCSJ35Smm5h554vTIWu+aH
-	QRdajzKhThfZyJv/B3qL1AX+zkIFramW11/E5iQxjHgFzvt0tsUZFqEk8v4Q4wizDayq
-	3iFg==
+	Fri, 14 Feb 2020 14:33:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IcALXInf1QWwEnsjWJ97178VdT3OjwjgPyXtHRUpi18=;
+	b=lKSXYda4fgfQW4lh6nfFKLxKNEhRHYSllk5f5J9jVC0uMAd/UvODHZdJoCPZy5xzcR
+	67BdQSAEt0I35e0b3olKTprVs9kf84XYv+KJ5pjGwUuwm1WiMv23eFd7andGfSJaZbXf
+	m3ZVcs7DaZJBUqxQjK+WWqcOPgUz1GSShAkEmasSOUKCG0IVuBT/Ql9oGEDyMI0oLW9V
+	p9dR6tzL1EFTxnCPTHL/Z/sdNrfX4EGw9iKtCmVbLubiTCUndCkeiO3GE47J9vhFVloI
+	+ObRRePqENMLeDiEB3v69M2nb78Roj+y+JMaWZJ/2N/+j8a2oFz9EjI6XYaFxGYFwx20
+	G8qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language;
-	bh=+1oMdDxqJE1D9SOC4u8yorblZKi7y+NUXGFhtsCnehk=;
-	b=GSQUyL6pSx5lZvOSmZk8J4P+sruHt90YHMffHBO3QUR3V1iiUBwAlv9ys44RZTZ6+v
-	6LEOs1PQ2Ok7+dlZTSMvEliPN7GUgU6/FKv1v/k+/2G0BB3M+Bwo/B6/KTN7rw0+NOuq
-	6Rq/6J2H5TCcejjjhfIgDZhoJZm/mBURwlUfVwHJ0N3AFHZxqsxpA+Vyeww7qDiNITo0
-	/glFju1WTlNkh/JuqTJbTTjw0bma5nWkL7TGMMAjjFtfkQSKxH4V/55QPCNf/SNviXNl
-	v4R1VIZ5bKXxsud6eVcxmeTHljqUJLbycBRE5Cn5wwT1YsjbDUAcYpNftIdDUaeXRVKT
-	881g==
-X-Gm-Message-State: APjAAAXr3q1nosGJuYVrUXmYZZFW5khSglfZf0ywK1nXPThMa9/ub/Lp
-	bfFCEpHBvJozB85whJRtZuRK/Vu+97k=
-X-Google-Smtp-Source: APXvYqyKgtk24TyeP9tTuuTVEb9JWV8t6NuNr6lANV1VOSJB7/y0CJT/YMjlm3FBDEANpg72WvJO4Q==
-X-Received: by 2002:aca:aa05:: with SMTP id t5mr3033260oie.93.1581710882751;
-	Fri, 14 Feb 2020 12:08:02 -0800 (PST)
-Received: from ?IPv6:2600:1700:4c90:60a0:f530:568a:42ef:6fa?
-	([2600:1700:4c90:60a0:f530:568a:42ef:6fa])
-	by smtp.gmail.com with ESMTPSA id x21sm2309600oto.5.2020.02.14.12.08.01
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Fri, 14 Feb 2020 12:08:02 -0800 (PST)
-To: Andrew Boos <andrew@avilution.com>
-References: <CAGgh2e88CwQZjrosOkZ4Jdd4nK2V=YC3+e65eRmLrqdUSPC73Q@mail.gmail.com>
-	<1b01b37f-ba3b-da34-8e04-81e3f2dd72fb@mvista.com>
-	<CAGgh2e_TzXNQejWMog37ad7kf-ruSiRw-rvCC_NpOF-PjMbUhg@mail.gmail.com>
-From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
-Message-ID: <21c80513-3588-3f62-4ee1-55dd5cb58759@mvista.com>
-Date: Fri, 14 Feb 2020 12:07:38 -0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=IcALXInf1QWwEnsjWJ97178VdT3OjwjgPyXtHRUpi18=;
+	b=pM3XzOqCKPCy8kKUwjOKRCJkmrH1Bod5sWNojWDYoKN52sjkgQooYMiYSovwajQu+7
+	xgcZrE3fbrAw3TICE80+B6ApQLypDPYYfSrNxK2WosNm9K4cefWqLgJfoYeG0+85YfKY
+	UQ/LKcIZPAmKvBNLvXBYkE/K4wvzPPdCMhxdaSLqgwSm6TYdfvN3n9C+vg7tA9fGHTtl
+	UWYBoBXDz/rfyq8pEs7jIOwaMt4qmAow0Zgo9FLV79Epre7KQ96K1F855Bz5VPN7/251
+	zuCo7NypqGQcQQQLd3YjLaekvvicsuD/PUGGFIKNRV19R4On+46aBxHCFsNdPuPYK4tp
+	FGRA==
+X-Gm-Message-State: APjAAAWfzoHsfkSH0k5VXnm21rp8EhYUb8hJncF03fiMfdNbOXTx4vD4
+	9sHSeIBWqy5YlRS3WznSaq39gNkM1cc=
+X-Google-Smtp-Source: APXvYqyXmwhQV2YffDGtYe0e0A7ZYRtg5X9NcfsSIlu/g+iQQfevtFWOasd8d1qs7vwX81cFTf4tXw==
+X-Received: by 2002:a63:5c10:: with SMTP id q16mr5884391pgb.35.1581719611047; 
+	Fri, 14 Feb 2020 14:33:31 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::709])
+	by smtp.gmail.com with ESMTPSA id a9sm7934911pfo.35.2020.02.14.14.33.29
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 14 Feb 2020 14:33:30 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Feb 2020 14:33:34 -0800
+Message-Id: <20200214223334.2473195-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.25.0
 MIME-Version: 1.0
-In-Reply-To: <CAGgh2e_TzXNQejWMog37ad7kf-ruSiRw-rvCC_NpOF-PjMbUhg@mail.gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: Unknown Postinstall Scriptlet Failing to Defer Boot
+Subject: [PATCH] db: Fix timespec length assumptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,226 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 20:08:02 -0000
-Content-Type: multipart/alternative;
-	boundary="------------4E8E87D4E547580C36170141"
-Content-Language: en-US
-
---------------4E8E87D4E547580C36170141
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 14 Feb 2020 22:33:30 -0000
 Content-Transfer-Encoding: 8bit
 
-If you look at the log.do_rootfs it will give you more or less the exact 
-failure(using the message below as a guide), the error message below is 
-basically
-the final catchall that says "at least one of them failed, please go fix 
-it" kind of message.
+This should fix the vdso crashes seen with kernel 5.0+
 
-On 2/14/2020 10:30 AM, Andrew Boos wrote:
-> Thanks Jeremy for the hint about update-alternatives. It turns out 
-> that lmbench was installing a binary called "stream" that conflicts 
-> with ImageMagick's own stream. All we had to do was remove lmbench 
-> from our IMAGE_INSTALL and the problem went away. I'm posting the 
-> original error for anyone that is having the same issue.
->
-> ERROR: imx8-image-3.0b3-r0 do_rootfs: Postinstall scriptlets of 
-> ['imagemagick'] have failed. If the intention is to defer them to 
-> first boot,
-> then please place them into pkg_postinst_ontarget_${PN} ().
-> Deferring to first boot via 'exit 1' is no longer supported.
->
-> Andrew
->
->
-> On Thu, Feb 13, 2020 at 8:02 PM Jeremy A. Puhlman <jpuhlman@mvista.com 
-> <mailto:jpuhlman@mvista.com>> wrote:
->
->     In these kind of cases, by providing the actual error message,
->     people can provide more help.
->
->     The recipe inherits update-alternatives and sets a large number of
->     alternatives. The alternatives are done in the automatically added
->     post install scripts. In all likelihood one of the listed links is
->     wrong, or already a symlink or something similar.
->     On 2/13/2020 4:49 PM, Andrew Boos wrote:
->>     Hi,
->>
->>     I am working on a bitbake build and I am running into an issue
->>     where a postinst scriptlet is failing via "exit 1" to defer to
->>     first boot and I cannot figure out which recipe is causing the
->>     issue. Does anybody have any tips on identifying which recipe is
->>     actually exiting with a failure? The error log says that it is in
->>     imagemagick but the recipe does not have any postinst scripts
->>     defined. Also, there are no imagemagick .bbappend files in my
->>     layers.
->>     (https://github.com/openembedded/meta-openembedded/blob/sumo/meta-oe/recipes-support/imagemagick/imagemagick_7.0.7.bb)
->>
->>     Thanks,
->>     Andrew
->>
->>     <http://www.avg.com/email-signature?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient>
->>     	Virus-free. www.avg.com
->>     <http://www.avg.com/email-signature?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient>
->>
->>
->>     <#m_-7702559278781328841_DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2>
->>
->
->     -- 
->     Jeremy A. Puhlman
->     jpuhlman@mvista.com  <mailto:jpuhlman@mvista.com>
->
->
->
-> -- 
-> *Andrew Boos* | Avilution, LLC
-> (c) 251-895-5509
+python3[11312] general protection fault ip:b7e966b0 sp:bf8175cc error:0 in libc.so[b7e8b000+6b000]
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ ...001-clock-Do-not-define-own-timespec.patch | 45 +++++++++++++++++++
+ meta/recipes-support/db/db_5.3.28.bb          |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch
+
+diff --git a/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch b/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch
+new file mode 100644
+index 0000000000..9d51a44a26
+--- /dev/null
++++ b/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch
+@@ -0,0 +1,45 @@
++From 96b303caf70a7635953c36e5bfb9ad6e75cb7637 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 14 Feb 2020 14:12:59 -0800
++Subject: [PATCH] clock: Do not define own timespec
++
++timespec is provided by libc and its best left to libc
++os_gettime takes a db_timespec and passed its address to clock_gettime
++which assumes that db_timespec and timespec are same but actually
++its 12-bytes here and libc has 16-bytes
++
++This can cause problems especially with 64bit time_t
++
++Upstream-Status: Pending
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/dbinc/clock.h | 17 +----------------
++ 1 file changed, 1 insertion(+), 16 deletions(-)
++
++--- a/src/dbinc/clock.h
+++++ b/src/dbinc/clock.h
++@@ -44,22 +44,8 @@
++ extern "C" {
++ #endif
++ 
++-/*
++- * This declaration is POSIX-compatible.  Because there are lots of different
++- * time.h include file patterns out there, it's easier to declare our own name
++- * in all cases than to try and discover if a system has a struct timespec.
++- * For the same reason, and because we'd have to #include <sys/time.h> in db.h,
++- * we don't export any timespec structures in the DB API, even in places where
++- * it would make sense, like the replication statistics information.
++- */
++-typedef struct {
++-	time_t	tv_sec;				/* seconds */
++-#ifdef HAVE_MIXED_SIZE_ADDRESSING
++-	int32_t tv_nsec;
++-#else
++-	long	tv_nsec;			/* nanoseconds */
++-#endif
++-} db_timespec;
+++#include <time.h>
+++#define db_timespec struct timespec
++ 
++ /* Operations on timespecs */
++ #undef	timespecclear
+diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
+index a2969055a6..badb79f9ea 100644
+--- a/meta/recipes-support/db/db_5.3.28.bb
++++ b/meta/recipes-support/db/db_5.3.28.bb
+@@ -26,6 +26,7 @@ SRC_URI += "file://fix-parallel-build.patch \
+             file://0001-configure-Add-explicit-tag-options-to-libtool-invoca.patch \
+             file://sequence-type.patch \
+             file://0001-Fix-libc-compatibility-by-renaming-atomic_init-API.patch \
++            file://0001-clock-Do-not-define-own-timespec.patch \
+            "
+ # We are not interested in official latest 6.x versions;
+ # let's track what debian is using.
 -- 
-Jeremy A. Puhlman
-jpuhlman@mvista.com
+2.25.0
 
 
---------------4E8E87D4E547580C36170141
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    If you look at the log.do_rootfs it will give you more or less the
-    exact failure(using the message below as a guide), the error message
-    below is basically<br>
-    the final catchall that says "at least one of them failed, please go
-    fix it" kind of message.<br>
-    <br>
-    <div class="moz-cite-prefix">On 2/14/2020 10:30 AM, Andrew Boos
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CAGgh2e_TzXNQejWMog37ad7kf-ruSiRw-rvCC_NpOF-PjMbUhg@mail.gmail.com">
-      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-      <div dir="ltr">Thanks Jeremy for the hint about
-        update-alternatives. It turns out that lmbench was installing a
-        binary called "stream" that conflicts with ImageMagick's own
-        stream. All we had to do was remove lmbench from our
-        IMAGE_INSTALL and the problem went away. I'm posting the
-        original error for anyone that is having the same issue.
-        <div><br>
-        </div>
-        <div>ERROR: imx8-image-3.0b3-r0 do_rootfs: Postinstall
-          scriptlets of ['imagemagick'] have failed. If the intention is
-          to defer them to first boot,<br>
-          then please place them into pkg_postinst_ontarget_${PN} ().<br>
-          Deferring to first boot via 'exit 1' is no longer supported.<br>
-        </div>
-        <div><br>
-        </div>
-        <div>Andrew</div>
-        <div><br>
-        </div>
-      </div>
-      <br>
-      <div class="gmail_quote">
-        <div dir="ltr" class="gmail_attr">On Thu, Feb 13, 2020 at 8:02
-          PM Jeremy A. Puhlman &lt;<a href="mailto:jpuhlman@mvista.com"
-            moz-do-not-send="true">jpuhlman@mvista.com</a>&gt; wrote:<br>
-        </div>
-        <blockquote class="gmail_quote" style="margin:0px 0px 0px
-          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-          <div> <font size="+1"><tt>In these kind of cases, by
-                providing the actual error message, people can provide
-                more help. </tt><tt><br>
-              </tt><tt><br>
-              </tt><tt>The recipe inherits </tt></font><tt><span style="color:rgb(36,41,46);font-size:12px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text-transform:none;white-space:pre-wrap;word-spacing:0px;background-color:rgb(255,255,255);text-decoration-style:initial;text-decoration-color:initial;float:none;display:inline"><font size="+1">update-alternatives and sets a large number of alternatives. The alternatives
-are done in the automatically added post install scripts. In all likelihood one of the listed links
-is wrong, or already a symlink or something similar.</font>
-</span></tt><br>
-            <div>On 2/13/2020 4:49 PM, Andrew Boos wrote:<br>
-            </div>
-            <blockquote type="cite">
-              <div dir="auto">
-                <div dir="auto">Hi,</div>
-                <div dir="auto"><br>
-                </div>
-                <div dir="auto">I am working on a bitbake build and I am
-                  running into an issue where a postinst scriptlet is
-                  failing via "exit 1" to defer to first boot and I
-                  cannot figure out which recipe is causing the issue.
-                  Does anybody have any tips on identifying which recipe
-                  is actually exiting with a failure? The error log says
-                  that it is in imagemagick but the recipe does not have
-                  any postinst scripts defined. Also, there are no
-                  imagemagick .bbappend files in my layers. (<a
-href="https://github.com/openembedded/meta-openembedded/blob/sumo/meta-oe/recipes-support/imagemagick/imagemagick_7.0.7.bb"
-                    target="_blank" moz-do-not-send="true">https://github.com/openembedded/meta-openembedded/blob/sumo/meta-oe/recipes-support/imagemagick/imagemagick_7.0.7.bb</a>)</div>
-                <div dir="auto"><br>
-                </div>
-                <div dir="auto">Thanks,</div>
-                <div dir="auto">Andrew</div>
-              </div>
-              <div
-                id="gmail-m_-7702559278781328841DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2"><br>
-                <table style="border-top:1px solid rgb(211,212,222)">
-                  <tbody>
-                    <tr>
-                      <td style="width:55px;padding-top:13px"><a
-href="http://www.avg.com/email-signature?utm_medium=email&amp;utm_source=link&amp;utm_campaign=sig-email&amp;utm_content=emailclient"
-                          target="_blank" moz-do-not-send="true"><img
-src="https://ipmcdn.avast.com/images/icons/icon-envelope-tick-green-avg-v1.png"
-                            alt="" style="width: 46px; height: 29px;"
-                            moz-do-not-send="true" width="46"
-                            height="29"></a></td>
-                      <td
-style="width:470px;padding-top:12px;color:rgb(65,66,78);font-size:13px;font-family:Arial,Helvetica,sans-serif;line-height:18px">Virus-free.
-                        <a
-href="http://www.avg.com/email-signature?utm_medium=email&amp;utm_source=link&amp;utm_campaign=sig-email&amp;utm_content=emailclient"
-                          style="color:rgb(68,83,234)" target="_blank"
-                          moz-do-not-send="true">www.avg.com</a> </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <a
-                  href="#m_-7702559278781328841_DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2"
-                  width="1" height="1" moz-do-not-send="true"> </a></div>
-              <br>
-              <fieldset></fieldset>
-            </blockquote>
-            <br>
-            <pre cols="72">-- 
-Jeremy A. Puhlman
-<a href="mailto:jpuhlman@mvista.com" target="_blank" moz-do-not-send="true">jpuhlman@mvista.com</a>
-</pre>
-          </div>
-        </blockquote>
-      </div>
-      <br clear="all">
-      <div><br>
-      </div>
-      -- <br>
-      <div dir="ltr" class="gmail_signature">
-        <div dir="ltr">
-          <div>
-            <div dir="ltr">
-              <div
-                style="color:rgb(0,0,0);font-family:Verdana;font-size:13.3333px"><strong>Andrew
-                  Boos</strong> | Avilution, LLC</div>
-              <div
-                style="color:rgb(0,0,0);font-family:Verdana;font-size:13.3333px">(c)
-                251-895-5509</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </blockquote>
-    <br>
-    <pre class="moz-signature" cols="72">-- 
-Jeremy A. Puhlman
-<a class="moz-txt-link-abbreviated" href="mailto:jpuhlman@mvista.com">jpuhlman@mvista.com</a>
-</pre>
-  </body>
-</html>
-
---------------4E8E87D4E547580C36170141--
