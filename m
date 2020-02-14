@@ -1,49 +1,36 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 67B5760213
+Return-Path: <rpjday@crashcourse.ca>
+Received: from cpanel7.indieserve.net (cpanel7.indieserve.net [199.212.143.8])
+	by mail.openembedded.org (Postfix) with ESMTP id 702EC6101D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 13:02:40 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id g3so10797429wrs.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 05:02:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=cFnDItQl2O1kPusV7uAE2u1C6q2bu2ZcfPiRbHhB7CQ=;
-	b=RqsgIUb3nxCCOwwbZrkCj6bTDK5dIDcI7RFXUzC1B77GvM+qt8JpIefIkeLBvRFIf6
-	TkUfzTC9Sjix10BPg25ZxxFvrEsgM9NKOGgPJE3zJbORrZpbwwmqPQbhe3NqcerzPWAz
-	PWkPdvikDi/M/KbR0wUzqUriJbXtGgn6S2JFo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=cFnDItQl2O1kPusV7uAE2u1C6q2bu2ZcfPiRbHhB7CQ=;
-	b=WJM47yss6OQuyyZe4v5F4kivcPEn9f0MR4+HLZB4VsQlMdOhjmFTfXbsXuG3CrPd9h
-	EKKdobbltJKT9H1gpmaG8bZJoy3EUppPjJ6L8v30om7P7ysVqZe5a2wqpE2m7I9JGTrp
-	Ma1vmKS7oFCDY7TG2pFwJTFeajKzH57JAB9NNuOwG1h3b2xOLpmsVX6PU10RIjE2eDPD
-	RSB/qiyVB2cBYyzv5QefE4DUAW6SxavQpmJNP4RqSQdwZFDgQODIMxEiiXCuNNNSQDhD
-	aGdTZIS8t0qtXHdDUaZ+mUe+khA6sraGC9P617zd1UEQc8gC/fcMmEYjYsZbdCbbMqLL
-	vmWg==
-X-Gm-Message-State: APjAAAVVZ0tYynPTnGHuom6Olnvf6jSgZReAAYwCcod+kDXp5xX3OtXz
-	eeIqHaTlVAIurV7SkfX3JgK6MUdwYHA=
-X-Google-Smtp-Source: APXvYqyEgP95huorgblHkH47MJ1t+Vy/pxgOErE0xNHu2j+6dxOK8cf/e8jzivgfM8DpKkKklklafQ==
-X-Received: by 2002:adf:b193:: with SMTP id q19mr3984331wra.78.1581685360288; 
-	Fri, 14 Feb 2020 05:02:40 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o4sm6931353wrx.25.2020.02.14.05.02.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 14 Feb 2020 05:02:39 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Feb 2020 13:02:38 +0000
-Message-Id: <20200214130238.20381-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	Fri, 14 Feb 2020 13:04:50 +0000 (UTC)
+Received: from cpef81d0f814063-cmf81d0f814060.cpe.net.cable.rogers.com
+	([174.114.57.56]:38108 helo=localhost.localdomain)
+	by cpanel7.indieserve.net with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES256-GCM-SHA384:256) (Exim 4.92)
+	(envelope-from <rpjday@crashcourse.ca>) id 1j2aeJ-005awS-13
+	for openembedded-core@lists.openembedded.org;
+	Fri, 14 Feb 2020 08:04:51 -0500
+Date: Fri, 14 Feb 2020 08:04:49 -0500 (EST)
+From: "Robert P. J. Day" <rpjday@crashcourse.ca>
+X-X-Sender: rpjday@localhost.localdomain
+To: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Message-ID: <alpine.LFD.2.21.2002140758340.2874577@localhost.localdomain>
 MIME-Version: 1.0
-Subject: [PATCH] staging: Handle races between binaries and their libs
+X-OutGoing-Spam-Status: No, score=-1.0
+X-AntiAbuse: This header was added to track abuse,
+	please include it with any abuse report
+X-AntiAbuse: Primary Hostname - cpanel7.indieserve.net
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - crashcourse.ca
+X-Get-Message-Sender-Via: cpanel7.indieserve.net: authenticated_id:
+	rpjday+crashcourse.ca/only user confirmed/virtual account not
+	confirmed
+X-Authenticated-Sender: cpanel7.indieserve.net: rpjday@crashcourse.ca
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+Subject: what is MACHINE_HWCODECS used for these days?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,65 +43,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 13:02:40 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 14 Feb 2020 13:04:50 -0000
+Content-Type: text/plain; charset=US-ASCII
 
-There is a long standing issue where a binary could be installed into the
-sysroot before its library dependencies. We've always argued nothing should
-use the binary until its been installed by a dependency but there are issues
-around binaries which conflict with the host system, for example patch,
-python3, gzip and more.
 
-With the recent patch changes we've see issues like:
-ERROR: gdb-cross-canadian-powerpc-8.3.1-r0 do_patch: Command Error: 'quilt --quiltrc /home/pokybuild/yocto-worker/qemuppc/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/gdb-cross-canadian-powerpc/8.3.1-r0/recipe-sysroot-native/etc/quiltrc push' exited with 0  Output:
-Applying patch 0009-Change-order-of-CFLAGS.patch
-patch: /lib64/libattr.so.1: version `ATTR_1.3' not found (required by patch)
-Patch 0009-Change-order-of-CFLAGS.patch does not apply (enforce with -f)
+  was documenting the use of [EXTRA_]IMAGE_FEATURES, and noticed that
+while the oe-core layer defines a related feature:
 
-which is a symptom of this issue (libattr-native is a dependency of patch-native).
+  core-image.bbclass:FEATURE_PACKAGES_hwcodecs = "${MACHINE_HWCODECS}"
+  core-image.bbclass:MACHINE_HWCODECS ??= ""
 
-There are other ways to fix this such as disabling libattr in patch, installing
-patch to a subdirectory and requiring PATH manipulation and so on.
+i see no actual usage of that variable in oe-core (the git log goes
+way back to 2013:
 
-We can simply fix the staging code to handle /bin/ after everything else so lets
-do that and avoid all these other complications.
+  commit 1cb370587fd72e3f0f69678748108cc4116767fb
+  Author: Richard Purdie <richard.purdie@linuxfoundation.org>
+  Date:   Wed Jan 23 21:56:11 2013 -0800
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/staging.bbclass | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+    core-image: Add hwcodecs IMAGE_FEATURE
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 4dd2ed01010..530e23b1853 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -470,6 +470,7 @@ python extend_recipe_sysroot() {
-         elif os.path.lexists(depdir + "/" + c):
-             os.unlink(depdir + "/" + c)
- 
-+    binfiles = {}
-     # Now handle installs
-     for dep in configuredeps:
-         c = setscenedeps[dep][0]
-@@ -562,7 +563,16 @@ python extend_recipe_sysroot() {
-                     if l.endswith("/"):
-                         staging_copydir(l, targetdir, dest, seendirs)
-                         continue
--                    staging_copyfile(l, targetdir, dest, postinsts, seendirs)
-+                    if "/bin/" in l:
-+                        # defer /bin/* files until last in case they need libs
-+                        binfiles[l] = (targetdir, dest)
-+                    else:
-+                        staging_copyfile(l, targetdir, dest, postinsts, seendirs)
-+
-+    # Handle deferred binfiles
-+    for l in binfiles:
-+        (targetdir, dest) = binfiles[l]
-+        staging_copyfile(l, targetdir, dest, postinsts, seendirs)
- 
-     bb.note("Installed into sysroot: %s" % str(msg_adding))
-     bb.note("Skipping as already exists in sysroot: %s" % str(msg_exists))
--- 
-2.20.1
+    Currently hardware codecs are being injected in rather ugly ways and end up
+    either in no or all images. This adds a dedicated IMAGE_FEATURE for them based
+    on the MACHINE_HWCODECS variable. We may need to refine this in due course
+    but this patch at least illustrates the concept.
+
+i looked through other layers on my system, and found some references
+in meta-intel:
+
+conf/machine/intel-core2-32.conf:MACHINE_HWCODECS ?= "intel-vaapi-driver gstreamer1.0-vaapi"
+conf/machine/intel-corei7-64.conf:MACHINE_HWCODECS ?= "${@bb.utils.contains('TUNE_FEATURES', 'mx32', '', 'intel-media-driver
+intel-mediasdk', d)} intel-vaapi-driver gstreamer1.0-vaapi"
+conf/machine/intel-skylake-64.conf:MACHINE_HWCODECS ?= "intel-media-driver intel-mediasdk intel-vaapi-driver
+gstreamer1.0-vaapi"
+
+but i see nothing in *that* layer that actually does anything with
+that variable after setting it. what is it used for? and how is it
+processed?
+
+rday
 
 
