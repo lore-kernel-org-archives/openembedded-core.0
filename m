@@ -1,34 +1,49 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1117D60C6A
+Return-Path: <masahiroy@kernel.org>
+X-Greylist: delayed 500 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 14 Feb 2020 05:29:42 UTC
+Received: from condef-10.nifty.com (condef-10.nifty.com [202.248.20.75])
+	by mail.openembedded.org (Postfix) with ESMTP id A8FC760740
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 04:33:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01E4X8sC021519
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Fri, 14 Feb 2020 05:29:42 +0000 (UTC)
+Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-10.nifty.com
+	with ESMTP id 01E5Inoq024703
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 20:33:08 -0800 (PST)
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.202]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0468.000;
-	Thu, 13 Feb 2020 20:33:07 -0800
-From: "Chen, Qi" <Qi.Chen@windriver.com>
-To: "He, Zhe" <Zhe.He@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v3] perf: Correct the substitution of python
-	shebangs
-Thread-Index: AQHV4usOFdXJfI7dMESeN8Gsn1TlnagaGdkT
-Date: Fri, 14 Feb 2020 04:33:06 +0000
-Message-ID: <DBB018487F2B2F4EA51053C8975CCBF0F0A82841@ALA-MBD.corp.ad.wrs.com>
-References: <20200214035737.9975-1-zhe.he@windriver.com>
-In-Reply-To: <20200214035737.9975-1-zhe.he@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.24.64]
+	Fri, 14 Feb 2020 14:18:49 +0900
+Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
+	[209.85.221.169]) (authenticated)
+	by conssluserg-04.nifty.com with ESMTP id 01E5IhtI020798
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Feb 2020 14:18:44 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 01E5IhtI020798
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+	s=dec2015msa; t=1581657524;
+	bh=9jksyxMKOlxH2keMnn7ZMNSFVqerXpzbW90PGjw1HNM=;
+	h=References:In-Reply-To:From:Date:Subject:To:From;
+	b=O0Cewi7kRBRYiGU9OgebzIIpdQdp6MI8ziN7jpV6VvZA0dN2kssrq3mrHxYzPM9ZC
+	G2ekDMgwEi9yRs5qUVnKJxMUrwRtDVqdMhdLEMCfTK/p+yNdIGqCkLAj+wZH8ASehT
+	cPvHzwWneDFPYgavMDLzSZGypCE+9gJWoURFaWNJ0E0ihBfot7wWPqh1ggSJfvg/6B
+	6Hu+U9zqkh0ThfOUW3PuIYfAqjTqZhY9a8EGQ1IMCh8XljlyWwS6nkleV0Xb4reuOa
+	56YAyiwK+08wnICaDqWtpORvcSdbb6rYYHOHi896BmP1UD4Wgv7LFU4NTXYwXbPxtL
+	PMpCzPmHcWAYA==
+X-Nifty-SrcIP: [209.85.221.169]
+Received: by mail-vk1-f169.google.com with SMTP id o187so2281714vka.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Feb 2020 21:18:43 -0800 (PST)
+X-Gm-Message-State: APjAAAWBdECm1LW8wtQLzLhSt0tW773/KcBGwwn4+YlrchVi8hw1TI8/
+	o53mhPrTlZQ7r2pzWJVNeNt78ZJlvHkdL3DdnAg=
+X-Google-Smtp-Source: APXvYqy7EfNg60BoNvEyLSI5h04p8C9nU/Lb+eLzFaSNQRwJxfVVzmAy/WAd2HGFlWbzHAdX4HNTVs3Dfdb8RjswTQ8=
+X-Received: by 2002:a1f:8cd5:: with SMTP id o204mr826901vkd.66.1581657522832; 
+	Thu, 13 Feb 2020 21:18:42 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] perf: Correct the substitution of python	shebangs
+References: <20200113123731.15117-1-masahiroy@kernel.org>
+In-Reply-To: <20200113123731.15117-1-masahiroy@kernel.org>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Fri, 14 Feb 2020 14:18:07 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAS4=j8GwZR48EZMZFuyUy6ed-ZK_yiDZ32QrMnVnq=y5g@mail.gmail.com>
+Message-ID: <CAK7LNAS4=j8GwZR48EZMZFuyUy6ed-ZK_yiDZ32QrMnVnq=y5g@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH] bitbake.conf: do not let DISTROOVERRIDES fall back to empty string
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,69 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 04:33:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Feb 2020 05:29:43 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-TA
+Hi.
 
-________________________________________
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of zhe.he@windriver.com [zhe.he@wi=
-ndriver.com]
-Sent: Friday, February 14, 2020 11:57 AM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH v3] perf: Correct the substitution of python  she=
-bangs
+On Mon, Jan 13, 2020 at 9:37 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
+>
+> Commit abacd7243a2e ("bitbake.conf: fix distro-less failure expanding
+> FILESPATH") mended the littered DISROOVERRIDES when DISTRO is unset.
+>
+> Some time later, commit b7279f996397 ("bitbake.conf: Default DISTRO to
+> nodistro") added a weak default to 'DISTRO'.
+>
+> So, this line can go back to the original simple definition.
+>
+> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
 
-From: He Zhe <zhe.he@windriver.com>
 
-To make the native python3 is always used,
+Please let me ping this in case this was missed.
+This looks like a good clean-up to me.
 
-- Use sed one-liner instead
-- Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
-  following warning.
 
-File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
-_temp =3D __import__(name, globals(), locals(), ['build_time_vars'], 0)
-ModuleNotFoundError: No module named '_sysconfigdata'
 
-This issue is first reported by Joel Stanley <joel@jms.id.au>
-The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
+> ---
+>
+>  meta/conf/bitbake.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 62b5466b71..d2b6ca840f 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -736,7 +736,7 @@ DISTRO_NAME ??= "OpenEmbedded"
+>  OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
+>  LIBCOVERRIDE ?= ""
+>  CLASSOVERRIDE ?= "class-target"
+> -DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
+> +DISTROOVERRIDES ?= "${DISTRO}"
+>  MACHINEOVERRIDES ?= "${MACHINE}"
+>
+>  FILESOVERRIDES = "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}"
+> --
+> 2.17.1
+>
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/pe=
-rf.bb
-index 6d1b06693d..a6fb51d3db 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -239,11 +239,8 @@ do_configure_prepend () {
-     fi
-
-     # use /usr/bin/env instead of version specific python
--    for s in `find ${S}/tools/perf/ -name '*.py'`; do
--        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
--        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
--        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
--        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
-+    for s in `find ${S}/tools/perf/ -name '*.py'` ${S}/scripts/bpf_helpers=
-_doc.py; do
-+        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
-     done
-
-     # unistd.h can be out of sync between libc-headers and the captured ve=
-rsion in the perf source
---
-2.24.1
-
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+-- 
+Best Regards
+Masahiro Yamada
 
