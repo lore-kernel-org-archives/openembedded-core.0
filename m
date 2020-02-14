@@ -1,56 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D64896070A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 67B5760213
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 12:19:30 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id 1so3505954uao.1
+	Fri, 14 Feb 2020 13:02:40 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id g3so10797429wrs.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 04:19:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0+sKXUVUB5VQg8+KrP7zWszLavZwcGMAv9sG/YdMstA=;
-	b=Y5ekiRUwaN1nNI9k3a2+h5XGoohSSnlPRplhRwUHPeB0I5FeXYwncByS6lWAqvfpEC
-	HhEGiMcgngn9NVJInWvI+OIQAQs6iUQI8/nhaqqOKSo5GI+8Y+kjjEM31oN7og4pMmxy
-	j0mjRfQZWBaqqUdzlDWQczs3LdNj3H5u2m9VsNEzthbuBAd+SVROScX7bBfBzxTIo/VN
-	LnNByoaQf3jD8imoBAikC8lLtXJXHPGjv1//SCCdrFolrY7TtGOcQFXzG4KwKxpfbLrc
-	hSJ0K+rdo84Kw2Weet7g52B4SRYJYv3hec+KTLqqufLTscZNtwfsMfMwets9fi+wVVwc
-	nKug==
+	Fri, 14 Feb 2020 05:02:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cFnDItQl2O1kPusV7uAE2u1C6q2bu2ZcfPiRbHhB7CQ=;
+	b=RqsgIUb3nxCCOwwbZrkCj6bTDK5dIDcI7RFXUzC1B77GvM+qt8JpIefIkeLBvRFIf6
+	TkUfzTC9Sjix10BPg25ZxxFvrEsgM9NKOGgPJE3zJbORrZpbwwmqPQbhe3NqcerzPWAz
+	PWkPdvikDi/M/KbR0wUzqUriJbXtGgn6S2JFo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=0+sKXUVUB5VQg8+KrP7zWszLavZwcGMAv9sG/YdMstA=;
-	b=oAESYaMfuyXeDap5fsSOtW+TRqyge5I41ZYG9nxO2kaFLUbNCX3nZW366VyYuaQ37W
-	HaSJRRAwHQ46Tz7fwg+88wIH6U1vwp2wZRFqwTeOETVqWrGoAjYKbdMlzALA059Q5qpS
-	Ma76rpWJbiNIIzwIyorwZCLa18WXDBZ9Iefm9jx6UCSfrLqCDAJl74Qf1tSk5b4loCb3
-	7Mj99ZxHobZS4pctbnMLmQGoarKLNA1AwWpHELaoN+HmOo/YhoAmvELcdeHD1zPSmO/m
-	vssEQ0iuKAfU6Pg9tczmVvFpQeCf3ed5kRHDMuOdUde9EKP9z0P0OV7Nk81pR0WSdq9i
-	gFqA==
-X-Gm-Message-State: APjAAAUyUSKqJI++wWp0vAhbQhayJ6X9dvygxaEw1XPyABFm3ZdJCObD
-	m32dPn8Q6uJ01p9hOPx4PwFfBU3v6yi5Z3yglq+eSw==
-X-Google-Smtp-Source: APXvYqzrGDsZInx/jse8V9RvJslaabpg1fg9CuZDJB6GbJgfcU5DEWFUojtoduNrCBzvgnLJF4/Ed58xL6pmE/gsdHg=
-X-Received: by 2002:ab0:3381:: with SMTP id y1mr1235333uap.93.1581682771581;
-	Fri, 14 Feb 2020 04:19:31 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cFnDItQl2O1kPusV7uAE2u1C6q2bu2ZcfPiRbHhB7CQ=;
+	b=WJM47yss6OQuyyZe4v5F4kivcPEn9f0MR4+HLZB4VsQlMdOhjmFTfXbsXuG3CrPd9h
+	EKKdobbltJKT9H1gpmaG8bZJoy3EUppPjJ6L8v30om7P7ysVqZe5a2wqpE2m7I9JGTrp
+	Ma1vmKS7oFCDY7TG2pFwJTFeajKzH57JAB9NNuOwG1h3b2xOLpmsVX6PU10RIjE2eDPD
+	RSB/qiyVB2cBYyzv5QefE4DUAW6SxavQpmJNP4RqSQdwZFDgQODIMxEiiXCuNNNSQDhD
+	aGdTZIS8t0qtXHdDUaZ+mUe+khA6sraGC9P617zd1UEQc8gC/fcMmEYjYsZbdCbbMqLL
+	vmWg==
+X-Gm-Message-State: APjAAAVVZ0tYynPTnGHuom6Olnvf6jSgZReAAYwCcod+kDXp5xX3OtXz
+	eeIqHaTlVAIurV7SkfX3JgK6MUdwYHA=
+X-Google-Smtp-Source: APXvYqyEgP95huorgblHkH47MJ1t+Vy/pxgOErE0xNHu2j+6dxOK8cf/e8jzivgfM8DpKkKklklafQ==
+X-Received: by 2002:adf:b193:: with SMTP id q19mr3984331wra.78.1581685360288; 
+	Fri, 14 Feb 2020 05:02:40 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o4sm6931353wrx.25.2020.02.14.05.02.38
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 14 Feb 2020 05:02:39 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Feb 2020 13:02:38 +0000
+Message-Id: <20200214130238.20381-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <cover.1581575578.git.raj.khem@gmail.com>
-	<CANNYZj_T=J2fs39fpPKQjC5rGSg_opTeUGzPokeiU-5jwhRzTQ@mail.gmail.com>
-	<CAMKF1sqJTPVFALwd0qx+zfWq3MsmhVL=n58CDMns1MwJH2mTsw@mail.gmail.com>
-	<CANNYZj_C7i+2QKaFqjiDh0DFYYuYO7eY72wTR9NKz9JEjDtjCA@mail.gmail.com>
-	<CAMKF1sot=-RJ0O-HLQRHWsi4OUHhUKsyi9WzoZiXOJrvaX_QGw@mail.gmail.com>
-	<CANNYZj_7pG5EGjOR2BW3beJ3J__37GR29XZFaRotvuG9KFCnOQ@mail.gmail.com>
-	<CAMKF1sp_fEAyuGxgxUG=bXuVEMm01NG+g6Vqz29Pseht0nPQDw@mail.gmail.com>
-	<CANNYZj_tT5QSvyqhk-dOThThcO-rM-jT6PrTwM4pt8y7sPVSxQ@mail.gmail.com>
-	<CAMKF1spgO92JJAaVCP26veEsedY_FAziNn6zi9cbpuy2_ofmSg@mail.gmail.com>
-	<CANNYZj-7Aidoy4Y6P7ZzXNuGtUCcKddF4B3oeBMrcmmNAceDtQ@mail.gmail.com>
-	<CAMKF1soWY20D8HwCEQK8pTsxcR8Bxc7y3aE2mnx2_XdFVJW4Og@mail.gmail.com>
-In-Reply-To: <CAMKF1soWY20D8HwCEQK8pTsxcR8Bxc7y3aE2mnx2_XdFVJW4Og@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 14 Feb 2020 13:19:59 +0100
-Message-ID: <CANNYZj-MhZhZ1QANwkQxiqCU8dtt5Mn3LzPTtqkB5-BCekDU3w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] recipe updates, testing fixes
+Subject: [PATCH] staging: Handle races between binaries and their libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,43 +56,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 12:19:31 -0000
-Content-Type: multipart/alternative; boundary="000000000000bf5f0c059e8837f8"
+X-List-Received-Date: Fri, 14 Feb 2020 13:02:40 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000bf5f0c059e8837f8
-Content-Type: text/plain; charset="UTF-8"
+There is a long standing issue where a binary could be installed into the
+sysroot before its library dependencies. We've always argued nothing should
+use the binary until its been installed by a dependency but there are issues
+around binaries which conflict with the host system, for example patch,
+python3, gzip and more.
 
-On Fri, 14 Feb 2020 at 08:15, Khem Raj <raj.khem@gmail.com> wrote:
+With the recent patch changes we've see issues like:
+ERROR: gdb-cross-canadian-powerpc-8.3.1-r0 do_patch: Command Error: 'quilt --quiltrc /home/pokybuild/yocto-worker/qemuppc/build/build/tmp/work/x86_64-nativesdk-pokysdk-linux/gdb-cross-canadian-powerpc/8.3.1-r0/recipe-sysroot-native/etc/quiltrc push' exited with 0  Output:
+Applying patch 0009-Change-order-of-CFLAGS.patch
+patch: /lib64/libattr.so.1: version `ATTR_1.3' not found (required by patch)
+Patch 0009-Change-order-of-CFLAGS.patch does not apply (enforce with -f)
 
-> local.conf I have
->
-> DISTRO_FEATURES_append = " largefile opengl ptest multiarch wayland pam
-> polkit "
-> IMAGE_CLASSES += "testimage testsdk"
->
+which is a symptom of this issue (libattr-native is a dependency of patch-native).
 
-Right, I'm running this now, it's a bit tricky because I have to do it on
-the Yocto AB. Big company's bureaucracy is causing delays in getting me a
-build machine :(
+There are other ways to fix this such as disabling libattr in patch, installing
+patch to a subdirectory and requiring PATH manipulation and so on.
 
-Alex
+We can simply fix the staging code to handle /bin/ after everything else so lets
+do that and avoid all these other complications.
 
---000000000000bf5f0c059e8837f8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/staging.bbclass | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 14 Feb 2020 at 08:15, Khem Raj &l=
-t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
-r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;=
-border-left-color:rgb(204,204,204);padding-left:1ex">local.conf I have<br>
-<br>
-DISTRO_FEATURES_append =3D &quot; largefile opengl ptest multiarch wayland =
-pam polkit &quot;<br>
-IMAGE_CLASSES +=3D &quot;testimage testsdk&quot;<br></blockquote><div><br><=
-/div><div>Right, I&#39;m running this now, it&#39;s a bit tricky because I =
-have to do it on the Yocto AB. Big company&#39;s bureaucracy is causing del=
-ays in getting me a build machine :(</div><div><br></div><div>Alex</div></d=
-iv></div>
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 4dd2ed01010..530e23b1853 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -470,6 +470,7 @@ python extend_recipe_sysroot() {
+         elif os.path.lexists(depdir + "/" + c):
+             os.unlink(depdir + "/" + c)
+ 
++    binfiles = {}
+     # Now handle installs
+     for dep in configuredeps:
+         c = setscenedeps[dep][0]
+@@ -562,7 +563,16 @@ python extend_recipe_sysroot() {
+                     if l.endswith("/"):
+                         staging_copydir(l, targetdir, dest, seendirs)
+                         continue
+-                    staging_copyfile(l, targetdir, dest, postinsts, seendirs)
++                    if "/bin/" in l:
++                        # defer /bin/* files until last in case they need libs
++                        binfiles[l] = (targetdir, dest)
++                    else:
++                        staging_copyfile(l, targetdir, dest, postinsts, seendirs)
++
++    # Handle deferred binfiles
++    for l in binfiles:
++        (targetdir, dest) = binfiles[l]
++        staging_copyfile(l, targetdir, dest, postinsts, seendirs)
+ 
+     bb.note("Installed into sysroot: %s" % str(msg_adding))
+     bb.note("Skipping as already exists in sysroot: %s" % str(msg_exists))
+-- 
+2.20.1
 
---000000000000bf5f0c059e8837f8--
+
