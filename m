@@ -1,54 +1,55 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D0F4F6100E
+Return-Path: <jpuhlman@mvista.com>
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com
+	[209.85.210.45])
+	by mail.openembedded.org (Postfix) with ESMTP id A4CB560FD5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 01:39:59 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id v2so7762102qkj.2
+	Fri, 14 Feb 2020 02:02:16 +0000 (UTC)
+Received: by mail-ot1-f45.google.com with SMTP id h9so7650268otj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 17:40:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=Vc8Jkdenu0lWO1cJdgedlUerfUzJC+STsewIhzrVmh8=;
-	b=LGCJKDkru7yqSP1WlOFXzNiEMECvRNbmZ7xF4iJSRMuh354yfImCP1xk6HiQUsHGzl
-	mYv/LcnvgiLIJdMzI+QiiwuoSLgbTbYM67q8cYPSJu70P+R3NpjGNhDlejQDNMurXSVL
-	yatK2977qPDhcIRICfJ7d86WP0qbzbJi0I3e3DXX95pruMwob9JboeLSi9cLiz2G9pef
-	ZEjaNhWbCYActqUwZoC5avkHgzh8VBfEApR3eepF0OkfLa4F809hasTsWYVraVo/F0LY
-	kF33NZepBafF6YFT8nxDvV+6OVFHSadrb+ZSPS1c+OBztNid1tCmdvbyy+iw+EDerAHI
-	HEyQ==
+	Thu, 13 Feb 2020 18:02:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mvista-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-language;
+	bh=qimqrSUgR7aNeN8g2+OmO/JldLBUHFkqFGgKDu8V8Kg=;
+	b=cPNxMlbkVvB/T1I7RE9A9TMuJ+ik7LiEcmd1brOff5gSmKEQer/+3n2DyBCPCnu4A8
+	pr8hdFvKAvQuoM27FTn5Xg4dARWqdmiQIanP4NGfIxT/1mNprFxs5oTFSeNZgFg5BRPD
+	g4u2kfGXSeovLAbsW+Wy5Hc16alJKRgUyOyZ7btly+Ue0omgk2a6kbYzj515QK5qoAnt
+	fwJBrf/e03yMwRkb84XukZMAr32u5lLFmNAkvtc9YeaIFpitGM+g/HrVXRv0Hm0RLDFG
+	cUgxg1EeOcWIcQWTAobNDULuMyjk6LnsHvvqMkkIPIAlcL1DvekAHAkzL7pw+dV9G1QV
+	RUsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Vc8Jkdenu0lWO1cJdgedlUerfUzJC+STsewIhzrVmh8=;
-	b=h613MmyhU5c2dl0Pd7vdQY/5/hn6vopZAfOpWr7k2kwOd8/DknkqjAdEKoV/AyXbly
-	vGekAHJjk8F00Ou2jg70csG153RX4uPfrIDa0Fy/BzXp3EjKjvd3h3ClmcoUQGWYEP7S
-	O7mIihJ5VsVLqY5dBw05KjIE4QpeScaYp0NP0EPGTYWJ3UIHxY6w8D8AxYqcZG89y+R8
-	l7Q6/eCtNu3uboCHxrfNwymNuF0LGdyEI8UR+fnewOYFR8I1795vuXt9orj1yZWM4/5v
-	Z1k/trUmhcKMl5NRb9OvdtiEHWn/wXTK4tfpyelf+83ApJVJyOjQMt5TFAtjzpRHSvho
-	LwgA==
-X-Gm-Message-State: APjAAAUMvg8jfNr9brHHpmTgxnweIPVBwDDVnV7efaxoyTenytD8MP0w
-	kVyn/ZkVaje9OtcwsjP5JtnJ98TPKg2Ynxz0Ojk=
-X-Google-Smtp-Source: APXvYqz3X/pWRQHQx2HQmPyyTTfMeF1gaEaG2n9H4e00SdazewreIgXPWVp0P0eSn22+YND6HFvdUpHF35+1MUWlu0k=
-X-Received: by 2002:ae9:ef96:: with SMTP id d144mr392157qkg.337.1581644400455; 
-	Thu, 13 Feb 2020 17:40:00 -0800 (PST)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=qimqrSUgR7aNeN8g2+OmO/JldLBUHFkqFGgKDu8V8Kg=;
+	b=WWpbsmiGwzYfbxb6xYtHXc9MnrV8ZjRS5Bb3o1VvJb5SDCs/Sj7xYefNQuvEwTKbMh
+	d5zWpLjRFL2cqTQeJ1XlTEk5v2JFLnw+xXvGM0DVLyqRvxjaO7dEckenMi6g23bfbWx6
+	byH/U+txKI1M8YVbTJu3fIvpsm9mO6pvy3OATwiIOldkCJIytw8FWVAI7R9T0+Po0SM6
+	KIqYtogO3KK8nMRaa2VkiVHm1QtdxWOEYjF/2GzUWhbworcUkqOcmCqhv+BrMVWsxqOP
+	baPzaUvRPWIENWaLJw/2MCWtifTnDbnXV3lBMo6NPAeh23BSAhhBX4GJ6oBIdnM06vWv
+	tjkw==
+X-Gm-Message-State: APjAAAWJpi0nNfnzbwx/ZoxPahwVLaMfv80UwCsbUgzd2aZGQ08zBx7/
+	oocRFN69FjBR5SoenVg1i1bRVPmv2Ds=
+X-Google-Smtp-Source: APXvYqybPWRM2msdX+MANXR0NR3saPmRSiskK7ypeVrZ4b8GBGl+iNTGQMM73EvJ+VIEnIEMCNk0bA==
+X-Received: by 2002:a9d:4110:: with SMTP id o16mr397482ote.101.1581645736945; 
+	Thu, 13 Feb 2020 18:02:16 -0800 (PST)
+Received: from ?IPv6:2600:1700:4c90:60a0:18f0:30d2:de29:e134?
+	([2600:1700:4c90:60a0:18f0:30d2:de29:e134])
+	by smtp.gmail.com with ESMTPSA id g25sm1448835otr.8.2020.02.13.18.02.15
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Thu, 13 Feb 2020 18:02:16 -0800 (PST)
+To: Andrew Boos <andrew@avilution.com>,
+	openembedded-core@lists.openembedded.org
+References: <CAGgh2e88CwQZjrosOkZ4Jdd4nK2V=YC3+e65eRmLrqdUSPC73Q@mail.gmail.com>
+From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
+Message-ID: <1b01b37f-ba3b-da34-8e04-81e3f2dd72fb@mvista.com>
+Date: Thu, 13 Feb 2020 18:01:54 -0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <cover.1581575578.git.raj.khem@gmail.com>
-	<CANNYZj_T=J2fs39fpPKQjC5rGSg_opTeUGzPokeiU-5jwhRzTQ@mail.gmail.com>
-	<CAMKF1sqJTPVFALwd0qx+zfWq3MsmhVL=n58CDMns1MwJH2mTsw@mail.gmail.com>
-	<CANNYZj_C7i+2QKaFqjiDh0DFYYuYO7eY72wTR9NKz9JEjDtjCA@mail.gmail.com>
-	<CAMKF1sot=-RJ0O-HLQRHWsi4OUHhUKsyi9WzoZiXOJrvaX_QGw@mail.gmail.com>
-	<CANNYZj_7pG5EGjOR2BW3beJ3J__37GR29XZFaRotvuG9KFCnOQ@mail.gmail.com>
-	<CAMKF1sp_fEAyuGxgxUG=bXuVEMm01NG+g6Vqz29Pseht0nPQDw@mail.gmail.com>
-	<CANNYZj_tT5QSvyqhk-dOThThcO-rM-jT6PrTwM4pt8y7sPVSxQ@mail.gmail.com>
-In-Reply-To: <CANNYZj_tT5QSvyqhk-dOThThcO-rM-jT6PrTwM4pt8y7sPVSxQ@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 13 Feb 2020 17:39:34 -0800
-Message-ID: <CAMKF1spgO92JJAaVCP26veEsedY_FAziNn6zi9cbpuy2_ofmSg@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] recipe updates, testing fixes
+In-Reply-To: <CAGgh2e88CwQZjrosOkZ4Jdd4nK2V=YC3+e65eRmLrqdUSPC73Q@mail.gmail.com>
+Subject: Re: Unknown Postinstall Scriptlet Failing to Defer Boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,47 +62,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 01:40:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Feb 2020 02:02:16 -0000
+Content-Type: multipart/alternative;
+	boundary="------------E6EB8CF3D2FD22DC4C4644CC"
+Content-Language: en-US
 
-On Thu, Feb 13, 2020 at 2:05 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
+--------------E6EB8CF3D2FD22DC4C4644CC
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+In these kind of cases, by providing the actual error message, people 
+can provide more help.
+
+The recipe inherits update-alternatives and sets a large number of 
+alternatives. The alternatives are done in the automatically added post 
+install scripts. In all likelihood one of the listed links is wrong, or 
+already a symlink or something similar.
+On 2/13/2020 4:49 PM, Andrew Boos wrote:
+> Hi,
 >
-> On Thu, 13 Feb 2020 at 22:37, Khem Raj <raj.khem@gmail.com> wrote:
->>>
->>>
->>> Merging these patches will exclude rpm from images, and so will mask th=
-e issue, so it's not orthogonal.
->>
->>
->> are you actively working to fix the test case ?
->> In that case it would be justified to hold them
+> I am working on a bitbake build and I am running into an issue where a 
+> postinst scriptlet is failing via "exit 1" to defer to first boot and 
+> I cannot figure out which recipe is causing the issue. Does anybody 
+> have any tips on identifying which recipe is actually exiting with a 
+> failure? The error log says that it is in imagemagick but the recipe 
+> does not have any postinst scripts defined. Also, there are no 
+> imagemagick .bbappend files in my layers. 
+> (https://github.com/openembedded/meta-openembedded/blob/sumo/meta-oe/recipes-support/imagemagick/imagemagick_7.0.7.bb)
+>
+> Thanks,
+> Andrew
+>
+> <http://www.avg.com/email-signature?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient> 
+> 	Virus-free. www.avg.com 
+> <http://www.avg.com/email-signature?utm_medium=email&utm_source=link&utm_campaign=sig-email&utm_content=emailclient> 
 >
 >
-> The test case that is failing for you (with ipk/opkg and core-image-sato-=
-sdk) is passing just fine on the autobuilder [1], so I am missing informati=
-on on how to reproduce. I have requested this information from you here [2]=
- and got no answer so far. Or is it some other test that is failing? That i=
-sn't entirely clear.
+> <#DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2>
 >
 
-autobuilder runs poky, to reproduce this you will need to use
-oe-core+bitbake checkout
+-- 
+Jeremy A. Puhlman
+jpuhlman@mvista.com
 
-and then for qemux86-64
 
-bitbake -ctestimage core-image-sato-sdk-ptest
+--------------E6EB8CF3D2FD22DC4C4644CC
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 7bit
 
-it might also work in poky setup if you remove
-PACKAGE_CLASSES ?=3D "package_rpm"
-from local.conf
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <font size="+1"><tt>In these kind of cases, by providing the actual
+        error message, people can provide more help. </tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>The recipe inherits </tt></font><tt><span style="color: rgb(36, 41, 46); font-size: 12px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: pre; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;"><font size="+1">update-alternatives and sets a large number of alternatives. The alternatives
+are done in the automatically added post install scripts. In all likelihood one of the listed links
+is wrong, or already a symlink or something similar.</font>
+</span></tt><br>
+    <div class="moz-cite-prefix">On 2/13/2020 4:49 PM, Andrew Boos
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAGgh2e88CwQZjrosOkZ4Jdd4nK2V=YC3+e65eRmLrqdUSPC73Q@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div dir="auto">
+        <div dir="auto">Hi,</div>
+        <div dir="auto"><br>
+        </div>
+        <div dir="auto">I am working on a bitbake build and I am running
+          into an issue where a postinst scriptlet is failing via "exit
+          1" to defer to first boot and I cannot figure out which recipe
+          is causing the issue. Does anybody have any tips on
+          identifying which recipe is actually exiting with a failure?
+          The error log says that it is in imagemagick but the recipe
+          does not have any postinst scripts defined. Also, there are no
+          imagemagick .bbappend files in my layers. (<a
+href="https://github.com/openembedded/meta-openembedded/blob/sumo/meta-oe/recipes-support/imagemagick/imagemagick_7.0.7.bb"
+            moz-do-not-send="true">https://github.com/openembedded/meta-openembedded/blob/sumo/meta-oe/recipes-support/imagemagick/imagemagick_7.0.7.bb</a>)</div>
+        <div dir="auto"><br>
+        </div>
+        <div dir="auto">Thanks,</div>
+        <div dir="auto">Andrew</div>
+      </div>
+      <div id="DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2"><br>
+        <table style="border-top: 1px solid #D3D4DE;">
+          <tbody>
+            <tr>
+              <td style="width: 55px; padding-top: 13px;"><a
+href="http://www.avg.com/email-signature?utm_medium=email&amp;utm_source=link&amp;utm_campaign=sig-email&amp;utm_content=emailclient"
+                  target="_blank" moz-do-not-send="true"><img
+src="https://ipmcdn.avast.com/images/icons/icon-envelope-tick-green-avg-v1.png"
+                    alt="" style="width: 46px; height: 29px;"
+                    moz-do-not-send="true" width="46" height="29"></a></td>
+              <td style="width: 470px; padding-top: 12px; color:
+                #41424e; font-size: 13px; font-family: Arial, Helvetica,
+                sans-serif; line-height: 18px;">Virus-free. <a
+href="http://www.avg.com/email-signature?utm_medium=email&amp;utm_source=link&amp;utm_campaign=sig-email&amp;utm_content=emailclient"
+                  target="_blank" style="color: #4453ea;"
+                  moz-do-not-send="true">www.avg.com</a> </td>
+            </tr>
+          </tbody>
+        </table>
+        <a href="#DAB4FAD8-2DD7-40BB-A1B8-4E2AA1F9FDF2" width="1"
+          height="1" moz-do-not-send="true"> </a></div>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+    </blockquote>
+    <br>
+    <pre class="moz-signature" cols="72">-- 
+Jeremy A. Puhlman
+<a class="moz-txt-link-abbreviated" href="mailto:jpuhlman@mvista.com">jpuhlman@mvista.com</a>
+</pre>
+  </body>
+</html>
 
-> [1] https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/155=
-4/steps/8/logs/step1c
->
-> [2] http://lists.openembedded.org/pipermail/openembedded-core/2020-Februa=
-ry/292774.html
->
-> Alex
-
+--------------E6EB8CF3D2FD22DC4C4644CC--
