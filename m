@@ -1,25 +1,51 @@
-Return-Path: <chee.yang.lee@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id E1C5D6102A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8191B60ADA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 08:08:09 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 Feb 2020 00:01:02 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.70,439,1574150400"; d="scan'208";a="434706326"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga006.fm.intel.com with ESMTP; 14 Feb 2020 00:01:02 -0800
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Feb 2020 16:01:00 +0800
-Message-Id: <1581667260-55575-2-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1581667260-55575-1-git-send-email-chee.yang.lee@intel.com>
-References: <1581667260-55575-1-git-send-email-chee.yang.lee@intel.com>
-Subject: [PATCH 2/2] libxml2: Fix CVE-2019-20388
+	Fri, 14 Feb 2020 08:22:01 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id m16so9824314wrx.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Feb 2020 00:22:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=h/z8CAb6WQE0z48HLSz7n0sjnLVGQ5VZbHnC4o8XT04=;
+	b=g8gA9902UGkjPiEAnEW8UjrGjS2Bj0xLQnFxEXUIRYFTM8p7pQ9esgpV2aQhkcHym9
+	VAGs1l+0LlZdL8KrNFmsh8sB7x+zuSDosXHqSuf5cMq3RemF+6nCHGTgwmblVyVTzS3M
+	UaibJe05LECjtD6y108Xe/UZyNpvmHEaaBZ+U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=h/z8CAb6WQE0z48HLSz7n0sjnLVGQ5VZbHnC4o8XT04=;
+	b=grRsj49zYIHwbEMuDadJCwLl5RdGw9fTXV39ndqBlG7gkONIg3NefNGbbhh8ALKCoC
+	Eu5S7ECuWEwsRkINn+2BPH/Q4kEz/6hTeQnRTJxYT9kGD+wiw+Nz1nliEUID91S0Ycod
+	b3wNH48bdmUh+fJnbhY90Klihs5Sm+p+U1sRjuMUdlVQNyU+uk+vPwwaKnlBm5eGgwum
+	vLqYE3nIVHsKdAaMmmz3zawM7jcpzfd9424GW1iDzFCmNHNxN5He6va1xoG3A8gGc1v5
+	+VZa81uGQzeupXCOz/n9GZd+hTRvCvIvp6ujz79uJ2et6v3XqffDW3XxkKkcwXflqZg2
+	/Hyw==
+X-Gm-Message-State: APjAAAV236ibObUAdEgiVl/1Je/a2Em2YOJJed9YuDmEzvnYdZO0dUbe
+	+OqjpEeQqwhkrB0YjpEof0olFg==
+X-Google-Smtp-Source: APXvYqxZe5lhRd+DThLyWSo+DAxpbuQlER9PcuEY1yWYZWVcvufoDehzTzQmBGVPLBC5z4sLsxdRTA==
+X-Received: by 2002:adf:e683:: with SMTP id r3mr2823270wrm.38.1581668521786;
+	Fri, 14 Feb 2020 00:22:01 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id a9sm6593807wrn.3.2020.02.14.00.22.00
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 14 Feb 2020 00:22:01 -0800 (PST)
+Message-ID: <0b5d9d0d5b160a7bf0ac9b309bbcf2b687fef580.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Wang Mingyu <wangmy@cn.fujitsu.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 14 Feb 2020 08:21:59 +0000
+In-Reply-To: <1581356285-65315-2-git-send-email-wangmy@cn.fujitsu.com>
+References: <1581356285-65315-1-git-send-email-wangmy@cn.fujitsu.com>
+	<1581356285-65315-2-git-send-email-wangmy@cn.fujitsu.com>
+User-Agent: Evolution 3.34.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH] xkeyboard-config: upgrade 2.28 -> 2.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,72 +58,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 08:08:10 -0000
+X-List-Received-Date: Fri, 14 Feb 2020 08:22:01 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Lee Chee Yang <chee.yang.lee@intel.com>
+On Mon, 2020-02-10 at 09:38 -0800, Wang Mingyu wrote:
+> Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+> ---
+>  .../{xkeyboard-config_2.28.bb => xkeyboard-config_2.29.bb}    | 4
+> ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.28.bb =>
+> xkeyboard-config_2.29.bb} (87%)
 
-see:
-https://gitlab.gnome.org/GNOME/libxml2/merge_requests/68
+This caused a build failure:
 
-Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
----
- .../libxml/libxml2/CVE-2019-20388.patch            | 33 ++++++++++++++++++++++
- meta/recipes-core/libxml/libxml2_2.9.10.bb         |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch
+https://autobuilder.yoctoproject.org/typhoon/#/builders/69/builds/1558
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch b/meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch
-new file mode 100644
-index 0000000..49ff6fb
---- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch
-@@ -0,0 +1,33 @@
-+From 7ffcd44d7e6c46704f8af0321d9314cd26e0e18a Mon Sep 17 00:00:00 2001
-+From: Zhipeng Xie <xiezhipeng1@huawei.com>
-+Date: Tue, 20 Aug 2019 16:33:06 +0800
-+Subject: [PATCH] Fix memory leak in xmlSchemaValidateStream
-+
-+When ctxt->schema is NULL, xmlSchemaSAXPlug->xmlSchemaPreRun
-+alloc a new schema for ctxt->schema and set vctxt->xsiAssemble
-+to 1. Then xmlSchemaVStart->xmlSchemaPreRun initialize
-+vctxt->xsiAssemble to 0 again which cause the alloced schema
-+can not be freed anymore.
-+
-+Found with libFuzzer.
-+
-+Signed-off-by: Zhipeng Xie <xiezhipeng1@huawei.com>
-+---
-+ xmlschemas.c | 1 -
-+ 1 file changed, 1 deletion(-)
-+
-+diff --git a/xmlschemas.c b/xmlschemas.c
-+index 301c8449..39d92182 100644
-+--- a/xmlschemas.c
-++++ b/xmlschemas.c
-+@@ -28090,7 +28090,6 @@ xmlSchemaPreRun(xmlSchemaValidCtxtPtr vctxt) {
-+     vctxt->nberrors = 0;
-+     vctxt->depth = -1;
-+     vctxt->skipDepth = -1;
-+-    vctxt->xsiAssemble = 0;
-+     vctxt->hasKeyrefs = 0;
-+ #ifdef ENABLE_IDC_NODE_TABLES_TEST
-+     vctxt->createIDCNodeTables = 1;
-+-- 
-+2.24.1
-+
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-index 6a4097c..097aceb 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
-@@ -21,6 +21,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
-            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
-            file://fix-execution-of-ptests.patch \
-            file://CVE-2020-7595.patch \
-+           file://CVE-2019-20388.patch \
-            "
- 
- SRC_URI[libtar.md5sum] = "10942a1dc23137a8aa07f0639cbfece5"
--- 
-2.7.4
+
+ERROR: xkeyboard-config-2.29-r0 do_compile: oe_runmake failed
+ERROR: xkeyboard-config-2.29-r0 do_compile: Execution of '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/temp/run.do_compile.17426' failed with exit code 1:
+Making all in compat
+make[1]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/compat'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/compat'
+Making all in geometry
+make[1]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/geometry'
+Making all in digital_vndr
+make[2]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/geometry/digital_vndr'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/geometry/digital_vndr'
+Making all in sgi_vndr
+make[2]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/geometry/sgi_vndr'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/geometry/sgi_vndr'
+make[2]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/geometry'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/geometry'
+make[1]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/geometry'
+Making all in keycodes
+make[1]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/keycodes'
+Making all in digital_vndr
+make[2]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/keycodes/digital_vndr'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/keycodes/digital_vndr'
+Making all in sgi_vndr
+make[2]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/keycodes/sgi_vndr'
+make[2]: Nothing to be done for 'all'.
+make[2]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/keycodes/sgi_vndr'
+make[2]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/keycodes'
+make[2]: Nothing to be done for 'all-am'.
+make[2]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/keycodes'
+make[1]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/keycodes'
+Making all in po
+make[1]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/po'
+make[1]: Nothing to be done for 'all'.
+make[1]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/po'
+Making all in rules
+make[1]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/rules'
+Making all in compat
+make[2]: Entering directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/rules/compat'
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mls --number=2 base.ml2_s.part ../../../xkeyboard-config-2.29/rules/compat/layoutsMapping.lst ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mls --number=3 base.ml3_s.part ../../../xkeyboard-config-2.29/rules/compat/layoutsMapping.lst ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mls --number=4 base.ml4_s.part ../../../xkeyboard-config-2.29/rules/compat/layoutsMapping.lst ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mlvs --number=2 base.ml2v2_s.part ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mlvs --number=3 base.ml3v3_s.part ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mlvs --number=4 base.ml4v4_s.part ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mls base.ml_s.part ../../../xkeyboard-config-2.29/rules/compat/layoutsMapping.lst ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mls --number=1 base.ml1_s.part ../../../xkeyboard-config-2.29/rules/compat/layoutsMapping.lst ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mlvs base.mlv_s.part ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+../../../xkeyboard-config-2.29/rules/compat/map-variants.py --want=mlvs --number=1 base.ml1v1_s.part ../../../xkeyboard-config-2.29/rules/compat/variantsMapping.lst
+Traceback (most recent call last):
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 133, in <module>
+    map_variant(fd, ns.files, ns.want, ns.number)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 107, in map_variant
+    mappings = read_file(f)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 38, in read_file
+    l2 = Layout(groups[1])
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 15, in __init__
+    self.layout = match[1]
+TypeError: '_sre.SRE_Match' object is not subscriptable
+Traceback (most recent call last):
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 133, in <module>
+    map_variant(fd, ns.files, ns.want, ns.number)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 107, in map_variant
+    mappings = read_file(f)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 38, in read_file
+    l2 = Layout(groups[1])
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 15, in __init__
+    self.layout = match[1]
+TypeError: '_sre.SRE_Match' object is not subscriptable
+Traceback (most recent call last):
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 133, in <module>
+    map_variant(fd, ns.files, ns.want, ns.number)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 107, in map_variant
+    mappings = read_file(f)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 38, in read_file
+    l2 = Layout(groups[1])
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 15, in __init__
+    self.layout = match[1]
+TypeError: '_sre.SRE_Match' object is not subscriptable
+Makefile:490: recipe for target 'base.ml4_s.part' failed
+make[2]: *** [base.ml4_s.part] Error 1
+make[2]: *** Waiting for unfinished jobs....
+Makefile:481: recipe for target 'base.ml1_s.part' failed
+make[2]: *** [base.ml1_s.part] Error 1
+Traceback (most recent call last):
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 133, in <module>
+    map_variant(fd, ns.files, ns.want, ns.number)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 107, in map_variant
+    mappings = read_file(f)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 38, in read_file
+    l2 = Layout(groups[1])
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 15, in __init__
+    self.layout = match[1]
+TypeError: '_sre.SRE_Match' object is not subscriptable
+Makefile:505: recipe for target 'base.ml_s.part' failed
+make[2]: *** [base.ml_s.part] Error 1
+Makefile:487: recipe for target 'base.ml3_s.part' failed
+make[2]: *** [base.ml3_s.part] Error 1
+Traceback (most recent call last):
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 133, in <module>
+    map_variant(fd, ns.files, ns.want, ns.number)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 107, in map_variant
+    mappings = read_file(f)
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 38, in read_file
+    l2 = Layout(groups[1])
+  File "../../../xkeyboard-config-2.29/rules/compat/map-variants.py", line 15, in __init__
+    self.layout = match[1]
+TypeError: '_sre.SRE_Match' object is not subscriptable
+Makefile:484: recipe for target 'base.ml2_s.part' failed
+make[2]: *** [base.ml2_s.part] Error 1
+make[2]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/rules/compat'
+Makefile:552: recipe for target 'all-recursive' failed
+make[1]: *** [all-recursive] Error 1
+make[1]: Leaving directory '/home/pokybuild/yocto-worker/qa-extras/build/build/tmp/work/core2-64-poky-linux/xkeyboard-config/2.29-r0/build/rules'
+Makefile:456: recipe for target 'all-recursive' failed
+make: *** [all-recursive] Error 1
+WARNING: exit code 1 from a shell command.
 
 
