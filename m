@@ -1,49 +1,53 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
-	[209.85.210.173])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E38160B31
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
+	[209.85.216.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AAAB6102C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 05:59:57 +0000 (UTC)
-Received: by mail-pf1-f173.google.com with SMTP id i6so4349906pfc.1
+	Fri, 14 Feb 2020 06:00:03 +0000 (UTC)
+Received: by mail-pj1-f44.google.com with SMTP id m13so3477926pjb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 21:59:59 -0800 (PST)
+	Thu, 13 Feb 2020 22:00:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
-	h=date:message-id:from:to:cc:subject:content-transfer-encoding
-	:mime-version; bh=A1PEUnApM/+3CJ327fzxIXrYR4a1tpJO/FDOCwxx120=;
-	b=OwbCVHNEKNLWc/ATHZ37Lic7mrxFMsymxsa8ap3RuQLr7JBILpXaPJYFCV9+ciQiFo
-	d0JHnlasFTt8nrF7eDcLAlngM9eTxZldCZiCoNPsEM27imaAe00xf94vUbDnzOWLFdVv
-	pPR+BepTfKHz55zgBBmheRzKTeMeGzpdeY/TabIBo4ATF376n3Hf/mhWIHYQEO9A0kT1
-	ITcWjnbDNNvD68+PgMqtvQtwf/xtQj3cRVbR3AFtCsOZtfLxJz3wAlmYexOYeUtc8VIC
-	caPaPcW9OnudDJoYUzpYY18saumx+N2cazjQTAD55c60sDKhhInxeQWicXFsxHhiop5M
-	jYNQ==
+	h=date:message-id:in-reply-to:references:from:to:cc:subject
+	:content-transfer-encoding:mime-version;
+	bh=w4FEes8VqRpwvAn8b4+yOTKpqgvxzENG4YeWXB4fzJw=;
+	b=JK+mrT0y8DpV0Jgeoa6EWF14/jOXnbaY/wQCZbjOxx1c4g1EPxyh3fJJrN0D+VzG+2
+	zK0K1uYGuzKDvfuhucjeWcWwBAXMLaLrgke275U3XD40I0N5XEnVBRNyjim1GTuP36xV
+	Yajha3TDlI7XkOGnQ8B9eaaz3VNviQPUCTksrQZ+PNhpkxpYGPuXXsYAzRuKuyoRJDmx
+	/SujOJaAIM9WtDKaWeRmdSKmRFL4EHP/Ya83KMvTuGy2OGaR/rzYOxuml6splYqEL7ej
+	8vKSEZE+a4L+IN0GHYKiWa2O6DdiKKivc3+rffk4yt04g4jfiY4Q5YIisp75QLt/bVup
+	TBWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=A1PEUnApM/+3CJ327fzxIXrYR4a1tpJO/FDOCwxx120=;
-	b=LfIiWGdMfWOD84cQWZO/21TkcSORzTW3YpKaUrGsklJ/1d2UazscO3osMlEhMWyLCr
-	07RpcdZI4nk7rhsqFO+M9sGtR/1j0TIDEDHhXp36wXLtZH+UkZleo4r1HlQh9FbLAAIc
-	8+Y20wBvj6ykY3g3MoHsvY362L62plOGtG1+7/rrjLGj+PIoxZyOU7gjbLRPo/Q7P5xb
-	zY8QXng4r2918i8xh7BI5GY+ET6wDVElNtvSIDtwENHM2HGFOXuh/GvEXYIe4xiliMto
-	5YPwg3+2uEndjYhKqbe1XBjtlSw8a22Tp2WUeH/KeSVeHCJbFb27HeTU4FQelkqJ6H4o
-	ydlA==
-X-Gm-Message-State: APjAAAWBvTpTws12AG42KAJEavO3hioYpoteDGBT5sJ1JFZm4xMlNQxc
-	3Np4fG8dA2gRHnTU1F4HFiTiOAZXL00=
-X-Google-Smtp-Source: APXvYqwzLDoJwcU9FsWJVSSm1Tr7+Z6OpeDBqvm0GTj55kMgLftxQp6kHghdFavvG3qTlNcVzaZQNw==
-X-Received: by 2002:a62:e30d:: with SMTP id g13mr1790149pfh.92.1581659998678; 
-	Thu, 13 Feb 2020 21:59:58 -0800 (PST)
+	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
+	:cc:subject:content-transfer-encoding:mime-version;
+	bh=w4FEes8VqRpwvAn8b4+yOTKpqgvxzENG4YeWXB4fzJw=;
+	b=N5uCYdYDgqheh1LyXO/re+SIwywUbtCCXVY3GbnKGP3K9tBleU7iN/LusjTaCmhLFz
+	rYNV1fO9FqhB+XgqYRbs2TgkVdUm/a4oZqVkU/nsvZrVbImuw8Zn7qszwIXHmJyrdf+F
+	87STU/Afb3DFzAsOhkQWJKAIyIzmrz92IhcMDOA7E9ttKPQ8FJ09qQDTvqlyXNeqn1DT
+	U0yqqCwj84HL1kjFurKsXv0HDukFKupaEXLmYAg2X/dOyosufjTaW+scuMLCWIuqdOVt
+	Db0vC/tFlj9AAv6iOSZTm6UT+WornxYF5EARQpIzQ9Tw4jiYOMhcoWRLykbTcX0vaNL9
+	e3kA==
+X-Gm-Message-State: APjAAAXpNwTcvHuliy3yaop4g9A69O8b+psAfKCcYBRQu2qml8gyNwh3
+	sOv6ndc5kWR4oHMj3FgBANpeOA==
+X-Google-Smtp-Source: APXvYqzwl3/ZKmm0gEQFJosPWtZWEzyqf6XZ+JlIGD5Pb7zNYw471xCmvIJlVpuoCYurQHxsb3ccUw==
+X-Received: by 2002:a17:902:6b03:: with SMTP id
+	o3mr1611044plk.331.1581660004376; 
+	Thu, 13 Feb 2020 22:00:04 -0800 (PST)
 Received: from [127.0.1.1] ([1.128.246.203])
 	by smtp.gmail.com with UTF8SMTPSA id
-	r7sm5307017pfg.34.2020.02.13.21.59.56
+	iq22sm4851137pjb.9.2020.02.13.22.00.01
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 13 Feb 2020 21:59:57 -0800 (PST)
+	Thu, 13 Feb 2020 22:00:03 -0800 (PST)
 Date: Fri, 14 Feb 2020 05:59:43 +0000
-Message-Id: <20200214055943.602254-1-nathan@nathanrossi.com>
+Message-Id: <20200214055943.602254-2-nathan@nathanrossi.com>
+In-Reply-To: <20200214055943.602254-1-nathan@nathanrossi.com>
+References: <20200214055943.602254-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 1/2] glibc-testsuite: Remove the do_install task
+Subject: [PATCH 2/2] glibc-testsuite: Exclude this recipe from world builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +60,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 05:59:57 -0000
+X-List-Received-Date: Fri, 14 Feb 2020 06:00:03 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-This task is not intended to be run as this recipe does not produce any
-packages or install any sysroot content. Additionally running this task
-behaves differently from a normal glibc build, and can result in issues.
+This recipe is intended to be run manually or via oeqa.
 
 [YOCTO #13737]
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/recipes-core/glibc/glibc-testsuite_2.31.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/glibc/glibc-testsuite_2.31.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.31.bb b/meta/recipes-core/glibc/glibc-testsuite_2.31.bb
-index 657fd4dbc1..c44f30bf1c 100644
+index c44f30bf1c..d887aeff79 100644
 --- a/meta/recipes-core/glibc/glibc-testsuite_2.31.bb
 +++ b/meta/recipes-core/glibc/glibc-testsuite_2.31.bb
-@@ -58,3 +58,4 @@ addtask do_check after do_compile
+@@ -1,5 +1,7 @@
+ require glibc_${PV}.bb
  
- inherit nopackages
- deltask do_stash_locale
-+deltask do_install
++EXCLUDE_FROM_WORLD = "1"
++
+ # handle PN differences
+ FILESEXTRAPATHS_prepend := "${THISDIR}/glibc:"
+ 
 ---
 2.24.1
 
