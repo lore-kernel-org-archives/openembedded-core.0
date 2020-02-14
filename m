@@ -1,41 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D96B6108A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EE2761135
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 17:01:10 +0000 (UTC)
+	Fri, 14 Feb 2020 17:33:25 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id t3so11820838wru.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 14 Feb 2020 09:33:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=axis.com; l=3170; q=dns/txt; s=axis-central1;
-	t=1581699673; x=1613235673;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-transfer-encoding:mime-version;
-	bh=9SmMQrGmq3i5y89gOkmouCJlz33LB7vQBbg6zGICs+I=;
-	b=LPZVCrqim/G7fdOEolW5x9YXiQSvQqGMf6SwytWmJkzikK1j/RLfjaNV
-	V0fJOGZWYL4PTNaBgDUxwO+fXu6wxyP81UNH6VN/yVyUOU9vp/FRLogxM
-	ZS1s2nCeBvmR4T4DMabDgpZYzzcMYjohEtZFsPe3f2WxHkTEa1swVsjfk
-	NDAG0tqif+qNTlLMPM6Wqb0Jr6MeD/jWKMK4K5vfoPoC+WfGi3kmG5t1m
-	I1OQVdgGpB9j5MXUL+JFK9jGD2H/WycfNRr03N+RTmA13wCwLyvC8bZkV
-	vcSJ8GvzYbgjLgd026RU3RBMYNjZwvT1TtToD/ftdhHBMhP7n+Ag3Hq5o w==;
-IronPort-SDR: kpqXKWBgTcsC5LfIW5VuA/Rfce6JO1f2xfrsMC8qWHvihmB0llFrUmYF3gZqwwM1+t8JhoQkBl
-	bTMh1I+ncLtAmPf9h4+Zspd0PlicrEFIv3Qpl7ZT89L5LlBwm2IBo5mI6LiHQzd0ycfWTDkAJp
-	cjbF3UaT1T6r9sipYPUTMHcZfT2HerfS2NH9YgllR42RxJgY0JpZk4bVlfPU0sP6a+3rZc8U/r
-	7qU4qiKhpgyeQIm65LmxYCrXoVkybx5cyoDVRmhOskErfwD2LofogHwLHtjGArJI9qw3gcsUIT
-	ndA=
-X-IronPort-AV: E=Sophos;i="5.70,441,1574118000"; 
-   d="scan'208";a="5437195"
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] staging: Handle races between binaries and
-	their	libs
-Thread-Index: AQHV4zcqrh+7WADTWkiBNxX91tSG/Kga548Q
-Date: Fri, 14 Feb 2020 17:01:11 +0000
-Message-ID: <a575ebda4ba94882a8e69523471b575d@XBOX03.axis.com>
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=uUJHm0ZpeLUe5soDhbe/lfEtUnoj2L05Rx/j1dbXwTc=;
+	b=aM7DNNVaOjBsLUMr9Npqhhj28TZJFCyJ3UFX0LUQ4G3iZOZulu/rljsBBu+f0TKrK8
+	KYj2o6R9JkcO2Xao3YHgutBzCyffEBwHgMWKsovqFk6NHu5tMIE/baoOlMM1pjdFlFhT
+	+YdPq+m4XUUzqvm2WDMbpFHx/4qFBUGfpLO3k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=uUJHm0ZpeLUe5soDhbe/lfEtUnoj2L05Rx/j1dbXwTc=;
+	b=lmYtQ6HmDGrS/uJ8io2hNfItRAJUvPXQx05pfs2oD3DyqlnLzAlfbNVvMlsye0IySx
+	M7iFmsXoCkqVe2ZShFEa5Rzf5XzPYLz4aHmpFYIgsrDo4xWSo/DL6s3LUsd6MNDYfFHR
+	XXI6UJN3JE5OyOypqX3ycFHuyhzMmH1ViwUPvkbdzd87fRPVwrb2YTUMqITnWsPtVkUz
+	qVbGk8G+UHiuN1qVdShC+JCrUZ2AjDOMFmzdQT9vY833fzop5cxAZkV99IiiSRObYp6o
+	Wres3XH/p1agCfpCjuCjn7Zz6n8xwItr8jP0GGweed04aQoe8XQ10W6chsrqe5PJVuzk
+	B7vg==
+X-Gm-Message-State: APjAAAU7Ckkgxt3x0Cj0glA6GOJiYAvJc4U6ArjvZGw+K97j4HtuDEfp
+	Ivr0/S1r6IwabB1uI4tsoeKHfLLFeK8=
+X-Google-Smtp-Source: APXvYqxvk62q9C1WA2aFb2MU/mcAhYrKT9L2L/t/+Vu2tMsBLdjss1Tqfd9hPm/e0vnU9NDh+1nV0Q==
+X-Received: by 2002:a5d:6388:: with SMTP id p8mr5035845wru.299.1581701606177; 
+	Fri, 14 Feb 2020 09:33:26 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 25sm8379178wmi.32.2020.02.14.09.33.25
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 14 Feb 2020 09:33:25 -0800 (PST)
+Message-ID: <fdfad35b0253070ad7ae7ded58f581a91c54984b.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Date: Fri, 14 Feb 2020 17:33:24 +0000
+In-Reply-To: <a575ebda4ba94882a8e69523471b575d@XBOX03.axis.com>
 References: <20200214130238.20381-1-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20200214130238.20381-1-richard.purdie@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	<a575ebda4ba94882a8e69523471b575d@XBOX03.axis.com>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
@@ -52,104 +59,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 17:01:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 14 Feb 2020 17:33:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--
-> bounces@lists.openembedded.org> On Behalf Of Richard Purdie
-> Sent: den 14 februari 2020 14:03
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] staging: Handle races between binaries and
-> their libs
->=20
-> There is a long standing issue where a binary could be installed into the
-> sysroot before its library dependencies. We've always argued nothing shou=
-ld
-> use the binary until its been installed by a dependency but there are iss=
-ues
+On Fri, 2020-02-14 at 17:01 +0000, Peter Kjellerstedt wrote:
+> Shouldn't /sbin/ be treated the same way as /bin/?
 
-Change "its" to "it has".
+I guess so, yes. I've done that.
 
-> around binaries which conflict with the host system, for example patch,
-> python3, gzip and more.
->=20
-> With the recent patch changes we've see issues like:
+Cheers,
 
-Change "see" to "seen".
-
-> ERROR: gdb-cross-canadian-powerpc-8.3.1-r0 do_patch: Command Error: 'quil=
-t --quiltrc /home/pokybuild/yocto-worker/qemuppc/build/build/tmp/work/x86_6=
-4-nativesdk-pokysdk-linux/gdb-cross-canadian-powerpc/8.3.1-r0/recipe-sysroo=
-t-native/etc/quiltrc push' exited with 0  Output:
-> Applying patch 0009-Change-order-of-CFLAGS.patch
-> patch: /lib64/libattr.so.1: version `ATTR_1.3' not found (required by pat=
-ch)
-> Patch 0009-Change-order-of-CFLAGS.patch does not apply (enforce with -f)
->=20
-> which is a symptom of this issue (libattr-native is a dependency of patch=
--native).
->=20
-> There are other ways to fix this such as disabling libattr in patch, inst=
-alling
-> patch to a subdirectory and requiring PATH manipulation and so on.
->=20
-> We can simply fix the staging code to handle /bin/ after everything else =
-so lets
-
-Change "lets" to "let's".
-
-> do that and avoid all these other complications.
-
-Shouldn't /sbin/ be treated the same way as /bin/?
-
-//Peter
-
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/classes/staging.bbclass | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-> index 4dd2ed01010..530e23b1853 100644
-> --- a/meta/classes/staging.bbclass
-> +++ b/meta/classes/staging.bbclass
-> @@ -470,6 +470,7 @@ python extend_recipe_sysroot() {
->          elif os.path.lexists(depdir + "/" + c):
->              os.unlink(depdir + "/" + c)
->=20
-> +    binfiles =3D {}
->      # Now handle installs
->      for dep in configuredeps:
->          c =3D setscenedeps[dep][0]
-> @@ -562,7 +563,16 @@ python extend_recipe_sysroot() {
->                      if l.endswith("/"):
->                          staging_copydir(l, targetdir, dest, seendirs)
->                          continue
-> -                    staging_copyfile(l, targetdir, dest, postinsts, seen=
-dirs)
-> +                    if "/bin/" in l:
-> +                        # defer /bin/* files until last in case they nee=
-d libs
-> +                        binfiles[l] =3D (targetdir, dest)
-> +                    else:
-> +                        staging_copyfile(l, targetdir, dest, postinsts, =
-seendirs)
-> +
-> +    # Handle deferred binfiles
-> +    for l in binfiles:
-> +        (targetdir, dest) =3D binfiles[l]
-> +        staging_copyfile(l, targetdir, dest, postinsts, seendirs)
->=20
->      bb.note("Installed into sysroot: %s" % str(msg_adding))
->      bb.note("Skipping as already exists in sysroot: %s" % str(msg_exists=
-))
-> --
-> 2.20.1
-
-//Peter
+Richard
 
 
