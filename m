@@ -1,52 +1,84 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 993CB6102E
+Return-Path: <alejandro@enedino.org>
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com
+	(mail-mw2nam12on2046.outbound.protection.outlook.com [40.107.244.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7AD0361081
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 18:09:32 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id y11so11937866wrt.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 10:09:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=dWzzpz/dqwiA8SszzWZp/BgrgQM65uQtArSIAJR9B4Q=;
-	b=gFGsKx2hXHF3e7KxwKb32c/r0dLQJ4IY+scjzKNaZNp+v2I+3vRDyJmIYwJlLTrs1Q
-	i8fVpf/Wjag+4I2NCKObWGNxXzwdLEppgnS/hd+AEbbUe9wq9WiHCU5juXQLdvoH0gMB
-	r0tU1ItbqTjjPb1wHkkGWcp99ZNgLZdjwUAms=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=dWzzpz/dqwiA8SszzWZp/BgrgQM65uQtArSIAJR9B4Q=;
-	b=EpkFFyYVXmm25tzHqXgT+tLNPJmCx21IVYASkXXf7LDVOH2JmQ3DKQzDPehfQzK10I
-	3LvR96dtLa47j+KbwJAjNWuOWJruoLfcABvuoSQu0BfoVJ9pf24ta0xddK2+df3Ph1Uc
-	ZJzkftRGHQ/ALPf7go0o5zW4CrieJFXXMiUY2zFvS0sQU2Y1JGVo+29pg3UYVvHd2bf+
-	mDCJXRx3ZawvbMRUCeNyhp3nzBzlCD2Ujv8jxnpwZ4fmURJFSXjP1eVFsp5PPIoyW5WS
-	GMlZ/H3m1l085d0cXDu3B1nGmJl+XGUEV4oOBshiW7b3z6jBcMfS4yqTysGIuCeOkraL
-	csig==
-X-Gm-Message-State: APjAAAXu2IvaMQGTo0pDTrVnTtHJmUGoMsDbwV0gyp9gYjdMeAyceYKo
-	N6s81MMIAzF2aMHJP14j6LpOBQ==
-X-Google-Smtp-Source: APXvYqyPDdAmvazIy7XveMdK348FjlB0H1DQZ6aTOI0lQ5Z7eGZwo9tiSI6nddBZM+FO2Q9rGkyEIw==
-X-Received: by 2002:adf:f6c1:: with SMTP id y1mr5068101wrp.17.1581703773280;
-	Fri, 14 Feb 2020 10:09:33 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id m9sm7964532wrx.55.2020.02.14.10.09.32
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 14 Feb 2020 10:09:32 -0800 (PST)
-Message-ID: <a5d9f275ebd6cfd6f34b8c3be712ca878c134a28.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, He Zhe <zhe.he@windriver.com>
-Date: Fri, 14 Feb 2020 18:09:31 +0000
-In-Reply-To: <CADkTA4MS5J-xHpucB96HqwxfjMk9zVaRy2i+_vxX8iXSp3UY8A@mail.gmail.com>
-References: <20200214035737.9975-1-zhe.he@windriver.com>
-	<CADkTA4MS5J-xHpucB96HqwxfjMk9zVaRy2i+_vxX8iXSp3UY8A@mail.gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Fri, 14 Feb 2020 18:14:00 +0000 (UTC)
+Received: from BL0PR02CA0143.namprd02.prod.outlook.com (2603:10b6:208:35::48)
+	by BY5PR02MB7010.namprd02.prod.outlook.com (2603:10b6:a03:23b::12)
+	with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.23;
+	Fri, 14 Feb 2020 18:14:00 +0000
+Received: from SN1NAM02FT060.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e44::201) by BL0PR02CA0143.outlook.office365.com
+	(2603:10b6:208:35::48) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2729.25 via
+	Frontend Transport; Fri, 14 Feb 2020 18:14:00 +0000
+Authentication-Results: spf=none (sender IP is 149.199.60.83)
+	smtp.mailfrom=enedino.org; lists.openembedded.org;
+	dkim=none (message not
+	signed) header.d=none;lists.openembedded.org; dmarc=none action=none
+	header.from=enedino.org;
+Received-SPF: None (protection.outlook.com: enedino.org does not designate
+	permitted sender hosts)
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	SN1NAM02FT060.mail.protection.outlook.com (10.152.72.192) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.2729.22
+	via Frontend Transport; Fri, 14 Feb 2020 18:14:00 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <alejandro@enedino.org>)
+	id 1j2fTS-00031S-RW; Fri, 14 Feb 2020 10:13:58 -0800
+Received: from [127.0.0.1] (helo=xsj-smtp-dlp2.xlnx.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <alejandro@enedino.org>)
+	id 1j2fTN-0005Qp-Ms; Fri, 14 Feb 2020 10:13:53 -0800
+Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	01EIDqIV000637; Fri, 14 Feb 2020 10:13:53 -0800
+Received: from [172.19.2.8] (helo=xsjalejandr50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <alejandro@enedino.org>)
+	id 1j2fTM-0005Qh-Ob; Fri, 14 Feb 2020 10:13:52 -0800
+From: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Feb 2020 10:13:49 -0800
+Message-Id: <1581704029-1573-2-git-send-email-alejandro@enedino.org>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1581704029-1573-1-git-send-email-alejandro@enedino.org>
+References: <1581704029-1573-1-git-send-email-alejandro@enedino.org>
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-Result: No-0.502-7.0-31-1
+X-imss-scan-details: No-0.502-7.0-31-1;No-0.502-5.0-31-1
+X-TM-AS-User-Approved-Sender: No;No
+X-TM-AS-Result-Xfilter: Match text exemption rules:No
+X-EOPAttributedMessage: 0
+X-Matching-Connectors: 132261776404283696;
+	(f9e945fa-a09a-4caa-7158-08d2eb1d8c44); ()
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(136003)(39860400002)(376002)(396003)(346002)(428003)(199004)(189003)(81166006)(81156014)(8676002)(8936002)(36756003)(316002)(70206006)(70586007)(2906002)(426003)(356004)(6666004)(9786002)(5660300002)(2616005)(498600001)(86362001)(336012)(107886003)(26005)(6916009)(4326008);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BY5PR02MB7010; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:None; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1;
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] perf: Correct the substitution of python shebangs
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 494eeca3-4afb-4629-2cb2-08d7b179aa60
+X-MS-TrafficTypeDiagnostic: BY5PR02MB7010:
+X-Microsoft-Antispam-PRVS: <BY5PR02MB7010E0C7A30BE8427D23B191B8150@BY5PR02MB7010.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
+X-Forefront-PRVS: 03137AC81E
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: IB7AC+TA5h6blsQ8nTbe5fPOaVBlNWlbLSTGjK6O1GTrrGQyiJzr1/li5C/+oLkE9/fUqaKVi77J2cfAu3JjlwXHagN+mnJTiO3hwY9KK2v90csS94LwPCc4QOCydniDvSggKDj7n/aVCHAQiHBHIyy7pOUTVweWZ8m3QPlkYCwgC0bzOZkjOEGtKVNLbvqIlMv+7jN9KeG8dnpsjMIgqnQKQnvzpe9512tnpLdSODp3Fds+kRMw25Zl1G02VQ72hzZUfOwjP68NxDlfeN/hrdSTHmlqG19plBa7HuweWICS4OJiregnUijAEJyPViYDXg9HxNG6Gy6sjIPGHmH9VFRlIGD9oJiv+12At6sepjg9+g/VC38gvQoLjz/WjJpbOJs82Dw9gGu4AxNSR1qFHGvNQrNtwD8dl+SApAJk+njYd6xw1TtKBIJ0wdeQnSVg
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Feb 2020 18:14:00.2672 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 494eeca3-4afb-4629-2cb2-08d7b179aa60
+X-MS-Exchange-CrossTenant-Id: 5afe0b00-7697-4969-b663-5eab37d5f47e
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=5afe0b00-7697-4969-b663-5eab37d5f47e;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB7010
+Subject: [PATCH 2/2] tclibc-newlib: Include qemu on the SDK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,46 +91,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 18:09:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 14 Feb 2020 18:14:00 -0000
+Content-Type: text/plain
 
-On Fri, 2020-02-14 at 08:18 -0500, Bruce Ashfield wrote:
-> On Thu, Feb 13, 2020 at 10:58 PM <zhe.he@windriver.com> wrote:
-> > From: He Zhe <zhe.he@windriver.com>
-> > 
-> > To make the native python3 is always used,
-> > 
-> > - Use sed one-liner instead
-> > - Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
-> >   following warning.
-> > 
-> > File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
-> > _temp = __import__(name, globals(), locals(), ['build_time_vars'],
-> > 0)
-> > ModuleNotFoundError: No module named '_sysconfigdata'
-> > 
-> > This issue is first reported by Joel Stanley <joel@jms.id.au>
-> > The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com
-> > >
-> 
-> Thanks!
-> 
-> This looks good to me.
+Since we now have an example recipe on meta-skeleton to
+build baremetal applications using OpenEmbedded, a user
+produced SDK should be able to run such application.
 
-I'm not sure how but with this applied we see breaking kernel module
-tests:
+Include nativesdk-qemu on TOOLCHAIN_HOST_TASK so its
+built inside the newlib based SDK.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1555
-https://autobuilder.yoctoproject.org/typhoon/#/builders/102/builds/275
-https://autobuilder.yoctoproject.org/typhoon/#/builders/74/builds/1559
-(mips/sysvinit, mips/systemd and mips64)
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
+---
+ meta/conf/distro/include/tclibc-newlib.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'll remove this patch from -next and retest see if I can confirm it is
-this change somehow.
-
-Cheers,
-
-Richard
+diff --git a/meta/conf/distro/include/tclibc-newlib.inc b/meta/conf/distro/include/tclibc-newlib.inc
+index 8338003..bf89b11 100644
+--- a/meta/conf/distro/include/tclibc-newlib.inc
++++ b/meta/conf/distro/include/tclibc-newlib.inc
+@@ -38,7 +38,7 @@ BASE_DEFAULT_DEPS_append_class-target = " ${NEWLIB_EXTENDED}"
+ TARGET_OS = "elf"
+ TARGET_OS_arm = "eabi"
+ 
+-TOOLCHAIN_HOST_TASK ?= "packagegroup-cross-canadian-${MACHINE}"
++TOOLCHAIN_HOST_TASK ?= "packagegroup-cross-canadian-${MACHINE} nativesdk-qemu"
+ TOOLCHAIN_TARGET_TASK ?= "${LIBC_DEPENDENCIES}"
+ TOOLCHAIN_NEED_CONFIGSITE_CACHE_remove = "zlib ncurses"
+ 
+-- 
+2.7.4
 
 
