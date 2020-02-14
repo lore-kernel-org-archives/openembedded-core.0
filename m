@@ -1,58 +1,42 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AC7B6111B
+Return-Path: <rbilovol@cisco.com>
+X-Greylist: delayed 428 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 14 Feb 2020 19:32:07 UTC
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B43FA6111B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 19:21:22 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id x123so6942175vsc.2
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 11:21:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=lGwgYydmUuQLTKCIher67sLCipFnQyYJ6yA2q4+prYs=;
-	b=Sjhase435sKzWiz+IGkSOwWHgT5w9EsYzub0dDbEM0BoTEgVLzG+w6l0vMVaCVemFP
-	mhL36AYJdfqhoXuXHWxabj1wxoWeP68gcjKC8k0Zu7pAckK3pSW6QVnBB3n8E8P5eHaO
-	bDkU5cfNhdnlFumUBLr1fO49Kt+c9URAA4FrLjU8Em+v+FrGAvMJ49FNFi/5S6dlc9F+
-	Ondmbz8jLkQ7xply7Gl2ZCMsYiTxE0rkssoS2eBHt3jPInRpNhy0oYnOUnWUH5SgXCsr
-	EmpsTuoiXKVX+rJbrC+IfnbKeAmUIdP+KFca9WEDq6MuIg9EZhpZpLI023baXvE7f1sW
-	xaVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=lGwgYydmUuQLTKCIher67sLCipFnQyYJ6yA2q4+prYs=;
-	b=RVb6VUkKzuxVvFJuhfN/MeD8WKFp8h9TYL+41gaEVSyjXROWUBTomHY58akU25YGNd
-	k5jbpL/2DPMw2ozL0Gh1+2sUFUWZgt3eNlt3jSvbGEOFA5ea7B58pKlxmESa0m8nyS4r
-	xphCAaqj+cvtkreXz+WEqog21jdjWtbw5uCV85B19iwDFnsUQx/RxEjcvemz78rV5sHp
-	eVdCvckAjPUSjtedDyLvYbyGDh/7LAdUJUyZVccST1SzjhuF66h9aCp74JstI4f4tV2v
-	OTA5KqdSQO3/GaB8yDY6Ju/6ogz8ktXXYeqZ1ECVB+LEf5PXZmZMru/mDZSMA//YmoSr
-	sq/g==
-X-Gm-Message-State: APjAAAUasDnKmJ7LDEP0ZGgey4k+6BR0F5WgpZLPxd7lxJZg4/7D+L+f
-	OAFwpALfJ4bWLUBv8S8WtKmTimU8yvaSwFHbyVY=
-X-Google-Smtp-Source: APXvYqw3NiMnUmAwcrrDm5NLUvu/7G61EXL2Tj6SjKg3fP/JEuzrI5BKOpNTlWT04Z7xH8lwml/FTEp8LW8+9oiP4Hw=
-X-Received: by 2002:a05:6102:757:: with SMTP id
-	v23mr2387599vsg.35.1581708083462; 
-	Fri, 14 Feb 2020 11:21:23 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1581575578.git.raj.khem@gmail.com>
-	<CANNYZj_T=J2fs39fpPKQjC5rGSg_opTeUGzPokeiU-5jwhRzTQ@mail.gmail.com>
-	<CAMKF1sqJTPVFALwd0qx+zfWq3MsmhVL=n58CDMns1MwJH2mTsw@mail.gmail.com>
-	<CANNYZj_C7i+2QKaFqjiDh0DFYYuYO7eY72wTR9NKz9JEjDtjCA@mail.gmail.com>
-	<CAMKF1sot=-RJ0O-HLQRHWsi4OUHhUKsyi9WzoZiXOJrvaX_QGw@mail.gmail.com>
-	<CANNYZj_7pG5EGjOR2BW3beJ3J__37GR29XZFaRotvuG9KFCnOQ@mail.gmail.com>
-	<CAMKF1sp_fEAyuGxgxUG=bXuVEMm01NG+g6Vqz29Pseht0nPQDw@mail.gmail.com>
-	<CANNYZj_tT5QSvyqhk-dOThThcO-rM-jT6PrTwM4pt8y7sPVSxQ@mail.gmail.com>
-	<CAMKF1spgO92JJAaVCP26veEsedY_FAziNn6zi9cbpuy2_ofmSg@mail.gmail.com>
-	<CANNYZj-7Aidoy4Y6P7ZzXNuGtUCcKddF4B3oeBMrcmmNAceDtQ@mail.gmail.com>
-	<CAMKF1soWY20D8HwCEQK8pTsxcR8Bxc7y3aE2mnx2_XdFVJW4Og@mail.gmail.com>
-	<CANNYZj-MhZhZ1QANwkQxiqCU8dtt5Mn3LzPTtqkB5-BCekDU3w@mail.gmail.com>
-In-Reply-To: <CANNYZj-MhZhZ1QANwkQxiqCU8dtt5Mn3LzPTtqkB5-BCekDU3w@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 14 Feb 2020 20:21:12 +0100
-Message-ID: <CANNYZj_bCoU-NzoKqzjTvjOr=g6LKECDPE7S7i2xpsrfYeHsKQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] recipe updates, testing fixes
+	Fri, 14 Feb 2020 19:32:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=cisco.com; i=@cisco.com; l=1659; q=dns/txt; s=iport;
+	t=1581708729; x=1582918329;
+	h=from:to:cc:subject:date:message-id;
+	bh=FE++HigccWeGBw4lZT1gEZjvK909XJWMLRq9SjBuL4Q=;
+	b=BPFTXReDnR36uYQuVHzafp4eD2uoIHU4wxbcGGZiCrleLxCH7vCZo4Hc
+	6aINXZSuToX127A+beZYweee6qvTsATx697r7V7SiqKEb5eGB+RKen6Ru
+	GAL/G8I1cH1t74XlIvySzVQd67S0xEhIXwAvzrDDlH+cpol4lu2L8u1qM 0=;
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0C6AAAz80Ze/xbLJq1mHAEBAQEBBwE?=
+	=?us-ascii?q?BEQEEBAEBgWoEAQELAYMUdRIqjRejWAkBAQEOHxAEAQGEQIInNwYOAgMNAQE?=
+	=?us-ascii?q?FAQEBAgEFBG2FNwyGZoFRgyYBgnutR4InhUqDRIE+FIEkAYdFhHiBQT+BEYE?=
+	=?us-ascii?q?YgjmFGIUhBJZjmReCRIdNjngMHINDlmJyAao+gWgjgVgzGggbFYMnCUcYDZB?=
+	=?us-ascii?q?rhGOHFz8DMJBYAQE?=
+X-IronPort-AV: E=Sophos;i="5.70,441,1574121600"; d="scan'208";a="23336402"
+Received: from aer-iport-nat.cisco.com (HELO aer-core-3.cisco.com)
+	([173.38.203.22])
+	by aer-iport-1.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	14 Feb 2020 19:24:58 +0000
+Received: from localhost ([10.63.15.147])
+	by aer-core-3.cisco.com (8.15.2/8.15.2) with ESMTP id 01EJOvbV022085;
+	Fri, 14 Feb 2020 19:24:58 GMT
+From: Ruslan Bilovol <rbilovol@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 14 Feb 2020 21:24:56 +0200
+Message-Id: <20200214192456.2944-1-rbilovol@cisco.com>
+X-Mailer: git-send-email 2.17.1
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-SMTP-Client: 10.63.15.147, [10.63.15.147]
+X-Outbound-Node: aer-core-3.cisco.com
+Cc: xe-linux-external@cisco.com
+Subject: [PATCH] kernel-devsrc: support 4.4+ ARM/ARM64 kernels
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,81 +49,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 19:21:22 -0000
-Content-Type: multipart/alternative; boundary="000000000000740552059e8e1cd4"
+X-List-Received-Date: Fri, 14 Feb 2020 19:32:08 -0000
 
---000000000000740552059e8e1cd4
-Content-Type: text/plain; charset="UTF-8"
+Linux Kernel 4.4 is an LTS kernel so people may still
+build it with OE.
 
-I got to it finally. Normally /var/lib/rpm is absent when opkg is in use,
-but when /usr/bin/rpm is present, python3's ptest involves distutils test
-creating rpm packages (and presumably installing them too), which creates a
-database in /var/lib/rpm, which then triggers rpm tests to run and fail. So
-a check for /var/lib/rpm in rpm tests isn't always sufficient to determine
-which packaging system is in use, and there should be a stronger one.
+Thus make copying of some files optional:
+ - arm64 module.lds file first appeared with kernel v4.6 commit
+   fd045f6cd98e arm64: add support for module PLTs"
+ - arm32 *.tbl files first appeared in kernel v4.10 in
+   commit 96a8fae0fe09 "ARM: convert to generated
+   system call tables"
 
-I'm fine with adjusting libsolv to not pull in rpm, but please use
-EXCLUDE_FROM_WORLD instead of PNBLACKLIST, so that just that specific
-problem is solved, rather than banning libdnf/dnf altogether from builds.
+Signed-off-by: Ruslan Bilovol <rbilovol@cisco.com>
+---
+ meta/recipes-kernel/linux/kernel-devsrc.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Making libdnf to not require rpm-enabled libsolv is not feasible sadly,
-it's basically built around that assumption.
+diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+index 2fa4be67cc..2ac679e204 100644
+--- a/meta/recipes-kernel/linux/kernel-devsrc.bb
++++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+@@ -147,7 +147,7 @@ do_install() {
+             cp -a --parents arch/arm64/kernel/vdso/note.S $kerneldir/build/
+             cp -a --parents arch/arm64/kernel/vdso/gen_vdso_offsets.sh $kerneldir/build/
+ 
+-            cp -a --parents arch/arm64/kernel/module.lds $kerneldir/build/
++            cp -a --parents arch/arm64/kernel/module.lds $kerneldir/build/ 2>/dev/null || :
+ 	fi
+ 
+ 	if [ "${ARCH}" = "powerpc" ]; then
+@@ -187,7 +187,7 @@ do_install() {
+ 
+ 	# required for generate missing syscalls prepare phase
+ 	cp -a --parents $(find arch/x86 -type f -name "syscall_32.tbl") $kerneldir/build
+-	cp -a --parents $(find arch/arm -type f -name "*.tbl") $kerneldir/build
++	cp -a --parents $(find arch/arm -type f -name "*.tbl") $kerneldir/build 2>/dev/null || :
+ 
+ 	if [ "${ARCH}" = "x86" ]; then
+ 	    # files for 'make prepare' to succeed with kernel-devel
+-- 
+2.17.1
 
-Alex
 
-On Fri, 14 Feb 2020 at 13:19, Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
-
-> On Fri, 14 Feb 2020 at 08:15, Khem Raj <raj.khem@gmail.com> wrote:
->
->> local.conf I have
->>
->> DISTRO_FEATURES_append = " largefile opengl ptest multiarch wayland pam
->> polkit "
->> IMAGE_CLASSES += "testimage testsdk"
->>
->
-> Right, I'm running this now, it's a bit tricky because I have to do it on
-> the Yocto AB. Big company's bureaucracy is causing delays in getting me a
-> build machine :(
->
-> Alex
->
-
---000000000000740552059e8e1cd4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>I got to it finally. Normally /var/lib/rpm is absent =
-when opkg is in use, but when /usr/bin/rpm is present, python3&#39;s ptest =
-involves distutils test creating rpm packages (and presumably installing th=
-em too), which creates a database in /var/lib/rpm, which then triggers rpm =
-tests to run and fail. So a check for /var/lib/rpm in rpm tests isn&#39;t a=
-lways sufficient to determine which packaging system is in use, and there s=
-hould be a stronger one.</div><div><br></div><div>I&#39;m fine with adjusti=
-ng libsolv to not pull in rpm, but please use EXCLUDE_FROM_WORLD instead of=
- PNBLACKLIST, so that just that specific problem is solved, rather than ban=
-ning libdnf/dnf altogether from builds.</div><div><br></div><div>Making lib=
-dnf to not require rpm-enabled libsolv is not feasible sadly, it&#39;s basi=
-cally built around that assumption.<br></div><div></div><div><br></div><div=
->Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, 14 Feb 2020 at 13:19, Alexander Kanavin &lt;<a href=
-=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><=
-div dir=3D"ltr">On Fri, 14 Feb 2020 at 08:15, Khem Raj &lt;<a href=3D"mailt=
-o:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<b=
-r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">local.conf I have<br>
-<br>
-DISTRO_FEATURES_append =3D &quot; largefile opengl ptest multiarch wayland =
-pam polkit &quot;<br>
-IMAGE_CLASSES +=3D &quot;testimage testsdk&quot;<br></blockquote><div><br><=
-/div><div>Right, I&#39;m running this now, it&#39;s a bit tricky because I =
-have to do it on the Yocto AB. Big company&#39;s bureaucracy is causing del=
-ays in getting me a build machine :(</div><div><br></div><div>Alex</div></d=
-iv></div>
-</blockquote></div>
-
---000000000000740552059e8e1cd4--
