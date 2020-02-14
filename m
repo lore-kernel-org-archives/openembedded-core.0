@@ -1,50 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 00C7B610A4
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id F257160676
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 14:06:31 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id m16so11016178wrx.11
+	Fri, 14 Feb 2020 14:18:29 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id w12so11090880wrt.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 06:06:33 -0800 (PST)
+	Fri, 14 Feb 2020 06:18:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=arjx6CUI8+15xixBrliu9bT8nvQcV/wLkw2JMZ9co+Y=;
-	b=Z1kpUaL4nO9AWVkURR0XbPpbjg6vxj0yACjPq4kbYv+rS2WeE0yBTli3+OpbZLHpy5
-	DMyEqbq6wr5uCg5FGDhV2fhNVy1Ya5hTLH5hZjLWg94Oy9c1CVzWiy6sZTvNDDeDH3iR
-	rXUFCzLgQzTAbBdVYE9IG94Q2Qz90IQdj1Qcg=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=VNDFS51AVoTlzLPPNmYD224DQO5QFZGoF8qkeXy6h5s=;
+	b=dVkR8wZvyQMXI4KwZp4rJo53EyTL2nBbwsd6pLL1t+KG6XyePlkTODn1FfY5kSzctY
+	5pOb/Wf2YR9CGXZd/fNbw+4FRl1fjCs7fGl9EA5Qv6UiDA24XraX1VxSEEzmzvPSfaZP
+	yqR4RXNQ5j5ZMmW9120DiXkFoFEXFs4qPpx7E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=arjx6CUI8+15xixBrliu9bT8nvQcV/wLkw2JMZ9co+Y=;
-	b=MbO82G2DRhVVXMK2gC6hw972h/YNO2RgEIoDcGxWq/IcpAeCUNe89/Hquk1RMSOzbU
-	5+zi/AyAfUqvuNwCpZfzbmVXPN3ZCqh9uv00mQbTnF5l3JLtarRqN3QPPW+ret1CYzcz
-	6EactR9RTjbdBp8uSkwIu3V+9o7bEo3CBOPLReS6dIEmd2Y+ADxRe/GGrhnluk6lUxS8
-	YGXQdU5TGsIldYdGeaqldVWOqKSkM1WZNI75fwcphADzmM2A/NrXqbHlyOHZ1r9XojbQ
-	izhMd1wvRWzYwDf8lZch3/yG88tgSESG3kEXnT4JS63aa3tL8UTiUGSeL8AH3Y/hdupp
-	+zrg==
-X-Gm-Message-State: APjAAAWQxto3YWa20sUWdXLgxB8cY3IQIqyp45dzn5AxXqUwd7s2Q+XS
-	MLeK3eHN6WzH5/UhbxvBl4M2rg==
-X-Google-Smtp-Source: APXvYqyog8OToUPqCnyXOjXdGXCUKSko08iSqrum8sHpVTaCUH5Cu4Tuasn1k93ft+gJbZIXV2lziQ==
-X-Received: by 2002:adf:f5cb:: with SMTP id k11mr4189081wrp.63.1581689192483; 
-	Fri, 14 Feb 2020 06:06:32 -0800 (PST)
+	bh=VNDFS51AVoTlzLPPNmYD224DQO5QFZGoF8qkeXy6h5s=;
+	b=T3Emx/22coxqA0rJ82qYE38ooRWKd4g94iGkk2XJ/YVjayQROBZ73dfQ/4t283uwdF
+	YivbAuRO5YwcFEba+wD1g0at1b9OEpvNVkE76CU5t/CTCf9aqBORyRB940BMyzNh1hxp
+	EKVchF5zOq9xIUglE5A9pQuC/gg241i4VjixD7/IrVVd6diAEYOifSwb+oio1urjFPH9
+	nC/JmTeH/tbTwOk1fM5w84kwrHd7BQC4ovnn1ahlahTt39sJqBr6SYh9leR2CPZBAoqp
+	TM9pkJ6uRm1pxchTcaPSI/4dcOOEBJlf22FvpvkQmCFOgN+XVxvb94L/5ZV1X/jNwHPl
+	GbQg==
+X-Gm-Message-State: APjAAAWKKwHYxXJW8h6Ci2sgCJeYbJpOq6FFFhe3Io0R4ixNvwh1h6GR
+	q7rOcb+SuJtomeEYgY6Q52Ee2w==
+X-Google-Smtp-Source: APXvYqxCrXDHyUfezeMn+BMsWrR6HJORi6jM0Bki9JdeYYzD60w0csBcaTdpGCHW1yIL1OxSKX/4TA==
+X-Received: by 2002:adf:e8c9:: with SMTP id k9mr4394178wrn.168.1581689910566; 
+	Fri, 14 Feb 2020 06:18:30 -0800 (PST)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 5sm7476163wrc.75.2020.02.14.06.06.29
+	by smtp.gmail.com with ESMTPSA id j5sm7513225wrw.24.2020.02.14.06.18.29
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 14 Feb 2020 06:06:30 -0800 (PST)
-Message-ID: <31a811fb1053f640ae6a35398f6723367a289b81.camel@linuxfoundation.org>
+	Fri, 14 Feb 2020 06:18:29 -0800 (PST)
+Message-ID: <15849ef67fdb2877d200a39259d9503664244d7b.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jens Rehsack <sno@netbsd.org>, openembedded-core@lists.openembedded.org,
-	Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 14 Feb 2020 14:06:29 +0000
-In-Reply-To: <20200213133616.19507-1-sno@netbsd.org>
-References: <20200213133616.19507-1-sno@netbsd.org>
+To: Joshua Watt <jpewhacker@gmail.com>, Khem Raj <raj.khem@gmail.com>
+Date: Fri, 14 Feb 2020 14:18:28 +0000
+In-Reply-To: <CAJdd5Gb565Y-9GhHSb9JJZgPijd_zBCbAgBNSRHQ3U=YsX65eA@mail.gmail.com>
+References: <20200212031435.792802-1-JPEWhacker@gmail.com>
+	<20200212031435.792802-4-JPEWhacker@gmail.com>
+	<CAMKF1srqz+B9YEHCvMcsZRiWa5AvjD7H-ef7pQjd8baWsHWNAQ@mail.gmail.com>
+	<CAJdd5Gb565Y-9GhHSb9JJZgPijd_zBCbAgBNSRHQ3U=YsX65eA@mail.gmail.com>
 User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-Subject: Re: [RESEND PATCH v2] make: 4.2.1 -> 4.3
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] recipes-support: Add diffoscope recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +61,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 14:06:32 -0000
+X-List-Received-Date: Fri, 14 Feb 2020 14:18:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2020-02-13 at 14:36 +0100, Jens Rehsack wrote:
-> Announcement: 
-> https://lists.gnu.org/archive/html/bug-make/2020-01/msg00057.html
+On Fri, 2020-02-14 at 07:15 -0600, Joshua Watt wrote:
 > 
-> 1) Remove upstream provided patches 0001-glob-Do-not-assume-glibc-
-> glob-internals.patch
->    and 0002-glob-Do-not-assume-glibc-glob-internals.patch.
 > 
-> 2) License has been changed to GPLv3 only
+> On Fri, Feb 14, 2020, 12:34 AM Khem Raj <raj.khem@gmail.com> wrote:
+> > Hi Joshua
+> > 
+> > I think it needs to be ignored on musl
+> > 
+> > 15:37:23 ERROR: Nothing RPROVIDES 'squashfs-tools' (but
+> > /mnt/jenkins/workspace/Yocto-world-musl/sources/openembedded-
+> > core/meta/recipes-support/diffoscope/diffoscope_136.bb
+> > RDEPENDS on or otherwise requires it)
+> > 15:37:23 squashfs-tools was skipped: incompatible with host
+> > aarch64-yoe-linux-musl (not in COMPATIBLE_HOST
 > 
-> 3) Important bug-fix is
->    * 
-> https://lists.gnu.org/archive/html/bug-make/2018-09/msg00006.html
-> 
-> 4) Backward-incompatibilities:
->    * Number signs (#) appearing inside a macro reference or function
-> invocation
->      no longer introduce comments and should not be escaped with
-> backslashes
->    * Previously appending using '+=' to an empty variable would
-> result in a value
->      starting with a space.  Now the initial space is only added if
-> the variable
->      already contains some value.  Similarly, appending an empty
-> string does not
->      add a trailing space.
-> 
-> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> Would an RRECOMMENDS fix it?
 
-It breaks nativesdk-make with meta-mingw:
+I merged your patch and one of mine to follow it adding a
+COMPATIBLE_HOST entry.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/1562
+I see Khem is fixing some other software so we may end up not needing
+it but we can remove later.
 
 Cheers,
 
