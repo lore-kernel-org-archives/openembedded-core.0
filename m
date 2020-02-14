@@ -1,49 +1,54 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qv1-f68.google.com (mail-qv1-f68.google.com
-	[209.85.219.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C08E601DD
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D0F4F6100E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 01:33:35 +0000 (UTC)
-Received: by mail-qv1-f68.google.com with SMTP id p2so3578403qvo.10
+	Fri, 14 Feb 2020 01:39:59 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id v2so7762102qkj.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 17:33:36 -0800 (PST)
+	Thu, 13 Feb 2020 17:40:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JJ5+Wworv2DPAxZLU88ESo9QRtf+A9HMHcvYx3jYajg=;
-	b=G8i9nU66mEvCdOVlGUN7ldzDIJ1ep46ApeFXgEhK7sah+R8v2D6vz/afFOEx1BOGH0
-	QTALsNo+RFBOySJNU/Ci/mLM/ZTEROf2z4B6KREtfgtfKPvvpRud09V+7VA1mHCucE/c
-	O03sqrVXFFjkKd5bBWRwG84MnCepCXwUDb0P0qErQugsuC3DSVDbz04rDRCbRSm+Md9S
-	q/q+meM7tisr2AKlGrmIULAj9uIWArBaDBBegr4u0ek3teQBoQE91RDkt8ZnBgJ8IqQO
-	TbwIsyLo8Od28FepvAVCTsNmS35WnGt9Op640q57RV7GRCA3nzz6kQMdRWOEAW2yMOjE
-	9h8Q==
+	:cc:content-transfer-encoding;
+	bh=Vc8Jkdenu0lWO1cJdgedlUerfUzJC+STsewIhzrVmh8=;
+	b=LGCJKDkru7yqSP1WlOFXzNiEMECvRNbmZ7xF4iJSRMuh354yfImCP1xk6HiQUsHGzl
+	mYv/LcnvgiLIJdMzI+QiiwuoSLgbTbYM67q8cYPSJu70P+R3NpjGNhDlejQDNMurXSVL
+	yatK2977qPDhcIRICfJ7d86WP0qbzbJi0I3e3DXX95pruMwob9JboeLSi9cLiz2G9pef
+	ZEjaNhWbCYActqUwZoC5avkHgzh8VBfEApR3eepF0OkfLa4F809hasTsWYVraVo/F0LY
+	kF33NZepBafF6YFT8nxDvV+6OVFHSadrb+ZSPS1c+OBztNid1tCmdvbyy+iw+EDerAHI
+	HEyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JJ5+Wworv2DPAxZLU88ESo9QRtf+A9HMHcvYx3jYajg=;
-	b=NAL1uoUzahM51Hiy+NSyM+3hjbBmSHdC1BrMv4jMLaT+mU2Q7luLrTh+NQpOcFBdfT
-	DdcGeGMqboOtFvorSG1A8AS30JgZj6Ty6+FLtkNi+2rmcM9vAU0UAGF53h6TSK3nvopa
-	39Tc22HuJKXcQenbCLkvTEo7UDazwSwRH5FLUg48W4STfmdxPh7CL5R4CxtrNFsxES0K
-	VM6bQOaXWztibENfZfqjt/5ZII8jWhng0LqXMS91BVN7jPNZz9WlsCNdXZU0x54vz9Hu
-	Viume/pVLVB3dZ4sWK1AxpR5T0YoB6bZxvVpMZLRVWxnPQCWufGUkw4mfi4FrYVE8xBb
-	5UmQ==
-X-Gm-Message-State: APjAAAX1NPybQTrVIfjhU1DC5Sh9s5M4tIY/g0BvxIQYV82PtM9bJgTM
-	itsa9U3rgZbqycDAu9eKIQHGO202BeOVN40i7aw=
-X-Google-Smtp-Source: APXvYqxiaybEF567Y6SZp2W+iLfU7ve6fq68mRRETdyKq/Gw501zxZ0TXhoT6L/MxcOf77K0FghwnA+RB9US50FpTpE=
-X-Received: by 2002:a0c:8605:: with SMTP id p5mr261496qva.109.1581644015873;
-	Thu, 13 Feb 2020 17:33:35 -0800 (PST)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Vc8Jkdenu0lWO1cJdgedlUerfUzJC+STsewIhzrVmh8=;
+	b=h613MmyhU5c2dl0Pd7vdQY/5/hn6vopZAfOpWr7k2kwOd8/DknkqjAdEKoV/AyXbly
+	vGekAHJjk8F00Ou2jg70csG153RX4uPfrIDa0Fy/BzXp3EjKjvd3h3ClmcoUQGWYEP7S
+	O7mIihJ5VsVLqY5dBw05KjIE4QpeScaYp0NP0EPGTYWJ3UIHxY6w8D8AxYqcZG89y+R8
+	l7Q6/eCtNu3uboCHxrfNwymNuF0LGdyEI8UR+fnewOYFR8I1795vuXt9orj1yZWM4/5v
+	Z1k/trUmhcKMl5NRb9OvdtiEHWn/wXTK4tfpyelf+83ApJVJyOjQMt5TFAtjzpRHSvho
+	LwgA==
+X-Gm-Message-State: APjAAAUMvg8jfNr9brHHpmTgxnweIPVBwDDVnV7efaxoyTenytD8MP0w
+	kVyn/ZkVaje9OtcwsjP5JtnJ98TPKg2Ynxz0Ojk=
+X-Google-Smtp-Source: APXvYqz3X/pWRQHQx2HQmPyyTTfMeF1gaEaG2n9H4e00SdazewreIgXPWVp0P0eSn22+YND6HFvdUpHF35+1MUWlu0k=
+X-Received: by 2002:ae9:ef96:: with SMTP id d144mr392157qkg.337.1581644400455; 
+	Thu, 13 Feb 2020 17:40:00 -0800 (PST)
 MIME-Version: 1.0
 References: <cover.1581575578.git.raj.khem@gmail.com>
-	<650b515ce0c79adcbba39cdf47bc23f764ca1465.1581575578.git.raj.khem@gmail.com>
-	<ff9fd754f0151c81ef5938f904415ef0a212b8b8.camel@linuxfoundation.org>
-In-Reply-To: <ff9fd754f0151c81ef5938f904415ef0a212b8b8.camel@linuxfoundation.org>
+	<CANNYZj_T=J2fs39fpPKQjC5rGSg_opTeUGzPokeiU-5jwhRzTQ@mail.gmail.com>
+	<CAMKF1sqJTPVFALwd0qx+zfWq3MsmhVL=n58CDMns1MwJH2mTsw@mail.gmail.com>
+	<CANNYZj_C7i+2QKaFqjiDh0DFYYuYO7eY72wTR9NKz9JEjDtjCA@mail.gmail.com>
+	<CAMKF1sot=-RJ0O-HLQRHWsi4OUHhUKsyi9WzoZiXOJrvaX_QGw@mail.gmail.com>
+	<CANNYZj_7pG5EGjOR2BW3beJ3J__37GR29XZFaRotvuG9KFCnOQ@mail.gmail.com>
+	<CAMKF1sp_fEAyuGxgxUG=bXuVEMm01NG+g6Vqz29Pseht0nPQDw@mail.gmail.com>
+	<CANNYZj_tT5QSvyqhk-dOThThcO-rM-jT6PrTwM4pt8y7sPVSxQ@mail.gmail.com>
+In-Reply-To: <CANNYZj_tT5QSvyqhk-dOThThcO-rM-jT6PrTwM4pt8y7sPVSxQ@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 13 Feb 2020 17:33:09 -0800
-Message-ID: <CAMKF1sqhqh8WHasMKbs4vsx_dfpvGqmNXQhfjOA1DJ6V6=QAyg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/9] gdb: Upgrade to 9.1 release
+Date: Thu, 13 Feb 2020 17:39:34 -0800
+Message-ID: <CAMKF1spgO92JJAaVCP26veEsedY_FAziNn6zi9cbpuy2_ofmSg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/9] recipe updates, testing fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +61,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 01:33:35 -0000
+X-List-Received-Date: Fri, 14 Feb 2020 01:40:00 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 13, 2020 at 3:38 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Thu, Feb 13, 2020 at 2:05 PM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
 >
-> On Wed, 2020-02-12 at 22:38 -0800, Khem Raj wrote:
-> > Drop security patches which are now in 9.1 already
-> > Forward port rest of patches to 9.1
-> > Detailed changes [1]
-> >
-> > [1] https://lists.gnu.org/archive/html/info-gnu/2020-02/msg00008.html
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> On Thu, 13 Feb 2020 at 22:37, Khem Raj <raj.khem@gmail.com> wrote:
+>>>
+>>>
+>>> Merging these patches will exclude rpm from images, and so will mask th=
+e issue, so it's not orthogonal.
+>>
+>>
+>> are you actively working to fix the test case ?
+>> In that case it would be justified to hold them
 >
-> Something odd is going on as another patch failure:
 >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/1551
+> The test case that is failing for you (with ipk/opkg and core-image-sato-=
+sdk) is passing just fine on the autobuilder [1], so I am missing informati=
+on on how to reproduce. I have requested this information from you here [2]=
+ and got no answer so far. Or is it some other test that is failing? That i=
+sn't entirely clear.
 >
 
-perhaps pick from pull branch
-https://git.yoctoproject.org/clean/cgit.cgi/poky-contrib/log/?h=kraj/pu
+autobuilder runs poky, to reproduce this you will need to use
+oe-core+bitbake checkout
 
-> Cheers,
+and then for qemux86-64
+
+bitbake -ctestimage core-image-sato-sdk-ptest
+
+it might also work in poky setup if you remove
+PACKAGE_CLASSES ?=3D "package_rpm"
+from local.conf
+
+> [1] https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/155=
+4/steps/8/logs/step1c
 >
-> Richard
+> [2] http://lists.openembedded.org/pipermail/openembedded-core/2020-Februa=
+ry/292774.html
 >
+> Alex
 
