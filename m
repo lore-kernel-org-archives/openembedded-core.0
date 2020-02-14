@@ -1,49 +1,49 @@
-Return-Path: <masahiroy@kernel.org>
-X-Greylist: delayed 500 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 14 Feb 2020 05:29:42 UTC
-Received: from condef-10.nifty.com (condef-10.nifty.com [202.248.20.75])
-	by mail.openembedded.org (Postfix) with ESMTP id A8FC760740
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com
+	[209.85.210.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E38160B31
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 05:29:42 +0000 (UTC)
-Received: from conssluserg-04.nifty.com ([10.126.8.83])by condef-10.nifty.com
-	with ESMTP id 01E5Inoq024703
+	Fri, 14 Feb 2020 05:59:57 +0000 (UTC)
+Received: by mail-pf1-f173.google.com with SMTP id i6so4349906pfc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 14:18:49 +0900
-Received: from mail-vk1-f169.google.com (mail-vk1-f169.google.com
-	[209.85.221.169]) (authenticated)
-	by conssluserg-04.nifty.com with ESMTP id 01E5IhtI020798
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 14:18:44 +0900
-DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-04.nifty.com 01E5IhtI020798
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
-	s=dec2015msa; t=1581657524;
-	bh=9jksyxMKOlxH2keMnn7ZMNSFVqerXpzbW90PGjw1HNM=;
-	h=References:In-Reply-To:From:Date:Subject:To:From;
-	b=O0Cewi7kRBRYiGU9OgebzIIpdQdp6MI8ziN7jpV6VvZA0dN2kssrq3mrHxYzPM9ZC
-	G2ekDMgwEi9yRs5qUVnKJxMUrwRtDVqdMhdLEMCfTK/p+yNdIGqCkLAj+wZH8ASehT
-	cPvHzwWneDFPYgavMDLzSZGypCE+9gJWoURFaWNJ0E0ihBfot7wWPqh1ggSJfvg/6B
-	6Hu+U9zqkh0ThfOUW3PuIYfAqjTqZhY9a8EGQ1IMCh8XljlyWwS6nkleV0Xb4reuOa
-	56YAyiwK+08wnICaDqWtpORvcSdbb6rYYHOHi896BmP1UD4Wgv7LFU4NTXYwXbPxtL
-	PMpCzPmHcWAYA==
-X-Nifty-SrcIP: [209.85.221.169]
-Received: by mail-vk1-f169.google.com with SMTP id o187so2281714vka.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Feb 2020 21:18:43 -0800 (PST)
-X-Gm-Message-State: APjAAAWBdECm1LW8wtQLzLhSt0tW773/KcBGwwn4+YlrchVi8hw1TI8/
-	o53mhPrTlZQ7r2pzWJVNeNt78ZJlvHkdL3DdnAg=
-X-Google-Smtp-Source: APXvYqy7EfNg60BoNvEyLSI5h04p8C9nU/Lb+eLzFaSNQRwJxfVVzmAy/WAd2HGFlWbzHAdX4HNTVs3Dfdb8RjswTQ8=
-X-Received: by 2002:a1f:8cd5:: with SMTP id o204mr826901vkd.66.1581657522832; 
-	Thu, 13 Feb 2020 21:18:42 -0800 (PST)
+	Thu, 13 Feb 2020 21:59:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:content-transfer-encoding
+	:mime-version; bh=A1PEUnApM/+3CJ327fzxIXrYR4a1tpJO/FDOCwxx120=;
+	b=OwbCVHNEKNLWc/ATHZ37Lic7mrxFMsymxsa8ap3RuQLr7JBILpXaPJYFCV9+ciQiFo
+	d0JHnlasFTt8nrF7eDcLAlngM9eTxZldCZiCoNPsEM27imaAe00xf94vUbDnzOWLFdVv
+	pPR+BepTfKHz55zgBBmheRzKTeMeGzpdeY/TabIBo4ATF376n3Hf/mhWIHYQEO9A0kT1
+	ITcWjnbDNNvD68+PgMqtvQtwf/xtQj3cRVbR3AFtCsOZtfLxJz3wAlmYexOYeUtc8VIC
+	caPaPcW9OnudDJoYUzpYY18saumx+N2cazjQTAD55c60sDKhhInxeQWicXFsxHhiop5M
+	jYNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:message-id:from:to:cc:subject
+	:content-transfer-encoding:mime-version;
+	bh=A1PEUnApM/+3CJ327fzxIXrYR4a1tpJO/FDOCwxx120=;
+	b=LfIiWGdMfWOD84cQWZO/21TkcSORzTW3YpKaUrGsklJ/1d2UazscO3osMlEhMWyLCr
+	07RpcdZI4nk7rhsqFO+M9sGtR/1j0TIDEDHhXp36wXLtZH+UkZleo4r1HlQh9FbLAAIc
+	8+Y20wBvj6ykY3g3MoHsvY362L62plOGtG1+7/rrjLGj+PIoxZyOU7gjbLRPo/Q7P5xb
+	zY8QXng4r2918i8xh7BI5GY+ET6wDVElNtvSIDtwENHM2HGFOXuh/GvEXYIe4xiliMto
+	5YPwg3+2uEndjYhKqbe1XBjtlSw8a22Tp2WUeH/KeSVeHCJbFb27HeTU4FQelkqJ6H4o
+	ydlA==
+X-Gm-Message-State: APjAAAWBvTpTws12AG42KAJEavO3hioYpoteDGBT5sJ1JFZm4xMlNQxc
+	3Np4fG8dA2gRHnTU1F4HFiTiOAZXL00=
+X-Google-Smtp-Source: APXvYqwzLDoJwcU9FsWJVSSm1Tr7+Z6OpeDBqvm0GTj55kMgLftxQp6kHghdFavvG3qTlNcVzaZQNw==
+X-Received: by 2002:a62:e30d:: with SMTP id g13mr1790149pfh.92.1581659998678; 
+	Thu, 13 Feb 2020 21:59:58 -0800 (PST)
+Received: from [127.0.1.1] ([1.128.246.203])
+	by smtp.gmail.com with UTF8SMTPSA id
+	r7sm5307017pfg.34.2020.02.13.21.59.56
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Thu, 13 Feb 2020 21:59:57 -0800 (PST)
+Date: Fri, 14 Feb 2020 05:59:43 +0000
+Message-Id: <20200214055943.602254-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-References: <20200113123731.15117-1-masahiroy@kernel.org>
-In-Reply-To: <20200113123731.15117-1-masahiroy@kernel.org>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Fri, 14 Feb 2020 14:18:07 +0900
-X-Gmail-Original-Message-ID: <CAK7LNAS4=j8GwZR48EZMZFuyUy6ed-ZK_yiDZ32QrMnVnq=y5g@mail.gmail.com>
-Message-ID: <CAK7LNAS4=j8GwZR48EZMZFuyUy6ed-ZK_yiDZ32QrMnVnq=y5g@mail.gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH] bitbake.conf: do not let DISTROOVERRIDES fall back to empty string
+Subject: [PATCH 1/2] glibc-testsuite: Remove the do_install task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 05:29:43 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 14 Feb 2020 05:59:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Hi.
+This task is not intended to be run as this recipe does not produce any
+packages or install any sysroot content. Additionally running this task
+behaves differently from a normal glibc build, and can result in issues.
 
-On Mon, Jan 13, 2020 at 9:37 PM Masahiro Yamada <masahiroy@kernel.org> wrote:
->
-> Commit abacd7243a2e ("bitbake.conf: fix distro-less failure expanding
-> FILESPATH") mended the littered DISROOVERRIDES when DISTRO is unset.
->
-> Some time later, commit b7279f996397 ("bitbake.conf: Default DISTRO to
-> nodistro") added a weak default to 'DISTRO'.
->
-> So, this line can go back to the original simple definition.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+[YOCTO #13737]
 
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/recipes-core/glibc/glibc-testsuite_2.31.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Please let me ping this in case this was missed.
-This looks like a good clean-up to me.
-
-
-
-> ---
->
->  meta/conf/bitbake.conf | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> index 62b5466b71..d2b6ca840f 100644
-> --- a/meta/conf/bitbake.conf
-> +++ b/meta/conf/bitbake.conf
-> @@ -736,7 +736,7 @@ DISTRO_NAME ??= "OpenEmbedded"
->  OVERRIDES = "${TARGET_OS}:${TRANSLATED_TARGET_ARCH}:pn-${PN}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}:${CLASSOVERRIDE}${LIBCOVERRIDE}:forcevariable"
->  LIBCOVERRIDE ?= ""
->  CLASSOVERRIDE ?= "class-target"
-> -DISTROOVERRIDES ?= "${@d.getVar('DISTRO') or ''}"
-> +DISTROOVERRIDES ?= "${DISTRO}"
->  MACHINEOVERRIDES ?= "${MACHINE}"
->
->  FILESOVERRIDES = "${TRANSLATED_TARGET_ARCH}:${MACHINEOVERRIDES}:${DISTROOVERRIDES}"
-> --
-> 2.17.1
->
-
-
--- 
-Best Regards
-Masahiro Yamada
+diff --git a/meta/recipes-core/glibc/glibc-testsuite_2.31.bb b/meta/recipes-core/glibc/glibc-testsuite_2.31.bb
+index 657fd4dbc1..c44f30bf1c 100644
+--- a/meta/recipes-core/glibc/glibc-testsuite_2.31.bb
++++ b/meta/recipes-core/glibc/glibc-testsuite_2.31.bb
+@@ -58,3 +58,4 @@ addtask do_check after do_compile
+ 
+ inherit nopackages
+ deltask do_stash_locale
++deltask do_install
+---
+2.24.1
 
