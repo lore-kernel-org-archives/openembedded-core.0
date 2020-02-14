@@ -1,48 +1,50 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 944B96101D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 00C7B610A4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 13:19:08 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id p23so11152915edr.5
+	Fri, 14 Feb 2020 14:06:31 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id m16so11016178wrx.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 05:19:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=As5oqYL6/quJvWDf1G2fWDl9mDx1L8Q2M3RnNw5hI3k=;
-	b=okF/Hb7B2FAc90KFt+sC+EHPobk2TAnnZpDbv8IMTL2ua0fMb/80pJYYTpYB5Ht2MA
-	kBRli6/RaLnJ1wzVM2k32oqqPgMyGTvMaMExxpl7Q6dJ5G4TdVLujgfDsKk9AGIxIoDP
-	jCYmMIlDZCOeAV+d8hPdVcunpHVXggRjIEKsTrpI0St0+GTqhyZhQz7YkCrhZ26B1yac
-	EdJJ+HtwICKs+WauQFj4Af2Msn98lEJD4/7OYR8RDxyzUszZtzui4LGF/8eJ8ny6Z2a5
-	bHLwDqSBvPJKJFpn/+Gjfr3NEKAgQmw/zSaMAKyBTnblaL+dqWI2tY0aDgseGYiIlMpF
-	Xfbw==
+	Fri, 14 Feb 2020 06:06:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=arjx6CUI8+15xixBrliu9bT8nvQcV/wLkw2JMZ9co+Y=;
+	b=Z1kpUaL4nO9AWVkURR0XbPpbjg6vxj0yACjPq4kbYv+rS2WeE0yBTli3+OpbZLHpy5
+	DMyEqbq6wr5uCg5FGDhV2fhNVy1Ya5hTLH5hZjLWg94Oy9c1CVzWiy6sZTvNDDeDH3iR
+	rXUFCzLgQzTAbBdVYE9IG94Q2Qz90IQdj1Qcg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=As5oqYL6/quJvWDf1G2fWDl9mDx1L8Q2M3RnNw5hI3k=;
-	b=GlzfkPpLD8uIEfJBP/GreK1UTh6S35rI2rQr2yaRrjkaNvLpOxauU7K5cl3HeyVnfA
-	7/b+HYYhN5Y+nwohYLeMHKXGIQIaXwVP3AtFiCjN9YxBWGDqgP687dsBGl5JWPVQwLkU
-	z84LgwbYEsIbSI4SDd1XiVUEh55D4+OvkzbDE+HfREVbOtDPlVJh3EAWLXxbOT7/5J+A
-	g/+OZeLBIEF93O984CFYuxuSi+JSr0PlYPN/VTvA2MHJbTCswtEbF/zpmLh0aCKtANmv
-	ZXqa/T70FXX0lxbAxP8cWOeVKfU8XuZkuazZ9NXnHsbv41VyWDSiodx2TLI3GSmOcHph
-	tQQw==
-X-Gm-Message-State: APjAAAWxK+F8lrN+D4+lxqcIV9pz+NJTyjSE+pIgi02/05iAcL7+TgVi
-	CaHMG6CWp0m9fqDZqQKMIOCh683gWs7gD54TqGw=
-X-Google-Smtp-Source: APXvYqwaXTxdG93L+Ec3sPGCk+EzPtB5/3Q05cylQ0m+XA+EWjk3ONDMzu7ArrsQc8m1mbQW85AgVqfwQWYNhMlx528=
-X-Received: by 2002:a17:906:260b:: with SMTP id
-	h11mr3077435ejc.327.1581686349072; 
-	Fri, 14 Feb 2020 05:19:09 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=arjx6CUI8+15xixBrliu9bT8nvQcV/wLkw2JMZ9co+Y=;
+	b=MbO82G2DRhVVXMK2gC6hw972h/YNO2RgEIoDcGxWq/IcpAeCUNe89/Hquk1RMSOzbU
+	5+zi/AyAfUqvuNwCpZfzbmVXPN3ZCqh9uv00mQbTnF5l3JLtarRqN3QPPW+ret1CYzcz
+	6EactR9RTjbdBp8uSkwIu3V+9o7bEo3CBOPLReS6dIEmd2Y+ADxRe/GGrhnluk6lUxS8
+	YGXQdU5TGsIldYdGeaqldVWOqKSkM1WZNI75fwcphADzmM2A/NrXqbHlyOHZ1r9XojbQ
+	izhMd1wvRWzYwDf8lZch3/yG88tgSESG3kEXnT4JS63aa3tL8UTiUGSeL8AH3Y/hdupp
+	+zrg==
+X-Gm-Message-State: APjAAAWQxto3YWa20sUWdXLgxB8cY3IQIqyp45dzn5AxXqUwd7s2Q+XS
+	MLeK3eHN6WzH5/UhbxvBl4M2rg==
+X-Google-Smtp-Source: APXvYqyog8OToUPqCnyXOjXdGXCUKSko08iSqrum8sHpVTaCUH5Cu4Tuasn1k93ft+gJbZIXV2lziQ==
+X-Received: by 2002:adf:f5cb:: with SMTP id k11mr4189081wrp.63.1581689192483; 
+	Fri, 14 Feb 2020 06:06:32 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 5sm7476163wrc.75.2020.02.14.06.06.29
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Fri, 14 Feb 2020 06:06:30 -0800 (PST)
+Message-ID: <31a811fb1053f640ae6a35398f6723367a289b81.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jens Rehsack <sno@netbsd.org>, openembedded-core@lists.openembedded.org,
+	Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 14 Feb 2020 14:06:29 +0000
+In-Reply-To: <20200213133616.19507-1-sno@netbsd.org>
+References: <20200213133616.19507-1-sno@netbsd.org>
+User-Agent: Evolution 3.34.1-2 
 MIME-Version: 1.0
-References: <20200214035737.9975-1-zhe.he@windriver.com>
-In-Reply-To: <20200214035737.9975-1-zhe.he@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 14 Feb 2020 08:18:57 -0500
-Message-ID: <CADkTA4MS5J-xHpucB96HqwxfjMk9zVaRy2i+_vxX8iXSp3UY8A@mail.gmail.com>
-To: He Zhe <zhe.he@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] perf: Correct the substitution of python shebangs
+Subject: Re: [RESEND PATCH v2] make: 4.2.1 -> 4.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 13:19:08 -0000
+X-List-Received-Date: Fri, 14 Feb 2020 14:06:32 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 13, 2020 at 10:58 PM <zhe.he@windriver.com> wrote:
->
-> From: He Zhe <zhe.he@windriver.com>
->
-> To make the native python3 is always used,
->
-> - Use sed one-liner instead
-> - Add substitution for ${S}/scripts/bpf_helpers_doc.py to fix the
->   following warning.
->
-> File "/usr/lib/python3.6/sysconfig.py", line 421, in _init_posix
-> _temp = __import__(name, globals(), locals(), ['build_time_vars'], 0)
-> ModuleNotFoundError: No module named '_sysconfigdata'
->
-> This issue is first reported by Joel Stanley <joel@jms.id.au>
-> The sed one-liner is credited to Anuj Mittal <anuj.mittal@intel.com>
+On Thu, 2020-02-13 at 14:36 +0100, Jens Rehsack wrote:
+> Announcement: 
+> https://lists.gnu.org/archive/html/bug-make/2020-01/msg00057.html
+> 
+> 1) Remove upstream provided patches 0001-glob-Do-not-assume-glibc-
+> glob-internals.patch
+>    and 0002-glob-Do-not-assume-glibc-glob-internals.patch.
+> 
+> 2) License has been changed to GPLv3 only
+> 
+> 3) Important bug-fix is
+>    * 
+> https://lists.gnu.org/archive/html/bug-make/2018-09/msg00006.html
+> 
+> 4) Backward-incompatibilities:
+>    * Number signs (#) appearing inside a macro reference or function
+> invocation
+>      no longer introduce comments and should not be escaped with
+> backslashes
+>    * Previously appending using '+=' to an empty variable would
+> result in a value
+>      starting with a space.  Now the initial space is only added if
+> the variable
+>      already contains some value.  Similarly, appending an empty
+> string does not
+>      add a trailing space.
+> 
+> Signed-off-by: Jens Rehsack <sno@netbsd.org>
 
-Thanks!
+It breaks nativesdk-make with meta-mingw:
 
-This looks good to me.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/89/builds/1562
 
 Cheers,
 
-Bruce
+Richard
 
->
-> Signed-off-by: He Zhe <zhe.he@windriver.com>
-> ---
->  meta/recipes-kernel/perf/perf.bb | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
->
-> diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-> index 6d1b06693d..a6fb51d3db 100644
-> --- a/meta/recipes-kernel/perf/perf.bb
-> +++ b/meta/recipes-kernel/perf/perf.bb
-> @@ -239,11 +239,8 @@ do_configure_prepend () {
->      fi
->
->      # use /usr/bin/env instead of version specific python
-> -    for s in `find ${S}/tools/perf/ -name '*.py'`; do
-> -        sed -i 's,/usr/bin/python,/usr/bin/env python3,' "${s}"
-> -        sed -i 's,/usr/bin/python2,/usr/bin/env python3,' "${s}"
-> -        sed -i 's,/usr/bin/env python2,/usr/bin/env python3,' "${s}"
-> -        sed -i 's,/usr/bin/python3,/usr/bin/env python3,' "${s}"
-> +    for s in `find ${S}/tools/perf/ -name '*.py'` ${S}/scripts/bpf_helpers_doc.py; do
-> +        sed -i -e "s,#!.*python.*,#!${USRBINPATH}/env python3," ${s}
->      done
->
->      # unistd.h can be out of sync between libc-headers and the captured version in the perf source
-> --
-> 2.24.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
