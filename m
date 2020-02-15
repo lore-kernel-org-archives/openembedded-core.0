@@ -1,51 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com
-	[209.85.216.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C6D4660586
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 531AE600FB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 23:28:56 +0000 (UTC)
-Received: by mail-pj1-f44.google.com with SMTP id d5so4470174pjz.5
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 15:28:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=113ppS9gKG3COFVz1lB9Dr5BeLc0pZnLTNb9WlcJdOM=;
-	b=NEEU6qqgfa1mT2pf4YBLo38zd8G7YdRT1LtDExfnhbFDk4aI8y6ydt9nv7CXG0UQtC
-	Ki3PaLZIMPKgS1Se0NgtIyE2jolIFeeVVsbh+rG7Rpu2yt5q9UK9gX+zBqnXhYYX1osn
-	8oqHYmuQbwUexhGAntCl82OWh/bOodBl2XY2hWpGh5krMG/exlNGL6uCfZXGD09TsnHh
-	31XItNKVdcoxaJbbqmtoDmsbsTbYlouv0/Rbt/dAEoK0LskT416DYSFVfOxuzKqtGpX4
-	iN5HFge1Zv7wkmUVW0u3e2zBKX2XTC1RfYYJMYNDp7BIZr4A8co8lANCck7y/U+B4kAt
-	TtnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=113ppS9gKG3COFVz1lB9Dr5BeLc0pZnLTNb9WlcJdOM=;
-	b=DWnAe2RJbwMMpLoBd3I+QBfzzv722+bycvuxCPqU2vosEnxLBzcWRJLi7zcz0+5Kbg
-	4zEK+WeikZHrtLo2zKUZP2Fv5WVaw3doGA1xQNJyC87nV6rCzMNKsBiSXpghZflmBqQJ
-	7zfAuhvd+RihX+p+wb+j1pZa36AYD1LdsVaT6FKXA35HjnTruJzlefXevzXj3lw0geJ2
-	g2DhLIVl0EuxUx0bjTgPmJVSdkB8+Cd+cApo2cmUsmrF+AqnVjNch4e9aiz4tSnFwrim
-	e+Xlr+UNdBgKmKo2HGUB5aC/hJIYbce+J4s/7oPBXxedYyQOaJzhpoDDimXoEvYckhJ1
-	CgMQ==
-X-Gm-Message-State: APjAAAVYkKyWo7gfKurqefmI4dviT9Q8mg1Td3xC0bU+9pobiM8TKLuS
-	TIp8+xZdPXCX6EAzRATTT4KxKv4JqqM=
-X-Google-Smtp-Source: APXvYqwm56nc4od7Tc9mSKXkffHsFY4cfLEq3d844NFbMKYbAgMUIKvpPcJE0KNU6QSOBieCeEAGQQ==
-X-Received: by 2002:a17:90a:1f8d:: with SMTP id
-	x13mr6634033pja.27.1581722937440; 
-	Fri, 14 Feb 2020 15:28:57 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::709])
-	by smtp.gmail.com with ESMTPSA id
-	d26sm8006847pgv.66.2020.02.14.15.28.56
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 14 Feb 2020 15:28:56 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Feb 2020 15:29:01 -0800
-Message-Id: <20200214232901.3344491-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
+	Sat, 15 Feb 2020 00:31:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01F0VivW012118
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Fri, 14 Feb 2020 16:31:45 -0800 (PST)
+Received: from [172.25.44.8] (172.25.44.8) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Fri, 14 Feb 2020 16:31:44 -0800
+To: Robert Yang <liezhi.yang@windriver.com>,
+	<openembedded-core@lists.openembedded.org>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+References: <cover.1578306533.git.liezhi.yang@windriver.com>
+	<281727c8444cda2b543f94e43f947e1cdc018be0.1578306533.git.liezhi.yang@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <fe971459-182b-d4de-8f0a-a7a8518d85d0@windriver.com>
+Date: Fri, 14 Feb 2020 19:31:43 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-Subject: [PATCH] image.bbclass, package-index.bb: Delete do_populate_lic task
+In-Reply-To: <281727c8444cda2b543f94e43f947e1cdc018be0.1578306533.git.liezhi.yang@windriver.com>
+X-Originating-IP: [172.25.44.8]
+Subject: Re: [PATCH v2 1/1] gnupg: Read GNUPG_BINDIR from environment variables for nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +37,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Feb 2020 23:28:57 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 15 Feb 2020 00:31:46 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-CA
+Content-Transfer-Encoding: 7bit
 
-These are meta packages
+On 1/6/20 5:30 AM, Robert Yang wrote:
+> There is already a relocate.patch for native which is used for reading
+> GNUPG_BINDIR from environment variables, now also enable it for nativesdk.
+> Otherwise, command like the following one doesn't work for nativesdk:
+> 
+> $ gpg-connect-agent --homedir ../keys/ reloadagent /bye
+> gpg-connect-agent: no running gpg-agent - starting '/opt/path/to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/gpg-agent'
+> gpg-connect-agent: failed to start agent '/opt/path/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/gpg-agent': No such file or directory
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- meta/classes/image.bbclass              | 1 +
- meta/recipes-core/meta/package-index.bb | 1 +
- 2 files changed, 2 insertions(+)
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index c2824395c9..07aa1f1fa5 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -609,6 +609,7 @@ do_patch[noexec] = "1"
- do_configure[noexec] = "1"
- do_compile[noexec] = "1"
- do_install[noexec] = "1"
-+deltask do_populate_lic
- deltask do_populate_sysroot
- do_package[noexec] = "1"
- deltask do_package_qa
-diff --git a/meta/recipes-core/meta/package-index.bb b/meta/recipes-core/meta/package-index.bb
-index a4123b7622..98c5bcb372 100644
---- a/meta/recipes-core/meta/package-index.bb
-+++ b/meta/recipes-core/meta/package-index.bb
-@@ -12,6 +12,7 @@ deltask do_patch
- deltask do_configure
- deltask do_compile
- deltask do_install
-+deltask do_populate_lic
- deltask do_populate_sysroot
- 
- do_package_index[nostamp] = "1"
+This seems to have been missed.
+Are there any comments?
+
+Robert,
+Please rebase and resend
+
+../Randy
+
+> ---
+>   meta/recipes-support/gnupg/gnupg_2.2.17.bb | 17 +++++++++++++----
+>   1 file changed, 13 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-support/gnupg/gnupg_2.2.17.bb b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
+> index bb8885f..0a939cf 100644
+> --- a/meta/recipes-support/gnupg/gnupg_2.2.17.bb
+> +++ b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
+> @@ -19,6 +19,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+>   SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
+>                                   file://relocate.patch"
+>   
+> +SRC_URI_append_class-nativesdk = " file://relocate.patch"
+> +
+>   SRC_URI[md5sum] = "1ba2d9b70c377f8e967742064c27a19c"
+>   SRC_URI[sha256sum] = "afa262868e39b651a2db4c071fba90415154243e83a830ca00516f9a807fd514"
+>   
+> @@ -60,10 +62,17 @@ do_install_append() {
+>   }
+>   
+>   do_install_append_class-native() {
+> -	create_wrapper ${D}${bindir}/gpg2 GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
+> -	create_wrapper ${D}${bindir}/gpgconf GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
+> -	create_wrapper ${D}${bindir}/gpg-agent GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
+> -	create_wrapper ${D}${bindir}/gpg-connect-agent GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
+> +	create_wrappers ${STAGING_BINDIR_NATIVE}
+> +}
+> +
+> +do_install_append_class-nativesdk() {
+> +	create_wrappers ${SDKPATHNATIVE}${bindir_nativesdk}
+> +}
+> +
+> +create_wrappers() {
+> +	for i in gpg2 gpgconf gpg-agent gpg-connect-agent; do
+> +		create_wrapper ${D}${bindir}/$i GNUPG_BINDIR=$1
+> +	done
+>   }
+>   
+>   PACKAGECONFIG ??= "gnutls"
+> 
+
+
 -- 
-2.25.0
-
+# Randy MacLeod
+# Wind River Linux
 
