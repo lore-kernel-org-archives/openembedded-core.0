@@ -1,49 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 61A91613CC
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 17:25:52 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id c9so14729380wrw.8
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 09:25:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4zbn7BQNLhh0BMja9AJxC0FOrwpFZcNQbNckKR5cPaE=;
-	b=HSBAzJeSsyRJrGR8VwAc/ZGvvF48DVUsbKx13YxCEHNU19tgTNbDfXSNNV5BIIO2PD
-	I6t7oWSTx8U/JKacxH5BqxaX5Ga1v0hc+ExeR6KpKK9Bz/IOw3/62BV87deCVqJRxVNm
-	1Cc2KzfsoGXqXrvicMrPBa6nmE3VvbGi1fJmo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=4zbn7BQNLhh0BMja9AJxC0FOrwpFZcNQbNckKR5cPaE=;
-	b=dCkX5dE/2/XiPuO+Izpmv+9totVlK6Q3nSxnkrUNVCXPT6Lrzs5egY1wTAgvhXT2cQ
-	BtSN5wlHCJiH6JTXivPlQYXUpdNtud6Ot/TMkWvTJKeP9qs3Au7j7zLXECpMNu0HW6dt
-	DNQm7ovytB0oFWaLXwjrHKQUVIozM+FtnfI4gMHBzqC6+zYDU/ks/4+i4mAThnavOLYE
-	a8IIompVgSLRZSPYlwroDukBhMccAbxrzS2OrHrWuwnLg64etxXuiRjv3lJiEdbLl2cz
-	ghgZT+JNNn0bmBu8iV0STiIIMvW8p8scf6UvVAeSfzxdQzlVvW8buyEOA8YFpCX15xt4
-	kukg==
-X-Gm-Message-State: APjAAAWBmnd6/Nq0U3XtqCz4NijVRlsr3ArX2tmlTAec3jztu1lKR9Id
-	y6lN4fzi8b9Kq/dBvKkiiK3SwvLrLiw=
-X-Google-Smtp-Source: APXvYqwnjqiX8jE8HIdbfIfipPbM3fmQGqpF3ZsbmVOjneb1w86km5ts1Xo9ocd6YeP3xtEf0R6t8A==
-X-Received: by 2002:adf:f052:: with SMTP id t18mr10520040wro.192.1581787552668;
-	Sat, 15 Feb 2020 09:25:52 -0800 (PST)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y6sm12107563wrl.17.2020.02.15.09.25.51
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 15 Feb 2020 09:25:51 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Feb 2020 17:25:48 +0000
-Message-Id: <20200215172548.7931-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C9DA61338;
+	Sat, 15 Feb 2020 17:31:59 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] resulttool/resultutils: Fix unicode error handling
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sat, 15 Feb 2020 17:32:01 -0000
+Message-ID: <20200215173201.2276.47134@do>
+References: <20200215172548.7931-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200215172548.7931-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcmVzdWx0dG9vbC9yZXN1bHR1dGlsczogRml4IHVuaWNvZGUgZXJyb3IgaGFuZGxpbmc=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,47 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2020 17:25:52 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 15 Feb 2020 17:31:59 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-This error handling didn't work as expected since upon failure it would
-inject bytestreams back into the code leading to tracebacks.
+== Series Details ==
 
-Instead, ignore the decode errors. Fixes:
+Series: resulttool/resultutils: Fix unicode error handling
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22680/
+State : failure
 
-Traceback (most recent call last):
-  File "/home/pokybuild/yocto-worker/a-full/build/scripts/resulttool", line 78, in <module>
-    sys.exit(main())
-  File "/home/pokybuild/yocto-worker/a-full/build/scripts/resulttool", line 72, in main
-    ret = args.func(args, logger)
-  File "/home/pokybuild/yocto-worker/a-full/build/scripts/lib/resulttool/store.py", line 70, in store
-    resultutils.save_resultsdata(results, tempdir, ptestlogs=True)
-  File "/home/pokybuild/yocto-worker/a-full/build/scripts/lib/resulttool/resultutils.py", line 178, in save_resultsdata
-    f.write(sectionlog)
-TypeError: write() argument must be str, not bytes
+== Summary ==
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 3aa0d0fd0b)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- scripts/lib/resulttool/resultutils.py | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
-
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index f0ae8ec1c5c..5fec01f6f34 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -127,10 +127,7 @@ def decode_log(logdata):
-             data = logdata.get("compressed")
-             data = base64.b64decode(data.encode("utf-8"))
-             data = zlib.decompress(data)
--            try:
--                return data.decode("utf-8")
--            except UnicodeDecodeError:
--                return data
-+            return data.decode("utf-8", errors='ignore')
-     return None
- 
- def ptestresult_get_log(results, section):
--- 
-2.20.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
