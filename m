@@ -1,49 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com
-	[209.85.217.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E1A0D613D2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 61A91613CC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 16:10:37 +0000 (UTC)
-Received: by mail-vs1-f50.google.com with SMTP id k188so7796491vsc.8
+	Sat, 15 Feb 2020 17:25:52 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id c9so14729380wrw.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 08:10:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=XuXo7QpqM5m5VmY+eMC05QU7GT0iG70/uSV7Xf6KesE=;
-	b=uWIz+wdCoNLnEFQDreS5R7z0AgAhGCPOztEqfTgKT9uLUyrPRP1lZueEAkZGgLlZnL
-	6+k3D//3t7+w1WnUEY2FPR6mzVn1EqEEH1Le8+NDngpjFYrx/FoTXGw5EitAjIe/qKib
-	Ow1oyVIE7D94PHLut5qLJEJZx4MYCWYBiQBVMY17whyOMdxR2B8shJrIS+CzA5aDTx3D
-	dvOz47ae8YId+oc+YggYQNc5h4gwE/0J+VzxBPsBuVHPDkBKZsjnYoS4ZpOhAK3OIbs5
-	b4Yhr+Tl3S7watFn8ZIIISwKpA5vy9eMz/W2aK/wqOVscaUCRhkX9r/HN+0HIImB8gCb
-	hTyQ==
+	Sat, 15 Feb 2020 09:25:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4zbn7BQNLhh0BMja9AJxC0FOrwpFZcNQbNckKR5cPaE=;
+	b=HSBAzJeSsyRJrGR8VwAc/ZGvvF48DVUsbKx13YxCEHNU19tgTNbDfXSNNV5BIIO2PD
+	I6t7oWSTx8U/JKacxH5BqxaX5Ga1v0hc+ExeR6KpKK9Bz/IOw3/62BV87deCVqJRxVNm
+	1Cc2KzfsoGXqXrvicMrPBa6nmE3VvbGi1fJmo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=XuXo7QpqM5m5VmY+eMC05QU7GT0iG70/uSV7Xf6KesE=;
-	b=iRBeOm63DAxaoixg9D6o/SOKu9iEQptWxYpGJKDh7rb9cXK5Lh6x9g3YNcoQj0pqEc
-	1WKfhrGCiR8/T/kUr2aGfDVsQHpa57LmvbPF2phWu+JzGzhhpuM8k5V0azy05yFGimdD
-	Yc37hpRwnkoNTgzlPtRjrrntE1r8Knebg8s0EN1i1YNtzyFOE6bt3hO+P51Zas10FzV9
-	OkZNon8/g+jNXMQx13eH0T3Mcgt60s6GL6nmo4K8KoTlsLLflGIkW6h2kcEW5hSdFT+w
-	B/AjIhCMeRpcCwQWKXn35/dgPJC+vCEO+VjD40xp0HGw1nyRDXCgapY/wA7dLcCoB0e+
-	YY3g==
-X-Gm-Message-State: APjAAAWup5BErqWNPWFmb9GkaMeg70AM5beUU4q990aVtpxl/TWUS/ap
-	y1YlRdcYE4aJBWb7r8yu/uvlaZON6DlIG46v0pg=
-X-Google-Smtp-Source: APXvYqwhVe4gm03rYGKtXpZK/Kxe/Wll+uk2Ai/UnL/se747bjW6r4cKTTFYO1ggVqKQu3Xka16oF1ie1VjQzSYYGxI=
-X-Received: by 2002:a05:6102:52e:: with SMTP id
-	m14mr4359049vsa.25.1581783038853; 
-	Sat, 15 Feb 2020 08:10:38 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4zbn7BQNLhh0BMja9AJxC0FOrwpFZcNQbNckKR5cPaE=;
+	b=dCkX5dE/2/XiPuO+Izpmv+9totVlK6Q3nSxnkrUNVCXPT6Lrzs5egY1wTAgvhXT2cQ
+	BtSN5wlHCJiH6JTXivPlQYXUpdNtud6Ot/TMkWvTJKeP9qs3Au7j7zLXECpMNu0HW6dt
+	DNQm7ovytB0oFWaLXwjrHKQUVIozM+FtnfI4gMHBzqC6+zYDU/ks/4+i4mAThnavOLYE
+	a8IIompVgSLRZSPYlwroDukBhMccAbxrzS2OrHrWuwnLg64etxXuiRjv3lJiEdbLl2cz
+	ghgZT+JNNn0bmBu8iV0STiIIMvW8p8scf6UvVAeSfzxdQzlVvW8buyEOA8YFpCX15xt4
+	kukg==
+X-Gm-Message-State: APjAAAWBmnd6/Nq0U3XtqCz4NijVRlsr3ArX2tmlTAec3jztu1lKR9Id
+	y6lN4fzi8b9Kq/dBvKkiiK3SwvLrLiw=
+X-Google-Smtp-Source: APXvYqwnjqiX8jE8HIdbfIfipPbM3fmQGqpF3ZsbmVOjneb1w86km5ts1Xo9ocd6YeP3xtEf0R6t8A==
+X-Received: by 2002:adf:f052:: with SMTP id t18mr10520040wro.192.1581787552668;
+	Sat, 15 Feb 2020 09:25:52 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y6sm12107563wrl.17.2020.02.15.09.25.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Sat, 15 Feb 2020 09:25:51 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 15 Feb 2020 17:25:48 +0000
+Message-Id: <20200215172548.7931-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1581723869-21232-1-git-send-email-wangmy@cn.fujitsu.com>
-	<1581723869-21232-2-git-send-email-wangmy@cn.fujitsu.com>
-	<c0b0a4094d4abbdc319138d3d31be77467bdd269.camel@linuxfoundation.org>
-In-Reply-To: <c0b0a4094d4abbdc319138d3d31be77467bdd269.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 15 Feb 2020 17:10:27 +0100
-Message-ID: <CANNYZj_k+4H5peReUMTsG=jOiyjcxSEJUqOoPWG5EqLHTW-OVw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] icu: upgrade 64.2 -> 65.1
+Subject: [PATCH] resulttool/resultutils: Fix unicode error handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,54 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2020 16:10:38 -0000
-Content-Type: multipart/alternative; boundary="000000000000248434059e9f90c4"
+X-List-Received-Date: Sat, 15 Feb 2020 17:25:52 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000248434059e9f90c4
-Content-Type: text/plain; charset="UTF-8"
+This error handling didn't work as expected since upon failure it would
+inject bytestreams back into the code leading to tracebacks.
 
-On Sat, 15 Feb 2020 at 11:19, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+Instead, ignore the decode errors. Fixes:
 
->
-> This breaks webkitgtk:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/1548
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/272
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1563
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1567
->
+Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/a-full/build/scripts/resulttool", line 78, in <module>
+    sys.exit(main())
+  File "/home/pokybuild/yocto-worker/a-full/build/scripts/resulttool", line 72, in main
+    ret = args.func(args, logger)
+  File "/home/pokybuild/yocto-worker/a-full/build/scripts/lib/resulttool/store.py", line 70, in store
+    resultutils.save_resultsdata(results, tempdir, ptestlogs=True)
+  File "/home/pokybuild/yocto-worker/a-full/build/scripts/lib/resulttool/resultutils.py", line 178, in save_resultsdata
+    f.write(sectionlog)
+TypeError: write() argument must be str, not bytes
 
-This should be addressed by the webkit update Khem just posted.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/lib/resulttool/resultutils.py | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
 
-Alex
+diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
+index f0ae8ec1c5c..5fec01f6f34 100644
+--- a/scripts/lib/resulttool/resultutils.py
++++ b/scripts/lib/resulttool/resultutils.py
+@@ -127,10 +127,7 @@ def decode_log(logdata):
+             data = logdata.get("compressed")
+             data = base64.b64decode(data.encode("utf-8"))
+             data = zlib.decompress(data)
+-            try:
+-                return data.decode("utf-8")
+-            except UnicodeDecodeError:
+-                return data
++            return data.decode("utf-8", errors='ignore')
+     return None
+ 
+ def ptestresult_get_log(results, section):
+-- 
+2.20.1
 
---000000000000248434059e9f90c4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 15 Feb 2020 at 11:19, Richard Pur=
-die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
-e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex"><br>
-This breaks webkitgtk:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/52/build=
-s/1548" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/52/builds/1548</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/108/buil=
-ds/272" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/108/builds/272</a><br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/64/build=
-s/1563" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/64/builds/1563</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/45/build=
-s/1567" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
-ct.org/typhoon/#/builders/45/builds/1567</a><br></blockquote><div><br></div=
-><div>This should be addressed by the webkit update Khem just posted.</div>=
-<div><br></div><div>Alex<br></div></div></div>
-
---000000000000248434059e9f90c4--
