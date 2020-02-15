@@ -1,51 +1,27 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8888A61339
+Return-Path: <Kexin.Hao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EC9CA61334
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 11:07:25 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id z7so13974034wrl.13
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 03:07:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=UxD5b6LZtvBHxNQjjAmnP2QmfA2kPwuWGu/+KTPPIZ4=;
-	b=JavrkZpmG6tI5iGmoxIa5RKZpaQnqZ1A7i7s5yGCWXilFeZvk8n6+E3ggWFtbSGh7E
-	mo6wKdaCooeg0yCRqQrbLZrMJOfLSWmc6oFBkPZo6sshODh/cEolUbIMjk1ffigwluqg
-	GThTts/01ka5Sdq4wP1ifRH1rEKl8+VA0wzxE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=UxD5b6LZtvBHxNQjjAmnP2QmfA2kPwuWGu/+KTPPIZ4=;
-	b=CbIS4uP8/gSHPYa6Ca6KCM+wNkJtxfgMvKJwtciz7S0TFkPY1sHz+WFKumdSOKbijf
-	UZ5IPLOw/YVfb+Jq5Ao11keYklmwVsDO19uaY69CvnlW2crd5AVmmDASPQJMGaVMM8QF
-	VKYBnMMH7QjbvOZDBxHEZRflV8YHrffC1uvBNOG656y+qEm3O50cSCpNm0UUlrhPQlOb
-	/WpZ39RbIkzu+XRW/SHAh3rNNvKYK66JbI8UfwHpzousJ4WA0S4RT+Epaaj8j/qWsTjG
-	FnKL2Iskz/VKpKp7W9WnPY+gxwUjmaiA1EOuqBAjBDCnTfmBLI+JM8uf3J1QhZOMyE85
-	3lkw==
-X-Gm-Message-State: APjAAAUrCljTosMuwL6PgScz0rERlqkcc4LrlPSR/qK/3gjJK52o47oW
-	hNkCxbMu/jd+Zu5SmA8BEWflkApAQgg=
-X-Google-Smtp-Source: APXvYqyAAPitTSJGCSGvR5T/15lOfpwrWWxXfZ5KigwswRGtEWPUFurQ0US//y4mUzdbsyFLfonG3Q==
-X-Received: by 2002:adf:90e1:: with SMTP id i88mr10007280wri.95.1581764846078; 
-	Sat, 15 Feb 2020 03:07:26 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	k16sm11514260wru.0.2020.02.15.03.07.24
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 15 Feb 2020 03:07:25 -0800 (PST)
-Message-ID: <ae6aa1fd185955181b81170757887c3b19a9767c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 15 Feb 2020 11:07:23 +0000
-In-Reply-To: <20200212031435.792802-1-JPEWhacker@gmail.com>
-References: <20200212031435.792802-1-JPEWhacker@gmail.com>
-User-Agent: Evolution 3.34.1-2 
+	Sat, 15 Feb 2020 11:45:42 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01FBj6GF023084
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
+	Sat, 15 Feb 2020 03:45:16 -0800
+Received: from pek-khao-d2.corp.ad.wrs.com (147.11.105.123) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server
+	(TLS) id 14.3.468.0; Sat, 15 Feb 2020 03:44:55 -0800
+Date: Sat, 15 Feb 2020 19:44:50 +0800
+From: Kevin Hao <kexin.hao@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20200215114450.GE499724@pek-khao-d2.corp.ad.wrs.com>
+References: <20200213023141.1657-1-kexin.hao@windriver.com>
+	<5cb5c42022e1032c871c13222e1279df6d6c46f0.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/4] oeqa: Run diffoscop on saved output
+In-Reply-To: <5cb5c42022e1032c871c13222e1279df6d6c46f0.camel@linuxfoundation.org>
+X-Originating-IP: [147.11.105.123]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic: Honor APPEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2020 11:07:25 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 15 Feb 2020 11:45:43 -0000
+X-Groupsio-MsgNum: 135030
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="fWddYNRDgTk9wQGZ"
+Content-Disposition: inline
 
-On Tue, 2020-02-11 at 21:14 -0600, Joshua Watt wrote:
-> Adds recipes to build the diffoscope tool and run it when the OEQA
-> reproducible build test saves output to a local path. This should
-> make
-> it much easier to debug reproducible build issues from the
-> autobuilder,
-> since the published output can be easily viewed on the website.
-> 
-> Joshua Watt (4):
->   python: Add libarchive-c recipe
->   python: Add magic recipe
->   recipes-support: Add diffoscope recipe
->   oeqa: reproducible: Run diffoscope on saved output
+--fWddYNRDgTk9wQGZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+On Sat, Feb 15, 2020 at 08:07:34AM +0000, Richard Purdie wrote:
+> On Thu, 2020-02-13 at 10:31 +0800, Kevin Hao wrote:
+> > APPEND is used to add additional parameters to kernel by features,
+> > such
+> > as read-only-rootfs. So we should honor this variable when we compose
+> > the kernel parameter in wic. I know we also can resolve this kind of
+> > issue by using the .wks.in template introduced by commit 42e870c5ed4b
+> > ("image_types.bbclass: support template .wks.in files for wic"), but
+> > the
+> > APPEND is needed by all the wks, it would seems pretty ridiculous to
+> > me
+> > to change all the .wks to .wks.in and then foist the APPEND into
+> > them.
+> > So the APPEND is definitely deserved to export to the wic directly.
+> >=20
+> > [Yocto #12809]
+> >=20
+> > Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
+> > ---
+> >  meta/classes/image_types_wic.bbclass | 2 +-
+> >  scripts/lib/wic/ksparser.py          | 5 +++++
+> >  2 files changed, 6 insertions(+), 1 deletion(-)
+>=20
+> This seems to cause a selftest failure:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/80/builds/688
+>=20
+> oe-selftest -r wic.Wic2.test_image_env
 
-The first production use:
+The APPEND is optional, so I should add it in the optional variables list
+in wic.Wic2.test_image_env. The fix is coming soon.
 
-https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20200215-t1s21q9r/packages/diff-html/
+Thanks,
+Kevin
 
-:)
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
 
-I am a bit puzzled/concerned about how this hasn't been removed from
-the system yet as it should have been, unless its the hashequiv problem
-with timestamps continuing to cause problems. Need to fix my patch...
+--fWddYNRDgTk9wQGZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Cheers,
+-----BEGIN PGP SIGNATURE-----
 
-Richard
+iQEzBAEBCAAdFiEEHc6qFoLCZqgJD98Zk1jtMN6usXEFAl5H2bIACgkQk1jtMN6u
+sXFLnAf/WFoGuKVBvJ7oDM17IXB/Za3KYjVc0+pdu9UPbkW4IdNPVuX5suAnLIkJ
+xArrE+dAcsx3aETvfsV64qObhHraQmdfFy1M5vbXvolZWtVI7fzR8PLHVMF3h1td
+HqRZqanAkk6ekppKg5G3QLL1R6bkL4jpq7vkjKk6S1Y0xc+XaGaKB4QPH+T6kTOZ
+pEN5M5dUllP8AQkhuTpNY+DQWANhmm5qMeBOqG6boeQH9k+sMe6zMXvwF7ITRDWD
+Za/d2sQKdIJCnXg4kP+Xa+iuvQjaU5nQfMoI2I5/u9WNyqydDTcQnYs16iZMVqyB
+7wx4oivceHui9mk+VUSKo0lIo/Jq7Q==
+=zb6L
+-----END PGP SIGNATURE-----
 
-
+--fWddYNRDgTk9wQGZ--
