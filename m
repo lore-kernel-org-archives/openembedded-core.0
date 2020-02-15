@@ -1,50 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id CE6AE6132A
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com
+	[209.85.217.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E1A0D613D2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 15:43:53 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id s1so6561227pfh.10
+	Sat, 15 Feb 2020 16:10:37 +0000 (UTC)
+Received: by mail-vs1-f50.google.com with SMTP id k188so7796491vsc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 07:43:55 -0800 (PST)
+	Sat, 15 Feb 2020 08:10:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=nLz3YSxyFQpxpKFEZDmDodnVDxvcl+yfBLmGUJH08sA=;
-	b=aR9n3V/J8VFy3y56B1qKYzlLhTA95YRmwTfwhzIwXOUXo1o4LdkygsnLDDduHNQ2B+
-	iFpt4qzo9CFqED+zN2kDphlBBApoXdARrG2xulk+q24qcl5zEC06MFu+2i/K6gOIEFns
-	40DZldaph3Y029b0zkC7kCZRmhSq/sxbPFUfpGzxEbS5RH9TUBfSrZS5amwXbIQZIV9Y
-	mvuUiEdn3MFsIxWznpJ1YwxdsLelQe4BYRCnECSZaFOYx+hsScUyssSdk7/N0zIhY/mf
-	ojhn6m2bgDfwVfqx4uy/wLOYWjB69P1LxFsztJ0dqjIwoGArFYEjwIFj7bGZo+L0Vzt1
-	C91w==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=XuXo7QpqM5m5VmY+eMC05QU7GT0iG70/uSV7Xf6KesE=;
+	b=uWIz+wdCoNLnEFQDreS5R7z0AgAhGCPOztEqfTgKT9uLUyrPRP1lZueEAkZGgLlZnL
+	6+k3D//3t7+w1WnUEY2FPR6mzVn1EqEEH1Le8+NDngpjFYrx/FoTXGw5EitAjIe/qKib
+	Ow1oyVIE7D94PHLut5qLJEJZx4MYCWYBiQBVMY17whyOMdxR2B8shJrIS+CzA5aDTx3D
+	dvOz47ae8YId+oc+YggYQNc5h4gwE/0J+VzxBPsBuVHPDkBKZsjnYoS4ZpOhAK3OIbs5
+	b4Yhr+Tl3S7watFn8ZIIISwKpA5vy9eMz/W2aK/wqOVscaUCRhkX9r/HN+0HIImB8gCb
+	hTyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=nLz3YSxyFQpxpKFEZDmDodnVDxvcl+yfBLmGUJH08sA=;
-	b=jhetjggDimISDFQTz36s8LqDDmegtXLe/y1ci+ELieGFr2EwR+JzTwzCA03Aoj5UHE
-	8HYWF192bB+e4GIT5sP+JYmcHowRj8C6XIphtHSlgqcqVkDbLgQqWKnLpRrE94vDxlAu
-	KyjQo1DrBoPIDOmCKoBvp4jLeRGyvKifT94BgsB258lOP//CM4FDF+8iO0aE+tlDLYel
-	rZ51FSymZazc1GWgg7QF3jEWTKySSvhEq9v2OaBeu94/ppp8feoZVSbPlPGpw25ri6Q6
-	wonFqXRnfZbQpKNnAMAIwNopz6chHvT9aytLDLiIqPbzJNLR6sxXu0hLnBxpf3yHMRC2
-	rTgg==
-X-Gm-Message-State: APjAAAX7FsqX6sqKsnPrxzPvkYFDQd24kMGUkX+kYda5KeDO9CIu0Spx
-	1t4hfmdXlRuH839CiH4CXVt9yCL5LVo=
-X-Google-Smtp-Source: APXvYqwryHRmC4y0zpZtHZIzeDy0m9fFfCNGeh4PHtu6RqrJkFoqKk1E/G1+GT3PPfSYnLe++6aiEw==
-X-Received: by 2002:a63:451b:: with SMTP id s27mr8990045pga.233.1581781434472; 
-	Sat, 15 Feb 2020 07:43:54 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9200:4e0::709])
-	by smtp.gmail.com with ESMTPSA id
-	u23sm10785173pfm.29.2020.02.15.07.43.53
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sat, 15 Feb 2020 07:43:53 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 15 Feb 2020 07:43:58 -0800
-Message-Id: <20200215154358.723689-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.25.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=XuXo7QpqM5m5VmY+eMC05QU7GT0iG70/uSV7Xf6KesE=;
+	b=iRBeOm63DAxaoixg9D6o/SOKu9iEQptWxYpGJKDh7rb9cXK5Lh6x9g3YNcoQj0pqEc
+	1WKfhrGCiR8/T/kUr2aGfDVsQHpa57LmvbPF2phWu+JzGzhhpuM8k5V0azy05yFGimdD
+	Yc37hpRwnkoNTgzlPtRjrrntE1r8Knebg8s0EN1i1YNtzyFOE6bt3hO+P51Zas10FzV9
+	OkZNon8/g+jNXMQx13eH0T3Mcgt60s6GL6nmo4K8KoTlsLLflGIkW6h2kcEW5hSdFT+w
+	B/AjIhCMeRpcCwQWKXn35/dgPJC+vCEO+VjD40xp0HGw1nyRDXCgapY/wA7dLcCoB0e+
+	YY3g==
+X-Gm-Message-State: APjAAAWup5BErqWNPWFmb9GkaMeg70AM5beUU4q990aVtpxl/TWUS/ap
+	y1YlRdcYE4aJBWb7r8yu/uvlaZON6DlIG46v0pg=
+X-Google-Smtp-Source: APXvYqwhVe4gm03rYGKtXpZK/Kxe/Wll+uk2Ai/UnL/se747bjW6r4cKTTFYO1ggVqKQu3Xka16oF1ie1VjQzSYYGxI=
+X-Received: by 2002:a05:6102:52e:: with SMTP id
+	m14mr4359049vsa.25.1581783038853; 
+	Sat, 15 Feb 2020 08:10:38 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH] webkitgtk: Upgrade to 2.26.4 minor release
+References: <1581723869-21232-1-git-send-email-wangmy@cn.fujitsu.com>
+	<1581723869-21232-2-git-send-email-wangmy@cn.fujitsu.com>
+	<c0b0a4094d4abbdc319138d3d31be77467bdd269.camel@linuxfoundation.org>
+In-Reply-To: <c0b0a4094d4abbdc319138d3d31be77467bdd269.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Sat, 15 Feb 2020 17:10:27 +0100
+Message-ID: <CANNYZj_k+4H5peReUMTsG=jOiyjcxSEJUqOoPWG5EqLHTW-OVw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] icu: upgrade 64.2 -> 65.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +56,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2020 15:43:54 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 15 Feb 2020 16:10:38 -0000
+Content-Type: multipart/alternative; boundary="000000000000248434059e9f90c4"
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../webkit/{webkitgtk_2.26.2.bb => webkitgtk_2.26.4.bb}      | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-sato/webkit/{webkitgtk_2.26.2.bb => webkitgtk_2.26.4.bb} (97%)
+--000000000000248434059e9f90c4
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-similarity index 97%
-rename from meta/recipes-sato/webkit/webkitgtk_2.26.2.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-index a184d833c4..c7f0d5e983 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.26.2.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-@@ -21,9 +21,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://0001-Fix-build-with-musl.patch \
-            file://include_array.patch \
-            "
--
--SRC_URI[md5sum] = "65e06fe73ee166447894aaea95038e3b"
--SRC_URI[sha256sum] = "6b80f0637a80818559ac8fd50db3b394f41cb61904fb9b3ed65fa51635806512"
-+SRC_URI[md5sum] = "60f881729f3b71244b7f6e58790073e0"
-+SRC_URI[sha256sum] = "4386900713dfadf9741177210b32623cab22562a79ffd0d446b66569934b113f"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gtk-doc
- 
--- 
-2.25.0
+On Sat, 15 Feb 2020 at 11:19, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
+>
+> This breaks webkitgtk:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/1548
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/108/builds/272
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/1563
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/1567
+>
 
+This should be addressed by the webkit update Khem just posted.
+
+Alex
+
+--000000000000248434059e9f90c4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Sat, 15 Feb 2020 at 11:19, Richard Pur=
+die &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdi=
+e@linuxfoundation.org</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><br>
+This breaks webkitgtk:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/52/build=
+s/1548" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/52/builds/1548</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/108/buil=
+ds/272" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/108/builds/272</a><br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/64/build=
+s/1563" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/64/builds/1563</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/45/build=
+s/1567" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/typhoon/#/builders/45/builds/1567</a><br></blockquote><div><br></div=
+><div>This should be addressed by the webkit update Khem just posted.</div>=
+<div><br></div><div>Alex<br></div></div></div>
+
+--000000000000248434059e9f90c4--
