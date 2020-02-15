@@ -1,54 +1,53 @@
 Return-Path: <jpuhlman@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 23A6161221
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com
+	[209.85.210.179])
+	by mail.openembedded.org (Postfix) with ESMTP id EE49C61260
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 04:43:04 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 84so5940975pfy.6
+	Sat, 15 Feb 2020 04:43:07 +0000 (UTC)
+Received: by mail-pf1-f179.google.com with SMTP id 4so5936691pfz.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Feb 2020 20:43:06 -0800 (PST)
+	Fri, 14 Feb 2020 20:43:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7voht2jI5quyeIYuVmTzWvurmOEpx5/C7XidNdDoSqo=;
-	b=Qzpe7uo7nSlsOr7zfyO1tRt1VitK3jjK9MwSaXI98U+ikZT8Z6AR6Z6UEcP20zaOpe
-	F+NXsQescBGLeDQmq+xU2/YHu3uKd7hYXsPs3jWsFRuGSSkeE45WqQ4AjNqENjrChWDz
-	ChS28Jef7J5IoqD/jHbzq7epTSNH/aXc9yUg8osb87M/jNmrj8YXFccY6MLerQlDzsvr
-	f+E5FkjeFZhJmHZ+Kl1y019IBRvwje8PfI8YWjV1k2vmnUFHkfF+5lYPKBUpRyyY5Rbm
-	xlAmPHtD84ySr5kY5LmyRvlIHoUoKoxQHpweCANvsu7RfrK3uhagxvpG0HEv+V2PcWGf
-	/r/A==
+	bh=U+QKkXK0bSW+OQ72Nr5iTR/wqzAmD0jAGSIeogGlscw=;
+	b=AlcyAR7OxgFt98K/tI1gWo4EKE4lawu8MTdhFt/MZV7YqXacq2cmJ+d8x8KcQXDSao
+	FieN5dAs3tc59w39JU4zugvoKkJu8IsmJykEQyQ0AMRjtZw4rsGmAl1om6YzpOAUnmEg
+	NdcjSdjjd/daRpHxz94h/7PVEPBy0eUSdOO8NaPXmpmS9yya8z7KOoWvuH5UvCmkJIdh
+	X8YHHU+uXi8Up4M9idi7jBkPZm7X+Sotv9wDAf+Me5xDmCiZEtu/MJVbuqG9HhAvQwA7
+	NMgIaePzTrepgKE5oAGj24GWSWb0nCFluiVThnKIrmqH0rmBiZSXAbXFGh2chmiDCyJL
+	xUuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references;
-	bh=7voht2jI5quyeIYuVmTzWvurmOEpx5/C7XidNdDoSqo=;
-	b=Ndkr5NCOFIq5DX6TEEoWWPXzAmPMOCNK3yqUq7pkZHYzhMUJiRX+bNmF71d2CJQA4G
-	6YmupufhpoOeAYwuYOlm56anmjxco7L33aW+FiQ0pu9jRJhZzgZ8f3nkIDKxVBiYMxEx
-	fk1JO1t4bUldVJ5H4bdoqu+/1g7mWUFn7EU/4DaLJRskVQsNQKCTAdrlkJH4HkdQ4Z10
-	5LyHC4ACw9KlZTv2HWlgHIpGFKFBbc6QYMEOoUcc/lyjsLFm5oCOc/VW73nHdslzYcEa
-	WJbEbWNq/PSgLKoyCN5bEsQ9st+j1vMPZ9tyiaFIRaBl4qEq1GPl1jg4NoEB2uMNAgJL
-	V2Tg==
-X-Gm-Message-State: APjAAAWAdq3tE9Y8z74QCARvEgvUIMNXpvmaY6S02Ey+dAnxnre2tdPl
-	vn8HyPKyf2L2DZtlB7qYsug+YEUXWkzr5A==
-X-Google-Smtp-Source: APXvYqxvI+m59hvov3O3mf/BBGL9KmZkEIz9yBjOt3uhgR7g50On71CbTon6qd7TzZyS1aa+40g8MQ==
-X-Received: by 2002:aa7:83c7:: with SMTP id j7mr6796993pfn.228.1581741785908; 
-	Fri, 14 Feb 2020 20:43:05 -0800 (PST)
+	bh=U+QKkXK0bSW+OQ72Nr5iTR/wqzAmD0jAGSIeogGlscw=;
+	b=Em+YeYkokCmS2ePUy1c5ZB8WMcyP2aI5twtF1+iRUgycoPzt7CNAqNeyFIZOlgQMcV
+	XlhY2RjbYBJtEbWu+dRkAMsymYZRfpB9npr0TxBIrnIlnd6FeIFYfGxzSmRguI/sawQ2
+	a9oIS1isZOr6DQ5LmjtPZMiCd7IKylXvQipeon2gDq7dNACBODkqUMOQLC9IRNd54R4O
+	3hzx+4hW+st9kC3gi6CoK8wcQX3jDBBk1rvJwsQqLKgOCvAroyASkEtmjPZyKVePmZE8
+	KzhvIZLuse8ClPg80yEahTDpeihaBZukaALQee1Keae14gHIUe+q5uKnnjcuJGAf6oA7
+	a88g==
+X-Gm-Message-State: APjAAAVxgDM6VeLTn4utPVrjVlAhz6iygzk2iQrOp/2JD+oE5k8xotyC
+	hyLmPcU9sq4lXhF8OsKVV7WTzuU6jg8VUA==
+X-Google-Smtp-Source: APXvYqxQsj6kzT8Dkkht01j6t1ngIiAhaHWZwI6QVGW5rr7ktRCAc3L5tpbWUl8gb7os/Fcq/9Y8VA==
+X-Received: by 2002:a63:fe43:: with SMTP id x3mr7255164pgj.119.1581741787998; 
+	Fri, 14 Feb 2020 20:43:07 -0800 (PST)
 Received: from workhorse.localdomain
 	([2600:1700:4c90:60a0:56be:f7ff:fe12:d0bd])
-	by smtp.gmail.com with ESMTPSA id
-	v4sm8175919pff.174.2020.02.14.20.43.05
+	by smtp.gmail.com with ESMTPSA id f8sm8633957pfn.2.2020.02.14.20.43.07
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Fri, 14 Feb 2020 20:43:05 -0800 (PST)
+	Fri, 14 Feb 2020 20:43:07 -0800 (PST)
 Sender: Jeremy Puhlman <jpuhlman@gmail.com>
 Received: by workhorse.localdomain (Postfix, from userid 1000)
-	id A7B812A04B2; Fri, 14 Feb 2020 20:43:04 -0800 (PST)
+	id A41E82A04B2; Fri, 14 Feb 2020 20:43:06 -0800 (PST)
 From: Jeremy Puhlman <jpuhlman@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 14 Feb 2020 20:42:49 -0800
-Message-Id: <20200215044253.5596-2-jpuhlman@mvista.com>
+Date: Fri, 14 Feb 2020 20:42:51 -0800
+Message-Id: <20200215044253.5596-4-jpuhlman@mvista.com>
 X-Mailer: git-send-email 2.13.3
 In-Reply-To: <20200215044253.5596-1-jpuhlman@mvista.com>
 References: <20200215044253.5596-1-jpuhlman@mvista.com>
-Subject: [PATCH 2/6] libxslt: multilib_header xsltconfig.h
+Subject: [PATCH 4/6] libassuan: multilib header for assuan.h
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,41 +60,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2020 04:43:05 -0000
+X-List-Received-Date: Sat, 15 Feb 2020 04:43:08 -0000
 
 From: "Jeremy A. Puhlman" <jpuhlman@mvista.com>
 
-xsltconfig.h is generated and can be different between multilibs
+assuan.h is generated and can differ between mutlilibs.
 
 Signed-off-by: Jeremy Puhlman <jpuhlman@mvista.com>
 ---
- meta/recipes-support/libxslt/libxslt_1.1.34.bb | 6 +++++-
+ meta/recipes-support/libassuan/libassuan_2.5.3.bb | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.34.bb b/meta/recipes-support/libxslt/libxslt_1.1.34.bb
-index ad37b5a44a..1961bb5b31 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.34.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.34.bb
-@@ -20,7 +20,7 @@ S = "${WORKDIR}/libxslt-${PV}"
+diff --git a/meta/recipes-support/libassuan/libassuan_2.5.3.bb b/meta/recipes-support/libassuan/libassuan_2.5.3.bb
+index 6fb3d2f3a4..52b4c0f1b9 100644
+--- a/meta/recipes-support/libassuan/libassuan_2.5.3.bb
++++ b/meta/recipes-support/libassuan/libassuan_2.5.3.bb
+@@ -22,11 +22,15 @@ SRC_URI[sha256sum] = "91bcb0403866b4e7c4bc1cc52ed4c364a9b5414b3994f718c70303f7f7
  
- BINCONFIG = "${bindir}/xslt-config"
+ BINCONFIG = "${bindir}/libassuan-config"
  
--inherit autotools pkgconfig binconfig-disabled lib_package
-+inherit autotools pkgconfig binconfig-disabled lib_package multilib_header
+-inherit autotools texinfo binconfig-disabled pkgconfig
++inherit autotools texinfo binconfig-disabled pkgconfig multilib_header
  
  do_configure_prepend () {
- 	# We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header.
-@@ -43,6 +43,10 @@ do_install_append_class-native () {
-     create_wrapper ${D}/${bindir}/xsltproc XML_CATALOG_FILES=${sysconfdir}/xml/catalog
+ 	# Else these could be used in preference to those in aclocal-copy
+ 	rm -f ${S}/m4/*.m4
  }
  
 +do_install_append () {
-+   oe_multilib_header libxslt/xsltconfig.h
++    oe_multilib_header assuan.h
 +}
 +
- FILES_${PN} += "${libdir}/libxslt-plugins"
- FILES_${PN}-dev += "${libdir}/xsltConf.sh"
- 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.13.3
 
