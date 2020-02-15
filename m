@@ -1,30 +1,25 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 531AE600FB
+Return-Path: <chee.yang.lee@intel.com>
+X-Greylist: delayed 427 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 15 Feb 2020 00:45:24 UTC
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 92B52600FB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 15 Feb 2020 00:31:45 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01F0VivW012118
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Fri, 14 Feb 2020 16:31:45 -0800 (PST)
-Received: from [172.25.44.8] (172.25.44.8) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
-	Fri, 14 Feb 2020 16:31:44 -0800
-To: Robert Yang <liezhi.yang@windriver.com>,
-	<openembedded-core@lists.openembedded.org>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1578306533.git.liezhi.yang@windriver.com>
-	<281727c8444cda2b543f94e43f947e1cdc018be0.1578306533.git.liezhi.yang@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <fe971459-182b-d4de-8f0a-a7a8518d85d0@windriver.com>
-Date: Fri, 14 Feb 2020 19:31:43 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <281727c8444cda2b543f94e43f947e1cdc018be0.1578306533.git.liezhi.yang@windriver.com>
-X-Originating-IP: [172.25.44.8]
-Subject: Re: [PATCH v2 1/1] gnupg: Read GNUPG_BINDIR from environment variables for nativesdk
+	Sat, 15 Feb 2020 00:45:24 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	14 Feb 2020 16:38:18 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,442,1574150400"; d="scan'208";a="407166529"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga005.jf.intel.com with ESMTP; 14 Feb 2020 16:37:57 -0800
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 15 Feb 2020 08:37:56 +0800
+Message-Id: <1581727076-7713-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v3] libxml2: Fix CVE-2019-20388
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,74 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 15 Feb 2020 00:31:46 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-CA
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 15 Feb 2020 00:45:24 -0000
 
-On 1/6/20 5:30 AM, Robert Yang wrote:
-> There is already a relocate.patch for native which is used for reading
-> GNUPG_BINDIR from environment variables, now also enable it for nativesdk.
-> Otherwise, command like the following one doesn't work for nativesdk:
-> 
-> $ gpg-connect-agent --homedir ../keys/ reloadagent /bye
-> gpg-connect-agent: no running gpg-agent - starting '/opt/path/to/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/gpg-agent'
-> gpg-connect-agent: failed to start agent '/opt/path/sysroots/x86_64-wrlinuxsdk-linux/usr/bin/gpg-agent': No such file or directory
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+From: Lee Chee Yang <chee.yang.lee@intel.com>
 
+see:
+https://gitlab.gnome.org/GNOME/libxml2/merge_requests/68
 
-This seems to have been missed.
-Are there any comments?
+Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
+---
+ .../libxml/libxml2/CVE-2019-20388.patch            | 37 ++++++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.10.bb         |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch
 
-Robert,
-Please rebase and resend
-
-../Randy
-
-> ---
->   meta/recipes-support/gnupg/gnupg_2.2.17.bb | 17 +++++++++++++----
->   1 file changed, 13 insertions(+), 4 deletions(-)
-> 
-> diff --git a/meta/recipes-support/gnupg/gnupg_2.2.17.bb b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
-> index bb8885f..0a939cf 100644
-> --- a/meta/recipes-support/gnupg/gnupg_2.2.17.bb
-> +++ b/meta/recipes-support/gnupg/gnupg_2.2.17.bb
-> @@ -19,6 +19,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
->   SRC_URI_append_class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
->                                   file://relocate.patch"
->   
-> +SRC_URI_append_class-nativesdk = " file://relocate.patch"
-> +
->   SRC_URI[md5sum] = "1ba2d9b70c377f8e967742064c27a19c"
->   SRC_URI[sha256sum] = "afa262868e39b651a2db4c071fba90415154243e83a830ca00516f9a807fd514"
->   
-> @@ -60,10 +62,17 @@ do_install_append() {
->   }
->   
->   do_install_append_class-native() {
-> -	create_wrapper ${D}${bindir}/gpg2 GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
-> -	create_wrapper ${D}${bindir}/gpgconf GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
-> -	create_wrapper ${D}${bindir}/gpg-agent GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
-> -	create_wrapper ${D}${bindir}/gpg-connect-agent GNUPG_BINDIR=${STAGING_BINDIR_NATIVE}
-> +	create_wrappers ${STAGING_BINDIR_NATIVE}
-> +}
-> +
-> +do_install_append_class-nativesdk() {
-> +	create_wrappers ${SDKPATHNATIVE}${bindir_nativesdk}
-> +}
-> +
-> +create_wrappers() {
-> +	for i in gpg2 gpgconf gpg-agent gpg-connect-agent; do
-> +		create_wrapper ${D}${bindir}/$i GNUPG_BINDIR=$1
-> +	done
->   }
->   
->   PACKAGECONFIG ??= "gnutls"
-> 
-
-
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch b/meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch
+new file mode 100644
+index 0000000..88eb65a
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/CVE-2019-20388.patch
+@@ -0,0 +1,37 @@
++From 7ffcd44d7e6c46704f8af0321d9314cd26e0e18a Mon Sep 17 00:00:00 2001
++From: Zhipeng Xie <xiezhipeng1@huawei.com>
++Date: Tue, 20 Aug 2019 16:33:06 +0800
++Subject: [PATCH] Fix memory leak in xmlSchemaValidateStream
++
++When ctxt->schema is NULL, xmlSchemaSAXPlug->xmlSchemaPreRun
++alloc a new schema for ctxt->schema and set vctxt->xsiAssemble
++to 1. Then xmlSchemaVStart->xmlSchemaPreRun initialize
++vctxt->xsiAssemble to 0 again which cause the alloced schema
++can not be freed anymore.
++
++Found with libFuzzer.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/7ffcd44d7e6c46704f8af0321d9314cd26e0e18a]
++CVE: CVE-2019-20388
++
++Signed-off-by: Zhipeng Xie <xiezhipeng1@huawei.com>
++Signed-off-by: Lee Chee Yang <chee.yang.lee@intel.com>
++---
++ xmlschemas.c | 1 -
++ 1 file changed, 1 deletion(-)
++
++diff --git a/xmlschemas.c b/xmlschemas.c
++index 301c8449..39d92182 100644
++--- a/xmlschemas.c
+++++ b/xmlschemas.c
++@@ -28090,7 +28090,6 @@ xmlSchemaPreRun(xmlSchemaValidCtxtPtr vctxt) {
++     vctxt->nberrors = 0;
++     vctxt->depth = -1;
++     vctxt->skipDepth = -1;
++-    vctxt->xsiAssemble = 0;
++     vctxt->hasKeyrefs = 0;
++ #ifdef ENABLE_IDC_NODE_TABLES_TEST
++     vctxt->createIDCNodeTables = 1;
++-- 
++2.24.1
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.10.bb b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+index 6a4097c..097aceb 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.10.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.10.bb
+@@ -21,6 +21,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
+            file://fix-execution-of-ptests.patch \
+            file://CVE-2020-7595.patch \
++           file://CVE-2019-20388.patch \
+            "
+ 
+ SRC_URI[libtar.md5sum] = "10942a1dc23137a8aa07f0639cbfece5"
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.7.4
+
 
