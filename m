@@ -1,52 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id E315A61415
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6799F60632
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 15:51:09 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id w15so16681992wru.4
+	Sun, 16 Feb 2020 16:01:47 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id f8so17570012edv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 07:51:11 -0800 (PST)
+	Sun, 16 Feb 2020 08:01:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=mOMmKOZ3/iNvNDyisgiR/REMEfoX3xXvtPQczdXlF7M=;
-	b=tScVRGsPQipeaK8g1bCMIRyNYoeNaFWNLUbPrKfIZKHjDqXhQ3QARaTgtrSIsuDhWq
-	FMukYjKb8cUgT+HNCW+sKheN8oZJd9K75bI1KNMU/Nnnvkp0jAYz7E+uYckiqttL1n9a
-	OdeBk71ig/p7gLloL2Hv1nBwZvOaRmYbb/HOsPc2ou0ftTGUnYUCmUWhXC7aeM20Yyce
-	PqMY/V4vbFgXXtZ5/X6OdXkIXL5zUrAea515OIsmMftDX4pGJE2VCHFr2xqIwAWtduPi
-	+LZvqWV9vu4QLHEGgnW7uS7ZYOEtMdTO2ZpiFu83YT0czrCzmXmi7esBJW7ZEYayQaNl
-	+ESQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ilQ89hbBomFEPF06sKiRuBNgdF/2YRzNyiTXvfnIzqs=;
+	b=N5HK4Ma4H33ZuH9xwJY0tPKA+e90gqleJ4Gzdni7TJX6CjDv4clkHTuD9deaoPCgjR
+	Ik44f15WUQnlVGsZa1SHn8iyevdxaqIrfhYAWzJRCkyXsMITdpnqeKQ86c5yS3fAvJlB
+	3oqdPilob6xkRGPIXAvz9nOePCRP9ijY5losVky4RNPiQCP6FgwskiQRn/5Eth6IqRgd
+	LK643avMoH/FV8IMEUVuDmD10CBGtGlmBKDTgDzLrOz9bwTuuH/d/Dbt36ScECvds//V
+	7v5jcIiG8WKlnL42CDEGwqUZ6wN5gDLaDYbztQ/JzJ5p6fnMnrcJMo5j416/F7ZceKip
+	WVKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=mOMmKOZ3/iNvNDyisgiR/REMEfoX3xXvtPQczdXlF7M=;
-	b=unWvcLS9owID6WspfRw/yRYJgfy3tXifmLDNxRhOeAtXJz7XXsxo9awk9W2YUExRal
-	aN0AfEnBTwzt7sl/IvlDKynRqUY05wRjcaLAxRk9EhmpGJh9YTbeUcmSWeeV+io5QqGa
-	uepURJVsWGkNTXrgY3IE3g97stafsgyJBbZ2Yd6EbxVFCN1rYX9JuYvLVDO+jagEbqIh
-	0SH90vouolCE6FzkHld81+nyRYhrk0TEGrA64O/OBNp+SyaxmpcdwLiAlclDU3Czl9Oq
-	etT++gk0hEpK9vjacg/bDOOJWxhqjB0nQEBhtmh3xPcm5+XaS+c4HiKGPfcJ4AjMWSbs
-	X7Wg==
-X-Gm-Message-State: APjAAAWZxYCVT1AyrFvN4DsaDD6IgUfALdlRU8ej4kBDcakerKOwQiGC
-	CfcID+pf1KVlq+f5CCJX5mf1UfDq
-X-Google-Smtp-Source: APXvYqxlHbWhxdz4dHPJzZjrsXnr48GXiP6veHHF68bR9fMvmuPxGgx/UCSZpvSGiYzFcaHHjjCVPA==
-X-Received: by 2002:a5d:4085:: with SMTP id o5mr16172523wrp.321.1581868270393; 
-	Sun, 16 Feb 2020 07:51:10 -0800 (PST)
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-	by smtp.gmail.com with ESMTPSA id
-	t81sm16513271wmg.6.2020.02.16.07.51.09
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 16 Feb 2020 07:51:09 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Feb 2020 16:50:14 +0100
-Message-Id: <20200216155015.21738-10-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200216155015.21738-1-alex.kanavin@gmail.com>
-References: <20200216155015.21738-1-alex.kanavin@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ilQ89hbBomFEPF06sKiRuBNgdF/2YRzNyiTXvfnIzqs=;
+	b=PDBo9Md0iSfAM+INaaCzQzT37jL50heGzz3U/A4RRkbCj1jIdH1HsFyKQk4uMaMDIq
+	SSg6t4C+8eYpKhH8xpsRBMVZLRUhqAEGypR7xDT+AvILJhN3gFsH807AihJ1rq+DEkGI
+	5yLLxGObiwRMI2fesTz0iRhK6eQeOG5nLK9pc2RUxuyon5oGBd/yqF8HSA4OTHMgrR1j
+	HlxoZI/AX5e6MFYCWtdkZJC/9xtzEgNAhzV9xucEFch1zpZvNGUhEB72yx/sBWJ+m7Lr
+	a6zjF039HSEfTyifEGJHuwcz17b76iMwG/iRfzfcy+QzBGMfWbBezZKNWCiWAu4FCX+/
+	gk1g==
+X-Gm-Message-State: APjAAAX5ArmECzbT+v5uKfiGidgLjjVCODLWo9OClL4Hl2CKtnvFMqf/
+	aEbsouuhTVUQ6tBcs83+US8TQPuuTYQDHuY3tXM=
+X-Google-Smtp-Source: APXvYqw1DJvjt7/gB7E1Q9UXEk7PgiDFiCWn9fJreSrXwTrd5Th3TPkTJApOzClKmDgTA0Psu8ETbPMzzJytPHAyiPU=
+X-Received: by 2002:aa7:d145:: with SMTP id r5mr10931175edo.337.1581868907929; 
+	Sun, 16 Feb 2020 08:01:47 -0800 (PST)
 MIME-Version: 1.0
-Subject: [PATCH 10/10] ptest-packagelists: mention ifupdown ptest in a comment
+References: <20200216155015.21738-1-alex.kanavin@gmail.com>
+	<20200216155015.21738-4-alex.kanavin@gmail.com>
+In-Reply-To: <20200216155015.21738-4-alex.kanavin@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Sun, 16 Feb 2020 17:01:35 +0100
+Message-ID: <CA+chaQfbJ=2Jb24Pfqo-o0n_O-CwroO1VdQcJrADC8VNSHp9DA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 04/10] qemux86: drop resolution setting via uvesafb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +55,282 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Feb 2020 15:51:10 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 16 Feb 2020 16:01:47 -0000
+Content-Type: multipart/alternative; boundary="00000000000056a39d059eb38e5f"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/conf/distro/include/ptest-packagelists.inc | 1 +
- 1 file changed, 1 insertion(+)
+--00000000000056a39d059eb38e5f
+Content-Type: text/plain; charset="UTF-8"
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 0a13bf0a6c..23865ac3e1 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -57,6 +57,7 @@ PTESTS_FAST = "\
- #    lz4-ptest \ # Needs a rewrite
- #    rt-tests-ptest \ # Needs to be checked whether it runs at all
- #    bash-ptest \ # Test outcomes are non-deterministic by design
-+#    ifupdown-ptest \ # Tested separately in lib/oeqa/selftest/cases/imagefeatures.py
- #"
- 
- PTESTS_SLOW = "\
--- 
-2.25.0
+Why you think it doesn't support higher resolution? We were using it with
+fullHD in VirtualBox until recently.
 
+On Sun, Feb 16, 2020 at 4:52 PM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
 
+> I am not sure if this has ever worked, but uvesafb is a really
+> outdated (VBE from the 1990s), awkward (needs v86d) and limited
+> (no support for high resolutions) way to do it.
+>
+> The specific reason 640x480-32 was introduced (ages ago) was
+> to force 32 bit mode with vmware driver, as 16bit had rendering issues.
+>
+> The modern, supported option is video=... kernel parameter documented here:
+>
+> https://wiki.archlinux.org/index.php/kernel_mode_setting#Forcing_modes_and_EDID
+> https://github.com/torvalds/linux/blob/master/Documentation/fb/modedb.rst
+> which can be passed directly to runqemu and doesn't require special
+> kernel modules.
+>
+> Sato under X will continue to use 640x480 as that is hardcoded into
+> xorg.conf under qemu.
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/conf/machine/include/qemuboot-x86.inc | 3 +--
+>  meta/conf/machine/qemux86-64.conf          | 4 ----
+>  meta/conf/machine/qemux86.conf             | 4 ----
+>  meta/lib/oeqa/runtime/cases/parselogs.py   | 4 ----
+>  4 files changed, 1 insertion(+), 14 deletions(-)
+>
+> diff --git a/meta/conf/machine/include/qemuboot-x86.inc
+> b/meta/conf/machine/include/qemuboot-x86.inc
+> index 049681b27d..5dcc8b6f6b 100644
+> --- a/meta/conf/machine/include/qemuboot-x86.inc
+> +++ b/meta/conf/machine/include/qemuboot-x86.inc
+> @@ -8,9 +8,8 @@ QB_CPU_KVM_x86-64 = "-cpu core2duo"
+>
+>  QB_AUDIO_DRV = "alsa"
+>  QB_AUDIO_OPT = "-soundhw ac97,es1370"
+> -QB_KERNEL_CMDLINE_APPEND = "uvesafb.mode_option=${UVESA_MODE}
+> oprofile.timer=1 uvesafb.task_timeout=-1"
+> +QB_KERNEL_CMDLINE_APPEND = "oprofile.timer=1"
+>  QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
+>  # Add the 'virtio-rng-pci' device otherwise the guest may run out of
+> entropy
+>  QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0
+> -device virtio-rng-pci,rng=rng0"
+>
+> -UVESA_MODE ?= "640x480-32"
+> diff --git a/meta/conf/machine/qemux86-64.conf
+> b/meta/conf/machine/qemux86-64.conf
+> index 648cf2fe8f..db9004ee32 100644
+> --- a/meta/conf/machine/qemux86-64.conf
+> +++ b/meta/conf/machine/qemux86-64.conf
+> @@ -37,10 +37,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+>
+>  MACHINE_EXTRA_RRECOMMENDS = "kernel-module-snd-ens1370
+> kernel-module-snd-rawmidi"
+>
+> -KERNEL_MODULE_AUTOLOAD += "uvesafb"
+> -KERNEL_MODULE_PROBECONF += "uvesafb"
+> -module_conf_uvesafb = "options uvesafb mode_option=${UVESA_MODE}"
+> -
+>  WKS_FILE ?= "qemux86-directdisk.wks"
+>  do_image_wic[depends] += "syslinux:do_populate_sysroot
+> syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot
+> dosfstools-native:do_populate_sysroot"
+>
+> diff --git a/meta/conf/machine/qemux86.conf
+> b/meta/conf/machine/qemux86.conf
+> index 8e0da82076..7e6723b880 100644
+> --- a/meta/conf/machine/qemux86.conf
+> +++ b/meta/conf/machine/qemux86.conf
+> @@ -34,10 +34,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
+>
+>  MACHINE_EXTRA_RRECOMMENDS = "kernel-module-snd-ens1370
+> kernel-module-snd-rawmidi"
+>
+> -KERNEL_MODULE_AUTOLOAD += "uvesafb"
+> -KERNEL_MODULE_PROBECONF += "uvesafb"
+> -module_conf_uvesafb = "options uvesafb mode_option=${UVESA_MODE}"
+> -
+>  WKS_FILE ?= "qemux86-directdisk.wks"
+>  do_image_wic[depends] += "syslinux:do_populate_sysroot
+> syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot
+> dosfstools-native:do_populate_sysroot"
+>
+> diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py
+> b/meta/lib/oeqa/runtime/cases/parselogs.py
+> index 9dafb89b03..3cad0709a1 100644
+> --- a/meta/lib/oeqa/runtime/cases/parselogs.py
+> +++ b/meta/lib/oeqa/runtime/cases/parselogs.py
+> @@ -60,7 +60,6 @@ common_errors = [
+>      ]
+>
+>  video_related = [
+> -    "uvesafb",
+>  ]
+>
+>  x86_common = [
+> @@ -82,11 +81,8 @@ qemux86_common = [
+>      "fail to add MMCONFIG information, can't access extended PCI
+> configuration space under this bridge.",
+>      "can't claim BAR ",
+>      'amd_nb: Cannot enumerate AMD northbridges',
+> -    'uvesafb: 5000 ms task timeout, infinitely waiting',
+>      'tsc: HPET/PMTIMER calibration failed',
+>      "modeset(0): Failed to initialize the DRI2 extension",
+> -    "uvesafb: cannot reserve video memory at",
+> -    "uvesafb: probe of uvesafb.0 failed with error",
+>      "glamor initialization failed",
+>  ] + common_errors
+>
+> --
+> 2.25.0
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--00000000000056a39d059eb38e5f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Why you think it doesn&#39;t support higher resolution? We=
+ were using it with fullHD in VirtualBox until recently.</div><br><div clas=
+s=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Feb 16, 202=
+0 at 4:52 PM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com=
+">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
+,204);padding-left:1ex">I am not sure if this has ever worked, but uvesafb =
+is a really<br>
+outdated (VBE from the 1990s), awkward (needs v86d) and limited<br>
+(no support for high resolutions) way to do it.<br>
+<br>
+The specific reason 640x480-32 was introduced (ages ago) was<br>
+to force 32 bit mode with vmware driver, as 16bit had rendering issues.<br>
+<br>
+The modern, supported option is video=3D... kernel parameter documented her=
+e:<br>
+<a href=3D"https://wiki.archlinux.org/index.php/kernel_mode_setting#Forcing=
+_modes_and_EDID" rel=3D"noreferrer" target=3D"_blank">https://wiki.archlinu=
+x.org/index.php/kernel_mode_setting#Forcing_modes_and_EDID</a><br>
+<a href=3D"https://github.com/torvalds/linux/blob/master/Documentation/fb/m=
+odedb.rst" rel=3D"noreferrer" target=3D"_blank">https://github.com/torvalds=
+/linux/blob/master/Documentation/fb/modedb.rst</a><br>
+which can be passed directly to runqemu and doesn&#39;t require special<br>
+kernel modules.<br>
+<br>
+Sato under X will continue to use 640x480 as that is hardcoded into<br>
+xorg.conf under qemu.<br>
+<br>
+Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.c=
+om" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/machine/include/qemuboot-x86.inc | 3 +--<br>
+=C2=A0meta/conf/machine/qemux86-64.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+ 4 ----<br>
+=C2=A0meta/conf/machine/qemux86.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0| 4 ----<br>
+=C2=A0meta/lib/oeqa/runtime/cases/parselogs.py=C2=A0 =C2=A0| 4 ----<br>
+=C2=A04 files changed, 1 insertion(+), 14 deletions(-)<br>
+<br>
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine=
+/include/qemuboot-x86.inc<br>
+index 049681b27d..5dcc8b6f6b 100644<br>
+--- a/meta/conf/machine/include/qemuboot-x86.inc<br>
++++ b/meta/conf/machine/include/qemuboot-x86.inc<br>
+@@ -8,9 +8,8 @@ QB_CPU_KVM_x86-64 =3D &quot;-cpu core2duo&quot;<br>
+<br>
+=C2=A0QB_AUDIO_DRV =3D &quot;alsa&quot;<br>
+=C2=A0QB_AUDIO_OPT =3D &quot;-soundhw ac97,es1370&quot;<br>
+-QB_KERNEL_CMDLINE_APPEND =3D &quot;uvesafb.mode_option=3D${UVESA_MODE} opr=
+ofile.timer=3D1 uvesafb.task_timeout=3D-1&quot;<br>
++QB_KERNEL_CMDLINE_APPEND =3D &quot;oprofile.timer=3D1&quot;<br>
+=C2=A0QB_OPT_APPEND =3D &quot;-show-cursor -usb -device usb-tablet&quot;<br=
+>
+=C2=A0# Add the &#39;virtio-rng-pci&#39; device otherwise the guest may run=
+ out of entropy<br>
+=C2=A0QB_OPT_APPEND +=3D &quot;-object rng-random,filename=3D/dev/urandom,i=
+d=3Drng0 -device virtio-rng-pci,rng=3Drng0&quot;<br>
+<br>
+-UVESA_MODE ?=3D &quot;640x480-32&quot;<br>
+diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-=
+64.conf<br>
+index 648cf2fe8f..db9004ee32 100644<br>
+--- a/meta/conf/machine/qemux86-64.conf<br>
++++ b/meta/conf/machine/qemux86-64.conf<br>
+@@ -37,10 +37,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS +=3D &quot;v86d&quot;<b=
+r>
+<br>
+=C2=A0MACHINE_EXTRA_RRECOMMENDS =3D &quot;kernel-module-snd-ens1370 kernel-=
+module-snd-rawmidi&quot;<br>
+<br>
+-KERNEL_MODULE_AUTOLOAD +=3D &quot;uvesafb&quot;<br>
+-KERNEL_MODULE_PROBECONF +=3D &quot;uvesafb&quot;<br>
+-module_conf_uvesafb =3D &quot;options uvesafb mode_option=3D${UVESA_MODE}&=
+quot;<br>
+-<br>
+=C2=A0WKS_FILE ?=3D &quot;qemux86-directdisk.wks&quot;<br>
+=C2=A0do_image_wic[depends] +=3D &quot;syslinux:do_populate_sysroot syslinu=
+x-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-n=
+ative:do_populate_sysroot&quot;<br>
+<br>
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.con=
+f<br>
+index 8e0da82076..7e6723b880 100644<br>
+--- a/meta/conf/machine/qemux86.conf<br>
++++ b/meta/conf/machine/qemux86.conf<br>
+@@ -34,10 +34,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS +=3D &quot;v86d&quot;<b=
+r>
+<br>
+=C2=A0MACHINE_EXTRA_RRECOMMENDS =3D &quot;kernel-module-snd-ens1370 kernel-=
+module-snd-rawmidi&quot;<br>
+<br>
+-KERNEL_MODULE_AUTOLOAD +=3D &quot;uvesafb&quot;<br>
+-KERNEL_MODULE_PROBECONF +=3D &quot;uvesafb&quot;<br>
+-module_conf_uvesafb =3D &quot;options uvesafb mode_option=3D${UVESA_MODE}&=
+quot;<br>
+-<br>
+=C2=A0WKS_FILE ?=3D &quot;qemux86-directdisk.wks&quot;<br>
+=C2=A0do_image_wic[depends] +=3D &quot;syslinux:do_populate_sysroot syslinu=
+x-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-n=
+ative:do_populate_sysroot&quot;<br>
+<br>
+diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runti=
+me/cases/parselogs.py<br>
+index 9dafb89b03..3cad0709a1 100644<br>
+--- a/meta/lib/oeqa/runtime/cases/parselogs.py<br>
++++ b/meta/lib/oeqa/runtime/cases/parselogs.py<br>
+@@ -60,7 +60,6 @@ common_errors =3D [<br>
+=C2=A0 =C2=A0 =C2=A0]<br>
+<br>
+=C2=A0video_related =3D [<br>
+-=C2=A0 =C2=A0 &quot;uvesafb&quot;,<br>
+=C2=A0]<br>
+<br>
+=C2=A0x86_common =3D [<br>
+@@ -82,11 +81,8 @@ qemux86_common =3D [<br>
+=C2=A0 =C2=A0 =C2=A0&quot;fail to add MMCONFIG information, can&#39;t acces=
+s extended PCI configuration space under this bridge.&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0&quot;can&#39;t claim BAR &quot;,<br>
+=C2=A0 =C2=A0 =C2=A0&#39;amd_nb: Cannot enumerate AMD northbridges&#39;,<br=
+>
+-=C2=A0 =C2=A0 &#39;uvesafb: 5000 ms task timeout, infinitely waiting&#39;,=
+<br>
+=C2=A0 =C2=A0 =C2=A0&#39;tsc: HPET/PMTIMER calibration failed&#39;,<br>
+=C2=A0 =C2=A0 =C2=A0&quot;modeset(0): Failed to initialize the DRI2 extensi=
+on&quot;,<br>
+-=C2=A0 =C2=A0 &quot;uvesafb: cannot reserve video memory at&quot;,<br>
+-=C2=A0 =C2=A0 &quot;uvesafb: probe of uvesafb.0 failed with error&quot;,<b=
+r>
+=C2=A0 =C2=A0 =C2=A0&quot;glamor initialization failed&quot;,<br>
+=C2=A0] + common_errors<br>
+<br>
+-- <br>
+2.25.0<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--00000000000056a39d059eb38e5f--
