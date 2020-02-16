@@ -1,52 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 963C66140D
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 59B386140D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 15:51:06 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id y11so16666625wrt.6
+	Sun, 16 Feb 2020 15:51:07 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id k11so16660795wrd.9
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 16 Feb 2020 07:51:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=BpaS7f3+KPfuVHBfmuNvhF8Kzw9InUzrValO+7WWXqM=;
-	b=fCZtODh8ij6d5lrZFbEmnhq0DAYbze7P5QE/cifIKjQyZxKhXMUPxyxLTWQ/fhSWim
-	TI/Weqci8dXSWuhnK0GAXpPXzeDOrwNNw3l/pKi9+GlFa7uxhYE18hY67dnrsq2XWFKb
-	EEjZ7JRG93B9WMwQXuk5TEgz6gJFXAYXzGKUPx63YU8oWydEO8L82hGF4iUD8g5d0FNr
-	UIL5wLyQE22fsddbUSFt2SLH1v4k6OS+iz8LQDFgbzHkDOEEp9UHOhoAZ7/qKCVUphpC
-	JaXVsPqRIfUU5ewb3bok2oftSUdIzE9ft2Ihoz+nPIvnLuU0PrK9FqsNFA2GLgFWkBkb
-	O7Zw==
+	bh=BOxkwcjxwrQNBeJYAq6tjQt36SQjldPMsAEZx7P6y3w=;
+	b=IPnclYkrCDPUC52cbhttiZ0UD4e43Rye42S+4HqBV5AFAhtvyazsgFcBuHla2o6YNe
+	A5wA0/4xgD57jMd1LF6J39ApRSMK6H6hFurRFM7mIPoEDwHAN5YmLra+TN3/aNLTi2T4
+	P4adrhrrWvNUkVRuLyqGxbqJUDPiNAgQPdfuV7rfzp9luoUlSDSsBQoYGnrWx3g1L2mO
+	CaAT3JzFriOx7K3IFQl76uGyF+BApq384wnG/7lr5q4Kdiid+oPyHM/3+8WjD2QVdF1f
+	lf2Eut3kOROCJlaiQlFrXuwFaCZuONzCWlgmeTbJB/DYyHvgIUX2a9MdDU/GMVzAO/4C
+	DPXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=BpaS7f3+KPfuVHBfmuNvhF8Kzw9InUzrValO+7WWXqM=;
-	b=hlRzcO8LfjPilq/BUBsSnlVwkfo34zJxn8YiFCYw9CGeUGSDArvAV6sWv0u/D6Jrjd
-	Pfw1B6+WmuAUqmJFPoyJJkMIB5LjaTAfGBeqSMB8QM9JNTzjUuB2ZQ9HjC0spcT2QE5J
-	T1xD+rMf5AqcNon/Nehn+gZGwmyp8BELtj7f6tgkLeh0cIZgkqOGInbWhUSzPBAIHV5y
-	spsS0nuc+Rll6X//4VJWnoFf7N6JslQ4n8YojEHqtiVdvWHkkFtra/3Glsee7KDz1JCP
-	Flne9gY4338dZKnkgCWwJiu2P0IL65qLO42HT+EL9O2HSQq6EyB3fIV4qZMHHizq215R
-	wn/A==
-X-Gm-Message-State: APjAAAVP2nIuGxYZusgu8Bapb++QsXOR6iNA9ayizSdHXcyOmLwWRpcs
-	suGaVr/5F0mkEmMZ+rwkYcs+ZDMc
-X-Google-Smtp-Source: APXvYqy39U5ycTX3faAVdNAy6sCLlIiMtEr71iWImLW2HSFRgeGm+Cd7OHCMONkpPSei4wWaigiLZg==
-X-Received: by 2002:a5d:5742:: with SMTP id q2mr11877261wrw.145.1581868267195; 
+	bh=BOxkwcjxwrQNBeJYAq6tjQt36SQjldPMsAEZx7P6y3w=;
+	b=Zde18p/rBsnffd+tRsS4kww0oVoCAVziVvrsGVGG3uw2iZoOTFstnOfMzybSqV3eQE
+	kpp9Ar77rQNRBWQNfgM6pdJH8p9dzMabmNWx+xcn1Wxt3ORSncFK2/PLPFcK5R+6R7Wz
+	f9ReSZBR9YZD+hhWCiF0y3LM53YgspRJKBdWIkXShtpzctbhfaE1DkPkWvpbxc5Knkv6
+	GKveFfU4S/TATttXtY5lbFOznc2uDKLXOp5/vMmirLWfaKHefPKismf3UjpE+DXzkdtz
+	sEZ+tZQ48Ih7b0dZAVWvc62WAScaw57PpXhj08UqBYVLV5zVTSO3XaaqBoqD3HJiifce
+	lbig==
+X-Gm-Message-State: APjAAAUOma9VF1gVYP8DI/z5ojESkyEKjYhiNfRn17cir2sDiyhe1884
+	bOExJXJVL43aWsiXxG4LK0Bh7CB2
+X-Google-Smtp-Source: APXvYqxLMZTkBJTG2gznsCDlpl+scPnGnDrQmr0Ukr2xzz73kQ41+shewc5e3dJ9JgF0E2buL/9hgQ==
+X-Received: by 2002:a5d:4709:: with SMTP id y9mr16417694wrq.412.1581868267974; 
 	Sun, 16 Feb 2020 07:51:07 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
-	t81sm16513271wmg.6.2020.02.16.07.51.06
+	t81sm16513271wmg.6.2020.02.16.07.51.07
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 16 Feb 2020 07:51:06 -0800 (PST)
+	Sun, 16 Feb 2020 07:51:07 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Feb 2020 16:50:10 +0100
-Message-Id: <20200216155015.21738-6-alex.kanavin@gmail.com>
+Date: Sun, 16 Feb 2020 16:50:11 +0100
+Message-Id: <20200216155015.21738-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200216155015.21738-1-alex.kanavin@gmail.com>
 References: <20200216155015.21738-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/10] webkitgtk: x11 and wayland are not mutually exclusive
+Subject: [PATCH 07/10] weston: add a basic runtime test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +59,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Feb 2020 15:51:07 -0000
+X-List-Received-Date: Sun, 16 Feb 2020 15:51:08 -0000
 Content-Transfer-Encoding: 8bit
 
-Also enabling wayland if x11 is not enabled is not necessarily
-the correct decision.
+The test is checking that weston is able to start.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/testimage.bbclass        |  2 +-
+ meta/lib/oeqa/runtime/cases/weston.py | 19 +++++++++++++++++++
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+ create mode 100644 meta/lib/oeqa/runtime/cases/weston.py
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-index c7f0d5e983..4aa8533b42 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
-@@ -38,7 +38,7 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
- 	   gettext-native glib-2.0 glib-2.0-native libtasn1 \
-           "
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index 75f0f2c3e3..9588f2c4f8 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -57,7 +57,7 @@ BASICTESTSUITE = "\
+     ping date df ssh scp python perl gi ptest parselogs \
+     logrotate connman systemd oe_syslog pam stap ldd xorg \
+     kernelmodule gcc buildcpio buildlzip buildgalculator \
+-    dnf rpm opkg apt"
++    dnf rpm opkg apt weston"
  
--PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
-                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
-                    enchant \
-                    libsecret \
+ DEFAULT_TEST_SUITES = "${BASICTESTSUITE}"
+ 
+diff --git a/meta/lib/oeqa/runtime/cases/weston.py b/meta/lib/oeqa/runtime/cases/weston.py
+new file mode 100644
+index 0000000000..f32599afc3
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/weston.py
+@@ -0,0 +1,19 @@
++#
++# SPDX-License-Identifier: MIT
++#
++
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++from oeqa.core.decorator.data import skipIfNotFeature
++from oeqa.runtime.decorator.package import OEHasPackage
++
++class WestonTest(OERuntimeTestCase):
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    @OEHasPackage(['weston'])
++    def test_weston_running(self):
++        cmd ='%s | grep [w]eston-desktop-shell' % self.tc.target_cmds['ps']
++        status, output = self.target.run(cmd)
++        msg = ('Weston does not appear to be running %s' %
++              self.target.run(self.tc.target_cmds['ps'])[1])
++        self.assertEqual(status, 0, msg=msg)
 -- 
 2.25.0
 
