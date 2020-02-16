@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C3FE61425
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BC6F61420
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 16:11:02 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id t12so8833334vso.13
+	Sun, 16 Feb 2020 16:14:19 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id n27so9208346vsa.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 08:11:03 -0800 (PST)
+	Sun, 16 Feb 2020 08:14:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0TvmlEZKoa4uLQuPSUUaGlg5poygut+rorvu5yXO3K8=;
-	b=kAKU51rWzNlE9z8SPfhGpoLC3WdXXNNppvyQMktvZLHq8FRoku6OQlkF3TGTk5ZA3s
-	JDlstZJefFjeb7VppIlH+lGqkSjcKnX0R5YIgD6FUEMZkfURJf8V+aejsecCNPf7PocT
-	wWSen/BYCo+xLbjAGx/WGeD7RU3P/bSm85y2tyMIvktK+GFgP84o3w7y7aNvhgQuwlAR
-	pxky2GOXclYvWIRIWmSbyCovA6YV7atVUaR9U+KZYsN2sFqqrw/U7y8EGPbOSbXSt8ix
-	5SrsXXAJ806hxMmtXctqn7oMzoLkYPtkstE+19lKUU7syBb73JB8r7v39Lma4MDtkB4c
-	+7lA==
+	:cc; bh=N/kzVRanDD7zX+FurwF8o30Ibu377HTHjwnOs4bqwCI=;
+	b=LOR41CInF2lM47+6yXRy+/jqKdNx27w/tFEAP9tEHFzrhZTVnNAmtmr4nEM0mmlpfd
+	e5hW1fC6lgCWbkldFeFW8ZAPpOp1nwhkzSPlHN56qDQFffhKByySRwpFwESwVJziU9cg
+	T6Lbg3UeIXYGj/waimphqHTry7Jr7J4OiWy5Wq/Cgh1ubReq9lAPZgtw9YS5i2TQmbE1
+	MXQp8MY91ETlzN/4J7OJm95hvcNRXXbtXW6q43jefEUdTXhhSKKS0hKMPNsDAWfvSvoN
+	fMz/09pV3ghQyFWvo77IhHGDICHhGY/+8QHrteq2fwrLVte+Z9pQak4J37s1PEn12O8y
+	0wiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=0TvmlEZKoa4uLQuPSUUaGlg5poygut+rorvu5yXO3K8=;
-	b=TaSWkXopstBUTLrCgDaGkWNN9As7zyFMPMw88NdebJ6B65G9EMCzUrXqLntwTTA7Nd
-	dK70Ae942UO6ffGth1LJ7M1XyysjCGKNPrVv80it8og63N3a6Hz5Cw5VBWB/Q9GUZRbu
-	rPdr127wUETGBIR73vvLYOc7iWYGL0h/Ik/ZZ0PH55ksBn36b6/MqeN+oHsQF5JjEw2i
-	yRpUy7xsRoEzt/kqlWxnJpvVUFOo7dhhBaSyKkoVgnNIUUuZ2mNmID0QwaSKDEPwMM/k
-	T6k6Bw+EeKclK/0OzN4O7nL92o2wTp5riLRo5natCkDWjvWRN4J10wFnAjT9UUudgWZA
-	+w3A==
-X-Gm-Message-State: APjAAAU/GM4mhbh1l1JKJEtyf1uHY05P4YxwHDQFaelTl5cCXf1+mtQH
-	adiCKbqsQj8YqimbxVpWijy3SEv6LSOsuKbbTIk=
-X-Google-Smtp-Source: APXvYqwbluMsRsiTXREFDGagCwi5NM+bnjx8gm3GrlH/De14NwPIpJ7KPaeDNHypxBaOsDjl/ct3s4Lt0xD3Bj6qNEo=
-X-Received: by 2002:a05:6102:405:: with SMTP id
-	d5mr6252358vsq.94.1581869463482; 
-	Sun, 16 Feb 2020 08:11:03 -0800 (PST)
+	bh=N/kzVRanDD7zX+FurwF8o30Ibu377HTHjwnOs4bqwCI=;
+	b=HiFYhKu6odvEUwEumu3mZfyDflIbrTXxcA99Rn0aIDTK8KTomUKKLJpbVXV51Gkdl2
+	MgyWSHqaN9NveJvAy2Cb+TXFDZ+f4ci/gTg/VpLdUiXqxhaPCJPTWtrfozkVjasGZptO
+	U9Kw6uz+OuHNtGED0nPqoN7TSzy5mc7iU0MCpocN4MheVGP/XGjjoNgrDmIMv88CKlbJ
+	SW8AA+AiWohx++bJIdi5qIvV9SrTlTOuuVa7xoT2ToDSrR6xyrn2EPtjhJTqMZBuGu48
+	QGqJHo1fG/Xe+HhmYHC1pILoQe//5Jr8fZCyKuGp/poUZQGuqF7kua9UvWNsL+MM9JnM
+	Zdnw==
+X-Gm-Message-State: APjAAAUoFEqV+LclsSXpi8D1IuSY2BdpEXFDpdyv3hxJbiRh4pwH4653
+	Bg/g69HVbhSCUImIK7A2+pICq15hrLUebsyqoWs=
+X-Google-Smtp-Source: APXvYqxJvc//4WWZ2gUeEQoEXyPsElMoJJtJpjsCJmmVCigewjQdh78vu512xfp9MA9sQlxX65YNqQE4zjgQiLGcbcs=
+X-Received: by 2002:a05:6102:52e:: with SMTP id
+	m14mr6285420vsa.25.1581869660252; 
+	Sun, 16 Feb 2020 08:14:20 -0800 (PST)
 MIME-Version: 1.0
 References: <20200216155015.21738-1-alex.kanavin@gmail.com>
-	<20200216155015.21738-4-alex.kanavin@gmail.com>
-	<CA+chaQfbJ=2Jb24Pfqo-o0n_O-CwroO1VdQcJrADC8VNSHp9DA@mail.gmail.com>
-In-Reply-To: <CA+chaQfbJ=2Jb24Pfqo-o0n_O-CwroO1VdQcJrADC8VNSHp9DA@mail.gmail.com>
+	<20200216155015.21738-8-alex.kanavin@gmail.com>
+	<CA+chaQdn+YnSaeBdS_-i6zm1dZ_mAi9cvPVK3BPkgjaLqH+f7w@mail.gmail.com>
+In-Reply-To: <CA+chaQdn+YnSaeBdS_-i6zm1dZ_mAi9cvPVK3BPkgjaLqH+f7w@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 16 Feb 2020 17:10:52 +0100
-Message-ID: <CANNYZj9+WRaPK5iuhXA_ZP1PbgQ1ZTonx-v8Z8eSjSt8Xe83uA@mail.gmail.com>
+Date: Sun, 16 Feb 2020 17:14:09 +0100
+Message-ID: <CANNYZj-B_yqrOryM7sZV0uCRUE0Dvnf+vSjd5qZhh6xC6GG9hA@mail.gmail.com>
 To: Martin Jansa <martin.jansa@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 04/10] qemux86: drop resolution setting via uvesafb
+Subject: Re: [PATCH 08/10] webkitgtk: unbreak wayland build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,133 +57,119 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Feb 2020 16:11:02 -0000
-Content-Type: multipart/alternative; boundary="00000000000073b5a6059eb3af92"
+X-List-Received-Date: Sun, 16 Feb 2020 16:14:19 -0000
+Content-Type: multipart/alternative; boundary="0000000000002e2f23059eb3bb93"
 
---00000000000073b5a6059eb3af92
+--0000000000002e2f23059eb3bb93
 Content-Type: text/plain; charset="UTF-8"
 
-What about higher than fullHD?
+bitbake told me to add them (when the existing md5/sha256 checksums were
+deemed incorrect), and so I did.
 
 Alex
 
-On Sun, 16 Feb 2020 at 17:01, Martin Jansa <martin.jansa@gmail.com> wrote:
+On Sun, 16 Feb 2020 at 17:09, Martin Jansa <martin.jansa@gmail.com> wrote:
 
-> Why you think it doesn't support higher resolution? We were using it with
-> fullHD in VirtualBox until recently.
+> Do we need sha384sum, sha512sum, sha1sum checksums for these 2 for
+> whatever reason?
 >
 > On Sun, Feb 16, 2020 at 4:52 PM Alexander Kanavin <alex.kanavin@gmail.com>
 > wrote:
 >
->> I am not sure if this has ever worked, but uvesafb is a really
->> outdated (VBE from the 1990s), awkward (needs v86d) and limited
->> (no support for high resolutions) way to do it.
->>
->> The specific reason 640x480-32 was introduced (ages ago) was
->> to force 32 bit mode with vmware driver, as 16bit had rendering issues.
->>
->> The modern, supported option is video=... kernel parameter documented
->> here:
->>
->> https://wiki.archlinux.org/index.php/kernel_mode_setting#Forcing_modes_and_EDID
->> https://github.com/torvalds/linux/blob/master/Documentation/fb/modedb.rst
->> which can be passed directly to runqemu and doesn't require special
->> kernel modules.
->>
->> Sato under X will continue to use 640x480 as that is hardcoded into
->> xorg.conf under qemu.
+>> webkit nowadays requires a couple of supplementary libraries for this,
+>> so bring them in (courtesy of meta-browser, which will hopefully
+>> adjust without a lot of trouble).
 >>
 >> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 >> ---
->>  meta/conf/machine/include/qemuboot-x86.inc | 3 +--
->>  meta/conf/machine/qemux86-64.conf          | 4 ----
->>  meta/conf/machine/qemux86.conf             | 4 ----
->>  meta/lib/oeqa/runtime/cases/parselogs.py   | 4 ----
->>  4 files changed, 1 insertion(+), 14 deletions(-)
+>>  meta/recipes-sato/webkit/libwpe_1.4.0.1.bb    | 19 +++++++++++++++++++
+>>  meta/recipes-sato/webkit/webkitgtk_2.26.4.bb  |  2 +-
+>>  .../webkit/wpebackend-fdo_1.4.1.bb            | 19 +++++++++++++++++++
+>>  3 files changed, 39 insertions(+), 1 deletion(-)
+>>  create mode 100644 meta/recipes-sato/webkit/libwpe_1.4.0.1.bb
+>>  create mode 100644 meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
 >>
->> diff --git a/meta/conf/machine/include/qemuboot-x86.inc
->> b/meta/conf/machine/include/qemuboot-x86.inc
->> index 049681b27d..5dcc8b6f6b 100644
->> --- a/meta/conf/machine/include/qemuboot-x86.inc
->> +++ b/meta/conf/machine/include/qemuboot-x86.inc
->> @@ -8,9 +8,8 @@ QB_CPU_KVM_x86-64 = "-cpu core2duo"
+>> diff --git a/meta/recipes-sato/webkit/libwpe_1.4.0.1.bb
+>> b/meta/recipes-sato/webkit/libwpe_1.4.0.1.bb
+>> new file mode 100644
+>> index 0000000000..b9c71f9dc5
+>> --- /dev/null
+>> +++ b/meta/recipes-sato/webkit/libwpe_1.4.0.1.bb
+>> @@ -0,0 +1,19 @@
+>> +SUMMARY = "General-purpose library specifically developed for the
+>> WPE-flavored port of WebKit."
+>> +HOMEPAGE = "https://github.com/WebPlatformForEmbedded/libwpe"
+>> +BUGTRACKER = "https://github.com/WebPlatformForEmbedded/libwpe/issues"
+>> +
+>> +LICENSE = "BSD"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=371a616eb4903c6cb79e9893a5f615cc"
+>> +DEPENDS = "virtual/egl libxkbcommon"
+>> +
+>> +# Workaround build issue with RPi userland EGL libraries.
+>> +CFLAGS_append_rpi = " ${@bb.utils.contains('MACHINE_FEATURES',
+>> 'vc4graphics', '', '-D_GNU_SOURCE', d)}"
+>> +
+>> +inherit cmake
+>> +
+>> +SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+>> +SRC_URI[md5sum] = "1d4d38413ee0d0043f74d0445cab906f"
+>> +SRC_URI[sha256sum] =
+>> "09849dfb34877354f34f318e138971cf22e677b2179e1f0a8ea00ab0b7bd8e9b"
+>> +SRC_URI[sha1sum] = "a41480a0a85cfa11b3f87f801b7c37bc3410e060"
+>> +SRC_URI[sha384sum] =
+>> "30488e375d956809a84b0d8af7b386a332541c77dcbd53496a896f894dbf39ac34534e935d6bc7a75c1b536f04f7f0a0"
+>> +SRC_URI[sha512sum] =
+>> "cbbe6b8e9bbb864d7f96bbdb56db262bbd341c86bc7bedfcc51be8077c0ea58a4e88c61b7b7bec937d5476e6cb81c093229bf80e3ee99452829287bd26175670"
+>> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+>> b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+>> index 4aa8533b42..8d87ad49a3 100644
+>> --- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+>> +++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+>> @@ -44,7 +44,7 @@ PACKAGECONFIG ??=
+>> "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
+>>                     libsecret \
+>>                    "
 >>
->>  QB_AUDIO_DRV = "alsa"
->>  QB_AUDIO_OPT = "-soundhw ac97,es1370"
->> -QB_KERNEL_CMDLINE_APPEND = "uvesafb.mode_option=${UVESA_MODE}
->> oprofile.timer=1 uvesafb.task_timeout=-1"
->> +QB_KERNEL_CMDLINE_APPEND = "oprofile.timer=1"
->>  QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
->>  # Add the 'virtio-rng-pci' device otherwise the guest may run out of
->> entropy
->>  QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0
->> -device virtio-rng-pci,rng=rng0"
->>
->> -UVESA_MODE ?= "640x480-32"
->> diff --git a/meta/conf/machine/qemux86-64.conf
->> b/meta/conf/machine/qemux86-64.conf
->> index 648cf2fe8f..db9004ee32 100644
->> --- a/meta/conf/machine/qemux86-64.conf
->> +++ b/meta/conf/machine/qemux86-64.conf
->> @@ -37,10 +37,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
->>
->>  MACHINE_EXTRA_RRECOMMENDS = "kernel-module-snd-ens1370
->> kernel-module-snd-rawmidi"
->>
->> -KERNEL_MODULE_AUTOLOAD += "uvesafb"
->> -KERNEL_MODULE_PROBECONF += "uvesafb"
->> -module_conf_uvesafb = "options uvesafb mode_option=${UVESA_MODE}"
->> -
->>  WKS_FILE ?= "qemux86-directdisk.wks"
->>  do_image_wic[depends] += "syslinux:do_populate_sysroot
->> syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot
->> dosfstools-native:do_populate_sysroot"
->>
->> diff --git a/meta/conf/machine/qemux86.conf
->> b/meta/conf/machine/qemux86.conf
->> index 8e0da82076..7e6723b880 100644
->> --- a/meta/conf/machine/qemux86.conf
->> +++ b/meta/conf/machine/qemux86.conf
->> @@ -34,10 +34,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += "v86d"
->>
->>  MACHINE_EXTRA_RRECOMMENDS = "kernel-module-snd-ens1370
->> kernel-module-snd-rawmidi"
->>
->> -KERNEL_MODULE_AUTOLOAD += "uvesafb"
->> -KERNEL_MODULE_PROBECONF += "uvesafb"
->> -module_conf_uvesafb = "options uvesafb mode_option=${UVESA_MODE}"
->> -
->>  WKS_FILE ?= "qemux86-directdisk.wks"
->>  do_image_wic[depends] += "syslinux:do_populate_sysroot
->> syslinux-native:do_populate_sysroot mtools-native:do_populate_sysroot
->> dosfstools-native:do_populate_sysroot"
->>
->> diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py
->> b/meta/lib/oeqa/runtime/cases/parselogs.py
->> index 9dafb89b03..3cad0709a1 100644
->> --- a/meta/lib/oeqa/runtime/cases/parselogs.py
->> +++ b/meta/lib/oeqa/runtime/cases/parselogs.py
->> @@ -60,7 +60,6 @@ common_errors = [
->>      ]
->>
->>  video_related = [
->> -    "uvesafb",
->>  ]
->>
->>  x86_common = [
->> @@ -82,11 +81,8 @@ qemux86_common = [
->>      "fail to add MMCONFIG information, can't access extended PCI
->> configuration space under this bridge.",
->>      "can't claim BAR ",
->>      'amd_nb: Cannot enumerate AMD northbridges',
->> -    'uvesafb: 5000 ms task timeout, infinitely waiting',
->>      'tsc: HPET/PMTIMER calibration failed',
->>      "modeset(0): Failed to initialize the DRI2 extension",
->> -    "uvesafb: cannot reserve video memory at",
->> -    "uvesafb: probe of uvesafb.0 failed with error",
->>      "glamor initialization failed",
->>  ] + common_errors
->>
+>> -PACKAGECONFIG[wayland] =
+>> "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland"
+>> +PACKAGECONFIG[wayland] =
+>> "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe
+>> wpebackend-fdo wayland-native"
+>>  PACKAGECONFIG[x11] =
+>> "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11"
+>>  PACKAGECONFIG[geoclue] =
+>> "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
+>>  PACKAGECONFIG[enchant] =
+>> "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
+>> diff --git a/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
+>> b/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
+>> new file mode 100644
+>> index 0000000000..84df0c2535
+>> --- /dev/null
+>> +++ b/meta/recipes-sato/webkit/wpebackend-fdo_1.4.1.bb
+>> @@ -0,0 +1,19 @@
+>> +SUMMARY = "WPE's backend based on a freedesktop.org stack."
+>> +HOMEPAGE = "https://github.com/Igalia/WPEBackend-fdo"
+>> +BUGTRACKER = "https://github.com/Igalia/WPEBackend-fdo/issues"
+>> +
+>> +LICENSE = "BSD"
+>> +LIC_FILES_CHKSUM = "file://COPYING;md5=1f62cef2e3645e3e74eb05fd389d7a66"
+>> +DEPENDS = "glib-2.0 libxkbcommon wayland virtual/egl libwpe"
+>> +
+>> +DEPENDS_append_class-target = " wayland-native"
+>> +
+>> +inherit cmake
+>> +
+>> +SRC_URI = "https://wpewebkit.org/releases/${BPN}-${PV}.tar.xz"
+>> +SRC_URI[md5sum] = "c6362491a4a38ddac42b66f140e1cff2"
+>> +SRC_URI[sha256sum] =
+>> "6249a0b7cbfa662206a8d2fa24e2c574e75c681ad0e93468091f1dc68ddb299d"
+>> +SRC_URI[sha1sum] = "9217c8a5511bc53544b42cb23390256580ac4b0c"
+>> +SRC_URI[sha384sum] =
+>> "79f3a28bc8e0a8240dc9962a6a245276d39dd8112a753d5ada39e98332d857eb9fc9c2879a702060807a10ea60be796d"
+>> +SRC_URI[sha512sum] =
+>> "8fdd13843c77b95b96b3feffea463bce565620997680e209a0cdcc09314a1469f2f1cb4744dceb2cf6c8d6ce5cb2bbdb4c7fbaf0451a687640c3f63bbdbfc4d4"
+>> +
 >> --
 >> 2.25.0
 >>
@@ -195,147 +181,160 @@ On Sun, 16 Feb 2020 at 17:01, Martin Jansa <martin.jansa@gmail.com> wrote:
 >>
 >
 
---00000000000073b5a6059eb3af92
+--0000000000002e2f23059eb3bb93
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>What about higher than fullHD?</div><div><br></div><d=
-iv>Alex<br></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
-mail_attr">On Sun, 16 Feb 2020 at 17:01, Martin Jansa &lt;<a href=3D"mailto=
-:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Why you thi=
-nk it doesn&#39;t support higher resolution? We were using it with fullHD i=
-n VirtualBox until recently.</div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Sun, Feb 16, 2020 at 4:52 PM Alexander Kan=
-avin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.k=
-anavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">I am not sure if this has ever worked, but uvesafb is a rea=
-lly<br>
-outdated (VBE from the 1990s), awkward (needs v86d) and limited<br>
-(no support for high resolutions) way to do it.<br>
-<br>
-The specific reason 640x480-32 was introduced (ages ago) was<br>
-to force 32 bit mode with vmware driver, as 16bit had rendering issues.<br>
-<br>
-The modern, supported option is video=3D... kernel parameter documented her=
-e:<br>
-<a href=3D"https://wiki.archlinux.org/index.php/kernel_mode_setting#Forcing=
-_modes_and_EDID" rel=3D"noreferrer" target=3D"_blank">https://wiki.archlinu=
-x.org/index.php/kernel_mode_setting#Forcing_modes_and_EDID</a><br>
-<a href=3D"https://github.com/torvalds/linux/blob/master/Documentation/fb/m=
-odedb.rst" rel=3D"noreferrer" target=3D"_blank">https://github.com/torvalds=
-/linux/blob/master/Documentation/fb/modedb.rst</a><br>
-which can be passed directly to runqemu and doesn&#39;t require special<br>
-kernel modules.<br>
-<br>
-Sato under X will continue to use 640x480 as that is hardcoded into<br>
-xorg.conf under qemu.<br>
+<div dir=3D"ltr"><div>bitbake told me to add them (when the existing md5/sh=
+a256 checksums were deemed incorrect), and so I did.</div><div><br></div><d=
+iv>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" clas=
+s=3D"gmail_attr">On Sun, 16 Feb 2020 at 17:09, Martin Jansa &lt;<a href=3D"=
+mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br></d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
+er-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr">Do we=
+ need sha384sum, sha512sum, sha1sum checksums for these 2 for whatever reas=
+on?</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Sun, Feb 16, 2020 at 4:52 PM Alexander Kanavin &lt;<a href=3D"mailto:=
+alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">webkit nowa=
+days requires a couple of supplementary libraries for this,<br>
+so bring them in (courtesy of meta-browser, which will hopefully<br>
+adjust without a lot of trouble).<br>
 <br>
 Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.c=
 om" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
 ---<br>
-=C2=A0meta/conf/machine/include/qemuboot-x86.inc | 3 +--<br>
-=C2=A0meta/conf/machine/qemux86-64.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
- 4 ----<br>
-=C2=A0meta/conf/machine/qemux86.conf=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 4 ----<br>
-=C2=A0meta/lib/oeqa/runtime/cases/parselogs.py=C2=A0 =C2=A0| 4 ----<br>
-=C2=A04 files changed, 1 insertion(+), 14 deletions(-)<br>
-<br>
-diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine=
-/include/qemuboot-x86.inc<br>
-index 049681b27d..5dcc8b6f6b 100644<br>
---- a/meta/conf/machine/include/qemuboot-x86.inc<br>
-+++ b/meta/conf/machine/include/qemuboot-x86.inc<br>
-@@ -8,9 +8,8 @@ QB_CPU_KVM_x86-64 =3D &quot;-cpu core2duo&quot;<br>
-<br>
-=C2=A0QB_AUDIO_DRV =3D &quot;alsa&quot;<br>
-=C2=A0QB_AUDIO_OPT =3D &quot;-soundhw ac97,es1370&quot;<br>
--QB_KERNEL_CMDLINE_APPEND =3D &quot;uvesafb.mode_option=3D${UVESA_MODE} opr=
-ofile.timer=3D1 uvesafb.task_timeout=3D-1&quot;<br>
-+QB_KERNEL_CMDLINE_APPEND =3D &quot;oprofile.timer=3D1&quot;<br>
-=C2=A0QB_OPT_APPEND =3D &quot;-show-cursor -usb -device usb-tablet&quot;<br=
->
-=C2=A0# Add the &#39;virtio-rng-pci&#39; device otherwise the guest may run=
- out of entropy<br>
-=C2=A0QB_OPT_APPEND +=3D &quot;-object rng-random,filename=3D/dev/urandom,i=
-d=3Drng0 -device virtio-rng-pci,rng=3Drng0&quot;<br>
-<br>
--UVESA_MODE ?=3D &quot;640x480-32&quot;<br>
-diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux86-=
-64.conf<br>
-index 648cf2fe8f..db9004ee32 100644<br>
---- a/meta/conf/machine/qemux86-64.conf<br>
-+++ b/meta/conf/machine/qemux86-64.conf<br>
-@@ -37,10 +37,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS +=3D &quot;v86d&quot;<b=
-r>
-<br>
-=C2=A0MACHINE_EXTRA_RRECOMMENDS =3D &quot;kernel-module-snd-ens1370 kernel-=
-module-snd-rawmidi&quot;<br>
-<br>
--KERNEL_MODULE_AUTOLOAD +=3D &quot;uvesafb&quot;<br>
--KERNEL_MODULE_PROBECONF +=3D &quot;uvesafb&quot;<br>
--module_conf_uvesafb =3D &quot;options uvesafb mode_option=3D${UVESA_MODE}&=
-quot;<br>
+=C2=A0meta/recipes-sato/webkit/<a href=3D"http://libwpe_1.4.0.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">libwpe_1.4.0.1.bb</a>=C2=A0 =C2=A0 | 19 +++++=
+++++++++++++++<br>
+=C2=A0meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">webkitgtk_2.26.4.bb</a>=C2=A0 |=C2=A0 2 +=
 -<br>
-=C2=A0WKS_FILE ?=3D &quot;qemux86-directdisk.wks&quot;<br>
-=C2=A0do_image_wic[depends] +=3D &quot;syslinux:do_populate_sysroot syslinu=
-x-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-n=
-ative:do_populate_sysroot&quot;<br>
+=C2=A0.../webkit/<a href=3D"http://wpebackend-fdo_1.4.1.bb" rel=3D"noreferr=
+er" target=3D"_blank">wpebackend-fdo_1.4.1.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 19 +++++++++++++++++++<br>
+=C2=A03 files changed, 39 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 meta/recipes-sato/webkit/<a href=3D"http://libwpe_=
+1.4.0.1.bb" rel=3D"noreferrer" target=3D"_blank">libwpe_1.4.0.1.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-sato/webkit/<a href=3D"http://wpeback=
+end-fdo_1.4.1.bb" rel=3D"noreferrer" target=3D"_blank">wpebackend-fdo_1.4.1=
+.bb</a><br>
 <br>
-diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.con=
-f<br>
-index 8e0da82076..7e6723b880 100644<br>
---- a/meta/conf/machine/qemux86.conf<br>
-+++ b/meta/conf/machine/qemux86.conf<br>
-@@ -34,10 +34,6 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS +=3D &quot;v86d&quot;<b=
+diff --git a/meta/recipes-sato/webkit/<a href=3D"http://libwpe_1.4.0.1.bb" =
+rel=3D"noreferrer" target=3D"_blank">libwpe_1.4.0.1.bb</a> b/meta/recipes-s=
+ato/webkit/<a href=3D"http://libwpe_1.4.0.1.bb" rel=3D"noreferrer" target=
+=3D"_blank">libwpe_1.4.0.1.bb</a><br>
+new file mode 100644<br>
+index 0000000000..b9c71f9dc5<br>
+--- /dev/null<br>
++++ b/meta/recipes-sato/webkit/<a href=3D"http://libwpe_1.4.0.1.bb" rel=3D"=
+noreferrer" target=3D"_blank">libwpe_1.4.0.1.bb</a><br>
+@@ -0,0 +1,19 @@<br>
++SUMMARY =3D &quot;General-purpose library specifically developed for the W=
+PE-flavored port of WebKit.&quot;<br>
++HOMEPAGE =3D &quot;<a href=3D"https://github.com/WebPlatformForEmbedded/li=
+bwpe" rel=3D"noreferrer" target=3D"_blank">https://github.com/WebPlatformFo=
+rEmbedded/libwpe</a>&quot;<br>
++BUGTRACKER =3D &quot;<a href=3D"https://github.com/WebPlatformForEmbedded/=
+libwpe/issues" rel=3D"noreferrer" target=3D"_blank">https://github.com/WebP=
+latformForEmbedded/libwpe/issues</a>&quot;<br>
++<br>
++LICENSE =3D &quot;BSD&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D371a616eb4903c6cb79e9893a5=
+f615cc&quot;<br>
++DEPENDS =3D &quot;virtual/egl libxkbcommon&quot;<br>
++<br>
++# Workaround build issue with RPi userland EGL libraries.<br>
++CFLAGS_append_rpi =3D &quot; ${@bb.utils.contains(&#39;MACHINE_FEATURES&#3=
+9;, &#39;vc4graphics&#39;, &#39;&#39;, &#39;-D_GNU_SOURCE&#39;, d)}&quot;<b=
 r>
++<br>
++inherit cmake<br>
++<br>
++SRC_URI =3D &quot;<a href=3D"https://wpewebkit.org/releases/$%7BBPN%7D-$%7=
+BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://wpewebkit.org/r=
+eleases/${BPN}-${PV}.tar.xz</a>&quot;<br>
++SRC_URI[md5sum] =3D &quot;1d4d38413ee0d0043f74d0445cab906f&quot;<br>
++SRC_URI[sha256sum] =3D &quot;09849dfb34877354f34f318e138971cf22e677b2179e1=
+f0a8ea00ab0b7bd8e9b&quot;<br>
++SRC_URI[sha1sum] =3D &quot;a41480a0a85cfa11b3f87f801b7c37bc3410e060&quot;<=
+br>
++SRC_URI[sha384sum] =3D &quot;30488e375d956809a84b0d8af7b386a332541c77dcbd5=
+3496a896f894dbf39ac34534e935d6bc7a75c1b536f04f7f0a0&quot;<br>
++SRC_URI[sha512sum] =3D &quot;cbbe6b8e9bbb864d7f96bbdb56db262bbd341c86bc7be=
+dfcc51be8077c0ea58a4e88c61b7b7bec937d5476e6cb81c093229bf80e3ee99452829287bd=
+26175670&quot;<br>
+diff --git a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb=
+" rel=3D"noreferrer" target=3D"_blank">webkitgtk_2.26.4.bb</a> b/meta/recip=
+es-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb" rel=3D"noreferrer" ta=
+rget=3D"_blank">webkitgtk_2.26.4.bb</a><br>
+index 4aa8533b42..8d87ad49a3 100644<br>
+--- a/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">webkitgtk_2.26.4.bb</a><br>
++++ b/meta/recipes-sato/webkit/<a href=3D"http://webkitgtk_2.26.4.bb" rel=
+=3D"noreferrer" target=3D"_blank">webkitgtk_2.26.4.bb</a><br>
+@@ -44,7 +44,7 @@ PACKAGECONFIG ??=3D &quot;${@bb.utils.filter(&#39;DISTRO_=
+FEATURES&#39;, &#39;wayland x11&#39;, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 libse=
+cret \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;=
 <br>
-=C2=A0MACHINE_EXTRA_RRECOMMENDS =3D &quot;kernel-module-snd-ens1370 kernel-=
-module-snd-rawmidi&quot;<br>
 <br>
--KERNEL_MODULE_AUTOLOAD +=3D &quot;uvesafb&quot;<br>
--KERNEL_MODULE_PROBECONF +=3D &quot;uvesafb&quot;<br>
--module_conf_uvesafb =3D &quot;options uvesafb mode_option=3D${UVESA_MODE}&=
-quot;<br>
--<br>
-=C2=A0WKS_FILE ?=3D &quot;qemux86-directdisk.wks&quot;<br>
-=C2=A0do_image_wic[depends] +=3D &quot;syslinux:do_populate_sysroot syslinu=
-x-native:do_populate_sysroot mtools-native:do_populate_sysroot dosfstools-n=
-ative:do_populate_sysroot&quot;<br>
-<br>
-diff --git a/meta/lib/oeqa/runtime/cases/parselogs.py b/meta/lib/oeqa/runti=
-me/cases/parselogs.py<br>
-index 9dafb89b03..3cad0709a1 100644<br>
---- a/meta/lib/oeqa/runtime/cases/parselogs.py<br>
-+++ b/meta/lib/oeqa/runtime/cases/parselogs.py<br>
-@@ -60,7 +60,6 @@ common_errors =3D [<br>
-=C2=A0 =C2=A0 =C2=A0]<br>
-<br>
-=C2=A0video_related =3D [<br>
--=C2=A0 =C2=A0 &quot;uvesafb&quot;,<br>
-=C2=A0]<br>
-<br>
-=C2=A0x86_common =3D [<br>
-@@ -82,11 +81,8 @@ qemux86_common =3D [<br>
-=C2=A0 =C2=A0 =C2=A0&quot;fail to add MMCONFIG information, can&#39;t acces=
-s extended PCI configuration space under this bridge.&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;can&#39;t claim BAR &quot;,<br>
-=C2=A0 =C2=A0 =C2=A0&#39;amd_nb: Cannot enumerate AMD northbridges&#39;,<br=
->
--=C2=A0 =C2=A0 &#39;uvesafb: 5000 ms task timeout, infinitely waiting&#39;,=
-<br>
-=C2=A0 =C2=A0 =C2=A0&#39;tsc: HPET/PMTIMER calibration failed&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0&quot;modeset(0): Failed to initialize the DRI2 extensi=
-on&quot;,<br>
--=C2=A0 =C2=A0 &quot;uvesafb: cannot reserve video memory at&quot;,<br>
--=C2=A0 =C2=A0 &quot;uvesafb: probe of uvesafb.0 failed with error&quot;,<b=
+-PACKAGECONFIG[wayland] =3D &quot;-DENABLE_WAYLAND_TARGET=3DON,-DENABLE_WAY=
+LAND_TARGET=3DOFF,wayland&quot;<br>
++PACKAGECONFIG[wayland] =3D &quot;-DENABLE_WAYLAND_TARGET=3DON,-DENABLE_WAY=
+LAND_TARGET=3DOFF,wayland libwpe wpebackend-fdo wayland-native&quot;<br>
+=C2=A0PACKAGECONFIG[x11] =3D &quot;-DENABLE_X11_TARGET=3DON,-DENABLE_X11_TA=
+RGET=3DOFF,virtual/libx11&quot;<br>
+=C2=A0PACKAGECONFIG[geoclue] =3D &quot;-DENABLE_GEOLOCATION=3DON,-DENABLE_G=
+EOLOCATION=3DOFF,geoclue&quot;<br>
+=C2=A0PACKAGECONFIG[enchant] =3D &quot;-DENABLE_SPELLCHECK=3DON,-DENABLE_SP=
+ELLCHECK=3DOFF,enchant2&quot;<br>
+diff --git a/meta/recipes-sato/webkit/<a href=3D"http://wpebackend-fdo_1.4.=
+1.bb" rel=3D"noreferrer" target=3D"_blank">wpebackend-fdo_1.4.1.bb</a> b/me=
+ta/recipes-sato/webkit/<a href=3D"http://wpebackend-fdo_1.4.1.bb" rel=3D"no=
+referrer" target=3D"_blank">wpebackend-fdo_1.4.1.bb</a><br>
+new file mode 100644<br>
+index 0000000000..84df0c2535<br>
+--- /dev/null<br>
++++ b/meta/recipes-sato/webkit/<a href=3D"http://wpebackend-fdo_1.4.1.bb" r=
+el=3D"noreferrer" target=3D"_blank">wpebackend-fdo_1.4.1.bb</a><br>
+@@ -0,0 +1,19 @@<br>
++SUMMARY =3D &quot;WPE&#39;s backend based on a <a href=3D"http://freedeskt=
+op.org" rel=3D"noreferrer" target=3D"_blank">freedesktop.org</a> stack.&quo=
+t;<br>
++HOMEPAGE =3D &quot;<a href=3D"https://github.com/Igalia/WPEBackend-fdo" re=
+l=3D"noreferrer" target=3D"_blank">https://github.com/Igalia/WPEBackend-fdo=
+</a>&quot;<br>
++BUGTRACKER =3D &quot;<a href=3D"https://github.com/Igalia/WPEBackend-fdo/i=
+ssues" rel=3D"noreferrer" target=3D"_blank">https://github.com/Igalia/WPEBa=
+ckend-fdo/issues</a>&quot;<br>
++<br>
++LICENSE =3D &quot;BSD&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1f62cef2e3645e3e74eb05fd38=
+9d7a66&quot;<br>
++DEPENDS =3D &quot;glib-2.0 libxkbcommon wayland virtual/egl libwpe&quot;<b=
 r>
-=C2=A0 =C2=A0 =C2=A0&quot;glamor initialization failed&quot;,<br>
-=C2=A0] + common_errors<br>
-<br>
++<br>
++DEPENDS_append_class-target =3D &quot; wayland-native&quot;<br>
++<br>
++inherit cmake<br>
++<br>
++SRC_URI =3D &quot;<a href=3D"https://wpewebkit.org/releases/$%7BBPN%7D-$%7=
+BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://wpewebkit.org/r=
+eleases/${BPN}-${PV}.tar.xz</a>&quot;<br>
++SRC_URI[md5sum] =3D &quot;c6362491a4a38ddac42b66f140e1cff2&quot;<br>
++SRC_URI[sha256sum] =3D &quot;6249a0b7cbfa662206a8d2fa24e2c574e75c681ad0e93=
+468091f1dc68ddb299d&quot;<br>
++SRC_URI[sha1sum] =3D &quot;9217c8a5511bc53544b42cb23390256580ac4b0c&quot;<=
+br>
++SRC_URI[sha384sum] =3D &quot;79f3a28bc8e0a8240dc9962a6a245276d39dd8112a753=
+d5ada39e98332d857eb9fc9c2879a702060807a10ea60be796d&quot;<br>
++SRC_URI[sha512sum] =3D &quot;8fdd13843c77b95b96b3feffea463bce565620997680e=
+209a0cdcc09314a1469f2f1cb4744dceb2cf6c8d6ce5cb2bbdb4c7fbaf0451a687640c3f63b=
+bdbfc4d4&quot;<br>
++<br>
 -- <br>
 2.25.0<br>
 <br>
@@ -348,6 +347,6 @@ k">Openembedded-core@lists.openembedded.org</a><br>
 " rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
 n/listinfo/openembedded-core</a><br>
 </blockquote></div>
-</blockquote></div></div>
+</blockquote></div>
 
---00000000000073b5a6059eb3af92--
+--0000000000002e2f23059eb3bb93--
