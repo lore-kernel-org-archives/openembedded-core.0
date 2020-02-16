@@ -1,52 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
 Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
 	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EB616142B
+	by mail.openembedded.org (Postfix) with ESMTP id 963C66140D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 15:51:05 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id t3so16674083wru.7
+	Sun, 16 Feb 2020 15:51:06 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id y11so16666625wrt.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 07:51:07 -0800 (PST)
+	Sun, 16 Feb 2020 07:51:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=9vDYHdspbxAc/saq2nIu5gLnS77KqTCv1irK9SAhghc=;
-	b=a0Vb0BbwhGhf8Q31PW399SziKxTzDfSDECqmYkLOg18488RLFzwmMH3oTO8oPFpYI/
-	IcDgTlZ+C412eXdQcE6ciuRQQYPxWRY/fqYOr6vI+qJhLsWoo49sJewok4shwWsjLOxC
-	7YpgLqrVF5y8HiY5T4V/pVPEAPCuBlbPd2uM1NeRoMJzulF1qWqm1kuRoVdSmcdZIRFu
-	XuCxudcclhiWdbCRlmxvMOb9qt+Jb6dxH0Q1DpccWWQ9Jb2cHEcdvSXTxRFbNlsJBQ9J
-	0O+fgS10HLH7MDq4g8coLGh7fs0pXdS0lQWn0vhihuTPx1z7qlXeXlHe5QaCXgVQZfpM
-	brjA==
+	bh=BpaS7f3+KPfuVHBfmuNvhF8Kzw9InUzrValO+7WWXqM=;
+	b=fCZtODh8ij6d5lrZFbEmnhq0DAYbze7P5QE/cifIKjQyZxKhXMUPxyxLTWQ/fhSWim
+	TI/Weqci8dXSWuhnK0GAXpPXzeDOrwNNw3l/pKi9+GlFa7uxhYE18hY67dnrsq2XWFKb
+	EEjZ7JRG93B9WMwQXuk5TEgz6gJFXAYXzGKUPx63YU8oWydEO8L82hGF4iUD8g5d0FNr
+	UIL5wLyQE22fsddbUSFt2SLH1v4k6OS+iz8LQDFgbzHkDOEEp9UHOhoAZ7/qKCVUphpC
+	JaXVsPqRIfUU5ewb3bok2oftSUdIzE9ft2Ihoz+nPIvnLuU0PrK9FqsNFA2GLgFWkBkb
+	O7Zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=9vDYHdspbxAc/saq2nIu5gLnS77KqTCv1irK9SAhghc=;
-	b=CDNG3eDxhJgsr5+VbfVX0W2OwA8tbU6FyPbfKpdGAEJyQdib/Kso4hJ/ay4/cmXrkk
-	DBBqy1LOzg6e1EMOjjOOh5ZdKtdbETitMrRikdwVjbjoFolCxjExg+AxlWpH/wQxSmY3
-	TZVfSSoI4Ngv5yXBQm8gCCJdF8KSPy9IU7ofmdzmBfR2hquxfINOciWm7kKJ0KJZouFc
-	8ZiAHamX7Zknm/WPaHYFDt1CwZ+5UBCJCeAns3GiY3qrXO1HI/BTBW3AW22SvYPEMabm
-	FCCmOywlfM7rejeH9aCNcsUwTYRDdqxSPxGqRvgGoEjsgmnRVAFqk8P+1LZSoY5Il4tb
-	sOpg==
-X-Gm-Message-State: APjAAAXSQVtCG9RfL6Dlu+O771vT+EbPXeGz9OcoOO5pCimduAVYPMPB
-	9dgYmH7paxEbegleB1bWLx7jYwAa
-X-Google-Smtp-Source: APXvYqzl+WcUyaKU7AeVa+SC0zHSV77qMURdtCIOvPux/ccU+Kb5z2FNNlkLBe39ay0OcOZNaX4vlg==
-X-Received: by 2002:a5d:4a8c:: with SMTP id o12mr15940763wrq.43.1581868266462; 
-	Sun, 16 Feb 2020 07:51:06 -0800 (PST)
+	bh=BpaS7f3+KPfuVHBfmuNvhF8Kzw9InUzrValO+7WWXqM=;
+	b=hlRzcO8LfjPilq/BUBsSnlVwkfo34zJxn8YiFCYw9CGeUGSDArvAV6sWv0u/D6Jrjd
+	Pfw1B6+WmuAUqmJFPoyJJkMIB5LjaTAfGBeqSMB8QM9JNTzjUuB2ZQ9HjC0spcT2QE5J
+	T1xD+rMf5AqcNon/Nehn+gZGwmyp8BELtj7f6tgkLeh0cIZgkqOGInbWhUSzPBAIHV5y
+	spsS0nuc+Rll6X//4VJWnoFf7N6JslQ4n8YojEHqtiVdvWHkkFtra/3Glsee7KDz1JCP
+	Flne9gY4338dZKnkgCWwJiu2P0IL65qLO42HT+EL9O2HSQq6EyB3fIV4qZMHHizq215R
+	wn/A==
+X-Gm-Message-State: APjAAAVP2nIuGxYZusgu8Bapb++QsXOR6iNA9ayizSdHXcyOmLwWRpcs
+	suGaVr/5F0mkEmMZ+rwkYcs+ZDMc
+X-Google-Smtp-Source: APXvYqy39U5ycTX3faAVdNAy6sCLlIiMtEr71iWImLW2HSFRgeGm+Cd7OHCMONkpPSei4wWaigiLZg==
+X-Received: by 2002:a5d:5742:: with SMTP id q2mr11877261wrw.145.1581868267195; 
+	Sun, 16 Feb 2020 07:51:07 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
-	t81sm16513271wmg.6.2020.02.16.07.51.05
+	t81sm16513271wmg.6.2020.02.16.07.51.06
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Sun, 16 Feb 2020 07:51:05 -0800 (PST)
+	Sun, 16 Feb 2020 07:51:06 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Feb 2020 16:50:09 +0100
-Message-Id: <20200216155015.21738-5-alex.kanavin@gmail.com>
+Date: Sun, 16 Feb 2020 16:50:10 +0100
+Message-Id: <20200216155015.21738-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200216155015.21738-1-alex.kanavin@gmail.com>
 References: <20200216155015.21738-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 05/10] weston-init: use the drm backend rather than fbdev one
+Subject: [PATCH 06/10] webkitgtk: x11 and wayland are not mutually exclusive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +59,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Feb 2020 15:51:06 -0000
+X-List-Received-Date: Sun, 16 Feb 2020 15:51:07 -0000
 Content-Transfer-Encoding: 8bit
 
-The fbdev backend is not documented, and not the default;
-as the emulated hardware in qemu now supports DRM/KMS
-(both std and virtio), we should align with upstream default
-and vast majority of users.
-
-Note that 3D acceleration is not required; the backend
-renders fine via the software driver in mesa.
+Also enabling wayland if x11 is not enabled is not necessarily
+the correct decision.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini | 2 --
- 1 file changed, 2 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini
+ meta/recipes-sato/webkit/webkitgtk_2.26.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini b/meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini
-deleted file mode 100644
-index 17ebd7fdab..0000000000
---- a/meta/recipes-graphics/wayland/weston-init/qemuall/weston.ini
-+++ /dev/null
-@@ -1,2 +0,0 @@
--[core]
--backend=fbdev-backend.so
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+index c7f0d5e983..4aa8533b42 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb
+@@ -38,7 +38,7 @@ DEPENDS = "zlib libsoup-2.4 curl libxml2 cairo libxslt libxt libidn libgcrypt \
+ 	   gettext-native glib-2.0 glib-2.0-native libtasn1 \
+           "
+ 
+-PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11', 'wayland' ,d)} \
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'wayland x11', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'webgl opengl', '' ,d)} \
+                    enchant \
+                    libsecret \
 -- 
 2.25.0
 
