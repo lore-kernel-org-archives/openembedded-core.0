@@ -1,27 +1,18 @@
-Return-Path: <robert.joslyn@redrectangle.org>
-X-Greylist: delayed 1327 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sun, 16 Feb 2020 19:31:08 UTC
-Received: from mslow2.mail.gandi.net (mslow2.mail.gandi.net [217.70.178.242])
-	by mail.openembedded.org (Postfix) with ESMTP id 099DE60FC5
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 19:31:08 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (unknown [217.70.183.197])
-	by mslow2.mail.gandi.net (Postfix) with ESMTP id B250C3A5A0D
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 19:00:56 +0000 (UTC)
-X-Originating-IP: 173.197.191.182
-Received: from localhost.localdomain (rrcs-173-197-191-182.west.biz.rr.com
-	[173.197.191.182])
-	(Authenticated sender: robert.joslyn@redrectangle.org)
-	by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id DD2731C0002;
-	Sun, 16 Feb 2020 19:00:53 +0000 (UTC)
-From: Robert Joslyn <robert.joslyn@redrectangle.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Feb 2020 10:59:09 -0800
-Message-Id: <20200216185909.1566175-1-robert.joslyn@redrectangle.org>
-X-Mailer: git-send-email 2.24.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id D0956611D1;
+	Sun, 16 Feb 2020 20:01:55 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH] ell: Update to 0.28
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Robert Joslyn <robert.joslyn@redrectangle.org>
+Date: Sun, 16 Feb 2020 20:01:57 -0000
+Message-ID: <20200216200157.2273.54440@do>
+References: <20200216185909.1566175-1-robert.joslyn@redrectangle.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20200216185909.1566175-1-robert.joslyn@redrectangle.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZWxsOiBVcGRhdGUgdG8gMC4yOA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,39 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Feb 2020 19:31:09 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 16 Feb 2020 20:01:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-ChangeLog:
-- Fix issue with NULL check of D-Bus proxy for method calls.
-- Add support for emitting D-Bus property changes on demand.
-- Add support for reporting file attribute changes.
+== Series Details ==
 
-Signed-off-by: Robert Joslyn <robert.joslyn@redrectangle.org>
+Series: ell: Update to 0.28
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22697/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at c9b5802bbe)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-core/ell/{ell_0.27.bb => ell_0.28.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/ell/{ell_0.27.bb => ell_0.28.bb} (83%)
-
-diff --git a/meta/recipes-core/ell/ell_0.27.bb b/meta/recipes-core/ell/ell_0.28.bb
-similarity index 83%
-rename from meta/recipes-core/ell/ell_0.27.bb
-rename to meta/recipes-core/ell/ell_0.28.bb
-index 503f1e22a3..464bf631e3 100644
---- a/meta/recipes-core/ell/ell_0.27.bb
-+++ b/meta/recipes-core/ell/ell_0.28.bb
-@@ -14,8 +14,8 @@ DEPENDS = "dbus"
- inherit autotools pkgconfig
- 
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "e090d6a910a43c2a32114ba1cdc9f1f2"
--SRC_URI[sha256sum] = "afc5441d6f6ece512a188b1e6aeabd7153de4f38989c897a2197ae50fc46da96"
-+SRC_URI[md5sum] = "e38089e54d4b41e508bbb7f37a4a59d9"
-+SRC_URI[sha256sum] = "6254fcb98d681cb2c3078dde462ba20bf90e6c10919204c6878a4381adcdb74b"
- 
- do_configure_prepend () {
-     mkdir -p ${S}/build-aux
--- 
-2.24.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
