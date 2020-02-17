@@ -1,23 +1,24 @@
-Return-Path: <preid@electromag.com.au>
-Received: from anchovy1.45ru.net.au (anchovy1.45ru.net.au [203.30.46.145])
-	by mail.openembedded.org (Postfix) with ESMTP id C5C0F610EF
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6ED986086C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 03:26:14 +0000 (UTC)
-Received: (qmail 17380 invoked by uid 5089); 17 Feb 2020 03:26:15 -0000
-Received: by simscan 1.2.0 ppid: 17347, pid: 17351, t: 0.0384s
-	scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
-Received: from unknown (HELO ?192.168.0.22?)
-	(preid@electromag.com.au@203.59.235.95)
-	by anchovy1.45ru.net.au with ESMTPA; 17 Feb 2020 03:26:14 -0000
-From: Phil Reid <preid@electromag.com.au>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <e10c00e7-b64e-978a-6b2e-ffaa16577bbf@electromag.com.au>
-Date: Mon, 17 Feb 2020 11:26:14 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
-	Thunderbird/68.5.0
+	Mon, 17 Feb 2020 04:08:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01H48bkX016975
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 16 Feb 2020 20:08:47 -0800
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Sun, 16 Feb 2020 20:08:27 -0800
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Feb 2020 12:08:25 +0800
+Message-ID: <1581912505-213892-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: bash: Fix CVE-2019-18276
+Subject: [PATCH] lttng-modules: Work around yocto bug 13424
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,65 +31,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2020 03:26:15 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Feb 2020 04:08:57 -0000
+Content-Type: text/plain
 
-Hi All,
+From: He Zhe <zhe.he@windriver.com>
 
-I recently started get the following failure with bash after "b348e31c93f0 bash: Fix CVE-2019-18276"
-was applied to zeus.
+Before Yocto bug 13424 is fixed, devupstream cannot work with multilib.
+To provide git based lttng-modules recipe for latest source code, let's
+just include tarball based recipe and overwrite related variables.
 
-Any thoughts?
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb | 12 ------------
+ meta/recipes-kernel/lttng/lttng-modules_git.bb    | 11 +++++++++++
+ 2 files changed, 11 insertions(+), 12 deletions(-)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules_git.bb
 
-
-NOTE: Applying patch 'bash50-001' (downloads/bash50-001)
-NOTE: Applying patch 'bash50-002' (downloads/bash50-002)
-NOTE: Applying patch 'bash50-003' (downloads/bash50-003)
-NOTE: Applying patch 'bash50-004' (downloads/bash50-004)
-NOTE: Applying patch 'bash50-005' (downloads/bash50-005)
-NOTE: Applying patch 'bash50-006' (downloads/bash50-006)
-NOTE: Applying patch 'bash50-007' (downloads/bash50-007)
-NOTE: Applying patch 'execute_cmd.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/execute_cmd.patch)
-NOTE: Applying patch 'mkbuiltins_have_stringize.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch)
-NOTE: Applying patch 'build-tests.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/build-tests.patch)
-NOTE: Applying patch 'test-output.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/test-output.patch)
-NOTE: Applying patch 'fix-run-builtins.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/fix-run-builtins.patch)
-NOTE: Applying patch 'bash-CVE-2019-18276.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch)
-ERROR: Command Error: 'quilt --quiltrc 
-/home/preid/dev/linux/v2019.11/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/bash/5.0-r0/recipe-sysroot-native/etc/quiltrc push' exited with 0  Output:
-Applying patch bash-CVE-2019-18276.patch
-patching file MANIFEST
-patching file bashline.c
-patching file builtins/help.def
-patching file config.h.in
-patching file configure
-Hunk #1 FAILED at 10281.
-1 out of 1 hunk FAILED -- rejects in file configure
-patching file configure.ac
-patching file doc/bash.1
-patching file doc/bashref.texi
-patching file lib/glob/glob.c
-patching file pathexp.c
-patching file shell.c
-patching file tests/glob.tests
-patching file tests/glob6.sub
-patching file tests/glob7.sub
-Patch bash-CVE-2019-18276.patch does not apply (enforce with -f)
-DEBUG: Python function patch_do_patch finished
-DEBUG: Python function do_patch finished
-
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+index c833ff7..4e75c6e 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.11.1.bb
+@@ -29,15 +29,3 @@ python do_package_prepend() {
+     if not os.path.exists(os.path.join(d.getVar('D'), d.getVar('nonarch_base_libdir')[1:], 'modules')):
+         bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
+ }
+-
+-BBCLASSEXTEND = "devupstream:target"
+-LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
+-DEFAULT_PREFERENCE_class-devupstream = "-1"
+-SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.11 \
+-           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+-           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+-           "
+-SRCREV_class-devupstream = "6ad0e68b43c3e52fcb3d47c4d823a7b84aeb443a"
+-PV_class-devupstream = "2.11.1+git${SRCPV}"
+-S_class-devupstream = "${WORKDIR}/git"
+-SRCREV_FORMAT ?= "lttng_git"
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_git.bb b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+new file mode 100644
+index 0000000..c6d1924
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+@@ -0,0 +1,11 @@
++require lttng-modules_2.11.1.bb
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
++DEFAULT_PREFERENCE = "-1"
++SRC_URI = "git://git.lttng.org/lttng-modules;branch=stable-2.11 \
++           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
++           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
++           "
++SRCREV = "6ad0e68b43c3e52fcb3d47c4d823a7b84aeb443a"
++PV = "2.11.1+git${SRCPV}"
++S = "${WORKDIR}/git"
 -- 
-Regards
-Phil Reid
+2.7.4
 
-ElectroMagnetic Imaging Technology Pty Ltd
-Development of Geophysical Instrumentation & Software
-www.electromag.com.au
-
-3 The Avenue, Midland WA 6056, AUSTRALIA
-Ph: +61 8 9250 8100
-Fax: +61 8 9250 7100
-Email: preid@electromag.com.au
 
