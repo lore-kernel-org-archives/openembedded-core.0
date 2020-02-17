@@ -1,49 +1,56 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DA7961513
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DDD561526
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 18:43:28 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id z7so20951506wrl.13
+	Mon, 17 Feb 2020 18:44:59 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id d18so12733170qtj.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 10:43:29 -0800 (PST)
+	Mon, 17 Feb 2020 10:45:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=CTw4qOCbgEUJyVo4fN6OkOEuXzT4Nc94n+JWmASd+rg=;
-	b=u/3mj1zh18q3KGkjV75lAwRKmaTAJR/Kbj9VzEsWrZAqeOonVxtAeVrJs4iGW4ERlF
-	kx88/84HTqC5JPMygzC2zMtu+233n/qUVXbgrFFKobAzTuqyxSYQrJ8DJZ+xfFczbjeK
-	fIfranlA0IYBl0hfoPYswbWyPb8dPomJiNi/UT8lg56GhyPnDZf7B3VS4GCUeA4nYc2q
-	Qq8+lZ6a8w7u5U5tVCTWW2S1Ke6qyMCab7rP736+hc09gOM+8P3jqUTprmE5PqjpVyoe
-	fz8h1arp1Lftw/NLg1KQ1D8yMAbg2pQYGkX1WEp2knS/1kTvJYvlGCq9i3C6idwFi38+
-	0Lwg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=zFZN+q4F9lZQhd0vsD29EyqD4Z3AluRMIMi/s3fvZ0U=;
+	b=YgJfFNjOwIS9Sfu6hkvcexlzNy4dLQitXXWbPC++BYCOOWMXDt3UJd9se7LXr+6Bbc
+	oG3o1Lp7XQgVnzXnWxDTteGjH+8cMFl0X5tpTLNCe4ga9k7RXDzWOa+S/WIEzJb4Rt34
+	vusHlP6bfQ1YQravLDxKw5nWu+ShVNDIZbYFKfq+GFVxoOIkndyXfCXKBwN+u0jvipu1
+	AuAzSodZ4HeCjBX16R+0E3GdseeT/VpP7yNsH+r9A0DKMum1emhqnxg9IcthSpSQn0tx
+	J4EqKbM8Lh5LrzC8Q7/aPn+gbuddB6eDKOEptrrVF6tS2M0SwkuVGkXIwJdtpaQSlKTl
+	BeEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=CTw4qOCbgEUJyVo4fN6OkOEuXzT4Nc94n+JWmASd+rg=;
-	b=KhlCSM8lY5zgbdPdi3Pb3do1dPxdMMaGG7FAeNlj9qmr2G0h4EgV6jGMe8c433Evm7
-	2C6s/Rf9jC4qFOGRY+q2dAGffKscAJc8kPA5Kdo2J5gtwU87mSK+oYc44YCxnKSwis95
-	uTEfH/znL1DETwB864xKXrUrJocWi8U+S4D3XmKdKuN0kIgRlk5q4UMrlSOx+hnNiEFg
-	rHMlJ3Ixxnz1GWgIYpdyrLJ072rCmthrjGXNLMcToPY69Q/GIuZ7iOy4memTQpZfKIQK
-	Dga8/X9hLVk68B8YrNeKDfIb8g9KjhC85IT5htucn/+UFl12g0vLKedAmUJgBLkR0tEx
-	kvdQ==
-X-Gm-Message-State: APjAAAXYUO1QMkONg4wpPDnOLaxvn0TfzzNG9rqH4or8Hf5HXmtA0Mgh
-	+VD2pCHxoUKpAxRjvxQaIabIkMk4
-X-Google-Smtp-Source: APXvYqzw3Yy6YmF/kXbGyjTs729KBl+OlDoE5Fq003wH+61Q8XrV03e68bXAUu1ZPeCfj/Rk6vS3eA==
-X-Received: by 2002:a5d:6a02:: with SMTP id m2mr23479688wru.52.1581965008464; 
-	Mon, 17 Feb 2020 10:43:28 -0800 (PST)
-Received: from beaker.muppets.liwing.de (p4FE93807.dip0.t-ipconnect.de.
-	[79.233.56.7]) by smtp.gmail.com with ESMTPSA id
-	c141sm292392wme.41.2020.02.17.10.43.27
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 17 Feb 2020 10:43:27 -0800 (PST)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 17 Feb 2020 19:43:08 +0100
-Message-Id: <20200217184308.25673-1-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-Cc: Jens Rehsack <sno@NetBSD.org>
-Subject: [PATCH] bitbake: fetch2: svn: care for path_spec
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=zFZN+q4F9lZQhd0vsD29EyqD4Z3AluRMIMi/s3fvZ0U=;
+	b=Ejvdyc8bJNHw/3ljBfKFvetMeDO14nzXZ4VG7f8W8xEyFgthPFG47TUVV1/n366bXW
+	p3MLk4saHmMEVl0AG84z+Q72EgtlQVWDZA5z1z0+mTCq9SgB+36FkmvlvrkOe8I4YnuU
+	geqpdZIVd0ul56QneRHJby/OdzXiZZqDZUFv143PB8uYQYF3jpQHfYwJbkspNF9FJav/
+	8AbCvM17emorJFgdWlIAxSBjMdnBq1dhG8L17287og92XY27d4H/ZqECFPiN/ZzW0FpS
+	Ykm/T325lC6/+HVCY1fCUvT/MzFEpJ8yNZCGC/nCAoCw8OLc0piUPTUctMD0dkHPD0mJ
+	ErFw==
+X-Gm-Message-State: APjAAAXPX06c7GPVv2LowNi86Ul8PfdvrlsxPLESOUWV9kgo5SPWIsru
+	nVTPu5/JXuQiZ9KfWBOVj6UUlWfH9UQI+dW43gg=
+X-Google-Smtp-Source: APXvYqw5JuG/oN/6MkyJPEKFKIkLmEM16l/W5My/7rKVi4KStsZFisFOoHpVzWsuP03i5HpNQnLW73lGNxZspQJZcuc=
+X-Received: by 2002:ac8:4419:: with SMTP id j25mr14338191qtn.378.1581965099725;
+	Mon, 17 Feb 2020 10:44:59 -0800 (PST)
+MIME-Version: 1.0
+References: <20200216155015.21738-1-alex.kanavin@gmail.com>
+	<20200216155015.21738-5-alex.kanavin@gmail.com>
+	<CAMKF1sppws+PSjDojzi7+=p_UjEkEafGa1_WtRLCpqO_73nhGA@mail.gmail.com>
+	<CANNYZj8W0A12inq_K3kiShN7dsU3tsTuOgh4LZAtP-QcUVDaXQ@mail.gmail.com>
+	<CAMKF1so86RKsiAXC=vzpT0wu8E=jiFMzJsVBdGb7SQ2TKxBo6Q@mail.gmail.com>
+	<CANNYZj_k+iXWB_V3PQOv8eE8Pvwt8B-q4=x_F4e4hzisW-NXaA@mail.gmail.com>
+	<CAMKF1spO36x=P-ts28+BEg+Pvw5FcEWNpyNyJGXcFB_jXSohUA@mail.gmail.com>
+	<CANNYZj8ZC_pVkSHTisPryOJE7GfMqot5a=5uP5LUm3fB0nVMYw@mail.gmail.com>
+	<CANNYZj9u8f+qD_3RTb+9O9cbNBk0UgteBcV_d7X2ffpCkg4UxA@mail.gmail.com>
+In-Reply-To: <CANNYZj9u8f+qD_3RTb+9O9cbNBk0UgteBcV_d7X2ffpCkg4UxA@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 17 Feb 2020 10:44:33 -0800
+Message-ID: <CAMKF1srMfa-0ADdKErgwXhQa6ypDL7RGznsBQ0ET7cZ29ErzXA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/10] weston-init: use the drm backend rather than fbdev one
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,35 +63,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2020 18:43:28 -0000
+X-List-Received-Date: Mon, 17 Feb 2020 18:44:59 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jens Rehsack <sno@NetBSD.org>
+On Mon, Feb 17, 2020 at 5:15 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> On Mon, 17 Feb 2020 at 09:22, Alexander Kanavin <alex.kanavin@gmail.com> =
+wrote:
+>>>
+>>> \perhaps then make this chage such thst it only affects the
+>>> architecture you have tested.
+>>
+>>
+>> Fbdev backend is not documented, and there is no guarantee by upstream t=
+hat it will work. You wouldn=E2=80=99t want to use it on actual targets eit=
+her as it has no hw acceleration support. I think the change should apply t=
+o all, we should test standard drm/kms code paths everywhere and fix/report=
+ issues as needed.
 
-Documentation says:
-    "path_spec": A specific directory in which to checkout the specified
-    svn module.
-but existing svn fetcher uses "module" always as path of checked out
-svn-module, regardless whether path_spec was given or not.
+hw acceleration is not going to work for non-x86 qemus, while other
+qemus should be fixed but not
+by breaking them first. As suggested limit this change to tested
+architectures and it would be fine.
+then if interested to fix it globally make changes to fix rest of
+qemus and then instrument global change
+after that
 
-Signed-off-by: Jens Rehsack <sno@NetBSD.org>
----
- bitbake/lib/bb/fetch2/svn.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>
+> The issue with qemumips in particular is that it is still using cirrus fo=
+r the graphics card, which has been superseded by '-vga std' for a long tim=
+e:
+> https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
+>
+> If that is switched, then fbdev backend should be no longer necessary jus=
+t like in qemux86_64.
+>
 
-diff --git a/bitbake/lib/bb/fetch2/svn.py b/bitbake/lib/bb/fetch2/svn.py
-index 6c8caf5fb9..385a6b2cf1 100644
---- a/bitbake/lib/bb/fetch2/svn.py
-+++ b/bitbake/lib/bb/fetch2/svn.py
-@@ -47,7 +47,7 @@ class Svn(FetchMethod):
-         svndir = d.getVar("SVNDIR") or (d.getVar("DL_DIR") + "/svn")
-         relpath = self._strip_leading_slashes(ud.path)
-         ud.pkgdir = os.path.join(svndir, ud.host, relpath)
--        ud.moddir = os.path.join(ud.pkgdir, ud.module)
-+        ud.moddir = os.path.join(ud.pkgdir, ud.path_spec)
-         # Protects the repository from concurrent updates, e.g. from two
-         # recipes fetching different revisions at the same time
-         ud.svnlock = os.path.join(ud.pkgdir, "svn.lock")
--- 
-2.17.1
+this is interesting, I will try it out on mips.
 
+> Alex
 
