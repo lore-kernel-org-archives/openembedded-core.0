@@ -1,50 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id E1E0561470
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com
+	[209.85.215.176])
+	by mail.openembedded.org (Postfix) with ESMTP id D291A614EA
 	for <openembedded-core@openembedded.org>;
-	Mon, 17 Feb 2020 16:00:55 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id g3so9274253pgs.11
+	Mon, 17 Feb 2020 16:00:56 +0000 (UTC)
+Received: by mail-pg1-f176.google.com with SMTP id z7so9401156pgk.7
 	for <openembedded-core@openembedded.org>;
-	Mon, 17 Feb 2020 08:00:57 -0800 (PST)
+	Mon, 17 Feb 2020 08:00:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=7Tl4T1yzP+X/Z879iJRzczjCDfT5/DZ+qMjhfm0Zblg=;
-	b=N9TB6I/4tk9sJKVrvlPqvos4I1PEXjSqvdddpti3bmIcGzY+V3ngJ1BeS+hanPgUM/
-	61ZeGTStJI2lVN91QIzUmq/ydfJ9OCoHI02Qmeo5OE2R4RaqniFu46ul9yx7tEySMOmj
-	lviUo3UhLdUUFlY9mqdxhT9+vT0nkZ1kopK9qyD3zVi46J7b9rt9HR1uaUJ4qAUtnaNz
-	0dNOGjCfJrYoj6MYdgKcjPGBwwoS165wHHTp6Tg6lep/3UOo4CEtnkpPGsuA7cAbbIEr
-	dvEMOlRkeu0sqocIhxuEVvA2AcqC9pwC+YdxnIP84fXilbMeD3WBLd2hE6tVel1QxaCK
-	/YAg==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=gAfGDDpb+X3vEkkwXJDZdtROWPuDbT+/GLP416MOIKo=;
+	b=Wtj2lW+QtkFkussBlNm98FfcaB9ImaaYSH74tzEa6SVrKR1DKQP+yCgaRixYCnA/Ut
+	deHO879ZJ4dzjzzVGzlvpEwCCpxZA8R9YrLZaDgTgsGvo5Y03xMcYGgU0Fde92FNj2Qp
+	+R0iJR4KNttKVdaPBZ8Q8yuF0yfZA8f7cbpGsufCy9t/jrnskuLt4qU11WVGGjcgV8oC
+	NqYsEbdkZ4Mj1kD6JYlQG2z1qtL1JyqBHrkrMQ3CGoXuhuYHgAXM0ySXzC8wgnczOubG
+	yiE7myXEuptaeer3Byd6iZYJJwajuo8/aeupQ221V08v9ytsaEK4O5UlVyGif7OYH7AN
+	um1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=7Tl4T1yzP+X/Z879iJRzczjCDfT5/DZ+qMjhfm0Zblg=;
-	b=LnttyvPl6TJ4RHHk22F7s4vGN8bPhR9aYBN+EpglJ9jv2BzU0JjlOD5IX2mZtE1T5K
-	sNHHZEc8hnwlT/Ask0FvQ0SSlAjHUV5nV76Tcf6aiFzN8k6uxocG4eeEFAN3qiHYUT2k
-	9Mito+xQXzJ82d/W+2AEzLsk3Ya1CpS5a/byPv4TpVHLN0KUorZgQgAli5PrMScZd5Ot
-	Q794hdGTktxULcf5MmX9mbzfv7OsGlHGxD4+hLU5UIDn1Ni5zjd/HTuqD2QFzarAzzCM
-	mSc7Gsv8+l/2LDXwR2c+JGZXxuAndWQTBdLIqobZ8KaaRxu9Z/pk9ivWliweh+VMZ164
-	44/Q==
-X-Gm-Message-State: APjAAAUbrA+MiqHm3WkQlqAw4O/lVUMZT4eBUT9NXMP99AJhJsri5Lvj
-	G1aBQHlr9m69KF3+DkW+R3zHzwYJ
-X-Google-Smtp-Source: APXvYqyfdGU36IPsT7WRvPZl4PnNre0nRxAccqps5/jPb9RS2mLKVwNWHkzz45iyvIo4vVS/NnOkDg==
-X-Received: by 2002:a17:90a:30e8:: with SMTP id
-	h95mr20941655pjb.30.1581955256514; 
-	Mon, 17 Feb 2020 08:00:56 -0800 (PST)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=gAfGDDpb+X3vEkkwXJDZdtROWPuDbT+/GLP416MOIKo=;
+	b=Qi2BJIUldoFDdtJkXFY/MekPPmJqrpVslTqVzjLpq0pt51Lzlk9Pn2spTcIu+LUJS3
+	J8MK2v5xErD8mIiFKlBYIBsv1C8NyuymgPN90MTQa3YRVuHi9PNzCwBRo1h7kVEcj5a1
+	SWCqyPlUG0ciUFdb8agGAKEoXETvMu6iY37cjneS3Mm87UsR9itFZU91KfrcJXO/et+n
+	HqLqqKKlNcWcuhxQjZRVjmeWXh5tYvvDj1EQs4F2P3rZTGoB1V65p+qOos7vUyevIVKI
+	f4JqHR29+gRItvqOnUPdM1hBprQrrt3di0HHl76kivHu7e42Hd6HSioTYrmzluDBvSJm
+	36CA==
+X-Gm-Message-State: APjAAAUAFyOV5Ei3yNFpSrrXiAA9RrmQuQ5SBgkItRZ0h6W8anhR5Rqi
+	8RdCn7uuceTWr6maZ6TixDiVapkT
+X-Google-Smtp-Source: APXvYqxAG9j7DbMEhHRZTX96gPF/7gicFr7BbF+JDIFGHEqACrqVGHI17GuZs5qNITQMYhcF3wHiOw==
+X-Received: by 2002:a62:1dca:: with SMTP id
+	d193mr17576224pfd.140.1581955257468; 
+	Mon, 17 Feb 2020 08:00:57 -0800 (PST)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:a5c0:9144:9b3e:b52:fa29])
 	by smtp.gmail.com with ESMTPSA id
-	a22sm928041pfk.108.2020.02.17.08.00.55
+	a22sm928041pfk.108.2020.02.17.08.00.56
 	for <openembedded-core@openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 17 Feb 2020 08:00:55 -0800 (PST)
+	Mon, 17 Feb 2020 08:00:56 -0800 (PST)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@openembedded.org
-Date: Mon, 17 Feb 2020 08:00:38 -0800
-Message-Id: <cover.1581955142.git.akuster808@gmail.com>
+Date: Mon, 17 Feb 2020 08:00:39 -0800
+Message-Id: <2be6ab4249c4f49c9ffcd9bb8fea964c8c5d449c.1581955142.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior 00/14] Patch review
+In-Reply-To: <cover.1581955142.git.akuster808@gmail.com>
+References: <cover.1581955142.git.akuster808@gmail.com>
+Subject: [warrior 01/14] libxml2: Fix CVE-2019-19956
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,67 +62,72 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 17 Feb 2020 16:00:56 -0000
 
-A few more for the 2.7.3 release.
-Please have comments back by Wednesday
-Passed A-full
+From: Rahul Chauhan <rahulchauhankitps@gmail.com>
 
-The following changes since commit a63d59f64a2d1f450a7639426cae8e0373a2d764:
-
-  sanity.bbclass: Move sanity_info from conf to cache (2020-01-25 08:37:48 -0800)
-
-are available in the Git repository at:
-
-  git://git.openembedded.org/openembedded-core-contrib stable/warrior-nut
-  http://cgit.openembedded.org//log/?h=stable/warrior-nut
-
-Anuj Mittal (1):
-  cpio: fix CVE-2019-14866
-
-Armin Kuster (2):
-  python2: add ntpath
-  timezone: update to 2019b
-
-Bruce Ashfield (4):
-  linux-yocto/4.19: update to v4.19.72
-  linux-yocto/4.19: update to v4.19.78
-  linux-yocto/4.19: update to v4.19.84
-  linux-yocto/4.19: update to v4.19.87
-
-Lee Chee Yang (1):
-  rsync: whitelist CVE-2017-16548
-
-Oleksandr Kravchuk (2):
-  linux-firmware: bump to 20190618
-  linux-firmware: add PE back
-
-Otavio Salvador (1):
-  linux-firmware: Upgrade 20190618 -> 20190815
-
-Rahul Chauhan (1):
-  libxml2: Fix CVE-2019-19956
-
-Samuli Piippo (1):
-  linux-firmware: update packaging for brcm files
-
-Zang Ruochen (1):
-  timezone:upgrade 2019b -> 2019c
-
- .../libxml/libxml2/fix-CVE-2019-19956.patch   |  38 +++
- meta/recipes-core/libxml/libxml2_2.9.8.bb     |   1 +
- .../python/python/python2-manifest.json       |   1 +
- meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   3 +
- .../cpio/cpio-2.12/CVE-2019-14866.patch       | 316 ++++++++++++++++++
- meta/recipes-extended/cpio/cpio_2.12.bb       |   1 +
- meta/recipes-extended/timezone/timezone.inc   |  10 +-
- ...ware_git.bb => linux-firmware_20190815.bb} |  26 +-
- .../linux/linux-yocto-rt_4.19.bb              |   6 +-
- .../linux/linux-yocto-tiny_4.19.bb            |   8 +-
- meta/recipes-kernel/linux/linux-yocto_4.19.bb |  20 +-
- 11 files changed, 397 insertions(+), 33 deletions(-)
+Signed-off-by: Rahul Chauhan <rahulk@mvista.com>
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ .../libxml/libxml2/fix-CVE-2019-19956.patch   | 38 +++++++++++++++++++
+ meta/recipes-core/libxml/libxml2_2.9.8.bb     |  1 +
+ 2 files changed, 39 insertions(+)
  create mode 100644 meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
- create mode 100644 meta/recipes-extended/cpio/cpio-2.12/CVE-2019-14866.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_git.bb => linux-firmware_20190815.bb} (98%)
 
+diff --git a/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
+new file mode 100644
+index 0000000000..43c3589d2c
+--- /dev/null
++++ b/meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
+@@ -0,0 +1,38 @@
++From 3cd2b25ddb04740be2880cfd78d60038452228b1 Mon Sep 17 00:00:00 2001
++From: Zhipeng Xie <xiezhipeng1@huawei.com>
++Date: Wed, 7 Aug 2019 17:39:17 +0800
++Subject: [PATCH] Fix memory leak in xmlParseBalancedChunkMemoryRecover
++
++When doc is NULL, namespace created in xmlTreeEnsureXMLDecl
++is bind to newDoc->oldNs, in this case, set newDoc->oldNs to
++NULL and free newDoc will cause a memory leak.
++
++Found with libFuzzer.
++
++Closes #82.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/5a02583c7e683896d84878bd90641d8d9b0d0549]
++CVE: CVE-2019-19956
++
++Signed-off-by: Rahul Chauhan <rahulk@mvista.com>
++---
++ parser.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/parser.c b/parser.c
++index b7ecd65..491f5c9 100644
++--- a/parser.c
+++++ b/parser.c
++@@ -13899,7 +13899,8 @@ xmlParseBalancedChunkMemoryRecover(xmlDocPtr doc, xmlSAXHandlerPtr sax,
++     xmlFreeParserCtxt(ctxt);
++     newDoc->intSubset = NULL;
++     newDoc->extSubset = NULL;
++-    newDoc->oldNs = NULL;
+++    if(doc != NULL)
+++	newDoc->oldNs = NULL;
++     xmlFreeDoc(newDoc);
++ 
++     return(ret);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+index 62643bc764..67c2d4fafb 100644
+--- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
++++ b/meta/recipes-core/libxml/libxml2_2.9.8.bb
+@@ -23,6 +23,7 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
+            file://fix-CVE-2017-8872.patch \
+            file://fix-CVE-2018-14404.patch \
+            file://0001-Fix-infinite-loop-in-LZMA-decompression.patch \
++           file://fix-CVE-2019-19956.patch \
+            "
+ 
+ SRC_URI[libtar.md5sum] = "b786e353e2aa1b872d70d5d1ca0c740d"
 -- 
 2.17.1
 
