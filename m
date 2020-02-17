@@ -1,52 +1,54 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
-	[209.85.222.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 60C82613B8
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+	[209.85.217.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BA10613B8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 08:12:52 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id p2so5804895uao.9
+	Mon, 17 Feb 2020 08:22:14 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id p6so9800430vsj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 00:12:53 -0800 (PST)
+	Mon, 17 Feb 2020 00:22:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=15QSetudrBWjtZ4bZlU7T5xQR2kHgNkb7u5mCR9XkGM=;
-	b=tPmRgZKOQwcTeKuYjXCDlsqrSRN+SvF/WaTgid2P6Rrc7Ey29yMShTS38Wh4NL/2Mp
-	Y6fTBDHEpuDzxvj20F7ac7yaJ8pkeIX7pnDSo00/DPn4aBulgX+qdb//l0+goJN9Sorc
-	RqGtZaWEIOXqTGyS8IySLFR/TG3mmROokg26mEEhoXZETIi1a04DipjbkTE08itH71xL
-	tp06p0kY6i9gEEzXXkzTSeGtv921kQ2ahWVtlWu7TTCLdvQ0lZ+OoBJik3GRkQpHT95J
-	JEc1PvPyIat/Q9xwE75ODwcR2zR0RwQ90WP23nNgRtqzYeweZJxdr6qpM8H+JhZ8YtCY
-	UtLw==
+	:cc; bh=KeyNsavy+N4/RtKIiblW1PgK3BdlEmz1mQcqYlxhM1o=;
+	b=vCUNSeeQ1739YI8VujlKAaIT6QG/YVeD83WoYc+Wtan39BHVFyz7lAO0AmITRaL4es
+	uWdt7RRL7fgpEg49oQ4agWys6SVIq63G7IrnE1Fkk9skEd2V34rStLHLFKGT+HYPUVFO
+	4eMg91WzPUr8A7nljvCVu/AuKG9DLDEWgc7u3juBBWW7ku/x9vt5QT5meLIQUKg5tS38
+	Fr80Js5naA2l+f89pPC1RUyyjQhEOB/sZok1lqAZQOiOWermTpxbOlqMsRcBdKsM/R/X
+	KiEYEvU/SgSeGDAUuyb0ckHCMUjV06AVrUVb/sJ3tdLqhqKMYCbwVouWZc4OwhKjpEus
+	csXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=15QSetudrBWjtZ4bZlU7T5xQR2kHgNkb7u5mCR9XkGM=;
-	b=KQ/obI26ZkbSSh23jJKn6dPx++RyBZHEY881WvX48H17Qs5WHd7sS4wBhrF1nEkD/f
-	3iz7J7WGnGNyBpPWI+Qn3WYnSl2C2FdKBW4bn8qrK/Qc8xsO6fNxBMeRzEkdskYg/o9/
-	9UqjlXdZEUGH+2Xn7p5SiHQuRKiB2UNjuoNBVk8ZGHaRJHZ1/IZQyIl2C09n12POXSfP
-	XXo6NM7Dfq8JY61JmdZApEPN23rU1C76dbvsKnLnvrtzykE6111aKzNr0NuDUFOMzjbZ
-	5qSxHFq48gbQ9n+mRxjJl8RZEV0kx6N9A8bCRc3tPgvrRoUXi554E5pFYF88mBUzhBVT
-	ETFg==
-X-Gm-Message-State: APjAAAX1QivV2kkGxH2zmteoMhvQMV1HHWaCgpGYNXYVFqiy49tfvvVD
-	9NirN9ZamGjgMAlXFrzqNGyOlrcu5g65PQ7wP2w=
-X-Google-Smtp-Source: APXvYqwD+7AVt0mI0/nnh62/Ot2dyS8NYwK8zigf2q/H3aMfagqDjqPZzyJ0tuHTxOmiTIs/Wsqhx9cwPOA5cJkQSE8=
-X-Received: by 2002:ab0:658d:: with SMTP id v13mr6625772uam.71.1581927173385; 
-	Mon, 17 Feb 2020 00:12:53 -0800 (PST)
+	bh=KeyNsavy+N4/RtKIiblW1PgK3BdlEmz1mQcqYlxhM1o=;
+	b=AUWHv3PIWD+cJVm/w9WtyhITQNbTX8+Bqr/O3Xh9Zz0RD+L1G9GXq11KfDj/s8ZOL6
+	izoXhnyRYjqZZqh0qx3Lwzo98R3D3ocDRc1DENpqpyzZZpdIu4WEpxxvgoYunhUiZVmr
+	3Xnu2u09EbBgwDk96MsL55leEcZsHcqmNXmOwYouSRhjxn3eMJNfzpr/HhbJTlFRzMvf
+	z4jWmkzlhrEyKMYoDjS0TpRSurTrAT4rNlewyL6FrRrKkgjQpZscteblt1EAXzJcQamW
+	BIPOoN56TMN8qQfkXwD1W1ZJ40FROx8c3bLl4oR0sfaKb5bcF1OCAF+LYqSVTVsh7ty4
+	sbxA==
+X-Gm-Message-State: APjAAAVixp4EVoD39HpkZwgAF7K4nQD0F57y6eU3/ncjkaUO9Yk2+7VF
+	DjBflMj2KxGCFSutL9J7kRbFEm8znq7JJx2k93g=
+X-Google-Smtp-Source: APXvYqwL50svEuCbYt1mYyhawLInlRR5Of/44zOEQgcQghECsd7TRjGTxqS3g1C132qxzxBPsAZL7Oxq6JLiI+FtJek=
+X-Received: by 2002:a05:6102:405:: with SMTP id
+	d5mr7612453vsq.94.1581927735431; 
+	Mon, 17 Feb 2020 00:22:15 -0800 (PST)
 MIME-Version: 1.0
 References: <20200216155015.21738-1-alex.kanavin@gmail.com>
-	<20200216155015.21738-2-alex.kanavin@gmail.com>
-	<CAMKF1spfArttzxcU2Cug0wpT5AWozci--eEw1L9MKVmM0a2GrA@mail.gmail.com>
-	<CANNYZj8qJVAh9Zz_u5OT0HRCn_LD8ZG9E3-abjJLZbo7=0UzCw@mail.gmail.com>
-	<CAMKF1sqrxL4H-gYab-VopR-ZUhiPqo3f3XXQhedaKrZ7eGXtZQ@mail.gmail.com>
-	<CANNYZj_2H6YJ4hO69Rwqqs6NjJynX-yigJhTdhj7tTFgbBroUw@mail.gmail.com>
-	<CAMKF1soQsumU153u0ZmV6AXOiT49r3smLGfjBYYbVYEQ2-N0Eg@mail.gmail.com>
-In-Reply-To: <CAMKF1soQsumU153u0ZmV6AXOiT49r3smLGfjBYYbVYEQ2-N0Eg@mail.gmail.com>
+	<20200216155015.21738-5-alex.kanavin@gmail.com>
+	<CAMKF1sppws+PSjDojzi7+=p_UjEkEafGa1_WtRLCpqO_73nhGA@mail.gmail.com>
+	<CANNYZj8W0A12inq_K3kiShN7dsU3tsTuOgh4LZAtP-QcUVDaXQ@mail.gmail.com>
+	<CAMKF1so86RKsiAXC=vzpT0wu8E=jiFMzJsVBdGb7SQ2TKxBo6Q@mail.gmail.com>
+	<CANNYZj_k+iXWB_V3PQOv8eE8Pvwt8B-q4=x_F4e4hzisW-NXaA@mail.gmail.com>
+	<CAMKF1spO36x=P-ts28+BEg+Pvw5FcEWNpyNyJGXcFB_jXSohUA@mail.gmail.com>
+In-Reply-To: <CAMKF1spO36x=P-ts28+BEg+Pvw5FcEWNpyNyJGXcFB_jXSohUA@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 17 Feb 2020 09:12:42 +0100
-Message-ID: <CANNYZj_8Hr8mrV6ND+E2Si6PDmZ9e0dzryucD8zEVFYnmx7jHw@mail.gmail.com>
+Date: Mon, 17 Feb 2020 09:22:04 +0100
+Message-ID: <CANNYZj8ZC_pVkSHTisPryOJE7GfMqot5a=5uP5LUm3fB0nVMYw@mail.gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/10] procps: upstream has switched to gitlab
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/10] weston-init: use the drm backend rather than fbdev one
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,111 +61,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2020 08:12:53 -0000
-Content-Type: multipart/alternative; boundary="0000000000003af0d9059ec11f09"
+X-List-Received-Date: Mon, 17 Feb 2020 08:22:14 -0000
+Content-Type: multipart/alternative; boundary="000000000000bb135b059ec14092"
 
---0000000000003af0d9059ec11f09
+--000000000000bb135b059ec14092
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I looked it up. Actually, potfiles.in is typically not a generated file,
-and should be placed under version control. The comment is valid.
+On Mon 17. Feb 2020 at 3.30, Khem Raj <raj.khem@gmail.com> wrote:
+
+>
+> > Sure, but the testing should be done by people who need those other
+> machines to be able to boot weston; I would want to draw the line at what
+> is currently covered by the autobuilder (which is just qemux86_64).
+> >
+>
+> perhaps then make this chage such thst it only affects the
+> architecture you have tested.
+
+
+Fbdev backend is not documented, and there is no guarantee by upstream that
+it will work. You wouldn=E2=80=99t want to use it on actual targets either =
+as it
+has no hw acceleration support. I think the change should apply to all, we
+should test standard drm/kms code paths everywhere and fix/report issues as
+needed.
 
 Alex
 
-On Mon 17. Feb 2020 at 3.36, Khem Raj <raj.khem@gmail.com> wrote:
-
-> On Sun, Feb 16, 2020 at 12:45 PM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > On Sun, 16 Feb 2020 at 21:07, Khem Raj <raj.khem@gmail.com> wrote:
-> >>
-> >> >>> -S = "${WORKDIR}/procps-ng-${PV}"
-> >> >>> +# Upstream has a custom autogen.sh which invokes
-> po/update-potfiles as they
-> >> >>> +# don't ship a po/POTFILES.in (which is silly).  Without that file
-> gettext
-> >> >>> +# doesn't believe po/ is a gettext directory and won't generate
-> po/Makefile.
-> >> >>
-> >> >> Do we miss .in file from tarball ? Or is it missing in a git checkout
-> >> >> This is expected when building in a maintainer mode
-> >> >> Tarballs are produced by maintainers for users
-> >> >> Who wants to build from source
-> >> >
-> >> >
-> >> > The .in is available in tarballs, but not in git repo. It's generated
-> as explained above.
-> >>
-> >> right. Then revise the comment, since its expected to be absent when
-> >> we are building from
-> >> git sources.
-> >
-> >
-> > The fix and the comment were copied wholesale and were originally
-> written by Ross. How is POTFILES.in normally generated (i.e. without
-> involving custom autogen.sh)?
->
-> any .in file is usually generated by maintainer into source tarball
-> since the build is not consuming source tar anymore
-> this comment perhaps should be deleted.
->
-> >
-> > Alex
->
-
---0000000000003af0d9059ec11f09
+--000000000000bb135b059ec14092
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><div dir=3D"auto">I looked it up. Actually, <a href=3D"http://potfiles=
-.in">potfiles.in</a> is typically not a generated file, and should be place=
-d under version control. The comment is valid.</div></div><div dir=3D"auto"=
-><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon 17. Feb 2020 at 3.36, Khem Raj=
- &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bor=
-der-left:1px #ccc solid;padding-left:1ex">On Sun, Feb 16, 2020 at 12:45 PM =
-Alexander Kanavin<br>
-&lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavi=
-n@gmail.com</a>&gt; wrote:<br>
+<div><br></div><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">On Mon 17. Feb 2020 at 3.30, Khem Raj &lt;<a href=3D"mailto:raj.k=
+hem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
+ing-left:1ex"><br>
+&gt; Sure, but the testing should be done by people who need those other ma=
+chines to be able to boot weston; I would want to draw the line at what is =
+currently covered by the autobuilder (which is just qemux86_64).<br>
 &gt;<br>
-&gt; On Sun, 16 Feb 2020 at 21:07, Khem Raj &lt;<a href=3D"mailto:raj.khem@=
-gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt;&gt;<br>
-&gt;&gt; &gt;&gt;&gt; -S =3D &quot;${WORKDIR}/procps-ng-${PV}&quot;<br>
-&gt;&gt; &gt;&gt;&gt; +# Upstream has a custom autogen.sh which invokes po/=
-update-potfiles as they<br>
-&gt;&gt; &gt;&gt;&gt; +# don&#39;t ship a po/POTFILES.in (which is silly).=
-=C2=A0 Without that file gettext<br>
-&gt;&gt; &gt;&gt;&gt; +# doesn&#39;t believe po/ is a gettext directory and=
- won&#39;t generate po/Makefile.<br>
-&gt;&gt; &gt;&gt;<br>
-&gt;&gt; &gt;&gt; Do we miss .in file from tarball ? Or is it missing in a =
-git checkout<br>
-&gt;&gt; &gt;&gt; This is expected when building in a maintainer mode<br>
-&gt;&gt; &gt;&gt; Tarballs are produced by maintainers for users<br>
-&gt;&gt; &gt;&gt; Who wants to build from source<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt;<br>
-&gt;&gt; &gt; The .in is available in tarballs, but not in git repo. It&#39=
-;s generated as explained above.<br>
-&gt;&gt;<br>
-&gt;&gt; right. Then revise the comment, since its expected to be absent wh=
-en<br>
-&gt;&gt; we are building from<br>
-&gt;&gt; git sources.<br>
-&gt;<br>
-&gt;<br>
-&gt; The fix and the comment were copied wholesale and were originally writ=
-ten by Ross. How is POTFILES.in normally generated (i.e. without involving =
-custom autogen.sh)?<br>
 <br>
-any .in file is usually generated by maintainer into source tarball<br>
-since the build is not consuming source tar anymore<br>
-this comment perhaps should be deleted.<br>
-<br>
-&gt;<br>
-&gt; Alex<br>
-</blockquote></div></div>
+perhaps then make this chage such thst it only affects the<br>
+architecture you have tested.</blockquote><div dir=3D"auto"><br></div><div =
+dir=3D"auto">Fbdev backend is not documented, and there is no guarantee by =
+upstream that it will work. You wouldn=E2=80=99t want to use it on actual t=
+argets either as it has no hw acceleration support. I think the change shou=
+ld apply to all, we should test standard drm/kms code paths everywhere and =
+fix/report issues as needed.</div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto">Alex</div></div></div>
 
---0000000000003af0d9059ec11f09--
+--000000000000bb135b059ec14092--
