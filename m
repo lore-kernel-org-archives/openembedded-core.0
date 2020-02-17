@@ -1,27 +1,23 @@
-Return-Path: <robert.joslyn@redrectangle.org>
-X-Greylist: delayed 29929 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 17 Feb 2020 03:19:43 UTC
-Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net
-	[217.70.183.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E2AAB613CB
+Return-Path: <preid@electromag.com.au>
+Received: from anchovy1.45ru.net.au (anchovy1.45ru.net.au [203.30.46.145])
+	by mail.openembedded.org (Postfix) with ESMTP id C5C0F610EF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 03:19:43 +0000 (UTC)
-X-Originating-IP: 64.126.175.222
-Received: from [192.168.0.140] (w175222.es-b.wireless.fsr.net [64.126.175.222])
-	(Authenticated sender: robert.joslyn@redrectangle.org)
-	by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 6B03240002
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 03:19:43 +0000 (UTC)
-Message-ID: <8b82b87ae99aa9baa433ea74d38ace84a9124f36.camel@redrectangle.org>
-From: Robert Joslyn <robert.joslyn@redrectangle.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 16 Feb 2020 19:19:39 -0800
-In-Reply-To: <20200216200157.2273.54440@do>
-References: <20200216185909.1566175-1-robert.joslyn@redrectangle.org>
-	<20200216200157.2273.54440@do>
-User-Agent: Evolution 3.32.5 
+	Mon, 17 Feb 2020 03:26:14 +0000 (UTC)
+Received: (qmail 17380 invoked by uid 5089); 17 Feb 2020 03:26:15 -0000
+Received: by simscan 1.2.0 ppid: 17347, pid: 17351, t: 0.0384s
+	scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
+Received: from unknown (HELO ?192.168.0.22?)
+	(preid@electromag.com.au@203.59.235.95)
+	by anchovy1.45ru.net.au with ESMTPA; 17 Feb 2020 03:26:14 -0000
+From: Phil Reid <preid@electromag.com.au>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <e10c00e7-b64e-978a-6b2e-ffaa16577bbf@electromag.com.au>
+Date: Mon, 17 Feb 2020 11:26:14 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIGVsbDogVXBkYXRlIHRvIDAuMjg=?=
+Subject: bash: Fix CVE-2019-18276
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,56 +30,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2020 03:19:44 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 17 Feb 2020 03:26:15 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2020-02-16 at 20:01 +0000, Patchwork wrote:
-> == Series Details ==
-> 
-> Series: ell: Update to 0.28
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/22697/
-> State : failure
-> 
-> == Summary ==
-> 
-> 
-> Thank you for submitting this patch series to OpenEmbedded Core. This is
-> an automated response. Several tests have been executed on the proposed
-> series by patchtest resulting in the following failures:
-> 
-> 
-> 
-> * Issue             Series does not apply on top of target branch
-> [test_series_merge_on_head] 
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at c9b5802bbe)
-> 
-> 
-> 
-> If you believe any of these test results are incorrect, please reply to
-> the
-> mailing list (openembedded-core@lists.openembedded.org) raising your
-> concerns.
-> Otherwise we would appreciate you correcting the issues and submitting a
-> new
-> version of the patchset if applicable. Please ensure you add/increment
-> the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH v2]
-> ->
-> [PATCH v3] -> ...).
-> 
-> ---
-> Guidelines:     
-> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> 
+Hi All,
 
-Sorry for the noise, someone already sent in this update.
+I recently started get the following failure with bash after "b348e31c93f0 bash: Fix CVE-2019-18276"
+was applied to zeus.
 
-Thanks,
-Robert
+Any thoughts?
 
+
+NOTE: Applying patch 'bash50-001' (downloads/bash50-001)
+NOTE: Applying patch 'bash50-002' (downloads/bash50-002)
+NOTE: Applying patch 'bash50-003' (downloads/bash50-003)
+NOTE: Applying patch 'bash50-004' (downloads/bash50-004)
+NOTE: Applying patch 'bash50-005' (downloads/bash50-005)
+NOTE: Applying patch 'bash50-006' (downloads/bash50-006)
+NOTE: Applying patch 'bash50-007' (downloads/bash50-007)
+NOTE: Applying patch 'execute_cmd.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/execute_cmd.patch)
+NOTE: Applying patch 'mkbuiltins_have_stringize.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/mkbuiltins_have_stringize.patch)
+NOTE: Applying patch 'build-tests.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/build-tests.patch)
+NOTE: Applying patch 'test-output.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/test-output.patch)
+NOTE: Applying patch 'fix-run-builtins.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/fix-run-builtins.patch)
+NOTE: Applying patch 'bash-CVE-2019-18276.patch' (layers/openembedded-core/meta/recipes-extended/bash/bash/bash-CVE-2019-18276.patch)
+ERROR: Command Error: 'quilt --quiltrc 
+/home/preid/dev/linux/v2019.11/tmp-glibc/work/cortexa9t2hf-neon-emit-linux-gnueabi/bash/5.0-r0/recipe-sysroot-native/etc/quiltrc push' exited with 0  Output:
+Applying patch bash-CVE-2019-18276.patch
+patching file MANIFEST
+patching file bashline.c
+patching file builtins/help.def
+patching file config.h.in
+patching file configure
+Hunk #1 FAILED at 10281.
+1 out of 1 hunk FAILED -- rejects in file configure
+patching file configure.ac
+patching file doc/bash.1
+patching file doc/bashref.texi
+patching file lib/glob/glob.c
+patching file pathexp.c
+patching file shell.c
+patching file tests/glob.tests
+patching file tests/glob6.sub
+patching file tests/glob7.sub
+Patch bash-CVE-2019-18276.patch does not apply (enforce with -f)
+DEBUG: Python function patch_do_patch finished
+DEBUG: Python function do_patch finished
+
+-- 
+Regards
+Phil Reid
+
+ElectroMagnetic Imaging Technology Pty Ltd
+Development of Geophysical Instrumentation & Software
+www.electromag.com.au
+
+3 The Avenue, Midland WA 6056, AUSTRALIA
+Ph: +61 8 9250 8100
+Fax: +61 8 9250 7100
+Email: preid@electromag.com.au
 
