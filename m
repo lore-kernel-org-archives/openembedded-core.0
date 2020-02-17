@@ -1,51 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 56C45613CB
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8171160C92
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 02:36:10 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id l21so11064192qtr.8
+	Mon, 17 Feb 2020 03:02:55 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01H32FlF015795
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Feb 2020 18:36:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=El3qywr58RHcgXEFPd2KmvmNUkWm58ILPL0Z9Z1yIz8=;
-	b=kNPfT73xgqosc+AHYbqgvSqJUjNuQVnaymC4EYsaFrUT1KEkHmMmiOqftMAm5DQ/6e
-	pXXGnkv48GEyYgrmILzsE16Uq64yoI7eBS74VRYrL8BKSTsPy24Fpyl7Sw68IsB6J3Gn
-	3lwSATFz7CsYEb5OenPbMqiIzWzAqXIQyyRdrrTfw34bURISkX4l9Z1/3ja9JIPtZ2ag
-	6CSjpQHxBSXHaHeE+N+5kAyNkjw5XnHFsBalMWfnJ7O7GUWvny2cHfL9HPk+V0TEM8WM
-	fVhr4MKpm4XogL9bqFWZ8c2Sdn7b+Y1aU+CPgwGllKKZDz/XRZZUNn4vFUAJY5bbHTSV
-	A0Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=El3qywr58RHcgXEFPd2KmvmNUkWm58ILPL0Z9Z1yIz8=;
-	b=QmHf5oLUhews+Vapf6quGg2RVk7xRRO+uPlZHMXUApnTrgTnDerWalM6M0CfGvUkP7
-	rMTmu78WcrVk9o1RJxuIc6CqCDDbuZyjmQb4c0oymJPygFAjUz2vvLHBWstCMmt8IMBo
-	cF0Oyo8jrPvc9hg9VrHINSi71rYpUTQRuikB0fwOBx+RE2OwZG8Iy/PgGsQx72svt6KM
-	DKEOdiJWgcPUJk545vPMHfL2pdXK1XEneTNVOX2pBOjGNn/EW57Oa7wCfojLj2U5B/xf
-	nSgBgtFuNO/02kiyH5p3XRUNyedykgIBv4rPfBx5rk3wxJsy3OtZnspbIiALPpe4yONS
-	mJlg==
-X-Gm-Message-State: APjAAAUUvSxctFED7AhqvBCbfWGFaki5ztyzZE/eLio9Oakkap9DHttO
-	7K1kOhA5pEvAEDjJFlDsNbixIn/2Mm1ACfwE9B0=
-X-Google-Smtp-Source: APXvYqzsmOLDTbLb4FyhzUGenQoCFGGortWNFzUxjL7wZB1DkuclxsuXYR+2Dn6ChlxNd3fek0BkiOW0vRkanPLJJfU=
-X-Received: by 2002:ac8:4419:: with SMTP id j25mr11555401qtn.378.1581906970892;
-	Sun, 16 Feb 2020 18:36:10 -0800 (PST)
+	Sun, 16 Feb 2020 19:02:45 -0800
+Received: from [128.224.162.175] (128.224.162.175) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Sun, 16 Feb 2020 19:02:05 -0800
+From: He Zhe <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+References: <20200210131128.28390-1-zhe.he@windriver.com>
+Message-ID: <736eaf22-3981-44d9-84f5-ee6f6d162c3e@windriver.com>
+Date: Mon, 17 Feb 2020 11:02:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-References: <20200216155015.21738-1-alex.kanavin@gmail.com>
-	<20200216155015.21738-2-alex.kanavin@gmail.com>
-	<CAMKF1spfArttzxcU2Cug0wpT5AWozci--eEw1L9MKVmM0a2GrA@mail.gmail.com>
-	<CANNYZj8qJVAh9Zz_u5OT0HRCn_LD8ZG9E3-abjJLZbo7=0UzCw@mail.gmail.com>
-	<CAMKF1sqrxL4H-gYab-VopR-ZUhiPqo3f3XXQhedaKrZ7eGXtZQ@mail.gmail.com>
-	<CANNYZj_2H6YJ4hO69Rwqqs6NjJynX-yigJhTdhj7tTFgbBroUw@mail.gmail.com>
-In-Reply-To: <CANNYZj_2H6YJ4hO69Rwqqs6NjJynX-yigJhTdhj7tTFgbBroUw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 16 Feb 2020 18:35:44 -0800
-Message-ID: <CAMKF1soQsumU153u0ZmV6AXOiT49r3smLGfjBYYbVYEQ2-N0Eg@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 02/10] procps: upstream has switched to gitlab
+In-Reply-To: <20200210131128.28390-1-zhe.he@windriver.com>
+X-Originating-IP: [128.224.162.175]
+Subject: Re: [PATCH] cryptodev-module: Fix build failure with kernel v5.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +35,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2020 02:36:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 17 Feb 2020 03:02:55 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Sun, Feb 16, 2020 at 12:45 PM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Sun, 16 Feb 2020 at 21:07, Khem Raj <raj.khem@gmail.com> wrote:
->>
->> >>> -S = "${WORKDIR}/procps-ng-${PV}"
->> >>> +# Upstream has a custom autogen.sh which invokes po/update-potfiles as they
->> >>> +# don't ship a po/POTFILES.in (which is silly).  Without that file gettext
->> >>> +# doesn't believe po/ is a gettext directory and won't generate po/Makefile.
->> >>
->> >> Do we miss .in file from tarball ? Or is it missing in a git checkout
->> >> This is expected when building in a maintainer mode
->> >> Tarballs are produced by maintainers for users
->> >> Who wants to build from source
->> >
->> >
->> > The .in is available in tarballs, but not in git repo. It's generated as explained above.
->>
->> right. Then revise the comment, since its expected to be absent when
->> we are building from
->> git sources.
->
->
-> The fix and the comment were copied wholesale and were originally written by Ross. How is POTFILES.in normally generated (i.e. without involving custom autogen.sh)?
+Ping.
 
-any .in file is usually generated by maintainer into source tarball
-since the build is not consuming source tar anymore
-this comment perhaps should be deleted.
+Zhe
 
+On 2/10/20 9:11 PM, zhe.he@windriver.com wrote:
+> From: He Zhe <zhe.he@windriver.com>
 >
-> Alex
+> Backport from upstream to fix the following build failure.
+>
+> cryptlib.c:162:37: error: 'crypto_ablkcipher_type' undeclared
+> (first use in this function); did you mean 'crypto_skcipher_tfm'?
+> 162 |   if ((tfm->__crt_alg->cra_type == &crypto_ablkcipher_type)
+>     |                                     ^~~~~~~~~~~~~~~~~~~~~~
+>     |                                     crypto_skcipher_tfm
+> cryptlib.c:169:25: error: 'struct crypto_alg' has no member named
+> 'cra_ablkcipher'
+> 169 |    alg = &tfm->__crt_alg->cra_ablkcipher;
+>     |                         ^~
+> cryptlib.c:170:21: error: dereferencing pointer to incomplete type
+> 'struct ablkcipher_alg'
+> 170 |    min_keysize = alg->min_keysize;
+>     |                     ^~
+>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+>  .../cryptodev/cryptodev-module_1.10.bb        |  1 +
+>  ...-cryptlib.c-fix-build-on-kernel-v5.5.patch | 49 +++++++++++++++++++
+>  2 files changed, 50 insertions(+)
+>  create mode 100644 meta/recipes-kernel/cryptodev/files/0001-cryptlib.c-fix-build-on-kernel-v5.5.patch
+>
+> diff --git a/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb b/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb
+> index 552eb6abaa..89b52d8d95 100644
+> --- a/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb
+> +++ b/meta/recipes-kernel/cryptodev/cryptodev-module_1.10.bb
+> @@ -9,6 +9,7 @@ DEPENDS += "cryptodev-linux"
+>  
+>  SRC_URI += " \
+>  file://0001-Disable-installing-header-file-provided-by-another-p.patch \
+> +file://0001-cryptlib.c-fix-build-on-kernel-v5.5.patch \
+>  "
+>  
+>  EXTRA_OEMAKE='KERNEL_DIR="${STAGING_KERNEL_DIR}" PREFIX="${D}"'
+> diff --git a/meta/recipes-kernel/cryptodev/files/0001-cryptlib.c-fix-build-on-kernel-v5.5.patch b/meta/recipes-kernel/cryptodev/files/0001-cryptlib.c-fix-build-on-kernel-v5.5.patch
+> new file mode 100644
+> index 0000000000..1af9aed8d8
+> --- /dev/null
+> +++ b/meta/recipes-kernel/cryptodev/files/0001-cryptlib.c-fix-build-on-kernel-v5.5.patch
+> @@ -0,0 +1,49 @@
+> +From 98b163a23f6b9fbdc18c3644cf94a75cdcd0cc80 Mon Sep 17 00:00:00 2001
+> +From: Andrei Botila <andrei.botila@nxp.com>
+> +Date: Wed, 27 Nov 2019 09:53:37 +0200
+> +Subject: [PATCH] cryptlib.c: fix build on kernel v5.5+
+> +
+> +Starting with kernel v5.5-rc1 ablkcipher and blkcipher are removed and
+> +symmetric key operations will rely solely on skcipher:
+> +commit d63007eb954 ("crypto: ablkcipher - remove deprecated and unused ablkcipher support").
+> +
+> +When cryptodev will use higher kernel versions > 5.4 will need to use the
+> +skcipher interface instead.
+> +
+> +Signed-off-by: Andrei Botila <andrei.botila@nxp.com>
+> +
+> +Upstream-Status: Backport [https://github.com/cryptodev-linux/cryptodev-linux/
+> +commit/98b163a23f6b9fbdc18c3644cf94a75cdcd0cc80]
+> +
+> +Signed-off-by: He Zhe <zhe.he@windriver.com>
+> +
+> +---
+> + cryptlib.c | 5 ++++-
+> + 1 file changed, 4 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/cryptlib.c b/cryptlib.c
+> +index 4a87037..e2a4198 100644
+> +--- a/cryptlib.c
+> ++++ b/cryptlib.c
+> +@@ -159,6 +159,7 @@ int cryptodev_cipher_init(struct cipher_data *out, const char *alg_name,
+> + 
+> + #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 8, 0))
+> + 		tfm = crypto_skcipher_tfm(out->async.s);
+> ++#if (LINUX_VERSION_CODE <= KERNEL_VERSION(5, 4, 0))
+> + 		if ((tfm->__crt_alg->cra_type == &crypto_ablkcipher_type)
+> + #if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 0, 0))
+> + 		    || (tfm->__crt_alg->cra_type == &crypto_givcipher_type)
+> +@@ -169,7 +170,9 @@ int cryptodev_cipher_init(struct cipher_data *out, const char *alg_name,
+> + 			alg = &tfm->__crt_alg->cra_ablkcipher;
+> + 			min_keysize = alg->min_keysize;
+> + 			max_keysize = alg->max_keysize;
+> +-		} else {
+> ++		} else
+> ++#endif
+> ++		{
+> + 			struct skcipher_alg *alg;
+> + 
+> + 			alg = crypto_skcipher_alg(out->async.s);
+> +-- 
+> +2.7.4
+> +
+
 
