@@ -1,49 +1,53 @@
-Return-Path: <jonathan.rajotte-julien@efficios.com>
-X-Greylist: delayed 326 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 17 Feb 2020 16:53:44 UTC
-Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
-	by mail.openembedded.org (Postfix) with ESMTP id DF5F061185
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 7B8B4613C8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 16:53:44 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 57DC2247708;
-	Mon, 17 Feb 2020 11:48:19 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id fQGcIUdEvvYZ; Mon, 17 Feb 2020 11:48:19 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id EE359247448;
-	Mon, 17 Feb 2020 11:48:18 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com EE359247448
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1581958099;
-	bh=5pa++iG3nrV3d2NkFDwIg93QVcuhO+HEoRxJtxgBckY=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=fYnnaHp0EgWVL7LA8VZy0ayXNQxkgNbtvMibq3TeEqCj59wFKSHVoQqPU0p71FR7O
-	FeCRnm25UPeE0nL5FAJvt3X0e7q2dhjW1WkogWlNPAVMtWKyMmlw53n67fgyOq2e4t
-	MHBa4aRtK5QpkViwAnNUYIBPw30gS2odVlHqqBJY4TyuEkz3uLZ/Fa3Xb9gurSiwrp
-	6IyfVa+dtuBhN2dG3k8OhwtUQD7XICceLsq/1sg2mqKfxpLZhnUEQpqSvWg+V22Pyh
-	4QkiCNPBsWm+Xje2mWL1i+Qk4TWWyYgTJj6f/hT97IzjbLNOg+U4/pcNmPdgtjdlgD
-	+SkzOm6nWa3KQ==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id gvqGoMQpbCCK; Mon, 17 Feb 2020 11:48:18 -0500 (EST)
-Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-	by mail.efficios.com (Postfix) with ESMTPSA id BDD0824724A;
-	Mon, 17 Feb 2020 11:48:18 -0500 (EST)
-Date: Mon, 17 Feb 2020 11:48:18 -0500
-From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20200217164818.GC17818@joraj-alpa>
-References: <20200217105930.902-1-wallinux@gmail.com>
-	<ac6d6a63-124f-099f-d1ff-e3092b506341@gmail.com>
-	<CANNYZj-nk-txm1rUGd8ABY10ZQ=DkMEA0CexQsMDinuQxaTmkA@mail.gmail.com>
+	Mon, 17 Feb 2020 18:39:48 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id p7so17100752qkh.10
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Feb 2020 10:39:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=88qxoW69Xq6247QpQ9xk3Aydaa3U5UQDjbRHCCrurXY=;
+	b=LaLsHgJIr9U8D3qNDCgEVa8TWKe3xrVNG9GIlqNgGz/vIAam6UHKWd2JmVMoEmMTw2
+	74v5LEvp5XHbvS8tTIf3lAmkTBvlYSohc6aiFB6D8Q/UUvz3onDLbvfWPX2TqEomVku0
+	WHFPcakIF+Qo0REhPa9A4fT5SZrGMpvnPKX3e5p4fFLgTmRn8C6F+hREsX/oU7tsMK/o
+	qW9VeM/OVX6h6tf3tWFmbFlQZ/ISPd12OcqpQ2yc5tZVhENnrbJHk3lhqR9cwEH8hE2d
+	O07nJD2hJ8a+CCgDRlCBYgA61PBTAn0pig/186AfyhfTwjPydyklZjzCIcgQhzP16nyQ
+	Fu8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=88qxoW69Xq6247QpQ9xk3Aydaa3U5UQDjbRHCCrurXY=;
+	b=T/QgNrRSuCVEmZ14ltNJXFjKtbPe3Q8YPojSanRnLeqqcC/wxYmN7vgwDxNfcLUXZn
+	V659vXraq3mmlDJz0MoSoQmrlHjC4HX1GDUyRt56eWIuRQQFC7zzNuNn3crS3CreSp43
+	gGtZ4Yr6DPe/P8uZY1mdWo3oIcLKZnLNVxb8Bzqb0WdhX5ckVfsaJGsheh/5NCXBwSsy
+	Er7xtl6gD0i6M01/SObvhl/hn7x5V4vcByv+PuVEPm9oiC7yrv9GZI0wNWzup4OdQjAh
+	xUJ85CoHOmLv3FNCtI6dskLmWO8drvv55h2PDXdRF0EwU25wiw7XBWaS3CNCptiwm5XT
+	VnvQ==
+X-Gm-Message-State: APjAAAU7KuTMxnQ9A4VF1hUJor+VR6n7rEKLpZQ9/vS/z9bBz91BjPRn
+	BeimC7cesDV5c7T0zdKT/bCb008+rWvPf1eDeg8=
+X-Google-Smtp-Source: APXvYqwIZaRhc6V2Di98Z4lXcCnQtQxbZxNZzPQMaNCdRkFij6zXK2r43LaRPQt/8JnOFNQEntE5Fqas1UpLIaD0omo=
+X-Received: by 2002:a37:9c42:: with SMTP id f63mr16038598qke.9.1581964788951; 
+	Mon, 17 Feb 2020 10:39:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj-nk-txm1rUGd8ABY10ZQ=DkMEA0CexQsMDinuQxaTmkA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] babeltrace: update to 1.5.8
+References: <20200216155015.21738-1-alex.kanavin@gmail.com>
+	<20200216155015.21738-2-alex.kanavin@gmail.com>
+	<CAMKF1spfArttzxcU2Cug0wpT5AWozci--eEw1L9MKVmM0a2GrA@mail.gmail.com>
+	<CANNYZj8qJVAh9Zz_u5OT0HRCn_LD8ZG9E3-abjJLZbo7=0UzCw@mail.gmail.com>
+	<CAMKF1sqrxL4H-gYab-VopR-ZUhiPqo3f3XXQhedaKrZ7eGXtZQ@mail.gmail.com>
+	<CANNYZj_2H6YJ4hO69Rwqqs6NjJynX-yigJhTdhj7tTFgbBroUw@mail.gmail.com>
+	<CAMKF1soQsumU153u0ZmV6AXOiT49r3smLGfjBYYbVYEQ2-N0Eg@mail.gmail.com>
+	<CANNYZj_8Hr8mrV6ND+E2Si6PDmZ9e0dzryucD8zEVFYnmx7jHw@mail.gmail.com>
+In-Reply-To: <CANNYZj_8Hr8mrV6ND+E2Si6PDmZ9e0dzryucD8zEVFYnmx7jHw@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 17 Feb 2020 10:39:22 -0800
+Message-ID: <CAMKF1so8mMqiuMkQwxTNQ7nL+sKOcdfQDLD8ryiq+NJCJAs5WA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 02/10] procps: upstream has switched to gitlab
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,105 +60,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2020 16:53:45 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 17 Feb 2020 18:39:48 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Ok, thanks. for confirmation
 
-On Mon, Feb 17, 2020 at 12:43:43PM +0100, Alexander Kanavin wrote:
-> Also, there=E2=80=99s now a babeltrace 2, so we should update to that r=
-ather ?
-
-Babeltrace 1.5.x and Babeltrace 2 are "setup" to be co-installed.
-
-Currently lttng-tools depends on babeltrace 1.5 for testing (the "babeltr=
-ace"
-excutable). We plan to make the switch officialy in the upcoming months.
-
-We recommend (upstream) that if a Babeltrace2 recipe is to be exposed tha=
-t it is
-done so in parallel to a Babeltrace 1.5.x recipe and that the default be
-Babeltrace 1.5.x for now. AFAIK all tests from lttng-tools do pass when u=
-sing
-Babeltrace2 and babeltrace2 is full compatible (CLI) with babeltrace 1.5.=
-x.
-
-Still, we recommended that for now 1.5.x be the default.
-
-Cheers
-
->=20
+On Mon, Feb 17, 2020 at 12:12 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> I looked it up. Actually, potfiles.in is typically not a generated file, and should be placed under version control. The comment is valid.
+>
 > Alex
->=20
-> On Mon 17. Feb 2020 at 12.03, Jacob Kroon <jacob.kroon@gmail.com> wrote=
-:
->=20
-> > On 2/17/20 11:59 AM, Anders Wallin wrote:
-> > > updated HOMEPAGE to http://babeltrace.org/
-> > > updated LICENSE to include LGPLv2.1
-> > >
-> > > Signed-off-by: Anders Wallin <wallinux@gmail.com>
-> > > ---
-> > >   meta/recipes-kernel/lttng/babeltrace_1.5.8.bb | 20 ++++++++++++++=
-+++++
-> > >   1 file changed, 20 insertions(+)
-> > >   create mode 100644 meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-> > >
-> > > diff --git a/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-> > b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-> > > new file mode 100644
-> > > index 0000000000..b6b7653037
-> > > --- /dev/null
-> > > +++ b/meta/recipes-kernel/lttng/babeltrace_1.5.8.bb
-> > > @@ -0,0 +1,20 @@
-> > > +SUMMARY =3D "Babeltrace - Trace Format Babel Tower"
-> > > +DESCRIPTION =3D "Babeltrace provides trace read and write librarie=
-s in
-> > host side, as well as a trace converter, which used to convert LTTng =
-2.0
-> > traces into human-readable log."
-> > > +HOMEPAGE =3D "http://babeltrace.org/"
-> > > +BUGTRACKER =3D "https://bugs.lttng.org/projects/babeltrace"
-> > > +LICENSE =3D "MIT & GPLv2 & LGPLv2.1"
-> > > +LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D76ba15dd76a248e1dd526bc=
-a0e2125fa"
-> > > +
-> > > +DEPENDS =3D "glib-2.0 util-linux popt bison-native flex-native"
-> > > +
-> > > +SRC_URI =3D "git://
-> > git.linuxfoundation.org/diamon/babeltrace.git;branch=3Dstable-1.5"
-> > > +SRCREV =3D "054a54ae10b01a271afc4f19496c041b10fb414c"
-> > > +UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)$"
-> > > +
-> > > +S =3D "${WORKDIR}/git"
-> > > +
-> > > +inherit autotools pkgconfig
-> > > +
-> > > +EXTRA_OECONF =3D "--disable-debug-info"
-> > > +
-> > > +ASNEEDED =3D ""
-> > >
-> >
-> > Looks like this patch adds a new recipe for 1.5.8, and keeps the 1.5.=
-7
-> > recipe. Was that intentional ?
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
---=20
-Jonathan Rajotte-Julien
-EfficiOS
+>
+> On Mon 17. Feb 2020 at 3.36, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On Sun, Feb 16, 2020 at 12:45 PM Alexander Kanavin
+>> <alex.kanavin@gmail.com> wrote:
+>> >
+>> > On Sun, 16 Feb 2020 at 21:07, Khem Raj <raj.khem@gmail.com> wrote:
+>> >>
+>> >> >>> -S = "${WORKDIR}/procps-ng-${PV}"
+>> >> >>> +# Upstream has a custom autogen.sh which invokes po/update-potfiles as they
+>> >> >>> +# don't ship a po/POTFILES.in (which is silly).  Without that file gettext
+>> >> >>> +# doesn't believe po/ is a gettext directory and won't generate po/Makefile.
+>> >> >>
+>> >> >> Do we miss .in file from tarball ? Or is it missing in a git checkout
+>> >> >> This is expected when building in a maintainer mode
+>> >> >> Tarballs are produced by maintainers for users
+>> >> >> Who wants to build from source
+>> >> >
+>> >> >
+>> >> > The .in is available in tarballs, but not in git repo. It's generated as explained above.
+>> >>
+>> >> right. Then revise the comment, since its expected to be absent when
+>> >> we are building from
+>> >> git sources.
+>> >
+>> >
+>> > The fix and the comment were copied wholesale and were originally written by Ross. How is POTFILES.in normally generated (i.e. without involving custom autogen.sh)?
+>>
+>> any .in file is usually generated by maintainer into source tarball
+>> since the build is not consuming source tar anymore
+>> this comment perhaps should be deleted.
+>>
+>> >
+>> > Alex
 
