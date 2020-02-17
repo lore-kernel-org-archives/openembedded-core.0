@@ -1,56 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f193.google.com (mail-vk1-f193.google.com
-	[209.85.221.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0D6656153A
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 57B446152B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 19:29:41 +0000 (UTC)
-Received: by mail-vk1-f193.google.com with SMTP id b2so4876549vkk.4
+	Mon, 17 Feb 2020 19:41:00 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id p14so13790132edy.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 11:29:43 -0800 (PST)
+	Mon, 17 Feb 2020 11:41:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ys2SI0SNBaYuOUuCcvViWK0i1SADtxkwzSUc+MzEdfs=;
-	b=e5B+WgwdbJeh8oG9PZwVKryVPS1cgExFZ6cepHRR54OlCbLClGmyLhS9XZ9LKCcec+
-	BoXQreYbfEjPdVhUSj8tzVcUMClJ12d+Fdx5pjzP3Qzrr+PVPniI6DDXFtczz5WeZBYp
-	yHRIc+2bzQeCdZxVv1MLEeXAkRRF0wCqb1EmV8GKg6pOSsVxK2KqWW27Fwou1Xvp31WL
-	8PFLvje5h/QEETFGl3u3K1gozwJS2sZwJBVDSQKAiiyhavF7Hws6oXNHcTFhW/QJNQQv
-	X8jD3j7LHDr7RMlbZp55ZrUOpaBY/MRTnFDu6KK+5jq83+bZbGfZZZ7lHUZkqRCuX6IZ
-	WClQ==
+	:cc; bh=D75BAdtTQNQZNQBytz5N/PUSqviGdTS2ZfryAt/2ftQ=;
+	b=qb+DHM4iVOae7W9ayi40oXfzkStO9wDp8OPS/HBgYyjONw4raSsA3tsunqc/HAOqS1
+	WPRkzWzHsK+WihhpaUHW66IVHQov5zj0blCrd4H3yTXI/t6qA30J9Ka60bFBIvMeJMQX
+	AAdmDdRlDsTXa6XtmwzBvarxmpsk+2J9CoEKSJ+Rv/XdqnpVOq3bABjPhGQnJA2GQDLU
+	K6kSqnNCXRXAv5wVg7SpwgvtFOuKe3P28ZmMhEiIhF6MfggtaH5jg0PnKnvKRGedfoI/
+	2A1vUaie4AXPdunOkc+RcGPe6usdaMKcbGZ639NCgmeuyzYoc2GuTaz4t/UvFN5RRnri
+	KN9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Ys2SI0SNBaYuOUuCcvViWK0i1SADtxkwzSUc+MzEdfs=;
-	b=bidBtqJlXwh3JFS0qHdKCnP8ZOLD3n7mf5oR7CsDGzorm8SAXDaUeH+iL/JFcth1xW
-	INcQrwl9inW0UEVVFENWdbPOg6bqkKEsRulzY28vfcjkonmQ0PTWfSqX3lIJtfgcasJu
-	BCr7vU4pM3k1d5XOuMAslw0r74apUXmItRFNszNDYOABy+7GcHZ4gCGpCBp7P/zyh6Nz
-	oDl0tfDwTpX+j7eOqULRANFQLys8EsuYEDXG8GwL5szqnNM7EDJvRxztVXKb4YWd854Z
-	3q8TE0KDJJlHhncld+FQP7PNLDgTmBe1549kQwYVfM0q/YFppDzqEdj7hDXHqpX4zhIB
-	kkMw==
-X-Gm-Message-State: APjAAAX2ciUhl/i76Dq0xz5l5IVI8PZjy5B2pbFHwiLld6N8hyeHzIAb
-	J0xKW3BQJtyqhCptRSt5PwMqSBUfhhLFJlJbNV4=
-X-Google-Smtp-Source: APXvYqynnsScX5MYffCS58UHW3JK1FYY8Oxs/PdKi1TL4A0Gu7xTJ9xidudhlP0LRzavcE4s3DEgzLVY/2d5fLLE0Ck=
-X-Received: by 2002:a1f:7cc2:: with SMTP id x185mr6419149vkc.1.1581967782820; 
-	Mon, 17 Feb 2020 11:29:42 -0800 (PST)
+	bh=D75BAdtTQNQZNQBytz5N/PUSqviGdTS2ZfryAt/2ftQ=;
+	b=epnfIPzWa1EliOcJNavbhsH67cv8GPr3S4dQTxYyQP38TndsvonPpmkynusOkcHNax
+	1KQM8yu80LXwvNPJmnjU1+F3b+vRSDybjgzbrIqEmpldZcAfA8kFH70MeQUik8nDOiHI
+	XFy53uam85du5ayL5h0ffCoU30wAoUAcUMYSqrxXGdS2S32OpddBJcPe5b2pzZxW+x1f
+	T5YPMVIe1iuLTsrvDh5JRHoWpBfL5M/Massef7EW9pOhxmP5KUR5oQPBbRSx944kaIbU
+	2mTJMcE8B2P/zf0t7NPV1S/4pVKw8HidYXhIZN6L3Fz2N5h/8xRwpsVMVtiDCKPLaXrR
+	d9Yw==
+X-Gm-Message-State: APjAAAXDePqyRwtY4IyCDZB3PG4tQhoTIFFTNZqliKXh4VRYc3mEZlqK
+	t6BAVxPPceLS5SycEP+xI6mkIktcrtOXNrPzgD8=
+X-Google-Smtp-Source: APXvYqy0YrIudY5ky4/Tn8qJHBg2tM1qcodWQDOKRsd1urvpiyHJADWL8uaPNn38hhAjRizI7oLbuaWMCHRmyKqhq1I=
+X-Received: by 2002:a17:906:4bd1:: with SMTP id
+	x17mr16380425ejv.181.1581968460992; 
+	Mon, 17 Feb 2020 11:41:00 -0800 (PST)
 MIME-Version: 1.0
-References: <20200216155015.21738-1-alex.kanavin@gmail.com>
-	<20200216155015.21738-5-alex.kanavin@gmail.com>
-	<CAMKF1sppws+PSjDojzi7+=p_UjEkEafGa1_WtRLCpqO_73nhGA@mail.gmail.com>
-	<CANNYZj8W0A12inq_K3kiShN7dsU3tsTuOgh4LZAtP-QcUVDaXQ@mail.gmail.com>
-	<CAMKF1so86RKsiAXC=vzpT0wu8E=jiFMzJsVBdGb7SQ2TKxBo6Q@mail.gmail.com>
-	<CANNYZj_k+iXWB_V3PQOv8eE8Pvwt8B-q4=x_F4e4hzisW-NXaA@mail.gmail.com>
-	<CAMKF1spO36x=P-ts28+BEg+Pvw5FcEWNpyNyJGXcFB_jXSohUA@mail.gmail.com>
-	<CANNYZj8ZC_pVkSHTisPryOJE7GfMqot5a=5uP5LUm3fB0nVMYw@mail.gmail.com>
-	<CANNYZj9u8f+qD_3RTb+9O9cbNBk0UgteBcV_d7X2ffpCkg4UxA@mail.gmail.com>
-	<CAMKF1srMfa-0ADdKErgwXhQa6ypDL7RGznsBQ0ET7cZ29ErzXA@mail.gmail.com>
-In-Reply-To: <CAMKF1srMfa-0ADdKErgwXhQa6ypDL7RGznsBQ0ET7cZ29ErzXA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 17 Feb 2020 20:29:31 +0100
-Message-ID: <CANNYZj_ktJg=JF=nTPvHWBajA+7t2zMPwZmbUFLOKRWD1uP4_A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+References: <20200214223334.2473195-1-raj.khem@gmail.com>
+	<CADkTA4N6vXw-LANzqZiXtngeO-X9dPqb0kGvhBxnJe4FFHgxkw@mail.gmail.com>
+In-Reply-To: <CADkTA4N6vXw-LANzqZiXtngeO-X9dPqb0kGvhBxnJe4FFHgxkw@mail.gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 17 Feb 2020 14:40:49 -0500
+Message-ID: <CADkTA4PrX1V9or9Y2in6Cx4sdAy+dX3iWaZP3rrLn+XWcxhk+g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/10] weston-init: use the drm backend rather than fbdev one
+Subject: Re: [PATCH] db: Fix timespec length assumptions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,61 +57,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2020 19:29:42 -0000
-Content-Type: multipart/alternative; boundary="000000000000bdc01b059eca93e4"
-
---000000000000bdc01b059eca93e4
+X-List-Received-Date: Mon, 17 Feb 2020 19:41:01 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 17 Feb 2020 at 19:45, Khem Raj <raj.khem@gmail.com> wrote:
+On Fri, Feb 14, 2020 at 11:10 PM Bruce Ashfield
+<bruce.ashfield@gmail.com> wrote:
+>
+> On Fri, Feb 14, 2020 at 5:33 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > This should fix the vdso crashes seen with kernel 5.0+
+>
+> cool. I'll test this locally and follow up over the weekend.
+
+I can confirm that 32bit x86 + musl no longer traps for me with this
+patch in place.
+
+I'll bump the 5.4 recipes again, retest and then send the patches to
+make them the default.
+
+Bruce
 
 >
-> hw acceleration is not going to work for non-x86 qemus, while other
-> qemus should be fixed but not
-> by breaking them first. As suggested limit this change to tested
-> architectures and it would be fine.
-> then if interested to fix it globally make changes to fix rest of
-> qemus and then instrument global change
-> after that
+> Bruce
 >
+> >
+> > python3[11312] general protection fault ip:b7e966b0 sp:bf8175cc error:0 in libc.so[b7e8b000+6b000]
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > ---
+> >  ...001-clock-Do-not-define-own-timespec.patch | 45 +++++++++++++++++++
+> >  meta/recipes-support/db/db_5.3.28.bb          |  1 +
+> >  2 files changed, 46 insertions(+)
+> >  create mode 100644 meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch
+> >
+> > diff --git a/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch b/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch
+> > new file mode 100644
+> > index 0000000000..9d51a44a26
+> > --- /dev/null
+> > +++ b/meta/recipes-support/db/db/0001-clock-Do-not-define-own-timespec.patch
+> > @@ -0,0 +1,45 @@
+> > +From 96b303caf70a7635953c36e5bfb9ad6e75cb7637 Mon Sep 17 00:00:00 2001
+> > +From: Khem Raj <raj.khem@gmail.com>
+> > +Date: Fri, 14 Feb 2020 14:12:59 -0800
+> > +Subject: [PATCH] clock: Do not define own timespec
+> > +
+> > +timespec is provided by libc and its best left to libc
+> > +os_gettime takes a db_timespec and passed its address to clock_gettime
+> > +which assumes that db_timespec and timespec are same but actually
+> > +its 12-bytes here and libc has 16-bytes
+> > +
+> > +This can cause problems especially with 64bit time_t
+> > +
+> > +Upstream-Status: Pending
+> > +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > +---
+> > + src/dbinc/clock.h | 17 +----------------
+> > + 1 file changed, 1 insertion(+), 16 deletions(-)
+> > +
+> > +--- a/src/dbinc/clock.h
+> > ++++ b/src/dbinc/clock.h
+> > +@@ -44,22 +44,8 @@
+> > + extern "C" {
+> > + #endif
+> > +
+> > +-/*
+> > +- * This declaration is POSIX-compatible.  Because there are lots of different
+> > +- * time.h include file patterns out there, it's easier to declare our own name
+> > +- * in all cases than to try and discover if a system has a struct timespec.
+> > +- * For the same reason, and because we'd have to #include <sys/time.h> in db.h,
+> > +- * we don't export any timespec structures in the DB API, even in places where
+> > +- * it would make sense, like the replication statistics information.
+> > +- */
+> > +-typedef struct {
+> > +-      time_t  tv_sec;                         /* seconds */
+> > +-#ifdef HAVE_MIXED_SIZE_ADDRESSING
+> > +-      int32_t tv_nsec;
+> > +-#else
+> > +-      long    tv_nsec;                        /* nanoseconds */
+> > +-#endif
+> > +-} db_timespec;
+> > ++#include <time.h>
+> > ++#define db_timespec struct timespec
+> > +
+> > + /* Operations on timespecs */
+> > + #undef        timespecclear
+> > diff --git a/meta/recipes-support/db/db_5.3.28.bb b/meta/recipes-support/db/db_5.3.28.bb
+> > index a2969055a6..badb79f9ea 100644
+> > --- a/meta/recipes-support/db/db_5.3.28.bb
+> > +++ b/meta/recipes-support/db/db_5.3.28.bb
+> > @@ -26,6 +26,7 @@ SRC_URI += "file://fix-parallel-build.patch \
+> >              file://0001-configure-Add-explicit-tag-options-to-libtool-invoca.patch \
+> >              file://sequence-type.patch \
+> >              file://0001-Fix-libc-compatibility-by-renaming-atomic_init-API.patch \
+> > +            file://0001-clock-Do-not-define-own-timespec.patch \
+> >             "
+> >  # We are not interested in official latest 6.x versions;
+> >  # let's track what debian is using.
+> > --
+> > 2.25.0
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
 
-arm64 qemu should work, as it is using the same video hardware as x86_64.
-My computing resources are severely limited right now, so I cannot try it
-out immediately unfortunately, but I'll get to it, or you are welcome to
-try and report.
-Mips can be either fixed like suggested, or be a specific exception.
 
-For the rest of the targets, I see that you have extended the fbdev
-fallback to qemuall only on Jan 9 this year. So it's very unlikely anyone
-is using them to run weston (not to mention how painfully slow that would
-be), and so it would just be wasteful to test or fix them.
 
-Alex
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
---000000000000bdc01b059eca93e4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 17 Feb 2020 at 19:45, Khem Raj &l=
-t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
-r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><br>
-hw acceleration is not going to work for non-x86 qemus, while other<br>
-qemus should be fixed but not<br>
-by breaking them first. As suggested limit this change to tested<br>
-architectures and it would be fine.<br>
-then if interested to fix it globally make changes to fix rest of<br>
-qemus and then instrument global change<br>
-after that<br></blockquote><div><br></div><div>arm64 qemu should work, as i=
-t is using the same video hardware as x86_64. My computing resources are se=
-verely limited right now, so I cannot try it out immediately unfortunately,=
- but I&#39;ll get to it, or you are welcome to try and report.</div><div></=
-div><div></div><div>Mips can be either fixed like suggested, or be a specif=
-ic exception. <br></div><div><br></div><div>For the rest of the targets, I =
-see that you have extended the fbdev fallback to qemuall only on Jan 9 this=
- year. So it&#39;s very unlikely anyone is using them to run weston (not to=
- mention how painfully slow that would be), and so it would just be wastefu=
-l to test or fix them.<br></div><br><div>Alex<br></div></div></div>
-
---000000000000bdc01b059eca93e4--
