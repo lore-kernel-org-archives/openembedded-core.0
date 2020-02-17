@@ -1,52 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 41C1161472
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ua1-f66.google.com (mail-ua1-f66.google.com
+	[209.85.222.66])
+	by mail.openembedded.org (Postfix) with ESMTP id E2BD261479
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 14:35:51 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id w12so20014232wrt.2
+	Mon, 17 Feb 2020 14:50:29 +0000 (UTC)
+Received: by mail-ua1-f66.google.com with SMTP id 59so6217081uap.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 06:35:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=S47Jg2Ruq7YHML/ZtQqoNWkxbEMMPAl7zKAg8ILBO9s=;
-	b=G4CTlIXu/6rPHReNrl+n0XUT/gBVjpVl43p51sUbS9cmAsJ06QKgwSpfTGggCIefT+
-	v2k88qr99aw7BCklkOgN/OyXcAUKCLYHAnXK0lM7m5W58ZJ3zNg7rfHxmnh9aEzRGTbm
-	uQFegNgATT289g1yOZOByA5S1ZFjO7UCAQtDw=
+	Mon, 17 Feb 2020 06:50:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=UZk07ZA5IPpoV0aJq7FCUk+PYkoOMVlM/1lCUKgSjxs=;
+	b=UECW0IYr6uwXiQbGLDHEqDRoYxzCc+z2mQE0ksb/F8V+XMpNGuu4pVhBRJZb1sBpCS
+	wUcR1DM2r9e0CmMugqz85gXmCLKhi6PulDmlrQBeFrUra9D7ROBXqw0nzGj07FeUFQ4v
+	8k8q8ibU1fr1+4tZGfbYUaCxPSoVIGx2fgkQDNrCS9OXcotoh7wQjuhsRr+UvmHDZRjJ
+	tibhxDKjgrvBiSFDAl2RHhyj+T2ZRkU5sYaWaCKocBzwSBtUea42DKcn0oc+tPulsCMA
+	2lbhZYolmaMDc3Lu0zhmang8li+2Gq/pmGAAMvcf2QnUXelfd/NRmnGgf9FrYQp1bGk3
+	O9TQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=S47Jg2Ruq7YHML/ZtQqoNWkxbEMMPAl7zKAg8ILBO9s=;
-	b=kh8Sx7rQVMEbTT2El94MVCB+0giTd9se7aesH2oh8aIE1ATT6fMUFiR1+sqaFkLupw
-	W07ebQLitpA45oUkmZdWtslNvsErNAy5mjEGH+NOmROENzFg2KCNn3+VuiamWnMek0j/
-	V4yaIePmPnc/rJZL+v/8f/qOosBE+G4wDscGPVlg7Q9s+e4Bg5zJ1ryZpBMaVmCV7Kow
-	FwXaOUKODtZE8p+Tgz+ujAdeaIZr8R3LhjpcoacVwG+A8tY+4pdHH5BCqD657clSeggk
-	075NfC7JljUo/4rO/l4i+kE4qK5DsvqRAJb8VsaCoCNF+fdDlsw9WIThbf4XqBYmGeGY
-	NRnw==
-X-Gm-Message-State: APjAAAXF5DmYK2w2kouz9I9vmUtYwJ7kIinUX3rtzouaezdGuI85f4uC
-	wrOG5nSxbrXiv+TM5ulKOoKrLQ==
-X-Google-Smtp-Source: APXvYqysXC43RVv2/peWKH8BEbBC21nLn0wyPeBnb950+SUUngN/2jZwgTvWNqsSOHcH+JT4joJjGA==
-X-Received: by 2002:a05:6000:10d1:: with SMTP id
-	b17mr22349489wrx.298.1581950152809; 
-	Mon, 17 Feb 2020 06:35:52 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t187sm903610wmt.25.2020.02.17.06.35.51
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Mon, 17 Feb 2020 06:35:51 -0800 (PST)
-Message-ID: <aceb5729c55050e1b1c9c62a316e500e621e33df.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 17 Feb 2020 14:35:50 +0000
-In-Reply-To: <20200216155015.21738-9-alex.kanavin@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=UZk07ZA5IPpoV0aJq7FCUk+PYkoOMVlM/1lCUKgSjxs=;
+	b=MDkPYBU7RtakUatouqcvcnY5fFUQpGeU46Osq2NHUKsfyyYzyX5rzyXaL25JQ7J+3Z
+	/Lw/wqmhv2hkjjptYipBL83cJe22iqb/p4rDkPlSNDtq9o5z2G2P0d3vsSlQm3QMOZEl
+	DCynKWZV79NbS21K+UMyIRm0q0XgmZ4V94xN0jpJysh6DI85n+O//7JAcrCh0a/4hTdP
+	08e7jT/iIJrgMGjXn/1FFC9HJGJebe8JTqHr31xLgVqTn+YGdjcR2LprvC9+Pk2O3JQx
+	SE+ichcfNUmC0OrPrL72RG4TqplYvdfmQsFIPoHKmjNz58Xz4w/vk+3hjPviHdevMsYe
+	FNvA==
+X-Gm-Message-State: APjAAAW33G0ydzzwCef2q+9TTx94DTH6vkKHA6NXZyY1ulA6k0Gp6W2W
+	xvL5Wr/550qlZRTVeBKGGRy5fyyQ2nNTFatHuExFBvbJ
+X-Google-Smtp-Source: APXvYqw5CGZcvAYeDzHyLajOxKBkKVWBplEFs309VB1MOX9qXJHzlY2q2Tu+kgpU5IhjHmvHPyhZtRHjR0opffc7LRU=
+X-Received: by 2002:ab0:658d:: with SMTP id v13mr7336181uam.71.1581951030634; 
+	Mon, 17 Feb 2020 06:50:30 -0800 (PST)
+MIME-Version: 1.0
 References: <20200216155015.21738-1-alex.kanavin@gmail.com>
 	<20200216155015.21738-9-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.34.1-4 
-MIME-Version: 1.0
+	<aceb5729c55050e1b1c9c62a316e500e621e33df.camel@linuxfoundation.org>
+In-Reply-To: <aceb5729c55050e1b1c9c62a316e500e621e33df.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 17 Feb 2020 15:50:56 +0100
+Message-ID: <CANNYZj8-66ksJFTysmwus3uQZz_KamJH19uo2gbUy6B7Z13tBw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 09/10] wayland: convert to meson build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,28 +55,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2020 14:35:52 -0000
+X-List-Received-Date: Mon, 17 Feb 2020 14:50:30 -0000
+Content-Type: multipart/alternative; boundary="0000000000003bab01059ec6ad23"
+
+--0000000000003bab01059ec6ad23
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2020-02-16 at 16:50 +0100, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  ...-the-native-wayland-scanner-directly.patch | 27
-> +++++++++++++++++++
->  .../wayland/wayland_1.18.0.bb                 |  9 ++++---
->  2 files changed, 32 insertions(+), 4 deletions(-)
->  create mode 100644 meta/recipes-graphics/wayland/wayland/0002-
-> meson.build-find-the-native-wayland-scanner-directly.patch
+On Mon, 17 Feb 2020 at 15:35, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-I pulled some of your patches into -next:
+> On Sun, 2020-02-16 at 16:50 +0100, Alexander Kanavin wrote:
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  ...-the-native-wayland-scanner-directly.patch | 27
+> > +++++++++++++++++++
+> >  .../wayland/wayland_1.18.0.bb                 |  9 ++++---
+> >  2 files changed, 32 insertions(+), 4 deletions(-)
+> >  create mode 100644 meta/recipes-graphics/wayland/wayland/0002-
+> > meson.build-find-the-native-wayland-scanner-directly.patch
+>
+> I pulled some of your patches into -next:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/718
+>
+> I think the failures are related to this patch?
+>
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/718
+Going slightly mad here:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/1581/steps/8/logs/step1b
+<https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/1581/steps/8/logs/step1b>libxkbcommon
+and mesa have failed in do_configure, but I am not seeing the tasks being
+run?
 
-I think the failures are related to this patch?
+Alex
 
-Cheers,
+--0000000000003bab01059ec6ad23
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr">On Mon, 17 Feb 2020 at 1=
+5:35, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.o=
+rg">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left-width:1px;border-left-style:solid;border-left-color:r=
+gb(204,204,204);padding-left:1ex">On Sun, 2020-02-16 at 16:50 +0100, Alexan=
+der Kanavin wrote:<br>
+&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
+ail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 ...-the-native-wayland-scanner-directly.patch | 27<br>
+&gt; +++++++++++++++++++<br>
+&gt;=C2=A0 .../wayland/<a href=3D"http://wayland_1.18.0.bb" rel=3D"noreferr=
+er" target=3D"_blank">wayland_1.18.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 9 ++++---<br>
+&gt;=C2=A0 2 files changed, 32 insertions(+), 4 deletions(-)<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-graphics/wayland/wayland/0002-<b=
+r>
+&gt; meson.build-find-the-native-wayland-scanner-directly.patch<br>
+<br>
+I pulled some of your patches into -next:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/83/build=
+s/718" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
+t.org/typhoon/#/builders/83/builds/718</a><br>
+<br>
+I think the failures are related to this patch?<br></blockquote><div><br></=
+div><div>Going slightly mad here:</div><div><a href=3D"https://autobuilder.=
+yoctoproject.org/typhoon/#/builders/37/builds/1581/steps/8/logs/step1b">htt=
+ps://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/1581/steps/8=
+/logs/step1b</a></div><div><a href=3D"https://autobuilder.yoctoproject.org/=
+typhoon/#/builders/37/builds/1581/steps/8/logs/step1b"></a>libxkbcommon and=
+ mesa have failed in do_configure, but I am not seeing the tasks being run?=
+</div><div><br></div><div>Alex=C2=A0</div></div></div></div>
 
-
+--0000000000003bab01059ec6ad23--
