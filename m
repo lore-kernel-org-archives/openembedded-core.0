@@ -1,46 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com
-	[209.85.222.44])
-	by mail.openembedded.org (Postfix) with ESMTP id D284361234
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 15:37:39 +0000 (UTC)
-Received: by mail-ua1-f44.google.com with SMTP id 59so6277590uap.12
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 07:37:41 -0800 (PST)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
+	[209.85.215.181])
+	by mail.openembedded.org (Postfix) with ESMTP id E1E0561470
+	for <openembedded-core@openembedded.org>;
+	Mon, 17 Feb 2020 16:00:55 +0000 (UTC)
+Received: by mail-pg1-f181.google.com with SMTP id g3so9274253pgs.11
+	for <openembedded-core@openembedded.org>;
+	Mon, 17 Feb 2020 08:00:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HTurHFs/Ay4DvuPmAx/vKXxdqjeJVIwJUGKLem8d7fs=;
-	b=KZhNzGcIm46gfyroTWymf9As7WUzlYrY9yO7uIJhWuIT3RVSrs4f8p7z9tH8cD2vba
-	wAezE3+w84zG3D/GuOZ4S0DRHfCXc5P9gp6Y8mlScbzQMtpLiuWOpkVEdK2bMPBhwEjA
-	g9RcNpU6laxb1xyNrVlkw3Kdl069yLozwl4PULWYla1456gLy6NGKgmjUHqJ57R+X66y
-	uEFeX0lbpAO3LYQFes/WvRi4Ek5fXMx8guonGS6uNbSo3gx/6arLFGfIRuAbzGglWKiL
-	hzbXsqDuyBQMqs6UMuOLpVEdpzMmAs2bJ6Yz9wldezsHK7HyvyFaf9ofKXKuzDKvtxwY
-	9S/w==
+	h=from:to:subject:date:message-id;
+	bh=7Tl4T1yzP+X/Z879iJRzczjCDfT5/DZ+qMjhfm0Zblg=;
+	b=N9TB6I/4tk9sJKVrvlPqvos4I1PEXjSqvdddpti3bmIcGzY+V3ngJ1BeS+hanPgUM/
+	61ZeGTStJI2lVN91QIzUmq/ydfJ9OCoHI02Qmeo5OE2R4RaqniFu46ul9yx7tEySMOmj
+	lviUo3UhLdUUFlY9mqdxhT9+vT0nkZ1kopK9qyD3zVi46J7b9rt9HR1uaUJ4qAUtnaNz
+	0dNOGjCfJrYoj6MYdgKcjPGBwwoS165wHHTp6Tg6lep/3UOo4CEtnkpPGsuA7cAbbIEr
+	dvEMOlRkeu0sqocIhxuEVvA2AcqC9pwC+YdxnIP84fXilbMeD3WBLd2hE6tVel1QxaCK
+	/YAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=HTurHFs/Ay4DvuPmAx/vKXxdqjeJVIwJUGKLem8d7fs=;
-	b=clqgH17WpH93fHpGvXg3AV1GZVOAPZF80wW281by/lfOm+BWazNmANRK2Qe13w06gT
-	7dN6xTqgV9F4Trb0ifpoKCLpOQKrd0kbv9QnXT03pQBGI2YqyMTyr2ZVWRA6B5tJoVNm
-	ukvMn28ov5USxijIwL8JO3Q12B9cwcsmWLqhBpRjvh4nOeksF4XOyz5mZj/aAqS9tp3b
-	wjzAVoseQQ6xWlRV6HzOFGWrnGxiamF9arEyNSV05cmojscqilHLWHy7sNuy193HF9Jn
-	QHiy+RstmgaEo9A9LOTdnXNJvzo3jAYwRGpF+ozK6mUiQxTuyZ+UZmduSY52pGAHfz8n
-	tM+w==
-X-Gm-Message-State: APjAAAX/ReX3nrVpfRQz9InJ87u4XC0Lh8Qci2nPm2pE0SwWXX0eEuHU
-	DHfhi4FmKqERM2ZH3S7GgLwc/qwwRrd9Zgb5qFI=
-X-Google-Smtp-Source: APXvYqz1ooiot/Fw5QinIbD6s9DM1NfwD8zu12t2B8IXMwGnjcNbfOVe95JR4o7VN85Nx/CId9DQ99IsXHQ9Lq/rQQU=
-X-Received: by 2002:ab0:3381:: with SMTP id y1mr7590839uap.93.1581953860613;
-	Mon, 17 Feb 2020 07:37:40 -0800 (PST)
-MIME-Version: 1.0
-References: <CAF2baFd0bA5ePtywQH5ZW0aSE=UH+e8r2V4SpUBgD8Ms5V3E=w@mail.gmail.com>
-In-Reply-To: <CAF2baFd0bA5ePtywQH5ZW0aSE=UH+e8r2V4SpUBgD8Ms5V3E=w@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 17 Feb 2020 16:38:06 +0100
-Message-ID: <CANNYZj_iDtpjwKoDg2XG8zAX95XDt4BvjAOQcTjeQ5sw6moPPQ@mail.gmail.com>
-To: Anders Wallin <wallinux@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] babeltrace: update to 1.5.8
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=7Tl4T1yzP+X/Z879iJRzczjCDfT5/DZ+qMjhfm0Zblg=;
+	b=LnttyvPl6TJ4RHHk22F7s4vGN8bPhR9aYBN+EpglJ9jv2BzU0JjlOD5IX2mZtE1T5K
+	sNHHZEc8hnwlT/Ask0FvQ0SSlAjHUV5nV76Tcf6aiFzN8k6uxocG4eeEFAN3qiHYUT2k
+	9Mito+xQXzJ82d/W+2AEzLsk3Ya1CpS5a/byPv4TpVHLN0KUorZgQgAli5PrMScZd5Ot
+	Q794hdGTktxULcf5MmX9mbzfv7OsGlHGxD4+hLU5UIDn1Ni5zjd/HTuqD2QFzarAzzCM
+	mSc7Gsv8+l/2LDXwR2c+JGZXxuAndWQTBdLIqobZ8KaaRxu9Z/pk9ivWliweh+VMZ164
+	44/Q==
+X-Gm-Message-State: APjAAAUbrA+MiqHm3WkQlqAw4O/lVUMZT4eBUT9NXMP99AJhJsri5Lvj
+	G1aBQHlr9m69KF3+DkW+R3zHzwYJ
+X-Google-Smtp-Source: APXvYqyfdGU36IPsT7WRvPZl4PnNre0nRxAccqps5/jPb9RS2mLKVwNWHkzz45iyvIo4vVS/NnOkDg==
+X-Received: by 2002:a17:90a:30e8:: with SMTP id
+	h95mr20941655pjb.30.1581955256514; 
+	Mon, 17 Feb 2020 08:00:56 -0800 (PST)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:a5c0:9144:9b3e:b52:fa29])
+	by smtp.gmail.com with ESMTPSA id
+	a22sm928041pfk.108.2020.02.17.08.00.55
+	for <openembedded-core@openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Mon, 17 Feb 2020 08:00:55 -0800 (PST)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@openembedded.org
+Date: Mon, 17 Feb 2020 08:00:38 -0800
+Message-Id: <cover.1581955142.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [warrior 00/14] Patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,57 +57,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Feb 2020 15:37:40 -0000
-Content-Type: multipart/alternative; boundary="000000000000e9b946059ec7550b"
+X-List-Received-Date: Mon, 17 Feb 2020 16:00:56 -0000
 
---000000000000e9b946059ec7550b
-Content-Type: text/plain; charset="UTF-8"
+A few more for the 2.7.3 release.
+Please have comments back by Wednesday
+Passed A-full
 
-Thanks, please send the babeltrace2 recipe when it is ready.
+The following changes since commit a63d59f64a2d1f450a7639426cae8e0373a2d764:
 
-Alex
+  sanity.bbclass: Move sanity_info from conf to cache (2020-01-25 08:37:48 -0800)
 
-On Mon, 17 Feb 2020 at 14:32, Anders Wallin <wallinux@gmail.com> wrote:
+are available in the Git repository at:
 
-> 1. I will create a new version with 1.5.7 removed
->
-> 2. Babeltrace and Babeltrace2 are different and can coexist. I have a
-> recipe for babeltrace 2.0.1 ready to be submitted, but I wanted to make one
-> more test.
->
-> Regards
-> Anders Wallin
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+  git://git.openembedded.org/openembedded-core-contrib stable/warrior-nut
+  http://cgit.openembedded.org//log/?h=stable/warrior-nut
 
---000000000000e9b946059ec7550b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Anuj Mittal (1):
+  cpio: fix CVE-2019-14866
 
-<div dir=3D"ltr">Thanks, please send the babeltrace2 recipe when it is read=
-y.<div><br></div><div>Alex</div></div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Mon, 17 Feb 2020 at 14:32, Anders Wallin=
- &lt;<a href=3D"mailto:wallinux@gmail.com">wallinux@gmail.com</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204=
-,204,204);padding-left:1ex"><div dir=3D"ltr">1. I will create a new version=
- with 1.5.7 removed<div><br></div><div>2. Babeltrace and Babeltrace2 are di=
-fferent and can coexist. I have a recipe for babeltrace 2.0.1 ready to be s=
-ubmitted, but I wanted to make one more test.</div><div><br></div><div>Rega=
-rds<br clear=3D"all"><div><div dir=3D"ltr">Anders Wallin</div></div></div><=
-/div>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+Armin Kuster (2):
+  python2: add ntpath
+  timezone: update to 2019b
 
---000000000000e9b946059ec7550b--
+Bruce Ashfield (4):
+  linux-yocto/4.19: update to v4.19.72
+  linux-yocto/4.19: update to v4.19.78
+  linux-yocto/4.19: update to v4.19.84
+  linux-yocto/4.19: update to v4.19.87
+
+Lee Chee Yang (1):
+  rsync: whitelist CVE-2017-16548
+
+Oleksandr Kravchuk (2):
+  linux-firmware: bump to 20190618
+  linux-firmware: add PE back
+
+Otavio Salvador (1):
+  linux-firmware: Upgrade 20190618 -> 20190815
+
+Rahul Chauhan (1):
+  libxml2: Fix CVE-2019-19956
+
+Samuli Piippo (1):
+  linux-firmware: update packaging for brcm files
+
+Zang Ruochen (1):
+  timezone:upgrade 2019b -> 2019c
+
+ .../libxml/libxml2/fix-CVE-2019-19956.patch   |  38 +++
+ meta/recipes-core/libxml/libxml2_2.9.8.bb     |   1 +
+ .../python/python/python2-manifest.json       |   1 +
+ meta/recipes-devtools/rsync/rsync_3.1.3.bb    |   3 +
+ .../cpio/cpio-2.12/CVE-2019-14866.patch       | 316 ++++++++++++++++++
+ meta/recipes-extended/cpio/cpio_2.12.bb       |   1 +
+ meta/recipes-extended/timezone/timezone.inc   |  10 +-
+ ...ware_git.bb => linux-firmware_20190815.bb} |  26 +-
+ .../linux/linux-yocto-rt_4.19.bb              |   6 +-
+ .../linux/linux-yocto-tiny_4.19.bb            |   8 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb |  20 +-
+ 11 files changed, 397 insertions(+), 33 deletions(-)
+ create mode 100644 meta/recipes-core/libxml/libxml2/fix-CVE-2019-19956.patch
+ create mode 100644 meta/recipes-extended/cpio/cpio-2.12/CVE-2019-14866.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_git.bb => linux-firmware_20190815.bb} (98%)
+
+-- 
+2.17.1
+
+
