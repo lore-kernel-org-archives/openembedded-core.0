@@ -1,50 +1,30 @@
-Return-Path: <marek.belisko@gmail.com>
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
-	[209.85.208.50])
-	by mail.openembedded.org (Postfix) with ESMTP id D4A646157A
+Return-Path: <preid@electromag.com.au>
+Received: from anchovy2.45ru.net.au (anchovy2.45ru.net.au [203.30.46.146])
+	by mail.openembedded.org (Postfix) with ESMTP id 381BB615B7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 06:37:51 +0000 (UTC)
-Received: by mail-ed1-f50.google.com with SMTP id p23so23520393edr.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 22:37:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=WefOljf8fdhmjWPE5xhjjCetqPi5nsbB6AvHzk0HJ3g=;
-	b=milyCRdePcZEV76StfhQxZv1SbR0Ww9badKvRcFCd0+FJEm9oZCLy97bqi/fVapN7q
-	C5N8iatUtbzCVRDNk/0bGzngNS1eWXOugNnzwqSpwJ2bFAhnBW2oiwzmZDFWUmlltZSO
-	T6UZpx5bmPWJr0hbyQTq1F8P/3qjwL2uQMDwNLeznwmfwPaVa/WZZGrokxCrz1t5NqpV
-	zbfIU0Lsn4VDV0LH/JH5MV+TEWWHMcKk4HWFFun33IDvx6iUeBq0RBfxQ2ySPeeXXjtr
-	lxXjD5kdu4IJOb/cY6p5IvDBZOtl+Fr/fEVaSGUWtWh68RT7Vdr2yCEVWL9dLr7MiZvb
-	qlRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=WefOljf8fdhmjWPE5xhjjCetqPi5nsbB6AvHzk0HJ3g=;
-	b=ttSTgbgs/szeo3yywPt8LY1TAU0FGJp5vsQdvy8i2UaIpAiXgaEJWAPDpRJHiN8QYk
-	aKH+dR/hi+sHY4R/x3NxtpNGY2wZzkbGZJ5EKl7TJhBLdazQlyX8Jdxo0SO/4/ThTLHK
-	ULW64sQPB5HNlYXIW6dXscQKb4jvNgOe3jENM4QItnntJiipRaEKzypFbQPK0jpKSva8
-	P1IprIn9mYg0uJWGY/AmHIUhBGR011eXcDBidfcwNgHTz13u6kKwbv9Lia3kZKgf4iHy
-	XXQ3pVM+BWbn4ULb0bodHQfucW8OFSceXE+74jdE2+jMq+DVdHgaLsClXwFl8QEwyw2E
-	To9A==
-X-Gm-Message-State: APjAAAWed/gbvQU67DV3hgCCwxw8oKxtbA4CebZZFzxY9fzZoic8958Q
-	lPHnn7yFqzvoayAHoBx+z0RfZ7GQCupRrggrl0o=
-X-Google-Smtp-Source: APXvYqzoTQoAxeXWAJlgpBBzqpoJGTz4kgwTP7iOZv+FJnkh+V75pB+m7sIHaMLuXtf5bQt1b9HzU4KEmfCFtK8sDxo=
-X-Received: by 2002:a50:ab5b:: with SMTP id t27mr17383922edc.229.1582007872419;
-	Mon, 17 Feb 2020 22:37:52 -0800 (PST)
+	Tue, 18 Feb 2020 06:41:17 +0000 (UTC)
+Received: (qmail 16194 invoked by uid 5089); 18 Feb 2020 06:41:17 -0000
+Received: by simscan 1.2.0 ppid: 16115, pid: 16116, t: 0.0734s
+	scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950
+Received: from unknown (HELO ?192.168.0.22?)
+	(preid@electromag.com.au@203.59.235.95)
+	by anchovy3.45ru.net.au with ESMTPA; 18 Feb 2020 06:41:17 -0000
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Andrey Zhizhikin <andrey.z@gmail.com>,
+	"Armin Kuster \(akuster808@gmail.com\)" <akuster808@gmail.com>
+References: <e10c00e7-b64e-978a-6b2e-ffaa16577bbf@electromag.com.au>
+	<CAHtQpK6MfQ2oheoPYv=PDJER8ThUd8Y_AuOtTQrbH_M8z+4Tdg@mail.gmail.com>
+	<981f9211365c2dfc6da70b737f43f3e89d87f7d4.camel@linuxfoundation.org>
+From: Phil Reid <preid@electromag.com.au>
+Message-ID: <c753582b-0ba2-dbbe-df25-a9ea9cb184b6@electromag.com.au>
+Date: Tue, 18 Feb 2020 14:41:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+	Thunderbird/68.5.0
 MIME-Version: 1.0
-References: <CAA=hcWTDqhJEE7MXFY9rvN93nf8=nWvshLoXKF3EMXYGLmZGbA@mail.gmail.com>
-In-Reply-To: <CAA=hcWTDqhJEE7MXFY9rvN93nf8=nWvshLoXKF3EMXYGLmZGbA@mail.gmail.com>
-From: Belisko Marek <marek.belisko@gmail.com>
-Date: Tue, 18 Feb 2020 07:37:41 +0100
-Message-ID: <CAAfyv34yO7bSR9GBod1bXpD0sFnsSETsJQAzcmSgyY0orGtfcg@mail.gmail.com>
-To: JH <jupiter.hce@gmail.com>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	linux-wireless <linux-wireless@vger.kernel.org>,
-	linux-mtd <linux-mtd@lists.infradead.org>,
-	Patches and discussions about the oe-core layer
+In-Reply-To: <981f9211365c2dfc6da70b737f43f3e89d87f7d4.camel@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] Change RO rootfs failed RF Kill Switch Status and Failed to start Run pending postinsts
+Subject: Re: bash: Fix CVE-2019-18276
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,49 +37,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 06:37:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 18 Feb 2020 06:41:19 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Hi,
-
-On Tue, Feb 18, 2020 at 2:00 AM JH <jupiter.hce@gmail.com> wrote:
->
-> Hi,
->
-> Apologize for the cross posting.
->
-> I am running kernel 4.19.75 on iMX6 customized device with WiFi and 4G
-> LTE, it was running well in an RW rootfs. After I have just changed
-> rootfs to RO UBIFS partition, it failed RF Kill and postinsts I
-> suspect both try write to the RO and failed, any advice how to fix it?
-> Despite it failed RF Kill and postinsts, it was still working.
->
-> [    6.097762] UBIFS (ubi0:2): UBIFS: mounted UBI device 0, volume 2,
-> name "rootfs-volume", R/O mode
-> ..............
-> [    6.151932] VFS: Mounted root (ubifs filesystem) readonly on device 0:13.
-> .................
-> [  OK  ] Listening on Load/Save RF Kill Switch Status /dev/rfkill Watch.
->          Starting Load/Save RF Kill Switch Status...
-> [FAILED] Failed to start Load/Save RF Kill Switch Status.
-> See 'systemctl status systemd-rfkill.service' for details.
-Can you pls provide output of systemctl status systemd-rfkill
-There should be some more info what issue is.
->
-> [FAILED] Failed to start Run pending postinsts.
-> See 'systemctl status run-postinsts.service' for details.
-Pls this one also: systemctl status run-postinsts
-> ...............
-> root#
->
-> Thank you.
->
-> Kind regards,
->
-> - jh
+On 17/02/2020 17:55, Richard Purdie wrote:
+> On Mon, 2020-02-17 at 07:44 +0100, Andrey Zhizhikin wrote:
+>> On Mon, Feb 17, 2020 at 4:26 AM Phil Reid <preid@electromag.com.au>
+>> wrote:
+>>> Hi All,
+>>>
+>>> I recently started get the following failure with bash after
+>>> "b348e31c93f0 bash: Fix CVE-2019-18276"
+>>> was applied to zeus.
+>>>
+>>> Any thoughts?
+>>>
+>>>
+>>> NOTE: Applying patch 'bash50-001' (downloads/bash50-001)
+>>> NOTE: Applying patch 'bash50-002' (downloads/bash50-002)
+>>> NOTE: Applying patch 'bash50-003' (downloads/bash50-003)
+>>> NOTE: Applying patch 'bash50-004' (downloads/bash50-004)
+>>> NOTE: Applying patch 'bash50-005' (downloads/bash50-005)
+>>> NOTE: Applying patch 'bash50-006' (downloads/bash50-006)
+>>> NOTE: Applying patch 'bash50-007' (downloads/bash50-007)
+>>> NOTE: Applying patch 'execute_cmd.patch' (layers/openembedded-
+>>> core/meta/recipes-extended/bash/bash/execute_cmd.patch)
+>>> NOTE: Applying patch 'mkbuiltins_have_stringize.patch'
+>>> (layers/openembedded-core/meta/recipes-
+>>> extended/bash/bash/mkbuiltins_have_stringize.patch)
+>>> NOTE: Applying patch 'build-tests.patch' (layers/openembedded-
+>>> core/meta/recipes-extended/bash/bash/build-tests.patch)
+>>> NOTE: Applying patch 'test-output.patch' (layers/openembedded-
+>>> core/meta/recipes-extended/bash/bash/test-output.patch)
+>>> NOTE: Applying patch 'fix-run-builtins.patch' (layers/openembedded-
+>>> core/meta/recipes-extended/bash/bash/fix-run-builtins.patch)
+>>> NOTE: Applying patch 'bash-CVE-2019-18276.patch'
+>>> (layers/openembedded-core/meta/recipes-extended/bash/bash/bash-CVE-
+>>> 2019-18276.patch)
+>>> ERROR: Command Error: 'quilt --quiltrc
+>>> /home/preid/dev/linux/v2019.11/tmp-glibc/work/cortexa9t2hf-neon-
+>>> emit-linux-gnueabi/bash/5.0-r0/recipe-sysroot-native/etc/quiltrc
+>>> push' exited with 0  Output:
+>>> Applying patch bash-CVE-2019-18276.patch
+>>> patching file MANIFEST
+>>> patching file bashline.c
+>>> patching file builtins/help.def
+>>> patching file config.h.in
+>>> patching file configure
+>>> Hunk #1 FAILED at 10281.
+>>> 1 out of 1 hunk FAILED -- rejects in file configure
+>>> patching file configure.ac
+>>> patching file doc/bash.1
+>>> patching file doc/bashref.texi
+>>> patching file lib/glob/glob.c
+>>> patching file pathexp.c
+>>> patching file shell.c
+>>> patching file tests/glob.tests
+>>> patching file tests/glob6.sub
+>>> patching file tests/glob7.sub
+>>> Patch bash-CVE-2019-18276.patch does not apply (enforce with -f)
+>>> DEBUG: Python function patch_do_patch finished
+>>> DEBUG: Python function do_patch finished
+>>
+>> Had the same issue the day before, re-building bash clean solved it.
+>> At first I wanted to report it as well, but then after I tried "-c
+>> cleanall" - the issue was gone.
+>>
+>> Try to do a clean build of bash and see if it is still reproducible.
 > 
+> I think I understand what happens here. When you do a rebuild, bitbake
+> tries to pop off all the old patches, then apply the new ones.
+> 
+> In this case its patching configure which we rebuild. It therefore
+> can't apply the new patch to configure since its changed by the
+> do_configure task.
+> 
+> The fix is to remove the configure change from the patch since we just
+> need the configure.ac piece.
+> 
+I've run "bitbake -c cleanall bash" and the build has then succeeded.
+I guess we wait and see if it pops up again when bash needs to be rebuilt.
 
-BR,
+I did try quickly hacking the patch and removing the configure patch section, but
+the resulting configure looked different. So I went with the easy option above.
 
-marek
+Thanks
+Phil
 
