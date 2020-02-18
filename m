@@ -1,35 +1,50 @@
-Return-Path: <wangmy@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 075CD61580
+Return-Path: <marek.belisko@gmail.com>
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com
+	[209.85.208.50])
+	by mail.openembedded.org (Postfix) with ESMTP id D4A646157A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 06:21:12 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,455,1574092800"; d="scan'208";a="83480841"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Feb 2020 14:21:13 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 290E050A9971
+	Tue, 18 Feb 2020 06:37:51 +0000 (UTC)
+Received: by mail-ed1-f50.google.com with SMTP id p23so23520393edr.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 14:11:35 +0800 (CST)
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Tue, 18 Feb 2020 14:21:12 +0800
-Received: from localhost.localdomain.localdomain (10.167.225.33) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Tue, 18 Feb 2020 14:21:17 +0800
-From: Wang Mingyu <wangmy@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Feb 2020 05:39:57 -0800
-Message-ID: <1582033197-93331-4-git-send-email-wangmy@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1582033197-93331-1-git-send-email-wangmy@cn.fujitsu.com>
-References: <1582033197-93331-1-git-send-email-wangmy@cn.fujitsu.com>
+	Mon, 17 Feb 2020 22:37:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=WefOljf8fdhmjWPE5xhjjCetqPi5nsbB6AvHzk0HJ3g=;
+	b=milyCRdePcZEV76StfhQxZv1SbR0Ww9badKvRcFCd0+FJEm9oZCLy97bqi/fVapN7q
+	C5N8iatUtbzCVRDNk/0bGzngNS1eWXOugNnzwqSpwJ2bFAhnBW2oiwzmZDFWUmlltZSO
+	T6UZpx5bmPWJr0hbyQTq1F8P/3qjwL2uQMDwNLeznwmfwPaVa/WZZGrokxCrz1t5NqpV
+	zbfIU0Lsn4VDV0LH/JH5MV+TEWWHMcKk4HWFFun33IDvx6iUeBq0RBfxQ2ySPeeXXjtr
+	lxXjD5kdu4IJOb/cY6p5IvDBZOtl+Fr/fEVaSGUWtWh68RT7Vdr2yCEVWL9dLr7MiZvb
+	qlRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=WefOljf8fdhmjWPE5xhjjCetqPi5nsbB6AvHzk0HJ3g=;
+	b=ttSTgbgs/szeo3yywPt8LY1TAU0FGJp5vsQdvy8i2UaIpAiXgaEJWAPDpRJHiN8QYk
+	aKH+dR/hi+sHY4R/x3NxtpNGY2wZzkbGZJ5EKl7TJhBLdazQlyX8Jdxo0SO/4/ThTLHK
+	ULW64sQPB5HNlYXIW6dXscQKb4jvNgOe3jENM4QItnntJiipRaEKzypFbQPK0jpKSva8
+	P1IprIn9mYg0uJWGY/AmHIUhBGR011eXcDBidfcwNgHTz13u6kKwbv9Lia3kZKgf4iHy
+	XXQ3pVM+BWbn4ULb0bodHQfucW8OFSceXE+74jdE2+jMq+DVdHgaLsClXwFl8QEwyw2E
+	To9A==
+X-Gm-Message-State: APjAAAWed/gbvQU67DV3hgCCwxw8oKxtbA4CebZZFzxY9fzZoic8958Q
+	lPHnn7yFqzvoayAHoBx+z0RfZ7GQCupRrggrl0o=
+X-Google-Smtp-Source: APXvYqzoTQoAxeXWAJlgpBBzqpoJGTz4kgwTP7iOZv+FJnkh+V75pB+m7sIHaMLuXtf5bQt1b9HzU4KEmfCFtK8sDxo=
+X-Received: by 2002:a50:ab5b:: with SMTP id t27mr17383922edc.229.1582007872419;
+	Mon, 17 Feb 2020 22:37:52 -0800 (PST)
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 290E050A9971.A1195
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] libpcre: upgrade 8.43 -> 8.44
+References: <CAA=hcWTDqhJEE7MXFY9rvN93nf8=nWvshLoXKF3EMXYGLmZGbA@mail.gmail.com>
+In-Reply-To: <CAA=hcWTDqhJEE7MXFY9rvN93nf8=nWvshLoXKF3EMXYGLmZGbA@mail.gmail.com>
+From: Belisko Marek <marek.belisko@gmail.com>
+Date: Tue, 18 Feb 2020 07:37:41 +0100
+Message-ID: <CAAfyv34yO7bSR9GBod1bXpD0sFnsSETsJQAzcmSgyY0orGtfcg@mail.gmail.com>
+To: JH <jupiter.hce@gmail.com>
+Cc: Yocto discussion list <yocto@yoctoproject.org>,
+	linux-wireless <linux-wireless@vger.kernel.org>,
+	linux-mtd <linux-mtd@lists.infradead.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [yocto] Change RO rootfs failed RF Kill Switch Status and Failed to start Run pending postinsts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,84 +57,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 06:21:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Feb 2020 06:37:52 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-out-of-tree.patch
-Removed since it is included in 8.44.
+Hi,
 
-Copyright updated: 2019 -> 2020
+On Tue, Feb 18, 2020 at 2:00 AM JH <jupiter.hce@gmail.com> wrote:
+>
+> Hi,
+>
+> Apologize for the cross posting.
+>
+> I am running kernel 4.19.75 on iMX6 customized device with WiFi and 4G
+> LTE, it was running well in an RW rootfs. After I have just changed
+> rootfs to RO UBIFS partition, it failed RF Kill and postinsts I
+> suspect both try write to the RO and failed, any advice how to fix it?
+> Despite it failed RF Kill and postinsts, it was still working.
+>
+> [    6.097762] UBIFS (ubi0:2): UBIFS: mounted UBI device 0, volume 2,
+> name "rootfs-volume", R/O mode
+> ..............
+> [    6.151932] VFS: Mounted root (ubifs filesystem) readonly on device 0:13.
+> .................
+> [  OK  ] Listening on Load/Save RF Kill Switch Status /dev/rfkill Watch.
+>          Starting Load/Save RF Kill Switch Status...
+> [FAILED] Failed to start Load/Save RF Kill Switch Status.
+> See 'systemctl status systemd-rfkill.service' for details.
+Can you pls provide output of systemctl status systemd-rfkill
+There should be some more info what issue is.
+>
+> [FAILED] Failed to start Run pending postinsts.
+> See 'systemctl status run-postinsts.service' for details.
+Pls this one also: systemctl status run-postinsts
+> ...............
+> root#
+>
+> Thank you.
+>
+> Kind regards,
+>
+> - jh
+> 
 
-Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
----
- .../libpcre/libpcre/out-of-tree.patch         | 26 -------------------
- .../{libpcre_8.43.bb => libpcre_8.44.bb}      |  7 +++--
- 2 files changed, 3 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-support/libpcre/libpcre/out-of-tree.patch
- rename meta/recipes-support/libpcre/{libpcre_8.43.bb => libpcre_8.44.bb} (91%)
+BR,
 
-diff --git a/meta/recipes-support/libpcre/libpcre/out-of-tree.patch b/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
-deleted file mode 100644
-index d56789615f..0000000000
---- a/meta/recipes-support/libpcre/libpcre/out-of-tree.patch
-+++ /dev/null
-@@ -1,26 +0,0 @@
--In out-of-tree builds the #include fails because $srcdir isn't in the include path.  Set CPPFLAGS so that it is.
--
--Upstream-Status: Backport [r1750]
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--Index: configure.ac
--===================================================================
----- a/configure.ac	(revision 1749)
--+++ b/configure.ac	(working copy)
--@@ -159,6 +159,8 @@
-- 
-- if test "$enable_jit" = "auto"; then
--   AC_LANG(C)
--+  SAVE_CPPFLAGS=$CPPFLAGS
--+  CPPFLAGS=-I$srcdir
--   AC_COMPILE_IFELSE([AC_LANG_SOURCE([[
--   #define SLJIT_CONFIG_AUTO 1
--   #include "sljit/sljitConfigInternal.h"
--@@ -165,6 +167,7 @@
--   #if (defined SLJIT_CONFIG_UNSUPPORTED && SLJIT_CONFIG_UNSUPPORTED)
--   #error unsupported
--   #endif]])], enable_jit=yes, enable_jit=no)
--+  CPPFLAGS=$SAVE_CPPFLAGS
-- fi
-- 
-- # Handle --disable-pcregrep-jit (enabled by default)
-diff --git a/meta/recipes-support/libpcre/libpcre_8.43.bb b/meta/recipes-support/libpcre/libpcre_8.44.bb
-similarity index 91%
-rename from meta/recipes-support/libpcre/libpcre_8.43.bb
-rename to meta/recipes-support/libpcre/libpcre_8.44.bb
-index f9a22fee9d..a1f835e454 100644
---- a/meta/recipes-support/libpcre/libpcre_8.43.bb
-+++ b/meta/recipes-support/libpcre/libpcre_8.44.bb
-@@ -6,16 +6,15 @@ SUMMARY = "Perl Compatible Regular Expressions"
- HOMEPAGE = "http://www.pcre.org"
- SECTION = "devel"
- LICENSE = "BSD-3-Clause"
--LIC_FILES_CHKSUM = "file://LICENCE;md5=91bee59d1b327eb1599b4c673e2fb3d1"
-+LIC_FILES_CHKSUM = "file://LICENCE;md5=3bb381a66a5385b246d4877922e7511e"
- SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre-${PV}.tar.bz2 \
-            file://fix-pcre-name-collision.patch \
--           file://out-of-tree.patch \
-            file://run-ptest \
-            file://Makefile \
- "
- 
--SRC_URI[md5sum] = "636222e79e392c3d95dcc545f24f98c4"
--SRC_URI[sha256sum] = "91e762520003013834ac1adb4a938d53b22a216341c061b0cf05603b290faf6b"
-+SRC_URI[md5sum] = "cf7326204cc46c755b5b2608033d9d24"
-+SRC_URI[sha256sum] = "19108658b23b3ec5058edc9f66ac545ea19f9537234be1ec62b714c84399366d"
- 
- CVE_PRODUCT = "pcre"
- 
--- 
-2.17.1
-
-
-
+marek
 
