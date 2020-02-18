@@ -1,45 +1,45 @@
-Return-Path: <scott.branden@broadcom.com>
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
-	[209.85.215.178])
-	by mail.openembedded.org (Postfix) with ESMTP id F041C61506
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp1.axis.com (smtp1.axis.com [195.60.68.17])
+	by mail.openembedded.org (Postfix) with ESMTP id CF6DE613C6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 22:45:05 +0000 (UTC)
-Received: by mail-pg1-f178.google.com with SMTP id z12so11685887pgl.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 14:45:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=tZNJkO7wLlWtw7zPPIHBfs3OFNuRDFJVd5bneF+Ak38=;
-	b=cY9ZKoTu4VJXPNAhvHkoT+9+W6xqJkoxpztRYp+/SVkdnNVaQc43bB+ID31k7MZt+I
-	Tob9HYgR65hz3MCV9wifT6NHT1OVFK+15seS2pOnovcKIlovp/bszhObOPbCjh/OEkoj
-	H2sX6+ahRMqA2ASL1AcM8CLffk4O38HmhirJI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tZNJkO7wLlWtw7zPPIHBfs3OFNuRDFJVd5bneF+Ak38=;
-	b=WMI3XpiJIeseBB/+gEbTufA0vFVcR1D2XDrPX6fAuyMskK6nGXEYukC0Ie4G8xbqZk
-	hwYf4ILc9kslfbMDuJltG18gTUL/wlTFaLX6zsgB8F321OFtjPBbUDnWr3+tUwgy/6Vp
-	pUF+fUutO5aru3B3T6UwKVCD+ff9OELONfNr2P/Tzq6yDoULkx5HxaoUgWygMlmjCWJ0
-	SH0mzhCPpdAQaOMcP3ge1oW2DlXYKjEyAgfZTD0y95LC6K+8haTDH9jAE+Ac6Q1gXX6C
-	1OPg0rc0Xa7f4Vdyvqk5n5hFOePDp5b06AOHgBN1ugrzfwL1MRIkPiR5MNIbOR7yMDik
-	BgOA==
-X-Gm-Message-State: APjAAAV8odHZB7h7Qcg44iYPFE3q7wKQRMu3INlA5YKKGqsDNtWg4YuU
-	mOXvi1AbuvrEDQguhzJAqJFsedxAGOzj04WN04jiFGSDIyLmjQyKrst20oDZvsbSia+jHA1thWB
-	C+Zep72hNs+uNFAIkU89d+cvohxtPrlcgSVjFwcMP3Vka9w58Ip1/I/IUPJH7uq1XAfVkjj5joO
-	JDAkKszjK2zeEwS/FGBkop+9Q3oVY=
-X-Google-Smtp-Source: APXvYqzph4aIkA+X1tsI/YAXFI2jqjp7y4qFJKXEvsD/UjLtfPNO0G0ysy4A7OF2WC3BNYfO/C/S3A==
-X-Received: by 2002:a63:4d8:: with SMTP id 207mr25115913pge.269.1582065906559; 
-	Tue, 18 Feb 2020 14:45:06 -0800 (PST)
-Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
-	by smtp.gmail.com with ESMTPSA id b18sm30400pfb.116.2020.02.18.14.45.04
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 18 Feb 2020 14:45:05 -0800 (PST)
-From: Scott Branden <scott.branden@broadcom.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Feb 2020 14:44:55 -0800
-Message-Id: <20200218224455.14551-1-scott.branden@broadcom.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [meta-oe][PATCH v2] iproute2: add devlink support to iproute2
+	Tue, 18 Feb 2020 23:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=axis.com; l=3510; q=dns/txt; s=axis-central1;
+	t=1582067934; x=1613603934;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-transfer-encoding:mime-version;
+	bh=bMLIjm8w38VH+qYUtjcRm9ZxDzj+g+m9VnQYdFOwkaA=;
+	b=cCBSDYdukkCVObTfpTFLKrRtFI2nc7pafNLeA6WICNY+mLjhcpoMf/7L
+	9YD25WeEZ6xYmlC6Z6BNDHA0JberDy8gxVQE1kmYBYKP5FwQ86yGUf9DS
+	o36byXuZx7MmDSBFNpdXskUrq72bXpqhpgua25LBqcLxgaGZsnsMwPABm
+	rXvwWw8kQ67rVrppe9Ms+riIqGireCfyjcnmaehioyBzAaXt5KdbsCPiQ
+	4rOBaGEbyArzNJ9uFRR8sJlzdKffaYy1hPrHgSf6UZHvseORpdxDAIqB1
+	n98kbKDRJXBjbu98clR8Pe0qra/GZhy9RT70CIhtCykkTBKmT1enD2uwr Q==;
+IronPort-SDR: KT5FofYYiG1Zl9vOarNFdj34P7ftA6IvegSgtBw0ZMezw1fuijUuSEvEjb67dFVs19KSdd2g76
+	u3PXrYfstHI0AVinNXHzaKg3CYRm8VNgD3hp18FVyZQaUS1yaaJtIDg+KTCv5ORftSyx5uBFNs
+	YpA+ic4TOe4I7YIcGTtRjUo8QT/b70MlX+u02L9VAPYbVpMxPcZNETF706HLW9gxak/w2IYYZ2
+	NP802JB8pBgekzmGAQzZhpVHaDpSVcic6BjqN3m+5lcVRWEvQxX6H5j9i+jX2P4SZgI2y12lxc
+	rVE=
+X-IronPort-AV: E=Sophos;i="5.70,458,1574118000"; 
+   d="scan'208";a="5573412"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Scott Branden <scott.branden@broadcom.com>
+Thread-Topic: [OE-core] [meta-oe][PATCH v2] iproute2: add devlink support to
+	iproute2
+Thread-Index: AQHV5q0UR+hsPlXdWkq5SqeeQn0U+aghj9xg
+Date: Tue, 18 Feb 2020 23:18:51 +0000
+Message-ID: <20c4646f9a30462bb6c9ae0f49b71092@XBOX03.axis.com>
+References: <20200218224455.14551-1-scott.branden@broadcom.com>
+In-Reply-To: <20200218224455.14551-1-scott.branden@broadcom.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH v2] iproute2: add devlink support to	iproute2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,53 +52,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 22:45:06 -0000
+X-List-Received-Date: Tue, 18 Feb 2020 23:18:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Add devlink support to iproute2 recipe.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Scott Branden via
+> Openembedded-core
+> Sent: den 18 februari 2020 23:45
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [meta-oe][PATCH v2] iproute2: add devlink support to
+> iproute2
+>=20
+> Add devlink support to iproute2 recipe.
+>=20
+> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+> ---
+>  meta/recipes-connectivity/iproute2/iproute2.inc | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc
+> b/meta/recipes-connectivity/iproute2/iproute2.inc
+> index fc31b8444e..98793af88e 100644
+> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
+> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+> @@ -15,11 +15,13 @@ inherit update-alternatives bash-completion pkgconfig
+>=20
+>  CLEANBROKEN =3D "1"
+>=20
+> -PACKAGECONFIG ??=3D "tipc elf"
+> +PACKAGECONFIG ??=3D "tipc elf devlink"
+>  PACKAGECONFIG[tipc] =3D ",,libmnl,"
+>  PACKAGECONFIG[elf] =3D ",,elfutils,"
+> +PACKAGECONFIG[devlink] =3D ",,libmnl,"
+>=20
+>  EXTRA_OEMAKE =3D "CC=3D'${CC}' KERNEL_INCLUDE=3D${STAGING_INCDIR} DOCDIR=
+=3D${docdir}/iproute2 SUBDIRS=3D'lib tc ip bridge misc genl \
+> +                ${@bb.utils.contains('PACKAGECONFIG', 'devlink', 'devlin=
+k', '', d)}                                               \
+>                  ${@bb.utils.contains('PACKAGECONFIG', 'tipc', 'tipc', ''=
+, d)}' SBINDIR=3D'${base_sbindir}' LIBDIR=3D'${libdir}'"
 
-Signed-off-by: Scott Branden <scott.branden@broadcom.com>
----
- meta/recipes-connectivity/iproute2/iproute2.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+You can simplify the above to:
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-index fc31b8444e..98793af88e 100644
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-@@ -15,11 +15,13 @@ inherit update-alternatives bash-completion pkgconfig
- 
- CLEANBROKEN = "1"
- 
--PACKAGECONFIG ??= "tipc elf"
-+PACKAGECONFIG ??= "tipc elf devlink"
- PACKAGECONFIG[tipc] = ",,libmnl,"
- PACKAGECONFIG[elf] = ",,elfutils,"
-+PACKAGECONFIG[devlink] = ",,libmnl,"
- 
- EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip bridge misc genl \
-+                ${@bb.utils.contains('PACKAGECONFIG', 'devlink', 'devlink', '', d)}                                               \
-                 ${@bb.utils.contains('PACKAGECONFIG', 'tipc', 'tipc', '', d)}' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
- 
- do_configure_append () {
-@@ -46,7 +48,8 @@ PACKAGES =+ "${PN}-tc \
-              ${PN}-rtacct \
-              ${PN}-nstat \
-              ${PN}-ss \
--             ${@bb.utils.contains('PACKAGECONFIG', 'tipc', '${PN}-tipc', '', d)}"
-+             ${@bb.utils.contains('PACKAGECONFIG', 'tipc', '${PN}-tipc', '', d)} \
-+             ${@bb.utils.contains('PACKAGECONFIG', 'devlink', '${PN}-devlink', '', d)}"
- FILES_${PN}-tc = "${base_sbindir}/tc* \
-                   ${libdir}/tc/*.so"
- FILES_${PN}-lnstat = "${base_sbindir}/lnstat \
-@@ -58,6 +61,7 @@ FILES_${PN}-rtacct = "${base_sbindir}/rtacct"
- FILES_${PN}-nstat = "${base_sbindir}/nstat"
- FILES_${PN}-ss = "${base_sbindir}/ss"
- FILES_${PN}-tipc = "${base_sbindir}/tipc"
-+FILES_${PN}-devlink = "${base_sbindir}/devlink"
- 
- ALTERNATIVE_${PN} = "ip"
- ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
--- 
-2.17.1
+EXTRA_OEMAKE =3D "CC=3D'${CC}' KERNEL_INCLUDE=3D${STAGING_INCDIR} DOCDIR=3D=
+${docdir}/iproute2 SUBDIRS=3D'lib tc ip bridge misc genl \
+                ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc', d)}' SB=
+INDIR=3D'${base_sbindir}' LIBDIR=3D'${libdir}'"
 
+but I also recommend to reformat it to make it more readable:
+
+EXTRA_OEMAKE =3D "\
+    CC=3D'${CC}' \
+    KERNEL_INCLUDE=3D${STAGING_INCDIR} \
+    DOCDIR=3D${docdir}/iproute2 \
+    SUBDIRS=3D'lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG=
+', 'devlink tipc', d)}' \
+    SBINDIR=3D'${base_sbindir}' \
+    LIBDIR=3D'${libdir}' \
+"
+
+>=20
+>  do_configure_append () {
+> @@ -46,7 +48,8 @@ PACKAGES =3D+ "${PN}-tc \
+>               ${PN}-rtacct \
+>               ${PN}-nstat \
+>               ${PN}-ss \
+> -             ${@bb.utils.contains('PACKAGECONFIG', 'tipc', '${PN}-tipc',=
+ '', d)}"
+> +             ${@bb.utils.contains('PACKAGECONFIG', 'tipc', '${PN}-tipc',=
+ '', d)} \
+> +             ${@bb.utils.contains('PACKAGECONFIG', 'devlink', '${PN}-dev=
+link', '', d)}"
+
+Assuming that the tipc and devlink binaries are only created when tipc=20
+and devlink are included in SUBDIRS above, which seems reasonable, you=20
+can simplify the above and remove the PACKAGECONFIG checks since the=20
+packages will only be created if there actually are files to put in=20
+them, e.g.:
+
+PACKAGES =3D+ "\
+    ${PN}-tc \
+    ${PN}-lnstat \
+    ${PN}-ifstat \
+    ${PN}-genl \
+    ${PN}-rtacct \
+    ${PN}-nstat \
+    ${PN}-ss \
+    ${PN}-tipc \
+    ${PN}-devlink \
+"
+
+>  FILES_${PN}-tc =3D "${base_sbindir}/tc* \
+>                    ${libdir}/tc/*.so"
+>  FILES_${PN}-lnstat =3D "${base_sbindir}/lnstat \
+> @@ -58,6 +61,7 @@ FILES_${PN}-rtacct =3D "${base_sbindir}/rtacct"
+>  FILES_${PN}-nstat =3D "${base_sbindir}/nstat"
+>  FILES_${PN}-ss =3D "${base_sbindir}/ss"
+>  FILES_${PN}-tipc =3D "${base_sbindir}/tipc"
+> +FILES_${PN}-devlink =3D "${base_sbindir}/devlink"
+>=20
+>  ALTERNATIVE_${PN} =3D "ip"
+>  ALTERNATIVE_TARGET[ip] =3D "${base_sbindir}/ip.${BPN}"
+> --
+> 2.17.1
+
+//Peter
 
