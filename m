@@ -1,51 +1,35 @@
-Return-Path: <jupiter.hce@gmail.com>
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
-	[209.85.166.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CFE3610CF
+Return-Path: <wangmy@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id C4DD561043
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 04:35:25 +0000 (UTC)
-Received: by mail-io1-f42.google.com with SMTP id i11so7835474ioi.12
+	Tue, 18 Feb 2020 06:21:07 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,455,1574092800"; d="scan'208";a="83480836"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 18 Feb 2020 14:21:07 +0800
+Received: from G08CNEXMBPEKD05.g08.fujitsu.local (unknown [10.167.33.204])
+	by cn.fujitsu.com (Postfix) with ESMTP id CC3F850A9976
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Feb 2020 20:35:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=TUcXvtRx45Y+TZ52Ol/EkqkzI32zvHfIfp9ABJYLpog=;
-	b=QOUEdj2awMSDsHUYaWS7FIU3Rjs7FxXUK8MOc5tBpgUhgFFASAdR1ZBGXmWl96iF3y
-	FupXapPp5hnVBEto8/yhXCeHdcBZ/GX+5G0yew17AB/7cpwB1FGQpDFjwWoewl0Gc3DR
-	7Xbiz0EU9j8OUju4MFTLJJLx1FT/HKvsmGXyHcFgeRnpKJVovqi44E6MZs3uRilp1BJ/
-	xGhqiGnAQcV2Ma9xovHOABu4QvNWY2PBkd9dZKJ4gkhNMTewJCvDPvmimzC6DWUDn2fQ
-	58fZNrQCw694of/x73HTAzsPBJrVGoe1A4fYe+LPP4Lid/Xo0uA/UfrHCt9IB90SxCdd
-	Beew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=TUcXvtRx45Y+TZ52Ol/EkqkzI32zvHfIfp9ABJYLpog=;
-	b=mDhXUhN50w7gJsShxFTzSxHkxxSx/OVyn8UnhVhXFA/HOjdtYu/ZnTsny/uGqEvdOM
-	tw8ANg9IpA03GjSv5m5qZQXMvm5QB0eT4kQITXbOA9ykeozC20j1W/3AWmoR2LnS1F4+
-	Y8eO2DamvHCEhP2BsTt50dYD4LiN4J7+lIrrBcWH6/Gc8aoVxkVz1C8hVnXJmgr/Q+qc
-	FhlLbxIMbjkA4PkA5D3Wkdm0pBpiLmiPyafAdLg//aUj/3OxQ0de8Mf9zR36Z857hME2
-	3Ce1vyCTdhbiNuYviOuyNQeWRi9ZTqTiAYMOQw+sHgAuqLes0B9ezAROdOqr4ykfOaO9
-	EXsQ==
-X-Gm-Message-State: APjAAAUxiEtKEjxy9WI191i9NeEijeagr/h4DYLFIK1EWeOhj61jPIjt
-	RavxUgF89Po64cP3wq0kMKLZZEhlcUwgqqPqSXk=
-X-Google-Smtp-Source: APXvYqzuJ8+MKyZupZqpupr12gG9m3qPLdz9X2HRBPDd3EEoZTOsqe4KhfFrVPWtcy0wBoThKgP/0zBkQrXCV05Y0/U=
-X-Received: by 2002:a6b:d912:: with SMTP id r18mr13828656ioc.306.1582000526158;
-	Mon, 17 Feb 2020 20:35:26 -0800 (PST)
+	Tue, 18 Feb 2020 14:11:28 +0800 (CST)
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
+	G08CNEXMBPEKD05.g08.fujitsu.local (10.167.33.204) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Tue, 18 Feb 2020 14:21:04 +0800
+Received: from localhost.localdomain.localdomain (10.167.225.33) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Tue, 18 Feb 2020 14:21:11 +0800
+From: Wang Mingyu <wangmy@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Feb 2020 05:39:55 -0800
+Message-ID: <1582033197-93331-2-git-send-email-wangmy@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1582033197-93331-1-git-send-email-wangmy@cn.fujitsu.com>
+References: <1582033197-93331-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
-Received: by 2002:ad5:5d0d:0:0:0:0:0 with HTTP; Mon, 17 Feb 2020 20:35:25
-	-0800 (PST)
-In-Reply-To: <CAA=hcWTDqhJEE7MXFY9rvN93nf8=nWvshLoXKF3EMXYGLmZGbA@mail.gmail.com>
-References: <CAA=hcWTDqhJEE7MXFY9rvN93nf8=nWvshLoXKF3EMXYGLmZGbA@mail.gmail.com>
-From: JH <jupiter.hce@gmail.com>
-Date: Tue, 18 Feb 2020 15:35:25 +1100
-Message-ID: <CAA=hcWQ_6n4Sy66GoYxLgFJu-CwtaS1m-vAT_wVMTgDZ2qkarg@mail.gmail.com>
-To: linux-wireless <linux-wireless@vger.kernel.org>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	linux-mtd <linux-mtd@lists.infradead.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Change RO rootfs failed RF Kill Switch Status and Failed to start Run pending postinsts
+X-Originating-IP: [10.167.225.33]
+X-yoursite-MailScanner-ID: CC3F850A9976.A3EE6
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libarchive: upgrade 3.4.1 -> 3.4.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,61 +42,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 04:35:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 18 Feb 2020 06:21:08 -0000
+Content-Type: text/plain
 
-It also seems mwifiex_sdio tried to write to RO rootfs and failed and
-triggled RF Killm, does mwifiex_sdio needs some system directories for
-RW?
+Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
+---
+ .../libarchive/{libarchive_3.4.1.bb => libarchive_3.4.2.bb}   | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/libarchive/{libarchive_3.4.1.bb => libarchive_3.4.2.bb} (93%)
 
-[   26.636845] mwifiex_sdio mmc0:0001:1: mwifiex_process_cmdresp: cmd 0x242 fain
-         Starting Load/Save RF Kill Switch Status...
-[   26.852990] mwifiex_sdio mmc0:0001:1: info: MWIFIEX VERSION: mwifiex 1.0 (14
-[   26.861518] mwifiex_sdio mmc0:0001:1: driver_version = mwifiex 1.0 (14.68.36
-[FAILED] Failed to start Load/Save RF Kill Switch Status.
-See 'systemctl status systemd-rfkill.service' for details.
-         Starting Load/Save RF Kill Switch Status...
-[FAILED] Failed to start Load/Save RF Kill Switch Status.
-See 'systemctl status systemd-rfkill.service' for details.
-         Starting Load/Save RF Kill Switch Status...
-[FAILED] Failed to start Load/Save RF Kill Switch Status.
-See 'systemctl status systemd-rfkill.service' for details.
-         Starting Load/Save RF Kill Switch Status...
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.4.1.bb b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
+similarity index 93%
+rename from meta/recipes-extended/libarchive/libarchive_3.4.1.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.4.2.bb
+index 2d33dd80ab..c3edb573e7 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.4.1.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.4.2.bb
+@@ -33,8 +33,8 @@ EXTRA_OECONF += "--enable-largefile"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+ 
+-SRC_URI[md5sum] = "59bff5ee6216cbb76c8354f6dd6f5a5a"
+-SRC_URI[sha256sum] = "fcf87f3ad8db2e4f74f32526dee62dd1fb9894782b0a503a89c9d7a70a235191"
++SRC_URI[md5sum] = "d953ed6b47694dadf0e6042f8f9ff451"
++SRC_URI[sha256sum] = "b60d58d12632ecf1e8fad7316dc82c6b9738a35625746b47ecdcaf4aed176176"
+ 
+ inherit autotools update-alternatives pkgconfig
+ 
+-- 
+2.17.1
 
 
 
-
-On 2/18/20, JH <jupiter.hce@gmail.com> wrote:
-> Hi,
->
-> Apologize for the cross posting.
->
-> I am running kernel 4.19.75 on iMX6 customized device with WiFi and 4G
-> LTE, it was running well in an RW rootfs. After I have just changed
-> rootfs to RO UBIFS partition, it failed RF Kill and postinsts I
-> suspect both try write to the RO and failed, any advice how to fix it?
-> Despite it failed RF Kill and postinsts, it was still working.
->
-> [    6.097762] UBIFS (ubi0:2): UBIFS: mounted UBI device 0, volume 2,
-> name "rootfs-volume", R/O mode
-> ..............
-> [    6.151932] VFS: Mounted root (ubifs filesystem) readonly on device
-> 0:13.
-> .................
-> [  OK  ] Listening on Load/Save RF Kill Switch Status /dev/rfkill Watch.
->          Starting Load/Save RF Kill Switch Status...
-> [FAILED] Failed to start Load/Save RF Kill Switch Status.
-> See 'systemctl status systemd-rfkill.service' for details.
->
-> [FAILED] Failed to start Run pending postinsts.
-> See 'systemctl status run-postinsts.service' for details.
-> ...............
-> root#
->
-> Thank you.
->
-> Kind regards,
->
-> - jh
->
 
