@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id AAACB6157A;
-	Tue, 18 Feb 2020 13:32:08 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id C32656157A;
+	Tue, 18 Feb 2020 13:32:09 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Anders Wallin <wallinux@gmail.com>
-Date: Tue, 18 Feb 2020 13:32:10 -0000
-Message-ID: <20200218133210.2273.3241@do>
-References: <20200218132450.21597-1-wallinux@gmail.com>
+Date: Tue, 18 Feb 2020 13:32:11 -0000
+Message-ID: <20200218133211.2274.56681@do>
+References: <20200218132606.22055-1-wallinux@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200218132450.21597-1-wallinux@gmail.com>
+In-Reply-To: <20200218132606.22055-1-wallinux@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmFiZWx0cmFjZTogYWRkZWQgcHRlc3Q=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmFiZWx0cmFjZTI6IGFkZGVkIHB0ZXN0?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 13:32:08 -0000
+X-List-Received-Date: Tue, 18 Feb 2020 13:32:09 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: babeltrace: added ptest
+Series: babeltrace2: added ptest
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/22726/
+URL   : https://patchwork.openembedded.org/series/22727/
 State : failure
 
 == Summary ==
@@ -48,6 +48,11 @@ series by patchtest resulting in the following failures:
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at c9b5802bbe)
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-kernel/lttng/babeltrace2/0001-test_plugin-do-not-test-in-.libs.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
 
 
