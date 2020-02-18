@@ -1,25 +1,46 @@
-Return-Path: <Matthew.Zeng@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 050C26110F
+Return-Path: <jonathan.richardson@broadcom.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 51953601E1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 19:46:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01IJkZ1w009162
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	Tue, 18 Feb 2020 20:32:02 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id y11so25563352wrt.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 11:46:36 -0800 (PST)
-Received: from mzeng (128.224.141.67) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
-	Tue, 18 Feb 2020 11:46:35 -0800
-User-agent: mu4e 1.3.6; emacs 28.0.50
-From: "Mingde (Matthew) Zeng" <matthew.zeng@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Feb 2020 14:46:49 -0500
-Message-ID: <87pnebadau.fsf@windriver.com>
-MIME-Version: 1.0
-X-Originating-IP: [128.224.141.67]
-Subject: [PATCH v2] glib-2.0: add dependencies to fix ptest failures
+	Tue, 18 Feb 2020 12:32:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=qYMd1rgmwWxj7RD5YCPqH/I3nStF/46FBAScStur6Ks=;
+	b=eClyRw0XvgDh+Xi5uUSczquRoHphIo/FGK0R/BzXb1Boc3u9XYKnyiTzaje/hbvp0Q
+	UuUr3yGWh03Uwu1RU+KOTmzynJqVtHh9jDKHhjG3ltM26+0ltjRtRyKatYbJOw+ysQDs
+	Fysr5gte76PW/JHsaEnPg3ECr7qNNK1chp8/g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=qYMd1rgmwWxj7RD5YCPqH/I3nStF/46FBAScStur6Ks=;
+	b=rQt9PrcbagMHmu50OBWAAGsaJ/n6a9TXkH/QLBGXDJYL7BK93s8eEDDld+57Zh62pY
+	3H6q2pkUOFAC8/RYzELUBPG/N0b38jF2MLm1vfx7o6sE3bbDy/fgptia9Gl3KOdau0YG
+	s5sLsMS/7UTKAPsntbWsLqMS5nu1WoKZySI95wT4kRWcN7RMFqeWTTlk0EObuTfvnTSq
+	6BbU+CWUP+tkgDgjONl9BvBxkNOlnKHXkIiYugXvXbF2HYjr4z+X0Ycl4kN1wtClC1ZO
+	0Ehsxr2ODuGQrnlWngYFOFe9+Wsclxmh5hwhsuyBTm0AxJiI3TQxFRXVh8oVTue2UHAP
+	8VaQ==
+X-Gm-Message-State: APjAAAXsVzSm2Sb63byjUMxkD6IP91fAKVUeJTiZ8S7Hdac1PwIiDzOq
+	ybQkZW62tr2hAx3jJJ7HU0qRi0zAlkqhBt7lrTkGas8mBM/QdYF7NL7HdYdW9dJeTL/19tVDhv6
+	InesH7Niqgjzc+2qgriC2xxJK+xrIwbUXM4CbSp8gIcpN1E30v0vnUNFaEGFPlAdv5TytHfvBb7
+	ZPm1jNlsRtwJuSDhD8xs6TrlksEP9G3Q==
+X-Google-Smtp-Source: APXvYqw3NAHgJhvzBJC01B2MDoesL3laiwjEsL5WBE2qHQuH7yHJFIOtrhZsYUBP/hIwGExZ6Oc1CA==
+X-Received: by 2002:adf:a39a:: with SMTP id l26mr30640091wrb.211.1582057922615;
+	Tue, 18 Feb 2020 12:32:02 -0800 (PST)
+Received: from lbrmn-lnxub108.ric.broadcom.com ([192.19.228.250])
+	by smtp.gmail.com with ESMTPSA id
+	x10sm7178652wrv.60.2020.02.18.12.32.00
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Tue, 18 Feb 2020 12:32:02 -0800 (PST)
+From: Jonathan Richardson <jonathan.richardson@broadcom.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Feb 2020 12:31:36 -0800
+Message-Id: <20200218203136.8314-1-jonathan.richardson@broadcom.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [meta-oe] [PATCH 1/1] fio: remove disabling of compiler optimizations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,72 +53,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 19:46:35 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 18 Feb 2020 20:32:03 -0000
 
-There are a number of ptest failures due to executables not found in
-the image. Since these executables are in FILES_${PN}-dev, depending
-all of -dev which is an overkill. We take them out of -dev and put in
--utils, then depend on the latter instead.
+Disabling compiler optimizations affects fio performance by 25-30% so
+remove this from EXTRA_OECONF. Disabling of optimizations should be
+machine specific if there are bugs in the code instead of the default.
 
-When starting a glib ptest but decided to Ctrl-c interrupt midway,
-./run-ptest cannot be restarted unless running `userdel glib2-test`
-manually. Therefore adding a check prior to ptest will ensure the
-ptest can be restarted.
-
-Signed-off-by: Matthew Zeng <matthew.zeng@windriver.com>
+Signed-off-by: Jonathan Richardson <jonathan.richardson@broadcom.com>
 ---
- meta/recipes-core/glib-2.0/glib-2.0/run-ptest |  3 +++
- meta/recipes-core/glib-2.0/glib.inc           | 12 ++++++++----
- 2 files changed, 11 insertions(+), 4 deletions(-)
+ meta-oe/recipes-benchmark/fio/fio_3.18.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-index fc50082c8e..7a231b514b 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-@@ -1,6 +1,9 @@
- #! /bin/sh
+diff --git a/meta-oe/recipes-benchmark/fio/fio_3.18.bb b/meta-oe/recipes-benchmark/fio/fio_3.18.bb
+index b6484290f..2c461b8c5 100644
+--- a/meta-oe/recipes-benchmark/fio/fio_3.18.bb
++++ b/meta-oe/recipes-benchmark/fio/fio_3.18.bb
+@@ -33,7 +33,6 @@ S = "${WORKDIR}/git"
+ DISABLE_STATIC = ""
+ 
+ EXTRA_OEMAKE = "CC='${CC}' LDFLAGS='${LDFLAGS}'"
+-EXTRA_OECONF = "--disable-optimizations"
+ 
+ do_configure() {
+     ./configure ${EXTRA_OECONF}
+-- 
+2.17.1
 
- set -eux
-+if id -u glib2-test; then
-+   userdel glib2-test
-+fi
- useradd glib2-test
- su glib2-test -c 'gnome-desktop-testing-runner glib'
- userdel glib2-test
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index f4aff297e5..23c347dbf7 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -58,13 +58,15 @@ FILES_${PN} = "${libdir}/lib*${SOLIBS} \
-                ${libdir}/gio \
-                ${libexecdir}/*gio-querymodules \
-                ${datadir}/glib-2.0/schemas"
-+
-+FILES_${PN}-utils += "${bindir}/glib-genmarshal \
-+                      ${bindir}/glib-gettextize \
-+                      ${bindir}/glib-mkenums \
-+                      ${bindir}/glib-compile-resources"
-+
- FILES_${PN}-dev += "${libdir}/glib-2.0/include \
-                     ${libdir}/gio/modules/lib*${SOLIBSDEV} \
-                     ${libdir}/gio/modules/*.la \
--                    ${bindir}/glib-genmarshal \
--                    ${bindir}/glib-gettextize \
--                    ${bindir}/glib-mkenums \
--                    ${bindir}/glib-compile-resources \
-                     ${datadir}/glib-2.0/gettext/po/Makefile.in.in \
-                     ${datadir}/glib-2.0/schemas/gschema.dtd \
-                     ${datadir}/glib-2.0/valgrind/glib.supp \
-@@ -138,6 +140,8 @@ CODEGEN_PYTHON_RDEPENDS_mingw32 = ""
-
- RDEPENDS_${PN}-codegen += "${CODEGEN_PYTHON_RDEPENDS}"
-
-+RDEPENDS_${PN}-ptest += "${PN}-utils"
-+
- RDEPENDS_${PN}-ptest += "\
-             coreutils \
-             libgcc \
---
-2.24.0
 
