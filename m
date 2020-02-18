@@ -1,51 +1,49 @@
-Return-Path: <scott.branden@broadcom.com>
-Received: from mail-pj1-f66.google.com (mail-pj1-f66.google.com
-	[209.85.216.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DF2960697
+Return-Path: <andrey.z@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id D8A66608DD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 19:14:30 +0000 (UTC)
-Received: by mail-pj1-f66.google.com with SMTP id f2so882738pjq.1
+	Tue, 18 Feb 2020 19:38:57 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id t3so25403824wru.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 11:14:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qdBLqomA092ZFeZSQrPO+O3+KN1q9YfBj6oEdD4vPy4=;
-	b=UYl7sOZ36Ufu89ogap2tw3c7xTeEtq19jefnOAUvlVFkN47MPzOGGZLSUZz7UxCQJH
-	kywd3rsjwAnzk1aN+2/arZfgbMHdAhV/o2A1JZdkIaYawBcQSBu+N2qujfC+Ga1/GPYJ
-	6xi7HEfuKgl4csNXm7M5CkHWw1pnZ93/fpM50=
+	Tue, 18 Feb 2020 11:38:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=PzMiZ29ae+KFl53fMHnDwpT88iI0Vhj2w58XMZC2Otc=;
+	b=A7qNBq2bH5LjGowu5lyzj8iqSDVBAEFX+5+Y6/9LAs2Se0EMjf2WOMUHGDYWDaseGl
+	cahsW9ZSD9hhCM+8S7qz/Y68k6W65DE3BYNt2V/o6h5SJMsWk8vWvqb1f/Bvmoqng1Oa
+	5pRIrPsOxelaQQTpkbTB4vdvU/jbavdZ7e/bTIUuhJKqppGCQrmkTsn+cTS/doFQ6eUs
+	/tZn965EhQ84No5pFrizLVObDisymbULna6aXnW0kCt0ElKiODrArZIic41nwqGBRrpa
+	rkXtpj7NrvI9+kRgo4BZBdeejtE7J1RmGliIZwlzIehojtt6GaYr0KCsoER2ORQLPA/9
+	PFAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qdBLqomA092ZFeZSQrPO+O3+KN1q9YfBj6oEdD4vPy4=;
-	b=uGdRVEuBMU5Kr2j4HZbm62IKJMxBXbY5iNcoo+RiYm1loCmdquxVgrtb5sfJSBO3d3
-	+srKzi832u4Pgt60/55dMQJFIgO1YqvjGDVcVSnesJD5/Bdk8D5kSRebNXoYCuH1n+o9
-	GkbhR0NT4srD51cUVmTloQREk/ZVLku2WHe4agkS97IiQu6gy1wGVD5oCq6ADcfEVmiG
-	lxne+9kWAoK1Ekca6YHYRmm3pDY6E1sNrVaNqPIiP2WHeuTT29m43MGuhnvFrmsyOy+a
-	vmXrmg59PzoEyeVKBELIppUAUAQgP6BBwb/JXoFK88YQ0gmLHNKJUp4zbF1VwtWdL5WH
-	BM/Q==
-X-Gm-Message-State: APjAAAVCD9frt1/wtSuWwi0tELyZ9KtlO+O8MlxAQWoG46V6Ebp2QdUU
-	a+Dx60t1UU46Q3J3VZSrJIBFD5uWqNNi866rk0qahMuu41J9uIdwcOkd7wNxTsb+sFgPWTZwdEa
-	7wuuJE4lz2IO3xoXSiV0LmmCXY3lAkh5guXqHd8bOdZjtCZdy5x4p/ivKHH6JDZcB0Z1Cfzj++q
-	aWg1nxK+O6SU2dIW5onj2NEIIAZZ0=
-X-Google-Smtp-Source: APXvYqyiVgDYEJSppIyG0TKJhvfl0epn+lQOnAqgj9+i2OOhgbIPg/nAHuiAUKKf5cvFNON8OsdRrQ==
-X-Received: by 2002:a17:90a:5d97:: with SMTP id
-	t23mr4380704pji.61.1582053270889; 
-	Tue, 18 Feb 2020 11:14:30 -0800 (PST)
-Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
-	by smtp.gmail.com with ESMTPSA id
-	k29sm5232909pfh.77.2020.02.18.11.14.29
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 18 Feb 2020 11:14:30 -0800 (PST)
-From: Scott Branden <scott.branden@broadcom.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Feb 2020 11:14:22 -0800
-Message-Id: <20200218191422.8359-1-scott.branden@broadcom.com>
-X-Mailer: git-send-email 2.17.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=PzMiZ29ae+KFl53fMHnDwpT88iI0Vhj2w58XMZC2Otc=;
+	b=l4X37lPWJPLeZPVieD81KOdepG2Le37twRV5LXHmf9/PfQEX872tlO9zqNVS9hIDK5
+	F+1oni+2hm+7W4wMPtc93o0C6VIV1Ol1+tWDPZMvEHDrfIyEPPciW8CspkNnLXriXVoX
+	T+PFTAxITPF/2LmSK+0xx4kpe9s8ctOMBl/QCXCZc4+oyYmOq7Re2qq5UON2R+dSy4dI
+	CBGM4NWzNofS2Rfq1e5EIoa0ES5A4xIEYhcYG7++09iZpfT3AmDe7Fjg9nzeuggdWQzj
+	Qujqec1knMjAEzPclilZpErcwTJeyKHdvKtVp6XIpGQ8PzkopOQyekyIO7TOXqCxj7ok
+	UkGw==
+X-Gm-Message-State: APjAAAWsFEcyIxyZ3eFMLau89156fwMTFoWx7uqci4ALeSrRnwOLhIdt
+	JCP1atqmKNHATghoVEF6QIbycRu3ky2bEgZ61s1m2g==
+X-Google-Smtp-Source: APXvYqw/dR2WezcoohU9TvihMn6NWTtjUdWlupIPkYbj1Ua7meaqnBvCkTMb8J4SeBMr9/GB2RsQZQKSFAuebe4eFMs=
+X-Received: by 2002:a5d:614a:: with SMTP id y10mr32102830wrt.73.1582054738333; 
+	Tue, 18 Feb 2020 11:38:58 -0800 (PST)
 MIME-Version: 1.0
-Cc: Lori Hikichi <lori.hikichi@broadcom.com>
-Subject: [PATCH] rpm2cpio.sh: fix to handle newline character
+References: <20200206075334.835418-1-anuj.mittal@intel.com>
+	<b7ce05ce-aaf7-068c-ab42-235f8844350c@mailbox.org>
+	<265ac69eb8eb8d129d9f66f6d037d44242c42e57.camel@intel.com>
+In-Reply-To: <265ac69eb8eb8d129d9f66f6d037d44242c42e57.camel@intel.com>
+From: Andrey Zhizhikin <andrey.z@gmail.com>
+Date: Tue, 18 Feb 2020 20:38:47 +0100
+Message-ID: <CAHtQpK4+EFeB7aY8T5TJAM_esBV3C+rL1Ai+Un_mGTBXWAhi4A@mail.gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-plugins-good: change EXTRA_OECONF -> EXTRA_OEMESON
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +56,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 19:14:30 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 18 Feb 2020 19:38:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Lori Hikichi <lori.hikichi@broadcom.com>
+Hello Anuj,
 
-This script is attempting to read binary data from an rpm file.
-If any of the bytes it is attempt to read is the binary value 0xa
-(i.e. a newline) then the script does not properly deal with this
-special case. Due to the behavior of command substitution, instead of
-fetching the value 0xa, the script makes an error and get the value 0
-instead.
+On Fri, Feb 7, 2020 at 5:15 AM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> On Thu, 2020-02-06 at 12:41 +0100, Carlos Rafael Giani wrote:
+> > Shouldn't this be split into two commits, one that fixes
+> > EXTRA_OECONF,
+> > and one that fixes the qt5 support?
+> >
+> > Also, are we sure that meson's qt5 moc/rcc/uic autodetection won't
+> > cause
+> > any problems in OE?
+> > Typically, we disable such "automagical" detections to ensure
+> > deterministic builds.
+>
+> Right. I will send v2 and keep it disabled explicitly.
 
-The fix and the following explantion was taken from this post...
+Just a gentle ping: Is there any follow-up on this patch(es)?
 
-https://unix.stackexchange.com/questions/10801/
-how-to-use-bash-script-to-read-binary-file-content
+>
+> Thanks,
+>
+> Anuj
+>
+> >
+> > On 06.02.20 08:53, Anuj Mittal wrote:
+> > > Use the correct variable so options actually get used.
+> > >
+> > > qt5 support is currently automagically detected with meson and
+> > > having an
+> > > explicit disabled doesn't do anything. Remove it so it can be
+> > > handled
+> > > in qt layer with appropriate DEPENDS added.
+> > >
+> > > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+> > > ---
+> > >   .../gstreamer/gstreamer1.0-plugins-good_1.16.1.bb          | 7
+> > > +++----
+> > >   1 file changed, 3 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+> > > plugins-good_1.16.1.bb b/meta/recipes-
+> > > multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
+> > > index a6eb9986dd..e78162172a 100644
+> > > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> > > good_1.16.1.bb
+> > > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
+> > > good_1.16.1.bb
+> > > @@ -50,12 +50,12 @@ PACKAGECONFIG[vpx]        = "-Dvpx=enabled,-
+> > > Dvpx=disabled,libvpx"
+> > >   PACKAGECONFIG[wavpack]    = "-Dwavpack=enabled,-
+> > > Dwavpack=disabled,wavpack"
+> > >   PACKAGECONFIG[x11]        =
+> > > "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DEPENDS}"
+> > >
+> > > -# qt5 support is disabled, because it is not present in OE core,
+> > > and requires more work than
+> > > -# just adding a packageconfig (it requires access to moc, uic,
+> > > rcc, and qmake paths).
+> > > +# qt5 support is disabled by default unless dependencies are
+> > > present. Enabling it requires
+> > > +# more work than just adding a packageconfig (it requires access
+> > > to moc, uic, rcc, and qmake paths).
+> > >   # This is better done in a separate qt5 layer (which then should
+> > > add a "qt5" packageconfig
+> > >   # in a gstreamer1.0-plugins-good bbappend).
+> > >
+> > > -EXTRA_OECONF += " \
+> > > +EXTRA_OEMESON += " \
+> > >       -Daalib=disabled \
+> > >       -Ddirectsound=disabled \
+> > >       -Ddv=disabled \
+> > > @@ -64,7 +64,6 @@ EXTRA_OECONF += " \
+> > >       -Doss4=disabled \
+> > >       -Dosxaudio=disabled \
+> > >       -Dosxvideo=disabled \
+> > > -    -Dqt=disabled \
+> > >       -Dshout2=disabled \
+> > >       -Dtwolame=disabled \
+> > >       -Dwaveform=disabled \
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Command substitution $(…) strips final newlines in the command output.
-There's a fairly easy workaround.  Make sure the output ends in a
-character other than a newline, then strip that one character.
 
-Signed-off-by: Lori Hikichi <lori.hikichi@broadcom.com>
-Signed-off-by: Scott Branden <scott.branden@broadcom.com>
----
- scripts/rpm2cpio.sh | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/rpm2cpio.sh b/scripts/rpm2cpio.sh
-index 876c53c5d9..7cd771bbe7 100755
---- a/scripts/rpm2cpio.sh
-+++ b/scripts/rpm2cpio.sh
-@@ -22,7 +22,8 @@ calcsize() {
- 
- 	i=0
- 	while [ $i -lt 8 ]; do
--		b="$(_dd $(($offset + $i)) bs=1 count=1)"
-+ 		b=$(_dd $(($offset + $i)) bs=1 count=1; echo X)
-+ 		b=${b%X}
- 		[ -z "$b" ] &&
- 			b="0" ||
- 			b="$(exec printf '%u\n' "'$b")"
--- 
-2.17.1
-
+--
+Regards,
+Andrey.
 
