@@ -1,35 +1,27 @@
-Return-Path: <De.Huo@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 32AD96021C
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C0A360739
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 02:47:51 +0000 (UTC)
+	Tue, 18 Feb 2020 02:56:00 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id 01I2kE8i018213
-	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL);
-	Mon, 17 Feb 2020 18:46:24 -0800
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.168]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0468.000;
-	Mon, 17 Feb 2020 18:46:04 -0800
-From: "Huo, De" <De.Huo@windriver.com>
-To: "chet.ramey@case.edu" <chet.ramey@case.edu>, Phil Reid
-	<preid@electromag.com.au>, "akuster808@gmail.com" <akuster808@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>, "Patches and
-	discussions about the oe-core layer"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: bash: Fix CVE-2019-18276
-Thread-Index: AQHV5Z4qZTbV/Yg+HUmTF5baP1M/zKggPyY3
-Date: Tue, 18 Feb 2020 02:46:04 +0000
-Message-ID: <444185BB2F013F4E92378F99BCF8A58BC9AF9CBD@ALA-MBD.corp.ad.wrs.com>
-References: <aa0bf5f6-aaf2-bfbf-6488-8d65cbe849f7@electromag.com.au>,
-	<4f09ab13-9571-3464-2fc3-334bc91b9c09@case.edu>
-In-Reply-To: <4f09ab13-9571-3464-2fc3-334bc91b9c09@case.edu>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.16.163]
+	by mail1.windriver.com (8.15.2/8.15.2) with ESMTPS id 01I2u1V8028484
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Feb 2020 18:56:02 -0800 (PST)
+Received: from [128.224.162.183] (128.224.162.183) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.468.0;
+	Mon, 17 Feb 2020 18:56:01 -0800
+To: <openembedded-core@lists.openembedded.org>
+References: <20200211150741.2729-1-kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <2580ac74-38f2-4fdc-9030-7591d9cc26cb@windriver.com>
+Date: Tue, 18 Feb 2020 10:55:59 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-Subject: Re: bash: Fix CVE-2019-18276
+In-Reply-To: <20200211150741.2729-1-kai.kang@windriver.com>
+Subject: Re: [PATCH] glibc-package.inc: fix multilib headers conflict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,36 +34,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 02:47:51 -0000
+X-List-Received-Date: Tue, 18 Feb 2020 02:56:01 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
- I applied the patch to fix CVE defect CVE-2019-18276.=0A=
-Can I reproduce this failure on my side?=0A=
-________________________________________=0A=
-From: Chet Ramey [chet.ramey@case.edu]=0A=
-Sent: Monday, February 17, 2020 10:24 PM=0A=
-To: Phil Reid; Huo, De; akuster808@gmail.com; Richard Purdie; Patches and d=
-iscussions about the oe-core layer=0A=
-Cc: chet.ramey@case.edu=0A=
-Subject: Re: bash: Fix CVE-2019-18276=0A=
-=0A=
-On 2/16/20 9:56 PM, Phil Reid wrote:=0A=
-> Hi All,=0A=
->=0A=
-> I recently started get the following failure with bash after "b348e31c93f=
-0=0A=
-> bash: Fix CVE-2019-18276"=0A=
-> was applied to zeus.=0A=
->=0A=
-> Any thoughts?=0A=
-=0A=
-What is the `Fix CVE-2019-18276' patch? Who supplied it?=0A=
-=0A=
---=0A=
-``The lyf so short, the craft so long to lerne.'' - Chaucer=0A=
-                 ``Ars longa, vita brevis'' - Hippocrates=0A=
-Chet Ramey, UTech, CWRU    chet@case.edu    http://tiswww.cwru.edu/~chet/=
-=0A=
+On 2020/2/11 下午11:07, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Pass bits/endianness.h and bits/struct_rwlock.h to oe_multilib_header in
+> glibc-package.inc to fix files conflict:
+>
+> | Error: Transaction check error:
+> |   file /usr/include/bits/endianness.h conflicts between attempted installs of lib32-libc6-dev-2.31-r0.armv7vet2hf_vfp and libc6-dev-2.31-r0.aarch64
+> |   file /usr/include/bits/struct_rwlock.h conflicts between attempted installs of lib32-libc6-dev-2.31-r0.armv7vet2hf_vfp and libc6-dev-2.31-r0.aarch64
+
+Ping.
+
+Could reproduce with config
+
+require conf/multilib.conf
+MACHINE = "qemuarm64"
+MULTILIBS = "multilib:lib32"
+DEFAULTTUNE_virtclass-multilib-lib32 = "armv7vethf"
+
+Regards,
+Kai
+
+
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/recipes-core/glibc/glibc-package.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+> index 3aed7be4f8..285a9aa2f5 100644
+> --- a/meta/recipes-core/glibc/glibc-package.inc
+> +++ b/meta/recipes-core/glibc/glibc-package.inc
+> @@ -87,7 +87,7 @@ do_install() {
+>   		rmdir --ignore-fail-on-non-empty ${D}${libexecdir}
+>   	fi
+>   
+> -	oe_multilib_header bits/syscall.h bits/long-double.h bits/floatn.h
+> +	oe_multilib_header bits/syscall.h bits/long-double.h bits/floatn.h bits/endianness.h bits/struct_rwlock.h
+>   
+>   	if [ -f ${D}${bindir}/mtrace ]; then
+>   		sed -i -e '1s,#!.*perl,#! ${USRBINPATH}/env perl,' -e '2s,exec.*perl,exec ${USRBINPATH}/env perl,' ${D}${bindir}/mtrace
+
+
+-- 
+Kai Kang
+
 
