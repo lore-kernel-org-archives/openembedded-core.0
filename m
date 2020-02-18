@@ -1,33 +1,35 @@
 Return-Path: <wangmy@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 9564C61582
+	by mail.openembedded.org (Postfix) with ESMTP id 39CE361580
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 06:21:08 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.70,455,1574092800"; d="scan'208";a="83480837"
+	Tue, 18 Feb 2020 06:21:12 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.70,455,1574092800"; d="scan'208";a="83480842"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Feb 2020 14:21:07 +0800
-Received: from G08CNEXMBPEKD06.g08.fujitsu.local (unknown [10.167.33.206])
-	by cn.fujitsu.com (Postfix) with ESMTP id 06F0E406AB15
+	by heian.cn.fujitsu.com with ESMTP; 18 Feb 2020 14:21:13 +0800
+Received: from G08CNEXMBPEKD04.g08.fujitsu.local (unknown [10.167.33.201])
+	by cn.fujitsu.com (Postfix) with ESMTP id B341E406AB15
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 14:11:26 +0800 (CST)
+	Tue, 18 Feb 2020 14:11:31 +0800 (CST)
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.80) by
-	G08CNEXMBPEKD06.g08.fujitsu.local (10.167.33.206) with Microsoft SMTP
-	Server (TLS) id 15.0.1395.4; Tue, 18 Feb 2020 14:21:03 +0800
+	G08CNEXMBPEKD04.g08.fujitsu.local (10.167.33.201) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Tue, 18 Feb 2020 14:21:07 +0800
 Received: from localhost.localdomain.localdomain (10.167.225.33) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Tue, 18 Feb 2020 14:21:08 +0800
+	Server (TLS) id 14.3.439.0; Tue, 18 Feb 2020 14:21:14 +0800
 From: Wang Mingyu <wangmy@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 18 Feb 2020 05:39:54 -0800
-Message-ID: <1582033197-93331-1-git-send-email-wangmy@cn.fujitsu.com>
+Date: Tue, 18 Feb 2020 05:39:56 -0800
+Message-ID: <1582033197-93331-3-git-send-email-wangmy@cn.fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1582033197-93331-1-git-send-email-wangmy@cn.fujitsu.com>
+References: <1582033197-93331-1-git-send-email-wangmy@cn.fujitsu.com>
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.33]
-X-yoursite-MailScanner-ID: 06F0E406AB15.A5353
+X-yoursite-MailScanner-ID: B341E406AB15.A0D27
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: wangmy@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [PATCH] bison: upgrade 3.5.1 -> 3.5.2
+Subject: [PATCH] libcap: upgrade 2.31 -> 2.32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,32 +42,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 06:21:09 -0000
+X-List-Received-Date: Tue, 18 Feb 2020 06:21:12 -0000
 Content-Type: text/plain
 
 Signed-off-by: Wang Mingyu <wangmy@cn.fujitsu.com>
 ---
- .../recipes-devtools/bison/{bison_3.5.1.bb => bison_3.5.2.bb} | 4 ++--
+ .../recipes-support/libcap/{libcap_2.31.bb => libcap_2.32.bb} | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/bison/{bison_3.5.1.bb => bison_3.5.2.bb} (90%)
+ rename meta/recipes-support/libcap/{libcap_2.31.bb => libcap_2.32.bb} (93%)
 
-diff --git a/meta/recipes-devtools/bison/bison_3.5.1.bb b/meta/recipes-devtools/bison/bison_3.5.2.bb
-similarity index 90%
-rename from meta/recipes-devtools/bison/bison_3.5.1.bb
-rename to meta/recipes-devtools/bison/bison_3.5.2.bb
-index e70252d974..b5b4a8ef76 100644
---- a/meta/recipes-devtools/bison/bison_3.5.1.bb
-+++ b/meta/recipes-devtools/bison/bison_3.5.2.bb
-@@ -17,8 +17,8 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
- # No point in hardcoding path to m4, just use PATH
- EXTRA_OECONF += "M4=m4"
+diff --git a/meta/recipes-support/libcap/libcap_2.31.bb b/meta/recipes-support/libcap/libcap_2.32.bb
+similarity index 93%
+rename from meta/recipes-support/libcap/libcap_2.31.bb
+rename to meta/recipes-support/libcap/libcap_2.32.bb
+index 97959c1025..d78a58f7d2 100644
+--- a/meta/recipes-support/libcap/libcap_2.31.bb
++++ b/meta/recipes-support/libcap/libcap_2.32.bb
+@@ -12,8 +12,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${
+            file://0002-tests-do-not-run-target-executables.patch \
+            file://0001-tests-do-not-statically-link-a-test.patch \
+            "
+-SRC_URI[md5sum] = "52120c05dc797b01f5a7ae70f4335e96"
+-SRC_URI[sha256sum] = "c6088de41e1c97fa8047e2e7de0e4ee0cd13e6cc16538022230ae76727a87c46"
++SRC_URI[md5sum] = "7416119c9fdcfd0e8dd190a432c668e9"
++SRC_URI[sha256sum] = "1005e3d227f2340ad1e3360ef8b69d15e3c72a29c09f4894d7aac038bd26e2be"
  
--SRC_URI[md5sum] = "6fc5fa4488832a65db934b9e93bd5d4c"
--SRC_URI[sha256sum] = "3e7e097bd9709a2d5e40e69446b74b149733b3de864fadb7a9b54eca7b2a4dd0"
-+SRC_URI[md5sum] = "49fc2cf23e31e697d5072835e1662a97"
-+SRC_URI[sha256sum] = "24e273db9eb6da8bbb6f0648284d0724a5cbd6268a163db402f961350a4e50dd"
- 
- inherit autotools gettext texinfo
+ UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/linux/libs/security/linux-privs/${BPN}2/"
  
 -- 
 2.17.1
