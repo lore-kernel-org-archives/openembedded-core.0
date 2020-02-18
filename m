@@ -1,49 +1,25 @@
-Return-Path: <andrey.z@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id D8A66608DD
+Return-Path: <Matthew.Zeng@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 050C26110F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 19:38:57 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id t3so25403824wru.7
+	Tue, 18 Feb 2020 19:46:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.2) with ESMTPS id 01IJkZ1w009162
+	(version=TLSv1 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 11:38:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PzMiZ29ae+KFl53fMHnDwpT88iI0Vhj2w58XMZC2Otc=;
-	b=A7qNBq2bH5LjGowu5lyzj8iqSDVBAEFX+5+Y6/9LAs2Se0EMjf2WOMUHGDYWDaseGl
-	cahsW9ZSD9hhCM+8S7qz/Y68k6W65DE3BYNt2V/o6h5SJMsWk8vWvqb1f/Bvmoqng1Oa
-	5pRIrPsOxelaQQTpkbTB4vdvU/jbavdZ7e/bTIUuhJKqppGCQrmkTsn+cTS/doFQ6eUs
-	/tZn965EhQ84No5pFrizLVObDisymbULna6aXnW0kCt0ElKiODrArZIic41nwqGBRrpa
-	rkXtpj7NrvI9+kRgo4BZBdeejtE7J1RmGliIZwlzIehojtt6GaYr0KCsoER2ORQLPA/9
-	PFAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=PzMiZ29ae+KFl53fMHnDwpT88iI0Vhj2w58XMZC2Otc=;
-	b=l4X37lPWJPLeZPVieD81KOdepG2Le37twRV5LXHmf9/PfQEX872tlO9zqNVS9hIDK5
-	F+1oni+2hm+7W4wMPtc93o0C6VIV1Ol1+tWDPZMvEHDrfIyEPPciW8CspkNnLXriXVoX
-	T+PFTAxITPF/2LmSK+0xx4kpe9s8ctOMBl/QCXCZc4+oyYmOq7Re2qq5UON2R+dSy4dI
-	CBGM4NWzNofS2Rfq1e5EIoa0ES5A4xIEYhcYG7++09iZpfT3AmDe7Fjg9nzeuggdWQzj
-	Qujqec1knMjAEzPclilZpErcwTJeyKHdvKtVp6XIpGQ8PzkopOQyekyIO7TOXqCxj7ok
-	UkGw==
-X-Gm-Message-State: APjAAAWsFEcyIxyZ3eFMLau89156fwMTFoWx7uqci4ALeSrRnwOLhIdt
-	JCP1atqmKNHATghoVEF6QIbycRu3ky2bEgZ61s1m2g==
-X-Google-Smtp-Source: APXvYqw/dR2WezcoohU9TvihMn6NWTtjUdWlupIPkYbj1Ua7meaqnBvCkTMb8J4SeBMr9/GB2RsQZQKSFAuebe4eFMs=
-X-Received: by 2002:a5d:614a:: with SMTP id y10mr32102830wrt.73.1582054738333; 
-	Tue, 18 Feb 2020 11:38:58 -0800 (PST)
+	Tue, 18 Feb 2020 11:46:36 -0800 (PST)
+Received: from mzeng (128.224.141.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.468.0;
+	Tue, 18 Feb 2020 11:46:35 -0800
+User-agent: mu4e 1.3.6; emacs 28.0.50
+From: "Mingde (Matthew) Zeng" <matthew.zeng@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 18 Feb 2020 14:46:49 -0500
+Message-ID: <87pnebadau.fsf@windriver.com>
 MIME-Version: 1.0
-References: <20200206075334.835418-1-anuj.mittal@intel.com>
-	<b7ce05ce-aaf7-068c-ab42-235f8844350c@mailbox.org>
-	<265ac69eb8eb8d129d9f66f6d037d44242c42e57.camel@intel.com>
-In-Reply-To: <265ac69eb8eb8d129d9f66f6d037d44242c42e57.camel@intel.com>
-From: Andrey Zhizhikin <andrey.z@gmail.com>
-Date: Tue, 18 Feb 2020 20:38:47 +0100
-Message-ID: <CAHtQpK4+EFeB7aY8T5TJAM_esBV3C+rL1Ai+Un_mGTBXWAhi4A@mail.gmail.com>
-To: "Mittal, Anuj" <anuj.mittal@intel.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-plugins-good: change EXTRA_OECONF -> EXTRA_OEMESON
+X-Originating-IP: [128.224.141.67]
+Subject: [PATCH v2] glib-2.0: add dependencies to fix ptest failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,98 +32,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Feb 2020 19:38:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 18 Feb 2020 19:46:35 -0000
+Content-Type: text/plain
 
-Hello Anuj,
+There are a number of ptest failures due to executables not found in
+the image. Since these executables are in FILES_${PN}-dev, depending
+all of -dev which is an overkill. We take them out of -dev and put in
+-utils, then depend on the latter instead.
 
-On Fri, Feb 7, 2020 at 5:15 AM Mittal, Anuj <anuj.mittal@intel.com> wrote:
->
-> On Thu, 2020-02-06 at 12:41 +0100, Carlos Rafael Giani wrote:
-> > Shouldn't this be split into two commits, one that fixes
-> > EXTRA_OECONF,
-> > and one that fixes the qt5 support?
-> >
-> > Also, are we sure that meson's qt5 moc/rcc/uic autodetection won't
-> > cause
-> > any problems in OE?
-> > Typically, we disable such "automagical" detections to ensure
-> > deterministic builds.
->
-> Right. I will send v2 and keep it disabled explicitly.
+When starting a glib ptest but decided to Ctrl-c interrupt midway,
+./run-ptest cannot be restarted unless running `userdel glib2-test`
+manually. Therefore adding a check prior to ptest will ensure the
+ptest can be restarted.
 
-Just a gentle ping: Is there any follow-up on this patch(es)?
+Signed-off-by: Matthew Zeng <matthew.zeng@windriver.com>
+---
+ meta/recipes-core/glib-2.0/glib-2.0/run-ptest |  3 +++
+ meta/recipes-core/glib-2.0/glib.inc           | 12 ++++++++----
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
->
-> Thanks,
->
-> Anuj
->
-> >
-> > On 06.02.20 08:53, Anuj Mittal wrote:
-> > > Use the correct variable so options actually get used.
-> > >
-> > > qt5 support is currently automagically detected with meson and
-> > > having an
-> > > explicit disabled doesn't do anything. Remove it so it can be
-> > > handled
-> > > in qt layer with appropriate DEPENDS added.
-> > >
-> > > Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> > > ---
-> > >   .../gstreamer/gstreamer1.0-plugins-good_1.16.1.bb          | 7
-> > > +++----
-> > >   1 file changed, 3 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-
-> > > plugins-good_1.16.1.bb b/meta/recipes-
-> > > multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-> > > index a6eb9986dd..e78162172a 100644
-> > > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
-> > > good_1.16.1.bb
-> > > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-
-> > > good_1.16.1.bb
-> > > @@ -50,12 +50,12 @@ PACKAGECONFIG[vpx]        = "-Dvpx=enabled,-
-> > > Dvpx=disabled,libvpx"
-> > >   PACKAGECONFIG[wavpack]    = "-Dwavpack=enabled,-
-> > > Dwavpack=disabled,wavpack"
-> > >   PACKAGECONFIG[x11]        =
-> > > "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DEPENDS}"
-> > >
-> > > -# qt5 support is disabled, because it is not present in OE core,
-> > > and requires more work than
-> > > -# just adding a packageconfig (it requires access to moc, uic,
-> > > rcc, and qmake paths).
-> > > +# qt5 support is disabled by default unless dependencies are
-> > > present. Enabling it requires
-> > > +# more work than just adding a packageconfig (it requires access
-> > > to moc, uic, rcc, and qmake paths).
-> > >   # This is better done in a separate qt5 layer (which then should
-> > > add a "qt5" packageconfig
-> > >   # in a gstreamer1.0-plugins-good bbappend).
-> > >
-> > > -EXTRA_OECONF += " \
-> > > +EXTRA_OEMESON += " \
-> > >       -Daalib=disabled \
-> > >       -Ddirectsound=disabled \
-> > >       -Ddv=disabled \
-> > > @@ -64,7 +64,6 @@ EXTRA_OECONF += " \
-> > >       -Doss4=disabled \
-> > >       -Dosxaudio=disabled \
-> > >       -Dosxvideo=disabled \
-> > > -    -Dqt=disabled \
-> > >       -Dshout2=disabled \
-> > >       -Dtwolame=disabled \
-> > >       -Dwaveform=disabled \
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+index fc50082c8e..7a231b514b 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
++++ b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+@@ -1,6 +1,9 @@
+ #! /bin/sh
 
+ set -eux
++if id -u glib2-test; then
++   userdel glib2-test
++fi
+ useradd glib2-test
+ su glib2-test -c 'gnome-desktop-testing-runner glib'
+ userdel glib2-test
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index f4aff297e5..23c347dbf7 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -58,13 +58,15 @@ FILES_${PN} = "${libdir}/lib*${SOLIBS} \
+                ${libdir}/gio \
+                ${libexecdir}/*gio-querymodules \
+                ${datadir}/glib-2.0/schemas"
++
++FILES_${PN}-utils += "${bindir}/glib-genmarshal \
++                      ${bindir}/glib-gettextize \
++                      ${bindir}/glib-mkenums \
++                      ${bindir}/glib-compile-resources"
++
+ FILES_${PN}-dev += "${libdir}/glib-2.0/include \
+                     ${libdir}/gio/modules/lib*${SOLIBSDEV} \
+                     ${libdir}/gio/modules/*.la \
+-                    ${bindir}/glib-genmarshal \
+-                    ${bindir}/glib-gettextize \
+-                    ${bindir}/glib-mkenums \
+-                    ${bindir}/glib-compile-resources \
+                     ${datadir}/glib-2.0/gettext/po/Makefile.in.in \
+                     ${datadir}/glib-2.0/schemas/gschema.dtd \
+                     ${datadir}/glib-2.0/valgrind/glib.supp \
+@@ -138,6 +140,8 @@ CODEGEN_PYTHON_RDEPENDS_mingw32 = ""
 
+ RDEPENDS_${PN}-codegen += "${CODEGEN_PYTHON_RDEPENDS}"
 
++RDEPENDS_${PN}-ptest += "${PN}-utils"
++
+ RDEPENDS_${PN}-ptest += "\
+             coreutils \
+             libgcc \
 --
-Regards,
-Andrey.
+2.24.0
 
