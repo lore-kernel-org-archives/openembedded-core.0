@@ -1,53 +1,58 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-il1-f196.google.com (mail-il1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AF58061576
+Return-Path: <scott.branden@broadcom.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3D59361573
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 00:44:48 +0000 (UTC)
-Received: by mail-il1-f196.google.com with SMTP id x2so10216926ila.9
+	Wed, 19 Feb 2020 01:08:16 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id m16so26174415wrx.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 16:44:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=4sC1kAhxqcmMqpzW3F69fmT64InjMdWZLdXTwVuRw1o=;
-	b=HaVjINE31+e8v8F4QrmEqIhna7DApD2pVtcIAs9REet3JIFlVNfrtOGpuTgYlLMolH
-	bQ9aKi9ZeeB+oD8cRrXTn92b0wfeSoDKFJpke1Of8EmSgJ3xF845Uis1RIuyzqP14IIk
-	9oyUknPVLehCOGv1vf6P9kGZpLyROZIYjGgYgNx8iLnPmXLUrzRJoxFG+QELDHufX/iU
-	8PxHlxk4SPCfiI0Qrz1b7Y5z/OlNN89rSPUuL5Eagv6EDHXuA5urMTeycdOESNnEmKzt
-	0LcJ7u7Uk11Ic6PlEbUrn9Pla/PJzy7Ox1WWftjkb/HjJy739JY0fG1FCsz+leAxskB3
-	kJcQ==
+	Tue, 18 Feb 2020 17:08:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+	h=subject:from:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=UpBEXR6tXK5dKbn5Nlmh3lcC21M8M23+IZiSg3v+ock=;
+	b=PLOYH2AXKtXueG1ELpBuTos1z2+7bvnAa1bugmycJxy13NhxtHk4XJNXMWoZh1bj2/
+	mQc4trNwT1MqColMU2pnjee0t2KUfAmoS9ljOlkI1w8BYhttW+cDLXj8wbQBtUt06kCO
+	GP6bDvwzM8/NBYktsTDDJfVKJFJ0+Jm2tM7ok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=4sC1kAhxqcmMqpzW3F69fmT64InjMdWZLdXTwVuRw1o=;
-	b=o/wVDS2na/1Xw/d6IAkleS80m6Go+qeuMNp1gU5PeEb59CBAm4Q3fib9HkuWHtAQuB
-	W1J6xufju4DgVEQe3VhTV3i0vs27zdl8JFVsZLq0zhO0KOHIr3S1spc/TjEtia90FGyN
-	bPCu5BxnAcdY1EGnQfSE/aE3fNPmwMDdtpV61KEcPTE5hdYNa/dEg/2UkZxQbI+vw9CD
-	1r413gjNAUNQCHxZNnf2Wks94dUw7LuulUCFTEmIxmStnEgm+QP4t1fohpe2mBvciQCs
-	v0SGAnG7Jt9KG8zzfljNnkd6JQ+/3tm4sbrnTS0Zh2cdIN0kpkBOCuljBihsC0Uux4k3
-	e64w==
-X-Gm-Message-State: APjAAAWSV6iSSjXL2iWg2gAlwYoKnVMsW7TKUXGzGq0j2oM1Qt1wqs5o
-	YtgLODuYRaHtZ7O2+K7R0XTJhs/E
-X-Google-Smtp-Source: APXvYqzelSe+YnBN7KSh0YkCfnvY5OBaamb0U4Due0g9WY10CRgarkPXgn2j2BHDXlkHnrSqTfc4sg==
-X-Received: by 2002:a92:1d5a:: with SMTP id d87mr21006594ild.27.1582073089498; 
-	Tue, 18 Feb 2020 16:44:49 -0800 (PST)
-Received: from farscape.garmin.com ([2605:a601:ac18:c700:d658:3b67:74f4:8891])
-	by smtp.gmail.com with ESMTPSA id
-	e13sm125163iol.16.2020.02.18.16.44.48
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 18 Feb 2020 16:44:48 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Feb 2020 18:44:44 -0600
-Message-Id: <20200219004444.21297-3-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.24.1
-In-Reply-To: <20200219004444.21297-1-JPEWhacker@gmail.com>
-References: <20200219004444.21297-1-JPEWhacker@gmail.com>
+	h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=UpBEXR6tXK5dKbn5Nlmh3lcC21M8M23+IZiSg3v+ock=;
+	b=XP3KaXpmE2H9HZBC7KUqqVdhurOBxPAIQgY7orN7KNQGu3FKfcMPWJMZ0zQ2Xhz+Ut
+	w9yeUoo+Z0JgIFPPuNyw3LkWOzEiycS+ijav+gy4XCiAfm6GzzD7TG8g6rFfFIn/NeA7
+	Yf0nvvGgVPHBU5JGT41LGa8zGXbiLYXGIP9FhNzpFr2J5d+3A636b7I0b8a49Wsafo7O
+	nhmIFmSmjf8AKW5Mm2cW2tdrxKvgGMJvY9U66Ogwc8EbyX8QUp2tYNRNFZu8xNEb4n4T
+	M4kx9L6UrUrwGabOE2BgJVgOhVjjd3/+mrgs7CAsRu2Jzi4/gz5cwq+I2SdtMtmf1QzA
+	hFjQ==
+X-Gm-Message-State: APjAAAVih3Cu9bQnh27c9ZTjpqWyjFOQlYQXAAS7+qWx8Jxo5X/tn1mG
+	/xa0h0Uq833fnmyBqJ2GwIPya/068XEykwKi92bn/n4AyJFnDRlvXHneYifv0G18t8pqC7BQSXq
+	oiM9b7aufyDgz/GXBhiqNTGiQ5m/v6N1j6Atlf3zxui+twVwqjf70P+rMDEFNU/09di6Q9IrmyF
+	tCfHQFnu5ycOjmOs2dHlmS/RJY53o=
+X-Google-Smtp-Source: APXvYqznOpAZKYikmcuT1Y2rPwBcOyAZgotcao0eDr3smPYei2hwyVjwsHDJmTqeH26pyIiUaNP8Fg==
+X-Received: by 2002:a5d:4447:: with SMTP id x7mr31965642wrr.393.1582074496358; 
+	Tue, 18 Feb 2020 17:08:16 -0800 (PST)
+Received: from [10.136.13.65] ([192.19.228.250])
+	by smtp.gmail.com with ESMTPSA id o77sm736568wme.34.2020.02.18.17.08.14
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Tue, 18 Feb 2020 17:08:15 -0800 (PST)
+From: Scott Branden <scott.branden@broadcom.com>
+To: Andre McCurdy <armccurdy@gmail.com>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+References: <20200218224455.14551-1-scott.branden@broadcom.com>
+	<20c4646f9a30462bb6c9ae0f49b71092@XBOX03.axis.com>
+	<CAJ86T=XXS=3Mzj3sc_M3UjCar6-+EHR8ZkkA6LJm+VrLsdsXYw@mail.gmail.com>
+	<9dde2b9f-e709-a7dd-df85-70af5e720af6@broadcom.com>
+Message-ID: <6868a2dc-13c0-dad0-c3ca-ec29ca085d94@broadcom.com>
+Date: Tue, 18 Feb 2020 17:08:12 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] oeqa: reproducible: Include jquery in results
+In-Reply-To: <9dde2b9f-e709-a7dd-df85-70af5e720af6@broadcom.com>
+Cc: "OE Core \(openembedded-core@lists.openembedded.org\)"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][PATCH v2] iproute2: add devlink support to iproute2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +65,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 00:44:48 -0000
+X-List-Received-Date: Wed, 19 Feb 2020 01:08:16 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Includes jquery in the output directory to make the diffoscope output
-easier to navigate
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/lib/oeqa/selftest/cases/reproducible.py | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index d3fd8c392b8..5d3959be77b 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -174,9 +174,10 @@ class ReproducibleTests(OESelftestTestCase):
- 
-         # Build native utilities
-         self.write_config('')
--        bitbake("diffoscope-native diffutils-native -c addto_recipe_sysroot")
-+        bitbake("diffoscope-native diffutils-native jquery-native -c addto_recipe_sysroot")
-         diffutils_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "diffutils-native")
-         diffoscope_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "diffoscope-native")
-+        jquery_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "jquery-native")
- 
-         if self.save_results:
-             os.makedirs(self.save_results, exist_ok=True)
-@@ -225,8 +226,14 @@ class ReproducibleTests(OESelftestTestCase):
-                 os.rmdir(save_dir)
-             else:
-                 self.logger.info('Running diffoscope')
--                runCmd(['diffoscope', '--no-default-limits', '--exclude-directory-metadata', '--html-dir', 'diff-html', 'reproducibleA', 'reproducibleB'],
--                        native_sysroot=diffoscope_sysroot, ignore_status=True, cwd=os.path.join(save_dir, 'packages'))
-+                package_dir = os.path.join(save_dir, 'packages')
-+                package_html_dir = os.path.join(package_dir, 'diff-html')
-+
-+                # Copy jquery to improve the diffoscope output usability
-+                self.copy_file(os.path.join(jquery_sysroot, 'usr/share/javascript/jquery/jquery.min.js'), os.path.join(package_html_dir, 'jquery.js'))
-+
-+                runCmd(['diffoscope', '--no-default-limits', '--exclude-directory-metadata', '--html-dir', package_html_dir, 'reproducibleA', 'reproducibleB'],
-+                        native_sysroot=diffoscope_sysroot, ignore_status=True, cwd=package_dir)
- 
-         if fails:
-             self.fail('\n'.join(fails))
--- 
-2.24.1
+On 2020-02-18 4:26 p.m., Scott Branden wrote:
+> Hi Andre,
+>
+> On 2020-02-18 3:36 p.m., Andre McCurdy wrote:
+>> On Tue, Feb 18, 2020 at 3:19 PM Peter Kjellerstedt
+>> <peter.kjellerstedt@axis.com> wrote:
+>>>> -----Original Message-----
+>>>> From: openembedded-core-bounces@lists.openembedded.org 
+>>>> <openembedded-core-
+>>>> bounces@lists.openembedded.org> On Behalf Of Scott Branden via
+>>>> Openembedded-core
+>>>> Sent: den 18 februari 2020 23:45
+>>>> To: openembedded-core@lists.openembedded.org
+>>>> Subject: [OE-core] [meta-oe][PATCH v2] iproute2: add devlink 
+>>>> support to
+>>>> iproute2
+>>>>
+>>>> Add devlink support to iproute2 recipe.
+>>>>
+>>>> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+>>>> ---
+>>>>   meta/recipes-connectivity/iproute2/iproute2.inc | 8 ++++++--
+>>>>   1 file changed, 6 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc
+>>>> b/meta/recipes-connectivity/iproute2/iproute2.inc
+>>>> index fc31b8444e..98793af88e 100644
+>>>> --- a/meta/recipes-connectivity/iproute2/iproute2.inc
+>>>> +++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+>>>> @@ -15,11 +15,13 @@ inherit update-alternatives bash-completion 
+>>>> pkgconfig
+>>>>
+>>>>   CLEANBROKEN = "1"
+>>>>
+>>>> -PACKAGECONFIG ??= "tipc elf"
+>>>> +PACKAGECONFIG ??= "tipc elf devlink"
+>>>>   PACKAGECONFIG[tipc] = ",,libmnl,"
+>>>>   PACKAGECONFIG[elf] = ",,elfutils,"
+>>>> +PACKAGECONFIG[devlink] = ",,libmnl,"
+>>>>
+>>>>   EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} 
+>>>> DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip bridge misc genl \
+>>>> +                ${@bb.utils.contains('PACKAGECONFIG', 'devlink', 
+>>>> 'devlink', '', d)}                                               \
+>>>>                   ${@bb.utils.contains('PACKAGECONFIG', 'tipc', 
+>>>> 'tipc', '', d)}' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
+>>> You can simplify the above to:
+>>>
+>>> EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} 
+>>> DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip bridge misc genl \
+>>>                  ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc', 
+>>> d)}' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
+>>>
+>>> but I also recommend to reformat it to make it more readable:
+>>>
+>>> EXTRA_OEMAKE = "\
+>>>      CC='${CC}' \
+>>>      KERNEL_INCLUDE=${STAGING_INCDIR} \
+>>>      DOCDIR=${docdir}/iproute2 \
+>>>      SUBDIRS='lib tc ip bridge misc genl 
+>>> ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc', d)}' \
+>>>      SBINDIR='${base_sbindir}' \
+>>>      LIBDIR='${libdir}' \
+>>> "
+>> You could take the cleanup one step further by merging the recipe and
+>> the .inc file (and then including CCOPTS='${CFLAGS}' directly in the
+>> definition of EXTRA_OEMAKE).
+> Sounds like a more involved change that should be taken up in an 
+> unrelated cleanup exercise?
+Actually, I see the reason to keep the inc file is so that you can 
+support different versions of iproute2 if needed.
+Each recipe version would just require the inc file.
 
 
