@@ -1,52 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
-	[209.85.128.43])
-	by mail.openembedded.org (Postfix) with ESMTP id D08E361475
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
+	[209.85.128.41])
+	by mail.openembedded.org (Postfix) with ESMTP id C1256613DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 19:48:25 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id a6so2000336wme.2
+	Wed, 19 Feb 2020 19:48:26 +0000 (UTC)
+Received: by mail-wm1-f41.google.com with SMTP id s10so1996146wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 11:48:27 -0800 (PST)
+	Wed, 19 Feb 2020 11:48:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=rlcGy3tdNg8j7VYXbTGfAqtVa9RkH/M5hMH2LCmHO5I=;
-	b=UITNkHgR4kLO9YKaPdxZ4vLCCZLuiw9D/mqT8a8Z+lodqUNy0W8RUSnhC/arbB7JK4
-	t3YgAFPFhI80XASFNy4nzkymFrvWD4iNEsg7N7P6ZUGabGEKlsWcRA2Qq1q7rVorxWF8
-	+sFEbs/MpTa/7lgU+NQwZF3DD2gsw5YSW25exhbr2Bvm5nJ8YTNN77EUMz6o2IwJRGNf
-	kRlt5COaSIpUUv+YkmWJHji9SvGUIg1mBQtW0Cv29o/HrEbUxo3gfkD26HxYe8bCyyA8
-	57WWu4s0EnC/mfws12ZgE3dNyNz4XCRyv0XQB4mb4GkT9RGDlGGcHewcdrBo5oYzZaQL
-	v1gg==
+	bh=GEAhq0sBfzhK/7CIF34RJX48W76d5p6+eYzNq4ifLXI=;
+	b=AeFa0GPWrs5dgsp06u5TliM53Ktr6i5D6mBr4BmKiQ4gwY0fHmV+9cCcwvEvpGxPpe
+	c4WR7/usFM6WgLFw33ERx3SM+8faH6HQVDErHKJufQTb3H33r8ZlrGkOrHdkeMaNEgO+
+	QyEDJ/jArBwA8fO7nYah2rjZsZY+st2jRKFni9qlcNDMQtypwsCF2zn+dgtPd6WDN19T
+	TLWi0spgej4hacsMffRe+jCT8Y0ZICEsVTR95O7XCZ9ndJhyDriKL1Vuv8zkX/EBwBx3
+	mVtPSVTfc1JHPAEwEPRGhwDXDcihYxDmjdrSGYgR+q0g+SdLvH5JTHwzpXr7fMtn1dHa
+	QWEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=rlcGy3tdNg8j7VYXbTGfAqtVa9RkH/M5hMH2LCmHO5I=;
-	b=U4ueAIQVbJACDJ8ATNZN/wvpK70s200ahJSh/8Cn264XYKNeEuvC3l/d3qrldRd5OG
-	rmhrhUrjuj3qR5Sfzbt/wQ4fYdWdhSQzLvutcpli+gWJCJ5+XAb2VAEh0ccNEt5N9OyE
-	ZBnbianY0Sh0JXJ8YIB+UE+4Hut1qFopRj8haU+RvgNHgsHTMGcAv3AKpxSlPnduF/JN
-	VJ/624Uirt3pKJr/iHh/Z3NOzMNpGQKH/L34qsVbwg6WLnE/Q4FtDIKJTGO3GgdArpSw
-	DJVlx1+kIhXL9mfIP9q7hBq4+wZukhaICv65XIdnWef5zoFgnKiKSB4Zg0GXWqAaHFWQ
-	XJOw==
-X-Gm-Message-State: APjAAAUO5ku0ZKlQ/ZJtegmD1ekPVjMgAEoBxSi0E+oQ5tco7SE9MLk8
-	3aCpZ71qUw1OhVN1/o0LmkopFNaX
-X-Google-Smtp-Source: APXvYqx7y8/tgApH09u2xt6vOZblYs5k0vjpYo2a7RAWWXB+xXR7q0Sul+w96hBScsJhjRhg+ElY1g==
-X-Received: by 2002:a7b:c651:: with SMTP id q17mr12275888wmk.5.1582141706391; 
-	Wed, 19 Feb 2020 11:48:26 -0800 (PST)
+	bh=GEAhq0sBfzhK/7CIF34RJX48W76d5p6+eYzNq4ifLXI=;
+	b=cmBILOuJVr9bvxleZS+LcevqRy68gO7P1svbhokTpEKBuPb+PycOTLcNimmgSwXrC/
+	b1eyGKPX+aDuX6hcf7638uTTi2l1wnUmdSKAC/cILqudi3t9FG2WRr5vAW5QCLjHv2BD
+	B/bPowfa+SzG4IUiWsdlOENCJ2XMthz5QrpdW9ZuCwhtCvoZYt1RzPUxpX4aPc+gMQf7
+	xgRKlI1vW6dTYfJFUwAQN5YKDqxyITus7ciIaA+VMJsMJupLrD17pmKsM36UPvcXyp7y
+	b0dej5wrVI7/YsLJodEb9AwbJHZ6g/Fi/ImLWj9Lfe3YYRmgzyXm5VhWuNYzjBCVszDl
+	rATA==
+X-Gm-Message-State: APjAAAVXScUCAxkW7rcJ39FDbhiFCfVPJ8c0a2yv0IlypGv/BWG0wpZz
+	tcPquISOAPgoo+9yJHr0qFi+QMp3
+X-Google-Smtp-Source: APXvYqy6MoDOAKdyFLMKjkzapNvBvvIUSVh4Jbx5ZweWW9mmG7/+YPPRyZ9B+0kzHjd+mo0V/+2qiQ==
+X-Received: by 2002:a1c:a515:: with SMTP id o21mr11853896wme.85.1582141707169; 
+	Wed, 19 Feb 2020 11:48:27 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
-	y185sm1204049wmg.2.2020.02.19.11.48.25
+	y185sm1204049wmg.2.2020.02.19.11.48.26
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 19 Feb 2020 11:48:25 -0800 (PST)
+	Wed, 19 Feb 2020 11:48:26 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2020 20:47:51 +0100
-Message-Id: <20200219194752.7967-12-alex.kanavin@gmail.com>
+Date: Wed, 19 Feb 2020 20:47:52 +0100
+Message-Id: <20200219194752.7967-13-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200219194752.7967-1-alex.kanavin@gmail.com>
 References: <20200219194752.7967-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 12/13] vala: upgrade 0.46.5 -> 0.46.6
+Subject: [PATCH 13/13] virglrenderer: upgrade 0.8.1 -> 0.8.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,30 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 19:48:26 -0000
+X-List-Received-Date: Wed, 19 Feb 2020 19:48:27 -0000
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/vala/{vala_0.46.5.bb => vala_0.46.6.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/vala/{vala_0.46.5.bb => vala_0.46.6.bb} (57%)
+ .../{virglrenderer_0.8.1.bb => virglrenderer_0.8.2.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/virglrenderer/{virglrenderer_0.8.1.bb => virglrenderer_0.8.2.bb} (94%)
 
-diff --git a/meta/recipes-devtools/vala/vala_0.46.5.bb b/meta/recipes-devtools/vala/vala_0.46.6.bb
-similarity index 57%
-rename from meta/recipes-devtools/vala/vala_0.46.5.bb
-rename to meta/recipes-devtools/vala/vala_0.46.6.bb
-index 9233d109dd..66f620384c 100644
---- a/meta/recipes-devtools/vala/vala_0.46.5.bb
-+++ b/meta/recipes-devtools/vala/vala_0.46.6.bb
-@@ -4,5 +4,5 @@ SRC_URI += "file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pat
-            file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
-            "
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.1.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
+similarity index 94%
+rename from meta/recipes-graphics/virglrenderer/virglrenderer_0.8.1.bb
+rename to meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
+index 133618844a..1046b8504f 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.1.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
  
--SRC_URI[md5sum] = "a0a2eb8babb72c1b4e81c4f1b98429df"
--SRC_URI[sha256sum] = "1a7847d2599d902c805a58b95b72b69e64c0223c2f6220163998a7ab4b42db1d"
-+SRC_URI[md5sum] = "d9af125648505503b139ebc2d2c9eee5"
-+SRC_URI[sha256sum] = "ef31649932872f094971d46453b21c60a41661670f98afa334062425b4aec47a"
+ DEPENDS = "libdrm mesa libepoxy"
+-SRCREV = "66c57963aaf09a1c41056bd2a001da1d51957a14"
++SRCREV = "7d204f3927be65fb3365dce01dbcd04d447a4985"
+ SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
+            file://0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch \
+            file://0001-meson.build-use-python3-directly-for-python.patch \
 -- 
 2.25.0
 
