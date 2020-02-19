@@ -1,45 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ua1-f67.google.com (mail-ua1-f67.google.com
-	[209.85.222.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C5A4613A3
+Return-Path: <sbabic@denx.de>
+X-Greylist: delayed 352 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 19 Feb 2020 21:25:38 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 263C5613A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 21:17:16 +0000 (UTC)
-Received: by mail-ua1-f67.google.com with SMTP id a33so765732uad.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 13:17:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=vDSdVtw7BIh04r6gJ2AnXg6QrDV6W3Vnh1hlwUeWYvE=;
-	b=unLau/dEAzfmbFPe4SeV/8ydAATmZQN6bxcrQeQ6A8kSHfz+t6msAzSa6v3y8l51Se
-	voF0X+eQAykT6oGXrIi3PYpWShw6ioMY7yJ4mjq/q7XQbAVipzv2jq10gYkLVXrVU3wg
-	EcGeGiLEMqwklI3h9nv5NCWiadwONCAX5LflqSJRtfKsR4oMPqsW2ldRFdo4i7CLeeyc
-	KHp1rORQNyltyl9Q93YH73WJa2A3Inj+rkAAdWfdDjOV4XTCn+bWJEknO8ll630E91w9
-	uUulrYe/bGxuyZ3NEaUPh+1XXVe5JSCV7z2Du4n581rlHiFcp5oZZq9dLtPagCPYYl5z
-	a11w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=vDSdVtw7BIh04r6gJ2AnXg6QrDV6W3Vnh1hlwUeWYvE=;
-	b=BEn8n1GY4YcsO7dkZg/IQBusm7XlIAqzwz1xhEhPSqUzL6TqHmNA6XrctdR/ssYBxq
-	mEnCwe9KfBN92PF1psZKTJp45DcuRHqdHclZpFMazytFUE0i0rPS2DaKWbegQJgTaNzT
-	oGeKKPQwjeVKSqJ3ihu5H7+5h7PlOOHjRa/6scotP3AnNt9Ro7G/EjOaGFU9T5QJyWPu
-	wTNiofDSR/PU5yWMG82iBFRfne5C9ue9tr+dCDBc7AsTHtR+Xyw0tlUcomOSIB0C9CKh
-	ZjplE0KFbnZgiFMZ9uVRBaCL+ctuhGlRMyZuGtBWMxpmRFjHdQSpmUIvvgeUrqmroJMd
-	wrMg==
-X-Gm-Message-State: APjAAAX5N/Uxxh+2XZetjgTn9QCIbYCtOd7p0x8KdkTE9NRFn6+kD+eN
-	wTz0LA8PTgXw/AEqURs4r3tSo5vWPrMFhS5zZbwjXcxw
-X-Google-Smtp-Source: APXvYqzy5dctBrBKYDY6iyXEGRrzsLz9gqxgVl66xI4/+AriydZzQlBh9XMTWjJ1v8HqXPmBeXDe3+XEGKhH88hfXuQ=
-X-Received: by 2002:ab0:658d:: with SMTP id v13mr13182218uam.71.1582147037992; 
-	Wed, 19 Feb 2020 13:17:17 -0800 (PST)
-MIME-Version: 1.0
+	Wed, 19 Feb 2020 21:25:38 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 48N9bQ6qxzz1qqkn;
+	Wed, 19 Feb 2020 22:19:46 +0100 (CET)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 48N9bQ6VPnz1qyDT;
+	Wed, 19 Feb 2020 22:19:46 +0100 (CET)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id o8WyavnY2o18; Wed, 19 Feb 2020 22:19:45 +0100 (CET)
+Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
+	[88.217.136.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPS;
+	Wed, 19 Feb 2020 22:19:45 +0100 (CET)
+Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
+	by babic.homelinux.org (Postfix) with ESMTP id 64E57454048E;
+	Wed, 19 Feb 2020 22:19:46 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
+Received: from babic.homelinux.org ([127.0.0.1])
+	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id iiTWF2mpaILC; Wed, 19 Feb 2020 22:19:43 +0100 (CET)
+Received: from [192.168.178.89] (stefano-MacBookPro.fritz.box [192.168.178.89])
+	by babic.homelinux.org (Postfix) with ESMTPS id 8F3ED454033B;
+	Wed, 19 Feb 2020 22:19:43 +0100 (CET)
+To: Pierre-Jean Texier <pjtexier@koncepto.io>,
+	openembedded-core@lists.openembedded.org
 References: <1582146491-20965-1-git-send-email-pjtexier@koncepto.io>
+From: Stefano Babic <sbabic@denx.de>
+Message-ID: <f3ea63bd-bd3a-03bb-e67b-4b85c073e5c0@denx.de>
+Date: Wed, 19 Feb 2020 22:19:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.2.2
+MIME-Version: 1.0
 In-Reply-To: <1582146491-20965-1-git-send-email-pjtexier@koncepto.io>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Feb 2020 22:17:06 +0100
-Message-ID: <CANNYZj-8CG1HDuXbjmS4AVFe-LChc-MGKTTQXsjkc8H=SpYB5g@mail.gmail.com>
-To: Pierre-Jean Texier <pjtexier@koncepto.io>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] libubootenv: bump to revision ba952d0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -53,118 +56,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 21:17:17 -0000
-Content-Type: multipart/alternative; boundary="0000000000002e9f2b059ef450c6"
+X-List-Received-Date: Wed, 19 Feb 2020 21:25:39 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---0000000000002e9f2b059ef450c6
-Content-Type: text/plain; charset="UTF-8"
+Hallo Jean-Pierre,
 
-If PV doesn't change, package managers will not be able to update this
-properly. You need to set it to something like 0.2+git${SRCPV}
-
-Alex
-
-On Wed, 19 Feb 2020 at 22:08, Pierre-Jean Texier via Openembedded-core <
-openembedded-core@lists.openembedded.org> wrote:
-
+On 19/02/20 22:08, Pierre-Jean Texier wrote:
 > This includes following changes:
->
+> 
 > ba952d0 BUG: variable lists not released in close()
 > 690f868 Variables are not removed when loading from file
 > 9e3586a Make sure there's no file descriptor leakage in case of error
 > 03647c4 Check config file defines a non-zero Sector size
 > 3b2d4f1 Check environment size from fw_env.config
->
+> 
 > Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
 > ---
 >  meta/recipes-bsp/u-boot/libubootenv_0.2.bb | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
-> b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+> 
+> diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
 > index f5b6059..ac49b68 100644
 > --- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
 > +++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
-> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM =
-> "file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b36
+> @@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b36
 >  SECTION = "libs"
->
+>  
 >  SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https"
 > -SRCREV = "879c0731fa0725785b9fa4499bbf6aacd04ee4c2"
 > +SRCREV = "ba952d05ec9ab16029816a06d956bac7fb4e9832"
->
+>  
 >  S = "${WORKDIR}/git"
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+>  
+> 
 
---0000000000002e9f2b059ef450c6
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Stefano Babic <sbabic@denx.de>
 
-<div dir=3D"ltr"><div>If PV doesn&#39;t change, package managers will not b=
-e able to update this properly. You need to set it to something like 0.2+gi=
-t${SRCPV}</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gm=
-ail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 19 Feb 2020 at 22:=
-08, Pierre-Jean Texier via Openembedded-core &lt;<a href=3D"mailto:openembe=
-dded-core@lists.openembedded.org">openembedded-core@lists.openembedded.org<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">T=
-his includes following changes:<br>
-<br>
-ba952d0 BUG: variable lists not released in close()<br>
-690f868 Variables are not removed when loading from file<br>
-9e3586a Make sure there&#39;s no file descriptor leakage in case of error<b=
-r>
-03647c4 Check config file defines a non-zero Sector size<br>
-3b2d4f1 Check environment size from fw_env.config<br>
-<br>
-Signed-off-by: Pierre-Jean Texier &lt;<a href=3D"mailto:pjtexier@koncepto.i=
-o" target=3D"_blank">pjtexier@koncepto.io</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-bsp/u-boot/<a href=3D"http://libubootenv_0.2.bb" rel=3D"=
-noreferrer" target=3D"_blank">libubootenv_0.2.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-bsp/u-boot/<a href=3D"http://libubootenv_0.2.bb" =
-rel=3D"noreferrer" target=3D"_blank">libubootenv_0.2.bb</a> b/meta/recipes-=
-bsp/u-boot/<a href=3D"http://libubootenv_0.2.bb" rel=3D"noreferrer" target=
-=3D"_blank">libubootenv_0.2.bb</a><br>
-index f5b6059..ac49b68 100644<br>
---- a/meta/recipes-bsp/u-boot/<a href=3D"http://libubootenv_0.2.bb" rel=3D"=
-noreferrer" target=3D"_blank">libubootenv_0.2.bb</a><br>
-+++ b/meta/recipes-bsp/u-boot/<a href=3D"http://libubootenv_0.2.bb" rel=3D"=
-noreferrer" target=3D"_blank">libubootenv_0.2.bb</a><br>
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM =3D &quot;file://Licenses/lgpl-2.1.txt;m=
-d5=3D4fbd65380cdd255951079008b36<br>
-=C2=A0SECTION =3D &quot;libs&quot;<br>
-<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://github.com/sbabic/libuboote=
-nv;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">github.com/sbabic=
-/libubootenv;protocol=3Dhttps</a>&quot;<br>
--SRCREV =3D &quot;879c0731fa0725785b9fa4499bbf6aacd04ee4c2&quot;<br>
-+SRCREV =3D &quot;ba952d05ec9ab16029816a06d956bac7fb4e9832&quot;<br>
-<br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
-<br>
--- <br>
-2.7.4<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+Best regards,
+Stefano Babic
 
---0000000000002e9f2b059ef450c6--
+-- 
+=====================================================================
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: +49-8142-66989-53 Fax: +49-8142-66989-80 Email: sbabic@denx.de
+=====================================================================
+
