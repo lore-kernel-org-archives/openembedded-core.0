@@ -1,52 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EA42613C3
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id C2DC1613C3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 19:48:20 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id z7so1924411wrl.13
+	Wed, 19 Feb 2020 19:48:21 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id a5so2011096wmb.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 11:48:22 -0800 (PST)
+	Wed, 19 Feb 2020 11:48:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=esbB5q/iVwft8+k1Pvk753zzkLt29w0CH/tuo5PuMwk=;
-	b=OjGTk+H/hZ/wxoi907GqoMLeVRWGw9zVjynJWQYaAD962G4pGTrQezcXq8w8X4RRSv
-	vkj87GDEr/JSHW1mbcMt/BA/KhdgbbFSm9qNXaptSHWRUCyQNzepS9ALaoLZ3Hx5X7v0
-	ewVKjlcqJtjp0dg8VNuYFDSAY94ANogWq6GRD7jQr3vrMccr6cqc2bvm12r9YpVEaeyh
-	nsINuQp3XbDGW26+N49jnwucEZ4V2xAahAikDdFvk822q3rCjQxND3+Xqu+g4VdZRdw8
-	F2Ta8z+LRIawKL+qqrqUyvxJSWw1yKkWScmbHUNl1V5/mYGfj4/FFAav3uo02sqvsWSo
-	naGg==
+	bh=RKvjMN9ULfLYHW3UUEj4e6uYPxjam7/SribAph5jaSE=;
+	b=c7sOAVXBiAuZN53mfoumxC/39752nQQziEA/QOtvbZ/TzizhcwkzBQw52HJnhJD+Qz
+	KdBIR3BvCWBavgERlFV44jiRjoPisC+Dt6epk0tuaibSd9rXQpSdB4ZVAb/+aDzpRh5R
+	HcjUpnmPxdjaPrUQOUoWN202vY8g7vtlVwZj/KcmFavmWOMEO7HYMrdr+DEaWeKGBq9D
+	4yYx5E8iGhNPjjqxw3sRmQfzohYwQXMFZR+9lh+CYIu5Rq+bme1/us+aklylMANdu5iV
+	yVCXukrvGSc5MaQEO+zUBtwbaXmENWBhpiOj5WLdgOJPtGwbU12nM6wTdNhRYymq0T5I
+	Wu1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=esbB5q/iVwft8+k1Pvk753zzkLt29w0CH/tuo5PuMwk=;
-	b=oEsJ+cYtG+nODnPb0rm3ZaB7ZI2HakROBgq5FnBdBNcwDSlrUNF/SnLq6xquTb0jv7
-	h+mv7ovxo17gTqQ9IZhx0SquYWTF6aisw22CCr716rrggW5X2pexn90LBhQMxujEF9z/
-	SOEDqVpQT1PjQt8rPN2Xln+b5U18xCuGImiu/BmMl7yGVXKfQnVIQ9ADqRvFb+wNczDA
-	5jom/1ol4CGdWM3eGOFtJDR/qJz7mKEpWfZUiT2kf1WtH5ba8XtlY68qrKqSFTDStX2J
-	d2n3og+DsUlmPGHxv/sCA8tGYxmBXAKDNX1XnhQTUSrLd4zr9xII/E6Rhf9V/AJ6Nnex
-	S3Ig==
-X-Gm-Message-State: APjAAAWvIf7n7o6R2RqScM7zVQYvI2QUtyF+qxkjF466lqAj0dl2tKUK
-	2mWeZVyE7QmoJXwmmylowLSVFsca
-X-Google-Smtp-Source: APXvYqzH0UVJ4szr73nIvjvhQ5stiu0RC+jBjZynPnECrNbzkoKAWoQ1iSF0J4tFjHm/BQNIuhYhnQ==
-X-Received: by 2002:adf:8b59:: with SMTP id v25mr39106796wra.419.1582141701397;
-	Wed, 19 Feb 2020 11:48:21 -0800 (PST)
+	bh=RKvjMN9ULfLYHW3UUEj4e6uYPxjam7/SribAph5jaSE=;
+	b=b+IrCjBdD8ttzbW/INjTfXrY01Vj7LqBsoVacZ94bHQ4BU7KLHz6XB/EDsQ7kPCo1y
+	HaScerxR1vMullNUd85wYOCX5jiszRfo/PP+ifnAdwmJL/KUBWxzAmWmFNHWvL87VKRH
+	N/cNVKxrsETxuULkASV67BT5LCkTldMWrz+PltTa6jYMiL1kxnocFQZfOnkalLhCNmVU
+	SzgdTmvJvQraZT0y4aG4WacBJytNf/4L1vWl7Y4vVEWm93AeAUUIkx1X1XmEOGpox+LT
+	FuJkr+LVgptl5GuIQpMpBM/4j+WYsfUA3rFPG3njiPpk39dLM36WwaqQn3Nk5GcLx4qj
+	jCCw==
+X-Gm-Message-State: APjAAAVwbUUzp2xSlpvG5Tx60su6R5a+67yg8yrNB1f5XUxlgRQK/YWj
+	FGS1rgziC88Vfz3NUrlmiPPcxjxo
+X-Google-Smtp-Source: APXvYqwiM60fwSsIlPar6cBFbWltGWmipp9I6H4RI7IMOOvzFhivT7gr2BndLaub+oPvU2Asusb2Og==
+X-Received: by 2002:a7b:c93a:: with SMTP id h26mr12385028wml.83.1582141702251; 
+	Wed, 19 Feb 2020 11:48:22 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
-	y185sm1204049wmg.2.2020.02.19.11.48.20
+	y185sm1204049wmg.2.2020.02.19.11.48.21
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 19 Feb 2020 11:48:20 -0800 (PST)
+	Wed, 19 Feb 2020 11:48:21 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2020 20:47:45 +0100
-Message-Id: <20200219194752.7967-6-alex.kanavin@gmail.com>
+Date: Wed, 19 Feb 2020 20:47:46 +0100
+Message-Id: <20200219194752.7967-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200219194752.7967-1-alex.kanavin@gmail.com>
 References: <20200219194752.7967-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 06/13] qemumips: use std vga instead of cirrus vga
+Subject: [PATCH 07/13] createrepo-c: upgrade 0.15.5 -> 0.15.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,125 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 19:48:21 -0000
+X-List-Received-Date: Wed, 19 Feb 2020 19:48:22 -0000
 Content-Transfer-Encoding: 8bit
-
-This is what the upstream recommends nowadays:
-https://www.kraxel.org/blog/2014/10/qemu-using-cirrus-considered-harmful/
-
-I have verified that both X and weston continue to boot and look
-right; however xorg.conf file needs to be removed as it is cirrus
-specific and doesn't work and isn't needed with std vga.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/machine/include/qemuboot-mips.inc   |  2 +-
- .../xserver-xf86-config/qemumips/xorg.conf    | 39 -------------------
- .../xserver-xf86-config/qemumips64/xorg.conf  | 39 -------------------
- 3 files changed, 1 insertion(+), 79 deletions(-)
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
- delete mode 100644 meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
+ .../{createrepo-c_0.15.5.bb => createrepo-c_0.15.7.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.15.5.bb => createrepo-c_0.15.7.bb} (95%)
 
-diff --git a/meta/conf/machine/include/qemuboot-mips.inc b/meta/conf/machine/include/qemuboot-mips.inc
-index d44b96c18c..f1f7c2ae20 100644
---- a/meta/conf/machine/include/qemuboot-mips.inc
-+++ b/meta/conf/machine/include/qemuboot-mips.inc
-@@ -7,4 +7,4 @@ QB_OPT_APPEND = "-show-cursor -usb -device usb-tablet"
- QB_OPT_APPEND += "-object rng-random,filename=/dev/urandom,id=rng0 -device virtio-rng-pci,rng=rng0"
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.5.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.7.bb
+similarity index 95%
+rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.15.5.bb
+rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.15.7.bb
+index 9b6c89c348..c6a53ffece 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.5.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.15.7.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            "
  
- # For graphics to work we need to define the VGA device as well as the necessary USB devices
--QB_OPT_APPEND += "-device cirrus-vga"
-+QB_OPT_APPEND += "-vga std"
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
-deleted file mode 100644
-index 1d3c64f620..0000000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips/xorg.conf
-+++ /dev/null
-@@ -1,39 +0,0 @@
--
--Section "Files"
--EndSection
--
--Section "Device"
--    Identifier    "Graphics Controller"
--    Driver        "fbdev"
--EndSection
--
--Section "Monitor"
--    Identifier    "Generic Monitor"
--    Option        "DPMS"
--    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
--    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
--    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
--    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
--    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
--    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
--    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
--    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
--    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
--    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
--EndSection
--
--Section "Screen"
--    Identifier    "Default Screen"
--    Device        "Graphics Controller"
--    Monitor        "Generic Monitor"
--    DefaultDepth  16
--    SubSection "Display"
--        Modes     "640x480"
--    EndSubSection
--EndSection
--
--Section "ServerLayout"
--    Identifier    "Default Layout"
--    Screen        "Default Screen"
--    Option         "AllowEmptyInput" "no"
--EndSection
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf b/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
-deleted file mode 100644
-index 03b94dc3af..0000000000
---- a/meta/recipes-graphics/xorg-xserver/xserver-xf86-config/qemumips64/xorg.conf
-+++ /dev/null
-@@ -1,39 +0,0 @@
--
--Section "Files"
--EndSection
--
--Section "Device"
--    Identifier    "Graphics Controller"
--    Driver        "fbdev"
--EndSection
--
--Section "Monitor"
--    Identifier    "Generic Monitor"
--    Option        "DPMS"
--    # 1024x600 59.85 Hz (CVT) hsync: 37.35 kHz; pclk: 49.00 MHz
--    Modeline "1024x600_60.00"   49.00  1024 1072 1168 1312  600 603 613 624 -hsync +vsync
--    # 640x480 @ 60Hz (Industry standard) hsync: 31.5kHz
--    ModeLine "640x480"    25.2  640  656  752  800    480  490  492  525 -hsync -vsync
--    # 640x480 @ 72Hz (VESA) hsync: 37.9kHz
--    ModeLine "640x480"    31.5  640  664  704  832    480  489  491  520 -hsync -vsync
--    # 640x480 @ 75Hz (VESA) hsync: 37.5kHz
--    ModeLine "640x480"    31.5  640  656  720  840    480  481  484  500 -hsync -vsync
--    # 640x480 @ 85Hz (VESA) hsync: 43.3kHz
--    ModeLine "640x480"    36.0  640  696  752  832    480  481  484  509 -hsync -vsync
--EndSection
--
--Section "Screen"
--    Identifier    "Default Screen"
--    Device        "Graphics Controller"
--    Monitor        "Generic Monitor"
--    DefaultDepth    16
--    SubSection "Display"
--        Modes     "640x480"
--    EndSubSection
--EndSection
--
--Section "ServerLayout"
--    Identifier    "Default Layout"
--    Screen        "Default Screen"
--    Option         "AllowEmptyInput" "no"
--EndSection
+-SRCREV = "db3a2da68842efd8a8f69c40a222dfb15bb1f4fe"
++SRCREV = "4ab6b56b8b718396386982afba4ade297c14d91a"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.25.0
 
