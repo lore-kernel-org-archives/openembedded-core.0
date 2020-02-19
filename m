@@ -1,28 +1,49 @@
-Return-Path: <mark.hatle@kernel.crashing.org>
-Received: from kernel.crashing.org (kernel.crashing.org [76.164.61.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A60A61517
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
+	by mail.openembedded.org (Postfix) with ESMTP id E278F6025F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 15:46:33 +0000 (UTC)
-Received: from Marks-MacBook-Pro-16.local ([76.164.61.198])
-	(authenticated bits=0)
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 01JFkU52025205
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128
-	verify=NO); Wed, 19 Feb 2020 09:46:31 -0600
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>,
-	JH <jupiter.hce@gmail.com>
-References: <CAA=hcWRUzFinBcNXf5EF+2mCwMhA5tz-vEFKubg6_QkwvxOEEg@mail.gmail.com>
-	<20200219102908.cpe7lxm3v64ff2hf@qschulz>
-From: Mark Hatle <mark.hatle@kernel.crashing.org>
-Message-ID: <e449b0f3-8e1f-110a-8efe-c47c48f4b9e7@kernel.crashing.org>
-Date: Wed, 19 Feb 2020 09:46:30 -0600
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.5.0
+	Wed, 19 Feb 2020 15:56:26 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id C12AB249909;
+	Wed, 19 Feb 2020 10:56:27 -0500 (EST)
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id q1DYwFjYyfvT; Wed, 19 Feb 2020 10:56:27 -0500 (EST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.efficios.com (Postfix) with ESMTP id 71ECE249908;
+	Wed, 19 Feb 2020 10:56:27 -0500 (EST)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 71ECE249908
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1582127787;
+	bh=ZwN5PGEjJ5R7EJnOF9Gxq2AFbSCfSD+9wURTcwKG3Hg=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=etsf6eVRk6O174BP3/aBveyT0SDVGj87BkH54CXnnAp56I302QGppeLvUnDy8KhNG
+	dLBfWH8G7HMaPBqGOziQEgD+ths2yWM5kaDbs4VHKPuq/ZT6DSjMh0xLD0ldcHu6Wm
+	4EmLOVFwpAjOBpWFK3K8Gmss4meUneTbMbavU+OlE35NMo6J2lvPkFk1lOA+HiWEC+
+	Rs3PlE9Tu7ONR3GRVf0CB9kjTcxBGLgoe36aVckYEnS2WFxqGq2MwgsbuhCVXMOv8f
+	+9rj01Pckmch/GsDGxDuDDkC7aBHhYFVv7+Rby1ACTXp+J6eUhLhG2k83FShJxEJMb
+	1II0a3j72roxA==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([127.0.0.1])
+	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id u9Bz8BRyqeeC; Wed, 19 Feb 2020 10:56:27 -0500 (EST)
+Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+	by mail.efficios.com (Postfix) with ESMTPSA id 353C52494DA;
+	Wed, 19 Feb 2020 10:56:27 -0500 (EST)
+Date: Wed, 19 Feb 2020 10:56:26 -0500
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20200219155626.GN17818@joraj-alpa>
+References: <20200218132054.20341-1-wallinux@gmail.com>
+	<CANNYZj9nm0eqo0NtHhEJiw7nLbnYQ8r1aazXk6mGn83VXc9VNA@mail.gmail.com>
+	<CAF2baFdCF-NVmUa=meNhAN5BDBqLcS4k7F+EBWtUA1ekY6OVBg@mail.gmail.com>
+	<20200219152720.GM17818@joraj-alpa>
+	<143f590b688ed8166a702873275c16f3c7217d52.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <20200219102908.cpe7lxm3v64ff2hf@qschulz>
-Cc: Yocto discussion list <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: oe-core recipe for defining directories in /
+In-Reply-To: <143f590b688ed8166a702873275c16f3c7217d52.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] babeltrace2: added 2.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,60 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 15:46:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Feb 2020 15:56:27 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-
-
-On 2/19/20 4:29 AM, Quentin Schulz wrote:
-> Hi JH,
+> Let me try a different question. What is the ultimate intent here?
 > 
-> On Wed, Feb 19, 2020 at 09:12:08PM +1100, JH wrote:
->> Hi,
->>
->> Which recipe defines all directories in "/"? I need to make a bbapand
->> to add directories to /.
->>
+> Will babeltrace and babeltrace2 coexist in the future or do you plan to
+> rename babeltrace2 -> babeltrace at some point?
+
+We plan on deprecating Babeltrace 1.X in the long term but Babeltrace 2 and
+Babeltrace 1 will always co-exist.
+
 > 
-> None. Or all of them, depends on how one sees it.
-
-He is correct, this is shared between all package users.  But with that said,
-there is a base filesystem package and an associated 'syncing' file for all
-other users.
-
-The is a recipe called 'base-files', it builds up the core filesystem
-infrastructure, as well as puts down a few basic files that all filesystems need.
-
-The 'syncing' file is a corresponding file to used to coordinate permissions
-between all recipes: meta/files/fs-perms.txt.  fs-perms.txt is always consulted
-when building any recipe to ensure that all common directory, permissions,
-owners and groups get a common configuration.
-
-If you are going to bbappend to base-files then you should also to add to
-fs-perms.txt (you can do this, like a bbappend, by adding your own file to your
-own layer and updating the variable 'FILESYSTEM_PERMS_TABLES' in one of your
-global configuration files (usually your distro configuration file.)
-
-but, this isn't the recommended way...
-
-If the directories you are adding are custom to your product, I would recommend
-creating a new package to manage this, as well as a custom
-fs-perms.txt/FILESYSTEM_PERMS_TABLE entry to coordinate it between recipes that
-use this new custom directory structure.
-
-(If only one recipe uses that directory, then all of the overhead is simply not
-needed!  You only need this if multiple recipes are sharing a common directory
-structure.)
-
---Mark
-
-> You just create a directory in do_install of a recipe.
+> There are some things where the namespaces are quite specific (python
+> vs python3, gtk(+) 2/3/4, qt) but they're fairly few and far between.
 > 
-> You then make sure this directory is part of a package by checking it's
-> in one of the recipe's generated packages's FILES_<PACKAGE>.
-> 
-> Quentin
-> 
+> If babeltrace2 will replace babeltrace and become babeltrace, we
+> probably want to keep PN as babeltrace. If it will be known as
+> babeltrace2 always, we probably change PN.
+
+Babeltrace 2 executable will be forever named babeltrace2.
+
+Hope this clear up this part a bit.
+
+-- 
+Jonathan Rajotte-Julien
+EfficiOS
 
