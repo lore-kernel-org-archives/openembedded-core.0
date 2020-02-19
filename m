@@ -1,46 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DAD161515
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F0A8C605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 02:40:17 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id z19so21686631qkj.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 18:40:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=st/NT7Yz4vVGRDTam2usnzdUa1mI5Gj5Gp4PKPNS8X8=;
-	b=S78KREDO7w6PukFwkhbSMfjALJoWS0LbrGW6uEKb6bemea2Xkx4CCQVvCffLAwr+QD
-	mirMrxC7qwfIiTivmz+grOKYRcIJAo5NANiJ4fpGuxLUlczNcEB51/Qz+BIuJM0Ap3Q9
-	kcilg9ME1j0DmGUGwXFisyuF2fh2Tvg3/eshPGMXLKL1sHHyFhLoekHXYY547JIibI5S
-	RSvM4Mv7JHW1LbuzmlawGvEcE7fouSt/upNQuCyNFlFPAGoiB+umjkp/6qkhQOjctMaQ
-	BC/gicGS7xNxj9DV0kpsuq9icYzFnogYp5RCDl4vxa03jRBDAX1fvPn/ChDk9O0rUmtq
-	Z0Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=st/NT7Yz4vVGRDTam2usnzdUa1mI5Gj5Gp4PKPNS8X8=;
-	b=kgrv+kSm9k2MzuIFmE8IODDBgtuGBR4P4r23FMus3rFXPMlBwnugrD3bm2UZcJPjpw
-	y38Ixwoi4AL2XLl4mseXtlCk8xuCnjNBpo3wjFltBX4jXg4O76mW8sfxpH4dIR4z+DeT
-	7Nikx3xd+jlhA2Bu2/D1XnF1dM3mvRXFJzK9x6DhidDmptylGMx+imQA47CF/qzjpi4q
-	qp4cFHzoxsnN21EXDnvTFT8DzBc67EIURGQ0QdWbVHUYJ3/OjRt0toZQ44WHEFuftgdm
-	K0ZguPKPq6EGmziKMRnIkSqezy513Fus4W4kY5A4qMa7JTWgkMiB14RdOCqGnl8WZpkX
-	2T0w==
-X-Gm-Message-State: APjAAAWVJIoph28MLOVaVsFxMU0eyhigjzkGgXmqgwbcd5jSRO3N6NsB
-	Xh50Uon+NvqKWtAorX8e5VBIck6+OXzbPw6MkxZTtEYt
-X-Google-Smtp-Source: APXvYqwywoIrppcr3Jwx72kNmFDbAU0j5qadGy99pVbh3bdtnMlRXvyFSNz5yqTht1woUz1QsSqPQgksW60LPqbwSw4=
-X-Received: by 2002:a05:620a:11a6:: with SMTP id
-	c6mr2293038qkk.225.1582080017869; 
-	Tue, 18 Feb 2020 18:40:17 -0800 (PST)
-MIME-Version: 1.0
+	Wed, 19 Feb 2020 02:43:19 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Feb 2020 18:43:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.70,458,1574150400"; d="scan'208";a="434325889"
+Received: from pgsmsx113.gar.corp.intel.com ([10.108.55.202])
+	by fmsmga005.fm.intel.com with ESMTP; 18 Feb 2020 18:43:20 -0800
+Received: from pgsmsx106.gar.corp.intel.com (10.221.44.98) by
+	pgsmsx113.gar.corp.intel.com (10.108.55.202) with Microsoft SMTP Server
+	(TLS) id 14.3.439.0; Wed, 19 Feb 2020 10:43:17 +0800
+Received: from pgsmsx101.gar.corp.intel.com ([169.254.1.77]) by
+	PGSMSX106.gar.corp.intel.com ([169.254.9.163]) with mapi id
+	14.03.0439.000; Wed, 19 Feb 2020 10:43:16 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "raj.khem@gmail.com" <raj.khem@gmail.com>
+Thread-Topic: [OE-core] [PATCH v2] gstreamer1.0-plugins-good: change
+	EXTRA_OECONF -> EXTRA_OEMESON
+Thread-Index: AQHV5s30/un5qhZ4LkCfcXoRAOlX76ghSPKA
+Date: Wed, 19 Feb 2020 02:43:16 +0000
+Message-ID: <bc67d00aa872e879748e6b05fe3a104304194c07.camel@intel.com>
 References: <20200219023641.3308-1-anuj.mittal@intel.com>
-In-Reply-To: <20200219023641.3308-1-anuj.mittal@intel.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Feb 2020 18:39:51 -0800
-Message-ID: <CAMKF1srt7WNXNxqXEAWoFM=Xqx5H4WVKHtdWNXwP8PHNpmcKdg@mail.gmail.com>
-To: Anuj Mittal <anuj.mittal@intel.com>
-Cc: Patches and discussions about the oe-core layer
+	<CAMKF1srt7WNXNxqXEAWoFM=Xqx5H4WVKHtdWNXwP8PHNpmcKdg@mail.gmail.com>
+In-Reply-To: <CAMKF1srt7WNXNxqXEAWoFM=Xqx5H4WVKHtdWNXwP8PHNpmcKdg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.22.68]
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v2] gstreamer1.0-plugins-good: change EXTRA_OECONF -> EXTRA_OEMESON
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,50 +48,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 02:40:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 19 Feb 2020 02:43:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <95C30C9C3F2A7D4B8E176113E2690B8F@intel.com>
+Content-Transfer-Encoding: base64
 
-On Tue, Feb 18, 2020 at 6:37 PM Anuj Mittal <anuj.mittal@intel.com> wrote:
->
-> Use the correct variable so options actually get used and use the
-> correct qt option name to prevent errors.
->
-> Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-> ---
->  .../gstreamer/gstreamer1.0-plugins-good_1.16.1.bb             | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-> index a6eb9986dd..07a0bf5085 100644
-> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.16.1.bb
-> @@ -55,7 +55,7 @@ PACKAGECONFIG[x11]        = "${X11ENABLEOPTS},${X11DISABLEOPTS},${X11DEPENDS}"
->  # This is better done in a separate qt5 layer (which then should add a "qt5" packageconfig
->  # in a gstreamer1.0-plugins-good bbappend).
->
-> -EXTRA_OECONF += " \
-> +EXTRA_OEMESON += " \
->      -Daalib=disabled \
->      -Ddirectsound=disabled \
->      -Ddv=disabled \
-> @@ -64,7 +64,7 @@ EXTRA_OECONF += " \
->      -Doss4=disabled \
->      -Dosxaudio=disabled \
->      -Dosxvideo=disabled \
-> -    -Dqt=disabled \
-> +    -Dqt5=disabled \
-
-this perhaps should be a packageconfig so people using meta-qt5 can enable it
-
->      -Dshout2=disabled \
->      -Dtwolame=disabled \
->      -Dwaveform=disabled \
-> --
-> 2.24.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+T24gVHVlLCAyMDIwLTAyLTE4IGF0IDE4OjM5IC0wODAwLCBLaGVtIFJhaiB3cm90ZToNCj4gT24g
+VHVlLCBGZWIgMTgsIDIwMjAgYXQgNjozNyBQTSBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50
+ZWwuY29tPg0KPiB3cm90ZToNCj4gPiBVc2UgdGhlIGNvcnJlY3QgdmFyaWFibGUgc28gb3B0aW9u
+cyBhY3R1YWxseSBnZXQgdXNlZCBhbmQgdXNlIHRoZQ0KPiA+IGNvcnJlY3QgcXQgb3B0aW9uIG5h
+bWUgdG8gcHJldmVudCBlcnJvcnMuDQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogQW51aiBNaXR0
+YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4NCj4gPiAtLS0NCj4gPiAgLi4uL2dzdHJlYW1lci9n
+c3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kXzEuMTYuMS5iYiAgICAgICAgICAgICB8IDQNCj4gPiAr
+Ky0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
+DQo+ID4gDQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
+ci9nc3RyZWFtZXIxLjAtDQo+ID4gcGx1Z2lucy1nb29kXzEuMTYuMS5iYiBiL21ldGEvcmVjaXBl
+cy0NCj4gPiBtdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kXzEu
+MTYuMS5iYg0KPiA+IGluZGV4IGE2ZWI5OTg2ZGQuLjA3YTBiZjUwODUgMTAwNjQ0DQo+ID4gLS0t
+IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5z
+LQ0KPiA+IGdvb2RfMS4xNi4xLmJiDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEv
+Z3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLQ0KPiA+IGdvb2RfMS4xNi4xLmJiDQo+ID4g
+QEAgLTU1LDcgKzU1LDcgQEAgUEFDS0FHRUNPTkZJR1t4MTFdICAgICAgICA9DQo+ID4gIiR7WDEx
+RU5BQkxFT1BUU30sJHtYMTFESVNBQkxFT1BUU30sJHtYMTFERVBFTkRTfSINCj4gPiAgIyBUaGlz
+IGlzIGJldHRlciBkb25lIGluIGEgc2VwYXJhdGUgcXQ1IGxheWVyICh3aGljaCB0aGVuIHNob3Vs
+ZA0KPiA+IGFkZCBhICJxdDUiIHBhY2thZ2Vjb25maWcNCj4gPiAgIyBpbiBhIGdzdHJlYW1lcjEu
+MC1wbHVnaW5zLWdvb2QgYmJhcHBlbmQpLg0KPiA+IA0KPiA+IC1FWFRSQV9PRUNPTkYgKz0gIiBc
+DQo+ID4gK0VYVFJBX09FTUVTT04gKz0gIiBcDQo+ID4gICAgICAtRGFhbGliPWRpc2FibGVkIFwN
+Cj4gPiAgICAgIC1EZGlyZWN0c291bmQ9ZGlzYWJsZWQgXA0KPiA+ICAgICAgLURkdj1kaXNhYmxl
+ZCBcDQo+ID4gQEAgLTY0LDcgKzY0LDcgQEAgRVhUUkFfT0VDT05GICs9ICIgXA0KPiA+ICAgICAg
+LURvc3M0PWRpc2FibGVkIFwNCj4gPiAgICAgIC1Eb3N4YXVkaW89ZGlzYWJsZWQgXA0KPiA+ICAg
+ICAgLURvc3h2aWRlbz1kaXNhYmxlZCBcDQo+ID4gLSAgICAtRHF0PWRpc2FibGVkIFwNCj4gPiAr
+ICAgIC1EcXQ1PWRpc2FibGVkIFwNCj4gDQo+IHRoaXMgcGVyaGFwcyBzaG91bGQgYmUgYSBwYWNr
+YWdlY29uZmlnIHNvIHBlb3BsZSB1c2luZyBtZXRhLXF0NSBjYW4NCj4gZW5hYmxlIGl0DQoNClll
+cyBwcm9iYWJseSBidXQgaW4gYSBzZXBhcmF0ZSBjaGFuZ2UgSSB0aGluay4gVGhpcyBqdXN0IGVu
+c3VyZXMgdGhhdA0KdGhlIHJpZ2h0IG9wdGlvbnMgYXJlIHVzZWQgYW5kIG5vdGhpbmcgZWxzZSBp
+cyBjaGFuZ2VkLg0KDQpUaGFua3MsDQoNCkFudWoNCg0KPiANCj4gPiAgICAgIC1Ec2hvdXQyPWRp
+c2FibGVkIFwNCj4gPiAgICAgIC1EdHdvbGFtZT1kaXNhYmxlZCBcDQo+ID4gICAgICAtRHdhdmVm
+b3JtPWRpc2FibGVkIFwNCj4gPiAtLQ0KPiA+IDIuMjQuMQ0KPiA+IA0KPiA+IC0tDQo+ID4gX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCj4gPiBPcGVuZW1i
+ZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQo+ID4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9s
+aXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0K
 
