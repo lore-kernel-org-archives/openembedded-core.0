@@ -1,46 +1,51 @@
-Return-Path: <scott.branden@broadcom.com>
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com
-	[209.85.216.50])
-	by mail.openembedded.org (Postfix) with ESMTP id DACBA614EA
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-il1-f173.google.com (mail-il1-f173.google.com
+	[209.85.166.173])
+	by mail.openembedded.org (Postfix) with ESMTP id 8260C611C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 00:38:10 +0000 (UTC)
-Received: by mail-pj1-f50.google.com with SMTP id m7so1117477pjs.0
+	Wed, 19 Feb 2020 00:44:46 +0000 (UTC)
+Received: by mail-il1-f173.google.com with SMTP id i7so19056473ilr.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Feb 2020 16:38:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=bw2ux9QKri6L9St7b5Oe+bUo/yrUa0oYe6DUxmi3TiU=;
-	b=Uobf3XPWCN9v9Nismds6eWWzOdzQOdr/ebHqtFonwKnTlSpoku5zv2qjedHIDHxZar
-	mmy2qVBbPcRYSBvpgn7Px0jEkGQnaLSezGiGknttn/iV1Ftk6dRng5ve1PwqNQzD0/hT
-	M3rpJ775je6d8f17hIlQvnsNkgda0fIPCrRZg=
+	Tue, 18 Feb 2020 16:44:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yOh29Lpl0NrE9AdHj31e3U48eMGP0+SUg9a4EcAEA6k=;
+	b=CXKIlt1ujppaBGqh1UPSonT0pgN+gPtzT9Wyfk6rvfTEUG0Ed33AdvtT8hEDQAUInw
+	3LWdOF34mOGvAOiUhsm8v17zzEzxLiOcx4lyyQ7dsdMIRXTk1SQmipwY/o9JxFCDgUQT
+	/qfT01Hc+rnUIavqJtOaR4qZmKuXTtJ5qEzuJkSbDms+rDuD7Gcp+Nd0OEZ9X1MCmGNA
+	KoHsh0e6jzyrQ+OofRn+XO/5kibvKNPtfTXe/JOlk8vwUXqOg5qjcICOnRhlR1oFRRUx
+	qdQXr0lpJaq3uftbAbiYTTtXk0h8JAUAV9X4ls/gnUr7yVqJdeI5VGCJ5eHle/pOWzUD
+	4SdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bw2ux9QKri6L9St7b5Oe+bUo/yrUa0oYe6DUxmi3TiU=;
-	b=eh7KMa8McR24TuDeocK2CuR6GMR/cyHJpyU4cjsvUWWbvSSkdMLq9N13qYPNWRkzD7
-	k04h0KqzL+3Hf30eZz6OeON57crE0xPmXDug9m74Vrd2zBeRoUvPrQqRe2xiUJ+RddQ3
-	1Nfs884Y39j0VB3S1p287d3sqIkSMR4tonab2rU/RrMdp0rdje00PyW1Um4BEFDR5g08
-	VMevjHs4tuBxmDTdszYqHTawdHh/6DobbtHQZHeH5+Hy/G0AT5/7uihSpQpNZv1oAynl
-	iN9c0iZ8dc9gPADz5CJA9uvTTkxf8P/Y5oTUxZ0pe8PjD5fwkULpyNNyufU+O2WKPHip
-	Qzyg==
-X-Gm-Message-State: APjAAAWiOFUttk51T88/iXEFHSK/gCUbIetwgE5p8f7DU1wyqnD7VdGi
-	MWGuBRk6DSaDUl7qKUqjxEioy8Q47M06CVafXwd1Tkw0HrdrInQPwa0Row9M4+eZveeePYoopLv
-	Bfb6TkZJuADUOhbU1c6mrT8x1J0x8ZahZRccObO2eXmHGLg1rr5mhz3xdNmdVWA1b1c6glLyzL6
-	V8DYUM88jK4Z/tu5m1HQPqQd/ucFg=
-X-Google-Smtp-Source: APXvYqx0Weg3gTX0zzRDrapk08jGDSHWB8GHsOJ3UluOGF8g/OAvquiQQvfqjNl/B6s16jo6ARu0JA==
-X-Received: by 2002:a17:902:6ac7:: with SMTP id
-	i7mr22825601plt.66.1582072691435; 
-	Tue, 18 Feb 2020 16:38:11 -0800 (PST)
-Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
-	by smtp.gmail.com with ESMTPSA id ep2sm108603pjb.31.2020.02.18.16.38.10
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=yOh29Lpl0NrE9AdHj31e3U48eMGP0+SUg9a4EcAEA6k=;
+	b=bS8cZNcVfdq76W9Miw8BumI8OIeA/HphW1M1o/ZGiyrcnYe0xudE71mSrWHjtKsSfc
+	5p/T0wp4RhTnX/1uTWZcUYTevMPe9X9TZ/16Ohizp8Z/ktyX8UiQW4Evtb0U9S9gkhK1
+	hg+qDOshDqLDc/8D5/OOGLMiyjdu9oyz7F+c1LZ9Wkc4V41JcV7thN21ud8ksBGc7Rmd
+	obHbYXsmQBmq2yLbDTTEaO7D7r7JiqNI+9iXUofUdhtsYoJeYYU7JiJIyeHcWFVIui8v
+	GAx0W+NflIuRx4ValqHaR/fXk8hgDSrmJwJyTbOO+TUvi0tDq4SoEHaiGaumyGN5yoFV
+	5RGQ==
+X-Gm-Message-State: APjAAAWS369Qbd8XTSKDzl/HUe1i1Ma+Vtw+TTy3rd8I6IHtkwv02Bzc
+	WItA5KCcjVKMTU1YHcSH4GLgYQBo
+X-Google-Smtp-Source: APXvYqyyFJky9xwl9vIokik+0q/2jNKwSZvEcEQE395zPBhe1pYr5xtq/w8S7RctoYbok4LQ6vKeoQ==
+X-Received: by 2002:a92:8f91:: with SMTP id r17mr20540018ilk.97.1582073087188; 
+	Tue, 18 Feb 2020 16:44:47 -0800 (PST)
+Received: from farscape.garmin.com ([2605:a601:ac18:c700:d658:3b67:74f4:8891])
+	by smtp.gmail.com with ESMTPSA id
+	e13sm125163iol.16.2020.02.18.16.44.46
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Tue, 18 Feb 2020 16:38:10 -0800 (PST)
-From: Scott Branden <scott.branden@broadcom.com>
+	Tue, 18 Feb 2020 16:44:46 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Feb 2020 16:38:01 -0800
-Message-Id: <20200219003801.15549-1-scott.branden@broadcom.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [meta-oe][PATCH v3] iproute2: add devlink support to iproute2
+Date: Tue, 18 Feb 2020 18:44:42 -0600
+Message-Id: <20200219004444.21297-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.24.1
+MIME-Version: 1.0
+Subject: [PATCH 0/2] Use jQuery in diffoscope output
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,78 +58,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 00:38:11 -0000
+X-List-Received-Date: Wed, 19 Feb 2020 00:44:46 -0000
+Content-Transfer-Encoding: 8bit
 
-Add devlink support to iproute2 recipe.
+The diffoscope HTML output has the option of using jQuery to make
+browsing the output easier. Enable support for this in the reproducible
+OEQA test.
 
-Signed-off-by: Scott Branden <scott.branden@broadcom.com>
----
- .../iproute2/iproute2.inc                     | 34 +++++++++++++------
- 1 file changed, 23 insertions(+), 11 deletions(-)
+Joshua Watt (2):
+  jquery: Add recipe
+  oeqa: reproducible: Include jquery in results
 
-diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
-index fc31b8444e..8efc0ec589 100644
---- a/meta/recipes-connectivity/iproute2/iproute2.inc
-+++ b/meta/recipes-connectivity/iproute2/iproute2.inc
-@@ -15,12 +15,19 @@ inherit update-alternatives bash-completion pkgconfig
- 
- CLEANBROKEN = "1"
- 
--PACKAGECONFIG ??= "tipc elf"
-+PACKAGECONFIG ??= "tipc elf devlink"
- PACKAGECONFIG[tipc] = ",,libmnl,"
- PACKAGECONFIG[elf] = ",,elfutils,"
-+PACKAGECONFIG[devlink] = ",,libmnl,"
- 
--EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip bridge misc genl \
--                ${@bb.utils.contains('PACKAGECONFIG', 'tipc', 'tipc', '', d)}' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
-+EXTRA_OEMAKE = "\
-+    CC='${CC}' \
-+    KERNEL_INCLUDE=${STAGING_INCDIR} \
-+    DOCDIR=${docdir}/iproute2 \
-+    SUBDIRS='lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc', d)} \
-+    SBINDIR='${base_sbindir}' \
-+    LIBDIR='${libdir}' \
-+"
- 
- do_configure_append () {
-     sh configure ${STAGING_INCDIR}
-@@ -39,14 +46,18 @@ do_install () {
- # The .so files in iproute2-tc are modules, not traditional libraries
- INSANE_SKIP_${PN}-tc = "dev-so"
- 
--PACKAGES =+ "${PN}-tc \
--             ${PN}-lnstat \
--             ${PN}-ifstat \
--             ${PN}-genl \
--             ${PN}-rtacct \
--             ${PN}-nstat \
--             ${PN}-ss \
--             ${@bb.utils.contains('PACKAGECONFIG', 'tipc', '${PN}-tipc', '', d)}"
-+PACKAGES =+ "\
-+    ${PN}-devlink \
-+    ${PN}-genl \
-+    ${PN}-ifstat \
-+    ${PN}-lnstat \
-+    ${PN}-nstat \
-+    ${PN}-rtacct \
-+    ${PN}-ss \
-+    ${PN}-tc \
-+    ${PN}-tipc \
-+"
-+
- FILES_${PN}-tc = "${base_sbindir}/tc* \
-                   ${libdir}/tc/*.so"
- FILES_${PN}-lnstat = "${base_sbindir}/lnstat \
-@@ -58,6 +69,7 @@ FILES_${PN}-rtacct = "${base_sbindir}/rtacct"
- FILES_${PN}-nstat = "${base_sbindir}/nstat"
- FILES_${PN}-ss = "${base_sbindir}/ss"
- FILES_${PN}-tipc = "${base_sbindir}/tipc"
-+FILES_${PN}-devlink = "${base_sbindir}/devlink"
- 
- ALTERNATIVE_${PN} = "ip"
- ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
+ meta/conf/distro/include/maintainers.inc     |  1 +
+ meta/lib/oeqa/selftest/cases/reproducible.py | 13 +++++++--
+ meta/recipes-devtools/jquery/jquery_3.4.1.bb | 29 ++++++++++++++++++++
+ 3 files changed, 40 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/jquery/jquery_3.4.1.bb
+
 -- 
-2.17.1
+2.24.1
 
 
