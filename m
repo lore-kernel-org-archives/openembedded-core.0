@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 24EB5613D3
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 06CAF613DE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 18:38:19 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id s10so1793336wmh.3
+	Wed, 19 Feb 2020 18:38:20 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id a9so1793654wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 10:38:21 -0800 (PST)
+	Wed, 19 Feb 2020 10:38:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=60RacdOwaV9a8hamrwh7cVXHoeM+I+nR87SHgwmE/QU=;
-	b=cUM0QAp+8CZ5rPUHD2yaWf6Mjp1SwEv+qEfxPIFZd60UXvT9O5U7Au1oytQKMk8fqJ
-	SZzBkYi/WSsJ9NOV7aiTtc3zEeCfkLlCbzbtPzTPbzhwg6RsAXoKm0zQ96z4FFRrroZs
-	G4awfahP8nKOOjGxFxmCmn9HYOjYmusuxbYs0=
+	bh=vWUQf/3XxAamu7lTjtlnqT19i9i3tXKtJhcU2m3PpAc=;
+	b=VXdTkcg1HZAQZq7O8+bDJnh1dh54BFnoVCCChrJEpNNm4hVlL6vSL89mzFRrunVgb7
+	Cx3DVMLoJmAq8b47p8HzvO9p5sUjhI6niB55+wlGcH38MyVab6idId/T36rFt5h4vUbt
+	F5FxsKZfSz3mB0gtsSwXEWK78nZp/o5Bl+k+I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=60RacdOwaV9a8hamrwh7cVXHoeM+I+nR87SHgwmE/QU=;
-	b=az/SxpVO3KMJ4lr19V3WlQ2KoIHJewBYBQrfIF9AEiaPll5C8UtoRLw0h5wNEzlyZb
-	QoIWEZdEDuacFZ5WakCQD61vVEzVc3NAyNofTWKrw2wdLpxBd85ePJMJVBhRDIlV60ri
-	ZVLH+yqmDeyzGHMOXlVksE61Xtq6A3aM678WSR5szWmcmVjUoTTpRAThb0MpN/Q3qlPA
-	ziAFgLNCq9kTqHPHXCLf9gTwuxpRIt0AGXPYNLipLm3EZ2S//SZs2BhNgQVwrmn71gyb
-	cg69AjXNKfGERFQzUi0rdROCbJ1Y1skRjhLynyM7G2xcKkwxyAkbI7nvBpsJvfVgTtS5
-	GKew==
-X-Gm-Message-State: APjAAAVRY2hygqc0iZtoG90F3yIt5tY8p92KMyLJaBoGaUuWPvfsETkp
-	MOgVH/PkCnUz4RojB61LkwOaqbCBwB0=
-X-Google-Smtp-Source: APXvYqzcup8QEsI31TJdx7DwpLNrLegyk6Kqe2+J5fE/fYOHgdB/6TKPo88RCpLnpVQAPg3i1o4m5g==
-X-Received: by 2002:a1c:4e03:: with SMTP id g3mr11446505wmh.22.1582137500174; 
-	Wed, 19 Feb 2020 10:38:20 -0800 (PST)
+	bh=vWUQf/3XxAamu7lTjtlnqT19i9i3tXKtJhcU2m3PpAc=;
+	b=Yk7SnHJ8k0eLab0IX1reLWW93MRSKyTu+DtlCqz1kgSapLL0SpA8WHq4J+cX90GE1F
+	sn7V/0bTMjd1hyElRfJiIkqZ/SgMCsmy/qLRKJ7nBAQc+/3dQrJYrzyx3FUA6yLr7BZM
+	O3VBk6EIA8UMCVf2g+33PBWxQXbrUHCCon8vJl23uMOiSh6yg+ZvtLXJJJienEgYDNde
+	P8f9v5VyPsvkmHWd86ji757XTvuTzOqdw5VRekEdCa0m+BttYS0eGX48V7whypy9oFqM
+	NDGPyu8YZGv9Vyk5Q/25O7vH9GoH0mVeZXpbKXV8hLGXLTcqT3WBlEkLrIGKHdHZqUYJ
+	9Sng==
+X-Gm-Message-State: APjAAAXsHKfNIY6RD/3J4K1VG0jWPIrKOGB9kSgEjIqelr/xkd0lL3+R
+	qvewJTfpJI5Smt0V2cImTZULATUl/dk=
+X-Google-Smtp-Source: APXvYqwzWX5FgCEeJh9wFyyAh0QJXWCvgFbe4X3e8a4tmfg1dgJ5oQlKaRjclagbOhCmHPEwd2FYuA==
+X-Received: by 2002:a1c:7ec5:: with SMTP id z188mr11299435wmc.52.1582137501328;
+	Wed, 19 Feb 2020 10:38:21 -0800 (PST)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	b21sm856697wmd.37.2020.02.19.10.38.19
+	b21sm856697wmd.37.2020.02.19.10.38.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 19 Feb 2020 10:38:19 -0800 (PST)
+	Wed, 19 Feb 2020 10:38:20 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2020 18:38:16 +0000
-Message-Id: <20200219183817.130495-2-richard.purdie@linuxfoundation.org>
+Date: Wed, 19 Feb 2020 18:38:17 +0000
+Message-Id: <20200219183817.130495-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200219183817.130495-1-richard.purdie@linuxfoundation.org>
 References: <20200219183817.130495-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] oeqa/selftest: Startardise seperate builddir for concurrent and non-concurrent selftest
+Subject: [PATCH 3/3] oeqa/selftest: Drop 'backup' code and SIGTERM handler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,181 +58,166 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 18:38:20 -0000
+X-List-Received-Date: Wed, 19 Feb 2020 18:38:21 -0000
 Content-Transfer-Encoding: 8bit
 
-Currently oe-selftest reuses the current build directory and the concurrent
-version run with -j does not.
-
-Standardise and use a separate new build directory in both cases. This will lead
-to simpler code and more reliable user run tests.
+Now selftest is using its own copied build directory, we can stop worrying about
+copying files around as backup, and drop the SIGTERM handler to try and restore
+them, simplifying the code.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/core/context.py               | 12 +++--
- meta/lib/oeqa/core/utils/concurrencytest.py | 35 ++-------------
- meta/lib/oeqa/selftest/context.py           | 50 +++++++++++++++++++++
- 3 files changed, 58 insertions(+), 39 deletions(-)
+ meta/lib/oeqa/selftest/case.py    | 30 +-------------------
+ meta/lib/oeqa/selftest/context.py | 47 ++-----------------------------
+ 2 files changed, 4 insertions(+), 73 deletions(-)
 
-diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
-index 14fc6a54f4b..16320af1157 100644
---- a/meta/lib/oeqa/core/context.py
-+++ b/meta/lib/oeqa/core/context.py
-@@ -72,6 +72,9 @@ class OETestContext(object):
-                 modules_required, **kwargs)
-         self.suites = self.loader.discover()
+diff --git a/meta/lib/oeqa/selftest/case.py b/meta/lib/oeqa/selftest/case.py
+index ac3308d8a44..dcad4f76ecd 100644
+--- a/meta/lib/oeqa/selftest/case.py
++++ b/meta/lib/oeqa/selftest/case.py
+@@ -6,7 +6,6 @@
  
-+    def prepareSuite(self, suites, processes):
-+        return suites
-+
-     def runTests(self, processes=None, skips=[]):
-         self.runner = self.runnerClass(self, descriptions=False, verbosity=2)
+ import sys
+ import os
+-import shutil
+ import glob
+ import errno
+ from unittest.util import safe_repr
+@@ -30,9 +29,7 @@ class OESelftestTestCase(OETestCase):
+         cls.builddir = cls.tc.config_paths['builddir']
  
-@@ -79,14 +82,9 @@ class OETestContext(object):
-         self.skipTests(skips)
+         cls.localconf_path = cls.tc.config_paths['localconf']
+-        cls.localconf_backup = cls.tc.config_paths['localconf_class_backup']
+         cls.local_bblayers_path = cls.tc.config_paths['bblayers']
+-        cls.local_bblayers_backup = cls.tc.config_paths['bblayers_class_backup']
  
-         self._run_start_time = time.time()
--        if processes:
--            from oeqa.core.utils.concurrencytest import ConcurrentTestSuite
--
--            concurrent_suite = ConcurrentTestSuite(self.suites, processes)
--            result = self.runner.run(concurrent_suite)
+         cls.testinc_path = os.path.join(cls.tc.config_paths['builddir'],
+                 "conf/selftest.inc")
+@@ -43,8 +40,7 @@ class OESelftestTestCase(OETestCase):
+ 
+         cls._track_for_cleanup = [
+             cls.testinc_path, cls.testinc_bblayers_path,
+-            cls.machineinc_path, cls.localconf_backup,
+-            cls.local_bblayers_backup]
++            cls.machineinc_path]
+ 
+         cls.add_include()
+ 
+@@ -102,30 +98,6 @@ class OESelftestTestCase(OETestCase):
+     def setUp(self):
+         super(OESelftestTestCase, self).setUp()
+         os.chdir(self.builddir)
+-        # Check if local.conf or bblayers.conf files backup exists
+-        # from a previous failed test and restore them
+-        if os.path.isfile(self.localconf_backup) or os.path.isfile(
+-                self.local_bblayers_backup):
+-            self.logger.debug("\
+-Found a local.conf and/or bblayers.conf backup from a previously aborted test.\
+-Restoring these files now, but tests should be re-executed from a clean environment\
+-to ensure accurate results.")
+-            try:
+-                shutil.copyfile(self.localconf_backup, self.localconf_path)
+-            except OSError as e:
+-                if e.errno != errno.ENOENT:
+-                    raise
+-            try:
+-                shutil.copyfile(self.local_bblayers_backup,
+-                                self.local_bblayers_path)
+-            except OSError as e:
+-                if e.errno != errno.ENOENT:
+-                    raise
 -        else:
-+        if not processes:
-             self.runner.buffer = True
--            result = self.runner.run(self.suites)
-+        result = self.runner.run(self.prepareSuite(self.suites, processes))
-         self._run_end_time = time.time()
- 
-         return result
-diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
-index 0d9c01e6d45..fac59f765ac 100644
---- a/meta/lib/oeqa/core/utils/concurrencytest.py
-+++ b/meta/lib/oeqa/core/utils/concurrencytest.py
-@@ -177,9 +177,10 @@ class dummybuf(object):
- #
- class ConcurrentTestSuite(unittest.TestSuite):
- 
--    def __init__(self, suite, processes):
-+    def __init__(self, suite, processes, setupfunc):
-         super(ConcurrentTestSuite, self).__init__([suite])
-         self.processes = processes
-+        self.setupfunc = setupfunc
- 
-     def run(self, result):
-         tests, totaltests = fork_for_tests(self.processes, self)
-@@ -272,37 +273,7 @@ def fork_for_tests(concurrency_num, suite):
-                 stream = os.fdopen(c2pwrite, 'wb', 1)
-                 os.close(c2pread)
- 
--                # Create a new separate BUILDDIR for each group of tests
--                if 'BUILDDIR' in os.environ:
--                    builddir = os.environ['BUILDDIR']
--                    newbuilddir = builddir + "-st-" + str(ourpid)
--                    newselftestdir = newbuilddir + "/meta-selftest"
--
--                    bb.utils.mkdirhier(newbuilddir)
--                    oe.path.copytree(builddir + "/conf", newbuilddir + "/conf")
--                    oe.path.copytree(builddir + "/cache", newbuilddir + "/cache")
--                    oe.path.copytree(selftestdir, newselftestdir)
--
--                    for e in os.environ:
--                        if builddir in os.environ[e]:
--                            os.environ[e] = os.environ[e].replace(builddir, newbuilddir)
--
--                    subprocess.check_output("git init; git add *; git commit -a -m 'initial'", cwd=newselftestdir, shell=True)
--
--                    # Tried to used bitbake-layers add/remove but it requires recipe parsing and hence is too slow
--                    subprocess.check_output("sed %s/conf/bblayers.conf -i -e 's#%s#%s#g'" % (newbuilddir, selftestdir, newselftestdir), cwd=newbuilddir, shell=True)
--
--                    os.chdir(newbuilddir)
--
--                    for t in process_suite:
--                        if not hasattr(t, "tc"):
--                            continue
--                        cp = t.tc.config_paths
--                        for p in cp:
--                            if selftestdir in cp[p] and newselftestdir not in cp[p]:
--                                cp[p] = cp[p].replace(selftestdir, newselftestdir)
--                            if builddir in cp[p] and newbuilddir not in cp[p]:
--                                cp[p] = cp[p].replace(builddir, newbuilddir)
-+                (builddir, newbuilddir) = suite.setupfunc("-st-" + str(ourpid), selftestdir, process_suite)
- 
-                 # Leave stderr and stdout open so we can see test noise
-                 # Close stdin so that the child goes away if it decides to
+-            # backup local.conf and bblayers.conf
+-            shutil.copyfile(self.localconf_path, self.localconf_backup)
+-            shutil.copyfile(self.local_bblayers_path, self.local_bblayers_backup)
+-            self.logger.debug("Creating local.conf and bblayers.conf backups.")
+         # we don't know what the previous test left around in config or inc files
+         # if it failed so we need a fresh start
+         try:
 diff --git a/meta/lib/oeqa/selftest/context.py b/meta/lib/oeqa/selftest/context.py
-index 3d3b19c6e80..2cb6c763852 100644
+index 2cb6c763852..0ab6462bbf8 100644
 --- a/meta/lib/oeqa/selftest/context.py
 +++ b/meta/lib/oeqa/selftest/context.py
-@@ -10,11 +10,13 @@ import glob
+@@ -9,9 +9,7 @@ import time
+ import glob
  import sys
  import importlib
- import signal
-+import subprocess
- from shutil import copyfile
+-import signal
+ import subprocess
+-from shutil import copyfile
  from random import choice
  
  import oeqa
- import oe
-+import bb.utils
+@@ -185,26 +183,10 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
  
- from oeqa.core.context import OETestContext, OETestContextExecutor
- from oeqa.core.exception import OEQAPreRun, OEQATestNotFound
-@@ -29,6 +31,54 @@ class OESelftestTestContext(OETestContext):
-         self.custommachine = None
-         self.config_paths = config_paths
+         builddir = os.environ.get("BUILDDIR")
+         self.tc_kwargs['init']['config_paths'] = {}
+-        self.tc_kwargs['init']['config_paths']['testlayer_path'] = \
+-                get_test_layer()
++        self.tc_kwargs['init']['config_paths']['testlayer_path'] = get_test_layer()
+         self.tc_kwargs['init']['config_paths']['builddir'] = builddir
+-        self.tc_kwargs['init']['config_paths']['localconf'] = \
+-                os.path.join(builddir, "conf/local.conf")
+-        self.tc_kwargs['init']['config_paths']['localconf_backup'] = \
+-                os.path.join(builddir, "conf/local.conf.orig")
+-        self.tc_kwargs['init']['config_paths']['localconf_class_backup'] = \
+-                os.path.join(builddir, "conf/local.conf.bk")
+-        self.tc_kwargs['init']['config_paths']['bblayers'] = \
+-                os.path.join(builddir, "conf/bblayers.conf")
+-        self.tc_kwargs['init']['config_paths']['bblayers_backup'] = \
+-                os.path.join(builddir, "conf/bblayers.conf.orig")
+-        self.tc_kwargs['init']['config_paths']['bblayers_class_backup'] = \
+-                os.path.join(builddir, "conf/bblayers.conf.bk")
+-
+-        copyfile(self.tc_kwargs['init']['config_paths']['localconf'],
+-                self.tc_kwargs['init']['config_paths']['localconf_backup'])
+-        copyfile(self.tc_kwargs['init']['config_paths']['bblayers'], 
+-                self.tc_kwargs['init']['config_paths']['bblayers_backup'])
++        self.tc_kwargs['init']['config_paths']['localconf'] = os.path.join(builddir, "conf/local.conf")
++        self.tc_kwargs['init']['config_paths']['bblayers'] = os.path.join(builddir, "conf/bblayers.conf")
  
-+    def setup_builddir(self, suffix, selftestdir, suite):
-+        builddir = os.environ['BUILDDIR']
-+        if not selftestdir:
-+            selftestdir = get_test_layer()
-+        newbuilddir = builddir + suffix
-+        newselftestdir = newbuilddir + "/meta-selftest"
-+
-+        if os.path.exists(newbuilddir):
-+            self.logger.error("Build directory %s already exists, aborting")
-+            sys.exit(1)
-+
-+        bb.utils.mkdirhier(newbuilddir)
-+        oe.path.copytree(builddir + "/conf", newbuilddir + "/conf")
-+        oe.path.copytree(builddir + "/cache", newbuilddir + "/cache")
-+        oe.path.copytree(selftestdir, newselftestdir)
-+
-+        for e in os.environ:
-+            if builddir in os.environ[e]:
-+                os.environ[e] = os.environ[e].replace(builddir, newbuilddir)
-+
-+        subprocess.check_output("git init; git add *; git commit -a -m 'initial'", cwd=newselftestdir, shell=True)
-+
-+        # Tried to used bitbake-layers add/remove but it requires recipe parsing and hence is too slow
-+        subprocess.check_output("sed %s/conf/bblayers.conf -i -e 's#%s#%s#g'" % (newbuilddir, selftestdir, newselftestdir), cwd=newbuilddir, shell=True)
-+
-+        os.chdir(newbuilddir)
-+
-+        for t in suite:
-+            if not hasattr(t, "tc"):
-+                continue
-+            cp = t.tc.config_paths
-+            for p in cp:
-+                if selftestdir in cp[p] and newselftestdir not in cp[p]:
-+                    cp[p] = cp[p].replace(selftestdir, newselftestdir)
-+                if builddir in cp[p] and newbuilddir not in cp[p]:
-+                    cp[p] = cp[p].replace(builddir, newbuilddir)
-+
-+        return (builddir, newbuilddir)
-+
-+    def prepareSuite(self, suites, processes):
-+        if processes:
-+            from oeqa.core.utils.concurrencytest import ConcurrentTestSuite
-+
-+            return ConcurrentTestSuite(suites, processes, self.setup_builddir)
-+        else:
-+            self.setup_builddir("-st", None, suites)
-+            return suites
-+
-     def runTests(self, processes=None, machine=None, skips=[]):
-         if machine:
-             self.custommachine = machine
+         def tag_filter(tags):
+             if args.exclude_tags:
+@@ -329,18 +311,9 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+ 
+         return rc
+ 
+-    def _signal_clean_handler(self, signum, frame):
+-        if self.ourpid == os.getpid():
+-            sys.exit(1)
+-    
+     def run(self, logger, args):
+         self._process_args(logger, args)
+ 
+-        # Setup a SIGTERM handler to allow restoration of files like local.conf and bblayers.conf
+-        # but don't interfer with other processes
+-        self.ourpid = os.getpid()
+-        signal.signal(signal.SIGTERM, self._signal_clean_handler)
+-
+         rc = None
+         try:
+             if args.machine:
+@@ -369,20 +342,6 @@ class OESelftestTestContextExecutor(OETestContextExecutor):
+                 rc = self._internal_run(logger, args)
+         finally:
+             config_paths = self.tc_kwargs['init']['config_paths']
+-            if os.path.exists(config_paths['localconf_backup']):
+-                copyfile(config_paths['localconf_backup'],
+-                        config_paths['localconf'])
+-                os.remove(config_paths['localconf_backup'])
+-
+-            if os.path.exists(config_paths['bblayers_backup']):
+-                copyfile(config_paths['bblayers_backup'], 
+-                        config_paths['bblayers'])
+-                os.remove(config_paths['bblayers_backup'])
+-
+-            if os.path.exists(config_paths['localconf_class_backup']):
+-                os.remove(config_paths['localconf_class_backup'])
+-            if os.path.exists(config_paths['bblayers_class_backup']):
+-                os.remove(config_paths['bblayers_class_backup'])
+ 
+             output_link = os.path.join(os.path.dirname(args.output_log),
+                     "%s-results.log" % self.name)
 -- 
 2.25.0
 
