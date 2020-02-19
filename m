@@ -1,35 +1,49 @@
-Return-Path: <auh@auh.yoctoproject.org>
-X-Greylist: delayed 527 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 19 Feb 2020 14:54:51 UTC
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 586856151A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1F6E4613BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 14:54:51 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6FDDBE0175C; Wed, 19 Feb 2020 06:46:06 -0800 (PST)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 37CE0E017AA
+	Wed, 19 Feb 2020 15:23:56 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id z3so1033346wru.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 06:45:36 -0800 (PST)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id 0F739440003
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 06:45:36 -0800 (PST)
-MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
+	Wed, 19 Feb 2020 07:23:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1hyIWcDC5HuMfpvuDYKjDheKEfoibW8ueF/zwUNSJPQ=;
+	b=LdQb8sO7bld9ilIvGWX/lwSTgvfkcXWwkvzW4qSwBnuM8phrJJZQZSVb2Put4BHX2D
+	0Te5OtE6+GU92LsVtHsNxyxfrBh9+K2lIqH7J80I++waAGduRybxLN+3cHtO04bA2tIH
+	5UFMbrsFU9FTGUefeVi49Rm2plGNCFkhNpnpo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=1hyIWcDC5HuMfpvuDYKjDheKEfoibW8ueF/zwUNSJPQ=;
+	b=juAscKJr3vylzPxR6yvrSfeRx8byqbk8HqnhCkDU+kNyGqsYC+AfBsZy7NBxMdEwzm
+	8+2XDCxgpVIp1B0jOR7iW6lQaeVTZZuVoUweLnKYzaoHHT9eJSVQk1fF1Gqp8k8hLcfg
+	TAkLI1pvkzYnaYJvgmVHuHYhy50BszEcpYzvbNyHkgdsIktjKIbYWbHfr3Oyc4Nc0ziX
+	teOoLTkvGOxjXMgWwj0mbr+OhFsCWo2M+naV8bTQjTB7fPBQXfkGG3f5q/uCYsoMO5F/
+	oKmPdDRxr/C7qi2kG4us6HxDtBqcB4TN+8da3R3efwJM5NLUwKwjH0oEiiou3sJXmLcD
+	EX8Q==
+X-Gm-Message-State: APjAAAWSMztGj3DKPrK7xXs5gUJR05Jz85O4Q9xVp1pmyZYqzksrnrIB
+	Tf0wF4Vz8MJr1t/yubDw7PMND83O9DA=
+X-Google-Smtp-Source: APXvYqy5AXtvdR/yHr7crSHQsZTQ1dHg8r15RtZVkkR8N6CLWEbtZC2D/08oANs0IrloAHBQoS96Cg==
+X-Received: by 2002:adf:f886:: with SMTP id u6mr37184406wrp.409.1582125837338; 
+	Wed, 19 Feb 2020 07:23:57 -0800 (PST)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	n8sm120207wrx.42.2020.02.19.07.23.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 19 Feb 2020 07:23:56 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Message-Id: <20200219144536.0F739440003@auh.yoctoproject.org>
-Date: Wed, 19 Feb 2020 06:45:36 -0800 (PST)
-Subject: [AUH] Upgrade status: 2020-02-19
+Date: Wed, 19 Feb 2020 15:23:55 +0000
+Message-Id: <20200219152355.123718-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.25.0
+MIME-Version: 1.0
+Subject: [PATCH] gstreamer: Fix reproducibility issue around libcap
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,146 +56,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 14:54:51 -0000
-Content-Type: multipart/mixed; boundary="===============0247355134030792240=="
+X-List-Received-Date: Wed, 19 Feb 2020 15:23:57 -0000
+Content-Transfer-Encoding: 8bit
 
---===============0247355134030792240==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Add an option to avoid builds depending on the presence of setcap
+from the host system.
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIFN1Y2NlZWRlZDogNTAKICAgICAgICBn
-c3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kLCAxLjE2LjIsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRh
-bEBpbnRlbC5jb20+CiAgICAgICAgbGlic29sdiwgMC43LjExLCBBbnVqIE1pdHRhbCA8YW51ai5t
-aXR0YWxAaW50ZWwuY29tPgogICAgICAgIGxpYmNhcCwgMi4zMiwgWWkgWmhhbyA8eWkuemhhb0B3
-aW5kcml2ZXIuY29tPgogICAgICAgIGJpc29uLCAzLjUuMiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5k
-cml2ZXIuY29tPgogICAgICAgIG5zcywgMy41MCwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdt
-YWlsLmNvbT4KICAgICAgICBtZXNvbiwgMC41My4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5r
-YW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBzY3JlZW4sIDQuOC4wLCBBbnVqIE1pdHRhbCA8YW51
-ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGxpYm1vZHVsZS1idWlsZC1wZXJsLCAwLjQyMzEs
-IFRpbSBPcmxpbmcgPHRpbW90aHkudC5vcmxpbmdAbGludXguaW50ZWwuY29tPgogICAgICAgIGdz
-dHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UsIDEuMTYuMiwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFs
-QGludGVsLmNvbT4KICAgICAgICBsaWJhcmNoaXZlLCAzLjQuMiwgT3RhdmlvIFNhbHZhZG9yIDxv
-dGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICB2YWxhLCAwLjQ2LjYsIEFs
-ZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMt
-Z2l0LCAzLjAuNywgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIta3Jh
-dmNodWsuY29tPgogICAgICAgIGxpYnBjcmUsIDguNDQsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJp
-dmVyLmNvbT4KICAgICAgICBwMTEta2l0LCAwLjIzLjIwLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
-eC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBzdHJlc3MtbmcsIDAuMTEuMDAsIEFudWogTWl0
-dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgdXRpbC1saW51eCwgMi4zNS4xLCBD
-aGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgYmx1ZXo1LCA1LjUzLCBBbnVq
-IE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGxpYmVycm9yLXBlcmwsIDAu
-MTcwMjksIFRpbSBPcmxpbmcgPHRpbW90aHkudC5vcmxpbmdAbGludXguaW50ZWwuY29tPgogICAg
-ICAgIGVwaXBoYW55LCAzLjM0LjQsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21h
-aWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1vbXgsIDEuMTYuMiwgQW51aiBNaXR0YWwgPGFu
-dWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXIsIDEu
-MTYuMiwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBsdHRuZy10
-b29scywgMi4xMS4yLCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0
-aW9uLm9yZz4KICAgICAgICBuY3Vyc2VzLCA2LjIsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBweXRob24zLWRvY3V0aWxzLCAwLjE2LCBPbGVrc2FuZHIgS3Jh
-dmNodWsgPG9wZW4uc291cmNlQG9sZWtzYW5kci1rcmF2Y2h1ay5jb20+CiAgICAgICAgZ3N0cmVh
-bWVyMS4wLWxpYmF2LCAxLjE2LjIsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+
-CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseSwgMS4xNi4yLCBBbnVqIE1pdHRhbCA8
-YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGJpbmQsIDkuMTEuMTUsIEFybWluIEt1c3Rl
-ciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgcGlnbGl0LCAxLjAtbmV3LWNvbW1pdHMt
-YXZhaWxhYmxlLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGdz
-dHJlYW1lcjEuMC1weXRob24sIDEuMTYuMiwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVs
-LmNvbT4KICAgICAgICB2aXJnbHJlbmRlcmVyLCAwLjguMiwgQWxleGFuZGVyIEthbmF2aW4gPGFs
-ZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZG5mLCA0LjIuMTgsIEFsZXhhbmRlciBLYW5h
-dmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHZ1bGthbi1oZWFkZXJzLCAxLjIu
-MTMxLjEsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9u
-My1naXRkYiwgMy4wLjAsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRy
-LWtyYXZjaHVrLmNvbT4KICAgICAgICBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQsIDEuMTYuMiwg
-QW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBsaWJ4a2Jjb21tb24s
-IDAuMTAuMCwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBsaW51
-eC1maXJtd2FyZSwgMjAyMDAxMTctbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBPdGF2aW8gU2FsdmFk
-b3IgPG90YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIHB5dGhvbjMtbWFr
-bywgMS4xLjEsIE9sZWtzYW5kciBLcmF2Y2h1ayA8b3Blbi5zb3VyY2VAb2xla3NhbmRyLWtyYXZj
-aHVrLmNvbT4KICAgICAgICBnbnV0bHMsIDMuNi4xMiwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4
-QGdtYWlsLmNvbT4KICAgICAgICB1bmlmZGVmLCAyLjEyLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0
-b25AaW50ZWwuY29tPgogICAgICAgIGxpYnNlY3JldCwgMC4yMC4xLCBBbGV4YW5kZXIgS2FuYXZp
-biA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBhdC1zcGkyLWNvcmUsIDIuMzQuMCwg
-QW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBweXRob24zLXNldHVw
-dG9vbHMsIDQ1LjIuMCwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJjZUBvbGVrc2FuZHIt
-a3JhdmNodWsuY29tPgogICAgICAgIGFzY2lpZG9jLCA4LjYuMTAsIFlpIFpoYW8gPHlpLnpoYW9A
-d2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJncGctZXJyb3IsIDEuMzcsIEhvbmd4dSBKaWEgPGhv
-bmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJ4Y3J5cHQtY29tcGF0LCA0LjQuMTMs
-IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgY3JlYXRlcmVwby1jLCAwLjE1
-LjcsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIG5p
-bmphLCAxLjEwLjAsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgZ3N0cmVh
-bWVyMS4wLCAxLjE2LjIsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAg
-ICAgbWFuLXBhZ2VzLCA1LjA1LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+
-CiAgICAgICAgZ3N0cmVhbWVyMS4wLXZhYXBpLCAxLjE2LjIsIEFudWogTWl0dGFsIDxhbnVqLm1p
-dHRhbEBpbnRlbC5jb20+CiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6IDE2CiAgICAgICAg
-YmludXRpbHMsIDIuMzQsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAgcnBt
-LCA0LjE1LjEsIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT4KICAgICAgICBu
-ZnMtdXRpbHMsIDIuNC4zLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4K
-ICAgICAgICBhcHQsIDEuOS45LCBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsQGdtYWlsLmNv
-bT4KICAgICAgICBtYWtlLCA0LjMsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIu
-Y29tPgogICAgICAgIG1jLCA0LjguMjQsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5j
-b20+CiAgICAgICAgc3lza2xvZ2QsIDIuMS4xLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5j
-b20+CiAgICAgICAgYXRrLCAyLjM0LjEsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5j
-b20+CiAgICAgICAgYnVpbGQtY29tcGFyZSwgMjAxOS4wOC4xNC1uZXctY29tbWl0cy1hdmFpbGFi
-bGUsIFBhdWwgRWdnbGV0b24gPHBhdWwuZWdnbGV0b25AbGludXguaW50ZWwuY29tPgogICAgICAg
-IHN5c3RlbWQtYm9vdCwgMjQ0LjMsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAg
-ICAgICBiYWJlbHRyYWNlLCAyLjAuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
-bWFpbC5jb20+CiAgICAgICAgZTJmc3Byb2dzLCAxLjQ1LjUsIFJvYmVydCBZYW5nIDxsaWV6aGku
-eWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGx0cCwgMjAyMDAxMjAsIFlpIFpoYW8gPHlpLnpo
-YW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJpbnB1dCwgMS4xNS4xLCBSb3NzIEJ1cnRvbiA8
-cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGdtcCwgNi4yLjAsIEtoZW0gUmFqIDxyYWou
-a2hlbUBnbWFpbC5jb20+CiAgICAgICAgbnNwciwgNC4yNSwgQXJtaW4gS3VzdGVyIDxha3VzdGVy
-ODA4QGdtYWlsLmNvbT4KICAgICogRmFpbGVkKGRvX2NvbXBpbGUpOiAyMAogICAgICAgIGFjcGlj
-YSwgMjAyMDAyMTQsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAg
-Y21ha2UsIDMuMTYuNCwgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoQHNpZW1lbnMuY29tPgogICAg
-ICAgIHB5dGhvbjMtbnVtcHksIDEuMTguMSwgT2xla3NhbmRyIEtyYXZjaHVrIDxvcGVuLnNvdXJj
-ZUBvbGVrc2FuZHIta3JhdmNodWsuY29tPgogICAgICAgIG1lc2EsIDE5LjMuNCwgT3RhdmlvIFNh
-bHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICB2dWxrYW4t
-ZGVtb3MsIGdpdC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRv
-bkBpbnRlbC5jb20+CiAgICAgICAgeGtleWJvYXJkLWNvbmZpZywgMi4yOSwgQXJtaW4gS3VzdGVy
-IDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICB2dWxrYW4tdG9vbHMsIDEuMi4xMzEuMSwg
-QW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBwdWxzZWF1ZGlvLCAx
-My45OS4xLCBUYW51IEthc2tpbmVuIDx0YW51a0Bpa2kuZmk+CiAgICAgICAgcHNwbGFzaCwgMC4x
-LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgog
-ICAgICAgIHZ1bGthbi1sb2FkZXIsIDEuMi4xMzEuMiwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFs
-QGludGVsLmNvbT4KICAgICAgICBjb25ubWFuLCAxLjM4LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdo
-eWVvay5iYWVAZ21haWwuY29tPgogICAgICAgIGdpdCwgMi4yNS4wLCBSb2JlcnQgWWFuZyA8bGll
-emhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBnc3QtdmFsaWRhdGUsIDEuMTYuMiwgQW51
-aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBsaWJ4Y3J5cHQsIDQuNC4x
-MywgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBzaGFkb3csIDQuOC4xLCBD
-aGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgYXQtc3BpMi1hdGssIDIuMzQu
-MSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnbywgMS4xMy44
-LCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtc2NvbnMsIDMu
-MS4yLCBUaW0gT3JsaW5nIDx0aW1vdGh5LnQub3JsaW5nQGxpbnV4LmludGVsLmNvbT4KICAgICAg
-ICBsaWJkbmYsIDAuNDMuMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5j
-b20+CiAgICAgICAgZ28tcnVudGltZSwgMS4xMy44LCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwu
-Y29tPgoKICAgIFRPVEFMOiBhdHRlbXB0ZWQ9ODYgc3VjY2VlZGVkPTUwKDU4LjE0JSkgZmFpbGVk
-PTM2KDQxLjg2JSkKClJlY2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6Cgog
-ICAgQ2hlbiBRaSA8UWkuQ2hlbjogYXR0ZW1wdGVkPTUgc3VjY2VlZGVkPTIoNDAuMDAlKSBmYWls
-ZWQ9Myg2MC4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9uOiBhdHRlbXB0ZWQ9
-MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIEFybWluIEt1c3RlciA8
-YWt1c3RlcjgwODogYXR0ZW1wdGVkPTYgc3VjY2VlZGVkPTQoNjYuNjclKSBmYWlsZWQ9MigzMy4z
-MyUpCiAgICBPbGVrc2FuZHIgS3JhdmNodWsgPG9wZW4uc291cmNlOiBhdHRlbXB0ZWQ9NiBzdWNj
-ZWVkZWQ9NSg4My4zMyUpIGZhaWxlZD0xKDE2LjY3JSkKICAgIEFsZXhhbmRlciBLYW5hdmluIDxh
-bGV4LmthbmF2aW46IGF0dGVtcHRlZD0xMCBzdWNjZWVkZWQ9OCg4MC4wMCUpIGZhaWxlZD0yKDIw
-LjAwJSkKICAgIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZTogYXR0ZW1wdGVkPTEgc3Vj
-Y2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBUaW0gT3JsaW5nIDx0aW1vdGh5
-LnQub3JsaW5nOiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9Mig2Ni42NyUpIGZhaWxlZD0xKDMzLjMz
-JSkKICAgIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWE6IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0zKDEw
-MC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRl
-bXB0ZWQ9NCBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTQoMTAwLjAwJSkKICAgIEFuw61iYWwg
-TGltw7NuIDxsaW1vbi5hbmliYWw6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWls
-ZWQ9MSgxMDAuMDAlKQogICAgVGFudSBLYXNraW5lbiA8dGFudWs6IGF0dGVtcHRlZD0xIHN1Y2Nl
-ZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgUm9zcyBCdXJ0b24gPHJvc3MuYnVy
-dG9uOiBhdHRlbXB0ZWQ9NiBzdWNjZWVkZWQ9MigzMy4zMyUpIGZhaWxlZD00KDY2LjY3JSkKICAg
-IEtoZW0gUmFqIDxyYWoua2hlbTogYXR0ZW1wdGVkPTcgc3VjY2VlZGVkPTIoMjguNTclKSBmYWls
-ZWQ9NSg3MS40MyUpCiAgICBPdGF2aW8gU2FsdmFkb3IgPG90YXZpby5zYWx2YWRvcjogYXR0ZW1w
-dGVkPTMgc3VjY2VlZGVkPTIoNjYuNjclKSBmYWlsZWQ9MSgzMy4zMyUpCiAgICBNYXJrIEhhdGxl
-IDxtYXJrLmhhdGxlOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAw
-LjAwJSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0zKDYwLjAw
-JSkgZmFpbGVkPTIoNDAuMDAlKQogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsOiBhdHRlbXB0
-ZWQ9MjEgc3VjY2VlZGVkPTE2KDc2LjE5JSkgZmFpbGVkPTUoMjMuODElKQogICAgUGFzY2FsIEJh
-Y2ggPHBhc2NhbC5iYWNoOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEo
-MTAwLjAwJSkKICAgIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZTogYXR0ZW1wdGVkPTEg
-c3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCg==
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../gstreamer/gstreamer1.0/capfix.patch       | 37 +++++++++++++++++++
+ .../gstreamer/gstreamer1.0_1.16.1.bb          |  2 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
 
---===============0247355134030792240==--
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
+new file mode 100644
+index 00000000000..7ca3d5ad4a6
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/capfix.patch
+@@ -0,0 +1,37 @@
++Currently gstreamer configuration depends on whether setcap is found on the host
++system. Turn this into a configure option to make builds deterinistic.
++
++RP 2020/2/19
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Pending
++
++Index: gstreamer-1.16.1/libs/gst/helpers/meson.build
++===================================================================
++--- gstreamer-1.16.1.orig/libs/gst/helpers/meson.build
+++++ gstreamer-1.16.1/libs/gst/helpers/meson.build
++@@ -73,7 +73,12 @@ if have_ptp
++     endif
++   endif
++ 
++-  setcap = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
+++  setcap_feature = get_option('setcap')
+++  if setcap_feature.disabled()
+++    setcap = find_program('dontexist', required : false)
+++  else
+++    setcap = find_program('setcap', '/usr/sbin/setcap', '/sbin/setcap', required : false)
+++  endif
++ 
++   # user/group to change to in gst-ptp-helper
++   ptp_helper_setuid_user = get_option('ptp-helper-setuid-user')
++Index: gstreamer-1.16.1/meson_options.txt
++===================================================================
++--- gstreamer-1.16.1.orig/meson_options.txt
+++++ gstreamer-1.16.1/meson_options.txt
++@@ -26,6 +26,7 @@ option('libunwind', type : 'feature', va
++ option('libdw', type : 'feature', value : 'auto', description : 'Use libdw to generate better backtraces from libunwind')
++ option('dbghelp', type : 'feature', value : 'auto', description : 'Use dbghelp to generate backtraces')
++ option('bash-completion', type : 'feature', value : 'auto', description : 'Install bash completion files')
+++option('setcap', type : 'feature', value : 'auto', description : 'Use setcap')
++ 
++ # Common feature options
++ option('examples', type : 'feature', value : 'auto', yield : true)
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+index 6b8a5a0eb01..68f5ca649fe 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.1.bb
+@@ -21,6 +21,7 @@ SRC_URI = " \
+     file://0002-meson-build-gir-even-when-cross-compiling-if-introsp.patch \
+     file://0003-meson-Add-valgrind-feature.patch \
+     file://0004-meson-Add-option-for-installed-tests.patch \
++    file://capfix.patch \
+ "
+ SRC_URI[md5sum] = "c505fb818b36988daaa846e9e63eabe8"
+ SRC_URI[sha256sum] = "02211c3447c4daa55919c5c0f43a82a6fbb51740d57fc3af0639d46f1cf4377d"
+@@ -39,6 +40,7 @@ PACKAGECONFIG[unwind] = "-Dlibunwind=enabled,-Dlibunwind=disabled,libunwind"
+ PACKAGECONFIG[dw] = "-Dlibdw=enabled,-Dlibdw=disabled,elfutils"
+ PACKAGECONFIG[bash-completion] = "-Dbash-completion=enabled,-Dbash-completion=disabled,bash-completion"
+ PACKAGECONFIG[tools] = "-Dtools=enabled,-Dtools=disabled"
++PACKAGECONFIG[setcap] = "-Dsetcap=enabled,-Dsetcap=disabled,libcap"
+ 
+ # TODO: put this in a gettext.bbclass patch
+ def gettext_oemeson(d):
+-- 
+2.25.0
+
+
