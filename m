@@ -1,50 +1,60 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 80A1D613DF
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id DDC80613DA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 16:30:44 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id m16so1237983wrx.11
+	Wed, 19 Feb 2020 17:21:08 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id b7so827932qkl.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 08:30:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=F29iLFR076Z72yS9H8cSJdhWoIBS4PLXOhcuEoijpCw=;
-	b=fVKcHj4QmfQ7s3GT40SL1O1wXWMkbPyrMALR8nExfSOgBsv4pLtrjk6x8kzAinQxZk
-	NzCm374gp7Ezh5H0ag+vcr5vG33kjM9+6/ejZ1jBOwfI/EnsueHxhItVNA5RKGxn7KyA
-	rG6f+pLaxvi7IVXcU6G2VzKYHzEnxg2tC1uoI=
+	Wed, 19 Feb 2020 09:21:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=bRhp1cmeitmsAvhiLQP7EG5Qe166aVU7ulNF6MlZBYY=;
+	b=rTjfbqd74HgsroNyfoQm2XDaxxSl2b9aAViCyo8jpWzPl2KoD4O99VCVIVCgbEWJ0t
+	FAk9mtjaPL3TaTEjwhE97UnuBz2mryXt+tYTcb6wZgrcE0Gb453CMqwU87TQD8UgZFHZ
+	VgzByqDqYZsQJJtZh1/koyvEVN//m2Ke0ivdwfAqD8utZYWoK9YC+XK1YNdI2W8lzC+w
+	/lQdUzWOUUmjaXp9cp3+qkcnq6zkgJ4HS6b45ntrBuxLDIVzLfHsxn9YFnltPTqBaVlE
+	wB/x5tfSE5d/gDpTxGo8+3RyfpInJZovYRGYOFZ/jxR2jFTxKY/NxOqWU6+4mOhhUdyJ
+	rsCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=F29iLFR076Z72yS9H8cSJdhWoIBS4PLXOhcuEoijpCw=;
-	b=W4g69vej3+gUlNvsZPgiGic2EKTtibB06qaJTUJ1pB1sEhajStsMaYLdyuUNd43I+L
-	2z6aq59Dms2Rhp6vfedxu1hVwVWthfgdhi+H7mG9RJgzk0KyMkarXe/0ddAG174233H6
-	uAYH5js9FJKiVYnkQGXDqdgt6NwMIVj/buHoPXlgo4tKkHbmvHhBCKjCNINPWmgyt4hF
-	tNDvAr3nDQvVBt7isDN6RVJdVAWMdc2rwFxJbwOCkYcD+vEYxMHwjJ1a+6vaInNQAOHQ
-	ZiWLrfBS2vi5Emmu563DS7jHfr3SLh/cNF37Hag51tL5AMgeptCtTQe1sLKiRtHBsjyC
-	de4A==
-X-Gm-Message-State: APjAAAW28K08/pqSkef24bqaN8L6oimD59+oHeg3p9YRIs6K0RSd8waG
-	2CqP80XXrsVb5yvypSt5e1lTfg==
-X-Google-Smtp-Source: APXvYqw/rMfZxBF5iF7V5G6OFV8zetIXyKIDd9PPGEtLEWlfsh+yefvsTITdBMj201qey6HtRxgv+A==
-X-Received: by 2002:adf:f847:: with SMTP id d7mr36072696wrq.35.1582129845168; 
-	Wed, 19 Feb 2020 08:30:45 -0800 (PST)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id y1sm344736wrq.16.2020.02.19.08.30.42
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 19 Feb 2020 08:30:44 -0800 (PST)
-Message-ID: <e84e99dbbc52c6ef7d0dda22f1c5c386855e98a7.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Scott Branden <scott.branden@broadcom.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2020 16:30:41 +0000
-In-Reply-To: <20200219003801.15549-1-scott.branden@broadcom.com>
-References: <20200219003801.15549-1-scott.branden@broadcom.com>
-User-Agent: Evolution 3.34.1-4 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=bRhp1cmeitmsAvhiLQP7EG5Qe166aVU7ulNF6MlZBYY=;
+	b=sa5/7MWO1FK7amQdvtYAomGOgV90sXSbNSYCpbR4zQPLo3eUD3lIcIutC6VHm1r3pj
+	M0w4z3xdcJRB7PxcopVoo8jmWAQAHQZI94DvcFO342T9WNljAumRPFDDXCKGi8aGNOg7
+	jc7jw0Z+WyqmPtMUgSZNWbcC6m/hJ+eyaApnZqv+42Dduf+zQynyXYrPxb0FAwcekTDK
+	YYIt2MXU7t4HmZjrLFjpE3sYCY6F/KPLp4MW9ubD+1DDPX8GlGl+0tCx1xKC2QcrZdn9
+	WsRpohQ6syrK0TkHrU0r9K/211x02Lq+URqAZ+bGX5seozf/y4SLV09BmgwQZB8QO4QI
+	nZIg==
+X-Gm-Message-State: APjAAAWcbBrEddDmo2scr4inZcUkjsYZkNUHCoNRTbSre4RRQJ1zc1S0
+	IW4+sGEKgIiDxvXkObY9pG3g9uSdEy8yMEOiz6Q=
+X-Google-Smtp-Source: APXvYqyyKdAXNFKiOFYSSbtIf8hpo0I+AoVS5cwCBPRC8OTUS/RsXWtfqxB4Pd1uVCAQkqPWv+TK3Gh2rpoQA2uhdWM=
+X-Received: by 2002:a37:e47:: with SMTP id 68mr1870257qko.17.1582132869408;
+	Wed, 19 Feb 2020 09:21:09 -0800 (PST)
 MIME-Version: 1.0
-Subject: Re: [meta-oe][PATCH v3] iproute2: add devlink support to iproute2
+References: <20200216155015.21738-1-alex.kanavin@gmail.com>
+	<20200216155015.21738-5-alex.kanavin@gmail.com>
+	<CAMKF1sppws+PSjDojzi7+=p_UjEkEafGa1_WtRLCpqO_73nhGA@mail.gmail.com>
+	<CANNYZj8W0A12inq_K3kiShN7dsU3tsTuOgh4LZAtP-QcUVDaXQ@mail.gmail.com>
+	<CAMKF1so86RKsiAXC=vzpT0wu8E=jiFMzJsVBdGb7SQ2TKxBo6Q@mail.gmail.com>
+	<CANNYZj_k+iXWB_V3PQOv8eE8Pvwt8B-q4=x_F4e4hzisW-NXaA@mail.gmail.com>
+	<CAMKF1spO36x=P-ts28+BEg+Pvw5FcEWNpyNyJGXcFB_jXSohUA@mail.gmail.com>
+	<CANNYZj8ZC_pVkSHTisPryOJE7GfMqot5a=5uP5LUm3fB0nVMYw@mail.gmail.com>
+	<CANNYZj9u8f+qD_3RTb+9O9cbNBk0UgteBcV_d7X2ffpCkg4UxA@mail.gmail.com>
+	<CAMKF1srMfa-0ADdKErgwXhQa6ypDL7RGznsBQ0ET7cZ29ErzXA@mail.gmail.com>
+	<CANNYZj_ktJg=JF=nTPvHWBajA+7t2zMPwZmbUFLOKRWD1uP4_A@mail.gmail.com>
+	<CAMKF1sqKV7+uMtvZEOCApvkiBV=cnFhsKJ=e9gx_gcY4iE-kvw@mail.gmail.com>
+	<CANNYZj93fYQY6rDVz5t2aaOfn=Vwz88OzZwZVcdwf3pfgWx1NQ@mail.gmail.com>
+In-Reply-To: <CANNYZj93fYQY6rDVz5t2aaOfn=Vwz88OzZwZVcdwf3pfgWx1NQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 19 Feb 2020 09:20:42 -0800
+Message-ID: <CAMKF1sp1EzMcb0Tndn-rJ02MOccd4J5AJFJ58Lv+0BsceP4gXg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/10] weston-init: use the drm backend rather than fbdev one
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,27 +67,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 16:30:44 -0000
+X-List-Received-Date: Wed, 19 Feb 2020 17:21:09 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2020-02-18 at 16:38 -0800, Scott Branden via Openembedded-core wrote:
-> Add devlink support to iproute2 recipe.
-> 
-> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
-> ---
->  .../iproute2/iproute2.inc                     | 34 +++++++++++++------
->  1 file changed, 23 insertions(+), 11 deletions(-)
-> 
+On Wed, Feb 19, 2020 at 1:45 AM Alexander Kanavin
+<alex.kanavin@gmail.com> wrote:
+>
+> On Tue, 18 Feb 2020 at 02:56, Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>>
+>>> but I'll get to it, or you are welcome to try and report.
+>>> Mips can be either fixed like suggested, or be a specific exception.
+>>>
+>>> For the rest of the targets, I see that you have extended the fbdev fal=
+lback to qemuall only on Jan 9 this year. So it's very unlikely anyone is u=
+sing them to run weston (not to mention how painfully slow that would be), =
+and so it would just be wasteful to test or fix them.
+>>
+>>
+>> We should be only applying tested part debugging these breakages is very=
+ hard so when we know it will break we should be careful as with this patch
+>
+>
+> I have tested these things now:
+>
+> 1. Switching mips from cirrus to std vga works fine, as long as xorg.conf=
+ is also deleted (it's written specifically for cirrus and isn't working or=
+ needed with std vga). Both weston and sato boot and look right. I'll send =
+a patch for it.
+>
+> 2. Switching weston to kms backend degrades performance to unusable level=
+, as neither kvm nor virtio/virgl are available for non-x86 qemu, and kms b=
+ackend is using software renderer in mesa. So fbdev is the only realistic o=
+ption there. But for x86 qemu kms is still viable. I'm not sure how to best=
+ configure it though.
 
-Doesn't build:
+copy qemuall/weston.ini new folders qemux86 and qemux86-64 and point
+to backend it should be using.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/1822
-
-(and a ton more)
-
-Cheers,
-
-Richard
-
+>
+> Alex
 
