@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F82E615C5;
-	Wed, 19 Feb 2020 22:32:18 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 17E44615C6;
+	Wed, 19 Feb 2020 22:32:19 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Wed, 19 Feb 2020 22:32:19 -0000
-Message-ID: <20200219223219.2273.38936@do>
-References: <20200219220837.139051-1-richard.purdie@linuxfoundation.org>
+Date: Wed, 19 Feb 2020 22:32:20 -0000
+Message-ID: <20200219223220.2277.87274@do>
+References: <20200219221356.139495-1-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20200219220837.139051-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20200219221356.139495-1-richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbG9jYWwuY29uZi5zYW1wbGUuZXh0ZW5kZWQ6IERvY3VtZW50IGhvdyB0byBsaW1pdCBwYXJhbGxlbCBmZXRjaCB0YXNrcyAocmV2Mik=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZGlzdHJvX2FsaWFzOiBGaXggdHlwb3M=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 22:32:18 -0000
+X-List-Received-Date: Wed, 19 Feb 2020 22:32:19 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: local.conf.sample.extended: Document how to limit parallel fetch tasks (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/22768/
+Series: distro_alias: Fix typos
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/22770/
 State : failure
 
 == Summary ==
