@@ -1,52 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
-	[209.85.221.178])
-	by mail.openembedded.org (Postfix) with ESMTP id F1B536152C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 80A1D613DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 16:02:14 +0000 (UTC)
-Received: by mail-vk1-f178.google.com with SMTP id o187so276342vka.2
+	Wed, 19 Feb 2020 16:30:44 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id m16so1237983wrx.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 08:02:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2P8mL+iXkGCz/Vuwl4M6RShRn3HzwbKnZr405omkINA=;
-	b=Ac/+5RVXTDoUY9FOoddxb+Lf7AycUP8tlkt92YCfXB1V1Oekt3tHN9kQok0nzQqOCV
-	wJkJ71Khoi9PNKzV3yo6PeHEj0ESoYvryoselXK+PJSWyiG+bcc8T/eqEZOhseDz1l6H
-	J7ATr9jSX/fMJKERgH6z1910ZTNahOPLFod3Get7TEdBj6SsYPyOhFT7w6AYEvH6rERs
-	phuiY21LkGi7qO61Hu8vnb62bX6m8eAmhhVCcJ5+8A5DnYB2n8PsWr7by2VnV1zU2oS2
-	/KojagE0oim13RBJpPYKLq0jVNVSDAcgJVPQSufiRN+M1HqpbCMBLXORh3Q4qmPx0J6x
-	cTDQ==
+	Wed, 19 Feb 2020 08:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=F29iLFR076Z72yS9H8cSJdhWoIBS4PLXOhcuEoijpCw=;
+	b=fVKcHj4QmfQ7s3GT40SL1O1wXWMkbPyrMALR8nExfSOgBsv4pLtrjk6x8kzAinQxZk
+	NzCm374gp7Ezh5H0ag+vcr5vG33kjM9+6/ejZ1jBOwfI/EnsueHxhItVNA5RKGxn7KyA
+	rG6f+pLaxvi7IVXcU6G2VzKYHzEnxg2tC1uoI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=2P8mL+iXkGCz/Vuwl4M6RShRn3HzwbKnZr405omkINA=;
-	b=dlpQGeudcdRjvZWFa/cgA11GdUPKgl4MePRGRev2VEffMaROx47zlpqaIiG80Br2i3
-	NnwW9+WS6uIpjnaJIl1DLkn8e612enz2ZP3zszpfClZrVG2r75zANTueIkSyI5NM2Sox
-	/OzbslXdQxPcX1zesuReaOnGz3of4psW+mFOzeoCrWvmrbxTZkg4CDJ/4wYXO5KEgGLh
-	O0DOyYcMVBst1Oc/A8Uz4lhmLzDhOXt+lCzTlj6Yu1/Bd8oumDZm51ynhSNaQe/goazs
-	JR9/dUNi3QSESP95J5R2tyAEKTXJ5kYl1K7Ide6neQGyeW+eHpkj20pqP0E5aEC6T4qa
-	8zyg==
-X-Gm-Message-State: APjAAAUkhzCyx8o5yDmnvwDcaTYq333o8j1qxmpO8N0dEI7mJLu4X+v1
-	OsGGIGF8+6juN4tbf8a3S0YiMKgSrrMH+qJfCfY=
-X-Google-Smtp-Source: APXvYqznQwlvgs9HY7p9Jlx7nzEjPL23w8z4Ejm+/iHvKXRHKiPHeGvWw2wpD1Ywos/VYltDLivi2lxAALdaBBhK7zg=
-X-Received: by 2002:a05:6122:2b6:: with SMTP id
-	22mr10946086vkq.49.1582128133865; 
-	Wed, 19 Feb 2020 08:02:13 -0800 (PST)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=F29iLFR076Z72yS9H8cSJdhWoIBS4PLXOhcuEoijpCw=;
+	b=W4g69vej3+gUlNvsZPgiGic2EKTtibB06qaJTUJ1pB1sEhajStsMaYLdyuUNd43I+L
+	2z6aq59Dms2Rhp6vfedxu1hVwVWthfgdhi+H7mG9RJgzk0KyMkarXe/0ddAG174233H6
+	uAYH5js9FJKiVYnkQGXDqdgt6NwMIVj/buHoPXlgo4tKkHbmvHhBCKjCNINPWmgyt4hF
+	tNDvAr3nDQvVBt7isDN6RVJdVAWMdc2rwFxJbwOCkYcD+vEYxMHwjJ1a+6vaInNQAOHQ
+	ZiWLrfBS2vi5Emmu563DS7jHfr3SLh/cNF37Hag51tL5AMgeptCtTQe1sLKiRtHBsjyC
+	de4A==
+X-Gm-Message-State: APjAAAW28K08/pqSkef24bqaN8L6oimD59+oHeg3p9YRIs6K0RSd8waG
+	2CqP80XXrsVb5yvypSt5e1lTfg==
+X-Google-Smtp-Source: APXvYqw/rMfZxBF5iF7V5G6OFV8zetIXyKIDd9PPGEtLEWlfsh+yefvsTITdBMj201qey6HtRxgv+A==
+X-Received: by 2002:adf:f847:: with SMTP id d7mr36072696wrq.35.1582129845168; 
+	Wed, 19 Feb 2020 08:30:45 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id y1sm344736wrq.16.2020.02.19.08.30.42
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 19 Feb 2020 08:30:44 -0800 (PST)
+Message-ID: <e84e99dbbc52c6ef7d0dda22f1c5c386855e98a7.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Scott Branden <scott.branden@broadcom.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 19 Feb 2020 16:30:41 +0000
+In-Reply-To: <20200219003801.15549-1-scott.branden@broadcom.com>
+References: <20200219003801.15549-1-scott.branden@broadcom.com>
+User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-References: <20200218132054.20341-1-wallinux@gmail.com>
-	<CANNYZj9nm0eqo0NtHhEJiw7nLbnYQ8r1aazXk6mGn83VXc9VNA@mail.gmail.com>
-	<CAF2baFdCF-NVmUa=meNhAN5BDBqLcS4k7F+EBWtUA1ekY6OVBg@mail.gmail.com>
-	<20200219152720.GM17818@joraj-alpa>
-	<143f590b688ed8166a702873275c16f3c7217d52.camel@linuxfoundation.org>
-	<20200219155626.GN17818@joraj-alpa>
-In-Reply-To: <20200219155626.GN17818@joraj-alpa>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Feb 2020 17:02:37 +0100
-Message-ID: <CANNYZj9t2+ugT15XbYrqkgA23MHEQxy_9t=PnutoCQr2f0AA-A@mail.gmail.com>
-To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] babeltrace2: added 2.0.1
+Subject: Re: [meta-oe][PATCH v3] iproute2: add devlink support to iproute2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,53 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 16:02:15 -0000
-Content-Type: multipart/alternative; boundary="000000000000688402059eefe9ab"
-
---000000000000688402059eefe9ab
+X-List-Received-Date: Wed, 19 Feb 2020 16:30:44 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, 19 Feb 2020 at 16:56, Jonathan Rajotte-Julien <
-jonathan.rajotte-julien@efficios.com> wrote:
+On Tue, 2020-02-18 at 16:38 -0800, Scott Branden via Openembedded-core wrote:
+> Add devlink support to iproute2 recipe.
+> 
+> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+> ---
+>  .../iproute2/iproute2.inc                     | 34 +++++++++++++------
+>  1 file changed, 23 insertions(+), 11 deletions(-)
+> 
 
-> > There are some things where the namespaces are quite specific (python
-> > vs python3, gtk(+) 2/3/4, qt) but they're fairly few and far between.
-> >
-> > If babeltrace2 will replace babeltrace and become babeltrace, we
-> > probably want to keep PN as babeltrace. If it will be known as
-> > babeltrace2 always, we probably change PN.
->
-> Babeltrace 2 executable will be forever named babeltrace2.
->
-> Hope this clear up this part a bit.
->
+Doesn't build:
 
-Right, then I'm fine with naming the recipe babeltrace2.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/1822
 
-Alex
+(and a ton more)
 
---000000000000688402059eefe9ab
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cheers,
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 19 Feb 2020 at 16:56, Jonathan Ra=
-jotte-Julien &lt;<a href=3D"mailto:jonathan.rajotte-julien@efficios.com">jo=
-nathan.rajotte-julien@efficios.com</a>&gt; wrote:<br></div><div class=3D"gm=
-ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204=
-,204,204);padding-left:1ex">&gt; There are some things where the namespaces=
- are quite specific (python<br>
-&gt; vs python3, gtk(+) 2/3/4, qt) but they&#39;re fairly few and far betwe=
-en.<br>
-&gt; <br>
-&gt; If babeltrace2 will replace babeltrace and become babeltrace, we<br>
-&gt; probably want to keep PN as babeltrace. If it will be known as<br>
-&gt; babeltrace2 always, we probably change PN.<br>
-<br>
-Babeltrace 2 executable will be forever named babeltrace2.<br>
-<br>
-Hope this clear up this part a bit.<br></blockquote><div><br></div><div>Rig=
-ht, then I&#39;m fine with naming the recipe babeltrace2.</div><div><br></d=
-iv><div>Alex=C2=A0</div></div></div>
+Richard
 
---000000000000688402059eefe9ab--
+
