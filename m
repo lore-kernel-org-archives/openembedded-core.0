@@ -1,52 +1,52 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 930B1613C7
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D78C613ED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 19:48:22 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id m16so1941884wrx.11
+	Wed, 19 Feb 2020 19:48:23 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id u6so2040384wrt.0
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Feb 2020 11:48:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=4IUMTA3wGUHok2SFsNPciKOV2Z5p6xc0HtmLQJLAt1U=;
-	b=RSvesELTQ2Hslp8m5g6T7LcWSioTPJnkP0eHY4YPCP2vFlrfeBLwsY5hVNhlEti5DV
-	aQZNAaqJFIaGPr3TLTlxYxwfOZhHhsCpC5/ue1wTVFCM2idrKsG1ojBfhIi1bxgNyZYN
-	alNncWK/ARGHGkcwepkkYjvc52ZwSBeSdr7EMssoO+8id60/QgPrap3odk4vzmO2WDcr
-	sE0nylDikSjdY5BCLGRDUNcsByV++OifKs/r/9cI51zHfr4LYHaU/UxGN9KIv1KWGM0K
-	kK1h/caRdgaDIkwYqGTMBseP/HCzy6CbgiEwtnF266IYGcCMrv/kouTvMOf0LC1caQCG
-	740g==
+	bh=a+cyPGzFQrSe2RctjlUNwbbhzwYKInLntCRrUCfhHhs=;
+	b=bKxMSINnVvtRlZGMDOZmtiLBa3sfuxYQglStrLmWPK4rqVp0WqCVJIxzvlaQAvZktA
+	ySPNAgozl70Q1bYdQuvjRgT4DBDmJ2z81Dd0peqyJrqoqAd6ofoXaZ4dFKp5cuoiZKCa
+	BIdNwYpUvdlN8kdMqsHm76ViGbSGjsRXWkIvJY6aqDcIke5ilLGZsXE0XC6tY6lBvsRm
+	cLmsT1bE0pEoiHroQxUR8OEPEOj/CWrunTwO6fXo6nVsqOzhCHIZDf9n3JdpXMHGXgfB
+	SIjhTNjlHXcqfZiPFGBhsbQz9nxVHggxyLJddgWdXarZUQoC0pZowHkPUQc5FQw5AFMU
+	O2gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=4IUMTA3wGUHok2SFsNPciKOV2Z5p6xc0HtmLQJLAt1U=;
-	b=CkXW691Ra/jCpavmcJH7/GTSN44dXtP3noEimwfJjSlUZBum9Cqz0KgDG8K9hX5IJc
-	pMCAIkLXWFWEIh4gr2YAP8t2wpwA2laVv8qUS8Zj+mYV9ZS3shSKWKChEqHciHFw0iJ7
-	qhj6nI54BH4TptxfSZeazKtIIZsIsurnadtCjuHk0HDioJ93RhfciK2seuKgvF+7K3cY
-	yQUnb2ciI3aHyyIicSVPdW4IChri4465T8PolAFrDH9Y6goOSQTdj09SlsHhWm2DPBgx
-	h4e+78XwhIxVP8jKI+iiDUiZ/7NW+iIDdUz2Vi1KqACmDLbR5yIGN4Gzhf9R9dUCRRq4
-	+TwQ==
-X-Gm-Message-State: APjAAAXN9JvSlxSzCtTwp5fTRnGlIyOs8xRfrvQAdGX8q9MatWnStk+U
-	WbjERIfAsNZgz5D7VcTwFN6sVI37
-X-Google-Smtp-Source: APXvYqzo/DLt6URrXtXJ2b3VQo2WxHB3E2f6fOIDOAyNe8hPO/gGRseYEvL7Fv/Kjh5cBzdRVAB42g==
-X-Received: by 2002:a5d:6789:: with SMTP id v9mr39637842wru.55.1582141703064; 
+	bh=a+cyPGzFQrSe2RctjlUNwbbhzwYKInLntCRrUCfhHhs=;
+	b=NqTYYRX9dBdez9diw6sI5P4zRD0nSvik3BBfGMrzoTtXozjs2pIZKCiqvOjR3h5Lkc
+	orxukZoVcdv9fDLrUZYkQ3QtrSIOI7g/n85geJLkyPHVHCPzbu2Tvy3b/fGcFyYSpJX2
+	4RWewkHaleH9+r9Gz9hww0zdLQkb1hLWasKSUA73oTxDq/H+t38WlIvaFLtXUtyl2Sxs
+	+iB2+vDYpANyiVa3Zt9hcYUKh03yW3ifhV70PmS6l6I+7OmheIYiMWlV+NsXCEPLvjJb
+	90Jv5XJT1NWCIAES7DA3kqI5slwKML771mmBSQLrf5H8edxjA/bjsvG8S8BkRYGY0yoD
+	3Grg==
+X-Gm-Message-State: APjAAAWvoWuR13d+sMlgI2SQp3K9X2876pQt6DTyU0Ti0z4PReJb/+lX
+	VlfFN/yYcVi8w8kuA3XEy+WIoquy
+X-Google-Smtp-Source: APXvYqyI0iF446/O1dt0klmxi3Zgw/z4i7fPcjOpoxnvvfC8E1BjIqUxBiRFufoCkjvdcNCsKtnXKA==
+X-Received: by 2002:adf:fe50:: with SMTP id m16mr39519838wrs.217.1582141703886;
 	Wed, 19 Feb 2020 11:48:23 -0800 (PST)
 Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
 	by smtp.gmail.com with ESMTPSA id
-	y185sm1204049wmg.2.2020.02.19.11.48.22
+	y185sm1204049wmg.2.2020.02.19.11.48.23
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 19 Feb 2020 11:48:22 -0800 (PST)
+	Wed, 19 Feb 2020 11:48:23 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2020 20:47:47 +0100
-Message-Id: <20200219194752.7967-8-alex.kanavin@gmail.com>
+Date: Wed, 19 Feb 2020 20:47:48 +0100
+Message-Id: <20200219194752.7967-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.25.0
 In-Reply-To: <20200219194752.7967-1-alex.kanavin@gmail.com>
 References: <20200219194752.7967-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 08/13] epiphany: upgrade 3.34.3.1 -> 3.34.4
+Subject: [PATCH 09/13] libsecret: upgrade 0.20.0 -> 0.20.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,28 +64,181 @@ Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../epiphany/{epiphany_3.34.3.1.bb => epiphany_3.34.4.bb}     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.34.3.1.bb => epiphany_3.34.4.bb} (85%)
+ ...ection-Rename-internal-functions-to-.patch | 144 ------------------
+ ...ibsecret_0.20.0.bb => libsecret_0.20.1.bb} |   5 +-
+ 2 files changed, 2 insertions(+), 147 deletions(-)
+ delete mode 100644 meta/recipes-gnome/libsecret/libsecret/0001-secret-file-collection-Rename-internal-functions-to-.patch
+ rename meta/recipes-gnome/libsecret/{libsecret_0.20.0.bb => libsecret_0.20.1.bb} (81%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.34.3.1.bb b/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
-similarity index 85%
-rename from meta/recipes-gnome/epiphany/epiphany_3.34.3.1.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
-index 7e1573348e..ddb4c2794f 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.34.3.1.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.34.4.bb
-@@ -14,8 +14,8 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-            "
--SRC_URI[archive.md5sum] = "c8010e7ef1b0fd2da1e613e17445062a"
--SRC_URI[archive.sha256sum] = "00e479fba108f44b1830370780b98116d87fc277eb1a4eed8e229dcdf04aea6d"
-+SRC_URI[archive.md5sum] = "a559f164bb7d6cbeceb348648076830b"
-+SRC_URI[archive.sha256sum] = "60e190fc07ec7e33472e60c7e633e04004f7e277a0ffc5e9cd413706881e598d"
+diff --git a/meta/recipes-gnome/libsecret/libsecret/0001-secret-file-collection-Rename-internal-functions-to-.patch b/meta/recipes-gnome/libsecret/libsecret/0001-secret-file-collection-Rename-internal-functions-to-.patch
+deleted file mode 100644
+index 269c12b010..0000000000
+--- a/meta/recipes-gnome/libsecret/libsecret/0001-secret-file-collection-Rename-internal-functions-to-.patch
++++ /dev/null
+@@ -1,144 +0,0 @@
+-From 59bcb169c4777bb3b1a50fee2ae20e4e8574b749 Mon Sep 17 00:00:00 2001
+-From: Daiki Ueno <dueno@src.gnome.org>
+-Date: Tue, 14 Jan 2020 10:09:29 +0100
+-Subject: [PATCH] secret-file-collection: Rename internal functions to avoid
+- conflicts
+-
+-As encrypt() is a standard POSIX function, its declaration had
+-conflict with our own.  Let's be more verbose about naming of the
+-internal crypto functions.
+-
+-Fixes #35.
+-
+-Upstream-Status: Backport [https://github.com/GNOME/libsecret/commit/cf21ad50b62f7c8e4b22ef374f0a73290a99bdb8]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- libsecret/secret-file-collection.c | 38 +++++++++++++++---------------
+- 1 file changed, 19 insertions(+), 19 deletions(-)
+-
+-diff --git a/libsecret/secret-file-collection.c b/libsecret/secret-file-collection.c
+-index 79863ea..8ffb542 100644
+---- a/libsecret/secret-file-collection.c
+-+++ b/libsecret/secret-file-collection.c
+-@@ -68,7 +68,7 @@ enum {
+- };
+- 
+- static gboolean
+--derive (SecretFileCollection *self)
+-+do_derive_key (SecretFileCollection *self)
+- {
+- 	const gchar *password;
+- 	gsize n_password;
+-@@ -93,9 +93,9 @@ derive (SecretFileCollection *self)
+- }
+- 
+- static gboolean
+--calculate_mac (SecretFileCollection *self,
+--	       const guint8 *value, gsize n_value,
+--	       guint8 *buffer)
+-+do_calculate_mac (SecretFileCollection *self,
+-+		  const guint8 *value, gsize n_value,
+-+		  guint8 *buffer)
+- {
+- 	gcry_mac_hd_t hd;
+- 	gcry_error_t gcry;
+-@@ -130,9 +130,9 @@ calculate_mac (SecretFileCollection *self,
+- }
+- 
+- static gboolean
+--decrypt (SecretFileCollection *self,
+--	 guint8 *data,
+--	 gsize n_data)
+-+do_decrypt (SecretFileCollection *self,
+-+	    guint8 *data,
+-+	    gsize n_data)
+- {
+- 	gcry_cipher_hd_t hd;
+- 	gcry_error_t gcry;
+-@@ -164,9 +164,9 @@ decrypt (SecretFileCollection *self,
+- }
+- 
+- static gboolean
+--encrypt (SecretFileCollection *self,
+--	 guint8 *data,
+--	 gsize n_data)
+-+do_encrypt (SecretFileCollection *self,
+-+	    guint8 *data,
+-+	    gsize n_data)
+- {
+- 	gcry_cipher_hd_t hd;
+- 	gcry_error_t gcry;
+-@@ -311,7 +311,7 @@ on_load_contents (GObject *source_object,
+- 			self->modified = g_date_time_new_now_utc ();
+- 			self->usage_count = 0;
+- 
+--			if (!derive (self)) {
+-+			if (!do_derive_key (self)) {
+- 				g_task_return_new_error (task,
+- 							 SECRET_ERROR,
+- 							 SECRET_ERROR_PROTOCOL,
+-@@ -375,7 +375,7 @@ on_load_contents (GObject *source_object,
+- 	g_assert (n_data == salt_size);
+- 
+- 	self->salt = g_bytes_new (data, n_data);
+--	if (!derive (self)) {
+-+	if (!do_derive_key (self)) {
+- 		g_task_return_new_error (task,
+- 					 SECRET_ERROR,
+- 					 SECRET_ERROR_PROTOCOL,
+-@@ -442,7 +442,7 @@ hash_attributes (SecretFileCollection *self,
+- 		GVariant *variant;
+- 
+- 		value = g_hash_table_lookup (attributes, l->data);
+--		if (!calculate_mac (self, (guint8 *)value, strlen (value), buffer)) {
+-+		if (!do_calculate_mac (self, (guint8 *)value, strlen (value), buffer)) {
+- 			g_list_free (keys);
+- 			return NULL;
+- 		}
+-@@ -485,7 +485,7 @@ hashed_attributes_match (SecretFileCollection *self,
+- 			return FALSE;
+- 		}
+- 
+--		if (!calculate_mac (self, value, strlen ((char *)value), buffer)) {
+-+		if (!do_calculate_mac (self, value, strlen ((char *)value), buffer)) {
+- 			g_variant_unref (hashed_attribute);
+- 			return FALSE;
+- 		}
+-@@ -584,7 +584,7 @@ secret_file_collection_replace (SecretFileCollection *self,
+- 	g_variant_store (serialized_item, data);
+- 	g_variant_unref (serialized_item);
+- 	memset (data + n_data, n_padded - n_data, n_padded - n_data);
+--	if (!encrypt (self, data, n_padded)) {
+-+	if (!do_encrypt (self, data, n_padded)) {
+- 		egg_secure_free (data);
+- 		g_set_error (error,
+- 			     SECRET_ERROR,
+-@@ -593,8 +593,8 @@ secret_file_collection_replace (SecretFileCollection *self,
+- 		return FALSE;
+- 	}
+- 
+--	if (!calculate_mac (self, data, n_padded + IV_SIZE,
+--			    data + n_padded + IV_SIZE)) {
+-+	if (!do_calculate_mac (self, data, n_padded + IV_SIZE,
+-+			       data + n_padded + IV_SIZE)) {
+- 		egg_secure_free (data);
+- 		g_set_error (error,
+- 			     SECRET_ERROR,
+-@@ -681,7 +681,7 @@ _secret_file_item_decrypt (GVariant *encrypted,
+- 	}
+- 	n_padded -= IV_SIZE + MAC_SIZE;
+- 
+--	if (!calculate_mac (collection, data, n_padded + IV_SIZE, mac)) {
+-+	if (!do_calculate_mac (collection, data, n_padded + IV_SIZE, mac)) {
+- 		egg_secure_free (data);
+- 		g_set_error (error,
+- 			     SECRET_ERROR,
+-@@ -699,7 +699,7 @@ _secret_file_item_decrypt (GVariant *encrypted,
+- 		return FALSE;
+- 	}
+- 
+--	if (!decrypt (collection, data, n_padded)) {
+-+	if (!do_decrypt (collection, data, n_padded)) {
+- 		egg_secure_free (data);
+- 		g_set_error (error,
+- 			     SECRET_ERROR,
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.20.0.bb b/meta/recipes-gnome/libsecret/libsecret_0.20.1.bb
+similarity index 81%
+rename from meta/recipes-gnome/libsecret/libsecret_0.20.0.bb
+rename to meta/recipes-gnome/libsecret/libsecret_0.20.1.bb
+index aa3dfab581..72511af02d 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.20.0.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.20.1.bb
+@@ -13,9 +13,8 @@ DEPENDS += "glib-2.0 libgcrypt gettext-native"
  
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
+ PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
+ 
+-SRC_URI += " file://0001-secret-file-collection-Rename-internal-functions-to-.patch"
+-SRC_URI[archive.md5sum] = "335750caeed47f50496b3b0e6a1875ff"
+-SRC_URI[archive.sha256sum] = "f1187370b453106af878e30c284a121ba0c513da8bb4170b329d66e250bdae43"
++SRC_URI[archive.md5sum] = "d2dd660a8d502099317bc8af9f30302e"
++SRC_URI[archive.sha256sum] = "57f73e94ec6263a17a077fb809cf8cf424637a897a7f15b4eec42ce4aef52447"
+ 
+ # http://errors.yoctoproject.org/Errors/Details/20228/
+ ARM_INSTRUCTION_SET_armv4 = "arm"
 -- 
 2.25.0
 
