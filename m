@@ -1,52 +1,55 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
-	[209.85.128.41])
-	by mail.openembedded.org (Postfix) with ESMTP id C1256613DF
+Return-Path: <scott.branden@broadcom.com>
+Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
+	[209.85.216.65])
+	by mail.openembedded.org (Postfix) with ESMTP id DF456606AA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 19:48:26 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id s10so1996146wmh.3
+	Wed, 19 Feb 2020 20:39:43 +0000 (UTC)
+Received: by mail-pj1-f65.google.com with SMTP id m13so562647pjb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 11:48:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=GEAhq0sBfzhK/7CIF34RJX48W76d5p6+eYzNq4ifLXI=;
-	b=AeFa0GPWrs5dgsp06u5TliM53Ktr6i5D6mBr4BmKiQ4gwY0fHmV+9cCcwvEvpGxPpe
-	c4WR7/usFM6WgLFw33ERx3SM+8faH6HQVDErHKJufQTb3H33r8ZlrGkOrHdkeMaNEgO+
-	QyEDJ/jArBwA8fO7nYah2rjZsZY+st2jRKFni9qlcNDMQtypwsCF2zn+dgtPd6WDN19T
-	TLWi0spgej4hacsMffRe+jCT8Y0ZICEsVTR95O7XCZ9ndJhyDriKL1Vuv8zkX/EBwBx3
-	mVtPSVTfc1JHPAEwEPRGhwDXDcihYxDmjdrSGYgR+q0g+SdLvH5JTHwzpXr7fMtn1dHa
-	QWEA==
+	Wed, 19 Feb 2020 12:39:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=I0ReKhCtnZlsaXPdTg2LGIL6Sgg8B8Vspf2Q8i1+xak=;
+	b=XM+eAM5ya6VJ6y1WwwZQ/dSSxaLtthULxyoD87hMI+wI++AfF52UsclVRuTgAzUrr2
+	3Sj9E3M8Mw9vxysI8wrZE0mPXKUZXvryx3Zl7XOKUieTF5+PyXG35YagK9S5vwM01LNA
+	2e+zd9ZCObwoco+EX1fBEZXlj4JNXIVhV3/NU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=GEAhq0sBfzhK/7CIF34RJX48W76d5p6+eYzNq4ifLXI=;
-	b=cmBILOuJVr9bvxleZS+LcevqRy68gO7P1svbhokTpEKBuPb+PycOTLcNimmgSwXrC/
-	b1eyGKPX+aDuX6hcf7638uTTi2l1wnUmdSKAC/cILqudi3t9FG2WRr5vAW5QCLjHv2BD
-	B/bPowfa+SzG4IUiWsdlOENCJ2XMthz5QrpdW9ZuCwhtCvoZYt1RzPUxpX4aPc+gMQf7
-	xgRKlI1vW6dTYfJFUwAQN5YKDqxyITus7ciIaA+VMJsMJupLrD17pmKsM36UPvcXyp7y
-	b0dej5wrVI7/YsLJodEb9AwbJHZ6g/Fi/ImLWj9Lfe3YYRmgzyXm5VhWuNYzjBCVszDl
-	rATA==
-X-Gm-Message-State: APjAAAVXScUCAxkW7rcJ39FDbhiFCfVPJ8c0a2yv0IlypGv/BWG0wpZz
-	tcPquISOAPgoo+9yJHr0qFi+QMp3
-X-Google-Smtp-Source: APXvYqy6MoDOAKdyFLMKjkzapNvBvvIUSVh4Jbx5ZweWW9mmG7/+YPPRyZ9B+0kzHjd+mo0V/+2qiQ==
-X-Received: by 2002:a1c:a515:: with SMTP id o21mr11853896wme.85.1582141707169; 
-	Wed, 19 Feb 2020 11:48:27 -0800 (PST)
-Received: from linux-f9zs.site ([2a02:2450:1011:56f:238d:84be:b349:9184])
-	by smtp.gmail.com with ESMTPSA id
-	y185sm1204049wmg.2.2020.02.19.11.48.26
-	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Wed, 19 Feb 2020 11:48:26 -0800 (PST)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Feb 2020 20:47:52 +0100
-Message-Id: <20200219194752.7967-13-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.25.0
-In-Reply-To: <20200219194752.7967-1-alex.kanavin@gmail.com>
-References: <20200219194752.7967-1-alex.kanavin@gmail.com>
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=I0ReKhCtnZlsaXPdTg2LGIL6Sgg8B8Vspf2Q8i1+xak=;
+	b=EIQ5OnyuFdxWcFqKJNL2wn317S84NtCWNg98vIydwNf40SNUFcENjS+WrYj/O5M6QM
+	/5I/JOhzOviKK8s2Izr1UTw75OcGGmqRxocXSsL5rgo7lK1okUYuedl4Gvwp4bN9gX6K
+	Rx38Ius81zovlK+0PuVgodtR6rCfI8ql1jqSURCr6Z3VVgf6jyOIjgS8vGRjzU6ozfjE
+	XpM31gVsq8uge5VAiETMIX/x0KojiT2PUxQdtj0RZCHSwtPnVmf3lBFfhAYjbQ6larsp
+	l9gFVgaR7leK+PApvpT5TpWrozkHpQvmhIJKdxrxNVQj4lMTKfJMHREIJTvVUA2LxIbd
+	Zz9g==
+X-Gm-Message-State: APjAAAXt4ZMIYx+1tviSQKHUH2nuijENfGLNX4+OMF7ag9Ym1zFv7zSA
+	5xXelpKyFcq+cdKDpF+0LXAqV6k4PnTsKBl/mrwQPQA3pGONch+UlLzR0P50xJUPjIYm5p/cFpj
+	c6QXJw5rryFH+8YpBm0bbwMJYJ50cYpU8WFDqBW/GR4YG7pI8Cy2Bm7yXH2LkdPaTjpX+p+PlmY
+	Tpy0ZIBR5Hoke4he7aOleJJp8xIo4=
+X-Google-Smtp-Source: APXvYqxhnZNS6JZIEWrpsP2lHnLQydPYi0kjkH3oudlrBsVuZ0U72jIy05eTFDe9uAPZ4+yykbWr8A==
+X-Received: by 2002:a17:902:7203:: with SMTP id
+	ba3mr26903305plb.249.1582144784429; 
+	Wed, 19 Feb 2020 12:39:44 -0800 (PST)
+Received: from [10.136.13.65] ([192.19.228.250])
+	by smtp.gmail.com with ESMTPSA id u1sm480338pfn.133.2020.02.19.12.39.43
+	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+	Wed, 19 Feb 2020 12:39:43 -0800 (PST)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20200219003801.15549-1-scott.branden@broadcom.com>
+	<e84e99dbbc52c6ef7d0dda22f1c5c386855e98a7.camel@linuxfoundation.org>
+From: Scott Branden <scott.branden@broadcom.com>
+Message-ID: <4ddfcc5b-0a9c-bddf-445f-ea4fcd9381ca@broadcom.com>
+Date: Wed, 19 Feb 2020 12:39:42 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+	Thunderbird/68.4.1
 MIME-Version: 1.0
-Subject: [PATCH 13/13] virglrenderer: upgrade 0.8.1 -> 0.8.2
+In-Reply-To: <e84e99dbbc52c6ef7d0dda22f1c5c386855e98a7.camel@linuxfoundation.org>
+Subject: Re: [meta-oe][PATCH v3] iproute2: add devlink support to iproute2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,32 +62,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 19:48:27 -0000
+X-List-Received-Date: Wed, 19 Feb 2020 20:39:44 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../{virglrenderer_0.8.1.bb => virglrenderer_0.8.2.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/virglrenderer/{virglrenderer_0.8.1.bb => virglrenderer_0.8.2.bb} (94%)
 
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.1.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-similarity index 94%
-rename from meta/recipes-graphics/virglrenderer/virglrenderer_0.8.1.bb
-rename to meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-index 133618844a..1046b8504f 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.1.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.8.2.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
- 
- DEPENDS = "libdrm mesa libepoxy"
--SRCREV = "66c57963aaf09a1c41056bd2a001da1d51957a14"
-+SRCREV = "7d204f3927be65fb3365dce01dbcd04d447a4985"
- SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
-            file://0001-gallium-Expand-libc-check-to-be-platform-OS-check.patch \
-            file://0001-meson.build-use-python3-directly-for-python.patch \
--- 
-2.25.0
+Sorry,  I will compile test when making simple changes suggested by 
+others from now.
+New version being submitted.
+
+On 2020-02-19 8:30 a.m., Richard Purdie wrote:
+> On Tue, 2020-02-18 at 16:38 -0800, Scott Branden via Openembedded-core wrote:
+>> Add devlink support to iproute2 recipe.
+>>
+>> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+>> ---
+>>   .../iproute2/iproute2.inc                     | 34 +++++++++++++------
+>>   1 file changed, 23 insertions(+), 11 deletions(-)
+>>
+> Doesn't build:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/1822
+>
+> (and a ton more)
+>
+> Cheers,
+>
+> Richard
+>
 
 
