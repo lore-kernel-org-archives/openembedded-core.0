@@ -1,55 +1,45 @@
 Return-Path: <scott.branden@broadcom.com>
-Received: from mail-pj1-f65.google.com (mail-pj1-f65.google.com
-	[209.85.216.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DF456606AA
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A5CF606AA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 20:39:43 +0000 (UTC)
-Received: by mail-pj1-f65.google.com with SMTP id m13so562647pjb.2
+	Wed, 19 Feb 2020 20:41:10 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id d6so690101pgn.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 12:39:45 -0800 (PST)
+	Wed, 19 Feb 2020 12:41:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=broadcom.com; s=google;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=I0ReKhCtnZlsaXPdTg2LGIL6Sgg8B8Vspf2Q8i1+xak=;
-	b=XM+eAM5ya6VJ6y1WwwZQ/dSSxaLtthULxyoD87hMI+wI++AfF52UsclVRuTgAzUrr2
-	3Sj9E3M8Mw9vxysI8wrZE0mPXKUZXvryx3Zl7XOKUieTF5+PyXG35YagK9S5vwM01LNA
-	2e+zd9ZCObwoco+EX1fBEZXlj4JNXIVhV3/NU=
+	h=from:to:cc:subject:date:message-id;
+	bh=B1EUfSsIclAPoMmW0HBMP5j0r4pqTxK/PN1J6PH7x0E=;
+	b=XV8i9InHS9DVnLdCT7vbDXsGWpSnHDf3W4GfgJht7TVM7YqlDFjmk+bcaUtVoQGbyL
+	CBlYh7aQBBVEOOlnaRIEKtpHguEQZ9dLos3C1VyaQ4p9zW+8xNKA1IwVDT5mECDFOTVt
+	6QTC2eDoOD7cY5yxiI+GEFuVTPKLjHq+72/ps=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=I0ReKhCtnZlsaXPdTg2LGIL6Sgg8B8Vspf2Q8i1+xak=;
-	b=EIQ5OnyuFdxWcFqKJNL2wn317S84NtCWNg98vIydwNf40SNUFcENjS+WrYj/O5M6QM
-	/5I/JOhzOviKK8s2Izr1UTw75OcGGmqRxocXSsL5rgo7lK1okUYuedl4Gvwp4bN9gX6K
-	Rx38Ius81zovlK+0PuVgodtR6rCfI8ql1jqSURCr6Z3VVgf6jyOIjgS8vGRjzU6ozfjE
-	XpM31gVsq8uge5VAiETMIX/x0KojiT2PUxQdtj0RZCHSwtPnVmf3lBFfhAYjbQ6larsp
-	l9gFVgaR7leK+PApvpT5TpWrozkHpQvmhIJKdxrxNVQj4lMTKfJMHREIJTvVUA2LxIbd
-	Zz9g==
-X-Gm-Message-State: APjAAAXt4ZMIYx+1tviSQKHUH2nuijENfGLNX4+OMF7ag9Ym1zFv7zSA
-	5xXelpKyFcq+cdKDpF+0LXAqV6k4PnTsKBl/mrwQPQA3pGONch+UlLzR0P50xJUPjIYm5p/cFpj
-	c6QXJw5rryFH+8YpBm0bbwMJYJ50cYpU8WFDqBW/GR4YG7pI8Cy2Bm7yXH2LkdPaTjpX+p+PlmY
-	Tpy0ZIBR5Hoke4he7aOleJJp8xIo4=
-X-Google-Smtp-Source: APXvYqxhnZNS6JZIEWrpsP2lHnLQydPYi0kjkH3oudlrBsVuZ0U72jIy05eTFDe9uAPZ4+yykbWr8A==
-X-Received: by 2002:a17:902:7203:: with SMTP id
-	ba3mr26903305plb.249.1582144784429; 
-	Wed, 19 Feb 2020 12:39:44 -0800 (PST)
-Received: from [10.136.13.65] ([192.19.228.250])
-	by smtp.gmail.com with ESMTPSA id u1sm480338pfn.133.2020.02.19.12.39.43
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Wed, 19 Feb 2020 12:39:43 -0800 (PST)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20200219003801.15549-1-scott.branden@broadcom.com>
-	<e84e99dbbc52c6ef7d0dda22f1c5c386855e98a7.camel@linuxfoundation.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=B1EUfSsIclAPoMmW0HBMP5j0r4pqTxK/PN1J6PH7x0E=;
+	b=auzv6Yx161fmKihAz3VNRSVFQ//oZOAM1I9FE+aw22qocfLow9ZC8cAe2thoaM/syp
+	9LPvnuZpXBWDAK0bEgTehmWBEtzqma2Q0W9H0pCvh5T5zAWP99WsAIi9Vmgt57mz3wQt
+	PFgqxpszYkNOiKjAu7JL6bScOHmERBK1PIavo+lw5u4+SPGBW83yPFOiFx03tiHUmqM/
+	xxyHSlnxNBFatdq1+VnCeB0N5WurlxKYyHw6aenkkmnl69LAu5QRNERV+XXGC1wxvZ7/
+	6HsQbo9qm0Smw5CYpfrg0aJiRW8WtHZIvsfh/rzmjQ3sIk6POU8h2Wy9LQRZNPkxckkT
+	UhKQ==
+X-Gm-Message-State: APjAAAWOtaSjbTcxclFFPg/tSAVJaIR7MfJvvhLsphQYkFmPJhMuV48J
+	ETZQLLU8ABJIh8YepgsFEfuT2jZ5JFImsiXTp3xPF3pYSPU4VAzl3NJ3rKcFOgGYVlYOnzo3mo6
+	Y+dLdR/uUgVoJxoTHapZxpC0Ze9FEqi65M0XZhtiyGWHi1fN8qduZC3se57x9X1+J6tSbII64lo
+	H7TtD+h7I6nyvCwAJwViVTBElMpew=
+X-Google-Smtp-Source: APXvYqw650EVGBuK8XmMd9uMlBuhbgWRfxZ9FfGqFkzO+5bQ4ohasQC6+f9bNLDb3nDnwosOHHVncg==
+X-Received: by 2002:a65:4d0d:: with SMTP id i13mr29176479pgt.346.1582144871676;
+	Wed, 19 Feb 2020 12:41:11 -0800 (PST)
+Received: from lbrmn-lnxub113.broadcom.net ([192.19.228.250])
+	by smtp.gmail.com with ESMTPSA id a13sm513769pfg.65.2020.02.19.12.41.10
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 19 Feb 2020 12:41:11 -0800 (PST)
 From: Scott Branden <scott.branden@broadcom.com>
-Message-ID: <4ddfcc5b-0a9c-bddf-445f-ea4fcd9381ca@broadcom.com>
-Date: Wed, 19 Feb 2020 12:39:42 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
-	Thunderbird/68.4.1
-MIME-Version: 1.0
-In-Reply-To: <e84e99dbbc52c6ef7d0dda22f1c5c386855e98a7.camel@linuxfoundation.org>
-Subject: Re: [meta-oe][PATCH v3] iproute2: add devlink support to iproute2
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Feb 2020 12:41:03 -0800
+Message-Id: <20200219204103.14617-1-scott.branden@broadcom.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [meta-oe][PATCH v4] iproute2: add devlink support to iproute2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,34 +52,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 20:39:44 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 19 Feb 2020 20:41:11 -0000
 
+Add devlink support to iproute2 recipe.
 
-Sorry,  I will compile test when making simple changes suggested by 
-others from now.
-New version being submitted.
+Signed-off-by: Scott Branden <scott.branden@broadcom.com>
+---
+ .../iproute2/iproute2.inc                     | 34 +++++++++++++------
+ 1 file changed, 23 insertions(+), 11 deletions(-)
 
-On 2020-02-19 8:30 a.m., Richard Purdie wrote:
-> On Tue, 2020-02-18 at 16:38 -0800, Scott Branden via Openembedded-core wrote:
->> Add devlink support to iproute2 recipe.
->>
->> Signed-off-by: Scott Branden <scott.branden@broadcom.com>
->> ---
->>   .../iproute2/iproute2.inc                     | 34 +++++++++++++------
->>   1 file changed, 23 insertions(+), 11 deletions(-)
->>
-> Doesn't build:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/1822
->
-> (and a ton more)
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-connectivity/iproute2/iproute2.inc b/meta/recipes-connectivity/iproute2/iproute2.inc
+index fc31b8444e..403d264308 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2.inc
++++ b/meta/recipes-connectivity/iproute2/iproute2.inc
+@@ -15,12 +15,19 @@ inherit update-alternatives bash-completion pkgconfig
+ 
+ CLEANBROKEN = "1"
+ 
+-PACKAGECONFIG ??= "tipc elf"
++PACKAGECONFIG ??= "tipc elf devlink"
+ PACKAGECONFIG[tipc] = ",,libmnl,"
+ PACKAGECONFIG[elf] = ",,elfutils,"
++PACKAGECONFIG[devlink] = ",,libmnl,"
+ 
+-EXTRA_OEMAKE = "CC='${CC}' KERNEL_INCLUDE=${STAGING_INCDIR} DOCDIR=${docdir}/iproute2 SUBDIRS='lib tc ip bridge misc genl \
+-                ${@bb.utils.contains('PACKAGECONFIG', 'tipc', 'tipc', '', d)}' SBINDIR='${base_sbindir}' LIBDIR='${libdir}'"
++EXTRA_OEMAKE = "\
++    CC='${CC}' \
++    KERNEL_INCLUDE=${STAGING_INCDIR} \
++    DOCDIR=${docdir}/iproute2 \
++    SUBDIRS='lib tc ip bridge misc genl ${@bb.utils.filter('PACKAGECONFIG', 'devlink tipc', d)}' \
++    SBINDIR='${base_sbindir}' \
++    LIBDIR='${libdir}' \
++"
+ 
+ do_configure_append () {
+     sh configure ${STAGING_INCDIR}
+@@ -39,14 +46,18 @@ do_install () {
+ # The .so files in iproute2-tc are modules, not traditional libraries
+ INSANE_SKIP_${PN}-tc = "dev-so"
+ 
+-PACKAGES =+ "${PN}-tc \
+-             ${PN}-lnstat \
+-             ${PN}-ifstat \
+-             ${PN}-genl \
+-             ${PN}-rtacct \
+-             ${PN}-nstat \
+-             ${PN}-ss \
+-             ${@bb.utils.contains('PACKAGECONFIG', 'tipc', '${PN}-tipc', '', d)}"
++PACKAGES =+ "\
++    ${PN}-devlink \
++    ${PN}-genl \
++    ${PN}-ifstat \
++    ${PN}-lnstat \
++    ${PN}-nstat \
++    ${PN}-rtacct \
++    ${PN}-ss \
++    ${PN}-tc \
++    ${PN}-tipc \
++"
++
+ FILES_${PN}-tc = "${base_sbindir}/tc* \
+                   ${libdir}/tc/*.so"
+ FILES_${PN}-lnstat = "${base_sbindir}/lnstat \
+@@ -58,6 +69,7 @@ FILES_${PN}-rtacct = "${base_sbindir}/rtacct"
+ FILES_${PN}-nstat = "${base_sbindir}/nstat"
+ FILES_${PN}-ss = "${base_sbindir}/ss"
+ FILES_${PN}-tipc = "${base_sbindir}/tipc"
++FILES_${PN}-devlink = "${base_sbindir}/devlink"
+ 
+ ALTERNATIVE_${PN} = "ip"
+ ALTERNATIVE_TARGET[ip] = "${base_sbindir}/ip.${BPN}"
+-- 
+2.17.1
 
 
