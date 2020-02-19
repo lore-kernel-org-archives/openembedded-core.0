@@ -1,45 +1,52 @@
-Return-Path: <jonathan.rajotte-julien@efficios.com>
-Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D30461517
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id B4A7B614FB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 15:27:20 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 3B974248DF4;
-	Wed, 19 Feb 2020 10:27:21 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id SIOsbjNc3vsC; Wed, 19 Feb 2020 10:27:21 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 18C3C248DF2;
-	Wed, 19 Feb 2020 10:27:21 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 18C3C248DF2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1582126041;
-	bh=fG7NJxs9vH1x6z5H5CSL366X5n3UEGxHqC1b9Qs2tfw=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=sD6UMzdc7PUcuYS+3yuS4OvV1npd/8huH2e3DICpeDtajPMDBAIcr8jJbHyRoDrZk
-	A/vG02iUMpZsZ4Vx9h9qB2pkFEV4YOsX0w9GhMO2FimffXdiv7JK8D7QQueDqul9VY
-	rD+A3Vbw2Qm3QtLQzPw0Kq9gWrLkCc7GWrLT/YdGSsAav41B5Jc/CXGcAwS8aP2Mpg
-	KXQ7JZtXDnUhFJBntAMjcen5gnbymfTJemJt22uJDl+jZjqMx1YuN/rwgbx6BFY235
-	hnyMUtIeLv7XPA77IBxZkOkpVQi1QgoM2UigKKinRECxii5fMyRWuBgT2L1+ZmPleQ
-	K+GWI7AmzciJA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id cRcn5UB0NEjY; Wed, 19 Feb 2020 10:27:21 -0500 (EST)
-Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-	by mail.efficios.com (Postfix) with ESMTPSA id CD86A2490CA;
-	Wed, 19 Feb 2020 10:27:20 -0500 (EST)
-Date: Wed, 19 Feb 2020 10:27:20 -0500
-From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-To: Anders Wallin <wallinux@gmail.com>
-Message-ID: <20200219152720.GM17818@joraj-alpa>
+	Wed, 19 Feb 2020 15:38:09 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id e8so1078081wrm.5
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Feb 2020 07:38:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=r4bU69ShBKk3Sg+f/HoqJnzw0BC9+crpsuHEU0f0Kms=;
+	b=VmKH/LT2RMMlNWjSxGM59ir+LWl/DLDnHh0hkiAFQZxdJEIf4FZB6sw3UD743aVrNG
+	RPNKuCw9f2jebcZsj6MjDC/5kW5D9q9cKypEu1Vn1emWwuFHNtuQ7jGi6IoIzntCv7LG
+	a8XPq0DTg+TglySXfx71q/nKwQCxlecaOubFs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=r4bU69ShBKk3Sg+f/HoqJnzw0BC9+crpsuHEU0f0Kms=;
+	b=Sa+KTiTq415dRH33/n5VZoKYAQaM03om1nvDe4fVyxx/q2YK2Ey87/Zn9VFf7B09mF
+	/pKG3PZO7Rsd8IGB6WQ2n1FzT+BXDy+buB07Fp163QtBhPJBknH6Dep0xziBwBuLUXdQ
+	bodrNr06CqkzyTjV73l+PX5Kn+v/hhOpxlRx16QAolpZ6w4R31uaDCxQJAQX96lOQrL4
+	7C2droB9pGxAu7tkLkxV1yaZ6vg7KHs5jB+DNwb3/fx3QjqS7f4vsVT/dsE6iYdvsjrw
+	MBBD33eZgyGkoArTVKEQG8QDQP1qz4U5N4b3xNV2AO+RW2Qevggl4V7xo0f7r38vwxWa
+	7+eQ==
+X-Gm-Message-State: APjAAAWRGyPXrhQmUwP8GrzQiLrtkCUdgvQR12pSrcbkVHNpJ4PkFq/V
+	7Ndn/qlgOLkIFxXnHSJoT7FT/g==
+X-Google-Smtp-Source: APXvYqzIrvxI6oDOSas6TX75O7+hvob+DfcUqv/aZuOzR6FucPZyedOGWBRSmVGrximuv4a0yFo50w==
+X-Received: by 2002:a5d:4bd0:: with SMTP id l16mr38701201wrt.271.1582126690332;
+	Wed, 19 Feb 2020 07:38:10 -0800 (PST)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 16sm289471wmi.0.2020.02.19.07.38.09
+	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+	Wed, 19 Feb 2020 07:38:09 -0800 (PST)
+Message-ID: <143f590b688ed8166a702873275c16f3c7217d52.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>, Anders
+	Wallin <wallinux@gmail.com>
+Date: Wed, 19 Feb 2020 15:38:08 +0000
+In-Reply-To: <20200219152720.GM17818@joraj-alpa>
 References: <20200218132054.20341-1-wallinux@gmail.com>
 	<CANNYZj9nm0eqo0NtHhEJiw7nLbnYQ8r1aazXk6mGn83VXc9VNA@mail.gmail.com>
 	<CAF2baFdCF-NVmUa=meNhAN5BDBqLcS4k7F+EBWtUA1ekY6OVBg@mail.gmail.com>
+	<20200219152720.GM17818@joraj-alpa>
+User-Agent: Evolution 3.34.1-4 
 MIME-Version: 1.0
-In-Reply-To: <CAF2baFdCF-NVmUa=meNhAN5BDBqLcS4k7F+EBWtUA1ekY6OVBg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] babeltrace2: added 2.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,27 +61,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 15:27:20 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 19 Feb 2020 15:38:09 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, Feb 19, 2020 at 11:06:12AM +0100, Anders Wallin wrote:
-> Hi Alex,
+On Wed, 2020-02-19 at 10:27 -0500, Jonathan Rajotte-Julien wrote:
+> On Wed, Feb 19, 2020 at 11:06:12AM +0100, Anders Wallin wrote:
+> > Hi Alex,
+> > 
+> > I think it's better to use babeltrace2 since it's a new version of
+> > babeltrace.
+> > The dist packages uses babeltrace2 and the main application/program
+> > is
+> > called babeltrace2.
+> > 
+> > Jonatan; Do you have any comment on the naming?
 > 
-> I think it's better to use babeltrace2 since it's a new version of
-> babeltrace.
-> The dist packages uses babeltrace2 and the main application/program is
-> called babeltrace2.
+> Me?
 > 
-> Jonatan; Do you have any comment on the naming?
+> Don't care much about the naming. The major issue here is the
+> dependency for
+> ptest of lttng-tools that depends on a "babeltrace" executable and
+> not on the
+> "babeltrace2" executable. Currently on our CI we create a symlink
+> from
+> "babeltrace2" to "babeltrace". This is something we plan on
+> addressing shortly.
 
-Me?
+Let me try a different question. What is the ultimate intent here?
 
-Don't care much about the naming. The major issue here is the dependency for
-ptest of lttng-tools that depends on a "babeltrace" executable and not on the
-"babeltrace2" executable. Currently on our CI we create a symlink from
-"babeltrace2" to "babeltrace". This is something we plan on addressing shortly.
+Will babeltrace and babeltrace2 coexist in the future or do you plan to
+rename babeltrace2 -> babeltrace at some point?
 
-Cheers
+There are some things where the namespaces are quite specific (python
+vs python3, gtk(+) 2/3/4, qt) but they're fairly few and far between.
+
+If babeltrace2 will replace babeltrace and become babeltrace, we
+probably want to keep PN as babeltrace. If it will be known as
+babeltrace2 always, we probably change PN.
+
+Cheers,
+
+Richard
 
 
