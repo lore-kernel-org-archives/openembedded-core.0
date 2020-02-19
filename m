@@ -1,33 +1,27 @@
 Return-Path: <pjtexier@koncepto.io>
 Received: from koncepto.io (koncepto.io [195.154.119.111])
-	by mail.openembedded.org (Postfix) with ESMTP id B57246142B
+	by mail.openembedded.org (Postfix) with ESMTP id 5303561527
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 21:27:59 +0000 (UTC)
-Received: from [192.168.1.17] (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr
-	[193.250.66.88]) by koncepto.io (Postfix) with ESMTPSA id 6CE3A60057;
-	Wed, 19 Feb 2020 22:28:00 +0100 (CET)
+	Wed, 19 Feb 2020 21:37:55 +0000 (UTC)
+Received: from menoah.home (lfbn-bor-1-1500-88.w193-250.abo.wanadoo.fr
+	[193.250.66.88]) by koncepto.io (Postfix) with ESMTPSA id E349E603F3;
+	Wed, 19 Feb 2020 22:37:55 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=koncepto.io;
-	s=default; t=1582147680;
-	bh=XWOp6ZhYSEy3YEfpNcT8rw/uVyfSVadBG8z+KMdBcjU=;
-	h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
-	b=IOg42fLdA+HzIfSNGjat57sNml4IlWjmI5Bk/7RMuOYjK8TMLHiCVCUyCHcojnlkn
-	oShATq//h2tgTX8RPt/exzhX3xAkED8xGQgdehd+APkugEd/kUWkdLiSQJHMa04cbC
-	FyeCa1iiCGQJUALefzqDY0P9a+avE/OII5/kLkhlAOUSD6fjujN2LKoP3QReBfqobH
-	QE18M3VpEdh0X2aj9+aG8dckQyi/7VyRxqsoCOg+OLSkjRuMHw0T3Ry9lbsgRWbWS5
-	vKg40EUKhw24Q3ZjEy/ZNDhBoSa7J9BIORiogA5tgVOtQNfIz86QKLskm8B78QIeMN
-	A8+Jle9LeC5hA==
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <1582146491-20965-1-git-send-email-pjtexier@koncepto.io>
-	<CANNYZj-8CG1HDuXbjmS4AVFe-LChc-MGKTTQXsjkc8H=SpYB5g@mail.gmail.com>
+	s=default; t=1582148276;
+	bh=5j9SkgvKhjgWmNVDZ8tyq2YO7NGpsw+oRfclsrLbVw0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=qFugbVDoxaxI/GwwL7b2FRq+QIX9PL0BhWK46CrHlg3kCYiTZBKvRzJiO8UamZ3yC
+	vc+hR+QmJC5p3Pu9VooItRwYdy1s6frI+Mk7wwKJK1spg6PXw5cbezB30lpY9Pi/qF
+	QA9mkqYi5iQ5KjjAidf0ssYtwhLBCN/Ke9W3cocpAgudPjOTRIuTA4ccGCYTU2gzwo
+	h1l/9H8g6+jWRf50TEIgsiqag9RU9uL/n9gcO5MqQsA3Fz6ci1TQbfakkNx4zxAkKO
+	I89E1cUYMjeJIWmu+EXDieIXkuMHL2VXmq/iNPbf5fEzuUk51ued3VvdfLoXLuVj9V
+	TAKtGp7DwGqcA==
 From: Pierre-Jean Texier <pjtexier@koncepto.io>
-Message-ID: <d4041aff-ae09-a999-aac4-12a481766baf@koncepto.io>
-Date: Wed, 19 Feb 2020 22:27:59 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.9.0
-MIME-Version: 1.0
-In-Reply-To: <CANNYZj-8CG1HDuXbjmS4AVFe-LChc-MGKTTQXsjkc8H=SpYB5g@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libubootenv: bump to revision ba952d0
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Feb 2020 22:37:12 +0100
+Message-Id: <1582148232-25284-1-git-send-email-pjtexier@koncepto.io>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] libubootenv: bump to revision ba952d0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,23 +34,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 21:28:00 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 19 Feb 2020 21:37:55 -0000
 
-Hi Alex,
+This includes following changes:
 
-Le 19/02/2020 à 22:17, Alexander Kanavin a écrit :
-> If PV doesn't change, package managers will not be able to update this
-> properly. You need to set it to something like 0.2+git${SRCPV}
+ba952d0 BUG: variable lists not released in close()
+690f868 Variables are not removed when loading from file
+9e3586a Make sure there's no file descriptor leakage in case of error
+03647c4 Check config file defines a non-zero Sector size
+3b2d4f1 Check environment size from fw_env.config
 
-Sure, you're indeed right.
-I will send a v2.
+Signed-off-by: Pierre-Jean Texier <pjtexier@koncepto.io>
+Acked-by: Stefano Babic <sbabic@denx.de>
+---
+changes v1 -> v2
+	- introduce PV variable (suggested by Alexander Kanavin)
 
-Thanks !
+ meta/recipes-bsp/u-boot/libubootenv_0.2.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+index f5b6059..7a7ec4c 100644
+--- a/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
++++ b/meta/recipes-bsp/u-boot/libubootenv_0.2.bb
+@@ -11,8 +11,9 @@ LICENSE = "LGPL-2.1"
+ LIC_FILES_CHKSUM = "file://Licenses/lgpl-2.1.txt;md5=4fbd65380cdd255951079008b364516c"
+ SECTION = "libs"
+ 
++PV = "0.2+git${SRCPV}"
+ SRC_URI = "git://github.com/sbabic/libubootenv;protocol=https"
+-SRCREV = "879c0731fa0725785b9fa4499bbf6aacd04ee4c2"
++SRCREV = "ba952d05ec9ab16029816a06d956bac7fb4e9832"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-Pierre-Jean Texier
-Embedded Linux Engineer
-https://koncepto.io
+2.7.4
+
 
