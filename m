@@ -1,47 +1,50 @@
-Return-Path: <jonathan.rajotte-julien@efficios.com>
-Received: from mail.efficios.com (mail.efficios.com [167.114.26.124])
-	by mail.openembedded.org (Postfix) with ESMTP id E278F6025F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com
+	[209.85.221.178])
+	by mail.openembedded.org (Postfix) with ESMTP id F1B536152C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Feb 2020 15:56:26 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id C12AB249909;
-	Wed, 19 Feb 2020 10:56:27 -0500 (EST)
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10032)
-	with ESMTP id q1DYwFjYyfvT; Wed, 19 Feb 2020 10:56:27 -0500 (EST)
-Received: from localhost (localhost [127.0.0.1])
-	by mail.efficios.com (Postfix) with ESMTP id 71ECE249908;
-	Wed, 19 Feb 2020 10:56:27 -0500 (EST)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 71ECE249908
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1582127787;
-	bh=ZwN5PGEjJ5R7EJnOF9Gxq2AFbSCfSD+9wURTcwKG3Hg=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=etsf6eVRk6O174BP3/aBveyT0SDVGj87BkH54CXnnAp56I302QGppeLvUnDy8KhNG
-	dLBfWH8G7HMaPBqGOziQEgD+ths2yWM5kaDbs4VHKPuq/ZT6DSjMh0xLD0ldcHu6Wm
-	4EmLOVFwpAjOBpWFK3K8Gmss4meUneTbMbavU+OlE35NMo6J2lvPkFk1lOA+HiWEC+
-	Rs3PlE9Tu7ONR3GRVf0CB9kjTcxBGLgoe36aVckYEnS2WFxqGq2MwgsbuhCVXMOv8f
-	+9rj01Pckmch/GsDGxDuDDkC7aBHhYFVv7+Rby1ACTXp+J6eUhLhG2k83FShJxEJMb
-	1II0a3j72roxA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([127.0.0.1])
-	by localhost (mail03.efficios.com [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id u9Bz8BRyqeeC; Wed, 19 Feb 2020 10:56:27 -0500 (EST)
-Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-	by mail.efficios.com (Postfix) with ESMTPSA id 353C52494DA;
-	Wed, 19 Feb 2020 10:56:27 -0500 (EST)
-Date: Wed, 19 Feb 2020 10:56:26 -0500
-From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20200219155626.GN17818@joraj-alpa>
+	Wed, 19 Feb 2020 16:02:14 +0000 (UTC)
+Received: by mail-vk1-f178.google.com with SMTP id o187so276342vka.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Feb 2020 08:02:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=2P8mL+iXkGCz/Vuwl4M6RShRn3HzwbKnZr405omkINA=;
+	b=Ac/+5RVXTDoUY9FOoddxb+Lf7AycUP8tlkt92YCfXB1V1Oekt3tHN9kQok0nzQqOCV
+	wJkJ71Khoi9PNKzV3yo6PeHEj0ESoYvryoselXK+PJSWyiG+bcc8T/eqEZOhseDz1l6H
+	J7ATr9jSX/fMJKERgH6z1910ZTNahOPLFod3Get7TEdBj6SsYPyOhFT7w6AYEvH6rERs
+	phuiY21LkGi7qO61Hu8vnb62bX6m8eAmhhVCcJ5+8A5DnYB2n8PsWr7by2VnV1zU2oS2
+	/KojagE0oim13RBJpPYKLq0jVNVSDAcgJVPQSufiRN+M1HqpbCMBLXORh3Q4qmPx0J6x
+	cTDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=2P8mL+iXkGCz/Vuwl4M6RShRn3HzwbKnZr405omkINA=;
+	b=dlpQGeudcdRjvZWFa/cgA11GdUPKgl4MePRGRev2VEffMaROx47zlpqaIiG80Br2i3
+	NnwW9+WS6uIpjnaJIl1DLkn8e612enz2ZP3zszpfClZrVG2r75zANTueIkSyI5NM2Sox
+	/OzbslXdQxPcX1zesuReaOnGz3of4psW+mFOzeoCrWvmrbxTZkg4CDJ/4wYXO5KEgGLh
+	O0DOyYcMVBst1Oc/A8Uz4lhmLzDhOXt+lCzTlj6Yu1/Bd8oumDZm51ynhSNaQe/goazs
+	JR9/dUNi3QSESP95J5R2tyAEKTXJ5kYl1K7Ide6neQGyeW+eHpkj20pqP0E5aEC6T4qa
+	8zyg==
+X-Gm-Message-State: APjAAAUkhzCyx8o5yDmnvwDcaTYq333o8j1qxmpO8N0dEI7mJLu4X+v1
+	OsGGIGF8+6juN4tbf8a3S0YiMKgSrrMH+qJfCfY=
+X-Google-Smtp-Source: APXvYqznQwlvgs9HY7p9Jlx7nzEjPL23w8z4Ejm+/iHvKXRHKiPHeGvWw2wpD1Ywos/VYltDLivi2lxAALdaBBhK7zg=
+X-Received: by 2002:a05:6122:2b6:: with SMTP id
+	22mr10946086vkq.49.1582128133865; 
+	Wed, 19 Feb 2020 08:02:13 -0800 (PST)
+MIME-Version: 1.0
 References: <20200218132054.20341-1-wallinux@gmail.com>
 	<CANNYZj9nm0eqo0NtHhEJiw7nLbnYQ8r1aazXk6mGn83VXc9VNA@mail.gmail.com>
 	<CAF2baFdCF-NVmUa=meNhAN5BDBqLcS4k7F+EBWtUA1ekY6OVBg@mail.gmail.com>
 	<20200219152720.GM17818@joraj-alpa>
 	<143f590b688ed8166a702873275c16f3c7217d52.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <143f590b688ed8166a702873275c16f3c7217d52.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+	<20200219155626.GN17818@joraj-alpa>
+In-Reply-To: <20200219155626.GN17818@joraj-alpa>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 19 Feb 2020 17:02:37 +0100
+Message-ID: <CANNYZj9t2+ugT15XbYrqkgA23MHEQxy_9t=PnutoCQr2f0AA-A@mail.gmail.com>
+To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] babeltrace2: added 2.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,31 +59,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Feb 2020 15:56:27 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 19 Feb 2020 16:02:15 -0000
+Content-Type: multipart/alternative; boundary="000000000000688402059eefe9ab"
 
-> Let me try a different question. What is the ultimate intent here?
-> 
-> Will babeltrace and babeltrace2 coexist in the future or do you plan to
-> rename babeltrace2 -> babeltrace at some point?
+--000000000000688402059eefe9ab
+Content-Type: text/plain; charset="UTF-8"
 
-We plan on deprecating Babeltrace 1.X in the long term but Babeltrace 2 and
-Babeltrace 1 will always co-exist.
+On Wed, 19 Feb 2020 at 16:56, Jonathan Rajotte-Julien <
+jonathan.rajotte-julien@efficios.com> wrote:
 
-> 
-> There are some things where the namespaces are quite specific (python
-> vs python3, gtk(+) 2/3/4, qt) but they're fairly few and far between.
-> 
-> If babeltrace2 will replace babeltrace and become babeltrace, we
-> probably want to keep PN as babeltrace. If it will be known as
-> babeltrace2 always, we probably change PN.
+> > There are some things where the namespaces are quite specific (python
+> > vs python3, gtk(+) 2/3/4, qt) but they're fairly few and far between.
+> >
+> > If babeltrace2 will replace babeltrace and become babeltrace, we
+> > probably want to keep PN as babeltrace. If it will be known as
+> > babeltrace2 always, we probably change PN.
+>
+> Babeltrace 2 executable will be forever named babeltrace2.
+>
+> Hope this clear up this part a bit.
+>
 
-Babeltrace 2 executable will be forever named babeltrace2.
+Right, then I'm fine with naming the recipe babeltrace2.
 
-Hope this clear up this part a bit.
+Alex
 
--- 
-Jonathan Rajotte-Julien
-EfficiOS
+--000000000000688402059eefe9ab
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 19 Feb 2020 at 16:56, Jonathan Ra=
+jotte-Julien &lt;<a href=3D"mailto:jonathan.rajotte-julien@efficios.com">jo=
+nathan.rajotte-julien@efficios.com</a>&gt; wrote:<br></div><div class=3D"gm=
+ail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left-width:1px;border-left-style:solid;border-left-color:rgb(204=
+,204,204);padding-left:1ex">&gt; There are some things where the namespaces=
+ are quite specific (python<br>
+&gt; vs python3, gtk(+) 2/3/4, qt) but they&#39;re fairly few and far betwe=
+en.<br>
+&gt; <br>
+&gt; If babeltrace2 will replace babeltrace and become babeltrace, we<br>
+&gt; probably want to keep PN as babeltrace. If it will be known as<br>
+&gt; babeltrace2 always, we probably change PN.<br>
+<br>
+Babeltrace 2 executable will be forever named babeltrace2.<br>
+<br>
+Hope this clear up this part a bit.<br></blockquote><div><br></div><div>Rig=
+ht, then I&#39;m fine with naming the recipe babeltrace2.</div><div><br></d=
+iv><div>Alex=C2=A0</div></div></div>
+
+--000000000000688402059eefe9ab--
