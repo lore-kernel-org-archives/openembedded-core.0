@@ -1,57 +1,44 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 02E8F60B85
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from smtp2.axis.com (smtp2.axis.com [195.60.68.18])
+	by mail.openembedded.org (Postfix) with ESMTP id 8CCB2611E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 19:30:23 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id b22so1924371pls.12
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 11:30:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-language:content-transfer-encoding;
-	bh=fFFIE3MKreffJTUSBX6K6HUvtZAQqWH9zL57cugL4K0=;
-	b=ozKZ7fn7UEIVfGB4UJx1dPsAXtMa1VcHwX4KXmHqtcgQocdutyQNDZNpnOEhg7NZWU
-	s4I1BajmMsmgHFYufdWWvbCMT7jwXoW/QAl/8lG3SeXxPt0OXMmZk+N5VXbCFJxdlj5G
-	0GEKIuiOJEftf42FnjeNW+W3GY2s99fIbC3VPwtZKaqEHHQGxeLoS6hYTPZB53UDqJBN
-	U+TJRPj9ZDgrACDGDt5fItd+mN6gyrUxeAmuIdAO2kuG6n2rwLLiGG9DJV1rbdtDUNVc
-	Yyv3pxM16UM3Jpl5Jo52gY0Ch20ukt2q92b/MoLEQKc5aFCDqKqq1bTK8r331jd+rBpE
-	CDrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=fFFIE3MKreffJTUSBX6K6HUvtZAQqWH9zL57cugL4K0=;
-	b=bUXjKMqSD1LdcbmGN83dy1dH3ZMjXolrwUVXDaw5pc0ukF0KlINIEFWsTk42KQMSX1
-	9o0ydS7ni39U874Hc0NkByasddXsJvGoqrUPfkxRHufnftF+3YMFD8FIpJvSQepnN1yU
-	sOgTwYDDd9vgdyKNu5+eqN8cXbdfoLn/THrea6FfYjqkW1yB5PtLAeBusdiot8aR/nPd
-	IjjxkRNzHIIcgGxj4/NH+FwvfmWntChXVDPTn2dXMa/kA3igJdEUgK+A7Sdl2lPFb/85
-	NccnUGIi3/6lyH5r869qYjTgKN+QTrDOQzNnjjDvOWZdZnccDtEgwqZQGcFZkyuGRTIH
-	z1ew==
-X-Gm-Message-State: APjAAAUmS0Rz79xBqJctK0OMie5v0ImpxUGQr9LT93dZ9txYluIVfO7G
-	creDdBOg/0ln+Qy3t34PTLnpx7c6b7c=
-X-Google-Smtp-Source: APXvYqwVfVkLGHDU1YHjUEjMduTsaiql7n+vSUlxMOezGkBhKieiJKW2m6QgBB7zrbtHfKSLhClt7A==
-X-Received: by 2002:a17:902:b611:: with SMTP id
-	b17mr32329351pls.23.1582227024467; 
-	Thu, 20 Feb 2020 11:30:24 -0800 (PST)
-Received: from ?IPv6:2601:646:9200:4e0:94fc:1e40:9cc4:7d04?
-	([2601:646:9200:4e0:94fc:1e40:9cc4:7d04])
-	by smtp.gmail.com with ESMTPSA id
-	x21sm345928pfn.164.2020.02.20.11.30.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-	Thu, 20 Feb 2020 11:30:23 -0800 (PST)
-To: openembedded-core@lists.openembedded.org
-References: <20200220185150.23422-1-JPEWhacker@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Message-ID: <e81900d2-4692-ca05-841d-d2fbceac70c2@gmail.com>
-Date: Thu, 20 Feb 2020 11:30:22 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
-	Gecko/20100101 Thunderbird/68.5.0
+	Thu, 20 Feb 2020 20:20:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=axis.com; l=2705; q=dns/txt; s=axis-central1;
+	t=1582230005; x=1613766005;
+	h=from:to:subject:date:message-id:references:in-reply-to:
+	content-transfer-encoding:mime-version;
+	bh=4AYJPE5K3hqAhw45fpI12uLieF+0Sqof6y5hxhRZerY=;
+	b=eIzmA6R85fnZmsGEE/60o7BFkt3itSJ/M2pphA/MUjtvkjHEuxW3Ba40
+	kBYf9QTylTSTm8KzIKV4uSwrfP+Covc77n0zm/i7tHdhIpMu/EZWed0vS
+	1uiPa3kENyLfuw4vSUkG+KwpCxIO4aIDTw3S8kwNrR9pIxgvly8bVLAYE
+	Tnr5awKtpG0d9WVPf7evaoeX62En4czIeqqZlle/IQ8OGvMy7z6x9KeHp
+	Tgnmph99dTtfPsLlZsiHjbF0vF+2VHQj5IRbK5i6i7SpJvTLacmKSTop9
+	GcC99QTA/NCFcBF/kMKCfy+zeEydL0bVTxae4ikFjLJF4FmI4Su56Tt07 w==;
+IronPort-SDR: fj8oajYK7i0NADYm0StvDN8b9vUNI3+5KeNuB3oAJuj90Mp7/MByFVwUYc6Z1RCCi+iiPKJ0Wj
+	A7pylQUP2T3WY9lNDIamqSWoBC+NENFkwGq8Fj+6BolHKO5RgXhh4tDtySuaKJ2IV1CwG1WVgN
+	kj+Q0IK6HaBlO1EjdvzlvtCZcajPT6oooTdOffm5r1w2J+V+dwczMmfeoa0VmB34rOfhQciYmC
+	PrbLt+xUDgIvDaLByGeV6NZKTWxSEUTc5mu34KM3Gv4ocicPi4rjOWygUyYhlgVAravxlIAkQr
+	2eg=
+X-IronPort-AV: E=Sophos;i="5.70,465,1574118000"; 
+   d="scan'208";a="5500861"
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] Revert "rootfs: Make BUILDNAME a weak default
+	in	reproducible_build_simple"
+Thread-Index: AQHV3w8rwJJZVSur60iAVi4Du6zOXKgkl/LQ
+Date: Thu, 20 Feb 2020 20:19:58 +0000
+Message-ID: <484d72b91f934887b89efbc1d087024d@XBOX03.axis.com>
+References: <20200209060658.800-1-pkj@axis.com>
+In-Reply-To: <20200209060658.800-1-pkj@axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <20200220185150.23422-1-JPEWhacker@gmail.com>
-Subject: Re: [PATCH] classes/meson.bbclass: Explicitly mark functions as missing in MinGW
+Subject: Re: [PATCH] Revert "rootfs: Make BUILDNAME a weak default in	reproducible_build_simple"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,71 +51,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 19:30:24 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Feb 2020 20:20:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+*ping*
 
+//Peter
 
-On 2/20/20 10:51 AM, Joshua Watt wrote:
-> meson (with some help from GCC) misdetects certain builtin functions as
-> being present on MinGW, when in fact they are not. Fix it by explicitly
-> marking the functions as missing. This requires rearranging the
-> meson.cross file to put the [properties] section at the end so the
-> append works properly (meson can't handle duplicate sections).
-> 
-
-patch is fine workaround, but I think meson should look for strndup in 
-string.h
-
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-
+> bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 9 februari 2020 07:07
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH] Revert "rootfs: Make BUILDNAME a weak default
+> in reproducible_build_simple"
+>=20
+> This reverts commit 8380df6566db49ef184b837432558750f77f592f.
+>=20
+> Giving BUILDNAME a static default in reproducible_build_simple.bbclass
+> to have /etc/version be generated with that name lead to other users
+> of BUILDNAME no longer working as expected. E.g., buildstats.bcclass
+> would now write its information in a single directory, overwriting the
+> statistics for each build.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 > ---
->   meta/classes/meson.bbclass | 25 +++++++++++++++++--------
->   1 file changed, 17 insertions(+), 8 deletions(-)
-> 
-> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-> index 06034e8b47..5c74658d01 100644
-> --- a/meta/classes/meson.bbclass
-> +++ b/meta/classes/meson.bbclass
-> @@ -96,14 +96,6 @@ readelf = ${@meson_array('READELF', d)}
->   pkgconfig = 'pkg-config'
->   llvm-config = 'llvm-config${LLVMVERSION}'
->   
-> -[properties]
-> -needs_exe_wrapper = true
-> -c_args = ${@meson_array('CFLAGS', d)}
-> -c_link_args = ${@meson_array('LDFLAGS', d)}
-> -cpp_args = ${@meson_array('CXXFLAGS', d)}
-> -cpp_link_args = ${@meson_array('LDFLAGS', d)}
-> -gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
-> -
->   [host_machine]
->   system = '${@meson_operating_system('HOST_OS', d)}'
->   cpu_family = '${@meson_cpu_family('HOST_ARCH', d)}'
-> @@ -115,6 +107,23 @@ system = '${@meson_operating_system('TARGET_OS', d)}'
->   cpu_family = '${@meson_cpu_family('TARGET_ARCH', d)}'
->   cpu = '${TARGET_ARCH}'
->   endian = '${@meson_endian('TARGET', d)}'
+>  meta/classes/reproducible_build_simple.bbclass | 1 -
+>  meta/classes/rootfs-postcommands.bbclass       | 5 +++++
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes/reproducible_build_simple.bbclass
+> b/meta/classes/reproducible_build_simple.bbclass
+> index 3e5fd82432..393372993d 100644
+> --- a/meta/classes/reproducible_build_simple.bbclass
+> +++ b/meta/classes/reproducible_build_simple.bbclass
+> @@ -7,4 +7,3 @@ export PERL_HASH_SEED =3D "0"
+>  export SOURCE_DATE_EPOCH ??=3D "1520598896"
+>=20
+>  REPRODUCIBLE_TIMESTAMP_ROOTFS ??=3D "1520598896"
+> -BUILDNAME ??=3D "${REPRODUCIBLE_TIMESTAMP_ROOTFS}"
+> diff --git a/meta/classes/rootfs-postcommands.bbclass
+> b/meta/classes/rootfs-postcommands.bbclass
+> index e40097444d..2f171836fa 100644
+> --- a/meta/classes/rootfs-postcommands.bbclass
+> +++ b/meta/classes/rootfs-postcommands.bbclass
+> @@ -356,6 +356,11 @@ python rootfs_log_check_recommends() {
+>  # Perform any additional adjustments needed to make rootf binary
+> reproducible
+>  rootfs_reproducible () {
+>  	if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" !=3D "" ]; then
+> +		# Convert UTC into %4Y%2m%2d%2H%2M%2S
+> +		sformatted=3D`date -u -d
+> @${REPRODUCIBLE_TIMESTAMP_ROOTFS} +%4Y%2m%2d%2H%2M%2S`
+> +		echo $sformatted > ${IMAGE_ROOTFS}/etc/version
+> +		bbnote "rootfs_reproducible: set /etc/version to
+> $sformatted"
 > +
-> +[properties]
-> +needs_exe_wrapper = true
-> +c_args = ${@meson_array('CFLAGS', d)}
-> +c_link_args = ${@meson_array('LDFLAGS', d)}
-> +cpp_args = ${@meson_array('CXXFLAGS', d)}
-> +cpp_link_args = ${@meson_array('LDFLAGS', d)}
-> +gtkdoc_exe_wrapper = '${B}/gtkdoc-qemuwrapper'
-> +EOF
-> +}
-> +
-> +do_write_config_append_mingw32() {
-> +    # meson mis-detects the presence of several builtin functions in MinGW
-> +    # (see https://github.com/mesonbuild/meson/issues/3672).
-> +    # Explicitly mark these functions as missing in the cross file
-> +    cat >>${WORKDIR}/meson.cross <<EOF
-> +has_function_strndup = false
->   EOF
->   }
->   
-> 
+>  		if [ -d ${IMAGE_ROOTFS}${sysconfdir}/gconf ]; then
+>  			find ${IMAGE_ROOTFS}${sysconfdir}/gconf -
+> name '%gconf.xml' -print0 | xargs -0r \
+>  			sed -i -e 's@\bmtime=3D"[0-9][0-
+> 9]*"@mtime=3D"'${REPRODUCIBLE_TIMESTAMP_ROOTFS}'"@g'
+> --
+> 2.21.1
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
