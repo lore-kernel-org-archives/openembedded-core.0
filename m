@@ -1,62 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B7B1361330
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D5B9B60B59
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 22:24:05 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id c23so2105499plz.4
+	Thu, 20 Feb 2020 22:49:37 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id z1so253567iom.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Feb 2020 14:24:07 -0800 (PST)
+	Thu, 20 Feb 2020 14:49:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:organization:user-agent:mime-version:content-transfer-encoding;
-	bh=08es9nqOGBRvvcTVKRYw0Bdv59SJt/jbohIKbhgooKk=;
-	b=YELIPtjn5Bpl1ax18FKcwqj9qiAyutboHFrrwOLNwxtVhIIZ0r8jqIKnYM56eUCG1j
-	w6Uvi05zdIl24s/3GlRR6eJDKMlMCBCBCA1Li4Z97pkd4Kr9U0FHIJHCtLoYgGqY7RDH
-	BmvMQnfHreqNAlPaLahZtjJLtUAKbu2lH7j/Mb6L79BeYsXtTJGmegAwURYn0PMQAzAo
-	lnhWkBBAS6B6OoSXeZ591q506Yplnf6ARuWP7E1QBTYXJGhjh8G5JmEK6jhPI/Q/ChnR
-	JA8x3dAtfyq2wNE+E/N1PURyh3RZxk8UgK/0jjeSofVA7ajwpNQXiZ8+o3tW8ilulmzq
-	eyRw==
+	h=from:to:cc:subject:date:message-id;
+	bh=KsQP+cGVYuXmCUYz64IGlZDk9nOE7+IMmkZgOebeCG4=;
+	b=smDBAd/UyDDtepNed4elWQIRMwjp4/5p3wsL/EfyNXvQzSUZENXRRszEE9i745Pf+M
+	PMWSwTP4/2DPhEO+CgnaFNcRjIFcRBlpXY+cUHWQFHZmr24MhUh7EtOYYdurXZzuGcW7
+	957upIhdxKLS34bW9uFH6bKwAR4GvHVdQO8APsY7i9aZiEiwLr6wDZB2G3ZWaNxPGVvA
+	lo1uERPIied1E7O86JAp+Eez+z43n20IEEK8AN4W2FZ2JHNAteoBWxhFKNfViPOJtKmx
+	0Cg0pxvyZjJFXzQQK857fnCCKJ3V15B63TPM+oTbhpNu7yhMKXrsUEStOCsceddqwIxh
+	e0yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:organization:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=08es9nqOGBRvvcTVKRYw0Bdv59SJt/jbohIKbhgooKk=;
-	b=cZPNHUfQOmaNDWE1korV7b1qz8seLykCWbElY+XqInqYqf/n9SssZgd8K4BsHK+Kl1
-	noNc2gPm5w0NumnbJk7iGR+GETCTjsTuhaCfI8jLQanT44s16gUrJ7On1eP3A114KrNc
-	HTBXO+RdQepXp0ElalehNwARJ0fox0n9N5QxRJgT+8+PlXpA4JeMB3cDInk8+jEOvEMa
-	leLjIsPMBGmkMAXuW/MwblALv3m6HXJlOumfheriKpVXZN4WwxziVBEsN+/qjXaof+IE
-	eW8GESwWImbPmzAaXoLt+MQ6JTVaESORaY9Dn+/7yxoAX7bvTyGq1O4B8lvkK93rnb6F
-	enLw==
-X-Gm-Message-State: APjAAAVDpAVg3rksp7ae9RzvNO30r/O9vGaJe4ypsk197GBUkaxXX7R8
-	pGnE18ZP6KNKJT4DaNd+rkA=
-X-Google-Smtp-Source: APXvYqxYUNEhutKih2ZGlHMkA7B54tDKna/uTN3CvGCnOHE/5+s5EbQUL1cZmGQpbzOjuawRwezWUg==
-X-Received: by 2002:a17:902:14d:: with SMTP id
-	71mr29753092plb.162.1582237446377; 
-	Thu, 20 Feb 2020 14:24:06 -0800 (PST)
-Received: from tyche ([2601:646:9200:4e0::ebc])
-	by smtp.gmail.com with ESMTPSA id i64sm298174pgc.51.2020.02.20.14.24.05
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=KsQP+cGVYuXmCUYz64IGlZDk9nOE7+IMmkZgOebeCG4=;
+	b=jm/tfF7xSpKgBXYkmjOOGUUXLZ1u2pa45xi2laBrplaxUGmno6oiaYEsCmAxLstmmf
+	Px9+QAe7nLM1nFPxriglo/c/42dkL6RCK+vAysuREOl0UuJm+HLQLCkxVI5IeV4pc+Nl
+	Hf1jBQubfSgdmAlpTG2jM9/tls8yjWV2m99gVa1qpluKfDWIOsXR4XwOKcZDd3XI8jjv
+	GMl+wBBhKB3CrIfSt864BkhdZGnxNZqWcIhY/pXGD+O4kPhs9W/Ny/5sB7DMQB2zaJWw
+	eBjh03TDI5nkgGpqsnrImV/GAdZ2k3YX3oi7sRAhwTgWy+mV9rj9XEmxWpQ7vuqNcwFb
+	5usw==
+X-Gm-Message-State: APjAAAW/owjyRjoe3IxcnV3kfhwqUyWJ/uV2IpBioJestbmCjq2Ua5wt
+	+WlrkD9gTvg3Nf5bcwKolOLGFod3QNU=
+X-Google-Smtp-Source: APXvYqwubQxKqJ24ESDP7TWGA+hoFhrZ6TZM2Ew3xxow84/z5eUtkteXQ7f1JUo1DlydAkv2hs1L3A==
+X-Received: by 2002:a6b:e506:: with SMTP id y6mr1705766ioc.209.1582238978713; 
+	Thu, 20 Feb 2020 14:49:38 -0800 (PST)
+Received: from OLA-8C37N23.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id n26sm203886ioo.9.2020.02.20.14.49.37
 	(version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-	Thu, 20 Feb 2020 14:24:05 -0800 (PST)
-Message-ID: <1cecdefa2345a98c110a8ade1b5085b0e20bf8f2.camel@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-To: Andre McCurdy <armccurdy@gmail.com>
-Date: Thu, 20 Feb 2020 14:24:04 -0800
-In-Reply-To: <CAJ86T=UnK1KcPrZ+CYhJapB-Akpiz29wjvLgs0pu5NSQgnkQsA@mail.gmail.com>
-References: <20200220002849.9126-1-schnitzeltony@gmail.com>
-	<CANNYZj9pFMxP7nYkUOyQ4wcejkr4j+EBqa3OdJZXgEKB7ZtX=Q@mail.gmail.com>
-	<CALbNGRTruaPGSJTNd816++UuYJTyL1=r2KHeKquENLTa=08UWA@mail.gmail.com>
-	<CALbNGRSFZcsh0ZKBgyRX+eg3ThZbRf1ryiVbHU5Y0vZgd0BkTg@mail.gmail.com>
-	<CAMKF1srmsrx8Nq4gSj5ZDK0o1d4t8AtDWnjtDgzT1Py8i=Njtg@mail.gmail.com>
-	<CAJ86T=URADiQr=_iOdw990WWCHhkDL0sAS-oD1JEtyV9UOHGXg@mail.gmail.com>
-	<7dd9779b1be7e10a54b3b1bff4788cae931cb02a.camel@gmail.com>
-	<CAJ86T=UnK1KcPrZ+CYhJapB-Akpiz29wjvLgs0pu5NSQgnkQsA@mail.gmail.com>
-Organization: HIMVIS LLC
-User-Agent: Evolution 3.34.4 
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][master-next] webkitgtk: add PACKAGECONFIG gobject-introspection
+	Thu, 20 Feb 2020 14:49:38 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Feb 2020 16:49:31 -0600
+Message-Id: <20200220224931.6390-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] wayland: Fix strndup detection on MinGW
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,79 +54,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Feb 2020 22:24:05 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 20 Feb 2020 22:49:39 -0000
 
-On Thu, 2020-02-20 at 14:11 -0800, Andre McCurdy wrote:
-> On Thu, Feb 20, 2020 at 2:06 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > On Thu, 2020-02-20 at 14:00 -0800, Andre McCurdy wrote:
-> > > On Thu, Feb 20, 2020 at 12:33 PM Khem Raj <raj.khem@gmail.com>
-> > > wrote:
-> > > > On Thu, Feb 20, 2020 at 12:24 PM Andreas Müller <
-> > > > schnitzeltony@gmail.com> wrote:
-> > > > > On Thu, Feb 20, 2020 at 1:45 PM Andreas Müller <
-> > > > > schnitzeltony@gmail.com> wrote:
-> > > > > > On Thu, Feb 20, 2020 at 11:07 AM Alexander Kanavin
-> > > > > > <alex.kanavin@gmail.com> wrote:
-> > > > > > > You need to at the same time drop the introspection
-> > > > > > > enablement logic from EXTRA_OECMAKE I think?
-> > > > > > > This line:
-> > > > > > > http://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-sato/webkit/webkitgtk_2.26.4.bb?h=master-next#n70
-> > > > > > > 
-> > > > > > > And for consistency, it would be good to do the same for
-> > > > > > > gtk-
-> > > > > > > doc.
-> > > > > > 
-> > > > > > This is odd: I fell over this because there was no gir
-> > > > > > created.
-> > > > > > Did
-> > > > > > not notice it was few lines below. Need to check that -
-> > > > > > maybe I
-> > > > > > am a
-> > > > > > bit off-sync to master or something is wrong elsewhere.
-> > > > > > 
-> > > > > > Will sync to master and send V2 then.
-> > > > > > 
-> > > > > Finally had time to look into again. In the recipe there is
-> > > > > 
-> > > > > GI_DATA_ENABLED_armv7a = "False"
-> > > > > GI_DATA_ENABLED_armv7ve = "False"
-> > > > > 
-> > > > > => My patch is wrong it overrides above accidentally - thanks
-> > > > > Alex!
-> > > > > 
-> > > > > Since webkit builds gir fine (my machine is armv7ve) that
-> > > > > does
-> > > > > not
-> > > > > seem necessary any more. I would like to send out a patch
-> > > > > removing at
-> > > > > least armv7ve - shall I take the risk to remove armv7a -
-> > > > > maybe as
-> > > > > two
-> > > > > patches?
-> > > 
-> > > These two should be equivalent for all practical purposes and so
-> > > should be updated together. ie remove them both, one patch.
-> > 
-> > it will run user mode qemu underneath, which is not same for both,
-> > are
-> > you sure libraries and apps it will run are identical ?
-> 
-> Binaries built for armv7ve will contain HW integer division
-> instructions. Binaries build for armv7a will not.
-> 
-> That should have no impact on gobject-introspection.
+Applies a patch to fix strndup being detected as present incorrectly
+when building for MinGW.
 
-if it executes correctly. The reason why this was done in first place
-is that introspection app inside qemu either segfaulted or got hung.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ ...build-Fix-strndup-detection-on-MinGW.patch | 39 +++++++++++++++++++
+ .../wayland/wayland_1.18.0.bb                 |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
 
-> 
-> There's a much bigger risk in letting these two build variants drift
-> apart than there is from updating them together but only testing one.
-
-qemu has failed in mysterious ways with slight differences in ISAs
-Not oppposed to doing it, All I am asking for is to try it before
-making the change.  
+diff --git a/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
+new file mode 100644
+index 0000000000..e445838750
+--- /dev/null
++++ b/meta/recipes-graphics/wayland/wayland/0001-build-Fix-strndup-detection-on-MinGW.patch
+@@ -0,0 +1,39 @@
++From e6783c99f051c6d8252db5f388d805cef0e16357 Mon Sep 17 00:00:00 2001
++From: Joshua Watt <JPEWhacker@gmail.com>
++Date: Thu, 20 Feb 2020 15:20:45 -0600
++Subject: [PATCH] build: Fix strndup detection on MinGW
++
++GCC and meson conspire together to incorrectly detect that strndup()
++exists on MinGW as __builtin_strndup, when no such function exists. As a
++work around, meson will skip looking for __builtin functions if an
++'#include' is in the prefix, so add '#include <string.h>' when looking
++for strndup().
++
++See: https://github.com/mesonbuild/meson/issues/3672
++
++Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/wayland/merge_requests/63]
++---
++ meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/meson.build b/meson.build
++index 26b084f..c05d019 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -36,11 +36,11 @@ have_funcs = [
++ 	'posix_fallocate',
++ 	'prctl',
++ 	'memfd_create',
++-	'strndup',
++ ]
++ foreach f: have_funcs
++ 	config_h.set('HAVE_' + f.underscorify().to_upper(), cc.has_function(f))
++ endforeach
+++config_h.set('HAVE_STRNDUP', cc.has_function('strndup', prefix:'#include <string.h>'))
++ 
++ if get_option('libraries')
++ 	ffi_dep = dependency('libffi')
++-- 
++2.17.1
++
+diff --git a/meta/recipes-graphics/wayland/wayland_1.18.0.bb b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
+index a702b3f6cc..6a6e7495b5 100644
+--- a/meta/recipes-graphics/wayland/wayland_1.18.0.bb
++++ b/meta/recipes-graphics/wayland/wayland_1.18.0.bb
+@@ -15,6 +15,7 @@ DEPENDS = "expat libffi wayland-native"
+ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
+            file://0002-meson.build-find-the-native-wayland-scanner-directly.patch \
+            file://0002-Do-not-hardcode-the-path-to-wayland-scanner.patch \
++           file://0001-build-Fix-strndup-detection-on-MinGW.patch \
+            "
+ SRC_URI[md5sum] = "23317697b6e3ff2e1ac8c5ba3ed57b65"
+ SRC_URI[sha256sum] = "4675a79f091020817a98fd0484e7208c8762242266967f55a67776936c2e294d"
+-- 
+2.17.1
 
 
